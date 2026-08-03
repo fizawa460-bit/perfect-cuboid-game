@@ -234,18 +234,34 @@ plotSvg.addEventListener('pointerup',()=>plotDrag=null);plotSvg.addEventListener
 drawPlot();
 
 function gcd2(a,b){while(b)[a,b]=[b,a%b];return a}
-function makePrimitiveSpaceSolutions(maxD=150){
- const out=[];
- for(let d=2;d<=maxD;d++)for(let a=1;a<d;a++)for(let b=a;b<d;b++){
-  const c2=d*d-a*a-b*b;if(c2<b*b)continue;
-  const c=Math.sqrt(c2);
-  if(Number.isInteger(c)&&gcd2(gcd2(a,b),c)===1)out.push([a,b,c,d]);
+function makeNestedSpaceSolutions(maxD=20000){
+ const byHypotenuse=new Map();
+ const addPair=(h,x,y)=>{
+  if(!byHypotenuse.has(h))byHypotenuse.set(h,[]);
+  byHypotenuse.get(h).push(x<y?[x,y]:[y,x]);
+ };
+ const maxM=Math.floor(Math.sqrt(maxD))+1;
+ for(let m=2;m<=maxM;m++)for(let n=1;n<m;n++){
+  if((m-n)%2===0||gcd2(m,n)!==1)continue;
+  const h=m*m+n*n;if(h>maxD)continue;
+  const x=m*m-n*n,y=2*m*n;
+  for(let k=1;k*h<=maxD;k++)addPair(k*h,k*x,k*y);
  }
- return out;
+ const out=[],seenNested=new Set();
+ for(const [d,outerPairs] of byHypotenuse){
+  for(const [x,y] of outerPairs)for(const [a,g] of [[x,y],[y,x]]){
+   const innerPairs=byHypotenuse.get(g);if(!innerPairs)continue;
+   for(const [b,c] of innerPairs){
+    if(a>b||b>c||gcd2(gcd2(a,b),c)!==1)continue;
+    const key=a+','+b+','+c+','+d;
+    if(!seenNested.has(key)){seenNested.add(key);out.push([a,b,c,d])}
+   }
+  }
+ }
+ return out.sort((p,q)=>p[3]-q[3]||p[0]-q[0]||p[1]-q[1]||p[2]-q[2]);
 }
-const primitiveSpace=makePrimitiveSpaceSolutions();
+const nestedSpace=makeNestedSpaceSolutions();
 let reverseIndex=0;
-const nestedSpace=primitiveSpace.filter(v=>isInt(v[1]*v[1]+v[2]*v[2]));
 function nearestSquareDelta(n){const r=Math.round(Math.sqrt(n));return r*r-n}
 function clearResearchSvg(id){
  const svg=$(id);svg.replaceChildren();
@@ -280,7 +296,7 @@ function drawTwoFacesResearch(){
  $('twoFacesList').innerHTML=hits.length?hits.map(([a,b,c,d])=>{
   const ab=a*a+b*b,ac=a*a+c*c,abOk=isInt(ab),failed=abOk?ac:ab,delta=nearestSquareDelta(failed);
   return '<div class="research-row"><b>'+a+' × '+b+' × '+c+'（d='+d+'）</b><br>成立：b²+c² と '+(abOk?'a²+b²':'a²+c²')+' ／ 残りの差 Δ='+(delta>0?'+':'')+delta+'</div>';
- }).join(''):'<div class="research-empty">現在の範囲（d ≤ 150）では0件です。範囲を広げると自動で抽出されます。</div>';
+ }).join(''):'<div class="research-empty">d ≤ 20000 の範囲では該当例がありません。</div>';
 }
 function showReverseResearch(name){
  const map={ratio:'viewRatio',distance:'viewDistance',two:'viewTwoFaces'};
@@ -294,7 +310,7 @@ $('researchTwoFaces').addEventListener('click',()=>showReverseResearch('two'));
 drawRatioResearch();
 function reverseRender(){
  const [a,b,c,d]=nestedSpace[reverseIndex];
- $('reverseCount').textContent='入れ子型原始解 '+(reverseIndex+1)+' / '+nestedSpace.length+'（d ≤ 150）';
+ $('reverseCount').textContent='入れ子型原始解 '+(reverseIndex+1)+' / '+nestedSpace.length+'（d ≤ 20000）';
  $('reverseEdges').textContent=a+' × '+b+' × '+c;
  $('reverseD').textContent='空間対角線 d = '+d;
  const vals=[
