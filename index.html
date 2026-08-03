@@ -17,7 +17,9 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 .values{display:grid;gap:9px;margin-top:12px}.value{display:flex;justify-content:space-between;gap:8px;padding:10px 11px;background:#091625;border-radius:10px}.value strong{font-variant-numeric:tabular-nums}.value.ok{outline:2px solid var(--red);color:#ff7684;background:#35141d}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}.controls label{font-size:12px;color:#9fb2c8}.controls input{width:100%;margin-top:4px;border:1px solid #314964;border-radius:8px;background:#081421;color:#fff;padding:9px;font-size:16px}
 .status{padding:12px;border-radius:11px;background:#0a1726;color:#bac9d8;line-height:1.5}.status.euler{background:#342413;color:#ffd99d}.status.perfect{background:#3a121b;color:#ff92a0;animation:pulse 1s infinite alternate}@keyframes pulse{to{box-shadow:0 0 22px #ff4d5f66}}
 .found{margin-top:12px;font-size:13px;color:#9fb2c8}.found-list{max-height:110px;overflow:auto}.found-item{padding:5px 0;color:#ff8591}
-@media(max-width:720px){main{padding:11px}.grid{grid-template-columns:1fr}.stage,.stage svg{min-height:390px;height:390px}.top{align-items:flex-start;flex-direction:column}.top button{width:100%}}
+
+.research{margin-top:15px}.research-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.research-head h2{margin:0}.research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.theorem{padding:12px;background:#091625;border:1px solid #263d58;border-radius:12px}.theorem.pass{border-color:#42c98b;background:#0d2a25}.theorem.hit{border-color:#ffb454;background:#332512}.theorem small{display:block;color:#9fb2c8;margin-top:5px;line-height:1.45}.research-result{margin-top:10px;padding:12px;border-radius:11px;background:#101f33;line-height:1.55}.research-actions{display:flex;gap:8px;margin-top:10px}.research-actions button{flex:1}.log{margin-top:10px;max-height:150px;overflow:auto;font-size:13px;color:#b9cadb}.log div{padding:6px 0;border-bottom:1px solid #21374f}.tag{display:inline-block;padding:2px 7px;border-radius:999px;background:#23415f;color:#8af1e9;font-size:11px;margin-right:6px}
+@media(max-width:720px){main{padding:11px}.grid{grid-template-columns:1fr}.stage,.stage svg{min-height:390px;height:390px}.top{align-items:flex-start;flex-direction:column}.top button{width:100%}.research-grid{grid-template-columns:1fr}.research-head{align-items:flex-start;flex-direction:column}.research-actions{flex-direction:column}}
 </style>
 </head>
 <body><main>
@@ -40,6 +42,14 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 <div id="status" class="status"></div><div id="values" class="values"></div>
 <div class="found"><b>今回見つけた整数対角線</b><div id="found" class="found-list">まだありません</div></div>
 </aside></div>
+<section class="card research">
+<div class="research-head"><div><h2>数学研究室</h2><p class="sub">証明済みルールを固定し、辺を変えて仮説と反例を集めよう。</p></div><button id="sample">別の研究対象</button></div>
+<div id="theorems" class="research-grid"></div>
+<div id="researchResult" class="research-result"></div>
+<div class="research-actions"><button id="record">この結果を研究ログへ記録</button><button id="clearLog">ログを消す</button></div>
+<div id="researchLog" class="log">まだ研究記録はありません。</div>
+</section>
+
 </main>
 <script>
 const S={a:20,b:15,c:12}, keys=['a','b','c'], seen=new Set();
@@ -52,6 +62,29 @@ const pt=(...ks)=>ks.reduce((p,k)=>add(p,vec[k],len(k)),{...origin});
 const str=p=>p.x+','+p.y;
 const isInt=n=>Number.isInteger(Math.sqrt(n));
 function line(p,q,cls='edge'){const l=document.createElementNS('http://www.w3.org/2000/svg','line');l.setAttribute('x1',p.x);l.setAttribute('y1',p.y);l.setAttribute('x2',q.x);l.setAttribute('y2',q.y);l.setAttribute('class',cls);return l}
+
+const researchLog=[];
+function factorize(n){const out=[];let x=n;for(let p=2;p*p<=x;p+=(p===2?1:2)){if(x%p)continue;let e=0;while(x%p===0){x/=p;e++}out.push([p,e])}if(x>1)out.push([x,1]);return out}
+function research(){
+ const n=S.a*S.a+S.b*S.b+S.c*S.c, fs=factorize(n), odd=fs.filter(x=>x[1]%2), bad43=fs.filter(x=>x[0]%4===3&&x[1]%2), five=fs.find(x=>x[0]===5);
+ const primitive=(S.a%2+S.b%2+S.c%2)===1;
+ const rules=[
+  ['奇偶則',primitive?'適合':'観察中','原始オイラー直方体では辺は奇数1本・偶数2本、Sは奇数。'],
+  ['4k+3素数則',bad43.length?'反例候補':'適合','3・7・11などがSに現れる指数は必ず偶数。'],
+  ['5の指数1禁止',five&&five[1]===1?'反例候補':'適合','オイラー直方体なら5がSを1回だけ割ることはない。']
+ ];
+ $('theorems').innerHTML=rules.map(r=>'<div class="theorem '+(r[1]==='適合'?'pass':'hit')+'"><b>'+r[0]+'：'+r[1]+'</b><small>'+r[2]+'</small></div>').join('');
+ const faceOk=[S.a*S.a+S.b*S.b,S.a*S.a+S.c*S.c,S.b*S.b+S.c*S.c].every(isInt);
+ const factorText=fs.map(x=>x[0]+(x[1]>1?'<sup>'+x[1]+'</sup>':'')).join(' × ');
+ let hypothesis=odd.length?'奇数回現れる素数候補：'+odd.map(x=>x[0]).join(', '):'Sは平方数候補（全素因数の指数が偶数）';
+ if(!faceOk)hypothesis+='。ただし面対角線3本が整数でないため、定理の反例にはならない。';
+ $('researchResult').innerHTML='<span class="tag">S='+n+'</span> '+factorText+'<br><b>今回の仮説：</b>'+hypothesis;
+ research();
+}
+function drawResearchLog(){
+ $('researchLog').innerHTML=researchLog.length?researchLog.slice().reverse().map(x=>'<div><span class="tag">'+x.time+'</span>'+x.text+'</div>').join(''):'まだ研究記録はありません。';
+}
+
 function render(){
  const o=origin,A=pt('a'),B=pt('b'),C=pt('c'),AB=pt('a','b'),AC=pt('a','c'),BC=pt('b','c'),ABC=pt('a','b','c');
  $('face1').setAttribute('points',[o,A,AB,B].map(str).join(' '));$('face2').setAttribute('points',[o,A,AC,C].map(str).join(' '));$('face3').setAttribute('points',[o,B,BC,C].map(str).join(' '));
@@ -69,6 +102,7 @@ function render(){
  if(faces&&spaceOk){st.className='status perfect';st.innerHTML='<b>完全直方体を発見！</b><br>未知の組み合わせかもしれません。値を保存しよう。'}
  else if(faces){st.className='status euler';st.innerHTML='<b>オイラー直方体！</b><br>3つの面対角線がすべて整数です。あとは空間対角線。'}
  else{st.className='status';st.innerHTML='面対角線を整数にすると、その対角線が赤く残ります。まず1本を赤くしてみよう。'}
+ research();
 }
 function format(v){return Number.isInteger(v)?v:v.toFixed(2)}
 function selectEdge(k){selected=k;render()}
@@ -80,5 +114,9 @@ svg.addEventListener('pointerup',()=>drag=null);svg.addEventListener('pointercan
 function changeSelected(delta){S[selected]=Math.max(1,Math.min(1000,S[selected]+delta));render()}
 document.querySelectorAll('.rail-btn').forEach(btn=>{const delta=+btn.dataset.delta;const stop=()=>{clearInterval(holdTimer);holdTimer=null};btn.addEventListener('pointerdown',e=>{e.preventDefault();changeSelected(delta);stop();holdTimer=setInterval(()=>changeSelected(delta),140);btn.setPointerCapture(e.pointerId)});btn.addEventListener('pointerup',stop);btn.addEventListener('pointercancel',stop);btn.addEventListener('lostpointercapture',stop)});
 $('euler').addEventListener('click',()=>{Object.assign(S,{a:44,b:117,c:240});render()});
+const samples=[[44,117,240],[85,132,720],[240,252,275],[140,480,693],[117,520,756]];
+$('sample').addEventListener('click',()=>{const x=samples[Math.floor(Math.random()*samples.length)];Object.assign(S,{a:x[0],b:x[1],c:x[2]});render()});
+$('record').addEventListener('click',()=>{const n=S.a*S.a+S.b*S.b+S.c*S.c,fs=factorize(n).map(x=>x[0]+'^'+x[1]).join('×');researchLog.push({time:new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'}),text:S.a+'×'+S.b+'×'+S.c+' / S='+n+' / '+fs});drawResearchLog()});
+$('clearLog').addEventListener('click',()=>{researchLog.length=0;drawResearchLog()});
 render();
 </script></body></html>
