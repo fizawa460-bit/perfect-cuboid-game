@@ -67,7 +67,7 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 
 <section id="screenReverse" class="screen" hidden>
 <button class="back" data-screen="menu">← メニューへ戻る</button>
-<div class="top"><div><h1>空間対角線から逆探索</h1><p class="sub">左右を押すだけで、空間対角線 d と面対角線 g=√(b²+c²) が整数になる原始解へ移動します。</p></div></div>
+<div class="top"><div><h1>空間対角線から逆探索</h1><p class="sub">左右を押すだけで、b²+c² に加えて a²+b² または a²+c² も整数になる26件の原始解へ移動します。</p></div></div>
 <div class="reverse-grid">
 <section class="card">
 <div class="reverse-solution">
@@ -75,8 +75,8 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 <div id="reverseEdges" class="reverse-edges"></div>
 <div id="reverseD" class="reverse-d"></div>
 </div>
-<div class="reverse-actions"><button id="reversePrev">← 前の入れ子型原始解</button><button id="reverseNext">次の入れ子型原始解 →</button></div>
-<p class="dist-note">必ず (b,c,g) と (a,g,d) の2つの直角三角形が成立します。3辺は小さい順で、並べ替えと拡大コピーは除外済み。残る a²+b² と a²+c² が両方整数なら完全直方体です。</p>
+<div class="reverse-actions"><button id="reversePrev">← 前の面2本成立原始解</button><button id="reverseNext">次の面2本成立原始解 →</button></div>
+<p class="dist-note">必ず b²+c² と、a²+b² または a²+c² のどちらかも整数になります。d ≤ 20000 の26件だけを表示し、並べ替えと拡大コピーは除外済み。残る1面も整数なら完全直方体です。</p>
 </section>
 <aside class="card"><h2 style="margin-top:0">逆算結果</h2><div id="reverseStatus" class="status"></div><div id="reverseValues" class="values reverse-calc"></div></aside>
 </div>
@@ -261,6 +261,7 @@ function makeNestedSpaceSolutions(maxD=20000){
  return out.sort((p,q)=>p[3]-q[3]||p[0]-q[0]||p[1]-q[1]||p[2]-q[2]);
 }
 const nestedSpace=makeNestedSpaceSolutions();
+const twoFaceSolutions=nestedSpace.filter(([a,b,c])=>[isInt(a*a+b*b),isInt(a*a+c*c)].filter(Boolean).length===1);
 let reverseIndex=0;
 function nearestSquareDelta(n){const r=Math.round(Math.sqrt(n));return r*r-n}
 function clearResearchSvg(id){
@@ -292,7 +293,7 @@ function drawDistanceResearch(){
  addPlotLabel(svg,'解番号 →',855,352,'end');addPlotLabel(svg,'0',47,319,'end');
 }
 function drawTwoFacesResearch(){
- const hits=nestedSpace.filter(([a,b,c])=>[isInt(a*a+b*b),isInt(a*a+c*c)].filter(Boolean).length===1);
+ const hits=twoFaceSolutions;
  $('twoFacesList').innerHTML=hits.length?hits.map(([a,b,c,d])=>{
   const ab=a*a+b*b,ac=a*a+c*c,abOk=isInt(ab),failed=abOk?ac:ab,delta=nearestSquareDelta(failed);
   return '<div class="research-row"><b>'+a+' × '+b+' × '+c+'（d='+d+'）</b><br>成立：b²+c² と '+(abOk?'a²+b²':'a²+c²')+' ／ 残りの差 Δ='+(delta>0?'+':'')+delta+'</div>';
@@ -309,8 +310,8 @@ $('researchDistance').addEventListener('click',()=>showReverseResearch('distance
 $('researchTwoFaces').addEventListener('click',()=>showReverseResearch('two'));
 drawRatioResearch();
 function reverseRender(){
- const [a,b,c,d]=nestedSpace[reverseIndex];
- $('reverseCount').textContent='入れ子型原始解 '+(reverseIndex+1)+' / '+nestedSpace.length+'（d ≤ 20000）';
+ const [a,b,c,d]=twoFaceSolutions[reverseIndex];
+ $('reverseCount').textContent='面2本成立原始解 '+(reverseIndex+1)+' / '+twoFaceSolutions.length+'（d ≤ 20000）';
  $('reverseEdges').textContent=a+' × '+b+' × '+c;
  $('reverseD').textContent='空間対角線 d = '+d;
  const vals=[
@@ -324,9 +325,9 @@ function reverseRender(){
  if(faceCount===3){st.className='status perfect';st.innerHTML='<b>完全直方体を発見！</b><br>'+a+' × '+b+' × '+c+'、空間対角線 '+d;}
  else{st.className=faceCount?'status euler':'status';st.innerHTML='<b>空間対角線は最初から成立。</b><br>面対角線は3本中 '+faceCount+'本が整数です。';}
  $('reversePrev').disabled=reverseIndex===0;
- $('reverseNext').disabled=reverseIndex===nestedSpace.length-1;
+ $('reverseNext').disabled=reverseIndex===twoFaceSolutions.length-1;
 }
-function reverseStep(direction){reverseIndex=Math.max(0,Math.min(nestedSpace.length-1,reverseIndex+direction));reverseRender()}
+function reverseStep(direction){reverseIndex=Math.max(0,Math.min(twoFaceSolutions.length-1,reverseIndex+direction));reverseRender()}
 $('reversePrev').addEventListener('click',()=>reverseStep(-1));$('reverseNext').addEventListener('click',()=>reverseStep(1));
 reverseRender();
 showScreen(location.hash.slice(1)||'menu');
