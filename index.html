@@ -22,7 +22,7 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 .research{margin-top:15px}.research-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.research-head h2{margin:0}.research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.theorem{padding:12px;background:#091625;border:1px solid #263d58;border-radius:12px}.theorem.pass{border-color:#42c98b;background:#0d2a25}.theorem.hit{border-color:#ffb454;background:#332512}.theorem small{display:block;color:#9fb2c8;margin-top:5px;line-height:1.45}.research-result{margin-top:10px;padding:12px;border-radius:11px;background:#101f33;line-height:1.55}.research-actions{display:flex;gap:8px;margin-top:10px}.research-actions button{flex:1}.log{margin-top:10px;max-height:150px;overflow:auto;font-size:13px;color:#b9cadb}.log div{padding:6px 0;border-bottom:1px solid #21374f}.tag{display:inline-block;padding:2px 7px;border-radius:999px;background:#23415f;color:#8af1e9;font-size:11px;margin-right:6px}
 
 .distribution{margin-top:15px}.dist-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.dist-head h2{margin:0}.dist-controls{display:flex;gap:7px}.dist-controls button.active{border-color:var(--cyan);background:#17425b;color:#8ff8f5}.plot-wrap{position:relative;margin-top:12px;background:linear-gradient(145deg,#091827,#07111f);border:1px solid #263d58;border-radius:14px;overflow:hidden;touch-action:none}.plot-wrap svg{display:block;width:100%;height:460px}.axis3d{stroke:#54708d;stroke-width:1.5}.grid3d{stroke:#294158;stroke-width:1;opacity:.7}.point3d{fill:#ff4d5f;stroke:#ffd1d6;stroke-width:1.5;cursor:pointer;filter:drop-shadow(0 0 4px #ff4d5f88)}.point3d.selected{fill:#fff;stroke:#5de1e6;stroke-width:3;filter:drop-shadow(0 0 8px #5de1e6)}.axis-label{fill:#a9bed3;font-size:13px;font-weight:700}.dist-info{position:absolute;left:12px;right:12px;bottom:10px;background:#07111fe8;border:1px solid #34506d;border-radius:10px;padding:9px 11px;color:#dbeaff;font-size:13px}.dist-note{color:#9fb2c8;font-size:13px;line-height:1.5;margin:9px 2px 0}
-.reverse-research{margin-top:15px}.reverse-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.reverse-tabs button.active{border-color:var(--cyan);background:#17425b;color:#8ff8f5}.research-view[hidden]{display:none!important}.research-plot{width:100%;height:360px;display:block;background:linear-gradient(145deg,#091827,#07111f);border:1px solid #263d58;border-radius:13px}.research-axis{stroke:#54708d;stroke-width:1.5}.research-guide{stroke:#294158;stroke-width:1}.research-point{fill:#ffb454;stroke:#fff3;stroke-width:1}.research-line-b{fill:none;stroke:#5de1e6;stroke-width:2}.research-line-c{fill:none;stroke:#ff7f91;stroke-width:2}.research-label{fill:#9fb2c8;font-size:12px}.research-legend{display:flex;gap:14px;flex-wrap:wrap;margin:8px 2px;color:#aebed0;font-size:12px}.research-list{display:grid;gap:8px;max-height:360px;overflow:auto}.research-row{padding:10px 12px;background:#091625;border-radius:10px}.research-empty{padding:22px;text-align:center;color:#9fb2c8;background:#091625;border-radius:10px}@media(max-width:720px){.reverse-tabs{grid-template-columns:1fr}.research-plot{height:300px}}
+.reverse-research{margin-top:15px}.reverse-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.reverse-tabs button.active{border-color:var(--cyan);background:#17425b;color:#8ff8f5}.research-view[hidden]{display:none!important}.research-plot{width:100%;height:360px;display:block;background:linear-gradient(145deg,#091827,#07111f);border:1px solid #263d58;border-radius:13px}.research-axis{stroke:#54708d;stroke-width:1.5}.research-guide{stroke:#294158;stroke-width:1}.research-point{fill:#ffb454;stroke:#fff3;stroke-width:1}.research-point.two-face{fill:#5de1e6;stroke:#fff;stroke-width:1.5}.research-star{fill:#fff06a;stroke:#ff7f91;stroke-width:1.5;cursor:pointer;filter:drop-shadow(0 0 5px #fff06aaa)}.research-star:hover{fill:#fff}.research-line-b{fill:none;stroke:#5de1e6;stroke-width:2}.research-line-c{fill:none;stroke:#ff7f91;stroke-width:2}.research-label{fill:#9fb2c8;font-size:12px}.research-legend{display:flex;gap:14px;flex-wrap:wrap;margin:8px 2px;color:#aebed0;font-size:12px}.research-list{display:grid;gap:8px;max-height:360px;overflow:auto}.research-row{padding:10px 12px;background:#091625;border-radius:10px}.research-empty{padding:22px;text-align:center;color:#9fb2c8;background:#091625;border-radius:10px}@media(max-width:720px){.reverse-tabs{grid-template-columns:1fr}.research-plot{height:300px}}
 @media(max-width:720px){.dist-head{align-items:flex-start;flex-direction:column}.dist-controls{width:100%}.dist-controls button{flex:1}.plot-wrap svg{height:390px}}
 @media(max-width:720px){.reverse-grid{grid-template-columns:1fr}.reverse-actions{flex-direction:column}.menu{margin-top:3vh}main{padding:11px}.grid{grid-template-columns:1fr}.stage,.stage svg{min-height:390px;height:390px}.top{align-items:flex-start;flex-direction:column}.top button{width:100%}.research-grid{grid-template-columns:1fr}.research-head{align-items:flex-start;flex-direction:column}.research-actions{flex-direction:column}}
 </style>
@@ -89,8 +89,8 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 <button id="researchTwoFaces">③ 面2本成立例</button>
 </div>
 <div id="viewRatio" class="research-view"><svg id="ratioPlot" class="research-plot" viewBox="0 0 900 360" aria-label="b/dとc/dの散布図"></svg><p class="dist-note">横軸 b/d、縦軸 c/d。点は空間対角線と b²+c² が成立する原始解です。</p></div>
-<div id="viewDistance" class="research-view" hidden><div class="research-legend"><span style="color:#5de1e6">● a²+b²</span><span style="color:#ff7f91">● a²+c²</span></div><svg id="distancePlot" class="research-plot" viewBox="0 0 900 360" aria-label="平方数までの相対距離"></svg><p class="dist-note">横軸は解番号、縦軸は最も近い平方数までの差 ÷ d²。0に触れると、その面も整数です。</p></div>
-<div id="viewTwoFaces" class="research-view" hidden><div id="twoFacesList" class="research-list"></div><p class="dist-note">b²+c² は全件成立済み。aを含む二面の片方も整数になり、残り一面だけ失敗する例を表示します。</p></div>
+<div id="viewDistance" class="research-view" hidden><div class="research-legend"><span style="color:#5de1e6">● a²+b²</span><span style="color:#ff7f91">● a²+c²</span></div><svg id="distancePlot" class="research-plot" viewBox="0 0 900 360" aria-label="平方数までの相対距離"></svg><p class="dist-note">横軸 b/d、縦軸は最も近い平方数までの差 ÷ d²。0に触れると、その面も整数です。</p></div>
+<div id="viewTwoFaces" class="research-view" hidden><div class="research-legend"><span style="color:#ffb454">● 母集団</span><span style="color:#fff06a">★ 面2本成立例</span></div><svg id="twoFacesPlot" class="research-plot" viewBox="0 0 900 360" aria-label="面2本成立例を強調したb/dとc/dの散布図"></svg><div id="twoFacesInfo" class="research-result">★をタップすると、辺・d・成立面・残り1面の差 Δ を表示します。</div><p class="dist-note">①と同じ母集団・座標・色分けの上に、面2本成立例26件を★で重ねています。</p></div>
 </section>
 </section>
 
@@ -281,23 +281,24 @@ function drawRatioResearch(){
 }
 function drawDistanceResearch(){
  const svg=clearResearchSvg('distancePlot');
- const rows=nestedSpace.map(([a,b,c,d])=>({ab:Math.abs(nearestSquareDelta(a*a+b*b))/(d*d),ac:Math.abs(nearestSquareDelta(a*a+c*c))/(d*d)}));
+ const rows=nestedSpace.map(([a,b,c,d])=>({x:b/d,ab:Math.abs(nearestSquareDelta(a*a+b*b))/(d*d),ac:Math.abs(nearestSquareDelta(a*a+c*c))/(d*d)}));
  const max=Math.max(...rows.flatMap(r=>[r.ab,r.ac]),1e-9);
  [0,.25,.5,.75,1].forEach(v=>{const y=315-v*290;svg.append(svgEl('line',{x1:55,y1:y,x2:870,y2:y,class:'research-guide'}));addPlotLabel(svg,(max*v).toExponential(1),47,y+4,'end')});
- const xAt=i=>55+(rows.length===1?407.5:i*815/(rows.length-1));
+ [0,.25,.5,.75,1].forEach(v=>{const x=55+v*815;svg.append(svgEl('line',{x1:x,y1:25,x2:x,y2:315,class:'research-guide'}));addPlotLabel(svg,v.toFixed(2),x,337,'middle')});
  for(const [key,cls] of [['ab','research-line-b'],['ac','research-line-c']]){
-  const pts=rows.map((r,i)=>xAt(i)+','+(315-r[key]/max*290)).join(' ');
-  svg.append(svgEl('polyline',{points:pts,class:cls}));
-  rows.forEach((r,i)=>svg.append(svgEl('circle',{cx:xAt(i),cy:315-r[key]/max*290,r:3,class:key==='ab'?'research-line-b':'research-line-c'})));
+  rows.forEach(r=>svg.append(svgEl('circle',{cx:55+r.x*815,cy:315-r[key]/max*290,r:3,class:cls})));
  }
- addPlotLabel(svg,'解番号 →',855,352,'end');addPlotLabel(svg,'0',47,319,'end');
+ addPlotLabel(svg,'b / d',855,352,'end');addPlotLabel(svg,'0',47,319,'end');
+}
+function starPoints(cx,cy,outer=8,inner=3.6){
+ const pts=[];for(let i=0;i<10;i++){const r=i%2?inner:outer,a=-Math.PI/2+i*Math.PI/5;pts.push((cx+Math.cos(a)*r)+','+(cy+Math.sin(a)*r))}return pts.join(' ');
 }
 function drawTwoFacesResearch(){
- const hits=twoFaceSolutions;
- $('twoFacesList').innerHTML=hits.length?hits.map(([a,b,c,d])=>{
-  const ab=a*a+b*b,ac=a*a+c*c,abOk=isInt(ab),failed=abOk?ac:ab,delta=nearestSquareDelta(failed);
-  return '<div class="research-row"><b>'+a+' × '+b+' × '+c+'（d='+d+'）</b><br>成立：b²+c² と '+(abOk?'a²+b²':'a²+c²')+' ／ 残りの差 Δ='+(delta>0?'+':'')+delta+'</div>';
- }).join(''):'<div class="research-empty">d ≤ 20000 の範囲では該当例がありません。</div>';
+ const svg=clearResearchSvg('twoFacesPlot'),hitKeys=new Set(twoFaceSolutions.map(v=>v.join(',')));
+ [0,.25,.5,.75,1].forEach(v=>{const x=55+v*815,y=315-v*290;svg.append(svgEl('line',{x1:x,y1:25,x2:x,y2:315,class:'research-guide'}));svg.append(svgEl('line',{x1:55,y1:y,x2:870,y2:y,class:'research-guide'}));addPlotLabel(svg,v.toFixed(2),x,337,'middle');addPlotLabel(svg,v.toFixed(2),47,y+4,'end')});
+ nestedSpace.forEach(v=>{const [a,b,c,d]=v,x=55+(b/d)*815,y=315-(c/d)*290;svg.append(svgEl('circle',{cx:x,cy:y,r:hitKeys.has(v.join(','))?5:4,class:'research-point'+(hitKeys.has(v.join(','))?' two-face':'')}))});
+ twoFaceSolutions.forEach(([a,b,c,d])=>{const x=55+(b/d)*815,y=315-(c/d)*290,star=svgEl('polygon',{points:starPoints(x,y),class:'research-star',tabindex:'0',role:'button'});const show=()=>{const ab=a*a+b*b,ac=a*a+c*c,abOk=isInt(ab),failedName=abOk?'a²+c²':'a²+b²',delta=nearestSquareDelta(abOk?ac:ab);$('twoFacesInfo').innerHTML='<b>辺 ('+a+', '+b+', '+c+')</b>　d='+d+'<br>成立面：b²+c²、'+(abOk?'a²+b²':'a²+c²')+'<br>残り1面：'+failedName+'　Δ='+(delta>0?'+':'')+delta};star.addEventListener('click',show);star.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();show()}});const title=svgEl('title');title.textContent='('+[a,b,c].join(', ')+'), d='+d;star.append(title);svg.append(star)});
+ addPlotLabel(svg,'b / d',855,352,'end');addPlotLabel(svg,'c / d',60,18);
 }
 function showReverseResearch(name){
  const map={ratio:'viewRatio',distance:'viewDistance',two:'viewTwoFaces'};
