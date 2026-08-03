@@ -19,6 +19,9 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 .found{margin-top:12px;font-size:13px;color:#9fb2c8}.found-list{max-height:110px;overflow:auto}.found-item{padding:5px 0;color:#ff8591}
 
 .research{margin-top:15px}.research-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.research-head h2{margin:0}.research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.theorem{padding:12px;background:#091625;border:1px solid #263d58;border-radius:12px}.theorem.pass{border-color:#42c98b;background:#0d2a25}.theorem.hit{border-color:#ffb454;background:#332512}.theorem small{display:block;color:#9fb2c8;margin-top:5px;line-height:1.45}.research-result{margin-top:10px;padding:12px;border-radius:11px;background:#101f33;line-height:1.55}.research-actions{display:flex;gap:8px;margin-top:10px}.research-actions button{flex:1}.log{margin-top:10px;max-height:150px;overflow:auto;font-size:13px;color:#b9cadb}.log div{padding:6px 0;border-bottom:1px solid #21374f}.tag{display:inline-block;padding:2px 7px;border-radius:999px;background:#23415f;color:#8af1e9;font-size:11px;margin-right:6px}
+
+.distribution{margin-top:15px}.dist-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.dist-head h2{margin:0}.dist-controls{display:flex;gap:7px}.dist-controls button.active{border-color:var(--cyan);background:#17425b;color:#8ff8f5}.plot-wrap{position:relative;margin-top:12px;background:linear-gradient(145deg,#091827,#07111f);border:1px solid #263d58;border-radius:14px;overflow:hidden;touch-action:none}.plot-wrap svg{display:block;width:100%;height:460px}.axis3d{stroke:#54708d;stroke-width:1.5}.grid3d{stroke:#294158;stroke-width:1;opacity:.7}.point3d{fill:#ff4d5f;stroke:#ffd1d6;stroke-width:1.5;cursor:pointer;filter:drop-shadow(0 0 4px #ff4d5f88)}.point3d.selected{fill:#fff;stroke:#5de1e6;stroke-width:3;filter:drop-shadow(0 0 8px #5de1e6)}.axis-label{fill:#a9bed3;font-size:13px;font-weight:700}.dist-info{position:absolute;left:12px;right:12px;bottom:10px;background:#07111fe8;border:1px solid #34506d;border-radius:10px;padding:9px 11px;color:#dbeaff;font-size:13px}.dist-note{color:#9fb2c8;font-size:13px;line-height:1.5;margin:9px 2px 0}
+@media(max-width:720px){.dist-head{align-items:flex-start;flex-direction:column}.dist-controls{width:100%}.dist-controls button{flex:1}.plot-wrap svg{height:390px}}
 @media(max-width:720px){main{padding:11px}.grid{grid-template-columns:1fr}.stage,.stage svg{min-height:390px;height:390px}.top{align-items:flex-start;flex-direction:column}.top button{width:100%}.research-grid{grid-template-columns:1fr}.research-head{align-items:flex-start;flex-direction:column}.research-actions{flex-direction:column}}
 </style>
 </head>
@@ -48,6 +51,12 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 <div id="researchResult" class="research-result"></div>
 <div class="research-actions"><button id="record">この結果を研究ログへ記録</button><button id="clearLog">ログを消す</button></div>
 <div id="researchLog" class="log">まだ研究記録はありません。</div>
+</section>
+
+<section class="card distribution">
+<div class="dist-head"><div><h2>原始オイラー分布</h2><p class="sub">1万以下の19種類を、3辺 (a, b, c) の座標に置いた正確な分布図。</p></div><div class="dist-controls"><button id="plotRaw" class="active">実際の辺</button><button id="plotShape">形の比率</button></div></div>
+<div class="plot-wrap" id="plotWrap"><svg id="plot3d" viewBox="0 0 900 460" aria-label="原始オイラー直方体の3D分布"><g id="plotGrid"></g><g id="plotPoints"></g></svg><div id="plotInfo" class="dist-info">赤い点を押すと3辺を表示。空白を左右にドラッグすると回転できます。</div></div>
+<p class="dist-note">「形の比率」は最大辺を1として表示します。点が密集している場所は既知19点の傾向であり、未発見の直方体が存在する確率を示すものではありません。</p>
 </section>
 
 </main>
@@ -139,5 +148,37 @@ const samples=[[44,117,240],[85,132,720],[240,252,275],[140,480,693],[117,520,75
 $('sample').addEventListener('click',()=>{const x=samples[Math.floor(Math.random()*samples.length)];Object.assign(S,{a:x[0],b:x[1],c:x[2]});resetSearch();render()});
 $('record').addEventListener('click',()=>{const n=S.a*S.a+S.b*S.b+S.c*S.c,fs=factorize(n).map(x=>x[0]+'^'+x[1]).join('×');researchLog.push({time:new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'}),text:S.a+'×'+S.b+'×'+S.c+' / S='+n+' / '+fs});drawResearchLog()});
 $('clearLog').addEventListener('click',()=>{researchLog.length=0;drawResearchLog()});
+const primitiveEuler=[
+ [44,117,240],[240,252,275],[140,480,693],[85,132,720],[160,231,792],
+ [1008,1100,1155],[187,1020,1584],[429,880,2340],[832,855,2640],
+ [780,2475,2992],[828,2035,3120],[1560,2295,5984],[528,5796,6325],
+ [195,748,6336],[1155,6300,6688],[1755,4576,6732],[495,4888,8160],
+ [1575,1672,9120],[2964,9152,9405]
+];
+let plotMode='raw', plotAngle=-0.72, plotSelected=-1, plotDrag=null;
+const plotSvg=$('plot3d'), NS='http://www.w3.org/2000/svg';
+function svgEl(name,attrs={}){const e=document.createElementNS(NS,name);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);return e}
+function plotCoords(v){
+ if(plotMode==='shape'){const m=v[2];return [v[0]/m,v[1]/m,1]}
+ return v.map(n=>n/10000);
+}
+function project3d(p){
+ const ca=Math.cos(plotAngle),sa=Math.sin(plotAngle),x=(p[0]-.5)*ca-(p[1]-.5)*sa,y=(p[0]-.5)*sa+(p[1]-.5)*ca,z=p[2];
+ return {x:450+x*440,y:350-y*175-z*245};
+}
+function drawPlot(){
+ const grid=$('plotGrid'),points=$('plotPoints');grid.replaceChildren();points.replaceChildren();
+ const O=project3d([0,0,0]),X=project3d([1,0,0]),Y=project3d([0,1,0]),Z=project3d([0,0,1]);
+ [[O,X],[O,Y],[O,Z]].forEach(([p,q])=>grid.append(svgEl('line',{x1:p.x,y1:p.y,x2:q.x,y2:q.y,class:'axis3d'})));
+ [['a',X],['b',Y],['c',Z]].forEach(([t,p])=>{const e=svgEl('text',{x:p.x+8,y:p.y-7,class:'axis-label'});e.textContent=t;grid.append(e)});
+ primitiveEuler.forEach((v,i)=>{const p=project3d(plotCoords(v)),e=svgEl('circle',{cx:p.x,cy:p.y,r:i===plotSelected?8:5,class:'point3d'+(i===plotSelected?' selected':'')});e.addEventListener('pointerdown',ev=>ev.stopPropagation());e.addEventListener('click',ev=>{ev.stopPropagation();plotSelected=i;drawPlot();$('plotInfo').innerHTML='<b>No.'+(i+1)+'　('+v.join(', ')+')</b>　最大辺との比：'+v.map(n=>(n/v[2]).toFixed(3)).join(' : ')});points.append(e)});
+}
+function setPlotMode(mode){plotMode=mode;$('plotRaw').classList.toggle('active',mode==='raw');$('plotShape').classList.toggle('active',mode==='shape');$('plotInfo').textContent=mode==='raw'?'実際の辺を1万＝軸の端として表示。赤い点を押すと値を確認できます。':'最大辺 c＝1 に揃えた形。短い辺が急に現れる点を比較できます。';drawPlot()}
+$('plotRaw').addEventListener('click',()=>setPlotMode('raw'));$('plotShape').addEventListener('click',()=>setPlotMode('shape'));
+plotSvg.addEventListener('pointerdown',e=>{plotDrag={id:e.pointerId,x:e.clientX};plotSvg.setPointerCapture(e.pointerId)});
+plotSvg.addEventListener('pointermove',e=>{if(!plotDrag||plotDrag.id!==e.pointerId)return;plotAngle+=(e.clientX-plotDrag.x)*.009;plotDrag.x=e.clientX;drawPlot()});
+plotSvg.addEventListener('pointerup',()=>plotDrag=null);plotSvg.addEventListener('pointercancel',()=>plotDrag=null);
+drawPlot();
+
 render();
 </script></body></html>
