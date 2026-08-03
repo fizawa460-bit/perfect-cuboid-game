@@ -105,7 +105,7 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 <div id="viewADBD" class="research-view" hidden><div class="research-legend"><span style="color:#8493a5">● 追加面0本</span><span style="color:#4a9fff">● 追加面1本</span><span style="color:#ff4d5f">● 追加面2本</span></div><svg id="adbdPlot" class="research-plot" viewBox="0 0 900 360" aria-label="a/dとb/dの散布図"></svg><p class="dist-note">横軸 a/d、縦軸 b/d。母集団と色分けは①と同じです。</p></div>
 <div id="viewADCD" class="research-view" hidden><div class="research-legend"><span style="color:#8493a5">● 追加面0本</span><span style="color:#4a9fff">● 追加面1本</span><span style="color:#ff4d5f">● 追加面2本</span></div><svg id="adcdPlot" class="research-plot" viewBox="0 0 900 360" aria-label="a/dとc/dの散布図"></svg><p class="dist-note">横軸 a/d、縦軸 c/d。母集団と色分けは①と同じです。</p></div>
 <div id="viewDeltaSign" class="research-view" hidden><div class="research-legend"><span style="color:#ffd66b">▲ Δ&gt;0</span><span style="color:#b99cff">● Δ&lt;0</span><span style="color:#8493a5">灰=追加面0</span><span style="color:#4a9fff">青=追加面1</span><span style="color:#ff4d5f">赤=追加面2</span></div><svg id="deltaSignPlot" class="research-plot" viewBox="0 0 900 360" aria-label="残り面のデルタ符号分布"></svg><p class="dist-note">横軸 b/d、縦軸 c/d。▲はΔ&gt;0、●はΔ&lt;0。非成立面が2つある点は、平方数に近い方を表示します。</p></div>
-<div id="view3D" class="research-view" hidden><div class="research-toolbar"><button id="reset3D">リセット</button></div><canvas id="nested3D" class="research-canvas"></canvas><div id="info3D" class="research-result">点をタップすると a,b,c,d・成立面・Δを表示します。ドラッグで回転、ホイール／ピンチで拡大縮小、Shift＋ドラッグで移動。</div></div>
+<div id="view3D" class="research-view" hidden><div class="research-toolbar"><button id="reset3D">リセット</button></div><div class="research-legend"><span style="color:#4a9fff">● d＋bc（6,105件）</span><span style="color:#ffb454">◆ d＋ab（12,407件）</span></div><canvas id="nested3D" class="research-canvas"></canvas><div id="info3D" class="research-result">青系の丸は d＋bc、オレンジのひし形は d＋ab。点をタップすると集合・a,b,c,d・成立面・Δを表示します。ドラッグで回転、ホイール／ピンチで拡大縮小、Shift＋ドラッグで移動。</div></div>
 <div id="viewBoundary" class="research-view" hidden><svg id="boundaryPlot" class="research-plot" viewBox="0 0 900 360"></svg><p class="dist-note">b/d・c/d散布図の外周（Convex Hull）だけを表示します。</p></div>
 <div id="viewDColor" class="research-view" hidden><div class="research-legend"><span style="color:#5de1e6">● 小さいd</span><span style="color:#fff06a">● 中</span><span style="color:#ff4d5f">● 大きいd</span></div><svg id="dColorPlot" class="research-plot" viewBox="0 0 900 360"></svg></div>
 <div id="viewHeatmap" class="research-view" hidden><svg id="heatmapPlot" class="research-plot" viewBox="0 0 900 360"></svg><p class="dist-note">同じ座標を30×24区画に分けた点密度です。</p></div>
@@ -255,7 +255,7 @@ plotSvg.addEventListener('pointerup',()=>plotDrag=null);plotSvg.addEventListener
 drawPlot();
 
 function gcd2(a,b){while(b)[a,b]=[b,a%b];return a}
-function makeNestedSpaceSolutions(maxD=20000){
+function makeAllNestedSpaceSolutions(maxD=20000){
  const byHypotenuse=new Map();
  const addPair=(h,x,y)=>{
   if(!byHypotenuse.has(h))byHypotenuse.set(h,[]);
@@ -270,10 +270,12 @@ function makeNestedSpaceSolutions(maxD=20000){
  }
  const out=[],seenNested=new Set();
  for(const [d,outerPairs] of byHypotenuse){
-  for(const [x,y] of outerPairs)for(const [a,g] of [[x,y],[y,x]]){
+  for(const [x,y] of outerPairs)for(const [outer,g] of [[x,y],[y,x]]){
    const innerPairs=byHypotenuse.get(g);if(!innerPairs)continue;
-   for(const [b,c] of innerPairs){
-    if(a>b||b>c||gcd2(gcd2(a,b),c)!==1)continue;
+   for(const [u,v] of innerPairs){
+    const edges=[outer,u,v].sort((p,q)=>p-q);
+    const [a,b,c]=edges;
+    if(gcd2(gcd2(a,b),c)!==1)continue;
     const key=a+','+b+','+c+','+d;
     if(!seenNested.has(key)){seenNested.add(key);out.push([a,b,c,d])}
    }
@@ -281,7 +283,9 @@ function makeNestedSpaceSolutions(maxD=20000){
  }
  return out.sort((p,q)=>p[3]-q[3]||p[0]-q[0]||p[1]-q[1]||p[2]-q[2]);
 }
-const nestedSpace=makeNestedSpaceSolutions();
+const allNestedSpace=makeAllNestedSpaceSolutions();
+const nestedSpace=allNestedSpace.filter(([a,b,c])=>isInt(b*b+c*c));
+const nestedABSpace=allNestedSpace.filter(([a,b])=>isInt(a*a+b*b));
 const twoFaceSolutions=nestedSpace.filter(([a,b,c])=>[isInt(a*a+b*b),isInt(a*a+c*c)].filter(Boolean).length===1);
 let reverseIndex=0;
 function nearestSquareDelta(n){const r=Math.round(Math.sqrt(n));return r*r-n}
@@ -338,8 +342,28 @@ function faceSummary(a,b,c){const names=[];if(isInt(a*a+b*b))names.push('ab');if
 function researchGrid(svg){[0,.25,.5,.75,1].forEach(v=>{const x=55+v*815,y=315-v*290;svg.append(svgEl('line',{x1:x,y1:25,x2:x,y2:315,class:'research-guide'}));svg.append(svgEl('line',{x1:55,y1:y,x2:870,y2:y,class:'research-guide'}));addPlotLabel(svg,v.toFixed(2),x,337,'middle');addPlotLabel(svg,v.toFixed(2),47,y+4,'end')})}
 function pointDelta(a,b,c){const failed=[a*a+b*b,a*a+c*c].filter(n=>!isInt(n));return failed.length?failed.reduce((x,y)=>Math.abs(nearestSquareDelta(x))<Math.abs(nearestSquareDelta(y))?x:y):0}
 let view3={yaw:-.7,pitch:.45,zoom:1,ox:0,oy:0,drag:null,points:[]};
-function drawNested3D(){const c=$('nested3D'),r=c.getBoundingClientRect(),dpr=devicePixelRatio||1;c.width=Math.max(1,r.width*dpr);c.height=Math.max(1,r.height*dpr);const g=c.getContext('2d');g.scale(dpr,dpr);g.clearRect(0,0,r.width,r.height);const cy=Math.cos(view3.yaw),sy=Math.sin(view3.yaw),cp=Math.cos(view3.pitch),sp=Math.sin(view3.pitch),scale=Math.min(r.width,r.height)*.62*view3.zoom;view3.points=nestedSpace.map((v,i)=>{const [a,b,cc,d]=v,x=a/d-.35,y=b/d-.35,z=cc/d-.55,rx=x*cy-z*sy,rz=x*sy+z*cy,ry=y*cp-rz*sp,depth=y*sp+rz*cp;return{v,i,x:r.width/2+view3.ox+rx*scale,y:r.height/2+view3.oy-ry*scale,depth,count:extraFaceCount(a,b,cc)}}).sort((a,b)=>a.depth-b.depth);for(const p of view3.points){g.globalAlpha=p.count?0.85:.28;g.fillStyle=p.count===0?'#8493a5':p.count===1?'#4a9fff':'#ff4d5f';g.beginPath();g.arc(p.x,p.y,p.count?3:2,0,Math.PI*2);g.fill()}g.globalAlpha=1}
-function init3D(){const c=$('nested3D');drawNested3D();c.onpointerdown=e=>{view3.drag={x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,shift:e.shiftKey};c.setPointerCapture(e.pointerId)};c.onpointermove=e=>{if(!view3.drag)return;const dx=e.clientX-view3.drag.x,dy=e.clientY-view3.drag.y;if(view3.drag.shift){view3.ox+=dx;view3.oy+=dy}else{view3.yaw+=dx*.008;view3.pitch=Math.max(-1.4,Math.min(1.4,view3.pitch+dy*.008))}view3.drag.x=e.clientX;view3.drag.y=e.clientY;drawNested3D()};c.onpointerup=e=>{if(view3.drag&&Math.hypot(e.clientX-view3.drag.sx,e.clientY-view3.drag.sy)<4){const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,p=[...view3.points].reverse().find(p=>Math.hypot(p.x-x,p.y-y)<7);if(p){const [a,b,cc,d]=p.v,n=pointDelta(a,b,cc),delta=n?nearestSquareDelta(n):0;$('info3D').innerHTML='<b>('+[a,b,cc].join(', ')+')</b> d='+d+'<br>成立面：'+faceSummary(a,b,cc).join('・')+'　Δ='+(delta>0?'+':'')+delta}}view3.drag=null};c.onwheel=e=>{e.preventDefault();view3.zoom=Math.max(.45,Math.min(5,view3.zoom*Math.exp(-e.deltaY*.001)));drawNested3D()}}
+function drawNested3D(){
+ const c=$('nested3D'),r=c.getBoundingClientRect(),dpr=devicePixelRatio||1;
+ c.width=Math.max(1,r.width*dpr);c.height=Math.max(1,r.height*dpr);
+ const g=c.getContext('2d');g.scale(dpr,dpr);g.clearRect(0,0,r.width,r.height);
+ const cy=Math.cos(view3.yaw),sy=Math.sin(view3.yaw),cp=Math.cos(view3.pitch),sp=Math.sin(view3.pitch),scale=Math.min(r.width,r.height)*.62*view3.zoom;
+ const project=(v,i,group)=>{const [a,b,cc,d]=v,x=a/d-.35,y=b/d-.35,z=cc/d-.55,rx=x*cy-z*sy,rz=x*sy+z*cy,ry=y*cp-rz*sp,depth=y*sp+rz*cp;return{v,i,group,x:r.width/2+view3.ox+rx*scale,y:r.height/2+view3.oy-ry*scale,depth,count:extraFaceCount(a,b,cc)}};
+ view3.points=[
+  ...nestedSpace.map((v,i)=>project(v,i,'d＋bc')),
+  ...nestedABSpace.map((v,i)=>project(v,i,'d＋ab'))
+ ].sort((a,b)=>a.depth-b.depth);
+ for(const p of view3.points){
+  if(p.group==='d＋ab'){
+   g.globalAlpha=.66;g.fillStyle='#ffb454';g.strokeStyle='#fff1cf';g.lineWidth=.7;
+   g.beginPath();g.moveTo(p.x,p.y-3.1);g.lineTo(p.x+3.1,p.y);g.lineTo(p.x,p.y+3.1);g.lineTo(p.x-3.1,p.y);g.closePath();g.fill();g.stroke();
+  }else{
+   g.globalAlpha=p.count?0.85:.24;g.fillStyle=p.count===0?'#8493a5':p.count===1?'#4a9fff':'#ff4d5f';
+   g.beginPath();g.arc(p.x,p.y,p.count?3:2,0,Math.PI*2);g.fill();
+  }
+ }
+ g.globalAlpha=1;
+}
+function init3D(){const c=$('nested3D');drawNested3D();c.onpointerdown=e=>{view3.drag={x:e.clientX,y:e.clientY,sx:e.clientX,sy:e.clientY,shift:e.shiftKey};c.setPointerCapture(e.pointerId)};c.onpointermove=e=>{if(!view3.drag)return;const dx=e.clientX-view3.drag.x,dy=e.clientY-view3.drag.y;if(view3.drag.shift){view3.ox+=dx;view3.oy+=dy}else{view3.yaw+=dx*.008;view3.pitch=Math.max(-1.4,Math.min(1.4,view3.pitch+dy*.008))}view3.drag.x=e.clientX;view3.drag.y=e.clientY;drawNested3D()};c.onpointerup=e=>{if(view3.drag&&Math.hypot(e.clientX-view3.drag.sx,e.clientY-view3.drag.sy)<4){const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,p=[...view3.points].reverse().find(p=>Math.hypot(p.x-x,p.y-y)<7);if(p){const [a,b,cc,d]=p.v,n=pointDelta(a,b,cc),delta=n?nearestSquareDelta(n):0;$('info3D').innerHTML='<b>'+p.group+'　('+[a,b,cc].join(', ')+')</b> d='+d+'<br>成立面：'+faceSummary(a,b,cc).join('・')+'　Δ='+(delta>0?'+':'')+delta}}view3.drag=null};c.onwheel=e=>{e.preventDefault();view3.zoom=Math.max(.45,Math.min(5,view3.zoom*Math.exp(-e.deltaY*.001)));drawNested3D()}}
 $('reset3D').addEventListener('click',()=>{view3={yaw:-.7,pitch:.45,zoom:1,ox:0,oy:0,drag:null,points:[]};drawNested3D()});
 function convexHull(points){const p=[...points].sort((a,b)=>a.x-b.x||a.y-b.y),cross=(o,a,b)=>(a.x-o.x)*(b.y-o.y)-(a.y-o.y)*(b.x-o.x);if(p.length<3)return p;const lo=[],up=[];for(const q of p){while(lo.length>1&&cross(lo.at(-2),lo.at(-1),q)<=0)lo.pop();lo.push(q)}for(const q of p.reverse()){while(up.length>1&&cross(up.at(-2),up.at(-1),q)<=0)up.pop();up.push(q)}return lo.slice(0,-1).concat(up.slice(0,-1))}
 function drawBoundary(){const svg=clearResearchSvg('boundaryPlot');researchGrid(svg);const pts=nestedSpace.map(v=>({x:55+v[1]/v[3]*815,y:315-v[2]/v[3]*290})),h=convexHull(pts);svg.append(svgEl('polygon',{points:h.map(p=>p.x+','+p.y).join(' '),class:'hull-line'}));addPlotLabel(svg,'b / d',855,352,'end');addPlotLabel(svg,'c / d',60,18)}
