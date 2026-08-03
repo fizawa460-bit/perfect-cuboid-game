@@ -7,12 +7,12 @@
 :root{color-scheme:dark;--bg:#07111f;--panel:#0d1b2d;--line:#6e89a8;--red:#ff4d5f;--cyan:#5de1e6}
 *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,sans-serif;background:radial-gradient(circle at 50% 0,#152b46,var(--bg) 60%);color:#eef6ff;min-height:100vh}
 main{max-width:1050px;margin:auto;padding:18px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}h1{font-size:clamp(22px,5vw,38px);margin:0}.sub{color:#9fb2c8;margin:5px 0 0}
-button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px;padding:11px 14px;font-weight:700;cursor:pointer}button:hover{border-color:var(--cyan)}
+button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px;padding:11px 14px;font-weight:700;cursor:pointer}button:hover{border-color:var(--cyan)}button:disabled{opacity:.35;cursor:not-allowed;border-color:#34506d}
 .grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(250px,.8fr);gap:15px;margin-top:16px}.card{background:color-mix(in srgb,var(--panel) 92%,transparent);border:1px solid #263d58;border-radius:18px;padding:15px;box-shadow:0 18px 50px #0006}
 .stage{position:relative;min-height:470px;overflow:hidden;touch-action:none;background:linear-gradient(#0a1829,#07111f);border-radius:13px}.stage svg{width:100%;height:470px;display:block}.hint{position:absolute;left:12px;bottom:10px;color:#9fb2c8;font-size:13px;background:#07111fcc;padding:7px 9px;border-radius:8px}
 .edge{stroke:var(--line);stroke-width:3;fill:none}.face{fill:#2c557633;stroke:none}.diag{stroke:#7088a3;stroke-width:2;stroke-dasharray:7 5;opacity:.55}.diag.integer{stroke:var(--red);stroke-width:4;stroke-dasharray:none;opacity:1;filter:drop-shadow(0 0 5px #ff4d5f)}.space{stroke:#e9f2ff;stroke-width:2.5;stroke-dasharray:5 5}.space.integer{stroke:var(--red);stroke-width:5;stroke-dasharray:none;filter:drop-shadow(0 0 7px #ff4d5f)}
 .handle{fill:var(--cyan);stroke:#fff;stroke-width:2;cursor:grab;filter:drop-shadow(0 0 5px #5de1e6)}.handle:active{cursor:grabbing}.handle.selected{fill:#fff;stroke:var(--cyan);stroke-width:5}
-.edge-rail{position:absolute;right:10px;top:38px;width:68px;padding:8px 7px;background:#07111fe8;border:1px solid #34506d;border-radius:14px;text-align:center;user-select:none}.rail-title{font-size:12px;color:#b9cadb;margin-bottom:6px}.rail-title b{color:var(--cyan);font-size:17px}.rail-buttons{display:grid;gap:4px}.rail-btn{padding:8px 3px;border-radius:8px;font-size:12px;touch-action:none}.rail-btn.major{background:#243c58;color:#fff}.rail-mid{height:2px;background:#54708d;margin:2px 5px}
+.edge-rail{position:absolute;right:10px;top:38px;width:68px;padding:8px 7px;background:#07111fe8;border:1px solid #34506d;border-radius:14px;text-align:center;user-select:none}.rail-title{font-size:12px;color:#b9cadb;margin-bottom:6px}.rail-title b{color:var(--cyan);font-size:17px}.rail-buttons{display:grid;gap:4px}.rail-btn{padding:8px 3px;border-radius:8px;font-size:12px;touch-action:none}.rail-btn.major{background:#243c58;color:#fff}.rail-mid{height:2px;background:#54708d;margin:2px 5px}.search-notice{font-size:10px;color:#9fb2c8;line-height:1.35;margin-top:7px}
 .legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#aebed0}.dot{display:inline-block;width:18px;height:3px;vertical-align:middle;margin-right:5px;background:#7088a3}.dot.red{background:var(--red)}
 .values{display:grid;gap:9px;margin-top:12px}.value{display:flex;justify-content:space-between;gap:8px;padding:10px 11px;background:#091625;border-radius:10px}.value strong{font-variant-numeric:tabular-nums}.value.ok{outline:2px solid var(--red);color:#ff7684;background:#35141d}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}.controls label{font-size:12px;color:#9fb2c8}.controls input{width:100%;margin-top:4px;border:1px solid #314964;border-radius:8px;background:#081421;color:#fff;padding:9px;font-size:16px}
 .status{padding:12px;border-radius:11px;background:#0a1726;color:#bac9d8;line-height:1.5}.status.euler{background:#342413;color:#ffd99d}.status.perfect{background:#3a121b;color:#ff92a0;animation:pulse 1s infinite alternate}@keyframes pulse{to{box-shadow:0 0 22px #ff4d5f66}}
@@ -30,14 +30,14 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 <polygon id="face1" class="face"/><polygon id="face2" class="face"/><polygon id="face3" class="face"/>
 <g id="diagonals"></g><g id="edges"></g><line id="space" class="space"/>
 <circle id="ha" class="handle" r="10"/><circle id="hb" class="handle" r="10"/><circle id="hc" class="handle" r="10"/>
-</svg><div class="edge-rail" aria-label="選択した辺の増減バー"><div class="rail-title">選択中：辺 <b id="selectedLabel">a</b></div><div class="rail-buttons"><button class="rail-btn major" data-delta="100">＋100</button><button class="rail-btn" data-delta="10">＋10</button><button class="rail-btn" data-delta="1">＋1</button><div class="rail-mid"></div><button class="rail-btn" data-delta="-1">−1</button><button class="rail-btn" data-delta="-10">−10</button><button class="rail-btn major" data-delta="-100">−100</button></div></div><div class="hint">辺を選択→右のバーで微調整。端ほど大きく増減します。</div></div>
+</svg><div class="edge-rail" aria-label="選択した辺の増減バー"><div class="rail-title">選択中：辺 <b id="selectedLabel">a</b></div><div class="rail-buttons"><button class="rail-btn major" data-direction="1">↑ 次の成立値</button><div class="rail-mid"></div><button class="rail-btn major" data-direction="-1">↓ 前の成立値</button></div><div id="searchNotice" class="search-notice"></div></div><div class="hint">選んでいない2辺を固定し、成立する次の整数値へ移動します。</div></div>
 <div class="legend"><span><i class="dot"></i>まだ整数でない対角線</span><span><i class="dot red"></i>整数になった対角線</span></div></section>
 <aside class="card">
 <h2 style="margin:0 0 4px">現在の直方体</h2>
 <div class="controls">
-<label>辺 a<input id="a" type="number" min="1" max="1000"></label>
-<label>辺 b<input id="b" type="number" min="1" max="1000"></label>
-<label>辺 c<input id="c" type="number" min="1" max="1000"></label>
+<label>辺 a<input id="a" type="number" min="1" max="1000000"></label>
+<label>辺 b<input id="b" type="number" min="1" max="1000000"></label>
+<label>辺 c<input id="c" type="number" min="1" max="1000000"></label>
 </div>
 <div id="status" class="status"></div><div id="values" class="values"></div>
 <div class="found"><b>今回見つけた整数対角線</b><div id="found" class="found-list">まだありません</div></div>
@@ -52,8 +52,8 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 
 </main>
 <script>
-const S={a:20,b:15,c:12}, keys=['a','b','c'], seen=new Set();
-let selected='a', holdTimer=null;
+const LIMIT=1000000, S={a:20,b:15,c:12}, keys=['a','b','c'], seen=new Set();
+let selected='a', searchState={up:false,down:false};
 const $=id=>document.getElementById(id), svg=$('view'), origin={x:278,y:260};
 const vec={a:{x:1,y:.20},b:{x:-.74,y:.46},c:{x:0,y:-1}};
 const len=(k)=>{const max=Math.max(S.a,S.b,S.c);return 70+170*S[k]/max};
@@ -79,7 +79,6 @@ function research(){
  let hypothesis=odd.length?'奇数回現れる素数候補：'+odd.map(x=>x[0]).join(', '):'Sは平方数候補（全素因数の指数が偶数）';
  if(!faceOk)hypothesis+='。ただし面対角線3本が整数でないため、定理の反例にはならない。';
  $('researchResult').innerHTML='<span class="tag">S='+n+'</span> '+factorText+'<br><b>今回の仮説：</b>'+hypothesis;
- research();
 }
 function drawResearchLog(){
  $('researchLog').innerHTML=researchLog.length?researchLog.slice().reverse().map(x=>'<div><span class="tag">'+x.time+'</span>'+x.text+'</div>').join(''):'まだ研究記録はありません。';
@@ -99,23 +98,45 @@ function render(){
  all.forEach(([n,v,ok])=>{if(ok){const z=n+': '+S.a+'×'+S.b+'×'+S.c+' → '+v;seen.add(z)}});
  $('found').innerHTML=seen.size?[...seen].reverse().map(x=>'<div class="found-item">'+x+'</div>').join(''):'まだありません';
  const faces=tests.every(t=>isInt(t[3])), spaceOk=all[3][2], st=$('status');
+ updateSearchControls();
  if(faces&&spaceOk){st.className='status perfect';st.innerHTML='<b>完全直方体を発見！</b><br>未知の組み合わせかもしれません。値を保存しよう。'}
  else if(faces){st.className='status euler';st.innerHTML='<b>オイラー直方体！</b><br>3つの面対角線がすべて整数です。あとは空間対角線。'}
  else{st.className='status';st.innerHTML='面対角線を整数にすると、その対角線が赤く残ります。まず1本を赤くしてみよう。'}
  research();
 }
 function format(v){return Number.isInteger(v)?v:v.toFixed(2)}
-function selectEdge(k){selected=k;render()}
-keys.forEach(k=>{$(k).addEventListener('focus',()=>selectEdge(k));$(k).addEventListener('input',e=>{selected=k;S[k]=Math.max(1,Math.min(1000,+e.target.value||1));render()})});
+function resetSearch(){searchState={up:false,down:false}}
+function selectEdge(k){selected=k;resetSearch();render()}
+keys.forEach(k=>{$(k).addEventListener('focus',()=>selectEdge(k));$(k).addEventListener('input',e=>{selected=k;S[k]=Math.max(1,Math.min(LIMIT,+e.target.value||1));resetSearch();render()})});
 let drag=null;
 keys.forEach(k=>{const h=$('h'+k);h.addEventListener('pointerdown',e=>{selectEdge(k);drag=k;h.setPointerCapture(e.pointerId)})});
-svg.addEventListener('pointermove',e=>{if(!drag)return;const r=svg.getBoundingClientRect(),p={x:(e.clientX-r.left)*650/r.width,y:(e.clientY-r.top)*470/r.height},v=vec[drag],dot=(p.x-origin.x)*v.x+(p.y-origin.y)*v.y,norm=v.x*v.x+v.y*v.y,pixels=Math.max(70,dot/norm);S[drag]=Math.max(1,Math.min(1000,Math.round(pixels/2)));render()});
+svg.addEventListener('pointermove',e=>{if(!drag)return;const r=svg.getBoundingClientRect(),p={x:(e.clientX-r.left)*650/r.width,y:(e.clientY-r.top)*470/r.height},v=vec[drag],dot=(p.x-origin.x)*v.x+(p.y-origin.y)*v.y,norm=v.x*v.x+v.y*v.y,pixels=Math.max(70,dot/norm);S[drag]=Math.max(1,Math.min(LIMIT,Math.round(pixels/2)));resetSearch();render()});
 svg.addEventListener('pointerup',()=>drag=null);svg.addEventListener('pointercancel',()=>drag=null);
-function changeSelected(delta){S[selected]=Math.max(1,Math.min(1000,S[selected]+delta));render()}
-document.querySelectorAll('.rail-btn').forEach(btn=>{const delta=+btn.dataset.delta;const stop=()=>{clearInterval(holdTimer);holdTimer=null};btn.addEventListener('pointerdown',e=>{e.preventDefault();changeSelected(delta);stop();holdTimer=setInterval(()=>changeSelected(delta),140);btn.setPointerCapture(e.pointerId)});btn.addEventListener('pointerup',stop);btn.addEventListener('pointercancel',stop);btn.addEventListener('lostpointercapture',stop)});
-$('euler').addEventListener('click',()=>{Object.assign(S,{a:44,b:117,c:240});render()});
+function fixedPairValid(){const fixed=keys.filter(k=>k!==selected);return isInt(S[fixed[0]]*S[fixed[0]]+S[fixed[1]]*S[fixed[1]])}
+function candidateValid(n){
+ const t={...S,[selected]:n}, faces=[t.a*t.a+t.b*t.b,t.a*t.a+t.c*t.c,t.b*t.b+t.c*t.c];
+ if(!faces.every(isInt))return false;
+ const sum=t.a*t.a+t.b*t.b+t.c*t.c, fs=factorize(sum);
+ return !fs.some(x=>x[0]%4===3&&x[1]%2)&&!(fs.some(x=>x[0]===5&&x[1]===1));
+}
+function updateSearchControls(){
+ const valid=fixedPairValid(), buttons=[...document.querySelectorAll('.rail-btn')];
+ buttons.forEach(btn=>{const up=+btn.dataset.direction>0;btn.disabled=!valid||(up?searchState.up:searchState.down)});
+ $('searchNotice').textContent=!valid?'固定した2辺の対角線が整数でないため、上下探索できません。':searchState.up&&searchState.down?'1〜100万の範囲に他の成立値はありません。':searchState.up?'上方向は100万までありません。':searchState.down?'下方向は1までありません。':'固定2辺は成立済み。上下から次の値を探せます。';
+}
+function searchSelected(direction){
+ if(!fixedPairValid()){updateSearchControls();return}
+ const end=direction>0?LIMIT:1;
+ for(let n=S[selected]+direction;direction>0?n<=end:n>=end;n+=direction){
+  if(candidateValid(n)){S[selected]=n;resetSearch();render();return}
+ }
+ if(direction>0)searchState.up=true;else searchState.down=true;
+ updateSearchControls();
+}
+document.querySelectorAll('.rail-btn').forEach(btn=>btn.addEventListener('click',()=>searchSelected(+btn.dataset.direction)));
+$('euler').addEventListener('click',()=>{Object.assign(S,{a:44,b:117,c:240});resetSearch();render()});
 const samples=[[44,117,240],[85,132,720],[240,252,275],[140,480,693],[117,520,756]];
-$('sample').addEventListener('click',()=>{const x=samples[Math.floor(Math.random()*samples.length)];Object.assign(S,{a:x[0],b:x[1],c:x[2]});render()});
+$('sample').addEventListener('click',()=>{const x=samples[Math.floor(Math.random()*samples.length)];Object.assign(S,{a:x[0],b:x[1],c:x[2]});resetSearch();render()});
 $('record').addEventListener('click',()=>{const n=S.a*S.a+S.b*S.b+S.c*S.c,fs=factorize(n).map(x=>x[0]+'^'+x[1]).join('×');researchLog.push({time:new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'}),text:S.a+'×'+S.b+'×'+S.c+' / S='+n+' / '+fs});drawResearchLog()});
 $('clearLog').addEventListener('click',()=>{researchLog.length=0;drawResearchLog()});
 render();
