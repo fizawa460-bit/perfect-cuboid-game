@@ -22,6 +22,7 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 .research{margin-top:15px}.research-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.research-head h2{margin:0}.research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.theorem{padding:12px;background:#091625;border:1px solid #263d58;border-radius:12px}.theorem.pass{border-color:#42c98b;background:#0d2a25}.theorem.hit{border-color:#ffb454;background:#332512}.theorem small{display:block;color:#9fb2c8;margin-top:5px;line-height:1.45}.research-result{margin-top:10px;padding:12px;border-radius:11px;background:#101f33;line-height:1.55}.research-actions{display:flex;gap:8px;margin-top:10px}.research-actions button{flex:1}.log{margin-top:10px;max-height:150px;overflow:auto;font-size:13px;color:#b9cadb}.log div{padding:6px 0;border-bottom:1px solid #21374f}.tag{display:inline-block;padding:2px 7px;border-radius:999px;background:#23415f;color:#8af1e9;font-size:11px;margin-right:6px}
 
 .distribution{margin-top:15px}.dist-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.dist-head h2{margin:0}.dist-controls{display:flex;gap:7px}.dist-controls button.active{border-color:var(--cyan);background:#17425b;color:#8ff8f5}.plot-wrap{position:relative;margin-top:12px;background:linear-gradient(145deg,#091827,#07111f);border:1px solid #263d58;border-radius:14px;overflow:hidden;touch-action:none}.plot-wrap svg{display:block;width:100%;height:460px}.axis3d{stroke:#54708d;stroke-width:1.5}.grid3d{stroke:#294158;stroke-width:1;opacity:.7}.point3d{fill:#ff4d5f;stroke:#ffd1d6;stroke-width:1.5;cursor:pointer;filter:drop-shadow(0 0 4px #ff4d5f88)}.point3d.selected{fill:#fff;stroke:#5de1e6;stroke-width:3;filter:drop-shadow(0 0 8px #5de1e6)}.axis-label{fill:#a9bed3;font-size:13px;font-weight:700}.dist-info{position:absolute;left:12px;right:12px;bottom:10px;background:#07111fe8;border:1px solid #34506d;border-radius:10px;padding:9px 11px;color:#dbeaff;font-size:13px}.dist-note{color:#9fb2c8;font-size:13px;line-height:1.5;margin:9px 2px 0}
+.reverse-research{margin-top:15px}.reverse-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:12px 0}.reverse-tabs button.active{border-color:var(--cyan);background:#17425b;color:#8ff8f5}.research-view[hidden]{display:none!important}.research-plot{width:100%;height:360px;display:block;background:linear-gradient(145deg,#091827,#07111f);border:1px solid #263d58;border-radius:13px}.research-axis{stroke:#54708d;stroke-width:1.5}.research-guide{stroke:#294158;stroke-width:1}.research-point{fill:#ffb454;stroke:#fff3;stroke-width:1}.research-line-b{fill:none;stroke:#5de1e6;stroke-width:2}.research-line-c{fill:none;stroke:#ff7f91;stroke-width:2}.research-label{fill:#9fb2c8;font-size:12px}.research-legend{display:flex;gap:14px;flex-wrap:wrap;margin:8px 2px;color:#aebed0;font-size:12px}.research-list{display:grid;gap:8px;max-height:360px;overflow:auto}.research-row{padding:10px 12px;background:#091625;border-radius:10px}.research-empty{padding:22px;text-align:center;color:#9fb2c8;background:#091625;border-radius:10px}@media(max-width:720px){.reverse-tabs{grid-template-columns:1fr}.research-plot{height:300px}}
 @media(max-width:720px){.dist-head{align-items:flex-start;flex-direction:column}.dist-controls{width:100%}.dist-controls button{flex:1}.plot-wrap svg{height:390px}}
 @media(max-width:720px){.reverse-grid{grid-template-columns:1fr}.reverse-actions{flex-direction:column}.menu{margin-top:3vh}main{padding:11px}.grid{grid-template-columns:1fr}.stage,.stage svg{min-height:390px;height:390px}.top{align-items:flex-start;flex-direction:column}.top button{width:100%}.research-grid{grid-template-columns:1fr}.research-head{align-items:flex-start;flex-direction:column}.research-actions{flex-direction:column}}
 </style>
@@ -79,6 +80,18 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 </section>
 <aside class="card"><h2 style="margin-top:0">逆算結果</h2><div id="reverseStatus" class="status"></div><div id="reverseValues" class="values reverse-calc"></div></aside>
 </div>
+<section class="card reverse-research">
+<h2 style="margin:0">入れ子解の研究ビュー</h2>
+<p class="sub">空間対角線と b²+c² が整数になる原始解だけを同じ母集団で比較します。</p>
+<div class="reverse-tabs">
+<button id="researchRatio" class="active">① b/d・c/d</button>
+<button id="researchDistance">② 平方数までの距離</button>
+<button id="researchTwoFaces">③ 面2本成立例</button>
+</div>
+<div id="viewRatio" class="research-view"><svg id="ratioPlot" class="research-plot" viewBox="0 0 900 360" aria-label="b/dとc/dの散布図"></svg><p class="dist-note">横軸 b/d、縦軸 c/d。点は空間対角線と b²+c² が成立する原始解です。</p></div>
+<div id="viewDistance" class="research-view" hidden><div class="research-legend"><span style="color:#5de1e6">● a²+b²</span><span style="color:#ff7f91">● a²+c²</span></div><svg id="distancePlot" class="research-plot" viewBox="0 0 900 360" aria-label="平方数までの相対距離"></svg><p class="dist-note">横軸は解番号、縦軸は最も近い平方数までの差 ÷ d²。0に触れると、その面も整数です。</p></div>
+<div id="viewTwoFaces" class="research-view" hidden><div id="twoFacesList" class="research-list"></div><p class="dist-note">b²+c² は全件成立済み。aを含む二面の片方も整数になり、残り一面だけ失敗する例を表示します。</p></div>
+</section>
 </section>
 
 <section id="screenDistribution" class="screen" hidden>
@@ -232,6 +245,53 @@ function makePrimitiveSpaceSolutions(maxD=150){
 }
 const primitiveSpace=makePrimitiveSpaceSolutions();
 let reverseIndex=0;
+const nestedSpace=primitiveSpace.filter(v=>isInt(v[1]*v[1]+v[2]*v[2]));
+function nearestSquareDelta(n){const r=Math.round(Math.sqrt(n));return r*r-n}
+function clearResearchSvg(id){
+ const svg=$(id);svg.replaceChildren();
+ const axis=(x1,y1,x2,y2,cls='research-axis')=>svg.append(svgEl('line',{x1,y1,x2,y2,class:cls}));
+ axis(55,315,870,315);axis(55,25,55,315);
+ return svg;
+}
+function addPlotLabel(svg,text,x,y,anchor='start'){
+ const t=svgEl('text',{x,y,class:'research-label','text-anchor':anchor});t.textContent=text;svg.append(t);
+}
+function drawRatioResearch(){
+ const svg=clearResearchSvg('ratioPlot');
+ [0,.25,.5,.75,1].forEach(v=>{const x=55+v*815,y=315-v*290;svg.append(svgEl('line',{x1:x,y1:25,x2:x,y2:315,class:'research-guide'}));svg.append(svgEl('line',{x1:55,y1:y,x2:870,y2:y,class:'research-guide'}));addPlotLabel(svg,v.toFixed(2),x,337,'middle');addPlotLabel(svg,v.toFixed(2),47,y+4,'end')});
+ nestedSpace.forEach(([a,b,c,d],i)=>{const x=55+(b/d)*815,y=315-(c/d)*290,p=svgEl('circle',{cx:x,cy:y,r:5,class:'research-point'});const title=svgEl('title');title.textContent='#'+(i+1)+' ('+[a,b,c,d].join(', ')+')';p.append(title);svg.append(p)});
+ addPlotLabel(svg,'b / d',855,352,'end');addPlotLabel(svg,'c / d',60,18);
+}
+function drawDistanceResearch(){
+ const svg=clearResearchSvg('distancePlot');
+ const rows=nestedSpace.map(([a,b,c,d])=>({ab:Math.abs(nearestSquareDelta(a*a+b*b))/(d*d),ac:Math.abs(nearestSquareDelta(a*a+c*c))/(d*d)}));
+ const max=Math.max(...rows.flatMap(r=>[r.ab,r.ac]),1e-9);
+ [0,.25,.5,.75,1].forEach(v=>{const y=315-v*290;svg.append(svgEl('line',{x1:55,y1:y,x2:870,y2:y,class:'research-guide'}));addPlotLabel(svg,(max*v).toExponential(1),47,y+4,'end')});
+ const xAt=i=>55+(rows.length===1?407.5:i*815/(rows.length-1));
+ for(const [key,cls] of [['ab','research-line-b'],['ac','research-line-c']]){
+  const pts=rows.map((r,i)=>xAt(i)+','+(315-r[key]/max*290)).join(' ');
+  svg.append(svgEl('polyline',{points:pts,class:cls}));
+  rows.forEach((r,i)=>svg.append(svgEl('circle',{cx:xAt(i),cy:315-r[key]/max*290,r:3,class:key==='ab'?'research-line-b':'research-line-c'})));
+ }
+ addPlotLabel(svg,'解番号 →',855,352,'end');addPlotLabel(svg,'0',47,319,'end');
+}
+function drawTwoFacesResearch(){
+ const hits=nestedSpace.filter(([a,b,c])=>[isInt(a*a+b*b),isInt(a*a+c*c)].filter(Boolean).length===1);
+ $('twoFacesList').innerHTML=hits.length?hits.map(([a,b,c,d])=>{
+  const ab=a*a+b*b,ac=a*a+c*c,abOk=isInt(ab),failed=abOk?ac:ab,delta=nearestSquareDelta(failed);
+  return '<div class="research-row"><b>'+a+' × '+b+' × '+c+'（d='+d+'）</b><br>成立：b²+c² と '+(abOk?'a²+b²':'a²+c²')+' ／ 残りの差 Δ='+(delta>0?'+':'')+delta+'</div>';
+ }).join(''):'<div class="research-empty">現在の範囲（d ≤ 150）では0件です。範囲を広げると自動で抽出されます。</div>';
+}
+function showReverseResearch(name){
+ const map={ratio:'viewRatio',distance:'viewDistance',two:'viewTwoFaces'};
+ Object.entries(map).forEach(([k,id])=>$(id).hidden=k!==name);
+ [['researchRatio','ratio'],['researchDistance','distance'],['researchTwoFaces','two']].forEach(([id,k])=>$(id).classList.toggle('active',k===name));
+ if(name==='ratio')drawRatioResearch();if(name==='distance')drawDistanceResearch();if(name==='two')drawTwoFacesResearch();
+}
+$('researchRatio').addEventListener('click',()=>showReverseResearch('ratio'));
+$('researchDistance').addEventListener('click',()=>showReverseResearch('distance'));
+$('researchTwoFaces').addEventListener('click',()=>showReverseResearch('two'));
+drawRatioResearch();
 function reverseRender(){
  const [a,b,c,d]=primitiveSpace[reverseIndex];
  $('reverseCount').textContent='原始解 '+(reverseIndex+1)+' / '+primitiveSpace.length+'（d ≤ 150）';
