@@ -17,6 +17,7 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 .values{display:grid;gap:9px;margin-top:12px}.value{display:flex;justify-content:space-between;gap:8px;padding:10px 11px;background:#091625;border-radius:10px}.value strong{font-variant-numeric:tabular-nums}.value.ok{outline:2px solid var(--red);color:#ff7684;background:#35141d}.controls{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:12px 0}.controls label{font-size:12px;color:#9fb2c8}.controls input{width:100%;margin-top:4px;border:1px solid #314964;border-radius:8px;background:#081421;color:#fff;padding:9px;font-size:16px}
 .status{padding:12px;border-radius:11px;background:#0a1726;color:#bac9d8;line-height:1.5}.status.euler{background:#342413;color:#ffd99d}.status.perfect{background:#3a121b;color:#ff92a0;animation:pulse 1s infinite alternate}@keyframes pulse{to{box-shadow:0 0 22px #ff4d5f66}}
 .found{margin-top:12px;font-size:13px;color:#9fb2c8}.found-list{max-height:110px;overflow:auto}.found-item{padding:5px 0;color:#ff8591}
+.search-box{margin:10px 0;padding:11px;background:#091625;border-radius:11px}.search-box label{display:block;font-size:12px;color:#9fb2c8}.search-box select{width:100%;margin-top:5px;border:1px solid #314964;border-radius:8px;background:#081421;color:#fff;padding:9px}.search-note{min-height:1.4em;margin-top:7px;color:#8af1e9;font-size:12px;line-height:1.45}
 
 .research{margin-top:15px}.research-head{display:flex;justify-content:space-between;gap:12px;align-items:center}.research-head h2{margin:0}.research-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:12px}.theorem{padding:12px;background:#091625;border:1px solid #263d58;border-radius:12px}.theorem.pass{border-color:#42c98b;background:#0d2a25}.theorem.hit{border-color:#ffb454;background:#332512}.theorem small{display:block;color:#9fb2c8;margin-top:5px;line-height:1.45}.research-result{margin-top:10px;padding:12px;border-radius:11px;background:#101f33;line-height:1.55}.research-actions{display:flex;gap:8px;margin-top:10px}.research-actions button{flex:1}.log{margin-top:10px;max-height:150px;overflow:auto;font-size:13px;color:#b9cadb}.log div{padding:6px 0;border-bottom:1px solid #21374f}.tag{display:inline-block;padding:2px 7px;border-radius:999px;background:#23415f;color:#8af1e9;font-size:11px;margin-right:6px}
 @media(max-width:720px){main{padding:11px}.grid{grid-template-columns:1fr}.stage,.stage svg{min-height:390px;height:390px}.top{align-items:flex-start;flex-direction:column}.top button{width:100%}.research-grid{grid-template-columns:1fr}.research-head{align-items:flex-start;flex-direction:column}.research-actions{flex-direction:column}}
@@ -35,10 +36,11 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 <aside class="card">
 <h2 style="margin:0 0 4px">現在の直方体</h2>
 <div class="controls">
-<label>辺 a<input id="a" type="number" min="1" max="1000"></label>
-<label>辺 b<input id="b" type="number" min="1" max="1000"></label>
-<label>辺 c<input id="c" type="number" min="1" max="1000"></label>
+<label>辺 a<input id="a" type="number" min="1" max="1000000"></label>
+<label>辺 b<input id="b" type="number" min="1" max="1000000"></label>
+<label>辺 c<input id="c" type="number" min="1" max="1000000"></label>
 </div>
+<div class="search-box"><label>辺を動かすときの仮説<select id="hypothesis"><option value="current">現在の赤い整数条件を維持</option><option value="one">面対角線を1本以上整数にする</option><option value="euler">3本とも整数（オイラー直方体）</option></select></label><div id="searchNote" class="search-note">選択した辺を動かすと、条件に合う次の値を探します。</div></div>
 <div id="status" class="status"></div><div id="values" class="values"></div>
 <div class="found"><b>今回見つけた整数対角線</b><div id="found" class="found-list">まだありません</div></div>
 </aside></div>
@@ -52,8 +54,8 @@ button{border:1px solid #34506d;background:#152942;color:#fff;border-radius:12px
 
 </main>
 <script>
-const S={a:20,b:15,c:12}, keys=['a','b','c'], seen=new Set();
-let selected='a', holdTimer=null;
+const MAX_EDGE=1000000, S={a:20,b:15,c:12}, keys=['a','b','c'], seen=new Set();
+let selected='a', holdTimer=null, searchToken=0, hypothesisMask=null;
 const $=id=>document.getElementById(id), svg=$('view'), origin={x:278,y:260};
 const vec={a:{x:1,y:.20},b:{x:-.74,y:.46},c:{x:0,y:-1}};
 const len=(k)=>{const max=Math.max(S.a,S.b,S.c);return 70+170*S[k]/max};
@@ -79,7 +81,6 @@ function research(){
  let hypothesis=odd.length?'奇数回現れる素数候補：'+odd.map(x=>x[0]).join(', '):'Sは平方数候補（全素因数の指数が偶数）';
  if(!faceOk)hypothesis+='。ただし面対角線3本が整数でないため、定理の反例にはならない。';
  $('researchResult').innerHTML='<span class="tag">S='+n+'</span> '+factorText+'<br><b>今回の仮説：</b>'+hypothesis;
- research();
 }
 function drawResearchLog(){
  $('researchLog').innerHTML=researchLog.length?researchLog.slice().reverse().map(x=>'<div><span class="tag">'+x.time+'</span>'+x.text+'</div>').join(''):'まだ研究記録はありません。';
@@ -105,14 +106,35 @@ function render(){
  research();
 }
 function format(v){return Number.isInteger(v)?v:v.toFixed(2)}
-function selectEdge(k){selected=k;render()}
-keys.forEach(k=>{$(k).addEventListener('focus',()=>selectEdge(k));$(k).addEventListener('input',e=>{selected=k;S[k]=Math.max(1,Math.min(1000,+e.target.value||1));render()})});
+function faceMask(a=S.a,b=S.b,c=S.c){return [isInt(a*a+b*b),isInt(a*a+c*c),isInt(b*b+c*c)]}
+function selectEdge(k){selected=k;hypothesisMask=faceMask();render()}
+keys.forEach(k=>{$(k).addEventListener('focus',()=>selectEdge(k));$(k).addEventListener('change',e=>{selected=k;S[k]=Math.max(1,Math.min(MAX_EDGE,+e.target.value||1));hypothesisMask=faceMask();$('searchNote').textContent='直接入力しました。次の操作から仮説探索を再開します。';render()})});
 let drag=null;
 keys.forEach(k=>{const h=$('h'+k);h.addEventListener('pointerdown',e=>{selectEdge(k);drag=k;h.setPointerCapture(e.pointerId)})});
-svg.addEventListener('pointermove',e=>{if(!drag)return;const r=svg.getBoundingClientRect(),p={x:(e.clientX-r.left)*650/r.width,y:(e.clientY-r.top)*470/r.height},v=vec[drag],dot=(p.x-origin.x)*v.x+(p.y-origin.y)*v.y,norm=v.x*v.x+v.y*v.y,pixels=Math.max(70,dot/norm);S[drag]=Math.max(1,Math.min(1000,Math.round(pixels/2)));render()});
+svg.addEventListener('pointermove',e=>{if(!drag)return;const r=svg.getBoundingClientRect(),p={x:(e.clientX-r.left)*650/r.width,y:(e.clientY-r.top)*470/r.height},v=vec[drag],dot=(p.x-origin.x)*v.x+(p.y-origin.y)*v.y,norm=v.x*v.x+v.y*v.y,pixels=Math.max(70,dot/norm);const target=Math.max(1,Math.min(MAX_EDGE,Math.round(pixels/2)));if(target!==S[drag])findMatchingValue(target>S[drag]?1:-1,Math.max(1,Math.abs(target-S[drag])))}); 
 svg.addEventListener('pointerup',()=>drag=null);svg.addEventListener('pointercancel',()=>drag=null);
-function changeSelected(delta){S[selected]=Math.max(1,Math.min(1000,S[selected]+delta));render()}
-document.querySelectorAll('.rail-btn').forEach(btn=>{const delta=+btn.dataset.delta;const stop=()=>{clearInterval(holdTimer);holdTimer=null};btn.addEventListener('pointerdown',e=>{e.preventDefault();changeSelected(delta);stop();holdTimer=setInterval(()=>changeSelected(delta),140);btn.setPointerCapture(e.pointerId)});btn.addEventListener('pointerup',stop);btn.addEventListener('pointercancel',stop);btn.addEventListener('lostpointercapture',stop)});
+function matchesHypothesis(value){
+ const v={...S,[selected]:value}, mask=faceMask(v.a,v.b,v.c), mode=$('hypothesis').value;
+ if(mode==='euler')return mask.every(Boolean);
+ if(mode==='one')return mask.some(Boolean);
+ const target=hypothesisMask||faceMask();
+ return target.some(Boolean)?target.every((needed,i)=>!needed||mask[i]):mask.some(Boolean);
+}
+async function findMatchingValue(direction,offset=1){
+ const token=++searchToken, start=Math.max(1,Math.min(MAX_EDGE,S[selected]+direction*offset));
+ $('searchNote').textContent='辺 '+selected+' を '+start+' から '+(direction>0?'上':'下')+'方向へ探索中…';
+ let value=start, checked=0;
+ while(value>=1&&value<=MAX_EDGE){
+  const end=direction>0?Math.min(MAX_EDGE,value+19999):Math.max(1,value-19999);
+  for(;direction>0?value<=end:value>=end;value+=direction){if(matchesHypothesis(value)){if(token!==searchToken)return;S[selected]=value;hypothesisMask=faceMask();$('searchNote').textContent='条件一致：辺 '+selected+' = '+value+'（'+checked.toLocaleString()+'件探索）';render();return}checked++}
+  if(token!==searchToken)return;
+  await new Promise(requestAnimationFrame);
+ }
+ $('searchNote').textContent=(direction>0?'上限100万':'下限1')+'まで探しましたが、現在の仮説に合う値はありません。これ以上は探索しません。';
+}
+function changeSelected(delta){findMatchingValue(Math.sign(delta),Math.abs(delta))}
+document.querySelectorAll('.rail-btn').forEach(btn=>{const delta=+btn.dataset.delta;btn.addEventListener('click',e=>{e.preventDefault();changeSelected(delta)})});
+$('hypothesis').addEventListener('change',()=>{hypothesisMask=faceMask();$('searchNote').textContent='仮説を変更しました。辺を動かすと条件一致値を最大100万まで探します。'});
 $('euler').addEventListener('click',()=>{Object.assign(S,{a:44,b:117,c:240});render()});
 const samples=[[44,117,240],[85,132,720],[240,252,275],[140,480,693],[117,520,756]];
 $('sample').addEventListener('click',()=>{const x=samples[Math.floor(Math.random()*samples.length)];Object.assign(S,{a:x[0],b:x[1],c:x[2]});render()});
