@@ -1,0 +1,105 @@
+name: One-face lower-bound stage 10
+
+on:
+  pull_request:
+    paths:
+      - "data/one_face_lower_bound_stage10_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_one_face_lower_bound_stage10.py"
+      - "scripts/update_one_face_lower_bound_stage10_memo.py"
+      - "scripts/audit_face_divisor_chain_stage9.py"
+      - ".github/workflows/one-face-lower-bound-stage10.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  explicit-family:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+
+      - name: Compile Stage10 scripts
+        run: |
+          python -m py_compile scripts/audit_one_face_lower_bound_stage10.py
+          python -m py_compile scripts/update_one_face_lower_bound_stage10_memo.py
+
+      - name: Run Stage10 explicit-family audit
+        run: |
+          python scripts/audit_one_face_lower_bound_stage10.py \
+            --write-report generated-one-face-lower-bound-stage10-report.json
+
+      - name: Regenerate Stage10 research memo
+        run: |
+          python scripts/update_one_face_lower_bound_stage10_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-one-face-lower-bound-stage10-report.json \
+            --output generated-face-ratio-geometry-research.md
+          grep -n "4.19.*明示的無限族" generated-face-ratio-geometry-research.md
+          grep -n "N_1(B).*B^{1/4}" generated-face-ratio-geometry-research.md
+          grep -n "Stage10追補" generated-face-ratio-geometry-research.md
+          if grep -P "\t" generated-face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in generated Markdown" >&2
+            exit 1
+          fi
+
+      - name: Compare committed Stage10 outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed = json.loads(Path("data/one_face_lower_bound_stage10_report.json").read_text(encoding="utf-8"))
+          generated = json.loads(Path("generated-one-face-lower-bound-stage10-report.json").read_text(encoding="utf-8"))
+          if committed != generated:
+              raise SystemExit("committed Stage10 report differs from regenerated output")
+
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          start = "<!-- ONE_FACE_LOWER_BOUND_STAGE10_START -->"
+          end = "<!-- ONE_FACE_LOWER_BOUND_STAGE10_END -->"
+
+          def extract_block(text: str) -> str:
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit("Stage10 markers are missing or duplicated")
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          if extract_block(committed_text) != extract_block(generated_text):
+              raise SystemExit("committed Stage10 memo block differs from regenerated block")
+
+          required_lines = [
+              "- $m\\bmod14\\in\\{2,4,10,12\\}$ で与えられるprimitiveな一面のみ成立無限族が存在し、$N_1(B)\\gg B^{1/4}$ という無条件下界が得られること",
+              "  - Stage10追補：後者の固定合同部分族は4.19節で構成した。未確認なのは、より強い$N_1(B)$下界・主項とsquare sieveへ接続する再パラメータ化である。",
+          ]
+          for line in required_lines:
+              if committed_text.count(line) != 1 or generated_text.count(line) != 1:
+                  raise SystemExit(f"Stage10 conclusion line mismatch: {line}")
+
+          temporary = [
+              Path("docs/STAGE10_DRAFT.md"),
+              Path("docs/STAGE10_PR_PENDING.md"),
+              Path(".github/workflows/stage10-bootstrap.yml"),
+          ]
+          leftovers = [str(path) for path in temporary if path.exists()]
+          if leftovers:
+              raise SystemExit(f"temporary Stage10 files remain: {leftovers}")
+          PY
+
+      - name: Upload Stage10 outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: one-face-lower-bound-stage10
+          path: |
+            generated-one-face-lower-bound-stage10-report.json
+            generated-face-ratio-geometry-research.md
