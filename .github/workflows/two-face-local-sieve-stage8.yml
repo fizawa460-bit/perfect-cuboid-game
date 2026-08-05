@@ -55,16 +55,38 @@ jobs:
           import json
           from pathlib import Path
 
-          committed = Path("data/two_face_cuboids_1e6_stage8_local_sieve_report.json")
-          generated = Path("generated-two-face-stage8-local-sieve-report.json")
-          if not committed.exists():
-              raise SystemExit(f"required committed output is missing: {committed}")
-          expected = json.loads(committed.read_text(encoding="utf-8"))
-          actual = json.loads(generated.read_text(encoding="utf-8"))
+          committed_report = Path("data/two_face_cuboids_1e6_stage8_local_sieve_report.json")
+          generated_report = Path("generated-two-face-stage8-local-sieve-report.json")
+          if not committed_report.exists():
+              raise SystemExit(f"required committed output is missing: {committed_report}")
+          expected = json.loads(committed_report.read_text(encoding="utf-8"))
+          actual = json.loads(generated_report.read_text(encoding="utf-8"))
           if expected != actual:
-              raise SystemExit(f"{committed} differs from regenerated output")
+              raise SystemExit(f"{committed_report} differs from regenerated output")
+
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          start = "<!-- TWO_FACE_STAGE8_START -->"
+          end = "<!-- TWO_FACE_STAGE8_END -->"
+
+          def extract_block(text: str) -> str:
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit("stage-eight markers are missing or duplicated")
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          if extract_block(committed_text) != extract_block(generated_text):
+              raise SystemExit("committed stage-eight memo block differs from regenerated block")
+
+          required_prefixes = [
+              "- 二面成立楕円ファイバーの $j$-写像について、",
+              "- 実現 $\\lambda$ の疎性を説明する大域的機構として、",
+          ]
+          for prefix in required_prefixes:
+              committed_lines = [line for line in committed_text.splitlines() if line.startswith(prefix)]
+              generated_lines = [line for line in generated_text.splitlines() if line.startswith(prefix)]
+              if committed_lines != generated_lines or len(committed_lines) != 1:
+                  raise SystemExit(f"stage-eight conclusion line mismatch: {prefix}")
           PY
-          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
       - name: Upload stage-eight outputs
         uses: actions/upload-artifact@v4
