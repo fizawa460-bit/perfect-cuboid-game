@@ -1,0 +1,64 @@
+name: Two-face rank and height stage 5
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
+      - "data/two_face_cuboids_1e6_stage5_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_two_face_rank_height_stage5.py"
+      - ".github/workflows/two-face-rank-height-stage5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rank-generator-height:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PARI GP
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends pari-gp
+          gp --version
+
+      - name: Run stage-five audit
+        run: |
+          python scripts/audit_two_face_rank_height_stage5.py \
+            --rank-efforts 4,8 \
+            --rank-timeout-per-attempt 900 \
+            --generator-saturation-bound 1000 \
+            --write-report generated-two-face-stage5-report.json
+
+      - name: Compare committed output when present
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed = Path("data/two_face_cuboids_1e6_stage5_report.json")
+          generated = Path("generated-two-face-stage5-report.json")
+          if not committed.exists():
+              print(f"{committed} is not committed yet; skipping comparison")
+          else:
+              expected = json.loads(committed.read_text(encoding="utf-8"))
+              actual = json.loads(generated.read_text(encoding="utf-8"))
+              if expected != actual:
+                  raise SystemExit(f"{committed} differs from regenerated output")
+          PY
+
+      - name: Upload stage-five report
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-rank-height-stage5
+          path: generated-two-face-stage5-report.json
