@@ -4,7 +4,9 @@ on:
   pull_request:
     paths:
       - "data/two_face_cuboids_1e6_fixed.json"
+      - "docs/face-ratio-geometry-research.md"
       - "scripts/audit_two_face_cuboids.py"
+      - "scripts/update_two_face_research_memo.py"
       - ".github/workflows/two-face-geometry-audit.yml"
   workflow_dispatch:
 
@@ -33,8 +35,18 @@ jobs:
             --write-report two-face-geometry-audit-report.json
           cat two-face-geometry-audit-report.json
 
-      - name: Upload audit report
+      - name: Generate the proposed research memo update
+        run: |
+          python scripts/update_two_face_research_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --output patched-face-ratio-geometry-research.md
+          grep -n "4.3 二面成立曲面" patched-face-ratio-geometry-research.md
+          grep -n "4.11" patched-face-ratio-geometry-research.md
+
+      - name: Upload audit outputs
         uses: actions/upload-artifact@v4
         with:
-          name: two-face-geometry-audit-report
-          path: two-face-geometry-audit-report.json
+          name: two-face-geometry-audit-output
+          path: |
+            two-face-geometry-audit-report.json
+            patched-face-ratio-geometry-research.md
