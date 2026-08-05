@@ -1,0 +1,99 @@
+name: Two-face inverse height stage 7
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_kummer_classification.json"
+      - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
+      - "data/two_face_cuboids_1e6_stage5_report.json"
+      - "data/two_face_cuboids_1e6_stage7_inverse_height_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_two_face_inverse_height_stage7.py"
+      - "scripts/update_two_face_stage7_memo.py"
+      - ".github/workflows/two-face-inverse-height-stage7.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inverse-height:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+
+      - name: Run stage-seven inverse-height audit
+        run: |
+          python scripts/audit_two_face_inverse_height_stage7.py \
+            --write-report generated-two-face-stage7-inverse-height-report.json
+
+      - name: Generate stage-seven research memo
+        run: |
+          python scripts/update_two_face_stage7_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-two-face-stage7-inverse-height-report.json \
+            --output generated-face-ratio-geometry-research.md
+          grep -n "4.16 逆写像" generated-face-ratio-geometry-research.md
+          grep -n "log d.*6h(x)" generated-face-ratio-geometry-research.md
+          grep -n "壁打ち" generated-face-ratio-geometry-research.md
+          if grep -P "\t" generated-face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in generated Markdown" >&2
+            exit 1
+          fi
+
+      - name: Compare committed outputs when present
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed = Path("data/two_face_cuboids_1e6_stage7_inverse_height_report.json")
+          generated = Path("generated-two-face-stage7-inverse-height-report.json")
+          if committed.exists():
+              expected = json.loads(committed.read_text(encoding="utf-8"))
+              actual = json.loads(generated.read_text(encoding="utf-8"))
+              if expected != actual:
+                  raise SystemExit(f"{committed} differs from regenerated output")
+          else:
+              print(f"{committed} is not committed yet; skipping comparison")
+          PY
+
+      - name: Commit reproducible outputs to the PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          cp generated-two-face-stage7-inverse-height-report.json \
+            data/two_face_cuboids_1e6_stage7_inverse_height_report.json
+          cp generated-face-ratio-geometry-research.md \
+            docs/face-ratio-geometry-research.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/two_face_cuboids_1e6_stage7_inverse_height_report.json \
+            docs/face-ratio-geometry-research.md
+          if git diff --cached --quiet; then
+            echo "Generated outputs are already current"
+          else
+            git commit -m "Record stage-seven inverse height audit"
+            git push origin "HEAD:${{ github.head_ref }}"
+          fi
+
+      - name: Upload stage-seven outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-inverse-height-stage7
+          path: |
+            generated-two-face-stage7-inverse-height-report.json
+            generated-face-ratio-geometry-research.md
