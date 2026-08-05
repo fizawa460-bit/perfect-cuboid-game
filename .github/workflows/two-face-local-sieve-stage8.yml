@@ -1,0 +1,97 @@
+name: Two-face local sieve stage 8
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_kummer_classification.json"
+      - "data/two_face_cuboids_1e6_stage8_local_sieve_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_two_face_local_sieve_stage8.py"
+      - "scripts/update_two_face_stage8_memo.py"
+      - ".github/workflows/two-face-local-sieve-stage8.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  local-sieve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+
+      - name: Run stage-eight audit
+        run: |
+          python scripts/audit_two_face_local_sieve_stage8.py \
+            --write-report generated-two-face-stage8-local-sieve-report.json
+
+      - name: Regenerate stage-eight research memo
+        run: |
+          python scripts/update_two_face_stage8_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-two-face-stage8-local-sieve-report.json \
+            --output generated-face-ratio-geometry-research.md
+          grep -n "4.17.*局所sieve" generated-face-ratio-geometry-research.md
+          grep -n "deg(j)=24" generated-face-ratio-geometry-research.md
+          grep -n "単純局所ルートは見切り" generated-face-ratio-geometry-research.md
+          if grep -P "\t" generated-face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in generated Markdown" >&2
+            exit 1
+          fi
+
+      - name: Compare committed outputs with regenerated results
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed_report = Path("data/two_face_cuboids_1e6_stage8_local_sieve_report.json")
+          generated_report = Path("generated-two-face-stage8-local-sieve-report.json")
+          if not committed_report.exists():
+              raise SystemExit(f"required committed output is missing: {committed_report}")
+          expected = json.loads(committed_report.read_text(encoding="utf-8"))
+          actual = json.loads(generated_report.read_text(encoding="utf-8"))
+          if expected != actual:
+              raise SystemExit(f"{committed_report} differs from regenerated output")
+
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          start = "<!-- TWO_FACE_STAGE8_START -->"
+          end = "<!-- TWO_FACE_STAGE8_END -->"
+
+          def extract_block(text: str) -> str:
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit("stage-eight markers are missing or duplicated")
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          if extract_block(committed_text) != extract_block(generated_text):
+              raise SystemExit("committed stage-eight memo block differs from regenerated block")
+
+          required_prefixes = [
+              "- 二面成立楕円ファイバーの $j$-写像について、",
+              "- 実現 $\\lambda$ の疎性を説明する大域的機構として、",
+          ]
+          for prefix in required_prefixes:
+              committed_lines = [line for line in committed_text.splitlines() if line.startswith(prefix)]
+              generated_lines = [line for line in generated_text.splitlines() if line.startswith(prefix)]
+              if committed_lines != generated_lines or len(committed_lines) != 1:
+                  raise SystemExit(f"stage-eight conclusion line mismatch: {prefix}")
+          PY
+
+      - name: Upload stage-eight outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-local-sieve-stage8
+          path: |
+            generated-two-face-stage8-local-sieve-report.json
+            generated-face-ratio-geometry-research.md
