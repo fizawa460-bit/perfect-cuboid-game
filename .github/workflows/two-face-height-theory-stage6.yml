@@ -58,16 +58,38 @@ jobs:
           import json
           from pathlib import Path
 
-          committed = Path("data/two_face_cuboids_1e6_stage6_height_report.json")
-          generated = Path("generated-two-face-stage6-height-report.json")
-          if not committed.exists():
-              raise SystemExit(f"required committed output is missing: {committed}")
-          expected = json.loads(committed.read_text(encoding="utf-8"))
-          actual = json.loads(generated.read_text(encoding="utf-8"))
+          committed_report = Path("data/two_face_cuboids_1e6_stage6_height_report.json")
+          generated_report = Path("generated-two-face-stage6-height-report.json")
+          if not committed_report.exists():
+              raise SystemExit(f"required committed output is missing: {committed_report}")
+          expected = json.loads(committed_report.read_text(encoding="utf-8"))
+          actual = json.loads(generated_report.read_text(encoding="utf-8"))
           if expected != actual:
-              raise SystemExit(f"{committed} differs from regenerated output")
+              raise SystemExit(f"{committed_report} differs from regenerated output")
+
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          start = "<!-- TWO_FACE_STAGE6_START -->"
+          end = "<!-- TWO_FACE_STAGE6_END -->"
+
+          def extract_block(text: str) -> str:
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit("stage-six markers are missing or duplicated")
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          if extract_block(committed_text) != extract_block(generated_text):
+              raise SystemExit("committed stage-six memo block differs from regenerated block")
+
+          required_lines = [
+              "二面成立楕円ファイバーの正の整数点について、",
+              "canonical heightから $d$ への逆向き一様下界、",
+          ]
+          for phrase in required_lines:
+              committed_lines = [line for line in committed_text.splitlines() if phrase in line]
+              generated_lines = [line for line in generated_text.splitlines() if phrase in line]
+              if committed_lines != generated_lines or len(committed_lines) != 1:
+                  raise SystemExit(f"stage-six conclusion line mismatch: {phrase}")
           PY
-          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
       - name: Upload stage-six outputs
         uses: actions/upload-artifact@v4
