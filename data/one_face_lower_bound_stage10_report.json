@@ -1,4 +1,406 @@
 {
-  "status": "placeholder",
-  "note": "This file will be replaced by the deterministic Stage10 audit output before the PR is marked ready."
+  "metadata": {
+    "stage": 10,
+    "title": "Explicit primitive exactly-one-face family",
+    "generated_by": "scripts/audit_one_face_lower_bound_stage10.py",
+    "claim_status": "The family and B^(1/4) lower bound are unconditional. No upper bound for N2(B) and no little-o comparison are claimed."
+  },
+  "family": {
+    "parameter_conditions": [
+      "m>=2",
+      "m mod 14 in {2,4,10,12}"
+    ],
+    "generating_legs": [
+      "2m",
+      "m^2-1"
+    ],
+    "face_diagonal": "p=m^2+1",
+    "remaining_leg": "c=m^2(m^2+2)/2",
+    "space_diagonal": "d=(m^4+2m^2+2)/2",
+    "canonical_order": "sort(2m,m^2-1), followed by c"
+  },
+  "symbolic_identity_audit": {
+    "identities": {
+      "first_pythagorean_identity": "0",
+      "second_pythagorean_identity": "0",
+      "space_diagonal_identity": "0",
+      "c_formula": "0",
+      "d_formula": "0",
+      "c_minus_y": "0",
+      "d_height_gap": "0"
+    },
+    "height_derivative": "2*m*(m**2 + 1)",
+    "proof_notes": [
+      "gcd(2m,m^2-1)=1 for even m: any common divisor divides m and m^2-1, while m^2-1 is odd.",
+      "c>m^2-1 because c-(m^2-1)=m^4/2+1>0.",
+      "c>2m for m>=2 by direct factorization or monotonicity.",
+      "d is strictly increasing for m>0 because d'(m)=2m^3+2m>0.",
+      "d<=m^4 for m>=2 because m^4-2m^2-2>0 when m^2>=4."
+    ]
+  },
+  "congruence_certificate": {
+    "modulus": 7,
+    "square_residues": [
+      0,
+      1,
+      2,
+      4
+    ],
+    "successful_even_classes_mod_14": [
+      2,
+      4,
+      10,
+      12
+    ],
+    "rows": [
+      {
+        "m_mod_14": 0,
+        "m_squared_mod_7": 0,
+        "(2m)^2_mod_7": 0,
+        "(m^2-1)^2_mod_7": 1,
+        "c_mod_7": 0,
+        "c^2_mod_7": 0,
+        "remaining_face_sums_mod_7": [
+          0,
+          1
+        ],
+        "both_nonresidues": false
+      },
+      {
+        "m_mod_14": 2,
+        "m_squared_mod_7": 4,
+        "(2m)^2_mod_7": 2,
+        "(m^2-1)^2_mod_7": 2,
+        "c_mod_7": 5,
+        "c^2_mod_7": 4,
+        "remaining_face_sums_mod_7": [
+          6,
+          6
+        ],
+        "both_nonresidues": true
+      },
+      {
+        "m_mod_14": 4,
+        "m_squared_mod_7": 2,
+        "(2m)^2_mod_7": 1,
+        "(m^2-1)^2_mod_7": 1,
+        "c_mod_7": 4,
+        "c^2_mod_7": 2,
+        "remaining_face_sums_mod_7": [
+          3,
+          3
+        ],
+        "both_nonresidues": true
+      },
+      {
+        "m_mod_14": 6,
+        "m_squared_mod_7": 1,
+        "(2m)^2_mod_7": 4,
+        "(m^2-1)^2_mod_7": 0,
+        "c_mod_7": 5,
+        "c^2_mod_7": 4,
+        "remaining_face_sums_mod_7": [
+          1,
+          4
+        ],
+        "both_nonresidues": false
+      },
+      {
+        "m_mod_14": 8,
+        "m_squared_mod_7": 1,
+        "(2m)^2_mod_7": 4,
+        "(m^2-1)^2_mod_7": 0,
+        "c_mod_7": 5,
+        "c^2_mod_7": 4,
+        "remaining_face_sums_mod_7": [
+          1,
+          4
+        ],
+        "both_nonresidues": false
+      },
+      {
+        "m_mod_14": 10,
+        "m_squared_mod_7": 2,
+        "(2m)^2_mod_7": 1,
+        "(m^2-1)^2_mod_7": 1,
+        "c_mod_7": 4,
+        "c^2_mod_7": 2,
+        "remaining_face_sums_mod_7": [
+          3,
+          3
+        ],
+        "both_nonresidues": true
+      },
+      {
+        "m_mod_14": 12,
+        "m_squared_mod_7": 4,
+        "(2m)^2_mod_7": 2,
+        "(m^2-1)^2_mod_7": 2,
+        "c_mod_7": 5,
+        "c^2_mod_7": 4,
+        "remaining_face_sums_mod_7": [
+          6,
+          6
+        ],
+        "both_nonresidues": true
+      }
+    ],
+    "conclusion": "For every m in the successful classes, both non-generating face sums are quadratic nonresidues modulo 7 and therefore cannot be integer squares."
+  },
+  "finite_validation": {
+    "max_m": 10000,
+    "eligible_parameter_count": 2858,
+    "all_checks_passed": true,
+    "first_examples": [
+      {
+        "m": 2,
+        "a": 3,
+        "b": 4,
+        "c": 12,
+        "d": 13,
+        "p": 5,
+        "remaining_face_residues_mod_7": [
+          6,
+          6
+        ]
+      },
+      {
+        "m": 4,
+        "a": 8,
+        "b": 15,
+        "c": 144,
+        "d": 145,
+        "p": 17,
+        "remaining_face_residues_mod_7": [
+          3,
+          3
+        ]
+      },
+      {
+        "m": 10,
+        "a": 20,
+        "b": 99,
+        "c": 5100,
+        "d": 5101,
+        "p": 101,
+        "remaining_face_residues_mod_7": [
+          3,
+          3
+        ]
+      },
+      {
+        "m": 12,
+        "a": 24,
+        "b": 143,
+        "c": 10512,
+        "d": 10513,
+        "p": 145,
+        "remaining_face_residues_mod_7": [
+          6,
+          6
+        ]
+      },
+      {
+        "m": 16,
+        "a": 32,
+        "b": 255,
+        "c": 33024,
+        "d": 33025,
+        "p": 257,
+        "remaining_face_residues_mod_7": [
+          6,
+          6
+        ]
+      },
+      {
+        "m": 18,
+        "a": 36,
+        "b": 323,
+        "c": 52812,
+        "d": 52813,
+        "p": 325,
+        "remaining_face_residues_mod_7": [
+          3,
+          3
+        ]
+      },
+      {
+        "m": 24,
+        "a": 48,
+        "b": 575,
+        "c": 166464,
+        "d": 166465,
+        "p": 577,
+        "remaining_face_residues_mod_7": [
+          3,
+          3
+        ]
+      },
+      {
+        "m": 26,
+        "a": 52,
+        "b": 675,
+        "c": 229164,
+        "d": 229165,
+        "p": 677,
+        "remaining_face_residues_mod_7": [
+          6,
+          6
+        ]
+      },
+      {
+        "m": 30,
+        "a": 60,
+        "b": 899,
+        "c": 405900,
+        "d": 405901,
+        "p": 901,
+        "remaining_face_residues_mod_7": [
+          6,
+          6
+        ]
+      },
+      {
+        "m": 32,
+        "a": 64,
+        "b": 1023,
+        "c": 525312,
+        "d": 525313,
+        "p": 1025,
+        "remaining_face_residues_mod_7": [
+          3,
+          3
+        ]
+      },
+      {
+        "m": 38,
+        "a": 76,
+        "b": 1443,
+        "c": 1044012,
+        "d": 1044013,
+        "p": 1445,
+        "remaining_face_residues_mod_7": [
+          3,
+          3
+        ]
+      },
+      {
+        "m": 40,
+        "a": 80,
+        "b": 1599,
+        "c": 1281600,
+        "d": 1281601,
+        "p": 1601,
+        "remaining_face_residues_mod_7": [
+          6,
+          6
+        ]
+      }
+    ]
+  },
+  "stage9_cross_check": {
+    "bound": 20000,
+    "parameters": [
+      2,
+      4,
+      10,
+      12
+    ],
+    "matched_count": 4,
+    "all_present_and_exactly_one": true,
+    "points": [
+      {
+        "m": 2,
+        "point": [
+          3,
+          4,
+          12,
+          13
+        ],
+        "stage9_category": "ab_only"
+      },
+      {
+        "m": 4,
+        "point": [
+          8,
+          15,
+          144,
+          145
+        ],
+        "stage9_category": "ab_only"
+      },
+      {
+        "m": 10,
+        "point": [
+          20,
+          99,
+          5100,
+          5101
+        ],
+        "stage9_category": "ab_only"
+      },
+      {
+        "m": 12,
+        "point": [
+          24,
+          143,
+          10512,
+          10513
+        ],
+        "stage9_category": "ab_only"
+      }
+    ]
+  },
+  "lower_bound": {
+    "pointwise_bound": "N1(B) >= sum_{r in {2,4,10,12}} max(0, floor((floor(B^(1/4))-r)/14)+1)",
+    "simple_corollary": "N1(B) >= 4*floor(floor(B^(1/4))/14)",
+    "asymptotic_bound": "N1(B) >= (2/7)B^(1/4)-O(1), hence N1(B) >> B^(1/4)",
+    "density_of_admissible_m": "4 residue classes modulo 14, i.e. 2/7 of all positive integers",
+    "height_inequality": "d(m)=(m^4+2m^2+2)/2 <= m^4 for m>=2",
+    "injectivity": "d(m) is strictly increasing for m>0",
+    "rows": [
+      {
+        "B": 20000,
+        "floor_B_fourth_root": 11,
+        "explicit_guaranteed_count": 3,
+        "simple_block_lower_bound": 0,
+        "exact_family_count": 4
+      },
+      {
+        "B": 1000000,
+        "floor_B_fourth_root": 31,
+        "explicit_guaranteed_count": 9,
+        "simple_block_lower_bound": 8,
+        "exact_family_count": 10
+      },
+      {
+        "B": 100000000,
+        "floor_B_fourth_root": 100,
+        "explicit_guaranteed_count": 29,
+        "simple_block_lower_bound": 28,
+        "exact_family_count": 34
+      },
+      {
+        "B": 1000000000000,
+        "floor_B_fourth_root": 1000,
+        "explicit_guaranteed_count": 286,
+        "simple_block_lower_bound": 284,
+        "exact_family_count": 340
+      }
+    ]
+  },
+  "decision": {
+    "confirmed": [
+      "An explicit infinite primitive family with exactly one integral face diagonal.",
+      "A fixed modulo-7 obstruction excludes both remaining face diagonals.",
+      "The family is injective and satisfies N1(B) >> B^(1/4)."
+    ],
+    "not_claimed": [
+      "This lower bound has the correct order of growth for N1(B).",
+      "Any upper bound for N2(B).",
+      "N2(B)=o(N1(B)).",
+      "Direct applicability of the square sieve or determinant method."
+    ],
+    "next_research_question": "Can the shared-face-diagonal p be used to count a much larger exactly-one population through representation-function convolutions?"
+  }
 }
