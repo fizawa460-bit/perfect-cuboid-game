@@ -80,15 +80,32 @@ jobs:
           if extract_block(committed_text) != extract_block(generated_text):
               raise SystemExit("committed stage-six memo block differs from regenerated block")
 
-          required_lines = [
-              "二面成立楕円ファイバーの正の整数点について、",
-              "canonical heightから $d$ への逆向き一様下界、",
+          confirmed_phrase = "二面成立楕円ファイバーの正の整数点について、"
+          committed_confirmed = [
+              line for line in committed_text.splitlines() if confirmed_phrase in line
           ]
-          for phrase in required_lines:
-              committed_lines = [line for line in committed_text.splitlines() if phrase in line]
-              generated_lines = [line for line in generated_text.splitlines() if phrase in line]
-              if committed_lines != generated_lines or len(committed_lines) != 1:
-                  raise SystemExit(f"stage-six conclusion line mismatch: {phrase}")
+          generated_confirmed = [
+              line for line in generated_text.splitlines() if confirmed_phrase in line
+          ]
+          if committed_confirmed != generated_confirmed or len(committed_confirmed) != 1:
+              raise SystemExit("stage-six confirmed conclusion line mismatch")
+
+          unresolved_options = [
+              "canonical heightから $d$ への逆向き一様下界、",
+              "$h(\\lambda)$ を含まないcanonical heightから $d$ への逆向き評価、",
+          ]
+          committed_unresolved = [
+              line
+              for line in committed_text.splitlines()
+              if any(phrase in line for phrase in unresolved_options)
+          ]
+          generated_unresolved = [
+              line
+              for line in generated_text.splitlines()
+              if any(phrase in line for phrase in unresolved_options)
+          ]
+          if committed_unresolved != generated_unresolved or len(committed_unresolved) != 1:
+              raise SystemExit("stage-six/later unresolved conclusion line mismatch")
           PY
 
       - name: Upload stage-six outputs
