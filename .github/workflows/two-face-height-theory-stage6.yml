@@ -15,18 +15,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   height-theory:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Check out PR branch
+      - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -41,7 +38,7 @@ jobs:
           python scripts/audit_two_face_height_theory_stage6.py \
             --write-report generated-two-face-stage6-height-report.json
 
-      - name: Generate stage-six memo
+      - name: Regenerate stage-six memo
         run: |
           python scripts/update_two_face_stage6_memo.py \
             --input docs/face-ratio-geometry-research.md \
@@ -55,7 +52,7 @@ jobs:
           grep -n "17}{6" generated-face-ratio-geometry-research.md
           grep -n "一方向の一様上界が成立" generated-face-ratio-geometry-research.md
 
-      - name: Compare committed outputs when present
+      - name: Compare committed outputs with regenerated results
         run: |
           python - <<'PY'
           import json
@@ -63,31 +60,14 @@ jobs:
 
           committed = Path("data/two_face_cuboids_1e6_stage6_height_report.json")
           generated = Path("generated-two-face-stage6-height-report.json")
-          if committed.exists():
-              expected = json.loads(committed.read_text(encoding="utf-8"))
-              actual = json.loads(generated.read_text(encoding="utf-8"))
-              if expected != actual:
-                  raise SystemExit(f"{committed} differs from regenerated output")
-          else:
-              print(f"{committed} is not committed yet; skipping comparison")
+          if not committed.exists():
+              raise SystemExit(f"required committed output is missing: {committed}")
+          expected = json.loads(committed.read_text(encoding="utf-8"))
+          actual = json.loads(generated.read_text(encoding="utf-8"))
+          if expected != actual:
+              raise SystemExit(f"{committed} differs from regenerated output")
           PY
-
-      - name: Commit reproducible outputs to the PR branch
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          cp generated-two-face-stage6-height-report.json data/two_face_cuboids_1e6_stage6_height_report.json
-          cp generated-face-ratio-geometry-research.md docs/face-ratio-geometry-research.md
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            data/two_face_cuboids_1e6_stage6_height_report.json \
-            docs/face-ratio-geometry-research.md
-          if git diff --cached --quiet; then
-            echo "Generated outputs are already current"
-          else
-            git commit -m "Record stage-six height theory audit"
-            git push origin "HEAD:${{ github.head_ref }}"
-          fi
+          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
       - name: Upload stage-six outputs
         uses: actions/upload-artifact@v4
