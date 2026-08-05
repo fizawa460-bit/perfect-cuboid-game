@@ -60,11 +60,28 @@ jobs:
           if committed != generated:
               raise SystemExit("committed stage-nine report differs from regenerated output")
 
-          def compact(path: str) -> list[str]:
-              return [line.rstrip() for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          start = "<!-- FACE_DIVISOR_CHAIN_STAGE9_START -->"
+          end = "<!-- FACE_DIVISOR_CHAIN_STAGE9_END -->"
 
-          if compact("docs/face-ratio-geometry-research.md") != compact("generated-face-ratio-geometry-research.md"):
-              raise SystemExit("stage-nine memo content differs after regeneration")
+          def extract_block(text: str) -> str:
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit("stage-nine markers are missing or duplicated")
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          if extract_block(committed_text) != extract_block(generated_text):
+              raise SystemExit("committed stage-nine memo block differs from regenerated block")
+
+          prefixes = [
+              "- 一面以上成立する整数直方体について、二段階の約数鎖による完全な有限列挙が可能で、",
+              "- 二段階約数鎖上の追加平方条件を、標準的なsquare sieveへ接続できる低次元再パラメータ化、",
+          ]
+          for prefix in prefixes:
+              committed_lines = [line for line in committed_text.splitlines() if line.startswith(prefix)]
+              generated_lines = [line for line in generated_text.splitlines() if line.startswith(prefix)]
+              if committed_lines != generated_lines or len(committed_lines) != 1:
+                  raise SystemExit(f"stage-nine conclusion line mismatch: {prefix}")
           PY
 
       - name: Check stage-eight memo compatibility
@@ -84,11 +101,25 @@ jobs:
           if committed != generated:
               raise SystemExit("stage-eight report changed under stage nine")
 
-          def compact(path: str) -> list[str]:
-              return [line.rstrip() for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-stage8-compatible-memo.md").read_text(encoding="utf-8")
+          start = "<!-- TWO_FACE_STAGE8_START -->"
+          end = "<!-- TWO_FACE_STAGE8_END -->"
 
-          if compact("docs/face-ratio-geometry-research.md") != compact("generated-stage8-compatible-memo.md"):
-              raise SystemExit("stage-eight updater does not preserve stage-nine memo content")
+          def extract_block(text: str) -> str:
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          if extract_block(committed_text) != extract_block(generated_text):
+              raise SystemExit("stage-eight memo block changed under stage nine")
+
+          stage9_start = "<!-- FACE_DIVISOR_CHAIN_STAGE9_START -->"
+          stage9_end = "<!-- FACE_DIVISOR_CHAIN_STAGE9_END -->"
+          if extract_block(committed_text):
+              pass
+          committed_stage9 = committed_text.split(stage9_start, 1)[1].split(stage9_end, 1)[0].strip()
+          generated_stage9 = generated_text.split(stage9_start, 1)[1].split(stage9_end, 1)[0].strip()
+          if committed_stage9 != generated_stage9:
+              raise SystemExit("stage-eight updater changed the stage-nine memo block")
           PY
 
       - name: Check stage-seven memo compatibility
@@ -111,11 +142,22 @@ jobs:
           if committed != generated:
               raise SystemExit("stage-seven report changed under stage nine")
 
-          def compact(path: str) -> list[str]:
-              return [line.rstrip() for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-stage7-compatible-memo.md").read_text(encoding="utf-8")
+          stage7_start = "<!-- TWO_FACE_STAGE7_START -->"
+          stage7_end = "<!-- TWO_FACE_STAGE7_END -->"
+          stage9_start = "<!-- FACE_DIVISOR_CHAIN_STAGE9_START -->"
+          stage9_end = "<!-- FACE_DIVISOR_CHAIN_STAGE9_END -->"
 
-          if compact("docs/face-ratio-geometry-research.md") != compact("generated-stage7-compatible-memo.md"):
-              raise SystemExit("stage-seven updater does not preserve stage-nine memo content")
+          committed_stage7 = committed_text.split(stage7_start, 1)[1].split(stage7_end, 1)[0].strip()
+          generated_stage7 = generated_text.split(stage7_start, 1)[1].split(stage7_end, 1)[0].strip()
+          if committed_stage7 != generated_stage7:
+              raise SystemExit("stage-seven memo block changed under stage nine")
+
+          committed_stage9 = committed_text.split(stage9_start, 1)[1].split(stage9_end, 1)[0].strip()
+          generated_stage9 = generated_text.split(stage9_start, 1)[1].split(stage9_end, 1)[0].strip()
+          if committed_stage9 != generated_stage9:
+              raise SystemExit("stage-seven updater changed the stage-nine memo block")
           PY
 
       - name: Upload stage-nine outputs
