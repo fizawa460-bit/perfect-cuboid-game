@@ -835,6 +835,117 @@ indexが1である場合、観測seed部分群は少なくとも100未満の素�
 が必要である。したがって、観測済み全ファイバーのrankが計算できても、二面成立数の無条件上界および $N_2=o(N_1)$ はまだ従わない。
 
 
+
+<!-- TWO_FACE_STAGE5_START -->
+### 4.14 未確定rank・index 2生成点・canonical height予備解析【有限計算は確定／一様評価は未証明】
+
+再現コードは
+
+- [`scripts/audit_two_face_rank_height_stage5.py`](../scripts/audit_two_face_rank_height_stage5.py)
+- [`scripts/audit_two_face_rank_height_stage5_runner.py`](../scripts/audit_two_face_rank_height_stage5_runner.py)
+
+であり、全出力は
+
+[`data/two_face_cuboids_1e6_stage5_report.json`](../data/two_face_cuboids_1e6_stage5_report.json)
+
+に保存する。
+
+#### 4.14.1 rank未確定3ファイバーの再監査【未確定のまま】
+
+前段階でPARI/GP `ellrank` の下界・上界が $1\ldots3$ のまま残った3本について、effortを4および8へ上げて再実行した。3本とも計算自体は成功したが、区間は縮まらず、新たな独立生成点も得られなかった。
+
+| $\lambda$ | source index | 再計算後のrank区間 | 状態 |
+|---:|---:|---:|---|
+| $81/385$ | 85 | $1\ldots 3$ | 未確定 |
+| $147/194$ | 134 | $1\ldots 3$ | 未確定 |
+| $119/130$ | 205 | $1\ldots 3$ | 未確定 |
+
+3本すべてでroot numberは $-1$ である。ただし、root numberからrankの奇偶性を使う議論は一般には予想を含み、今回の計算だけからrank $1$ と確定しない。したがって、これら3本の正確なMordell--Weil rankは依然として未確認である。
+
+#### 4.14.2 $\lambda=7/32$ の飽和生成点【確定】
+
+source index 224 の観測点を $P$ とする。この点の元の直方体は
+
+$$
+(a,b,c,d)=(251328,418304,546975,733025)
+$$
+
+である。PARI/GP `ellsaturation(E,[P],100)` が返した点を $G$ とすると、
+
+$$
+G=\left(-41209/65536,\,-24107265/67108864\right)
+$$
+
+であり、有理数の厳密な群法則計算により
+
+$$
+P=2G
+$$
+
+が成立した。regulator比は
+
+$$
+\frac{\operatorname{Reg}(P)}{\operatorname{Reg}(G)}=4
+$$
+
+であり、自由部分におけるindexが2であることと一致する。したがって、前段階で検出された唯一のindex 2事例について、欠けていた半点を明示できた。
+
+`ellsaturation(...,100)` が保証するのは、返された部分群のindexが100未満の素数で割れないことである。100以上の素数に関する完全飽和性までは主張しない。
+
+#### 4.14.3 255点のcanonical height予備解析【有限標本について確定】
+
+対応する特殊化楕円曲線上で、保存済み255点すべてのPARI canonical height $\widehat h(P)$ を計算した。
+
+| 指標 | 最小 | 中央値 | 平均 | 最大 |
+|---|---:|---:|---:|---:|
+| $\widehat h(P)$ | 1.252274 | 3.614779 | 3.569709 | 6.213705 |
+| $\widehat h(P)/\log d$ | 0.100240 | 0.308216 | 0.301833 | 0.469561 |
+
+有限標本内のPearson相関は次である。
+
+| 組 | 相関係数 |
+|---|---:|
+| $\widehat h(P)$ と $\log d$ | 0.471976 |
+| $\widehat h(P)$ と $h(\lambda)$ | -0.044721 |
+| $\widehat h(P)$ とnaive $x$-height | 0.086138 |
+| $\log d$ と $h(\lambda)$ | 0.503442 |
+
+さらに有限標本へ
+
+$$
+\widehat h(P)=\beta_0+\beta_d\log d+\beta_\lambda h(\lambda)+\varepsilon
+$$
+
+を最小二乗で当てはめると、
+
+$$
+\beta_0=0.244208,\qquad
+\beta_d=0.406533,\qquad
+\beta_\lambda=-0.363341,
+$$
+
+$$
+R^2=0.329536,\qquad
+\varepsilon\in [-2.592250,\,2.358422]
+$$
+
+となった。この回帰は有限データの記述にすぎない。特に、残差が将来の点でも有界であること、$\widehat h(P)$ と $\log d$ の一様な上下評価、またはファイバーごとの点数上界を与えない。
+
+今回の標本では $\widehat h(P)/\log d$ が約0.100から0.470の範囲にあり、単純な固定比例よりも大きな散らばりがある。次に必要なのは回帰の追加ではなく、Weierstrass写像の分子・分母、$h(\lambda)$、射影高さ $H=d$ を使った理論的な高さ不等式の導出である。
+
+#### 4.14.4 $N_2=o(N_1)$ への位置づけ【未証明】
+
+この段階で確定したのは、1件のindex 2部分群の真の生成点と、保存済み255点のcanonical heightである。rank未確定3本は解消できず、有限標本の高さ統計から大域的な点数上界も得られない。
+
+次の理論課題は次である。
+
+1. $x(P)$ の有理数heightを $d$ と $h(\lambda)$ で厳密に評価する
+2. naive $x$-heightとcanonical heightの差を曲線係数のheight込みで一様に評価する
+3. ファイバー内の格子点数評価を $\lambda$ 全体で総和できる形にする
+4. 一面成立数 $N_1(B)$ の下界または主項と比較する
+
+したがって、二面成立数の無条件上界および $N_2(B)=o(N_1(B))$ は未証明のままである。
+<!-- TWO_FACE_STAGE5_END -->
 ## 5. 一面成立曲面 $V_{ab}$ の幾何
 
 ### 5.1 定義とGelfand–Leray形式【局所計算は確定／大域計数との接続は未証明】
