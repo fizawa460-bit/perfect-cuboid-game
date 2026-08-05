@@ -7,6 +7,7 @@ on:
       - "data/two_face_cuboids_1e6_stage5_report.json"
       - "docs/face-ratio-geometry-research.md"
       - "scripts/audit_two_face_rank_height_stage5.py"
+      - "scripts/audit_two_face_rank_height_stage5_runner.py"
       - ".github/workflows/two-face-rank-height-stage5.yml"
   workflow_dispatch:
 
@@ -34,10 +35,10 @@ jobs:
 
       - name: Run stage-five audit
         run: |
-          python scripts/audit_two_face_rank_height_stage5.py \
+          python scripts/audit_two_face_rank_height_stage5_runner.py \
             --rank-efforts 4,8 \
             --rank-timeout-per-attempt 900 \
-            --generator-saturation-bound 1000 \
+            --generator-saturation-bound 100 \
             --write-report generated-two-face-stage5-report.json
 
       - name: Compare committed output when present
