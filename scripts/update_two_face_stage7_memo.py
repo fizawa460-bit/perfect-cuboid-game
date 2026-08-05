@@ -13,12 +13,15 @@ START = "<!-- TWO_FACE_STAGE7_START -->"
 END = "<!-- TWO_FACE_STAGE7_END -->"
 INSERT_BEFORE = "## 5. 一面成立曲面 $V_{ab}$ の幾何"
 CONFIRMED_HEADING = "### 確定\n"
-CONFIRMED_BULLET = (
+CONFIRMED_PREFIX = (
     "- 二面成立楕円ファイバーの正の滑らかな整数点について、明示的な逆写像と "
-    "$\\log d\\le6h(x)+12h(\\lambda)+6\\log2+\\log17$ が成立し、"
+)
+CONFIRMED_BULLET = (
+    CONFIRMED_PREFIX
+    + "$\\log d\\le6h(x)+12h(\\lambda)+6\\log2+\\log17$ が成立し、"
     "Silvermanの高さ差定理から "
     "$\\log d\\le12\\widehat h(P)+C_\\lambda h(\\lambda)+C_0$ 型の"
-    "有効な混合逆向き評価が従うこと\n"
+    "有効な混合逆向き評価が従うこと"
 )
 OLD_UNRESOLVED = (
     "- canonical heightから $d$ への逆向き一様下界、および未観測ファイバーを含む"
@@ -41,7 +44,7 @@ def build_section(report: dict[str, Any]) -> str:
     combined = finite["combined_inverse_slack_summary"]
     pure = finite["log_d_minus_12_canonical_summary"]
     share = finite["h_lambda_over_log_d_summary"]
-    return f"""{START}
+    return rf"""{START}
 ### 4.16 逆写像と逆向き高さ評価の実現可能性【明示的逆写像・naive height評価は確定／大域計数は未解決】
 
 再現コードと全255点の出力は
@@ -54,20 +57,20 @@ def build_section(report: dict[str, Any]) -> str:
 #### 4.16.1 Weierstrassモデルからface-cuboid座標への逆写像【確定】
 
 $$
-E_t:\quad y^2=x(x+4t^2)(x+(1+t^2)^2),\qquad t=\\lambda
+E_t:\quad y^2=x(x+4t^2)(x+(1+t^2)^2),\qquad t=\lambda
 $$
 
 とする。正の滑らかなaffine openでは、標準face-cuboid座標への逆写像は射影的に
 
 $$
-\\begin{{aligned}}
-A&=2xy(1-t^2),\\\\
-B&=x\\left(4t^2(1+t^2)^2-x^2\\right),\\\\
-C&=4txy,\\\\
-X&=y^2-x^2(1-t^2)^2,\\\\
-Y&=2xy(1+t^2),\\\\
+egin{{aligned}}
+A&=2xy(1-t^2),\\
+B&=x\left(4t^2(1+t^2)^2-x^2ight),\\
+C&=4txy,\\
+X&=y^2-x^2(1-t^2)^2,\\
+Y&=2xy(1+t^2),\\
 U&=y^2+x^2(1-t^2)^2
-\\end{{aligned}}
+\end{{aligned}}
 $$
 
 で与えられる。右辺6個は共通の射影スカラー倍を許す。楕円曲線方程式で簡約すると
@@ -79,12 +82,12 @@ $$
 および
 
 $$
-t=\frac{{Y-A}}{{C}}=\frac{{C}}{{Y+A}},
+t=rac{{Y-A}}{{C}}=rac{{C}}{{Y+A}},
 $$
 
 $$
-x=4t^2\frac{{U-B}}{{X+B}},\qquad
-y=8t^3\frac{{(U+X)(U-B)}}{{C(X+B)}}
+x=4t^2rac{{U-B}}{{X+B}},\qquad
+y=8t^3rac{{(U+X)(U-B)}}{{C(X+B)}}
 $$
 
 が戻る。SymPyによる多項式剰余計算と、保存済み255点の有理数厳密演算の双方で検算した。全255点で逆写像をprimitive整数ベクトルへ正規化すると、保存済み $[A:B:C:X:Y:U]$ と完全一致した。
@@ -94,28 +97,28 @@ $$
 6座標を $(t,x,y)$ の有理数表示で同時に斉次化すると、多重次数は高々
 
 $$
-(\\deg_t,\\deg_x,\\deg_y)=(6,3,2)
+(\deg_t,\deg_x,\deg_y)=(6,3,2)
 $$
 
 であり、各座標多項式の係数絶対値和の最大は17である。primitive整数座標では $U=d$ が射影max-heightなので
 
 $$
-\\boxed{{
-\\log d\le6h(t)+3h(x)+2h(y)+\\log17
+oxed{{
+\log d\le6h(t)+3h(x)+2h(y)+\log17
 }}.
 $$
 
 一方、Weierstrass方程式から
 
 $$
-2h(y)\le3h(x)+6h(t)+6\\log2
+2h(y)\le3h(x)+6h(t)+6\log2
 $$
 
 である。従って
 
 $$
-\\boxed{{
-\\log d\le6h(x)+12h(\\lambda)+6\\log2+\\log17
+oxed{{
+\log d\le6h(x)+12h(\lambda)+6\log2+\log17
 }}.
 $$
 
@@ -126,28 +129,28 @@ $$
 整数モデル
 
 $$
-\\eta^2=\\xi(\\xi+4m^2n^2)(\\xi+(m^2+n^2)^2),\qquad \\lambda=m/n
+\eta^2=\xi(\xi+4m^2n^2)(\xi+(m^2+n^2)^2),\qquad \lambda=m/n
 $$
 
 について、$0<m<n$ とすると
 
 $$
 c_4\le512n^8,\qquad
-\\Delta\le4096n^{{24}},\qquad
-h(j)\le24h(\\lambda)+27\\log2.
+\Delta\le4096n^{{24}},\qquad
+h(j)\le24h(\lambda)+27\log2.
 $$
 
-Silverman, *The difference between the Weil height and the canonical height on elliptic curves*, Math. Comp. 55 (1990), Theorem 1.1 は、$\\widehat h(P)-\\frac12h(x(P))$ を積分Weierstrass方程式の判別式と $j$-invariantで有効に評価する。上の不変量評価と組み合わせると、絶対的で有効な定数 $C_\\lambda,C_0$ が存在して
+Silverman, *The difference between the Weil height and the canonical height on elliptic curves*, Math. Comp. 55 (1990), Theorem 1.1 は、$\widehat h(P)-rac12h(x(P))$ を積分Weierstrass方程式の判別式と $j$-invariantで有効に評価する。上の不変量評価と組み合わせると、絶対的で有効な定数 $C_\lambda,C_0$ が存在して
 
 $$
-\\boxed{{
-\\log d\le12\\widehat h(P)+C_\\lambda h(\\lambda)+C_0
+oxed{{
+\log d\le12\widehat h(P)+C_\lambda h(\lambda)+C_0
 }}
 $$
 
 が従う。従って、逆向き高さ評価そのものが存在しないことが障害なのではない。
 
-ただし、本段階ではSilvermanの $p(E)$ に含まれる全規格化項をコードへ転記していないため、$C_\\lambda$ の数値は固定しない。定理の存在だけを使って係数を小さく見積もることもしない。
+ただし、本段階ではSilvermanの $p(E)$ に含まれる全規格化項をコードへ転記していないため、$C_\lambda$ の数値は固定しない。定理の存在だけを使って係数を小さく見積もることもしない。
 
 #### 4.16.4 255点での再監査【有限集合について確定】
 
@@ -155,26 +158,26 @@ $$
 
 | 指標 | 最小 | 中央値 | 平均 | 最大 |
 |---|---:|---:|---:|---:|
-| $6h(\\lambda)+3h(x)+2h(y)+\\log17-\\log d$ | {f6(raw['min'])} | {f6(raw['median'])} | {f6(raw['mean'])} | {f6(raw['max'])} |
-| $6h(x)+12h(\\lambda)+6\\log2+\\log17-\\log d$ | {f6(combined['min'])} | {f6(combined['median'])} | {f6(combined['mean'])} | {f6(combined['max'])} |
-| $\\log d-12\\widehat h(P)$ | {f6(pure['min'])} | {f6(pure['median'])} | {f6(pure['mean'])} | {f6(pure['max'])} |
+| $6h(\lambda)+3h(x)+2h(y)+\log17-\log d$ | {f6(raw['min'])} | {f6(raw['median'])} | {f6(raw['mean'])} | {f6(raw['max'])} |
+| $6h(x)+12h(\lambda)+6\log2+\log17-\log d$ | {f6(combined['min'])} | {f6(combined['median'])} | {f6(combined['mean'])} | {f6(combined['max'])} |
+| $\log d-12\widehat h(P)$ | {f6(pure['min'])} | {f6(pure['median'])} | {f6(pure['mean'])} | {f6(pure['max'])} |
 
-有限標本での $h(\\lambda)/\\log d$ は {f6(share['min'])} から {f6(share['max'])} の範囲だった。これらの数値は上界の再検算には使うが、漸近法則とは解釈しない。
+有限標本での $h(\lambda)/\log d$ は {f6(share['min'])} から {f6(share['max'])} の範囲だった。これらの数値は上界の再検算には使うが、漸近法則とは解釈しない。
 
 #### 4.16.5 分岐点としての結論【次は方針選択が必要】
 
-逆写像と混合高さ比較は構成できた。しかし現在の評価には正の $h(\\lambda)$ 項が残る。前節の
+逆写像と混合高さ比較は構成できた。しかし現在の評価には正の $h(\lambda)$ 項が残る。前節の
 
 $$
-h(\\lambda)\le\frac12\\log(2d)
+h(\lambda)\lerac12\log(2d)
 $$
 
-を代入して $\\log d$ を左辺へ戻すには、最終的な $h(\\lambda)$ の係数を2未満まで下げる必要がある。今回の粗い明示式はこの水準から遠く、Silvermanの補正項も $h(\\lambda)$ に依存する。
+を代入して $\log d$ を左辺へ戻すには、最終的な $h(\lambda)$ の係数を2未満まで下げる必要がある。今回の粗い明示式はこの水準から遠く、Silvermanの補正項も $h(\lambda)$ に依存する。
 
 従って次の選択肢は二つである。
 
-1. 逆写像と局所heightをさらに利用し、正の整数点に限定して $h(\\lambda)$ 係数を劇的に改善できるか調べる
-2. ファイバーごとの一様評価に固執せず、$\\lambda$ 全体についてrank、regulator、局所可解性、合同条件を平均化して総和を直接抑える
+1. 逆写像と局所heightをさらに利用し、正の整数点に限定して $h(\lambda)$ 係数を劇的に改善できるか調べる
+2. ファイバーごとの一様評価に固執せず、$\lambda$ 全体についてrank、regulator、局所可解性、合同条件を平均化して総和を直接抑える
 
 これは低優先度の残件処理ではなく、最終計数へ向かうルートの分岐である。逆向き評価の実現可能性調査という当初の目的は本節で完了したため、次段階へ進む前に研究方針を壁打ちするのが妥当である。
 
@@ -202,14 +205,15 @@ def replace_section(text: str, section: str) -> str:
 
 
 def update_conclusion(text: str) -> str:
-    if CONFIRMED_BULLET not in text:
-        if CONFIRMED_HEADING not in text:
-            raise ValueError("confirmed conclusion heading not found")
-        text = text.replace(
-            CONFIRMED_HEADING,
-            CONFIRMED_HEADING + "\n" + CONFIRMED_BULLET,
-            1,
-        )
+    lines = [line for line in text.splitlines() if not line.startswith(CONFIRMED_PREFIX)]
+    text = "\n".join(lines) + ("\n" if text.endswith("\n") else "")
+    if CONFIRMED_HEADING not in text:
+        raise ValueError("confirmed conclusion heading not found")
+    text = text.replace(
+        CONFIRMED_HEADING,
+        CONFIRMED_HEADING + "\n" + CONFIRMED_BULLET + "\n",
+        1,
+    )
     if OLD_UNRESOLVED in text:
         text = text.replace(OLD_UNRESOLVED, NEW_UNRESOLVED, 1)
     elif NEW_UNRESOLVED not in text:
