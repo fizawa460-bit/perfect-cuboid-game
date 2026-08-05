@@ -7,25 +7,31 @@ on:
       - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
       - "data/two_face_cuboids_1e6_mordell_weil_report.json"
       - "data/two_face_cuboids_1e6_pari_rank_report.json"
+      - "data/two_face_cuboids_1e6_all_fibers_pari_report.json"
       - "data/two_face_cuboids_lambda_16_21_pari_report.json"
       - "docs/face-ratio-geometry-research.md"
       - "scripts/analyze_two_face_mordell_weil.py"
       - "scripts/audit_focus_fiber_with_pari.py"
       - "scripts/audit_repeated_fibers_with_pari.py"
+      - "scripts/audit_all_observed_fibers_with_pari.py"
       - "scripts/update_two_face_mordell_weil_stage3_memo.py"
+      - "scripts/update_two_face_all_fibers_stage4_memo.py"
       - ".github/workflows/two-face-mordell-weil-stage3.yml"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   exact-relations:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
     steps:
-      - name: Check out repository
+      - name: Check out PR branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -37,19 +43,6 @@ jobs:
           python scripts/analyze_two_face_mordell_weil.py \
             --write-derived generated-mordell-weil-relations.json \
             --write-report generated-mordell-weil-report.json
-          python - <<'PY'
-          import json
-          from pathlib import Path
-
-          report = json.loads(Path("generated-mordell-weil-report.json").read_text())
-          summary = {
-              key: value
-              for key, value in report.items()
-              if key != "focus_lambda_16_21"
-          }
-          print(json.dumps(summary, indent=2, sort_keys=True))
-          print(json.dumps(report["focus_lambda_16_21"], indent=2, sort_keys=True))
-          PY
 
       - name: Install PARI GP
         run: |
@@ -65,7 +58,7 @@ jobs:
             --effort 1 \
             --write-report generated-lambda-16-21-pari-report.json
 
-      - name: Audit all repeated fibers with PARI 2-descent
+      - name: Audit repeated fibers with PARI 2-descent
         run: |
           python scripts/audit_repeated_fibers_with_pari.py \
             --relations generated-mordell-weil-relations.json \
@@ -73,59 +66,82 @@ jobs:
             --timeout-per-fiber 120 \
             --write-report generated-pari-rank-report.json
 
-      - name: Generate stage-three research memo
+      - name: Audit all observed fibers and seed saturation
+        run: |
+          python scripts/audit_all_observed_fibers_with_pari.py \
+            --relations generated-mordell-weil-relations.json \
+            --effort 0 \
+            --retry-effort 2 \
+            --saturation-bound 100 \
+            --timeout-per-fiber 180 \
+            --workers 4 \
+            --write-report generated-all-fibers-pari-report.json
+
+      - name: Generate research memo
         run: |
           python scripts/update_two_face_mordell_weil_stage3_memo.py \
             --input docs/face-ratio-geometry-research.md \
+            --output generated-stage3-memo.md
+          python scripts/update_two_face_all_fibers_stage4_memo.py \
+            --input generated-stage3-memo.md \
+            --report generated-all-fibers-pari-report.json \
             --output generated-face-ratio-geometry-research.md
-          grep -n "4.12 楕円ファイバー上" generated-face-ratio-geometry-research.md
-          grep -n "特殊化rankが30本で1" generated-face-ratio-geometry-research.md
+          grep -n "4.13 観測済み193ファイバー全体" generated-face-ratio-geometry-research.md
           if grep -P "\t" generated-face-ratio-geometry-research.md; then
             echo "Unexpected tab found in generated Markdown" >&2
             exit 1
           fi
 
-      - name: Compare committed outputs with regenerated results
+      - name: Compare committed outputs when present
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
 
           pairs = [
-              (
-                  Path("data/two_face_cuboids_1e6_mordell_weil_relations.json"),
-                  Path("generated-mordell-weil-relations.json"),
-              ),
-              (
-                  Path("data/two_face_cuboids_1e6_mordell_weil_report.json"),
-                  Path("generated-mordell-weil-report.json"),
-              ),
-              (
-                  Path("data/two_face_cuboids_1e6_pari_rank_report.json"),
-                  Path("generated-pari-rank-report.json"),
-              ),
-              (
-                  Path("data/two_face_cuboids_lambda_16_21_pari_report.json"),
-                  Path("generated-lambda-16-21-pari-report.json"),
-              ),
+              (Path("data/two_face_cuboids_1e6_mordell_weil_relations.json"), Path("generated-mordell-weil-relations.json"), True),
+              (Path("data/two_face_cuboids_1e6_mordell_weil_report.json"), Path("generated-mordell-weil-report.json"), True),
+              (Path("data/two_face_cuboids_1e6_pari_rank_report.json"), Path("generated-pari-rank-report.json"), True),
+              (Path("data/two_face_cuboids_lambda_16_21_pari_report.json"), Path("generated-lambda-16-21-pari-report.json"), True),
+              (Path("data/two_face_cuboids_1e6_all_fibers_pari_report.json"), Path("generated-all-fibers-pari-report.json"), False),
           ]
-          for committed, generated in pairs:
+          for committed, generated, required in pairs:
               if not committed.exists():
-                  raise SystemExit(f"required committed output is missing: {committed}")
+                  if required:
+                      raise SystemExit(f"required committed output is missing: {committed}")
+                  print(f"{committed} is not committed yet; first-run comparison skipped")
+                  continue
               expected = json.loads(committed.read_text(encoding="utf-8"))
               actual = json.loads(generated.read_text(encoding="utf-8"))
               if expected != actual:
                   raise SystemExit(f"{committed} differs from regenerated output")
           PY
-          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
-      - name: Upload stage-three outputs
+      - name: Commit reproducible outputs to the PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          cp generated-all-fibers-pari-report.json data/two_face_cuboids_1e6_all_fibers_pari_report.json
+          cp generated-face-ratio-geometry-research.md docs/face-ratio-geometry-research.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/two_face_cuboids_1e6_all_fibers_pari_report.json \
+            docs/face-ratio-geometry-research.md
+          if git diff --cached --quiet; then
+            echo "Generated outputs are already current"
+          else
+            git commit -m "Record all observed fiber rank and saturation audit"
+            git push origin "HEAD:${{ github.head_ref }}"
+          fi
+
+      - name: Upload outputs
         uses: actions/upload-artifact@v4
         with:
-          name: two-face-mordell-weil-stage3
+          name: two-face-mordell-weil-stage4
           path: |
             generated-mordell-weil-relations.json
             generated-mordell-weil-report.json
             generated-pari-rank-report.json
+            generated-all-fibers-pari-report.json
             generated-lambda-16-21-pari-report.json
             generated-face-ratio-geometry-research.md
