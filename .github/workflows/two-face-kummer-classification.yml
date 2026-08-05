@@ -1,0 +1,68 @@
+name: Two-face Kummer classification
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_fixed.json"
+      - "data/two_face_cuboids_1e6_kummer_classification.json"
+      - "data/two_face_cuboids_1e6_kummer_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/classify_two_face_kummer_curves.py"
+      - ".github/workflows/two-face-kummer-classification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate Kummer classification
+        run: |
+          python scripts/classify_two_face_kummer_curves.py \
+            --write-derived generated-kummer-classification.json \
+            --write-report generated-kummer-report.json
+          cat generated-kummer-report.json
+
+      - name: Compare committed outputs when present
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          pairs = [
+              (
+                  Path("data/two_face_cuboids_1e6_kummer_classification.json"),
+                  Path("generated-kummer-classification.json"),
+              ),
+              (
+                  Path("data/two_face_cuboids_1e6_kummer_report.json"),
+                  Path("generated-kummer-report.json"),
+              ),
+          ]
+          for committed, generated in pairs:
+              if not committed.exists():
+                  print(f"{committed} is not committed yet; skipping comparison")
+                  continue
+              expected = json.loads(committed.read_text(encoding="utf-8"))
+              actual = json.loads(generated.read_text(encoding="utf-8"))
+              if expected != actual:
+                  raise SystemExit(f"{committed} differs from regenerated output")
+          PY
+
+      - name: Upload classification outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-kummer-classification
+          path: |
+            generated-kummer-classification.json
+            generated-kummer-report.json
