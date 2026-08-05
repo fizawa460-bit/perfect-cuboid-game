@@ -8,6 +8,7 @@ on:
       - "data/two_face_cuboids_1e6_kummer_report.json"
       - "docs/face-ratio-geometry-research.md"
       - "scripts/classify_two_face_kummer_curves.py"
+      - "scripts/update_two_face_kummer_stage2_memo.py"
       - ".github/workflows/two-face-kummer-classification.yml"
   workflow_dispatch:
 
@@ -59,6 +60,18 @@ jobs:
                   raise SystemExit(f"{committed} differs from regenerated output")
           PY
 
+      - name: Regenerate the stage-two research memo
+        run: |
+          python scripts/update_two_face_kummer_stage2_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --output generated-face-ratio-geometry-research.md
+          grep -n "4.9 既知24円錐曲線" generated-face-ratio-geometry-research.md
+          grep -n "McKinnon型計数定理" generated-face-ratio-geometry-research.md
+          if grep -P "\t" generated-face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in generated Markdown" >&2
+            exit 1
+          fi
+
       - name: Upload classification outputs
         uses: actions/upload-artifact@v4
         with:
@@ -66,3 +79,4 @@ jobs:
           path: |
             generated-kummer-classification.json
             generated-kummer-report.json
+            generated-face-ratio-geometry-research.md
