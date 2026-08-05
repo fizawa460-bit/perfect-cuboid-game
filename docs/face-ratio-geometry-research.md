@@ -1227,9 +1227,10 @@ $$
 とする。正の滑らかなaffine openでは、標準face-cuboid座標への逆写像は射影的に
 
 $$
-\begin{aligned}
+egin{aligned}
 A&=2xy(1-t^2),\\
-B&=x\left(4t^2(1+t^2)^2-x^2\right),\\
+B&=x\left(4t^2(1+t^2)^2-x^2
+ight),\\
 C&=4txy,\\
 X&=y^2-x^2(1-t^2)^2,\\
 Y&=2xy(1+t^2),\\
@@ -1246,12 +1247,16 @@ $$
 および
 
 $$
-t=rac{Y-A}{C}=rac{C}{Y+A},
+t=
+rac{Y-A}{C}=
+rac{C}{Y+A},
 $$
 
 $$
-x=4t^2rac{U-B}{X+B},\qquad
-y=8t^3rac{(U+X)(U-B)}{C(X+B)}
+x=4t^2
+rac{U-B}{X+B},\qquad
+y=8t^3
+rac{(U+X)(U-B)}{C(X+B)}
 $$
 
 が戻る。SymPyによる多項式剰余計算と、保存済み255点の有理数厳密演算の双方で検算した。全255点で逆写像をprimitive整数ベクトルへ正規化すると、保存済み $[A:B:C:X:Y:U]$ と完全一致した。
@@ -1267,7 +1272,7 @@ $$
 であり、各座標多項式の係数絶対値和の最大は17である。primitive整数座標では $U=d$ が射影max-heightなので
 
 $$
-\boxed{
+oxed{
 \log d\le6h(t)+3h(x)+2h(y)+\log17
 }.
 $$
@@ -1281,7 +1286,7 @@ $$
 である。従って
 
 $$
-\boxed{
+oxed{
 \log d\le6h(x)+12h(\lambda)+6\log2+\log17
 }.
 $$
@@ -1304,10 +1309,11 @@ c_4\le512n^8,\qquad
 h(j)\le24h(\lambda)+27\log2.
 $$
 
-Silverman, *The difference between the Weil height and the canonical height on elliptic curves*, Math. Comp. 55 (1990), Theorem 1.1 は、$\widehat h(P)-\frac12h(x(P))$ を積分Weierstrass方程式の判別式と $j$-invariantで有効に評価する。上の不変量評価と組み合わせると、絶対的で有効な定数 $C_\lambda,C_0$ が存在して
+Silverman, *The difference between the Weil height and the canonical height on elliptic curves*, Math. Comp. 55 (1990), Theorem 1.1 は、$\widehat h(P)-
+rac12h(x(P))$ を積分Weierstrass方程式の判別式と $j$-invariantで有効に評価する。上の不変量評価と組み合わせると、絶対的で有効な定数 $C_\lambda,C_0$ が存在して
 
 $$
-\boxed{
+oxed{
 \log d\le12\widehat h(P)+C_\lambda h(\lambda)+C_0
 }
 $$
@@ -1333,7 +1339,8 @@ $$
 逆写像と混合高さ比較は構成できた。しかし現在の評価には正の $h(\lambda)$ 項が残る。前節の
 
 $$
-h(\lambda)\lerac12\log(2d)
+h(\lambda)\le
+rac12\log(2d)
 $$
 
 を代入して $\log d$ を左辺へ戻すには、最終的な $h(\lambda)$ の係数を2未満まで下げる必要がある。今回の粗い明示式はこの水準から遠く、Silvermanの補正項も $h(\lambda)$ に依存する。
@@ -1353,6 +1360,7 @@ $$
 
 は依然として未証明である。
 <!-- TWO_FACE_STAGE7_END -->
+
 
 
 ## 5. 一面成立曲面 $V_{ab}$ の幾何
@@ -1463,7 +1471,7 @@ $\mathbf Q$ 上の2特異点と $\mathbf Q(i)$ 上の共役対という非自明
 
 - 二面成立楕円ファイバーの正の滑らかな整数点について、明示的な逆写像と $\log d\le6h(x)+12h(\lambda)+6\log2+\log17$ が成立し、Silvermanの高さ差定理から $\log d\le12\widehat h(P)+C_\lambda h(\lambda)+C_0$ 型の有効な混合逆向き評価が従うこと
 
-- 二面成立楕円ファイバーの正の滑らかな整数点について、明示的な逆写像と $\log d\le6h(x)+12h(\lambda)+10\log2$ が成立し、Silvermanの高さ差定理から $\log d\le12\widehat h(P)+C_\lambda h(\lambda)+C_0$ 型の有効な混合逆向き評価が従うこと
+
 
 - 二面成立楕円ファイバーの正の整数点について、$\lambda=m/n$ が $m^2+n^2\le2d$ を満たし、$\widehat h(P)\le(17/6)\log d+\log2+(1/3)\log17$ という一方向の一様上界が成立すること
 - $d\le100{,}000$ での一面のみ成立原始解の実測比が約 $2:1:1$ であること
