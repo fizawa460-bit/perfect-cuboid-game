@@ -57,16 +57,29 @@ jobs:
           import json
           from pathlib import Path
 
-          committed = Path("data/two_face_cuboids_1e6_stage5_report.json")
-          generated = Path("generated-two-face-stage5-report.json")
-          if not committed.exists():
-              raise SystemExit(f"required committed output is missing: {committed}")
-          expected = json.loads(committed.read_text(encoding="utf-8"))
-          actual = json.loads(generated.read_text(encoding="utf-8"))
+          committed_report = Path("data/two_face_cuboids_1e6_stage5_report.json")
+          generated_report = Path("generated-two-face-stage5-report.json")
+          if not committed_report.exists():
+              raise SystemExit(f"required committed output is missing: {committed_report}")
+          expected = json.loads(committed_report.read_text(encoding="utf-8"))
+          actual = json.loads(generated_report.read_text(encoding="utf-8"))
           if expected != actual:
-              raise SystemExit(f"{committed} differs from regenerated output")
+              raise SystemExit(f"{committed_report} differs from regenerated output")
+
+          start = "<!-- TWO_FACE_STAGE5_START -->"
+          end = "<!-- TWO_FACE_STAGE5_END -->"
+
+          def extract(path: Path) -> str:
+              text = path.read_text(encoding="utf-8")
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit(f"stage-five markers are invalid in {path}")
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          committed_section = extract(Path("docs/face-ratio-geometry-research.md"))
+          generated_section = extract(Path("generated-face-ratio-geometry-research.md"))
+          if committed_section != generated_section:
+              raise SystemExit("committed stage-five memo section differs from regenerated section")
           PY
-          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
       - name: Upload stage-five outputs
         uses: actions/upload-artifact@v4
