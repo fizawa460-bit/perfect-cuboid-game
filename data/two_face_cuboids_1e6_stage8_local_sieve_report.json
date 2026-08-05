@@ -1,0 +1,1605 @@
+{
+  "decision": {
+    "deg_j_24_verified": true,
+    "next_research_options": [
+      "square sieve after Pythagorean parameterization",
+      "determinant-method/direct counting for the extra square conditions",
+      "construct a rigorous lower-bound family for the one-face count N1(B)"
+    ],
+    "ordinary_local_sparsity_route_succeeds": false,
+    "route_A_status": "deprioritized for generic Silverman-bound optimization, but not proved impossible for the special positive primitive integral subset",
+    "simple_local_divisibility_sieve_exclusion_total": 0,
+    "wall_discussion_recommended_after_stage8": true,
+    "why_local_route_does_not_close": "the universal B=0 boundary section gives local points for every lambda; the first qB-unit refinement produces no candidate exclusions at the audited bounds"
+  },
+  "empirical_growth": {
+    "rows": [
+      {
+        "B": 10000,
+        "all_reduced_parameter_pair_count": 4779,
+        "local_log_slope_N2": null,
+        "local_log_slope_realized_lambda": null,
+        "mean_points_per_realized_lambda": 1.1904761904761905,
+        "realized_fraction_of_parameter_pairs": 0.004394224733207784,
+        "realized_lambda_count": 21,
+        "repeat_excess": 4,
+        "two_face_point_count": 25
+      },
+      {
+        "B": 20000,
+        "all_reduced_parameter_pair_count": 9544,
+        "local_log_slope_N2": 0.7484612330040356,
+        "local_log_slope_realized_lambda": 0.561878887608115,
+        "mean_points_per_realized_lambda": 1.3548387096774193,
+        "realized_fraction_of_parameter_pairs": 0.003248113998323554,
+        "realized_lambda_count": 31,
+        "repeat_excess": 11,
+        "two_face_point_count": 42
+      },
+      {
+        "B": 50000,
+        "all_reduced_parameter_pair_count": 23879,
+        "local_log_slope_N2": 0.4250449701320487,
+        "local_log_slope_realized_lambda": 0.45417942444283993,
+        "mean_points_per_realized_lambda": 1.3191489361702127,
+        "realized_fraction_of_parameter_pairs": 0.0019682566271619416,
+        "realized_lambda_count": 47,
+        "repeat_excess": 15,
+        "two_face_point_count": 62
+      },
+      {
+        "B": 100000,
+        "all_reduced_parameter_pair_count": 47738,
+        "local_log_slope_N2": 0.5215371205795226,
+        "local_log_slope_realized_lambda": 0.5328739895727022,
+        "mean_points_per_realized_lambda": 1.3088235294117647,
+        "realized_fraction_of_parameter_pairs": 0.0014244417445221835,
+        "realized_lambda_count": 68,
+        "repeat_excess": 21,
+        "two_face_point_count": 89
+      },
+      {
+        "B": 200000,
+        "all_reduced_parameter_pair_count": 95488,
+        "local_log_slope_N2": 0.38224756416117445,
+        "local_log_slope_realized_lambda": 0.3554806545983888,
+        "mean_points_per_realized_lambda": 1.3333333333333333,
+        "realized_fraction_of_parameter_pairs": 0.0009111092493297587,
+        "realized_lambda_count": 87,
+        "repeat_excess": 29,
+        "two_face_point_count": 116
+      },
+      {
+        "B": 500000,
+        "all_reduced_parameter_pair_count": 238721,
+        "local_log_slope_N2": 0.5269635006958688,
+        "local_log_slope_realized_lambda": 0.5269635006958688,
+        "mean_points_per_realized_lambda": 1.3333333333333333,
+        "realized_fraction_of_parameter_pairs": 0.0005906476598204599,
+        "realized_lambda_count": 141,
+        "repeat_excess": 47,
+        "two_face_point_count": 188
+      },
+      {
+        "B": 1000000,
+        "all_reduced_parameter_pair_count": 477459,
+        "local_log_slope_N2": 0.4397645851812206,
+        "local_log_slope_realized_lambda": 0.45290568486928695,
+        "mean_points_per_realized_lambda": 1.3212435233160622,
+        "realized_fraction_of_parameter_pairs": 0.00040422318984457305,
+        "realized_lambda_count": 193,
+        "repeat_excess": 62,
+        "two_face_point_count": 255
+      }
+    ],
+    "warning": "local log-slopes and realized fractions are finite-data diagnostics, not asymptotic exponents or density theorems"
+  },
+  "integer_parameterization": {
+    "all_255_points_verified": true,
+    "coordinates": [
+      "A=q(n^2-m^2)/2",
+      "C=qmn",
+      "Y=q(m^2+n^2)/2"
+    ],
+    "lambda": "m/n with gcd(m,n)=1 and 0<m<n",
+    "opposite_parity_point_count": 145,
+    "parity_rule": "if m,n have opposite parity then q is even",
+    "q_definition": "q=2Y/(m^2+n^2) in Z",
+    "q_summary": {
+      "max": 4830,
+      "mean": 202.87450980392157,
+      "median": 38,
+      "min": 1
+    }
+  },
+  "j_map": {
+    "a2": "t**4 + 6*t**2 + 1",
+    "a4": "4*t**6 + 8*t**4 + 4*t**2",
+    "c4_factorized": "16*(t**4 - 2*t**3 + 2*t**2 + 2*t + 1)*(t**4 + 2*t**3 + 2*t**2 - 2*t + 1)",
+    "delta_factorized": "256*t**4*(t - 1)**4*(t + 1)**4*(t**2 + 1)**4",
+    "euler_number_sum": 24,
+    "finite_discriminant_factors": [
+      "t",
+      "t-1",
+      "t+1",
+      "t^2+1"
+    ],
+    "infinity_pole_order": 4,
+    "j_common_factor_is_constant_only": true,
+    "j_denominator_degree": 20,
+    "j_factorized": "(16*(t**4 - 2*t**3 + 2*t**2 + 2*t + 1)**3*(t**4 + 2*t**3 + 2*t**2 - 2*t + 1)**3)/(t**4*(t - 1)**4*(t + 1)**4*(t**2 + 1)**4)",
+    "j_map_degree": 24,
+    "j_numerator_degree": 24,
+    "j_numerator_denominator_polynomial_gcd": "256",
+    "scope_note": "degree 24 is obtained from this explicit reduced rational function; it is not inferred from the K3 property alone",
+    "singular_fibers": [
+      {
+        "kodaira_type": "I4",
+        "ord_c4": 0,
+        "ord_delta": 4,
+        "place": "t=0"
+      },
+      {
+        "kodaira_type": "I4",
+        "ord_c4": 0,
+        "ord_delta": 4,
+        "place": "t=1"
+      },
+      {
+        "kodaira_type": "I4",
+        "ord_c4": 0,
+        "ord_delta": 4,
+        "place": "t=-1"
+      },
+      {
+        "field": "Q(i)",
+        "kodaira_type": "I4",
+        "ord_c4": 0,
+        "ord_delta": 4,
+        "place": "t=i"
+      },
+      {
+        "field": "Q(i)",
+        "kodaira_type": "I4",
+        "ord_c4": 0,
+        "ord_delta": 4,
+        "place": "t=-i"
+      },
+      {
+        "kodaira_type": "I4",
+        "ord_c4": 0,
+        "ord_delta": 4,
+        "place": "t=infinity",
+        "verification": "reciprocal minimal model equals the t=0 model"
+      }
+    ],
+    "weierstrass_model": "y^2=x(x+4t^2)(x+(1+t^2)^2)"
+  },
+  "local_divisibility_audit": {
+    "b_unit_refinement": {
+      "meaning": "if a projective lambda class has no solution with p not dividing qB, then every global integer point in that class satisfies p | qB",
+      "observed_point_checks_pass": true,
+      "obstructing_primes_in_tested_range": [
+        3,
+        7,
+        11
+      ],
+      "per_prime": [
+        {
+          "b_unit_obstructed_class_count": 4,
+          "b_unit_obstructed_classes": [
+            "0",
+            "1",
+            "2",
+            "infinity"
+          ],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 161,
+            "p_divides_both": 0,
+            "p_divides_q_only": 94
+          },
+          "observed_points_in_obstructed_classes": 255,
+          "ordinary_local_obstruction_count": 0,
+          "p": 3,
+          "projective_class_count": 4
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 5,
+          "projective_class_count": 6
+        },
+        {
+          "b_unit_obstructed_class_count": 4,
+          "b_unit_obstructed_classes": [
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 40,
+            "p_divides_both": 0,
+            "p_divides_q_only": 31
+          },
+          "observed_points_in_obstructed_classes": 71,
+          "ordinary_local_obstruction_count": 0,
+          "p": 7,
+          "projective_class_count": 8
+        },
+        {
+          "b_unit_obstructed_class_count": 4,
+          "b_unit_obstructed_classes": [
+            "3",
+            "4",
+            "7",
+            "8"
+          ],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 23,
+            "p_divides_both": 0,
+            "p_divides_q_only": 12
+          },
+          "observed_points_in_obstructed_classes": 35,
+          "ordinary_local_obstruction_count": 0,
+          "p": 11,
+          "projective_class_count": 12
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 13,
+          "projective_class_count": 14
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 17,
+          "projective_class_count": 18
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 19,
+          "projective_class_count": 20
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 23,
+          "projective_class_count": 24
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 29,
+          "projective_class_count": 30
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 31,
+          "projective_class_count": 32
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 37,
+          "projective_class_count": 38
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 41,
+          "projective_class_count": 42
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 43,
+          "projective_class_count": 44
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 47,
+          "projective_class_count": 48
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 53,
+          "projective_class_count": 54
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 59,
+          "projective_class_count": 60
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 61,
+          "projective_class_count": 62
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 67,
+          "projective_class_count": 68
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 71,
+          "projective_class_count": 72
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 73,
+          "projective_class_count": 74
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 79,
+          "projective_class_count": 80
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 83,
+          "projective_class_count": 84
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 89,
+          "projective_class_count": 90
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 97,
+          "projective_class_count": 98
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 101,
+          "projective_class_count": 102
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 103,
+          "projective_class_count": 104
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 107,
+          "projective_class_count": 108
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 109,
+          "projective_class_count": 110
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 113,
+          "projective_class_count": 114
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 127,
+          "projective_class_count": 128
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 131,
+          "projective_class_count": 132
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 137,
+          "projective_class_count": 138
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 139,
+          "projective_class_count": 140
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 149,
+          "projective_class_count": 150
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 151,
+          "projective_class_count": 152
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 157,
+          "projective_class_count": 158
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 163,
+          "projective_class_count": 164
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 167,
+          "projective_class_count": 168
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 173,
+          "projective_class_count": 174
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 179,
+          "projective_class_count": 180
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 181,
+          "projective_class_count": 182
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 191,
+          "projective_class_count": 192
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 193,
+          "projective_class_count": 194
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 197,
+          "projective_class_count": 198
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 199,
+          "projective_class_count": 200
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 211,
+          "projective_class_count": 212
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 223,
+          "projective_class_count": 224
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 227,
+          "projective_class_count": 228
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 229,
+          "projective_class_count": 230
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 233,
+          "projective_class_count": 234
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 239,
+          "projective_class_count": 240
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 241,
+          "projective_class_count": 242
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 251,
+          "projective_class_count": 252
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 257,
+          "projective_class_count": 258
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 263,
+          "projective_class_count": 264
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 269,
+          "projective_class_count": 270
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 271,
+          "projective_class_count": 272
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 277,
+          "projective_class_count": 278
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 281,
+          "projective_class_count": 282
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 283,
+          "projective_class_count": 284
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 293,
+          "projective_class_count": 294
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 307,
+          "projective_class_count": 308
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 311,
+          "projective_class_count": 312
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 313,
+          "projective_class_count": 314
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 317,
+          "projective_class_count": 318
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 331,
+          "projective_class_count": 332
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 337,
+          "projective_class_count": 338
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 347,
+          "projective_class_count": 348
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 349,
+          "projective_class_count": 350
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 353,
+          "projective_class_count": 354
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 359,
+          "projective_class_count": 360
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 367,
+          "projective_class_count": 368
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 373,
+          "projective_class_count": 374
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 379,
+          "projective_class_count": 380
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 383,
+          "projective_class_count": 384
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 389,
+          "projective_class_count": 390
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 397,
+          "projective_class_count": 398
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 401,
+          "projective_class_count": 402
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 409,
+          "projective_class_count": 410
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 419,
+          "projective_class_count": 420
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 421,
+          "projective_class_count": 422
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 431,
+          "projective_class_count": 432
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 433,
+          "projective_class_count": 434
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 439,
+          "projective_class_count": 440
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 443,
+          "projective_class_count": 444
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 449,
+          "projective_class_count": 450
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 457,
+          "projective_class_count": 458
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 461,
+          "projective_class_count": 462
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 463,
+          "projective_class_count": 464
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 467,
+          "projective_class_count": 468
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 479,
+          "projective_class_count": 480
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 487,
+          "projective_class_count": 488
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 491,
+          "projective_class_count": 492
+        },
+        {
+          "b_unit_obstructed_class_count": 0,
+          "b_unit_obstructed_classes": [],
+          "observed_divisibility_explanation": {
+            "p_divides_B_only": 0,
+            "p_divides_both": 0,
+            "p_divides_q_only": 0
+          },
+          "observed_points_in_obstructed_classes": 0,
+          "ordinary_local_obstruction_count": 0,
+          "p": 499,
+          "projective_class_count": 500
+        }
+      ]
+    },
+    "ordinary_local_solubility": {
+      "all_projective_parameter_classes_admissible": true,
+      "consequence": "ordinary local solubility cannot remove any lambda class because every fiber contains the boundary conic section",
+      "universal_boundary_solution": "after scaling by q: b=0, x=c0=mn, u=(m^2+n^2)/2; equivalently B=0, X=C, U=Y"
+    },
+    "prime_limit": 499,
+    "primes_tested": [
+      3,
+      5,
+      7,
+      11,
+      13,
+      17,
+      19,
+      23,
+      29,
+      31,
+      37,
+      41,
+      43,
+      47,
+      53,
+      59,
+      61,
+      67,
+      71,
+      73,
+      79,
+      83,
+      89,
+      97,
+      101,
+      103,
+      107,
+      109,
+      113,
+      127,
+      131,
+      137,
+      139,
+      149,
+      151,
+      157,
+      163,
+      167,
+      173,
+      179,
+      181,
+      191,
+      193,
+      197,
+      199,
+      211,
+      223,
+      227,
+      229,
+      233,
+      239,
+      241,
+      251,
+      257,
+      263,
+      269,
+      271,
+      277,
+      281,
+      283,
+      293,
+      307,
+      311,
+      313,
+      317,
+      331,
+      337,
+      347,
+      349,
+      353,
+      359,
+      367,
+      373,
+      379,
+      383,
+      389,
+      397,
+      401,
+      409,
+      419,
+      421,
+      431,
+      433,
+      439,
+      443,
+      449,
+      457,
+      461,
+      463,
+      467,
+      479,
+      487,
+      491,
+      499
+    ],
+    "simple_divisor_sieve": {
+      "rows": [
+        {
+          "B": 10000,
+          "candidate_parameter_pairs": 4779,
+          "maximum_forced_squarefree_product": 462,
+          "rigorously_excluded_by_simple_qB_divisibility": 0,
+          "surviving_parameter_pairs": 4779
+        },
+        {
+          "B": 20000,
+          "candidate_parameter_pairs": 9544,
+          "maximum_forced_squarefree_product": 462,
+          "rigorously_excluded_by_simple_qB_divisibility": 0,
+          "surviving_parameter_pairs": 9544
+        },
+        {
+          "B": 50000,
+          "candidate_parameter_pairs": 23879,
+          "maximum_forced_squarefree_product": 462,
+          "rigorously_excluded_by_simple_qB_divisibility": 0,
+          "surviving_parameter_pairs": 23879
+        },
+        {
+          "B": 100000,
+          "candidate_parameter_pairs": 47738,
+          "maximum_forced_squarefree_product": 462,
+          "rigorously_excluded_by_simple_qB_divisibility": 0,
+          "surviving_parameter_pairs": 47738
+        },
+        {
+          "B": 200000,
+          "candidate_parameter_pairs": 95488,
+          "maximum_forced_squarefree_product": 462,
+          "rigorously_excluded_by_simple_qB_divisibility": 0,
+          "surviving_parameter_pairs": 95488
+        },
+        {
+          "B": 500000,
+          "candidate_parameter_pairs": 238721,
+          "maximum_forced_squarefree_product": 462,
+          "rigorously_excluded_by_simple_qB_divisibility": 0,
+          "surviving_parameter_pairs": 238721
+        },
+        {
+          "B": 1000000,
+          "candidate_parameter_pairs": 477459,
+          "maximum_forced_squarefree_product": 462,
+          "rigorously_excluded_by_simple_qB_divisibility": 0,
+          "surviving_parameter_pairs": 477459
+        }
+      ],
+      "scope": "uses only parity and the tested p|qB implications; zero exclusions do not rule out stronger square-sieve, p-adic-height or determinant-method arguments"
+    }
+  },
+  "metadata": {
+    "point_count": 255,
+    "source": "data/two_face_cuboids_1e6_kummer_classification.json",
+    "thresholds": [
+      10000,
+      20000,
+      50000,
+      100000,
+      200000,
+      500000,
+      1000000
+    ]
+  },
+  "not_proved": [
+    "that realized-lambda sparsity is caused by local congruence obstructions",
+    "an asymptotic exponent for N2(B) or the realized-lambda count",
+    "N2(B)=O(B^(1/2+epsilon))",
+    "a global upper bound for N2(B)",
+    "N2(B)=o(N1(B))"
+  ],
+  "valid": true
+}
