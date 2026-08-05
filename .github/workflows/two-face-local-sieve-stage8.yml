@@ -34,9 +34,52 @@ jobs:
       - name: Install symbolic dependency
         run: python -m pip install --disable-pip-version-check sympy
 
+      - name: Normalize constant-content cancellation in source
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("scripts/audit_two_face_local_sieve_stage8.py")
+          text = path.read_text(encoding="utf-8")
+          old = '''    numerator = sp.factor(c4**3)
+              denominator = sp.factor(delta)
+              gcd = sp.factor(sp.gcd(sp.Poly(numerator, t), sp.Poly(denominator, t)).as_expr())
+              if gcd != 1:
+                  raise ArithmeticError(f"j numerator and denominator have common factor {gcd}")
+          '''.replace("              ", "    ")
+          new = '''    raw_numerator = sp.factor(c4**3)
+              raw_denominator = sp.factor(delta)
+              polynomial_gcd = sp.factor(
+                  sp.gcd(sp.Poly(raw_numerator, t), sp.Poly(raw_denominator, t)).as_expr()
+              )
+              if sp.degree(polynomial_gcd, t) != 0:
+                  raise ArithmeticError(
+                      f"j numerator and denominator have a positive-degree common factor {polynomial_gcd}"
+                  )
+              reduced = sp.cancel(raw_numerator / raw_denominator)
+              numerator, denominator = (
+                  sp.factor(part) for part in sp.fraction(reduced)
+              )
+          '''.replace("              ", "    ")
+          if old in text:
+              text = text.replace(old, new, 1)
+          elif new not in text:
+              raise SystemExit("could not locate scalar-gcd block")
+          old_key = '        "j_numerator_denominator_gcd": str(gcd),\n'
+          new_keys = (
+              '        "j_numerator_denominator_polynomial_gcd": str(polynomial_gcd),\n'
+              '        "j_common_factor_is_constant_only": True,\n'
+          )
+          if old_key in text:
+              text = text.replace(old_key, new_keys, 1)
+          elif new_keys not in text:
+              raise SystemExit("could not locate scalar-gcd report key")
+          path.write_text(text, encoding="utf-8")
+          PY
+
       - name: Run stage-eight audit
         run: |
-          python scripts/run_two_face_local_sieve_stage8.py \
+          python scripts/audit_two_face_local_sieve_stage8.py \
             --write-report generated-two-face-stage8-local-sieve-report.json
 
       - name: Generate stage-eight research memo
@@ -70,7 +113,7 @@ jobs:
               print(f"{committed} is not committed yet; skipping comparison")
           PY
 
-      - name: Commit reproducible outputs to the PR branch
+      - name: Commit normalized source and reproducible outputs
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         run: |
           cp generated-two-face-stage8-local-sieve-report.json \
@@ -80,12 +123,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add \
+            scripts/audit_two_face_local_sieve_stage8.py \
             data/two_face_cuboids_1e6_stage8_local_sieve_report.json \
             docs/face-ratio-geometry-research.md
           if git diff --cached --quiet; then
-            echo "Generated outputs are already current"
+            echo "Source and generated outputs are already current"
           else
-            git commit -m "Record stage-eight local sieve audit"
+            git commit -m "Normalize stage-eight j-map audit"
             git push origin "HEAD:${{ github.head_ref }}"
           fi
 
