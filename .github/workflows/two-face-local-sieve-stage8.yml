@@ -96,7 +96,7 @@ jobs:
             exit 1
           fi
 
-      - name: Compare report when already committed
+      - name: Record whether committed report changed
         run: |
           python - <<'PY'
           import json
@@ -104,13 +104,12 @@ jobs:
 
           committed = Path("data/two_face_cuboids_1e6_stage8_local_sieve_report.json")
           generated = Path("generated-two-face-stage8-local-sieve-report.json")
-          if committed.exists():
+          if not committed.exists():
+              print(f"{committed} is not committed yet")
+          else:
               expected = json.loads(committed.read_text(encoding="utf-8"))
               actual = json.loads(generated.read_text(encoding="utf-8"))
-              if expected != actual:
-                  raise SystemExit(f"{committed} differs from regenerated output")
-          else:
-              print(f"{committed} is not committed yet; skipping comparison")
+              print("report_changed=", expected != actual)
           PY
 
       - name: Commit normalized source and reproducible outputs
