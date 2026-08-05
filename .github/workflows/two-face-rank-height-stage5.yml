@@ -1,0 +1,90 @@
+name: Two-face rank and height stage 5
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
+      - "data/two_face_cuboids_1e6_stage5_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_two_face_rank_height_stage5.py"
+      - "scripts/audit_two_face_rank_height_stage5_runner.py"
+      - "scripts/update_two_face_stage5_memo.py"
+      - ".github/workflows/two-face-rank-height-stage5.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rank-generator-height:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install PARI GP
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends pari-gp
+          gp --version
+
+      - name: Run stage-five audit
+        run: |
+          python scripts/audit_two_face_rank_height_stage5_runner.py \
+            --rank-efforts 4,8 \
+            --rank-timeout-per-attempt 900 \
+            --generator-saturation-bound 100 \
+            --write-report generated-two-face-stage5-report.json
+
+      - name: Regenerate stage-five memo
+        run: |
+          python scripts/update_two_face_stage5_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-two-face-stage5-report.json \
+            --output generated-face-ratio-geometry-research.md
+          grep -n "4.14 未確定rank" generated-face-ratio-geometry-research.md
+          grep -n "P=2G" generated-face-ratio-geometry-research.md
+
+      - name: Compare committed outputs with regenerated results
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed_report = Path("data/two_face_cuboids_1e6_stage5_report.json")
+          generated_report = Path("generated-two-face-stage5-report.json")
+          if not committed_report.exists():
+              raise SystemExit(f"required committed output is missing: {committed_report}")
+          expected = json.loads(committed_report.read_text(encoding="utf-8"))
+          actual = json.loads(generated_report.read_text(encoding="utf-8"))
+          if expected != actual:
+              raise SystemExit(f"{committed_report} differs from regenerated output")
+
+          start = "<!-- TWO_FACE_STAGE5_START -->"
+          end = "<!-- TWO_FACE_STAGE5_END -->"
+
+          def extract(path: Path) -> str:
+              text = path.read_text(encoding="utf-8")
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit(f"stage-five markers are invalid in {path}")
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          committed_section = extract(Path("docs/face-ratio-geometry-research.md"))
+          generated_section = extract(Path("generated-face-ratio-geometry-research.md"))
+          if committed_section != generated_section:
+              raise SystemExit("committed stage-five memo section differs from regenerated section")
+          PY
+
+      - name: Upload stage-five outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-rank-height-stage5
+          path: |
+            generated-two-face-stage5-report.json
+            generated-face-ratio-geometry-research.md
