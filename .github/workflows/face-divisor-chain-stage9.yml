@@ -1,0 +1,75 @@
+name: Face divisor-chain stage 9
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_fixed.json"
+      - "scripts/audit_face_divisor_chain_stage9.py"
+      - "scripts/update_face_divisor_chain_stage9_memo.py"
+      - ".github/workflows/face-divisor-chain-stage9.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  divisor-chain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run stage-nine divisor-chain audit
+        run: |
+          python scripts/audit_face_divisor_chain_stage9.py \
+            --write-report generated-face-divisor-chain-stage9-report.json
+
+      - name: Generate stage-nine research memo
+        run: |
+          python scripts/update_face_divisor_chain_stage9_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-face-divisor-chain-stage9-report.json \
+            --output generated-face-ratio-geometry-research.md
+          grep -n "4.18.*二段階約数鎖" generated-face-ratio-geometry-research.md
+          grep -n "oriented divisor chain" generated-face-ratio-geometry-research.md
+          grep -n "standard square sieve" generated-face-ratio-geometry-research.md
+          if grep -P "\t" generated-face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in generated Markdown" >&2
+            exit 1
+          fi
+
+      - name: Commit reproducible outputs to the PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          cp generated-face-divisor-chain-stage9-report.json \
+            data/face_divisor_chain_stage9_report.json
+          cp generated-face-ratio-geometry-research.md \
+            docs/face-ratio-geometry-research.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/face_divisor_chain_stage9_report.json \
+            docs/face-ratio-geometry-research.md
+          if git diff --cached --quiet; then
+            echo "Stage-nine outputs are already current"
+          else
+            git commit -m "Record stage-nine divisor-chain audit"
+            git push origin "HEAD:${{ github.head_ref }}"
+          fi
+
+      - name: Upload stage-nine outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: face-divisor-chain-stage9
+          path: |
+            generated-face-divisor-chain-stage9-report.json
+            generated-face-ratio-geometry-research.md
