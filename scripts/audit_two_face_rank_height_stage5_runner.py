@@ -3,10 +3,37 @@
 
 from __future__ import annotations
 
+import shutil
+import subprocess
 from fractions import Fraction
 from typing import Any
 
 import audit_two_face_rank_height_stage5 as base
+
+
+def run_gp_allow_stack_warnings(script: str, timeout: int) -> str:
+    gp = shutil.which("gp")
+    if gp is None:
+        raise RuntimeError("PARI/GP executable 'gp' was not found")
+    completed = subprocess.run(
+        [gp, "-q"],
+        input=script,
+        text=True,
+        capture_output=True,
+        timeout=timeout,
+        check=False,
+    )
+    raw = completed.stdout + completed.stderr
+    if completed.returncode != 0:
+        raise RuntimeError(f"PARI/GP failed:\n{raw}")
+    nonwarning_errors = [
+        line
+        for line in raw.splitlines()
+        if "***" in line and "Warning:" not in line
+    ]
+    if nonwarning_errors:
+        raise RuntimeError(f"PARI/GP failed:\n{raw}")
+    return raw
 
 
 def audit_generator_7_32_fixed(
@@ -40,7 +67,7 @@ print("SATURATED_REGULATOR=",regW);
 print("INDEX_SQUARED=",round(regP/regW));
 quit;
 """
-    raw = base.run_gp(script, timeout)
+    raw = run_gp_allow_stack_warnings(script, timeout)
     generator = base.parse_gp_point(base.text_field(raw, "SATURATED_GENERATOR"))
     if not base.point_on_curve(generator, lam):
         raise ArithmeticError("PARI saturated generator is not on the curve")
