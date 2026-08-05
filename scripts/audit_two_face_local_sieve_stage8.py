@@ -62,11 +62,19 @@ def symbolic_j_map() -> dict[str, Any]:
     if sp.expand(delta - expected_delta) != 0:
         raise ArithmeticError("unexpected discriminant factorization")
 
-    numerator = sp.factor(c4**3)
-    denominator = sp.factor(delta)
-    gcd = sp.factor(sp.gcd(sp.Poly(numerator, t), sp.Poly(denominator, t)).as_expr())
-    if gcd != 1:
-        raise ArithmeticError(f"j numerator and denominator have common factor {gcd}")
+    raw_numerator = sp.factor(c4**3)
+    raw_denominator = sp.factor(delta)
+    polynomial_gcd = sp.factor(
+        sp.gcd(sp.Poly(raw_numerator, t), sp.Poly(raw_denominator, t)).as_expr()
+    )
+    if sp.degree(polynomial_gcd, t) != 0:
+        raise ArithmeticError(
+            f"j numerator and denominator have a positive-degree common factor {polynomial_gcd}"
+        )
+    reduced = sp.cancel(raw_numerator / raw_denominator)
+    numerator, denominator = (
+        sp.factor(part) for part in sp.fraction(reduced)
+    )
 
     numerator_degree = sp.degree(numerator, t)
     denominator_degree = sp.degree(denominator, t)
@@ -125,7 +133,8 @@ def symbolic_j_map() -> dict[str, Any]:
         "c4_factorized": str(c4),
         "delta_factorized": str(delta),
         "j_factorized": f"({sp.factor(numerator)})/({sp.factor(denominator)})",
-        "j_numerator_denominator_gcd": str(gcd),
+        "j_numerator_denominator_polynomial_gcd": str(polynomial_gcd),
+        "j_common_factor_is_constant_only": True,
         "j_numerator_degree": int(numerator_degree),
         "j_denominator_degree": int(denominator_degree),
         "j_map_degree": int(map_degree),
