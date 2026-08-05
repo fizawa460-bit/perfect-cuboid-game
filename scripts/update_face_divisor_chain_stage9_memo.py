@@ -83,7 +83,8 @@ def build_section(report: dict[str, Any]) -> str:
     comparison = report["known_two_face_comparison"]
     certificates = report["congruence_certificates"]
     one_counts = report["published_d20000_one_face_counts"]["generated"]
-    return f"""{START}
+
+    template = r"""@@START@@
 ### 4.18 一面・二面成立の二段階約数鎖監査【有限列挙は確定／square sieve接続は未確認】
 
 再現コードと生成レポートは
@@ -116,8 +117,8 @@ $$
 であり、逆に同じ偶奇の約数対から
 
 $$
-b=\frac{{s-r}}2,\quad p=\frac{{s+r}}2,\qquad
-c=\frac{{v-u}}2,\quad d=\frac{{v+u}}2
+b=\frac{s-r}{2},\quad p=\frac{s+r}{2},\qquad
+c=\frac{v-u}{2},\quad d=\frac{v+u}{2}
 $$
 
 を回復できる。従って、生成面を固定した一面以上成立点と二段階約数鎖の間には完全な対応がある。
@@ -126,25 +127,25 @@ $$
 
 #### 4.18.2 既存データの完全再現【有限範囲について確定】
 
-{threshold_table(report)}
+@@THRESHOLD_TABLE@@
 
 $d\le20{,}000$ の分類は次の通りだった。
 
-{category_table(report)}
+@@CATEGORY_TABLE@@
 
 特に一面のみ成立は
 
 $$
-N_1(20{,}000)={final['exactly_one_face']:,}
+N_1(20{,}000)=@@ONE_TOTAL@@
 $$
 
 で、内訳
 
 $$
-(ab,ac,bc)=({one_counts['ab_only']:,},{one_counts['ac_only']:,},{one_counts['bc_only']:,})
+(ab,ac,bc)=(@@AB_ONLY@@,@@AC_ONLY@@,@@BC_ONLY@@)
 $$
 
-は既存研究メモの値と完全一致した。二面以上成立は {comparison['generated_two_face_count']} 件で、`data/two_face_cuboids_1e6_fixed.json` の $d\le20{,}000$ 部分と点・分類とも完全一致した。
+は既存研究メモの値と完全一致した。二面以上成立は @@TWO_COUNT@@ 件で、`data/two_face_cuboids_1e6_fixed.json` の $d\le20{,}000$ 部分と点・分類とも完全一致した。
 
 これにより二段階約数鎖は、有限探索の高速化だけでなく、一面成立母集団と二面成立部分集合を同一の離散パラメータ空間で比較する座標として利用できる。
 
@@ -165,7 +166,7 @@ $$
 ただし変数は独立なboxを動くのではなく、
 
 $$
-rs=a^2,\qquad uv=\left(\frac{{r+s}}2\right)^2
+rs=a^2,\qquad uv=\left(\frac{r+s}{2}\right)^2
 $$
 
 という乗法的な平方・約数制約で強く結合している。そのため、現時点で標準的なsquare sieveへそのまま適用できる形ではない。追加平方式を得たことと、指数改善を証明したことを区別する。
@@ -174,9 +175,9 @@ $$
 
 生成面以外の二つの平方和が、ある法 $M$ で平方剰余でなければ、その面対角線は整数にならない。この十分条件を小さい法で探索した。
 
-{certificate_table(report)}
+@@CERTIFICATE_TABLE@@
 
-試した法の和集合では、一面のみ成立 {certificates['exactly_one_population']:,} 件のうち {certificates['union_certified_count']:,} 件、すなわち {percent(certificates['union_coverage_fraction'])} に有限の合同証明書が見つかった。二面以上成立点に対する偽陽性は0件である。
+試した法の和集合では、一面のみ成立 @@CERT_POP@@ 件のうち @@CERT_COUNT@@ 件、すなわち @@CERT_RATE@@ に有限の合同証明書が見つかった。二面以上成立点に対する偽陽性は0件である。
 
 これは個々の剰余類が一面のみ成立を保証するという厳密な十分条件だが、**その剰余類に属するprimitive約数鎖が漸近的に多数存在することは未証明**である。有限被覆率をそのまま $N_1(B)$ の下界へ読み替えない。
 
@@ -205,8 +206,27 @@ N_2(B)=o(N_1(B))
 $$
 
 および $N_1(B)$ の漸近下界は未証明のままである。
-{END}
+@@END@@
 """
+
+    replacements = {
+        "@@START@@": START,
+        "@@END@@": END,
+        "@@THRESHOLD_TABLE@@": threshold_table(report),
+        "@@CATEGORY_TABLE@@": category_table(report),
+        "@@ONE_TOTAL@@": f"{final['exactly_one_face']:,}",
+        "@@AB_ONLY@@": f"{one_counts['ab_only']:,}",
+        "@@AC_ONLY@@": f"{one_counts['ac_only']:,}",
+        "@@BC_ONLY@@": f"{one_counts['bc_only']:,}",
+        "@@TWO_COUNT@@": str(comparison["generated_two_face_count"]),
+        "@@CERTIFICATE_TABLE@@": certificate_table(report),
+        "@@CERT_POP@@": f"{certificates['exactly_one_population']:,}",
+        "@@CERT_COUNT@@": f"{certificates['union_certified_count']:,}",
+        "@@CERT_RATE@@": percent(certificates["union_coverage_fraction"]),
+    }
+    for token, value in replacements.items():
+        template = template.replace(token, value)
+    return template
 
 
 def replace_section(text: str, section: str) -> str:
