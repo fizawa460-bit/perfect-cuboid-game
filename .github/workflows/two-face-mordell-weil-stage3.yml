@@ -109,8 +109,33 @@ jobs:
               actual = json.loads(generated.read_text(encoding="utf-8"))
               if expected != actual:
                   raise SystemExit(f"{committed} differs from regenerated output")
+
+          def extract_section(text: str, prefix: str) -> str:
+              lines = text.splitlines()
+              try:
+                  start = next(
+                      index for index, line in enumerate(lines)
+                      if line.startswith(prefix)
+                  )
+              except StopIteration as exc:
+                  raise SystemExit(f"missing memo section: {prefix}") from exc
+              end = len(lines)
+              for index in range(start + 1, len(lines)):
+                  line = lines[index]
+                  if line.startswith("### 4.") or line.startswith("## 5.") or line.startswith("<!-- TWO_FACE_STAGE5_START -->"):
+                      end = index
+                      break
+              return "\n".join(lines[start:end]).strip()
+
+          committed_memo = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_memo = Path("generated-face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          for prefix in (
+              "### 4.12 楕円ファイバー上のMordell–Weil関係",
+              "### 4.13 観測済み193ファイバー全体のrank・飽和監査",
+          ):
+              if extract_section(committed_memo, prefix) != extract_section(generated_memo, prefix):
+                  raise SystemExit(f"committed memo section differs from regenerated section: {prefix}")
           PY
-          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
       - name: Upload outputs
         uses: actions/upload-artifact@v4
