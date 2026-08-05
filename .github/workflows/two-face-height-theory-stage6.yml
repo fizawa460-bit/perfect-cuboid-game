@@ -1,0 +1,100 @@
+name: Two-face height theory stage 6
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_kummer_classification.json"
+      - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
+      - "data/two_face_cuboids_1e6_stage5_report.json"
+      - "data/two_face_cuboids_1e6_stage6_height_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_two_face_height_theory_stage6.py"
+      - "scripts/update_two_face_stage6_memo.py"
+      - "scripts/update_two_face_stage6_conclusion.py"
+      - ".github/workflows/two-face-height-theory-stage6.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  height-theory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+
+      - name: Derive and audit height bounds
+        run: |
+          python scripts/audit_two_face_height_theory_stage6.py \
+            --write-report generated-two-face-stage6-height-report.json
+
+      - name: Regenerate stage-six memo
+        run: |
+          python scripts/update_two_face_stage6_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-two-face-stage6-height-report.json \
+            --output generated-face-ratio-geometry-research.md
+          python scripts/update_two_face_stage6_conclusion.py \
+            --input generated-face-ratio-geometry-research.md \
+            --output finalized-face-ratio-geometry-research.md
+          mv finalized-face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
+          grep -n "4.15 楕円ファイバー" generated-face-ratio-geometry-research.md
+          grep -n "17}{6" generated-face-ratio-geometry-research.md
+          grep -n "一方向の一様上界が成立" generated-face-ratio-geometry-research.md
+
+      - name: Compare committed outputs with regenerated results
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed_report = Path("data/two_face_cuboids_1e6_stage6_height_report.json")
+          generated_report = Path("generated-two-face-stage6-height-report.json")
+          if not committed_report.exists():
+              raise SystemExit(f"required committed output is missing: {committed_report}")
+          expected = json.loads(committed_report.read_text(encoding="utf-8"))
+          actual = json.loads(generated_report.read_text(encoding="utf-8"))
+          if expected != actual:
+              raise SystemExit(f"{committed_report} differs from regenerated output")
+
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          start = "<!-- TWO_FACE_STAGE6_START -->"
+          end = "<!-- TWO_FACE_STAGE6_END -->"
+
+          def extract_block(text: str) -> str:
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit("stage-six markers are missing or duplicated")
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+
+          if extract_block(committed_text) != extract_block(generated_text):
+              raise SystemExit("committed stage-six memo block differs from regenerated block")
+
+          required_lines = [
+              "二面成立楕円ファイバーの正の整数点について、",
+              "canonical heightから $d$ への逆向き一様下界、",
+          ]
+          for phrase in required_lines:
+              committed_lines = [line for line in committed_text.splitlines() if phrase in line]
+              generated_lines = [line for line in generated_text.splitlines() if phrase in line]
+              if committed_lines != generated_lines or len(committed_lines) != 1:
+                  raise SystemExit(f"stage-six conclusion line mismatch: {phrase}")
+          PY
+
+      - name: Upload stage-six outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-height-theory-stage6
+          path: |
+            generated-two-face-stage6-height-report.json
+            generated-face-ratio-geometry-research.md
