@@ -1,0 +1,57 @@
+name: Stage10 bootstrap outputs
+
+on:
+  push:
+    branches:
+      - agent/one-face-lower-bound-stage10
+    paths:
+      - ".github/workflows/stage10-bootstrap.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-commit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out Stage10 branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/one-face-lower-bound-stage10
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+
+      - name: Generate deterministic report and memo
+        run: |
+          python scripts/audit_one_face_lower_bound_stage10.py \
+            --write-report data/one_face_lower_bound_stage10_report.json
+          python scripts/update_one_face_lower_bound_stage10_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report data/one_face_lower_bound_stage10_report.json \
+            --output generated-face-ratio-geometry-research.md
+          mv generated-face-ratio-geometry-research.md docs/face-ratio-geometry-research.md
+
+      - name: Remove temporary Stage10 scaffolding
+        run: |
+          rm -f docs/STAGE10_DRAFT.md
+          rm -f docs/STAGE10_PR_PENDING.md
+          rm -f .github/workflows/stage10-bootstrap.yml
+
+      - name: Commit generated outputs
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No generated changes to commit"
+            exit 0
+          fi
+          git commit -m "Generate Stage10 report and research memo"
+          git push origin HEAD:agent/one-face-lower-bound-stage10
