@@ -23,6 +23,7 @@ import shutil
 import subprocess
 from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from decimal import Decimal, InvalidOperation
 from fractions import Fraction
 from pathlib import Path
 from typing import Any
@@ -102,20 +103,21 @@ def load_fibers(relations_path: Path) -> list[dict[str, Any]]:
     return sorted(fibers, key=lambda item: Fraction(item["lambda"]))
 
 
-def gp_script(
-    fiber: dict[str, Any],
-    effort: int,
-    saturation_bound: int,
-) -> str:
+def curve_and_points_gp(fiber: dict[str, Any]) -> tuple[str, str]:
     lam = Fraction(fiber["lambda"])
     a2, a4 = curve_coefficients(lam)
-    points_vector = "[" + ",".join(
+    curve = f"ellinit([0,{gp_fraction(a2)},0,{gp_fraction(a4)},0])"
+    points = "[" + ",".join(
         point_to_gp(point) for point in fiber["seed_points"]
     ) + "]"
-    return f"""
-default(realprecision,80);
-E=ellinit([0,{gp_fraction(a2)},0,{gp_fraction(a4)},0]);
-P={points_vector};
+    return curve, points
+
+
+def rank_script(fiber: dict[str, Any], effort: int) -> str:
+    curve, points = curve_and_points_gp(fiber)
+    return f"""default(realprecision,80);
+E={curve};
+P={points};
 print("ALL_POINTS_ON_CURVE=",vecmin(vector(#P,k,ellisoncurve(E,P[k]))));
 T=elltors(E);
 print("TORSION_ORDER=",T[1]);
@@ -126,102 +128,134 @@ print("RANK_UPPER=",R[2]);
 print("SHA2_INFO=",R[3]);
 print("FOUND_GENERATOR_COUNT=",#R[4]);
 print("ROOT_NUMBER=",ellrootno(E));
-eligible=(R[1]==R[2] && R[1]==#P && #P>0);
-print("SATURATION_ELIGIBLE=",eligible);
-if(eligible,
-  regP=matdet(ellheightmatrix(E,P));
-  print("OBSERVED_REGULATOR=",regP);
-  if(abs(regP)>10^-60,
-    W=ellsaturation(E,P,{saturation_bound});
-    regW=matdet(ellheightmatrix(E,W));
-    ratio=regP/regW;
-    ratioInt=round(ratio);
-    print("SATURATION_RAN=1");
-    print("SATURATED_REGULATOR=",regW);
-    print("SATURATION_INDEX_SQUARED=",ratioInt);
-    print("SATURATION_INDEX_SQUARED_ERROR=",abs(ratio-ratioInt));
-    print("SATURATION_INDEX=",if(issquare(ratioInt),sqrtint(ratioInt),-1));
-    print("SATURATED_GENERATOR_COUNT=",#W),
-    print("SATURATION_RAN=0")
-  ),
-  print("SATURATION_RAN=0")
-);
+print("OBSERVED_REGULATOR=",matdet(ellheightmatrix(E,P)));
 quit;
 """
 
 
-def run_gp(
-    gp: str,
-    fiber: dict[str, Any],
-    effort: int,
-    saturation_bound: int,
-    timeout: int,
-) -> dict[str, Any]:
+def saturation_script(fiber: dict[str, Any], saturation_bound: int) -> str:
+    curve, points = curve_and_points_gp(fiber)
+    return f"""default(realprecision,80);
+E={curve};
+P={points};
+regP=matdet(ellheightmatrix(E,P));
+W=ellsaturation(E,P,{saturation_bound});
+regW=matdet(ellheightmatrix(E,W));
+ratio=regP/regW;
+ratioInt=round(ratio);
+print("SATURATED_REGULATOR=",regW);
+print("SATURATION_INDEX_SQUARED=",ratioInt);
+print("SATURATION_INDEX_SQUARED_ERROR=",abs(ratio-ratioInt));
+print("SATURATION_INDEX=",if(issquare(ratioInt),sqrtint(ratioInt),-1));
+print("SATURATED_GENERATOR_COUNT=",#W);
+quit;
+"""
+
+
+def run_process(gp: str, script: str, timeout: int) -> tuple[str, str | None]:
     try:
         completed = subprocess.run(
             [gp, "-q"],
-            input=gp_script(fiber, effort, saturation_bound),
+            input=script,
             text=True,
             capture_output=True,
             timeout=timeout,
             check=False,
         )
     except subprocess.TimeoutExpired as exc:
-        return {
-            **fiber,
-            "status": "timeout",
-            "effort": effort,
-            "timeout_seconds": timeout,
-            "error": str(exc),
-        }
+        return "timeout", str(exc)
     raw = completed.stdout + completed.stderr
-    if completed.returncode != 0:
+    if completed.returncode != 0 or "***" in raw:
+        return "pari_error", raw
+    return "success", raw
+
+
+def regulator_is_nondegenerate(raw_value: str | None) -> bool:
+    if raw_value is None:
+        return False
+    try:
+        return abs(Decimal(raw_value)) > Decimal("1e-50")
+    except InvalidOperation:
+        return False
+
+
+def run_fiber(
+    gp: str,
+    fiber: dict[str, Any],
+    effort: int,
+    saturation_bound: int,
+    timeout: int,
+) -> dict[str, Any]:
+    status, payload = run_process(gp, rank_script(fiber, effort), timeout)
+    if status != "success":
         return {
             **fiber,
-            "status": "pari_error",
+            "status": status,
             "effort": effort,
-            "raw_pari_output": raw,
+            "timeout_seconds": timeout if status == "timeout" else None,
+            "error": payload,
         }
-
-    structure = parse_text(raw, "TORSION_STRUCTURE")
+    assert payload is not None
+    raw = payload
     lower = parse_integer(raw, "RANK_LOWER")
     upper = parse_integer(raw, "RANK_UPPER")
-    saturation_ran = bool(parse_integer(raw, "SATURATION_RAN"))
+    observed_regulator = parse_text(raw, "OBSERVED_REGULATOR")
+    eligible = (
+        lower == upper
+        and lower == len(fiber["seed_points"])
+        and lower > 0
+        and regulator_is_nondegenerate(observed_regulator)
+    )
     result: dict[str, Any] = {
         **fiber,
         "status": "success",
         "effort": effort,
         "all_seed_points_on_curve": bool(parse_integer(raw, "ALL_POINTS_ON_CURVE")),
         "torsion_order": parse_integer(raw, "TORSION_ORDER"),
-        "torsion_structure_raw": structure,
+        "torsion_structure_raw": parse_text(raw, "TORSION_STRUCTURE"),
         "rank_lower_bound": lower,
         "rank_upper_bound": upper,
         "rank_exact": lower == upper,
         "sha_2_information": parse_integer(raw, "SHA2_INFO"),
         "found_generator_count": parse_integer(raw, "FOUND_GENERATOR_COUNT"),
         "root_number": parse_integer(raw, "ROOT_NUMBER"),
-        "saturation_eligible": bool(parse_integer(raw, "SATURATION_ELIGIBLE")),
-        "saturation_ran": saturation_ran,
+        "observed_regulator_raw": observed_regulator,
+        "saturation_eligible": eligible,
+        "saturation_ran": False,
+        "saturation_status": "not_eligible",
         "saturation_bound": saturation_bound,
-        "raw_pari_output": raw,
+        "raw_pari_rank_output": raw,
     }
-    if saturation_ran:
-        result.update(
-            {
-                "observed_regulator_raw": parse_text(raw, "OBSERVED_REGULATOR"),
-                "saturated_regulator_raw": parse_text(raw, "SATURATED_REGULATOR"),
-                "saturation_index_squared": parse_integer(
-                    raw, "SATURATION_INDEX_SQUARED"
-                ),
-                "saturation_index_squared_error_raw": parse_text(
-                    raw, "SATURATION_INDEX_SQUARED_ERROR"
-                ),
-                "saturation_index": parse_integer(raw, "SATURATION_INDEX"),
-                "saturated_generator_count": parse_integer(
-                    raw, "SATURATED_GENERATOR_COUNT"
-                ),
-            }
-        )
+    if not eligible:
+        return result
+
+    sat_status, sat_payload = run_process(
+        gp, saturation_script(fiber, saturation_bound), timeout
+    )
+    result["saturation_status"] = sat_status
+    if sat_status != "success":
+        result["saturation_error"] = sat_payload
+        return result
+    assert sat_payload is not None
+    result.update(
+        {
+            "saturation_ran": True,
+            "saturated_regulator_raw": parse_text(
+                sat_payload, "SATURATED_REGULATOR"
+            ),
+            "saturation_index_squared": parse_integer(
+                sat_payload, "SATURATION_INDEX_SQUARED"
+            ),
+            "saturation_index_squared_error_raw": parse_text(
+                sat_payload, "SATURATION_INDEX_SQUARED_ERROR"
+            ),
+            "saturation_index": parse_integer(sat_payload, "SATURATION_INDEX"),
+            "saturated_generator_count": parse_integer(
+                sat_payload, "SATURATED_GENERATOR_COUNT"
+            ),
+            "raw_pari_saturation_output": sat_payload,
+        }
+    )
     return result
 
 
@@ -238,54 +272,56 @@ def audit(
         raise RuntimeError("PARI/GP executable 'gp' was not found")
     fibers = load_fibers(relations_path)
 
-    def first_pass(fiber: dict[str, Any]) -> dict[str, Any]:
-        return run_gp(gp, fiber, effort, saturation_bound, timeout)
+    def run_many(targets: list[dict[str, Any]], run_effort: int) -> list[dict[str, Any]]:
+        collected: list[dict[str, Any]] = []
+        with ThreadPoolExecutor(max_workers=workers) as executor:
+            futures = {
+                executor.submit(
+                    run_fiber,
+                    gp,
+                    fiber,
+                    run_effort,
+                    saturation_bound,
+                    timeout,
+                ): fiber
+                for fiber in targets
+            }
+            for future in as_completed(futures):
+                collected.append(future.result())
+        return collected
 
-    results: list[dict[str, Any]] = []
-    with ThreadPoolExecutor(max_workers=workers) as executor:
-        future_map = {executor.submit(first_pass, fiber): fiber for fiber in fibers}
-        for future in as_completed(future_map):
-            results.append(future.result())
-
+    results = run_many(fibers, effort)
     retry_targets = [
-        result
+        {
+            key: result[key]
+            for key in (
+                "lambda",
+                "source_indices",
+                "point_count",
+                "seed_source_indices",
+                "seed_points",
+            )
+        }
         for result in results
         if result.get("status") == "success" and not result.get("rank_exact", False)
     ]
-    retried_by_lambda: dict[str, dict[str, Any]] = {}
     if retry_effort > effort and retry_targets:
-        with ThreadPoolExecutor(max_workers=workers) as executor:
-            future_map = {
-                executor.submit(
-                    run_gp,
-                    gp,
-                    {
-                        key: target[key]
-                        for key in (
-                            "lambda",
-                            "source_indices",
-                            "point_count",
-                            "seed_source_indices",
-                            "seed_points",
-                        )
-                    },
-                    retry_effort,
-                    saturation_bound,
-                    timeout,
-                ): target
-                for target in retry_targets
-            }
-            for future in as_completed(future_map):
-                retried = future.result()
-                retried_by_lambda[str(retried["lambda"])] = retried
-    results = [retried_by_lambda.get(str(item["lambda"]), item) for item in results]
+        retried = run_many(retry_targets, retry_effort)
+        retried_by_lambda = {str(item["lambda"]): item for item in retried}
+        results = [
+            retried_by_lambda.get(str(item["lambda"]), item) for item in results
+        ]
     results.sort(key=lambda item: Fraction(str(item["lambda"])))
 
     successes = [item for item in results if item["status"] == "success"]
     exact = [item for item in successes if item["rank_exact"]]
     singleton = [item for item in successes if item["point_count"] == 1]
-    repeated = [item for item in successes if item["point_count"] > 1]
     saturation_runs = [item for item in successes if item["saturation_ran"]]
+    saturation_failures = [
+        item
+        for item in successes
+        if item["saturation_eligible"] and not item["saturation_ran"]
+    ]
     saturated_observed = [
         item for item in saturation_runs if item.get("saturation_index") == 1
     ]
@@ -310,7 +346,8 @@ def audit(
 
     return {
         "valid": len(successes) == len(results)
-        and all(item["all_seed_points_on_curve"] for item in successes),
+        and all(item["all_seed_points_on_curve"] for item in successes)
+        and not saturation_failures,
         "source": relations_path.as_posix(),
         "fiber_count": len(results),
         "singleton_fiber_count": sum(item["point_count"] == 1 for item in results),
@@ -331,6 +368,7 @@ def audit(
             item["saturation_eligible"] for item in successes
         ),
         "saturation_run_count": len(saturation_runs),
+        "saturation_failure_count": len(saturation_failures),
         "observed_seed_subgroup_saturated_below_bound_count": len(
             saturated_observed
         ),
@@ -342,8 +380,8 @@ def audit(
                 "rank over Q for fibers whose PARI lower and upper bounds agree",
                 "torsion structure returned by PARI for every successful fiber",
                 (
-                    "for every saturation run, the returned subgroup has index "
-                    f"not divisible by primes below {saturation_bound}"
+                    "for every successful saturation run, the returned subgroup "
+                    f"has index not divisible by primes below {saturation_bound}"
                 ),
             ],
             "not_certified": [
