@@ -1,0 +1,40 @@
+name: Two-face geometry audit
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_fixed.json"
+      - "scripts/audit_two_face_cuboids.py"
+      - ".github/workflows/two-face-geometry-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install geometry dependency
+        run: python -m pip install --disable-pip-version-check "sympy==1.14.0"
+
+      - name: Audit all 255 records and the singular locus
+        run: |
+          python scripts/audit_two_face_cuboids.py \
+            --geometry \
+            --write-report two-face-geometry-audit-report.json
+          cat two-face-geometry-audit-report.json
+
+      - name: Upload audit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-geometry-audit-report
+          path: two-face-geometry-audit-report.json
