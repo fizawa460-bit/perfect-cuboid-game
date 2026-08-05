@@ -1,0 +1,74 @@
+name: Two-face geometry audit
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_fixed.json"
+      - "data/two_face_cuboids_1e6_audit_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_two_face_cuboids.py"
+      - "scripts/update_two_face_research_memo.py"
+      - ".github/workflows/two-face-geometry-audit.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install geometry dependency
+        run: python -m pip install --disable-pip-version-check "sympy==1.14.0"
+
+      - name: Audit all 255 records and the singular locus
+        run: |
+          python scripts/audit_two_face_cuboids.py \
+            --geometry \
+            --write-report generated-two-face-audit-report.json
+          cat generated-two-face-audit-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          expected = json.loads(
+              Path("data/two_face_cuboids_1e6_audit_report.json").read_text(encoding="utf-8")
+          )
+          actual = json.loads(
+              Path("generated-two-face-audit-report.json").read_text(encoding="utf-8")
+          )
+          if expected != actual:
+              raise SystemExit("Committed audit report differs semantically from regenerated report")
+          PY
+
+      - name: Validate the research memo expansion
+        run: |
+          if grep -q "### 4.2 K3／Kummerに関する状態【未確認】" docs/face-ratio-geometry-research.md; then
+            python scripts/update_two_face_research_memo.py \
+              --input docs/face-ratio-geometry-research.md \
+              --output patched-face-ratio-geometry-research.md
+          else
+            cp docs/face-ratio-geometry-research.md patched-face-ratio-geometry-research.md
+          fi
+          grep -n "4.3 二面成立曲面" patched-face-ratio-geometry-research.md
+          grep -n "4.11" patched-face-ratio-geometry-research.md
+          if grep -P "\t" patched-face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in generated Markdown" >&2
+            exit 1
+          fi
+
+      - name: Upload audit outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-geometry-audit-output
+          path: |
+            generated-two-face-audit-report.json
+            patched-face-ratio-geometry-research.md

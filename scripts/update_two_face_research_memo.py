@@ -1,256 +1,16 @@
-# 研究メモ（2026-08-05時点）
+#!/usr/bin/env python3
+"""Create the proposed section-4 expansion without rewriting unrelated sections."""
 
-## 空間対角線整数解における面成立比率・球面積分・代数幾何
+from __future__ import annotations
 
-> **状態表示**
-> - **確定**：厳密計算、代数的検算、または記載範囲での有限集計として確認済み
-> - **経験的結果**：有限範囲のデータから確認済みだが、極限については未証明
-> - **有望な仮説**：計算や実測が支持する予想
-> - **未確認**：必要な検算・理論接続が未完了
+import argparse
+from pathlib import Path
 
-## 1. 対象と実測結果
 
-正の整数
+START = "### 4.2 K3／Kummerに関する状態【未確認】"
+END = "\n## 5. 一面成立曲面 $V_{ab}$ の幾何"
 
-$$
-a<b<c,\qquad a^2+b^2+c^2=d^2
-$$
-
-を満たす四つ組について、三つの面 $a^2+b^2$、$a^2+c^2$、$b^2+c^2$ のどれが平方数になるかを調査した。
-
-### 1.1 一面のみ成立する原始解【経験的結果】
-
-条件
-
-$$
-d\le100{,}000,\qquad \gcd(a,b,c)=1
-$$
-
-で合計168,030件あり、内訳は次のとおり。
-
-$$
-\begin{aligned}
-ab_{\mathrm{only}}&=84{,}146,\\
-ac_{\mathrm{only}}&=43{,}180,\\
-bc_{\mathrm{only}}&=40{,}704.
-\end{aligned}
-$$
-
-データには $a,b,c,d$、分類、および成立しない二面の最近接平方数との差 $\Delta$ が保存されている。
-
-データファイル：[ab_ac_bc_actual.json](../ab_ac_bc_actual.json)
-
-$ac$ を1とした原始解比は
-
-$$
-ab:ac:bc=1.94873:1:0.94266
-$$
-
-であり、概略では $2:1:1$ である。割合は $50.078\%:25.698\%:24.224\%$ である。
-
-### 1.2 非原始解込み【経験的結果】
-
-$d\le100{,}000$ での件数は次のとおり。
-
-| 分類 | 原始解 | 非原始込み | 倍率 |
-|---|---:|---:|---:|
-| abのみ | 84,146 | 362,324 | 4.3059 |
-| acのみ | 43,180 | 179,313 | 4.1527 |
-| bcのみ | 40,704 | 178,089 | 4.3752 |
-| 合計 | 168,030 | 719,726 | 4.2833 |
-
-非原始解込みの比は
-
-$$
-ab:ac:bc=2.02062:1:0.99317
-$$
-
-であり、割合は $50.342\%:24.914\%:24.744\%$ である。
-
-### 1.3 二面成立【経験的結果】
-
-$d\le1{,}000{,}000$ の二面成立原始解は255件である。
-
-$$
-\begin{aligned}
-ab+ac&=98,\\
-ab+bc&=101,\\
-ac+bc&=56,\\
-\mathrm{perfect}&=0.
-\end{aligned}
-$$
-
-$d\le100{,}000$ では一面のみ成立が168,030件、二面成立が89件で、$N_2/N_1\approx0.0530\%$ である。二面成立89件を各面へ加え戻すと、比は補正前の $1.94873:1:0.94266$ から補正後の $1.94772:1:0.94274$ となる。したがって、二面成立が主比率へ与える影響は有限範囲では極めて小さい。
-
-## 2. 解析①：球面積分モデル
-
-### 2.1 正規化と順序領域【確定】
-
-$$
-x=\frac ad,\qquad y=\frac bd,\qquad z=\frac cd
-$$
-
-と置き、
-
-$$
-R=\{(x,y,z)\in S^2:0<x<y<z\}
-$$
-
-とする。球面座標
-
-$$
-x=\sin\theta\cos\varphi,\quad
-y=\sin\theta\sin\varphi,\quad
-z=\cos\theta
-$$
-
-では
-
-$$
-\frac{\pi}{4}<\varphi<\frac{\pi}{2},\qquad
-0<\theta<\arctan(\csc\varphi)
-$$
-
-で表される。正の八分球を6つの大小順序に分割でき、境界の面積は0なので、$R$ の球面積は厳密に
-
-$$
-\operatorname{area}(R)=\frac{1}{6}\cdot\frac{4\pi}{8}=\frac{\pi}{12}
-$$
-
-である。
-
-### 2.2 重み、大小順、数値積分【確定】
-
-平方数密度モデルの重みを
-
-$$
-w_{ab}=\frac1{\sqrt{x^2+y^2}},\qquad
-w_{ac}=\frac1{\sqrt{x^2+z^2}},\qquad
-w_{bc}=\frac1{\sqrt{y^2+z^2}}
-$$
-
-とする。$R$ 内では点ごとに
-
-$$
-x^2+y^2<x^2+z^2<y^2+z^2
-$$
-
-なので
-
-$$
-w_{ab}>w_{ac}>w_{bc}
-$$
-
-であり、対応する積分について厳密に
-
-$$
-I_{ab}>I_{ac}>I_{bc}
-$$
-
-が成立する。数値積分値は
-
-$$
-\begin{aligned}
-I_{ab}&=0.6597052487\ldots,\\
-I_{ac}&=0.3026997527\ldots,\\
-I_{bc}&=0.2712955488\ldots
-\end{aligned}
-$$
-
-であり、比は
-
-$$
-I_{ab}:I_{ac}:I_{bc}=2.17940465:1:0.89625296
-$$
-
-である。
-
-### 2.3 和の厳密恒等式【確定】
-
-$$
-I_{ab}+I_{ac}+I_{bc}=\frac{\pi^2}{8}
-$$
-
-が厳密に成立する。証明概要は次のとおりである。正の八分球 $S^+$ を6つの順序領域へ分割する。$w_{ab}+w_{ac}+w_{bc}$ は $x,y,z$ の置換に対して対称なので、各順序領域上の積分は等しい。
-
-$$
-J=\int_{S^+}\frac{1}{\sqrt{x^2+y^2}}\,d\omega
-$$
-
-と置く。置換対称性から3種類の重みの各全領域積分は $J$ であり、
-
-$$
-6(I_{ab}+I_{ac}+I_{bc})=3J.
-$$
-
-上の球面座標では $d\omega=\sin\theta\,d\theta\,d\varphi$、$\sqrt{x^2+y^2}=\sin\theta$ なので
-
-$$
-J=\int_0^{\pi/2}\int_0^{\pi/2}d\theta\,d\varphi=\frac{\pi^2}{4}.
-$$
-
-したがって
-
-$$
-I_{ab}+I_{ac}+I_{bc}=\frac{J}{2}=\frac{\pi^2}{8}.
-$$
-
-## 3. 解析②：primitive／非primitive比較
-
-### 3.1 有限復元【確定】
-
-原始解 $(a,b,c,d)$ の整数倍 $(ka,kb,kc,kd)$ も同じ面成立分類を保つ。原始解の空間対角線を $d_p$ とすると、非原始解込みの件数は正確に
-
-$$
-A_i(D)=\sum_{\substack{p\in P_i\\d_p\le D}}\left\lfloor\frac{D}{d_p}\right\rfloor
-$$
-
-で復元できる。
-
-### 3.2 漸近比【条件付き／未証明】
-
-もし3分類に共通の $\alpha>1$ が存在し、
-
-$$
-P_i(D)\sim c_iD^\alpha
-$$
-
-ならば部分和の評価から
-
-$$
-A_i(D)\sim\zeta(\alpha)c_iD^\alpha
-$$
-
-となり、分類比は保存される。しかし $\alpha=1$ や $D(\log D)^m$ 型では単純な $\zeta(\alpha)$ 倍率は使えず、対数次数が変化する可能性がある。したがって、primitiveと非primitiveの極限比が一致することは未証明である。
-
-## 4. 解析③：二面成立の寄与
-
-### 4.1 有限範囲の比較【経験的結果】
-
-| $D$ | 一面のみ $N_1(D)$ | 二面成立 $N_2(D)$ | $N_2/N_1$ |
-|---:|---:|---:|---:|
-| 1,000 | 600 | 2 | 0.333% |
-| 2,000 | 1,434 | 5 | 0.349% |
-| 5,000 | 4,485 | 15 | 0.334% |
-| 10,000 | 10,630 | 25 | 0.235% |
-| 20,000 | 24,712 | 42 | 0.170% |
-| 50,000 | 73,875 | 62 | 0.0839% |
-| 100,000 | 168,030 | 89 | 0.0530% |
-
-また
-
-$$
-\begin{aligned}
-N_2(100{,}000)&=89,\\
-N_2(200{,}000)&=116,\\
-N_2(500{,}000)&=188,\\
-N_2(1{,}000{,}000)&=255.
-\end{aligned}
-$$
-
-見かけの成長が一面成立より遅いことは $N_2(D)=o(N_1(D))$ を強く支持するが、無条件証明ではない。
-
-### 4.2 文献モデルと今回の位置づけ【文献確認済み／独立検算あり】
+NEW_SECTION = r"""### 4.2 文献モデルと今回の位置づけ【文献確認済み／独立検算あり】
 
 二面成立の標準モデルは、文献で **face cuboid をパラメータ化する曲面**として研究されている。標準座標を
 
@@ -544,138 +304,58 @@ $$
 N_2(B)=o(N_1(B))
 $$
 
-が直ちに従うことは、現時点では確認できていない。255件という有限データは経験的証拠としてのみ扱う。
+が直ちに従うことは、現時点では確認できていない。255件という有限データは経験的証拠としてのみ扱う。"""
 
-## 5. 一面成立曲面 $V_{ab}$ の幾何
-
-### 5.1 定義とGelfand–Leray形式【局所計算は確定／大域計数との接続は未証明】
-
-$$
-V_{ab}:\quad
-a^2+b^2=p^2,\qquad p^2+c^2=d^2
-\subset\mathbf P^4
-$$
-
-とする。方程式を順に消去したGelfand–Leray形式は定数倍を除いて
-
-$$
-\frac{da\,db\,dc}{4|pd|}
-$$
-
-となる。さらに
-
-$$
-(a,b,c)=r(x,y,z),\qquad
-p=r\sqrt{x^2+y^2},\qquad d=r
-$$
-
-と置くと、球面方向の測度に
-
-$$
-\frac{d\omega}{\sqrt{x^2+y^2}}
-$$
-
-が現れ、平方数密度モデルの $w_{ab}$ と一致する。
-
-ただし、次は未証明である。
-
-- この局所計算が実際の整数解計数の主項定数になること
-- 有限素点の局所密度が3分類で一致すること
-- 順序領域制限を含むManin–Peyre型漸近公式
-- 実際の整数点比が積分比へ収束すること
-
-### 5.2 特異点【確定】
-
-$$
-F_1=a^2+b^2-p^2,\qquad F_2=p^2+c^2-d^2
-$$
-
-に対するヤコビ行列の行は
-
-$$
-\nabla F_1=(2a,2b,0,0,-2p),\qquad
-\nabla F_2=(0,0,2c,-2d,2p)
-$$
-
-である。代数閉包上の特異点はちょうど
-
-$$
-\begin{aligned}
-P_1&=[0:0:1:1:0],&P_2&=[0:0:1:-1:0],\\
-P_3&=[1:i:0:0:0],&P_4&=[1:-i:0:0:0]
-\end{aligned}
-$$
-
-の4点である。$P_1,P_2$ は $\mathbf Q$ 上、$P_3,P_4$ は $\mathbf Q(i)$ 上のガロア共役対である。
-
-4点はいずれも $A_1$ 型ordinary double pointである。$P_1,P_2$ では $F_2$ の滑らかな変数を消去すると局所方程式は $a^2+b^2-p^2=0$ という非退化二次錐になる。$P_3,P_4$ では $F_1$ の滑らかな変数を消去すると局所方程式は $p^2+c^2-d^2=0$ となる。
-
-### 5.3 quartic del Pezzo構造【確定】
-
-随伴公式により
-
-$$
-K_V=\mathcal O_V(2+2-5)=\mathcal O_V(-1)=-H|_V.
-$$
-
-したがって
-
-$$
-(-K_V)^2=H^2=4.
-$$
-
-よって $V_{ab}$ は幾何学的に $4A_1$ 型の特異quartic del Pezzo曲面である。
-
-### 5.4 二次曲面pencilの退化【確定】
-
-$\lambda F_1+\mu F_2$ の対角係数は
-
-$$
-(\lambda,\lambda,\mu,-\mu,\mu-\lambda)
-$$
-
-である。$\mu=0$ でcorank 2、$\lambda=0$ でcorank 2、$\lambda=\mu$ でcorank 1となる。2つのcorank-2退化二次曲面の頂点直線と、もう一方の二次式との交点が上記4個の $A_1$ 特異点を与え、特異点構造を独立に再確認する。Segre記号や算術的タイプは現時点では断定しない。
-
-### 5.5 toric性【未確認】
-
-「滑らかな次数4 del Pezzo曲面がtoricでない」ことから、この特異 $4A_1$ 型もtoricでないとは結論できない。特異toric del Pezzo曲面には別の分類があるため、$V_{ab}$ のtoric性は現時点で未確定であり、split toricであるという根拠もない。
-
-$\mathbf Q$ 上の2特異点と $\mathbf Q(i)$ 上の共役対という非自明なガロア作用から、toricである場合はnon-split型である可能性があるが、これも未証明である。確定には次の作業が必要である。
-
-- 最小特異点解消上の境界曲線配置
-- ガロア作用
-- 明示的トーラス開軌道
-- fanまたはCox環
-- 既知の $4A_1$ 型quartic del Pezzo曲面の算術的分類表との照合
-
-## 6. 現時点の結論
-
-### 確定
-
-- $d\le100{,}000$ での一面のみ成立原始解の実測比が約 $2:1:1$ であること
-- 球面積分値、順序領域の面積 $\pi/12$、積分の大小順、和 $\pi^2/8$
+OLD_CONFIRMED = """- $d\\le100{,}000$ での一面のみ成立原始解の実測比が約 $2:1:1$ であること
+- 球面積分値、順序領域の面積 $\\pi/12$、積分の大小順、和 $\\pi^2/8$
 - primitiveから非primitiveへの有限復元式
 - 二面成立が有限範囲で主比率へ与える影響が極めて小さいこと
-- 三つの二面以上成立曲面が変数置換で $\mathbf Q$ 上同型であり、文献上のface-cuboid曲面と明示的に一致すること
+- $V_{ab}$ が幾何学的に $4A_1$ 型の特異quartic del Pezzo曲面であること"""
+
+NEW_CONFIRMED = """- $d\\le100{,}000$ での一面のみ成立原始解の実測比が約 $2:1:1$ であること
+- 球面積分値、順序領域の面積 $\\pi/12$、積分の大小順、和 $\\pi^2/8$
+- primitiveから非primitiveへの有限復元式
+- 二面成立が有限範囲で主比率へ与える影響が極めて小さいこと
+- 三つの二面以上成立曲面が変数置換で $\\mathbf Q$ 上同型であり、文献上のface-cuboid曲面と明示的に一致すること
 - 標準face-cuboid曲面の16特異点がすべて $A_1$ 型で、正の領域には特異点がないこと
-- 文献上、標準face-cuboid曲面の最小解消が $\operatorname{Kum}(E\times E')$ となるK3曲面であること
+- 文献上、標準face-cuboid曲面の最小解消が $\\operatorname{Kum}(E\\times E')$ となるK3曲面であること
 - 正の整数領域では射影max-heightが $H=d$ となること
-- $V_{ab}$ が幾何学的に $4A_1$ 型の特異quartic del Pezzo曲面であること
+- $V_{ab}$ が幾何学的に $4A_1$ 型の特異quartic del Pezzo曲面であること"""
 
-### 有望だが未証明
+OLD_UNCONFIRMED = """- $V_{ab}$ のtoric性、境界配置、fan、Cox環および算術的分類
+- 二面成立曲面の特異点、既約性、最小解消、Kummer構造"""
 
-- Leray形式の実因子が実際の主項比を与えること
-- 有限素点因子が3分類で共通であること
-- $V_{ab}$ がnon-split toricであること
-- Manin–Peyre理論により実際の整数点比が球面積分比へ収束すること
-- $N_2(D)=o(N_1(D))$
-- primitiveと非primitiveの極限比が一致すること
-
-### 未確認
-
-- $V_{ab}$ のtoric性、境界配置、fan、Cox環および算術的分類
+NEW_UNCONFIRMED = """- $V_{ab}$ のtoric性、境界配置、fan、Cox環および算術的分類
 - 二面成立Kummer曲面上で高さ $H=d$ に対応する因子と、既知の有理点計数定理の適用条件
 - 高さを累積させる有理曲線の完全な特定と、255件の曲線別分類
-- 二面成立数の無条件上界および $N_2(D)=o(N_1(D))$ の証明
+- 二面成立数の無条件上界および $N_2(D)=o(N_1(D))$ の証明"""
 
-現在の中心課題は、確定した局所・実幾何の計算と、実際の離散整数点の大域的漸近計数を厳密につなぐことである。
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--input", type=Path, required=True)
+    parser.add_argument("--output", type=Path, required=True)
+    args = parser.parse_args()
+
+    text = args.input.read_text(encoding="utf-8")
+    start = text.find(START)
+    end = text.find(END)
+    if start < 0 or end < 0 or end <= start:
+        raise SystemExit("section-4 markers were not found in the expected order")
+
+    updated = text[:start] + NEW_SECTION + "\n" + text[end:]
+
+    for old, new, label in (
+        (OLD_CONFIRMED, NEW_CONFIRMED, "confirmed summary"),
+        (OLD_UNCONFIRMED, NEW_UNCONFIRMED, "unconfirmed summary"),
+    ):
+        if old not in updated:
+            raise SystemExit(f"{label} block was not found")
+        updated = updated.replace(old, new, 1)
+
+    args.output.write_text(updated, encoding="utf-8")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
