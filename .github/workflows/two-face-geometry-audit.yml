@@ -35,13 +35,21 @@ jobs:
             --write-report two-face-geometry-audit-report.json
           cat two-face-geometry-audit-report.json
 
-      - name: Generate the proposed research memo update
+      - name: Validate the research memo expansion
         run: |
-          python scripts/update_two_face_research_memo.py \
-            --input docs/face-ratio-geometry-research.md \
-            --output patched-face-ratio-geometry-research.md
+          if grep -q "### 4.2 K3／Kummerに関する状態【未確認】" docs/face-ratio-geometry-research.md; then
+            python scripts/update_two_face_research_memo.py \
+              --input docs/face-ratio-geometry-research.md \
+              --output patched-face-ratio-geometry-research.md
+          else
+            cp docs/face-ratio-geometry-research.md patched-face-ratio-geometry-research.md
+          fi
           grep -n "4.3 二面成立曲面" patched-face-ratio-geometry-research.md
           grep -n "4.11" patched-face-ratio-geometry-research.md
+          if grep -P "\t" patched-face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in generated Markdown" >&2
+            exit 1
+          fi
 
       - name: Upload audit outputs
         uses: actions/upload-artifact@v4
