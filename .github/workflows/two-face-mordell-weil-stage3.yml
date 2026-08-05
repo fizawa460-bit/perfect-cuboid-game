@@ -6,6 +6,7 @@ on:
       - "data/two_face_cuboids_1e6_kummer_classification.json"
       - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
       - "data/two_face_cuboids_1e6_mordell_weil_report.json"
+      - "data/two_face_cuboids_lambda_16_21_pari_report.json"
       - "docs/face-ratio-geometry-research.md"
       - "scripts/analyze_two_face_mordell_weil.py"
       - "scripts/audit_focus_fiber_with_pari.py"
@@ -18,6 +19,7 @@ permissions:
 jobs:
   exact-relations:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -46,6 +48,20 @@ jobs:
           print(json.dumps(report["focus_lambda_16_21"], indent=2, sort_keys=True))
           PY
 
+      - name: Install PARI GP
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends pari-gp
+          gp --version
+
+      - name: Audit lambda 16/21 with PARI 2-descent
+        run: |
+          python scripts/audit_focus_fiber_with_pari.py \
+            --relations generated-mordell-weil-relations.json \
+            --lambda 16/21 \
+            --effort 1 \
+            --write-report generated-lambda-16-21-pari-report.json
+
       - name: Compare committed outputs when present
         run: |
           python - <<'PY'
@@ -61,6 +77,10 @@ jobs:
                   Path("data/two_face_cuboids_1e6_mordell_weil_report.json"),
                   Path("generated-mordell-weil-report.json"),
               ),
+              (
+                  Path("data/two_face_cuboids_lambda_16_21_pari_report.json"),
+                  Path("generated-lambda-16-21-pari-report.json"),
+              ),
           ]
           for committed, generated in pairs:
               if not committed.exists():
@@ -72,10 +92,11 @@ jobs:
                   raise SystemExit(f"{committed} differs from regenerated output")
           PY
 
-      - name: Upload exact relation outputs
+      - name: Upload stage-three outputs
         uses: actions/upload-artifact@v4
         with:
           name: two-face-mordell-weil-stage3
           path: |
             generated-mordell-weil-relations.json
             generated-mordell-weil-report.json
+            generated-lambda-16-21-pari-report.json
