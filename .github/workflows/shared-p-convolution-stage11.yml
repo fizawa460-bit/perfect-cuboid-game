@@ -49,7 +49,7 @@ jobs:
             --output generated-face-ratio-geometry-research.md
           grep -n "4.20.*共有面対角線" generated-face-ratio-geometry-research.md
           grep -n "N_1(B).*B^{1/2}" generated-face-ratio-geometry-research.md
-          grep -n "C_{\\mathrm{raw}}" generated-face-ratio-geometry-research.md
+          grep -Fn 'C_{\mathrm{raw}}' generated-face-ratio-geometry-research.md
           if grep -P "\t" generated-face-ratio-geometry-research.md; then
             echo "Unexpected tab found in generated Markdown" >&2
             exit 1
