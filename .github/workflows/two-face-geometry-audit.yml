@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - "data/two_face_cuboids_1e6_fixed.json"
+      - "data/two_face_cuboids_1e6_audit_report.json"
       - "docs/face-ratio-geometry-research.md"
       - "scripts/audit_two_face_cuboids.py"
       - "scripts/update_two_face_research_memo.py"
@@ -32,8 +33,9 @@ jobs:
         run: |
           python scripts/audit_two_face_cuboids.py \
             --geometry \
-            --write-report two-face-geometry-audit-report.json
-          cat two-face-geometry-audit-report.json
+            --write-report data/two_face_cuboids_1e6_audit_report.json
+          cat data/two_face_cuboids_1e6_audit_report.json
+          git diff --exit-code -- data/two_face_cuboids_1e6_audit_report.json
 
       - name: Validate the research memo expansion
         run: |
@@ -56,5 +58,5 @@ jobs:
         with:
           name: two-face-geometry-audit-output
           path: |
-            two-face-geometry-audit-report.json
+            data/two_face_cuboids_1e6_audit_report.json
             patched-face-ratio-geometry-research.md
