@@ -17,18 +17,15 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   exact-relations:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - name: Check out PR branch
+      - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -88,7 +85,7 @@ jobs:
             exit 1
           fi
 
-      - name: Compare committed outputs when present
+      - name: Compare committed outputs with regenerated results
         run: |
           python - <<'PY'
           import json
@@ -114,36 +111,13 @@ jobs:
           ]
           for committed, generated in pairs:
               if not committed.exists():
-                  print(f"{committed} is not committed yet; skipping comparison")
-                  continue
+                  raise SystemExit(f"required committed output is missing: {committed}")
               expected = json.loads(committed.read_text(encoding="utf-8"))
               actual = json.loads(generated.read_text(encoding="utf-8"))
               if expected != actual:
                   raise SystemExit(f"{committed} differs from regenerated output")
           PY
-
-      - name: Commit reproducible outputs to the PR branch
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          cp generated-mordell-weil-relations.json data/two_face_cuboids_1e6_mordell_weil_relations.json
-          cp generated-mordell-weil-report.json data/two_face_cuboids_1e6_mordell_weil_report.json
-          cp generated-pari-rank-report.json data/two_face_cuboids_1e6_pari_rank_report.json
-          cp generated-lambda-16-21-pari-report.json data/two_face_cuboids_lambda_16_21_pari_report.json
-          cp generated-face-ratio-geometry-research.md docs/face-ratio-geometry-research.md
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            data/two_face_cuboids_1e6_mordell_weil_relations.json \
-            data/two_face_cuboids_1e6_mordell_weil_report.json \
-            data/two_face_cuboids_1e6_pari_rank_report.json \
-            data/two_face_cuboids_lambda_16_21_pari_report.json \
-            docs/face-ratio-geometry-research.md
-          if git diff --cached --quiet; then
-            echo "Generated outputs are already current"
-          else
-            git commit -m "Record Mordell-Weil fiber audit results"
-            git push origin "HEAD:${{ github.head_ref }}"
-          fi
+          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
       - name: Upload stage-three outputs
         uses: actions/upload-artifact@v4
