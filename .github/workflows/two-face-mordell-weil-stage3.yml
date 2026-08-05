@@ -6,10 +6,12 @@ on:
       - "data/two_face_cuboids_1e6_kummer_classification.json"
       - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
       - "data/two_face_cuboids_1e6_mordell_weil_report.json"
+      - "data/two_face_cuboids_1e6_pari_rank_report.json"
       - "data/two_face_cuboids_lambda_16_21_pari_report.json"
       - "docs/face-ratio-geometry-research.md"
       - "scripts/analyze_two_face_mordell_weil.py"
       - "scripts/audit_focus_fiber_with_pari.py"
+      - "scripts/audit_repeated_fibers_with_pari.py"
       - ".github/workflows/two-face-mordell-weil-stage3.yml"
   workflow_dispatch:
 
@@ -19,7 +21,7 @@ permissions:
 jobs:
   exact-relations:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -62,6 +64,14 @@ jobs:
             --effort 1 \
             --write-report generated-lambda-16-21-pari-report.json
 
+      - name: Audit all repeated fibers with PARI 2-descent
+        run: |
+          python scripts/audit_repeated_fibers_with_pari.py \
+            --relations generated-mordell-weil-relations.json \
+            --effort 0 \
+            --timeout-per-fiber 120 \
+            --write-report generated-pari-rank-report.json
+
       - name: Compare committed outputs when present
         run: |
           python - <<'PY'
@@ -76,6 +86,10 @@ jobs:
               (
                   Path("data/two_face_cuboids_1e6_mordell_weil_report.json"),
                   Path("generated-mordell-weil-report.json"),
+              ),
+              (
+                  Path("data/two_face_cuboids_1e6_pari_rank_report.json"),
+                  Path("generated-pari-rank-report.json"),
               ),
               (
                   Path("data/two_face_cuboids_lambda_16_21_pari_report.json"),
@@ -99,4 +113,5 @@ jobs:
           path: |
             generated-mordell-weil-relations.json
             generated-mordell-weil-report.json
+            generated-pari-rank-report.json
             generated-lambda-16-21-pari-report.json
