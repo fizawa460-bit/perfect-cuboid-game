@@ -7,24 +7,20 @@ on:
       - "data/two_face_cuboids_1e6_stage8_local_sieve_report.json"
       - "docs/face-ratio-geometry-research.md"
       - "scripts/audit_two_face_local_sieve_stage8.py"
-      - "scripts/run_two_face_local_sieve_stage8.py"
       - "scripts/update_two_face_stage8_memo.py"
       - ".github/workflows/two-face-local-sieve-stage8.yml"
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   local-sieve:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - name: Check out PR branch
+      - name: Check out repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref || github.ref_name }}
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -34,55 +30,12 @@ jobs:
       - name: Install symbolic dependency
         run: python -m pip install --disable-pip-version-check sympy
 
-      - name: Normalize constant-content cancellation in source
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path("scripts/audit_two_face_local_sieve_stage8.py")
-          text = path.read_text(encoding="utf-8")
-          old = '''    numerator = sp.factor(c4**3)
-              denominator = sp.factor(delta)
-              gcd = sp.factor(sp.gcd(sp.Poly(numerator, t), sp.Poly(denominator, t)).as_expr())
-              if gcd != 1:
-                  raise ArithmeticError(f"j numerator and denominator have common factor {gcd}")
-          '''.replace("              ", "    ")
-          new = '''    raw_numerator = sp.factor(c4**3)
-              raw_denominator = sp.factor(delta)
-              polynomial_gcd = sp.factor(
-                  sp.gcd(sp.Poly(raw_numerator, t), sp.Poly(raw_denominator, t)).as_expr()
-              )
-              if sp.degree(polynomial_gcd, t) != 0:
-                  raise ArithmeticError(
-                      f"j numerator and denominator have a positive-degree common factor {polynomial_gcd}"
-                  )
-              reduced = sp.cancel(raw_numerator / raw_denominator)
-              numerator, denominator = (
-                  sp.factor(part) for part in sp.fraction(reduced)
-              )
-          '''.replace("              ", "    ")
-          if old in text:
-              text = text.replace(old, new, 1)
-          elif new not in text:
-              raise SystemExit("could not locate scalar-gcd block")
-          old_key = '        "j_numerator_denominator_gcd": str(gcd),\n'
-          new_keys = (
-              '        "j_numerator_denominator_polynomial_gcd": str(polynomial_gcd),\n'
-              '        "j_common_factor_is_constant_only": True,\n'
-          )
-          if old_key in text:
-              text = text.replace(old_key, new_keys, 1)
-          elif new_keys not in text:
-              raise SystemExit("could not locate scalar-gcd report key")
-          path.write_text(text, encoding="utf-8")
-          PY
-
       - name: Run stage-eight audit
         run: |
           python scripts/audit_two_face_local_sieve_stage8.py \
             --write-report generated-two-face-stage8-local-sieve-report.json
 
-      - name: Generate stage-eight research memo
+      - name: Regenerate stage-eight research memo
         run: |
           python scripts/update_two_face_stage8_memo.py \
             --input docs/face-ratio-geometry-research.md \
@@ -96,7 +49,7 @@ jobs:
             exit 1
           fi
 
-      - name: Record whether committed report changed
+      - name: Compare committed outputs with regenerated results
         run: |
           python - <<'PY'
           import json
@@ -105,32 +58,13 @@ jobs:
           committed = Path("data/two_face_cuboids_1e6_stage8_local_sieve_report.json")
           generated = Path("generated-two-face-stage8-local-sieve-report.json")
           if not committed.exists():
-              print(f"{committed} is not committed yet")
-          else:
-              expected = json.loads(committed.read_text(encoding="utf-8"))
-              actual = json.loads(generated.read_text(encoding="utf-8"))
-              print("report_changed=", expected != actual)
+              raise SystemExit(f"required committed output is missing: {committed}")
+          expected = json.loads(committed.read_text(encoding="utf-8"))
+          actual = json.loads(generated.read_text(encoding="utf-8"))
+          if expected != actual:
+              raise SystemExit(f"{committed} differs from regenerated output")
           PY
-
-      - name: Commit normalized source and reproducible outputs
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        run: |
-          cp generated-two-face-stage8-local-sieve-report.json \
-            data/two_face_cuboids_1e6_stage8_local_sieve_report.json
-          cp generated-face-ratio-geometry-research.md \
-            docs/face-ratio-geometry-research.md
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add \
-            scripts/audit_two_face_local_sieve_stage8.py \
-            data/two_face_cuboids_1e6_stage8_local_sieve_report.json \
-            docs/face-ratio-geometry-research.md
-          if git diff --cached --quiet; then
-            echo "Source and generated outputs are already current"
-          else
-            git commit -m "Normalize stage-eight j-map audit"
-            git push origin "HEAD:${{ github.head_ref }}"
-          fi
+          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
       - name: Upload stage-eight outputs
         uses: actions/upload-artifact@v4
