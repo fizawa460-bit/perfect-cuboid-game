@@ -1,0 +1,81 @@
+name: Two-face Mordell-Weil stage 3
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_kummer_classification.json"
+      - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
+      - "data/two_face_cuboids_1e6_mordell_weil_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/analyze_two_face_mordell_weil.py"
+      - "scripts/audit_focus_fiber_with_pari.py"
+      - ".github/workflows/two-face-mordell-weil-stage3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-relations:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Generate exact relation audit
+        run: |
+          python scripts/analyze_two_face_mordell_weil.py \
+            --write-derived generated-mordell-weil-relations.json \
+            --write-report generated-mordell-weil-report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          report = json.loads(Path("generated-mordell-weil-report.json").read_text())
+          summary = {
+              key: value
+              for key, value in report.items()
+              if key != "focus_lambda_16_21"
+          }
+          print(json.dumps(summary, indent=2, sort_keys=True))
+          print(json.dumps(report["focus_lambda_16_21"], indent=2, sort_keys=True))
+          PY
+
+      - name: Compare committed outputs when present
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          pairs = [
+              (
+                  Path("data/two_face_cuboids_1e6_mordell_weil_relations.json"),
+                  Path("generated-mordell-weil-relations.json"),
+              ),
+              (
+                  Path("data/two_face_cuboids_1e6_mordell_weil_report.json"),
+                  Path("generated-mordell-weil-report.json"),
+              ),
+          ]
+          for committed, generated in pairs:
+              if not committed.exists():
+                  print(f"{committed} is not committed yet; skipping comparison")
+                  continue
+              expected = json.loads(committed.read_text(encoding="utf-8"))
+              actual = json.loads(generated.read_text(encoding="utf-8"))
+              if expected != actual:
+                  raise SystemExit(f"{committed} differs from regenerated output")
+          PY
+
+      - name: Upload exact relation outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-mordell-weil-stage3
+          path: |
+            generated-mordell-weil-relations.json
+            generated-mordell-weil-report.json
