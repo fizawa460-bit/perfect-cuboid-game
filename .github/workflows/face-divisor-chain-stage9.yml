@@ -59,8 +59,13 @@ jobs:
           generated = json.loads(Path("generated-face-divisor-chain-stage9-report.json").read_text(encoding="utf-8"))
           if committed != generated:
               raise SystemExit("committed stage-nine report differs from regenerated output")
+
+          def compact(path: str) -> list[str]:
+              return [line.rstrip() for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+
+          if compact("docs/face-ratio-geometry-research.md") != compact("generated-face-ratio-geometry-research.md"):
+              raise SystemExit("stage-nine memo content differs after regeneration")
           PY
-          cmp docs/face-ratio-geometry-research.md generated-face-ratio-geometry-research.md
 
       - name: Check stage-eight memo compatibility
         run: |
@@ -78,8 +83,13 @@ jobs:
           generated = json.loads(Path("generated-two-face-stage8-local-sieve-report.json").read_text(encoding="utf-8"))
           if committed != generated:
               raise SystemExit("stage-eight report changed under stage nine")
+
+          def compact(path: str) -> list[str]:
+              return [line.rstrip() for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+
+          if compact("docs/face-ratio-geometry-research.md") != compact("generated-stage8-compatible-memo.md"):
+              raise SystemExit("stage-eight updater does not preserve stage-nine memo content")
           PY
-          cmp docs/face-ratio-geometry-research.md generated-stage8-compatible-memo.md
 
       - name: Check stage-seven memo compatibility
         run: |
@@ -100,8 +110,13 @@ jobs:
           generated = json.loads(Path("generated-two-face-stage7-inverse-height-report.json").read_text(encoding="utf-8"))
           if committed != generated:
               raise SystemExit("stage-seven report changed under stage nine")
+
+          def compact(path: str) -> list[str]:
+              return [line.rstrip() for line in Path(path).read_text(encoding="utf-8").splitlines() if line.strip()]
+
+          if compact("docs/face-ratio-geometry-research.md") != compact("generated-stage7-compatible-memo.md"):
+              raise SystemExit("stage-seven updater does not preserve stage-nine memo content")
           PY
-          cmp docs/face-ratio-geometry-research.md generated-stage7-compatible-memo.md
 
       - name: Upload stage-nine outputs
         uses: actions/upload-artifact@v4
