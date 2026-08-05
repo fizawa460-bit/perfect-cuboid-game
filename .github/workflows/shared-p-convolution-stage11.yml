@@ -31,6 +31,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install Stage10 symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+
       - name: Compile Stage11 scripts
         run: |
           python -m py_compile scripts/audit_shared_p_convolution_stage11.py
