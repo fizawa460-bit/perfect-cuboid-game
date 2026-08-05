@@ -7,6 +7,7 @@ on:
       - "data/two_face_cuboids_1e6_stage8_local_sieve_report.json"
       - "docs/face-ratio-geometry-research.md"
       - "scripts/audit_two_face_local_sieve_stage8.py"
+      - "scripts/run_two_face_local_sieve_stage8.py"
       - "scripts/update_two_face_stage8_memo.py"
       - ".github/workflows/two-face-local-sieve-stage8.yml"
   workflow_dispatch:
@@ -35,7 +36,7 @@ jobs:
 
       - name: Run stage-eight audit
         run: |
-          python scripts/audit_two_face_local_sieve_stage8.py \
+          python scripts/run_two_face_local_sieve_stage8.py \
             --write-report generated-two-face-stage8-local-sieve-report.json
 
       - name: Generate stage-eight research memo
