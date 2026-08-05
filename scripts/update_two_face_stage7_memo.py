@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Insert the stage-seven inverse-height audit into the canonical research memo."""
+"""Insert the stage-seven inverse-height audit into the research memo."""
 
 from __future__ import annotations
 
@@ -15,8 +15,10 @@ INSERT_BEFORE = "## 5. 一面成立曲面 $V_{ab}$ の幾何"
 CONFIRMED_HEADING = "### 確定\n"
 CONFIRMED_BULLET = (
     "- 二面成立楕円ファイバーの正の滑らかな整数点について、明示的な逆写像と "
-    "$\\log d\\le6h(x)+12h(\\lambda)+10\\log2$ が成立し、Silvermanの高さ差定理から "
-    "$\\log d\\le12\\widehat h(P)+C_\\lambda h(\\lambda)+C_0$ 型の有効な混合逆向き評価が従うこと\n"
+    "$\\log d\\le6h(x)+12h(\\lambda)+6\\log2+\\log17$ が成立し、"
+    "Silvermanの高さ差定理から "
+    "$\\log d\\le12\\widehat h(P)+C_\\lambda h(\\lambda)+C_0$ 型の"
+    "有効な混合逆向き評価が従うこと\n"
 )
 OLD_UNRESOLVED = (
     "- canonical heightから $d$ への逆向き一様下界、および未観測ファイバーを含む"
@@ -38,7 +40,7 @@ def build_section(report: dict[str, Any]) -> str:
     raw = finite["raw_inverse_slack_summary"]
     combined = finite["combined_inverse_slack_summary"]
     pure = finite["log_d_minus_12_canonical_summary"]
-    lambda_share = finite["h_lambda_over_log_d_summary"]
+    share = finite["h_lambda_over_log_d_summary"]
     return f"""{START}
 ### 4.16 逆写像と逆向き高さ評価の実現可能性【明示的逆写像・naive height評価は確定／大域計数は未解決】
 
@@ -68,7 +70,7 @@ U&=y^2+x^2(1-t^2)^2
 \\end{{aligned}}
 $$
 
-で与えられる。ここで右辺6個は共通の射影スカラー倍を許す。これらを楕円曲線方程式で簡約すると
+で与えられる。右辺6個は共通の射影スカラー倍を許す。楕円曲線方程式で簡約すると
 
 $$
 A^2+C^2=Y^2,\qquad B^2+C^2=X^2,\qquad A^2+X^2=U^2
@@ -85,21 +87,21 @@ x=4t^2\frac{{U-B}}{{X+B}},\qquad
 y=8t^3\frac{{(U+X)(U-B)}}{{C(X+B)}}
 $$
 
-が戻る。SymPyによる多項式剰余計算と、保存済み255点の有理数厳密演算の双方で検算した。255点すべてで逆写像をprimitive整数ベクトルへ正規化すると、保存済み $[A:B:C:X:Y:U]$ と完全一致した。
+が戻る。SymPyによる多項式剰余計算と、保存済み255点の有理数厳密演算の双方で検算した。全255点で逆写像をprimitive整数ベクトルへ正規化すると、保存済み $[A:B:C:X:Y:U]$ と完全一致した。
 
 #### 4.16.2 射影高さの明示的逆向き評価【確定】
 
-上の6座標を $(t,x,y)$ の有理数表示で同時に斉次化すると、多重次数は高々
+6座標を $(t,x,y)$ の有理数表示で同時に斉次化すると、多重次数は高々
 
 $$
 (\\deg_t,\\deg_x,\\deg_y)=(6,3,2)
 $$
 
-であり、各座標多項式の係数絶対値和の最大は16である。primitive整数座標では $U=d$ が射影max-heightなので、通常の有理数heightの積・和の評価から
+であり、各座標多項式の係数絶対値和の最大は17である。primitive整数座標では $U=d$ が射影max-heightなので
 
 $$
 \\boxed{{
-\\log d\le6h(t)+3h(x)+2h(y)+\\log16
+\\log d\le6h(t)+3h(x)+2h(y)+\\log17
 }}.
 $$
 
@@ -113,7 +115,7 @@ $$
 
 $$
 \\boxed{{
-\\log d\le6h(x)+12h(\\lambda)+10\\log2
+\\log d\le6h(x)+12h(\\lambda)+6\\log2+\\log17
 }}.
 $$
 
@@ -127,7 +129,7 @@ $$
 \\eta^2=\\xi(\\xi+4m^2n^2)(\\xi+(m^2+n^2)^2),\qquad \\lambda=m/n
 $$
 
-について、$c_4$、判別式 $\\Delta$、$j$ は明示的に計算できる。$0<m<n$ とすると
+について、$0<m<n$ とすると
 
 $$
 c_4\le512n^8,\qquad
@@ -143,25 +145,25 @@ $$
 }}
 $$
 
-が従う。従って「逆向き高さ評価そのものが存在しない」という障害ではない。
+が従う。従って、逆向き高さ評価そのものが存在しないことが障害なのではない。
 
 ただし、本段階ではSilvermanの $p(E)$ に含まれる全規格化項をコードへ転記していないため、$C_\\lambda$ の数値は固定しない。定理の存在だけを使って係数を小さく見積もることもしない。
 
 #### 4.16.4 255点での再監査【有限集合について確定】
 
-全255点で逆写像、射影正規化、不変量式、三つのheight上界を再検算し、全件が通過した。理論上界と実値の差は次である。
+全255点で逆写像、射影正規化、不変量式、三つのheight上界を再検算し、全件が通過した。
 
 | 指標 | 最小 | 中央値 | 平均 | 最大 |
 |---|---:|---:|---:|---:|
-| $6h(\\lambda)+3h(x)+2h(y)+\\log16-\\log d$ | {f6(raw['min'])} | {f6(raw['median'])} | {f6(raw['mean'])} | {f6(raw['max'])} |
-| $6h(x)+12h(\\lambda)+10\\log2-\\log d$ | {f6(combined['min'])} | {f6(combined['median'])} | {f6(combined['mean'])} | {f6(combined['max'])} |
+| $6h(\\lambda)+3h(x)+2h(y)+\\log17-\\log d$ | {f6(raw['min'])} | {f6(raw['median'])} | {f6(raw['mean'])} | {f6(raw['max'])} |
+| $6h(x)+12h(\\lambda)+6\\log2+\\log17-\\log d$ | {f6(combined['min'])} | {f6(combined['median'])} | {f6(combined['mean'])} | {f6(combined['max'])} |
 | $\\log d-12\\widehat h(P)$ | {f6(pure['min'])} | {f6(pure['median'])} | {f6(pure['mean'])} | {f6(pure['max'])} |
 
-有限標本での $h(\\lambda)/\\log d$ は {f6(lambda_share['min'])} から {f6(lambda_share['max'])} の範囲だった。これらの数値は、上界の正しさの再検算には使うが、将来の点に対する漸近法則とは解釈しない。
+有限標本での $h(\\lambda)/\\log d$ は {f6(share['min'])} から {f6(share['max'])} の範囲だった。これらの数値は上界の再検算には使うが、漸近法則とは解釈しない。
 
 #### 4.16.5 分岐点としての結論【次は方針選択が必要】
 
-逆写像と混合高さ比較は構成できた。しかし、現在の評価には正の $h(\\lambda)$ 項が残る。前節の
+逆写像と混合高さ比較は構成できた。しかし現在の評価には正の $h(\\lambda)$ 項が残る。前節の
 
 $$
 h(\\lambda)\le\frac12\\log(2d)
@@ -187,7 +189,7 @@ $$
 """
 
 
-def update_section(text: str, section: str) -> str:
+def replace_section(text: str, section: str) -> str:
     if START in text or END in text:
         if START not in text or END not in text:
             raise ValueError("only one stage-seven marker is present")
@@ -195,7 +197,7 @@ def update_section(text: str, section: str) -> str:
         _, after = rest.split(END, 1)
         return before.rstrip() + "\n\n" + section + after
     if INSERT_BEFORE not in text:
-        raise ValueError("could not find section-5 insertion point")
+        raise ValueError("section-5 insertion point not found")
     return text.replace(INSERT_BEFORE, "\n\n" + section + "\n" + INSERT_BEFORE, 1)
 
 
@@ -225,7 +227,7 @@ def main() -> int:
     if not report.get("valid"):
         raise ValueError("stage-seven report is not valid")
     text = args.input.read_text(encoding="utf-8")
-    updated = update_section(text, build_section(report))
+    updated = replace_section(text, build_section(report))
     updated = update_conclusion(updated)
     args.output.write_text(updated, encoding="utf-8")
     return 0
