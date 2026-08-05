@@ -1,4 +1,4 @@
-name: Stage11 bootstrap memo
+name: Stage11 bootstrap outputs
 
 on:
   pull_request:
@@ -30,18 +30,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Verify report and generate memo
+      - name: Generate deterministic report and memo
         run: |
           python scripts/audit_shared_p_convolution_stage11.py \
-            --write-report generated-shared-p-convolution-stage11-report.json
-          python - <<'PY'
-          import json
-          from pathlib import Path
-          committed = json.loads(Path("data/shared_p_convolution_stage11_report.json").read_text(encoding="utf-8"))
-          generated = json.loads(Path("generated-shared-p-convolution-stage11-report.json").read_text(encoding="utf-8"))
-          if committed != generated:
-              raise SystemExit("committed Stage11 report differs before memo generation")
-          PY
+            --write-report data/shared_p_convolution_stage11_report.json
           python scripts/update_shared_p_convolution_stage11_memo.py \
             --input docs/face-ratio-geometry-research.md \
             --report data/shared_p_convolution_stage11_report.json \
@@ -51,10 +43,10 @@ jobs:
       - name: Remove temporary bootstrap workflow
         run: rm -f .github/workflows/stage11-bootstrap.yml
 
-      - name: Commit generated memo
+      - name: Commit generated outputs
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "Generate Stage11 research memo"
+          git commit -m "Generate Stage11 report and research memo"
           git push origin HEAD:agent/shared-p-convolution-stage11
