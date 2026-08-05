@@ -1,0 +1,92 @@
+name: Two-face height theory stage 6
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_kummer_classification.json"
+      - "data/two_face_cuboids_1e6_mordell_weil_relations.json"
+      - "data/two_face_cuboids_1e6_stage5_report.json"
+      - "data/two_face_cuboids_1e6_stage6_height_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_two_face_height_theory_stage6.py"
+      - "scripts/update_two_face_stage6_memo.py"
+      - ".github/workflows/two-face-height-theory-stage6.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  height-theory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+
+      - name: Derive and audit height bounds
+        run: |
+          python scripts/audit_two_face_height_theory_stage6.py \
+            --write-report generated-two-face-stage6-height-report.json
+
+      - name: Generate stage-six memo
+        run: |
+          python scripts/update_two_face_stage6_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-two-face-stage6-height-report.json \
+            --output generated-face-ratio-geometry-research.md
+          grep -n "4.15 楕円ファイバー" generated-face-ratio-geometry-research.md
+          grep -n "17}{6" generated-face-ratio-geometry-research.md
+
+      - name: Compare committed outputs when present
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed = Path("data/two_face_cuboids_1e6_stage6_height_report.json")
+          generated = Path("generated-two-face-stage6-height-report.json")
+          if committed.exists():
+              expected = json.loads(committed.read_text(encoding="utf-8"))
+              actual = json.loads(generated.read_text(encoding="utf-8"))
+              if expected != actual:
+                  raise SystemExit(f"{committed} differs from regenerated output")
+          else:
+              print(f"{committed} is not committed yet; skipping comparison")
+          PY
+
+      - name: Commit reproducible outputs to the PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          cp generated-two-face-stage6-height-report.json data/two_face_cuboids_1e6_stage6_height_report.json
+          cp generated-face-ratio-geometry-research.md docs/face-ratio-geometry-research.md
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            data/two_face_cuboids_1e6_stage6_height_report.json \
+            docs/face-ratio-geometry-research.md
+          if git diff --cached --quiet; then
+            echo "Generated outputs are already current"
+          else
+            git commit -m "Record stage-six height theory audit"
+            git push origin "HEAD:${{ github.head_ref }}"
+          fi
+
+      - name: Upload stage-six outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-height-theory-stage6
+          path: |
+            generated-two-face-stage6-height-report.json
+            generated-face-ratio-geometry-research.md
