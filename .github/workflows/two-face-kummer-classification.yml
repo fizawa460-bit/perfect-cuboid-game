@@ -1,0 +1,82 @@
+name: Two-face Kummer classification
+
+on:
+  pull_request:
+    paths:
+      - "data/two_face_cuboids_1e6_fixed.json"
+      - "data/two_face_cuboids_1e6_kummer_classification.json"
+      - "data/two_face_cuboids_1e6_kummer_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/classify_two_face_kummer_curves.py"
+      - "scripts/update_two_face_kummer_stage2_memo.py"
+      - ".github/workflows/two-face-kummer-classification.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  classify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate Kummer classification
+        run: |
+          python scripts/classify_two_face_kummer_curves.py \
+            --write-derived generated-kummer-classification.json \
+            --write-report generated-kummer-report.json
+          cat generated-kummer-report.json
+
+      - name: Compare committed JSON outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          pairs = [
+              (
+                  Path("data/two_face_cuboids_1e6_kummer_classification.json"),
+                  Path("generated-kummer-classification.json"),
+              ),
+              (
+                  Path("data/two_face_cuboids_1e6_kummer_report.json"),
+                  Path("generated-kummer-report.json"),
+              ),
+          ]
+          for committed, generated in pairs:
+              if not committed.exists():
+                  raise SystemExit(f"Missing committed output: {committed}")
+              expected = json.loads(committed.read_text(encoding="utf-8"))
+              actual = json.loads(generated.read_text(encoding="utf-8"))
+              if expected != actual:
+                  raise SystemExit(f"{committed} differs from regenerated output")
+          PY
+
+      - name: Validate the stage-two research memo
+        run: |
+          grep -n "4.9 既知24円錐曲線" docs/face-ratio-geometry-research.md
+          grep -n "4.10 楕円ファイバー" docs/face-ratio-geometry-research.md
+          grep -n "4.11 McKinnon型計数定理" docs/face-ratio-geometry-research.md
+          grep -n "known_24_conic_member_count" data/two_face_cuboids_1e6_kummer_report.json
+          grep -n "N_2(B)=o(N_1(B))" docs/face-ratio-geometry-research.md
+          if grep -P "\t" docs/face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in research memo" >&2
+            exit 1
+          fi
+
+      - name: Upload reproducible outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: two-face-kummer-classification
+          path: |
+            generated-kummer-classification.json
+            generated-kummer-report.json
