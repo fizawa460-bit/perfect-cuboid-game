@@ -1,0 +1,365 @@
+{
+  "metadata": {
+    "stage": 11,
+    "title": "Shared-face-diagonal convolution and two-parameter lower bound",
+    "generated_by": "scripts/audit_shared_p_convolution_stage11.py",
+    "claim_status": "The convolution identities and the N1(B) >> B^(1/2) family are unconditional. No upper bound for N2(B) and no little-o comparison are claimed."
+  },
+  "shared_p_convolution": {
+    "hypotenuse_representation_formula": "H(p)=(prod_{q|p, q=1 mod 4}(2*v_q(p)+1)-1)/2",
+    "leg_representation_formula": "L_B(p)=#{u|p^2: u<p, u and p^2/u have the same parity, u+p^2/u<=2B}",
+    "raw_identity": "C_raw(B)=2*sum_{p<=B} H(p)*L_B(p)",
+    "primitive_weighted_identity": "C_prim(B)=2*N1(B)+4*N_exact2(B)+6*N3(B)",
+    "structural_warning": "The raw product H(p)L_B(p) does not impose gcd, distinct-side, or unique-point conditions. Primitive counting retains coupled corrections.",
+    "rows": [
+      {
+        "B": 1000,
+        "raw_oriented_chains_convolution": 3180,
+        "raw_oriented_chains_direct": 3180,
+        "primitive_oriented_chains": 1208,
+        "unique_primitive_cuboids": 602,
+        "face_count_histogram": {
+          "1": 600,
+          "2": 2
+        },
+        "identity": "C_prim(B)=2*N1(B)+4*N_exact2(B)+6*N3(B)"
+      },
+      {
+        "B": 2000,
+        "raw_oriented_chains_convolution": 8396,
+        "raw_oriented_chains_direct": 8396,
+        "primitive_oriented_chains": 2888,
+        "unique_primitive_cuboids": 1439,
+        "face_count_histogram": {
+          "1": 1434,
+          "2": 5
+        },
+        "identity": "C_prim(B)=2*N1(B)+4*N_exact2(B)+6*N3(B)"
+      },
+      {
+        "B": 5000,
+        "raw_oriented_chains_convolution": 29446,
+        "raw_oriented_chains_direct": 29446,
+        "primitive_oriented_chains": 9030,
+        "unique_primitive_cuboids": 4500,
+        "face_count_histogram": {
+          "1": 4485,
+          "2": 15
+        },
+        "identity": "C_prim(B)=2*N1(B)+4*N_exact2(B)+6*N3(B)"
+      },
+      {
+        "B": 10000,
+        "raw_oriented_chains_convolution": 74414,
+        "raw_oriented_chains_direct": 74414,
+        "primitive_oriented_chains": 21360,
+        "unique_primitive_cuboids": 10655,
+        "face_count_histogram": {
+          "1": 10630,
+          "2": 25
+        },
+        "identity": "C_prim(B)=2*N1(B)+4*N_exact2(B)+6*N3(B)"
+      },
+      {
+        "B": 20000,
+        "raw_oriented_chains_convolution": 185206,
+        "raw_oriented_chains_direct": 185206,
+        "primitive_oriented_chains": 49592,
+        "unique_primitive_cuboids": 24754,
+        "face_count_histogram": {
+          "1": 24712,
+          "2": 42
+        },
+        "identity": "C_prim(B)=2*N1(B)+4*N_exact2(B)+6*N3(B)"
+      }
+    ],
+    "max_bound_counters": {
+      "raw_oriented_chains": 185206,
+      "rejected_nonprimitive": 135614,
+      "primitive_oriented_chains": 49592,
+      "unique_primitive_cuboids": 24754
+    }
+  },
+  "two_parameter_family": {
+    "conditions": [
+      "m>n>=1",
+      "m mod 14 = 2",
+      "n mod 14 = 1",
+      "gcd(m,n)=1"
+    ],
+    "formulas": {
+      "x": "m^2-n^2",
+      "y": "2mn",
+      "p": "m^2+n^2",
+      "c": "(p^2-1)/2",
+      "d": "(p^2+1)/2",
+      "canonical_sides": "a=min(x,y), b=max(x,y), c"
+    },
+    "modulo_7_certificate": {
+      "x_squared": 2,
+      "y_squared": 2,
+      "p_squared": 4,
+      "c_squared": 4,
+      "remaining_face_sums": [
+        6,
+        6
+      ],
+      "quadratic_residues": [
+        0,
+        1,
+        2,
+        4
+      ]
+    },
+    "finite_validation": {
+      "max_m": 2000,
+      "validated_parameter_count": 8521,
+      "all_checks_passed": true,
+      "first_examples": [
+        {
+          "m": 2,
+          "n": 1,
+          "a": 3,
+          "b": 4,
+          "c": 12,
+          "d": 13,
+          "p": 5,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 16,
+          "n": 1,
+          "a": 32,
+          "b": 255,
+          "c": 33024,
+          "d": 33025,
+          "p": 257,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 16,
+          "n": 15,
+          "a": 31,
+          "b": 480,
+          "c": 115680,
+          "d": 115681,
+          "p": 481,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 30,
+          "n": 1,
+          "a": 60,
+          "b": 899,
+          "c": 405900,
+          "d": 405901,
+          "p": 901,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 30,
+          "n": 29,
+          "a": 59,
+          "b": 1740,
+          "c": 1515540,
+          "d": 1515541,
+          "p": 1741,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 44,
+          "n": 1,
+          "a": 88,
+          "b": 1935,
+          "c": 1875984,
+          "d": 1875985,
+          "p": 1937,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 44,
+          "n": 15,
+          "a": 1320,
+          "b": 1711,
+          "c": 2334960,
+          "d": 2334961,
+          "p": 2161,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 44,
+          "n": 29,
+          "a": 1095,
+          "b": 2552,
+          "c": 3855864,
+          "d": 3855865,
+          "p": 2777,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 44,
+          "n": 43,
+          "a": 87,
+          "b": 3784,
+          "c": 7163112,
+          "d": 7163113,
+          "p": 3785,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 58,
+          "n": 1,
+          "a": 116,
+          "b": 3363,
+          "c": 5661612,
+          "d": 5661613,
+          "p": 3365,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 58,
+          "n": 15,
+          "a": 1740,
+          "b": 3139,
+          "c": 6440460,
+          "d": 6440461,
+          "p": 3589,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        },
+        {
+          "m": 58,
+          "n": 43,
+          "a": 1515,
+          "b": 4988,
+          "c": 13587684,
+          "d": 13587685,
+          "p": 5213,
+          "remaining_face_residues_mod_7": [
+            6,
+            6
+          ]
+        }
+      ]
+    },
+    "stage9_cross_check": {
+      "bound": 20000,
+      "parameter": {
+        "m": 2,
+        "n": 1
+      },
+      "point": [
+        3,
+        4,
+        12,
+        13
+      ],
+      "face_count": 1,
+      "flags": {
+        "ab": true,
+        "ac": false,
+        "bc": false
+      },
+      "exact_match": true
+    }
+  },
+  "coprime_rectangle_count": {
+    "rectangle": "T<m<=2T, 1<=n<=T, m=2 mod14, n=1 mod14",
+    "mobius_formula": "C(T)=sum_{(e,14)=1} mu(e) A_e(T)B_e(T)",
+    "asymptotic": "C(T)=T^2/(24*pi^2)+O(T log T)",
+    "height_choice": "T=floor(((2B-1)/25)^(1/4))",
+    "height_implication": "p<=5T^2 and d=(p^2+1)/2<=B",
+    "lower_bound": "N1(B)>=sqrt(2)/(120*pi^2)*B^(1/2)-O(B^(1/4)log B)",
+    "corollary": "N1(B)>>B^(1/2)",
+    "rows": [
+      {
+        "T": 100,
+        "coprime_parameter_pairs": 44,
+        "main_term_T2_over_24pi2": 42.21715985097407,
+        "ratio_to_T2": 0.0044,
+        "ratio_to_predicted_main": 1.0422302247550363,
+        "height_bound": "d <= (25*100^4+1)/2"
+      },
+      {
+        "T": 250,
+        "coprime_parameter_pairs": 269,
+        "main_term_T2_over_24pi2": 263.857249068588,
+        "ratio_to_T2": 0.004304,
+        "ratio_to_predicted_main": 1.0194906562149262,
+        "height_bound": "d <= (25*250^4+1)/2"
+      },
+      {
+        "T": 500,
+        "coprime_parameter_pairs": 1075,
+        "main_term_T2_over_24pi2": 1055.428996274352,
+        "ratio_to_T2": 0.0043,
+        "ratio_to_predicted_main": 1.0185431741924218,
+        "height_bound": "d <= (25*500^4+1)/2"
+      },
+      {
+        "T": 1000,
+        "coprime_parameter_pairs": 4233,
+        "main_term_T2_over_24pi2": 4221.715985097408,
+        "ratio_to_T2": 0.004233,
+        "ratio_to_predicted_main": 1.00267285031547,
+        "height_bound": "d <= (25*1000^4+1)/2"
+      },
+      {
+        "T": 2000,
+        "coprime_parameter_pairs": 16883,
+        "main_term_T2_over_24pi2": 16886.86394038963,
+        "ratio_to_T2": 0.00422075,
+        "ratio_to_predicted_main": 0.9997711866215497,
+        "height_bound": "d <= (25*2000^4+1)/2"
+      }
+    ]
+  },
+  "decision": {
+    "confirmed": [
+      "The raw oriented divisor-chain population has an exact shared-p convolution.",
+      "Primitive unique points require coupled gcd, ordering, and multiplicity corrections.",
+      "A fixed two-parameter Euclid congruence family is primitive and exactly-one-face.",
+      "The two-parameter family gives the unconditional lower bound N1(B)>>B^(1/2)."
+    ],
+    "not_claimed": [
+      "An asymptotic formula for the full N1(B) population.",
+      "Any new upper bound for N2(B).",
+      "N2(B)=o(N1(B)).",
+      "That the finite convolution profile is an asymptotic density."
+    ],
+    "next_research_question": "Can the primitive correction and the extra-face correction in the shared-p convolution be bounded on average strongly enough to compare N2(B) with N1(B)?",
+    "wall_bounce_recommended": true
+  }
+}

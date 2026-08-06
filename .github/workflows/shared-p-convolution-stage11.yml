@@ -1,0 +1,133 @@
+name: Shared-p convolution stage 11
+# Final human-authored CI run after generated-output normalization.
+
+on:
+  pull_request:
+    paths:
+      - "data/shared_p_convolution_stage11_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - "scripts/audit_shared_p_convolution_stage11.py"
+      - "scripts/update_shared_p_convolution_stage11_memo.py"
+      - "scripts/audit_one_face_lower_bound_stage10.py"
+      - "scripts/update_one_face_lower_bound_stage10_memo.py"
+      - ".github/workflows/shared-p-convolution-stage11.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  shared-p-convolution:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Stage10 symbolic dependency
+        run: python -m pip install --disable-pip-version-check sympy
+
+      - name: Compile Stage11 scripts
+        run: |
+          python -m py_compile scripts/audit_shared_p_convolution_stage11.py
+          python -m py_compile scripts/update_shared_p_convolution_stage11_memo.py
+
+      - name: Run Stage11 shared-p audit
+        run: |
+          python scripts/audit_shared_p_convolution_stage11.py \
+            --write-report generated-shared-p-convolution-stage11-report.json
+
+      - name: Regenerate Stage11 research memo
+        run: |
+          python scripts/update_shared_p_convolution_stage11_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-shared-p-convolution-stage11-report.json \
+            --output generated-face-ratio-geometry-research.md
+          grep -n "4.20.*共有面対角線" generated-face-ratio-geometry-research.md
+          grep -n "N_1(B).*B^{1/2}" generated-face-ratio-geometry-research.md
+          grep -Fn 'C_{\mathrm{raw}}' generated-face-ratio-geometry-research.md
+          if grep -P "\t" generated-face-ratio-geometry-research.md; then
+            echo "Unexpected tab found in generated Markdown" >&2
+            exit 1
+          fi
+
+      - name: Compare committed Stage11 outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed = json.loads(Path("data/shared_p_convolution_stage11_report.json").read_text(encoding="utf-8"))
+          generated = json.loads(Path("generated-shared-p-convolution-stage11-report.json").read_text(encoding="utf-8"))
+          if committed != generated:
+              raise SystemExit("committed Stage11 report differs from regenerated output")
+
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          start = "<!-- SHARED_P_CONVOLUTION_STAGE11_START -->"
+          end = "<!-- SHARED_P_CONVOLUTION_STAGE11_END -->"
+
+          def extract(text: str, first: str, last: str) -> str:
+              if text.count(first) != 1 or text.count(last) != 1:
+                  raise SystemExit(f"markers are missing or duplicated: {first}")
+              return text.split(first, 1)[1].split(last, 1)[0].strip()
+
+          if extract(committed_text, start, end) != extract(generated_text, start, end):
+              raise SystemExit("committed Stage11 memo block differs from regenerated block")
+
+          required = [
+              "- 共有面対角線$p$を軸にraw oriented chainが厳密な表現数畳み込みで書け、$m\\equiv2\\pmod{14}$、$n\\equiv1\\pmod{14}$の二変数primitive族から$N_1(B)\\gg B^{1/2}$という無条件下界が得られること",
+              "- 共有面対角線$p$の畳み込みにおけるprimitive補正と追加面成立補正を平均的に評価し、$N_2(B)$の上界または$N_2(B)=o(N_1(B))$へ接続できるか",
+          ]
+          for line in required:
+              if committed_text.count(line) != 1 or generated_text.count(line) != 1:
+                  raise SystemExit(f"Stage11 conclusion line mismatch: {line}")
+          PY
+
+      - name: Check Stage10 compatibility
+        run: |
+          python scripts/audit_one_face_lower_bound_stage10.py \
+            --write-report generated-one-face-lower-bound-stage10-report.json
+          python scripts/update_one_face_lower_bound_stage10_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-one-face-lower-bound-stage10-report.json \
+            --output generated-stage10-compatible-memo.md
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          committed = json.loads(Path("data/one_face_lower_bound_stage10_report.json").read_text(encoding="utf-8"))
+          generated = json.loads(Path("generated-one-face-lower-bound-stage10-report.json").read_text(encoding="utf-8"))
+          if committed != generated:
+              raise SystemExit("Stage10 report changed under Stage11")
+
+          committed_text = Path("docs/face-ratio-geometry-research.md").read_text(encoding="utf-8")
+          generated_text = Path("generated-stage10-compatible-memo.md").read_text(encoding="utf-8")
+
+          def extract(text: str, first: str, last: str) -> str:
+              return text.split(first, 1)[1].split(last, 1)[0].strip()
+
+          blocks = [
+              ("<!-- ONE_FACE_LOWER_BOUND_STAGE10_START -->", "<!-- ONE_FACE_LOWER_BOUND_STAGE10_END -->"),
+              ("<!-- SHARED_P_CONVOLUTION_STAGE11_START -->", "<!-- SHARED_P_CONVOLUTION_STAGE11_END -->"),
+          ]
+          for first, last in blocks:
+              if extract(committed_text, first, last) != extract(generated_text, first, last):
+                  raise SystemExit(f"Stage10 updater changed protected block: {first}")
+          PY
+
+      - name: Upload Stage11 outputs
+        uses: actions/upload-artifact@v4
+        with:
+          name: shared-p-convolution-stage11
+          path: |
+            generated-shared-p-convolution-stage11-report.json
+            generated-face-ratio-geometry-research.md
