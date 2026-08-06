@@ -1,0 +1,37 @@
+name: Stage12-N1-2j boundary-layer audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/stage12-n1-2j-boundary-layers
+    paths:
+      - "scripts/audit_boundary_layers_stage12_n1_2j.py"
+      - "data/boundary_layers_stage12_n1_2j_report.json"
+      - "docs/stage12-n1-2j-boundary-layers.md"
+      - ".github/workflows/stage12-n1-2j-boundary-layers.yml"
+  pull_request:
+    paths:
+      - "scripts/audit_boundary_layers_stage12_n1_2j.py"
+      - "data/boundary_layers_stage12_n1_2j_report.json"
+      - "docs/stage12-n1-2j-boundary-layers.md"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run primitive-first boundary audit
+        run: |
+          python -m py_compile scripts/audit_boundary_layers_stage12_n1_2j.py
+          python scripts/audit_boundary_layers_stage12_n1_2j.py --write-report /tmp/report.json
+          diff -u data/boundary_layers_stage12_n1_2j_report.json /tmp/report.json

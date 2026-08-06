@@ -1,0 +1,206 @@
+{
+  "metadata": {
+    "stage": "12-N1-2j",
+    "title": "Primitive-first Möbius and boundary-layer audit",
+    "generated_by": "scripts/audit_boundary_layers_stage12_n1_2j.py",
+    "claim_status": "Exact primitive-first convolution, parity support, residue algebra, and finite count equivalence; uniform averaged remainder remains open."
+  },
+  "exact_primitive_first_identity": {
+    "global_identity": "C_prim(B)=sum_k mu(k) C_raw(floor(B/k)); reindex n=k*h before any dyadic or boundary cut.",
+    "same_parity_case": "For r,s odd, q=r^2+s^2 is even. The effective primitive height n is odd and supported only on primes 1 mod4.",
+    "opposite_parity_case": "For r,s of opposite parity, q is odd and raw h is even. The reindexed height has v_2(n)=1 exactly, so n=2m with m odd and supported only on primes 1 mod4.",
+    "direct_count": "For r,s odd use m<=2B/(r^2+s^2); for opposite parity use m<=B/(r^2+s^2)."
+  },
+  "primitive_weight": {
+    "definition": "A_{r,s}(m)=sum_{k|m} mu(k)*(G((m/k)rs)-1)",
+    "m_equals_1": "A_{r,s}(1)=G(rs)-1",
+    "m_greater_1": "A_{r,s}(m)=0 unless every prime dividing m is 1 mod4; otherwise A_{r,s}(m)=G(rs)*product_{p|m} 2/(2*v_p(rs)+1).",
+    "sign": "All direct primitive-first weights are nonnegative.",
+    "finite_checks": {
+      "local_mobius_convolution_checks": 16416,
+      "parity_convolution_checks": 21888,
+      "residue_local_checks": 352,
+      "beta_divisor_expansion_checks": 1000
+    }
+  },
+  "fixed_rs_dirichlet_series": {
+    "positive_version": "A^+_{r,s}(m)=A_{r,s}(m)+1_{m=1}",
+    "series": "sum_m A^+_{r,s}(m)m^-s = G(rs)*product_{p=1 mod4}[1 + (2/(2*v_p(rs)+1))*p^-s/(1-p^-s)].",
+    "base_product": "product_{p=1 mod4}(1+2*p^-s/(1-p^-s))=zeta(s)L(s,chi_4)/((1+2^-s)zeta(2s)).",
+    "finite_local_correction": "For p^t||rs, divide the base local factor by replacing it with R_{p,t}(s)=(1-((2t-1)/(2t+1))*p^-s)/(1+p^-s).",
+    "base_residue": "The base product has residue 1/pi at s=1.",
+    "residue_weight": "gamma(rs)=(1/pi)*product_{p^t||rs,p=1 mod4}[1+2t(p-1)/(p+1)]."
+  },
+  "two_modulus_divisor_expansion": {
+    "beta": "beta is multiplicative, supported on primes 1 mod4, with beta(p^j)=2(p-1)/(p+1) for every j>=1.",
+    "identity": "gamma(n)=(1/pi)*sum_{d|n} beta(d). Since gcd(r,s)=1, the residue weight separates into one divisor modulus on r and one on s.",
+    "consequence": "After the h-sum, the primitive problem has two divisor moduli rather than the raw three-modulus family. The radial logarithm then gives the third logarithmic degree."
+  },
+  "boundary_layer_resolution": {
+    "outer_mobius": "There is no absolute outer-Mobius error sum after the exact reindexing; the conservative raw target B(log B)^(2-eta) is therefore no longer the boundary-layer requirement.",
+    "terminal_u": "The h=a*u decomposition is not used. The full m partial sum is evaluated at once, so the terminal-u layer disappears rather than being discarded.",
+    "primitive_simplex": "The formal primitive logarithmic simplex is integral (L-2max(y,z)) dy dz=L^3/12.",
+    "shallow_fraction": "For t=L-2max(y,z)<=tau*L, the exact primitive-main fraction is 3*tau^2-2*tau^3.",
+    "canonical_cut": "Taking tau=L^(-3/4) makes the shallow formal mass O(B*L^(3/2)), while the retained short-side proxy is exp(0.5*L^(1/4)), which still beats every fixed logarithmic loss in the Stage12-N1-2i estimates.",
+    "diagnostics": [
+      {
+        "log_B": 16.0,
+        "tau_equals_logB_power_minus_3_over_4": 0.125,
+        "old_raw_shallow_fraction": 0.078857421875,
+        "primitive_first_shallow_fraction": 0.04296875,
+        "primitive_shallow_log_mass_L3_times_fraction": 176.0,
+        "retained_log_height_tau_L": 2.0,
+        "retained_short_side_proxy": 2.718281828459045,
+        "baseline_selberg_delange_decay_proxy": 0.2431167344342142
+      },
+      {
+        "log_B": 32.0,
+        "tau_equals_logB_power_minus_3_over_4": 0.07432544468767006,
+        "old_raw_shallow_fraction": 0.02995243148040959,
+        "primitive_first_shallow_fraction": 0.015751627278538502,
+        "primitive_shallow_log_mass_L3_times_fraction": 516.1493226631496,
+        "retained_log_height_tau_L": 2.378414230005442,
+        "retained_short_side_proxy": 3.2844759629750353,
+        "baseline_selberg_delange_decay_proxy": 0.21390766577558065
+      },
+      {
+        "log_B": 64.0,
+        "tau_equals_logB_power_minus_3_over_4": 0.04419417382415922,
+        "old_raw_shallow_fraction": 0.01103966012579439,
+        "primitive_first_shallow_fraction": 0.00568674150849938,
+        "primitive_shallow_log_mass_L3_times_fraction": 1490.7451660040615,
+        "retained_log_height_tau_L": 2.8284271247461903,
+        "retained_short_side_proxy": 4.1132503787829275,
+        "baseline_selberg_delange_decay_proxy": 0.18604013843591521
+      },
+      {
+        "log_B": 128.0,
+        "tau_equals_logB_power_minus_3_over_4": 0.026278012976678578,
+        "old_raw_shallow_fraction": 0.00399946742333393,
+        "primitive_first_shallow_fraction": 0.002035310176968562,
+        "primitive_shallow_log_mass_L3_times_fraction": 4268.354808249974,
+        "retained_log_height_tau_L": 3.363585661014858,
+        "retained_short_side_proxy": 5.375184131807488,
+        "baseline_selberg_delange_decay_proxy": 0.15977190311701214
+      },
+      {
+        "log_B": 256.0,
+        "tau_equals_logB_power_minus_3_over_4": 0.015625,
+        "old_raw_shallow_fraction": 0.0014345049858093262,
+        "primitive_first_shallow_fraction": 0.00072479248046875,
+        "primitive_shallow_log_mass_L3_times_fraction": 12160.0,
+        "retained_log_height_tau_L": 4.0,
+        "retained_short_side_proxy": 7.38905609893065,
+        "baseline_selberg_delange_decay_proxy": 0.1353352832366127
+      },
+      {
+        "log_B": 512.0,
+        "tau_equals_logB_power_minus_3_over_4": 0.009290680585958758,
+        "old_raw_shallow_fraction": 0.0005115072957317722,
+        "primitive_first_shallow_fraction": 0.0002573463546229618,
+        "primitive_shallow_log_mass_L3_times_fraction": 34540.44302657623,
+        "retained_log_height_tau_L": 4.756828460010884,
+        "retained_short_side_proxy": 10.787782351360784,
+        "baseline_selberg_delange_decay_proxy": 0.11292679914796154
+      }
+    ]
+  },
+  "uniform_remainder_target": {
+    "candidate_fixed_rs_asymptotic": "sum_{m<=X} A_{r,s}(m)=gamma(rs)*X-1+R_{r,s}(X).",
+    "sufficient_average_form": "It is enough to prove an averaged estimate for R_{r,s}(X) with exp(-c*sqrt(log X)) or any fixed negative power of log X on the retained X>=exp((log B)^(1/4)) range, allowing fixed divisor-weight losses.",
+    "method": "Apply Selberg-Delange/Perron to the base product and absorb the finite R_{p,t} corrections through their absolutely summable local coefficients.",
+    "remaining_issue": "The required uniformity is averaged over the changing rs family; it is not asserted as a direct corollary of a cited fixed-function theorem."
+  },
+  "finite_count_equivalence": {
+    "through_B": 200000,
+    "primitive_pair_parameter_blocks": 63638,
+    "nonzero_direct_weight_terms": 126955,
+    "rows": [
+      {
+        "B": 1000,
+        "primitive_first_direct_count": 1208,
+        "previous_global_mobius_count": 1208,
+        "difference": 0
+      },
+      {
+        "B": 2000,
+        "primitive_first_direct_count": 2888,
+        "previous_global_mobius_count": 2888,
+        "difference": 0
+      },
+      {
+        "B": 5000,
+        "primitive_first_direct_count": 9030,
+        "previous_global_mobius_count": 9030,
+        "difference": 0
+      },
+      {
+        "B": 10000,
+        "primitive_first_direct_count": 21360,
+        "previous_global_mobius_count": 21360,
+        "difference": 0
+      },
+      {
+        "B": 20000,
+        "primitive_first_direct_count": 49592,
+        "previous_global_mobius_count": 49592,
+        "difference": 0
+      },
+      {
+        "B": 50000,
+        "primitive_first_direct_count": 147998,
+        "previous_global_mobius_count": 147998,
+        "difference": 0
+      },
+      {
+        "B": 100000,
+        "primitive_first_direct_count": 336416,
+        "previous_global_mobius_count": 336416,
+        "difference": 0
+      },
+      {
+        "B": 200000,
+        "primitive_first_direct_count": 760206,
+        "previous_global_mobius_count": 760206,
+        "difference": 0
+      }
+    ]
+  },
+  "euler_constant_diagnostic": {
+    "prime_cutoff": 200000,
+    "stage12_kappa_partial": 0.01855917155586297,
+    "primitive_two_modulus_eta_partial": 0.058305334850698706,
+    "eta_over_pi_kappa": 0.9999996198305922,
+    "candidate_primitive_constant_from_eta": 0.0004922971283113034,
+    "candidate_primitive_constant_from_kappa": 0.0004922973154676823
+  },
+  "decision": {
+    "classification": "A_primitive_first_boundary_layers_close_uniform_average_remainder_open",
+    "closed": [
+      "Global Mobius inversion can be moved inside the h-parameter exactly.",
+      "Both parity cases reduce to an explicit nonnegative primitive height weight.",
+      "Direct primitive-first counts equal all previous global-Mobius counts through B=200000.",
+      "The terminal-u layer disappears and the shallow primitive layer is lower order with a compatible cutoff.",
+      "The fixed-rs residue has an exact two-modulus beta divisor expansion."
+    ],
+    "not_closed": [
+      "A fully written uniform averaged Selberg-Delange remainder over r,s.",
+      "Final smoothing and endpoint bookkeeping after replacing lambda_1 by beta.",
+      "A proved primitive N1 asymptotic with the candidate constant."
+    ],
+    "next_stage": "12-N1-2k: prove the averaged fixed-rs partial-sum remainder, match the two-modulus Euler constant to kappa, and rerun the retained core/wing bookkeeping with beta weights."
+  },
+  "not_claimed": [
+    "That a uniform Selberg-Delange estimate has already been proved for every rs.",
+    "That the partial Euler products are certified enclosures.",
+    "That the Stage12-N1-2i smoothing argument is already a complete published proof.",
+    "A final raw or primitive asymptotic theorem."
+  ],
+  "literature": [
+    {
+      "work": "de la Breteche and Tenenbaum, Remarks on the Selberg-Delange method, arXiv:2010.12929",
+      "role": "Framework for partial sums of multiplicative functions with zeta-power Dirichlet series.",
+      "limitation": "Stage12 still needs parameter-uniform averaged control of the finite rs corrections."
+    }
+  ]
+}
