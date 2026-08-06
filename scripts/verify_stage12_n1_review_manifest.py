@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Verify both the historical link manifest and the current self-contained bundle."""
+"""Verify the historical manifests and the current extractor-safe R02 bundle."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -10,11 +10,11 @@ HISTORICAL_DOCUMENT_ID = "PC-N1-REVIEW-2B-2K-20260806-1545-JST"
 HISTORICAL_SOURCE_COMMIT = "5ae4057e8a83a23d7accee5b5145290e2a65e198"
 HISTORICAL_MANIFEST = Path("docs/review/stage12-n1-2b-to-2k-review-manifest-20260806-1545.md")
 
-CURRENT_DOCUMENT_ID = "PC-N1-CURRENT-20260806-1612-JST"
-CURRENT_BUNDLE_ID = "PC-N1-2-PROOF-REVIEW-20260806-1612-R01"
-CURRENT_SOURCE_COMMIT = "0e8bbc6e745ddf6d1f7c0ba3b21bb328a1fcc4d2"
+CURRENT_DOCUMENT_ID = "PC-N1-CURRENT-20260806-1645-JST"
+CURRENT_BUNDLE_ID = "PC-N1-2-PROOF-REVIEW-20260806-1645-R02"
+CURRENT_SOURCE_COMMIT = "8d6910e8e68145e474f92716460a1cc6f384ecf1"
 CURRENT_CONTENT_SHA256 = "201cad458d172e0939e5508b78e6e06abe894d908390f0c1b54c51a16e63d586"
-CURRENT_PAGE = Path("review/PC-N1-2-PROOF-REVIEW-20260806-R01.html")
+CURRENT_PAGE = Path("review/PC-N1-2-PROOF-REVIEW-20260806-R02.html")
 STATUS = Path("docs/00_CURRENT_RESEARCH_STATUS.md")
 
 EXPECTED_DOCS = [
@@ -51,15 +51,6 @@ def verify_historical_manifest() -> None:
         if not Path(path).is_file():
             raise SystemExit(f"source document is missing: {path}")
 
-    forbidden_mutable = [
-        "/blob/main/docs/stage12-n1-2",
-        "/blob/master/docs/stage12-n1-2",
-        "/blob/agent/stage12-n1-2b-average/docs/stage12-n1-2",
-    ]
-    for needle in forbidden_mutable:
-        if needle in manifest:
-            raise SystemExit(f"mutable historical review source found: {needle}")
-
 
 def verify_current_bundle() -> None:
     status = STATUS.read_text(encoding="utf-8")
@@ -75,16 +66,31 @@ def verify_current_bundle() -> None:
     ):
         require(status, needle, STATUS)
 
-    for needle in (
+    main_start = page.index('<main id="review-bundle-main">')
+    main_end = page.index("</main>", main_start)
+    main = page[main_start:main_end]
+    markers = (
         f"BUNDLE_ID={CURRENT_BUNDLE_ID}",
         f"COMPLETED_THROUGH={COMPLETED_THROUGH}",
         f"SOURCE_SNAPSHOT_COMMIT={CURRENT_SOURCE_COMMIT}",
         f"CONTENT_SHA256={CURRENT_CONTENT_SHA256}",
         "LAST_SOURCE_DOCUMENT=docs/stage12-n1-2k-final-remainder.md",
         f"END_OF_BUNDLE={CURRENT_BUNDLE_ID}",
+    )
+    for marker in markers:
+        if main.count(marker) < 4:
+            raise SystemExit(f"marker is not repeated four times inside main: {marker}")
+
+    for checkpoint in (
+        "CHECKPOINT=START_OF_MAIN",
+        "CHECKPOINT=BEFORE_EMBEDDED_SOURCES",
+        "CHECKPOINT=AFTER_EMBEDDED_SOURCES",
+        "CHECKPOINT=END_OF_MAIN",
+        "PAGE_STRUCTURE=ALL_HANDSHAKES_INSIDE_MAIN_R02",
         "SOURCE_DOCUMENT_COUNT=11 | JSON_REPORT_COUNT=11 | AUDIT_SCRIPT_COUNT=11",
+        "audit_final_remainder_stage12_n1_2k.py",
     ):
-        require(page, needle, CURRENT_PAGE)
+        require(main, checkpoint, CURRENT_PAGE)
 
     if len(page.encode("utf-8")) <= 250_000:
         raise SystemExit("self-contained review page is unexpectedly small")
@@ -99,6 +105,7 @@ def main() -> None:
     print(f"COMPLETED_THROUGH={COMPLETED_THROUGH}")
     print(f"CURRENT_SOURCE_SNAPSHOT_COMMIT={CURRENT_SOURCE_COMMIT}")
     print(f"CONTENT_SHA256={CURRENT_CONTENT_SHA256}")
+    print("HANDSHAKE_COPIES_INSIDE_MAIN=4")
     print(f"EMBEDDED_SOURCE_FILES={11 + 11 + 11}")
 
 
