@@ -1,0 +1,108 @@
+{
+  "metadata": {
+    "stage": "12-N1-2",
+    "title": "Exact hyperbola coordinates for the shared-p convolution",
+    "generated_by": "scripts/audit_shared_p_hyperbola_stage12_n1_2.py",
+    "claim_status": "Exact finite identities only; no asymptotic formula is claimed."
+  },
+  "exact_reparameterization": {
+    "variables": "u=d-c=h*r^2, v=d+c=h*s^2",
+    "conditions": [
+      "h>=1",
+      "1<=r<s",
+      "gcd(r,s)=1",
+      "p=h*r*s",
+      "h*(r^2+s^2)<=2B",
+      "h*(r^2+s^2) is even"
+    ],
+    "recovery": {
+      "p": "h*r*s",
+      "c": "h*(s^2-r^2)/2",
+      "d": "h*(r^2+s^2)/2"
+    },
+    "weighted_identity": "C_raw(B)=sum_{D_B}(G(h*r*s)-1), G(n)=prod_{q=1 mod 4}(2*v_q(n)+1)=2H(n)+1"
+  },
+  "multiplicative_transform": {
+    "G_is_multiplicative": true,
+    "samples": 13549,
+    "violations": 0,
+    "note": "The weight G is multiplicative, but the domain couples h,r,s through h*(r^2+s^2)<=2B and h may share primes with r*s."
+  },
+  "finite_rows": [
+    {
+      "B": 1000,
+      "raw_oriented_chains": 3180,
+      "hyperbola_weighted_sum": 3180,
+      "second_triangle_parameter_points": 1762,
+      "max_scale_h": 400
+    },
+    {
+      "B": 2000,
+      "raw_oriented_chains": 8396,
+      "hyperbola_weighted_sum": 8396,
+      "second_triangle_parameter_points": 3962,
+      "max_scale_h": 800
+    },
+    {
+      "B": 5000,
+      "raw_oriented_chains": 29446,
+      "hyperbola_weighted_sum": 29446,
+      "second_triangle_parameter_points": 11362,
+      "max_scale_h": 2000
+    },
+    {
+      "B": 10000,
+      "raw_oriented_chains": 74414,
+      "hyperbola_weighted_sum": 74414,
+      "second_triangle_parameter_points": 24942,
+      "max_scale_h": 4000
+    },
+    {
+      "B": 20000,
+      "raw_oriented_chains": 185206,
+      "hyperbola_weighted_sum": 185206,
+      "second_triangle_parameter_points": 54350,
+      "max_scale_h": 8000
+    }
+  ],
+  "audit_counts": {
+    "bijection_checks": 96378,
+    "weight_checks": 96378
+  },
+  "analytic_target": {
+    "exact_sum": "sum_{h>=1} sum_{r<s,(r,s)=1, parity, h(r^2+s^2)<=2B} (G(h*r*s)-1)",
+    "progress": [
+      "The B-dependent function L_B(p) has been eliminated from the summand.",
+      "The arithmetic weight is now the fixed multiplicative function G evaluated at h*r*s.",
+      "All B-dependence is isolated in an explicit quadratic height domain."
+    ],
+    "remaining_obstructions": [
+      "Average G(h*r*s) over a coprime quadratic domain with h sharing primes with r*s.",
+      "Separate or control repeated-side chains before applying the global Mobius inversion.",
+      "Obtain an error term uniform enough for X=floor(B/k) across the Mobius range."
+    ],
+    "classification": "A_reparameterization_progress_new_mean_value_lemma_needed"
+  },
+  "literature_leads": {
+    "status": "candidate methods, not yet applied",
+    "items": [
+      {
+        "work": "Gao-Zhao, Mean values of divisors of forms n^2+Nm^2 (2018)",
+        "possible_use": "divisor averages on quadratic forms"
+      },
+      {
+        "work": "Shparlinski, Modular Hyperbolas (2011)",
+        "possible_use": "lattice-point and error estimates for hyperbolic divisor constraints"
+      },
+      {
+        "work": "Chamizo, The additive problem for the number of representations as a sum of two squares (2020)",
+        "possible_use": "correlation methods for representation functions"
+      },
+      {
+        "work": "Zelator, A Non-Existence Property of Pythagorean Triangles with a 3-D Application (2009)",
+        "possible_use": "structurally related chained triangles, not asymptotic counting"
+      }
+    ],
+    "warning": "No direct theorem application or novelty claim is made from this bibliography alone."
+  }
+}
