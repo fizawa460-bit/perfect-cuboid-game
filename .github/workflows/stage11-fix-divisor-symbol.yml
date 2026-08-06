@@ -1,0 +1,60 @@
+name: Stage11 fix divisor symbol
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/stage11-fix-divisor-symbol.yml"
+
+permissions:
+  contents: write
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  fix-and-commit:
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Stage11 branch
+        uses: actions/checkout@v4
+        with:
+          ref: agent/shared-p-convolution-stage11
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Correct divisor variable and regenerate memo
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("scripts/update_shared_p_convolution_stage11_memo.py")
+          text = path.read_text(encoding="utf-8")
+          replacements = {
+              r"\nu\mid p^2:\nu<p": r"u\mid p^2:u<p",
+              r"\nu\equiv\frac{p^2}{u}\pmod2": r"u\equiv\frac{p^2}{u}\pmod2",
+              r"\nu+\frac{p^2}{u}\le2B": r"u+\frac{p^2}{u}\le2B",
+          }
+          for old, new in replacements.items():
+              if text.count(old) != 1:
+                  raise SystemExit(f"expected one occurrence of {old!r}, found {text.count(old)}")
+              text = text.replace(old, new)
+          path.write_text(text, encoding="utf-8")
+          PY
+          python scripts/update_shared_p_convolution_stage11_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report data/shared_p_convolution_stage11_report.json \
+            --output generated-face-ratio-geometry-research.md
+          mv generated-face-ratio-geometry-research.md docs/face-ratio-geometry-research.md
+          rm -f .github/workflows/stage11-fix-divisor-symbol.yml
+
+      - name: Commit correction
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Normalize Stage11 divisor variable"
+          git push origin HEAD:agent/shared-p-convolution-stage11
