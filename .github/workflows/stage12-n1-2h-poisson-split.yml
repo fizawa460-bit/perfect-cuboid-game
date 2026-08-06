@@ -1,0 +1,37 @@
+name: Stage12-N1-2h Poisson-split audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/stage12-n1-2h-poisson-split
+    paths:
+      - "scripts/audit_poisson_split_stage12_n1_2h.py"
+      - "data/poisson_split_stage12_n1_2h_report.json"
+      - "docs/stage12-n1-2h-poisson-split.md"
+      - ".github/workflows/stage12-n1-2h-poisson-split.yml"
+  pull_request:
+    paths:
+      - "scripts/audit_poisson_split_stage12_n1_2h.py"
+      - "data/poisson_split_stage12_n1_2h_report.json"
+      - "docs/stage12-n1-2h-poisson-split.md"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run Poisson-split audit
+        run: |
+          python -m py_compile scripts/audit_poisson_split_stage12_n1_2h.py
+          python scripts/audit_poisson_split_stage12_n1_2h.py --write-report /tmp/report.json
+          diff -u data/poisson_split_stage12_n1_2h_report.json /tmp/report.json

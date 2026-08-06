@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "stage": "12-N1-2c",
+    "title": "Gao-Zhao compatibility audit",
+    "generated_by": "scripts/audit_gao_zhao_compatibility_stage12_n1_2c.py",
+    "source": "Gao-Zhao, arXiv:1812.07863",
+    "claim_status": "Structural comparison only; no asymptotic theorem claimed."
+  },
+  "target_sum": {
+    "formula": "sum_{h(r^2+s^2)<=2B, r<s, gcd(r,s)=1} (G(h)G(r)G(s)K(h,rs)-1)",
+    "origin": "Stage12-N1-2b exact factorization"
+  },
+  "gao_zhao_input": {
+    "formula": "S_N(x)=sum_{m,n<=x} d(n^2+N*m^2)",
+    "fixed_parameters": "N fixed; theorem proved for specified N",
+    "method_features": [
+      "divisor hyperbola decomposition",
+      "roots of quadratic congruences",
+      "large-sieve/exponential-sum estimates"
+    ]
+  },
+  "compatibility_checks": [
+    {
+      "feature": "quadratic_form",
+      "gao_zhao": "n^2+N*m^2 with fixed N",
+      "stage12": "r^2+s^2 (N=1) inside h*(r^2+s^2)<=2B",
+      "status": "partial_match"
+    },
+    {
+      "feature": "summation_region",
+      "gao_zhao": "box m,n<=x",
+      "stage12": "coprime ordered sector r<s with h(r^2+s^2)<=2B",
+      "status": "mismatch_requires_reworking"
+    },
+    {
+      "feature": "arithmetic_weight",
+      "gao_zhao": "full divisor function d(r^2+s^2)",
+      "stage12": "G(h)G(r)G(s)K(h,rs)-1",
+      "status": "major_mismatch"
+    },
+    {
+      "feature": "extra_scale_variable",
+      "gao_zhao": "none",
+      "stage12": "h is summed up to 2B/(r^2+s^2)",
+      "status": "major_mismatch"
+    },
+    {
+      "feature": "coprimality",
+      "gao_zhao": "unrestricted box in the theorem statement",
+      "stage12": "gcd(r,s)=1",
+      "status": "manageable_by_mobius_but_uniformity_needed"
+    },
+    {
+      "feature": "local_correction",
+      "gao_zhao": "no analogue of K(h,rs) in theorem statement",
+      "stage12": "K is supported on shared primes q=1 mod4",
+      "status": "new_correlation_term"
+    },
+    {
+      "feature": "required_uniformity",
+      "gao_zhao": "fixed quadratic form and one scale x",
+      "stage12": "uniformity in h-slices and later global Mobius inversion",
+      "status": "not_supplied_directly"
+    }
+  ],
+  "decision": {
+    "direct_application": false,
+    "classification": "B_method_template_relevant_theorem_not_directly_applicable",
+    "reusable_components": [
+      "hyperbola decomposition philosophy",
+      "quadratic-congruence root counting for r^2+s^2",
+      "large-sieve control after dyadic decomposition"
+    ],
+    "new_lemmas_required": [
+      "A weighted h-slice theorem for G(h)G(r)G(s) over h(r^2+s^2)<=2B",
+      "Uniform control of the shared-prime correction K(h,rs)",
+      "Coprime-sector and ordered-sector reduction with a uniform error",
+      "An error term summable under the later global Mobius inversion"
+    ],
+    "next_stage": "12-N1-2d: test whether modular-hyperbola estimates control the missing uniform errors"
+  },
+  "not_claimed": [
+    "That Gao-Zhao implies an asymptotic for the Stage12 sum.",
+    "That replacing G by the divisor function is harmless.",
+    "That K has a limiting mean or lower-order total contribution."
+  ]
+}

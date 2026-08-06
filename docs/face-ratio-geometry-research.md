@@ -2483,11 +2483,14 @@ $$L_B(p)=\#\{(c,d):p^2+c^2=d^2,\ d\le B\}$$
 
 4.23の厳密式
 
-$$C_{\mathrm{prim}}(B)=\sum_{k\le B}\mu(k)C_{\mathrm{dist,raw}}(\lfloor B/kfloor)$$
+$$C_{\mathrm{prim}}(B)=\sum_{k\le B}\mu(k)C_{\mathrm{dist,raw}}(\lfloor B/k
+floor)$$
 
 へ$C_{\mathrm{dist,raw}}(X)=M(X)+R(X)$を代入する場合、主項$M$のMöbius変換が正でStage11の$B^{1/2}$下界を上回ることに加え、
 
-$$\sum_{k\le B}\left|R(\lfloor B/kfloor)ight|$$
+$$\sum_{k\le B}\left|R(\lfloor B/k
+floor)
+ight|$$
 
 が変換後の主項より低次である一様誤差評価、または符号付きMöbius和に対する別の相殺定理が必要である。raw主項だけを得てもprimitive下界改善には足りない。
 
@@ -2508,7 +2511,8 @@ $$\sum_{k\le B}\left|R(\lfloor B/kfloor)ight|$$
 次に本当に必要な入力は次の4点である。
 
 1. $C_{\mathrm{dist,raw}}(X)$の一様漸近式
-2. $X=\lfloor B/kfloor$全域で使える誤差評価
+2. $X=\lfloor B/k
+floor$全域で使える誤差評価
 3. 主項のMöbius変換が正であることの確認
 4. 等辺chainを一般に除外できない場合の別評価
 
@@ -2531,6 +2535,61 @@ $$\sum_{k\le B}\left|R(\lfloor B/kfloor)ight|$$
 
 従ってN1枝はここで一旦停止し、完成した式と必要定理を外部査読へ渡した後、N2枝との研究コストを比較するのが妥当である。
 <!-- SHARED_P_ANALYTIC_EXIT_STAGE12_N1D_END -->
+<!-- SHARED_P_AVERAGE_STAGE12_N1_2B_START -->
+## 4.26 Stage12-N1-2b：乗法重みの共有素因子補正
+
+### 4.26.1 厳密分解【確定】
+
+Stage12-N1-2 の座標で $p=hrs$、$(r,s)=1$ とする。
+
+$$
+G(n)=\prod_{q\mid n,\ q\equiv1\ (4)}(2v_q(n)+1)
+$$
+
+とおく。$a=v_q(h)$、$b=v_q(rs)$ に対し
+
+$$
+K_q(a,b)=\frac{2(a+b)+1}{(2a+1)(2b+1)}
+$$
+
+と定義すると、厳密に
+
+$$
+\boxed{G(hrs)=G(h)G(r)G(s)K(h,rs)}
+$$
+
+$$
+K(h,rs)=\prod_{\substack{q\equiv1\ (4)\\q\mid(h,rs)}}K_q(v_q(h),v_q(rs))
+$$
+
+となる。$0<K\le1$ であり、$K=1$ となるのは $q\equiv1\pmod4$ の素数が $h$ と $rs$ に共有されない場合に限る。$2$ および $3\pmod4$ の共有素因子は $G$ に影響しない。
+
+### 4.26.2 有限監査
+
+| $B$ | exact raw | 分離積による上界 | 補正損失 | 上界/exact |
+|---:|---:|---:|---:|---:|
+| 1,000 | 3,180 | 3,504 | 324 | 1.101887 |
+| 2,000 | 8,396 | 9,316 | 920 | 1.109576 |
+| 5,000 | 29,446 | 32,898 | 3,452 | 1.117232 |
+| 10,000 | 74,414 | 83,442 | 9,028 | 1.121321 |
+| 20,000 | 185,206 | 208,558 | 23,352 | 1.126087 |
+
+全 68,544 件で局所補正式を検算した。有限比率を漸近密度とは解釈しない。
+
+### 4.26.3 解析上の現在地
+
+共有素因子による非乗法性は、$q\equiv1\pmod4$ にのみ支えられた明示的局所因子 $K$ へ隔離された。従って
+
+$$
+G(hrs)\le G(h)G(r)G(s)
+$$
+
+が無条件に成り立つ。ただし、補正損失の総和が主項より低次であることは未証明である。次に必要なのは、二次領域上の分離積平均と、共有 $1\pmod4$ 素数の総寄与を一様に制御する補題である。
+
+判定は `A_local_correction_isolated_mean_value_still_open` とする。
+
+<!-- SHARED_P_AVERAGE_STAGE12_N1_2B_END -->
+
 ## 5. 一面成立曲面 $V_{ab}$ の幾何
 
 ### 5.1 定義とGelfand–Leray形式【局所計算は確定／大域計数との接続は未証明】
