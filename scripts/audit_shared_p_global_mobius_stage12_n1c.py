@@ -9,8 +9,8 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
-from audit_shared_p_convolution_stage11 import MAX_D, THRESHOLDS, enumerate_shared_p
-from audit_shared_p_primitive_joint_stage12_n1b import mobius_sieve
+from audit_shared_p_convolution_stage11 import MAX_D, THRESHOLDS, build_spf, enumerate_shared_p
+from audit_shared_p_primitive_joint_stage12_n1b import divisors, mobius_sieve
 
 DEFAULT_REPORT = Path("data/shared_p_global_mobius_stage12_n1c_report.json")
 
@@ -27,6 +27,7 @@ def prefix(values: list[int]) -> list[int]:
 def build_report() -> dict[str, Any]:
     triangles, _, records, _ = enumerate_shared_p(MAX_D)
     mu = mobius_sieve(MAX_D)
+    spf = build_spf(MAX_D)
 
     raw_all_exact = [0] * (MAX_D + 1)
     raw_distinct_exact = [0] * (MAX_D + 1)
@@ -58,8 +59,7 @@ def build_report() -> dict[str, Any]:
     a_identity_mismatches: list[dict[str, int]] = []
     h_counts = {p: len(reps) for p, reps in first_by_p.items()}
     for p, reps in first_by_p.items():
-        divisors = [k for k in range(1, p + 1) if p % k == 0]
-        for k in divisors:
+        for k in divisors(p, spf):
             actual = sum(1 for _, _, g in reps if g % k == 0)
             expected = h_counts.get(p // k, 0)
             a_identity_checks += 1
@@ -77,9 +77,7 @@ def build_report() -> dict[str, Any]:
     b_identity_mismatches: list[dict[str, int]] = []
     for B in THRESHOLDS:
         for p in range(1, B + 1):
-            for k in range(1, p + 1):
-                if p % k:
-                    continue
+            for k in divisors(p, spf):
                 actual = sum(1 for c, d, _, _ in triangles[p] if d <= B and c % k == 0)
                 q = p // k
                 expected = sum(1 for _, d, _, _ in triangles[q] if d <= B // k)
