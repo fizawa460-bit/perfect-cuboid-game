@@ -1,14 +1,22 @@
 #!/usr/bin/env python3
-"""Verify the canonical Stage12-N1 review status and versioned manifest."""
+"""Verify both the historical link manifest and the current self-contained bundle."""
 from __future__ import annotations
 
 from pathlib import Path
 
-DOCUMENT_ID = "PC-N1-REVIEW-2B-2K-20260806-1545-JST"
 COMPLETED_THROUGH = "Stage12-N1-2k"
-SOURCE_COMMIT = "5ae4057e8a83a23d7accee5b5145290e2a65e198"
-MANIFEST = Path("docs/review/stage12-n1-2b-to-2k-review-manifest-20260806-1545.md")
+
+HISTORICAL_DOCUMENT_ID = "PC-N1-REVIEW-2B-2K-20260806-1545-JST"
+HISTORICAL_SOURCE_COMMIT = "5ae4057e8a83a23d7accee5b5145290e2a65e198"
+HISTORICAL_MANIFEST = Path("docs/review/stage12-n1-2b-to-2k-review-manifest-20260806-1545.md")
+
+CURRENT_DOCUMENT_ID = "PC-N1-CURRENT-20260806-1612-JST"
+CURRENT_BUNDLE_ID = "PC-N1-2-PROOF-REVIEW-20260806-1612-R01"
+CURRENT_SOURCE_COMMIT = "0e8bbc6e745ddf6d1f7c0ba3b21bb328a1fcc4d2"
+CURRENT_CONTENT_SHA256 = "201cad458d172e0939e5508b78e6e06abe894d908390f0c1b54c51a16e63d586"
+CURRENT_PAGE = Path("review/PC-N1-2-PROOF-REVIEW-20260806-R01.html")
 STATUS = Path("docs/00_CURRENT_RESEARCH_STATUS.md")
+
 EXPECTED_DOCS = [
     "docs/stage12-n1-2b-average.md",
     "docs/stage12-n1-2c-gao-zhao.md",
@@ -28,23 +36,18 @@ def require(text: str, needle: str, source: Path) -> None:
         raise SystemExit(f"missing {needle!r} in {source}")
 
 
-def main() -> None:
-    manifest = MANIFEST.read_text(encoding="utf-8")
-    status = STATUS.read_text(encoding="utf-8")
-
-    for source, text in ((MANIFEST, manifest), (STATUS, status)):
-        require(text, DOCUMENT_ID, source)
-        require(text, COMPLETED_THROUGH, source)
-        require(text, SOURCE_COMMIT, source)
-
-    require(status, str(MANIFEST), STATUS)
+def verify_historical_manifest() -> None:
+    manifest = HISTORICAL_MANIFEST.read_text(encoding="utf-8")
+    require(manifest, HISTORICAL_DOCUMENT_ID, HISTORICAL_MANIFEST)
+    require(manifest, COMPLETED_THROUGH, HISTORICAL_MANIFEST)
+    require(manifest, HISTORICAL_SOURCE_COMMIT, HISTORICAL_MANIFEST)
 
     pinned_prefix = (
         "https://github.com/fizawa460-bit/perfect-cuboid-game/blob/"
-        f"{SOURCE_COMMIT}/"
+        f"{HISTORICAL_SOURCE_COMMIT}/"
     )
     for path in EXPECTED_DOCS:
-        require(manifest, pinned_prefix + path, MANIFEST)
+        require(manifest, pinned_prefix + path, HISTORICAL_MANIFEST)
         if not Path(path).is_file():
             raise SystemExit(f"source document is missing: {path}")
 
@@ -55,13 +58,48 @@ def main() -> None:
     ]
     for needle in forbidden_mutable:
         if needle in manifest:
-            raise SystemExit(f"mutable review source found: {needle}")
+            raise SystemExit(f"mutable historical review source found: {needle}")
 
-    print("Stage12-N1 review manifest verified")
-    print(f"DOCUMENT_ID={DOCUMENT_ID}")
+
+def verify_current_bundle() -> None:
+    status = STATUS.read_text(encoding="utf-8")
+    page = CURRENT_PAGE.read_text(encoding="utf-8")
+
+    for needle in (
+        CURRENT_DOCUMENT_ID,
+        CURRENT_BUNDLE_ID,
+        COMPLETED_THROUGH,
+        CURRENT_SOURCE_COMMIT,
+        CURRENT_CONTENT_SHA256,
+        str(CURRENT_PAGE),
+    ):
+        require(status, needle, STATUS)
+
+    for needle in (
+        f"BUNDLE_ID={CURRENT_BUNDLE_ID}",
+        f"COMPLETED_THROUGH={COMPLETED_THROUGH}",
+        f"SOURCE_SNAPSHOT_COMMIT={CURRENT_SOURCE_COMMIT}",
+        f"CONTENT_SHA256={CURRENT_CONTENT_SHA256}",
+        "LAST_SOURCE_DOCUMENT=docs/stage12-n1-2k-final-remainder.md",
+        f"END_OF_BUNDLE={CURRENT_BUNDLE_ID}",
+        "SOURCE_DOCUMENT_COUNT=11 | JSON_REPORT_COUNT=11 | AUDIT_SCRIPT_COUNT=11",
+    ):
+        require(page, needle, CURRENT_PAGE)
+
+    if len(page.encode("utf-8")) <= 250_000:
+        raise SystemExit("self-contained review page is unexpectedly small")
+
+
+def main() -> None:
+    verify_historical_manifest()
+    verify_current_bundle()
+    print("Stage12-N1 review sources verified")
+    print(f"HISTORICAL_DOCUMENT_ID={HISTORICAL_DOCUMENT_ID}")
+    print(f"CURRENT_BUNDLE_ID={CURRENT_BUNDLE_ID}")
     print(f"COMPLETED_THROUGH={COMPLETED_THROUGH}")
-    print(f"SOURCE_SNAPSHOT_COMMIT={SOURCE_COMMIT}")
-    print(f"PINNED_DOCUMENTS={len(EXPECTED_DOCS)}")
+    print(f"CURRENT_SOURCE_SNAPSHOT_COMMIT={CURRENT_SOURCE_COMMIT}")
+    print(f"CONTENT_SHA256={CURRENT_CONTENT_SHA256}")
+    print(f"EMBEDDED_SOURCE_FILES={11 + 11 + 11}")
 
 
 if __name__ == "__main__":

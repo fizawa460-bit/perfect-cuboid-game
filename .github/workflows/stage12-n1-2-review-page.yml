@@ -1,0 +1,66 @@
+name: Stage12-N1-2 self-contained review page
+
+on:
+  pull_request:
+    paths:
+      - "docs/00_CURRENT_RESEARCH_STATUS.md"
+      - "docs/stage12-n1-2*.md"
+      - "data/*stage12_n1_2*.json"
+      - "scripts/audit_*stage12_n1_2*.py"
+      - "scripts/build_stage12_n1_2_review_page.py"
+      - "scripts/verify_stage12_n1_review_manifest.py"
+      - "review/PC-N1-2-PROOF-REVIEW-20260806-R01.html"
+      - ".github/workflows/stage12-n1-2-review-page.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-review-page:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build self-contained review page
+        run: python scripts/build_stage12_n1_2_review_page.py
+      - name: Verify mandatory markers, current pointer, and page size
+        shell: bash
+        run: |
+          page=review/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+          status=docs/00_CURRENT_RESEARCH_STATUS.md
+          test -s "$page"
+          grep -Fq "BUNDLE_ID=PC-N1-2-PROOF-REVIEW-20260806-1612-R01" "$page"
+          grep -Fq "COMPLETED_THROUGH=Stage12-N1-2k" "$page"
+          grep -Fq "SOURCE_SNAPSHOT_COMMIT=0e8bbc6e745ddf6d1f7c0ba3b21bb328a1fcc4d2" "$page"
+          grep -Fq "CONTENT_SHA256=201cad458d172e0939e5508b78e6e06abe894d908390f0c1b54c51a16e63d586" "$page"
+          grep -Fq "END_OF_BUNDLE=PC-N1-2-PROOF-REVIEW-20260806-1612-R01" "$page"
+          grep -Fq 'LATEST_SELF_CONTAINED_REVIEW_PAGE:** `review/PC-N1-2-PROOF-REVIEW-20260806-R01.html`' "$status"
+          grep -Fq 'LATEST_BUNDLE_ID:** `PC-N1-2-PROOF-REVIEW-20260806-1612-R01`' "$status"
+          test "$(wc -c < "$page")" -gt 250000
+          python scripts/verify_stage12_n1_review_manifest.py
+      - name: Commit generated page to PR branch
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          page=review/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+          if git diff --quiet -- "$page" && git ls-files --error-unmatch "$page" >/dev/null 2>&1; then
+            echo "Review page is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$page"
+          git commit -m "Generate Stage12 N1-2 review page"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Upload generated review page
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-2-proof-review-page
+          path: review/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+          if-no-files-found: error
+          retention-days: 7
