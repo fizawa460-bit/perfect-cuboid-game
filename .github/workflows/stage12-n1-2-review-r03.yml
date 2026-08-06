@@ -3,8 +3,7 @@ name: Stage12-N1-2 Round 2 review bundle R03
 on:
   workflow_dispatch:
   push:
-    branches:
-      - agent/stage12-n1-2-review-r03
+    branches: [main]
     paths:
       - "scripts/build_stage12_n1_2_review_page_r03.py"
       - "docs/stage12-n1-2*.md"
@@ -20,8 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: agent/stage12-n1-2-review-r03
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -46,4 +43,4 @@ jobs:
           git add review/PC-N1-2-PROOF-REVIEW-20260806-R03.html
           if git diff --cached --quiet; then exit 0; fi
           git commit -m "Generate Stage12-N1-2 Round 2 R03 review bundle"
-          git push origin HEAD:agent/stage12-n1-2-review-r03
+          git push
