@@ -2268,7 +2268,6 @@ Stage11と同じ完全列挙を $B\le20,000$ で再実行した。
 従って、このN1枝を続けるための次の対象は $H(p)L_B(p)$ そのものではなく、**二つのPythagorean tripleを結合した後のgcdを記録するprimitive-compatible joint weight** である。Möbius反転または原始表現数への分解が、この補正を実際に閉じられるかが次の分岐判定になる。
 <!-- SHARED_P_AVERAGE_STAGE12_N1_END -->
 
-
 <!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_START -->
 ## 4.22 Stage12-N1b：primitive-compatible共有$p$畳み込み
 
@@ -2291,11 +2290,11 @@ $$p^2+c^2=d^2$$
 
 とする。このとき結合後の三辺の最大公約数は恒等的に
 
-$$oxed{\gcd(x,y,c)=\gcd(g,c)}$$
+$$\boxed{\gcd(x,y,c)=\gcd(g,c)}$$
 
 である。従って結合直方体がprimitiveであるための必要十分条件は
 
-$$oxed{\gcd(g,c)=1}$$
+$$\boxed{\gcd(g,c)=1}$$
 
 となる。全三辺のgcd条件は、第一三角形のスケール$g$と第二三角形の脚$c$の互いに素条件へ縮約された。
 
@@ -2307,7 +2306,7 @@ $$\#\{(x,y):x<y,\ x^2+y^2=p^2,\ \gcd(x,y)=g\}=P(p/g).$$
 
 ここで$h>1$に対して
 
-$$P(h)=egin{cases}2^{\omega(h)-1},&h	ext{が奇数で、全素因子が }1\pmod4,\0,&	ext{それ以外}\end{cases}$$
+$$P(h)=\begin{cases}2^{\omega(h)-1},&h\text{が奇数で、全素因子が }1\pmod4,\\0,&\text{それ以外}\end{cases}$$
 
 である。$p\le20{,}000$の13,211個の支持$p$、22,389個の$(p,g)$群で直接列挙と完全一致した。
 
@@ -2315,7 +2314,7 @@ $$P(h)=egin{cases}2^{\omega(h)-1},&h	ext{が奇数で、全素因子が }1\pmod
 
 共有$p$に対して
 
-$$J_B(p)=\sum_{\substack{x<y\x^2+y^2=p^2}}\ \sum_{\substack{p^2+c^2=d^2\d\le B}}\mathbf1_{(\gcd(x,y),c)=1}$$
+$$J_B(p)=\sum_{\substack{x<y\\x^2+y^2=p^2}}\ \sum_{\substack{p^2+c^2=d^2\\d\le B}}\mathbf1_{(\gcd(x,y),c)=1}$$
 
 と定義する。さらに
 
@@ -2325,7 +2324,7 @@ $$B_{k,B}(p)=\#\{(c,d):p^2+c^2=d^2,\ d\le B,\ k\mid c\}$$
 
 とすれば、Möbius反転から厳密に
 
-$$oxed{J_B(p)=\sum_{k\ge1}\mu(k)A_k(p)B_{k,B}(p)}$$
+$$\boxed{J_B(p)=\sum_{k\ge1}\mu(k)A_k(p)B_{k,B}(p)}$$
 
 を得る。これはraw積$H(p)L_B(p)$をprimitive条件付きのjoint weightへ置き換える正確な式である。
 
@@ -2363,7 +2362,7 @@ $$\sum_{p\le B}A_k(p)B_{k,B}(p)$$
 - Stage11の$N_1(B)\gg B^{1/2}$を改善できるか
 - 等辺補正が一般に0か
 
-従ってN1枝は『補正が書けない』段階を脱し、『書けたMöbius joint weightを解析できるか』という次の一点へ絞られた。
+従ってN1枝は「補正が書けない」段階を脱し、「書けたMöbius joint weightを解析できるか」という次の一点へ絞られた。
 <!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_END -->
 
 <!-- SHARED_P_GLOBAL_MOBIUS_STAGE12_N1C_START -->
@@ -2404,7 +2403,7 @@ $$C_{\mathrm{dist,raw}}(B)=\sum_{k\le B}C_{\mathrm{prim}}(\lfloor B/k\rfloor).$$
 
 従ってMöbius反転により
 
-$$\boxed{C_{\mathrm{prim}}(B)=\sum_{k\le B}\mu(k)C_{\mathrm{dist,raw}}(\lfloor B/k\rfloor)}.$$$
+$$\boxed{C_{\mathrm{prim}}(B)=\sum_{k\le B}\mu(k)C_{\mathrm{dist,raw}}(\lfloor B/k\rfloor)}.$$
 
 この式はprimitive補正を局所密度の推測ではなく、完全に厳密な算術反転として与える。
 
