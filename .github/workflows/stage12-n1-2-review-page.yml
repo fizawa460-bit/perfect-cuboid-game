@@ -1,0 +1,41 @@
+name: Stage12-N1-2 self-contained review page
+
+on:
+  pull_request:
+    paths:
+      - "docs/stage12-n1-2*.md"
+      - "data/*stage12_n1_2*.json"
+      - "scripts/audit_*stage12_n1_2*.py"
+      - "scripts/build_stage12_n1_2_review_page.py"
+      - "review/PC-N1-2-PROOF-REVIEW-20260806-R01.html"
+      - ".github/workflows/stage12-n1-2-review-page.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-review-page:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build self-contained review page
+        run: python scripts/build_stage12_n1_2_review_page.py --output /tmp/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+      - name: Verify committed page is reproducible
+        shell: bash
+        run: |
+          if [[ -f review/PC-N1-2-PROOF-REVIEW-20260806-R01.html ]]; then
+            cmp /tmp/PC-N1-2-PROOF-REVIEW-20260806-R01.html review/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+          else
+            echo "Generated artifact only; committed page will be added from this artifact."
+          fi
+      - name: Upload generated review page
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-2-proof-review-page
+          path: /tmp/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+          if-no-files-found: error
+          retention-days: 7
