@@ -1,0 +1,24 @@
+name: Stage12-N1 review manifest verification
+
+on:
+  pull_request:
+    paths:
+      - "docs/00_CURRENT_RESEARCH_STATUS.md"
+      - "docs/review/stage12-n1-2b-to-2k-review-manifest-20260806-1545.md"
+      - "scripts/verify_stage12_n1_review_manifest.py"
+      - ".github/workflows/stage12-n1-review-versioning.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-review-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify immutable review sources and handshake
+        run: python scripts/verify_stage12_n1_review_manifest.py
