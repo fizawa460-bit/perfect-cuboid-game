@@ -1,0 +1,157 @@
+{
+  "metadata": {
+    "stage": "12-N1-2k",
+    "title": "Final primitive remainder, Euler constant, and beta two-modulus audit",
+    "generated_by": "scripts/audit_final_remainder_stage12_n1_2k.py",
+    "claim_status": "The primitive-oriented leading asymptotic is reduced to standard fixed-domain primitive-circle and multivariable mean-value theorems; exact algebra and finite regressions are audited, while the numerical Euler product is not an enclosure."
+  },
+  "fixed_base_coefficient": {
+    "definition": "a0(n)=2^omega(n) when every prime divisor is 1 mod4, and a0(n)=0 otherwise.",
+    "dirichlet_series": "sum a0(n)n^-s=zeta(s)L(s,chi4)/((1+2^-s)zeta(2s)).",
+    "geometric_identity": "For odd n, 4*a0(n) is exactly the number of primitive integer pairs (x,y) with x^2+y^2=n.",
+    "summatory_estimate": "A0(X)=X/pi+O(sqrt(X)*omega(X)), omega(X)=exp(-c(log X)^(3/5)(loglog X)^(-1/5)); this is the fixed disk primitive-lattice estimate with a finite parity split.",
+    "why_uniformity_disappears": "The domain in the m-sum is one fixed disk/parity problem; r,s occur only in a finite Euler correction, so no varying-eccentricity theorem is required."
+  },
+  "fixed_rs_convolution": {
+    "series_factorization": "F_rs(s)=G(rs)*F0(s)*H_rs(s), with H_rs(s)=product_{p^t||rs,p=1 mod4}(1-((2t-1)/(2t+1))*p^-s)/(1+p^-s).",
+    "local_coefficients": "h_rs(p^j)=(-1)^j*4t/(2t+1) for j>=1 and p^t||rs, and zero for primes outside the 1 mod4 support of rs.",
+    "uniform_partial_sum": "sum_{m<=X}A_rs(m)=gamma(rs)X-1+O(G(rs)H_abs(rs)sqrt(X)omega(X)), where H_abs(rs)=product(1+(4t/(2t+1))/(sqrt(p)-1)).",
+    "average_weight": "W(n)=G(n)H_abs(n) is a fixed nonnegative multiplicative weight with Dirichlet pole order 2, hence sum_{n<=R}W(n)<<R log R.",
+    "global_retained_error": "After summing coprime r,s, the retained fixed-rs remainder is <<B(log B)^2*omega(X0), with X0=exp((log B)^(1/4)); it is o(B(log B)^-A) for every fixed A.",
+    "shallow_region": "With tau=(log B)^(-3/4), the primitive shallow contribution is O(B(log B)^(3/2+o(1))), hence o(B(log B)^3)."
+  },
+  "beta_two_modulus_main": {
+    "beta": "beta is multiplicative, supported on primes 1 mod4, with beta(p^j)=2(p-1)/(p+1) for j>=1.",
+    "local_factor": "For q=1 mod4 the coprime two-modulus density factor is 1+4q/(q+1)^2.",
+    "eta_euler_product": "eta=(pi/4)^2*(1/2)^2*product_{p=3 mod4}(1-p^-2)^2*product_{q=1 mod4}(1+4q/(q+1)^2)(1-q^-1)^4.",
+    "standard_mean_value_input": "The nonnegative two-variable coefficient system satisfies the hypotheses of de la Breteche's multiple-sum theorem; smooth dyadic partition and partial summation give a degree-3 logarithmic polynomial, while the Stage12-N1-2i core/wing bounds control smoothing and endpoints.",
+    "core_wing_transfer": "0<=beta(p^j)<2, so the beta divisor weights are dominated by the fixed Ramanujan/divisor weights already admitted in the Stage12-N1-2i core and wing estimates."
+  },
+  "constant_identity": {
+    "q_1mod4_ratio": "eta_q/kappa_q=q^2/(q^2-1)=(1-q^-2)^-1.",
+    "p_3mod4_ratio": "eta_p/kappa_p=(1-p^-2)^-1.",
+    "archimedean_two_adic_ratio": "eta_front/kappa_front=8/pi.",
+    "odd_prime_product": "product_{p odd}(1-p^-2)^-1=(1-2^-2)zeta(2)=pi^2/8.",
+    "exact_conclusion": "eta=pi*kappa.",
+    "leading_constant": "eta/(12*pi^2)=kappa/(12*pi)."
+  },
+  "final_asymptotic": {
+    "counted_object": "The primitive oriented Stage12-N1-2 count C_prim(B) defined in docs/stage12-n1-2b-average.md; repeated-side contribution is identically zero.",
+    "result": "C_prim(B)~(kappa/(12*pi))*B*(log B)^3.",
+    "scope": "This does not assert existence or nonexistence of a perfect cuboid and does not automatically convert an oriented multiplicity count into a separate exact-multiplicity theorem beyond the Stage12-N1 definition."
+  },
+  "finite_checks": {
+    "base_dirichlet_coefficient_checks": 5000,
+    "primitive_odd_circle_representation_checks": 2500,
+    "fixed_rs_correction_convolution_checks": 39296,
+    "beta_local_domination_checks": 147,
+    "largest_sample_correction_l1_half": 4.4839887005897525
+  },
+  "euler_product_diagnostic": {
+    "prime_cutoff": 200000,
+    "stage12_kappa_partial": 0.01855917155586297,
+    "primitive_two_modulus_eta_partial": 0.058305334850698706,
+    "eta_over_pi_kappa": 0.9999996198305922,
+    "candidate_leading_constant_kappa_over_12pi": 0.0004922973154676823,
+    "candidate_leading_constant_eta_over_12pi2": 0.0004922971283113034,
+    "exact_q_1mod4_local_ratio_checks": 8977
+  },
+  "cutoff_diagnostics": [
+    {
+      "log_B": 32.0,
+      "tau": 0.07432544468767006,
+      "primitive_shallow_fraction": 0.015751627278538502,
+      "primitive_shallow_log_degree_proxy": 516.1493226631496,
+      "retained_log_X_min": 2.378414230005442,
+      "retained_X_min": 10.787782351360784,
+      "primitive_circle_zero_free_decay_proxy": 0.17715780688792204,
+      "retained_error_log2_proxy": 181.40959425323217
+    },
+    {
+      "log_B": 64.0,
+      "tau": 0.04419417382415922,
+      "primitive_shallow_fraction": 0.00568674150849938,
+      "primitive_shallow_log_degree_proxy": 1490.7451660040615,
+      "retained_log_X_min": 2.8284271247461903,
+      "retained_X_min": 16.9188286785579,
+      "primitive_circle_zero_free_decay_proxy": 0.15698814398312944,
+      "retained_error_log2_proxy": 643.0234377548982
+    },
+    {
+      "log_B": 128.0,
+      "tau": 0.026278012976678578,
+      "primitive_shallow_fraction": 0.002035310176968562,
+      "primitive_shallow_log_degree_proxy": 4268.354808249974,
+      "retained_log_X_min": 3.363585661014858,
+      "retained_X_min": 28.89260445083502,
+      "primitive_circle_zero_free_decay_proxy": 0.13641013163892127,
+      "retained_error_log2_proxy": 2234.943596772086
+    },
+    {
+      "log_B": 256.0,
+      "tau": 0.015625,
+      "primitive_shallow_fraction": 0.00072479248046875,
+      "primitive_shallow_log_degree_proxy": 12160.0,
+      "retained_log_X_min": 4.0,
+      "retained_X_min": 54.598150033144236,
+      "primitive_circle_zero_free_decay_proxy": 0.11623838304799601,
+      "retained_error_log2_proxy": 7617.798671433467
+    },
+    {
+      "log_B": 512.0,
+      "tau": 0.009290680585958758,
+      "primitive_shallow_fraction": 0.0002573463546229618,
+      "primitive_shallow_log_degree_proxy": 34540.44302657623,
+      "retained_log_X_min": 4.756828460010884,
+      "retained_X_min": 116.3762480603312,
+      "primitive_circle_zero_free_decay_proxy": 0.09706988542829077,
+      "retained_error_log2_proxy": 25446.288045713856
+    },
+    {
+      "log_B": 1024.0,
+      "tau": 0.005524271728019903,
+      "primitive_shallow_fraction": 9.121555958691287e-05,
+      "primitive_shallow_log_degree_proxy": 97941.96132803251,
+      "retained_log_X_min": 5.656854249492381,
+      "retained_X_min": 286.24676385439324,
+      "primitive_circle_zero_free_decay_proxy": 0.07934783104044847,
+      "retained_error_log2_proxy": 83202.2312810693
+    }
+  ],
+  "decision": {
+    "classification": "A_N1_2_leading_asymptotic_closed_at_standard_theorem_level_series_complete",
+    "closed": [
+      "The fixed-rs remainder is reduced to a fixed primitive-circle estimate with finite local corrections.",
+      "The averaged correction weight has only pole order 2 and the retained remainder is lower order.",
+      "The beta two-modulus Euler product has the required degree and is compatible with the existing core/wing estimates.",
+      "The identity eta=pi*kappa is exact prime by prime.",
+      "The primitive oriented leading asymptotic and leading constant are determined at the standard-theorem application level."
+    ],
+    "remaining_after_series": [
+      "Independent AI or human review of the proof chain from Stage12-N1-2b through 2k.",
+      "Optional conversion into a single publication-style theorem/proof document.",
+      "Any separate exact-multiplicity subtraction not already included in the Stage12-N1 definition."
+    ],
+    "next_stage": "No automatic Stage12-N1-2l is recommended. Stop the N1-2 derivation here and perform an adversarial AI review of Stages 2b-2k."
+  },
+  "not_claimed": [
+    "A certified numerical enclosure for kappa or eta.",
+    "A new primitive-lattice theorem; the fixed-domain remainder is an application of known results.",
+    "A perfect-cuboid existence or nonexistence theorem.",
+    "That the research note has already received independent peer review."
+  ],
+  "literature": [
+    {
+      "work": "Wenguang Zhai, On primitive lattice points in planar domains, Acta Arithmetica 109 (2003), 1-26.",
+      "role": "Unconditional fixed-domain primitive lattice-point remainder O(X^(1/2)omega(X))."
+    },
+    {
+      "work": "Regis de la Breteche, Estimation de sommes multiples de fonctions arithmetiques, Compositio Mathematica 128 (2001), 261-298.",
+      "role": "Multiple Dirichlet-series mean-value theorem for the beta two-modulus main term."
+    },
+    {
+      "work": "Regis de la Breteche and Gerald Tenenbaum, Remarks on the Selberg-Delange method, Acta Arithmetica 200 (2021), 349-369.",
+      "role": "One-variable multiplicative mean-value framework for the fixed correction weight."
+    }
+  ]
+}
