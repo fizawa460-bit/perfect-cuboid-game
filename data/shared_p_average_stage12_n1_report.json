@@ -1,0 +1,928 @@
+{
+  "metadata": {
+    "stage": "12-N1",
+    "title": "Average structure of the shared-p convolution",
+    "generated_by": "scripts/audit_shared_p_average_stage12_n1.py",
+    "claim_status": "All identities and finite counts are deterministic. The finite ratios are not asymptotic claims. A raw-chain lower bound is not an N1 lower bound."
+  },
+  "exact_formulas": {
+    "H": "H(p)=(prod_{q|p,q=1 mod4}(2*v_q(p)+1)-1)/2",
+    "L": "L_B(p)=#{u|p^2: u<p, u and p^2/u same parity, u+p^2/u<=2B}",
+    "raw_convolution": "C_raw(B)=2*sum_{p<=B}H(p)L_B(p)"
+  },
+  "finite_raw_average": {
+    "rows": [
+      {
+        "B": 1000,
+        "sum_H": 881,
+        "sum_LB": 1762,
+        "sum_H_times_LB": 1590,
+        "C_raw": 3180,
+        "C_raw_over_B": 3.18,
+        "C_raw_over_B_log_B": 0.46035215081744696,
+        "support_H": 567,
+        "support_LB": 548,
+        "support_product": 320,
+        "product_contribution_by_p_quintile": [
+          383,
+          449,
+          390,
+          258,
+          110
+        ],
+        "product_contribution_by_largest_prime_factor_ratio": {
+          "lpf_over_p_le_0.10": 1353,
+          "0.10_to_0.25": 195,
+          "0.25_to_0.50": 36,
+          "above_0.50": 6
+        },
+        "top_product_contributors": [
+          {
+            "p": 780,
+            "H": 4,
+            "L_B": 7,
+            "product": 28,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 520,
+            "H": 4,
+            "L_B": 7,
+            "product": 28,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 260,
+            "H": 4,
+            "L_B": 7,
+            "product": 28,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 195,
+            "H": 4,
+            "L_B": 7,
+            "product": 28,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 585,
+            "H": 4,
+            "L_B": 6,
+            "product": 24,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 255,
+            "H": 4,
+            "L_B": 6,
+            "product": 24,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 325,
+            "H": 7,
+            "L_B": 3,
+            "product": 21,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 240,
+            "H": 1,
+            "L_B": 21,
+            "product": 21,
+            "largest_prime_factor": 5
+          },
+          {
+            "p": 680,
+            "H": 4,
+            "L_B": 5,
+            "product": 20,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 600,
+            "H": 2,
+            "L_B": 10,
+            "product": 20,
+            "largest_prime_factor": 5
+          }
+        ]
+      },
+      {
+        "B": 2000,
+        "sum_H": 1981,
+        "sum_LB": 3962,
+        "sum_H_times_LB": 4198,
+        "C_raw": 8396,
+        "C_raw_over_B": 4.198,
+        "C_raw_over_B_log_B": 0.55230283803075,
+        "support_H": 1187,
+        "support_LB": 1128,
+        "support_product": 702,
+        "product_contribution_by_p_quintile": [
+          1059,
+          1212,
+          943,
+          683,
+          301
+        ],
+        "product_contribution_by_largest_prime_factor_ratio": {
+          "lpf_over_p_le_0.10": 3813,
+          "0.10_to_0.25": 319,
+          "0.25_to_0.50": 58,
+          "above_0.50": 8
+        },
+        "top_product_contributors": [
+          {
+            "p": 780,
+            "H": 4,
+            "L_B": 15,
+            "product": 60,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 1020,
+            "H": 4,
+            "L_B": 13,
+            "product": 52,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 1560,
+            "H": 4,
+            "L_B": 12,
+            "product": 48,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 520,
+            "H": 4,
+            "L_B": 11,
+            "product": 44,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 1300,
+            "H": 7,
+            "L_B": 6,
+            "product": 42,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 975,
+            "H": 7,
+            "L_B": 6,
+            "product": 42,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 1040,
+            "H": 4,
+            "L_B": 10,
+            "product": 40,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 680,
+            "H": 4,
+            "L_B": 9,
+            "product": 36,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 585,
+            "H": 4,
+            "L_B": 9,
+            "product": 36,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 260,
+            "H": 4,
+            "L_B": 9,
+            "product": 36,
+            "largest_prime_factor": 13
+          }
+        ]
+      },
+      {
+        "B": 5000,
+        "sum_H": 5681,
+        "sum_LB": 11362,
+        "sum_H_times_LB": 14723,
+        "C_raw": 29446,
+        "C_raw_over_B": 5.8892,
+        "C_raw_over_B_log_B": 0.691448446412514,
+        "support_H": 3129,
+        "support_LB": 2854,
+        "support_product": 1860,
+        "product_contribution_by_p_quintile": [
+          3926,
+          4141,
+          3298,
+          2324,
+          1034
+        ],
+        "product_contribution_by_largest_prime_factor_ratio": {
+          "lpf_over_p_le_0.10": 13973,
+          "0.10_to_0.25": 629,
+          "0.25_to_0.50": 110,
+          "above_0.50": 11
+        },
+        "top_product_contributors": [
+          {
+            "p": 1560,
+            "H": 4,
+            "L_B": 30,
+            "product": 120,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 3315,
+            "H": 13,
+            "L_B": 8,
+            "product": 104,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 3120,
+            "H": 4,
+            "L_B": 24,
+            "product": 96,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 2040,
+            "H": 4,
+            "L_B": 24,
+            "product": 96,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 780,
+            "H": 4,
+            "L_B": 24,
+            "product": 96,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 2340,
+            "H": 4,
+            "L_B": 23,
+            "product": 92,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 1020,
+            "H": 4,
+            "L_B": 20,
+            "product": 80,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 1105,
+            "H": 13,
+            "L_B": 6,
+            "product": 78,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 3900,
+            "H": 7,
+            "L_B": 11,
+            "product": 77,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 975,
+            "H": 7,
+            "L_B": 11,
+            "product": 77,
+            "largest_prime_factor": 13
+          }
+        ]
+      },
+      {
+        "B": 10000,
+        "sum_H": 12471,
+        "sum_LB": 24942,
+        "sum_H_times_LB": 37207,
+        "C_raw": 74414,
+        "C_raw_over_B": 7.4414,
+        "C_raw_over_B_log_B": 0.8079397394087146,
+        "support_H": 6449,
+        "support_LB": 5777,
+        "support_product": 3895,
+        "product_contribution_by_p_quintile": [
+          10285,
+          10387,
+          8068,
+          5792,
+          2675
+        ],
+        "product_contribution_by_largest_prime_factor_ratio": {
+          "lpf_over_p_le_0.10": 35944,
+          "0.10_to_0.25": 1060,
+          "0.25_to_0.50": 188,
+          "above_0.50": 15
+        },
+        "top_product_contributors": [
+          {
+            "p": 3315,
+            "H": 13,
+            "L_B": 15,
+            "product": 195,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 3900,
+            "H": 7,
+            "L_B": 23,
+            "product": 161,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 3120,
+            "H": 4,
+            "L_B": 40,
+            "product": 160,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 1560,
+            "H": 4,
+            "L_B": 40,
+            "product": 160,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 4420,
+            "H": 13,
+            "L_B": 12,
+            "product": 156,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 4680,
+            "H": 4,
+            "L_B": 38,
+            "product": 152,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 5460,
+            "H": 4,
+            "L_B": 35,
+            "product": 140,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 7800,
+            "H": 7,
+            "L_B": 19,
+            "product": 133,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 5100,
+            "H": 7,
+            "L_B": 19,
+            "product": 133,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 2340,
+            "H": 4,
+            "L_B": 33,
+            "product": 132,
+            "largest_prime_factor": 13
+          }
+        ]
+      },
+      {
+        "B": 20000,
+        "sum_H": 27175,
+        "sum_LB": 54350,
+        "sum_H_times_LB": 92603,
+        "C_raw": 185206,
+        "C_raw_over_B": 9.2603,
+        "C_raw_over_B_log_B": 0.9350544392443431,
+        "support_H": 13211,
+        "support_LB": 11702,
+        "support_product": 8117,
+        "product_contribution_by_p_quintile": [
+          26511,
+          25563,
+          19630,
+          14139,
+          6760
+        ],
+        "product_contribution_by_largest_prime_factor_ratio": {
+          "lpf_over_p_le_0.10": 90434,
+          "0.10_to_0.25": 1821,
+          "0.25_to_0.50": 327,
+          "above_0.50": 21
+        },
+        "top_product_contributors": [
+          {
+            "p": 13260,
+            "H": 13,
+            "L_B": 27,
+            "product": 351,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 8840,
+            "H": 13,
+            "L_B": 21,
+            "product": 273,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 7800,
+            "H": 7,
+            "L_B": 38,
+            "product": 266,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 4420,
+            "H": 13,
+            "L_B": 19,
+            "product": 247,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 3315,
+            "H": 13,
+            "L_B": 19,
+            "product": 247,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 3900,
+            "H": 7,
+            "L_B": 33,
+            "product": 231,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 10920,
+            "H": 4,
+            "L_B": 56,
+            "product": 224,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 9945,
+            "H": 13,
+            "L_B": 17,
+            "product": 221,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 5460,
+            "H": 4,
+            "L_B": 54,
+            "product": 216,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 4680,
+            "H": 4,
+            "L_B": 54,
+            "product": 216,
+            "largest_prime_factor": 13
+          }
+        ]
+      },
+      {
+        "B": 50000,
+        "sum_H": 75196,
+        "sum_LB": 150392,
+        "sum_H_times_LB": 300303,
+        "C_raw": 600606,
+        "C_raw_over_B": 12.01212,
+        "C_raw_over_B_log_B": 1.110200198585188,
+        "support_H": 33882,
+        "support_LB": 29596,
+        "support_product": 21145,
+        "product_contribution_by_p_quintile": [
+          88958,
+          81824,
+          63216,
+          44961,
+          21344
+        ],
+        "product_contribution_by_largest_prime_factor_ratio": {
+          "lpf_over_p_le_0.10": 295777,
+          "0.10_to_0.25": 3805,
+          "0.25_to_0.50": 691,
+          "above_0.50": 30
+        },
+        "top_product_contributors": [
+          {
+            "p": 26520,
+            "H": 13,
+            "L_B": 51,
+            "product": 663,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 13260,
+            "H": 13,
+            "L_B": 48,
+            "product": 624,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 16575,
+            "H": 22,
+            "L_B": 22,
+            "product": 484,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 23205,
+            "H": 13,
+            "L_B": 33,
+            "product": 429,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 15600,
+            "H": 7,
+            "L_B": 60,
+            "product": 420,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 22620,
+            "H": 13,
+            "L_B": 32,
+            "product": 416,
+            "largest_prime_factor": 29
+          },
+          {
+            "p": 8840,
+            "H": 13,
+            "L_B": 32,
+            "product": 416,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 7800,
+            "H": 7,
+            "L_B": 59,
+            "product": 413,
+            "largest_prime_factor": 13
+          },
+          {
+            "p": 17680,
+            "H": 13,
+            "L_B": 31,
+            "product": 403,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 22100,
+            "H": 22,
+            "L_B": 18,
+            "product": 396,
+            "largest_prime_factor": 17
+          }
+        ]
+      },
+      {
+        "B": 100000,
+        "sum_H": 161436,
+        "sum_LB": 322872,
+        "sum_H_times_LB": 721980,
+        "C_raw": 1443960,
+        "C_raw_over_B": 14.4396,
+        "C_raw_over_B_log_B": 1.2542077201780388,
+        "support_H": 68980,
+        "support_LB": 59682,
+        "support_product": 43506,
+        "product_contribution_by_p_quintile": [
+          218380,
+          195431,
+          150056,
+          106780,
+          51333
+        ],
+        "product_contribution_by_largest_prime_factor_ratio": {
+          "lpf_over_p_le_0.10": 713958,
+          "0.10_to_0.25": 6744,
+          "0.25_to_0.50": 1237,
+          "above_0.50": 41
+        },
+        "top_product_contributors": [
+          {
+            "p": 26520,
+            "H": 13,
+            "L_B": 80,
+            "product": 1040,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 53040,
+            "H": 13,
+            "L_B": 69,
+            "product": 897,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 13260,
+            "H": 13,
+            "L_B": 65,
+            "product": 845,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 66300,
+            "H": 22,
+            "L_B": 37,
+            "product": 814,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 39780,
+            "H": 13,
+            "L_B": 62,
+            "product": 806,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 45240,
+            "H": 13,
+            "L_B": 53,
+            "product": 689,
+            "largest_prime_factor": 29
+          },
+          {
+            "p": 44200,
+            "H": 22,
+            "L_B": 30,
+            "product": 660,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 16575,
+            "H": 22,
+            "L_B": 30,
+            "product": 660,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 23205,
+            "H": 13,
+            "L_B": 49,
+            "product": 637,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 22620,
+            "H": 13,
+            "L_B": 49,
+            "product": 637,
+            "largest_prime_factor": 29
+          }
+        ]
+      },
+      {
+        "B": 200000,
+        "sum_H": 344889,
+        "sum_LB": 689778,
+        "sum_H_times_LB": 1717412,
+        "C_raw": 3434824,
+        "C_raw_over_B": 17.17412,
+        "C_raw_over_B_log_B": 1.407014401662529,
+        "support_H": 140121,
+        "support_LB": 120205,
+        "support_product": 88976,
+        "product_contribution_by_p_quintile": [
+          529165,
+          461094,
+          354510,
+          251354,
+          121289
+        ],
+        "product_contribution_by_largest_prime_factor_ratio": {
+          "lpf_over_p_le_0.10": 1703038,
+          "0.10_to_0.25": 12085,
+          "0.25_to_0.50": 2235,
+          "above_0.50": 54
+        },
+        "top_product_contributors": [
+          {
+            "p": 66300,
+            "H": 22,
+            "L_B": 65,
+            "product": 1430,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 53040,
+            "H": 13,
+            "L_B": 109,
+            "product": 1417,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 26520,
+            "H": 13,
+            "L_B": 105,
+            "product": 1365,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 132600,
+            "H": 22,
+            "L_B": 60,
+            "product": 1320,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 79560,
+            "H": 13,
+            "L_B": 101,
+            "product": 1313,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 92820,
+            "H": 13,
+            "L_B": 98,
+            "product": 1274,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 39780,
+            "H": 13,
+            "L_B": 88,
+            "product": 1144,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 106080,
+            "H": 13,
+            "L_B": 85,
+            "product": 1105,
+            "largest_prime_factor": 17
+          },
+          {
+            "p": 96135,
+            "H": 40,
+            "L_B": 27,
+            "product": 1080,
+            "largest_prime_factor": 29
+          },
+          {
+            "p": 45240,
+            "H": 13,
+            "L_B": 80,
+            "product": 1040,
+            "largest_prime_factor": 29
+          }
+        ]
+      }
+    ],
+    "interpretation": [
+      "C_raw(B)/(B log B) grows on the tested range; no limiting value is claimed.",
+      "Most finite product mass comes from p with a small largest prime factor.",
+      "These observations motivate average-value analysis but do not establish it."
+    ]
+  },
+  "primitive_retention": {
+    "rows": [
+      {
+        "B": 1000,
+        "C_raw_direct": 3180,
+        "primitive_oriented_chains": 1208,
+        "primitive_retention_ratio": 0.379874213836478,
+        "unique_primitive_cuboids": 602
+      },
+      {
+        "B": 2000,
+        "C_raw_direct": 8396,
+        "primitive_oriented_chains": 2888,
+        "primitive_retention_ratio": 0.34397332062887087,
+        "unique_primitive_cuboids": 1439
+      },
+      {
+        "B": 5000,
+        "C_raw_direct": 29446,
+        "primitive_oriented_chains": 9030,
+        "primitive_retention_ratio": 0.30666304421653195,
+        "unique_primitive_cuboids": 4500
+      },
+      {
+        "B": 10000,
+        "C_raw_direct": 74414,
+        "primitive_oriented_chains": 21360,
+        "primitive_retention_ratio": 0.2870427607708227,
+        "unique_primitive_cuboids": 10655
+      },
+      {
+        "B": 20000,
+        "C_raw_direct": 185206,
+        "primitive_oriented_chains": 49592,
+        "primitive_retention_ratio": 0.26776670302258027,
+        "unique_primitive_cuboids": 24754
+      }
+    ],
+    "warning": "The retention ratio is finite-range only. It shows that primitive correction is a main-order issue, not a cosmetic constant that may be ignored."
+  },
+  "scaling_trap": {
+    "proof": [
+      "For every t>=1, (3t)^2+(4t)^2=(5t)^2.",
+      "Also (5t)^2+(12t)^2=(13t)^2.",
+      "Hence p=5t contributes two oriented raw chains whenever 13t<=B.",
+      "The resulting cuboid has gcd(3t,4t,12t)=t, so only t=1 is primitive."
+    ],
+    "linear_raw_lower_bound": "C_raw(B)>=2*floor(B/13)",
+    "rows": [
+      {
+        "B": 1000,
+        "parameters_t": 76,
+        "oriented_raw_chains": 152,
+        "primitive_parameters": 1,
+        "family": "(a,b,c,d,p)=(3t,4t,12t,13t,5t)",
+        "gcd": "t"
+      },
+      {
+        "B": 2000,
+        "parameters_t": 153,
+        "oriented_raw_chains": 306,
+        "primitive_parameters": 1,
+        "family": "(a,b,c,d,p)=(3t,4t,12t,13t,5t)",
+        "gcd": "t"
+      },
+      {
+        "B": 5000,
+        "parameters_t": 384,
+        "oriented_raw_chains": 768,
+        "primitive_parameters": 1,
+        "family": "(a,b,c,d,p)=(3t,4t,12t,13t,5t)",
+        "gcd": "t"
+      },
+      {
+        "B": 10000,
+        "parameters_t": 769,
+        "oriented_raw_chains": 1538,
+        "primitive_parameters": 1,
+        "family": "(a,b,c,d,p)=(3t,4t,12t,13t,5t)",
+        "gcd": "t"
+      },
+      {
+        "B": 20000,
+        "parameters_t": 1538,
+        "oriented_raw_chains": 3076,
+        "primitive_parameters": 1,
+        "family": "(a,b,c,d,p)=(3t,4t,12t,13t,5t)",
+        "gcd": "t"
+      },
+      {
+        "B": 50000,
+        "parameters_t": 3846,
+        "oriented_raw_chains": 7692,
+        "primitive_parameters": 1,
+        "family": "(a,b,c,d,p)=(3t,4t,12t,13t,5t)",
+        "gcd": "t"
+      },
+      {
+        "B": 100000,
+        "parameters_t": 7692,
+        "oriented_raw_chains": 15384,
+        "primitive_parameters": 1,
+        "family": "(a,b,c,d,p)=(3t,4t,12t,13t,5t)",
+        "gcd": "t"
+      },
+      {
+        "B": 200000,
+        "parameters_t": 15384,
+        "oriented_raw_chains": 30768,
+        "primitive_parameters": 1,
+        "family": "(a,b,c,d,p)=(3t,4t,12t,13t,5t)",
+        "gcd": "t"
+      }
+    ],
+    "consequence": "A linear or stronger lower bound for C_raw can be caused entirely by scaled copies and does not improve the primitive N1 lower bound."
+  },
+  "meta_ai_route_audit": {
+    "confirmed": [
+      "The shared-p convolution is a natural analytic-number-theory object.",
+      "Smooth / highly composite p dominate a large part of the tested raw mass.",
+      "A strong raw lower bound is easy: the 3-4-5 / 5-12-13 scaling family is linear."
+    ],
+    "refuted_or_not_established": [
+      "A raw lower bound such as B/sqrt(log B) does not by itself improve N1(B).",
+      "Möbius inversion has not yet converted the raw average into a primitive average.",
+      "Finite C_raw/(B log B) values do not prove a B log B asymptotic."
+    ],
+    "next_required_object": "Replace H(p) and L_B(p) by a primitive-compatible joint weight, or prove an average bound for the gcd of the two joined Pythagorean triples.",
+    "decision": "The first Meta-AI task reaches a genuine wall: raw-average growth is visible and even has a trivial linear subfamily, but primitive normalization can erase the entire gain. Continue this branch only through a primitive-compatible convolution."
+  }
+}
