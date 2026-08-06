@@ -1,0 +1,32 @@
+name: Stage12-N1-2 hyperbola audit
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_shared_p_hyperbola_stage12_n1_2.py"
+      - "scripts/update_shared_p_hyperbola_stage12_n1_2_memo.py"
+      - "data/shared_p_hyperbola_stage12_n1_2_report.json"
+      - "docs/stage12-n1-2-hyperbola.md"
+      - ".github/workflows/stage12-n1-2.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run audit
+        run: |
+          python -m py_compile scripts/audit_shared_p_hyperbola_stage12_n1_2.py
+          python scripts/audit_shared_p_hyperbola_stage12_n1_2.py --write-report /tmp/report.json
+          diff -u data/shared_p_hyperbola_stage12_n1_2_report.json /tmp/report.json
