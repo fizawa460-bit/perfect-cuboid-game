@@ -1,0 +1,46 @@
+name: Shared-p primitive joint stage 12-N1b
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_shared_p_primitive_joint_stage12_n1b.py"
+      - "data/shared_p_primitive_joint_stage12_n1b_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - ".github/workflows/shared-p-primitive-joint-stage12-n1b.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile
+        run: python -m py_compile scripts/audit_shared_p_primitive_joint_stage12_n1b.py
+      - name: Regenerate report
+        run: |
+          python scripts/audit_shared_p_primitive_joint_stage12_n1b.py \
+            --write-report generated-stage12-n1b-report.json
+      - name: Compare report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          committed = json.loads(Path('data/shared_p_primitive_joint_stage12_n1b_report.json').read_text())
+          generated = json.loads(Path('generated-stage12-n1b-report.json').read_text())
+          if committed != generated:
+              raise SystemExit('Stage12-N1b report differs from regenerated output')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: shared-p-primitive-joint-stage12-n1b
+          path: generated-stage12-n1b-report.json
