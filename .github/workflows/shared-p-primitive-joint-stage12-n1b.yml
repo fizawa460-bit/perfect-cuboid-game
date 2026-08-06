@@ -1,9 +1,11 @@
 name: Shared-p primitive joint stage 12-N1b
+# Final human-authored verification after generated memo normalization.
 
 on:
   pull_request:
     paths:
       - "scripts/audit_shared_p_primitive_joint_stage12_n1b.py"
+      - "scripts/update_shared_p_primitive_joint_stage12_n1b_memo.py"
       - "data/shared_p_primitive_joint_stage12_n1b_report.json"
       - "docs/face-ratio-geometry-research.md"
       - ".github/workflows/shared-p-primitive-joint-stage12-n1b.yml"
@@ -25,12 +27,18 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile
-        run: python -m py_compile scripts/audit_shared_p_primitive_joint_stage12_n1b.py
-      - name: Regenerate report
+        run: |
+          python -m py_compile scripts/audit_shared_p_primitive_joint_stage12_n1b.py
+          python -m py_compile scripts/update_shared_p_primitive_joint_stage12_n1b_memo.py
+      - name: Regenerate report and memo
         run: |
           python scripts/audit_shared_p_primitive_joint_stage12_n1b.py \
             --write-report generated-stage12-n1b-report.json
-      - name: Compare report
+          python scripts/update_shared_p_primitive_joint_stage12_n1b_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-stage12-n1b-report.json \
+            --output generated-face-ratio-geometry-research.md
+      - name: Compare committed outputs
         run: |
           python - <<'PY'
           import json
@@ -39,8 +47,21 @@ jobs:
           generated = json.loads(Path('generated-stage12-n1b-report.json').read_text())
           if committed != generated:
               raise SystemExit('Stage12-N1b report differs from regenerated output')
+
+          start = '<!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_START -->'
+          end = '<!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_END -->'
+          committed_text = Path('docs/face-ratio-geometry-research.md').read_text()
+          generated_text = Path('generated-face-ratio-geometry-research.md').read_text()
+          def block(text):
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit('Stage12-N1b memo markers missing or duplicated')
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+          if block(committed_text) != block(generated_text):
+              raise SystemExit('Stage12-N1b memo block differs from regenerated output')
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: shared-p-primitive-joint-stage12-n1b
-          path: generated-stage12-n1b-report.json
+          path: |
+            generated-stage12-n1b-report.json
+            generated-face-ratio-geometry-research.md
