@@ -32,13 +32,15 @@ jobs:
           from pathlib import Path
 
           path = Path("scripts/update_shared_p_convolution_stage11_memo.py")
-          text = path.read_text(encoding="utf-8")
-          needle = chr(92) + "nu"
-          count = text.count(needle)
-          if count != 3:
-              raise SystemExit(f"expected three LaTeX nu occurrences, found {count}")
-          text = text.replace(needle, "u")
-          path.write_text(text, encoding="utf-8")
+          lines = path.read_text(encoding="utf-8").splitlines()
+          matches = [i for i, line in enumerate(lines) if line.startswith("L_B(p)=")]
+          if len(matches) != 1:
+              raise SystemExit(f"expected one L_B definition, found {len(matches)}")
+          i = matches[0]
+          lines[i] = r"L_B(p)=\#\left\{u\mid p^2:u<p,\quad"
+          lines[i + 1] = r"u\equiv\frac{p^2}{u}\pmod2,\quad"
+          lines[i + 2] = r"u+\frac{p^2}{u}\le2B"
+          path.write_text("\n".join(lines) + "\n", encoding="utf-8")
           PY
           python scripts/update_shared_p_convolution_stage11_memo.py \
             --input docs/face-ratio-geometry-research.md \
