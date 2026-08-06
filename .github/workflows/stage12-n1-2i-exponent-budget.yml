@@ -1,0 +1,37 @@
+name: Stage12-N1-2i exponent-budget audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/stage12-n1-2i-exponent-budget
+    paths:
+      - "scripts/audit_exponent_budget_stage12_n1_2i.py"
+      - "data/exponent_budget_stage12_n1_2i_report.json"
+      - "docs/stage12-n1-2i-exponent-budget.md"
+      - ".github/workflows/stage12-n1-2i-exponent-budget.yml"
+  pull_request:
+    paths:
+      - "scripts/audit_exponent_budget_stage12_n1_2i.py"
+      - "data/exponent_budget_stage12_n1_2i_report.json"
+      - "docs/stage12-n1-2i-exponent-budget.md"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run exponent-budget audit
+        run: |
+          python -m py_compile scripts/audit_exponent_budget_stage12_n1_2i.py
+          python scripts/audit_exponent_budget_stage12_n1_2i.py --write-report /tmp/report.json
+          diff -u data/exponent_budget_stage12_n1_2i_report.json /tmp/report.json
