@@ -108,9 +108,9 @@ $$
 一方、$p$ を脚に持ち、斜辺 $d\le B$ となるPythagorean tripleの個数は
 
 $$
-L_B(p)=\#\left\{
-u\mid p^2:
-u<p,\quad
+L_B(p)=\#\left\{u\mid p^2:u<p,\quad
+u\equiv\frac{p^2}{u}\pmod2,\quad
+u+\frac{p^2}{u}\le2B
 u\equiv\frac{p^2}{u}\pmod2,\quad
 u+\frac{p^2}{u}\le2B
 \right\}.

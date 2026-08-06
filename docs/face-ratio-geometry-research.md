@@ -1905,9 +1905,9 @@ $$
 一方、$p$ を脚に持ち、斜辺 $d\le B$ となるPythagorean tripleの個数は
 
 $$
-L_B(p)=\#\left\{
-u\mid p^2:
-u<p,\quad
+L_B(p)=\#\left\{u\mid p^2:u<p,\quad
+u\equiv\frac{p^2}{u}\pmod2,\quad
+u+\frac{p^2}{u}\le2B
 u\equiv\frac{p^2}{u}\pmod2,\quad
 u+\frac{p^2}{u}\le2B
 \right\}.
@@ -2164,7 +2164,6 @@ Stage11で確定したことは、
 
 次は外部AIへ、共有 $p$ 畳み込みにおけるprimitive補正と追加面成立補正をどの古典解析数論の道具で評価できるか、今回の式を基準に独立レビューさせる価値がある。
 <!-- SHARED_P_CONVOLUTION_STAGE11_END -->
-
 ## 5. 一面成立曲面 $V_{ab}$ の幾何
 
 ### 5.1 定義とGelfand–Leray形式【局所計算は確定／大域計数との接続は未証明】
