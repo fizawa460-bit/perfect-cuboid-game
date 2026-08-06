@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 """Stage12-N1d: audit whether the shared-p branch is ready for standard mean-value theorems.
 
-This is a structural and finite audit.  It does not claim an asymptotic formula.
-It checks the precise obstructions to treating H(p)L_B(p) as an ordinary
-multiplicative coefficient sequence and records what an analytic proof would
-still have to supply after the exact global Mobius inversion of Stage12-N1c.
+This is a structural and finite audit. It does not claim an asymptotic formula.
 """
 from __future__ import annotations
 
@@ -32,9 +29,8 @@ def prefix(values: list[int]) -> list[int]:
 def h_formula(p: int, spf: list[int]) -> int:
     if p < 2:
         return 0
-    factors = factor_with_spf(p, spf)
     product = 1
-    for q, exponent in factors.items():
+    for q, exponent in factor_with_spf(p, spf):
         if q % 4 == 1:
             product *= 2 * exponent + 1
     return (product - 1) // 2
@@ -45,7 +41,6 @@ def build_report() -> dict[str, Any]:
     spf = build_spf(MAX_D)
     mu = mobius_sieve(MAX_D)
 
-    # Exact-height raw/distinct and primitive oriented counts.
     raw_distinct_exact = [0] * (MAX_D + 1)
     primitive_exact = [0] * (MAX_D + 1)
     for x in range(1, MAX_D + 1):
@@ -58,16 +53,11 @@ def build_report() -> dict[str, Any]:
 
     raw_distinct = prefix(raw_distinct_exact)
     primitive = prefix(primitive_exact)
-
-    # H(p), L_B(p), F_B(p)=H(p)L_B(p).
-    h = [0] * (MAX_D + 1)
-    for p in range(1, MAX_D + 1):
-        h[p] = h_formula(p, spf)
+    h = [h_formula(p, spf) for p in range(MAX_D + 1)]
 
     multiplicativity_samples = 0
     h_violations = 0
     h_examples: list[dict[str, int]] = []
-    # H itself is not multiplicative because of the affine -1/2 term.
     for a in range(2, 120):
         for b in range(2, 120):
             if a * b > MAX_D or math.gcd(a, b) != 1:
@@ -76,7 +66,7 @@ def build_report() -> dict[str, Any]:
             if h[a * b] != h[a] * h[b]:
                 h_violations += 1
                 if len(h_examples) < 8:
-                    h_examples.append({"a": a, "b": b, "H_a": h[a], "H_b": h[b], "H_ab": h[a*b]})
+                    h_examples.append({"a": a, "b": b, "H_a": h[a], "H_b": h[b], "H_ab": h[a * b]})
 
     threshold_rows = []
     l_nonmultiplicativity = []
@@ -85,40 +75,35 @@ def build_report() -> dict[str, Any]:
         l = [0] * (B + 1)
         for p in range(1, B + 1):
             l[p] = sum(1 for _, d, _, _ in triangles[p] if d <= B)
-        l_samples = l_viol = f_viol = 0
-        l_example = None
-        f_example = None
+        samples = l_violations = f_violations = 0
+        l_example = f_example = None
         for a in range(2, min(100, B + 1)):
             for b in range(2, min(100, B + 1)):
                 if a * b > B or math.gcd(a, b) != 1:
                     continue
-                l_samples += 1
+                samples += 1
                 if l[a * b] != l[a] * l[b]:
-                    l_viol += 1
+                    l_violations += 1
                     if l_example is None:
-                        l_example = {"a": a, "b": b, "L_a": l[a], "L_b": l[b], "L_ab": l[a*b]}
-                fa, fb, fab = h[a] * l[a], h[b] * l[b], h[a*b] * l[a*b]
+                        l_example = {"a": a, "b": b, "L_a": l[a], "L_b": l[b], "L_ab": l[a * b]}
+                fa, fb, fab = h[a] * l[a], h[b] * l[b], h[a * b] * l[a * b]
                 if fab != fa * fb:
-                    f_viol += 1
+                    f_violations += 1
                     if f_example is None:
                         f_example = {"a": a, "b": b, "F_a": fa, "F_b": fb, "F_ab": fab}
-        l_nonmultiplicativity.append({"B": B, "samples": l_samples, "violations": l_viol, "example": l_example})
-        f_nonmultiplicativity.append({"B": B, "samples": l_samples, "violations": f_viol, "example": f_example})
+        l_nonmultiplicativity.append({"B": B, "samples": samples, "violations": l_violations, "example": l_example})
+        f_nonmultiplicativity.append({"B": B, "samples": samples, "violations": f_violations, "example": f_example})
 
         mobius_value = sum(mu[k] * raw_distinct[B // k] for k in range(1, B + 1))
         if mobius_value != primitive[B]:
             raise ArithmeticError(f"Mobius inversion mismatch at B={B}: {mobius_value} != {primitive[B]}")
-
-        # Absolute error budget required by a generic asymptotic C=M+R.
-        harmonic_weight = sum(1.0 / k for k in range(1, B + 1))
-        sqrt_weight = sum(1.0 / math.sqrt(k) for k in range(1, B + 1))
         threshold_rows.append({
             "B": B,
             "distinct_raw_oriented": raw_distinct[B],
             "primitive_oriented": primitive[B],
             "finite_retention": primitive[B] / raw_distinct[B] if raw_distinct[B] else None,
-            "sum_1_over_k": harmonic_weight,
-            "sum_1_over_sqrt_k": sqrt_weight,
+            "sum_1_over_k": sum(1.0 / k for k in range(1, B + 1)),
+            "sum_1_over_sqrt_k": sum(1.0 / math.sqrt(k) for k in range(1, B + 1)),
             "mobius_reconstruction": mobius_value,
         })
 
@@ -138,32 +123,26 @@ def build_report() -> dict[str, Any]:
             },
             "L_B_multiplicativity": l_nonmultiplicativity,
             "H_times_L_B_multiplicativity": f_nonmultiplicativity,
-            "height_coupling": (
-                "L_B(p) depends simultaneously on p and the external height cutoff B through d<=B; "
-                "there is no single coefficient sequence L(p) whose ordinary Dirichlet series directly equals the count."
-            ),
+            "height_coupling": "L_B(p) depends on p and B through d<=B; it is not a fixed one-variable coefficient sequence.",
             "global_mobius": "Exact at every audited threshold.",
         },
         "finite_rows": threshold_rows,
         "theorem_applicability": {
             "ordinary_euler_product_for_H_times_L": False,
             "direct_wirsing_delange_halasz_application": False,
-            "reason": (
-                "The counted coefficient F_B(p)=H(p)L_B(p) is B-dependent and nonmultiplicative. "
-                "Standard one-variable multiplicative mean-value theorems do not apply without a new reparameterization or a uniform two-variable summation theorem."
-            ),
+            "reason": "F_B(p)=H(p)L_B(p) is B-dependent and nonmultiplicative.",
             "what_would_be_sufficient": [
-                "A uniform asymptotic C_distinct_raw(X)=M(X)+R(X) valid for every X=floor(B/k) in the Mobius range.",
-                "A main term whose Mobius transform is explicitly positive and larger than the Stage11 B^(1/2) lower bound.",
-                "An error estimate strong enough that sum_{k<=B}|R(floor(B/k))| is lower order than that transformed main term, or a cancellation theorem for the signed Mobius error sum.",
+                "A uniform asymptotic C_distinct_raw(X)=M(X)+R(X) for X=floor(B/k).",
+                "A positive Mobius transform of the main term larger than B^(1/2).",
+                "An error estimate with sum_{k<=B}|R(floor(B/k))| lower order, or signed Mobius cancellation.",
                 "Separate control of repeated-side chains if their general absence is not proved.",
             ],
         },
         "decision": {
             "classification": "B_new_analytic_input_required",
             "confirmed": [
-                "The algebraic primitive correction is completely closed by Stage12-N1c.",
-                "The remaining raw coefficient is not an ordinary fixed multiplicative function.",
+                "The algebraic primitive correction is closed by Stage12-N1c.",
+                "The remaining coefficient is not an ordinary fixed multiplicative function.",
                 "Wirsing, Delange, and Halasz cannot be invoked directly on H(p)L_B(p).",
                 "The remaining problem is a uniform two-parameter divisor/hyperbola estimate followed by Mobius inversion.",
             ],
@@ -172,14 +151,8 @@ def build_report() -> dict[str, Any]:
                 "An asymptotic formula for C_distinct_raw(B).",
                 "A lower bound beyond N1(B)>>B^(1/2).",
             ],
-            "branch_judgment": (
-                "The N1 branch is no longer blocked by algebra or primitive correction. "
-                "Further progress requires genuinely new analytic input rather than another finite audit or a direct application of standard multiplicative-function theorems."
-            ),
-            "recommended_next_step": (
-                "Pause the N1 branch after documenting the exact target theorem; send the completed branch for external review, "
-                "then compare its cost against the N2 branches."
-            ),
+            "branch_judgment": "Further progress requires genuinely new analytic input rather than another finite audit or direct use of standard multiplicative-function theorems.",
+            "recommended_next_step": "Pause N1 after external review, then compare its cost with the N2 branches.",
         },
     }
 
