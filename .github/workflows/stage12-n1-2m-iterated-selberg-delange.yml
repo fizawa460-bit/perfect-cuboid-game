@@ -1,0 +1,26 @@
+name: Stage12-N1-2m iterated Selberg-Delange audit
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/stage12-n1-2m-iterated-selberg-delange.md"
+      - "scripts/audit_iterated_selberg_delange_stage12_n1_2m.py"
+      - "data/iterated_selberg_delange_stage12_n1_2m_report.json"
+      - ".github/workflows/stage12-n1-2m-iterated-selberg-delange.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Verify Stage12-N1-2m report
+        run: |
+          python -m py_compile scripts/audit_iterated_selberg_delange_stage12_n1_2m.py
+          python scripts/audit_iterated_selberg_delange_stage12_n1_2m.py --check-report data/iterated_selberg_delange_stage12_n1_2m_report.json
