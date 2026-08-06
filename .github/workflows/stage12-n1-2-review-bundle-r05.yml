@@ -1,0 +1,35 @@
+name: Stage12-N1-2 review bundle R05
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/stage12-n1-2o-analytic-closure.md"
+      - "docs/stage12-n1-2p-final-bookkeeping.md"
+      - "scripts/build_stage12_n1_2_review_bundle_r05.py"
+      - ".github/workflows/stage12-n1-2-review-bundle-r05.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build R05 review bundle
+        run: |
+          python -m py_compile scripts/build_stage12_n1_2_review_bundle_r05.py
+          python scripts/build_stage12_n1_2_review_bundle_r05.py
+          grep -q '^CHECKPOINT=START_OF_MAIN$' review/stage12-n1-2-proof-review-r05.md
+          grep -q '^CHECKPOINT=END_OF_MAIN$' review/stage12-n1-2-proof-review-r05.md
+          test "$(grep -c '^END_OF_BUNDLE=PC-N1-2-PROOF-REVIEW-R05$' review/stage12-n1-2-proof-review-r05.md)" -eq 2
+      - name: Upload R05 review bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-2-proof-review-r05
+          path: review/stage12-n1-2-proof-review-r05.md
+          if-no-files-found: error
