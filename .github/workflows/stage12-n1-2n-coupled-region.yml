@@ -1,0 +1,36 @@
+name: Stage12-N1-2n coupled-region audit
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/stage12-n1-2n-coupled-region.md"
+      - "scripts/audit_coupled_region_stage12_n1_2n.py"
+      - "data/coupled_region_stage12_n1_2n_report.json"
+      - ".github/workflows/stage12-n1-2n-coupled-region.yml"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run coupled-region audit
+        run: |
+          python -m py_compile scripts/audit_coupled_region_stage12_n1_2n.py
+          python scripts/audit_coupled_region_stage12_n1_2n.py --write-report /tmp/report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('data/coupled_region_stage12_n1_2n_report.json').read_text())
+          actual = json.loads(Path('/tmp/report.json').read_text())
+          assert expected == actual, (expected, actual)
+          PY
