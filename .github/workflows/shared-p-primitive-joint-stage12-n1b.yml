@@ -1,5 +1,5 @@
-name: Shared-p primitive joint stage 12-N1b
-# Final human-authored verification after generated memo normalization.
+name: Shared-p primitive joint stage 12-N1
+# Final human-authored verification for the N1b and N1c branches.
 
 on:
   pull_request:
@@ -7,6 +7,9 @@ on:
       - "scripts/audit_shared_p_primitive_joint_stage12_n1b.py"
       - "scripts/update_shared_p_primitive_joint_stage12_n1b_memo.py"
       - "data/shared_p_primitive_joint_stage12_n1b_report.json"
+      - "scripts/audit_shared_p_global_mobius_stage12_n1c.py"
+      - "scripts/update_shared_p_global_mobius_stage12_n1c_memo.py"
+      - "data/shared_p_global_mobius_stage12_n1c_report.json"
       - "docs/face-ratio-geometry-research.md"
       - ".github/workflows/shared-p-primitive-joint-stage12-n1b.yml"
   workflow_dispatch:
@@ -30,38 +33,58 @@ jobs:
         run: |
           python -m py_compile scripts/audit_shared_p_primitive_joint_stage12_n1b.py
           python -m py_compile scripts/update_shared_p_primitive_joint_stage12_n1b_memo.py
-      - name: Regenerate report and memo
+          python -m py_compile scripts/audit_shared_p_global_mobius_stage12_n1c.py
+          python -m py_compile scripts/update_shared_p_global_mobius_stage12_n1c_memo.py
+      - name: Regenerate reports and memo
         run: |
           python scripts/audit_shared_p_primitive_joint_stage12_n1b.py \
             --write-report generated-stage12-n1b-report.json
+          python scripts/audit_shared_p_global_mobius_stage12_n1c.py \
+            --write-report generated-stage12-n1c-report.json
           python scripts/update_shared_p_primitive_joint_stage12_n1b_memo.py \
             --input docs/face-ratio-geometry-research.md \
             --report generated-stage12-n1b-report.json \
+            --output generated-memo-b.md
+          python scripts/update_shared_p_global_mobius_stage12_n1c_memo.py \
+            --input generated-memo-b.md \
+            --report generated-stage12-n1c-report.json \
             --output generated-face-ratio-geometry-research.md
+          if grep -P "\t|\x08" generated-face-ratio-geometry-research.md; then
+            echo "Unexpected control character found in generated Markdown" >&2
+            exit 1
+          fi
       - name: Compare committed outputs
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          committed = json.loads(Path('data/shared_p_primitive_joint_stage12_n1b_report.json').read_text())
-          generated = json.loads(Path('generated-stage12-n1b-report.json').read_text())
-          if committed != generated:
-              raise SystemExit('Stage12-N1b report differs from regenerated output')
 
-          start = '<!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_START -->'
-          end = '<!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_END -->'
+          pairs = [
+              ('data/shared_p_primitive_joint_stage12_n1b_report.json', 'generated-stage12-n1b-report.json'),
+              ('data/shared_p_global_mobius_stage12_n1c_report.json', 'generated-stage12-n1c-report.json'),
+          ]
+          for committed_path, generated_path in pairs:
+              if json.loads(Path(committed_path).read_text()) != json.loads(Path(generated_path).read_text()):
+                  raise SystemExit(f'{committed_path} differs from regenerated output')
+
           committed_text = Path('docs/face-ratio-geometry-research.md').read_text()
           generated_text = Path('generated-face-ratio-geometry-research.md').read_text()
-          def block(text):
-              if text.count(start) != 1 or text.count(end) != 1:
-                  raise SystemExit('Stage12-N1b memo markers missing or duplicated')
-              return text.split(start, 1)[1].split(end, 1)[0].strip()
-          if block(committed_text) != block(generated_text):
-              raise SystemExit('Stage12-N1b memo block differs from regenerated output')
+          markers = [
+              ('<!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_START -->', '<!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_END -->'),
+              ('<!-- SHARED_P_GLOBAL_MOBIUS_STAGE12_N1C_START -->', '<!-- SHARED_P_GLOBAL_MOBIUS_STAGE12_N1C_END -->'),
+          ]
+          for start, end in markers:
+              def block(text):
+                  if text.count(start) != 1 or text.count(end) != 1:
+                      raise SystemExit(f'markers missing or duplicated: {start}')
+                  return text.split(start, 1)[1].split(end, 1)[0].strip()
+              if block(committed_text) != block(generated_text):
+                  raise SystemExit(f'memo block differs: {start}')
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: shared-p-primitive-joint-stage12-n1b
+          name: shared-p-primitive-stage12-n1
           path: |
             generated-stage12-n1b-report.json
+            generated-stage12-n1c-report.json
             generated-face-ratio-geometry-research.md
