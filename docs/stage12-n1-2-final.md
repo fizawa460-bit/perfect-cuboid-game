@@ -13,7 +13,7 @@ C_{\rm prim}(B)
 \qquad(B\to\infty).
 \]
 
-ここで `κ` は Stage12-N1-2f〜2k で確定した primitive oriented count の Euler 積定数である。
+ここで \(\kappa\) は Stage12-N1-2f〜2k で確定した primitive oriented count の Euler 積定数である。
 
 ---
 
@@ -49,6 +49,8 @@ d=\frac{h(r^2+s^2)}2,
 
 odd–odd と opposite-parity の差は height 上限係数と 2-adic 前置因子に吸収される。
 
+ここで fixed-\((r,s)\) remainder \(R_{r,s}(X)\) の評価は、primitive lattice-point estimate（Zhai-type）と finite Euler correction に基づく。すなわち、固定された coprime pair \((r,s)\) ごとの primitive 格子点誤差を一様に制御し、有限個の Euler correction を分離して得られる評価であり、以後は Stage12-N1-2k で確立した形をそのまま用いる。
+
 ---
 
 ## 2. fixed-circle reduction と局所定数
@@ -62,13 +64,13 @@ B\sum_{r<s\atop(r,s)=1}
 
 へ帰着する。fixed-circle remainder は Stage12-N1-2k の評価を用いる。
 
-二法 Euler 定数を `η` とすると、各奇素数で
+二法 Euler 定数を \(\eta\) とする。まず odd prime local factors は、各奇素数で
 
 \[
-\frac{\eta_p}{\kappa_p}=(1-p^{-2})^{-1},
+\frac{\eta_p}{\kappa_p}=(1-p^{-2})^{-1}
 \]
 
-archimedean・2-adic 前置因子比は `8/π` である。したがって
+を与える。一方、2-adic / archimedean factors の前置因子比は \(8/\pi\) である。この \(8/\pi\) は、archimedean と 2-adic の正規化因子に由来する。したがって
 
 \[
 \frac{\eta}{\kappa}
@@ -283,10 +285,16 @@ retained regionでは
 \qquad R,S\ll B^{1/2}.
 \]
 
-したがって長方形誤差は、polylogarithmically many boxesを合計しても
+boxes の個数はある固定定数 \(C>0\) に対して \(O((\log B)^C)\) である。各 box の誤差は、任意の固定 \(A>0\) に対して
 
 \[
-o(BL^3)
+o\!\left(B(\log B)^{-A}\right)
+\]
+
+であるため、たとえば \(A>C+3\) を取れば、全 boxes を合計した誤差も
+
+\[
+o\!\left(B(\log B)^3\right)=o(BL^3)
 \]
 
 である。
@@ -319,7 +327,7 @@ O(BL^{1+o(1)}).
 
 ## 7. 定理の証明
 
-Sections 1–6により、primitive oriented count の主項は二法定数 `η` と正規化対数体積 `1/12` を用いて
+Sections 1–6により、primitive oriented count の主項は二法定数 \(\eta\) と正規化対数体積 `1/12` を用いて
 
 \[
 C_{\rm prim}(B)
@@ -327,7 +335,7 @@ C_{\rm prim}(B)
 \frac{\eta}{12\pi^2}B(\log B)^3.
 \]
 
-`η=πκ` を代入すると
+\(\eta=\pi\kappa\) を代入すると
 
 \[
 C_{\rm prim}(B)
