@@ -1,0 +1,57 @@
+name: Shared-p analytic exit stage 12-N1d
+
+on:
+  pull_request:
+    paths:
+      - "scripts/audit_shared_p_analytic_exit_stage12_n1d.py"
+      - "scripts/update_shared_p_analytic_exit_stage12_n1d_memo.py"
+      - "data/shared_p_analytic_exit_stage12_n1d_report.json"
+      - "docs/face-ratio-geometry-research.md"
+      - ".github/workflows/shared-p-analytic-exit-stage12-n1d.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Regenerate Stage12-N1d outputs
+        run: |
+          python -m py_compile scripts/audit_shared_p_analytic_exit_stage12_n1d.py
+          python -m py_compile scripts/update_shared_p_analytic_exit_stage12_n1d_memo.py
+          python scripts/audit_shared_p_analytic_exit_stage12_n1d.py \
+            --write-report generated-stage12-n1d-report.json
+          python scripts/update_shared_p_analytic_exit_stage12_n1d_memo.py \
+            --input docs/face-ratio-geometry-research.md \
+            --report generated-stage12-n1d-report.json \
+            --output generated-face-ratio-geometry-research.md
+      - name: Compare committed outputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          committed = json.loads(Path('data/shared_p_analytic_exit_stage12_n1d_report.json').read_text())
+          generated = json.loads(Path('generated-stage12-n1d-report.json').read_text())
+          if committed != generated:
+              raise SystemExit('Stage12-N1d report differs from regenerated output')
+          start = '<!-- SHARED_P_ANALYTIC_EXIT_STAGE12_N1D_START -->'
+          end = '<!-- SHARED_P_ANALYTIC_EXIT_STAGE12_N1D_END -->'
+          def block(text):
+              if text.count(start) != 1 or text.count(end) != 1:
+                  raise SystemExit('Stage12-N1d memo markers missing or duplicated')
+              return text.split(start, 1)[1].split(end, 1)[0].strip()
+          committed_text = Path('docs/face-ratio-geometry-research.md').read_text()
+          generated_text = Path('generated-face-ratio-geometry-research.md').read_text()
+          if block(committed_text) != block(generated_text):
+              raise SystemExit('Stage12-N1d memo block differs from regenerated output')
+          PY
