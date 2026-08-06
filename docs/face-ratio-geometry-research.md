@@ -2365,6 +2365,84 @@ $$\sum_{p\le B}A_k(p)B_{k,B}(p)$$
 
 従ってN1枝は『補正が書けない』段階を脱し、『書けたMöbius joint weightを解析できるか』という次の一点へ絞られた。
 <!-- SHARED_P_PRIMITIVE_JOINT_STAGE12_N1B_END -->
+
+<!-- SHARED_P_GLOBAL_MOBIUS_STAGE12_N1C_START -->
+## 4.23 Stage12-N1c：primitive補正のglobal Möbius反転
+
+再現コードと生成レポートは
+
+- [`scripts/audit_shared_p_global_mobius_stage12_n1c.py`](../scripts/audit_shared_p_global_mobius_stage12_n1c.py)
+- [`data/shared_p_global_mobius_stage12_n1c_report.json`](../data/shared_p_global_mobius_stage12_n1c_report.json)
+
+に保存する。4.22のjoint weightをさらに縮約すると、primitive補正はraw畳み込み自身のMöbius反転になる。
+
+### 4.23.1 $A_k$と$B_{k,B}$のスケーリング【確定】
+
+第一三角形の脚がともに$k$で割れるなら、斜辺$p$も$k$で割れ、$k$で割った三角形は斜辺$p/k$を持つ。従って
+
+$$\boxed{A_k(p)=\begin{cases}H(p/k),&k\mid p,\\0,&k\nmid p.\end{cases}}$$
+
+同様に$k\mid p$かつ$k\mid c$なら$d$も$k$で割れ、第二三角形を$k$で割れるため
+
+$$\boxed{B_{k,B}(p)=L_{\lfloor B/k\rfloor}(p/k)}$$
+
+を得る。有限監査では$A_k$を142,094ケース、$B_{k,B}$を360,808ケース検算し、相違は0件だった。
+
+### 4.23.2 joint weightの縮約【確定】
+
+4.22のMöbius式へ代入すると
+
+$$\boxed{J_B(p)=\sum_{k\mid p}\mu(k)H(p/k)L_{\lfloor B/k\rfloor}(p/k)}$$
+
+となる。つまりprimitive-compatible joint weightは、新しい未知関数ではなく、Stage11の$H$と$L$のスケール付きMöbius和である。
+
+### 4.23.3 global Möbius反転【確定】
+
+等辺を除いたraw oriented chain数を$C_{\mathrm{dist,raw}}(B)$、primitive oriented chain数を$C_{\mathrm{prim}}(B)$とする。任意のdistinct raw chainは三辺gcdで一意にprimitive chainの拡大へ分解されるため
+
+$$C_{\mathrm{dist,raw}}(B)=\sum_{k\le B}C_{\mathrm{prim}}(\lfloor B/k\rfloor).$$
+
+従ってMöbius反転により
+
+$$\boxed{C_{\mathrm{prim}}(B)=\sum_{k\le B}\mu(k)C_{\mathrm{dist,raw}}(\lfloor B/k\rfloor)}.$$$
+
+この式はprimitive補正を局所密度の推測ではなく、完全に厳密な算術反転として与える。
+
+### 4.23.4 有限完全照合【有限範囲で確定】
+
+| $B$ | raw全体 | distinct raw | 等辺raw | global Möbius値 | Stage11 primitive |
+|---:|---:|---:|---:|---:|---:|
+| 1,000 | 3,180 | 3,180 | 0 | 1,208 | 1,208 |
+| 2,000 | 8,396 | 8,396 | 0 | 2,888 | 2,888 |
+| 5,000 | 29,446 | 29,446 | 0 | 9,030 | 9,030 |
+| 10,000 | 74,414 | 74,414 | 0 | 21,360 | 21,360 |
+| 20,000 | 185,206 | 185,206 | 0 | 49,592 | 49,592 |
+
+全閾値でglobal Möbius値はStage11のprimitive oriented countと完全一致した。監査範囲では等辺raw chainは0件だが、一般の不存在は主張しない。
+
+### 4.23.5 N1枝の現在地【代数的補正は完了／解析的誤差が最後の壁】
+
+Stage12-N1ではrawからprimitiveへの補正が未知の壁だった。4.22と4.23により、その補正は代数的には完全に閉じた。残る問題は
+
+$$C_{\mathrm{dist,raw}}(B)$$
+
+の漸近を、$B\mapsto\lfloor B/k\rfloor$に対して一様な誤差項付きで評価し、Möbius和の相殺後にも有効な下界を残せるか、という一点である。
+
+確定したこと：
+
+1. primitive補正はglobal Möbius反転で厳密に閉じる
+2. 単純な$1/\zeta(2)$密度仮定は不要である
+3. raw平均の主項だけでなく、Möbius反転に耐える一様誤差評価が必要である
+
+未確認のこと：
+
+- $C_{\mathrm{dist,raw}}(B)$の漸近式
+- Möbius反転後の正の主項または下界
+- Stage11の$B^{1/2}$下界を改善できるか
+- 等辺raw chainの一般不存在
+
+従ってN1枝から新しい枝が生える余地は、distinct raw畳み込みの一様漸近評価にほぼ限定された。
+<!-- SHARED_P_GLOBAL_MOBIUS_STAGE12_N1C_END -->
 ## 5. 一面成立曲面 $V_{ab}$ の幾何
 
 ### 5.1 定義とGelfand–Leray形式【局所計算は確定／大域計数との接続は未証明】

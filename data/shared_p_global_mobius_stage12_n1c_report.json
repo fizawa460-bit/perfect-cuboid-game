@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "stage": "12-N1c",
+    "title": "Global Mobius inversion of the distinct shared-p convolution",
+    "generated_by": "scripts/audit_shared_p_global_mobius_stage12_n1c.py",
+    "claim_status": "All identities and finite checks are exact. No asymptotic estimate is claimed."
+  },
+  "exact_identites": {
+    "A_scaling": "A_k(p)=H(p/k) if k|p, and 0 otherwise",
+    "B_scaling": "B_{k,B}(p)=L_{floor(B/k)}(p/k) if k|p",
+    "joint_reduction": "J_B(p)=sum_{k|p}mu(k)H(p/k)L_{floor(B/k)}(p/k)",
+    "global_inversion": "C_prim(B)=sum_{k<=B}mu(k)C_distinct_raw(floor(B/k))",
+    "forward_scaling": "C_distinct_raw(B)=sum_{k<=B}C_prim(floor(B/k))"
+  },
+  "checks": {
+    "A_identity_cases": 142094,
+    "A_identity_mismatches": 0,
+    "B_identity_cases": 360808,
+    "B_identity_mismatches": 0
+  },
+  "finite_rows": [
+    {
+      "B": 1000,
+      "raw_all_oriented": 3180,
+      "raw_distinct_oriented": 3180,
+      "raw_repeated_side_oriented": 0,
+      "global_mobius_of_distinct_raw": 1208,
+      "stage11_primitive_oriented": 1208
+    },
+    {
+      "B": 2000,
+      "raw_all_oriented": 8396,
+      "raw_distinct_oriented": 8396,
+      "raw_repeated_side_oriented": 0,
+      "global_mobius_of_distinct_raw": 2888,
+      "stage11_primitive_oriented": 2888
+    },
+    {
+      "B": 5000,
+      "raw_all_oriented": 29446,
+      "raw_distinct_oriented": 29446,
+      "raw_repeated_side_oriented": 0,
+      "global_mobius_of_distinct_raw": 9030,
+      "stage11_primitive_oriented": 9030
+    },
+    {
+      "B": 10000,
+      "raw_all_oriented": 74414,
+      "raw_distinct_oriented": 74414,
+      "raw_repeated_side_oriented": 0,
+      "global_mobius_of_distinct_raw": 21360,
+      "stage11_primitive_oriented": 21360
+    },
+    {
+      "B": 20000,
+      "raw_all_oriented": 185206,
+      "raw_distinct_oriented": 185206,
+      "raw_repeated_side_oriented": 0,
+      "global_mobius_of_distinct_raw": 49592,
+      "stage11_primitive_oriented": 49592
+    }
+  ],
+  "decision": {
+    "confirmed": [
+      "The primitive-compatible joint weight collapses to scaled copies of H and L.",
+      "After separating repeated-side chains, primitive oriented counting is the exact Mobius inversion of the distinct raw convolution.",
+      "The primitive correction is therefore algebraically closed, not an unknown local-density factor."
+    ],
+    "not_claimed": [
+      "That repeated-side chains are absent for all heights.",
+      "An asymptotic for the distinct raw convolution or its Mobius inversion.",
+      "A lower bound for N1 stronger than Stage11."
+    ],
+    "next_question": "Does C_distinct_raw(B) have an asymptotic with enough uniform error control under B->floor(B/k) to survive Mobius inversion and improve the primitive N1 lower bound?"
+  }
+}
