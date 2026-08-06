@@ -8,6 +8,7 @@ on:
       - "data/*stage12_n1_2*.json"
       - "scripts/audit_*stage12_n1_2*.py"
       - "scripts/build_stage12_n1_2_review_page.py"
+      - "scripts/verify_stage12_n1_review_manifest.py"
       - "review/PC-N1-2-PROOF-REVIEW-20260806-R01.html"
       - ".github/workflows/stage12-n1-2-review-page.yml"
   workflow_dispatch:
@@ -41,6 +42,7 @@ jobs:
           grep -Fq 'LATEST_SELF_CONTAINED_REVIEW_PAGE:** `review/PC-N1-2-PROOF-REVIEW-20260806-R01.html`' "$status"
           grep -Fq 'LATEST_BUNDLE_ID:** `PC-N1-2-PROOF-REVIEW-20260806-1612-R01`' "$status"
           test "$(wc -c < "$page")" -gt 250000
+          python scripts/verify_stage12_n1_review_manifest.py
       - name: Commit generated page to PR branch
         if: github.event_name == 'pull_request'
         shell: bash
