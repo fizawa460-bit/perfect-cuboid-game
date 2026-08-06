@@ -12,30 +12,48 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build-review-page:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Build self-contained review page
-        run: python scripts/build_stage12_n1_2_review_page.py --output /tmp/PC-N1-2-PROOF-REVIEW-20260806-R01.html
-      - name: Verify committed page is reproducible
+        run: python scripts/build_stage12_n1_2_review_page.py
+      - name: Verify mandatory markers and page size
         shell: bash
         run: |
-          if [[ -f review/PC-N1-2-PROOF-REVIEW-20260806-R01.html ]]; then
-            cmp /tmp/PC-N1-2-PROOF-REVIEW-20260806-R01.html review/PC-N1-2-PROOF-REVIEW-20260806-R01.html
-          else
-            echo "Generated artifact only; committed page will be added from this artifact."
+          page=review/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+          test -s "$page"
+          grep -Fq "BUNDLE_ID=PC-N1-2-PROOF-REVIEW-20260806-1612-R01" "$page"
+          grep -Fq "COMPLETED_THROUGH=Stage12-N1-2k" "$page"
+          grep -Fq "SOURCE_SNAPSHOT_COMMIT=0e8bbc6e745ddf6d1f7c0ba3b21bb328a1fcc4d2" "$page"
+          grep -Fq "END_OF_BUNDLE=PC-N1-2-PROOF-REVIEW-20260806-1612-R01" "$page"
+          test "$(wc -c < "$page")" -gt 250000
+      - name: Commit generated page to PR branch
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          page=review/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+          if git diff --quiet -- "$page" && git ls-files --error-unmatch "$page" >/dev/null 2>&1; then
+            echo "Review page is already current."
+            exit 0
           fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$page"
+          git commit -m "Generate Stage12 N1-2 review page"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
       - name: Upload generated review page
         uses: actions/upload-artifact@v4
         with:
           name: stage12-n1-2-proof-review-page
-          path: /tmp/PC-N1-2-PROOF-REVIEW-20260806-R01.html
+          path: review/PC-N1-2-PROOF-REVIEW-20260806-R01.html
           if-no-files-found: error
           retention-days: 7
