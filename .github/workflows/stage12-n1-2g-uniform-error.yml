@@ -1,0 +1,37 @@
+name: Stage12-N1-2g uniform-error audit
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - agent/stage12-n1-2g-uniform-error
+    paths:
+      - "scripts/audit_uniform_error_stage12_n1_2g.py"
+      - "data/uniform_error_stage12_n1_2g_report.json"
+      - "docs/stage12-n1-2g-uniform-error.md"
+      - ".github/workflows/stage12-n1-2g-uniform-error.yml"
+  pull_request:
+    paths:
+      - "scripts/audit_uniform_error_stage12_n1_2g.py"
+      - "data/uniform_error_stage12_n1_2g_report.json"
+      - "docs/stage12-n1-2g-uniform-error.md"
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: "1"
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Run uniform-error audit
+        run: |
+          python -m py_compile scripts/audit_uniform_error_stage12_n1_2g.py
+          python scripts/audit_uniform_error_stage12_n1_2g.py --write-report /tmp/report.json
+          diff -u data/uniform_error_stage12_n1_2g_report.json /tmp/report.json
