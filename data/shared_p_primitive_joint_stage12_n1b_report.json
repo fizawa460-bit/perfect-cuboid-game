@@ -1,0 +1,584 @@
+{
+  "metadata": {
+    "stage": "12-N1b",
+    "title": "Primitive-compatible shared-p joint weight",
+    "generated_by": "scripts/audit_shared_p_primitive_joint_stage12_n1b.py",
+    "claim_status": "The gcd reduction, primitive-scale decomposition, Mobius joint identity, and finite cross-checks are exact. No asymptotic estimate is claimed."
+  },
+  "exact_lemmas": {
+    "gcd_reduction": "gcd(x,y,c)=gcd(gcd(x,y),c)",
+    "primitive_criterion": "the joined cuboid is primitive iff gcd(g,c)=1",
+    "scale_decomposition": {
+      "checked_p": 13211,
+      "checked_scale_groups": 22389,
+      "mismatches": 0,
+      "formula": "#{(x,y):x<y,x^2+y^2=p^2,gcd(x,y)=g}=P(p/g)",
+      "P_formula": "P(h)=2^(omega(h)-1) if h is odd and every prime divisor is 1 mod4; otherwise 0"
+    },
+    "joint_weight": "J_B(p)=sum_{(x,y):x<y,x^2+y^2=p^2} sum_{(c,d):p^2+c^2=d^2,d<=B} 1_{gcd(gcd(x,y),c)=1}",
+    "mobius_form": "J_B(p)=sum_{k>=1}mu(k)A_k(p)B_{k,B}(p), A_k=#{first reps:k|gcd(x,y)}, B_k=#{second reps:k|c}",
+    "oriented_identity": "C_prim(B)=2*sum_{p<=B}J_B(p)-R_equal(B), where R_equal removes c=x or c=y"
+  },
+  "finite_rows": [
+    {
+      "B": 1000,
+      "raw_oriented_chains": 3180,
+      "coprime_joint_oriented_before_distinctness": 1208,
+      "repeated_side_oriented_correction": 0,
+      "primitive_distinct_oriented": 1208,
+      "stage11_primitive_oriented": 1208,
+      "finite_raw_to_primitive_ratio": 0.379874213836478,
+      "top_first_triangle_scales": [
+        {
+          "g": 3,
+          "primitive_compatible_unoriented_pairs": 76
+        },
+        {
+          "g": 1,
+          "primitive_compatible_unoriented_pairs": 67
+        },
+        {
+          "g": 4,
+          "primitive_compatible_unoriented_pairs": 60
+        },
+        {
+          "g": 12,
+          "primitive_compatible_unoriented_pairs": 31
+        },
+        {
+          "g": 7,
+          "primitive_compatible_unoriented_pairs": 28
+        },
+        {
+          "g": 8,
+          "primitive_compatible_unoriented_pairs": 25
+        },
+        {
+          "g": 5,
+          "primitive_compatible_unoriented_pairs": 22
+        },
+        {
+          "g": 9,
+          "primitive_compatible_unoriented_pairs": 19
+        },
+        {
+          "g": 21,
+          "primitive_compatible_unoriented_pairs": 15
+        },
+        {
+          "g": 24,
+          "primitive_compatible_unoriented_pairs": 15
+        },
+        {
+          "g": 11,
+          "primitive_compatible_unoriented_pairs": 14
+        },
+        {
+          "g": 15,
+          "primitive_compatible_unoriented_pairs": 13
+        }
+      ],
+      "top_mobius_terms": [
+        {
+          "k": 1,
+          "signed_term": 1590
+        },
+        {
+          "k": 2,
+          "signed_term": -575
+        },
+        {
+          "k": 3,
+          "signed_term": -304
+        },
+        {
+          "k": 5,
+          "signed_term": -141
+        },
+        {
+          "k": 6,
+          "signed_term": 94
+        },
+        {
+          "k": 7,
+          "signed_term": -72
+        },
+        {
+          "k": 10,
+          "signed_term": 45
+        },
+        {
+          "k": 11,
+          "signed_term": -38
+        },
+        {
+          "k": 13,
+          "signed_term": -27
+        },
+        {
+          "k": 14,
+          "signed_term": 23
+        },
+        {
+          "k": 15,
+          "signed_term": 22
+        },
+        {
+          "k": 17,
+          "signed_term": -16
+        }
+      ]
+    },
+    {
+      "B": 2000,
+      "raw_oriented_chains": 8396,
+      "coprime_joint_oriented_before_distinctness": 2888,
+      "repeated_side_oriented_correction": 0,
+      "primitive_distinct_oriented": 2888,
+      "stage11_primitive_oriented": 2888,
+      "finite_raw_to_primitive_ratio": 0.34397332062887087,
+      "top_first_triangle_scales": [
+        {
+          "g": 3,
+          "primitive_compatible_unoriented_pairs": 162
+        },
+        {
+          "g": 4,
+          "primitive_compatible_unoriented_pairs": 130
+        },
+        {
+          "g": 1,
+          "primitive_compatible_unoriented_pairs": 128
+        },
+        {
+          "g": 12,
+          "primitive_compatible_unoriented_pairs": 75
+        },
+        {
+          "g": 7,
+          "primitive_compatible_unoriented_pairs": 54
+        },
+        {
+          "g": 8,
+          "primitive_compatible_unoriented_pairs": 51
+        },
+        {
+          "g": 9,
+          "primitive_compatible_unoriented_pairs": 43
+        },
+        {
+          "g": 5,
+          "primitive_compatible_unoriented_pairs": 38
+        },
+        {
+          "g": 21,
+          "primitive_compatible_unoriented_pairs": 36
+        },
+        {
+          "g": 11,
+          "primitive_compatible_unoriented_pairs": 33
+        },
+        {
+          "g": 24,
+          "primitive_compatible_unoriented_pairs": 30
+        },
+        {
+          "g": 15,
+          "primitive_compatible_unoriented_pairs": 29
+        }
+      ],
+      "top_mobius_terms": [
+        {
+          "k": 1,
+          "signed_term": 4198
+        },
+        {
+          "k": 2,
+          "signed_term": -1590
+        },
+        {
+          "k": 3,
+          "signed_term": -853
+        },
+        {
+          "k": 5,
+          "signed_term": -403
+        },
+        {
+          "k": 6,
+          "signed_term": 304
+        },
+        {
+          "k": 7,
+          "signed_term": -229
+        },
+        {
+          "k": 10,
+          "signed_term": 141
+        },
+        {
+          "k": 11,
+          "signed_term": -115
+        },
+        {
+          "k": 13,
+          "signed_term": -87
+        },
+        {
+          "k": 14,
+          "signed_term": 72
+        },
+        {
+          "k": 15,
+          "signed_term": 70
+        },
+        {
+          "k": 17,
+          "signed_term": -55
+        }
+      ]
+    },
+    {
+      "B": 5000,
+      "raw_oriented_chains": 29446,
+      "coprime_joint_oriented_before_distinctness": 9030,
+      "repeated_side_oriented_correction": 0,
+      "primitive_distinct_oriented": 9030,
+      "stage11_primitive_oriented": 9030,
+      "finite_raw_to_primitive_ratio": 0.30666304421653195,
+      "top_first_triangle_scales": [
+        {
+          "g": 3,
+          "primitive_compatible_unoriented_pairs": 427
+        },
+        {
+          "g": 1,
+          "primitive_compatible_unoriented_pairs": 384
+        },
+        {
+          "g": 4,
+          "primitive_compatible_unoriented_pairs": 330
+        },
+        {
+          "g": 12,
+          "primitive_compatible_unoriented_pairs": 187
+        },
+        {
+          "g": 7,
+          "primitive_compatible_unoriented_pairs": 149
+        },
+        {
+          "g": 8,
+          "primitive_compatible_unoriented_pairs": 142
+        },
+        {
+          "g": 5,
+          "primitive_compatible_unoriented_pairs": 109
+        },
+        {
+          "g": 9,
+          "primitive_compatible_unoriented_pairs": 105
+        },
+        {
+          "g": 24,
+          "primitive_compatible_unoriented_pairs": 93
+        },
+        {
+          "g": 21,
+          "primitive_compatible_unoriented_pairs": 88
+        },
+        {
+          "g": 11,
+          "primitive_compatible_unoriented_pairs": 86
+        },
+        {
+          "g": 15,
+          "primitive_compatible_unoriented_pairs": 86
+        }
+      ],
+      "top_mobius_terms": [
+        {
+          "k": 1,
+          "signed_term": 14723
+        },
+        {
+          "k": 2,
+          "signed_term": -5684
+        },
+        {
+          "k": 3,
+          "signed_term": -3268
+        },
+        {
+          "k": 5,
+          "signed_term": -1590
+        },
+        {
+          "k": 6,
+          "signed_term": 1187
+        },
+        {
+          "k": 7,
+          "signed_term": -954
+        },
+        {
+          "k": 10,
+          "signed_term": 575
+        },
+        {
+          "k": 11,
+          "signed_term": -494
+        },
+        {
+          "k": 13,
+          "signed_term": -375
+        },
+        {
+          "k": 14,
+          "signed_term": 334
+        },
+        {
+          "k": 15,
+          "signed_term": 304
+        },
+        {
+          "k": 17,
+          "signed_term": -251
+        }
+      ]
+    },
+    {
+      "B": 10000,
+      "raw_oriented_chains": 74414,
+      "coprime_joint_oriented_before_distinctness": 21360,
+      "repeated_side_oriented_correction": 0,
+      "primitive_distinct_oriented": 21360,
+      "stage11_primitive_oriented": 21360,
+      "finite_raw_to_primitive_ratio": 0.2870427607708227,
+      "top_first_triangle_scales": [
+        {
+          "g": 3,
+          "primitive_compatible_unoriented_pairs": 903
+        },
+        {
+          "g": 1,
+          "primitive_compatible_unoriented_pairs": 845
+        },
+        {
+          "g": 4,
+          "primitive_compatible_unoriented_pairs": 695
+        },
+        {
+          "g": 12,
+          "primitive_compatible_unoriented_pairs": 403
+        },
+        {
+          "g": 7,
+          "primitive_compatible_unoriented_pairs": 321
+        },
+        {
+          "g": 8,
+          "primitive_compatible_unoriented_pairs": 298
+        },
+        {
+          "g": 5,
+          "primitive_compatible_unoriented_pairs": 252
+        },
+        {
+          "g": 9,
+          "primitive_compatible_unoriented_pairs": 224
+        },
+        {
+          "g": 21,
+          "primitive_compatible_unoriented_pairs": 207
+        },
+        {
+          "g": 24,
+          "primitive_compatible_unoriented_pairs": 189
+        },
+        {
+          "g": 15,
+          "primitive_compatible_unoriented_pairs": 173
+        },
+        {
+          "g": 11,
+          "primitive_compatible_unoriented_pairs": 167
+        }
+      ],
+      "top_mobius_terms": [
+        {
+          "k": 1,
+          "signed_term": 37207
+        },
+        {
+          "k": 2,
+          "signed_term": -14723
+        },
+        {
+          "k": 3,
+          "signed_term": -8447
+        },
+        {
+          "k": 5,
+          "signed_term": -4198
+        },
+        {
+          "k": 6,
+          "signed_term": 3268
+        },
+        {
+          "k": 7,
+          "signed_term": -2595
+        },
+        {
+          "k": 10,
+          "signed_term": 1590
+        },
+        {
+          "k": 11,
+          "signed_term": -1372
+        },
+        {
+          "k": 13,
+          "signed_term": -1069
+        },
+        {
+          "k": 14,
+          "signed_term": 954
+        },
+        {
+          "k": 15,
+          "signed_term": 853
+        },
+        {
+          "k": 17,
+          "signed_term": -722
+        }
+      ]
+    },
+    {
+      "B": 20000,
+      "raw_oriented_chains": 185206,
+      "coprime_joint_oriented_before_distinctness": 49592,
+      "repeated_side_oriented_correction": 0,
+      "primitive_distinct_oriented": 49592,
+      "stage11_primitive_oriented": 49592,
+      "finite_raw_to_primitive_ratio": 0.26776670302258027,
+      "top_first_triangle_scales": [
+        {
+          "g": 3,
+          "primitive_compatible_unoriented_pairs": 1877
+        },
+        {
+          "g": 1,
+          "primitive_compatible_unoriented_pairs": 1802
+        },
+        {
+          "g": 4,
+          "primitive_compatible_unoriented_pairs": 1479
+        },
+        {
+          "g": 12,
+          "primitive_compatible_unoriented_pairs": 862
+        },
+        {
+          "g": 7,
+          "primitive_compatible_unoriented_pairs": 653
+        },
+        {
+          "g": 8,
+          "primitive_compatible_unoriented_pairs": 620
+        },
+        {
+          "g": 5,
+          "primitive_compatible_unoriented_pairs": 532
+        },
+        {
+          "g": 9,
+          "primitive_compatible_unoriented_pairs": 500
+        },
+        {
+          "g": 21,
+          "primitive_compatible_unoriented_pairs": 417
+        },
+        {
+          "g": 11,
+          "primitive_compatible_unoriented_pairs": 391
+        },
+        {
+          "g": 24,
+          "primitive_compatible_unoriented_pairs": 391
+        },
+        {
+          "g": 15,
+          "primitive_compatible_unoriented_pairs": 359
+        }
+      ],
+      "top_mobius_terms": [
+        {
+          "k": 1,
+          "signed_term": 92603
+        },
+        {
+          "k": 2,
+          "signed_term": -37207
+        },
+        {
+          "k": 3,
+          "signed_term": -21718
+        },
+        {
+          "k": 5,
+          "signed_term": -10940
+        },
+        {
+          "k": 6,
+          "signed_term": 8447
+        },
+        {
+          "k": 7,
+          "signed_term": -6866
+        },
+        {
+          "k": 10,
+          "signed_term": 4198
+        },
+        {
+          "k": 11,
+          "signed_term": -3643
+        },
+        {
+          "k": 13,
+          "signed_term": -2938
+        },
+        {
+          "k": 14,
+          "signed_term": 2595
+        },
+        {
+          "k": 15,
+          "signed_term": 2370
+        },
+        {
+          "k": 17,
+          "signed_term": -2002
+        }
+      ]
+    }
+  ],
+  "decision": {
+    "confirmed": [
+      "The primitive correction closes exactly as a coprimality joint weight.",
+      "The first-triangle scale g is separated by primitive hypotenuse counts P(p/g).",
+      "Mobius inversion reproduces the direct primitive-compatible count at every audited bound.",
+      "After the equal-side correction, the result reproduces the Stage11 primitive oriented count exactly."
+    ],
+    "not_claimed": [
+      "An asymptotic formula for the primitive-compatible joint weight.",
+      "A Stage11-improving lower bound for N1(B).",
+      "That the finite raw-to-primitive ratio converges.",
+      "Any upper bound for N2(B)."
+    ],
+    "next_question": "Can the averages of A_k(p)B_{k,B}(p), uniformly in squarefree k, be bounded strongly enough to obtain a primitive N1 lower bound beyond B^(1/2)?"
+  }
+}
