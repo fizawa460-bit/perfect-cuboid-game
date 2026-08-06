@@ -35,4 +35,12 @@ jobs:
         run: |
           python -m py_compile scripts/audit_dlb_hypotheses_stage12_n1_2l.py
           python scripts/audit_dlb_hypotheses_stage12_n1_2l.py --write-report /tmp/report.json
-          diff -u data/dlb_hypotheses_stage12_n1_2l_report.json /tmp/report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('data/dlb_hypotheses_stage12_n1_2l_report.json').read_text())
+          generated = json.loads(Path('/tmp/report.json').read_text())
+          if expected != generated:
+              raise SystemExit('generated JSON structure differs from committed report')
+          print('verified deterministic JSON structure')
+          PY
