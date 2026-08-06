@@ -69,7 +69,7 @@ def render(report: dict) -> str:
         "",
         END,
     ]
-    return "\n".join(lines) + "\n"
+    return "\n".join(lines)
 
 
 def main() -> None:
@@ -81,14 +81,14 @@ def main() -> None:
     text = args.input.read_text(encoding="utf-8")
     block = render(json.loads(args.report.read_text(encoding="utf-8")))
     if START in text and END in text:
-        before, rest = text.split(START, 1)
-        _, after = rest.split(END, 1)
-        text = before.rstrip() + "\n\n" + block + after.lstrip("\n")
+        start = text.index(START)
+        end = text.index(END, start) + len(END)
+        text = text[:start] + block + text[end:]
     else:
         marker = "## 5. 一面成立曲面"
         if marker not in text:
             raise SystemExit("insertion marker not found")
-        text = text.replace(marker, block + "\n" + marker, 1)
+        text = text.replace(marker, block + "\n\n" + marker, 1)
     args.output.write_text(text, encoding="utf-8")
 
 
