@@ -38,7 +38,14 @@ jobs:
           python -m py_compile scripts/audit_shared_p_average_stage12_n1_2b.py
           python -m py_compile scripts/update_shared_p_average_stage12_n1_2b_memo.py
           python scripts/audit_shared_p_average_stage12_n1_2b.py --write-report /tmp/report.json
-          diff -u data/shared_p_average_stage12_n1_2b_report.json /tmp/report.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          committed = json.loads(Path('data/shared_p_average_stage12_n1_2b_report.json').read_text())
+          generated = json.loads(Path('/tmp/report.json').read_text())
+          if committed != generated:
+              raise SystemExit('Stage12-N1-2b report mismatch')
+          PY
           python scripts/update_shared_p_average_stage12_n1_2b_memo.py \
             --input docs/face-ratio-geometry-research.md \
             --report data/shared_p_average_stage12_n1_2b_report.json \
