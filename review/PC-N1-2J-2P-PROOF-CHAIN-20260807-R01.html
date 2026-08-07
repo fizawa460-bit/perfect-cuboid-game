@@ -1,0 +1,2328 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stage12-N1-2j through 2p proof-chain review</title>
+<style>
+:root { color-scheme: light dark; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+body { max-width: 1120px; margin: 0 auto; padding: 24px 18px 80px; line-height: 1.55; }
+h1, h2 { line-height: 1.25; }
+.meta, .protocol { border: 1px solid #8887; border-radius: 10px; padding: 14px 16px; margin: 18px 0; }
+.source { border-top: 4px solid #8887; margin-top: 56px; padding-top: 24px; }
+.path { opacity: .8; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; border: 1px solid #8885; border-radius: 8px; padding: 16px; background: #8881; }
+code { overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<main id="review-bundle-main">
+<div class="meta"><pre>BUNDLE_ID=PC-N1-2J-2P-PROOF-CHAIN-20260807-R01
+COMPLETED_THROUGH=Stage12-N1-2p
+SOURCE_SNAPSHOT_COMMIT=cbc1c6f7840b99d26e5f71f1deaf8bfd470f34c8
+SOURCE_COUNT=7
+SOURCE_RANGE=Stage12-N1-2j..Stage12-N1-2p
+CONTENT_SHA256=5c7e43abef356e97ab6d8d0156bafbbedc12ee1a8d88cd6443fb467d9afde560
+FIRST_SOURCE_DOCUMENT=docs/archive/stage12-n1-2/stage12-n1-2j-boundary-layers.md
+LAST_SOURCE_DOCUMENT=docs/archive/stage12-n1-2/stage12-n1-2p-final-bookkeeping.md
+CHECKPOINT=START_OF_MAIN</pre></div>
+
+<h1>Stage12-N1-2j〜2p 証明鎖・自己完結レビューHTML</h1>
+<p>このHTMLは、Stage12-N1-2jから2pまでの原文7本を一つのファイルへ埋め込んだ外部レビュー用資料です。2jのフォームフィード破損2箇所だけを修正し、数式内容は変更していません。通常の現行主文書は <code>docs/stage12-n1-2-final-r02.md</code> です。</p>
+
+<div class="protocol">
+<h2>レビュープロトコル</h2>
+<p>レビュー開始前に、BUNDLE_ID、SOURCE_SNAPSHOT_COMMIT、CONTENT_SHA256、先頭・末尾文書名、START/END checkpointを復唱してください。末尾まで読めない場合は <code>UNREADABLE_SOURCE</code> としてください。</p>
+<p>各指摘を <code>FATAL / MAJOR / MINOR / CLARIFICATION</code> に分類し、最終判定を <code>CLOSED / REPAIRABLE / OPEN / UNREADABLE_SOURCE</code> のいずれかで返してください。</p>
+</div>
+
+
+<section class="source" id="source-1">
+  <h2>SOURCE 1 / 7 — Stage12-N1-2j</h2>
+  <p class="path">docs/archive/stage12-n1-2/stage12-n1-2j-boundary-layers.md<br>Git blob SHA: <code>34d6a518d83f6765679c01a7fcd97ea93b138d5e</code></p>
+  <pre># Stage12-N1-2j：primitive-first Möbius と boundary layer 監査
+
+## 判定
+
+Stage12-N1-2i で残った shallow-height 層と terminal-u 層は、global Möbius 反転を最後に絶対値で処理する順序をやめ、最初に `h` 方向へ畳み込むことで構造的に解消できる。
+
+分類は
+
+```text
+A_primitive_first_boundary_layers_close_uniform_average_remainder_open
+```
+
+とする。
+
+primitive N1 漸近式そのものはまだ主張しない。残る課題は、固定 `(r,s)` の部分和に対する averaged uniform remainder と、二法 `beta` 重みでの最終的な平滑化・endpoint bookkeeping である。
+
+## 1. global Möbius を切断前に移す
+
+raw oriented count の重みは
+
+\[
+G(hrs)-1
+\]
+
+であり、global primitive count は厳密に
+
+\[
+C_{\rm prim}(B)
+=
+\sum_{k\le B}\mu(k)
+C_{\rm raw}(\lfloor B/k\rfloor)
+\]
+
+である。
+
+ここで dyadic 分割、shallow cut、terminal-u cut を行う前に
+
+\[
+n=kh
+\]
+
+と置き換える。
+
+固定された coprime pair `(r,s)` に対して
+
+\[
+A_{r,s}(m)
+=
+\sum_{k\mid m}
+\mu(k)\{G((m/k)rs)-1\}
+\]
+
+を定義する。
+
+### 1.1 `r,s` がともに奇数
+
+この場合
+
+\[
+q=r^2+s^2
+\]
+
+は偶数で、raw `h` に偶奇制約はない。Möbius 畳み込み後の有効 height は奇数で、素因数はすべて `1 mod 4` に限られる。
+
+直接表示は
+
+\[
+\sum_{m\le 2B/q}A_{r,s}(m).
+\]
+
+### 1.2 `r,s` が opposite parity
+
+この場合 `q` は奇数で、raw parameterization では `h` が偶数である。
+
+reindex 後の height `n` に対する係数は
+
+\[
+\sum_{k\mid n\atop n/k\ {\rm even}}
+\mu(k)\{G((n/k)rs)-1\}.
+\]
+
+`G` は2進指数に依存しないため、これは
+
+- `v_2(n)=1` のときだけ非零
+- `n=2m` と書けば係数は `A_{r,s}(m)`
+
+となる。
+
+従って直接表示は
+
+\[
+\sum_{m\le B/q}A_{r,s}(m).
+\]
+
+## 2. primitive height weight の厳密式
+
+`m=1` では
+
+\[
+A_{r,s}(1)=G(rs)-1.
+\]
+
+`m&gt;1` では、`m` に `1 mod 4` 以外の素数が含まれると
+
+\[
+A_{r,s}(m)=0.
+\]
+
+すべての素因数が `1 mod 4` なら
+
+\[
+A_{r,s}(m)
+=
+G(rs)
+\prod_{p\mid m}
+\frac{2}{2v_p(rs)+1}.
+\]
+
+この値は非負整数である。
+
+監査では次を有限検算した。
+
+- local Möbius convolution：16,416件
+- parity-restricted convolution：21,888件
+- residue local identity：352件
+- `beta` divisor expansion：1,000件
+
+## 3. fixed `(r,s)` Dirichlet series
+
+`m=1` の `-1` を戻して
+
+\[
+A^+_{r,s}(m)=A_{r,s}(m)+\mathbf 1_{m=1}
+\]
+
+と置く。
+
+Dirichlet series は
+
+\[
+\sum_{m\ge1}\frac{A^+_{r,s}(m)}{m^s}
+=
+G(rs)
+\prod_{p\equiv1(4)}
+\left(
+1+
+\frac{2}{2v_p(rs)+1}
+\frac{p^{-s}}{1-p^{-s}}
+\right).
+\]
+
+`p\nmid rs` の base product は
+
+\[
+\prod_{p\equiv1(4)}
+\frac{1+p^{-s}}{1-p^{-s}}
+=
+\frac{\zeta(s)L(s,\chi_4)}
+{(1+2^{-s})\zeta(2s)}.
+\]
+
+これは `s=1` に単純極を持ち、その residue は
+
+\[
+\frac1\pi
+\]
+
+である。
+
+`p^t\Vert rs` の finite correction は
+
+\[
+R_{p,t}(s)
+=
+\frac{
+1-\frac{2t-1}{2t+1}p^{-s}
+}{1+p^{-s}}.
+\]
+
+従って residue weight は
+
+\[
+\gamma(rs)
+=
+\frac1\pi
+\prod_{p^t\Vert rs\atop p\equiv1(4)}
+\left(
+1+\frac{2t(p-1)}{p+1}
+\right).
+\]
+
+候補部分和は
+
+\[
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1+R_{r,s}(X).
+\]
+
+## 4. 三法から二法への縮約
+
+multiplicative function `beta` を
+
+\[
+\beta(p^j)
+=
+\frac{2(p-1)}{p+1}
+\quad
+(p\equiv1\pmod4,\ j\ge1)
+\]
+
+で定義し、それ以外の素数を含む場合は0とする。
+
+local identity
+
+\[
+1+\frac{2t(p-1)}{p+1}
+=
+\sum_{j=0}^{t}\beta(p^j)
+\]
+
+から
+
+\[
+\gamma(n)
+=
+\frac1\pi\sum_{d\mid n}\beta(d)
+\]
+
+を得る。
+
+`(r,s)=1` なので divisor は `r` 側と `s` 側に分離する。従って primitive-first 主項は、raw の三法 `(a,b,c)` ではなく、二法 `(b,c)` の geometry-of-numbers 問題へ縮約される。
+
+二法 Euler factor は
+
+\[
+J_p(s)
+=
+1+
+\frac{4p(p-1)}{(p+1)^2(p^s-1)}
+\quad (p\equiv1\pmod4)
+\]
+
+となり、二位の極を持つ。radial logarithm と合わせて primitive の対数次数3を再現する。
+
+素数20万までの部分積では
+
+\[
+\eta\approx0.05830533485,
+\qquad
+\frac{\eta}{\pi\kappa}\approx0.99999962.
+\]
+
+これにより候補定数
+
+\[
+\frac{\eta}{12\pi^2}
+\]
+
+と Stage12-N1-2f の
+
+\[
+\frac{\kappa}{12\pi}
+\]
+
+が数値的に一致する。これは診断値であり、部分積の誤差保証ではない。
+
+## 5. boundary layer の解消
+
+### 5.1 outer Möbius error が消える
+
+global Möbius を exact reindexing で最初に処理したため、raw remainder を
+
+\[
+\sum_k|\mu(k)|\,|E(B/k)|
+\]
+
+で足す必要がない。
+
+従って Stage12-N1-2i で使用した保守的な raw target
+
+\[
+B(\log B)^{2-\eta}
+\]
+
+は boundary layer に対して不要となる。primitive 主項
+
+\[
+B(\log B)^3
+\]
+
+に対して `o(main)` であればよい。
+
+### 5.2 terminal-u 層
+
+`h=a u` と分解せず、primitive height `m` の部分和を一度に評価する。
+
+従って terminal-u 層は小さく切って捨てる対象ではなくなり、構造上消滅する。
+
+### 5.3 shallow 層
+
+primitive logarithmic simplex は
+
+\[
+\int_{y,z\ge0\atop 2\max(y,z)&lt;L}
+(L-2\max(y,z))\,dy\,dz
+=
+\frac{L^3}{12}.
+\]
+
+`shallow` 条件
+
+\[
+L-2\max(y,z)\le\tau L
+\]
+
+の主項比率は厳密に
+
+\[
+3\tau^2-2\tau^3.
+\]
+
+ここで
+
+\[
+\tau=L^{-3/4}
+\]
+
+と取れば shallow formal mass は
+
+\[
+O\left(BL^{3/2}\right),
+\]
+
+primitive main に対して十分 lower order である。
+
+一方、保持領域の最短辺 proxy は
+
+\[
+S_0
+=
+\exp\left(\frac12\tau L\right)
+=
+\exp\left(\frac12L^{1/4}\right)
+\]
+
+まで成長する。Stage12-N1-2i の core/wing error に現れる `S_0^{-c}` は、依然として任意の固定対数冪を上回る節約になる。
+
+## 6. exact finite equivalence
+
+primitive-first formulaを直接列挙し、以前のglobal Möbius inversion結果と比較した。
+
+| B | primitive-first | previous global Möbius | difference |
+|---:|---:|---:|---:|
+| 1,000 | 1,208 | 1,208 | 0 |
+| 2,000 | 2,888 | 2,888 | 0 |
+| 5,000 | 9,030 | 9,030 | 0 |
+| 10,000 | 21,360 | 21,360 | 0 |
+| 20,000 | 49,592 | 49,592 | 0 |
+| 50,000 | 147,998 | 147,998 | 0 |
+| 100,000 | 336,416 | 336,416 | 0 |
+| 200,000 | 760,206 | 760,206 | 0 |
+
+全63,638 pair block、126,955 nonzero primitive-height termを直接監査した。
+
+## 7. 残る入力
+
+必要なのは、保持領域
+
+\[
+X\ge\exp((\log B)^{1/4})
+\]
+
+での averaged estimate
+
+\[
+R_{r,s}(X)
+\]
+
+である。
+
+base product は
+
+\[
+\frac{\zeta(s)L(s,\chi_4)}
+{(1+2^{-s})\zeta(2s)}
+\]
+
+なので、Selberg–Delange または Perron contour に適合する。finite correction `R_{p,t}` の係数は各素数で絶対収束し、`rs` 依存は平均 divisor weight として処理する候補がある。
+
+ただし、既存の fixed-function theorem をそのまま parameter-uniform statement として引用することはしない。次段階で平均誤差を明示的に証明または停止判定する。
+
+## 8. 次段階
+
+Stage12-N1-2kでは次を行う。
+
+1. fixed `(r,s)` partial sum の averaged uniform remainder を導出する
+2. 二法 Euler constant `eta=pi*kappa` を局所因子レベルで確定する
+3. `lambda_1` から `beta` へ置き換えた二法 core/wing bookkeeping を再実行する
+4. primitive N1 asymptoticを定理として閉じられるか最終判定する
+
+## 文献
+
+- Régis de la Bretèche and Gérald Tenenbaum, *Remarks on the Selberg--Delange method*, arXiv:2010.12929.
+
+この文献は multiplicative partial sum の一般枠組みとして参照する。Stage12で必要な `rs` 平均一様性は別途監査対象である。
+</pre>
+</section>
+
+<section class="source" id="source-2">
+  <h2>SOURCE 2 / 7 — Stage12-N1-2k</h2>
+  <p class="path">docs/archive/stage12-n1-2/stage12-n1-2k-final-remainder.md<br>Git blob SHA: <code>48b28e84034c17e242998ab313775b0894908515</code></p>
+  <pre># Stage12-N1-2k：最終平均誤差・Euler定数・二法主項監査
+
+## 結論
+
+Stage12-N1-2jで残った
+
+- fixed \((r,s)\) partial sum の平均一様誤差
+- 二法Euler積 \(\eta\) と三法Euler積 \(\kappa\) の一致
+- \(\beta\) 二法重みに対するcore／wingおよびendpoint整理
+
+は、既知の固定領域primitive格子点評価と多変数平均値定理を使う標準的な段階まで閉じる。
+
+分類は
+
+```text
+A_N1_2_leading_asymptotic_closed_at_standard_theorem_level_series_complete
+```
+
+とする。
+
+Stage12-N1-2bで定義したprimitive oriented countについて、
+
+\[
+\boxed{
+C_{\mathrm{prim}}(B)
+\sim
+\frac{\kappa}{12\pi}\,B(\log B)^3
+}
+\]
+
+が最終的な先頭漸近式となる。
+
+これは完全直方体の存在・非存在を主張するものではなく、N1-2で定義した向き付き計数の漸近式である。また、Euler積の数値は認証区間ではない。
+
+---
+
+## 1. fixed \((r,s)\) 問題は固定円問題へ変換できる
+
+Stage12-N1-2jの正のversion
+
+\[
+A^+_{r,s}(m)=A_{r,s}(m)+1_{m=1}
+\]
+
+のDirichlet級数は
+
+\[
+F_{r,s}(s)
+=
+G(rs)\,F_0(s)\,H_{r,s}(s)
+\]
+
+と分解できる。base部分は
+
+\[
+F_0(s)
+=
+\frac{\zeta(s)L(s,\chi_4)}
+{(1+2^{-s})\zeta(2s)}
+=
+\sum_{n\ge1}\frac{a_0(n)}{n^s},
+\]
+
+かつ
+
+\[
+a_0(n)=
+\begin{cases}
+2^{\omega(n)},&amp;
+p\mid n\Rightarrow p\equiv1\pmod4,\\
+0,&amp;\text{otherwise}.
+\end{cases}
+\]
+
+奇数 \(n\) について、\(4a_0(n)\) は
+
+\[
+x^2+y^2=n,\qquad (x,y)=1
+\]
+
+を満たす整数点の個数に厳密に一致する。従ってbase partial sumは、円内のprimitive格子点をmod \(2\) の固定剰余類に制限した問題である。
+
+Wenguang Zhaiの固定滑らか凸領域に対するprimitive格子点評価と同じMöbius・zero-free-region処理により、
+
+\[
+\sum_{n\le X}a_0(n)
+=
+\frac{X}{\pi}
++
+O\!\left(
+X^{1/2}\omega(X)
+\right),
+\]
+
+\[
+\omega(X)
+=
+\exp\!\left(
+-c(\log X)^{3/5}
+(\log\log X)^{-1/5}
+\right)
+\]
+
+を使える。
+
+重要なのは、ここで領域が変形する楕円族ではなく、**一つの固定円と有限個のparity class**になったことである。Stage12-N1-2gで問題だったeccentricityの一様性は発生しない。
+
+---
+
+## 2. \(rs\) 依存は有限Euler補正だけに残る
+
+\(p^t\Vert rs,\ p\equiv1\pmod4\) に対して
+
+\[
+H_{r,s}(s)
+=
+\prod_{p^t\Vert rs}
+\frac{
+1-\frac{2t-1}{2t+1}p^{-s}
+}{
+1+p^{-s}
+}.
+\]
+
+その局所係数は
+
+\[
+h_{r,s}(p^j)
+=
+(-1)^j\frac{4t}{2t+1}
+\qquad(j\ge1).
+\]
+
+従って
+
+\[
+A^+_{r,s}
+=
+G(rs)\,(a_0*h_{r,s})
+\]
+
+が厳密に成り立つ。
+
+絶対係数の \(1/2\)-重みは
+
+\[
+H_{\mathrm{abs}}(rs)
+=
+\prod_{\substack{p^t\Vert rs\\p\equiv1(4)}}
+\left(
+1+
+\frac{4t/(2t+1)}{\sqrt p-1}
+\right)
+\]
+
+で制御できるため、
+
+\[
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1
++
+O\!\left(
+G(rs)H_{\mathrm{abs}}(rs)
+X^{1/2}\omega(X)
+\right)
+\]
+
+を得る。
+
+ここで
+
+\[
+\gamma(rs)
+=
+\frac1\pi
+\prod_{\substack{p^t\Vert rs\\p\equiv1(4)}}
+\left(
+1+\frac{2t(p-1)}{p+1}
+\right).
+\]
+
+監査スクリプトでは次を有限検算した。
+
+- base Dirichlet係数：5,000件
+- primitive odd-circle表現数：2,500件
+- fixed-\((r,s)\) correction convolution：39,296件
+- \(\beta\) 局所上界：147素数
+
+---
+
+## 3. fixed-\((r,s)\) remainderを全体で足す
+
+\[
+W(n)=G(n)H_{\mathrm{abs}}(n)
+\]
+
+と置く。これは固定された非負乗法関数である。
+
+- \(p\equiv3\pmod4\) では局所一次係数は \(1\)
+- \(p\equiv1\pmod4\) では局所一次係数は \(3+O(p^{-1/2})\)
+
+なので、Dirichlet級数のpole orderは \(2\) である。従って通常のSelberg–Delange上界により
+
+\[
+\sum_{n\le R}W(n)\ll R\log R.
+\]
+
+保持領域では
+
+\[
+X\ge X_0
+=
+\exp\!\left((\log B)^{1/4}\right).
+\]
+
+fixed-\((r,s)\) remainderの総和は
+
+\[
+\ll
+B(\log B)^2\omega(X_0).
+\]
+
+\(\omega(X_0)\) は任意の固定対数冪より速く減少するため、
+
+\[
+B(\log B)^2\omega(X_0)
+=
+o\!\left(B(\log B)^{-A}\right)
+\]
+
+が任意の固定 \(A\) に対して成り立つ。
+
+shallow部分はStage12-N1-2jの
+
+\[
+\tau=(\log B)^{-3/4}
+\]
+
+を使い、
+
+\[
+O\!\left(B(\log B)^{3/2+o(1)}\right)
+\]
+
+であり、先頭主項 \(B(\log B)^3\) に対して低次である。
+
+したがって、平均一様remainderは閉じる。
+
+---
+
+## 4. residueは二法 \(\beta\) 展開になる
+
+\[
+\beta(p^j)
+=
+\frac{2(p-1)}{p+1}
+\qquad
+(p\equiv1\pmod4,\ j\ge1)
+\]
+
+とし、それ以外を0とする。
+
+\[
+\gamma(n)
+=
+\frac1\pi\sum_{d\mid n}\beta(d).
+\]
+
+\((r,s)=1\) なので、\(r\) と \(s\) に一つずつdivisor modulusを置く二法問題へ分離する。
+
+\(q\equiv1\pmod4\) の局所密度因子は
+
+\[
+1+\frac{4q}{(q+1)^2}.
+\]
+
+従って二法Euler定数を
+
+\[
+\eta
+=
+\left(\frac{\pi}{4}\right)^2
+\left(\frac12\right)^2
+\prod_{p\equiv3(4)}
+(1-p^{-2})^2
+\prod_{q\equiv1(4)}
+\left(1+\frac{4q}{(q+1)^2}\right)
+(1-q^{-1})^4
+\]
+
+と定義する。
+
+係数系は非負であり、関連する二変数Dirichlet級数はde la Bretècheのmultiple-sum theoremの標準仮定を満たす。smooth dyadic partitionとpartial summationにより、主項はdegree \(3\) の対数多項式となる。
+
+また
+
+\[
+0\le\beta(p^j)&lt;2
+\]
+
+なので、Stage12-N1-2iで許容した固定次数のRamanujan／divisor weightsに支配される。従ってcore・wing・smoothing・endpointの評価はそのまま移植できる。
+
+---
+
+## 5. \(\eta=\pi\kappa\) は厳密恒等式
+
+Stage12-N1-2fの三法局所因子は、\(q\equiv1\pmod4\) で
+
+\[
+F_q(1)
+=
+\frac{q^2+6q+1}{q^2-1}.
+\]
+
+正規化後の局所因子を比較すると、
+
+\[
+\frac{\eta_q}{\kappa_q}
+=
+\frac{q^2}{q^2-1}
+=
+(1-q^{-2})^{-1}.
+\]
+
+\(p\equiv3\pmod4\) でも
+
+\[
+\frac{\eta_p}{\kappa_p}
+=
+(1-p^{-2})^{-1}.
+\]
+
+archimedean・2-adic前置因子の比は
+
+\[
+\frac{\eta_{\mathrm{front}}}
+{\kappa_{\mathrm{front}}}
+=
+\frac8\pi.
+\]
+
+一方、
+
+\[
+\prod_{p\ {\rm odd}}
+(1-p^{-2})^{-1}
+=
+(1-2^{-2})\zeta(2)
+=
+\frac{\pi^2}{8}.
+\]
+
+従って
+
+\[
+\boxed{\eta=\pi\kappa}.
+\]
+
+そのため二法表示の先頭定数は
+
+\[
+\frac{\eta}{12\pi^2}
+=
+\frac{\kappa}{12\pi},
+\]
+
+となり、Stage12-N1-2fのformal primitive constantと厳密に一致する。
+
+素数上限200,000の診断値は
+
+\[
+\frac{\eta}{\pi\kappa}
+=
+0.9999996198305922,
+\]
+
+\[
+\frac{\kappa}{12\pi}
+\approx
+0.0004922973154676823.
+\]
+
+数値はEuler積の収束確認であり、認証区間ではない。
+
+---
+
+## 6. 最終判定
+
+Stage12-N1-2系列で必要だった項目は次の通り閉じた。
+
+1. raw計数とprimitive計数の厳密なMöbius関係
+2. 三法formal mainとpole order
+3. repeated-side寄与が恒等的に0
+4. anisotropic格子点問題のPoisson再編成
+5. core／wingの指数予算
+6. boundary layerのprimitive-first吸収
+7. fixed-\((r,s)\) remainderの固定primitive-circle問題への縮約
+8. 二法Euler積と三法Euler積の厳密一致
+9. primitive oriented leading asymptoticの先頭定数
+
+従って、**自動的に12-N1-2lへ進める必要はない**。
+
+次は新しい解析段階ではなく、Stage12-N1-2b〜2k全体を対象とするadversarial AI reviewまたは人手レビューとする。
+
+---
+
+## 主張しないこと
+
+- 完全直方体の存在または非存在
+- \(\kappa,\eta\) の認証数値区間
+- 独立査読済みの完成論文であること
+- Stage12-N1の定義外にある別のexact-multiplicity減算
+- 新しいprimitive格子点定理
+
+---
+
+## 文献
+
+- Wenguang Zhai, *On primitive lattice points in planar domains*, Acta Arithmetica 109 (2003), 1–26.
+- Régis de la Bretèche, *Estimation de sommes multiples de fonctions arithmétiques*, Compositio Mathematica 128 (2001), 261–298.
+- Régis de la Bretèche and Gérald Tenenbaum, *Remarks on the Selberg–Delange method*, Acta Arithmetica 200 (2021), 349–369.
+</pre>
+</section>
+
+<section class="source" id="source-3">
+  <h2>SOURCE 3 / 7 — Stage12-N1-2l</h2>
+  <p class="path">docs/archive/stage12-n1-2/stage12-n1-2l-dlb-hypotheses.md<br>Git blob SHA: <code>68935cf95fa0a6fd8fca2fc57d508eb364215d12</code></p>
+  <pre># Stage12-N1-2l：de la Bretèche 多重和定理の仮定と β 二法系の適合性監査
+
+## 結論
+
+Stage12-N1-2k の
+
+&gt; 関連する二変数 Dirichlet 級数は de la Bretèche の multiple-sum theorem の標準仮定を満たす
+
+という記述は、原典 Theorem 1 の仮定を実際に照合した証明にはなっていない。
+
+原典の仮定は単なる
+
+- 係数が非負
+- Euler 積を持つ
+- 極次数が固定
+
+ではない。少なくとも次の三条件を明示的に検証する必要がある。
+
+- **P1**：ある基準点 `a` より右の多変数領域で Dirichlet 級数が絶対収束すること
+- **P2**：有限個の非負係数線形形式 `ell_i` に対応する極を除いた関数が、指定された tube domain へ正則接続すること
+- **P3**：その tube domain 内で、虚部と極線形形式に関する一様な多項式増大度評価を持つこと
+
+Stage12-N1-2k は P1 の初歩的部分を示唆するが、P2 と P3 を記述も証明もしていない。従って、2k の
+
+```text
+A_N1_2_leading_asymptotic_closed_at_standard_theorem_level_series_complete
+```
+
+という分類は現時点では強すぎる。
+
+本監査の分類は
+
+```text
+B_DLB_DIRECT_APPLICATION_NOT_VERIFIED_REPAIR_ROUTE_AVAILABLE
+```
+
+とする。
+
+これは最終漸近式が偽であるという判定ではない。レビュー群の多数意見どおり、最終接続が未検証であり `REPAIRABLE` であるという判定である。
+
+---
+
+## 1. 原典 Theorem 1 の正確な要求
+
+Régis de la Bretèche, *Estimation de sommes multiples de fonctions arithmétiques*, Compositio Math. 128 (2001), Theorem 1 は、非負算術関数 `f(d_1,...,d_m)` の Dirichlet 級数
+
+\[
+F(s_1,\ldots,s_m)
+=
+\sum_{d_1,\ldots,d_m\ge1}
+\frac{f(d_1,\ldots,d_m)}{d_1^{s_1}\cdots d_m^{s_m}}
+\]
+
+について P1–P3 を仮定する。
+
+### P1：絶対収束
+
+ある `a in R_+^m` が存在し、`Re(s)` が `a` より各座標で右にある領域で `F(s)` が絶対収束する。
+
+### P2：極を除いた正則接続
+
+非零の非負係数線形形式 `ell_1,...,ell_n` と、補助線形形式 `h_r` の有限族が存在し、
+
+\[
+H(s)=F(s+a)\prod_{i=1}^n \ell_i(s)
+\]
+
+が
+
+\[
+\Re \ell_i(s)&gt;-\delta_1,
+\qquad
+\Re h_r(s)&gt;-\delta_3
+\]
+
+で定まる tube domain に正則接続する。
+
+### P3：tube domain での一様増大度
+
+P2 の領域を少し縮めた領域で `H(s)` が、各 `Im ell_i(s)` と `Im(s)` に関する明示的な多項式型上界を一様に満たす。
+
+この P3 は、Euler 積が形式的に収束するというだけでは得られない。zeta/L 因子の vertical growth と正則 Euler 積の一様制御が必要になる。
+
+Theorem 1 の結論は、長方形型の多重和に対する
+
+\[
+X^{\langle a,b\rangle}Q_b(\log X)+O(X^{\langle a,b\rangle-\theta})
+\]
+
+である。非長方形領域へ使う場合は、さらに smooth dyadic partition と partial summation が必要である。
+
+---
+
+## 2. Stage12 の β 二法係数系
+
+Stage12-N1-2k では
+
+\[
+\beta(q^j)=\frac{2(q-1)}{q+1}
+\qquad(q\equiv1\pmod4,\ j\ge1)
+\]
+
+とし、それ以外を 0 とする。
+
+`(r,s)=1` を含む二法係数を
+
+\[
+f(r,s)=\beta(r)\beta(s)\mathbf 1_{(r,s)=1}
+\]
+
+とすると、その二変数 Euler 因子は `q≡1 mod 4` に対し
+
+\[
+F_q(s_1,s_2)
+=
+1+b_q\frac{q^{-s_1}}{1-q^{-s_1}}
++b_q\frac{q^{-s_2}}{1-q^{-s_2}},
+\qquad
+b_q=\frac{2(q-1)}{q+1}.
+\]
+
+同一素数が両変数へ同時に入る項は coprimality により存在しない。
+
+### P1
+
+`beta(n) &lt;&lt; tau(n)` なので、`Re(s_1)&gt;1, Re(s_2)&gt;1` で絶対収束する。P1 は容易に成立する。
+
+### 想定される極構造
+
+`b_q=2+O(q^{-1})` かつ `q≡1 mod4` の素数密度が 1/2 なので、各座標方向に一次の極が期待される。
+
+一変数因子
+
+\[
+D_\beta(s)=\sum_{n\ge1}\frac{\beta(n)}{n^s}
+\]
+
+は形式的に
+
+\[
+D_\beta(s)=\zeta(s)L(s,\chi_4)\,U(s)
+\]
+
+型へ分解でき、`U` は少なくとも `Re(s)&gt;1/2+epsilon` の局所領域で正則な Euler 積になることが期待される。
+
+二変数級数も
+
+\[
+F(s_1,s_2)
+=D_\beta(s_1)D_\beta(s_2)C(s_1,s_2)
+\]
+
+と分解できる。`C` は coprimality による cross correction で、局所因子は
+
+\[
+1+O(q^{-\Re(s_1+s_2)})
+\]
+
+となるため、`Re(s_1+s_2)&gt;1+epsilon` で絶対収束する修復ルートが期待できる。
+
+しかし 2k では、この因子分解、正則領域、非零性、vertical growth を証明していない。
+
+---
+
+## 3. P2 監査
+
+P2 を閉じるには、少なくとも次を明示する必要がある。
+
+1. 極線形形式は座標形式
+   \[
+   \ell_1(s)=s_1,
+   \qquad
+   \ell_2(s)=s_2
+   \]
+   だけで足りるか。
+2. coprimality correction が新しい極超平面を作らないか。
+3. 正規化後 Euler 積が、原典が要求する tube domain へ正則接続するか。
+4. その領域で Euler 積が非零か。
+
+局所一次項を除くと cross term は `q^{-s_1-s_2}` 型であり、`s_1,s_2` が 1 の近傍では絶対収束する。このため P2 は成立する可能性が高い。
+
+ただし「成立する可能性が高い」と「原典仮定を検証済み」は異なる。現時点では P2 は未証明と分類する。
+
+---
+
+## 4. P3 監査
+
+P3 は今回の直接適用で最も記述が欠けている箇所である。
+
+必要なのは、極を除いた正規化関数について
+
+- `zeta(s_i)` の zero-free strip 内の増大度
+- `L(s_i,chi_4)` の vertical growth
+- cross correction Euler 積の一様有界性
+- dyadic partial summationで必要な導関数の制御
+
+を同時に与えることである。
+
+`beta(p^j)&lt;2` や非負性だけでは P3 は従わない。
+
+従って、2k の「標準仮定を満たす」という一文は P3 を代用できない。
+
+---
+
+## 5. de la Bretèche を使わない修復ルート
+
+今回の係数系は一般の多変数算術関数より単純である。
+
+1. 一変数 `D_beta(s)` を Selberg–Delange で処理する。
+2. coprimality を
+   \[
+   \mathbf 1_{(r,s)=1}=\sum_{d\mid r,s}\mu(d)
+   \]
+   または絶対収束する cross Euler factor として処理する。
+3. rectangular dyadic block 内の二変数和を一変数部分和の反復と partial summation で評価する。
+4. Stage12 の非長方形対数領域は smooth dyadic partition で合成する。
+
+この方法なら、de la Bretèche Theorem 1 の一般的な P2/P3 全体系を呼ぶ必要がない可能性がある。
+
+ただし、この迂回法でも次が必要である。
+
+- `D_beta(s)` の正確な Euler 分解
+- 一変数部分和の主項と一様誤差
+- coprimality correction の絶対収束
+- 全 dyadic block を合成したときの誤差総和
+- 最終 degree 3 polynomial と係数 `eta/(12 pi^2)` の再導出
+
+従って本段階だけで最終漸近式を再び CLOSED にはしない。
+
+---
+
+## 6. レビュー指摘との照合
+
+### Claude / Grok / DeepSeek
+
+「de la Bretèche の具体的仮定が未検証」という指摘は正しい。
+
+### Meta
+
+「仮定を満たす」としたが、P2/P3 の具体的照合を提示していないため、CLOSED 判定の根拠としては不足する。
+
+### Copilot / Qwen
+
+旧三法 Poisson 誤差を最終障害として再提示した部分は、primitive-first 後の最終ルートを十分反映していない。ただし 2h–2i と 2j–2k の継承関係を明記すべきという問題は残る。
+
+---
+
+## 7. 決定
+
+### 閉じたこと
+
+- de la Bretèche Theorem 1 の実際の仮定が P1–P3 であること
+- 2k が P2/P3 を検証していないこと
+- 非負性と局所上界だけでは Theorem 1 を適用できないこと
+- β 二法系には、座標極＋絶対収束 cross correction という修復可能な構造があること
+
+### 閉じていないこと
+
+- P2/P3 の完全な証明
+- de la Bretèche直接適用による非長方形領域の主項導出
+- 一変数 Selberg–Delange迂回ルートの全誤差合成
+
+### 分類
+
+```text
+B_DLB_DIRECT_APPLICATION_NOT_VERIFIED_REPAIR_ROUTE_AVAILABLE
+```
+
+Stage12-N1-2 系列の状態は
+
+```text
+REPAIRABLE_AFTER_ADVERSARIAL_REVIEW
+```
+
+へ更新する。
+
+---
+
+## 次段階
+
+**Stage12-N1-2m**：β 一変数 Dirichlet 級数と coprime 二変数 correction を厳密に因子分解し、de la Bretèche を使わない反復 Selberg–Delange ルートで主項と一様誤差を閉じられるか監査する。
+
+このルートが閉じなければ、Stage12-N1-2n で P2/P3 を直接証明する。
+
+---
+
+## 主張しないこと
+
+- de la Bretèche Theorem 1 が今回に適用不能であること
+- 最終漸近式が偽であること
+- P2/P3 が成立しないこと
+- 一変数迂回ルートが既に完成したこと
+- 完全直方体の存在・非存在
+
+---
+
+## 文献
+
+- Régis de la Bretèche, *Estimation de sommes multiples de fonctions arithmétiques*, Compositio Mathematica 128 (2001), 261–298, Theorem 1.
+- Régis de la Bretèche and Gérald Tenenbaum, *Remarks on the Selberg–Delange method*, Acta Arithmetica 200 (2021), 349–369.
+- Wenguang Zhai, *On primitive lattice points in planar domains*, Acta Arithmetica 109 (2003), 1–26.
+</pre>
+</section>
+
+<section class="source" id="source-4">
+  <h2>SOURCE 4 / 7 — Stage12-N1-2m</h2>
+  <p class="path">docs/archive/stage12-n1-2/stage12-n1-2m-iterated-selberg-delange.md<br>Git blob SHA: <code>6e6a4a59af88c8f39c570d0277708b0831b806b8</code></p>
+  <pre># Stage12-N1-2m：反復Selberg–Delangeとcoprime補正の監査
+
+## 結論
+
+Stage12-N1-2lで未検証と判定した de la Bretèche の多変数定理を避け、二法重み \(\beta\) を一変数Dirichlet級数とcoprime補正へ分解する。
+
+判定は
+
+```text
+A_ITERATED_SELBERG_DELANGE_MAIN_TERM_FACTORIZATION_CLOSED_REGION_REMAINDER_PENDING
+```
+
+とする。
+
+- 一変数 \(\beta\) 級数は \(s=1\) で単純極を持つ。
+- 二変数の互いに素条件は、二つの一変数因子と、\(\Re(s_1+s_2)&gt;1\) で絶対収束するcross correctionへ厳密分解できる。
+- 従って長方形領域または滑らかな積重み上では、反復Selberg–Delangeにより主項と局所定数を得られる。
+- ただし最終的な結合領域 \(h(r^2+s^2)\le 2B\) へ戻す際のpartial summation、境界層、誤差の一様積分をこの段階だけでは完了していない。
+
+したがって、2lで見つかった「多変数定理の仮定未確認」は回避できるが、最終漸近式を再び CLOSED とするには、次段階で結合領域への移送誤差を閉じる必要がある。
+
+---
+
+## 1. 一変数 \(\beta\) Dirichlet級数
+
+\[
+\beta(p^j)=\frac{2(p-1)}{p+1}
+\quad(p\equiv1\pmod4,\ j\ge1),
+\]
+
+それ以外を0とする。一変数級数
+
+\[
+B_\beta(s)=\sum_{n\ge1}\frac{\beta(n)}{n^s}
+\]
+
+の局所因子は、\(q\equiv1\pmod4\) に対して
+
+\[
+1+\frac{b_q q^{-s}}{1-q^{-s}},
+\qquad b_q=\frac{2(q-1)}{q+1}=2+O(q^{-1}).
+\]
+
+従って
+
+\[
+\log B_\beta(s)
+=2\sum_{q\equiv1(4)}q^{-s}+O(1)
+=\log\frac1{s-1}+O(1),
+\]
+
+となり、\(s=1\) で単純極を持つ。
+
+より具体的には
+
+\[
+B_\beta(s)=\zeta(s)L(s,\chi_4)\,J(s),
+\]
+
+と書け、\(J(s)\) は少なくとも \(\Re s&gt;1/2+\varepsilon\) の固定近傍で正則かつ非零になる。局所一次項を \(\zeta L\) で除去した残りが \(1+O(q^{-2\sigma})\) になるためである。
+
+従って通常の一変数Selberg–Delangeにより
+
+\[
+\sum_{n\le x}\beta(n)=c_\beta x+O\left(x\,E(x)\right)
+\]
+
+型の評価を使用できる。ここで \(E(x)\to0\) は選択するzero-free region版に依存する。本段階では認証された最良誤差を主張せず、必要な一様版を次段階で固定する。
+
+---
+
+## 2. coprime二法Euler積の厳密分解
+
+対象係数を
+
+\[
+f(r,s)=\beta(r)\beta(s)1_{(r,s)=1}
+\]
+
+とする。二変数Dirichlet級数
+
+\[
+F(s_1,s_2)=\sum_{r,s\ge1}\frac{f(r,s)}{r^{s_1}s^{s_2}}
+\]
+
+の \(q\equiv1\pmod4\) 局所因子は
+
+\[
+L_q(s_1,s_2)
+=1+\frac{b_q q^{-s_1}}{1-q^{-s_1}}
+ +\frac{b_q q^{-s_2}}{1-q^{-s_2}},
+\]
+
+である。同じ素数が両変数を割る項はcoprime条件により除かれる。
+
+一変数局所因子
+
+\[
+A_q(s)=1+\frac{b_q q^{-s}}{1-q^{-s}}
+\]
+
+を使うと
+
+\[
+L_q(s_1,s_2)=A_q(s_1)A_q(s_2)C_q(s_1,s_2),
+\]
+
+\[
+C_q(s_1,s_2)
+=1-\frac{u_q(s_1)u_q(s_2)}{(1+u_q(s_1))(1+u_q(s_2))},
+\quad
+u_q(s)=\frac{b_q q^{-s}}{1-q^{-s}}.
+\]
+
+よって
+
+\[
+C_q(s_1,s_2)=1+O\left(q^{-\sigma_1-\sigma_2}\right)
+\]
+
+が一様に成り立つ。したがって
+
+\[
+C(s_1,s_2)=\prod_{q\equiv1(4)}C_q(s_1,s_2)
+\]
+
+は
+
+\[
+\Re(s_1+s_2)&gt;1
+\]
+
+で絶対収束し、\((1,1)\) の近傍で正則かつ非零である。
+
+従って
+
+\[
+F(s_1,s_2)=B_\beta(s_1)B_\beta(s_2)C(s_1,s_2)
+\]
+
+という厳密分解を得る。
+
+---
+
+## 3. 反復Selberg–Delangeで得られる範囲
+
+長方形和
+
+\[
+S(R,S)=\sum_{r\le R}\sum_{s\le S}
+\beta(r)\beta(s)1_{(r,s)=1}
+\]
+
+または固定された滑らかな積重み
+
+\[
+\sum_{r,s}\beta(r)\beta(s)1_{(r,s)=1}
+W_1(r/R)W_2(s/S)
+\]
+
+については、一方の変数を固定して一変数Selberg–Delangeを適用し、その主項係数を他方の変数で再度平均する方法が使える。
+
+cross correctionが \((1,1)\) 近傍で正則であるため、主項定数は
+
+\[
+\operatorname*{Res}_{s_1=1}B_\beta(s_1)
+\operatorname*{Res}_{s_2=1}B_\beta(s_2)
+C(1,1)
+\]
+
+で与えられる。これはStage12-N1-2kの二法Euler定数 \(\eta\) の有限素数局所因子と一致する。
+
+この段階で de la Bretèche のP2・P3を検証する必要はない。
+
+---
+
+## 4. まだ残る結合領域の問題
+
+最終対象は単純な長方形和ではなく、概略
+
+\[
+h(r^2+s^2)\le2B
+\]
+
+とprimitive-first height weightを含む。固定 \(h\) または固定radial shellごとに二法和を評価し、partial summationで戻す必要がある。
+
+この移送では次を明示的に確認する必要がある。
+
+1. 一変数Selberg–Delange誤差が、外側変数・shell parameterに対して一様であること。
+2. \(r&lt;s\)、parity class、\((r,s)=1\) を含む切断で、境界誤差が \(o(B(\log B)^3)\) になること。
+3. shallow cutoffとmain regionの接続で、2jの低次評価を二法主項に合わせて再導出すること。
+4. 2h–2iのPoisson・指数対評価が最終ルートで不要なのか、一部のみ再利用するのかを確定すること。
+
+これらはStage12-N1-2nで監査する。
+
+---
+
+## 5. 有限監査の意味
+
+専用スクリプトでは以下を確認する。
+
+- 先頭11個の \(1\bmod4\) 素数で、二変数局所因子と一変数因子×cross correctionが有理数として完全一致。
+- cross correctionの一次項がなく、最初の混合項が \(q^{-s_1-s_2}\) であること。
+- \(C_q(1,1)\) の有限部分積が正で安定すること。
+- 長方形有限和とEuler係数列が小範囲で一致すること。
+
+有限監査は解析接続やSelberg–Delange誤差の証明ではない。
+
+---
+
+## 6. 判定
+
+2lのレビュー指摘に対して、de la Bretècheの直接適用を使わない修復経路は成立する。
+
+ただし、現段階で閉じたのは
+
+- 一変数極構造
+- coprime cross correctionの絶対収束
+- 長方形・積重み上の主項因子分解
+
+までである。
+
+最終結合領域への一様移送が残るため、Stage12-N1-2系列全体の状態は引き続き
+
+```text
+REPAIRABLE_AFTER_ADVERSARIAL_REVIEW
+```
+
+とする。
+
+次は
+
+```text
+Stage12-N1-2n:
+反復Selberg–Delange主項をradial/height結合領域へ移送し、
+境界・一様誤差・2h–2iとの継承関係を確定する監査
+```
+
+とする。
+</pre>
+</section>
+
+<section class="source" id="source-5">
+  <h2>SOURCE 5 / 7 — Stage12-N1-2n</h2>
+  <p class="path">docs/archive/stage12-n1-2/stage12-n1-2n-coupled-region.md<br>Git blob SHA: <code>1d5d95f46c45a9c8d417c1bb6e87e7c6b77a8779</code></p>
+  <pre># Stage12-N1-2n：radial／height結合領域・境界・誤差経路監査
+
+## 結論
+
+Stage12-N1-2mで得た二法長方形和の因子分解を、primitive-first の結合領域へ移送する。
+
+判定は
+
+```text
+A_FINAL_ROUTE_REPAIRED_AT_STANDARD_ONE_VARIABLE_THEOREM_LEVEL_REVIEW_REQUIRED
+```
+
+とする。
+
+- retained region は対数dyadic長方形の有限重なり和へ分解できる。
+- 一変数 Selberg–Delange の一様誤差と、絶対収束する coprime cross correction を畳み込むことで、各長方形に一様な二法誤差を得る。
+- 二変数 Abel／Stieltjes 部分和分により、radial weight と height length を含む結合領域へ主項を移送できる。
+- shallow boxes と対角・円弧境界の寄与は `o(B(log B)^3)` である。
+- Stage12-N1-2h〜2i の Poisson・Ramanujan・指数対ルートは、最終 primitive-first 証明では使用しない。歴史的な障害診断および代替ルート監査として残す。
+
+従って、AI敵対レビューで共通指摘された
+
+1. de la Bretèche の未検証 P2/P3
+2. 2h〜2i と 2j〜2k の接続不明
+3. 結合領域への移送不足
+
+は、de la Bretèche を使わない一変数ルートで修復できる。
+
+ただし、独立再レビュー前に `CLOSED` へ戻すのではなく、上記分類で停止する。
+
+---
+
+## 1. primitive-first 主項の形
+
+Stage12-N1-2j〜2kから、固定された coprime pair `(r,s)` の height 部分和は
+
+\[
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1+R_{r,s}(X),
+\]
+
+\[
+\gamma(n)=\frac1\pi\sum_{d\mid n}\beta(d).
+\]
+
+odd–odd と opposite-parity の二場合は、height 上限の係数が異なるだけで、いずれも概略
+
+\[
+B\sum_{r&lt;s\atop(r,s)=1}
+\frac{\gamma(rs)}{r^2+s^2}
+\]
+
+型の主項へ帰着する。parity の局所質量は Stage12-N1-2f, 2j の 2-adic bookkeeping と一致する。
+
+`(r,s)=1` なので divisor 展開は二法へ分離し、Stage12-N1-2m の
+
+\[
+f(b,c)=\beta(b)\beta(c)1_{(b,c)=1}
+\]
+
+に対する長方形和を使用できる。
+
+---
+
+## 2. 一様な二法長方形和
+
+一変数級数を
+
+\[
+B_\beta(s)=\zeta(s)L(s,\chi_4)J(s)
+\]
+
+とし、`J` は `Re s&gt;1/2+epsilon` で正則とする。標準 zero-free region 版の一変数 Selberg–Delange から
+
+\[
+\sum_{n\le x}\beta(n)
+=c_\beta x+O(xE(x)),
+\]
+
+\[
+E(x)=\exp\{-c(\log x)^{3/5}(\log\log x)^{-1/5}\}
+\]
+
+型を使用する。
+
+Stage12-N1-2mの cross correction を
+
+\[
+C(s_1,s_2)=\sum_{a,b\ge1}\frac{c(a,b)}{a^{s_1}b^{s_2}}
+\]
+
+と展開する。`Re(s1+s2)&gt;1` で絶対収束するため、任意の固定 `delta&gt;0` に対し
+
+\[
+\sum_{a,b}\frac{|c(a,b)|}{(ab)^{1/2+\delta}}&lt;\infty.
+\]
+
+従って長方形和
+
+\[
+S(R,S)=\sum_{r\le R,s\le S}
+\beta(r)\beta(s)1_{(r,s)=1}
+\]
+
+は、cross coefficients を先に畳み込んで二回の一変数部分和を適用することで
+
+\[
+S(R,S)=\mathfrak C RS
++O\bigl(RS(E(R)+E(S))\bigr)
++O\bigl(R^{1/2+\delta}S+RS^{1/2+\delta}\bigr)
+\]
+
+となる。暗黙定数は retained region 内で `R,S` に依存しない。
+
+最短辺が
+
+\[
+S_0=\exp\bigl(\tfrac12(\log B)^{1/4}\bigr)
+\]
+
+以上なら、右辺の相対誤差は任意の固定対数冪より小さい。
+
+---
+
+## 3. 結合領域への移送
+
+対数変数
+
+\[
+y=\log r,\qquad z=\log s,\qquad L=\log B
+\]
+
+を用いると、height の主項長さは区分的滑らかな重み
+
+\[
+\Phi_L(y,z)=\bigl(L-2\max(y,z)\bigr)_+
+\]
+
+で表される。
+
+領域を固定比の対数dyadic boxesへ分割する。各box上で
+
+- `r^2+s^2` は box scale と定数倍で比較可能
+- `Phi_L` の全変動は `O(1)`
+- 円弧境界を横切るboxは一層だけ
+
+である。
+
+二変数 Abel／Stieltjes 部分和分を各boxへ適用すると、長方形主項の積分は
+
+\[
+\int_{y,z\ge0\atop2\max(y,z)&lt;L}
+(L-2\max(y,z))\,dy\,dz
+=\frac{L^3}{12}
+\]
+
+となる。
+
+Stage12-N1-2kで確定した局所定数
+
+\[
+\eta=\pi\kappa
+\]
+
+と parity／orientation factor を組み合わせると、先頭候補は従来通り
+
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3.
+\]
+
+---
+
+## 4. 境界誤差
+
+### 4.1 shallow boxes
+
+\[
+L-2\max(y,z)\le\tau L,
+\qquad \tau=L^{-3/4}
+\]
+
+の対数質量比は
+
+\[
+3\tau^2-2\tau^3.
+\]
+
+従って寄与は
+
+\[
+O(BL^{3/2+o(1)})=o(BL^3).
+\]
+
+### 4.2 円弧・対角境界
+
+`r=s` は oriented domain では境界であり、幅1の格子帯は一変数少ないため
+
+\[
+O(BL^{2+o(1)})
+\]
+
+以下になる。円弧境界を横切るdyadic boxesも、boxの一辺分の損失と一様長方形誤差で同じ次数以下になる。
+
+### 4.3 endpoint と floor
+
+height 上限の floor を外す誤差は各 `(r,s)` につき `O(1)`。重み付き pair 数の標準 divisor boundを用いると総和は
+
+\[
+O(B^{1/2+o(1)}L^2)
+\]
+
+で、主項より小さい。
+
+---
+
+## 5. 2h〜2iの最終的な位置づけ
+
+最終ルートは
+
+```text
+2j primitive-first exact reindexing
+ -&gt; 2k fixed-circle height remainder
+ -&gt; 2l de la Bretèche direct application rejected
+ -&gt; 2m one-variable beta factorization
+ -&gt; 2n dyadic rectangle + Abel transfer
+```
+
+である。
+
+従って2h〜2iの
+
+- 二次元Poisson
+- Ramanujan Fourier coefficients
+- nonlinear reciprocal phase
+- exponent-pair core/wing budget
+
+は最終漸近式の証明入力ではない。
+
+これらは、raw三法ルートを続けた場合の適合性監査、および primitive-first へ切り替える動機を記録する歴史的段階である。2k本文の「2iの評価をそのまま移植できる」という記述は撤回し、2m〜2nの反復Selberg–Delange移送へ置換する。
+
+---
+
+## 6. 残るレビュー項目
+
+数学的に新しい解析入力として残るものはないが、次の文書化確認は必要である。
+
+1. 一変数 Selberg–Delange の使用版と誤差関数を定理番号付きで固定する。
+2. cross correction係数の weighted absolute convergenceから長方形誤差を導く補題を出版形式で書く。
+3. parity classごとの前置因子を一つの表に統合する。
+4. 2kの旧 `CLOSED` 文言と2i移植文言を、2l〜2nの結論に合わせて更新する。
+5. 修正版バンドルを再発行し、Claude/Grok/DeepSeek等でRound 2敵対レビューを行う。
+
+したがって現状は
+
+```text
+REPAIRED_PROOF_CHAIN_PENDING_ROUND2_ADVERSARIAL_REVIEW
+```
+
+であり、独立レビューで新しいMAJOR/FATALが出なければ `CLOSED` に戻せる候補である。
+</pre>
+</section>
+
+<section class="source" id="source-6">
+  <h2>SOURCE 6 / 7 — Stage12-N1-2o</h2>
+  <p class="path">docs/archive/stage12-n1-2/stage12-n1-2o-analytic-closure.md<br>Git blob SHA: <code>5f42b4d45242649c69271fe44abbe7d6cc9aca55</code></p>
+  <pre># Stage12-N1-2o：一変数解析条件と一様長方形補題
+
+## 結論
+
+Stage12-N1-2m〜2n の反復 Selberg–Delange ルートについて、Round 2 敵対レビューで繰り返し指摘された次の点を本文へ固定する。
+
+1. 一変数因子 `J(s)` の正則性・非零性。
+2. 使用する一変数平均定理の入力条件と誤差関数。
+3. coprime cross correction から一様長方形誤差を得る畳み込み補題。
+4. endpoint／floor 誤差の安全な低次評価。
+
+この段階の判定は
+
+```text
+A_ANALYTIC_CLOSURE_LEMMAS_WRITTEN_FINAL_REVIEW_REQUIRED
+```
+
+とする。新しい主項や局所定数は導入せず、最終ルート
+
+```text
+2j -&gt; 2k -&gt; 2l -&gt; 2m -&gt; 2n -&gt; 2o
+```
+
+のうち 2m〜2n で略記されていた解析条件だけを補う。
+
+---
+
+## 1. 一変数 Euler 積の正規化
+
+`q ≡ 1 (mod 4)` に対し
+
+\[
+b_q=\frac{2(q-1)}{q+1},
+\qquad
+A_q(s)=1+\frac{b_q q^{-s}}{1-q^{-s}}.
+\]
+
+一変数 Dirichlet 級数は
+
+\[
+B_\beta(s)=\prod_{q\equiv1(4)}A_q(s).
+\]
+
+`x=q^{-s}` と書くと
+
+\[
+A_q(s)=\frac{1+(b_q-1)x}{1-x}.
+\]
+
+一方、`ζ(s)L(s,χ_4)` の `q ≡ 1 (mod 4)` 局所因子は `(1-x)^{-2}`、`p ≡ 3 (mod 4)` 局所因子は `(1-p^{-2s})^{-1}` である。従って
+
+\[
+B_\beta(s)=\zeta(s)L(s,\chi_4)J(s)
+\]
+
+と置いたとき、`J` の局所因子は
+
+\[
+J_q(s)=(1-x)(1+(b_q-1)x)
+\quad(q\equiv1(4)),
+\]
+
+\[
+J_p(s)=1-p^{-2s}
+\quad(p\equiv3(4)),
+\]
+
+および 2-adic な有限因子で与えられる。
+
+`b_q-2=-4/(q+1)` なので
+
+\[
+J_q(s)-1=(b_q-2)q^{-s}-(b_q-1)q^{-2s}
+=O(q^{-1-\sigma})+O(q^{-2\sigma}).
+\]
+
+したがって任意の固定 `ε&gt;0` に対し、`σ=Re s &gt;= 1/2+ε` では
+
+\[
+\sum_{q\equiv1(4)}|J_q(s)-1|&lt;\infty,
+\qquad
+\sum_{p\equiv3(4)}|J_p(s)-1|&lt;\infty
+\]
+
+が局所一様に成り立つ。よって Euler 積 `J(s)` はこの半平面で正則である。
+
+さらに、同じ半平面の任意の閉じた部分領域では有限個の小素数因子を直接除外し、残りの因子について `|J_p(s)-1|&lt;1/2` とできる。そこで主値の対数を用いれば
+
+\[
+\log J(s)=\sum_p\log J_p(s)
+\]
+
+が局所一様収束するため、`J(s)` は零を持たない。絶対収束部分は垂直方向にも一様有界であり、必要な vertical growth は `ζ(s)L(s,χ_4)` 側の標準評価へ還元される。
+
+---
+
+## 2. 一変数平均定理の使用形
+
+本系列で必要なのは、`B_β(s)=ζ(s)H(s)`、
+
+\[
+H(s)=L(s,\chi_4)J(s)
+\]
+
+が `s=1` の近傍で正則かつ非零であり、標準 zero-free region 内で多項式増大度を持つ場合の一変数 Selberg–Delange／Perron 移動の `z=1` 特殊形である。
+
+使用する結論を次の形に固定する。
+
+&gt; **一変数平均入力。** ある定数 `c_β&gt;0`, `c&gt;0` が存在して、`x&gt;=3` に対し
+&gt; \[
+&gt; \sum_{n\le x}\beta(n)
+&gt; =c_\beta x+O(xE(x)),
+&gt; \]
+&gt; \[
+&gt; E(x)=\exp\{-c(\log x)^{3/5}(\log\log x)^{-1/5}\}.
+&gt; \]
+&gt; 暗黙定数は `x` に依存しない。
+
+これは Tenenbaum の Selberg–Delange 法を収録する章の `z=1` 特殊形として使用する。版によって節・定理番号が変わる可能性があるため、最終出版稿では参照する版の書誌情報と定理番号を照合して固定する。ここでは未照合の番号を断定しない。
+
+`β(n)&gt;=0` かつ
+
+\[
+\beta(n)\le 2^{\omega(n)}\le \tau(n)
+\]
+
+であり、前節で `H` の解析条件を確認したため、この入力を本系列で用いるための係数成長・解析接続条件は満たされる。
+
+---
+
+## 3. cross correction の係数表示
+
+Stage12-N1-2m の分解を
+
+\[
+F(s_1,s_2)
+=B_\beta(s_1)B_\beta(s_2)C(s_1,s_2)
+\]
+
+とし、
+
+\[
+C(s_1,s_2)=\sum_{a,b\ge1}\frac{c(a,b)}{a^{s_1}b^{s_2}}
+\]
+
+と展開する。
+
+局所的に
+
+\[
+C_q(s_1,s_2)-1=O(q^{-\sigma_1-\sigma_2})
+\]
+
+なので、任意の固定 `δ&gt;0` に対し
+
+\[
+M_\delta:=
+\sum_{a,b\ge1}
+\frac{|c(a,b)|}{(ab)^{1/2+\delta}}&lt;\infty.
+\]
+
+この絶対収束は以下の和の順序交換と誤差の一様化にのみ使用する。
+
+---
+
+## 4. 一様長方形補題
+
+\[
+S(R,S)=
+\sum_{r\le R}\sum_{s\le S}
+\beta(r)\beta(s)1_{(r,s)=1}
+\]
+
+とする。Dirichlet 畳み込み表示から
+
+\[
+S(R,S)=
+\sum_{a,b}c(a,b)
+B_\beta(R/a)B_\beta(S/b),
+\]
+
+ここで
+
+\[
+B_\beta(X):=\sum_{n\le X}\beta(n),
+\qquad B_\beta(X)=0\quad(X&lt;1).
+\]
+
+一変数平均入力を二回代入すると主項は
+
+\[
+\mathfrak C RS,
+\qquad
+\mathfrak C=c_\beta^2 C(1,1).
+\]
+
+`a&lt;=R`, `b&lt;=S` の範囲で `E(R/a)`, `E(S/b)` を直接一様化できない端部は、`a&gt;R^{1/2}` または `b&gt;S^{1/2}` として分離する。小さい係数領域では `E` の単調包絡線を用い、大きい係数領域では `M_δ` と自明評価 `B_β(X) &lt;&lt; X log X` を用いる。すると任意の固定 `δ&gt;0` に対し
+
+\[
+S(R,S)=\mathfrak C RS
++O_\delta\!\left(
+RS(E(R^{1/2})+E(S^{1/2}))
++R^{1/2+\delta}S
++RS^{1/2+\delta}
+\right).
+\]
+
+暗黙定数は `R,S` に依存しない。特に retained region で
+
+\[
+\min(R,S)\ge
+\exp\{\tfrac12(\log B)^{1/4}\}
+\]
+
+なら、相対誤差は任意の固定対数冪より小さい。
+
+この補題は、2n の「cross coefficients を先に畳み込んで二回の一変数部分和を適用する」という一文を出版形式へ展開したものである。
+
+---
+
+## 5. endpoint／floor の安全な評価
+
+2n では floor 除去誤差として
+
+\[
+O(B^{1/2+o(1)}L^2)
+\]
+
+を記したが、Round 2 ではこの上界が必要以上に強いとの指摘があった。最終漸近には低次であることだけが必要なので、以後は安全な上界へ置換する。
+
+各 admissible pair `(r,s)` の floor 誤差は `O(1)` であり、`r^2+s^2&lt;&lt;B` の pair 数は `O(B)`。divisor／parity 重みを平均的な対数冪へ吸収すると、必要十分な形として
+
+\[
+O(B(\log B)^{1+o(1)})
+=o(B(\log B)^3)
+\]
+
+を採用する。ここでは `B^{1/2+o(1)}` 型の強い評価を主張しない。
+
+対角・円弧境界についても「境界 box が一個だけ」という意味には解釈せず、各 dyadic scale で境界に接する box の総数と、一辺分失う格子数を合計して
+
+\[
+O(B(\log B)^{2+o(1)})
+=o(B(\log B)^3)
+\]
+
+とする。詳細な幾何分割は2nの Abel 移送に従う。
+
+---
+
+## 6. 状態更新
+
+Round 2 の独立レビューは、Grok／DeepSeek が `REPAIRABLE`、Meta AI／Qwen が `CLOSED`、Gemini は truncated bundle により `UNREADABLE_SOURCE` であった。従って Gemini は数学的反対票として数えない。
+
+2oにより、具体的に残っていた
+
+- `J(s)` の正則性・非零性
+- 一変数誤差の一様利用
+- cross correction の長方形畳み込み
+- floor／arc 誤差の安全な低次化
+
+を本文へ追加した。
+
+ただし、参照版に依存する Selberg–Delange の定理番号照合と、2oを含む最終独立レビューが残るため、正式状態は
+
+```text
+PROVISIONALLY_CLOSED_DOCUMENT_PATCHED_FINAL_REVIEW_PENDING
+```
+
+とする。
+
+主張範囲は引き続き、定義された primitive oriented count
+
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3
+\]
+
+に限る。完全直方体の存在、`N_1` 全体、または別の exact-multiplicity count への自動変換は主張しない。
+</pre>
+</section>
+
+<section class="source" id="source-7">
+  <h2>SOURCE 7 / 7 — Stage12-N1-2p</h2>
+  <p class="path">docs/archive/stage12-n1-2/stage12-n1-2p-final-bookkeeping.md<br>Git blob SHA: <code>b368b432d743b79e0641c2be6eb6d97f436a1bd7</code></p>
+  <pre># Stage12-N1-2p：Selberg–Delange参照固定と長方形誤差の完全bookkeeping
+
+## 結論
+
+Stage12-N1-2oで残した二つのMINORを閉じる。
+
+1. 一変数 Selberg–Delange の使用版・定理番号を固定する。
+2. cross correction から一様長方形誤差を得る際の係数領域分割を完全に書き下す。
+
+本段階の分類は
+
+```text
+A_FINAL_BOOKKEEPING_WRITTEN_INDEPENDENT_REVIEW_REQUIRED
+```
+
+とする。最終ルートは
+
+```text
+2j -&gt; 2k -&gt; 2l -&gt; 2m -&gt; 2n -&gt; 2o -&gt; 2p
+```
+
+であり、主張範囲は定義済み primitive oriented count に限る。
+
+---
+
+## 1. 使用する一変数定理の固定
+
+参照版を次に固定する。
+
+&gt; Gérald Tenenbaum, *Introduction to Analytic and Probabilistic Number Theory*, Third Edition, Graduate Studies in Mathematics 163, American Mathematical Society, 2015, Chapter II.5, Theorem II.5.2（Selberg–Delange method）。
+
+本系列では、その `z=1` 特殊形を使う。すなわち、
+
+\[
+F(s)=\zeta(s)H(s)
+\]
+
+で、`H` が de la Vallée Poussin 型 zero-free region の必要部分へ正則接続し、同領域で多項式増大度を持ち、`H(1)\ne0` なら、ある `c&gt;0` に対して
+
+\[
+\sum_{n\le x}f(n)=H(1)x+O\!\left(xE(x)\right),
+\]
+
+\[
+E(x)=\exp\{-c(\log x)^{3/5}(\log\log x)^{-1/5}\}
+\]
+
+の形を用いる。
+
+Stage12-N1-2o §1で
+
+\[
+B_\beta(s)=\zeta(s)H(s),\qquad H(s)=L(s,\chi_4)J(s)
+\]
+
+と分解し、`J` は `Re s&gt;1/2+epsilon` で正則・非零、絶対収束部分は垂直方向に一様有界であることを確認した。`L(s,chi_4)` は `s=1` 近傍で正則非零であり、標準 zero-free region と多項式増大度を持つ。したがって定理の解析条件は満たされる。
+
+また
+
+\[
+0\le\beta(n)\le2^{\omega(n)}\le\tau(n)
+\]
+
+なので、係数成長条件も満たされる。よって
+
+\[
+B_\beta(X):=\sum_{n\le X}\beta(n)
+=c_\beta X+O(XE(X))
+\]
+
+を、`X&gt;=3` で暗黙定数が `X` に依存しない形で使用する。`1&lt;=X&lt;3` は定数調整で同じ上界に吸収する。
+
+---
+
+## 2. cross correction の係数ノルム
+
+Stage12-N1-2m〜2oの分解
+
+\[
+F(s_1,s_2)=B_\beta(s_1)B_\beta(s_2)C(s_1,s_2),
+\]
+
+\[
+C(s_1,s_2)=\sum_{a,b\ge1}\frac{c(a,b)}{a^{s_1}b^{s_2}}
+\]
+
+を用いる。任意の固定 `delta in (0,1/4)` に対し
+
+\[
+M_\delta:=\sum_{a,b\ge1}\frac{|c(a,b)|}{(ab)^{1/2+\delta}}&lt;\infty.
+\]
+
+また、絶対収束点 `(1,1)` では
+
+\[
+C(1,1)=\sum_{a,b\ge1}\frac{c(a,b)}{ab}.
+\]
+
+以下、暗黙定数は `delta` と `M_delta` のみに依存し、`R,S` には依存しない。
+
+---
+
+## 3. 一様長方形補題
+
+\[
+S(R,S):=\sum_{r\le R}\sum_{s\le S}
+\beta(r)\beta(s)1_{(r,s)=1}.
+\]
+
+Dirichlet畳み込みにより
+
+\[
+S(R,S)=\sum_{a\le R}\sum_{b\le S}c(a,b)
+B_\beta(R/a)B_\beta(S/b).
+\]
+
+`A=R^{1/2}`, `D=S^{1/2}` と置き、係数領域を
+
+\[
+\mathcal R_{00}:a\le A,b\le D,
+\quad
+\mathcal R_{10}:a&gt;A,b\le D,
+\]
+
+\[
+\mathcal R_{01}:a\le A,b&gt;D,
+\quad
+\mathcal R_{11}:a&gt;A,b&gt;D
+\]
+
+に分ける。
+
+### 3.1 小係数領域 `R_00`
+
+`a&lt;=A`, `b&lt;=D` なら `R/a&gt;=R^{1/2}`, `S/b&gt;=S^{1/2}`。単調包絡線
+
+\[
+E_*(X):=\sup_{Y\ge X}E(Y)
+\]
+
+を用いると
+
+\[
+B_\beta(R/a)=c_\beta R/a
++O\bigl((R/a)E_*(R^{1/2})\bigr),
+\]
+
+\[
+B_\beta(S/b)=c_\beta S/b
++O\bigl((S/b)E_*(S^{1/2})\bigr).
+\]
+
+積を展開し、
+
+\[
+\sum_{\mathcal R_{00}}\frac{|c(a,b)|}{ab}
+\le M_\delta
+\]
+
+を使えば、誤差は
+
+\[
+O_\delta\!\left(
+RS\{E_*(R^{1/2})+E_*(S^{1/2})
++E_*(R^{1/2})E_*(S^{1/2})\}
+\right).
+\]
+
+最後の積項は前二項へ吸収できる。
+
+小係数領域の主項は
+
+\[
+c_\beta^2RS
+\sum_{a\le A,b\le D}\frac{c(a,b)}{ab}.
+\]
+
+完全Euler定数との差は尾部評価へ移す。
+
+### 3.2 `a` 大・`b` 小の領域 `R_10`
+
+自明評価
+
+\[
+B_\beta(X)\ll X\log(2X)
+\]
+
+を両変数へ用いる。`a&gt;A` では
+
+\[
+a^{-1}=a^{-1/2+\delta}a^{-1/2-\delta}
+\le R^{-1/4+\delta/2}a^{-1/2-\delta}.
+\]
+
+したがって
+
+\[
+\sum_{\mathcal R_{10}}
+|c(a,b)|\frac{R}{a}\frac{S}{b}
+\log(2R/a)\log(2S/b)
+\]
+
+\[
+\ll_\delta
+R^{3/4+\delta/2}S\,(\log 2R)(\log 2S)M_\delta.
+\]
+
+任意の固定 `delta&gt;0` を小さく取り直し、対数因子を小べきへ吸収すると
+
+\[
+\mathcal R_{10}\ll_\delta R^{1/2+\delta}S.
+\]
+
+同じ評価は、完全主項の尾
+
+\[
+RS\sum_{a&gt;A,b\le D}\frac{|c(a,b)|}{ab}
+\]
+
+にも適用できる。
+
+### 3.3 `a` 小・`b` 大の領域 `R_01`
+
+対称性により
+
+\[
+\mathcal R_{01}\ll_\delta RS^{1/2+\delta}.
+\]
+
+主項尾部も同じ上界に入る。
+
+### 3.4 両係数が大きい領域 `R_11`
+
+上の二つのどちらか一方の尾部評価だけでも
+
+\[
+\mathcal R_{11}
+\ll_\delta
+R^{1/2+\delta}S+RS^{1/2+\delta}
+\]
+
+を得る。より対称に評価すれば積型のさらに小さい上界も得られるが、最終用途には不要である。
+
+### 3.5 合成
+
+以上より
+
+\[
+\boxed{
+S(R,S)=\mathfrak C RS
++O_\delta\!\left(
+RS\{E_*(R^{1/2})+E_*(S^{1/2})\}
++R^{1/2+\delta}S
++RS^{1/2+\delta}
+\right)
+}
+\]
+
+が成り立つ。ここで
+
+\[
+\mathfrak C=c_\beta^2C(1,1).
+\]
+
+暗黙定数は `R,S` に一様である。
+
+---
+
+## 4. retained regionでの総誤差
+
+Stage12-N1-2n〜2oの retained regionでは
+
+\[
+\min(R,S)\ge
+\exp\{\tfrac12(\log B)^{1/4}\},
+\qquad
+R,S\ll B^{1/2}.
+\]
+
+したがってzero-free-region誤差は任意の固定対数冪より小さく、べき誤差は
+
+\[
+R^{1/2+\delta}S+RS^{1/2+\delta}
+\ll B^{3/4+\delta/2}.
+\]
+
+固定 `delta&lt;1/2` なら、dyadic boxの多項対数個の総和を取っても
+
+\[
+o(B(\log B)^3)
+\]
+
+である。
+
+shallow・arc・diagonal・floor・parityについては2oの安全側評価を使用する：
+
+\[
+O(BL^{3/2+o(1)}),\quad
+O(BL^{2+o(1)}),\quad
+O(BL^{1+o(1)}),
+\]
+
+はいずれも `o(BL^3)` である。
+
+---
+
+## 5. 状態
+
+ClaudeのR03+R04独立レビューで残った
+
+- Selberg–Delange参照の版・定理番号
+- 長方形補題の完全な係数領域bookkeeping
+
+を本文へ固定した。
+
+従って現在の状態は
+
+```text
+PROVISIONALLY_CLOSED_FINAL_BOOKKEEPING_WRITTEN_REVIEW_PENDING
+```
+
+とする。独立レビューで新たなFATAL／MAJORが出ず、本節の参照番号と各不等式が確認されれば、Stage12-N1-2系列を `CLOSED` へ更新できる。
+
+候補結論は変更しない：
+
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3.
+\]
+</pre>
+</section>
+
+
+<div class="meta"><pre>CHECKPOINT=END_OF_MAIN
+CONTENT_SHA256=5c7e43abef356e97ab6d8d0156bafbbedc12ee1a8d88cd6443fb467d9afde560
+END_OF_BUNDLE=PC-N1-2J-2P-PROOF-CHAIN-20260807-R01</pre></div>
+</main>
+</body>
+</html>
