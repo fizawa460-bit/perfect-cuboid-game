@@ -2,68 +2,81 @@
 
 ## Goal
 
-The objective of Stage13 is **not** to prove that the ratio is exactly 2:1:1.
+The objective of Stage13 is **not** to assume or force an exact `2:1:1` limit.
 
-Instead, the goal is to explain
+The goal is to explain why a ratio close to `2:1:1` appears in the finite canonical exact-one-face count, identify the dominant structural mechanism, and isolate the sources of the remaining deviation.
 
-> **why a ratio close to 2:1:1 naturally emerges, which mathematical structures generate the dominant contribution, and which mechanisms produce the remaining deviations.**
+Stage12-N1-2 is frozen at R09 and supplies the analytic foundation for the primitive oriented count.
 
-Stage12 established the asymptotic theory for the primitive oriented count. Stage13 investigates the structural origin of the observed ratio.
+## Working-file policy
+
+Stage13 follows:
+
+```text
+docs/stage13-working-file-policy.md
+```
+
+The canonical mathematical working source is
+
+```text
+docs/stage13-main.md
+```
+
+Task 13-1 through 13-10 are sections of that single living document. Existing `stage13-1-definition.md` and `stage13-2-decomposition.md` are retained as completed initial sources/history and are imported into `stage13-main.md` when Stage13-3 work begins.
+
+Repair-only patch documents are nondefault. Mathematical corrections are made directly in the relevant section of `stage13-main.md`; Git/PR history records the changes. Data, scripts, long separable support calculations, review manifests, and generated review HTML may remain separate.
+
+External review is on demand, not a gate for every edit.
 
 ## Current status
 
-Stage12 is the analytic foundation for this stage. Its completed outputs include the primitive-first reduction, the fixed-circle decomposition, the exact identity \(\eta=\pi\kappa\), the one-variable Selberg–Delange route, the uniform rectangle estimate, and the final asymptotic for the primitive oriented count.
+```text
+STAGE12_N1_2=FROZEN_R09
+STAGE13_1=COMPLETE
+STAGE13_2=COMPLETE
+STAGE13_3=ACTIVE
+NEXT_TASK=BOOTSTRAP_STAGE13_MAIN_AND_ANALYZE_ORIGIN_OF_LEADING_TWO
+```
 
 ## Research question
 
-The central question is not
+The central question is:
 
-> Is the ratio exactly 2:1:1?
+> **Why does the canonical exact-one-face ratio**
+> \[
+> N_{ab}(B):N_{ac}(B):N_{bc}(B)
+> \]
+> **appear close to `2:1:1`, and what produces its deviations?**
 
-It is
-
-> **Why does a ratio close to 2:1:1 naturally appear?**
-
-The objective is to identify the dominant structural mechanism and explain every significant deviation.
+The reference finite observation at `B=100000` is recorded in Stage13-1; it is motivation, not an asymptotic theorem.
 
 ---
 
-## Phase 1 — Define the problem
+## Phase 1 — Define and decompose
 
 ### Task 13-1 — Definition
 
-Define precisely what the observed 2:1:1 ratio represents.
+Fix counted objects, normalization, cutoff, equivalence relation, exact-one-face condition, and the relation to Stage12 conventions.
 
-Questions:
+Initial source: `docs/stage13-1-definition.md`
 
-- Which objects are counted?
-- What normalization is used?
-- Which limiting process is considered?
-- Which equivalence relation is adopted?
-
-Deliverable: `docs/stage13-1-definition.md`
+Canonical destination: `docs/stage13-main.md` §1
 
 Priority: ★★★★★ Required
 
-Status: [ ] Not started
+Status: [x] Complete
 
 ### Task 13-2 — Structural decomposition
 
-Express the observed ratio as contributions from separate mechanisms.
+Decompose the directional counts into raw incidence, overlap correction, canonical size-order, orientation, primitive, parity, representation multiplicity, local-density, and boundary layers.
 
-Candidate components:
+Initial source: `docs/stage13-2-decomposition.md`
 
-- orientation;
-- primitive condition;
-- multiplicity;
-- parity;
-- local densities.
-
-Deliverable: `docs/stage13-2-decomposition.md`
+Canonical destination: `docs/stage13-main.md` §2
 
 Priority: ★★★★★ Required
 
-Status: [ ] Not started
+Status: [x] Complete
 
 ---
 
@@ -71,31 +84,31 @@ Status: [ ] Not started
 
 ### Task 13-3 — Origin of the leading 2
 
-Determine the mathematical origin of the leading factor 2.
+Determine the mathematical origin of the leading factor near `2` in the `ab_only` component.
 
-Candidate explanations:
+The analysis must distinguish at least:
 
-- orientation symmetry;
-- primitive reduction;
-- local Euler factors;
-- another structural symmetry.
+- raw incidence versus exact-one overlap correction;
+- canonical size-order geometry;
+- full-orientation symmetry;
+- primitive projection;
+- parity / 2-adic structure;
+- representation multiplicity;
+- odd-prime local densities;
+- cutoff and boundary effects;
+- the exact Stage12-to-Stage13 fiber map.
 
-Deliverable: `docs/stage13-3-origin-of-two.md`
+Canonical destination: `docs/stage13-main.md` §3
 
 Priority: ★★★★★ Required
 
-Status: [ ] Not started
+Status: [>] Active
 
 ### Task 13-4 — Origin of the two 1s
 
-Explain why the remaining two components both contribute 1.
+Explain why the `ac_only` and `bc_only` components are close, and determine whether the two near-`1` contributions arise from the same mechanism or from different mechanisms with similar size.
 
-Questions:
-
-- Are they generated by the same mechanism?
-- Are they consequences of different symmetries?
-
-Deliverable: `docs/stage13-4-origin-of-ones.md`
+Canonical destination: `docs/stage13-main.md` §4
 
 Priority: ★★★★★ Required
 
@@ -107,9 +120,13 @@ Status: [ ] Not started
 
 ### Task 13-5 — Define the deviation
 
-Introduce a quantitative measure \(\Delta\) describing the deviation from the ideal ratio.
+Introduce a quantitative deviation vector or scalar `Delta` from the reference proportion
 
-Deliverable: `docs/stage13-5-deviation.md`
+\[
+\left(\frac12,\frac14,\frac14\right).
+\]
+
+Canonical destination: `docs/stage13-main.md` §5
 
 Priority: ★★★★★ Required
 
@@ -117,16 +134,9 @@ Status: [ ] Not started
 
 ### Task 13-6 — Classify the deviation
 
-Decompose \(\Delta\) into structural components.
+Decompose the deviation into structurally meaningful components such as overlap, canonical boundary, multiplicity, parity/local, and finite-cutoff effects.
 
-Candidate decomposition:
-
-- \(\Delta_{\mathrm{orientation}}\);
-- \(\Delta_{\mathrm{boundary}}\);
-- \(\Delta_{\mathrm{multiplicity}}\);
-- \(\Delta_{\mathrm{local}}\).
-
-Deliverable: `docs/stage13-6-classification.md`
+Canonical destination: `docs/stage13-main.md` §6
 
 Priority: ★★★★★ Required
 
@@ -134,16 +144,9 @@ Status: [ ] Not started
 
 ### Task 13-7 — Asymptotic behaviour
 
-Study the asymptotic behaviour of \(\Delta\).
+Study whether the deviation tends to zero, tends to another limit, remains bounded away from zero, or has identifiable secondary terms.
 
-Questions:
-
-- Does \(\Delta\to0\)?
-- Is \(\Delta\) bounded?
-- Is it periodic?
-- Can it be expressed analytically?
-
-Deliverable: `docs/stage13-7-asymptotics.md`
+Canonical destination: `docs/stage13-main.md` §7
 
 Priority: ★★★★☆ Supporting
 
@@ -155,16 +158,20 @@ Status: [ ] Not started
 
 ### Task 13-8 — Structural connection
 
-Explain how the constants and Euler products from Stage12 contribute to the observed ratio.
+Construct the rigorous bridge from the frozen Stage12 primitive oriented count to the Stage13 canonical exact-one-face directional counts.
 
-Objects:
+Objects include:
 
-- \(\kappa\);
-- \(\eta\);
-- Euler products;
-- local densities.
+- the Stage12 parameter records;
+- the map to canonical objects / distinguished faces / orientations;
+- fiber multiplicity;
+- `kappa`, `eta` and local factors;
+- overlap removal;
+- parity and canonical-order restrictions.
 
-Deliverable: `docs/stage13-8-stage12-connection.md`
+No automatic constant-factor identification is permitted before the fiber multiplicity is established.
+
+Canonical destination: `docs/stage13-main.md` §8
 
 Priority: ★★★★★ Required
 
@@ -172,19 +179,17 @@ Status: [ ] Not started
 
 ### Task 13-9 — Main structural theorem
 
-Formulate the principal theorem explaining the observed phenomenon.
-
-Target form:
+Formulate and prove the principal structural result in a form such as
 
 \[
-\text{Observed ratio}
+\text{directional count vector}
 =
-\text{dominant structural contribution}
+\text{dominant structural term}
 +
 \text{explicit correction terms}.
 \]
 
-Deliverable: `docs/stage13-9-main-theorem.md`
+Canonical destination: `docs/stage13-main.md` §9
 
 Priority: ★★★★★ Required
 
@@ -196,11 +201,11 @@ Status: [ ] Not started
 
 ### Task 13-10 — Final explanation
 
-Answer the central question:
+Answer:
 
-> **Why does a ratio close to 2:1:1 naturally emerge?**
+> **Why does a ratio close to `2:1:1` naturally emerge?**
 
-Deliverable: `docs/stage13-10-final-explanation.md`
+Canonical destination: `docs/stage13-main.md` §10
 
 Priority: ★★★★★ Required
 
@@ -211,46 +216,48 @@ Status: [ ] Not started
 ## Dependency graph
 
 ```text
-Stage12 Final
+Stage12 R09 frozen
         |
         v
-Definition
+13-1 Definition [complete]
         |
         v
-Structural decomposition
+13-2 Structural decomposition [complete]
         |
         v
-Origin of the ratio
+13-3 Origin of leading 2 [active]
         |
         v
-Deviation analysis
+13-4 Origin of two 1s
         |
         v
-Main structural theorem
+13-5/6/7 Deviation analysis
         |
         v
-Final explanation
+13-8 Rigorous Stage12 bridge
+        |
+        v
+13-9 Main structural theorem
+        |
+        v
+13-10 Final explanation
 ```
 
 ## Completion checklist
 
 Stage13 is complete when:
 
-- [ ] the observed ratio has been rigorously defined;
-- [ ] the dominant mechanism producing the ratio has been identified;
-- [ ] every significant deviation has been structurally explained;
-- [ ] Stage12 has been used as the analytic foundation;
+- [x] the observed ratio has been rigorously defined;
+- [x] the candidate structural layers have been separated;
+- [ ] the dominant mechanism producing the leading near-`2` has been identified;
+- [ ] the relation between the two near-`1` components has been explained;
+- [ ] every significant deviation has been structurally classified;
+- [ ] the Stage12-to-Stage13 counting bridge has been proved;
 - [ ] the main structural theorem has been proved;
 - [ ] the final explanation answers why the ratio naturally appears.
 
 ## Scope note
 
-Stage12 established the asymptotic counting theory. Stage13 is a structural investigation.
+Stage13 is a structural investigation. It does not assume that the limiting ratio is exactly `2:1:1`.
 
-The goal is not to force exact agreement with 2:1:1. The goal is to explain:
-
-- why a ratio close to 2:1:1 naturally appears;
-- which mechanisms generate the dominant contribution;
-- which effects generate the remaining deviations.
-
-Understanding the mechanism is the primary objective of Stage13.
+The canonical mathematical truth for active Stage13 work is the latest merged `docs/stage13-main.md` once that file is bootstrapped. Historical task files remain useful provenance, but future repair-by-new-file proliferation is intentionally avoided.
