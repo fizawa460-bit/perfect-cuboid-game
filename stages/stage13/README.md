@@ -16,7 +16,8 @@ STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_4A=COMPLETE
 STAGE13_4B=COMPLETE
 STAGE13_4C=COMPLETE
-NEXT=Stage13-5
+STAGE13_5=COMPLETE
+NEXT=Stage13-6
 ```
 
 ## Active organization
@@ -45,6 +46,8 @@ stages/stage13/scripts/13-4/ac_bc_scaling.py
 stages/stage13/data/13-4/ac_bc_gap_report.json
 stages/stage13/data/13-4/ac_bc_cancellation_report.json
 stages/stage13/data/13-4/ac_bc_scaling_report.json
+stages/stage13/scripts/13-5/deviation.py
+stages/stage13/data/13-5/deviation_report.json
 ```
 
 `main.md` is the canonical living mathematical source. The completed Stage13-1/2 initial files remain as provenance; active mathematics is edited in `main.md`.
@@ -83,7 +86,17 @@ Thus the observed `ac/bc` gap is, at the largest cutoff, almost exactly a near-o
 
 The Stage13-4 structural synthesis is therefore: the two near-`1` components do not arise from one exact symmetry. At late audited scales, parity and geometric subregions contribute opposite signed gaps that cancel strongly; a comparatively stable primitive-support correction supplies the residual `ac>bc` tilt. This is a finite structural explanation only.
 
-The next mathematical step is Stage13-5: define a quantitative deviation from `(1/2,1/4,1/4)` before classifying its structural sources.
+Stage13-5 fixes the deviation language. For the exact-one proportion vector `P=(N_ab,N_ac,N_bc)/N1`, set `P0=(1/2,1/4,1/4)` and `Delta=P-P0`. Because the components sum to zero, use the two independent coordinates
+
+```text
+alpha = P_ab - 1/2
+beta  = (P_ac - P_bc)/2
+Delta = alpha*(1,-1/2,-1/2) + beta*(0,1,-1).
+```
+
+Thus `alpha` measures the leading-vs-pair mode and `beta` measures the split between the two near-`1` components. At `B=100000`, exact-one gives `alpha=131/168030 ~= 0.0007796` and `beta=619/84015 ~= 0.0073677`; `|beta|` is about `9.45` times `|alpha|`. The full deviation is approximately `(0.0007796, 0.0069779, -0.0077575)` with `L1 ~= 0.0155151`. This is only a finite diagnostic; no convergence is inferred.
+
+The next mathematical step is Stage13-6: classify `alpha`, `beta`, and the full deviation vector by the structural layers already isolated in Stages13-3 and 13-4.
 
 ## File rule
 
