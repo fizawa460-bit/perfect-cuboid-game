@@ -1,0 +1,87 @@
+name: Stage12-N1 final full re-review
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/stage12-n1-3d-definition-sheet.md"
+      - "docs/stage12-n1-3d-constant-sheet.md"
+      - "docs/stage12-n1-3d-selberg-delange-reference-lock.md"
+      - "docs/stage12-n1-2-final-r02.md"
+      - "docs/stage12-n1-3e-local-gap-closure.md"
+      - "docs/stage12-n1-2-final-r03.md"
+      - "docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r04.md"
+      - "review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R04.html"
+      - "scripts/build_stage12_n1_final_full_rereview.py"
+      - ".github/workflows/stage12-n1-final-full-rereview.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build consolidated Final R03 and R04 page
+        run: |
+          python -m py_compile scripts/build_stage12_n1_final_full_rereview.py
+          python scripts/build_stage12_n1_final_full_rereview.py
+      - name: Verify full re-review bundle
+        shell: bash
+        run: |
+          final_md=docs/stage12-n1-2-final-r03.md
+          page=review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R04.html
+          manifest=docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r04.md
+          test -s "$final_md"
+          test -s "$page"
+          test -s "$manifest"
+          grep -Fq 'BUNDLE_ID=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R04' "$page"
+          grep -Fq 'COMPLETED_THROUGH=Stage12-N1-3e' "$page"
+          grep -Fq 'SOURCE_SNAPSHOT_COMMIT=efe6ba788fa30e2c8f33b9cc98f99006dde34775' "$page"
+          grep -Fq 'SOURCE_LEDGER_SHA256=9938c98890850d545704128cb5a06c98cbc1422dfa14b0717a87abb1ea414435' "$page"
+          grep -Fq 'DOCUMENT_STATUS=FULL_ZERO_BASE_REREVIEW_CANDIDATE' "$page"
+          grep -Fq 'CHECKPOINT=START_OF_MAIN' "$page"
+          grep -Fq 'CHECKPOINT=END_OF_MAIN' "$page"
+          grep -Fq 'END_OF_BUNDLE=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R04' "$page"
+          grep -Fq 'Stage12-N1-2 Final R03' "$final_md"
+          grep -Fq 'EMBEDDED SOURCE 5/5' "$final_md"
+          grep -Fq 'C_\lambda^{(0)}' "$final_md"
+          grep -Fq 'D_{\lambda,2}(s_1,s_2)' "$manifest"
+          grep -Fq 'full zero-base re-review' "$manifest"
+          ! grep -Pq '\x0c' "$final_md"
+          ! grep -Pq '\x0c' "$page"
+          test "$(wc -c < "$final_md")" -gt 40000
+          test "$(wc -c < "$page")" -gt 45000
+      - name: Commit generated Final R03 and R04 page
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          final_md=docs/stage12-n1-2-final-r03.md
+          page=review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R04.html
+          if git diff --quiet -- "$final_md" "$page" && \
+             git ls-files --error-unmatch "$final_md" >/dev/null 2>&1 && \
+             git ls-files --error-unmatch "$page" >/dev/null 2>&1; then
+            echo "Generated final files are already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$final_md" "$page"
+          git commit -m "Generate Stage12 Final R03 full re-review bundle"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Upload full re-review page
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-final-full-rereview-r04
+          path: |
+            docs/stage12-n1-2-final-r03.md
+            docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r04.md
+            review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R04.html
+          if-no-files-found: error
+          retention-days: 7
