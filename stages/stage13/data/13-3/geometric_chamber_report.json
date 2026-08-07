@@ -1,0 +1,127 @@
+{
+  "metadata": {
+    "stage": "13-3b",
+    "title": "Canonical size-order / archimedean geometric chamber audit",
+    "status": "finite-and-archimedean-model-result",
+    "global_asymptotic_claim": false
+  },
+  "exact_structure": {
+    "canonical_chamber": "R={(x,y,z) in S^2: 0<x<y<z}",
+    "spherical_coordinates": "x=sin(theta)cos(phi), y=sin(theta)sin(phi), z=cos(theta)",
+    "phi_range": "[pi/4, pi/2]",
+    "theta_upper": "atan(csc(phi))",
+    "chamber_area_exact": "pi/12",
+    "gelfand_leray_jacobian_ab": "det d(F1,F2)/d(p,d)=4*p*d for F1=a^2+b^2-p^2, F2=p^2+c^2-d^2",
+    "directional_weights": {
+      "ab": "1/sqrt(x^2+y^2)",
+      "ac": "1/sqrt(x^2+z^2)",
+      "bc": "1/sqrt(y^2+z^2)"
+    },
+    "pointwise_order_on_R": "w_ab > w_ac > w_bc",
+    "uniform_weight_chamber_baseline": "1:1:1",
+    "full_positive_octant_one_face_integral_exact": "pi^2/4",
+    "full_positive_octant_direction_ratio": "1:1:1 by coordinate symmetry",
+    "chamber_integral_sum_exact": "I_ab+I_ac+I_bc=pi^2/8"
+  },
+  "numerical_chamber_integrals": {
+    "I_ab": 0.659705248705705,
+    "I_ac": 0.3026997526726076,
+    "I_bc": 0.2712955487578571,
+    "sum": 1.2337005501361697,
+    "pi_squared_over_8": 1.2337005501361697,
+    "absolute_sum_error": 0.0,
+    "ac_normalized_ratio": {
+      "ab": 2.1794046505853126,
+      "ac": 1.0,
+      "bc": 0.8962529581293828
+    },
+    "bc_normalized_ratio": {
+      "ab": 2.431684750178191,
+      "ac": 1.1157564289518813,
+      "bc": 1.0
+    },
+    "proportion": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    }
+  },
+  "comparison_to_stage13_3a_raw_incidence": [
+    {
+      "B": 1000,
+      "raw_incidence": {"ab": 306, "ac": 160, "bc": 138},
+      "raw_proportion": {"ab": 0.5066225165562914, "ac": 0.26490066225165565, "bc": 0.22847682119205298},
+      "raw_bc_normalized_ratio": {"ab": 2.217391304347826, "ac": 1.1594202898550725, "bc": 1.0},
+      "distance_to_geometric_model": {"l1": 0.05622883335021489, "linf": 0.02811441667510739},
+      "distance_to_full_symmetric_1_1_1": {"l1": 0.3465783664459161, "linf": 0.17328918322295808},
+      "l1_discrepancy_removed_by_chamber_model_fraction": 0.8377601177856857
+    },
+    {
+      "B": 2000,
+      "raw_incidence": {"ab": 702, "ac": 372, "bc": 370},
+      "raw_proportion": {"ab": 0.48614958448753465, "ac": 0.25761772853185594, "bc": 0.2562326869806094},
+      "raw_bc_normalized_ratio": {"ab": 1.8972972972972972, "ac": 1.0054054054054054, "bc": 1.0},
+      "distance_to_geometric_model": {"l1": 0.09717469748772839, "linf": 0.04858734874386417},
+      "distance_to_full_symmetric_1_1_1": {"l1": 0.3056325023084026, "linf": 0.15281625115420133},
+      "l1_discrepancy_removed_by_chamber_model_fraction": 0.6820537843528404
+    },
+    {
+      "B": 5000,
+      "raw_incidence": {"ab": 2300, "ac": 1138, "bc": 1077},
+      "raw_proportion": {"ab": 0.5094130675526024, "ac": 0.2520487264673311, "bc": 0.23853820598006645},
+      "raw_bc_normalized_ratio": {"ab": 2.1355617455896008, "ac": 1.0566388115134633, "bc": 1.0},
+      "distance_to_geometric_model": {"l1": 0.050647731357592846, "linf": 0.02532386567879641},
+      "distance_to_full_symmetric_1_1_1": {"l1": 0.3521594684385382, "linf": 0.1760797342192691},
+      "l1_discrepancy_removed_by_chamber_model_fraction": 0.856179555295892
+    },
+    {
+      "B": 10000,
+      "raw_incidence": {"ab": 5281, "ac": 2740, "bc": 2659},
+      "raw_proportion": {"ab": 0.4944756554307116, "ac": 0.2565543071161049, "bc": 0.24897003745318352},
+      "raw_bc_normalized_ratio": {"ab": 1.9860849943587815, "ac": 1.0304625799172622, "bc": 1.0},
+      "distance_to_geometric_model": {"l1": 0.0805225556013745, "linf": 0.04026127780068722},
+      "distance_to_full_symmetric_1_1_1": {"l1": 0.3222846441947565, "linf": 0.16114232209737827},
+      "l1_discrepancy_removed_by_chamber_model_fraction": 0.7501508152752238
+    },
+    {
+      "B": 20000,
+      "raw_incidence": {"ab": 12407, "ac": 6284, "bc": 6105},
+      "raw_proportion": {"ab": 0.5003629617680271, "ac": 0.25342797225358926, "bc": 0.2462090659783836},
+      "raw_bc_normalized_ratio": {"ab": 2.0322686322686323, "ac": 1.0293202293202293, "bc": 1.0},
+      "distance_to_geometric_model": {"l1": 0.06874794292674347, "linf": 0.03437397146337173},
+      "distance_to_full_symmetric_1_1_1": {"l1": 0.33405925686938753, "linf": 0.16702962843469377},
+      "l1_discrepancy_removed_by_chamber_model_fraction": 0.794204346944282
+    },
+    {
+      "B": 50000,
+      "raw_incidence": {"ab": 37014, "ac": 19080, "bc": 17905},
+      "raw_proportion": {"ab": 0.5001959485938999, "ac": 0.2578413221800295, "bc": 0.24196272922607062},
+      "raw_bc_normalized_ratio": {"ab": 2.0672437866517734, "ac": 1.0656241273387321, "bc": 1.0},
+      "distance_to_geometric_model": {"l1": 0.06908196927499785, "linf": 0.034540984637498884},
+      "distance_to_full_symmetric_1_1_1": {"l1": 0.3337252305211331, "linf": 0.16686261526056655},
+      "l1_discrepancy_removed_by_chamber_model_fraction": 0.792997463310994
+    },
+    {
+      "B": 100000,
+      "raw_incidence": {"ab": 84212, "ac": 43236, "bc": 40760},
+      "raw_proportion": {"ab": 0.500642062208694, "ac": 0.2570389042138305, "bc": 0.2423190335774755},
+      "raw_bc_normalized_ratio": {"ab": 2.066045142296369, "ac": 1.0607458292443572, "bc": 1.0},
+      "distance_to_geometric_model": {"l1": 0.0681897420454097, "linf": 0.03409487102270481},
+      "distance_to_full_symmetric_1_1_1": {"l1": 0.33461745775072127, "linf": 0.1673087288753607},
+      "l1_discrepancy_removed_by_chamber_model_fraction": 0.7962158265627349
+    }
+  ],
+  "conclusion": {
+    "canonical_relabeling_alone_is_enough": false,
+    "canonical_chamber_plus_archimedean_face_weight_creates_asymmetry": true,
+    "qualitative_order_matches_raw_data": true,
+    "at_B_100000": {
+      "geometric_bc_normalized_ratio": {"ab": 2.431684750178191, "ac": 1.1157564289518813, "bc": 1.0},
+      "raw_bc_normalized_ratio": {"ab": 2.066045142296369, "ac": 1.0607458292443572, "bc": 1.0},
+      "geometric_model_overstates_ab_bias": true,
+      "l1_discrepancy_removed_from_1_1_1_baseline_fraction": 0.7962158265627349
+    },
+    "interpretation": "The size-order chamber is a strong archimedean mechanism for the leading ab excess: ab is always the smallest face diagonal in 0<a<b<c and therefore receives the largest 1/p real-density weight. The chamber model captures most of the observed departure from 1:1:1 at the audited bounds, but it is not the complete arithmetic answer because it overpredicts the ab excess.",
+    "next_test": "separate parity / 2-adic effects to see whether they flatten the geometric ratio toward the observed raw incidence ratio"
+  }
+}
