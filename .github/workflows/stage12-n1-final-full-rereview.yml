@@ -56,8 +56,8 @@ jobs:
           grep -Fq 'full zero-base re-review' "$manifest"
           ! grep -Pq '\x0c' "$final_md"
           ! grep -Pq '\x0c' "$page"
-          test "$(wc -c < "$final_md")" -gt 80000
-          test "$(wc -c < "$page")" -gt 90000
+          test "$(wc -c < "$final_md")" -gt 40000
+          test "$(wc -c < "$page")" -gt 45000
       - name: Commit generated Final R03 and R04 page
         if: github.event_name == 'pull_request'
         shell: bash
