@@ -12,10 +12,11 @@ STAGE13_3C=COMPLETE
 STAGE13_3D=COMPLETE
 STAGE13_3E=COMPLETE
 STAGE13_3F=COMPLETE
-STAGE13_4=ACTIVE
+STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_4A=COMPLETE
 STAGE13_4B=COMPLETE
-NEXT=Stage13-4c
+STAGE13_4C=COMPLETE
+NEXT=Stage13-5
 ```
 
 ## Active organization
@@ -40,8 +41,10 @@ stages/stage13/data/13-3/representation_density_report.json
 stages/stage13/data/13-3/boundary_stability_report.json
 stages/stage13/scripts/13-4/ac_bc_gap.py
 stages/stage13/scripts/13-4/ac_bc_cancellation.py
+stages/stage13/scripts/13-4/ac_bc_scaling.py
 stages/stage13/data/13-4/ac_bc_gap_report.json
 stages/stage13/data/13-4/ac_bc_cancellation_report.json
+stages/stage13/data/13-4/ac_bc_scaling_report.json
 ```
 
 `main.md` is the canonical living mathematical source. The completed Stage13-1/2 initial files remain as provenance; active mathematics is edited in `main.md`.
@@ -62,9 +65,25 @@ The Stage13-3 structural synthesis is therefore: canonical archimedean geometry 
 
 Stage13-4a started the two-near-`1` analysis. At `B=100000`, raw `ac/bc=1.0607458`, exact-one `1.0608294`, and the outer-half band `1.0569241`; the closeness is therefore not created by the exactly-one sieve or the largest cutoff boundary. Supported shell-neutralization also leaves aggregate `ac/bc` near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`.
 
-Stage13-4b resolves the immediate 4a ambiguity at the finite structural level. The near equality after pure-`G` deweighting is a cancellation, not an exact `ac<->bc` symmetry: at `B=100000`, the pure-`G` OE contribution has `ac/bc=0.95422` and weighted gap `-254.28`, while EE has `ac/bc=1.04547` and gap `+277.86`; their sum leaves only `+23.58`, giving aggregate `1.00202`. The same sign split persists in the outer half (`OE=0.95636`, `EE=1.05368`, aggregate `1.00685`). It is not stable at all smaller cutoffs, so the near equality cannot yet be promoted to a limiting law. Geometric subregions also cross from `bc`-heavy to `ac`-heavy under pure-`G` weighting: about `0.9156`, `0.9835`, `1.0417`, `1.0924` as `g=w_ac/w_bc` increases. Thus no universal local common factor equalizes `ac` and `bc`. Finally, the exact identity `1/R_prim=(R_all/R_prim)(1/R_all)` shows that primitive-support correction favors `ac`: its `G`-weighted mean factor is about `1.246` for `ac` versus `1.177` for `bc`, pushing the nearly cancelled pure-`G` vector back toward the observed `ac>bc` gap.
+Stage13-4b showed that the pure-`G` near equality is a cancellation, not an exact `ac<->bc` symmetry. At `B=100000`, pure-`G` OE has `ac/bc=0.95422` and weighted gap about `-254.28`, while EE has `ac/bc=1.04547` and gap about `+277.86`; the residual total gap is only about `+23.58`. Low-`g` geometric regions are `bc`-heavy and high-`g` regions are `ac`-heavy. Primitive support then tilts the balance back toward `ac`.
 
-The next mathematical step is Stage13-4c: test whether the OE/EE and geometric cancellation has a stable scaling law as `B` grows, or whether the two near-`1` components remain a finite balance with no single asymptotic symmetry yet visible.
+Stage13-4c scales that cancellation and closes Stage13-4 at the structural finite-diagnostic level. The exact finite decomposition
+
+```text
+r_raw(B) = r_G(B) * F_prim(B) * F_shell(B)
+```
+
+separates pure-`G`, primitive-support and supported-shell effects. For `B>=10000`, the primitive-support factor is unusually stable, ranging only from about `1.05872` to `1.06499`, while the pure-`G` ratio ranges from about `0.95316` to `1.00202`. At `B=100000`,
+
+```text
+1.0607458 = 1.0020209 * 1.0588757 * 0.9997457.
+```
+
+Thus the observed `ac/bc` gap is, at the largest cutoff, almost exactly a near-one pure-`G` cancellation multiplied by a roughly `1.059` primitive-support tilt, with supported-shell restoration nearly neutral. The fresh outer half independently reproduces the mechanism: pure-`G` OE is `0.95636`, EE is `1.05368`, aggregate `1.00685`, and the fixed geometric bins run monotonically from about `0.9087, 0.9729, 1.0605, 1.1176`. However the cancellation is not stable at all smaller bounds or annuli, so no exact or asymptotic secondary balance law is claimed.
+
+The Stage13-4 structural synthesis is therefore: the two near-`1` components do not arise from one exact symmetry. At late audited scales, parity and geometric subregions contribute opposite signed gaps that cancel strongly; a comparatively stable primitive-support correction supplies the residual `ac>bc` tilt. This is a finite structural explanation only.
+
+The next mathematical step is Stage13-5: define a quantitative deviation from `(1/2,1/4,1/4)` before classifying its structural sources.
 
 ## File rule
 
