@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "stage": "13-3e",
+    "title": "Odd-prime / representation-density finite diagnostic",
+    "bounds": [1000, 2000, 5000, 10000, 20000, 50000, 100000],
+    "geometric_reference": {
+      "proportion": {"ab": 0.53473693, "ac": 0.24535918, "bc": 0.21990389},
+      "ratio_bc": {"ab": 2.4316847502, "ac": 1.115756429, "bc": 1.0}
+    }
+  },
+  "exact_finite_decomposition": {
+    "R_all": "(G(p)-1)/2 = number of unordered positive face representations",
+    "R_prim": "number of representations on shell (p,z,d) surviving gcd(x,y,z)=1",
+    "identity": "A_uv(B)=sum_shell R_prim(shell)*q_uv(shell)",
+    "shell_neutral": "U_uv(B)=sum_shell q_uv(shell)",
+    "warning": "U is a reweighting diagnostic, not an asymptotic factorization"
+  },
+  "rows": [
+    {"B":1000,"raw":{"ab":306,"ac":160,"bc":138},"raw_ratio_bc":{"ab":2.217391304347826,"ac":1.1594202898550725,"bc":1.0},"shell_count":386,"shell_neutral_ratio_bc":{"ab":2.3578645548880357,"ac":1.0692244675040958,"bc":1.0},"G_neutral_ratio_bc":{"ab":2.280328104763274,"ac":0.9755360483522806,"bc":1.0},"shell_neutral_gap_removed":0.7873627105328991,"G_neutral_gap_removed":0.4260038021844005},
+    {"B":2000,"raw":{"ab":702,"ac":372,"bc":370},"raw_ratio_bc":{"ab":1.8972972972972972,"ac":1.0054054054054054,"bc":1.0},"shell_count":867,"shell_neutral_ratio_bc":{"ab":2.233276355465076,"ac":0.9629323755929858,"bc":1.0},"G_neutral_ratio_bc":{"ab":2.178692385224248,"ac":0.8864046087043754,"bc":1.0},"shell_neutral_gap_removed":0.6211674741987061,"G_neutral_gap_removed":0.43798805452425615},
+    {"B":5000,"raw":{"ab":2300,"ac":1138,"bc":1077},"raw_ratio_bc":{"ab":2.1355617455896008,"ac":1.0566388115134633,"bc":1.0},"shell_count":2361,"shell_neutral_ratio_bc":{"ab":2.232563992091625,"ac":0.9697201804432183,"bc":1.0},"G_neutral_ratio_bc":{"ab":2.194136617317189,"ac":0.91014709067538,"bc":1.0},"shell_neutral_gap_removed":0.2867624250527364,"G_neutral_gap_removed":0.06238694387967847},
+    {"B":10000,"raw":{"ab":5281,"ac":2740,"bc":2659},"raw_ratio_bc":{"ab":1.9860849943587815,"ac":1.0304625799172622,"bc":1.0},"shell_count":5092,"shell_neutral_ratio_bc":{"ab":2.2996238608458692,"ac":1.020246069091016,"bc":1.0},"G_neutral_ratio_bc":{"ab":2.2672774908579156,"ac":0.9636574933738025,"bc":1.0},"shell_neutral_gap_removed":0.7122654101883257,"G_neutral_gap_removed":0.5629916283037322},
+    {"B":20000,"raw":{"ab":12407,"ac":6284,"bc":6105},"raw_ratio_bc":{"ab":2.0322686322686323,"ac":1.0293202293202293,"bc":1.0},"shell_count":10884,"shell_neutral_ratio_bc":{"ab":2.317142654535473,"ac":1.0151081826090462,"bc":1.0},"G_neutral_ratio_bc":{"ab":2.2816697363325575,"ac":0.9531601623115973,"bc":1.0},"shell_neutral_gap_removed":0.6786838174515865,"G_neutral_gap_removed":0.4099370527400422},
+    {"B":50000,"raw":{"ab":37014,"ac":19080,"bc":17905},"raw_ratio_bc":{"ab":2.0672437866517734,"ac":1.0656241273387321,"bc":1.0},"shell_count":29034,"shell_neutral_ratio_bc":{"ab":2.3730634832675808,"ac":1.0562949157795127,"bc":1.0},"G_neutral_ratio_bc":{"ab":2.3375481398955387,"ac":0.9968537474805624,"bc":1.0},"shell_neutral_gap_removed":0.8007192962205759,"G_neutral_gap_removed":0.5549425899129415},
+    {"B":100000,"raw":{"ab":84212,"ac":43236,"bc":40760},"raw_ratio_bc":{"ab":2.066045142296369,"ac":1.0607458292443572,"bc":1.0},"shell_count":60989,"shell_neutral_ratio_bc":{"ab":2.381938295370397,"ac":1.0610156346743838,"bc":1.0},"G_neutral_ratio_bc":{"ab":2.3448861351894843,"ac":1.0020209224294838,"bc":1.0},"shell_neutral_gap_removed":0.8078721403614415,"G_neutral_gap_removed":0.5645783778874012}
+  ],
+  "B100000_detail": {
+    "mean_supported_shell_richness_by_incidence": {"ab":4.877024652068589,"ac":5.787792580257193,"bc":5.926226692836114},
+    "mean_all_face_representation_richness_by_incidence": {"ab":6.620232270935259,"ac":7.955569432880007,"bc":7.787561334641806},
+    "parity_control": {
+      "OE": {"raw":{"ab":50320,"ac":24059,"bc":22386},"raw_ratio_bc":{"ab":2.2478334673456626,"ac":1.0747342088805503,"bc":1.0},"shell_neutral_weight":{"ab":17754.66108619338,"ac":6652.0926084850225,"bc":6550.246305324342},"shell_neutral_ratio_bc":{"ab":2.7105333538009972,"ac":1.0155484692351027,"bc":1.0}},
+      "EE": {"raw":{"ab":33892,"ac":19177,"bc":18374},"raw_ratio_bc":{"ab":1.8445629694133014,"ac":1.0437030586698597,"bc":1.0},"shell_neutral_weight":{"ab":14942.512232212597,"ac":7912.605464470236,"bc":7176.882303317479},"shell_neutral_ratio_bc":{"ab":2.0820338972683854,"ac":1.1025129199642403,"bc":1.0}}
+    },
+    "supported_richness_bucket_counts": {
+      "1":{"ab":15712,"ac":5789,"bc":6078},
+      "2-3":{"ab":25768,"ac":13297,"bc":10630},
+      "4-7":{"ab":25342,"ac":12050,"bc":12217},
+      "8-15":{"ab":15943,"ac":11030,"bc":10717},
+      "16+":{"ab":1447,"ac":1070,"bc":1118}
+    },
+    "supported_richness_bucket_ratio_bc": {
+      "1":{"ab":2.585060875287924,"ac":0.9524514642974663,"bc":1.0},
+      "2-3":{"ab":2.4240827845719664,"ac":1.2508936970837252,"bc":1.0},
+      "4-7":{"ab":2.074322665138741,"ac":0.9863305230416632,"bc":1.0},
+      "8-15":{"ab":1.487636465428758,"ac":1.0292059344965943,"bc":1.0},
+      "16+":{"ab":1.2942754919499107,"ac":0.9570661896243292,"bc":1.0}
+    },
+    "shell_neutral_proportion":{"ab":0.5361159113676404,"ac":0.2388086060265968,"bc":0.2250754826057629},
+    "G_neutral_proportion":{"ab":0.5394378357088461,"ac":0.23051353736059496,"bc":0.230048626930559},
+    "raw_l1_to_geometric":0.06818973558261202,
+    "shell_neutral_l1_to_geometric":0.013101147946806502,
+    "G_neutral_l1_to_geometric":0.029691285278810126
+  },
+  "largest_bound_summary": {
+    "B":100000,
+    "raw_ratio_bc":{"ab":2.066045142296369,"ac":1.0607458292443572,"bc":1.0},
+    "shell_neutral_ratio_bc":{"ab":2.381938295370397,"ac":1.0610156346743838,"bc":1.0},
+    "G_neutral_ratio_bc":{"ab":2.3448861351894843,"ac":1.0020209224294838,"bc":1.0},
+    "shell_neutral_fraction_of_raw_to_geometric_gap_removed":0.8078721403614415,
+    "G_neutral_fraction_of_raw_to_geometric_gap_removed":0.5645783778874012,
+    "mean_supported_shell_richness_by_incidence":{"ab":4.877024652068589,"ac":5.787792580257193,"bc":5.926226692836114},
+    "mean_all_face_representation_richness_by_incidence":{"ab":6.620232270935259,"ac":7.955569432880007,"bc":7.787561334641806}
+  },
+  "conclusion": {
+    "representation_density_material_finite_correction": true,
+    "rich_shells_flatten_ab_excess": true,
+    "effect_persists_within_OE_and_EE": true,
+    "pure_G_factor_complete_explanation": false,
+    "supported_shell_neutral_is_asymptotic_theorem": false,
+    "interpretation": "At the audited bounds, especially B=100000, canonical ab incidences are concentrated in less representation-rich primitive outer shells than ac/bc. Weighting each shell equally moves the leading ab ratio strongly back toward the archimedean chamber prediction. The pure G(p) deweighting already gives a substantial part of this movement; primitive-support coupling strengthens it.",
+    "next": "Stage13-3f cutoff/boundary stability and leading-2 synthesis"
+  }
+}
