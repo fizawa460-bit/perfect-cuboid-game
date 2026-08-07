@@ -1,48 +1,40 @@
 # CURRENT RESEARCH STATUS
 
-> **DOCUMENT_ID:** `PC-CURRENT-20260807-1249-JST`
+> **DOCUMENT_ID:** `PC-CURRENT-20260807-1302-JST`
 >
-> **CURRENT_BASE_COMMIT:** `8449735ed6f5cd830d7e23908a859fdc50d62e39`
+> **CURRENT_BASE_COMMIT:** `c1951efb82c307421e1a34040eea7890230cb0fa`
 >
-> **CURRENT_STAGE:** `Stage12-N1-3f prepared; R05 full zero-base re-review next`
+> **CURRENT_STAGE:** `Stage12-N1-3g prepared; R06 full zero-base re-review next`
 >
-> **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2_PENDING_FINAL_STAGE12_R05`
+> **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2_PENDING_FINAL_STAGE12_R06`
 >
-> **SERIES_STATUS:** `STAGE12_R04_REPAIR_PREPARED_PENDING_R05`
->
-> **R03_LIMITED_REREVIEW_VERDICT:** `CLOSED`
+> **SERIES_STATUS:** `STAGE12_R05_REPAIR_PREPARED_PENDING_R06`
 >
 > **R04_FULL_REVIEW_VERDICT:** `REPAIRABLE`
 >
-> **R04_FATAL:** `0`
+> **R04_MAJOR:** `SMALL_COORDINATE_WING`
 >
-> **R04_MAJOR:** `SMALL_COORDINATE_WING_NOT_COVERED_BY_MIN_RS_LOWER_BOUND`
+> **R04_MAJOR_STATUS:** `CLOSED_BY_STAGE12_N1_3F_AND_ACCEPTED_BY_R05`
 >
-> **3F_TEXT_STATUS:** `R04_MAJOR_CLOSED_IN_TEXT_PENDING_R05`
+> **R05_FULL_REVIEW_VERDICT:** `REPAIRABLE`
 >
-> **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_R05_FULL_REAUDIT`
+> **R05_FATAL:** `0`
+>
+> **R05_MAJOR:** `FIXED_HEIGHT_SHALLOW_SECTOR_BOUND_NOT_DERIVED`
+>
+> **3G_TEXT_STATUS:** `R05_MAJOR_CLOSED_IN_TEXT_PENDING_R06`
+>
+> **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_R06_FULL_REAUDIT`
 
 ## 0. 60秒で現状復帰する順序
 
 1. `docs/00_CURRENT_RESEARCH_STATUS.md`
-2. `docs/stage12-n1-3f-small-coordinate-wing.md`
-3. `docs/stage12-n1-2-final-r04.md`
-4. `docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r05.md`
-5. `review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R05.html`
-6. `docs/stage12-n1-2-final-r03.md`
-7. `docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r04.md`
-8. `review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R04.html`
-
-主要source:
-
-```text
-docs/stage12-n1-3d-definition-sheet.md
-docs/stage12-n1-3d-constant-sheet.md
-docs/stage12-n1-3d-selberg-delange-reference-lock.md
-docs/stage12-n1-2-final-r02.md
-docs/stage12-n1-3e-local-gap-closure.md
-docs/stage12-n1-3f-small-coordinate-wing.md
-```
+2. `docs/stage12-n1-3g-fixed-height-shallow-sector.md`
+3. `docs/stage12-n1-2-final-r05.md`
+4. `docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r06.md`
+5. `review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html`
+6. `docs/stage12-n1-2-final-r04.md`
+7. `docs/stage12-n1-3f-small-coordinate-wing.md`
 
 ## 1. 現在の候補定理
 
@@ -58,158 +50,193 @@ C_{\rm prim}(B)
 
 この主張はperfect cuboidの存在、canonical count、exact-one-face countを含まない。
 
-## 2. R04全体ゼロベース監査
+## 2. R05全体ゼロベース監査
 
-R04はFinal R03を定義から全体再監査し、次を返した。
+R05はFinal R04を定義から全体再監査し、次を返した。
 
 ```text
 VERDICT=REPAIRABLE
 FATAL=0
 MAJOR=1
 MINOR=1
-NEW_CENTRAL_GAP=SMALL_COORDINATE_WING_NOT_COVERED_BY_MIN_RS_LOWER_BOUND
+SMALL_COORDINATE_WING=CLOSED
+NEW_CENTRAL_GAP=FIXED_HEIGHT_SHALLOW_SECTOR_BOUND_NOT_DERIVED
 THEOREM_STATUS=PLAUSIBLE_REPAIRABLE_NOT_CLOSED
 ```
 
-監査で整合した項目:
-
-- counting definitionとprimitive-first exact identity;
-- fixed-circle remainderとouter average;
-- locked Selberg--Delange inputs;
-- rectangle asymptoticのlocal form;
-- odd-prime / 2-adic local factors;
-- `C_lambda^(0)=8 eta/pi^2`;
-- `eta=pi*kappa`;
-- radial leading integral `pi/48`;
-- orientationと最終係数 `1/12`;
-- superseded fixed-`(b,c)` lemmaが未使用であること。
-
-残った問題は、fixed-height retained conditionから
-
-\[
-\min(R,S)\ge S_0
-\]
-
-を導いていた点だけである。この含意は成立しない。
-
-## 3. Stage12-N1-3f
+R04で見つかったsmall-coordinate wingは3fにより正式に閉じた。今回残ったのは、fixed-height shallow sectorについて旧Finalが
 
 ```text
-docs/stage12-n1-3f-small-coordinate-wing.md
+shallow fixed-height sector: o(BL^3) by nonnegative rectangle upper bounds
 ```
 
-3fはradial regionを次に分ける。
+と結論だけを書き、exact contribution、coefficient majorant、shell分割、log次数を展開していなかった点である。
+
+## 3. Stage12-N1-3g
 
 ```text
-core: r,s >= U
-r-wing: r < U
-s-wing: s < U
-U=exp((log B)^(1/4)/2)
+docs/stage12-n1-3g-fixed-height-shallow-sector.md
 ```
 
-一変数平均
+`L=log B`、`X0=exp(L^(1/4))`、
 
 \[
-G_0(x)=\sum_{n\le x}g(n)\ll x\log(2x)
+X_{r,s}=\frac{\lambda(r,s)B}{r^2+s^2}
 \]
 
-から
+とする。shallow contributionは
 
 \[
-\sum_{n\le X}\frac{g(n)}{u^2+n^2}
-\ll\frac{\log(2u)}u
+\mathcal S_{\rm sh}(B)
+=
+\sum_{\substack{r<s,(r,s)=1\\1\le X_{r,s}<X_0}}
+\sum_{m\le X_{r,s}}A_{r,s}(m).
 \]
 
-を導き、actual discrete wingを
+exact formulaから
 
 \[
-O((\log U)^3)=O((\log B)^{3/4})=o((\log B)^3)
+0\le A_{r,s}(m)\le G(rs)2^{\omega(m)}
 \]
 
-で評価した。continuous leading-density wingも同じ上界である。
-
-rectangle asymptoticは定義により `R,S>=U` を満たすcoreだけへ適用する。core power tailは
+を得る。また
 
 \[
-O(L^4U^{-1/4+\varepsilon})
+2^{\omega(m)}=\sum_{d\mid m}\mu^2(d)
 \]
 
-で任意の固定対数冪より小さく、Selberg--Delange remainderも展開次数を十分大きく固定すれば `o(L^3)` となる。
+より
 
-従ってactive proof ruleは
+\[
+\sum_{m\le X}2^{\omega(m)}\ll X\log(2X).
+\]
+
+`G` のDirichlet seriesは
+
+\[
+\sum_{n\ge1}\frac{G(n)}{n^s}
+=
+\zeta(s)^2L(s,\chi_4)
+(1-2^{-s})\prod_{p\text{ odd}}(1-p^{-2s}),
+\]
+
+従って
+
+\[
+\sum_{n\le Y}G(n)\ll Y\log(2Y).
+\]
+
+これによりradial shellごとに
+
+\[
+\sum_{Q<r^2+s^2\le2Q}G(r)G(s)
+\ll Q(\log(2Q))^2.
+\]
+
+shallow条件は両parity branchをまとめて
+
+\[
+B/X_0<r^2+s^2\le2B
+\]
+
+を与える。このannulusは`O(log X0)`個のdyadic shellで被覆されるため
+
+\[
+\sum_{\rm shallow}
+\frac{\lambda(r,s)G(rs)}{r^2+s^2}
+\ll L^2\log(2X_0).
+\]
+
+従って
+
+\[
+\boxed{
+\mathcal S_{\rm sh}(B)
+\ll
+BL^2\{\log(2X_0)\}^2
+\ll BL^{5/2}
+=o(BL^3).
+}
+\]
+
+これはodd--odd / opposite-parity両branchを含む直接評価である。
+
+## 4. 二つの領域分割
+
+混同しない。
+
+1. fixed-height retained/shallow split:
+   \[
+   X_{r,s}\ge X_0
+   \quad\text{or}\quad
+   1\le X_{r,s}<X_0.
+   \]
+   retained remainderは3e、shallow exact contributionは3g。
+
+2. radial core/wing split:
+   \[
+   r,s\ge U
+   \quad\text{or}\quad
+   \min(r,s)<U,
+   \qquad U=\exp(\tfrac12L^{1/4}).
+   \]
+   residue mainのradial transferは3f。
+
+active proof rulesは
 
 ```text
 OLD: retained boxes satisfy min(R,S) >= S0
-NEW: core boxes are defined by R,S >= S0; complementary wings are bounded directly
+NEW: radial core boxes are defined by R,S >= S0; wings are bounded by 3f
+
+OLD: shallow fixed-height sector is lower order by an unstated rectangle bound
+NEW: shallow exact contribution is O(BL^(5/2)) by 3g
 ```
 
 である。
 
-## 4. R05 full zero-base re-review bundle
+## 5. R06 full zero-base re-review bundle
 
 ```text
-BUNDLE_ID=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R05
-COMPLETED_THROUGH=Stage12-N1-3f
-FINAL_DOCUMENT=docs/stage12-n1-2-final-r04.md
-MANIFEST=docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r05.md
-HTML=review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R05.html
-SOURCE_SNAPSHOT_COMMIT=b0208ce33204a3c5f5a52afec146b08a313203f1
-SOURCE_LEDGER_SHA256=f758808bc7f36307b9abcb2b6038ce497735619382fc7bc3056c65cc246cf16f
+BUNDLE_ID=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06
+COMPLETED_THROUGH=Stage12-N1-3g
+FINAL_DOCUMENT=docs/stage12-n1-2-final-r05.md
+MANIFEST=docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r06.md
+HTML=review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html
+SOURCE_SNAPSHOT_COMMIT=c9a91650bece7a2173af4f495212faf1a1054aeb
+SOURCE_LEDGER_SHA256=511a055bd243e0b4f40d554c949e5c1c52db1cc412bcadae55eb8b99e6de2e49
 ```
 
-Final R04は六つのsource文書を一つに統合する。R05 manifestは過去の`CLOSED`を拘束的に扱わず、定義から最終error budgetまで再び全体監査させる。
+Final R05はFinal R04全文と3g全文を一つに統合する。R06 manifestは3gだけでなく、定義から最終誤差予算まで再度ゼロベースで監査させる。
 
-特に次を明示的に確認する。
-
-- fixed-height retained/shallowとradial core/wingが混同されていないこと;
-- discrete wingとcontinuous wingがともに`o(L^3)`であること;
-- core rectangle transferが`R,S>=U`だけで実行されること;
-- artificial boundary `x=U`、`y=U`が未評価で残らないこと;
-- full radial coefficient `pi/48`と最終`1/12`が変わらないこと。
-
-## 5. 監査履歴
+## 6. 監査履歴
 
 ```text
 R01_FULL_AUDIT=REPAIRABLE
 R02_LIMITED_REVIEW=REPAIRABLE
 R03_LIMITED_REREVIEW=CLOSED
 R04_FULL_ZERO_BASE_REVIEW=REPAIRABLE
-R04_FATAL=0
 R04_MAJOR=SMALL_COORDINATE_WING
-R04_MAJOR_TEXT_REPAIR=STAGE12_N1_3F
+R04_MAJOR_ACCEPTED_CLOSED_BY_R05=true
+R05_FULL_ZERO_BASE_REVIEW=REPAIRABLE
+R05_MAJOR=FIXED_HEIGHT_SHALLOW_SECTOR
+R05_MAJOR_TEXT_REPAIR=STAGE12_N1_3G
 ```
-
-## 6. 重要な証明戦略
-
-旧fixed-`(b,c)` anisotropic kernel lemmaは最終定理より強く、現行証明では使用しない。
-
-```text
-OLD_3C_G_FIXED_DIVISOR_KERNEL=SUPERSEDED_NOT_REQUIRED
-```
-
-現行経路は
-
-\[
-g(n)=\pi\gamma(n)=(1*\beta)(n)
-\]
-
-を元変数 `(r,s)` 上で平均するresidue-first routeである。
 
 ## 7. 次の作業
 
-1. PR #79のCIと生成物を確認する;
-2. ユーザーの明示操作でPR #79をマージする;
-3. R05 HTMLとR05 manifestを全体ゼロベース監査へ渡す;
-4. R05が`CLOSED`を返した場合だけStage12-N1-2をfully auditedとして閉じる;
+1. 3g、Final R05、R06 HTML、R06 manifestのCIを確認する;
+2. ユーザーの明示操作でPRをマージする;
+3. R06 HTMLとR06 manifestを全体ゼロベース監査へ渡す;
+4. R06が`CLOSED`を返した場合だけStage12-N1-2をfully auditedとして閉じる;
 5. その後にStage13-3を再開する。
 
 ## 8. 禁止事項
 
-- R05 full review前に`FINAL_COMPLETE`または無条件の`proved`と呼ばない。
-- R04の`REPAIRABLE`判定を限定レビューの`CLOSED`で上書きしない。
+- R06 full review前に`FINAL_COMPLETE`または無条件の`proved`と呼ばない。
+- R05の`REPAIRABLE`を無視しない。
+- fixed-height shallowとradial wingを同一視しない。
 - `retained => min(R,S)>=S0`を再使用しない。
 - fixed-`(b,c)` kernel lemmaを使用しない。
-- specific `3/5` remainderをreference-lock済みinputとして復活させない。
 - oriented asymptoticからcanonical countへ固定係数変換しない。
 - ユーザーの明示依頼なしにPRをマージしない。
 
@@ -221,10 +248,11 @@ STAGE12_N1_3B_COMPLETE
 STAGE12_N1_3C_G_COMPLETE
 STAGE12_N1_3D_COMPLETE
 STAGE12_N1_3E_COMPLETE
-STAGE12_N1_3F_COMPLETE_IN_TEXT
-R04_FULL_REVIEW_VERDICT=REPAIRABLE
-R04_SMALL_COORDINATE_WING=CLOSED_IN_TEXT_PENDING_R05
-THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_R05_FULL_REAUDIT
-STAGE13_3_PAUSED_PENDING_FINAL_STAGE12_R05
-NEXT_TASK=FULL_ZERO_BASE_REREVIEW_OF_PC_N1_2_R05
+STAGE12_N1_3F_COMPLETE
+STAGE12_N1_3G_COMPLETE_IN_TEXT
+R05_FULL_REVIEW_VERDICT=REPAIRABLE
+R05_FIXED_HEIGHT_SHALLOW=CLOSED_IN_TEXT_PENDING_R06
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_R06_FULL_REAUDIT
+STAGE13_3_PAUSED_PENDING_FINAL_STAGE12_R06
+NEXT_TASK=FULL_ZERO_BASE_REREVIEW_OF_PC_N1_2_R06
 ```
