@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "stage": "13-4c",
+    "title": "Scaling of ac/bc cancellation and late-range factor decomposition",
+    "B_max": 100000,
+    "scope": "finite scaling diagnostic; no directional asymptotic theorem"
+  },
+  "exact_ratio_decomposition": {
+    "identity": "r_raw(B)=r_G(B)*F_prim(B)*F_shell(B)",
+    "r_G": "G-neutral ac/bc ratio",
+    "F_prim": "r_shell_neutral(B)/r_G(B), the primitive-support correction",
+    "F_shell": "r_raw(B)/r_shell_neutral(B), restoration of supported shell richness"
+  },
+  "cumulative_by_bound": [
+    {"B":1000,"r_G":0.9755360483522806,"F_prim":1.096037885335,"F_shell":1.0843563022472933,"r_raw":1.1594202898550725,"OE_G_ratio":0.97005795235029,"EE_G_ratio":0.9799635701275045,"OE_G_difference":-1.107142857142847,"EE_G_difference":-0.9166666666666714,"G_total_difference":-2.023809523809547,"cancellation_residual":1.0,"cancellation_efficiency":0.0,"EE_over_abs_OE_gap":null},
+    {"B":2000,"r_G":0.8864046087043754,"F_prim":1.086335028199445,"F_shell":1.0441080089204229,"r_raw":1.0054054054054054,"OE_G_ratio":0.8347559738731799,"EE_G_ratio":0.932386430332198,"OE_G_difference":-14.91978021978018,"EE_G_difference":-6.857142857142918,"G_total_difference":-21.776923076923026,"cancellation_residual":1.0,"cancellation_efficiency":0.0,"EE_over_abs_OE_gap":null},
+    {"B":5000,"r_G":0.91014709067538,"F_prim":1.0654543538930963,"F_shell":1.0896326928356983,"r_raw":1.0566388115134633,"OE_G_ratio":0.8785301130996048,"EE_G_ratio":0.936389167369323,"OE_G_difference":-27.812087912087804,"EE_G_difference":-17.547619047618923,"G_total_difference":-45.35970695970724,"cancellation_residual":1.0,"cancellation_efficiency":0.0,"EE_over_abs_OE_gap":null},
+    {"B":10000,"r_G":0.9636574933738025,"F_prim":1.0587227060509796,"F_shell":1.010013771320235,"r_raw":1.0304625799172622,"OE_G_ratio":0.938689726082886,"EE_G_ratio":0.9849901136289205,"OE_G_difference":-29.447968697968122,"EE_G_difference":-8.437912087912991,"G_total_difference":-37.88588078588407,"cancellation_residual":1.0,"cancellation_efficiency":0.0,"EE_over_abs_OE_gap":null},
+    {"B":20000,"r_G":0.9531601623115973,"F_prim":1.0649922465781754,"F_shell":1.014000524234427,"r_raw":1.0293202293202293,"OE_G_ratio":0.8919566902642618,"EE_G_ratio":1.0079475930803272,"OE_G_difference":-112.14963369963266,"EE_G_difference":9.21575091575005,"G_total_difference":-102.93388278388466,"cancellation_residual":0.848132135123132,"cancellation_efficiency":0.151867864876868,"EE_over_abs_OE_gap":0.08217370500230387},
+    {"B":50000,"r_G":0.9968537474805624,"F_prim":1.0596287754840479,"F_shell":1.0088320140709328,"r_raw":1.0656241273387321,"OE_G_ratio":0.9518848749368556,"EE_G_ratio":1.0368552234883057,"OE_G_difference":-127.69293736781538,"EE_G_difference":109.95634365635215,"G_total_difference":-17.736593711393652,"cancellation_residual":0.07463348357275251,"cancellation_efficiency":0.9253665164272475,"EE_over_abs_OE_gap":0.8610996498547642},
+    {"B":100000,"r_G":1.0020209224294838,"F_prim":1.0588757289636852,"F_shell":0.9997457102221594,"r_raw":1.0607458292443572,"OE_G_ratio":0.9542232763020151,"EE_G_ratio":1.0454667965266742,"OE_G_difference":-254.28228970232612,"EE_G_difference":277.85852970570795,"G_total_difference":23.576240003434577,"cancellation_residual":0.04430451328590304,"cancellation_efficiency":0.955695486714097,"EE_over_abs_OE_gap":1.0927167992351383}
+  ],
+  "late_factor_ranges_B_ge_10000": {
+    "F_prim": {"min":1.0587227060509796,"max":1.0649922465781754,"range":0.006269540527195749},
+    "F_shell": {"min":0.9997457102221594,"max":1.014000524234427,"range":0.01425481401226758},
+    "r_G": {"min":0.9531601623115973,"max":1.0020209224294838,"range":0.04886076011788654}
+  },
+  "latest_annuli": [
+    {"B_lo_exclusive":10000,"B_hi_inclusive":20000,"all_G_ratio":0.9436864458964335,"OE_G_ratio":0.8517082801814554,"EE_G_ratio":1.0295504266293216,"OE_G_difference":-82.7016650016646,"EE_G_difference":17.65366300366304,"G_total_difference":-65.0480019980007,"cancellation_residual":0.6481768660508732,"cancellation_efficiency":0.3518231339491268},
+    {"B_lo_exclusive":20000,"B_hi_inclusive":50000,"all_G_ratio":1.0247680936446488,"OE_G_ratio":0.9903810120230649,"EE_G_ratio":1.055233555778194,"OE_G_difference":-15.543303668182716,"EE_G_difference":100.7405927406021,"G_total_difference":85.197289072491,"cancellation_residual":0.7326662736944087,"cancellation_efficiency":0.26733372630559127},
+    {"B_lo_exclusive":50000,"B_hi_inclusive":100000,"all_G_ratio":1.0068526852363227,"OE_G_ratio":0.9563625506992782,"EE_G_ratio":1.053681056288676,"OE_G_difference":-126.58935233451075,"EE_G_difference":167.9021860493558,"G_total_difference":41.31283371482823,"cancellation_residual":0.14028529967804165,"cancellation_efficiency":0.8597147003219583}
+  ],
+  "late_geometric_bins": [
+    {"B":20000,"bins":[{"bin":"g<1.05","G_ratio":0.8548041445884742,"G_difference":-94.85339660339957,"count":3827},{"bin":"1.05-1.10","G_ratio":0.9642596092215844,"G_difference":-16.267848817849938,"count":2544},{"bin":"1.10-1.20","G_ratio":1.0218211207206507,"G_difference":12.629537129534697,"count":3298},{"bin":"g>=1.20","G_ratio":0.9912958180176472,"G_difference":-4.44217449217615,"count":2720}]},
+    {"B":50000,"bins":[{"bin":"g<1.05","G_ratio":0.9231812588306002,"G_difference":-131.6667419392743,"count":11581},{"bin":"1.05-1.10","G_ratio":0.9954084682669228,"G_difference":-5.1978708672731955,"count":7427},{"bin":"1.10-1.20","G_ratio":1.0222914596740142,"G_difference":33.700258517576,"count":9738},{"bin":"g>=1.20","G_ratio":1.0667653927304148,"G_difference":85.4277605775053,"count":8239}]},
+    {"B":100000,"bins":[{"bin":"g<1.05","G_ratio":0.9156122520008967,"G_difference":-303.8176139957368,"count":26356},{"bin":"1.05-1.10","G_ratio":0.9834742835017349,"G_difference":-39.77834046306998,"count":17001},{"bin":"1.10-1.20","G_ratio":1.0417066597995885,"G_difference":128.19465268094928,"count":22085},{"bin":"g>=1.20","G_ratio":1.092446256887566,"G_difference":238.9775417812266,"count":18554}]}
+  ],
+  "outer_half_50000_100000": {
+    "all_G_ratio":1.0068526852363227,"OE_G_ratio":0.9563625506992782,"EE_G_ratio":1.053681056288676,"OE_G_difference":-126.58935233451075,"EE_G_difference":167.9021860493558,"G_total_difference":41.31283371482823,"cancellation_residual":0.14028529967804165,"cancellation_efficiency":0.8597147003219583,"EE_over_abs_OE_gap":1.3263531486098168,
+    "geometric_bins":[{"bin":"g<1.05","G_ratio":0.9087345222876926,"G_difference":-172.15087205646591,"count":14775},{"bin":"1.05-1.10","G_ratio":0.9728780837356725,"G_difference":-34.58046959578928,"count":9574},{"bin":"1.10-1.20","G_ratio":1.060498867030453,"G_difference":94.49439416337987,"count":12347},{"bin":"g>=1.20","G_ratio":1.117615680570839,"G_difference":153.54978120372925,"count":10315}]
+  },
+  "B100000_factorization": {
+    "r_G":1.0020209224294838,"F_prim":1.0588757289636852,"F_shell":0.9997457102221594,"product":1.0607458292443572,
+    "interpretation":"At B=100000 the observed ac/bc ratio is almost exactly a near-one pure-G base times a ~1.059 primitive-support tilt, with supported-shell restoration almost neutral."
+  },
+  "conclusion": {
+    "late_pure_G_OE_EE_cancellation_visible":true,
+    "pure_G_balance_stable_at_all_smaller_bounds":false,
+    "latest_outer_half_independently_reproduces_opposite_OE_EE_signs":true,
+    "latest_outer_half_reproduces_low_g_negative_high_g_positive_crossing":true,
+    "primitive_support_relative_factor_is_late_range_stable_near_1_06":true,
+    "supported_shell_restoration_is_near_one_at_B100000":true,
+    "exact_or_asymptotic_secondary_balance_law_proved":false,
+    "stage13_4_status":"COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL",
+    "working_interpretation":"The two near-1 components do not come from an exact ac<->bc symmetry. At late audited cutoffs the pure-G OE and EE gaps have opposite signs and cancel strongly; the fresh outer half reproduces this cancellation and the geometric low-g/high-g sign crossing. The residual systematic ac excess is supplied mainly by a comparatively stable primitive-support factor near 1.06, while restoration of supported shell richness is nearly neutral at B=100000. This is a finite structural explanation, not an asymptotic equality theorem.",
+    "next":"Stage13-5 define the deviation from (1/2,1/4,1/4)"
+  }
+}
