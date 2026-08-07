@@ -17,7 +17,8 @@ STAGE13_4A=COMPLETE
 STAGE13_4B=COMPLETE
 STAGE13_4C=COMPLETE
 STAGE13_5=COMPLETE
-NEXT=Stage13-6
+STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
+NEXT=Stage13-7
 ```
 
 ## Active organization
@@ -48,6 +49,8 @@ stages/stage13/data/13-4/ac_bc_cancellation_report.json
 stages/stage13/data/13-4/ac_bc_scaling_report.json
 stages/stage13/scripts/13-5/deviation.py
 stages/stage13/data/13-5/deviation_report.json
+stages/stage13/scripts/13-6/classify_deviation.py
+stages/stage13/data/13-6/deviation_classification_report.json
 ```
 
 `main.md` is the canonical living mathematical source. The completed Stage13-1/2 initial files remain as provenance; active mathematics is edited in `main.md`.
@@ -96,7 +99,9 @@ Delta = alpha*(1,-1/2,-1/2) + beta*(0,1,-1).
 
 Thus `alpha` measures the leading-vs-pair mode and `beta` measures the split between the two near-`1` components. At `B=100000`, exact-one gives `alpha=131/168030 ~= 0.0007796` and `beta=619/84015 ~= 0.0073677`; `|beta|` is about `9.45` times `|alpha|`. The full deviation is approximately `(0.0007796, 0.0069779, -0.0077575)` with `L1 ~= 0.0155151`. This is only a finite diagnostic; no convergence is inferred.
 
-The next mathematical step is Stage13-6: classify `alpha`, `beta`, and the full deviation vector by the structural layers already isolated in Stages13-3 and 13-4.
+Stage13-6 puts every audited mechanism into the same `(alpha,beta)` coordinates without falsely treating incomparable diagnostics as one additive causal decomposition. At `B=100000`, the archimedean chamber model has `(alpha,beta)≈(0.03474,0.01273)`. Pure-`G` deweighting has `(0.03944,0.000232)`, so the `ac/bc` split is almost cancelled while the leading mode remains large. Moving `G_neutral -> shell_neutral` (primitive-support correction) changes `(alpha,beta)` by about `(-0.00332,+0.00663)`. Moving `shell_neutral -> raw` (restoring supported-shell richness) changes it by about `(-0.03547,+0.00049)`, making this the dominant finite flattening of the leading mode. The exact overlap sieve then changes only `(+0.000138,+0.0000078)`. OE and EE raw strata have opposite `alpha` signs (`+0.0200` and `-0.0256`) and reconstruct raw exactly; after pure-`G` deweighting their `ac/bc` gaps also have opposite signs. The largest outer-half boundary changes the cumulative raw coordinates by only about `(+0.00035,-0.00046)`. The Stage12 projection multiplicity `2` is an exact directional null after normalization. Thus the final exact-one deviation remains `beta`-dominated, and the current finite classification assigns the main `alpha` flattening to supported-shell richness, the near cancellation of `beta` to the pure-`G` cross-stratum balance, and the residual positive `beta` mainly to primitive-support coupling. This classification is finite only and does not claim an asymptotic additive decomposition.
+
+The next mathematical step is Stage13-7: study how `alpha(B)`, `beta(B)`, and `Delta(B)` behave with the cutoff and determine whether any limit or secondary asymptotic law is actually supported or provable.
 
 ## File rule
 
