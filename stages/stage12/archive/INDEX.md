@@ -9,6 +9,7 @@ This index answers two questions for the frozen Stage12 history:
 
 | Task | Script(s) | Data | Role |
 |---|---|---|---|
+| N1 | `scripts/n1/audit_average.py`, `scripts/n1/update_memo.py` | `data/n1/average_report.json` | shared-`p` average audit before the primitive-compatible N1b refinement |
 | N1b | `scripts/n1b/audit_primitive_joint.py`, `scripts/n1b/update_memo.py` | `data/n1b/primitive_joint_report.json` | primitive-compatible shared-`p` joint count |
 | N1c | `scripts/n1c/audit_global_mobius.py`, `scripts/n1c/update_memo.py` | `data/n1c/global_mobius_report.json` | global Möbius consistency |
 | N1d | `scripts/n1d/audit_analytic_exit.py`, `scripts/n1d/update_memo.py` | `data/n1d/analytic_exit_report.json` | analytic-exit audit |
@@ -57,5 +58,7 @@ These are archive assets, not active CI.
 - `review/manifests/` preserves old audit/re-review manifests.
 - `review/html/` preserves old generated review pages.
 - `workflows/` preserves disabled historical GitHub Actions files and trigger markers.
+
+`docs/face-ratio-geometry-research.md` remains at repository-wide `docs/` level because it is a cross-stage historical memo consumed by active reproducibility workflows from earlier stages. It is not the canonical Stage13 mathematical source.
 
 No archive relocation changes the mathematical content of the frozen R09 proof.
