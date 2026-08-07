@@ -1,206 +1,192 @@
 # CURRENT RESEARCH STATUS
 
-> **DOCUMENT_ID:** `PC-CURRENT-20260807-1051-JST`
+> **DOCUMENT_ID:** `PC-CURRENT-20260807-1113-JST`
 >
-> **CURRENT_BASE_COMMIT:** `f34feb38135ed97283220dfdb659dfeecdc6ab5c`
+> **CURRENT_BASE_COMMIT:** `5495551f890d054761ebe9798408fefd828a9dac`
 >
-> **CURRENT_STAGE:** `Stage12-N1-3c.G completed; Stage12-N1-3d next`
+> **CURRENT_STAGE:** `Stage12-N1-3d completed; independent re-audit next`
 >
 > **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2`
 >
-> **SERIES_STATUS:** `STAGE12_REOPENED_REPAIRABLE_NOT_CLOSED`
+> **SERIES_STATUS:** `STAGE12_R01_REPAIRS_COMPLETE_PENDING_REAUDIT`
 >
-> **AUDIT_VERDICT:** `REPAIRABLE`
+> **R01_RESOLVED:** `MAJOR-01, MAJOR-02, MAJOR-03, MAJOR-04, CLARIFICATION-01, MINOR-01, MINOR-02`
 >
-> **RESOLVED_AFTER_AUDIT:** `MAJOR-01, MAJOR-02, MAJOR-03`
+> **OPEN_R01_ITEMS:** `NONE`
 >
-> **OPEN_MAJOR:** `MAJOR-04`
+> **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_INDEPENDENT_REAUDIT`
 
 ## 0. 60秒で現状復帰する順序
 
 1. `docs/00_CURRENT_RESEARCH_STATUS.md`
-2. `docs/review/stage12-n1-2-full-audit-r01.md`
-3. `docs/stage12-n1-2-repair-status-r01.md`
-4. `docs/stage12-n1-3a-rectangular-error-repair.md`
-5. `docs/stage12-n1-3b-fixed-circle-remainder.md`
-6. `docs/stage12-n1-3c-coupled-region-transfer.md`
-7. `docs/stage12-n1-3c-g-residue-first-closure.md`
+2. `docs/stage12-n1-2-final-r02.md`
+3. `docs/stage12-n1-3d-definition-sheet.md`
+4. `docs/stage12-n1-3d-constant-sheet.md`
+5. `docs/stage12-n1-3d-selberg-delange-reference-lock.md`
+6. `docs/stage12-n1-2-repair-status-r01.md`
+7. `docs/review/stage12-n1-2-repaired-review-manifest-20260807-r02.md`
+8. `review/PC-N1-2-REPAIRED-PROOF-20260807-R02.html`
 
-Stage13-1とStage13-2の構造的成果は保持するが、Stage13-3以降はStage12修復と独立再監査が終わるまで進めない。
+必要に応じて修復原文を読む。
 
-## 1. 現在の判断
+```text
+docs/stage12-n1-3a-rectangular-error-repair.md
+docs/stage12-n1-3b-fixed-circle-remainder.md
+docs/stage12-n1-3c-coupled-region-transfer.md
+docs/stage12-n1-3c-g-residue-first-closure.md
+```
 
-候補漸近式
+## 1. 現在の候補定理
+
+3d definition sheetで定義したprimitive oriented countについて
 
 \[
 C_{\rm prim}(B)
 \sim
 \frac{\kappa}{12\pi}B(\log B)^3
+=
+\frac{\eta}{12\pi^2}B(\log B)^3.
 \]
 
-は独立監査R01で否定されていない。監査で指摘された中心解析項MAJOR-01〜03は修復文書上で閉じた。
+R01の全修復は文書上完了した。ただし、独立再監査が `CLOSED` を返すまでは「証明済み完成定理」と扱わない。
 
-ただし、MAJOR-04、参照・記号修正、新しい統合稿、自己完結bundle、独立再監査が残るため、まだ
+## 2. Stage12-N1-3dで完了した内容
+
+### Counting definition
 
 ```text
-THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
+docs/stage12-n1-3d-definition-sheet.md
 ```
 
-である。
+次を自己完結に固定した。
 
-旧Finalは統合候補稿として保存するが、次の箇所はsupersedeされている。
+- admissible `(h,r,s)` parameter set;
+- `G(hrs)-1` multiplicity;
+- raw / primitive exact Möbius relation;
+- primitive-first `A_{r,s}(m)`;
+- odd--odd / opposite-parity height factor;
+- `beta`, `gamma`, `g`, `rho`;
+- oriented / canonical distinction。
 
-- 旧Final §1 fixed-circle remainder → Stage12-N1-3b;
-- 旧Final §4 rectangular error → Stage12-N1-3a;
-- 旧Final §5 coupled-region transfer → Stage12-N1-3c.G。
+### Constant normalization
 
-## 2. 閉じた修復
+```text
+docs/stage12-n1-3d-constant-sheet.md
+```
 
-### MAJOR-01 — Stage12-N1-3a
+次を完全表示した。
 
-不成立な `R^(1/2+δ)S` 型への指数強化を撤回し、
+- `kappa` と `eta` のEuler積;
+- `p=3 mod 4`, `q=1 mod 4` local factors;
+- front ratio `8/pi`;
+- `eta_p/kappa_p=(1-p^-2)^-1`;
+- `eta=pi*kappa`;
+- parity、radial、orientation、outer `B/pi` のfactor ledger。
 
-\[
-R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
-\]
+### Reference lock
 
-型の正しい一様長方形誤差へ修正した。
+```text
+docs/stage12-n1-3d-selberg-delange-reference-lock.md
+```
 
-### MAJOR-02 — Stage12-N1-3b
+Tenenbaum Third Edition, Chapter II.5, Theorem II.5.2, p.281を主引用に固定した。
 
-`ω(X/ℓ)` を `ω(X)` として引き出す操作を撤回し、
+- `z=1` for `beta`;
+- `z=2` for `g=1*beta`;
+- arbitrary fixed log-power remainderを採用;
+- specific `3/5` subexponential remainderは必須inputから外した。
 
-\[
-\sum_{m\le X}A_{r,s}(m)
-=
-\gamma(rs)X-1
-+O\!\left(G(rs)H_{\rm abs}(rs)X^{1/2}\right)
-\]
+### Integrated Final R02
 
-を証明した。retained regionのouter averageは任意の固定対数冪より小さい。
+```text
+docs/stage12-n1-2-final-r02.md
+```
 
-### MAJOR-03 — Stage12-N1-3c / 3c.G
+3a、3b、3c.G、3dを一つの証明鎖へ統合した。旧 `docs/stage12-n1-2-final.md` はsuperseded summaryへ変更済み。
 
-3cでexact variable ledger、fixed-divisor model、model Stieltjes calculationを復元した。その結果残ったfixed-`(b,c)` anisotropic kernel lemmaは、最終漸近式に必要な主張より強いと判明した。
+### Self-contained review bundle
 
-3c.Gでは除数展開を元へ戻し、
+```text
+BUNDLE_ID=PC-N1-2-REPAIRED-PROOF-20260807-R02
+MANIFEST=docs/review/stage12-n1-2-repaired-review-manifest-20260807-r02.md
+HTML=review/PC-N1-2-REPAIRED-PROOF-20260807-R02.html
+SOURCE_SNAPSHOT_COMMIT=08a3bc0b8428f9c620269da9b488e8b849cf909c
+SOURCE_LEDGER_SHA256=26528cd336fe4b6ce5bc70bdca368ad605f29f711bec71e34a6427d98b3560dc
+```
+
+## 3. R01 repair summary
+
+```text
+MAJOR_01=CLOSED_BY_STAGE12_N1_3A
+MAJOR_02=CLOSED_BY_STAGE12_N1_3B
+MAJOR_03=CLOSED_BY_STAGE12_N1_3C_G
+MAJOR_04=CLOSED_BY_STAGE12_N1_3D
+CLARIFICATION_01=CLOSED_BY_STAGE12_N1_3D_REFERENCE_LOCK
+MINOR_01=CLOSED
+MINOR_02=CLOSED_BY_SELF_CONTAINED_R02
+```
+
+## 4. 重要な証明戦略
+
+3cで設定したfixed-`(b,c)` anisotropic kernel lemmaは、最終定理より強く不要だった。
+
+```text
+OLD_3C_G_FIXED_DIVISOR_KERNEL=SUPERSEDED_NOT_REQUIRED
+```
+
+最終ルートは除数展開を元へ戻して
 
 \[
 g(n)=\pi\gamma(n)=(1*\beta)(n)
 \]
 
-を用いて元変数 `(r,s)` 上のparity-weighted coprime rectangle sumを直接平均した。
+を元変数 `(r,s)` 上で平均するresidue-first routeである。未証明のfixed-divisor kernel statementは仮定していない。
 
-二変数Dirichlet級数は
+## 5. 次の作業
 
-\[
-D_\lambda(s_1,s_2)
-=
-G(s_1)G(s_2)C_\lambda(s_1,s_2),
-\]
+次は新しい数学段階ではなく、R02 bundleの独立再監査である。
 
-\[
-G(s)=\zeta(s)^2H_g(s),
-\]
-
-と分解される。`C_lambda` は `Re(s_1+s_2)>1` で絶対収束し、標準一変数Selberg–Delangeの `z=2` 特殊形を二回使うことで、長方形leading coefficientは
-
-\[
-C_\lambda^{(0)}
-=
-\frac8{\pi^2}\eta
-\]
-
-となる。
-
-元変数上でradial kernelをStieltjes移送すると
-
-\[
-\mathcal H_\lambda(B)
-=
-\frac\eta{12\pi}(\log B)^3
-+o((\log B)^3).
-\]
-
-したがってresidue mainは
-
-\[
-\mathcal M(B)
-\sim
-\frac\eta{12\pi^2}B(\log B)^3
-=
-\frac\kappa{12\pi}B(\log B)^3.
-\]
-
-orientationは係数とkernelの対称性で正確に半分となり、primitive diagonalは `(1,1)` だけである。odd–odd cutoff `2B` とcommon cutoff `B` の差、radial arc、shallow boxesはすべてlower orderである。
+要求判定:
 
 ```text
-OLD_3C_G_FIXED_DIVISOR_KERNEL=SUPERSEDED_NOT_REQUIRED
-MAJOR_03=CLOSED_BY_STAGE12_N1_3C_G
+CLOSED
+REPAIRABLE
+OPEN
+STALE_SOURCE
+UNREADABLE_SOURCE
 ```
 
-## 3. 次の作業 — Stage12-N1-3d
+再監査が `CLOSED` を返した場合だけ、Stage12-N1-2を再びclosedへ変更する。
 
-対象はMAJOR-04。
+## 6. Stage13の扱い
 
-成果物は次を予定する。
+Stage13-1とStage13-2の構造的成果は保持するが、Stage13-3以降はStage12再監査まで停止する。
 
-```text
-docs/stage12-n1-3d-definition-sheet.md
-docs/stage12-n1-3d-constant-sheet.md
-```
+- canonical counting convention;
+- raw incidence / overlap ledger;
+- equal-weight `S_3` orientationが `1:1:1` へ対称化すること;
+- orientation multiplicity単独ではcanonical `2:1:1` を説明できないこと。
 
-最低限、次を自己完結にする。
+Stage12のoriented asymptoticからcanonical定数への自動変換は行わない。
 
-1. `C_prim(B)` の完全なcounting definition;
-2. raw / primitive / oriented / canonical の区別;
-3. `β`, `γ`, `g`, `ρ`, `η`, `κ` の定義;
-4. odd-prime local factors;
-5. 2-adic front factor;
-6. archimedean sector / radial factors;
-7. `η=πκ` のlocal comparison;
-8. 3a、3b、3c.Gが旧文書をsupersedeする参照表。
+## 7. 禁止事項
 
-MAJOR-04は文書量が大きいが、現時点では新しい中心解析補題ではなく、監査可能性と自己完結性の修復である。
-
-## 4. Secondary items
-
-- Tenenbaumの使用版、定理番号、`z=1` と `z=2` の採用形を固定する;
-- 2j原文中の壊れた `\frac` 2件を修正する;
-- Finalを3a〜3c.Gで再統合する;
-- self-contained bundleを生成する;
-- 独立再監査へ提出する。
-
-## 5. 禁止事項
-
-- Stage12-N1-2をまだ `CLOSED`, `FINAL_COMPLETE`, `proved` と呼ばない。
-- fixed-`(b,c)` kernel lemmaを証明済みと主張しない。これは不要としてsupersedeした。
-- 現行旧Finalを確定稿として配布しない。
-- 現行bundleを自己完結と呼ばない。
-- Stage12からStage13 canonical countへの定数変換を先取りしない。
+- 独立再監査前に `CLOSED`, `FINAL_COMPLETE`, `proved` と呼ばない。
+- 旧Finalを数学的標準本文として配布しない。
+- fixed-`(b,c)` kernel lemmaを証明済みまたは必要と扱わない。
+- specific `3/5` remainderをreference lock済みinputとして引用しない。
+- Stage12からStage13 canonical countへ固定係数変換しない。
 - ユーザーの明示依頼なしにPRをマージしない。
 
-## 6. 再閉包条件
-
-次のすべてを満たした時だけStage12-N1-2を再びclosedと呼ぶ。
-
-- MAJOR-01〜03の本文上の修復が完了している; `DONE`
-- MAJOR-04を解消した自己完結bundleがある;
-- control characterと参照条件が修正されている;
-- 新しい統合稿がある;
-- 独立監査が `CLOSED` を返している。
-
-## 7. 状態コード
+## 8. State codes
 
 ```text
-STAGE12_N1_3A_RECTANGULAR_ERROR_REPAIR_COMPLETE
-STAGE12_N1_3B_FIXED_CIRCLE_REMAINDER_COMPLETE
-STAGE12_N1_3C_G_RESIDUE_FIRST_TRANSFER_COMPLETE
-MAJOR_01=CLOSED
-MAJOR_02=CLOSED
-MAJOR_03=CLOSED
-MAJOR_04=OPEN_NEXT
-THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
-STAGE13_3_PAUSED_PENDING_STAGE12_REPAIR
-NEXT_TASK=STAGE12_N1_3D_SELF_CONTAINED_DEFINITION_AND_CONSTANT_SHEETS
+STAGE12_N1_3A_COMPLETE
+STAGE12_N1_3B_COMPLETE
+STAGE12_N1_3C_G_COMPLETE
+STAGE12_N1_3D_COMPLETE
+ALL_R01_REPAIRS_COMPLETE
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_INDEPENDENT_REAUDIT
+STAGE13_3_PAUSED_PENDING_STAGE12_REAUDIT
+NEXT_TASK=INDEPENDENT_REAUDIT_OF_PC_N1_2_REPAIRED_PROOF_R02
 ```
