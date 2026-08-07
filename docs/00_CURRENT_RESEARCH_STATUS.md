@@ -1,10 +1,10 @@
 # CURRENT RESEARCH STATUS
 
-> **DOCUMENT_ID:** `PC-CURRENT-20260807-0958-JST`
+> **DOCUMENT_ID:** `PC-CURRENT-20260807-1006-JST`
 >
 > **CURRENT_BASE_COMMIT:** `e82668bfe700e02b88019302dfe633244254966a`
 >
-> **CURRENT_STAGE:** `Stage12-N1-2 repair after full audit R01`
+> **CURRENT_STAGE:** `Stage12-N1-3a completed; Stage12-N1-3b next`
 >
 > **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2`
 >
@@ -13,6 +13,10 @@
 > **AUDIT_VERDICT:** `REPAIRABLE`
 >
 > **AUDIT_COUNTS:** `FATAL=0, MAJOR=4, MINOR=2, CLARIFICATION=1`
+>
+> **RESOLVED_AFTER_AUDIT:** `MAJOR-01`
+>
+> **OPEN_MAJOR:** `MAJOR-02, MAJOR-03, MAJOR-04`
 >
 > **CENTRAL_OPEN_ITEMS:** `FIXED_CIRCLE_REMAINDER, COUPLED_REGION_TRANSFER`
 
@@ -23,13 +27,11 @@
 1. `docs/00_CURRENT_RESEARCH_STATUS.md`
 2. `docs/review/stage12-n1-2-full-audit-r01.md`
 3. `docs/stage12-n1-2-repair-status-r01.md`
-4. `docs/stage12-n1-2-final.md`
-5. 必要な箇所だけarchiveの2k、2n、2pを読む
+4. `docs/stage12-n1-3a-rectangular-error-repair.md`
+5. 次の作業で必要となるarchiveの2kを読む
 
 ```text
 docs/archive/stage12-n1-2/stage12-n1-2k-final-remainder.md
-docs/archive/stage12-n1-2/stage12-n1-2n-coupled-region.md
-docs/archive/stage12-n1-2/stage12-n1-2p-final-bookkeeping.md
 ```
 
 Stage13-1とStage13-2の構造的成果は保持するが、Stage13-3以降はStage12修復が終わるまで進めない。
@@ -46,26 +48,28 @@ C_{\rm prim}(B)
 
 を否定していない。一方で、現行文書だけから定理を `CLOSED` と判定できないとした。
 
-したがって現在の扱いは次の通り。
+現在の扱いは
 
 ```text
 THEOREM_STATUS=PLAUSIBLE_BUT_NOT_CLOSED_FROM_PRESENT_DOCUMENTS
 VERDICT=REPAIRABLE
 ```
 
-`docs/stage12-n1-2-final.md` は現行の統合候補稿として残すが、修復と再監査が完了するまで「確定済み完成証明」として扱わない。
+である。
 
-## 2. 監査R01の主要指摘
+`docs/stage12-n1-2-final.md` は旧統合候補稿として残すが、修復と再監査が完了するまで「確定済み完成証明」として扱わない。特に旧Final §4の長方形誤差表示はStage12-N1-3aによりsupersedeされている。
 
-監査原文:
+## 2. Stage12-N1-3aで閉じた項目
+
+成果物:
 
 ```text
-docs/review/stage12-n1-2-full-audit-r01.md
+docs/stage12-n1-3a-rectangular-error-repair.md
 ```
 
-### MAJOR-01 — 長方形誤差の指数
+### MAJOR-01 — rectangular error exponent
 
-2pの大係数領域で得た
+旧2pでは、大係数領域で得た
 
 \[
 R^{3/4+\delta/2}S
@@ -77,69 +81,102 @@ R^{3/4+\delta/2}S
 R^{1/2+\delta}S
 \]
 
-へ強化しているが、\(\delta\in(0,1/4)\) では指数比較が成立しない。
+へ強化していたが、\(\delta\in(0,1/4)\) では成立しない。
 
-修復候補は
+Stage12-N1-3aでは不成立な強化を撤回し、任意の固定
 
 \[
-R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
+0<\varepsilon<\frac18
 \]
 
-型へ弱め、kernel適用後のbox誤差を再評価すること。
+に対し
 
-### MAJOR-02 — fixed-circle remainder
+\[
+\boxed{
+S(R,S)
+=
+\mathfrak C RS
++O_\varepsilon\!\left(
+RS\{E_*(R^{1/2})+E_*(S^{1/2})\}
++R^{3/4+\varepsilon}S
++RS^{3/4+\varepsilon}
+\right)
+}
+\]
 
-畳み込み誤差中の \(\omega(X/\ell)\) を \(\omega(X)\) として引き出す向きが正当化されていない。
+へ修正した。
 
-\(\ell\le X^{1/2}\) と \(\ell>X^{1/2}\) の分割、または有限Euler補正を含む直接解析により、\(rs\) 平均で一様なremainderを再証明する必要がある。
+修復の要点は次の通り。
 
-### MAJOR-03 — 結合領域移送
+- 一変数評価から `B_beta(X) << X` を使用する;
+- weighted coefficient norm `M_{2ε}` で大係数尾部を評価する;
+- 旧指数 `R^(1/2+δ)S` を引用禁止にする;
+- 後続kernelが予定する部分和分ノルムを満たすなら、修正版誤差がretained regionで任意の対数冪より小さいことを確認する;
+- kernelノルム自体と正確な係数 `1/12` はMAJOR-03へ残す。
 
-係数 \(1/12\) の導出が概要に留まっている。
-
-独立補題として次を完全に書く必要がある。
-
-- divisor variables;
-- radial kernel \((r^2+s^2)^{-1}\);
-- 二変数Abel／Stieltjes部分和分;
-- 境界項;
-- parity / orientation front factors;
-- MAJOR-01修正後の全box誤差。
-
-### MAJOR-04 — bundleの自己完結性
-
-現行2j〜2p bundleだけでは、次を独立再計算できない。
-
-- `C_prim(B)` の完全定義;
-- \(\kappa\) の完全なEuler積とfront factor;
-- rawからprimitiveへの対象レベル対応;
-- \(\eta_p/\kappa_p\) の監査に必要なlocal factor。
-
-修復時にはdefinition sheetとconstant sheetを追加する。
-
-## 3. 二次指摘
-
-- Tenenbaum II.5.2のhypothesis、parameter、採用remainder caseを一対一で固定する。
-- 2j原文中の壊れた `\frac` 2件を修正する。
-- Final単体で外部依存となっている記号を定義するか、summary documentと明示する。
-- 対角・円弧境界、floor endpointはMAJOR-03の移送補題内で導出を固定する。
-
-## 4. 修復順序
-
-1. **MAJOR-01**を正しい弱い指数へ直す。
-2. **MAJOR-02**のfixed-circle remainderを再証明する。
-3. **MAJOR-03**の結合領域移送補題を新設する。
-4. **MAJOR-04**のdefinition sheetとconstant sheetを作る。
-5. Tenenbaum参照条件を固定する。
-6. control characterと記号定義を校正する。
-7. 新しい自己完結bundle R02を生成する。
-8. 独立監査へ再提出する。
-
-詳細な管理文書:
+状態:
 
 ```text
-docs/stage12-n1-2-repair-status-r01.md
+MAJOR_01_RECTANGULAR_ERROR_EXPONENT=CLOSED_BY_STAGE12_N1_3A
 ```
+
+## 3. 次の作業 — Stage12-N1-3b
+
+次の成果物は
+
+```text
+docs/stage12-n1-3b-fixed-circle-remainder.md
+```
+
+である。
+
+対象は監査R01のMAJOR-02。
+
+2kでは畳み込み誤差
+
+\[
+G(rs)
+\sum_{\ell\le X}
+|h_{r,s}(\ell)|(X/\ell)^{1/2}\omega(X/\ell)
+\]
+
+から \(\omega(X)\) を全域へ引き出していたが、\(X/\ell\le X\) に対する単調性の向きが逆である。
+
+Stage12-N1-3bでは、少なくとも次を比較する。
+
+1. \(\ell\le X^{1/2}\) と \(\ell>X^{1/2}\) の分割評価;
+2. finite Euler correctionを含むDirichlet級数への直接Perron／Selberg–Delange法;
+3. 得られる依存重みがouter \((r,s)\) 平均で許容されるか。
+
+終了条件は、fixed-\((r,s)\) remainderを単に点wiseに書くことではなく、最終の\((r,s)\)平均へ投入できる一様形を本文上で証明することである。
+
+## 4. その後に残る項目
+
+### MAJOR-03 — coupled-region transfer
+
+独立補題として次を完全に記載する。
+
+- divisor variables;
+- radial kernel;
+- 二変数Abel／Stieltjes部分和分;
+- boundary terms;
+- parity / orientation front factors;
+- Stage12-N1-3aの修正版誤差を全boxで合計した評価;
+- 正確な係数 \(1/12\)。
+
+### MAJOR-04 — bundle self-containment
+
+新しいbundleへ次を追加する。
+
+- `C_prim(B)` の完全なcounting definition;
+- \(\kappa\), \(\eta\), local factors, 2-adic / archimedean front factorsのconstant sheet。
+
+### Secondary items
+
+- Tenenbaum II.5.2のhypothesisと採用remainder caseを一対一で固定する;
+- 2j原文中の壊れた `\frac` 2件を修正する;
+- Finalをsummaryとして明記するか、未定義記号を補う;
+- 全修復後に新しい統合稿と自己完結bundle R02を生成する。
 
 ## 5. Stage13の扱い
 
@@ -162,7 +199,7 @@ STAGE13_3_PAUSED_PENDING_STAGE12_REPAIR
 ## 6. 現在の禁止事項
 
 - Stage12-N1-2を `CLOSED`, `FINAL_COMPLETE`, `proved` と呼ばない。
-- MAJOR-01の誤った指数をそのまま引用しない。
+- 旧2p／旧Finalの `R^(1/2+δ)S + RS^(1/2+δ)` を引用しない。
 - fixed-circle remainderを一様に閉じたと仮定しない。
 - `1/12` の係数を完全導出済みと扱わない。
 - 現行bundleを自己完結と呼ばない。
@@ -183,9 +220,12 @@ STAGE13_3_PAUSED_PENDING_STAGE12_REPAIR
 
 ```text
 STAGE12_N1_2_REOPENED_AFTER_AUDIT_R01
-STAGE12_N1_2_REPAIRABLE_NOT_CLOSED
-STAGE13_1_DEFINITION_COMPLETE
-STAGE13_2_STRUCTURAL_LEDGER_COMPLETE
+STAGE12_N1_3A_RECTANGULAR_ERROR_REPAIR_COMPLETE
+MAJOR_01=CLOSED
+MAJOR_02=OPEN_NEXT
+MAJOR_03=OPEN_CENTRAL
+MAJOR_04=OPEN
+THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
 STAGE13_3_PAUSED_PENDING_STAGE12_REPAIR
-NEXT_TASK=REPAIR_MAJOR_01_RECTANGULAR_ERROR_EXPONENT
+NEXT_TASK=STAGE12_N1_3B_FIXED_CIRCLE_REMAINDER
 ```
