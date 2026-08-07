@@ -1,6 +1,6 @@
 # Stage13 — canonical working file
 
-> **STATUS:** `STAGE13_3A_COMPLETE_13_3B_NEXT`
+> **STATUS:** `STAGE13_3B_COMPLETE_13_3C_NEXT`
 >
 > **SCOPE:** primitive canonical face-ratio analysis
 >
@@ -276,4 +276,254 @@ RAW_INCIDENCE_ALREADY_NEAR_2_1_1=true
 OVERLAP_GENERATES_LEADING_2=false_at_audited_finite_bounds
 ASYMPTOTIC_CLAIM=false
 NEXT=Stage13-3b canonical size-order / geometric density
+```
+
+### §3.5 Stage13-3b question
+
+The next discriminator is more precise than “does sorting create the bias?” Pure relabelling cannot: if all three faces carried the same density, restricting to the same chamber \(0<a<b<c\) would still give \(1:1:1\). The question is instead:
+
+> Does the interaction between the canonical size-order chamber and the real one-face density naturally create an \(ab\) excess of approximately the observed size?
+
+The support script and report are
+
+```text
+stages/stage13/scripts/13-3/geometric_chamber.py
+stages/stage13/data/13-3/geometric_chamber_report.json
+```
+
+### §3.6 Exact archimedean directional weight
+
+Consider first a distinguished integral \(ab\) face. Introduce its face diagonal \(p\) and write the real one-face variety locally as
+
+\[
+F_1=a^2+b^2-p^2=0,\qquad F_2=p^2+c^2-d^2=0.
+\]
+
+Using \((a,b,c)\) as free coordinates and solving for \((p,d)\),
+
+\[
+\left|\det\frac{\partial(F_1,F_2)}{\partial(p,d)}\right|=4pd.
+\]
+
+Thus, up to a common constant, the Gelfand--Leray density is
+
+\[
+\frac{da\,db\,dc}{4pd}.
+\]
+
+Put
+
+\[
+(a,b,c)=r(x,y,z),\qquad x^2+y^2+z^2=1,\qquad r=d.
+\]
+
+Then \(p=r\sqrt{x^2+y^2}\) and
+
+\[
+da\,db\,dc=r^2\,dr\,d\omega.
+\]
+
+The factors of \(r\) cancel, leaving the angular weight
+
+\[
+\boxed{w_{ab}(x,y,z)=\frac1{\sqrt{x^2+y^2}}.}
+\]
+
+The same calculation gives
+
+\[
+\boxed{w_{ac}=\frac1{\sqrt{x^2+z^2}},\qquad w_{bc}=\frac1{\sqrt{y^2+z^2}}.}
+\]
+
+This is an exact statement about the real local density on the three one-face varieties. It is **not** yet a theorem that the global integer counts have these archimedean constants without additional arithmetic factors.
+
+### §3.7 What canonical ordering changes
+
+Normalize by \(d\) and let
+
+\[
+R=\{(x,y,z)\in S^2:0<x<y<z\}.
+\]
+
+Inside \(R\),
+
+\[
+x^2+y^2<x^2+z^2<y^2+z^2,
+\]
+
+so pointwise
+
+\[
+\boxed{w_{ab}>w_{ac}>w_{bc}.}
+\]
+
+Thus the canonical chamber places the smallest two edges on the face with the largest real-density weight. This is the first mechanism tested so far that produces the observed direction of the bias before any parity or odd-prime correction is introduced.
+
+Two controls are important.
+
+First, with a uniform angular weight, every direction sees the same chamber area
+
+\[
+\operatorname{area}(R)=\frac{\pi}{12},
+\]
+
+so **canonical relabelling alone gives \(1:1:1\)**.
+
+Second, on the full positive octant \(S^2_+\), coordinate symmetry gives equal directional integrals. For example
+
+\[
+J=\int_{S^2_+}\frac{d\omega}{\sqrt{x^2+y^2}}=\frac{\pi^2}{4},
+\]
+
+and the same value holds for \(ac\) and \(bc\). Therefore removing the size-order chamber restores the symmetric ratio \(1:1:1\).
+
+The asymmetry is specifically the interaction
+
+\[
+\boxed{\text{canonical chamber}\;\times\;\text{one-face }1/p\text{ real-density weight}.}
+\]
+
+### §3.8 Ordered-chamber integrals
+
+Use spherical coordinates
+
+\[
+x=\sin\theta\cos\varphi,\qquad y=\sin\theta\sin\varphi,\qquad z=\cos\theta.
+\]
+
+The chamber is
+
+\[
+\frac\pi4<\varphi<\frac\pi2,\qquad 0<\theta<\arctan(\csc\varphi).
+\]
+
+Define
+
+\[
+I_{uv}=\int_R w_{uv}\,d\omega.
+\]
+
+The audit independently reproduces
+
+\[
+\begin{aligned}
+I_{ab}&=0.659705248705705\ldots,\\
+I_{ac}&=0.302699752672608\ldots,\\
+I_{bc}&=0.271295548757857\ldots.
+\end{aligned}
+\]
+
+The strict order \(I_{ab}>I_{ac}>I_{bc}\) follows already from the pointwise inequality. The numerical ratios are
+
+\[
+I_{ab}:I_{ac}:I_{bc}=2.1794046506:1:0.8962529581
+\]
+
+when normalized by \(I_{ac}\), or
+
+\[
+\boxed{2.4316847502:1.1157564290:1}
+\]
+
+when normalized by \(I_{bc}\).
+
+There is also the exact sum identity
+
+\[
+\boxed{I_{ab}+I_{ac}+I_{bc}=\frac{\pi^2}{8}.}
+\]
+
+Indeed, \(w_{ab}+w_{ac}+w_{bc}\) is permutation-symmetric, so its integral is the same on all six order chambers. Since each individual weight integrates to \(J=\pi^2/4\) over the full positive octant,
+
+\[
+6(I_{ab}+I_{ac}+I_{bc})=3J=\frac{3\pi^2}{4}.
+\]
+
+The corresponding geometric proportion vector is
+
+\[
+\boxed{\mathbf P_{\rm geom}\approx(0.53473693,0.24535918,0.21990389).}
+\]
+
+### §3.9 Comparison with the raw incidence data
+
+At \(B=100000\), Stage13-3a gave
+
+\[
+\mathbf P_{\rm raw}\approx(0.50064206,0.25703890,0.24231903)
+\]
+
+and raw \(bc\)-normalized ratio
+
+\[
+2.06604514:1.06074583:1.
+\]
+
+The chamber model predicts
+
+\[
+2.43168475:1.11575643:1.
+\]
+
+Thus it gets the ordering and the scale of the leading \(ab\) excess right, but it **overstates** the bias: relative to the observed \(bc\)-normalized ratios, the geometric \(ab\) component is about \(17.7\%\) high and the \(ac\) component about \(5.2\%\) high.
+
+A descriptive comparison makes the size of the effect clearer. At \(B=100000\), the \(L^1\) distance of the raw proportion vector from the symmetric baseline \((1/3,1/3,1/3)\) is
+
+\[
+0.33461746,
+\]
+
+whereas its distance from \(\mathbf P_{\rm geom}\) is only
+
+\[
+0.06818974.
+\]
+
+Thus this chamber model removes about \(79.6\%\) of the finite \(L^1\) discrepancy from \(1:1:1\). Across the seven audited cutoffs \(1000\le B\le100000\), the same descriptive fraction ranges from about \(68.2\%\) to \(85.6\%\).
+
+This percentage is a diagnostic, not a theorem or a statistical confidence statement. It only quantifies how much closer the observed finite vector lies to the archimedean chamber model than to the fully symmetric baseline.
+
+### §3.10 13-3b conclusion
+
+Stage13-3b gives a strong structural answer but not the final arithmetic constant.
+
+\[
+\boxed{\text{canonical ordering plus the }1/p\text{ archimedean density is a dominant mechanism for the leading }2.}
+\]
+
+More precisely:
+
+1. full orientation / full positive-octant symmetry gives \(1:1:1\);
+2. canonical relabelling with uniform weight still gives \(1:1:1\);
+3. after imposing \(0<a<b<c\), the exact one-face real-density weights satisfy \(w_{ab}>w_{ac}>w_{bc}\);
+4. their chamber integrals produce an \(ab\)-enhanced ratio of the correct qualitative and approximate quantitative scale;
+5. the model is not complete, because it predicts a stronger bias than the raw integer data.
+
+Therefore the leading \(2\) no longer looks mysterious at the archimedean level: the shortest-pair face has the smallest face diagonal and hence the largest real-density weight throughout the canonical chamber. The remaining problem is to explain why arithmetic effects flatten
+
+\[
+2.4317:1.1158:1
+\]
+
+toward the observed
+
+\[
+2.0660:1.0607:1.
+\]
+
+The next inexpensive discriminator is the parity / \(2\)-adic layer. Stage13-3c will split the raw incidence vector by edge parity and face direction before moving to representation multiplicity or odd-prime local factors.
+
+No limiting \(2:1:1\) ratio, no global Euler product, and no equality between these chamber integrals and the true asymptotic constants is claimed here.
+
+```text
+STAGE13_3A=COMPLETE
+STAGE13_3B=COMPLETE
+ARCHIMEDEAN_CHAMBER_DIRECTION_ORDER=ab>ac>bc
+CANONICAL_RELABELING_ALONE_GENERATES_BIAS=false
+CANONICAL_CHAMBER_TIMES_REAL_DENSITY_GENERATES_BIAS=true
+GEOMETRIC_MODEL_BC_NORMALIZED=2.4316847502:1.1157564290:1
+RAW_B100000_BC_NORMALIZED=2.0660451423:1.0607458292:1
+GEOMETRIC_MODEL_IS_COMPLETE_ARITHMETIC_EXPLANATION=false
+ASYMPTOTIC_CLAIM=false
+NEXT=Stage13-3c parity / 2-adic correction
 ```
