@@ -1,6 +1,6 @@
 # Stage13 — canonical working file
 
-> **STATUS:** `STAGE13_3C_COMPLETE_13_3D_NEXT`
+> **STATUS:** `STAGE13_3D_COMPLETE_13_3E_NEXT`
 >
 > **SCOPE:** primitive canonical face-ratio analysis
 >
@@ -666,4 +666,238 @@ P2_ORDER_COUPLING_VISIBLE=true
 P2_LAYER_COMPLETE_EXPLANATION=false
 ASYMPTOTIC_CLAIM=false
 NEXT=Stage13-3d representation / fiber multiplicity
+```
+
+### §3.17 Stage13-3d question
+
+Stage13-3c leaves representation/fiber multiplicity as the next possible source of the missing arithmetic correction. The question is:
+
+> Does the Stage12 weight \(G(p)-1\), after projection to a canonical size-ordered object with a distinguished integral face, become a direction-dependent or otherwise variable fiber multiplicity capable of changing the \(ab:ac:bc\) ratio?
+
+The support audit is
+
+```text
+stages/stage13/scripts/13-3/representation_fiber.py
+stages/stage13/data/13-3/representation_fiber_report.json
+```
+
+It independently reconstructs the Stage12 ordered distinguished-face records and projects them to the same primitive canonical raw incidences used in Stage13-3a.
+
+### §3.18 What \(G(p)-1\) counts
+
+Recall
+
+\[
+G(p)=\prod_{q\mid p,\ q\equiv1\pmod4}(2v_q(p)+1).
+\]
+
+The standard sum-of-two-squares formula gives
+
+\[
+r_2(p^2)=4G(p),
+\]
+
+where \(r_2\) counts signed ordered integer pairs \((x,y)\) with \(x^2+y^2=p^2\). Exactly four of these are the axis solutions
+
+\[
+(\pm p,0),\qquad(0,\pm p).
+\]
+
+After removing them and dividing by the four independent sign choices of a positive ordered pair,
+
+\[
+\boxed{
+G(p)-1
+=
+\#\{(x,y)\in\mathbf Z_{>0}^2:x^2+y^2=p^2\}.
+}
+\]
+
+Thus Stage12's variable-looking weight does not assign \(G(p)-1\) copies to one fixed face. It enumerates all **different ordered positive face representations** sharing the same diagonal \(p\).
+
+For a fixed unordered positive face \(\{x,y\}\), \(x=y\) is impossible in an integer right triangle, so exactly two of those ordered representations correspond to that face:
+
+\[
+(x,y),\qquad(y,x).
+\]
+
+### §3.19 Uniqueness of the complementary Stage12 parameter
+
+Fix a Stage13 raw incidence: a primitive canonical object together with one distinguished integral face. Let \(p\) be that face diagonal and \(z\) the complementary edge, so
+
+\[
+p^2+z^2=d^2.
+\]
+
+Set
+
+\[
+u=d-z,\qquad v=d+z.
+\]
+
+Then \(uv=p^2\). With
+
+\[
+h=\gcd(u,v),
+\]
+
+the coprime integers \(u/h\) and \(v/h\) have square product, hence each is a square. Therefore uniquely
+
+\[
+u=hr^2,\qquad v=hs^2,\qquad r<s,\qquad(r,s)=1,
+\]
+
+and
+
+\[
+p=hrs,\qquad z=\frac{h(s^2-r^2)}2,\qquad d=\frac{h(r^2+s^2)}2.
+\]
+
+So once the distinguished face and its ordered legs are fixed, there is exactly one Stage12 \((h,r,s)\) record. There is no additional hidden multiplicity in the second Pythagorean triangle.
+
+### §3.20 Exact fiber bridge
+
+Let \(\Pi_{12}\) be the Stage13-2 bridge map from primitive Stage12 oriented records to
+
+\[
+(\text{canonical object},\text{distinguished canonical face},\sigma),
+\]
+
+where \(\sigma\in S_3\) retains the Stage12 edge orientation.
+
+For each canonical raw face incidence:
+
+1. exactly two orientations \(\sigma\) are supported, obtained by swapping the two distinguished face legs while keeping the complementary edge in the Stage12 third position;
+2. for each supported \(\sigma\),
+   \[
+   \boxed{m_{12}(x,f,\sigma)=1;}
+   \]
+3. after forgetting \(\sigma\), the total projection multiplicity is exactly
+   \[
+   \boxed{2.}
+   \]
+
+Consequently, if \(C^{\rm proj}_{\rm prim,uv}(B)\) denotes the Stage12 primitive oriented records whose canonical distinguished face lands in category \(uv\), then for every \(B\)
+
+\[
+\boxed{C^{\rm proj}_{\rm prim,ab}(B)=2A_{ab}(B),}
+\]
+
+\[
+\boxed{C^{\rm proj}_{\rm prim,ac}(B)=2A_{ac}(B),}
+\]
+
+\[
+\boxed{C^{\rm proj}_{\rm prim,bc}(B)=2A_{bc}(B).}
+\]
+
+Summing the three directions gives the exact bridge
+
+\[
+\boxed{
+C_{\rm prim}(B)
+=2\bigl(A_{ab}(B)+A_{ac}(B)+A_{bc}(B)\bigr).
+}
+\]
+
+This remains exact for multi-face objects because the distinguished face is retained: a two-face object contributes two raw incidences and four Stage12 oriented records; a hypothetical three-face object would contribute three incidences and six records.
+
+The same factor \(2\) holds separately in the OE and EE strata from Stage13-3c, so there is no hidden parity-dependent fiber correction.
+
+### §3.21 Finite audit
+
+The independent finite audit reproduces both the Stage13-3a directional raw counts and the historical Stage12 raw-oriented locks. For the primitive bridge it gives:
+
+| \(B\) | \(A_{ab}+A_{ac}+A_{bc}\) | Stage12 primitive oriented | ratio |
+|---:|---:|---:|---:|
+| 1,000 | 604 | 1,208 | 2 |
+| 2,000 | 1,444 | 2,888 | 2 |
+| 5,000 | 4,515 | 9,030 | 2 |
+| 10,000 | 10,680 | 21,360 | 2 |
+| 20,000 | 24,796 | 49,592 | 2 |
+| 50,000 | 73,999 | 147,998 | 2 |
+| 100,000 | 168,208 | 336,416 | 2 |
+
+At \(B=100000\), the directional projection is exactly
+
+\[
+(168424,86472,81520)
+=2(84212,43236,40760).
+\]
+
+All \(336416\) supported full-orientation fibers in the audit have size \(1\), and all \(168208\) canonical face incidences have exactly two supported orientations. The audit also checks the \(G(p)-1\) representation identity and the unique hyperbola reconstruction on every generated value needed at each cutoff.
+
+Thus the finite data agree with the exact combinatorial proof without exception.
+
+### §3.22 A theorem-level transfer from Stage12
+
+The exact bridge now permits one immediate transfer of the frozen Stage12 theorem. Since
+
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3,
+\]
+
+we obtain for the **total primitive canonical raw incidence**
+
+\[
+\boxed{
+A_{ab}(B)+A_{ac}(B)+A_{bc}(B)
+\sim
+\frac{\kappa}{24\pi}B(\log B)^3.
+}
+\]
+
+Equivalently, using \(\eta=\pi\kappa\), the constant is \(\eta/(24\pi^2)\).
+
+This is a theorem about the sum of the three raw incidence counts. It does not separate the three directional constants and therefore does not prove a limiting \(2:1:1\) ratio.
+
+Combining the bridge with the exact inclusion-exclusion identity from §2 also gives
+
+\[
+\boxed{
+N_1(B)
+=
+\frac12C_{\rm prim}(B)
+-2\bigl(A_{ab,ac}+A_{ab,bc}+A_{ac,bc}\bigr)
++3A_3.
+}
+\]
+
+Therefore an exactly-one asymptotic with the same half-Stage12 main term would follow if the overlap correction were proved lower order. Stage13-3a supplies strong finite evidence for that statement but **not** its asymptotic proof.
+
+### §3.23 13-3d conclusion
+
+Stage13-3d resolves the representation/fiber ambiguity exactly:
+
+\[
+\boxed{\text{Stage12 representation/fiber multiplicity is not a direction-dependent correction.}}
+\]
+
+The variable quantity \(G(p)-1\) counts different ordered positive faces sharing \(p\); it is not a variable weight attached repeatedly to one fixed Stage13 incidence. Once a particular canonical incidence is fixed, the only projection multiplicity is the universal two-fold swap of its face legs.
+
+Hence this layer cannot explain why the archimedean chamber prediction
+
+\[
+2.4317:1.1158:1
+\]
+
+is flatter in the actual integer data. What can still matter is the **arithmetic distribution of representation-rich values of \(p\)** across the canonical chamber: different \(p\)'s genuinely produce different incidences. That is an odd-prime / representation-density question rather than a fiber-multiplicity question.
+
+The next step is Stage13-3e.
+
+```text
+STAGE13_3A=COMPLETE
+STAGE13_3B=COMPLETE
+STAGE13_3C=COMPLETE
+STAGE13_3D=COMPLETE
+SUPPORTED_FULL_ORIENTATION_FIBER_SIZE=1
+SUPPORTED_ORIENTATIONS_PER_CANONICAL_INCIDENCE=2
+CANONICAL_PROJECTION_MULTIPLICITY=2
+C_PRIM_EQUALS_2_RAW_INCIDENCE_TOTAL=true
+RAW_INCIDENCE_TOTAL_ASYMPTOTIC=kappa/(24*pi)*B*(log B)^3
+REPRESENTATION_FIBER_DIRECTION_BIAS=false
+EXACT_ONE_ASYMPTOTIC_REQUIRES_OVERLAP_CONTROL=true
+NEXT=Stage13-3e odd-prime / representation-density correction
 ```
