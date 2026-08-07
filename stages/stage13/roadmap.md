@@ -13,18 +13,18 @@ Stage12-N1-2 is frozen at R09 and supplies the analytic foundation for the primi
 Stage13 follows:
 
 ```text
-docs/stage13-working-file-policy.md
+stages/stage13/policy.md
 ```
 
 The canonical mathematical working source is
 
 ```text
-docs/stage13-main.md
+stages/stage13/main.md
 ```
 
-Task 13-1 through 13-10 are sections of that single living document. Existing `stage13-1-definition.md` and `stage13-2-decomposition.md` are retained as completed initial sources/history and are imported into `stage13-main.md` when Stage13-3 work begins.
+Task 13-1 through 13-10 are sections of that single living document. The completed initial sources are retained under `stages/stage13/initial/` and are imported into `main.md` when Stage13-3 work begins.
 
-Repair-only patch documents are nondefault. Mathematical corrections are made directly in the relevant section of `stage13-main.md`; Git/PR history records the changes. Data, scripts, long separable support calculations, review manifests, and generated review HTML may remain separate.
+Repair-only patch documents are nondefault. Mathematical corrections are made directly in the relevant section of `main.md`; Git/PR history records the changes. Stage-specific data and scripts use task subdirectories under `stages/stage13/`.
 
 External review is on demand, not a gate for every edit.
 
@@ -58,9 +58,9 @@ The reference finite observation at `B=100000` is recorded in Stage13-1; it is m
 
 Fix counted objects, normalization, cutoff, equivalence relation, exact-one-face condition, and the relation to Stage12 conventions.
 
-Initial source: `docs/stage13-1-definition.md`
+Initial source: `stages/stage13/initial/definition.md`
 
-Canonical destination: `docs/stage13-main.md` §1
+Canonical destination: `stages/stage13/main.md` §1
 
 Priority: ★★★★★ Required
 
@@ -70,9 +70,9 @@ Status: [x] Complete
 
 Decompose the directional counts into raw incidence, overlap correction, canonical size-order, orientation, primitive, parity, representation multiplicity, local-density, and boundary layers.
 
-Initial source: `docs/stage13-2-decomposition.md`
+Initial source: `stages/stage13/initial/structural-decomposition.md`
 
-Canonical destination: `docs/stage13-main.md` §2
+Canonical destination: `stages/stage13/main.md` §2
 
 Priority: ★★★★★ Required
 
@@ -98,7 +98,7 @@ The analysis must distinguish at least:
 - cutoff and boundary effects;
 - the exact Stage12-to-Stage13 fiber map.
 
-Canonical destination: `docs/stage13-main.md` §3
+Canonical destination: `stages/stage13/main.md` §3
 
 Priority: ★★★★★ Required
 
@@ -108,7 +108,7 @@ Status: [>] Active
 
 Explain why the `ac_only` and `bc_only` components are close, and determine whether the two near-`1` contributions arise from the same mechanism or from different mechanisms with similar size.
 
-Canonical destination: `docs/stage13-main.md` §4
+Canonical destination: `stages/stage13/main.md` §4
 
 Priority: ★★★★★ Required
 
@@ -126,7 +126,7 @@ Introduce a quantitative deviation vector or scalar `Delta` from the reference p
 \left(\frac12,\frac14,\frac14\right).
 \]
 
-Canonical destination: `docs/stage13-main.md` §5
+Canonical destination: `stages/stage13/main.md` §5
 
 Priority: ★★★★★ Required
 
@@ -136,7 +136,7 @@ Status: [ ] Not started
 
 Decompose the deviation into structurally meaningful components such as overlap, canonical boundary, multiplicity, parity/local, and finite-cutoff effects.
 
-Canonical destination: `docs/stage13-main.md` §6
+Canonical destination: `stages/stage13/main.md` §6
 
 Priority: ★★★★★ Required
 
@@ -146,7 +146,7 @@ Status: [ ] Not started
 
 Study whether the deviation tends to zero, tends to another limit, remains bounded away from zero, or has identifiable secondary terms.
 
-Canonical destination: `docs/stage13-main.md` §7
+Canonical destination: `stages/stage13/main.md` §7
 
 Priority: ★★★★☆ Supporting
 
@@ -171,7 +171,7 @@ Objects include:
 
 No automatic constant-factor identification is permitted before the fiber multiplicity is established.
 
-Canonical destination: `docs/stage13-main.md` §8
+Canonical destination: `stages/stage13/main.md` §8
 
 Priority: ★★★★★ Required
 
@@ -189,7 +189,7 @@ Formulate and prove the principal structural result in a form such as
 \text{explicit correction terms}.
 \]
 
-Canonical destination: `docs/stage13-main.md` §9
+Canonical destination: `stages/stage13/main.md` §9
 
 Priority: ★★★★★ Required
 
@@ -205,7 +205,7 @@ Answer:
 
 > **Why does a ratio close to `2:1:1` naturally emerge?**
 
-Canonical destination: `docs/stage13-main.md` §10
+Canonical destination: `stages/stage13/main.md` §10
 
 Priority: ★★★★★ Required
 
@@ -260,4 +260,4 @@ Stage13 is complete when:
 
 Stage13 is a structural investigation. It does not assume that the limiting ratio is exactly `2:1:1`.
 
-The canonical mathematical truth for active Stage13 work is the latest merged `docs/stage13-main.md` once that file is bootstrapped. Historical task files remain useful provenance, but future repair-by-new-file proliferation is intentionally avoided.
+The canonical mathematical truth for active Stage13 work is the latest merged `stages/stage13/main.md` once that file is bootstrapped. Historical initial files remain useful provenance, but future repair-by-new-file proliferation is intentionally avoided.

@@ -10,7 +10,11 @@
 >
 > **CONTENT_SHA256:** `0da06c78bbb546039dbe8d423dcc6ed403fe1af90d777488c2393c0c77c16848`
 >
-> **FINAL_DOCUMENT:** `docs/stage12-n1-2-final-r08-self-contained.md`
+> **FINAL_DOCUMENT:** `stages/stage12/final.md`
+>
+> **R09_SOURCE_PATH_AT_FREEZE:** `docs/stage12-n1-2-final-r08-self-contained.md`
+>
+> **R09_SOURCE_ARCHIVE:** `stages/stage12/archive/docs/stage12-n1-2-final-r08-self-contained.md`
 >
 > **PHYSICAL_PAGE:** `review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html`
 >
@@ -24,6 +28,8 @@ R08 removed the old Stage12-N1-2p dependency and made the proof self-contained a
 2. the vertical-growth line could be read as if a functional equation were being attributed to `J_beta`, although the intended argument only uses a functional equation for `L(s,chi_4)`.
 
 Stage12-N1-3j closes both points without changing any main term, local factor, exponent, radial calculation, wing estimate, shallow-sector estimate, or error budget.
+
+The repository was reorganized after Stage12 freeze into a stage-first layout. `stages/stage12/final.md` is the canonical reading path. The frozen R09 proof bytes are unchanged; the pre-reorganization source path is retained above for provenance and its archived copy remains available.
 
 ## Required active closure
 
