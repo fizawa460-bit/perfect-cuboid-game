@@ -64,7 +64,7 @@ CHECKPOINT=START_OF_MAIN</pre>
 - 数学的内容を変更・再証明するページではない。
 - archiveに保存された原文7本を、そのままJekyllの `include_relative` で展開する。
 - R03、R04、R05は履歴として残り、このページはそれらを削除・置換しない。
-- 現行の統合完成稿は [`docs/stage12-n1-2-final.md`](../stage12-n1-2-final.md) であり、通常の引用対象は完成稿である。
+- 現行の統合完成稿は [`docs/stage12-n1-2-final.md`](https://github.com/fizawa460-bit/perfect-cuboid-game/blob/main/docs/stage12-n1-2-final.md) であり、通常の引用対象は完成稿である。
 - このページは、2j〜2pの修復経路とレビュー履歴を一続きで検査したい場合の handoff 用である。
 - 対象となる主張は primitive oriented count に限定され、Stage13の canonical exact-one-face count へ自動的には移らない。
 
