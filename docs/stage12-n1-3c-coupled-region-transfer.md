@@ -1,18 +1,18 @@
-# Stage12-N1-3c：coupled-region transfer の完全変数展開と幾何kernel課題
+# Stage12-N1-3c：coupled-region transfer の完全変数展開とresidue-first閉包
 
-> **STATUS:** `MAJOR_03_PARTIALLY_RESOLVED_GEOMETRIC_KERNEL_OPEN`
+> **STATUS:** `MAJOR_03_CLOSED_BY_STAGE12_N1_3C_G`
 >
 > **SOURCE_AUDIT:** `docs/review/stage12-n1-2-full-audit-r01.md`
 >
 > **SUPERSEDES:** Stage12-N1-2n §3 および旧Final §5の概要的な `L^3/12` 移送
 >
-> **THEOREM_STATUS:** `REPAIRABLE — NOT CLOSED`
+> **DETAILED_CLOSURE:** `docs/stage12-n1-3c-g-residue-first-closure.md`
 >
-> **MERGE_STATUS:** `DO_NOT_MERGE_WHILE_GEOMETRIC_KERNEL_LEMMA_IS_OPEN`
+> **THEOREM_STATUS:** `REPAIRABLE — NOT CLOSED`
 
-## 0. 目的と今回の到達点
+## 0. 目的と最終判定
 
-本稿は、独立監査R01の **MAJOR-03** を扱う。
+本稿は独立監査R01のMAJOR-03を修復する。
 
 旧2nと旧Finalでは、長方形主項から
 
@@ -22,30 +22,28 @@
 =\frac{L^3}{12}
 \]
 
-へ移る部分が概要に留まり、次が明示されていなかった。
+へ移る部分が概要に留まり、元変数、divisor variables、倍数変数、radial kernel、parity、orientation、境界項が一つの等式鎖で接続されていなかった。
 
-- 元の辺変数 `(r,s)`;
-- divisor variables `(b,c)`;
-- 倍数変数 `(u,v)`;
-- radial kernel `(r^2+s^2)^{-1}`;
-- odd–odd / opposite-parity のheight係数;
-- orientation `r<s`;
-- 正確な二変数Stieltjes移送;
-- 修正版長方形誤差のkernel適用後評価。
+Stage12-N1-3cではまずfixed divisor variables `(b,c)` を含むexact kernelまで変数台帳を復元し、model kernelから `L^3/12` を得るStieltjes計算を書いた。その結果、fixed-`(b,c)` anisotropic kernel remainderが残った。
 
-本稿では、これらを一つの等式鎖へ戻す。また、算術側の二変数Stieltjes移送と係数 `1/12` の計算を厳密に分離する。
+Stage12-N1-3c.Gでは、このfixed-divisor statementが最終漸近式に必要な主張より強いことを確認した。除数展開を元へ戻し、元のedge variables `(r,s)` 上のparity-weighted coprime rectangle sumを先に平均することで、fixed-`(b,c)` kernel lemmaを使わずにexact residue mainを直接移送できる。
 
-その結果、旧文書で隠れていた残件は次の一つへ縮約される。
+従って最終判定は
 
-> **Geometric kernel lemma.** fixed divisor variables `(b,c)` に対するanisotropic primitive harmonic lattice sumを、必要な平均一様誤差でarchimedean kernelへ置換すること。
+```text
+OLD_3C_G_FIXED_DIVISOR_KERNEL=SUPERSEDED_NOT_REQUIRED
+NEW_3C_G_RESIDUE_FIRST_RECTANGLE=PROVED
+NEW_3C_G_RADIAL_TRANSFER=PROVED
+MAJOR_03=CLOSED_BY_STAGE12_N1_3C_G
+```
 
-この補題は現在の文書群からは証明できていない。従って、本稿はMAJOR-03を完全には閉じず、`DO_NOT_MERGE` とする。
+とする。
 
 ---
 
-## 1. primitive-first 主項の正確な形
+## 1. exact residue main
 
-Stage12-N1-3bにより、fixed-`(r,s)` height sumは
+Stage12-N1-3bによりfixed-`(r,s)` height sumは
 
 \[
 \sum_{m\le X}A_{r,s}(m)
@@ -54,375 +52,139 @@ Stage12-N1-3bにより、fixed-`(r,s)` height sumは
 +O\!\left(G(rs)H_{\rm abs}(rs)X^{1/2}\right)
 \]
 
-であり、retained regionにおけるremainderのouter averageは主項より十分小さい。
+であり、retained regionにおけるremainderのouter averageは任意の固定対数冪より小さい。
 
-従って、MAJOR-03ではheight remainderを切り離し、residue mainだけを扱う。
-
-\[
-q=r^2+s^2,
-\]
-
-とし、parity branchのheight係数を
+従ってMAJOR-03ではresidue mainだけを扱う。
 
 \[
-\lambda(r,s)=
-\begin{cases}
-2,&r,s\text{ がともに奇数},\\
-1,&r,s\text{ がopposite parity}
-\end{cases}
+g(n):=\pi\gamma(n)
+=\sum_{d\mid n}\beta(d)
+=(1*\beta)(n)
 \]
 
-とする。`(r,s)=1` なのでboth-evenは存在しない。
+と置く。parity height factorを
 
-residue mainは
+\[
+\lambda(r,s)
+=
+1+\mathbf1_{r\ \mathrm{odd}}\mathbf1_{s\ \mathrm{odd}}
+\]
+
+とする。
+
+exact residue mainは
 
 \[
 \mathcal M(B)
 =
-B
-\sum_{1\le r<s\atop(r,s)=1}
-\frac{\lambda(r,s)}{r^2+s^2}
-\gamma(rs)
-\mathbf 1_{r^2+s^2\le \lambda(r,s)B}.
+\frac B\pi
+\left\{
+2\!\sum_{\substack{r<s,(r,s)=1\\r,s\ \mathrm{odd}\\r^2+s^2\le2B}}
+\frac{g(r)g(s)}{r^2+s^2}
++
+\sum_{\substack{r<s,(r,s)=1\\r,s\ \mathrm{opposite}\\r^2+s^2\le B}}
+\frac{g(r)g(s)}{r^2+s^2}
+\right\}.
 \]
 
-Stage12-N1-2jのdivisor expansion
+共通cutoffを使った
+
+\[
+\mathcal H_\lambda(B)
+:=
+\sum_{\substack{r<s,(r,s)=1\\r^2+s^2\le B}}
+\frac{\lambda(r,s)g(r)g(s)}{r^2+s^2}
+\]
+
+との差はodd–odd annulus `B<r^2+s^2<=2B` だけである。長方形上界をdyadicに合計するとこのannulusのharmonic massは `O((log B)^2)` なので
+
+\[
+\boxed{
+\mathcal M(B)
+=
+\frac B\pi\mathcal H_\lambda(B)
++O\!\left(B(\log B)^2\right)
+}.
+\]
+
+---
+
+## 2. fixed-divisor exact ledger
+
+監査可能性のため、3cで復元した除数変数表示も記録する。
+
+`(r,s)=1` と
 
 \[
 \gamma(n)=\frac1\pi\sum_{d\mid n}\beta(d)
 \]
 
-を代入すると
-
-\[
-\mathcal M(B)
-=
-\frac{B}{\pi}
-\sum_{1\le r<s\atop(r,s)=1}
-\frac{\lambda(r,s)}{r^2+s^2}
-\mathbf 1_{r^2+s^2\le \lambda(r,s)B}
-\sum_{d\mid rs}\beta(d).
-\]
-
-ここまでは等式であり、`L^3/12` の近似を使っていない。
-
----
-
-## 2. divisor variables と倍数変数の完全分離
-
-`(r,s)=1` なので、各 `d|rs` は一意に
+から各 `d|rs` は一意に
 
 \[
 d=bc,
 \qquad b\mid r,
 \qquad c\mid s,
-\qquad (b,c)=1
+\qquad(b,c)=1
 \]
 
-と分解される。また `β` は乗法的なので
-
-\[
-\beta(d)=\beta(b)\beta(c).
-\]
+と分解される。
 
 \[
 r=bu,
-\qquad
-s=cv
+\qquad s=cv
 \]
 
-と置く。`β` のsupportから `b,c` は奇数である。
-
-条件 `(r,s)=1` は
+と置けば
 
 \[
 (u,v)=1,
-\qquad
-(u,c)=1,
-\qquad
-(v,b)=1,
-\qquad
-(b,c)=1
+\qquad(u,c)=1,
+\qquad(v,b)=1.
 \]
 
-と同値である。
-
-また、`b,c` が奇数なのでparity branchは `(u,v)` のparityだけで決まり、
+従って
 
 \[
-\lambda(bu,cv)=\lambda(u,v).
-\]
-
-従って主項は正確に
-
-\[
-\boxed{
 \mathcal M(B)
 =
-\frac{B}{\pi}
-\sum_{b,c\ge1\atop(b,c)=1}
-\beta(b)\beta(c)
-\mathcal K_B(b,c)
-}
-\]
-
-と書ける。ここでradial / height / orientationをすべて保持したkernelは
-
-\[
-\boxed{
-\mathcal K_B(b,c)
-:=
-\sum_{u,v\ge1\atop
-(u,v)=1,\ (u,c)=1,\ (v,b)=1,\ bu<cv}
-\frac{\lambda(u,v)}{b^2u^2+c^2v^2}
-\mathbf 1_{b^2u^2+c^2v^2\le\lambda(u,v)B}
-}.
-\]
-
-これが旧2nで省略されていた完全な変数対応である。
-
-- `(r,s)`：元のprimitive edge parameters;
-- `(b,c)`：`γ(rs)` のdivisor variables;
-- `(u,v)`：`r=bu`, `s=cv` の倍数変数;
-- `(b^2u^2+c^2v^2)^{-1}`：消してはいけないradial kernel;
-- `bu<cv`：orientation `r<s`;
-- `λ(u,v)`：odd–odd / opposite-parity height factor。
-
----
-
-## 3. archimedean とlocal-densityから予測されるkernel
-
-\[
-\rho(n):=
-\prod_{p\mid n}\frac{p}{p+1}
-\]
-
-とする。
-
-### 3.1 奇素数local density
-
-fixed coprime `(b,c)` に対し、倍数変数は
-
-\[
-(u,v)=1,
-\qquad
-(u,c)=1,
-\qquad
-(v,b)=1
-\]
-
-を満たす。
-
-奇素数 `p` について、基準primitive densityに対する追加比は
-
-\[
-\frac{1-p^{-1}}{1-p^{-2}}
-=rac{p}{p+1}
-\]
-
-である。従ってodd-prime densityは
-
-\[
-\prod_{p\ \mathrm{odd}}(1-p^{-2})\rho(bc)
-=
-\frac{8}{\pi^2}\rho(bc).
-\]
-
-### 3.2 2-adic weighted mass
-
-`b,c` は奇数である。`u,v` のparity classの通常密度は
-
-\[
-\text{odd--odd}:\frac14,
-\qquad
-\text{opposite parity}:\frac12.
-\]
-
-height係数を掛けた2-adic massは
-
-\[
-2\cdot\frac14+1\cdot\frac12=1.
-\]
-
-従って、2-adic branchはleading logarithmic coefficientに追加損失を与えない。odd–odd branchのradial cutoff `\sqrt{2B}` とopposite-parity branchのcutoff `\sqrt B` の差は `\log 2` の定数差であり、leading `L^3` には影響せず、最大でもlower-log termへ入る。
-
-### 3.3 orientation とradial integral
-
-座標
-
-\[
-x=bu,
-\qquad
-y=cv
-\]
-
-を用いるとJacobianは `(bc)^{-1}`。orientation `bu<cv` は第一象限の角度 `π/4` のsectorである。
-
-radial harmonic integralは
-
-\[
-\int\frac{dx\,dy}{x^2+y^2}
-=
-\int d\theta\int\frac{dt}{t}.
-\]
-
-上端は `t\asymp B^{1/2}`、下端は `t\asymp\max(b,c)` であるため、leading logarithmic lengthは
-
-\[
-\frac12
-\left[
-L-2\max(\log b,\log c)
-\right]_+.
-\]
-
-angle `π/4`、odd-prime density `8ρ(bc)/π^2`、radial factor `1/2` を合わせると、予測されるkernel mainは
-
-\[
-\boxed{
-\mathcal K_B^{\rm main}(b,c)
-=
-\frac{\rho(bc)}{\pi bc}
-\left[
-L-2\max(\log b,\log c)
-\right]_+.
-}
-\]
-
-従って、必要なgeometric kernel statementは
-
-\[
-\mathcal K_B(b,c)
-=
-\mathcal K_B^{\rm main}(b,c)
-+\mathcal R_B(b,c)
-\]
-
-と書いたとき、最終的に
-
-\[
+\frac B\pi
 \sum_{(b,c)=1}
-\beta(b)\beta(c)\mathcal R_B(b,c)
-=o((\log B)^3)
+\beta(b)\beta(c)\mathcal K_B(b,c),
 \]
 
-を示すことである。
+\[
+\mathcal K_B(b,c)
+=
+\sum_{\substack{u,v\ge1\\(u,v)=1,(u,c)=1,(v,b)=1\\bu<cv}}
+\frac{\lambda(u,v)}{b^2u^2+c^2v^2}
+\mathbf1_{b^2u^2+c^2v^2\le\lambda(u,v)B}.
+\]
 
-このweighted average remainderが現在の中心未証明項である。
+この表示はexactである。ただし、最終証明はfixed `(b,c)` ごとに `K_B` を近似する経路を採用しない。
 
 ---
 
-## 4. density-corrected divisor coefficient
-
-kernel mainへ `ρ(bc)` が現れるため
+## 3. model routeの整合性
 
 \[
+\rho(n):=\prod_{p\mid n}\frac{p}{p+1},
+\qquad
 \alpha(n):=\beta(n)\rho(n)
 \]
 
-と置く。`(b,c)=1` なら
+と置く。fixed-divisor local-density / archimedean modelは
 
 \[
-\rho(bc)=\rho(b)\rho(c),
-\]
-
-従ってkernel mainを代入した算術和は
-
-\[
-\mathcal M_{\rm model}(B)
+\mathcal K_B^{\rm main}(b,c)
 =
-\frac{B}{\pi^2}
-\sum_{b,c\ge1\atop(b,c)=1}
-\frac{\alpha(b)\alpha(c)}{bc}
-\Phi_L(\log b,\log c),
+\frac{\rho(bc)}{\pi bc}
+[L-2\max(\log b,\log c)]_+.
 \]
 
-\[
-\Phi_L(y,z)
-:=
-[L-2\max(y,z)]_+.
-\]
-
-`q≡1 (mod 4)` と `j≥1` に対し
+`alpha` のcoprime rectangle residue constantは
 
 \[
-\alpha(q^j)
-=
-\frac{2q(q-1)}{(q+1)^2}.
-\]
-
-二変数係数
-
-\[
-a(b,c)
-:=
-\alpha(b)\alpha(c)\mathbf1_{(b,c)=1}
-\]
-
-を定義する。
-
----
-
-## 5. arithmetic rectangle constant は `η`
-
-二変数Dirichlet級数
-
-\[
-F_\alpha(s_1,s_2)
-=
-\sum_{b,c\ge1}
-\frac{a(b,c)}{b^{s_1}c^{s_2}}
-\]
-
-を考える。
-
-`q≡1 (mod 4)` のlocal factorは
-
-\[
-1+
-\frac{a_q q^{-s_1}}{1-q^{-s_1}}
-+
-\frac{a_q q^{-s_2}}{1-q^{-s_2}},
-\qquad
- a_q=\frac{2q(q-1)}{(q+1)^2}.
-\]
-
-`(s_1,s_2)=(1,1)` では
-
-\[
-1+2\frac{a_q}{q-1}
-=
-1+\frac{4q}{(q+1)^2}.
-\]
-
-各変数の `ζ(s)L(s,χ_4)` poleを除いたnormalized local factorは
-
-\[
-\left(1+\frac{4q}{(q+1)^2}\right)
-(1-q^{-1})^4.
-\]
-
-`p≡3 (mod 4)` では
-
-\[
-(1-p^{-2})^2,
-\]
-
-`p=2` では
-
-\[
-(1-2^{-1})^2,
-\]
-
-また
-
-\[
-L(1,\chi_4)^2=\left(\frac\pi4\right)^2.
-\]
-
-従って二変数residue constantは、Stage12-N1-2kで定義した
-
-\[
-\boxed{
 \eta
 =
 \left(\frac\pi4\right)^2
@@ -430,340 +192,343 @@ L(1,\chi_4)^2=\left(\frac\pi4\right)^2.
 \prod_{p\equiv3(4)}(1-p^{-2})^2
 \prod_{q\equiv1(4)}
 \left(1+\frac{4q}{(q+1)^2}\right)
-(1-q^{-1})^4
-}
+(1-q^{-1})^4.
 \]
 
-と一致する。
+model kernelへ到達した後のStieltjes積分は
 
-つまり `η` は、density-corrected divisor variables `(b,c)` のrectangle main coefficientそのものである。
+\[
+\int_{y,z\ge0\atop2\max(y,z)<L}
+(L-2\max(y,z))\,dy\,dz
+=
+\frac{L^3}{12}.
+\]
+
+従ってmodel mainは
+
+\[
+\frac\eta{12\pi^2}B(\log B)^3
+=
+\frac\kappa{12\pi}B(\log B)^3.
+\]
+
+このmodel routeはconstant checkとして有効だが、fixed-divisor remainderを最終入力にはしない。
 
 ---
 
-## 6. density-corrected rectangle lemma
+## 4. residue-first二変数factorization
 
-`α(q^j)=2+O(q^{-1})` であり、Stage12-N1-3aと同じ一変数factorizationおよびcoprime cross correctionが成立する。
-
-従って、Stage12-N1-3aのproofを `β` から `α` へそのまま行うと、任意の固定
+`g=1*beta` の一変数Dirichlet級数は
 
 \[
-0<\varepsilon<\frac18
+G(s)
+=
+\sum_{n\ge1}\frac{g(n)}{n^s}
+=
+\zeta(s)B_\beta(s)
+=
+\zeta(s)^2H_g(s),
 \]
 
-に対し
+\[
+H_g(s)=L(s,\chi_4)J_\beta(s).
+\]
+
+Stage12-N1-2oの解析条件から `H_g` は `Re s>1/2+epsilon` の固定近傍で正則かつ非零である。標準Selberg–Delangeの `z=2` 特殊形により
 
 \[
-A_\alpha(R,S)
+\sum_{n\le X}g(n)
+=c_gX\log X+d_gX+O(XE_g(X)).
+\]
+
+二変数係数
+
+\[
+a_\lambda(r,s)
+=
+\lambda(r,s)g(r)g(s)\mathbf1_{(r,s)=1}
+\]
+
+のDirichlet級数は
+
+\[
+D_\lambda(s_1,s_2)
+=
+G(s_1)G(s_2)C_\lambda(s_1,s_2)
+\]
+
+と分解される。
+
+odd prime `p` で
+
+\[
+U_p(s)=\sum_{k\ge1}g(p^k)p^{-ks}
+\]
+
+と置くと、coprime local factorは
+
+\[
+1+U_p(s_1)+U_p(s_2),
+\]
+
+従ってcross correctionは
+
+\[
+C_p(s_1,s_2)
+=
+1-
+\frac{U_p(s_1)U_p(s_2)}
+{(1+U_p(s_1))(1+U_p(s_2))}
+=
+1+O(p^{-\sigma_1-\sigma_2}).
+\]
+
+よって `C_lambda` は `Re(s_1+s_2)>1` で絶対収束する。2-adic factorは有限で、`lambda` のweighted massを正確に保持する。
+
+---
+
+## 5. parity-weighted rectangle lemma
+
+\[
+T_\lambda(R,S)
 :=
-\sum_{b\le R,c\le S}a(b,c)
+\sum_{r\le R,s\le S}a_\lambda(r,s)
 \]
 
-は
+とする。任意の固定 `0<epsilon<1/8` に対し
+
+\[
+\begin{aligned}
+T_\lambda(R,S)
+={}&C_\lambda^{(0)}RS\log R\log S
++RS\{C_{10}\log R+C_{01}\log S+C_{00}\}\\
+&+O_\varepsilon\!\Bigl(
+RS\log(2R)\log(2S)
+\{E_{g,*}(R^{1/2})+E_{g,*}(S^{1/2})\}\\
+&\hspace{29mm}
++\log(2R)\log(2S)
+\{R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}\}
+\Bigr).
+\end{aligned}
+\]
+
+証明は `C_lambda` の係数を先に畳み込み、一変数 `z=2` 平均を二回代入する。大係数領域はStage12-N1-3aと同じweighted coefficient normで処理する。
+
+leading coefficientはlocal factor計算により
 
 \[
 \boxed{
-A_\alpha(R,S)
+C_\lambda^{(0)}
 =
-\eta RS
-+O_\varepsilon\!\left(
-RS\{E_{\alpha,*}(R^{1/2})+E_{\alpha,*}(S^{1/2})\}
-+R^{3/4+\varepsilon}S
-+RS^{3/4+\varepsilon}
-\right)
-}
+\frac8{\pi^2}\eta
+}.
 \]
 
-を満たす。
+`p congruent 3 mod 4` のnormalized factorは `(1-p^{-2})^3`。`q congruent 1 mod 4` では
 
-ここで `E_{α,*}` は対応する一変数zero-free-region errorの単調包絡線であり、retained regionでは任意の固定対数冪より小さい。
+\[
+D_q(1,1)
+=
+\frac{q+1}{q-1}
+\left(1+\frac{4q}{(q+1)^2}\right),
+\]
 
-この補題の証明で必要な変更はlocal coefficient `β(q^j)` を `α(q^j)` に置き換えることだけで、weighted cross normの収束領域と大係数尾部の指数はStage12-N1-3aと同じである。
+したがってnormalized factorは
+
+\[
+(1-q^{-2})
+\left(1+\frac{4q}{(q+1)^2}\right)
+(1-q^{-1})^4.
+\]
+
+front factorは
+
+\[
+L(1,\chi_4)^2(1-2^{-1})^2
+=
+\left(\frac\pi4\right)^2\left(\frac12\right)^2.
+\]
+
+これを `eta` と比較し
+
+\[
+\prod_{p\ \mathrm{odd}}(1-p^{-2})
+=\frac8{\pi^2}
+\]
+
+を使う。
 
 ---
 
-## 7. 二変数Stieltjes移送と `1/12`
+## 6. radial Stieltjes transfer
 
-算術モデル和をStieltjes積分で書く。
+full quadrantのharmonic sumを
 
 \[
-W_L(x,y)
+\widetilde{\mathcal H}_\lambda(B)
 :=
-\frac{[L-2\max(\log x,\log y)]_+}{xy}.
+\sum_{\substack{r,s\ge1,(r,s)=1\\r^2+s^2\le B}}
+\frac{\lambda(r,s)g(r)g(s)}{r^2+s^2}
 \]
 
-すると
+とする。
+
+係数とkernelは対称である。また `(r,s)=1` と `r=s` は `(1,1)` しか許さない。従って
 
 \[
-\sum_{(b,c)=1}
-\frac{\alpha(b)\alpha(c)}{bc}
-\Phi_L(\log b,\log c)
+\mathcal H_\lambda(B)
 =
-\iint W_L(x,y)\,dA_\alpha(x,y).
+\frac12\widetilde{\mathcal H}_\lambda(B)+O(1).
 \]
 
-主項measure `η dx dy` を代入すると
+leading rectangle termを二変数Stieltjes移送すると
 
 \[
-\eta
-\int_1^{e^{L/2}}
-\int_1^{e^{L/2}}
-\frac{[L-2\max(\log x,\log y)]_+}{xy}
-\,dx\,dy.
-\]
-
-\[
-y_1=\log x,
-\qquad
-y_2=\log y
-\]
-
-と変数変換すればJacobianは
-
-\[
-\frac{dx\,dy}{xy}=dy_1dy_2.
-\]
-
-よって積分は
-
-\[
-\eta
-\int_{y_1,y_2\ge0\atop2\max(y_1,y_2)<L}
-(L-2\max(y_1,y_2))\,dy_1dy_2.
-\]
-
-対角はmeasure zeroなので対称性を用いると
-
-\[
-2\eta
-\int_0^{L/2}
-\int_0^{z}
-(L-2z)\,dy\,dz
+\int_{x^2+y^2\le B}
+\frac{\log x\log y}{x^2+y^2}\,dx\,dy
 =
-2\eta
-\int_0^{L/2}
-z(L-2z)\,dz.
+\frac\pi{48}(\log B)^3+O((\log B)^2).
 \]
 
-直接計算して
+これはpolar coordinatesで
 
 \[
-2
-\left[
-\frac{Lz^2}{2}-\frac{2z^3}{3}
-\right]_{0}^{L/2}
+\frac{dx\,dy}{x^2+y^2}
+=\frac{dt}{t}\,d\theta
+\]
+
+を使い、full quadrant angle `pi/2` と
+
+\[
+\int_1^{B^{1/2}}
+\frac{(\log t)^2}{t}\,dt
 =
-\frac{L^3}{12}.
+\frac{(\log B)^3}{24}
+\]
+
+から得る。
+
+従って
+
+\[
+\widetilde{\mathcal H}_\lambda(B)
+=
+\frac{\pi C_\lambda^{(0)}}{48}(\log B)^3
++o((\log B)^3),
+\]
+
+\[
+\boxed{
+\mathcal H_\lambda(B)
+=
+\frac\eta{12\pi}(\log B)^3
++o((\log B)^3)
+}.
+\]
+
+---
+
+## 7. 誤差・境界予算
+
+対数dyadic box
+
+\[
+[R,2R]\times[S,2S]
+\]
+
+上でradial kernelの部分和分ノルムは
+
+\[
+\left\|\frac1{x^2+y^2}\right\|_{{\rm PS}}
+\ll\frac1{R^2+S^2}.
+\]
+
+retained boxesで `R<=S` の場合、rectangle power errorの寄与は
+
+\[
+\ll
+(\log B)^2R^{-1/4+\varepsilon},
+\]
+
+したがって `min(R,S)>=exp((log B)^(1/4)/2)` では任意の固定対数冪より小さい。
+
+shallow boxesは非負性と
+
+\[
+T_\lambda(R,S)\ll RS\log(2R)\log(2S)
+\]
+
+からdyadicに合計して `o((log B)^3)` となる。
+
+radial arcを横切るboxesは固定比annulusへ含まれ、その全harmonic massは `O((log B)^2)`。odd–odd cutoff `2B` とcommon cutoff `B` の差も同じ次数である。
+
+従ってrectangle error、shallow region、arc、parity cutoff差をすべて含めて
+
+\[
+\widetilde{\mathcal H}_\lambda(B)
+-
+\frac{\pi C_\lambda^{(0)}}{48}(\log B)^3
+=o((\log B)^3).
+\]
+
+---
+
+## 8. residue mainの完成
+
+Sections 1、6、7より
+
+\[
+\mathcal M(B)
+=
+\frac B\pi
+\left\{
+\frac\eta{12\pi}(\log B)^3
++o((\log B)^3)
+\right\}
++O(B(\log B)^2).
 \]
 
 従って
 
 \[
 \boxed{
-\iint W_L(x,y)\,\eta dxdy
-=
-\frac{\eta}{12}L^3.
-}
-\]
-
-外側のarchimedean factor `B/π^2` を戻すと
-
-\[
-\boxed{
-\mathcal M_{\rm model}(B)
+\mathcal M(B)
 \sim
-\frac{\eta}{12\pi^2}B(\log B)^3.
-}
+\frac\eta{12\pi^2}B(\log B)^3
+}.
 \]
 
-Stage12-N1-2kのlocal identity `η=πκ` を用いれば
-
-\[
-\frac{\eta}{12\pi^2}
-=
-\frac{\kappa}{12\pi}.
-\]
-
-この節により、**kernel mainへ到達した後のStieltjes計算と係数 `1/12` は閉じる**。
-
----
-
-## 8. rectangle errorのStieltjes適合性
-
-対数dyadic box
-
-\[
-\mathcal B(R,S)=[R,2R]\times[S,2S]
-\]
-
-上で `W_L` は区分的 `C^2` であり、対角またはsupport境界を横切るboxは有限個のsubboxへ切る。
-
-box内部では
-
-\[
-|W_L|
-+R|\partial_xW_L|
-+S|\partial_yW_L|
-+RS|\partial_{xy}W_L|
-\ll
-\frac{L+1}{RS}.
-\]
-
-従って二変数部分和分で現れる境界値・一次変分・混合変分をまとめたノルムは
+Stage12-N1-2kのlocal identity `eta=pi kappa` を使えば
 
 \[
 \boxed{
-\|W_L\|_{{\rm PS},\mathcal B}
-\ll
-\frac{L+1}{RS}.
-}
+\mathcal M(B)
+\sim
+\frac\kappa{12\pi}B(\log B)^3
+}.
 \]
 
-Stage12-N1-3a型のpower errorを掛けると、box寄与は
-
-\[
-\ll
-(L+1)
-\left(
-R^{-1/4+\varepsilon}
-+S^{-1/4+\varepsilon}
-\right).
-\]
-
-retained divisor regionを
-
-\[
-\min(R,S)
-\ge
-S_0
-:=
-\exp\!\left(\frac12(\log B)^{1/4}\right)
-\]
-
-とすれば、これは任意の固定対数冪より小さい。多項対数個のboxを合計しても `o(L^3)` である。
-
-一方、`min(R,S)<S_0` のshallow divisor regionのmain volumeは
-
-\[
-O\!\left(L^2\log S_0\right)
-=
-O(L^{9/4})
-=o(L^3).
-\]
-
-zero-free-region errorも同じboxwise normでさらに小さい。
-
-従って、density-corrected rectangle lemmaから算術モデル和へのStieltjes移送誤差は
-
-\[
-o(L^3)
-\]
-
-で閉じる。
-
-ここで閉じたのは `K_B^{main}` を使う**算術モデル**であり、exact kernel `K_B` との差ではない。
+Stage12-N1-3bのfixed-height remainderと接続することで、MAJOR-03のcoupled-region transferを閉じる。
 
 ---
 
-## 9. diagonal、arc、floorの位置づけ
+## 9. 残る項目
 
-### 9.1 divisor-variable diagonal
+MAJOR-03は修復文書上で閉じたが、Stage12-N1-2全体はまだclosedではない。
 
-Stieltjes積分中の `b=c` は二次元measure zeroであり、離散寄与も一変数和になるためlower-log orderである。ただし、元のorientation境界は `b=c` ではなく `bu=cv` であり、これはexact geometric kernel内で処理しなければならない。
+残る項目:
 
-### 9.2 radial arc
-
-radial cutoff
-
-\[
-b^2u^2+c^2v^2
-\le
-\lambda(u,v)B
-\]
-
-を横切るarc discrepancyもexact geometric kernel remainder `R_B(b,c)` の一部である。rectangle modelだけでは閉じない。
-
-### 9.3 floor endpoint
-
-height floorによる `O(1)` per `(r,s)` errorはresidue mainとは分離され、Stage12-N1-3bのouter bookkeepingおよび最終統合稿で扱う。`L^3/12` のStieltjes計算へ混入させない。
-
----
-
-## 10. 現在残ったgeometric kernel lemma
-
-MAJOR-03を完全に閉じるには、次を証明する必要がある。
-
-### 必要補題 3c.G
-
-\[
-\mathcal K_B(b,c)
-=
-\frac{\rho(bc)}{\pi bc}
-[L-2\max(\log b,\log c)]_+
-+\mathcal R_B(b,c)
-\]
-
-であり、
-
-\[
-\boxed{
-\sum_{b,c\ge1\atop(b,c)=1}
-\beta(b)\beta(c)
-\mathcal R_B(b,c)
-=o((\log B)^3)
-}
-\]
-
-が成り立つ。
-
-必要な一様性は、次を同時に含む。
-
-- anisotropy `b/c` が極端な場合;
-- primitive condition `(u,v)=1`;
-- side exclusions `(u,c)=1`, `(v,b)=1`;
-- parity-dependent weightとradial cutoff;
-- orientation boundary `bu=cv`;
-- arc boundary;
-- `b,c` 全体のweighted average。
-
-素朴なMöbius inclusionとper-`(b,c)` perimeter errorでは、divisor-lossを伴う可能性があり、そのまま `β(b)β(c)` で総和すると `B(log B)^3` と同次数まで戻る危険がある。従って、現在の資料だけでこの平均誤差を閉じたとは言えない。
-
-候補となる修復路は次のいずれかである。
-
-1. congruence-restricted primitive lattice pointsのanisotropic familyに対する平均discrepancy;
-2. smooth radial partition後のPoisson / large-sieve平均;
-3. `(b,c)` とMöbius variablesを先にまとめるEuler–Stieltjes再編成;
-4. exact kernelを直接二変数Mellin表示し、residueとcontour errorを平均評価する方法。
-
-この選択は次の作業で決める。
-
----
-
-## 11. 判定
-
-本稿で完了した事項:
-
-1. 元変数、divisor variables、倍数変数を含むexact main sumを復元した;
-2. radial kernel、height cutoff、parity、orientationを保持した `K_B(b,c)` を定義した;
-3. density-corrected coefficient `α=βρ` を導入した;
-4. rectangle residue constantが `η` であることをlocal factorごとに確認した;
-5. 二変数Stieltjes移送を完全に書き、model kernelから `ηL^3/12` を得た;
-6. Stage12-N1-3aの修正版rectangle errorがmodel Stieltjes kernelに適合することを示した;
-7. diagonal / arc / floorのうち、exact geometric kernelへ残る部分を明示した。
-
-未完了:
-
-- exact geometric kernel `K_B` からmodel kernel `K_B^{main}` へのweighted average remainder。
-
-従って現在の状態は
+- MAJOR-04：counting definition / constant sheet / self-contained bundle;
+- Tenenbaumの使用版、定理番号、`z=1` と `z=2` の採用形の固定;
+- 2jの壊れたcontrol character修正;
+- 3a〜3c.Gを反映した新しい統合稿;
+- 独立再監査。
 
 ```text
 MAJOR_01=CLOSED_BY_STAGE12_N1_3A
 MAJOR_02=CLOSED_BY_STAGE12_N1_3B
-MAJOR_03=PARTIAL_EXACT_REDUCTION_AND_STIELTJES_COMPLETE_GEOMETRIC_KERNEL_OPEN
-MAJOR_04=OPEN
+MAJOR_03=CLOSED_BY_STAGE12_N1_3C_G
+MAJOR_04=OPEN_NEXT
 THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
-MERGE_STATUS=DO_NOT_MERGE
-NEXT_TASK=STAGE12_N1_3C_GEOMETRIC_KERNEL_LEMMA
+NEXT_TASK=STAGE12_N1_3D_SELF_CONTAINED_DEFINITION_AND_CONSTANT_SHEETS
 ```
-
-とする。
