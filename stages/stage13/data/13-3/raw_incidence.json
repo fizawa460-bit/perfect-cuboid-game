@@ -1,0 +1,91 @@
+{
+  "task": "Stage13-3a",
+  "status": "FINITE_COMPUTATION_ONLY",
+  "counting_convention": {
+    "canonical_order": "a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "space_diagonal": "a^2+b^2+c^2=d^2",
+    "cutoff": "d<=B",
+    "raw_incidence": "integer face counted before exact-one sieve"
+  },
+  "enumeration": {
+    "method": "nested Pythagorean triples",
+    "B_max": 100000,
+    "pythagorean_triples_with_hypotenuse_le_B_max": 161436,
+    "primitive_distinguished_incidence_records_before_face_union": 168208,
+    "distinct_canonical_objects_with_incidence_at_B_max": 168119
+  },
+  "checkpoints": [
+    {
+      "B": 1000,
+      "objects_with_at_least_one_integer_face": 602,
+      "raw_incidence": {"ab": 306, "ac": 160, "bc": 138},
+      "raw_incidence_total": 604,
+      "raw_bc_normalized": {"ab": 2.217391304347826, "ac": 1.1594202898550725, "bc": 1.0},
+      "raw_proportions": {"ab": 0.5066225165562914, "ac": 0.26490066225165565, "bc": 0.22847682119205298},
+      "pair_overlaps_including_triple": {"ab_ac": 2, "ab_bc": 0, "ac_bc": 0},
+      "triple_overlap": 0,
+      "exact_one_diagnostic": {"ab": 304, "ac": 158, "bc": 138},
+      "exact_one_total_diagnostic": 600,
+      "exact_one_bc_normalized_diagnostic": {"ab": 2.2028985507246377, "ac": 1.144927536231884, "bc": 1.0}
+    },
+    {
+      "B": 3000,
+      "objects_with_at_least_one_integer_face": 2395,
+      "raw_incidence": {"ab": 1198, "ac": 613, "bc": 591},
+      "raw_incidence_total": 2402,
+      "raw_bc_normalized": {"ab": 2.027072758037225, "ac": 1.0372250423011844, "bc": 1.0},
+      "raw_proportions": {"ab": 0.4987510407993339, "ac": 0.25520399666944216, "bc": 0.246044962531224},
+      "pair_overlaps_including_triple": {"ab_ac": 3, "ab_bc": 2, "ac_bc": 2},
+      "triple_overlap": 0,
+      "exact_one_diagnostic": {"ab": 1193, "ac": 608, "bc": 587},
+      "exact_one_total_diagnostic": 2388,
+      "exact_one_bc_normalized_diagnostic": {"ab": 2.03236797274276, "ac": 1.0357751277683134, "bc": 1.0}
+    },
+    {
+      "B": 10000,
+      "objects_with_at_least_one_integer_face": 10655,
+      "raw_incidence": {"ab": 5281, "ac": 2740, "bc": 2659},
+      "raw_incidence_total": 10680,
+      "raw_bc_normalized": {"ab": 1.9860849943587815, "ac": 1.0304625799172622, "bc": 1.0},
+      "raw_proportions": {"ab": 0.4944756554307116, "ac": 0.2565543071161049, "bc": 0.24897003745318352},
+      "pair_overlaps_including_triple": {"ab_ac": 9, "ab_bc": 11, "ac_bc": 5},
+      "triple_overlap": 0,
+      "exact_one_diagnostic": {"ab": 5261, "ac": 2726, "bc": 2643},
+      "exact_one_total_diagnostic": 10630,
+      "exact_one_bc_normalized_diagnostic": {"ab": 1.990541051835036, "ac": 1.0314037079076808, "bc": 1.0}
+    },
+    {
+      "B": 30000,
+      "objects_with_at_least_one_integer_face": 40168,
+      "raw_incidence": {"ab": 19999, "ac": 10436, "bc": 9784},
+      "raw_incidence_total": 40219,
+      "raw_bc_normalized": {"ab": 2.044051512673753, "ac": 1.0666394112837285, "bc": 1.0},
+      "raw_proportions": {"ab": 0.4972525423307392, "ac": 0.2594793505557075, "bc": 0.2432681071135533},
+      "pair_overlaps_including_triple": {"ab_ac": 21, "ab_bc": 18, "ac_bc": 12},
+      "triple_overlap": 0,
+      "exact_one_diagnostic": {"ab": 19960, "ac": 10403, "bc": 9754},
+      "exact_one_total_diagnostic": 40117,
+      "exact_one_bc_normalized_diagnostic": {"ab": 2.046339963092065, "ac": 1.0665368054131639, "bc": 1.0}
+    },
+    {
+      "B": 100000,
+      "objects_with_at_least_one_integer_face": 168119,
+      "raw_incidence": {"ab": 84212, "ac": 43236, "bc": 40760},
+      "raw_incidence_total": 168208,
+      "raw_bc_normalized": {"ab": 2.066045142296369, "ac": 1.0607458292443572, "bc": 1.0},
+      "raw_proportions": {"ab": 0.500642062208694, "ac": 0.2570389042138305, "bc": 0.2423190335774755},
+      "pair_overlaps_including_triple": {"ab_ac": 33, "ab_bc": 33, "ac_bc": 23},
+      "triple_overlap": 0,
+      "exact_one_diagnostic": {"ab": 84146, "ac": 43180, "bc": 40704},
+      "exact_one_total_diagnostic": 168030,
+      "exact_one_bc_normalized_diagnostic": {"ab": 2.0672661163522013, "ac": 1.0608294025157232, "bc": 1.0}
+    }
+  ],
+  "validation": {
+    "B": 100000,
+    "expected_exact_one_if_B_100000": {"ab": 84146, "ac": 43180, "bc": 40704},
+    "exact_one_B_100000_matches_stage13_1": true
+  },
+  "interpretation_guardrail": "Raw-incidence ratios at finite B are diagnostics only; no limiting 2:1:1 ratio is asserted."
+}
