@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - "docs/00_CURRENT_RESEARCH_STATUS.md"
       - "docs/stage12-n1-3d-definition-sheet.md"
       - "docs/stage12-n1-3d-constant-sheet.md"
       - "docs/stage12-n1-3d-selberg-delange-reference-lock.md"
@@ -39,9 +40,11 @@ jobs:
           final_md=docs/stage12-n1-2-final-r04.md
           page=review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R05.html
           manifest=docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r05.md
+          status=docs/00_CURRENT_RESEARCH_STATUS.md
           test -s "$final_md"
           test -s "$page"
           test -s "$manifest"
+          test -s "$status"
           grep -Fq 'BUNDLE_ID=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R05' "$page"
           grep -Fq 'COMPLETED_THROUGH=Stage12-N1-3f' "$page"
           grep -Fq 'SOURCE_SNAPSHOT_COMMIT=b0208ce33204a3c5f5a52afec146b08a313203f1' "$page"
@@ -57,6 +60,9 @@ jobs:
           grep -Fq 'D_{\lambda,2}(s_1,s_2)' "$manifest"
           grep -Fq 'SMALL_COORDINATE_WING=' "$manifest"
           grep -Fq 'core boxes are defined by R,S >= S0' "$manifest"
+          grep -Fq 'R04_FULL_REVIEW_VERDICT:** `REPAIRABLE`' "$status"
+          grep -Fq '3F_TEXT_STATUS:** `R04_MAJOR_CLOSED_IN_TEXT_PENDING_R05`' "$status"
+          grep -Fq 'THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_R05_FULL_REAUDIT`' "$status"
           ! grep -Pq '\x0c' "$final_md"
           ! grep -Pq '\x0c' "$page"
           test "$(wc -c < "$final_md")" -gt 50000
