@@ -37,7 +37,8 @@ STAGE13_2=COMPLETE
 STAGE13_3=COMPLETE_AT_STRUCTURAL_DIAGNOSTIC_LEVEL
 STAGE13_4=ACTIVE
 STAGE13_4A=COMPLETE
-NEXT_TASK=Stage13-4b arithmetic/parity split of ac/bc closeness
+STAGE13_4B=COMPLETE
+NEXT_TASK=Stage13-4c scaling of ac/bc cancellation
 ```
 
 ## Research question
@@ -118,9 +119,11 @@ Priority: ★★★★★ Required
 
 Status: [>] Active
 
-Stage13-4a is complete as a finite layer ledger. At `B=100000`, the `ac/bc` gap survives the exact-one sieve and outer-half boundary essentially unchanged. Supported shell-neutralization also leaves the aggregate ratio near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`. OE and EE respond to shell-neutralization in opposite directions. No exact `ac<->bc` symmetry is established; the next test is the arithmetic/parity coupling behind this cancellation.
+Stage13-4a established the finite layer ledger. At `B=100000`, the `ac/bc` gap survives the exact-one sieve and outer-half boundary essentially unchanged. Supported shell-neutralization also leaves the aggregate ratio near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`. OE and EE respond to shell-neutralization in opposite directions.
 
-Next: Stage13-4b — split pure `G(p)` richness and primitive-support correction inside OE/EE and geometric subregions, and test for an involution/common factor.
+Stage13-4b shows that the pure-`G` near equality is itself a cancellation rather than a proved symmetry. At `B=100000`, pure-`G` OE has `ac/bc=0.95422` and weighted gap about `-254.28`, while EE has `ac/bc=1.04547` and gap about `+277.86`; the residual total gap is only about `+23.58`, giving aggregate `1.00202`. The outer half preserves the same sign split. Across smaller cutoffs the pure-`G` aggregate is not uniformly near `1`, so no stable equality law has yet been established. Geometric bins defined by `g=w_ac/w_bc` also cross from `bc`-heavy to `ac`-heavy, and the primitive-support factor `R_all/R_prim` systematically favors `ac` over `bc`. Therefore no cutoff-preserving weight-preserving exact `ac<->bc` involution can explain the finite totals; the current explanation is cross-stratum arithmetic/geometric cancellation.
+
+Next: Stage13-4c — test how that OE/EE and geometric cancellation scales with `B` and whether a stable secondary balance law can be isolated.
 
 ---
 
@@ -238,7 +241,7 @@ Stage12 R09 frozen
 13-3 Origin of leading 2 [complete: structural finite diagnostic]
         |
         v
-13-4 Origin of two 1s [active: 4a complete, 4b next]
+13-4 Origin of two 1s [active: 4a/4b complete, 4c next]
         |
         v
 13-5/6/7 Deviation analysis

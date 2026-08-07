@@ -14,7 +14,8 @@ STAGE13_3E=COMPLETE
 STAGE13_3F=COMPLETE
 STAGE13_4=ACTIVE
 STAGE13_4A=COMPLETE
-NEXT=Stage13-4b
+STAGE13_4B=COMPLETE
+NEXT=Stage13-4c
 ```
 
 ## Active organization
@@ -38,7 +39,9 @@ stages/stage13/data/13-3/representation_fiber_report.json
 stages/stage13/data/13-3/representation_density_report.json
 stages/stage13/data/13-3/boundary_stability_report.json
 stages/stage13/scripts/13-4/ac_bc_gap.py
+stages/stage13/scripts/13-4/ac_bc_cancellation.py
 stages/stage13/data/13-4/ac_bc_gap_report.json
+stages/stage13/data/13-4/ac_bc_cancellation_report.json
 ```
 
 `main.md` is the canonical living mathematical source. The completed Stage13-1/2 initial files remain as provenance; active mathematics is edited in `main.md`.
@@ -57,9 +60,11 @@ Stage13-3f checked cutoff/boundary stability and closed the leading-two structur
 
 The Stage13-3 structural synthesis is therefore: canonical archimedean geometry creates the leading `ab` excess; arithmetic representation density materially flattens it toward the observed near-`2`; overlap, standalone prime-2 admissibility, projection fiber multiplicity and the largest observed cutoff boundary do not generate the leading effect. This closes Stage13-3 only at the structural finite-diagnostic level. No separate directional asymptotic constants and no limiting `2:1:1` theorem are claimed.
 
-Stage13-4a starts the analysis of the two near-`1` components by measuring the signed `ac/bc` gap through the already-audited layers. At `B=100000`, raw `ac/bc=1.0607458` and exact-one `ac/bc=1.0608294`; both have the same absolute count gap `2476`, so the exactly-one sieve does not create the closeness. The outer-half band gives `1.0569241`, so the largest boundary also preserves it. Supported shell-neutralization, which strongly changes the leading `ab` effect, leaves aggregate `ac/bc` almost unchanged at `1.0610156`. In contrast, pure `G(p)` deweighting moves `ac/bc` to `1.0020209`, nearly exact equality at this cutoff. The parity control is not uniform: shell-neutralization moves OE from `1.0747` to `1.0155` but EE from `1.0437` to `1.1025`, opposite-direction responses of almost equal magnitude. Therefore 13-4a does not establish a single exact `ac<->bc` symmetry; it points toward an arithmetic/parity coupling or cancellation that needs another split.
+Stage13-4a started the two-near-`1` analysis. At `B=100000`, raw `ac/bc=1.0607458`, exact-one `1.0608294`, and the outer-half band `1.0569241`; the closeness is therefore not created by the exactly-one sieve or the largest cutoff boundary. Supported shell-neutralization also leaves aggregate `ac/bc` near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`.
 
-The next mathematical step is Stage13-4b: separate pure `G(p)` richness from primitive-support correction inside OE/EE and geometric subregions, and test whether an involution or common factor explains the near equality of `ac` and `bc`.
+Stage13-4b resolves the immediate 4a ambiguity at the finite structural level. The near equality after pure-`G` deweighting is a cancellation, not an exact `ac<->bc` symmetry: at `B=100000`, the pure-`G` OE contribution has `ac/bc=0.95422` and weighted gap `-254.28`, while EE has `ac/bc=1.04547` and gap `+277.86`; their sum leaves only `+23.58`, giving aggregate `1.00202`. The same sign split persists in the outer half (`OE=0.95636`, `EE=1.05368`, aggregate `1.00685`). It is not stable at all smaller cutoffs, so the near equality cannot yet be promoted to a limiting law. Geometric subregions also cross from `bc`-heavy to `ac`-heavy under pure-`G` weighting: about `0.9156`, `0.9835`, `1.0417`, `1.0924` as `g=w_ac/w_bc` increases. Thus no universal local common factor equalizes `ac` and `bc`. Finally, the exact identity `1/R_prim=(R_all/R_prim)(1/R_all)` shows that primitive-support correction favors `ac`: its `G`-weighted mean factor is about `1.246` for `ac` versus `1.177` for `bc`, pushing the nearly cancelled pure-`G` vector back toward the observed `ac>bc` gap.
+
+The next mathematical step is Stage13-4c: test whether the OE/EE and geometric cancellation has a stable scaling law as `B` grows, or whether the two near-`1` components remain a finite balance with no single asymptotic symmetry yet visible.
 
 ## File rule
 
