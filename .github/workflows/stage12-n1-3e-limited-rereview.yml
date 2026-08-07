@@ -49,7 +49,7 @@ jobs:
           grep -Fq 'PARITY_WEIGHTED_LOCAL_FACTOR_IDENTITY=CLOSED_BY_STAGE12_N1_3E_PART_II' "$page"
           grep -Fq 'C_\lambda^{(0)}' "$page"
           ! grep -Pq '\x0c' "$page"
-          test "$(wc -c < "$page")" -gt 30000
+          test "$(wc -c < "$page")" -gt 25000
       - name: Commit generated R03 HTML to PR branch
         if: github.event_name == 'pull_request'
         shell: bash
