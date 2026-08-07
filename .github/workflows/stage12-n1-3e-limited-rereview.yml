@@ -1,0 +1,78 @@
+name: Stage12-N1-3e limited re-review
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/00_CURRENT_RESEARCH_STATUS.md"
+      - "docs/stage12-n1-3e-local-gap-closure.md"
+      - "docs/review/stage12-n1-2-limited-rereview-manifest-20260807-r03.md"
+      - "review/PC-N1-2-REPAIRED-PROOF-20260807-R02.html"
+      - "review/PC-N1-2-LIMITED-REREVIEW-20260807-R03.html"
+      - "scripts/build_stage12_n1_3e_limited_rereview_html.py"
+      - ".github/workflows/stage12-n1-3e-limited-rereview.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build R03 limited re-review HTML
+        run: |
+          python -m py_compile scripts/build_stage12_n1_3e_limited_rereview_html.py
+          python scripts/build_stage12_n1_3e_limited_rereview_html.py
+      - name: Verify R03 bundle
+        shell: bash
+        run: |
+          page=review/PC-N1-2-LIMITED-REREVIEW-20260807-R03.html
+          manifest=docs/review/stage12-n1-2-limited-rereview-manifest-20260807-r03.md
+          status=docs/00_CURRENT_RESEARCH_STATUS.md
+          test -s "$page"
+          test -s "$manifest"
+          test -s "$status"
+          grep -Fq 'BUNDLE_ID=PC-N1-2-LIMITED-REREVIEW-20260807-R03' "$page"
+          grep -Fq 'COMPLETED_THROUGH=Stage12-N1-3e' "$page"
+          grep -Fq 'SOURCE_SNAPSHOT_COMMIT=bd8fe51b4466ddc91276f9f7699f3a8bdb490f4c' "$page"
+          grep -Fq 'SOURCE_LEDGER_SHA256=a752f5f42c17944c09d2d8ebff6432f74d772b88d5463d2aa3af0fbd5069b774' "$page"
+          grep -Fq 'PARENT_BUNDLE=PC-N1-2-REPAIRED-PROOF-20260807-R02' "$page"
+          grep -Fq 'CHECKPOINT=START_OF_MAIN' "$page"
+          grep -Fq 'CHECKPOINT=BEFORE_PARENT_R02' "$page"
+          grep -Fq 'CHECKPOINT=AFTER_PARENT_BEFORE_3E' "$page"
+          grep -Fq 'CHECKPOINT=END_OF_MAIN' "$page"
+          grep -Fq 'END_OF_BUNDLE=PC-N1-2-LIMITED-REREVIEW-20260807-R03' "$page"
+          grep -Fq 'OUTER_AVERAGE_LEMMA=CLOSED_BY_STAGE12_N1_3E_PART_I' "$page"
+          grep -Fq 'PARITY_WEIGHTED_LOCAL_FACTOR_IDENTITY=CLOSED_BY_STAGE12_N1_3E_PART_II' "$page"
+          grep -Fq 'C_\lambda^{(0)}' "$page"
+          grep -Fq 'R02_LIMITED_REVIEW_VERDICT=REPAIRABLE' "$status"
+          grep -Fq 'R02_LOCAL_GAPS_CLOSED_IN_TEXT_PENDING_R03' "$status"
+          ! grep -Pq '\x0c' "$page"
+          test "$(wc -c < "$page")" -gt 25000
+      - name: Commit generated R03 HTML to PR branch
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          page=review/PC-N1-2-LIMITED-REREVIEW-20260807-R03.html
+          if git diff --quiet -- "$page" && git ls-files --error-unmatch "$page" >/dev/null 2>&1; then
+            echo "Generated R03 HTML is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$page"
+          git commit -m "Generate Stage12-N1-3e limited re-review HTML"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Upload R03 HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-3e-limited-rereview-html
+          path: review/PC-N1-2-LIMITED-REREVIEW-20260807-R03.html
+          if-no-files-found: error
+          retention-days: 7
