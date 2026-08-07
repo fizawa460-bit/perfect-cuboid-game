@@ -12,67 +12,57 @@ on:
       - "docs/archive/stage12-n1-2/stage12-n1-2n-coupled-region.md"
       - "docs/archive/stage12-n1-2/stage12-n1-2o-analytic-closure.md"
       - "docs/archive/stage12-n1-2/stage12-n1-2p-final-bookkeeping.md"
+      - "scripts/build_stage12_n1_2j_2p_review_html.py"
+      - "review/PC-N1-2J-2P-PROOF-CHAIN-20260807-R01.html"
       - ".github/workflows/stage12-n1-2j-2p-review-page.yml"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  verify:
+  build-and-verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Verify source manifest and page markers
+      - name: Build self-contained HTML
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          import subprocess
-
-          page_path = Path("docs/proof-chain-2j-to-2p-review-page.md")
-          page = page_path.read_text(encoding="utf-8")
-
-          expected = {
-              "docs/archive/stage12-n1-2/stage12-n1-2j-boundary-layers.md": "111107ce0346606cb8a73b4c50e1841386f4cf23",
-              "docs/archive/stage12-n1-2/stage12-n1-2k-final-remainder.md": "48b28e84034c17e242998ab313775b0894908515",
-              "docs/archive/stage12-n1-2/stage12-n1-2l-dlb-hypotheses.md": "68935cf95fa0a6fd8fca2fc57d508eb364215d12",
-              "docs/archive/stage12-n1-2/stage12-n1-2m-iterated-selberg-delange.md": "6e6a4a59af88c8f39c570d0277708b0831b806b8",
-              "docs/archive/stage12-n1-2/stage12-n1-2n-coupled-region.md": "1d5d95f46c45a9c8d417c1bb6e87e7c6b77a8779",
-              "docs/archive/stage12-n1-2/stage12-n1-2o-analytic-closure.md": "5f42b4d45242649c69271fe44abbe7d6cc9aca55",
-              "docs/archive/stage12-n1-2/stage12-n1-2p-final-bookkeeping.md": "b368b432d743b79e0641c2be6eb6d97f436a1bd7",
-          }
-
-          required_markers = [
-              "BUNDLE_ID=PC-N1-2J-2P-PROOF-CHAIN-20260807-R01",
-              "SOURCE_SNAPSHOT_COMMIT=1f095c576270160a587b9ec487ec73f1d78e210f",
-              "CHECKPOINT=START_OF_MAIN",
-              "CHECKPOINT=END_OF_MAIN",
-              "END_OF_BUNDLE=PC-N1-2J-2P-PROOF-CHAIN-20260807-R01",
-              "permalink: /review/PC-N1-2J-2P-PROOF-CHAIN-20260807-R01.html",
-          ]
-          for marker in required_markers:
-              if marker not in page:
-                  raise SystemExit(f"missing page marker: {marker}")
-
-          if page.count("{% include_relative archive/stage12-n1-2/") != 7:
-              raise SystemExit("the page must contain exactly seven Stage12 include_relative tags")
-
-          for path, expected_sha in expected.items():
-              source = Path(path)
-              if not source.is_file():
-                  raise SystemExit(f"missing source: {path}")
-              actual_sha = subprocess.check_output(
-                  ["git", "hash-object", path], text=True
-              ).strip()
-              if actual_sha != expected_sha:
-                  raise SystemExit(
-                      f"blob mismatch for {path}: expected {expected_sha}, got {actual_sha}"
-                  )
-              filename = source.name
-              if filename not in page:
-                  raise SystemExit(f"source is not listed in page manifest: {filename}")
-
-          print("Stage12-N1-2j-to-2p single-page manifest verified")
-          PY
+          python -m py_compile scripts/build_stage12_n1_2j_2p_review_html.py
+          python scripts/build_stage12_n1_2j_2p_review_html.py
+      - name: Verify generated HTML
+        shell: bash
+        run: |
+          page=review/PC-N1-2J-2P-PROOF-CHAIN-20260807-R01.html
+          test -s "$page"
+          grep -Fq 'BUNDLE_ID=PC-N1-2J-2P-PROOF-CHAIN-20260807-R01' "$page"
+          grep -Fq 'SOURCE_SNAPSHOT_COMMIT=2958c330139904bd57c6d2b404dc8f74dd30f75f' "$page"
+          grep -Fq 'CHECKPOINT=START_OF_MAIN' "$page"
+          grep -Fq 'CHECKPOINT=END_OF_MAIN' "$page"
+          grep -Fq 'END_OF_BUNDLE=PC-N1-2J-2P-PROOF-CHAIN-20260807-R01' "$page"
+          grep -Fq 'SOURCE 7 / 7 — Stage12-N1-2p' "$page"
+          test "$(wc -c < "$page")" -gt 40000
+      - name: Commit generated HTML to PR branch
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          page=review/PC-N1-2J-2P-PROOF-CHAIN-20260807-R01.html
+          if git diff --quiet -- "$page" && git ls-files --error-unmatch "$page" >/dev/null 2>&1; then
+            echo "Generated HTML is already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$page"
+          git commit -m "Generate Stage12 2j-2p review HTML"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Upload generated HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-2j-2p-review-html
+          path: review/PC-N1-2J-2P-PROOF-CHAIN-20260807-R01.html
+          if-no-files-found: error
+          retention-days: 7
