@@ -1,40 +1,38 @@
 # CURRENT RESEARCH STATUS
 
-> **DOCUMENT_ID:** `PC-CURRENT-20260807-1302-JST`
+> **DOCUMENT_ID:** `PC-CURRENT-20260807-1339-JST`
 >
-> **CURRENT_BASE_COMMIT:** `c1951efb82c307421e1a34040eea7890230cb0fa`
+> **CURRENT_BASE_COMMIT:** `f88bdd0b79daaf4e7b4ccd664c0a44eb60811fa0`
 >
-> **CURRENT_STAGE:** `Stage12-N1-3g prepared; R06 full zero-base re-review next`
+> **CURRENT_STAGE:** `Stage12-N1-3h prepared; R07 physical zero-base re-review next`
 >
-> **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2_PENDING_FINAL_STAGE12_R06`
+> **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2_PENDING_STAGE12_R07`
 >
-> **SERIES_STATUS:** `STAGE12_R05_REPAIR_PREPARED_PENDING_R06`
+> **R06_FULL_REVIEW_VERDICT:** `CLOSED`
 >
-> **R04_FULL_REVIEW_VERDICT:** `REPAIRABLE`
+> **R06_FATAL:** `0`
 >
-> **R04_MAJOR:** `SMALL_COORDINATE_WING`
+> **R06_MAJOR:** `0`
 >
-> **R04_MAJOR_STATUS:** `CLOSED_BY_STAGE12_N1_3F_AND_ACCEPTED_BY_R05`
+> **R06_NEW_CENTRAL_GAP:** `NONE`
 >
-> **R05_FULL_REVIEW_VERDICT:** `REPAIRABLE`
+> **EXTERNAL_ZERO_BASE_REVIEW:** `REPAIRABLE_SELF_CONTAINMENT_ONLY`
 >
-> **R05_FATAL:** `0`
+> **EXTERNAL_NEW_CENTRAL_MATHEMATICAL_GAP:** `NONE`
 >
-> **R05_MAJOR:** `FIXED_HEIGHT_SHALLOW_SECTOR_BOUND_NOT_DERIVED`
+> **3H_TEXT_STATUS:** `PROVENANCE_VERTICAL_GROWTH_AND_RADIAL_BOUNDARY_CLOSED_IN_TEXT_PENDING_R07`
 >
-> **3G_TEXT_STATUS:** `R05_MAJOR_CLOSED_IN_TEXT_PENDING_R06`
->
-> **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_R06_FULL_REAUDIT`
+> **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_R07_FULL_REAUDIT`
 
 ## 0. 60秒で現状復帰する順序
 
 1. `docs/00_CURRENT_RESEARCH_STATUS.md`
-2. `docs/stage12-n1-3g-fixed-height-shallow-sector.md`
-3. `docs/stage12-n1-2-final-r05.md`
-4. `docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r06.md`
-5. `review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html`
-6. `docs/stage12-n1-2-final-r04.md`
-7. `docs/stage12-n1-3f-small-coordinate-wing.md`
+2. `docs/stage12-n1-3h-zero-base-provenance-closure.md`
+3. `docs/stage12-n1-2-final-r06-zero-base.md`
+4. `docs/review/stage12-n1-2-final-zero-base-rereview-manifest-20260807-r07.md`
+5. `review/PC-N1-2-FINAL-ZERO-BASE-REREVIEW-20260807-R07.html`
+6. `docs/stage12-n1-2-final-r05.md`
+7. `review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html`
 
 ## 1. 現在の候補定理
 
@@ -48,165 +46,96 @@ C_{\rm prim}(B)
 \frac{\eta}{12\pi^2}B(\log B)^3.
 \]
 
-この主張はperfect cuboidの存在、canonical count、exact-one-face countを含まない。
+この主張はperfect cuboidの存在、canonical count、exact-one-face count、最終比率を含まない。
 
-## 2. R05全体ゼロベース監査
+## 2. R06全体ゼロベース監査
 
-R05はFinal R04を定義から全体再監査し、次を返した。
+R06は定義から最終誤差予算まで再監査され、次を返した。
 
 ```text
-VERDICT=REPAIRABLE
+VERDICT=CLOSED
 FATAL=0
-MAJOR=1
-MINOR=1
+MAJOR=0
+FIXED_HEIGHT_SHALLOW=CLOSED
 SMALL_COORDINATE_WING=CLOSED
-NEW_CENTRAL_GAP=FIXED_HEIGHT_SHALLOW_SECTOR_BOUND_NOT_DERIVED
-THEOREM_STATUS=PLAUSIBLE_REPAIRABLE_NOT_CLOSED
+RECTANGLE_ASYMPTOTIC=CLOSED
+RADIAL_TRANSFER=CLOSED
+FINAL_ERROR_BUDGET=CLOSED
+NEW_CENTRAL_GAP=NONE
+THEOREM_STATUS=CLOSED_FOR_PRIMITIVE_ORIENTED_COUNT
 ```
 
-R04で見つかったsmall-coordinate wingは3fにより正式に閉じた。今回残ったのは、fixed-height shallow sectorについて旧Finalが
+別の独立レビューも全34項目を再確認し、`CLOSED / FATAL=0 / MAJOR=0`を返した。
+
+## 3. 外部zero-baseレビューの再オープン理由
+
+追加の外部レビューは、局所因子、radial coefficient `pi/48`、shallow sector `O(BL^(5/2))`を独立再計算し、一致を確認した。新しいfatalまたはcentral mathematical gapは見つからなかった。
+
+ただし、R06 physical bundleには次の導出本文が物理的に収録されていなかった。
+
+- Stage12-N1-3aのrectangle error導出;
+- 旧2b・2e・2f・2j・2kにある`G`, `kappa`, `A_rs`, `beta`, `gamma`, `eta`の由来;
+- `L(s,chi_4)`のvertical polynomial growthの展開;
+- radial integralで`x,y>=1`が角度端を切る効果の明示計算。
+
+従って判定差は数学的反例ではなく、`zero-base full review`に要求する物理的自己完結性の水準である。
 
 ```text
-shallow fixed-height sector: o(BL^3) by nonnegative rectangle upper bounds
+R06_MATHEMATICAL_REVIEW=CLOSED
+EXTERNAL_PHYSICAL_SELF_CONTAINMENT_REVIEW=REPAIRABLE
+EXTERNAL_NEW_CENTRAL_MATHEMATICAL_GAP=NONE
 ```
 
-と結論だけを書き、exact contribution、coefficient majorant、shell分割、log次数を展開していなかった点である。
-
-## 3. Stage12-N1-3g
+## 4. Stage12-N1-3h
 
 ```text
-docs/stage12-n1-3g-fixed-height-shallow-sector.md
+docs/stage12-n1-3h-zero-base-provenance-closure.md
 ```
 
-`L=log B`、`X0=exp(L^(1/4))`、
+3hは次を実施する。
 
-\[
-X_{r,s}=\frac{\lambda(r,s)B}{r^2+s^2}
-\]
-
-とする。shallow contributionは
-
-\[
-\mathcal S_{\rm sh}(B)
-=
-\sum_{\substack{r<s,(r,s)=1\\1\le X_{r,s}<X_0}}
-\sum_{m\le X_{r,s}}A_{r,s}(m).
-\]
-
-exact formulaから
-
-\[
-0\le A_{r,s}(m)\le G(rs)2^{\omega(m)}
-\]
-
-を得る。また
-
-\[
-2^{\omega(m)}=\sum_{d\mid m}\mu^2(d)
-\]
-
-より
-
-\[
-\sum_{m\le X}2^{\omega(m)}\ll X\log(2X).
-\]
-
-`G` のDirichlet seriesは
-
-\[
-\sum_{n\ge1}\frac{G(n)}{n^s}
-=
-\zeta(s)^2L(s,\chi_4)
-(1-2^{-s})\prod_{p\text{ odd}}(1-p^{-2s}),
-\]
-
-従って
-
-\[
-\sum_{n\le Y}G(n)\ll Y\log(2Y).
-\]
-
-これによりradial shellごとに
-
-\[
-\sum_{Q<r^2+s^2\le2Q}G(r)G(s)
-\ll Q(\log(2Q))^2.
-\]
-
-shallow条件は両parity branchをまとめて
-
-\[
-B/X_0<r^2+s^2\le2B
-\]
-
-を与える。このannulusは`O(log X0)`個のdyadic shellで被覆されるため
-
-\[
-\sum_{\rm shallow}
-\frac{\lambda(r,s)G(rs)}{r^2+s^2}
-\ll L^2\log(2X_0).
-\]
-
-従って
-
-\[
-\boxed{
-\mathcal S_{\rm sh}(B)
-\ll
-BL^2\{\log(2X_0)\}^2
-\ll BL^{5/2}
-=o(BL^3).
-}
-\]
-
-これはodd--odd / opposite-parity両branchを含む直接評価である。
-
-## 4. 二つの領域分割
-
-混同しない。
-
-1. fixed-height retained/shallow split:
+1. active proofとhistorical provenanceを分離する;
+2. `L(s,chi_4)`のvertical growthを、absolute convergence、functional equation、Stirling、Phragmen--Lindelofから導く;
+3. radial integralの正確な角度域
    \[
-   X_{r,s}\ge X_0
-   \quad\text{or}\quad
-   1\le X_{r,s}<X_0.
+   \arcsin(1/t)\le\theta\le\pi/2-\arcsin(1/t)
    \]
-   retained remainderは3e、shallow exact contributionは3g。
+   を用い、端点切取り誤差が`O(1)`であることを示す;
+4. 3a Lemma 3a.1のrectangle exponent導出をactiveとし、3aの旧retained applicationは3fでsupersedeする。
 
-2. radial core/wing split:
-   \[
-   r,s\ge U
-   \quad\text{or}\quad
-   \min(r,s)<U,
-   \qquad U=\exp(\tfrac12L^{1/4}).
-   \]
-   residue mainのradial transferは3f。
-
-active proof rulesは
+## 5. R07 physical zero-base bundle
 
 ```text
-OLD: retained boxes satisfy min(R,S) >= S0
-NEW: radial core boxes are defined by R,S >= S0; wings are bounded by 3f
-
-OLD: shallow fixed-height sector is lower order by an unstated rectangle bound
-NEW: shallow exact contribution is O(BL^(5/2)) by 3g
+BUNDLE_ID=PC-N1-2-FINAL-ZERO-BASE-REREVIEW-20260807-R07
+COMPLETED_THROUGH=Stage12-N1-3h
+FINAL_DOCUMENT=docs/stage12-n1-2-final-r06-zero-base.md
+MANIFEST=docs/review/stage12-n1-2-final-zero-base-rereview-manifest-20260807-r07.md
+HTML=review/PC-N1-2-FINAL-ZERO-BASE-REREVIEW-20260807-R07.html
+SOURCE_SNAPSHOT_COMMIT=1cc47f22be84e2924671294c88f2613d7cbafcd4
+SOURCE_LEDGER_SHA256=9e8fe78faca3e30f9bfa9db9ef5cfd7b5c33187e94889c46aa3ab83b011c6f98
+HISTORICAL_PROVENANCE_COMMIT=8d6910e8e68145e474f92716460a1cc6f384ecf1
 ```
 
-である。
+R07は一つのphysical pageへ次の8 sourceを全文収録する。
 
-## 5. R06 full zero-base re-review bundle
+1. active Final R05;
+2. Stage12-N1-3a;
+3. historical 2b;
+4. historical 2e;
+5. historical 2f;
+6. historical 2j;
+7. historical 2k;
+8. Stage12-N1-3h。
+
+historical sourceの誤差主張を再活性化しない。active precedenceは次である。
 
 ```text
-BUNDLE_ID=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06
-COMPLETED_THROUGH=Stage12-N1-3g
-FINAL_DOCUMENT=docs/stage12-n1-2-final-r05.md
-MANIFEST=docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r06.md
-HTML=review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html
-SOURCE_SNAPSHOT_COMMIT=c9a91650bece7a2173af4f495212faf1a1054aeb
-SOURCE_LEDGER_SHA256=511a055bd243e0b4f40d554c949e5c1c52db1cc412bcadae55eb8b99e6de2e49
+2F_FORMAL_RAW_ASYMPTOTIC=PROVENANCE_ONLY
+2K_OLD_FIXED_CIRCLE_REMAINDER=SUPERSEDED_BY_3B_AND_3E
+2K_OLD_SHALLOW_BOUND=SUPERSEDED_BY_3G
+3A_OLD_RETAINED_MIN_RS_APPLICATION=SUPERSEDED_BY_3F
+SUPERSEDED_FIXED_BC_KERNEL=NOT_USED
 ```
-
-Final R05はFinal R04全文と3g全文を一つに統合する。R06 manifestは3gだけでなく、定義から最終誤差予算まで再度ゼロベースで監査させる。
 
 ## 6. 監査履歴
 
@@ -214,29 +143,28 @@ Final R05はFinal R04全文と3g全文を一つに統合する。R06 manifestは
 R01_FULL_AUDIT=REPAIRABLE
 R02_LIMITED_REVIEW=REPAIRABLE
 R03_LIMITED_REREVIEW=CLOSED
-R04_FULL_ZERO_BASE_REVIEW=REPAIRABLE
-R04_MAJOR=SMALL_COORDINATE_WING
-R04_MAJOR_ACCEPTED_CLOSED_BY_R05=true
-R05_FULL_ZERO_BASE_REVIEW=REPAIRABLE
-R05_MAJOR=FIXED_HEIGHT_SHALLOW_SECTOR
-R05_MAJOR_TEXT_REPAIR=STAGE12_N1_3G
+R04_FULL_ZERO_BASE_REVIEW=REPAIRABLE_SMALL_COORDINATE_WING
+R05_FULL_ZERO_BASE_REVIEW=REPAIRABLE_FIXED_HEIGHT_SHALLOW
+R06_FULL_ZERO_BASE_REVIEW=CLOSED
+R06_SECOND_INDEPENDENT_REVIEW=CLOSED
+R06_EXTERNAL_SELF_CONTAINMENT_REVIEW=REPAIRABLE
+R07_REPAIR=STAGE12_N1_3H_AND_PHYSICAL_PROVENANCE_BUNDLE
 ```
 
 ## 7. 次の作業
 
-1. 3g、Final R05、R06 HTML、R06 manifestのCIを確認する;
+1. R07 builderとCIでphysical bundleを生成・検証する;
 2. ユーザーの明示操作でPRをマージする;
-3. R06 HTMLとR06 manifestを全体ゼロベース監査へ渡す;
-4. R06が`CLOSED`を返した場合だけStage12-N1-2をfully auditedとして閉じる;
-5. その後にStage13-3を再開する。
+3. R07 HTMLとR07 manifestを、外部参照なしの完全zero-base監査へ渡す;
+4. R07が`CLOSED`を返した場合にStage12-N1-2の最終監査状態を固定する;
+5. その後Stage13-3へ戻る。
 
 ## 8. 禁止事項
 
-- R06 full review前に`FINAL_COMPLETE`または無条件の`proved`と呼ばない。
-- R05の`REPAIRABLE`を無視しない。
-- fixed-height shallowとradial wingを同一視しない。
+- R07監査前に物理的自己完結性まで無条件で`CLOSED`と呼ばない。
+- historical 2f/2kのsuperseded error claimをactive proofへ戻さない。
 - `retained => min(R,S)>=S0`を再使用しない。
-- fixed-`(b,c)` kernel lemmaを使用しない。
+- fixed-`(b,c)` anisotropic kernel lemmaを使用しない。
 - oriented asymptoticからcanonical countへ固定係数変換しない。
 - ユーザーの明示依頼なしにPRをマージしない。
 
@@ -249,10 +177,11 @@ STAGE12_N1_3C_G_COMPLETE
 STAGE12_N1_3D_COMPLETE
 STAGE12_N1_3E_COMPLETE
 STAGE12_N1_3F_COMPLETE
-STAGE12_N1_3G_COMPLETE_IN_TEXT
-R05_FULL_REVIEW_VERDICT=REPAIRABLE
-R05_FIXED_HEIGHT_SHALLOW=CLOSED_IN_TEXT_PENDING_R06
-THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_R06_FULL_REAUDIT
-STAGE13_3_PAUSED_PENDING_FINAL_STAGE12_R06
-NEXT_TASK=FULL_ZERO_BASE_REREVIEW_OF_PC_N1_2_R06
+STAGE12_N1_3G_COMPLETE
+STAGE12_N1_3H_COMPLETE_IN_TEXT
+R06_FULL_REVIEW_VERDICT=CLOSED
+R06_EXTERNAL_SELF_CONTAINMENT_REVIEW=REPAIRABLE
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_R07_FULL_REAUDIT
+STAGE13_3_PAUSED_PENDING_STAGE12_R07
+NEXT_TASK=PHYSICAL_ZERO_BASE_REREVIEW_OF_PC_N1_2_R07
 ```
