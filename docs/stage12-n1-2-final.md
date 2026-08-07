@@ -43,6 +43,14 @@ d=\frac{h(r^2+s^2)}2,
 \gamma(rs)X-1+R_{r,s}(X),
 \]
 
+ここで定数項 `-1` は、Stage12-N1-2j で
+
+\[
+A^+_{r,s}(m)=A_{r,s}(m)+\mathbf 1_{m=1}
+\]
+
+と置いて `m=1` の補正を一度戻した後、`A^+_{r,s}` の部分和からその1項を差し引くことに由来する。
+
 \[
 \gamma(n)=\frac1\pi\sum_{d\mid n}\beta(d).
 \]
@@ -76,7 +84,7 @@ B\sum_{r<s\atop(r,s)=1}
 \frac{\eta}{\kappa}
 =
 \frac8\pi
-\prod_{p\ {\rm odd}}(1-p^{-2})^{-1}
+\prod_{p\ \mathrm{odd}}(1-p^{-2})^{-1}
 =
 \frac8\pi\cdot\frac{\pi^2}{8}
 =
