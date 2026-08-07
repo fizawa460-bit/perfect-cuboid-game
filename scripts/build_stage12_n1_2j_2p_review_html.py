@@ -7,14 +7,14 @@ import subprocess
 from pathlib import Path
 
 BUNDLE_ID = "PC-N1-2J-2P-PROOF-CHAIN-20260807-R01"
-SOURCE_SNAPSHOT_COMMIT = "2958c330139904bd57c6d2b404dc8f74dd30f75f"
+SOURCE_SNAPSHOT_COMMIT = "cbc1c6f7840b99d26e5f71f1deaf8bfd470f34c8"
 OUTPUT = Path("review/PC-N1-2J-2P-PROOF-CHAIN-20260807-R01.html")
 
 SOURCES = [
     (
         "Stage12-N1-2j",
         Path("docs/archive/stage12-n1-2/stage12-n1-2j-boundary-layers.md"),
-        "111107ce0346606cb8a73b4c50e1841386f4cf23",
+        "34d6a518d83f6765679c01a7fcd97ea93b138d5e",
     ),
     (
         "Stage12-N1-2k",
@@ -66,6 +66,8 @@ def main() -> None:
                 f"source blob mismatch for {path}: expected {expected_blob}, got {actual_blob}"
             )
         text = path.read_text(encoding="utf-8")
+        if "\x0c" in text:
+            raise SystemExit(f"form-feed control character found in {path}")
         source_texts.append((label, path, actual_blob, text))
         payload_parts.append(f"===== {label} | {path} | {actual_blob} =====\n{text}")
 
@@ -114,7 +116,7 @@ LAST_SOURCE_DOCUMENT={source_texts[-1][1].as_posix()}
 CHECKPOINT=START_OF_MAIN</pre></div>
 
 <h1>Stage12-N1-2j〜2p 証明鎖・自己完結レビューHTML</h1>
-<p>このHTMLは、Stage12-N1-2jから2pまでの原文7本を一つのファイルへ埋め込んだ外部レビュー用資料です。数学的内容は変更していません。通常の主文書は <code>docs/stage12-n1-2-final.md</code> です。</p>
+<p>このHTMLは、Stage12-N1-2jから2pまでの原文7本を一つのファイルへ埋め込んだ外部レビュー用資料です。2jのフォームフィード破損2箇所だけを修正し、数式内容は変更していません。通常の現行主文書は <code>docs/stage12-n1-2-final-r02.md</code> です。</p>
 
 <div class="protocol">
 <h2>レビュープロトコル</h2>

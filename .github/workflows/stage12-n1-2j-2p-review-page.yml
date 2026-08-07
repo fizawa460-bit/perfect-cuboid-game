@@ -1,3 +1,4 @@
+# The Stage12-N1-2j source snapshot below includes only the R01 form-feed repair.
 name: Stage12-N1-2j-2p review page
 
 on:
@@ -39,11 +40,12 @@ jobs:
           page=review/PC-N1-2J-2P-PROOF-CHAIN-20260807-R01.html
           test -s "$page"
           grep -Fq 'BUNDLE_ID=PC-N1-2J-2P-PROOF-CHAIN-20260807-R01' "$page"
-          grep -Fq 'SOURCE_SNAPSHOT_COMMIT=2958c330139904bd57c6d2b404dc8f74dd30f75f' "$page"
+          grep -Fq 'SOURCE_SNAPSHOT_COMMIT=cbc1c6f7840b99d26e5f71f1deaf8bfd470f34c8' "$page"
           grep -Fq 'CHECKPOINT=START_OF_MAIN' "$page"
           grep -Fq 'CHECKPOINT=END_OF_MAIN' "$page"
           grep -Fq 'END_OF_BUNDLE=PC-N1-2J-2P-PROOF-CHAIN-20260807-R01' "$page"
           grep -Fq 'SOURCE 7 / 7 — Stage12-N1-2p' "$page"
+          ! grep -Pq '\x0c' "$page"
           test "$(wc -c < "$page")" -gt 40000
       - name: Commit generated HTML to PR branch
         if: github.event_name == 'pull_request'

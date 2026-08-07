@@ -1,45 +1,30 @@
 # Stage12-N1-2 repair status after full audit R01
 
-> **STATUS:** `REPAIRABLE — NOT CLOSED`
+> **STATUS:** `ALL_R01_REPAIRS_COMPLETE_PENDING_INDEPENDENT_REAUDIT`
 >
 > **AUDIT_DATE:** `2026-08-07`
 >
 > **AUDIT_COUNTS:** `FATAL=0, MAJOR=4, MINOR=2, CLARIFICATION=1`
 >
-> **RESOLVED_AFTER_AUDIT:** `MAJOR-01, MAJOR-02, MAJOR-03`
+> **RESOLVED_AFTER_AUDIT:** `MAJOR-01, MAJOR-02, MAJOR-03, MAJOR-04, CLARIFICATION-01, MINOR-01, MINOR-02`
 >
-> **OPEN_MAJOR:** `MAJOR-04`
+> **OPEN_MAJOR:** `NONE`
 >
-> **NEXT_TASK:** `STAGE12_N1_3D_SELF_CONTAINED_DEFINITION_AND_CONSTANT_SHEETS`
+> **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_INDEPENDENT_REAUDIT`
 
-## 1. Project decision
+## 1. 現在の判断
 
-Stage13-3以降を一時停止し、Stage12-N1-2を再オープンして修復している。
+独立監査R01の全指摘に対する修復文書と自己完結bundleを作成した。
 
-候補漸近式
+候補漸近式は
 
 \[
 C_{\rm prim}(B)
 \sim
-\frac{\kappa}{12\pi}B(\log B)^3
+\frac{\kappa}{12\pi}B(\log B)^3.
 \]
 
-は監査R01で否定されていない。ただし、MAJOR-04、二次項目、統合稿、自己完結bundle、独立再監査が完了するまで `CLOSED`, `FINAL_COMPLETE`, `proved` と扱わない。
-
-監査原文:
-
-```text
-docs/review/stage12-n1-2-full-audit-r01.md
-```
-
-修復成果物:
-
-```text
-docs/stage12-n1-3a-rectangular-error-repair.md
-docs/stage12-n1-3b-fixed-circle-remainder.md
-docs/stage12-n1-3c-coupled-region-transfer.md
-docs/stage12-n1-3c-g-residue-first-closure.md
-```
+ただし、対象はStage12-N1-3d definition sheetで定義したprimitive oriented countに限る。独立再監査が `CLOSED` を返すまで、project-wideには `proved`, `FINAL_COMPLETE`, `CLOSED` と呼ばない。
 
 ## 2. Repair ledger
 
@@ -53,87 +38,63 @@ docs/stage12-n1-3c-g-residue-first-closure.md
 R^{1/2+\delta}S+RS^{1/2+\delta}
 \]
 
-への指数強化を撤回し、任意の固定 `0<ε<1/8` に対する
+への強化を撤回し、
 
 \[
 R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
+\qquad(0<\varepsilon<1/8)
 \]
 
-型の一様長方形誤差へ置き換えた。
+へ修正した。
 
 ### MAJOR-02 — fixed-circle remainder
 
 **状態:** `CLOSED_BY_STAGE12_N1_3B`
 
-旧2kの `ω(X/ℓ)` から `ω(X)` を引き出す操作を撤回し、
+`omega(X/l)` を `omega(X)` として畳み込み全域へ引き出す操作を撤回し、
 
 \[
-\sum_{m\le X}A_{r,s}(m)
-=
-\gamma(rs)X-1
-+O\!\left(G(rs)H_{\rm abs}(rs)X^{1/2}\right)
+R_{r,s}(X)
+\ll
+G(rs)H_{\rm abs}(rs)X^{1/2}
 \]
 
-を直接証明した。retained regionのouter averageは任意の固定対数冪より小さい。
+を直接証明した。retained regionのouter averageは
+
+\[
+O\!\left(BX_0^{-1/2}(\log B)^{O(1)}\right)
+\]
+
+で、任意の固定対数冪より小さい。
 
 ### MAJOR-03 — coupled-region transfer
 
-**状態:** `CLOSED_BY_STAGE12_N1_3C_G_RESIDUE_FIRST_TRANSFER`
+**状態:** `CLOSED_BY_STAGE12_N1_3C_G`
 
-Stage12-N1-3cでは、除数変数 `(b,c)` を固定したexact kernelまで変数台帳を復元し、model kernelと `L^3/12` のStieltjes計算を書いた。その過程で、fixed-`(b,c)` anisotropic kernel remainderを平均する旧補題3c.Gが残った。
+3cでexact variable ledgerを復元した後、fixed-`(b,c)` anisotropic kernel lemmaは最終定理より強く不要と判定した。
 
-Stage12-N1-3c.Gでは、このfixed-divisor statementが最終漸近式に必要な主張より強いことを確認した。除数展開を元へ戻し、
-
-\[
-g(n):=\pi\gamma(n)=(1*\beta)(n)
-\]
-
-を用いて元変数 `(r,s)` 上のparity-weighted coprime rectangle sumを直接平均する。
-
-二変数Dirichlet級数は
+3c.Gでは
 
 \[
-D_\lambda(s_1,s_2)
-=
-G(s_1)G(s_2)C_\lambda(s_1,s_2),
+g(n)=\pi\gamma(n)=(1*\beta)(n)
 \]
+
+を元変数 `(r,s)` 上で直接平均し、parity-weighted coprime rectangle residue
 
 \[
-G(s)=\zeta(s)^2H_g(s),
+C_\lambda^{(0)}=\frac8{\pi^2}\eta
 \]
 
-と分解され、`C_lambda` は `Re(s_1+s_2)>1` で絶対収束する。標準一変数Selberg–Delangeの `z=2` 特殊形を二回適用して、元変数上の長方形和はleading term
-
-\[
-C_\lambda^{(0)}RS\log R\log S
-\]
-
-を持つ。
-
-local factor計算により
-
-\[
-C_\lambda^{(0)}
-=
-\frac8{\pi^2}\eta.
-\]
-
-radial kernel `1/(r^2+s^2)` を元変数上で直接Stieltjes移送すると、full quadrantのleading integralは
-
-\[
-\frac\pi{48}(\log B)^3,
-\]
-
-orientation `r<s` は対称性により半分となる。従って
+を得た。radial kernelを保持したStieltjes transferにより
 
 \[
 \mathcal H_\lambda(B)
 =
 \frac\eta{12\pi}(\log B)^3
-+o((\log B)^3).
++o((\log B)^3),
 \]
 
-外側の `B/pi` を戻して
+従って
 
 \[
 \mathcal M(B)
@@ -143,68 +104,114 @@ orientation `r<s` は対称性により半分となる。従って
 \frac\kappa{12\pi}B(\log B)^3.
 \]
 
-retained boxesではrectangle errorが超対数的に小さく、shallow boxesは `o((log B)^3)`、radial arcとodd–odd cutoff `B`/`2B` の差は `O((log B)^2)` である。
-
-したがってfixed-`(b,c)` kernel lemmaは
-
 ```text
 OLD_3C_G_FIXED_DIVISOR_KERNEL=SUPERSEDED_NOT_REQUIRED
 NEW_3C_G_RESIDUE_FIRST_RECTANGLE=PROVED
 NEW_3C_G_RADIAL_TRANSFER=PROVED
 ```
 
-として処理し、MAJOR-03を閉じる。
+### MAJOR-04 — self-containment
 
-### MAJOR-04 — review self-containment
+**状態:** `CLOSED_BY_STAGE12_N1_3D`
 
-**状態:** `OPEN — NEXT / DOCUMENTATION AND AUDITABILITY`
+成果物:
 
-新しいbundleへ以下を追加する。
+```text
+docs/stage12-n1-3d-definition-sheet.md
+docs/stage12-n1-3d-constant-sheet.md
+docs/stage12-n1-3d-selberg-delange-reference-lock.md
+docs/stage12-n1-2-final-r02.md
+docs/review/stage12-n1-2-repaired-review-manifest-20260807-r02.md
+review/PC-N1-2-REPAIRED-PROOF-20260807-R02.html
+```
 
-- `C_prim(B)` の完全なcounting definition;
-- `κ`, `η`, local factors;
-- 2-adic / archimedean front factors;
-- 3a、3b、3c.Gが旧主張をどこでsupersedeするかの参照表。
+definition sheetは以下を固定する。
 
-MAJOR-04は文書量が大きいが、現時点で新しい中心解析補題は要求しない。
+- exact raw parameter set;
+- multiplicity `G(hrs)-1`;
+- raw / primitive Möbius relation;
+- primitive-first coefficient `A_{r,s}(m)`;
+- parity height factor;
+- oriented / canonical distinction;
+- `beta`, `gamma`, `g`, `rho`。
 
-## 3. Secondary items
+constant sheetは以下を固定する。
 
-- Tenenbaumの使用版、定理番号、`z=1` と `z=2` の採用形を一対一で固定する。
-- 2j原文中の壊れた `\frac` 2件を修正する。
-- Finalをsummary documentと明記するか、未定義記号を補う。
-- 現行Final §1、§4、§5を3b、3a、3c.Gで置き換える。
-- 自己完結bundleを生成し、独立再監査へ提出する。
+- `kappa`, `eta` の完全Euler積;
+- odd-prime local factors;
+- 2-adic / archimedean / orientation ledger;
+- prime-by-prime identity `eta=pi*kappa`;
+- final coefficient `eta/(12*pi^2)=kappa/(12*pi)`。
 
-## 4. Repair order
+### CLARIFICATION-01 — Selberg--Delange reference
 
-1. ~~MAJOR-01 rectangular error~~ `CLOSED_BY_STAGE12_N1_3A`
-2. ~~MAJOR-02 fixed-circle remainder~~ `CLOSED_BY_STAGE12_N1_3B`
-3. ~~MAJOR-03 coupled-region transfer~~ `CLOSED_BY_STAGE12_N1_3C_G`
-4. **MAJOR-04 definition sheet / constant sheet / self-contained bundle**
-5. secondary reference and notation repairs
-6. new integrated final
-7. independent audit
+**状態:** `CLOSED_BY_STAGE12_N1_3D_REFERENCE_LOCK`
 
-## 5. Exit condition
+Tenenbaum Third Edition, Chapter II.5, Theorem II.5.2, p.281を主引用として固定した。
 
-Stage12-N1-2を再びclosedと呼ぶ条件は次のすべてである。
+採用形は
 
-- MAJOR-01〜03の本文上の証明が完了している;
-- MAJOR-04を解消した自己完結bundleが生成されている;
-- control characterと参照条件が修正されている;
-- 新しい独立監査が `CLOSED` を返している。
+\[
+\sum_{n\le x}\beta(n)
+=c_\beta x+O_A(x(\log(2x))^{-A})
+\]
 
-## 6. Current codes
+と
+
+\[
+\sum_{n\le x}g(n)
+=x(c_g\log x+d_g)+O_A(x(\log(2x))^{-A}).
+\]
+
+旧文書の特定 `3/5` subexponential remainderはclosureに必要なinputとして使用しない。
+
+### MINOR-01 — control characters
+
+**状態:** `CLOSED`
+
+archive 2jの2箇所は正しい `\frac` となっており、新bundleとCIでform-feed不存在を検査する。
+
+### MINOR-02 — Finalの外部記号
+
+**状態:** `CLOSED_BY_SELF_CONTAINED_R02`
+
+旧Finalはsuperseded summaryへ変更し、標準本文を `docs/stage12-n1-2-final-r02.md` とした。
+
+## 3. Bundle integrity
+
+```text
+BUNDLE_ID=PC-N1-2-REPAIRED-PROOF-20260807-R02
+SOURCE_SNAPSHOT_COMMIT=08a3bc0b8428f9c620269da9b488e8b849cf909c
+SOURCE_LEDGER_SHA256=26528cd336fe4b6ce5bc70bdca368ad605f29f711bec71e34a6427d98b3560dc
+REVIEW_PAGE=review/PC-N1-2-REPAIRED-PROOF-20260807-R02.html
+```
+
+`verify_stage12_n1_review_manifest.py` は、source blob ledger、4重handshake、end marker、control characters、旧Final supersessionを検査する。
+
+## 4. Remaining exit condition
+
+R01で要求された修復作業は完了した。Stage12-N1-2を再び `CLOSED` と呼ぶために残る条件は一つである。
+
+```text
+INDEPENDENT_REAUDIT_R02_VERDICT=CLOSED
+```
+
+再監査が新しいMAJORまたはFATALを返した場合は、その指摘を新しいrepair cycleとして扱う。
+
+## 5. Current codes
 
 ```text
 STAGE12_N1_3A_RECTANGULAR_ERROR_REPAIR_COMPLETE
 STAGE12_N1_3B_FIXED_CIRCLE_REMAINDER_COMPLETE
 STAGE12_N1_3C_G_RESIDUE_FIRST_TRANSFER_COMPLETE
+STAGE12_N1_3D_SELF_CONTAINED_BUNDLE_COMPLETE
 MAJOR_01=CLOSED
 MAJOR_02=CLOSED
 MAJOR_03=CLOSED
-MAJOR_04=OPEN_NEXT
-THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
-NEXT_TASK=STAGE12_N1_3D_SELF_CONTAINED_DEFINITION_AND_CONSTANT_SHEETS
+MAJOR_04=CLOSED
+CLARIFICATION_01=CLOSED
+MINOR_01=CLOSED
+MINOR_02=CLOSED
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_INDEPENDENT_REAUDIT
+NEXT_TASK=INDEPENDENT_REAUDIT_OF_R02_BUNDLE
 ```
