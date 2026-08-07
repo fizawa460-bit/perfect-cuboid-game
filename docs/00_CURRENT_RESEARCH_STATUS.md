@@ -1,138 +1,42 @@
 # CURRENT RESEARCH STATUS
 
-> **DOCUMENT_ID:** `PC-CURRENT-20260807-0839-JST`
+> **DOCUMENT_ID:** `PC-CURRENT-20260807-0958-JST`
 >
-> **CURRENT_BASE_COMMIT:** `0fc81f192a1e82cf3fc188230a6a8615ba64f23f`
+> **CURRENT_BASE_COMMIT:** `e82668bfe700e02b88019302dfe633244254966a`
 >
-> **COMPLETED_THROUGH:** `Stage13-2`
+> **CURRENT_STAGE:** `Stage12-N1-2 repair after full audit R01`
 >
-> **CURRENT_STAGE:** `Stage13-3 — origin of the leading 2`
+> **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2`
 >
-> **SERIES_STATUS:** `STRUCTURAL_LEDGER_FIXED_MECHANISM_ANALYSIS_PENDING`
+> **SERIES_STATUS:** `STAGE12_REOPENED_REPAIRABLE_NOT_CLOSED`
 >
-> **LATEST_MERGED_RESEARCH_PR:** `#67`
+> **AUDIT_VERDICT:** `REPAIRABLE`
+>
+> **AUDIT_COUNTS:** `FATAL=0, MAJOR=4, MINOR=2, CLARIFICATION=1`
+>
+> **CENTRAL_OPEN_ITEMS:** `FIXED_CIRCLE_REMAINDER, COUPLED_REGION_TRANSFER`
 
 ## 0. 60秒で現状復帰する順序
 
-新しい作業セッションでは、次の順に読む。
+新しい作業セッションでは次の順に読む。
 
-1. このファイル `docs/00_CURRENT_RESEARCH_STATUS.md`
-2. `docs/stage13-roadmap.md`
-3. `docs/stage13-1-definition.md`
-4. `docs/stage13-2-structural-decomposition.md`
-5. Stage12との解析的接続が必要になった時だけ `docs/stage12-n1-2-final.md`
-
-過去のStage12-N1-2導出途中文書は `docs/archive/stage12-n1-2/` に保存されている。通常の現状復帰では読まなくてよい。
-
-## 1. 現在の研究目的
-
-完全直方体そのものの存在証明ではない。
-
-整数空間対角線を持ち、三つの面対角線のうちちょうど一つだけが整数となる primitive な直方体を、辺の大きさ順で三方向に分類し、有限計算で観測される
+1. `docs/00_CURRENT_RESEARCH_STATUS.md`
+2. `docs/review/stage12-n1-2-full-audit-r01.md`
+3. `docs/stage12-n1-2-repair-status-r01.md`
+4. `docs/stage12-n1-2-final.md`
+5. 必要な箇所だけarchiveの2k、2n、2pを読む
 
 ```text
-N_ab : N_ac : N_bc ≈ 2 : 1 : 1
+docs/archive/stage12-n1-2/stage12-n1-2k-final-remainder.md
+docs/archive/stage12-n1-2/stage12-n1-2n-coupled-region.md
+docs/archive/stage12-n1-2/stage12-n1-2p-final-bookkeeping.md
 ```
 
-について、
+Stage13-1とStage13-2の構造的成果は保持するが、Stage13-3以降はStage12修復が終わるまで進めない。
 
-- なぜ `2:1:1` に近い形が自然に現れるのか;
-- leading `2` と二つの `1` がどの構造から生じるのか;
-- 有限範囲のズレがどの機構から生じるのか;
+## 1. 現在の判断
 
-を説明することがStage13の目的である。
-
-厳密な `2:1:1`、その極限、または収束速度を先に仮定しない。
-
-## 2. 固定済みのcounting convention
-
-対象は
-
-\[
-(a,b,c,d)\in\mathbf Z_{>0}^4
-\]
-
-で、
-
-\[
-a<b<c,
-\qquad
-\gcd(a,b,c)=1,
-\qquad
- a^2+b^2+c^2=d^2,
-\qquad
-d\le B
-\]
-
-を満たし、
-
-\[
-a^2+b^2,
-\qquad
-a^2+c^2,
-\qquad
-b^2+c^2
-\]
-
-のうちちょうど一つだけが正整数平方となるもの。
-
-方向別countを
-
-\[
-N_{ab}(B),\qquad N_{ac}(B),\qquad N_{bc}(B)
-\]
-
-とし、
-
-\[
-N_1(B)=N_{ab}(B)+N_{ac}(B)+N_{bc}(B)
-\]
-
-とする。
-
-`ab`, `ac`, `bc` は固定座標軸ではなく、canonical ordering `a<b<c` における
-
-- 最小二辺;
-- 最小辺と最大辺;
-- 最大二辺;
-
-を表す。
-
-## 3. 有限観測
-
-`B=100000` では
-
-```text
-(N_ab, N_ac, N_bc) = (84146, 43180, 40704)
-```
-
-であり、`bc` を1に正規化すると
-
-```text
-2.0673 : 1.0608 : 1
-```
-
-総数で正規化すると
-
-```text
-(0.50078, 0.25698, 0.24224)
-```
-
-である。
-
-これはStage13の動機となる有限観測であり、漸近定理ではない。
-
-## 4. Stage12の確定済み基礎
-
-現行完成稿は
-
-```text
-docs/stage12-n1-2-final.md
-```
-
-である。
-
-Stage12の主結果は primitive oriented count に対する
+独立監査R01は、候補漸近式
 
 \[
 C_{\rm prim}(B)
@@ -140,177 +44,148 @@ C_{\rm prim}(B)
 \frac{\kappa}{12\pi}B(\log B)^3
 \]
 
-である。
+を否定していない。一方で、現行文書だけから定理を `CLOSED` と判定できないとした。
 
-関連PR:
-
-- `#61` 統合完成稿;
-- `#62` 最終校正;
-- `#65` 過去文書のarchive整理。
-
-重要な制限:
-
-Stage12の `C_{\rm prim}(B)` は oriented parameter count であり、Stage13の canonical exact-one-face count
-
-\[
-N_{ab},\ N_{ac},\ N_{bc},\ N_1
-\]
-
-へ定数倍で自動変換できるとは確定していない。
-
-## 5. Stage13の完了状況
-
-### Stage13 roadmap
+したがって現在の扱いは次の通り。
 
 ```text
-docs/stage13-roadmap.md
+THEOREM_STATUS=PLAUSIBLE_BUT_NOT_CLOSED_FROM_PRESENT_DOCUMENTS
+VERDICT=REPAIRABLE
 ```
 
-PR `#63` でマージ済み。
+`docs/stage12-n1-2-final.md` は現行の統合候補稿として残すが、修復と再監査が完了するまで「確定済み完成証明」として扱わない。
 
-### Stage13-1 — 定義
+## 2. 監査R01の主要指摘
+
+監査原文:
 
 ```text
-docs/stage13-1-definition.md
+docs/review/stage12-n1-2-full-audit-r01.md
 ```
 
-PR `#64`、補足PR `#66` でマージ済み。
+### MAJOR-01 — 長方形誤差の指数
 
-確定事項:
+2pの大係数領域で得た
 
-- counted object;
-- canonical ordering;
-- primitive condition;
-- cutoff `d<=B`;
-- exactly-one-face condition;
-- `N_ab`, `N_ac`, `N_bc`, `N_1`;
-- observed ratio と proportion vector。
+\[
+R^{3/4+\delta/2}S
+\]
 
-### Stage13-2 — 構造分解
+を
+
+\[
+R^{1/2+\delta}S
+\]
+
+へ強化しているが、\(\delta\in(0,1/4)\) では指数比較が成立しない。
+
+修復候補は
+
+\[
+R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
+\]
+
+型へ弱め、kernel適用後のbox誤差を再評価すること。
+
+### MAJOR-02 — fixed-circle remainder
+
+畳み込み誤差中の \(\omega(X/\ell)\) を \(\omega(X)\) として引き出す向きが正当化されていない。
+
+\(\ell\le X^{1/2}\) と \(\ell>X^{1/2}\) の分割、または有限Euler補正を含む直接解析により、\(rs\) 平均で一様なremainderを再証明する必要がある。
+
+### MAJOR-03 — 結合領域移送
+
+係数 \(1/12\) の導出が概要に留まっている。
+
+独立補題として次を完全に書く必要がある。
+
+- divisor variables;
+- radial kernel \((r^2+s^2)^{-1}\);
+- 二変数Abel／Stieltjes部分和分;
+- 境界項;
+- parity / orientation front factors;
+- MAJOR-01修正後の全box誤差。
+
+### MAJOR-04 — bundleの自己完結性
+
+現行2j〜2p bundleだけでは、次を独立再計算できない。
+
+- `C_prim(B)` の完全定義;
+- \(\kappa\) の完全なEuler積とfront factor;
+- rawからprimitiveへの対象レベル対応;
+- \(\eta_p/\kappa_p\) の監査に必要なlocal factor。
+
+修復時にはdefinition sheetとconstant sheetを追加する。
+
+## 3. 二次指摘
+
+- Tenenbaum II.5.2のhypothesis、parameter、採用remainder caseを一対一で固定する。
+- 2j原文中の壊れた `\frac` 2件を修正する。
+- Final単体で外部依存となっている記号を定義するか、summary documentと明示する。
+- 対角・円弧境界、floor endpointはMAJOR-03の移送補題内で導出を固定する。
+
+## 4. 修復順序
+
+1. **MAJOR-01**を正しい弱い指数へ直す。
+2. **MAJOR-02**のfixed-circle remainderを再証明する。
+3. **MAJOR-03**の結合領域移送補題を新設する。
+4. **MAJOR-04**のdefinition sheetとconstant sheetを作る。
+5. Tenenbaum参照条件を固定する。
+6. control characterと記号定義を校正する。
+7. 新しい自己完結bundle R02を生成する。
+8. 独立監査へ再提出する。
+
+詳細な管理文書:
 
 ```text
-docs/stage13-2-structural-decomposition.md
+docs/stage12-n1-2-repair-status-r01.md
 ```
 
-PR `#67` でマージ済み。
+## 5. Stage13の扱い
 
-- research commit: `5f31f283e0614ea55963b60c0104dff19957a6f1`;
-- merge commit: `0fc81f192a1e82cf3fc188230a6a8615ba64f23f`。
+Stage13-1とStage13-2で確定した次の構造的内容は撤回しない。
 
-exactly-one countを、raw directional incidenceとoverlap correctionへ厳密に分解した。
+- canonical counting convention;
+- `N_ab`, `N_ac`, `N_bc`, `N_1` の定義;
+- raw incidenceとoverlap correctionの厳密分解;
+- full equal-weight `S_3` orientationが `1:1:1` へ対称化すること;
+- orientation multiplicity単独ではcanonical `2:1:1` を説明できないこと。
 
-\[
-N_{ab}
-=
-A_{ab}-A_{ab,ac}-A_{ab,bc}+A_3,
-\]
-
-\[
-N_{ac}
-=
-A_{ac}-A_{ab,ac}-A_{ac,bc}+A_3,
-\]
-
-\[
-N_{bc}
-=
-A_{bc}-A_{ab,bc}-A_{ac,bc}+A_3.
-\]
-
-以後は、raw incidence `A_ab, A_ac, A_bc` と exact-one overlap correction を分離して解析する。
-
-## 6. Stage13-2で得た重要な制約
-
-canonical objectを全 `S_3` orientationへ同じ重みで展開すると、exactly-one integer faceは固定座標面の各方向へ2回ずつ現れる。
+ただし、Stage12の候補漸近式や局所定数を確定済み解析基礎として使う作業は停止する。
 
 ```text
-2 : 2 : 2 = 1 : 1 : 1
-```
-
-したがって、full orientation multiplicity単独では canonical な `2:1:1` を説明できない。
-
-leading ratioを説明する候補は、少なくとも次の層へ分けて監査する。
-
-- canonical size-order geometry;
-- primitive reduction;
-- parity / 2-adic branch;
-- representation multiplicity;
-- odd-prime local density;
-- cutoff and boundary;
-- exact-one overlap correction;
-- Stage12 bridge mapのfiber multiplicity。
-
-これらが加法的または独立に因子分解できるとは、まだ主張しない。
-
-## 7. 現在の未解決点
-
-未確定なのは次の点である。
-
-1. raw incidence `A_ab:A_ac:A_bc` の段階ですでに `2:1:1` に近い形が現れるか。
-2. leading `2` が canonical size-order、parity、local density、representation multiplicityのどこで初めて現れるか。
-3. `A_ac` と `A_bc` の主構造が同一か。
-4. exact-one overlap correctionが主比率を生成するのか、有限ズレだけを生成するのか。
-5. Stage12 parameter recordsからcanonical directional objectsへのbridge map `Pi_12` とfiber multiplicity `m_12`。
-6. Stage12の `kappa`, `eta` またはEuler factorsを三方向の共通因子として抽出できるか。
-7. proportion vectorが `(1/2,1/4,1/4)` へ収束するか。
-
-## 8. 次の作業 — Stage13-3
-
-次に作成する成果物は
-
-```text
-docs/stage13-3-origin-of-two.md
-```
-
-である。
-
-開始点は raw incidence
-
-\[
-A_{ab}(B),\qquad A_{ac}(B),\qquad A_{bc}(B)
-\]
-
-と canonical size-order layer。
-
-最初に行うべきこと:
-
-1. exact-one sieve前の方向別 raw incidenceを有限データまたは再現可能な列挙で測る。
-2. raw ratioとexact-one ratioを比較し、leading `2` がoverlap前に存在するかを判定する。
-3. canonical orderingを外したaxis-labelled countが対称化されることと、canonical chamber内の差を分離する。
-4. parity class別countを切り、2-adic branchが方向差を作るかを監査する。
-5. この段階ではEuler積、Stage12との定数変換、`2:1:1`の漸近証明を先取りしない。
-
-Stage13-3の終了条件は、leading `2` の候補を列挙するだけではなく、どのlayerで差が初めて観測・導出されるかを特定し、残る未証明部分を明記することである。
-
-## 9. 作業時の禁止事項
-
-- `2:1:1` を先に真と仮定しない。
-- 有限比率を漸近比率と呼ばない。
-- orientation multiplicityだけでleading `2` を説明しない。
-- Stage12の `C_prim` とStage13の `N_1` の間に未監査の定数倍関係を置かない。
-- local factorの独立性やEuler積収束を定義前に主張しない。
-- `proof`, `closed`, `complete` は、文書・PR・commitを実際に確認した場合だけ使う。
-- ユーザーの明示的な依頼なしにPRをマージしない。
-
-## 10. GitHub作業ルール
-
-GitHub上の作成・更新・commit・branch・PR作成を依頼された場合は、説明より先にGitHub連携を実行する。
-
-完了報告には実際に取得した
-
-- PR URL / PR番号;
-- commit SHA;
-- branch名;
-
-を含める。
-
-GitHub連携を確認せずに「利用できない」と判断しない。
-
-## 11. 状態コード
-
-```text
-STAGE12_FINAL_COMPLETE
 STAGE13_1_DEFINITION_COMPLETE
 STAGE13_2_STRUCTURAL_LEDGER_COMPLETE
-STAGE13_3_ORIGIN_OF_LEADING_TWO_PENDING
+STAGE13_3_PAUSED_PENDING_STAGE12_REPAIR
+```
+
+## 6. 現在の禁止事項
+
+- Stage12-N1-2を `CLOSED`, `FINAL_COMPLETE`, `proved` と呼ばない。
+- MAJOR-01の誤った指数をそのまま引用しない。
+- fixed-circle remainderを一様に閉じたと仮定しない。
+- `1/12` の係数を完全導出済みと扱わない。
+- 現行bundleを自己完結と呼ばない。
+- Stage12からStage13 canonical countへの定数変換を先取りしない。
+- ユーザーの明示的な依頼なしにPRをマージしない。
+
+## 7. Stage12再閉包の終了条件
+
+次のすべてを満たした時だけ再びclosedと呼ぶ。
+
+- MAJOR-01〜03が本文上で証明されている;
+- MAJOR-04を解消した自己完結bundleがある;
+- Tenenbaum適用条件が固定されている;
+- control characterと記号定義が修正されている;
+- 新しい独立監査が `CLOSED` を返している。
+
+## 8. 状態コード
+
+```text
+STAGE12_N1_2_REOPENED_AFTER_AUDIT_R01
+STAGE12_N1_2_REPAIRABLE_NOT_CLOSED
+STAGE13_1_DEFINITION_COMPLETE
+STAGE13_2_STRUCTURAL_LEDGER_COMPLETE
+STAGE13_3_PAUSED_PENDING_STAGE12_REPAIR
+NEXT_TASK=REPAIR_MAJOR_01_RECTANGULAR_ERROR_EXPONENT
 ```
