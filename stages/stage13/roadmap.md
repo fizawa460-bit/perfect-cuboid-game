@@ -34,8 +34,10 @@ External review is on demand, not a gate for every edit.
 STAGE12_N1_2=FROZEN_R09
 STAGE13_1=COMPLETE
 STAGE13_2=COMPLETE
-STAGE13_3=ACTIVE
-NEXT_TASK=BOOTSTRAP_STAGE13_MAIN_AND_ANALYZE_ORIGIN_OF_LEADING_TWO
+STAGE13_3=COMPLETE_AT_STRUCTURAL_DIAGNOSTIC_LEVEL
+STAGE13_4=ACTIVE
+STAGE13_4A=COMPLETE
+NEXT_TASK=Stage13-4b arithmetic/parity split of ac/bc closeness
 ```
 
 ## Research question
@@ -102,7 +104,9 @@ Canonical destination: `stages/stage13/main.md` §3
 
 Priority: ★★★★★ Required
 
-Status: [>] Active
+Status: [x] Complete at structural finite-diagnostic level
+
+Working result: canonical archimedean geometry creates the leading `ab` excess, and arithmetic representation density materially flattens it toward the observed near-`2`. This is not yet a categorywise asymptotic theorem.
 
 ### Task 13-4 — Origin of the two 1s
 
@@ -112,7 +116,11 @@ Canonical destination: `stages/stage13/main.md` §4
 
 Priority: ★★★★★ Required
 
-Status: [ ] Not started
+Status: [>] Active
+
+Stage13-4a is complete as a finite layer ledger. At `B=100000`, the `ac/bc` gap survives the exact-one sieve and outer-half boundary essentially unchanged. Supported shell-neutralization also leaves the aggregate ratio near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`. OE and EE respond to shell-neutralization in opposite directions. No exact `ac<->bc` symmetry is established; the next test is the arithmetic/parity coupling behind this cancellation.
+
+Next: Stage13-4b — split pure `G(p)` richness and primitive-support correction inside OE/EE and geometric subregions, and test for an involution/common factor.
 
 ---
 
@@ -177,6 +185,8 @@ Priority: ★★★★★ Required
 
 Status: [ ] Not started
 
+Note: Stage13-3d already proved the exact primitive oriented-to-canonical raw-incidence projection multiplicity `2` and transferred the Stage12 total asymptotic to `A_ab+A_ac+A_bc`; Task 13-8 will later consolidate that bridge together with overlap removal and the remaining directional structure.
+
 ### Task 13-9 — Main structural theorem
 
 Formulate and prove the principal structural result in a form such as
@@ -225,10 +235,10 @@ Stage12 R09 frozen
 13-2 Structural decomposition [complete]
         |
         v
-13-3 Origin of leading 2 [active]
+13-3 Origin of leading 2 [complete: structural finite diagnostic]
         |
         v
-13-4 Origin of two 1s
+13-4 Origin of two 1s [active: 4a complete, 4b next]
         |
         v
 13-5/6/7 Deviation analysis
@@ -249,10 +259,10 @@ Stage13 is complete when:
 
 - [x] the observed ratio has been rigorously defined;
 - [x] the candidate structural layers have been separated;
-- [ ] the dominant mechanism producing the leading near-`2` has been identified;
+- [x] the dominant finite structural mechanism producing the leading near-`2` has been identified;
 - [ ] the relation between the two near-`1` components has been explained;
 - [ ] every significant deviation has been structurally classified;
-- [ ] the Stage12-to-Stage13 counting bridge has been proved;
+- [ ] the Stage12-to-Stage13 counting bridge has been fully consolidated for exact-one directional counts;
 - [ ] the main structural theorem has been proved;
 - [ ] the final explanation answers why the ratio naturally appears.
 
@@ -260,4 +270,4 @@ Stage13 is complete when:
 
 Stage13 is a structural investigation. It does not assume that the limiting ratio is exactly `2:1:1`.
 
-The canonical mathematical truth for active Stage13 work is the latest merged `stages/stage13/main.md` once that file is bootstrapped. Historical initial files remain useful provenance, but future repair-by-new-file proliferation is intentionally avoided.
+The canonical mathematical truth for active Stage13 work is the latest merged `stages/stage13/main.md`. Historical initial files remain useful provenance, but future repair-by-new-file proliferation is intentionally avoided.
