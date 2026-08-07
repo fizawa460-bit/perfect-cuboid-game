@@ -1,0 +1,68 @@
+{
+  "metadata": {
+    "stage": "13-4b",
+    "title": "ac/bc parity-cancellation, pure-G, primitive-support and geometric-region diagnostic",
+    "B_max": 100000,
+    "geometry_score": "g=sqrt((b^2+c^2)/(a^2+c^2)) = w_ac/w_bc on 0<a<b<c",
+    "scope": "finite structural diagnostic; no directional asymptotic theorem"
+  },
+  "exact_weight_relation": {
+    "R_all": "(G(p)-1)/2",
+    "R_prim": "number of primitive-supported unordered face representations on shell (p,z,d)",
+    "C": "R_all/R_prim",
+    "identity": "1/R_prim = C*(1/R_all)",
+    "interpretation": "G_neutral -> shell_neutral isolates the primitive-support correction C; shell_neutral -> raw restores supported shell richness R_prim."
+  },
+  "pure_G_by_bound": [
+    {"B":1000,"all":{"ratio":0.9755360483522806,"difference":-2.023809523809547},"OE":{"ratio":0.97005795235029,"difference":-1.107142857142847},"EE":{"ratio":0.9799635701275045,"difference":-0.9166666666666714}},
+    {"B":2000,"all":{"ratio":0.8864046087043754,"difference":-21.776923076923026},"OE":{"ratio":0.8347559738731799,"difference":-14.91978021978018},"EE":{"ratio":0.932386430332198,"difference":-6.857142857142918}},
+    {"B":5000,"all":{"ratio":0.91014709067538,"difference":-45.35970695970724},"OE":{"ratio":0.8785301130996048,"difference":-27.812087912087804},"EE":{"ratio":0.936389167369323,"difference":-17.547619047618923}},
+    {"B":10000,"all":{"ratio":0.9636574933738025,"difference":-37.88588078588407},"OE":{"ratio":0.938689726082886,"difference":-29.447968697968122},"EE":{"ratio":0.9849901136289205,"difference":-8.437912087912991}},
+    {"B":20000,"all":{"ratio":0.9531601623115973,"difference":-102.93388278388466},"OE":{"ratio":0.8919566902642618,"difference":-112.14963369963266},"EE":{"ratio":1.0079475930803272,"difference":9.21575091575005}},
+    {"B":50000,"all":{"ratio":0.9968537474805624,"difference":-17.736593711393652},"OE":{"ratio":0.9518848749368556,"difference":-127.69293736781538},"EE":{"ratio":1.0368552234883057,"difference":109.95634365635215}},
+    {"B":100000,"all":{"ratio":1.0020209224294838,"difference":23.576240003434577},"OE":{"ratio":0.9542232763020151,"difference":-254.28228970232612},"EE":{"ratio":1.0454667965266742,"difference":277.85852970570795}}
+  ],
+  "B100000_layers": {
+    "all": {
+      "raw":{"ratio":1.0607458292443572,"difference":2476.0,"ac":43236.0,"bc":40760.0},
+      "G_neutral":{"ratio":1.0020209224294838,"difference":23.576240003434577,"ac":11689.654887789624,"bc":11666.07864778619},
+      "shell_neutral":{"ratio":1.061015634674384,"difference":837.5694643132283,"ac":14564.698072955913,"bc":13727.128608642684}
+    },
+    "OE": {
+      "raw":{"ratio":1.0747342088805503,"difference":1673.0,"ac":24059.0,"bc":22386.0},
+      "G_neutral":{"ratio":0.9542232763020151,"difference":-254.28228970232612,"ac":5300.555828026915,"bc":5554.838117729241},
+      "shell_neutral":{"ratio":1.0155484692351027,"difference":101.84630316068069,"ac":6652.0926084850225,"bc":6550.246305324342}
+    },
+    "EE": {
+      "raw":{"ratio":1.0437030586698597,"difference":803.0,"ac":19177.0,"bc":18374.0},
+      "G_neutral":{"ratio":1.0454667965266742,"difference":277.85852970570795,"ac":6389.0990597636255,"bc":6111.240530057918},
+      "shell_neutral":{"ratio":1.1025129199642403,"difference":735.7231611527568,"ac":7912.605464470236,"bc":7176.882303317479}
+    }
+  },
+  "B100000_support_correction": {
+    "all":{"ac":{"mean_C":1.2459476530968356,"mean_support_fraction":0.7844580490267168},"bc":{"mean_C":1.1766703296865797,"mean_support_fraction":0.8232249937943457}},
+    "OE":{"ac":{"mean_C":1.2549801991163558,"mean_support_fraction":0.7851404765175459},"bc":{"mean_C":1.1791966150044464,"mean_support_fraction":0.8222260075155671}},
+    "EE":{"ac":{"mean_C":1.238454027783181,"mean_support_fraction":0.7836018920156168},"bc":{"mean_C":1.174374051883256,"mean_support_fraction":0.8244421107442065}}
+  },
+  "B100000_geometric_bins": [
+    {"bin":"g<1.05","count":26356,"all_G_neutral_ratio":0.9156122520008967,"all_G_neutral_difference":-303.8176139957368,"OE_G_neutral_ratio":0.911354553848069,"EE_G_neutral_ratio":0.9195956522034445},
+    {"bin":"1.05-1.10","count":17001,"all_G_neutral_ratio":0.9834742835017349,"all_G_neutral_difference":-39.77834046306998,"OE_G_neutral_ratio":0.9227163611230145,"EE_G_neutral_ratio":1.0419417558710673},
+    {"bin":"1.10-1.20","count":22085,"all_G_neutral_ratio":1.0417066597995885,"all_G_neutral_difference":128.19465268094928,"OE_G_neutral_ratio":0.9934304656229809,"EE_G_neutral_ratio":1.084431198776033},
+    {"bin":"g>=1.20","count":18554,"all_G_neutral_ratio":1.092446256887566,"all_G_neutral_difference":238.9775417812266,"OE_G_neutral_ratio":1.0005762224084351,"EE_G_neutral_ratio":1.1709495499787894}
+  ],
+  "outer_half_50000_100000": {
+    "all":{"raw_ratio":1.0569240866331218,"G_neutral_ratio":1.006852685236329,"shell_neutral_ratio":1.0653300311023757,"G_neutral_difference":41.312833714873705},
+    "OE":{"raw_ratio":1.0738287173756884,"G_neutral_ratio":0.9563625506993186,"shell_neutral_ratio":1.0153969394013396,"G_neutral_difference":-126.58935233440798},
+    "EE":{"raw_ratio":1.0364129382142167,"G_neutral_ratio":1.0536810562886407,"shell_neutral_ratio":1.1117941756598102,"G_neutral_difference":167.9021860492585}
+  },
+  "conclusion": {
+    "pure_G_near_equality_is_parity_cancellation_at_B100000": true,
+    "pure_G_near_equality_stable_at_all_smaller_bounds": false,
+    "primitive_support_correction_favors_ac_over_bc": true,
+    "geometric_subregions_have_equal_ac_bc_after_G_neutralization": false,
+    "exact_weight_preserving_ac_bc_involution_at_B100000_for_raw_or_G_neutral": false,
+    "reason_no_exact_involution": "The corresponding finite total weights are unequal; a cutoff-preserving weight-preserving involution exchanging ac and bc would force exact equality.",
+    "working_interpretation": "At B=100000 the near ac=bc equality after pure-G deweighting is not a universal local symmetry. OE contributes a negative ac-bc gap and EE a positive gap of comparable size; low-g geometric regions are bc-heavy while high-g regions are ac-heavy. Primitive-support correction then pushes ac upward relative to bc. The observed two near-1 components are therefore supported by cross-stratum cancellation rather than an exact ac<->bc involution.",
+    "next": "Stage13-4c: test how the OE/EE and geometric cancellation scales with B and whether a stable secondary balance law can be isolated."
+  }
+}
