@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "stage": "13-3f",
+    "title": "Cutoff/boundary stability and leading-2 synthesis",
+    "source": "stages/stage13/data/13-3/representation_density_report.json",
+    "scope": "finite stability audit; no directional asymptotic theorem"
+  },
+  "annular_raw_increments": [
+    {"B_lo_exclusive":1000,"B_hi_inclusive":2000,"raw_increment":{"ab":396,"ac":212,"bc":232},"increment_ratio_bc":{"ab":1.706896551724138,"ac":0.9137931034482759,"bc":1.0},"increment_total":840},
+    {"B_lo_exclusive":2000,"B_hi_inclusive":5000,"raw_increment":{"ab":1598,"ac":766,"bc":707},"increment_ratio_bc":{"ab":2.2602545968882604,"ac":1.0834512022630836,"bc":1.0},"increment_total":3071},
+    {"B_lo_exclusive":5000,"B_hi_inclusive":10000,"raw_increment":{"ab":2981,"ac":1602,"bc":1582},"increment_ratio_bc":{"ab":1.884323640960809,"ac":1.0126422250316056,"bc":1.0},"increment_total":6165},
+    {"B_lo_exclusive":10000,"B_hi_inclusive":20000,"raw_increment":{"ab":7126,"ac":3544,"bc":3446},"increment_ratio_bc":{"ab":2.0679048171793384,"ac":1.028438769587928,"bc":1.0},"increment_total":14116},
+    {"B_lo_exclusive":20000,"B_hi_inclusive":50000,"raw_increment":{"ab":24607,"ac":12796,"bc":11800},"increment_ratio_bc":{"ab":2.0853389830508475,"ac":1.0844067796610168,"bc":1.0},"increment_total":49203},
+    {"B_lo_exclusive":50000,"B_hi_inclusive":100000,"raw_increment":{"ab":47198,"ac":24156,"bc":22855},"increment_ratio_bc":{"ab":2.0651061036972216,"ac":1.0569240866331218,"bc":1.0},"increment_total":94209}
+  ],
+  "largest_cutoff_boundary_test": {
+    "B": 100000,
+    "outer_half": "50000 < d <= 100000",
+    "outer_half_incidence_total": 94209,
+    "cumulative_incidence_total": 168208,
+    "outer_half_share_of_cumulative": 0.5600744316560449,
+    "cumulative_ratio_bc": {"ab":2.066045142296369,"ac":1.0607458292443572,"bc":1.0},
+    "outer_half_ratio_bc": {"ab":2.0651061036972216,"ac":1.0569240866331218,"bc":1.0},
+    "ratio_absolute_difference": {"ab":0.000939038599147235,"ac":0.003821742611235468,"bc":0.0},
+    "cumulative_proportion": {"ab":0.500642062208694,"ac":0.2570389042138305,"bc":0.2423190335774755},
+    "outer_half_proportion": {"ab":0.5009924741797492,"ac":0.25640862337993187,"bc":0.24259890244031887},
+    "proportion_L1_difference": 0.0012605616677972553
+  },
+  "last_doubling_50000_to_100000": {
+    "raw_ratio_change": {"ab":-0.0011986443554046211,"ac":-0.0048782980943749,"bc":0.0},
+    "shell_neutral_ratio_change": {"ab":0.008874812102816154,"ac":0.004720718894871023,"bc":0.0},
+    "G_neutral_ratio_change": {"ab":0.007337995293945632,"ac":0.0051671749489213825,"bc":0.0}
+  },
+  "late_window_B_ge_20000_ratio_ranges": {
+    "raw": {
+      "ab": {"min":2.0322686322686323,"max":2.0672437866517734,"range":0.03497515438314114},
+      "ac": {"min":1.0293202293202293,"max":1.0656241273387321,"range":0.03630389801850287}
+    },
+    "shell_neutral": {
+      "ab": {"min":2.317142654535473,"max":2.381938295370397,"range":0.06479564083492395},
+      "ac": {"min":1.0151081826090462,"max":1.0610156346743838,"range":0.04590745206533753}
+    },
+    "G_neutral": {
+      "ab": {"min":2.2816697363325575,"max":2.3448861351894843,"range":0.06321639885692676},
+      "ac": {"min":0.9531601623115973,"max":1.0020209224294838,"range":0.04886076011788654}
+    }
+  },
+  "largest_cutoff_mechanism_ledger": {
+    "raw_ratio_bc": {"ab":2.066045142296369,"ac":1.0607458292443572,"bc":1.0},
+    "archimedean_geometric_ratio_bc": {"ab":2.4316847502,"ac":1.115756429,"bc":1.0},
+    "shell_neutral_ratio_bc": {"ab":2.381938295370397,"ac":1.0610156346743838,"bc":1.0},
+    "G_neutral_ratio_bc": {"ab":2.3448861351894843,"ac":1.0020209224294838,"bc":1.0},
+    "stage13_3a": "near-2 is already present before the exactly-one overlap sieve",
+    "stage13_3b": "canonical chamber times one-face 1/p real density creates an ab excess of the right scale",
+    "stage13_3c": "standalone p=2 restriction is permutation-symmetric; OE/EE coupling is visible but incomplete",
+    "stage13_3d": "Stage12-to-Stage13 projection multiplicity is the universal factor 2, so fiber multiplicity is not directional",
+    "stage13_3e": "representation-rich primitive shells favor ac/bc relative to ab and materially flatten the geometric ab excess",
+    "stage13_3f": "the largest cutoff doubling and outer-half band do not show a competing boundary-generated leading ratio"
+  },
+  "conclusion": {
+    "outer_boundary_generates_leading_two": false,
+    "largest_doubling_direction_ratio_stable": true,
+    "representation_density_correction_persists_at_largest_doubling": true,
+    "leading_two_structural_synthesis": "Finite evidence supports a two-layer explanation: canonical archimedean geometry creates the leading ab excess, while arithmetic representation density substantially flattens it toward the observed near-2 ratio. Overlap, standalone p=2 admissibility, projection fiber multiplicity, and the largest observed cutoff boundary do not generate the leading effect.",
+    "categorywise_asymptotic_claim": false,
+    "limiting_2_1_1_claim": false,
+    "stage13_3_status": "COMPLETE_AT_STRUCTURAL_DIAGNOSTIC_LEVEL",
+    "next": "Stage13-4 origin of the two near-1 components"
+  }
+}
