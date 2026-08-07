@@ -1,32 +1,34 @@
 # CURRENT RESEARCH STATUS
 
-> **DOCUMENT_ID:** `PC-CURRENT-20260807-1433-JST`
+> **DOCUMENT_ID:** `PC-CURRENT-20260807-1516-JST`
 >
-> **CURRENT_BASE_COMMIT:** `9d4d5e4d292fa5046ac6362bddb5a6a8612e42cc`
+> **CURRENT_BASE_COMMIT:** `ba44bd6772e0c3d6d5e4b118886b514c5c46247e`
 >
-> **CURRENT_STAGE:** `Stage12-N1-3i final reference closure; R08 self-contained bundle`
+> **CURRENT_STAGE:** `Stage12-N1-3j final self-containment detail; R09`
 >
-> **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2_UNTIL_STAGE12_R08_IS_MERGED_AND_FROZEN`
+> **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2_PENDING_STAGE12_R09_MERGE_FREEZE`
 >
 > **R06_FULL_REVIEW_VERDICT:** `CLOSED`
 >
 > **R06_SECOND_INDEPENDENT_REVIEW:** `CLOSED`
 >
-> **LATEST_EXTERNAL_RECALCULATION:** `NO_FATAL_NO_MAJOR_NEW_GAP; LIGHT_REFERENCE_DEPENDENCIES_ONLY`
+> **R08_MERGE_COMMIT:** `ba44bd6772e0c3d6d5e4b118886b514c5c46247e`
 >
-> **3I_TEXT_STATUS:** `FINAL_REFERENCE_DEPENDENCIES_CLOSED_IN_TEXT`
+> **LATEST_EXTERNAL_RECALCULATION:** `NO_FATAL_NO_MAJOR_NEW_GAP; ONE_SELF_CONTAINMENT_DETAIL`
 >
-> **THEOREM_STATUS:** `SELF_CONTAINED_AT_STATED_EXTERNAL_THEOREM_LEVEL_PENDING_MERGE_FREEZE`
+> **3J_TEXT_STATUS:** `FINAL_SELF_CONTAINMENT_DETAIL_CLOSED_IN_TEXT`
+>
+> **THEOREM_STATUS:** `SELF_CONTAINED_AT_STATED_EXTERNAL_THEOREM_LEVEL_PENDING_R09_MERGE_FREEZE`
 
 ## 0. 60秒で現状復帰する順序
 
 1. `docs/00_CURRENT_RESEARCH_STATUS.md`
-2. `docs/stage12-n1-3i-final-reference-closure.md`
-3. `docs/stage12-n1-3h-zero-base-provenance-closure.md`
-4. `docs/stage12-n1-2-final-r07-self-contained.md`
-5. `docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r08.md`
-6. `review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R08.html`
-7. `docs/stage12-n1-2-final-r05.md`
+2. `docs/stage12-n1-3j-weighted-l1-and-vertical-closure.md`
+3. `docs/stage12-n1-2-final-r08-self-contained.md`
+4. `docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r09.md`
+5. `review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html`
+6. `docs/stage12-n1-2-final-r07-self-contained.md`
+7. `docs/stage12-n1-3i-final-reference-closure.md`
 
 ## 1. 定理の範囲
 
@@ -42,7 +44,7 @@ C_{\rm prim}(B)
 
 このStage12定理はperfect cuboidの存在・不存在、canonical count、exact-one-face count、Stage13の最終比率を主張しない。
 
-## 2. 監査履歴の要点
+## 2. これまでの監査
 
 R06全体ゼロベース監査は
 
@@ -54,135 +56,120 @@ NEW_CENTRAL_GAP=NONE
 THEOREM_STATUS=CLOSED_FOR_PRIMITIVE_ORIENTED_COUNT
 ```
 
-を返した。別の独立監査も全主要項目を再確認して `CLOSED / FATAL=0 / MAJOR=0` を返した。
+を返した。別の独立監査も主要項目を再計算し `CLOSED / FATAL=0 / MAJOR=0` を返した。
 
-その後のより厳しい外部再計算では、局所因子、`C_lambda^(0)=8 eta/pi^2`、shallow sector、rectangle exponent、radial `pi/48`、lower-limit boundary、vertical growthを独立に再計算し、新しいfatal/major gapは見つからなかった。
+その後の厳しい外部再計算では、局所因子、`C_lambda^(0)=8 eta/pi^2`、shallow sector、rectangle exponent、radial `pi/48`、lower-limit boundary、`B_beta(X)<<X`、cross correction の局所代数を独立に追跡し、新しいfatal/major gapは見つからなかった。
 
-最後に残ったのは数学的中心gapではなく、次の軽い参照依存だった。
+R08後の最終指摘は次の一箇所だった。
 
 ```text
-B_beta(X)<<X still referenced to old 2p
-M_delta<infinity still referenced to old 2p
-Tenenbaum II.5.2 application checklist not collected in one active source
+sum_q ||C_q-1||_delta < infinity
+=> global Euler-product coefficient weighted l1 norm < infinity
 ```
 
-## 3. Stage12-N1-3i
+が標準的Banach-algebra事実として一文で省略されていた。またvertical growthについて、functional equationを使う対象が`L(s,chi_4)`であり`J_beta`ではないことを明示するとより自己完結になる、と指摘された。
 
-`docs/stage12-n1-3i-final-reference-closure.md`
+## 3. Stage12-N1-3j
 
-3iは旧2pをactive proofへ戻さず、残った参照依存を直接閉じる。
+`docs/stage12-n1-3j-weighted-l1-and-vertical-closure.md`
 
-### 3.1 `B_beta(X)<<X`
-
-prime by primeに
+3jは二変数Dirichlet convolutionについて
 
 \[
-B_\beta(s)=\zeta(s)L(s,\chi_4)J_\beta(s)
+\|f*g\|_\delta\le\|f\|_\delta\|g\|_\delta
 \]
 
-を再導出し、`J_beta` の係数 `j_beta` について
+をTonelliにより直接証明する。weighted空間が通常の`l^1(N^2)`と等長同型で完備であることも明示する。
+
+局所因子を
 
 \[
-\sum_n\frac{|j_\beta(n)|}{n}<\infty
-\]
-
-を得る。`a=1*chi_4` の部分和は
-
-\[
-\sum_{n\le Y}a(n)\ll Y
-\]
-
-であるから convolution により
-
-\[
-\boxed{B_\beta(X)\ll X.}
-\]
-
-この粗い上界はSelberg--Delangeに依存しない。
-
-### 3.2 coprime cross norm
-
-`q≡1 mod4` で
-
-\[
-C_q(s_1,s_2)=1-V_q(s_1)V_q(s_2),
+C_q=1+E_q,
 \qquad
-V_q(s)=\frac{b_qq^{-s}}{1+(b_q-1)q^{-s}}
+\eta_q:=\|E_q\|_\delta
+\ll q^{-1-2\delta}
 \]
 
-を exact に導く。`sigma_i>=1/2+delta` でlocal weighted `l^1` massは
+とすると
 
 \[
-O(q^{-\sigma_1-\sigma_2})=O(q^{-1-2\delta})
+\sum_q\eta_q<\infty.
 \]
 
-なので
+有限積
 
 \[
-\boxed{M_\delta=\sum_{a,b}\frac{|c(a,b)|}{(ab)^{1/2+\delta}}<\infty.}
+P_Q=\prod_{q\le Q}(1+E_q)
 \]
 
-### 3.3 Selberg--Delange application map
+について
 
-外部定理として使用する finite-order Selberg--Delange 形を明示し、`beta` (`z=1`) と `g=1*beta` (`z=2`) について
+\[
+\|P_Q\|_\delta
+\le
+\prod_{q\le Q}(1+\eta_q)
+\le
+\exp\left(\sum_q\eta_q\right)
+\]
 
-- coefficient majorant;
-- analytic factor;
-- standard Selberg--Delange region;
-- polynomial vertical growth;
-- nonzero leading factor;
+と一様評価し、さらにtail productからCauchy estimateを得る。完備性によりglobal coefficient列へ収束し、各固定係数は有限個の素数しか含まないためEuler productの係数と一致する。従って
 
-を一項ずつ対応させた。vertical growthは3hで導出済み。
+\[
+\boxed{
+M_\delta
+=
+\sum_{a,b\ge1}
+\frac{|c(a,b)|}{(ab)^{1/2+\delta}}
+<\infty.
+}
+\]
 
-Selberg--Delange theoremそのものはpublished theorem-level inputであり、Stage12内で再証明しない。
-
-### 3.4 3a small-coefficient step
-
-3aのsmall coefficient regionも、3iの `M_delta` とSelberg--Delange remainderだけから式を展開し直した。したがって旧2p §3.1へのactive dependencyはない。
-
-```text
-BETA_LINEAR_UPPER_BOUND=CLOSED_DIRECTLY_BY_STAGE12_N1_3I_SECTION_1
-BETA_COPRIME_CROSS_WEIGHTED_NORM=CLOSED_DIRECTLY_BY_STAGE12_N1_3I_SECTION_2
-SELBERG_DELANGE_APPLICATION_MAP=CLOSED_BY_STAGE12_N1_3I_SECTION_3
-RECTANGLE_SMALL_COEFFICIENT_STEP=CLOSED_BY_STAGE12_N1_3I_SECTION_4
-OLD_2P_ACTIVE_DEPENDENCY=NONE
-```
-
-## 4. Final R08 self-contained bundle
+vertical growthは明確に分離する。
 
 ```text
-BUNDLE_ID=PC-N1-2-FINAL-SELF-CONTAINED-20260807-R08
-COMPLETED_THROUGH=Stage12-N1-3i
-FINAL_DOCUMENT=docs/stage12-n1-2-final-r07-self-contained.md
-MANIFEST=docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r08.md
-HTML=review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R08.html
-SOURCE_SNAPSHOT_COMMIT=4fa4c70ad375dc90c5a99cd8d39f4caf4c47ff34
-SOURCE_LEDGER_SHA256=77b40002d4534ee5e24f8d7f711e7f12d1ea51994d58affe49e161cf33f71248
+J_beta: absolute convergence => bounded
+L(s,chi_4): functional equation + Stirling + Phragmen--Lindelof => polynomial growth
+H_beta=L*J_beta: product => polynomial growth
+J_BETA_FUNCTIONAL_EQUATION_ASSUMED=false
 ```
 
-R08 physical pageは9 sourceを全文収録する。historical sourceは由来確認だけに使用し、superseded error claimをactive proofへ戻さない。
+`J_beta`にfunctional equationは仮定しない。
+
+## 4. Final R09 self-contained bundle
 
 ```text
-ACTIVE_CURRENT_PROOF=docs/stage12-n1-2-final-r05.md
-ACTIVE_RECTANGLE_DERIVATION=Stage12-N1-3a_Lemma_3a.1
-ACTIVE_VERTICAL_AND_RADIAL_BOUNDARY=Stage12-N1-3h
-ACTIVE_FINAL_REFERENCE_CLOSURE=Stage12-N1-3i
-3A_REFERENCES_TO_OLD_2P_INPUTS=SUPERSEDED_BY_3I
-2F_FORMAL_RAW_ASYMPTOTIC=PROVENANCE_ONLY
-2K_OLD_FIXED_CIRCLE_REMAINDER=SUPERSEDED_BY_3B_AND_3E
-2K_OLD_SHALLOW_BOUND=SUPERSEDED_BY_3G
-3A_OLD_RETAINED_MIN_RS_APPLICATION=SUPERSEDED_BY_3F
-OLD_2P_ACTIVE_DEPENDENCY=NONE
-SUPERSEDED_FIXED_BC_KERNEL=NOT_USED
+BUNDLE_ID=PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09
+COMPLETED_THROUGH=Stage12-N1-3j
+FINAL_DOCUMENT=docs/stage12-n1-2-final-r08-self-contained.md
+MANIFEST=docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r09.md
+HTML=review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html
+SOURCE_SNAPSHOT_COMMIT=d69a6e2ee352700660776f55a749eebb432552f9
+SOURCE_LEDGER_SHA256=800a664bf940e751cb1fafc7758a2692c6950eecb6ef94784738d276a4a0debe
+CONTENT_SHA256=0da06c78bbb546039dbe8d423dcc6ed403fe1af90d777488c2393c0c77c16848
 ```
 
-## 5. 現在の扱い
+R09はR08 self-contained proof全文と3j全文を一つのphysical pageへ収録する。
 
-追加の外部レビューをStage12の必須手順にはしない。R08は、これまでのCLOSED監査と後続の独立再計算を踏まえて、残った参照依存を本文内で閉じた最終自己完結版とする。
+## 5. 外部定理の境界
 
-ただしGitHub上の変更はPRで管理し、ユーザーの明示依頼なしにマージしない。Stage13-3はR08をmainへマージしてStage12をfreezeした後に再開する。
+Selberg--Delange theoremそのものは published theorem-level input として使用し、Stage12内で再証明しない。そのworking formと`beta (z=1)` / `g=1*beta (z=2)`への適用対応はR08本文に収録済みである。
 
-## 6. State codes
+従って現在の自己完結性は
+
+```text
+SELF_CONTAINMENT=COMPLETE_AT_STATED_EXTERNAL_THEOREM_LEVEL
+SELBERG_DELANGE_THEOREM=EXTERNAL_PUBLISHED_THEOREM_LEVEL_INPUT
+```
+
+という意味で固定する。
+
+## 6. 現在の扱い
+
+追加の外部AIレビューをStage12の必須ゲートにはしない。R09をmainへマージした時点でStage12-N1-2をこの定理レベルでfreezeし、その後Stage13-3へ戻る。
+
+ユーザーの明示依頼なしにPRをマージしない。
+
+## 7. State codes
 
 ```text
 STAGE12_N1_3A_COMPLETE
@@ -193,13 +180,19 @@ STAGE12_N1_3E_COMPLETE
 STAGE12_N1_3F_COMPLETE
 STAGE12_N1_3G_COMPLETE
 STAGE12_N1_3H_COMPLETE
-STAGE12_N1_3I_COMPLETE_IN_TEXT
+STAGE12_N1_3I_COMPLETE
+STAGE12_N1_3J_COMPLETE_IN_TEXT
 R06_FULL_REVIEW_VERDICT=CLOSED
 LATEST_EXTERNAL_NEW_FATAL=0
 LATEST_EXTERNAL_NEW_MAJOR=0
+WEIGHTED_L1_DIRICHLET_SUBMULTIPLICATIVITY=CLOSED
+EULER_PRODUCT_TO_GLOBAL_WEIGHTED_L1=CLOSED
+VERTICAL_GROWTH_ROLE_SEPARATION=CLOSED
+J_BETA_FUNCTIONAL_EQUATION_ASSUMED=false
+OLD_2P_ACTIVE_DEPENDENCY=NONE
 FINAL_REFERENCE_DEPENDENCIES=CLOSED_IN_TEXT
 SELF_CONTAINMENT=COMPLETE_AT_STATED_EXTERNAL_THEOREM_LEVEL
-THEOREM_STATUS=SELF_CONTAINED_AT_STATED_EXTERNAL_THEOREM_LEVEL_PENDING_MERGE_FREEZE
-STAGE13_3_PAUSED_PENDING_STAGE12_R08_MERGE_FREEZE
-NEXT_TASK=VERIFY_AND_FREEZE_R08
+THEOREM_STATUS=SELF_CONTAINED_AT_STATED_EXTERNAL_THEOREM_LEVEL_PENDING_R09_MERGE_FREEZE
+STAGE13_3_PAUSED_PENDING_STAGE12_R09_MERGE_FREEZE
+NEXT_TASK=MERGE_AND_FREEZE_R09_THEN_RESUME_STAGE13_3
 ```
