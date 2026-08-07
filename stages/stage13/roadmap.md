@@ -35,10 +35,11 @@ STAGE12_N1_2=FROZEN_R09
 STAGE13_1=COMPLETE
 STAGE13_2=COMPLETE
 STAGE13_3=COMPLETE_AT_STRUCTURAL_DIAGNOSTIC_LEVEL
-STAGE13_4=ACTIVE
+STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_4A=COMPLETE
 STAGE13_4B=COMPLETE
-NEXT_TASK=Stage13-4c scaling of ac/bc cancellation
+STAGE13_4C=COMPLETE
+NEXT_TASK=Stage13-5 define the deviation
 ```
 
 ## Research question
@@ -89,17 +90,7 @@ Status: [x] Complete
 
 Determine the mathematical origin of the leading factor near `2` in the `ab_only` component.
 
-The analysis must distinguish at least:
-
-- raw incidence versus exact-one overlap correction;
-- canonical size-order geometry;
-- full-orientation symmetry;
-- primitive projection;
-- parity / 2-adic structure;
-- representation multiplicity;
-- odd-prime local densities;
-- cutoff and boundary effects;
-- the exact Stage12-to-Stage13 fiber map.
+The analysis distinguishes raw incidence versus exact-one overlap correction, canonical size-order geometry, full-orientation symmetry, primitive projection, parity / 2-adic structure, representation multiplicity, odd-prime local densities, cutoff/boundary effects, and the exact Stage12-to-Stage13 fiber map.
 
 Canonical destination: `stages/stage13/main.md` §3
 
@@ -117,13 +108,25 @@ Canonical destination: `stages/stage13/main.md` §4
 
 Priority: ★★★★★ Required
 
-Status: [>] Active
+Status: [x] Complete at structural finite-diagnostic level
 
-Stage13-4a established the finite layer ledger. At `B=100000`, the `ac/bc` gap survives the exact-one sieve and outer-half boundary essentially unchanged. Supported shell-neutralization also leaves the aggregate ratio near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`. OE and EE respond to shell-neutralization in opposite directions.
+Stage13-4a established the finite layer ledger. At `B=100000`, the `ac/bc` gap survives the exact-one sieve and outer-half boundary essentially unchanged. Supported shell-neutralization also leaves the aggregate ratio near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`.
 
-Stage13-4b shows that the pure-`G` near equality is itself a cancellation rather than a proved symmetry. At `B=100000`, pure-`G` OE has `ac/bc=0.95422` and weighted gap about `-254.28`, while EE has `ac/bc=1.04547` and gap about `+277.86`; the residual total gap is only about `+23.58`, giving aggregate `1.00202`. The outer half preserves the same sign split. Across smaller cutoffs the pure-`G` aggregate is not uniformly near `1`, so no stable equality law has yet been established. Geometric bins defined by `g=w_ac/w_bc` also cross from `bc`-heavy to `ac`-heavy, and the primitive-support factor `R_all/R_prim` systematically favors `ac` over `bc`. Therefore no cutoff-preserving weight-preserving exact `ac<->bc` involution can explain the finite totals; the current explanation is cross-stratum arithmetic/geometric cancellation.
+Stage13-4b showed that the pure-`G` near equality is a cancellation rather than a proved symmetry. At `B=100000`, pure-`G` OE is `0.95422` with negative weighted gap while EE is `1.04547` with positive weighted gap. Geometric bins also cross from `bc`-heavy to `ac`-heavy, and primitive support systematically favors `ac`.
 
-Next: Stage13-4c — test how that OE/EE and geometric cancellation scales with `B` and whether a stable secondary balance law can be isolated.
+Stage13-4c scales this structure. The exact finite layer identity
+
+```text
+r_raw(B) = r_G(B) * F_prim(B) * F_shell(B)
+```
+
+separates pure-`G`, primitive-support and supported-shell effects. For `B>=10000`, `F_prim` stays in the narrow range `1.05872..1.06499`. At `B=100000`,
+
+```text
+1.0607458 = 1.0020209 * 1.0588757 * 0.9997457.
+```
+
+The outer half `50000<d<=100000` independently reproduces opposite OE/EE pure-`G` signs (`0.95636` versus `1.05368`) and the low-`g` to high-`g` crossing (`0.9087, 0.9729, 1.0605, 1.1176`). Thus the two near-`1` components are structurally explained at the audited finite scale as cross-stratum cancellation plus a relatively stable primitive-support tilt, not by one exact `ac<->bc` symmetry. The cancellation is not stable at all smaller bounds or annuli, so no asymptotic equality or exact secondary constant is claimed.
 
 ---
 
@@ -141,7 +144,7 @@ Canonical destination: `stages/stage13/main.md` §5
 
 Priority: ★★★★★ Required
 
-Status: [ ] Not started
+Status: [>] Next
 
 ### Task 13-6 — Classify the deviation
 
@@ -171,16 +174,7 @@ Status: [ ] Not started
 
 Construct the rigorous bridge from the frozen Stage12 primitive oriented count to the Stage13 canonical exact-one-face directional counts.
 
-Objects include:
-
-- the Stage12 parameter records;
-- the map to canonical objects / distinguished faces / orientations;
-- fiber multiplicity;
-- `kappa`, `eta` and local factors;
-- overlap removal;
-- parity and canonical-order restrictions.
-
-No automatic constant-factor identification is permitted before the fiber multiplicity is established.
+Objects include the Stage12 parameter records, the map to canonical objects / distinguished faces / orientations, fiber multiplicity, `kappa`, `eta` and local factors, overlap removal, parity and canonical-order restrictions.
 
 Canonical destination: `stages/stage13/main.md` §8
 
@@ -241,10 +235,10 @@ Stage12 R09 frozen
 13-3 Origin of leading 2 [complete: structural finite diagnostic]
         |
         v
-13-4 Origin of two 1s [active: 4a/4b complete, 4c next]
+13-4 Origin of two 1s [complete: structural finite diagnostic]
         |
         v
-13-5/6/7 Deviation analysis
+13-5/6/7 Deviation analysis [next]
         |
         v
 13-8 Rigorous Stage12 bridge
@@ -263,7 +257,7 @@ Stage13 is complete when:
 - [x] the observed ratio has been rigorously defined;
 - [x] the candidate structural layers have been separated;
 - [x] the dominant finite structural mechanism producing the leading near-`2` has been identified;
-- [ ] the relation between the two near-`1` components has been explained;
+- [x] the finite structural relation between the two near-`1` components has been explained;
 - [ ] every significant deviation has been structurally classified;
 - [ ] the Stage12-to-Stage13 counting bridge has been fully consolidated for exact-one directional counts;
 - [ ] the main structural theorem has been proved;
