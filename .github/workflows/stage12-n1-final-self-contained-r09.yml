@@ -1,0 +1,84 @@
+name: Stage12-N1 final self-contained R09
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/stage12-n1-3j-weighted-l1-and-vertical-closure.md"
+      - "docs/stage12-n1-2-final-r07-self-contained.md"
+      - "docs/stage12-n1-2-final-r08-self-contained.md"
+      - "docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r09.md"
+      - "review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html"
+      - "scripts/build_stage12_n1_final_self_contained_r09.py"
+      - ".github/workflows/stage12-n1-final-self-contained-r09.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build self-contained R09 bundle
+        run: |
+          python -m py_compile scripts/build_stage12_n1_final_self_contained_r09.py
+          python scripts/build_stage12_n1_final_self_contained_r09.py
+      - name: Verify R09 bundle
+        shell: bash
+        run: |
+          final_md=docs/stage12-n1-2-final-r08-self-contained.md
+          page=review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html
+          manifest=docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r09.md
+          test -s "$final_md"
+          test -s "$page"
+          test -s "$manifest"
+          grep -Fq 'BUNDLE_ID=PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09' "$page"
+          grep -Fq 'COMPLETED_THROUGH=Stage12-N1-3j' "$page"
+          grep -Fq 'SOURCE_SNAPSHOT_COMMIT=d69a6e2ee352700660776f55a749eebb432552f9' "$page"
+          grep -Fq 'SOURCE_LEDGER_SHA256=800a664bf940e751cb1fafc7758a2692c6950eecb6ef94784738d276a4a0debe' "$page"
+          grep -Fq 'DOCUMENT_STATUS=SELF_CONTAINED_AT_STATED_EXTERNAL_THEOREM_LEVEL_FINAL_TEXT' "$page"
+          grep -Fq 'WEIGHTED_L1_DIRICHLET_SUBMULTIPLICATIVITY=CLOSED' "$final_md"
+          grep -Fq 'EULER_PRODUCT_TO_GLOBAL_WEIGHTED_L1=CLOSED' "$final_md"
+          grep -Fq 'VERTICAL_GROWTH_ROLE_SEPARATION=CLOSED' "$final_md"
+          grep -Fq 'J_BETA_FUNCTIONAL_EQUATION_ASSUMED=false' "$final_md"
+          grep -Fq 'SELF_CONTAINMENT=COMPLETE_AT_STATED_EXTERNAL_THEOREM_LEVEL' "$final_md"
+          grep -Fq 'WEIGHTED_L1_DIRICHLET_SUBMULTIPLICATIVITY=CLOSED' "$manifest"
+          grep -Fq 'J_BETA_FUNCTIONAL_EQUATION_ASSUMED=false' "$manifest"
+          ! grep -Pq '\x0c' "$final_md"
+          ! grep -Pq '\x0c' "$page"
+          test "$(wc -c < "$final_md")" -gt 120000
+          test "$(wc -c < "$page")" -gt 125000
+      - name: Commit generated R09 files
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          final_md=docs/stage12-n1-2-final-r08-self-contained.md
+          page=review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html
+          if git diff --quiet -- "$final_md" "$page" && \
+             git ls-files --error-unmatch "$final_md" >/dev/null 2>&1 && \
+             git ls-files --error-unmatch "$page" >/dev/null 2>&1; then
+            echo "Generated R09 files are already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$final_md" "$page"
+          git commit -m "Generate Stage12 final self-contained bundle R09"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Upload R09 bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-final-self-contained-r09
+          path: |
+            docs/stage12-n1-2-final-r08-self-contained.md
+            docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r09.md
+            review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html
+          if-no-files-found: error
+          retention-days: 14
