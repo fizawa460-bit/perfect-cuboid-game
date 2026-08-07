@@ -1,10 +1,10 @@
 # CURRENT RESEARCH STATUS
 
-> **DOCUMENT_ID:** `PC-CURRENT-20260807-1040-JST`
+> **DOCUMENT_ID:** `PC-CURRENT-20260807-1051-JST`
 >
 > **CURRENT_BASE_COMMIT:** `f34feb38135ed97283220dfdb659dfeecdc6ab5c`
 >
-> **CURRENT_STAGE:** `Stage12-N1-3c in progress — geometric kernel lemma open`
+> **CURRENT_STAGE:** `Stage12-N1-3c.G completed; Stage12-N1-3d next`
 >
 > **STAGE13_STATUS:** `PAUSED_AFTER_STAGE13_2`
 >
@@ -12,13 +12,9 @@
 >
 > **AUDIT_VERDICT:** `REPAIRABLE`
 >
-> **RESOLVED_AFTER_AUDIT:** `MAJOR-01, MAJOR-02`
+> **RESOLVED_AFTER_AUDIT:** `MAJOR-01, MAJOR-02, MAJOR-03`
 >
-> **PARTIALLY_RESOLVED:** `MAJOR-03`
->
-> **OPEN_MAJOR:** `MAJOR-03-GEOMETRIC-KERNEL, MAJOR-04`
->
-> **MERGE_STATUS:** `DO_NOT_MERGE_CURRENT_3C_BRANCH`
+> **OPEN_MAJOR:** `MAJOR-04`
 
 ## 0. 60秒で現状復帰する順序
 
@@ -28,9 +24,9 @@
 4. `docs/stage12-n1-3a-rectangular-error-repair.md`
 5. `docs/stage12-n1-3b-fixed-circle-remainder.md`
 6. `docs/stage12-n1-3c-coupled-region-transfer.md`
-7. 必要に応じてarchiveの2e、2f、2m、2n、2oを参照する
+7. `docs/stage12-n1-3c-g-residue-first-closure.md`
 
-Stage13-1とStage13-2の構造的成果は保持するが、Stage13-3以降はStage12修復が終わるまで進めない。
+Stage13-1とStage13-2の構造的成果は保持するが、Stage13-3以降はStage12修復と独立再監査が終わるまで進めない。
 
 ## 1. 現在の判断
 
@@ -42,18 +38,21 @@ C_{\rm prim}(B)
 \frac{\kappa}{12\pi}B(\log B)^3
 \]
 
-は独立監査R01で否定されていない。しかし、修復と再監査が完了するまで `CLOSED`, `FINAL_COMPLETE`, `proved` と扱わない。
+は独立監査R01で否定されていない。監査で指摘された中心解析項MAJOR-01〜03は修復文書上で閉じた。
+
+ただし、MAJOR-04、参照・記号修正、新しい統合稿、自己完結bundle、独立再監査が残るため、まだ
 
 ```text
-THEOREM_STATUS=PLAUSIBLE_BUT_NOT_CLOSED
-VERDICT=REPAIRABLE
+THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
 ```
 
-旧Finalは統合候補稿として保存するが、次の箇所は既にsupersedeされている。
+である。
+
+旧Finalは統合候補稿として保存するが、次の箇所はsupersedeされている。
 
 - 旧Final §1 fixed-circle remainder → Stage12-N1-3b;
 - 旧Final §4 rectangular error → Stage12-N1-3a;
-- 旧Final §5 coupled-region transfer → Stage12-N1-3cで再構成中。
+- 旧Final §5 coupled-region transfer → Stage12-N1-3c.G。
 
 ## 2. 閉じた修復
 
@@ -66,10 +65,6 @@ R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
 \]
 
 型の正しい一様長方形誤差へ修正した。
-
-```text
-MAJOR_01=CLOSED_BY_STAGE12_N1_3A
-```
 
 ### MAJOR-02 — Stage12-N1-3b
 
@@ -84,169 +79,128 @@ MAJOR_01=CLOSED_BY_STAGE12_N1_3A
 
 を証明した。retained regionのouter averageは任意の固定対数冪より小さい。
 
-```text
-MAJOR_02=CLOSED_BY_STAGE12_N1_3B
-```
+### MAJOR-03 — Stage12-N1-3c / 3c.G
 
-## 3. Stage12-N1-3cで今回確定した部分
+3cでexact variable ledger、fixed-divisor model、model Stieltjes calculationを復元した。その結果残ったfixed-`(b,c)` anisotropic kernel lemmaは、最終漸近式に必要な主張より強いと判明した。
 
-成果物:
+3c.Gでは除数展開を元へ戻し、
 
-```text
-docs/stage12-n1-3c-coupled-region-transfer.md
-```
+\[
+g(n)=\pi\gamma(n)=(1*\beta)(n)
+\]
 
-### 3.1 exact variable ledger
+を用いて元変数 `(r,s)` 上のparity-weighted coprime rectangle sumを直接平均した。
 
-residue mainを
+二変数Dirichlet級数は
+
+\[
+D_\lambda(s_1,s_2)
+=
+G(s_1)G(s_2)C_\lambda(s_1,s_2),
+\]
+
+\[
+G(s)=\zeta(s)^2H_g(s),
+\]
+
+と分解される。`C_lambda` は `Re(s_1+s_2)>1` で絶対収束し、標準一変数Selberg–Delangeの `z=2` 特殊形を二回使うことで、長方形leading coefficientは
+
+\[
+C_\lambda^{(0)}
+=
+\frac8{\pi^2}\eta
+\]
+
+となる。
+
+元変数上でradial kernelをStieltjes移送すると
+
+\[
+\mathcal H_\lambda(B)
+=
+\frac\eta{12\pi}(\log B)^3
++o((\log B)^3).
+\]
+
+したがってresidue mainは
 
 \[
 \mathcal M(B)
+\sim
+\frac\eta{12\pi^2}B(\log B)^3
 =
-\frac{B}{\pi}
-\sum_{(b,c)=1}
-\beta(b)\beta(c)\mathcal K_B(b,c)
+\frac\kappa{12\pi}B(\log B)^3.
 \]
 
-へ戻した。exact kernelは
-
-\[
-\mathcal K_B(b,c)
-=
-\sum_{u,v\ge1\atop
-(u,v)=1,(u,c)=1,(v,b)=1,bu<cv}
-\frac{\lambda(u,v)}{b^2u^2+c^2v^2}
-\mathbf1_{b^2u^2+c^2v^2\le\lambda(u,v)B}.
-\]
-
-これにより、元変数 `(r,s)`、divisor variables `(b,c)`、倍数変数 `(u,v)`、radial kernel、height branch、orientationが一つの等式で接続された。
-
-### 3.2 model kernelとlocal constant
-
-local-density / archimedean modelは
-
-\[
-\mathcal K_B^{\rm main}(b,c)
-=
-\frac{\rho(bc)}{\pi bc}
-[L-2\max(\log b,\log c)]_+.
-\]
-
-`α=βρ` と置くと、density-corrected rectangle residue constantはlocal factorごとに `η` と一致する。
-
-### 3.3 Stieltjes transferと係数 `1/12`
-
-model kernelへ到達した後の二変数Stieltjes移送を完全に書き、
-
-\[
-\int_{2\max(y,z)<L}
-(L-2\max(y,z))\,dy\,dz
-=
-\frac{L^3}{12}
-\]
-
-を得た。従ってmodel mainは
-
-\[
-\frac{\eta}{12\pi^2}B(\log B)^3
-=
-\frac{\kappa}{12\pi}B(\log B)^3.
-\]
-
-Stage12-N1-3a型rectangle errorがmodel Stieltjes kernelに適合することも確認した。
-
-## 4. 発見した中心残件
-
-exact kernelとmodel kernelとの差
-
-\[
-\mathcal R_B(b,c)
-=
-\mathcal K_B(b,c)-\mathcal K_B^{\rm main}(b,c)
-\]
-
-について
-
-\[
-\sum_{(b,c)=1}
-\beta(b)\beta(c)\mathcal R_B(b,c)
-=o((\log B)^3)
-\]
-
-を示す必要がある。
-
-これは単なる表示補正ではなく、次を同時に制御する平均格子点問題である。
-
-- anisotropy `b/c`;
-- primitive condition `(u,v)=1`;
-- side exclusions `(u,c)=1`, `(v,b)=1`;
-- odd–odd / opposite-parity cutoff;
-- orientation boundary `bu=cv`;
-- radial arc boundary;
-- `(b,c)` weighted average。
-
-素朴なper-`(b,c)` perimeter estimateではdivisor-lossが主項と同次数へ戻る危険がある。従って、現時点でMAJOR-03をclosedとは呼ばない。
+orientationは係数とkernelの対称性で正確に半分となり、primitive diagonalは `(1,1)` だけである。odd–odd cutoff `2B` とcommon cutoff `B` の差、radial arc、shallow boxesはすべてlower orderである。
 
 ```text
-MAJOR_03=PARTIAL
-SUBITEM_03_EXACT_REDUCTION=CLOSED
-SUBITEM_03_MODEL_STIELTJES=CLOSED
-SUBITEM_03_GEOMETRIC_KERNEL_AVERAGE=OPEN_CENTRAL
+OLD_3C_G_FIXED_DIVISOR_KERNEL=SUPERSEDED_NOT_REQUIRED
+MAJOR_03=CLOSED_BY_STAGE12_N1_3C_G
 ```
 
-## 5. 次の作業
+## 3. 次の作業 — Stage12-N1-3d
 
-Stage12-N1-3cの必要補題 `3c.G` を閉じる。
+対象はMAJOR-04。
 
-候補経路:
+成果物は次を予定する。
 
-1. anisotropic primitive lattice discrepancyのmodulus平均;
-2. smooth radial partition + Poisson / large sieve;
-3. Möbius variablesとdivisor variablesの先行再編成;
-4. exact kernelのMellin表示とcontour平均。
+```text
+docs/stage12-n1-3d-definition-sheet.md
+docs/stage12-n1-3d-constant-sheet.md
+```
 
-この経路選定と証明が終わるまで、現在の3c branch / PRはマージしない。
+最低限、次を自己完結にする。
 
-## 6. その後
+1. `C_prim(B)` の完全なcounting definition;
+2. raw / primitive / oriented / canonical の区別;
+3. `β`, `γ`, `g`, `ρ`, `η`, `κ` の定義;
+4. odd-prime local factors;
+5. 2-adic front factor;
+6. archimedean sector / radial factors;
+7. `η=πκ` のlocal comparison;
+8. 3a、3b、3c.Gが旧文書をsupersedeする参照表。
 
-### MAJOR-04
+MAJOR-04は文書量が大きいが、現時点では新しい中心解析補題ではなく、監査可能性と自己完結性の修復である。
 
-自己完結bundleへ
+## 4. Secondary items
 
-- `C_prim(B)` の完全定義;
-- `κ`, `η`, local factors;
-- 2-adic / archimedean front factors
+- Tenenbaumの使用版、定理番号、`z=1` と `z=2` の採用形を固定する;
+- 2j原文中の壊れた `\frac` 2件を修正する;
+- Finalを3a〜3c.Gで再統合する;
+- self-contained bundleを生成する;
+- 独立再監査へ提出する。
 
-を追加する。
+## 5. 禁止事項
 
-### Secondary
-
-- Tenenbaum II.5.2の使用形を原典と一対一で固定;
-- 2jの壊れた `\frac` 2件を修正;
-- Final再統合;
-- self-contained bundle R02生成;
-- 独立再監査。
-
-## 7. 禁止事項
-
-- Stage12-N1-2を `CLOSED`, `FINAL_COMPLETE`, `proved` と呼ばない。
-- exact kernel remainderを評価済みと扱わない。
-- model `L^3/12` 計算だけでMAJOR-03を閉じない。
-- 現在の3c branchをマージしない。
+- Stage12-N1-2をまだ `CLOSED`, `FINAL_COMPLETE`, `proved` と呼ばない。
+- fixed-`(b,c)` kernel lemmaを証明済みと主張しない。これは不要としてsupersedeした。
+- 現行旧Finalを確定稿として配布しない。
 - 現行bundleを自己完結と呼ばない。
 - Stage12からStage13 canonical countへの定数変換を先取りしない。
+- ユーザーの明示依頼なしにPRをマージしない。
 
-## 8. 状態コード
+## 6. 再閉包条件
+
+次のすべてを満たした時だけStage12-N1-2を再びclosedと呼ぶ。
+
+- MAJOR-01〜03の本文上の修復が完了している; `DONE`
+- MAJOR-04を解消した自己完結bundleがある;
+- control characterと参照条件が修正されている;
+- 新しい統合稿がある;
+- 独立監査が `CLOSED` を返している。
+
+## 7. 状態コード
 
 ```text
 STAGE12_N1_3A_RECTANGULAR_ERROR_REPAIR_COMPLETE
 STAGE12_N1_3B_FIXED_CIRCLE_REMAINDER_COMPLETE
-STAGE12_N1_3C_EXACT_REDUCTION_AND_MODEL_STIELTJES_COMPLETE
+STAGE12_N1_3C_G_RESIDUE_FIRST_TRANSFER_COMPLETE
 MAJOR_01=CLOSED
 MAJOR_02=CLOSED
-MAJOR_03=PARTIAL_GEOMETRIC_KERNEL_OPEN
-MAJOR_04=OPEN
+MAJOR_03=CLOSED
+MAJOR_04=OPEN_NEXT
 THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
-MERGE_STATUS=DO_NOT_MERGE
-NEXT_TASK=STAGE12_N1_3C_GEOMETRIC_KERNEL_LEMMA
+STAGE13_3_PAUSED_PENDING_STAGE12_REPAIR
+NEXT_TASK=STAGE12_N1_3D_SELF_CONTAINED_DEFINITION_AND_CONSTANT_SHEETS
 ```
