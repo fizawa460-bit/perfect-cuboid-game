@@ -12,15 +12,17 @@ docs/00_CURRENT_RESEARCH_STATUS.md
 
 ## Stage directories
 
+Stage directory numbers are zero-padded to two digits so GitHub's lexical ordering matches the research order.
+
 ```text
-stages/stage2/    two-face geometry / Kummer classification
-stages/stage3/    Mordell--Weil analysis
-stages/stage4/    all observed-fiber rank analysis
-stages/stage5/    rank / canonical-height audit
-stages/stage6/    height theory
-stages/stage7/    inverse-height analysis
-stages/stage8/    local sieve
-stages/stage9/    divisor-chain analysis
+stages/stage02/   two-face geometry / Kummer classification
+stages/stage03/   Mordell--Weil analysis
+stages/stage04/   all observed-fiber rank analysis
+stages/stage05/   rank / canonical-height audit
+stages/stage06/   height theory
+stages/stage07/   inverse-height analysis
+stages/stage08/   local sieve
+stages/stage09/   divisor-chain analysis
 stages/stage10/   explicit one-face family / lower bound
 stages/stage11/   shared-face-diagonal convolution
 stages/stage12/   frozen Stage12 R09 result and provenance
@@ -31,7 +33,7 @@ Stage-specific mathematics, scripts, derived reports, and frozen workflows belon
 
 ## Naming rule
 
-The stage/task context belongs in the **path**, not at the end of every filename.
+The stage/task context belongs in the **path**, not at the end of every filename. Stage directories always use two decimal digits (`stage02`, ..., `stage09`, `stage10`, ...).
 
 Preferred:
 
