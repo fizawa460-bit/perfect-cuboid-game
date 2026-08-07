@@ -217,7 +217,11 @@ def verify_repaired_bundle() -> None:
     for _path, blob_sha in REPAIRED_SOURCES:
         require(main, blob_sha, REPAIRED_PAGE)
 
-    if len(page.encode("utf-8")) <= 20_000:
+    # Marker and section coverage above is the primary truncation guard.  Keep a
+    # modest floor only to catch an accidentally empty shell; unlike the frozen
+    # source-dump bundle, this R02 page intentionally summarizes four pinned
+    # source documents instead of embedding hundreds of kilobytes verbatim.
+    if len(page.encode("utf-8")) <= 12_000:
         raise SystemExit("repaired self-contained review page is unexpectedly small")
 
 
