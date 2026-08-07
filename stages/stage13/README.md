@@ -8,7 +8,8 @@ STAGE13_2=COMPLETE
 STAGE13_3=ACTIVE
 STAGE13_3A=COMPLETE
 STAGE13_3B=COMPLETE
-NEXT=Stage13-3c
+STAGE13_3C=COMPLETE
+NEXT=Stage13-3d
 ```
 
 ## Active organization
@@ -21,17 +22,21 @@ stages/stage13/initial/structural-decomposition.md
 stages/stage13/main.md
 stages/stage13/scripts/13-3/raw_incidence.py
 stages/stage13/scripts/13-3/geometric_chamber.py
+stages/stage13/scripts/13-3/parity_2adic.py
 stages/stage13/data/13-3/raw_incidence_report.json
 stages/stage13/data/13-3/geometric_chamber_report.json
+stages/stage13/data/13-3/parity_2adic_report.json
 ```
 
 `main.md` is the canonical living mathematical source. The completed Stage13-1/2 initial files remain as provenance; active mathematics is edited in `main.md`.
 
-Stage13-3a established, by complete finite enumeration through the audited cutoffs, that the near `2:1:1` shape is already present in the raw face incidences before the exactly-one overlap sieve. The overlap correction is tiny at `B=100000`; this is a finite result, not an asymptotic theorem.
+Stage13-3a established by complete finite enumeration that the near `2:1:1` shape is already present in raw face incidences before the exactly-one overlap sieve.
 
-Stage13-3b then isolated the canonical size-order / archimedean mechanism. Pure relabelling or full positive-octant symmetry gives `1:1:1`, but on the chamber `0<a<b<c` the exact one-face Gelfand--Leray weights satisfy `w_ab>w_ac>w_bc`. Their chamber integrals give a `bc`-normalized geometric ratio approximately `2.4317:1.1158:1`, which captures most of the finite departure from `1:1:1` but overstates the observed raw ratio `2.0660:1.0607:1`. Thus geometry is a strong leading mechanism, not yet the complete arithmetic explanation.
+Stage13-3b isolated the canonical size-order / archimedean mechanism. On `0<a<b<c`, the exact one-face real-density weights satisfy `w_ab>w_ac>w_bc`; their chamber integrals give a `bc`-normalized geometric ratio about `2.4317:1.1158:1`, stronger than the observed raw `2.0660:1.0607:1`.
 
-The next mathematical step is Stage13-3c: split raw incidence by parity / 2-adic class and test whether this arithmetic layer flattens the geometric ratio toward the observed one.
+Stage13-3c then audited parity and the prime `2`. Every primitive raw-incidence object has exactly one odd edge, odd space diagonal, and both even edges divisible by `4`. This admissibility condition is permutation-symmetric across the three one-face varieties, so a standalone `p=2` local factor cannot create a directional bias. Finite OE/EE parity types do couple with canonical order and visibly flatten the aggregate vector, but they do not by themselves close the gap to the observed ratio.
+
+The next mathematical step is Stage13-3d: test Stage12 representation/fiber multiplicity after canonical projection, with the 13-3c parity signatures available as controls.
 
 ## File rule
 

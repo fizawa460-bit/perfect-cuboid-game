@@ -1,6 +1,6 @@
 # Stage13 — canonical working file
 
-> **STATUS:** `STAGE13_3B_COMPLETE_13_3C_NEXT`
+> **STATUS:** `STAGE13_3C_COMPLETE_13_3D_NEXT`
 >
 > **SCOPE:** primitive canonical face-ratio analysis
 >
@@ -526,4 +526,144 @@ RAW_B100000_BC_NORMALIZED=2.0660451423:1.0607458292:1
 GEOMETRIC_MODEL_IS_COMPLETE_ARITHMETIC_EXPLANATION=false
 ASYMPTOTIC_CLAIM=false
 NEXT=Stage13-3c parity / 2-adic correction
+```
+
+### §3.11 Stage13-3c question
+
+Stage13-3b leaves a clean residual problem: why is the integer ratio flatter than the archimedean chamber ratio? The next discriminator is the prime \(2\):
+
+> Does parity / \(2\)-adic structure supply a direction-dependent correction large enough to explain the flattening from the geometric ratio toward the observed raw ratio?
+
+The support audit is
+
+```text
+stages/stage13/scripts/13-3/parity_2adic.py
+stages/stage13/data/13-3/parity_2adic_report.json
+```
+
+and uses the same complete primitive canonical raw-incidence population as Stage13-3a.
+
+### §3.12 Exact primitive parity structure
+
+Let
+
+\[
+a^2+b^2+c^2=d^2,\qquad \gcd(a,b,c)=1.
+\]
+
+Modulo \(4\), a primitive solution has exactly one odd edge and \(d\) is odd. Write the two even edges as \(e_1,e_2\). Modulo \(8\), the space equation permits only
+
+\[
+v_2(e_1)=v_2(e_2)=1
+\]
+
+or
+
+\[
+v_2(e_1),v_2(e_2)\ge2;
+\]
+
+a mixed branch would give \(1+4+0\equiv5\pmod8\).
+
+If at least one face diagonal is integral, the \(v_2(e_1)=v_2(e_2)=1\) branch is impossible: an odd-even face has square sum \(1+4\equiv5\pmod8\), while the even-even face has square sum \(4+4\equiv8\pmod{16}\). Therefore every primitive raw-incidence object satisfies
+
+\[
+\boxed{\text{one odd edge},\qquad d\text{ odd},\qquad 4\mid e_1,\quad4\mid e_2.}
+\]
+
+The finite audit confirms this for every audited object; at \(B=100000\) all \(168119\) distinct primitive canonical objects with at least one integral face lie in this branch.
+
+### §3.13 Standalone prime-2 density is symmetric
+
+The one-face varieties \(V_{ab},V_{ac},V_{bc}\) are carried into one another by coordinate permutations, and the primitive local condition is invariant under the same permutations. Hence a standalone \(p=2\) local density, before coupling to the real order chamber or representation fibers, is common to the three labels.
+
+Thus the universal prime-2 admissibility sieve cannot by itself create a direction-dependent \(ab/ac/bc\) bias. Any visible prime-2 effect on canonical counts must come from coupling between the 2-adic type and another nonsymmetric layer.
+
+### §3.14 Face-relative parity split
+
+Split each raw incidence into:
+
+- **OE:** the distinguished integral face contains the unique odd edge;
+- **EE:** the distinguished integral face is the pair of even edges.
+
+At \(B=100000\),
+
+\[
+\mathbf A^{OE}=(50320,24059,22386),
+\]
+
+\[
+\mathbf A^{EE}=(33892,19177,18374),
+\]
+
+and \(\mathbf A=\mathbf A^{OE}+\mathbf A^{EE}\). Their \(bc\)-normalized ratios are
+
+\[
+\boxed{2.24783347:1.07473421:1}
+\]
+
+and
+
+\[
+\boxed{1.84456297:1.04370306:1}.
+\]
+
+The corresponding normalized proportion vectors are
+
+\[
+\mathbf P^{OE}\approx(0.520023,0.248633,0.231344),
+\]
+
+\[
+\mathbf P^{EE}\approx(0.474392,0.268424,0.257184).
+\]
+
+The OE and EE shares of all raw incidences are about \(57.53\%\) and \(42.47\%\). Descriptively, a finite cancellation is visible: OE puts the \(ab\) share above one half while EE puts it below one half, and their mixture lands at the raw \(P_{ab}\approx0.500642\).
+
+This is not a causal factorization of an asymptotic constant: each conditional vector still contains the real chamber, odd-prime arithmetic, representation multiplicity, and finite-boundary effects.
+
+### §3.15 Finer 2-adic signatures
+
+For OE incidences the audit records \((v_2(e_{\rm face}),v_2(e_{\rm remaining}))\); for EE incidences it records the two even-face valuations. Values \(4,5,\ldots\) are grouped as \(4+\) for the finite diagnostic.
+
+At \(B=100000\), the total-variation distances between the resulting signature distributions are
+
+\[
+\begin{aligned}
+d_{\rm TV}(ab,ac)&=0.04937\ldots,\\
+d_{\rm TV}(ab,bc)&=0.04832\ldots,\\
+d_{\rm TV}(ac,bc)&=0.03819\ldots.
+\end{aligned}
+\]
+
+Thus detailed prime-2 signature mixes are not identical after canonical ordering, but the differences are only at the few-percent level in this finite diagnostic.
+
+### §3.16 13-3c conclusion
+
+Prime \(2\) matters strongly for admissibility: both even edges must be divisible by \(4\). But that universal local restriction is permutation-symmetric and therefore is not, by itself, the missing direction-dependent factor.
+
+The finite OE/EE decomposition does reveal a real coupling between parity type and canonical size order, and the mixture visibly flattens the aggregate vector. Nevertheless both subpopulations retain a substantial \(ab\) excess, and the finer 2-adic signature differences are modest.
+
+Accordingly,
+
+\[
+\boxed{\text{Stage13-3c does not identify prime }2\text{ as the complete correction from the geometric to the raw ratio.}}
+\]
+
+The next layer is Stage13-3d: test the Stage12 representation/fiber multiplicity after projection to the canonical size-ordered object, using the 13-3c parity signatures as controls.
+
+No limiting \(2:1:1\) theorem, no global Euler product, and no asymptotic negligibility claim is made here.
+
+```text
+STAGE13_3A=COMPLETE
+STAGE13_3B=COMPLETE
+STAGE13_3C=COMPLETE
+PRIMITIVE_RAW_PARITY=one_odd_two_multiples_of_4
+STANDALONE_P2_LOCAL_FACTOR_DIRECTION_BIAS=false
+FINITE_OE_BC_NORMALIZED=2.2478334673:1.0747342089:1
+FINITE_EE_BC_NORMALIZED=1.8445629694:1.0437030587:1
+P2_ORDER_COUPLING_VISIBLE=true
+P2_LAYER_COMPLETE_EXPLANATION=false
+ASYMPTOTIC_CLAIM=false
+NEXT=Stage13-3d representation / fiber multiplicity
 ```
