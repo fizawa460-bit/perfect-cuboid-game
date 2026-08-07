@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "stage": "13-4a",
+    "title": "Finite ac/bc gap ledger across established Stage13-3 layers",
+    "metric": "epsilon=(X_ac-X_bc)/(X_ac+X_bc)",
+    "scope": "finite structural discriminator; no ac/bc asymptotic equality claim",
+    "sources": [
+      "stages/stage13/data/13-3/raw_incidence_report.json",
+      "stages/stage13/data/13-3/representation_density_report.json",
+      "stages/stage13/data/13-3/boundary_stability_report.json"
+    ]
+  },
+  "rows": [
+    {"B":1000,"raw":{"ac":160,"bc":138,"difference":22,"ratio_ac_over_bc":1.1594202898550725,"epsilon":0.0738255033557047},"exact_one":{"ac":158,"bc":138,"difference":20,"ratio_ac_over_bc":1.144927536231884,"epsilon":0.06756756756756757},"overlap_change_in_ac_minus_bc":-2,"shell_neutral":{"ratio_ac_over_bc":1.0692244675040958,"epsilon":0.03345430550973262},"G_neutral":{"ratio_ac_over_bc":0.9755360483522806,"epsilon":-0.012383449883450049}},
+    {"B":2000,"raw":{"ac":372,"bc":370,"difference":2,"ratio_ac_over_bc":1.0054054054054054,"epsilon":0.0026954177897574125},"exact_one":{"ac":369,"bc":367,"difference":2,"ratio_ac_over_bc":1.005449591280654,"epsilon":0.002717391304347826},"overlap_change_in_ac_minus_bc":0,"shell_neutral":{"ratio_ac_over_bc":0.9629323755929858,"epsilon":-0.018883801025400243},"G_neutral":{"ratio_ac_over_bc":0.8864046087043754,"epsilon":-0.06021793562816007}},
+    {"B":5000,"raw":{"ac":1138,"bc":1077,"difference":61,"ratio_ac_over_bc":1.0566388115134633,"epsilon":0.027539503386004513},"exact_one":{"ac":1129,"bc":1068,"difference":61,"ratio_ac_over_bc":1.057116104868914,"epsilon":0.027765134274010013},"overlap_change_in_ac_minus_bc":0,"shell_neutral":{"ratio_ac_over_bc":0.9697201804432183,"epsilon":-0.015372650317248757},"G_neutral":{"ratio_ac_over_bc":0.91014709067538,"epsilon":-0.04703978545068498}},
+    {"B":10000,"raw":{"ac":2740,"bc":2659,"difference":81,"ratio_ac_over_bc":1.0304625799172622,"epsilon":0.015002778292276347},"exact_one":{"ac":2726,"bc":2643,"difference":83,"ratio_ac_over_bc":1.0314037079076808,"epsilon":0.015459117154032408},"overlap_change_in_ac_minus_bc":2,"shell_neutral":{"ratio_ac_over_bc":1.020246069091016,"epsilon":0.010021585687393749},"G_neutral":{"ratio_ac_over_bc":0.9636574933738025,"epsilon":-0.018507558853227853}},
+    {"B":20000,"raw":{"ac":6284,"bc":6105,"difference":179,"ratio_ac_over_bc":1.0293202293202293,"epsilon":0.014448300912099444},"exact_one":{"ac":6258,"bc":6079,"difference":179,"ratio_ac_over_bc":1.0294456325053463,"epsilon":0.014509199967577206},"overlap_change_in_ac_minus_bc":0,"shell_neutral":{"ratio_ac_over_bc":1.0151081826090462,"epsilon":0.007497454846064404},"G_neutral":{"ratio_ac_over_bc":0.9531601623115973,"epsilon":-0.02398156515386173}},
+    {"B":50000,"raw":{"ac":19080,"bc":17905,"difference":1175,"ratio_ac_over_bc":1.0656241273387321,"epsilon":0.03176963633905638},"exact_one":{"ac":19042,"bc":17867,"difference":1175,"ratio_ac_over_bc":1.065763698438462,"epsilon":0.03183505378092064},"overlap_change_in_ac_minus_bc":0,"shell_neutral":{"ratio_ac_over_bc":1.0562949157795127,"epsilon":0.027376868632762296},"G_neutral":{"ratio_ac_over_bc":0.9968537474805624,"epsilon":-0.0015756048851385347}},
+    {"B":100000,"raw":{"ac":43236,"bc":40760,"difference":2476,"ratio_ac_over_bc":1.0607458292443572,"epsilon":0.029477594171151006},"exact_one":{"ac":43180,"bc":40704,"difference":2476,"ratio_ac_over_bc":1.0608294025157232,"epsilon":0.02951695198130752},"overlap_change_in_ac_minus_bc":0,"shell_neutral":{"ratio_ac_over_bc":1.0610156346743838,"epsilon":0.02960464425784112},"G_neutral":{"ratio_ac_over_bc":1.0020209224294838,"epsilon":0.0010094412135470577}}
+  ],
+  "largest_bound_ledger": {
+    "B": 100000,
+    "archimedean_geometry": {"ratio_ac_over_bc":1.115756429,"epsilon":0.05471160451806427},
+    "raw": {"ac":43236,"bc":40760,"difference":2476,"ratio_ac_over_bc":1.0607458292443572,"epsilon":0.029477594171151006},
+    "exact_one": {"ac":43180,"bc":40704,"difference":2476,"ratio_ac_over_bc":1.0608294025157232,"epsilon":0.02951695198130752},
+    "shell_neutral": {"ratio_ac_over_bc":1.0610156346743838,"epsilon":0.02960464425784112},
+    "G_neutral": {"ratio_ac_over_bc":1.0020209224294838,"epsilon":0.0010094412135470577},
+    "outer_half_50000_100000": {"ratio_ac_over_bc":1.0569240866331218,"epsilon":0.027674374082661463},
+    "parity_control": {
+      "OE": {"raw_ratio_ac_over_bc":1.0747342088805503,"raw_epsilon":0.03602110022607381,"shell_neutral_ratio_ac_over_bc":1.0155484692351027,"shell_neutral_epsilon":0.007714262133821712,"neutralization_delta_ratio":-0.0591857396454476},
+      "EE": {"raw_ratio_ac_over_bc":1.0437030586698597,"raw_epsilon":0.02138425075231024,"shell_neutral_ratio_ac_over_bc":1.1025129199642403,"shell_neutral_epsilon":0.04875733175802973,"neutralization_delta_ratio":0.058809861294380594}
+    }
+  },
+  "conclusion": {
+    "exact_one_overlap_explains_ac_bc_closeness": false,
+    "largest_boundary_explains_ac_bc_closeness": false,
+    "supported_shell_richness_explains_aggregate_ac_bc_gap": false,
+    "pure_G_deweighting_nearly_equalizes_ac_bc_at_B100000": true,
+    "parity_strata_respond_same_way_to_shell_neutralization": false,
+    "single_exact_ac_bc_symmetry_established": false,
+    "working_interpretation": "The finite ac/bc closeness survives the exact-one sieve and the largest outer-boundary test. Unlike the leading-ab effect, supported shell-richness neutralization barely changes the aggregate ac/bc ratio at B=100000. Pure G(p) deweighting, however, moves ac/bc to about 1.002, while OE and EE shell-neutral responses have opposite signs. This points toward an arithmetic/parity coupling or cancellation rather than one already-proved universal ac<->bc symmetry.",
+    "next": "Stage13-4b: split pure G(p) richness and primitive-support correction inside OE/EE and geometric subregions, and test for an involution/common factor that could explain the near equality."
+  }
+}
