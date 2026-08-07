@@ -75,7 +75,7 @@ q=r^2+s^2
 reindex 後の height `n` に対する係数は
 
 \[
-\sum_{k\mid n\atop n/k\ {m even}}
+\sum_{k\mid n\atop n/k\ {\rm even}}
 \mu(k)\{G((n/k)rs)-1\}.
 \]
 
@@ -185,7 +185,7 @@ R_{p,t}(s)
 \frac1\pi
 \prod_{p^t\Vert rs\atop p\equiv1(4)}
 \left(
-1+rac{2t(p-1)}{p+1}
+1+\frac{2t(p-1)}{p+1}
 \right).
 \]
 
@@ -214,7 +214,7 @@ multiplicative function `beta` を
 local identity
 
 \[
-1+rac{2t(p-1)}{p+1}
+1+\frac{2t(p-1)}{p+1}
 =
 \sum_{j=0}^{t}\beta(p^j)
 \]
