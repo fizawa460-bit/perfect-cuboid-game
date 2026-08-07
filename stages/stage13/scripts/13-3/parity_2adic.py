@@ -95,7 +95,6 @@ def audit(B:int):
       "signature_tv":{"ab_ac":tv(dist["ab"],dist["ac"]),
                       "ab_bc":tv(dist["ab"],dist["bc"]),
                       "ac_bc":tv(dist["ac"],dist["bc"])},
-      "signature_counts":{c:dict(sorted(sig[c].items())) for c in CATS},
     }
 
 def build(bounds):
