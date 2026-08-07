@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "stage": "13-7b",
+    "title": "Mechanism-resolved scaling of the Stage13 deviation through B=1,000,000",
+    "bounds": [100000,200000,300000,400000,500000,600000,700000,800000,900000,1000000],
+    "scope": "complete finite raw-incidence mechanism diagnostic; no asymptotic limit claim"
+  },
+  "definitions": {
+    "r_raw": "raw ac/bc ratio",
+    "r_G": "G-neutral ac/bc ratio after weight 1/R_all(p)",
+    "F_prim": "r_shell_neutral/r_G; primitive-support correction",
+    "F_shell": "r_raw/r_shell_neutral; restoration of supported-shell richness",
+    "exact_identity": "r_raw = r_G * F_prim * F_shell at each finite cutoff",
+    "warning": "The factor chain is a finite reweighting identity; it is not a proved asymptotic Euler-factor decomposition."
+  },
+  "validation": {
+    "raw_100k_lock": [84212,43236,40760],
+    "raw_1m_lock_from_stage13_7a": [1237105,636722,589898],
+    "matched": true,
+    "enumeration_diagnostics": {
+      "integer_pythagorean_triples": 1980642,
+      "indexed_face_pairs": 1464453,
+      "supported_outer_shells": 692587,
+      "glued_records_before_primitive_strict_order_filters": 12419089,
+      "primitive_raw_incidences": 2463725
+    }
+  },
+  "cumulative": [
+    {"B":100000,"raw_ratio_bc":{"ab":2.066045142296369,"ac":1.0607458292443572,"bc":1.0},"raw_alpha":0.0006420622086940053,"raw_beta":0.00735993531817751,"G_neutral_ratio_bc":{"ab":2.3448861351889287,"ac":1.00202092242947,"bc":1.0},"G_alpha":0.03943783570878889,"G_beta":0.00023245521501639999,"shell_neutral_ratio_bc":{"ab":2.3819382953698476,"ac":1.061015634674497,"bc":1.0},"shell_alpha":0.03611591136756931,"shell_beta":0.0068665617104303606,"F_prim":1.0588757289638127,"F_shell":0.9997457102220529,"G_OE_ac_bc":0.9542232763020131,"G_EE_ac_bc":1.0454667965266486,"G_pair_cancellation_efficiency":0.9556954867144946,"G_to_shell_delta_beta":0.006634106495413961,"shell_to_raw_delta_beta":0.0004933736077471496},
+    {"B":200000,"raw_ratio_bc":{"ab":2.0790726105750337,"ac":1.0699799152949396,"bc":1.0},"raw_alpha":0.0010957556241334432,"raw_beta":0.008433240463769032,"G_neutral_ratio_bc":{"ab":2.3426518349993266,"ac":1.0087185206577398,"bc":1.0},"G_alpha":0.0383710517661926,"G_beta":0.0010018132157384868,"shell_neutral_ratio_bc":{"ab":2.3805201525865978,"ac":1.0656946299109347,"bc":1.0},"shell_alpha":0.035403769057105516,"shell_beta":0.00738770315027748,"F_prim":1.0564836553373118,"F_shell":1.0040211194311481,"G_OE_ac_bc":0.9675819350082729,"G_EE_ac_bc":1.0461265787376566,"G_pair_cancellation_efficiency":0.7798225188271126,"G_to_shell_delta_beta":0.0063858899345389936,"shell_to_raw_delta_beta":0.0010455373134915513},
+    {"B":300000,"raw_ratio_bc":{"ab":2.0838785587007087,"ac":1.07093597399241,"bc":1.0},"raw_alpha":0.0015575406081856924,"raw_beta":0.008536599339661707,"G_neutral_ratio_bc":{"ab":2.352110759162165,"ac":1.0213668311971573,"bc":1.0},"G_alpha":0.0378124640096571,"G_beta":0.0024427736001502998,"shell_neutral_ratio_bc":{"ab":2.3889350586499205,"ac":1.0764214161015073,"bc":1.0},"shell_alpha":0.03499313484997968,"shell_beta":0.008557146168913829,"F_prim":1.0539028517695448,"F_shell":0.9949040013260196,"G_OE_ac_bc":0.9814943967151049,"G_EE_ac_bc":1.057674259612381,"G_pair_cancellation_efficiency":0.4522227569530569,"G_to_shell_delta_beta":0.006114372568763529,"shell_to_raw_delta_beta":-2.054682925212159e-05},
+    {"B":400000,"raw_ratio_bc":{"ab":2.0790350591291404,"ac":1.0717430326852073,"bc":1.0},"raw_alpha":0.0008783927112742118,"raw_beta":0.008642118549614844,"G_neutral_ratio_bc":{"ab":2.365235246409296,"ac":1.0223039483361023,"bc":1.0},"G_alpha":0.03908014069525523,"G_beta":0.0025417377880992825,"shell_neutral_ratio_bc":{"ab":2.3987424416519816,"ac":1.0765075267592938,"bc":1.0},"shell_alpha":0.03600189008068777,"shell_beta":0.008547849539056504,"F_prim":1.053021000761479,"F_shell":0.9955741191253632,"G_OE_ac_bc":0.9864780369624094,"G_EE_ac_bc":1.054889375104013,"G_pair_cancellation_efficiency":0.3661023193727575,"G_to_shell_delta_beta":0.0060061117509572215,"shell_to_raw_delta_beta":9.426901055833992e-05},
+    {"B":500000,"raw_ratio_bc":{"ab":2.0837708929222467,"ac":1.0715480400963695,"bc":1.0},"raw_alpha":0.0014707478562899778,"raw_beta":0.008609211621259799,"G_neutral_ratio_bc":{"ab":2.3673087351869055,"ac":1.0267668411529287,"bc":1.0},"G_alpha":0.038750117984729826,"G_beta":0.0030457875254873007,"shell_neutral_ratio_bc":{"ab":2.401702942405108,"ac":1.0799188377004563,"bc":1.0},"shell_alpha":0.03590040843396114,"shell_beta":0.008916285400881574,"F_prim":1.0517663742314123,"F_shell":0.9922486789637717,"G_OE_ac_bc":0.990855619156732,"G_EE_ac_bc":1.059534740802847,"G_pair_cancellation_efficiency":0.24584939151372143,"G_to_shell_delta_beta":0.005870497875394273,"shell_to_raw_delta_beta":-0.00030707377962177484},
+    {"B":600000,"raw_ratio_bc":{"ab":2.0840120617708875,"ac":1.0723432122079741,"bc":1.0},"raw_alpha":0.0014037358206560047,"raw_beta":0.008702722390081005,"G_neutral_ratio_bc":{"ab":2.369584321519453,"ac":1.0264482015396856,"bc":1.0},"G_alpha":0.03902793236627189,"G_beta":0.00300818993046037,"shell_neutral_ratio_bc":{"ab":2.4032935962843895,"ac":1.0794526836519862,"bc":1.0},"shell_alpha":0.03612081661657185,"shell_beta":0.008862054496324726,"F_prim":1.051638730559217,"F_shell":0.9934138183621357,"G_OE_ac_bc":0.987684889436152,"G_EE_ac_bc":1.0619760296057723,"G_pair_cancellation_efficiency":0.3081272097532318,"G_to_shell_delta_beta":0.005853864565864356,"shell_to_raw_delta_beta":-0.0001593321062437203},
+    {"B":700000,"raw_ratio_bc":{"ab":2.0907941809601875,"ac":1.0754856222118379,"bc":1.0},"raw_alpha":0.0018371976285287417,"raw_beta":0.009059115779305849,"G_neutral_ratio_bc":{"ab":2.376210370872611,"ac":1.0280759590450013,"bc":1.0},"G_alpha":0.03952222741091882,"G_beta":0.0031873448888059125,"shell_neutral_ratio_bc":{"ab":2.4088785713897023,"ac":1.0809592966607098,"bc":1.0},"shell_alpha":0.03651794166805655,"shell_beta":0.009015837435558019,"F_prim":1.051439134579932,"F_shell":0.994936280703833,"G_OE_ac_bc":0.9906565840143264,"G_EE_ac_bc":1.062394174583543,"G_pair_cancellation_efficiency":0.24150735672113566,"G_to_shell_delta_beta":0.0058284925467521065,"shell_to_raw_delta_beta":4.327834374782957e-05},
+    {"B":800000,"raw_ratio_bc":{"ab":2.097482272067087,"ac":1.076922908410609,"bc":1.0},"raw_alpha":0.002462550084096682,"raw_beta":0.009213637043470502,"G_neutral_ratio_bc":{"ab":2.378124718685951,"ac":1.0278297521448354,"bc":1.0},"G_alpha":0.03975244965196656,"G_beta":0.0031581978807406763,"shell_neutral_ratio_bc":{"ab":2.4106485147916907,"ac":1.0806479334024977,"bc":1.0},"shell_alpha":0.036737786649763016,"shell_beta":0.008978246518878047,"F_prim":1.051388064168646,"F_shell":0.9965529707902552,"G_OE_ac_bc":0.9898825794135505,"G_EE_ac_bc":1.0627238931996967,"G_pair_cancellation_efficiency":0.25833047292997535,"G_to_shell_delta_beta":0.005820048638137371,"shell_to_raw_delta_beta":0.0002353905245924548},
+    {"B":900000,"raw_ratio_bc":{"ab":2.0986660493980676,"ac":1.0780589708321457,"bc":1.0},"raw_alpha":0.002466894333013281,"raw_beta":0.009344518786137762,"G_neutral_ratio_bc":{"ab":2.376893567425543,"ac":1.0284861773216873,"bc":1.0},"G_alpha":0.039543400375334326,"G_beta":0.0032331125773723546,"shell_neutral_ratio_bc":{"ab":2.409681140229209,"ac":1.0814257920541923,"bc":1.0},"shell_alpha":0.03654503813029042,"shell_beta":0.009065225264275015,"F_prim":1.051473336151553,"F_shell":0.9968866830745259,"G_OE_ac_bc":0.9900363071292105,"G_EE_ac_bc":1.0638803100941243,"G_pair_cancellation_efficiency":0.2511040341906503,"G_to_shell_delta_beta":0.00583211268690266,"shell_to_raw_delta_beta":0.00027929352186274736},
+    {"B":1000000,"raw_ratio_bc":{"ab":2.097150693848767,"ac":1.0793764345700443,"bc":1.0},"raw_alpha":0.002127875473114882,"raw_beta":0.009502683944027826,"G_neutral_ratio_bc":{"ab":2.376263927590413,"ac":1.030426121855777,"bc":1.0},"G_alpha":0.03924008744137775,"G_beta":0.003452264796749316,"shell_neutral_ratio_bc":{"ab":2.4092965400826585,"ac":1.0829572437975017,"bc":1.0},"shell_alpha":0.03632244659197359,"shell_beta":0.009233365676621225,"F_prim":1.050979998301205,"F_shell":0.9966934897495113,"G_OE_ac_bc":0.9924198427468043,"G_EE_ac_bc":1.0654743634008246,"G_pair_cancellation_efficiency":0.19292719931932412,"G_to_shell_delta_beta":0.005781100879871909,"shell_to_raw_delta_beta":0.00026931826740660136}
+  ],
+  "annuli_100k": [
+    {"lo":0,"hi":100000,"raw_ac_bc":1.0607458292443572,"raw_beta":0.00735993531817751,"G_ac_bc":1.00202092242947,"G_beta":0.00023245521501639999,"F_prim":1.0588757289638127,"F_shell":0.9997457102220529,"G_OE_ac_bc":0.9542232763020131,"G_EE_ac_bc":1.0454667965266486,"G_pair_cancellation_efficiency":0.9556954867144946},
+    {"lo":100000,"hi":200000,"raw_ac_bc":1.0773814205930936,"raw_beta":0.009285259208570276,"G_ac_bc":1.015053917039521,"G_beta":0.0017281136602103897,"F_prim":1.054157519265383,"F_shell":1.006873381154669,"G_OE_ac_bc":0.9802123881609782,"G_EE_ac_bc":1.0467509399569186,"G_pair_cancellation_efficiency":0.5560154428846844},
+    {"lo":200000,"hi":300000,"raw_ac_bc":1.0725163292555302,"raw_beta":0.008706823341825667,"G_ac_bc":1.0458903672883533,"G_beta":0.005195519215212441,"F_prim":1.0486417546524518,"F_shell":0.9778913478015783,"G_OE_ac_bc":1.008413077799867,"G_EE_ac_bc":1.0801061618429249,"G_pair_cancellation_efficiency":0.0},
+    {"lo":300000,"hi":400000,"raw_ac_bc":1.0737703517673791,"raw_beta":0.008908088660032024,"G_ac_bc":1.0250109812878792,"G_beta":0.0028240836690009985,"F_prim":1.0504779138419171,"F_shell":0.9972314449477606,"G_OE_ac_bc":1.0009077661999761,"G_EE_ac_bc":1.046861741733191,"G_pair_cancellation_efficiency":0.0},
+    {"lo":400000,"hi":500000,"raw_ac_bc":1.070885406334722,"raw_beta":0.008497921100924705,"G_ac_bc":1.0440264840406346,"G_beta":0.00498109932365029,"F_prim":1.0467920576933245,"F_shell":0.9798758759241103,"G_OE_ac_bc":1.0076481057500992,"G_EE_ac_bc":1.0776346071852179,"G_pair_cancellation_efficiency":0.0},
+    {"lo":500000,"hi":600000,"raw_ac_bc":1.0757417551525277,"raw_beta":0.009101859752213212,"G_ac_bc":1.0249153323485052,"G_beta":0.002827787260085285,"F_prim":1.0510584620510544,"F_shell":0.9986036820820319,"G_OE_ac_bc":0.9726347265460288,"G_EE_ac_bc":1.0738667214379887,"G_pair_cancellation_efficiency":0.5150832999510622},
+    {"lo":600000,"hi":700000,"raw_ac_bc":1.0917837000995245,"raw_beta":0.010880638830209607,"G_ac_bc":1.0375553585810224,"G_beta":0.004217473017743473,"F_prim":1.0501547019173494,"F_shell":1.0020099803349736,"G_OE_ac_bc":1.0079228385262478,"G_EE_ac_bc":1.06483442247943,"G_pair_cancellation_efficiency":0.0},
+    {"lo":700000,"hi":800000,"raw_ac_bc":1.085599334073252,"raw_beta":0.01013380343377715,"G_ac_bc":1.026176799587924,"G_beta":0.00296308444721477,"F_prim":1.051072748166049,"F_shell":1.006501903582777,"G_OE_ac_bc":0.984740709876858,"G_EE_ac_bc":1.06495926332269,"G_pair_cancellation_efficiency":0.360470075398888},
+    {"lo":800000,"hi":900000,"raw_ac_bc":1.0858867924528302,"raw_beta":0.01024239740501931,"G_ac_bc":1.0335434713910308,"G_beta":0.003810933665014282,"F_prim":1.052043554168872,"F_shell":0.9986701820750153,"G_OE_ac_bc":0.9912149690804949,"G_EE_ac_bc":1.0728294981906241,"G_pair_cancellation_efficiency":0.2013650987324509},
+    {"lo":900000,"hi":1000000,"raw_ac_bc":1.0896300156331422,"raw_beta":0.010734167103522319,"G_ac_bc":1.0473650732092916,"G_beta":0.00536030632862923,"F_prim":1.0465718504059465,"F_shell":0.9940584501673418,"G_OE_ac_bc":1.0130456944550625,"G_EE_ac_bc":1.0795098620813666,"G_pair_cancellation_efficiency":0.0}
+  ],
+  "outer_half_500k_1m": {
+    "raw_ratio_bc":{"ab":2.108143244019405,"ac":1.0858080712946865,"bc":1.0},"raw_beta":0.010229979420762564,
+    "G_ratio_bc":{"ab":2.3848126270736247,"ac":1.0339193009683905,"bc":1.0},"G_beta":0.003838126132197889,
+    "shell_ratio_bc":{"ab":2.416404547594615,"ac":1.085801351989594,"bc":1.0},"shell_beta":0.009528812531376898,
+    "F_prim":1.0501799811383825,"F_shell":1.000006188337379,"G_OE_ac_bc":0.9938970941633609,"G_EE_ac_bc":1.0712008606218004
+  },
+  "exact_one_cross_check_from_7a": {
+    "B100000":{"alpha":0.0007796226864250633,"beta":0.007367731952627507,"ratio_bc":{"ab":2.0672661163522013,"ac":1.0608294025157232,"bc":1.0}},
+    "B1000000":{"alpha":0.0021510505579090955,"beta":0.009505260401548393,"ratio_bc":{"ab":2.0973715580229286,"ac":1.0794026530290415,"bc":1.0}},
+    "raw_vs_exact_beta_difference_at_1m":2.5764575205672324e-06
+  },
+  "key_comparison_100k_to_1m": {
+    "raw_beta":{"B100000":0.00735993531817751,"B1000000":0.009502683944027826,"change":0.002142748625850316},
+    "G_neutral_beta":{"B100000":0.00023245521501639999,"B1000000":0.003452264796749316,"change":0.003219809581732916},
+    "G_neutral_ac_bc":{"B100000":1.00202092242947,"B1000000":1.030426121855777},
+    "F_prim":{"B100000":1.0588757289638127,"B1000000":1.050979998301205},
+    "F_shell":{"B100000":0.9997457102220529,"B1000000":0.9966934897495113},
+    "G_OE_ac_bc":{"B100000":0.9542232763020131,"B1000000":0.9924198427468043},
+    "G_EE_ac_bc":{"B100000":1.0454667965266486,"B1000000":1.0654743634008246},
+    "G_pair_cancellation_efficiency":{"B100000":0.9556954867144946,"B1000000":0.19292719931932412}
+  },
+  "conclusion": {
+    "beta_drift_main_finite_source":"pure-G cross-stratum balance moves away from its accidental near-cancellation at B=100000",
+    "evidence":"G-neutral ac/bc rises from about 1.00202 at 100k to 1.03043 at 1m. The OE G-neutral gap remains slightly bc-heavy, but its negative magnitude becomes small relative to the EE ac-heavy gap; the opposite-sign cancellation efficiency drops from about 95.6% to about 19.3%.",
+    "primitive_support_explains_growth":false,
+    "primitive_support_note":"F_prim weakens from about 1.05888 to 1.05098, so it cannot be the source of the increased ac/bc split over this decade.",
+    "supported_shell_explains_growth":false,
+    "supported_shell_note":"F_shell remains close to 1 and is about 0.99669 at 1m; shell restoration contributes only a small beta shift.",
+    "outer_half_reproduces_mechanism":true,
+    "outer_half_note":"For 500k<d<=1m, r_G is about 1.03392, F_prim about 1.05018 and F_shell about 1.000006, so the fresh half independently shows the same positive pure-G base plus primitive-support tilt.",
+    "interpretation":"The 100k near equality of ac and bc after pure-G deweighting was a finite cancellation sweet spot, not a stable balance across the next decade. By 1m the main new source of the larger beta is the deterioration of that OE/EE pure-G cancellation. Primitive support remains positive but slightly weakens, and supported-shell restoration stays nearly neutral for ac/bc.",
+    "asymptotic_limit_identified":false,
+    "stage13_7_status":"ACTIVE_7B_COMPLETE_TO_B_1E6_MECHANISM_RESOLVED",
+    "next":"Stage13-7c: test the pure-G OE/EE balance beyond 1m (2m-5m) and/or derive a secondary-term model for the parity-resolved G-neutral gaps."
+  }
+}
