@@ -6,11 +6,11 @@
 >
 > **AUDIT_COUNTS:** `FATAL=0, MAJOR=4, MINOR=2, CLARIFICATION=1`
 >
-> **RESOLVED_AFTER_AUDIT:** `MAJOR-01`
+> **RESOLVED_AFTER_AUDIT:** `MAJOR-01, MAJOR-02`
 >
-> **OPEN_MAJOR:** `MAJOR-02, MAJOR-03, MAJOR-04`
+> **OPEN_MAJOR:** `MAJOR-03, MAJOR-04`
 >
-> **CENTRAL_OPEN_ITEMS:** `FIXED_CIRCLE_REMAINDER, COUPLED_REGION_TRANSFER`
+> **CENTRAL_OPEN_ITEM:** `COUPLED_REGION_TRANSFER`
 
 ## 1. Project decision
 
@@ -22,7 +22,7 @@ Stage13-3以降の解析作業を一時停止し、Stage12-N1-2を再オープ�
 C_{\rm prim}(B)\sim \frac{\kappa}{12\pi}B(\log B)^3
 \]
 
-は、監査R01では「偽と判定された」のではなく、**現行文書だけでは証明完了と判定できない**とされた。修復が完了して再監査を通るまで `CLOSED`, `FINAL_COMPLETE`, `proved` と扱わない。
+は、監査R01では「偽と判定された」のではなく、**監査時点の文書だけでは証明完了と判定できない**とされた。修復が完了して再監査を通るまで `CLOSED`, `FINAL_COMPLETE`, `proved` と扱わない。
 
 監査原文:
 
@@ -30,10 +30,11 @@ C_{\rm prim}(B)\sim \frac{\kappa}{12\pi}B(\log B)^3
 docs/review/stage12-n1-2-full-audit-r01.md
 ```
 
-最初の修復成果物:
+修復成果物:
 
 ```text
 docs/stage12-n1-3a-rectangular-error-repair.md
+docs/stage12-n1-3b-fixed-circle-remainder.md
 ```
 
 ## 2. Repair ledger
@@ -42,27 +43,13 @@ docs/stage12-n1-3a-rectangular-error-repair.md
 
 **状態:** `CLOSED_BY_STAGE12_N1_3A`
 
-2pの大係数領域で
+旧2pの不成立な
 
 \[
-R^{3/4+\delta/2}S
+R^{1/2+\delta}S+RS^{1/2+\delta}
 \]
 
-から
-
-\[
-R^{1/2+\delta}S
-\]
-
-へ強化した箇所は不成立だった。
-
-Stage12-N1-3aではこの強化を撤回し、任意の固定
-
-\[
-0<\varepsilon<\frac18
-\]
-
-に対する正しい一様長方形誤差
+への指数強化を撤回し、任意の固定 `0<ε<1/8` に対する正しい一様長方形誤差
 
 \[
 R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
@@ -70,62 +57,104 @@ R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
 
 へ置き換えた。
 
-修復では一変数評価から得られる
+後続kernelが予定する部分和分ノルムを満たす場合、修正版べき誤差はretained regionで任意の固定対数冪より小さい。kernelノルムそのものと正確な係数 `1/12` はMAJOR-03に残す。
 
-\[
-B_\beta(X)\ll X
-\]
-
-を使い、不要な対数因子を除いたうえで大係数尾部を再評価した。また、後続kernelが
-
-\[
-\|K_B\|_{\rm PS,\mathcal B}
-\ll
-\frac{B(\log B)^C}{R^2+S^2}
-\]
-
-を満たす場合、修正版べき誤差がretained regionで任意の対数冪より小さいことを確認した。
-
-ただし、このkernelノルムそのものと正確な主定数の導出はMAJOR-03で証明する。したがってMAJOR-01の閉包は、rectangular lemmaとその予定用途への適合性に限定する。
-
-旧Stage12-N1-2p §3.2〜§3.5および旧Final §4の
-
-\[
-R^{1/2+\delta}S+RS^{1/2+\delta}
-\]
-
-は以後引用しない。
+旧Stage12-N1-2p §3.2〜§3.5および旧Final §4の誤差表示は以後引用しない。
 
 ### MAJOR-02 — fixed-circle remainder
 
-**状態:** `OPEN — NEXT`
+**状態:** `CLOSED_BY_STAGE12_N1_3B`
 
-畳み込み誤差中の \(\omega(X/\ell)\) を \(\omega(X)\) として全域から引き出す向きが正当化されていない。
+旧2kではconvolution error中の `ω(X/ℓ)` を `ω(X)` として全域へ引き出したが、単調性の向きが逆であった。
 
-\(\ell\le X^{1/2}\) と \(\ell>X^{1/2}\) の分割、または有限Euler補正を含むDirichlet級数への直接法により、\(rs\) 平均で一様な評価を再証明する必要がある。
+Stage12-N1-3bではこの操作を撤回し、base remainderの弱い形
+
+\[
+E_0(Y)\ll Y^{1/2}
+\]
+
+とfinite Euler correctionの絶対 `1/2`-norm
+
+\[
+H_{\rm abs}(rs)
+=
+\sum_{\ell\ge1}
+\frac{|h_{r,s}(\ell)|}{\ell^{1/2}}
+\]
+
+を直接使用した。convolution errorとresidue tailを別々に評価して
+
+\[
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1
++O\!\left(
+G(rs)H_{\rm abs}(rs)X^{1/2}
+\right)
+\]
+
+を得た。
+
+\[
+W(n)=G(n)H_{\rm abs}(n)
+\]
+
+とし、既存の固定対数次数平均上界
+
+\[
+\sum_{n\le T}W(n)
+\ll T(\log(2T))^K
+\]
+
+を使う。retained regionでは
+
+\[
+X_{r,s}\ge X_0
+=
+\exp\!\left((\log B)^{1/4}\right),
+\]
+
+したがって `q=r^2+s^2≤2B/X_0` である。dyadic `q` shellによりfixed-circle remainderのouter averageは
+
+\[
+\ll
+B X_0^{-1/2}(\log B)^{2K}
+=
+o\!\left(B(\log B)^{-A}\right)
+\]
+
+となり、任意の固定 `A>0` に対して十分小さい。
+
+旧2k §2〜§3の
+
+\[
+G(rs)H_{\rm abs}(rs)X^{1/2}\omega(X)
+\]
+
+型pointwise estimateは以後使用せず、Stage12-N1-3bのpointwise estimateとretained-region averageで置き換える。
+
+### MAJOR-03 — coupled-region transfer
+
+**状態:** `OPEN — NEXT / CENTRAL`
+
+係数 `1/12` を得る移送が概要に留まっている。
 
 次の成果物を
 
 ```text
-docs/stage12-n1-3b-fixed-circle-remainder.md
+docs/stage12-n1-3c-coupled-region-transfer.md
 ```
 
-とする。
-
-### MAJOR-03 — coupled-region transfer
-
-**状態:** `OPEN — CENTRAL`
-
-係数 \(1/12\) を得る移送が概要に留まっている。
-
-独立した結合領域移送補題として、次を明示する。
+とし、独立した結合領域移送補題として次を明示する。
 
 - divisor variables;
 - radial kernel;
 - 二変数Abel／Stieltjes部分和分;
 - boundary terms;
 - parity/orientation front factors;
-- Stage12-N1-3aの修正版誤差を全boxで合計した評価。
+- Stage12-N1-3aの修正版長方形誤差を全boxで合計した評価;
+- Stage12-N1-3bのfixed-circle remainderとの分離;
+- 正確な係数 `1/12`。
 
 Stage12-N1-3a §4のkernelノルム仮定は、この段階で本文上の補題として証明する。
 
@@ -136,7 +165,7 @@ Stage12-N1-3a §4のkernelノルム仮定は、この段階で本文上の補題
 レビューbundleに次を追加する。
 
 - `C_prim(B)` の完全なcounting definition;
-- \(\kappa\), \(\eta\), local factors, 2-adic / archimedean front factorsのconstant sheet。
+- `κ`, `η`, local factors, 2-adic / archimedean front factorsのconstant sheet。
 
 これは主に監査可能性の問題であり、単独では数学的矛盾を意味しない。
 
@@ -145,12 +174,12 @@ Stage12-N1-3a §4のkernelノルム仮定は、この段階で本文上の補題
 - Tenenbaum II.5.2のhypothesisと採用するremainder caseを一対一で固定する。
 - 2j原文中のフォームフィード由来の壊れた `\frac` 2件を修正する。
 - Final単体で未定義の記号一覧を補うか、Finalをsummary documentと明記する。
-- 現行Final §4の誤差表示は、全修復後の新しい統合稿でStage12-N1-3aの補題へ置き換える。
+- 現行Final §1のfixed-circle remainderと§4の長方形誤差は、全修復後の新しい統合稿で3b・3aの補題へ置き換える。
 
 ## 4. Repair order
 
 1. ~~MAJOR-01を正しい弱い指数へ修正する。~~ `CLOSED_BY_STAGE12_N1_3A`
-2. **MAJOR-02**のfixed-circle remainderを再証明する。
+2. ~~MAJOR-02のfixed-circle remainderを再証明する。~~ `CLOSED_BY_STAGE12_N1_3B`
 3. **MAJOR-03**の結合領域移送補題を新設する。
 4. **MAJOR-04**の定義sheetと定数sheetを作成する。
 5. Tenenbaum参照を固定する。
@@ -167,16 +196,17 @@ Stage12-N1-2を再びclosedと呼ぶ条件は次のすべてである。
 - control characterと参照条件が修正されている;
 - 新しい独立監査が `CLOSED` を返している。
 
-現在はMAJOR-01のみ閉じた。Stage13の構造的成果（Stage13-1、13-2）は保持するが、Stage12漸近式を確定済み解析基礎として使わない。
+現在はMAJOR-01とMAJOR-02を閉じた。Stage13の構造的成果（Stage13-1、13-2）は保持するが、Stage12漸近式を確定済み解析基礎として使わない。
 
 ## 6. Current codes
 
 ```text
 STAGE12_N1_3A_RECTANGULAR_ERROR_REPAIR_COMPLETE
+STAGE12_N1_3B_FIXED_CIRCLE_REMAINDER_COMPLETE
 MAJOR_01=CLOSED
-MAJOR_02=OPEN_NEXT
-MAJOR_03=OPEN_CENTRAL
+MAJOR_02=CLOSED
+MAJOR_03=OPEN_NEXT_CENTRAL
 MAJOR_04=OPEN
 THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
-NEXT_TASK=STAGE12_N1_3B_FIXED_CIRCLE_REMAINDER
+NEXT_TASK=STAGE12_N1_3C_COUPLED_REGION_TRANSFER
 ```
