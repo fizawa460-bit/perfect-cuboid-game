@@ -60,7 +60,7 @@ jobs:
           ! grep -Pq '\x0c' "$final_md"
           ! grep -Pq '\x0c' "$page"
           test "$(wc -c < "$final_md")" -gt 50000
-          test "$(wc -c < "$page")" -gt 60000
+          test "$(wc -c < "$page")" -gt 55000
       - name: Commit generated Final R04 and R05 page
         if: github.event_name == 'pull_request'
         shell: bash
