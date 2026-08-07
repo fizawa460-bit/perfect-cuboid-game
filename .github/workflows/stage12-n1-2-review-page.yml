@@ -1,18 +1,6 @@
 name: Stage12-N1-2 self-contained review page
 
 on:
-  pull_request:
-    paths:
-      - "docs/00_CURRENT_RESEARCH_STATUS.md"
-      - "docs/stage12-n1-2*.md"
-      - "data/*stage12_n1_2*.json"
-      - "scripts/audit_*stage12_n1_2*.py"
-      - "scripts/build_stage12_n1_2_review_page.py"
-      - "scripts/build_stage12_n1_2_review_page_r02.py"
-      - "scripts/verify_stage12_n1_review_manifest.py"
-      - "review/PC-N1-2-PROOF-REVIEW-20260806-R01.html"
-      - "review/PC-N1-2-PROOF-REVIEW-20260806-R02.html"
-      - ".github/workflows/stage12-n1-2-review-page.yml"
   workflow_dispatch:
 
 permissions:
@@ -82,4 +70,5 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
-# R02 generated page is committed; this revision forces a full post-generation verification run.
+# R02 is a frozen historical bundle. Run this workflow manually only when its
+# historical reproducibility needs to be checked.
