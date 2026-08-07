@@ -36,11 +36,9 @@ STAGE13_1=COMPLETE
 STAGE13_2=COMPLETE
 STAGE13_3=COMPLETE_AT_STRUCTURAL_DIAGNOSTIC_LEVEL
 STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
-STAGE13_4A=COMPLETE
-STAGE13_4B=COMPLETE
-STAGE13_4C=COMPLETE
 STAGE13_5=COMPLETE
-NEXT_TASK=Stage13-6 classify the deviation
+STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
+NEXT_TASK=Stage13-7 asymptotic behaviour of the deviation
 ```
 
 ## Research question
@@ -91,15 +89,13 @@ Status: [x] Complete
 
 Determine the mathematical origin of the leading factor near `2` in the `ab_only` component.
 
-The analysis distinguishes raw incidence versus exact-one overlap correction, canonical size-order geometry, full-orientation symmetry, primitive projection, parity / 2-adic structure, representation multiplicity, odd-prime local densities, cutoff/boundary effects, and the exact Stage12-to-Stage13 fiber map.
-
 Canonical destination: `stages/stage13/main.md` §3
 
 Priority: ★★★★★ Required
 
 Status: [x] Complete at structural finite-diagnostic level
 
-Working result: canonical archimedean geometry creates the leading `ab` excess, and arithmetic representation density materially flattens it toward the observed near-`2`. This is not yet a categorywise asymptotic theorem.
+Working result: canonical archimedean geometry creates the leading `ab` excess, and arithmetic representation density materially flattens it toward the observed near-`2`. The exactly-one sieve, standalone prime `2`, universal Stage12 projection fiber, and largest audited cutoff boundary do not generate the leading effect. This is not yet a categorywise asymptotic theorem.
 
 ### Task 13-4 — Origin of the two 1s
 
@@ -111,23 +107,7 @@ Priority: ★★★★★ Required
 
 Status: [x] Complete at structural finite-diagnostic level
 
-Stage13-4a established the finite layer ledger. At `B=100000`, the `ac/bc` gap survives the exact-one sieve and outer-half boundary essentially unchanged. Supported shell-neutralization also leaves the aggregate ratio near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`.
-
-Stage13-4b showed that the pure-`G` near equality is a cancellation rather than a proved symmetry. At `B=100000`, pure-`G` OE is `0.95422` with negative weighted gap while EE is `1.04547` with positive weighted gap. Geometric bins also cross from `bc`-heavy to `ac`-heavy, and primitive support systematically favors `ac`.
-
-Stage13-4c scales this structure. The exact finite layer identity
-
-```text
-r_raw(B) = r_G(B) * F_prim(B) * F_shell(B)
-```
-
-separates pure-`G`, primitive-support and supported-shell effects. For `B>=10000`, `F_prim` stays in the narrow range `1.05872..1.06499`. At `B=100000`,
-
-```text
-1.0607458 = 1.0020209 * 1.0588757 * 0.9997457.
-```
-
-The outer half `50000<d<=100000` independently reproduces opposite OE/EE pure-`G` signs (`0.95636` versus `1.05368`) and the low-`g` to high-`g` crossing (`0.9087, 0.9729, 1.0605, 1.1176`). Thus the two near-`1` components are structurally explained at the audited finite scale as cross-stratum cancellation plus a relatively stable primitive-support tilt, not by one exact `ac<->bc` symmetry. The cancellation is not stable at all smaller bounds or annuli, so no asymptotic equality or exact secondary constant is claimed.
+Working result: the two near-`1` components are not produced by one exact `ac<->bc` symmetry. At late audited scales, pure-`G` OE/EE and low/high geometric subregions have opposite signed `ac-bc` gaps and cancel strongly. A relatively stable primitive-support factor near `1.06` then supplies most of the residual `ac>bc` tilt, while supported-shell restoration is close to neutral for `ac/bc` at `B=100000`. No asymptotic equality is claimed.
 
 ---
 
@@ -148,7 +128,7 @@ P_0=\left(\frac12,\frac14,\frac14\right),\qquad
 \Delta(B)=P(B)-P_0.
 \]
 
-Since the components of `Delta` sum to zero, use the two coordinates
+Use the two independent coordinates
 
 \[
 \alpha(B)=P_{ab}(B)-\frac12,
@@ -163,17 +143,15 @@ so that exactly
 +\beta(B)(0,1,-1).
 \]
 
-`alpha` is the leading-vs-pair mode; `beta` is the split of the two near-`1` components. Exact `2:1:1` is equivalent to `alpha=beta=0`.
-
 At `B=100000`, exact-one gives
 
 \[
-\alpha=\frac{131}{168030}\approx0.0007796,
+\alpha\approx0.0007796,
 \qquad
-\beta=\frac{619}{84015}\approx0.0073677.
+\beta\approx0.0073677,
 \]
 
-Thus `|beta|/|alpha|≈9.45` at the largest audited cutoff; the finite normalized deviation is dominated in coordinate size by the `ac/bc` split rather than by failure of `ab` to equal one half. No trend or limit is inferred from this definition.
+so `|beta|/|alpha|≈9.45`. This is finite only.
 
 Canonical destination: `stages/stage13/main.md` §5
 
@@ -190,23 +168,64 @@ Status: [x] Complete
 
 ### Task 13-6 — Classify the deviation
 
-Decompose `alpha`, `beta`, and the full deviation vector into structurally meaningful components such as overlap, canonical geometry, parity/local arithmetic, representation density, primitive support, and finite-cutoff effects.
+Classify `alpha`, `beta`, and the full deviation vector by the structural layers already isolated in Stages13-3 and 13-4.
+
+The classification deliberately distinguishes exact transitions from comparison models and controls; it does **not** sum every mechanism as though they were one orthogonal causal decomposition.
+
+At `B=100000` the common-coordinate ledger is:
+
+```text
+layer                 alpha          beta
+archimedean geometry  +0.0347369     +0.0127276
+G-neutral             +0.0394378     +0.0002325
+shell-neutral         +0.0361159     +0.0068666
+raw                    +0.0006421     +0.0073599
+exact-one              +0.0007796     +0.0073677
+outer-half raw         +0.0009925     +0.0069049
+OE raw                 +0.0200227     +0.0086447
+EE raw                 -0.0256078     +0.0056199
+```
+
+The exact finite normalized-weight transitions give
+
+```text
+G-neutral -> shell-neutral : Delta alpha ~= -0.003322, Delta beta ~= +0.006634
+shell-neutral -> raw       : Delta alpha ~= -0.035474, Delta beta ~= +0.000493
+raw -> exact-one           : Delta alpha ~= +0.000138, Delta beta ~= +0.0000078
+```
+
+Hence the main finite flattening of the leading-half mode `alpha` is associated with restoration of supported-shell richness, while the pure-`G` profile nearly cancels `beta`; primitive-support coupling then restores most of the positive residual `beta`. OE and EE have opposite raw `alpha` signs and reconstruct raw exactly; after pure-`G` deweighting their `ac/bc` gaps also have opposite signs. The largest outer-half control changes the raw modes only slightly. The Stage12 universal projection factor `2` is exactly invisible in normalized directional proportions, and standalone prime-`2` admissibility remains category-symmetric before canonical/order coupling.
+
+This is a finite structural classification only. Geometry is a comparison model, OE/EE a stratification, boundary a control, and the fiber factor an exact null; they must not be added indiscriminately as causal vectors.
 
 Canonical destination: `stages/stage13/main.md` §6
 
+Support:
+
+```text
+stages/stage13/scripts/13-6/classify_deviation.py
+stages/stage13/data/13-6/deviation_classification_report.json
+```
+
 Priority: ★★★★★ Required
 
-Status: [>] Next
+Status: [x] Complete at structural finite-diagnostic level
 
 ### Task 13-7 — Asymptotic behaviour
 
-Study whether the deviation tends to zero, tends to another limit, remains bounded away from zero, or has identifiable secondary terms.
+Study whether
+
+\[
+\alpha(B),\qquad \beta(B),\qquad \Delta(B)
+\]
+
+tend to zero, tend to nonzero limits, remain oscillatory at visible scale, or admit identifiable secondary terms. Separate what finite data suggest from what can actually be proved.
 
 Canonical destination: `stages/stage13/main.md` §7
 
 Priority: ★★★★☆ Supporting
 
-Status: [ ] Not started
+Status: [>] Next
 
 ---
 
@@ -283,10 +302,10 @@ Stage12 R09 frozen
 13-5 Deviation definition [complete]
         |
         v
-13-6 Deviation classification [next]
+13-6 Deviation classification [complete: structural finite diagnostic]
         |
         v
-13-7 Asymptotic behavior
+13-7 Asymptotic behavior [next]
         |
         v
 13-8 Rigorous Stage12 bridge
@@ -307,7 +326,8 @@ Stage13 is complete when:
 - [x] the dominant finite structural mechanism producing the leading near-`2` has been identified;
 - [x] the finite structural relation between the two near-`1` components has been explained;
 - [x] a quantitative deviation vector and independent coordinates have been defined;
-- [ ] every significant deviation has been structurally classified;
+- [x] the significant finite deviation mechanisms have been structurally classified;
+- [ ] the asymptotic behavior of the deviation has been resolved to the justified level;
 - [ ] the Stage12-to-Stage13 counting bridge has been fully consolidated for exact-one directional counts;
 - [ ] the main structural theorem has been proved;
 - [ ] the final explanation answers why the ratio naturally appears.
