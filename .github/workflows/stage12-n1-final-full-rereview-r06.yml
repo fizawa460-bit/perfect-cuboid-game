@@ -1,0 +1,86 @@
+name: Stage12-N1 final full re-review R06
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/stage12-n1-2-final-r04.md"
+      - "docs/stage12-n1-3g-fixed-height-shallow-sector.md"
+      - "docs/stage12-n1-2-final-r05.md"
+      - "docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r06.md"
+      - "review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html"
+      - "scripts/build_stage12_n1_final_full_rereview_r06.py"
+      - ".github/workflows/stage12-n1-final-full-rereview-r06.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build consolidated Final R05 and R06 page
+        run: |
+          python -m py_compile scripts/build_stage12_n1_final_full_rereview_r06.py
+          python scripts/build_stage12_n1_final_full_rereview_r06.py
+      - name: Verify R06 full re-review bundle
+        shell: bash
+        run: |
+          final_md=docs/stage12-n1-2-final-r05.md
+          page=review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html
+          manifest=docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r06.md
+          test -s "$final_md"
+          test -s "$page"
+          test -s "$manifest"
+          grep -Fq 'BUNDLE_ID=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06' "$page"
+          grep -Fq 'COMPLETED_THROUGH=Stage12-N1-3g' "$page"
+          grep -Fq 'SOURCE_SNAPSHOT_COMMIT=c9a91650bece7a2173af4f495212faf1a1054aeb' "$page"
+          grep -Fq 'SOURCE_LEDGER_SHA256=511a055bd243e0b4f40d554c949e5c1c52db1cc412bcadae55eb8b99e6de2e49' "$page"
+          grep -Fq 'DOCUMENT_STATUS=FULL_ZERO_BASE_REREVIEW_CANDIDATE_AFTER_R05_REPAIR' "$page"
+          grep -Fq 'CHECKPOINT=START_OF_MAIN' "$page"
+          grep -Fq 'CHECKPOINT=END_OF_MAIN' "$page"
+          grep -Fq 'END_OF_BUNDLE=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06' "$page"
+          grep -Fq 'Stage12-N1-2 Final R05' "$final_md"
+          grep -Fq 'EMBEDDED SOURCE 2/2' "$final_md"
+          grep -Fq 'R05_MAJOR_01_FIXED_HEIGHT_SHALLOW=CLOSED_BY_STAGE12_N1_3G' "$final_md"
+          grep -Fq 'FIXED_HEIGHT_SHALLOW_BOUND=O(B_L^(5/2))=PROVED' "$final_md"
+          grep -Fq 'D_{\lambda,2}(s_1,s_2)' "$manifest"
+          grep -Fq 'FIXED_HEIGHT_SHALLOW=' "$manifest"
+          grep -Fq 'fixed-height retained/shallow split and the radial core/wing split' "$manifest"
+          ! grep -Pq '\x0c' "$final_md"
+          ! grep -Pq '\x0c' "$page"
+          test "$(wc -c < "$final_md")" -gt 60000
+          test "$(wc -c < "$page")" -gt 65000
+      - name: Commit generated Final R05 and R06 page
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          final_md=docs/stage12-n1-2-final-r05.md
+          page=review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html
+          if git diff --quiet -- "$final_md" "$page" && \
+             git ls-files --error-unmatch "$final_md" >/dev/null 2>&1 && \
+             git ls-files --error-unmatch "$page" >/dev/null 2>&1; then
+            echo "Generated R06 files are already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$final_md" "$page"
+          git commit -m "Generate Stage12 Final R05 full re-review bundle R06"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Upload R06 full re-review bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-final-full-rereview-r06
+          path: |
+            docs/stage12-n1-2-final-r05.md
+            docs/review/stage12-n1-2-final-full-rereview-manifest-20260807-r06.md
+            review/PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06.html
+          if-no-files-found: error
+          retention-days: 7
