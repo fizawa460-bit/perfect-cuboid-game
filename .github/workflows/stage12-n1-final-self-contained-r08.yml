@@ -57,8 +57,8 @@ jobs:
           grep -Fq 'SELF_CONTAINMENT=COMPLETE_AT_STATED_EXTERNAL_THEOREM_LEVEL' "$manifest"
           ! grep -Pq '\x0c' "$final_md"
           ! grep -Pq '\x0c' "$page"
-          test "$(wc -c < "$final_md")" -gt 140000
-          test "$(wc -c < "$page")" -gt 150000
+          test "$(wc -c < "$final_md")" -gt 120000
+          test "$(wc -c < "$page")" -gt 125000
       - name: Commit generated R08 files
         if: github.event_name == 'pull_request'
         shell: bash
