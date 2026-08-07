@@ -8,6 +8,8 @@
 >
 > **SOURCE_LEDGER_SHA256:** `800a664bf940e751cb1fafc7758a2692c6950eecb6ef94784738d276a4a0debe`
 >
+> **CONTENT_SHA256:** `0da06c78bbb546039dbe8d423dcc6ed403fe1af90d777488c2393c0c77c16848`
+>
 > **FINAL_DOCUMENT:** `docs/stage12-n1-2-final-r08-self-contained.md`
 >
 > **PHYSICAL_PAGE:** `review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09.html`
@@ -25,13 +27,13 @@ Stage12-N1-3j closes both points without changing any main term, local factor, e
 
 ## Required active closure
 
-The R09 final text must contain explicit proofs of
+The R09 final text contains the explicit proof
 
 \[
 \|f*g\|_\delta\le\|f\|_\delta\|g\|_\delta
 \]
 
-for two-variable Dirichlet convolution, and
+for two-variable Dirichlet convolution, and the finite-product/Cauchy argument
 
 \[
 \sum_q\|C_q-1\|_\delta<\infty
@@ -39,9 +41,9 @@ for two-variable Dirichlet convolution, and
 \left\|\prod_q C_q\right\|_\delta<\infty.
 \]
 
-The finite-product argument must include both a uniform norm bound and a Cauchy estimate. The coefficientwise limit must be identified with the Euler product.
+The coefficientwise limit is identified with the Euler product because each fixed coefficient involves only finitely many prime divisors.
 
-The vertical-growth ledger must state explicitly:
+The vertical-growth ledger is fixed as
 
 ```text
 J_beta: absolute convergence => bounded
@@ -72,7 +74,7 @@ for the primitive oriented count defined in the embedded proof.
 
 It does not assert perfect-cuboid existence, a canonical-count asymptotic, an exact-one-face asymptotic, or a final face ratio.
 
-## Final state requested from the bundle
+## Final state
 
 ```text
 WEIGHTED_L1_DIRICHLET_SUBMULTIPLICATIVITY=CLOSED
@@ -86,5 +88,3 @@ SELF_CONTAINMENT=COMPLETE_AT_STATED_EXTERNAL_THEOREM_LEVEL
 THEOREM_SCOPE=PRIMITIVE_ORIENTED_COUNT_ONLY
 ADDITIONAL_EXTERNAL_REVIEW=NOT_REQUIRED_AS_PROJECT_GATE
 ```
-
-`CONTENT_SHA256` is filled into the PR record after deterministic generation succeeds.
