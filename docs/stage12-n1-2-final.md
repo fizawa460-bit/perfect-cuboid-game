@@ -76,7 +76,7 @@ B\sum_{r<s\atop(r,s)=1}
 \frac{\eta}{\kappa}
 =
 \frac8\pi
-\prod_{p\ {m odd}}(1-p^{-2})^{-1}
+\prod_{p\ {\rm odd}}(1-p^{-2})^{-1}
 =
 \frac8\pi\cdot\frac{\pi^2}{8}
 =
@@ -347,6 +347,15 @@ C_{\rm prim}(B)
 
 ---
 
-## 8. 監査履歴
+## 8. 監査履歴とレビュー資料
 
-詳細な導出・有限監査・修復履歴は既存の Stage12-N1-2j〜2p および review R03〜R05 に保存する。本稿を今後の標準参照文書とする。
+通常の外部レビューでは、本稿を主文書として渡す。
+
+Stage12-N1-2k の閉包撤回から、2l〜2pによる修復・解析条件・最終bookkeepingまでを一続きで確認させる場合は、補助資料として次の単一レビューページを併用する。
+
+- source: `docs/proof-chain-2j-to-2p-review-page.md`
+- GitHub Pages: `https://fizawa460-bit.github.io/perfect-cuboid-game/review/PC-N1-2J-2P-PROOF-CHAIN-20260807-R01.html`
+
+旧 review R03〜R05 は版固定された監査履歴として保存するが、通常のレビュー依頼で個別に配布する必要はない。
+
+詳細な有限監査・修復履歴は Stage12-N1-2j〜2p の原文に保存する。本稿を今後の標準参照文書とする。
