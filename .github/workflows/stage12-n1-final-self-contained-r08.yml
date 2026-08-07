@@ -1,0 +1,88 @@
+name: Stage12-N1 final self-contained R08
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "docs/stage12-n1-3i-final-reference-closure.md"
+      - "docs/stage12-n1-3h-zero-base-provenance-closure.md"
+      - "docs/stage12-n1-3a-rectangular-error-repair.md"
+      - "docs/stage12-n1-2-final-r05.md"
+      - "docs/stage12-n1-2-final-r07-self-contained.md"
+      - "docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r08.md"
+      - "review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R08.html"
+      - "scripts/build_stage12_n1_final_self_contained_r08.py"
+      - ".github/workflows/stage12-n1-final-self-contained-r08.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Build self-contained R08 bundle
+        run: |
+          python -m py_compile scripts/build_stage12_n1_final_self_contained_r08.py
+          python scripts/build_stage12_n1_final_self_contained_r08.py
+      - name: Verify R08 bundle
+        shell: bash
+        run: |
+          final_md=docs/stage12-n1-2-final-r07-self-contained.md
+          page=review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R08.html
+          manifest=docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r08.md
+          test -s "$final_md"
+          test -s "$page"
+          test -s "$manifest"
+          grep -Fq 'BUNDLE_ID=PC-N1-2-FINAL-SELF-CONTAINED-20260807-R08' "$page"
+          grep -Fq 'COMPLETED_THROUGH=Stage12-N1-3i' "$page"
+          grep -Fq 'SOURCE_SNAPSHOT_COMMIT=4fa4c70ad375dc90c5a99cd8d39f4caf4c47ff34' "$page"
+          grep -Fq 'SOURCE_LEDGER_SHA256=77b40002d4534ee5e24f8d7f711e7f12d1ea51994d58affe49e161cf33f71248' "$page"
+          grep -Fq 'DOCUMENT_STATUS=SELF_CONTAINED_AT_STATED_EXTERNAL_THEOREM_LEVEL' "$page"
+          grep -Fq 'SELF_CONTAINMENT=COMPLETE_AT_STATED_EXTERNAL_THEOREM_LEVEL' "$page"
+          grep -Fq 'OLD_2P_ACTIVE_DEPENDENCY=NONE' "$page"
+          grep -Fq 'EMBEDDED SOURCE 9/9' "$final_md"
+          grep -Fq 'BETA_LINEAR_UPPER_BOUND=CLOSED_DIRECTLY_BY_STAGE12_N1_3I_SECTION_1' "$final_md"
+          grep -Fq 'BETA_COPRIME_CROSS_WEIGHTED_NORM=CLOSED_DIRECTLY_BY_STAGE12_N1_3I_SECTION_2' "$final_md"
+          grep -Fq 'SELBERG_DELANGE_APPLICATION_MAP=CLOSED_BY_STAGE12_N1_3I_SECTION_3' "$final_md"
+          grep -Fq 'RECTANGLE_SMALL_COEFFICIENT_STEP=CLOSED_BY_STAGE12_N1_3I_SECTION_4' "$final_md"
+          grep -Fq 'OLD_2P_ACTIVE_DEPENDENCY=NONE' "$manifest"
+          grep -Fq 'SELF_CONTAINMENT=COMPLETE_AT_STATED_EXTERNAL_THEOREM_LEVEL' "$manifest"
+          ! grep -Pq '\x0c' "$final_md"
+          ! grep -Pq '\x0c' "$page"
+          test "$(wc -c < "$final_md")" -gt 140000
+          test "$(wc -c < "$page")" -gt 150000
+      - name: Commit generated R08 files
+        if: github.event_name == 'pull_request'
+        shell: bash
+        run: |
+          final_md=docs/stage12-n1-2-final-r07-self-contained.md
+          page=review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R08.html
+          if git diff --quiet -- "$final_md" "$page" && \
+             git ls-files --error-unmatch "$final_md" >/dev/null 2>&1 && \
+             git ls-files --error-unmatch "$page" >/dev/null 2>&1; then
+            echo "Generated R08 files are already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$final_md" "$page"
+          git commit -m "Generate Stage12 final self-contained bundle R08"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+      - name: Upload R08 bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage12-n1-final-self-contained-r08
+          path: |
+            docs/stage12-n1-2-final-r07-self-contained.md
+            docs/review/stage12-n1-2-final-self-contained-manifest-20260807-r08.md
+            review/PC-N1-2-FINAL-SELF-CONTAINED-20260807-R08.html
+          if-no-files-found: error
+          retention-days: 14
