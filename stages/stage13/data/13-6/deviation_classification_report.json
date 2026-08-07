@@ -1,0 +1,154 @@
+{
+  "metadata": {
+    "stage": "13-6",
+    "title": "Structural classification of the Stage13 deviation modes",
+    "B": 100000,
+    "coordinates": "alpha=P_ab-1/2; beta=(P_ac-P_bc)/2",
+    "scope": "finite structural classification; no additive attribution across incomparable diagnostics and no asymptotic claim"
+  },
+  "layers": {
+    "archimedean_geometry": {
+      "proportion": {"ab": 0.5347369332313988, "ac": 0.24535917783225203, "bc": 0.21990388893634913},
+      "alpha": 0.034736933231398814,
+      "beta": 0.01272764444795145
+    },
+    "G_neutral": {
+      "proportion": {"ab": 0.5394378357088461, "ac": 0.23051353736059496, "bc": 0.230048626930559},
+      "alpha": 0.03943783570884607,
+      "beta": 0.00023245521501798205
+    },
+    "shell_neutral": {
+      "proportion": {"ab": 0.5361159113676404, "ac": 0.2388086060265968, "bc": 0.2250754826057629},
+      "alpha": 0.03611591136764036,
+      "beta": 0.006866561710416941
+    },
+    "raw": {
+      "proportion": {"ab": 0.500642062208694, "ac": 0.2570389042138305, "bc": 0.2423190335774755},
+      "alpha": 0.0006420622086940053,
+      "beta": 0.00735993531817751
+    },
+    "exact_one": {
+      "proportion": {"ab": 0.5007796226864251, "ac": 0.256977920609415, "bc": 0.24224245670415998},
+      "alpha": 0.0007796226864250633,
+      "beta": 0.007367731952627507
+    },
+    "outer_half_raw": {
+      "proportion": {"ab": 0.5009924741797492, "ac": 0.25640862337993187, "bc": 0.24259890244031887},
+      "alpha": 0.0009924741797492365,
+      "beta": 0.006904860469806498
+    },
+    "OE_raw": {
+      "proportion": {"ab": 0.5200227354932052, "ac": 0.24863328682891542, "bc": 0.2313439776778794},
+      "alpha": 0.020022735493205213,
+      "beta": 0.00864465457551801
+    },
+    "EE_raw": {
+      "proportion": {"ab": 0.47439217278109824, "ac": 0.26842377839676385, "bc": 0.2571840488221379},
+      "alpha": -0.025607827218901758,
+      "beta": 0.005619864787312967
+    }
+  },
+  "transitions": {
+    "geometry_to_G_neutral": {
+      "type": "comparison_model_to_arithmetic_reweighting; not a causal exact factorization",
+      "delta_alpha": 0.004700902477447255,
+      "delta_beta": -0.012495189232933468
+    },
+    "G_neutral_to_shell_neutral": {
+      "type": "exact finite reweighting transition isolating primitive-support correction",
+      "delta_alpha": -0.0033219243412057065,
+      "delta_beta": 0.006634106495398959
+    },
+    "shell_neutral_to_raw": {
+      "type": "exact finite reweighting transition restoring supported-shell richness",
+      "delta_alpha": -0.03547384915894636,
+      "delta_beta": 0.0004933736077605694
+    },
+    "raw_to_exact_one": {
+      "type": "exact overlap-sieve transition",
+      "delta_alpha": 0.00013756047773105795,
+      "delta_beta": 0.000007796634449996898
+    },
+    "cumulative_raw_to_outer_half_raw": {
+      "type": "boundary/stability comparison; not an additive mechanism",
+      "delta_alpha": 0.00035041197105523114,
+      "delta_beta": -0.0004550748483710121
+    }
+  },
+  "classification": {
+    "canonical_archimedean_geometry": {
+      "role": "creates a large positive leading-half mode and a positive ac/bc split in the chamber model",
+      "alpha": 0.034736933231398814,
+      "beta": 0.01272764444795145,
+      "status": "exact real-density/chamber model, not the full arithmetic count"
+    },
+    "pure_G_arithmetic_profile": {
+      "role": "nearly cancels the ac/bc split mode under G-neutral weighting while leaving a large positive leading mode",
+      "alpha": 0.03943783570884607,
+      "beta": 0.00023245521501798205,
+      "OE_ac_over_bc": 0.9542232763020151,
+      "EE_ac_over_bc": 1.0454667965266742,
+      "cancellation_efficiency": 0.955695486714097,
+      "status": "finite arithmetic reweighting diagnostic"
+    },
+    "primitive_support": {
+      "role": "reintroduces a positive ac/bc split and modestly reduces the leading mode",
+      "delta_alpha": -0.0033219243412057065,
+      "delta_beta": 0.006634106495398959,
+      "late_F_prim_range_B_ge_10000": {"min": 1.0587227060509796, "max": 1.0649922465781754, "range": 0.006269540527195749}
+    },
+    "supported_shell_richness": {
+      "role": "dominant finite flattening of the leading-half mode; changes beta only slightly",
+      "delta_alpha": -0.03547384915894636,
+      "delta_beta": 0.0004933736077605694
+    },
+    "parity_order_coupling": {
+      "role": "OE and EE raw strata have opposite alpha signs and partially cancel in the aggregate; raw beta is positive in both strata. After pure-G deweighting their ac/bc pair gaps have opposite signs.",
+      "OE_raw": {"alpha": 0.020022735493205213, "beta": 0.00864465457551801},
+      "EE_raw": {"alpha": -0.025607827218901758, "beta": 0.005619864787312967},
+      "OE_plus_EE_reconstructs_raw_exactly": true,
+      "standalone_p2_category_bias": "zero by coordinate-permutation symmetry before canonical/order coupling",
+      "pure_G_pair_signs_opposite": true
+    },
+    "overlap_exact_one_sieve": {
+      "role": "tiny perturbation of both modes at the largest audited cutoff",
+      "delta_alpha": 0.00013756047773105795,
+      "delta_beta": 0.000007796634449996898
+    },
+    "cutoff_boundary": {
+      "role": "largest outer-half band remains close to cumulative raw modes; no competing boundary-generated deviation is visible",
+      "delta_alpha": 0.00035041197105523114,
+      "delta_beta": -0.0004550748483710121,
+      "outer_half_share": 0.5600744316560449
+    },
+    "stage12_projection_fiber": {
+      "role": "exact directional null for normalized proportions because every canonical raw incidence has the same projection multiplicity 2",
+      "delta_alpha": 0.0,
+      "delta_beta": 0.0,
+      "status": "exact theorem-level finite identity from Stage13-3d"
+    }
+  },
+  "final_exact_one": {
+    "alpha": 0.0007796226864250633,
+    "beta": 0.007367731952627507,
+    "abs_beta_over_abs_alpha": 9.450382086669133,
+    "interpretation": "At B=100000 the final exact-one deviation is beta-dominated: the residual visible departure from 2:1:1 lies mainly in the ac/bc split, not in failure of ab to carry one half of the mass."
+  },
+  "non_additivity_warning": {
+    "statement": "Do not sum every named mechanism as if they were orthogonal causal contributions. Geometry is a model comparison, OE/EE is a stratification, boundary is a control, and fiber is an exact null. Only explicitly linked normalized reweighting transitions telescope.",
+    "exact_telescope_used": "(G_neutral -> shell_neutral) + (shell_neutral -> raw) = (G_neutral -> raw) in Delta/alpha/beta coordinates"
+  },
+  "conclusion": {
+    "deviation_classified_at_finite_structural_level": true,
+    "alpha_main_finite_flattening_associated_with_supported_shell_richness": true,
+    "beta_near_equality_associated_with_pure_G_cross_stratum_cancellation": true,
+    "beta_residual_ac_excess_associated_with_primitive_support": true,
+    "overlap_large_source": false,
+    "boundary_large_source": false,
+    "fiber_directional_source": false,
+    "standalone_p2_directional_source": false,
+    "additive_global_causal_decomposition_claim": false,
+    "asymptotic_deviation_claim": false,
+    "next": "Stage13-7: study the B-dependence of alpha(B), beta(B), and Delta(B), and decide whether any limiting or secondary asymptotic law is supported/provable."
+  }
+}
