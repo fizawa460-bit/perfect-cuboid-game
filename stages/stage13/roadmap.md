@@ -39,7 +39,8 @@ STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_4A=COMPLETE
 STAGE13_4B=COMPLETE
 STAGE13_4C=COMPLETE
-NEXT_TASK=Stage13-5 define the deviation
+STAGE13_5=COMPLETE
+NEXT_TASK=Stage13-6 classify the deviation
 ```
 
 ## Research question
@@ -134,27 +135,68 @@ The outer half `50000<d<=100000` independently reproduces opposite OE/EE pure-`G
 
 ### Task 13-5 — Define the deviation
 
-Introduce a quantitative deviation vector or scalar `Delta` from the reference proportion
+For the exact-one proportions
 
 \[
-\left(\frac12,\frac14,\frac14\right).
+P(B)=\frac{1}{N_1(B)}(N_{ab}(B),N_{ac}(B),N_{bc}(B)),
 \]
+
+define
+
+\[
+P_0=\left(\frac12,\frac14,\frac14\right),\qquad
+\Delta(B)=P(B)-P_0.
+\]
+
+Since the components of `Delta` sum to zero, use the two coordinates
+
+\[
+\alpha(B)=P_{ab}(B)-\frac12,
+\qquad
+\beta(B)=\frac{P_{ac}(B)-P_{bc}(B)}2,
+\]
+
+so that exactly
+
+\[
+\Delta(B)=\alpha(B)\left(1,-\frac12,-\frac12\right)
++\beta(B)(0,1,-1).
+\]
+
+`alpha` is the leading-vs-pair mode; `beta` is the split of the two near-`1` components. Exact `2:1:1` is equivalent to `alpha=beta=0`.
+
+At `B=100000`, exact-one gives
+
+\[
+\alpha=\frac{131}{168030}\approx0.0007796,
+\qquad
+\beta=\frac{619}{84015}\approx0.0073677.
+\]
+
+Thus `|beta|/|alpha|≈9.45` at the largest audited cutoff; the finite normalized deviation is dominated in coordinate size by the `ac/bc` split rather than by failure of `ab` to equal one half. No trend or limit is inferred from this definition.
 
 Canonical destination: `stages/stage13/main.md` §5
 
+Support:
+
+```text
+stages/stage13/scripts/13-5/deviation.py
+stages/stage13/data/13-5/deviation_report.json
+```
+
 Priority: ★★★★★ Required
 
-Status: [>] Next
+Status: [x] Complete
 
 ### Task 13-6 — Classify the deviation
 
-Decompose the deviation into structurally meaningful components such as overlap, canonical boundary, multiplicity, parity/local, and finite-cutoff effects.
+Decompose `alpha`, `beta`, and the full deviation vector into structurally meaningful components such as overlap, canonical geometry, parity/local arithmetic, representation density, primitive support, and finite-cutoff effects.
 
 Canonical destination: `stages/stage13/main.md` §6
 
 Priority: ★★★★★ Required
 
-Status: [ ] Not started
+Status: [>] Next
 
 ### Task 13-7 — Asymptotic behaviour
 
@@ -238,7 +280,13 @@ Stage12 R09 frozen
 13-4 Origin of two 1s [complete: structural finite diagnostic]
         |
         v
-13-5/6/7 Deviation analysis [next]
+13-5 Deviation definition [complete]
+        |
+        v
+13-6 Deviation classification [next]
+        |
+        v
+13-7 Asymptotic behavior
         |
         v
 13-8 Rigorous Stage12 bridge
@@ -258,6 +306,7 @@ Stage13 is complete when:
 - [x] the candidate structural layers have been separated;
 - [x] the dominant finite structural mechanism producing the leading near-`2` has been identified;
 - [x] the finite structural relation between the two near-`1` components has been explained;
+- [x] a quantitative deviation vector and independent coordinates have been defined;
 - [ ] every significant deviation has been structurally classified;
 - [ ] the Stage12-to-Stage13 counting bridge has been fully consolidated for exact-one directional counts;
 - [ ] the main structural theorem has been proved;

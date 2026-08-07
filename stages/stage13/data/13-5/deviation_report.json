@@ -1,0 +1,82 @@
+{
+  "metadata": {
+    "stage": "13-5",
+    "title": "Deviation coordinates from the reference proportion (1/2,1/4,1/4)",
+    "primary_population": "exact-one canonical primitive count N",
+    "control_population": "raw face incidence A",
+    "scope": "definition plus finite diagnostics; no convergence or asymptotic claim"
+  },
+  "definition": {
+    "reference": "P0=(1/2,1/4,1/4)",
+    "primary": "P(B)=(N_ab,N_ac,N_bc)/N1; Delta(B)=P(B)-P0",
+    "coordinates": {
+      "alpha": "P_ab-1/2 = (N_ab-N_ac-N_bc)/(2N1)",
+      "beta": "(P_ac-P_bc)/2 = (N_ac-N_bc)/(2N1)",
+      "reconstruction": "Delta = alpha*(1,-1/2,-1/2) + beta*(0,1,-1)",
+      "exact_reference_condition": "Delta=0 iff alpha=beta=0 iff proportions are exactly (1/2,1/4,1/4)"
+    },
+    "interpretation": {
+      "alpha": "leading-vs-pair mode: whether ab carries exactly one half of the total",
+      "beta": "two-near-1 split mode: the ac/bc imbalance after total normalization",
+      "basis_orthogonal_Euclidean": true
+    }
+  },
+  "rows": [
+    {
+      "B": 1000,
+      "raw": {"counts":{"ab":306,"ac":160,"bc":138,"total":604},"proportion":{"ab":0.5066225165562914,"ac":0.26490066225165565,"bc":0.22847682119205298},"delta":{"ab":0.006622516556291391,"ac":0.014900662251655629,"bc":-0.02152317880794702},"mode":{"alpha_leading":0.006622516556291391,"beta_split":0.018211920529801324},"norm":{"L1":0.04304635761589404,"Linf":0.02152317880794702,"L2":0.027002494089900814}},
+      "exact_one": {"counts":{"ab":304,"ac":158,"bc":138,"total":600},"proportion":{"ab":0.5066666666666667,"ac":0.2633333333333333,"bc":0.23},"delta":{"ab":0.006666666666666667,"ac":0.013333333333333334,"bc":-0.02},"mode":{"alpha_leading":0.006666666666666667,"beta_split":0.016666666666666666},"norm":{"L1":0.04,"Linf":0.02,"L2":0.024944382578492942}}
+    },
+    {
+      "B": 2000,
+      "raw": {"counts":{"ab":702,"ac":372,"bc":370,"total":1444},"proportion":{"ab":0.48614958448753465,"ac":0.25761772853185594,"bc":0.2562326869806094},"delta":{"ab":-0.013850415512465374,"ac":0.007617728531855956,"bc":0.006232686980609419},"mode":{"alpha_leading":-0.013850415512465374,"beta_split":0.0006925207756232687},"norm":{"L1":0.027700831024930747,"Linf":0.013850415512465374,"L2":0.016991473886960245}},
+      "exact_one": {"counts":{"ab":698,"ac":369,"bc":367,"total":1434},"proportion":{"ab":0.48675034867503486,"ac":0.25732217573221755,"bc":0.25592747559274753},"delta":{"ab":-0.013249651324965132,"ac":0.007322175732217573,"bc":0.005927475592747559},"mode":{"alpha_leading":-0.013249651324965132,"beta_split":0.000697350069735007},"norm":{"L1":0.026499302649930265,"Linf":0.013249651324965132,"L2":0.016257382464260485}}
+    },
+    {
+      "B": 5000,
+      "raw": {"counts":{"ab":2300,"ac":1138,"bc":1077,"total":4515},"proportion":{"ab":0.5094130675526024,"ac":0.2520487264673311,"bc":0.23853820598006645},"delta":{"ab":0.009413067552602437,"ac":0.0020487264673311185,"bc":-0.011461794019933556},"mode":{"alpha_leading":0.009413067552602437,"beta_split":0.0067552602436323364},"norm":{"L1":0.02292358803986711,"Linf":0.011461794019933556,"L2":0.014972502898419638}},
+      "exact_one": {"counts":{"ab":2288,"ac":1129,"bc":1068,"total":4485},"proportion":{"ab":0.5101449275362319,"ac":0.25172798216276476,"bc":0.23812709030100335},"delta":{"ab":0.010144927536231883,"ac":0.0017279821627647714,"bc":-0.011872909698996655},"mode":{"alpha_leading":0.010144927536231883,"beta_split":0.006800445930880713},"norm":{"L1":0.02374581939799331,"Linf":0.011872909698996655,"L2":0.015712143768141826}}
+    },
+    {
+      "B": 10000,
+      "raw": {"counts":{"ab":5281,"ac":2740,"bc":2659,"total":10680},"proportion":{"ab":0.4944756554307116,"ac":0.2565543071161049,"bc":0.24897003745318352},"delta":{"ab":-0.0055243445692883895,"ac":0.006554307116104869,"bc":-0.0010299625468164794},"mode":{"alpha_leading":-0.0055243445692883895,"beta_split":0.003792134831460674},"norm":{"L1":0.013108614232209739,"Linf":0.006554307116104869,"L2":0.008633547795680159}},
+      "exact_one": {"counts":{"ab":5261,"ac":2726,"bc":2643,"total":10630},"proportion":{"ab":0.4949200376293509,"ac":0.25644402634054564,"bc":0.24863593603010348},"delta":{"ab":-0.005079962370649106,"ac":0.006444026340545626,"bc":-0.0013640639698965192},"mode":{"alpha_leading":-0.005079962370649106,"beta_split":0.0039040451552210726},"norm":{"L1":0.012888052681091252,"Linf":0.006444026340545626,"L2":0.008318182714921967}}
+    },
+    {
+      "B": 20000,
+      "raw": {"counts":{"ab":12407,"ac":6284,"bc":6105,"total":24796},"proportion":{"ab":0.5003629617680271,"ac":0.25342797225358926,"bc":0.2462090659783836},"delta":{"ab":0.00036296176802710114,"ac":0.0034279722535892885,"bc":-0.00379093402161639},"mode":{"alpha_leading":0.00036296176802710114,"beta_split":0.003609453137602839},"norm":{"L1":0.00758186804323278,"Linf":0.00379093402161639,"L2":0.005123857509013692}},
+      "exact_one": {"counts":{"ab":12375,"ac":6258,"bc":6079,"total":24712},"proportion":{"ab":0.5007688572353513,"ac":0.25323729362253156,"bc":0.2459938491421172},"delta":{"ab":0.0007688572353512464,"ac":0.0032372936225315637,"bc":-0.00400615085788281},"mode":{"alpha_leading":0.0007688572353512464,"beta_split":0.003621722240207187},"norm":{"L1":0.00801230171576562,"Linf":0.00400615085788281,"L2":0.005207730421493673}}
+    },
+    {
+      "B": 50000,
+      "raw": {"counts":{"ab":37014,"ac":19080,"bc":17905,"total":73999},"proportion":{"ab":0.5001959485938999,"ac":0.2578413221800295,"bc":0.24196272922607062},"delta":{"ab":0.00019594859389991757,"ac":0.00784132218002946,"bc":-0.008037270773929378},"mode":{"alpha_leading":0.00019594859389991757,"beta_split":0.007939296476979418},"norm":{"L1":0.016074541547858756,"Linf":0.008037270773929378,"L2":0.01123042523130503}},
+      "exact_one": {"counts":{"ab":36966,"ac":19042,"bc":17867,"total":73875},"proportion":{"ab":0.5003857868020305,"ac":0.25775972927241964,"bc":0.24185448392554992},"delta":{"ab":0.00038578680203045685,"ac":0.007759729272419628,"bc":-0.008145516074450085},"mode":{"alpha_leading":0.00038578680203045685,"beta_split":0.007952622673434856},"norm":{"L1":0.01629103214890017,"Linf":0.008145516074450085,"L2":0.01125662746816255}}
+    },
+    {
+      "B": 100000,
+      "raw": {"counts":{"ab":84212,"ac":43236,"bc":40760,"total":168208},"proportion":{"ab":0.500642062208694,"ac":0.2570389042138305,"bc":0.2423190335774755},"delta":{"ab":0.000642062208693998,"ac":0.007038904213830495,"bc":-0.007680966422524494},"mode":{"alpha_leading":0.000642062208693998,"beta_split":0.0073599353181774945},"norm":{"L1":0.015361932845048987,"Linf":0.007680966422524494,"L2":0.010438182868452843}},
+      "exact_one": {"counts":{"ab":84146,"ac":43180,"bc":40704,"total":168030},"proportion":{"ab":0.5007796226864251,"ac":0.256977920609415,"bc":0.24224245670415998},"delta":{"ab":0.0007796226864250431,"ac":0.006977920609414986,"bc":-0.007757543295840028},"mode":{"alpha_leading":0.0007796226864250431,"beta_split":0.007367731952627507},"norm":{"L1":0.015515086591680056,"Linf":0.007757543295840028,"L2":0.01046320531918014}}
+    }
+  ],
+  "largest_bound": {
+    "B": 100000,
+    "exact_one_counts": {"ab":84146,"ac":43180,"bc":40704,"total":168030},
+    "alpha_exact": "131/168030",
+    "beta_exact": "619/84015",
+    "alpha": 0.0007796226864250431,
+    "beta": 0.007367731952627507,
+    "abs_beta_over_abs_alpha": 9.450381679389313,
+    "delta": {"ab":0.0007796226864250431,"ac":0.006977920609414986,"bc":-0.007757543295840028},
+    "L1": 0.015515086591680056,
+    "Linf": 0.007757543295840028,
+    "interpretation": "At B=100000 the normalized deviation is much more strongly expressed in the ac-vs-bc split coordinate beta than in the leading-half coordinate alpha. This is a finite statement only."
+  },
+  "conclusion": {
+    "deviation_vector_defined": true,
+    "two_independent_coordinates_defined": true,
+    "largest_bound_leading_coordinate_small": true,
+    "largest_bound_split_coordinate_dominates_in_absolute_coordinate_size": true,
+    "convergence_claim": false,
+    "next": "Stage13-6: classify alpha, beta and Delta by overlap, geometry, parity, representation density, primitive support, and boundary layers."
+  }
+}
