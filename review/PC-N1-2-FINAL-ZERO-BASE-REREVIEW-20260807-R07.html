@@ -1,0 +1,5928 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PC-N1-2-FINAL-ZERO-BASE-REREVIEW-20260807-R07</title>
+<style>
+:root { color-scheme: light dark; }
+body { max-width: 1180px; margin: 0 auto; padding: 24px 18px 80px; font-family: system-ui, -apple-system, sans-serif; line-height: 1.55; }
+h1 { line-height: 1.25; }
+.meta { border: 2px solid currentColor; border-radius: 10px; padding: 16px; margin: 18px 0 28px; }
+pre { white-space: pre-wrap; overflow-wrap: anywhere; border: 1px solid #8888; border-radius: 8px; padding: 18px; background: #8881; }
+code { overflow-wrap: anywhere; }
+</style>
+</head>
+<body>
+<main id="review-bundle-main">
+<div class="meta"><pre>BUNDLE_ID=PC-N1-2-FINAL-ZERO-BASE-REREVIEW-20260807-R07
+COMPLETED_THROUGH=Stage12-N1-3h
+SOURCE_SNAPSHOT_COMMIT=1cc47f22be84e2924671294c88f2613d7cbafcd4
+SOURCE_LEDGER_SHA256=9e8fe78faca3e30f9bfa9db9ef5cfd7b5c33187e94889c46aa3ab83b011c6f98
+HISTORICAL_PROVENANCE_COMMIT=8d6910e8e68145e474f92716460a1cc6f384ecf1
+CONTENT_SHA256=eb28026b292294df2e15721247b6b543a55c554e8a8bfff387672fb15c32f0cf
+DOCUMENT_STATUS=FULL_ZERO_BASE_REREVIEW_CANDIDATE_WITH_PROVENANCE
+CHECKPOINT=START_OF_MAIN</pre></div>
+<h1>Stage12-N1-2 Final R06 — physical zero-base review page R07</h1>
+<p>This page contains the complete consolidated Markdown, including the historical derivation sources and their supersession rules.</p>
+<pre># Stage12-N1-2 Final R06 — physically self-contained zero-base proof bundle
+
+&gt; **BUNDLE_ID:** `PC-N1-2-FINAL-ZERO-BASE-REREVIEW-20260807-R07`
+&gt;
+&gt; **COMPLETED_THROUGH:** `Stage12-N1-3h`
+&gt;
+&gt; **SOURCE_SNAPSHOT_COMMIT:** `1cc47f22be84e2924671294c88f2613d7cbafcd4`
+&gt;
+&gt; **SOURCE_LEDGER_SHA256:** `9e8fe78faca3e30f9bfa9db9ef5cfd7b5c33187e94889c46aa3ab83b011c6f98`
+&gt;
+&gt; **HISTORICAL_PROVENANCE_COMMIT:** `8d6910e8e68145e474f92716460a1cc6f384ecf1`
+&gt;
+&gt; **DOCUMENT_STATUS:** `FULL_ZERO_BASE_REREVIEW_CANDIDATE_WITH_PROVENANCE`
+&gt;
+&gt; **COUNTING_TARGET:** primitive oriented count `C_prim(B)` only
+
+## Purpose
+
+This file is a physical, single-document zero-base review target for
+
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3
+=
+\frac{\eta}{12\pi^2}B(\log B)^3.
+\]
+
+Unlike R06, this bundle includes the body of Stage12-N1-3a and the historical derivations of `G`, `kappa`, `A_rs`, `beta`, `gamma`, and `eta`. It also includes an explicit vertical-growth argument and an explicit treatment of the lower limits `x,y&gt;=1` in the radial integral.
+
+## Precedence and supersession
+
+Historical sources are included so their derivations can be audited, not so that every historical conclusion becomes active. Apply the following rules exactly.
+
+```text
+ACTIVE_CURRENT_PROOF=docs/stage12-n1-2-final-r05.md
+ACTIVE_RECTANGLE_DERIVATION=Stage12-N1-3a Lemma 3a.1
+ACTIVE_VERTICAL_AND_RADIAL_BOUNDARY=Stage12-N1-3h
+2F_FORMAL_RAW_ASYMPTOTIC=PROVENANCE_ONLY
+2K_OLD_FIXED_CIRCLE_REMAINDER=SUPERSEDED_BY_3B_AND_3E
+2K_OLD_SHALLOW_BOUND=SUPERSEDED_BY_3G
+3A_OLD_RETAINED_MIN_RS_APPLICATION=SUPERSEDED_BY_3F
+SUPERSEDED_FIXED_BC_KERNEL=NOT_USED
+```
+
+A reviewer must verify both that the required derivations are present and that no superseded claim is silently reactivated.
+
+## Immutable source ledger
+
+| role | locator | path | Git blob SHA |
+|---|---|---|---|
+| Active consolidated proof through Stage12-N1-3g | `WORKTREE` | `docs/stage12-n1-2-final-r05.md` | `ccdf97313c361862535f3aab59ed207caae38e08` |
+| Active rectangle-error derivation | `WORKTREE` | `docs/stage12-n1-3a-rectangular-error-repair.md` | `fb4a7a52fcb2cf55005c155b0534abf3a986fe42` |
+| Historical origin of the parameter sum and multiplicity G | `8d6910e8e68145e474f92716460a1cc6f384ecf1` | `docs/stage12-n1-2b-average.md` | `0430d010472314f0c88e78189493f652c261b3ef` |
+| Historical exact divisor expansion of G | `8d6910e8e68145e474f92716460a1cc6f384ecf1` | `docs/stage12-n1-2e-divisor-dyadic.md` | `e8783ee5577419b9f8aeff1e93a3c4aaf44a7feb` |
+| Historical derivation of kappa and the three-variable local factors | `8d6910e8e68145e474f92716460a1cc6f384ecf1` | `docs/stage12-n1-2f-main-term.md` | `5ba2f0844446a57dd524034fd9cd186f7a00fcb1` |
+| Historical primitive-first derivation of A_rs, beta and gamma | `8d6910e8e68145e474f92716460a1cc6f384ecf1` | `docs/stage12-n1-2j-boundary-layers.md` | `111107ce0346606cb8a73b4c50e1841386f4cf23` |
+| Historical derivation of eta and its comparison with kappa | `8d6910e8e68145e474f92716460a1cc6f384ecf1` | `docs/stage12-n1-2k-final-remainder.md` | `48b28e84034c17e242998ab313775b0894908515` |
+| Active zero-base provenance, vertical-growth and radial-boundary closure | `WORKTREE` | `docs/stage12-n1-3h-zero-base-provenance-closure.md` | `7683303f47ef8d6d4d10f1bb1501657020956cfd` |
+
+
+---
+
+# EMBEDDED SOURCE 1/8 — Active consolidated proof through Stage12-N1-3g
+
+&gt; **LOCATOR:** `WORKTREE`  
+&gt; **PATH:** `docs/stage12-n1-2-final-r05.md`  
+&gt; **GIT_BLOB_SHA:** `ccdf97313c361862535f3aab59ed207caae38e08`
+
+# Stage12-N1-2 Final R05 — primitive oriented count, consolidated through 3g
+
+&gt; **BUNDLE_ID:** `PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06`
+&gt;
+&gt; **COMPLETED_THROUGH:** `Stage12-N1-3g`
+&gt;
+&gt; **SOURCE_SNAPSHOT_COMMIT:** `c9a91650bece7a2173af4f495212faf1a1054aeb`
+&gt;
+&gt; **SOURCE_LEDGER_SHA256:** `511a055bd243e0b4f40d554c949e5c1c52db1cc412bcadae55eb8b99e6de2e49`
+&gt;
+&gt; **DOCUMENT_STATUS:** `FULL_ZERO_BASE_REREVIEW_CANDIDATE_AFTER_R05_REPAIR`
+&gt;
+&gt; **COUNTING_TARGET:** `C_prim(B)` as defined in the embedded proof
+
+## Purpose and status
+
+This is the single consolidated current proof source for a new full zero-base re-review of
+
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3
+=
+\frac{\eta}{12\pi^2}B(\log B)^3.
+\]
+
+The R05 full review accepted the Stage12-N1-3f small-coordinate wing repair and identified one remaining material gap: the fixed-height shallow sector had only been declared lower order, without an explicit majorant and shell calculation. Stage12-N1-3g supplies that calculation.
+
+## Effective supersession rules
+
+The following historical sentences are not active proof steps:
+
+```text
+retained boxes satisfy min(R,S) &gt;= S0
+shallow fixed-height sector: o(BL^3) by nonnegative rectangle upper bounds
+```
+
+The active replacements are:
+
+```text
+radial core boxes are defined by R,S &gt;= S0 and the complementary wings are bounded by Stage12-N1-3f
+fixed-height shallow sector is bounded directly by Stage12-N1-3g as O(BL^(5/2))
+```
+
+The fixed-height retained/shallow split and the radial core/wing split remain logically distinct. Historical status labels inside the embedded parent source do not replace the status of this file, and previous review decisions are not binding for the requested zero-base re-review.
+
+The theorem concerns the primitive oriented count only. It does not assert existence of a perfect cuboid, a canonical-count asymptotic, or an exact-one-face asymptotic.
+
+## Immutable source ledger
+
+| source | path | Git blob SHA |
+|---|---|---|
+| Consolidated proof through Stage12-N1-3f | `docs/stage12-n1-2-final-r04.md` | `f6eaf4eca8e58c686a69b530161c9b213f774df5` |
+| Stage12-N1-3g fixed-height shallow-sector closure | `docs/stage12-n1-3g-fixed-height-shallow-sector.md` | `c7024e1422b90c71a62906af83314f25b847bc4f` |
+
+
+---
+
+# EMBEDDED SOURCE 1/2 — Consolidated proof through Stage12-N1-3f
+
+&gt; **PATH:** `docs/stage12-n1-2-final-r04.md`  
+&gt; **GIT_BLOB_SHA:** `f6eaf4eca8e58c686a69b530161c9b213f774df5`
+
+# Stage12-N1-2 Final R04 — primitive oriented count, consolidated through 3f
+
+&gt; **BUNDLE_ID:** `PC-N1-2-FINAL-FULL-REREVIEW-20260807-R05`
+&gt;
+&gt; **COMPLETED_THROUGH:** `Stage12-N1-3f`
+&gt;
+&gt; **SOURCE_SNAPSHOT_COMMIT:** `b0208ce33204a3c5f5a52afec146b08a313203f1`
+&gt;
+&gt; **SOURCE_LEDGER_SHA256:** `f758808bc7f36307b9abcb2b6038ce497735619382fc7bc3056c65cc246cf16f`
+&gt;
+&gt; **DOCUMENT_STATUS:** `FULL_ZERO_BASE_REREVIEW_CANDIDATE_AFTER_R04_REPAIR`
+&gt;
+&gt; **COUNTING_TARGET:** `C_prim(B)` as defined in the embedded definition sheet
+
+## Purpose and status
+
+This is the single consolidated current proof source for a new full zero-base re-review of
+
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3
+=
+\frac{\eta}{12\pi^2}B(\log B)^3.
+\]
+
+The previous R04 full review returned `REPAIRABLE` with one material gap: the old proof treated `min(R,S)&gt;=S_0` as if it followed from the fixed-height retained condition. Stage12-N1-3f replaces that invalid implication by a disjoint radial decomposition into a core and two small-coordinate wings.
+
+## Effective supersession rule
+
+The following old sentence, wherever it appears inside historical embedded sources, is **not active**:
+
+```text
+retained boxes satisfy min(R,S) &gt;= S0
+```
+
+The active replacement is:
+
+```text
+core boxes are defined by R,S &gt;= S0;
+the complementary r-wing and s-wing are bounded directly by Stage12-N1-3f
+```
+
+This is the only mathematical precedence override introduced after Final R03. All other embedded content remains subject to zero-base review. Historical status labels do not replace the status of this consolidated file, and earlier `CLOSED` decisions are not binding.
+
+The theorem concerns the primitive **oriented** count only. It does not assert existence of a perfect cuboid, a canonical-count asymptotic, or an exact-one-face asymptotic.
+
+## Immutable source ledger
+
+| source | path | Git blob SHA |
+|---|---|---|
+| Definitions and counting convention | `docs/stage12-n1-3d-definition-sheet.md` | `b44f76a890363708d6274d14b7f7154894debc7b` |
+| Constant sheet | `docs/stage12-n1-3d-constant-sheet.md` | `3428f220c35c3625589dc44abf55819b48109631` |
+| Selberg--Delange reference lock | `docs/stage12-n1-3d-selberg-delange-reference-lock.md` | `23f887107b0babaadfcf6d6dc2e4255921c3651d` |
+| Integrated repaired proof R02 | `docs/stage12-n1-2-final-r02.md` | `e343182e82d9ecacf844fa7e508662749d43b55b` |
+| Stage12-N1-3e local-gap closure | `docs/stage12-n1-3e-local-gap-closure.md` | `a61ba1fe84f49c92e4ccbcd5755ea1e3e0bf5ae5` |
+| Stage12-N1-3f small-coordinate wing closure | `docs/stage12-n1-3f-small-coordinate-wing.md` | `e2c77dc23744cb0b9866b40e7a4c0646b0994dd6` |
+
+
+---
+
+# EMBEDDED SOURCE 1/6 — Definitions and counting convention
+
+&gt; **PATH:** `docs/stage12-n1-3d-definition-sheet.md`  
+&gt; **GIT_BLOB_SHA:** `b44f76a890363708d6274d14b7f7154894debc7b`
+
+# Stage12-N1-3d：Definitions and counting convention
+
+&gt; **STATUS:** `MAJOR_04_DEFINITION_SHEET_COMPLETE`
+&gt;
+&gt; **SCOPE:** Stage12-N1-2 primitive oriented count only
+&gt;
+&gt; **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_INDEPENDENT_REAUDIT`
+
+## 0. このsheetの目的
+
+本稿は新しい解析補題を導入しない。独立監査R01のMAJOR-04に対応し、Stage12-N1-2で数えている対象、重複度、orientation、raw / primitiveの関係を単独で復元できるように固定する。
+
+最終対象は、以下の式で定義される **primitive oriented count** `C_prim(B)` である。これは完全直方体そのものの個数、辺順序を忘れたcanonical count、またはexact-one-face countへの自動変換を意味しない。
+
+以下、`B` は正整数とする。実数 `B` への拡張は `C(B):=C(floor(B))` とする。
+
+---
+
+## 1. 双曲線座標とadmissible parameter set
+
+正整数 `h,r,s` に対して
+
+\[
+p=hrs,
+\qquad
+c=\frac{h(s^2-r^2)}2,
+\qquad
+d=\frac{h(r^2+s^2)}2
+\]
+
+と置く。Stage12-N1-2のparameter conventionは
+
+\[
+1\le r&lt;s,
+\qquad
+(r,s)=1.
+\]
+
+`r&lt;s` はこの系列におけるorientation conventionの一部であり、`r,s` の交換を二重計数しない。
+
+height boundとintegrality conditionをまとめた集合を
+
+\[
+\boxed{
+\mathcal D_B
+:=
+\left\{(h,r,s)\in\mathbb N^3:
+1\le r&lt;s,
+(r,s)=1,
+h(r^2+s^2)\le2B,
+h(r^2+s^2)\equiv0\pmod2
+\right\}.
+}
+\]
+
+最後の偶奇条件は次と同値である。
+
+- `r,s` がともに奇数なら `r^2+s^2` は偶数で、`h` に追加偶奇制約はない。
+- `r,s` がopposite parityなら `r^2+s^2` は奇数で、`h` は偶数でなければならない。
+
+---
+
+## 2. multiplicity weight `G`
+
+素数 `q` と整数 `n` に対して `v_q(n)` を `q`-進付値とする。
+
+\[
+\boxed{
+G(n)
+:=
+\prod_{\substack{q\mid n\\q\equiv1\pmod4}}
+\left(2v_q(n)+1\right).
+}
+\]
+
+空積は1とする。Stage12-N1-2のraw multiplicityは
+
+\[
+G(hrs)-1
+\]
+
+である。`-1` を含むこの重み自体をcounting definitionの一部とし、別のrepresentation conventionへ置き換えない。
+
+---
+
+## 3. raw oriented count
+
+\[
+\boxed{
+C_{\rm raw}(B)
+:=
+\sum_{(h,r,s)\in\mathcal D_B}
+\bigl(G(hrs)-1\bigr).
+}
+\]
+
+このcountは次の意味でorientedである。
+
+1. parameter pairに `r&lt;s` を課す。
+2. Stage12で選ばれた共有面・構成方向を保持する。
+3. 3辺の全置換によるcanonical quotientを行わない。
+
+Stage12-N1-2fでrepeated-side contributionが恒等的に0であることを確認しているため、この系列では
+
+\[
+C_{\rm distinct,raw}(B)=C_{\rm raw}(B)
+\]
+
+を使用する。ただし、これはcanonical countとの一致を意味しない。
+
+---
+
+## 4. primitive countの対象レベル定義
+
+raw objectをその全辺の共通整数scaleで分類すると、raw countとprimitive countの間にexact relation
+
+\[
+C_{\rm raw}(B)
+=
+\sum_{k\le B}
+C_{\rm prim}(\lfloor B/k\rfloor)
+\]
+
+がある。従ってMöbius inversionにより
+
+\[
+\boxed{
+C_{\rm prim}(B)
+:=
+\sum_{k\le B}
+\mu(k)
+C_{\rm raw}(\lfloor B/k\rfloor).
+}
+\]
+
+これをStage12-N1-2のprimitive oriented countの定義とする。ここで `mu` はMöbius関数である。
+
+この式は解析上の近似ではなく、raw対象をglobal contentで分解したexact identityである。
+
+---
+
+## 5. primitive-first exact reindexing
+
+固定されたcoprime pair `(r,s)` に対し
+
+\[
+\boxed{
+A_{r,s}(m)
+:=
+\sum_{k\mid m}
+\mu(k)
+\left\{G\!\left((m/k)rs\right)-1\right\}.
+}
+\]
+
+parity branchを
+
+\[
+\lambda(r,s)
+:=
+\begin{cases}
+2,&amp;r,s\text{ がともに奇数},\\
+1,&amp;r,s\text{ がopposite parity}
+\end{cases}
+\]
+
+とする。`(r,s)=1` のためboth-even branchは存在しない。
+
+Stage12-N1-2jのprimitive-first reindexingは
+
+\[
+\boxed{
+C_{\rm prim}(B)
+=
+\sum_{1\le r&lt;s\atop(r,s)=1}
+\sum_{m\le \lambda(r,s)B/(r^2+s^2)}
+A_{r,s}(m).
+}
+\]
+
+である。内側上限のfloorは和記号に含める。
+
+二branchを分けて書けば
+
+\[
+\sum_{\substack{1\le r&lt;s,(r,s)=1\\r,s\text{ odd}}}
+\sum_{m\le2B/(r^2+s^2)}A_{r,s}(m)
+\]
+
+と
+
+\[
+\sum_{\substack{1\le r&lt;s,(r,s)=1\\r,s\text{ opposite parity}}}
+\sum_{m\le B/(r^2+s^2)}A_{r,s}(m)
+\]
+
+の和である。
+
+---
+
+## 6. primitive height coefficientの明示式
+
+`m=1` では
+
+\[
+A_{r,s}(1)=G(rs)-1.
+\]
+
+`m&gt;1` では、`m` が `1 mod 4` 以外の素因数を含むと
+
+\[
+A_{r,s}(m)=0.
+\]
+
+`m` の全素因数が `1 mod 4` なら
+
+\[
+\boxed{
+A_{r,s}(m)
+=
+G(rs)
+\prod_{p\mid m}
+\frac{2}{2v_p(rs)+1}.
+}
+\]
+
+positive versionを
+
+\[
+A^+_{r,s}(m)
+:=
+A_{r,s}(m)+\mathbf1_{m=1}
+\]
+
+とする。
+
+---
+
+## 7. residue-side arithmetic functions
+
+### 7.1 `beta`
+
+`beta` は乗法関数で、
+
+\[
+\beta(1)=1,
+\]
+
+\[
+\boxed{
+\beta(q^j)
+=
+\frac{2(q-1)}{q+1}
+\quad
+(q\equiv1\pmod4,\ j\ge1),
+}
+\]
+
+\[
+\boxed{
+\beta(p^j)=0
+\quad
+(p=2\text{ or }p\equiv3\pmod4,\ j\ge1).
+}
+\]
+
+従って `beta(n)` は、`n` の全素因数が `1 mod 4` のときだけ非零である。
+
+### 7.2 `gamma` と `g`
+
+\[
+\boxed{
+\gamma(n)
+:=
+\frac1\pi
+\sum_{d\mid n}\beta(d),
+}
+\]
+
+\[
+\boxed{
+g(n):=\pi\gamma(n)=(1*\beta)(n).
+}
+\]
+
+`g` は非負乗法関数である。`q≡1 mod 4` なら
+
+\[
+g(q^k)=1+k\frac{2(q-1)}{q+1},
+\]
+
+それ以外の素数 `p` では `g(p^k)=1`。
+
+### 7.3 `rho`
+
+fixed-divisor modelで使うlocal-density weightを
+
+\[
+\boxed{
+\rho(n)
+:=
+\prod_{p\mid n}\frac{p}{p+1}
+}
+\]
+
+とする。`rho(1)=1`。
+
+---
+
+## 8. fixed-height partial sumとremainder
+
+\[
+\boxed{
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1+R_{r,s}(X).
+}
+\]
+
+Stage12-N1-3bで証明した一様pointwise boundは
+
+\[
+\boxed{
+R_{r,s}(X)
+\ll
+G(rs)H_{\rm abs}(rs)X^{1/2},
+}
+\]
+
+ここで
+
+\[
+H_{\rm abs}(rs)
+:=
+\sum_{\ell\ge1}
+\frac{|h_{r,s}(\ell)|}{\ell^{1/2}}
+\]
+
+はfinite Euler correctionのabsolute `1/2`-normである。
+
+`X_{r,s}:=\lambda(r,s)B/(r^2+s^2)`、`L:=\log B` とし、
+
+\[
+X_0:=\exp(L^{1/4}).
+\]
+
+- retained region: `X_{r,s}&gt;=X_0`
+- shallow region: `X_{r,s}&lt;X_0`
+
+と定義する。
+
+---
+
+## 9. error-profile notation
+
+一変数Selberg–Delange入力のremainder profileを `E_N(X)` と書く場合、単調包絡線を
+
+\[
+\boxed{
+E_{N,*}(X)
+:=
+\sup_{Y\ge X}E_N(Y)
+}
+\]
+
+とする。Stage12-N1-3dのreference lockでは、特定の未照合なKorobov--Vinogradov型remainderを必須とせず、任意次数のlog-power remainderを採用する。
+
+---
+
+## 10. orientedとcanonicalを混同しない
+
+Stage12-N1-2の `C_prim(B)` は、上記parameter conventionとmultiplicityを保持するoriented countである。
+
+canonical countを作るには、少なくとも
+
+- 3辺の置換作用;
+- どの面が整数面対角線を持つかというincidence;
+- 複数面が条件を満たす場合のoverlap correction;
+- exact-one / exact-two / exact-threeの区別
+
+を別に処理する必要がある。
+
+従って
+
+\[
+C_{\rm prim}(B)
+\neq
+\text{canonical exact-one-face count}
+\]
+
+を一般には仮定しない。固定係数を掛けるだけの自動変換も行わない。
+
+---
+
+## 11. theorem target
+
+Stage12-N1-2の候補定理は、このsheetで定義した対象に限り
+
+\[
+\boxed{
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}
+B(\log B)^3.
+}
+\]
+
+完全直方体の存在・非存在、canonical count、Stage13のface-ratio定数は主張しない。
+
+---
+
+## 12. source map
+
+- raw parameter sumと`G`: Stage12-N1-2b
+- repeated-side zeroと三法constant: Stage12-N1-2f
+- global Möbiusとprimitive-first coefficient: Stage12-N1-2j
+- `beta`, `gamma`, `eta`: Stage12-N1-2j〜2k
+- corrected fixed-height remainder: Stage12-N1-3b
+- residue-first radial transfer: Stage12-N1-3c.G
+
+このsheetを今後のcounting conventionの標準参照とする。
+
+
+---
+
+# EMBEDDED SOURCE 2/6 — Constant sheet
+
+&gt; **PATH:** `docs/stage12-n1-3d-constant-sheet.md`  
+&gt; **GIT_BLOB_SHA:** `3428f220c35c3625589dc44abf55819b48109631`
+
+# Stage12-N1-3d：Constant sheet for `kappa`, `eta`, and front factors
+
+&gt; **STATUS:** `MAJOR_04_CONSTANT_SHEET_COMPLETE`
+&gt;
+&gt; **SCOPE:** Stage12-N1-2 primitive oriented leading coefficient
+&gt;
+&gt; **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_INDEPENDENT_REAUDIT`
+
+## 0. このsheetの目的
+
+本稿は、独立監査R01で不足とされた
+
+- `kappa` の完全なEuler積;
+- `eta` の完全なEuler積;
+- 各odd-prime local factor;
+- 2-adic / archimedean front factor;
+- `eta=pi*kappa` のprime-by-prime comparison;
+- 最終係数 `1/(12*pi)` までのfactor ledger
+
+を一枚に固定する。
+
+以下、`p` は `3 mod 4` の奇素数、`q` は `1 mod 4` の奇素数を表す。
+
+---
+
+## 1. three-variable constant `kappa`
+
+Stage12-N1-2fのthree-law Euler factorを
+
+\[
+F_q(s)
+:=
+1+
+\frac{2}{q^s-1}
++
+\frac{4q}{(q+1)(q^s-1)}
+\qquad(q\equiv1\pmod4)
+\]
+
+とする。`s=1` では
+
+\[
+\boxed{
+F_q(1)
+=
+\frac{q^2+6q+1}{q^2-1}.
+}
+\]
+
+`kappa` を
+
+\[
+\boxed{
+\begin{aligned}
+\kappa
+:={}&amp;
+\left(\frac\pi4\right)^3
+\left(\frac12\right)^3
+\prod_{p\equiv3(4)}(1-p^{-2})^3\\
+&amp;\times
+\prod_{q\equiv1(4)}
+F_q(1)(1-q^{-1})^6.
+\end{aligned}
+}
+\]
+
+と定義する。
+
+local notationでは
+
+\[
+\kappa_{\rm front}
+:=
+\left(\frac\pi4\right)^3
+\left(\frac12\right)^3,
+\]
+
+\[
+\kappa_p:=(1-p^{-2})^3,
+\]
+
+\[
+\kappa_q
+:=
+\frac{q^2+6q+1}{q^2-1}
+(1-q^{-1})^6.
+\]
+
+従って
+
+\[
+\kappa
+=
+\kappa_{\rm front}
+\prod_{p\equiv3(4)}\kappa_p
+\prod_{q\equiv1(4)}\kappa_q.
+\]
+
+normalized local factorsは `1+O(l^{-2})` であり、Euler積は絶対収束する。
+
+---
+
+## 2. two-variable residue constant `eta`
+
+Stage12-N1-2kおよびStage12-N1-3c.Gのtwo-variable constantを
+
+\[
+\boxed{
+\begin{aligned}
+\eta
+:={}&amp;
+\left(\frac\pi4\right)^2
+\left(\frac12\right)^2
+\prod_{p\equiv3(4)}(1-p^{-2})^2\\
+&amp;\times
+\prod_{q\equiv1(4)}
+\left(1+\frac{4q}{(q+1)^2}\right)
+(1-q^{-1})^4.
+\end{aligned}
+}
+\]
+
+と定義する。
+
+local notationでは
+
+\[
+\eta_{\rm front}
+:=
+\left(\frac\pi4\right)^2
+\left(\frac12\right)^2,
+\]
+
+\[
+\eta_p:=(1-p^{-2})^2,
+\]
+
+\[
+\eta_q
+:=
+\left(1+\frac{4q}{(q+1)^2}\right)
+(1-q^{-1})^4.
+\]
+
+したがって
+
+\[
+\eta
+=
+\eta_{\rm front}
+\prod_{p\equiv3(4)}\eta_p
+\prod_{q\equiv1(4)}\eta_q.
+\]
+
+ここでもnormalized factorsは `1+O(l^{-2})` であり、Euler積は絶対収束する。
+
+---
+
+## 3. `eta/kappa` のlocal comparison
+
+### 3.1 `p congruent 3 mod 4`
+
+\[
+\boxed{
+\frac{\eta_p}{\kappa_p}
+=
+\frac{(1-p^{-2})^2}{(1-p^{-2})^3}
+=
+(1-p^{-2})^{-1}.
+}
+\]
+
+### 3.2 `q congruent 1 mod 4`
+
+まず
+
+\[
+1+\frac{4q}{(q+1)^2}
+=
+\frac{q^2+6q+1}{(q+1)^2}.
+\]
+
+従って
+
+\[
+\begin{aligned}
+\frac{\eta_q}{\kappa_q}
+&amp;=
+\frac{
+\dfrac{q^2+6q+1}{(q+1)^2}(1-q^{-1})^4
+}{
+\dfrac{q^2+6q+1}{q^2-1}(1-q^{-1})^6
+}\\
+&amp;=
+\frac{q^2}{q^2-1}
+=
+(1-q^{-2})^{-1}.
+\end{aligned}
+\]
+
+よって
+
+\[
+\boxed{
+\frac{\eta_q}{\kappa_q}
+=(1-q^{-2})^{-1}.
+}
+\]
+
+### 3.3 front factor
+
+\[
+\boxed{
+\frac{\eta_{\rm front}}{\kappa_{\rm front}}
+=
+\frac{
+(\pi/4)^2(1/2)^2
+}{
+(\pi/4)^3(1/2)^3
+}
+=
+\frac8\pi.
+}
+\]
+
+### 3.4 全積
+
+\[
+\prod_{\ell\ {
+m odd}}
+(1-\ell^{-2})^{-1}
+=
+(1-2^{-2})\zeta(2)
+=
+\frac{\pi^2}{8}.
+\]
+
+従って
+
+\[
+\boxed{
+\frac\eta\kappa
+=
+\frac8\pi\cdot\frac{\pi^2}{8}
+=
+\pi,
+}
+\]
+
+すなわち
+
+\[
+\boxed{\eta=\pi\kappa.}
+\]
+
+この恒等式は数値近似ではなく、front factorと各odd-prime local factorのexact comparisonである。
+
+---
+
+## 4. residue-first rectangle coefficient
+
+Stage12-N1-3c.Gでは
+
+\[
+g(n)=\pi\gamma(n)=(1*\beta)(n)
+\]
+
+を元変数 `(r,s)` 上で平均する。
+
+parity-weighted coprime rectangle sumのleading coefficientを `C_lambda^(0)` とすると、local calculationにより
+
+\[
+\boxed{
+C_\lambda^{(0)}
+=
+\frac8{\pi^2}\eta.
+}
+\]
+
+`8/pi^2` はodd-prime primitive density
+
+\[
+\prod_{\ell\ {
+m odd}}(1-\ell^{-2})
+=
+\frac8{\pi^2}
+\]
+
+に一致する。
+
+---
+
+## 5. 2-adic parity ledger
+
+`(r,s)=1` のため、許されるparity classはodd--oddまたはopposite parityだけである。
+
+| branch | natural 2-adic mass | height factor `lambda` | weighted mass | radial cutoff |
+|---|---:|---:|---:|---:|
+| odd--odd | `1/4` | `2` | `1/2` | `r^2+s^2 &lt;= 2B` |
+| opposite parity | `1/2` | `1` | `1/2` | `r^2+s^2 &lt;= B` |
+| total |  |  | `1` |  |
+
+従ってleading logarithmic coefficientにおける2-adic weighted massは正確に1である。
+
+odd--odd branchのcutoff `2B` とcommon cutoff `B` の差は
+
+\[
+\log(2B)=\log B+\log2
+\]
+
+であり、cubic leading termを変えず、最大でもquadratic log termへ入る。
+
+---
+
+## 6. archimedean / orientation ledger
+
+`L:=log B` とする。元変数上のleading mixed densityは
+
+\[
+C_\lambda^{(0)}
+(\log x+1)(\log y+1)\,dx\,dy
+\]
+
+であり、cubic termは
+
+\[
+I(B)
+:=
+\int_{\substack{x,y\ge1\\x^2+y^2\le B}}
+\frac{\log x\log y}{x^2+y^2}
+\,dx\,dy
+\]
+
+から生じる。
+
+polar coordinates
+
+\[
+x=t\cos\theta,
+\qquad
+y=t\sin\theta
+\]
+
+では
+
+\[
+\frac{dx\,dy}{x^2+y^2}
+=
+\frac{dt}{t}\,d\theta.
+\]
+
+full first quadrantのangular massは `pi/2` であり、
+
+\[
+\int_1^{B^{1/2}}
+\frac{(\log t)^2}{t}\,dt
+=
+\frac{(L/2)^3}{3}
+=
+\frac{L^3}{24}.
+\]
+
+よって
+
+\[
+\boxed{
+I(B)
+=
+\frac\pi{48}L^3+O(L^2).
+}
+\]
+
+係数とkernelは `x,y` に対称である。primitive diagonal `x=y` はparameter levelでは `(r,s)=(1,1)` しか残さず `O(1)` なので、orientation `r&lt;s` はleading termを正確に半分にする。
+
+従ってoriented harmonic mainは
+
+\[
+\boxed{
+\frac12\cdot
+\frac\pi{48}\cdot
+C_\lambda^{(0)}L^3
+=
+\frac\eta{12\pi}L^3.
+}
+\]
+
+---
+
+## 7. 最終front-factor product
+
+fixed-height residue formulaには外側に
+
+\[
+\frac B\pi
+\]
+
+がある。前節のoriented harmonic coefficientを掛けると
+
+\[
+\frac B\pi
+\cdot
+\frac\eta{12\pi}L^3
+=
+\frac\eta{12\pi^2}B L^3.
+\]
+
+`eta=pi*kappa` を代入して
+
+\[
+\boxed{
+\frac\eta{12\pi^2}
+=
+\frac\kappa{12\pi}.
+}
+\]
+
+従って候補leading termは
+
+\[
+\boxed{
+C_{\rm prim}(B)
+\sim
+\frac\eta{12\pi^2}B(\log B)^3
+=
+\frac\kappa{12\pi}B(\log B)^3.
+}
+\]
+
+---
+
+## 8. factor ledger summary
+
+| source | factor |
+|---|---:|
+| fixed-height residue normalization | `B/pi` |
+| parity-weighted coprime rectangle residue | `C_lambda^(0)=8 eta/pi^2` |
+| full-quadrant radial cubic integral | `pi/48` |
+| orientation `r&lt;s` | `1/2` |
+| combined | `eta B (log B)^3/(12 pi^2)` |
+| exact local identity | `eta=pi*kappa` |
+| final form | `kappa B (log B)^3/(12 pi)` |
+
+---
+
+## 9. diagnostic numerical values
+
+既存のfinite prime productsは概ね
+
+\[
+\kappa\approx0.01855917,
+\]
+
+\[
+\eta\approx0.05830533485,
+\]
+
+\[
+\frac\kappa{12\pi}
+\approx0.0004922973.
+\]
+
+を与える。これらはEuler積の収束診断であり、認証区間ではない。exact proofには使用しない。
+
+---
+
+## 10. source map
+
+- `kappa`, `F_q`, three-law normalization: Stage12-N1-2f
+- `eta`, local comparison `eta=pi*kappa`: Stage12-N1-2k
+- `C_lambda^(0)`, parity ledger, radial/orientation factors: Stage12-N1-3c.G
+- counting target: Stage12-N1-3d definition sheet
+
+このsheetを今後のconstant normalizationの標準参照とする。
+
+
+---
+
+# EMBEDDED SOURCE 3/6 — Selberg--Delange reference lock
+
+&gt; **PATH:** `docs/stage12-n1-3d-selberg-delange-reference-lock.md`  
+&gt; **GIT_BLOB_SHA:** `23f887107b0babaadfcf6d6dc2e4255921c3651d`
+
+# Stage12-N1-3d：Selberg--Delange reference lock
+
+&gt; **STATUS:** `CLARIFICATION_01_REFERENCE_LOCK_COMPLETE`
+&gt;
+&gt; **REFERENCE:** Gérald Tenenbaum, *Introduction to Analytic and Probabilistic Number Theory*, Third Edition, Graduate Studies in Mathematics 163, AMS, Chapter II.5, Theorem II.5.2, p. 281
+&gt;
+&gt; **ADOPTED_PARAMETERS:** `z=1` for `beta`; `z=2` for `g=1*beta`
+
+## 0. 修正方針
+
+旧文書の一部は、Tenenbaum II.5.2を参照しながら
+
+\[
+\exp\{-c(\log x)^{3/5}(\log\log x)^{-1/5}\}
+\]
+
+型の特定zero-free-region remainderを書いていた。しかし、この特定形を本系列で必要なinputとして固定する必要はない。
+
+本稿ではTheorem II.5.2のfinite-order Selberg--Delange expansionだけを採用する。必要な精度に応じて展開次数 `J` を一度大きく選び、任意の固定log-power savingを得る。
+
+従って、以後の標準入力は
+
+```text
+SPECIFIC_KOROBOV_VINOGRADOV_REMAINDER=NOT_REQUIRED
+ARBITRARY_FIXED_LOG_POWER_REMAINDER=ADOPTED
+```
+
+とする。
+
+---
+
+## 1. 採用する一般形
+
+Dirichlet series
+
+\[
+F(s)=\sum_{n\ge1}\frac{f(n)}{n^s}
+=\zeta(s)^zH(s)
+\]
+
+がTenenbaumのhypothesis `P(z;c0,delta,M)`を満たすとする。Theorem II.5.2の採用形は、各固定整数 `J&gt;=1` に対して
+
+\[
+\sum_{n\le x}f(n)
+=
+x\sum_{j=0}^{J-1}
+\widetilde c_j
+\frac{(\log x)^{z-j-1}}{\Gamma(z-j)}
++O_{J,f}\!\left(
+x(\log x)^{\Re z-J-1}
+\right).
+\]
+
+ここで `tilde c_j` は `s=1` におけるanalytic factorから決まる。
+
+本系列では `z` が正整数1または2なので、`1/Gamma(z-j)` により主多項式は有限次数で止まる。
+
+---
+
+## 2. `beta` に対する `z=1` input
+
+`beta` はStage12-N1-3d definition sheetで定義した非負乗法関数である。
+
+\[
+B_\beta(s)
+:=
+\sum_{n\ge1}\frac{\beta(n)}{n^s}
+=
+\zeta(s)L(s,\chi_4)J_\beta(s).
+\]
+
+従って
+
+\[
+B_\beta(s)=\zeta(s)H_\beta(s),
+\qquad
+H_\beta(s):=L(s,\chi_4)J_\beta(s),
+\]
+
+すなわち `z=1`。
+
+採用する結論は、任意の固定 `A&gt;0` に対して
+
+\[
+\boxed{
+B_\beta(x)
+:=
+\sum_{n\le x}\beta(n)
+=
+c_\beta x
++O_A\!\left(
+x(\log(2x))^{-A}
+\right).
+}
+\]
+
+`c_beta=H_beta(1)` は正定数である。
+
+---
+
+## 3. `g=1*beta` に対する `z=2` input
+
+\[
+g(n):=(1*\beta)(n)
+\]
+
+なのでDirichlet seriesは
+
+\[
+G_g(s)
+:=
+\sum_{n\ge1}\frac{g(n)}{n^s}
+=
+\zeta(s)B_\beta(s)
+=
+\zeta(s)^2H_\beta(s).
+\]
+
+従って `z=2`。
+
+採用する結論は、任意の固定 `A&gt;0` に対して
+
+\[
+\boxed{
+\sum_{n\le x}g(n)
+=
+x\{c_g\log x+d_g\}
++O_A\!\left(
+x(\log(2x))^{-A}
+\right),
+}
+\]
+
+ここで `c_g,d_g` は `H_beta` の `s=1` 近傍展開から決まる。Stage12-N1-3c.Gで必要なのはleading coefficientと、任意固定log-power savingを持つ一様remainderである。
+
+---
+
+## 4. hypothesis checklist
+
+### 4.1 coefficient majorant
+
+`q congruent 1 mod 4` に対し
+
+\[
+0\le\beta(q^j)&lt;2.
+\]
+
+従って
+
+\[
+0\le\beta(n)
+\le2^{\omega(n)}
+\le\tau(n).
+\]
+
+また
+
+\[
+g(n)=\sum_{d\mid n}\beta(d)
+\le
+\sum_{d\mid n}\tau(d)
+\ll\tau_3(n).
+\]
+
+よって両係数列は固定次数divisor majorantで支配される。
+
+### 4.2 analytic factor
+
+`q congruent 1 mod 4` のlocal factorを `x=q^{-s}` と書くと
+
+\[
+J_{\beta,q}(s)
+=(1-x)\{1+(b_q-1)x\},
+\qquad
+b_q=\frac{2(q-1)}{q+1}.
+\]
+
+\[
+J_{\beta,q}(s)-1
+=O(q^{-1-\sigma})+O(q^{-2\sigma}).
+\]
+
+`p congruent 3 mod 4` では
+
+\[
+J_{\beta,p}(s)=1-p^{-2s}.
+\]
+
+従って任意の固定 `epsilon&gt;0` に対し、`Re s&gt;=1/2+epsilon` の閉部分領域でEuler積 `J_beta(s)` は局所一様絶対収束し、正則である。
+
+`L(s,chi_4)` は非主指標のDirichlet `L`-functionで、`s=1` 近傍で正則かつ非零である。従って `H_beta(s)` は `s=1` 近傍で正則である。
+
+### 4.3 vertical growth
+
+`J_beta` の絶対収束部分は上記半平面の閉部分領域で一様有界である。必要なvertical growthは `L(s,chi_4)` の固定stripにおける標準的多項式growthへ還元される。
+
+### 4.4 two-variable cross correction
+
+coprime conditionを分離するcross correctionはlocalに
+
+\[
+C_\ell(s_1,s_2)-1
+=O(\ell^{-\sigma_1-\sigma_2})
+\]
+
+である。従って `Re(s_1+s_2)&gt;1` で絶対収束し、`(1,1)` の近傍で正則である。
+
+このfactorは各一変数Selberg--Delange inputを破壊せず、係数展開後はweighted absolute normにより一様長方形誤差へ移される。
+
+---
+
+## 5. retained regionで十分であること
+
+Stage12-N1-3aおよび3c.Gのretained scaleは
+
+\[
+S_0
+=
+\exp\!\left(\frac12(\log B)^{1/4}\right).
+\]
+
+`x&gt;=S_0` では
+
+\[
+(\log x)^{-A}
+\ll
+(\log B)^{-A/4}.
+\]
+
+box個数とkernel変分で失う固定対数冪を `C` とする。Theorem II.5.2の展開次数 `J` を、対応する `A` が `4(C+10)` より大きくなるよう固定すれば、全boxを合計したremainderは
+
+\[
+o((\log B)^3)
+\]
+
+となる。
+
+従って、本証明は特定のsubexponential remainderを必要としない。
+
+---
+
+## 6. supersession rule
+
+以後、次を標準参照とする。
+
+- `z=1`: `B_beta(x)=c_beta x+O_A(x(log 2x)^(-A))`
+- `z=2`: `sum_{n&lt;=x}g(n)=x(c_g log x+d_g)+O_A(x(log 2x)^(-A))`
+
+旧2o、旧Final、3a、3c.Gに現れる特定の
+
+\[
+\exp\{-c(\log x)^{3/5}(\log\log x)^{-1/5}\}
+\]
+
+は、使用可能性を否定するものではないが、Stage12-N1-2のclosureに必要な引用済みinputとしては採用しない。本reference lockのarbitrary fixed log-power formで置き換える。
+
+---
+
+## 7. bibliography lock
+
+- Gérald Tenenbaum, *Introduction to Analytic and Probabilistic Number Theory*, Third Edition, Graduate Studies in Mathematics 163, American Mathematical Society, Chapter II.5, Theorem II.5.2, p. 281.
+- Régis de la Bretèche and Gérald Tenenbaum, *Remarks on the Selberg--Delange method*, Acta Arithmetica 200 (2021), 349--369. 補助的背景のみ。今回のreference lockの主引用は上記book theoremである。
+
+```text
+CLARIFICATION_01=CLOSED_BY_STAGE12_N1_3D_REFERENCE_LOCK
+SPECIFIC_3_5_ZERO_FREE_REMAINDER=NOT_USED
+SELBERG_DELANGE_Z1=LOCKED
+SELBERG_DELANGE_Z2=LOCKED
+```
+
+
+---
+
+# EMBEDDED SOURCE 4/6 — Integrated repaired proof R02
+
+&gt; **PATH:** `docs/stage12-n1-2-final-r02.md`  
+&gt; **GIT_BLOB_SHA:** `e343182e82d9ecacf844fa7e508662749d43b55b`
+
+# Stage12-N1-2 Final R02：primitive oriented count repaired proof
+
+&gt; **DOCUMENT_STATUS:** `REPAIRED_PROOF_CANDIDATE_PENDING_INDEPENDENT_REAUDIT`
+&gt;
+&gt; **COUNTING_TARGET:** `C_prim(B)` from `stage12-n1-3d-definition-sheet.md`
+&gt;
+&gt; **CONSTANT_TARGET:** `kappa`, `eta` from `stage12-n1-3d-constant-sheet.md`
+&gt;
+&gt; **SUPERSEDES:** old `docs/stage12-n1-2-final.md`
+
+## 0. 主張範囲と候補定理
+
+本稿は、Stage12-N1-3a、3b、3c.G、3dを統合した自己完結版である。
+
+対象はdefinition sheetで定義したprimitive oriented count
+
+\[
+C_{\rm prim}(B)
+=
+\sum_{k\le B}\mu(k)
+C_{\rm raw}(\lfloor B/k\rfloor),
+\]
+
+\[
+C_{\rm raw}(B)
+=
+\sum_{(h,r,s)\in\mathcal D_B}
+\{G(hrs)-1\}.
+\]
+
+候補定理は
+
+\[
+\boxed{
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}
+B(\log B)^3
+\qquad(B\to\infty).
+}
+\]
+
+これは完全直方体の存在・非存在、canonical count、exact-one-face countへの自動変換を主張しない。
+
+中心解析項MAJOR-01〜03と自己完結性MAJOR-04は本稿系列で修復した。ただし、独立再監査が完了するまでproject statusは `CLOSED` としない。
+
+---
+
+## 1. exact counting convention
+
+\[
+\mathcal D_B
+=
+\left\{(h,r,s)\in\mathbb N^3:
+1\le r&lt;s,
+(r,s)=1,
+h(r^2+s^2)\le2B,
+h(r^2+s^2)\equiv0\pmod2
+\right\},
+\]
+
+\[
+G(n)
+=
+\prod_{\substack{q\mid n\\q\equiv1(4)}}
+(2v_q(n)+1).
+\]
+
+`r&lt;s` とStage12のdistinguished-face conventionを保持するため、このcountはorientedである。辺置換のcanonical quotientは行わない。
+
+Stage12-N1-2fのrepeated-side nonexistenceにより
+
+\[
+C_{\rm distinct,raw}(B)=C_{\rm raw}(B)
+\]
+
+である。
+
+---
+
+## 2. primitive-first exact reindexing
+
+固定coprime pair `(r,s)` に対し
+
+\[
+A_{r,s}(m)
+=
+\sum_{k\mid m}\mu(k)
+\{G((m/k)rs)-1\}.
+\]
+
+parity factorを
+
+\[
+\lambda(r,s)
+=
+\begin{cases}
+2,&amp;r,s\text{ odd},\\
+1,&amp;r,s\text{ opposite parity}
+\end{cases}
+\]
+
+とする。するとexactに
+
+\[
+\boxed{
+C_{\rm prim}(B)
+=
+\sum_{1\le r&lt;s\atop(r,s)=1}
+\sum_{m\le\lambda(r,s)B/(r^2+s^2)}
+A_{r,s}(m).
+}
+\]
+
+`m=1` では
+
+\[
+A_{r,s}(1)=G(rs)-1.
+\]
+
+`m&gt;1` では、全素因数が `1 mod 4` の場合だけ非零で、
+
+\[
+A_{r,s}(m)
+=
+G(rs)
+\prod_{p\mid m}
+\frac{2}{2v_p(rs)+1}.
+\]
+
+---
+
+## 3. fixed-height partial sumとMAJOR-02修復
+
+\[
+\beta(1)=1,
+\]
+
+\[
+\beta(q^j)=\frac{2(q-1)}{q+1}
+\quad(q\equiv1(4),\ j\ge1),
+\]
+
+\[
+\beta(p^j)=0
+\quad(p=2\text{ or }p\equiv3(4),\ j\ge1).
+\]
+
+\[
+\gamma(n)
+=
+\frac1\pi\sum_{d\mid n}\beta(d),
+\qquad
+g(n):=\pi\gamma(n)=(1*\beta)(n).
+\]
+
+fixed-height sumは
+
+\[
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1+R_{r,s}(X).
+\]
+
+Stage12-N1-3bでは、旧2kの不正な `omega(X/l)` の引き出しを使用せず、base circle remainderの弱い形とfinite Euler correctionのabsolute `1/2`-normから
+
+\[
+\boxed{
+R_{r,s}(X)
+\ll
+G(rs)H_{\rm abs}(rs)X^{1/2}
+}
+\]
+
+を得た。
+
+`W(n):=G(n)H_abs(n)` とし、ある固定 `K` について
+
+\[
+\sum_{n\le T}W(n)
+\ll T(\log(2T))^K
+\]
+
+を使う。retained region
+
+\[
+X_{r,s}
+:=
+\frac{\lambda(r,s)B}{r^2+s^2}
+\ge
+X_0:=\exp((\log B)^{1/4})
+\]
+
+では、dyadic radial shellにより
+
+\[
+\sum_{\rm retained}
+W(rs)X_{r,s}^{1/2}
+\ll
+B X_0^{-1/2}(\log B)^{2K}.
+\]
+
+従って任意の固定 `A&gt;0` に対して
+
+\[
+\boxed{
+\sum_{\rm retained}R_{r,s}(X_{r,s})
+=o\!\left(B(\log B)^{-A}\right).
+}
+\]
+
+shallow regionは後のradial main estimateと一緒に低次化する。
+
+---
+
+## 4. residue mainへ還元
+
+fixed-height mainを代入すると
+
+\[
+\mathcal M(B)
+=
+B
+\sum_{1\le r&lt;s\atop(r,s)=1}
+\frac{\lambda(r,s)\gamma(rs)}{r^2+s^2}
+\mathbf1_{r^2+s^2\le\lambda(r,s)B}.
+\]
+
+`(r,s)=1` と `g` の乗法性から
+
+\[
+\gamma(rs)=\frac1\pi g(r)g(s).
+\]
+
+従って
+
+\[
+\boxed{
+\mathcal M(B)
+=
+\frac B\pi
+\left\{
+2\sum_{\substack{r&lt;s,(r,s)=1\\r,s\text{ odd}\\r^2+s^2\le2B}}
+\frac{g(r)g(s)}{r^2+s^2}
++
+\sum_{\substack{r&lt;s,(r,s)=1\\r,s\text{ opposite}\\r^2+s^2\le B}}
+\frac{g(r)g(s)}{r^2+s^2}
+\right\}.
+}
+\]
+
+common cutoff版を
+
+\[
+\mathcal H_\lambda(B)
+:=
+\sum_{\substack{r&lt;s,(r,s)=1\\r^2+s^2\le B}}
+\frac{\lambda(r,s)g(r)g(s)}{r^2+s^2}
+\]
+
+とする。odd--odd annulus `B&lt;r^2+s^2&lt;=2B` のharmonic massは `O((log B)^2)` なので
+
+\[
+\boxed{
+\mathcal M(B)
+=
+\frac B\pi\mathcal H_\lambda(B)
++O(B(\log B)^2).
+}
+\]
+
+---
+
+## 5. Selberg--Delange reference lock
+
+\[
+B_\beta(s)
+:=
+\sum_{n\ge1}\frac{\beta(n)}{n^s}
+=
+\zeta(s)L(s,\chi_4)J_\beta(s).
+\]
+
+`J_beta` は任意の固定 `epsilon&gt;0` に対して `Re s&gt;=1/2+epsilon` の閉部分領域で局所一様絶対収束し、正則である。
+
+Stage12-N1-3d reference lockではTenenbaum, Chapter II.5, Theorem II.5.2のfinite-order expansionを用い、特定の未照合subexponential remainderを必要としない。
+
+任意の固定 `A&gt;0` に対して
+
+\[
+\sum_{n\le x}\beta(n)
+=
+c_\beta x
++O_A(x(\log(2x))^{-A}).
+\]
+
+また `g=1*beta` なので
+
+\[
+G_g(s)
+:=
+\sum_{n\ge1}\frac{g(n)}{n^s}
+=
+\zeta(s)^2L(s,\chi_4)J_\beta(s),
+\]
+
+従って `z=2` caseから
+
+\[
+\boxed{
+G_0(x)
+:=
+\sum_{n\le x}g(n)
+=
+x(c_g\log x+d_g)
++O_A(x(\log(2x))^{-A}).
+}
+\]
+
+特に
+
+\[
+G_0(x)\ll x\log(2x).
+\]
+
+---
+
+## 6. parity-weighted coprime rectangle lemma
+
+\[
+a_\lambda(r,s)
+:=
+\lambda(r,s)g(r)g(s)\mathbf1_{(r,s)=1},
+\]
+
+\[
+T_\lambda(R,S)
+:=
+\sum_{r\le R}\sum_{s\le S}a_\lambda(r,s).
+\]
+
+二変数Dirichlet seriesは
+
+\[
+D_\lambda(s_1,s_2)
+=
+G_g(s_1)G_g(s_2)C_\lambda(s_1,s_2),
+\]
+
+ここでcross correction `C_lambda` は `Re(s_1+s_2)&gt;1` で絶対収束する。
+
+任意の固定 `0&lt;epsilon&lt;1/8` に対して
+
+\[
+\begin{aligned}
+T_\lambda(R,S)
+={}&amp;C_\lambda^{(0)}RS\log R\log S
++RS\{C_{10}\log R+C_{01}\log S+C_{00}\}\\
+&amp;+O_{\varepsilon,A}\!\Bigl(
+RS\log(2R)\log(2S)
+\{(\log(2R))^{-A}+(\log(2S))^{-A}\}\\
+&amp;\hspace{24mm}
++\log(2R)\log(2S)
+\{R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}\}
+\Bigr).
+\end{aligned}
+\]
+
+この式は、cross coefficientsを先に畳み込み、小係数領域で `z=2` 一変数展開を二回適用し、大係数領域でweighted absolute normを用いて得る。
+
+Stage12-N1-3aで修復した
+
+\[
+R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
+\]
+
+型のtail exponentと同じ機構であり、旧文書の不成立な `R^(1/2+delta)S` への強化は使用しない。
+
+---
+
+## 7. rectangle leading constant
+
+constant sheetのlocal calculationにより
+
+\[
+\boxed{
+C_\lambda^{(0)}
+=
+\frac8{\pi^2}\eta.
+}
+\]
+
+ここで
+
+\[
+\eta
+=
+\left(\frac\pi4\right)^2
+\left(\frac12\right)^2
+\prod_{p\equiv3(4)}(1-p^{-2})^2
+\prod_{q\equiv1(4)}
+\left(1+\frac{4q}{(q+1)^2}\right)
+(1-q^{-1})^4.
+\]
+
+three-variable constantは
+
+\[
+\kappa
+=
+\left(\frac\pi4\right)^3
+\left(\frac12\right)^3
+\prod_{p\equiv3(4)}(1-p^{-2})^3
+\prod_{q\equiv1(4)}
+\frac{q^2+6q+1}{q^2-1}
+(1-q^{-1})^6.
+\]
+
+prime-by-prime comparisonから
+
+\[
+\boxed{\eta=\pi\kappa.}
+\]
+
+---
+
+## 8. radial Stieltjes transferと係数 `1/12`
+
+full quadrant harmonic sumを
+
+\[
+\widetilde{\mathcal H}_\lambda(B)
+:=
+\sum_{\substack{r,s\ge1,(r,s)=1\\r^2+s^2\le B}}
+\frac{\lambda(r,s)g(r)g(s)}{r^2+s^2}
+\]
+
+とする。
+
+係数とkernelは対称であり、`r=s` とcoprimalityを同時に満たすのは `(1,1)` だけなので
+
+\[
+\mathcal H_\lambda(B)
+=
+\frac12\widetilde{\mathcal H}_\lambda(B)+O(1).
+\]
+
+二変数Stieltjes表示は
+
+\[
+\widetilde{\mathcal H}_\lambda(B)
+=
+\iint_{x^2+y^2\le B}
+\frac1{x^2+y^2}
+\,dT_\lambda(x,y).
+\]
+
+leading rectangle termのmixed derivativeは
+
+\[
+C_\lambda^{(0)}
+(\log x+1)(\log y+1)\,dx\,dy.
+\]
+
+cubic termは
+
+\[
+I(B)
+:=
+\int_{\substack{x,y\ge1\\x^2+y^2\le B}}
+\frac{\log x\log y}{x^2+y^2}
+\,dx\,dy.
+\]
+
+polar coordinatesで
+
+\[
+\frac{dx\,dy}{x^2+y^2}
+=
+\frac{dt}{t}\,d\theta
+\]
+
+となり、`L=log B` として
+
+\[
+\boxed{
+I(B)
+=
+\frac\pi{48}L^3+O(L^2).
+}
+\]
+
+従って
+
+\[
+\widetilde{\mathcal H}_\lambda(B)
+=
+\frac{\pi C_\lambda^{(0)}}{48}L^3
++o(L^3),
+\]
+
+orientationを半分にして
+
+\[
+\boxed{
+\mathcal H_\lambda(B)
+=
+\frac{\pi C_\lambda^{(0)}}{96}L^3
++o(L^3)
+=
+\frac\eta{12\pi}L^3
++o(L^3).
+}
+\]
+
+ここで係数 `1/12` はradial kernelを保持したStieltjes integral、full-quadrant angle、orientation factorから得られている。
+
+---
+
+## 9. radial transfer error
+
+対数dyadic box
+
+\[
+\mathcal B(R,S)=[R,2R]\times[S,2S]
+\]
+
+上で
+
+\[
+K(x,y)=\frac1{x^2+y^2}
+\]
+
+の部分和分ノルムは
+
+\[
+\|K\|_{{\rm PS},\mathcal B}
+\ll
+\frac1{R^2+S^2}.
+\]
+
+retained boxesでは
+
+\[
+\min(R,S)
+\ge
+S_0
+:=
+\exp\!\left(\frac12(\log B)^{1/4}\right).
+\]
+
+power-tail errorのbox contributionは、例えば `R&lt;=S` なら
+
+\[
+\ll
+(\log B)^2R^{-1/4+\varepsilon}.
+\]
+
+`epsilon&lt;1/8` のため、これは任意の固定log-powerより小さい。Selberg--Delange remainderも展開次数を十分大きく固定することで同様に全box合計 `o(L^3)` となる。
+
+shallow boxesの全harmonic massは
+
+\[
+O(L^{3/2}),
+\]
+
+radial arc boxesは
+
+\[
+O(L^2),
+\]
+
+lower rectangle polynomialとStieltjes boundary termsも
+
+\[
+O(L^2).
+\]
+
+従って
+
+\[
+\boxed{
+\widetilde{\mathcal H}_\lambda(B)
+-
+\frac{\pi C_\lambda^{(0)}}{48}L^3
+=o(L^3).
+}
+\]
+
+---
+
+## 10. endpointと非residue terms
+
+- fixed-height remainder: `o(B(log B)^(-A))` on retained region by Stage12-N1-3b;
+- shallow fixed-height sector: `o(BL^3)` by nonnegative rectangle upper bounds;
+- constant `-1` in each fixed-height partial sum: `O(B)`;
+- height floor replacement: `O(B(log B)^{1+o(1)})`;
+- odd--odd cutoff `2B` versus `B`: `O(BL^2)`;
+- primitive diagonal: `O(B)` after outer normalization;
+- radial arc and Stieltjes boundaries: `O(BL^2)`.
+
+すべて `o(BL^3)` である。
+
+---
+
+## 11. leading asymptoticの合成
+
+Sections 4、8、9から
+
+\[
+\mathcal M(B)
+=
+\frac B\pi
+\left\{
+\frac\eta{12\pi}L^3+o(L^3)
+\right\}
++O(BL^2).
+\]
+
+従って
+
+\[
+\mathcal M(B)
+\sim
+\frac\eta{12\pi^2}B L^3.
+\]
+
+Section 3と10のnonresidue termsはすべて低次なので
+
+\[
+\boxed{
+C_{\rm prim}(B)
+\sim
+\frac\eta{12\pi^2}B(\log B)^3.
+}
+\]
+
+最後に `eta=pi*kappa` を代入して
+
+\[
+\boxed{
+C_{\rm prim}(B)
+\sim
+\frac\kappa{12\pi}B(\log B)^3.
+}
+\]
+
+---
+
+## 12. supersession table
+
+| 旧箇所 | 問題 | 標準置換 |
+|---|---|---|
+| 旧2p / 旧Final §4 | 不成立な `R^(1/2+delta)S` 強化 | Stage12-N1-3aの `R^(3/4+epsilon)S` 型 |
+| 旧2k / 旧Final §1 | `omega(X/l)` の誤った引き出し | Stage12-N1-3bのpointwise `X^(1/2)` とouter average |
+| 旧2n / 旧Final §5 | radial kernelを省略した概要的 `L^3/12` | Stage12-N1-3c.Gのresidue-first radial Stieltjes transfer |
+| fixed-`(b,c)` 3c.G案 | 最終定理より強い未証明kernel statement | `SUPERSEDED_NOT_REQUIRED` |
+| specific `3/5` remainder | theorem referenceとの接続未固定 | Stage12-N1-3d arbitrary fixed log-power reference lock |
+| 旧Finalの外部記号 | 自己完結でない | 3d definition / constant sheetsと本R02 |
+
+---
+
+## 13. 現在の判定
+
+本R02は監査R01のMAJOR-01〜04、CLARIFICATION-01、MINOR-01〜02に対応した再提出候補である。
+
+```text
+MAJOR_01=CLOSED_BY_3A
+MAJOR_02=CLOSED_BY_3B
+MAJOR_03=CLOSED_BY_3C_G
+MAJOR_04=CLOSED_BY_3D
+CLARIFICATION_01=CLOSED_BY_3D_REFERENCE_LOCK
+MINOR_01=CORRECTED_IN_ARCHIVED_2J_AND_NEW_BUNDLE
+MINOR_02=CLOSED_BY_SELF_CONTAINED_R02
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_INDEPENDENT_REAUDIT
+```
+
+独立再監査が `CLOSED` を返すまでは、project-wideには「証明済み完成定理」と呼ばない。
+
+
+---
+
+# EMBEDDED SOURCE 5/6 — Stage12-N1-3e local-gap closure
+
+&gt; **PATH:** `docs/stage12-n1-3e-local-gap-closure.md`  
+&gt; **GIT_BLOB_SHA:** `a61ba1fe84f49c92e4ccbcd5755ea1e3e0bf5ae5`
+
+# Stage12-N1-3e：R02限定レビューで残った二つの局所補題
+
+&gt; **STATUS:** `R02_LOCAL_GAPS_CLOSED_IN_TEXT`
+&gt;
+&gt; **PARENT_BUNDLE:** `PC-N1-2-REPAIRED-PROOF-20260807-R02`
+&gt;
+&gt; **SCOPE:** fixed-circle outer average and parity-weighted local constant only
+&gt;
+&gt; **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_LIMITED_REAUDIT`
+
+## 0. 目的
+
+R02修正箇所限定レビューは、中心経路を否定せず、次の二点をself-contained bundleへ明示するよう要求した。
+
+1. fixed-circle pointwise remainderをretained `(r,s)` regionで平均する補題;
+2. parity-weighted rectangle coefficient
+   \[
+   C_\lambda^{(0)}=\frac{8}{\pi^2}\eta
+   \]
+   のprime-by-prime局所因子計算。
+
+本稿はこの二点だけを定義から書き下す。新しい中心方針、fixed-`(b,c)` kernel lemma、または強いpointwise savingは導入しない。
+
+---
+
+# Part I. fixed-circle remainderのouter average
+
+## 1. `G`, `H_abs`, `W` の完全な定義
+
+`n&gt;=1` に対して
+
+\[
+G(n)
+:=
+\prod_{\substack{q^t\Vert n\\q\equiv1\pmod4}}
+(2t+1).
+\]
+
+固定pairに現れるfinite Euler correctionの絶対 `1/2`-normを、整数変数で
+
+\[
+H_{\rm abs}(n)
+:=
+\prod_{\substack{q^t\Vert n\\q\equiv1\pmod4}}
+\left(
+1+
+\frac{4t}{(2t+1)(\sqrt q-1)}
+\right)
+\]
+
+と定義する。空積は1である。
+
+さらに
+
+\[
+\boxed{W(n):=G(n)H_{\rm abs}(n)}
+\]
+
+と置く。`W` は非負乗法関数であり、prime powersでは
+
+\[
+W(p^t)=1
+\qquad(p=2\text{ or }p\equiv3\pmod4),
+\]
+
+\[
+\boxed{
+W(q^t)
+=(2t+1)+\frac{4t}{\sqrt q-1}
+}
+\qquad(q\equiv1\pmod4).
+\]
+
+従って `(r,s)=1` なら
+
+\[
+W(rs)=W(r)W(s).
+\]
+
+Stage12-N1-3bのpointwise estimateはこの記号で
+
+\[
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1
++O\!\left(W(rs)X^{1/2}\right)
+\]
+
+である。
+
+---
+
+## 2. 一変数平均のEuler分解
+
+Dirichlet級数を
+
+\[
+\mathcal W(s)
+:=
+\sum_{n\ge1}\frac{W(n)}{n^s}
+\qquad(\Re s&gt;1)
+\]
+
+とする。
+
+### 2.1 `p=2` または `p congruent 3 mod 4`
+
+`x=p^{-s}` とすると
+
+\[
+\mathcal W_p(s)
+=\sum_{t\ge0}x^t
+=\frac1{1-x}.
+\]
+
+### 2.2 `q congruent 1 mod 4`
+
+`x=q^{-s}` とすると
+
+\[
+\begin{aligned}
+\mathcal W_q(s)
+&amp;=1+\sum_{t\ge1}
+\left(2t+1+\frac{4t}{\sqrt q-1}\right)x^t\\
+&amp;=
+\frac{1+x+4x/(\sqrt q-1)}{(1-x)^2}.
+\end{aligned}
+\]
+
+これを
+
+\[
+\boxed{
+\mathcal W(s)=\zeta(s)^2L(s,\chi_4)E_W(s)
+}
+\]
+
+と分解する。局所補正は
+
+\[
+E_{W,2}(s)=1-2^{-s},
+\]
+
+\[
+E_{W,p}(s)=1-p^{-2s}
+\qquad(p\equiv3\pmod4),
+\]
+
+\[
+E_{W,q}(s)
+=(1-q^{-s})
+\left(
+1+q^{-s}+\frac{4q^{-s}}{\sqrt q-1}
+\right)
+\qquad(q\equiv1\pmod4).
+\]
+
+最後の因子について、`sigma=Re s` とすると
+
+\[
+E_{W,q}(s)-1
+=O(q^{-\sigma-1/2})+O(q^{-2\sigma}).
+\]
+
+従って任意の固定 `delta&gt;0` に対して、Euler積
+
+\[
+E_W(s)=\prod_p E_{W,p}(s)
+\]
+
+は `Re s&gt;=1/2+delta` の局所コンパクト集合上で絶対かつ局所一様に収束する。有限個の小素数を分離すれば `(s=1)` の近傍で正則かつ非零である。
+
+よって、Stage12-N1-3dで固定したSelberg--Delangeの `z=2` 特殊形を適用でき、ある定数 `c_W&gt;0,d_W` に対して
+
+\[
+\sum_{n\le T}W(n)
+=T(c_W\log T+d_W)
++O_A\!\left(T(\log(2T))^{-A}\right)
+\]
+
+が任意の固定 `A&gt;0` について成り立つ。以下に必要なのはその帰結
+
+\[
+\boxed{
+M_W(T):=\sum_{n\le T}W(n)
+\ll T\log(2T)
+}
+\]
+
+だけである。
+
+---
+
+## 3. dyadic shell平均補題
+
+### 補題 3e.1
+
+すべての `Q&gt;=2` に対して
+
+\[
+\boxed{
+\sum_{\substack{r&lt;s,\ (r,s)=1\\Q&lt;r^2+s^2\le2Q}}
+W(rs)
+\ll Q(\log(2Q))^2
+}
+\]
+
+が成り立つ。
+
+### 証明
+
+shell内では
+
+\[
+r,s\le(2Q)^{1/2}.
+\]
+
+また `(r,s)=1` なので `W(rs)=W(r)W(s)` である。非負性を用いてorientation、coprimality、shell条件を外すと
+
+\[
+\begin{aligned}
+\sum_{\substack{r&lt;s,(r,s)=1\\Q&lt;r^2+s^2\le2Q}}W(rs)
+&amp;\le
+\sum_{r,s\le(2Q)^{1/2}}W(r)W(s)\\
+&amp;=M_W((2Q)^{1/2})^2\\
+&amp;\ll Q(\log(2Q))^2.
+\end{aligned}
+\]
+
+これで従う。`□`
+
+---
+
+## 4. retained regionでの総誤差
+
+parity branchのheight係数を
+
+\[
+\lambda_{r,s}\in\{1,2\}
+\]
+
+とし、
+
+\[
+X_{r,s}
+=\frac{\lambda_{r,s}B}{r^2+s^2}
+\]
+
+と置く。retained regionでは
+
+\[
+X_{r,s}\ge X_0,
+\qquad
+X_0=\exp((\log B)^{1/4}).
+\]
+
+従って
+
+\[
+r^2+s^2\le\frac{2B}{X_0}.
+\]
+
+`Y&lt;r^2+s^2&lt;=2Y` のshell上で、補題3e.1により
+
+\[
+\begin{aligned}
+\sum_{\rm shell}W(rs)X_{r,s}^{1/2}
+&amp;\ll
+\sqrt{\frac BY}
+\sum_{\rm shell}W(rs)\\
+&amp;\ll
+\sqrt{BY}(\log(2Y))^2.
+\end{aligned}
+\]
+
+`Y` をdyadicに `2B/X_0` まで合計すると、幾何級数の最大shellが支配し、
+
+\[
+\boxed{
+\sum_{\substack{r&lt;s,(r,s)=1\\X_{r,s}\ge X_0}}
+W(rs)X_{r,s}^{1/2}
+\ll
+BX_0^{-1/2}(\log B)^2
+}
+\]
+
+を得る。
+
+さらに
+
+\[
+X_0^{-1/2}
+=\exp\!\left(-\frac12(\log B)^{1/4}\right)
+\]
+
+は任意の固定対数冪より速く減少する。従って任意の固定 `A&gt;0` に対して
+
+\[
+\boxed{
+BX_0^{-1/2}(\log B)^2
+=o\!\left(B(\log B)^{-A}\right)
+}
+\]
+
+である。これによりR02限定レビューの `OUTER_AVERAGE_LEMMA` は閉じる。
+
+---
+
+# Part II. `C_lambda^(0)=8 eta/pi^2` の局所因子計算
+
+## 5. 係数と二変数級数
+
+\[
+g(n):=(1*\beta)(n)=\pi\gamma(n)
+\]
+
+とし、parity weightを
+
+\[
+\lambda(r,s)
+:=1+\mathbf1_{r\text{ odd}}\mathbf1_{s\text{ odd}}
+\]
+
+と置く。
+
+二変数係数とDirichlet級数を
+
+\[
+a_\lambda(r,s)
+:=\lambda(r,s)g(r)g(s)\mathbf1_{(r,s)=1},
+\]
+
+\[
+D_\lambda(s_1,s_2)
+:=
+\sum_{r,s\ge1}
+\frac{a_\lambda(r,s)}{r^{s_1}s^{s_2}}
+\]
+
+とする。
+
+一変数級数は
+
+\[
+G_g(s)
+:=\sum_{n\ge1}\frac{g(n)}{n^s}
+=\zeta(s)^2H_g(s),
+\]
+
+\[
+H_g(s)=L(s,\chi_4)J_\beta(s).
+\]
+
+leading rectangle coefficientは
+
+\[
+\boxed{
+C_\lambda^{(0)}
+=H_g(1)^2C_\lambda(1,1)
+}
+\]
+
+である。以下、`C_lambda` の局所因子を明示する。
+
+---
+
+## 6. odd-prime coprime correction
+
+odd prime `p` に対して
+
+\[
+U_p(s):=\sum_{k\ge1}\frac{g(p^k)}{p^{ks}},
+\qquad
+G_{g,p}(s)=1+U_p(s).
+\]
+
+coprimalityにより、`p` は `r,s` の両方を割れないので
+
+\[
+\boxed{
+D_{\lambda,p}(s_1,s_2)
+=1+U_p(s_1)+U_p(s_2)
+}
+\]
+
+である。従って
+
+\[
+\boxed{
+C_{\lambda,p}(s_1,s_2)
+=
+\frac{1+U_p(s_1)+U_p(s_2)}
+{(1+U_p(s_1))(1+U_p(s_2))}
+}
+\]
+
+となる。
+
+---
+
+## 7. 2-adic parity factor
+
+`g(2^k)=1` である。`x=2^{-s_1}`, `y=2^{-s_2}` とする。
+
+- `v_2(r)=v_2(s)=0` ではodd--oddなのでweightは2;
+- coprimalityにより、正の2進指数を持てるのは一方だけ;
+- opposite parityではweightは1。
+
+従って
+
+\[
+\boxed{
+D_{\lambda,2}(s_1,s_2)
+=2+\frac{x}{1-x}+\frac{y}{1-y}
+}
+\]
+
+である。一変数local factorは
+
+\[
+G_{g,2}(s_i)=\frac1{1-2^{-s_i}}.
+\]
+
+よって
+
+\[
+\boxed{
+C_{\lambda,2}(s_1,s_2)
+=D_{\lambda,2}(s_1,s_2)(1-x)(1-y)
+}
+\]
+
+であり、`x=y=1/2` を代入すると
+
+\[
+\boxed{C_{\lambda,2}(1,1)=1.}
+\]
+
+また `J_{\beta,2}(1)=1-2^{-1}=1/2` なので、2-adic contributionは
+
+\[
+\boxed{
+J_{\beta,2}(1)^2C_{\lambda,2}(1,1)
+=\frac14.
+}
+\]
+
+---
+
+## 8. `p congruent 3 mod 4`
+
+この場合 `g(p^k)=1` である。`x=p^{-1}` とすると
+
+\[
+G_{g,p}(1)=\frac1{1-x},
+\]
+
+\[
+D_{\lambda,p}(1,1)
+=1+\frac{2x}{1-x}
+=\frac{1+x}{1-x}.
+\]
+
+従って
+
+\[
+C_{\lambda,p}(1,1)
+=
+D_{\lambda,p}(1,1)(1-x)^2
+=1-x^2
+=1-p^{-2}.
+\]
+
+一方
+
+\[
+J_{\beta,p}(1)=1-p^{-2}.
+\]
+
+したがって、global factor `L(1,chi_4)^2` を前へ出した後のnormalized local contributionは
+
+\[
+\boxed{
+J_{\beta,p}(1)^2C_{\lambda,p}(1,1)
+=(1-p^{-2})^3.
+}
+\]
+
+---
+
+## 9. `q congruent 1 mod 4`
+
+\[
+b_q:=\frac{2(q-1)}{q+1},
+\qquad x=q^{-1}.
+\]
+
+このとき
+
+\[
+g(q^k)=1+kb_q,
+\]
+
+\[
+G_{g,q}(1)
+=\sum_{k\ge0}(1+kb_q)x^k
+=
+\frac{1+(b_q-1)x}{(1-x)^2}.
+\]
+
+従って
+
+\[
+D_{\lambda,q}(1,1)
+=2G_{g,q}(1)-1
+=
+\frac{q+1}{q-1}
+\left(1+\frac{4q}{(q+1)^2}\right).
+\]
+
+また
+
+\[
+J_{\beta,q}(1)
+=(1-x)(1+(b_q-1)x).
+\]
+
+`C_{lambda,q}=D_{lambda,q}/G_{g,q}^2` を使うと
+
+\[
+\begin{aligned}
+J_{\beta,q}(1)^2C_{\lambda,q}(1,1)
+&amp;=(1-x)^6D_{\lambda,q}(1,1)\\
+&amp;=
+(1-q^{-2})
+\left(1+\frac{4q}{(q+1)^2}\right)
+(1-q^{-1})^4.
+\end{aligned}
+\]
+
+従って
+
+\[
+\boxed{
+J_{\beta,q}(1)^2C_{\lambda,q}(1,1)
+=(1-q^{-2})\eta_q
+}
+\]
+
+である。ここで
+
+\[
+\eta_q
+:=
+\left(1+\frac{4q}{(q+1)^2}\right)(1-q^{-1})^4.
+\]
+
+---
+
+## 10. 全積
+
+constant sheetの定義は
+
+\[
+\eta
+=
+\left(\frac\pi4\right)^2
+\left(\frac12\right)^2
+\prod_{p\equiv3(4)}(1-p^{-2})^2
+\prod_{q\equiv1(4)}\eta_q.
+\]
+
+Sections 7--9を掛けると
+
+\[
+\begin{aligned}
+C_\lambda^{(0)}
+={}&amp;
+\left(\frac\pi4\right)^2
+\left(\frac12\right)^2
+\prod_{p\equiv3(4)}(1-p^{-2})^3\\
+&amp;\times
+\prod_{q\equiv1(4)}(1-q^{-2})\eta_q.
+\end{aligned}
+\]
+
+したがって
+
+\[
+C_\lambda^{(0)}
+=
+\eta
+\prod_{\ell\text{ odd prime}}(1-\ell^{-2}).
+\]
+
+最後に
+
+\[
+\prod_{\ell\text{ odd prime}}(1-\ell^{-2})
+=\frac{1}{(1-2^{-2})\zeta(2)}
+=\frac8{\pi^2}.
+\]
+
+よって
+
+\[
+\boxed{
+C_\lambda^{(0)}
+=\frac8{\pi^2}\eta.
+}
+\]
+
+これによりR02限定レビューの `PARITY_WEIGHTED_LOCAL_FACTOR_IDENTITY` は閉じる。
+
+---
+
+## 11. radial係数への接続
+
+Stage12-N1-3c.Gで証明したfull-quadrant radial integralは
+
+\[
+\frac\pi{48}(\log B)^3.
+\]
+
+orientation `r&lt;s` はその半分なので、harmonic mainは
+
+\[
+\frac12\cdot\frac\pi{48}\cdot
+C_\lambda^{(0)}(\log B)^3
+=
+\frac\eta{12\pi}(\log B)^3.
+\]
+
+fixed-height residueの外側係数 `B/pi` を戻すと
+
+\[
+\frac\eta{12\pi^2}B(\log B)^3.
+\]
+
+さらに `eta=pi*kappa` から
+
+\[
+\frac\eta{12\pi^2}
+=\frac\kappa{12\pi}.
+\]
+
+この節は新しいradial argumentではなく、上のlocal identityが既存の `1/12` 計算へ正しく接続することの確認である。
+
+---
+
+## 12. 判定
+
+R02修正箇所限定レビューが要求した二つの局所補題について、
+
+```text
+OUTER_AVERAGE_LEMMA=CLOSED_BY_STAGE12_N1_3E_PART_I
+PARITY_WEIGHTED_LOCAL_FACTOR_IDENTITY=CLOSED_BY_STAGE12_N1_3E_PART_II
+R02_REMAINING_LOCAL_GAPS=NONE_IN_TEXT
+CENTRAL_ROUTE_CHANGED=false
+FIXED_BC_KERNEL_USED=false
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_LIMITED_REAUDIT
+```
+
+とする。
+
+これは独立再監査の判定を先取りしない。R03 bundleでこの二点を限定再監査し、`CLOSED` が返った場合に限り、修正箇所限定レビューを閉じる。
+
+
+---
+
+# EMBEDDED SOURCE 6/6 — Stage12-N1-3f small-coordinate wing closure
+
+&gt; **PATH:** `docs/stage12-n1-3f-small-coordinate-wing.md`  
+&gt; **GIT_BLOB_SHA:** `e2c77dc23744cb0b9866b40e7a4c0646b0994dd6`
+
+# Stage12-N1-3f：small-coordinate wing の分離評価
+
+&gt; **STATUS:** `R04_SMALL_COORDINATE_WING_CLOSED_IN_TEXT`
+&gt;
+&gt; **SOURCE_AUDIT:** Stage12-N1-2 全体ゼロベース監査 R04
+&gt;
+&gt; **SCOPE:** radial Stieltjes transfer の error budget のみ
+&gt;
+&gt; **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_R05_FULL_REAUDIT`
+
+## 0. 修正対象
+
+R04全体ゼロベース監査は、retained condition
+
+\[
+X_{r,s}=\frac{\lambda(r,s)B}{r^2+s^2}\ge X_0
+\]
+
+から従うのはradial upper boundだけであり、
+
+\[
+\min(r,s)\ge S_0
+\]
+
+は従わないと指摘した。実際、`r=1` と大きな `s` のpairもretained regionに含まれる。
+
+したがって、旧Final R02 §9および旧reference lock §5にある
+
+```text
+retained boxes imply min(R,S) &gt;= S0
+```
+
+という読み方は撤回する。正しい役割分担は次である。
+
+- `X_{r,s}&gt;=X_0` はfixed-height remainderのretained/shallow分解に用いる。
+- `r,s&gt;=S_0` はradial rectangle transferの **core** を定義する追加cutoffである。
+- `r&lt;S_0` または `s&lt;S_0` の **wing** はrectangle asymptoticを使わず、非負性と一変数平均で直接評価する。
+
+本稿はこの三分割を明示し、small-coordinate wingがcubic logarithmic main termに寄与しないことを証明する。
+
+---
+
+## 1. 記号と利用する一変数上界
+
+\[
+L:=\log B,
+\qquad
+U:=S_0:=\exp\!\left(\frac12L^{1/4}\right).
+\]
+
+Stage12-N1-3dのSelberg--Delange inputから
+
+\[
+G_0(x):=\sum_{n\le x}g(n)
+=x(c_g\log x+d_g)+O_A\!\left(x(\log(2x))^{-A}\right),
+\]
+
+特に一様に
+
+\[
+\boxed{G_0(x)\ll x\log(2x)}
+\qquad(x\ge1)
+\]
+
+を用いる。`g` は非負であり、parity weightは
+
+\[
+1\le\lambda(r,s)\le2.
+\]
+
+coprimality indicatorを外すことは非負上界では安全である。
+
+full-quadrant harmonic sumを
+
+\[
+\widetilde{\mathcal H}_\lambda(B)
+:=
+\sum_{\substack{r,s\ge1,(r,s)=1\\r^2+s^2\le B}}
+\frac{\lambda(r,s)g(r)g(s)}{r^2+s^2}
+\]
+
+とする。
+
+---
+
+## 2. 一変数kernel補題
+
+### 補題 3f.1
+
+すべての実数 `u&gt;=1`, `X&gt;=1` に対して
+
+\[
+\boxed{
+\sum_{n\le X}\frac{g(n)}{u^2+n^2}
+\ll
+\frac{\log(2u)}u
+}
+\]
+
+が成り立つ。暗黙定数は `u,X` に依存しない。
+
+### 証明
+
+まず `n&lt;=u` では
+
+\[
+\sum_{n\le\min(X,u)}\frac{g(n)}{u^2+n^2}
+\le
+\frac{G_0(u)}{u^2}
+\ll
+\frac{\log(2u)}u.
+\]
+
+次に `u&lt;n&lt;=X` では `u^2+n^2&gt;=n^2` なので
+
+\[
+\sum_{u&lt;n\le X}\frac{g(n)}{u^2+n^2}
+\le
+\sum_{u&lt;n\le X}\frac{g(n)}{n^2}.
+\]
+
+Stieltjes partial summationにより
+
+\[
+\sum_{u&lt;n\le X}\frac{g(n)}{n^2}
+\ll
+\frac{G_0(X)}{X^2}
++
+\frac{G_0(u)}{u^2}
++
+\int_u^X\frac{G_0(t)}{t^3}\,dt.
+\]
+
+`G_0(t)&lt;&lt;t log(2t)` を代入すると
+
+\[
+\frac{G_0(X)}{X^2}
++
+\frac{G_0(u)}{u^2}
++
+\int_u^X\frac{G_0(t)}{t^3}\,dt
+\ll
+\frac{\log(2u)}u.
+\]
+
+`X&lt;=u` の場合は最初の評価だけでよい。従って補題が従う。`□`
+
+---
+
+## 3. 離散wingの直接評価
+
+wing集合を
+
+\[
+\mathcal W_U(B)
+:=
+\{(r,s)\in\mathbb N^2:r^2+s^2\le B,\ \min(r,s)&lt;U\}
+\]
+
+とする。
+
+### 補題 3f.2
+
+\[
+\boxed{
+\sum_{\substack{(r,s)\in\mathcal W_U(B)\\(r,s)=1}}
+\frac{\lambda(r,s)g(r)g(s)}{r^2+s^2}
+\ll
+(\log(2U))^3
+}
+\]
+
+が成り立つ。従って今回の `U` では
+
+\[
+\boxed{
+\mathcal H_{\rm wing}(B)
+=O(L^{3/4})
+=o(L^3).
+}
+\]
+
+### 証明
+
+対称性、`lambda&lt;=2`、非負性、coprimalityの除去により
+
+\[
+\mathcal H_{\rm wing}(B)
+\ll
+\sum_{r&lt;U}g(r)
+\sum_{s\le\sqrt B}
+\frac{g(s)}{r^2+s^2}.
+\]
+
+補題3f.1を `u=r` に適用すると
+
+\[
+\mathcal H_{\rm wing}(B)
+\ll
+\sum_{r&lt;U}\frac{g(r)\log(2r)}r.
+\]
+
+`A(t)=G_0(t)` と
+
+\[
+\phi(t)=\frac{\log(2t)}t
+\]
+
+にpartial summationを用いる。`A(t)&lt;&lt;t log(2t)` および
+
+\[
+|\phi&#x27;(t)|\ll\frac{\log(2t)}{t^2}
+\]
+
+から
+
+\[
+\sum_{r&lt;U}\frac{g(r)\log(2r)}r
+\ll
+(\log(2U))^2
++
+\int_1^U\frac{(\log(2t))^2}{t}\,dt
+\ll
+(\log(2U))^3.
+\]
+
+ここで `log U=L^(1/4)/2` なので
+
+\[
+(\log(2U))^3=O(L^{3/4}).
+\]
+
+従ってwingはcubic main scale `L^3` に対して低次である。`□`
+
+---
+
+## 4. 連続leading integralのwing mass
+
+rectangle leading termのmixed densityは
+
+\[
+C_\lambda^{(0)}(\log x+1)(\log y+1)\,dx\,dy
+\]
+
+である。full radial leading integralとcore leading integralの差を制御するため、連続wingも評価する。
+
+### 補題 3f.3
+
+\[
+\boxed{
+\iint_{\substack{x,y\ge1,\ x^2+y^2\le B\\\min(x,y)&lt;U}}
+\frac{(\log x+1)(\log y+1)}{x^2+y^2}\,dx\,dy
+\ll
+(\log(2U))^3
+}
+\]
+
+が成り立つ。
+
+### 証明
+
+対称性により `x&lt;U` の領域を二倍すれば十分である。固定 `x&gt;=1` に対して、`y&lt;=x` と `y&gt;x` に分けると
+
+\[
+\int_1^{\sqrt B}
+\frac{\log y+1}{x^2+y^2}\,dy
+\ll
+\frac{\log(2x)}x.
+\]
+
+実際、`y&lt;=x` ではdenominatorを `x^2` で下から押さえ、`y&gt;x` では `y^2` で下から押さえる。
+
+従ってwing integralは
+
+\[
+\ll
+\int_1^U
+\frac{(\log x+1)\log(2x)}x\,dx
+\ll
+(\log(2U))^3.
+\]
+
+`□`
+
+同じ議論により、rectangle polynomialのlower-degree density、すなわち `1`, `log x`, `log y` の各項のwing integralも `O((log(2U))^3)` 以下であり、すべて `o(L^3)` である。
+
+---
+
+## 5. core上のrectangle transfer
+
+coreを
+
+\[
+\mathcal C_U(B)
+:=
+\{(r,s)\in\mathbb N^2:r^2+s^2\le B,\ r\ge U,\ s\ge U\}
+\]
+
+とする。coreを
+
+\[
+[2^iU,2^{i+1}U)\times[2^jU,2^{j+1}U)
+\]
+
+型のdyadic boxへ分割する。このとき各boxのside scales `R,S` は
+
+\[
+R,S\ge U
+\]
+
+を満たす。これはretained conditionから導くものではなく、coreの定義そのものである。
+
+kernel
+
+\[
+K(x,y)=\frac1{x^2+y^2}
+\]
+
+のboxwise partial-summation normは
+
+\[
+\|K\|_{{\rm PS},\mathcal B(R,S)}
+\ll\frac1{R^2+S^2}.
+\]
+
+### 5.1 corrected power tail
+
+rectangle remainderのpower partは
+
+\[
+E_{\rm pow}(R,S)
+\ll
+\log(2R)\log(2S)
+\{R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}\},
+\]
+
+ここで固定 `0&lt;epsilon&lt;1/8` とする。`R&lt;=S` の場合、kernel normを掛けると
+
+\[
+\frac{E_{\rm pow}(R,S)}{R^2+S^2}
+\ll
+L^2R^{-1/4+\varepsilon}.
+\]
+
+従ってcoreの各boxでは
+
+\[
+\frac{E_{\rm pow}(R,S)}{R^2+S^2}
+\ll
+L^2U^{-1/4+\varepsilon}.
+\]
+
+box数は `O(L^2)` なので全core power errorは
+
+\[
+\ll
+L^4U^{-1/4+\varepsilon}
+=o(L^{-A})
+\]
+
+であり、任意の固定 `A&gt;0` に対して成立する。最後の等式は
+
+\[
+U^{-1/4+\varepsilon}
+=
+\exp\!\left(-\left(\frac14-\varepsilon\right)\frac12L^{1/4}\right)
+\]
+
+による。
+
+### 5.2 Selberg--Delange remainder
+
+rectangle remainderのlog-saving partは
+
+\[
+E_{\rm SD}(R,S)
+\ll
+RS\log(2R)\log(2S)
+\{(\log(2R))^{-A}+(\log(2S))^{-A}\}.
+\]
+
+kernel normを掛け、`R,S&gt;=U` を用いると、各box寄与は
+
+\[
+\ll
+L^2(\log U)^{-A}
+\ll
+L^{2-A/4}.
+\]
+
+box数、arc-crossing boxes、boxwise partial summationで失う固定対数冪をまとめて `L^C` と書く。Selberg--Delange expansion orderを、`A/4&gt;C+4` となるよう先に固定すれば、core全体のlog-saving errorは `o(L^3)` である。
+
+### 5.3 artificial boundaryを作らないこと
+
+transferは各dyadic box上で直接行う。従って `x=U` または `y=U` に新しい未評価のglobal boundary termを仮定しない。各boxの境界項はboxwise partial-summation normに含まれ、main polynomialのfull integralとcore integralの差は補題3f.3で制御される。
+
+radial arcを横切るboxは従来どおり `O(L^2)`、lower rectangle polynomialとradial Stieltjes boundary termsも `O(L^2)+O((log U)^3)` である。
+
+従ってcoreについて
+
+\[
+\boxed{
+\widetilde{\mathcal H}_{\lambda,{\rm core}}(B)
+=
+C_\lambda^{(0)}
+\iint_{\substack{x,y\ge U\\x^2+y^2\le B}}
+\frac{\log x\log y}{x^2+y^2}\,dx\,dy
++o(L^3)
+}
+\]
+
+が成り立つ。`+1`を含むmixed derivativeのlower-degree termsは `O(L^2)+o(L^3)` に入る。
+
+---
+
+## 6. coreとwingの再結合
+
+補題3f.2によりactual discrete wingは `o(L^3)`、補題3f.3によりfull leading integralとcore leading integralの差も `o(L^3)` である。従って
+
+\[
+\begin{aligned}
+\widetilde{\mathcal H}_\lambda(B)
+&amp;=
+\widetilde{\mathcal H}_{\lambda,{\rm core}}(B)
++\widetilde{\mathcal H}_{\lambda,{\rm wing}}(B)\\
+&amp;=
+C_\lambda^{(0)}
+\iint_{\substack{x,y\ge1\\x^2+y^2\le B}}
+\frac{\log x\log y}{x^2+y^2}\,dx\,dy
++o(L^3).
+\end{aligned}
+\]
+
+既存のpolar calculation
+
+\[
+\iint_{\substack{x,y\ge1\\x^2+y^2\le B}}
+\frac{\log x\log y}{x^2+y^2}\,dx\,dy
+=
+\frac\pi{48}L^3+O(L^2)
+\]
+
+を代入すると
+
+\[
+\boxed{
+\widetilde{\mathcal H}_\lambda(B)
+=
+\frac{\pi C_\lambda^{(0)}}{48}L^3+o(L^3).
+}
+\]
+
+primitive diagonalは `(1,1)` のみなのでorientation `r&lt;s` はleading termを半分にし、
+
+\[
+\mathcal H_\lambda(B)
+=
+\frac{\pi C_\lambda^{(0)}}{96}L^3+o(L^3)
+=
+\frac\eta{12\pi}L^3+o(L^3).
+\]
+
+外側の `B/pi` と `eta=pi*kappa` を戻して
+
+\[
+\boxed{
+C_{\rm prim}(B)
+\sim
+\frac\eta{12\pi^2}B(\log B)^3
+=
+\frac\kappa{12\pi}B(\log B)^3
+}
+\]
+
+という候補漸近式の係数は変わらない。
+
+---
+
+## 7. fixed-height retained/shallow分解との独立性
+
+本稿のcore/wing cutoffはradial harmonic transferのためのものである。fixed-height remainderに用いる
+
+\[
+X_{r,s}\ge X_0
+\]
+
+というretained conditionとは別の分解である。
+
+従って最終error budgetでは次を別々に管理する。
+
+1. fixed-height retained remainder:
+   \[
+   O(BX_0^{-1/2}(\log B)^2);
+   \]
+2. fixed-height shallow sector: 既存の非負rectangle upper boundにより `o(BL^3)`;
+3. radial harmonic core: 本稿§5のrectangle transfer;
+4. radial harmonic wing: 本稿§3の `O(L^{3/4})`;
+5. radial arc、odd--odd annulus、diagonal、floor、constant `-1`: 既存の低次評価。
+
+これらの領域や誤差を互いに同一視しない。
+
+---
+
+## 8. supersessionと修復判定
+
+次の旧文言は本稿で置き換える。
+
+```text
+OLD: retained boxes satisfy min(R,S) &gt;= S0
+NEW: core boxes are defined by R,S &gt;= S0; the complementary wings are bounded directly
+```
+
+R04監査のMAJORに対する状態は
+
+```text
+R04_MAJOR_01_SMALL_COORDINATE_WING=CLOSED_BY_STAGE12_N1_3F
+DISCRETE_WING_BOUND=O((log U)^3)=O((log B)^(3/4))
+CONTINUOUS_WING_BOUND=O((log U)^3)=O((log B)^(3/4))
+CORE_RECTANGLE_TRANSFER=VALID_FOR_R_S_GE_U
+RETAINED_IMPLIES_MIN_RS_LOWER_BOUND=FALSE_SUPERSEDED
+MAIN_CONSTANT_CHANGED=false
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_R05_FULL_REAUDIT
+```
+
+とする。
+
+
+---
+
+# Consolidated end marker
+
+```text
+CHECKPOINT=END_OF_MAIN
+END_OF_BUNDLE=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R05
+```
+
+
+---
+
+# EMBEDDED SOURCE 2/2 — Stage12-N1-3g fixed-height shallow-sector closure
+
+&gt; **PATH:** `docs/stage12-n1-3g-fixed-height-shallow-sector.md`  
+&gt; **GIT_BLOB_SHA:** `c7024e1422b90c71a62906af83314f25b847bc4f`
+
+# Stage12-N1-3g：fixed-height shallow sector の直接評価
+
+&gt; **STATUS:** `R05_FIXED_HEIGHT_SHALLOW_SECTOR_CLOSED_IN_TEXT`
+&gt;
+&gt; **SOURCE_AUDIT:** Stage12-N1-2 全体ゼロベース監査 R05
+&gt;
+&gt; **SCOPE:** primitive-first exact sum の fixed-height shallow sector
+&gt;
+&gt; **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_R06_FULL_REAUDIT`
+
+## 0. 修正対象
+
+`L=\log B` とし
+
+\[
+X_0:=\exp(L^{1/4}),
+\qquad
+X_{r,s}:=\frac{\lambda(r,s)B}{r^2+s^2},
+\]
+
+\[
+\lambda(r,s)=
+\begin{cases}
+2,&amp;r,s\text{ odd},\\
+1,&amp;r,s\text{ opposite parity}
+\end{cases}
+\]
+
+とする。
+
+R05監査は、retained sector `X_{r,s}\ge X_0` のfixed-height remainderは閉じている一方、
+
+\[
+1\le X_{r,s}&lt;X_0
+\]
+
+となるshallow sectorについて、旧Finalが
+
+```text
+shallow fixed-height sector: o(BL^3) by nonnegative rectangle upper bounds
+```
+
+と結論だけを書き、必要なmajorantとshell計算を展開していないことを指摘した。
+
+本稿ではshallow contributionをexact primitive-first和から直接上から押さえ、
+
+\[
+O(BL^{5/2})=o(BL^3)
+\]
+
+を示す。
+
+---
+
+## 1. exact shallow contribution
+
+primitive-first formulaは
+
+\[
+C_{\rm prim}(B)
+=
+\sum_{1\le r&lt;s\atop(r,s)=1}
+\sum_{m\le X_{r,s}}A_{r,s}(m).
+\]
+
+shallow partを
+
+\[
+\mathcal S_{\rm sh}(B)
+:=
+\sum_{\substack{1\le r&lt;s,(r,s)=1\\1\le X_{r,s}&lt;X_0}}
+\sum_{m\le X_{r,s}}A_{r,s}(m)
+\]
+
+と定義する。上限は整数部分を意味する。
+
+Stage12-N1-2のexact formulaより
+
+\[
+A_{r,s}(1)=G(rs)-1\ge0,
+\]
+
+また `m&gt;1` では、`m` の全素因数が `1 mod 4` の場合に
+
+\[
+A_{r,s}(m)
+=
+G(rs)
+\prod_{p\mid m}
+\frac{2}{2v_p(rs)+1},
+\]
+
+それ以外では0である。従って全ての `m\ge1` について
+
+\[
+\boxed{
+0\le A_{r,s}(m)
+\le
+G(rs)2^{\omega(m)}.
+}
+\]
+
+ここで `\omega(m)` は異なる素因数の個数である。
+
+---
+
+## 2. height coefficient のsummatory majorant
+
+恒等式
+
+\[
+2^{\omega(m)}
+=
+\sum_{d\mid m}\mu^2(d)
+\]
+
+から、`X\ge1` に対して
+
+\[
+\begin{aligned}
+\sum_{m\le X}2^{\omega(m)}
+&amp;=
+\sum_{d\le X}\mu^2(d)
+\left\lfloor\frac Xd\right\rfloor\\
+&amp;\le
+X\sum_{d\le X}\frac1d\\
+&amp;\ll X\log(2X).
+\end{aligned}
+\]
+
+従って
+
+\[
+\boxed{
+\sum_{m\le X}A_{r,s}(m)
+\ll
+G(rs)X\log(2X)
+}
+\]
+
+が `r,s,X` に一様に成り立つ。
+
+shallow sectorでは `X_{r,s}&lt;X_0` なので
+
+\[
+\sum_{m\le X_{r,s}}A_{r,s}(m)
+\ll
+G(rs)X_{r,s}\log(2X_0).
+\]
+
+---
+
+## 3. `G` の一変数平均
+
+\[
+G(n)
+=
+\prod_{\substack{q\mid n\\q\equiv1(4)}}(2v_q(n)+1)
+\]
+
+のDirichlet seriesを
+
+\[
+\mathcal G(s)
+:=
+\sum_{n\ge1}\frac{G(n)}{n^s}
+\]
+
+とする。
+
+prime-power local factorsは
+
+\[
+\sum_{a\ge0}G(p^a)x^a
+=
+\frac1{1-x}
+\qquad(p=2\text{ or }p\equiv3(4)),
+\]
+
+\[
+\sum_{a\ge0}G(q^a)x^a
+=
+\sum_{a\ge0}(2a+1)x^a
+=
+\frac{1+x}{(1-x)^2}
+\qquad(q\equiv1(4)).
+\]
+
+従ってprime by primeに
+
+\[
+\boxed{
+\mathcal G(s)
+=
+\zeta(s)^2L(s,\chi_4)E_G(s),
+}
+\]
+
+\[
+E_G(s)
+=
+(1-2^{-s})
+\prod_{p\text{ odd}}(1-p^{-2s}).
+\]
+
+`E_G` は `\Re s&gt;1/2` で絶対収束し、`s=1` の近傍で正則である。既に固定した `z=2` Selberg--Delange input、またはその非負係数上界形により
+
+\[
+\boxed{
+M_G(Y)
+:=
+\sum_{n\le Y}G(n)
+\ll
+Y\log(2Y).
+}
+\]
+
+必要なのはこのupper boundだけであり、leading constantは使用しない。
+
+---
+
+## 4. weighted radial shell bound
+
+`Q\ge1` に対し
+
+\[
+\Sigma_G(Q)
+:=
+\sum_{\substack{r,s\ge1\\Q&lt;r^2+s^2\le2Q}}
+G(r)G(s).
+\]
+
+shellを正方形に含めると
+
+\[
+\begin{aligned}
+\Sigma_G(Q)
+&amp;\le
+\left(
+\sum_{n\le\sqrt{2Q}}G(n)
+\right)^2\\
+&amp;\ll
+Q\{\log(2Q)\}^2.
+\end{aligned}
+\]
+
+よって
+
+\[
+\boxed{
+\sum_{\substack{r,s\ge1\\Q&lt;r^2+s^2\le2Q}}
+\frac{G(r)G(s)}{r^2+s^2}
+\ll
+\{\log(2Q)\}^2.
+}
+\]
+
+coprimality、orientation、parity条件を外した上界なので、元のshallow sumにも適用できる。
+
+---
+
+## 5. shallow radial annulus
+
+shallow pointでは
+
+\[
+1\le X_{r,s}&lt;X_0.
+\]
+
+`1\le\lambda(r,s)\le2` なので
+
+\[
+\frac{B}{X_0}
+&lt;
+r^2+s^2
+\le
+2B.
+\]
+
+このannulusは
+
+\[
+O(1+\log X_0)
+\]
+
+個のdyadic radial shellsで被覆できる。
+
+Section 4のshell boundを合計し、`r^2+s^2\le2B` 上で `\log(2Q)\ll L` を用いると
+
+\[
+\boxed{
+\sum_{\substack{1\le r&lt;s,(r,s)=1\\1\le X_{r,s}&lt;X_0}}
+\frac{\lambda(r,s)G(rs)}{r^2+s^2}
+\ll
+L^2\log(2X_0).
+}
+\]
+
+ここで `(r,s)=1` なら `G(rs)=G(r)G(s)` であり、上界では `\lambda\le2`、coprimality、orientationを外した。
+
+---
+
+## 6. shallow contribution の完結評価
+
+Section 2より
+
+\[
+\begin{aligned}
+\mathcal S_{\rm sh}(B)
+&amp;\ll
+\sum_{\rm shallow}
+G(rs)X_{r,s}\log(2X_0)\\
+&amp;=
+B\log(2X_0)
+\sum_{\rm shallow}
+\frac{\lambda(r,s)G(rs)}{r^2+s^2}.
+\end{aligned}
+\]
+
+Section 5を代入して
+
+\[
+\boxed{
+\mathcal S_{\rm sh}(B)
+\ll
+B L^2\{\log(2X_0)\}^2.
+}
+\]
+
+`X_0=\exp(L^{1/4})` なので
+
+\[
+\log(2X_0)\ll L^{1/4},
+\]
+
+従って
+
+\[
+\boxed{
+\mathcal S_{\rm sh}(B)
+\ll
+B L^{5/2}
+=
+o(BL^3).
+}
+\]
+
+これはodd--odd branchとopposite-parity branchを同時に含む一様評価である。
+
+---
+
+## 7. retained / shallow と radial core / wing の独立性
+
+二つの分割を混同しない。
+
+1. **fixed-height retained/shallow split**
+   \[
+   X_{r,s}\ge X_0
+   \quad\text{or}\quad
+   1\le X_{r,s}&lt;X_0.
+   \]
+   retained remainderは3e、shallow exact contributionは本3gで処理する。
+
+2. **radial core/wing split**
+   \[
+   r,s\ge U
+   \quad\text{or}\quad
+   \min(r,s)&lt;U,
+   \qquad
+   U=\exp(\tfrac12L^{1/4}).
+   \]
+   これはresidue mainのradial Stieltjes transferを3fで処理するための別分割である。
+
+3gは3fのwing estimateをshallow estimateとして流用せず、primitive-first exact sumを直接評価している。
+
+---
+
+## 8. final error budget への組込み
+
+fixed-height部分は
+
+\[
+\sum_{r,s}
+\sum_{m\le X_{r,s}}A_{r,s}(m)
+\]
+
+を次に分ける。
+
+- retained main residue;
+- retained remainder：`o(BL^{-A})`、3e;
+- shallow exact contribution：`O(BL^{5/2})`、3g;
+- constant `-1`、floor、endpoint：既存評価。
+
+従ってfixed-height全領域について
+
+\[
+C_{\rm prim}(B)
+=
+\mathcal M(B)+o(BL^3)
+\]
+
+のnonresidue error budgetが文書内で閉じる。
+
+radial residue mainは3fのcore/wing transferにより
+
+\[
+\mathcal M(B)
+\sim
+\frac{\kappa}{12\pi}BL^3.
+\]
+
+本稿は主係数、Euler factors、radial係数 `\pi/48`、orientation factor、最終係数 `1/12` を変更しない。
+
+---
+
+## 9. closure codes
+
+```text
+R05_MAJOR_01_FIXED_HEIGHT_SHALLOW=CLOSED_BY_STAGE12_N1_3G
+A_RS_NONNEGATIVE_MAJORANT=PROVED
+SUM_2OMEGA=O(X_LOG_X)=PROVED
+G_ONE_VARIABLE_MEAN=O(Y_LOG_Y)=PROVED
+WEIGHTED_RADIAL_SHELL=O((LOG_Q)^2)=PROVED
+SHALLOW_ANNULUS_SHELL_COUNT=O(LOG_X0)=PROVED
+FIXED_HEIGHT_SHALLOW_BOUND=O(B_L^(5/2))=PROVED
+FIXED_HEIGHT_SHALLOW=o(B_L^3)=PROVED
+MAIN_CONSTANT_CHANGED=false
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_R06_FULL_REAUDIT
+```
+
+
+---
+
+# Consolidated end marker
+
+```text
+CHECKPOINT=END_OF_MAIN
+END_OF_BUNDLE=PC-N1-2-FINAL-FULL-REREVIEW-20260807-R06
+```
+
+
+---
+
+# EMBEDDED SOURCE 2/8 — Active rectangle-error derivation
+
+&gt; **LOCATOR:** `WORKTREE`  
+&gt; **PATH:** `docs/stage12-n1-3a-rectangular-error-repair.md`  
+&gt; **GIT_BLOB_SHA:** `fb4a7a52fcb2cf55005c155b0534abf3a986fe42`
+
+# Stage12-N1-3a：一様長方形誤差の指数修復
+
+&gt; **STATUS:** `MAJOR_01_CLOSED_AT_RECTANGULAR_LEMMA_LEVEL`
+&gt;
+&gt; **SOURCE_AUDIT:** `docs/review/stage12-n1-2-full-audit-r01.md`
+&gt;
+&gt; **SUPERSEDES:** Stage12-N1-2p §3.2–§3.5 の `R^{1/2+δ}S + RS^{1/2+δ}` 型誤差
+&gt;
+&gt; **THEOREM_STATUS:** `REPAIRABLE — NOT CLOSED`
+
+## 0. 目的と主張範囲
+
+本稿は、独立監査R01の **MAJOR-01** を修復する。
+
+Stage12-N1-2pでは、大係数領域で実際に得られた
+
+\[
+R^{3/4+\delta/2}S
+\]
+
+を、\(\delta\in(0,1/4)\) のもとで
+
+\[
+R^{1/2+\delta}S
+\]
+
+へ強化していた。しかし
+
+\[
+\frac34+\frac\delta2\le \frac12+\delta
+\]
+
+には \(\delta\ge1/2\) が必要であり、使用範囲と両立しない。
+
+本稿では、誤った強化を撤回し、正しい弱い一様長方形誤差
+
+\[
+R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
+\]
+
+へ置き換える。また、後続の結合領域移送で必要となるboxwise kernelとの適合性を、抽象的な部分和分ノルムのもとで確認する。
+
+本稿だけでは、次を閉じない。
+
+- MAJOR-02：fixed-circle remainder;
+- MAJOR-03：完全なcoupled-region transferと係数 \(1/12\);
+- MAJOR-04：自己完結bundle。
+
+したがって最終漸近式は引き続き `NOT CLOSED` とする。
+
+---
+
+## 1. 使用する既存分解
+
+\[
+B_\beta(X):=\sum_{n\le X}\beta(n)
+\]
+
+とする。Stage12-N1-2m〜2pの一変数評価から
+
+\[
+B_\beta(X)=c_\beta X+O(XE(X))
+\]
+
+が得られているため、有限区間 \(1\le X&lt;3\) を定数調整へ吸収すれば
+
+\[
+B_\beta(X)\ll X
+\qquad(X\ge1)
+\]
+
+を使用できる。
+
+coprime cross correctionを
+
+\[
+C(s_1,s_2)
+=
+\sum_{a,b\ge1}\frac{c(a,b)}{a^{s_1}b^{s_2}}
+\]
+
+とし、任意の固定 \(\delta\in(0,1/4)\) に対して
+
+\[
+M_\delta
+:=
+\sum_{a,b\ge1}
+\frac{|c(a,b)|}{(ab)^{1/2+\delta}}
+&lt;\infty
+\]
+
+を用いる。
+
+長方形和は
+
+\[
+S(R,S)
+:=
+\sum_{r\le R}\sum_{s\le S}
+\beta(r)\beta(s)1_{(r,s)=1}
+\]
+
+であり、Dirichlet畳み込みにより
+
+\[
+S(R,S)
+=
+\sum_{a\le R}\sum_{b\le S}
+ c(a,b)B_\beta(R/a)B_\beta(S/b)
+\]
+
+と書ける。
+
+---
+
+## 2. 修正版一様長方形補題
+
+### 補題 3a.1
+
+任意の固定
+
+\[
+0&lt;\varepsilon&lt;\frac18
+\]
+
+に対し、\(R,S\ge2\) で一様に
+
+\[
+\boxed{
+S(R,S)
+=
+\mathfrak C RS
++O_\varepsilon\!\left(
+RS\{E_*(R^{1/2})+E_*(S^{1/2})\}
++R^{3/4+\varepsilon}S
++RS^{3/4+\varepsilon}
+\right)
+}
+\]
+
+が成り立つ。ここで
+
+\[
+\mathfrak C=c_\beta^2C(1,1),
+\qquad
+E_*(X)=\sup_{Y\ge X}E(Y).
+\]
+
+暗黙定数は \(\varepsilon\) と \(M_{2\varepsilon}\) に依存するが、\(R,S\) には依存しない。
+
+### 証明
+
+\[
+A=R^{1/2},
+\qquad
+D=S^{1/2}
+\]
+
+と置き、係数領域を
+
+\[
+\mathcal R_{00}:a\le A,b\le D,
+\quad
+\mathcal R_{10}:a&gt;A,b\le D,
+\]
+
+\[
+\mathcal R_{01}:a\le A,b&gt;D,
+\quad
+\mathcal R_{11}:a&gt;A,b&gt;D
+\]
+
+へ分割する。
+
+#### 小係数領域
+
+\(\mathcal R_{00}\) では、Stage12-N1-2p §3.1と同じ一変数展開により
+
+\[
+O_\varepsilon\!\left(
+RS\{E_*(R^{1/2})+E_*(S^{1/2})\}
+\right)
+\]
+
+を得る。主項を完全和 \(C(1,1)\) へ延長した差は、以下の大係数尾部へ含める。
+
+#### \(a\) 大・\(b\) 小
+
+\(B_\beta(X)\ll X\) を使うと
+
+\[
+\sum_{\mathcal R_{10}}
+|c(a,b)|B_\beta(R/a)B_\beta(S/b)
+\ll
+RS
+\sum_{\mathcal R_{10}}
+\frac{|c(a,b)|}{ab}.
+\]
+
+\(a&gt;R^{1/2}\) かつ \(\delta=2\varepsilon\) とすると
+
+\[
+\frac1a
+=
+a^{-1/2+2\varepsilon}a^{-1/2-2\varepsilon}
+\le
+R^{-1/4+\varepsilon}a^{-1/2-2\varepsilon}.
+\]
+
+また \(0&lt;2\varepsilon&lt;1/4\) なので、\(b\ge1\) に対して
+
+\[
+\frac1b\le b^{-1/2-2\varepsilon}.
+\]
+
+従って
+
+\[
+RS
+\sum_{\mathcal R_{10}}
+\frac{|c(a,b)|}{ab}
+\le
+R^{3/4+\varepsilon}S
+M_{2\varepsilon}.
+\]
+
+完全主項の尾
+
+\[
+RS
+\sum_{a&gt;A,b\le D}
+\frac{|c(a,b)|}{ab}
+\]
+
+にも同じ評価を適用できる。
+
+#### \(a\) 小・\(b\) 大
+
+対称性により
+
+\[
+\mathcal R_{01}
+\ll_\varepsilon
+RS^{3/4+\varepsilon},
+\]
+
+主項尾部も同じ上界に入る。
+
+#### 両係数が大きい領域
+
+\(\mathcal R_{11}\) は \(a&gt;A\) または \(b&gt;D\) のいずれの尾部評価にも含められるため
+
+\[
+\mathcal R_{11}
+\ll_\varepsilon
+R^{3/4+\varepsilon}S
++RS^{3/4+\varepsilon}.
+\]
+
+四領域を合成して補題を得る。\(\square\)
+
+---
+
+## 3. 旧指数が使えないことの固定
+
+旧Stage12-N1-2pの操作は
+
+\[
+R^{3/4+\delta/2}S(\log 2R)(\log 2S)
+\stackrel{\rm invalid}{\ll}
+R^{1/2+\delta}S
+\]
+
+であった。
+
+本修復では、そもそも
+
+\[
+B_\beta(X)\ll X
+\]
+
+を使って不要な対数因子を除き、そのうえで得られる正しいべき
+
+\[
+R^{3/4+\varepsilon}S
+\]
+
+を保持する。指数をこれより小さくする主張はしない。
+
+以後、Stage12-N1-2p §3.2〜§3.5および旧Final §4の
+
+\[
+R^{1/2+\delta}S+RS^{1/2+\delta}
+\]
+
+は引用禁止とし、本稿の補題3a.1で置き換える。
+
+---
+
+## 4. boxwise kernelとの適合性
+
+MAJOR-03の完全な結合領域移送は別稿で行う。ただし、修正後の弱い指数が予定されるkernel適用後にも低次であることは、次の抽象形で確認できる。
+
+長方形box
+
+\[
+\mathcal B(R,S)=[R,2R]\times[S,2S]
+\]
+
+上のkernel \(K_B(r,s)\) に対し、二変数部分和分で現れる境界値・一次変分・混合変分をまとめたノルムを
+
+\[
+\|K_B\|_{\rm PS,\mathcal B}
+\]
+
+と書く。
+
+後続のcoupled-region transferで証明すべきkernel評価を
+
+\[
+\|K_B\|_{\rm PS,\mathcal B}
+\ll
+\frac{B(\log B)^C}{R^2+S^2}
+\]
+
+とする。このとき補題3a.1のべき誤差がboxへ与える寄与は
+
+\[
+\ll
+\frac{B(\log B)^C}{R^2+S^2}
+\left(
+R^{3/4+\varepsilon}S
++RS^{3/4+\varepsilon}
+\right).
+\]
+
+\[
+m=\min(R,S)
+\]
+
+と置く。例えば \(R\le S\) なら
+
+\[
+\frac{R^{3/4+\varepsilon}S}{R^2+S^2}
+\le
+\frac{R^{3/4+\varepsilon}}{S}
+\le
+R^{-1/4+\varepsilon},
+\]
+
+また
+
+\[
+\frac{RS^{3/4+\varepsilon}}{R^2+S^2}
+\le
+\frac{R}{S^{5/4-\varepsilon}}
+\le
+R^{-1/4+\varepsilon}.
+\]
+
+対称な場合も同様なので
+
+\[
+\frac{
+R^{3/4+\varepsilon}S
++RS^{3/4+\varepsilon}
+}{R^2+S^2}
+\ll
+m^{-1/4+\varepsilon}.
+\]
+
+retained regionの下限
+
+\[
+m
+\ge
+\exp\!\left\{
+\frac12(\log B)^{1/4}
+\right\}
+\]
+
+を使えば、\(\varepsilon&lt;1/8\) に対し
+
+\[
+m^{-1/4+\varepsilon}
+\le
+\exp\{-c_\varepsilon(\log B)^{1/4}\}
+\]
+
+となる。従って、kernel評価がMAJOR-03で確立された後には、各boxの修正版べき誤差は任意の固定 \(A&gt;0\) に対して
+
+\[
+o\!\left(B(\log B)^{-A}\right)
+\]
+
+となり、多項対数個のboxを合計しても低次である。
+
+重要なのは、この節は **修正版指数の適合性** を示すだけであり、kernelノルムそのもの、正確な主定数、境界項、parity/orientation factorを証明したものではないことである。それらはMAJOR-03として未解決のまま残す。
+
+---
+
+## 5. 修復判定
+
+独立監査R01のMAJOR-01に対して、次を実施した。
+
+1. 不成立な指数強化を撤回した。
+2. \(B_\beta(X)\ll X\) を使い、大係数領域を正しい指数で再評価した。
+3. 一様長方形補題を
+   \[
+   R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
+   \]
+   型へ修正した。
+4. 後続kernelの標準的な部分和分ノルムのもとで、修正版誤差がretained regionで超対数的に小さいことを確認した。
+5. MAJOR-03のkernel導出そのものとは明確に分離した。
+
+従って状態は
+
+```text
+MAJOR_01_RECTANGULAR_ERROR_EXPONENT=CLOSED_BY_STAGE12_N1_3A
+MAJOR_02_FIXED_CIRCLE_REMAINDER=OPEN
+MAJOR_03_COUPLED_REGION_TRANSFER=OPEN
+MAJOR_04_REVIEW_SELF_CONTAINMENT=OPEN
+THEOREM_STATUS=REPAIRABLE_NOT_CLOSED
+NEXT_TASK=STAGE12_N1_3B_FIXED_CIRCLE_REMAINDER
+```
+
+とする。
+
+
+---
+
+# EMBEDDED SOURCE 3/8 — Historical origin of the parameter sum and multiplicity G
+
+&gt; **LOCATOR:** `8d6910e8e68145e474f92716460a1cc6f384ecf1`  
+&gt; **PATH:** `docs/stage12-n1-2b-average.md`  
+&gt; **GIT_BLOB_SHA:** `0430d010472314f0c88e78189493f652c261b3ef`
+
+# Stage12-N1-2b：乗法重みの共有素因子補正
+
+Stage12-N1-2 の双曲線座標
+
+\[
+C_{\mathrm{raw}}(B)=
+\sum_{\substack{h\ge1,\ 1\le r&lt;s,\ (r,s)=1\\
+h(r^2+s^2)\le2B\\
+h(r^2+s^2)\equiv0\ (2)}}
+\bigl(G(hrs)-1\bigr)
+\]
+
+に対し、\(G(hrs)\) の分離障害を局所補正へ縮約する。
+
+\[
+G(n)=\prod_{q\mid n,\ q\equiv1\ (4)}(2v_q(n)+1)
+\]
+
+とし、\((r,s)=1\) を用いる。\(t=rs\) と置けば、厳密に
+
+\[
+\boxed{
+G(ht)=G(h)G(r)G(s)K(h,t)
+}
+\]
+
+であり、補正因子は
+
+\[
+K(h,t)=
+\prod_{\substack{q\equiv1\ (4)\\q\mid\gcd(h,t)}}
+\frac{2(v_q(h)+v_q(t))+1}
+{(2v_q(h)+1)(2v_q(t)+1)}.
+\]
+
+したがって \(0&lt;K\le1\) で、\(K=1\) は \(1\pmod4\) の素数が \(h\) と \(rs\) に共有されない場合に一致する。共有される素数が 2 または \(3\pmod4\) のみなら \(G\) には影響しない。
+
+有限監査では \(B\le20{,}000\) の全閾値でこの分解を検証し、Stage11 の raw 畳み込み値を完全再現した。有限割合を漸近密度とは解釈しない。
+
+解析上は、非分離性が明示的な Euler 局所因子 \(K\) に隔離された。次に必要なのは、二次高さ領域上の積重み \(G(h)G(r)G(s)\) の平均、\(1\pmod4\) 共有素因子による補正損失の総和評価、および global Möbius 反転に耐える一様誤差項である。
+
+漸近式、補正損失が低次であること、Stage11を超える下界、N2上界は主張しない。
+
+
+---
+
+# EMBEDDED SOURCE 4/8 — Historical exact divisor expansion of G
+
+&gt; **LOCATOR:** `8d6910e8e68145e474f92716460a1cc6f384ecf1`  
+&gt; **PATH:** `docs/stage12-n1-2e-divisor-dyadic.md`  
+&gt; **GIT_BLOB_SHA:** `e8783ee5577419b9f8aeff1e93a3c4aaf44a7feb`
+
+# Stage12-N1-2e：G の約数指示関数展開と dyadic 法範囲
+
+## 結論
+
+Stage12-N1-2d では、約数展開後に二次合同根
+
+\[
+t^2\equiv-1\pmod m
+\]
+
+を扱う可能性を候補として残した。しかし、\(G\) を三変数に対して正確に Möbius 反転すると、少なくとも \(G\) 本体についてはこの経路を通る必要がない。
+
+\[
+G(n)=\prod_{q\equiv1\pmod4}(2v_q(n)+1)
+\]
+
+に対し、
+
+\[
+\lambda_1(d)=
+\begin{cases}
+2^{\omega(d)},&amp; d\text{ の全素因数が }1\pmod4,\\
+0,&amp;\text{それ以外}
+\end{cases}
+\]
+
+ただし \(\lambda_1(1)=1\) と置くと、厳密に
+
+\[
+G(n)=\sum_{d\mid n}\lambda_1(d)
+\]
+
+となる。
+
+さらに三変数では
+
+\[
+G(hrs)=
+\sum_{\substack{a\mid h,\ b\mid r,\ c\mid s\\
+(a,b)=(a,c)=(b,c)=1}}
+\lambda_1(a)\lambda_1(b)\lambda_1(c).
+\]
+
+これは上界ではなく厳密な恒等式である。各 \(q\equiv1\pmod4\) について、指数を \(a,b,c\) のうち高々一つへ割り当てる項だけが係数2を持ち、二つ以上へ同時に割り当てる混合差分は0になる。
+
+したがって、Stage12-N1-2b の共有素因子補正 \(K(h,rs)\) は、三つの約数法 \(a,b,c\) を互いに素とする条件へ正確に吸収できる。
+
+## exact raw 和の書き換え
+
+双曲線領域を
+
+\[
+\mathcal D_B=\left\{(h,r,s):
+1\le r&lt;s,\ (r,s)=1,\ h(r^2+s^2)\le2B,\ h(r^2+s^2)\equiv0\pmod2
+\right\}
+\]
+
+とすると、
+
+\[
+C_{\mathrm{raw}}(B)=
+\sum_{(h,r,s)\in\mathcal D_B}
+\sum_{\substack{a\mid h,\ b\mid r,\ c\mid s\\
+(a,b)=(a,c)=(b,c)=1\\
+(a,b,c)\ne(1,1,1)}}
+\lambda_1(a)\lambda_1(b)\lambda_1(c).
+\]
+
+\(h=au, r=bv, s=cw\) と置くと、固定された法に対する内部問題は
+
+\[
+au\left(b^2v^2+c^2w^2\right)\le2B,
+\qquad bv&lt;cw
+\]
+
+上の格子点計数になる。\(a,b,c\) はすべて奇数なので、元の偶奇条件は
+
+\[
+u(v^2+w^2)\equiv0\pmod2
+\]
+
+へ移る。また \((b,c)=1\) の下では
+
+\[
+(bv,cw)=1
+\]
+
+は
+
+\[
+(v,w)=(v,c)=(w,b)=1
+\]
+
+と同値である。
+
+従って、直近の解析対象は二次合同根ではなく、異方的楕円領域内の倍数格子・coprime・偶奇条件を同時に扱う問題である。
+
+## 実際の dyadic 範囲
+
+元の変数を
+
+\[
+H\le h&lt;2H,\qquad R\le r&lt;2R,\qquad S\le s&lt;2S
+\]
+
+へ分割する。非空ブロックでは端点定数を除いて
+
+\[
+H(R^2+S^2)\ll B,\qquad R&lt;2S,\qquad HS^2\ll B.
+\]
+
+約数法を
+
+\[
+A\le a&lt;2A,\qquad M\le b&lt;2M,\qquad N\le c&lt;2N
+\]
+
+へ分けると、
+
+\[
+A\ll H,\qquad M\ll R,\qquad N\ll S.
+\]
+
+さらに各点で
+
+\[
+abc\le hrs&lt;B
+\]
+
+が成立する。最後の不等式は \(r&lt;s\) により
+
+\[
+2rs&lt;r^2+s^2
+\]
+
+であることから従う。したがって、結合された法の真の範囲は \(B\) 未満である。
+
+スケール変換後の変数長は概ね
+
+\[
+u\asymp H/A,\qquad v\asymp R/M,\qquad w\asymp S/N.
+\]
+
+素朴には \((H,R,S,A,M,N)\) の dyadic ブロックは \(O((\log B)^6)\) 個であり、実際には \(HS^2\ll B\) などでさらに減る。
+
+## 必要な平均誤差
+
+固定法に対する格子点数を \(N_{a,b,c}^{H,R,S}(X)\)、将来導出する体積・局所密度主項を \(V_{a,b,c}^{H,R,S}(X)\) とし、
+
+\[
+E_{a,b,c}^{H,R,S}(X)
+=N_{a,b,c}^{H,R,S}(X)-V_{a,b,c}^{H,R,S}(X)
+\]
+
+と置く。一つの法ブロックに対する加重誤差は
+
+\[
+\mathcal E=
+\sum_{a\asymp A,\ b\asymp M,\ c\asymp N}
+\lambda_1(a)\lambda_1(b)\lambda_1(c)
+E_{a,b,c}^{H,R,S}(X)
+\]
+
+である。
+
+raw 段階で十分な入力の一例は、ある固定 \(\delta&gt;0\) に対し
+
+\[
+\sum_{\text{admissible dyadic blocks}}|\mathcal E|
+\ll X^{1-\delta}
+\]
+
+という三法平均の一様評価である。これは点ごとの \(m^{1/2}\) 型評価ではなく、法 \((a,b,c)\) 全体での cancellation を要求する。
+
+large sieve 型の二乗平均へ翻訳するには
+
+\[
+W_2(A,M,N)=
+\sum_{a\asymp A,b\asymp M,c\asymp N}
+\lambda_1(a)^2\lambda_1(b)^2\lambda_1(c)^2
+\]
+
+と置く。Cauchy–Schwarz により
+
+\[
+|\mathcal E|
+\le W_2(A,M,N)^{1/2}
+\left(\sum|E_{a,b,c}^{H,R,S}(X)|^2\right)^{1/2}.
+\]
+
+\(L=\log(2X)\) とすると、各 admissible block で
+
+\[
+\sum|E_{a,b,c}^{H,R,S}(X)|^2
+\ll
+\frac{X^{2-2\delta}}{L^{12}W_2(A,M,N)}
+\]
+
+が得られれば、各ブロックの誤差は \(X^{1-\delta}/L^6\) 以下となり、全ブロックを足して \(O(X^{1-\delta})\) になる。これは十分条件として設定した誤差予算であり、既知定理として主張するものではない。
+
+## global Möbius 反転の予算
+
+primitive oriented count は
+
+\[
+C_{\mathrm{prim}}(B)=
+\sum_{k\le B}\mu(k)
+C_{\mathrm{distinct,raw}}(\lfloor B/k\rfloor)
+\]
+
+である。raw 誤差が
+
+\[
+E(X)\ll X^{1-\delta}(\log X)^C
+\]
+
+であっても、外側を絶対値で足すと一般に \(O(B(\log B)^C)\) まで戻り、冪節約は保存されない。
+
+従って、この誤差が最終的に十分かを判断するには、次の二点が先に必要である。
+
+1. distinct raw 主項が \(B\) を何乗の対数で上回るか
+2. repeated-side 項がその主項に対して低次か
+
+主項が \(B(\log B)^\eta\)（\(\eta&gt;0\)）であれば、反転後の \(O(B)\) 級誤差は低次になり得る。主項が線形級だけなら、外側の Möbius cancellation を別途使う必要がある。
+
+## 判定
+
+分類は
+
+`A_exact_divisor_expansion_replaces_quadratic_root_route`
+
+とする。
+
+確定したことは次の通り。
+
+- \(G\) は正係数の厳密な約数指示関数和である
+- \(G(hrs)\) は互いに素な三つの座標法へ厳密分解できる
+- 結合法は点ごとに \(B\) 未満である
+- 直近の必要入力は三法平均の加重格子点誤差であり、\(t^2\equiv-1\pmod m\) の根に対するlarge sieveではない
+
+次は Stage12-N1-2f として、体積・局所密度主項、その対数次数、repeated-side 寄与を確定する。
+
+## 文献上の境界
+
+Shparlinski のモジュラー双曲線評価や、Duke–Friedlander–Iwaniec 型の二次合同根の equidistribution は、法を動かした合同根・Weyl和を扱う強力な候補である。しかし今回の厳密展開が直接生成する対象は座標倍数格子であり、それらの定理を現段階で直接適用する根拠はない。
+
+- Igor E. Shparlinski, *Modular Hyperbolas*, arXiv:1103.2879.
+- Hieu T. Ngo, *On Roots of Quadratic Congruences*, arXiv:2107.13301.
+
+
+---
+
+# EMBEDDED SOURCE 5/8 — Historical derivation of kappa and the three-variable local factors
+
+&gt; **LOCATOR:** `8d6910e8e68145e474f92716460a1cc6f384ecf1`  
+&gt; **PATH:** `docs/stage12-n1-2f-main-term.md`  
+&gt; **GIT_BLOB_SHA:** `5ba2f0844446a57dd524034fd9cd186f7a00fcb1`
+
+# Stage12-N1-2f：体積・局所密度主項、対数次数、repeated-side寄与
+
+## 判定
+
+Stage12-N1-2e の三法展開から、固定法ごとの体積・局所密度係数、形式的な対数次数、repeated-side寄与を確定した。
+
+確定した構造は次の通りである。
+
+- 固定法 \((a,b,c)\) の主項係数は明示できる
+- 三法和のEuler積は \(s=1\) で3位の極を持つ
+- raw oriented count の形式的主項は \(B(\log B)^4\)
+- global Möbius反転後のprimitive oriented count は形式的に \(B(\log B)^3\)
+- repeated-side contribution は全高さで恒等的に0
+
+ただし、固定法格子点数の一様誤差が未証明なので、以下は**主項構造の確定**であり、漸近式そのものの証明ではない。
+
+## 1. 固定法の体積と局所密度
+
+Stage12-N1-2e の厳密展開では
+
+\[
+G(hrs)=
+\sum_{\substack{a\mid h,\ b\mid r,\ c\mid s\\
+(a,b)=(a,c)=(b,c)=1}}
+\lambda_1(a)\lambda_1(b)\lambda_1(c)
+\]
+
+であり、\(a,b,c\) はすべて \(1\pmod4\) 素数だけに支えられるため奇数である。
+
+固定した \((a,b,c)\) に対し
+
+\[
+h=au,\qquad r=bv,\qquad s=cw
+\]
+
+と置く。奇素数 \(p\) におけるcoprime密度は次の通り。
+
+- \(p\nmid bc\)：\(1-p^{-2}\)
+- \(p^e\Vert b\)：\(p^{-e}(1-p^{-1})\)
+- \(p^e\Vert c\)：\(p^{-e}(1-p^{-1})\)
+
+従って、基準となるprimitive密度に対する追加因子は
+
+\[
+\rho(bc)=\prod_{p\mid bc}\frac{p}{p+1}
+\]
+
+となる。
+
+2進条件は、\((r,s)\) がともに奇数の場合のh長さ2倍と、異なる偶奇の場合のh偶数制限がちょうど釣り合う。
+
+- odd–odd：剰余質量 \(1/4\)、h長さ因子2、寄与 \(1/2\)
+- opposite parity：剰余質量 \(1/2\)、h長さ因子1、寄与 \(1/2\)
+
+合計2進局所因子は1である。
+
+領域 \(0&lt;r&lt;s\) の角度は \(\pi/4\)。\((r^2+s^2)^{-1}\) の動径積分は \((1/2)\log B\) を与えるため、固定法の形式的主項は
+
+\[
+V_{a,b,c}(B)=
+\frac{B}{\pi abc}\rho(bc)
+\left[\log\frac{B}{a\max(b,c)^2}\right]_+
++\text{lower-log terms}.
+\]
+
+\(a=b=c=1\) では
+
+\[
+V_{1,1,1}(B)\sim \frac1\pi B\log B
+\]
+
+となる。有限監査でも、unweighted parameter points を \(B\log B/\pi\) で割った比は、\(B=1,000\) の0.801から \(B=200,000\) の0.888へ増加している。
+
+## 2. 三法Euler積と対数次数
+
+\(q\equiv1\pmod4\) に対する局所因子は
+
+\[
+F_q(s)=
+1+\frac{2}{q^s-1}
++\frac{4q}{(q+1)(q^s-1)}.
+\]
+
+第一項以外は、それぞれ
+
+- \(q\)-冪をh法 \(a\) へ割り当てる寄与
+- \(q\)-冪をr法 \(b\) またはs法 \(c\) へ割り当て、\(\rho(q)=q/(q+1)\) を含めた寄与
+
+である。
+
+Euler積は
+
+\[
+\prod_{q\equiv1(4)}F_q(s)
+=\zeta(s)^3L(s,\chi_4)^3H(s)
+\]
+
+と分解でき、\(H\) は \(s=1\) で正則かつ非零。従って三法和は3位の極を持つ。
+
+その正規化定数を
+
+\[
+\kappa=
+\left(\frac\pi4\right)^3
+\left(1-\frac12\right)^3
+\prod_{p\equiv3(4)}(1-p^{-2})^3
+\prod_{q\equiv1(4)}F_q(1)(1-q^{-1})^6
+\]
+
+と置く。
+
+対数変数
+
+\[
+x=\log a,\qquad y=\log b,\qquad z=\log c,\qquad L=\log B
+\]
+
+を用いると、幾何的な残り対数は
+
+\[
+L-x-2\max(y,z)
+\]
+
+であり、
+
+\[
+\int_{x+2\max(y,z)&lt;L}
+\bigl(L-x-2\max(y,z)\bigr)\,dx\,dy\,dz
+=\frac{L^4}{48}.
+\]
+
+従って形式的raw主項は
+
+\[
+C_{\rm raw}(B)
+\sim
+\frac{\kappa}{48\pi}B(\log B)^4.
+\]
+
+素数 \(p\le200,000\) の部分積では
+
+\[
+\kappa\approx0.01855917,
+\qquad
+\frac{\kappa}{48\pi}\approx1.23074\times10^{-4}.
+\]
+
+この数値は厳密な誤差区間ではなく、Euler積の有限部分積診断である。
+
+## 3. global Möbius反転後の次数
+
+既に確定した恒等式
+
+\[
+C_{\rm prim}(B)
+=
+\sum_{k\le B}\mu(k)
+C_{\rm distinct\_raw}(\lfloor B/k\rfloor)
+\]
+
+は、Dirichlet/Mellin側で \(\zeta(s)\) を1因子除く操作に対応する。
+
+raw側の総極次数5はprimitive側で4へ下がるため、形式的には
+
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3.
+\]
+
+したがって、rawの対数次数は4、primitive oriented countの対数次数は3である。
+
+この次数低下は、Stage12-N1-2eで問題になった「Möbius反転後に誤差がどう残るか」を判断する基準になる。ただし、主項多項式と格子点誤差を一様に制御する証明はまだ必要である。
+
+## 4. repeated-side寄与は恒等的に0
+
+第一Pythagorean triangleの二脚が等しいことはない。従って重複し得るのは、第二triangleの脚 \(c\) が第一triangleのどちらかの脚 \(z\) と等しい場合だけである。
+
+この場合
+
+\[
+z^2+w^2=p^2,
+\qquad
+z^2+p^2=d^2.
+\]
+
+第二式のtriangle \((z,p,d)\) では \(p\) が大きい脚であり、その \(p\) はtriangle \((z,w,p)\) の斜辺、さらに小さい脚 \(z\) が共通する。これは Zelator, *A Non-Existence Property of Pythagorean Triangles with a 3-D Application*, arXiv:0903.1280, Theorem 1 が禁止する配置そのものである。
+
+Fermatのright-triangle theoremへの直接還元もできる。次を置く。
+
+\[
+u=\frac wp,\qquad t=\frac zp,\qquad v=\frac dp.
+\]
+
+すると
+
+\[
+u^2+t^2=1,
+\qquad
+v^2=1+t^2
+\]
+
+なので
+
+\[
+(v+u)^2+(v-u)^2=4.
+\]
+
+この有理直角triangleの面積は
+
+\[
+\frac{(v+u)(v-u)}2
+=\frac{v^2-u^2}{2}
+=t^2
+\]
+
+という非零有理平方になる。これは「有理直角triangleの面積は平方数にならない」というFermatの定理に反する。
+
+従って
+
+\[
+C_{\rm distinct\_raw}(B)=C_{\rm raw}(B)
+\]
+
+はすべての \(B\) で恒等的に成立する。有限監査でも \(B\le200,000\) でrepeated-side parameter pointは0件だった。
+
+## 結論
+
+分類は
+
+`A_formal_main_term_and_repeated_side_closed_uniform_error_open`
+
+とする。
+
+確定：
+
+1. 固定法体積と全局所密度
+2. 三法Euler積の3位の極
+3. rawの形式的次数4
+4. primitive oriented countの形式的次数3
+5. repeated-side寄与の恒等的消滅
+
+未証明：
+
+- rawおよびprimitiveの漸近式そのもの
+- 固定法に一様な格子点誤差
+- Selberg–DelangeまたはTauberian移行に必要な解析条件
+- primitive oriented countから \(N_1\) を単独抽出するためのexact-two/exact-three項の評価
+
+次は Stage12-N1-2g として、固定法格子点誤差の一様評価が既存のgeometry-of-numbers、Möbius分解、平均誤差評価で閉じるかを監査する。
+
+## 出典
+
+- Konstantine Zelator, *A Non-Existence Property of Pythagorean Triangles with a 3-D Application*, arXiv:0903.1280, Theorem 1.
+- Fermat&#x27;s right-triangle theorem：有理直角triangleの面積は非零平方数にならない。
+
+
+---
+
+# EMBEDDED SOURCE 6/8 — Historical primitive-first derivation of A_rs, beta and gamma
+
+&gt; **LOCATOR:** `8d6910e8e68145e474f92716460a1cc6f384ecf1`  
+&gt; **PATH:** `docs/stage12-n1-2j-boundary-layers.md`  
+&gt; **GIT_BLOB_SHA:** `111107ce0346606cb8a73b4c50e1841386f4cf23`
+
+# Stage12-N1-2j：primitive-first Möbius と boundary layer 監査
+
+## 判定
+
+Stage12-N1-2i で残った shallow-height 層と terminal-u 層は、global Möbius 反転を最後に絶対値で処理する順序をやめ、最初に `h` 方向へ畳み込むことで構造的に解消できる。
+
+分類は
+
+```text
+A_primitive_first_boundary_layers_close_uniform_average_remainder_open
+```
+
+とする。
+
+primitive N1 漸近式そのものはまだ主張しない。残る課題は、固定 `(r,s)` の部分和に対する averaged uniform remainder と、二法 `beta` 重みでの最終的な平滑化・endpoint bookkeeping である。
+
+## 1. global Möbius を切断前に移す
+
+raw oriented count の重みは
+
+\[
+G(hrs)-1
+\]
+
+であり、global primitive count は厳密に
+
+\[
+C_{\rm prim}(B)
+=
+\sum_{k\le B}\mu(k)
+C_{\rm raw}(\lfloor B/k\rfloor)
+\]
+
+である。
+
+ここで dyadic 分割、shallow cut、terminal-u cut を行う前に
+
+\[
+n=kh
+\]
+
+と置き換える。
+
+固定された coprime pair `(r,s)` に対して
+
+\[
+A_{r,s}(m)
+=
+\sum_{k\mid m}
+\mu(k)\{G((m/k)rs)-1\}
+\]
+
+を定義する。
+
+### 1.1 `r,s` がともに奇数
+
+この場合
+
+\[
+q=r^2+s^2
+\]
+
+は偶数で、raw `h` に偶奇制約はない。Möbius 畳み込み後の有効 height は奇数で、素因数はすべて `1 mod 4` に限られる。
+
+直接表示は
+
+\[
+\sum_{m\le 2B/q}A_{r,s}(m).
+\]
+
+### 1.2 `r,s` が opposite parity
+
+この場合 `q` は奇数で、raw parameterization では `h` が偶数である。
+
+reindex 後の height `n` に対する係数は
+
+\[
+\sum_{k\mid n\atop n/k\ {
+m even}}
+\mu(k)\{G((n/k)rs)-1\}.
+\]
+
+`G` は2進指数に依存しないため、これは
+
+- `v_2(n)=1` のときだけ非零
+- `n=2m` と書けば係数は `A_{r,s}(m)`
+
+となる。
+
+従って直接表示は
+
+\[
+\sum_{m\le B/q}A_{r,s}(m).
+\]
+
+## 2. primitive height weight の厳密式
+
+`m=1` では
+
+\[
+A_{r,s}(1)=G(rs)-1.
+\]
+
+`m&gt;1` では、`m` に `1 mod 4` 以外の素数が含まれると
+
+\[
+A_{r,s}(m)=0.
+\]
+
+すべての素因数が `1 mod 4` なら
+
+\[
+A_{r,s}(m)
+=
+G(rs)
+\prod_{p\mid m}
+\frac{2}{2v_p(rs)+1}.
+\]
+
+この値は非負整数である。
+
+監査では次を有限検算した。
+
+- local Möbius convolution：16,416件
+- parity-restricted convolution：21,888件
+- residue local identity：352件
+- `beta` divisor expansion：1,000件
+
+## 3. fixed `(r,s)` Dirichlet series
+
+`m=1` の `-1` を戻して
+
+\[
+A^+_{r,s}(m)=A_{r,s}(m)+\mathbf 1_{m=1}
+\]
+
+と置く。
+
+Dirichlet series は
+
+\[
+\sum_{m\ge1}\frac{A^+_{r,s}(m)}{m^s}
+=
+G(rs)
+\prod_{p\equiv1(4)}
+\left(
+1+
+\frac{2}{2v_p(rs)+1}
+\frac{p^{-s}}{1-p^{-s}}
+\right).
+\]
+
+`p\nmid rs` の base product は
+
+\[
+\prod_{p\equiv1(4)}
+\frac{1+p^{-s}}{1-p^{-s}}
+=
+\frac{\zeta(s)L(s,\chi_4)}
+{(1+2^{-s})\zeta(2s)}.
+\]
+
+これは `s=1` に単純極を持ち、その residue は
+
+\[
+\frac1\pi
+\]
+
+である。
+
+`p^t\Vert rs` の finite correction は
+
+\[
+R_{p,t}(s)
+=
+\frac{
+1-\frac{2t-1}{2t+1}p^{-s}
+}{1+p^{-s}}.
+\]
+
+従って residue weight は
+
+\[
+\gamma(rs)
+=
+\frac1\pi
+\prod_{p^t\Vert rs\atop p\equiv1(4)}
+\left(
+1+rac{2t(p-1)}{p+1}
+\right).
+\]
+
+候補部分和は
+
+\[
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1+R_{r,s}(X).
+\]
+
+## 4. 三法から二法への縮約
+
+multiplicative function `beta` を
+
+\[
+\beta(p^j)
+=
+\frac{2(p-1)}{p+1}
+\quad
+(p\equiv1\pmod4,\ j\ge1)
+\]
+
+で定義し、それ以外の素数を含む場合は0とする。
+
+local identity
+
+\[
+1+rac{2t(p-1)}{p+1}
+=
+\sum_{j=0}^{t}\beta(p^j)
+\]
+
+から
+
+\[
+\gamma(n)
+=
+\frac1\pi\sum_{d\mid n}\beta(d)
+\]
+
+を得る。
+
+`(r,s)=1` なので divisor は `r` 側と `s` 側に分離する。従って primitive-first 主項は、raw の三法 `(a,b,c)` ではなく、二法 `(b,c)` の geometry-of-numbers 問題へ縮約される。
+
+二法 Euler factor は
+
+\[
+J_p(s)
+=
+1+
+\frac{4p(p-1)}{(p+1)^2(p^s-1)}
+\quad (p\equiv1\pmod4)
+\]
+
+となり、二位の極を持つ。radial logarithm と合わせて primitive の対数次数3を再現する。
+
+素数20万までの部分積では
+
+\[
+\eta\approx0.05830533485,
+\qquad
+\frac{\eta}{\pi\kappa}\approx0.99999962.
+\]
+
+これにより候補定数
+
+\[
+\frac{\eta}{12\pi^2}
+\]
+
+と Stage12-N1-2f の
+
+\[
+\frac{\kappa}{12\pi}
+\]
+
+が数値的に一致する。これは診断値であり、部分積の誤差保証ではない。
+
+## 5. boundary layer の解消
+
+### 5.1 outer Möbius error が消える
+
+global Möbius を exact reindexing で最初に処理したため、raw remainder を
+
+\[
+\sum_k|\mu(k)|\,|E(B/k)|
+\]
+
+で足す必要がない。
+
+従って Stage12-N1-2i で使用した保守的な raw target
+
+\[
+B(\log B)^{2-\eta}
+\]
+
+は boundary layer に対して不要となる。primitive 主項
+
+\[
+B(\log B)^3
+\]
+
+に対して `o(main)` であればよい。
+
+### 5.2 terminal-u 層
+
+`h=a u` と分解せず、primitive height `m` の部分和を一度に評価する。
+
+従って terminal-u 層は小さく切って捨てる対象ではなくなり、構造上消滅する。
+
+### 5.3 shallow 層
+
+primitive logarithmic simplex は
+
+\[
+\int_{y,z\ge0\atop 2\max(y,z)&lt;L}
+(L-2\max(y,z))\,dy\,dz
+=
+\frac{L^3}{12}.
+\]
+
+`shallow` 条件
+
+\[
+L-2\max(y,z)\le\tau L
+\]
+
+の主項比率は厳密に
+
+\[
+3\tau^2-2\tau^3.
+\]
+
+ここで
+
+\[
+\tau=L^{-3/4}
+\]
+
+と取れば shallow formal mass は
+
+\[
+O\left(BL^{3/2}\right),
+\]
+
+primitive main に対して十分 lower order である。
+
+一方、保持領域の最短辺 proxy は
+
+\[
+S_0
+=
+\exp\left(\frac12\tau L\right)
+=
+\exp\left(\frac12L^{1/4}\right)
+\]
+
+まで成長する。Stage12-N1-2i の core/wing error に現れる `S_0^{-c}` は、依然として任意の固定対数冪を上回る節約になる。
+
+## 6. exact finite equivalence
+
+primitive-first formulaを直接列挙し、以前のglobal Möbius inversion結果と比較した。
+
+| B | primitive-first | previous global Möbius | difference |
+|---:|---:|---:|---:|
+| 1,000 | 1,208 | 1,208 | 0 |
+| 2,000 | 2,888 | 2,888 | 0 |
+| 5,000 | 9,030 | 9,030 | 0 |
+| 10,000 | 21,360 | 21,360 | 0 |
+| 20,000 | 49,592 | 49,592 | 0 |
+| 50,000 | 147,998 | 147,998 | 0 |
+| 100,000 | 336,416 | 336,416 | 0 |
+| 200,000 | 760,206 | 760,206 | 0 |
+
+全63,638 pair block、126,955 nonzero primitive-height termを直接監査した。
+
+## 7. 残る入力
+
+必要なのは、保持領域
+
+\[
+X\ge\exp((\log B)^{1/4})
+\]
+
+での averaged estimate
+
+\[
+R_{r,s}(X)
+\]
+
+である。
+
+base product は
+
+\[
+\frac{\zeta(s)L(s,\chi_4)}
+{(1+2^{-s})\zeta(2s)}
+\]
+
+なので、Selberg–Delange または Perron contour に適合する。finite correction `R_{p,t}` の係数は各素数で絶対収束し、`rs` 依存は平均 divisor weight として処理する候補がある。
+
+ただし、既存の fixed-function theorem をそのまま parameter-uniform statement として引用することはしない。次段階で平均誤差を明示的に証明または停止判定する。
+
+## 8. 次段階
+
+Stage12-N1-2kでは次を行う。
+
+1. fixed `(r,s)` partial sum の averaged uniform remainder を導出する
+2. 二法 Euler constant `eta=pi*kappa` を局所因子レベルで確定する
+3. `lambda_1` から `beta` へ置き換えた二法 core/wing bookkeeping を再実行する
+4. primitive N1 asymptoticを定理として閉じられるか最終判定する
+
+## 文献
+
+- Régis de la Bretèche and Gérald Tenenbaum, *Remarks on the Selberg--Delange method*, arXiv:2010.12929.
+
+この文献は multiplicative partial sum の一般枠組みとして参照する。Stage12で必要な `rs` 平均一様性は別途監査対象である。
+
+
+---
+
+# EMBEDDED SOURCE 7/8 — Historical derivation of eta and its comparison with kappa
+
+&gt; **LOCATOR:** `8d6910e8e68145e474f92716460a1cc6f384ecf1`  
+&gt; **PATH:** `docs/stage12-n1-2k-final-remainder.md`  
+&gt; **GIT_BLOB_SHA:** `48b28e84034c17e242998ab313775b0894908515`
+
+# Stage12-N1-2k：最終平均誤差・Euler定数・二法主項監査
+
+## 結論
+
+Stage12-N1-2jで残った
+
+- fixed \((r,s)\) partial sum の平均一様誤差
+- 二法Euler積 \(\eta\) と三法Euler積 \(\kappa\) の一致
+- \(\beta\) 二法重みに対するcore／wingおよびendpoint整理
+
+は、既知の固定領域primitive格子点評価と多変数平均値定理を使う標準的な段階まで閉じる。
+
+分類は
+
+```text
+A_N1_2_leading_asymptotic_closed_at_standard_theorem_level_series_complete
+```
+
+とする。
+
+Stage12-N1-2bで定義したprimitive oriented countについて、
+
+\[
+\boxed{
+C_{\mathrm{prim}}(B)
+\sim
+\frac{\kappa}{12\pi}\,B(\log B)^3
+}
+\]
+
+が最終的な先頭漸近式となる。
+
+これは完全直方体の存在・非存在を主張するものではなく、N1-2で定義した向き付き計数の漸近式である。また、Euler積の数値は認証区間ではない。
+
+---
+
+## 1. fixed \((r,s)\) 問題は固定円問題へ変換できる
+
+Stage12-N1-2jの正のversion
+
+\[
+A^+_{r,s}(m)=A_{r,s}(m)+1_{m=1}
+\]
+
+のDirichlet級数は
+
+\[
+F_{r,s}(s)
+=
+G(rs)\,F_0(s)\,H_{r,s}(s)
+\]
+
+と分解できる。base部分は
+
+\[
+F_0(s)
+=
+\frac{\zeta(s)L(s,\chi_4)}
+{(1+2^{-s})\zeta(2s)}
+=
+\sum_{n\ge1}\frac{a_0(n)}{n^s},
+\]
+
+かつ
+
+\[
+a_0(n)=
+\begin{cases}
+2^{\omega(n)},&amp;
+p\mid n\Rightarrow p\equiv1\pmod4,\\
+0,&amp;\text{otherwise}.
+\end{cases}
+\]
+
+奇数 \(n\) について、\(4a_0(n)\) は
+
+\[
+x^2+y^2=n,\qquad (x,y)=1
+\]
+
+を満たす整数点の個数に厳密に一致する。従ってbase partial sumは、円内のprimitive格子点をmod \(2\) の固定剰余類に制限した問題である。
+
+Wenguang Zhaiの固定滑らか凸領域に対するprimitive格子点評価と同じMöbius・zero-free-region処理により、
+
+\[
+\sum_{n\le X}a_0(n)
+=
+\frac{X}{\pi}
++
+O\!\left(
+X^{1/2}\omega(X)
+\right),
+\]
+
+\[
+\omega(X)
+=
+\exp\!\left(
+-c(\log X)^{3/5}
+(\log\log X)^{-1/5}
+\right)
+\]
+
+を使える。
+
+重要なのは、ここで領域が変形する楕円族ではなく、**一つの固定円と有限個のparity class**になったことである。Stage12-N1-2gで問題だったeccentricityの一様性は発生しない。
+
+---
+
+## 2. \(rs\) 依存は有限Euler補正だけに残る
+
+\(p^t\Vert rs,\ p\equiv1\pmod4\) に対して
+
+\[
+H_{r,s}(s)
+=
+\prod_{p^t\Vert rs}
+\frac{
+1-\frac{2t-1}{2t+1}p^{-s}
+}{
+1+p^{-s}
+}.
+\]
+
+その局所係数は
+
+\[
+h_{r,s}(p^j)
+=
+(-1)^j\frac{4t}{2t+1}
+\qquad(j\ge1).
+\]
+
+従って
+
+\[
+A^+_{r,s}
+=
+G(rs)\,(a_0*h_{r,s})
+\]
+
+が厳密に成り立つ。
+
+絶対係数の \(1/2\)-重みは
+
+\[
+H_{\mathrm{abs}}(rs)
+=
+\prod_{\substack{p^t\Vert rs\\p\equiv1(4)}}
+\left(
+1+
+\frac{4t/(2t+1)}{\sqrt p-1}
+\right)
+\]
+
+で制御できるため、
+
+\[
+\sum_{m\le X}A_{r,s}(m)
+=
+\gamma(rs)X-1
++
+O\!\left(
+G(rs)H_{\mathrm{abs}}(rs)
+X^{1/2}\omega(X)
+\right)
+\]
+
+を得る。
+
+ここで
+
+\[
+\gamma(rs)
+=
+\frac1\pi
+\prod_{\substack{p^t\Vert rs\\p\equiv1(4)}}
+\left(
+1+\frac{2t(p-1)}{p+1}
+\right).
+\]
+
+監査スクリプトでは次を有限検算した。
+
+- base Dirichlet係数：5,000件
+- primitive odd-circle表現数：2,500件
+- fixed-\((r,s)\) correction convolution：39,296件
+- \(\beta\) 局所上界：147素数
+
+---
+
+## 3. fixed-\((r,s)\) remainderを全体で足す
+
+\[
+W(n)=G(n)H_{\mathrm{abs}}(n)
+\]
+
+と置く。これは固定された非負乗法関数である。
+
+- \(p\equiv3\pmod4\) では局所一次係数は \(1\)
+- \(p\equiv1\pmod4\) では局所一次係数は \(3+O(p^{-1/2})\)
+
+なので、Dirichlet級数のpole orderは \(2\) である。従って通常のSelberg–Delange上界により
+
+\[
+\sum_{n\le R}W(n)\ll R\log R.
+\]
+
+保持領域では
+
+\[
+X\ge X_0
+=
+\exp\!\left((\log B)^{1/4}\right).
+\]
+
+fixed-\((r,s)\) remainderの総和は
+
+\[
+\ll
+B(\log B)^2\omega(X_0).
+\]
+
+\(\omega(X_0)\) は任意の固定対数冪より速く減少するため、
+
+\[
+B(\log B)^2\omega(X_0)
+=
+o\!\left(B(\log B)^{-A}\right)
+\]
+
+が任意の固定 \(A\) に対して成り立つ。
+
+shallow部分はStage12-N1-2jの
+
+\[
+\tau=(\log B)^{-3/4}
+\]
+
+を使い、
+
+\[
+O\!\left(B(\log B)^{3/2+o(1)}\right)
+\]
+
+であり、先頭主項 \(B(\log B)^3\) に対して低次である。
+
+したがって、平均一様remainderは閉じる。
+
+---
+
+## 4. residueは二法 \(\beta\) 展開になる
+
+\[
+\beta(p^j)
+=
+\frac{2(p-1)}{p+1}
+\qquad
+(p\equiv1\pmod4,\ j\ge1)
+\]
+
+とし、それ以外を0とする。
+
+\[
+\gamma(n)
+=
+\frac1\pi\sum_{d\mid n}\beta(d).
+\]
+
+\((r,s)=1\) なので、\(r\) と \(s\) に一つずつdivisor modulusを置く二法問題へ分離する。
+
+\(q\equiv1\pmod4\) の局所密度因子は
+
+\[
+1+\frac{4q}{(q+1)^2}.
+\]
+
+従って二法Euler定数を
+
+\[
+\eta
+=
+\left(\frac{\pi}{4}\right)^2
+\left(\frac12\right)^2
+\prod_{p\equiv3(4)}
+(1-p^{-2})^2
+\prod_{q\equiv1(4)}
+\left(1+\frac{4q}{(q+1)^2}\right)
+(1-q^{-1})^4
+\]
+
+と定義する。
+
+係数系は非負であり、関連する二変数Dirichlet級数はde la Bretècheのmultiple-sum theoremの標準仮定を満たす。smooth dyadic partitionとpartial summationにより、主項はdegree \(3\) の対数多項式となる。
+
+また
+
+\[
+0\le\beta(p^j)&lt;2
+\]
+
+なので、Stage12-N1-2iで許容した固定次数のRamanujan／divisor weightsに支配される。従ってcore・wing・smoothing・endpointの評価はそのまま移植できる。
+
+---
+
+## 5. \(\eta=\pi\kappa\) は厳密恒等式
+
+Stage12-N1-2fの三法局所因子は、\(q\equiv1\pmod4\) で
+
+\[
+F_q(1)
+=
+\frac{q^2+6q+1}{q^2-1}.
+\]
+
+正規化後の局所因子を比較すると、
+
+\[
+\frac{\eta_q}{\kappa_q}
+=
+\frac{q^2}{q^2-1}
+=
+(1-q^{-2})^{-1}.
+\]
+
+\(p\equiv3\pmod4\) でも
+
+\[
+\frac{\eta_p}{\kappa_p}
+=
+(1-p^{-2})^{-1}.
+\]
+
+archimedean・2-adic前置因子の比は
+
+\[
+\frac{\eta_{\mathrm{front}}}
+{\kappa_{\mathrm{front}}}
+=
+\frac8\pi.
+\]
+
+一方、
+
+\[
+\prod_{p\ {\rm odd}}
+(1-p^{-2})^{-1}
+=
+(1-2^{-2})\zeta(2)
+=
+\frac{\pi^2}{8}.
+\]
+
+従って
+
+\[
+\boxed{\eta=\pi\kappa}.
+\]
+
+そのため二法表示の先頭定数は
+
+\[
+\frac{\eta}{12\pi^2}
+=
+\frac{\kappa}{12\pi},
+\]
+
+となり、Stage12-N1-2fのformal primitive constantと厳密に一致する。
+
+素数上限200,000の診断値は
+
+\[
+\frac{\eta}{\pi\kappa}
+=
+0.9999996198305922,
+\]
+
+\[
+\frac{\kappa}{12\pi}
+\approx
+0.0004922973154676823.
+\]
+
+数値はEuler積の収束確認であり、認証区間ではない。
+
+---
+
+## 6. 最終判定
+
+Stage12-N1-2系列で必要だった項目は次の通り閉じた。
+
+1. raw計数とprimitive計数の厳密なMöbius関係
+2. 三法formal mainとpole order
+3. repeated-side寄与が恒等的に0
+4. anisotropic格子点問題のPoisson再編成
+5. core／wingの指数予算
+6. boundary layerのprimitive-first吸収
+7. fixed-\((r,s)\) remainderの固定primitive-circle問題への縮約
+8. 二法Euler積と三法Euler積の厳密一致
+9. primitive oriented leading asymptoticの先頭定数
+
+従って、**自動的に12-N1-2lへ進める必要はない**。
+
+次は新しい解析段階ではなく、Stage12-N1-2b〜2k全体を対象とするadversarial AI reviewまたは人手レビューとする。
+
+---
+
+## 主張しないこと
+
+- 完全直方体の存在または非存在
+- \(\kappa,\eta\) の認証数値区間
+- 独立査読済みの完成論文であること
+- Stage12-N1の定義外にある別のexact-multiplicity減算
+- 新しいprimitive格子点定理
+
+---
+
+## 文献
+
+- Wenguang Zhai, *On primitive lattice points in planar domains*, Acta Arithmetica 109 (2003), 1–26.
+- Régis de la Bretèche, *Estimation de sommes multiples de fonctions arithmétiques*, Compositio Mathematica 128 (2001), 261–298.
+- Régis de la Bretèche and Gérald Tenenbaum, *Remarks on the Selberg–Delange method*, Acta Arithmetica 200 (2021), 349–369.
+
+
+---
+
+# EMBEDDED SOURCE 8/8 — Active zero-base provenance, vertical-growth and radial-boundary closure
+
+&gt; **LOCATOR:** `WORKTREE`  
+&gt; **PATH:** `docs/stage12-n1-3h-zero-base-provenance-closure.md`  
+&gt; **GIT_BLOB_SHA:** `7683303f47ef8d6d4d10f1bb1501657020956cfd`
+
+# Stage12-N1-3h：zero-base provenance と未展開解析細部の閉鎖
+
+&gt; **STATUS:** `R06_EXTERNAL_REVIEW_SELF_CONTAINMENT_CLOSED_IN_TEXT`
+&gt;
+&gt; **SCOPE:** Stage12-N1-2 primitive oriented count の自己完結性
+&gt;
+&gt; **THEOREM_STATUS:** `REPAIRED_CANDIDATE_PENDING_R07_FULL_REAUDIT`
+
+## 0. 修正対象
+
+R06 bundle の数学的中心計算について、新しい反例や central gap は報告されなかった。一方、完全な zero-base review を名乗るには、次が同一 physical bundle 内で読める必要があるとの指摘を受けた。
+
+1. rectangle error
+   \[
+   R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
+   \]
+   の導出本文;
+2. `G`, `beta`, `eta`, `kappa` の由来となる旧2b・2e・2f・2j・2k本文;
+3. Selberg--Delange input に必要な `L(s,chi_4)` の vertical polynomial growth;
+4. radial integral で `x,y&gt;=1` が角度端を切り取る効果の明示評価。
+
+本稿は3と4を本文として補い、R07 builder が1と2を物理的に埋め込むための active / provenance 規則を固定する。
+
+---
+
+## 1. active proof と provenance source の区別
+
+R07では次を一つのbundleへ収録する。
+
+### Active current proof
+
+- `docs/stage12-n1-2-final-r05.md`
+- `docs/stage12-n1-3a-rectangular-error-repair.md`
+- 本稿 `docs/stage12-n1-3h-zero-base-provenance-closure.md`
+
+### Historical derivation provenance
+
+commit `8d6910e8e68145e474f92716460a1cc6f384ecf1` から次を全文収録する。
+
+- `docs/stage12-n1-2b-average.md`
+- `docs/stage12-n1-2e-divisor-dyadic.md`
+- `docs/stage12-n1-2f-main-term.md`
+- `docs/stage12-n1-2j-boundary-layers.md`
+- `docs/stage12-n1-2k-final-remainder.md`
+
+これらを収録する目的は、parameterization、multiplicity `G`, divisor expansion, `kappa`, primitive-first `A_{r,s}`, `beta`, `gamma`, `eta` の導出をbundle外参照にしないことである。
+
+ただし、historical source に含まれる後に修復された主張は active proof ではない。
+
+```text
+2f の formal raw asymptotic = provenance only
+2k の旧 fixed-circle remainder = superseded by 3b / 3e
+2k の旧 shallow declaration = superseded by 3g
+3a §4 の retained =&gt; min(R,S)&gt;=S0 application = superseded by 3f
+```
+
+3aでactiveなのは、特に補題3a.1のrectangle error導出である。radial coreへの適用はFinal R05内の3f規則、すなわちcoreを定義によって `R,S&gt;=U` とする経路だけを使用する。
+
+---
+
+## 2. `L(s,chi_4)` の vertical growth
+
+`chi_4` をmodulo 4のprimitive odd characterとする。completed functionを
+
+\[
+\Lambda(s,\chi_4)
+:=
+\left(\frac4\pi\right)^{(s+1)/2}
+\Gamma\!\left(\frac{s+1}{2}\right)
+L(s,\chi_4)
+\]
+
+と置く。primitive Dirichlet `L`-functionのfunctional equationにより
+
+\[
+\Lambda(s,\chi_4)=\Lambda(1-s,\chi_4)
+\]
+
+である。
+
+任意の固定 `delta&gt;0` に対し、`Re s&gt;=1+delta` ではDirichlet級数が絶対収束するので
+
+\[
+L(\sigma+it,\chi_4)\ll_\delta1.
+\]
+
+左側境界 `sigma=-delta` ではfunctional equationとStirling formulaを用いる。固定幅のvertical stripでgamma比は `1+|t|` の固定冪であり、右側へ移された `L(1+delta-it,chi_4)` は有界だから、ある固定 `M_delta&gt;0` が存在して
+
+\[
+L(-\delta+it,\chi_4)
+\ll_\delta(1+|t|)^{M_\delta}.
+\]
+
+Phragmen--Lindelofをstrip `-delta&lt;=sigma&lt;=1+delta` に適用すると、strip全体で
+
+\[
+\boxed{
+L(\sigma+it,\chi_4)
+\ll_\delta(1+|t|)^{M_\delta}
+}
+\]
+
+を得る。ここで指数の最適値は不要であり、固定多項式growthだけを使用する。
+
+reference lockのanalytic factorは
+
+\[
+H_\beta(s)=L(s,\chi_4)J_\beta(s).
+\]
+
+`J_beta` は各閉部分半平面 `Re s&gt;=1/2+epsilon` で局所一様絶対収束し、有界である。従って同じ領域で
+
+\[
+H_\beta(\sigma+it)
+\ll_\epsilon(1+|t|)^{M_\epsilon}.
+\]
+
+よって、Final R05で採用したfinite-order Selberg--Delange inputのvertical polynomial-growth条件は、単なる「標準的growthへ還元」という宣言ではなく、functional equation、Stirling、Phragmen--Lindelofの三段階で確認できる。
+
+```text
+VERTICAL_GROWTH_L_CHI4=CLOSED_BY_STAGE12_N1_3H_SECTION_2
+VERTICAL_GROWTH_H_BETA=CLOSED_BY_STAGE12_N1_3H_SECTION_2
+```
+
+---
+
+## 3. radial integral の lower-limit boundary
+
+\[
+I(B)
+:=
+\iint_{\substack{x,y\ge1\\x^2+y^2\le B}}
+\frac{\log x\log y}{x^2+y^2}\,dx\,dy,
+\qquad L:=\log B.
+\]
+
+polar coordinates
+
+\[
+x=t\cos\theta,\qquad y=t\sin\theta
+\]
+
+では
+
+\[
+\frac{dx\,dy}{x^2+y^2}=\frac{dt}{t}\,d\theta.
+\]
+
+`t&gt;=sqrt(2)` に対し
+
+\[
+\theta_0(t):=\arcsin(1/t).
+\]
+
+条件 `x,y&gt;=1` は正確に
+
+\[
+\theta_0(t)
+\le\theta\le
+\frac\pi2-\theta_0(t)
+\]
+
+となる。従って
+
+\[
+I(B)=
+\int_{\sqrt2}^{\sqrt B}
+\int_{\theta_0(t)}^{\pi/2-\theta_0(t)}
+\frac{(\log t+\log\cos\theta)(\log t+\log\sin\theta)}{t}
+\,d\theta\,dt.
+\]
+
+full angle `0&lt;=theta&lt;=pi/2` で積分すると、
+
+\[
+\int_0^{\pi/2}
+(\log t+\log\cos\theta)(\log t+\log\sin\theta)
+\,d\theta
+=
+\frac\pi2(\log t)^2+O(\log t)+O(1),
+\]
+
+である。これは `log sin theta`, `log cos theta`, およびその積が端点で可積分であることから従う。
+
+次に角度端の切取り誤差を評価する。`theta_0(t)\asymp1/t` であり、`0&lt;theta&lt;theta_0(t)` では
+
+\[
+|\log\sin\theta|\ll |\log\theta|,
+\qquad
+|\log\cos\theta|\ll1.
+\]
+
+従って両端を合わせた差は
+
+\[
+\ll
+\frac{(\log t)^2}{t}
++
+\int_0^{O(1/t)}|\log\theta|^2\,d\theta
+\ll
+\frac{(\log t)^2}{t}.
+\]
+
+radial measure `dt/t` を掛けると
+
+\[
+\int_{\sqrt2}^{\sqrt B}
+\frac{(\log t)^2}{t^2}\,dt
+=O(1).
+\]
+
+したがってlower-limitによるangular cutoffはcubic coefficientを変えない。full angleのleading termから
+
+\[
+\frac\pi2
+\int_{\sqrt2}^{\sqrt B}
+\frac{(\log t)^2}{t}\,dt
+=
+\frac\pi2\cdot\frac13\left(\frac L2\right)^3+O(1)
+=
+\frac\pi{48}L^3+O(1).
+\]
+
+cross termsは `O(L^2)`、constant angular termは `O(L)` なので、結局
+
+\[
+\boxed{
+I(B)=\frac\pi{48}L^3+O(L^2).
+}
+\]
+
+```text
+RADIAL_LOWER_LIMIT_BOUNDARY=CLOSED_BY_STAGE12_N1_3H_SECTION_3
+RADIAL_CUBIC_COEFFICIENT=PI_OVER_48_UNCHANGED
+```
+
+---
+
+## 4. rectangle error のbundle内位置づけ
+
+R07は3a全文を物理的に収録する。補題3a.1では、cross coefficients `c(a,b)` のweighted absolute normと
+
+\[
+B_\beta(X)\ll X
+\]
+
+を用い、係数領域を4分割して
+
+\[
+R^{3/4+\varepsilon}S+RS^{3/4+\varepsilon}
+\]
+
+を導出している。従ってこの指数はR07内でブラックボックスではない。
+
+ただし3a §4に残る旧retained applicationは歴史的記述であり、active applicationは3fのcore/wing分割で置換する。
+
+```text
+RECTANGLE_EXPONENT_DERIVATION=EMBEDDED_STAGE12_N1_3A_LEMMA_3A_1
+RECTANGLE_CORE_APPLICATION=STAGE12_N1_3F_ONLY
+OLD_RETAINED_MIN_RS_APPLICATION=INACTIVE
+```
+
+---
+
+## 5. 閉鎖判定
+
+本稿とR07のsource inclusionにより、外部監査で指摘された自己完結性の不足に次のように対応する。
+
+```text
+STAGE12_N1_3A_BODY=EMBEDDED
+G_ORIGIN_2B_2E=EMBEDDED_AS_PROVENANCE
+KAPPA_ORIGIN_2F=EMBEDDED_AS_PROVENANCE
+A_RS_BETA_ETA_ORIGIN_2J_2K=EMBEDDED_AS_PROVENANCE
+VERTICAL_GROWTH=EXPLICITLY_DERIVED
+RADIAL_LOWER_LIMIT=EXPLICITLY_DERIVED
+NEW_CENTRAL_MATHEMATICAL_GAP=NONE_IDENTIFIED
+THEOREM_STATUS=REPAIRED_CANDIDATE_PENDING_R07_FULL_REAUDIT
+```
+
+これはR07監査前に定理を無条件で`CLOSED`と宣言するものではない。R07では、historical provenanceのどの箇所がactiveか、どの箇所が後続修復でsupersededかを含め、再び全鎖をゼロベースで確認する。
+
+
+---
+
+# Consolidated end marker
+
+```text
+CHECKPOINT=END_OF_MAIN
+END_OF_BUNDLE=PC-N1-2-FINAL-ZERO-BASE-REREVIEW-20260807-R07
+```
+</pre>
+<div class="meta"><pre>CHECKPOINT=END_OF_MAIN
+CONTENT_SHA256=eb28026b292294df2e15721247b6b543a55c554e8a8bfff387672fb15c32f0cf
+END_OF_BUNDLE=PC-N1-2-FINAL-ZERO-BASE-REREVIEW-20260807-R07</pre></div>
+</main>
+</body>
+</html>
