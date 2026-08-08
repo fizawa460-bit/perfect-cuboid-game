@@ -1,0 +1,102 @@
+{
+  "stage": "13-13a",
+  "status": "COMPLETE_CLAIM_DEPENDENCY_LEDGER",
+  "active_proof": {
+    "reviewed_snapshot": "Stage13-12af R03",
+    "explicitness_supplement": "Stage13-12ag",
+    "frozen_upstream": "Stage12 R09",
+    "r03_immutable": true,
+    "stage12_r09_reopened": false
+  },
+  "theorem": {
+    "directional": "N_q(B) ~ kappa*I_q/(3*pi^3) * B*(log B)^3",
+    "total": "N1(B) ~ kappa/(24*pi) * B*(log B)^3",
+    "direction_limit": "P_q = 8*I_q/pi^2",
+    "chamber_sum": "I_ab+I_ac+I_bc = pi^2/8",
+    "jq_bridge": "J_q = 2*I_q/pi",
+    "stage12_total": "C_prim(B) ~ kappa/(12*pi) * B*(log B)^3",
+    "raw_directional": "A_q(B) ~ kappa*I_q/(3*pi^3) * B*(log B)^3",
+    "pair_overlap": "O_qr(B) = o(B*(log B)^3)",
+    "triple_overlap": "T(B) = o(B*(log B)^3)",
+    "inert_local_multiplier": "lambda_p = (p+5)/(2*(p+1))",
+    "no_perfect_cuboid_nonexistence_assumption": true,
+    "frozen_for_resynthesis": true
+  },
+  "numeric_validator": {
+    "direction_vector": [
+      0.5347369332313988,
+      0.24535917783225203,
+      0.21990388893634913
+    ],
+    "ratio_to_bc": [
+      2.431684750178191,
+      1.115756428951881,
+      1.0
+    ],
+    "role": "FINITE_CHECK_ONLY"
+  },
+  "claims": [
+    {"id":"C01","name":"exact inclusion-exclusion","class":"INTERNAL_PROOF","source":"13-12af/current-proof.md §1"},
+    {"id":"C02","name":"factor-two Stage12/Stage13 projection bridge","class":"INTERNAL_PROOF","source":"13-12af/current-proof.md §1; Stage13-3d/8 provenance"},
+    {"id":"C03","name":"canonical chamber Gelfand-Leray weights","class":"INTERNAL_PROOF","source":"13-12af/current-proof.md §2"},
+    {"id":"C04","name":"chamber integral sum pi^2/8","class":"INTERNAL_PROOF","source":"13-12af/current-proof.md §2"},
+    {"id":"C05","name":"J_q=2I_q/pi analytic bridge","class":"INTERNAL_PROOF","source":"13-12af/current-proof.md §3; 13-12ag §1"},
+    {"id":"C06","name":"non-circular common raw factor Theta","class":"INTERNAL_PROOF","source":"13-12aa; 13-12ad; R03 §§4-6"},
+    {"id":"C07","name":"primitive split-prime j=0 coefficient system","class":"INTERNAL_PROOF","source":"13-12aa §§1-3"},
+    {"id":"C08","name":"weighted Wiener bound 529 p^-5/4","class":"INTERNAL_PROOF","source":"13-12ad §§2-5"},
+    {"id":"C09","name":"global correction logarithmic moments","class":"INTERNAL_PROOF","source":"13-12ad §6"},
+    {"id":"C10","name":"curved-region and harmonic lower-order error ledger","class":"INTERNAL_PROOF","source":"13-12ad; R03 §6"},
+    {"id":"C11","name":"OE/EE finite 2-adic direction-neutral split","class":"INTERNAL_PROOF","source":"R03 §6.1"},
+    {"id":"C12","name":"Stage12 R09 primitive oriented total theorem","class":"FROZEN_STAGE12_INPUT","source":"Stage12 R09 / PR #84"},
+    {"id":"C13","name":"Theta calibration and raw directional constant","class":"INTERNAL_PROOF","source":"R03 §7; 13-12aa §6"},
+    {"id":"C14","name":"inert-prime v_p(h)=0 by primitivity","class":"INTERNAL_PROOF","source":"13-12ae §2"},
+    {"id":"C15","name":"complete inert valuation state table","class":"INTERNAL_PROOF","source":"13-12ae §3"},
+    {"id":"C16","name":"exact inert local series and tail ratio","class":"INTERNAL_PROOF","source":"13-12ae §4"},
+    {"id":"C17","name":"unit-state acceptance alpha_p","class":"INTERNAL_PROOF","source":"13-12ae §5; 13-12ag §2"},
+    {"id":"C18","name":"exact lambda_p=(p+5)/(2(p+1))","class":"INTERNAL_PROOF","source":"13-12ae §7"},
+    {"id":"C19","name":"fixed-prime residue-state transfer","class":"INTERNAL_PROOF","source":"13-12ab §2; 13-12ae §6","external_dependency":true},
+    {"id":"C20","name":"pair-overlap fixed-set squeeze","class":"INTERNAL_PROOF","source":"13-12ae §§8-9"},
+    {"id":"C21","name":"triple overlap lower order","class":"INTERNAL_PROOF","source":"13-12ab/13-12ae/R03"},
+    {"id":"C22","name":"exactly-one directional asymptotic","class":"INTERNAL_PROOF","source":"R03 theorem synthesis"},
+    {"id":"C23","name":"exactly-one total asymptotic","class":"INTERNAL_PROOF","source":"R03 theorem synthesis"},
+    {"id":"C24","name":"normalized directional limit","class":"INTERNAL_PROOF","source":"R03; Stage13 roadmap"},
+    {"id":"C25","name":"finite numerical chamber/census validators","class":"FINITE_CHECK","source":"Stage13 audit assets"},
+    {"id":"C26","name":"finite-order Selberg-Delange/Tauberian input","class":"STANDARD_EXTERNAL_THEOREM","source":"13-12ad §7; 13-12ag §3"},
+    {"id":"C27","name":"Gaussian-Hecke zero-free harmonic input","class":"STANDARD_EXTERNAL_THEOREM","source":"13-12ad; R03 §6; 13-12ag §3"},
+    {"id":"C28","name":"fixed-conductor character orthogonality/CRT transfer","class":"STANDARD_EXTERNAL_THEOREM","source":"13-12ab §2; 13-12ae §6"},
+    {"id":"C29","name":"R03 reviewer verdict record","class":"REVIEW_RECORD","source":"Stage13 roadmap; 13-12ag header"},
+    {"id":"C30","name":"no perfect-cuboid nonexistence assumption","class":"INTERNAL_PROOF","source":"13-12ab; 13-12ae; R03"}
+  ],
+  "drift": [
+    {"id":"D01","issue":"R03 header still says PENDING_EXTERNAL_R03","mathematical_defect":false,"resolution":"keep R03 immutable; correct status only in future canonical/freeze files"},
+    {"id":"D02","issue":"older J_q bridge wording treats numerical check too prominently","mathematical_defect":false,"resolution":"use 13-12ag explicit analytic derivation in resynthesis"},
+    {"id":"D03","issue":"13-12ab has soft lambda_p bound superseded by exact 13-12ae formula","mathematical_defect":false,"resolution":"use 13-12ae exact formula"},
+    {"id":"D04","issue":"13-12ag expands the R03 unit-state character calculation","mathematical_defect":false,"resolution":"inline expanded proof in 13-13c"},
+    {"id":"D05","issue":"external theorem sources/hypotheses not yet publication-grade crosswalk","mathematical_defect":false,"resolution":"13-13b"}
+  ],
+  "superseded_not_required": [
+    "Stage13-7jb old raw direction-neutrality proof",
+    "Stage13-7jf old fixed-prime overlap proof",
+    "R01 proof bundle as mathematical dependency",
+    "R02 proof bundle as mathematical dependency",
+    "supported_richness_raw_asymptotic.py D_q/K_q equality as proof",
+    "finite-field enumeration as proof of alpha_p",
+    "finite directional fits as proof of limiting proportions"
+  ],
+  "review_record": {
+    "grok_r03": "CLOSED",
+    "qwen_r03": "CLOSED",
+    "claude_r03": "NOT_RECORDED",
+    "is_mathematical_evidence": false
+  },
+  "locks": {
+    "STAGE13_13A": "COMPLETE_CLAIM_DEPENDENCY_LEDGER",
+    "CLAIM_COUNT": 30,
+    "THEOREM_STATEMENT_FROZEN_FOR_RESYNTHESIS": true,
+    "THEOREM_LEVEL_DEFECT_FOUND": false,
+    "HISTORICAL_SUPERSEDED_ARGUMENT_REQUIRED": false,
+    "EXTERNAL_DEPENDENCY_CATEGORIES_IDENTIFIED": true,
+    "FULL_EXTERNAL_HYPOTHESIS_AUDIT_DEFERRED_TO_13_13B": true,
+    "NEXT": "13-13b"
+  }
+}
