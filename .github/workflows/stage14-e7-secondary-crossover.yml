@@ -1,0 +1,87 @@
+name: Stage14-e7 secondary crossover
+
+on:
+  push:
+    branches:
+      - agent/stage14-e7-secondary-crossover
+    paths:
+      - 'stages/stage14/14-e7/**'
+      - 'stages/stage14/scripts/14-e7/**'
+      - 'stages/stage14/data/14-e7/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e7-secondary-crossover.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e7/**'
+      - 'stages/stage14/scripts/14-e7/**'
+      - 'stages/stage14/data/14-e7/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e7-secondary-crossover.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute dense finite crossover audit
+        run: |
+          cp stages/stage14/data/14-e7/secondary_crossover_audit.json /tmp/e7_expected.json
+          python stages/stage14/scripts/14-e7/secondary_crossover_audit.py
+
+      - name: Verify deterministic e7 report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/e7_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e7/secondary_crossover_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          assert actual['metadata']['number_of_cutoffs'] == 17
+          assert actual['metadata']['max_B'] == 1000000
+          assert actual['dense_exact_census'][-1]['E2'] == 13817725
+          lo = actual['finite_crossover_summary']['proved_log5_main_share_at_1e6_lower']
+          hi = actual['finite_crossover_summary']['proved_log5_main_share_at_1e6_upper']
+          assert 0.05389 < lo < hi < 0.05390
+          assert actual['analytic_boundary']['full_secondary_polynomial_proved'] is False
+          assert actual['analytic_boundary']['finite_effective_coefficients_are_laurent_coefficients'] is False
+          assert actual['status']['STAGE14_E7'] == 'COMPLETE_FINITE_CROSSOVER_AND_SECONDARY_BOUNDARY'
+          assert actual['status']['NEXT_E_SUPPLEMENT'] == 'Stage14-e8 quantitative Euler-brick thin-set count'
+          print('Stage14-e7 deterministic crossover audit: PASS')
+          PY
+
+      - name: Verify theorem boundary and literature gate
+        run: |
+          grep -F 'STAGE14_E7=COMPLETE_FINITE_CROSSOVER_AND_SECONDARY_BOUNDARY' stages/stage14/14-e7/result.md
+          grep -F 'FULL_SECONDARY_ASYMPTOTIC_PROVED=false' stages/stage14/14-e7/result.md
+          grep -F 'FINITE_EFFECTIVE_COEFFICIENTS_ARE_LAURENT_COEFFICIENTS=false' stages/stage14/14-e7/result.md
+          grep -F 'Batyrev--Tschinkel' stages/stage14/14-e7/literature-secondary-audit.md
+          grep -F 'Chambert-Loir--Tschinkel' stages/stage14/14-e7/literature-secondary-audit.md
+          grep -F 'DIRECT_STAGE14_E7_SECONDARY_COEFFICIENTS=NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e7/literature-secondary-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e7/literature-secondary-audit.md
+
+      - name: Verify e6 leading theorem remains locked
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          e6 = json.loads(Path('stages/stage14/data/14-e6/explicit_peyre_constant_audit.json').read_text())
+          assert e6['status']['GLOBAL_ARITHMETIC_CONSTANT_LAMBDA_E_EVALUATED'] is True
+          assert e6['leading_constants']['total']['lower'] == '1.47953102009666e-06'
+          assert e6['leading_constants']['total']['upper'] == '1.47956061101297e-06'
+          print('Stage14-e6 leading constant lock: PASS')
+          PY
+
+      - name: Verify supplement roadmap
+        run: |
+          grep -F 'STAGE14_E7=COMPLETE_FINITE_CROSSOVER_AND_SECONDARY_BOUNDARY' stages/stage14/e-supplement-roadmap.md
+          grep -F 'FULL_SECONDARY_ASYMPTOTIC_PROVED=false' stages/stage14/e-supplement-roadmap.md
+          grep -F 'NEXT_E_SUPPLEMENT=Stage14-e8 quantitative Euler-brick thin-set count' stages/stage14/e-supplement-roadmap.md
