@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "stage": "E-1e",
+    "scope": "fixed-edge divisor overlap bound and exactly-one asymptotic synthesis",
+    "counting": "primitive canonical 0<a<b<c with a^2+b^2+c^2<=B^2",
+    "space_diagonal_integrality_required": false
+  },
+  "fixed_edge_partner_lemma": {
+    "identity": "n^2+x^2=y^2 => (y-x)(y+x)=n^2",
+    "bound": "|P(n)|<=tau(n^2)",
+    "factor_pair_map_injective": true,
+    "sample_rows": [
+      {"n": 1, "partners": [], "partner_count": 0, "tau_n2": 1},
+      {"n": 2, "partners": [], "partner_count": 0, "tau_n2": 3},
+      {"n": 3, "partners": [4], "partner_count": 1, "tau_n2": 3},
+      {"n": 4, "partners": [3], "partner_count": 1, "tau_n2": 5},
+      {"n": 5, "partners": [12], "partner_count": 1, "tau_n2": 3},
+      {"n": 6, "partners": [8], "partner_count": 1, "tau_n2": 9},
+      {"n": 7, "partners": [24], "partner_count": 1, "tau_n2": 3},
+      {"n": 8, "partners": [6,15], "partner_count": 2, "tau_n2": 7},
+      {"n": 9, "partners": [12,40], "partner_count": 2, "tau_n2": 5},
+      {"n": 10, "partners": [24], "partner_count": 1, "tau_n2": 9},
+      {"n": 12, "partners": [5,9,16,35], "partner_count": 4, "tau_n2": 15},
+      {"n": 15, "partners": [8,20,36,112], "partner_count": 4, "tau_n2": 9},
+      {"n": 20, "partners": [15,21,48,99], "partner_count": 4, "tau_n2": 15}
+    ],
+    "script_default_audit_range": "1<=n<=120",
+    "factorization_matches_bruteforce_in_script": true,
+    "tau_bound_checked_in_script": true
+  },
+  "analytic_overlap_bound": {
+    "ab_ac": "O_ab_ac(B)<=sum_{a<B} tau(a^2)^2",
+    "ab_bc": "O_ab_bc(B)<=sum_{b<B} tau(b^2)^2",
+    "ac_bc": "O_ac_bc(B)<=sum_{c<B} tau(c^2)^2",
+    "uniform_pair_bound": "O_qr(B)<=sum_{n<B} tau(n^2)^2",
+    "divisor_input": "for every epsilon>0, tau(n^2)^2 <<_epsilon n^epsilon",
+    "pair_conclusion": "O_qr(B)<<_epsilon B^(1+epsilon)=B^(1+o(1))=o(B^2 log B)",
+    "triple_conclusion": "T(B)<=O_qr(B)=B^(1+o(1))=o(B^2 log B)"
+  },
+  "raw_to_exact_one": {
+    "ab": "N_ab=A_ab-O_ab_ac-O_ab_bc+T",
+    "ac": "N_ac=A_ac-O_ab_ac-O_ac_bc+T",
+    "bc": "N_bc=A_bc-O_ab_bc-O_ac_bc+T",
+    "conclusion": "N_q(B)=A_q(B)+o(B^2 log B)"
+  },
+  "exact_one_theorem": {
+    "scale": "B^2 log B",
+    "categorywise": {
+      "ab": "N_ab(B) ~ [6 I_ab/pi^4] B^2 log B",
+      "ac": "N_ac(B) ~ [6 I_ac/pi^4] B^2 log B",
+      "bc": "N_bc(B) ~ [6 I_bc/pi^4] B^2 log B"
+    },
+    "numeric_constants": {
+      "ab": 0.04063513425920931,
+      "ac": 0.018645061736605968,
+      "bc": 0.016710691735938064
+    },
+    "total": "N_1(B) ~ [3/(4 pi^2)] B^2 log B",
+    "total_numeric_constant": 0.07599088773175333,
+    "normalized_limit": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    },
+    "bc_normalized_ratio": {
+      "ab": 2.431684750178191,
+      "ac": 1.1157564289518813,
+      "bc": 1.0
+    },
+    "same_as_E1d_raw_vector": true,
+    "same_as_stage13_exact_one_vector": true,
+    "limit_equals_2_1_1": false
+  },
+  "finite_overlap_diagnostic": [
+    {"B": 100, "pair_overlap_sum": 56, "pair_overlap_fraction_of_raw_total": 0.020497803806734993, "pair_overlap_over_B2_logB": 0.001216024549329105, "triple_overlap": 0},
+    {"B": 200, "pair_overlap_sum": 172, "pair_overlap_fraction_of_raw_total": 0.013222632226322263, "pair_overlap_over_B2_logB": 0.0008115784130163458, "triple_overlap": 0},
+    {"B": 500, "pair_overlap_sum": 695, "pair_overlap_fraction_of_raw_total": 0.007013896598007852, "pair_overlap_over_B2_logB": 0.0004473331151333269, "triple_overlap": 2},
+    {"B": 1000, "pair_overlap_sum": 1853, "pair_overlap_fraction_of_raw_total": 0.0041300209955735445, "pair_overlap_over_B2_logB": 0.00026824922498890855, "triple_overlap": 5},
+    {"B": 2000, "pair_overlap_sum": 4833, "pair_overlap_fraction_of_raw_total": 0.002407462386202197, "pair_overlap_over_B2_logB": 0.00015896138733936484, "triple_overlap": 7},
+    {"B": 5000, "pair_overlap_sum": 16743, "pair_overlap_fraction_of_raw_total": 0.0011717955262648277, "pair_overlap_over_B2_logB": 0.00007863153799011562, "triple_overlap": 11},
+    {"B": 10000, "pair_overlap_sum": 41720, "pair_overlap_fraction_of_raw_total": 0.000668169706841502, "pair_overlap_over_B2_logB": 0.00004529691446250916, "triple_overlap": 18}
+  ],
+  "comparison_with_space_diagonal_track": {
+    "euler_exact_one": "N_q^E(B) ~ [6 I_q/pi^4] B^2 log B",
+    "space_diagonal_exact_one": "N_q^S(B) ~ [kappa I_q/(3 pi^3)] B(log B)^3",
+    "shared_directional_factor": "I_q",
+    "same_normalized_limit": true,
+    "same_absolute_scale": false
+  },
+  "consequence_for_next_layer": {
+    "at_least_two_integral_faces_upper_bound": "B^(1+o(1))",
+    "relative_to_exactly_one": "o(B^2 log B)",
+    "next": "E-2a exactly-two population definition and finite census"
+  },
+  "status": {
+    "E_1E_complete": true,
+    "E_1_complete": true,
+    "pair_overlap_lower_order_proved": true,
+    "triple_overlap_lower_order_proved": true,
+    "raw_to_exact_one_transfer_closed": true,
+    "normalized_exact_one_limit_proved": true,
+    "normalized_limit_equals_stage13": true,
+    "next": "E-2a exactly-two population definition and finite census"
+  }
+}
