@@ -2,175 +2,125 @@
 
 ## Goal
 
-Count and explain the primitive canonical exactly-two-face population inside the integer-space-diagonal cuboid family
+Count and explain primitive canonical exactly-two-face cuboids with integer space diagonal under `d<=B`.
+
+## Completed foundation
+
+- `14-1`: definition/counting interface.
+- `14-2`: two independent exact finite enumerators through `B=2,000,000`.
+- `14-3`: finite directional reconnaissance only.
+- `14-4aa`: common shared-edge parametrization.
+- `14-4ab`: exact face-pair bijection, multiplicity one.
+- `14-4ac`: rational slope/lcm height envelope.
+- `14-4ad`: elliptic reduction `E_t:Y^2=X(X-1)(X+t^2)`.
+- `14-4ae`: physical fiber height `v asymp sqrt(Bg/S1)` and generic rank zero.
+- `14-4af`: actual Pythagorean base is a six-`I4` K3; torsion is nonphysical; physical pair implies positive rank; fixed-base triple genus 5.
+
+Frozen Stage13 upstream remains `R03 + Stage13-12ag`, in particular
 
 \[
-0<a<b<c,\qquad \gcd(a,b,c)=1,
-\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
+N_2(B)=o(B(\log B)^3),
 \]
+
+with no imported growing-modulus power saving.
+
+## 14-4ag — Kummer identification and rank-jump graph
+
+Status: [x] Complete.
+
+### Exact geometry
+
+For the Pythagorean Euclid parameter `r`,
+
+\[
+t=\frac{2r}{1-r^2},
+\qquad
+\boxed{\sigma=i\frac{1+r}{1-r}}
+\]
+
+identifies the Stage14 K3 over `Q(i)` with the classical level-4 elliptic modular surface. Over `C` it is `Km(E_i x E_i)`.
+
+The symmetric two-face model is
+
+\[
+\boxed{Z^2=(1+r^2)^2(1+s^2)^2-16r^2s^2.}
+\]
+
+### Exact active graph
+
+Let `V(B)` be the number of active primitive oriented first-face states and `E(B)` the raw-pair edge count. Then
+
+\[
+\boxed{E(B)=N_2(B)+3T(B)=\frac12V(B)\bar d(B)}
+\]
+
+and
+
+\[
+\boxed{N_2(B)=\frac12V(B)\bar d(B)-3T(B).}
+\]
+
+Active vertices are exactly positive-rank genuine Pythagorean specializations ordered by their first physical hit height.
+
+### Uniform multiplicity theorem
+
+Dujella's bounded-height theorem applies to every Stage14 fiber because it has rational 2-torsion. Physical `d<=B` gives elliptic point height `B^O(1)`, hence uniformly
+
+\[
+\boxed{\Delta(B)=\max_F\deg_B(F)=B^{o(1)}.}
+\]
+
+Therefore raw edges and active vertices have identical polynomial growth exponents.
+
+### Finite signal
+
+At `B=200k,500k,1m,2m`, active vertex counts are
 
 ```text
-a-direction = ab+ac only
-b-direction = ab+bc only
-c-direction = ac+bc only
+155, 254, 347, 490
 ```
 
-## 14-1 — Definition and counting interface
+and `V(B)/sqrt(B)` is
 
-Status: [x] Complete.
+```text
+0.34659, 0.35921, 0.34700, 0.34648.
+```
 
-## 14-2 — Complete finite enumeration
+The `200k -> 2m` effective vertex exponent is
 
-Status: [x] Complete. Two independent exact generation routes agree through `B=2,000,000`.
+```text
+0.4998643818582221
+```
 
-## 14-3 — Finite directional reconnaissance
-
-Status: [x] Complete. No finite fit was promoted to an asymptotic theorem.
-
-## Frozen Stage13 upstream contract
-
-Stage13 freezes `R03 + Stage13-12ag`, including
-
-\[
-N_2(B)=o(B(\log B)^3).
-\]
-
-The fixed-prime overlap sieve gives zero density but no growing-modulus theorem and no explicit power saving in `B`.
-
-## 14-4 — True total growth order
-
-Status: [>] Active.
-
-### 14-4aa — independent two-face parametrization
-
-Status: [x] Complete. All directions are chambers of one shared-edge arithmetic object.
-
-### 14-4ab — exact matching bijection
-
-Status: [x] Complete. Primitive face-pair data give a fixed raw pair incidence with fiber multiplicity one.
-
-### 14-4ac — rational-slope height envelope
-
-Status: [x] Complete.
-
-\[
-(e,x,y)=L(1,t_1,t_2),
-\qquad d=L\sqrt{1+t_1^2+t_2^2}.
-\]
-
-The pre-space denominator envelope is `B(log B)^7`; `sqrt(B)` was retained only as a finite candidate.
-
-### 14-4ad — elliptic square thinning
-
-Status: [x] Complete.
-
-The space condition is birational, after fixing the first face, to
-
-\[
-E_{t_1}:Y^2=X(X-1)(X+t_1^2).
-\]
-
-The family is non-isotrivial. R03 supplies local obstructions but not the missing power exponent.
-
-### 14-4ae — fiber/base height and generic rank
-
-Status: [x] Complete.
-
-For reduced second-face parameter `q=u/v`,
-
-\[
-v\asymp\sqrt{Bg/S_1}
-\]
-
-under the physical cutoff, uniformly up to absolute constants. The elliptic inverse is
-
-\[
-q=X/(sY),\qquad s=S_1/H_1.
-\]
-
-The full `t`-line elliptic surface has geometric singular fibers `I4,I4,I2,I2` and geometric generic Mordell--Weil rank `0`.
-
-### 14-4af — Pythagorean-base specialization and triple geometry
-
-Status: [x] Complete.
-
-The actual Stage14 base is the Pythagorean degree-two cover
-
-\[
-t=\frac{2u}{1-u^2},
-\qquad
-H_1/S_1=\frac{1+u^2}{1-u^2}.
-\]
-
-The pulled-back elliptic surface has six `I4` fibers, Euler number `24`, and is K3. Its trivial lattice rank is already `20`; the K3 Picard upper bound and Shioda--Tate give
-
-\[
-\boxed{\operatorname{rank}E(\overline{\mathbf Q}(u))=0.}
-\]
-
-Thus no generic non-torsion section appears after restricting to Pythagorean first faces.
-
-For every genuine Pythagorean base,
-
-\[
-\boxed{E_t(\mathbf Q)_{tors}\cong\mathbf Z/2\times\mathbf Z/4.}
-\]
-
-The order-4 points map to the degenerate boundary `q=+/-1`; rational 8-torsion is excluded by the impossibility of three rational squares in arithmetic progression with common difference `1`. Hence
-
-\[
-\boxed{\text{physical raw pair} \Longrightarrow \text{positive-rank specialization}.}
-\]
-
-The triple condition adds a second nonsingular quartic with disjoint branch set. Their fixed-base fiber product has
-
-\[
-\boxed{g=5},
-\]
-
-so each fixed first face has only finitely many rational triple points. No uniform moving-base bound and no `T=o(sqrt(B))` theorem is yet available.
+but this remains finite evidence.
 
 Decision:
 
 ```text
-STAGE14_4AF=COMPLETE
-PYTHAGOREAN_BASE_CHANGE_K3=true
-PYTHAGOREAN_BASE_FIBERS=I4_X6
-PYTHAGOREAN_BASE_GENERIC_MW_RANK=0
-TORSION_EXACT_Z2xZ4_ON_GENUINE_BASES=true
-RATIONAL_4_TORSION_PHYSICAL=false
-RATIONAL_8_TORSION_EXISTS=false
-PHYSICAL_RAW_PAIR_IMPLIES_POSITIVE_RANK_SPECIALIZATION=true
-TRIPLE_FIXED_BASE_GENUS=5
-TRIPLE_FIXED_BASE_RATIONAL_POINTS_FINITE=true
-UNIFORM_TRIPLE_POINT_BOUND_PROVED=false
-T_O_SQRT_B_PROVED=false
+STAGE14_4AG=COMPLETE
+LEVEL4_MODULAR_K3_IDENTIFIED_OVER_QI=true
+KUMMER_EI_SELF_PRODUCT_GEOMETRY_IMPORTED=true
+RANK_JUMP_GRAPH_IDENTITY_LOCKED=true
+DUJELLA_SUBPOLYNOMIAL_DEGREE_BOUND=true
+RAW_PAIR_AND_ACTIVE_VERTEX_POWER_EXPONENT_EQUAL=true
+FINITE_ACTIVE_VERTEX_SQRTB_SIGNAL=true
 SQRT_B_ASYMPTOTIC_CLAIM=false
 TRUE_GROWTH_ORDER_IDENTIFIED=false
+T_O_SQRT_B_PROVED=false
 ```
 
-Artifacts:
-
-```text
-stages/stage14/archive/stage14-4af-specialization-triple.md
-stages/stage14/scripts/14-4/specialization_triple_audit.py
-stages/stage14/data/14-4/specialization_triple_audit.json
-stages/stage14/data/14-4/proof_input_audit.json
-```
-
-### 14-4ag — quantitative rank-jump / small-point count + uniform triple control
+## 14-4ah — Kummer height / accumulating multisections + relative triple thinness
 
 Status: [>] Next.
 
 Purpose:
 
-- count Pythagorean base specializations with positive rank under the Stage14 base height;
-- strengthen that to the distribution of the first sufficiently small non-torsion point, not merely rank parity;
-- make the `q`-height/canonical-height comparison sufficiently uniform over the Pythagorean base;
-- incorporate `gcd(S1,S2)=g`, lcm coupling and the frozen R03 local restrictions;
-- seek a uniform or averaged bound on rational points of the moving genus-5 triple fibers;
-- determine whether the structural `sqrt(B)` fiber height survives the full base sum;
-- transfer any raw-pair law to exactly-two only after the triple term is controlled at the same scale.
+- identify the Stage14 primitive/lcm physical height as a divisor/height on the level-4 Kummer surface;
+- classify the low-degree rational curves or multisections that can create small first-hit points;
+- test whether the finite `sqrt(B)` active-vertex signal is explained by accumulating Kummer strata rather than generic rank-jump heuristics;
+- use McKinnon's product-Kummer counting framework only after the physical height is matched;
+- express the triple condition as a relative degree-two cover of the Kummer surface and seek a bound strong enough to compare `T(B)` with the raw count;
+- promote a `sqrt(B)` power law only after the active-vertex count is proved.
 
 ## 14-5 — Directionwise asymptotic structure
 
@@ -178,8 +128,8 @@ Status: pending Stage14-4.
 
 ## Scope boundary
 
-No true growth exponent, leading constant, limiting directional ratio, eventual leader, Euler-side equality, perfect-cuboid existence/nonexistence theorem, or `T=o(sqrt(B))` theorem is currently established for Stage14.
+No true Stage14 growth exponent, leading constant, limiting directional vector, perfect-cuboid existence/nonexistence theorem, or `T=o(sqrt(B))` theorem is established yet.
 
 ```text
-NEXT=Stage14-4ag quantitative rank-jump/small-point counting with uniform triple control
+NEXT=Stage14-4ah Kummer height/accumulating-multisection and relative triple-thin analysis
 ```
