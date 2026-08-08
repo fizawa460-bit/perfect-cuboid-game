@@ -1,0 +1,168 @@
+{
+  "common_factor_theorem_shape": {
+    "J": {
+      "ab": 0.4199814052607246,
+      "ac": 0.19270464764215864,
+      "bc": 0.17271211049456506
+    },
+    "category_dependence_only": "J_q=int k_q(t(phi)) dphi",
+    "expected_sum_J": 0.7853981633974483,
+    "statement": "A_q(B) ~ Theta * J_q * B(log B)^3 with one Theta for all q",
+    "sum_J": 0.7853981633974483
+  },
+  "dirichlet_singularity": {
+    "harmonic_base": "B_l(s)=zeta(s)L(s,xi_8l)E_b,l(s), l>=1",
+    "harmonic_scale": "A_l(s)=L(s,xi_8l)E_h,l(s), l>=1",
+    "mixed_factor": "C_l(s_h,s_r,s_s) is absolutely convergent in the same weighted-l1 half-plane Re(s_i)>=1/2+delta.",
+    "zero_base": "B_0(s)=zeta(s)^2 L(s,chi4)E_b,0(s)",
+    "zero_scale": "A_0(s)=zeta(s)L(s,chi4)E_h,0(s)"
+  },
+  "exact_j0_local_kernel": {
+    "audit": {
+      "cases": 49,
+      "max_harmonic_error": 2.498001805406602e-16,
+      "max_zero_error": 0.0
+    },
+    "harmonic": "a=0: D_b(theta); a>=1: 2 cos((a+b)theta)",
+    "primitive_origin": "G_{a+b} - 1_{a>=1}G_{a+b-1} and H_{a+b} - 1_{a>=1}H_{a+b-1}",
+    "zero": "a=0: 2b+1; a>=1: 2"
+  },
+  "harmonic_remainder": {
+    "method": "Pointwise Selberg/Vaaler bracketing with L=(log B)^K, plus polylog-uniform nontrivial Gaussian-Hecke cancellation in the h-factor.",
+    "retained_nonzero_harmonics": "o(B(log B)^3)",
+    "small_height_boundary": "o(B(log B)^3)",
+    "zero_coefficient_bracketing_error": "O(B(log B)^3/L)"
+  },
+  "metadata": {
+    "scope": "non-circular j=0 common-factor repair audit",
+    "stage": "13-12aa"
+  },
+  "mixed_correction": {
+    "delta": 0.05,
+    "max_pure_axis_error": 1.7763568394002505e-15,
+    "max_sampled_q^(1+2delta)_scaled_norm": 112.28548340781788,
+    "sample_rows": [
+      {
+        "ell": 0,
+        "mode": "zero",
+        "pure_axis_error": 0.0,
+        "q": 5,
+        "q^(1+2delta)_scaled_norm": 112.28548340781788,
+        "truncated_weighted_norm": 19.118622948924102
+      },
+      {
+        "ell": 0,
+        "mode": "zero",
+        "pure_axis_error": 0.0,
+        "q": 97,
+        "q^(1+2delta)_scaled_norm": 23.263288205172042,
+        "truncated_weighted_norm": 0.15178267182628574
+      },
+      {
+        "ell": 1,
+        "mode": "harmonic",
+        "pure_axis_error": 2.220446049250313e-16,
+        "q": 5,
+        "q^(1+2delta)_scaled_norm": 3.1213568081789447,
+        "truncated_weighted_norm": 0.5314671326469572
+      },
+      {
+        "ell": 1,
+        "mode": "harmonic",
+        "pure_axis_error": 2.220446049250313e-16,
+        "q": 97,
+        "q^(1+2delta)_scaled_norm": 1.0315770794117445,
+        "truncated_weighted_norm": 0.00673058442671317
+      },
+      {
+        "ell": 2,
+        "mode": "harmonic",
+        "pure_axis_error": 2.220446049250313e-16,
+        "q": 5,
+        "q^(1+2delta)_scaled_norm": 57.25262105747707,
+        "truncated_weighted_norm": 9.748288395036873
+      },
+      {
+        "ell": 2,
+        "mode": "harmonic",
+        "pure_axis_error": 1.1102230246251565e-15,
+        "q": 97,
+        "q^(1+2delta)_scaled_norm": 21.469910734918447,
+        "truncated_weighted_norm": 0.1400816766089528
+      },
+      {
+        "ell": 5,
+        "mode": "harmonic",
+        "pure_axis_error": 8.881784197001252e-16,
+        "q": 5,
+        "q^(1+2delta)_scaled_norm": 107.2522588167384,
+        "truncated_weighted_norm": 18.26162594224424
+      },
+      {
+        "ell": 5,
+        "mode": "harmonic",
+        "pure_axis_error": 2.220446049250313e-16,
+        "q": 97,
+        "q^(1+2delta)_scaled_norm": 2.2992321241538765,
+        "truncated_weighted_norm": 0.015001473217157387
+      },
+      {
+        "ell": 17,
+        "mode": "harmonic",
+        "pure_axis_error": 1.7763568394002505e-15,
+        "q": 5,
+        "q^(1+2delta)_scaled_norm": 109.51701560194239,
+        "truncated_weighted_norm": 18.647241515453036
+      },
+      {
+        "ell": 17,
+        "mode": "harmonic",
+        "pure_axis_error": 8.881784197001252e-16,
+        "q": 97,
+        "q^(1+2delta)_scaled_norm": 22.079333310828765,
+        "truncated_weighted_norm": 0.14405788951690965
+      }
+    ],
+    "theorem_interpretation": "Pure-axis cancellation is exact. The proof uses uniform Wiener-algebra bounds on the rational pure factors to obtain ||C_q-1||_delta=O_delta(q^(-1-2delta)); the finite rows are diagnostics only.",
+    "truncation_exponent_cap": 8
+  },
+  "non_circular_stage12_calibration": {
+    "J_to_I": "J_q=2 I_q/pi",
+    "Theta": "kappa/(6*pi^2)",
+    "categorywise_D_q_seeded_before_common_factor_proof": false,
+    "deduction": "D_q=Theta J_q=kappa I_q/(3*pi^3)",
+    "input_used_only_after_common_factor": "sum_q A_q(B) ~ [kappa/(24*pi)]B(log B)^3"
+  },
+  "pure_factor_closed_forms": {
+    "harmonic_pure_base": "(1+x)/(1-2*cos(theta)*x+x^2)",
+    "harmonic_pure_h": "(1-x^2)/(1-2*cos(theta)*x+x^2)",
+    "max_pure_base_closed_form_error": 2.220446049250313e-16,
+    "max_pure_h_closed_form_error": 2.220446049250313e-16,
+    "zero_mode_pure_base": "(1+x)/(1-x)^2",
+    "zero_mode_pure_h": "(1+x)/(1-x)"
+  },
+  "restored_raw_normalized_limit": {
+    "bc_normalized_ratio": {
+      "ab": 2.4316847501781913,
+      "ac": 1.1157564289518813,
+      "bc": 1.0
+    },
+    "proportion": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    }
+  },
+  "review_reopening": {
+    "old_7jb_categorywise_constant_check_is_independent_proof": false,
+    "old_7jb_kept_as": "provenance/diagnostic only",
+    "reason": "The old validator first formed D_q from the Stage12 total times the chamber proportion and then checked D_q/K_q; because K_q is already proportional to I_q, equality of the three ratios is algebraic."
+  },
+  "status": {
+    "claude_fatal_direction_neutrality_repaired": true,
+    "exact_one_stage13_reclosed": false,
+    "pending": "13-12ab independent overlap fixed-modulus transfer audit",
+    "raw_directional_common_factor_proved_at_project_external_theorem_level": true,
+    "raw_directional_constants_calibrated_non_circularly": true
+  }
+}
