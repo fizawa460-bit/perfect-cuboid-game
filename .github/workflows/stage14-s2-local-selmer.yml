@@ -1,0 +1,66 @@
+name: Stage14-s2 local Selmer sieve audit
+
+on:
+  push:
+    branches:
+      - agent/stage14-s2-local-selmer-sieve
+    paths:
+      - 'stages/stage14/scripts/14-s2/**'
+      - 'stages/stage14/data/14-s2/**'
+      - 'stages/stage14/14-s2/**'
+      - 'stages/stage14/s-roadmap.md'
+      - '.github/workflows/stage14-s2-local-selmer.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-s2/**'
+      - 'stages/stage14/data/14-s2/**'
+      - 'stages/stage14/14-s2/**'
+      - 'stages/stage14/s-roadmap.md'
+      - '.github/workflows/stage14-s2-local-selmer.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Preserve frozen audit
+        run: git show HEAD:stages/stage14/data/14-s2/local_selmer_sieve_audit.json > /tmp/stage14-s2-frozen.json
+      - name: Run deterministic Stage14-s2 audit
+        run: python stages/stage14/scripts/14-s2/local_selmer_sieve_audit.py
+      - name: Validate theorem boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-s2/local_selmer_sieve_audit.json'
+          d=json.load(open(p))
+          q=d['decision']
+          assert q['PYTHAGOREAN_BAD_PRIME_DENSITIES_LOCKED'] is True
+          assert q['SELMER_SQUARECLASS_SUBPOLYNOMIAL_PER_BASE_ENVELOPE'] is True
+          assert q['FIXED_AUXILIARY_PRIME_PRODUCT_SIEVE_PROVES_POWER_SAVING'] is False
+          assert q['AVERAGE_SELMER_THEOREM_IMPORTED'] is False
+          assert q['POSITIVE_RANK_DENSITY_PROVED'] is False
+          assert q['LOCAL_CONDITIONS_POWER_SAVING_PROVED'] is False
+          assert d['metadata']['max_hypotenuse'] == 200000
+          assert d['finite_support_complexity'][-1]['primitive_triples'] == 31819
+          assert d['finite_support_complexity'][-1]['max_omega_2SXH'] == 12
+          for row in d['finite_projective_density_audit']:
+              expect=6 if row['p_mod_4']==1 else 4
+              assert row['bad_projective_slopes']==expect
+          print(json.dumps(q,indent=2))
+          PY
+      - name: Require frozen audit semantic reproducibility
+        run: |
+          python - <<'PY'
+          import json
+          generated=json.load(open('stages/stage14/data/14-s2/local_selmer_sieve_audit.json'))
+          frozen=json.load(open('/tmp/stage14-s2-frozen.json'))
+          assert generated == frozen
+          print('semantic JSON reproducibility: exact')
+          PY
+      - name: Upload generated audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-s2-local-selmer-audit
+          path: stages/stage14/data/14-s2/local_selmer_sieve_audit.json

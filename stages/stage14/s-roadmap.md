@@ -2,13 +2,7 @@
 
 ## Purpose
 
-Stage14-s is the arithmetic side track for the positive-rank specialization and first-small-point bottlenecks in the Stage14 exactly-two-face problem. It is separate from:
-
-- main `14-4`: Kummer / low-degree rational-curve geometry;
-- `14-t`: triple/perfect-cuboid correction;
-- `14-e`: ambient no-space-square control.
-
-For a genuine Pythagorean first-face state `F`, merged Stage14 gives
+Stage14-s studies the arithmetic bottlenecks behind active Pythagorean first-face states. For a genuine base state `F`, merged Stage14 gives
 
 \[
 \mu(F)<\infty\iff \operatorname{rank}E_F(\mathbf Q)>0,
@@ -20,7 +14,7 @@ with
 E_t:Y^2=X(X-1)(X+t^2),\qquad t=\frac{2r}{1-r^2}.
 \]
 
-The finite active count still shows the unresolved square-root signal
+The unresolved finite signal is
 
 ```text
 B           V(B)     V(B)/sqrt(B)
@@ -30,28 +24,14 @@ B           V(B)     V(B)/sqrt(B)
 2,000,000    490      0.34648
 ```
 
-Stage14-s must separate two gates:
+Stage14-s separates two gates:
 
-1. frequency of positive Mordell--Weil rank on the Pythagorean base;
-2. frequency of a first non-torsion point small enough to satisfy `mu(F)<=B`.
+1. how often the Pythagorean-base fiber has positive Mordell--Weil rank;
+2. how often the first non-torsion point is small enough to satisfy `mu(F)<=B`.
 
-No square-root law is assumed.
+No square-root law, parity conjecture, BSD statement, or Selmer=rank equality is assumed.
 
-## Frozen upstream contract
-
-Stage14-s may use merged Stage14 through `14-4ah`, including the exact two-face parametrization, physical fiber height, generic rank-zero Pythagorean-base K3, nonphysical torsion, active rank-jump graph, raw-edge/active-vertex exponent equivalence, and exact physical Kummer height `H_M=d`.
-
-It may also use frozen Stage13 `R03 + Stage13-12ag` where relevant, but it must not import unproved Selmer independence, parity, BSD, or generic-family density heuristics.
-
-```text
-POSITIVE_RANK_SPECIALIZATION_FREQUENCY_PROVED=false
-ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false
-UNIFORM_SMALL_POINT_DISTRIBUTION_PROVED=false
-ROOT_NUMBER_PARITY_USED_AS_RANK_EQUALITY=false
-SELMER_RANK_USED_AS_MW_RANK_EQUALITY=false
-```
-
-## 14-s1 — exact descent interface and finite Selmer/rank-bound audit
+## 14-s1 — exact descent interface and finite Selmer/rank audit
 
 Status: [x] Complete.
 
@@ -61,157 +41,173 @@ For a primitive oriented Pythagorean face
 F=(S,X,H),\qquad S^2+X^2=H^2,
 \]
 
-s1 locks the integral full-2-torsion model
+s1 locks
 
 \[
-\boxed{E_F:Y^2=Z(Z-S^2)(Z+X^2)}.
-\]
-
-The exact split Kummer interface is
-
-\[
-[P]\mapsto(Z,Z-S^2,Z+X^2)
-\in(\mathbf Q^*/\mathbf Q^{*2})^3,
-\]
-
-with covering equations
-
-\[
-\boxed{d_1u_1^2-d_2u_2^2=S^2},
+\boxed{E_F:Y^2=Z(Z-S^2)(Z+X^2)},
 \qquad
-\boxed{d_3u_3^2-d_1u_1^2=X^2},
+\boxed{\Delta=16S^4X^4H^4}.
 \]
 
-and `d1*d2*d3` square. The integral discriminant is
+The split full-2-torsion Kummer interface is
 
 \[
-\boxed{\Delta=16S^4X^4H^4},
+d_1u_1^2-d_2u_2^2=S^2,
+\qquad
+d_3u_3^2-d_1u_1^2=X^2,
 \]
 
-so only infinity and primes dividing `2SXH` enter nontrivial local 2-cover analysis.
+with `d1*d2*d3` square.
 
-The deterministic finite audit uses PARI/GP `ellrank(E,0)` on a height-stratified sample of 96 active and 96 inactive-control fibers through `B=2,000,000`. For full rational 2-torsion, PARI's documented relation gives
-
-\[
-\dim Sel_2(E)=r_2+2+s,
-\]
-
-where `[r1,r2,s,L]` is the unconditional `ellrank` output.
-
-Finite summary:
+A deterministic PARI/GP audit compares 96 active and 96 inactive-control fibers through `B=2m`. The key finite finding is that 54/96 inactive controls already have certified positive Mordell--Weil rank and 80/96 have nontrivial 2-Selmer beyond torsion. Thus positive rank alone does not explain physical activity at the verified scale.
 
 ```text
-                         active  inactive control
-sample size                 96        96
-exact rank interval          92        85
-certified positive rank      95        54
-certified rank zero           0        33
-Sel_2 rank > torsion          96        80
-root number -1               60        50
-mean Sel_2 rank            3.8125    3.4166666667
-mean rank upper bound      1.4583    0.8333333333
+STAGE14_S1=COMPLETE_EXACT_DESCENT_INTERFACE_AND_FINITE_PARIRANK_AUDIT
+FINITE_SELMER_ONLY_GATE_SEPARATES_ACTIVITY=false
+FINITE_POSITIVE_RANK_INACTIVE_CONTROLS=54_OF_96
+FINITE_SMALL_POINT_GATE_PRIORITY=HIGH
 ```
 
-The key finite diagnostic is that 80/96 inactive controls still have nontrivial 2-Selmer beyond torsion, and 54/96 already have certified positive Mordell--Weil rank while no physical partner appears below `2m`. Therefore local/Selmer survival alone does not explain activity in this finite sample; the first-small-point gate is high priority. This is finite evidence only.
+## 14-s2 — Pythagorean-base local Selmer support and sieve boundary
+
+Status: [x] Complete.
+
+The nontrivial finite local support is the moving set
+
+\[
+\Sigma_F=\{p:p\mid2SXH\}.
+\]
+
+For an odd prime `p`, write the primitive Euclid base as `[m:n] in P^1(F_p)`. The bad-prime event `p|SXH` occurs at
+
+```text
+0, infinity, +1, -1
+```
+
+and additionally at the two roots of `r^2+1=0` when `p=1 mod 4`. Therefore
+
+\[
+\boxed{\delta_p=4/(p+1)\quad(p\equiv3\pmod4)},
+\]
+
+\[
+\boxed{\delta_p=6/(p+1)\quad(p\equiv1\pmod4)}.
+\]
+
+At odd `p` not dividing `SXH`, the curve has good reduction and the 2-descent local condition is unramified; no new base-dependent bad-prime coordinate is created there.
+
+If
+
+\[
+k=\omega(2SXH),
+\]
+
+then the ambient split Kummer square-class space after the product-square constraint has `F2`-dimension at most
+
+\[
+\boxed{2(k+1)},
+\]
+
+hence at most
+
+\[
+\boxed{4^{k+1}}
+\]
+
+candidate covering classes before local solubility. Maximal order of `omega` gives
+
+\[
+4^{\omega(2SXH)+1}=H^{o(1)}.
+\]
+
+Thus local 2-cover complexity is subpolynomial **per base**, but this does not thin the base population by a fixed power.
+
+The Stage13 fixed-auxiliary-prime product sieve does not transfer: positive-rank candidacy is a global `F2` compatibility problem among the moving bad primes dividing `2SXH`, while a fixed good prime supplies only the unramified condition.
+
+Finite audit through `H<=200000`:
+
+```text
+primitive Pythagorean triples = 31,819
+oriented face states          = 63,638
+mean omega(2SXH)              = 8.7472893554
+max omega(2SXH)               = 12
+max log2 ambient cover cap    = 26
+```
+
+The audited prime frequencies match the exact projective laws closely; `p=3` and `p=5` have density one.
+
+Quadratic-twist average-Selmer theorems are not imported: Stage14 has nonconstant `j`, is not a fixed-curve twist family, and genuine fibers have rational `Z/2 x Z/4` torsion. No matching average theorem for the exact Pythagorean base change has been established here.
+
+```text
+STAGE14_S2=COMPLETE_LOCAL_SUPPORT_ARCHITECTURE_AND_FIXED_PRIME_SIEVE_BOUNDARY
+PYTHAGOREAN_BAD_PRIME_DENSITIES_LOCKED=true
+SELMER_SQUARECLASS_SUBPOLYNOMIAL_PER_BASE_ENVELOPE=true
+FIXED_AUXILIARY_PRIME_PRODUCT_SIEVE_PROVES_POWER_SAVING=false
+AVERAGE_SELMER_THEOREM_IMPORTED=false
+POSITIVE_RANK_DENSITY_PROVED=false
+LOCAL_CONDITIONS_POWER_SAVING_PROVED=false
+```
 
 Artifacts:
 
 ```text
-stages/stage14/14-s1/result.md
-stages/stage14/14-s1/literature-selmer-audit.md
-stages/stage14/scripts/14-s1/selmer_interface_audit.py
-stages/stage14/data/14-s1/selmer_interface_audit.json
-.github/workflows/stage14-s1-selmer-interface.yml
+stages/stage14/14-s2/result.md
+stages/stage14/14-s2/literature-local-selmer-audit.md
+stages/stage14/scripts/14-s2/local_selmer_sieve_audit.py
+stages/stage14/data/14-s2/local_selmer_sieve_audit.json
+.github/workflows/stage14-s2-local-selmer.yml
 ```
-
-Decision:
-
-```text
-STAGE14_S1=COMPLETE_EXACT_DESCENT_INTERFACE_AND_FINITE_PARIRANK_AUDIT
-EXACT_FULL_2_TORSION_DESCENT_INTERFACE_LOCKED=true
-PARI_UNCONDITIONAL_RANK_BOUNDS_AUDITED=true
-FINITE_ACTIVE_INACTIVE_SELMER_AUDIT_COMPLETE=true
-FINITE_SELMER_ONLY_GATE_SEPARATES_ACTIVITY=false
-FINITE_POSITIVE_RANK_INACTIVE_CONTROLS=54_OF_96
-FINITE_SMALL_POINT_GATE_PRIORITY=HIGH
-SELMER_RANK_USED_AS_MW_RANK_EQUALITY=false
-ROOT_NUMBER_PARITY_USED_AS_RANK_EQUALITY=false
-POSITIVE_RANK_DENSITY_PROVED=false
-ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false
-```
-
-## 14-s2 — Pythagorean-base Selmer and local-density sieve
-
-Status: [>] Next.
-
-Use the exact s1 local support and covering interface to count or bound primitive Pythagorean bases surviving the necessary local conditions.
-
-Targets:
-
-- compute the prime-by-prime local states at `2` and primes dividing `SXH`;
-- derive the strongest unconditional upper bound for Selmer-admissible Pythagorean bases under the physical first-face height;
-- determine whether local conditions alone give any power/logarithmic saving;
-- verify every hypothesis before importing an average-2-Selmer theorem for this thin/base-changed family;
-- classify exceptional congruence families separately;
-- retain the s1 warning that nontrivial Selmer, and even positive rank, need not imply `mu(F)<=B`.
-
-A successful s2 produces a theorem-level bound on a rank-jump candidate set, never an equality between Selmer survival and positive Mordell--Weil rank.
 
 ## 14-s3 — first-small-point / regulator gate
 
-Status: [ ] Pending s2.
+Status: [>] Next.
 
-Translate
+The s1+s2 evidence moves the main arithmetic bottleneck here. Translate
 
 \[
 \mu(F)\le B
 \]
 
-into descent coordinates, canonical height, regulator and/or first-generator height.
+into elliptic/descent height data.
 
 Targets:
 
-- uniform inequalities connecting physical `q`-height and canonical height;
-- quantify positive-rank fibers whose first non-torsion point lies below the Stage14 cutoff;
-- explain the s1 observation that many positive-rank inactive controls remain physically inactive through `2m`;
-- prove the strongest unconditional upper/lower envelope for `V(B)` from s1+s2+s3.
+- derive uniform inequalities between physical `q`-height and canonical height on `E_F`;
+- record first non-torsion generator heights for active and certified-positive-rank inactive controls;
+- quantify the gap between positive rank and a physical point below the Stage14 cutoff;
+- determine whether the finite `sqrt(B)` signal is primarily a small-generator-height phenomenon;
+- prove the strongest unconditional upper/lower envelope for `V(B)` obtainable without assuming a rank-distribution conjecture.
 
-## 14-s4 — compare with the `M`-degree-4 bisection mechanism
+## 14-s4 — compare with the M-degree-4 bisection mechanism
 
 Status: [ ] Pending relevant merged `14-4ai+` and s3.
 
-Identify the descent/Selmer classes traced by every physical `M`-degree-4 bisection found by the main track. Test whether finitely many bisection classes dominate any surviving `B^(1/2)` first-hit population or whether equal-order rank-jump fibers remain outside them.
+Identify the descent/Selmer classes traced by physical `M`-degree-4 bisections from the main Kummer track. Determine whether finitely many bisection classes account for the dominant first-hit population or whether equal-order rank-jump fibers remain outside them.
 
 ## 14-s5 — rank-jump counting synthesis
 
 Status: [ ] Pending s4.
 
-Combine the arithmetic and geometric results into a theorem-level statement for
+Combine arithmetic and geometry into the strongest theorem-level statement for
 
 \[
 V(B)=\#\{F:\mu(F)\le B\}.
 \]
 
-Possible outcomes remain a proved `B^{1/2+o(1)}` order, a sharper accumulating-class asymptotic, a different exponent, or a rigorous upper/lower envelope explaining the unresolved square-root signal.
+Possible outcomes remain a proved `B^{1/2+o(1)}` order, a sharper accumulating-class asymptotic, a different exponent, or a rigorous envelope explaining why the square-root signal remains unresolved.
 
-## Proof discipline
+## Proof discipline and scope
 
-Every s-stage must distinguish theorem from finite evidence and audit primary sources before using explicit descent formulas, average Selmer results, root-number/parity claims, rank-distribution theorems, specialization theorems, or canonical-height/regulator estimates.
-
-In particular, root number is never silently converted into Mordell--Weil rank parity, and `Sel_2` dimension is never identified with Mordell--Weil rank unless the Tate--Shafarevich contribution is controlled.
-
-## Scope boundary
-
-Stage14-s does not duplicate `14-t`; it studies non-torsion points on raw-pair elliptic fibers, not the genus-5 triple correction. It does not duplicate `14-4ai`; the main track classifies low-degree Kummer curves, while Stage14-s studies arithmetic specialization frequency and first-small-point height. They meet at s4.
+Stage14-s does not duplicate `14-t` (genus-5 triple correction) or main `14-4` (Kummer rational-curve classification). Root number is never silently converted to Mordell--Weil parity, Selmer dimension is never identified with rank without controlling Sha, and average-family results are imported only after verifying the exact family hypotheses.
 
 ```text
 STAGE14_S_TRACK=ACTIVE
 STAGE14_S1=COMPLETE_EXACT_DESCENT_INTERFACE_AND_FINITE_PARIRANK_AUDIT
+STAGE14_S2=COMPLETE_LOCAL_SUPPORT_ARCHITECTURE_AND_FIXED_PRIME_SIEVE_BOUNDARY
 PRIMARY_OBJECT=ACTIVE_PYTHAGOREAN_BASES
 PRIMARY_COUNT=V(B)
-S2_TARGET=PYTHAGOREAN_BASE_LOCAL_SELMER_SIEVE
 S3_TARGET=FIRST_SMALL_POINT_GATE
 S4_TARGET=BISECTION_SELMER_CLASS_COMPARISON
 S5_TARGET=RANK_JUMP_COUNTING_SYNTHESIS
-NEXT=Stage14-s2 Pythagorean-base Selmer/local-density sieve
+NEXT=Stage14-s3 first-small-point / regulator gate
 ```
