@@ -1,67 +1,75 @@
 {
   "metadata": {
-    "stage": "14-4aa",
-    "title": "Independent two-face parametrization and proof-input audit",
-    "goal": "restart proof-level Stage14-4 without guessing the true growth order"
+    "stage": "14-4ab",
+    "title": "Stage14 proof-input boundary after R03 release",
+    "goal": "permit full reviewed Stage13 R03 machinery while keeping Stage14 intrinsic reductions explicit"
   },
   "upstream": {
-    "stage13_version": "R02",
-    "source": "stages/stage13/13-12ac/current-proof.md",
-    "status": "assumed_provisionally_pending_final_external_freeze",
-    "imported_statement": "A_q(B) ~ kappa I_q/(3 pi^3) B(log B)^3 for q in {ab,ac,bc}",
-    "pair_overlap_little_o_imported": false,
-    "triple_overlap_little_o_imported": false,
-    "stage13_r03_used": false,
-    "stage12_directly_used": false
+    "stage13_version": "R03_PLUS_12AG",
+    "reviewed_snapshot": "STAGE13-FINAL-SELF-CONTAINED-20260809-R03",
+    "authoritative_r03_source": "stages/stage13/13-12af/current-proof.md",
+    "post_review_supplement": "stages/stage13/13-12ag/result.md",
+    "r03_grok_verdict": "CLOSED",
+    "r03_qwen_verdict": "CLOSED",
+    "r03_claude_verdict": "NOT_RECORDED_AT_CURRENT_REPO_CHECKPOINT",
+    "full_access_authorized": true,
+    "final_repository_freeze_complete": false,
+    "raw_directional_asymptotic_imported": true,
+    "pair_overlap_little_o_imported": true,
+    "triple_overlap_little_o_imported": true,
+    "fixed_local_factor_machinery_available": true,
+    "inert_prime_exact_local_state_available": true,
+    "weighted_wiener_and_harmonic_machinery_available": true,
+    "stage12_directly_used_by_stage14": false
   },
-  "generic_coordinates": {
+  "imported_results": {
+    "raw_directional": "A_q(B) ~ kappa I_q/(3 pi^3) B(log B)^3",
+    "pair_ceiling": "O_qr(B)=o(B(log B)^3)",
+    "triple_ceiling": "T(B)=o(B(log B)^3)",
+    "stage14_consequence": "N_a2,N_b2,N_c2,N_2=o(B(log B)^3)"
+  },
+  "intrinsic_stage14_reduction": {
     "shared_edge": "e",
     "nonshared_edges": ["x", "y"],
     "nonshared_order": "x<y",
-    "face_diagonals": ["u", "v"],
-    "space_diagonal": "d",
-    "equations": [
-      "e^2+x^2=u^2",
-      "e^2+y^2=v^2",
-      "u^2+y^2=d^2",
-      "v^2+x^2=d^2"
-    ],
-    "independent_equation_count": 3,
     "direction_chambers": {
       "a": "e<x<y",
       "b": "x<e<y",
       "c": "x<y<e"
     },
-    "exactly_two_condition": "x^2+y^2 is not a square",
-    "triple_condition": "x^2+y^2 is a square"
+    "oriented_face_data": "F_i=(S_i,X_i,H_i), primitive Pythagorean with S_i distinguished shared leg",
+    "g": "gcd(S1,S2)",
+    "alpha": "S1/g",
+    "beta": "S2/g",
+    "shared_edge_scale_solution": "k1=t beta, k2=t alpha",
+    "global_gcd_identity": "gcd(e,x,y)=t",
+    "primitive_common_scale": "t=1",
+    "minimal_gluing": {
+      "e": "g alpha beta = lcm(S1,S2)",
+      "x": "beta X1",
+      "y": "alpha X2",
+      "u": "beta H1",
+      "v": "alpha H2"
+    },
+    "space_diagonal_condition": "(beta H1)^2+(alpha X2)^2 is a square",
+    "third_triple_independent": false,
+    "third_triple_scale": "gcd(H1,X2)",
+    "parameter_fiber_multiplicity_fixed_raw_pair": 1,
+    "minimal_gluing_automatically_primitive": true
   },
-  "euclid_chart": {
-    "L_D": "m^2-n^2",
-    "L_P": "2mn",
-    "H": "m^2+n^2",
-    "base_conditions": "m>n>0, gcd(m,n)=1, m-n odd",
-    "shared_face_charts": ["DD", "DP", "PD", "PP"],
-    "shared_edge_match": "k1 L_sigma1(m,n) = k2 L_sigma2(r,s)",
-    "third_gluing_matches": [
-      "k1 H(m,n) = k3 L_sigma3(p,q)",
-      "k2 L_barsigma2(r,s) = k3 L_barsigma3(p,q)"
-    ],
-    "global_primitivity": "gcd(e,x,y)=1 after gluing",
-    "force_all_scales_one": false
+  "validation": {
+    "independent_bijection_audit": "stages/stage14/data/14-4/bijection_audit.json",
+    "cutoffs": [1000, 2000, 5000, 10000],
+    "all_match_locked_stage14_census": true
   },
   "structural_decision": {
-    "ONE_GENERIC_ARITHMETIC_OBJECT_FOR_ALL_THREE_DIRECTIONS": true,
-    "DIRECTION_LABEL_IS_CHAMBER_POSITION_OF_SHARED_EDGE": true,
-    "FOUR_RIGHT_TRIANGLES_PER_RAW_PAIR": true,
-    "THREE_INDEPENDENT_PYTHAGOREAN_RELATIONS_SUFFICE": true,
-    "EUCLID_SHARED_EDGE_FIBER_PRODUCT_LOCKED": true,
-    "THIRD_PYTHAGOREAN_GLUING_LOCKED": true,
-    "GLOBAL_PRIMITIVITY_APPLIED_AFTER_GLUING": true,
-    "UNIQUE_PARAMETERIZATION": false,
-    "BOUNDED_PARAMETER_MULTIPLICITY": false,
+    "STAGE14_4AA_COMPLETE": true,
+    "STAGE14_4AB_COMPLETE": true,
+    "R03_FULL_ACCESS_AUTHORIZED": true,
+    "BIJECTIVE_TWO_FACE_PARAMETER_SPACE_LOCKED": true,
     "TRUE_GROWTH_ORDER_IDENTIFIED": false,
     "LEADING_CONSTANT_IDENTIFIED": false,
     "DIRECTIONAL_LIMIT_IDENTIFIED": false,
-    "NEXT": "Stage14-4ab representation multiplicity and explicit matching-variable reduction"
+    "NEXT": "Stage14-4ac height inequality and arithmetic counting envelope"
   }
 }
