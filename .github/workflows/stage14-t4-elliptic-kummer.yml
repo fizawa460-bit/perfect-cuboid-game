@@ -1,0 +1,43 @@
+name: Stage14-t4 elliptic Kummer audit
+
+on:
+  push:
+    branches:
+      - agent/stage14-t4-elliptic-kummer
+    paths:
+      - 'stages/stage14/14-t4/**'
+      - 'stages/stage14/scripts/14-t4/**'
+      - 'stages/stage14/data/14-t4/**'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t4-elliptic-kummer.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t4/**'
+      - 'stages/stage14/scripts/14-t4/**'
+      - 'stages/stage14/data/14-t4/**'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t4-elliptic-kummer.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install symbolic dependency
+        run: pip install sympy
+      - name: Recompute symbolic audit
+        run: |
+          cp stages/stage14/data/14-t4/elliptic_kummer_audit.json /tmp/t4_expected.json
+          python stages/stage14/scripts/14-t4/elliptic_kummer_audit.py
+          diff -u /tmp/t4_expected.json stages/stage14/data/14-t4/elliptic_kummer_audit.json
+      - name: Verify theorem boundary
+        run: |
+          grep -F 'STAGE14_T4=COMPLETE_ELLIPTIC_COMPRESSION_AND_KUMMER_RESTRICTION' stages/stage14/14-t4/result.md
+          grep -F 'GEOMETRIC_ELLIPTIC_J_TYPES=3' stages/stage14/14-t4/result.md
+          grep -F 'GENERIC_M_DEGREE4_TRIPLE_LIFT_GENUS=3' stages/stage14/14-t4/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t4/result.md
