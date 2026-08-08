@@ -7,18 +7,16 @@ Stage14 studies primitive canonical cuboids with integer space diagonal and exac
 ```text
 STAGE14_1=COMPLETE
 STAGE14_2=COMPLETE
-STAGE14_3A=COMPLETE
-STAGE14_3B=COMPLETE
-STAGE14_3C=COMPLETE
 STAGE14_3=COMPLETE
+STAGE14_4AA=COMPLETE
 FINITE_RECONNAISSANCE_COMPLETE=true
 MAX_VERIFIED_B=2000000
-DENSE_FINITE_GRID_STEP=50000
-STAGE13_ANALYTIC_DEPENDENCY_USED=false
-STOP_LINE_ACTIVE=true
-NEXT=WAIT_FOR_ONE_FACE_REVIEW_BEFORE_STAGE14_4
-STAGE14_4_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
-STAGE14_5_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
+UPSTREAM_STAGE13_VERSION=R02
+UPSTREAM_STAGE13_STATUS=ASSUMED_PROVISIONALLY
+UPSTREAM_STAGE13_FINAL_EXTERNAL_FREEZE=false
+STAGE13_R03_USED=false
+TRUE_GROWTH_ORDER_IDENTIFIED=false
+NEXT=Stage14-4ab representation multiplicity and explicit matching-variable reduction
 ```
 
 Canonical source: `stages/stage14/main.md`.
@@ -59,42 +57,84 @@ No triple object was found through this finite ceiling; this is not a nonexisten
 
 ## Stage14-3 finite reconnaissance
 
-Stage14-3a exposed an apparent coarse `a/c=7/4` plateau and a late `b -> a` leader reversal. Stage14-3b densified the range `100k..2m` at 50k spacing and followed the exact event stream near the crossing.
+The coarse `a/c=7/4` pattern failed under 50k-grid densification and is not treated as an invariant or limit candidate. The last verified `a/b` crossing in the event stream occurs at
 
-The `7/4` pattern does not survive densification and is rejected as a stable finite law or limiting candidate.
+\[
+d=1,148,545,
+\]
 
-The verified late `a/b` event sequence is
+after which `a>b` persists only through the verified finite ceiling `B=2,000,000`.
 
-```text
-d=1,083,121   a-b: -1 ->  0
-d=1,096,685   a-b:  0 -> -1
-d=1,127,185   a-b: -1 ->  0
-d=1,148,545   a-b:  0 -> +1
-```
-
-From `d=1,148,545` through `B=2,000,000`, every subsequent exactly-two event state has `a>b`. This is a finite-range statement only.
-
-Final synthesis:
+Final finite synthesis:
 
 ```text
 stages/stage14/data/14-3/final_finite_reconnaissance.json
 stages/stage14/archive/stage14-3c-final-finite-reconnaissance.md
 ```
 
-## What is still unknown
+## Stage14-4aa — independent structural restart
 
-Stage14 has not identified the true growth order of `N_2(B)`, a limiting directional vector, an eventual leader, monotonicity, an Euler-side two-face relation, or whether `T(B)` ever becomes positive.
+Stage14-4 now restarts under one deliberately narrow provisional upstream input: the Stage13 **R02** directional raw asymptotic candidate
 
-## Stage13 isolation and active stop line
+\[
+A_q(B)\sim \frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+\]
 
-Current Stage14 finite conclusions use neither Stage13 code nor a Stage13 asymptotic theorem.
+R02 is not yet treated as externally frozen. R03 is intentionally not used in 14-4aa. The R02 pair-overlap and triple-overlap little-o statements are also not imported in this substage, because Stage14 is trying to understand that two-face population intrinsically.
+
+For a raw two-face object, let `e` be the shared edge and let `x<y` be the nonshared edges. Then
+
+\[
+e^2+x^2=u^2,\qquad e^2+y^2=v^2,
+\qquad u^2+y^2=d^2,
+\qquad v^2+x^2=d^2.
+\]
+
+Only three equations are independent. The three Stage14 directions are simply the three chamber positions of `e`:
 
 ```text
-14-1   complete
-14-2   complete
-14-3   complete
-14-4   paused pending one-face / Stage13 review
-14-5   paused pending one-face / Stage13 review
+a-direction: e<x<y
+b-direction: x<e<y
+c-direction: x<y<e
 ```
 
-There is no planned `14-3d`. When Stage14 resumes, the recommended first analytic task is `14-4aa`: independent two-face parametrization and proof-input audit, with every imported Stage13 dependency explicitly re-audited.
+Thus all directions share one arithmetic object; direction is a chamber condition.
+
+Using Euclid legs
+
+\[
+L_D(m,n)=m^2-n^2,\qquad L_P(m,n)=2mn,
+\qquad H(m,n)=m^2+n^2,
+\]
+
+the two integral faces form a shared-edge fiber product
+
+\[
+k_1L_{\sigma_1}(m,n)=k_2L_{\sigma_2}(r,s),
+\]
+
+and the space diagonal is imposed by a third Pythagorean gluing. Global cuboid primitivity remains
+
+\[
+\gcd(e,x,y)=1
+\]
+
+and must be applied after gluing; the scales must not be incorrectly forced to one.
+
+Artifacts:
+
+```text
+stages/stage14/archive/stage14-4aa-parametrization-input-audit.md
+stages/stage14/data/14-4/proof_input_audit.json
+```
+
+## What remains unknown
+
+Stage14-4aa does not identify the true growth order, a leading constant, a bounded/unique parameter multiplicity, a limiting directional vector, or an eventual directional leader.
+
+Next:
+
+```text
+14-4ab  audit representation multiplicity and reduce the three-triple gluing
+        to an explicit countable matching/divisibility parameter space
+```
