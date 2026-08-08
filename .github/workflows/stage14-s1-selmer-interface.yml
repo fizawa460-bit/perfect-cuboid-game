@@ -49,6 +49,20 @@ jobs:
           assert d['finite_audit']['summary']['inactive_control']['sample_size'] == 96
           print(json.dumps(d['finite_audit']['summary'], indent=2))
           PY
+      - name: Compact frozen report and retain row digest
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          p='stages/stage14/data/14-s1/selmer_interface_audit.json'
+          d=json.load(open(p))
+          rows=d['finite_audit'].pop('rows')
+          blob=json.dumps(rows, sort_keys=True, separators=(',', ':')).encode()
+          d['finite_audit']['row_count']=len(rows)
+          d['finite_audit']['rows_sha256']=hashlib.sha256(blob).hexdigest()
+          with open(p,'w') as f:
+              json.dump(d,f,indent=2)
+              f.write('\n')
+          PY
       - name: Upload generated audit
         uses: actions/upload-artifact@v4
         with:
