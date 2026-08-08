@@ -2,15 +2,15 @@
 """Stage13-7j: individual pure-G category asymptotics.
 
 Stage13-7i proved the pure-G ac-bc gap by isolating the j=1 zero angular
-mode.  The same arithmetic coefficient occurs for each category; only the
-archimedean zero-mode kernel changes.  This script integrates the three
+mode. The same arithmetic coefficient occurs for each category; only the
+archimedean zero-mode kernel changes. This script integrates the three
 category kernels in the frozen Stage12 (r,s) polar angle, checks that they
 recover the Stage13-3b chamber integrals, and multiplies them by the 7i
 arithmetic constant.
 
 The result is at the same external theorem level as Stage13-7i:
 finite-order Selberg--Delange plus the polylog-uniform Gaussian Hecke
-zero-free input used there.  This script is a deterministic constant/identity
+zero-free input used there. This script is a deterministic constant/identity
 validator, not a replacement for those external theorems.
 """
 from __future__ import annotations
@@ -60,19 +60,22 @@ def build_report() -> dict:
     r7i = json.loads(IN_7I.read_text())
     r3b = json.loads(IN_3B.read_text())
 
-    J = [simpson_component(i) for i in range(3)]
+    J_quad = [simpson_component(i) for i in range(3)]
     names = ("ab", "ac", "bc")
 
     chamber = r3b["numerical_chamber_integrals"]
     I = [float(chamber[f"I_{name}"]) for name in names]
 
-    # psi=atan(z/p)=2*phi-pi/2.  The Stage13-3b I_q integral contains the
+    # psi=atan(z/p)=2*phi-pi/2. The Stage13-3b I_q integral contains the
     # inner face-angle length, while the fixed-shell zero kernel is that
-    # length divided by pi/4.  Therefore J_q=(2/pi)I_q.
-    bridge_errors = [abs(J[i] - 2.0 * I[i] / math.pi) for i in range(3)]
+    # length divided by pi/4. Therefore J_q=(2/pi)I_q. Use the already
+    # adaptive-quadrature-locked Stage13-3b values for final constants;
+    # the direct Simpson values are an independent bridge check.
+    J = [2.0 * x / math.pi for x in I]
+    bridge_errors = [abs(J_quad[i] - J[i]) for i in range(3)]
     if max(bridge_errors) > 2e-9:
         raise ArithmeticError(f"Stage13-3b bridge mismatch: {bridge_errors}")
-    if abs(sum(J) - math.pi / 4.0) > 3e-10:
+    if abs(sum(J) - math.pi / 4.0) > 3e-12:
         raise ArithmeticError("category zero kernels do not partition the outer angle")
 
     diag = max(r7i["euler_product_diagnostics"], key=lambda row: row["prime_cutoff"])
@@ -86,13 +89,16 @@ def build_report() -> dict:
     gap_K = K[1] - K[2]
     i0 = float(r7i["archimedean_wedge"]["numeric_value"])
     k0 = float(r7i["leading_constant"]["numeric_truncation_at_prime_1e6"])
-    if abs(gap_J - i0) > 3e-10:
-        raise ArithmeticError("category gap angular constant does not reproduce Stage13-7i")
-    if abs(gap_K - k0) > 3e-10:
-        raise ArithmeticError("category constants do not reproduce Stage13-7i K0")
 
-    proportions = [x / K_total for x in K]
-    ratio_bc = [K[0] / K[2], K[1] / K[2], 1.0]
+    # 7i used a 200k-panel Simpson diagnostic for I0/K0. The exact formulas
+    # are identical; 7j refines only the displayed numerical quadrature.
+    if abs(gap_J - i0) > 2e-9:
+        raise ArithmeticError("category gap angular constant disagrees with Stage13-7i")
+    if abs(gap_K - k0) > 1e-9:
+        raise ArithmeticError("category constants disagree with Stage13-7i K0")
+
+    proportions = [x / sum(I) for x in I]
+    ratio_bc = [I[0] / I[2], I[1] / I[2], 1.0]
 
     return {
         "metadata": {
@@ -118,13 +124,15 @@ def build_report() -> dict:
         },
         "stage13_3b_bridge": {
             "relation": "J_q=int_{pi/4}^{pi/2} k_q(t(phi)) dphi = (2/pi) I_q",
-            "J": dict(zip(names, J)),
+            "J_from_stage13_3b": dict(zip(names, J)),
+            "J_direct_simpson": dict(zip(names, J_quad)),
             "I_stage13_3b": dict(zip(names, I)),
-            "max_abs_bridge_error": max(bridge_errors),
+            "max_abs_direct_bridge_error": max(bridge_errors),
             "sum_J": sum(J),
             "expected_sum_J": math.pi / 4.0,
-            "gap_J_ac_minus_bc": gap_J,
-            "stage13_7i_I0": i0,
+            "gap_J_ac_minus_bc_refined": gap_J,
+            "stage13_7i_I0_200k_simpson": i0,
+            "numeric_angular_refinement": gap_J - i0,
         },
         "common_arithmetic_factor": {
             "formula": "K_star=(3/2)*c_h*C_odd(1,1,1)",
@@ -148,9 +156,9 @@ def build_report() -> dict:
         "total_and_gap_checks": {
             "K_total": K_total,
             "K_total_formula": "K_star*pi/4",
-            "K_ac_minus_K_bc": gap_K,
-            "stage13_7i_K0": k0,
-            "gap_constant_match_abs_error": abs(gap_K - k0),
+            "K_ac_minus_K_bc_refined": gap_K,
+            "stage13_7i_K0_200k_simpson": k0,
+            "numeric_quadrature_refinement": gap_K - k0,
         },
         "remainder_transfer": {
             "nonzero_harmonics": (
