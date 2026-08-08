@@ -1,0 +1,42 @@
+{
+  "finite_checks": {
+    "failures": 0,
+    "inert_primes_below_80": 12,
+    "rows": [
+      {"p": 3, "circle_points": 4, "hyperbola_points": 2, "normalized_total": 8, "normalized_accepted": 8, "normalized_character_sum": 4, "primitive_affine_total": 20, "primitive_affine_accepted": 20, "primitive_affine_acceptance": 1.0, "exact_formula_acceptance": 1.0, "below_two_thirds": false, "pass": true},
+      {"p": 7, "circle_points": 8, "hyperbola_points": 6, "normalized_total": 48, "normalized_accepted": 32, "normalized_character_sum": 12, "primitive_affine_total": 300, "primitive_affine_accepted": 204, "primitive_affine_acceptance": 0.68, "exact_formula_acceptance": 0.68, "below_two_thirds": false, "pass": true},
+      {"p": 11, "circle_points": 12, "hyperbola_points": 10, "normalized_total": 120, "normalized_accepted": 72, "normalized_character_sum": 20, "primitive_affine_total": 1220, "primitive_affine_accepted": 740, "primitive_affine_acceptance": 0.6065573770491803, "exact_formula_acceptance": 0.6065573770491803, "below_two_thirds": true, "pass": true},
+      {"p": 19, "circle_points": 20, "hyperbola_points": 18, "normalized_total": 360, "normalized_accepted": 200, "normalized_character_sum": 36, "primitive_affine_total": 6516, "primitive_affine_accepted": 3636, "primitive_affine_acceptance": 0.5580110497237569, "exact_formula_acceptance": 0.5580110497237569, "below_two_thirds": true, "pass": true},
+      {"p": 23, "circle_points": 24, "hyperbola_points": 22, "normalized_total": 528, "normalized_accepted": 288, "normalized_character_sum": 44, "primitive_affine_total": 11660, "primitive_affine_accepted": 6380, "primitive_affine_acceptance": 0.5471698113207547, "exact_formula_acceptance": 0.5471698113207547, "below_two_thirds": true, "pass": true},
+      {"p": 31, "circle_points": 32, "hyperbola_points": 30, "normalized_total": 960, "normalized_accepted": 512, "normalized_character_sum": 60, "primitive_affine_total": 28860, "primitive_affine_accepted": 15420, "primitive_affine_acceptance": 0.5343035343035343, "exact_formula_acceptance": 0.5343035343035343, "below_two_thirds": true, "pass": true},
+      {"p": 43, "circle_points": 44, "hyperbola_points": 42, "normalized_total": 1848, "normalized_accepted": 968, "normalized_character_sum": 84, "primitive_affine_total": 77700, "primitive_affine_accepted": 40740, "primitive_affine_acceptance": 0.5243243243243243, "exact_formula_acceptance": 0.5243243243243243, "below_two_thirds": true, "pass": true},
+      {"p": 47, "circle_points": 48, "hyperbola_points": 46, "normalized_total": 2208, "normalized_accepted": 1152, "normalized_character_sum": 92, "primitive_affine_total": 101660, "primitive_affine_accepted": 53084, "primitive_affine_acceptance": 0.5221719457013575, "exact_formula_acceptance": 0.5221719457013575, "below_two_thirds": true, "pass": true},
+      {"p": 59, "circle_points": 60, "hyperbola_points": 58, "normalized_total": 3480, "normalized_accepted": 1800, "normalized_character_sum": 116, "primitive_affine_total": 201956, "primitive_affine_accepted": 104516, "primitive_affine_acceptance": 0.5175186674325101, "exact_formula_acceptance": 0.5175186674325101, "below_two_thirds": true, "pass": true},
+      {"p": 67, "circle_points": 68, "hyperbola_points": 66, "normalized_total": 4488, "normalized_accepted": 2312, "normalized_character_sum": 132, "primitive_affine_total": 296340, "primitive_affine_accepted": 152724, "primitive_affine_acceptance": 0.5153674832962138, "exact_formula_acceptance": 0.5153674832962138, "below_two_thirds": true, "pass": true},
+      {"p": 71, "circle_points": 72, "hyperbola_points": 70, "normalized_total": 5040, "normalized_accepted": 2592, "normalized_character_sum": 140, "primitive_affine_total": 352940, "primitive_affine_accepted": 181580, "primitive_affine_acceptance": 0.5144783815946053, "exact_formula_acceptance": 0.5144783815946053, "below_two_thirds": true, "pass": true},
+      {"p": 79, "circle_points": 80, "hyperbola_points": 78, "normalized_total": 6240, "normalized_accepted": 3200, "normalized_character_sum": 156, "primitive_affine_total": 486876, "primitive_affine_accepted": 249756, "primitive_affine_acceptance": 0.5129766100608779, "exact_formula_acceptance": 0.5129766100608779, "below_two_thirds": true, "pass": true}
+    ]
+  },
+  "inert_prime_exact_identity": {
+    "condition": "p=3 mod 4",
+    "normalized_total": "p^2-1",
+    "normalized_accepted": "(p+1)^2/2",
+    "normalized_character_sum": "2(p-1)",
+    "primitive_affine_total": "(p-1)(p^2+1)",
+    "primitive_affine_accepted": "(p-1)(p^2+2p+5)/2",
+    "primitive_affine_acceptance": "(p^2+2p+5)/(2(p^2+1))",
+    "two_thirds_check": "2/3-rho=(p^2-6p-11)/(6(p^2+1)), positive for inert primes p>=11"
+  },
+  "local_sieve_condition": {
+    "raw_equations": "x^2+y^2=P^2, P^2+z^2=d^2",
+    "extra_face_test": "x^2+z^2 is a square over Z => quadratic residue or zero modulo every odd p",
+    "theorem_level_density": "rho_p=1/2+O(p^-1/2) on the primitive p-adic raw-incidence locus",
+    "proof_route": "normalize P!=0, expand the residue indicator, apply the one-variable Weil bound to the resulting fixed-degree quadratic-character sums; P=0/singular valuation strata have lower local mass",
+    "consequence": "rho_p<3/4 for all sufficiently large p; this is all the global finite-set squeeze needs"
+  },
+  "metadata": {
+    "scope": "finite-field local validator; the global proof uses the fixed-prime Weil/Hensel bound rho_p=1/2+O(p^-1/2)",
+    "stage": "13-7jf"
+  },
+  "status": "PASS"
+}
