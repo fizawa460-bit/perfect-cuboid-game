@@ -1,0 +1,32 @@
+name: Stage14-t2 chain envelope
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage14/14-t2/**'
+      - 'stages/stage14/scripts/14-t2/**'
+      - 'stages/stage14/data/14-t2/**'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t2-chain-envelope.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute audit
+        run: |
+          cp stages/stage14/data/14-t2/chain_envelope_audit.json /tmp/expected.json
+          python stages/stage14/scripts/14-t2/chain_envelope_audit.py
+          diff -u /tmp/expected.json stages/stage14/data/14-t2/chain_envelope_audit.json
+      - name: Verify boundary
+        run: |
+          grep -F 'STAGE14_T2=COMPLETE_QUANTITATIVE_BOUNDARY' stages/stage14/14-t2/result.md
+          grep -F 'CHAIN_ENVELOPE=T(B)=O(B(log B)^5)' stages/stage14/14-t2/result.md
+          grep -F 'FROZEN_STRONGEST_GLOBAL_BOUND=T(B)=o(B(log B)^3)' stages/stage14/14-t2/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t2/result.md
