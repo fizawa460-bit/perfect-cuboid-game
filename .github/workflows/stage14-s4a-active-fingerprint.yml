@@ -1,0 +1,54 @@
+name: Stage14-s4a active arithmetic fingerprint census
+
+on:
+  push:
+    branches:
+      - agent/stage14-s4a-active-fingerprint
+    paths:
+      - 'stages/stage14/scripts/14-s4a/**'
+      - 'stages/stage14/data/14-s4a/**'
+      - 'stages/stage14/14-s4a/**'
+      - '.github/workflows/stage14-s4a-active-fingerprint.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-s4a/**'
+      - 'stages/stage14/data/14-s4a/**'
+      - 'stages/stage14/14-s4a/**'
+      - '.github/workflows/stage14-s4a-active-fingerprint.yml'
+  workflow_dispatch:
+
+jobs:
+  census:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PARI/GP
+        run: sudo apt-get update -qq && sudo apt-get install -y pari-gp
+      - name: Run full active census
+        run: python stages/stage14/scripts/14-s4a/active_fingerprint_census.py
+      - name: Validate census contract and frozen summary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-s4a/active_fingerprint_census.json'
+          s='stages/stage14/data/14-s4a/active_fingerprint_summary.json'
+          d=json.load(open(p)); frozen=json.load(open(s))
+          assert d['metadata']['active_vertices']==490
+          assert len(d['rows'])==490
+          assert len({tuple(r['face']) for r in d['rows']})==490
+          assert all(r['rank_upper']>=1 for r in d['rows'])
+          assert all(len(r['kummer_square_classes'])==3 for r in d['rows'])
+          assert d['summary']==frozen
+          q=d['decision']
+          assert q['ALL_ACTIVE_VERTICES_FINGERPRINTED'] is True
+          assert q['FIRST_HIT_POINTS_RECONSTRUCTED_EXACTLY'] is True
+          assert q['KUMMER_SQUARE_CLASSES_RECORDED'] is True
+          assert q['SQRT_B_ASYMPTOTIC_PROVED'] is False
+          print(json.dumps(d['summary'],indent=2))
+          PY
+      - name: Upload full census
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-s4a-active-fingerprint-census
+          path: stages/stage14/data/14-s4a/active_fingerprint_census.json
