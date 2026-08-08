@@ -1,0 +1,84 @@
+name: Stage14-e3 toric total growth
+
+on:
+  push:
+    branches:
+      - agent/stage14-e3-toric-growth
+    paths:
+      - 'stages/stage14/14-e3/**'
+      - 'stages/stage14/scripts/14-e3/**'
+      - 'stages/stage14/data/14-e3/**'
+      - 'stages/stage14/e-roadmap.md'
+      - '.github/workflows/stage14-e3-toric-growth.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e3/**'
+      - 'stages/stage14/scripts/14-e3/**'
+      - 'stages/stage14/data/14-e3/**'
+      - 'stages/stage14/e-roadmap.md'
+      - '.github/workflows/stage14-e3-toric-growth.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute toric growth audit
+        run: |
+          cp stages/stage14/data/14-e3/toric_growth_audit.json /tmp/e3_expected.json
+          python stages/stage14/scripts/14-e3/toric_growth_audit.py
+
+      - name: Verify deterministic e3 report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/e3_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e3/toric_growth_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          assert actual['toric_model']['L_equals_minus_K'] is True
+          assert actual['toric_model']['picard_rank'] == 6
+          assert actual['toric_model']['manin_log_power'] == 5
+          assert actual['local_exactly_two_blocker']['prime'] == 5
+          assert actual['local_exactly_two_blocker']['q_residues'] == [2, 3]
+          assert actual['local_exactly_two_blocker']['t_residues'] == [2, 3]
+          assert actual['local_exactly_two_blocker']['third_face_sum_residue'] == 3
+          assert actual['local_exactly_two_blocker']['third_face_sum_is_nonsquare_unit'] is True
+          assert actual['conclusion']['exactly_two_order'] == 'B*(log B)^5'
+          assert actual['conclusion']['e2_B_log3_candidate'] == 'REJECTED_AS_ASYMPTOTIC_ORDER'
+          assert actual['conclusion']['exact_leading_constant_proved'] is False
+          print('Stage14-e3 toric audit: PASS')
+          PY
+
+      - name: Verify proof and literature boundary
+        run: |
+          grep -F 'L=-K_Y' stages/stage14/14-e3/result.md
+          grep -F 'STAGE14_E3=COMPLETE_TOTAL_GROWTH_ORDER' stages/stage14/14-e3/result.md
+          grep -F 'TORIC_LOG_POWER=5' stages/stage14/14-e3/result.md
+          grep -F 'Batyrev' stages/stage14/14-e3/literature-asymptotic-audit.md
+          grep -F 'Huang' stages/stage14/14-e3/literature-asymptotic-audit.md
+          grep -F 'Ochieng' stages/stage14/14-e3/literature-asymptotic-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e3/literature-asymptotic-audit.md
+
+      - name: Verify e2 compatibility remains intact
+        run: |
+          cp stages/stage14/data/14-e2/ambient_reconnaissance.json /tmp/e2_expected.json
+          python stages/stage14/scripts/14-e2/ambient_reconnaissance.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/e2_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e2/ambient_reconnaissance.json').read_text())
+          assert actual == expected
+          assert actual['status']['STAGE14_E2'] == 'COMPLETE_FINITE_AMBIENT_RECONNAISSANCE'
+          print('Stage14-e2 compatibility: PASS')
+          PY
