@@ -1,8 +1,8 @@
 {
   "metadata": {
-    "stage": "14-4ae",
-    "title": "Stage14 proof boundary after fiber-height and generic-rank analysis",
-    "goal": "separate the structural square-root fiber height from the still-open specialization and triple-subtraction problems"
+    "stage": "14-4af",
+    "title": "Stage14 proof boundary after specialization and triple-fiber analysis",
+    "goal": "remove torsion as a physical source, verify generic rank zero on the actual Pythagorean base, and isolate the moving genus-5 triple gate"
   },
   "upstream": {
     "stage13_frozen_contract": "R03_PLUS_13_12AG",
@@ -11,7 +11,6 @@
     "raw_directional_asymptotic_imported": true,
     "pair_overlap_little_o_imported": true,
     "triple_overlap_little_o_imported": true,
-    "inert_local_multiplier": "lambda_p=(p+5)/(2(p+1))",
     "fixed_prime_quantifier_order": "fix finite prime set; B->infinity; then prime-set size -> infinity",
     "growing_modulus_imported": false,
     "power_saving_imported": false
@@ -32,50 +31,61 @@
     "space_diagonal": "d=L sqrt(1+t1^2+t2^2)",
     "parameter_fiber_multiplicity": 1
   },
-  "elliptic_reduction": {
-    "product_pythagorean_identity": "(X1 X2)^2+(g d)^2=(H1 H2)^2",
-    "normalized_square_condition": "1-(rho1 rho2)^2 is a rational square",
-    "jacobi_quartic": "W^2=q^4+2Aq^2+1, A=1-2rho1^2",
+  "elliptic_and_height_input": {
     "elliptic_fiber": "Y^2=X(X-1)(X+t1^2)",
-    "j_invariant_nonconstant": true,
     "non_isotrivial": true,
-    "elliptic_q_inverse": "q=X/(sY), s=S1/H1"
-  },
-  "height_reduction": {
+    "product_pythagorean_identity": "(X1 X2)^2+(g d)^2=(H1 H2)^2",
+    "elliptic_q_inverse": "q=X/(sY), s=S1/H1",
     "uniform_physical_height": "S1 H2/(sqrt(2)g) < d < sqrt(3) S1 H2/g",
-    "second_face_circle_parameter": "q=u/v reduced, 0<u<v",
-    "second_face_hypotenuse": "H2=(u^2+v^2)/delta, delta in {1,2}",
-    "q_denominator_height": "v^2/2 < H2 < 2v^2",
     "fiber_cutoff_scale": "v asymp sqrt(Bg/S1)",
-    "fixed_fiber_height_relation": "h(q(P))=2 hhat(P)+O_t1(1)",
-    "uniform_height_comparison_over_base_proved": false,
-    "fixed_fiber_power_of_B_source": false
+    "full_t_line_geometric_generic_MW_rank": 0
   },
-  "elliptic_surface": {
-    "model": "y^2=x(x-1)(x+t^2)",
-    "Delta": "16 t^4(1+t^2)^2",
-    "c4": "16(1+t^2+t^4)",
-    "geometric_fibers": "I4 at 0, I2 at +i, I2 at -i, I4 at infinity",
-    "euler_sum": 12,
-    "surface_class": "rational elliptic surface",
-    "geometric_picard_rank": 10,
-    "reducible_root_rank": 8,
-    "geometric_generic_MW_rank": 0,
-    "global_specialization_problem": "small-point rank-jump or extra-torsion specializations"
+  "pythagorean_base_change": {
+    "parameterization": "u=X1/(H1+S1), t1=2u/(1-u^2), H1/S1=(1+u^2)/(1-u^2)",
+    "degree": 2,
+    "pulled_back_geometric_fibers": "six I4 fibers at u=0,infinity,+1,-1,+i,-i",
+    "euler_sum": 24,
+    "surface_class": "elliptic K3 surface",
+    "trivial_lattice_rank": 20,
+    "K3_geometric_picard_upper_bound": 20,
+    "pythagorean_base_geometric_generic_MW_rank": 0,
+    "hidden_generic_rank_after_base_change": false
   },
-  "raw_vs_exactly_two": {
-    "identity": "O_pair_raw(B)=N_2(B)+3T(B)",
-    "finite_T_zero_through": 2000000,
+  "torsion_gate": {
+    "rational_torsion_on_genuine_pythagorean_base": "Z/2 x Z/4",
+    "rational_4_torsion": "halves of (1,0), X=1+/-H1/S1",
+    "rational_4_torsion_q_images": "+/-1",
+    "rational_4_torsion_physical": false,
+    "rational_8_torsion": false,
+    "no_8_reason": "would imply three rational squares h-1,h,h+1 in arithmetic progression of common difference 1, equivalent to a rational right triangle of area 1",
+    "physical_consequence": "every physical q in (0,1) is non-torsion and therefore forces positive specialized Mordell-Weil rank"
+  },
+  "triple_gate": {
+    "space_quartic": "W^2=q^4+2Aq^2+1, A=(1-t^2)/(1+t^2)",
+    "third_face_quartic": "R^2=q^4+2Cq^2+1, C=2/t^2-1",
+    "coefficient_difference": "A-C=-2/(t^2(1+t^2))",
+    "branch_sets_disjoint": true,
+    "fixed_base_fiber_product_genus": 5,
+    "fixed_base_rational_points_finite": true,
+    "uniform_rational_point_bound_over_base_proved": false,
     "T_o_sqrtB_proved": false,
-    "raw_pair_asymptotic_implies_exactly_two_asymptotic_without_new_input": false
+    "perfect_cuboid_nonexistence_proved": false
   },
   "validation": {
-    "height_rank_audit": "stages/stage14/data/14-4/height_rank_audit.json",
+    "specialization_triple_audit": "stages/stage14/data/14-4/specialization_triple_audit.json",
     "audit_B": 10000,
+    "oriented_first_face_checks": 3186,
     "raw_pair_incidences_checked": 25,
+    "distinct_first_face_fibers_with_hits": 23,
     "locked_exactly_two_counts_reproduced": [9, 11, 5],
     "triple_count": 0,
-    "all_height_and_inverse_checks_pass": true
+    "all_physical_hits_non_8_torsion": true
+  },
+  "literature_boundary": {
+    "halbeisen_hungerbuehler_2022": "ADJACENT_RESULT_REUSABLE_METHOD",
+    "love_2024": "ADJACENT_RESULT_REUSABLE_METHOD",
+    "rank_frequency_theorem_imported_from_literature": false,
+    "novelty_by_search_absence": false
   },
   "structural_decision": {
     "STAGE14_4AA_COMPLETE": true,
@@ -83,13 +93,18 @@
     "STAGE14_4AC_COMPLETE": true,
     "STAGE14_4AD_COMPLETE": true,
     "STAGE14_4AE_COMPLETE": true,
+    "STAGE14_4AF_COMPLETE": true,
+    "PYTHAGOREAN_BASE_CHANGE_K3": true,
+    "PYTHAGOREAN_BASE_GENERIC_MW_RANK": 0,
+    "TORSION_EXACT_Z2xZ4_ON_GENUINE_BASES": true,
+    "PHYSICAL_RAW_PAIR_IMPLIES_POSITIVE_RANK_SPECIALIZATION": true,
+    "TRIPLE_FIXED_BASE_GENUS": 5,
+    "TRIPLE_FIXED_BASE_RATIONAL_POINTS_FINITE": true,
+    "UNIFORM_TRIPLE_POINT_BOUND_PROVED": false,
     "SQRT_B_STRUCTURAL_HEIGHT_SOURCE_IDENTIFIED": true,
-    "GEOMETRIC_GENERIC_MW_RANK": 0,
-    "RAW_PAIR_HEIGHT_SUM_LOCKED": true,
-    "RAW_PAIR_TO_EXACTLY_TWO_REQUIRES_TRIPLE_CONTROL": true,
+    "SQRT_B_ASYMPTOTIC_CLAIM": false,
     "TRUE_GROWTH_ORDER_IDENTIFIED": false,
     "LEADING_CONSTANT_IDENTIFIED": false,
-    "SQRT_B_ASYMPTOTIC_CLAIM": false,
-    "NEXT": "Stage14-4af small-point specialization and triple-subtraction analysis"
+    "NEXT": "Stage14-4ag quantitative rank-jump/small-point counting with uniform triple control"
   }
 }

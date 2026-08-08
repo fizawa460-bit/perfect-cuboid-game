@@ -55,8 +55,7 @@ Status: [x] Complete.
 
 \[
 (e,x,y)=L(1,t_1,t_2),
-\qquad d=L\sqrt{1+t_1^2+t_2^2},
-\qquad L=\operatorname{lcm}(S_1,S_2).
+\qquad d=L\sqrt{1+t_1^2+t_2^2}.
 \]
 
 The pre-space denominator envelope is `B(log B)^7`; `sqrt(B)` was retained only as a finite candidate.
@@ -65,16 +64,10 @@ The pre-space denominator envelope is `B(log B)^7`; `sqrt(B)` was retained only 
 
 Status: [x] Complete.
 
-The global square condition is
+The space condition is birational, after fixing the first face, to
 
 \[
-(X_1X_2)^2+(gd)^2=(H_1H_2)^2
-\]
-
-and, after fixing the first face,
-
-\[
-\boxed{E_{t_1}:Y^2=X(X-1)(X+t_1^2)}.
+E_{t_1}:Y^2=X(X-1)(X+t_1^2).
 \]
 
 The family is non-isotrivial. R03 supplies local obstructions but not the missing power exponent.
@@ -83,108 +76,75 @@ The family is non-isotrivial. R03 supplies local obstructions but not the missin
 
 Status: [x] Complete.
 
-Write the second rational-circle parameter as reduced `q=u/v`, `0<u<v`. Its primitive face is
+For reduced second-face parameter `q=u/v`,
 
 \[
-S_2=(v^2-u^2)/\delta,
-\quad X_2=2uv/\delta,
-\quad H_2=(u^2+v^2)/\delta,
-\quad \delta\in\{1,2\}.
+v\asymp\sqrt{Bg/S_1}
 \]
 
-Hence
+under the physical cutoff, uniformly up to absolute constants. The elliptic inverse is
 
 \[
-\boxed{v^2/2<H_2<2v^2.}
+q=X/(sY),\qquad s=S_1/H_1.
 \]
 
-The original physical height satisfies uniformly
+The full `t`-line elliptic surface has geometric singular fibers `I4,I4,I2,I2` and geometric generic Mordell--Weil rank `0`.
+
+### 14-4af — Pythagorean-base specialization and triple geometry
+
+Status: [x] Complete.
+
+The actual Stage14 base is the Pythagorean degree-two cover
 
 \[
-\boxed{
-\frac{S_1H_2}{\sqrt2\,g}<d<\frac{\sqrt3 S_1H_2}{g},
-\qquad g=(S_1,S_2).
-}
+t=\frac{2u}{1-u^2},
+\qquad
+H_1/S_1=\frac{1+u^2}{1-u^2}.
 \]
 
-Therefore the natural fiber cutoff is
+The pulled-back elliptic surface has six `I4` fibers, Euler number `24`, and is K3. Its trivial lattice rank is already `20`; the K3 Picard upper bound and Shioda--Tate give
 
 \[
-\boxed{v\asymp\sqrt{Bg/S_1}.}
+\boxed{\operatorname{rank}E(\overline{\mathbf Q}(u))=0.}
 \]
 
-This is a structural source for a square root in the fiber height, but not a proof that the total population is `sqrt(B)`.
+Thus no generic non-torsion section appears after restricting to Pythagorean first faces.
 
-The elliptic birational map has exact inverse
+For every genuine Pythagorean base,
 
 \[
-\boxed{q=X/(sY),\qquad s=S_1/H_1.}
+\boxed{E_t(\mathbf Q)_{tors}\cong\mathbf Z/2\times\mathbf Z/4.}
 \]
 
-For a fixed fiber, standard height theory gives `h(q)=2 hhat+O_t1(1)`, hence only polylogarithmic point growth for fixed Mordell--Weil rank.
-
-The elliptic surface
+The order-4 points map to the degenerate boundary `q=+/-1`; rational 8-torsion is excluded by the impossibility of three rational squares in arithmetic progression with common difference `1`. Hence
 
 \[
-y^2=x(x-1)(x+t^2)
+\boxed{\text{physical raw pair} \Longrightarrow \text{positive-rank specialization}.}
 \]
 
-has
+The triple condition adds a second nonsingular quartic with disjoint branch set. Their fixed-base fiber product has
 
 \[
-\Delta=16t^4(1+t^2)^2,
-\qquad c_4=16(1+t^2+t^4),
+\boxed{g=5},
 \]
 
-and geometric fiber configuration
-
-```text
-I4, I4, I2, I2.
-```
-
-The Euler sum is `12`, so it is a rational elliptic surface. Shioda--Tate gives
-
-\[
-\boxed{\operatorname{rank}E(\overline{\mathbf Q}(t))=0.}
-\]
-
-Thus Stage14 is not averaging points on a positive-rank generic family. It must count specializations with rank jump and/or extra torsion that possess sufficiently small physical points.
-
-A rigorous raw-pair height skeleton is now available:
-
-\[
-\sum_{F_1:H_1<B}\sum_{g|S_1}
-\mathcal N_{F_1,g}\!\left(c_-\sqrt{Bg/S_1}\right)
-\le O_{\rm pair}^{raw}(B)
-\le
-\sum_{F_1:H_1<B}\sum_{g|S_1}
-\mathcal N_{F_1,g}\!\left(c_+\sqrt{Bg/S_1}\right),
-\]
-
-with `c_-=(2sqrt(3))^(-1/2)` and `c_+=2^(3/4)`.
-
-Exactly-two still has a separate gate:
-
-\[
-\boxed{O_{\rm pair}^{raw}(B)=N_2(B)+3T(B).}
-\]
-
-No `T=o(sqrt(B))` theorem is currently known.
+so each fixed first face has only finitely many rational triple points. No uniform moving-base bound and no `T=o(sqrt(B))` theorem is yet available.
 
 Decision:
 
 ```text
-STAGE14_4AE=COMPLETE
-UNIFORM_SECOND_FACE_HEIGHT_COMPARISON=true
-SECOND_FACE_Q_DENOMINATOR_SQUARE_ROOT_HEIGHT=true
-ELLIPTIC_Q_INVERSE=q=X/(sY)
-FIXED_FIBER_POINT_GROWTH_POLYLOGARITHMIC=true
-ELLIPTIC_SURFACE_FIBERS=I4_I4_I2_I2
-GEOMETRIC_GENERIC_MW_RANK=0
-GLOBAL_PROBLEM=SMALL_POINT_RANK_JUMP_OR_EXTRA_TORSION_SPECIALIZATIONS
-RAW_PAIR_HEIGHT_SUM_LOCKED=true
-RAW_PAIR_TO_EXACTLY_TWO_REQUIRES_TRIPLE_CONTROL=true
-SQRT_B_STRUCTURAL_HEIGHT_SOURCE_IDENTIFIED=true
+STAGE14_4AF=COMPLETE
+PYTHAGOREAN_BASE_CHANGE_K3=true
+PYTHAGOREAN_BASE_FIBERS=I4_X6
+PYTHAGOREAN_BASE_GENERIC_MW_RANK=0
+TORSION_EXACT_Z2xZ4_ON_GENUINE_BASES=true
+RATIONAL_4_TORSION_PHYSICAL=false
+RATIONAL_8_TORSION_EXISTS=false
+PHYSICAL_RAW_PAIR_IMPLIES_POSITIVE_RANK_SPECIALIZATION=true
+TRIPLE_FIXED_BASE_GENUS=5
+TRIPLE_FIXED_BASE_RATIONAL_POINTS_FINITE=true
+UNIFORM_TRIPLE_POINT_BOUND_PROVED=false
+T_O_SQRT_B_PROVED=false
 SQRT_B_ASYMPTOTIC_CLAIM=false
 TRUE_GROWTH_ORDER_IDENTIFIED=false
 ```
@@ -192,25 +152,25 @@ TRUE_GROWTH_ORDER_IDENTIFIED=false
 Artifacts:
 
 ```text
-stages/stage14/archive/stage14-4ae-height-rank.md
-stages/stage14/scripts/14-4/height_rank_audit.py
-stages/stage14/data/14-4/height_rank_audit.json
+stages/stage14/archive/stage14-4af-specialization-triple.md
+stages/stage14/scripts/14-4/specialization_triple_audit.py
+stages/stage14/data/14-4/specialization_triple_audit.json
 stages/stage14/data/14-4/proof_input_audit.json
 ```
 
-### 14-4af — small-point specialization and triple-subtraction analysis
+### 14-4ag — quantitative rank-jump / small-point count + uniform triple control
 
 Status: [>] Next.
 
 Purpose:
 
-- characterize which Pythagorean base specializations `t1=X1/S1` acquire non-generic rational points;
-- separate rank jumps from extra-torsion specializations;
-- obtain quantitative information on the first non-torsion canonical height / regulator / successive minima;
-- make the `q`-height versus canonical-height comparison uniform enough to sum over the base;
-- incorporate `gcd(S1,S2)=g` and frozen R03 local restrictions;
-- simultaneously analyze the triple locus strongly enough to decide whether a raw-pair growth law transfers to exactly-two;
-- only then promote or reject a `sqrt(B)`-type total law.
+- count Pythagorean base specializations with positive rank under the Stage14 base height;
+- strengthen that to the distribution of the first sufficiently small non-torsion point, not merely rank parity;
+- make the `q`-height/canonical-height comparison sufficiently uniform over the Pythagorean base;
+- incorporate `gcd(S1,S2)=g`, lcm coupling and the frozen R03 local restrictions;
+- seek a uniform or averaged bound on rational points of the moving genus-5 triple fibers;
+- determine whether the structural `sqrt(B)` fiber height survives the full base sum;
+- transfer any raw-pair law to exactly-two only after the triple term is controlled at the same scale.
 
 ## 14-5 — Directionwise asymptotic structure
 
@@ -218,8 +178,8 @@ Status: pending Stage14-4.
 
 ## Scope boundary
 
-No true growth exponent, leading constant, limiting directional ratio, eventual leader, Euler-side equality, or perfect-cuboid nonexistence theorem is currently established for Stage14.
+No true growth exponent, leading constant, limiting directional ratio, eventual leader, Euler-side equality, perfect-cuboid existence/nonexistence theorem, or `T=o(sqrt(B))` theorem is currently established for Stage14.
 
 ```text
-NEXT=Stage14-4af small-point specialization and triple-subtraction analysis
+NEXT=Stage14-4ag quantitative rank-jump/small-point counting with uniform triple control
 ```

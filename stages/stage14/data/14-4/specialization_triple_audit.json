@@ -1,0 +1,276 @@
+{
+  "metadata": {
+    "stage": "14-4af",
+    "title": "Pythagorean-base specialization and triple-fiber audit",
+    "audit_bound": 10000
+  },
+  "pythagorean_base_change": {
+    "parameter": "u=X1/(H1+S1), t1=2u/(1-u^2), H1/S1=(1+u^2)/(1-u^2)",
+    "degree": 2,
+    "branch_values_in_t": [
+      "+i",
+      "-i"
+    ],
+    "pulled_back_singular_fibers": [
+      {
+        "u": "0",
+        "type": "I4"
+      },
+      {
+        "u": "infinity",
+        "type": "I4"
+      },
+      {
+        "u": "+1",
+        "type": "I4"
+      },
+      {
+        "u": "-1",
+        "type": "I4"
+      },
+      {
+        "u": "+i",
+        "type": "I4"
+      },
+      {
+        "u": "-i",
+        "type": "I4"
+      }
+    ],
+    "euler_sum": 24,
+    "surface_type": "K3",
+    "trivial_lattice_rank": 20,
+    "geometric_picard_upper_bound": 20,
+    "shioda_tate_geometric_MW_rank": 0,
+    "interpretation": "rank zero persists after restricting the base to rational Pythagorean slopes"
+  },
+  "torsion_gate": {
+    "curve": "E_t: Y^2=X(X-1)(X+t^2), with h^2=1+t^2 rational",
+    "rational_2_torsion": [
+      "(0,0)",
+      "(1,0)",
+      "(-t^2,0)"
+    ],
+    "rational_4_torsion": "halves of (1,0): X=1+/-h; their q-images are +/-1 boundary points",
+    "no_8_torsion_argument": "8-torsion would force h-1,h,h+1 to be rational squares, a 3-term square AP of common difference 1; equivalently a rational right triangle of area 1, impossible by Fermat",
+    "mazur_consequence": "E_t(Q)_tors = Z/2 x Z/4 for every genuine Pythagorean base",
+    "physical_consequence": "every physical q in (0,1) is non-torsion, hence every raw Stage14 pair lies on a positive-rank specialization"
+  },
+  "triple_gate": {
+    "space_quartic": "W^2=q^4+2Aq^2+1, A=(1-t^2)/(1+t^2)",
+    "third_face_quartic": "R^2=q^4+2Cq^2+1, C=2/t^2-1",
+    "coefficient_difference": "A-C=-2/(t^2(1+t^2)) != 0",
+    "branch_sets": "4+4 simple and disjoint branch points",
+    "fiber_product_cover_degree": 4,
+    "riemann_hurwitz": "2g-2=4*(-2)+8*2=8",
+    "fixed_base_triple_genus": 5,
+    "finiteness": "Faltings implies finitely many rational triple points for each fixed first face",
+    "global_warning": "no uniform genus-5 point bound over the moving base is imported"
+  },
+  "finite_audit": {
+    "oriented_primitive_faces": 3186,
+    "pythagorean_base_checks": 3186,
+    "torsion_boundary_checks": 6372,
+    "triple_branch_checks": 3186,
+    "raw_pair_incidences": 25,
+    "exactly_two": {
+      "a": 9,
+      "b": 11,
+      "c": 5
+    },
+    "triple": 0,
+    "distinct_first_face_fibers_with_hits": 23,
+    "raw_hit_multiplicity_over_distinct_first_faces": [
+      2,
+      2,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "q_denominator_min": 5,
+    "q_denominator_max": 57,
+    "all_physical_hits_not_killed_by_8": true,
+    "samples": [
+      {
+        "F1": [
+          15,
+          8,
+          17
+        ],
+        "F2": [
+          56,
+          33,
+          65
+        ],
+        "g": 1,
+        "cuboid": [
+          840,
+          448,
+          495,
+          1073
+        ],
+        "t1": "8/15",
+        "q": "3/11",
+        "q_denominator": 11,
+        "eight_P_is_identity": false,
+        "third_face_square": false
+      },
+      {
+        "F1": [
+          15,
+          8,
+          17
+        ],
+        "F2": [
+          495,
+          952,
+          1073
+        ],
+        "g": 15,
+        "cuboid": [
+          495,
+          264,
+          952,
+          1105
+        ],
+        "t1": "8/15",
+        "q": "17/28",
+        "q_denominator": 28,
+        "eight_P_is_identity": false,
+        "third_face_square": false
+      },
+      {
+        "F1": [
+          9,
+          40,
+          41
+        ],
+        "F2": [
+          13,
+          84,
+          85
+        ],
+        "g": 1,
+        "cuboid": [
+          117,
+          520,
+          756,
+          925
+        ],
+        "t1": "40/9",
+        "q": "6/7",
+        "q_denominator": 7,
+        "eight_P_is_identity": false,
+        "third_face_square": false
+      },
+      {
+        "F1": [
+          56,
+          33,
+          65
+        ],
+        "F2": [
+          448,
+          975,
+          1073
+        ],
+        "g": 56,
+        "cuboid": [
+          448,
+          264,
+          975,
+          1105
+        ],
+        "t1": "33/56",
+        "q": "25/39",
+        "q_denominator": 39,
+        "eight_P_is_identity": false,
+        "third_face_square": false
+      },
+      {
+        "F1": [
+          48,
+          55,
+          73
+        ],
+        "F2": [
+          140,
+          171,
+          221
+        ],
+        "g": 4,
+        "cuboid": [
+          1680,
+          1925,
+          2052,
+          3277
+        ],
+        "t1": "55/48",
+        "q": "9/19",
+        "q_denominator": 19,
+        "eight_P_is_identity": false,
+        "third_face_square": false
+      },
+      {
+        "F1": [
+          80,
+          39,
+          89
+        ],
+        "F2": [
+          84,
+          187,
+          205
+        ],
+        "g": 4,
+        "cuboid": [
+          1680,
+          819,
+          3740,
+          4181
+        ],
+        "t1": "39/80",
+        "q": "11/17",
+        "q_denominator": 17,
+        "eight_P_is_identity": false,
+        "third_face_square": false
+      }
+    ]
+  },
+  "literature_boundary": {
+    "halbeisen_hungerbuehler_2022": "adjacent positive-rank/torsion framework for Pythagorean-pair elliptic curves; not the Stage14 signed lcm-height family",
+    "love_2024": "adjacent root-number/product-of-slopes family y^2=x(x+1)(x+t^2); not imported as a Stage14 rank-frequency theorem",
+    "novelty_claim": false
+  },
+  "decision": {
+    "STAGE14_4AF": "COMPLETE",
+    "PYTHAGOREAN_BASE_CHANGE_K3": true,
+    "PYTHAGOREAN_BASE_GENERIC_MW_RANK": 0,
+    "TORSION_EXACT_Z2xZ4_ON_GENUINE_BASES": true,
+    "PHYSICAL_RAW_PAIR_IMPLIES_POSITIVE_RANK_SPECIALIZATION": true,
+    "TRIPLE_FIXED_BASE_GENUS": 5,
+    "TRIPLE_FIXED_BASE_RATIONAL_POINTS_FINITE": true,
+    "SQRT_B_FINITE_CANDIDATE_SURVIVES": true,
+    "SQRT_B_ASYMPTOTIC_CLAIM": false,
+    "TRUE_GROWTH_ORDER_IDENTIFIED": false,
+    "NEXT": "Stage14-4ag quantitative rank-jump/small-point counting with uniform triple control"
+  }
+}
