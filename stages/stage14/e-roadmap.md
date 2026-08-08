@@ -2,150 +2,106 @@
 
 ## Purpose
 
-Stage14-e is an independent **front-side control track** for the exactly-two integral-face problem.
+Stage14-e is an independent front-side control track for the exactly-two integral-face problem. The main Stage14 track keeps the integer-space-diagonal condition; Stage14-e deliberately removes it to measure what that final square condition removes from the natural two-face ambient family.
 
-The main Stage14 track keeps the integer-space-diagonal condition. Stage14-e deliberately removes it. The point is not to solve an easier copy of the same problem, but to measure what the integer-space-diagonal square condition itself removes from the natural two-face ambient family.
-
-The e-track must not replace or renumber the existing Stage14-4 / Stage14-5 roadmap.
+The e-track does not replace or renumber Stage14-4 / Stage14-5.
 
 ## Literature-first rule
 
-Stage14-e sits close to the classical rational-cuboid / Euler-brick / nearly-perfect-cuboid literature, and recent work increasingly uses the same Euclid-pair, quartic, elliptic-curve and arithmetic-surface language. Therefore **every e-substage must perform a literature collision audit before promoting a structural statement, parametrization, asymptotic mechanism or novelty claim**.
-
-For each important claim, classify the nearest literature as one of:
+Every e-substage must refresh the relevant literature before promoting a parametrization, structural theorem, asymptotic mechanism, or novelty claim. Classify the nearest literature as
 
 ```text
-EXACT_COLLISION      = essentially the same object and statement already proved
-ADJACENT_RESULT      = nearby cuboid family or nearby condition, but not the same count
-REUSABLE_METHOD      = method/parametrization can be imported after hypotheses are checked
-NO_COLLISION_FOUND   = no direct prior result found in the searched literature
+EXACT_COLLISION
+ADJACENT_RESULT
+REUSABLE_METHOD
+NO_COLLISION_FOUND_IN_CURRENT_SEARCH
 ```
 
-Rules:
+Absence in a search is never a novelty certificate. Classical rational-cuboid work, Euler-brick tables, nearly-perfect cuboids, arithmetic surfaces, elliptic fibrations, modern search algorithms, and current preprints all belong in the search scope.
 
-1. search both classical and recent sources, not only perfect-cuboid papers;
-2. include Euler bricks, rational cuboids, nearly-perfect/edge/face cuboids, parametrizations, arithmetic surfaces, elliptic fibrations, search algorithms and counting results;
-3. prefer original papers/preprints and publisher records over secondary summaries;
-4. record exact bibliographic identity and which equation/object overlaps Stage14-e;
-5. do not treat a paper's computation as proof of a Stage14-e claim unless the theorem actually covers the same hypotheses;
-6. do not claim novelty from absence in a quick search; write `NO_COLLISION_FOUND_IN_CURRENT_SEARCH` until a serious survey has been made;
-7. when a useful parametrization is already known, reuse/cite it and spend effort on the new height/counting/directional question rather than rediscovering it;
-8. refresh the literature audit at e2, e3, e4 and e5 because this area is active.
-
-Initial literature seed is maintained in
+Canonical literature records:
 
 ```text
 stages/stage14/14-e1/literature-seed.md
+stages/stage14/14-e2/literature-refresh.md
 ```
-
-The initial search already includes Leech's rational-cuboid work, van Luijk's algebraic-surface treatment, nearly-perfect-cuboid parametrizations, rational cuboid parametrizations, recent search/parametric work, and 2026 elliptic/genus-one Euler-brick work. At this checkpoint no direct source has yet been identified that proves the Stage14-e target itself: the primitive shared-edge two-face ambient population counted by real Euclidean height with directionwise asymptotics. This is a **search status, not a novelty theorem**.
 
 ## Locked ambient object
 
-Let `e,x,y` be positive integer edges with `x<y` and
+Let `e,x,y` be positive integers with `x<y` and
 
 \[
 \gcd(e,x,y)=1.
 \]
 
-Require two Pythagorean faces sharing `e`:
+Require
 
 \[
-e^2+x^2=u^2,
+e^2+x^2=\square,
 \qquad
-e^2+y^2=v^2.
+e^2+y^2=\square.
 \]
 
-Define the ordinary real Euclidean space diagonal only as a height
+Define the real Euclidean height
 
 \[
-D_{\mathbf R}:=\sqrt{e^2+x^2+y^2}.
-\]
-
-The cutoff is
-
-\[
-D_{\mathbf R}\le B.
+D_{\mathbf R}=\sqrt{e^2+x^2+y^2}\le B.
 \]
 
 **No condition whatsoever is imposed that `D_R` be an integer or rational.**
 
-The raw ambient population allows the third face to be either square or nonsquare. The exactly-two ambient population additionally imposes
+The exactly-two ambient population further requires
 
 \[
 x^2+y^2\ne\square.
 \]
 
-The three directions are the position of the shared edge:
+Directions are the shared-edge chambers
 
 ```text
-a-ambient: e < x < y
-b-ambient: x < e < y
-c-ambient: x < y < e
+a: e<x<y
+b: x<e<y
+c: x<y<e
 ```
 
-Write the corresponding exactly-two ambient counts as
-
-\[
-E_a(B),\qquad E_b(B),\qquad E_c(B),
-\]
-
-and
+with counts `E_a(B),E_b(B),E_c(B)` and
 
 \[
 E_2(B)=E_a(B)+E_b(B)+E_c(B).
 \]
 
-These are **not** the main Stage14 counts `N_a^(2),N_b^(2),N_c^(2),N_2`; the latter also require an integer space diagonal.
+These are not the main Stage14 counts, which additionally require an integer space diagonal.
 
-## Structural link to the main Stage14 track
+## Structural coordinates
 
-For two oriented primitive face data
+For two oriented primitive Pythagorean face data
 
 \[
-F_1=(S_1,X_1,H_1),
-\qquad
-F_2=(S_2,X_2,H_2),
+F_i=(S_i,X_i,H_i),
 \]
 
 put
 
 \[
-g=(S_1,S_2),\qquad
-\alpha=S_1/g,\qquad
-\beta=S_2/g.
+g=(S_1,S_2),\qquad \alpha=S_1/g,\qquad \beta=S_2/g,
+\qquad L=\operatorname{lcm}(S_1,S_2).
 \]
 
-The Stage14-4ab minimal gluing, which does not use the integer-space-diagonal condition, gives
+Stage14-e1 proves the primitive minimal gluing is bijective:
 
 \[
-\boxed{
- e=\operatorname{lcm}(S_1,S_2)=g\alpha\beta,
- \quad x=\beta X_1,
- \quad y=\alpha X_2.
-}
+\boxed{e=L,\qquad x=\beta X_1,\qquad y=\alpha X_2.}
 \]
 
-With
+With `t_i=X_i/S_i`,
 
 \[
-t_1=X_1/S_1,\qquad t_2=X_2/S_2,
-\qquad L=\operatorname{lcm}(S_1,S_2),
-\]
-
-this is exactly
-
-\[
-(e,x,y)=L(1,t_1,t_2)
-\]
-
-and the e-track height is
-
-\[
+(e,x,y)=L(1,t_1,t_2),
+\qquad
 \boxed{D_{\mathbf R}=L\sqrt{1+t_1^2+t_2^2}.}
 \]
 
-Thus Stage14-e studies the full primitive two-face gluing family before the main-track filter
+Thus the e-track is the full primitive two-face gluing family before the main-track filter
 
 \[
 1+t_1^2+t_2^2\in(\mathbf Q^\times)^2
@@ -157,78 +113,112 @@ is imposed.
 
 Status: [x] Complete.
 
-Completed:
+Locked results:
 
-1. locked the raw and exactly-two ambient counting conventions;
-2. proved that the Stage14-4ab two-face gluing remains a bijection after the space-diagonal square condition is removed;
-3. proved that the real-height formula above is exact and direction-neutral;
-4. implemented two materially different finite enumerators:
-   - edge-first ambient enumeration;
-   - oriented-face-pair ambient enumeration;
-5. obtained exact agreement of directional counts and third-face-square counts at all audited cutoffs through `B=2000`;
-6. created the initial literature seed and classified direct/adjacent methodological collisions;
-7. made no asymptotic claim from the finite data.
+```text
+space-diagonal rationality removed
+real D_R used as height only
+edge-first = face-pair-first through B=2000
+parameter-fiber multiplicity = 1
+no asymptotic claim
+```
 
-Canonical e1 result:
+Canonical result:
 
 ```text
 stages/stage14/14-e1/result.md
 ```
 
-## 14-e2 — finite ambient reconnaissance
+## 14-e2 — finite ambient reconnaissance + literature refresh
 
-Status: [>] Next.
+Status: [x] Complete.
 
-Literature gate: refresh the search for tables, large enumerations and computational Euler-brick / rational-cuboid work before claiming a new census.
+The finite census was extended from the e1 ceiling `B=2000` to `B=1,000,000`.
 
-Targets:
+At the new ceiling,
 
-- extend `E_a,E_b,E_c,E_2` to substantially larger `B`;
-- record raw ambient versus exactly-two ambient populations;
-- measure the third-face-square thinning separately;
-- compare coarse growth candidates without promoting a finite fit to a theorem;
-- compare the ambient direction vector with the main Stage14 finite direction vector.
+\[
+\boxed{
+(E_a,E_b,E_c)=(4{,}592{,}536,\ 5{,}816{,}786,\ 3{,}408{,}403)
+}
+\]
+
+and
+
+\[
+\boxed{E_2(10^6)=13{,}817{,}725.}
+\]
+
+The raw two-face ambient count is `13,818,382`. Exactly `219` primitive Euler-brick objects occur below the same real-height cutoff, giving `657=3*219` third-face-square incidences.
+
+As an independent external subpopulation cross-check, the e2 enumerator reproduces OEIS A239618 under its own strict max-edge cutoff:
+
+```text
+max edge < 10^3 -> 5 primitive Euler bricks
+max edge < 10^4 -> 19
+max edge < 10^5 -> 65
+```
+
+Finite growth diagnostics show
+
+\[
+\frac{E_2(B)}{B(\log B)^3}
+\]
+
+staying near `0.0052` from `B=2,000` through `B=1,000,000`. Therefore `B(log B)^3` is a high-priority e3 candidate scale, but **no asymptotic theorem is claimed**.
+
+At `B=10^6`, the finite direction vector is approximately
+
+```text
+(0.3323655667, 0.4209655352, 0.2466688981)
+```
+
+with `b` still largest. No limiting directional vector is claimed.
+
+The refreshed literature audit found extensive adjacent work on Euler bricks and rational/perfect cuboids—including Rathbun's tables, de Grey–Gibbs–Helm 2024, and Peschmann's 2026 quartic/elliptic Master-Hit program—but no direct theorem in the current search for the primitive two-face ambient population counted by `D_R` and split by shared-edge chamber.
+
+Correct literature status:
+
+```text
+DIRECT_REAL_HEIGHT_TWO_FACE_AMBIENT_COUNT=NO_COLLISION_FOUND_IN_CURRENT_SEARCH
+DIRECTIONWISE_AMBIENT_ASYMPTOTIC=NO_COLLISION_FOUND_IN_CURRENT_SEARCH
+NOVELTY_BY_SEARCH_ABSENCE=false
+```
+
+Canonical e2 artifacts:
+
+```text
+stages/stage14/14-e2/result.md
+stages/stage14/14-e2/literature-refresh.md
+stages/stage14/scripts/14-e2/ambient_reconnaissance.py
+stages/stage14/data/14-e2/ambient_reconnaissance.json
+```
 
 ## 14-e3 — total ambient growth
 
-Status: pending 14-e2.
+Status: [>] Next.
 
-Literature gate: search explicitly for height-counting/asymptotic results on rational cuboids, Pythagorean-pair gluings, lcm-weighted Euclid parameters and related arithmetic varieties before asserting a new growth law.
+Literature gate first. Search specifically for:
 
-Targets:
+- counts of simultaneous Pythagorean pairs sharing one leg;
+- rational Pythagorean slopes with shared-denominator/lcm height;
+- lcm-weighted Euclid-parameter sums;
+- height zeta functions and rational-point counts on the associated arithmetic variety;
+- toric/Manin-type mechanisms that could produce `B(log B)^k`.
 
-- determine the true order of `E_2(B)`;
-- exploit the exact lcm / Pythagorean-slope parametrization without any space-diagonal square condition;
-- isolate the contribution of the shared-leg representation multiplicity
-  \[
-  a(S)=2^{\omega(S)-1}
-  \]
-  on its valid support;
-- derive a rigorous asymptotic or matching upper/lower order before introducing any comparison with the main Stage14 square filter.
+Then determine the true order of `E_2(B)`. The finite `B(log B)^3` stability is a candidate to explain or reject, not an input theorem.
 
 ## 14-e4 — directionwise ambient asymptotic
 
 Status: pending 14-e3.
 
-Literature gate: search for chamber/shape distributions, geometric height measures and directional statistics in cuboid/Pythagorean families.
+Determine whether `E_a,E_b,E_c` share a common arithmetic factor times chamber integrals, and derive any limiting direction vector from proof rather than finite fitting.
 
-Targets:
-
-- determine whether
-  \[
-  E_a(B),E_b(B),E_c(B)
-  \]
-  have a common arithmetic factor times three chamber integrals;
-- derive any limiting ambient direction vector from proof, not from finite ratios;
-- identify whether the chamber geometry alone creates directional bias before the integer-space-diagonal condition is imposed.
+Literature gate: search chamber/shape distributions and geometric-height measures in Pythagorean/cuboid families.
 
 ## 14-e5 — space-diagonal filter comparison
 
 Status: pending 14-e4 and sufficient progress in main Stage14.
-
-Literature gate: refresh recent perfect-cuboid/Euler-brick obstruction and elliptic-fibration work before interpreting the square-filter thinning.
-
-This is the bridge back to the main problem.
 
 Compare
 
@@ -236,37 +226,29 @@ Compare
 N_2(B)\subset E_2(B)
 \]
 
-and directionwise
+and directionwise `N_a^(2),N_b^(2),N_c^(2)` against `E_a,E_b,E_c` to isolate the thinning and directional bias caused specifically by
 
 \[
-N_a^{(2)}(B)\subset E_a(B),\qquad
-N_b^{(2)}(B)\subset E_b(B),\qquad
-N_c^{(2)}(B)\subset E_c(B).
+e^2+x^2+y^2=\square.
 \]
 
-Targets:
-
-- quantify the thinning caused specifically by
-  \[
-  e^2+x^2+y^2=\square;
-  \]
-- study the ratio `N_2(B)/E_2(B)` only after both numerator and denominator have rigorous scales;
-- determine whether the integer-space-diagonal filter is asymptotically direction-neutral or direction-biased;
-- separate geometry/chamber bias from arithmetic square-filter bias.
+Before interpretation, refresh the current perfect-cuboid/Euler-brick obstruction and elliptic-fibration literature.
 
 ## Scope boundary
 
-Stage14-e does not assume a perfect cuboid exists or does not exist. It does not infer the main Stage14 growth order from the ambient family. It does not reuse a finite directional fit as an asymptotic law. It does not declare novelty solely because the current literature search found no exact collision.
-
-The e-track is intentionally a control population with one major condition removed.
+Stage14-e makes no perfect-cuboid existence/nonexistence claim, does not infer the main Stage14 growth order from the ambient family, does not promote finite ratios to asymptotic laws, and does not declare novelty solely because no collision was found in the current search.
 
 ```text
 STAGE14_E_TRACK=DEFINED
 STAGE14_E1=COMPLETE_DEFINITION_BIJECTION_AND_FINITE_AUDIT
+STAGE14_E2=COMPLETE_FINITE_AMBIENT_RECONNAISSANCE
+MAX_E_RECON_B=1000000
 INTEGER_SPACE_DIAGONAL_CONDITION=REMOVED_FROM_E_TRACK
 REAL_SPACE_DIAGONAL_USED_AS_HEIGHT_ONLY=true
 MAIN_STAGE14_NUMBERING_UNCHANGED=true
 LITERATURE_COLLISION_AUDIT_REQUIRED=true
 NOVELTY_BY_ABSENCE_FORBIDDEN=true
-NEXT_E_TASK=Stage14-e2 finite ambient reconnaissance plus refreshed literature audit
+B_LOG3_FINITE_CANDIDATE_PRIORITY=HIGH
+ASYMPTOTIC_CLAIM_MADE=false
+NEXT_E_TASK=Stage14-e3 total ambient growth with literature-first asymptotic collision audit
 ```
