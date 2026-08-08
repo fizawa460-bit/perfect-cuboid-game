@@ -1,0 +1,149 @@
+{
+  "metadata": {
+    "stage": "13-8a",
+    "scope": "exact Stage12-to-Stage13 theorem-interface ledger; no new analytic theorem",
+    "classification": "PASS_NO_NEW_MATHEMATICAL_BRIDGE_GAP_FOUND"
+  },
+  "frozen_stage12_input": {
+    "object": "primitive oriented distinguished-face record count C_prim(B)",
+    "theorem": "C_prim(B) ~ [kappa/(12 pi)] B(log B)^3 = [eta/(12 pi^2)] B(log B)^3",
+    "reopened": false,
+    "import_rule": "Stage13 imports only the frozen theorem/object definitions; directional refinement and overlap removal are Stage13 results."
+  },
+  "object_level_bridge": {
+    "stage12_record_to_stage13_incidence": "A Stage12 record consists of a designated integral face x^2+y^2=P^2, a complementary Pythagorean extension P^2+z^2=d^2, and the retained ordered face-leg orientation. Forget the face-leg order, sort the three edges to a<b<c, and retain which canonical face q contains {x,y}.",
+    "cutoff_compatibility": "Stage12 d=h(r^2+s^2)/2<=B is exactly the Stage13 space-diagonal cutoff d<=B.",
+    "primitive_compatibility": "Stage12 primitivity is Mobius inversion by the common integer scale of all three edges. This is exactly gcd(a,b,c)=1 after canonical sorting; sorting and swapping the two distinguished face legs preserve the gcd.",
+    "outer_parameter_uniqueness": "For a fixed complementary Pythagorean triple (P,z,d), the Stage12 coprime r<s convention has one supported outer parameter record; the remaining universal multiplicity comes only from the two orders (x,y),(y,x).",
+    "repeated_side_boundary": "The frozen Stage12 definition sheet records repeated-side contribution zero; there is no canonical tie boundary requiring an additional main-term correction.",
+    "multi_face_rule": "Raw incidence retains the distinguished face. An exactly-two object contributes two canonical raw incidences and four Stage12 oriented records; an exactly-three object contributes three incidences and six records. Hence the factor 2 remains exact on overlaps."
+  },
+  "exact_projection_theorem": {
+    "define": "C_prim,q^proj(B) = Stage12 primitive oriented records whose distinguished face becomes canonical category q",
+    "categorywise": "C_prim,q^proj(B)=2 A_q(B) for q in {ab,ac,bc}",
+    "total": "C_prim(B)=sum_q C_prim,q^proj(B)=2(A_ab+A_ac+A_bc)",
+    "fiber_size": 2,
+    "parity_stratified": true,
+    "extra_2adic_projection_factor": false
+  },
+  "directional_constant_bridge": {
+    "P_q": "P_q=8 I_q/pi^2",
+    "projected_stage12": "C_prim,q^proj(B) ~ [kappa/(12 pi)] P_q B(log B)^3 = [2 kappa I_q/(3 pi^3)] B(log B)^3",
+    "canonical_raw": "A_q(B) ~ [kappa/(24 pi)] P_q B(log B)^3 = [kappa I_q/(3 pi^3)] B(log B)^3",
+    "canonical_raw_eta_form": "A_q(B) ~ [eta I_q/(3 pi^4)] B(log B)^3",
+    "numeric_kappa_diagnostic_only": 0.01855917155586297,
+    "numeric_eta_diagnostic_only": 0.058305357016611756,
+    "P_numeric": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    },
+    "projected_stage12_constants_numeric": {
+      "ab": 0.0002632495567112389,
+      "ac": 0.00012078966457217532,
+      "bc": 0.00010825809418426806
+    },
+    "canonical_raw_constants_numeric": {
+      "ab": 0.00013162477835561946,
+      "ac": 0.00006039483228608767,
+      "bc": 0.00005412904709213402
+    },
+    "sum_projected_stage12_constants_numeric": 0.0004922973154676823,
+    "stage12_total_constant_numeric": 0.0004922973154676823,
+    "sum_canonical_raw_constants_numeric": 0.00024614865773384115,
+    "canonical_raw_total_constant_numeric": 0.00024614865773384115,
+    "symbolic_constants_authoritative": true
+  },
+  "exact_one_bridge": {
+    "exact_category_identity": {
+      "ab": "N_ab=A_ab-O_ab_ac-O_ab_bc+T",
+      "ac": "N_ac=A_ac-O_ab_ac-O_ac_bc+T",
+      "bc": "N_bc=A_bc-O_ab_bc-O_ac_bc+T"
+    },
+    "exact_total_identity": "N1=C_prim/2-2(O_ab_ac+O_ab_bc+O_ac_bc)+3T",
+    "overlap_scale": "all pair overlaps and T are o(B(log B)^3)",
+    "asymptotic_category_bridge": "N_q(B)=(1/2)C_prim,q^proj(B)+o(B(log B)^3)",
+    "asymptotic_total_bridge": "N1(B)=(1/2)C_prim(B)+o(B(log B)^3)",
+    "perfect_cuboid_nonexistence_assumed": false
+  },
+  "final_directional_theorem_as_bridge_corollary": {
+    "categorywise": "N_q(B) ~ [kappa/(24 pi)] P_q B(log B)^3 = [kappa I_q/(3 pi^3)] B(log B)^3",
+    "total": "N1(B) ~ [kappa/(24 pi)] B(log B)^3",
+    "normalized_limit": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    },
+    "bc_normalized_ratio": {
+      "ab": 2.431684750178191,
+      "ac": 1.115756428951881,
+      "bc": 1.0
+    }
+  },
+  "scope_boundary": {
+    "belongs_to_frozen_stage12": [
+      "definition of C_prim and its primitive/oriented convention",
+      "C_prim(B)~[kappa/(12 pi)]B(log B)^3",
+      "eta=pi*kappa and the frozen local-factor ledger"
+    ],
+    "proved_in_stage13": [
+      "exact factor-2 projection to canonical raw incidences (13-3d)",
+      "categorywise raw constants and chamber proportions (13-7jb)",
+      "fixed-prime overlap lower-order theorem (13-7jf)",
+      "unconditional exactly-one directional limit (13-7jf/7jg)"
+    ],
+    "stage12_reopen_required": false,
+    "important_fixed_prime_note": "The fixed-modulus congruence refinement used in 13-7jf is a Stage13 extension at the same accepted theorem-application level; it is not retroactively inserted into the frozen Stage12 theorem statement."
+  },
+  "finite_end_to_end_lock": {
+    "B": 100000,
+    "C_prim": 336416,
+    "A_total": 168208,
+    "N1": 168030,
+    "pair_overlap_sum": 89,
+    "triple_overlap": 0,
+    "checks": {
+      "C_prim_equals_2_A_total": true,
+      "N1_equals_C_prim_over_2_minus_2O_plus_3T": true
+    },
+    "directional_raw": {
+      "ab": 84212,
+      "ac": 43236,
+      "bc": 40760
+    },
+    "directional_projected_stage12": {
+      "ab": 168424,
+      "ac": 86472,
+      "bc": 81520
+    },
+    "directional_exact_one": {
+      "ab": 84146,
+      "ac": 43180,
+      "bc": 40704
+    }
+  },
+  "bridge_gap_audit": {
+    "object_map": "CLOSED",
+    "cutoff_matching": "CLOSED",
+    "primitive_definition_matching": "CLOSED",
+    "orientation_fiber": "CLOSED",
+    "canonical_direction_partition": "CLOSED",
+    "parity_projection": "CLOSED",
+    "stage12_total_constant": "CLOSED_FROZEN_INPUT",
+    "directional_raw_constants": "CLOSED_BY_13_7JB",
+    "overlap_to_exact_one": "CLOSED_BY_13_7JF",
+    "new_mathematical_bridge_lemma_required": false,
+    "remaining_task": "canonical exposition/notation consolidation in Stage13 main.md"
+  },
+  "proposed_remaining_stage13_8_sequence": {
+    "13-8b": "insert the bridge theorem and notation ledger into canonical stages/stage13/main.md",
+    "13-8c": "final cross-reference/scope audit; if no new gap appears, close Stage13-8 and advance to Stage13-9",
+    "expected_need_for_13_8d_or_later": "none currently identified"
+  },
+  "status": {
+    "stage13_8a_complete": true,
+    "no_new_mathematical_bridge_gap_found": true,
+    "stage12_reopened": false,
+    "next": "Stage13-8b canonical bridge theorem integration"
+  }
+}
