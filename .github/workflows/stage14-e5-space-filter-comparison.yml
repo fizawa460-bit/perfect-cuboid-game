@@ -1,0 +1,90 @@
+name: Stage14-e5 space-diagonal filter comparison
+
+on:
+  push:
+    branches:
+      - agent/stage14-e5-space-filter-comparison
+    paths:
+      - 'stages/stage14/14-e5/**'
+      - 'stages/stage14/scripts/14-e5/**'
+      - 'stages/stage14/data/14-e5/**'
+      - 'stages/stage14/e-roadmap.md'
+      - '.github/workflows/stage14-e5-space-filter-comparison.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e5/**'
+      - 'stages/stage14/scripts/14-e5/**'
+      - 'stages/stage14/data/14-e5/**'
+      - 'stages/stage14/e-roadmap.md'
+      - '.github/workflows/stage14-e5-space-filter-comparison.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute filter comparison audit
+        run: |
+          cp stages/stage14/data/14-e5/space_filter_comparison_audit.json /tmp/e5_expected.json
+          python stages/stage14/scripts/14-e5/space_filter_comparison_audit.py
+
+      - name: Verify deterministic e5 report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/e5_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e5/space_filter_comparison_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          assert actual['status']['STAGE14_E5'] == 'COMPLETE_SPACE_FILTER_COMPARISON'
+          assert actual['status']['TOTAL_SPACE_FILTER_SURVIVAL'] == 'o(LOG^-2)'
+          assert actual['status']['DIRECTIONWISE_SPACE_FILTER_SURVIVAL'] == 'o(LOG^-2)'
+          assert actual['status']['DIRECTION_NEUTRALITY_PROVED'] is False
+          assert actual['status']['MAIN_TRUE_GROWTH_ORDER_PROVED'] is False
+          assert actual['status']['E_TRACK_CONTROL_EXPERIMENT'] == 'COMPLETE'
+          assert actual['theorem_scale_comparison']['ambient_log_power'] == 5
+          assert actual['theorem_scale_comparison']['main_imported_log_power'] == 3
+          assert actual['theorem_scale_comparison']['survival_log_power_gap'] == -2
+          assert actual['geometry']['classification'] == 'thin type II after normalization/resolution'
+          assert actual['geometry']['main_stage14_4af_generic_rank'] == 0
+          assert actual['finite_same_cutoff_B10000']['main_exactly_two'] == [9,11,5]
+          assert actual['finite_same_cutoff_B10000']['ambient_exactly_two'] == [12464,18198,11004]
+          print('Stage14-e5 deterministic comparison audit: PASS')
+          PY
+
+      - name: Verify proof boundary and literature gate
+        run: |
+          grep -F 'STAGE14_E5=COMPLETE_SPACE_FILTER_COMPARISON' stages/stage14/14-e5/result.md
+          grep -F 'TOTAL_SPACE_FILTER_SURVIVAL=o(LOG^-2)' stages/stage14/14-e5/result.md
+          grep -F 'DIRECTIONWISE_SPACE_FILTER_SURVIVAL=o(LOG^-2)' stages/stage14/14-e5/result.md
+          grep -F 'DIRECTION_NEUTRALITY_PROVED=false' stages/stage14/14-e5/result.md
+          grep -F 'Peschmann' stages/stage14/14-e5/literature-filter-audit.md
+          grep -F 'Pasten' stages/stage14/14-e5/literature-filter-audit.md
+          grep -F 'Melistas' stages/stage14/14-e5/literature-filter-audit.md
+          grep -F 'NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e5/literature-filter-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e5/literature-filter-audit.md
+
+      - name: Verify e4 and main Stage14 inputs remain locked
+        run: |
+          grep -F 'STAGE14_E4=COMPLETE_DIRECTIONAL_ASYMPTOTIC' stages/stage14/14-e4/result.md
+          grep -F 'PA=0.4244299091218' stages/stage14/14-e4/result.md
+          grep -F 'STAGE14_4AF=COMPLETE' stages/stage14/main.md
+          grep -F 'PYTHAGOREAN_BASE_GENERIC_MW_RANK=0' stages/stage14/main.md
+          grep -F 'TRUE_GROWTH_ORDER_IDENTIFIED=false' stages/stage14/main.md
+
+      - name: Verify e-roadmap final control-track locks
+        run: |
+          grep -F 'No condition whatsoever is imposed that `D_R` be an integer or rational.' stages/stage14/e-roadmap.md
+          grep -F 'STAGE14_E5=COMPLETE_SPACE_FILTER_COMPARISON' stages/stage14/e-roadmap.md
+          grep -F 'E_TRACK_CONTROL_EXPERIMENT=COMPLETE' stages/stage14/e-roadmap.md
+          grep -F 'NEXT_E_ACTION=WAIT_FOR_MAIN_STAGE14_QUANTITATIVE_GROWTH_OR_DIRECTION_RESULT' stages/stage14/e-roadmap.md
+          grep -F 'NOVELTY_BY_ABSENCE_FORBIDDEN=true' stages/stage14/e-roadmap.md
