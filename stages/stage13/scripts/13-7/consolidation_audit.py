@@ -67,14 +67,15 @@ def build_report() -> dict:
         q: float(pure["individual_leading_constants"][q]["numeric_truncation"])
         for q in ("ab", "ac", "bc")
     }
-    C = {
-        q: 8.0 * float(I[q]) / math.pi**3
-        for q in ("ab", "ac", "bc")
-    }
+    C = {q: 8.0 * float(I[q]) / math.pi**3 for q in ("ab", "ac", "bc")}
     lambdas = {q: K[q] / C[q] for q in ("ab", "ac", "bc")}
     assert max(lambdas.values()) - min(lambdas.values()) < 5e-15
     assert close(sum(C.values()), 1.0 / math.pi)
     assert close(lambdas["ab"], math.pi * sum(K.values()))
+
+    # Use the support report as an independent cross-check of the common scale factor.
+    support_lambda = float(support["primitive_support_transition"]["Lambda_numeric"])
+    assert close(lambdas["ab"], support_lambda)
 
     kappa_diag = float(raw["frozen_stage12_total"]["kappa_prime_product_diagnostic"])
     D = {
@@ -119,6 +120,9 @@ def build_report() -> dict:
 
     ratio = {q: P_expected[q] / P_expected["bc"] for q in ("ab", "ac", "bc")}
 
+    finite_alpha = 131.0 / 168030.0
+    finite_beta = 619.0 / 84015.0
+
     return {
         "metadata": {
             "stage": "13-7jg",
@@ -145,7 +149,7 @@ def build_report() -> dict:
         "scale_ladder": {
             "preprimitive_m1": {
                 "scale": "B log B",
-                "constants": {q: C[q] for q in C},
+                "constants": C,
                 "total_constant": 1.0 / math.pi,
                 "normalized_limit": P_expected,
             },
@@ -177,11 +181,11 @@ def build_report() -> dict:
             "13-7jf": "fixed-prime sieve is the active overlap theorem; fixed modulus first, B limit second, number of primes last",
         },
         "finite_vs_asymptotic_interpretation": {
-            "B100000_exact_one_alpha": 0.0007796226864250551,
-            "B100000_exact_one_beta": 0.007367731940724871,
+            "B100000_exact_one_alpha": finite_alpha,
+            "B100000_exact_one_beta": finite_beta,
             "limit_alpha": alpha,
             "limit_beta": beta,
-            "finite_beta_over_alpha_approx": 9.45,
+            "finite_beta_over_alpha": finite_beta / finite_alpha,
             "limit_alpha_over_beta": alpha / beta,
             "conclusion": (
                 "The near-2:1:1 vector at accessible cutoffs is pre-asymptotically flattened. "
