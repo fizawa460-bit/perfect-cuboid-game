@@ -1,6 +1,6 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_1A_COUNTING_CONVENTION_LOCKED`
+> **STATUS:** `STAGE14_1B_STAGE13_PAIR_INTERFACE_LOCKED_14_1C_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 >
@@ -237,7 +237,7 @@ Tasks `14-1` through `14-3` use ordinary letter substages as needed. Because `14
 
 This naming choice is organizational only and has no mathematical content.
 
-### §1.8 Locked decision
+### §1.8 Locked decision — 14-1a
 
 ```text
 STAGE14_1A=COMPLETE
@@ -253,4 +253,158 @@ DIRECTION_a=ab+ac_smallest_edge_shared
 DIRECTION_b=ab+bc_middle_edge_shared
 DIRECTION_c=ac+bc_largest_edge_shared
 NEXT=Stage14-1b Stage13 pair-overlap interface and inherited checksum
+```
+
+### §1.9 Stage14-1b — Stage13 pair-overlap interface
+
+Stage14 does not introduce a new pair-count object. Its raw pair populations are exactly the pair-overlap quantities already counted in Stage13 under the same ambient convention:
+
+\[
+\boxed{
+O_{ab,ac}^{(14)}(B)=O_{ab,ac}^{(13)}(B),
+\quad
+O_{ab,bc}^{(14)}(B)=O_{ab,bc}^{(13)}(B),
+\quad
+O_{ac,bc}^{(14)}(B)=O_{ac,bc}^{(13)}(B).
+}
+\]
+
+Likewise the Stage14 triple population is the same Stage13 triple overlap,
+
+\[
+\boxed{T^{(14)}(B)=T^{(13)}(B).}
+\]
+
+There is no conversion multiplicity: both stages use primitive canonical objects with `0<a<b<c`, integer space diagonal, and the same cutoff `d<=B`. The only change of viewpoint is that Stage13 treated these quantities as overlap corrections to the one-face population, whereas Stage14 promotes them to the raw objects of interest.
+
+The machine-readable interface ledger is
+
+```text
+stages/stage14/data/14-1/stage13_pair_interface.json
+```
+
+#### §1.9.1 Inherited finite seed table
+
+The complete Stage13-3a enumeration already recorded the following pair/triple values:
+
+| B | O_ab,ac | O_ab,bc | O_ac,bc | T | exactly-two vector (a,b,c) | N_2 |
+|---:|---:|---:|---:|---:|---|---:|
+| 1,000 | 2 | 0 | 0 | 0 | (2,0,0) | 2 |
+| 2,000 | 2 | 2 | 1 | 0 | (2,2,1) | 5 |
+| 5,000 | 6 | 6 | 3 | 0 | (6,6,3) | 15 |
+| 10,000 | 9 | 11 | 5 | 0 | (9,11,5) | 25 |
+| 20,000 | 16 | 16 | 10 | 0 | (16,16,10) | 42 |
+| 50,000 | 24 | 24 | 14 | 0 | (24,24,14) | 62 |
+| 100,000 | 33 | 33 | 23 | 0 | (33,33,23) | 89 |
+
+These rows are inherited seed data, not a substitute for Stage14-2. Stage14-2 will independently reproduce the historical range where practical and extend the finite enumeration to larger cutoffs.
+
+No conclusion is drawn from the fact that `T=0` in these audited rows; perfect-cuboid nonexistence is not assumed.
+
+#### §1.9.2 B=100000 end-to-end checksum
+
+At `B=100000`, Stage13 gives
+
+\[
+(A_{ab},A_{ac},A_{bc})=(84212,43236,40760)
+\]
+
+and
+
+\[
+(N_{ab},N_{ac},N_{bc})=(84146,43180,40704).
+\]
+
+Together with
+
+\[
+(O_{ab,ac},O_{ab,bc},O_{ac,bc})=(33,33,23),
+\qquad T=0,
+\]
+
+the directional inclusion-exclusion checks are
+
+\[
+84212-84146=66=33+33-0,
+\]
+
+\[
+43236-43180=56=33+23-0,
+\]
+
+\[
+40760-40704=56=33+23-0.
+\]
+
+The Stage14 exactly-two vector is therefore exactly
+
+\[
+\boxed{
+\mathbf N_2^{\rm dir}(100000)=(33,33,23),
+\qquad N_2(100000)=89.
+}
+\]
+
+At total-incidence level,
+
+\[
+168208-168030=178=2\cdot89+3\cdot0.
+\]
+
+The coefficient `2` here is not the Stage12 orientation factor: it is simply that an exactly-two-face object contributes two raw face incidences and zero exactly-one incidences. A three-face object would contribute three raw incidences, giving the exact identity
+
+\[
+\boxed{
+A_{ab}+A_{ac}+A_{bc}-N_1=2N_2+3T.
+}
+\]
+
+#### §1.9.3 Inherited asymptotic ceiling
+
+Stage13-7jf/7jg proves, at the existing project theorem-application standard,
+
+\[
+O_{ab,ac}(B),\ O_{ab,bc}(B),\ O_{ac,bc}(B),\ T(B)
+=o(B(\log B)^3).
+\]
+
+Because
+
+\[
+N_a^{(2)}=O_{ab,ac}-T,
+\quad
+N_b^{(2)}=O_{ab,bc}-T,
+\quad
+N_c^{(2)}=O_{ac,bc}-T,
+\]
+
+Stage14 immediately inherits
+
+\[
+\boxed{
+N_a^{(2)}(B),\ N_b^{(2)}(B),\ N_c^{(2)}(B),\ N_2(B)
+=o(B(\log B)^3).
+}
+\]
+
+This is only an **upper-scale separation from the Stage13 one-face main term**. It does not identify the true two-face scale, exponent, logarithmic power, directional constants, or limiting ratio. Those remain open, with the true total order assigned to Stage14-4 and directionwise asymptotics to Stage14-5.
+
+The inherited overlap theorem also does not imply `T(B)=0`; density zero relative to the one-face main term is not nonexistence.
+
+### §1.10 Locked decision — 14-1b
+
+```text
+STAGE14_1A=COMPLETE
+STAGE14_1B=COMPLETE
+STAGE13_PAIR_INTERFACE=CLOSED
+PAIR_OBJECT_CONVERSION_MULTIPLICITY=1
+INHERITED_FINITE_SEED_DATA=true
+B100000_EXACTLY_TWO_VECTOR=(33,33,23)
+B100000_EXACTLY_TWO_TOTAL=89
+INHERITED_PAIR_OVERLAP_BOUND=o(B(log B)^3)
+INHERITED_TRIPLE_BOUND=o(B(log B)^3)
+INHERITED_EXACTLY_TWO_BOUND=o(B(log B)^3)
+TRUE_TWO_FACE_GROWTH_ORDER_IDENTIFIED=false
+PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
+NEXT=Stage14-1c enumeration/output specification
 ```
