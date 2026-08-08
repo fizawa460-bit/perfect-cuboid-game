@@ -1,0 +1,45 @@
+name: Stage14-s4 bisection bridge audit
+
+on:
+  push:
+    branches: [agent/stage14-s4-bisection-bridge]
+    paths:
+      - 'stages/stage14/14-s4/**'
+      - 'stages/stage14/scripts/14-s4/**'
+      - 'stages/stage14/data/14-s4/**'
+      - 'stages/stage14/**/14-4ai*'
+      - 'stages/stage14/**/14-4aj*'
+      - '.github/workflows/stage14-s4-bisection-bridge.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s4/**'
+      - 'stages/stage14/scripts/14-s4/**'
+      - 'stages/stage14/data/14-s4/**'
+      - 'stages/stage14/**/14-4ai*'
+      - 'stages/stage14/**/14-4aj*'
+      - '.github/workflows/stage14-s4-bisection-bridge.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s4 bridge audit
+        run: python stages/stage14/scripts/14-s4/bisection_bridge_audit.py
+      - name: Validate boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-s4/bisection_bridge_audit.json'
+          d=json.load(open(p)); q=d['decision']
+          assert q['BISECTION_TO_SELMER_COMPARISON_INTERFACE_LOCKED'] is True
+          assert q['M_DEGREE4_HEIGHT_EXPONENT_COMPATIBILITY_LOCKED'] is True
+          assert q['BISECTION_DOMINANCE_PROVED'] is False
+          assert q['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage14-s4-bisection-bridge-audit
+          path: stages/stage14/data/14-s4/bisection_bridge_audit.json
