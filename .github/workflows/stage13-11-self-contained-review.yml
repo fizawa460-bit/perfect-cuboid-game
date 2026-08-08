@@ -1,0 +1,62 @@
+name: Stage13-11 self-contained review bundle
+
+on:
+  push:
+    branches:
+      - agent/stage13-11-review-bundle
+    paths:
+      - 'stages/stage12/final.md'
+      - 'stages/stage12/manifest-r09.md'
+      - 'stages/stage13/**'
+      - '.github/workflows/stage13-11-self-contained-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build physical Stage13 review page
+        run: python stages/stage13/scripts/13-11/build_self_contained_review.py
+
+      - name: Verify physical bundle markers
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          html = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260808-R01.html').read_text(encoding='utf-8')
+          manifest = json.loads(Path('stages/stage13/data/13-11/review_bundle_manifest.json').read_text())
+          bundle = 'STAGE13-FINAL-SELF-CONTAINED-20260808-R01'
+
+          assert f'BUNDLE_ID={bundle}' in html
+          assert f'END_OF_BUNDLE={bundle}' in html
+          assert 'CHECKPOINT=START_OF_MAIN' in html
+          assert 'CHECKPOINT=BEFORE_EMBEDDED_SOURCES' in html
+          assert 'CHECKPOINT=AFTER_EMBEDDED_SOURCES' in html
+          assert 'CHECKPOINT=END_OF_MAIN' in html
+          assert 'external_runtime_dependencies' in Path('stages/stage13/scripts/13-11/build_self_contained_review.py').read_text()
+          assert manifest['status']['physical_single_html'] is True
+          assert manifest['status']['external_runtime_dependencies'] is False
+          assert manifest['source_count'] >= 10
+          assert manifest['html_bytes'] > 100000
+          print('Stage13-11 bundle verification: PASS')
+          PY
+
+      - name: Commit generated bundle when changed
+        run: |
+          if git diff --quiet -- review/STAGE13-FINAL-SELF-CONTAINED-20260808-R01.html stages/stage13/data/13-11/review_bundle_manifest.json; then
+            echo 'Generated bundle already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add review/STAGE13-FINAL-SELF-CONTAINED-20260808-R01.html stages/stage13/data/13-11/review_bundle_manifest.json
+          git commit -m 'Stage13-11 generate self-contained review bundle'
+          git push
