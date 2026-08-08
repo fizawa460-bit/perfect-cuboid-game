@@ -1,0 +1,76 @@
+name: Stage14-e2 ambient reconnaissance
+
+on:
+  push:
+    branches:
+      - agent/stage14-e2-ambient-reconnaissance
+    paths:
+      - 'stages/stage14/14-e2/**'
+      - 'stages/stage14/scripts/14-e2/**'
+      - 'stages/stage14/data/14-e2/**'
+      - 'stages/stage14/e-roadmap.md'
+      - '.github/workflows/stage14-e2-ambient-reconnaissance.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e2/**'
+      - 'stages/stage14/scripts/14-e2/**'
+      - 'stages/stage14/data/14-e2/**'
+      - 'stages/stage14/e-roadmap.md'
+      - '.github/workflows/stage14-e2-ambient-reconnaissance.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute finite ambient reconnaissance
+        run: python stages/stage14/scripts/14-e2/ambient_reconnaissance.py
+
+      - name: Verify e2 locks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('stages/stage14/data/14-e2/ambient_reconnaissance.json')
+          r = json.loads(p.read_text())
+          assert r['pass'] is True
+          assert r['status']['STAGE14_E2'] == 'COMPLETE_FINITE_AMBIENT_RECONNAISSANCE'
+          assert r['status']['MAX_RECON_B'] == 1000000
+          assert r['status']['OEIS_A239618_CROSSCHECK_PASS'] is True
+          assert r['status']['ASYMPTOTIC_CLAIM_MADE'] is False
+          rows = {row['B']: row for row in r['cutoffs']}
+          assert rows[1000000]['exactly_two_total'] == 13817725
+          assert tuple(rows[1000000]['exactly_two_directional'][q] for q in 'abc') == (4592536, 5816786, 3408403)
+          assert rows[1000000]['ambient_euler_brick_object_count'] == 219
+          assert r['external_census_crosscheck']['observed'] == {'1000': 5, '10000': 19, '100000': 65}
+          print('Stage14-e2 census locks: PASS')
+          PY
+
+      - name: Verify literature gate
+        run: |
+          grep -F 'NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e2/literature-refresh.md
+          grep -F 'arXiv:2605.00573' stages/stage14/14-e2/literature-refresh.md
+          grep -F 'arXiv:2401.06784' stages/stage14/14-e2/literature-refresh.md
+          grep -F 'OEIS A239618' stages/stage14/14-e2/literature-refresh.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e2/literature-refresh.md
+
+      - name: Verify e1 contract remains intact
+        run: |
+          python stages/stage14/scripts/14-e1/ambient_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('stages/stage14/data/14-e1/ambient_audit.json').read_text())
+          assert r['pass'] is True
+          assert r['status']['EDGE_FIRST_FACE_PAIR_FIRST_SET_EQUALITY'] is True
+          assert r['status']['FACE_PAIR_FIBER_MULTIPLICITY_ONE'] is True
+          print('Stage14-e1 compatibility: PASS')
+          PY
