@@ -18,7 +18,7 @@ Priority: required
 
 ```text
 14-1a  lock ambient object, exactly-two categories, raw-pair/triple ledger   [complete]
-14-1b  connect to the historical pair-overlap notation and checksums         [complete]
+14-1b  connect to historical pair-overlap notation and checksums             [complete]
 14-1c  lock enumeration/output specification                                [complete]
 ```
 
@@ -31,17 +31,7 @@ Locked ambient population:
 \qquad d\le B.
 \]
 
-### Stage13-review isolation
-
-Stage13 is under independent proof review. Any inherited Stage13 asymptotic statement, including the previously recorded ceiling
-
-\[
-N_2(B)=o(B(\log B)^3),
-\]
-
-is **not used as an input to current Stage14 work while that review is unresolved**. Stage14-2 and Stage14-3 proceed from direct exact enumeration only. Stage14-4 is planned to attack the growth scale independently rather than rely on the inherited ceiling.
-
-The historical finite rows remain useful only because Stage14-2a independently reproduced them exactly with a standalone enumerator.
+Stage13 is under independent proof review. Its analytic claims are not inputs to current Stage14 finite work.
 
 Status: [x] Complete.
 
@@ -49,51 +39,23 @@ Status: [x] Complete.
 
 Priority: required
 
-Required outputs:
-
-```text
-O_ab_ac, O_ab_bc, O_ac_bc
-T
-N_a^(2), N_b^(2), N_c^(2)
-N_2
-normalized directional diagnostics
-candidate/dedup diagnostics
-validation flags and any triple witnesses
-```
-
 ### 14-2a — standalone historical reproduction
 
 Status: [x] Complete.
 
-A standalone Stage14 implementation was added at
+The Stage14 production enumerator
 
 ```text
 stages/stage14/scripts/14-2/two_face_census.py
 ```
 
-It imports no Stage13 counting code. All seven historical finite rows reproduce exactly:
-
-```text
-B=1,000      (N_a,N_b,N_c)=(2,0,0)      N2=2   T=0
-B=2,000      (N_a,N_b,N_c)=(2,2,1)      N2=5   T=0
-B=5,000      (N_a,N_b,N_c)=(6,6,3)      N2=15  T=0
-B=10,000     (N_a,N_b,N_c)=(9,11,5)     N2=25  T=0
-B=20,000     (N_a,N_b,N_c)=(16,16,10)   N2=42  T=0
-B=50,000     (N_a,N_b,N_c)=(24,24,14)   N2=62  T=0
-B=100,000    (N_a,N_b,N_c)=(33,33,23)   N2=89  T=0
-```
-
-Result:
-
-```text
-stages/stage14/data/14-2/historical_reproduction_report.json
-```
+imports no Stage13 counting code and reproduces the historical seven rows exactly.
 
 ### 14-2b — verified extension above B=100000
 
 Status: [x] Complete.
 
-The standalone Stage14 enumerator reaches the full preferred ladder:
+The same Stage14-owned enumerator reaches the full preferred ladder:
 
 ```text
 B=200,000      (42,50,24)    N2=116   T=0
@@ -102,42 +64,56 @@ B=1,000,000    (98,101,56)   N2=255   T=0
 B=2,000,000    (142,134,80)  N2=356   T=0
 ```
 
-c-normalized exactly-two ratios:
-
-```text
-200k   1.7500 : 2.083333 : 1
-500k   1.7500 : 1.950000 : 1
-1m     1.7500 : 1.803571 : 1
-2m     1.7750 : 1.675000 : 1
-```
-
-The finite leader is `b` through `B=1m`, then `a` at `B=2m`. This reversal is a finite diagnostic and forbids assuming monotone directional convergence without further evidence.
-
-No triple object is found through `B=2m`; this is a finite search result only.
-
-Results:
-
-```text
-stages/stage14/data/14-2/extended_census_report.json
-stages/stage14/archive/stage14-2b-extended-census.md
-```
-
-No Stage13 analytic result was used to obtain these rows.
+The finite leader is `b` through `B=1m`, then `a` at `B=2m`.
 
 ### 14-2c — finite-census closure / audit
 
-Status: [>] Next.
+Status: [x] Complete.
 
-Close Stage14-2 before ratio analysis by checking:
+A logically separate audit route is implemented at
 
-1. historical reproduction remains exact;
-2. the four extended rows satisfy all pair/triple/exactly-two identities;
-3. the implementation/output metadata are internally consistent;
-4. the Stage14 canonical summary is synchronized through `B=2m`;
-5. Stage13 analytic dependencies are explicitly quarantined while external review is unresolved;
-6. no asymptotic or monotonicity statement has leaked into the finite census layer.
+```text
+stages/stage14/scripts/14-2/shared_leg_crosscheck.py
+```
 
-After this audit, freeze the finite table and move to Stage14-3.
+It joins two Pythagorean faces on a shared leg first, then tests the integer space diagonal. This differs from the production route, which starts from a distinguished face and glues that face diagonal into a space-diagonal Pythagorean triple.
+
+The two routes agree exactly at all 11 audited cutoffs:
+
+| B | N_a^(2) | N_b^(2) | N_c^(2) | N_2 | T |
+|---:|---:|---:|---:|---:|---:|
+| 1,000 | 2 | 0 | 0 | 2 | 0 |
+| 2,000 | 2 | 2 | 1 | 5 | 0 |
+| 5,000 | 6 | 6 | 3 | 15 | 0 |
+| 10,000 | 9 | 11 | 5 | 25 | 0 |
+| 20,000 | 16 | 16 | 10 | 42 | 0 |
+| 50,000 | 24 | 24 | 14 | 62 | 0 |
+| 100,000 | 33 | 33 | 23 | 89 | 0 |
+| 200,000 | 42 | 50 | 24 | 116 | 0 |
+| 500,000 | 70 | 78 | 40 | 188 | 0 |
+| 1,000,000 | 98 | 101 | 56 | 255 | 0 |
+| 2,000,000 | 142 | 134 | 80 | 356 | 0 |
+
+All exact pair/triple/exactly-two identities pass. No triple object is found in the verified range; this is not a perfect-cuboid nonexistence result.
+
+Canonical audit records:
+
+```text
+stages/stage14/data/14-2/final_census_audit.json
+stages/stage14/data/14-2/shared_leg_crosscheck_report.json
+stages/stage14/archive/stage14-2c-census-closure.md
+```
+
+Decision:
+
+```text
+STAGE14_2=COMPLETE
+FINITE_CENSUS_FROZEN=true
+INDEPENDENT_GENERATION_ROUTES=2
+ALL_11_ROWS_MATCH=true
+MAX_VERIFIED_B=2000000
+STAGE13_ANALYTIC_DEPENDENCY_USED=false
+```
 
 ## 14-3 — Finite directional-ratio evolution
 
@@ -149,9 +125,17 @@ Study
 N_a^{(2)}:N_b^{(2)}:N_c^{(2)}
 \]
 
-and normalized proportions over the audited cutoff range. In particular, account for the observed finite leader reversal rather than presupposing monotone convergence.
+and normalized proportions over the frozen 11-row census. Account explicitly for the finite leader reversal. Candidate fits or extrapolations may be used only as diagnostics, not as theorems.
 
-Status: not started.
+Stage14-3 should also record what later analytic work would need to explain, so it can serve as a finite-data map once the one-face proof review is settled.
+
+Status: [>] Next.
+
+## STOP LINE after Stage14-3
+
+Current research policy is to stop Stage14 after the finite Stage14-3 diagnostics.
+
+The reason is structural: the one-face / Stage13 proof is under external review, so beginning the harder two-face asymptotic proof before the reliable one-face machinery is identified would amount to proceeding without a trustworthy map.
 
 ## 14-4 — True total growth order
 
@@ -163,32 +147,22 @@ Determine the correct asymptotic order of
 N_2(B).
 \]
 
-Current policy: proceed independently of unresolved Stage13 analytic claims. Any repaired Stage13 bound may later be used only as a cross-check after its review status is settled.
+Status: **paused pending one-face / Stage13 proof review**.
 
-Fine-grained substages for this task may begin at `14-4aa`.
-
-Status: not started.
+When resumed, fine-grained substages may begin at `14-4aa`.
 
 ## 14-5 — Directionwise asymptotic structure
 
 Priority: major analytic task
 
-After the total scale is understood, determine whether
+Determine the directionwise scales/constants and the mechanism controlling their ratios.
 
-\[
-N_a^{(2)},\quad N_b^{(2)},\quad N_c^{(2)}
-\]
+Status: **paused pending one-face / Stage13 proof review**.
 
-share the same exponent/logarithmic scale, whether direction constants exist, and what geometric/arithmetic mechanism controls their ratios.
-
-A later comparison with the face-diagonal-first / Euler-side two-face layer is natural, but equality of the two directional laws is not assumed.
-
-Fine-grained substages for this task may begin at `14-5aa`.
-
-Status: not started.
+When resumed, fine-grained substages may begin at `14-5aa`.
 
 ## Scope boundary
 
-Stage14 does not assume perfect-cuboid nonexistence. The triple population `T(B)` is retained explicitly and removed from each raw pair count when forming the exactly-two populations.
+Stage14 does not assume perfect-cuboid nonexistence. `T(B)` remains explicit and any `T>0` witness must be preserved and independently verified.
 
 The fact that all currently verified rows through `B=2,000,000` have `T=0` is only a finite observation. No growth exponent, limiting directional ratio, monotonicity, or relation to the Euler-side two-face limit is assumed before it is independently established.
