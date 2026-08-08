@@ -1,0 +1,130 @@
+{
+  "arithmetic_scale_ledger": {
+    "canonical_projection": "full ordered distinguished-face count = 2*(A_ab+A_ac+A_bc)",
+    "canonical_raw_total": "A_total(B) ~ [3/(4 pi^2)] B^2 log B",
+    "coprime_third_edge_density": "phi(k)/k",
+    "full_positive_octant_ordered_face_count": "~ [3/(2 pi^2)] B^2 log B",
+    "harmonic_primitive_sum": "sum_{primitive h<=B} 1/h ~ (1/(2pi)) log B",
+    "primitive_face": "(u,v,h) primitive Pythagorean; every integral face is k(u,v,h)",
+    "primitive_pythagorean_count": "P(H) ~ H/(2pi)",
+    "semicircle_radial_integral": "integral_0^1 sqrt(1-t^2) dt = pi/4",
+    "third_edge_primitivity": "gcd(ku,kv,z)=1 iff gcd(k,z)=1",
+    "totient_mean": "sum_{k<=X} phi(k)/k ~ (6/pi^2) X"
+  },
+  "chamber_integrals": {
+    "full_positive_octant_identity": "2*(I_ab+I_ac+I_bc)=pi^2/4",
+    "numerical_recompute": {
+      "ab": 0.6597052487058209,
+      "ac": 0.30269975267335486,
+      "bc": 0.2712955487585704
+    },
+    "stage13_reference": {
+      "ab": 0.659705248705705,
+      "ac": 0.3026997526726076,
+      "bc": 0.2712955487578571
+    },
+    "sum": 1.2337005501361697,
+    "sum_identity": "pi^2/8"
+  },
+  "finite_exact_one_diagnostic": {
+    "l1_distance_to_chamber_strictly_decreases_over_E1c_cutoffs": true,
+    "rows": [
+      {
+        "B": 10000,
+        "distance_to_predicted_chamber": {"l1": 0.08586182218930719, "linf": 0.04293091109465361},
+        "exact_one_proportion": {"ab": 0.5066610199355662, "ac": 0.23050418003343104, "bc": 0.26283480003100274},
+        "scaled_exact_one_over_predicted_raw_constant": {"ab": 0.8441453937332493, "ac": 0.8369826214069207, "bc": 1.0648535904908452},
+        "total_scaled_over_predicted_raw_total_constant": 0.890922532591386
+      },
+      {
+        "B": 20000,
+        "distance_to_predicted_chamber": {"l1": 0.07945532065227984, "linf": 0.03972766032613992},
+        "exact_one_proportion": {"ab": 0.50870175965351, "ac": 0.23166669108400087, "bc": 0.25963154926248905},
+        "scaled_exact_one_over_predicted_raw_constant": {"ab": 0.8552775712852174, "ac": 0.8488780664739166, "bc": 1.0614720899546861},
+        "total_scaled_over_predicted_raw_total_constant": 0.899050370578958
+      },
+      {
+        "B": 50000,
+        "distance_to_predicted_chamber": {"l1": 0.07207084293876131, "linf": 0.036035421469380685},
+        "exact_one_proportion": {"ab": 0.5111095777058425, "ac": 0.23295111188842768, "bc": 0.2559393104057298},
+        "scaled_exact_one_over_predicted_raw_constant": {"ab": 0.8677388920683381, "ac": 0.8619413281808442, "bc": 1.0566211762621145},
+        "total_scaled_over_predicted_raw_total_constant": 0.907852355404865
+      },
+      {
+        "B": 100000,
+        "distance_to_predicted_chamber": {"l1": 0.06731847663393647, "linf": 0.03365923831696829},
+        "exact_one_proportion": {"ab": 0.5126741796007948, "ac": 0.2337626931458879, "bc": 0.2535631272533174},
+        "scaled_exact_one_over_predicted_raw_constant": {"ab": 0.8757987555187517, "ac": 0.8703139684812676, "bc": 1.0533101015420614},
+        "total_scaled_over_predicted_raw_total_constant": 0.9134884480015015
+      },
+      {
+        "B": 200000,
+        "distance_to_predicted_chamber": {"l1": 0.06314408920939074, "linf": 0.0315720446046954},
+        "exact_one_proportion": {"ab": 0.5140391029984835, "ac": 0.23448496346047196, "bc": 0.2514759335410445},
+        "scaled_exact_one_over_predicted_raw_constant": {"ab": 0.8829087845503265, "ac": 0.8777534650116297, "bc": 1.0503242219598814},
+        "total_scaled_over_predicted_raw_total_constant": 0.9184591853411905
+      },
+      {
+        "B": 500000,
+        "distance_to_predicted_chamber": {"l1": 0.058403708127289705, "linf": 0.02920185406364484},
+        "exact_one_proportion": {"ab": 0.5155818073838665, "ac": 0.23531244961613948, "bc": 0.24910574299999397},
+        "scaled_exact_one_over_predicted_raw_constant": {"ab": 0.8911101070721021, "ac": 0.8863730911149473, "bc": 1.0469472396456674},
+        "total_scaled_over_predicted_raw_total_constant": 0.924217028225093
+      }
+    ],
+    "warning": "These rows are exactly-one counts while the proved E-1d leading formula is for raw one-face incidences. Pair-overlap lower order is not proved in E-1d, so the finite comparison is diagnostic only."
+  },
+  "metadata": {
+    "counting": "primitive canonical 0<a<b<c with a^2+b^2+c^2<=B^2",
+    "scope": "Euler-side raw directional structural asymptotic and chamber mechanism",
+    "space_diagonal_integrality_required": false,
+    "stage": "E-1d"
+  },
+  "raw_directional_theorem": {
+    "bc_normalized_ratio": {"ab": 2.4316847501781913, "ac": 1.1157564289518813, "bc": 1.0},
+    "categorywise": {
+      "ab": "A_ab(B) ~ [6 I_ab/pi^4] B^2 log B",
+      "ac": "A_ac(B) ~ [6 I_ac/pi^4] B^2 log B",
+      "bc": "A_bc(B) ~ [6 I_bc/pi^4] B^2 log B"
+    },
+    "normalized_limit": {"ab": 0.5347369332313988, "ac": 0.24535917783225203, "bc": 0.21990388893634913},
+    "numeric_constants": {"ab": 0.04063513425920931, "ac": 0.018645061736605968, "bc": 0.016710691735938064},
+    "scale": "B^2 log B",
+    "total": "A_total(B) ~ [3/(4 pi^2)] B^2 log B",
+    "total_numeric_constant": 0.07599088773175333
+  },
+  "real_place_gelfand_leray": {
+    "angular_weight": "w_q(omega)=1/s_q(omega)",
+    "canonical_chamber": "R={omega in S^2:0<x<y<z}",
+    "eliminate_positive_p": "delta(F_q) dp gives factor 1/(2p)",
+    "measure": "dmu_q = [r/(2 s_q(omega))] dr d_sigma",
+    "one_face_equation": "F_q=x_i^2+x_j^2-p^2=0",
+    "radial_integral_0_to_B": "B^2/[4 s_q(omega)]",
+    "same_angular_weight_as_stage13": true,
+    "spherical_change": "(a,b,c)=r*omega, p=r*s_q(omega), da db dc=r^2 dr d_sigma"
+  },
+  "remaining_gap": {
+    "exact_one_transfer_proved_in_E1d": false,
+    "pair_overlap_lower_order_needed": "O_qr(B)=o(B^2 log B)",
+    "suggested_route": "fixed-prime quadratic-residue sieve inside the Euler raw incidence population, analogous in architecture to Stage13-7jf but with the simpler one-face raw parameterization",
+    "triple_overlap_then_lower_order": true
+  },
+  "space_diagonal_comparison": {
+    "different_common_scale_and_arithmetic_factor": true,
+    "euler_side": "A_q^E(B) ~ [6 I_q/pi^4] B^2 log B",
+    "interpretation": "Imposing integral space diagonal changes the common radial/arithmetic density and growth scale, but the leading canonical real-place directional weight remains 1/s_q and hence the normalized chamber vector.",
+    "shared_directional_factor": "I_q",
+    "stage13_side": "A_q^S(B) ~ [kappa I_q/(3 pi^3)] B(log B)^3"
+  },
+  "status": {
+    "E_1D_complete": true,
+    "completion_level": "RAW_DIRECTIONAL_STRUCTURAL_ASYMPTOTIC",
+    "exact_one_directional_limit_proved": false,
+    "next": "E-1e fixed-prime overlap sieve and exact-one synthesis",
+    "pair_overlap_lower_order_proved": false,
+    "raw_directional_constants_identified": true,
+    "raw_normalized_limit_equals_stage13_chamber": true,
+    "raw_scale_identified": true,
+    "space_diagonal_integrality_changes_absolute_scale_not_Iq_factor": true
+  }
+}
