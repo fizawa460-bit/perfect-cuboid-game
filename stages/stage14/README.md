@@ -1,15 +1,15 @@
 # Stage14 — exactly-two integral-face population
 
-Stage14 studies the next layer above Stage13: primitive canonical cuboids with integer space diagonal and exactly two integral face diagonals.
+Stage14 studies primitive canonical cuboids with integer space diagonal and exactly two integral face diagonals.
 
 ## Current state
 
 ```text
-STAGE14_1A=COMPLETE
-STAGE14_1B=COMPLETE
-STAGE14_1C=COMPLETE
 STAGE14_1=COMPLETE
-NEXT=Stage14-2
+STAGE14_2A=COMPLETE
+HISTORICAL_REPRODUCTION_PASS=true
+MAX_VERIFIED_B=100000
+NEXT=Stage14-2b
 ```
 
 The canonical mathematical source is
@@ -18,10 +18,22 @@ The canonical mathematical source is
 stages/stage14/main.md
 ```
 
-and the active roadmap is
+The active roadmap is
 
 ```text
 stages/stage14/roadmap.md
+```
+
+Stage14-2 finite outputs are stored under
+
+```text
+stages/stage14/data/14-2/
+```
+
+and the standalone census code is
+
+```text
+stages/stage14/scripts/14-2/two_face_census.py
 ```
 
 ## Counting convention
@@ -53,60 +65,25 @@ N_b^{(2)}=N_{ab,bc}^{(2)},
 N_c^{(2)}=N_{ac,bc}^{(2)}.
 \]
 
-Stage14 also retains the raw pair-overlap vector
+Stage14 retains the raw pair-overlap vector
 
 \[
 \mathbf O=(O_{ab,ac},O_{ab,bc},O_{ac,bc})
 \]
 
-and the triple population `T(B)`. Exactly,
+and the triple population `T(B)`, with
 
 \[
 \mathbf N_2^{\rm dir}=\mathbf O-T(1,1,1).
 \]
 
-Thus no perfect-cuboid nonexistence assumption is built into the counting convention.
+No perfect-cuboid nonexistence assumption is built into the counting convention.
 
-## Stage13 interface
+## Stage14-1 interface and contract
 
-Stage14-1b identifies the raw pair and triple objects exactly with the Stage13 overlap ledger; there is no conversion multiplicity because both stages use the same primitive canonical ambient population and cutoff.
+Stage14-1 identifies the raw pair/triple objects with the earlier Stage13 overlap ledger and locks the finite enumeration contract.
 
-The inherited Stage13 finite seed table covers `B=1000` through `B=100000`. At the largest inherited cutoff,
-
-```text
-B=100000
-O_ab_ac = 33
-O_ab_bc = 33
-O_ac_bc = 23
-T       = 0
-
-N_a^(2), N_b^(2), N_c^(2) = (33,33,23)
-N_2 = 89
-```
-
-with the exact total checksum
-
-\[
-168208-168030=178=2\cdot89+3\cdot0.
-\]
-
-Stage13-7 also supplies the inherited ceiling
-
-\[
-N_a^{(2)},N_b^{(2)},N_c^{(2)},N_2=o(B(\log B)^3).
-\]
-
-This does not determine the true two-face scale; that remains the main Stage14-4 problem.
-
-Machine-readable interface ledger:
-
-```text
-stages/stage14/data/14-1/stage13_pair_interface.json
-```
-
-## Enumeration contract
-
-Stage14-1c fixes the Stage14-2 finite-counting contract.
+Required rules include:
 
 ```text
 exact integer square tests only
@@ -118,47 +95,63 @@ produce at least one verified cutoff above B=100000
 never assume or silently discard T=0
 ```
 
-Preferred extension ladder:
-
-```text
-200000 -> 500000 -> 1000000 -> 2000000
-```
-
-as computationally feasible. Correctness is not relaxed to reach a larger cutoff.
-
-If `T(B)>0`, the enumerator must preserve full witness data
+If `T(B)>0`, the enumerator preserves
 
 ```text
 a,b,c,d,d_ab,d_ac,d_bc
 ```
 
-and trigger exact independent/manual verification.
+for independent exact verification.
 
-The machine-readable enumeration/output specification is
+Machine-readable Stage14-1 specifications:
 
 ```text
+stages/stage14/data/14-1/stage13_pair_interface.json
 stages/stage14/data/14-1/enumeration_output_spec.json
 ```
 
-The finite enumerator itself is independent of Stage13 proof review. If a Stage13 review changes only an asymptotic justification, Stage14 counting is unaffected. If it changes the ambient object or inherited seed numbers, Stage14-1b is re-audited before Stage14-2 publication.
+## Stage14-2a — historical reproduction
 
-## Main questions
+Stage14-2a adds a standalone Stage14 census implementation. It imports no Stage13 counting code. It independently generates the primitive canonical population by Pythagorean-triple gluing, deduplicates canonical tuples and recomputes all face-square flags exactly.
 
-Stage14 asks two quantitative questions simultaneously:
+The inherited seven cutoff rows were reproduced exactly:
 
-1. how fast does the total exactly-two population `N_2(B)` grow?
-2. how do the three size directions `a/b/c` divide that population as `B` grows?
+| B | exactly-two vector `(a,b,c)` | N2 | T |
+|---:|---:|---:|---:|
+| 1,000 | `(2,0,0)` | 2 | 0 |
+| 2,000 | `(2,2,1)` | 5 | 0 |
+| 5,000 | `(6,6,3)` | 15 | 0 |
+| 10,000 | `(9,11,5)` | 25 | 0 |
+| 20,000 | `(16,16,10)` | 42 | 0 |
+| 50,000 | `(24,24,14)` | 62 | 0 |
+| 100,000 | `(33,33,23)` | 89 | 0 |
 
-The first finite stages will enumerate and diagnose the population before any limiting law is assumed.
+At `B=100000`, the c-normalized exactly-two ratio is
+
+\[
+1.4347826087:1.4347826087:1.
+\]
+
+This is a finite observation only. No limiting ratio or growth law is inferred at 14-2a.
+
+Machine-readable result:
+
+```text
+stages/stage14/data/14-2/historical_reproduction_report.json
+```
+
+Stage14-2a satisfies the historical reproduction gate but intentionally does not satisfy the Stage14-2 extension requirement above `B=100000`; that is the next task.
 
 ## Planned sequence
 
 ```text
-14-1  definition / interface / counting specification   [complete]
-14-2  complete finite enumeration                       [next]
-14-3  finite directional-ratio evolution
-14-4  true total growth order
-14-5  directionwise asymptotic structure
+14-1   definition / interface / counting specification   [complete]
+14-2a  standalone historical reproduction                [complete]
+14-2b  verified extension above B=100000                 [next]
+14-2   complete finite enumeration
+14-3   finite directional-ratio evolution
+14-4   true total growth order
+14-5   directionwise asymptotic structure
 ```
 
-The difficult analytic tasks `14-4` and `14-5` may use two-letter substages beginning at `aa`; this is only an organizational convention.
+The difficult analytic tasks `14-4` and `14-5` may use two-letter substages beginning at `aa`.
