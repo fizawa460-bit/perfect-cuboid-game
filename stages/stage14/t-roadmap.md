@@ -30,74 +30,121 @@ Every triple object gives a unique Pythagorean chain
 z<d<=B.
 ```
 
-For
-
-\[
-P(z)=\prod_{p\equiv1(4)}(2e_p+1),
-\qquad \tau(z^2)=\prod_p(2e_p+1),
-\]
-
-the two representation counts satisfy
-
-\[
-A(z)=\frac{P(z)-1}{2},\qquad
-L(z)\le\frac{\tau(z^2)-1}{2}.
-\]
-
-Thus
-
-\[
-T(B)\le\frac14\sum_{z\le B}f(z),
-\qquad f(z)=P(z)\tau(z^2).
-\]
-
-The multiplicative Dirichlet series factors as
+The exact representation-factor majorant has Dirichlet series
 
 \[
 \sum f(n)n^{-s}=\zeta(s)^6L(s,\chi_4)^3G(s),
 \]
 
-with residual odd-prime factors
-
-```text
-p = 1 mod 4: (1+6x+x^2)(1-x)^6
-p = 3 mod 4: (1-x^2)^4
-```
-
-and `G` absolutely convergent near `s=1`. Selberg--Delange therefore gives the independent Stage14-native envelope
+with `G` absolutely convergent near `s=1`, hence
 
 \[
-\boxed{T(B)=O(B(\log B)^5).}
+\boxed{T(B)=O(B(\log B)^5)}.
 \]
 
-This is explicit but does not improve the frozen Stage13 R03 theorem
+This independent Stage14-native envelope does not improve the frozen Stage13 theorem
 
 \[
 \boxed{T(B)=o(B(\log B)^3)}.
 \]
 
-The moving genus-5 determinant/family route also does not currently yield `o(sqrt(B))`: coefficient height, physical fiber height, base summation and possible low-degree exceptional strata remain coupled.
-
 ```text
 STAGE14_T2=COMPLETE_QUANTITATIVE_BOUNDARY
-PYTHAGOREAN_CHAIN_INJECTION_LOCKED=true
 CHAIN_ENVELOPE=T(B)=O(B(log B)^5)
 CHAIN_ENVELOPE_IMPROVES_R03=false
 FROZEN_STRONGEST_GLOBAL_BOUND=T(B)=o(B(log B)^3)
 T_O_SQRT_B_PROVED=false
 ```
 
-## 14-t3 — exceptional fibers and low-degree subfamilies
+## 14-t3 — Humbert-Edge structure and low-degree classification
+
+Status: [x] Complete.
+
+Put `s=t^2`, `A=(1-s)/(1+s)`, `C=2/s-1`. After homogenizing `q=Q/P` and setting
+
+\[
+U_0=P^2+Q^2,\qquad U_1=P^2-Q^2,\qquad U_2=2PQ,
+\]
+
+the triple fiber is the smooth complete intersection of three diagonal quadrics
+
+\[
+U_0^2-U_1^2-U_2^2=0,
+\]
+
+\[
+2W^2-U_0^2-U_1^2-AU_2^2=0,
+\]
+
+\[
+2R^2-U_0^2-U_1^2-CU_2^2=0.
+\]
+
+Thus every genuine physical fiber is a Humbert--Edge curve of type `4`, hence genus `5`, with sign group `(Z/2Z)^4`.
+
+The five branch values of the quotient orbifold are
+
+\[
+\boxed{\infty,0,1,-1/s,1/(1-s)}.
+\]
+
+The singular branch-collision values are only `s=0,1,-1,infinity`, none of which is a genuine physical rational Pythagorean base. An exact audit of all 120 branch permutations shows that the remaining possible extra-symmetry loci are roots of
+
+```text
+s^2+1,
+s^2+s+1,
+s^2-s+1,
+s^2+s-1,
+s^2-s-1,
+```
+
+and none has a rational root. Therefore the physical rational family has no singular, lower-genus, or enlarged-automorphism exceptional stratum.
+
+More importantly, the low-degree structure is universal: quotienting by each of the five coordinate involutions gives a smooth genus-one curve, and the refined Humbert--Edge decomposition gives
+
+\[
+\boxed{
+J(C_t)\sim_{\mathbf Q}E_{U_0,t}\times E_{U_1,t}\times E_{U_2,t}\times E_{W,t}\times E_{R,t}.
+}
+\]
+
+Hence
+
+\[
+\boxed{
+\operatorname{rank}J(C_t)(\mathbf Q)=\sum_{i=1}^{5}\operatorname{rank}E_{i,t}(\mathbf Q).
+}
+\]
+
+The t2 moving genus-5 rank problem is therefore an explicit moving five-elliptic-factor problem. The universal elliptic structure is not a thin exceptional set and cannot be discarded.
+
+```text
+STAGE14_T3=COMPLETE_HUMBERT_EDGE_AND_ELLIPTIC_SPLITTING
+TRIPLE_FIBER_HUMBERT_EDGE_TYPE4=true
+TRIPLE_FIBER_JACOBIAN_COMPLETELY_ELLIPTIC=true
+ELLIPTIC_FACTOR_COUNT=5
+PHYSICAL_SINGULAR_EXCEPTIONAL_STRATUM_EMPTY=true
+PHYSICAL_RATIONAL_EXTRA_AUTOMORPHISM_STRATUM_EMPTY=true
+UNIVERSAL_LOW_DEGREE_STRUCTURE_NOT_THIN=true
+T_O_SQRT_B_PROVED=false
+```
+
+## 14-t4 — elliptic-factor rank/torsion audit and Kummer-cover comparison
 
 Status: [>] Next.
 
-Classify degenerations, lower-genus quotients, extra automorphisms and low-degree subfamilies capable of accumulating triple points. The immediate goal is to determine whether the generic genus-5 family contains rational/elliptic subcovers or special Pythagorean base strata whose bounded-height points could dominate `T(B)`, and to count each such stratum under the physical height.
+Convert the five quotient factors to canonical Weierstrass models over the Pythagorean base, determine their generic torsion and rank behavior, and make the lift conditions back to the genus-5 fiber explicit. In particular:
 
-## 14-t4 — Kummer-cover comparison
+- identify which factors coincide with or are isogenous to the Stage14 space/Kummer elliptic fibers already studied in `14-4`;
+- search for rank-zero factors or torsion-intersection criteria that eliminate whole base strata;
+- compare with recent perfect-cuboid elliptic-quotient/torsion-intersection methods;
+- quantify the remaining positive-rank base population under the physical height.
 
-Status: [ ] Pending t3 and relevant merged `14-4` descendants.
+The goal remains a bound strong enough to approach
 
-Compare the moving genus-5 formulation with the relative degree-two third-square cover of the Stage14 Kummer surface, especially on low-degree physical rational curves found by the main track.
+\[
+T(B)=o(\sqrt B).
+\]
 
 ## 14-t5 — transfer theorem
 
@@ -113,6 +160,7 @@ Stage14-t is a population-counting track, not a finite-search proof of nonexiste
 STAGE14_T_TRACK=ACTIVE
 STAGE14_T1=COMPLETE_BASELINE_AND_THEOREM_GAP
 STAGE14_T2=COMPLETE_QUANTITATIVE_BOUNDARY
+STAGE14_T3=COMPLETE_HUMBERT_EDGE_AND_ELLIPTIC_SPLITTING
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t3 exceptional fibers and low-degree subfamilies
+NEXT=Stage14-t4 elliptic-factor rank/torsion audit and Kummer-cover comparison
 ```
