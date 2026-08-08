@@ -15,8 +15,9 @@ Count and explain primitive canonical exactly-two-face cuboids with integer spac
 - `14-4ad`: elliptic reduction `E_t:Y^2=X(X-1)(X+t^2)`.
 - `14-4ae`: physical fiber height `v asymp sqrt(Bg/S1)` and generic rank zero.
 - `14-4af`: actual Pythagorean base is a six-`I4` K3; torsion is nonphysical; physical pair implies positive rank; fixed-base triple genus 5.
+- `14-4ag`: exact level-4/Kummer identification; active rank-jump graph; raw-edge and active-vertex polynomial exponents are equal.
 
-Frozen Stage13 upstream remains `R03 + Stage13-12ag`, in particular
+Frozen Stage13 upstream remains `R03 + Stage13-12ag`, including
 
 \[
 N_2(B)=o(B(\log B)^3),
@@ -24,105 +25,177 @@ N_2(B)=o(B(\log B)^3),
 
 with no imported growing-modulus power saving.
 
-## 14-4ag — Kummer identification and rank-jump graph
+## 14-4ah — physical Kummer height and minimum accumulating bisection
 
 Status: [x] Complete.
 
-### Exact geometry
+### Exact physical polarization
 
-For the Pythagorean Euclid parameter `r`,
+The independent e3 toric compactification is
 
 \[
-t=\frac{2r}{1-r^2},
+Y=\operatorname{Bl}_4(\mathbf P^1\times\mathbf P^1),
 \qquad
-\boxed{\sigma=i\frac{1+r}{1-r}}
+L=2H_1+2H_2-\sum E_j=-K_Y,
+\qquad L^2=4.
 \]
 
-identifies the Stage14 K3 over `Q(i)` with the classical level-4 elliptic modular surface. Over `C` it is `Km(E_i x E_i)`.
-
-The symmetric two-face model is
+With
 
 \[
-\boxed{Z^2=(1+r^2)^2(1+s^2)^2-16r^2s^2.}
+t_1=\frac{2r}{1-r^2},
+\qquad
+t_2=\frac{2s}{1-s^2},
 \]
 
-### Exact active graph
-
-Let `V(B)` be the number of active primitive oriented first-face states and `E(B)` the raw-pair edge count. Then
+the space-square branch is
 
 \[
-\boxed{E(B)=N_2(B)+3T(B)=\frac12V(B)\bar d(B)}
+F=(1+r^2)^2(1+s^2)^2-16r^2s^2.
 \]
 
-and
+It has bidegree `(4,4)` and multiplicity two at each of the four toric corners `(+-1,+-1)`, so its strict transform has class
 
 \[
-\boxed{N_2(B)=\frac12V(B)\bar d(B)-3T(B).}
+\boxed{2L=-2K_Y}.
 \]
 
-Active vertices are exactly positive-rank genuine Pythagorean specializations ordered by their first physical hit height.
-
-### Uniform multiplicity theorem
-
-Dujella's bounded-height theorem applies to every Stage14 fiber because it has rational 2-torsion. Physical `d<=B` gives elliptic point height `B^O(1)`, hence uniformly
+For the resolved K3 double cover `pi:X->Y`,
 
 \[
-\boxed{\Delta(B)=\max_F\deg_B(F)=B^{o(1)}.}
+\boxed{M=\pi^*L=\Phi^*O_{P2}(1)},
+\qquad
+\boxed{M^2=8}.
 \]
 
-Therefore raw edges and active vertices have identical polynomial growth exponents.
+On the Stage14 arithmetic open set the corresponding height is exactly
 
-### Finite signal
+\[
+\boxed{H_M=d}.
+\]
 
-At `B=200k,500k,1m,2m`, active vertex counts are
+Thus Stage14 now knows the divisor class of the **actual** physical cutoff.
+
+### Big and nef boundary
+
+`M` is big and nef but not ample. The four toric `L`-null boundary curves lift geometrically to eight `M`-null `(-2)`-curves, all outside the primitive positive Stage14 open set.
+
+Because McKinnon's product-Kummer counting theorem uses an ample height, its asymptotic is not imported directly for Stage14 `M`.
+
+### Minimum physical rational-curve degree
+
+Let `C` be a physical rational curve and
+
+\[
+n=\deg(C\to P^1_r).
+\]
+
+The slope map `t(r)=2r/(1-r^2)` has degree two and `t=x/e` is a quotient of two `M`-sections, hence
+
+\[
+\boxed{M\cdot C\ge2n.}
+\]
+
+A physical `n=1` curve would be a section. Generic Mordell--Weil rank is zero and all torsion sections are nonphysical, so
+
+\[
+\boxed{n\ge2},
+\qquad
+\boxed{M\cdot C\ge4}.
+\]
+
+A rational curve of `M`-degree `m` has bounded-height polynomial exponent `2/m`. Therefore no fixed physical rational curve can exceed exponent `1/2`, and the extremal square-root target is exactly
+
+\[
+\boxed{\text{a Q-rational M-degree-4 bisection}.}
+\]
+
+Existence/classification/dominance of such bisections is not yet proved.
+
+### Interior finite diagnostic
+
+The active-vertex `sqrt(B)` signal survives fixed cusp deletion:
 
 ```text
-155, 254, 347, 490
+B          all V    0.1<=r<=0.9    0.2<=r<=0.8    0.25<=r<=0.75
+200k         155          134             105                92
+500k         254          227             174               147
+1m           347          307             238               197
+2m           490          426             338               283
 ```
 
-and `V(B)/sqrt(B)` is
+The `200k -> 2m` effective exponents are
 
 ```text
-0.34659, 0.35921, 0.34700, 0.34648.
+0.49986438, 0.50230480, 0.50772740, 0.48799861.
 ```
 
-The `200k -> 2m` effective vertex exponent is
+This is finite evidence only.
 
-```text
-0.4998643818582221
-```
+### Relative triple cover
 
-but this remains finite evidence.
+The third-face-square numerator
+
+\[
+G=r^2(1-s^2)^2+s^2(1-r^2)^2
+\]
+
+also has strict class `2L` on `Y`. Hence the relative degree-two cover of the raw K3 has branch class
+
+\[
+\boxed{2M}.
+\]
+
+Its rational image is type-II thin, but no thin-set zero-density theorem for the raw K3 under the big-and-nef `M`-height is currently imported or proved. Therefore
+
+\[
+T(B)=o(\sqrt B)
+\]
+
+remains open.
 
 Decision:
 
 ```text
-STAGE14_4AG=COMPLETE
-LEVEL4_MODULAR_K3_IDENTIFIED_OVER_QI=true
-KUMMER_EI_SELF_PRODUCT_GEOMETRY_IMPORTED=true
-RANK_JUMP_GRAPH_IDENTITY_LOCKED=true
-DUJELLA_SUBPOLYNOMIAL_DEGREE_BOUND=true
-RAW_PAIR_AND_ACTIVE_VERTEX_POWER_EXPONENT_EQUAL=true
-FINITE_ACTIVE_VERTEX_SQRTB_SIGNAL=true
+STAGE14_4AH=COMPLETE
+PHYSICAL_KUMMER_POLARIZATION_LOCKED=true
+PHYSICAL_LINE_BUNDLE=M=pi^*(-K_Y)
+PHYSICAL_POLARIZATION_SQUARE=8
+PHYSICAL_POLARIZATION_BIG_NEF_NOT_AMPLE=true
+PHYSICAL_RATIONAL_CURVE_M_DEGREE_LOWER_BOUND=4
+SQRTB_MINIMAL_RATIONAL_CURVE_TARGET=M-degree-4 rational bisection
+MCKINNON_DIRECT_ASYMPTOTIC_IMPORTED=false
+FINITE_CORE_SQRTB_SIGNAL_SURVIVES=true
+TRIPLE_RELATIVE_COVER_BRANCH_CLASS=2M
+TRIPLE_TYPE_II_THIN=true
+T_O_SQRT_B_PROVED=false
 SQRT_B_ASYMPTOTIC_CLAIM=false
 TRUE_GROWTH_ORDER_IDENTIFIED=false
-T_O_SQRT_B_PROVED=false
 ```
 
-## 14-4ah — Kummer height / accumulating multisections + relative triple thinness
+Artifacts:
+
+```text
+stages/stage14/archive/stage14-4ah-kummer-height.md
+stages/stage14/scripts/14-4/kummer_height_audit.py
+stages/stage14/data/14-4/kummer_height_audit.json
+stages/stage14/data/14-4/proof_input_audit.json
+```
+
+## 14-4ai — classify the extremal bisections
 
 Status: [>] Next.
 
 Purpose:
 
-- identify the Stage14 primitive/lcm physical height as a divisor/height on the level-4 Kummer surface;
-- classify the low-degree rational curves or multisections that can create small first-hit points;
-- test whether the finite `sqrt(B)` active-vertex signal is explained by accumulating Kummer strata rather than generic rank-jump heuristics;
-- use McKinnon's product-Kummer counting framework only after the physical height is matched;
-- express the triple condition as a relative degree-two cover of the Kummer surface and seek a bound strong enough to compare `T(B)` with the raw count;
-- promote a `sqrt(B)` power law only after the active-vertex count is proved.
+- classify `Q`-rational bisections `C` with `M.C=4` on the level-4/Kummer model;
+- determine which such curves meet the primitive positive Stage14 open set;
+- derive the exact physical height on their rational parameters and count first-hit vertices contributed by them;
+- test whether the degree-four bisections account for `V(B)=B^(1/2+o(1))` or only a subpopulation;
+- restrict the relative triple cover to each candidate bisection and determine whether triple points are finite / lower-order on the same curves;
+- only after this promote, reject, or refine the square-root growth candidate.
 
-## 14-5 — Directionwise asymptotic structure
+## 14-5 — directionwise asymptotic structure
 
 Status: pending Stage14-4.
 
@@ -131,5 +204,5 @@ Status: pending Stage14-4.
 No true Stage14 growth exponent, leading constant, limiting directional vector, perfect-cuboid existence/nonexistence theorem, or `T=o(sqrt(B))` theorem is established yet.
 
 ```text
-NEXT=Stage14-4ah Kummer height/accumulating-multisection and relative triple-thin analysis
+NEXT=Stage14-4ai classify Q-rational M-degree-4 bisections and count their first-hit height
 ```
