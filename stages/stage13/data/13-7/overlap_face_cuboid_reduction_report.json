@@ -1,0 +1,77 @@
+{
+  "metadata": {
+    "scope": "exact reduction of the exactly-one correction to a scalar primitive face-cuboid height count; no overlap asymptotic is proved",
+    "stage": "13-7jc"
+  },
+  "exact_inclusion_exclusion": {
+    "category_identities": {
+      "N_ab": "A_ab-O_ab_ac-O_ab_bc+T",
+      "N_ac": "A_ac-O_ab_ac-O_ac_bc+T",
+      "N_bc": "A_bc-O_ab_bc-O_ac_bc+T"
+    },
+    "notation": {
+      "O_ab_ac": "primitive canonical cuboids with ab and ac face diagonals integral",
+      "O_ab_bc": "primitive canonical cuboids with ab and bc face diagonals integral",
+      "O_ac_bc": "primitive canonical cuboids with ac and bc face diagonals integral",
+      "T": "primitive canonical cuboids with all three face diagonals integral (perfect-cuboid overlap locus)"
+    },
+    "total_identity": "N1=A_total-2*(O_ab_ac+O_ab_bc+O_ac_bc)+3*T"
+  },
+  "single_scalar_reduction": {
+    "F_definition": "number of primitive canonical integer face cuboids with d<=B, i.e. integer edges and space diagonal and at least two integral face diagonals",
+    "O_definition": "O=O_ab_ac+O_ab_bc+O_ac_bc",
+    "histogram_identity": "if E2=exactly-two count and E3=triple count, then F=E2+E3 and O=E2+3E3",
+    "sandwich": "F(B) <= O(B) <= 3 F(B)",
+    "sufficient_bound": "F(B)=o(B(log B)^3)",
+    "consequence": "the sufficient bound implies every overlap correction is o(B(log B)^3), hence N_q(B)~A_q(B) categorywise",
+    "triple_note": "No separate bound for T is needed once F (or O) is lower order; T<=F. In particular no assumption about nonexistence of perfect cuboids is used."
+  },
+  "projective_face_cuboid_bridge": {
+    "normalization": "divide a primitive integer overlap by d; this gives a rational face-cuboid similarity class with two rational face diagonals and rational space diagonal",
+    "inverse": "clear denominators of a rational face cuboid and divide the common gcd to recover a primitive integer representative",
+    "interpretation": "F(B) is therefore a rational-point height-count problem on the face-cuboid locus, not a local-density perturbation of the Stage12 Euler product"
+  },
+  "elliptic_surface_literature_bridge": {
+    "reference": "Takumi Yoshida, The relationship between face cuboids and elliptic curves, arXiv:2407.09825 (2024)",
+    "family": "E_{1,s}: y^2=x(x-(2s)^2)(x+(s^2-1)^2)",
+    "published_structural_result": "a surjective 32:1 map from pairs (s,P), with P a non-torsion rational point on E_{1,s}, to rational face-cuboid equivalence classes",
+    "use_here": "this identifies the correct arithmetic-geometric object and shows the overlap locus is genuinely infinite; it does not supply the uniform height-count bound required here"
+  },
+  "required_new_theorem": {
+    "minimal_form": "F(B)=o(B(log B)^3)",
+    "stronger_convenient_form": "F(B)=O(B(log B)^(3-delta)) for some delta>0, or any O(B^(1-epsilon)) bound",
+    "elliptic_form": "obtain a height-uniform count for the relevant rational points across the family E_{1,s}, after translating elliptic height to the primitive cuboid space-diagonal height",
+    "not_supplied_by_current_stage12_13_toolkit": true
+  },
+  "raw_limit_waiting_for_transfer": {
+    "scale": "B(log B)^3",
+    "proportion": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    },
+    "bc_normalized_ratio": {
+      "ab": 2.431684750178191,
+      "ac": 1.115756428951881,
+      "bc": 1.0
+    },
+    "conditional_exact_one_statement": "if F(B)=o(B(log B)^3), then the exact-one normalized limit equals the raw/Stage13-3b chamber limit"
+  },
+  "finite_legacy_checks": [
+    {"B": 1000, "pair_overlap_sum": 2, "face_cuboid_count": 2, "triple_overlap": 0, "raw_total": 604, "exact_one_total": 600, "face_cuboid_fraction_of_raw_incidence": 0.0033112582781456954},
+    {"B": 2000, "pair_overlap_sum": 5, "face_cuboid_count": 5, "triple_overlap": 0, "raw_total": 1444, "exact_one_total": 1434, "face_cuboid_fraction_of_raw_incidence": 0.0034626038781163434},
+    {"B": 5000, "pair_overlap_sum": 15, "face_cuboid_count": 15, "triple_overlap": 0, "raw_total": 4515, "exact_one_total": 4485, "face_cuboid_fraction_of_raw_incidence": 0.0033222591362126247},
+    {"B": 10000, "pair_overlap_sum": 25, "face_cuboid_count": 25, "triple_overlap": 0, "raw_total": 10680, "exact_one_total": 10630, "face_cuboid_fraction_of_raw_incidence": 0.0023408239700374533},
+    {"B": 20000, "pair_overlap_sum": 42, "face_cuboid_count": 42, "triple_overlap": 0, "raw_total": 24796, "exact_one_total": 24712, "face_cuboid_fraction_of_raw_incidence": 0.001693821584126472},
+    {"B": 50000, "pair_overlap_sum": 62, "face_cuboid_count": 62, "triple_overlap": 0, "raw_total": 73999, "exact_one_total": 73875, "face_cuboid_fraction_of_raw_incidence": 0.0008378491601237854},
+    {"B": 100000, "pair_overlap_sum": 89, "face_cuboid_count": 89, "triple_overlap": 0, "raw_total": 168208, "exact_one_total": 168030, "face_cuboid_fraction_of_raw_incidence": 0.0005291068201274613}
+  ],
+  "status": {
+    "pair_overlap_exactly_reduced_to_face_cuboid_count": true,
+    "triple_overlap_requires_perfect_cuboid_nonexistence": false,
+    "pair_overlap_lower_order_proved": false,
+    "exact_one_directional_limit_identified": false,
+    "new_external_height_count_needed": true,
+    "next": "Stage13-7jd"
+  }
+}
