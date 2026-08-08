@@ -1,0 +1,70 @@
+{
+  "metadata": {
+    "stage": "14-3c",
+    "title": "Final finite reconnaissance synthesis before Stage14 stop line",
+    "scope": "primitive canonical exactly-two-face cuboids with integer space diagonal",
+    "max_verified_B": 2000000,
+    "dense_grid_start": 100000,
+    "dense_grid_stop": 2000000,
+    "dense_grid_step": 50000,
+    "stage13_code_imported": false,
+    "stage13_asymptotic_result_used": false,
+    "asymptotic_fit_performed": false
+  },
+  "robust_finite_facts": {
+    "two_independent_generation_routes_agree_on_11_audited_cutoffs": true,
+    "B_2000000": {
+      "N_a_2": 142,
+      "N_b_2": 134,
+      "N_c_2": 80,
+      "N_2": 356,
+      "T": 0
+    },
+    "no_triple_found_through_verified_ceiling": true,
+    "no_perfect_cuboid_nonexistence_inferred": true,
+    "dense_grid_rows": 39,
+    "coarse_a_over_c_7_4_pattern_is_not_stable": true,
+    "final_a_over_b_crossing_within_verified_event_stream": {
+      "d": 1148545,
+      "counts_after": {"a": 107, "b": 106, "c": 60},
+      "a_lead_verified_through_B": 2000000
+    },
+    "finite_directional_motion_is_nonmonotone_on_verified_range": true
+  },
+  "sparse_grid_artifacts_or_unsupported_promotions": {
+    "a_over_c_7_4_as_invariant": false,
+    "a_over_c_7_4_as_limit": false,
+    "monotone_directional_convergence": false,
+    "eventual_a_dominance": false,
+    "growth_exponent_identified": false,
+    "limiting_directional_vector_identified": false,
+    "euler_side_two_face_equality_identified": false
+  },
+  "open_questions_for_future_stage14": [
+    "What is the true growth order of N_2(B)?",
+    "Do N_a^(2), N_b^(2), N_c^(2) have limiting normalized proportions?",
+    "Does the finite a>b lead after d=1148545 persist, reverse again, or disappear asymptotically?",
+    "What arithmetic mechanism controls the three shared-edge directions?",
+    "How should the two simultaneous Pythagorean-face constraints be parametrized for proof-level counting?",
+    "What can be reused safely from the repaired one-face/Stage13 analysis?",
+    "How does the integer-space-diagonal two-face population compare with the Euler/no-space-diagonal two-face population?",
+    "Can T(B)>0 ever occur? No nonexistence claim is made."
+  ],
+  "restart_gate": {
+    "stage14_4_allowed_now": false,
+    "reason": "one-face / Stage13 proof machinery remains under review; Stage14 intentionally stops after finite reconnaissance",
+    "resume_condition": "identify a reliable proof-level one-face structural toolkit and re-audit every imported dependency before starting Stage14-4",
+    "suggested_first_resumed_substage": "14-4aa: independent two-face parametrization and proof-input audit"
+  },
+  "decision": {
+    "STAGE14_3A": "COMPLETE",
+    "STAGE14_3B": "COMPLETE",
+    "STAGE14_3C": "COMPLETE",
+    "STAGE14_3": "COMPLETE",
+    "FINITE_RECONNAISSANCE_COMPLETE": true,
+    "STOP_LINE_ACTIVE": true,
+    "STAGE14_4_STATUS": "PAUSED_PENDING_ONE_FACE_REVIEW",
+    "STAGE14_5_STATUS": "PAUSED_PENDING_ONE_FACE_REVIEW",
+    "NEXT": "WAIT_FOR_ONE_FACE_REVIEW_BEFORE_STAGE14_4"
+  }
+}

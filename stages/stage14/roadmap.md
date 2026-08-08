@@ -16,7 +16,7 @@ Locked ambient population:
 0<a<b<c,\qquad \gcd(a,b,c)=1,\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
 \]
 
-Stage13 is under independent proof review. Its analytic claims are not inputs to current Stage14 finite work.
+Current finite Stage14 work is independent of Stage13 analytic claims while Stage13 remains under external proof review.
 
 ## 14-1 — Definition and counting interface
 
@@ -34,31 +34,23 @@ Canonical audit:
 stages/stage14/data/14-2/final_census_audit.json
 ```
 
-## 14-3 — Finite directional-ratio evolution
+## 14-3 — Finite directional-ratio reconnaissance
 
-Priority: required and final active Stage14 block before the stop line.
+Status: [x] Complete.
 
-Only finite diagnostics are allowed here. No finite fit is promoted to an asymptotic theorem.
+Only finite diagnostics were allowed. No finite fit was promoted to an asymptotic theorem.
 
 ### 14-3a — descriptive directional ledger
 
 Status: [x] Complete.
 
-The coarse late sample showed an apparent `a/c=7/4` plateau at `200k,500k,1m` and a cumulative `b -> a` leader reversal between `1m` and `2m`.
-
-Artifacts:
-
-```text
-stages/stage14/scripts/14-3/directional_ledger.py
-stages/stage14/data/14-3/directional_ledger.json
-stages/stage14/archive/stage14-3a-directional-ledger.md
-```
+The coarse late sample exposed an apparent `a/c=7/4` pattern and a cumulative `b -> a` reversal.
 
 ### 14-3b — late-range finite cutoff densification
 
 Status: [x] Complete.
 
-The production finite census was densified on
+The finite population was densified on
 
 ```text
 B=100,000,150,000,...,2,000,000
@@ -66,70 +58,101 @@ step=50,000
 39 rows
 ```
 
-and the exact space-diagonal event stream was inspected around the `a/b` crossing.
+and the exact event stream was inspected around the `a/b` crossing.
 
-Main findings:
+The coarse `a/c=7/4` pattern is not stable under densification and is not retained as an invariant or limit candidate.
 
-1. The coarse repeated equality `a/c=7/4` is not a stable finite law. The 50k grid moves substantially between the coarse sample points, so no invariant or limit is inferred.
-2. The finite `a/b` crossing is localized by exact event values:
+The last `a/b` crossing in the verified event stream is
 
 ```text
-d=1,083,121   b lead -> tie
- d=1,096,685  tie -> b lead
- d=1,127,185  b lead -> tie
- d=1,148,545  tie -> a lead
+d=1,148,545   tie -> a lead
+counts after = (107,106,60)
 ```
 
-After `d=1,148,545`, `a>b` at every subsequent exactly-two event state through the verified ceiling `B=2,000,000`.
+with `a>b` at every subsequent exactly-two event state through `B=2,000,000`. This is finite only.
 
-This is finite only; eventual asymptotic dominance is unknown.
+### 14-3c — finite diagnostic synthesis / closure
 
-Artifacts:
+Status: [x] Complete.
+
+Stage14-3c separates the final record into:
 
 ```text
-stages/stage14/scripts/14-3/late_range_densification.py
-stages/stage14/data/14-3/late_range_densification.json
-stages/stage14/archive/stage14-3b-late-range-densification.md
+robust finite facts
+sparse-grid artifacts / unsupported promotions
+open questions for later proof-level work
 ```
 
-Decision:
+Canonical synthesis:
 
 ```text
+stages/stage14/data/14-3/final_finite_reconnaissance.json
+stages/stage14/archive/stage14-3c-final-finite-reconnaissance.md
+```
+
+Locked decision:
+
+```text
+STAGE14_3A=COMPLETE
 STAGE14_3B=COMPLETE
+STAGE14_3C=COMPLETE
+STAGE14_3=COMPLETE
+FINITE_RECONNAISSANCE_COMPLETE=true
+MAX_VERIFIED_B=2000000
 DENSE_FINITE_GRID_STEP=50000
 A_OVER_C_7_4_LIMIT_SUPPORTED=false
-A_B_CROSSING_LOCALIZED=true
 FINAL_A_OVER_B_CROSSING_D_WITHIN_VERIFIED_RANGE=1148545
 ASYMPTOTIC_FIT_PERFORMED=false
+FINITE_RATIO_LIMIT_IDENTIFIED=false
+STAGE13_ANALYTIC_DEPENDENCY_USED=false
 ```
 
-### 14-3c — finite diagnostic synthesis / stop-line preparation
+## STOP LINE — ACTIVE
 
-Status: [>] Next.
+Current research policy is now active, not merely planned:
 
-Purpose:
+```text
+Stage14-1   COMPLETE
+Stage14-2   COMPLETE
+Stage14-3   COMPLETE
+Stage14-4   PAUSED_PENDING_ONE_FACE_REVIEW
+Stage14-5   PAUSED_PENDING_ONE_FACE_REVIEW
+```
 
-- consolidate what the finite census actually establishes;
-- separate robust finite observations from artifacts of sparse sampling;
-- record the open questions any later Stage14-4 proof must explain;
-- close Stage14-3 and enforce the current stop line.
-
-No Stage13 theorem is needed for this synthesis.
-
-## STOP LINE after Stage14-3
-
-Current research policy is to stop Stage14 after finite Stage14-3 diagnostics.
+There is no planned `14-3d`.
 
 ## 14-4 — True total growth order
 
 Status: **paused pending one-face / Stage13 proof review**.
 
+When resumed, begin with
+
+```text
+14-4aa  independent two-face parametrization and proof-input audit
+```
+
+rather than blindly importing the old Stage13 proof chain. Every Stage13 dependency must be re-audited before use.
+
 ## 14-5 — Directionwise asymptotic structure
 
 Status: **paused pending one-face / Stage13 proof review**.
 
+## Open analytic questions retained for restart
+
+- What is the true growth order of `N_2(B)`?
+- Do the three exactly-two directions have limiting normalized proportions?
+- Does the finite `a` lead persist or reverse again?
+- What arithmetic mechanism distinguishes the three shared-edge directions?
+- What is the correct proof-level parametrization for two simultaneous Pythagorean-face conditions plus integer space diagonal?
+- Which repaired Stage13 tools can be reused safely?
+- How does this population compare with the Euler/no-space-diagonal two-face population?
+- Can `T(B)>0` ever occur? No nonexistence claim is made.
+
 ## Scope boundary
 
-Stage14 does not assume perfect-cuboid nonexistence. `T(B)` remains explicit and any `T>0` witness must be preserved and independently verified.
+No growth exponent, limiting directional ratio, monotonicity theorem, eventual leader, Euler-side equality, or perfect-cuboid nonexistence result is currently established for Stage14.
 
-No growth exponent, limiting directional ratio, monotonicity theorem, eventual leader, or Euler-side equality is currently established for the two-face population.
+```text
+STOP_LINE_ACTIVE=true
+NEXT=WAIT_FOR_ONE_FACE_REVIEW_BEFORE_STAGE14_4
+```
