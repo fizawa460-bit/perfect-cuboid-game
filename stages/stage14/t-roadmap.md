@@ -2,165 +2,140 @@
 
 ## Purpose
 
-Stage14-t is the dedicated side track for quantitative control of the triple/perfect-cuboid correction term in the Stage14 exactly-two-face problem. It is separate from the main `14-4` Kummer/rank-jump track and from the `14-e` ambient control track.
-
-For the locked primitive canonical Stage14 population,
+Stage14-t controls the triple/perfect-cuboid correction term in
 
 \[
-\boxed{E(B)=N_2(B)+3T(B)},
+E(B)=N_2(B)+3T(B).
 \]
 
-where `T(B)` counts objects with all three integral face diagonals.
+It is separate from the main `14-4` raw-pair/Kummer track and the `14-e` ambient track.
 
 ## 14-t1 — baseline and theorem gap
 
 Status: [x] Complete.
 
-Locked: fixed physical genus-5 fiber, physical height `v asymp sqrt(Bg/S1)`, exact finite triple census `T(B)=0` through `B=2,000,000` with no nonexistence inference, and the literature boundary for uniform moving-family bounds.
+Locked: fixed physical genus-5 fiber; physical height `v asymp sqrt(Bg/S1)`; exact finite `T(B)=0` through `B=2,000,000` with no nonexistence inference.
 
-## 14-t2 — quantitative moving-family attack
-
-Status: [x] Complete as a quantitative boundary; square-root target remains open.
-
-Every triple object gives a unique Pythagorean chain
-
-```text
-(b,c,z),  b^2+c^2=z^2,
-(a,z,d),  a^2+z^2=d^2,
-z<d<=B.
-```
-
-The exact representation-factor majorant has Dirichlet series
-
-\[
-\sum f(n)n^{-s}=\zeta(s)^6L(s,\chi_4)^3G(s),
-\]
-
-with `G` absolutely convergent near `s=1`, hence
-
-\[
-\boxed{T(B)=O(B(\log B)^5)}.
-\]
-
-This independent Stage14-native envelope does not improve the frozen Stage13 theorem
-
-\[
-\boxed{T(B)=o(B(\log B)^3)}.
-\]
-
-```text
-STAGE14_T2=COMPLETE_QUANTITATIVE_BOUNDARY
-CHAIN_ENVELOPE=T(B)=O(B(log B)^5)
-CHAIN_ENVELOPE_IMPROVES_R03=false
-FROZEN_STRONGEST_GLOBAL_BOUND=T(B)=o(B(log B)^3)
-T_O_SQRT_B_PROVED=false
-```
-
-## 14-t3 — Humbert-Edge structure and low-degree classification
+## 14-t2 — quantitative boundary
 
 Status: [x] Complete.
 
-Put `s=t^2`, `A=(1-s)/(1+s)`, `C=2/s-1`. After homogenizing `q=Q/P` and setting
+The Pythagorean-chain majorant gives
 
 \[
-U_0=P^2+Q^2,\qquad U_1=P^2-Q^2,\qquad U_2=2PQ,
+T(B)=O(B(\log B)^5),
 \]
 
-the triple fiber is the smooth complete intersection of three diagonal quadrics
+while the stronger frozen Stage13 result remains
 
 \[
-U_0^2-U_1^2-U_2^2=0,
+T(B)=o(B(\log B)^3).
+\]
+
+Neither reaches `o(sqrt(B))`.
+
+## 14-t3 — Humbert-Edge splitting
+
+Status: [x] Complete.
+
+Every genuine fixed-base triple fiber is a type-4 Humbert--Edge genus-5 curve with branch set
+
+\[
+\{\infty,0,1,-1/s,1/(1-s)\},\qquad s=t^2,
+\]
+
+and
+
+\[
+J(C_t)\sim_{\mathbf Q}E_{U_0,t}\times E_{U_1,t}\times E_{U_2,t}\times E_{W,t}\times E_{R,t}.
+\]
+
+There are no physical singular/lower-genus or rational extra-automorphism exceptional fibers.
+
+## 14-t4 — elliptic compression and Kummer restriction
+
+Status: [x] Complete.
+
+The five elliptic quotients have only three geometric j-types. With `s=t^2`,
+
+\[
+j_+(s)=256\frac{(s^2+s+1)^3}{s^2(s+1)^2},
 \]
 
 \[
-2W^2-U_0^2-U_1^2-AU_2^2=0,
+j_0(s)=256\frac{(s^4-s^2+1)^3}{s^4(s-1)^2(s+1)^2},
 \]
 
 \[
-2R^2-U_0^2-U_1^2-CU_2^2=0.
+j_-(s)=256\frac{(s^2-s+1)^3}{s^2(s-1)^2}.
 \]
 
-Thus every genuine physical fiber is a Humbert--Edge curve of type `4`, hence genus `5`, with sign group `(Z/2Z)^4`.
-
-The five branch values of the quotient orbifold are
-
-\[
-\boxed{\infty,0,1,-1/s,1/(1-s)}.
-\]
-
-The singular branch-collision values are only `s=0,1,-1,infinity`, none of which is a genuine physical rational Pythagorean base. An exact audit of all 120 branch permutations shows that the remaining possible extra-symmetry loci are roots of
+The pairings are
 
 ```text
-s^2+1,
-s^2+s+1,
-s^2-s+1,
-s^2+s-1,
-s^2-s-1,
+E_U0, E_R -> j_+
+E_U1      -> j_0
+E_U2, E_W -> j_-
 ```
 
-and none has a rational root. Therefore the physical rational family has no singular, lower-genus, or enlarged-automorphism exceptional stratum.
-
-More importantly, the low-degree structure is universal: quotienting by each of the five coordinate involutions gives a smooth genus-one curve, and the refined Humbert--Edge decomposition gives
+so geometrically
 
 \[
-\boxed{
-J(C_t)\sim_{\mathbf Q}E_{U_0,t}\times E_{U_1,t}\times E_{U_2,t}\times E_{W,t}\times E_{R,t}.
-}
+J(C_t)_{\overline{\mathbf Q}(s)}\sim E_+^2\times E_0\times E_-^2.
 \]
 
-Hence
+`E_R` is exactly the Stage14 raw-pair elliptic factor. By Stage14-4af every physical triple point therefore lies over a positive-rank specialization of `E_R`.
+
+The Stage14-4ah third-square cover of the physical Kummer surface has branch class `2M`. On an extremal rational bisection with
 
 \[
-\boxed{
-\operatorname{rank}J(C_t)(\mathbf Q)=\sum_{i=1}^{5}\operatorname{rank}E_{i,t}(\mathbf Q).
-}
+M\cdot C=4,
 \]
 
-The t2 moving genus-5 rank problem is therefore an explicit moving five-elliptic-factor problem. The universal elliptic structure is not a thin exceptional set and cannot be discarded.
+the restricted branch degree is `8`. A transverse restriction has eight odd branch points and normalized genus
+
+\[
+\boxed{3}.
+\]
+
+Thus a generic raw-pair `sqrt(B)` accumulating bisection does **not** remain rational or elliptic after imposing the third square. A low-genus triple restriction requires at most four odd branch points, i.e. exceptional branch contact/tangency.
 
 ```text
-STAGE14_T3=COMPLETE_HUMBERT_EDGE_AND_ELLIPTIC_SPLITTING
-TRIPLE_FIBER_HUMBERT_EDGE_TYPE4=true
-TRIPLE_FIBER_JACOBIAN_COMPLETELY_ELLIPTIC=true
+STAGE14_T4=COMPLETE_ELLIPTIC_COMPRESSION_AND_KUMMER_RESTRICTION
 ELLIPTIC_FACTOR_COUNT=5
-PHYSICAL_SINGULAR_EXCEPTIONAL_STRATUM_EMPTY=true
-PHYSICAL_RATIONAL_EXTRA_AUTOMORPHISM_STRATUM_EMPTY=true
-UNIVERSAL_LOW_DEGREE_STRUCTURE_NOT_THIN=true
+GEOMETRIC_ELLIPTIC_J_TYPES=3
+RAW_PAIR_FACTOR=E_R
+THIRD_FACE_FACTOR=E_W
+PHYSICAL_TRIPLE_IMPLIES_E_R_POSITIVE_RANK_SPECIALIZATION=true
+KUMMER_TRIPLE_BRANCH_CLASS=2M
+M_DEGREE4_RESTRICTED_BRANCH_DEGREE=8
+GENERIC_M_DEGREE4_TRIPLE_LIFT_GENUS=3
+LOW_GENUS_TRIPLE_RESTRICTION_REQUIRES_ODD_BRANCH_SUPPORT_LE_4=true
 T_O_SQRT_B_PROVED=false
 ```
 
-## 14-t4 — elliptic-factor rank/torsion audit and Kummer-cover comparison
+## 14-t5 — transfer gate
 
-Status: [>] Next.
+Status: [>] Next, but conditional on the main-track degree-four bisection classification / branch-contact audit.
 
-Convert the five quotient factors to canonical Weierstrass models over the Pythagorean base, determine their generic torsion and rank behavior, and make the lift conditions back to the genus-5 fiber explicit. In particular:
-
-- identify which factors coincide with or are isogenous to the Stage14 space/Kummer elliptic fibers already studied in `14-4`;
-- search for rank-zero factors or torsion-intersection criteria that eliminate whole base strata;
-- compare with recent perfect-cuboid elliptic-quotient/torsion-intersection methods;
-- quantify the remaining positive-rank base population under the physical height.
-
-The goal remains a bound strong enough to approach
+Use
 
 \[
-T(B)=o(\sqrt B).
+N_2(B)=E(B)-3T(B)
 \]
 
-## 14-t5 — transfer theorem
-
-Status: [ ] Pending a sufficient triple bound and a main-track raw-pair law.
-
-Combine `N2(B)=E(B)-3T(B)` with the strongest proved estimates. If `E(B)` has a `sqrt(B)` leading law and `T(B)=o(sqrt(B))`, transfer that law to the exactly-two population.
+to transfer a proved raw-pair law only after the surviving triple restrictions are controlled at the same scale. If the main `14-4` track produces the physical `M`-degree-4 bisections, the immediate t-side task is to compute the odd branch support of the `2M` third-square divisor on each one.
 
 ## Scope boundary
 
-Stage14-t is a population-counting track, not a finite-search proof of nonexistence.
+Stage14-t is a population-counting track, not a finite-search proof of perfect-cuboid nonexistence.
 
 ```text
 STAGE14_T_TRACK=ACTIVE
 STAGE14_T1=COMPLETE_BASELINE_AND_THEOREM_GAP
 STAGE14_T2=COMPLETE_QUANTITATIVE_BOUNDARY
 STAGE14_T3=COMPLETE_HUMBERT_EDGE_AND_ELLIPTIC_SPLITTING
+STAGE14_T4=COMPLETE_ELLIPTIC_COMPRESSION_AND_KUMMER_RESTRICTION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t4 elliptic-factor rank/torsion audit and Kummer-cover comparison
+NEXT=Stage14-t5 transfer gate / branch-contact audit after main-track bisection classification
 ```
