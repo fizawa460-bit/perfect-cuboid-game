@@ -1,6 +1,14 @@
-# Stage13 — active structural analysis
+# Stage13 — structural analysis
 
-Current state:
+Stage13 studies the primitive canonical exactly-one-face directional counts
+
+\[
+N_{ab}(B),\qquad N_{ac}(B),\qquad N_{bc}(B)
+\]
+
+and explains both the finite near-`2:1:1` observation and its asymptotic behaviour.
+
+## Current state
 
 ```text
 STAGE13_1=COMPLETE
@@ -18,102 +26,220 @@ STAGE13_4B=COMPLETE
 STAGE13_4C=COMPLETE
 STAGE13_5=COMPLETE
 STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
-NEXT=Stage13-7
+STAGE13_7=COMPLETE_AT_UNCONDITIONAL_EXACT_ONE_DIRECTIONAL_ASYMPTOTIC_LEVEL
+NEXT=Stage13-8
 ```
 
-## Active organization
+The active roadmap is
 
 ```text
 stages/stage13/roadmap.md
+```
+
+and the Stage13 working-file policy is
+
+```text
 stages/stage13/policy.md
-stages/stage13/initial/definition.md
-stages/stage13/initial/structural-decomposition.md
+```
+
+The policy designates
+
+```text
 stages/stage13/main.md
-stages/stage13/scripts/13-3/raw_incidence.py
-stages/stage13/scripts/13-3/geometric_chamber.py
-stages/stage13/scripts/13-3/parity_2adic.py
-stages/stage13/scripts/13-3/representation_fiber.py
-stages/stage13/scripts/13-3/representation_density.py
-stages/stage13/scripts/13-3/boundary_stability.py
-stages/stage13/data/13-3/raw_incidence_report.json
-stages/stage13/data/13-3/geometric_chamber_report.json
-stages/stage13/data/13-3/parity_2adic_report.json
-stages/stage13/data/13-3/representation_fiber_report.json
-stages/stage13/data/13-3/representation_density_report.json
-stages/stage13/data/13-3/boundary_stability_report.json
-stages/stage13/scripts/13-4/ac_bc_gap.py
-stages/stage13/scripts/13-4/ac_bc_cancellation.py
-stages/stage13/scripts/13-4/ac_bc_scaling.py
-stages/stage13/data/13-4/ac_bc_gap_report.json
-stages/stage13/data/13-4/ac_bc_cancellation_report.json
-stages/stage13/data/13-4/ac_bc_scaling_report.json
-stages/stage13/scripts/13-5/deviation.py
-stages/stage13/data/13-5/deviation_report.json
-stages/stage13/scripts/13-6/classify_deviation.py
-stages/stage13/data/13-6/deviation_classification_report.json
 ```
 
-`main.md` is the canonical living mathematical source. The completed Stage13-1/2 initial files remain as provenance; active mathematics is edited in `main.md`.
+as the canonical living mathematical source. Stage13-8 is now expected to consolidate the already-proved Stage12-to-Stage13 bridge into that canonical exposition.
 
-Stage13-3a established by complete finite enumeration that the near `2:1:1` shape is already present in raw face incidences before the exactly-one overlap sieve.
+## Stage13-7 final result
 
-Stage13-3b isolated the canonical size-order / archimedean mechanism. On `0<a<b<c`, the exact one-face real-density weights satisfy `w_ab>w_ac>w_bc`; their chamber integrals give a `bc`-normalized geometric ratio about `2.4317:1.1158:1`, stronger than the observed raw `2.0660:1.0607:1`.
-
-Stage13-3c audited parity and the prime `2`. Every primitive raw-incidence object has exactly one odd edge, odd space diagonal, and both even edges divisible by `4`. This admissibility condition is permutation-symmetric across the three one-face varieties, so a standalone `p=2` local factor cannot create a directional bias. Finite OE/EE parity types do couple with canonical order and visibly flatten the aggregate vector, but they do not by themselves close the gap to the observed ratio.
-
-Stage13-3d resolved the Stage12 representation/fiber bridge exactly. For a canonical raw face incidence, the Stage12 ordered distinguished-face construction has exactly two records, one for each order of the two face legs; if full orientation is retained, each supported fiber has size `1`. Hence `C_prim(B)=2*(A_ab(B)+A_ac(B)+A_bc(B))`, direction by direction and separately in the OE/EE strata. Combining this exact bridge with the frozen Stage12 theorem gives the total raw-incidence asymptotic `A_ab+A_ac+A_bc ~ kappa/(24*pi) B(log B)^3`.
-
-Stage13-3e tested representation density. At `B=100000`, `ab` incidences lie on systematically poorer primitive representation shells than `ac/bc`. Equalizing shell weight moves the ratio from raw `2.0660:1.0607:1` to about `2.3819:1.0610:1`, strongly back toward the Stage13-3b archimedean vector `2.4317:1.1158:1`. Pure `G(p)` deweighting gives a substantial but smaller correction. This is finite structural evidence, not a categorywise asymptotic theorem.
-
-Stage13-3f checked cutoff/boundary stability and closed the leading-two structural diagnostic. In the outer half of the largest search, `50000<d<=100000`, there are `94,209` raw incidences, about `56.0%` of the full `B=100000` incidence mass, yet the band ratio is `2.0651:1.0569:1`, essentially the same as the cumulative `2.0660:1.0607:1`; the normalized proportion vectors differ by only about `0.00126` in `L1`. From `B=50000` to `100000`, the raw, shell-neutral and pure-`G` diagnostics all move only slightly. Thus the largest observed cutoff boundary does not generate a competing leading ratio.
-
-The Stage13-3 structural synthesis is therefore: canonical archimedean geometry creates the leading `ab` excess; arithmetic representation density materially flattens it toward the observed near-`2`; overlap, standalone prime-2 admissibility, projection fiber multiplicity and the largest observed cutoff boundary do not generate the leading effect. This closes Stage13-3 only at the structural finite-diagnostic level. No separate directional asymptotic constants and no limiting `2:1:1` theorem are claimed.
-
-Stage13-4a started the two-near-`1` analysis. At `B=100000`, raw `ac/bc=1.0607458`, exact-one `1.0608294`, and the outer-half band `1.0569241`; the closeness is therefore not created by the exactly-one sieve or the largest cutoff boundary. Supported shell-neutralization also leaves aggregate `ac/bc` near `1.061`, while pure `G(p)` deweighting moves it to about `1.002`.
-
-Stage13-4b showed that the pure-`G` near equality is a cancellation, not an exact `ac<->bc` symmetry. At `B=100000`, pure-`G` OE has `ac/bc=0.95422` and weighted gap about `-254.28`, while EE has `ac/bc=1.04547` and gap about `+277.86`; the residual total gap is only about `+23.58`. Low-`g` geometric regions are `bc`-heavy and high-`g` regions are `ac`-heavy. Primitive support then tilts the balance back toward `ac`.
-
-Stage13-4c scales that cancellation and closes Stage13-4 at the structural finite-diagnostic level. The exact finite decomposition
+Stage13-7 resolves the asymptotic behaviour of the exact-one directional vector. With the Stage13-3b chamber integrals
 
 ```text
-r_raw(B) = r_G(B) * F_prim(B) * F_shell(B)
+I_ab = 0.659705248705705
+I_ac = 0.3026997526726076
+I_bc = 0.2712955487578571
+I_ab+I_ac+I_bc = pi^2/8
 ```
 
-separates pure-`G`, primitive-support and supported-shell effects. For `B>=10000`, the primitive-support factor is unusually stable, ranging only from about `1.05872` to `1.06499`, while the pure-`G` ratio ranges from about `0.95316` to `1.00202`. At `B=100000`,
+the three category counts satisfy
+
+\[
+N_q(B)\sim \frac{\kappa I_q}{3\pi^3}B(\log B)^3,
+\qquad q\in\{ab,ac,bc\},
+\]
+
+and
+
+\[
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
+\]
+
+Therefore
 
 ```text
-1.0607458 = 1.0020209 * 1.0588757 * 0.9997457.
+P_inf = (0.5347369332313988,
+         0.24535917783225203,
+         0.21990388893634913)
+
+N_ab:N_ac:N_bc
+ -> 2.431684750178191 : 1.115756428951881 : 1
 ```
 
-Thus the observed `ac/bc` gap is, at the largest cutoff, almost exactly a near-one pure-`G` cancellation multiplied by a roughly `1.059` primitive-support tilt, with supported-shell restoration nearly neutral. The fresh outer half independently reproduces the mechanism: pure-`G` OE is `0.95636`, EE is `1.05368`, aggregate `1.00685`, and the fixed geometric bins run monotonically from about `0.9087, 0.9729, 1.0605, 1.1176`. However the cancellation is not stable at all smaller bounds or annuli, so no exact or asymptotic secondary balance law is claimed.
+so the proved limiting ratio is **not** `2:1:1`.
 
-The Stage13-4 structural synthesis is therefore: the two near-`1` components do not arise from one exact symmetry. At late audited scales, parity and geometric subregions contribute opposite signed gaps that cancel strongly; a comparatively stable primitive-support correction supplies the residual `ac>bc` tilt. This is a finite structural explanation only.
-
-Stage13-5 fixes the deviation language. For the exact-one proportion vector `P=(N_ab,N_ac,N_bc)/N1`, set `P0=(1/2,1/4,1/4)` and `Delta=P-P0`. Because the components sum to zero, use the two independent coordinates
+For the Stage13-5 deviation coordinates,
 
 ```text
-alpha = P_ab - 1/2
-beta  = (P_ac - P_bc)/2
-Delta = alpha*(1,-1/2,-1/2) + beta*(0,1,-1).
+alpha -> 0.034736933231398814
+beta  -> 0.01272764444795145
 ```
 
-Thus `alpha` measures the leading-vs-pair mode and `beta` measures the split between the two near-`1` components. At `B=100000`, exact-one gives `alpha=131/168030 ~= 0.0007796` and `beta=619/84015 ~= 0.0073677`; `|beta|` is about `9.45` times `|alpha|`. The full deviation is approximately `(0.0007796, 0.0069779, -0.0077575)` with `L1 ~= 0.0155151`. This is only a finite diagnostic; no convergence is inferred.
+and
 
-Stage13-6 puts every audited mechanism into the same `(alpha,beta)` coordinates without falsely treating incomparable diagnostics as one additive causal decomposition. At `B=100000`, the archimedean chamber model has `(alpha,beta)≈(0.03474,0.01273)`. Pure-`G` deweighting has `(0.03944,0.000232)`, so the `ac/bc` split is almost cancelled while the leading mode remains large. Moving `G_neutral -> shell_neutral` (primitive-support correction) changes `(alpha,beta)` by about `(-0.00332,+0.00663)`. Moving `shell_neutral -> raw` (restoring supported-shell richness) changes it by about `(-0.03547,+0.00049)`, making this the dominant finite flattening of the leading mode. The exact overlap sieve then changes only `(+0.000138,+0.0000078)`. OE and EE raw strata have opposite `alpha` signs (`+0.0200` and `-0.0256`) and reconstruct raw exactly; after pure-`G` deweighting their `ac/bc` gaps also have opposite signs. The largest outer-half boundary changes the cumulative raw coordinates by only about `(+0.00035,-0.00046)`. The Stage12 projection multiplicity `2` is an exact directional null after normalization. Thus the final exact-one deviation remains `beta`-dominated, and the current finite classification assigns the main `alpha` flattening to supported-shell richness, the near cancellation of `beta` to the pure-`G` cross-stratum balance, and the residual positive `beta` mainly to primitive-support coupling. This classification is finite only and does not claim an asymptotic additive decomposition.
+```text
+Delta_inf = ( 0.034736933231398814,
+             -0.004640822167747971,
+             -0.03009611106365087 )
+```
 
-The next mathematical step is Stage13-7: study how `alpha(B)`, `beta(B)`, and `Delta(B)` behave with the cutoff and determine whether any limit or secondary asymptotic law is actually supported or provable.
+is nonzero.
+
+At `B=100000`, by contrast, exact-one has approximately
+
+```text
+alpha = 0.0007796226864250431
+beta  = 0.007367731952627507
+```
+
+so the observed near-`2:1:1` vector is strongly pre-asymptotically flattened.
+
+No monotone convergence or explicit secondary convergence rate is claimed.
+
+## Stage13-7 theorem chain
+
+The final chain is:
+
+```text
+13-7j
+  individual primitive pure-G category asymptotics
+  G_q ~ K_q B(log B)^(1/3)
+  normalized limit = Stage13-3b chamber vector
+
+13-7ja
+  preprimitive m1 asymptotics
+  M_q ~ C_q B log B
+  primitive support changes exponent 1 -> 1/3
+  leading normalized vector unchanged
+
+13-7jb
+  restore supported-shell richness
+  A_q ~ [kappa I_q/(3 pi^3)] B(log B)^3
+  raw normalized limit = chamber vector
+
+13-7jc
+  exact inclusion-exclusion
+  pair-overlap problem reduced to F(B)=o(B(log B)^3)
+
+13-7jd
+  unconditional face-cuboid bound B*exp(C log B/loglog B)
+  useful intermediate bound, insufficient by itself for exactly-one
+
+13-7je
+  exact Kummer / congruent-number-twist / coupled-height reduction
+  structural intermediate route
+
+13-7jf
+  fixed-prime quadratic-residue sieve
+  pair overlaps = o(B(log B)^3)
+  triple overlap = o(B(log B)^3)
+  exact-one category asymptotics and directional limit proved
+
+13-7jg
+  constant/dependency/tagged-orientation/order-of-limits audit
+  Stage13-7 completion decision
+```
+
+The shortest final overlap proof is the 13-7jf fixed-prime sieve. The essential order of limits is
+
+```text
+fix finitely many sieve primes
+-> B -> infinity
+-> increase the number of fixed primes
+```
+
+so no uniform theorem for a modulus growing with `B` is required.
+
+No perfect-cuboid nonexistence assumption is used.
+
+## Scale ladder
+
+The absolute scales change dramatically, but the leading normalized chamber vector survives every layer:
+
+| observable | scale | normalized limit |
+|---|---|---|
+| preprimitive `m1` | `B log B` | Stage13-3b chamber |
+| primitive pure-`G` | `B(log B)^(1/3)` | Stage13-3b chamber |
+| primitive raw incidence | `B(log B)^3` | Stage13-3b chamber |
+| primitive exactly-one | `B(log B)^3` | Stage13-3b chamber |
+
+The common primitive-support survival constant is diagnostically
+
+```text
+Lambda ~= 0.7516555708217902
+```
+
+and the common scaled pure-`G` to raw amplification is diagnostically
+
+```text
+Omega ~= 0.0010287940977836043.
+```
+
+The numerical `kappa`, `K_q`, `D_q`, `Lambda`, and `Omega` values based on truncated prime products are diagnostics, not certified enclosures. The symbolic theorem constants are authoritative.
+
+## Stage13-7 final audit assets
+
+```text
+stages/stage13/scripts/13-7/consolidation_audit.py
+stages/stage13/data/13-7/consolidation_audit_report.json
+stages/stage13/archive/stage13-7-final.md
+```
+
+Historical 13-7jc/7jd/7je conditional status flags remain in their own reports as provenance. The 13-7jg supersession ledger records that their open overlap condition is discharged by 13-7jf.
+
+## Earlier structural synthesis
+
+Stages13-3 through 13-6 remain important because they explain the finite regime rather than merely the limit.
+
+- Canonical archimedean geometry creates the directional ordering `ab>ac>bc` and the chamber vector that ultimately becomes the asymptotic limit.
+- At accessible cutoffs, representation-rich supported shells strongly flatten the `ab` excess.
+- Pure-`G` OE/EE and geometric subregions have opposite `ac-bc` gaps and can cancel strongly.
+- Primitive support materially changes the finite residual `ac-bc` tilt.
+- The exactly-one overlap sieve is already tiny at finite audited bounds and is now proved lower order asymptotically.
+- The universal Stage12 projection multiplicity `2` is a normalized directional null.
+
+Thus the finite near-`2:1:1` observation is not the limiting law: it is a pre-asymptotic cancellation/flattening regime sitting in front of the stronger chamber limit.
+
+## Next — Stage13-8
+
+Stage13-8 was originally planned to construct the rigorous Stage12-to-Stage13 bridge. Much of that bridge has now been proved ahead of schedule:
+
+```text
+13-3d  oriented -> canonical raw multiplicity 2
+13-3d  Stage12 total -> raw total
+13-7jb raw total -> individual raw category constants
+13-7jf raw -> exactly-one after lower-order overlap removal
+13-7jg constants/orientation/order-of-limits audit
+```
+
+Stage13-8 should therefore primarily consolidate these pieces into the canonical Stage13 exposition, unify notation/local factors, and identify only genuinely missing bridge lemmas before Stage13-9 states the main structural theorem.
 
 ## File rule
 
-Stage13 uses one living mathematical source. Corrections go directly into `main.md`; Git/PR history records earlier versions.
-
-Stage13-specific support assets should use the stage/task in the path, with short functional filenames:
+Stage13 mathematical corrections normally go directly into the canonical `main.md`; Git/PR history records prior versions. Support assets use task-first paths such as
 
 ```text
 stages/stage13/scripts/13-<task>/<purpose>.py
 stages/stage13/data/13-<task>/<purpose>.json
 ```
 
-Do not repeat long `stage13_...` suffixes in filenames when the directory already supplies that context.
-
-Generated external-review bundles are created only on demand.
+Frozen task-end snapshots under `stages/stage13/archive/` are provenance, not replacements for the living canonical file.
