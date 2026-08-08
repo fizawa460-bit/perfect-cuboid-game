@@ -19,15 +19,21 @@ def build_report() -> dict:
     ratio = asym["normalized_limit"]["bc_normalized_ratio"]
     constants = asym["individual_leading_constants"]
     k_total = float(asym["total_and_gap_checks"]["K_total"])
-    k0 = float(asym["total_and_gap_checks"]["stage13_7i_K0"])
+    k_gap = (
+        float(constants["ac"]["numeric_truncation"])
+        - float(constants["bc"]["numeric_truncation"])
+    )
+    k0_7i = float(asym["total_and_gap_checks"]["stage13_7i_K0_200k_simpson"])
 
     alpha = float(p["ab"]) - 0.5
     beta = (float(p["ac"]) - float(p["bc"])) / 2.0
     delta = float(p["ac"]) - float(p["bc"])
 
-    beta_from_gap = k0 / (2.0 * k_total)
+    beta_from_gap = k_gap / (2.0 * k_total)
     if abs(beta - beta_from_gap) > 2e-10:
-        raise ArithmeticError("beta limit does not match Stage13-7i gap constant")
+        raise ArithmeticError("beta limit does not match the refined category gap constant")
+    if abs(k_gap - k0_7i) > 1e-9:
+        raise ArithmeticError("refined category gap is inconsistent with Stage13-7i")
 
     rows = []
     checkpoints = {1_000_000, 2_000_000, 5_000_000}
@@ -68,7 +74,8 @@ def build_report() -> dict:
             "K_ac": constants["ac"]["numeric_truncation"],
             "K_bc": constants["bc"]["numeric_truncation"],
             "K_total": k_total,
-            "K_gap_ac_minus_bc": k0,
+            "K_gap_ac_minus_bc_refined": k_gap,
+            "K_gap_stage13_7i_200k_simpson": k0_7i,
         },
         "pure_G_limit": {
             "proportion": p,
@@ -76,11 +83,11 @@ def build_report() -> dict:
             "alpha_limit": alpha,
             "beta_limit": beta,
             "delta_ac_minus_bc_limit": delta,
-            "beta_from_stage13_7i_gap_constant": beta_from_gap,
+            "beta_from_refined_gap_constant": beta_from_gap,
             "formulas": {
                 "P_q": "K_q/K_total = I_q/(I_ab+I_ac+I_bc) = 8 I_q/pi^2",
                 "alpha": "P_ab-1/2",
-                "beta": "(P_ac-P_bc)/2 = K0/(2 K_total)",
+                "beta": "(P_ac-P_bc)/2 = (K_ac-K_bc)/(2 K_total)",
                 "ac_over_bc": "K_ac/K_bc = I_ac/I_bc",
             },
         },
