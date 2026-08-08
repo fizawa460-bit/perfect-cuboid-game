@@ -6,26 +6,31 @@ Stage13 explains the finite primitive canonical near-`2:1:1` one-face ratio,
 its geometric/arithmetic mechanisms and the directional asymptotic law, using
 Stage12 R09 as a frozen prior input.
 
-## Review precedence after R01
-
-The original Stage13-1 through Stage13-10 chain was completed and packaged as a
-single-file R01 bundle. External review returned `OPEN` with two substantive
-proof objections:
-
-1. old 7jb raw `j=0` direction-neutrality was circular;
-2. old 7jf fixed-modulus overlap transfer was insufficiently derived.
-
-The 13-12 repair sequence now addresses both and Stage13-12ac has packaged a
-fresh R02 candidate. Historical `STAGE13=COMPLETE` flags do not override the
-current external-review state.
+## External-review repair history
 
 ```text
-STAGE12_N1_2=FROZEN_R09
-STAGE13_1_THROUGH_10=HISTORICALLY_COMPLETE
-STAGE13_EXTERNAL_REVIEW_R01=OPEN
-STAGE13_REPAIR_CHAIN=COMPLETE
-STAGE13_12AC=COMPLETE_R02_REVIEW_RESYNTHESIS
-STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R02
+R01: OPEN
+  - circular raw direction-neutrality
+  - under-derived fixed-modulus overlap transfer
+
+13-12aa: structural non-circular common-factor repair
+13-12ab: structural fixed-local overlap repair
+13-12ac: neutral R02 single-file review bundle
+
+R02 Grok:   OPEN
+R02 Claude: REPAIRABLE
+```
+
+The R02 reviewers agree that the R01 circularity was genuinely repaired. Their
+common remaining objection is quantitative analytic closure of the new `j=0`
+route; Grok also keeps two p-adic overlap-side details open.
+
+Current status:
+
+```text
+STAGE13_12AD=COMPLETE_QUANTITATIVE_J0_ANALYTIC_CLOSURE
+STAGE13_GLOBAL_REVIEW_STATUS=OPEN
+NEXT=Stage13-12ae
 ```
 
 ---
@@ -39,14 +44,14 @@ STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R02
 13-4   two-near-1 finite mechanism                          [complete finite diagnostic]
 13-5   deviation coordinates                                [complete]
 13-6   finite deviation classification                      [complete]
-13-7   original asymptotic chain                            [historical; repaired by 13-12]
+13-7   original asymptotic chain                            [historical; superseded in disputed parts]
 13-8   Stage12 bridge                                       [historical complete]
 13-9   main structural theorem                              [historical statement]
 13-10  final explanation                                    [historical statement]
-13-11  Stage13-only single-file review bundle               [complete R01]
+13-11  Stage13-only R01 bundle                              [complete]
 ```
 
-The exact finite bridge from 13-3d remains active:
+The exact finite projection bridge remains active:
 
 \[
 C^{\rm proj}_{\rm prim,q}(B)=2A_q(B).
@@ -54,177 +59,187 @@ C^{\rm proj}_{\rm prim,q}(B)=2A_q(B).
 
 ---
 
-## External-review repair sequence
+## 13-12 external-review repair sequence
 
-### 13-12aa — non-circular raw `j=0` common factor [complete]
+### 13-12aa — non-circular raw common factor [complete]
 
-Old 7jb seeded the desired categorywise constants and then checked a common
-ratio. 13-12aa replaces that with the independent theorem shape
-
-\[
-A_q(B)\sim\Theta J_q B(\log B)^3
-\]
-
-with one unknown `Theta`. Only afterwards is the Stage12 total theorem used to
-calibrate
+Proves the theorem shape
 
 \[
-\Theta=\frac{\kappa}{6\pi^2},
-\qquad
-A_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+A_q(B)\sim\Theta J_qB(\log B)^3
 \]
+
+before Stage12 calibration. This repairs the R01 circular definition of the
+directional constants.
 
 ```text
 STAGE13_12AA=COMPLETE_COMMON_FACTOR_REPAIR
-CLAUDE_FATAL_DIRECTION_NEUTRALITY=REPAIRED
-RAW_DIRECTIONAL_ASYMPTOTIC=RESTORED_NON_CIRCULARLY
+R01_DIRECTION_NEUTRALITY_CIRCULARITY=REPAIRED_STRUCTURALLY
 ```
 
-Assets:
+### 13-12ab — fixed-local overlap transfer [complete structurally]
 
-```text
-stages/stage13/13-12aa/result.md
-stages/stage13/scripts/13-12aa/j0_common_factor_audit.py
-stages/stage13/data/13-12aa/j0_common_factor_audit_report.json
-```
+Replaces the old “same machinery” sentence with a finite Euler-factor
+replacement identity for fixed local conditions, followed by the fixed-`k`,
+`B->infinity`, then `k->infinity` squeeze.
 
-### 13-12ab — fixed-local overlap transfer [complete]
+R02 accepted the direction of this repair but Grok requested a stronger
+all-valuation p-adic derivation.
 
-A fixed local condition refines only one prime's finite local state. For fixed
-`S`, the constrained Fourier-channel Euler product is
+### 13-12ac — R02 re-synthesis [complete]
 
-\[
-\mathcal D_{\ell,S}
-=\mathcal D_\ell
-\prod_{p\in S}\frac{L^W_{p,\ell}}{L_{p,\ell}}.
-\]
-
-For inert primes `p=3 mod 4`, the second-face necessary condition has unit-layer
-acceptance
-
-\[
-\frac{p+1}{2(p-1)}=\frac12+\frac1{p-1},
-\]
-
-with positive-valuation tail `O(1/p)`. Hence all sufficiently large inert
-primes have `lambda_p<=3/4`.
-
-Fix `k` such primes, take `B->infinity`, then let `k->infinity`. This proves
-
-\[
-O_{qr}(B)=o(B(\log B)^3),
-\qquad
-T(B)=o(B(\log B)^3).
-\]
-
-Therefore the exactly-one theorem is restored from the 13-12aa raw theorem.
-
-```text
-STAGE13_12AB=COMPLETE_FIXED_LOCAL_OVERLAP_REPAIR
-CLAUDE_MAJOR_FIXED_MODULUS_TRANSFER=REPAIRED
-PAIR_OVERLAP_LOWER_ORDER=RESTORED
-TRIPLE_OVERLAP_LOWER_ORDER=RESTORED
-EXACT_ONE_DIRECTIONAL_ASYMPTOTIC=RESTORED
-STAGE13_REPAIR_CHAIN=COMPLETE
-```
-
-Assets:
-
-```text
-stages/stage13/13-12ab/result.md
-stages/stage13/scripts/13-12ab/fixed_local_overlap_audit.py
-stages/stage13/data/13-12ab/fixed_local_overlap_audit_report.json
-```
-
-### 13-12ac — R02 re-synthesis / external re-review [complete]
-
-Stage13-12ac creates a fresh review entrypoint and a new physical R02 bundle.
-R01 is not mutated.
-
-Authoritative R02 entrypoint:
-
-```text
-stages/stage13/13-12ac/current-proof.md
-```
-
-Physical review bundle:
+Published
 
 ```text
 review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html
 ```
 
-Machine-readable manifest:
+with neutral verdict instructions and explicit supersession of old 7jb/7jf.
+The R02 snapshot is not mutated after review.
+
+### 13-12ad — quantitative `j=0` analytic closure [complete]
+
+Targets the common R02 analytic objections.
+
+#### Uniform Wiener bound
+
+Fix
+
+\[
+\delta=1/8,\qquad\sigma=5/8.
+\]
+
+The coefficientwise proof gives, uniformly for every split `q>=13` and every
+angular phase,
+
+\[
+\boxed{\|C_{\ell,q}-1\|_{5/8}\le529q^{-5/4}.}
+\]
+
+The finite split prime `q=5` is separated. Hence the global mixed correction is
+weighted-`l1` uniformly over the retained harmonic family.
+
+#### Curved/harmonic error budget
+
+Use
 
 ```text
-stages/stage13/data/13-12ac/review_bundle_manifest.json
+H0 = U = exp((log B)^(1/4))
+eta = (log B)^(-8)
+L = (log B)^4
+finite-order A = 48
 ```
 
-R02 explicitly neutralizes internal status pressure:
+Then
 
 ```text
-PREVIOUS_R01_VERDICT_BINDING=false
-INTERNAL_PASS_FLAGS_ARE_EVIDENCE=false
-INTERNAL_COMPLETE_FLAGS_ARE_EVIDENCE=false
-GIT_HASHES_ARE_MATHEMATICAL_EVIDENCE=false
-CI_SUCCESS_IS_MATHEMATICAL_EVIDENCE=false
-NEGATIVE_VERDICT_REQUIRES_EXTRA_BURDEN=false
+small height                 O(B (log B)^(9/4))
+small coordinate             O(B (log B)^(5/2))
+mixed log shifts             O(B (log B)^2)
+rectangle power tails        B (log B)^C exp(-c (log B)^(1/4))
+curved boundary / mesh       O(B (log B)^(-5))
+Vaaler excess                O(B (log B)^(-1))
+retained harmonics on core   O(B (log B)^(-6))
 ```
 
-The target external verdict remains one of
+Every term is lower order than `B(log B)^3`.
+
+The Gaussian-Hecke input is now stated with explicit angular-conductor
+dependence and concrete `K,A`; it is no longer referenced only as “same
+machinery”.
+
+Assets:
 
 ```text
-CLOSED
-REPAIRABLE
-OPEN
-UNREADABLE_SOURCE
+stages/stage13/13-12ad/result.md
+stages/stage13/scripts/13-12ad/j0_quantitative_closure_audit.py
+stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json
 ```
 
-with no preferred outcome.
+Status:
 
-No internal status may substitute for the independent R02 verdict.
+```text
+CLAUDE_R02_WEIGHTED_L1_UNIFORMITY=REPAIRED
+CLAUDE_R02_NONZERO_HARMONIC_LOWER_ORDER=REPAIRED
+GROK_R02_ZERO_MODE_CURVED_TRANSFER=REPAIRED
+RAW_DIRECTIONAL_ANALYTIC_CORE=RESTORED_WITH_EXPLICIT_ERROR_BUDGET
+```
+
+### 13-12ae — exact p-adic overlap/local-state closure [NEXT]
+
+This step must address only the remaining Grok R02 overlap objections.
+
+Required outputs:
+
+```text
+1. Explicit local state table for every inert-prime valuation stratum relevant
+   to the tagged raw coefficient system, including primitivity and OE/EE
+   compatibility.
+
+2. Exact or explicitly majorized positive-valuation local mass giving
+      tail / L_{p,0}(1,1,1) <= C0/p
+   with a concrete absolute C0.
+
+3. A concrete p0 for which every inert p>p0 satisfies lambda_p<=3/4.
+
+4. Direct verification that every genuine pair overlap maps into the constrained
+   tagged local population on every state used by the Euler factor.
+```
+
+No R03 bundle should be produced until this is complete.
+
+### 13-12af — R03 re-review [blocked]
+
+Only after 13-12ae closes the p-adic/local-state issues:
+
+```text
+regenerate current proof
+publish neutral Stage13-only R03 HTML
+request fresh independent review
+```
 
 ---
 
 ## Current dependency graph
 
 ```text
-Stage12 R09 frozen total theorem
+Stage12 R09 frozen total
         |
-        +---------------------------+
-        |                           |
-        v                           v
-13-3d exact factor-2 bridge   13-3b chamber I_q
-        |                           |
-        +------------+--------------+
-                     v
-              13-12aa j=0 repair
-                     |
-                     v
-          RAW DIRECTIONAL THEOREM
-                     |
-                     v
-       13-12ab fixed-local overlap
-                     |
-                     v
-          PAIR/TRIPLE LOWER ORDER
-                     |
-                     v
-         EXACT-ONE THEOREM RESTORED
-                     |
-                     v
-         13-12ac R02 BUNDLE
-                     |
-                     v
-            EXTERNAL R02 REVIEW
+        +--------------------+
+        |                    |
+        v                    v
+13-3d factor-2 bridge   chamber I_q / J_q
+        |                    |
+        +---------+----------+
+                  v
+            13-12aa
+     non-circular common form
+                  |
+                  v
+            13-12ad
+ quantitative j=0 closure
+                  |
+                  v
+        RAW DIRECTIONAL CORE
+                  |
+                  v
+            13-12ae
+  exact p-adic overlap closure
+                  |
+                  v
+      EXACT-ONE THEOREM CANDIDATE
+                  |
+                  v
+            13-12af R03
 ```
 
 ## Current status
 
 ```text
-RAW_DIRECTIONAL_THEOREM=RESTORED_BY_13_12AA
-EXACT_ONE_DIRECTIONAL_THEOREM=RESTORED_BY_13_12AB
-STAGE13_REPAIR_CHAIN=COMPLETE
-STAGE13_12AC=COMPLETE_R02_REVIEW_RESYNTHESIS
-STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R02
-NEXT=EXTERNAL_STAGE13_R02_REVIEW
+RAW_DIRECTIONAL_ANALYTIC_CORE=RESTORED_WITH_EXPLICIT_ERROR_BUDGET
+P_ADIC_POSITIVE_VALUATION_TAIL=PENDING_13_12AE
+LOCAL_STATE_REFINEMENT_COMPLETENESS=PENDING_13_12AE
+EXACT_ONE_THEOREM_EXTERNAL_STATUS=OPEN
+STAGE13_GLOBAL_REVIEW_STATUS=OPEN
+NEXT=Stage13-12ae
 ```

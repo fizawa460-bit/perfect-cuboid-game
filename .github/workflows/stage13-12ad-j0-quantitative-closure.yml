@@ -1,0 +1,82 @@
+name: Stage13-12ad j0 quantitative closure
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage13/13-12ad/**'
+      - 'stages/stage13/scripts/13-12ad/**'
+      - 'stages/stage13/data/13-12ad/**'
+      - 'stages/stage13/README.md'
+      - 'stages/stage13/roadmap.md'
+      - '.github/workflows/stage13-12ad-j0-quantitative-closure.yml'
+      - '.github/workflows/stage13-12ac-r02-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Rebuild exact 13-12ad audit ledger
+        run: python stages/stage13/scripts/13-12ad/j0_quantitative_closure_audit.py
+
+      - name: Require deterministic audit report
+        run: git diff --exit-code -- stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json
+
+      - name: Verify exact Wiener constant and error budget
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json')
+          r = json.loads(p.read_text(encoding='utf-8'))
+          w = r['wiener_uniformity']
+          h = r['harmonic_parameters']
+          s = r['status']
+
+          assert w['delta'] == '1/8'
+          assert w['sigma'] == '5/8'
+          assert w['exact_C_minus_1_constant'] == '3465625/6561'
+          assert w['integer_majorant'] == 529
+          assert '529*q^(-5/4)' in w['conclusion']
+          assert h['K'] == 4
+          assert h['finite_order_SD_A'] == 48
+          assert h['summed_nonzero_harmonic_exponent'] == '-6/1'
+          assert r['assembled_error_budget']['all_lower_order'] is True
+          assert s['STAGE13_12AD'] == 'COMPLETE_QUANTITATIVE_J0_ANALYTIC_CLOSURE'
+          assert s['STAGE13_GLOBAL_REVIEW_STATUS'] == 'OPEN'
+          assert s['P_ADIC_POSITIVE_VALUATION_TAIL'] == 'PENDING_13_12AE'
+          assert s['LOCAL_STATE_REFINEMENT_COMPLETENESS'] == 'PENDING_13_12AE'
+          print('Stage13-12ad exact ledger verification: PASS')
+          PY
+
+      - name: Guard against premature Stage13 closure
+        run: |
+          grep -q 'STAGE13_GLOBAL_REVIEW_STATUS=OPEN' stages/stage13/13-12ad/result.md
+          grep -q 'P_ADIC_POSITIVE_VALUATION_TAIL=PENDING_13_12AE' stages/stage13/13-12ad/result.md
+          grep -q 'LOCAL_STATE_REFINEMENT_COMPLETENESS=PENDING_13_12AE' stages/stage13/13-12ad/result.md
+          ! grep -q 'STAGE13_GLOBAL_REVIEW_STATUS=CLOSED' stages/stage13/13-12ad/result.md
+
+      - name: Guard frozen R02 identity
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m = json.loads(Path('stages/stage13/data/13-12ac/review_bundle_manifest.json').read_text())
+          assert m['bundle_id'] == 'STAGE13-FINAL-SELF-CONTAINED-20260808-R02'
+          assert m['content_sha256'] == 'e75136805f0d4d7cfc2466b08e403eb2c895ebb1bce67564cabd24a216a682d0'
+          assert m['source_count'] == 98
+          assert m['html_bytes'] == 947019
+          print('R02 remains frozen: PASS')
+          PY
