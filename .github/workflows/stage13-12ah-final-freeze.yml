@@ -1,0 +1,89 @@
+name: Stage13-12ah final downstream freeze
+
+on:
+  push:
+    branches:
+      - agent/stage13-12ah-final-freeze
+    paths:
+      - 'stages/stage13/13-12ah/**'
+      - 'stages/stage13/scripts/13-12ah/**'
+      - 'stages/stage13/data/13-12ah/**'
+      - '.github/workflows/stage13-12ah-final-freeze.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage13/13-12ah/**'
+      - 'stages/stage13/scripts/13-12ah/**'
+      - 'stages/stage13/data/13-12ah/**'
+      - '.github/workflows/stage13-12ah-final-freeze.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-freeze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute Stage13-12ah freeze audit
+        run: |
+          cp stages/stage13/data/13-12ah/final_freeze_audit_report.json /tmp/expected.json
+          python stages/stage13/scripts/13-12ah/final_freeze_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/expected.json').read_text())
+          actual = json.loads(Path('stages/stage13/data/13-12ah/final_freeze_audit_report.json').read_text())
+          assert actual == expected
+          print('Stage13-12ah deterministic freeze audit: PASS')
+          PY
+
+      - name: Verify downstream contract locks
+        run: |
+          grep -F 'STAGE13_DOWNSTREAM_MATHEMATICAL_CONTENT=FROZEN' stages/stage13/13-12ah/result.md
+          grep -F 'R03_GROK_VERDICT=CLOSED' stages/stage13/13-12ah/result.md
+          grep -F 'R03_QWEN_VERDICT=CLOSED' stages/stage13/13-12ah/result.md
+          grep -F 'R03_COPILOT_VERDICT=PENDING_FINAL_REVIEW' stages/stage13/13-12ah/result.md
+          grep -F 'UNANIMOUS_THREE_REVIEWER_CLOSED_RECORD=false' stages/stage13/13-12ah/result.md
+          grep -F 'upstream_stage13_math_commit = c843e039306b40bd3693f89d6199da78c2fb4657' stages/stage13/13-12ah/result.md
+          grep -F 'NEXT_STAGE13_ACTION=RECORD_COPILOT_VERDICT_OR_REOPEN_ONLY_ON_NEW_MAJOR' stages/stage13/13-12ah/result.md
+
+      - name: Verify reviewed R03 remains frozen
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+          manifest = json.loads(Path('stages/stage13/data/13-12af/review_bundle_manifest.json').read_text())
+          html = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260809-R03.html')
+          assert manifest['bundle_id'] == 'STAGE13-FINAL-SELF-CONTAINED-20260809-R03'
+          assert manifest['content_sha256'] == '0cf573e546d8e952f36ee5ed8f1f899b3718f0d29751cf4ee64640328ad37b93'
+          assert manifest['source_ledger_sha256'] == '06e06c68ced77eb52ab937878f638243e9c43cb4dc4b02be9cba474a94bad2b2'
+          assert manifest['source_snapshot_commit'] == 'a6830e80f752fca327470ae3a79e2c88e038ae4e'
+          assert manifest['source_count'] == 105
+          assert manifest['html_bytes'] == 1026122
+          assert html.stat().st_size == 1026122
+          blob = subprocess.check_output(['git', 'hash-object', str(html)], text=True).strip()
+          assert blob == '6cf9b696cc02f2d556d8f67c30fb85ad77b57373'
+          print('Reviewed R03 physical identity: PASS')
+          PY
+
+      - name: Re-run Stage13-12ag explicitness audit
+        run: |
+          cp stages/stage13/data/13-12ag/proof_explicitness_audit_report.json /tmp/ag.json
+          python stages/stage13/scripts/13-12ag/proof_explicitness_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          assert json.loads(Path('/tmp/ag.json').read_text()) == json.loads(Path('stages/stage13/data/13-12ag/proof_explicitness_audit_report.json').read_text())
+          print('Stage13-12ag upstream explicitness audit: PASS')
+          PY
