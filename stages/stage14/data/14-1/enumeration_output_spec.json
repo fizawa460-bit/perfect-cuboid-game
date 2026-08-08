@@ -1,0 +1,98 @@
+{
+  "metadata": {
+    "stage": "14-1c",
+    "scope": "finite exactly-two enumeration and output contract",
+    "status": "LOCKED_FOR_STAGE14_2",
+    "canonical_ambient": "primitive canonical 0<a<b<c, integer space diagonal d<=B"
+  },
+  "ambient_conditions": {
+    "positive_integer_edges": true,
+    "canonical_order": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "space_diagonal": "a^2+b^2+c^2=d^2 with d integer",
+    "cutoff": "d<=B"
+  },
+  "classification": {
+    "face_flags": {
+      "ab": "is_square(a^2+b^2)",
+      "ac": "is_square(a^2+c^2)",
+      "bc": "is_square(b^2+c^2)"
+    },
+    "raw_pair": {
+      "O_ab_ac": "ab && ac",
+      "O_ab_bc": "ab && bc",
+      "O_ac_bc": "ac && bc"
+    },
+    "triple": "T = ab && ac && bc",
+    "exactly_two": {
+      "N_a_2": "ab && ac && !bc",
+      "N_b_2": "ab && bc && !ac",
+      "N_c_2": "ac && bc && !ab"
+    }
+  },
+  "arithmetic_rules": {
+    "square_test": "integer-only; isqrt(n)^2==n or equivalent exact integer test",
+    "floating_point_square_decisions_forbidden": true,
+    "dedup_key": "(a,b,c,d) after canonical sorting",
+    "recompute_all_three_face_flags_after_dedup": true
+  },
+  "required_historical_reproduction_cutoffs": [1000, 2000, 5000, 10000, 20000, 50000, 100000],
+  "inherited_checksum_source": "stages/stage14/data/14-1/stage13_pair_interface.json",
+  "extension_policy": {
+    "first_requirement": "obtain at least one verified cutoff strictly above 100000",
+    "preferred_ladder": [200000, 500000, 1000000, 2000000],
+    "highest_cutoff": "implementation/performance dependent; do not lower correctness checks to reach a larger B",
+    "same_cutoff_for_all_three_directions": true
+  },
+  "required_row_output": {
+    "B": "integer",
+    "raw_pair": ["O_ab_ac", "O_ab_bc", "O_ac_bc"],
+    "T": "integer",
+    "exactly_two": ["N_a_2", "N_b_2", "N_c_2", "N_2"],
+    "normalized_proportion": ["P_a_2", "P_b_2", "P_c_2"],
+    "direction_ratio": "record a common normalization when denominator is nonzero; otherwise null",
+    "candidate_diagnostics": ["distinct_ambient_candidates_or_equivalent", "deduplicated_objects_with_at_least_two_faces"],
+    "validation": ["pair_minus_triple_checks", "N2_total_check", "historical_checksum_match_when_applicable"]
+  },
+  "exact_identities": {
+    "N_a_2": "O_ab_ac-T",
+    "N_b_2": "O_ab_bc-T",
+    "N_c_2": "O_ac_bc-T",
+    "N_2": "O_ab_ac+O_ab_bc+O_ac_bc-3T",
+    "raw_pair_sum": "N_2+3T"
+  },
+  "reference_validation_contract": {
+    "historical_rows": "must reproduce all seven inherited Stage13 rows exactly before an extended Stage14-2 table is accepted",
+    "independent_small_bound_check": "an optimized enumerator should be compared with a logically independent or literal implementation on feasible small cutoffs",
+    "all_reported_rows": "must satisfy every exact identity",
+    "no_assumption_T_zero": true
+  },
+  "triple_witness_policy": {
+    "when_T_positive": "set perfect_cuboid_candidate_found=true and persist witness records",
+    "witness_fields": ["a", "b", "c", "d", "d_ab", "d_ac", "d_bc"],
+    "verification": "recompute all seven square identities with exact integer arithmetic; flag for manual/independent verification",
+    "enumeration_should_not_silently_discard_triples": true
+  },
+  "analysis_boundary": {
+    "stage14_2": "produce validated finite counts",
+    "stage14_3": "analyze finite directional ratios and their evolution",
+    "stage14_4": "identify/prove the true total growth scale",
+    "stage14_5": "identify/prove directionwise asymptotic structure",
+    "growth_model_must_not_be_baked_into_enumerator": true
+  },
+  "stage13_review_sensitivity": {
+    "finite_enumeration_independent_of_stage13_proof_review": true,
+    "stage13_seed_rows_are_checksums_not_authority_for_new_rows": true,
+    "if_stage13_definition_or_seed_counts_change": "reopen/re-audit Stage14-1b interface before publishing Stage14-2",
+    "if_only_stage13_asymptotic_justification_changes": "Stage14-1c enumeration contract remains unchanged; inherited theorem tags may be updated separately"
+  },
+  "decision": {
+    "STAGE14_1C": "COMPLETE",
+    "STAGE14_1": "COMPLETE",
+    "ENUMERATION_CONTRACT_LOCKED": true,
+    "OUTPUT_SCHEMA_LOCKED": true,
+    "HISTORICAL_REPRODUCTION_REQUIRED": true,
+    "TRIPLE_WITNESS_RETENTION_REQUIRED": true,
+    "NEXT": "Stage14-2 complete finite enumeration"
+  }
+}
