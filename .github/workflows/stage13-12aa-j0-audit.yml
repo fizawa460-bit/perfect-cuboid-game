@@ -1,0 +1,56 @@
+name: Stage13-12aa j0 common-factor audit
+
+on:
+  push:
+    branches:
+      - agent/stage13-12aa-j0-direction-neutrality
+    paths:
+      - 'stages/stage13/13-12aa/**'
+      - 'stages/stage13/scripts/13-12aa/**'
+      - 'stages/stage13/data/13-12aa/**'
+      - 'stages/stage13/data/13-3/geometric_chamber_report.json'
+      - '.github/workflows/stage13-12aa-j0-audit.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage13/13-12aa/**'
+      - 'stages/stage13/scripts/13-12aa/**'
+      - 'stages/stage13/data/13-12aa/**'
+      - 'stages/stage13/data/13-3/geometric_chamber_report.json'
+      - '.github/workflows/stage13-12aa-j0-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Rebuild j0 common-factor audit
+        run: python stages/stage13/scripts/13-12aa/j0_common_factor_audit.py
+
+      - name: Require committed report to be reproducible
+        run: git diff --exit-code -- stages/stage13/data/13-12aa/j0_common_factor_audit_report.json
+
+      - name: Enforce non-circular repair locks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          p = Path('stages/stage13/data/13-12aa/j0_common_factor_audit_report.json')
+          r = json.loads(p.read_text())
+
+          assert r['review_reopening']['old_7jb_categorywise_constant_check_is_independent_proof'] is False
+          assert r['non_circular_stage12_calibration']['categorywise_D_q_seeded_before_common_factor_proof'] is False
+          assert r['status']['claude_fatal_direction_neutrality_repaired'] is True
+          assert r['status']['raw_directional_common_factor_proved_at_project_external_theorem_level'] is True
+          assert r['status']['exact_one_stage13_reclosed'] is False
+          assert r['common_factor_theorem_shape']['statement'].startswith('A_q(B) ~ Theta * J_q')
+          assert r['mixed_correction']['max_pure_axis_error'] < 1e-12
+          print('Stage13-12aa j0 audit: PASS')
+          PY
