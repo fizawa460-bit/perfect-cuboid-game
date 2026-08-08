@@ -1,0 +1,99 @@
+{
+  "exact_one_asymptotics": {
+    "alpha_limit": 0.034736933231398814,
+    "bc_normalized_ratio": {
+      "ab": 2.431684750178191,
+      "ac": 1.115756428951881,
+      "bc": 1.0
+    },
+    "beta_limit": 0.01272764444795145,
+    "categorywise": {
+      "ab": "N_ab(B) ~ [kappa I_ab/(3 pi^3)] B(log B)^3",
+      "ac": "N_ac(B) ~ [kappa I_ac/(3 pi^3)] B(log B)^3",
+      "bc": "N_bc(B) ~ [kappa I_bc/(3 pi^3)] B(log B)^3"
+    },
+    "normalized_proportion": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    },
+    "numeric_constants_using_stage12_kappa_diagnostic_only": {
+      "ab": 0.00013162477835561946,
+      "ac": 0.00006039483228608767,
+      "bc": 0.00005412904709213402
+    },
+    "perfect_cuboid_nonexistence_assumed": false,
+    "total": "N1(B) ~ [kappa/(24 pi)] B(log B)^3"
+  },
+  "finite_set_squeeze": {
+    "arbitrary_k_consequence": "Since k is arbitrary, the limsup is zero: every pair overlap is o(B(log B)^3).",
+    "face_cuboid_consequence": "O=sum pair overlaps=o(B(log B)^3); the 7jc sandwich F<=O<=3F therefore also gives F(B)=o(B(log B)^3).",
+    "pair_bound": "For every fixed k and every pair q,r, O_qr(B)<=A_q,S(B), hence limsup O_qr(B)/(B(log B)^3)<=D_q(3/4)^k.",
+    "squeeze_factors": [
+      {"number_of_fixed_sieve_primes": 1, "coefficient_upper_factor": 0.75},
+      {"number_of_fixed_sieve_primes": 2, "coefficient_upper_factor": 0.5625},
+      {"number_of_fixed_sieve_primes": 4, "coefficient_upper_factor": 0.31640625},
+      {"number_of_fixed_sieve_primes": 8, "coefficient_upper_factor": 0.1001129150390625},
+      {"number_of_fixed_sieve_primes": 16, "coefficient_upper_factor": 0.010022595757618546},
+      {"number_of_fixed_sieve_primes": 32, "coefficient_upper_factor": 0.00010045242572063329}
+    ],
+    "triple_consequence": "T(B)<=F(B), so the triple overlap is lower order without assuming perfect-cuboid nonexistence."
+  },
+  "fixed_congruence_refinement": {
+    "categorywise_form": "A_q,S(B) ~ D_q [product_{p in S} rho_p] B(log B)^3 for the tagged raw population passing every local test.",
+    "important_order_of_limits": "No growing-modulus theorem is used: for each k choose k primes and hold them fixed, take B->infinity, and only then let k->infinity.",
+    "pole_statement": "Only finitely many p-adic Euler/local factors are replaced; no new zeta pole is created, and the nonzero Gaussian angular harmonics remain o(B(log B)^3).",
+    "principle": "Fix S before B tends to infinity. Congruence restrictions modulo Q=product(S) split the Stage12/7jb sums into finitely many residue classes. The primitive-circle, Selberg-Delange/de la Breteche, and curved-region estimates used in the frozen proof are stable under a fixed modulus."
+  },
+  "local_sieve_lemma": {
+    "choose_primes": "odd primes p=3 mod 4, sufficiently large",
+    "diagnostic_exact_mod_p_identity": {
+      "condition": "p=3 mod 4",
+      "normalized_total": "p^2-1",
+      "normalized_accepted": "(p+1)^2/2",
+      "normalized_character_sum": "2(p-1)",
+      "primitive_affine_total": "(p-1)(p^2+1)",
+      "primitive_affine_accepted": "(p-1)(p^2+2p+5)/2",
+      "primitive_affine_acceptance": "(p^2+2p+5)/(2(p^2+1))",
+      "two_thirds_check": "2/3-rho=(p^2-6p-11)/(6(p^2+1)), positive for inert primes p>=11"
+    },
+    "infinitely_many_primes": "Dirichlet's theorem supplies arbitrarily many primes 3 mod4 above p0.",
+    "p_adic_acceptance": "rho_p=1/2+O(p^(-1/2))",
+    "quadratic_residue_indicator": "1_QR0(a)=(1+chi_p(a)+1_{a=0})/2. The chi term is a fixed-degree quadratic-character sum; summing one variable and applying Weil gives O(p^(3/2)) against a total p^2+O(p).",
+    "singular_nonunit_channel": "For inert p, p|P forces p|x,y. In the primitive Pythagorean parameterization this is a positive valuation of the common face scale, whose p-adic mass is O(1/p).",
+    "uniform_loss": "there exists p0 such that rho_p<=3/4 for every p=3 mod4, p>p0",
+    "unit_hypotenuse_normalization": "On P in Z_p^*, scale P to 1. Mod p the raw locus is the product x^2+y^2=1 and d^2-z^2=1."
+  },
+  "metadata": {
+    "scope": "unconditional pair-overlap lower-order theorem by a fixed-prime quadratic-residue sieve, followed by transfer of the 7jb raw directional asymptotics to exactly-one",
+    "stage": "13-7jf"
+  },
+  "proof_dependencies": {
+    "external_standard": [
+      "Weil bound for fixed-degree multiplicative character sums over finite fields",
+      "Dirichlet theorem on primes in the progression 3 mod 4"
+    ],
+    "internal": [
+      "Stage13-3d exact two-orientation projection bridge",
+      "Stage13-7jb individual raw directional asymptotics",
+      "Stage13-7jc exact inclusion-exclusion and F<=O<=3F sandwich",
+      "frozen Stage12 fixed-modulus-compatible primitive asymptotic machinery"
+    ]
+  },
+  "status": {
+    "exact_one_category_asymptotics_proved": true,
+    "exact_one_directional_limit_identified": true,
+    "exact_one_limit_equals_stage13_3b_chamber": true,
+    "exact_one_total_asymptotic_proved": true,
+    "face_cuboid_required_bound_proved": true,
+    "next": "Stage13-7jg",
+    "pair_overlap_lower_order_proved": true,
+    "perfect_cuboid_nonexistence_assumed": false,
+    "triple_overlap_lower_order_proved": true
+  },
+  "tagged_pair_overlap_bridge": {
+    "consequence": "Each pair overlap O_qr is bounded by a tagged q-incidence population subject to the local tests x^2+z^2 in QR_0(F_p).",
+    "orientation_factor": "No variable multiplicity is introduced: the tagged copy is one of the two universal Stage13-3d orientations of each q incidence.",
+    "statement": "For a canonical raw incidence of a distinguished face q, the exact Stage13-3d two-orientation lift tags either face leg as x. For each chosen second face r sharing one leg, exactly one tagged orientation uses that shared edge as x, and r integral implies x^2+z^2 is a square."
+  }
+}
