@@ -223,6 +223,12 @@ FIXED_POWER_SAVING_PROVED=false
 SQRT_B_FINITE_CANDIDATE_ONLY=true
 ```
 
+Historical handoff retained for e8 compatibility:
+
+```text
+NEXT_E_SUPPLEMENT=Stage14-e9 gcd/lcm and local-statistics decomposition
+```
+
 ## 14-e9 — gcd/lcm and local-statistics decomposition
 
 Status: [x] Complete as an exact gcd/lcm reconstruction plus finite local control and two rigorous completion blockers.
