@@ -14,13 +14,7 @@ c-direction = ac+bc only
 
 ## 14-1 — Definition and counting interface
 
-Priority: required
-
-```text
-14-1a  lock ambient object, exactly-two categories, raw-pair/triple ledger   [complete]
-14-1b  connect to historical pair-overlap notation and checksums             [complete]
-14-1c  lock enumeration/output specification                                [complete]
-```
+Status: [x] Complete.
 
 Locked ambient population:
 
@@ -33,133 +27,97 @@ Locked ambient population:
 
 Stage13 is under independent proof review. Its analytic claims are not inputs to current Stage14 finite work.
 
-Status: [x] Complete.
-
 ## 14-2 — Complete finite enumeration
 
-Priority: required
-
-### 14-2a — standalone historical reproduction
-
 Status: [x] Complete.
 
-The Stage14 production enumerator
+Two materially different exact generation routes agree at all 11 audited cutoffs through `B=2,000,000`.
 
 ```text
-stages/stage14/scripts/14-2/two_face_census.py
+B=1,000        (2,0,0)      N2=2    T=0
+B=2,000        (2,2,1)      N2=5    T=0
+B=5,000        (6,6,3)      N2=15   T=0
+B=10,000       (9,11,5)     N2=25   T=0
+B=20,000       (16,16,10)   N2=42   T=0
+B=50,000       (24,24,14)   N2=62   T=0
+B=100,000      (33,33,23)   N2=89   T=0
+B=200,000      (42,50,24)   N2=116  T=0
+B=500,000      (70,78,40)   N2=188  T=0
+B=1,000,000    (98,101,56)  N2=255  T=0
+B=2,000,000    (142,134,80) N2=356  T=0
 ```
 
-imports no Stage13 counting code and reproduces the historical seven rows exactly.
-
-### 14-2b — verified extension above B=100000
-
-Status: [x] Complete.
-
-The same Stage14-owned enumerator reaches the full preferred ladder:
-
-```text
-B=200,000      (42,50,24)    N2=116   T=0
-B=500,000      (70,78,40)    N2=188   T=0
-B=1,000,000    (98,101,56)   N2=255   T=0
-B=2,000,000    (142,134,80)  N2=356   T=0
-```
-
-The finite leader is `b` through `B=1m`, then `a` at `B=2m`.
-
-### 14-2c — finite-census closure / audit
-
-Status: [x] Complete.
-
-A logically separate audit route is implemented at
-
-```text
-stages/stage14/scripts/14-2/shared_leg_crosscheck.py
-```
-
-It joins two Pythagorean faces on a shared leg first, then tests the integer space diagonal. This differs from the production route, which starts from a distinguished face and glues that face diagonal into a space-diagonal Pythagorean triple.
-
-The two routes agree exactly at all 11 audited cutoffs:
-
-| B | N_a^(2) | N_b^(2) | N_c^(2) | N_2 | T |
-|---:|---:|---:|---:|---:|---:|
-| 1,000 | 2 | 0 | 0 | 2 | 0 |
-| 2,000 | 2 | 2 | 1 | 5 | 0 |
-| 5,000 | 6 | 6 | 3 | 15 | 0 |
-| 10,000 | 9 | 11 | 5 | 25 | 0 |
-| 20,000 | 16 | 16 | 10 | 42 | 0 |
-| 50,000 | 24 | 24 | 14 | 62 | 0 |
-| 100,000 | 33 | 33 | 23 | 89 | 0 |
-| 200,000 | 42 | 50 | 24 | 116 | 0 |
-| 500,000 | 70 | 78 | 40 | 188 | 0 |
-| 1,000,000 | 98 | 101 | 56 | 255 | 0 |
-| 2,000,000 | 142 | 134 | 80 | 356 | 0 |
-
-All exact pair/triple/exactly-two identities pass. No triple object is found in the verified range; this is not a perfect-cuboid nonexistence result.
-
-Canonical audit records:
+Canonical audit:
 
 ```text
 stages/stage14/data/14-2/final_census_audit.json
-stages/stage14/data/14-2/shared_leg_crosscheck_report.json
-stages/stage14/archive/stage14-2c-census-closure.md
-```
-
-Decision:
-
-```text
-STAGE14_2=COMPLETE
-FINITE_CENSUS_FROZEN=true
-INDEPENDENT_GENERATION_ROUTES=2
-ALL_11_ROWS_MATCH=true
-MAX_VERIFIED_B=2000000
-STAGE13_ANALYTIC_DEPENDENCY_USED=false
 ```
 
 ## 14-3 — Finite directional-ratio evolution
 
-Priority: required
+Priority: required and final active Stage14 block before the stop line.
 
-Study
+Stage14-3 uses only the frozen Stage14-2 census and direct finite extensions. It may diagnose finite ratios, proportions, differences, shells, local slopes, or candidate fits, but it must not promote them to asymptotic theorems.
 
-\[
-N_a^{(2)}:N_b^{(2)}:N_c^{(2)}
-\]
+### 14-3a — descriptive directional ledger
 
-and normalized proportions over the frozen 11-row census. Account explicitly for the finite leader reversal. Candidate fits or extrapolations may be used only as diagnostics, not as theorems.
+Status: [x] Complete.
 
-Stage14-3 should also record what later analytic work would need to explain, so it can serve as a finite-data map once the one-face proof review is settled.
+Artifacts:
+
+```text
+stages/stage14/scripts/14-3/directional_ledger.py
+stages/stage14/data/14-3/directional_ledger.json
+stages/stage14/archive/stage14-3a-directional-ledger.md
+```
+
+Main late-range observations:
+
+```text
+B=200k:  a/c=1.75   b/c=2.083333   a/b=0.84
+B=500k:  a/c=1.75   b/c=1.95       a/b=0.897436
+B=1m:    a/c=1.75   b/c=1.803571   a/b=0.970297
+B=2m:    a/c=1.775  b/c=1.675      a/b=1.059701
+```
+
+Thus `a/c=7/4` occurs exactly at the three sampled cutoffs `200k`, `500k`, and `1m`, but Stage14 records this only as a finite plateau. The cumulative leader changes from `b` at 1m to `a` at 2m.
+
+Late shell increments are
+
+```text
+100k -> 200k: (9,17,1)
+200k -> 500k: (28,28,16)
+500k -> 1m:   (28,23,16)
+1m   -> 2m:   (44,33,24)
+```
+
+so shell composition itself changes strongly across the sampled range.
+
+No ratio limit, monotonicity theorem, or growth law is inferred.
+
+### 14-3b — late-range finite cutoff densification
 
 Status: [>] Next.
+
+Purpose: determine whether the apparent `a/c` plateau and `a/b` leader crossing are robust finite features or artifacts of the sparse cutoff grid.
+
+The natural focus is the range from roughly `B=100k` through `B=2m`, with extra resolution near the `a/b` crossing between the sampled `1m` and `2m` points.
+
+This remains a finite-data task. No Stage13 analytic claim is needed.
 
 ## STOP LINE after Stage14-3
 
 Current research policy is to stop Stage14 after the finite Stage14-3 diagnostics.
 
-The reason is structural: the one-face / Stage13 proof is under external review, so beginning the harder two-face asymptotic proof before the reliable one-face machinery is identified would amount to proceeding without a trustworthy map.
+The one-face / Stage13 proof is under external review, so beginning the harder two-face asymptotic proof before the reliable one-face machinery is identified would amount to proceeding without a trustworthy proof-level map.
 
 ## 14-4 — True total growth order
 
-Priority: major analytic task
-
-Determine the correct asymptotic order of
-
-\[
-N_2(B).
-\]
-
 Status: **paused pending one-face / Stage13 proof review**.
-
-When resumed, fine-grained substages may begin at `14-4aa`.
 
 ## 14-5 — Directionwise asymptotic structure
 
-Priority: major analytic task
-
-Determine the directionwise scales/constants and the mechanism controlling their ratios.
-
 Status: **paused pending one-face / Stage13 proof review**.
-
-When resumed, fine-grained substages may begin at `14-5aa`.
 
 ## Scope boundary
 
