@@ -18,7 +18,7 @@ No claim is made that Selmer rank equals Mordell--Weil rank, or that the first-h
 point is a Mordell--Weil generator/minimum.
 """
 from fractions import Fraction
-from math import gcd, isqrt, log
+from math import gcd, log
 from pathlib import Path
 import json, runpy, shutil, subprocess
 
@@ -65,7 +65,6 @@ def physical_point(face,partner,d):
 
 
 def euclid_half_angle(face):
-    # For primitive Pythagorean F=(S,X,H), r=X/(H+S) satisfies X/S=2r/(1-r^2).
     S,X,H=face
     r=Fraction(X,H+S)
     assert Fraction(X,S)==2*r/(1-r*r)
@@ -111,8 +110,8 @@ def gp_audit(rows):
     for line in p.stdout.splitlines():
         if '|' not in line: continue
         z=line.strip().split('|')
-        if len(z)==10: out[z[0]]=z[1:]
-    assert len(out)==len(rows),(len(out),len(rows),p.stderr[-2000:])
+        if len(z)==9: out[z[0]]=z[1:]
+    assert len(out)==len(rows),(len(out),len(rows),p.stdout[-2000:],p.stderr[-2000:])
     return out
 
 
@@ -168,7 +167,6 @@ def main():
         rec['selmer_2_rank']=rec['rank_upper']+2+rec['sha_2_mod_4_rank_s']
         rec['kummer_square_classes']=[z[5],z[6],z[7]]
         rec['first_hit_point']={k:ratstr(v) for k,v in rec.pop('_point').items()}
-        # Physical points are non-torsion by merged Stage14-4af; active => rank upper >=1.
         assert rec['rank_upper']>=1
     report={
         'metadata':{
