@@ -1,0 +1,106 @@
+name: Stage13-12ac R02 review bundle
+
+on:
+  push:
+    branches:
+      - agent/stage13-12ac-r02-review
+    paths:
+      - 'stages/stage13/**'
+      - '!stages/stage13/data/13-12ac/**'
+      - '.github/workflows/stage13-12ac-r02-review.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage13/**'
+      - '.github/workflows/stage13-12ac-r02-review.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Build R02 physical Stage13-only review page
+        run: python stages/stage13/scripts/13-12ac/build_r02_self_contained_review.py
+
+      - name: Verify R02 bundle and review neutrality
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          html_path = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html')
+          manifest_path = Path('stages/stage13/data/13-12ac/review_bundle_manifest.json')
+          html = html_path.read_text(encoding='utf-8')
+          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+          bundle = 'STAGE13-FINAL-SELF-CONTAINED-20260808-R02'
+
+          assert f'BUNDLE_ID={bundle}' in html
+          assert f'END_OF_BUNDLE={bundle}' in html
+          assert 'CHECKPOINT=START_OF_MAIN' in html
+          assert 'CHECKPOINT=BEFORE_EMBEDDED_SOURCES' in html
+          assert 'CHECKPOINT=AFTER_EMBEDDED_SOURCES' in html
+          assert 'CHECKPOINT=END_OF_MAIN' in html
+          assert 'REVIEW_SCOPE=STAGE13_ONLY' in html
+          assert 'STAGE12_SOURCE_EMBEDDED=false' in html
+          assert 'STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R02' in html
+          assert 'INTERNAL_PASS_FLAGS_ARE_EVIDENCE=false' in html
+          assert 'GIT_HASHES_ARE_MATHEMATICAL_EVIDENCE=false' in html
+          assert 'CI_SUCCESS_IS_MATHEMATICAL_EVIDENCE=false' in html
+          assert 'NEGATIVE_VERDICT_REQUIRES_EXTRA_BURDEN=false' in html
+          assert 'R02_SELF_DECLARED_CLOSED=false' in html
+
+          assert manifest['status']['physical_single_html'] is True
+          assert manifest['status']['external_runtime_dependencies'] is False
+          assert manifest['status']['stage13_only_bundle'] is True
+          assert manifest['status']['self_declared_closed'] is False
+          assert manifest['status']['stage13_global_review_status'] == 'PENDING_EXTERNAL_R02'
+          assert manifest['review_protocol']['preferred_verdict'] is None
+          assert manifest['review_protocol']['previous_r01_verdict_binding'] is False
+          assert manifest['review_protocol']['negative_verdict_requires_extra_burden'] is False
+          assert manifest['review_protocol']['internal_pass_flags_are_mathematical_evidence'] is False
+          assert manifest['review_protocol']['git_hashes_are_mathematical_evidence'] is False
+          assert manifest['review_protocol']['ci_success_is_mathematical_evidence'] is False
+          assert manifest['precedence']['r02_current_proof'] == 'stages/stage13/13-12ac/current-proof.md'
+          assert manifest['precedence']['old_7jb'] == 'superseded_by_13-12aa'
+          assert manifest['precedence']['old_7jf'] == 'superseded_by_13-12ab'
+          assert manifest['source_count'] >= 90
+          assert manifest['html_bytes'] > 100000
+          assert manifest['sources'][0]['path'] == 'stages/stage13/13-12ac/current-proof.md'
+          assert all(row['path'].startswith('stages/stage13/') for row in manifest['sources'])
+          assert not any(row['path'].startswith('stages/stage12/') for row in manifest['sources'])
+          paths = {row['path'] for row in manifest['sources']}
+          assert 'stages/stage13/13-12aa/result.md' in paths
+          assert 'stages/stage13/13-12ab/result.md' in paths
+          assert 'stages/stage13/scripts/13-12aa/j0_common_factor_audit.py' in paths
+          assert 'stages/stage13/scripts/13-12ab/fixed_local_overlap_audit.py' in paths
+          assert 'stages/stage13/data/13-12aa/j0_common_factor_audit_report.json' in paths
+          assert 'stages/stage13/data/13-12ab/fixed_local_overlap_audit_report.json' in paths
+          print('Stage13-12ac R02 bundle verification: PASS')
+          PY
+
+      - name: Commit generated R02 bundle when changed
+        if: github.event_name == 'push'
+        run: |
+          changed="$(git status --porcelain -- review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html stages/stage13/data/13-12ac/review_bundle_manifest.json)"
+          if [ -z "$changed" ]; then
+            echo 'Generated R02 bundle already current.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html stages/stage13/data/13-12ac/review_bundle_manifest.json
+          git commit -m 'Stage13-12ac generate R02 review bundle'
+          git push origin HEAD:${{ github.ref_name }}
