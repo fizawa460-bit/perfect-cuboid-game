@@ -18,9 +18,17 @@ Priority: required
 
 ```text
 14-1a  lock ambient object, exactly-two categories, raw-pair/triple ledger   [complete]
-14-1b  connect to the existing pair-overlap notation and inherited checks  [next]
-14-1c  lock enumeration/output specification                               [planned]
+14-1b  connect to the existing pair-overlap notation and inherited checks  [complete]
+14-1c  lock enumeration/output specification                               [next]
 ```
+
+Stage14-1b inherits the Stage13 seed rows for `B=1000,...,100000`, the exact `B=100000` vector `(33,33,23)` with total `89`, and the theorem-level ceiling
+
+\[
+N_a^{(2)},N_b^{(2)},N_c^{(2)},N_2=o(B(\log B)^3).
+\]
+
+This inherited little-o statement is not the true two-face asymptotic scale.
 
 Additional ordinary-letter substages are added only if a concrete interface issue appears.
 
@@ -37,7 +45,7 @@ N_a^(2), N_b^(2), N_c^(2)
 N_2
 ```
 
-at increasing `d<=B` cutoffs, with independent consistency checks where practical.
+at increasing `d<=B` cutoffs. Independently reproduce the inherited Stage13 overlap rows where practical, then extend beyond the old `B=100000` ceiling with consistency checks.
 
 Status: not started.
 
@@ -65,7 +73,13 @@ Determine the correct asymptotic order of
 N_2(B).
 \]
 
-Stage13 proved only that the at-least-two-face population is lower order than `B(log B)^3`; Stage14 must determine the actual scale rather than presuppose one.
+Stage13 proves only the inherited ceiling
+
+\[
+N_2(B)=o(B(\log B)^3),
+\]
+
+so Stage14 must determine the actual scale rather than presuppose one.
 
 Fine-grained substages for this task may begin at `14-4aa`.
 
@@ -92,5 +106,7 @@ Status: not started.
 ## Scope boundary
 
 Stage14 does not assume perfect-cuboid nonexistence. The triple population `T(B)` is retained explicitly and removed from each raw pair count when forming the exactly-two populations.
+
+The fact that the inherited Stage13 finite rows have `T=0` is only a finite observation. The theorem `T=o(B(log B)^3)` is a density statement, not a nonexistence theorem.
 
 No growth exponent, limiting directional ratio, monotonicity, or relation to the Euler-side two-face limit is assumed before it is proved or numerically diagnosed.
