@@ -54,6 +54,16 @@ DeepSeek requests explicit closure of the following proof-critical interfaces:
 
 These are classified `REPAIRABLE` rather than a direct disproof, but they are substantive enough that R04 cannot be frozen as the final proof package.
 
+## Active repair plan
+
+The combined Claude + DeepSeek closure plan is recorded at
+
+```text
+stages/stage13/13-13f/r05-repair-plan.md
+```
+
+It contains eight mandatory gates covering the finite-ratio/q-independence audit, Wiener derivation, box-error accumulation, harmonic uniformity, Stage12 interface, external theorem contracts, fixed-prime transfer, and notation/audit-scope cleanup.
+
 ## Gate decision
 
 The Stage13-13f gate is **blocked**. A later `CLOSED` review cannot numerically outvote unresolved substantive objections.
@@ -71,6 +81,7 @@ REQUIRED_INDEPENDENT_CLOSED_VERDICTS=2
 UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
 R04_REPAIR_REQUIRED=true
 R05_REQUIRED_IF_THEOREM_SURVIVES_AUDIT=true
+R05_FRESH_REVIEW_REQUIRED=true
 PROMOTE_TO_13_13G=false
 NEXT=13-13f
 ```
