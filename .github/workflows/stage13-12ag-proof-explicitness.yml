@@ -1,0 +1,114 @@
+name: Stage13-12ag proof explicitness supplement
+
+on:
+  push:
+    branches:
+      - agent/stage13-12ag-proof-explicitness
+    paths:
+      - 'stages/stage13/13-12ag/**'
+      - 'stages/stage13/scripts/13-12ag/**'
+      - 'stages/stage13/data/13-12ag/**'
+      - 'stages/stage13/README.md'
+      - 'stages/stage13/roadmap.md'
+      - '.github/workflows/stage13-12ag-proof-explicitness.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage13/**'
+      - '.github/workflows/stage13-12ag-proof-explicitness.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute Stage13-12ag audit
+        run: |
+          cp stages/stage13/data/13-12ag/proof_explicitness_audit_report.json /tmp/expected.json
+          python stages/stage13/scripts/13-12ag/proof_explicitness_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/expected.json').read_text())
+          actual = json.loads(Path('stages/stage13/data/13-12ag/proof_explicitness_audit_report.json').read_text())
+          assert actual == expected
+          print('Stage13-12ag semantic report regeneration: PASS')
+          PY
+
+      - name: Verify symbolic-proof audit locks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r = json.loads(Path('stages/stage13/data/13-12ag/proof_explicitness_audit_report.json').read_text())
+          assert r['pass'] is True
+          assert r['coarea_bridge']['numeric_validator_pass'] is True
+          assert r['coarea_bridge']['symbolic_status'] == 'PROVED_IN_13_12AG_RESULT_MD'
+          cs = r['inert_character_sum']
+          assert cs['failures'] == []
+          assert cs['checked_inert_primes_below_100'] == 13
+          assert all(row['pass'] for row in cs['rows'])
+          assert cs['symbolic_status'] == 'PROVED_IN_13_12AG_RESULT_MD'
+          st = r['status']
+          assert st['STAGE13_12AG'] == 'COMPLETE_PROOF_EXPLICITNESS_SUPPLEMENT'
+          assert st['COAREA_IQ_TO_INTERVAL_LENGTH'] == 'PROVED_EXPLICITLY'
+          assert st['INERT_UNIT_CHARACTER_SUM'] == 'PROVED_SYMBOLICALLY'
+          assert st['STAGE13_THEOREM_CONSTANTS_CHANGED'] is False
+          assert st['STAGE13_COUNTING_CONVENTION_CHANGED'] is False
+          print('Stage13-12ag proof-explicitness audit locks: PASS')
+          PY
+
+      - name: Verify proof text contains the actual derivations
+        run: |
+          grep -F 'w_q\,d\omega=d\theta\,d\alpha' stages/stage13/13-12ag/result.md
+          grep -F 'I_q=\frac2\pi' stages/stage13/13-12ag/result.md || true
+          grep -F 'J_q=\frac2\pi I_q' stages/stage13/13-12ag/result.md
+          grep -F 'S=0+(p-1)+(p+1)-2=2(p-1)' stages/stage13/13-12ag/result.md
+          grep -F 'N_{\rm acc}' stages/stage13/13-12ag/result.md
+          grep -F '\frac{(p+1)^2}{2}' stages/stage13/13-12ag/result.md
+          grep -F 'Selberg--Delange / Tauberian hypothesis crosswalk' stages/stage13/13-12ag/result.md
+
+      - name: Verify R03 reviewed artifact remains physically frozen
+        run: |
+          python - <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+          manifest = json.loads(Path('stages/stage13/data/13-12af/review_bundle_manifest.json').read_text())
+          assert manifest['bundle_id'] == 'STAGE13-FINAL-SELF-CONTAINED-20260809-R03'
+          assert manifest['content_sha256'] == '0cf573e546d8e952f36ee5ed8f1f899b3718f0d29751cf4ee64640328ad37b93'
+          assert manifest['source_ledger_sha256'] == '06e06c68ced77eb52ab937878f638243e9c43cb4dc4b02be9cba474a94bad2b2'
+          assert manifest['source_snapshot_commit'] == 'a6830e80f752fca327470ae3a79e2c88e038ae4e'
+          assert manifest['source_count'] == 105
+          assert manifest['html_bytes'] == 1026122
+          html = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260809-R03.html')
+          assert html.stat().st_size == 1026122
+          blob = subprocess.check_output(['git', 'hash-object', str(html)], text=True).strip()
+          assert blob == '6cf9b696cc02f2d556d8f67c30fb85ad77b57373'
+          print('R03 immutable reviewed artifact: PASS')
+          PY
+
+      - name: Re-run Stage13-12ad and 12ae mathematical audits
+        run: |
+          cp stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json /tmp/ad.json
+          python stages/stage13/scripts/13-12ad/j0_quantitative_closure_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          assert json.loads(Path('/tmp/ad.json').read_text()) == json.loads(Path('stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json').read_text())
+          PY
+          cp stages/stage13/data/13-12ae/inert_local_state_audit_report.json /tmp/ae.json
+          python stages/stage13/scripts/13-12ae/inert_local_state_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          assert json.loads(Path('/tmp/ae.json').read_text()) == json.loads(Path('stages/stage13/data/13-12ae/inert_local_state_audit_report.json').read_text())
+          print('Stage13-12ad/ae compatibility: PASS')
+          PY
