@@ -1,0 +1,65 @@
+{
+  "canonical_yoshida_parameters": {
+    "geometry": "Choose deterministically two integral faces of a primitive face cuboid. Yoshida's t is the Euclid parameter of one integral face triangle; s is the Euclid parameter of the Pythagorean triangle formed by the shared complementary edge, the second integral face diagonal, and d.",
+    "number_of_possible_s": "The four sign/inversion choices for s come from coprime integer pairs u,v with u^2+v^2<=B; crudely #s<=4B.",
+    "pythagorean_height": "If d<=B and s=u/v is reduced from the primitive base of that outer Pythagorean triangle, then u^2+v^2<=B, hence H(s)<=sqrt(B). The same argument gives H(t)<=sqrt(B)."
+  },
+  "comparison_with_required_overlap_bound": {
+    "available": "F(B)<<B*exp(C1 log B/log log B)",
+    "gap": "For every fixed C1>0, exp(C1 L/log L)/(L^3) -> infinity. Thus the uniform worst-fiber theorem is too weak to transfer the raw asymptotic to exactly-one.",
+    "required": "F(B)=o(B(log B)^3)",
+    "what_would_close": "An average-over-s bound o((log B)^3) for the number of relevant points per eligible s, or a direct square-sieve/determinant estimate for the coupled (s,t) surface giving F(B)=O(B(log B)^(3-delta))."
+  },
+  "conditional_exact_one": {
+    "bc_normalized_ratio": {
+      "ab": 2.431684750178191,
+      "ac": 1.115756428951881,
+      "bc": 1.0
+    },
+    "conditional_exact_one_statement": "if F(B)=o(B(log B)^3), then the exact-one normalized limit equals the raw/Stage13-3b chamber limit",
+    "proportion": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    },
+    "scale": "B(log B)^3"
+  },
+  "curve_height_transfer": {
+    "height_bound": "H(E_{1,s})<=8 H(s)^6<=8 B^3",
+    "model": "E_{1,s}: y^2=x^3+(s^4-6s^2+1)x^2-4s^2(s^2-1)^2 x",
+    "projective_integral_coordinates": "For s=u/v, a common projective coefficient tuple is [v^6, v^2(u^4-6u^2v^2+v^4), -4u^2(u^2-v^2)^2, 0].",
+    "rational_2_torsion": "(0,0) is a rational point of exact order 2; in fact the cubic splits with roots 0, 4s^2, -(s^2-1)^2."
+  },
+  "explicit_x_height_transfer": {
+    "height_bound": "H(alpha)<=4 H(s)^4 H(t)<=4 B^(5/2)",
+    "homogeneous_formula": "For s=u/v, t=m/n reduced, alpha=2u(u^2-v^2)(vn+um)/(v^3(un-vm)).",
+    "nonvanishing": "s=t is impossible for a valid nondegenerate Yoshida point with s not in {0,+-1}; otherwise the defining relation forces 2s(s^2-1)(1+s^2)=0.",
+    "solved_formula": "alpha=2*s*(s^2-1)*(1+s*t)/(s-t)",
+    "yoshida_formula": "t=(s*alpha-2*s*(s^2-1))/(alpha+2*s^2*(s^2-1))"
+  },
+  "global_face_cuboid_bound": {
+    "bound": "F(B) << B * exp(C1 log B/log log B)",
+    "effective_constant_note": "C1 is effective and absolute here because the number field is Q and the torsion prime is fixed at 2; no numerical optimization is claimed.",
+    "equivalent_upper_form": "F(B) <= B^(1+o(1))",
+    "injection": "Choose the first canonical integral-face pair and the positive outer Euclid parameter s. The resulting (s,P) determines one rational face-cuboid similarity class, so distinct primitive canonical cuboids cannot choose the same pair."
+  },
+  "metadata": {
+    "scope": "unconditional global face-cuboid height upper bound obtained from the Yoshida elliptic fibration and a uniform rational-point theorem; the exactly-one lower-order bound remains open",
+    "stage": "13-7jd"
+  },
+  "status": {
+    "exact_one_directional_limit_identified": false,
+    "face_cuboid_bound": "B*exp(C log B/loglog B)",
+    "face_cuboid_exponent_limsup_at_most_one": true,
+    "next": "Stage13-7je",
+    "pair_overlap_lower_order_proved": false,
+    "unconditional_global_face_cuboid_upper_bound": true,
+    "worst_fiber_uniform_height_route_sufficient": false
+  },
+  "uniform_elliptic_point_input": {
+    "per_fiber_consequence": "# relevant non-torsion P on E_{1,s} is <= exp(C1 log B/log log B), uniformly in eligible s.",
+    "reference": "Marta Dujella, Acta Arith. 217 (2025), 309-332, arXiv:2312.03655",
+    "safe_height_parameter": "Take X=8 B^3. This dominates both H(E_{1,s}) and H(alpha) for B>=1.",
+    "theorem_used": "For elliptic curves over Q with a rational point of exact order 2, the number of rational points of exponential height <=X is at most exp(C log X/log log X), uniformly in the curve, once X dominates the curve height."
+  }
+}
