@@ -62,7 +62,8 @@ jobs:
       - name: Verify proof and literature boundary
         run: |
           grep -F 'L=-K_Y' stages/stage14/14-e3/result.md
-          grep -F 'E_2(B)\\asymp B(\\log B)^5' stages/stage14/14-e3/result.md
+          grep -F 'STAGE14_E3=COMPLETE_TOTAL_GROWTH_ORDER' stages/stage14/14-e3/result.md
+          grep -F 'TORIC_LOG_POWER=5' stages/stage14/14-e3/result.md
           grep -F 'Batyrev' stages/stage14/14-e3/literature-asymptotic-audit.md
           grep -F 'Huang' stages/stage14/14-e3/literature-asymptotic-audit.md
           grep -F 'Ochieng' stages/stage14/14-e3/literature-asymptotic-audit.md
