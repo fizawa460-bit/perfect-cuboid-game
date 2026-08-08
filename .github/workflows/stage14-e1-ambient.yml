@@ -1,0 +1,69 @@
+name: Stage14-e1 ambient control population
+
+on:
+  push:
+    branches:
+      - agent/stage14-e1-two-face-ambient
+    paths:
+      - 'stages/stage14/e-roadmap.md'
+      - 'stages/stage14/14-e1/**'
+      - 'stages/stage14/scripts/14-e1/**'
+      - 'stages/stage14/data/14-e1/**'
+      - '.github/workflows/stage14-e1-ambient.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/e-roadmap.md'
+      - 'stages/stage14/14-e1/**'
+      - 'stages/stage14/scripts/14-e1/**'
+      - 'stages/stage14/data/14-e1/**'
+      - '.github/workflows/stage14-e1-ambient.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute ambient finite audit
+        run: |
+          cp stages/stage14/data/14-e1/ambient_audit.json /tmp/expected.json
+          python stages/stage14/scripts/14-e1/ambient_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e1/ambient_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          assert all(row['set_equality'] for row in actual['cutoffs'])
+          assert all(row['face_pair_max_fiber_multiplicity'] == 1 for row in actual['cutoffs'])
+          assert actual['cutoffs'][-1]['B'] == 2000
+          assert actual['cutoffs'][-1]['exactly_two_directional'] == {'a': 1342, 'b': 2136, 'c': 1334}
+          assert actual['cutoffs'][-1]['third_face_square_incidence_count'] == 21
+          print('Stage14-e1 ambient finite audit: PASS')
+          PY
+
+      - name: Verify e-track scope and literature gate
+        run: |
+          grep -F 'No condition whatsoever is imposed that `D_R` be an integer or rational.' stages/stage14/e-roadmap.md
+          grep -F 'LITERATURE_COLLISION_AUDIT_REQUIRED=true' stages/stage14/e-roadmap.md
+          grep -F 'NOVELTY_BY_ABSENCE_FORBIDDEN=true' stages/stage14/e-roadmap.md
+          grep -F 'NO_EXACT_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e1/literature-seed.md
+          grep -F 'STAGE14_E1=COMPLETE_DEFINITION_BIJECTION_AND_FINITE_AUDIT' stages/stage14/14-e1/result.md
+          grep -F 'ASYMPTOTIC_CLAIM_MADE=false' stages/stage14/14-e1/result.md
+
+      - name: Verify literature seed has current and classical anchors
+        run: |
+          grep -F 'John Leech' stages/stage14/14-e1/literature-seed.md
+          grep -F 'Ronald van Luijk' stages/stage14/14-e1/literature-seed.md
+          grep -F 'arXiv:1502.02375' stages/stage14/14-e1/literature-seed.md
+          grep -F 'arXiv:2401.06784' stages/stage14/14-e1/literature-seed.md
+          grep -F 'arXiv:2604.09328' stages/stage14/14-e1/literature-seed.md
+          grep -F 'arXiv:2605.00573' stages/stage14/14-e1/literature-seed.md
