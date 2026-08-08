@@ -2,17 +2,15 @@
 
 ## Goal
 
-Stage13 does **not** assume or force an exact `2:1:1` limit. Its goal is to explain why a ratio close to `2:1:1` appears in the finite primitive canonical exactly-one-face count, identify the dominant structural mechanisms, and determine the justified asymptotic law.
+Stage13 does **not** assume or force an exact `2:1:1` limit. Its goal is to explain why a ratio close to `2:1:1` appears in the finite primitive canonical exactly-one-face count, identify the dominant structural mechanisms, determine the justified asymptotic law, and connect that law rigorously to the frozen Stage12 oriented theorem.
 
-Stage12-N1-2 remains frozen at R09 and supplies the analytic foundation for the primitive oriented count.
+Stage12-N1-2 remains frozen at R09.
 
-The canonical mathematical working source remains
+The canonical mathematical working source is
 
 ```text
 stages/stage13/main.md
 ```
-
-with support scripts/data under task-specific directories. Frozen task-end snapshots may live under `stages/stage13/archive/` as provenance, consistent with `stages/stage13/policy.md`.
 
 ## Current status
 
@@ -27,53 +25,33 @@ STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_7=COMPLETE_AT_UNCONDITIONAL_EXACT_ONE_DIRECTIONAL_ASYMPTOTIC_LEVEL
 STAGE13_8=COMPLETE
 STAGE13_9=COMPLETE_MAIN_STRUCTURAL_THEOREM
-NEXT_TASK=Stage13-10 final explanation
+STAGE13_10=COMPLETE_FINAL_EXPLANATION
+STAGE13=COMPLETE
+NEXT_STAGE13_TASK=NONE
 ```
 
-The Stage13-7 theorem is frozen for provenance in
-
-```text
-stages/stage13/archive/stage13-7-final.md
-```
-
-and Stage13-8 in
-
-```text
-stages/stage13/archive/stage13-8-final.md
-```
-
-with machine audits in
-
-```text
-stages/stage13/data/13-7/consolidation_audit_report.json
-stages/stage13/data/13-8/bridge_ledger_report.json
-stages/stage13/data/13-8/final_cross_reference_audit_report.json
-stages/stage13/data/13-9/main_structural_theorem_audit_report.json
-```
-
-## Research question
-
-The central question remains:
-
-> **Why does the canonical exact-one-face ratio**
-> \[
-> N_{ab}(B):N_{ac}(B):N_{bc}(B)
-> \]
-> **appear close to `2:1:1`, and what produces its deviations?**
-
-The finite observation near `2:1:1` is strongly pre-asymptotic. The Stage13 main theorem gives the normalized limiting vector
+The final normalized directional law is
 
 \[
-(0.5347369332313988,
- 0.24535917783225203,
- 0.21990388893634913),
+P(B)\to
+\left(
+\frac{8I_{ab}}{\pi^2},
+\frac{8I_{ac}}{\pi^2},
+\frac{8I_{bc}}{\pi^2}
+\right)
 \]
 
-equivalently
+with
 
-\[
-2.431684750178191:1.115756428951881:1.
-\]
+```text
+P_inf = (0.5347369332313988,
+         0.24535917783225203,
+         0.21990388893634913)
+
+ab:ac:bc -> 2.431684750178191 : 1.115756428951881 : 1
+```
+
+so the limiting law is not `2:1:1`.
 
 ---
 
@@ -81,83 +59,70 @@ equivalently
 
 ### Task 13-1 — Definition
 
-Fix counted objects, normalization, cutoff, equivalence relation, exactly-one-face condition, and the relation to Stage12 conventions.
-
-Priority: ★★★★★ Required
-
 Status: [x] Complete
+
+Fix the primitive canonical object, space-diagonal cutoff, exactly-one condition and the directional labels `ab/ac/bc`.
 
 ### Task 13-2 — Structural decomposition
 
-Decompose the directional counts into raw incidence, overlap correction, canonical size-order, orientation, primitive, parity, representation multiplicity, local-density, and boundary layers.
-
-Priority: ★★★★★ Required
-
 Status: [x] Complete
+
+Separate raw incidence, overlap correction, canonical chamber, orientation, primitive, parity, representation multiplicity, local-density and boundary layers.
 
 ---
 
-## Phase 2 — Explain the dominant finite ratio
+## Phase 2 — Explain the finite directional shape
 
 ### Task 13-3 — Origin of the leading 2
 
 Status: [x] Complete at structural finite-diagnostic level
 
-Working result: canonical archimedean geometry creates the leading `ab` excess, and arithmetic representation density materially flattens it at accessible cutoffs. The exactly-one sieve, standalone prime `2`, universal Stage12 projection fiber, and largest audited cutoff boundary do not generate the leading effect.
+Canonical archimedean geometry creates the `ab` excess. Arithmetic representation density materially flattens it at accessible cutoffs. The exactly-one sieve, standalone prime `2`, universal Stage12 projection fiber and largest audited boundary do not create the leading effect.
 
-### Task 13-4 — Origin of the two 1s
+### Task 13-4 — Origin of the two near-1 components
 
 Status: [x] Complete at structural finite-diagnostic level
 
-Working result: the two near-`1` components are not produced by an exact `ac<->bc` symmetry. At accessible cutoffs, opposite-signed pure-`G` OE/EE and geometric contributions cancel strongly, while primitive support supplies much of the residual positive `ac-bc` tilt.
+There is no exact `ac<->bc` symmetry. Opposite-signed OE/EE and pure-`G` contributions cancel strongly, while primitive support supplies much of the residual positive `ac-bc` finite tilt.
 
 ---
 
-## Phase 3 — Explain the deviation
+## Phase 3 — Quantify and resolve the deviation
 
 ### Task 13-5 — Define the deviation
+
+Status: [x] Complete
 
 For
 
 \[
-P(B)=\frac{1}{N_1(B)}(N_{ab}(B),N_{ac}(B),N_{bc}(B)),
+P_0=(1/2,1/4,1/4),
+\qquad
+\Delta(B)=P(B)-P_0,
 \]
 
 define
 
 \[
-P_0=\left(\frac12,\frac14,\frac14\right),
-\qquad
-\Delta(B)=P(B)-P_0,
-\]
-
-and
-
-\[
-\alpha(B)=P_{ab}(B)-\frac12,
+\alpha(B)=P_{ab}(B)-1/2,
 \qquad
 \beta(B)=\frac{P_{ac}(B)-P_{bc}(B)}2.
 \]
-
-Status: [x] Complete
 
 ### Task 13-6 — Classify the finite deviation
 
 Status: [x] Complete at structural finite-diagnostic level
 
-At `B=100000`, the finite exact-one deviation is `beta`-dominated. The main finite flattening of `alpha` is associated with supported-shell richness, while pure-`G` cancellation and primitive-support coupling explain much of the observed `beta` structure. These are finite structural statements, not the limiting law.
+Supported-shell richness dominates the diagnosed finite flattening of `alpha`; parity/pure-`G` cancellations and primitive support explain much of the finite `beta` structure.
 
 ### Task 13-7 — Asymptotic behaviour
 
-Priority: ★★★★☆ Supporting
-
 Status: [x] Complete at unconditional exact-one directional asymptotic level
 
-Stage13-7 proves
+For `q in {ab,ac,bc}`,
 
 \[
 N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3,
-\qquad q\in\{ab,ac,bc\},
 \]
 
 and
@@ -166,81 +131,35 @@ and
 N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
 \]
 
-Therefore
-
-\[
-P(B)\to
-\left(
-\frac{8I_{ab}}{\pi^2},
-\frac{8I_{ac}}{\pi^2},
-\frac{8I_{bc}}{\pi^2}
-\right),
-\]
-
-and the asymptotic ratio is not `2:1:1`.
-
-The proof chain is:
-
-```text
-13-7j   individual pure-G asymptotics
-13-7ja  primitive-support scale transition
-13-7jb  shell-richness restoration and raw directional asymptotics
-13-7jc  exact overlap / face-cuboid reduction
-13-7jd  uniform elliptic-height upper bound (historical intermediate route)
-13-7je  Kummer/coupled-height reduction (structural intermediate route)
-13-7jf  fixed-prime sieve: pair/triple overlaps are lower order; transfer to exact-one
-13-7jg  final constant/dependency/order-of-limits audit
-```
-
-No perfect-cuboid nonexistence assumption is used. No explicit normalized convergence rate or monotonicity theorem is claimed.
+Pair and triple overlaps are `o(B(log B)^3)` with no perfect-cuboid nonexistence assumption.
 
 ---
 
-## Phase 4 — Connect, state, explain
+## Phase 4 — Connect, state and explain
 
-### Task 13-8 — Structural connection
-
-Priority: ★★★★★ Required
+### Task 13-8 — Stage12 structural connection
 
 Status: [x] Complete
 
-For `q in {ab,ac,bc}`,
+The exact directional projection is
 
 \[
-C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)
+C^{\rm proj}_{\rm prim,q}(B)=2A_q(B),
 \]
 
-exactly, and
+hence
 
 \[
-C_{\rm prim}(B)=2(A_{ab}+A_{ac}+A_{bc}).
+N_q(B)=\frac12C^{\rm proj}_{\rm prim,q}(B)+o(B(\log B)^3).
 \]
 
-Every pair overlap and the triple overlap are lower order, so
-
-\[
-\boxed{
-N_q(B)=\frac12C^{\rm proj}_{\rm prim,q}(B)+o(B(\log B)^3)
-}
-\]
-
-and
-
-\[
-\boxed{
-N_1(B)=\frac12C_{\rm prim}(B)+o(B(\log B)^3).
-}
-\]
-
-Stage12 remains frozen; no new mathematical bridge lemma was required.
+Stage12 remains frozen and no new bridge lemma is required.
 
 ### Task 13-9 — Main structural theorem
 
-Priority: ★★★★★ Required
-
 Status: [x] Complete
 
-The principal Stage13 theorem is now stated canonically in `stages/stage13/main.md` §9:
+The principal vector theorem is
 
 \[
 \boxed{
@@ -253,49 +172,28 @@ B(\log B)^3
 }
 \]
 
-It includes as corollaries:
-
-\[
-N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3,
-\]
-
-\[
-\frac{\mathbf N(B)}{N_1(B)}
-\to
-\frac8{\pi^2}(I_{ab},I_{ac},I_{bc}),
-\]
-
-and
-
-```text
-ab:ac:bc -> 2.431684750178191 : 1.115756428951881 : 1
-```
-
-with the direct Stage12 bridge
-
-\[
-N_q(B)=\frac12C^{\rm proj}_{\rm prim,q}(B)+o(B(\log B)^3).
-\]
-
-The theorem explicitly records that perfect-cuboid nonexistence is not assumed, no effective convergence rate is proved, no monotonicity is claimed, and independent publication-grade review is still outside the current completion standard.
+It records the normalized chamber limit, Stage12 bridge, deviation corollary and logical scope.
 
 ### Task 13-10 — Final explanation
 
-Give the final answer to why a ratio close to `2:1:1` appears at accessible cutoffs even though the proved limit is the chamber vector above.
+Status: [x] Complete
 
-Priority: ★★★★★ Required
+The apparent finite/asymptotic discrepancy is resolved as follows:
 
-Status: [>] Next
+- the canonical chamber and one-face real density create the persistent `ab>ac>bc` geometric backbone;
+- finite supported-shell richness strongly flattens the `ab` advantage;
+- finite parity/pure-`G`/primitive-support couplings create substantial cancellations in the `ac-bc` direction;
+- the exactly-one overlap correction is not the source of the near-`2:1:1` shape and is asymptotically lower order;
+- the arithmetic factor surviving in the leading main term is common across directions, so it cancels after normalization and the chamber vector returns.
 
-The final synthesis should connect:
+Therefore
 
-- the canonical chamber geometry that determines the asymptotic vector;
-- the finite supported-shell flattening of the `ab` advantage;
-- the parity/pure-`G`/primitive-support cancellations affecting `ac-bc`;
-- the lower-order nature of exactly-one overlap removal;
-- the distinction between a long pre-asymptotic regime and the true limiting law.
+```text
+finite near-2:1:1
+= long pre-asymptotic flattening of the stronger chamber bias
+```
 
-It should not introduce a new asymptotic theorem unless a concrete gap is discovered.
+as explanatory shorthand, not as an exact algebraic identity.
 
 ---
 
@@ -326,30 +224,48 @@ Stage12 R09 frozen
 13-7 Asymptotic behaviour [complete]
         |
         v
-13-8 Stage12 bridge consolidation [complete]
+13-8 Stage12 bridge [complete]
         |
         v
 13-9 Main structural theorem [complete]
         |
         v
-13-10 Final explanation [NEXT]
+13-10 Final explanation [complete]
+        |
+        v
+STAGE13 COMPLETE
 ```
 
 ## Completion checklist
 
-Stage13 is complete when:
+- [x] observed ratio rigorously defined;
+- [x] structural layers separated;
+- [x] dominant finite mechanism behind the leading near-`2` identified;
+- [x] finite relation between the two near-`1` components explained;
+- [x] deviation coordinates defined;
+- [x] significant finite deviation mechanisms classified;
+- [x] asymptotic directional behaviour resolved;
+- [x] Stage12-to-Stage13 counting bridge consolidated;
+- [x] main structural theorem stated;
+- [x] final finite-versus-asymptotic explanation written.
 
-- [x] the observed ratio has been rigorously defined;
-- [x] the candidate structural layers have been separated;
-- [x] the dominant finite structural mechanism producing the leading near-`2` has been identified;
-- [x] the finite structural relation between the two near-`1` components has been explained;
-- [x] a quantitative deviation vector and independent coordinates have been defined;
-- [x] the significant finite deviation mechanisms have been structurally classified;
-- [x] the asymptotic behaviour of the deviation has been resolved to the justified level;
-- [x] the Stage12-to-Stage13 counting bridge has been fully consolidated in canonical form;
-- [x] the main structural theorem has been formulated in final Stage13 form;
-- [ ] the final explanation has been written.
+## Scope boundary after completion
 
-## Scope note
+Stage13 does **not** settle:
 
-Stage13 is a structural investigation. The Stage13 main theorem proves a non-`2:1:1` limiting directional vector and a rigorous bridge from the frozen Stage12 oriented theorem at the same project theorem standard as the frozen Stage12 analytic chain. It does not claim perfect-cuboid existence/nonexistence, an independently peer-reviewed publication proof, an explicit convergence rate, or a certified numerical enclosure for `kappa`.
+- perfect-cuboid existence or nonexistence;
+- the true growth law of the two-face population;
+- an explicit convergence rate or effective closeness threshold;
+- monotonicity of the directional ratios;
+- independent publication-grade verification.
+
+Those are outside the completed Stage13 claim and can be assigned to later work without reopening Stage13 unless a concrete contradiction is found.
+
+## Final assets
+
+```text
+stages/stage13/main.md
+stages/stage13/README.md
+stages/stage13/data/13-10/final_explanation_audit_report.json
+stages/stage13/archive/stage13-10-final.md
+```
