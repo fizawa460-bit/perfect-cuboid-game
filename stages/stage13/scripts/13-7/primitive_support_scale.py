@@ -1,30 +1,14 @@
 #!/usr/bin/env python3
-"""Stage13-7ja: primitive-support changes the logarithmic scale, not the limit vector.
+"""Stage13-7ja: primitive support changes logarithmic scale, not limit vector.
 
-Definitions.
+M_q(B): Stage13-7d `m1`, i.e. the 1/R_all(p) face average before the global
+primitive condition gcd(x,y,z)=1.
+G_q(B): primitive pure-G mass proved in Stage13-7j.
 
-M_q(B) is the Stage13-7d `m1` observable: for every oriented outer
-Pythagorean shell (p,z,d), d<=B, with at least one face representation,
-average the q-category indicator over *all* unordered face representations
-of p, before imposing gcd(x,y,z)=1.
-
-G_q(B) is the primitive pure-G observable proved in Stage13-7j.
-
-The point of 7ja is to determine the size of the primitive-support filter.
-The pre-primitive quantity has a B log B main term.  The primitive filter
-cancels that whole scale and leaves the B (log B)^(1/3) scale from 7j.
-Nevertheless the three leading constants are proportional category by
-category, so the normalized directional vector is unchanged.
-
-This file is a deterministic constant/identity validator.  The analytic
-inputs are:
-  * elementary Euclid-parameter lattice counting for primitive outer
-    Pythagorean triples in angular sectors;
-  * the finite-order Selberg--Delange level already accepted in Stage12,
-    used to bound scales having no prime 1 mod 4;
-  * the Gaussian-Hecke/Vaaler cancellation already used in Stage13-7i/j,
-    now only needed to show the nonzero inner-angle harmonics are
-    o(B log B).
+Analytic inputs: elementary Euclid-parameter sector counting, the finite-order
+Selberg--Delange level already accepted in Stage12 for the no-split semigroup,
+and the same finite Vaaler/Gaussian-Hecke cancellation used in Stage13-7i/j.
+Only o(B log B) is needed from the nonzero angular harmonics here.
 """
 from __future__ import annotations
 
@@ -42,19 +26,16 @@ CATS = ("ab", "ac", "bc")
 def build_report() -> dict:
     r3b = json.loads(IN_3B.read_text())
     r7j = json.loads(IN_7J.read_text())
-
     chamber = r3b["numerical_chamber_integrals"]
     I = {q: float(chamber[f"I_{q}"]) for q in CATS}
-    isum = sum(I.values())
-    if abs(isum - math.pi**2 / 8.0) > 1e-12:
+    if abs(sum(I.values()) - math.pi**2 / 8.0) > 1e-12:
         raise ArithmeticError("Stage13-3b chamber sum mismatch")
 
-    # For oriented primitive outer triples, the outer angle psi is uniform:
-    #   P_f(X) = (2/pi^2) int_0^(pi/2) f(psi)dpsi * X + lower order.
-    # Summing all positive integer dilates supplies the harmonic factor log B.
-    # Since int k_q dpsi = 4 I_q/pi, the m1 leading constant is 8 I_q/pi^3.
-    C_m1 = {q: 8.0 * I[q] / math.pi**3 for q in CATS}
-    C_total = sum(C_m1.values())
+    # Primitive oriented outer triples are uniform in outer angle psi.
+    # After summing all integer dilates, the zero-mode coefficient is
+    # (2/pi^2) int k_q(psi)dpsi = 8 I_q/pi^3.
+    C = {q: 8.0 * I[q] / math.pi**3 for q in CATS}
+    C_total = sum(C.values())
     if abs(C_total - 1.0 / math.pi) > 2e-15:
         raise ArithmeticError("pre-primitive constants do not sum to 1/pi")
 
@@ -63,36 +44,29 @@ def build_report() -> dict:
         for q in CATS
     }
     K_total = sum(K.values())
-    common = float(r7j["common_arithmetic_factor"]["K_star"])
-
-    survival = {q: K[q] / C_m1[q] for q in CATS}
-    Lambda = common * math.pi**2 / 4.0
+    K_star = float(r7j["common_arithmetic_factor"]["K_star"])
+    survival = {q: K[q] / C[q] for q in CATS}
+    Lambda = K_star * math.pi**2 / 4.0
     if max(abs(survival[q] - Lambda) for q in CATS) > 5e-14:
-        raise ArithmeticError("primitive-support factor is not category-independent")
+        raise ArithmeticError("primitive survival factor is not category-independent")
     if abs(Lambda - math.pi * K_total) > 5e-14:
-        raise ArithmeticError("total survival constant identity failed")
+        raise ArithmeticError("total survival identity failed")
 
-    prop_m1 = {q: C_m1[q] / C_total for q in CATS}
-    prop_g = r7j["normalized_limit"]["proportion"]
-    if max(abs(prop_m1[q] - float(prop_g[q])) for q in CATS) > 2e-14:
-        raise ArithmeticError("primitive filter changed the leading normalized vector")
+    prop = {q: C[q] / C_total for q in CATS}
+    gprop = r7j["normalized_limit"]["proportion"]
+    if max(abs(prop[q] - float(gprop[q])) for q in CATS) > 2e-14:
+        raise ArithmeticError("primitive filter changed leading normalized vector")
 
     return {
         "metadata": {
             "stage": "13-7ja",
-            "scope": (
-                "primitive-support main-scale effect between the pre-primitive m1 "
-                "observable and the primitive pure-G observable"
-            ),
+            "scope": "primitive-support main-scale effect: pre-primitive m1 -> primitive pure-G",
         },
         "definitions": {
-            "M_q": (
-                "pre-primitive G-neutral/m1 category mass: average over all face "
-                "representations on each face-supported outer shell before gcd(x,y,z)=1"
-            ),
+            "M_q": "pre-primitive G-neutral/m1 category mass before gcd(x,y,z)=1",
             "G_q": "primitive pure-G category mass from Stage13-7j",
-            "primitive_support_factor_shellwise": (
-                "R_prim(p,z)/R_all(p), with R_prim=sum_{m|gcd(p,z)} mu(m) R_all(p/m)"
+            "shellwise_support_factor": (
+                "R_prim(p,z)/R_all(p), R_prim=sum_{m|gcd(p,z)} mu(m) R_all(p/m)"
             ),
         },
         "preprimitive_outer_shell_count": {
@@ -100,30 +74,27 @@ def build_report() -> dict:
                 "P_f(X)=(2/pi^2)*(int_0^(pi/2) f(psi)dpsi)*X + lower order"
             ),
             "all_dilates": (
-                "sum over primitive oriented shells of floor(B/d0) gives "
                 "S_f(B)=(2/pi^2)*(int f)*B log B + O_f(B) before face-support exclusion"
             ),
             "face_support_exclusion": (
-                "G(p)=1 iff p has no prime q=1 mod 4.  The no-split semigroup has "
-                "count O(X/sqrt(log X)); partial summation gives harmonic mass "
-                "O(sqrt(log X)), hence excluded outer shells O(B sqrt(log B))."
+                "G(p)=1 iff p has no q=1 mod 4 prime. The no-split semigroup has "
+                "count O(X/sqrt(log X)), hence excluded shells O(B sqrt(log B))."
             ),
         },
         "inner_angle_remainder": {
             "decomposition": (
-                "m1 category indicator = zero kernel k_q(t) + centered Gaussian "
-                "nonzero harmonics (H_l(p)-1)/(G(p)-1)"
+                "zero kernel k_q(t) plus centered Gaussian harmonics "
+                "(H_l(p)-1)/(G(p)-1)"
             ),
             "bound": (
-                "The Stage13-7i finite Vaaler truncation plus the same nontrivial "
-                "Gaussian-Hecke zero-free input gives o(B log B); a conservative "
-                "combined ledger is O_eps(B (log B)^(1/2+eps))."
+                "The Stage13-7i/j finite Vaaler truncation and nontrivial Gaussian-Hecke "
+                "input give o(B log B), which is all 7ja requires."
             ),
-            "role": "therefore only the zero angular mode contributes to the B log B main term",
+            "role": "only the zero angular mode contributes to the B log B main term",
         },
         "preprimitive_asymptotic": {
             q: {
-                "constant": C_m1[q],
+                "constant": C[q],
                 "formula": f"C_{q}=8 I_{q}/pi^3",
                 "theorem": f"M_{q}(B) ~ C_{q} B log B",
             }
@@ -132,7 +103,7 @@ def build_report() -> dict:
         "preprimitive_total": {
             "constant": C_total,
             "formula": "C_total=1/pi",
-            "theorem": "M_ab(B)+M_ac(B)+M_bc(B) ~ (1/pi) B log B",
+            "theorem": "M_ab+M_ac+M_bc ~ (1/pi) B log B",
         },
         "primitive_pure_G_from_7j": {
             q: {
@@ -143,34 +114,30 @@ def build_report() -> dict:
         },
         "effective_primitive_survival": {
             "formula": (
-                "G_q(B)/M_q(B) ~ Lambda (log B)^(-2/3), "
+                "G_q/M_q ~ Lambda (log B)^(-2/3), "
                 "Lambda=K_q/C_q=(3*pi^2/8)c_h*C_odd=pi*K_total"
             ),
             "Lambda": Lambda,
             "categorywise_values": survival,
             "category_independent": True,
-            "logarithmic_exponent_change": "1 -> 1/3, i.e. suppression (log B)^(-2/3)",
+            "logarithmic_exponent_change": "1 -> 1/3",
         },
         "primitive_correction": {
-            "definition": "P_q(B)=G_q(B)-M_q(B)",
+            "definition": "P_q=G_q-M_q",
             "theorem": "P_q(B) ~ -C_q B log B for each q",
             "interpretation": (
-                "the primitive filter is not a perturbative correction: it cancels the "
-                "entire pre-primitive B log B main scale, leaving the smaller 7j scale"
+                "primitive support cancels the entire pre-primitive B log B main scale; "
+                "it is not a lower-order perturbation"
             ),
         },
         "normalized_direction": {
-            "preprimitive_limit": prop_m1,
-            "primitive_pure_G_limit": {q: float(prop_g[q]) for q in CATS},
+            "preprimitive_limit": prop,
+            "primitive_pure_G_limit": {q: float(gprop[q]) for q in CATS},
             "same_limit": True,
-            "ratio_bc": {
-                "ab": C_m1["ab"] / C_m1["bc"],
-                "ac": C_m1["ac"] / C_m1["bc"],
-                "bc": 1.0,
-            },
+            "ratio_bc": {"ab": C["ab"] / C["bc"], "ac": C["ac"] / C["bc"], "bc": 1.0},
             "conclusion": (
-                "primitive support changes the absolute logarithmic scale but does not "
-                "change the leading normalized directional vector"
+                "primitive support changes absolute logarithmic scale but not the leading "
+                "normalized directional vector"
             ),
         },
         "status": {
