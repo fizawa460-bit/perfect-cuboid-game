@@ -1,0 +1,72 @@
+name: Stage14-t3 Humbert elliptic splitting
+
+on:
+  push:
+    branches:
+      - agent/stage14-t3-humbert-elliptic-splitting
+    paths:
+      - 'stages/stage14/14-t3/**'
+      - 'stages/stage14/scripts/14-t3/**'
+      - 'stages/stage14/data/14-t3/**'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t3-humbert-elliptic.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t3/**'
+      - 'stages/stage14/scripts/14-t3/**'
+      - 'stages/stage14/data/14-t3/**'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t3-humbert-elliptic.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install symbolic audit dependency
+        run: python -m pip install 'sympy==1.13.3'
+
+      - name: Recompute Humbert/elliptic structural audit
+        run: |
+          cp stages/stage14/data/14-t3/humbert_elliptic_audit.json /tmp/t3_expected.json
+          python stages/stage14/scripts/14-t3/humbert_elliptic_audit.py
+          diff -u /tmp/t3_expected.json stages/stage14/data/14-t3/humbert_elliptic_audit.json
+
+      - name: Verify structural locks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d = json.loads(Path('stages/stage14/data/14-t3/humbert_elliptic_audit.json').read_text())
+          assert d['diagonal_projective_model']['humbert_edge_type'] == 4
+          assert d['diagonal_projective_model']['genus'] == 5
+          assert d['five_elliptic_quotients']['count'] == 5
+          assert d['five_elliptic_quotients']['all_smooth_on_physical_rational_bases'] is True
+          assert d['extra_automorphism_audit']['permutations_tested'] == 120
+          assert d['extra_automorphism_audit']['positive_rational_s_with_extra_branch_symmetry'] == []
+          assert d['physical_exceptional_strata']['singular_fibers'] == 0
+          assert d['physical_exceptional_strata']['extra_branch_automorphism_fibers'] == 0
+          assert d['decision']['STAGE14_T3'] == 'COMPLETE_HUMBERT_EDGE_AND_ELLIPTIC_SPLITTING'
+          assert d['decision']['T_O_SQRT_B_PROVED'] is False
+          print('Stage14-t3 Humbert/elliptic structural audit: PASS')
+          PY
+
+      - name: Verify literature and theorem boundary
+        run: |
+          grep -F 'A decomposition of the Jacobian of a Humbert-Edge curve' stages/stage14/14-t3/literature-humbert-audit.md
+          grep -F 'Hyperelliptic quotients of generalized Humbert curves' stages/stage14/14-t3/literature-humbert-audit.md
+          grep -F 'A torsion-intersection proof of perfect-cuboid nonexistence on 1,072 explicit master-tuple fibers' stages/stage14/14-t3/literature-humbert-audit.md
+          grep -F 'TRIPLE_FIBER_JACOBIAN_COMPLETELY_ELLIPTIC=true' stages/stage14/14-t3/result.md
+          grep -F 'PHYSICAL_RATIONAL_EXTRA_AUTOMORPHISM_STRATUM_EMPTY=true' stages/stage14/14-t3/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t3/result.md
+
+      - name: Verify roadmap handoff
+        run: |
+          grep -F 'STAGE14_T3=COMPLETE_HUMBERT_EDGE_AND_ELLIPTIC_SPLITTING' stages/stage14/t-roadmap.md
+          grep -F 'NEXT=Stage14-t4 elliptic-factor rank/torsion audit and Kummer-cover comparison' stages/stage14/t-roadmap.md
