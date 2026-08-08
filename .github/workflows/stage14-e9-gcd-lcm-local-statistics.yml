@@ -1,0 +1,88 @@
+name: Stage14-e9 gcd lcm local statistics
+
+on:
+  push:
+    branches:
+      - agent/stage14-e9-gcd-lcm-local-statistics
+    paths:
+      - 'stages/stage14/14-e9/**'
+      - 'stages/stage14/scripts/14-e9/**'
+      - 'stages/stage14/data/14-e9/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e9-gcd-lcm-local-statistics.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e9/**'
+      - 'stages/stage14/scripts/14-e9/**'
+      - 'stages/stage14/data/14-e9/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e9-gcd-lcm-local-statistics.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute gcd/lcm and local-blocker audit
+        run: |
+          cp stages/stage14/data/14-e9/gcd_lcm_local_statistics.json /tmp/e9_expected.json
+          python stages/stage14/scripts/14-e9/gcd_lcm_local_statistics.py
+
+      - name: Verify deterministic regeneration and locks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          expected = json.loads(Path('/tmp/e9_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e9/gcd_lcm_local_statistics.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          s = actual['status']
+          assert s['STAGE14_E9'] == 'COMPLETE_GCD_LCM_LOCAL_CONTROL_AND_2_3_BLOCKERS'
+          assert s['EXACT_GCD_LCM_INVERSE_LOCKED'] is True
+          assert s['LOCAL_PRIME_STATE_DECOMPOSITION_LOCKED'] is True
+          assert s['P2_STATE_G_EULER_COMPLETION_BLOCKED'] is True
+          assert s['P3_STATE_G_EULER_COMPLETION_BLOCKED'] is True
+          assert s['ASYMPTOTIC_GCD_LCM_DISTRIBUTION_PROVED'] is False
+          assert s['FIXED_RELATIVE_EULER_BRICK_SAVING_PROVED'] is False
+
+          rows = {row['B']: row for row in actual['cutoffs']}
+          r = rows[200000]
+          assert r['raw_total'] == 1896751
+          assert r['exactly_two_total'] == 1896505
+          assert r['third_square_incidence_count'] == 246
+          assert r['euler_brick_object_count'] == 82
+          assert tuple(r['exactly_two_directional']) == (612678, 805875, 477952)
+          assert r['exact_g_eq_1'] == 58662
+          assert r['top_exact_g'][0] == [4, 79637]
+
+          blockers = r['rigorous_local_blockers']
+          assert blockers['p2_state_G'] == 453380
+          assert blockers['p3_state_G'] == 561484
+          assert blockers['p2_or_p3_state_G_union'] == 884186
+          assert blockers['third_square_incidence_in_union'] == 0
+          assert r['local_prime_support_third_square']['2']['G'] == 0
+          assert r['local_prime_support_third_square']['3']['G'] == 0
+          print('Stage14-e9 deterministic gcd/lcm and blocker audit: PASS')
+          PY
+
+      - name: Verify theorem and literature boundaries
+        run: |
+          grep -F 'STAGE14_E9=COMPLETE_GCD_LCM_LOCAL_CONTROL_AND_2_3_BLOCKERS' stages/stage14/14-e9/result.md
+          grep -F 'P2_STATE_G_EULER_COMPLETION_BLOCKED=true' stages/stage14/14-e9/result.md
+          grep -F 'P3_STATE_G_EULER_COMPLETION_BLOCKED=true' stages/stage14/14-e9/result.md
+          grep -F 'ASYMPTOTIC_GCD_LCM_DISTRIBUTION_PROVED=false' stages/stage14/14-e9/result.md
+          grep -F 'FIXED_RELATIVE_EULER_BRICK_SAVING_PROVED=false' stages/stage14/14-e9/result.md
+          grep -F 'OCHIENG_ET_AL_COMMON_SIDE_FORMULAS=ADJACENT_RESULT_PLUS_REUSABLE_METHOD' stages/stage14/14-e9/literature-local-statistics-audit.md
+          grep -F 'HUANG_TORIC_ADELIC_EQUIDISTRIBUTION=REUSABLE_METHOD' stages/stage14/14-e9/literature-local-statistics-audit.md
+          grep -F 'DIRECT_STAGE14_E9_GCD_LCM_REAL_HEIGHT_DISTRIBUTION=NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e9/literature-local-statistics-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e9/literature-local-statistics-audit.md
