@@ -16,8 +16,6 @@ Locked ambient population:
 0<a<b<c,\qquad \gcd(a,b,c)=1,\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
 \]
 
-Current finite Stage14 work is independent of Stage13 analytic claims while Stage13 remains under external proof review.
-
 ## 14-1 — Definition and counting interface
 
 Status: [x] Complete.
@@ -26,133 +24,135 @@ Status: [x] Complete.
 
 Status: [x] Complete.
 
-Two materially different exact generation routes agree at all 11 audited cutoffs through `B=2,000,000`.
-
-Canonical audit:
-
-```text
-stages/stage14/data/14-2/final_census_audit.json
-```
+Two materially different exact generation routes agree through `B=2,000,000`.
 
 ## 14-3 — Finite directional-ratio reconnaissance
 
 Status: [x] Complete.
 
-Only finite diagnostics were allowed. No finite fit was promoted to an asymptotic theorem.
+The coarse `a/c=7/4` pattern failed dense-grid inspection. The last verified `a/b` crossing occurs at `d=1,148,545`, after which `a>b` persists only through the finite ceiling `B=2,000,000`.
 
-### 14-3a — descriptive directional ledger
-
-Status: [x] Complete.
-
-The coarse late sample exposed an apparent `a/c=7/4` pattern and a cumulative `b -> a` reversal.
-
-### 14-3b — late-range finite cutoff densification
-
-Status: [x] Complete.
-
-The finite population was densified on
-
-```text
-B=100,000,150,000,...,2,000,000
-step=50,000
-39 rows
-```
-
-and the exact event stream was inspected around the `a/b` crossing.
-
-The coarse `a/c=7/4` pattern is not stable under densification and is not retained as an invariant or limit candidate.
-
-The last `a/b` crossing in the verified event stream is
-
-```text
-d=1,148,545   tie -> a lead
-counts after = (107,106,60)
-```
-
-with `a>b` at every subsequent exactly-two event state through `B=2,000,000`. This is finite only.
-
-### 14-3c — finite diagnostic synthesis / closure
-
-Status: [x] Complete.
-
-Stage14-3c separates the final record into:
-
-```text
-robust finite facts
-sparse-grid artifacts / unsupported promotions
-open questions for later proof-level work
-```
-
-Canonical synthesis:
-
-```text
-stages/stage14/data/14-3/final_finite_reconnaissance.json
-stages/stage14/archive/stage14-3c-final-finite-reconnaissance.md
-```
-
-Locked decision:
-
-```text
-STAGE14_3A=COMPLETE
-STAGE14_3B=COMPLETE
-STAGE14_3C=COMPLETE
-STAGE14_3=COMPLETE
-FINITE_RECONNAISSANCE_COMPLETE=true
-MAX_VERIFIED_B=2000000
-DENSE_FINITE_GRID_STEP=50000
-A_OVER_C_7_4_LIMIT_SUPPORTED=false
-FINAL_A_OVER_B_CROSSING_D_WITHIN_VERIFIED_RANGE=1148545
-ASYMPTOTIC_FIT_PERFORMED=false
-FINITE_RATIO_LIMIT_IDENTIFIED=false
-STAGE13_ANALYTIC_DEPENDENCY_USED=false
-```
-
-## STOP LINE — ACTIVE
-
-Current research policy is now active, not merely planned:
-
-```text
-Stage14-1   COMPLETE
-Stage14-2   COMPLETE
-Stage14-3   COMPLETE
-Stage14-4   PAUSED_PENDING_ONE_FACE_REVIEW
-Stage14-5   PAUSED_PENDING_ONE_FACE_REVIEW
-```
-
-There is no planned `14-3d`.
+No finite fit was promoted to an asymptotic theorem.
 
 ## 14-4 — True total growth order
 
-Status: **paused pending one-face / Stage13 proof review**.
+Status: [>] Active.
 
-When resumed, begin with
+Current provisional upstream assumption:
 
 ```text
-14-4aa  independent two-face parametrization and proof-input audit
+UPSTREAM_STAGE13_VERSION=R02
+UPSTREAM_STAGE13_STATUS=ASSUMED_PROVISIONALLY
+UPSTREAM_STAGE13_FINAL_EXTERNAL_FREEZE=false
+STAGE13_R03_USED=false
 ```
 
-rather than blindly importing the old Stage13 proof chain. Every Stage13 dependency must be re-audited before use.
+The imported statement is only the Stage13 R02 directional raw asymptotic candidate
+
+\[
+A_q(B)\sim \frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+\]
+
+The R02 pair-overlap and triple-overlap little-o claims are not imported in 14-4aa.
+
+### 14-4aa — independent two-face parametrization and proof-input audit
+
+Status: [x] Complete.
+
+Use generic coordinates with shared edge `e` and nonshared edges `x<y`:
+
+\[
+e^2+x^2=u^2,\qquad
+ e^2+y^2=v^2,\qquad
+ u^2+y^2=d^2.
+\]
+
+Then automatically
+
+\[
+v^2+x^2=d^2.
+\]
+
+The three directions are the chamber positions of `e`:
+
+```text
+a: e<x<y
+b: x<e<y
+c: x<y<e
+```
+
+So all three directions share one arithmetic object.
+
+Each raw pair object carries four right triangles
+
+```text
+(e,x,u), (e,y,v), (u,y,d), (v,x,d)
+```
+
+with only three independent equations.
+
+Using primitive Euclid bases and arbitrary positive scales, the two face triples satisfy the shared-edge fiber-product equation
+
+\[
+k_1L_{\sigma_1}(m,n)=k_2L_{\sigma_2}(r,s),
+\]
+
+with four role charts `DD,DP,PD,PP`. A third Euclid triple imposes the space diagonal by matching
+
+\[
+k_1H(m,n)=k_3L_{\sigma_3}(p,q),
+\qquad
+k_2L_{\bar\sigma_2}(r,s)=k_3L_{\bar\sigma_3}(p,q).
+\]
+
+Global cuboid primitivity is applied **after** gluing:
+
+\[
+\gcd(e,x,y)=1.
+\]
+
+The scales must not be forced to one.
+
+Artifacts:
+
+```text
+stages/stage14/archive/stage14-4aa-parametrization-input-audit.md
+stages/stage14/data/14-4/proof_input_audit.json
+```
+
+Decision:
+
+```text
+STAGE14_4AA=COMPLETE
+ONE_GENERIC_ARITHMETIC_OBJECT_FOR_ALL_THREE_DIRECTIONS=true
+EUCLID_SHARED_EDGE_FIBER_PRODUCT_LOCKED=true
+THIRD_PYTHAGOREAN_GLUING_LOCKED=true
+TRUE_GROWTH_ORDER_IDENTIFIED=false
+UNIQUE_PARAMETERIZATION=false
+BOUNDED_PARAMETER_MULTIPLICITY=false
+```
+
+### 14-4ab — representation multiplicity and explicit matching-variable reduction
+
+Status: [>] Next.
+
+Purpose:
+
+- determine the exact/controlled multiplicity of the three-triple Euclid representation;
+- isolate duplicate symmetries from genuine arithmetic multiplicity;
+- solve the shared-edge scale equation in gcd/lcm variables;
+- rewrite the remaining two matching equations as an explicit divisibility/counting problem;
+- preserve the three chamber inequalities separately from the arithmetic core;
+- do not guess the growth exponent yet.
 
 ## 14-5 — Directionwise asymptotic structure
 
-Status: **paused pending one-face / Stage13 proof review**.
-
-## Open analytic questions retained for restart
-
-- What is the true growth order of `N_2(B)`?
-- Do the three exactly-two directions have limiting normalized proportions?
-- Does the finite `a` lead persist or reverse again?
-- What arithmetic mechanism distinguishes the three shared-edge directions?
-- What is the correct proof-level parametrization for two simultaneous Pythagorean-face conditions plus integer space diagonal?
-- Which repaired Stage13 tools can be reused safely?
-- How does this population compare with the Euler/no-space-diagonal two-face population?
-- Can `T(B)>0` ever occur? No nonexistence claim is made.
+Status: pending Stage14-4.
 
 ## Scope boundary
 
-No growth exponent, limiting directional ratio, monotonicity theorem, eventual leader, Euler-side equality, or perfect-cuboid nonexistence result is currently established for Stage14.
+No true growth exponent, leading constant, limiting directional ratio, eventual leader, Euler-side equality, or perfect-cuboid nonexistence result is currently established for Stage14.
 
 ```text
-STOP_LINE_ACTIVE=true
-NEXT=WAIT_FOR_ONE_FACE_REVIEW_BEFORE_STAGE14_4
+NEXT=Stage14-4ab representation multiplicity and explicit matching-variable reduction
 ```
