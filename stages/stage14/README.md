@@ -7,25 +7,19 @@ Stage14 studies primitive canonical cuboids with integer space diagonal and exac
 ```text
 STAGE14_1=COMPLETE
 STAGE14_2=COMPLETE
-STAGE14_2A=COMPLETE
-STAGE14_2B=COMPLETE
-STAGE14_2C=COMPLETE
+STAGE14_3A=COMPLETE
 FINITE_CENSUS_FROZEN=true
 INDEPENDENT_GENERATION_ROUTES=2
 ALL_11_ROWS_MATCH=true
 MAX_VERIFIED_B=2000000
 STAGE13_ANALYTIC_DEPENDENCY_USED=false
-NEXT=Stage14-3 finite directional analysis
+NEXT=Stage14-3b late-range finite cutoff densification
 STOP_AFTER_STAGE14_3=true
 STAGE14_4_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
 STAGE14_5_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
 ```
 
-The canonical mathematical source is `stages/stage14/main.md`; detailed finite-census closure is recorded in
-
-```text
-stages/stage14/archive/stage14-2c-census-closure.md
-```
+The canonical mathematical source is `stages/stage14/main.md`.
 
 ## Counting convention
 
@@ -72,21 +66,7 @@ No perfect-cuboid nonexistence assumption is built into the counting convention.
 
 ## Stage14-2 — frozen finite census
 
-The production enumerator is
-
-```text
-stages/stage14/scripts/14-2/two_face_census.py
-```
-
-and imports no Stage13 counting code. Stage14-2c adds a second generation route
-
-```text
-stages/stage14/scripts/14-2/shared_leg_crosscheck.py
-```
-
-which first joins two Pythagorean faces on a shared leg and only then tests the integer space diagonal. This is materially different from the production face-to-space-diagonal gluing route.
-
-Both routes agree exactly at every audited cutoff:
+Two independent generation routes agree exactly at every audited cutoff through `B=2,000,000`:
 
 | B | exactly-two vector `(a,b,c)` | N2 | T |
 |---:|---:|---:|---:|
@@ -102,39 +82,72 @@ Both routes agree exactly at every audited cutoff:
 | 1,000,000 | `(98,101,56)` | 255 | 0 |
 | 2,000,000 | `(142,134,80)` | 356 | 0 |
 
-At `B=2,000,000`, the c-normalized ratio is
+No triple object was found through `B=2,000,000`; this is only a finite search statement.
 
-\[
-1.775:1.675:1.
-\]
-
-The finite leader changes from `b` at 200k/500k/1m to `a` at 2m. Therefore no monotone directional convergence is assumed.
-
-No triple object was found through `B=2,000,000`; this is a finite search statement only.
-
-Machine-readable outputs:
+Frozen census artifacts:
 
 ```text
-stages/stage14/data/14-2/historical_reproduction_report.json
-stages/stage14/data/14-2/extended_census_report.json
-stages/stage14/data/14-2/shared_leg_crosscheck_report.json
 stages/stage14/data/14-2/final_census_audit.json
+stages/stage14/scripts/14-2/two_face_census.py
+stages/stage14/scripts/14-2/shared_leg_crosscheck.py
+stages/stage14/archive/stage14-2c-census-closure.md
+```
+
+## Stage14-3a — descriptive directional ledger
+
+Stage14-3a derives only finite diagnostics from the frozen 11-row census. No fit, limiting vector, monotonicity claim, or Stage13 asymptotic input is used.
+
+Late cumulative ratios are
+
+| B | `N_a/N_c` | `N_b/N_c` | `N_a/N_b` | leader |
+|---:|---:|---:|---:|---|
+| 100,000 | 1.434783 | 1.434783 | 1.000000 | tie a/b |
+| 200,000 | 1.750000 | 2.083333 | 0.840000 | b |
+| 500,000 | 1.750000 | 1.950000 | 0.897436 | b |
+| 1,000,000 | 1.750000 | 1.803571 | 0.970297 | b |
+| 2,000,000 | 1.775000 | 1.675000 | 1.059701 | a |
+
+The exact finite equality
+
+\[
+N_a/N_c=7/4
+\]
+
+occurs at the three sampled cutoffs `200k`, `500k`, and `1m`, then shifts slightly to `1.775` at `2m`. This is recorded only as a finite plateau, not as a limiting constant.
+
+The `b -> a` cumulative leader reversal is reflected in shell composition:
+
+```text
+100k -> 200k:  delta(a,b,c)=(9,17,1)
+200k -> 500k:  delta(a,b,c)=(28,28,16)
+500k -> 1m:    delta(a,b,c)=(28,23,16)
+1m   -> 2m:    delta(a,b,c)=(44,33,24)
+```
+
+Thus the sampled late shells change from `b`-heavy, to a/b tie, to `a`-heavy. This is why Stage14-3 does not assume a simple monotone ratio trajectory.
+
+Artifacts:
+
+```text
+stages/stage14/scripts/14-3/directional_ledger.py
+stages/stage14/data/14-3/directional_ledger.json
+stages/stage14/archive/stage14-3a-directional-ledger.md
 ```
 
 ## Stage13 review isolation
 
-Current Stage14 finite conclusions use neither Stage13 code nor a Stage13 asymptotic theorem. The first seven historical values now have independent Stage14 reproductions and the four extension rows are Stage14-owned results.
-
-Any Stage13 analytic statement under external review is quarantined from Stage14-2 and Stage14-3.
+Current Stage14 finite conclusions use neither Stage13 code nor a Stage13 asymptotic theorem. Any Stage13 analytic statement under external review remains quarantined from Stage14-2 and Stage14-3.
 
 ## Planned sequence and stop line
 
 ```text
 14-1   definition / interface / counting specification   [complete]
 14-2   validated finite census through B=2,000,000       [complete]
-14-3   finite directional-ratio evolution                [next]
+14-3a  descriptive directional ledger                    [complete]
+14-3b  late-range finite cutoff densification            [next]
+14-3   finite directional-ratio evolution
 14-4   true total growth order                           [paused]
 14-5   directionwise asymptotic structure                [paused]
 ```
 
-Stage14 stops after Stage14-3 for now. Stage14-4 and Stage14-5 resume only after the one-face / Stage13 proof review clarifies what structural results are reliable enough to reuse. Stage14-3 may diagnose finite behavior but must not promote an empirical fit to a theorem.
+Stage14 stops after Stage14-3 for now. Stage14-4 and Stage14-5 resume only after the one-face / Stage13 proof review clarifies what structural results are reliable enough to reuse.
