@@ -1,6 +1,6 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_1B_STAGE13_PAIR_INTERFACE_LOCKED_14_1C_NEXT`
+> **STATUS:** `STAGE14_1_COMPLETE_14_2_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 >
@@ -407,4 +407,192 @@ INHERITED_EXACTLY_TWO_BOUND=o(B(log B)^3)
 TRUE_TWO_FACE_GROWTH_ORDER_IDENTIFIED=false
 PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
 NEXT=Stage14-1c enumeration/output specification
+```
+
+### §1.11 Stage14-1c — enumeration and output contract
+
+Stage14-1c fixes what a Stage14-2 finite enumeration must count, validate and emit. It deliberately does **not** choose a growth model. The finite enumerator is a measurement instrument; asymptotic interpretation belongs to Stages14-3 through 14-5.
+
+The machine-readable contract is
+
+```text
+stages/stage14/data/14-1/enumeration_output_spec.json
+```
+
+#### §1.11.1 Exact arithmetic and canonicalization
+
+Every reported object must satisfy, using exact integer arithmetic,
+
+\[
+0<a<b<c,
+\qquad \gcd(a,b,c)=1,
+\qquad a^2+b^2+c^2=d^2,
+\qquad d\le B.
+\]
+
+All face-square decisions must use an integer square test such as
+
+```text
+isqrt(n)^2 == n
+```
+
+or an equivalent exact test. Floating-point square decisions are forbidden.
+
+Candidate records must be canonically sorted before counting and deduplicated by
+
+```text
+(a,b,c,d).
+```
+
+After deduplication, all three face flags `ab/ac/bc` are recomputed directly. The final category is determined only by those recomputed flags, not by the path that generated the candidate.
+
+#### §1.11.2 Historical reproduction gate
+
+Before any extended Stage14-2 table is accepted, the production enumerator must reproduce exactly all seven inherited rows
+
+```text
+B = 1000, 2000, 5000, 10000, 20000, 50000, 100000.
+```
+
+The expected values live in
+
+```text
+stages/stage14/data/14-1/stage13_pair_interface.json
+```
+
+and are treated as checksums. They are not used to manufacture the new counts.
+
+If the production implementation is optimized, a logically independent or literal implementation should also be compared on feasible smaller cutoffs. Agreement is exact integer equality, not approximate numerical agreement.
+
+#### §1.11.3 Extension ladder
+
+Stage14-2 must produce at least one verified cutoff strictly above the inherited `B=100000` ceiling. The preferred extension ladder is
+
+```text
+200000
+500000
+1000000
+2000000
+```
+
+as computationally feasible. The same cutoff must be used for all three directions. The highest reached cutoff is an implementation/performance fact, not a mathematical assumption; correctness checks are never relaxed merely to reach a larger `B`.
+
+#### §1.11.4 Required output row
+
+For each reported cutoff, retain at least
+
+```text
+B
+O_ab_ac, O_ab_bc, O_ac_bc
+T
+N_a^(2), N_b^(2), N_c^(2)
+N_2
+P_a^(2), P_b^(2), P_c^(2)
+a common normalized directional ratio when defined
+candidate/dedup diagnostics
+validation flags
+```
+
+The normalized proportions are
+
+\[
+P_q^{(2)}(B)=\frac{N_q^{(2)}(B)}{N_2(B)}
+\]
+
+when `N_2(B)>0`. A ratio whose chosen denominator is zero is recorded as null/undefined rather than forced numerically.
+
+Stage14-2 may emit additional neutral diagnostics, but no fitted exponent, logarithmic power or limiting ratio is part of the required counting schema. Such fits belong to later analysis.
+
+#### §1.11.5 Exact row identities
+
+Every output row must satisfy
+
+\[
+N_a^{(2)}=O_{ab,ac}-T,
+\]
+
+\[
+N_b^{(2)}=O_{ab,bc}-T,
+\]
+
+\[
+N_c^{(2)}=O_{ac,bc}-T,
+\]
+
+and
+
+\[
+\boxed{
+N_2=O_{ab,ac}+O_{ab,bc}+O_{ac,bc}-3T.
+}
+\]
+
+Equivalently,
+
+\[
+O_{ab,ac}+O_{ab,bc}+O_{ac,bc}=N_2+3T.
+\]
+
+For historical cutoffs the row must additionally agree exactly with the locked Stage14-1b checksum table.
+
+#### §1.11.6 Triple witness rule
+
+No enumerator may assume `T=0` or silently discard three-face objects.
+
+If any reported cutoff has
+
+\[
+T(B)>0,
+\]
+
+then the output must set a dedicated perfect-cuboid-candidate flag and persist witness records containing at least
+
+```text
+a,b,c,d,d_ab,d_ac,d_bc
+```
+
+for the triple objects. All seven defining square identities must then be recomputed with exact integer arithmetic, and the witness must be flagged for independent/manual verification.
+
+Thus a hypothetical perfect cuboid is treated as data to preserve, not as an exceptional record to filter away.
+
+#### §1.11.7 Stage13 review sensitivity
+
+The Stage14-2 finite enumeration is logically independent of any later review correction to the Stage13 analytic proof. Stage13 seed rows are checksum targets only; new Stage14 rows are produced from the Stage14 enumerator itself.
+
+If Stage13 review changes only the justification or status of an inherited asymptotic theorem, the Stage14-1c enumeration contract remains unchanged and the dependency tag can be updated separately.
+
+If a Stage13 review instead changes the ambient counting definition or one of the inherited finite checksum values, Stage14-1b must be reopened/re-audited before Stage14-2 results are published. This prevents proof-review churn from silently changing the finite counting object.
+
+#### §1.11.8 Stage boundary
+
+The work division is now fixed:
+
+```text
+Stage14-2  validated finite population table
+Stage14-3  finite directional-ratio evolution
+Stage14-4  true total growth order
+Stage14-5  directionwise asymptotic structure
+```
+
+No candidate asymptotic model is baked into the Stage14-2 enumerator.
+
+### §1.12 Locked decision — 14-1c / Stage14-1 completion
+
+```text
+STAGE14_1A=COMPLETE
+STAGE14_1B=COMPLETE
+STAGE14_1C=COMPLETE
+STAGE14_1=COMPLETE
+ENUMERATION_CONTRACT_LOCKED=true
+OUTPUT_SCHEMA_LOCKED=true
+EXACT_INTEGER_SQUARE_TEST_REQUIRED=true
+CANONICAL_DEDUP_KEY=(a,b,c,d)
+HISTORICAL_REPRODUCTION_REQUIRED=true
+HISTORICAL_ROWS_REQUIRED=7
+EXTENSION_ABOVE_B100000_REQUIRED=true
+TRIPLE_WITNESS_RETENTION_REQUIRED=true
+GROWTH_MODEL_BAKED_INTO_ENUMERATOR=false
+STAGE13_PROOF_REVIEW_CAN_CHANGE_ENUMERATION_CONTRACT=false_unless_object_or_seed_data_change
+PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
+NEXT=Stage14-2 complete finite enumeration
 ```
