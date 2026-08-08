@@ -225,9 +225,90 @@ SQRT_B_FINITE_CANDIDATE_ONLY=true
 
 ## 14-e9 — gcd/lcm and local-statistics decomposition
 
-Status: [>] Next.
+Status: [x] Complete as an exact gcd/lcm reconstruction plus finite local control and two rigorous completion blockers.
 
-Resolve the ambient distribution of the common-edge gcd/lcm strata and finite-local statistics as a control object for the main Stage14 arithmetic.  In particular, use the e8 gap between the one-leg divisor envelope and the observed Euler-brick population to identify which simultaneous local/gcd/lcm constraints actually suppress completions.
+For a primitive ambient tuple `(e,x,y)`, define
+
+\[
+u=\gcd(e,x),\qquad v=\gcd(e,y).
+\]
+
+Then `gcd(u,v)=1` and the two reduced primitive-face shared legs satisfy
+
+\[
+\boxed{
+g=\frac e{uv}=\gcd(S_1,S_2),
+\qquad S_1=gv,
+\qquad S_2=gu,
+\qquad \operatorname{lcm}(S_1,S_2)=e.
+}
+\]
+
+The prime support therefore has only the six states
+
+```text
+none, G, U, V, GU, GV
+```
+
+with `UV` and `GUV` impossible.
+
+Two state-G strata are rigorous third-face-square blockers:
+
+```text
+p=2, G => e even and x,y odd => x^2+y^2 = 2 mod 4
+p=3, G => 3|e and 3∤xy     => x^2+y^2 = 2 mod 3
+```
+
+so neither can contain an Euler-brick completion.
+
+The deterministic audit through `B=200,000` reproduces the Stage14-e2 census exactly. At the ceiling:
+
+```text
+raw ambient                    = 1,896,751
+exactly two                    = 1,896,505
+Euler-brick objects            = 82
+third-square incidences        = 246
+p=2 state-G raw points         = 453,380
+p=3 state-G raw points         = 561,484
+union of the two blockers      = 884,186
+third-square incidence in union= 0
+```
+
+Thus these two elementary blockers certify non-completion for about `46.6158%` of the finite raw ambient population at `B=200,000`.
+
+The same audit records `g`, `g/e=1/(uv)`, directions, and local states for `p=2,3,5,7,11,13`. For the exactly-two population at the ceiling:
+
+```text
+g=1                 = 58,662  (~3.09316%)
+g/e < 1/100         = 1,204,419 (~63.5073%)
+```
+
+These gcd/lcm percentages and all directionwise differences are finite diagnostics only. No asymptotic gcd/lcm distribution, prime-state independence, or fixed relative Euler-brick saving is claimed.
+
+Canonical artifacts:
+
+```text
+stages/stage14/14-e9/result.md
+stages/stage14/14-e9/literature-local-statistics-audit.md
+stages/stage14/scripts/14-e9/gcd_lcm_local_statistics.py
+stages/stage14/data/14-e9/gcd_lcm_local_statistics.json
+```
+
+Locked boundary:
+
+```text
+STAGE14_E9=COMPLETE_GCD_LCM_LOCAL_CONTROL_AND_2_3_BLOCKERS
+EXACT_GCD_LCM_INVERSE_LOCKED=true
+LOCAL_PRIME_STATE_DECOMPOSITION_LOCKED=true
+P2_STATE_G_EULER_COMPLETION_BLOCKED=true
+P3_STATE_G_EULER_COMPLETION_BLOCKED=true
+FINITE_CENSUS_REGENERATES_E2_LOCKS=true
+MAX_LOCAL_AUDIT_B=200000
+ASYMPTOTIC_GCD_LCM_DISTRIBUTION_PROVED=false
+FIXED_RELATIVE_EULER_BRICK_SAVING_PROVED=false
+```
+
+No Stage14-e10 is defined by this stage. If the e-supplement is reopened, the natural refinement is explicit adelic masses for the six local states and a stronger residue-state completion sieve.
 
 ```text
 STAGE14_E_CONTROL_TRACK_E1_TO_E5=COMPLETE
@@ -241,5 +322,6 @@ STAGE14_E8=COMPLETE_K3_AND_SUBPOWER_MULTIPLICITY_ENVELOPE
 EULER_BRICK_K3_MODEL_LOCKED=true
 E8_INDEPENDENT_QUANTITATIVE_ENVELOPE_PROVED=true
 QUANTITATIVE_RELATIVE_SAVING_PROVED=false
-NEXT_E_SUPPLEMENT=Stage14-e9 gcd/lcm and local-statistics decomposition
+STAGE14_E9=COMPLETE_GCD_LCM_LOCAL_CONTROL_AND_2_3_BLOCKERS
+NEXT_E_SUPPLEMENT=NONE_DEFINED_AFTER_E9
 ```
