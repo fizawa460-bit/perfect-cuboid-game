@@ -19,7 +19,7 @@ Priority: required
 ```text
 14-1a  lock ambient object, exactly-two categories, raw-pair/triple ledger   [complete]
 14-1b  connect to the existing pair-overlap notation and inherited checks  [complete]
-14-1c  lock enumeration/output specification                               [next]
+14-1c  lock enumeration/output specification                               [complete]
 ```
 
 Stage14-1b inherits the Stage13 seed rows for `B=1000,...,100000`, the exact `B=100000` vector `(33,33,23)` with total `89`, and the theorem-level ceiling
@@ -30,7 +30,30 @@ N_a^{(2)},N_b^{(2)},N_c^{(2)},N_2=o(B(\log B)^3).
 
 This inherited little-o statement is not the true two-face asymptotic scale.
 
-Additional ordinary-letter substages are added only if a concrete interface issue appears.
+Stage14-1c locks the finite enumeration contract:
+
+```text
+- exact integer square tests
+- canonical dedup by (a,b,c,d)
+- all three face flags recomputed after dedup
+- raw pair, triple and exactly-two outputs retained
+- all seven inherited rows must be reproduced exactly
+- at least one verified cutoff above B=100000 is required
+- preferred extension ladder: 200k, 500k, 1m, 2m as feasible
+- any T>0 record must preserve a full perfect-cuboid witness
+- no growth model is built into the enumerator
+```
+
+Machine-readable specifications:
+
+```text
+stages/stage14/data/14-1/stage13_pair_interface.json
+stages/stage14/data/14-1/enumeration_output_spec.json
+```
+
+Stage13 proof-review changes do not affect the finite enumeration contract unless they alter the ambient counting object or inherited finite seed counts; in that case Stage14-1b is re-audited.
+
+Status: [x] Complete.
 
 ## 14-2 — Complete finite enumeration
 
@@ -45,9 +68,19 @@ N_a^(2), N_b^(2), N_c^(2)
 N_2
 ```
 
-at increasing `d<=B` cutoffs. Independently reproduce the inherited Stage13 overlap rows where practical, then extend beyond the old `B=100000` ceiling with consistency checks.
+at increasing `d<=B` cutoffs.
 
-Status: not started.
+Acceptance gate:
+
+1. reproduce all seven inherited Stage13 rows exactly;
+2. cross-check the optimized implementation against an independent/literal method on feasible small bounds;
+3. extend to at least one verified `B>100000` cutoff;
+4. satisfy all row identities exactly;
+5. retain any triple witness rather than filtering it away.
+
+Preferred extension ladder is `200000, 500000, 1000000, 2000000` as performance allows.
+
+Status: [>] Next.
 
 ## 14-3 — Finite directional-ratio evolution
 
