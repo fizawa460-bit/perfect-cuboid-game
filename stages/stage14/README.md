@@ -6,37 +6,25 @@ Stage14 studies primitive canonical cuboids with integer space diagonal and exac
 
 ```text
 STAGE14_1=COMPLETE
+STAGE14_2=COMPLETE
 STAGE14_2A=COMPLETE
 STAGE14_2B=COMPLETE
-HISTORICAL_REPRODUCTION_PASS=true
-EXTENSION_ABOVE_B100000_COMPLETED=true
+STAGE14_2C=COMPLETE
+FINITE_CENSUS_FROZEN=true
+INDEPENDENT_GENERATION_ROUTES=2
+ALL_11_ROWS_MATCH=true
 MAX_VERIFIED_B=2000000
 STAGE13_ANALYTIC_DEPENDENCY_USED=false
-NEXT=Stage14-2c
+NEXT=Stage14-3 finite directional analysis
+STOP_AFTER_STAGE14_3=true
+STAGE14_4_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
+STAGE14_5_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
 ```
 
-The canonical mathematical source is
+The canonical mathematical source is `stages/stage14/main.md`; detailed finite-census closure is recorded in
 
 ```text
-stages/stage14/main.md
-```
-
-The active roadmap is
-
-```text
-stages/stage14/roadmap.md
-```
-
-Stage14-2 finite outputs are stored under
-
-```text
-stages/stage14/data/14-2/
-```
-
-and the standalone census code is
-
-```text
-stages/stage14/scripts/14-2/two_face_census.py
+stages/stage14/archive/stage14-2c-census-closure.md
 ```
 
 ## Counting convention
@@ -74,7 +62,7 @@ Stage14 retains the raw pair-overlap vector
 \mathbf O=(O_{ab,ac},O_{ab,bc},O_{ac,bc})
 \]
 
-and the triple population `T(B)`, with
+and triple population `T(B)`, with
 
 \[
 \mathbf N_2^{\rm dir}=\mathbf O-T(1,1,1).
@@ -82,40 +70,23 @@ and the triple population `T(B)`, with
 
 No perfect-cuboid nonexistence assumption is built into the counting convention.
 
-## Stage14-1 interface and contract
+## Stage14-2 — frozen finite census
 
-Stage14-1 locks the finite enumeration contract. Required rules include:
-
-```text
-exact integer square tests only
-canonical sort and dedup by (a,b,c,d)
-recompute all three face flags after dedup
-retain raw pair, triple and exactly-two ledgers
-reproduce all seven historical rows exactly
-produce verified cutoffs above B=100000
-never assume or silently discard T=0
-```
-
-If `T(B)>0`, the enumerator preserves
+The production enumerator is
 
 ```text
-a,b,c,d,d_ab,d_ac,d_bc
+stages/stage14/scripts/14-2/two_face_census.py
 ```
 
-for independent exact verification.
-
-Machine-readable Stage14-1 specifications:
+and imports no Stage13 counting code. Stage14-2c adds a second generation route
 
 ```text
-stages/stage14/data/14-1/stage13_pair_interface.json
-stages/stage14/data/14-1/enumeration_output_spec.json
+stages/stage14/scripts/14-2/shared_leg_crosscheck.py
 ```
 
-## Stage14-2a — historical reproduction
+which first joins two Pythagorean faces on a shared leg and only then tests the integer space diagonal. This is materially different from the production face-to-space-diagonal gluing route.
 
-Stage14-2a added a standalone Stage14 census implementation. It imports no Stage13 counting code. It independently generates the primitive canonical population by Pythagorean-triple gluing, deduplicates canonical tuples and recomputes all face-square flags exactly.
-
-The seven historical cutoff rows were reproduced exactly:
+Both routes agree exactly at every audited cutoff:
 
 | B | exactly-two vector `(a,b,c)` | N2 | T |
 |---:|---:|---:|---:|
@@ -126,56 +97,44 @@ The seven historical cutoff rows were reproduced exactly:
 | 20,000 | `(16,16,10)` | 42 | 0 |
 | 50,000 | `(24,24,14)` | 62 | 0 |
 | 100,000 | `(33,33,23)` | 89 | 0 |
+| 200,000 | `(42,50,24)` | 116 | 0 |
+| 500,000 | `(70,78,40)` | 188 | 0 |
+| 1,000,000 | `(98,101,56)` | 255 | 0 |
+| 2,000,000 | `(142,134,80)` | 356 | 0 |
 
-Machine-readable result:
+At `B=2,000,000`, the c-normalized ratio is
 
-```text
-stages/stage14/data/14-2/historical_reproduction_report.json
-```
-
-## Stage14-2b — independent extension
-
-Using the same Stage14-owned enumerator, with no Stage13 analytic result used, the census was extended to `B=2,000,000`:
-
-| B | exactly-two vector `(a,b,c)` | N2 | T | c-normalized ratio |
-|---:|---:|---:|---:|---|
-| 200,000 | `(42,50,24)` | 116 | 0 | `1.7500 : 2.0833 : 1` |
-| 500,000 | `(70,78,40)` | 188 | 0 | `1.7500 : 1.9500 : 1` |
-| 1,000,000 | `(98,101,56)` | 255 | 0 | `1.7500 : 1.803571 : 1` |
-| 2,000,000 | `(142,134,80)` | 356 | 0 | `1.7750 : 1.6750 : 1` |
+\[
+1.775:1.675:1.
+\]
 
 The finite leader changes from `b` at 200k/500k/1m to `a` at 2m. Therefore no monotone directional convergence is assumed.
 
-No triple object was found through `B=2,000,000`; this is only a finite search statement.
+No triple object was found through `B=2,000,000`; this is a finite search statement only.
 
-Machine-readable result:
+Machine-readable outputs:
 
 ```text
+stages/stage14/data/14-2/historical_reproduction_report.json
 stages/stage14/data/14-2/extended_census_report.json
-```
-
-Detailed record:
-
-```text
-stages/stage14/archive/stage14-2b-extended-census.md
+stages/stage14/data/14-2/shared_leg_crosscheck_report.json
+stages/stage14/data/14-2/final_census_audit.json
 ```
 
 ## Stage13 review isolation
 
-Stage14-2b deliberately uses no Stage13 asymptotic theorem. The finite rows above depend only on the Stage14 counting definition and standalone exact enumerator.
+Current Stage14 finite conclusions use neither Stage13 code nor a Stage13 asymptotic theorem. The first seven historical values now have independent Stage14 reproductions and the four extension rows are Stage14-owned results.
 
-If Stage13 proof review changes an asymptotic claim, these Stage14-2 rows remain unchanged. Stage13 can be compared again only after its review state stabilizes.
+Any Stage13 analytic statement under external review is quarantined from Stage14-2 and Stage14-3.
 
-## Planned sequence
+## Planned sequence and stop line
 
 ```text
 14-1   definition / interface / counting specification   [complete]
-14-2a  standalone historical reproduction                [complete]
-14-2b  verified extension through B=2,000,000            [complete]
-14-2c  finite-census closure / audit                      [next]
-14-3   finite directional-ratio evolution
-14-4   true total growth order
-14-5   directionwise asymptotic structure
+14-2   validated finite census through B=2,000,000       [complete]
+14-3   finite directional-ratio evolution                [next]
+14-4   true total growth order                           [paused]
+14-5   directionwise asymptotic structure                [paused]
 ```
 
-The difficult analytic tasks `14-4` and `14-5` may use two-letter substages beginning at `aa`.
+Stage14 stops after Stage14-3 for now. Stage14-4 and Stage14-5 resume only after the one-face / Stage13 proof review clarifies what structural results are reliable enough to reuse. Stage14-3 may diagnose finite behavior but must not promote an empirical fit to a theorem.
