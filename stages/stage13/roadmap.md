@@ -25,19 +25,30 @@ STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_5=COMPLETE
 STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_7=COMPLETE_AT_UNCONDITIONAL_EXACT_ONE_DIRECTIONAL_ASYMPTOTIC_LEVEL
-NEXT_TASK=Stage13-8 structural connection / canonical bridge consolidation
+STAGE13_8=COMPLETE
+STAGE13_9=COMPLETE_MAIN_STRUCTURAL_THEOREM
+NEXT_TASK=Stage13-10 final explanation
 ```
 
-The Stage13-7 completion theorem is frozen for provenance in
+The Stage13-7 theorem is frozen for provenance in
 
 ```text
 stages/stage13/archive/stage13-7-final.md
 ```
 
-and machine-audited in
+and Stage13-8 in
+
+```text
+stages/stage13/archive/stage13-8-final.md
+```
+
+with machine audits in
 
 ```text
 stages/stage13/data/13-7/consolidation_audit_report.json
+stages/stage13/data/13-8/bridge_ledger_report.json
+stages/stage13/data/13-8/final_cross_reference_audit_report.json
+stages/stage13/data/13-9/main_structural_theorem_audit_report.json
 ```
 
 ## Research question
@@ -50,7 +61,7 @@ The central question remains:
 > \]
 > **appear close to `2:1:1`, and what produces its deviations?**
 
-The finite observation near `2:1:1` is now known to be strongly pre-asymptotic. Stage13-7 proves the normalized limiting vector is instead
+The finite observation near `2:1:1` is strongly pre-asymptotic. The Stage13 main theorem gives the normalized limiting vector
 
 \[
 (0.5347369332313988,
@@ -163,28 +174,10 @@ P(B)\to
 \frac{8I_{ab}}{\pi^2},
 \frac{8I_{ac}}{\pi^2},
 \frac{8I_{bc}}{\pi^2}
-\right)
+\right),
 \]
 
-with
-
-```text
-P_inf = (0.5347369332313988,
-         0.24535917783225203,
-         0.21990388893634913)
-
-ab:ac:bc -> 2.431684750178191 : 1.115756428951881 : 1
-```
-
-and
-
-\[
-\alpha(B)\to0.034736933231398814,
-\qquad
-\beta(B)\to0.01272764444795145.
-\]
-
-Thus the deviation has a nonzero limit and the asymptotic ratio is not `2:1:1`.
+and the asymptotic ratio is not `2:1:1`.
 
 The proof chain is:
 
@@ -203,33 +196,88 @@ No perfect-cuboid nonexistence assumption is used. No explicit normalized conver
 
 ---
 
-## Phase 4 — Connect with Stage12
+## Phase 4 — Connect, state, explain
 
 ### Task 13-8 — Structural connection
 
-Construct and consolidate the rigorous bridge from the frozen Stage12 primitive oriented count to the Stage13 primitive canonical exactly-one directional counts.
-
 Priority: ★★★★★ Required
 
-Status: [>] Next
+Status: [x] Complete
 
-Much of the required mathematics has already been proved ahead of schedule:
+For `q in {ab,ac,bc}`,
 
-- Stage13-3d: exact oriented-to-canonical raw-incidence multiplicity `2`;
-- Stage13-3d: Stage12 total asymptotic transfers to total raw incidence;
-- Stage13-7jb: individual raw directional constants;
-- Stage13-7jf: pair/triple overlap removal and exactly-one transfer;
-- Stage13-7jg: constants, tagged orientation and order-of-limits audit.
+\[
+C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)
+\]
 
-Accordingly 13-8 should primarily consolidate these results into the canonical Stage13 bridge, normalize notation/local factors, and isolate only genuinely missing bridge lemmas if any.
+exactly, and
+
+\[
+C_{\rm prim}(B)=2(A_{ab}+A_{ac}+A_{bc}).
+\]
+
+Every pair overlap and the triple overlap are lower order, so
+
+\[
+\boxed{
+N_q(B)=\frac12C^{\rm proj}_{\rm prim,q}(B)+o(B(\log B)^3)
+}
+\]
+
+and
+
+\[
+\boxed{
+N_1(B)=\frac12C_{\rm prim}(B)+o(B(\log B)^3).
+}
+\]
+
+Stage12 remains frozen; no new mathematical bridge lemma was required.
 
 ### Task 13-9 — Main structural theorem
 
-Formulate the principal Stage13 structural theorem combining the proved asymptotic vector with the finite mechanism analysis.
-
 Priority: ★★★★★ Required
 
-Status: [ ] Not started
+Status: [x] Complete
+
+The principal Stage13 theorem is now stated canonically in `stages/stage13/main.md` §9:
+
+\[
+\boxed{
+\mathbf N(B)
+=
+\frac{\kappa}{3\pi^3}
+(I_{ab},I_{ac},I_{bc})
+B(\log B)^3
++o(B(\log B)^3).
+}
+\]
+
+It includes as corollaries:
+
+\[
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3,
+\]
+
+\[
+\frac{\mathbf N(B)}{N_1(B)}
+\to
+\frac8{\pi^2}(I_{ab},I_{ac},I_{bc}),
+\]
+
+and
+
+```text
+ab:ac:bc -> 2.431684750178191 : 1.115756428951881 : 1
+```
+
+with the direct Stage12 bridge
+
+\[
+N_q(B)=\frac12C^{\rm proj}_{\rm prim,q}(B)+o(B(\log B)^3).
+\]
+
+The theorem explicitly records that perfect-cuboid nonexistence is not assumed, no effective convergence rate is proved, no monotonicity is claimed, and independent publication-grade review is still outside the current completion standard.
 
 ### Task 13-10 — Final explanation
 
@@ -237,7 +285,17 @@ Give the final answer to why a ratio close to `2:1:1` appears at accessible cuto
 
 Priority: ★★★★★ Required
 
-Status: [ ] Not started
+Status: [>] Next
+
+The final synthesis should connect:
+
+- the canonical chamber geometry that determines the asymptotic vector;
+- the finite supported-shell flattening of the `ab` advantage;
+- the parity/pure-`G`/primitive-support cancellations affecting `ac-bc`;
+- the lower-order nature of exactly-one overlap removal;
+- the distinction between a long pre-asymptotic regime and the true limiting law.
+
+It should not introduce a new asymptotic theorem unless a concrete gap is discovered.
 
 ---
 
@@ -265,16 +323,16 @@ Stage12 R09 frozen
 13-6 Finite deviation classification [complete]
         |
         v
-13-7 Asymptotic behaviour [COMPLETE]
+13-7 Asymptotic behaviour [complete]
         |
         v
-13-8 Stage12 bridge consolidation [NEXT]
+13-8 Stage12 bridge consolidation [complete]
         |
         v
-13-9 Main structural theorem
+13-9 Main structural theorem [complete]
         |
         v
-13-10 Final explanation
+13-10 Final explanation [NEXT]
 ```
 
 ## Completion checklist
@@ -288,10 +346,10 @@ Stage13 is complete when:
 - [x] a quantitative deviation vector and independent coordinates have been defined;
 - [x] the significant finite deviation mechanisms have been structurally classified;
 - [x] the asymptotic behaviour of the deviation has been resolved to the justified level;
-- [ ] the Stage12-to-Stage13 counting bridge has been fully consolidated in canonical form;
-- [ ] the main structural theorem has been formulated in final Stage13 form;
+- [x] the Stage12-to-Stage13 counting bridge has been fully consolidated in canonical form;
+- [x] the main structural theorem has been formulated in final Stage13 form;
 - [ ] the final explanation has been written.
 
 ## Scope note
 
-Stage13 is a structural investigation. The Stage13-7 result proves a non-`2:1:1` limiting directional vector at the same project theorem standard as the frozen Stage12 analytic chain. It does not claim an independently peer-reviewed publication proof, an explicit convergence rate, or a certified numerical enclosure for `kappa`.
+Stage13 is a structural investigation. The Stage13 main theorem proves a non-`2:1:1` limiting directional vector and a rigorous bridge from the frozen Stage12 oriented theorem at the same project theorem standard as the frozen Stage12 analytic chain. It does not claim perfect-cuboid existence/nonexistence, an independently peer-reviewed publication proof, an explicit convergence rate, or a certified numerical enclosure for `kappa`.
