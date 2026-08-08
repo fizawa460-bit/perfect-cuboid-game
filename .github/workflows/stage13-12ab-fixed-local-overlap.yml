@@ -24,11 +24,21 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Save committed audit report
+        run: git show HEAD:stages/stage13/data/13-12ab/fixed_local_overlap_audit_report.json > /tmp/committed-13-12ab.json
+
       - name: Rebuild 13-12ab audit report
         run: python stages/stage13/scripts/13-12ab/fixed_local_overlap_audit.py
 
-      - name: Require deterministic report
-        run: git diff --exit-code -- stages/stage13/data/13-12ab/fixed_local_overlap_audit_report.json
+      - name: Require deterministic report content
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/committed-13-12ab.json').read_text())
+          rebuilt = json.loads(Path('stages/stage13/data/13-12ab/fixed_local_overlap_audit_report.json').read_text())
+          assert rebuilt == expected, 'rebuilt 13-12ab JSON differs semantically from committed report'
+          PY
 
       - name: Require repaired theorem status
         run: |
