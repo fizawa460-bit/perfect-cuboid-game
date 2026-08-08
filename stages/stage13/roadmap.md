@@ -2,270 +2,197 @@
 
 ## Goal
 
-Stage13 does **not** assume or force an exact `2:1:1` limit. Its goal is to explain why a ratio close to `2:1:1` appears in the finite primitive canonical exactly-one-face count, identify the dominant structural mechanisms, determine the justified asymptotic law, and connect that law rigorously to the frozen Stage12 oriented theorem.
+Stage13 explains the finite primitive canonical near-`2:1:1` one-face ratio,
+its geometric/arithmetic mechanisms, and the justified directional asymptotic
+law, using the frozen Stage12 R09 primitive oriented theorem as a prior input.
 
-Stage12-N1-2 remains frozen at R09.
+## Review precedence after R01
 
-The canonical mathematical working source is
+The original Stage13-1 through Stage13-10 chain was completed and packaged as a
+single-file R01 review bundle. One external review returned `OPEN` with two
+substantive objections:
 
-```text
-stages/stage13/main.md
-```
+1. the old 7jb direction-neutral raw `j=0` constant check was circular;
+2. the 7jf fixed-modulus transfer in the pair-overlap sieve needs an independent
+   theorem-level audit.
 
-## Current status
+The old `STAGE13=COMPLETE` flags are therefore historical until the 13-12
+repair sequence is closed.
 
 ```text
 STAGE12_N1_2=FROZEN_R09
-STAGE13_1=COMPLETE
-STAGE13_2=COMPLETE
-STAGE13_3=COMPLETE_AT_STRUCTURAL_DIAGNOSTIC_LEVEL
-STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
-STAGE13_5=COMPLETE
-STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
-STAGE13_7=COMPLETE_AT_UNCONDITIONAL_EXACT_ONE_DIRECTIONAL_ASYMPTOTIC_LEVEL
-STAGE13_8=COMPLETE
-STAGE13_9=COMPLETE_MAIN_STRUCTURAL_THEOREM
-STAGE13_10=COMPLETE_FINAL_EXPLANATION
-STAGE13=COMPLETE
-NEXT_STAGE13_TASK=NONE
+STAGE13_1_THROUGH_10=HISTORICALLY_COMPLETE
+STAGE13_EXTERNAL_REVIEW_R01=OPEN
+STAGE13_GLOBAL_REVIEW_STATUS=OPEN
 ```
-
-The final normalized directional law is
-
-\[
-P(B)\to
-\left(
-\frac{8I_{ab}}{\pi^2},
-\frac{8I_{ac}}{\pi^2},
-\frac{8I_{bc}}{\pi^2}
-\right)
-\]
-
-with
-
-```text
-P_inf = (0.5347369332313988,
-         0.24535917783225203,
-         0.21990388893634913)
-
-ab:ac:bc -> 2.431684750178191 : 1.115756428951881 : 1
-```
-
-so the limiting law is not `2:1:1`.
 
 ---
 
 ## Phase 1 — Define and decompose
 
-### Task 13-1 — Definition
+### 13-1 Definition — complete
 
-Status: [x] Complete
+Primitive canonical object, space-diagonal cutoff, exactly-one condition and
+`ab/ac/bc` directional labels.
 
-Fix the primitive canonical object, space-diagonal cutoff, exactly-one condition and the directional labels `ab/ac/bc`.
+### 13-2 Structural decomposition — complete
 
-### Task 13-2 — Structural decomposition
-
-Status: [x] Complete
-
-Separate raw incidence, overlap correction, canonical chamber, orientation, primitive, parity, representation multiplicity, local-density and boundary layers.
+Raw incidence, overlap correction, chamber, orientation, primitive, parity,
+representation multiplicity, local density and boundary layers.
 
 ---
 
 ## Phase 2 — Explain the finite directional shape
 
-### Task 13-3 — Origin of the leading 2
+### 13-3 Leading-2 finite mechanism — complete at finite diagnostic level
 
-Status: [x] Complete at structural finite-diagnostic level
+Canonical archimedean geometry creates the `ab` excess; supported-shell
+richness materially flattens it at accessible cutoffs.
 
-Canonical archimedean geometry creates the `ab` excess. Arithmetic representation density materially flattens it at accessible cutoffs. The exactly-one sieve, standalone prime `2`, universal Stage12 projection fiber and largest audited boundary do not create the leading effect.
+### 13-4 Two-near-1 finite mechanism — complete at finite diagnostic level
 
-### Task 13-4 — Origin of the two near-1 components
-
-Status: [x] Complete at structural finite-diagnostic level
-
-There is no exact `ac<->bc` symmetry. Opposite-signed OE/EE and pure-`G` contributions cancel strongly, while primitive support supplies much of the residual positive `ac-bc` finite tilt.
+No exact `ac<->bc` symmetry; finite parity, pure-`G` and primitive-support
+contributions partially cancel.
 
 ---
 
-## Phase 3 — Quantify and resolve the deviation
+## Phase 3 — Original asymptotic chain
 
-### Task 13-5 — Define the deviation
+### 13-5 Deviation definition — complete
 
-Status: [x] Complete
+### 13-6 Finite deviation classification — complete
 
-For
+### 13-7 Original asymptotic chain — reopened by external review
 
-\[
-P_0=(1/2,1/4,1/4),
-\qquad
-\Delta(B)=P(B)-P_0,
-\]
-
-define
+The historical 13-7 theorem claimed
 
 \[
-\alpha(B)=P_{ab}(B)-1/2,
-\qquad
-\beta(B)=\frac{P_{ac}(B)-P_{bc}(B)}2.
+N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
 \]
 
-### Task 13-6 — Classify the finite deviation
+The raw direction-neutrality proof and overlap transfer are now being audited
+separately under 13-12.
 
-Status: [x] Complete at structural finite-diagnostic level
+### 13-8 Stage12 bridge — historical complete
 
-Supported-shell richness dominates the diagnosed finite flattening of `alpha`; parity/pure-`G` cancellations and primitive support explain much of the finite `beta` structure.
-
-### Task 13-7 — Asymptotic behaviour
-
-Status: [x] Complete at unconditional exact-one directional asymptotic level
-
-For `q in {ab,ac,bc}`,
+The exact finite projection identity
 
 \[
-N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3,
+C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)
 \]
 
-and
+remains active.
 
-\[
-N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
-\]
+### 13-9 Main structural theorem — historical, pending reclosure
 
-Pair and triple overlaps are `o(B(log B)^3)` with no perfect-cuboid nonexistence assumption.
+### 13-10 Final explanation — historical, pending reclosure
 
 ---
 
-## Phase 4 — Connect, state and explain
+## Phase 4 — External-review repair sequence
 
-### Task 13-8 — Stage12 structural connection
+### 13-11 Single-file review bundle — complete
 
-Status: [x] Complete
+R01 packaged Stage13 for external review.
 
-The exact directional projection is
+### 13-12aa Non-circular `j=0` common factor — complete
 
-\[
-C^{\rm proj}_{\rm prim,q}(B)=2A_q(B),
-\]
-
-hence
-
-\[
-N_q(B)=\frac12C^{\rm proj}_{\rm prim,q}(B)+o(B(\log B)^3).
-\]
-
-Stage12 remains frozen and no new bridge lemma is required.
-
-### Task 13-9 — Main structural theorem
-
-Status: [x] Complete
-
-The principal vector theorem is
-
-\[
-\boxed{
-\mathbf N(B)
-=
-\frac{\kappa}{3\pi^3}
-(I_{ab},I_{ac},I_{bc})
-B(\log B)^3
-+o(B(\log B)^3).
-}
-\]
-
-It records the normalized chamber limit, Stage12 bridge, deviation corollary and logical scope.
-
-### Task 13-10 — Final explanation
-
-Status: [x] Complete
-
-The apparent finite/asymptotic discrepancy is resolved as follows:
-
-- the canonical chamber and one-face real density create the persistent `ab>ac>bc` geometric backbone;
-- finite supported-shell richness strongly flattens the `ab` advantage;
-- finite parity/pure-`G`/primitive-support couplings create substantial cancellations in the `ac-bc` direction;
-- the exactly-one overlap correction is not the source of the near-`2:1:1` shape and is asymptotically lower order;
-- the arithmetic factor surviving in the leading main term is common across directions, so it cancels after normalization and the chamber vector returns.
-
-Therefore
+Status:
 
 ```text
-finite near-2:1:1
-= long pre-asymptotic flattening of the stronger chamber bias
+STAGE13_12AA=COMPLETE_COMMON_FACTOR_REPAIR
+CLAUDE_FATAL_DIRECTION_NEUTRALITY=REPAIRED
+RAW_DIRECTIONAL_ASYMPTOTIC=RESTORED_NON_CIRCULARLY
 ```
 
-as explanatory shorthand, not as an exact algebraic identity.
+Instead of seeding categorywise constants, 13-12aa first proves
+
+\[
+A_q(B)\sim\Theta J_q B(\log B)^3
+\]
+
+with one unknown common \(\Theta\), using an explicit `j=0` local kernel,
+three-variable weighted-`l1` factorization and nonzero-harmonic cancellation.
+Only afterwards is the Stage12 total used to obtain
+
+\[
+\Theta=\frac{\kappa}{6\pi^2},
+\qquad
+A_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+\]
+
+Assets:
+
+```text
+stages/stage13/13-12aa/result.md
+stages/stage13/scripts/13-12aa/j0_common_factor_audit.py
+stages/stage13/data/13-12aa/j0_common_factor_audit_report.json
+```
+
+### 13-12ab Fixed-modulus overlap transfer — NEXT
+
+Independently prove or reject the step
+
+```text
+fixed finite local sieve conditions
+=> same B(log B)^3 degree with main constant multiplied by fixed local factors
+```
+
+inside the tagged raw-incidence population. This audit must not assume the old
+7jf conclusion merely because the finite-field local ratio is correct.
+
+Target decision:
+
+```text
+PAIR_OVERLAP_LOWER_ORDER=PROVED_OR_RETRACTED
+TRIPLE_OVERLAP_LOWER_ORDER=PROVED_OR_RETRACTED
+EXACT_ONE_TRANSFER=PROVED_OR_RETRACTED
+```
+
+### 13-12ac Re-synthesis / R02 review bundle — only if needed
+
+If 13-12ab closes, integrate the repairs, regenerate a clean Stage13-only R02
+review bundle and request a new zero-base external review. If 13-12ab finds a
+new gap, continue the repair sequence instead.
 
 ---
 
-## Dependency graph
+## Current dependency graph
 
 ```text
-Stage12 R09 frozen
+Stage12 R09 frozen total theorem
         |
-        v
-13-1 Definition [complete]
-        |
-        v
-13-2 Structural decomposition [complete]
-        |
-        v
-13-3 Leading-2 finite mechanism [complete]
-        |
-        v
-13-4 Two-near-1 finite mechanism [complete]
-        |
-        v
-13-5 Deviation definition [complete]
-        |
-        v
-13-6 Finite deviation classification [complete]
-        |
-        v
-13-7 Asymptotic behaviour [complete]
-        |
-        v
-13-8 Stage12 bridge [complete]
-        |
-        v
-13-9 Main structural theorem [complete]
-        |
-        v
-13-10 Final explanation [complete]
-        |
-        v
-STAGE13 COMPLETE
+        +---------------------------+
+        |                           |
+        v                           v
+13-3d exact factor-2 bridge   13-3b chamber I_q
+        |                           |
+        +------------+--------------+
+                     v
+              13-12aa j=0 repair
+                     |
+                     v
+          RAW DIRECTIONAL THEOREM
+                     |
+                     v
+        13-12ab overlap transfer audit
+                     |
+          +----------+----------+
+          |                     |
+        closes                 fails
+          |                     |
+          v                     v
+ exact-one theorem          further repair
+          |
+          v
+ 13-12ac R02 re-review
 ```
 
-## Completion checklist
-
-- [x] observed ratio rigorously defined;
-- [x] structural layers separated;
-- [x] dominant finite mechanism behind the leading near-`2` identified;
-- [x] finite relation between the two near-`1` components explained;
-- [x] deviation coordinates defined;
-- [x] significant finite deviation mechanisms classified;
-- [x] asymptotic directional behaviour resolved;
-- [x] Stage12-to-Stage13 counting bridge consolidated;
-- [x] main structural theorem stated;
-- [x] final finite-versus-asymptotic explanation written.
-
-## Scope boundary after completion
-
-Stage13 does **not** settle:
-
-- perfect-cuboid existence or nonexistence;
-- the true growth law of the two-face population;
-- an explicit convergence rate or effective closeness threshold;
-- monotonicity of the directional ratios;
-- independent publication-grade verification.
-
-Those are outside the completed Stage13 claim and can be assigned to later work without reopening Stage13 unless a concrete contradiction is found.
-
-## Final assets
+## Current status
 
 ```text
-stages/stage13/main.md
-stages/stage13/README.md
-stages/stage13/data/13-10/final_explanation_audit_report.json
-stages/stage13/archive/stage13-10-final.md
+RAW_DIRECTIONAL_THEOREM=ACTIVE_AFTER_13_12AA
+EXACT_ONE_DIRECTIONAL_THEOREM=PENDING_13_12AB
+STAGE13_GLOBAL_REVIEW_STATUS=OPEN
+NEXT=Stage13-12ab
 ```
