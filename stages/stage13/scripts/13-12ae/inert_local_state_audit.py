@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """Stage13-12ae exact inert-prime local-state audit.
 
-The theorem proof is in stages/stage13/13-12ae/result.md.  This script is a
-finite-field / algebraic validator for the exact formulas used there.  It does
-not replace the fixed-conductor character/ray-class transfer argument.
+The theorem proof is in stages/stage13/13-12ae/result.md. This script checks all
+inert primes below 200 but stores only aggregate validation, keeping the
+committed report compact. Finite enumeration is diagnostic, not the proof of
+the fixed-conductor residue transfer.
 """
 from __future__ import annotations
 
@@ -54,13 +55,11 @@ def hyperbola_from_u(p: int) -> set[tuple[int, int]]:
     out: set[tuple[int, int]] = set()
     for u in range(1, p):
         ui = pow(u, -1, p)
-        z = ((u - ui) * inv2) % p
-        d = ((u + ui) * inv2) % p
-        out.add((z, d))
+        out.add((((u - ui) * inv2) % p, ((u + ui) * inv2) % p))
     return out
 
 
-def unit_counts(p: int) -> dict:
+def local_formula_row(p: int) -> dict:
     C = circle(p)
     H = hyperbola(p)
     Hparam = hyperbola_from_u(p)
@@ -75,24 +74,6 @@ def unit_counts(p: int) -> dict:
             char_sum += c
             zero_count += int(a == 0)
             accepted += int(c >= 0)
-    return {
-        "circle_count": len(C),
-        "hyperbola_count": len(H),
-        "hyperbola_parameterization_count": len(Hparam),
-        "hyperbola_parameterization_bijective": Hparam == H,
-        "total": total,
-        "accepted": accepted,
-        "character_sum": char_sum,
-        "zero_count": zero_count,
-    }
-
-
-def local_formula_row(p: int) -> dict:
-    counts = unit_counts(p)
-    expected_total = p * p - 1
-    expected_accepted = (p + 1) * (p + 1) // 2
-    expected_char_sum = 2 * (p - 1)
-    expected_zero_count = 4
 
     unit_acceptance = Fraction(p + 1, 2 * (p - 1))
     unrestricted_local = Fraction(p + 1, p - 1)
@@ -100,102 +81,54 @@ def local_formula_row(p: int) -> dict:
     positive_fraction = Fraction(2, p + 1)
     constrained_local = Fraction(p + 5, 2 * (p - 1))
     lam = Fraction(p + 5, 2 * (p + 1))
-
-    # Positive valuation state check modulo p:
-    # P=x=y=0, z is a nonzero unit.  Then x^2+z^2=z^2 is always QR.
-    positive_state_failures = sum(
-        chi(z * z, p) < 0 for z in range(1, p)
-    )
+    positive_state_failures = sum(chi(z * z, p) < 0 for z in range(1, p))
 
     passed = (
-        counts["circle_count"] == p + 1
-        and counts["hyperbola_count"] == p - 1
-        and counts["hyperbola_parameterization_bijective"]
-        and counts["total"] == expected_total
-        and counts["accepted"] == expected_accepted
-        and counts["character_sum"] == expected_char_sum
-        and counts["zero_count"] == expected_zero_count
+        len(C) == p + 1
+        and len(H) == p - 1
+        and Hparam == H
+        and total == p * p - 1
+        and accepted == (p + 1) * (p + 1) // 2
+        and char_sum == 2 * (p - 1)
+        and zero_count == 4
         and positive_state_failures == 0
         and unrestricted_local == 1 + positive_mass
         and positive_fraction == positive_mass / unrestricted_local
         and constrained_local == unit_acceptance + positive_mass
         and lam == constrained_local / unrestricted_local
     )
-
     return {
         "p": p,
-        **counts,
-        "expected_circle_count": p + 1,
-        "expected_hyperbola_count": p - 1,
-        "expected_total": expected_total,
-        "expected_accepted": expected_accepted,
-        "expected_character_sum": expected_char_sum,
-        "expected_zero_count": expected_zero_count,
-        "unit_acceptance_exact": str(unit_acceptance),
-        "unit_acceptance_float": float(unit_acceptance),
-        "unrestricted_local_exact": str(unrestricted_local),
-        "positive_valuation_mass_exact": str(positive_mass),
-        "positive_valuation_fraction_exact": str(positive_fraction),
-        "positive_valuation_fraction_le_2_over_p": positive_fraction <= Fraction(2, p),
-        "constrained_local_exact": str(constrained_local),
-        "lambda_exact": str(lam),
-        "lambda_float": float(lam),
-        "lambda_formula_float": (p + 5) / (2 * (p + 1)),
-        "lambda_le_3_over_4": lam <= Fraction(3, 4),
-        "positive_state_failures": positive_state_failures,
         "pass": passed,
+        "hyperbola_parameterization_bijective": Hparam == H,
+        "positive_state_failures": positive_state_failures,
+        "lambda_le_3_over_4": lam <= Fraction(3, 4),
     }
 
 
 def build_report() -> dict:
-    inert_primes = [
-        p for p in range(3, 200)
-        if is_prime(p) and p % 4 == 3
-    ]
+    inert_primes = [p for p in range(3, 200) if is_prime(p) and p % 4 == 3]
     rows = [local_formula_row(p) for p in inert_primes]
     failures = [row["p"] for row in rows if not row["pass"]]
     if failures:
         raise ArithmeticError(f"inert local identity failures: {failures}")
-
     if not all(row["lambda_le_3_over_4"] for row in rows if row["p"] >= 7):
         raise ArithmeticError("lambda <= 3/4 failed for inert p>=7")
 
     state_table = [
-        {
-            "state": "U",
-            "valuations": "(a,b,c)=(0,0,0)",
-            "allowed": True,
-            "reason": "unit outer state",
-            "W_p": "nontrivial finite residue test",
-        },
-        {
-            "state": "R_b",
-            "valuations": "a=0,b>=1,c=0",
-            "allowed": True,
-            "reason": "gcd(r,s)=1 and z is a unit",
-            "W_p": "automatic because x=y=0 mod p and z is a unit",
-        },
-        {
-            "state": "S_c",
-            "valuations": "a=0,b=0,c>=1",
-            "allowed": True,
-            "reason": "gcd(r,s)=1 and z is a unit",
-            "W_p": "automatic because x=y=0 mod p and z is a unit",
-        },
-        {
-            "state": "H_positive",
-            "valuations": "a>=1",
-            "allowed": False,
-            "reason": "inert p|h forces p|x,y,z, contradicting primitive gcd=1",
-            "W_p": "not applicable",
-        },
-        {
-            "state": "both_base_positive",
-            "valuations": "b>=1,c>=1",
-            "allowed": False,
-            "reason": "forbidden by gcd(r,s)=1",
-            "W_p": "not applicable",
-        },
+        {"state": "U", "valuations": "(a,b,c)=(0,0,0)", "allowed": True,
+         "reason": "unit outer state", "W_p": "nontrivial finite residue test"},
+        {"state": "R_b", "valuations": "a=0,b>=1,c=0", "allowed": True,
+         "reason": "gcd(r,s)=1 and z is a unit",
+         "W_p": "automatic because x=y=0 mod p and z is a unit"},
+        {"state": "S_c", "valuations": "a=0,b=0,c>=1", "allowed": True,
+         "reason": "gcd(r,s)=1 and z is a unit",
+         "W_p": "automatic because x=y=0 mod p and z is a unit"},
+        {"state": "H_positive", "valuations": "a>=1", "allowed": False,
+         "reason": "inert p|h forces p|x,y,z, contradicting primitive gcd=1",
+         "W_p": "not applicable"},
+        {"state": "both_base_positive", "valuations": "b>=1,c>=1", "allowed": False,
+         "reason": "forbidden by gcd(r,s)=1", "W_p": "not applicable"},
     ]
 
     return {
@@ -239,7 +172,6 @@ def build_report() -> dict:
             "pair_overlap_injects_into_tagged_union": True,
             "two_tag_factor": "harmless upper multiplicity 2; enlarges the upper bound",
         },
-        "finite_field_rows": rows,
         "validation": {
             "inert_primes_checked_below_200": len(rows),
             "failures": failures,
