@@ -1,0 +1,71 @@
+{
+  "assembled_remainder": {
+    "all_j_ge_2": "o(B(log B)^(1/3)) by the positive j=2 zero-channel majorant",
+    "j1_nonzero_harmonics_core": "o(B(log B)^(1/3)) by finite Vaaler truncation plus polylog-uniform Hecke cancellation",
+    "minimal_scale": "O(B)=o(B(log B)^(1/3)) for the largest j=1 zero boundary",
+    "result": "Every term other than the j=1 zero bulk is o(B(log B)^(1/3)).",
+    "small_height_or_coordinate": "O(B(log B)^(1/4))"
+  },
+  "final_stage13_7i_conclusion": {
+    "exact_directional_ratio_limit_from_this_step": false,
+    "finite_positive_drift_promoted_to_secondary_asymptotic": true,
+    "pure_G_ac_minus_bc": "Delta_G(B) ~ K0 B(log B)^(1/3), with K0>0 as evaluated in curved_wedge_asymptotic_report.json.",
+    "reason_ratio_not_claimed": "7i proves the secondary ac-bc gap for the pure-G observable; a separate asymptotic for the individual G-neutral category masses is required before turning this into an ac/bc ratio limit statement."
+  },
+  "finite_fourier_majorant": {
+    "constant_term_error": "O(1/L) times the positive j=1 zero-channel mass",
+    "degree": "L=(log B)^K with any fixed K>1/12; K=4 is a convenient choice",
+    "harmonic_coefficients": "for 1<=ell<=L, coefficient size O(1/ell)",
+    "pointwise_feature": "The interval indicator is bracketed pointwise, so no uniform Fejer convergence at moving jump locations is assumed.",
+    "tool": "standard Selberg/Vaaler trigonometric majorant/minorant for interval indicators",
+    "truncation_error": "Since the positive j=1 mass on the retained wedge is O(B(log B)^(1/3)), the majorant/minorant excess is O(B(log B)^(1/3)/L)=o(B(log B)^(1/3))."
+  },
+  "metadata": {
+    "scope": "uniform nonzero-harmonic closure and all-j normalization tail",
+    "stage": "13-7i"
+  },
+  "normalization_remainder": {
+    "boundary_and_wings": "The separated minimal-scale and small-height/coordinate regions are at most O(B(log B)^(1/4)), hence o(B(log B)^(1/3)).",
+    "consequence": "All j>=2 zero and nonzero angular content is dominated at once by 3/2 times the positive j=2 zero channel; no uniform summation over j or ell is needed.",
+    "identity": "After extracting j=1, the exact denominator remainder is 1/(G-1)-1/G = 1/(G(G-1)).",
+    "j2_bulk": "Stage13-7h exponent: B(log B)^(-5/9) on the core",
+    "pointwise_majorant": "If N is the signed primitive face-gap numerator and T_G is the positive primitive face-count numerator, |N|<=T_G.  Since G>=3, |N|/(G(G-1)) <= (3/2) T_G/G^2."
+  },
+  "outer_coefficient_bv": {
+    "consequence": "Boxwise partial summation costs a constant independent of ell; the growth of the oscillation count is cancelled by the 1/ell Fourier amplitude.",
+    "exact_bounds": {
+      "sup": "|a_ell(t)| <= 4/(pi ell)",
+      "total_variation": "<=12/pi, uniformly in ell",
+      "variation_first_piece": "<=8/pi",
+      "variation_second_piece": "<=4/pi"
+    },
+    "max_ell_times_sup_sampled": 1.273239544689383,
+    "max_total_variation_sampled": 3.8196658902255263,
+    "sampled_checks": [
+      {"ell": 1, "ell_times_sampled_sup": 1.2732395443856408, "sampled_sup": 1.2732395443856408, "sampled_total_variation": 3.8196658902255263},
+      {"ell": 2, "ell_times_sampled_sup": 1.2732395442291724, "sampled_sup": 0.6366197721145862, "sampled_total_variation": 3.8196658788890017},
+      {"ell": 3, "ell_times_sampled_sup": 1.2732395419533007, "sampled_sup": 0.42441318065110023, "sampled_total_variation": 3.8196657609092632},
+      {"ell": 5, "ell_times_sampled_sup": 1.273239543639257, "sampled_sup": 0.25464790872785137, "sampled_total_variation": 3.819663777114726},
+      {"ell": 10, "ell_times_sampled_sup": 1.2732395443539932, "sampled_sup": 0.12732395443539932, "sampled_total_variation": 3.8196520581217808},
+      {"ell": 25, "ell_times_sampled_sup": 1.273239544689383, "sampled_sup": 0.05092958178757532, "sampled_total_variation": 3.819600426121262},
+      {"ell": 50, "ell_times_sampled_sup": 1.2732395432407877, "sampled_sup": 0.025464790864815755, "sampled_total_variation": 3.818965253828647}
+    ],
+    "theoretical_12_over_pi": 3.819718634205488
+  },
+  "status": {
+    "DIRECTIONAL_RATIO_LIMIT_IDENTIFIED": false,
+    "J1_ZERO_CURVED_WEDGE_CONSTANT": "EVALUATED_POSITIVE",
+    "NONZERO_HARMONIC_FAMILY": "CLOSED_BY_FINITE_VAALER_TRUNCATION_AND_POLYLOG_UNIFORM_HECKE_INPUT",
+    "NORMALIZATION_TAIL": "CLOSED_BY_J2_ZERO_POSITIVE_MAJORANT",
+    "PURE_G_SECONDARY_ASYMPTOTIC": true,
+    "STAGE13_7I": "COMPLETE_AT_PURE_G_SECONDARY_GAP_ASYMPTOTIC_LEVEL",
+    "next": "Stage13-7j"
+  },
+  "uniform_hecke_input": {
+    "characters": "xi_{8ell}, 1<=ell<=L=(log B)^K",
+    "curved_core": "After the 7h rectangle and bounded-variation transfer, each retained harmonic is O_{A,K}(B(log B)^(-A)); summing at most L=log(B)^K modes remains lower order after choosing A>K+10.",
+    "polylog_uniformity": "For ell<=log(B)^K, conductor dependence is only polylogarithmic.  Together with uniform local majorants from 7h and polynomial vertical growth, the z=0 scale contour/finite-order Selberg-Delange argument gives, for every fixed A,K, a bound O_{A,K}(X(log X)^(-A)) uniformly in this ell range.",
+    "reference_boundary": "For example Merikoski, On Gaussian primes in sparse sets, Sec. 2.7, Lemma 2.13 (classical Landau-Page zero-free region, citing Iwaniec-Kowalski Ch.5).",
+    "zero_free_region": "Use the standard Hecke zero-free region with analytic-conductor dependence log((2+|t|)(2+|k|)); the possible exceptional real zero occurs only for k=0, so it is absent for xi_{8ell}, ell>=1."
+  }
+}
