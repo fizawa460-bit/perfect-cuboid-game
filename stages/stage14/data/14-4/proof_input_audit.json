@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "stage": "14-4ah",
-    "title": "Stage14 proof boundary after physical Kummer-height and rational-curve reduction"
+    "stage": "14-4ai",
+    "title": "Stage14 proof boundary after minimum-bisection reduction"
   },
   "upstream": {
     "stage13_frozen_contract": "R03_PLUS_13_12AG",
@@ -9,92 +9,80 @@
     "pair_overlap_little_o_imported": true,
     "triple_overlap_little_o_imported": true,
     "growing_modulus_power_saving_imported": false,
-    "ambient_toric_height_input": "Stage14-e3: Y=Bl_4(P1xP1), L=-K_Y=2H1+2H2-sum(Ej), physical projective height"
+    "stage14_t1_merged": true
   },
   "kummer_geometry": {
-    "pythagorean_base": "t=2r/(1-r^2)",
-    "level4_modular_base_change": "sigma=i(1+r)/(1-r)",
+    "ambient_surface": "Y=Bl_4(P1xP1)",
+    "ambient_line_bundle": "L=-K_Y=2H_r+2H_s-sum(Ej)",
+    "raw_surface": "pi:X->Y, branch class 2L",
     "complex_kummer": "Km(E_i x E_i)",
-    "space_branch_numerator": "F=(1+r^2)^2(1+s^2)^2-16r^2s^2",
-    "space_branch_bidegree": [4, 4],
-    "space_branch_corner_multiplicity": 2,
-    "space_branch_strict_class_on_Y": "2L=-2K_Y",
-    "double_cover": "pi:X->Y",
     "physical_line_bundle": "M=pi^*L=Phi^*O_P2(1)",
     "M_square": 8,
-    "physical_height_exact": "H_M=d=sqrt(e^2+x^2+y^2)",
+    "physical_height_exact": "H_M=d",
     "positivity": "big and nef, not ample"
   },
-  "rational_curve_reduction": {
-    "first_face_fibration": "X->P1_r",
-    "physical_base_interval": "0<r<1",
-    "physical_vertical_rational_curves": false,
-    "multisection_degree": "n=deg(C->P1_r)",
-    "slope_map_degree": 2,
-    "intersection_bound": "M.C>=2n",
-    "physical_sections": false,
-    "minimum_physical_multisection_degree": 2,
-    "minimum_physical_M_degree": 4,
-    "fixed_rational_curve_point_exponent": "2/(M.C)",
-    "maximum_fixed_physical_rational_curve_exponent": "1/2",
-    "sqrtB_extremal_target": "Q-rational M-degree-4 bisection",
-    "existence_or_classification_of_target_proved": false
+  "symmetric_coordinates": {
+    "lambda": "(1-rs)/(r-s)",
+    "mu": "(1+rs)/(r+s)",
+    "physical_region": "lambda<-1<1<mu",
+    "rationality_square": "(lambda^2-1)(mu^2-1)=square",
+    "space_square": "(lambda^2+1)(mu^2+1)=square",
+    "combined_kummer": "(lambda^4-1)(mu^4-1)=square"
   },
-  "graph_exponent_input": {
-    "raw_identity": "E(B)=N2(B)+3T(B)=V(B)*avg_degree(B)/2",
-    "Dujella_max_degree": "Delta(B)=B^o(1)",
+  "degree4_reduction": {
+    "target": "Q-rational physical C with M.C=4 and deg(C->P1_r)=2",
+    "second_projection_degree_bound": "deg(C->P1_s)<=2",
+    "image_cover_degrees": [1, 2],
+    "delta2_all_physical_irreducible_mechanisms_eliminated": true,
+    "delta1_genus_zero_same_r_12_eliminated": true,
+    "delta1_genus_zero_opposite_12_eliminated": true,
+    "delta1_genus_zero_a2_ancestors_reduce_to_a1_or_sections": true,
+    "remaining_class": "D=(2,2;1,1,1,1)=L=-K_Y",
+    "remaining_class_arithmetic_genus": 1,
+    "remaining_required_property": "D singular rational and branch restriction even so pi^-1(D) splits over Q",
+    "full_M_degree4_existence_classification_proved": false,
+    "fixed_curve_sqrtB_mechanism_rejected": false
+  },
+  "growth_boundary": {
     "raw_edge_and_active_vertex_power_exponents_equal": true,
     "finite_vertex_exponent_200k_to_2m": 0.4998643818582221,
-    "finite_core_exponents": {
-      "0.1<=r<=0.9": 0.5023048007379113,
-      "0.2<=r<=0.8": 0.5077274012077166,
-      "0.25<=r<=0.75": 0.48799860817873497
-    },
-    "finite_core_sqrtB_signal_survives": true,
-    "asymptotic_claim": false
+    "finite_sqrtB_signal_survives": true,
+    "sqrtB_asymptotic_claim": false,
+    "true_growth_order_identified": false
   },
   "triple_gate": {
     "fixed_base_genus": 5,
-    "third_square_numerator": "G=r^2(1-s^2)^2+s^2(1-r^2)^2",
-    "third_zero_bidegree": [4, 4],
-    "third_zero_corner_multiplicity": 2,
-    "third_zero_strict_class_on_Y": "2L",
-    "relative_cover": "rho:W->X",
-    "branch_class_on_X": "2M",
-    "generic_degree": 2,
-    "type_II_thin_image": true,
-    "thin_zero_density_for_M_height_proved": false,
+    "relative_cover_branch_class": "2M",
+    "branch_degree_on_hypothetical_M4_curve": 8,
+    "generic_restricted_cover_genus": 3,
+    "special_tangency_audit_needed": true,
+    "stage14_t1_status": "COMPLETE_BASELINE_AND_THEOREM_GAP",
     "T_o_sqrtB_proved": false,
     "perfect_cuboid_nonexistence_proved": false
   },
   "literature_boundary": {
-    "shimada_level4": "EXACT_GEOMETRIC_COLLISION / REUSABLE_KUMMER_GEOMETRY",
-    "mckinnon_product_kummer": "REUSABLE_ACCUMULATING_CURVE_FRAMEWORK_ONLY; DIRECT COUNT NOT IMPORTED BECAUSE STAGE14 M IS NOT AMPLE",
-    "gvirtz_chen_kummer_rational_curves": "ADJACENT_RATIONAL_CURVE_MECHANISM; NO M-DEGREE-4 IDENTIFICATION IMPORTED",
+    "shimada_level4": "REUSABLE_KUMMER_GEOMETRY",
+    "mckinnon_product_kummer": "REUSABLE_ACCUMULATING_CURVE_FRAMEWORK_ONLY",
+    "direct_singular_anticanonical_contact_classification_imported": false,
     "novelty_by_search_absence": false
   },
   "validation": {
-    "audit_script": "stages/stage14/scripts/14-4/kummer_height_audit.py",
-    "audit_report": "stages/stage14/data/14-4/kummer_height_audit.json",
-    "max_bound": 2000000,
-    "space_and_triple_corner_hessians_checked": true,
-    "finite_core_census_recomputed": true
+    "audit_script": "stages/stage14/scripts/14-4/degree4_bisection_audit.py",
+    "audit_report": "stages/stage14/data/14-4/degree4_bisection_audit.json",
+    "archive_proof": "stages/stage14/archive/stage14-4ai-degree4-bisections.md",
+    "finite_contact_coefficient_search_is_proof": false
   },
   "decision": {
-    "STAGE14_4AH": "COMPLETE",
-    "PHYSICAL_KUMMER_POLARIZATION_LOCKED": true,
-    "PHYSICAL_LINE_BUNDLE": "M=pi^*(-K_Y)",
-    "PHYSICAL_POLARIZATION_SQUARE": 8,
-    "PHYSICAL_POLARIZATION_BIG_NEF_NOT_AMPLE": true,
-    "PHYSICAL_RATIONAL_CURVE_M_DEGREE_LOWER_BOUND": 4,
-    "SQRTB_MINIMAL_RATIONAL_CURVE_TARGET": "M-degree-4 rational bisection",
-    "MCKINNON_DIRECT_ASYMPTOTIC_IMPORTED": false,
-    "FINITE_CORE_SQRTB_SIGNAL_SURVIVES": true,
-    "TRIPLE_RELATIVE_COVER_BRANCH_CLASS": "2M",
-    "TRIPLE_TYPE_II_THIN": true,
-    "T_O_SQRT_B_PROVED": false,
+    "STAGE14_4AI": "COMPLETE_MINIMAL_BISECTION_REDUCTION",
+    "LAMBDA_MU_KUMMER_COORDINATES_LOCKED": true,
+    "DEGREE_TWO_IMAGE_M4_MECHANISM_ELIMINATED": true,
+    "GENUS_ZERO_SPLIT_M4_MECHANISM_ELIMINATED": true,
+    "ONLY_REMAINING_FIXED_SQRTB_CURVE_TARGET": "split singular anticanonical D in |L|",
+    "PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTENCE_RESOLVED": false,
+    "FIXED_CURVE_SQRTB_MECHANISM_REJECTED": false,
     "SQRT_B_ASYMPTOTIC_CLAIM": false,
     "TRUE_GROWTH_ORDER_IDENTIFIED": false,
-    "NEXT": "Stage14-4ai classify Q-rational M-degree-4 bisections and count their first-hit height; audit triple restriction on those curves"
+    "T_O_SQRT_B_PROVED": false,
+    "NEXT": "Stage14-4aj singular anticanonical contact discriminant / CM-Kummer lattice classification"
   }
 }
