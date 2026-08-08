@@ -1,0 +1,113 @@
+name: Stage13-12ae exact p-adic local closure
+
+on:
+  push:
+    branches:
+      - agent/stage13-12ae-padic-local-completeness
+    paths:
+      - 'stages/stage13/13-12ae/**'
+      - 'stages/stage13/scripts/13-12ae/**'
+      - 'stages/stage13/data/13-12ae/**'
+      - 'stages/stage13/README.md'
+      - 'stages/stage13/roadmap.md'
+      - '.github/workflows/stage13-12ae-padic-local-closure.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage13/**'
+      - '.github/workflows/stage13-12ae-padic-local-closure.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute exact inert local audit
+        run: |
+          cp stages/stage13/data/13-12ae/inert_local_state_audit_report.json /tmp/expected.json
+          python stages/stage13/scripts/13-12ae/inert_local_state_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/expected.json').read_text())
+          actual = json.loads(Path('stages/stage13/data/13-12ae/inert_local_state_audit_report.json').read_text())
+          assert actual == expected
+          print('Stage13-12ae semantic report regeneration: PASS')
+          PY
+
+      - name: Verify exact p-adic formulas and state completeness
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          report = json.loads(Path('stages/stage13/data/13-12ae/inert_local_state_audit_report.json').read_text())
+          exact = report['exact_formulas']
+          status = report['status']
+          assert exact['inert_h_factor'] == '1'
+          assert exact['positive_valuation_fraction'] == '2/(p+1) <= 2/p'
+          assert exact['absolute_C0'] == 2
+          assert exact['lambda_p'] == '(p+5)/(2(p+1)) = 1/2 + 2/(p+1)'
+          assert exact['lambda_le_3_over_4_for_inert_p_ge_7'] is True
+          assert report['validation']['failures'] == []
+          assert report['validation']['all_hyperbola_parameterizations_bijective'] is True
+          assert report['validation']['all_positive_states_automatic'] is True
+          assert report['validation']['all_lambda_formulae_pass'] is True
+          states = {row['state']: row for row in report['state_table']}
+          assert states['U']['allowed'] is True
+          assert states['R_b']['allowed'] is True
+          assert states['S_c']['allowed'] is True
+          assert states['H_positive']['allowed'] is False
+          assert states['both_base_positive']['allowed'] is False
+          assert report['fixed_residue_transfer']['p_fixed_before_B_limit'] is True
+          assert report['fixed_residue_transfer']['growing_modulus_used'] is False
+          assert status['STAGE13_12AE'] == 'COMPLETE_EXACT_PADIC_LOCAL_CLOSURE'
+          assert status['STAGE13_GLOBAL_REVIEW_STATUS'] == 'PENDING_EXTERNAL_R03'
+          print('Stage13-12ae exact local-state audit: PASS')
+          PY
+
+      - name: Verify proof text locks
+        run: |
+          grep -F 'C_0=2' stages/stage13/13-12ae/result.md
+          grep -F '\lambda_p=\frac{p+5}{2(p+1)}' stages/stage13/13-12ae/result.md
+          grep -F 'a=0' stages/stage13/13-12ae/result.md
+          grep -F 'fixed-conductor Gaussian ray-class character decomposition' stages/stage13/13-12ae/result.md
+          grep -F 'Qwen   = REPAIRABLE' stages/stage13/README.md
+          grep -F 'NEXT=Stage13-12af' stages/stage13/roadmap.md
+
+      - name: Re-run Stage13-12ad quantitative audit
+        run: |
+          cp stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json /tmp/ad-expected.json
+          python stages/stage13/scripts/13-12ad/j0_quantitative_closure_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/ad-expected.json').read_text())
+          actual = json.loads(Path('stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json').read_text())
+          assert actual == expected
+          print('Stage13-12ad compatibility: PASS')
+          PY
+
+      - name: Verify reviewed R02 snapshot remains frozen
+        run: |
+          python - <<'PY'
+          import hashlib
+          import json
+          from pathlib import Path
+          html = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html')
+          manifest = json.loads(Path('stages/stage13/data/13-12ac/review_bundle_manifest.json').read_text())
+          assert manifest['bundle_id'] == 'STAGE13-FINAL-SELF-CONTAINED-20260808-R02'
+          assert manifest['content_sha256'] == 'e75136805f0d4d7cfc2466b08e403eb2c895ebb1bce67564cabd24a216a682d0'
+          assert manifest['source_count'] == 98
+          assert manifest['html_bytes'] == 947019
+          assert html.stat().st_size == 947019
+          physical_sha = hashlib.sha256(html.read_bytes()).hexdigest()
+          assert physical_sha == '78d491f6135a1f53edbe341866fda932f2b094cb87e61e6e3e415032102a1690'
+          print('R02 frozen manifest identity and physical SHA256: PASS')
+          PY
