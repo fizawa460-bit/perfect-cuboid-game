@@ -1,0 +1,35 @@
+name: Stage13-13d final consistency
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13/**'
+      - 'stages/stage13/13-13c/**'
+      - 'stages/stage13/13-13d/**'
+      - 'stages/stage13/scripts/13-13d/**'
+      - 'stages/stage13/data/13-13d/**'
+      - '.github/workflows/stage13-13d-final-consistency.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'stages/stage13/13-13/**'
+      - 'stages/stage13/13-13c/**'
+      - 'stages/stage13/13-13d/**'
+      - 'stages/stage13/scripts/13-13d/**'
+      - 'stages/stage13/data/13-13d/**'
+      - '.github/workflows/stage13-13d-final-consistency.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  final-consistency:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage13 canonical constants and interfaces
+        run: python stages/stage13/scripts/13-13d/final_consistency_audit.py --check-report

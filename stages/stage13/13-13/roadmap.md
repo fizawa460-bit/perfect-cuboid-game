@@ -1,14 +1,14 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13C_COMPLETE_CANONICAL_PROOF_RESYNTHESIS_13_13D_NEXT`
+> STATUS: `STAGE13_13D_COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT_13_13E_NEXT`
 >
-> PURPOSE: turn the reviewed Stage13 R03 theorem candidate plus the post-review explicitness work into one canonical, self-contained, reproducible, externally reviewed and finally frozen Stage13 theorem package.
+> PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, externally reviewed and finally frozen theorem package.
 >
-> IMPORTANT: Stage13-13 is a proof-hardening/freeze track. It does **not** change the counting convention, theorem statement, directional constants, or Stage12 R09 input unless a genuine defect is discovered.
+> IMPORTANT: this track does not change the counting convention, theorem statement, directional constants, or frozen Stage12 R09 input unless a genuine defect is explicitly recorded.
 
 ## Numeric-only dispatch contract
 
-The following tokens are sufficient instructions against the latest merged `main`:
+The user may dispatch by token alone:
 
 ```text
 13-13a
@@ -20,11 +20,35 @@ The following tokens are sufficient instructions against the latest merged `main
 13-13g
 ```
 
-If a stage discovers a theorem-level defect that invalidates an upstream lock, do not silently repair it inside the wrong token. Record the blocker explicitly and stop promotion until the defect is separately resolved.
+A theorem-level defect blocks promotion; it must not be silently repaired inside an unrelated token.
 
 ---
 
-## Frozen inputs
+## Frozen theorem contract
+
+```text
+Stage12 input: C_prim(B) ~ kappa/(12*pi) B(log B)^3
+N_q(B)       ~ kappa*I_q/(3*pi^3) B(log B)^3
+N1(B)        ~ kappa/(24*pi) B(log B)^3
+sum I_q       = pi^2/8
+J_q           = 2 I_q/pi
+P_q           = 8 I_q/pi^2
+O_qr(B)       = o(B(log B)^3)
+T(B)          = o(B(log B)^3)
+lambda_p      = (p+5)/(2(p+1)) for inert p
+```
+
+Normalized directional validator `(ab,ac,bc)`:
+
+```text
+(0.5347369332313988,
+ 0.24535917783225203,
+ 0.21990388893634913)
+```
+
+Symbolic formulas are authoritative; decimals are deterministic validators only.
+
+Frozen provenance inputs:
 
 ```text
 Stage12 R09                    frozen upstream theorem input
@@ -34,44 +58,6 @@ R03 Grok verdict               CLOSED
 R03 Qwen verdict               CLOSED
 R03 Claude verdict             not recorded
 ```
-
-Frozen theorem contract:
-
-\[
-N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3,
-\qquad q\in\{ab,ac,bc\},
-\]
-
-\[
-N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3,
-\]
-
-\[
-I_{ab}+I_{ac}+I_{bc}=\frac{\pi^2}{8},
-\qquad
-J_q=\frac{2I_q}{\pi},
-\]
-
-\[
-O_{qr}(B)=o(B(\log B)^3),
-\qquad
-T(B)=o(B(\log B)^3),
-\]
-
-\[
-\lambda_p=\frac{p+5}{2(p+1)}
-\qquad(p\equiv3\pmod4).
-\]
-
-Normalized directional validator:
-
-```text
-(0.5347369332313988,
- 0.24535917783225203,
- 0.21990388893634913)
-```
-
-The symbolic formulas are authoritative; decimals are deterministic validators only.
 
 ---
 
@@ -87,7 +73,7 @@ stages/stage13/13-13a/result.md
 stages/stage13/data/13-13a/claim-dependency-ledger.json
 ```
 
-Locks:
+Lock:
 
 ```text
 STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
@@ -96,8 +82,6 @@ THEOREM_STATEMENT_FROZEN_FOR_RESYNTHESIS=true
 THEOREM_LEVEL_DEFECT_FOUND=false
 HISTORICAL_SUPERSEDED_ARGUMENT_REQUIRED=false
 ```
-
-The active theorem chain was separated from provenance, finite checks and review records. Old Stage13-7jb/7jf proof routes are not required.
 
 ---
 
@@ -112,7 +96,7 @@ stages/stage13/13-13b/external-theorem-crosswalk.md
 stages/stage13/13-13b/result.md
 ```
 
-Locks:
+Lock:
 
 ```text
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
@@ -125,7 +109,7 @@ GROWING_MODULUS_INPUT_USED=false
 THEOREM_CHANGED=false
 ```
 
-Minimal external boundary for the canonical proof:
+Minimal external boundary:
 
 ```text
 Stage12 R09 primitive-oriented total theorem
@@ -133,15 +117,11 @@ standard Dirichlet/Hecke analytic continuation + functional equation + polynomia
 Vaaler periodic interval majorant/minorant
 ```
 
-The special integer-pole-order Perron/residue argument is internalized in 13-13c.
-
 ---
 
 ## 13-13c — canonical proof resynthesis
 
 Status: `[x] Complete`.
-
-Purpose: replace the repair-history reading order by one canonical proof while preserving the 13-13a theorem contract exactly.
 
 Canonical artifacts:
 
@@ -169,9 +149,7 @@ definitions + exact inclusion-exclusion
 -> exactly-one theorem
 ```
 
-The required non-circular order is explicit: commonness of `Theta` is proved before Stage12 total mass is used to determine it.
-
-Completion lock:
+Lock:
 
 ```text
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
@@ -179,29 +157,15 @@ THEOREM_CHANGED=false
 R03_REWRITTEN=false
 HISTORICAL_SUPERSEDED_ARGUMENT_REQUIRED=false
 MINIMAL_EXTERNAL_BOUNDARY_PRESERVED=true
-NEXT=13-13d
 ```
 
 ---
 
 ## 13-13d — deterministic reproducibility and consistency audit
 
-Status: `[>] Next`.
+Status: `[x] Complete`.
 
-Purpose: independently verify every computable constant/interface appearing in the canonical proof and detect stale or superseded formulas before review packaging.
-
-Required checks include:
-
-- chamber integrals and normalized direction vector;
-- `J_q=2I_q/pi` and `sum I_q=pi^2/8`;
-- exact inert-prime character-sum identities;
-- `alpha_p` and `lambda_p=(p+5)/(2(p+1))`;
-- exact Stage12 factor-two bridge checks available from earlier finite audits;
-- theorem statement/constants agree between `stage13-final-proof.md`, the roadmap and machine-readable audit output;
-- the canonical proof contains no stale R01/R02 constants or superseded `7jb/7jf` proof dependencies;
-- the raw analytic error ledger is arithmetically consistent with the frozen parameter choices.
-
-Expected artifacts:
+Artifacts:
 
 ```text
 stages/stage13/scripts/13-13d/final_consistency_audit.py
@@ -210,32 +174,42 @@ stages/stage13/13-13d/result.md
 .github/workflows/stage13-13d-final-consistency.yml
 ```
 
-Minimum completion lock:
+The deterministic audit reproduces the chamber integrals and normalized direction vector, verifies `J_q=2I_q/pi`, checks the exact B=100000 Stage12 factor-two/inclusion-exclusion fixture, directly enumerates inert unit states at p=7,11,19,23, verifies the exact local multiplier, requires all canonical theorem-lock tokens, and scans the mathematical core for superseded `7jb/7jf` routes or stale soft local formulas.
+
+Lock:
 
 ```text
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
+AUDIT_STATUS=PASS
 CANONICAL_CONSTANTS_REPRODUCED=true
+CHAMBER_SUM_REPRODUCED=true
+DIRECTION_VECTOR_REPRODUCED=true
+JQ_BRIDGE_REPRODUCED=true
+FINITE_FACTOR_TWO_BRIDGE_REPRODUCED=true
+INERT_UNIT_ACCEPTANCE_REPRODUCED=true
+INERT_LOCAL_MULTIPLIER_REPRODUCED=true
 STALE_SUPERSEDED_FORMULAS_IN_CANONICAL_FILES=0
+THEOREM_CHANGED=false
 NEXT=13-13e
 ```
 
-This stage is a consistency/reproducibility audit, not numerical evidence for the asymptotic theorem.
+This stage is reproducibility/consistency evidence only, not numerical evidence for the asymptotic theorem.
 
 ---
 
 ## 13-13e — R04 self-contained review bundle
 
-Status: `[ ] Pending 13-13d`.
+Status: `[>] Next`.
 
-Purpose: generate a new immutable final-review snapshot. R03 remains untouched.
+Purpose: generate a new immutable final-review snapshot without mutating R03.
 
-The R04 bundle must contain enough context for a reviewer to evaluate Stage13 without repository browsing:
+The R04 bundle must be reviewable without repository browsing and must include:
 
 - theorem statement and counting convention;
 - frozen Stage12 interface;
 - full canonical proof;
 - external-theorem crosswalk/minimal boundary;
-- deterministic consistency summary;
+- deterministic 13-13d consistency summary;
 - exact scope and limitations.
 
 Expected artifacts:
@@ -260,21 +234,12 @@ NEXT=13-13f
 
 Status: `[ ] Pending R04 reviewer feedback`.
 
-Review policy:
+Policy:
 
-- target independent review from Grok, Qwen and Claude when available;
+- target independent Grok, Qwen and Claude review when available;
 - final freeze requires at least two independent `CLOSED` verdicts on the final bundle;
 - any received unresolved theorem-level objection blocks 13-13g;
-- stylistic suggestions may be recorded without reopening mathematics;
-- any substantive repair creates a new immutable R05/R06 bundle rather than mutating an old bundle.
-
-Possible states:
-
-```text
-CLOSED
-REPAIRABLE
-OPEN
-```
+- substantive repair creates a new immutable R05/R06 bundle rather than mutating an old bundle.
 
 Minimum lock:
 
@@ -291,23 +256,12 @@ NEXT=13-13g
 
 Status: `[ ] Pending 13-13f`.
 
-Purpose: close Stage13 as a stable theorem dependency for Stage14 and future work.
-
-Required outputs:
+Expected artifacts:
 
 ```text
 stages/stage13/13-13g/final-freeze.md
 stages/stage13/13-13g/downstream-contract.md
 ```
-
-Required work:
-
-- freeze the canonical proof and final reviewed bundle;
-- record bundle ID, content hash, source commit and reviewer verdicts;
-- update global Stage13 status from candidate/bookkeeping to frozen;
-- write the exact compact theorem contract that downstream work may import;
-- retain R01/R02/R03 provenance without presenting superseded artifacts as current proof;
-- record limitations outside the theorem.
 
 Target lock:
 
@@ -333,7 +287,7 @@ Stage13-13 does not:
 - use reviewer approval as a substitute for a written proof;
 - silently mutate an immutable review bundle.
 
-A later Stage12 cleanup/final-proof resynthesis, if desired, is a separate track.
+A later Stage12 cleanup/final-proof resynthesis is a separate track.
 
 ```text
 STAGE13_13_ROADMAP=ACTIVE
@@ -341,5 +295,8 @@ NUMERIC_ONLY_DISPATCH=true
 STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
-NEXT=13-13d
+STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
+CANONICAL_CONSTANTS_REPRODUCED=true
+STALE_SUPERSEDED_FORMULAS_IN_CANONICAL_FILES=0
+NEXT=13-13e
 ```
