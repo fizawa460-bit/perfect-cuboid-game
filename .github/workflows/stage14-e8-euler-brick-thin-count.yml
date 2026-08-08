@@ -1,0 +1,94 @@
+name: Stage14-e8 quantitative Euler-brick thin count
+
+on:
+  push:
+    branches:
+      - agent/stage14-e8-euler-brick-thin-count
+    paths:
+      - 'stages/stage14/14-e8/**'
+      - 'stages/stage14/scripts/14-e8/**'
+      - 'stages/stage14/data/14-e8/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e8-euler-brick-thin-count.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e8/**'
+      - 'stages/stage14/scripts/14-e8/**'
+      - 'stages/stage14/data/14-e8/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e8-euler-brick-thin-count.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute Euler-brick thin-count audit
+        run: |
+          cp stages/stage14/data/14-e8/euler_brick_thin_count_audit.json /tmp/e8_expected.json
+          python stages/stage14/scripts/14-e8/euler_brick_thin_count_audit.py
+
+      - name: Verify deterministic e8 report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/e8_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e8/euler_brick_thin_count_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          assert actual['metadata']['max_B'] == 1000000
+          assert actual['metadata']['source_number_of_cutoffs'] == 17
+          assert actual['finite_summary']['euler_bricks'] == 219
+          assert actual['finite_summary']['bricks_over_sqrt_B'] == 0.219
+          assert actual['finite_divisor_envelope_at_max_B']['pythagorean_projection_pool'] == 1980642
+          assert actual['finite_divisor_envelope_at_max_B']['max_tau_n_square'] == 3645
+          assert actual['finite_divisor_envelope_at_max_B']['first_argmax_n'] == 720720
+          assert actual['status']['EULER_BRICK_K3_MODEL_LOCKED'] is True
+          assert actual['status']['EULER_BRICK_POWER_EXPONENT_UPPER_ENVELOPE'] == '1+o(1)'
+          assert actual['status']['QUANTITATIVE_RELATIVE_SAVING_PROVED'] is False
+          assert actual['status']['SQRT_B_FINITE_CANDIDATE_ONLY'] is True
+          print('Stage14-e8 deterministic thin-count audit: PASS')
+          PY
+
+      - name: Verify theorem and literature boundary
+        run: |
+          grep -F 'STAGE14_E8=COMPLETE_K3_AND_SUBPOWER_MULTIPLICITY_ENVELOPE' stages/stage14/14-e8/result.md
+          grep -F 'EULER_BRICK_DOUBLE_COVER_BRANCH_CLASS=-2K_Y' stages/stage14/14-e8/result.md
+          grep -F 'E8_INDEPENDENT_QUANTITATIVE_ENVELOPE_PROVED=true' stages/stage14/14-e8/result.md
+          grep -F 'QUANTITATIVE_RELATIVE_SAVING_PROVED=false' stages/stage14/14-e8/result.md
+          grep -F 'SQRT_B_UPPER_BOUND_PROVED=false' stages/stage14/14-e8/result.md
+          grep -F 'Rathbun' stages/stage14/14-e8/literature-euler-brick-count-audit.md
+          grep -F 'Peschmann' stages/stage14/14-e8/literature-euler-brick-count-audit.md
+          grep -F 'McKinnon' stages/stage14/14-e8/literature-euler-brick-count-audit.md
+          grep -F 'DIRECT_STAGE14_E8_EUCLIDEAN_COUNT=NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e8/literature-euler-brick-count-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e8/literature-euler-brick-count-audit.md
+
+      - name: Verify frozen e7 input
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          e7 = json.loads(Path('stages/stage14/data/14-e7/secondary_crossover_audit.json').read_text())
+          assert e7['status']['STAGE14_E7'] == 'COMPLETE_FINITE_CROSSOVER_AND_SECONDARY_BOUNDARY'
+          assert e7['dense_exact_census'][-1]['B'] == 1000000
+          assert e7['dense_exact_census'][-1]['euler_bricks'] == 219
+          assert e7['dense_exact_census'][-1]['raw_total'] - e7['dense_exact_census'][-1]['E2'] == 657
+          print('Stage14-e7 input lock: PASS')
+          PY
+
+      - name: Verify supplement roadmap and historical handoffs
+        run: |
+          grep -F 'NEXT_E_SUPPLEMENT=Stage14-e7 secondary asymptotics / finite crossover' stages/stage14/e-supplement-roadmap.md
+          grep -F 'NEXT_E_SUPPLEMENT=Stage14-e8 quantitative Euler-brick thin-set count' stages/stage14/e-supplement-roadmap.md
+          grep -F 'STAGE14_E8=COMPLETE_K3_AND_SUBPOWER_MULTIPLICITY_ENVELOPE' stages/stage14/e-supplement-roadmap.md
+          grep -F 'E8_INDEPENDENT_QUANTITATIVE_ENVELOPE_PROVED=true' stages/stage14/e-supplement-roadmap.md
+          grep -F 'NEXT_E_SUPPLEMENT=Stage14-e9 gcd/lcm and local-statistics decomposition' stages/stage14/e-supplement-roadmap.md
