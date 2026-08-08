@@ -1,0 +1,133 @@
+{
+  "metadata": {
+    "stage": "14-4ac",
+    "title": "Rational-slope height and arithmetic-envelope audit",
+    "purpose": "lock the exact height factorization, denominator multiplicity, and finite growth diagnostics without claiming the true asymptotic order"
+  },
+  "upstream": {
+    "stage13_frozen_contract": "R03_PLUS_13_12AG",
+    "freeze_stage": "13-12ah",
+    "mathematical_content_frozen_at": "c843e039306b40bd3693f89d6199da78c2fb4657",
+    "r03_grok_verdict": "CLOSED",
+    "r03_qwen_verdict": "CLOSED",
+    "r03_copilot_verdict": "PENDING_FINAL_REVIEW",
+    "downstream_mathematical_content_frozen": true,
+    "imported_pair_ceiling": "O_qr(B)=o(B(log B)^3)",
+    "imported_triple_ceiling": "T(B)=o(B(log B)^3)",
+    "stage14_total_ceiling": "N_2(B)=o(B(log B)^3)"
+  },
+  "rational_slope_coordinates": {
+    "t1": "X1/S1",
+    "t2": "X2/S2",
+    "r1": "H1/S1=sqrt(1+t1^2)",
+    "r2": "H2/S2=sqrt(1+t2^2)",
+    "L": "lcm(S1,S2)",
+    "integer_edges": {
+      "e": "L",
+      "x": "L t1",
+      "y": "L t2"
+    },
+    "space_shape_factor": "R=sqrt(1+t1^2+t2^2)",
+    "space_diagonal": "d=L R",
+    "raw_pair_conditions": [
+      "0<t1<t2",
+      "sqrt(1+t1^2) is rational",
+      "sqrt(1+t2^2) is rational",
+      "sqrt(1+t1^2+t2^2) is rational"
+    ],
+    "direction_chambers": {
+      "a": "1<t1<t2",
+      "b": "t1<1<t2",
+      "c": "t1<t2<1"
+    },
+    "triple_condition": "sqrt(t1^2+t2^2) is rational",
+    "exactly_two_condition": "sqrt(t1^2+t2^2) is irrational"
+  },
+  "height_envelope": {
+    "M": "L max(1,t2)=max(e,y)",
+    "exact_height": "d=L sqrt(1+t1^2+t2^2)",
+    "universal_sandwich": "M<d<sqrt(3) M",
+    "cutoff_sandwich": "M<=B/sqrt(3) implies d<=B; d<=B implies M<B",
+    "a_direction_surrogate": "M=y=L t2",
+    "b_direction_surrogate": "M=y=L t2",
+    "c_direction_surrogate": "M=e=L"
+  },
+  "primitive_face_denominator_multiplicity": {
+    "definition": "a(S)=number of oriented primitive Pythagorean face data with distinguished shared leg S",
+    "formula": {
+      "S<=1": 0,
+      "S congruent 2 mod 4": 0,
+      "otherwise": "2^(omega(S)-1)"
+    },
+    "audit_max_S": 1000,
+    "audit_mismatches": 0,
+    "audit_pass": true,
+    "interpretation": "one primitive-face denominator carries divisor-like logarithmic multiplicity"
+  },
+  "pre_space_lcm_envelope": {
+    "definition": "E(B)=sum_{lcm(S1,S2)<=B} a(S1)a(S2), ignoring slope order, shape factor, and space-square condition",
+    "majorant_weight": "c(n)=2^omega(n)",
+    "p_local_series": "1+8x/(1-x)^2 with x=p^(-s)",
+    "local_first_order": "1+8/p^s+O(p^(-2s))",
+    "dirichlet_pole_order": 8,
+    "standard_selberg_delange_scale": "B(log B)^7",
+    "actual_admissible_aS_envelope_order": "Theta(B(log B)^7) after the finite 2-adic restriction; leading constant not evaluated",
+    "stage14_population_claim": false,
+    "meaning": "this is only a denominator/face-pair envelope before the integer-space-diagonal square condition"
+  },
+  "slope_height_identity_audit": {
+    "B": 10000,
+    "oriented_primitive_face_data": 3186,
+    "accepted_raw_pair_incidences": 25,
+    "exactly_two": {
+      "a": 9,
+      "b": 11,
+      "c": 5,
+      "total": 25
+    },
+    "triple_incidences": 0,
+    "matches_locked_census": true,
+    "all_integer_cross_product_height_identities_pass": true
+  },
+  "finite_growth_diagnostic": {
+    "asymptotic_fit_promoted": false,
+    "sqrtB_candidate_promoted_to_theorem": false,
+    "rows": [
+      {"B": 1000, "N2": 2, "N2_over_sqrtB": 0.06324555320336758},
+      {"B": 2000, "N2": 5, "N2_over_sqrtB": 0.11180339887498948},
+      {"B": 5000, "N2": 15, "N2_over_sqrtB": 0.21213203435596426},
+      {"B": 10000, "N2": 25, "N2_over_sqrtB": 0.25},
+      {"B": 20000, "N2": 42, "N2_over_sqrtB": 0.29698484809834996},
+      {"B": 50000, "N2": 62, "N2_over_sqrtB": 0.2772724292099739},
+      {"B": 100000, "N2": 89, "N2_over_sqrtB": 0.28144271175498575},
+      {"B": 200000, "N2": 116, "N2_over_sqrtB": 0.2593838853899756},
+      {"B": 500000, "N2": 188, "N2_over_sqrtB": 0.26587214972614187},
+      {"B": 1000000, "N2": 255, "N2_over_sqrtB": 0.255},
+      {"B": 2000000, "N2": 356, "N2_over_sqrtB": 0.2517300141024109}
+    ],
+    "late_range_B_min": 200000,
+    "late_range_mean_N2_over_sqrtB": 0.2579965123046321,
+    "late_range_population_sd": 0.005296190956321191,
+    "late_range_coefficient_of_variation": 0.020528149427336665,
+    "late_range_min_N2_over_sqrtB": 0.2517300141024109,
+    "late_range_max_N2_over_sqrtB": 0.26587214972614187,
+    "late_effective_pure_power_exponents": [
+      {"B1": 100000, "B2": 200000, "alpha_eff": 0.38224756416117445},
+      {"B1": 200000, "B2": 500000, "alpha_eff": 0.5269635006958688},
+      {"B1": 500000, "B2": 1000000, "alpha_eff": 0.4397645851812206},
+      {"B1": 1000000, "B2": 2000000, "alpha_eff": 0.4813799941075398}
+    ],
+    "decision": "sqrt(B) is a high-priority finite candidate for Stage14-4ad, not a theorem"
+  },
+  "decision": {
+    "STAGE14_4AC_COMPLETE": true,
+    "RATIONAL_SLOPE_HEIGHT_FACTORIZATION_LOCKED": true,
+    "UNIVERSAL_MAX_HEIGHT_SANDWICH_LOCKED": true,
+    "PRIMITIVE_FACE_MULTIPLICITY_FORMULA_LOCKED": true,
+    "PRE_SPACE_LCM_ENVELOPE_POLE_ORDER": 8,
+    "R03_FROZEN_DOWNSTREAM_CONTRACT_ACTIVE": true,
+    "TRUE_GROWTH_ORDER_IDENTIFIED": false,
+    "SQRT_B_FINITE_CANDIDATE_PRIORITY": "HIGH",
+    "NEXT": "Stage14-4ad quantitative square-condition thinning and sqrt(B) test"
+  }
+}

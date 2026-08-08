@@ -1,25 +1,28 @@
 {
   "metadata": {
-    "stage": "14-4ab",
-    "title": "Stage14 proof-input boundary after R03 release",
-    "goal": "permit full reviewed Stage13 R03 machinery while keeping Stage14 intrinsic reductions explicit"
+    "stage": "14-4ac",
+    "title": "Stage14 proof-input boundary after Stage13 downstream freeze",
+    "goal": "use the frozen R03+13-12ag contract while keeping the Stage14 growth-order problem intrinsic"
   },
   "upstream": {
-    "stage13_version": "R03_PLUS_12AG",
+    "stage13_frozen_contract": "R03_PLUS_13_12AG",
+    "freeze_source": "stages/stage13/13-12ah/result.md",
+    "mathematical_content_frozen_at": "c843e039306b40bd3693f89d6199da78c2fb4657",
     "reviewed_snapshot": "STAGE13-FINAL-SELF-CONTAINED-20260809-R03",
     "authoritative_r03_source": "stages/stage13/13-12af/current-proof.md",
     "post_review_supplement": "stages/stage13/13-12ag/result.md",
     "r03_grok_verdict": "CLOSED",
     "r03_qwen_verdict": "CLOSED",
-    "r03_claude_verdict": "NOT_RECORDED_AT_CURRENT_REPO_CHECKPOINT",
-    "full_access_authorized": true,
-    "final_repository_freeze_complete": false,
+    "r03_claude_verdict": "NOT_RECORDED",
+    "r03_copilot_verdict": "PENDING_FINAL_REVIEW",
+    "downstream_mathematical_content_frozen": true,
     "raw_directional_asymptotic_imported": true,
     "pair_overlap_little_o_imported": true,
     "triple_overlap_little_o_imported": true,
     "fixed_local_factor_machinery_available": true,
     "inert_prime_exact_local_state_available": true,
     "weighted_wiener_and_harmonic_machinery_available": true,
+    "finite_order_selberg_delange_boundary_available": true,
     "stage12_directly_used_by_stage14": false
   },
   "imported_results": {
@@ -28,15 +31,7 @@
     "triple_ceiling": "T(B)=o(B(log B)^3)",
     "stage14_consequence": "N_a2,N_b2,N_c2,N_2=o(B(log B)^3)"
   },
-  "intrinsic_stage14_reduction": {
-    "shared_edge": "e",
-    "nonshared_edges": ["x", "y"],
-    "nonshared_order": "x<y",
-    "direction_chambers": {
-      "a": "e<x<y",
-      "b": "x<e<y",
-      "c": "x<y<e"
-    },
+  "intrinsic_stage14_bijection": {
     "oriented_face_data": "F_i=(S_i,X_i,H_i), primitive Pythagorean with S_i distinguished shared leg",
     "g": "gcd(S1,S2)",
     "alpha": "S1/g",
@@ -45,31 +40,71 @@
     "global_gcd_identity": "gcd(e,x,y)=t",
     "primitive_common_scale": "t=1",
     "minimal_gluing": {
-      "e": "g alpha beta = lcm(S1,S2)",
+      "e": "lcm(S1,S2)",
       "x": "beta X1",
       "y": "alpha X2",
       "u": "beta H1",
       "v": "alpha H2"
     },
-    "space_diagonal_condition": "(beta H1)^2+(alpha X2)^2 is a square",
-    "third_triple_independent": false,
-    "third_triple_scale": "gcd(H1,X2)",
     "parameter_fiber_multiplicity_fixed_raw_pair": 1,
-    "minimal_gluing_automatically_primitive": true
+    "third_triple_independent": false
+  },
+  "intrinsic_stage14_height": {
+    "t1": "X1/S1",
+    "t2": "X2/S2",
+    "L": "lcm(S1,S2)",
+    "edge_vector": "(e,x,y)=L(1,t1,t2)",
+    "space_shape_factor": "R=sqrt(1+t1^2+t2^2)",
+    "space_diagonal": "d=L R",
+    "raw_pair_square_conditions": [
+      "1+t1^2 is a rational square",
+      "1+t2^2 is a rational square",
+      "1+t1^2+t2^2 is a rational square"
+    ],
+    "exactly_two_exclusion": "t1^2+t2^2 is not a rational square",
+    "direction_chambers": {
+      "a": "1<t1<t2",
+      "b": "t1<1<t2",
+      "c": "t1<t2<1"
+    },
+    "max_height": "M=L max(1,t2)",
+    "height_sandwich": "M<d<sqrt(3)M"
+  },
+  "arithmetic_envelope": {
+    "face_multiplicity": "a(S)=0 for S<=1 or S=2 mod 4; otherwise 2^(omega(S)-1)",
+    "face_formula_audit_max_S": 1000,
+    "face_formula_audit_pass": true,
+    "pre_space_lcm_envelope": "sum_{lcm(S1,S2)<=B} a(S1)a(S2)",
+    "majorant_weight": "c(n)=2^omega(n)",
+    "majorant_local_factor": "1+8 p^(-s)/(1-p^(-s))^2",
+    "majorant_pole_order": 8,
+    "pre_space_lcm_envelope_scale": "B(log B)^7 at standard finite-order Selberg-Delange level",
+    "pre_space_envelope_is_stage14_population": false
+  },
+  "finite_growth_diagnostic": {
+    "late_range": "B=200000..2000000 frozen cutoffs",
+    "N2_over_sqrtB_mean": 0.2579965123046321,
+    "N2_over_sqrtB_coefficient_of_variation": 0.020528149427336665,
+    "sqrtB_candidate_priority": "HIGH",
+    "sqrtB_asymptotic_claimed": false
   },
   "validation": {
-    "independent_bijection_audit": "stages/stage14/data/14-4/bijection_audit.json",
-    "cutoffs": [1000, 2000, 5000, 10000],
-    "all_match_locked_stage14_census": true
+    "bijection_audit": "stages/stage14/data/14-4/bijection_audit.json",
+    "height_envelope_audit": "stages/stage14/data/14-4/height_envelope_audit.json",
+    "height_identity_census_B": 10000,
+    "height_identity_census_matches_locked_counts": true
   },
   "structural_decision": {
     "STAGE14_4AA_COMPLETE": true,
     "STAGE14_4AB_COMPLETE": true,
-    "R03_FULL_ACCESS_AUTHORIZED": true,
-    "BIJECTIVE_TWO_FACE_PARAMETER_SPACE_LOCKED": true,
+    "STAGE14_4AC_COMPLETE": true,
+    "STAGE13_DOWNSTREAM_MATHEMATICAL_CONTENT_FROZEN": true,
+    "RATIONAL_SLOPE_HEIGHT_FACTORIZATION_LOCKED": true,
+    "UNIVERSAL_MAX_HEIGHT_SANDWICH_LOCKED": true,
+    "PRIMITIVE_FACE_MULTIPLICITY_FORMULA_LOCKED": true,
     "TRUE_GROWTH_ORDER_IDENTIFIED": false,
     "LEADING_CONSTANT_IDENTIFIED": false,
-    "DIRECTIONAL_LIMIT_IDENTIFIED": false,
-    "NEXT": "Stage14-4ac height inequality and arithmetic counting envelope"
+    "SQRT_B_ASYMPTOTIC_CLAIM": false,
+    "NEXT": "Stage14-4ad quantitative square-condition thinning and sqrt(B) test"
   }
 }
