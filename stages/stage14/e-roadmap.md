@@ -8,6 +8,38 @@ The main Stage14 track keeps the integer-space-diagonal condition. Stage14-e del
 
 The e-track must not replace or renumber the existing Stage14-4 / Stage14-5 roadmap.
 
+## Literature-first rule
+
+Stage14-e sits close to the classical rational-cuboid / Euler-brick / nearly-perfect-cuboid literature, and recent work increasingly uses the same Euclid-pair, quartic, elliptic-curve and arithmetic-surface language. Therefore **every e-substage must perform a literature collision audit before promoting a structural statement, parametrization, asymptotic mechanism or novelty claim**.
+
+For each important claim, classify the nearest literature as one of:
+
+```text
+EXACT_COLLISION      = essentially the same object and statement already proved
+ADJACENT_RESULT      = nearby cuboid family or nearby condition, but not the same count
+REUSABLE_METHOD      = method/parametrization can be imported after hypotheses are checked
+NO_COLLISION_FOUND   = no direct prior result found in the searched literature
+```
+
+Rules:
+
+1. search both classical and recent sources, not only perfect-cuboid papers;
+2. include Euler bricks, rational cuboids, nearly-perfect/edge/face cuboids, parametrizations, arithmetic surfaces, elliptic fibrations, search algorithms and counting results;
+3. prefer original papers/preprints and publisher records over secondary summaries;
+4. record exact bibliographic identity and which equation/object overlaps Stage14-e;
+5. do not treat a paper's computation as proof of a Stage14-e claim unless the theorem actually covers the same hypotheses;
+6. do not claim novelty from absence in a quick search; write `NO_COLLISION_FOUND_IN_CURRENT_SEARCH` until a serious survey has been made;
+7. when a useful parametrization is already known, reuse/cite it and spend effort on the new height/counting/directional question rather than rediscovering it;
+8. refresh the literature audit at e2, e3, e4 and e5 because this area is active.
+
+Initial literature seed is maintained in
+
+```text
+stages/stage14/14-e1/literature-seed.md
+```
+
+The initial search already includes Leech's rational-cuboid work, van Luijk's algebraic-surface treatment, nearly-perfect-cuboid parametrizations, rational cuboid parametrizations, recent search/parametric work, and 2026 elliptic/genus-one Euler-brick work. At this checkpoint no direct source has yet been identified that proves the Stage14-e target itself: the primitive shared-edge two-face ambient population counted by real Euclidean height with directionwise asymptotics. This is a **search status, not a novelty theorem**.
+
 ## Locked ambient object
 
 Let `e,x,y` be positive integer edges with `x<y` and
@@ -121,7 +153,7 @@ Thus Stage14-e studies the full primitive two-face gluing family before the main
 
 is imposed.
 
-## 14-e1 — definition, bijection, and independent finite audit
+## 14-e1 — definition, bijection, independent finite audit, literature seed
 
 Status: [>] Active.
 
@@ -134,11 +166,14 @@ Targets:
    - edge-first ambient enumeration;
    - oriented-face-pair ambient enumeration;
 5. require exact agreement of directional counts and third-face-square counts at several small cutoffs;
-6. record finite data only as a diagnostic, not as an asymptotic theorem.
+6. create the initial literature seed and classify direct/adjacent methodological collisions;
+7. record finite data only as a diagnostic, not as an asymptotic theorem.
 
 ## 14-e2 — finite ambient reconnaissance
 
 Status: pending 14-e1.
+
+Literature gate: refresh the search for tables, large enumerations and computational Euler-brick / rational-cuboid work before claiming a new census.
 
 Targets:
 
@@ -151,6 +186,8 @@ Targets:
 ## 14-e3 — total ambient growth
 
 Status: pending 14-e2.
+
+Literature gate: search explicitly for height-counting/asymptotic results on rational cuboids, Pythagorean-pair gluings, lcm-weighted Euclid parameters and related arithmetic varieties before asserting a new growth law.
 
 Targets:
 
@@ -167,6 +204,8 @@ Targets:
 
 Status: pending 14-e3.
 
+Literature gate: search for chamber/shape distributions, geometric height measures and directional statistics in cuboid/Pythagorean families.
+
 Targets:
 
 - determine whether
@@ -180,6 +219,8 @@ Targets:
 ## 14-e5 — space-diagonal filter comparison
 
 Status: pending 14-e4 and sufficient progress in main Stage14.
+
+Literature gate: refresh recent perfect-cuboid/Euler-brick obstruction and elliptic-fibration work before interpreting the square-filter thinning.
 
 This is the bridge back to the main problem.
 
@@ -209,7 +250,7 @@ Targets:
 
 ## Scope boundary
 
-Stage14-e does not assume a perfect cuboid exists or does not exist. It does not infer the main Stage14 growth order from the ambient family. It does not reuse a finite directional fit as an asymptotic law.
+Stage14-e does not assume a perfect cuboid exists or does not exist. It does not infer the main Stage14 growth order from the ambient family. It does not reuse a finite directional fit as an asymptotic law. It does not declare novelty solely because the current literature search found no exact collision.
 
 The e-track is intentionally a control population with one major condition removed.
 
@@ -218,5 +259,7 @@ STAGE14_E_TRACK=DEFINED
 INTEGER_SPACE_DIAGONAL_CONDITION=REMOVED_FROM_E_TRACK
 REAL_SPACE_DIAGONAL_USED_AS_HEIGHT_ONLY=true
 MAIN_STAGE14_NUMBERING_UNCHANGED=true
-NEXT_E_TASK=Stage14-e1 definition bijection and independent finite audit
+LITERATURE_COLLISION_AUDIT_REQUIRED=true
+NOVELTY_BY_ABSENCE_FORBIDDEN=true
+NEXT_E_TASK=Stage14-e1 definition bijection independent finite audit and literature seed
 ```
