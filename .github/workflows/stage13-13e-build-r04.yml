@@ -1,9 +1,10 @@
 name: Stage13-13e build R04 review bundle
 
 on:
-  push:
+  pull_request:
     branches:
-      - agent/stage13-13e-r04-review-bundle
+      - main
+    types: [opened, synchronize, reopened]
     paths:
       - stages/stage13/scripts/13-13e/build_r04_review_bundle.py
       - .github/workflows/stage13-13e-build-r04.yml
@@ -17,6 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.head_ref }}
           fetch-depth: 0
 
       - name: Build immutable R04 bundle
