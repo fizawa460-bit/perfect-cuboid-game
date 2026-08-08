@@ -22,6 +22,12 @@ R02 Qwen:   REPAIRABLE
 13-12ad: quantitative j=0 Wiener / curved / harmonic closure
 13-12ae: exact inert p-adic / local-state closure
 13-12af: R03 proof resynthesis and single-file review bundle
+
+R03 Grok: CLOSED
+R03 Qwen: CLOSED
+R03 Claude: not recorded at this checkpoint
+
+13-12ag: post-R03 proof-explicitness supplement
 ```
 
 Current state:
@@ -30,12 +36,20 @@ Current state:
 STAGE13_12AD=COMPLETE_QUANTITATIVE_J0_ANALYTIC_CLOSURE
 STAGE13_12AE=COMPLETE_EXACT_PADIC_LOCAL_CLOSURE
 STAGE13_12AF=COMPLETE_R03_REVIEW_RESYNTHESIS
-EXACT_ONE_DIRECTIONAL_ASYMPTOTIC=R03_CANDIDATE
-STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R03
-NEXT=EXTERNAL_R03_REVIEW
+STAGE13_12AG=COMPLETE_PROOF_EXPLICITNESS_SUPPLEMENT
+
+R03_GROK_VERDICT=CLOSED
+R03_QWEN_VERDICT=CLOSED
+R03_CLAUDE_VERDICT=NOT_RECORDED
+
+EXACT_ONE_DIRECTIONAL_ASYMPTOTIC=R03_CANDIDATE_WITH_POST_REVIEW_SUPPLEMENT
+STAGE13_GLOBAL_REVIEW_STATUS=TWO_R03_CLOSED_VERDICTS_RECORDED_PENDING_FINAL_FREEZE
+NEXT=FINAL_EXTERNAL_REVIEW_FREEZE_OR_NEW_R04_ONLY_IF_REQUESTED
 ```
 
-No internal label self-declares Stage13 externally `CLOSED`.
+No internal label self-declares Stage13 externally `CLOSED`. The two `CLOSED` labels above are recorded external reviewer outcomes.
+
+Downstream Stage14 may use the R03 theorem candidate as an explicit upstream dependency while final Stage13 freeze bookkeeping remains pending.
 
 ---
 
@@ -63,7 +77,7 @@ C^{\rm proj}_{\rm prim,q}(B)=2A_q(B).
 
 ---
 
-## 13-12 repair sequence
+## 13-12 repair and review sequence
 
 ### 13-12aa — non-circular raw common factor [complete]
 
@@ -151,40 +165,137 @@ The exact constrained local multiplier is
 
 Hence `lambda_p<=3/4` for every inert `p>=7`, and the fixed-set squeeze gives pair/triple overlap lower order.
 
-### 13-12af — R03 resynthesis [complete]
+### 13-12af — R03 resynthesis [complete, reviewed artifact frozen]
 
-Authoritative current proof:
+Authoritative R03 proof:
 
 ```text
 stages/stage13/13-12af/current-proof.md
 ```
 
-Physical single-file target:
+Physical reviewed target:
 
 ```text
 review/STAGE13-FINAL-SELF-CONTAINED-20260809-R03.html
 ```
 
-R03 adds four explicit clarifications requested by Qwen R02:
+R03 adds the requested tag-factor, Stage12-majorant, OE/EE and analytic `J_q=2I_q/pi` clarifications. Grok and Qwen subsequently returned `CLOSED` on the supplied R03 review.
 
-```text
-1. tag factor 2 = safe upper multiplicity only
-2. pre-calibration Stage12 use = error majorant only
-3. OE/EE = branchwise finite 2-adic variants
-4. J_q = 2 I_q / pi = analytic change-of-variables identity
-```
+R03 is immutable after those reviews. Stage13-12ag must not regenerate it.
 
-R03 proof precedence:
+### 13-12ag — post-R03 proof explicitness [complete in this stage]
 
-```text
-13-12af/current-proof.md
--> 13-12ad/result.md
--> 13-12ae/result.md
--> 13-12aa/result.md
--> 13-12ab/result.md
--> 13-12ac/current-proof.md
--> historical support
-```
+This step strengthens presentation without changing the theorem.
+
+#### Full coarea/Fubini chain
+
+For each face `q={i,j}`, use `q`-adapted spherical coordinates
+
+\[
+x_i=\sin\theta\cos\alpha,
+\quad
+x_j=\sin\theta\sin\alpha,
+\quad
+x_k=\cos\theta.
+\]
+
+Then
+
+\[
+w_q=\frac1{\sin\theta},
+\qquad
+d\omega=\sin\theta d\theta d\alpha,
+\]
+
+so
+
+\[
+\boxed{w_qd\omega=d\theta d\alpha}.
+\]
+
+Writing `psi=pi/2-theta` and letting `ell_q(psi)` be the canonical inner-angle slice length gives by Fubini
+
+\[
+I_q=\int\ell_q(\psi)d\psi.
+\]
+
+The outer parameterization gives
+
+\[
+\psi=2\phi-\frac\pi2,
+\qquad
+k_q(\phi)=\frac4\pi\ell_q(\psi),
+\]
+
+and hence
+
+\[
+\boxed{J_q=\frac2\pi I_q}.
+\]
+
+#### Exact inert unit character sum
+
+For `p=3 mod 4`, with `chi` the quadratic character, Stage13-12ag expands
+
+\[
+S=S_0+S_1+S_2+S_3
+\]
+
+and proves
+
+\[
+S_0=0,
+\quad
+S_1=p-1,
+\quad
+S_2=p+1,
+\quad
+S_3=-2.
+\]
+
+Thus
+
+\[
+S=2(p-1).
+\]
+
+Since the total unit population is `T=p^2-1` and exactly four states have `X^2+Z^2=0`,
+
+\[
+\boxed{
+N_{\rm acc}=\frac{T+S+4}{2}=\frac{(p+1)^2}{2}
+}.
+\]
+
+Therefore
+
+\[
+\boxed{\alpha_p=\frac{p+1}{2(p-1)}}
+\]
+
+has an explicit symbolic Legendre/Jacobi-sum proof.
+
+#### Selberg--Delange hypothesis crosswalk
+
+The zero-mode one-variable factors are recorded in theorem-ready form
+
+\[
+A_0(s)=\zeta(s)^1G_h(s),
+\qquad
+B_0(s)=\zeta(s)^2G_b(s),
+\]
+
+with residual Euler quotients `1+O(p^{-2sigma})` for `sigma>1/2`, hence holomorphic arithmetic factors near `s=1` after finite local factors are separated. Stage13-12ad's weighted-Wiener estimate supplies all fixed logarithmic moments needed by the mixed convolution.
+
+For nonzero harmonics,
+
+\[
+A_\ell(s)=L(s,\xi_{8\ell})E_{h,\ell}(s)
+\]
+
+has no zeta pole, and the retained range `ell<=log^4 B` lies inside the already declared polylog-uniform Gaussian-Hecke zero-free input.
+
+The repository therefore clearly separates what Stage13 proves internally from the finite-order Selberg--Delange/Tauberian and Hecke zero-free results taken as standard external analytic inputs.
 
 ---
 
@@ -224,7 +335,7 @@ Stage12 R09 frozen total
         v                    v
 13-3d factor-2 bridge   chamber I_q
         |                    |
-        |              analytic J_q=2I_q/pi
+        |            coarea/Fubini + J_q=2I_q/pi
         +---------+----------+
                   v
             13-12aa
@@ -247,8 +358,14 @@ Stage12 R09 frozen total
                   v
             13-12af R03
                   |
+          Grok/Qwen CLOSED
+                  |
                   v
-         EXTERNAL R03 REVIEW
+            13-12ag
+ explicitness supplement
+                  |
+                  v
+       FINAL FREEZE DECISION
 ```
 
 ## Current status
@@ -257,7 +374,12 @@ Stage12 R09 frozen total
 RAW_DIRECTIONAL_ANALYTIC_CORE=RESTORED_WITH_EXPLICIT_ERROR_BUDGET
 P_ADIC_POSITIVE_VALUATION_TAIL=REPAIRED_EXACTLY
 LOCAL_STATE_REFINEMENT_COMPLETENESS=REPAIRED
-EXACT_ONE_THEOREM_EXTERNAL_STATUS=PENDING_R03_REVIEW
-STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R03
-NEXT=EXTERNAL_R03_REVIEW
+COAREA_IQ_TO_INTERVAL_LENGTH=PROVED_EXPLICITLY
+INERT_UNIT_CHARACTER_SUM=PROVED_SYMBOLICALLY
+SELBERG_DELANGE_HYPOTHESIS_CROSSWALK=RECORDED
+R03_GROK_VERDICT=CLOSED
+R03_QWEN_VERDICT=CLOSED
+EXACT_ONE_THEOREM_EXTERNAL_STATUS=TWO_R03_CLOSED_VERDICTS_RECORDED
+STAGE13_GLOBAL_REVIEW_STATUS=PENDING_FINAL_FREEZE_BOOKKEEPING
+NEXT=FINAL_EXTERNAL_REVIEW_FREEZE_OR_NEW_R04_ONLY_IF_REQUESTED
 ```
