@@ -15,14 +15,16 @@ proof objections:
 1. old 7jb raw `j=0` direction-neutrality was circular;
 2. old 7jf fixed-modulus overlap transfer was insufficiently derived.
 
-The 13-12 repair sequence now addresses both. Historical `STAGE13=COMPLETE`
-flags do not override the current review state.
+The 13-12 repair sequence now addresses both and Stage13-12ac has packaged a
+fresh R02 candidate. Historical `STAGE13=COMPLETE` flags do not override the
+current external-review state.
 
 ```text
 STAGE12_N1_2=FROZEN_R09
 STAGE13_1_THROUGH_10=HISTORICALLY_COMPLETE
 STAGE13_EXTERNAL_REVIEW_R01=OPEN
 STAGE13_REPAIR_CHAIN=COMPLETE
+STAGE13_12AC=COMPLETE_R02_REVIEW_RESYNTHESIS
 STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R02
 ```
 
@@ -57,7 +59,7 @@ C^{\rm proj}_{\rm prim,q}(B)=2A_q(B).
 ### 13-12aa — non-circular raw `j=0` common factor [complete]
 
 Old 7jb seeded the desired categorywise constants and then checked a common
-ratio. 13-12aa replaces that with an independent theorem shape
+ratio. 13-12aa replaces that with the independent theorem shape
 
 \[
 A_q(B)\sim\Theta J_q B(\log B)^3
@@ -71,8 +73,6 @@ calibrate
 \qquad
 A_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
 \]
-
-Status:
 
 ```text
 STAGE13_12AA=COMPLETE_COMMON_FACTOR_REPAIR
@@ -90,9 +90,6 @@ stages/stage13/data/13-12aa/j0_common_factor_audit_report.json
 
 ### 13-12ab — fixed-local overlap transfer [complete]
 
-The old 7jf sentence that a fixed congruence restriction is handled by “the
-same machinery” is superseded by an explicit finite-local-factor lemma.
-
 A fixed local condition refines only one prime's finite local state. For fixed
 `S`, the constrained Fourier-channel Euler product is
 
@@ -102,10 +99,6 @@ A fixed local condition refines only one prime's finite local state. For fixed
 \prod_{p\in S}\frac{L^W_{p,\ell}}{L_{p,\ell}}.
 \]
 
-Thus the zero-mode main is multiplied by fixed local acceptance factors while
-pole orders, the real category kernel and nonzero-harmonic lower-order
-estimates remain unchanged.
-
 For inert primes `p=3 mod 4`, the second-face necessary condition has unit-layer
 acceptance
 
@@ -113,13 +106,8 @@ acceptance
 \frac{p+1}{2(p-1)}=\frac12+\frac1{p-1},
 \]
 
-and the positive-valuation tail is `O(1/p)`. Hence
-
-\[
-\lambda_p\le\frac12+O(1/p),
-\]
-
-so all sufficiently large inert primes have `lambda_p<=3/4`.
+with positive-valuation tail `O(1/p)`. Hence all sufficiently large inert
+primes have `lambda_p<=3/4`.
 
 Fix `k` such primes, take `B->infinity`, then let `k->infinity`. This proves
 
@@ -130,8 +118,6 @@ T(B)=o(B(\log B)^3).
 \]
 
 Therefore the exactly-one theorem is restored from the 13-12aa raw theorem.
-
-Status:
 
 ```text
 STAGE13_12AB=COMPLETE_FIXED_LOCAL_OVERLAP_REPAIR
@@ -150,13 +136,41 @@ stages/stage13/scripts/13-12ab/fixed_local_overlap_audit.py
 stages/stage13/data/13-12ab/fixed_local_overlap_audit_report.json
 ```
 
-### 13-12ac — R02 re-synthesis / external re-review [next]
+### 13-12ac — R02 re-synthesis / external re-review [complete]
 
-Regenerate the Stage13-only single-file bundle with 13-12aa and 13-12ab included
-and with explicit review precedence over the historical 7jb/7jf proof text.
-Request a fresh zero-base external review.
+Stage13-12ac creates a fresh review entrypoint and a new physical R02 bundle.
+R01 is not mutated.
 
-Target review decision:
+Authoritative R02 entrypoint:
+
+```text
+stages/stage13/13-12ac/current-proof.md
+```
+
+Physical review bundle:
+
+```text
+review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html
+```
+
+Machine-readable manifest:
+
+```text
+stages/stage13/data/13-12ac/review_bundle_manifest.json
+```
+
+R02 explicitly neutralizes internal status pressure:
+
+```text
+PREVIOUS_R01_VERDICT_BINDING=false
+INTERNAL_PASS_FLAGS_ARE_EVIDENCE=false
+INTERNAL_COMPLETE_FLAGS_ARE_EVIDENCE=false
+GIT_HASHES_ARE_MATHEMATICAL_EVIDENCE=false
+CI_SUCCESS_IS_MATHEMATICAL_EVIDENCE=false
+NEGATIVE_VERDICT_REQUIRES_EXTRA_BURDEN=false
+```
+
+The target external verdict remains one of
 
 ```text
 CLOSED
@@ -165,7 +179,9 @@ OPEN
 UNREADABLE_SOURCE
 ```
 
-No internal status may substitute for that independent R02 verdict.
+with no preferred outcome.
+
+No internal status may substitute for the independent R02 verdict.
 
 ---
 
@@ -196,7 +212,10 @@ Stage12 R09 frozen total theorem
          EXACT-ONE THEOREM RESTORED
                      |
                      v
-          13-12ac R02 re-review
+         13-12ac R02 BUNDLE
+                     |
+                     v
+            EXTERNAL R02 REVIEW
 ```
 
 ## Current status
@@ -205,6 +224,7 @@ Stage12 R09 frozen total theorem
 RAW_DIRECTIONAL_THEOREM=RESTORED_BY_13_12AA
 EXACT_ONE_DIRECTIONAL_THEOREM=RESTORED_BY_13_12AB
 STAGE13_REPAIR_CHAIN=COMPLETE
+STAGE13_12AC=COMPLETE_R02_REVIEW_RESYNTHESIS
 STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R02
-NEXT=Stage13-12ac
+NEXT=EXTERNAL_STAGE13_R02_REVIEW
 ```
