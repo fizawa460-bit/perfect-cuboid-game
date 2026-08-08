@@ -7,6 +7,7 @@ from pathlib import Path
 
 E7_PATH = Path('stages/stage14/data/14-e7/secondary_crossover_audit.json')
 OUT = Path('stages/stage14/data/14-e8/euler_brick_thin_count_audit.json')
+REPORT_CUTOFFS = {2000, 10000, 50000, 200000, 1000000}
 
 
 def pythagorean_triple_count(B: int) -> int:
@@ -29,12 +30,10 @@ def max_tau_square(N: int) -> tuple[int, int]:
     spf = list(range(N + 1))
     if N >= 1:
         spf[1] = 1
-    r = math.isqrt(N)
-    for p in range(2, r + 1):
+    for p in range(2, math.isqrt(N) + 1):
         if spf[p] != p:
             continue
-        start = p * p
-        for k in range(start, N + 1, p):
+        for k in range(p * p, N + 1, p):
             if spf[k] == k:
                 spf[k] = p
 
@@ -79,21 +78,21 @@ def main() -> None:
     e7 = json.loads(E7_PATH.read_text())
     dense = e7['dense_exact_census']
 
-    # The e7 raw/exact ledger already independently recomputed all 17 cutoffs.
-    # For every primitive Euler brick there are exactly three raw shared-edge incidences.
+    # Frozen e7 exact census: every primitive Euler brick contributes exactly
+    # three raw shared-edge incidences.
     for row in dense:
         assert row['raw_total'] - row['E2'] == 3 * row['euler_bricks']
 
     cutoffs = [r['B'] for r in dense]
     pyth_counts = {B: pythagorean_triple_count(B) for B in cutoffs}
 
-    rows = []
+    all_rows = []
     for r in dense:
         B = r['B']
         bricks = r['euler_bricks']
         raw = r['raw_total']
         incidence = 3 * bricks
-        rows.append({
+        all_rows.append({
             'B': B,
             'euler_bricks': bricks,
             'third_face_square_incidences': incidence,
@@ -108,8 +107,8 @@ def main() -> None:
     max_B = cutoffs[-1]
     tau_max, tau_arg = max_tau_square(max_B)
     finite_divisor_envelope = pyth_counts[max_B] * tau_max / 2
-
-    fits = [loglog_fit(rows, b) for b in (2000, 10000, 50000, 100000, 200000)]
+    fits = [loglog_fit(all_rows, b) for b in (2000, 10000, 50000, 100000, 200000)]
+    rows = [r for r in all_rows if r['B'] in REPORT_CUTOFFS]
 
     report = {
         'metadata': {
@@ -117,7 +116,9 @@ def main() -> None:
             'height': 'D_R=sqrt(a^2+b^2+c^2)<=B',
             'population': 'primitive unordered Euler bricks',
             'max_B': max_B,
-            'number_of_cutoffs': len(rows),
+            'number_of_cutoffs': len(dense),
+            'source_number_of_cutoffs': len(dense),
+            'number_of_reported_cutoffs': len(rows),
         },
         'geometry': {
             'projective_model': [
@@ -155,9 +156,9 @@ def main() -> None:
         'finite_power_fits': fits,
         'finite_summary': {
             'B': max_B,
-            'euler_bricks': rows[-1]['euler_bricks'],
-            'bricks_over_sqrt_B': rows[-1]['bricks_over_sqrt_B'],
-            'third_face_square_incidence_fraction': rows[-1]['third_face_square_incidence_fraction'],
+            'euler_bricks': all_rows[-1]['euler_bricks'],
+            'bricks_over_sqrt_B': all_rows[-1]['bricks_over_sqrt_B'],
+            'third_face_square_incidence_fraction': all_rows[-1]['third_face_square_incidence_fraction'],
             'global_2k_to_1m_effective_power_exponent': fits[0]['effective_power_exponent'],
             'interpretation': 'sqrt(B)-scale remains a finite candidate only; fitted exponents drift and no power-law asymptotic is claimed',
         },
@@ -181,7 +182,7 @@ def main() -> None:
     }
 
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
+    OUT.write_text(json.dumps(report, sort_keys=True, separators=(',', ':')) + '\n')
     print(json.dumps(report['status'], indent=2, sort_keys=True))
 
 
