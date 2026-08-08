@@ -1,6 +1,6 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13D_COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT_13_13E_NEXT`
+> STATUS: `STAGE13_13E_COMPLETE_R04_REVIEW_BUNDLE_13_13F_NEXT`
 >
 > PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, externally reviewed and finally frozen theorem package.
 >
@@ -103,7 +103,7 @@ STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 UNMAPPED_EXTERNAL_INPUTS=0
 FAILED_EXTERNAL_HYPOTHESES=0
 MINIMAL_EXTERNAL_BOUNDARY_LOCKED=true
-GENERAL_SELBURG_DELANGE_BLACK_BOX_REQUIRED=false
+GENERAL_SELBERG_DELANGE_BLACK_BOX_REQUIRED=false
 GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED_FOR_FINAL_PROOF=false
 GROWING_MODULUS_INPUT_USED=false
 THEOREM_CHANGED=false
@@ -130,7 +130,7 @@ stages/stage13/13-13c/stage13-final-proof.md
 stages/stage13/13-13c/result.md
 ```
 
-Canonical proof order:
+The proof is ordered as one chain:
 
 ```text
 definitions + exact inclusion-exclusion
@@ -176,7 +176,7 @@ stages/stage13/13-13d/result.md
 
 The deterministic audit reproduces the chamber integrals and normalized direction vector, verifies `J_q=2I_q/pi`, checks the exact B=100000 Stage12 factor-two/inclusion-exclusion fixture, directly enumerates inert unit states at p=7,11,19,23, verifies the exact local multiplier, requires all canonical theorem-lock tokens, and scans the mathematical core for superseded `7jb/7jf` routes or stale soft local formulas.
 
-Lock:
+Historical completion lock for the 13-13d transition:
 
 ```text
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
@@ -199,27 +199,36 @@ This stage is reproducibility/consistency evidence only, not numerical evidence 
 
 ## 13-13e — R04 self-contained review bundle
 
-Status: `[>] Next`.
+Status: `[x] Complete`.
 
-Purpose: generate a new immutable final-review snapshot without mutating R03.
-
-The R04 bundle must be reviewable without repository browsing and must include:
-
-- theorem statement and counting convention;
-- frozen Stage12 interface;
-- full canonical proof;
-- external-theorem crosswalk/minimal boundary;
-- deterministic 13-13d consistency summary;
-- exact scope and limitations.
-
-Expected artifacts:
+Immutable review target:
 
 ```text
-review/STAGE13-FINAL-SELF-CONTAINED-<date>-R04.html
-stages/stage13/13-13e/review-manifest.md
+BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260809-R04
+SOURCE_SNAPSHOT_COMMIT=f652833d194bade57794e4c03c184928a54a31b9
+CONTENT_SHA256=789656b5bb2190ae62cf2dcae7a3da06ece4f473780a1229ba7284b10b7f4f1b
+BUNDLE_PATH=review/STAGE13-FINAL-SELF-CONTAINED-20260809-R04.html
+R04_IMMUTABLE=true
+R03_IMMUTABLE=true
+THEOREM_CHANGED=false
+DETERMINISTIC_AUDIT_STATUS=PASS
 ```
 
-Minimum lock:
+Artifacts:
+
+```text
+review/STAGE13-FINAL-SELF-CONTAINED-20260809-R04.html
+stages/stage13/13-13e/review-manifest.md
+stages/stage13/13-13e/result.md
+stages/stage13/scripts/13-13e/build_r04_review_bundle.py
+.github/workflows/stage13-13e-build-r04.yml
+```
+
+The HTML is self-contained and embeds the full canonical proof, the external-theorem crosswalk, the 13-13a dependency-lock result, the 13-13d consistency result and its machine-readable JSON. The generator reads each embedded source with `git show` from the fixed source snapshot commit so unrelated parallel changes cannot modify the review target.
+
+Any substantive review repair must create R05/R06 rather than mutate R04.
+
+Completion lock:
 
 ```text
 STAGE13_13E=COMPLETE_R04_REVIEW_BUNDLE
@@ -232,14 +241,23 @@ NEXT=13-13f
 
 ## 13-13f — external-review ingestion and repair gate
 
-Status: `[ ] Pending R04 reviewer feedback`.
+Status: `[>] Next — awaiting R04 reviewer feedback`.
 
 Policy:
 
 - target independent Grok, Qwen and Claude review when available;
 - final freeze requires at least two independent `CLOSED` verdicts on the final bundle;
 - any received unresolved theorem-level objection blocks 13-13g;
-- substantive repair creates a new immutable R05/R06 bundle rather than mutating an old bundle.
+- stylistic suggestions may be recorded without reopening mathematics;
+- substantive repair creates a new immutable R05/R06 bundle rather than mutating R04.
+
+Possible reviewer states:
+
+```text
+CLOSED
+REPAIRABLE
+OPEN
+```
 
 Minimum lock:
 
@@ -296,7 +314,9 @@ STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
+STAGE13_13E=COMPLETE_R04_REVIEW_BUNDLE
 CANONICAL_CONSTANTS_REPRODUCED=true
 STALE_SUPERSEDED_FORMULAS_IN_CANONICAL_FILES=0
-NEXT=13-13e
+R04_IMMUTABLE=true
+NEXT=13-13f
 ```

@@ -1,0 +1,39 @@
+name: Stage13-13e build R04 review bundle
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [opened, synchronize, reopened]
+    paths:
+      - stages/stage13/scripts/13-13e/build_r04_review_bundle.py
+      - .github/workflows/stage13-13e-build-r04.yml
+
+permissions:
+  contents: write
+
+jobs:
+  build-r04:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Build immutable R04 bundle
+        run: python stages/stage13/scripts/13-13e/build_r04_review_bundle.py
+
+      - name: Commit generated R04 artifacts
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add review/STAGE13-FINAL-SELF-CONTAINED-20260809-R04.html \
+                  stages/stage13/13-13e/review-manifest.md \
+                  stages/stage13/13-13e/result.md
+          if git diff --cached --quiet; then
+            echo "R04 artifacts already reproducible"
+          else
+            git commit -m "Stage13-13e generate immutable R04 bundle [skip ci]"
+            git push
+          fi
