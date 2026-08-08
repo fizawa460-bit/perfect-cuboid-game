@@ -16,9 +16,9 @@ pre { white-space: pre-wrap; overflow-wrap: anywhere; border: 1px solid #8888; b
 <main id="review-bundle-main">
 <div class="meta"><pre>BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260808-R01
 COMPLETED_THROUGH=Stage13-11
-SOURCE_SNAPSHOT_COMMIT=9a37e263ba8bf0151f909b07696681945389b3d4
-SOURCE_LEDGER_SHA256=04f0de1758500b990eb42efe0796e1657c526da824fe188ddb1db7e0cfb7b6cf
-CONTENT_SHA256=10af89b0dedaec1f21a70a70442ceabefb0be7216d4c09cac791612b56ff8a3c
+SOURCE_SNAPSHOT_COMMIT=fc8f2fefe976b034611caa5004af55a91d45493e
+SOURCE_LEDGER_SHA256=22b6f6546910274398c55d4a14cf58d2e7bfdb6a463dccf5592b0e1b45610b4a
+CONTENT_SHA256=d164b287d431995be9f94cb23ffaa6be8484de1fc553b8f46a0125979be60909
 DOCUMENT_STATUS=SELF_CONTAINED_AT_FROZEN_STAGE12_INPUT_BOUNDARY
 CHECKPOINT=START_OF_MAIN</pre></div>
 <h1>Stage13 final self-contained review bundle R01</h1>
@@ -27,8 +27,8 @@ CHECKPOINT=START_OF_MAIN</pre></div>
 
 BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260808-R01
 COMPLETED_THROUGH=Stage13-11
-SOURCE_SNAPSHOT_COMMIT=9a37e263ba8bf0151f909b07696681945389b3d4
-SOURCE_LEDGER_SHA256=04f0de1758500b990eb42efe0796e1657c526da824fe188ddb1db7e0cfb7b6cf
+SOURCE_SNAPSHOT_COMMIT=fc8f2fefe976b034611caa5004af55a91d45493e
+SOURCE_LEDGER_SHA256=22b6f6546910274398c55d4a14cf58d2e7bfdb6a463dccf5592b0e1b45610b4a
 DOCUMENT_STATUS=SELF_CONTAINED_AT_FROZEN_STAGE12_INPUT_BOUNDARY
 CHECKPOINT=START_OF_MAIN
 
@@ -97,7 +97,7 @@ CHECKPOINT=BEFORE_EMBEDDED_SOURCES
 |---:|---|---|---:|
 | 1 | `stages/stage12/final.md` | `0576782083dd2b77d23255f7260c5866f2b1e7c1` | 137114 |
 | 2 | `stages/stage12/manifest-r09.md` | `7cb99081abba7f866f023c8e536f9815ac14ba71` | 3757 |
-| 3 | `stages/stage13/13-11-review-bundle.md` | `473d788e1d33d146021071fb7b0fb3f8a8f90a34` | 3299 |
+| 3 | `stages/stage13/13-11-review-bundle.md` | `2a3c9cda11a32dcc2085ba163f25cbb2bbd5692e` | 3866 |
 | 4 | `stages/stage13/README.md` | `35af678d88ba42360a3a24ca32ad9ed10b68cec8` | 4581 |
 | 5 | `stages/stage13/data/13-10/final_explanation_audit_report.json` | `d90e6cf2e548c4b2571d240e057ea3c4f61edd3f` | 2926 |
 | 6 | `stages/stage13/data/13-3/boundary_stability_report.json` | `ceae999e7ca5766c11b6017b8310d5cd7f0b8ff4` | 5181 |
@@ -7121,11 +7121,11 @@ ADDITIONAL_EXTERNAL_REVIEW=NOT_REQUIRED_AS_PROJECT_GATE
 # EMBEDDED SOURCE 3/93
 
 PATH=stages/stage13/13-11-review-bundle.md
-GIT_BLOB_SHA=473d788e1d33d146021071fb7b0fb3f8a8f90a34
+GIT_BLOB_SHA=2a3c9cda11a32dcc2085ba163f25cbb2bbd5692e
 
 # Stage13-11 — self-contained external review bundle
 
-&gt; **STATUS:** `STAGE13_11_ACTIVE_REVIEW_PACKAGING`
+&gt; **STATUS:** `STAGE13_11_COMPLETE_SELF_CONTAINED_REVIEW_BUNDLE`
 &gt;
 &gt; **MATHEMATICS_CHANGED:** `false`
 &gt;
@@ -7135,7 +7135,7 @@ GIT_BLOB_SHA=473d788e1d33d146021071fb7b0fb3f8a8f90a34
 
 Stage13-11 does not introduce a new mathematical theorem. It packages the completed Stage13 proof chain into one physical HTML file that an external AI or human reviewer can audit from a single URL.
 
-The target bundle is
+The review bundle is
 
 ```text
 review/STAGE13-FINAL-SELF-CONTAINED-20260808-R01.html
@@ -7145,6 +7145,12 @@ with bundle identity
 
 ```text
 BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260808-R01
+```
+
+Its machine-readable integrity ledger is
+
+```text
+stages/stage13/data/13-11/review_bundle_manifest.json
 ```
 
 ## Review boundary
@@ -7158,6 +7164,7 @@ It physically embeds:
 - Stage13 policy, roadmap, README and initial definition/decomposition documents;
 - every active Stage13 audit/reproducibility script predating 13-11;
 - every active Stage13 JSON/text audit report predating 13-11;
+- this Stage13-11 packaging note;
 - the deterministic Stage13-11 bundle builder itself.
 
 It deliberately does not embed the entire Stage12 historical archive. Stage12 R09 is treated as the already-frozen prior-stage theorem-level input. The reviewer must verify that Stage13 states and uses that input correctly, but is not asked to re-prove all of Stage12 inside the Stage13 review.
@@ -7179,7 +7186,7 @@ CHECKPOINT=END_OF_MAIN
 END_OF_BUNDLE
 ```
 
-The builder is deterministic with respect to the source snapshot and source ledger.
+The builder is deterministic with respect to the source snapshot and source ledger. Output-only commits are excluded from `SOURCE_SNAPSHOT_COMMIT`, preventing the generated bundle from recursively changing its own source identity.
 
 ## Review protocol
 
@@ -7196,9 +7203,9 @@ For `REPAIRABLE` or `OPEN`, findings should be classified as `FATAL`, `MAJOR` or
 
 The central checks are the canonical definition, chamber density, direction-neutral arithmetic factors, Stage12-to-Stage13 factor-2 projection, lower-order overlap theorem, main vector asymptotic, normalized limit, and scope/non-claims.
 
-## User decisions
+## R01 defaults
 
-No additional user decision is required for R01. Stage13-11 fixes the following defaults:
+No additional user decision was required for R01. Stage13-11 fixes:
 
 ```text
 REVIEW_MODE=FULL_ZERO_BASE_STAGE13
@@ -7211,14 +7218,29 @@ VERDICT_PROTOCOL=CLOSED_REPAIRABLE_OPEN_UNREADABLE_SOURCE
 
 If an external review later returns a repairable finding, a subsequent `R02` bundle should be generated from the repaired source snapshot rather than mutating R01 in place.
 
-## Completion condition
+## Completion
 
-Stage13-11 is complete when the physical HTML and JSON manifest are committed, their deterministic verification passes, and the review URL is available from the repository/GitHub Pages.
+The physical HTML and JSON manifest are generated and committed by
 
 ```text
+.github/workflows/stage13-11-self-contained-review.yml
+```
+
+using
+
+```text
+stages/stage13/scripts/13-11/build_self_contained_review.py
+```
+
+The workflow verifies the bundle markers, source count, physical size floor, and no-runtime-dependency status before committing the generated outputs.
+
+```text
+STAGE13_11=COMPLETE_SELF_CONTAINED_REVIEW_BUNDLE
 STAGE13_11_MATHEMATICAL_THEOREM=false
 STAGE13_11_REVIEW_PACKAGING=true
+STAGE13_MATHEMATICS_CHANGED=false
 STAGE13_INDEPENDENT_REVIEW_COMPLETED=false
+NEXT=EXTERNAL_STAGE13_R01_REVIEW
 ```
 
 
@@ -23120,7 +23142,7 @@ CHECKPOINT=END_OF_MAIN
 END_OF_BUNDLE=STAGE13-FINAL-SELF-CONTAINED-20260808-R01
 </pre>
 <div class="meta"><pre>CHECKPOINT=END_OF_MAIN
-CONTENT_SHA256=10af89b0dedaec1f21a70a70442ceabefb0be7216d4c09cac791612b56ff8a3c
+CONTENT_SHA256=d164b287d431995be9f94cb23ffaa6be8484de1fc553b8f46a0125979be60909
 END_OF_BUNDLE=STAGE13-FINAL-SELF-CONTAINED-20260808-R01</pre></div>
 </main>
 </body>
