@@ -1,0 +1,56 @@
+{
+  "finite_exact_checks": {
+    "H_parameter_max": 24,
+    "exact_factorization_failures": 0,
+    "homogeneous_quartic_failures": 0,
+    "kummer_identity_failures": 0,
+    "positive_integral_square_cases": 18,
+    "reduced_positive_parameter_pairs": 32041
+  },
+  "homogeneous_integer_form": {
+    "condition": "W^2=(u^2 n^2-m^2 v^2)(u^2 m^2-v^2 n^2)",
+    "denominator_note": "the rational denominator (vn)^4 is already a square, so the rational and integer square conditions are equivalent",
+    "linear_factorization": "W^2=(un-mv)(un+mv)(um-vn)(um+vn)",
+    "parameters": "s=u/v, t=m/n with gcd(u,v)=gcd(m,n)=1"
+  },
+  "kummer_transform": {
+    "change": "U=st, V=s/t, Z=Vw",
+    "equation": "Z^2=U(U^2-1)V(V^2-1)=(U^3-U)(V^3-V)",
+    "geometry": "birational Kummer surface attached to E x E with E: y^2=x^3-x"
+  },
+  "literature_boundary": {
+    "bonolis_browning_2021": "Their square-sieve framework gives uniform rational-point bounds on hyperelliptic fibrations, but no direct specialization has been verified that respects the primitive coupled height below with the needed o(B(log B)^3) strength.",
+    "chan_2024": "The total number of non-torsion integral points on E_D for squarefree D<N is O(N(log N)^(-1/4+eps)). Our Kummer points generally have rational x-coordinates with square denominators, so an additional denominator/discriminant-lowering step is required before this theorem can close the face-cuboid count.",
+    "heath_brown_1993": "For squarefree D in each odd residue class mod 8, the average of 2^{Selmer-rank} is 3 plus a logarithmically saving error; hence the average 2^{rank} is bounded. This controls descent complexity, not the required rational-point denominator heights by itself."
+  },
+  "metadata": {
+    "scope": "exact coupled square-condition and Kummer/twist reduction; no overlap lower-order theorem is claimed",
+    "stage": "13-7je"
+  },
+  "quadratic_twist_interpretation": {
+    "coordinate_map": "if U^3-U=D*y^2, then (X,Y)=(DU,D^2 y) lies on E_D",
+    "meaning": "face cuboids become pairs of rational points on one common congruent-number twist",
+    "statement": "For every nondegenerate rational solution there is a squarefree squareclass D such that U^3-U=D*y1^2 and V^3-V=D*y2^2.",
+    "twist": "E_D: Y^2=X^3-D^2 X"
+  },
+  "remaining_problem": {
+    "form": "count coprime u,v,m,n satisfying the displayed four-linear-factor square condition together with the primitive coupled height from face_cuboid_primitive_height_report.json",
+    "promising_route": "average the common-twist rational points using 2-descent while retaining denominator height, or apply a square-sieve directly to the four linear factors in dyadic coupled-height boxes",
+    "target": "F(B)=o(B(log B)^3)"
+  },
+  "status": {
+    "congruent_number_twist_reduction_exact": true,
+    "coupled_square_condition_exact": true,
+    "exact_one_directional_limit_identified": false,
+    "kummer_self_product_identified": true,
+    "next": "Stage13-7jf",
+    "pair_overlap_lower_order_proved": false
+  },
+  "yoshida_elimination": {
+    "alpha": "2s(s^2-1)(1+st)/(s-t)",
+    "degenerate_exclusions": "s,t in {0,+-1} and s=t are excluded by the nondegenerate face-cuboid construction",
+    "elliptic_family": "beta^2=alpha(alpha-4s^2)(alpha+(s^2-1)^2)",
+    "exact_factorization": "beta^2=[2s(s^2-1)(s^2+1)/(s-t)^2]^2 *(s^2-t^2)(s^2t^2-1)",
+    "square_condition": "w^2=(s^2-t^2)(s^2t^2-1)"
+  }
+}
