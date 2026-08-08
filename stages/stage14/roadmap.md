@@ -24,56 +24,63 @@ Status: [x] Complete.
 
 Status: [x] Complete.
 
-Two materially different exact generation routes agree through `B=2,000,000`.
+Two materially different exact cuboid-generation routes agree through `B=2,000,000`.
 
-## 14-3 — Finite directional-ratio reconnaissance
+## 14-3 — Finite directional reconnaissance
 
 Status: [x] Complete.
 
-The coarse `a/c=7/4` pattern failed dense-grid inspection. The last verified `a/b` crossing occurs at `d=1,148,545`, after which `a>b` persists only through the finite ceiling `B=2,000,000`.
-
 No finite fit was promoted to an asymptotic theorem.
+
+## Stage13 upstream status for Stage14-4
+
+Stage13 R03 is now fully available as an upstream proof map, together with Stage13-12ag.
+
+```text
+UPSTREAM_STAGE13_VERSION=R03_PLUS_12AG
+R03_GROK_VERDICT=CLOSED
+R03_QWEN_VERDICT=CLOSED
+R03_FULL_ACCESS_AUTHORIZED=true
+UPSTREAM_STAGE13_FINAL_REPOSITORY_FREEZE=false
+```
+
+Available imported statements/machinery include:
+
+- raw directional asymptotics;
+- fixed-local-factor transfer;
+- exact inert-prime local states and multiplier;
+- quantitative weighted-Wiener / harmonic closure;
+- pair/triple lower-order theorem.
+
+Therefore Stage14 may use
+
+\[
+O_{qr}(B)=o(B(\log B)^3),\qquad T(B)=o(B(\log B)^3),
+\]
+
+and hence
+
+\[
+\boxed{N_2(B)=o(B(\log B)^3)}.
+\]
+
+This is an inherited ceiling, not the true growth order.
 
 ## 14-4 — True total growth order
 
 Status: [>] Active.
 
-Current provisional upstream assumption:
-
-```text
-UPSTREAM_STAGE13_VERSION=R02
-UPSTREAM_STAGE13_STATUS=ASSUMED_PROVISIONALLY
-UPSTREAM_STAGE13_FINAL_EXTERNAL_FREEZE=false
-STAGE13_R03_USED=false
-```
-
-The imported statement is only the Stage13 R02 directional raw asymptotic candidate
-
-\[
-A_q(B)\sim \frac{\kappa I_q}{3\pi^3}B(\log B)^3.
-\]
-
-The R02 pair-overlap and triple-overlap little-o claims are not imported in 14-4aa.
-
-### 14-4aa — independent two-face parametrization and proof-input audit
+### 14-4aa — independent two-face parametrization
 
 Status: [x] Complete.
 
-Use generic coordinates with shared edge `e` and nonshared edges `x<y`:
+A raw pair object has shared edge `e`, nonshared edges `x<y`, and four attached right triangles
 
-\[
-e^2+x^2=u^2,\qquad
- e^2+y^2=v^2,\qquad
- u^2+y^2=d^2.
-\]
+```text
+(e,x,u), (e,y,v), (u,y,d), (v,x,d)
+```
 
-Then automatically
-
-\[
-v^2+x^2=d^2.
-\]
-
-The three directions are the chamber positions of `e`:
+with only three independent Pythagorean equations. The three Stage14 directions are the chamber positions
 
 ```text
 a: e<x<y
@@ -81,69 +88,118 @@ b: x<e<y
 c: x<y<e
 ```
 
-So all three directions share one arithmetic object.
+on one common arithmetic object.
 
-Each raw pair object carries four right triangles
+### 14-4ab — representation multiplicity and matching reduction
 
-```text
-(e,x,u), (e,y,v), (u,y,d), (v,x,d)
-```
+Status: [x] Complete.
 
-with only three independent equations.
-
-Using primitive Euclid bases and arbitrary positive scales, the two face triples satisfy the shared-edge fiber-product equation
+Take two oriented primitive face data
 
 \[
-k_1L_{\sigma_1}(m,n)=k_2L_{\sigma_2}(r,s),
+F_1=(S_1,X_1,H_1),\qquad F_2=(S_2,X_2,H_2),
 \]
 
-with four role charts `DD,DP,PD,PP`. A third Euclid triple imposes the space diagonal by matching
+and put
 
 \[
-k_1H(m,n)=k_3L_{\sigma_3}(p,q),
-\qquad
-k_2L_{\bar\sigma_2}(r,s)=k_3L_{\bar\sigma_3}(p,q).
+g=(S_1,S_2),\qquad \alpha=S_1/g,\qquad \beta=S_2/g.
 \]
 
-Global cuboid primitivity is applied **after** gluing:
+The shared-edge scale equation has the complete solution
 
 \[
-\gcd(e,x,y)=1.
+k_1=t\beta,\qquad k_2=t\alpha.
 \]
 
-The scales must not be forced to one.
+The minimal gluing
+
+\[
+e_0=g\alpha\beta,\qquad x_0=\beta X_1,\qquad y_0=\alpha X_2
+\]
+
+satisfies
+
+\[
+\gcd(e_0,x_0,y_0)=1,
+\]
+
+so
+
+\[
+\boxed{\gcd(e,x,y)=t}.
+\]
+
+Thus primitive cuboids force `t=1`, while the physical face scales remain
+
+\[
+k_1=\beta,\qquad k_2=\alpha.
+\]
+
+The exact bijective raw-pair parameter space is
+
+\[
+\boxed{
+\begin{aligned}
+e&=\operatorname{lcm}(S_1,S_2),\\
+x&=\beta X_1,\\
+y&=\alpha X_2,\\
+d^2&=\beta^2H_1^2+\alpha^2X_2^2,
+\end{aligned}}
+\]
+
+subject to `x<y`, the exact square test for `d`, and `d<=B`.
+
+The third Euclid triple is recovered uniquely and is not an independent parameter. Its scale is
+
+\[
+\boxed{k_3=\gcd(H_1,X_2)}.
+\]
+
+For a fixed raw pair incidence,
+
+\[
+\boxed{\text{parameter-fiber multiplicity}=1}.
+\]
+
+Independent face-pair enumeration reproduces the locked finite census at `B=1k,2k,5k,10k`.
 
 Artifacts:
 
 ```text
-stages/stage14/archive/stage14-4aa-parametrization-input-audit.md
+stages/stage14/archive/stage14-4ab-matching-reduction.md
+stages/stage14/scripts/14-4/bijection_audit.py
+stages/stage14/data/14-4/bijection_audit.json
 stages/stage14/data/14-4/proof_input_audit.json
 ```
 
 Decision:
 
 ```text
-STAGE14_4AA=COMPLETE
-ONE_GENERIC_ARITHMETIC_OBJECT_FOR_ALL_THREE_DIRECTIONS=true
-EUCLID_SHARED_EDGE_FIBER_PRODUCT_LOCKED=true
-THIRD_PYTHAGOREAN_GLUING_LOCKED=true
+STAGE14_4AB=COMPLETE
+R03_FULL_ACCESS_AUTHORIZED=true
+SHARED_EDGE_SCALE_SOLUTION_EXACT=true
+GLOBAL_COMMON_SCALE_EQUALS_CUBOID_GCD=true
+PRIMITIVE_COMMON_SCALE_T=1=true
+MINIMAL_GLUING_AUTOMATICALLY_PRIMITIVE=true
+FIXED_RAW_PAIR_PARAMETER_FIBER_MULTIPLICITY=1
+THIRD_EUCLID_TRIPLE_INDEPENDENT=false
+BIJECTIVE_TWO_FACE_PARAMETER_SPACE_LOCKED=true
 TRUE_GROWTH_ORDER_IDENTIFIED=false
-UNIQUE_PARAMETERIZATION=false
-BOUNDED_PARAMETER_MULTIPLICITY=false
 ```
 
-### 14-4ab — representation multiplicity and explicit matching-variable reduction
+### 14-4ac — height inequality and arithmetic counting envelope
 
 Status: [>] Next.
 
 Purpose:
 
-- determine the exact/controlled multiplicity of the three-triple Euclid representation;
-- isolate duplicate symmetries from genuine arithmetic multiplicity;
-- solve the shared-edge scale equation in gcd/lcm variables;
-- rewrite the remaining two matching equations as an explicit divisibility/counting problem;
-- preserve the three chamber inequalities separately from the arithmetic core;
-- do not guess the growth exponent yet.
+- rewrite `d<=B` explicitly in the two-face primitive parameters;
+- isolate the roles of `g=gcd(S1,S2)`, `alpha`, `beta`, and cross-gcd `gcd(H1,X2)`;
+- identify which variables create divisor/logarithmic multiplicity;
+- use the full Stage13 R03 local/harmonic machinery where genuinely applicable;
+- derive a rigorous counting envelope sharper than the inherited `o(B(log B)^3)` ceiling if possible;
+- only then test candidate true growth orders.
 
 ## 14-5 — Directionwise asymptotic structure
 
@@ -151,8 +207,8 @@ Status: pending Stage14-4.
 
 ## Scope boundary
 
-No true growth exponent, leading constant, limiting directional ratio, eventual leader, Euler-side equality, or perfect-cuboid nonexistence result is currently established for Stage14.
+No true growth exponent, leading constant, limiting directional ratio, eventual leader, Euler-side two-face equality, or perfect-cuboid nonexistence result is yet established for Stage14.
 
 ```text
-NEXT=Stage14-4ab representation multiplicity and explicit matching-variable reduction
+NEXT=Stage14-4ac height inequality and arithmetic counting envelope
 ```
