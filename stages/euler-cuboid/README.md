@@ -2,17 +2,15 @@
 
 > **ROLE:** independent research track beside the existing space-diagonal-first stages
 >
-> **STATUS:** bootstrap / population enumeration
+> **STATUS:** E-1b finite population profile complete
 >
 > **IMPORTANT:** this track does not modify or reinterpret the active `stages/stage13/` work.
 
 ## 1. Purpose
 
-This directory starts the **face-diagonal-first** side of the perfect-cuboid research.
+This directory is the **face-diagonal-first** side of the perfect-cuboid research.
 
-The existing Stage13 line approaches the problem from the space-diagonal side. This track deliberately starts from the opposite direction: count and classify integer-edge cuboids having integral **face diagonals**, without requiring the space diagonal to be integral.
-
-The first target mirrors the existing exactly-one-face analysis, but removes the space-diagonal-integrality condition entirely.
+The existing Stage13 line approaches the problem from the space-diagonal side. This track starts from the opposite direction: count and classify integer-edge cuboids having integral **face diagonals**, without requiring the space diagonal to be integral.
 
 ```text
 exactly one integral face
@@ -22,90 +20,106 @@ exactly one integral face
     -> later compare with the perfect-cuboid condition
 ```
 
-## 2. Canonical notation
+## 2. Canonical counting convention
 
-Use positive integer edges in canonical order
+E-1a locks positive integer edges in canonical order
 
 ```text
 0 < a < b < c
 ```
 
-and, unless a task explicitly says otherwise, primitive normalization
+with primitive normalization
 
 ```text
 gcd(a,b,c) = 1.
 ```
 
-Define the three face diagonals
+Define
 
 ```text
 d_ab^2 = a^2 + b^2
 d_ac^2 = a^2 + c^2
 d_bc^2 = b^2 + c^2
+D^2    = a^2 + b^2 + c^2.
 ```
 
-and the space diagonal only as a recorded quantity
+Use the same geometric space-diagonal height as the space-diagonal-first track:
 
 ```text
-D^2 = a^2 + b^2 + c^2.
+D <= B
 ```
 
-For this track's initial population counts, **integrality of `D` is not an acceptance condition**.
-
-## 3. Initial exactly-one populations
-
-Define the three primitive canonical populations by which single face diagonal is integral.
-
-### `ab`
+implemented exactly as
 
 ```text
-d_ab is integral
-d_ac is nonintegral
-d_bc is nonintegral
+a^2+b^2+c^2 <= B^2.
 ```
 
-### `ac`
+The crucial Euler-side difference is that **`D` need not be an integer**.
+
+Full definition:
 
 ```text
-d_ac is integral
-d_ab is nonintegral
-d_bc is nonintegral
+stages/euler-cuboid/E-1a/definition.md
 ```
 
-### `bc`
+## 3. Exactly-one populations
 
 ```text
-d_bc is integral
-d_ab is nonintegral
-d_ac is nonintegral
+N_ab(B): d_ab integral; d_ac,d_bc nonintegral
+N_ac(B): d_ac integral; d_ab,d_bc nonintegral
+N_bc(B): d_bc integral; d_ab,d_ac nonintegral
+N_1(B) = N_ab+N_ac+N_bc
 ```
 
-Write the corresponding counts, once a cutoff is fixed, as
+## 4. E-1b finite enumeration
+
+E-1b enumerates all three populations under one common cutoff. At `B=10000`:
 
 ```text
-N_ab
-N_ac
-N_bc
+N_ab = 31,593,274
+N_ac = 14,373,282
+N_bc = 16,389,285
+N_1  = 62,355,841
 ```
 
-The immediate question is the size and directional ratio of these three populations when the space-diagonal condition is absent.
-
-## 4. Bootstrap plan
+so
 
 ```text
-E-1a  fix the counting object, cutoff and primitive convention
-E-1b  enumerate the ab-only population
-E-1c  enumerate the ac-only population
-E-1d  enumerate the bc-only population
-E-1e  combine and compare N_ab : N_ac : N_bc
-E-1f  audit overlaps, boundary effects and normalization
+N_ab:N_ac:N_bc
+≈ 1.927679 : 0.876993 : 1.
 ```
 
-The first stage should establish reliable finite population data before introducing asymptotic claims.
+The normalized vector is
 
-## 5. Next structural step
+```text
+(ab,ac,bc)
+≈ (0.5066610, 0.2305042, 0.2628348).
+```
 
-After the exactly-one populations are understood, introduce the three exactly-two-face types
+Across `B=100` through `B=10000`, both `ab/bc` and `ac/bc` increase toward the finite shape `2:1:1`. This is an observation only; no limiting theorem is claimed.
+
+The optimized enumerator is independently checked against literal canonical triple enumeration at `B=20,30,50,80`, with exact agreement in every direction.
+
+Result and assets:
+
+```text
+stages/euler-cuboid/E-1b/result.md
+stages/euler-cuboid/scripts/E-1b/population_enumeration.py
+stages/euler-cuboid/data/E-1b/population_report.json
+```
+
+## 5. Roadmap
+
+```text
+E-1a  counting object / primitive convention / common D<=B cutoff       [complete]
+E-1b  enumerate ab/ac/bc exactly-one populations and first profile       [complete]
+E-1c  cutoff scaling and directional-ratio analysis                      [next]
+E-1d  structural explanation of the directional profile
+E-1e  finite/asymptotic synthesis of the exactly-one Euler-side layer
+```
+
+After the exactly-one layer is understood, move to the three exactly-two-face types
 
 ```text
 ab+ac
@@ -113,27 +127,17 @@ ab+bc
 ac+bc
 ```
 
-and finally the three-face condition
-
-```text
-d_ab, d_ac, d_bc all integral,
-```
-
-which is the Euler-brick population.
-
-The space diagonal remains a separate condition until a later explicit bridge to the perfect-cuboid problem.
+and finally the Euler-brick population where all three face diagonals are integral.
 
 ## 6. Separation from the space-diagonal track
-
-Keep this directory logically independent from `stages/stage13/` while both investigations are active.
 
 ```text
 stages/stage13/       space-diagonal-first side
 stages/euler-cuboid/  face-diagonal-first / Euler side
 ```
 
-No active Stage13 file is changed merely to start this track.
+The two sides use the same geometric height `D<=B`; the Euler side simply removes the condition `D in Z`. No active Stage13 file is changed by this track.
 
-## 7. Immediate next task
+## 7. Next
 
-Start with `E-1a`: lock the exact finite counting definition and cutoff, then enumerate the three `ab / ac / bc` exactly-one populations under the same convention.
+`E-1c`: extend and analyze the finite cutoff profile, with particular attention to whether the observed movement toward `2:1:1` persists or eventually bends toward a different directional law.

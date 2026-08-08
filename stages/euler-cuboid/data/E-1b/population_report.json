@@ -1,0 +1,102 @@
+{
+  "counting_convention": {
+    "canonical_order": "0<a<b<c",
+    "cutoff": "a^2+b^2+c^2<=B^2",
+    "primitive": "gcd(a,b,c)=1",
+    "space_diagonal_note": "D=sqrt(a^2+b^2+c^2) need not be integral"
+  },
+  "inclusion_exclusion": {
+    "ab": "N_ab=A_ab-O_ab_ac-O_ab_bc+T",
+    "ac": "N_ac=A_ac-O_ab_ac-O_ac_bc+T",
+    "bc": "N_bc=A_bc-O_ab_bc-O_ac_bc+T"
+  },
+  "metadata": {
+    "scope": "finite primitive canonical exactly-one face population profile",
+    "space_diagonal_integrality_required": false,
+    "stage": "E-1b"
+  },
+  "rows": [
+    {
+      "B": 100,
+      "bc_normalized_ratio": {"ab": 1.4850299401197604, "ac": 0.6526946107784432, "bc": 1.0},
+      "exact_one": {"ab": 1240, "ac": 545, "bc": 835},
+      "exact_one_total": 2620,
+      "pair_overlap": {"ab_ac": 12, "ab_bc": 29, "ac_bc": 15},
+      "proportion": {"ab": 0.4732824427480916, "ac": 0.20801526717557253, "bc": 0.3187022900763359},
+      "raw_incidence": {"ab": 1281, "ac": 572, "bc": 879},
+      "triple_overlap": 0
+    },
+    {
+      "B": 200,
+      "bc_normalized_ratio": {"ab": 1.6192226890756303, "ac": 0.7064075630252101, "bc": 1.0},
+      "exact_one": {"ab": 6166, "ac": 2690, "bc": 3808},
+      "exact_one_total": 12664,
+      "pair_overlap": {"ab_ac": 39, "ab_bc": 75, "ac_bc": 58},
+      "proportion": {"ab": 0.4868919772583702, "ac": 0.2124131396083386, "bc": 0.30069488313329124},
+      "raw_incidence": {"ab": 6280, "ac": 2787, "bc": 3941},
+      "triple_overlap": 0
+    },
+    {
+      "B": 500,
+      "bc_normalized_ratio": {"ab": 1.7206118874870437, "ac": 0.771471460738411, "bc": 1.0},
+      "exact_one": {"ab": 48141, "ac": 21585, "bc": 27979},
+      "exact_one_total": 97705,
+      "pair_overlap": {"ab_ac": 172, "ab_bc": 325, "ac_bc": 198},
+      "proportion": {"ab": 0.49271787523668187, "ac": 0.22092011667775446, "bc": 0.28636200808556367},
+      "raw_incidence": {"ab": 48636, "ac": 21953, "bc": 28500},
+      "triple_overlap": 2
+    },
+    {
+      "B": 1000,
+      "bc_normalized_ratio": {"ab": 1.7865858089939357, "ac": 0.806587585494069, "bc": 1.0},
+      "exact_one": {"ab": 221249, "ac": 99887, "bc": 123839},
+      "exact_one_total": 444975,
+      "pair_overlap": {"ab_ac": 505, "ab_bc": 838, "ac_bc": 510},
+      "proportion": {"ab": 0.49721669756727904, "ac": 0.22447777965054216, "bc": 0.2783055227821788},
+      "raw_incidence": {"ab": 222587, "ac": 100897, "bc": 125182},
+      "triple_overlap": 5
+    },
+    {
+      "B": 2000,
+      "bc_normalized_ratio": {"ab": 1.83445604364349, "ac": 0.8316099684197584, "bc": 1.0},
+      "exact_one": {"ab": 999707, "ac": 453195, "bc": 544961},
+      "exact_one_total": 1997863,
+      "pair_overlap": {"ab_ac": 1349, "ab_bc": 2143, "ac_bc": 1341},
+      "proportion": {"ab": 0.5003881647540397, "ac": 0.22683987841008116, "bc": 0.2727719568358791},
+      "raw_incidence": {"ab": 1003192, "ac": 455878, "bc": 548438},
+      "triple_overlap": 7
+    },
+    {
+      "B": 5000,
+      "bc_normalized_ratio": {"ab": 1.8924680373524738, "ac": 0.8600682701670637, "bc": 1.0},
+      "exact_one": {"ab": 7188977, "ac": 3267168, "bc": 3798731},
+      "exact_one_total": 14254876,
+      "pair_overlap": {"ab_ac": 4889, "ab_bc": 7383, "ac_bc": 4471},
+      "proportion": {"ab": 0.5043170491276108, "ac": 0.2291965219479987, "bc": 0.2664864289243905},
+      "raw_incidence": {"ab": 7201238, "ac": 3276517, "bc": 3810574},
+      "triple_overlap": 11
+    },
+    {
+      "B": 10000,
+      "bc_normalized_ratio": {"ab": 1.9276786022086991, "ac": 0.876992620483444, "bc": 1.0},
+      "exact_one": {"ab": 31593274, "ac": 14373282, "bc": 16389285},
+      "exact_one_total": 62355841,
+      "pair_overlap": {"ab_ac": 12482, "ab_bc": 18216, "ac_bc": 11022},
+      "proportion": {"ab": 0.5066610199355662, "ac": 0.23050418003343104, "bc": 0.26283480003100274},
+      "raw_incidence": {"ab": 31623954, "ac": 14396768, "bc": 16418505},
+      "triple_overlap": 18
+    }
+  ],
+  "status": {
+    "E_1B_complete": true,
+    "largest_B": 10000,
+    "next": "E-1c finite-profile scaling and directional-ratio analysis",
+    "small_B_bruteforce_validation": true
+  },
+  "validation": [
+    {"B": 20, "brute": {"ab": 23, "ac": 10, "bc": 20}, "fast": {"ab": 23, "ac": 10, "bc": 20}, "match": true},
+    {"B": 30, "brute": {"ab": 67, "ac": 27, "bc": 52}, "fast": {"ab": 67, "ac": 27, "bc": 52}, "match": true},
+    {"B": 50, "brute": {"ab": 239, "ac": 107, "bc": 144}, "fast": {"ab": 239, "ac": 107, "bc": 144}, "match": true},
+    {"B": 80, "brute": {"ab": 729, "ac": 317, "bc": 488}, "fast": {"ab": 729, "ac": 317, "bc": 488}, "match": true}
+  ]
+}
