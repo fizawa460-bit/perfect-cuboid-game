@@ -98,9 +98,16 @@ jobs:
         run: |
           python - <<'PY'
           import hashlib
+          import json
           from pathlib import Path
-          path = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html')
-          digest = hashlib.sha256(path.read_bytes()).hexdigest()
-          assert digest == 'e75136805f0d4d7cfc2466b08e403eb2c895ebb1bce67564cabd24a216a682d0', digest
-          print('R02 frozen content SHA256: PASS')
+          html = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html')
+          manifest = json.loads(Path('stages/stage13/data/13-12ac/review_bundle_manifest.json').read_text())
+          assert manifest['bundle_id'] == 'STAGE13-FINAL-SELF-CONTAINED-20260808-R02'
+          assert manifest['content_sha256'] == 'e75136805f0d4d7cfc2466b08e403eb2c895ebb1bce67564cabd24a216a682d0'
+          assert manifest['source_count'] == 98
+          assert manifest['html_bytes'] == 947019
+          assert html.stat().st_size == 947019
+          physical_sha = hashlib.sha256(html.read_bytes()).hexdigest()
+          assert physical_sha == '78d491f6135a1f53edbe341866fda932f2b094cb87e61e6e3e415032102a1690'
+          print('R02 frozen manifest identity and physical SHA256: PASS')
           PY
