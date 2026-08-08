@@ -1,0 +1,39 @@
+name: Stage13-13fa q-independence finite audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fa/**'
+      - 'stages/stage13/scripts/13-13fa/**'
+      - 'stages/stage13/data/13-13fa/**'
+      - 'stages/stage13/data/13-7/deviation_scaling_report.json'
+      - 'stages/stage13/data/13-7/parity_g_scaling_report.json'
+      - 'stages/stage13/13-13c/stage13-final-proof.md'
+      - 'stages/stage13/13-12aa/result.md'
+      - '.github/workflows/stage13-13fa-q-independence.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'stages/stage13/13-13fa/**'
+      - 'stages/stage13/scripts/13-13fa/**'
+      - 'stages/stage13/data/13-13fa/**'
+      - 'stages/stage13/data/13-7/deviation_scaling_report.json'
+      - 'stages/stage13/data/13-7/parity_g_scaling_report.json'
+      - 'stages/stage13/13-13c/stage13-final-proof.md'
+      - 'stages/stage13/13-12aa/result.md'
+      - '.github/workflows/stage13-13fa-q-independence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify finite discrepancy and common-Theta locks
+        run: python stages/stage13/scripts/13-13fa/q_independence_finite_audit.py --check-report
