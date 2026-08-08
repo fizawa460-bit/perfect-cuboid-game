@@ -155,23 +155,29 @@ is imposed.
 
 ## 14-e1 — definition, bijection, independent finite audit, literature seed
 
-Status: [>] Active.
+Status: [x] Complete.
 
-Targets:
+Completed:
 
-1. lock the raw and exactly-two ambient counting conventions;
-2. prove that the Stage14-4ab two-face gluing is still a bijection after the space-diagonal square condition is removed;
-3. prove that the real-height formula above is exact and direction-neutral;
-4. implement two materially different finite enumerators:
+1. locked the raw and exactly-two ambient counting conventions;
+2. proved that the Stage14-4ab two-face gluing remains a bijection after the space-diagonal square condition is removed;
+3. proved that the real-height formula above is exact and direction-neutral;
+4. implemented two materially different finite enumerators:
    - edge-first ambient enumeration;
    - oriented-face-pair ambient enumeration;
-5. require exact agreement of directional counts and third-face-square counts at several small cutoffs;
-6. create the initial literature seed and classify direct/adjacent methodological collisions;
-7. record finite data only as a diagnostic, not as an asymptotic theorem.
+5. obtained exact agreement of directional counts and third-face-square counts at all audited cutoffs through `B=2000`;
+6. created the initial literature seed and classified direct/adjacent methodological collisions;
+7. made no asymptotic claim from the finite data.
+
+Canonical e1 result:
+
+```text
+stages/stage14/14-e1/result.md
+```
 
 ## 14-e2 — finite ambient reconnaissance
 
-Status: pending 14-e1.
+Status: [>] Next.
 
 Literature gate: refresh the search for tables, large enumerations and computational Euler-brick / rational-cuboid work before claiming a new census.
 
@@ -256,10 +262,11 @@ The e-track is intentionally a control population with one major condition remov
 
 ```text
 STAGE14_E_TRACK=DEFINED
+STAGE14_E1=COMPLETE_DEFINITION_BIJECTION_AND_FINITE_AUDIT
 INTEGER_SPACE_DIAGONAL_CONDITION=REMOVED_FROM_E_TRACK
 REAL_SPACE_DIAGONAL_USED_AS_HEIGHT_ONLY=true
 MAIN_STAGE14_NUMBERING_UNCHANGED=true
 LITERATURE_COLLISION_AUDIT_REQUIRED=true
 NOVELTY_BY_ABSENCE_FORBIDDEN=true
-NEXT_E_TASK=Stage14-e1 definition bijection independent finite audit and literature seed
+NEXT_E_TASK=Stage14-e2 finite ambient reconnaissance plus refreshed literature audit
 ```
