@@ -1,0 +1,96 @@
+name: Stage14-e6 explicit Peyre/Tamagawa constant
+
+on:
+  push:
+    branches:
+      - agent/stage14-e6-explicit-peyre-constant
+    paths:
+      - 'stages/stage14/14-e6/**'
+      - 'stages/stage14/scripts/14-e6/**'
+      - 'stages/stage14/data/14-e6/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e6-explicit-peyre-constant.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e6/**'
+      - 'stages/stage14/scripts/14-e6/**'
+      - 'stages/stage14/data/14-e6/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e6-explicit-peyre-constant.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute explicit Peyre/Tamagawa constant
+        run: |
+          cp stages/stage14/data/14-e6/explicit_peyre_constant_audit.json /tmp/e6_expected.json
+          python stages/stage14/scripts/14-e6/explicit_peyre_constant_audit.py
+
+      - name: Verify deterministic e6 report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/e6_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e6/explicit_peyre_constant_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          assert actual['effective_cone']['alpha'] == '1/2880'
+          assert actual['effective_cone']['six_dimensional_slice_volume_leq_1'] == '1/17280'
+          assert actual['cohomological_factor']['beta'] == '1'
+          assert actual['archimedean_normalization']['exact_scale_relative_to_e4_Mq'] == '1/4'
+          assert actual['finite_local_factors']['p2_tamagawa_factor'] == '9/64'
+          assert actual['euler_product']['rational_prefactor'] == '1/81920'
+          lo = float(actual['euler_product']['lambda_E_lower'])
+          hi = float(actual['euler_product']['lambda_E_upper'])
+          assert 8.6079e-7 < lo < hi < 8.6082e-7
+          clo = float(actual['leading_constants']['total']['lower'])
+          chi = float(actual['leading_constants']['total']['upper'])
+          assert 1.4795e-6 < clo < chi < 1.4796e-6
+          assert actual['status']['GLOBAL_ARITHMETIC_CONSTANT_LAMBDA_E_EVALUATED'] is True
+          assert actual['status']['SECONDARY_ASYMPTOTIC_PROVED'] is False
+          print('Stage14-e6 deterministic constant audit: PASS')
+          PY
+
+      - name: Verify proof and literature boundary
+        run: |
+          grep -F 'STAGE14_E6=COMPLETE_EXPLICIT_PEYRE_TAMAGAWA_CONSTANT' stages/stage14/14-e6/result.md
+          grep -F 'ALPHA_Y=1/2880' stages/stage14/14-e6/result.md
+          grep -F 'PHYSICAL_P2_FACTOR=9/64' stages/stage14/14-e6/result.md
+          grep -F 'GLOBAL_ARITHMETIC_CONSTANT_LAMBDA_E_EVALUATED=true' stages/stage14/14-e6/result.md
+          grep -F 'Batyrev--Tschinkel' stages/stage14/14-e6/literature-constant-audit.md
+          grep -F 'Peyre' stages/stage14/14-e6/literature-constant-audit.md
+          grep -F 'Huang' stages/stage14/14-e6/literature-constant-audit.md
+          grep -F 'DIRECT_STAGE14_E6_CONSTANT=NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e6/literature-constant-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e6/literature-constant-audit.md
+
+      - name: Verify frozen e4 inputs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          e4 = json.loads(Path('stages/stage14/data/14-e4/directional_tamagawa_audit.json').read_text())
+          assert e4['status']['STAGE14_E4'] == 'COMPLETE_DIRECTIONAL_ASYMPTOTIC'
+          assert e4['status']['EXACTLY_TWO_FULL_MAIN_TERM_EXISTENCE_PROVED'] is True
+          assert e4['chamber_masses']['a'] == 0.7295086229844189
+          assert e4['chamber_masses']['b'] == 0.6753521849589658
+          assert e4['chamber_masses']['c'] == 0.3139356465617057
+          assert e4['chamber_masses']['total'] == 1.7187964545050902
+          print('Stage14-e4 input lock: PASS')
+          PY
+
+      - name: Verify supplement roadmap
+        run: |
+          grep -F 'STAGE14_E6=COMPLETE_EXPLICIT_PEYRE_TAMAGAWA_CONSTANT' stages/stage14/e-supplement-roadmap.md
+          grep -F 'GLOBAL_ARITHMETIC_CONSTANT_LAMBDA_E_EVALUATED=true' stages/stage14/e-supplement-roadmap.md
+          grep -F 'NEXT_E_SUPPLEMENT=Stage14-e7 secondary asymptotics / finite crossover' stages/stage14/e-supplement-roadmap.md
