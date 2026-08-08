@@ -1,6 +1,6 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13F_BLOCKED_R04_REPAIR_REQUIRED`
+> STATUS: `STAGE13_13F_R05_REPAIR_GATE_A_COMPLETE_GATE_B_NEXT`
 >
 > PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, externally reviewed and finally frozen theorem package.
 >
@@ -17,6 +17,14 @@ The user may dispatch by token alone:
 13-13d
 13-13e
 13-13f
+13-13fa
+13-13fb
+13-13fc
+13-13fd
+13-13fe
+13-13ff
+13-13fg
+13-13fh
 13-13g
 ```
 
@@ -73,7 +81,7 @@ STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 UNMAPPED_EXTERNAL_INPUTS=0
 FAILED_EXTERNAL_HYPOTHESES=0
 MINIMAL_EXTERNAL_BOUNDARY_LOCKED=true
-GENERAL_SELBURG_DELANGE_BLACK_BOX_REQUIRED=false
+GENERAL_SELBERG_DELANGE_BLACK_BOX_REQUIRED=false
 GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED_FOR_FINAL_PROOF=false
 GROWING_MODULUS_INPUT_USED=false
 THEOREM_CHANGED=false
@@ -130,11 +138,11 @@ Any substantive review repair must create R05/R06 rather than mutate R04.
 
 ---
 
-## 13-13f — external-review ingestion and repair gate
+## 13-13f — external-review ingestion and R05 repair gate
 
-Status: `[!] BLOCKED — R04 repair required`.
+Status: `[!] BLOCKED — R05 repairs in progress`.
 
-Recorded R04 verdicts:
+Recorded R04 verdicts remain historical review facts:
 
 ```text
 GROK_R04_VERDICT=CLOSED
@@ -148,28 +156,63 @@ R04_REPAIR_REQUIRED=true
 PROMOTE_TO_13_13G=false
 ```
 
-Claude's primary objection is the unresolved relationship between the finite directional data, which remain close to `2:1:1`, and the theorem candidate's non-`2:1:1` limiting vector. R04 does not quantitatively show that the observed discrepancy is compatible with its remainder or independently exclude a missing q-dependent leading arithmetic factor. Claude also requests explicit closure of the `529 p^{-5/4}` Wiener bound and the accumulation of curved-region box errors.
-
-DeepSeek independently judges the main strategy plausible but R04 insufficiently self-contained and proof-explicit. It requires repair of the same Wiener and box-error steps plus retained-harmonic uniformity, the complete Stage12 counting/factor-two interface, exact imported Hecke/Vaaler contracts, the fixed-prime transfer, notation/local-factor definitions, and the scope wording of the deterministic audit.
-
 The active repair plan is:
 
 ```text
 stages/stage13/13-13f/r05-repair-plan.md
 ```
 
-Its mandatory gates are:
+### 13-13fa — Gate A: finite discrepancy + q-independence
 
-1. finite directional discrepancy + q-independence audit;
-2. explicit Wiener bound derivation;
-3. explicit curved-region/box error accumulation;
-4. explicit retained-harmonic conductor/log bookkeeping;
-5. complete Stage12 R09 counting and factor-two interface;
-6. precise external Hecke/Dirichlet/Vaaler contracts;
-7. expanded fixed inert-prime transfer;
-8. notation cleanup and deterministic-audit scope clarification.
+Status: `[x] Complete`.
 
-If the q-independence audit finds a genuine leading-factor defect, reopen the theorem contract. If the theorem survives unchanged, produce a new immutable R05 bundle containing the repairs and obtain fresh external reviews on R05. R04 verdicts do not automatically count toward the R05 freeze.
+The audit combines retained exact-one checkpoints from `B=1000` through `B=5000000` and retraces the non-circular common-`Theta` proof.
+
+Endpoint diagnostic:
+
+```text
+B=100000:
+  L1 distance to 2:1:1       = 0.015515086591680
+  L1 distance to claimed P   = 0.067914621089948
+
+B=5000000:
+  L1 distance to 2:1:1       = 0.023705817456749
+  L1 distance to claimed P   = 0.061874500485977
+```
+
+Thus the finite endpoint trajectory moves away from exact `2:1:1` and modestly toward the claimed vector; finite data are not a logical contradiction to the asymptotic theorem. No monotonicity claim is made.
+
+The leading arithmetic chain was retraced through the primitive `j=0` local coefficient, mixed correction, OE/EE/parity factors, curved zero mode, nonzero-harmonic lower-order step, and only then Stage12 total calibration. No q-dependent leading arithmetic factor was found at the current proof level.
+
+Crucially, the theorem still supplies only a little-`o` remainder and **no effective convergence rate** capable of numerically predicting the discrepancy at `B<=5m`. R05 must state that limitation explicitly.
+
+```text
+STAGE13_13FA=COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT
+FINITE_DATA_CONTRADICTS_THEOREM=false
+LEADING_Q_DEPENDENT_ARITHMETIC_FACTOR_FOUND=false
+COMMON_THETA_AUDIT=PASS_AT_CURRENT_PROOF_LEVEL
+PROVED_EFFECTIVE_CONVERGENCE_RATE=false
+FINITE_DISCREPANCY_QUANTITATIVELY_EXPLAINED_BY_PROVED_REMAINDER=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R04_IMMUTABLE=true
+R05_REQUIRED=true
+```
+
+This internal repair audit does not rewrite the historical Claude/DeepSeek R04 verdicts. Fresh review will be required on R05.
+
+### Remaining R05 gates
+
+```text
+13-13fb  [>] explicit Wiener bound derivation
+13-13fc  [ ] curved-region / box error accumulation
+13-13fd  [ ] retained-harmonic conductor/log bookkeeping
+13-13fe  [ ] complete Stage12 R09 counting and factor-two interface
+13-13ff  [ ] precise external Hecke/Dirichlet/Vaaler contracts
+13-13fg  [ ] expanded fixed inert-prime transfer
+13-13fh  [ ] notation cleanup + deterministic-audit scope + R05 synthesis readiness
+```
+
+If a later repair uncovers a genuine theorem-level defect, reopen the theorem contract. Otherwise, after all gates, produce a new immutable R05 bundle and obtain fresh independent reviews on R05. R04 verdicts do not automatically count toward the R05 freeze.
 
 13-13f can close only when the final reviewed bundle satisfies:
 
@@ -181,12 +224,12 @@ UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
 Until then:
 
 ```text
-STAGE13_13F=BLOCKED_R04_REPAIR_REQUIRED
+STAGE13_13F=BLOCKED_R05_REPAIR_IN_PROGRESS
 R04_IMMUTABLE=true
-R05_REQUIRED_IF_THEOREM_SURVIVES_AUDIT=true
+R05_REQUIRED=true
 R05_FRESH_REVIEW_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13f
+NEXT=13-13fb
 ```
 
 ---
@@ -222,20 +265,18 @@ Stage13-13 does not:
 A later Stage12 cleanup/final-proof resynthesis is a separate track.
 
 ```text
-STAGE13_13_ROADMAP=ACTIVE_BLOCKED_REVIEW_GATE
+STAGE13_13_ROADMAP=ACTIVE_BLOCKED_R05_REPAIR
 NUMERIC_ONLY_DISPATCH=true
 STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
 STAGE13_13E=COMPLETE_R04_REVIEW_BUNDLE
-STAGE13_13F=BLOCKED_R04_REPAIR_REQUIRED
-GROK_R04_VERDICT=CLOSED
-CLAUDE_R04_VERDICT=OPEN
-DEEPSEEK_R04_VERDICT=REPAIRABLE
-QWEN_R04_VERDICT=NOT_RECORDED
-UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
-R04_REPAIR_REQUIRED=true
+STAGE13_13F=BLOCKED_R05_REPAIR_IN_PROGRESS
+STAGE13_13FA=COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R04_IMMUTABLE=true
+R05_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13f
+NEXT=13-13fb
 ```

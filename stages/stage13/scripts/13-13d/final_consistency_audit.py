@@ -178,11 +178,14 @@ def build_report() -> dict:
     ]
     stale_core_hits = [token for token in stale_tokens if token in core]
 
+    # 13-13d is a completed historical audit.  Its CI must verify that the
+    # completion lock remains present, but it must not pin the *current*
+    # roadmap NEXT token forever; later 13-13e/f repair stages legitimately
+    # advance that token.
     roadmap_tokens = [
         "STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT",
         "CANONICAL_CONSTANTS_REPRODUCED=true",
         "STALE_SUPERSEDED_FORMULAS_IN_CANONICAL_FILES=0",
-        "NEXT=13-13e",
     ]
     missing_roadmap_tokens = require_tokens(roadmap, roadmap_tokens)
 
