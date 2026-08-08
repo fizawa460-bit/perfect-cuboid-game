@@ -48,7 +48,7 @@ Define the real Euclidean height
 D_{\mathbf R}=\sqrt{e^2+x^2+y^2}\le B.
 \]
 
-No condition is imposed that `D_R` be rational or integral.
+**No condition whatsoever is imposed that `D_R` be an integer or rational.**
 
 The exactly-two ambient population further requires
 
@@ -245,6 +245,7 @@ STAGE14_E2=COMPLETE_FINITE_AMBIENT_RECONNAISSANCE
 MAX_E_RECON_B=1000000
 INTEGER_SPACE_DIAGONAL_CONDITION=REMOVED_FROM_E_TRACK
 REAL_SPACE_DIAGONAL_USED_AS_HEIGHT_ONLY=true
+MAIN_STAGE14_NUMBERING_UNCHANGED=true
 LITERATURE_COLLISION_AUDIT_REQUIRED=true
 NOVELTY_BY_ABSENCE_FORBIDDEN=true
 B_LOG3_FINITE_CANDIDATE_PRIORITY=HIGH
