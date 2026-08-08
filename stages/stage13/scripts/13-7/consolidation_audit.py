@@ -73,9 +73,12 @@ def build_report() -> dict:
     assert close(sum(C.values()), 1.0 / math.pi)
     assert close(lambdas["ab"], math.pi * sum(K.values()))
 
-    # Use the support report as an independent cross-check of the common scale factor.
-    support_lambda = float(support["primitive_support_transition"]["Lambda_numeric"])
+    # Independent 7ja cross-checks of the preprimitive constants and survival factor.
+    for q in ("ab", "ac", "bc"):
+        assert close(C[q], float(support["preprimitive_asymptotic"][q]["constant"]))
+    support_lambda = float(support["effective_primitive_survival"]["Lambda"])
     assert close(lambdas["ab"], support_lambda)
+    assert support["effective_primitive_survival"]["category_independent"] is True
 
     kappa_diag = float(raw["frozen_stage12_total"]["kappa_prime_product_diagnostic"])
     D = {
