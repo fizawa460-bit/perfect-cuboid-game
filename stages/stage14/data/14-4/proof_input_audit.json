@@ -1,41 +1,26 @@
 {
   "metadata": {
-    "stage": "14-4ad",
-    "title": "Stage14 proof boundary after elliptic-fibration reduction",
-    "goal": "separate the frozen R03 zero-density input from the new global height problem controlling the true two-face exponent"
+    "stage": "14-4ae",
+    "title": "Stage14 proof boundary after fiber-height and generic-rank analysis",
+    "goal": "separate the structural square-root fiber height from the still-open specialization and triple-subtraction problems"
   },
   "upstream": {
     "stage13_frozen_contract": "R03_PLUS_13_12AG",
     "freeze_source": "stages/stage13/13-12ah/result.md",
     "mathematical_content_frozen_at": "c843e039306b40bd3693f89d6199da78c2fb4657",
-    "reviewed_snapshot": "STAGE13-FINAL-SELF-CONTAINED-20260809-R03",
-    "r03_grok_verdict": "CLOSED",
-    "r03_qwen_verdict": "CLOSED",
-    "r03_claude_verdict": "NOT_RECORDED",
-    "r03_copilot_verdict": "PENDING_FINAL_REVIEW",
-    "downstream_mathematical_content_frozen": true,
     "raw_directional_asymptotic_imported": true,
     "pair_overlap_little_o_imported": true,
     "triple_overlap_little_o_imported": true,
-    "fixed_local_factor_machinery_available": true,
-    "inert_prime_exact_local_state_available": true,
-    "weighted_wiener_and_harmonic_machinery_available": true,
-    "stage12_directly_used_by_stage14": false
+    "inert_local_multiplier": "lambda_p=(p+5)/(2(p+1))",
+    "fixed_prime_quantifier_order": "fix finite prime set; B->infinity; then prime-set size -> infinity",
+    "growing_modulus_imported": false,
+    "power_saving_imported": false
   },
   "imported_results": {
     "raw_directional": "A_q(B) ~ kappa I_q/(3 pi^3) B(log B)^3",
     "pair_ceiling": "O_qr(B)=o(B(log B)^3)",
     "triple_ceiling": "T(B)=o(B(log B)^3)",
-    "stage14_consequence": "N_a2,N_b2,N_c2,N_2=o(B(log B)^3)",
-    "inert_local_multiplier": "lambda_p=(p+5)/(2(p+1))",
-    "fixed_prime_quantifier_order": "fix finite prime set; B->infinity; then prime-set size -> infinity"
-  },
-  "not_imported_from_stage13": {
-    "growing_modulus_uniformity": false,
-    "explicit_power_saving_for_pair_overlap": false,
-    "sqrtB_upper_bound": false,
-    "sqrtB_lower_bound": false,
-    "true_two_face_growth_order": false
+    "stage14_ceiling": "N_2(B)=o(B(log B)^3)"
   },
   "intrinsic_stage14_coordinates": {
     "face_data": "F_i=(S_i,X_i,H_i)",
@@ -49,48 +34,62 @@
   },
   "elliptic_reduction": {
     "product_pythagorean_identity": "(X1 X2)^2+(g d)^2=(H1 H2)^2",
-    "rho_i": "Xi/Hi",
     "normalized_square_condition": "1-(rho1 rho2)^2 is a rational square",
-    "fixed_first_face_parameter": "rho=rho1",
-    "second_circle_parameter": "rho2=2q/(1+q^2)",
-    "jacobi_quartic": "W^2=q^4+2Aq^2+1 with A=1-2rho^2",
-    "nonsingularity": "A^2-1=-4rho^2(1-rho^2) != 0",
-    "cubic_model": "2V^2=U^3-2AU^2+(A^2-1)U",
-    "legendre_type_model": "Y^2=X(X-1)(X+t1^2)",
-    "j_invariant": "256(1+t1^2+t1^4)^3/(t1^4(1+t1^2)^2)",
+    "jacobi_quartic": "W^2=q^4+2Aq^2+1, A=1-2rho1^2",
+    "elliptic_fiber": "Y^2=X(X-1)(X+t1^2)",
+    "j_invariant_nonconstant": true,
     "non_isotrivial": true,
-    "global_bottleneck": "average rational-point count over the non-isotrivial elliptic family with the Stage14 lcm-denominator height"
+    "elliptic_q_inverse": "q=X/(sY), s=S1/H1"
   },
-  "finite_growth_diagnostic": {
-    "late_range": "B=200000..2000000 frozen cutoffs",
-    "N2_over_sqrtB_mean": 0.2579965123,
-    "N2_over_sqrtB_coefficient_of_variation": 0.0205281494,
-    "sqrtB_candidate_survives": true,
-    "sqrtB_asymptotic_claimed": false,
-    "effective_exponent_range_adjacent": [0.3822475642, 0.5269635007],
-    "effective_exponent_range_wider": [0.4571501738, 0.4894089719]
+  "height_reduction": {
+    "uniform_physical_height": "S1 H2/(sqrt(2)g) < d < sqrt(3) S1 H2/g",
+    "second_face_circle_parameter": "q=u/v reduced, 0<u<v",
+    "second_face_hypotenuse": "H2=(u^2+v^2)/delta, delta in {1,2}",
+    "q_denominator_height": "v^2/2 < H2 < 2v^2",
+    "fiber_cutoff_scale": "v asymp sqrt(Bg/S1)",
+    "fixed_fiber_height_relation": "h(q(P))=2 hhat(P)+O_t1(1)",
+    "uniform_height_comparison_over_base_proved": false,
+    "fixed_fiber_power_of_B_source": false
+  },
+  "elliptic_surface": {
+    "model": "y^2=x(x-1)(x+t^2)",
+    "Delta": "16 t^4(1+t^2)^2",
+    "c4": "16(1+t^2+t^4)",
+    "geometric_fibers": "I4 at 0, I2 at +i, I2 at -i, I4 at infinity",
+    "euler_sum": 12,
+    "surface_class": "rational elliptic surface",
+    "geometric_picard_rank": 10,
+    "reducible_root_rank": 8,
+    "geometric_generic_MW_rank": 0,
+    "global_specialization_problem": "small-point rank-jump or extra-torsion specializations"
+  },
+  "raw_vs_exactly_two": {
+    "identity": "O_pair_raw(B)=N_2(B)+3T(B)",
+    "finite_T_zero_through": 2000000,
+    "T_o_sqrtB_proved": false,
+    "raw_pair_asymptotic_implies_exactly_two_asymptotic_without_new_input": false
   },
   "validation": {
-    "elliptic_fiber_audit": "stages/stage14/data/14-4/elliptic_fiber_audit.json",
+    "height_rank_audit": "stages/stage14/data/14-4/height_rank_audit.json",
     "audit_B": 10000,
     "raw_pair_incidences_checked": 25,
     "locked_exactly_two_counts_reproduced": [9, 11, 5],
     "triple_count": 0,
-    "all_structural_checks_pass": true
+    "all_height_and_inverse_checks_pass": true
   },
   "structural_decision": {
     "STAGE14_4AA_COMPLETE": true,
     "STAGE14_4AB_COMPLETE": true,
     "STAGE14_4AC_COMPLETE": true,
     "STAGE14_4AD_COMPLETE": true,
-    "PRODUCT_PYTHAGOREAN_CLOSURE_IDENTITY": true,
-    "SECOND_FACE_FIXED_FIBER_GENUS": 1,
-    "ELLIPTIC_FIBRATION_NON_ISOTRIVIAL": true,
-    "R03_FIXED_PRIME_SIEVE_GIVES_ZERO_DENSITY": true,
-    "R03_FIXED_PRIME_SIEVE_GIVES_POWER_SAVING": false,
+    "STAGE14_4AE_COMPLETE": true,
+    "SQRT_B_STRUCTURAL_HEIGHT_SOURCE_IDENTIFIED": true,
+    "GEOMETRIC_GENERIC_MW_RANK": 0,
+    "RAW_PAIR_HEIGHT_SUM_LOCKED": true,
+    "RAW_PAIR_TO_EXACTLY_TWO_REQUIRES_TRIPLE_CONTROL": true,
     "TRUE_GROWTH_ORDER_IDENTIFIED": false,
     "LEADING_CONSTANT_IDENTIFIED": false,
     "SQRT_B_ASYMPTOTIC_CLAIM": false,
-    "NEXT": "Stage14-4ae elliptic-fibration height/rank analysis"
+    "NEXT": "Stage14-4af small-point specialization and triple-subtraction analysis"
   }
 }
