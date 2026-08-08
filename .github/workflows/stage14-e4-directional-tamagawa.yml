@@ -1,0 +1,100 @@
+name: Stage14-e4 directional Tamagawa asymptotic
+
+on:
+  push:
+    branches:
+      - agent/stage14-e4-directional-tamagawa
+    paths:
+      - 'stages/stage14/14-e4/**'
+      - 'stages/stage14/scripts/14-e4/**'
+      - 'stages/stage14/data/14-e4/**'
+      - 'stages/stage14/e-roadmap.md'
+      - '.github/workflows/stage14-e4-directional-tamagawa.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e4/**'
+      - 'stages/stage14/scripts/14-e4/**'
+      - 'stages/stage14/data/14-e4/**'
+      - 'stages/stage14/e-roadmap.md'
+      - '.github/workflows/stage14-e4-directional-tamagawa.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute directional Tamagawa audit
+        run: |
+          cp stages/stage14/data/14-e4/directional_tamagawa_audit.json /tmp/e4_expected.json
+          python stages/stage14/scripts/14-e4/directional_tamagawa_audit.py
+
+      - name: Verify deterministic e4 report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/e4_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e4/directional_tamagawa_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          assert actual['status']['STAGE14_E4'] == 'COMPLETE_DIRECTIONAL_ASYMPTOTIC'
+          assert actual['status']['DIRECTIONAL_ASYMPTOTIC_PROVED'] is True
+          assert actual['status']['EXACTLY_TWO_FULL_MAIN_TERM_EXISTENCE_PROVED'] is True
+          assert actual['status']['EXACTLY_TWO_THIRD_FACE_SQUARE_LOCUS'] == 'THIN_TYPE_II'
+          assert actual['status']['GLOBAL_ARITHMETIC_CONSTANT_LAMBDA_E_EVALUATED'] is False
+          masses = actual['chamber_masses']
+          assert masses['a'] > masses['b'] > masses['c'] > 0
+          assert masses['quadrature_48_64_max_difference'] < 2e-9
+          p = actual['direction_limit']
+          assert abs(p['a'] + p['b'] + p['c'] - 1.0) < 1e-14
+          assert abs(p['a'] - 0.4244299091217717) < 2e-13
+          assert abs(p['b'] - 0.3929215604260869) < 2e-13
+          assert abs(p['c'] - 0.18264853045214144) < 2e-13
+          assert actual['thin_set_transfer']['generic_degree'] == 2
+          assert actual['thin_set_transfer']['third_face_square_leading_density'] == 0
+          print('Stage14-e4 deterministic directional audit: PASS')
+          PY
+
+      - name: Verify proof and literature boundary
+        run: |
+          grep -F 'STAGE14_E4=COMPLETE_DIRECTIONAL_ASYMPTOTIC' stages/stage14/14-e4/result.md
+          grep -F 'Browning--Loughran' stages/stage14/14-e4/result.md
+          grep -F 'EXACTLY_TWO_THIRD_FACE_SQUARE_LOCUS=THIN_TYPE_II' stages/stage14/14-e4/result.md
+          grep -F 'PA=0.4244299091218' stages/stage14/14-e4/result.md
+          grep -F 'Huang' stages/stage14/14-e4/literature-directional-audit.md
+          grep -F 'Browning' stages/stage14/14-e4/literature-directional-audit.md
+          grep -F 'Korolev' stages/stage14/14-e4/literature-directional-audit.md
+          grep -F 'NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e4/literature-directional-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e4/literature-directional-audit.md
+
+      - name: Verify roadmap locks
+        run: |
+          grep -F 'No condition whatsoever is imposed that `D_R` be an integer or rational.' stages/stage14/e-roadmap.md
+          grep -F 'STAGE14_E4=COMPLETE_DIRECTIONAL_ASYMPTOTIC' stages/stage14/e-roadmap.md
+          grep -F 'NEXT_E_TASK=Stage14-e5 space-diagonal filter comparison' stages/stage14/e-roadmap.md
+          grep -F 'NOVELTY_BY_ABSENCE_FORBIDDEN=true' stages/stage14/e-roadmap.md
+
+      - name: Verify e3 compatibility remains intact
+        run: |
+          cp stages/stage14/data/14-e3/toric_growth_audit.json /tmp/e3_expected.json
+          python stages/stage14/scripts/14-e3/toric_growth_audit.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected = json.loads(Path('/tmp/e3_expected.json').read_text())
+          actual = json.loads(Path('stages/stage14/data/14-e3/toric_growth_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          assert actual['toric_model']['picard_rank'] == 6
+          assert actual['toric_model']['manin_log_power'] == 5
+          assert actual['conclusion']['exactly_two_order'] == 'B*(log B)^5'
+          print('Stage14-e3 compatibility: PASS')
+          PY
