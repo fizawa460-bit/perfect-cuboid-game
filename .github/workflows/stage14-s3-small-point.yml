@@ -1,0 +1,65 @@
+name: Stage14-s3 small-point gate audit
+
+on:
+  push:
+    branches:
+      - agent/stage14-s3-small-point-gate
+    paths:
+      - 'stages/stage14/scripts/14-s3/**'
+      - 'stages/stage14/data/14-s3/**'
+      - 'stages/stage14/14-s3/**'
+      - 'stages/stage14/s-roadmap.md'
+      - '.github/workflows/stage14-s3-small-point.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-s3/**'
+      - 'stages/stage14/data/14-s3/**'
+      - 'stages/stage14/14-s3/**'
+      - 'stages/stage14/s-roadmap.md'
+      - '.github/workflows/stage14-s3-small-point.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PARI/GP
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pari-gp
+      - name: Preserve frozen audit
+        run: cp stages/stage14/data/14-s3/small_point_gate_audit.json /tmp/s3-frozen.json || true
+      - name: Run deterministic Stage14-s3 audit
+        run: python stages/stage14/scripts/14-s3/small_point_gate_audit.py
+      - name: Validate theorem boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-s3/small_point_gate_audit.json'
+          d=json.load(open(p)); q=d['decision']
+          assert q['PHYSICAL_HIT_IMPLIES_LOGARITHMIC_CANONICAL_HEIGHT_WINDOW'] is True
+          assert q['FINITE_POSITIVE_RANK_WITHOUT_PHYSICAL_HIT_CONFIRMED'] is True
+          assert q['SMALL_POINT_GATE_IS_GENUINE'] is True
+          assert q['UNIFORM_SMALL_POINT_DISTRIBUTION_PROVED'] is False
+          assert q['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          assert d['metadata']['active_vertices']==490
+          assert d['metadata']['sample_each']==96
+          print(json.dumps(d['finite_diagnostic'],indent=2))
+          PY
+      - name: Require frozen audit semantic reproducibility
+        run: |
+          if [ -f /tmp/s3-frozen.json ]; then
+            python - <<'PY'
+          import json
+          a=json.load(open('/tmp/s3-frozen.json'))
+          b=json.load(open('stages/stage14/data/14-s3/small_point_gate_audit.json'))
+          assert a==b
+          PY
+          fi
+      - name: Upload generated audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-s3-small-point-audit
+          path: stages/stage14/data/14-s3/small_point_gate_audit.json

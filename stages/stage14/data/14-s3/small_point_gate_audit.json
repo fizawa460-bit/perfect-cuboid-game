@@ -1,0 +1,58 @@
+{
+  "metadata": {
+    "stage": "14-s3",
+    "max_B": 2000000,
+    "active_vertices": 490,
+    "sample_each": 96,
+    "pari_effort": 0
+  },
+  "exact_height_gate": {
+    "quartic_to_elliptic_map": "q=X2/(H2+S2), z=gd/(H H2), Yq=z(1+q^2), X0=(Yq+1)/q^2, A=1-2(X/H)^2, x=(A+X0)/(2(S/H)^2)",
+    "integral_model": "Z=S^2 x, W=S^3 y on W^2=Z(Z-S^2)(Z+X^2)",
+    "physical_hit_implication": "d<=B gives a non-torsion point with naive rational-coordinate height O(log B + log H); canonical height differs by O(log H) for this Weierstrass family, hence a physical hit lies in a canonical-height window O(log B + log H).",
+    "converse_status": "No uniform lower-bound/counting theorem is proved that converts absence below this window into a global asymptotic count over bases; this remains the s3 theorem boundary.",
+    "torsion_nonphysical": "imported merged Stage14-4af, so every physical point is non-torsion."
+  },
+  "finite_diagnostic": {
+    "active_actual_first_hit_canonical_height": {
+      "n": 96,
+      "min": 1.383259102435484,
+      "median": 3.608013380948547,
+      "max": 6.524257101210422,
+      "mean": 3.694228433321874
+    },
+    "active_canonical_height_over_log_mu": {
+      "n": 96,
+      "min": 0.12024014555571505,
+      "median": 0.30414606603918637,
+      "max": 0.46292147225321434,
+      "mean": 0.296870544688963
+    },
+    "inactive_controls_with_certified_positive_rank_and_pari_witness": 29,
+    "inactive_found_witness_canonical_height": {
+      "n": 29,
+      "min": 6.060340687967191,
+      "median": 10.283932014326751,
+      "max": 35.9079943588786,
+      "mean": 14.223753134974444
+    },
+    "interpretation": "Actual first physical hits occupy a logarithmic canonical-height window, while many physically inactive controls already have positive-rank witnesses. Witness heights are not certified minima and are used only diagnostically."
+  },
+  "theorem_boundary": {
+    "canonical_height_gate_locked": true,
+    "uniform_first_generator_distribution_proved": false,
+    "uniform_regulator_distribution_proved": false,
+    "positive_rank_implies_physical_hit_below_B": false,
+    "sqrtB_asymptotic_proved": false,
+    "pari_witness_is_mw_generator_assumed": false
+  },
+  "decision": {
+    "STAGE14_S3": "COMPLETE_CANONICAL_HEIGHT_WINDOW_AND_SMALL_POINT_BOUNDARY",
+    "PHYSICAL_HIT_IMPLIES_LOGARITHMIC_CANONICAL_HEIGHT_WINDOW": true,
+    "FINITE_POSITIVE_RANK_WITHOUT_PHYSICAL_HIT_CONFIRMED": true,
+    "SMALL_POINT_GATE_IS_GENUINE": true,
+    "UNIFORM_SMALL_POINT_DISTRIBUTION_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-s4 compare arithmetic small-point classes with M-degree-4 bisections"
+  }
+}
