@@ -2,37 +2,19 @@
 
 ## Purpose
 
-Stage14-t is the dedicated side track for the triple/perfect-cuboid correction term in the Stage14 exactly-two-face problem. It is deliberately separated from the main `14-4` Kummer/rank-jump track and from the `14-e` ambient control track so the three lines can advance independently.
+Stage14-t is the dedicated side track for quantitative control of the triple/perfect-cuboid correction term in the Stage14 exactly-two-face problem. It is separate from the main `14-4` Kummer/rank-jump track and from the `14-e` ambient control track.
 
-For the locked Stage14 population,
-
-\[
-0<a<b<c,\qquad \gcd(a,b,c)=1,\qquad a^2+b^2+c^2=d^2,\qquad d\le B,
-\]
-
-let `T(B)` denote the primitive canonical cuboids for which all three face diagonals are integral. The exact raw-pair identity is
+For the locked primitive canonical Stage14 population,
 
 \[
 \boxed{E(B)=N_2(B)+3T(B)},
 \]
 
-where `E(B)` is the Stage14 raw two-face-pair count and `N_2(B)` is the exactly-two population.
-
-Thus any eventual raw-pair growth law transfers to `N_2(B)` only after the triple correction is controlled at the relevant scale.
+where `T(B)` counts objects with all three integral face diagonals. A main-track raw-pair law transfers to `N_2(B)` only after `T(B)` is controlled at the same scale.
 
 ## Frozen upstream contract
 
-Stage14-t does not reopen the established Stage13 or Stage14 geometry. It may import the following locked facts.
-
-- Stage13 upstream contract: `R03 + Stage13-12ag`.
-- Stage14 raw-pair identity: `E(B)=N_2(B)+3T(B)`.
-- Fixed first-face triple locus has genus `5`.
-- Hence each fixed first-face fiber contributes only finitely many rational triple points.
-- The Stage14 space-square surface is the level-4 Kummer model from `14-4ag`.
-- The `14-4ah` working branch identifies the third-square condition as a generic degree-two relative cover of that Kummer surface, but no quantitative thin-set theorem is imported into Stage14-t unless and until it is merged and audited on `main`.
-- No perfect-cuboid existence or nonexistence assumption is permitted.
-
-Current boundary:
+Stage14-t may use the frozen `R03 + Stage13-12ag` contract, the Stage14 exact pair interface, the fixed-base genus-5 geometry, and merged Stage14 results. It does not assume perfect-cuboid existence or nonexistence.
 
 ```text
 T_O_SQRT_B_PROVED=false
@@ -43,27 +25,49 @@ PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
 
 ## 14-t1 — definition, interfaces, finite baseline, literature boundary
 
-Status: [>] Next.
+Status: [x] Complete.
 
-Goal: create a self-contained triple-gate research interface before attempting a new theorem.
+Locked results:
 
-Tasks:
+- exact triple multiplicity `E(B)=N2(B)+3T(B)`;
+- fixed physical base model
+  \[
+  W^2=q^4+2Aq^2+1,\quad R^2=q^4+2Cq^2+1,
+  \]
+  with `A=(1-t^2)/(1+t^2)`, `C=2/t^2-1`;
+- `A-C=-2/(t^2(1+t^2))`, so the two branch sets are disjoint on genuine physical bases;
+- connected `(Z/2)^2` degree-4 cover with eight simple branch values, hence genus `5` by Riemann--Hurwitz;
+- complex/projective exceptional base set `0, infinity, ±1, ±i`, avoided by genuine positive primitive Pythagorean faces;
+- physical one-fiber height `v asymp sqrt(Bg/S1)`;
+- two independent exact Stage14-2 generation routes give `T(B)=0` at all 11 audited cutoffs through `B=2,000,000`; no nonexistence inference is made;
+- literature boundary: Faltings gives fixed-fiber finiteness; determinant-method work of Browning--Heath-Brown--Salberger and Liu is the first unconditional quantitative route to audit; fixed-genus uniform cardinality is not imported from conditional Lang-type uniformity; Peschmann 2026 is directly adjacent perfect-cuboid genus-cover work.
 
-1. Freeze the exact definition of `T(B)` and its multiplicity in `E(B)=N_2(B)+3T(B)`.
-2. Re-derive the fixed-base genus-5 model from the canonical Stage14 parametrization and record every exceptional/degenerate fiber separately.
-3. Build an independent exact finite triple census using the existing Stage14 enumeration contract, with cross-checks against the raw-pair ledger through the current verified range.
-4. Record the height translation from cuboid height `d<=B` to the natural coordinates on the moving genus-5 family.
-5. Perform a literature-first audit of quantitative rational-point bounds applicable to a moving family of genus `>=2` curves: determinant-method bounds, uniformity results, gonality/degree methods, thin-cover counting, and any results specific to Euler/perfect cuboids.
-6. State precisely which available theorem hypotheses are verified, which fail, and which missing uniformity statement would suffice for a useful bound on `T(B)`.
-7. Do not promote a power saving from finite data.
+Artifacts:
 
-Exit criterion: a reproducible triple census, a canonical family/height specification, and a theorem-gap ledger sufficient to choose the first quantitative attack.
+```text
+stages/stage14/14-t1/result.md
+stages/stage14/14-t1/literature-triple-audit.md
+stages/stage14/scripts/14-t1/triple_gate_baseline.py
+stages/stage14/data/14-t1/triple_gate_baseline.json
+.github/workflows/stage14-t1-triple-gate.yml
+```
+
+Decision:
+
+```text
+STAGE14_T1=COMPLETE_BASELINE_AND_THEOREM_GAP
+TRIPLE_FIXED_BASE_GENUS=5
+FINITE_TRIPLE_CENSUS_MAX_B=2000000
+FINITE_TRIPLE_COUNT_AT_MAX_B=0
+FINITE_ZERO_IMPLIES_NONEXISTENCE=false
+T_O_SQRT_B_PROVED=false
+```
 
 ## 14-t2 — moving-family quantitative attack
 
-Status: [ ] Pending 14-t1.
+Status: [>] Next.
 
-Use the 14-t1 family and height audit to obtain the strongest unconditional global upper bound available for `T(B)`. Prefer a theorem whose constants/dependence on the moving base can be made explicit or uniformly controlled.
+Build a fixed-degree projective model of the genus-5 fiber with explicit coefficient height, compare its projective point height uniformly with the physical `(t,q)` height, then apply the strongest unconditional determinant-method bound that survives summation over primitive Pythagorean bases.
 
 Targets, strongest first:
 
@@ -77,48 +81,40 @@ or at minimum
 T(B)=o(\sqrt B).
 \]
 
-If neither follows from current methods, prove the strongest weaker bound available and isolate the exact missing uniformity input.
+If neither follows, t2 must prove the strongest unconditional weaker bound and identify the exact obstruction quantitatively rather than replacing it by a heuristic.
 
 ## 14-t3 — exceptional fibers and low-degree subfamilies
 
-Status: [ ] Pending 14-t2.
+Status: [ ] Pending t2.
 
-Classify parameter values where the generic genus-5 picture degenerates, acquires extra automorphisms, splits through lower-genus quotients, or admits low-degree maps capable of dominating the global triple count. Count these strata separately under the physical height.
-
-This stage must distinguish genuine accumulating arithmetic subfamilies from coordinate/parametrization boundary artifacts.
+Classify degenerations, lower-genus quotients, extra automorphisms and low-degree subfamilies capable of accumulating triple points, and count them separately under the physical height.
 
 ## 14-t4 — Kummer-cover comparison
 
-Status: [ ] Pending 14-t3 and merged 14-4ah/descendants.
+Status: [ ] Pending t3 and the relevant merged `14-4` descendants.
 
-Compare the moving genus-5 formulation with the relative degree-two third-square cover of the Stage14 Kummer surface. Determine whether the Kummer height and its accumulating curves provide a sharper global triple bound than the fiberwise approach.
-
-In particular, audit the restriction of the third-square cover to any low-degree physical rational curves identified by the main `14-4` track.
+Compare the moving genus-5 formulation with the relative degree-two third-square cover of the Stage14 Kummer surface, especially on low-degree physical rational curves found by the main track.
 
 ## 14-t5 — transfer theorem to exactly-two count
 
 Status: [ ] Pending a sufficient triple bound and a main-track raw-pair law.
 
-Combine the strongest proved estimate for `T(B)` with
+Combine
 
 \[
-N_2(B)=E(B)-3T(B).
+N_2(B)=E(B)-3T(B)
 \]
 
-If the main track proves a `sqrt(B)`-scale raw-pair law and Stage14-t proves `T(B)=o(sqrt(B))`, transfer the leading growth law to the exactly-two population. If the triple term survives at the same scale, compute or bound its contribution instead of discarding it.
+with the strongest proved estimates. If `E(B)` has a `sqrt(B)` leading law and `T(B)=o(sqrt(B))`, transfer that law to the exactly-two population; otherwise retain the triple contribution explicitly.
 
 ## Scope boundary
 
-Stage14-t is not a search for a single perfect cuboid and is not permitted to infer nonexistence from a zero finite census. Its purpose is quantitative control of the entire triple population under the same primitive canonical physical height used by Stage14.
-
-It also does not duplicate `14-e8`: `14-e8` studies the Euler-brick thin set in the ambient control population, while Stage14-t studies the triple correction inside the integer-space-diagonal Stage14 population.
+Stage14-t is a population-counting track, not a finite search proof of nonexistence. It also does not duplicate `14-e8`, which studies Euler bricks in the ambient no-space-square control population.
 
 ```text
-STAGE14_T_TRACK=DEFINED
-STAGE14_T1=NEXT
-TRIPLE_GATE_IDENTITY=E(B)=N2(B)+3T(B)
+STAGE14_T_TRACK=ACTIVE
+STAGE14_T1=COMPLETE_BASELINE_AND_THEOREM_GAP
 PRIMARY_TARGET=T(B)=o(sqrt(B))
 STRONG_TARGET=T(B)<<B^(1/2-delta+o(1))
-FINITE_ZERO_IMPLIES_NONEXISTENCE=false
-NEXT=Stage14-t1 definition/interfaces/finite baseline/literature boundary
+NEXT=Stage14-t2 quantitative moving-family attack
 ```
