@@ -1,0 +1,85 @@
+{
+  "exact_reweighting": {
+    "R_all": "R_all(p)=(G(p)-1)/2",
+    "fixed_channel_interpretation": "restoring R_all removes 1/(G-1); this is the j=0 member of the Stage13-7g/7h local kernel family, up to the universal factor 1/2 converting ordered to unordered face representations",
+    "identity": "A_q(B)=sum_shell R_all(p) * [n_q(shell)/R_all(p)] = sum_shell n_q(shell)"
+  },
+  "frozen_stage12_total": {
+    "kappa_prime_product_diagnostic": 0.01855917155586297,
+    "numeric_total_constant_diagnostic": 0.00024614865773384115,
+    "source": "Stage13-3d exact bridge plus frozen Stage12 C_prim(B)~[kappa/(12*pi)]B(log B)^3",
+    "theorem": "A_ab(B)+A_ac(B)+A_bc(B) ~ [kappa/(24*pi)] B(log B)^3"
+  },
+  "individual_raw_asymptotics": {
+    "ab": {
+      "numeric_prime_product_diagnostic": 0.00013162477835561946,
+      "symbolic_constant": "D_ab=kappa*I_ab/(3*pi^3)",
+      "theorem": "A_ab(B) ~ D_ab B(log B)^3"
+    },
+    "ac": {
+      "numeric_prime_product_diagnostic": 0.00006039483228608767,
+      "symbolic_constant": "D_ac=kappa*I_ac/(3*pi^3)",
+      "theorem": "A_ac(B) ~ D_ac B(log B)^3"
+    },
+    "bc": {
+      "numeric_prime_product_diagnostic": 0.00005412904709213402,
+      "symbolic_constant": "D_bc=kappa*I_bc/(3*pi^3)",
+      "theorem": "A_bc(B) ~ D_bc B(log B)^3"
+    }
+  },
+  "interpretation": {
+    "asymptotic_result": "At the leading B(log B)^3 scale, the richness factor is common across categories and the chamber vector is restored.",
+    "finite_flattening": "The strong finite flattening seen in Stage13-3e is pre-asymptotic category dependence of shell richness."
+  },
+  "j0_local_validation": {
+    "cases": 49,
+    "max_harmonic_error": 0.0,
+    "max_zero_error": 0.0
+  },
+  "j0_singularity_ledger": {
+    "harmonic_base": "B_{0,l}(s)=zeta(s)L(s,xi_{8l})E_{b,l}(s)",
+    "harmonic_minimal_scale": "O(B) for fixed l",
+    "harmonic_scale": "A_{0,l}(s)=L(s,xi_{8l}) E_{h,l}(s), l>=1; no zeta pole",
+    "infinite_family": "the Stage13-7i finite Vaaler truncation with the same polylog-uniform nontrivial Gaussian-Hecke input makes the retained nonzero harmonics o(B(log B)^3)",
+    "zero_base": "B_{0,0}(s)=zeta(s)^2 L(s,chi4) E_b(s)",
+    "zero_bulk_after_primitive_region_transfer": "B(log B)^3",
+    "zero_minimal_scale": "O(B(log B)^2)",
+    "zero_scale": "A_{0,0}(s)=(zeta(s)L(s,chi4)) E_h(s)"
+  },
+  "metadata": {
+    "scope": "supported-shell richness restoration from primitive pure-G to primitive raw incidence",
+    "stage": "13-7jb"
+  },
+  "raw_normalized_limit": {
+    "bc_normalized_ratio": {
+      "ab": 2.431684750178191,
+      "ac": 1.115756428951881,
+      "bc": 1.0
+    },
+    "identity": "D_q/sum D = 8 I_q/pi^2; supported-shell richness changes the scale but not the leading normalized vector",
+    "proportion": {
+      "ab": 0.5347369332313988,
+      "ac": 0.24535917783225203,
+      "bc": 0.21990388893634913
+    }
+  },
+  "richness_amplification_relative_to_pure_G": {
+    "category_independent_at_leading_order": true,
+    "categorywise_numeric_values": {
+      "ab": 0.0010287940977836043,
+      "ac": 0.0010287940977836043,
+      "bc": 0.0010287940977836043
+    },
+    "formula": "A_q(B)/G_q(B) ~ Omega (log B)^(8/3)",
+    "log_exponent_change": "1/3 -> 3, i.e. amplification (log B)^(8/3)",
+    "numeric_Omega_using_stage12_kappa_diagnostic": 0.0010287940977836043
+  },
+  "status": {
+    "exact_one_directional_limit_identified": false,
+    "individual_raw_directional_asymptotics": true,
+    "next": "Stage13-7jc",
+    "raw_directional_limit_identified": true,
+    "supported_shell_richness_changes_leading_normalized_vector": false,
+    "supported_shell_richness_changes_log_exponent": true
+  }
+}
