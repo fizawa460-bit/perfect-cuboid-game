@@ -1,0 +1,35 @@
+{
+  "metadata": {
+    "stage": "14-t2",
+    "title": "Pythagorean-chain multiplicative envelope audit"
+  },
+  "representation_bounds": {
+    "hypotenuse_count": "A(z)=(prod_{p=1 mod4}(2e_p+1)-1)/2",
+    "leg_completion_bound": "L(z)<=(tau(z^2)-1)/2",
+    "product_majorant": "A(z)L(z)<=f(z)/4"
+  },
+  "majorant_prime_powers": [
+    {"e": 1, "split_f": 9, "inert_f": 3},
+    {"e": 2, "split_f": 25, "inert_f": 5},
+    {"e": 3, "split_f": 49, "inert_f": 7},
+    {"e": 4, "split_f": 81, "inert_f": 9},
+    {"e": 5, "split_f": 121, "inert_f": 11},
+    {"e": 6, "split_f": 169, "inert_f": 13},
+    {"e": 7, "split_f": 225, "inert_f": 15}
+  ],
+  "dirichlet_factorization": {
+    "formula": "sum f(n)n^-s = zeta(s)^6 L(s,chi4)^3 G(s)",
+    "split_residual": "(1+6x+x^2)(1-x)^6",
+    "inert_residual": "(1-x^2)^4",
+    "split_linear_residual_coefficient": 0,
+    "inert_linear_residual_coefficient": 0,
+    "absolute_convergence_half_plane": "Re(s)>1/2+epsilon"
+  },
+  "conclusion": {
+    "CHAIN_ENVELOPE": "T(B)=O(B(log B)^5)",
+    "FROZEN_R03": "T(B)=o(B(log B)^3)",
+    "CHAIN_ENVELOPE_IMPROVES_R03": false,
+    "T_O_SQRT_B_PROVED": false,
+    "NEXT": "Stage14-t3 exceptional fibers and low-degree subfamilies"
+  }
+}
