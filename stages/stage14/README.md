@@ -12,29 +12,27 @@ STAGE14_4AA=COMPLETE
 STAGE14_4AB=COMPLETE
 STAGE14_4AC=COMPLETE
 STAGE14_4AD=COMPLETE
+STAGE14_4AE=COMPLETE
 MAX_VERIFIED_B=2000000
 STAGE13_FROZEN_CONTRACT=R03_PLUS_13_12AG
-STAGE13_DOWNSTREAM_MATHEMATICAL_CONTENT=FROZEN
+R03_PAIR_OVERLAP_LITTLE_O_IMPORTED=true
 BIJECTIVE_TWO_FACE_PARAMETER_SPACE_LOCKED=true
-RATIONAL_SLOPE_HEIGHT_FACTORIZATION_LOCKED=true
-PRODUCT_PYTHAGOREAN_CLOSURE_IDENTITY=true
 ELLIPTIC_FIBRATION_NON_ISOTRIVIAL=true
-R03_FIXED_PRIME_SIEVE_GIVES_ZERO_DENSITY=true
-R03_FIXED_PRIME_SIEVE_GIVES_POWER_SAVING=false
+GEOMETRIC_GENERIC_MW_RANK=0
+SQRT_B_STRUCTURAL_HEIGHT_SOURCE_IDENTIFIED=true
+RAW_PAIR_TO_EXACTLY_TWO_REQUIRES_TRIPLE_CONTROL=true
 TRUE_GROWTH_ORDER_IDENTIFIED=false
-SQRT_B_FINITE_CANDIDATE_SURVIVES=true
 SQRT_B_ASYMPTOTIC_CLAIM=false
-NEXT=Stage14-4ae elliptic-fibration height/rank analysis
+NEXT=Stage14-4af small-point specialization and triple-subtraction analysis
 ```
 
 Canonical source: `stages/stage14/main.md`.
 
-## Counting convention
+## Locked population
 
 \[
 0<a<b<c,\qquad \gcd(a,b,c)=1,
-\qquad a^2+b^2+c^2=d^2,
-\qquad d\le B.
+\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
 \]
 
 The exactly-two directions are
@@ -48,36 +46,25 @@ c = ac+bc only = largest shared edge
 with
 
 \[
-N_a^{(2)}=O_{ab,ac}-T,\qquad
-N_b^{(2)}=O_{ab,bc}-T,\qquad
+N_a^{(2)}=O_{ab,ac}-T,\quad
+N_b^{(2)}=O_{ab,bc}-T,\quad
 N_c^{(2)}=O_{ac,bc}-T.
 \]
 
 No perfect-cuboid nonexistence assumption is made.
 
-## Frozen finite census
-
-Two independent exact cuboid-generation routes agree through `B=2,000,000`. At the ceiling,
+Two independent exact generation routes agree through `B=2,000,000`; there
 
 \[
 (N_a^{(2)},N_b^{(2)},N_c^{(2)})=(142,134,80),
-\qquad N_2=356,
-\qquad T=0.
+\qquad N_2=356,\qquad T=0.
 \]
 
-This is only a finite search statement.
+This is only a finite statement.
 
 ## Frozen Stage13 input
 
-Stage13-12ah freezes the downstream mathematical content at
-
-```text
-c843e039306b40bd3693f89d6199da78c2fb4657
-```
-
-with contract `R03 + Stage13-12ag`.
-
-Stage14 may use
+Stage13 freezes the downstream `R03 + Stage13-12ag` contract. Stage14 may use
 
 \[
 A_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3,
@@ -93,17 +80,11 @@ hence
 \boxed{N_2(B)=o(B(\log B)^3).}
 \]
 
-The R03 inert-prime overlap multiplier is
+The R03 fixed-prime sieve gives zero density, not a `B`-dependent power saving; no growing-modulus theorem is imported.
 
-\[
-\lambda_p=\frac{p+5}{2(p+1)}.
-\]
+## Exact two-face coordinates
 
-However the R03 squeeze fixes a finite prime set first, then sends `B->infinity`, and only afterwards enlarges the prime set. Therefore it proves zero density but does not provide a `B`-dependent power saving. Stage14 does not introduce a growing modulus into the frozen theorem.
-
-## Stage14-4ab/4ac coordinates
-
-For oriented primitive Pythagorean face data
+For primitive oriented Pythagorean face data
 
 \[
 F_i=(S_i,X_i,H_i),\qquad S_i^2+X_i^2=H_i^2,
@@ -112,141 +93,138 @@ F_i=(S_i,X_i,H_i),\qquad S_i^2+X_i^2=H_i^2,
 put
 
 \[
-g=(S_1,S_2),\qquad
-L=\operatorname{lcm}(S_1,S_2),
-\qquad
-t_i=X_i/S_i.
+g=(S_1,S_2),\qquad L=\operatorname{lcm}(S_1,S_2),
+\qquad t_i=X_i/S_i.
 \]
 
-The primitive raw-pair incidence has exact parameter fiber multiplicity one and satisfies
+The primitive raw-pair incidence is represented exactly once and satisfies
 
 \[
-\boxed{(e,x,y)=L(1,t_1,t_2)},
+(e,x,y)=L(1,t_1,t_2),
+\qquad d=L\sqrt{1+t_1^2+t_2^2}.
 \]
+
+The space-square condition has the product closure
 
 \[
-\boxed{d=L\sqrt{1+t_1^2+t_2^2}}.
+\boxed{(X_1X_2)^2+(gd)^2=(H_1H_2)^2.}
 \]
 
-The directions are only
+After fixing the first face, it becomes the non-isotrivial elliptic fiber
+
+\[
+\boxed{E_{t_1}:Y^2=X(X-1)(X+t_1^2).}
+\]
+
+## Stage14-4ae — fiber height and generic rank
+
+Let the second primitive face be parameterized by reduced
+
+\[
+q=u/v,\qquad 0<u<v.
+\]
+
+Then for `delta in {1,2}`,
+
+\[
+S_2=\frac{v^2-u^2}{\delta},\qquad
+X_2=\frac{2uv}{\delta},\qquad
+H_2=\frac{u^2+v^2}{\delta},
+\]
+
+so
+
+\[
+\boxed{v^2/2<H_2<2v^2.}
+\]
+
+More importantly, the original Euclidean cutoff has the uniform comparison
+
+\[
+\boxed{
+\frac{S_1H_2}{\sqrt2\,g}<d<\frac{\sqrt3\,S_1H_2}{g}.
+}
+\]
+
+Therefore the induced one-fiber cutoff is
+
+\[
+\boxed{v\asymp\sqrt{Bg/S_1}.}
+\]
+
+This explains why a square root appears naturally in the fiber height. It does not prove a total `sqrt(B)` population law.
+
+On the elliptic fiber, with `s=S1/H1`, the Stage14-4ad birational map has the exact inverse
+
+\[
+\boxed{q(P)=\frac{X(P)}{sY(P)}.}
+\]
+
+For a fixed fiber this is a degree-2 rational function, so standard elliptic height theory gives
+
+\[
+h(q(P))=2\widehat h(P)+O_{t_1}(1).
+\]
+
+Thus a fixed rank-`r` fiber contributes only polylogarithmically in `B` under the physical cutoff. A power of `B` must come from varying specializations, not from one fixed elliptic curve.
+
+The elliptic surface
+
+\[
+\mathscr E:y^2=x(x-1)(x+t^2)
+\]
+
+has
+
+\[
+\Delta=16t^4(1+t^2)^2,
+\qquad c_4=16(1+t^2+t^4),
+\]
+
+with geometric singular fibers
 
 ```text
-a: 1<t1<t2
-b: t1<1<t2
-c: t1<t2<1
+I4 at t=0
+I2 at t=+i
+I2 at t=-i
+I4 at t=infinity
 ```
 
-and exactly-two excludes `t1^2+t2^2` being a rational square.
-
-The pre-space lcm-denominator envelope has `B(log B)^7` scale, while frozen R03 already lowers the genuine pair population to `o(B(log B)^3)`.
-
-## Stage14-4ad — elliptic square thinning
-
-The space-diagonal condition has the exact product closure
+Their Euler numbers sum to `12`, so the surface is rational. The reducible-fiber root rank is `8`; with geometric Picard rank `10`, Shioda--Tate gives
 
 \[
-\boxed{
-(X_1X_2)^2+(gd)^2=(H_1H_2)^2.
-}
+\boxed{\operatorname{rank}\mathscr E(\overline{\mathbf Q}(t))=0.}
 \]
 
-Writing
+Hence Stage14 points live on specializations with rank jump and/or extra torsion. The true global target is the distribution of **small points on special fibers**, together with the gcd/lcm coupling and the R03 local restrictions.
+
+## Raw-pair versus exactly-two gate
+
+The elliptic family counts raw pair incidences. Exactly
 
 \[
-\rho_i=X_i/H_i,
+\boxed{O_{\rm pair}^{raw}(B)=N_2(B)+3T(B).}
 \]
 
-this is equivalent to
-
-\[
-\boxed{1-(\rho_1\rho_2)^2\in(\mathbf Q^\times)^2.}
-\]
-
-Fix the first face `rho=rho1` and parameterize the second rational unit circle by
-
-\[
-\rho_2=\frac{2q}{1+q^2}.
-\]
-
-Then the remaining square condition becomes the nonsingular Jacobi quartic
-
-\[
-\boxed{
-W^2=q^4+2Aq^2+1,
-\qquad A=1-2\rho^2.
-}
-\]
-
-Since
-
-\[
-A^2-1=-4\rho^2(1-\rho^2)\ne0,
-\]
-
-every genuine fixed first-face fiber is genus one. An explicit birational reduction gives
-
-\[
-2V^2=U^3-2AU^2+(A^2-1)U.
-\]
-
-With `t1=X1/S1` this scales to
-
-\[
-\boxed{
-E_{t_1}:\quad Y^2=X(X-1)(X+t_1^2).
-}
-\]
-
-Its `j`-invariant is
-
-\[
-\boxed{
- j(t_1)=256\frac{(1+t_1^2+t_1^4)^3}
- {t_1^4(1+t_1^2)^2},
-}
-\]
-
-which is nonconstant. Hence Stage14's global square-thinning problem is a **non-isotrivial elliptic fibration** over the first-face slope.
-
-This identifies the missing global mechanism: the true exponent requires average rational-point/height control on these fibers with the Stage14 lcm-denominator height. The frozen R03 local sieve remains useful auxiliary information but does not by itself determine the exponent.
-
-## sqrt(B) status
-
-Finite data remain compatible with `sqrt(B)`:
-
-```text
-B          N2/sqrt(B)
-200k       0.2593838854
-500k       0.2658721497
-1m         0.2550000000
-2m         0.2517300141
-```
-
-and wider effective exponents over `100k..2m` lie roughly in `0.457..0.489`. This is suggestive only.
-
-```text
-SQRT_B_FINITE_CANDIDATE_SURVIVES=true
-SQRT_B_ASYMPTOTIC_CLAIM=false
-SQRT_B_RIGOROUS_UPPER_BOUND=false
-SQRT_B_RIGOROUS_LOWER_BOUND=false
-```
+Although `T=0` through `B=2,000,000`, the frozen theorem only gives `T=o(B(log B)^3)`. Therefore even a future `sqrt(B)` theorem for raw pairs would still require a new triple-subtraction result before it becomes a theorem for `N_2`.
 
 ## Validation
 
-The independent Stage14-4ad audit checks all 25 raw-pair incidences at `B=10000` and verifies the product identity, normalized square condition, Jacobi quartic, cubic transform and elliptic fiber equation for every hit. It also reproduces exactly-two `(9,11,5)` with `T=0`.
+The Stage14-4ae deterministic audit checks all 25 raw-pair incidences at `B=10000`, reproduces exactly-two `(9,11,5)` with `T=0`, and verifies every second-face reconstruction, square-root height bound, physical height sandwich and elliptic inverse coordinate.
 
 Artifacts:
 
 ```text
-stages/stage14/archive/stage14-4ad-elliptic-thinning.md
-stages/stage14/scripts/14-4/elliptic_fiber_audit.py
-stages/stage14/data/14-4/elliptic_fiber_audit.json
+stages/stage14/archive/stage14-4ae-height-rank.md
+stages/stage14/scripts/14-4/height_rank_audit.py
+stages/stage14/data/14-4/height_rank_audit.json
 stages/stage14/data/14-4/proof_input_audit.json
 ```
 
-## Next
+## What remains unknown
+
+Stage14 still has not identified the true growth exponent, leading constant, limiting directional vector, eventual leader, or whether `T(B)` ever becomes positive.
 
 ```text
-14-4ae  translate d<=B into fiber/base heights and determine what averaged
-        rank/rational-point control is needed to prove or reject a sqrt(B)-type law.
+NEXT=Stage14-4af small-point specialization and triple-subtraction analysis
 ```

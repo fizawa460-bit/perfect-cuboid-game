@@ -1,0 +1,140 @@
+{
+  "metadata": {
+    "stage": "14-4ae",
+    "title": "Fiber/base height and generic-rank audit",
+    "audit_bound": 10000
+  },
+  "exact_height_statements": {
+    "uniform_physical_height": "S1 H2/(sqrt(2) g) < d < sqrt(3) S1 H2/g",
+    "second_face_parameterization": "S2=(v^2-u^2)/delta, X2=2uv/delta, H2=(u^2+v^2)/delta, delta in {1,2}",
+    "q_denominator_height": "v^2/2 < H2 < 2v^2",
+    "fiber_cutoff_scale": "v asymp sqrt(B g/S1)",
+    "elliptic_inverse": "q=X/(sY), s=S1/H1"
+  },
+  "finite_audit": {
+    "B": 10000,
+    "oriented_primitive_face_data": 3186,
+    "raw_pair_incidences": 25,
+    "distinct_first_face_data_among_hits": 23,
+    "exactly_two": {
+      "a": 9,
+      "b": 11,
+      "c": 5
+    },
+    "triple": 0,
+    "height_ratio_min": 1.001271905031091,
+    "height_ratio_max": 1.314102564102564,
+    "theoretical_height_ratio_interval": [
+      "1/sqrt(2)",
+      "sqrt(3)"
+    ],
+    "sample_hits": [
+      {
+        "face1": [15, 8, 17],
+        "face2": [56, 33, 65],
+        "g": 1,
+        "cuboid": [840, 448, 495, 1073],
+        "q": "3/11",
+        "delta": 2,
+        "height_ratio": 1.1005128205128205,
+        "t1": "8/15",
+        "XE": "18/1",
+        "YE": "374/5"
+      },
+      {
+        "face1": [15, 8, 17],
+        "face2": [495, 952, 1073],
+        "g": 15,
+        "cuboid": [495, 264, 952, 1105],
+        "q": "17/28",
+        "delta": 1,
+        "height_ratio": 1.0298229263746506,
+        "t1": "8/15",
+        "XE": "64/15",
+        "YE": "1792/225"
+      },
+      {
+        "face1": [9, 40, 41],
+        "face2": [13, 84, 85],
+        "g": 1,
+        "cuboid": [117, 520, 756, 925],
+        "q": "6/7",
+        "delta": 1,
+        "height_ratio": 1.2091503267973855,
+        "t1": "40/9",
+        "XE": "45/4",
+        "YE": "1435/24"
+      },
+      {
+        "face1": [56, 33, 65],
+        "face2": [448, 975, 1073],
+        "g": 56,
+        "cuboid": [448, 264, 975, 1105],
+        "q": "25/39",
+        "delta": 2,
+        "height_ratio": 1.0298229263746506,
+        "t1": "33/56",
+        "XE": "225/56",
+        "YE": "22815/3136"
+      },
+      {
+        "face1": [48, 55, 73],
+        "face2": [140, 171, 221],
+        "g": 4,
+        "cuboid": [1680, 1925, 2052, 3277],
+        "q": "9/19",
+        "delta": 2,
+        "height_ratio": 1.2356711915535445,
+        "t1": "55/48",
+        "XE": "81/8",
+        "YE": "4161/128"
+      }
+    ],
+    "all_second_face_reconstructions_pass": true,
+    "all_q_denominator_square_root_bounds_pass": true,
+    "all_physical_height_sandwich_checks_pass": true,
+    "all_elliptic_inverse_checks_pass": true
+  },
+  "elliptic_surface": {
+    "weierstrass_model": "y^2=x(x-1)(x+t^2)",
+    "Delta": "16 t^4 (1+t^2)^2",
+    "c4": "16(1+t^2+t^4)",
+    "infinity_minimal_model": "Y^2=X(X+1)(X-u^2), u=1/t",
+    "fibers_over_Qbar": [
+      {"place": "t=0", "type": "I4", "euler": 4, "root_rank": 3},
+      {"place": "t=+i", "type": "I2", "euler": 2, "root_rank": 1},
+      {"place": "t=-i", "type": "I2", "euler": 2, "root_rank": 1},
+      {"place": "t=infinity", "type": "I4", "euler": 4, "root_rank": 3}
+    ],
+    "euler_sum": 12,
+    "surface_class": "rational elliptic surface",
+    "geometric_picard_rank": 10,
+    "reducible_fiber_root_rank": 8,
+    "shioda_tate_geometric_generic_MW_rank": 0
+  },
+  "counting_boundary": {
+    "fixed_fiber_standard_height_relation": "h(q(P))=2 hhat(P)+O_t1(1)",
+    "fixed_fiber_point_growth": "polylogarithmic in B for fixed Mordell-Weil rank",
+    "uniform_height_constant_over_base_assumed": false,
+    "generic_geometric_rank_positive": false,
+    "global_problem": "small-point rank-jump or extra-torsion specializations plus gcd/lcm coupling",
+    "raw_pair_identity": "O_pair_raw(B)=N2(B)+3T(B)",
+    "triple_lower_order_at_sqrtB_scale_known": false
+  },
+  "decision": {
+    "STAGE14_4AE": "COMPLETE",
+    "UNIFORM_SECOND_FACE_HEIGHT_COMPARISON": true,
+    "SECOND_FACE_Q_DENOMINATOR_SQUARE_ROOT_HEIGHT": true,
+    "ELLIPTIC_Q_INVERSE": "q=X/(sY)",
+    "FIXED_FIBER_POINT_GROWTH_POLYLOGARITHMIC": true,
+    "ELLIPTIC_SURFACE_FIBERS": "I4_I4_I2_I2",
+    "ELLIPTIC_SURFACE_RATIONAL": true,
+    "GEOMETRIC_GENERIC_MW_RANK": 0,
+    "RAW_PAIR_HEIGHT_SUM_LOCKED": true,
+    "RAW_PAIR_TO_EXACTLY_TWO_REQUIRES_TRIPLE_CONTROL": true,
+    "SQRT_B_STRUCTURAL_HEIGHT_SOURCE_IDENTIFIED": true,
+    "SQRT_B_ASYMPTOTIC_CLAIM": false,
+    "TRUE_GROWTH_ORDER_IDENTIFIED": false,
+    "NEXT": "Stage14-4af small-point specialization and triple-subtraction analysis"
+  }
+}
