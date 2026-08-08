@@ -1,0 +1,79 @@
+{
+  "metadata": {
+    "stage": "14-t1",
+    "title": "Triple-gate definition, genus-5 family, finite baseline, and height audit",
+    "counting_convention": "primitive canonical 0<a<b<c, gcd(a,b,c)=1, integer space diagonal d<=B"
+  },
+  "ledger": {
+    "identity": "E(B)=N2(B)+3T(B)",
+    "T_definition": "primitive canonical Stage14 objects with all three face diagonals integral",
+    "triple_multiplicity_in_raw_pair_ledger": 3
+  },
+  "fixed_base_family": {
+    "space_quartic": "W^2=q^4+2Aq^2+1, A=(1-t^2)/(1+t^2)",
+    "third_face_quartic": "R^2=q^4+2Cq^2+1, C=2/t^2-1",
+    "difference_identity": "A-C=-2/(t^2(1+t^2))",
+    "sample_checks": [
+      {"t":"3/4","A":"7/25","C":"23/9","A_minus_C":"-512/225","space_quartic_simple":true,"third_face_quartic_simple":true,"branch_sets_disjoint":true},
+      {"t":"4/3","A":"-7/25","C":"1/8","A_minus_C":"-81/200","space_quartic_simple":true,"third_face_quartic_simple":true,"branch_sets_disjoint":true},
+      {"t":"5/12","A":"119/169","C":"263/25","A_minus_C":"-41472/4225","space_quartic_simple":true,"third_face_quartic_simple":true,"branch_sets_disjoint":true}
+    ],
+    "generic_cover_degree": 4,
+    "generic_simple_branch_values": 8,
+    "riemann_hurwitz_total_ramification": 16,
+    "generic_genus": 5,
+    "complex_exceptional_base_values": ["0","infinity","+1","-1","+i","-i"],
+    "physical_positive_pythagorean_base_hits_exceptional_set": false,
+    "note": "For a genuine primitive Pythagorean face t=X/S>0; t=0 is degenerate and t=1 would require equal legs. The remaining listed exceptional values are non-real or projective boundary values."
+  },
+  "physical_height": {
+    "second_face_parameter": "q=u/v in lowest terms, 0<u<v",
+    "H2_formula": "H2=(u^2+v^2)/delta, delta in {1,2}",
+    "H2_bounds": "v^2/2 < H2 < 2v^2",
+    "physical_height_sandwich": "S1*H2/(sqrt(2)g) < d < sqrt(3)*S1*H2/g",
+    "fiber_denominator_scale": "v asymp sqrt(Bg/S1)",
+    "sample_checks": [
+      {"u":2,"v":5,"delta":1,"H2":"29"},
+      {"u":3,"v":7,"delta":2,"H2":"29"},
+      {"u":5,"v":13,"delta":1,"H2":"194"}
+    ]
+  },
+  "finite_baseline": {
+    "source": "stages/stage14/data/14-2/final_census_audit.json",
+    "generation_routes": 2,
+    "rows": [
+      {"B":1000,"T":0,"N2":2},
+      {"B":2000,"T":0,"N2":5},
+      {"B":5000,"T":0,"N2":15},
+      {"B":10000,"T":0,"N2":25},
+      {"B":20000,"T":0,"N2":42},
+      {"B":50000,"T":0,"N2":62},
+      {"B":100000,"T":0,"N2":89},
+      {"B":200000,"T":0,"N2":116},
+      {"B":500000,"T":0,"N2":188},
+      {"B":1000000,"T":0,"N2":255},
+      {"B":2000000,"T":0,"N2":356}
+    ],
+    "max_verified_B": 2000000,
+    "T_at_max_verified_B": 0,
+    "perfect_cuboid_nonexistence_inferred": false
+  },
+  "theorem_gap": {
+    "fiberwise_finiteness_available": true,
+    "uniform_moving_base_point_bound_available_for_this_physical_family": false,
+    "T_o_sqrtB_proved": false,
+    "power_saving_from_finite_zero_count_claimed": false,
+    "next_attack": "quantitative moving-family bound with explicit dependence on base height and fiber point height"
+  },
+  "decision": {
+    "STAGE14_T1": "COMPLETE_BASELINE_AND_THEOREM_GAP",
+    "TRIPLE_GATE_INTERFACE_LOCKED": true,
+    "TRIPLE_FIXED_BASE_GENUS": 5,
+    "PHYSICAL_FIBERS_AVOID_GENERIC_DEGENERACY": true,
+    "FINITE_TRIPLE_CENSUS_MAX_B": 2000000,
+    "FINITE_TRIPLE_COUNT_AT_MAX_B": 0,
+    "FINITE_ZERO_IMPLIES_NONEXISTENCE": false,
+    "T_O_SQRT_B_PROVED": false,
+    "NEXT": "Stage14-t2 quantitative moving-family attack"
+  }
+}
