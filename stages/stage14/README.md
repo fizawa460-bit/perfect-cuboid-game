@@ -7,7 +7,9 @@ Stage14 studies the next layer above Stage13: primitive canonical cuboids with i
 ```text
 STAGE14_1A=COMPLETE
 STAGE14_1B=COMPLETE
-NEXT=Stage14-1c
+STAGE14_1C=COMPLETE
+STAGE14_1=COMPLETE
+NEXT=Stage14-2
 ```
 
 The canonical mathematical source is
@@ -102,6 +104,44 @@ Machine-readable interface ledger:
 stages/stage14/data/14-1/stage13_pair_interface.json
 ```
 
+## Enumeration contract
+
+Stage14-1c fixes the Stage14-2 finite-counting contract.
+
+```text
+exact integer square tests only
+canonical sort and dedup by (a,b,c,d)
+recompute all three face flags after dedup
+retain raw pair, triple and exactly-two ledgers
+reproduce all seven inherited rows exactly
+produce at least one verified cutoff above B=100000
+never assume or silently discard T=0
+```
+
+Preferred extension ladder:
+
+```text
+200000 -> 500000 -> 1000000 -> 2000000
+```
+
+as computationally feasible. Correctness is not relaxed to reach a larger cutoff.
+
+If `T(B)>0`, the enumerator must preserve full witness data
+
+```text
+a,b,c,d,d_ab,d_ac,d_bc
+```
+
+and trigger exact independent/manual verification.
+
+The machine-readable enumeration/output specification is
+
+```text
+stages/stage14/data/14-1/enumeration_output_spec.json
+```
+
+The finite enumerator itself is independent of Stage13 proof review. If a Stage13 review changes only an asymptotic justification, Stage14 counting is unaffected. If it changes the ambient object or inherited seed numbers, Stage14-1b is re-audited before Stage14-2 publication.
+
 ## Main questions
 
 Stage14 asks two quantitative questions simultaneously:
@@ -114,8 +154,8 @@ The first finite stages will enumerate and diagnose the population before any li
 ## Planned sequence
 
 ```text
-14-1  definition / interface / counting specification
-14-2  complete finite enumeration
+14-1  definition / interface / counting specification   [complete]
+14-2  complete finite enumeration                       [next]
 14-3  finite directional-ratio evolution
 14-4  true total growth order
 14-5  directionwise asymptotic structure
