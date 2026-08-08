@@ -1,0 +1,42 @@
+name: Stage13-12ab fixed-local overlap audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-12ab/**'
+      - 'stages/stage13/scripts/13-12ab/**'
+      - 'stages/stage13/data/13-12ab/**'
+      - 'stages/stage13/README.md'
+      - 'stages/stage13/roadmap.md'
+      - '.github/workflows/stage13-12ab-fixed-local-overlap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Rebuild 13-12ab audit report
+        run: python stages/stage13/scripts/13-12ab/fixed_local_overlap_audit.py
+
+      - name: Require deterministic report
+        run: git diff --exit-code -- stages/stage13/data/13-12ab/fixed_local_overlap_audit_report.json
+
+      - name: Require repaired theorem status
+        run: |
+          grep -q 'CLAUDE_MAJOR_FIXED_MODULUS_TRANSFER=REPAIRED_BY_13_12AB' stages/stage13/13-12ab/result.md
+          grep -q 'STAGE13_REPAIR_CHAIN=COMPLETE' stages/stage13/13-12ab/result.md
+          grep -q 'STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R02' stages/stage13/13-12ab/result.md
+
+      - name: Guard against self-declared external closure
+        run: |
+          ! grep -q 'STAGE13_GLOBAL_REVIEW_STATUS=CLOSED' stages/stage13/13-12ab/result.md
+          grep -q 'PENDING_EXTERNAL_R02' stages/stage13/data/13-12ab/fixed_local_overlap_audit_report.json
