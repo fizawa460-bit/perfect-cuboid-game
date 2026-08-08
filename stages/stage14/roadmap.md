@@ -4,48 +4,29 @@
 
 Count and explain the primitive canonical exactly-two-face population inside the integer-space-diagonal cuboid family.
 
-The three canonical directions are indexed by their shared edge:
-
 ```text
 a-direction = ab+ac only
 b-direction = ab+bc only
 c-direction = ac+bc only
 ```
 
-## 14-1 — Definition and counting interface
-
-Status: [x] Complete.
-
 Locked ambient population:
 
 \[
-0<a<b<c,
-\qquad \gcd(a,b,c)=1,
-\qquad a^2+b^2+c^2=d^2,
-\qquad d\le B.
+0<a<b<c,\qquad \gcd(a,b,c)=1,\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
 \]
 
 Stage13 is under independent proof review. Its analytic claims are not inputs to current Stage14 finite work.
+
+## 14-1 — Definition and counting interface
+
+Status: [x] Complete.
 
 ## 14-2 — Complete finite enumeration
 
 Status: [x] Complete.
 
 Two materially different exact generation routes agree at all 11 audited cutoffs through `B=2,000,000`.
-
-```text
-B=1,000        (2,0,0)      N2=2    T=0
-B=2,000        (2,2,1)      N2=5    T=0
-B=5,000        (6,6,3)      N2=15   T=0
-B=10,000       (9,11,5)     N2=25   T=0
-B=20,000       (16,16,10)   N2=42   T=0
-B=50,000       (24,24,14)   N2=62   T=0
-B=100,000      (33,33,23)   N2=89   T=0
-B=200,000      (42,50,24)   N2=116  T=0
-B=500,000      (70,78,40)   N2=188  T=0
-B=1,000,000    (98,101,56)  N2=255  T=0
-B=2,000,000    (142,134,80) N2=356  T=0
-```
 
 Canonical audit:
 
@@ -57,11 +38,13 @@ stages/stage14/data/14-2/final_census_audit.json
 
 Priority: required and final active Stage14 block before the stop line.
 
-Stage14-3 uses only the frozen Stage14-2 census and direct finite extensions. It may diagnose finite ratios, proportions, differences, shells, local slopes, or candidate fits, but it must not promote them to asymptotic theorems.
+Only finite diagnostics are allowed here. No finite fit is promoted to an asymptotic theorem.
 
 ### 14-3a — descriptive directional ledger
 
 Status: [x] Complete.
+
+The coarse late sample showed an apparent `a/c=7/4` plateau at `200k,500k,1m` and a cumulative `b -> a` leader reversal between `1m` and `2m`.
 
 Artifacts:
 
@@ -71,45 +54,71 @@ stages/stage14/data/14-3/directional_ledger.json
 stages/stage14/archive/stage14-3a-directional-ledger.md
 ```
 
-Main late-range observations:
-
-```text
-B=200k:  a/c=1.75   b/c=2.083333   a/b=0.84
-B=500k:  a/c=1.75   b/c=1.95       a/b=0.897436
-B=1m:    a/c=1.75   b/c=1.803571   a/b=0.970297
-B=2m:    a/c=1.775  b/c=1.675      a/b=1.059701
-```
-
-Thus `a/c=7/4` occurs exactly at the three sampled cutoffs `200k`, `500k`, and `1m`, but Stage14 records this only as a finite plateau. The cumulative leader changes from `b` at 1m to `a` at 2m.
-
-Late shell increments are
-
-```text
-100k -> 200k: (9,17,1)
-200k -> 500k: (28,28,16)
-500k -> 1m:   (28,23,16)
-1m   -> 2m:   (44,33,24)
-```
-
-so shell composition itself changes strongly across the sampled range.
-
-No ratio limit, monotonicity theorem, or growth law is inferred.
-
 ### 14-3b — late-range finite cutoff densification
+
+Status: [x] Complete.
+
+The production finite census was densified on
+
+```text
+B=100,000,150,000,...,2,000,000
+step=50,000
+39 rows
+```
+
+and the exact space-diagonal event stream was inspected around the `a/b` crossing.
+
+Main findings:
+
+1. The coarse repeated equality `a/c=7/4` is not a stable finite law. The 50k grid moves substantially between the coarse sample points, so no invariant or limit is inferred.
+2. The finite `a/b` crossing is localized by exact event values:
+
+```text
+d=1,083,121   b lead -> tie
+ d=1,096,685  tie -> b lead
+ d=1,127,185  b lead -> tie
+ d=1,148,545  tie -> a lead
+```
+
+After `d=1,148,545`, `a>b` at every subsequent exactly-two event state through the verified ceiling `B=2,000,000`.
+
+This is finite only; eventual asymptotic dominance is unknown.
+
+Artifacts:
+
+```text
+stages/stage14/scripts/14-3/late_range_densification.py
+stages/stage14/data/14-3/late_range_densification.json
+stages/stage14/archive/stage14-3b-late-range-densification.md
+```
+
+Decision:
+
+```text
+STAGE14_3B=COMPLETE
+DENSE_FINITE_GRID_STEP=50000
+A_OVER_C_7_4_LIMIT_SUPPORTED=false
+A_B_CROSSING_LOCALIZED=true
+FINAL_A_OVER_B_CROSSING_D_WITHIN_VERIFIED_RANGE=1148545
+ASYMPTOTIC_FIT_PERFORMED=false
+```
+
+### 14-3c — finite diagnostic synthesis / stop-line preparation
 
 Status: [>] Next.
 
-Purpose: determine whether the apparent `a/c` plateau and `a/b` leader crossing are robust finite features or artifacts of the sparse cutoff grid.
+Purpose:
 
-The natural focus is the range from roughly `B=100k` through `B=2m`, with extra resolution near the `a/b` crossing between the sampled `1m` and `2m` points.
+- consolidate what the finite census actually establishes;
+- separate robust finite observations from artifacts of sparse sampling;
+- record the open questions any later Stage14-4 proof must explain;
+- close Stage14-3 and enforce the current stop line.
 
-This remains a finite-data task. No Stage13 analytic claim is needed.
+No Stage13 theorem is needed for this synthesis.
 
 ## STOP LINE after Stage14-3
 
-Current research policy is to stop Stage14 after the finite Stage14-3 diagnostics.
-
-The one-face / Stage13 proof is under external review, so beginning the harder two-face asymptotic proof before the reliable one-face machinery is identified would amount to proceeding without a trustworthy proof-level map.
+Current research policy is to stop Stage14 after finite Stage14-3 diagnostics.
 
 ## 14-4 — True total growth order
 
@@ -123,4 +132,4 @@ Status: **paused pending one-face / Stage13 proof review**.
 
 Stage14 does not assume perfect-cuboid nonexistence. `T(B)` remains explicit and any `T>0` witness must be preserved and independently verified.
 
-The fact that all currently verified rows through `B=2,000,000` have `T=0` is only a finite observation. No growth exponent, limiting directional ratio, monotonicity, or relation to the Euler-side two-face limit is assumed before it is independently established.
+No growth exponent, limiting directional ratio, monotonicity theorem, eventual leader, or Euler-side equality is currently established for the two-face population.
