@@ -1,6 +1,6 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13_ROADMAP_DEFINED`
+> STATUS: `STAGE13_13B_COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT_13_13C_NEXT`
 >
 > PURPOSE: turn the reviewed Stage13 R03 theorem candidate plus the post-review `13-12ag` explicitness supplement into one canonical, self-contained, reviewable and finally frozen Stage13 theorem package.
 >
@@ -8,7 +8,7 @@
 
 ## Numeric-only dispatch contract
 
-After this roadmap is merged, the user may request work by stage token alone.
+The user may request work by stage token alone.
 
 ```text
 13-13a
@@ -60,7 +60,7 @@ Current normalized directional vector:
  0.21990388893634913)
 ```
 
-Stage13-13 must distinguish carefully between:
+Stage13-13 distinguishes between:
 
 1. repository-proved statements;
 2. standard external analytic inputs;
@@ -72,20 +72,18 @@ Stage13-13 must distinguish carefully between:
 
 ## 13-13a — claim and dependency ledger
 
-Status: `[>] Next`.
+Status: `[x] Complete`.
 
-Purpose: inventory the exact theorem claims and every dependency before rewriting anything.
+Completed results:
 
-Required work:
+- 30 active claims/dependencies inventoried;
+- exact theorem statement and constants frozen for resynthesis;
+- every dependency classified as `INTERNAL_PROOF`, `FROZEN_STAGE12_INPUT`, `STANDARD_EXTERNAL_THEOREM`, `FINITE_CHECK`, or `REVIEW_RECORD`;
+- historical `Stage13-7jb` raw direction-neutrality and `Stage13-7jf` fixed-prime overlap arguments explicitly excluded from the active proof chain;
+- no theorem-level contradiction found;
+- five bookkeeping/provenance drifts isolated without mutating R03.
 
-- enumerate every theorem-level claim used by R03 + 13-12ag;
-- map each claim to its source file/section;
-- classify each dependency as `INTERNAL_PROOF`, `FROZEN_STAGE12_INPUT`, `STANDARD_EXTERNAL_THEOREM`, `FINITE_CHECK`, or `REVIEW_RECORD`;
-- verify that no historical superseded Stage13 argument is still silently required;
-- identify duplicate derivations and wording drift between R03, roadmap, result files and supplements;
-- freeze the exact theorem statement and constants that 13-13c must reproduce unchanged unless a real defect is found.
-
-Expected artifacts:
+Canonical artifacts:
 
 ```text
 stages/stage13/13-13a/claim-dependency-ledger.md
@@ -93,55 +91,56 @@ stages/stage13/13-13a/result.md
 stages/stage13/data/13-13a/claim-dependency-ledger.json
 ```
 
-Minimum completion lock:
+Completion lock:
 
 ```text
 STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
+CLAIM_COUNT=30
 THEOREM_STATEMENT_FROZEN_FOR_RESYNTHESIS=true
+THEOREM_LEVEL_DEFECT_FOUND=false
 HISTORICAL_SUPERSEDED_ARGUMENT_REQUIRED=false
-NEXT=13-13b
 ```
 
 ---
 
 ## 13-13b — external-theorem hypothesis audit
 
-Status: `[ ] Pending 13-13a`.
+Status: `[x] Complete`.
 
 Purpose: make the theorem boundary explicit enough that a reviewer never has to guess where Stage13 stops and imported analysis begins.
 
-Audit at least:
+The audit covered:
 
-- the precise finite-order Selberg--Delange/Tauberian input;
-- the Gaussian-Hecke / angular harmonic zero-free input used uniformly over the retained polylogarithmic range;
-- every use of standard Pythagorean parametrization/counting results inherited from Stage12;
-- local character/Jacobi-sum identities and whether they are proved internally or imported;
-- any dominated-convergence, Wiener-algebra, coarea/Fubini, or summation interchange whose hypotheses were previously implicit.
+- finite-order Selberg--Delange/Tauberian usage;
+- Gaussian-Hecke/angular harmonic analytic continuation and zero-free wording;
+- fixed-conductor residue-character transfer;
+- Vaaler interval majorants/minorants;
+- Pythagorean/parity interfaces inherited from the frozen architecture;
+- local character/Jacobi-sum identities;
+- coarea/Tonelli/Fubini;
+- weighted Wiener algebra and summation interchanges;
+- the fixed-prime order of limits.
 
-For every external theorem record:
+Key refinement: the final proof can use a smaller external boundary than R03's historical wording. The general Selberg--Delange black box is not required once the special integer pole orders `0,1,2` are handled by an explicit Perron/residue contour. The Merikoski/Coleman Gaussian-Hecke zero-free theorem is valid for the stated retained range, but is not logically required for the nonzero-harmonic coefficient sum because the proof uses `L(s,xi)` itself rather than a reciprocal/logarithmic derivative/fractional power.
 
-```text
-THEOREM_USED
-SOURCE
-HYPOTHESES
-WHERE_VERIFIED_IN_STAGE13
-WHAT_CONCLUSION_IS_IMPORTED
-```
-
-No literature item may be cited as novelty evidence merely because no collision was found.
-
-Expected artifacts:
+Canonical artifacts:
 
 ```text
 stages/stage13/13-13b/external-theorem-crosswalk.md
 stages/stage13/13-13b/result.md
 ```
 
-Minimum completion lock:
+Completion lock:
 
 ```text
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 UNMAPPED_EXTERNAL_INPUTS=0
+FAILED_EXTERNAL_HYPOTHESES=0
+MINIMAL_EXTERNAL_BOUNDARY_LOCKED=true
+GENERAL_SELBURG_DELANGE_BLACK_BOX_REQUIRED=false
+GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED_FOR_FINAL_PROOF=false
+GROWING_MODULUS_INPUT_USED=false
+THEOREM_CHANGED=false
 NEXT=13-13c
 ```
 
@@ -149,7 +148,7 @@ NEXT=13-13c
 
 ## 13-13c — canonical proof resynthesis
 
-Status: `[ ] Pending 13-13b`.
+Status: `[>] Next`.
 
 Purpose: produce the single canonical Stage13 proof that future stages and reviewers should read instead of reconstructing the repair history.
 
@@ -157,6 +156,7 @@ Rules:
 
 - mathematical content must equal the frozen theorem from 13-13a unless a recorded defect forces revision;
 - incorporate the useful explicit derivations from 13-12ag directly into the proof rather than leaving them as detached supplements;
+- incorporate the 13-13b minimal external-theorem boundary, including an explicit special Perron/residue lemma and explicit Vaaler input;
 - keep R03 immutable as historical reviewed evidence;
 - historical R01/R02/R03 repair narrative should move to a short provenance appendix, not interrupt the proof chain;
 - all notation must be defined once and used consistently;
@@ -339,7 +339,9 @@ Stage13-13 does not:
 The project may later run an analogous final-freeze cleanup for Stage12, but that is a separate track and must not be mixed into Stage13-13.
 
 ```text
-STAGE13_13_ROADMAP=DEFINED
+STAGE13_13_ROADMAP=ACTIVE
 NUMERIC_ONLY_DISPATCH=true
-NEXT=13-13a
+STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
+STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
+NEXT=13-13c
 ```
