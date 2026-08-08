@@ -22,36 +22,22 @@ Priority: required
 14-1c  lock enumeration/output specification                               [complete]
 ```
 
-Stage14-1b inherits the Stage13 seed rows for `B=1000,...,100000`, the exact `B=100000` vector `(33,33,23)` with total `89`, and the theorem-level ceiling
+Locked ambient population:
 
 \[
-N_a^{(2)},N_b^{(2)},N_c^{(2)},N_2=o(B(\log B)^3).
+0<a<b<c,
+\qquad \gcd(a,b,c)=1,
+\qquad a^2+b^2+c^2=d^2,
+\qquad d\le B.
 \]
 
-This inherited little-o statement is not the true two-face asymptotic scale.
+Stage14-1 also retains the inherited ceiling
 
-Stage14-1c locks the finite enumeration contract:
+\[
+N_a^{(2)},N_b^{(2)},N_c^{(2)},N_2=o(B(\log B)^3),
+\]
 
-```text
-- exact integer square tests
-- canonical dedup by (a,b,c,d)
-- all three face flags recomputed after dedup
-- raw pair, triple and exactly-two outputs retained
-- all seven inherited rows must be reproduced exactly
-- at least one verified cutoff above B=100000 is required
-- preferred extension ladder: 200k, 500k, 1m, 2m as feasible
-- any T>0 record must preserve a full perfect-cuboid witness
-- no growth model is built into the enumerator
-```
-
-Machine-readable specifications:
-
-```text
-stages/stage14/data/14-1/stage13_pair_interface.json
-stages/stage14/data/14-1/enumeration_output_spec.json
-```
-
-Stage13 proof-review changes do not affect the finite enumeration contract unless they alter the ambient counting object or inherited finite seed counts; in that case Stage14-1b is re-audited.
+without treating it as the true two-face growth scale.
 
 Status: [x] Complete.
 
@@ -59,28 +45,71 @@ Status: [x] Complete.
 
 Priority: required
 
-Enumerate
+Required outputs:
 
 ```text
 O_ab_ac, O_ab_bc, O_ac_bc
 T
 N_a^(2), N_b^(2), N_c^(2)
 N_2
+normalized directional diagnostics
+candidate/dedup diagnostics
+validation flags and any triple witnesses
 ```
 
-at increasing `d<=B` cutoffs.
+### 14-2a — standalone historical reproduction
 
-Acceptance gate:
+Status: [x] Complete.
 
-1. reproduce all seven inherited Stage13 rows exactly;
-2. cross-check the optimized implementation against an independent/literal method on feasible small bounds;
-3. extend to at least one verified `B>100000` cutoff;
-4. satisfy all row identities exactly;
-5. retain any triple witness rather than filtering it away.
+A standalone Stage14 implementation was added at
 
-Preferred extension ladder is `200000, 500000, 1000000, 2000000` as performance allows.
+```text
+stages/stage14/scripts/14-2/two_face_census.py
+```
+
+It imports no Stage13 counting code. It regenerates the population by exact Pythagorean-triple gluing, canonical deduplication by `(a,b,c,d)`, direct space-diagonal verification and exact recomputation of all three face-square flags.
+
+All seven inherited finite rows reproduce exactly:
+
+```text
+B=1,000      (N_a,N_b,N_c)=(2,0,0)      N2=2   T=0
+B=2,000      (N_a,N_b,N_c)=(2,2,1)      N2=5   T=0
+B=5,000      (N_a,N_b,N_c)=(6,6,3)      N2=15  T=0
+B=10,000     (N_a,N_b,N_c)=(9,11,5)     N2=25  T=0
+B=20,000     (N_a,N_b,N_c)=(16,16,10)   N2=42  T=0
+B=50,000     (N_a,N_b,N_c)=(24,24,14)   N2=62  T=0
+B=100,000    (N_a,N_b,N_c)=(33,33,23)   N2=89  T=0
+```
+
+The historical reproduction gate therefore passes exactly.
+
+Result:
+
+```text
+stages/stage14/data/14-2/historical_reproduction_report.json
+```
+
+No asymptotic inference is made from these seven rows.
+
+### 14-2b — verified extension above B=100000
 
 Status: [>] Next.
+
+Use the locked Stage14 census to extend beyond the inherited ceiling. The first required target is at least one verified cutoff above `B=100000`; preferred ladder:
+
+```text
+200000 -> 500000 -> 1000000 -> 2000000
+```
+
+as performance allows.
+
+Acceptance conditions for Stage14-2 as a whole remain:
+
+1. historical reproduction gate passes exactly; [done in 14-2a]
+2. optimized production path is cross-checked against a logically independent/literal method on feasible small bounds;
+3. at least one verified `B>100000` row is produced;
+4. all exact row identities pass;
+5. any `T>0` witness is retained and independently checked.
 
 ## 14-3 — Finite directional-ratio evolution
 
@@ -106,7 +135,7 @@ Determine the correct asymptotic order of
 N_2(B).
 \]
 
-Stage13 proves only the inherited ceiling
+Stage13 supplies only
 
 \[
 N_2(B)=o(B(\log B)^3),
@@ -140,6 +169,4 @@ Status: not started.
 
 Stage14 does not assume perfect-cuboid nonexistence. The triple population `T(B)` is retained explicitly and removed from each raw pair count when forming the exactly-two populations.
 
-The fact that the inherited Stage13 finite rows have `T=0` is only a finite observation. The theorem `T=o(B(log B)^3)` is a density statement, not a nonexistence theorem.
-
-No growth exponent, limiting directional ratio, monotonicity, or relation to the Euler-side two-face limit is assumed before it is proved or numerically diagnosed.
+The fact that all currently verified rows have `T=0` is only a finite observation. No growth exponent, limiting directional ratio, monotonicity, or relation to the Euler-side two-face limit is assumed before it is proved or numerically diagnosed.
