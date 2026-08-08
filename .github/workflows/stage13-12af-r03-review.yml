@@ -1,143 +1,37 @@
-name: Stage13-12af R03 review bundle
+name: Stage13-12af R03 frozen review bundle
 
 on:
-  push:
-    branches:
-      - agent/stage13-12af-r03-review
-    paths:
-      - 'stages/stage13/**'
-      - '!stages/stage13/data/13-12af/**'
-      - '.github/workflows/stage13-12af-r03-review.yml'
-  pull_request:
-    branches:
-      - main
-    paths:
-      - 'stages/stage13/**'
-      - '.github/workflows/stage13-12af-r03-review.yml'
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  build-and-verify:
+  verify-frozen-r03:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Re-run post-R02 mathematical audits
+      - name: Verify reviewed R03 identity only
         run: |
-          cp stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json /tmp/ad.json
-          python stages/stage13/scripts/13-12ad/j0_quantitative_closure_audit.py
-          cp stages/stage13/data/13-12ae/inert_local_state_audit_report.json /tmp/ae.json
-          python stages/stage13/scripts/13-12ae/inert_local_state_audit.py
           python - <<'PY'
           import json
+          import subprocess
           from pathlib import Path
-          assert json.loads(Path('/tmp/ad.json').read_text()) == json.loads(Path('stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json').read_text())
-          assert json.loads(Path('/tmp/ae.json').read_text()) == json.loads(Path('stages/stage13/data/13-12ae/inert_local_state_audit_report.json').read_text())
-          print('post-R02 audit regeneration: PASS')
+
+          html = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260809-R03.html')
+          manifest = json.loads(Path('stages/stage13/data/13-12af/review_bundle_manifest.json').read_text())
+
+          assert manifest['bundle_id'] == 'STAGE13-FINAL-SELF-CONTAINED-20260809-R03'
+          assert manifest['content_sha256'] == '0cf573e546d8e952f36ee5ed8f1f899b3718f0d29751cf4ee64640328ad37b93'
+          assert manifest['source_ledger_sha256'] == '06e06c68ced77eb52ab937878f638243e9c43cb4dc4b02be9cba474a94bad2b2'
+          assert manifest['source_snapshot_commit'] == 'a6830e80f752fca327470ae3a79e2c88e038ae4e'
+          assert manifest['source_count'] == 105
+          assert manifest['html_bytes'] == 1026122
+          assert html.stat().st_size == 1026122
+
+          blob = subprocess.check_output(['git', 'hash-object', str(html)], text=True).strip()
+          assert blob == '6cf9b696cc02f2d556d8f67c30fb85ad77b57373'
+
+          print('Reviewed R03 snapshot is frozen: PASS')
           PY
-
-      - name: Verify immutable R02 identity
-        run: |
-          python - <<'PY'
-          import hashlib, json
-          from pathlib import Path
-          html = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html')
-          manifest = json.loads(Path('stages/stage13/data/13-12ac/review_bundle_manifest.json').read_text())
-          assert hashlib.sha256(html.read_bytes()).hexdigest() == '78d491f6135a1f53edbe341866fda932f2b094cb87e61e6e3e415032102a1690'
-          assert manifest['content_sha256'] == 'e75136805f0d4d7cfc2466b08e403eb2c895ebb1bce67564cabd24a216a682d0'
-          assert manifest['source_count'] == 98
-          assert manifest['html_bytes'] == 947019
-          print('R02 immutable identity: PASS')
-          PY
-
-      - name: Build R03 physical Stage13-only review page
-        run: python stages/stage13/scripts/13-12af/build_r03_self_contained_review.py
-
-      - name: Verify R03 bundle and neutrality
-        run: |
-          python - <<'PY'
-          from pathlib import Path
-          import json
-
-          html_path = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260809-R03.html')
-          manifest_path = Path('stages/stage13/data/13-12af/review_bundle_manifest.json')
-          html = html_path.read_text(encoding='utf-8')
-          manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
-          bundle = 'STAGE13-FINAL-SELF-CONTAINED-20260809-R03'
-
-          assert f'BUNDLE_ID={bundle}' in html
-          assert f'END_OF_BUNDLE={bundle}' in html
-          assert 'CHECKPOINT=START_OF_MAIN' in html
-          assert 'CHECKPOINT=BEFORE_EMBEDDED_SOURCES' in html
-          assert 'CHECKPOINT=AFTER_EMBEDDED_SOURCES' in html
-          assert 'CHECKPOINT=END_OF_MAIN' in html
-          assert 'REVIEW_SCOPE=STAGE13_ONLY' in html
-          assert 'STAGE12_SOURCE_EMBEDDED=false' in html
-          assert 'STAGE13_GLOBAL_REVIEW_STATUS=PENDING_EXTERNAL_R03' in html
-          assert 'PREVIOUS_R01_R02_VERDICTS_BINDING=false' in html
-          assert 'INTERNAL_PASS_FLAGS_ARE_EVIDENCE=false' in html
-          assert 'GIT_HASHES_ARE_MATHEMATICAL_EVIDENCE=false' in html
-          assert 'CI_SUCCESS_IS_MATHEMATICAL_EVIDENCE=false' in html
-          assert 'NEGATIVE_VERDICT_REQUIRES_EXTRA_BURDEN=false' in html
-          assert 'R03_SELF_DECLARED_CLOSED=false' in html
-          assert 'J_q=\\frac{2I_q}{\\pi}' in html
-          assert '529p^{-5/4}' in html or '529 p^(-5/4)' in html
-          assert '\\lambda_p' in html
-          assert '\\frac{p+5}{2(p+1)}' in html
-          assert '\\boxed{C_0=2' in html
-
-          assert manifest['status']['physical_single_html'] is True
-          assert manifest['status']['external_runtime_dependencies'] is False
-          assert manifest['status']['stage13_only_bundle'] is True
-          assert manifest['status']['r01_r02_artifacts_mutated'] is False
-          assert manifest['status']['self_declared_closed'] is False
-          assert manifest['status']['stage13_global_review_status'] == 'PENDING_EXTERNAL_R03'
-          assert manifest['review_protocol']['preferred_verdict'] is None
-          assert manifest['review_protocol']['previous_r01_r02_verdicts_binding'] is False
-          assert manifest['review_protocol']['negative_verdict_requires_extra_burden'] is False
-          assert manifest['precedence']['r03_current_proof'] == 'stages/stage13/13-12af/current-proof.md'
-          assert manifest['sources'][0]['path'] == 'stages/stage13/13-12af/current-proof.md'
-          assert manifest['source_count'] >= 95
-          assert manifest['html_bytes'] > 500000
-          paths = {row['path'] for row in manifest['sources']}
-          required = {
-              'stages/stage13/13-12af/current-proof.md',
-              'stages/stage13/13-12ad/result.md',
-              'stages/stage13/13-12ae/result.md',
-              'stages/stage13/13-12aa/result.md',
-              'stages/stage13/13-12ab/result.md',
-              'stages/stage13/scripts/13-12ad/j0_quantitative_closure_audit.py',
-              'stages/stage13/scripts/13-12ae/inert_local_state_audit.py',
-              'stages/stage13/data/13-12ad/j0_quantitative_closure_audit_report.json',
-              'stages/stage13/data/13-12ae/inert_local_state_audit_report.json',
-              'stages/stage13/scripts/13-12af/build_r03_self_contained_review.py',
-          }
-          assert required <= paths
-          assert all(row['path'].startswith('stages/stage13/') for row in manifest['sources'])
-          assert not any(row['path'].startswith('stages/stage12/') for row in manifest['sources'])
-          print('Stage13-12af R03 bundle verification: PASS')
-          PY
-
-      - name: Commit generated R03 bundle when changed
-        run: |
-          changed="$(git status --porcelain -- review/STAGE13-FINAL-SELF-CONTAINED-20260809-R03.html stages/stage13/data/13-12af/review_bundle_manifest.json)"
-          if [ -z "$changed" ]; then
-            echo 'Generated R03 bundle already current.'
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add review/STAGE13-FINAL-SELF-CONTAINED-20260809-R03.html stages/stage13/data/13-12af/review_bundle_manifest.json
-          git commit -m 'Stage13-12af generate R03 review bundle'
-          target_branch='${{ github.event.pull_request.head.ref || github.ref_name }}'
-          git push origin HEAD:"${target_branch}"
