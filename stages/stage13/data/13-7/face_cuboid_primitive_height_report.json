@@ -1,0 +1,52 @@
+{
+  "cleared_face_cuboid": {
+    "edges": ["2mnuv", "(m^2-n^2)uv", "W"],
+    "first_face_diagonal": "(m^2+n^2)uv",
+    "parameters": "s=u/v, t=m/n; gcd(u,v)=gcd(m,n)=1",
+    "second_face_diagonal": "mn(u^2-v^2)",
+    "space_diagonal": "D0=mn(u^2+v^2)",
+    "square_condition": "W^2=(un-mv)(un+mv)(um-vn)(um+vn)"
+  },
+  "finite_exact_checks": {
+    "H_parameter_max": 24,
+    "examples": [
+      {"G": 9, "g": 18, "m": 17, "n": 9, "primitive_d": 697, "u": 9, "v": 1},
+      {"G": 4, "g": 4, "m": 5, "n": 4, "primitive_d": 925, "u": 13, "v": 4},
+      {"G": 6, "g": 6, "m": 17, "n": 6, "primitive_d": 3485, "u": 14, "v": 3},
+      {"G": 68, "g": 68, "m": 20, "n": 17, "primitive_d": 2165, "u": 17, "v": 12},
+      {"G": 6, "g": 6, "m": 13, "n": 6, "primitive_d": 4225, "u": 18, "v": 1},
+      {"G": 19, "g": 38, "m": 19, "n": 17, "primitive_d": 3485, "u": 19, "v": 7},
+      {"G": 4, "g": 4, "m": 5, "n": 4, "primitive_d": 3485, "u": 21, "v": 16},
+      {"G": 42, "g": 42, "m": 7, "n": 6, "primitive_d": 697, "u": 21, "v": 16}
+    ],
+    "failures": 0,
+    "g_over_G_histogram": {"1": 15, "2": 3},
+    "parameter_quadruples": 32041,
+    "square_solutions": 18
+  },
+  "metadata": {"scope": "exact primitive common-factor and coupled-height ledger", "stage": "13-7je"},
+  "primitive_gcd_ledger": {
+    "G": "gcd(uv,mn)",
+    "conclusion": "G <= g <= 2G",
+    "lower_bound": "G divides every cleared edge/diagonal, including W because G^2 divides W^2",
+    "upper_bound_1": "the common gcd divides gcd(2mnuv,(m^2-n^2)uv,(m^2+n^2)uv), which divides 2uv",
+    "upper_bound_2": "it also divides gcd(2mnuv,mn(u^2-v^2),mn(u^2+v^2)), which divides 2mn"
+  },
+  "primitive_height": {
+    "exact": "d=D0/g=mn(u^2+v^2)/g",
+    "importance": "this couples the two Pythagorean parameter pairs and is strictly sharper for averaging than treating H(s),H(t)<=sqrt(B) independently",
+    "necessary_cutoff": "d<=B implies mn(u^2+v^2)/gcd(uv,mn) <= 2B",
+    "sandwich": "mn(u^2+v^2)/(2 gcd(uv,mn)) <= d <= mn(u^2+v^2)/gcd(uv,mn)"
+  },
+  "remaining_count": {
+    "status": "not proved in 13-7je",
+    "target": "count square-condition quadruples under mn(u^2+v^2)/gcd(uv,mn)<=2B by o(B(log B)^3)"
+  },
+  "status": {
+    "common_gcd_within_factor_2": true,
+    "exact_one_directional_limit_identified": false,
+    "next": "Stage13-7jf",
+    "pair_overlap_lower_order_proved": false,
+    "primitive_coupled_height_exact": true
+  }
+}
