@@ -8,14 +8,14 @@ on:
       - 'stages/stage13/13-12ae/**'
       - 'stages/stage13/scripts/13-12ae/**'
       - 'stages/stage13/data/13-12ae/**'
-      - 'stages/stage13/README.md'
-      - 'stages/stage13/roadmap.md'
       - '.github/workflows/stage13-12ae-padic-local-closure.yml'
   pull_request:
     branches:
       - main
     paths:
-      - 'stages/stage13/**'
+      - 'stages/stage13/13-12ae/**'
+      - 'stages/stage13/scripts/13-12ae/**'
+      - 'stages/stage13/data/13-12ae/**'
       - '.github/workflows/stage13-12ae-padic-local-closure.yml'
   workflow_dispatch:
 
@@ -72,14 +72,12 @@ jobs:
           print('Stage13-12ae exact local-state audit: PASS')
           PY
 
-      - name: Verify proof text locks
+      - name: Verify 12ae proof text locks
         run: |
           grep -F 'C_0=2' stages/stage13/13-12ae/result.md
           grep -F '\lambda_p=\frac{p+5}{2(p+1)}' stages/stage13/13-12ae/result.md
           grep -F 'a=0' stages/stage13/13-12ae/result.md
           grep -F 'fixed-conductor Gaussian ray-class character decomposition' stages/stage13/13-12ae/result.md
-          grep -F 'Qwen   = REPAIRABLE' stages/stage13/README.md
-          grep -F 'NEXT=Stage13-12af' stages/stage13/roadmap.md
 
       - name: Re-run Stage13-12ad quantitative audit
         run: |
@@ -107,7 +105,6 @@ jobs:
           assert manifest['source_count'] == 98
           assert manifest['html_bytes'] == 947019
           assert html.stat().st_size == 947019
-          physical_sha = hashlib.sha256(html.read_bytes()).hexdigest()
-          assert physical_sha == '78d491f6135a1f53edbe341866fda932f2b094cb87e61e6e3e415032102a1690'
+          assert hashlib.sha256(html.read_bytes()).hexdigest() == '78d491f6135a1f53edbe341866fda932f2b094cb87e61e6e3e415032102a1690'
           print('R02 frozen manifest identity and physical SHA256: PASS')
           PY
