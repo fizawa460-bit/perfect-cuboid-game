@@ -1,0 +1,86 @@
+{
+  "boundary_and_wings": {
+    "choice": "log H0 and log U may both be chosen asymptotic to (log B)^(1/4), below the candidate j=1 bulk log exponent 1/3.",
+    "minimal_scale_harmonic": "At k=1, (H_l(rs)-1)/G(rs)^j = H_l(rs)G(rs)^(-j)-G(rs)^(-j), again a difference of multiplicative channels.",
+    "minimal_scale_zero": "At k=1 (OE h=1, EE h=2), (G(rs)-1)/G(rs)^j = G(rs)^(1-j)-G(rs)^(-j), a difference of two multiplicative 2-variable channels.",
+    "small_coordinate_majorant_fixed_channel": "For the zero j=1 channel, the full local coefficient is bounded by the pure scale coefficient a(h); sum_{h<=Y}a(h)<<Y. Therefore min(r,s)<U contributes O(B log U). All fixed j>=1 zero/harmonic channels are pointwise dominated by this majorant.",
+    "small_height_majorant": "Every normalized shell gap has absolute value <=1, so h<=H0 contributes O(B log H0). With log H0=(log B)^(1/4), this is O(B(log B)^(1/4))."
+  },
+  "exact_globalization": {
+    "factorization": "D_{j,l}(s_h,s_r,s_s)=A_{j,l}(s_h) B_{j,l}(s_r) B_{j,l}(s_s) C_{j,l}(s_h,s_r,s_s), up to the finite 2-adic parity factor.",
+    "inert_prime_correction": "At q=3 mod 4, the h-factor is 1 and the r-s coprime correction is exactly 1-x*y.",
+    "split_prime_full_local": "D_q(z,x,y)=1 + pure h + pure r + pure s + h-r + h-s terms; r-s simultaneous support is forbidden by gcd(r,s)=1.",
+    "statement": "The growing-base uniformity issue is removed by treating h,r,s as simultaneous multiplicative variables instead of applying Selberg-Delange to h with rs frozen.",
+    "weighted_l1": "For every fixed delta>0, sum |c(a,b,c)|/(abc)^(1/2+delta)<infinity. Locally C_q-1 starts with at least two positive coordinate exponents, hence ||C_q-1||_delta=O_delta(q^(-1-2delta))."
+  },
+  "metadata": {
+    "scope": "global weighted-l1 factorization and uniform rectangle input for fixed normalization channels; curved-wedge leading constant not evaluated",
+    "stage": "13-7h"
+  },
+  "pure_one_variable_factors": {
+    "nonzero_harmonic": {
+      "base": "B_{j,l}(s)=zeta(s)^beta1 L(s,chi4)^gamma1 L(s,xi_{8l})^(3^-j) E_{b,j,l}(s), beta1=(1+3^-j)/2, gamma1=(3^-j-1)/2",
+      "scale": "A_{j,l}(s)=L(s,xi_{8l})^(3^-j) E_{h,j,l}(s), l>=1"
+    },
+    "residual_euler_products": "All E-factors have local quotient 1+O(q^(-2 sigma)) after matching the displayed first-prime coefficients.",
+    "zero_mode": {
+      "base": "B_{j,0}(s)=zeta(s)^beta0 L(s,chi4)^gamma0 E_{b,j,0}(s), beta0=(1+3^(1-j))/2, gamma0=(3^(1-j)-1)/2",
+      "scale": "A_{j,0}(s)=(zeta(s)L(s,chi4))^(3^-j) E_{h,j,0}(s)"
+    }
+  },
+  "selberg_delange_consequences": {
+    "external_boundary": [
+      "Tenenbaum, Introduction to Analytic and Probabilistic Number Theory, 3rd ed., II.5.2 (already locked by Stage12)",
+      "standard zero-free region and polynomial vertical growth for each fixed Gaussian angular Hecke L(s,xi_{8l}); e.g. the Kubilius zero-free region quoted in Gaussian-prime literature"
+    ],
+    "harmonic_base": "sum_{n<=X} b_{j,l}(n)=c X(log X)^(beta1-1) plus finite-order remainder",
+    "harmonic_scale": "For fixed j,l>=1, the Selberg-Delange z=0 expansion has 1/Gamma(-m)=0 at every finite term, hence sum_{n<=X} a_{j,l}(n)=O_A(X(log(2X))^-A) for every fixed A, at the stated Hecke zero-free external-theorem level.",
+    "zero_base": "sum_{n<=X} b_{j,0}(n)=c X(log X)^(beta0-1) plus arbitrary finite-order log expansion",
+    "zero_scale": "sum_{n<=X} a_{j,0}(n)=c X(log X)^(3^-j-1) plus arbitrary finite-order log expansion"
+  },
+  "singularity_exponent_ledger": [
+    {"base_nonzero_harmonic_zeta_exponent": 0.6666666666666666, "base_zero_zeta_exponent": 1.0, "bulk_zero_region_log_exponent_after_homogeneity": 0.33333333333333326, "j": 1, "minimal_scale_harmonic_log_exponent": -0.6666666666666667, "minimal_scale_zero_log_exponent": 0.0, "scale_nonzero_harmonic_zeta_exponent": 0.0, "scale_zero_zeta_exponent": 0.3333333333333333},
+    {"base_nonzero_harmonic_zeta_exponent": 0.5555555555555556, "base_zero_zeta_exponent": 0.6666666666666666, "bulk_zero_region_log_exponent_after_homogeneity": -0.5555555555555556, "j": 2, "minimal_scale_harmonic_log_exponent": -0.8888888888888888, "minimal_scale_zero_log_exponent": -0.6666666666666667, "scale_nonzero_harmonic_zeta_exponent": 0.0, "scale_zero_zeta_exponent": 0.1111111111111111},
+    {"base_nonzero_harmonic_zeta_exponent": 0.5185185185185185, "base_zero_zeta_exponent": 0.5555555555555556, "bulk_zero_region_log_exponent_after_homogeneity": -0.8518518518518519, "j": 3, "minimal_scale_harmonic_log_exponent": -0.962962962962963, "minimal_scale_zero_log_exponent": -0.8888888888888888, "scale_nonzero_harmonic_zeta_exponent": 0.0, "scale_zero_zeta_exponent": 0.037037037037037035},
+    {"base_nonzero_harmonic_zeta_exponent": 0.5061728395061729, "base_zero_zeta_exponent": 0.5185185185185185, "bulk_zero_region_log_exponent_after_homogeneity": -0.9506172839506173, "j": 4, "minimal_scale_harmonic_log_exponent": -0.9876543209876543, "minimal_scale_zero_log_exponent": -0.962962962962963, "scale_nonzero_harmonic_zeta_exponent": 0.0, "scale_zero_zeta_exponent": 0.012345679012345678},
+    {"base_nonzero_harmonic_zeta_exponent": 0.5020576131687243, "base_zero_zeta_exponent": 0.5061728395061729, "bulk_zero_region_log_exponent_after_homogeneity": -0.9835390946502057, "j": 5, "minimal_scale_harmonic_log_exponent": -0.9958847736625515, "minimal_scale_zero_log_exponent": -0.9876543209876543, "scale_nonzero_harmonic_zeta_exponent": 0.0, "scale_zero_zeta_exponent": 0.00411522633744856},
+    {"base_nonzero_harmonic_zeta_exponent": 0.5006858710562414, "base_zero_zeta_exponent": 0.5020576131687243, "bulk_zero_region_log_exponent_after_homogeneity": -0.9945130315500685, "j": 6, "minimal_scale_harmonic_log_exponent": -0.9986282578875172, "minimal_scale_zero_log_exponent": -0.9958847736625515, "scale_nonzero_harmonic_zeta_exponent": 0.0, "scale_zero_zeta_exponent": 0.0013717421124828531},
+    {"base_nonzero_harmonic_zeta_exponent": 0.5002286236854138, "base_zero_zeta_exponent": 0.5006858710562414, "bulk_zero_region_log_exponent_after_homogeneity": -0.9981710105166895, "j": 7, "minimal_scale_harmonic_log_exponent": -0.9995427526291724, "minimal_scale_zero_log_exponent": -0.9986282578875172, "scale_nonzero_harmonic_zeta_exponent": 0.0, "scale_zero_zeta_exponent": 0.0004572473708276177},
+    {"base_nonzero_harmonic_zeta_exponent": 0.5000762078951379, "base_zero_zeta_exponent": 0.5002286236854138, "bulk_zero_region_log_exponent_after_homogeneity": -0.9993903368388965, "j": 8, "minimal_scale_harmonic_log_exponent": -0.9998475842097241, "minimal_scale_zero_log_exponent": -0.9995427526291724, "scale_nonzero_harmonic_zeta_exponent": 0.0, "scale_zero_zeta_exponent": 0.00015241579027587258}
+  ],
+  "status": {
+    "curved_wedge_leading_constant": "NOT_YET_EVALUATED",
+    "directional_asymptotic_limit": "NOT_IDENTIFIED",
+    "fixed_channel_rectangle_input": "PROVED_AT_STATED_EXTERNAL_THEOREM_LEVEL",
+    "growing_base_uniformity_obstruction": "CLOSED_BY_GLOBAL_THREE_VARIABLE_FACTORIZATION",
+    "minimal_scale_boundary": "SEPARATED_INTO_TWO_VARIABLE_MULTIPLICATIVE_CHANNELS",
+    "next": "Stage13-7i: execute the curved wedge/radial transfer, compute the j=1 zero-mode leading constant, and bound all remaining channels against it.",
+    "stage13_7h": "COMPLETE_AT_GLOBAL_WEIGHTED_L1_RECTANGLE_LEVEL"
+  },
+  "uniform_rectangle_lemma": {
+    "form": "After convolving the global weighted-l1 correction, fixed-channel boxes H x R x S have the product of the three one-variable Selberg-Delange mains plus an error bounded by log^C times H^(3/4+eps)RS + HR^(3/4+eps)S + HRS^(3/4+eps), together with the three one-variable SD remainders. The implicit constant is fixed for j,l,eps and does not depend on a frozen base rs.",
+    "reason": "Split correction coefficients at sqrt(H),sqrt(R),sqrt(S); the global weighted-l1 norm gives exactly the Stage12-N1-3a 3/4+eps tail argument in three variables."
+  },
+  "validation": {
+    "correction_norm_delta": 0.05,
+    "correction_pure_axis_failures": 0,
+    "correction_truncated_rows": [
+      {"j": 1, "mode": "zero", "truncated_worst_q^(1+2delta)_norm": 2.0133296770155655},
+      {"j": 2, "mode": "zero", "truncated_worst_q^(1+2delta)_norm": 0.18787266772843836},
+      {"j": 3, "mode": "zero", "truncated_worst_q^(1+2delta)_norm": 0.03886673403479746},
+      {"j": 4, "mode": "zero", "truncated_worst_q^(1+2delta)_norm": 0.007602080413148026},
+      {"j": 1, "mode": "harmonic", "truncated_worst_q^(1+2delta)_norm": 1.553028472948831},
+      {"j": 2, "mode": "harmonic", "truncated_worst_q^(1+2delta)_norm": 0.20099395393608846},
+      {"j": 3, "mode": "harmonic", "truncated_worst_q^(1+2delta)_norm": 0.03544616905344642},
+      {"j": 4, "mode": "harmonic", "truncated_worst_q^(1+2delta)_norm": 0.006740490348545932}
+    ],
+    "harmonic_formula_max_abs_error": 4.85722573273506e-17,
+    "harmonic_le_zero_majorant_max_violation": 0.0,
+    "local_formula_cases": 196,
+    "q5_sigma_half_base_inverse_neumann_bound": 5.236067977499787,
+    "q5_sigma_half_base_nonconstant_l1_majorant": 0.8090169943749473,
+    "q5_sigma_half_scale_inverse_neumann_bound": 2.1708203932499366,
+    "q5_sigma_half_scale_nonconstant_l1_majorant": 0.5393446629166315,
+    "zero_formula_max_abs_error": 0.0
+  }
+}
