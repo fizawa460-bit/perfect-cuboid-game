@@ -41,11 +41,15 @@ jobs:
           assert q['POSITIVE_RANK_DENSITY_PROVED'] is False
           assert q['LOCAL_CONDITIONS_POWER_SAVING_PROVED'] is False
           assert d['metadata']['max_hypotenuse'] == 200000
+          assert d['finite_support_complexity'][-1]['primitive_triples'] == 31819
+          assert d['finite_support_complexity'][-1]['max_omega_2SXH'] == 12
           for row in d['finite_projective_density_audit']:
               expect=6 if row['p_mod_4']==1 else 4
               assert row['bad_projective_slopes']==expect
           print(json.dumps(q,indent=2))
           PY
+      - name: Require frozen audit reproducibility
+        run: git diff --exit-code -- stages/stage14/data/14-s2/local_selmer_sieve_audit.json
       - name: Upload generated audit
         uses: actions/upload-artifact@v4
         with:
