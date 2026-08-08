@@ -1,0 +1,78 @@
+{
+  "metadata": {
+    "stage": "14-s1",
+    "title": "Exact full-2-torsion descent interface and deterministic PARI Selmer/rank-bound audit",
+    "max_stage14_B": 2000000,
+    "global_active_vertices_at_ceiling": 490,
+    "sample_each": 96,
+    "pari_effort": 0
+  },
+  "descent_interface": {
+    "rational_model": "E_t: y^2=x(x-1)(x+t^2), t=X/S",
+    "integral_model": "E_F: Y^2=Z(Z-S^2)(Z+X^2)",
+    "integral_coefficients": "[a1,a2,a3,a4,a6]=[0,X^2-S^2,0,-S^2 X^2,0]",
+    "rational_2_torsion_x": [
+      "0",
+      "S^2",
+      "-X^2"
+    ],
+    "E2_dimension_over_F2": 2,
+    "kummer_map": "[P] -> (Z, Z-S^2, Z+X^2) in (Q*/Q*^2)^3, with product a square",
+    "covering_equations": [
+      "d1*u1^2 - d2*u2^2 = S^2",
+      "d3*u3^2 - d1*u1^2 = X^2",
+      "d1*d2*d3 is a square class"
+    ],
+    "bad_prime_support": "only infinity and primes dividing 2*S*X*H need local attention for the 2-coverings",
+    "discriminant": "Delta=16*S^4*X^4*H^4",
+    "pari_contract": "ellrank(E,0) returns unconditional [r1,r2,s,L]; for full rational 2-torsion dim Sel_2(E)=r2+2+s. Rank is certified only when r1=r2."
+  },
+  "finite_audit": {
+    "sampling": "96 active fibers evenly sampled from all 490 active vertices through B=2m; 96 inactive primitive Pythagorean controls selected in the same face-hypotenuse strata.",
+    "summary": {
+      "active": {
+        "sample_size": 96,
+        "exact_rank_certified": 92,
+        "positive_rank_certified": 95,
+        "rank_zero_certified": 0,
+        "selmer_rank_gt_torsion": 96,
+        "root_number_minus_one": 60,
+        "mean_selmer_2_rank": 3.8125,
+        "mean_rank_upper": 1.4583333333333333
+      },
+      "inactive_control": {
+        "sample_size": 96,
+        "exact_rank_certified": 85,
+        "positive_rank_certified": 54,
+        "rank_zero_certified": 33,
+        "selmer_rank_gt_torsion": 80,
+        "root_number_minus_one": 50,
+        "mean_selmer_2_rank": 3.4166666666666665,
+        "mean_rank_upper": 0.8333333333333334
+      }
+    },
+    "row_count": 192,
+    "rows_sha256": "fa4a0439415b10512dacca224b6afa59dd94ddb7d1a139513719658051797dcb"
+  },
+  "theorem_boundary": {
+    "active_implies_positive_rank": "imported merged Stage14-4af theorem",
+    "selmer_rank_equals_mw_rank_assumed": false,
+    "root_number_parity_used_to_change_rank_bounds": false,
+    "bsd_used": false,
+    "parity_conjecture_used": false,
+    "average_selmer_theorem_imported": false,
+    "inactive_control_means_rank_zero": false,
+    "interpretation": "s1 measures an unconditional 2-Selmer/rank-bound envelope on a deterministic finite sample. Inactive means no Stage14 physical partner through B=2m, not Mordell-Weil rank zero."
+  },
+  "decision": {
+    "STAGE14_S1": "COMPLETE_EXACT_DESCENT_INTERFACE_AND_FINITE_PARIRANK_AUDIT",
+    "EXACT_FULL_2_TORSION_DESCENT_INTERFACE_LOCKED": true,
+    "PARI_UNCONDITIONAL_RANK_BOUNDS_AUDITED": true,
+    "FINITE_ACTIVE_INACTIVE_SELMER_AUDIT_COMPLETE": true,
+    "SELMER_RANK_USED_AS_MW_RANK_EQUALITY": false,
+    "ROOT_NUMBER_PARITY_USED_AS_RANK_EQUALITY": false,
+    "POSITIVE_RANK_DENSITY_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-s2 Pythagorean-base Selmer/local-density sieve"
+  }
+}
