@@ -1,6 +1,6 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_4AG_COMPLETE_KUMMER_RANK_JUMP_REDUCTION_14_4AH_NEXT`
+> **STATUS:** `STAGE14_4AH_COMPLETE_PHYSICAL_KUMMER_HEIGHT_14_4AI_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 >
@@ -15,35 +15,38 @@ Stage14 counts primitive canonical cuboids
 
 with exactly two integral face diagonals. No perfect-cuboid nonexistence assumption is made.
 
-## §1. Ledgers
+## §1. Exact ledgers and frozen finite facts
 
-Let `T(B)` be the all-three-face population and `O_pair_raw(B)` the sum of the three raw two-face pair ledgers. Then
+Let `T(B)` be the all-three-face population and `O_pair_raw(B)` the sum of the three raw pair ledgers. Then
 
 \[
 \boxed{O_{\rm pair}^{raw}(B)=N_2(B)+3T(B).}
 \]
 
-At the frozen finite ceiling `B=2,000,000`,
+At `B=2,000,000`, two independent exact enumerators give
 
 \[
 (N_a^{(2)},N_b^{(2)},N_c^{(2)})=(142,134,80),
 \qquad N_2=356,\qquad T=0.
 \]
 
-Stage13 `R03 + Stage13-12ag` is frozen upstream and gives only
+This is finite evidence only.
+
+Stage13 `R03 + Stage13-12ag` is frozen upstream and gives
 
 \[
 N_2(B)=o(B(\log B)^3),
 \]
 
-not an explicit power saving.
+without a `B`-dependent power saving.
 
 ## §2. Exact two-face coordinates
 
 For primitive oriented Pythagorean face data
 
 \[
-F_i=(S_i,X_i,H_i),\qquad S_i^2+X_i^2=H_i^2,
+F_i=(S_i,X_i,H_i),
+\qquad S_i^2+X_i^2=H_i^2,
 \]
 
 put
@@ -52,36 +55,37 @@ put
 g=(S_1,S_2),\qquad L=\operatorname{lcm}(S_1,S_2),\qquad t_i=X_i/S_i.
 \]
 
-Primitive gluing has multiplicity one and
+Primitive gluing has parameter multiplicity one and
 
 \[
-(e,x,y)=L(1,t_1,t_2),
-\qquad d=L\sqrt{1+t_1^2+t_2^2}.
+\boxed{(e,x,y)=L(1,t_1,t_2)},
+\qquad
+\boxed{d=L\sqrt{1+t_1^2+t_2^2}}.
 \]
 
-The integer-space-diagonal condition is equivalent to
+The space-square condition also has the exact product closure
 
 \[
 \boxed{(X_1X_2)^2+(gd)^2=(H_1H_2)^2.}
 \]
 
-Fixing the first face gives the elliptic curve
+Fixing the first face gives
 
 \[
 \boxed{E_t:Y^2=X(X-1)(X+t^2).}
 \]
 
-For a second-face Euclid parameter `q=u/v`, Stage14-4ae proves
+## §3. Physical fiber height and positive-rank specialization
+
+For second-face Euclid parameter `q=u/v` in lowest terms, Stage14-4ae gives
 
 \[
 \boxed{v\asymp\sqrt{Bg/S_1}}
 \]
 
-under `d<=B`, up to absolute constants.
+under the physical cutoff, uniformly up to absolute constants.
 
-## §3. Actual Pythagorean base and nonphysical torsion
-
-For
+For the actual first-face Pythagorean base
 
 \[
 r=\frac{X_1}{H_1+S_1},
@@ -96,180 +100,320 @@ On every genuine rational Pythagorean fiber,
 E_t(\mathbf Q)_{tors}\cong\mathbf Z/2\times\mathbf Z/4,
 \]
 
-and all rational order-4 points map to the degenerate `q=+/-1` boundary. Hence every physical raw-pair point is non-torsion and
+and all torsion points are nonphysical under the Stage14 inverse coordinate. Hence
 
 \[
 \boxed{\text{physical raw pair}\Longrightarrow\text{positive-rank specialization}.}
 \]
 
-For a fixed first face, imposing the third integral face produces a genus-5 curve. This gives fiberwise finiteness only.
+For a fixed first face, the triple/perfect-cuboid locus is a genus-5 curve. This gives fiberwise finiteness only.
 
-## §4. Stage14-4ag — exact level-4 modular/Kummer identification
+## §4. Level-4 modular and Kummer geometry
 
-Shimada's level-4 elliptic modular surface is
-
-\[
-Y^2=X(X-1)\left(X-\left(\frac{\sigma+\sigma^{-1}}2\right)^2\right).
-\]
-
-Set
+With
 
 \[
-\boxed{\sigma=i\frac{1+r}{1-r}}.
+\boxed{\sigma=i\frac{1+r}{1-r}},
 \]
 
-Then
+one has
 
 \[
 \frac{\sigma+\sigma^{-1}}2=it,
 \]
 
-so the equation is exactly `E_t`. Thus the Stage14 Pythagorean-base K3 is the classical level-4 elliptic modular surface after explicit base change over `Q(i)`. Over `C` it is the Kummer surface `Km(E_i x E_i)`.
+so the Stage14 Pythagorean-base K3 is the classical level-4 elliptic modular surface after base change over `Q(i)`. Over `C` it is `Km(E_i x E_i)`.
 
-In the two Euclidean face parameters `r,s`, the space condition is the symmetric Kummer double cover
-
-\[
-\boxed{
-Z^2=(1+r^2)^2(1+s^2)^2-16r^2s^2.
-}
-\]
-
-With `M=r^2s^2+r^2+s^2+1`,
-
-\[
-F=(M-4rs)(M+4rs),
-\]
-
-and over `Q(i)` this splits into four `(1,1)` factors.
-
-## §5. Active rank-jump graph
-
-Define `G_B` as follows.
-
-- A vertex is a primitive **oriented** Pythagorean face state that occurs in at least one raw pair incidence with `d<=B`.
-- An edge is one raw pair incidence.
-
-Write
-
-\[
-V(B)=|\mathcal V_B|,\qquad E(B)=|\mathcal E_B|,
-\]
-
-and let `bar d(B)` be the average graph degree. Then
-
-\[
-\boxed{E(B)=O_{\rm pair}^{raw}(B)=N_2(B)+3T(B)}
-\]
-
-and
-
-\[
-\boxed{E(B)=\frac12V(B)\bar d(B)}.
-\]
-
-Therefore
-
-\[
-\boxed{N_2(B)=\frac12V(B)\bar d(B)-3T(B).}
-\]
-
-For a face state `F`, let `mu(F)` be the least physical space diagonal of any raw partner. Then
-
-\[
-V(B)=\#\{F:\mu(F)\le B\}.
-\]
-
-The Stage14 elliptic correspondence and nonphysical-torsion theorem give
-
-\[
-\boxed{\mu(F)<\infty\iff\operatorname{rank}E_F(\mathbf Q)>0}
-\]
-
-for genuine Pythagorean base states. Thus `V(B)` is the positive-rank specialization set ordered by **first small physical point height**.
-
-## §6. Per-fiber multiplicity cannot create a power of B
-
-Dujella's uniform bounded-height theorem applies to every Stage14 fiber because each has a rational point of exact order `2`.
-
-For any physical partner with `d<=B`, the rational base `t`, the second-face coordinate `q`, and the elliptic point obtained by the fixed birational map all have exponential height `B^{O(1)}`. Therefore, uniformly in the active face state,
+In the two first/second face Euclid parameters,
 
 \[
 \boxed{
-\deg_B(F)
-\le
-\exp\left(C\frac{\log B}{\log\log B}\right)
-=B^{o(1)}.
+Z^2=F(r,s):=(1+r^2)^2(1+s^2)^2-16r^2s^2.
 }
 \]
 
-Hence, for `B` beyond the first edge,
+## §5. Active rank-jump graph and exponent reduction
+
+Let `G_B` have one vertex for each primitive oriented Pythagorean face state occurring in a raw pair with `d<=B`, and one edge for each raw pair incidence. Write
 
 \[
-\boxed{
-\frac12V(B)\le E(B)\le V(B)B^{o(1)}.
-}
+V(B)=|\mathcal V_B|,
+\qquad E(B)=|\mathcal E_B|.
 \]
 
-In particular,
+Then
 
 \[
-\boxed{
-\limsup\frac{\log E(B)}{\log B}
-=
-\limsup\frac{\log V(B)}{\log B},
-}
+\boxed{E(B)=N_2(B)+3T(B)=\frac12V(B)\bar d(B)}.
 \]
 
-and the same equality holds for `liminf`.
-
-So the **raw-pair polynomial exponent is exactly the active rank-jump first-hit exponent**. Fiber multiplicity can change logarithmic/subpolynomial factors but cannot supply a new positive power of `B`.
-
-## §7. Finite graph census
-
-The exact augmented census gives:
-
-| B | E raw edges | V active vertices | avg degree | max degree | V/sqrt(B) |
-|---:|---:|---:|---:|---:|---:|
-| 100,000 | 89 | 117 | 1.5214 | 6 | 0.36999 |
-| 200,000 | 116 | 155 | 1.4968 | 6 | 0.34659 |
-| 500,000 | 188 | 254 | 1.4803 | 8 | 0.35921 |
-| 1,000,000 | 255 | 347 | 1.4697 | 8 | 0.34700 |
-| 2,000,000 | 356 | 490 | 1.4531 | 9 | 0.34648 |
-
-Across `200k -> 2m`,
+If `mu(F)` is the least physical raw-pair height of face state `F`, then
 
 \[
-\boxed{
-\frac{\log(490/155)}{\log 10}=0.4998643818582221.
-}
+V(B)=\#\{F:\mu(F)\le B\},
 \]
 
-At `200k,500k,1m,2m`, the coefficient of variation of `V(B)/sqrt(B)` is about `1.55%`.
-
-This is a finite diagnostic only. It does not prove `V(B)=B^{1/2+o(1)}` or `V(B)~c sqrt(B)`.
-
-## §8. Triple subtraction remains open at the target scale
-
-For every fixed first face, the triple locus is genus 5, but no uniform moving-base point bound is proved. Thus Stage14 still does not know
+and for genuine Pythagorean base states
 
 \[
-T(B)=o(\sqrt B).
+\mu(F)<\infty\iff\operatorname{rank}E_F(\mathbf Q)>0.
 \]
 
-Even after the raw-pair exponent is identified, exactly-two requires control of `3T(B)` at the same scale.
+Dujella's uniform bounded-height theorem and the polynomial Stage14 coordinate-height transfer give
 
-## §9. Literature boundary and next problem
+\[
+\boxed{\max_F\deg_B(F)=B^{o(1)}}.
+\]
 
-The K3 geometry is a known level-4 modular/Kummer surface, not a new Stage14 construction. McKinnon's product-Kummer counting results show that bounded-height rational points can be dominated by finite accumulating curve strata. Stage14 has not yet matched the primitive/lcm physical height to the relevant Kummer divisor, so those counting asymptotics are not imported yet.
+Hence raw edges and active first-hit vertices have identical limsup and liminf polynomial growth exponents.
 
-Stage14-4ah will therefore attack the remaining exponent at the correct geometric level:
+Finite data give
 
-1. identify the physical first-hit/lcm height on `Km(E_i x E_i)`;
-2. classify accumulating rational curves/multisections capable of producing small first hits;
-3. determine whether they force `V(B)=B^{1/2+o(1)}` or another law;
-4. treat the third-face condition as a relative degree-two cover and seek a triple bound relative to the Kummer count.
+```text
+B           V(B)     V(B)/sqrt(B)
+200,000      155      0.34659
+500,000      254      0.35921
+1,000,000    347      0.34700
+2,000,000    490      0.34648
+```
 
-## §10. Locked decision
+with `200k -> 2m` effective exponent
+
+\[
+0.4998643818582221.
+\]
+
+No square-root asymptotic is inferred from this finite signal.
+
+## §6. Stage14-4ah — the exact physical Kummer polarization
+
+The independent e3 toric control track resolves the projective two-face map on
+
+\[
+Y=\operatorname{Bl}_4(\mathbf P^1\times\mathbf P^1)
+\]
+
+with
+
+\[
+\boxed{L=2H_1+2H_2-E_1-E_2-E_3-E_4=-K_Y},
+\qquad L^2=4.
+\]
+
+The space-square branch numerator `F(r,s)` has homogeneous bidegree `(4,4)`. The four toric corners are
+
+\[
+(r,s)=(\pm1,\pm1).
+\]
+
+At each corner it has an ordinary double point: the function and first derivatives vanish and
+
+\[
+\operatorname{Hess}(F)=
+\begin{pmatrix}32&0\\0&32\end{pmatrix}.
+\]
+
+Therefore its strict transform on `Y` has class
+
+\[
+\boxed{4H_1+4H_2-2\sum E_j=2L=-2K_Y}.
+\]
+
+Let
+
+\[
+\pi:X\to Y
+\]
+
+be the resolved degree-two space-square cover. Define
+
+\[
+\boxed{M=\pi^*L}.
+\]
+
+If `Phi:X->P2` is the physical projective map, then
+
+\[
+\boxed{M=\Phi^*\mathcal O_{\mathbf P^2}(1)},
+\qquad
+\boxed{M^2=2L^2=8}.
+\]
+
+On every primitive Stage14 point,
+
+\[
+\boxed{H_M(P)=\sqrt{e^2+x^2+y^2}=d.}
+\]
+
+Thus the original cutoff `d<=B` is exactly the `M`-height cutoff on the arithmetic open set.
+
+## §7. `M` is big and nef, not ample
+
+On `Y`, the four strict toric boundary curves
+
+\[
+H_1-E_1-E_2,\quad
+H_1-E_3-E_4,\quad
+H_2-E_1-E_3,\quad
+H_2-E_2-E_4
+\]
+
+have `L`-degree zero. Their geometric lifts give eight `M`-null `(-2)`-curves on `X`. Hence
+
+\[
+\boxed{M\text{ is big and nef but not ample}.}
+\]
+
+These null curves are boundary and do not contain primitive positive Stage14 points.
+
+This blocks a direct import of McKinnon's ample-height product-Kummer asymptotic. Its accumulating-curve mechanism remains a guide only.
+
+## §8. Minimum degree of a physical rational curve
+
+Let
+
+\[
+f:X\to\mathbf P^1_r
+\]
+
+be the first-face elliptic fibration. Its singular base values are
+
+\[
+r=0,\infty,\pm1,\pm i,
+\]
+
+whereas the physical real base lies in `0<r<1`. Thus no physical rational curve is a vertical singular-fiber component, and a smooth vertical fiber has genus one.
+
+Any physical rational curve `C` therefore dominates the base. Put
+
+\[
+n=\deg(C\to\mathbf P^1_r)\ge1.
+\]
+
+Since
+
+\[
+t(r)=\frac{2r}{1-r^2}
+\]
+
+has degree two and `t=x/e` is a quotient of two sections of `M`,
+
+\[
+\boxed{M\cdot C\ge\deg(t|_C)=2n.}
+\]
+
+If `n=1`, `C` is a section. Generic Mordell--Weil rank is zero and every torsion section is nonphysical. Hence a physical rational curve satisfies
+
+\[
+\boxed{n\ge2},
+\]
+
+and consequently
+
+\[
+\boxed{M\cdot C\ge4.}
+\]
+
+## §9. The extremal square-root curve mechanism
+
+Let `C/Q` be a physical rational curve with
+
+\[
+m=M\cdot C>0.
+\]
+
+After normalization `C~=P1`, the restricted height is an `O(m)` height, so its bounded-height polynomial exponent is
+
+\[
+\boxed{2/m}.
+\]
+
+Since `m>=4`, every fixed physical rational curve contributes exponent at most `1/2`.
+
+The extremal possibility is
+
+\[
+\boxed{M\cdot C=4}.
+\]
+
+The multisection bound then forces
+
+\[
+\boxed{n=2}.
+\]
+
+Therefore the precise rational-curve target capable of explaining a square-root first-hit population is
+
+\[
+\boxed{\text{a Q-rational M-degree-4 bisection}.}
+\]
+
+Stage14-4ah does not prove existence, completeness, or dominance of such bisections.
+
+## §10. The finite signal survives away from the non-ample boundary
+
+To test whether the finite square-root signal is merely a cusp artifact, active vertices were recounted on fixed compact real subintervals of the first-face base:
+
+```text
+B          all V    0.1<=r<=0.9    0.2<=r<=0.8    0.25<=r<=0.75
+200k         155          134             105                92
+500k         254          227             174               147
+1m           347          307             238               197
+2m           490          426             338               283
+```
+
+The decade effective exponents are
+
+```text
+all                 0.4998643818582221
+0.1 <= r <= 0.9     0.5023048007379113
+0.2 <= r <= 0.8     0.5077274012077166
+0.25 <= r <= 0.75   0.4879986081787350
+```
+
+Thus the finite `sqrt(B)` signal persists after fixed real cusp neighborhoods are removed. This remains finite evidence only.
+
+## §11. Triple condition as a relative double cover
+
+The third-face-square condition has numerator
+
+\[
+\boxed{G(r,s)=r^2(1-s^2)^2+s^2(1-r^2)^2}.
+\]
+
+It also has bidegree `(4,4)` and ordinary double points at the four toric corners, now with Hessian
+
+\[
+\begin{pmatrix}8&0\\0&8\end{pmatrix}.
+\]
+
+Hence its strict zero divisor on `Y` also has class `2L`. Pulling to `X`, the degree-two relative cover obtained by adjoining the third square root
+
+\[
+\rho:W\to X
+\]
+
+has branch class
+
+\[
+\boxed{2M}.
+\]
+
+The rational image of a generically nontrivial degree-two cover is a type-II thin subset of `X(Q)`. However, no Stage14 theorem currently gives thin-set zero density for the raw K3 population under the big-and-nef height `M`. Therefore
+
+\[
+\boxed{T(B)=o(\sqrt B)}
+\]
+
+is still unproved.
+
+## §12. Literature boundary
+
+The level-4/Kummer geometry is classical. McKinnon's product-Kummer point-counting framework establishes the relevance of finite accumulating curve strata for ample heights, but its asymptotic is not imported because the exact Stage14 polarization `M` is only big and nef. Explicit rational curves known on product Kummer surfaces are treated as adjacent mechanisms until their `M`-degree and physical intersection are computed.
+
+No novelty claim is made for the classical Kummer surface or rational-curve constructions.
+
+## §13. Locked decision
 
 ```text
 STAGE14_4AA=COMPLETE
@@ -279,24 +423,27 @@ STAGE14_4AD=COMPLETE
 STAGE14_4AE=COMPLETE
 STAGE14_4AF=COMPLETE
 STAGE14_4AG=COMPLETE
+STAGE14_4AH=COMPLETE
 
-LEVEL4_MODULAR_K3_IDENTIFIED_OVER_QI=true
-KUMMER_EI_SELF_PRODUCT_GEOMETRY_IMPORTED=true
-GLOBAL_KUMMER_DOUBLE_COVER_LOCKED=true
+PHYSICAL_KUMMER_POLARIZATION_LOCKED=true
+PHYSICAL_LINE_BUNDLE=M=pi^*(-K_Y)
+PHYSICAL_POLARIZATION_SQUARE=8
+PHYSICAL_POLARIZATION_BIG_NEF_NOT_AMPLE=true
+PHYSICAL_RATIONAL_CURVE_M_DEGREE_LOWER_BOUND=4
+SQRTB_MINIMAL_RATIONAL_CURVE_TARGET=M-degree-4 rational bisection
+MCKINNON_DIRECT_ASYMPTOTIC_IMPORTED=false
 
 RANK_JUMP_GRAPH_IDENTITY_LOCKED=true
-ACTIVE_VERTEX_IS_SMALL_POINT_POSITIVE_RANK_COUNT=true
-DUJELLA_SUBPOLYNOMIAL_DEGREE_BOUND=true
 RAW_PAIR_AND_ACTIVE_VERTEX_POWER_EXPONENT_EQUAL=true
-
-FINITE_ACTIVE_VERTEX_SQRTB_SIGNAL=true
-FINITE_VERTEX_EXPONENT_200K_TO_2M=0.4998643818582221
+FINITE_CORE_SQRTB_SIGNAL_SURVIVES=true
 SQRT_B_ASYMPTOTIC_CLAIM=false
 TRUE_GROWTH_ORDER_IDENTIFIED=false
 
 TRIPLE_FIXED_BASE_GENUS=5
+TRIPLE_RELATIVE_COVER_BRANCH_CLASS=2M
+TRIPLE_TYPE_II_THIN=true
 T_O_SQRT_B_PROVED=false
 PERFECT_CUBOID_NONEXISTENCE_PROVED=false
 
-NEXT=Stage14-4ah Kummer height/accumulating-multisection and relative triple-thin analysis
+NEXT=Stage14-4ai classify Q-rational M-degree-4 bisections and count their first-hit height; audit triple restriction on those curves
 ```
