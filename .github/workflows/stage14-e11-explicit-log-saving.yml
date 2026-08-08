@@ -1,0 +1,94 @@
+name: Stage14-e11 explicit log saving
+
+on:
+  push:
+    branches:
+      - agent/stage14-e11-explicit-log-saving
+    paths:
+      - 'stages/stage14/14-e11/**'
+      - 'stages/stage14/scripts/14-e11/**'
+      - 'stages/stage14/data/14-e11/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e11-explicit-log-saving.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e11/**'
+      - 'stages/stage14/scripts/14-e11/**'
+      - 'stages/stage14/data/14-e11/**'
+      - 'stages/stage14/e-supplement-roadmap.md'
+      - '.github/workflows/stage14-e11-explicit-log-saving.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute explicit log-saving audit
+        run: |
+          cp stages/stage14/data/14-e11/explicit_log_saving_audit.json /tmp/e11_expected.json
+          python stages/stage14/scripts/14-e11/explicit_log_saving_audit.py
+          diff -u /tmp/e11_expected.json stages/stage14/data/14-e11/explicit_log_saving_audit.json
+
+      - name: Verify exact exponent balance
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage14/data/14-e11/explicit_log_saving_audit.json').read_text())
+          assert d['pass'] is True
+          h=d['huang_explicit_exponent']
+          assert h['picard_rank_r']==6
+          assert h['dimension_X']==2
+          assert h['sieve_error_N_exponent']==22
+          assert h['balanced_lambda']['fraction']=='1/46'
+          assert h['admissible_eta_supremum_not_endpoint']['fraction']=='1/46'
+          assert h['concrete_eta']['fraction']=='1/50'
+          assert h['first_term_saving_with_witness']['fraction']=='999/46000'
+          assert h['second_term_saving_with_witness']['fraction']=='953/46000'
+          assert h['endpoint_eta_1_over_46_claimed'] is False
+          print('Stage14-e11 explicit Huang balance: PASS')
+          PY
+
+      - name: Verify growing-prime sieve locks
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage14/data/14-e11/explicit_log_saving_audit.json').read_text())
+          g=d['growing_prime_local_sieve']
+          assert g['sieve_dimension']==2
+          assert g['local_error_log_gap_before_epsilon']['fraction']=='7/25'
+          assert g['exceptional_fan_rays']==[[1,1],[1,-1],[-1,1],[-1,-1]]
+          assert g['displayed_local_weights']['3']['sieve_weight_delta_over_one_minus_delta']['fraction']=='2/5'
+          assert g['displayed_local_weights']['5']['sieve_weight_delta_over_one_minus_delta']['fraction']=='1/6'
+          s=d['status']
+          assert s['ELEMENTARY_GROWING_PRIME_UNIFORMITY_PROVED'] is True
+          assert s['LOCAL_BLOCKER_LOGLOG_SAVING_PROVED'] is True
+          assert s['LOCAL_BLOCKER_SIEVE_DIMENSION']==2
+          print('Stage14-e11 growing-prime sieve audit: PASS')
+          PY
+
+      - name: Verify theorem and literature boundary
+        run: |
+          grep -F 'STAGE14_E11=COMPLETE_EXPLICIT_THIN_COVER_EXPONENT_AND_GROWING_PRIME_SIEVE' stages/stage14/14-e11/result.md
+          grep -F 'ETA_EB_ANY_LT_1_OVER_46=true' stages/stage14/14-e11/result.md
+          grep -F 'CONCRETE_ETA_1_OVER_50_PROVED=true' stages/stage14/14-e11/result.md
+          grep -F 'ENDPOINT_ETA_1_OVER_46_PROVED=false' stages/stage14/14-e11/result.md
+          grep -F 'ELEMENTARY_GROWING_PRIME_UNIFORMITY_PROVED=true' stages/stage14/14-e11/result.md
+          grep -F 'REUSABLE_METHOD + THEOREM_LEVEL_INPUT' stages/stage14/14-e11/literature-explicit-sieve-audit.md
+          grep -F 'STAGE14_SUBSTITUTION_ETA_LT_1_OVER_46=NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e11/literature-explicit-sieve-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e11/literature-explicit-sieve-audit.md
+
+      - name: Verify frozen e10 handoff
+        run: |
+          grep -F 'STAGE14_E10=COMPLETE_ADELIC_STATE_LAW_LOCAL_SIEVE_AND_THIN_COVER_LOG_SAVING' stages/stage14/14-e10/result.md
+          grep -F 'EXPLICIT_ETA_EB_EVALUATED=false' stages/stage14/14-e10/result.md
+          grep -F 'ELEMENTARY_GROWING_PRIME_UNIFORMITY_PROVED=false' stages/stage14/14-e10/result.md
