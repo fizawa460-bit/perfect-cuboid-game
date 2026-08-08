@@ -1,0 +1,102 @@
+{
+  "metadata": {
+    "stage": "E-1c",
+    "scope": "finite cutoff scaling and directional-ratio diagnostic",
+    "space_diagonal_integrality_required": false,
+    "asymptotic_theorem_claimed": false
+  },
+  "counting_convention": {
+    "canonical_order": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "cutoff": "a^2+b^2+c^2<=B^2"
+  },
+  "rows": [
+    {
+      "B": 10000,
+      "exact_one": {"ab": 31593274, "ac": 14373282, "bc": 16389285},
+      "total": 62355841,
+      "ratio_bc_normalized": {"ab": 1.9276786022086991, "ac": 0.876992620483444, "bc": 1.0},
+      "proportion": {"ab": 0.5066610199355662, "ac": 0.23050418003343104, "bc": 0.26283480003100274},
+      "scaled_B2_logB": {"ab": 0.03430196140864369, "ac": 0.015605592648598336, "bc": 0.01779444009459934}
+    },
+    {
+      "B": 20000,
+      "exact_one": {"ab": 137675586, "ac": 62698520, "bc": 70266959},
+      "total": 270641065,
+      "ratio_bc_normalized": {"ab": 1.9593218200890123, "ac": 0.8922902156616739, "bc": 1.0},
+      "proportion": {"ab": 0.50870175965351, "ac": 0.23166669108400087, "bc": 0.25963154926248905},
+      "scaled_B2_logB": {"ab": 0.03475431893806527, "ac": 0.01582738395625688, "bc": 0.01773793288153468}
+    },
+    {
+      "B": 50000,
+      "exact_one": {"ab": 953782022, "ac": 434710270, "bc": 477608567},
+      "total": 1866100859,
+      "ratio_bc_normalized": {"ab": 1.9969952130276591, "ac": 0.9101810562790847, "bc": 1.0},
+      "proportion": {"ab": 0.5111095777058425, "ac": 0.23295111188842768, "bc": 0.2559393104057298},
+      "scaled_B2_logB": {"ab": 0.03526068638113446, "ac": 0.016070949277263987, "bc": 0.01765687075818047}
+    },
+    {
+      "B": 100000,
+      "exact_one": {"ab": 4097242942, "ac": 1868209055, "bc": 2026452228},
+      "total": 7991904225,
+      "ratio_bc_normalized": {"ab": 2.0218798575102657, "ac": 0.9219112245462714, "bc": 1.0},
+      "proportion": {"ab": 0.5126741796007948, "ac": 0.2337626931458879, "bc": 0.2535631272533174},
+      "scaled_B2_logB": {"ab": 0.03558820001455291, "ac": 0.016227057672563775, "bc": 0.017601540409219008}
+    },
+    {
+      "B": 200000,
+      "exact_one": {"ab": 17516747856, "ac": 7990469902, "bc": 8569465813},
+      "total": 34076683571,
+      "ratio_bc_normalized": {"ab": 2.0440886559611275, "ac": 0.9324350054443703, "bc": 1.0},
+      "proportion": {"ab": 0.5140391029984835, "ac": 0.23448496346047196, "bc": 0.2514759335410445},
+      "scaled_B2_logB": {"ab": 0.035877116998837826, "ac": 0.016365767544661642, "bc": 0.017551644295960567}
+    },
+    {
+      "B": 500000,
+      "exact_one": {"ab": 118791437295, "ac": 54216622276, "bc": 57394634228},
+      "total": 230402693799,
+      "ratio_bc_normalized": {"ab": 2.0697307142528585, "ac": 0.9446287619958451, "bc": 1.0},
+      "proportion": {"ab": 0.5155818073838665, "ac": 0.23531244961613948, "bc": 0.24910574299999397},
+      "scaled_B2_logB": {"ab": 0.036210378840613254, "ac": 0.01652648100550446, "bc": 0.017495212585510022}
+    }
+  ],
+  "crossing_observations": {
+    "ab_over_bc_below_2_at_B50000": 1.9969952130276591,
+    "ab_over_bc_above_2_at_B100000": 2.0218798575102657,
+    "ab_over_bc_crosses_2_between_sampled_cutoffs": [50000, 100000],
+    "ac_over_bc_below_1_through_B500000": 0.9446287619958451
+  },
+  "scale_diagnostic": {
+    "candidate_scale": "B^2 log B",
+    "note": "N_q/(B^2 log B) varies slowly over the audited high-B range; this is a finite diagnostic, not a proof of an asymptotic."
+  },
+  "inverse_log_extrapolation": {
+    "x": "1/log(B)",
+    "fit_cutoffs": [10000, 20000, 50000, 100000, 200000, 500000],
+    "fits": {
+      "ab": {
+        "degree_1": {"coefficients_ascending": [2.4044891898185656, -4.401105801805311], "intercept_x0": 2.4044891898185656},
+        "degree_2": {"coefficients_ascending": [2.4549470873497534, -5.507503086619689, 5.9776874915867815], "intercept_x0": 2.4549470873497534}
+      },
+      "ac": {
+        "degree_1": {"coefficients_ascending": [1.103842474196026, -2.0926768284318626], "intercept_x0": 1.103842474196026},
+        "degree_2": {"coefficients_ascending": [1.1225305600880455, -2.502453067652459, 2.213955450866267], "intercept_x0": 1.1225305600880455}
+      }
+    },
+    "warning": "Polynomial extrapolation in 1/log(B) is diagnostic only; no convergence rate or limiting theorem is inferred."
+  },
+  "stage13_chamber_comparison": {
+    "space_diagonal_side_bc_normalized_ratio": {"ab": 2.431684750178191, "ac": 1.115756428951881, "bc": 1.0},
+    "source": "stages/stage13/data/13-7/consolidation_audit_report.json",
+    "observation": "The Stage13 chamber ratio lies between the E-1c linear and quadratic inverse-log intercept diagnostics in both ab/bc and ac/bc.",
+    "same_limit_proved": false
+  },
+  "status": {
+    "E_1C_complete": true,
+    "largest_B": 500000,
+    "ab_over_bc_has_crossed_2": true,
+    "ac_over_bc_has_crossed_1": false,
+    "finite_profile_consistent_with_stage13_chamber_but_not_proved": true,
+    "next": "E-1d structural explanation of the Euler-side directional profile"
+  }
+}
