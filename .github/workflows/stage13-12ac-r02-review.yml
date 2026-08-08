@@ -92,7 +92,6 @@ jobs:
           PY
 
       - name: Commit generated R02 bundle when changed
-        if: github.event_name == 'push'
         run: |
           changed="$(git status --porcelain -- review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html stages/stage13/data/13-12ac/review_bundle_manifest.json)"
           if [ -z "$changed" ]; then
@@ -103,4 +102,5 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add review/STAGE13-FINAL-SELF-CONTAINED-20260808-R02.html stages/stage13/data/13-12ac/review_bundle_manifest.json
           git commit -m 'Stage13-12ac generate R02 review bundle'
-          git push origin HEAD:${{ github.ref_name }}
+          target_branch='${{ github.event.pull_request.head.ref || github.ref_name }}'
+          git push origin HEAD:"${target_branch}"
