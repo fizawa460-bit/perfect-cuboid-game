@@ -2,7 +2,7 @@
 
 > **ROLE:** independent research track beside the existing space-diagonal-first stages
 >
-> **STATUS:** E-1b finite population profile complete
+> **STATUS:** E-1c finite cutoff-scaling diagnostic complete
 >
 > **IMPORTANT:** this track does not modify or reinterpret the active `stages/stage13/` work.
 
@@ -74,13 +74,12 @@ N_1(B) = N_ab+N_ac+N_bc
 
 ## 4. E-1b finite enumeration
 
-E-1b enumerates all three populations under one common cutoff. At `B=10000`:
+At `B=10000`:
 
 ```text
 N_ab = 31,593,274
 N_ac = 14,373,282
 N_bc = 16,389,285
-N_1  = 62,355,841
 ```
 
 so
@@ -90,32 +89,50 @@ N_ab:N_ac:N_bc
 ≈ 1.927679 : 0.876993 : 1.
 ```
 
-The normalized vector is
-
-```text
-(ab,ac,bc)
-≈ (0.5066610, 0.2305042, 0.2628348).
-```
-
-Across `B=100` through `B=10000`, both `ab/bc` and `ac/bc` increase toward the finite shape `2:1:1`. This is an observation only; no limiting theorem is claimed.
-
 The optimized enumerator is independently checked against literal canonical triple enumeration at `B=20,30,50,80`, with exact agreement in every direction.
 
-Result and assets:
+## 5. E-1c cutoff scaling
+
+E-1c extends the profile to `B=500000`.
 
 ```text
-stages/euler-cuboid/E-1b/result.md
-stages/euler-cuboid/scripts/E-1b/population_enumeration.py
-stages/euler-cuboid/data/E-1b/population_report.json
+B=50000:  ab/bc = 1.996995, ac/bc = 0.910181
+B=100000: ab/bc = 2.021880, ac/bc = 0.921911
+B=500000: ab/bc = 2.069731, ac/bc = 0.944629
 ```
 
-## 5. Roadmap
+Thus `ab/bc` crosses `2` between the sampled cutoffs `50000` and `100000`. The finite profile therefore does not simply settle at `2:1:1`.
+
+The high-cutoff counts are consistent with a natural `B^2 log B` scale diagnostic. Purely diagnostic fits in `1/log B` extrapolate to
+
+```text
+linear:    2.404489 : 1.103842 : 1
+quadratic: 2.454947 : 1.122531 : 1
+```
+
+while the proved Stage13 space-diagonal-side chamber ratio is
+
+```text
+2.431684750178191 : 1.115756428951881 : 1.
+```
+
+The Stage13 vector lies between the two Euler-side finite extrapolations in both nontrivial coordinates. This is numerical evidence that the two tracks may share the same leading canonical chamber vector even though only one imposes integral space diagonal. No Euler-side limiting theorem is yet claimed.
+
+Assets:
+
+```text
+stages/euler-cuboid/E-1c/result.md
+stages/euler-cuboid/scripts/E-1c/cutoff_scaling.py
+stages/euler-cuboid/data/E-1c/scaling_report.json
+```
+
+## 6. Roadmap
 
 ```text
 E-1a  counting object / primitive convention / common D<=B cutoff       [complete]
 E-1b  enumerate ab/ac/bc exactly-one populations and first profile       [complete]
-E-1c  cutoff scaling and directional-ratio analysis                      [next]
-E-1d  structural explanation of the directional profile
+E-1c  cutoff scaling and directional-ratio analysis                      [complete]
+E-1d  structural explanation of the Euler-side directional profile       [next]
 E-1e  finite/asymptotic synthesis of the exactly-one Euler-side layer
 ```
 
@@ -129,7 +146,7 @@ ac+bc
 
 and finally the Euler-brick population where all three face diagonals are integral.
 
-## 6. Separation from the space-diagonal track
+## 7. Separation from the space-diagonal track
 
 ```text
 stages/stage13/       space-diagonal-first side
@@ -138,6 +155,6 @@ stages/euler-cuboid/  face-diagonal-first / Euler side
 
 The two sides use the same geometric height `D<=B`; the Euler side simply removes the condition `D in Z`. No active Stage13 file is changed by this track.
 
-## 7. Next
+## 8. Next
 
-`E-1c`: extend and analyze the finite cutoff profile, with particular attention to whether the observed movement toward `2:1:1` persists or eventually bends toward a different directional law.
+`E-1d`: explain structurally why removing space-diagonal integrality changes the absolute population scale so strongly while the observed directional profile remains compatible with the same canonical chamber vector.
