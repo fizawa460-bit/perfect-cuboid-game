@@ -27,7 +27,8 @@ STAGE13_4C=COMPLETE
 STAGE13_5=COMPLETE
 STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_7=COMPLETE_AT_UNCONDITIONAL_EXACT_ONE_DIRECTIONAL_ASYMPTOTIC_LEVEL
-NEXT=Stage13-8
+STAGE13_8=COMPLETE
+NEXT=Stage13-9
 ```
 
 The active roadmap is
@@ -48,11 +49,11 @@ The policy designates
 stages/stage13/main.md
 ```
 
-as the canonical living mathematical source. Stage13-8 is now expected to consolidate the already-proved Stage12-to-Stage13 bridge into that canonical exposition.
+as the canonical living mathematical source. Its §8 now contains the rigorous Stage12-to-Stage13 bridge theorem. Frozen task-end snapshots are provenance only.
 
-## Stage13-7 final result
+## Stage13-7 final directional theorem
 
-Stage13-7 resolves the asymptotic behaviour of the exact-one directional vector. With the Stage13-3b chamber integrals
+With the canonical chamber integrals
 
 ```text
 I_ab = 0.659705248705705
@@ -61,7 +62,7 @@ I_bc = 0.2712955487578571
 I_ab+I_ac+I_bc = pi^2/8
 ```
 
-the three category counts satisfy
+Stage13-7 proves
 
 \[
 N_q(B)\sim \frac{\kappa I_q}{3\pi^3}B(\log B)^3,
@@ -85,157 +86,151 @@ N_ab:N_ac:N_bc
  -> 2.431684750178191 : 1.115756428951881 : 1
 ```
 
-so the proved limiting ratio is **not** `2:1:1`.
+so the limiting ratio is not `2:1:1`.
 
 For the Stage13-5 deviation coordinates,
 
 ```text
 alpha -> 0.034736933231398814
 beta  -> 0.01272764444795145
-```
 
-and
-
-```text
 Delta_inf = ( 0.034736933231398814,
              -0.004640822167747971,
              -0.03009611106365087 )
 ```
 
-is nonzero.
-
-At `B=100000`, by contrast, exact-one has approximately
+At `B=100000`, by contrast,
 
 ```text
-alpha = 0.0007796226864250431
-beta  = 0.007367731952627507
+alpha ~= 0.0007796226864250431
+beta  ~= 0.007367731952627507
 ```
 
-so the observed near-`2:1:1` vector is strongly pre-asymptotically flattened.
+so the finite near-`2:1:1` vector is strongly pre-asymptotically flattened.
 
 No monotone convergence or explicit secondary convergence rate is claimed.
 
-## Stage13-7 theorem chain
+## Stage13-8 — frozen Stage12 to canonical exactly-one bridge
 
-The final chain is:
-
-```text
-13-7j
-  individual primitive pure-G category asymptotics
-  G_q ~ K_q B(log B)^(1/3)
-  normalized limit = Stage13-3b chamber vector
-
-13-7ja
-  preprimitive m1 asymptotics
-  M_q ~ C_q B log B
-  primitive support changes exponent 1 -> 1/3
-  leading normalized vector unchanged
-
-13-7jb
-  restore supported-shell richness
-  A_q ~ [kappa I_q/(3 pi^3)] B(log B)^3
-  raw normalized limit = chamber vector
-
-13-7jc
-  exact inclusion-exclusion
-  pair-overlap problem reduced to F(B)=o(B(log B)^3)
-
-13-7jd
-  unconditional face-cuboid bound B*exp(C log B/loglog B)
-  useful intermediate bound, insufficient by itself for exactly-one
-
-13-7je
-  exact Kummer / congruent-number-twist / coupled-height reduction
-  structural intermediate route
-
-13-7jf
-  fixed-prime quadratic-residue sieve
-  pair overlaps = o(B(log B)^3)
-  triple overlap = o(B(log B)^3)
-  exact-one category asymptotics and directional limit proved
-
-13-7jg
-  constant/dependency/tagged-orientation/order-of-limits audit
-  Stage13-7 completion decision
-```
-
-The shortest final overlap proof is the 13-7jf fixed-prime sieve. The essential order of limits is
+Stage13-8 is complete. It separates the bridge into four layers:
 
 ```text
-fix finitely many sieve primes
--> B -> infinity
--> increase the number of fixed primes
+frozen Stage12 primitive oriented records
+  -> canonical raw face incidences
+  -> directional raw asymptotics
+  -> canonical exactly-one counts
 ```
 
-so no uniform theorem for a modulus growing with `B` is required.
+For `q in {ab,ac,bc}`, let `C_prim,q^proj(B)` be the Stage12 primitive oriented records whose distinguished integral face becomes canonical category `q` after sorting. The exact projection theorem is
+
+\[
+\boxed{C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)}
+\]
+
+and
+
+\[
+\boxed{C_{\rm prim}(B)=2(A_{ab}+A_{ac}+A_{bc}).}
+\]
+
+The universal factor `2` is the two orders of the distinguished face legs. It remains exact on multi-face objects and separately in the OE/EE parity strata.
+
+Since Stage13-7 proves every pair overlap and the triple overlap are `o(B(log B)^3)`, the direct bridge is
+
+\[
+\boxed{
+N_q(B)=\frac12C^{\rm proj}_{\rm prim,q}(B)+o(B(\log B)^3)
+}
+\]
+
+and
+
+\[
+\boxed{
+N_1(B)=\frac12C_{\rm prim}(B)+o(B(\log B)^3).
+}
+\]
 
 No perfect-cuboid nonexistence assumption is used.
 
-## Scale ladder
+The frozen Stage12 theorem remains only
 
-The absolute scales change dramatically, but the leading normalized chamber vector survives every layer:
+\[
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3
+=
+\frac{\eta}{12\pi^2}B(\log B)^3,
+\qquad \eta=\pi\kappa,
+\]
 
-| observable | scale | normalized limit |
-|---|---|---|
-| preprimitive `m1` | `B log B` | Stage13-3b chamber |
-| primitive pure-`G` | `B(log B)^(1/3)` | Stage13-3b chamber |
-| primitive raw incidence | `B(log B)^3` | Stage13-3b chamber |
-| primitive exactly-one | `B(log B)^3` | Stage13-3b chamber |
+for the primitive oriented count. Stage12 was not reopened; the directional refinement and overlap removal are Stage13 results.
 
-The common primitive-support survival constant is diagnostically
+## Stage13-8 final audit
 
-```text
-Lambda ~= 0.7516555708217902
-```
-
-and the common scaled pure-`G` to raw amplification is diagnostically
+The interface audit and final closure assets are
 
 ```text
-Omega ~= 0.0010287940977836043.
+stages/stage13/scripts/13-8/bridge_ledger.py
+stages/stage13/data/13-8/bridge_ledger_report.json
+stages/stage13/scripts/13-8/final_cross_reference_audit.py
+stages/stage13/data/13-8/final_cross_reference_audit_report.json
+stages/stage13/archive/stage13-8-final.md
 ```
 
-The numerical `kappa`, `K_q`, `D_q`, `Lambda`, and `Omega` values based on truncated prime products are diagnostics, not certified enclosures. The symbolic theorem constants are authoritative.
-
-## Stage13-7 final audit assets
+The final 13-8c audit closes:
 
 ```text
-stages/stage13/scripts/13-7/consolidation_audit.py
-stages/stage13/data/13-7/consolidation_audit_report.json
-stages/stage13/archive/stage13-7-final.md
+OBJECT_MAP=CLOSED
+CUTOFF_MATCHING=CLOSED
+PRIMITIVE_DEFINITION_MATCHING=CLOSED
+ORIENTATION_FIBER=CLOSED
+CANONICAL_DIRECTION_PARTITION=CLOSED
+PARITY_PROJECTION=CLOSED
+DIRECTIONAL_CONSTANT_BRIDGE=CLOSED
+OVERLAP_TO_EXACT_ONE=CLOSED
+STAGE12_FREEZE_BOUNDARY=CLOSED
+NEW_MATHEMATICAL_BRIDGE_GAP_FOUND=false
+STAGE12_REOPENED=false
 ```
 
-Historical 13-7jc/7jd/7je conditional status flags remain in their own reports as provenance. The 13-7jg supersession ledger records that their open overlap condition is discharged by 13-7jf.
+At `B=100000`, the end-to-end exact checksum is
+
+```text
+Stage12 projected = (168424, 86472, 81520)
+raw incidence     = ( 84212, 43236, 40760)
+pair overlaps     = (    33,    33,    23)
+triple overlap    = 0
+exactly-one       = ( 84146, 43180, 40704)
+
+336416 = 2*168208
+168030 = 336416/2 - 2*89 + 3*0
+```
+
+No new mathematical bridge lemma is required.
 
 ## Earlier structural synthesis
 
-Stages13-3 through 13-6 remain important because they explain the finite regime rather than merely the limit.
+Stages13-3 through 13-6 explain the accessible finite regime:
 
-- Canonical archimedean geometry creates the directional ordering `ab>ac>bc` and the chamber vector that ultimately becomes the asymptotic limit.
-- At accessible cutoffs, representation-rich supported shells strongly flatten the `ab` excess.
-- Pure-`G` OE/EE and geometric subregions have opposite `ac-bc` gaps and can cancel strongly.
-- Primitive support materially changes the finite residual `ac-bc` tilt.
-- The exactly-one overlap sieve is already tiny at finite audited bounds and is now proved lower order asymptotically.
-- The universal Stage12 projection multiplicity `2` is a normalized directional null.
+- canonical archimedean geometry creates the directional ordering `ab>ac>bc`;
+- representation-rich supported shells strongly flatten the finite `ab` excess;
+- pure-`G` OE/EE and geometric subregions have opposite `ac-bc` gaps and can cancel strongly;
+- primitive support materially changes the finite residual `ac-bc` tilt;
+- the exactly-one overlap sieve is tiny at finite audited bounds and lower order asymptotically;
+- the universal Stage12 projection multiplicity `2` is direction-neutral.
 
-Thus the finite near-`2:1:1` observation is not the limiting law: it is a pre-asymptotic cancellation/flattening regime sitting in front of the stronger chamber limit.
+Thus the near-`2:1:1` observation is a pre-asymptotic cancellation/flattening regime sitting in front of the stronger chamber limit.
 
-## Next — Stage13-8
+## Next — Stage13-9
 
-Stage13-8 was originally planned to construct the rigorous Stage12-to-Stage13 bridge. Much of that bridge has now been proved ahead of schedule:
+Stage13-9 will formulate the principal Stage13 structural theorem in one final theorem package. The mathematical ingredients are already available: the finite mechanism analysis, the directional asymptotic vector, the overlap theorem, and the completed Stage12 bridge.
 
-```text
-13-3d  oriented -> canonical raw multiplicity 2
-13-3d  Stage12 total -> raw total
-13-7jb raw total -> individual raw category constants
-13-7jf raw -> exactly-one after lower-order overlap removal
-13-7jg constants/orientation/order-of-limits audit
-```
-
-Stage13-8 should therefore primarily consolidate these pieces into the canonical Stage13 exposition, unify notation/local factors, and identify only genuinely missing bridge lemmas before Stage13-9 states the main structural theorem.
+Stage13-9 should not reopen Stage12 or redo Stage13-7. Its job is to state the main theorem cleanly, identify hypotheses/dependencies precisely, and separate theorem claims from finite explanatory diagnostics before Stage13-10 gives the final plain-language structural explanation.
 
 ## File rule
 
-Stage13 mathematical corrections normally go directly into the canonical `main.md`; Git/PR history records prior versions. Support assets use task-first paths such as
+Stage13 mathematical corrections normally go directly into canonical `main.md`; Git/PR history records prior versions. Support assets use task-first paths such as
 
 ```text
 stages/stage13/scripts/13-<task>/<purpose>.py
