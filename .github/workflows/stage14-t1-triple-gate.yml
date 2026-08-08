@@ -1,0 +1,62 @@
+name: Stage14-t1 triple gate
+
+on:
+  push:
+    branches:
+      - agent/stage14-t1-triple-roadmap
+    paths:
+      - 'stages/stage14/14-t1/**'
+      - 'stages/stage14/scripts/14-t1/**'
+      - 'stages/stage14/data/14-t1/**'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t1-triple-gate.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-t1/**'
+      - 'stages/stage14/scripts/14-t1/**'
+      - 'stages/stage14/data/14-t1/**'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t1-triple-gate.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute triple baseline
+        run: |
+          cp stages/stage14/data/14-t1/triple_gate_baseline.json /tmp/t1_expected.json
+          python stages/stage14/scripts/14-t1/triple_gate_baseline.py
+
+      - name: Verify deterministic report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected=json.loads(Path('/tmp/t1_expected.json').read_text())
+          actual=json.loads(Path('stages/stage14/data/14-t1/triple_gate_baseline.json').read_text())
+          assert actual == expected
+          assert actual['fixed_base_family']['generic_genus'] == 5
+          assert actual['finite_baseline']['max_verified_B'] == 2000000
+          assert actual['finite_baseline']['T_at_max_verified_B'] == 0
+          assert actual['finite_baseline']['perfect_cuboid_nonexistence_inferred'] is False
+          assert actual['decision']['T_O_SQRT_B_PROVED'] is False
+          assert actual['decision']['STAGE14_T1'] == 'COMPLETE_BASELINE_AND_THEOREM_GAP'
+          print('Stage14-t1 deterministic audit: PASS')
+          PY
+
+      - name: Verify theorem and literature boundary
+        run: |
+          grep -F 'STAGE14_T1=COMPLETE_BASELINE_AND_THEOREM_GAP' stages/stage14/14-t1/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t1/result.md
+          grep -F 'Browning--Heath-Brown--Salberger' stages/stage14/14-t1/literature-triple-audit.md
+          grep -F 'Peschmann 2026' stages/stage14/14-t1/literature-triple-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-t1/literature-triple-audit.md
