@@ -1,6 +1,6 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13E_COMPLETE_R04_REVIEW_BUNDLE_13_13F_NEXT`
+> STATUS: `STAGE13_13F_BLOCKED_R04_REPAIR_REQUIRED`
 >
 > PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, externally reviewed and finally frozen theorem package.
 >
@@ -24,7 +24,7 @@ A theorem-level defect blocks promotion; it must not be silently repaired inside
 
 ---
 
-## Frozen theorem contract
+## Frozen theorem contract entering R04
 
 ```text
 Stage12 input: C_prim(B) ~ kappa/(12*pi) B(log B)^3
@@ -46,34 +46,13 @@ Normalized directional validator `(ab,ac,bc)`:
  0.21990388893634913)
 ```
 
-Symbolic formulas are authoritative; decimals are deterministic validators only.
-
-Frozen provenance inputs:
-
-```text
-Stage12 R09                    frozen upstream theorem input
-Stage13-12af R03               immutable reviewed proof snapshot
-Stage13-12ag                   post-R03 proof-explicitness supplement
-R03 Grok verdict               CLOSED
-R03 Qwen verdict               CLOSED
-R03 Claude verdict             not recorded
-```
+Symbolic formulas remain the theorem candidate; Stage13 is not globally frozen until 13-13f and 13-13g close.
 
 ---
 
 ## 13-13a — claim and dependency ledger
 
 Status: `[x] Complete`.
-
-Artifacts:
-
-```text
-stages/stage13/13-13a/claim-dependency-ledger.md
-stages/stage13/13-13a/result.md
-stages/stage13/data/13-13a/claim-dependency-ledger.json
-```
-
-Lock:
 
 ```text
 STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
@@ -89,32 +68,15 @@ HISTORICAL_SUPERSEDED_ARGUMENT_REQUIRED=false
 
 Status: `[x] Complete`.
 
-Artifacts:
-
-```text
-stages/stage13/13-13b/external-theorem-crosswalk.md
-stages/stage13/13-13b/result.md
-```
-
-Lock:
-
 ```text
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 UNMAPPED_EXTERNAL_INPUTS=0
 FAILED_EXTERNAL_HYPOTHESES=0
 MINIMAL_EXTERNAL_BOUNDARY_LOCKED=true
-GENERAL_SELBERG_DELANGE_BLACK_BOX_REQUIRED=false
+GENERAL_SELBURG_DELANGE_BLACK_BOX_REQUIRED=false
 GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED_FOR_FINAL_PROOF=false
 GROWING_MODULUS_INPUT_USED=false
 THEOREM_CHANGED=false
-```
-
-Minimal external boundary:
-
-```text
-Stage12 R09 primitive-oriented total theorem
-standard Dirichlet/Hecke analytic continuation + functional equation + polynomial strip/conductor growth
-Vaaler periodic interval majorant/minorant
 ```
 
 ---
@@ -122,34 +84,6 @@ Vaaler periodic interval majorant/minorant
 ## 13-13c — canonical proof resynthesis
 
 Status: `[x] Complete`.
-
-Canonical artifacts:
-
-```text
-stages/stage13/13-13c/stage13-final-proof.md
-stages/stage13/13-13c/result.md
-```
-
-The proof is ordered as one chain:
-
-```text
-definitions + exact inclusion-exclusion
--> exact Stage12 factor-two projection bridge
--> chamber/Gelfand--Leray geometry
--> exact J_q = 2 I_q / pi bridge
--> primitive j=0 local coefficient system
--> weighted-Wiener correction
--> special Perron/residue pole-order lemma
--> curved zero-mode main + Vaaler/nonzero-harmonic error
--> q-independent raw constant Theta
--> Stage12 total calibration
--> exact inert-prime states + character sum
--> lambda_p exact formula
--> fixed-S overlap squeeze
--> exactly-one theorem
-```
-
-Lock:
 
 ```text
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
@@ -165,43 +99,21 @@ MINIMAL_EXTERNAL_BOUNDARY_PRESERVED=true
 
 Status: `[x] Complete`.
 
-Artifacts:
-
-```text
-stages/stage13/scripts/13-13d/final_consistency_audit.py
-stages/stage13/data/13-13d/final_consistency_audit.json
-stages/stage13/13-13d/result.md
-.github/workflows/stage13-13d-final-consistency.yml
-```
-
-The deterministic audit reproduces the chamber integrals and normalized direction vector, verifies `J_q=2I_q/pi`, checks the exact B=100000 Stage12 factor-two/inclusion-exclusion fixture, directly enumerates inert unit states at p=7,11,19,23, verifies the exact local multiplier, requires all canonical theorem-lock tokens, and scans the mathematical core for superseded `7jb/7jf` routes or stale soft local formulas.
-
-Historical completion lock for the 13-13d transition:
-
 ```text
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
 AUDIT_STATUS=PASS
 CANONICAL_CONSTANTS_REPRODUCED=true
-CHAMBER_SUM_REPRODUCED=true
-DIRECTION_VECTOR_REPRODUCED=true
-JQ_BRIDGE_REPRODUCED=true
-FINITE_FACTOR_TWO_BRIDGE_REPRODUCED=true
-INERT_UNIT_ACCEPTANCE_REPRODUCED=true
-INERT_LOCAL_MULTIPLIER_REPRODUCED=true
 STALE_SUPERSEDED_FORMULAS_IN_CANONICAL_FILES=0
 THEOREM_CHANGED=false
-NEXT=13-13e
 ```
 
-This stage is reproducibility/consistency evidence only, not numerical evidence for the asymptotic theorem.
+The audit is reproducibility/consistency evidence only; finite data do not prove the asymptotic theorem.
 
 ---
 
 ## 13-13e — R04 self-contained review bundle
 
 Status: `[x] Complete`.
-
-Immutable review target:
 
 ```text
 BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260809-R04
@@ -214,74 +126,76 @@ THEOREM_CHANGED=false
 DETERMINISTIC_AUDIT_STATUS=PASS
 ```
 
-Artifacts:
-
-```text
-review/STAGE13-FINAL-SELF-CONTAINED-20260809-R04.html
-stages/stage13/13-13e/review-manifest.md
-stages/stage13/13-13e/result.md
-stages/stage13/scripts/13-13e/build_r04_review_bundle.py
-.github/workflows/stage13-13e-build-r04.yml
-```
-
-The HTML is self-contained and embeds the full canonical proof, the external-theorem crosswalk, the 13-13a dependency-lock result, the 13-13d consistency result and its machine-readable JSON. The generator reads each embedded source with `git show` from the fixed source snapshot commit so unrelated parallel changes cannot modify the review target.
-
 Any substantive review repair must create R05/R06 rather than mutate R04.
-
-Completion lock:
-
-```text
-STAGE13_13E=COMPLETE_R04_REVIEW_BUNDLE
-R04_IMMUTABLE=true
-R03_IMMUTABLE=true
-NEXT=13-13f
-```
 
 ---
 
 ## 13-13f — external-review ingestion and repair gate
 
-Status: `[>] Next — awaiting R04 reviewer feedback`.
+Status: `[!] BLOCKED — R04 repair required`.
 
-Policy:
-
-- target independent Grok, Qwen and Claude review when available;
-- final freeze requires at least two independent `CLOSED` verdicts on the final bundle;
-- any received unresolved theorem-level objection blocks 13-13g;
-- stylistic suggestions may be recorded without reopening mathematics;
-- substantive repair creates a new immutable R05/R06 bundle rather than mutating R04.
-
-Possible reviewer states:
+Recorded R04 verdicts:
 
 ```text
-CLOSED
-REPAIRABLE
-OPEN
+GROK_R04_VERDICT=CLOSED
+CLAUDE_R04_VERDICT=OPEN
+DEEPSEEK_R04_VERDICT=REPAIRABLE
+QWEN_R04_VERDICT=NOT_RECORDED
+INDEPENDENT_CLOSED_VERDICTS=1
+UNRESOLVED_SUBSTANTIVE_REVIEW_OBJECTIONS=2
+UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
+R04_REPAIR_REQUIRED=true
+PROMOTE_TO_13_13G=false
 ```
 
-Minimum lock:
+Claude's primary objection is the unresolved relationship between the finite directional data, which remain close to `2:1:1`, and the theorem candidate's non-`2:1:1` limiting vector. R04 does not quantitatively show that the observed discrepancy is compatible with its remainder or independently exclude a missing q-dependent leading arithmetic factor. Claude also requests explicit closure of the `529 p^{-5/4}` Wiener bound and the accumulation of curved-region box errors.
+
+DeepSeek independently judges the main strategy plausible but R04 insufficiently self-contained and proof-explicit. It requires repair of the same Wiener and box-error steps plus retained-harmonic uniformity, the complete Stage12 counting/factor-two interface, exact imported Hecke/Vaaler contracts, the fixed-prime transfer, notation/local-factor definitions, and the scope wording of the deterministic audit.
+
+The active repair plan is:
 
 ```text
-STAGE13_13F=COMPLETE_EXTERNAL_REVIEW_GATE
+stages/stage13/13-13f/r05-repair-plan.md
+```
+
+Its mandatory gates are:
+
+1. finite directional discrepancy + q-independence audit;
+2. explicit Wiener bound derivation;
+3. explicit curved-region/box error accumulation;
+4. explicit retained-harmonic conductor/log bookkeeping;
+5. complete Stage12 R09 counting and factor-two interface;
+6. precise external Hecke/Dirichlet/Vaaler contracts;
+7. expanded fixed inert-prime transfer;
+8. notation cleanup and deterministic-audit scope clarification.
+
+If the q-independence audit finds a genuine leading-factor defect, reopen the theorem contract. If the theorem survives unchanged, produce a new immutable R05 bundle containing the repairs and obtain fresh external reviews on R05. R04 verdicts do not automatically count toward the R05 freeze.
+
+13-13f can close only when the final reviewed bundle satisfies:
+
+```text
 INDEPENDENT_CLOSED_VERDICTS>=2
 UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
-NEXT=13-13g
+```
+
+Until then:
+
+```text
+STAGE13_13F=BLOCKED_R04_REPAIR_REQUIRED
+R04_IMMUTABLE=true
+R05_REQUIRED_IF_THEOREM_SURVIVES_AUDIT=true
+R05_FRESH_REVIEW_REQUIRED=true
+PROMOTE_TO_13_13G=false
+NEXT=13-13f
 ```
 
 ---
 
 ## 13-13g — final Stage13 freeze and downstream contract
 
-Status: `[ ] Pending 13-13f`.
+Status: `[ ] BLOCKED by 13-13f`.
 
-Expected artifacts:
-
-```text
-stages/stage13/13-13g/final-freeze.md
-stages/stage13/13-13g/downstream-contract.md
-```
-
-Target lock:
+Target lock after the review gate actually closes:
 
 ```text
 STAGE13_13G=COMPLETE_FINAL_FREEZE
@@ -308,15 +222,20 @@ Stage13-13 does not:
 A later Stage12 cleanup/final-proof resynthesis is a separate track.
 
 ```text
-STAGE13_13_ROADMAP=ACTIVE
+STAGE13_13_ROADMAP=ACTIVE_BLOCKED_REVIEW_GATE
 NUMERIC_ONLY_DISPATCH=true
 STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
 STAGE13_13E=COMPLETE_R04_REVIEW_BUNDLE
-CANONICAL_CONSTANTS_REPRODUCED=true
-STALE_SUPERSEDED_FORMULAS_IN_CANONICAL_FILES=0
-R04_IMMUTABLE=true
+STAGE13_13F=BLOCKED_R04_REPAIR_REQUIRED
+GROK_R04_VERDICT=CLOSED
+CLAUDE_R04_VERDICT=OPEN
+DEEPSEEK_R04_VERDICT=REPAIRABLE
+QWEN_R04_VERDICT=NOT_RECORDED
+UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
+R04_REPAIR_REQUIRED=true
+PROMOTE_TO_13_13G=false
 NEXT=13-13f
 ```
