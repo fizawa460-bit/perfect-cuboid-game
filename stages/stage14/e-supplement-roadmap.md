@@ -149,9 +149,9 @@ NEXT_E_SUPPLEMENT=Stage14-e8 quantitative Euler-brick thin-set count
 
 ## 14-e8 — quantitative Euler-brick thin-set count
 
-Status: [x] Complete as a K3 identification plus an independent subpower-multiplicity upper envelope; a fixed relative saving remains open.
+Status: [x] Complete as a K3 identification plus an independent subpower-multiplicity upper envelope; a fixed relative saving remained open at this stage.
 
-Let `R_EB(B)` count primitive unordered Euler bricks under the same physical Euclidean height.  The projective equations
+Let `R_EB(B)` count primitive unordered Euler bricks under the same physical Euclidean height. The projective equations
 
 \[
 U^2=E^2+X^2,
@@ -161,13 +161,13 @@ V^2=E^2+Y^2,
 Z^2=X^2+Y^2
 \]
 
-form a three-quadric model in `P^5`.  In the e4 toric presentation the third-square double cover has branch divisor class
+form a three-quadric model in `P^5`. In the e4 toric presentation the third-square double cover has branch divisor class
 
 \[
 D\sim-2K_Y,
 \]
 
-so after normalization/minimal resolution the compactification is a K3 surface.  The physical height remains comparable to the projective max height:
+so after normalization/minimal resolution the compactification is a K3 surface. The physical height remains comparable to the projective max height:
 
 \[
 H_{\max}\le D_{\mathbf R}\le\sqrt3 H_{\max}.
@@ -185,7 +185,7 @@ B\log B
 }
 \]
 
-The proof projects to the Pythagorean triple formed by the two largest edges and bounds the remaining-edge multiplicity by `tau(n^2)`.  This controls the polynomial upper exponent but does not improve e4 to a fixed logarithmic or power saving relative to the ambient main term.
+The proof projects to the Pythagorean triple formed by the two largest edges and bounds the remaining-edge multiplicity by `tau(n^2)`. This controls the polynomial upper exponent but did not by itself improve e4 to a fixed logarithmic or power saving relative to the ambient main term.
 
 The e4 theorem is retained independently:
 
@@ -201,7 +201,7 @@ R_{\rm EB}=219,
 R_{\rm EB}/\sqrt B=0.219,
 \]
 
-and the third-square incidence fraction inside the raw ambient is about `4.75454e-5`.  Nested finite power fits drift substantially, so the square-root scale remains a finite candidate only.
+and the third-square incidence fraction inside the raw ambient is about `4.75454e-5`. Nested finite power fits drift substantially, so the square-root scale remains a finite candidate only.
 
 Canonical artifacts:
 
@@ -212,7 +212,7 @@ stages/stage14/scripts/14-e8/euler_brick_thin_count_audit.py
 stages/stage14/data/14-e8/euler_brick_thin_count_audit.json
 ```
 
-Locked boundary:
+Historical e8 boundary:
 
 ```text
 EULER_BRICK_K3_MODEL_LOCKED=true
@@ -221,6 +221,12 @@ EULER_BRICK_POWER_EXPONENT_UPPER_ENVELOPE=1+o(1)
 QUANTITATIVE_RELATIVE_SAVING_PROVED=false
 FIXED_POWER_SAVING_PROVED=false
 SQRT_B_FINITE_CANDIDATE_ONLY=true
+```
+
+Historical handoff retained for e8 compatibility:
+
+```text
+NEXT_E_SUPPLEMENT=Stage14-e9 gcd/lcm and local-statistics decomposition
 ```
 
 ## 14-e9 — gcd/lcm and local-statistics decomposition
@@ -283,7 +289,7 @@ g=1                 = 58,662  (~3.09316%)
 g/e < 1/100         = 1,204,419 (~63.5073%)
 ```
 
-These gcd/lcm percentages and all directionwise differences are finite diagnostics only. No asymptotic gcd/lcm distribution, prime-state independence, or fixed relative Euler-brick saving is claimed.
+These gcd/lcm percentages and all directionwise differences are finite diagnostics only. No asymptotic gcd/lcm distribution, prime-state independence, or fixed relative Euler-brick saving was claimed in e9 itself.
 
 Canonical artifacts:
 
@@ -294,7 +300,7 @@ stages/stage14/scripts/14-e9/gcd_lcm_local_statistics.py
 stages/stage14/data/14-e9/gcd_lcm_local_statistics.json
 ```
 
-Locked boundary:
+Historical e9 boundary:
 
 ```text
 STAGE14_E9=COMPLETE_GCD_LCM_LOCAL_CONTROL_AND_2_3_BLOCKERS
@@ -306,13 +312,103 @@ FINITE_CENSUS_REGENERATES_E2_LOCKS=true
 MAX_LOCAL_AUDIT_B=200000
 ASYMPTOTIC_GCD_LCM_DISTRIBUTION_PROVED=false
 FIXED_RELATIVE_EULER_BRICK_SAVING_PROVED=false
+E9_HISTORICAL_NEXT_E_SUPPLEMENT=NONE_DEFINED_AFTER_E9
 ```
 
-No Stage14-e10 is defined by this stage. If the e-supplement is reopened, the natural refinement is explicit adelic masses for the six local states and a stronger residue-state completion sieve.
+## 14-e10 — adelic six-state law and completion sieve
+
+Status: [x] Complete.
+
+E10 reopens the supplement after e9 and computes the exact limiting Tamagawa masses of all six e9 states. For every odd prime, with
+
+\[
+D_p=p^2+6p+1,
+\]
+
+one has
+
+\[
+\boxed{
+(\mu_{none},\mu_G,\mu_U,\mu_V,\mu_{GU},\mu_{GV})
+=\frac1{D_p}\bigl((p-1)^2,4(p-1),2(p-1),2(p-1),4,4\bigr).
+}
+\]
+
+At the physical bad prime `2`,
+
+\[
+\boxed{
+(\mu_{none},\mu_G,\mu_U,\mu_V,\mu_{GU},\mu_{GV})
+=\frac19(1,2,1,1,2,2).
+}
+\]
+
+For every fixed finite set of primes these state events have product Tamagawa density, and the finite-place law is the same in each e4 real direction chamber.
+
+E10 also strengthens the third-face-square blocker. Put `B_2=G` at `p=2`. For odd `p`, inside state `G` exclude the unit residue classes for which `x^2+y^2` is a nonzero quadratic nonsquare. Their exact local mass is
+
+\[
+\boxed{
+\delta_2=\frac29,
+\qquad
+\delta_p=\frac{2(p-\chi_4(p))}{p^2+6p+1}\quad(p\text{ odd}).
+}
+\]
+
+Thus `delta_p=2/p+O(p^-2)` and
+
+\[
+\prod_{p\le z}(1-\delta_p)\sim C_{\rm sieve}(\log z)^{-2}.
+\]
+
+A fixed-`z`, then `z->infinity`, argument gives a second proof of
+
+\[
+R_{\rm EB}(B)=o(B(\log B)^5)
+\]
+
+without using growing-prime uniformity.
+
+More strongly, Huang v3 Theorem 1.6(1) applies to the proper smooth geometrically integral degree-two Euler-brick K3 cover of the toric base and gives a genuine logarithmic saving:
+
+\[
+\boxed{
+R_{\rm EB}(B)\ll B(\log B)^{5-\eta_{\rm EB}}
+}
+\]
+
+for some `eta_EB in (0,1)`. E10 does not evaluate `eta_EB`.
+
+Canonical artifacts:
+
+```text
+stages/stage14/14-e10/result.md
+stages/stage14/14-e10/literature-adelic-sieve-audit.md
+stages/stage14/scripts/14-e10/adelic_state_sieve_audit.py
+stages/stage14/data/14-e10/adelic_state_sieve_audit.json
+```
+
+Current lock:
+
+```text
+STAGE14_E10=COMPLETE_ADELIC_STATE_LAW_LOCAL_SIEVE_AND_THIN_COVER_LOG_SAVING
+SIX_STATE_ADELIC_LAW_PROVED=true
+FIXED_FINITE_PRIME_PRODUCT_LAW_PROVED=true
+DIRECTIONWISE_SAME_LOCAL_LAW_PROVED=true
+LOCAL_BLOCKER_MASS_FORMULA_PROVED=true
+P2_P3_ASYMPTOTIC_BLOCKED_MASS=4/9
+LOCAL_SIEVE_ZERO_DENSITY_REPROVED=true
+HUANG_GENERIC_FINITE_LOG_SAVING_APPLIES=true
+QUANTITATIVE_RELATIVE_SAVING_PROVED=true
+EXPLICIT_ETA_EB_EVALUATED=false
+ELEMENTARY_GROWING_PRIME_UNIFORMITY_PROVED=false
+SQRT_B_ASYMPTOTIC_PROVED=false
+NEXT_E_SUPPLEMENT=Stage14-e11 explicit thin-cover exponent / growing-prime uniformity
+```
 
 ```text
 STAGE14_E_CONTROL_TRACK_E1_TO_E5=COMPLETE
-STAGE14_E_SUPPLEMENT_TRACK=DEFINED
+STAGE14_E_SUPPLEMENT_TRACK=ACTIVE
 STAGE14_E6=COMPLETE_EXPLICIT_PEYRE_TAMAGAWA_CONSTANT
 GLOBAL_ARITHMETIC_CONSTANT_LAMBDA_E_EVALUATED=true
 STAGE14_E7=COMPLETE_FINITE_CROSSOVER_AND_SECONDARY_BOUNDARY
@@ -321,7 +417,7 @@ FULL_SECONDARY_ASYMPTOTIC_PROVED=false
 STAGE14_E8=COMPLETE_K3_AND_SUBPOWER_MULTIPLICITY_ENVELOPE
 EULER_BRICK_K3_MODEL_LOCKED=true
 E8_INDEPENDENT_QUANTITATIVE_ENVELOPE_PROVED=true
-QUANTITATIVE_RELATIVE_SAVING_PROVED=false
 STAGE14_E9=COMPLETE_GCD_LCM_LOCAL_CONTROL_AND_2_3_BLOCKERS
-NEXT_E_SUPPLEMENT=NONE_DEFINED_AFTER_E9
+STAGE14_E10=COMPLETE_ADELIC_STATE_LAW_LOCAL_SIEVE_AND_THIN_COVER_LOG_SAVING
+NEXT_E_SUPPLEMENT=Stage14-e11 explicit thin-cover exponent / growing-prime uniformity
 ```
