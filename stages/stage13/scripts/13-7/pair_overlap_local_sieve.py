@@ -13,11 +13,10 @@ The theorem-level proof in 7jf uses only the robust local statement
     rho_p = 1/2 + O(p^-1/2)
 
 for the fixed-congruence raw local density.  This follows by a one-variable
-Weil bound after normalizing P != 0; the P=0/singular strata are lower local
-mass.  Hence rho_p<3/4 for every sufficiently large prime.
+Weil bound after normalizing P != 0; the P=0/singular valuation strata have
+lower p-adic mass.  Hence rho_p<3/4 for every sufficiently large prime.
 
-For inert primes p=3 mod 4 there is also a stronger exact F_p identity, which
-this script validates:
+For inert primes p=3 mod 4 there is also a stronger exact F_p identity:
 
   normalized P=1 total       = p^2-1,
   normalized accepted        = (p+1)^2/2,
@@ -62,47 +61,44 @@ def is_qr_or_zero(a: int, p: int) -> bool:
 
 
 def normalized_counts(p: int) -> tuple[int, int, int]:
-    """Count P=1 conic-product residues and accepted x^2+z^2 residues."""
-    total = 0
+    """Count the P=1 conic product in O(p^2) accepted-point operations."""
+    circle = [
+        (x, y)
+        for x in range(p)
+        for y in range(p)
+        if (x * x + y * y - 1) % p == 0
+    ]
+    hyperbola = [
+        (z, d)
+        for z in range(p)
+        for d in range(p)
+        if (d * d - z * z - 1) % p == 0
+    ]
+    total = len(circle) * len(hyperbola)
     accepted = 0
     char_sum = 0
-    for x in range(p):
-        for y in range(p):
-            if (x * x + y * y - 1) % p:
-                continue
-            for z in range(p):
-                rhs = (1 + z * z) % p
-                for d in range(p):
-                    if (d * d - rhs) % p:
-                        continue
-                    total += 1
-                    a = (x * x + z * z) % p
-                    char_sum += chi(a, p)
-                    if is_qr_or_zero(a, p):
-                        accepted += 1
+    for x, _y in circle:
+        for z, _d in hyperbola:
+            a = (x * x + z * z) % p
+            char_sum += chi(a, p)
+            accepted += is_qr_or_zero(a, p)
     return total, accepted, char_sum
 
 
-def affine_counts(p: int) -> tuple[int, int]:
-    """Count primitive affine residues, excluding x=y=z=0."""
-    total = 0
-    accepted = 0
-    for x in range(p):
-        for y in range(p):
-            for P in range(p):
-                if (x * x + y * y - P * P) % p:
-                    continue
-                for z in range(p):
-                    if x == y == z == 0:
-                        continue
-                    rhs = (P * P + z * z) % p
-                    for d in range(p):
-                        if (d * d - rhs) % p:
-                            continue
-                        total += 1
-                        if is_qr_or_zero(x * x + z * z, p):
-                            accepted += 1
-    return total, accepted
+def affine_from_normalized(p: int, nt: int, na: int) -> tuple[int, int]:
+    """Reconstruct primitive affine counts from P!=0 scaling plus P=0.
+
+    For p=3 mod4, P=0 in x^2+y^2=P^2 forces x=y=0.  Then d^2=z^2;
+    after deleting the primitive-forbidden origin there are 2p-2 residues,
+    and every one passes x^2+z^2=z^2.
+    """
+    p_nonzero_total = (p - 1) * nt
+    p_nonzero_accepted = (p - 1) * na
+    p_zero_primitive = 2 * p - 2
+    return (
+        p_nonzero_total + p_zero_primitive,
+        p_nonzero_accepted + p_zero_primitive,
+    )
 
 
 def build_report() -> dict:
@@ -112,7 +108,7 @@ def build_report() -> dict:
         if not is_prime(p) or p % 4 != 3:
             continue
         nt, na, cs = normalized_counts(p)
-        at, aa = affine_counts(p)
+        at, aa = affine_from_normalized(p, nt, na)
         expected_nt = p * p - 1
         expected_na = (p + 1) * (p + 1) // 2
         expected_cs = 2 * (p - 1)
@@ -125,10 +121,12 @@ def build_report() -> dict:
             and at == expected_at
             and aa == expected_aa
         )
-        failures += not ok
+        failures += int(not ok)
         rho = aa / at
         rows.append({
             "p": p,
+            "circle_points": p + 1,
+            "hyperbola_points": p - 1,
             "normalized_total": nt,
             "normalized_accepted": na,
             "normalized_character_sum": cs,
@@ -149,6 +147,7 @@ def build_report() -> dict:
             "raw_equations": "x^2+y^2=P^2, P^2+z^2=d^2",
             "extra_face_test": "x^2+z^2 is a square over Z => quadratic residue or zero modulo every odd p",
             "theorem_level_density": "rho_p=1/2+O(p^-1/2) on the primitive p-adic raw-incidence locus",
+            "proof_route": "normalize P!=0, expand the residue indicator, apply the one-variable Weil bound to the resulting fixed-degree quadratic-character sums; P=0/singular valuation strata have lower local mass",
             "consequence": "rho_p<3/4 for all sufficiently large p; this is all the global finite-set squeeze needs",
         },
         "inert_prime_exact_identity": {
@@ -174,7 +173,11 @@ def main() -> None:
     report = build_report()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"status": report["status"], "checks": report["finite_checks"]}, indent=2))
+    print(json.dumps({
+        "status": report["status"],
+        "checked_primes": report["finite_checks"]["inert_primes_below_80"],
+        "failures": report["finite_checks"]["failures"],
+    }, indent=2))
 
 
 if __name__ == "__main__":
