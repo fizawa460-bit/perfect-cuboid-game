@@ -1,0 +1,68 @@
+{
+  "effective_scale_support": "For a nonzero primitive transformed numerator, k is odd and every prime divisor of k is 1 mod 4. A factor 2 or q=3 mod 4 in gcd(p,z) kills the transformed numerator.",
+  "fixed_channel_local_kernel": {
+    "harmonic_l": {
+      "a=0": "D_b(8 l alpha_q)/(2b+1)^j",
+      "a>=1": "2 cos(8 l (a+b) alpha_q)/(2(a+b)+1)^j"
+    },
+    "minimal_scale_subtraction": "T_F=U_F-1 when k=1. This is h=1 in OE and h=2 in EE, so it is a separate two-variable boundary channel and cannot be silently discarded.",
+    "notation": "At q=1 mod 4 let a=v_q(k), b=v_q(rs), e=a+b. Since gcd(r,s)=1, b belongs to at most one of r,s.",
+    "zero_mode": {
+      "a=0": "(2b+1)^(1-j)",
+      "a>=1": "2/(2(a+b)+1)^j"
+    }
+  },
+  "free_scale_singularity": {
+    "harmonic_consequence": "The free scale k contributes no zeta pole to a nonzero angular harmonic. Uniform summatory cancellation while (r,s) grow is not proved here.",
+    "harmonic_factorization": "For fixed l>=1, Z_l,j(s)=L(s,xi_{8l})^(1/3^j) E_l,j(s) near s=1, again up to finitely many base-prime factors.",
+    "harmonic_generic_local": "1+sum_{a>=1} 2 cos(8 l a alpha_q)/(2a+1)^j q^(-as)",
+    "zero_factorization": "Z_0,j(s)=(zeta(s)L(s,chi_4))^(1/3^j) E_0,j(s), up to finitely many base-prime factors; E has local quotient 1+O(q^(-2 sigma)).",
+    "zero_fixed_base_consequence": "At the same external Selberg-Delange theorem level as Stage12, each fixed (r,s) zero-mode k-sum has exponent 1/3^j and scale Y(log Y)^(1/3^j-1), with a base-dependent constant.",
+    "zero_generic_local": "1+sum_{a>=1} 2/(2a+1)^j q^(-as)"
+  },
+  "metadata": {
+    "scope": "exact Stage12-coordinate bridge and fixed-channel singularity classification; no coupled (r,s) directional asymptotic theorem",
+    "stage": "13-7g"
+  },
+  "normalization_tail": [
+    {"J": 1, "relative_shellwise_bound": 0.3333333333333333},
+    {"J": 2, "relative_shellwise_bound": 0.1111111111111111},
+    {"J": 3, "relative_shellwise_bound": 0.037037037037037035},
+    {"J": 4, "relative_shellwise_bound": 0.012345679012345678},
+    {"J": 5, "relative_shellwise_bound": 0.00411522633744856},
+    {"J": 6, "relative_shellwise_bound": 0.0013717421124828531},
+    {"J": 7, "relative_shellwise_bound": 0.0004572473708276177},
+    {"J": 8, "relative_shellwise_bound": 0.00015241579027587258}
+  ],
+  "stage12_coordinate_bridge": {
+    "EE": {
+      "from_outer_base": "r=v, s=u, h=2k",
+      "gcd_p_z": "k=h/2",
+      "parity": "r,s opposite parity; v2(h)=1"
+    },
+    "OE": {
+      "from_outer_base": "r=u-v, s=u+v, h=k",
+      "gcd_p_z": "k=h",
+      "parity": "r,s odd; h=k odd"
+    },
+    "directional_wedge": {
+      "lambda0_t_equals_1_over_sqrt2": 1.9318516525781364,
+      "lambda1_t_equals_1": 2.414213562373095,
+      "statement": "The ac-bc ordering kernel vanishes for s/r>=1+sqrt(2); its formula changes at (sqrt(6)+sqrt(2))/2."
+    },
+    "unified_identities": [
+      "p=h*r*s",
+      "z=h*(s^2-r^2)/2",
+      "d=h*(r^2+s^2)/2",
+      "d<=B iff h*(r^2+s^2)<=2B",
+      "t=z/p=(s^2-r^2)/(2*r*s)"
+    ]
+  },
+  "unresolved": "The remaining analytic problem is uniformity in growing (r,s), including the minimal-scale boundary channel, followed by the weighted wedge/rectangle/wing transfer under h(r^2+s^2)<=2B.",
+  "validation": {
+    "harmonic_max_abs_error": 4.85722573273506e-17,
+    "local_cases": 144,
+    "test_phase": 0.731234567,
+    "zero_max_abs_error": 0.0
+  }
+}
