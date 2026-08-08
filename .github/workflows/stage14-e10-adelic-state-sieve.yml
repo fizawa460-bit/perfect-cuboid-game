@@ -1,0 +1,74 @@
+name: Stage14-e10 adelic state sieve
+
+on:
+  push:
+    branches:
+      - agent/stage14-e10-adelic-state-sieve
+    paths:
+      - 'stages/stage14/14-e10/**'
+      - 'stages/stage14/scripts/14-e10/**'
+      - 'stages/stage14/data/14-e10/**'
+      - '.github/workflows/stage14-e10-adelic-state-sieve.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/14-e10/**'
+      - 'stages/stage14/scripts/14-e10/**'
+      - 'stages/stage14/data/14-e10/**'
+      - '.github/workflows/stage14-e10-adelic-state-sieve.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recompute adelic state sieve audit
+        run: |
+          cp stages/stage14/data/14-e10/adelic_state_sieve_audit.json /tmp/e10_expected.json
+          python stages/stage14/scripts/14-e10/adelic_state_sieve_audit.py
+
+      - name: Verify deterministic report and exact local laws
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          expected=json.loads(Path('/tmp/e10_expected.json').read_text())
+          actual=json.loads(Path('stages/stage14/data/14-e10/adelic_state_sieve_audit.json').read_text())
+          assert actual == expected
+          assert actual['pass'] is True
+          law=actual['adelic_state_law']['displayed_primes']
+          assert law['2']['state_masses']['G']['fraction']=='2/9'
+          assert law['3']['state_masses']['G']['fraction']=='2/7'
+          assert law['5']['blocker_mass']['fraction']=='1/7'
+          assert law['7']['blocker_mass']['fraction']=='4/23'
+          s=actual['residue_completion_sieve']
+          assert s['p2_p3']['blocked']['fraction']=='4/9'
+          assert s['primes_2_3_5_7_11_13']['survival']['fraction']=='31160/100533'
+          assert s['finite_field_formula_verified']=={'odd_primes_tested':45,'largest_prime':199}
+          assert actual['finite_e9_crosscheck']['third_square_incidence_in_union']==0
+          print('Stage14-e10 deterministic adelic sieve audit: PASS')
+          PY
+
+      - name: Verify theorem boundary and literature gate
+        run: |
+          grep -F 'STAGE14_E10=COMPLETE_ADELIC_STATE_LAW_LOCAL_SIEVE_AND_THIN_COVER_LOG_SAVING' stages/stage14/14-e10/result.md
+          grep -F 'P2_P3_ASYMPTOTIC_BLOCKED_MASS=4/9' stages/stage14/14-e10/result.md
+          grep -F 'QUANTITATIVE_RELATIVE_SAVING_PROVED=true' stages/stage14/14-e10/result.md
+          grep -F 'EXPLICIT_ETA_EB_EVALUATED=false' stages/stage14/14-e10/result.md
+          grep -F 'HUANG_V3_FIXED_ADELIC_EQUIDISTRIBUTION=THEOREM_LEVEL_INPUT' stages/stage14/14-e10/literature-adelic-sieve-audit.md
+          grep -F 'HUANG_V3_GENERIC_FINITE_LOG_SAVING=THEOREM_LEVEL_INPUT' stages/stage14/14-e10/literature-adelic-sieve-audit.md
+          grep -F 'DIRECT_STAGE14_E10_SIX_STATE_LAW=NO_COLLISION_FOUND_IN_CURRENT_SEARCH' stages/stage14/14-e10/literature-adelic-sieve-audit.md
+          grep -F 'NOVELTY_BY_SEARCH_ABSENCE=false' stages/stage14/14-e10/literature-adelic-sieve-audit.md
+
+      - name: Verify frozen e8/e9 inputs are not rewritten
+        run: |
+          grep -F 'EULER_BRICK_K3_MODEL_LOCKED=true' stages/stage14/14-e8/result.md
+          grep -F 'STAGE14_E9=COMPLETE_GCD_LCM_LOCAL_CONTROL_AND_2_3_BLOCKERS' stages/stage14/14-e9/result.md
+          grep -F 'FIXED_RELATIVE_EULER_BRICK_SAVING_PROVED=false' stages/stage14/14-e9/result.md
