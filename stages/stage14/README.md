@@ -14,20 +14,19 @@ STAGE14_4AC=COMPLETE
 STAGE14_4AD=COMPLETE
 STAGE14_4AE=COMPLETE
 STAGE14_4AF=COMPLETE
+STAGE14_4AG=COMPLETE
 MAX_VERIFIED_B=2000000
 STAGE13_FROZEN_CONTRACT=R03_PLUS_13_12AG
-BIJECTIVE_TWO_FACE_PARAMETER_SPACE_LOCKED=true
-ELLIPTIC_FIBRATION_NON_ISOTRIVIAL=true
-PYTHAGOREAN_BASE_CHANGE_K3=true
-PYTHAGOREAN_BASE_GENERIC_MW_RANK=0
-TORSION_EXACT_Z2xZ4_ON_GENUINE_BASES=true
 PHYSICAL_RAW_PAIR_IMPLIES_POSITIVE_RANK_SPECIALIZATION=true
+LEVEL4_MODULAR_K3_IDENTIFIED_OVER_QI=true
+RANK_JUMP_GRAPH_IDENTITY_LOCKED=true
+DUJELLA_SUBPOLYNOMIAL_DEGREE_BOUND=true
+RAW_PAIR_AND_ACTIVE_VERTEX_POWER_EXPONENT_EQUAL=true
 TRIPLE_FIXED_BASE_GENUS=5
-UNIFORM_TRIPLE_POINT_BOUND_PROVED=false
-SQRT_B_STRUCTURAL_HEIGHT_SOURCE_IDENTIFIED=true
+T_O_SQRT_B_PROVED=false
 TRUE_GROWTH_ORDER_IDENTIFIED=false
 SQRT_B_ASYMPTOTIC_CLAIM=false
-NEXT=Stage14-4ag quantitative rank-jump/small-point counting with uniform triple control
+NEXT=Stage14-4ah Kummer height/accumulating-multisection and relative triple-thin analysis
 ```
 
 Canonical source: `stages/stage14/main.md`.
@@ -39,243 +38,145 @@ Canonical source: `stages/stage14/main.md`.
 \qquad a^2+b^2+c^2=d^2,\qquad d\le B.
 \]
 
-The exactly-two directions are
-
-```text
-a = ab+ac only = smallest shared edge
-b = ab+bc only = middle shared edge
-c = ac+bc only = largest shared edge
-```
-
-with
+Raw-pair and triple ledgers satisfy
 
 \[
-N_a^{(2)}=O_{ab,ac}-T,\qquad
-N_b^{(2)}=O_{ab,bc}-T,\qquad
-N_c^{(2)}=O_{ac,bc}-T.
+\boxed{O_{\rm pair}^{raw}(B)=N_2(B)+3T(B).}
 \]
 
-No perfect-cuboid nonexistence assumption is made.
-
-Two independent exact generation routes agree through `B=2,000,000`; there
+At `B=2,000,000`, the exact census gives
 
 \[
 (N_a^{(2)},N_b^{(2)},N_c^{(2)})=(142,134,80),
 \qquad N_2=356,\qquad T=0.
 \]
 
-This is only a finite statement.
+No perfect-cuboid nonexistence assumption is made.
 
-## Frozen Stage13 input
+## Elliptic and Kummer reduction
 
-Stage13 freezes the downstream `R03 + Stage13-12ag` contract. In particular Stage14 may use
+For primitive oriented Pythagorean face data `F_i=(S_i,X_i,H_i)`, with
 
 \[
-O_{qr}(B)=o(B(\log B)^3),\qquad
-T(B)=o(B(\log B)^3),
+g=(S_1,S_2),\qquad t_i=X_i/S_i,
 \]
 
-hence
+a raw pair has
 
 \[
-\boxed{N_2(B)=o(B(\log B)^3).}
+(e,x,y)=\operatorname{lcm}(S_1,S_2)(1,t_1,t_2)
 \]
 
-The R03 fixed-prime sieve gives zero density, not a `B`-dependent power saving.
-
-## Exact two-face / elliptic coordinates
-
-For primitive oriented Pythagorean face data
+and
 
 \[
-F_i=(S_i,X_i,H_i),\qquad S_i^2+X_i^2=H_i^2,
+(X_1X_2)^2+(gd)^2=(H_1H_2)^2.
 \]
 
-put
+Fixing the first face gives
 
 \[
-g=(S_1,S_2),\qquad L=\operatorname{lcm}(S_1,S_2),\qquad t_i=X_i/S_i.
+E_t:Y^2=X(X-1)(X+t^2).
 \]
 
-A primitive raw-pair incidence is represented exactly once and satisfies
+For the actual Pythagorean base
 
 \[
-(e,x,y)=L(1,t_1,t_2),
-\qquad d=L\sqrt{1+t_1^2+t_2^2},
+r=\frac{X_1}{H_1+S_1},\qquad t=\frac{2r}{1-r^2},
 \]
 
-and the product closure
+the pulled-back surface is the six-`I4` K3 from Stage14-4af. Stage14-4ag identifies it explicitly over `Q(i)` with the classical level-4 elliptic modular surface by
 
 \[
-\boxed{(X_1X_2)^2+(gd)^2=(H_1H_2)^2.}
-\]
-
-After fixing the first face, the space-square condition is birational to
-
-\[
-\boxed{E_{t_1}:Y^2=X(X-1)(X+t_1^2).}
-\]
-
-## Stage14-4ae — physical height
-
-For reduced `q=u/v`, `0<u<v`, the second primitive face has
-
-\[
-H_2=\frac{u^2+v^2}{\delta},\qquad \delta\in\{1,2\},
-\]
-
-so
-
-\[
-\frac{v^2}{2}<H_2<2v^2.
-\]
-
-The original cutoff satisfies uniformly
-
-\[
-\boxed{
-\frac{S_1H_2}{\sqrt2\,g}<d<\frac{\sqrt3\,S_1H_2}{g},
-}
-\]
-
-hence
-
-\[
-\boxed{v\asymp\sqrt{Bg/S_1}.}
-\]
-
-The elliptic inverse is
-
-\[
-q=\frac{X}{sY},\qquad s=S_1/H_1.
-\]
-
-The full `t`-line elliptic surface has geometric generic rank `0`.
-
-## Stage14-4af — the actual Pythagorean base
-
-A first-face Pythagorean slope has the degree-two parameterization
-
-\[
-\boxed{
-t=\frac{2u}{1-u^2},
+\boxed{\sigma=i\frac{1+r}{1-r}},
 \qquad
-\frac{H_1}{S_1}=\frac{1+u^2}{1-u^2}.
-}
+\frac{\sigma+\sigma^{-1}}2=it.
 \]
 
-After this base change the elliptic surface has six geometric `I4` fibers,
+Over `C` this is the Kummer surface `Km(E_i x E_i)`.
 
-```text
-u=0, infinity, +1, -1, +i, -i,
-```
-
-Euler number `24`, and is a K3 surface. Its trivial lattice already has rank
-
-\[
-2+6(4-1)=20.
-\]
-
-Since a K3 has geometric Picard rank at most `20`, Shioda--Tate gives
-
-\[
-\boxed{\operatorname{rank}E(\overline{\mathbf Q}(u))=0.}
-\]
-
-Thus the generic-rank-zero conclusion survives the **actual** Pythagorean restriction.
-
-On every genuine Pythagorean fiber,
-
-\[
-\boxed{E_t(\mathbf Q)_{tors}\cong\mathbf Z/2\times\mathbf Z/4.}
-\]
-
-The rational order-4 points map under the Stage14 inverse to
-
-\[
-q=\pm1,
-\]
-
-the degenerate second-face boundary. Rational 8-torsion would force three rational squares `h-1,h,h+1` in arithmetic progression of common difference `1`, equivalently a rational right triangle of area `1`, which is impossible.
-
-Therefore
+In two face parameters `r,s`, the same space-square locus has the symmetric model
 
 \[
 \boxed{
-\text{every physical Stage14 raw-pair point is non-torsion and lies on a positive-rank specialization.}
+Z^2=(1+r^2)^2(1+s^2)^2-16r^2s^2.
 }
 \]
 
-The `extra torsion` alternative from Stage14-4ae is no longer a physical source.
+## Active rank-jump graph
 
-## Triple / perfect-cuboid gate
-
-For fixed first-face slope `t`, the space condition is
+Let `G_B` have one vertex for each primitive **oriented** Pythagorean face state occurring in a raw pair with `d<=B`, and one edge for each raw pair incidence. Put
 
 \[
-W^2=q^4+2Aq^2+1,
-\qquad A=\frac{1-t^2}{1+t^2},
+V(B)=|\mathcal V_B|,\qquad E(B)=|\mathcal E_B|.
 \]
 
-while the third-face condition is
+Then
 
 \[
-R^2=q^4+2Cq^2+1,
-\qquad C=\frac{2}{t^2}-1.
+\boxed{E(B)=N_2(B)+3T(B)}
 \]
 
-Their branch sets are disjoint because
+and
 
 \[
-A-C=-\frac{2}{t^2(1+t^2)}\ne0.
+\boxed{N_2(B)=\frac12V(B)\bar d(B)-3T(B)}.
 \]
 
-The fiber product is therefore a connected degree-4 cover of `P^1_q` with eight simple branch values. Riemann--Hurwitz gives
+Stage14-4af implies every active vertex is a positive-rank specialization. Conversely every positive-rank genuine Pythagorean specialization eventually has a physical non-boundary partner, so `V(B)` is the positive-rank set ordered by its first physical hit height.
+
+Every Stage14 fiber has rational 2-torsion. Dujella's uniform bounded-height theorem, combined with the polynomial height of the Stage14 birational coordinates under `d<=B`, gives
 
 \[
-\boxed{g=5.}
+\boxed{\max_F\deg_B(F)=B^{o(1)}.}
 \]
 
-Thus for each fixed first face the triple locus is a genus-5 curve and has finitely many rational points. This is only fiberwise finiteness: no uniform moving-base bound and no `T=o(sqrt(B))` theorem is claimed.
-
-The exact ledger identity remains
+Hence
 
 \[
-\boxed{O_{\rm pair}^{raw}(B)=N_2(B)+3T(B).}
+\frac12V(B)\le E(B)\le V(B)B^{o(1)},
 \]
 
-## Validation
+so raw-pair edges and active rank-jump vertices have the same polynomial growth exponent.
 
-At `B=10000`, the Stage14-4af deterministic audit records
+## Finite diagnostic
+
+At the late cutoffs:
+
+| B | raw edges E | active vertices V | avg degree | max degree | V/sqrt(B) |
+|---:|---:|---:|---:|---:|---:|
+| 200,000 | 116 | 155 | 1.4968 | 6 | 0.34659 |
+| 500,000 | 188 | 254 | 1.4803 | 8 | 0.35921 |
+| 1,000,000 | 255 | 347 | 1.4697 | 8 | 0.34700 |
+| 2,000,000 | 356 | 490 | 1.4531 | 9 | 0.34648 |
+
+The active-vertex effective exponent from `200k` to `2m` is
+
+\[
+0.4998643818582221.
+\]
+
+This is strong finite evidence for the location of the square-root signal, not an asymptotic theorem.
+
+## Triple gate
+
+For each fixed first face the triple/perfect-cuboid locus remains genus `5`, hence fiberwise finite. No uniform moving-base bound and no
+
+\[
+T(B)=o(\sqrt B)
+\]
+
+theorem is known, so a future raw-pair law cannot yet be transferred automatically to exactly-two.
+
+## Artifacts
 
 ```text
-oriented primitive first-face data  3186
-raw pair incidences                   25
-distinct first-face fibers            23
-exactly-two direction              (9,11,5)
-T                                      0
-q denominator range                 5..57
-```
-
-Every physical hit has `0<q<1` and is not killed by multiplication by `8`.
-
-Artifacts:
-
-```text
-stages/stage14/archive/stage14-4af-specialization-triple.md
-stages/stage14/scripts/14-4/specialization_triple_audit.py
-stages/stage14/data/14-4/specialization_triple_audit.json
+stages/stage14/archive/stage14-4ag-kummer-rank-jump.md
+stages/stage14/scripts/14-4/rank_jump_graph_audit.py
+stages/stage14/data/14-4/rank_jump_graph_audit.json
 stages/stage14/data/14-4/proof_input_audit.json
 ```
 
-## What remains unknown
+## Next
 
-The true growth exponent is still unknown. The remaining raw-pair problem is quantitative:
-
-> count Pythagorean base specializations that acquire a sufficiently small non-torsion point.
-
-The exactly-two transfer additionally needs uniform control of the moving genus-5 triple fibers.
-
-```text
-NEXT=Stage14-4ag quantitative rank-jump/small-point counting with uniform triple control
-```
+Stage14-4ah will match the physical primitive/lcm height to a divisor on the Kummer surface, inspect accumulating rational curves/multisections, and treat the triple condition as a relative thin cover at that height.
