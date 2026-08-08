@@ -1,22 +1,20 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_4AA_COMPLETE_R02_PROVISIONAL_UPSTREAM_14_4AB_NEXT`
+> **STATUS:** `STAGE14_4AB_COMPLETE_R03_FULL_ACCESS_14_4AC_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 >
 > **CANONICAL_WORKING_FILE:** `stages/stage14/main.md`
 
-Stage14 studies primitive canonical cuboids with integer space diagonal and **exactly two** integral face diagonals. Stage14-1 through Stage14-3 are complete. Stage14-4 restarts at proof level with an independent two-face parametrization; only a narrowly stated Stage13 R02 directional asymptotic is admitted provisionally as upstream input.
+Stage14 studies primitive canonical cuboids with integer space diagonal and exactly two integral face diagonals. Stage14-1 through Stage14-3 are complete. Stage14-4 is active at proof level. The reviewed Stage13 R03 map is now fully available as upstream machinery, while the Stage14 two-face parametrization remains independently derived.
 
 ## §1. Locked counting convention
 
 For `B>=1`, count positive integers satisfying
 
 \[
-0<a<b<c,
-\qquad \gcd(a,b,c)=1,
-\qquad a^2+b^2+c^2=d^2,
-\qquad d\le B.
+0<a<b<c,\qquad \gcd(a,b,c)=1,
+\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
 \]
 
 Let
@@ -41,7 +39,7 @@ and the triple population is
 T=\sum I_{ab}I_{ac}I_{bc}.
 \]
 
-The exactly-two populations are
+The exactly-two directional populations are
 
 \[
 N_a^{(2)}=O_{ab,ac}-T,
@@ -65,11 +63,11 @@ and
 N_2=N_a^{(2)}+N_b^{(2)}+N_c^{(2)}.
 \]
 
-No perfect-cuboid nonexistence assumption is made. Any `T>0` object is retained with its exact witness.
+No perfect-cuboid nonexistence assumption is made. Any `T>0` object remains an exact perfect-cuboid candidate and must be retained.
 
-## §2. Frozen finite census and reconnaissance
+## §2. Frozen finite facts
 
-Two materially different exact enumeration routes agree at all 11 audited cutoffs through `B=2,000,000`. At the verified ceiling,
+Two materially different exact cuboid-generation routes agree at all 11 audited cutoffs through `B=2,000,000`. At the verified ceiling,
 
 \[
 (N_a^{(2)},N_b^{(2)},N_c^{(2)})=(142,134,80),
@@ -77,12 +75,7 @@ Two materially different exact enumeration routes agree at all 11 audited cutoff
 \qquad T=0.
 \]
 
-Stage14-3 established only finite facts. In particular:
-
-- the coarse sampled equality `N_a/N_c=7/4` is not stable under a 50k grid and is not retained as a limit candidate;
-- the final `a/b` crossing in the verified event stream occurs at `d=1,148,545`;
-- after that crossing `a>b` persists only through the verified finite ceiling `B=2,000,000`;
-- no growth law or limiting directional vector was inferred.
+Stage14-3 established only finite directional geography. In particular, the coarse `a/c=7/4` pattern failed under densification, and no limiting directional vector was inferred.
 
 Canonical finite synthesis:
 
@@ -91,292 +84,420 @@ stages/stage14/data/14-3/final_finite_reconnaissance.json
 stages/stage14/archive/stage14-3c-final-finite-reconnaissance.md
 ```
 
-## §3. Stage14-4 upstream-input boundary
+## §3. Stage13 R03 upstream map — fully available
 
-The current provisional upstream assumption is the Stage13 **R02** directional raw asymptotic candidate from
+Stage14 may now use the reviewed R03 proof map and the post-review Stage13-12ag supplement:
 
 ```text
-stages/stage13/13-12ac/current-proof.md
+stages/stage13/13-12af/current-proof.md
+stages/stage13/13-12ag/result.md
 ```
 
-namely
+Current repository review record:
+
+```text
+UPSTREAM_STAGE13_VERSION=R03_PLUS_12AG
+UPSTREAM_STAGE13_REVIEWED_SNAPSHOT=STAGE13-FINAL-SELF-CONTAINED-20260809-R03
+R03_GROK_VERDICT=CLOSED
+R03_QWEN_VERDICT=CLOSED
+R03_CLAUDE_VERDICT=NOT_RECORDED_AT_CURRENT_REPO_CHECKPOINT
+R03_FULL_ACCESS_AUTHORIZED=true
+UPSTREAM_STAGE13_FINAL_REPOSITORY_FREEZE=false
+```
+
+The final repository freeze flag is bookkeeping. The mathematical R03 map is available to Stage14.
+
+The imported raw directional theorem candidate is
 
 \[
 \boxed{
-A_q(B)\sim \frac{\kappa I_q}{3\pi^3}B(\log B)^3,
+A_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3,
 \qquad q\in\{ab,ac,bc\}.
 }
 \]
 
-This is recorded as
+R03 also supplies
 
-```text
-UPSTREAM_STAGE13_VERSION=R02
-UPSTREAM_STAGE13_STATUS=ASSUMED_PROVISIONALLY
-UPSTREAM_STAGE13_FINAL_EXTERNAL_FREEZE=false
-STAGE13_R03_USED=false
-```
+\[
+\boxed{O_{qr}(B)=o(B(\log B)^3)}
+\]
 
-The R02 pair-overlap and triple-overlap little-o statements are **not imported in Stage14-4aa**. Stage14 is now trying to understand the true two-face scale intrinsically, so using those conclusions as hidden proof inputs would blur the dependency boundary.
+for every raw pair direction and
 
-Stage12 is not directly imported in Stage14-4aa; any Stage12 dependence is contained inside the provisional Stage13 R02 statement above.
+\[
+\boxed{T(B)=o(B(\log B)^3)}.
+\]
 
-If the eventual external Stage13 freeze changes that directional theorem, the upstream-input section must be re-audited. The Stage14-native parametrization below is unaffected.
+Hence Stage14 may record the inherited ceiling
 
-## §4. Stage14-4aa — independent two-face parametrization
+\[
+\boxed{
+N_a^{(2)},N_b^{(2)},N_c^{(2)},N_2=o(B(\log B)^3).
+}
+\]
 
-### §4.1 One generic arithmetic object for all three directions
+This does not determine the true two-face order. Stage14-4 seeks a sharper intrinsic law.
 
-Let `e` be the edge shared by the two integral faces. Let the two nonshared edges be `x<y`, and let the corresponding face diagonals be `u<v`. Then a raw two-face object satisfies
+## §4. Stage14-4aa — one arithmetic object for all directions
+
+Let `e` be the edge shared by the two integral faces, and let `x<y` be the nonshared edges. Let the face diagonals be `u,v`. Then a raw pair object satisfies
 
 \[
 e^2+x^2=u^2,
-\qquad
-e^2+y^2=v^2,
-\qquad
-e^2+x^2+y^2=d^2.
+\qquad e^2+y^2=v^2,
+\qquad u^2+y^2=d^2,
+\qquad v^2+x^2=d^2.
 \]
 
-The three canonical directions are exactly the three possible chamber positions of `e`:
+Only three Pythagorean equations are independent.
+
+The three directions are exactly the three chamber positions of the shared edge:
 
 ```text
-a-direction: e < x < y
-b-direction: x < e < y
-c-direction: x < y < e
+a-direction: e<x<y
+b-direction: x<e<y
+c-direction: x<y<e
 ```
 
-Therefore the arithmetic core is direction-neutral. The direction label is a chamber inequality, not a different Diophantine system.
+Thus all directions share one arithmetic object; direction is a chamber inequality.
 
-The exactly-two condition is
-
-\[
-x^2+y^2\ne\square.
-\]
-
-If `x^2+y^2` is square, the object belongs to `T` and remains in the raw-pair ledger.
-
-### §4.2 Four attached right triangles
-
-From the three defining equations,
-
-\[
-u^2+y^2=d^2,
-\qquad
-v^2+x^2=d^2.
-\]
-
-Thus every raw pair object carries four integer right triangles:
+The exactly-two / triple split is
 
 ```text
-(e,x,u)
-(e,y,v)
-(u,y,d)
-(v,x,d)
+x^2+y^2 nonsquare  -> exactly two
+x^2+y^2 square     -> triple T
 ```
 
-Only three Pythagorean equations are independent. For example,
+For a primitive Euclid base define
 
 \[
-e^2+x^2=u^2,
-\qquad
-e^2+y^2=v^2,
-\qquad
-u^2+y^2=d^2
+L_D=m^2-n^2,\qquad L_P=2mn,\qquad H=m^2+n^2.
 \]
 
-imply the fourth equation `v^2+x^2=d^2` automatically.
+Stage14-4aa writes the two face triples with arbitrary positive scales and matches them along the shared edge. A third Euclid triple imposes `(u,y,d)`. Stage14-4ab now removes the redundant scale and third-triple variables exactly.
 
-Conversely, any positive integer solution of those three equations, followed by the global primitivity and chamber conditions, gives a raw Stage14 pair object.
+## §5. Stage14-4ab — exact shared-edge matching reduction
 
-### §4.3 Euclid shared-edge fiber product
+### §5.1 Oriented primitive face data
 
-For a primitive Euclid base `m>n>0`, `(m,n)=1`, `m-n` odd, define
+An oriented primitive face datum is
 
 \[
-L_D(m,n)=m^2-n^2,
-\qquad
-L_P(m,n)=2mn,
-\qquad
-H(m,n)=m^2+n^2.
+F=(S,X,H),
 \]
 
-Every positive integer Pythagorean triple is
+where `S` is the primitive Pythagorean leg designated to become the shared edge and `X` is the other leg. Thus
 
 \[
-(kL_\sigma(m,n),
- kL_{\bar\sigma}(m,n),
- kH(m,n)),
-\qquad \sigma\in\{D,P\},
+S=L_\sigma(m,n),\qquad X=L_{\bar\sigma}(m,n),\qquad H=m^2+n^2
 \]
 
-for a positive scale `k`.
+for one unique primitive Euclid base and one leg role `sigma`.
 
-Write the two integral faces as
+For each datum,
 
 \[
-(e,x,u)=
-\bigl(k_1L_{\sigma_1}(m,n),
-      k_1L_{\bar\sigma_1}(m,n),
-      k_1H(m,n)\bigr),
+\gcd(S,X)=\gcd(S,H)=\gcd(X,H)=1.
+\]
+
+Every positive integer Pythagorean triangle with a distinguished leg has a unique form
+
+\[
+(kS,kX,kH).
+\]
+
+### §5.2 Solve the shared-edge scale equation
+
+Take
+
+\[
+F_1=(S_1,X_1,H_1),\qquad F_2=(S_2,X_2,H_2)
+\]
+
+and write
+
+\[
+(e,x,u)=k_1(S_1,X_1,H_1),
 \]
 
 \[
-(e,y,v)=
-\bigl(k_2L_{\sigma_2}(r,s),
-      k_2L_{\bar\sigma_2}(r,s),
-      k_2H(r,s)\bigr).
+(e,y,v)=k_2(S_2,X_2,H_2).
 \]
 
-The common edge is therefore governed by the exact fiber-product equation
+The shared-edge equation is
+
+\[
+k_1S_1=k_2S_2.
+\]
+
+Put
+
+\[
+g=\gcd(S_1,S_2),\qquad \alpha=S_1/g,\qquad \beta=S_2/g.
+\]
+
+Then `(alpha,beta)=1`, and the complete positive solution is
+
+\[
+\boxed{k_1=t\beta,\qquad k_2=t\alpha,\qquad t\ge1.}
+\]
+
+Therefore
+
+\[
+\begin{aligned}
+e&=tg\alpha\beta,\\
+x&=t\beta X_1,\\
+y&=t\alpha X_2,\\
+u&=t\beta H_1,\\
+v&=t\alpha H_2.
+\end{aligned}
+\]
+
+### §5.3 Primitive cuboids force exactly `t=1`
+
+Define the minimal glued edges
+
+\[
+e_0=g\alpha\beta,
+\qquad x_0=\beta X_1,
+\qquad y_0=\alpha X_2.
+\]
+
+Stage14-4ab proves
+
+\[
+\boxed{\gcd(e_0,x_0,y_0)=1.}
+\]
+
+Indeed a prime dividing `alpha` cannot divide `x_0`; a prime dividing `beta` cannot divide `y_0`; and a prime dividing only the common factor `g` of `S_1,S_2` divides neither primitive complementary leg.
+
+Since
+
+\[
+(e,x,y)=t(e_0,x_0,y_0),
+\]
+
+we have the exact identity
+
+\[
+\boxed{\gcd(e,x,y)=t.}
+\]
+
+Thus global primitive cuboids force
+
+\[
+\boxed{t=1.}
+\]
+
+This is not the incorrect condition `k_1=k_2=1`. The actual primitive face scales are
+
+\[
+\boxed{k_1=\beta=S_2/g,\qquad k_2=\alpha=S_1/g,}
+\]
+
+which may be large.
+
+Hence the primitive minimal gluing is
 
 \[
 \boxed{
- k_1L_{\sigma_1}(m,n)
- =k_2L_{\sigma_2}(r,s)
- =e.
-}
+\begin{aligned}
+e&=\operatorname{lcm}(S_1,S_2)=g\alpha\beta,\\
+x&=\beta X_1,\\
+y&=\alpha X_2,\\
+u&=\beta H_1,\\
+v&=\alpha H_2.
+\end{aligned}}
 \]
 
-There are four shared-edge role charts
+No free global scale remains.
 
-```text
-DD, DP, PD, PP.
-```
+### §5.4 Representation multiplicity is exactly one
 
-These are Euclid-leg roles and must not be confused with the historical Stage13 OE/EE branches.
+The convention `x<y` removes the swap of the two nonshared faces.
 
-### §4.4 Third Pythagorean gluing for the space diagonal
+For a fixed raw pair incidence:
 
-Impose the space diagonal intrinsically by writing
+1. `(e,x,u)` and `(e,y,v)` are fixed physical triangles;
+2. each has a unique scale-times-primitive-Euclid decomposition with the shared leg distinguished;
+3. primitivity forces the common matching scalar `t=1`;
+4. `x<y` fixes the order of the two face data.
+
+Therefore
 
 \[
-(u,y,d)
-=
-\bigl(k_3L_{\sigma_3}(p,q),
-      k_3L_{\bar\sigma_3}(p,q),
-      k_3H(p,q)\bigr).
+\boxed{\text{parameter-fiber multiplicity}=1.}
 \]
 
-Then the three-triple system is controlled by
+A triple object contributes three intended raw pair incidences, one per shared edge; this is the genuine `T` incidence structure, not duplicate parametrization of one incidence.
+
+### §5.5 The third Euclid triple is not independent
+
+After minimal gluing,
+
+\[
+u=\beta H_1,\qquad y=\alpha X_2.
+\]
+
+Thus the space-diagonal condition is exactly
+
+\[
+\boxed{(\beta H_1)^2+(\alpha X_2)^2=d^2.}
+\]
+
+Equivalently,
+
+\[
+(\alpha H_2)^2+(\beta X_1)^2=d^2.
+\]
+
+Let
+
+\[
+h=\gcd(\beta H_1,\alpha X_2).
+\]
+
+Using the primitive face coprimalities and `(alpha,beta)=1`,
+
+\[
+\boxed{h=\gcd(H_1,X_2).}
+\]
+
+If the square condition holds, dividing `(u,y,d)` by `h` gives a primitive Pythagorean triple, whose Euclid parameters are unique. Therefore the third triple introduced in 14-4aa is recovered uniquely with
+
+\[
+\boxed{k_3=\gcd(H_1,X_2).}
+\]
+
+It contributes no independent parameter sum.
+
+### §5.6 Exact bijective parameter space
+
+Stage14 raw pair incidences are now parametrized bijectively by two oriented primitive face data.
+
+Choose
+
+\[
+F_1=(S_1,X_1,H_1),\qquad F_2=(S_2,X_2,H_2),
+\]
+
+put
+
+\[
+g=(S_1,S_2),\qquad \alpha=S_1/g,\qquad \beta=S_2/g,
+\]
+
+and form
 
 \[
 \boxed{
- k_1L_{\sigma_1}(m,n)
- =k_2L_{\sigma_2}(r,s)
-}
+\begin{aligned}
+e&=g\alpha\beta,\\
+x&=\beta X_1,\\
+y&=\alpha X_2,\\
+d^2&=\beta^2H_1^2+\alpha^2X_2^2.
+\end{aligned}}
 \]
 
-and
-
-\[
-\boxed{
- k_1H(m,n)=k_3L_{\sigma_3}(p,q),
-\qquad
- k_2L_{\bar\sigma_2}(r,s)
- =k_3L_{\bar\sigma_3}(p,q).
-}
-\]
-
-After these matches,
-
-\[
-d=k_3H(p,q)
-\]
-
-and the fourth right triangle `(v,x,d)` is automatic.
-
-This is an exact Stage14-native parametrization framework. It is not yet a uniqueness theorem and it does not yet identify an asymptotic order.
-
-### §4.5 Global primitivity comes after gluing
-
-The cuboid condition is
-
-\[
-\gcd(e,x,y)=1.
-\]
-
-The three Euclid bases can each be primitive while the scales `k_1,k_2,k_3` still interact. Consequently Stage14 must not replace global cuboid primitivity by the stronger condition
+Then impose exactly
 
 ```text
-k_1=k_2=k_3=1.
+x<y
+d^2 is a perfect square
+d<=B
 ```
 
-The correct order is:
+for a raw pair incidence.
+
+The resulting glued cuboid is automatically primitive; no extra gcd filter remains.
+
+Finally classify
 
 ```text
-build primitive Euclid bases
-allow positive scales
-solve the matching equations
-glue the three triangles
-apply gcd(e,x,y)=1
-apply one of the three chamber inequalities
-retain T separately from exactly-two
+x^2+y^2 nonsquare -> exactly two
+x^2+y^2 square    -> T
 ```
 
-### §4.6 Relation to Stage13 R02
+and apply the chamber test for `a/b/c`.
 
-Selecting `(e,x,u)` as the distinguished face turns the Stage14 object into the Stage13 one-face nested pair
+Thus the 14-4aa three-triple fiber product has reduced to
 
 ```text
-(e,x,u) + (u,y,d)
+two oriented primitive Euclid face data
++ gcd(S1,S2)
++ one exact diagonal-square condition
++ x<y
++ one shared-edge chamber test
 ```
 
-plus the extra condition that `(e,y,v)` is Pythagorean.
+with exact fiber multiplicity one.
 
-Thus the Stage13 R02 directional raw asymptotic supplies an ambient one-face scale, but the second-face event is **not** assumed independent. The shared-edge fiber-product equation is an arithmetic correlation that must be analyzed directly.
+## §6. Independent finite audit of the bijection
 
-No claim of the form
+A new Stage14-4ab enumerator uses only the two-face primitive parameter space above. It does not use the Stage14-2 cuboid-edge-first production route.
+
+It reproduces the locked exactly-two counts
 
 ```text
-N_2(B) ~ constant * A_q(B)
-N_2(B) ~ B(log B)^alpha
-N_2(B) ~ B^theta(log B)^beta
+B=1000   (2,0,0)
+B=2000   (2,2,1)
+B=5000   (6,6,3)
+B=10000  (9,11,5)
 ```
 
-is made in 14-4aa.
-
-### §4.7 14-4aa decision
+with `T=0` at all four cutoffs.
 
 Artifacts:
 
 ```text
-stages/stage14/archive/stage14-4aa-parametrization-input-audit.md
+stages/stage14/archive/stage14-4ab-matching-reduction.md
+stages/stage14/scripts/14-4/bijection_audit.py
+stages/stage14/data/14-4/bijection_audit.json
 stages/stage14/data/14-4/proof_input_audit.json
 ```
 
-Locked state:
+The finite agreement validates the new coordinates but is not an asymptotic proof.
+
+## §7. Locked Stage14-4ab decision
 
 ```text
 STAGE14_4AA=COMPLETE
-ONE_GENERIC_ARITHMETIC_OBJECT_FOR_ALL_THREE_DIRECTIONS=true
-DIRECTION_LABEL_IS_CHAMBER_POSITION_OF_SHARED_EDGE=true
-FOUR_RIGHT_TRIANGLES_PER_RAW_PAIR=true
-THREE_INDEPENDENT_PYTHAGOREAN_RELATIONS_SUFFICE=true
-EUCLID_SHARED_EDGE_FIBER_PRODUCT_LOCKED=true
-THIRD_PYTHAGOREAN_GLUING_LOCKED=true
-GLOBAL_PRIMITIVITY_APPLIED_AFTER_GLUING=true
-UNIQUE_PARAMETERIZATION=false
-BOUNDED_PARAMETER_MULTIPLICITY=false
+STAGE14_4AB=COMPLETE
+UPSTREAM_STAGE13_VERSION=R03_PLUS_12AG
+R03_FULL_ACCESS_AUTHORIZED=true
+R03_PAIR_OVERLAP_LITTLE_O_IMPORTED=true
+R03_TRIPLE_OVERLAP_LITTLE_O_IMPORTED=true
+SHARED_EDGE_SCALE_SOLUTION_EXACT=true
+GLOBAL_COMMON_SCALE_EQUALS_CUBOID_GCD=true
+PRIMITIVE_COMMON_SCALE_T=1=true
+MINIMAL_GLUING_AUTOMATICALLY_PRIMITIVE=true
+FIXED_RAW_PAIR_PARAMETER_FIBER_MULTIPLICITY=1
+THIRD_EUCLID_TRIPLE_INDEPENDENT=false
+THIRD_TRIPLE_SCALE_K3=gcd(H1,X2)
+BIJECTIVE_TWO_FACE_PARAMETER_SPACE_LOCKED=true
+BIJECTION_FINITE_AUDIT_PASS=true
+INHERITED_TWO_FACE_CEILING=o(B(log B)^3)
 TRUE_GROWTH_ORDER_IDENTIFIED=false
 LEADING_CONSTANT_IDENTIFIED=false
 DIRECTIONAL_LIMIT_IDENTIFIED=false
 ```
 
-## §5. Next — Stage14-4ab
+## §8. Next — Stage14-4ac
 
-Stage14-4ab will audit representation multiplicity and reduce the three-triple gluing to an explicit countable matching/divisibility parameter space.
+The next task is to convert the exact bijection into a height/divisibility counting envelope.
 
-The immediate targets are:
+Immediate targets:
 
 ```text
-identify duplicate symmetries
-solve the shared-edge scale equation in gcd/lcm variables
-separate arithmetic multiplicity from chamber multiplicity
-rewrite the remaining gluing equations as explicit divisibility constraints
-retain global primitivity after gluing
-avoid guessing a growth exponent before the parameter multiplicity is controlled
+rewrite d<=B explicitly in primitive face parameters
+track g=gcd(S1,S2), alpha, beta and gcd(H1,X2)
+identify divisor/logarithmic multiplicities
+use R03 fixed-local and harmonic tools where genuinely applicable
+seek a rigorous bound sharper than o(B(log B)^3)
+only then test candidate true growth orders
 ```
 
 ```text
-NEXT=Stage14-4ab representation multiplicity and explicit matching-variable reduction
+NEXT=Stage14-4ac height inequality and arithmetic counting envelope
 ```
