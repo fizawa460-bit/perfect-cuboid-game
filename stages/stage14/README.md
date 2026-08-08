@@ -8,146 +8,116 @@ Stage14 studies primitive canonical cuboids with integer space diagonal and exac
 STAGE14_1=COMPLETE
 STAGE14_2=COMPLETE
 STAGE14_3A=COMPLETE
+STAGE14_3B=COMPLETE
 FINITE_CENSUS_FROZEN=true
-INDEPENDENT_GENERATION_ROUTES=2
-ALL_11_ROWS_MATCH=true
 MAX_VERIFIED_B=2000000
+DENSE_FINITE_GRID_STEP=50000
 STAGE13_ANALYTIC_DEPENDENCY_USED=false
-NEXT=Stage14-3b late-range finite cutoff densification
+NEXT=Stage14-3c finite diagnostic synthesis / stop-line preparation
 STOP_AFTER_STAGE14_3=true
 STAGE14_4_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
 STAGE14_5_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
 ```
 
-The canonical mathematical source is `stages/stage14/main.md`.
+Canonical source: `stages/stage14/main.md`.
 
 ## Counting convention
 
-Use
-
 \[
-0<a<b<c,
-\qquad \gcd(a,b,c)=1,
-\qquad a^2+b^2+c^2=d^2,
-\qquad d\le B.
+0<a<b<c,\qquad \gcd(a,b,c)=1,\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
 \]
 
 The three exactly-two directions are
 
 ```text
-ab+ac only  <-> shared edge a <-> smallest edge shared
-ab+bc only  <-> shared edge b <-> middle edge shared
-ac+bc only  <-> shared edge c <-> largest edge shared
+a = ab+ac only = smallest shared edge
+b = ab+bc only = middle shared edge
+c = ac+bc only = largest shared edge
 ```
 
 Write
 
 \[
-N_a^{(2)}=N_{ab,ac}^{(2)},
-\qquad
-N_b^{(2)}=N_{ab,bc}^{(2)},
-\qquad
-N_c^{(2)}=N_{ac,bc}^{(2)}.
+N_a^{(2)}=O_{ab,ac}-T,\qquad
+N_b^{(2)}=O_{ab,bc}-T,\qquad
+N_c^{(2)}=O_{ac,bc}-T.
 \]
 
-Stage14 retains the raw pair-overlap vector
-
-\[
-\mathbf O=(O_{ab,ac},O_{ab,bc},O_{ac,bc})
-\]
-
-and triple population `T(B)`, with
-
-\[
-\mathbf N_2^{\rm dir}=\mathbf O-T(1,1,1).
-\]
-
-No perfect-cuboid nonexistence assumption is built into the counting convention.
+No perfect-cuboid nonexistence assumption is made.
 
 ## Stage14-2 — frozen finite census
 
-Two independent generation routes agree exactly at every audited cutoff through `B=2,000,000`:
-
-| B | exactly-two vector `(a,b,c)` | N2 | T |
-|---:|---:|---:|---:|
-| 1,000 | `(2,0,0)` | 2 | 0 |
-| 2,000 | `(2,2,1)` | 5 | 0 |
-| 5,000 | `(6,6,3)` | 15 | 0 |
-| 10,000 | `(9,11,5)` | 25 | 0 |
-| 20,000 | `(16,16,10)` | 42 | 0 |
-| 50,000 | `(24,24,14)` | 62 | 0 |
-| 100,000 | `(33,33,23)` | 89 | 0 |
-| 200,000 | `(42,50,24)` | 116 | 0 |
-| 500,000 | `(70,78,40)` | 188 | 0 |
-| 1,000,000 | `(98,101,56)` | 255 | 0 |
-| 2,000,000 | `(142,134,80)` | 356 | 0 |
-
-No triple object was found through `B=2,000,000`; this is only a finite search statement.
-
-Frozen census artifacts:
+Two materially different exact generation routes agree at all 11 audited cutoffs through `B=2,000,000`.
 
 ```text
-stages/stage14/data/14-2/final_census_audit.json
-stages/stage14/scripts/14-2/two_face_census.py
-stages/stage14/scripts/14-2/shared_leg_crosscheck.py
-stages/stage14/archive/stage14-2c-census-closure.md
+100k   (33,33,23)
+200k   (42,50,24)
+500k   (70,78,40)
+1m     (98,101,56)
+2m     (142,134,80)
 ```
 
-## Stage14-3a — descriptive directional ledger
+No triple object was found through `B=2,000,000`; this is a finite search statement only.
 
-Stage14-3a derives only finite diagnostics from the frozen 11-row census. No fit, limiting vector, monotonicity claim, or Stage13 asymptotic input is used.
+## Stage14-3a — coarse finite directional ledger
 
-Late cumulative ratios are
-
-| B | `N_a/N_c` | `N_b/N_c` | `N_a/N_b` | leader |
-|---:|---:|---:|---:|---|
-| 100,000 | 1.434783 | 1.434783 | 1.000000 | tie a/b |
-| 200,000 | 1.750000 | 2.083333 | 0.840000 | b |
-| 500,000 | 1.750000 | 1.950000 | 0.897436 | b |
-| 1,000,000 | 1.750000 | 1.803571 | 0.970297 | b |
-| 2,000,000 | 1.775000 | 1.675000 | 1.059701 | a |
-
-The exact finite equality
-
-\[
-N_a/N_c=7/4
-\]
-
-occurs at the three sampled cutoffs `200k`, `500k`, and `1m`, then shifts slightly to `1.775` at `2m`. This is recorded only as a finite plateau, not as a limiting constant.
-
-The `b -> a` cumulative leader reversal is reflected in shell composition:
+The coarse late samples were
 
 ```text
-100k -> 200k:  delta(a,b,c)=(9,17,1)
-200k -> 500k:  delta(a,b,c)=(28,28,16)
-500k -> 1m:    delta(a,b,c)=(28,23,16)
-1m   -> 2m:    delta(a,b,c)=(44,33,24)
+B=200k:  a/c=1.75   b/c=2.083333   a/b=0.84
+B=500k:  a/c=1.75   b/c=1.95       a/b=0.897436
+B=1m:    a/c=1.75   b/c=1.803571   a/b=0.970297
+B=2m:    a/c=1.775  b/c=1.675      a/b=1.059701
 ```
 
-Thus the sampled late shells change from `b`-heavy, to a/b tie, to `a`-heavy. This is why Stage14-3 does not assume a simple monotone ratio trajectory.
+This suggested an apparent finite `a/c=7/4` plateau and a `b -> a` leader reversal.
+
+## Stage14-3b — dense late-range geography
+
+Stage14-3b recomputes the same finite population on a 50k grid from `B=100k` through `B=2m` and also follows every exactly-two event by its exact integer space diagonal `d`.
 
 Artifacts:
 
 ```text
-stages/stage14/scripts/14-3/directional_ledger.py
-stages/stage14/data/14-3/directional_ledger.json
-stages/stage14/archive/stage14-3a-directional-ledger.md
+stages/stage14/scripts/14-3/late_range_densification.py
+stages/stage14/data/14-3/late_range_densification.json
+stages/stage14/archive/stage14-3b-late-range-densification.md
 ```
 
-## Stage13 review isolation
-
-Current Stage14 finite conclusions use neither Stage13 code nor a Stage13 asymptotic theorem. Any Stage13 analytic statement under external review remains quarantined from Stage14-2 and Stage14-3.
-
-## Planned sequence and stop line
+The denser grid shows that the apparent `a/c=7/4` plateau is not a stable finite law. Between the coarse sample points the ratio moves substantially; e.g.
 
 ```text
-14-1   definition / interface / counting specification   [complete]
-14-2   validated finite census through B=2,000,000       [complete]
-14-3a  descriptive directional ledger                    [complete]
-14-3b  late-range finite cutoff densification            [next]
-14-3   finite directional-ratio evolution
-14-4   true total growth order                           [paused]
-14-5   directionwise asymptotic structure                [paused]
+150k  1.625000
+200k  1.750000
+250k  1.920000
+300k  1.785714
+400k  1.694444
+500k  1.750000
+550k  1.553191
+1m    1.750000
 ```
 
-Stage14 stops after Stage14-3 for now. Stage14-4 and Stage14-5 resume only after the one-face / Stage13 proof review clarifies what structural results are reliable enough to reuse.
+Thus `7/4` is not promoted to an invariant or limiting value.
+
+The `a/b` reversal can be localized exactly in the finite event stream after `1m`:
+
+```text
+d=1,083,121   a-b: -1 ->  0
+ d=1,096,685  a-b:  0 -> -1
+ d=1,127,185  a-b: -1 ->  0
+ d=1,148,545  a-b:  0 -> +1
+```
+
+From `d=1,148,545` through the verified ceiling `B=2,000,000`, every subsequent exactly-two event state has `a>b`. This is finite only; eventual asymptotic dominance is not inferred.
+
+## Stage13 isolation and stop line
+
+Current Stage14 finite conclusions use neither Stage13 code nor a Stage13 asymptotic theorem.
+
+```text
+14-3c  finite diagnostic synthesis / stop-line preparation   [next]
+14-4   true total growth order                               [paused]
+14-5   directionwise asymptotic structure                    [paused]
+```
+
+Stage14 stops after Stage14-3 until the one-face / Stage13 proof review clarifies what proof machinery is reliable enough to reuse.
