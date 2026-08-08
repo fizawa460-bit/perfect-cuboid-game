@@ -25,6 +25,7 @@ Canonical literature records:
 stages/stage14/14-e1/literature-seed.md
 stages/stage14/14-e2/literature-refresh.md
 stages/stage14/14-e3/literature-asymptotic-audit.md
+stages/stage14/14-e4/literature-directional-audit.md
 ```
 
 ## Locked ambient object
@@ -175,91 +176,27 @@ stages/stage14/data/14-e2/ambient_reconnaissance.json
 
 Status: [x] Complete.
 
-### Toric compactification
-
-For `q_i=[u_i:v_i]`, the map to projective shape coordinates `[1:t_1:t_2]` is represented by
+For `q_i=[u_i:v_i]`, the map to projective shape coordinates `[1:t_1:t_2]` is represented by three bidegree `(2,2)` sections with four torus-fixed base points. Blowing up those corners gives
 
 \[
-\begin{aligned}
-s_0&=4u_1v_1u_2v_2,\\
-s_1&=2(u_1^2-v_1^2)u_2v_2,\\
-s_2&=2(u_2^2-v_2^2)u_1v_1.
-\end{aligned}
-\]
-
-These are bidegree `(2,2)` sections on `P^1 x P^1`. Their base locus consists of the four torus-fixed corners. Blow up those four simple base points:
-
-\[
-Y=\operatorname{Bl}_4(\mathbf P^1\times\mathbf P^1).
-\]
-
-The resolved line bundle is
-
-\[
+Y=\operatorname{Bl}_4(\mathbf P^1\times\mathbf P^1),
+\qquad
 L=2H_1+2H_2-\sum_{j=1}^4E_j=-K_Y.
 \]
 
 Since
 
 \[
-\rho(Y)=2+4=6,
+\rho(Y)=6,
 \]
 
-the toric anticanonical Manin exponent is
-
-\[
-\rho(Y)-1=5.
-\]
-
-Batyrev–Tschinkel supplies the anticanonical toric height count; the physical Euclidean height is comparable to a fixed anticanonical height because the resolved morphism pulls back `O_P2(1)` to `-K_Y` and
-
-\[
-\max(e,x,y)\le D_{\mathbf R}\le\sqrt3\max(e,x,y).
-\]
-
-Hence the raw ambient family has order
-
-\[
-E_{\rm raw}(B)\asymp B(\log B)^5.
-\]
-
-### Exactly-two lower bound
-
-No density-zero claim for Euler bricks is assumed. Instead impose the fixed 5-adic open condition
-
-\[
-q_1\equiv2,\qquad q_2\equiv3\pmod5.
-\]
-
-Then
-
-\[
-t_1\equiv2,\qquad t_2\equiv3\pmod5,
-\]
-
-and
-
-\[
-t_1^2+t_2^2\equiv3\pmod5,
-\]
-
-which is a nonsquare unit. Thus the third face cannot be rational/integral square.
-
-Huang's adelic equidistribution theorem gives a positive-order family in the product of this 5-adic neighbourhood with any nonempty real open subset of the positive ordered chamber. Therefore
-
-\[
-E_2(B)\gg B(\log B)^5.
-\]
-
-Together with `E_2<=E_raw`,
+the toric anticanonical logarithmic exponent is five. Batyrev–Tschinkel and Huang then give the raw ambient order, while a fixed 5-adic nonsquare neighbourhood supplies an exactly-two lower bound. Thus
 
 \[
 \boxed{E_2(B)\asymp B(\log B)^5.}
 \]
 
-The e2 `B(log B)^3` candidate is therefore rejected as the true asymptotic order and retained only as pre-asymptotic finite behaviour.
-
-No exact leading constant is claimed in e3.
+The e2 `B(log B)^3` candidate is rejected as the true asymptotic order and retained only as pre-asymptotic finite behaviour.
 
 Canonical artifacts:
 
@@ -282,47 +219,148 @@ NOVELTY_BY_SEARCH_ABSENCE=false
 
 ## 14-e4 — directionwise ambient asymptotic
 
-Status: [>] Next.
+Status: [x] Complete.
 
-Purpose:
+Stage14-e4 fixes the actual Euclidean projective metric rather than merely a comparable anticanonical height. On the positive torus the archimedean Tamagawa density is, up to one common normalization factor,
 
-- split the positive ordered real torus chamber into the three shared-edge regions
-  `e<x<y`, `x<e<y`, `x<y<e`;
-- use the toric height/Tamagawa measure rather than finite fitting;
-- determine whether each direction has order `B(log B)^5`;
-- derive the raw directional leading proportions if the archimedean measure is explicit enough;
-- separately determine what can be proved for the exactly-two directions under local blockers;
-- do not assume that the 5-adic blocker used for the total lower bound is direction-neutral until checked.
+\[
+ d\tau_\infty
+ \propto
+ \frac{dq_1\,dq_2}
+ {q_1q_2\sqrt{1+t_1^2+t_2^2}}.
+\]
 
-Literature gate: search chamber/shape distributions and explicit Peyre/Tamagawa measures for toric surfaces with this anticanonical model.
+With `r_i=log q_i` and then `t_i=tan(theta_i)`, this becomes
+
+\[
+ d\tau_\infty
+ \propto
+ \frac{d\theta_1\,d\theta_2}
+ {\sqrt{1-\sin^2\theta_1\sin^2\theta_2}},
+\qquad
+0<\theta_1<\theta_2<\frac\pi2.
+\]
+
+The shared-edge threshold `t=1` is `theta=pi/4`, so the three chamber masses are explicit integrals. Deterministic Gauss–Legendre quadrature gives
+
+\[
+M_a=0.7295086229844189\ldots,
+\]
+
+\[
+M_b=0.6753521849589658\ldots,
+\]
+
+\[
+M_c=0.3139356465617057\ldots,
+\]
+
+with
+
+\[
+M=1.7187964545050902\ldots.
+\]
+
+The normalized direction vector is therefore
+
+\[
+\boxed{
+(p_a,p_b,p_c)
+=
+(0.4244299091217717\ldots,
+0.3929215604260869\ldots,
+0.1826485304521414\ldots).
+}
+\]
+
+The third-face-square locus is the image of the generically degree-two cover
+
+\[
+w^2=t_1^2+t_2^2.
+\]
+
+This is a Type-II thin set. Browning–Loughran's thin-set theorem, together with Huang's equidistribution, gives zero leading density for that locus. Hence the raw and exactly-two populations have the same chamber main terms.
+
+There exists one positive common global arithmetic factor `Lambda_E` such that
+
+\[
+\boxed{
+E_q(B)\sim\Lambda_E M_q B(\log B)^5,
+\qquad q\in\{a,b,c\}.
+}
+\]
+
+and
+
+\[
+\boxed{
+E_2(B)\sim\Lambda_E M B(\log B)^5.
+}
+\]
+
+The common constant `Lambda_E` is not evaluated as an explicit Euler product in e4; it cancels from the direction ratios.
+
+Canonical artifacts:
+
+```text
+stages/stage14/14-e4/result.md
+stages/stage14/14-e4/literature-directional-audit.md
+stages/stage14/scripts/14-e4/directional_tamagawa_audit.py
+stages/stage14/data/14-e4/directional_tamagawa_audit.json
+```
+
+Literature status:
+
+```text
+TORIC_ADELIC_EQUIDISTRIBUTION=REUSABLE_METHOD_THEOREM_INPUT
+THIN_SET_ZERO_DENSITY=REUSABLE_METHOD_THEOREM_INPUT
+ONE_CIRCLE_ANGULAR_DISTRIBUTION=ADJACENT_RESULT
+COMMON_SIDE_FIXED_LEG_DISTRIBUTION=ADJACENT_RESULT
+DIRECT_STAGE14_E4_DIRECTIONAL_THEOREM=NO_COLLISION_FOUND_IN_CURRENT_SEARCH
+NOVELTY_BY_SEARCH_ABSENCE=false
+```
 
 ## 14-e5 — space-diagonal filter comparison
 
-Status: pending 14-e4 and sufficient progress in main Stage14.
+Status: [>] Next.
 
-Compare
+This is the bridge back to the main Stage14 problem. Compare
 
 \[
 N_2(B)\subset E_2(B)
 \]
 
-and directionwise `N_a^(2),N_b^(2),N_c^(2)` against `E_a,E_b,E_c` to isolate the thinning and directional bias caused specifically by
+and directionwise
 
 \[
-e^2+x^2+y^2=\square.
+N_a^{(2)}(B)\subset E_a(B),\qquad
+N_b^{(2)}(B)\subset E_b(B),\qquad
+N_c^{(2)}(B)\subset E_c(B).
 \]
 
-Before interpretation, refresh the current perfect-cuboid/Euler-brick obstruction and elliptic-fibration literature.
+Targets:
+
+- quantify the thinning caused specifically by
+  \[
+  e^2+x^2+y^2=\square;
+  \]
+- compare the main-track scale against the now-proved ambient scale `B(log B)^5`;
+- compare any proved/conditional main-track direction vector with the ambient vector
+  `(0.4244299091,0.3929215604,0.1826485305)`;
+- determine whether the integer-space-diagonal filter is asymptotically direction-neutral or direction-biased;
+- keep a strict boundary between finite diagnostics, conditional consequences, and proved main-track theorems;
+- refresh perfect-cuboid/Euler-brick obstruction and elliptic-fibration literature before interpreting the filter.
 
 ## Scope boundary
 
-Stage14-e makes no perfect-cuboid existence/nonexistence claim and does not infer the main Stage14 growth order from the ambient family. Stage14-e3 proves a matching upper/lower total order only; it does not yet freeze an exactly-two leading constant or limiting directional vector. No novelty claim is made solely from literature-search absence.
+Stage14-e makes no perfect-cuboid existence/nonexistence claim and does not infer the main Stage14 growth order from the ambient family. The e4 ambient directional theorem concerns only the control population with the space-diagonal rationality/integrality condition removed. No novelty claim is made solely from literature-search absence.
 
 ```text
 STAGE14_E_TRACK=DEFINED
 STAGE14_E1=COMPLETE_DEFINITION_BIJECTION_AND_FINITE_AUDIT
 STAGE14_E2=COMPLETE_FINITE_AMBIENT_RECONNAISSANCE
 STAGE14_E3=COMPLETE_TOTAL_GROWTH_ORDER
+STAGE14_E4=COMPLETE_DIRECTIONAL_ASYMPTOTIC
 MAX_E_RECON_B=1000000
 INTEGER_SPACE_DIAGONAL_CONDITION=REMOVED_FROM_E_TRACK
 REAL_SPACE_DIAGONAL_USED_AS_HEIGHT_ONLY=true
@@ -334,8 +372,13 @@ ANTICANONICAL_HEIGHT_IDENTIFICATION=true
 PICARD_RANK=6
 TORIC_LOG_POWER=5
 TRUE_TOTAL_GROWTH_ORDER=THETA_B_LOG5
-B_LOG3_FINITE_CANDIDATE_PRIORITY=REJECTED_AS_ASYMPTOTIC_ORDER
-EXACT_LEADING_CONSTANT_PROVED=false
-DIRECTIONAL_ASYMPTOTIC_PROVED=false
-NEXT_E_TASK=Stage14-e4 directionwise ambient asymptotic via real-chamber toric measures
+E2_B_LOG3_FINITE_CANDIDATE=REJECTED_AS_ASYMPTOTIC_ORDER
+EXACTLY_TWO_THIRD_FACE_SQUARE_LOCUS=THIN_TYPE_II
+EXACTLY_TWO_FULL_MAIN_TERM_EXISTENCE_PROVED=true
+DIRECTIONAL_ASYMPTOTIC_PROVED=true
+PA=0.4244299091218
+PB=0.3929215604261
+PC=0.1826485304521
+GLOBAL_ARITHMETIC_CONSTANT_LAMBDA_E_EVALUATED=false
+NEXT_E_TASK=Stage14-e5 space-diagonal filter comparison
 ```
