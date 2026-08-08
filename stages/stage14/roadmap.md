@@ -4,17 +4,18 @@
 
 Count and explain the primitive canonical exactly-two-face population inside the integer-space-diagonal cuboid family.
 
+Locked ambient population:
+
+\[
+0<a<b<c,\qquad \gcd(a,b,c)=1,
+\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
+\]
+
 ```text
 a-direction = ab+ac only
 b-direction = ab+bc only
 c-direction = ac+bc only
 ```
-
-Locked ambient population:
-
-\[
-0<a<b<c,\qquad \gcd(a,b,c)=1,\qquad a^2+b^2+c^2=d^2,\qquad d\le B.
-\]
 
 ## 14-1 — Definition and counting interface
 
@@ -24,7 +25,7 @@ Status: [x] Complete.
 
 Status: [x] Complete.
 
-Two materially different exact cuboid-generation routes agree through `B=2,000,000`.
+Two independent exact generation routes agree through `B=2,000,000`.
 
 ## 14-3 — Finite directional reconnaissance
 
@@ -34,36 +35,26 @@ No finite fit was promoted to an asymptotic theorem.
 
 ## Frozen Stage13 upstream contract
 
-Stage13-12ah freezes the downstream mathematical content at
+Stage13 downstream mathematics is frozen at
 
 ```text
 c843e039306b40bd3693f89d6199da78c2fb4657
+STAGE13_FROZEN_CONTRACT=R03_PLUS_13_12AG
 ```
 
-with contract
-
-```text
-R03 + Stage13-12ag
-```
-
-and review record
-
-```text
-R03 Grok    = CLOSED
-R03 Qwen    = CLOSED
-R03 Claude  = NOT_RECORDED
-R03 Copilot = PENDING_FINAL_REVIEW
-```
-
-Stage14 may use the frozen raw directional theorem, fixed-local-factor machinery, exact inert local state, quantitative harmonic closure, and pair/triple lower-order theorem.
-
-Hence
+Stage14 may use the raw directional theorem, fixed-local-factor machinery, exact inert local state, harmonic closure, and pair/triple lower-order theorem. In particular,
 
 \[
-\boxed{N_2(B)=o(B(\log B)^3)}
+\boxed{N_2(B)=o(B(\log B)^3)}.
 \]
 
-is an active upstream ceiling, not the true Stage14 order.
+The inert-prime local multiplier is
+
+\[
+\lambda_p=\frac{p+5}{2(p+1)}.
+\]
+
+The R03 overlap squeeze uses fixed finite prime sets. It proves zero density but supplies no growing-modulus theorem and no explicit power saving in `B`.
 
 ## 14-4 — True total growth order
 
@@ -73,174 +64,146 @@ Status: [>] Active.
 
 Status: [x] Complete.
 
-A raw pair object has one shared edge `e`, nonshared edges `x<y`, and four attached integer right triangles. The three directions are only the three chamber positions of `e`.
+All three directions are chamber positions of one shared-edge arithmetic object.
 
 ### 14-4ab — exact matching bijection
 
 Status: [x] Complete.
 
-For oriented primitive face data
+For primitive oriented Pythagorean face data `F_i=(S_i,X_i,H_i)`, shared-edge matching is solved exactly. Cuboid primitivity kills exactly the common scale, and the parameter-fiber multiplicity of a fixed raw pair incidence is `1`.
 
-\[
-F_i=(S_i,X_i,H_i)
-\]
-
-with `S_i` designated as the shared leg, put
-
-\[
-g=(S_1,S_2),\qquad \alpha=S_1/g,\qquad \beta=S_2/g.
-\]
-
-The shared-edge scale equation has complete solution
-
-\[
-k_1=t\beta,\qquad k_2=t\alpha,
-\]
-
-and the global cuboid gcd is exactly `t`; primitive cuboids force `t=1`.
-
-Therefore a fixed raw pair incidence is represented exactly once by
-
-\[
-\boxed{
-\begin{aligned}
-e&=\operatorname{lcm}(S_1,S_2),\\
-x&=\beta X_1,\\
-y&=\alpha X_2,\\
-d^2&=\beta^2H_1^2+\alpha^2X_2^2,
-\end{aligned}}
-\]
-
-with `x<y`, square `d`, and `d<=B`.
-
-### 14-4ac — rational-slope height and arithmetic envelope
+### 14-4ac — rational-slope height envelope
 
 Status: [x] Complete.
 
-Define the two primitive Pythagorean slopes
+With
 
 \[
-t_1=X_1/S_1,\qquad t_2=X_2/S_2,
-\]
-
-and
-
-\[
-L=\operatorname{lcm}(S_1,S_2).
-\]
-
-Then the bijection becomes
-
-\[
-\boxed{(e,x,y)=L(1,t_1,t_2)}
-\]
-
-and
-
-\[
-\boxed{d=L\sqrt{1+t_1^2+t_2^2}}.
-\]
-
-The raw pair locus is the rational three-square system
-
-\[
-1+t_1^2=r_1^2,
+t_i=X_i/S_i,
 \qquad
-1+t_2^2=r_2^2,
+L=\operatorname{lcm}(S_1,S_2),
+\]
+
+we have
+
+\[
+(e,x,y)=L(1,t_1,t_2),
 \qquad
-1+t_1^2+t_2^2=R^2,
+ d=L\sqrt{1+t_1^2+t_2^2}.
 \]
 
-with `0<t1<t2`. Exactly-two excludes `t1^2+t2^2` being a rational square.
+The pre-space denominator envelope has `B(log B)^7` scale. The frozen finite table makes `sqrt(B)` a high-priority candidate, not a theorem.
 
-Direction chambers are
+### 14-4ad — quantitative square thinning / elliptic reduction
 
-```text
-a: 1<t1<t2
-b: t1<1<t2
-c: t1<t2<1
-```
+Status: [x] Complete.
 
-and with
+The R03 fixed-prime squeeze cannot be turned into a `sqrt(B)` bound by silently choosing a prime set depending on `B`. Therefore the exponent must come from additional global arithmetic.
+
+Stage14-4ad identifies that arithmetic exactly. If
 
 \[
-M=L\max(1,t_2)
+g=\gcd(S_1,S_2),
 \]
 
-we have the universal height sandwich
-
-\[
-\boxed{M<d<\sqrt3 M}.
-\]
-
-The exact primitive-face multiplicity for a prescribed shared leg is
+then the integer-space-diagonal condition is equivalent to the product-Pythagorean closure
 
 \[
 \boxed{
-a(S)=
-\begin{cases}
-0,&S\le1\text{ or }S\equiv2\pmod4,\\
-2^{\omega(S)-1},&\text{otherwise}.
-\end{cases}}
+(X_1X_2)^2+(gd)^2=(H_1H_2)^2.
+}
 \]
 
-The pre-space lcm denominator envelope has pole order `8`, hence standard Selberg--Delange scale
+Normalize
 
 \[
-B(\log B)^7.
+\rho_i=X_i/H_i.
 \]
 
-This is only an envelope before the space-square condition. R03 supplies the much sharper actual pair ceiling `o(B(log B)^3)`.
+Then the extra global square condition is
 
-Finite growth diagnostic:
+\[
+\boxed{1-(\rho_1\rho_2)^2\in(\mathbf Q^\times)^2.}
+\]
 
-```text
-B          N2/sqrt(B)
-200k       0.2593838854
-500k       0.2658721497
-1m         0.2550000000
-2m         0.2517300141
-```
+Fix `rho=rho1` and parameterize the second unit-circle point by
 
-The late-range coefficient of variation is about `2.05%`. Therefore `sqrt(B)` is promoted only to a **high-priority candidate to test**, not to a theorem.
+\[
+\rho_2=\frac{2q}{1+q^2}.
+\]
 
-Artifacts:
+The fixed fiber is the Jacobi quartic
 
-```text
-stages/stage14/archive/stage14-4ac-height-envelope.md
-stages/stage14/scripts/14-4/height_envelope_audit.py
-stages/stage14/data/14-4/height_envelope_audit.json
-stages/stage14/data/14-4/proof_input_audit.json
-```
+\[
+W^2=q^4+2Aq^2+1,
+\qquad A=1-2\rho^2.
+\]
+
+Because
+
+\[
+A^2-1=-4\rho^2(1-\rho^2)\ne0,
+\]
+
+it is nonsingular genus one. After an explicit birational transformation and scaling by the first-face data, the fiber is
+
+\[
+\boxed{
+E_{t_1}:Y^2=X(X-1)(X+t_1^2),
+\qquad t_1=X_1/S_1.
+}
+\]
+
+Its `j`-invariant
+
+\[
+ j(t_1)=256\frac{(1+t_1^2+t_1^4)^3}
+ {t_1^4(1+t_1^2)^2}
+\]
+
+is nonconstant. Thus the Stage14 square-thinning locus is a **non-isotrivial elliptic fibration**.
+
+Deterministic validation checks all 25 raw-pair incidences at `B=10000`; every product identity, quartic, cubic and elliptic model passes, with exactly-two `(9,11,5)` and `T=0`.
+
+Finite exponent diagnostics remain compatible with `1/2`, but no power law is proved.
 
 Decision:
 
 ```text
-STAGE14_4AC=COMPLETE
-STAGE13_DOWNSTREAM_MATHEMATICAL_CONTENT=FROZEN
-RATIONAL_SLOPE_HEIGHT_FACTORIZATION_LOCKED=true
-RAW_PAIR_RATIONAL_SURFACE_LOCKED=true
-UNIVERSAL_MAX_HEIGHT_SANDWICH_LOCKED=true
-PRIMITIVE_FACE_MULTIPLICITY_FORMULA_LOCKED=true
-PRE_SPACE_LCM_ENVELOPE_POLE_ORDER=8
-R03_PAIR_CEILING_ACTIVE=true
-TRUE_GROWTH_ORDER_IDENTIFIED=false
+STAGE14_4AD=COMPLETE
+PRODUCT_PYTHAGOREAN_CLOSURE_IDENTITY=true
+SECOND_FACE_FIXED_FIBER_GENUS=1
+JACOBI_QUARTIC_MODEL_LOCKED=true
+ELLIPTIC_FIBER_MODEL=Y^2=X(X-1)(X+t1^2)
+ELLIPTIC_FIBRATION_NON_ISOTRIVIAL=true
+R03_FIXED_PRIME_SIEVE_GIVES_ZERO_DENSITY=true
+R03_FIXED_PRIME_SIEVE_GIVES_POWER_SAVING=false
+SQRT_B_FINITE_CANDIDATE_SURVIVES=true
 SQRT_B_ASYMPTOTIC_CLAIM=false
-SQRT_B_FINITE_CANDIDATE_PRIORITY=HIGH
+TRUE_GROWTH_ORDER_IDENTIFIED=false
 ```
 
-### 14-4ad — quantitative square-condition thinning / sqrt(B) test
+Artifacts:
+
+```text
+stages/stage14/archive/stage14-4ad-elliptic-thinning.md
+stages/stage14/scripts/14-4/elliptic_fiber_audit.py
+stages/stage14/data/14-4/elliptic_fiber_audit.json
+stages/stage14/data/14-4/proof_input_audit.json
+```
+
+### 14-4ae — elliptic-fibration height/rank analysis
 
 Status: [>] Next.
 
 Purpose:
 
-- work inside the frozen Stage13 R03 one-face-plus-space-diagonal ambient family;
-- isolate the added second-face rational-square condition `1+t2^2=square`;
-- determine whether R03's fixed-prime zero-density squeeze can be upgraded quantitatively without an illegal growing-modulus step;
-- in parallel, analyze the intrinsic rational three-square surface with lcm-denominator height;
-- attempt a rigorous upper/lower envelope at or around `B^(1/2)`;
-- reject `sqrt(B)` if the arithmetic structure contradicts it rather than fitting the finite table by force.
+- express the original cutoff `d<=B` as a height condition on the base `t1` and points on `E_t1`;
+- compare the induced height with standard naive/canonical heights on the fibers;
+- stratify the base by the first primitive face denominator and lcm coupling;
+- determine what uniform or averaged rank/rational-point estimates are actually sufficient to sum the fibers;
+- retain the R03 inert-prime conditions as auxiliary local restrictions, without treating them as independent probabilities;
+- prove or reject a `B^(1/2)`-type scale only after the elliptic height sum is controlled.
 
 ## 14-5 — Directionwise asymptotic structure
 
@@ -248,8 +211,8 @@ Status: pending Stage14-4.
 
 ## Scope boundary
 
-No true growth exponent, leading constant, limiting directional ratio, eventual leader, Euler-side two-face equality, or perfect-cuboid nonexistence result is yet established for Stage14.
+No true growth exponent, leading constant, limiting directional ratio, eventual leader, Euler-side equality, or perfect-cuboid nonexistence theorem is currently established for Stage14.
 
 ```text
-NEXT=Stage14-4ad quantitative square-condition thinning and sqrt(B) test
+NEXT=Stage14-4ae elliptic-fibration height/rank analysis
 ```

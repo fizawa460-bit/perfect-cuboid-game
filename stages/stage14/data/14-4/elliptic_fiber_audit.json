@@ -1,0 +1,146 @@
+{
+  "metadata": {
+    "stage": "14-4ad",
+    "title": "Elliptic-fibration square-thinning audit",
+    "audit_bound": 10000
+  },
+  "stage13_quantifier_boundary": {
+    "frozen_contract": "R03_PLUS_13_12AG",
+    "local_multiplier": "lambda_p=(p+5)/(2(p+1)) for inert p=3 mod 4",
+    "proof_order": "fix finite prime set; B->infinity; then number of primes -> infinity",
+    "zero_density_imported": true,
+    "power_saving_imported": false,
+    "growing_modulus_imported": false,
+    "active_ceiling": "N_2(B)=o(B(log B)^3)"
+  },
+  "exact_structural_identities": {
+    "product_pythagorean": "(X1 X2)^2 + (g d)^2 = (H1 H2)^2",
+    "normalized": "1-(rho1 rho2)^2 is a rational square",
+    "second_circle_parameter": "rho2=2q/(1+q^2)",
+    "jacobi_quartic": "W^2=q^4+2Aq^2+1, A=1-2rho1^2",
+    "nonsingularity_core": "A^2-1=-4rho1^2(1-rho1^2) != 0",
+    "cubic": "2V^2=U^3-2AU^2+(A^2-1)U",
+    "elliptic_fiber": "Y^2=X(X-1)(X+t1^2)",
+    "j_invariant": "256(1+t1^2+t1^4)^3/(t1^4(1+t1^2)^2)",
+    "non_isotrivial": true
+  },
+  "finite_audit": {
+    "B": 10000,
+    "oriented_primitive_face_data": 3186,
+    "raw_pair_incidences": 25,
+    "elliptic_fibers_checked": 25,
+    "exactly_two": {
+      "a": 9,
+      "b": 11,
+      "c": 5
+    },
+    "triple": 0,
+    "all_product_identities_pass": true,
+    "all_normalized_square_conditions_pass": true,
+    "all_jacobi_quartics_pass": true,
+    "all_nonsingularity_checks_pass": true,
+    "all_cubic_transforms_pass": true,
+    "all_legendre_type_models_pass": true,
+    "sample_fibers": [
+      {
+        "face1": [15, 8, 17],
+        "face2": [56, 33, 65],
+        "g": 1,
+        "cuboid": [840, 448, 495, 1073],
+        "rho1": "8/17",
+        "rho2": "33/65",
+        "t1": "8/15",
+        "jacobi_A": "161/289",
+        "j_invariant": "330240275458561/67652010000"
+      },
+      {
+        "face1": [15, 8, 17],
+        "face2": [495, 952, 1073],
+        "g": 15,
+        "cuboid": [495, 264, 952, 1105],
+        "rho1": "8/17",
+        "rho2": "952/1073",
+        "t1": "8/15",
+        "jacobi_A": "161/289",
+        "j_invariant": "330240275458561/67652010000"
+      },
+      {
+        "face1": [9, 40, 41],
+        "face2": [13, 84, 85],
+        "g": 1,
+        "cuboid": [117, 520, 756, 925],
+        "rho1": "40/41",
+        "rho2": "84/85",
+        "t1": "40/9",
+        "jacobi_A": "-1519/1681",
+        "j_invariant": "19599160390581221281/185398179210000"
+      },
+      {
+        "face1": [56, 33, 65],
+        "face2": [448, 975, 1073],
+        "g": 56,
+        "cuboid": [448, 264, 975, 1105],
+        "rho1": "33/65",
+        "rho2": "975/1073",
+        "t1": "33/56",
+        "jacobi_A": "2047/4225",
+        "j_invariant": "3008135455728568925761/813244863240810000"
+      },
+      {
+        "face1": [48, 55, 73],
+        "face2": [140, 171, 221],
+        "g": 4,
+        "cuboid": [1680, 1925, 2052, 3277],
+        "rho1": "55/73",
+        "rho2": "171/221",
+        "t1": "55/48",
+        "jacobi_A": "-721/5329",
+        "j_invariant": "9839745984276169578721/5388491258393760000"
+      }
+    ]
+  },
+  "finite_growth_diagnostic": {
+    "adjacent_effective_exponents": [
+      {"B1": 100000, "B2": 200000, "theta": 0.38224756416117445},
+      {"B1": 200000, "B2": 500000, "theta": 0.5269635006958688},
+      {"B1": 500000, "B2": 1000000, "theta": 0.4397645851812206},
+      {"B1": 1000000, "B2": 2000000, "theta": 0.4813799941075398}
+    ],
+    "wider_effective_exponents": [
+      {"B1": 100000, "B2": 500000, "theta": 0.46463773925073903},
+      {"B1": 100000, "B2": 1000000, "theta": 0.4571501737890424},
+      {"B1": 100000, "B2": 2000000, "theta": 0.46275642631951835},
+      {"B1": 200000, "B2": 1000000, "theta": 0.48940897189428756},
+      {"B1": 200000, "B2": 2000000, "theta": 0.4869920087459567},
+      {"B1": 500000, "B2": 2000000, "theta": 0.4605722896443802}
+    ],
+    "late_N2_over_sqrtB": [
+      {"B": 200000, "value": 0.2593838853899756},
+      {"B": 500000, "value": 0.26587214972614187},
+      {"B": 1000000, "value": 0.255},
+      {"B": 2000000, "value": 0.2517300141024109}
+    ],
+    "late_mean": 0.2579965123046321,
+    "late_coefficient_of_variation": 0.020528149427336665,
+    "interpretation": "compatible with exponent 1/2 but does not distinguish sqrt(B) from sqrt(B) times slow logarithmic factors"
+  },
+  "decision": {
+    "STAGE14_4AD": "COMPLETE",
+    "PRODUCT_PYTHAGOREAN_CLOSURE_IDENTITY": true,
+    "NORMALIZED_PRODUCT_SQUARE_CONDITION": true,
+    "SECOND_FACE_FIXED_FIBER_GENUS": 1,
+    "JACOBI_QUARTIC_MODEL_LOCKED": true,
+    "ELLIPTIC_FIBER_MODEL": "Y^2=X(X-1)(X+t1^2)",
+    "ELLIPTIC_FIBRATION_NON_ISOTRIVIAL": true,
+    "R03_FIXED_PRIME_SIEVE_GIVES_ZERO_DENSITY": true,
+    "R03_FIXED_PRIME_SIEVE_GIVES_POWER_SAVING": false,
+    "GROWING_MODULUS_NOT_IMPORTED": true,
+    "SQRT_B_FINITE_CANDIDATE_SURVIVES": true,
+    "SQRT_B_ASYMPTOTIC_CLAIM": false,
+    "SQRT_B_RIGOROUS_UPPER_BOUND": false,
+    "SQRT_B_RIGOROUS_LOWER_BOUND": false,
+    "TRUE_GROWTH_ORDER_IDENTIFIED": false,
+    "LEADING_CONSTANT_IDENTIFIED": false,
+    "NEXT": "Stage14-4ae elliptic-fibration height/rank analysis"
+  }
+}
