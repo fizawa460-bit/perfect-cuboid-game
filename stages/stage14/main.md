@@ -1,12 +1,12 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_3_COMPLETE_STOP_LINE_ACTIVE_14_4_PAUSED`
+> **STATUS:** `STAGE14_4AA_COMPLETE_R02_PROVISIONAL_UPSTREAM_14_4AB_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 >
 > **CANONICAL_WORKING_FILE:** `stages/stage14/main.md`
 
-Stage14 studies primitive canonical cuboids with integer space diagonal and **exactly two** integral face diagonals. The finite census and finite directional reconnaissance are complete through `B=2,000,000`. Stage14 now stops before asymptotic work until the one-face / Stage13 proof review identifies reliable proof-level machinery.
+Stage14 studies primitive canonical cuboids with integer space diagonal and **exactly two** integral face diagonals. Stage14-1 through Stage14-3 are complete. Stage14-4 restarts at proof level with an independent two-face parametrization; only a narrowly stated Stage13 R02 directional asymptotic is admitted provisionally as upstream input.
 
 ## §1. Locked counting convention
 
@@ -41,7 +41,7 @@ and the triple population is
 T=\sum I_{ab}I_{ac}I_{bc}.
 \]
 
-The exactly-two directional populations are
+The exactly-two populations are
 
 \[
 N_a^{(2)}=O_{ab,ac}-T,
@@ -51,7 +51,7 @@ N_b^{(2)}=O_{ab,bc}-T,
 N_c^{(2)}=O_{ac,bc}-T,
 \]
 
-where
+with
 
 ```text
 a = ab+ac only = smallest shared edge
@@ -65,226 +65,318 @@ and
 N_2=N_a^{(2)}+N_b^{(2)}+N_c^{(2)}.
 \]
 
-No perfect-cuboid nonexistence assumption is made. Any `T>0` object must be preserved as an exact witness.
+No perfect-cuboid nonexistence assumption is made. Any `T>0` object is retained with its exact witness.
 
-### §1.1 Stage13 analytic quarantine
+## §2. Frozen finite census and reconnaissance
 
-Current Stage14 finite conclusions use no Stage13 code and no Stage13 asymptotic theorem.
-
-```text
-STAGE13_CODE_IMPORTED=false
-STAGE13_ASYMPTOTIC_RESULT_USED=false
-```
-
-A previously recorded Stage13-derived analytic bound is not an input to the current Stage14 conclusions while Stage13 is under external review.
-
-## §2. Stage14-2 — frozen finite census
-
-Two materially different exact generation routes agree at all 11 audited cutoffs through `B=2,000,000`.
-
-| B | N_a^(2) | N_b^(2) | N_c^(2) | N_2 | T |
-|---:|---:|---:|---:|---:|---:|
-| 1,000 | 2 | 0 | 0 | 2 | 0 |
-| 2,000 | 2 | 2 | 1 | 5 | 0 |
-| 5,000 | 6 | 6 | 3 | 15 | 0 |
-| 10,000 | 9 | 11 | 5 | 25 | 0 |
-| 20,000 | 16 | 16 | 10 | 42 | 0 |
-| 50,000 | 24 | 24 | 14 | 62 | 0 |
-| 100,000 | 33 | 33 | 23 | 89 | 0 |
-| 200,000 | 42 | 50 | 24 | 116 | 0 |
-| 500,000 | 70 | 78 | 40 | 188 | 0 |
-| 1,000,000 | 98 | 101 | 56 | 255 | 0 |
-| 2,000,000 | 142 | 134 | 80 | 356 | 0 |
-
-Canonical audit:
-
-```text
-stages/stage14/data/14-2/final_census_audit.json
-```
-
-No triple object was found through `B=2,000,000`; this is a finite search statement only.
-
-## §3. Stage14-3 — finite directional reconnaissance
-
-Stage14-3 studies only finite behavior of
+Two materially different exact enumeration routes agree at all 11 audited cutoffs through `B=2,000,000`. At the verified ceiling,
 
 \[
-N_a^{(2)}:N_b^{(2)}:N_c^{(2)}.
+(N_a^{(2)},N_b^{(2)},N_c^{(2)})=(142,134,80),
+\qquad N_2=356,
+\qquad T=0.
 \]
 
-No finite fit is promoted to a theorem.
+Stage14-3 established only finite facts. In particular:
 
-### §3.1 Stage14-3a — coarse descriptive ledger
+- the coarse sampled equality `N_a/N_c=7/4` is not stable under a 50k grid and is not retained as a limit candidate;
+- the final `a/b` crossing in the verified event stream occurs at `d=1,148,545`;
+- after that crossing `a>b` persists only through the verified finite ceiling `B=2,000,000`;
+- no growth law or limiting directional vector was inferred.
 
-The coarse late sample was
-
-| B | N_a/N_c | N_b/N_c | N_a/N_b | leader |
-|---:|---:|---:|---:|---|
-| 200,000 | 1.750000 | 2.083333 | 0.840000 | b |
-| 500,000 | 1.750000 | 1.950000 | 0.897436 | b |
-| 1,000,000 | 1.750000 | 1.803571 | 0.970297 | b |
-| 2,000,000 | 1.775000 | 1.675000 | 1.059701 | a |
-
-This raised two finite questions: whether the repeated sampled equality `N_a/N_c=7/4` was meaningful, and where the cumulative `b -> a` leader reversal occurred.
-
-Artifacts:
-
-```text
-stages/stage14/data/14-3/directional_ledger.json
-stages/stage14/archive/stage14-3a-directional-ledger.md
-```
-
-### §3.2 Stage14-3b — dense late-range geography
-
-Stage14-3b forms the cumulative grid
-
-```text
-100,000, 150,000, ..., 2,000,000
-step = 50,000
-39 rows
-```
-
-and follows the exact exactly-two event stream near the `a/b` crossing.
-
-Artifacts:
-
-```text
-stages/stage14/scripts/14-3/late_range_densification.py
-stages/stage14/data/14-3/late_range_densification.json
-stages/stage14/archive/stage14-3b-late-range-densification.md
-```
-
-#### §3.2.1 The coarse `a/c=7/4` pattern is not stable
-
-The 50k grid gives, for example,
-
-```text
-150k   a/c=1.625000
-200k   a/c=1.750000
-250k   a/c=1.920000
-300k   a/c=1.785714
-400k   a/c=1.694444
-500k   a/c=1.750000
-550k   a/c=1.553191
-1m     a/c=1.750000
-```
-
-Thus the repeated equality at `200k,500k,1m` is a sparse-grid finite artifact, not a stable finite law. Stage14 does not infer `7/4` as an invariant, limit, or asymptotic constant.
-
-#### §3.2.2 Exact localization of the finite `a/b` reversal
-
-After `B=1m`, the relevant exact event sequence is
-
-```text
-d=1,083,121   a-b: -1 ->  0
-d=1,096,685   a-b:  0 -> -1
-d=1,127,185   a-b: -1 ->  0
-d=1,148,545   a-b:  0 -> +1
-```
-
-Immediately after the final crossing,
-
-```text
-(N_a,N_b,N_c)=(107,106,60).
-```
-
-From
-
-\[
-\boxed{d=1,148,545}
-\]
-
-through the verified ceiling `B=2,000,000`, every subsequent exactly-two event state has `a>b`. This is only a finite-range persistence statement; eventual or asymptotic `a` dominance is not inferred.
-
-### §3.3 Stage14-3c — final finite synthesis
-
-Stage14-3c adds no new asymptotic model. It closes the finite reconnaissance by separating robust finite facts, discarded sparse-grid interpretations, and open analytic questions.
-
-Canonical synthesis:
+Canonical finite synthesis:
 
 ```text
 stages/stage14/data/14-3/final_finite_reconnaissance.json
 stages/stage14/archive/stage14-3c-final-finite-reconnaissance.md
 ```
 
-#### §3.3.1 Robust finite facts
+## §3. Stage14-4 upstream-input boundary
 
-The retained finite conclusions are:
-
-1. Two independent exact generation routes agree at all 11 locked audit cutoffs through `B=2,000,000`.
-2. At the verified ceiling,
-   \[
-   (N_a^{(2)},N_b^{(2)},N_c^{(2)})=(142,134,80),\quad N_2=356,\quad T=0.
-   \]
-3. The dense `100k..2m` directional trajectory is not monotone in any simple sense.
-4. The apparent coarse `a/c=7/4` plateau is not stable under densification and is rejected as a finite invariant candidate.
-5. The last `a/b` crossing in the verified event stream occurs at `d=1,148,545`; finite `a>b` persistence is verified from there through `2m`.
-6. No triple object is found through the verified ceiling, but no perfect-cuboid nonexistence claim follows.
-7. None of these finite conclusions uses Stage13 analytic machinery.
-
-#### §3.3.2 What remains unknown
-
-Stage14-3 does **not** identify
+The current provisional upstream assumption is the Stage13 **R02** directional raw asymptotic candidate from
 
 ```text
-the true growth order of N_2(B)
-a limiting directional vector or limiting proportions
-a monotonicity theorem
-an eventual directional leader
-an asymptotic meaning for 7/4
-an Euler-side two-face equality or inequality
-whether T(B) ever becomes positive
+stages/stage13/13-12ac/current-proof.md
 ```
 
-These are precisely the phenomena a later proof must explain.
+namely
 
-#### §3.3.3 Restart gate
+\[
+\boxed{
+A_q(B)\sim \frac{\kappa I_q}{3\pi^3}B(\log B)^3,
+\qquad q\in\{ab,ac,bc\}.
+}
+\]
 
-Stage14 now stops deliberately. Stage14-4 is not allowed to begin merely by importing the old Stage13 proof chain.
-
-When the one-face / Stage13 review settles which tools are reliable, the recommended restart is
+This is recorded as
 
 ```text
-14-4aa  independent two-face parametrization and proof-input audit
+UPSTREAM_STAGE13_VERSION=R02
+UPSTREAM_STAGE13_STATUS=ASSUMED_PROVISIONALLY
+UPSTREAM_STAGE13_FINAL_EXTERNAL_FREEZE=false
+STAGE13_R03_USED=false
 ```
 
-Every reused Stage13 dependency must be explicitly re-audited before it becomes a Stage14 proof input.
+The R02 pair-overlap and triple-overlap little-o statements are **not imported in Stage14-4aa**. Stage14 is now trying to understand the true two-face scale intrinsically, so using those conclusions as hidden proof inputs would blur the dependency boundary.
 
-### §3.4 Locked Stage14-3 decision
+Stage12 is not directly imported in Stage14-4aa; any Stage12 dependence is contained inside the provisional Stage13 R02 statement above.
+
+If the eventual external Stage13 freeze changes that directional theorem, the upstream-input section must be re-audited. The Stage14-native parametrization below is unaffected.
+
+## §4. Stage14-4aa — independent two-face parametrization
+
+### §4.1 One generic arithmetic object for all three directions
+
+Let `e` be the edge shared by the two integral faces. Let the two nonshared edges be `x<y`, and let the corresponding face diagonals be `u<v`. Then a raw two-face object satisfies
+
+\[
+e^2+x^2=u^2,
+\qquad
+e^2+y^2=v^2,
+\qquad
+e^2+x^2+y^2=d^2.
+\]
+
+The three canonical directions are exactly the three possible chamber positions of `e`:
 
 ```text
-STAGE14_3A=COMPLETE
-STAGE14_3B=COMPLETE
-STAGE14_3C=COMPLETE
-STAGE14_3=COMPLETE
-FINITE_RECONNAISSANCE_COMPLETE=true
-DENSE_FINITE_GRID_STEP=50000
-MAX_VERIFIED_B=2000000
-A_OVER_C_7_4_LIMIT_SUPPORTED=false
-FINAL_A_OVER_B_CROSSING_D_WITHIN_VERIFIED_RANGE=1148545
-ASYMPTOTIC_FIT_PERFORMED=false
-FINITE_RATIO_LIMIT_IDENTIFIED=false
-MONOTONE_CONVERGENCE_SUPPORTED=false
-STAGE13_ANALYTIC_DEPENDENCY_USED=false
+a-direction: e < x < y
+b-direction: x < e < y
+c-direction: x < y < e
 ```
 
-## §4. Stop line — ACTIVE
+Therefore the arithmetic core is direction-neutral. The direction label is a chamber inequality, not a different Diophantine system.
 
-Current policy is
+The exactly-two condition is
+
+\[
+x^2+y^2\ne\square.
+\]
+
+If `x^2+y^2` is square, the object belongs to `T` and remains in the raw-pair ledger.
+
+### §4.2 Four attached right triangles
+
+From the three defining equations,
+
+\[
+u^2+y^2=d^2,
+\qquad
+v^2+x^2=d^2.
+\]
+
+Thus every raw pair object carries four integer right triangles:
 
 ```text
-Stage14-1   COMPLETE
-Stage14-2   COMPLETE
-Stage14-3   COMPLETE
-Stage14-4   PAUSED_PENDING_ONE_FACE_REVIEW
-Stage14-5   PAUSED_PENDING_ONE_FACE_REVIEW
+(e,x,u)
+(e,y,v)
+(u,y,d)
+(v,x,d)
 ```
 
-There is no `14-3d` planned. Stage14 resumes only after the one-face / Stage13 proof review provides a trustworthy proof-level starting point.
+Only three Pythagorean equations are independent. For example,
+
+\[
+e^2+x^2=u^2,
+\qquad
+e^2+y^2=v^2,
+\qquad
+u^2+y^2=d^2
+\]
+
+imply the fourth equation `v^2+x^2=d^2` automatically.
+
+Conversely, any positive integer solution of those three equations, followed by the global primitivity and chamber conditions, gives a raw Stage14 pair object.
+
+### §4.3 Euclid shared-edge fiber product
+
+For a primitive Euclid base `m>n>0`, `(m,n)=1`, `m-n` odd, define
+
+\[
+L_D(m,n)=m^2-n^2,
+\qquad
+L_P(m,n)=2mn,
+\qquad
+H(m,n)=m^2+n^2.
+\]
+
+Every positive integer Pythagorean triple is
+
+\[
+(kL_\sigma(m,n),
+ kL_{\bar\sigma}(m,n),
+ kH(m,n)),
+\qquad \sigma\in\{D,P\},
+\]
+
+for a positive scale `k`.
+
+Write the two integral faces as
+
+\[
+(e,x,u)=
+\bigl(k_1L_{\sigma_1}(m,n),
+      k_1L_{\bar\sigma_1}(m,n),
+      k_1H(m,n)\bigr),
+\]
+
+\[
+(e,y,v)=
+\bigl(k_2L_{\sigma_2}(r,s),
+      k_2L_{\bar\sigma_2}(r,s),
+      k_2H(r,s)\bigr).
+\]
+
+The common edge is therefore governed by the exact fiber-product equation
+
+\[
+\boxed{
+ k_1L_{\sigma_1}(m,n)
+ =k_2L_{\sigma_2}(r,s)
+ =e.
+}
+\]
+
+There are four shared-edge role charts
 
 ```text
-STOP_LINE_ACTIVE=true
-NEXT=WAIT_FOR_ONE_FACE_REVIEW_BEFORE_STAGE14_4
-STAGE14_4_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
-STAGE14_5_STATUS=PAUSED_PENDING_ONE_FACE_REVIEW
+DD, DP, PD, PP.
+```
+
+These are Euclid-leg roles and must not be confused with the historical Stage13 OE/EE branches.
+
+### §4.4 Third Pythagorean gluing for the space diagonal
+
+Impose the space diagonal intrinsically by writing
+
+\[
+(u,y,d)
+=
+\bigl(k_3L_{\sigma_3}(p,q),
+      k_3L_{\bar\sigma_3}(p,q),
+      k_3H(p,q)\bigr).
+\]
+
+Then the three-triple system is controlled by
+
+\[
+\boxed{
+ k_1L_{\sigma_1}(m,n)
+ =k_2L_{\sigma_2}(r,s)
+}
+\]
+
+and
+
+\[
+\boxed{
+ k_1H(m,n)=k_3L_{\sigma_3}(p,q),
+\qquad
+ k_2L_{\bar\sigma_2}(r,s)
+ =k_3L_{\bar\sigma_3}(p,q).
+}
+\]
+
+After these matches,
+
+\[
+d=k_3H(p,q)
+\]
+
+and the fourth right triangle `(v,x,d)` is automatic.
+
+This is an exact Stage14-native parametrization framework. It is not yet a uniqueness theorem and it does not yet identify an asymptotic order.
+
+### §4.5 Global primitivity comes after gluing
+
+The cuboid condition is
+
+\[
+\gcd(e,x,y)=1.
+\]
+
+The three Euclid bases can each be primitive while the scales `k_1,k_2,k_3` still interact. Consequently Stage14 must not replace global cuboid primitivity by the stronger condition
+
+```text
+k_1=k_2=k_3=1.
+```
+
+The correct order is:
+
+```text
+build primitive Euclid bases
+allow positive scales
+solve the matching equations
+glue the three triangles
+apply gcd(e,x,y)=1
+apply one of the three chamber inequalities
+retain T separately from exactly-two
+```
+
+### §4.6 Relation to Stage13 R02
+
+Selecting `(e,x,u)` as the distinguished face turns the Stage14 object into the Stage13 one-face nested pair
+
+```text
+(e,x,u) + (u,y,d)
+```
+
+plus the extra condition that `(e,y,v)` is Pythagorean.
+
+Thus the Stage13 R02 directional raw asymptotic supplies an ambient one-face scale, but the second-face event is **not** assumed independent. The shared-edge fiber-product equation is an arithmetic correlation that must be analyzed directly.
+
+No claim of the form
+
+```text
+N_2(B) ~ constant * A_q(B)
+N_2(B) ~ B(log B)^alpha
+N_2(B) ~ B^theta(log B)^beta
+```
+
+is made in 14-4aa.
+
+### §4.7 14-4aa decision
+
+Artifacts:
+
+```text
+stages/stage14/archive/stage14-4aa-parametrization-input-audit.md
+stages/stage14/data/14-4/proof_input_audit.json
+```
+
+Locked state:
+
+```text
+STAGE14_4AA=COMPLETE
+ONE_GENERIC_ARITHMETIC_OBJECT_FOR_ALL_THREE_DIRECTIONS=true
+DIRECTION_LABEL_IS_CHAMBER_POSITION_OF_SHARED_EDGE=true
+FOUR_RIGHT_TRIANGLES_PER_RAW_PAIR=true
+THREE_INDEPENDENT_PYTHAGOREAN_RELATIONS_SUFFICE=true
+EUCLID_SHARED_EDGE_FIBER_PRODUCT_LOCKED=true
+THIRD_PYTHAGOREAN_GLUING_LOCKED=true
+GLOBAL_PRIMITIVITY_APPLIED_AFTER_GLUING=true
+UNIQUE_PARAMETERIZATION=false
+BOUNDED_PARAMETER_MULTIPLICITY=false
+TRUE_GROWTH_ORDER_IDENTIFIED=false
+LEADING_CONSTANT_IDENTIFIED=false
+DIRECTIONAL_LIMIT_IDENTIFIED=false
+```
+
+## §5. Next — Stage14-4ab
+
+Stage14-4ab will audit representation multiplicity and reduce the three-triple gluing to an explicit countable matching/divisibility parameter space.
+
+The immediate targets are:
+
+```text
+identify duplicate symmetries
+solve the shared-edge scale equation in gcd/lcm variables
+separate arithmetic multiplicity from chamber multiplicity
+rewrite the remaining gluing equations as explicit divisibility constraints
+retain global primitivity after gluing
+avoid guessing a growth exponent before the parameter multiplicity is controlled
+```
+
+```text
+NEXT=Stage14-4ab representation multiplicity and explicit matching-variable reduction
 ```
