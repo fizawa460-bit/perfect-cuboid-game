@@ -6,7 +6,8 @@ Stage14 studies the next layer above Stage13: primitive canonical cuboids with i
 
 ```text
 STAGE14_1A=COMPLETE
-NEXT=Stage14-1b
+STAGE14_1B=COMPLETE
+NEXT=Stage14-1c
 ```
 
 The canonical mathematical source is
@@ -63,6 +64,43 @@ and the triple population `T(B)`. Exactly,
 \]
 
 Thus no perfect-cuboid nonexistence assumption is built into the counting convention.
+
+## Stage13 interface
+
+Stage14-1b identifies the raw pair and triple objects exactly with the Stage13 overlap ledger; there is no conversion multiplicity because both stages use the same primitive canonical ambient population and cutoff.
+
+The inherited Stage13 finite seed table covers `B=1000` through `B=100000`. At the largest inherited cutoff,
+
+```text
+B=100000
+O_ab_ac = 33
+O_ab_bc = 33
+O_ac_bc = 23
+T       = 0
+
+N_a^(2), N_b^(2), N_c^(2) = (33,33,23)
+N_2 = 89
+```
+
+with the exact total checksum
+
+\[
+168208-168030=178=2\cdot89+3\cdot0.
+\]
+
+Stage13-7 also supplies the inherited ceiling
+
+\[
+N_a^{(2)},N_b^{(2)},N_c^{(2)},N_2=o(B(\log B)^3).
+\]
+
+This does not determine the true two-face scale; that remains the main Stage14-4 problem.
+
+Machine-readable interface ledger:
+
+```text
+stages/stage14/data/14-1/stage13_pair_interface.json
+```
 
 ## Main questions
 
