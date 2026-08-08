@@ -63,6 +63,8 @@ jobs:
               json.dump(d,f,indent=2)
               f.write('\n')
           PY
+      - name: Require frozen audit reproducibility
+        run: git diff --exit-code -- stages/stage14/data/14-s1/selmer_interface_audit.json
       - name: Upload generated audit
         uses: actions/upload-artifact@v4
         with:
