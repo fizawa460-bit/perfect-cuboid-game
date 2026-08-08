@@ -35,5 +35,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify finite discrepancy and common-Theta locks
-        run: python stages/stage13/scripts/13-13fa/q_independence_finite_audit.py --check-report
+      - name: Rebuild finite discrepancy report
+        run: python stages/stage13/scripts/13-13fa/q_independence_finite_audit.py --write-report > /tmp/stage13-13fa-report.json
+      - name: Verify committed report is byte-for-byte reproducible
+        run: git diff --exit-code -- stages/stage13/data/13-13fa/q_independence_finite_audit.json
