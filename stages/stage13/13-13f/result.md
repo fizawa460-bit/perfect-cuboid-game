@@ -1,6 +1,6 @@
 # Stage13-13f — external review gate status
 
-> STATUS: `STAGE13_13F_BLOCKED_BY_CLAUDE_R04_OPEN_OBJECTION`
+> STATUS: `STAGE13_13F_BLOCKED_R04_REPAIR_REQUIRED`
 >
 > TARGET_BUNDLE_ID: `STAGE13-FINAL-SELF-CONTAINED-20260809-R04`
 >
@@ -8,66 +8,69 @@
 
 ## Current gate
 
-Two independent R04 reviews have been received and recorded:
+Three independent R04 reviews have been received and recorded:
 
 ```text
 GROK_R04_VERDICT=CLOSED
-QWEN_R04_VERDICT=NOT_RECORDED
 CLAUDE_R04_VERDICT=OPEN
+DEEPSEEK_R04_VERDICT=REPAIRABLE
+QWEN_R04_VERDICT=NOT_RECORDED
 INDEPENDENT_CLOSED_VERDICTS=1
-UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=1
+UNRESOLVED_SUBSTANTIVE_REVIEW_OBJECTIONS=2
+UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
+R04_REPAIR_REQUIRED=true
 R04_IMMUTABLE=true
 PROMOTE_TO_13_13G=false
 ```
 
-Grok reports no fatal or major theorem-level defect and closes the non-circular common-Theta construction, analytic `J_q=2I_q/pi` bridge, Wiener/error budget, internal Perron/residue treatment, inert-prime multiplier and fixed-set order of limits, minimal external theorem boundary, and deterministic consistency audit.
+Grok reports no fatal or major theorem-level defect. Claude raises an OPEN objection centered on the unresolved relationship between finite directional behavior and the claimed limiting vector, plus the hidden `529 p^{-5/4}` and box-error derivations. DeepSeek independently judges the central strategy plausible but the R04 proof package not sufficiently self-contained or explicit, and explicitly recommends an R05/R06 revision.
 
-Claude raises one substantive theorem-level objection and two supporting proof-explicitness objections.
+## Claude OPEN objection
 
-### Primary OPEN objection: finite directional behavior versus claimed limiting vector
-
-The canonical theorem predicts
+The theorem candidate predicts
 
 ```text
 P = (0.5347369332313988,
      0.24535917783225203,
-     0.21990388893634913)
+     0.21990388893634913),
 ```
 
-whereas the committed `B=100000` exactly-one fixture
+while the committed `B=100000` exactly-one fixture `(84146,43180,40704)` remains much closer to `2:1:1`. Finite disagreement does not refute an asymptotic theorem, but R04 does not quantitatively show that the observed discrepancy is compatible with its remainder or exclude an omitted q-dependent leading arithmetic factor.
 
-```text
-(84146, 43180, 40704)
-```
+This objection must be closed by a dedicated finite-cutoff/secondary-term audit and a retracing of q-independence of the top arithmetic coefficient.
 
-normalizes to approximately
+## DeepSeek REPAIRABLE objections
 
-```text
-(0.5008, 0.2570, 0.2423),
-```
+DeepSeek requests explicit closure of the following proof-critical interfaces:
 
-which remains much closer to `2:1:1` than to the predicted limiting vector. A finite-`B` discrepancy does not by itself contradict an asymptotic theorem, but R04 does not quantitatively reconcile this discrepancy with its remainder analysis. The review therefore asks whether slow convergence / direction-dependent secondary terms suffice, or whether an omitted q-dependent arithmetic leading contribution remains possible.
+1. derive or fully expose `||C_{ell,p}-1||_{5/8} <= 529 p^{-5/4}`;
+2. make small-height/small-coordinate/core/boundary error estimates and `O((log B)^C)` box accumulation quantitatively auditable;
+3. expose the conductor/log bookkeeping for all retained nonzero harmonics `ell <= (log B)^4`;
+4. copy a complete Stage12 R09 counting interface into the review proof, including the exact definition of `C_prim(B)`, orientation convention, `kappa` interface and the factor-two projection bridge;
+5. state the exact imported Hecke/Dirichlet and Vaaler hypotheses actually used;
+6. expand the fixed inert-prime transfer, including principal/nonprincipal character tuples and the fixed-conductor `o(B(log B)^3)` bound;
+7. remove ambiguous angle notation and make `C_{ell,p}` substitutions and p-dependence explicit;
+8. keep deterministic `PASS` explicitly scoped to reproducibility checks rather than proof validation.
 
-### Supporting objections
-
-- the explicit origin of the `529 p^{-5/4}` Wiener bound is not visible inside R04;
-- the curved-region proof states uniform box-tail conclusions but does not spell out enough detail to audit the accumulation across `O((log B)^C)` boxes.
+These are classified `REPAIRABLE` rather than a direct disproof, but they are substantive enough that R04 cannot be frozen as the final proof package.
 
 ## Gate decision
 
-The Stage13-13f gate is **blocked**. Even if another reviewer returns `CLOSED`, the roadmap forbids promotion while any received theorem-level objection remains unresolved.
+The Stage13-13f gate is **blocked**. A later `CLOSED` review cannot numerically outvote unresolved substantive objections.
 
-The next action remains under token `13-13f`: perform a targeted closure/repair audit of the Claude objections. R04 itself remains immutable. If the audit requires substantive modification of the canonical proof, produce a new immutable R05 review bundle and obtain fresh review verdicts on that final bundle.
+R04 remains immutable. The active repair/closure audit must determine whether the theorem statement survives unchanged; if it does, the repaired canonical proof must be packaged as a new immutable R05 and freshly reviewed. If the q-independence audit discovers a genuine leading-term defect, the theorem contract itself must be reopened before any new bundle is promoted.
 
 ```text
-STAGE13_13F=BLOCKED_OPEN_REVIEW_OBJECTION
+STAGE13_13F=BLOCKED_R04_REPAIR_REQUIRED
 GROK_R04_VERDICT=CLOSED
 CLAUDE_R04_VERDICT=OPEN
+DEEPSEEK_R04_VERDICT=REPAIRABLE
 QWEN_R04_VERDICT=NOT_RECORDED
 INDEPENDENT_CLOSED_VERDICTS=1
 REQUIRED_INDEPENDENT_CLOSED_VERDICTS=2
-UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=1
-R04_REPAIR_OR_CLOSURE_AUDIT_REQUIRED=true
+UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
+R04_REPAIR_REQUIRED=true
+R05_REQUIRED_IF_THEOREM_SURVIVES_AUDIT=true
 PROMOTE_TO_13_13G=false
 NEXT=13-13f
 ```
