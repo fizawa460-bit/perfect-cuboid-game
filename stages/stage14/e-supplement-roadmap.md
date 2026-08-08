@@ -141,23 +141,93 @@ PHYSICAL_METRIC_VERTICAL_GROWTH_VERIFIED=false
 FINITE_EFFECTIVE_COEFFICIENTS_ARE_LAURENT_COEFFICIENTS=false
 ```
 
+Historical handoff retained for e7 compatibility:
+
+```text
+NEXT_E_SUPPLEMENT=Stage14-e8 quantitative Euler-brick thin-set count
+```
+
 ## 14-e8 — quantitative Euler-brick thin-set count
 
-Status: [>] Next.
+Status: [x] Complete as a K3 identification plus an independent subpower-multiplicity upper envelope; a fixed relative saving remains open.
 
-Seek a quantitative saving for the third-face-square subpopulation beyond the e4 qualitative
+Let `R_EB(B)` count primitive unordered Euler bricks under the same physical Euclidean height.  The projective equations
 
 \[
-o(B(\log B)^5)
+U^2=E^2+X^2,
+\qquad
+V^2=E^2+Y^2,
+\qquad
+Z^2=X^2+Y^2
 \]
 
-theorem. The target is an explicit power/logarithmic upper bound for primitive Euler bricks under the same real Euclidean height, with a literature-first audit of known Euler-brick counting/search results.
+form a three-quadric model in `P^5`.  In the e4 toric presentation the third-square double cover has branch divisor class
+
+\[
+D\sim-2K_Y,
+\]
+
+so after normalization/minimal resolution the compactification is a K3 surface.  The physical height remains comparable to the projective max height:
+
+\[
+H_{\max}\le D_{\mathbf R}\le\sqrt3 H_{\max}.
+\]
+
+An independent elementary projection gives
+
+\[
+\boxed{
+R_{\rm EB}(B)
+\ll
+B\log B
+\exp\!\left(O\!\left(\frac{\log B}{\log\log B}\right)\right)
+=B^{1+o(1)}.
+}
+\]
+
+The proof projects to the Pythagorean triple formed by the two largest edges and bounds the remaining-edge multiplicity by `tau(n^2)`.  This controls the polynomial upper exponent but does not improve e4 to a fixed logarithmic or power saving relative to the ambient main term.
+
+The e4 theorem is retained independently:
+
+\[
+R_{\rm EB}(B)=o(B(\log B)^5).
+\]
+
+At `B=10^6`, the exact Euclidean-height census has
+
+\[
+R_{\rm EB}=219,
+\qquad
+R_{\rm EB}/\sqrt B=0.219,
+\]
+
+and the third-square incidence fraction inside the raw ambient is about `4.75454e-5`.  Nested finite power fits drift substantially, so the square-root scale remains a finite candidate only.
+
+Canonical artifacts:
+
+```text
+stages/stage14/14-e8/result.md
+stages/stage14/14-e8/literature-euler-brick-count-audit.md
+stages/stage14/scripts/14-e8/euler_brick_thin_count_audit.py
+stages/stage14/data/14-e8/euler_brick_thin_count_audit.json
+```
+
+Locked boundary:
+
+```text
+EULER_BRICK_K3_MODEL_LOCKED=true
+E8_INDEPENDENT_QUANTITATIVE_ENVELOPE_PROVED=true
+EULER_BRICK_POWER_EXPONENT_UPPER_ENVELOPE=1+o(1)
+QUANTITATIVE_RELATIVE_SAVING_PROVED=false
+FIXED_POWER_SAVING_PROVED=false
+SQRT_B_FINITE_CANDIDATE_ONLY=true
+```
 
 ## 14-e9 — gcd/lcm and local-statistics decomposition
 
-Status: [ ] Pending.
+Status: [>] Next.
 
-Resolve the ambient distribution of the common-edge gcd/lcm strata and finite-local statistics as a control object for the main Stage14 arithmetic.
+Resolve the ambient distribution of the common-edge gcd/lcm strata and finite-local statistics as a control object for the main Stage14 arithmetic.  In particular, use the e8 gap between the one-leg divisor envelope and the observed Euler-brick population to identify which simultaneous local/gcd/lcm constraints actually suppress completions.
 
 ```text
 STAGE14_E_CONTROL_TRACK_E1_TO_E5=COMPLETE
@@ -167,5 +237,9 @@ GLOBAL_ARITHMETIC_CONSTANT_LAMBDA_E_EVALUATED=true
 STAGE14_E7=COMPLETE_FINITE_CROSSOVER_AND_SECONDARY_BOUNDARY
 FINITE_CROSSOVER_DIAGNOSIS_COMPLETE=true
 FULL_SECONDARY_ASYMPTOTIC_PROVED=false
-NEXT_E_SUPPLEMENT=Stage14-e8 quantitative Euler-brick thin-set count
+STAGE14_E8=COMPLETE_K3_AND_SUBPOWER_MULTIPLICITY_ENVELOPE
+EULER_BRICK_K3_MODEL_LOCKED=true
+E8_INDEPENDENT_QUANTITATIVE_ENVELOPE_PROVED=true
+QUANTITATIVE_RELATIVE_SAVING_PROVED=false
+NEXT_E_SUPPLEMENT=Stage14-e9 gcd/lcm and local-statistics decomposition
 ```
