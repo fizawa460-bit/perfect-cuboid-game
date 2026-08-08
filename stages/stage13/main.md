@@ -1,6 +1,6 @@
 # Stage13 — canonical working file
 
-> **STATUS:** `STAGE13_3D_COMPLETE_13_3E_NEXT`
+> **STATUS:** `STAGE13_9_MAIN_STRUCTURAL_THEOREM_COMPLETE_13_10_NEXT`
 >
 > **SCOPE:** primitive canonical face-ratio analysis
 >
@@ -900,4 +900,773 @@ RAW_INCIDENCE_TOTAL_ASYMPTOTIC=kappa/(24*pi)*B*(log B)^3
 REPRESENTATION_FIBER_DIRECTION_BIAS=false
 EXACT_ONE_ASYMPTOTIC_REQUIRES_OVERLAP_CONTROL=true
 NEXT=Stage13-3e odd-prime / representation-density correction
+```
+
+## §4. Task 13-4 — origin of the two near-1 components
+
+Stage13-4 asked why the finite \(ac\) and \(bc\) populations are close without assuming an exact \(ac\leftrightarrow bc\) symmetry.
+
+At \(B=100000\), the locked finite ratios are
+
+\[
+\frac{A_{ac}}{A_{bc}}=1.060745829\ldots,
+\qquad
+\frac{N_{ac}}{N_{bc}}=1.060829403\ldots.
+\]
+
+The closeness is already present before the exactly-one sieve and survives the largest audited cutoff band, so it is not created by overlap removal or by the outer cutoff boundary.
+
+The pure-\(G\) diagnostic nearly equalizes the two directions in aggregate, but the equality is a cancellation rather than a symmetry. At \(B=100000\), the OE and EE pure-\(G\) components tilt in opposite directions, approximately
+
+\[
+(ac/bc)_{OE}\approx0.95422,
+\qquad
+(ac/bc)_{EE}\approx1.04547.
+\]
+
+Primitive-support reweighting then supplies much of the residual positive \(ac-bc\) tilt visible in the actual finite data. Thus the two near-1 components arise from a finite arithmetic/geometric cancellation, not from an exact involution exchanging the two categories.
+
+```text
+STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
+EXACT_AC_BC_SYMMETRY=false
+PURE_G_AC_BC_NEAR_EQUALITY_IS_CANCELLATION=true
+OVERLAP_CREATES_AC_BC_CLOSENESS=false
+LARGEST_CUTOFF_BOUNDARY_CREATES_AC_BC_CLOSENESS=false
+```
+
+## §5. Task 13-5 — deviation coordinates
+
+Define the normalized exactly-one vector
+
+\[
+P(B)=\frac1{N_1(B)}\bigl(N_{ab}(B),N_{ac}(B),N_{bc}(B)\bigr)
+\]
+
+and the finite \(2:1:1\) baseline
+
+\[
+P_0=\left(\frac12,\frac14,\frac14\right).
+\]
+
+Set
+
+\[
+\Delta(B)=P(B)-P_0,
+\]
+
+with coordinates
+
+\[
+\alpha(B)=P_{ab}(B)-\frac12,
+\qquad
+\beta(B)=\frac{P_{ac}(B)-P_{bc}(B)}2.
+\]
+
+Then
+
+\[
+\Delta(B)=\bigl(\alpha(B),-\alpha(B)/2+\beta(B),-\alpha(B)/2-\beta(B)\bigr).
+\]
+
+At \(B=100000\),
+
+\[
+\alpha(B)\approx0.0007796226864250431,
+\qquad
+\beta(B)\approx0.007367731952627507.
+\]
+
+So the accessible finite deviation is strongly \(\beta\)-dominated even though the eventual asymptotic regime is not.
+
+```text
+STAGE13_5=COMPLETE
+DEVIATION_BASELINE=(1/2,1/4,1/4)
+ALPHA=P_ab-1/2
+BETA=(P_ac-P_bc)/2
+```
+
+## §6. Task 13-6 — finite deviation classification
+
+Stage13-6 classified the finite near-\(2:1:1\) distortion rather than treating it as a candidate limit theorem.
+
+The main finite flattening of \(\alpha\) is associated with supported-shell richness: at accessible cutoffs, the \(ab\) incidences lie on systematically poorer primitive representation shells than \(ac\) and \(bc\), depressing the geometric \(ab\) advantage. Equalizing supported-shell weight moves the finite vector substantially back toward the archimedean chamber vector.
+
+The finite \(\beta\) component is produced by a combination of opposite-signed parity/geometric contributions, pure-\(G\) cancellation and primitive-support coupling. No single exact \(ac\leftrightarrow bc\) symmetry exists.
+
+These statements are finite structural diagnostics. They explain why accessible data look unusually close to \(2:1:1\), but they do not determine the limiting vector; that is settled in §7.
+
+```text
+STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
+FINITE_ALPHA_FLATTENING=supported_shell_richness_dominant
+FINITE_BETA_STRUCTURE=multi_layer_cancellation_and_primitive_support
+FINITE_NEAR_2_1_1_IS_NOT_ASSUMED_AS_LIMIT=true
+```
+
+## §7. Task 13-7 — asymptotic behaviour
+
+Stage13-7 resolves the asymptotic directional problem at the existing project theorem standard. Its final audit is
+
+```text
+stages/stage13/data/13-7/consolidation_audit_report.json
+```
+
+with provenance snapshot
+
+```text
+stages/stage13/archive/stage13-7-final.md
+```
+
+### §7.1 Directional raw incidence theorem
+
+For \(q\in\{ab,ac,bc\}\), Stage13-7jb proves
+
+\[
+\boxed{
+A_q(B)\sim D_q B(\log B)^3,
+\qquad
+D_q=\frac{\kappa I_q}{3\pi^3}.
+}
+\]
+
+Because
+
+\[
+I_{ab}+I_{ac}+I_{bc}=\frac{\pi^2}{8},
+\]
+
+these constants sum to the Stage12-transferred total
+
+\[
+\sum_qD_q=\frac{\kappa}{24\pi}.
+\]
+
+Thus the normalized raw incidence vector tends to
+
+\[
+\boxed{
+P_\infty=
+\left(
+\frac{8I_{ab}}{\pi^2},
+\frac{8I_{ac}}{\pi^2},
+\frac{8I_{bc}}{\pi^2}
+\right).
+}
+\]
+
+Numerically,
+
+\[
+P_\infty\approx(0.5347369332313988,0.24535917783225203,0.21990388893634913),
+\]
+
+or, normalized by \(bc\),
+
+\[
+\boxed{2.431684750178191:1.115756428951881:1.}
+\]
+
+The primitive-support and supported-shell arithmetic change the absolute logarithmic scale but not this leading normalized chamber vector.
+
+### §7.2 Overlap theorem and exactly-one transfer
+
+Write
+
+\[
+O_{ab,ac}=A_{ab,ac},\qquad O_{ab,bc}=A_{ab,bc},\qquad O_{ac,bc}=A_{ac,bc},\qquad T=A_3.
+\]
+
+Stage13-7jf applies a fixed-prime quadratic-residue sieve inside the already-counted raw incidence populations. For each fixed finite set of sufficiently large inert primes \(p\equiv3\pmod4\), the congruence-refined raw theorem has the same \(B(\log B)^3\) pole order with a product of local acceptance factors, and each such factor is eventually at most \(3/4\).
+
+The order of limits is essential:
+
+```text
+fix k primes
+-> B -> infinity
+-> only then k -> infinity
+```
+
+so no growing-modulus theorem is used. Consequently,
+
+\[
+\boxed{
+O_{ab,ac},O_{ab,bc},O_{ac,bc}=o(B(\log B)^3),
+\qquad
+T=o(B(\log B)^3).
+}
+\]
+
+No perfect-cuboid nonexistence assumption is used. A perfect cuboid, if one exists, lies inside the lower-order triple-overlap population but cannot change the leading one-face asymptotic.
+
+Substituting these bounds into the exact inclusion-exclusion identities from §2 yields
+
+\[
+\boxed{
+N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3,
+\qquad q\in\{ab,ac,bc\}.
+}
+\]
+
+Summing,
+
+\[
+\boxed{
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
+}
+\]
+
+Hence the exactly-one normalized vector has the same chamber limit as the raw incidence vector.
+
+### §7.3 Limiting deviation
+
+Relative to \(P_0=(1/2,1/4,1/4)\),
+
+\[
+\alpha(B)\to0.034736933231398814,
+\qquad
+\beta(B)\to0.01272764444795145,
+\]
+
+and
+
+\[
+\boxed{
+\Delta_\infty=
+(0.034736933231398814,
+-0.004640822167747971,
+-0.03009611106365087).
+}
+\]
+
+Thus
+
+\[
+\boxed{P_\infty\ne(1/2,1/4,1/4),}
+\]
+
+so the observed near-\(2:1:1\) finite vector is a strongly pre-asymptotically flattened regime rather than the true limit.
+
+No monotone convergence theorem or explicit secondary convergence rate is claimed. The fixed-modulus refinement and the rest of the asymptotic chain are accepted at the same standard-theorem-application level as the frozen Stage12 argument; independent publication-grade review has not yet been completed.
+
+```text
+STAGE13_7=COMPLETE_AT_UNCONDITIONAL_EXACT_ONE_DIRECTIONAL_ASYMPTOTIC_LEVEL
+EXACT_ONE_DIRECTIONAL_LIMIT_UNCONDITIONAL=true
+LIMIT_EQUALS_2_1_1=false
+PAIR_OVERLAP_LOWER_ORDER_PROVED=true
+TRIPLE_OVERLAP_LOWER_ORDER_PROVED=true
+PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
+EXPLICIT_CONVERGENCE_RATE_PROVED=false
+INDEPENDENT_PUBLICATION_REVIEW_COMPLETED=false
+```
+
+## §8. Task 13-8 — rigorous Stage12-to-Stage13 connection
+
+Stage13-8 consolidates the bridge from the frozen Stage12 primitive oriented theorem to the Stage13 primitive canonical exactly-one directional theorem. The interface audit is recorded in
+
+```text
+stages/stage13/scripts/13-8/bridge_ledger.py
+stages/stage13/data/13-8/bridge_ledger_report.json
+```
+
+Stage13-8a found no new mathematical bridge gap. This section is the canonical theorem integration of that audit.
+
+### §8.1 Frozen Stage12 input
+
+Stage12 remains frozen at R09. Its counting target is the primitive oriented count \(C_{\rm prim}(B)\), with theorem
+
+\[
+\boxed{
+C_{\rm prim}(B)
+\sim
+\frac{\kappa}{12\pi}B(\log B)^3
+=
+\frac{\eta}{12\pi^2}B(\log B)^3,
+}
+\]
+
+where the frozen constant ledger gives
+
+\[
+\boxed{\eta=\pi\kappa.}
+\]
+
+Stage13 does not reinterpret this theorem as a canonical or exactly-one count without an explicit projection.
+
+### §8.2 Object, cutoff and primitivity compatibility
+
+The Stage12 parameterization has
+
+\[
+d=\frac{h(r^2+s^2)}2,
+\qquad d\le B,
+\]
+
+so its height cutoff is exactly the Stage13 space-diagonal cutoff.
+
+Stage12 primitivity is obtained by Möbius inversion with respect to the common integer scale of the three cuboid edges. After canonical sorting this is precisely
+
+\[
+\gcd(a,b,c)=1.
+\]
+
+Sorting the edges and swapping the two legs of a distinguished face preserve this gcd. The frozen Stage12 definition sheet also records zero repeated-side contribution, so the strict canonical chamber \(a<b<c\) introduces no missing tie-boundary main term.
+
+Thus the two stages use compatible height and primitive conventions; only orientation and distinguished-face bookkeeping remain to be quotiented.
+
+### §8.3 Exact directional projection
+
+For \(q\in\{ab,ac,bc\}\), define \(C^{\rm proj}_{\rm prim,q}(B)\) to be the Stage12 primitive oriented records whose distinguished integral face becomes canonical direction \(q\) after sorting the three edges.
+
+The exact fiber result from §3.20 gives
+
+\[
+\boxed{
+C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)
+}
+\]
+
+for every \(B\), and therefore
+
+\[
+\boxed{
+C_{\rm prim}(B)=2(A_{ab}+A_{ac}+A_{bc}).
+}
+\]
+
+The factor \(2\) is exactly the two orders of the two positive legs of the distinguished face. There is no additional multiplicity from the complementary Pythagorean extension. The identity also remains exact for multi-face objects because raw incidence retains the distinguished face: an exactly-two-face cuboid contributes two incidences and four Stage12 records, while an exactly-three-face cuboid contributes three incidences and six Stage12 records.
+
+The factor \(2\) holds separately in the OE and EE parity strata, so canonical projection introduces no hidden direction-dependent 2-adic coefficient.
+
+### §8.4 Directional constant bridge
+
+Put
+
+\[
+P_q=\frac{8I_q}{\pi^2}.
+\]
+
+The Stage13-7 directional refinement of the Stage12-oriented population can be written
+
+\[
+C^{\rm proj}_{\rm prim,q}(B)
+\sim
+\frac{\kappa}{12\pi}P_qB(\log B)^3
+=
+\frac{2\kappa I_q}{3\pi^3}B(\log B)^3.
+\]
+
+Dividing by the exact projection multiplicity gives
+
+\[
+\boxed{
+A_q(B)
+\sim
+\frac{\kappa}{24\pi}P_qB(\log B)^3
+=
+\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+}
+\]
+
+Equivalently, using \(\eta=\pi\kappa\),
+
+\[
+A_q(B)\sim\frac{\eta I_q}{3\pi^4}B(\log B)^3.
+\]
+
+Summing \(P_q=1\) recovers the frozen Stage12 total after the universal factor \(1/2\).
+
+### §8.5 Direct Stage12-to-exactly-one bridge
+
+By §2,
+
+\[
+N_{ab}=A_{ab}-O_{ab,ac}-O_{ab,bc}+T
+\]
+
+and cyclically. By §7.2 every overlap term on the right is lower order. Combining this with the exact projection gives the direct categorywise bridge
+
+\[
+\boxed{
+N_q(B)
+=
+\frac12C^{\rm proj}_{\rm prim,q}(B)
++o(B(\log B)^3).
+}
+\]
+
+Summing the three categories gives
+
+\[
+\boxed{
+N_1(B)
+=
+\frac12C_{\rm prim}(B)
++o(B(\log B)^3).
+}
+\]
+
+This formula is the concise Stage12-to-Stage13 theorem interface. It uses no perfect-cuboid nonexistence assumption.
+
+At the exact finite level the total relation remains
+
+\[
+N_1(B)
+=
+\frac12C_{\rm prim}(B)
+-2(O_{ab,ac}+O_{ab,bc}+O_{ac,bc})
++3T.
+\]
+
+### §8.6 End-to-end finite checksum
+
+At \(B=100000\), the locked values are
+
+\[
+C_{\rm prim}=336416,
+\qquad
+A_{\rm total}=168208,
+\qquad
+O_{ab,ac}+O_{ab,bc}+O_{ac,bc}=89,
+\qquad
+T=0,
+\]
+
+so exactly
+
+\[
+336416=2\cdot168208
+\]
+
+and
+
+\[
+168030=336416/2-2\cdot89+3\cdot0.
+\]
+
+Directionally,
+
+\[
+(C^{\rm proj}_{\rm prim,ab},C^{\rm proj}_{\rm prim,ac},C^{\rm proj}_{\rm prim,bc})
+=(168424,86472,81520),
+\]
+
+\[
+(A_{ab},A_{ac},A_{bc})=(84212,43236,40760),
+\]
+
+\[
+(N_{ab},N_{ac},N_{bc})=(84146,43180,40704).
+\]
+
+Thus the finite enumeration, exact projection, overlap accounting and asymptotic constants use one consistent object convention from Stage12 through Stage13.
+
+### §8.7 Scope and dependency boundary
+
+The bridge does **not** reopen Stage12. Frozen Stage12 supplies:
+
+- the definition and theorem for \(C_{\rm prim}\);
+- the primitive/oriented convention;
+- \(\kappa\), \(\eta\), their local-factor ledger and \(\eta=\pi\kappa\).
+
+Stage13 supplies:
+
+- the exact factor-2 projection (§3.20);
+- the directional chamber constants and raw asymptotics (§7.1);
+- the fixed-prime overlap theorem (§7.2);
+- the exactly-one transfer (§7.2 and §8.5).
+
+The fixed-modulus congruence refinement used in the overlap proof is a Stage13 extension at the same accepted theorem-application level; it is not retroactively inserted into the frozen Stage12 theorem statement.
+
+No additional bridge lemma is required between the two stages.
+
+```text
+STAGE13_8A=COMPLETE
+STAGE13_8B=COMPLETE_CANONICAL_BRIDGE_INTEGRATION
+STAGE13_8C=COMPLETE_FINAL_AUDIT
+STAGE13_8=COMPLETE
+NEW_MATHEMATICAL_BRIDGE_GAP_FOUND=false
+STAGE12_REOPENED=false
+OBJECT_MAP=CLOSED
+CUTOFF_MATCHING=CLOSED
+PRIMITIVE_DEFINITION_MATCHING=CLOSED
+ORIENTATION_FIBER=CLOSED
+CANONICAL_DIRECTION_PARTITION=CLOSED
+PARITY_PROJECTION=CLOSED
+DIRECTIONAL_RAW_CONSTANTS=CLOSED_BY_STAGE13_7
+OVERLAP_TO_EXACT_ONE=CLOSED_BY_STAGE13_7
+NEXT=Stage13-9 main structural theorem
+```
+
+## §9. Task 13-9 — main structural theorem
+
+Stage13-9 introduces no new analytic input. It packages the completed Stage13-7 asymptotic theorem and the completed Stage13-8 counting bridge into the principal theorem of Stage13.
+
+The consistency audit is
+
+```text
+stages/stage13/scripts/13-9/main_structural_theorem_audit.py
+stages/stage13/data/13-9/main_structural_theorem_audit_report.json
+```
+
+### §9.1 Main structural theorem
+
+Let
+
+\[
+\mathbf N(B)=\bigl(N_{ab}(B),N_{ac}(B),N_{bc}(B)\bigr)
+\]
+
+for primitive canonical cuboids
+
+\[
+0<a<b<c,\qquad \gcd(a,b,c)=1,
+\qquad a^2+b^2+c^2=d^2,\qquad d\le B,
+\]
+
+having exactly one integral face diagonal, with the category determined by which canonical face is integral.
+
+Let
+
+\[
+R=\{(x,y,z)\in S^2:0<x<y<z\}
+\]
+
+and
+
+\[
+I_{ab}=\int_R\frac{d\omega}{\sqrt{x^2+y^2}},\qquad
+I_{ac}=\int_R\frac{d\omega}{\sqrt{x^2+z^2}},\qquad
+I_{bc}=\int_R\frac{d\omega}{\sqrt{y^2+z^2}}.
+\]
+
+Then
+
+\[
+I_{ab}+I_{ac}+I_{bc}=\frac{\pi^2}{8},
+\]
+
+and, as \(B\to\infty\),
+
+\[
+\boxed{
+\mathbf N(B)
+=
+\frac{\kappa}{3\pi^3}
+\bigl(I_{ab},I_{ac},I_{bc}\bigr)
+B(\log B)^3
++o\!\bigl(B(\log B)^3\bigr),
+}
+\]
+
+where the vector \(o\)-term is componentwise (equivalently in any fixed norm on \(\mathbf R^3\)). Thus, for each \(q\in\{ab,ac,bc\}\),
+
+\[
+\boxed{
+N_q(B)
+\sim
+\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+}
+\]
+
+Summing the three components gives
+
+\[
+\boxed{
+N_1(B)
+\sim
+\frac{\kappa}{24\pi}B(\log B)^3.
+}
+\]
+
+### §9.2 Normalized directional law
+
+Dividing the vector theorem by its total gives
+
+\[
+\boxed{
+\frac{\mathbf N(B)}{N_1(B)}
+\longrightarrow
+\frac8{\pi^2}
+\bigl(I_{ab},I_{ac},I_{bc}\bigr).
+}
+\]
+
+Numerically,
+
+\[
+\boxed{
+P_\infty
+=
+(0.5347369332313988,
+ 0.24535917783225203,
+ 0.21990388893634913).
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+N_{ab}:N_{ac}:N_{bc}
+\longrightarrow
+2.431684750178191:1.115756428951881:1.
+}
+\]
+
+In particular,
+
+\[
+\boxed{P_\infty\ne(1/2,1/4,1/4),}
+\]
+
+so the finite near-\(2:1:1\) pattern is not the limiting law.
+
+### §9.3 Stage12 bridge form
+
+Let \(C^{\rm proj}_{\rm prim,q}(B)\) be the frozen-Stage12 primitive oriented records whose distinguished integral face projects to canonical category \(q\). The exact projection theorem gives
+
+\[
+C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)
+\]
+
+for every \(B\), while Stage13-7 proves that all pair overlaps and the triple overlap are lower order. Therefore the main theorem is equivalently connected to Stage12 by
+
+\[
+\boxed{
+N_q(B)
+=
+\frac12 C^{\rm proj}_{\rm prim,q}(B)
++o(B(\log B)^3),
+}
+\]
+
+and
+
+\[
+\boxed{
+N_1(B)
+=
+\frac12 C_{\rm prim}(B)
++o(B(\log B)^3).
+}
+\]
+
+The common factor \(1/2\) is purely the quotient by the two orders of the distinguished face legs and has no directional effect.
+
+### §9.4 Structural content of the theorem
+
+The theorem separates the asymptotic directional law into three layers.
+
+1. **Archimedean chamber geometry.** The canonical order chamber \(0<a<b<c\), coupled with the one-face Gelfand--Leray density, supplies the three unequal weights \(I_{ab}>I_{ac}>I_{bc}\).
+2. **Arithmetic population scale.** Primitive support, representation richness and the Stage12 local-factor constant \(\kappa\) determine the absolute \(B(\log B)^3\) scale. At leading normalized order they contribute a common factor across the three categories.
+3. **Exactly-one sieve.** Pair and triple face overlaps are \(o(B(\log B)^3)\), so removing multi-face objects does not alter the leading directional vector.
+
+Thus the asymptotic normalized direction is the archimedean chamber vector, even though finite arithmetic reweighting strongly flattens that vector over the accessible numerical range.
+
+This structural interpretation is a theorem-level synthesis of the earlier results; the detailed narrative explaining the finite flattening is reserved for Stage13-10.
+
+### §9.5 Deviation corollary
+
+Relative to
+
+\[
+P_0=(1/2,1/4,1/4),
+\]
+
+the deviation vector satisfies
+
+\[
+\boxed{
+\Delta(B)=P(B)-P_0\longrightarrow
+\Delta_\infty
+}
+\]
+
+with
+
+\[
+\boxed{
+\Delta_\infty=
+(0.034736933231398814,
+-0.004640822167747971,
+-0.03009611106365087).
+}
+\]
+
+Equivalently,
+
+\[
+\alpha(B)\to0.034736933231398814,
+\qquad
+\beta(B)\to0.01272764444795145.
+\]
+
+At \(B=100000\), however,
+
+\[
+\alpha\approx0.0007796226864250431,
+\qquad
+\beta\approx0.007367731952627507,
+\]
+
+which records how strongly pre-asymptotic the observed near-\(2:1:1\) regime still is.
+
+### §9.6 Logical scope
+
+The theorem does **not** assume that perfect cuboids do not exist. If a perfect cuboid exists, it belongs to the triple-overlap population; Stage13 proves only that this population is lower order relative to the one-face main term. Thus the theorem neither proves nor disproves existence of a perfect cuboid.
+
+The theorem also does not provide:
+
+- an explicit numerical convergence rate for \(P(B)\to P_\infty\);
+- an effective threshold beyond which a prescribed error bound holds;
+- monotonicity of any directional ratio;
+- an independent publication-grade verification of the fixed-modulus analytic input.
+
+Accordingly, one must not infer quantitative closeness to the limit at a specified enormous finite value of \(B\) without an additional effective error term.
+
+### §9.7 Proof dependency summary
+
+The main theorem depends on the following established chain:
+
+```text
+Stage12 R09
+  primitive oriented total theorem
+        |
+        v
+Stage13-3b
+  exact canonical chamber integrals I_ab,I_ac,I_bc
+        |
+        v
+Stage13-3d
+  exact projection multiplicity 2
+        |
+        v
+Stage13-7jb
+  categorywise raw incidence asymptotics
+        |
+        v
+Stage13-7jf
+  pair/triple overlaps are lower order
+        |
+        v
+Stage13-8
+  object/cutoff/primitivity/constant bridge closed
+        |
+        v
+Stage13-9
+  main structural theorem
+```
+
+No additional lemma is introduced between Stage13-8 and this theorem statement.
+
+```text
+STAGE13_9=COMPLETE_MAIN_STRUCTURAL_THEOREM
+MAIN_VECTOR_ASYMPTOTIC_PROVED=true
+NORMALIZED_DIRECTIONAL_LIMIT_PROVED=true
+LIMIT_EQUALS_2_1_1=false
+STAGE12_TO_MAIN_THEOREM_BRIDGE_CLOSED=true
+PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
+EXPLICIT_CONVERGENCE_RATE_PROVED=false
+MONOTONICITY_PROVED=false
+INDEPENDENT_PUBLICATION_REVIEW_COMPLETED=false
+NEXT=Stage13-10 final explanation
 ```
