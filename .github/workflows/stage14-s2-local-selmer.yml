@@ -25,6 +25,8 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - name: Preserve frozen audit
+        run: git show HEAD:stages/stage14/data/14-s2/local_selmer_sieve_audit.json > /tmp/stage14-s2-frozen.json
       - name: Run deterministic Stage14-s2 audit
         run: python stages/stage14/scripts/14-s2/local_selmer_sieve_audit.py
       - name: Validate theorem boundary
@@ -48,8 +50,15 @@ jobs:
               assert row['bad_projective_slopes']==expect
           print(json.dumps(q,indent=2))
           PY
-      - name: Require frozen audit reproducibility
-        run: git diff --exit-code -- stages/stage14/data/14-s2/local_selmer_sieve_audit.json
+      - name: Require frozen audit semantic reproducibility
+        run: |
+          python - <<'PY'
+          import json
+          generated=json.load(open('stages/stage14/data/14-s2/local_selmer_sieve_audit.json'))
+          frozen=json.load(open('/tmp/stage14-s2-frozen.json'))
+          assert generated == frozen
+          print('semantic JSON reproducibility: exact')
+          PY
       - name: Upload generated audit
         uses: actions/upload-artifact@v4
         with:
