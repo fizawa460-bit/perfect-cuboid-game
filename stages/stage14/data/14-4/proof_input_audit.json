@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "stage": "14-4aa",
+    "title": "Independent two-face parametrization and proof-input audit",
+    "goal": "restart proof-level Stage14-4 without guessing the true growth order"
+  },
+  "upstream": {
+    "stage13_version": "R02",
+    "source": "stages/stage13/13-12ac/current-proof.md",
+    "status": "assumed_provisionally_pending_final_external_freeze",
+    "imported_statement": "A_q(B) ~ kappa I_q/(3 pi^3) B(log B)^3 for q in {ab,ac,bc}",
+    "pair_overlap_little_o_imported": false,
+    "triple_overlap_little_o_imported": false,
+    "stage13_r03_used": false,
+    "stage12_directly_used": false
+  },
+  "generic_coordinates": {
+    "shared_edge": "e",
+    "nonshared_edges": ["x", "y"],
+    "nonshared_order": "x<y",
+    "face_diagonals": ["u", "v"],
+    "space_diagonal": "d",
+    "equations": [
+      "e^2+x^2=u^2",
+      "e^2+y^2=v^2",
+      "u^2+y^2=d^2",
+      "v^2+x^2=d^2"
+    ],
+    "independent_equation_count": 3,
+    "direction_chambers": {
+      "a": "e<x<y",
+      "b": "x<e<y",
+      "c": "x<y<e"
+    },
+    "exactly_two_condition": "x^2+y^2 is not a square",
+    "triple_condition": "x^2+y^2 is a square"
+  },
+  "euclid_chart": {
+    "L_D": "m^2-n^2",
+    "L_P": "2mn",
+    "H": "m^2+n^2",
+    "base_conditions": "m>n>0, gcd(m,n)=1, m-n odd",
+    "shared_face_charts": ["DD", "DP", "PD", "PP"],
+    "shared_edge_match": "k1 L_sigma1(m,n) = k2 L_sigma2(r,s)",
+    "third_gluing_matches": [
+      "k1 H(m,n) = k3 L_sigma3(p,q)",
+      "k2 L_barsigma2(r,s) = k3 L_barsigma3(p,q)"
+    ],
+    "global_primitivity": "gcd(e,x,y)=1 after gluing",
+    "force_all_scales_one": false
+  },
+  "structural_decision": {
+    "ONE_GENERIC_ARITHMETIC_OBJECT_FOR_ALL_THREE_DIRECTIONS": true,
+    "DIRECTION_LABEL_IS_CHAMBER_POSITION_OF_SHARED_EDGE": true,
+    "FOUR_RIGHT_TRIANGLES_PER_RAW_PAIR": true,
+    "THREE_INDEPENDENT_PYTHAGOREAN_RELATIONS_SUFFICE": true,
+    "EUCLID_SHARED_EDGE_FIBER_PRODUCT_LOCKED": true,
+    "THIRD_PYTHAGOREAN_GLUING_LOCKED": true,
+    "GLOBAL_PRIMITIVITY_APPLIED_AFTER_GLUING": true,
+    "UNIQUE_PARAMETERIZATION": false,
+    "BOUNDED_PARAMETER_MULTIPLICITY": false,
+    "TRUE_GROWTH_ORDER_IDENTIFIED": false,
+    "LEADING_CONSTANT_IDENTIFIED": false,
+    "DIRECTIONAL_LIMIT_IDENTIFIED": false,
+    "NEXT": "Stage14-4ab representation multiplicity and explicit matching-variable reduction"
+  }
+}
