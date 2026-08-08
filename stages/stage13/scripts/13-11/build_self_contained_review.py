@@ -12,6 +12,7 @@ COMPLETED_THROUGH = "Stage13-11"
 DOCUMENT_STATUS = "SELF_CONTAINED_AT_FROZEN_STAGE12_INPUT_BOUNDARY"
 OUTPUT_HTML = Path("review/STAGE13-FINAL-SELF-CONTAINED-20260808-R01.html")
 OUTPUT_MANIFEST = Path("stages/stage13/data/13-11/review_bundle_manifest.json")
+GENERATED_PATHS = {OUTPUT_HTML.as_posix(), OUTPUT_MANIFEST.as_posix()}
 
 STATIC_SOURCES = [
     Path("stages/stage12/final.md"),
@@ -20,6 +21,7 @@ STATIC_SOURCES = [
     Path("stages/stage13/roadmap.md"),
     Path("stages/stage13/policy.md"),
     Path("stages/stage13/main.md"),
+    Path("stages/stage13/13-11-review-bundle.md"),
 ]
 
 
@@ -29,6 +31,27 @@ def git(*args: str) -> str:
 
 def git_blob_sha(path: Path) -> str:
     return git("hash-object", str(path))
+
+
+def changed_paths(commit: str) -> set[str]:
+    output = git("show", "--pretty=format:", "--name-only", commit)
+    return {line.strip() for line in output.splitlines() if line.strip()}
+
+
+def source_snapshot_commit() -> str:
+    """Return the newest commit that is not only generated bundle output.
+
+    The workflow commits the generated HTML and manifest back to the branch.
+    Those output-only commits must not change SOURCE_SNAPSHOT_COMMIT, otherwise
+    the snapshot field would make the generator recursively dirty forever.
+    """
+    commit = git("rev-parse", "HEAD")
+    while True:
+        paths = changed_paths(commit)
+        if paths and paths.issubset(GENERATED_PATHS):
+            commit = git("rev-parse", f"{commit}^")
+            continue
+        return commit
 
 
 def source_paths() -> list[Path]:
@@ -215,7 +238,7 @@ END_OF_BUNDLE={BUNDLE_ID}</pre></div>
 
 
 def main() -> None:
-    snapshot = git("rev-parse", "HEAD")
+    snapshot = source_snapshot_commit()
     rows, ledger_sha = read_sources(source_paths())
     payload = build_payload(rows, snapshot, ledger_sha)
     content_sha = hashlib.sha256(payload.encode("utf-8")).hexdigest()
