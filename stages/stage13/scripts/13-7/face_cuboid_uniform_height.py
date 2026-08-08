@@ -10,9 +10,9 @@ d<=B.  This stage asks what follows unconditionally from the Yoshida elliptic
 fibration plus a uniform bounded-height theorem for elliptic curves with
 rational 2-torsion.
 
-The result is a genuine global bound
+The result is a genuine global upper bound
 
-    F(B) << B * exp(C log B / log log B) = B^(1+o(1)),
+    F(B) << B * exp(C log B / log log B) <= B^(1+o(1)),
 
 with an effective absolute C after harmless changes of constants.  This does
 NOT imply the required o(B(log B)^3) bound, because exp(C L/log L) eventually
@@ -30,7 +30,6 @@ Structural bridge used:
 from __future__ import annotations
 
 import json
-import math
 from pathlib import Path
 
 IN_7JC = Path("stages/stage13/data/13-7/overlap_face_cuboid_reduction_report.json")
@@ -45,7 +44,7 @@ def build_report() -> dict:
         "metadata": {
             "stage": "13-7jd",
             "scope": (
-                "unconditional global face-cuboid height bound obtained from the "
+                "unconditional global face-cuboid height upper bound obtained from the "
                 "Yoshida elliptic fibration and a uniform rational-point theorem; "
                 "the exactly-one lower-order bound remains open"
             ),
@@ -124,7 +123,7 @@ def build_report() -> dict:
                 "cannot choose the same pair."
             ),
             "bound": "F(B) << B * exp(C1 log B/log log B)",
-            "equivalent_form": "F(B)=B^(1+o(1))",
+            "equivalent_upper_form": "F(B) <= B^(1+o(1))",
             "effective_constant_note": (
                 "C1 is effective and absolute here because the number field is Q and "
                 "the torsion prime is fixed at 2; no numerical optimization is claimed."
@@ -146,7 +145,7 @@ def build_report() -> dict:
         },
         "conditional_exact_one": prev["raw_limit_waiting_for_transfer"],
         "status": {
-            "unconditional_global_face_cuboid_bound": True,
+            "unconditional_global_face_cuboid_upper_bound": True,
             "face_cuboid_bound": "B*exp(C log B/loglog B)",
             "face_cuboid_exponent_limsup_at_most_one": True,
             "pair_overlap_lower_order_proved": False,
