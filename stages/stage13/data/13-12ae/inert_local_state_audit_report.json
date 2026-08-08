@@ -1,0 +1,96 @@
+{
+  "exact_formulas": {
+    "L_p_at_1_1_1": "(p+1)/(p-1)",
+    "absolute_C0": 2,
+    "constrained_local": "(p+5)/(2(p-1))",
+    "explicit_p0_if_condition_is_p_gt_p0": 3,
+    "inert_h_factor": "1",
+    "lambda_le_3_over_4_for_inert_p_ge_7": true,
+    "lambda_p": "(p+5)/(2(p+1)) = 1/2 + 2/(p+1)",
+    "positive_valuation_fraction": "2/(p+1) <= 2/p",
+    "positive_valuation_mass": "2/(p-1)",
+    "unit_acceptance": "(p+1)/(2(p-1))",
+    "unrestricted_local_series": "1 + sum_{b>=1}Y^b + sum_{c>=1}Z^c = (1-YZ)/((1-Y)(1-Z))"
+  },
+  "fixed_residue_transfer": {
+    "OE_EE_dependency": "none at odd p; finite 2-adic factor cancels from local ratio",
+    "gaussian_unit_residues": "fixed-conductor Gaussian ray-class character orthogonality",
+    "growing_modulus_used": false,
+    "hyperbola_parameter": "u=s/r -> (Z,D)=((u-u^-1)/2,(u+u^-1)/2)",
+    "nonprincipal_tuples": "lower order because at least one principal pole is removed",
+    "p_fixed_before_B_limit": true,
+    "principal_tuple": "reproduces untwisted zero-mode pole and local density",
+    "rational_unit_residues": "finite Dirichlet-character orthogonality",
+    "unit_state_space": "circle X^2+Y^2=1 times hyperbola D^2-Z^2=1"
+  },
+  "metadata": {
+    "finite_enumeration_is_proof": false,
+    "proof_location": "stages/stage13/13-12ae/result.md",
+    "scope": "exact inert-prime local factor, positive-valuation tail, and complete local-state audit",
+    "stage": "13-12ae"
+  },
+  "review_targets": {
+    "grok_local_state_completeness": "repaired by complete valuation table plus fixed residue transfer",
+    "grok_positive_valuation_tail": "repaired exactly",
+    "qwen_positive_valuation_tail": "repaired exactly"
+  },
+  "state_table": [
+    {
+      "W_p": "nontrivial finite residue test",
+      "allowed": true,
+      "reason": "unit outer state",
+      "state": "U",
+      "valuations": "(a,b,c)=(0,0,0)"
+    },
+    {
+      "W_p": "automatic because x=y=0 mod p and z is a unit",
+      "allowed": true,
+      "reason": "gcd(r,s)=1 and z is a unit",
+      "state": "R_b",
+      "valuations": "a=0,b>=1,c=0"
+    },
+    {
+      "W_p": "automatic because x=y=0 mod p and z is a unit",
+      "allowed": true,
+      "reason": "gcd(r,s)=1 and z is a unit",
+      "state": "S_c",
+      "valuations": "a=0,b=0,c>=1"
+    },
+    {
+      "W_p": "not applicable",
+      "allowed": false,
+      "reason": "inert p|h forces p|x,y,z, contradicting primitive gcd=1",
+      "state": "H_positive",
+      "valuations": "a>=1"
+    },
+    {
+      "W_p": "not applicable",
+      "allowed": false,
+      "reason": "forbidden by gcd(r,s)=1",
+      "state": "both_base_positive",
+      "valuations": "b>=1,c>=1"
+    }
+  ],
+  "tagging": {
+    "pair_overlap_injects_into_tagged_union": true,
+    "two_tag_factor": "harmless upper multiplicity 2; enlarges the upper bound"
+  },
+  "validation": {
+    "all_hyperbola_parameterizations_bijective": true,
+    "all_lambda_formulae_pass": true,
+    "all_positive_states_automatic": true,
+    "failures": [],
+    "inert_primes_checked_below_200": 24
+  },
+  "status": {
+    "EXACT_ONE_DIRECTIONAL_ASYMPTOTIC": "R03_CANDIDATE",
+    "LOCAL_STATE_REFINEMENT_COMPLETENESS": "REPAIRED",
+    "NEXT": "Stage13-12af",
+    "PAIR_OVERLAP_LOWER_ORDER": "RESTORED_WITH_EXACT_LOCAL_FACTOR",
+    "P_ADIC_ABSOLUTE_C0": 2,
+    "P_ADIC_POSITIVE_VALUATION_TAIL": "REPAIRED_EXACTLY",
+    "STAGE13_12AE": "COMPLETE_EXACT_PADIC_LOCAL_CLOSURE",
+    "STAGE13_GLOBAL_REVIEW_STATUS": "PENDING_EXTERNAL_R03",
+    "TRIPLE_OVERLAP_LOWER_ORDER": "RESTORED_WITH_EXACT_LOCAL_FACTOR"
+  }
+}
