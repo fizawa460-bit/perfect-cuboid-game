@@ -36,7 +36,7 @@ R03_MUTATED=false
 
 **THEOREM USED**
 
-For a nontrivial Hecke Grössencharacter, the associated Hecke `L`-function admits analytic continuation and a functional equation.  For the Gaussian angular characters used by Stage13, one may write the completed function in the form
+For a nontrivial Hecke Grössencharacter, the associated Hecke `L`-function admits analytic continuation and a functional equation. For the Gaussian angular characters used by Stage13, one may write the completed function in the form
 
 \[
 \xi(s,k)=\pi^{-(s+2|k|)}\Gamma(s+2|k|)L(s,\Xi_k),
@@ -65,11 +65,9 @@ up to the fixed normalization convention for the angular index.
 
 **CONCLUSION IMPORTED**
 
-Analytic continuation and polynomial vertical/conductor growth on every fixed strip used by the Perron contour.  For `ell <= (log X)^4`, the archimedean conductor is only polylogarithmic in `X`.
+Analytic continuation and polynomial vertical/conductor growth on every fixed strip used by the Perron contour. For `ell <= (log X)^4`, the archimedean conductor is only polylogarithmic in `X`.
 
 **STATUS**: `APPLIES`.
-
----
 
 ### E02 — Gaussian-Hecke Landau--Page zero-free region
 
@@ -105,11 +103,9 @@ The citation in R03 is correct: the possible exceptional zero is excluded for no
 
 **AUDIT REFINEMENT**
 
-Stage13 does **not need** this zero-free region to prove the required coefficient-sum cancellation, because `A_ell(s)` contains `L(s,xi_{8ell})` itself, not its reciprocal, logarithmic derivative, or a fractional power.  Zeros do not obstruct the contour shift.  E01 plus the already-proved residual holomorphy suffices.
+Stage13 does **not need** this zero-free region to prove the required coefficient-sum cancellation, because `A_ell(s)` contains `L(s,xi_{8ell})` itself, not its reciprocal, logarithmic derivative, or a fractional power. Zeros do not obstruct the contour shift. E01 plus the already-proved residual holomorphy suffices.
 
 **STATUS**: `VALID_BUT_LOGICALLY_REDUNDANT_FOR_FINAL_PROOF`.
-
----
 
 ### E03 — classical Selberg--Delange framework
 
@@ -126,7 +122,7 @@ with the appropriate analytic regularity of `G`, the Selberg--Delange method sup
 **PRIMARY SOURCES**
 
 - H. Delange, *Généralisation du théorème de Ikehara*, Ann. Sci. Éc. Norm. Sup. 71 (1954), 213--242, DOI `10.24033/asens.1023`.
-- R. de la Bretèche, G. Tenenbaum, *Remarks on the Selberg--Delange method*, Acta Arith. 200 (2021), 349--369, DOI `10.4064/aa201024-26-5`, arXiv:2010.12929.  Its introduction explicitly distinguishes the classical analytic-continuation hypothesis for `G` from finite-derivative variants.
+- R. de la Bretèche, G. Tenenbaum, *Remarks on the Selberg--Delange method*, Acta Arith. 200 (2021), 349--369, DOI `10.4064/aa201024-26-5`, arXiv:2010.12929.
 
 **STAGE13 HYPOTHESES**
 
@@ -156,7 +152,7 @@ Thus `G_h,G_b` are holomorphic in a fixed half-plane containing `s=1`; the pole 
 
 **AUDIT REFINEMENT**
 
-For the exact Stage13 need, invoking a general Selberg--Delange theorem is optional.  A finite Perron contour shifted to any fixed line `sigma=1/2+delta` crosses only the pole at `s=1`.  The residue gives
+For the exact Stage13 need, invoking a general Selberg--Delange theorem is optional. A finite Perron contour shifted to a fixed line `sigma_0` with `5/8<sigma_0<1` crosses only the pole at `s=1`. The residue gives
 
 \[
 \sum_{h\le X}a_0(h)=\alpha X+O(X^{1-\delta'}),
@@ -169,13 +165,9 @@ and
 =X(\beta_1\log X+\beta_0)+O(X^{1-\delta'}),
 \]
 
-for some fixed `delta'>0`; this is stronger than the `O_N(X(log X)^-N)` remainder actually budgeted in `13-12ad`.  The required vertical bounds follow from E01/fixed Dirichlet `L` theory and absolute convergence of the residual Euler product.
-
-No fractional zeta power occurs, so there is no branch issue.
+for some fixed `delta'>0`, after the standard truncated-contour estimates. This is more than sufficient for the logarithmic error budget used in `13-12ad`. No fractional zeta power occurs, so there is no branch issue.
 
 **STATUS**: `CLASSICAL_ROUTE_APPLIES; BLACK_BOX_NOT_REQUIRED_AFTER_HYPOTHESIS_AUDIT`.
-
----
 
 ### E04 — Selberg--Vaaler interval majorant/minorant
 
@@ -195,7 +187,7 @@ J. D. Vaaler, *Some extremal functions in Fourier analysis*, Bull. Amer. Math. S
 **WHERE VERIFIED IN STAGE13**
 
 - the category sets at fixed outer angle are intervals/unions with bounded endpoint complexity;
-- `L=(log B)^4` is an integer after harmless flooring;
+- `L=(log B)^4` is made integral by harmless flooring;
 - the total positive raw mass is `O(B(log B)^3)` by the exact Stage12/Stage13 factor-two bridge plus frozen Stage12 R09.
 
 **CONCLUSION IMPORTED**
@@ -213,29 +205,27 @@ and the retained Fourier range is `|ell|<=L`.
 
 ---
 
-## 3. Internal discharge of previously ambiguous “external” steps
+## 3. Internal discharge of previously ambiguous external steps
 
-### I01 — Perron/residue lemma used instead of an unspecified finite-order theorem number
+### I01 — special Perron/residue pole-order lemma
 
-The final proof only needs the following special case.
-
-Suppose
+The final proof only needs the following special case. Suppose
 
 \[
 F(s)=\zeta(s)^mH(s),\qquad m\in\{0,1,2\},
 \]
 
-where `H` is holomorphic on `sigma>=sigma_0` for some fixed `sigma_0<1`, has polynomial vertical growth there, and the Dirichlet coefficients have polynomial growth.  A truncated Perron formula with a rectangular contour then gives:
+where `H` is holomorphic on `sigma>=sigma_0` for some fixed `sigma_0<1`, has polynomial vertical growth there, and the Dirichlet coefficients have polynomial growth. A truncated Perron formula with a rectangular contour gives the pole-order consequences required by Stage13:
 
-- `m=0`: no pole, hence a power-saving summatory bound;
+- `m=0`: no pole and a power-saving summatory bound;
 - `m=1`: one residue proportional to `X`;
 - `m=2`: a residue `X(c_1 log X+c_0)`;
 
-with a fixed power-saving error after choosing the contour height as a sufficiently small fixed power of `X`.
+with a fixed power-saving remainder after choosing contour height as a suitable fixed power of `X`.
 
-For Stage13, choose any `sigma_0>5/8`.  The residual factors are holomorphic and uniformly bounded there, and the Hecke/Dirichlet factors have polynomial strip growth.  Polylogarithmic angular conductor is absorbed by the power saving.
+For Stage13 choose any `sigma_0>5/8`. The residual factors are holomorphic there, and the Hecke/Dirichlet factors have polynomial strip growth. Polylogarithmic angular conductor is absorbed by the power saving.
 
-This lemma is a standard one-contour calculation; it will be written directly in `13-13c` rather than cited as a second black box.
+This special contour calculation will be written directly in `13-13c`.
 
 ```text
 PERRON_SPECIAL_CASE_HYPOTHESES_VERIFIED=true
@@ -250,7 +240,7 @@ For `ell>=1`,
 A_\ell(s)=L(s,\xi_{8\ell})E_{h,\ell}(s)
 \]
 
-has no pole.  By E01 and the residual Euler-product bound, I01 applies uniformly for
+has no pole. By E01 and the residual Euler-product bound, I01 applies uniformly for
 
 \[
 1\le\ell\le(\log X)^4.
@@ -260,19 +250,10 @@ Thus for some fixed `delta'>0` and fixed `C`,
 
 \[
 \sum_{h\le X}a_\ell(h)
-\ll X^{1-\delta'}(1+\ell)^C,
+\ll X^{1-\delta'}(1+\ell)^C.
 \]
 
-which, on the retained range, implies for every fixed `A`
-
-\[
-\sum_{h\le X}a_\ell(h)
-\ll_A X(\log X)^{-A}.
-\]
-
-This is stronger than the `A=48` budget used by `13-12ad`.
-
-Zeros of `L(s,xi_{8ell})` do not obstruct this argument.
+On the retained polylogarithmic range this is stronger than any fixed logarithmic saving required by the `A=48` budget. Zeros of `L(s,xi_{8ell})` do not obstruct this argument.
 
 ```text
 NONZERO_HARMONIC_CANCELLATION_HYPOTHESES_VERIFIED=true
@@ -281,11 +262,9 @@ ZERO_FREE_REGION_NEEDED_FOR_THIS_STEP=false
 
 ### I03 — fixed-prime residue transfer
 
-For a fixed prime set `S`, all congruence predicates are finite functions on finite residue groups.  Character orthogonality gives an exact finite decomposition, and CRT tensors the local groups.
+For a fixed prime set `S`, all congruence predicates are finite functions on finite residue groups. Character orthogonality gives an exact finite decomposition, and CRT tensors the local groups.
 
-For the principal character tuple, the same zeta poles remain and the leading local factor is multiplied by the exact acceptance product.
-
-For every nonprincipal tuple, at least one principal zeta factor is replaced by a nonprincipal Dirichlet/Hecke factor.  Its relevant `L`-function is holomorphic at `s=1`; I01 then lowers the logarithmic/polynomial order.  The conductors are fixed because `S` is frozen before `B->infinity`.
+For the principal character tuple, the same zeta poles remain and the leading local factor is multiplied by the exact acceptance product. For every nonprincipal tuple, at least one principal zeta factor is replaced by a nonprincipal Dirichlet/Hecke factor holomorphic at `s=1`; I01 lowers its order. The conductors are fixed because `S` is frozen before `B->infinity`.
 
 No theorem uniform in a modulus growing with `B` is used.
 
@@ -304,7 +283,7 @@ The actual Stage13 coordinate calculation gives
 w_q\,d\omega=d\theta\,d\alpha.
 \]
 
-The integrand is nonnegative, so Tonelli may be applied before finiteness is known.  The resulting angular domain has finite measure, which proves finiteness and then ordinary Fubini.  Therefore the identity
+The integrand is nonnegative, so Tonelli applies before finiteness is known. The resulting angular domain has finite measure, proving finiteness and then ordinary Fubini. Therefore
 
 \[
 I_q=\int\ell_q(\psi)\,d\psi
@@ -324,13 +303,13 @@ The norm
 \|F\|_\rho=\sum|f_{a,b,c}|\rho^{a+b+c}
 \]
 
-is submultiplicative directly from the Cauchy product and Tonelli for nonnegative absolute values.  `13-12ad` proves the explicit inverse bounds and the summable local estimate
+is submultiplicative directly from the Cauchy product and Tonelli for nonnegative absolute values. `13-12ad` proves explicit inverse bounds and
 
 \[
 \|C_{\ell,p}-1\|_{5/8}\le529p^{-5/4}.
 \]
 
-No external Wiener lemma is invoked in the active proof.
+No external Wiener lemma is needed.
 
 ```text
 EXTERNAL_WIENER_THEOREM_REQUIRED=false
@@ -349,7 +328,7 @@ d=\frac{h(r^2+s^2)}2,
 \qquad(r,s)=1,
 \]
 
-with OE/EE parity variants.  These are algebraic parameterization identities and the 2-adic branch distinction is finite.  Stage13 does not need a separate asymptotic counting theorem for Pythagorean triples here; the only asymptotic total mass imported from the upstream stage is the frozen Stage12 R09 theorem itself.
+with OE/EE parity variants. These are algebraic identities and the 2-adic branch distinction is finite. Stage13 needs no separate external asymptotic counting theorem for Pythagorean triples; the asymptotic total mass is imported only through frozen Stage12 R09.
 
 ```text
 ADDITIONAL_EXTERNAL_PYTHAGOREAN_COUNTING_THEOREM_REQUIRED=false
@@ -357,15 +336,13 @@ ADDITIONAL_EXTERNAL_PYTHAGOREAN_COUNTING_THEOREM_REQUIRED=false
 
 ### I07 — infinitely many inert primes
 
-The fixed-set squeeze only needs arbitrarily many primes `p=3 mod 4`.  Dirichlet's theorem on primes in arithmetic progressions is unnecessary: the classical Euclid argument suffices.  If `p_1,...,p_k` were all such primes, then
+The fixed-set squeeze only needs arbitrarily many primes `p=3 mod 4`. Dirichlet's theorem on primes in arithmetic progressions is unnecessary: if `p_1,...,p_k` were all such primes, then
 
 \[
 N=4p_1\cdots p_k-1\equiv3\pmod4
 \]
 
-has a prime divisor `q=3 mod4` not among the `p_i`.
-
-Thus `13-13c` should replace the historical sentence invoking Dirichlet's theorem by this elementary argument.
+has a prime divisor `q=3 mod4` not among the `p_i`. Thus `13-13c` should use this elementary argument.
 
 ```text
 DIRICHLET_AP_THEOREM_REQUIRED=false
@@ -383,7 +360,7 @@ DIRICHLET_AP_THEOREM_REQUIRED=false
 | C11 | parity branch uniformity | finite local factor; no new theorem |
 | C19 | fixed-conductor transfer | I03; no growing modulus |
 | C20 | infinitely many inert primes | I07; no Dirichlet AP theorem needed |
-| C26 | general Selberg--Delange | classical route E03 valid; replace by special Perron I01 |
+| C26 | general Selberg--Delange | E03 valid; replace by special Perron I01 |
 | C27 | Gaussian-Hecke cancellation | E01 + I02; Merikoski E02 valid but redundant |
 | C28 | CRT/characters | I03, finite algebra plus E01 for nonprincipal `L` factors |
 
@@ -391,9 +368,7 @@ No other claim in the 30-claim ledger carries an unresolved external analytic de
 
 ---
 
-## 5. Minimal external theorem boundary for `13-13c`
-
-The canonical proof can now state a compact boundary:
+## 5. Minimal external theorem boundary for 13-13c
 
 ```text
 FROZEN_UPSTREAM:
@@ -401,7 +376,7 @@ FROZEN_UPSTREAM:
 
 EXTERNAL_ANALYTIC_INPUTS:
   Hecke/Dirichlet L-function analytic continuation, functional equation,
-  and polynomial strip growth for the fixed field Q(i) and fixed residue conductors
+  and polynomial strip/conductor growth for the fixed field Q(i) and fixed residue conductors
 
 EXTERNAL_APPROXIMATION_INPUT:
   Vaaler 1985 periodic interval trigonometric majorant/minorant
@@ -429,7 +404,7 @@ STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 UNMAPPED_EXTERNAL_INPUTS=0
 FAILED_EXTERNAL_HYPOTHESES=0
 MINIMAL_EXTERNAL_BOUNDARY_LOCKED=true
-HEKCE_ANALYTIC_CONTINUATION_FUNCTIONAL_EQUATION_REQUIRED=true
+HECKE_ANALYTIC_CONTINUATION_FUNCTIONAL_EQUATION_REQUIRED=true
 VAALER_INTERVAL_MAJORANT_REQUIRED=true
 GENERAL_SELBURG_DELANGE_BLACK_BOX_REQUIRED=false
 GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED_FOR_FINAL_PROOF=false
