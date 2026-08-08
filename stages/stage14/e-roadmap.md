@@ -17,13 +17,14 @@ REUSABLE_METHOD
 NO_COLLISION_FOUND_IN_CURRENT_SEARCH
 ```
 
-Absence in a search is never a novelty certificate. Classical rational-cuboid work, Euler-brick tables, nearly-perfect cuboids, arithmetic surfaces, elliptic fibrations, modern search algorithms, and current preprints all belong in the search scope.
+Absence in a search is never a novelty certificate. Classical rational-cuboid work, Euler-brick tables, nearly-perfect cuboids, arithmetic surfaces, elliptic fibrations, modern search algorithms, current preprints, and general height-counting theorems all belong in the search scope.
 
 Canonical literature records:
 
 ```text
 stages/stage14/14-e1/literature-seed.md
 stages/stage14/14-e2/literature-refresh.md
+stages/stage14/14-e3/literature-asymptotic-audit.md
 ```
 
 ## Locked ambient object
@@ -101,13 +102,17 @@ With `t_i=X_i/S_i`,
 \boxed{D_{\mathbf R}=L\sqrt{1+t_1^2+t_2^2}.}
 \]
 
-Thus the e-track is the full primitive two-face gluing family before the main-track filter
+Stage14-e3 adds the rational torus coordinate
 
 \[
-1+t_1^2+t_2^2\in(\mathbf Q^\times)^2
+q_i=h_i+t_i>1,
+\qquad
+ t_i=\frac{q_i-q_i^{-1}}2,
+\qquad
+ h_i=\frac{q_i+q_i^{-1}}2.
 \]
 
-is imposed.
+Thus the raw two-face ambient family is a positive ordered real chamber of the rational torus `(G_m)^2`.
 
 ## 14-e1 — definition, bijection, independent finite audit, literature seed
 
@@ -133,59 +138,31 @@ stages/stage14/14-e1/result.md
 
 Status: [x] Complete.
 
-The finite census was extended from the e1 ceiling `B=2000` to `B=1,000,000`.
+The finite census reaches `B=1,000,000`.
 
-At the new ceiling,
-
-\[
-\boxed{
-(E_a,E_b,E_c)=(4{,}592{,}536,\ 5{,}816{,}786,\ 3{,}408{,}403)
-}
-\]
-
-and
+At that ceiling,
 
 \[
-\boxed{E_2(10^6)=13{,}817{,}725.}
+(E_a,E_b,E_c)=(4{,}592{,}536,\ 5{,}816{,}786,\ 3{,}408{,}403),
 \]
-
-The raw two-face ambient count is `13,818,382`. Exactly `219` primitive Euler-brick objects occur below the same real-height cutoff, giving `657=3*219` third-face-square incidences.
-
-As an independent external subpopulation cross-check, the e2 enumerator reproduces OEIS A239618 under its own strict max-edge cutoff:
-
-```text
-max edge < 10^3 -> 5 primitive Euler bricks
-max edge < 10^4 -> 19
-max edge < 10^5 -> 65
-```
-
-Finite growth diagnostics show
 
 \[
-\frac{E_2(B)}{B(\log B)^3}
+E_2(10^6)=13{,}817{,}725.
 \]
 
-staying near `0.0052` from `B=2,000` through `B=1,000,000`. Therefore `B(log B)^3` is a high-priority e3 candidate scale, but **no asymptotic theorem is claimed**.
+The raw ambient count is `13,818,382`; there are `219` primitive Euler-brick objects below the same real-height cutoff.
 
-At `B=10^6`, the finite direction vector is approximately
+The finite normalization
 
-```text
-(0.3323655667, 0.4209655352, 0.2466688981)
-```
+\[
+E_2(B)/(B(\log B)^3)
+\]
 
-with `b` still largest. No limiting directional vector is claimed.
+looked unusually stable through `10^6`. e2 deliberately recorded this only as a candidate and made no theorem claim.
 
-The refreshed literature audit found extensive adjacent work on Euler bricks and rational/perfect cuboids—including Rathbun's tables, de Grey–Gibbs–Helm 2024, and Peschmann's 2026 quartic/elliptic Master-Hit program—but no direct theorem in the current search for the primitive two-face ambient population counted by `D_R` and split by shared-edge chamber.
+The OEIS A239618 primitive Euler-brick subpopulation was independently reproduced at strict max-edge cutoffs `10^3,10^4,10^5`.
 
-Correct literature status:
-
-```text
-DIRECT_REAL_HEIGHT_TWO_FACE_AMBIENT_COUNT=NO_COLLISION_FOUND_IN_CURRENT_SEARCH
-DIRECTIONWISE_AMBIENT_ASYMPTOTIC=NO_COLLISION_FOUND_IN_CURRENT_SEARCH
-NOVELTY_BY_SEARCH_ABSENCE=false
-```
-
-Canonical e2 artifacts:
+Canonical artifacts:
 
 ```text
 stages/stage14/14-e2/result.md
@@ -194,27 +171,130 @@ stages/stage14/scripts/14-e2/ambient_reconnaissance.py
 stages/stage14/data/14-e2/ambient_reconnaissance.json
 ```
 
-## 14-e3 — total ambient growth
+## 14-e3 — total ambient growth via toric height
 
-Status: [>] Next.
+Status: [x] Complete.
 
-Literature gate first. Search specifically for:
+### Toric compactification
 
-- counts of simultaneous Pythagorean pairs sharing one leg;
-- rational Pythagorean slopes with shared-denominator/lcm height;
-- lcm-weighted Euclid-parameter sums;
-- height zeta functions and rational-point counts on the associated arithmetic variety;
-- toric/Manin-type mechanisms that could produce `B(log B)^k`.
+For `q_i=[u_i:v_i]`, the map to projective shape coordinates `[1:t_1:t_2]` is represented by
 
-Then determine the true order of `E_2(B)`. The finite `B(log B)^3` stability is a candidate to explain or reject, not an input theorem.
+\[
+\begin{aligned}
+s_0&=4u_1v_1u_2v_2,\\
+s_1&=2(u_1^2-v_1^2)u_2v_2,\\
+s_2&=2(u_2^2-v_2^2)u_1v_1.
+\end{aligned}
+\]
+
+These are bidegree `(2,2)` sections on `P^1 x P^1`. Their base locus consists of the four torus-fixed corners. Blow up those four simple base points:
+
+\[
+Y=\operatorname{Bl}_4(\mathbf P^1\times\mathbf P^1).
+\]
+
+The resolved line bundle is
+
+\[
+L=2H_1+2H_2-\sum_{j=1}^4E_j=-K_Y.
+\]
+
+Since
+
+\[
+\rho(Y)=2+4=6,
+\]
+
+the toric anticanonical Manin exponent is
+
+\[
+\rho(Y)-1=5.
+\]
+
+Batyrev–Tschinkel supplies the anticanonical toric height count; the physical Euclidean height is comparable to a fixed anticanonical height because the resolved morphism pulls back `O_P2(1)` to `-K_Y` and
+
+\[
+\max(e,x,y)\le D_{\mathbf R}\le\sqrt3\max(e,x,y).
+\]
+
+Hence the raw ambient family has order
+
+\[
+E_{\rm raw}(B)\asymp B(\log B)^5.
+\]
+
+### Exactly-two lower bound
+
+No density-zero claim for Euler bricks is assumed. Instead impose the fixed 5-adic open condition
+
+\[
+q_1\equiv2,\qquad q_2\equiv3\pmod5.
+\]
+
+Then
+
+\[
+t_1\equiv2,\qquad t_2\equiv3\pmod5,
+\]
+
+and
+
+\[
+t_1^2+t_2^2\equiv3\pmod5,
+\]
+
+which is a nonsquare unit. Thus the third face cannot be rational/integral square.
+
+Huang's adelic equidistribution theorem gives a positive-order family in the product of this 5-adic neighbourhood with any nonempty real open subset of the positive ordered chamber. Therefore
+
+\[
+E_2(B)\gg B(\log B)^5.
+\]
+
+Together with `E_2<=E_raw`,
+
+\[
+\boxed{E_2(B)\asymp B(\log B)^5.}
+\]
+
+The e2 `B(log B)^3` candidate is therefore rejected as the true asymptotic order and retained only as pre-asymptotic finite behaviour.
+
+No exact leading constant is claimed in e3.
+
+Canonical artifacts:
+
+```text
+stages/stage14/14-e3/result.md
+stages/stage14/14-e3/literature-asymptotic-audit.md
+stages/stage14/scripts/14-e3/toric_growth_audit.py
+stages/stage14/data/14-e3/toric_growth_audit.json
+```
+
+Literature status:
+
+```text
+COMMON_SIDE_FIXED_LEG_FORMULAS=ADJACENT_RESULT_PLUS_REUSABLE_METHOD
+TORIC_MANIN_HEIGHT_COUNT=REUSABLE_METHOD_THEOREM_INPUT
+TORIC_ADELIC_EQUIDISTRIBUTION=REUSABLE_METHOD_THEOREM_INPUT
+DIRECT_CUBOID_LANGUAGE_E3_THEOREM=NO_COLLISION_FOUND_IN_CURRENT_SEARCH
+NOVELTY_BY_SEARCH_ABSENCE=false
+```
 
 ## 14-e4 — directionwise ambient asymptotic
 
-Status: pending 14-e3.
+Status: [>] Next.
 
-Determine whether `E_a,E_b,E_c` share a common arithmetic factor times chamber integrals, and derive any limiting direction vector from proof rather than finite fitting.
+Purpose:
 
-Literature gate: search chamber/shape distributions and geometric-height measures in Pythagorean/cuboid families.
+- split the positive ordered real torus chamber into the three shared-edge regions
+  `e<x<y`, `x<e<y`, `x<y<e`;
+- use the toric height/Tamagawa measure rather than finite fitting;
+- determine whether each direction has order `B(log B)^5`;
+- derive the raw directional leading proportions if the archimedean measure is explicit enough;
+- separately determine what can be proved for the exactly-two directions under local blockers;
+- do not assume that the 5-adic blocker used for the total lower bound is direction-neutral until checked.
+
+Literature gate: search chamber/shape distributions and explicit Peyre/Tamagawa measures for toric surfaces with this anticanonical model.
 
 ## 14-e5 — space-diagonal filter comparison
 
@@ -236,19 +316,26 @@ Before interpretation, refresh the current perfect-cuboid/Euler-brick obstructio
 
 ## Scope boundary
 
-Stage14-e makes no perfect-cuboid existence/nonexistence claim, does not infer the main Stage14 growth order from the ambient family, does not promote finite ratios to asymptotic laws, and does not declare novelty solely because no collision was found in the current search.
+Stage14-e makes no perfect-cuboid existence/nonexistence claim and does not infer the main Stage14 growth order from the ambient family. Stage14-e3 proves a matching upper/lower total order only; it does not yet freeze an exactly-two leading constant or limiting directional vector. No novelty claim is made solely from literature-search absence.
 
 ```text
 STAGE14_E_TRACK=DEFINED
 STAGE14_E1=COMPLETE_DEFINITION_BIJECTION_AND_FINITE_AUDIT
 STAGE14_E2=COMPLETE_FINITE_AMBIENT_RECONNAISSANCE
+STAGE14_E3=COMPLETE_TOTAL_GROWTH_ORDER
 MAX_E_RECON_B=1000000
 INTEGER_SPACE_DIAGONAL_CONDITION=REMOVED_FROM_E_TRACK
 REAL_SPACE_DIAGONAL_USED_AS_HEIGHT_ONLY=true
 MAIN_STAGE14_NUMBERING_UNCHANGED=true
 LITERATURE_COLLISION_AUDIT_REQUIRED=true
 NOVELTY_BY_ABSENCE_FORBIDDEN=true
-B_LOG3_FINITE_CANDIDATE_PRIORITY=HIGH
-ASYMPTOTIC_CLAIM_MADE=false
-NEXT_E_TASK=Stage14-e3 total ambient growth with literature-first asymptotic collision audit
+TORIC_MODEL=P1xP1_BLOWUP_AT_FOUR_TORUS_FIXED_CORNERS
+ANTICANONICAL_HEIGHT_IDENTIFICATION=true
+PICARD_RANK=6
+TORIC_LOG_POWER=5
+TRUE_TOTAL_GROWTH_ORDER=THETA_B_LOG5
+B_LOG3_FINITE_CANDIDATE_PRIORITY=REJECTED_AS_ASYMPTOTIC_ORDER
+EXACT_LEADING_CONSTANT_PROVED=false
+DIRECTIONAL_ASYMPTOTIC_PROVED=false
+NEXT_E_TASK=Stage14-e4 directionwise ambient asymptotic via real-chamber toric measures
 ```
