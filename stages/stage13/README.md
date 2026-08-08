@@ -6,7 +6,7 @@ Stage13 studies the primitive canonical exactly-one-face directional counts
 N_{ab}(B),\qquad N_{ac}(B),\qquad N_{bc}(B)
 \]
 
-and explains both the finite near-`2:1:1` observation and its asymptotic behaviour.
+for integer-space-diagonal cuboids and explains both the finite near-`2:1:1` observation and its true asymptotic behaviour.
 
 ## Current state
 
@@ -14,45 +14,26 @@ and explains both the finite near-`2:1:1` observation and its asymptotic behavio
 STAGE13_1=COMPLETE
 STAGE13_2=COMPLETE
 STAGE13_3=COMPLETE_AT_STRUCTURAL_DIAGNOSTIC_LEVEL
-STAGE13_3A=COMPLETE
-STAGE13_3B=COMPLETE
-STAGE13_3C=COMPLETE
-STAGE13_3D=COMPLETE
-STAGE13_3E=COMPLETE
-STAGE13_3F=COMPLETE
 STAGE13_4=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
-STAGE13_4A=COMPLETE
-STAGE13_4B=COMPLETE
-STAGE13_4C=COMPLETE
 STAGE13_5=COMPLETE
 STAGE13_6=COMPLETE_AT_STRUCTURAL_FINITE_DIAGNOSTIC_LEVEL
 STAGE13_7=COMPLETE_AT_UNCONDITIONAL_EXACT_ONE_DIRECTIONAL_ASYMPTOTIC_LEVEL
 STAGE13_8=COMPLETE
 STAGE13_9=COMPLETE_MAIN_STRUCTURAL_THEOREM
-NEXT=Stage13-10
+STAGE13_10=COMPLETE_FINAL_EXPLANATION
+STAGE13=COMPLETE
+NEXT_STAGE13_TASK=NONE
 ```
 
-The active roadmap is
-
-```text
-stages/stage13/roadmap.md
-```
-
-and the Stage13 working-file policy is
-
-```text
-stages/stage13/policy.md
-```
-
-The policy designates
+The canonical living mathematical source is
 
 ```text
 stages/stage13/main.md
 ```
 
-as the canonical living mathematical source. Its §8 contains the rigorous Stage12-to-Stage13 bridge and §9 contains the Stage13 main structural theorem. Frozen task-end snapshots are provenance only.
+with the main theorem in §9 and the final explanatory synthesis in §10.
 
-## Main structural theorem
+## Main theorem
 
 Let
 
@@ -69,7 +50,7 @@ I_bc = 0.2712955487578571
 I_ab+I_ac+I_bc = pi^2/8
 ```
 
-Stage13-9 records the principal theorem
+Stage13 proves
 
 \[
 \boxed{
@@ -82,7 +63,7 @@ B(\log B)^3
 }
 \]
 
-Thus, categorywise,
+Thus
 
 \[
 N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3,
@@ -108,31 +89,32 @@ N_ab:N_ac:N_bc
 
 so the limiting ratio is not `2:1:1`.
 
-Relative to the finite baseline `(1/2,1/4,1/4)`,
+## Final explanation
+
+At `B=100000`, the exactly-one population is
 
 ```text
-alpha -> 0.034736933231398814
-beta  -> 0.01272764444795145
-
-Delta_inf = ( 0.034736933231398814,
-             -0.004640822167747971,
-             -0.03009611106365087 )
+(84146, 43180, 40704)
 ```
 
-At `B=100000`, by contrast,
+with ratio approximately
 
 ```text
-alpha ~= 0.0007796226864250431
-beta  ~= 0.007367731952627507
+2.0673 : 1.0608 : 1.
 ```
 
-so the finite near-`2:1:1` vector is strongly pre-asymptotically flattened.
+Stage13 resolves the difference between that finite ratio and the limiting chamber ratio as follows.
 
-No monotone convergence or explicit secondary convergence rate is claimed.
+1. **Geometric backbone:** canonical ordering coupled to the one-face real density favors `ab` over `ac` over `bc`; the chamber integrals determine the asymptotic normalized vector.
+2. **Finite flattening:** supported-shell richness strongly suppresses the finite `ab` advantage. OE/EE, pure-`G`, parity and primitive-support couplings also produce substantial finite cancellations in the `ac-bc` direction.
+3. **Asymptotic recovery:** the arithmetic factor surviving in the leading main term is common across the three directions, so it cancels after normalization and leaves only the chamber vector.
+4. **Exactly-one sieve:** pair and triple overlaps are lower order, so overlap removal does not change the leading normalized law.
+
+Hence the finite near-`2:1:1` observation is a **long pre-asymptotic flattening of a stronger chamber bias**, not the limiting law.
 
 ## Stage12 bridge
 
-For `q in {ab,ac,bc}`, let `C_prim,q^proj(B)` be the Stage12 primitive oriented records whose distinguished integral face becomes canonical category `q` after sorting. Stage13-8 proves exactly
+For `q in {ab,ac,bc}`, let `C_prim,q^proj(B)` be the Stage12 primitive oriented records whose distinguished integral face becomes canonical category `q` after sorting. Stage13 proves exactly
 
 \[
 C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)
@@ -144,9 +126,7 @@ and
 C_{\rm prim}(B)=2(A_{ab}+A_{ac}+A_{bc}).
 \]
 
-The universal factor `2` is the two orders of the distinguished face legs and is direction-neutral.
-
-Since Stage13-7 proves every pair overlap and the triple overlap are `o(B(log B)^3)`, the direct Stage12-to-main-theorem bridge is
+Since every pair overlap and the triple overlap are `o(B(log B)^3)`,
 
 \[
 \boxed{
@@ -162,62 +142,35 @@ N_1(B)=\frac12C_{\rm prim}(B)+o(B(\log B)^3).
 }
 \]
 
-No perfect-cuboid nonexistence assumption is used.
+Stage12 remains frozen at R09; the directional refinement and overlap removal are Stage13 results.
 
-Stage12 remains frozen at R09 and supplies only the primitive oriented count theorem, primitive convention, and `kappa/eta` constant ledger. The directional refinement and overlap removal are Stage13 results.
-
-## Structural synthesis
-
-Stages13-3 through 13-6 explain the accessible finite regime, while Stages13-7 through 13-9 determine and package the asymptotic law.
-
-- canonical archimedean geometry creates the directional ordering `ab>ac>bc` and the chamber vector that survives asymptotically;
-- representation-rich supported shells strongly flatten the finite `ab` excess;
-- pure-`G` OE/EE and geometric subregions have opposite `ac-bc` gaps and can cancel strongly;
-- primitive support materially changes the finite residual `ac-bc` tilt;
-- the exactly-one overlap sieve is tiny at finite audited bounds and lower order asymptotically;
-- the universal Stage12 projection multiplicity `2` is direction-neutral;
-- asymptotically, arithmetic population factors change the absolute scale but not the leading normalized chamber vector.
-
-Thus the near-`2:1:1` observation is a pre-asymptotic cancellation/flattening regime sitting in front of the stronger chamber limit.
-
-## Audit assets
+## Audit and frozen assets
 
 ```text
 stages/stage13/data/13-7/consolidation_audit_report.json
 stages/stage13/data/13-8/bridge_ledger_report.json
 stages/stage13/data/13-8/final_cross_reference_audit_report.json
-stages/stage13/scripts/13-9/main_structural_theorem_audit.py
 stages/stage13/data/13-9/main_structural_theorem_audit_report.json
+stages/stage13/data/13-10/final_explanation_audit_report.json
+
+stages/stage13/archive/stage13-7-final.md
+stages/stage13/archive/stage13-8-final.md
+stages/stage13/archive/stage13-9-final.md
+stages/stage13/archive/stage13-10-final.md
 ```
 
-The Stage13-9 audit checks the chamber normalization, directional ratios, deviation vector, exact factor-2 projection, and finite `B=100000` inclusion-exclusion checksum. It introduces no new analytic theorem.
+Frozen snapshots are provenance; `main.md` remains canonical.
 
 ## Logical scope
 
-The main theorem neither proves nor disproves the existence of a perfect cuboid. A perfect cuboid, if one exists, lies in the triple-overlap population, which Stage13 proves is lower order relative to the one-face main term.
+Stage13 does not currently claim:
 
-Stage13 also does not currently claim:
-
+- existence or nonexistence of a perfect cuboid;
 - an explicit convergence rate;
 - an effective threshold for prescribed closeness to the limiting vector;
 - monotonicity of the directional ratios;
-- independent publication-grade verification of the fixed-modulus analytic input.
+- an independently peer-reviewed publication proof or certified numerical enclosure for `kappa`.
 
-## Next — Stage13-10
+A perfect cuboid, if one exists, belongs to the lower-order triple-overlap population. Lower-order does not imply empty.
 
-Stage13-10 is the final explanatory synthesis. Its job is not to discover another asymptotic constant, but to give the clean answer to the original question:
-
-> Why do accessible finite counts look close to `2:1:1` even though the proved asymptotic limit is approximately `2.4317:1.1158:1`?
-
-It should connect the finite shell/primitive/parity cancellations with the asymptotic chamber theorem in one readable narrative, while preserving the distinction between finite diagnostics and theorem-level claims.
-
-## File rule
-
-Stage13 mathematical corrections normally go directly into canonical `main.md`; Git/PR history records prior versions. Support assets use task-first paths such as
-
-```text
-stages/stage13/scripts/13-<task>/<purpose>.py
-stages/stage13/data/13-<task>/<purpose>.json
-```
-
-Frozen task-end snapshots under `stages/stage13/archive/` are provenance, not replacements for the living canonical file.
+Open questions outside the completed Stage13 scope include the true growth law of the two-face population and effective convergence estimates.

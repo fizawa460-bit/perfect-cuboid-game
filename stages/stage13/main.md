@@ -1,6 +1,6 @@
 # Stage13 — canonical working file
 
-> **STATUS:** `STAGE13_9_MAIN_STRUCTURAL_THEOREM_COMPLETE_13_10_NEXT`
+> **STATUS:** `STAGE13_COMPLETE`
 >
 > **SCOPE:** primitive canonical face-ratio analysis
 >
@@ -1232,7 +1232,7 @@ C_{\rm prim}(B)=2(A_{ab}+A_{ac}+A_{bc}).
 }
 \]
 
-The factor \(2\) is exactly the two orders of the two positive legs of the distinguished face. There is no additional multiplicity from the complementary Pythagorean extension. The identity also remains exact for multi-face objects because raw incidence retains the distinguished face: an exactly-two-face cuboid contributes two incidences and four Stage12 records, while an exactly-three-face cuboid contributes three incidences and six Stage12 records.
+The factor \(2\) is exactly the two orders of the two positive legs of the distinguished face. There is no additional multiplicity from the complementary Pythagorean extension. The identity also remains exact for multi-face objects because raw incidence retains the distinguished face: an exactly-two-face cuboid contributes two incidences and four Stage12 records, while an exactly-three-face cuboid contributes three incidences and six records.
 
 The factor \(2\) holds separately in the OE and EE parity strata, so canonical projection introduces no hidden direction-dependent 2-adic coefficient.
 
@@ -1669,4 +1669,222 @@ EXPLICIT_CONVERGENCE_RATE_PROVED=false
 MONOTONICITY_PROVED=false
 INDEPENDENT_PUBLICATION_REVIEW_COMPLETED=false
 NEXT=Stage13-10 final explanation
+```
+
+## §10. Task 13-10 — final explanation
+
+Stage13-10 introduces no new analytic theorem. It answers the original structural question by separating the **finite observed regime** from the **asymptotic leading law** and identifying which layers control each.
+
+### §10.1 The apparent paradox
+
+At the locked finite cutoff \(B=100000\),
+
+\[
+N_{ab}:N_{ac}:N_{bc}\approx2.0673:1.0608:1,
+\]
+
+which is visually close to \(2:1:1\). But the proved normalized limit is
+
+\[
+\boxed{
+2.431684750178191:1.115756428951881:1.
+}
+\]
+
+There is no contradiction. The first vector is a finite population after substantial arithmetic reweighting; the second is the coefficient vector of the leading \(B(\log B)^3\) asymptotic.
+
+### §10.2 The geometric backbone
+
+The persistent directional asymmetry begins at the real place. On the canonical chamber
+
+\[
+0<a<b<c,
+\]
+
+the one-face Gelfand--Leray weights satisfy pointwise
+
+\[
+w_{ab}>w_{ac}>w_{bc}.
+\]
+
+The shortest-pair face has the smallest face diagonal and hence the largest \(1/p\) density weight. Integrating these weights over the canonical chamber produces
+
+\[
+I_{ab}>I_{ac}>I_{bc}
+\]
+
+and exactly the limiting directional vector.
+
+Two controls show what the mechanism is **not**. Pure canonical relabelling with a uniform weight gives \(1:1:1\), and removing the order chamber restores full coordinate symmetry. Thus the asymmetry comes from
+
+\[
+\boxed{\text{canonical size order}\times\text{one-face real density},}
+\]
+
+not from the labels \(ab,ac,bc\) by themselves.
+
+### §10.3 Why the finite vector is much flatter
+
+Accessible integer populations do not sample the chamber with the leading asymptotic weight already fully stabilized.
+
+The dominant finite flattening of the \(ab\) excess is associated with **supported-shell richness**. At audited finite cutoffs, the \(ab\) incidences lie on systematically poorer primitive representation shells than the \(ac\) and \(bc\) incidences. This depresses the large geometric \(ab\) advantage and moves the observed vector toward the near-\(2:1:1\) shape.
+
+The smaller \(ac-bc\) separation is also not an exact symmetry. Finite OE/EE parity strata and pure-\(G\) components carry opposite-signed \(ac-bc\) tilts, which cancel strongly in aggregate, while primitive-support reweighting supplies much of the residual positive \(ac-bc\) gap. These are genuine finite arithmetic/geometric couplings.
+
+The exactly-one sieve is not the source of the flattening. At \(B=100000\), the raw vector is already
+
+\[
+(84212,43236,40760)
+\]
+
+before overlap removal, and the exactly-one vector is
+
+\[
+(84146,43180,40704).
+\]
+
+The change is tiny compared with the directional bias already present.
+
+Accordingly, the finite observation is best described as
+
+\[
+\boxed{
+\text{chamber bias}
+\;\text{strongly flattened by finite arithmetic reweighting},
+}
+\]
+
+with a small additional exactly-one correction.
+
+### §10.4 Why the chamber vector returns asymptotically
+
+The decisive asymptotic fact is that the categorywise raw incidence constants factor as
+
+\[
+A_q(B)\sim
+\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+\]
+
+All of the primitive/arithmetic population growth that survives in the leading term appears through the **same scalar factor** \(\kappa/(3\pi^3)\) for the three directions. The direction dependence of the leading coefficient is therefore entirely contained in \(I_q\).
+
+So the finite shell, parity and primitive-support couplings can strongly distort moderate cutoffs without supplying a distinct direction-dependent coefficient in the leading normalized asymptotic. After normalization by the total population, the common arithmetic scale cancels and the chamber vector remains:
+
+\[
+\frac{\mathbf A(B)}{A_{ab}+A_{ac}+A_{bc}}
+\longrightarrow
+\frac8{\pi^2}(I_{ab},I_{ac},I_{bc}).
+\]
+
+Finally, pair and triple overlaps satisfy
+
+\[
+O_{ij}=o(B(\log B)^3),\qquad T=o(B(\log B)^3),
+\]
+
+so passing from raw incidence to exactly-one cannot change that leading normalized vector.
+
+This is the resolution of the finite/asymptotic tension:
+
+\[
+\boxed{
+\begin{array}{c}
+\text{finite: direction-dependent arithmetic reweighting is still visible},\\[2mm]
+\text{leading asymptotic: that directional reweighting is lower-order,}\\
+\text{the common arithmetic scale cancels, and chamber geometry remains.}
+\end{array}
+}
+\]
+
+### §10.5 Why near-2:1:1 can persist for a long range
+
+An asymptotic theorem does not say that convergence must be fast or monotone. Stage13 proves only
+
+\[
+P(B)=P_\infty+o(1).
+\]
+
+It does not prove an explicit error such as \(O(1/\log B)\), nor an effective threshold \(B_0(\varepsilon)\). Therefore the finite near-\(2:1:1\) regime may persist over a very long numerical range without contradicting the theorem.
+
+For the same reason, Stage13 does not justify saying that a specified enormous finite value of \(B\)—even one described by a famous huge-number notation—must already be quantitatively close to the limiting ratio. Such a statement would require an effective convergence bound not presently proved.
+
+### §10.6 What the result says about multi-face and perfect cuboids
+
+Stage13 proves that the population with at least two integral faces is lower order relative to the one-face \(B(\log B)^3\) main population, and the triple-overlap population is lower order as well.
+
+This explains why multi-face objects are asymptotically negligible for the directional one-face law. It does **not** imply that the triple-overlap population is empty. A single perfect cuboid, finitely many perfect cuboids, or a sufficiently sparse infinite family are all compatible with a lower-order estimate.
+
+Thus Stage13 maps the one-face landscape and isolates the multi-face region, but it neither proves nor disproves the existence of a perfect cuboid.
+
+### §10.7 Final answer to the Stage13 question
+
+The original near-\(2:1:1\) observation is not an accidental numerical coincidence, but neither is it the true limiting law.
+
+Its explanation has two scales:
+
+1. **Why there is an \(ab\) excess at all:** canonical chamber geometry coupled to the one-face real density favors the shortest-pair face.
+2. **Why finite counts look much closer to \(2:1:1\) than the limiting chamber ratio:** supported-shell richness and other finite primitive/parity arithmetic couplings flatten the chamber bias and partly cancel the \(ac-bc\) gap.
+3. **Why the limit nevertheless returns to the chamber vector:** the surviving arithmetic main factor is common to all three directions, while pair/triple overlaps are lower order.
+
+Hence
+
+\[
+\boxed{
+\text{finite near-}2:1:1
+=\text{a long pre-asymptotic flattening of a stronger chamber bias},
+}
+\]
+
+where the equality sign is explanatory shorthand rather than an exact algebraic decomposition.
+
+The true normalized limiting law is
+
+\[
+\boxed{
+P_\infty
+=(0.5347369332313988,
+  0.24535917783225203,
+  0.21990388893634913),
+}
+\]
+
+or
+
+\[
+\boxed{
+N_{ab}:N_{ac}:N_{bc}
+\longrightarrow
+2.431684750178191:1.115756428951881:1.
+}
+\]
+
+### §10.8 Stage13 completion boundary
+
+Stage13 is complete at the current project theorem standard. It has:
+
+- defined the primitive canonical exactly-one directional population;
+- isolated raw incidence and overlap contributions;
+- identified the canonical chamber mechanism behind the directional bias;
+- classified the main finite flattening/cancellation mechanisms;
+- proved the unconditional categorywise asymptotic law at the accepted Stage12 theorem-application standard;
+- proved pair/triple overlaps are lower order;
+- closed the Stage12-to-Stage13 counting bridge;
+- stated the main structural theorem; and
+- given the final finite-versus-asymptotic explanation.
+
+Open questions outside the completed Stage13 scope include the true growth law of the two-face population, an effective convergence rate for the directional vector, independent publication-grade verification, and the existence or nonexistence of a perfect cuboid.
+
+```text
+STAGE13_10=COMPLETE_FINAL_EXPLANATION
+STAGE13=COMPLETE
+FINITE_NEAR_2_1_1_EXPLAINED=true
+FINITE_REGIME_IS_PREASYMPTOTIC=true
+ASYMPTOTIC_DIRECTION_IS_ARCHIMEDEAN_CHAMBER_VECTOR=true
+FINITE_ARITHMETIC_FLATTENING_IS_LEADING_NORMALIZED_CONSTANT=false
+PAIR_OVERLAP_LOWER_ORDER=true
+TRIPLE_OVERLAP_LOWER_ORDER=true
+PERFECT_CUBOID_EXISTENCE_RESOLVED=false
+EXPLICIT_CONVERGENCE_RATE_PROVED=false
+MONOTONICITY_PROVED=false
+INDEPENDENT_PUBLICATION_REVIEW_COMPLETED=false
+NEXT_STAGE13_TASK=NONE
 ```
