@@ -1,0 +1,56 @@
+name: Stage14-s1 Selmer interface audit
+
+on:
+  push:
+    branches:
+      - agent/stage14-s1-selmer-roadmap
+    paths:
+      - 'stages/stage14/scripts/14-s1/**'
+      - 'stages/stage14/data/14-s1/**'
+      - 'stages/stage14/14-s1/**'
+      - 'stages/stage14/s-roadmap.md'
+      - '.github/workflows/stage14-s1-selmer-interface.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-s1/**'
+      - 'stages/stage14/data/14-s1/**'
+      - 'stages/stage14/14-s1/**'
+      - 'stages/stage14/s-roadmap.md'
+      - '.github/workflows/stage14-s1-selmer-interface.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PARI/GP
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pari-gp
+          gp -q <<<'print(pari_version())'
+      - name: Run deterministic Stage14-s1 audit
+        run: python stages/stage14/scripts/14-s1/selmer_interface_audit.py
+      - name: Validate decision boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-s1/selmer_interface_audit.json'
+          d=json.load(open(p))
+          q=d['decision']
+          assert q['EXACT_FULL_2_TORSION_DESCENT_INTERFACE_LOCKED'] is True
+          assert q['PARI_UNCONDITIONAL_RANK_BOUNDS_AUDITED'] is True
+          assert q['SELMER_RANK_USED_AS_MW_RANK_EQUALITY'] is False
+          assert q['ROOT_NUMBER_PARITY_USED_AS_RANK_EQUALITY'] is False
+          assert q['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          assert d['metadata']['global_active_vertices_at_ceiling'] == 490
+          assert d['finite_audit']['summary']['active']['sample_size'] == 96
+          assert d['finite_audit']['summary']['inactive_control']['sample_size'] == 96
+          print(json.dumps(d['finite_audit']['summary'], indent=2))
+          PY
+      - name: Upload generated audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-s1-selmer-interface-audit
+          path: stages/stage14/data/14-s1/selmer_interface_audit.json
