@@ -1,4 +1,4 @@
-name: Stage14-4ak Shimada data probe
+name: Stage14-4ak Shimada lattice enumeration
 
 on:
   pull_request:
@@ -10,10 +10,12 @@ on:
   workflow_dispatch:
 
 jobs:
-  identify:
+  enumerate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Install exact lattice enumerator
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq pari-gp
       - name: Download official Shimada level-4 data
         run: |
           set -euxo pipefail
@@ -21,15 +23,19 @@ jobs:
             'https://home.hiroshima-u.ac.jp/ichiro-shimada/preprints/X0X3/PreprintX0X3/compdata/compdata.zip' \
             -o /tmp/shimada.zip
           unzip -q /tmp/shimada.zip -d /tmp/shimada
-      - name: Identify Stage14 intrinsic candidates
-        run: |
-          python stages/stage14/scripts/14-4/shimada_stage14_identify.py /tmp/shimada --out /tmp/identify.json > /tmp/identify.log
-      - name: Refine by the r-s coordinate swap
-        run: |
-          python stages/stage14/scripts/14-4/shimada_stage14_refine.py /tmp/shimada /tmp/identify.json --out /tmp/refine.json
+      - name: Identify intrinsic candidates
+        run: python stages/stage14/scripts/14-4/shimada_stage14_identify.py /tmp/shimada --out /tmp/identify.json > /tmp/identify.log
+      - name: Refine by coordinate swap
+        run: python stages/stage14/scripts/14-4/shimada_stage14_refine.py /tmp/shimada /tmp/identify.json --out /tmp/refine.json
+      - name: Prove surviving labelings equivalent under AutX0f
+        run: python stages/stage14/scripts/14-4/shimada_stage14_equiv.py /tmp/shimada /tmp/refine.json --out /tmp/equiv.json
+      - name: Enumerate the complete anti-invariant split-root lattice
+        run: python stages/stage14/scripts/14-4/shimada_stage14_roots.py /tmp/shimada /tmp/refine.json /tmp/equiv.json --out /tmp/roots.json
       - uses: actions/upload-artifact@v4
         with:
-          name: stage14-4ak-identify
+          name: stage14-4ak-enumeration
           path: |
             /tmp/identify.json
             /tmp/refine.json
+            /tmp/equiv.json
+            /tmp/roots.json
