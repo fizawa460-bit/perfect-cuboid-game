@@ -1,0 +1,47 @@
+name: Stage14-t30 height auxiliary character
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t30/**'
+      - 'stages/stage14/scripts/14-t/t30_height_auxiliary_character_audit.py'
+      - 'stages/stage14/data/14-t30/**'
+      - '.github/workflows/stage14-t30-height-auxiliary-character.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t29 regression
+        run: python stages/stage14/scripts/14-t/t29_visible_matching_sieve_boundary_audit.py
+      - name: Run t30 height/auxiliary-character audit
+        run: python stages/stage14/scripts/14-t/t30_height_auxiliary_character_audit.py
+      - name: Check frozen t30 summary
+        run: git diff --exit-code stages/stage14/data/14-t30/height_auxiliary_character.json
+      - name: Validate locked t30 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t30/height_auxiliary_character.json'
+          d=json.load(open(p)); a=d['finite_audit']; q=d['decision']
+          t=a['totals']
+          assert t['primitive_interval_tuples']==239121
+          assert t['canonical_prime_matching_incidence']==6371
+          assert t['non_torsion_matching_incidence']==6338
+          assert t['physical_denominator_checks']==239121
+          assert t['good_auxiliary_prime_character_checks']==9332
+          assert t['two_prime_correlation_checks']==489
+          assert t['super_sqrt_visible_incidence']==1018
+          assert q['PHYSICAL_PQ_DISK_BOUND']=='P2_PLUS_Q2_LE_2B'
+          assert q['SUPER_SQRT_VISIBLE_ONLY_D_SUM_COLUMN'] is True
+          assert q['AUXILIARY_QUARTIC_DISCRIMINANT_EQUALS_DELTA4'] is True
+          assert q['GOOD_AUXILIARY_PRIME_WEIL_CANCELLATION'] is True
+          assert q['CANONICAL_INCIDENCE_AND_AUXILIARY_CHARACTER_CRT_INDEPENDENT'] is True
+          assert q['VISIBLE_BRANCH_POWER_SAVING_PROVED'] is False
+          assert q['A_11_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2,sort_keys=True))
+          PY
