@@ -1,0 +1,23 @@
+name: Stage14-num-alpha6 equality matrix audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha6/**'
+      - 'stages/stage14/14-num-alpha6/**'
+      - '.github/workflows/stage14-num-alpha6-equality-matrix.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run independent equality matrix
+        run: |
+          python stages/stage14/scripts/14-num-alpha6/equality_matrix_audit.py --output /tmp/alpha6.json
+          cat /tmp/alpha6.json
