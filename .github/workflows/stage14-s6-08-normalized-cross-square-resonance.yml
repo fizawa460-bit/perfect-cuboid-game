@@ -1,0 +1,46 @@
+name: Stage14-s6-08 normalized cross-square resonance audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-08/**'
+      - 'stages/stage14/scripts/14-s6-08/**'
+      - '.github/workflows/stage14-s6-08-normalized-cross-square-resonance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s6-08/normalized_cross_square_resonance_audit.py
+      - name: Run predecessor s6-07 audit
+        run: python stages/stage14/scripts/14-s6-07/dual_half_angle_gcd_matrix_audit.py
+      - name: Run s6-08 deterministic audit
+        run: python stages/stage14/scripts/14-s6-08/normalized_cross_square_resonance_audit.py | tee /tmp/s6-08.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^HALF_ANGLE_FOUR_BILINEAR_FACTORIZATION_AUDIT=true$' /tmp/s6-08.txt
+          grep -q '^GOOD_GCD_MATRIX_AUTOMATIC_SQUARE_FACTOR_AUDIT=true$' /tmp/s6-08.txt
+          grep -q '^NORMALIZED_CROSS_SQUARE_AUDIT=true$' /tmp/s6-08.txt
+          grep -q '^NORMALIZED_KERNEL_COLLISION_AUDIT=true$' /tmp/s6-08.txt
+          grep -q '^RAW_TWO_FACTOR_COUPLING_IDENTITY_AUDIT=true$' /tmp/s6-08.txt
+          grep -q '^DUAL_QK_PRODUCT_AND_GOOD_CELL_SPLIT_AUDIT=true$' /tmp/s6-08.txt
+          grep -q '^MERGED_4BL_EXPONENT_LEDGER_AUDIT=true$' /tmp/s6-08.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s6-08.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S6_08=COMPLETE_NORMALIZED_CROSS_SQUARE_RESONANCE_AND_KERNEL_COLLISION_RECEIVER' stages/stage14/14-s6-08/result.md
+          grep -q 'GOOD_GCD_MATRIX_SQUARE_FACTOR_EXACT=true' stages/stage14/14-s6-08/result.md
+          grep -q 'LARGE_GCD_CELL_RAW_SQUARE_DETECTOR_SAVING_JUSTIFIED=false' stages/stage14/14-s6-08/result.md
+          grep -q 'NORMALIZED_BIQUADRATIC_KERNEL_COLLISION_EXACT=true' stages/stage14/14-s6-08/result.md
+          grep -q 'SMALL_PARTNER_LEG_PACKET_BOUND=B^(20/21+o(1))' stages/stage14/14-s6-08/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-s6-08/result.md
+          grep -q 'NEXT=Stage14-s6-09' stages/stage14/14-s6-08/result.md
