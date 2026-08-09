@@ -1,0 +1,34 @@
+name: Stage14-s5s height window upper bound audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5s/**'
+      - 'stages/stage14/scripts/14-s5s/**'
+      - '.github/workflows/stage14-s5s-height-window-upper-bound.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5s deterministic audit
+        run: python3 stages/stage14/scripts/14-s5s/height_window_upper_bound_audit.py | tee /tmp/s5s.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5S=COMPLETE_PHYSICAL_HEIGHT_WINDOW_INSERTION_AND_ONE_SIDED_LOCAL_DESCENT_UPPER_BOUND$' /tmp/s5s.txt
+          grep -q '^S5R_ACTUAL_LOCAL_SYSTEM_USED_AS_POSITIVE_MAJORANT=true$' /tmp/s5s.txt
+          grep -q '^PHYSICAL_HIT_IMPLIES_LOCALLY_SOLUBLE_DESCENT_CLASS=true$' /tmp/s5s.txt
+          grep -q '^SHA_GAP_BLOCKS_CURRENT_UPPER_BOUND=false$' /tmp/s5s.txt
+          grep -q '^SHA_GAP_BLOCKS_LOCAL_TO_GLOBAL_CONVERSE=true$' /tmp/s5s.txt
+          grep -q '^SMALL_POINT_WINDOW_INSERTED_IN_UPPER_BOUND=true$' /tmp/s5s.txt
+          grep -q '^SMALL_POINT_WINDOW_COSTS_NO_POWER_LOSS_FOR_UPPER_BOUND=true$' /tmp/s5s.txt
+          grep -q '^EUCLID_SCALE_TO_B_CONVERSION_PROVED=true$' /tmp/s5s.txt
+          grep -q '^LOCALLY_SOLUBLE_CLASS_BOUND_B_EXPONENT=399/400$' /tmp/s5s.txt
+          grep -q '^ACTIVE_PHYSICAL_BASE_POWER_SAVING_UPPER_BOUND_PROVED=true$' /tmp/s5s.txt
+          grep -q '^GLOBAL_SOLUBILITY_AVERAGED=false$' /tmp/s5s.txt
+          grep -q '^SMALL_POINT_DISTRIBUTION_PROVED=false$' /tmp/s5s.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5s.txt
+          grep -q '^S5S_SUBSTAGE_SPLIT_REQUIRED=false$' /tmp/s5s.txt
+          grep -q '^NEXT=Stage14-s5t$' /tmp/s5s.txt
