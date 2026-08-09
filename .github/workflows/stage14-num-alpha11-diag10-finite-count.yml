@@ -1,0 +1,59 @@
+name: Stage14-num-alpha11-diag10 finite-count heterogeneity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag10/**'
+      - 'stages/stage14/data/14-num-alpha11-diag10/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag10/**'
+      - '.github/workflows/stage14-num-alpha11-diag10-finite-count.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  finite-count:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run diag10 finite-count calibration
+        run: python stages/stage14/scripts/14-num-alpha11-diag10/finite_count_heterogeneity.py > /tmp/diag10.json
+      - name: Validate diagnostic boundaries
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag10.json'))
+          d=x['decision']
+          assert x['shell_N2']==[89,27,22,29,21,40,27]
+          assert x['conditional_permutation']['fixed_column_totals']==[98,101,56]
+          assert d['COMMON_PAIR_DIRECTION_NULL_REJECTED_AT_5PCT'] is False
+          assert d['OBSERVED_SURVIVAL_RMS_EXCEEDS_CONDITIONAL_NOISE_AT_5PCT'] is False
+          assert d['OBSERVED_SURVIVAL_RMS_EXCEEDS_SOURCE_ADJUSTED_PLUGIN_NOISE_AT_5PCT'] is False
+          assert d['FINITE_COUNT_SAMPLING_NOISE_SUFFICIENT_EXPLANATION_AT_CURRENT_B1M_PANEL'] is True
+          assert d['ARITHMETIC_SHELL_HETEROGENEITY_DETECTED'] is False
+          assert d['ARITHMETIC_SHELL_HETEROGENEITY_RULED_OUT_ASYMPTOTICALLY'] is False
+          assert d['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
+          PY
+      - name: Print compact summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag10.json'))
+          print('DIAG10_SUMMARY_BEGIN')
+          print(json.dumps({
+            'conditional':x['conditional_permutation'],
+            'plugin':x['source_adjusted_plugin_mc'],
+            'decision':x['decision'],
+          },indent=2))
+          print('DIAG10_SUMMARY_END')
+          PY
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-num-alpha11-diag10-report
+          path: /tmp/diag10.json
