@@ -1,0 +1,61 @@
+name: Stage14-num-alpha11-diag6 matched one-two comparison
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag6/**'
+      - 'stages/stage14/data/14-num-alpha11-diag6/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag6/**'
+      - '.github/workflows/stage14-num-alpha11-diag6-matched-one-two.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matched-comparison:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute matched Stage13/Stage14 comparison
+        run: python stages/stage14/scripts/14-num-alpha11-diag6/matched_stage13_stage14_comparison.py > /tmp/diag6.json
+      - name: Verify frozen diag6 summary
+        run: |
+          python - <<'PY'
+          import json, math
+          x=json.load(open('/tmp/diag6.json'))
+          f=json.load(open('stages/stage14/data/14-num-alpha11-diag6/matched_one_two_summary.json'))
+          assert x['matched_window']['cutoffs']==f['matched_cutoffs']
+          assert x['matched_window']['exactly_two_cross_source_recomposition_exact_at_every_cutoff'] is True
+          assert f['cross_source_exactly_two_recomposition'] is True
+          assert len(x['cumulative'])==len(f['cumulative'])
+          for a,b in zip(x['cumulative'],f['cumulative']):
+              assert a['B']==b['B']
+              assert [a['exactly_one_counts_ab_ac_bc'][k] for k in ('ab','ac','bc')]==b['one']
+              assert [a['exactly_two_counts_shared_edge_a_b_c'][k] for k in ('a','b','c')]==b['two']
+              assert a['N1']==b['N1'] and a['N2']==b['N2']
+          for a,b in zip(x['shells'],f['shells']):
+              assert (a['lo'],a['hi'],a['N1_shell'],a['N2_shell'])==(b['lo'],b['hi'],b['N1'],b['N2'])
+              assert [a['exactly_one_counts_ab_ac_bc'][k] for k in ('ab','ac','bc')]==b['one']
+              assert [a['exactly_two_counts_shared_edge_a_b_c'][k] for k in ('a','b','c')]==b['two']
+          assert x['B100k_snapshot']['N1']==168030
+          assert x['B100k_snapshot']['N2']==89
+          assert x['B100k_snapshot']['exactly_two_counts_shared_edge_a_b_c']=={'a':33,'b':33,'c':23}
+          assert math.isclose(x['B100k_snapshot']['N2_over_N1'], f['B100k']['N2_over_N1'], rel_tol=0, abs_tol=1e-15)
+          assert x['Stage14_extended_exactly_two_B500m_only']['counts_shared_edge_a_b_c']=={'a':1374,'b':1371,'c':750}
+          assert math.isclose(x['late_shared_shell_stability_summary_lower_endpoint_ge_5000']['max_exactly_one_adjacent_L1_shift'], f['late_shared_shell_stability_lower_endpoint_ge_5000']['max_exactly_one_adjacent_L1_shift'], rel_tol=0, abs_tol=1e-15)
+          assert math.isclose(x['late_shared_shell_stability_summary_lower_endpoint_ge_5000']['max_exactly_two_adjacent_L1_shift'], f['late_shared_shell_stability_lower_endpoint_ge_5000']['max_exactly_two_adjacent_L1_shift'], rel_tol=0, abs_tol=1e-15)
+          assert x['decision']['FINITE_2_1_1_TO_2_2_1_SHORTHAND_IS_LITERAL_THEOREM_TO_THEOREM_TRANSITION'] is False
+          assert x['decision']['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
+          PY
+      - name: Check frozen interpretation boundary
+        run: |
+          grep -q 'STAGE14_NUM_ALPHA11_DIAG6=MATCHED_STAGE13_EXACTLY_ONE_VS_STAGE14_EXACTLY_TWO_COMPARISON_COMPLETE' stages/stage14/14-num-alpha11-diag6/result.md
+          grep -q 'STAGE13_STAGE14_EXACTLY_TWO_RECOMPOSITION_EXACT=true' stages/stage14/14-num-alpha11-diag6/result.md
+          grep -q 'FINITE_2_1_1_TO_2_2_1_USEFUL_SHORTHAND=true' stages/stage14/14-num-alpha11-diag6/result.md
+          grep -q 'LITERAL_THEOREM_TO_THEOREM_2_1_1_TO_2_2_1=false' stages/stage14/14-num-alpha11-diag6/result.md
+          grep -q 'ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM=false' stages/stage14/14-num-alpha11-diag6/result.md
+          grep -q 'NEXT=Stage14-num-alpha11-diag7 conditional second-face survival by source-face category' stages/stage14/14-num-alpha11-diag6/result.md
