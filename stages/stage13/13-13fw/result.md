@@ -1,0 +1,45 @@
+# Stage13-13fw — result
+
+Claude's, Grok's, and DeepSeek's fresh R07 reviews have been adjudicated against the same immutable review target.
+
+```text
+STAGE13_13FW=R07_FRESH_REVIEW_ADJUDICATION_COMPLETE
+REVIEW_TARGET_BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260810-R07
+REVIEW_TARGET_CONTENT_SHA256=52b660f6ff234da4b73d241cec981744d6d3d9cdcd406ab5fe2c1f746b784578
+R07_EXTERNAL_REVIEWS_RECORDED=3
+
+CLAUDE_R07_VERDICT=OPEN
+CLAUDE_R07_LABEL=REPAIRABLE
+CLAUDE_R07_CLOSED_VOTE_COUNTED=false
+
+GROK_R07_VERDICT=CLOSED
+GROK_R07_CLOSED_VOTE_COUNTED=true
+GROK_R07_NEW_THEOREM_LEVEL_BLOCKERS=0
+GROK_R07_NEW_SELF_CONTAINED_BLOCKERS=0
+
+DEEPSEEK_R07_VERDICT=CLOSED
+DEEPSEEK_R07_CLOSED_VOTE_COUNTED=true
+DEEPSEEK_R07_NEW_THEOREM_LEVEL_BLOCKERS=0
+DEEPSEEK_R07_NEW_SELF_CONTAINED_BLOCKERS=0
+DEEPSEEK_R07_JACOBI_EMBED_NOTE=NONBLOCKING_RECOMMENDATION
+
+R07_INDEPENDENT_CLOSED_VERDICTS=2
+R07_REQUIRED_INDEPENDENT_CLOSED_VERDICTS=2
+R07_MATHEMATICAL_REVIEW_THRESHOLD_MET=true
+R07_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
+R07_UNRESOLVED_SELF_CONTAINED_BLOCKERS=2
+R07_QR0_UNDEFINED_BLOCKER=true
+R07_FULL_JACOBI_SUM_EMBED_BLOCKER=true
+
+R08_REQUIRED=true
+R08_QR0_DEFINITION_REQUIRED=true
+R08_FULL_JACOBI_SUM_EMBED_REQUIRED=true
+R07_IMMUTABLE=true
+R06_IMMUTABLE=true
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+PROMOTE_TO_13_13G=false
+NEXT=13-13fx
+```
+
+The integrated adjudication deliberately separates mathematical correctness from review-target self-containedness. Grok and DeepSeek provide the required two independent `CLOSED` votes, and no received review leaves a theorem-level objection open. However, those votes do not erase Claude's independently verified self-containedness defects. R08 must explicitly define `QR_0(F_p)` as all squares including zero and inline the complete Stage13-12ag inert-unit `S0,S1,S2,S3` / Jacobi-sum derivation before a new immutable bundle can be promoted.
