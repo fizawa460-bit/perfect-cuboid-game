@@ -35,7 +35,7 @@ def build_report() -> dict:
         "bridge_total_factor_two_exact": proj.get("total") == "C_prim(B)=sum_q C_prim,q^proj(B)=2(A_ab+A_ac+A_bc)",
         "finite_B100000_category_factor_two": all(CPROJ[q] == 2 * RAW[q] for q in RAW),
         "finite_B100000_total_factor_two": sum(CPROJ.values()) == 2 * sum(RAW.values()),
-        "kappa_eta_identity_locked": "eta=pi*kappa" in bridge.get("frozen_stage12_input", {}).get("theorem", "") and "ETA_EQUALS_PI_KAPPA=true" in lemma,
+        "kappa_eta_identity_locked": "\\eta=\\pi\\kappa" in final and "ETA_EQUALS_PI_KAPPA=true" in lemma,
         "lemma_contains_complete_stage12_definition": all(token in lemma for token in ["\\mathcal D_B", "G(n)", "C_{\\rm raw}(B)", "C_{\\rm prim}(B)", "Möbius inversion", "STAGE13_PROJECTION_FIBER=2"]),
         "manifest_r09_locked": BUNDLE in manifest and CONTENT_SHA in manifest,
         "roadmap_gate_e_lock": "STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE" in roadmap and "NEXT=13-13ff" in roadmap,
