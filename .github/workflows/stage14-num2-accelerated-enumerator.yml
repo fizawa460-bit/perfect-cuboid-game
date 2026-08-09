@@ -1,0 +1,81 @@
+name: Stage14-num2 exact acceleration
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/scripts/14-num2/**'
+      - 'stages/stage14/data/14-num2/**'
+      - 'stages/stage14/14-num2/**'
+      - 'stages/stage14/data/14-num1/baseline_manifest.json'
+      - '.github/workflows/stage14-num2-accelerated-enumerator.yml'
+  workflow_dispatch:
+
+jobs:
+  exact-acceleration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run accelerated B2m regression under resource profiler
+        run: |
+          mkdir -p /tmp/num2
+          /usr/bin/time -v -o /tmp/num2/time.txt \
+            python stages/stage14/scripts/14-num2/accelerated_enumerator.py \
+              --output /tmp/num2/report.json | tee /tmp/num2/console.txt
+          echo '--- /usr/bin/time -v ---'
+          cat /tmp/num2/time.txt
+
+      - name: Verify num1 ledger hashes and all frozen cutoffs
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/num2/report.json').read_text())
+          reg=r['num1_regression']
+          assert reg['all_four_sha256_match'] is True
+          assert reg['counts_match'] is True
+          assert reg['graph_match'] is True
+          assert reg['all_11_cutoffs_match'] is True
+          assert len(reg['cutoff_rows'])==11
+          assert reg['cutoff_rows'][-1]=={'B':2000000,'a':142,'b':134,'c':80,'N2':356,'T':0}
+          assert r['incremental_shell_architecture']['union_matches_full_ledger'] is True
+          assert r['deterministic_chunk_architecture']['union_matches_full_ledger'] is True
+          d=r['decision']
+          assert d['STAGE14_NUM2']=='COMPLETE_EXACT_ENUMERATOR_ACCELERATION'
+          assert d['BASELINE_LEDGER_UNCHANGED'] is True
+          assert d['ALL_11_FROZEN_CUTOFFS_UNCHANGED'] is True
+          assert d['INCREMENTAL_CUTOFF_ARCHITECTURE'] is True
+          assert d['PARALLEL_CHUNK_REPRODUCIBILITY'] is True
+          assert d['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert d['ASYMPTOTIC_CLAIM'] is False
+          print(json.dumps(r['optimized_kernel_profile'],indent=2,sort_keys=True))
+          print(json.dumps(r['engineering_reduction'],indent=2,sort_keys=True))
+          PY
+
+      - name: Verify acceleration is algorithmic rather than interpretation drift
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/num2/report.json').read_text())
+          p=r['optimized_kernel_profile']; e=r['engineering_reduction']
+          assert p['candidate_glues']==28754577
+          assert p['early_nonprimitive_rejects_before_sort']==23286679
+          assert p['face_mask_validation_tests'] < 10000
+          assert p['sorts_after_two_face_gate'] < 10000
+          assert e['face_mask_test_fraction_removed'] > 0.99
+          assert e['sort_fraction_removed_before_two_face_gate'] > 0.99
+          print('Stage14-num2 algorithmic acceleration gate: PASS')
+          PY
+
+      - name: Verify numerical-only boundary
+        run: |
+          grep -F 'FINITE_DIAGNOSTIC_ONLY' stages/stage14/scripts/14-num2/accelerated_enumerator.py
+          grep -F 'ASYMPTOTIC_CLAIM' stages/stage14/scripts/14-num2/accelerated_enumerator.py
+          grep -F 'Stage14-num3 extended exact census' stages/stage14/scripts/14-num2/accelerated_enumerator.py
