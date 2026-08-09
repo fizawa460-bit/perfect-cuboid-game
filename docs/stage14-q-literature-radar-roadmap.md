@@ -17,13 +17,13 @@ Do not search the literature continuously and broadly. Search when the active pr
 
 Never promote a citation merely because its vocabulary resembles Stage14. Record exact theorem/lemma numbers, hypotheses, variables, losses, field-of-definition conditions, and the precise Stage14 object to which it would be applied.
 
-## Current frontier (2026-08-09)
+## Current frontier (2026-08-09, after q2)
 
-The highest-value immediate target is the apparent convergence of the `14-4` and `14-s` tracks on correlated bilinear / large-sieve structure arising from Euclid/Pythagorean parametrization. The literature radar should test whether existing quadratic large sieve, dispersion, bilinear-form, divisor-correlation, low-rank/separable decomposition, spectral, or arithmetic-incidence methods can handle coefficients depending jointly on two Euclid variables rather than silently replacing them by independent coefficients.
+The original arbitrary `W(u,v)` obstruction has been reduced substantially by the active proof tracks. `Stage14-s5i` proves a rank-one bulk for pure Euclid divisibility incidence and leaves an explicit centered discrepancy `Delta(u,v)`, primitive Möbius bookkeeping, and sparse large-modulus blocks. `Stage14-4av` proves a bare CRT reciprocal-block power saving and leaves growing auxiliary-state coupling plus endpoint ranges.
 
-The `14-t` track should also be rescanned whenever its global squareclass-signature collision problem becomes explicit enough to match an existing Selmer/squareclass/thin-set/Hilbert-irreducibility framework.
+Stage14-q2 found no theorem that directly proves the required `L2` dispersion for `Delta`. It did identify two direct subroutines: Heath-Brown/Liu for separated rectangular Jacobi blocks and Cameron Wilson for separated hyperbolic/lopsided Jacobi blocks. The preferred proof order is now centered congruence covariance first, divisor switching for sparse large moduli, and modular-root/spectral escalation only if the norm column survives the elementary dispersion reduction.
 
-The `14-4` geometric K3 lead from Shimada remains a standing asset: exact Neron–Severi coordinates, automorphism matrices, fibration data, Galois action, and computational files should be treated as reusable infrastructure, not rediscovered from scratch.
+The `14-t` track has reached a global missing-face squareclass collision target (`t19 -> t20`), so q4 will later have a concrete collision-energy object to search against. The exact Shimada K3 package remains standing reusable infrastructure.
 
 ## Roadmap
 
@@ -48,6 +48,8 @@ Priority method families:
 7. determinant/incidence methods if the Euclid relation creates sparse algebraic support.
 
 For every promising source, write the exact model sum and compare it line-by-line with the Stage14 sum. The pass succeeds only if it either produces a legitimate transfer lemma or a precise incompatibility certificate.
+
+Result: `docs/stage14-q2-correlated-bilinear-literature.md`.
 
 ### Stage14-q3 — Small-point / first-point height pass
 
@@ -102,4 +104,4 @@ If any critical hypothesis is unknown, classify the lead as `NEAR`, not `DIRECT`
 
 ## Immediate next task
 
-Start **Stage14-q1** by reconstructing PR #185 into the normalized ledger, then immediately use that ledger as the baseline for **Stage14-q2**, focused on the current correlated bilinear / large-sieve obstruction shared by the active analytic routes.
+Start **Stage14-q3**: refresh the Petsche / Naccarato / Le Boudec first-small-point line against the actual Stage14 minimal discriminant, conductor, Szpiro ratio, and complete 2-descent data. Keep the q2 handoff active in `Stage14-s5j` and `Stage14-4aw`; do not reopen a generic correlated-bilinear literature search unless those stages expose a new named obstruction.
