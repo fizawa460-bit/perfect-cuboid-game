@@ -6,6 +6,7 @@ on:
       - 'stages/stage14/scripts/14-4/character_gate_matrix_audit.py'
       - 'stages/stage14/data/14-4/character_gate_matrix_audit.json'
       - 'stages/stage14/data/14-4/character_gate_matrix_summary.json'
+      - 'stages/stage14/14-4an/**'
       - 'stages/stage14/archive/stage14-4an-*'
       - 'stages/stage14/main.md'
       - 'stages/stage14/README.md'
@@ -21,23 +22,36 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run selected-prime character matrix audit
         run: python stages/stage14/scripts/14-4/character_gate_matrix_audit.py
-      - name: Validate Stage14-4an theorem boundary
+      - name: Validate Stage14-4an theorem boundary and frozen summary
         run: |
           python - <<'PY'
           import json
-          p='stages/stage14/data/14-4/character_gate_matrix_audit.json'
-          d=json.load(open(p))
-          assert d['metadata']['max_B']==20000
-          assert d['profile'][-1]['eligible_oriented_bases']==6372
-          assert d['profile'][-1]['homogeneous_selected_row_supports']['bases_with_no_nonempty_admissible_support']==0
-          assert d['decision']['S5C_SUPPORTED_ROWS_COMPRESSED_USING_GLOBAL_SQUARECLASS'] is True
-          assert d['decision']['SELECTED_X_PRIME_REQUIRES_P_EQ_1_MOD4'] is True
-          assert d['decision']['SELECTED_ODD_ROWS_ALONE_FORM_COMPLETE_SELMER_TEST'] is False
-          assert d['decision']['SELECTED_ODD_ROWS_ALONE_SIEVE_BASES'] is False
-          assert d['decision']['UNSELECTED_ODD_AND_Q2_REQUIRED_FOR_A_TO_SIGMA'] is True
-          assert d['decision']['CHARACTER_MATRIX_CONTROLS_R_TO_V'] is False
-          assert d['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
-          print(json.dumps(d['profile'][-1],indent=2))
+          audit=json.load(open('stages/stage14/data/14-4/character_gate_matrix_audit.json'))
+          frozen=json.load(open('stages/stage14/data/14-4/character_gate_matrix_summary.json'))
+          r=audit['profile'][-1]
+          f=frozen['B20000']
+          assert audit['metadata']['max_B']==frozen['max_B']==20000
+          assert r['eligible_oriented_bases']==f['eligible_oriented_bases']==6372
+          assert r['homogeneous_selected_row_supports']['bases_with_no_nonempty_admissible_support']==f['bases_with_no_nonempty_admissible_support']==0
+          assert abs(r['odd_bad_prime_count']['mean']-f['odd_bad_prime_mean'])<1e-15
+          assert r['odd_bad_prime_count']['median']==f['odd_bad_prime_median']
+          assert r['odd_bad_prime_count']['max']==f['odd_bad_prime_max']
+          hs=r['homogeneous_selected_row_supports']
+          assert abs(hs['mean_admissible_including_empty']-f['mean_selected_row_admissible_supports_including_empty'])<1e-15
+          assert hs['median_admissible_including_empty']==f['median_selected_row_admissible_supports_including_empty']
+          assert hs['max_admissible_including_empty']==f['max_selected_row_admissible_supports_including_empty']
+          assert abs(hs['mean_fraction_of_all_support_subsets']-f['mean_fraction_of_all_support_subsets'])<1e-15
+          for k,v in frozen['decision'].items():
+              if k in audit['decision']:
+                  assert audit['decision'][k]==v, (k,audit['decision'][k],v)
+          assert audit['decision']['S5C_SUPPORTED_ROWS_COMPRESSED_USING_GLOBAL_SQUARECLASS'] is True
+          assert audit['decision']['SELECTED_X_PRIME_REQUIRES_P_EQ_1_MOD4'] is True
+          assert audit['decision']['SELECTED_ODD_ROWS_ALONE_FORM_COMPLETE_SELMER_TEST'] is False
+          assert audit['decision']['SELECTED_ODD_ROWS_ALONE_SIEVE_BASES'] is False
+          assert audit['decision']['UNSELECTED_ODD_AND_Q2_REQUIRED_FOR_A_TO_SIGMA'] is True
+          assert audit['decision']['CHARACTER_MATRIX_CONTROLS_R_TO_V'] is False
+          assert audit['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          print(json.dumps(r,indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
