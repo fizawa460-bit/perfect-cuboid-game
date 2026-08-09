@@ -1,10 +1,10 @@
 # Stage14 toolbox — local 2-descent / five-column interface
 
-This page is the reusable entrypoint for the closed Stage14 `s5` local algebra. It does **not** prove a new local theorem. It repackages the merged `s5b`–`s5f` results and the merged `s6-01` global-witness handoff so that main/s workers can apply the local system without reopening five historical stages.
+This page is the reusable entrypoint for the closed Stage14 `s5` local algebra. It does **not** prove a new local theorem. It repackages merged `s5b`–`s5f` and the merged `s6-01` global-witness handoff so main/s workers can apply the local system without reopening five historical stages.
 
-## 1. Primitive Euclid support columns
+## 1. Primitive Euclid support columns and the orientation adapter
 
-For primitive opposite-parity `m>n>0`,
+For primitive opposite-parity `m>n>0`, define the orientation-free Euclid core
 
 ```text
 A=m
@@ -12,31 +12,47 @@ B=n
 C=m-n
 D=m+n
 E=m^2+n^2
+
+even leg = 2AB
+difference leg = CD
+hypotenuse = E.
 ```
 
-and, in the s5 orientation,
+At every odd prime the five columns `A,B,C,D,E` are pairwise coprime. Therefore every odd bad prime belongs to exactly one moving column.
+
+The historical s5 local-row derivation uses
 
 ```text
-S=2mn
-X=(m-n)(m+n)
-H=m^2+n^2.
+S = CD = m^2-n^2
+X = 2AB = 2mn
+H = E  = m^2+n^2.
 ```
 
-At every odd prime the five columns are pairwise coprime. Therefore every odd bad prime belongs to exactly one moving column.
+Hence in the **s5 local orientation**
 
 ```text
-A or B  -> p|S?  NO: in the s5 orientation p|m or n means p|S=2mn.
-C or D  -> p|X=(m-n)(m+n)
-E       -> p|H.
+A or B  -> p|X -> label 13 if selected
+C or D  -> p|S -> label 12 if selected
+E       -> p|H -> label 23 if selected.
 ```
 
-Historical warning: some later Stage14 documents orient the legs oppositely. The local row is attached to the actual `S/X/H` role, not to the letter `A/B/C/D/E` by itself. If using the s5 orientation above, the routing is exactly
+Some later Stage14/s6 documents use the swapped orientation
 
 ```text
-m,n       -> S
-m-n,m+n   -> X
-m^2+n^2   -> H.
+S = 2AB
+X = CD
+H = E.
 ```
+
+In that orientation the same five columns remain valid, but the `S/X` row labels swap:
+
+```text
+A or B  -> p|S -> label 12 if selected
+C or D  -> p|X -> label 13 if selected
+E       -> p|H -> label 23 if selected.
+```
+
+**Rule:** the local row is attached to the actual `S/X/H` role in the covering equations. Never attach `12/13` permanently to the names `m,n,m-n,m+n` without first fixing orientation.
 
 ## 2. Symmetric covering coordinates
 
@@ -139,8 +155,8 @@ Q2*/Q2*^2 = {1,3,5,7,2,6,10,14}.
 For
 
 ```text
-A=2^alpha*u,
-B=2^beta*v,
+A2=2^alpha*u,
+B2=2^beta*v,
 ```
 
 with odd `u,v`, define
@@ -153,7 +169,7 @@ omega(u)=(u^2-1)/8 mod 2.
 Then
 
 ```text
-(A,B)_2 = (-1)^[epsilon(u)epsilon(v)+alpha*omega(v)+beta*omega(u)].
+(A2,B2)_2 = (-1)^[epsilon(u)epsilon(v)+alpha*omega(v)+beta*omega(u)].
 ```
 
 The product-square condition gives 64 ordered triples before the covering equation is imposed.
@@ -183,19 +199,28 @@ This eight-state membership test is the complete covering-specific `Q2` row.
 
 For one primitive Euclid base and one supported full-2-descent class:
 
-1. Normalize the face orientation and identify actual `S,X,H`.
-2. Factor odd support through the five Euclid columns.
-3. For each odd bad prime determine selected versus unselected state.
-4. If selected, route by `S/X/H` to `12/13/23` and apply the selected row.
-5. If unselected, apply the corresponding unselected row.
-6. Check the prime-2 squareclass triple against the exact eight-state table.
-7. Only after all rows pass may the class be called **locally admissible**.
+1. Fix the oriented covering and identify the actual `S,X,H` roles.
+2. Factor odd support through `m,n,m-n,m+n,m^2+n^2`.
+3. Apply the orientation adapter to map each factor column to `S`, `X`, or `H`.
+4. For each odd bad prime determine selected versus unselected state.
+5. If selected, route by `S/X/H` to `12/13/23` and apply the selected row.
+6. If unselected, apply the corresponding unselected row.
+7. Check the prime-2 squareclass triple against the exact eight-state table.
+8. Only after all rows pass may the class be called **locally admissible**.
 
 The result is the complete merged local 2-descent character system.
 
 ## 7. Handoff to the global-witness side
 
-Merged `s6-01` proves that an actual global small-point witness has signed squarefree kernels
+Merged `s6-01` uses the swapped orientation
+
+```text
+S=2mn,
+X=(m-n)(m+n),
+H=m^2+n^2
+```
+
+and proves that an actual global small-point witness has signed squarefree kernels
 
 ```text
 d0=tau0*a*b
@@ -211,9 +236,9 @@ b|rad(X)
 c|rad(H)
 ```
 
-and exactly 16 sign/2-adic `tau` patterns. Its odd support refines to the **same five Euclid columns**.
+and exactly 16 sign/2-adic `tau` patterns. Its odd support refines to the **same five Euclid columns**. The orientation adapter above is therefore mandatory when comparing its `S/X` edge packets to historical s5 local-row names.
 
-This gives the safe implication
+The safe implication is
 
 ```text
 physical hit
@@ -234,6 +259,7 @@ locally soluble cover => rational point
 nonempty Selmer class => physical cuboid hit
 selected-prime row => unselected-prime row
 X-unselected automatic at p=3 mod4 => X-selected possible at p=3 mod4
+five-column identity => same S/X labels across orientations
 finite local density saving => global/height saving
 ```
 
