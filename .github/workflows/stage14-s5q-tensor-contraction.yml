@@ -1,0 +1,37 @@
+name: Stage14-s5q Fourier tensor contraction audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5q/**'
+      - 'stages/stage14/scripts/14-s5q/**'
+      - '.github/workflows/stage14-s5q-tensor-contraction.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5q deterministic audit
+        run: python3 stages/stage14/scripts/14-s5q/fourier_tensor_transition_audit.py | tee /tmp/s5q.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5Q=COMPLETE_FOURIER_ENERGY_TENSOR_CONTRACTION_AND_FINAL_E_TRANSITION_KERNEL$' /tmp/s5q.txt
+          grep -q '^ODD_LOCAL_ROW_FOURIER_L2_ENERGY_LE_1=true$' /tmp/s5q.txt
+          grep -q '^GLOBAL_LOCAL_FOURIER_ENERGY_BOUNDED=true$' /tmp/s5q.txt
+          grep -q '^MULTI_EDGE_DISCREPANCY_TENSOR_CONTRACTION_PROVED=true$' /tmp/s5q.txt
+          grep -q '^LINEAR_ONLY_FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED=true$' /tmp/s5q.txt
+          grep -q '^E_SELECTED_UNSELECTED_H_ROW_IDENTICAL=true$' /tmp/s5q.txt
+          grep -q '^E_COLUMN_SINGLE_WALSH_SUBSET_EXACT=true$' /tmp/s5q.txt
+          grep -q '^E_WALSH_L1_NORMALIZED=true$' /tmp/s5q.txt
+          grep -q '^E_WALSH_L2_CONTRACTIVE=true$' /tmp/s5q.txt
+          grep -q '^STATE_SPLIT_E_TENSOR_MULTIPLICITY_LOSS=false$' /tmp/s5q.txt
+          grep -q '^STATE_SPLIT_E_MULTI_EDGE_TENSOR_CONTRACTION_PROVED=true$' /tmp/s5q.txt
+          grep -q '^FULL_LOCAL_CHARACTER_POLYNOMIAL_REDUCED_TO_SINGLE_E_LINEAR_EDGE=true$' /tmp/s5q.txt
+          grep -q '^E_LINEAR_TRANSITION_WEDGE_PERSISTS=true$' /tmp/s5q.txt
+          grep -q '^FINAL_ROOT_SAWTOOTH_KERNEL_EXPLICIT=true$' /tmp/s5q.txt
+          grep -q '^FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED=false$' /tmp/s5q.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5q.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5q.txt
+          grep -q '^NEXT=Stage14-s5r$' /tmp/s5q.txt
