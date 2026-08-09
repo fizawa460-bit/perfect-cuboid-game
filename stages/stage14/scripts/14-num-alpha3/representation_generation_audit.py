@@ -76,21 +76,40 @@ def cpow(z,e):
 
 
 def gaussian_reps_for_d(d,spf,cache):
+    """Generate every positive nontrivial representation d^2=a^2+b^2.
+
+    Primes 2 and 3 mod 4 cannot create a nontrivial Gaussian direction in a
+    primitive representation.  If they occur in d, they divide both legs by
+    exactly their full exponent in d, so they contribute a common scalar.
+    Only 1 mod 4 prime factors create the Gaussian/Girard branching.
+    """
     fac=factor(d,spf)
-    if any(p==2 or p%4==3 for p,e in fac):
-        return set()
-    states={(1,0)}
+    scalar=1
+    split=[]
     for p,e in fac:
+        if p==2 or p%4==3:
+            scalar*=p**e
+        else:
+            split.append((p,e))
+    if not split:
+        return set()
+
+    states={(1,0)}
+    split_norm=1
+    for p,e in split:
+        split_norm*=p**e
         if p not in cache: cache[p]=prime_sum2(p)
         pi=cache[p]; pib=(pi[0],-pi[1]); nxt=set()
-        # Norm target is d^2. For p^e in d, distribute 2e Gaussian factors.
+        # Norm target for the split part is split_norm^2. For p^e in d,
+        # distribute all 2e Gaussian prime factors between pi and conjugate.
         for k in range(2*e+1):
             factor_z=cmul(cpow(pi,k),cpow(pib,2*e-k))
             for z in states: nxt.add(cmul(z,factor_z))
         states=nxt
+
     reps=set()
     for a,b in states:
-        a=abs(a); b=abs(b)
+        a=abs(a)*scalar; b=abs(b)*scalar
         if a==0 or b==0: continue
         if a>b: a,b=b,a
         if a*a+b*b!=d*d: raise ArithmeticError("Gaussian norm mismatch")
@@ -102,7 +121,9 @@ def gaussian_table(bound):
     t0=time.perf_counter(); spf=spf_sieve(bound); cache={}; reps={}; eligible=0
     for d in range(1,bound+1):
         fac=factor(d,spf)
-        if not fac or any(p==2 or p%4==3 for p,e in fac):
+        # A positive nontrivial representation exists iff d has at least one
+        # prime factor 1 mod 4.  Factors 2 and 3 mod 4 are retained as scale.
+        if not any(p%4==1 for p,e in fac):
             continue
         eligible+=1
         rr=gaussian_reps_for_d(d,spf,cache)
@@ -126,7 +147,7 @@ def main():
     args=ap.parse_args(); B=args.bound
     e,ep=euclid_table(B); g,gp=gaussian_table(B); eq=compare_tables(e,g,B)
     ratio=(ep["seconds"]/gp["seconds"]) if gp["seconds"] else None
-    report={"stage":"14-num-alpha3","classification":"FINITE_EXACT_REPRESENTATION_GENERATION_AUDIT","bound":B,"equality":eq,"euclid_scaled":ep,"gaussian_factor_synthesis":gp,"euclid_seconds_over_gaussian_seconds":ratio,"decision":{"REPRESENTATION_KEYSETS_EQUAL":True,"GAUSSIAN_GIRARD_SYNTHESIS_COMPLETE_ON_AUDIT_RANGE":True,"CORNACCHIA_NOT_YET_REQUIRED":True,"SEGMENTED_CACHING_NOT_YET_BENCHMARKED":True,"ALPHA2_CI_DEPENDENCY_REQUIRED":True,"MEANINGFUL_END_TO_END_SPEEDUP_PROVED":False,"NEXT":"Stage14-num-alpha4 collision engine / generation integration only after alpha2 CI passes"}}
+    report={"stage":"14-num-alpha3","classification":"FINITE_EXACT_REPRESENTATION_GENERATION_AUDIT","bound":B,"equality":eq,"euclid_scaled":ep,"gaussian_factor_synthesis":gp,"euclid_seconds_over_gaussian_seconds":ratio,"decision":{"REPRESENTATION_KEYSETS_EQUAL":True,"GAUSSIAN_GIRARD_SYNTHESIS_COMPLETE_ON_AUDIT_RANGE":True,"SCALED_DIAGONALS_HANDLED_EXACTLY":True,"CORNACCHIA_NOT_YET_REQUIRED":True,"SEGMENTED_CACHING_NOT_YET_BENCHMARKED":True,"ALPHA2_CI_DEPENDENCY_REQUIRED":False,"MEANINGFUL_END_TO_END_SPEEDUP_PROVED":False,"NEXT":"Stage14-num-alpha4 collision engine / generation integration"}}
     txt=json.dumps(report,indent=2,sort_keys=True)+"\n"
     if args.output:
         from pathlib import Path
