@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage14/scripts/14-4/collective_first_hit_audit.py'
-      - 'stages/stage14/data/14-4/collective_first_hit_audit.json'
+      - 'stages/stage14/data/14-4/collective_first_hit_summary.json'
       - 'stages/stage14/archive/stage14-4al-*'
       - 'stages/stage14/main.md'
       - 'stages/stage14/README.md'
@@ -22,12 +22,12 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends pari-gp
       - name: Run collective first-hit audit
         run: python stages/stage14/scripts/14-4/collective_first_hit_audit.py
-      - name: Validate Stage14-4al boundary
+      - name: Validate Stage14-4al boundary and frozen summary
         run: |
           python - <<'PY'
           import json
-          p='stages/stage14/data/14-4/collective_first_hit_audit.json'
-          d=json.load(open(p))
+          d=json.load(open('stages/stage14/data/14-4/collective_first_hit_audit.json'))
+          f=json.load(open('stages/stage14/data/14-4/collective_first_hit_summary.json'))
           assert d['metadata']['active_vertices_at_max']==490
           assert d['profile'][-1]['active_vertices_V']==490
           assert d['decision']['COLLECTIVE_FIRST_HIT_IDENTITY_LOCKED'] is True
@@ -36,7 +36,15 @@ jobs:
           assert d['decision']['POSITIVE_RANK_DENSITY_PROVED'] is False
           assert d['decision']['UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED'] is False
           assert d['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
-          print(json.dumps(d['late_diagnostics'],indent=2))
+          L=d['late_diagnostics']; B=L['B2m']
+          assert abs(L['A_effective_exponent_200k_to_2m']-f['effective_exponents_200k_to_2m']['eligible_base_A'])<1e-15
+          assert abs(L['V_effective_exponent_200k_to_2m']-f['effective_exponents_200k_to_2m']['active_vertex_V'])<1e-15
+          assert abs(L['activation_density_effective_exponent_200k_to_2m']-f['effective_exponents_200k_to_2m']['activation_density_V_over_A'])<1e-15
+          assert abs(L['activation_density_times_sqrtB_mean_200k_to_2m']-f['scaled_activation_density_200k_to_2m']['mean'])<1e-15
+          assert B['eligible_oriented_primitive_bases_A']==f['B2m']['eligible_oriented_primitive_bases']
+          assert B['exact_or_interval_rank_histogram']==f['B2m']['rank_histogram']
+          assert d['decision']==f['decision']
+          print(json.dumps(L,indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
