@@ -1,0 +1,41 @@
+name: Stage14-t19 conditioned discriminant ledger
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t19/**'
+      - 'stages/stage14/scripts/14-t/t19_conditioned_discriminant_ledger.py'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t19-conditioned-discriminant.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate conditioned ledger
+        run: python stages/stage14/scripts/14-t/t19_conditioned_discriminant_ledger.py
+      - name: Validate locked t19 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t19/conditioned_discriminant_ledger.json'
+          d=json.load(open(p))
+          assert d['finite_ledger']['object_count']==356
+          assert d['finite_ledger']['oriented_conditioned_incidence_count']==712
+          assert d['finite_ledger']['conditioned_C0_entries']==0
+          assert d['finite_ledger']['object_squareclasses_distinct']==356
+          assert d['finite_ledger']['collision_Q_object']==356
+          assert d['finite_ledger']['observed_prime_coordinate_rank_B2m']==554
+          assert d['finite_ledger']['ledger_sha256']=='f6f86ab2509aabc2c0ebc59bf20d1d4d9df984b4218ec26f7bd350543c89c8f0'
+          assert all(r['collision_Q_object']==r['raw_exactly_two_objects'] for r in d['rows'])
+          assert all(r['distinct_object_squareclasses']==r['raw_exactly_two_objects'] for r in d['rows'])
+          q=d['decision']
+          assert q['CONDITIONED_DISCRIMINANT_SQUARECLASS_EQUALS_MISSING_FACE'] is True
+          assert q['CONDITIONED_DISCRIMINANT_IS_NEW_INDEPENDENT_GATE'] is False
+          assert q['COLLISION_BOUND_Q_O_B_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
