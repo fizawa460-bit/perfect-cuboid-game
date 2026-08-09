@@ -1,0 +1,34 @@
+name: Stage14-tH0 roadworks architecture
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH0/**'
+      - 'stages/stage14/data/tH0/**'
+      - 'stages/stage14/scripts/tH0/**'
+      - 'stages/stage14/14-t32/**'
+      - 'stages/stage14/14-t33/**'
+      - '.github/workflows/stage14-tH0-roadworks.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/tH0/roadworks_architecture_audit.py
+      - name: Check frozen architecture contract
+        run: python stages/stage14/scripts/tH0/roadworks_architecture_audit.py
+      - name: Check theorem boundary
+        run: |
+          grep -F 'TH_CAN_ADVANCE_WHILE_T_IS_STALLED=true' stages/stage14/14-tH0/result.md
+          grep -F 'TH_MUST_NOT_REQUIRE_A_FUTURE_T_RESULT_FOR_NEXT_STAGE=true' stages/stage14/14-tH0/result.md
+          grep -F 'ALL_CHARACTER_MELLIN_HECKE_LARGE_SIEVE_PROVED=false' stages/stage14/14-tH0/result.md
+          grep -F 'PERFECT_CUBOID_NONEXISTENCE_PROVED=false' stages/stage14/14-tH0/result.md
