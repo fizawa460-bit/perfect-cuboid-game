@@ -1,0 +1,21 @@
+name: Stage14-t17 branched square sieve audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t17/**'
+      - 'stages/stage14/scripts/14-t/t17_branched_square_sieve_audit.py'
+      - 'stages/stage14/data/14-t17/branched_square_sieve_audit.json'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t17-branched-square-sieve.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python stages/stage14/scripts/14-t/t16_square_x_lift_audit.py
+      - run: git diff --exit-code stages/stage14/data/14-t16/square_x_lift_audit.json
+      - run: python stages/stage14/scripts/14-t/t17_branched_square_sieve_audit.py
+      - run: git diff --exit-code stages/stage14/data/14-t17/branched_square_sieve_audit.json
