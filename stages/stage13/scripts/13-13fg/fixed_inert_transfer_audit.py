@@ -72,12 +72,13 @@ def build_report() -> dict:
         "exact_lambda_visible": "INERT_LAMBDA=(p+5)/(2(p+1))" in lemma,
         "character_orthogonality_visible": all(token in lemma for token in [
             "FINITE_CHARACTER_ORTHOGONALITY_PLUS_CRT",
-            "Fourier inversion on `G_p`",
-            "CRT tensors",
+            "Fourier inversion",
+            "CRT gives",
         ]),
-        "principal_multiplier_visible": all(token in lemma for token in [
-            "principal character tuple",
-            "PRINCIPAL_TUPLE_MULTIPLIER=product_{p_in_S}_lambda_p",
+        "principal_pole_sector_visible": all(token in lemma for token in [
+            "principal pole sector",
+            "PRINCIPAL_POLE_SECTOR_MULTIPLIER=product_{p_in_S}_lambda_p",
+            "AUXILIARY_CHARACTER_ALIASING_INCLUDED=true",
         ]),
         "mixed_correction_control_visible": all(token in lemma for token in [
             "MIXED_CORRECTION_REMAINS_HOLOMORPHIC=true",
@@ -85,7 +86,7 @@ def build_report() -> dict:
             "cannot create a pole",
         ]),
         "nonprincipal_pole_loss_visible": all(token in lemma for token in [
-            "NONPRINCIPAL_TUPLE_POLE_LOSS_AT_LEAST_ONE=true",
+            "NONPRINCIPAL_POLE_SECTOR_LOSS_AT_LEAST_ONE=true",
             "NONPRINCIPAL_TOTAL=o_S(B(log B)^3)",
         ]),
         "fixed_limit_order_visible": "LIMIT_ORDER=FIX_S_THEN_B_TO_INFINITY_THEN_ENLARGE_S" in lemma,
@@ -115,7 +116,7 @@ def build_report() -> dict:
         "sample_product": {
             "primes": primes,
             "product_lambda": f"{product.numerator}/{product.denominator}",
-            "three_quarters_power": f"{Fraction(3,4) ** len(primes)}",
+            "three_quarters_power": f"{(Fraction(3,4) ** len(primes)).numerator}/{(Fraction(3,4) ** len(primes)).denominator}",
             "product_le_three_quarters_power": product <= Fraction(3, 4) ** len(primes),
         },
         "checks": checks,
@@ -128,7 +129,8 @@ def build_report() -> dict:
         },
         "locks": {
             "lambda_p": "(p+5)/(2(p+1))",
-            "principal_multiplier": "product lambda_p",
+            "principal_pole_sector_multiplier": "product lambda_p",
+            "auxiliary_character_aliasing_included": True,
             "nonprincipal_total": "o_S(B(log B)^3)",
             "limit_order": "fix S -> B to infinity -> enlarge S",
             "growing_modulus_theorem_used": False,
