@@ -1,0 +1,50 @@
+name: Stage14-t26 complete large-prime routing
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t26/**'
+      - 'stages/stage14/scripts/14-t/t26_complete_large_prime_routing_audit.py'
+      - 'stages/stage14/data/14-t26/**'
+      - '.github/workflows/stage14-t26-complete-large-prime-routing.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t25 regression
+        run: python stages/stage14/scripts/14-t/t25_local_minimality_large_prime_audit.py
+      - name: Run t26 complete-routing audit
+        run: python stages/stage14/scripts/14-t/t26_complete_large_prime_routing_audit.py
+      - name: Check frozen t26 summary
+        run: git diff --exit-code stages/stage14/data/14-t26/complete_large_prime_routing.json
+      - name: Validate locked t26 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t26/complete_large_prime_routing.json'
+          d=json.load(open(p)); f=d['finite']; q=d['decision']
+          assert f['rank_active_raw_edges']==356
+          assert f['orientation_checks']==712
+          assert f['dual_descent_checks']==712
+          assert f['route_counts']['C_to_dual_linear']==1541
+          assert f['route_counts']['C_to_pq']==895
+          assert f['route_counts']['D_to_Gaussian']==507
+          assert f['route_counts']['D_to_S']==1635
+          assert f['route_counts']['RU_1mod4_to_Gaussian']==14
+          assert f['route_counts']['RU_1mod4_to_T']==44
+          assert f['route_counts']['RU_3mod4_to_T']==236
+          assert q['DUAL_CURVE_FULL_RATIONAL_2_TORSION'] is True
+          assert q['PHYSICAL_DUAL_DESCENT_SIGNATURE']=='1,-1,-1'
+          assert q['D_COLUMN_ODD_PRIME_ROUTING_COMPLETE'] is True
+          assert q['RU_COLUMN_ODD_PRIME_ROUTING_COMPLETE'] is True
+          assert q['C_COLUMN_ODD_PRIME_ROUTING_COMPLETE'] is True
+          assert q['ODD_LARGE_PRIME_LOCAL_ROUTING_COMPLETE'] is True
+          assert q['LARGE_PRIME_AVAILABILITY_POWER_SAVING_PROVED'] is False
+          assert q['RANK_ACTIVE_SECOND_MOMENT_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
