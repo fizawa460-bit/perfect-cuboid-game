@@ -1,0 +1,35 @@
+name: Stage14-t37 common-core fixed-ell saving
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t37/**'
+      - 'stages/stage14/scripts/14-t/t37_common_core_fixed_ell_saving_audit.py'
+      - 'stages/stage14/data/14-t37/**'
+      - '.github/workflows/stage14-t37-common-core-fixed-ell-saving.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t36 regression
+        run: python stages/stage14/scripts/14-t/t36_fixed_direction_squareclass_energy_audit.py
+
+      - name: Run t37 common-core fixed-ell audit
+        run: python stages/stage14/scripts/14-t/t37_common_core_fixed_ell_saving_audit.py
+
+      - name: Check frozen t37 summary
+        run: git diff --exit-code stages/stage14/data/14-t37/common_core_fixed_ell_saving.json
+
+      - name: Validate locked t37 boundary
+        run: |
+          grep -F 'STAGE14_T37=COMPLETE_COMMON_CORE_SPIN_FACTORIZATION_AND_FIXED_ELL_POWER_SAVING' stages/stage14/14-t37/result.md
+          grep -F 'DELTA_H_COMMON_CORE_IDENTITY=true' stages/stage14/14-t37/result.md
+          grep -F 'COMMON_CORE_SQUARECLASS_FACTORIZATION=true' stages/stage14/14-t37/result.md
+          grep -F 'FIXED_ELL_SHELL_UNIFORM_BOUND=N^(5/6)*B^o(1)' stages/stage14/14-t37/result.md
+          grep -F 'FIXED_ELL_NORM_INDEX_POWER_SAVING_PROVED=true' stages/stage14/14-t37/result.md
+          grep -F 'CANONICAL_PRIME_SUM_POWER_SAVING_PROVED=false' stages/stage14/14-t37/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t37/result.md
