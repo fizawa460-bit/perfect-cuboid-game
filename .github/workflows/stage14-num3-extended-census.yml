@@ -1,0 +1,95 @@
+name: Stage14-num3 extended exact census
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/scripts/14-num3/**'
+      - 'stages/stage14/data/14-num3/**'
+      - 'stages/stage14/14-num3/**'
+      - 'stages/stage14/data/14-num1/baseline_manifest.json'
+      - '.github/workflows/stage14-num3-extended-census.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  b5m-chunks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        chunk: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run memory-bounded exact chunk
+        run: |
+          mkdir -p /tmp/num3
+          /usr/bin/time -v -o /tmp/num3/time-${{ matrix.chunk }}.txt \
+            python stages/stage14/scripts/14-num3/extended_exact_census.py \
+              --bound 5000000 \
+              --chunk-count 8 \
+              --chunk-index ${{ matrix.chunk }} \
+              --output /tmp/num3/chunk-${{ matrix.chunk }}.json \
+            | tee /tmp/num3/console-${{ matrix.chunk }}.txt
+          echo '--- /usr/bin/time -v ---'
+          cat /tmp/num3/time-${{ matrix.chunk }}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: num3-b5m-chunk-${{ matrix.chunk }}
+          path: /tmp/num3/chunk-${{ matrix.chunk }}.json
+          retention-days: 3
+
+  b5m-aggregate:
+    needs: b5m-chunks
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: num3-b5m-chunk-*
+          path: /tmp/num3-chunks
+          merge-multiple: true
+      - name: Merge chunks and enforce B2m regression
+        run: |
+          python stages/stage14/scripts/14-num3/extended_exact_census.py \
+            --bound 5000000 \
+            --merge-dir /tmp/num3-chunks \
+            --output /tmp/num3-b5m.json \
+            | tee /tmp/num3-b5m-console.txt
+      - name: Verify finite-only and emergency boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/num3-b5m.json').read_text())
+          assert r['num1_regression']['all_four_sha256_match'] is True
+          assert r['num1_regression']['counts_match'] is True
+          assert r['num1_regression']['graph_match'] is True
+          assert r['decision']['EXTENDED_BEYOND_B2M'] is True
+          assert r['decision']['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert r['decision']['ASYMPTOTIC_CLAIM'] is False
+          assert r['decision']['SQRT_B_ASYMPTOTIC_CLAIM'] is False
+          assert r['decision']['PERFECT_CUBOID_EXISTENCE_CLAIM'] is False
+          assert r['decision']['PERFECT_CUBOID_NONEXISTENCE_CLAIM'] is False
+          if r['perfect_cuboid_emergency']['triggered']:
+              raise SystemExit('PERFECT CUBOID EMERGENCY: independent reproduction required before num3 closure')
+          assert r['decision']['STAGE14_NUM3']=='COMPLETE_EXTENDED_EXACT_CENSUS'
+          print('Stage14-num3 B=5m exact census: PASS')
+          print(json.dumps(r['extended_census'], indent=2, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: num3-b5m-aggregate
+          path: /tmp/num3-b5m.json
+          retention-days: 3
