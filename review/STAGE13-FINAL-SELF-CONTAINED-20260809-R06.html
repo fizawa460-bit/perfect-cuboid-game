@@ -1,0 +1,1988 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STAGE13-FINAL-SELF-CONTAINED-20260809-R06</title><style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.45;max-width:1180px;margin:0 auto;padding:28px;color:#171717;background:#fff}
+header{border-bottom:2px solid #222;padding-bottom:18px;margin-bottom:24px}code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f7f8;border:1px solid #ddd;padding:18px;border-radius:8px;font-size:13px;line-height:1.42}
+section{margin:40px 0}nav{background:#f6f7f8;border:1px solid #ddd;padding:12px 20px;border-radius:8px}dt{font-weight:700;margin-top:8px}dd{margin-left:0}.source{font-size:13px;color:#555}.lock{background:#fff8dc;border-left:4px solid #9a7b00;padding:12px 16px}.warn{background:#f6f7f8;border-left:4px solid #555;padding:12px 16px}
+</style></head><body>
+<header><h1>Stage13 final self-contained review bundle — R06</h1>
+<dl><dt>Bundle ID</dt><dd><code>STAGE13-FINAL-SELF-CONTAINED-20260809-R06</code></dd><dt>Source snapshot commit</dt><dd><code>103dbc9bf241f8c306befc8dab0175e3ca4fb0f2</code></dd>
+<dt>Canonical proof</dt><dd><code>stages/stage13/13-13fn/stage13-r06-canonical-proof.md</code></dd>
+<dt>Theorem status entering review</dt><dd>R06 repair Gates A–C complete; explicitness Gate D integrated; theorem/counting contract unchanged.</dd>
+<dt>Deterministic audit meaning</dt><dd>Reproducibility and consistency only; never a substitute for mathematical review.</dd></dl>
+<p class="lock"><strong>Immutability rule:</strong> this exact HTML byte sequence is the R06 review target. Any substantive repair creates R07 or later.</p>
+<p class="warn"><strong>Fresh-review rule:</strong> R06 starts with zero independent CLOSED verdicts. No R05 reviewer verdict carries forward.</p></header>
+<section><h2>Frozen theorem contract under review</h2><pre>N_q(B) ~ kappa I_q/(3 pi^3) B(log B)^3, q in {ab,ac,bc}
+N1(B)  ~ kappa/(24 pi) B(log B)^3
+P_q    = 8 I_q/pi^2
+sum I_q = pi^2/8
+J_q    = 2 I_q/pi
+O_qr(B)=o(B(log B)^3)
+T(B)   =o(B(log B)^3)
+lambda_p=(p+5)/(2(p+1)) for inert p</pre></section>
+<section><h2>Scope and non-claims</h2><ul>
+<li>No perfect-cuboid existence or nonexistence claim is made.</li><li>No effective convergence rate or finite-range directional monotonicity is claimed.</li>
+<li>The analytic identity sum I_q=pi^2/8 is proved in the R06 canonical proof; numerical quadrature is validation only.</li>
+<li>The Gaussian-Hecke map is fixed as Fourier exponent m=8 ell to Huang–Liu–Rudnick index k=2 ell, with gamma shift 4 ell.</li>
+<li>The fixed-S overlap proof classifies the principal sector only after auxiliary character aliasing on the actual constrained residue set is removed.</li>
+<li>No growing-modulus theorem, general Selberg–Delange black box, or Gaussian-Hecke zero-free region is a final logical input.</li></ul></section>
+<section><h2>Adversarial review focus</h2><ol>
+<li>Verify the analytic positive-octant derivation of sum I_q=pi^2/8 and the common-Theta calibration order.</li>
+<li>Verify the exact Gaussian-Hecke normalization, continuation/no-pole statement and fixed-strip growth interface.</li>
+<li>Verify the explicit Wiener constants including p=5, curved-region accumulation and retained-harmonic exponent ledger.</li>
+<li>Verify the fixed-S pole-signature kernel, exact product lambda_p principal residue, tagged-factor-two injection and nonprincipal pole loss.</li>
+<li>Verify the Stage12 counting/factor-two interface and that all finite-data and deterministic audits remain non-proof diagnostics.</li></ol></section>
+<nav><h2>Bundle contents</h2><ol><li><a href="#section-1">R06 canonical proof</a></li><li><a href="#section-2">Explicit Wiener lemma</a></li><li><a href="#section-3">Gaussian-Hecke primary-source normalization</a></li><li><a href="#section-4">Fixed-S principal-pole closure</a></li><li><a href="#section-5">R06 repair plan</a></li><li><a href="#section-6">R06 synthesis result</a></li></ol></nav><section id="section-1"><h2>R06 canonical proof</h2><p class="source"><code>stages/stage13/13-13fn/stage13-r06-canonical-proof.md</code> · SHA-256 <code>fd60e84375ded9cdf0beece24302b417f71208798d0c466da1440ad368139776</code></p><pre># Stage13 — R06 canonical proof candidate
+
+&gt; STATUS: `STAGE13_13FN_R06_CANONICAL_PROOF_CANDIDATE`
+&gt;
+&gt; PURPOSE: one proof-facing synthesis of the Stage13 exactly-one directional asymptotic after the fresh R05 review repairs.
+&gt;
+&gt; PRECEDENCE: this file supersedes the R05 canonical proof only for construction of the future immutable R06 bundle. R03, R04 and R05 remain immutable historical review artifacts.
+&gt;
+&gt; THEOREM_CHANGED: `false`.
+&gt;
+&gt; THEOREM_CONTRACT_REOPEN_REQUIRED: `false`.
+
+---
+
+## 0. The theorem and scope
+
+Count primitive canonical triples
+
+\[
+0&lt;a&lt;b&lt;c,\qquad \gcd(a,b,c)=1,
+\qquad d^2=a^2+b^2+c^2,\quad d\in\mathbf Z_{&gt;0}.
+\]
+
+For `q in {ab,ac,bc}`, let `A_q(B)` count triples with `d&lt;=B` for which face `q` has integral diagonal, allowing additional integral faces. For distinct `q,r`, let `O_{qr}(B)` count triples with both faces integral, let `T(B)` count triples with all three faces integral, and let `N_q(B)` count triples with exactly one integral face, namely `q`.
+
+On
+
+\[
+\mathcal R=\{(x,y,z)\in S^2:0&lt;x&lt;y&lt;z\}
+\]
+
+define
+
+\[
+w_{ab}=\frac1{\sqrt{x^2+y^2}},\quad
+w_{ac}=\frac1{\sqrt{x^2+z^2}},\quad
+w_{bc}=\frac1{\sqrt{y^2+z^2}},
+\qquad I_q=\int_{\mathcal R}w_q\,d\omega.
+\]
+
+Then
+
+\[
+\boxed{N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3}
+\]
+
+and
+
+\[
+\boxed{N_1(B):=\sum_qN_q(B)\sim\frac{\kappa}{24\pi}B(\log B)^3}.
+\]
+
+Moreover
+
+\[
+\boxed{I_{ab}+I_{ac}+I_{bc}=\frac{\pi^2}{8}},
+\qquad
+\boxed{\frac{N_q(B)}{N_1(B)}\to\frac{8I_q}{\pi^2}}.
+\]
+
+No effective convergence rate is claimed. Finite data are neither proof of convergence nor a refutation of the asymptotic theorem in the absence of an effective remainder. In particular, a finite sample looking closer either to `2:1:1` or to the limiting vector is diagnostic only. No assumption that perfect cuboids do not exist is used.
+
+---
+
+## 1. Exact combinatorics
+
+For `{q,r,s}={ab,ac,bc}`,
+
+\[
+N_q=A_q-O_{qr}-O_{qs}+T,
+\]
+
+and
+
+\[
+N_1=\sum_qA_q-2\sum_{q&lt;r}O_{qr}+3T.
+\]
+
+Hence it suffices to prove the raw asymptotic for each `A_q` and
+
+\[
+O_{qr}(B)=o(B(\log B)^3).
+\]
+
+---
+
+## 2. Frozen Stage12 interface, projection fiber, and `kappa`
+
+Stage12 uses
+
+\[
+1\le r&lt;s,\quad(r,s)=1,
+\qquad
+P=hrs,\quad z=\frac{h(s^2-r^2)}2,\quad d=\frac{h(r^2+s^2)}2,
+\]
+
+with cutoff `d&lt;=B`. Its primitive oriented distinguished-face record count satisfies
+
+\[
+\boxed{C_{\rm prim}(B)\sim\frac{\kappa}{12\pi}B(\log B)^3}.
+\]
+
+The Euler product is
+
+\[
+\kappa=
+\left(\frac\pi4\right)^3\left(\frac12\right)^3
+\prod_{p\equiv3(4)}(1-p^{-2})^3
+\prod_{q\equiv1(4)}
+\frac{q^2+6q+1}{q^2-1}(1-q^{-1})^6.
+\]
+
+Absolute convergence is elementary. For `p≡3 (4)`,
+
+\[
+(1-p^{-2})^3=1-3p^{-2}+O(p^{-4}).
+\]
+
+For `q≡1 (4)`, with `x=q^{-1}`,
+
+\[
+\frac{1+6x+x^2}{1-x^2}(1-x)^6
+=1-19x^2+O(x^3).
+\]
+
+Thus every normalized local factor is `1+O(p^{-2})` and the product converges absolutely.
+
+For one primitive canonical raw incidence counted by `A_q(B)`, Stage12 has exactly two oriented preimages, `(x,y)` and `(y,x)`, for the distinguished face. The outer convention `r&lt;s` already fixes the outer orientation; canonical sorting preserves the cutoff and gcd; the repeated-side boundary contributes nothing; and this two-element fiber holds separately on both parity branches. Therefore, for every `B`,
+
+\[
+\boxed{C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)},
+\qquad
+\boxed{C_{\rm prim}(B)=2\sum_qA_q(B)}.
+\]
+
+---
+
+## 3. Real chamber factor and exact analytic normalization
+
+For distinguished face `ab`, write
+
+\[
+a^2+b^2=P^2,\qquad P^2+c^2=d^2.
+\]
+
+With
+
+\[
+F_1=a^2+b^2-P^2,\qquad F_2=P^2+c^2-d^2,
+\]
+
+we have
+
+\[
+\det\frac{\partial(F_1,F_2)}{\partial(P,d)}=4Pd.
+\]
+
+After scaling by the radial variable `d`, the common radial powers are absorbed into the global radial measure and the remaining directional Gelfand--Leray factor is
+
+\[
+\frac{d}{P}=\frac1{P/d}=\frac1{\sqrt{x^2+y^2}}=w_{ab}.
+\]
+
+The other faces follow by permutation.
+
+Now prove the normalization symbolically. Let
+
+\[
+\mathcal O=\{(x,y,z)\in S^2:x,y,z&gt;0\}
+\]
+
+and
+
+\[
+W=w_{ab}+w_{ac}+w_{bc}.
+\]
+
+`W` is invariant under all coordinate permutations, and `\mathcal O` is the disjoint union, up to measure-zero equality walls, of the six order chambers. Therefore
+
+\[
+\int_{\mathcal O}W\,d\omega=6(I_{ab}+I_{ac}+I_{bc}).
+\]
+
+For one pair use
+
+\[
+x=\sin\phi\cos\theta,\quad y=\sin\phi\sin\theta,\quad z=\cos\phi,
+\qquad 0&lt;\phi,\theta&lt;\frac\pi2.
+\]
+
+Then `sqrt(x^2+y^2)=sin phi` and `domega=sin phi dphi dtheta`, hence
+
+\[
+\int_{\mathcal O}w_{ab}\,d\omega
+=\int_0^{\pi/2}\int_0^{\pi/2}d\phi\,d\theta
+=\frac{\pi^2}{4}.
+\]
+
+By symmetry the same holds for the other two pair weights. Thus
+
+\[
+6\sum_qI_q=3\frac{\pi^2}{4},
+\]
+
+so
+
+\[
+\boxed{\sum_qI_q=\frac{\pi^2}{8}}.
+\]
+
+This is the proof; numerical quadrature is validation only.
+
+---
+
+## 4. Zero Fourier kernel and notation separation
+
+For a fixed face `q={i,j}` and complementary coordinate `k`, use geometric spherical variables
+
+\[
+x_i=\sin\theta\cos\alpha,\quad x_j=\sin\theta\sin\alpha,\quad x_k=\cos\theta.
+\]
+
+Here `theta` denotes only the geometric polar angle. Then
+
+\[
+w_q\,d\omega=d\theta\,d\alpha.
+\]
+
+With `psi=pi/2-theta`, let `ell_q(psi)` be the allowed inner-angle length. Writing
+
+\[
+r=R\cos\phi,\quad s=R\sin\phi,\quad \phi\in[\pi/4,\pi/2]
+\]
+
+gives
+
+\[
+\frac Pd=\sin2\phi,\quad \frac zd=-\cos2\phi,
+\quad \psi=2\phi-\frac\pi2.
+\]
+
+Define
+
+\[
+k_q(\phi)=\frac4\pi\ell_q(\psi),
+\qquad
+J_q=\int_{\pi/4}^{\pi/2}k_q(\phi)\,d\phi.
+\]
+
+Then
+
+\[
+\boxed{J_q=\frac{2I_q}{\pi}},
+\qquad
+\boxed{\sum_qJ_q=\frac\pi4}.
+\]
+
+From this point onward the Gaussian local angular phase is `vartheta`, never `theta`.
+
+---
+
+## 5. Odd-prime coefficient system and branchwise 2-adic independence
+
+On each OE/EE parity branch retain
+
+\[
+P=hrs,\quad z=\frac{h(s^2-r^2)}2,\quad d=\frac{h(r^2+s^2)}2,\quad(r,s)=1.
+\]
+
+The OE/EE distinction is entirely 2-adic. On each branch separately, the odd-prime Euler factors below are identical for `ab,ac,bc`; sorting/permutation changes only the real chamber label, and the Stage12 projection fiber remains exactly two. Hence one may write branch constants `Theta_OE` and `Theta_EE`, each independent of `q`, and only after the branchwise commonness proof sum them to `Theta=Theta_OE+Theta_EE`. No hidden face-dependent 2-adic multiplier is introduced.
+
+For split `p≡1 (4)`, put `a=v_p(h)`, `b=v_p(rs)`, `e=a+b`. At zero mode the representation multiplicity is `G_e=2e+1`; at nonzero phase define
+
+\[
+H_e(\vartheta)=1+2\sum_{m=1}^e\cos(m\vartheta).
+\]
+
+The pure one-variable factors are
+
+\[
+A_\vartheta(x)=\frac{1-x^2}{1-2\cos\vartheta\,x+x^2},
+\qquad
+B_\vartheta(y)=\frac{1+y}{1-2\cos\vartheta\,y+y^2}.
+\]
+
+At zero mode,
+
+\[
+A_0(s)=\zeta(s)L(s,\chi_4)E_{h,0}(s),
+\qquad
+B_0(s)=\zeta(s)^2L(s,\chi_4)E_{b,0}(s).
+\]
+
+For a retained nonzero Fourier mode the Stage13 Fourier exponent is
+
+\[
+m=8\ell,\qquad \ell\ge1.
+\]
+
+Under the Huang--Liu--Rudnick normalization
+
+\[
+\Xi_k(\mathfrak a)=\left(\frac\alpha{\bar\alpha}\right)^{2k}=e^{i4k\theta_{\mathfrak a}},
+\]
+
+so the exact index translation is
+
+\[
+\boxed{k_{\rm HLR}=m/4=2\ell}.
+\]
+
+Thus the nonzero scale factor uses `L(s,Xi_{2 ell})`, not an ambiguously named `Xi_{8 ell}`.
+
+---
+
+## 6. Mixed correction and explicit Wiener bounds
+
+Define
+
+\[
+M_\vartheta(x,y)=\sum_{a,b\ge1}2\cos((a+b)\vartheta)x^ay^b.
+\]
+
+The full local series is
+
+\[
+D_\vartheta=1+a_\vartheta(x)+b_\vartheta(y)+b_\vartheta(z)
++M_\vartheta(x,y)+M_\vartheta(x,z),
+\]
+
+where `a=A-1`, `b=B-1`, and there is no simultaneous positive `y,z` support because `(r,s)=1`. Put
+
+\[
+C_\vartheta(x,y,z)=\frac{D_\vartheta}{A_\vartheta(x)B_\vartheta(y)B_\vartheta(z)}.
+\]
+
+For `ell&gt;=1` define at first use
+
+\[
+\boxed{C_{\ell,p}(s_h,s_r,s_s)=C_\vartheta(p^{-s_h},p^{-s_r},p^{-s_s})}.
+\]
+
+Let `rho=p^{-5/8}`. For `p&gt;=13`, `rho&lt;1/4`, and coefficientwise
+
+\[
+\|a\|_\rho\le\frac83\rho,
+\quad
+\|b\|_\rho\le\frac{44}{9}\rho,
+\quad
+\|M\|_\rho\le\frac{32}{9}\rho^2,
+\]
+
+\[
+\|A^{-1}\|_\rho\le\frac53,
+\qquad
+\|B^{-1}\|_\rho\le\frac{25}{12}.
+\]
+
+With
+
+\[
+E=D-AB(y)B(z),
+\]
+
+exact pure-axis cancellation gives
+
+\[
+E=(M_{xy}-ab_y)+(M_{xz}-ab_z)-b_yb_z-ab_yb_z.
+\]
+
+The four `rho^2` contributions are
+
+\[
+\frac{64}{9},\quad\frac{704}{27},\quad\frac{1936}{81},\quad\frac{3872}{243},
+\]
+
+whose sum is `17744/243`. Therefore
+
+\[
+\|C_{\ell,p}-1\|_{5/8}
+\le\frac{3465625}{6561}p^{-5/4}&lt;529p^{-5/4}.
+\]
+
+The split prime `p=5` is handled separately. Since `rho_5&lt;3/8`,
+
+\[
+\|a\|\le\frac65,
+\quad\|b\|\le\frac{63}{25},
+\quad\|M\|\le\frac{18}{25},
+\quad\|A^{-1}\|\le\frac{11}{5},
+\quad\|B^{-1}\|\le\frac{121}{40}.
+\]
+
+Hence
+
+\[
+\|E\|\le\frac{67059}{3125}
+\]
+
+and
+
+\[
+\boxed{
+\|C_{\ell,5}-1\|_{5/8}
+\le\frac{10799919009}{25000000}
+=431.99676036&lt;432.
+}
+\]
+
+Thus the mixed Euler correction is absolutely convergent in the weighted Wiener algebra and has finite logarithmic moments uniformly over retained `ell`.
+
+---
+
+## 7. Exact Gaussian-Hecke external contract
+
+For `k!=0`, Huang--Liu--Rudnick §2.1 gives
+
+\[
+\Xi_k(\mathfrak a)=\left(\frac\alpha{\bar\alpha}\right)^{2k}
+\]
+
+and an entire `L(s,Xi_k)` with completion
+
+\[
+\xi(s,k)=\pi^{-(s+2|k|)}\Gamma(s+2|k|)L(s,\Xi_k)=\xi(1-s,k).
+\]
+
+For the retained Stage13 family `k=2ell`, so the gamma shift is exactly `4ell`:
+
+\[
+\pi^{-(s+4\ell)}\Gamma(s+4\ell)L(s,\Xi_{2\ell}).
+\]
+
+Therefore every `ell&gt;=1` mode is entire and has no pole at `s=1`. The fixed residue refinements used later form a finite family independent of `B`; twisting by those fixed finite-order characters preserves nonzero infinity type and gives the same holomorphy-at-one conclusion. No growing-modulus theorem is used.
+
+Right-boundary absolute convergence, the functional equation, Stirling and Phragmen--Lindelof yield polynomial fixed-strip growth in `|t|+ell`. Thus there exist fixed `delta_H&gt;0`, `C_H,D_H&gt;=0` such that
+
+\[
+S_\ell(X)\ll X^{1-\delta_H}(1+\ell)^{C_H}(\log(2X))^{D_H}.
+\]
+
+To pass from a smoothed Riesz/Perron sum to this ordinary sharp sum, choose a Riesz order larger than the vertical-growth exponent, shift the smoothed contour, and apply finite differences. The transition shell is controlled by the positive coefficient majorant; choosing its width as a fixed power smaller than `X` absorbs it into a slightly weakened positive `delta_H`. Hence no unsmoothed contour-shift shortcut is used.
+
+---
+
+## 8. Vaaler convention and curved-region accumulation
+
+Use Vaaler&#x27;s finite sawtooth approximation to build interval majorants/minorants. The interval indicator is taken with the conventional midpoint value at endpoints. In the canonical problem those endpoints are equality walls of the strict chamber or repeated-side degeneracies, which are excluded from the canonical count; changing the endpoint convention therefore does not change the counted population. The pointwise majorant/minorant has
+
+\[
+\widehat P^\pm(0)=|I|\pm\frac1{L+1},
+\qquad
+|\widehat P^\pm(h)|\le\frac1{\pi|h|}+\frac1{L+1}&lt;1.
+\]
+
+Write
+
+\[
+\Lambda=\log B,
+\quad H_0=U=e^{\Lambda^{1/4}},
+\quad \eta=\Lambda^{-8}.
+\]
+
+After removing the positive-majorant wings `h&lt;H0` and `min(r,s)&lt;U`, the core is partitioned by a multiplicative mesh `e^eta`. One coordinate requires at most
+
+\[
+1+\frac{\log(2B/H_0)}\eta
+=O\left(\frac{\log(2B)}\eta\right)
+=O(\Lambda^9)
+\]
+
+intervals. Therefore the crude three-coordinate product bound is
+
+\[
+\boxed{N_{\rm box}=O(\Lambda^{27})}.
+\]
+
+This bound deliberately ignores the curved constraint; being crude only strengthens safety.
+
+With finite Perron order `N=64`, the per-box endpoint remainder `O(B\Lambda^{-62})` sums to
+
+\[
+O(B\Lambda^{-35}).
+\]
+
+Rectangle power tails are
+
+\[
+B\Lambda^{C_{\rm rect}+27}e^{-(3/16)\Lambda^{1/4}},
+\]
+
+and the boundary and interior mesh errors are `O(B\Lambda^{-5})` up to already-accounted lower-order terms.
+
+For a nonconstant mixed-correction convolution shift, finite logarithmic moments give
+
+\[
+(\log(X/n))^j-(\log X)^j
+=O((1+\log n)\Lambda^{j-1}),
+\]
+
+and summing against the absolute Wiener coefficients yields the global mixed-log-shift bound
+
+\[
+\boxed{O(B\Lambda^2)}.
+\]
+
+Thus
+
+\[
+A_q^{(0)}(B)=\Theta J_qB\Lambda^3+o(B\Lambda^3)
+\]
+
+with one arithmetic `Theta` independent of `q`.
+
+---
+
+## 9. Retained harmonics and the exponent ledger
+
+Take Vaaler degree
+
+\[
+L=\lfloor\Lambda^4\rfloor.
+\]
+
+One retained mode costs
+
+\[
+B\Lambda^{D_H+2}(1+\ell)^{C_H}e^{-\delta_H\Lambda^{1/4}}.
+\]
+
+Summing `ell&lt;=L` gives
+
+\[
+\sum_{\ell\le L}(1+\ell)^{C_H}=O(L^{C_H+1})=O(\Lambda^{4C_H+4}).
+\]
+
+The two positive base channels contribute `Lambda^2`, while the Hecke bound contributes `Lambda^{D_H}`. Hence the full polylogarithmic exponent is visibly
+
+\[
+\boxed{(4C_H+4)+D_H+2=4C_H+D_H+6}.
+\]
+
+Therefore
+
+\[
+\mathcal E_{\rm harm,core}
+\ll B\Lambda^{4C_H+D_H+6}e^{-\delta_H\Lambda^{1/4}}
+=o_A(B\Lambda^{-A})
+\]
+
+for every fixed `A&gt;0`. The historical fixed choice `A=48` is not needed.
+
+The Vaaler zero-mode excess is `1/(L+1)`, so positivity and the Stage12 total give `O(B\Lambda^{-1})`. Stage12 is used here only as an error majorant, not to seed directional constants.
+
+---
+
+## 10. Common-Theta calibration
+
+The arithmetic coefficient system is common across categories and, branchwise, across OE/EE; category dependence appears only through `J_q`. Therefore
+
+\[
+A_q(B)\sim\Theta J_qB(\log B)^3.
+\]
+
+Only now sum over `q`. Since `sum J_q=pi/4` and `C_prim=2 sum A_q`, comparison with Stage12 gives
+
+\[
+\Theta\frac\pi2=\frac\kappa{12\pi},
+\qquad
+\boxed{\Theta=\frac\kappa{6\pi^2}}.
+\]
+
+Using `J_q=2I_q/pi`,
+
+\[
+\boxed{A_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3}.
+\]
+
+The order is non-circular:
+
+```text
+branchwise local arithmetic commonness
+-&gt; common Theta
+-&gt; sum over q
+-&gt; frozen Stage12 total calibration.
+```
+
+---
+
+## 11. Inert local multiplier, including `p=3`
+
+For inert odd `p≡3 (4)`, primitivity leaves valuation states
+
+```text
+U=(0,0,0),  R_b=(0,b,0),  S_c=(0,0,c).
+```
+
+The unrestricted local mass is `(p+1)/(p-1)`. The accepted unit fraction is
+
+\[
+\alpha_p=\frac{p+1}{2(p-1)},
+\]
+
+and after adding automatically accepted positive-valuation mass,
+
+\[
+\boxed{\lambda_p=\frac{p+5}{2(p+1)}}.
+\]
+
+At `p=3`,
+
+\[
+\boxed{\lambda_3=1}.
+\]
+
+Thus `p=3` gives no contraction. For inert `p&gt;=7`,
+
+\[
+\boxed{\lambda_p\le\frac34}.
+\]
+
+This is why the overlap squeeze begins with inert primes `&gt;=7`.
+
+---
+
+## 12. Fixed-S principal pole sector on the constrained residue set
+
+Fix a finite inert set `S` and a valuation profile. After fixing valuations, admissible unit residues form a finite constrained subset `X_{S,nu}` of an ambient finite abelian unit group. We do **not** assume `X_{S,nu}` is itself a group.
+
+Fourier-expand the acceptance indicator in ambient characters, then identify two characters whenever they agree pointwise on `X_{S,nu}`. This quotient removes all algebraic auxiliary-character aliasing before analytic pole classification.
+
+At zero mode the explicit unbounded pole slots are the five zeta copies
+
+\[
+\boxed{\mathscr P=\{H,R_1,R_2,S_1,S_2\}},
+\]
+
+coming from `zeta(s_h)`, `zeta(s_r)^2`, `zeta(s_s)^2`. Each effective character class induces a five-component pole signature. Define the principal pole sector to be the kernel of this reduced signature map: all five induced slot characters are principal.
+
+Let `Res_S(F)` be the coefficient of the full raw principal polar term after inserting a finite residue function `F`. This is linear in `F`. Every effective character outside the kernel has zero full principal residue because at least one pole slot is replaced by a holomorphic fixed-conductor `L`-factor. Therefore the complete kernel contribution equals `Res_S(W_S)`.
+
+Evaluate that same functional directly in local physical variables. At every `p in S`, the constrained/unrestricted local ratio is `lambda_p`; CRT tensors the fixed local insertions. Hence
+
+\[
+\boxed{\frac{Res_S(W_S)}{Res_S(1)}=\prod_{p\in S}\lambda_p}.
+\]
+
+This proves that the **entire** principal sector, including any harmless mixed-only auxiliary characters, has multiplier `prod lambda_p` without assuming linear independence of redundant auxiliary coordinates.
+
+---
+
+## 13. Tagged factor two and nonprincipal pole loss
+
+For each raw `q` incidence, tag one of its two face legs. The ambient tagged set therefore satisfies the exact finite identity
+
+\[
+\boxed{|\mathcal T_q(B)|=2A_q(B)}.
+\]
+
+For distinct faces `(q,r)`, the two faces share exactly one edge. A true pair-overlap object maps injectively to the accepted tagged set by choosing that unique shared edge. Hence for every finite `B` and fixed `S`,
+
+\[
+\boxed{O_{qr}(B)\le A^{\rm tag}_{q,S}(B)}.
+\]
+
+The factor two may overcount accepted tags but can never undercount a true pair overlap.
+
+Outside the principal-sector kernel, at least one of the five reduced slot characters is genuinely nonprincipal after aliasing has already been removed. The corresponding zeta pole is replaced by a fixed-conductor Dirichlet or Gaussian/ray-class Hecke factor holomorphic at `s=1`. The phase-uniform mixed Wiener correction is holomorphic and cannot restore the pole. Thus the pole order drops by at least one and, for fixed `S`, the finite sum of all nonprincipal sectors is
+
+\[
+\boxed{o_S(B(\log B)^3)}.
+\]
+
+Therefore
+
+\[
+\boxed{
+A^{\rm tag}_{q,S}(B)
+=2D_q\left(\prod_{p\in S}\lambda_p\right)B(\log B)^3
++o_S(B(\log B)^3),
+}
+\]
+
+where `D_q=kappa I_q/(3 pi^3)`.
+
+---
+
+## 14. Pair/triple overlap squeeze
+
+Choose `k` distinct inert primes `p_i&gt;=7` and hold `S_k={p_1,...,p_k}` fixed. Then
+
+\[
+\limsup_{B\to\infty}\frac{O_{qr}(B)}{B(\log B)^3}
+\le2D_q\prod_{p\in S_k}\lambda_p
+\le2D_q\left(\frac34\right)^k.
+\]
+
+Only after the `B`-limit do we let `k-&gt;infinity`. Hence
+
+\[
+\boxed{O_{qr}(B)=o(B(\log B)^3)}.
+\]
+
+Since `T(B)` is contained in every pair overlap,
+
+\[
+\boxed{T(B)=o(B(\log B)^3)}.
+\]
+
+The quantifier order is permanently
+
+```text
+fix S -&gt; B -&gt; infinity -&gt; enlarge S.
+```
+
+There is no modulus growing with `B`.
+
+---
+
+## 15. Exactly-one conclusion
+
+Insert the overlap estimates into the exact inclusion-exclusion identities. Then
+
+\[
+\boxed{N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3}.
+\]
+
+Summing and using the analytic identity `sum I_q=pi^2/8` gives
+
+\[
+\boxed{N_1(B)\sim\frac\kappa{24\pi}B(\log B)^3}.
+\]
+
+Therefore
+
+\[
+\boxed{\frac{N_q(B)}{N_1(B)}\to\frac{8I_q}{\pi^2}}.
+\]
+
+---
+
+## 16. Quantitative and dependency ledger
+
+With `Lambda=log B`:
+
+```text
+H0=U=exp(Lambda^(1/4))
+eta=Lambda^(-8)
+epsilon=1/16
+finite Perron order N=64
+Vaaler degree L=floor(Lambda^4)
+mesh intervals per coordinate=O(log(2B)/eta)=O(Lambda^9)
+box count=O(Lambda^27)
+all-box finite remainder=O(B Lambda^(-35))
+mixed-log shifts=O(B Lambda^2)
+retained harmonic exponent=4*C_H+D_H+6
+p=5 Wiener bound &lt;432
+lambda_3=1
+```
+
+Repository audits are reproducibility/consistency evidence only. They do not replace the analytic arguments.
+
+Imported external boundary:
+
+1. frozen Stage12 R09 total primitive-oriented theorem and counting definition;
+2. Gaussian Hecke continuation/functional equation in the exact HLR normalization, plus fixed finite twists;
+3. classical continuation/functional equation for `L(s,chi_4)`;
+4. Vaaler&#x27;s finite sawtooth approximation.
+
+Not required: a Gaussian-Hecke zero-free region, general Selberg--Delange as a black box, Dirichlet&#x27;s theorem on primes in progressions, a growing-modulus sieve theorem, or perfect-cuboid nonexistence.
+
+```text
+STAGE13_13FN=COMPLETE_R06_CANONICAL_PROOF_SYNTHESIS
+R06_CANONICAL_PROOF_SINGLE_ENTRYPOINT=true
+R06_MANDATORY_THEOREM_LEVEL_GATES_A_B_C_COMPLETE=true
+SUM_IQ_ANALYTIC_PROOF_COMPLETE=true
+HECKE_PRIMARY_SOURCE_CONTRACT_VERIFIED=true
+PROOF_TO_HLR_INDEX=k_HLR=2*ell
+PRINCIPAL_POLE_SECTOR=KER_REDUCED_POLE_SIGNATURE_MAP
+TAGGED_FACTOR_TWO_UPPER_BOUND_PROVED=true
+NONPRINCIPAL_POLE_LOSS_PROVED=true
+WIENER_MIXED_TERM_EXPLICIT=true
+P5_EXPLICIT_FINITE_BOUND_LT=432
+RETAINED_ELL_MIN=1
+LAMBDA_3=1
+FINITE_DATA_POSITIVE_CONVERGENCE_EVIDENCE_CLAIMED=false
+GELFAND_LERAY_RADIAL_FACTOR=1/(P/d)
+OE_EE_FACE_INDEPENDENCE_BRANCHWISE=true
+BOX_COUNT_DERIVATION_EXPLICIT=true
+HARMONIC_EXPONENT_DECOMPOSED=true
+VAALER_ENDPOINT_CONVENTION_EXPLICIT=true
+THETA_VARTTHETA_SEPARATION=true
+KAPPA_ABSOLUTE_CONVERGENCE_EXPANSION_EXPLICIT=true
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R03_IMMUTABLE=true
+R04_IMMUTABLE=true
+R05_IMMUTABLE=true
+R06_BUNDLE_CREATED=false
+R06_FRESH_EXTERNAL_REVIEW_REQUIRED=true
+PROMOTE_TO_13_13G=false
+NEXT=13-13fo
+```
+</pre></section><section id="section-2"><h2>Explicit Wiener lemma</h2><p class="source"><code>stages/stage13/13-13fb/wiener-bound-lemma.md</code> · SHA-256 <code>a3df9ee183a1cc70da489c232a710fdf2b0f8be2c91037093c53acec5b943d1f</code></p><pre># Stage13-13fb — explicit split-prime Wiener bound
+
+&gt; STATUS: `STAGE13_13FB_EXPLICIT_WIENER_LEMMA`
+&gt;
+&gt; PURPOSE: make the R05 Gate B estimate fully auditable without referring to a hidden numerical sample or an unexplained constant.
+&gt;
+&gt; INPUT: the primitive raw `j=0` local coefficient system already established in Stage13-12aa.
+&gt;
+&gt; OUTPUT: a phase-uniform proof of
+&gt;
+&gt; \[
+&gt; \|C_{\ell,p}-1\|_{5/8}\le 529p^{-5/4}
+&gt; \qquad(p\equiv1\pmod4,\ p\ge13),
+&gt; \]
+&gt;
+&gt; plus an explicit finite bound for the exceptional split prime `p=5`.
+
+This lemma is deliberately local. It does not perform the curved-region box summation or the retained-harmonic conductor bookkeeping; those are Gates C and D.
+
+---
+
+## 1. Local variables and phase
+
+Let `p≡1 (mod 4)` be a split prime. For the three Dirichlet variables write
+
+\[
+x=p^{-s_h},\qquad y=p^{-s_r},\qquad z=p^{-s_s}.
+\]
+
+Let `vartheta` denote the local Gaussian angular phase. The proof below is uniform for every real `vartheta`; therefore it is automatically uniform in the retained harmonic index `ell`.
+
+Set
+
+\[
+c=\cos\vartheta.
+\]
+
+For `n&gt;=0` define
+
+\[
+U_n(\vartheta)=2\cos(n\vartheta)
+\]
+
+for positive `n`, and
+
+\[
+H_n(\vartheta)=1+2\sum_{m=1}^n\cos(m\vartheta).
+\]
+
+The primitive raw local subtraction gives
+
+\[
+Z_\ell(a,b;\vartheta)=
+\begin{cases}
+H_b(\vartheta),&amp;a=0,\\
+2\cos((a+b)\vartheta),&amp;a\ge1.
+\end{cases}
+\]
+
+No canonical face label `ab/ac/bc` occurs in these coefficients.
+
+---
+
+## 2. Exact one-variable factors
+
+Define the scale and one-base factors
+
+\[
+A_\vartheta(x)
+=1+\sum_{a\ge1}2\cos(a\vartheta)x^a,
+\]
+
+\[
+B_\vartheta(y)
+=1+\sum_{b\ge1}H_b(\vartheta)y^b.
+\]
+
+Summing the geometric series gives the exact rational functions
+
+\[
+\boxed{
+A_\vartheta(x)=\frac{1-x^2}{1-2cx+x^2},
+}
+\]
+
+\[
+\boxed{
+B_\vartheta(y)=\frac{1+y}{1-2cy+y^2}.
+}
+\]
+
+At `vartheta=0` these specialize to
+
+\[
+A_0(x)=\frac{1+x}{1-x},
+\qquad
+B_0(y)=\frac{1+y}{(1-y)^2},
+\]
+
+so the same formulas include the zero mode.
+
+Write
+
+\[
+a_\vartheta(x)=A_\vartheta(x)-1,
+\qquad
+b_\vartheta(y)=B_\vartheta(y)-1.
+\]
+
+The genuine positive-height/base mixed part is
+
+\[
+M_\vartheta(x,y)
+=\sum_{a,b\ge1}2\cos((a+b)\vartheta)x^ay^b.
+\]
+
+Every coefficient of `M_vartheta` has absolute value at most `2`.
+
+---
+
+## 3. Exact three-variable local factor and definition of `C_{ell,p}`
+
+The full split-prime local series is
+
+\[
+\begin{aligned}
+D_\vartheta(x,y,z)
+={}&amp;1+a_\vartheta(x)+b_\vartheta(y)+b_\vartheta(z)\\
+&amp;+M_\vartheta(x,y)+M_\vartheta(x,z).
+\end{aligned}
+\]
+
+There is no term supported simultaneously on positive powers of `y` and `z`, because the primitive outer parameters satisfy `(r,s)=1`.
+
+Define
+
+\[
+C_\vartheta(x,y,z)
+=\frac{D_\vartheta(x,y,z)}
+{A_\vartheta(x)B_\vartheta(y)B_\vartheta(z)}.
+\]
+
+For the actual Dirichlet factor we use the notation
+
+\[
+\boxed{
+C_{\ell,p}(s_h,s_r,s_s)
+:=C_\vartheta(p^{-s_h},p^{-s_r},p^{-s_s}),
+}
+\]
+
+where `vartheta` is the phase attached to `(ell,p)`.
+
+The pure axes agree exactly:
+
+\[
+D_\vartheta(x,0,0)=A_\vartheta(x),
+\]
+
+\[
+D_\vartheta(0,y,0)=B_\vartheta(y),
+\]
+
+\[
+D_\vartheta(0,0,z)=B_\vartheta(z).
+\]
+
+This exact cancellation is why the correction starts at total support size at least two.
+
+---
+
+## 4. Weighted Wiener norm
+
+For
+
+\[
+F(x,y,z)=\sum_{i,j,k\ge0}f_{i,j,k}x^iy^jz^k
+\]
+
+and `0&lt;rho&lt;1`, define
+
+\[
+\|F\|_\rho
+=\sum_{i,j,k\ge0}|f_{i,j,k}|\rho^{i+j+k}.
+\]
+
+The Cauchy product and Tonelli give
+
+\[
+\boxed{
+\|FG\|_\rho\le\|F\|_\rho\|G\|_\rho.
+}
+\]
+
+For the target half-plane
+
+\[
+\sigma=\frac58,
+\qquad
+\rho=p^{-5/8}.
+\]
+
+If `p&gt;=13`, then
+
+\[
+\rho\le13^{-5/8}&lt;\frac14.
+\]
+
+The last inequality is exact because
+
+\[
+4^8=65536&lt;13^5=371293.
+\]
+
+---
+
+## 5. Pure-axis coefficient bounds
+
+Since `|2 cos(n vartheta)|&lt;=2`,
+
+\[
+\begin{aligned}
+\|a_\vartheta\|_\rho
+&amp;\le2\sum_{n\ge1}\rho^n\\
+&amp;=\frac{2\rho}{1-\rho}\\
+&amp;\le\frac83\rho
+\qquad(\rho\le1/4).
+\end{aligned}
+\]
+
+Thus
+
+\[
+\boxed{\|a_\vartheta\|_\rho\le\frac83\rho.}
+\]
+
+Also
+
+\[
+|H_n(\vartheta)|\le2n+1.
+\]
+
+Hence
+
+\[
+\begin{aligned}
+\|b_\vartheta\|_\rho
+&amp;\le\sum_{n\ge1}(2n+1)\rho^n\\
+&amp;=\frac{2\rho}{(1-\rho)^2}+\frac{\rho}{1-\rho}\\
+&amp;\le\frac{44}{9}\rho.
+\end{aligned}
+\]
+
+Therefore
+
+\[
+\boxed{\|b_\vartheta\|_\rho\le\frac{44}{9}\rho.}
+\]
+
+For the mixed part,
+
+\[
+\begin{aligned}
+\|M_\vartheta\|_\rho
+&amp;\le2\sum_{a,b\ge1}\rho^{a+b}\\
+&amp;=\frac{2\rho^2}{(1-\rho)^2}\\
+&amp;\le\frac{32}{9}\rho^2.
+\end{aligned}
+\]
+
+Thus
+
+\[
+\boxed{\|M_\vartheta\|_\rho\le\frac{32}{9}\rho^2.}
+\]
+
+Every bound is uniform in `vartheta`.
+
+---
+
+## 6. Exact inverse formulas and Wiener bounds
+
+From the rational form of `A_vartheta`,
+
+\[
+A_\vartheta(x)^{-1}
+=\frac{1-2cx+x^2}{1-x^2}.
+\]
+
+After the constant term, every coefficient has absolute value at most `2`: odd coefficients are `-2c` up to sign and even positive coefficients are bounded by `2`. Therefore
+
+\[
+\begin{aligned}
+\|A_\vartheta^{-1}\|_\rho
+&amp;\le1+\frac{2\rho}{1-\rho}\\
+&amp;\le\frac53.
+\end{aligned}
+\]
+
+So
+
+\[
+\boxed{\|A_\vartheta^{-1}\|_\rho\le\frac53.}
+\]
+
+Likewise
+
+\[
+B_\vartheta(y)^{-1}
+=\frac{1-2cy+y^2}{1+y}.
+\]
+
+Using
+
+\[
+\frac1{1+y}=\sum_{n\ge0}(-1)^ny^n,
+\]
+
+the coefficient of `y` is `-(1+2c)`, hence has absolute value at most `3`. For every degree `n&gt;=2`, the coefficient is
+
+\[
+2(1+c)(-1)^n,
+\]
+
+whose absolute value is at most `4`. Therefore
+
+\[
+\begin{aligned}
+\|B_\vartheta^{-1}\|_\rho
+&amp;\le1+3\rho+\frac{4\rho^2}{1-\rho}\\
+&amp;\le\frac{25}{12}.
+\end{aligned}
+\]
+
+Thus
+
+\[
+\boxed{\|B_\vartheta^{-1}\|_\rho\le\frac{25}{12}.}
+\]
+
+Again these estimates include `vartheta=0` and are phase-uniform.
+
+---
+
+## 7. Pure-axis cancellation and the exact error identity
+
+Put
+
+\[
+E_\vartheta
+=D_\vartheta-A_\vartheta B_\vartheta(y)B_\vartheta(z).
+\]
+
+Since
+
+\[
+A_\vartheta=1+a,
+\qquad
+B_\vartheta(y)=1+b_y,
+\qquad
+B_\vartheta(z)=1+b_z,
+\]
+
+one has the exact expansion
+
+\[
+A_\vartheta B_\vartheta(y)B_\vartheta(z)
+=1+a+b_y+b_z+ab_y+ab_z+b_yb_z+ab_yb_z.
+\]
+
+Subtracting from `D_vartheta` gives
+
+\[
+\boxed{
+E_\vartheta
+=(M_{xy}-ab_y)+(M_{xz}-ab_z)-b_yb_z-ab_yb_z.
+}
+\]
+
+Every term on the right contains at least two positive coordinate supports. No first-order monomial survives.
+
+By submultiplicativity,
+
+\[
+\|E_\vartheta\|_\rho
+\le
+2\|M\|_\rho
++2\|a\|_\rho\|b\|_\rho
++\|b\|_\rho^2
++\|a\|_\rho\|b\|_\rho^2.
+\]
+
+The first three terms are already multiples of `rho^2`. For the last term,
+
+\[
+\|a\|_\rho\|b\|_\rho^2
+\le
+\frac83\left(\frac{44}{9}\right)^2\rho^3.
+\]
+
+Since `rho&lt;=1/4`,
+
+\[
+\rho^3\le\frac14\rho^2.
+\]
+
+Therefore the four contributions are respectively
+
+\[
+\frac{64}{9}\rho^2,
+\qquad
+\frac{704}{27}\rho^2,
+\qquad
+\frac{1936}{81}\rho^2,
+\qquad
+\frac{3872}{243}\rho^2.
+\]
+
+On the common denominator `243`,
+
+\[
+\frac{64}{9}
++\frac{704}{27}
++\frac{1936}{81}
++\frac{3872}{243}
+=
+\frac{1728+6336+5808+3872}{243}
+=
+\frac{17744}{243}.
+\]
+
+Hence
+
+\[
+\boxed{
+\|E_\vartheta\|_\rho
+\le\frac{17744}{243}\rho^2.
+}
+\]
+
+This is the complete origin of the numerator constant used below.
+
+---
+
+## 8. The constant `529`
+
+Because
+
+\[
+C_\vartheta-1
+=E_\vartheta
+A_\vartheta^{-1}
+B_\vartheta(y)^{-1}
+B_\vartheta(z)^{-1},
+\]
+
+submultiplicativity yields
+
+\[
+\begin{aligned}
+\|C_\vartheta-1\|_\rho
+&amp;\le
+\frac{17744}{243}\rho^2
+\cdot\frac53
+\cdot\left(\frac{25}{12}\right)^2\\
+&amp;=\frac{3465625}{6561}\rho^2.
+\end{aligned}
+\]
+
+The exact rational constant satisfies
+
+\[
+\frac{3465625}{6561}
+=528.2159731748209\ldots
+&lt;529.
+\]
+
+Therefore
+
+\[
+\boxed{
+\|C_\vartheta-1\|_\rho&lt;529\rho^2.
+}
+\]
+
+With `rho=p^{-5/8}`,
+
+\[
+\rho^2=p^{-5/4}.
+\]
+
+Thus for every split prime `p&gt;=13`, every harmonic index and every phase,
+
+\[
+\boxed{
+\|C_{\ell,p}-1\|_{5/8}
+\le529p^{-5/4}.
+}
+\]
+
+There is no hidden dependence on `ell`, `p` beyond `p^{-5/4}`, or the local phase.
+
+---
+
+## 9. The split prime `p=5` is finite with an explicit phase-uniform bound
+
+For `p=5`,
+
+\[
+\rho_5=5^{-5/8}&lt;\frac38.
+\]
+
+Indeed this is equivalent after taking eighth powers to
+
+\[
+8^8&lt;3^8 5^5,
+\]
+
+and
+
+\[
+16777216&lt;20503125.
+\]
+
+Repeating the same coefficient estimates with `rho&lt;=3/8` gives
+
+\[
+\|a\|_\rho\le\frac65,
+\qquad
+\|b\|_\rho\le\frac{63}{25},
+\qquad
+\|M\|_\rho\le\frac{18}{25},
+\]
+
+\[
+\|A^{-1}\|_\rho\le\frac{11}{5},
+\qquad
+\|B^{-1}\|_\rho\le\frac{121}{40}.
+\]
+
+Consequently
+
+\[
+\|E\|_\rho
+\le
+2\frac{18}{25}
++2\frac65\frac{63}{25}
++\left(\frac{63}{25}\right)^2
++\frac65\left(\frac{63}{25}\right)^2
+=
+\frac{67059}{3125}.
+\]
+
+Hence
+
+\[
+\begin{aligned}
+\|C_{\ell,5}-1\|_{5/8}
+&amp;\le
+\frac{67059}{3125}
+\cdot\frac{11}{5}
+\cdot\left(\frac{121}{40}\right)^2\\
+&amp;=\frac{10799919009}{25000000}\\
+&amp;=431.99676036\\
+&amp;&lt;432.
+\end{aligned}
+\]
+
+Thus `p=5` is not merely called harmless: it has an explicit finite Wiener bound uniform in the phase. Since it is one Euler factor, it does not affect convergence of the infinite product over `p&gt;=13`.
+
+---
+
+## 10. Global consequence needed later
+
+For the infinite split-prime tail,
+
+\[
+\sum_{p\equiv1(4),\ p\ge13}
+\|C_{\ell,p}-1\|_{5/8}
+\le
+529\sum_{p\ge13}p^{-5/4}
+&lt;\infty.
+\]
+
+Therefore the Euler product of mixed corrections converges absolutely in the weighted Wiener algebra. Because the local majorant is phase-uniform, the resulting global Wiener norm is uniform in every retained harmonic range, in particular
+
+\[
+1\le\ell\le(\log B)^4.
+\]
+
+This also implies the fixed logarithmic moments used by the convolution step: for every fixed integer `m&gt;=0`,
+
+\[
+\sum_{u,v,w\ge1}
+\frac{|c_\ell(u,v,w)|(1+\log(uvw))^m}{uvw}&lt;\infty,
+\]
+
+uniformly in retained `ell`, because
+
+\[
+(1+\log n)^m n^{-3/8}
+\]
+
+is bounded on `n&gt;=1`.
+
+The present gate establishes only this Wiener/moment interface. The summation of rectangle errors and the nonzero-harmonic family estimate remain separate R05 gates.
+
+---
+
+## 11. Review-facing lock
+
+The constant `529` is therefore not an empirical constant and not a black box. It is the rounded-up product
+
+```text
+E support bound        = 17744/243
+A inverse bound        = 5/3
+B inverse bound        = 25/12, twice
+exact product          = 3465625/6561
+                       = 528.2159731748209...
+rounded majorant       = 529
+rho^2                  = p^(-5/4)
+```
+
+and `p=5` separately satisfies the explicit phase-uniform finite bound `&lt;432`.
+
+```text
+STAGE13_13FB=COMPLETE_EXPLICIT_WIENER_BOUND
+WIENER_SIGMA=5/8
+SPLIT_PRIME_TAIL_START=13
+WIENER_E_BOUND=17744/243
+WIENER_EXACT_CONSTANT=3465625/6561
+WIENER_ROUNDED_CONSTANT=529
+WIENER_EXPONENT=5/4
+P5_EXPLICIT_FINITE_BOUND_LT=432
+PHASE_UNIFORM=true
+RETAINED_HARMONIC_UNIFORM=true
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R04_IMMUTABLE=true
+NEXT=13-13fc
+```</pre></section><section id="section-3"><h2>Gaussian-Hecke primary-source normalization</h2><p class="source"><code>stages/stage13/13-13fl/gaussian-hecke-normalization.md</code> · SHA-256 <code>d7c6bd0768e5d121ef0f42f388bfb5d1737bdbb2a5e5c0631566eb6a1150dcd2</code></p><pre># Stage13-13fl — Gaussian-Hecke primary-source normalization
+
+&gt; STATUS: `R06_GATE_B_GAUSSIAN_HECKE_NORMALIZATION`
+
+This gate closes the R05 external-review objection concerning the exact Gaussian-Hecke character normalization and completed functional equation used by the nonzero angular modes.
+
+## 1. Primary-source normalization actually used
+
+Huang–Liu–Rudnick, §2.1, define for a nonzero Gaussian ideal `a=(alpha)`
+
+\[
+\Xi_k(\mathfrak a)=\left(\frac{\alpha}{\bar\alpha}\right)^{2k}=e^{i4k\theta_{\mathfrak a}},\qquad k\in\mathbf Z.
+\]
+
+For `k != 0` they state that `L(s,Xi_k)` is entire and that
+
+\[
+\xi(s,k)=\pi^{-(s+2|k|)}\Gamma(s+2|k|)L(s,\Xi_k)=\xi(1-s,k).
+\]
+
+Thus the gamma shift `2|k|` in R05 is correct **when `k` denotes the HLR Hecke-character index**.
+
+## 2. Remove the R05 indexing ambiguity
+
+The Stage13 Fourier analysis is naturally written in terms of an angular exponential
+
+\[
+e^{i m\theta}.
+\]
+
+The source character `Xi_k` produces angular exponent `m=4k`. Therefore the exact translation is
+
+```text
+HLR index k = m/4.
+```
+
+In particular, if the proof-facing retained mode is written as
+
+\[
+m=8\ell,\qquad \ell\ge1,
+\]
+
+then the corresponding source character is
+
+\[
+\boxed{k_{HLR}=2\ell},
+\]
+
+not `k_HLR=8 ell`. Any earlier phrase “Hecke k=8 ell” is therefore only safe if `k` meant the Fourier exponent rather than the HLR character index. R06 must use separate symbols and the exact map above.
+
+For the retained family the completed factor is consequently
+
+\[
+\pi^{-(s+4\ell)}\Gamma(s+4\ell)L(s,\Xi_{2\ell}),
+\]
+
+and `L(s,Xi_{2 ell})` is entire for every `ell&gt;=1`, hence has no pole at `s=1`.
+
+## 3. What the proof consumes
+
+The Stage13 harmonic estimate does not consume a numerical conductor exponent. It needs only:
+
+1. entire continuation for every retained nonzero angular mode;
+2. no pole at `s=1`;
+3. a functional equation with an explicit gamma factor whose shift is linear in `ell`;
+4. polynomial growth on any fixed vertical strip after applying Stirling and Phragmen–Lindelof;
+5. the same conclusions after multiplying by one of finitely many fixed residue/ray-class twists.
+
+Items 1–3 follow directly from the HLR normalization above for the untwisted angular family. Item 4 follows from the displayed functional equation, absolute convergence on a right boundary, Stirling for `Gamma(s+4 ell)`, and Phragmen–Lindelof; only existence of fixed exponents `C_H,D_H` is used.
+
+For item 5, the finite residue conditions used in Stage13 range over a fixed finite set independent of `B` and `ell`. They correspond to fixed finite-order Hecke/ray-class characters. Multiplying such a character by `Xi_{2 ell}` leaves nonzero infinity type for `ell&gt;=1`, so the resulting Hecke character is nontrivial and its L-function is holomorphic at `s=1`; its finite conductor is bounded inside the fixed twist family. The proof therefore requires no growing-modulus theorem.
+
+## 4. Uniform proof-facing interface
+
+For every retained `ell&gt;=1` and every twist `omega` in the fixed finite twist set, the R06 interface is
+
+\[
+L(s,\Xi_{2\ell}\otimes\omega)
+\]
+
+with no pole at `s=1` and fixed-strip polynomial growth in `|t|+ell`. Hence the Riesz/Perron argument may retain the abstract bound
+
+\[
+S_\ell(X)\ll X^{1-\delta_H}(1+\ell)^{C_H}(\log(2X))^{D_H}
+\]
+
+for fixed positive `delta_H` and fixed finite exponents `C_H,D_H`; no numerical value of those exponents is part of the theorem contract.
+
+## 5. Source lock
+
+Primary normalization checked against:
+
+- B. Huang, J. Liu, Z. Rudnick, *Gaussian primes in almost all narrow sectors*, §2.1: `Xi_k=(alpha/bar alpha)^{2k}=e^{i4k theta}`, entire continuation for `k!=0`, and completed equation `pi^{-(s+2|k|)} Gamma(s+2|k|) L(s,Xi_k)=xi(1-s,k)`.
+- J. Merikoski, *On Gaussian primes in sparse sets*, §2.7, as an independent modern proof context using Hecke L-functions over `Q(i)`; no incompatible angular normalization is imported from it.
+
+```text
+STAGE13_13FL=COMPLETE_GAUSSIAN_HECKE_PRIMARY_SOURCE_NORMALIZATION
+R06_GATE_B=COMPLETE
+HLR_XI_K=(alpha/bar_alpha)^(2k)
+HLR_ANGULAR_EXPONENT=4k
+HLR_GAMMA_SHIFT=2*abs(k)
+PROOF_FOURIER_EXPONENT=8*ell
+PROOF_TO_HLR_INDEX=k_HLR=2*ell
+RETAINED_ELL_MIN=1
+NONZERO_ANGULAR_L_ENTIRE=true
+NONZERO_ANGULAR_POLE_AT_1=false
+FIXED_FINITE_TWISTS_ONLY=true
+GROWING_MODULUS_THEOREM_USED=false
+POLYNOMIAL_STRIP_GROWTH_SUFFICIENT=true
+UNMAPPED_HECKE_ASSUMPTIONS=0
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+NEXT=13-13fm
+```</pre></section><section id="section-4"><h2>Fixed-S principal-pole closure</h2><p class="source"><code>stages/stage13/13-13fm/principal-pole-sector-closure.md</code> · SHA-256 <code>aecd3a7e963ab0ff8e9e98dada1abd97fe2a2355542b7b8739f9335a6cc6098e</code></p><pre># Stage13-13fm — fixed-S principal-pole sector and pole-loss closure
+
+&gt; STATUS: `R06_GATE_C_PRINCIPAL_POLE_SECTOR_CLOSURE`
+&gt;
+&gt; PURPOSE: replace the R05 §14 intensional principal-sector description by an explicit fixed-`S` effective-character quotient, reduced pole-signature map, residue-functional argument, tagged upper-bound injection, and nonprincipal pole-loss proof.
+&gt;
+&gt; SCOPE: fixed finite sets of inert odd primes. No growing-modulus estimate is used.
+
+Write
+
+\[
+D_q=\frac{\kappa I_q}{3\pi^3},\qquad
+A_q(B)\sim D_qB(\log B)^3.
+\]
+
+For every fixed finite inert set `S` we prove
+
+\[
+\boxed{A^{\rm tag}_{q,S}(B)=2D_q\Bigl(\prod_{p\in S}\lambda_p\Bigr)B(\log B)^3+o_S(B(\log B)^3)}
+\]
+
+with
+
+\[
+\lambda_p=\frac{p+5}{2(p+1)}.
+\]
+
+## 1. Explicit pole-producing slots
+
+At zero Gaussian angular mode the pure odd-prime factors are
+
+\[
+A_0(s_h)=\zeta(s_h)L(s_h,\chi_4)E_{h,0}(s_h),
+\]
+
+\[
+B_0(s_r)=\zeta(s_r)^2L(s_r,\chi_4)E_{r,0}(s_r),\qquad
+B_0(s_s)=\zeta(s_s)^2L(s_s,\chi_4)E_{s,0}(s_s).
+\]
+
+Hence the unbounded principal-pole slots are exactly
+
+\[
+\boxed{\mathscr P=\{H,R_1,R_2,S_1,S_2\}.}
+\]
+
+`H` is the zeta factor in the `h` channel; `R_1,R_2` are the two zeta copies in the `r` channel; `S_1,S_2` are the two zeta copies in the `s` channel. `L(s,chi_4)`, finite 2-adic factors, inert residual factors and the mixed Wiener correction are holomorphic at the principal point and are not pole slots.
+
+## 2. Actual constrained residue set and effective characters
+
+Fix `p in S` and one admissible valuation stratum `U`, `R_b` or `S_c`. After the valuation choice, the square test depends on finitely many unit residues. Let `G_{p,nu}` be a finite abelian ambient product of unit groups used to encode them, and let
+
+\[
+\Omega_{p,\nu}\subseteq G_{p,\nu}
+\]
+
+be the actual finite set of admissible residue tuples satisfying the algebraic relations inherited from
+
+\[
+x^2+y^2=P^2,\qquad P^2+z^2=d^2.
+\]
+
+No group structure is asserted for `Omega_{p,nu}`.
+
+Extend the accepted-state function by zero from `Omega_{p,nu}` to `G_{p,nu}` and Fourier-expand it in the ordinary character basis of the finite abelian group `G_{p,nu}`. Distinct ambient characters can agree on every point of `Omega_{p,nu}`. Put
+
+\[
+N_{p,\nu}:=\{\chi\in\widehat G_{p,\nu}:\chi(\omega)=1\text{ for every }\omega\in\Omega_{p,\nu}\}.
+\]
+
+`N_{p,nu}` is a subgroup of `widehat G_{p,nu}`. Two ambient characters act identically on the actual state set exactly when their quotient lies in `N_{p,nu}`. Define the effective character classes by
+
+\[
+\boxed{\mathscr X_{p,\nu}:=\widehat G_{p,\nu}/N_{p,\nu}.}
+\]
+
+Fourier coefficients of equivalent ambient characters are aggregated classwise. Thus algebraic aliasing is removed before pole classification; no independence of redundant auxiliary coordinates is assumed.
+
+For fixed `S` and valuation profile `nu=(nu_p)`, CRT gives the product ambient group and product constrained set. The simultaneous square-test indicator has an exact finite character expansion, aggregated over
+
+\[
+\mathscr X_{S,\nu}=\prod_{p\in S}\mathscr X_{p,\nu}.
+\]
+
+All sums are finite because `S` is fixed before `B-&gt;infinity`.
+
+## 3. Reduced pole-signature map
+
+Each effective class `[chi] in X_{S,nu}` determines one multiplicative weight on the actual coefficient support. Pull that weight through the exact pure-factor decomposition and cancel any redundant auxiliary representation before classifying poles. The five induced fixed-conductor characters define
+
+\[
+\boxed{\rho_{S,\nu}([\chi])=(\chi_H,\chi_{R_1},\chi_{R_2},\chi_{S_1},\chi_{S_2}).}
+\]
+
+The map is well-defined on effective classes: representatives with the same action on every admissible residue state give the same weighted coefficient system, hence the same reduced pure-factor Dirichlet series.
+
+Define
+
+\[
+\boxed{\mathcal K_{S,\nu}:=\ker\rho_{S,\nu}.}
+\]
+
+This is the principal pole sector. Membership means precisely that all five displayed induced pole-slot characters are principal. A class may remain nontrivial on a holomorphic mixed coordinate and still lie in `K_{S,nu}`; it is then correctly retained in the principal sector.
+
+## 4. Principal-sector coefficient equals the local mean
+
+For fixed `S`, let `Res_S(F)` denote the coefficient of the established zero-mode principal term `B(log B)^3` after inserting a finite residue function `F`, with the same real chamber and 2-adic branch. This is linear in `F`.
+
+For an effective Fourier class `[chi]`, if `rho([chi])` is nonprincipal in at least one pole slot, its full principal residue is zero because a principal zeta slot is replaced by a fixed-conductor holomorphic `L`-factor. Therefore
+
+\[
+Res_S(W_{S,\nu})
+=\sum_{[\chi]\in\mathcal K_{S,\nu}}\widehat W_{S,\nu}([\chi])Res_S([\chi]).
+\]
+
+So the complete kernel contribution, not one raw auxiliary tuple, is exactly the principal leading coefficient.
+
+Evaluate the same linear functional directly in physical local variables. For one inert prime,
+
+\[
+L_{p,0}=\frac{p+1}{p-1},\qquad
+L^W_{p,0}=\frac{p+5}{2(p-1)},
+\]
+
+hence
+
+\[
+\frac{L^W_{p,0}}{L_{p,0}}=\lambda_p=\frac{p+5}{2(p+1)}.
+\]
+
+CRT makes the fixed local insertion a tensor product, so
+
+\[
+\boxed{\frac{Res_S(W_S)}{Res_S(1)}=\prod_{p\in S}\lambda_p.}
+\]
+
+The two evaluations of the same principal-residue functional prove that the **entire** principal sector reproduces exactly `product_{p in S} lambda_p`, including every harmless auxiliary alias.
+
+## 5. Tagged factor two cannot undercount
+
+For a raw canonical `q`-incidence `X`, tag either of the two edge legs of the distinguished face. The ambient tagged set is
+
+\[
+\mathcal T_q(B)=\{(X,t):X\in A_q(B),\ t\text{ is one of the two }q\text{-face legs}\}.
+\]
+
+Thus, as an exact finite identity,
+
+\[
+\boxed{|\mathcal T_q(B)|=2A_q(B).}
+\]
+
+Fix `r != q`. The two faces `q` and `r` share exactly one edge. Every object in `O_{qr}(B)` is sent to the tagged `q`-incidence whose tag is that unique shared edge. The second integral face gives the integer square condition for that tag, so it passes every local test `W_p`. This map is injective. Triple-face objects cause no ambiguity: for a fixed ordered pair `(q,r)` there is still exactly one shared edge.
+
+Hence for every finite `B` and fixed `S`,
+
+\[
+\boxed{O_{qr}(B)\le A^{\rm tag}_{q,S}(B).}
+\]
+
+The factor `2` is therefore the exact unconstrained tagged multiplicity. It may overcount accepted tags, but it cannot undercount a true pair overlap.
+
+## 6. Outside the kernel, at least one pole is genuinely lost
+
+Take `[chi] notin K_{S,nu}`. By definition of the reduced signature, at least one of
+
+\[
+\chi_H,\chi_{R_1},\chi_{R_2},\chi_{S_1},\chi_{S_2}
+\]
+
+is nonprincipal. Equality on the algebraically constrained state set has already been quotiented out, so there is no remaining auxiliary-character cancellation to invoke.
+
+At that pole slot, the principal zeta factor is replaced by a fixed-conductor nonprincipal Dirichlet or nonzero-infinity-type Gaussian/ray-class Hecke `L`-factor. By `13-13fl` it is holomorphic at `s=1` with the fixed-strip polynomial growth required by the Riesz/Perron step.
+
+The split-prime mixed correction remains absolutely convergent in the same weighted Wiener algebra after fixed unit-modulus twists. It is holomorphic and cannot restore a lost pole.
+
+Relative to the established `B(log B)^3` zero-mode residue polynomial, at least one pole slot is lost, so the log degree drops by at least one. The same finite-order Riesz/Perron, curved-region, boundary and harmonic estimates therefore give
+
+\[
+O_S(B(\log B)^2)=o(B(\log B)^3)
+\]
+
+for each fixed effective class. There are only finitely many classes and valuation profiles for fixed `S`, hence
+
+\[
+\boxed{\text{all nonprincipal sectors}=o_S(B(\log B)^3).}
+\]
+
+## 7. Fixed-S asymptotic and squeeze
+
+The unconstrained tagged population has leading coefficient `2D_q`. Sections 4 and 6 give
+
+\[
+\boxed{A^{\rm tag}_{q,S}(B)=2D_q\Bigl(\prod_{p\in S}\lambda_p\Bigr)B(\log B)^3+o_S(B(\log B)^3).}
+\]
+
+For inert `p&gt;=7`, `lambda_p&lt;=3/4`. Choose `k` distinct inert primes `p_i&gt;=7`, fix `S_k`, then let `B-&gt;infinity`:
+
+\[
+\limsup_{B\to\infty}\frac{O_{qr}(B)}{B(\log B)^3}
+\le2D_q\prod_{p\in S_k}\lambda_p
+\le2D_q(3/4)^k.
+\]
+
+Only after that limit let `k-&gt;infinity`. Therefore
+
+\[
+\boxed{O_{qr}(B)=o(B(\log B)^3)},\qquad
+\boxed{T(B)=o(B(\log B)^3)}.
+\]
+
+The order of limits is
+
+```text
+fix S -&gt; B -&gt; infinity -&gt; enlarge S.
+```
+
+No growing-modulus theorem and no perfect-cuboid nonexistence assumption are used.
+
+## 8. Gate C locks
+
+```text
+STAGE13_13FM=COMPLETE_FIXED_S_PRINCIPAL_POLE_SECTOR_CLOSURE
+R06_GATE_C=COMPLETE
+POLE_CHANNELS=H,R1,R2,S1,S2
+ACTUAL_CONSTRAINED_RESIDUE_SET_USED=true
+AUXILIARY_CHARACTER_ALIASING_QUOTIENTED_BEFORE_POLE_CLASSIFICATION=true
+PRINCIPAL_POLE_SECTOR=KER_REDUCED_POLE_SIGNATURE_MAP
+PRINCIPAL_SECTOR_RESIDUE_FUNCTIONAL_PROOF_COMPLETE=true
+PRINCIPAL_POLE_SECTOR_MULTIPLIER=product_{p_in_S}_lambda_p
+TAGGED_AMBIENT_CARDINALITY=2*A_q(B)
+TAGGED_FACTOR_TWO_UPPER_BOUND_PROVED=true
+NONPRINCIPAL_POLE_LOSS_PROVED=true
+MIXED_CORRECTION_CANNOT_RESTORE_POLE=true
+NONPRINCIPAL_TOTAL=o_S(B(log B)^3)
+LIMIT_ORDER=FIX_S_THEN_B_TO_INFINITY_THEN_ENLARGE_S
+GROWING_MODULUS_THEOREM_USED=false
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+PROMOTE_TO_13_13G=false
+NEXT=13-13fn
+```
+</pre></section><section id="section-5"><h2>R06 repair plan</h2><p class="source"><code>stages/stage13/13-13fj/r06-repair-plan.md</code> · SHA-256 <code>b18a55fad98189cbee1d03cc273494791ed6d999fa32337e08b26da9da1e4fe0</code></p><pre># Stage13-13fj — R06 repair plan
+
+&gt; STATUS: `R06_REQUIRED_BY_R05_EXTERNAL_REVIEW`
+&gt;
+&gt; SOURCE_REVIEW_BUNDLE: `STAGE13-FINAL-SELF-CONTAINED-20260809-R05`
+&gt;
+&gt; R05_IMMUTABLE: `true`
+
+R05 remains byte-for-byte immutable. This plan records the minimum work required before a new R06 review bundle may be created.
+
+## Gate R06-A — analytic chamber normalization
+
+**Mandatory / theorem-level proof completeness.** Prove analytically
+
+```text
+I_ab + I_ac + I_bc = pi^2/8
+```
+
+by chamber partition/symmetry or via `J_q=2I_q/pi` plus an analytic proof of `sum_q J_q=pi/4`. Numerical quadrature remains validation only.
+
+```text
+SUM_IQ_ANALYTIC_PROOF_COMPLETE=true
+NUMERICAL_QUADRATURE_USED_AS_PROOF=false
+```
+
+## Gate R06-B — Gaussian-Hecke primary-source closure and exact normalization
+
+**Mandatory / theorem-level external boundary.** Verify directly from primary sources the exact proof-facing family:
+
+```text
+k=8 ell, ell&gt;=1
+fixed finite residue twists only
+exact Xi_k definition and completed functional equation/gamma factor
+analytic continuation
+nonzero angular family holomorphic/no pole at s=1
+fixed-strip polynomial conductor/angular growth sufficient for Riesz/Perron
+```
+
+The R06 statement must match the cited source normalization exactly. If a harmless reindexing changes `|k|` versus `2|k|` in the gamma factor, state that map explicitly and derive the proof-facing polynomial-growth consequence from the correctly normalized equation.
+
+```text
+HECKE_PRIMARY_SOURCE_CONTRACT_VERIFIED=true
+HECKE_FUNCTIONAL_EQUATION_NORMALIZATION_VERIFIED=true
+UNMAPPED_HECKE_ASSUMPTIONS=0
+```
+
+## Gate R06-C — fixed-S principal pole sector and pole-loss closure
+
+**Mandatory / theorem-level overlap transfer.** Replace the intensional §14 description by a proof-facing characterization:
+
+1. define each unbounded pole-producing multiplicative channel and its untwisted pole order;
+2. write the fixed-`S` finite character expansion on the actual algebraically constrained local state space, allowing auxiliary-character aliasing;
+3. characterize the full principal pole sector as the tuples whose induced characters are principal on every unbounded pole-producing channel;
+4. prove that the sum of this full sector reproduces the local principal multiplier `product_{p in S} lambda_p`;
+5. prove the tagged factor `2` covers every true pair-overlap state and therefore gives an upper bound, never an undercount;
+6. prove that every tuple outside the principal sector leaves at least one induced unbounded channel genuinely nonprincipal after all aliasing/cancellation, so the total pole order drops by at least one and its fixed-`S` contribution is `o_S(B(log B)^3)`.
+
+```text
+PRINCIPAL_POLE_SECTOR_EXPLICITLY_CHARACTERIZED=true
+AUXILIARY_CHARACTER_ALIASING_PROOF_COMPLETE=true
+TAGGED_FACTOR_TWO_UPPER_BOUND_PROVED=true
+NONPRINCIPAL_POLE_LOSS_PROVED=true
+```
+
+## Gate R06-D — proof-facing explicitness hardening
+
+Include the non-theorem-changing improvements requested across Claude, Qwen and DeepSeek:
+
+- define Wiener mixed term `M` explicitly before the `32/9` estimate;
+- expose the separate `p=5` Wiener bound `&lt;432` calculation (`rho=5^-5/8&gt;1/4`);
+- state `ell&gt;=1` when defining `C_{ell,p}`;
+- state `lambda_3=1`, hence inert contraction begins at `p&gt;=7`;
+- state finite `100k -&gt; 5m` data are neither contradiction nor positive convergence evidence;
+- expand Gelfand–Leray radial normalization to `1/(P/d)`;
+- expose OE/EE 2-adic face-independence branchwise;
+- display the mesh count `O(log(2B)/eta)=O((log B)^9)` per coordinate and `O((log B)^27)` in three coordinates;
+- decompose `4*C_H+D_H+6`;
+- state Vaaler endpoint convention or measure-zero handling;
+- retain `theta` / `vartheta` separation and audit it;
+- add factor-two sorting, Riesz/Perron transition-majorant and mixed-log-shift details where useful;
+- optionally show the elementary `1+O(p^-2)` expansion for absolute convergence of the explicit `kappa` Euler product.
+
+## Bundle rule
+
+After A-C are closed and D is integrated:
+
+1. create a new canonical repaired proof snapshot;
+2. generate immutable `R06` with a new source snapshot and SHA-256;
+3. reset external review counts to zero for R06;
+4. obtain at least two independent `CLOSED` verdicts on R06 with zero unresolved theorem-level objections;
+5. only then promote to `13-13g`.
+
+```text
+R05_IMMUTABLE=true
+R05_PROMOTION_ALLOWED=false
+R06_REQUIRED=true
+R06_FRESH_EXTERNAL_REVIEW_REQUIRED=true
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+PROMOTE_TO_13_13G=false
+```
+</pre></section><section id="section-6"><h2>R06 synthesis result</h2><p class="source"><code>stages/stage13/13-13fn/result.md</code> · SHA-256 <code>567d902d3905cddc0e7ef60c76a11c3b9d2af93caacec1726fdcd5f40b0a9c5f</code></p><pre># Stage13-13fn — R06 canonical synthesis result
+
+&gt; STATUS: `COMPLETE_R06_CANONICAL_PROOF_SYNTHESIS`
+
+`13-13fn` integrates the three mandatory R06 theorem-level repair gates and the remaining proof-facing explicitness requests into one canonical proof entrypoint:
+
+```text
+stages/stage13/13-13fn/stage13-r06-canonical-proof.md
+```
+
+## Mandatory R06 repairs integrated
+
+1. `sum_q I_q=pi^2/8` is proved analytically by positive-octant symmetry and an exact spherical-coordinate integral; numerical quadrature is validation only.
+2. The Gaussian-Hecke normalization is matched to Huang--Liu--Rudnick: Stage13 Fourier exponent `m=8 ell` corresponds to HLR Hecke index `k=2 ell`, with completed gamma shift `4 ell`.
+3. The fixed-`S` overlap transfer explicitly identifies the five zero-mode pole slots, removes auxiliary-character aliasing on the actual constrained residue set before pole classification, defines the principal sector as the kernel of the reduced pole-signature map, proves the exact `prod lambda_p` principal multiplier, proves the factor-two tagged upper bound, and proves nonprincipal pole loss.
+
+## Explicitness hardening integrated
+
+The R06 proof also exposes:
+
+- the Wiener mixed term `M` before its norm estimate;
+- the complete exceptional `p=5` calculation ending at `431.99676036&lt;432`;
+- `ell&gt;=1` at `C_{ell,p}` first use;
+- `lambda_3=1`, so contraction starts at inert `p&gt;=7`;
+- the stronger finite-data nonclaim;
+- Gelfand--Leray factor `1/(P/d)`;
+- branchwise OE/EE face-independence;
+- `O(log(2B)/eta)=O((log B)^9)` per mesh coordinate and `O((log B)^27)` total boxes;
+- the decomposition `(4*C_H+4)+D_H+2=4*C_H+D_H+6`;
+- Vaaler endpoint convention and equality-wall handling;
+- strict `theta` / `vartheta` notation separation;
+- Riesz/Perron transition-majorant and mixed-log-shift details;
+- elementary `1+O(p^-2)` expansions for absolute convergence of `kappa`.
+
+## Gate decision
+
+```text
+STAGE13_13FN=COMPLETE_R06_CANONICAL_PROOF_SYNTHESIS
+R06_CANONICAL_PROOF=stages/stage13/13-13fn/stage13-r06-canonical-proof.md
+R06_CANONICAL_PROOF_SINGLE_ENTRYPOINT=true
+R06_MANDATORY_THEOREM_LEVEL_GATES_A_B_C_COMPLETE=true
+R06_EXPLICITNESS_GATE_D_INTEGRATED=true
+R06_SYNTHESIS_READY=true
+R06_BUNDLE_CREATED=false
+R06_FRESH_EXTERNAL_REVIEW_REQUIRED=true
+R05_IMMUTABLE=true
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+PROMOTE_TO_13_13G=false
+NEXT=13-13fo
+```
+
+`13-13fo` is reserved for building the new immutable R06 self-contained review bundle and manifest from a fixed merged source snapshot. External review counts must restart from zero on R06.
+</pre></section></body></html>
