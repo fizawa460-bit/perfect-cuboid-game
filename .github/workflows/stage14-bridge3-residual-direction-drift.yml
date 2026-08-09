@@ -1,0 +1,40 @@
+name: Stage14-bridge3 residual direction drift gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-bridge3/**'
+      - 'stages/stage14/data/14-bridge3/**'
+      - 'stages/stage14/scripts/14-bridge3/**'
+      - 'docs/stage14-bridge-num-to-proof-roadmap.md'
+      - '.github/workflows/stage14-bridge3-residual-direction-drift.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run residual direction-drift control audit
+        run: |
+          python stages/stage14/scripts/14-bridge3/residual_direction_drift_audit.py > /tmp/bridge3.json
+          cat /tmp/bridge3.json
+      - name: Verify frozen compact summary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          got = json.loads(Path('/tmp/bridge3.json').read_text())
+          frozen = json.loads(Path('stages/stage14/data/14-bridge3/residual_direction_drift_summary.json').read_text())
+          assert got['stage'] == frozen['stage']
+          assert got['classification'] == frozen['classification']
+          assert got['frozen_numbers'] == frozen['frozen_numbers']
+          assert got['evidence_gate'] == frozen['evidence_gate']
+          assert got['decision'] == frozen['decision']
+          print('bridge3 frozen summary verified')
+          PY
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-bridge3/residual_direction_drift_audit.py
