@@ -1,0 +1,41 @@
+name: Stage14-s6-00 post-local small-point architecture audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-00/**'
+      - 'stages/stage14/scripts/14-s6-00/**'
+      - '.github/workflows/stage14-s6-00-architecture.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s6-00 architecture audit
+        run: python3 stages/stage14/scripts/14-s6-00/architecture_audit.py | tee /tmp/s6-00.txt
+      - name: Validate stage boundary
+        run: |
+          grep -q '^STAGE14_S6_00=COMPLETE_POST_LOCAL_GLOBAL_SMALL_POINT_ARCHITECTURE$' /tmp/s6-00.txt
+          grep -q '^S5_METHOD_ACCEPTED_AS_CLOSED=true$' /tmp/s6-00.txt
+          grep -q '^CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=41/42$' /tmp/s6-00.txt
+          grep -q '^POST_LOCAL_SAVING_REQUIRED_FOR_SQRT_B_UPPER_BOUND=10/21$' /tmp/s6-00.txt
+          grep -q '^ANY_POSITIVE_POST_LOCAL_SAVING_IS_NEW_PROGRESS=true$' /tmp/s6-00.txt
+          grep -q '^FIXED_M4_BISECTION_ROUTE_REOPEN=false$' /tmp/s6-00.txt
+          grep -q '^LOCAL_SIEVE_CONTINUATION_PRIMARY=false$' /tmp/s6-00.txt
+          grep -q '^RANK_DENSITY_PRIMARY=false$' /tmp/s6-00.txt
+          grep -q '^SEPARATED_SHA_THEN_HEIGHT_PRIMARY=false$' /tmp/s6-00.txt
+          grep -q '^DIRECT_POST_LOCAL_GLOBAL_SMALL_POINT_INCIDENCE_PRIMARY=true$' /tmp/s6-00.txt
+          grep -q '^CANONICAL_LARGE_PRIME_INCIDENCE_FIRST_WEAPON=true$' /tmp/s6-00.txt
+          grep -q '^GAUSSIAN_DUAL_INVISIBLE_BRANCH_RESERVED=true$' /tmp/s6-00.txt
+          grep -q '^SMOOTH_SUPPORT_BRANCH_MUST_BE_COUNTED=true$' /tmp/s6-00.txt
+          grep -q '^DETERMINANT_METHOD_IMPORT_UNCONDITIONAL=false$' /tmp/s6-00.txt
+          grep -q '^S6_EXPECTED_DEFAULT_RANGE=00..09$' /tmp/s6-00.txt
+          grep -q '^S6_PREEMPTIVE_SUBSTAGE_SPLIT_REQUIRED=false$' /tmp/s6-00.txt
+          grep -q '^SQRT_B_UPPER_BOUND_PROVED=false$' /tmp/s6-00.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s6-00.txt
+          grep -q '^NEXT=Stage14-s6-01$' /tmp/s6-00.txt
