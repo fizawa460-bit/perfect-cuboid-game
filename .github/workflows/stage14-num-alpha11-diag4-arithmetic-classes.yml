@@ -1,0 +1,65 @@
+name: Stage14-num-alpha11-diag4 arithmetic classes
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag4/**'
+      - 'stages/stage14/data/14-num-alpha11-diag4/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag4/**'
+      - '.github/workflows/stage14-num-alpha11-diag4-arithmetic-classes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  arithmetic-decomposition:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run diag4 arithmetic decomposition
+        run: python stages/stage14/scripts/14-num-alpha11-diag4/arithmetic_class_decomposition.py > /tmp/diag4.json
+      - name: Validate source and interpretation boundary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag4.json'))
+          assert x['source_rows']==3495
+          assert x['global_direction_counts']=={'a':1374,'b':1371,'c':750}
+          assert x['predeclared_partition_count']==22
+          assert x['interpretation_boundary']['partitions_predeclared_before_reading_diag4_output'] is True
+          assert x['interpretation_boundary']['late_300m_400m_vs_400m_500m_mixture_decomposition_is_same_data_descriptive'] is True
+          assert x['decision']['IID_ARITHMETIC_OBJECTS_CLAIM'] is False
+          assert x['decision']['ASYMPTOTIC_CLAIM'] is False
+          assert x['decision']['FINER_25M_SHELLS_RECOMMENDED_NEXT'] is False
+          PY
+      - name: Print compact diag4 summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag4.json'))
+          print('DIAG4_SUMMARY_BEGIN')
+          print(json.dumps({
+            'source_rows':x['source_rows'],
+            'global_direction_counts':x['global_direction_counts'],
+            'predeclared_partition_count':x['predeclared_partition_count'],
+            'inferential_eligible_partition_count':x['inferential_eligible_partition_count'],
+            'selection_summary':x['selection_summary'],
+            'missing_third_face_inert_qr0_panel':x['missing_third_face_inert_qr0_panel'],
+            'decision':x['decision'],
+            'top_partitions_by_v':[
+              {k:r[k] for k in ('name','family','classes','pearson_p','cramers_v','minimum_expected_cell','holm_adjusted_pearson_p_across_predeclared_eligible_partitions','holm_reject_5pct')}
+              | {'late_mixture':r['late_mixture']}
+              for r in sorted([r for r in x['partition_results'] if r.get('testable')], key=lambda r:r['cramers_v'], reverse=True)[:8]
+            ],
+          }, indent=2, sort_keys=True))
+          print('DIAG4_SUMMARY_END')
+          PY
+      - name: Upload full diag4 report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-num-alpha11-diag4-report
+          path: /tmp/diag4.json
