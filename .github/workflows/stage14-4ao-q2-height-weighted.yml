@@ -1,0 +1,21 @@
+name: Stage14-4ao Q2 height-weighted descent audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ao/**'
+      - 'stages/stage14/scripts/14-4/q2_height_weighted_descent_audit.py'
+      - 'stages/stage14/data/14-4/q2_height_weighted_descent_summary.json'
+      - 'stages/stage14/main.md'
+      - 'stages/stage14/README.md'
+      - 'stages/stage14/roadmap.md'
+      - '.github/workflows/stage14-4ao-q2-height-weighted.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python stages/stage14/scripts/14-4/q2_height_weighted_descent_audit.py
+      - run: git diff --exit-code stages/stage14/data/14-4/q2_height_weighted_descent_summary.json

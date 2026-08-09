@@ -1,6 +1,6 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_4AN_COMPLETE_ODD_CHARACTER_MATRIX_14_4AO_NEXT`
+> **STATUS:** `STAGE14_4AO_COMPLETE_FULL_LOCAL_HEIGHT_WEIGHTED_INTERFACE_14_4AP_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 
@@ -10,7 +10,7 @@ Stage14 studies primitive canonical cuboids
 0<a<b<c,\quad \gcd(a,b,c)=1,\quad a^2+b^2+c^2=d^2,\quad d\le B,
 \]
 
-with exactly two integral face diagonals. Detailed derivations are retained in the archive; this is the canonical synthesis through Stage14-4an.
+with exactly two integral face diagonals. Detailed derivations are retained in the archive; this is the canonical synthesis through Stage14-4ao.
 
 ## 1. Locked exact population
 
@@ -207,13 +207,34 @@ The complete odd matrix is part of the local `A -> Sigma` interface. It does not
 
 Since 4am finds `Sigma/A≈0.8175` but `V/R≈1.3–1.4%` at `20k`, a theorem aligned with the observed finite mechanism cannot stop at Selmer density. The final counting object must retain the physical logarithmic height window.
 
-## 8. Locked decision
+## 8. Stage14-4ao — prime 2 and height-weighted descent
+
+Merged s5f proves that exactly eight of the 64 product-square `Q_2` states occur in the covering-specific local image:
+
+```text
+(1,1,1) (3,7,5) (5,1,5) (7,7,1)
+(2,1,2) (6,7,10) (10,1,10) (14,7,2).
+```
+
+Together with the odd rows above, the full local 2-descent character system is explicit. The exact finite full-local gate at `H<=20,000` is `A=6372`, `Sigma=5209`, and `Sigma/A=0.8174827369742624`.
+
+For a nontrivial locally soluble cover `C_{F,xi}`, 4ao locks the base-counted existence statistic
+
+\[
+\mathcal H(B;C)=\sum_{F\in\mathcal A(B)}1\{\exists\xi,\exists P\in C_{F,\xi}(\mathbf Q):
+\widehat h(\phi_\xi(P))\le C(\log B+\log H(F))\}.
+\]
+
+It retains local admissibility, global solubility/Sha, and the s3 first-small-point window, and counts each base once. Physical activation implies membership for the s3 comparison constant, but the converse can fail because the physical-coordinate conditions are stronger.
+
+## 9. Locked decision
 
 ```text
 STAGE14_4AK=COMPLETE_SPLIT_ROOT_COSET_VOID
 STAGE14_4AL=COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_AND_FINITE_FIRST_HIT_PROFILE
 STAGE14_4AM=COMPLETE_EXACT_SELMER_RANK_SMALLPOINT_FACTOR_AND_FINITE_FULL_BASE_CENSUS
 STAGE14_4AN=COMPLETE_ODD_CHARACTER_MATRIX_AND_GATE_REACH_BOUNDARY
+STAGE14_4AO=COMPLETE_FULL_LOCAL_MATRIX_AND_HEIGHT_WEIGHTED_COUNTING_INTERFACE
 
 FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
 ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED=true
@@ -222,8 +243,11 @@ SELECTED_X_PRIME_REQUIRES_P_EQ_1_MOD4=true
 S5D_ALL_ODD_BAD_PRIME_ROWS_IMPORTED=true
 ALL_ODD_BAD_PRIME_ROWS_EXPLICIT=true
 ALL_ODD_ROWS_REDUCED_TO_RECIPROCITY_BITS=true
-Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED=false
-FULL_LOCAL_SELMER_MATRIX_COMPLETE=false
+Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED=true
+FULL_LOCAL_SELMER_MATRIX_COMPLETE=true
+FINITE_A_TO_SIGMA_SIEVE_QUANTIFIED=true
+HEIGHT_WEIGHTED_DESCENT_COUNT_FORMULATED=true
+GLOBAL_SOLUBILITY_AVERAGED=false
 CHARACTER_MATRIX_CONTROLS_SIGMA_TO_R=false
 CHARACTER_MATRIX_CONTROLS_R_TO_V=false
 HEIGHT_COUPLING_REQUIRED_FOR_MAIN_THINNING=true
@@ -236,22 +260,17 @@ T_O_SQRT_B_PROVED=false
 PERFECT_CUBOID_NONEXISTENCE_PROVED=false
 ```
 
-## 9. Next
+## 10. Next
 
-`Stage14-4ao`:
-
-1. finish/import the covering-specific 64-state `Q_2` solubility classification;
-2. combine it with the now-complete odd reciprocity matrix to obtain the full local Selmer matrix;
-3. immediately couple that matrix to a **height-weighted descent-class count** retaining the Stage14-s3 physical logarithmic small-point window, because `R -> V` is the finite-dominant gate.
+`Stage14-4ap`: prove or sharply delimit a family character-sum estimate over the explicit moving local system while retaining global solubility and the Stage14-s3 logarithmic small-point window. No local-only estimate may be promoted to control of `R -> V`.
 
 The independent triple track still must supply strong enough `T(B)` control before a future raw-pair law can transfer to exactly-two.
 
-## Primary 4an artifacts
+## Primary 4ao artifacts
 
 ```text
-stages/stage14/14-4an/result.md
-stages/stage14/archive/stage14-4an-character-gate-matrix.md
-stages/stage14/data/14-4/character_gate_matrix_summary.json
-stages/stage14/scripts/14-4/character_gate_matrix_audit.py
-.github/workflows/stage14-4an-character-gate-matrix.yml
+stages/stage14/14-4ao/result.md
+stages/stage14/data/14-4/q2_height_weighted_descent_summary.json
+stages/stage14/scripts/14-4/q2_height_weighted_descent_audit.py
+.github/workflows/stage14-4ao-q2-height-weighted.yml
 ```
