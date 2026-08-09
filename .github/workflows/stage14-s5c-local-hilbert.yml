@@ -1,0 +1,23 @@
+name: Stage14-s5c supported-prime local Hilbert rows
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5c/**'
+      - 'stages/stage14/scripts/14-s5c/**'
+      - '.github/workflows/stage14-s5c-local-hilbert.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run supported-prime local-row audit
+        run: python3 stages/stage14/scripts/14-s5c/supported_prime_local_rows_audit.py
+      - name: Validate theorem boundary
+        run: |
+          grep -q 'STAGE14_S5C=COMPLETE_SUPPORTED_PRIME_LOCAL_HILBERT_ROWS' stages/stage14/14-s5c/result.md
+          grep -q 'ODD_UNSELECTED_BAD_PRIME_ROWS_DERIVED=false' stages/stage14/14-s5c/result.md
+          grep -q 'P2_COMPLETE_LOCAL_MATRIX_DERIVED=false' stages/stage14/14-s5c/result.md
+          grep -q 'SQRT_B_ASYMPTOTIC_PROVED=false' stages/stage14/14-s5c/result.md
