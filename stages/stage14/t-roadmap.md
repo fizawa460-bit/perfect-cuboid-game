@@ -57,31 +57,64 @@ The new t-side conditional thinning factor is
 
 This is strictly stronger than simultaneous positive rank or unrelated small points on the two reflected elliptic quotients: both projections must arise from the same rational `q`.
 
-At object level define `P(B)` as the number of compatible physical pairs `(F,q)` below height `B`. A theorem for `T(B)` must control `P(B)` directly or combine a paired-base count with a compatible-point multiplicity bound.
+At object level define `P(B)` as the number of compatible physical pairs `(F,q)` below height `B`.
 
-The raw/main activation factorization therefore extends as
+## 14-t12 — point-conditioned reflected-square parameter gate
+Status: [x] Complete.
+
+Condition on an already-existing raw point
 
 \[
-\frac{V_{pair}}A=
-\frac\Sigma A\frac R\Sigma\frac{V_R}R\frac{V_{pair}}{V_R}.
+W^2=q^4+2\frac{1-t^2}{1+t^2}q^2+1,
+\qquad h^2=1+t^2.
 \]
 
-The first three gates belong mainly to main/Stage14-s; the final shared-`q` gate is the t-side target.
+The reflected square is equivalent to the rational right-triangle condition
 
-The finite exact census through `B=2,000,000` has 490 raw active oriented face vertices and zero retained triple objects. This remains finite diagnostic evidence only.
+\[
+W^2+\left(\frac{2q}{th}\right)^2=R^2.
+\]
 
-## 14-t12 — point-conditioned reflected-square average
+Parametrizing this conic by `r in Q` gives
+
+\[
+W=\frac{q(1-r^2)}{thr},\qquad
+R=\frac{q(1+r^2)}{thr}.
+\]
+
+Writing `y=q^2`, substitution into the raw quartic gives the reciprocal quadratic
+
+\[
+y^2+B_{t,r}y+1=0,
+\]
+
+with
+
+\[
+B_{t,r}=2\frac{1-t^2}{1+t^2}
+-\frac{(1-r^2)^2}{t^2(1+t^2)r^2}.
+\]
+
+Thus compatibility requires the discriminant
+
+\[
+D_{t,r}=B_{t,r}^2-4
+\]
+
+to be a rational square **and** the chosen quadratic root `y` itself to be a rational square satisfying the physical height cutoff. The second condition is essential.
+
+This converts the t11 moving genus-5 shared-`q` gate into an explicit lower-dimensional auxiliary cover over `(t,r)` without assuming any local-density independence.
+
+## 14-t13 — auxiliary discriminant-cover geometry
 Status: [>] Next.
 
-Condition on an already existing raw physical small point `(F,q)` and average the indicator that the reflected quartic at the **same q** is also a square. Equivalently, average physical-height rational points on the moving genus-5 fiber product after raw activation.
+Factor and normalize the `(t,r)` discriminant-square cover, determine its generic genus/fibration type, and audit whether it contains rational/elliptic low-degree components capable of accumulating under the physical height. Retain the additional `y=q^2` square-root condition throughout.
 
-Seek a theorem of the form
+Primary target remains
 
 \[
-P(B)=o(\sqrt B)
+T(B)=o(\sqrt B).
 \]
-
-or a conditional-density saving strong enough to combine with the raw activation/multiplicity bounds.
 
 ## Scope boundary
 
@@ -100,6 +133,7 @@ STAGE14_T8=COMPLETE_REFLECTED_MOVING_PRIME_LOCAL_BOUNDARY
 STAGE14_T9=COMPLETE_EUCLID_SPARSE_RESIDUE_SIEVE_FORMULATION
 STAGE14_T10=COMPLETE_CHARACTER_SIEVE_DIRECTION_AUDIT
 STAGE14_T11=COMPLETE_COMPATIBLE_PAIRED_ACTIVATION_FORMULATION
+STAGE14_T12=COMPLETE_CONDITIONAL_REFLECTED_SQUARE_PARAMETER_GATE
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t12 point-conditioned reflected-square average / moving fiber-product small-point bound
+NEXT=Stage14-t13 auxiliary discriminant-square cover geometry
 ```
