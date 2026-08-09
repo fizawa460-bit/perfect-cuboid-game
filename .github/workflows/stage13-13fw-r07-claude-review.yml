@@ -1,0 +1,22 @@
+name: Stage13-13fw R07 Claude review adjudication
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fw/**'
+      - 'stages/stage13/scripts/13-13fw/**'
+      - '.github/workflows/stage13-13fw-r07-claude-review.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit Claude R07 review adjudication
+        run: python stages/stage13/scripts/13-13fw/r07_claude_review_audit.py
