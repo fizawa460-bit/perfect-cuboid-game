@@ -1,0 +1,34 @@
+name: Stage14-t34 all-character Gaussian large sieve
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t34/**'
+      - 'stages/stage14/scripts/14-t/t34_all_character_gaussian_large_sieve_audit.py'
+      - 'stages/stage14/data/14-t34/**'
+      - '.github/workflows/stage14-t34-all-character-gaussian-large-sieve.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t33 regression
+        run: python stages/stage14/scripts/14-t/t33_hecke_mellin_transfer_boundary_audit.py
+
+      - name: Run t34 all-character Gaussian large-sieve audit
+        run: python stages/stage14/scripts/14-t/t34_all_character_gaussian_large_sieve_audit.py
+
+      - name: Check frozen t34 summary
+        run: git diff --exit-code stages/stage14/data/14-t34/all_character_gaussian_large_sieve.json
+
+      - name: Validate locked t34 boundary
+        run: |
+          grep -F 'STAGE14_T34=COMPLETE_ALL_CHARACTER_GAUSSIAN_LARGE_SIEVE_AND_TENSOR_BARRIER' stages/stage14/14-t34/result.md
+          grep -F 'ALL_CHARACTER_GAUSSIAN_MULTIPLICATIVE_LARGE_SIEVE=true' stages/stage14/14-t34/result.md
+          grep -F 'HIGHER_ORDER_MELLIN_MODES_LARGE_SIEVE_OBSTRUCTION=false' stages/stage14/14-t34/result.md
+          grep -F 'TENSOR_LARGE_SIEVE_CLOSES_NORM_HYPERBOLA=false' stages/stage14/14-t34/result.md
+          grep -F 'SAME_MODULUS_SHARED_PRIME_COLLISION_IDENTITY=true' stages/stage14/14-t34/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t34/result.md
