@@ -1,0 +1,47 @@
+name: Stage14-num4 unified fingerprint ledger
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num4/**'
+      - 'stages/stage14/scripts/14-num4/**'
+      - 'stages/stage14/data/14-num4/**'
+      - '.github/workflows/stage14-num4-unified-fingerprint-ledger.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile replay tool
+        run: python -m py_compile stages/stage14/scripts/14-num4/unified_fingerprint_ledger.py
+      - name: Lock compact manifest and proof-independent boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage14/data/14-num4/unified_fingerprint_manifest.json').read_text())
+          q=d['decision']; b=d['base_num3_regression']; c=d['coverage']
+          assert q['STAGE14_NUM4']=='COMPLETE_UNIFIED_FINITE_FINGERPRINT_LEDGER'
+          assert q['CANONICAL_OBJECT_KEYS_STABLE'] is True
+          assert q['SOURCE_PROVENANCE_RECORDED'] is True
+          assert q['CROSS_TRACK_JOIN_REPRODUCIBLE'] is True
+          assert q['THEOREM_SENSITIVE_FIELDS_RECOMPUTED'] is False
+          assert q['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert q['ASYMPTOTIC_CLAIM'] is False
+          assert (b['object_count'],b['active_face_count'],b['edge_count'],b['max_degree'])==(1875,2687,1875,11)
+          assert b['counts']=={'a':729,'b':758,'c':388,'total':1875,'triple':0}
+          assert b['object_key_sha256']=='b8151aedbf46f33700b213c79a5227fa62653d2279eed954103a2b9e768fff42'
+          assert b['object_key_mask_sha256']=='2ac9a994f735d2d4f8f3c519145de17d920bdcf9841f32a73793cae3ec94e14f'
+          assert b['vertex_ledger_sha256']=='99f9cf72d473df19a2fc27e04032095607995ea43d874afd08a15e7fc7e240f0'
+          assert b['edge_ledger_sha256']=='c54aa6fea7971a44e317a041986ca1197671af2cab97825943ebb9d51cadd97e'
+          assert c['physical_first_hit_d']==2687
+          assert c['gcd_lcm_edge_fingerprints']==1875
+          assert c['certified_rank_interval']==0
+          assert c['canonical_height_of_actual_first_hit']==0
+          assert set(d['provenance'])=={'14-num3','14-e9','14-s1','14-s3','14-4ag'}
+          PY
