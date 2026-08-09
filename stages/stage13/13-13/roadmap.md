@@ -1,6 +1,6 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13F_R05_REPAIR_GATES_A_B_C_D_E_F_COMPLETE_GATE_G_NEXT`
+> STATUS: `STAGE13_13F_R05_REPAIR_GATES_A_B_C_D_E_F_G_COMPLETE_GATE_H_NEXT`
 >
 > PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, externally reviewed and finally frozen theorem package.
 >
@@ -141,16 +141,7 @@ WINGS_EXPANDED_HARMONIC_BY_HARMONIC=false
 
 ### 13-13fe — Gate E complete
 
-The Stage12 interface is copied into `stages/stage13/13-13fe/stage12-counting-interface.md`:
-
-```text
-D_B -> G(hrs)-1 -> C_raw(B) -> Mobius/common-scale C_prim(B)
-C_prim(B) ~ kappa/(12*pi) B(log B)^3
-          = eta/(12*pi^2) B(log B)^3
-eta=pi*kappa
-C_prim,q^proj(B)=2 A_q(B)
-C_prim(B)=2 sum_q A_q(B)
-```
+Proof-facing Stage12 interface: `stages/stage13/13-13fe/stage12-counting-interface.md`.
 
 ```text
 STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE
@@ -171,28 +162,11 @@ STAGE12_REOPENED=false
 NEXT=13-13ff
 ```
 
-The `NEXT=13-13ff` line above is the immutable historical Gate E completion lock used by its deterministic CI. The active global next step is Gate G below.
+The `NEXT=13-13ff` line is the historical Gate E lock retained for its deterministic CI.
 
 ### 13-13ff — Gate F complete
 
-The exact external theorem boundary is now exposed in
-
-```text
-stages/stage13/13-13ff/external-theorem-contracts.md
-```
-
-The imported Hecke/Dirichlet statements are separated from internal consequences. For every nonzero Gaussian angular index `k=8ell`, the contract records entire continuation, the completed functional equation and no pole at `s=1`. Fixed residue twists have fixed conductor because the local prime set is frozen before `B->infinity`.
-
-Polynomial vertical/angular growth on the fixed strip is derived from absolute convergence, the functional equation, Stirling and Phragmen--Lindelof. The Gate D ordinary summatory power saving is then derived with an explicit high-order Riesz/Perron smoothing and finite differencing; no unexplained unsmoothed-contour shortcut remains.
-
-For Vaaler, only the sawtooth approximation is imported. The interval majorant/minorant is derived internally with
-
-```text
-hat(P^±)(0)=|I|±1/(L+1)
-|hat(P^±)(h)|<=1/(pi|h|)+1/(L+1)<1, 1<=|h|<=L.
-```
-
-Thus the Vaaler coefficient contributes no positive harmonic power.
+Exact external theorem boundary: `stages/stage13/13-13ff/external-theorem-contracts.md`.
 
 ```text
 STAGE13_13FF=COMPLETE_EXACT_EXTERNAL_THEOREM_CONTRACTS
@@ -217,18 +191,55 @@ THEOREM_CHANGED=false
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
 R04_IMMUTABLE=true
 R05_REQUIRED=true
+NEXT=13-13fg
 ```
 
-## Remaining R05 gates
+The `NEXT=13-13fg` line is the historical Gate F completion lock retained for its deterministic CI.
+
+### 13-13fg — Gate G complete
+
+Expanded fixed inert-prime transfer: `stages/stage13/13-13fg/fixed-inert-transfer.md`.
+
+The unit-residue predicate is expanded by finite character orthogonality and CRT. The leading contribution is grouped by **principal pole sector**: all auxiliary character tuples whose induced characters on every pole-producing channel are principal. This avoids an unsafe assumption that only one literally all-trivial auxiliary tuple can contribute at top order.
+
+The complete principal pole sector contributes the exact finite local multiplier `prod lambda_p`; every tuple outside it loses at least one pole. Gate B keeps the mixed correction holomorphic under fixed twists, and Gate F supplies fixed-conductor holomorphy/growth for the Dirichlet/Gaussian-Hecke factors.
 
 ```text
-13-13fg  [>] expanded fixed inert-prime transfer
-13-13fh  [ ] notation cleanup + deterministic-audit scope + R05 synthesis readiness
+STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER
+INERT_LOCAL_STATES=U_Rb_Sc_ONLY
+INERT_H_VALUATION_ZERO=true
+INERT_POSITIVE_VALUATION_FRACTION=2/(p+1)
+INERT_UNIT_ACCEPTANCE=(p+1)/(2(p-1))
+INERT_LAMBDA=(p+5)/(2(p+1))
+INERT_LAMBDA_LE_3_OVER_4_FOR_P_GE_7=true
+FIXED_RESIDUE_TRANSFER=FINITE_CHARACTER_ORTHOGONALITY_PLUS_CRT
+PRINCIPAL_POLE_SECTOR_MULTIPLIER=product_{p_in_S}_lambda_p
+AUXILIARY_CHARACTER_ALIASING_INCLUDED=true
+MIXED_CORRECTION_REMAINS_HOLOMORPHIC=true
+NONPRINCIPAL_POLE_SECTOR_LOSS_AT_LEAST_ONE=true
+NONPRINCIPAL_TOTAL=o_S(B(log B)^3)
+FIXED_S_CONSTANTS_MAY_DEPEND_ON_S=true
+LIMIT_ORDER=FIX_S_THEN_B_TO_INFINITY_THEN_ENLARGE_S
+GROWING_MODULUS_THEOREM_USED=false
+PAIR_OVERLAP=o(B(log B)^3)
+TRIPLE_OVERLAP=o(B(log B)^3)
+PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R04_IMMUTABLE=true
+R05_REQUIRED=true
+NEXT=13-13fh
 ```
 
-Gate G expands fixed-`S` character transfer, principal `prod lambda_p`, nonprincipal pole loss, fixed-conductor control and order of limits. Gate H performs notation/audit cleanup and determines R05 synthesis readiness.
+## Remaining R05 gate
 
-After A-H, if the theorem survives unchanged, create immutable R05 and obtain fresh independent reviews. R04 verdicts do not automatically count for R05.
+```text
+13-13fh  [>] notation cleanup + deterministic-audit scope + repaired-proof synthesis + R05 readiness
+```
+
+Gate H must propagate notation fixes (`theta`/`vartheta`, first-use `C_{ell,p}` substitutions), limit deterministic `PASS` language to reproducibility/consistency, synthesize Gates A–G into one repaired canonical proof, and decide whether immutable R05 can be generated.
+
+After A–H, if the theorem survives unchanged, create immutable R05 and obtain fresh independent reviews. R04 verdicts do not automatically count for R05.
 
 13-13f closes only when:
 
@@ -243,7 +254,7 @@ Until then:
 STAGE13_13F=BLOCKED_R05_REPAIR_IN_PROGRESS
 R05_FRESH_REVIEW_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13fg
+NEXT=13-13fh
 ```
 
 ## 13-13g — final freeze
@@ -276,9 +287,10 @@ STAGE13_13FC=COMPLETE_CURVED_REGION_ERROR_ACCUMULATION
 STAGE13_13FD=COMPLETE_RETAINED_HARMONIC_CONDUCTOR_BOOKKEEPING
 STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE
 STAGE13_13FF=COMPLETE_EXACT_EXTERNAL_THEOREM_CONTRACTS
+STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
 R04_IMMUTABLE=true
 R05_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13fg
+NEXT=13-13fh
 ```
