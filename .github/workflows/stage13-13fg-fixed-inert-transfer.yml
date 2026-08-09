@@ -1,0 +1,35 @@
+name: Stage13-13fg fixed inert-prime transfer
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage13/13-13fg/**'
+      - 'stages/stage13/scripts/13-13fg/**'
+      - 'stages/stage13/data/13-13fg/**'
+      - 'stages/stage13/13-13/roadmap.md'
+      - 'stages/stage13/13-13f/r05-repair-plan.md'
+      - '.github/workflows/stage13-13fg-fixed-inert-transfer.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute fixed inert transfer report
+        run: python stages/stage13/scripts/13-13fg/fixed_inert_transfer_audit.py --write-report
+      - name: Verify committed report
+        run: python stages/stage13/scripts/13-13fg/fixed_inert_transfer_audit.py --check-report
+      - name: Check Gate G locks
+        run: |
+          grep -F 'STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER' stages/stage13/13-13/roadmap.md
+          grep -F 'PRINCIPAL_POLE_SECTOR_MULTIPLIER=product_{p_in_S}_lambda_p' stages/stage13/13-13fg/fixed-inert-transfer.md
+          grep -F 'NONPRINCIPAL_POLE_SECTOR_LOSS_AT_LEAST_ONE=true' stages/stage13/13-13fg/fixed-inert-transfer.md
+          grep -F 'LIMIT_ORDER=FIX_S_THEN_B_TO_INFINITY_THEN_ENLARGE_S' stages/stage13/13-13fg/fixed-inert-transfer.md
+          grep -F 'NEXT=13-13fh' stages/stage13/13-13/roadmap.md
