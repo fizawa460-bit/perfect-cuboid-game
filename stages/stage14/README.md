@@ -1,46 +1,25 @@
 # Stage14 — exactly-two integral-face population
 
-Stage14 studies primitive canonical cuboids with integer space diagonal and exactly two integral face diagonals.
-
-## Current state
+Current canonical source: `stages/stage14/main.md`.
 
 ```text
-STAGE14_1=COMPLETE
-STAGE14_2=COMPLETE
-STAGE14_3=COMPLETE
-STAGE14_4AA=COMPLETE
-STAGE14_4AB=COMPLETE
-STAGE14_4AC=COMPLETE
-STAGE14_4AD=COMPLETE
-STAGE14_4AE=COMPLETE
-STAGE14_4AF=COMPLETE
-STAGE14_4AG=COMPLETE
-STAGE14_4AH=COMPLETE
-STAGE14_4AI=COMPLETE_MINIMAL_BISECTION_REDUCTION
-STAGE14_4AJ=COMPLETE_SHIMADA_LATTICE_INTERFACE
 STAGE14_4AK=COMPLETE_SPLIT_ROOT_COSET_VOID
 STAGE14_4AL=COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_AND_FINITE_FIRST_HIT_PROFILE
 STAGE14_4AM=COMPLETE_EXACT_SELMER_RANK_SMALLPOINT_FACTOR_AND_FINITE_FULL_BASE_CENSUS
-STAGE14_4AN=COMPLETE_SELECTED_PRIME_CHARACTER_MATRIX_AND_GATE_REACH_BOUNDARY
+STAGE14_4AN=COMPLETE_ODD_CHARACTER_MATRIX_AND_GATE_REACH_BOUNDARY
 MAX_VERIFIED_B=2000000
 FULL_RANK_SELMER_CENSUS_MAX_H=20000
 FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
-ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED=true
-SELECTED_ODD_SYSTEM_THREE_BLOCK_AFFINE_F2=true
-SELECTED_X_PRIME_REQUIRES_P_EQ_1_MOD4=true
-SELECTED_ODD_ROWS_ALONE_SIEVE_BASES=false
-UNSELECTED_ODD_AND_Q2_REQUIRED_FOR_A_TO_SIGMA=true
-CHARACTER_MATRIX_CONTROLS_R_TO_V=false
+ALL_ODD_BAD_PRIME_ROWS_EXPLICIT=true
+ALL_ODD_ROWS_REDUCED_TO_RECIPROCITY_BITS=true
+Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED=false
+FULL_LOCAL_SELMER_MATRIX_COMPLETE=false
 HEIGHT_COUPLING_REQUIRED_FOR_MAIN_THINNING=true
 ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false
-TRUE_GROWTH_ORDER_IDENTIFIED=false
-T_O_SQRT_B_PROVED=false
-NEXT=Stage14-4ao full local matrix plus height-weighted descent-class count
+NEXT=Stage14-4ao Q2 completion plus height-weighted descent-class count
 ```
 
-Canonical source: `stages/stage14/main.md`.
-
-## Core reduction
+## Current reduction
 
 For a primitive oriented Pythagorean base `F=(S,X,H)`,
 
@@ -48,28 +27,16 @@ For a primitive oriented Pythagorean base `F=(S,X,H)`,
 E_F:Y^2=Z(Z-S^2)(Z+X^2)
 \]
 
-has full rational 2-torsion. The Stage14 pair surface is the level-4 modular K3; its physical polarization satisfies
+has full rational 2-torsion. The fixed rational-curve square-root mechanism is closed by 4ak, so the count is collective.
 
-\[
-M^2=8,\qquad H_M=d.
-\]
-
-Stages 14-4ah through 14-4ak eliminate every fixed rational `M`-degree-four bisection capable of explaining a square-root exponent. Thus any finite `sqrt(B)` signal is collective.
-
-For the collective count,
-
-\[
-V(B)=\#\{F:\mu(F)\le B\},\qquad A(B)=B/\pi+O(\sqrt B\log B),
-\]
-
-and 4am separates
+Stage14-4am separates
 
 ```text
 A ⊇ Sigma ⊇ R ⊇ V,
 V/A=(Sigma/A)(R/Sigma)(V/R).
 ```
 
-At `H<=20,000`, the complete census gives
+At `H<=20,000`:
 
 ```text
 A=6372
@@ -80,11 +47,11 @@ Sigma/A=0.81748
 V/R in [0.01274,0.01427]
 ```
 
-so the dominant finite thinning is after positive rank, in the first-small-point gate.
+so the dominant finite thinning is after positive rank, at the first-small-point gate.
 
-## Stage14-4an
+## 4an
 
-Merged s5b/s5c selected-prime rows compress, using `d1*d2*d3` square, to
+Using the global square-class relation, the selected s5c rows compress to
 
 ```text
 S / 12 : chi_p(a3)=0
@@ -92,23 +59,35 @@ X / 13 : chi_p(a2)=0 and chi_p(-1)=0
 H / 23 : chi_p(a1)=0.
 ```
 
-Therefore any selected odd `X`-prime has `p=1 mod 4`. For fixed support this is a three-block affine `F2` reciprocity matrix.
+Hence a selected odd `X`-prime must have `p=1 mod 4`.
 
-The exact `H<=20,000` support audit finds that these selected-prime rows thin support choices to about `16.96%` on average, but exclude **zero bases**. Every primitive Pythagorean base has an admissible singleton support at an `S`- or `H`-prime.
-
-Thus
+Merged s5d supplies the unselected odd rows
 
 ```text
-SELECTED_ODD_ROWS_ALONE_FORM_COMPLETE_SELMER_TEST=false
-SELECTED_ODD_ROWS_ALONE_SIEVE_BASES=false
-UNSELECTED_ODD_AND_Q2_REQUIRED_FOR_A_TO_SIGMA=true
+p|S : chi_p(d3)=+1
+p|H : chi_p(d1)=+1
+p|X : chi_p(d2)=+1 OR chi_p(-d2)=+1.
 ```
 
-Even the completed Selmer gate will not by itself address the dominant `R -> V` first-small-point thinning.
+Therefore **all odd bad-prime local rows are explicit** and reduced to reciprocity bits.
+
+The complete `H<=20,000` support audit gives
+
+```text
+selected-row mean surviving support fraction       0.1695801
+selected-row bases with no nonempty support        0
+complete-odd mean surviving support fraction       0.04556219
+complete-odd mean surviving supports                4.09149
+bases with no nonempty homogeneous odd support     779
+```
+
+The last number is only a homogeneous odd-only diagnostic, not a Selmer base count. The remaining local gap is covering-specific `Q_2` solubility. Merged s5d reduces the product-square `Q_2` state space to 64 states.
+
+The character matrix remains an `A -> Sigma` local interface; it does not control `Sigma -> R` or the height-sensitive `R -> V` gate.
 
 ## Next
 
-Stage14-4ao imports/completes the unselected-odd and exhaustive `Q_2` local matrix and, in parallel, formulates a height-weighted descent-class count that keeps the physical small-point window visible.
+`Stage14-4ao` finishes/imports the 64-state `Q_2` covering classification, combines it with the complete odd matrix, and then formulates a height-weighted descent-class count retaining the physical small-point window.
 
 Primary 4an artifacts:
 
