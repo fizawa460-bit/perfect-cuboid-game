@@ -16,25 +16,25 @@ permissions:
   contents: read
 
 jobs:
-  b50m-chunks:
+  b100m-chunks:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Run memory-bounded exact chunk through B50m
+      - name: Run memory-bounded exact chunk through B100m
         run: |
           mkdir -p /tmp/num3
           /usr/bin/time -v -o /tmp/num3/time-${{ matrix.chunk }}.txt \
             python stages/stage14/scripts/14-num3/extended_exact_census.py \
-              --bound 50000000 \
-              --chunk-count 16 \
+              --bound 100000000 \
+              --chunk-count 32 \
               --chunk-index ${{ matrix.chunk }} \
               --output /tmp/num3/chunk-${{ matrix.chunk }}.json \
             | tee /tmp/num3/console-${{ matrix.chunk }}.txt
@@ -42,12 +42,12 @@ jobs:
           cat /tmp/num3/time-${{ matrix.chunk }}.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: num3-b50m-chunk-${{ matrix.chunk }}
+          name: num3-b100m-chunk-${{ matrix.chunk }}
           path: /tmp/num3/chunk-${{ matrix.chunk }}.json
           retention-days: 3
 
-  b50m-aggregate:
-    needs: b50m-chunks
+  b100m-aggregate:
+    needs: b100m-chunks
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -57,22 +57,22 @@ jobs:
           python-version: '3.12'
       - uses: actions/download-artifact@v4
         with:
-          pattern: num3-b50m-chunk-*
+          pattern: num3-b100m-chunk-*
           path: /tmp/num3-chunks
           merge-multiple: true
       - name: Merge chunks and enforce frozen 2m/5m/10m/20m/50m regression
         run: |
           python stages/stage14/scripts/14-num3/extended_exact_census.py \
-            --bound 50000000 \
+            --bound 100000000 \
             --merge-dir /tmp/num3-chunks \
-            --output /tmp/num3-b50m.json \
-            | tee /tmp/num3-b50m-console.txt
+            --output /tmp/num3-b100m.json \
+            | tee /tmp/num3-b100m-console.txt
       - name: Verify finite-only and emergency boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          r=json.loads(Path('/tmp/num3-b50m.json').read_text())
+          r=json.loads(Path('/tmp/num3-b100m.json').read_text())
           assert r['num1_regression']['all_four_sha256_match'] is True
           assert r['num1_regression']['counts_match'] is True
           assert r['num1_regression']['graph_match'] is True
@@ -83,6 +83,9 @@ jobs:
           assert r['cutoff_summaries']['50000000']['counts']=={'a':552,'b':573,'c':303,'total':1428,'triple':0}
           assert r['cutoff_summaries']['50000000']['graph']['active_oriented_face_vertices']==2028
           assert r['cutoff_summaries']['50000000']['graph']['max_degree']==10
+          assert r['extended_census']['counts']['total'] >= 1428
+          assert r['metadata']['bound'] == 100000000
+          assert r['metadata']['chunk_count'] == 32
           assert r['decision']['FROZEN_NUM3_MILESTONES_UNCHANGED'] is True
           assert r['decision']['FINITE_DIAGNOSTIC_ONLY'] is True
           assert r['decision']['ASYMPTOTIC_CLAIM'] is False
@@ -92,11 +95,11 @@ jobs:
           if r['perfect_cuboid_emergency']['triggered']:
               raise SystemExit('PERFECT CUBOID EMERGENCY: independent reproduction required before num3 closure')
           assert r['decision']['STAGE14_NUM3']=='COMPLETE_EXTENDED_EXACT_CENSUS'
-          print('Stage14-num3 B=50m exact census + frozen milestone regression: PASS')
+          print('Stage14-num3 B=100m exact census + frozen milestone regression: PASS')
           print(json.dumps(r['extended_census'], indent=2, sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: num3-b50m-aggregate
-          path: /tmp/num3-b50m.json
+          name: num3-b100m-aggregate
+          path: /tmp/num3-b100m.json
           retention-days: 3
