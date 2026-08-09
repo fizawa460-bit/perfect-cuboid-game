@@ -1,0 +1,71 @@
+name: Stage14-num5 scaling anomaly diagnostics
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/scripts/14-num5/**'
+      - 'stages/stage14/data/14-num5/**'
+      - 'stages/stage14/14-num5/**'
+      - 'stages/stage14/data/14-num4/**'
+      - 'stages/stage14/scripts/14-num4/**'
+      - '.github/workflows/stage14-num5-scaling-anomaly.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  finite-diagnostics:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-num5/scaling_anomaly_diagnostics.py
+      - name: Regenerate finite moving-window manifest
+        run: |
+          python stages/stage14/scripts/14-num5/scaling_anomaly_diagnostics.py \
+            --objects stages/stage14/data/14-num4/b100m_objects.csv.bz2.b64.parts \
+            --num4-manifest stages/stage14/data/14-num4/unified_fingerprint_manifest.json \
+            --manifest-out /tmp/scaling_anomaly_manifest.json
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          generated=json.loads(Path('/tmp/scaling_anomaly_manifest.json').read_text())
+          frozen=json.loads(Path('stages/stage14/data/14-num5/scaling_anomaly_manifest.json').read_text())
+          assert generated == frozen
+          print('Stage14-num5 compact manifest semantic regression: PASS')
+          PY
+      - name: Lock finite-only interpretation and observed flags
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          m=json.loads(Path('/tmp/scaling_anomaly_manifest.json').read_text())
+          d=m['decision']; s=m['summary']; f=s['flags']
+          assert d['STAGE14_NUM5']=='COMPLETE_FINITE_SCALING_ANOMALY_DIAGNOSTICS'
+          assert d['MOVING_WINDOWS_FROZEN'] is True
+          assert d['ROLLING_FITS_NON_THEOREM'] is True
+          assert d['SCALING_STABILIZED'] is False
+          assert d['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert d['ASYMPTOTIC_CLAIM'] is False
+          assert d['PERFECT_CUBOID_EXISTENCE_CLAIM'] is False
+          assert d['PERFECT_CUBOID_NONEXISTENCE_CLAIM'] is False
+          assert f['scaling_alpha_drift'] is True
+          assert f['direction_shell_drift'] is True
+          assert f['local_fingerprint_instability'] is False
+          assert f['graph_degree_jump'] is True
+          assert f['perfect_cuboid_emergency'] is False
+          assert len(m['half_range_shells'])==15
+          assert len(m['rolling_power_fits_5point'])==16
+          assert s['graph_max_degree_jumps']==[
+              {'B':35000000,'from':9,'to':10},
+              {'B':60000000,'from':10,'to':11},
+          ]
+          print('Stage14-num5 finite moving-window/anomaly contract: PASS')
+          PY
