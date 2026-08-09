@@ -1,0 +1,41 @@
+name: Stage14-4av CRT incidence block
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4av/**'
+      - 'stages/stage14/data/14-4/crt_incidence_block_summary.json'
+      - 'stages/stage14/scripts/14-4/crt_incidence_block_audit.py'
+      - 'stages/stage14/data/14-4/local_indicator_obstruction_summary.json'
+      - '.github/workflows/stage14-4av-crt-incidence-block.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-4/local_indicator_obstruction_audit.py
+          python -m py_compile stages/stage14/scripts/14-4/crt_incidence_block_audit.py
+      - name: Recheck repaired 14-4au generated summary
+        run: |
+          python stages/stage14/scripts/14-4/local_indicator_obstruction_audit.py
+          git diff --exit-code -- stages/stage14/data/14-4/local_indicator_obstruction_summary.json
+      - name: Run 14-4av deterministic audit
+        run: python stages/stage14/scripts/14-4/crt_incidence_block_audit.py
+      - name: Check generated 14-4av summary is committed
+        run: git diff --exit-code -- stages/stage14/data/14-4/crt_incidence_block_summary.json
+      - name: Check boundary flags
+        run: |
+          grep -q 'BARE_RECIPROCAL_BLOCK_BOUND_PROVED=true' stages/stage14/14-4av/result.md
+          grep -q 'INTERIOR_DYADIC_POWER_SAVING_PROVED=true' stages/stage14/14-4av/result.md
+          grep -q 'FULL_AUXILIARY_STATE_WEIGHT_SEPARABILITY_PROVED=false' stages/stage14/14-4av/result.md
+          grep -q 'NEXT=Stage14-4aw' stages/stage14/14-4av/result.md
