@@ -1,0 +1,49 @@
+{
+  "stage": "14-num-alpha11-diag10",
+  "classification": "FINITE_COUNT_SHELL_HETEROGENEITY_TEST",
+  "shell_N2": [89, 27, 22, 29, 21, 40, 27],
+  "pooled_pair_totals": [98, 101, 56],
+  "conditional_permutation": {
+    "trials": 50000,
+    "seed": 14010,
+    "observed": {
+      "pearson": 12.114189588575595,
+      "g": 13.820697338373481,
+      "max_pair_l1": 0.4671023965141613,
+      "survival_shape_rms_N2_weighted": 0.06434923337806807
+    },
+    "mc_p": {
+      "pearson": 0.4389912201755965,
+      "g": 0.3382732345353093,
+      "max_pair_l1": 0.14199716005679885,
+      "survival_shape_rms_N2_weighted": 0.49387012259754803
+    }
+  },
+  "source_adjusted_plugin_mc": {
+    "trials": 50000,
+    "seed": 14011,
+    "global_survival_rel_bc_plugin": [0.6043990674035388, 0.9087577682163763, 1.0],
+    "observed": {
+      "pearson_to_source_adjusted_expected": 11.863044565824978,
+      "g_to_source_adjusted_expected": 13.60455436881805,
+      "survival_shape_rms_N2_weighted": 0.06434923337806807
+    },
+    "mc_p": {
+      "pearson_to_source_adjusted_expected": 0.624707505849883,
+      "g_to_source_adjusted_expected": 0.5115097698046039,
+      "survival_shape_rms_N2_weighted": 0.49441011179776406
+    },
+    "boundary": "diagnostic plug-in calibration; global survival profile is estimated from the same B<=1m panel"
+  },
+  "decision": {
+    "COMMON_PAIR_DIRECTION_NULL_REJECTED_AT_5PCT": false,
+    "OBSERVED_SURVIVAL_RMS_EXCEEDS_CONDITIONAL_NOISE_AT_5PCT": false,
+    "OBSERVED_SURVIVAL_RMS_EXCEEDS_SOURCE_ADJUSTED_PLUGIN_NOISE_AT_5PCT": false,
+    "FINITE_COUNT_SAMPLING_NOISE_SUFFICIENT_EXPLANATION_AT_CURRENT_B1M_PANEL": true,
+    "ARITHMETIC_SHELL_HETEROGENEITY_DETECTED": false,
+    "ARITHMETIC_SHELL_HETEROGENEITY_RULED_OUT_ASYMPTOTICALLY": false,
+    "ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM": false,
+    "ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM": false,
+    "NEXT": "Stage14-num-alpha11-diag11 cumulative survival-rate drift and uncertainty bands / stopping decision"
+  }
+}

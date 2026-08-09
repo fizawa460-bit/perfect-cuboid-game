@@ -1,0 +1,66 @@
+name: Stage14-num-alpha11-diag10 finite-count heterogeneity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag10/**'
+      - 'stages/stage14/data/14-num-alpha11-diag10/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag10/**'
+      - '.github/workflows/stage14-num-alpha11-diag10-finite-count.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  finite-count:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute diag10 finite-count calibration
+        run: python stages/stage14/scripts/14-num-alpha11-diag10/finite_count_heterogeneity.py > /tmp/diag10.json
+      - name: Verify frozen diag10 summary
+        run: |
+          python - <<'PY'
+          import json, math
+          x=json.load(open('/tmp/diag10.json'))
+          f=json.load(open('stages/stage14/data/14-num-alpha11-diag10/finite_count_summary.json'))
+          assert x['shell_N2']==f['shell_N2']==[89,27,22,29,21,40,27]
+          assert x['conditional_permutation']['fixed_column_totals']==f['pooled_pair_totals']==[98,101,56]
+          pairs=[
+            (x['conditional_permutation']['mc_p']['pearson'],f['conditional_permutation']['mc_p']['pearson']),
+            (x['conditional_permutation']['mc_p']['g'],f['conditional_permutation']['mc_p']['g']),
+            (x['conditional_permutation']['mc_p']['max_pair_l1'],f['conditional_permutation']['mc_p']['max_pair_l1']),
+            (x['conditional_permutation']['mc_p']['survival_shape_rms_N2_weighted'],f['conditional_permutation']['mc_p']['survival_shape_rms_N2_weighted']),
+            (x['source_adjusted_plugin_mc']['mc_p']['pearson_to_source_adjusted_expected'],f['source_adjusted_plugin_mc']['mc_p']['pearson_to_source_adjusted_expected']),
+            (x['source_adjusted_plugin_mc']['mc_p']['g_to_source_adjusted_expected'],f['source_adjusted_plugin_mc']['mc_p']['g_to_source_adjusted_expected']),
+            (x['source_adjusted_plugin_mc']['mc_p']['survival_shape_rms_N2_weighted'],f['source_adjusted_plugin_mc']['mc_p']['survival_shape_rms_N2_weighted']),
+          ]
+          for a,b in pairs: assert math.isclose(a,b,rel_tol=0,abs_tol=1e-15)
+          d=x['decision']
+          assert d['COMMON_PAIR_DIRECTION_NULL_REJECTED_AT_5PCT'] is False
+          assert d['FINITE_COUNT_SAMPLING_NOISE_SUFFICIENT_EXPLANATION_AT_CURRENT_B1M_PANEL'] is True
+          assert d['ARITHMETIC_SHELL_HETEROGENEITY_DETECTED'] is False
+          assert d['ARITHMETIC_SHELL_HETEROGENEITY_RULED_OUT_ASYMPTOTICALLY'] is False
+          assert d['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
+          PY
+      - name: Check result boundary locks
+        run: |
+          grep -q 'STAGE14_NUM_ALPHA11_DIAG10=FINITE_COUNT_SHELL_HETEROGENEITY_TEST_COMPLETE' stages/stage14/14-num-alpha11-diag10/result.md
+          grep -q 'CONDITIONAL_SURVIVAL_RMS_P=0.49387012259754803' stages/stage14/14-num-alpha11-diag10/result.md
+          grep -q 'FINITE_COUNT_SAMPLING_NOISE_SUFFICIENT_EXPLANATION_AT_CURRENT_B1M_PANEL=true' stages/stage14/14-num-alpha11-diag10/result.md
+          grep -q 'ARITHMETIC_SHELL_HETEROGENEITY_DETECTED=false' stages/stage14/14-num-alpha11-diag10/result.md
+          grep -q 'ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM=false' stages/stage14/14-num-alpha11-diag10/result.md
+      - name: Print compact summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag10.json'))
+          print('DIAG10_FINAL_SUMMARY_BEGIN')
+          print(json.dumps({'conditional':x['conditional_permutation'],'plugin':x['source_adjusted_plugin_mc'],'decision':x['decision']},indent=2))
+          print('DIAG10_FINAL_SUMMARY_END')
+          PY
