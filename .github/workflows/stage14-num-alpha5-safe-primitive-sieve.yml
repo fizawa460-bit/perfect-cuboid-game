@@ -1,0 +1,30 @@
+name: Stage14-num-alpha5 safe primitive sieve audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha5/**'
+      - 'stages/stage14/14-num-alpha5/**'
+      - '.github/workflows/stage14-num-alpha5-safe-primitive-sieve.yml'
+      - 'stages/stage14/scripts/14-num-alpha4/**'
+      - 'stages/stage14/scripts/14-num-alpha3/**'
+      - 'stages/stage14/scripts/14-num-alpha2/**'
+      - 'stages/stage14/data/14-num1/baseline_manifest.json'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact primitive-safe sieve audit and frozen B2m regression
+        run: |
+          python stages/stage14/scripts/14-num-alpha5/safe_primitive_sieve_audit.py \
+            --audit-bound 200000 \
+            --frozen-bound 2000000 \
+            --output /tmp/alpha5.json
+          cat /tmp/alpha5.json
