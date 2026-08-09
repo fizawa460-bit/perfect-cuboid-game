@@ -1,0 +1,23 @@
+name: Stage14-bridge1 survival local-density bridge
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-bridge1/**'
+      - 'stages/stage14/scripts/14-bridge1/**'
+      - 'stages/stage14/data/14-num-alpha11-diag8/extended_denominator_summary.json'
+      - '.github/workflows/stage14-bridge1-survival-local-density.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-bridge1/survival_local_density_bridge_audit.py
+      - name: Run deterministic bridge audit
+        run: python stages/stage14/scripts/14-bridge1/survival_local_density_bridge_audit.py
