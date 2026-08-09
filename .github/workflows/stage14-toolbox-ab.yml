@@ -1,0 +1,30 @@
+name: Stage14-toolbox-ab variable dictionary audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-ab/**'
+      - 'stages/stage14/scripts/14-toolbox-ab/**'
+      - '.github/workflows/stage14-toolbox-ab.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run variable dictionary audit
+        run: python stages/stage14/scripts/14-toolbox-ab/variable_dictionary_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-ab/variable_dictionary_audit.py
+      - name: Validate toolbox-ab boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AB=COMPLETE_CROSS_ROUTE_VARIABLE_AND_NORMALIZATION_DICTIONARY' stages/stage14/14-toolbox-ab/result.md
+          grep -q 'NEXT=Stage14-toolbox-ac current exponent and saving ledger' stages/stage14/14-toolbox-ab/result.md
