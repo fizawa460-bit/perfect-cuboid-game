@@ -1,0 +1,69 @@
+{
+  "stage": "14-4ay",
+  "classification": "SIX_LINEAR_FROZEN_STATE_DISCREPANCY_L2_POWER_SAVING_PROVED",
+  "linear_edge_coordinates": {
+    "forms": ["m", "n", "m-n", "m+n"],
+    "edge_count": 6,
+    "transform_determinants_abs": [1, 1, 1, 1, 1, 2],
+    "primitive_opposite_parity_equivalence": "gcd(L_i,L_j)=1 iff gcd(m,n)=1 in the corresponding parity class"
+  },
+  "frozen_state_normal_form": {
+    "endpoint_coordinates": "x=a0*u*r; y=b0*v*s",
+    "endpoint_moduli_coprime": true,
+    "norm_root_sign_refinement_cost": "2^omega(q_E)=B^o(1)",
+    "auxiliary_congruence": "r=c*s mod R",
+    "c_unit_mod_R": true,
+    "R_coprime_to_endpoint_moduli": true,
+    "q2_branch_count": "O(1)"
+  },
+  "slicing_mobius_bound": {
+    "effective_scales": "A_*=L/(a0*u), B_*=L/(b0*v)",
+    "congruence_count": "area/R + O(A_*+B_*+1)",
+    "uniform_in_auxiliary_R": true,
+    "pointwise_discrepancy": "Delta_state(u,v) <<_epsilon B^epsilon*(L/(a0*u)+L/(b0*v)+1)",
+    "weakened_uniform_bound": "|Delta_state(u,v)| <<_epsilon B^epsilon*(L/u+L/v+1)"
+  },
+  "dyadic_l2": {
+    "definition": "D_lin(U,V)=sum_{u~U,v~V}|Delta_state(u,v)|^2",
+    "bound": "D_lin(U,V) <<_epsilon B^epsilon*(L^2*(V/U+U/V)+UV+L^2)",
+    "character_transfer": "E_Delta <<_epsilon B^epsilon*(L*(U+V)+UV+L*sqrt(UV))",
+    "power_range": "max(U,V)<=L^(1-kappa)",
+    "power_saving": "E_Delta << L^(2-kappa+epsilon)",
+    "lower_bound_on_min_UV_required": false
+  },
+  "endpoint_ledger": {
+    "microscopic_discrepancy_closed": true,
+    "unit_modulus_bulk_mode": "(1/v)=1; delete reciprocal edge and reclassify as lower-dimensional mode",
+    "full_lower_dimensional_bulk_induction_closed": false,
+    "upper_endpoint": "max(U,V)~L",
+    "upper_switch_target": "rewrite large state piece using complementary kernel piece together with Fourier/Jacobi coefficient",
+    "upper_complementary_state_switch_closed": false
+  },
+  "norm_boundary": {
+    "linear_edge_auxiliary_norm_signs_absorbed_by_projective_congruence": true,
+    "remaining_norm_problem": "reciprocal modes involving state-split E=m^2+n^2 pieces",
+    "mixed_sign_two_copy_kernel": "q_same|D(P,P'), q_opp|S(P,P')",
+    "state_split_E_reciprocal_dispersion_closed": false
+  },
+  "updated_frontier": "LOWER_DIMENSIONAL_BULK_MODE_INDUCTION_PLUS_UPPER_COMPLEMENTARY_STATE_SWITCH_PLUS_STATE_SPLIT_E_RECIPROCAL_DISPERSION",
+  "decision": {
+    "STAGE14_4AY": "SIX_LINEAR_FROZEN_STATE_DISCREPANCY_L2_POWER_SAVING_PROVED",
+    "SIX_LINEAR_EDGE_PRIMITIVE_COORDINATES": true,
+    "AUXILIARY_NORM_ROOT_SIGN_REFINEMENT_SUBPOWER": true,
+    "FROZEN_AUXILIARY_STATE_SINGLE_PROJECTIVE_CONGRUENCE": true,
+    "SLICING_ERROR_UNIFORM_IN_AUXILIARY_MODULUS": true,
+    "SIX_LINEAR_POINTWISE_DISCREPANCY_BOUND_PROVED": true,
+    "SIX_LINEAR_DYADIC_L2_DISPERSION_PROVED": true,
+    "SIX_LINEAR_MEDIUM_DISCREPANCY_POWER_SAVING_PROVED": true,
+    "MICROSCOPIC_DISCREPANCY_CLOSED": true,
+    "FULL_MICROSCOPIC_BULK_INDUCTION_CLOSED": false,
+    "UPPER_COMPLEMENTARY_STATE_SWITCH_CLOSED": false,
+    "STATE_SPLIT_E_RECIPROCAL_DISPERSION_CLOSED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4az close the finite lower-dimensional bulk-mode induction and formulate/prove the upper complementary-state switch for linear columns; in parallel isolate the state-split E reciprocal modes for the s5 norm-dispersion track"
+  }
+}
