@@ -1,0 +1,57 @@
+name: Stage14-4am rank-smallpoint factor audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py'
+      - 'stages/stage14/data/14-4/rank_smallpoint_factor_audit.json'
+      - 'stages/stage14/data/14-4/rank_smallpoint_factor_summary.json'
+      - 'stages/stage14/archive/stage14-4am-*'
+      - 'stages/stage14/main.md'
+      - 'stages/stage14/README.md'
+      - 'stages/stage14/roadmap.md'
+      - '.github/workflows/stage14-4am-rank-smallpoint.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PARI/GP
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends pari-gp
+      - name: Run complete H<=20k rank/Selmer census
+        run: python stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py
+      - name: Validate Stage14-4am boundary and frozen summary
+        run: |
+          python - <<'PY'
+          import json
+          generated=json.load(open('stages/stage14/data/14-4/rank_smallpoint_factor_audit.json'))
+          frozen=json.load(open('stages/stage14/data/14-4/rank_smallpoint_factor_summary.json'))
+          assert generated['metadata']['max_full_rank_census_H']==frozen['max_full_rank_census_H']==20000
+          got=[]
+          for r in generated['profile']:
+              got.append({
+                  'B':r['B'],'A':r['eligible_A'],'Sigma':r['selmer_candidate_Sigma'],
+                  'R_lower':r['mw_rank_positive_lower'],'R_upper':r['mw_rank_positive_upper'],'V':r['active_V']
+              })
+              assert r['active_V'] <= r['mw_rank_positive_lower'] <= r['mw_rank_positive_upper'] <= r['selmer_candidate_Sigma'] <= r['eligible_A']
+          assert got==frozen['cuts']
+          assert generated['decision']['ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED'] is True
+          assert generated['decision']['MATCHED_CASE_CONTROL_ONLY'] is False
+          assert generated['decision']['POSITIVE_RANK_DENSITY_PROVED'] is False
+          assert generated['decision']['UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED'] is False
+          assert generated['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          g=generated['profile'][-1]
+          f=frozen['B20000']
+          assert g['densities']['Sigma_over_A']==f['Sigma_over_A']
+          assert g['densities']['R_over_A_interval']==f['R_over_A_interval']
+          assert g['densities']['V_over_R_interval']==f['V_over_R_interval']
+          assert g['densities']['V_over_A']==f['V_over_A']
+          print(json.dumps(g,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage14-4am-rank-smallpoint-factor-audit
+          path: stages/stage14/data/14-4/rank_smallpoint_factor_audit.json
