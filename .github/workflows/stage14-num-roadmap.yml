@@ -1,0 +1,56 @@
+name: Stage14-num roadmap contract
+
+on:
+  push:
+    branches:
+      - agent/stage14-num-roadmap
+    paths:
+      - 'stages/stage14/num-roadmap.md'
+      - '.github/workflows/stage14-num-roadmap.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/num-roadmap.md'
+      - '.github/workflows/stage14-num-roadmap.yml'
+  workflow_dispatch:
+
+jobs:
+  roadmap-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify numerical-observatory boundaries
+        run: |
+          f=stages/stage14/num-roadmap.md
+          grep -F 'STAGE14_NUM_ROADMAP=READY' "$f"
+          grep -F 'TRACK_ROLE=INDEPENDENT_NUMERICAL_OBSERVATORY' "$f"
+          grep -F 'FINITE_DIAGNOSTIC_ONLY=true' "$f"
+          grep -F 'ASYMPTOTIC_CLAIM=false' "$f"
+          grep -F 'PROOF_TRACK_INDEPENDENT=true' "$f"
+          grep -F 'SQRT_B_ASYMPTOTIC_CLAIM=false' "$f"
+          grep -F 'PERFECT_CUBOID_EXISTENCE_CLAIM=false' "$f"
+          grep -F 'PERFECT_CUBOID_NONEXISTENCE_CLAIM=false' "$f"
+
+      - name: Verify frozen B2m baseline
+        run: |
+          f=stages/stage14/num-roadmap.md
+          grep -F 'BASELINE_B=2000000' "$f"
+          grep -F 'BASELINE_NA=142' "$f"
+          grep -F 'BASELINE_NB=134' "$f"
+          grep -F 'BASELINE_NC=80' "$f"
+          grep -F 'BASELINE_N2=356' "$f"
+          grep -F 'BASELINE_T=0' "$f"
+          grep -F '(N_a^(2), N_b^(2), N_c^(2)) = (142, 134, 80)' "$f"
+
+      - name: Verify stage sequence and emergency protocol
+        run: |
+          f=stages/stage14/num-roadmap.md
+          grep -F '## 4. Stage14-num1 — baseline correctness and profiler' "$f"
+          grep -F '## 5. Stage14-num2 — enumerator acceleration and incremental architecture' "$f"
+          grep -F '## 6. Stage14-num3 — extended exact census' "$f"
+          grep -F '## 7. Stage14-num4 — unified cross-track fingerprint ledger' "$f"
+          grep -F '## 8. Stage14-num5 — scaling and anomaly diagnostics' "$f"
+          grep -F '## 9. Stage14-num6+ — rolling observatory' "$f"
+          grep -F 'UNVERIFIED_PERFECT_CUBOID_CANDIDATE' "$f"
+          grep -F 'NEXT=Stage14-num1 baseline correctness and profiler' "$f"
