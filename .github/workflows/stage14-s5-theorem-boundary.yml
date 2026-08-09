@@ -1,0 +1,35 @@
+name: Stage14-s5 uniform small-point theorem boundary
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5/**'
+      - 'stages/stage14/data/14-s5/**'
+      - '.github/workflows/stage14-s5-theorem-boundary.yml'
+  push:
+    branches:
+      - agent/stage14-s5-uniform-small-point
+    paths:
+      - 'stages/stage14/14-s5/**'
+      - 'stages/stage14/data/14-s5/**'
+      - '.github/workflows/stage14-s5-theorem-boundary.yml'
+
+jobs:
+  boundary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate theorem boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-s5/theorem_boundary.json'
+          d=json.load(open(p))
+          b=d['logical_boundary']
+          assert b['single_fiber_point_count_implies_VB_power_saving'] is False
+          assert b['average_rank_alone_implies_VB_power_saving'] is False
+          assert b['family_level_activation_theorem_required'] is True
+          assert d['decision']['SQRT_B_ASYMPTOTIC_PROVED'] is False
+          assert 'large sieve' in b['preferred_route'].lower()
+          print(json.dumps(d, indent=2))
+          PY
