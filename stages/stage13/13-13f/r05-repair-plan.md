@@ -1,6 +1,6 @@
 # Stage13-13f — R05 repair / closure plan
 
-> STATUS: `ACTIVE_REPAIR_PLAN_GATES_A_B_C_D_E_F_COMPLETE_GATE_G_NEXT`
+> STATUS: `ACTIVE_REPAIR_PLAN_GATES_A_B_C_D_E_F_G_COMPLETE_GATE_H_NEXT`
 >
 > SOURCE_BUNDLE: `STAGE13-FINAL-SELF-CONTAINED-20260809-R04`
 >
@@ -50,23 +50,14 @@ CURVED_BOUNDARY=O(B(log B)^-5)+lower-order-ledger
 MESH_ERROR=O(B(log B)^-5)
 ```
 
-The remaining wing/shift bounds are `O(B log^(9/4)B)`, `O(B log^(5/2)B)`, and `O(B log^2 B)`.
-
 ## Gate D — retained nonzero harmonics
 
 Status: `[x] COMPLETE — 13-13fd`.
 
-On `Re s>=3/4`, the proof-facing family interface is
-
-```text
-S_ell(X) << X^(1-delta_H)(1+ell)^C_H(log(2X))^D_H
-```
-
-uniformly for every `X>=2`, `ell>=1`.
-
 ```text
 STAGE13_13FD=COMPLETE_RETAINED_HARMONIC_CONDUCTOR_BOOKKEEPING
 HECKE_STRIP_LEFT=3/4
+HECKE_FAMILY_BOUND=S_ell(X)<<X^(1-delta_H)(1+ell)^C_H(log(2X))^D_H_for_all_ell>=1
 HARMONIC_POLYLOG_EXPONENT=4*C_H+D_H+6
 HARMONIC_STRETCHED_SAVING=exp(-delta_H*(log B)^(1/4))
 HARMONIC_CORE=o_A(B(log B)^(-A))_for_every_fixed_A
@@ -80,20 +71,7 @@ WINGS_EXPANDED_HARMONIC_BY_HARMONIC=false
 
 Status: `[x] COMPLETE — 13-13fe`.
 
-Artifacts: `stages/stage13/13-13fe/` plus deterministic script/data/CI.
-
-The repaired proof-facing interface contains
-
-```text
-D_B -> G(hrs)-1 -> C_raw(B) -> Mobius/common-scale C_prim(B)
-C_prim(B) ~ kappa/(12*pi) B(log B)^3
-          = eta/(12*pi^2) B(log B)^3
-eta=pi*kappa
-C_prim,q^proj(B)=2 A_q(B)
-C_prim(B)=2 sum_q A_q(B)
-```
-
-The projection fiber is exactly the two orders of the distinguished face legs and remains exact in OE/EE strata and on multi-face raw incidences.
+The proof-facing interface includes the full `D_B -> G(hrs)-1 -> C_raw -> Mobius/common-scale C_prim` definition chain, the explicit `kappa`/`eta` theorem interface, and the exact objectwise factor-two projection.
 
 ```text
 STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE
@@ -117,24 +95,7 @@ STAGE12_REOPENED=false
 
 Status: `[x] COMPLETE — 13-13ff`.
 
-Artifacts:
-
-```text
-stages/stage13/13-13ff/external-theorem-contracts.md
-stages/stage13/13-13ff/result.md
-stages/stage13/scripts/13-13ff/external_contract_audit.py
-stages/stage13/data/13-13ff/external_contract_audit.json
-.github/workflows/stage13-13ff-external-contracts.yml
-```
-
-The R05-facing external boundary is now explicit:
-
-- nonzero Gaussian angular Hecke `L`-functions: entire continuation, completed functional equation, no pole at `s=1`;
-- fixed finite residue twists: fixed-conductor Hecke characters, with only the trivial character allowed a pole at `s=1`;
-- `L(s,chi_4)`: nonprincipal Dirichlet `L`-function, holomorphic at `s=1` with the classical functional equation;
-- polynomial strip/angular growth derived from right-boundary absolute convergence, the functional equation, Stirling and Phragmen--Lindelof;
-- Gate D ordinary summatory estimate derived through an explicit high-order Riesz/Perron smoothing and finite differencing, rather than an unexplained unsmoothed contour shortcut;
-- Vaaler black-box reduced to the sawtooth approximation; interval majorants/minorants are derived internally with exact zero-mode excess `1/(L+1)` and nonzero coefficient bound `<1`.
+Gate F exposes the exact fixed-conductor Hecke/Dirichlet contracts, derives polynomial strip/angular growth, inserts explicit Riesz/Perron smoothing before ordinary partial sums, and reduces the Vaaler import to the sawtooth theorem with interval polynomials derived internally.
 
 ```text
 STAGE13_13FF=COMPLETE_EXACT_EXTERNAL_THEOREM_CONTRACTS
@@ -157,31 +118,74 @@ GENERAL_SELBERG_DELANGE_REQUIRED=false
 GROWING_MODULUS_THEOREM_USED=false
 THEOREM_CHANGED=false
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
+NEXT=13-13fg
 ```
 
-Gate F closes the DeepSeek objection that the Hecke and Vaaler hypotheses/conclusions were not visible at the precision actually consumed by the proof.
+The `NEXT=13-13fg` line above is retained as the historical Gate F completion lock used by its deterministic CI.
 
 ## Gate G — fixed inert-prime transfer
 
-Status: `[>] NEXT — 13-13fg`.
+Status: `[x] COMPLETE — 13-13fg`.
 
-Expand the fixed-`S` overlap proposition into a proof-facing lemma:
+Artifacts:
 
-1. finite residue-state decomposition and character orthogonality;
-2. principal tuple multiplies the raw top coefficient by `prod_{p in S} lambda_p`;
-3. each nonprincipal tuple removes at least one principal pole and contributes `o(B(log B)^3)` for fixed `S`;
-4. the Gate F fixed-conductor contracts control all twisted factors and Gate B controls the mixed Euler correction;
-5. the order `fix S -> B to infinity -> |S| to infinity` is explicit.
+```text
+stages/stage13/13-13fg/fixed-inert-transfer.md
+stages/stage13/13-13fg/result.md
+stages/stage13/scripts/13-13fg/fixed_inert_transfer_audit.py
+stages/stage13/data/13-13fg/fixed_inert_transfer_audit.json
+.github/workflows/stage13-13fg-fixed-inert-transfer.yml
+```
 
-## Gate H — notation and audit scope / R05 synthesis readiness
+The repaired transfer separates p-adic valuation strata from unit residue predicates. Unit predicates are expanded by finite character orthogonality and CRT.
 
-Status: `[ ] Pending Gate G`.
+The leading terms are grouped by **principal pole sector** rather than by a single literally all-trivial auxiliary character tuple. The principal pole sector contains every tuple whose induced characters on all pole-producing channels are principal; this safely includes any auxiliary-character aliasing from algebraic coordinate relations. Its complete finite Fourier sum is exactly the product of local acceptance factors.
 
-Propagate `vartheta`, define `C_{ell,p}` substitutions at first use, keep deterministic `PASS` limited to reproducibility/consistency, synthesize Gates A-G into the repaired canonical proof, and decide whether immutable R05 can be generated.
+Every tuple outside the principal pole sector makes at least one pole-producing channel nonprincipal. Gate F makes the corresponding fixed-conductor Dirichlet/Hecke factor holomorphic at `s=1`; Gate B keeps the mixed Euler correction holomorphic and unable to restore the pole.
+
+```text
+STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER
+INERT_LOCAL_STATES=U_Rb_Sc_ONLY
+INERT_H_VALUATION_ZERO=true
+INERT_POSITIVE_VALUATION_FRACTION=2/(p+1)
+INERT_UNIT_ACCEPTANCE=(p+1)/(2(p-1))
+INERT_LAMBDA=(p+5)/(2(p+1))
+INERT_LAMBDA_LE_3_OVER_4_FOR_P_GE_7=true
+FIXED_RESIDUE_TRANSFER=FINITE_CHARACTER_ORTHOGONALITY_PLUS_CRT
+PRINCIPAL_POLE_SECTOR_MULTIPLIER=product_{p_in_S}_lambda_p
+AUXILIARY_CHARACTER_ALIASING_INCLUDED=true
+MIXED_CORRECTION_REMAINS_HOLOMORPHIC=true
+NONPRINCIPAL_POLE_SECTOR_LOSS_AT_LEAST_ONE=true
+NONPRINCIPAL_TOTAL=o_S(B(log B)^3)
+FIXED_S_CONSTANTS_MAY_DEPEND_ON_S=true
+LIMIT_ORDER=FIX_S_THEN_B_TO_INFINITY_THEN_ENLARGE_S
+GROWING_MODULUS_THEOREM_USED=false
+PAIR_OVERLAP=o(B(log B)^3)
+TRIPLE_OVERLAP=o(B(log B)^3)
+PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+NEXT=13-13fh
+```
+
+Gate G closes the DeepSeek objection that the fixed-prime transfer did not expose character decomposition, principal leading mass, mixed-correction compatibility, nonprincipal pole loss, and limit order.
+
+## Gate H — notation / audit scope / repaired-proof synthesis / R05 readiness
+
+Status: `[>] NEXT — 13-13fh`.
+
+Gate H must:
+
+1. rename the Gaussian angular phase to `vartheta` where it conflicts with spherical `theta`;
+2. define the substitutions entering `C_{ell,p}` at first use;
+3. label deterministic `PASS` only as reproducibility/consistency evidence;
+4. synthesize Gates A–G into one repaired canonical proof rather than leaving a repair-chain reading requirement;
+5. verify all R04 objections have explicit closures and no theorem-level defect was found;
+6. decide whether an immutable R05 bundle can be generated for fresh independent review.
 
 ## Promotion rule
 
-If any repair finds a genuine theorem-level defect, reopen the theorem contract. Otherwise, after A-H create a new immutable R05 bundle and obtain fresh independent reviews. R04 verdicts do not automatically count toward R05 freeze.
+If any repair finds a genuine theorem-level defect, reopen the theorem contract. Otherwise Gate H authorizes a new immutable R05 review bundle. R04 verdicts do not count automatically toward R05 freeze.
 
 ```text
 R04_IMMUTABLE=true
@@ -191,9 +195,10 @@ STAGE13_13FC=COMPLETE_CURVED_REGION_ERROR_ACCUMULATION
 STAGE13_13FD=COMPLETE_RETAINED_HARMONIC_CONDUCTOR_BOOKKEEPING
 STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE
 STAGE13_13FF=COMPLETE_EXACT_EXTERNAL_THEOREM_CONTRACTS
+STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
 R05_REQUIRED_IF_THEOREM_SURVIVES_AUDIT=true
 R05_FRESH_REVIEW_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13fg
+NEXT=13-13fh
 ```
