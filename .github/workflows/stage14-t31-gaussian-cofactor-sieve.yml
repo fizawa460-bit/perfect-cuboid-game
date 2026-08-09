@@ -1,0 +1,42 @@
+name: Stage14-t31 Gaussian cofactor sieve
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t31/**'
+      - 'stages/stage14/scripts/14-t/t31_gaussian_cofactor_sieve_audit.py'
+      - 'stages/stage14/data/14-t31/**'
+      - '.github/workflows/stage14-t31-gaussian-cofactor-sieve.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t30 regression
+        run: python stages/stage14/scripts/14-t/t30_height_auxiliary_character_audit.py
+      - name: Run t31 Gaussian cofactor audit
+        run: python stages/stage14/scripts/14-t/t31_gaussian_cofactor_sieve_audit.py
+      - name: Check frozen t31 summary
+        run: git diff --exit-code stages/stage14/data/14-t31/gaussian_cofactor_sieve.json
+      - name: Validate locked t31 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t31/gaussian_cofactor_sieve.json'
+          d=json.load(open(p)); a=d['finite_audit']; q=d['decision']
+          assert a['totals']['super_sqrt_visible_incidences']==1018
+          assert a['totals']['gaussian_cofactor_norm_checks']==1018
+          assert a['totals']['matched_factor_exact_valuation_checks']==2036
+          assert a['totals']['invisible_sum_local_root_checks']==211712
+          assert q['SUPER_SQRT_VISIBLE_NORMS_HAVE_ELL_EXACT_EXPONENT_ONE'] is True
+          assert q['PHYSICAL_SCALE_THIN_NORM_CONDITION'] is True
+          assert q['FIXED_ELL_MOVING_FAMILY_COMPLETE_CORRELATION_POWER_SAVING'] is True
+          assert q['BOX_SIEVE_CLOSES_DIRECTION_PROJECTION'] is False
+          assert q['INVISIBLE_CANONICAL_PRIME_GIVES_RATIONAL_PQ_INCIDENCE'] is False
+          assert q['A_11_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2,sort_keys=True))
+          PY
