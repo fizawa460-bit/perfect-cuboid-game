@@ -1,0 +1,30 @@
+name: Stage14-s5l dyadic synthesis and E sparse audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5l/**'
+      - 'stages/stage14/scripts/14-s5l/**'
+      - '.github/workflows/stage14-s5l-dyadic-synthesis-e-sparse.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5l deterministic audit
+        run: python3 stages/stage14/scripts/14-s5l/dyadic_synthesis_e_sparse_audit.py | tee /tmp/s5l.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5L=COMPLETE_LINEAR_CENTRAL_DYADIC_SYNTHESIS_AND_E_SPARSE_ROOT_ENERGY_BOUND$' /tmp/s5l.txt
+          grep -q '^LINEAR_MASTER_DYADIC_ENVELOPE_PROVED=true$' /tmp/s5l.txt
+          grep -q '^LINEAR_CENTRAL_DYADIC_SUMMATION_PROVED=true$' /tmp/s5l.txt
+          grep -q '^LINEAR_BOUNDARY_STRIPS_ISOLATED=true$' /tmp/s5l.txt
+          grep -q '^E_ROOT_PATTERN_PARTITION_EXACT=true$' /tmp/s5l.txt
+          grep -q '^E_LINEAR_SPARSE_L2_DISPERSION_PROVED=true$' /tmp/s5l.txt
+          grep -q '^FULL_STATE_SPLIT_E_SPARSE_REGIME_CLOSED=true$' /tmp/s5l.txt
+          grep -q '^MEDIUM_E_LINEAR_DISPERSION_PROVED=false$' /tmp/s5l.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5l.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5l.txt
+          grep -q '^NEXT=Stage14-s5m$' /tmp/s5l.txt
