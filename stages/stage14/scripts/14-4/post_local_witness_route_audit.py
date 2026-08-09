@@ -21,6 +21,8 @@ def require(text: str, needle: str) -> None:
 
 def odd_prime_factors(n: int) -> set[int]:
     n = abs(n)
+    while n and n % 2 == 0:
+        n //= 2
     out: set[int] = set()
     p = 3
     while p * p <= n:
@@ -29,7 +31,7 @@ def odd_prime_factors(n: int) -> set[int]:
             while n % p == 0:
                 n //= p
         p += 2
-    if n > 1 and n % 2:
+    if n > 1:
         out.add(n)
     return out
 
@@ -42,7 +44,6 @@ def main() -> None:
     four_ar = FOUR_AR.read_text()
     s3 = S3.read_text()
 
-    # Merged theorem locks.
     require(s5u, "ACTUAL_LOCAL_SYSTEM_POWER_SAVING_EXPONENT=1/21")
     require(s5u, "ACTIVE_PHYSICAL_BASE_UPPER_BOUND_EXPONENT=41/42")
     require(s5u, "S5_METHOD_CLOSED=true")
@@ -50,7 +51,6 @@ def main() -> None:
     require(four_ar, "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED=false")
     require(s3, "PHYSICAL_HIT_IMPLIES_LOGARITHMIC_CANONICAL_HEIGHT_WINDOW=true")
 
-    # Exact exponent ledger after s5u.
     local_exp = Fraction(41, 42)
     local_delta = Fraction(1, 1) - local_exp
     post_needed = local_exp - Fraction(1, 2)
@@ -58,7 +58,6 @@ def main() -> None:
     assert post_needed == Fraction(10, 21)
     assert Fraction(2, 1) - Fraction(1, 21) == Fraction(41, 21)
 
-    # Exact witness algebra and pairwise gcd support regression.
     triples = [(3, 4, 5), (5, 12, 13), (7, 24, 25), (20, 21, 29)]
     for S, X, H in triples:
         assert S * S + X * X == H * H
