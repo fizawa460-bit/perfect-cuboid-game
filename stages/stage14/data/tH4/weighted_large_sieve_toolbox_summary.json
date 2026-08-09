@@ -1,0 +1,133 @@
+{
+  "stage": "Stage14-tH4",
+  "status": "COMPLETE_WEIGHTED_MELLIN_HECKE_LARGE_SIEVE_TRANSFER_TOOLBOX",
+  "requires_future_t_result": false,
+  "dependencies": [
+    "Stage14-tH3"
+  ],
+  "transfer_contract": {
+    "coefficient_masks_l2_safe": true,
+    "bounded_smooth_weights_l2_safe": true,
+    "unit_modulus_phases_l2_safe": true,
+    "spectral_packet_cost": "exact L2 energy",
+    "divisor_lift_l2_cost": "tau_max(Y)",
+    "divisor_lift_fixed_power_loss": false,
+    "gaussian_representation_fixed_power_loss": false,
+    "conductor_band_count": "polylogarithmic",
+    "hyperbola_block_count": "polylogarithmic",
+    "mellin_kernel_cost": "K_W^2",
+    "weighted_one_variable_large_sieve_transfer_proved": true,
+    "base_large_sieve_reproved": false
+  },
+  "same_modulus_policy": {
+    "shared_modulus_packet_cauchy_preserves_group": true,
+    "independent_uv_modulus_tensorization_allowed": false,
+    "same_modulus_joint_second_moment_theorem_proved": false
+  },
+  "audit": {
+    "divisor_lift": {
+      "Y": 512,
+      "c_states": [
+        1,
+        2,
+        3,
+        4,
+        6,
+        8,
+        12
+      ],
+      "source_pairs": 13705,
+      "source_l2_energy": 62770,
+      "collapsed_norm_l2_energy": 237956,
+      "max_divisor_fiber_multiplicity": 24,
+      "fiber_cauchy_violations": 0,
+      "max_observed_lift_source_energy_ratio": 4.366268762557617,
+      "per_state": {
+        "1": {
+          "source_pairs": 3280,
+          "source_l2_energy": 15325,
+          "collapsed_norm_l2_energy": 65137,
+          "max_fiber_multiplicity": 24
+        },
+        "2": {
+          "source_pairs": 1814,
+          "source_l2_energy": 8461,
+          "collapsed_norm_l2_energy": 36943,
+          "max_fiber_multiplicity": 12
+        },
+        "3": {
+          "source_pairs": 2375,
+          "source_l2_energy": 10502,
+          "collapsed_norm_l2_energy": 28790,
+          "max_fiber_multiplicity": 16
+        },
+        "4": {
+          "source_pairs": 1814,
+          "source_l2_energy": 8461,
+          "collapsed_norm_l2_energy": 36943,
+          "max_fiber_multiplicity": 12
+        },
+        "6": {
+          "source_pairs": 1304,
+          "source_l2_energy": 5780,
+          "collapsed_norm_l2_energy": 16600,
+          "max_fiber_multiplicity": 8
+        },
+        "8": {
+          "source_pairs": 1814,
+          "source_l2_energy": 8461,
+          "collapsed_norm_l2_energy": 36943,
+          "max_fiber_multiplicity": 12
+        },
+        "12": {
+          "source_pairs": 1304,
+          "source_l2_energy": 5780,
+          "collapsed_norm_l2_energy": 16600,
+          "max_fiber_multiplicity": 8
+        }
+      }
+    },
+    "bounded_weight_layer": {
+      "length": 512,
+      "unweighted_l2_energy": 12308,
+      "weighted_energy_numerator": 65502,
+      "weighted_energy_denominator": 64,
+      "l2_monotonicity_violations": 0
+    },
+    "spectral_cauchy": {
+      "split_primes": [
+        5,
+        13,
+        17,
+        29,
+        37,
+        41,
+        53,
+        61
+      ],
+      "one_coordinate_modes_checked": 62,
+      "same_modulus_ordered_mode_pairs_checked": 650,
+      "maximum_local_H_p": 15,
+      "spectral_cauchy_violations": 0,
+      "one_coordinate_c_energy_total": 2914,
+      "one_coordinate_m_energy_total": 572,
+      "one_coordinate_output_square_total": 25216
+    },
+    "assembly": {
+      "Y": 512,
+      "dyadic_scales": 10,
+      "raw_HRD_blocks_with_product_le_Y": 220,
+      "sample_conductor_Qmax": 4096,
+      "sample_dyadic_conductor_bands": 13
+    }
+  },
+  "proof_boundary": {
+    "weighted_transfer_toolbox_proved": true,
+    "full_coefficient_collision_energy_proved": false,
+    "norm_index_hyperbolic_correlation_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "next": "Stage14-tH5"
+}
