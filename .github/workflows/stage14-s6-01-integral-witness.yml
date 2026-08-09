@@ -1,0 +1,38 @@
+name: Stage14-s6-01 integral witness packet audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-01/**'
+      - 'stages/stage14/scripts/14-s6-01/**'
+      - '.github/workflows/stage14-s6-01-integral-witness.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run deterministic packet audit
+        run: |
+          python3 stages/stage14/scripts/14-s6-01/integral_witness_packet_audit.py | tee /tmp/s6_01_audit.txt
+          grep -q '^TAU_PACKET_COUNT=16$' /tmp/s6_01_audit.txt
+          grep -q '^PAIRWISE_GCD_SUPPORT_AUDIT=true$' /tmp/s6_01_audit.txt
+          grep -q '^ODD_EDGE_PACKET_FACTORIZATION_AUDIT=true$' /tmp/s6_01_audit.txt
+          grep -q '^FIVE_COLUMN_REFINEMENT_AUDIT=true$' /tmp/s6_01_audit.txt
+          grep -q '^TWO_QUADRIC_RECONSTRUCTION_AUDIT=true$' /tmp/s6_01_audit.txt
+          grep -q '^DENOMINATOR_RATIONAL_RECONSTRUCTION_AUDIT=true$' /tmp/s6_01_audit.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s6_01_audit.txt
+
+      - name: Lock upstream and boundary flags
+        run: |
+          grep -q 'STAGE14_S6_00=COMPLETE_POST_LOCAL_GLOBAL_SMALL_POINT_ARCHITECTURE' stages/stage14/14-s6-00/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=41/42' stages/stage14/14-s6-00/result.md
+          grep -q 'STAGE14_S6_01=COMPLETE_INTEGRAL_GLOBAL_SMALL_POINT_WITNESS_PACKETIZATION' stages/stage14/14-s6-01/result.md
+          grep -q 'TWO_ADIC_SIGN_PACKET_COUNT=16' stages/stage14/14-s6-01/result.md
+          grep -q 'FIVE_EUCLID_COLUMN_REFINEMENT_EXACT=true' stages/stage14/14-s6-01/result.md
+          grep -q 'FIXED_PACKET_TWO_QUADRIC_SYSTEM_EXACT=true' stages/stage14/14-s6-01/result.md
+          grep -q 'DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-s6-01/result.md
+          grep -q 'NEXT=Stage14-s6-02' stages/stage14/14-s6-01/result.md
