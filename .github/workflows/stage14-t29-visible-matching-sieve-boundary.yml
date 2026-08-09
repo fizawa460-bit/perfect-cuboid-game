@@ -1,0 +1,45 @@
+name: Stage14-t29 visible matching sieve boundary
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t29/**'
+      - 'stages/stage14/scripts/14-t/t29_visible_matching_sieve_boundary_audit.py'
+      - 'stages/stage14/data/14-t29/**'
+      - '.github/workflows/stage14-t29-visible-matching-sieve-boundary.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t28 regression
+        run: python stages/stage14/scripts/14-t/t28_four_linear_cover_packet_audit.py
+      - name: Run t29 visible matching audit
+        run: python stages/stage14/scripts/14-t/t29_visible_matching_sieve_boundary_audit.py
+      - name: Check frozen t29 summary
+        run: git diff --exit-code stages/stage14/data/14-t29/visible_matching_sieve_boundary.json
+      - name: Validate locked t29 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t29/visible_matching_sieve_boundary.json'
+          d=json.load(open(p)); s=d['synthetic_audit']; t=s['totals']; q=d['decision']
+          assert d['t28_frozen_reference']['candidate_directions_D_le_B2m']==636640
+          assert t['primitive_interval_tuples']==239121
+          assert t['canonical_prime_rational_matching_incidence']==6371
+          assert t['canonical_prime_no_linear_factor_residual']==232750
+          assert t['reduced_biquadrate_tautology_checks']==6371
+          assert t['non_diagonal_square_cover_hits']==98
+          assert t['kernel_visible_non_diagonal_hits']==32
+          assert t['kernel_invisible_non_diagonal_hits']==66
+          assert q['VISIBLE_PRIME_PERFECT_MATCHING_THEOREM'] is True
+          assert q['VISIBLE_PRIME_EXACTLY_ONE_MATCHED_KERNEL_PAIR'] is True
+          assert q['VISIBLE_CANONICAL_PRIME_NEW_CHARACTER_GATE'] is False
+          assert q['VISIBLE_BRANCH_POWER_SAVING_PROVED'] is False
+          assert q['A_11_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
