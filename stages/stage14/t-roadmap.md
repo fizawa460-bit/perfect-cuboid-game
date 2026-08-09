@@ -119,7 +119,7 @@ has genus one for every genuine physical rational base. Indeed
 
 so its four quadratic branch points are distinct on every physical fiber.
 
-Reimposing `x=r^2` gives a double cover `C_t -> C_{0,t}` branched at the four points above `x=0` and four points above `x=infinity`. Hence
+Reimposing `x=r^2` gives a double cover `C_t -> C_{0,t}` branched at the four points above `x=0` and four above `x=infinity`. Hence
 
 \[
 \boxed{g(C_t)=5}.
@@ -205,7 +205,7 @@ Instantiating the t12--t18 variables on the actual raw Stage14 ledger gives
 
 so `[Delta_x]=[t^2+u^2]`, exactly the missing third-face squareclass after shared-edge scaling. Thus the conditioned discriminant is not a new independent gate.
 
-The exact finite ledger through `B=2,000,000` has 356 exactly-two objects, all with distinct missing-face squareclasses. Because `T(B)=0` throughout the frozen range, this ledger is also the raw-pair-edge ledger there. The finite computation remains valid; only the earlier asymptotic statement `T(B)^2<=Q_Delta(B)` for an exactly-two-only population is superseded by t20.
+The exact finite ledger through `B=2,000,000` has 356 exactly-two objects, all with distinct missing-face squareclasses. Because `T(B)=0` throughout the frozen range, this ledger is also the raw-pair-edge ledger there. The finite computation remains valid; only the earlier asymptotic statement for an exactly-two-only collision population is superseded by t20.
 
 ## 14-t20 — raw-edge collision correction and coprime factor reduction
 Status: [x] Complete.
@@ -213,74 +213,36 @@ Status: [x] Complete.
 Use the raw-pair edge population: one edge for an exactly-two object and three edges for a triple object. For an edge with shared side `s` and space diagonal `d`, define
 
 \[
-m=d^2-s^2,
-\qquad
-\kappa=[m].
+m=d^2-s^2,\qquad \kappa=[m].
 \]
 
-Then the graph identity is
+Then
 
 \[
-E(B)=N_2(B)+3T(B),
+E(B)=N_2(B)+3T(B),\qquad n_1(B)=3T(B),
 \]
 
-and the trivial squareclass occurs exactly on the three edges of each triple:
+and therefore
 
 \[
-\boxed{n_1(B)=3T(B)}.
-\]
-
-Therefore, with
-
-\[
-Q_{edge}(B)=\sum_k n_k(B)^2,
-\]
-
-one has the exact inequality
-
-\[
-\boxed{9T(B)^2\le Q_{edge}(B)}.
+9T(B)^2\le Q_{edge}(B),\qquad Q_{edge}(B)=\sum_k n_k(B)^2.
 \]
 
 Hence `Q_edge(B)=o(B)` is a valid sufficient target for `T(B)=o(sqrt(B))`.
 
-The edge squareclass admits an exact coprime factorization. Put
+The edge squareclass admits the coprime factorization
 
 \[
 g=(d,s),\quad D=d/g,\quad C=s/g,\quad h=(D-C,D+C)\in\{1,2\},
 \]
 
 \[
-A=(D-C)/h,\qquad B=(D+C)/h.
+A=(D-C)/h=\alpha r^2,\qquad B=(D+C)/h=\beta u^2,
 \]
 
-Then `(A,B)=1` and
+with squarefree coprime `alpha,beta` and `kappa=alpha beta`. The missing-face kernel uses only `2` and primes `1 mod 4`.
 
-\[
-m=g^2h^2AB.
-\]
-
-Writing
-
-\[
-A=\alpha r^2,\qquad B=\beta u^2
-\]
-
-with squarefree coprime `alpha,beta` gives
-
-\[
-\kappa=\alpha\beta.
-\]
-
-Moreover the missing face is a primitive sum of two squares after removing its gcd, so every kernel prime is `2` or `1 mod 4`.
-
-For
-
-\[
-N_{\alpha,\beta}(B)=\#\{e:A_e=\alpha r^2,\ B_e=\beta u^2\},
-\]
-
-Cauchy over the at most `2^{omega(k)}` partitions of `k` gives
+For the partition-resolved counts `N_{alpha,beta}(B)`, one has
 
 \[
 Q_{edge}(B)\le B^{o(1)}Q_{split}(B),
@@ -288,18 +250,62 @@ Q_{edge}(B)\le B^{o(1)}Q_{split}(B),
 Q_{split}(B)=\sum_{\alpha,\beta}N_{\alpha,\beta}(B)^2.
 \]
 
-Thus any fixed power saving `Q_split(B)=O(B^{1-delta})` would close the t-track target. At every frozen cutoff through `2m`, `Q_edge=Q_split=E`, and at `2m` both equal 356; this is finite evidence only.
+Thus any fixed power saving `Q_split(B)=O(B^{1-delta})` would close the t-track target.
 
-## 14-t21 — partition-resolved collision-energy attack
-Status: [>] Next.
+## 14-t21 — partition-resolved direction/scale reduction
+Status: [x] Complete.
 
-Insert the raw-pair Pythagorean parametrization into
+For a fixed split partition, put
 
 \[
-D-C=h\alpha r^2,\qquad D+C=h\beta u^2,
+a=\alpha r^2,\qquad b=\beta u^2,
+\qquad (a,b)=1,\quad b>a.
 \]
 
-and count repeated solutions for the same coprime squarefree `(alpha,beta)`. Seek a uniform power-saving estimate for `Q_split(B)` using the split-prime support and the two already-integral face conditions.
+The parity factor is uniquely determined by
+
+\[
+h=1\iff a,b\text{ both odd};\qquad h=2\text{ otherwise},
+\]
+
+and the reduced direction is exactly
+
+\[
+\boxed{D=\frac h2(a+b),\qquad C=\frac h2(b-a).}
+\]
+
+Conversely these formulas recover the t20 factorization, giving a bijection between admissible `(alpha,beta,r,u)` and normalized directions `(D,C)`.
+
+The remaining scale satisfies `d=gD`, `s=gC`. Primitivity forces every prime divisor of `g` to satisfy `p=1 mod 4`; in particular `g` is odd. For fixed `(alpha,beta,r,u,g)`, the two integral-face equations give at most `tau(s^2)^2=B^o(1)` possible ordered face completions. Therefore
+
+\[
+N_{\alpha,\beta}(B)
+\le B^{o(1)}
+\sum_{(r,u)\in\mathcal R_{\alpha,\beta}(B)}
+\left\lfloor\frac{B}{D_{\alpha,\beta}(r,u)}\right\rfloor
+\]
+
+and the coarse harmonic estimate gives
+
+\[
+N_{\alpha,\beta}(B)\ll\frac{B^{1+o(1)}}{\sqrt{\alpha\beta}}.
+\]
+
+This bound is not strong enough to give a power saving for `Q_split`: small-kernel fibers, including `(1,1)`, remain too large in the majorant. The missing input is now isolated as a simultaneous face-completion correlation over scales and generalized-Pell directions.
+
+At `B=2m`, all 356 observed reduced directions and all 356 split partitions remain distinct; 317 edges have `g=1`, and the 39 nontrivial-scale edges use observed scales `5,13,17,29,37,41`. This is finite diagnostic evidence only.
+
+## 14-t22 — simultaneous face-completion correlation
+Status: [>] Next.
+
+For a fixed reduced direction `(D,C)`, study
+
+\[
+M_{D,C}(G)
+=\#\{g\le G:\text{ both Pythagorean face completions coexist at }s=gC,d=gD\},
+\]
+
+with the missing-norm and primitive conditions retained. Seek a power-saving average for `M_{D,C}` over the generalized-Pell directions attached to `(alpha,beta)`, strong enough to improve the coarse t21 direction-scale majorant and drive `Q_split(B)` below `B`.
 
 Primary target remains
 
@@ -333,6 +339,7 @@ STAGE14_T17=COMPLETE_GENERALIZED_JACOBIAN_SQUARECLASS_SIEVE_INTERFACE
 STAGE14_T18=COMPLETE_SELECTED_BRANCH_LOCAL_IMAGE_AND_PACKET_FOURIER_BOUND
 STAGE14_T19=COMPLETE_CONDITIONED_DISCRIMINANT_IDENTITY_AND_FINITE_COLLISION_LEDGER
 STAGE14_T20=COMPLETE_RAW_EDGE_COLLISION_CORRECTION_AND_COPRIME_FACTOR_REDUCTION
+STAGE14_T21=COMPLETE_PARTITION_DIRECTION_SCALE_REDUCTION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t21 partition-resolved collision-energy attack / Q_split(B)
+NEXT=Stage14-t22 simultaneous face-completion correlation / generalized-Pell direction average
 ```
