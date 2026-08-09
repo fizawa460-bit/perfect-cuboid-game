@@ -13,6 +13,7 @@ TEMPLATE = ROOT / "docs/stage14-toolbox/card-template.md"
 
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 CODE = re.compile(r"^[a-z]{2}$")
+NEXT_STAGE = re.compile(r"^Stage14-toolbox-([a-z]{2})$")
 
 
 def next_code(code: str) -> str:
@@ -81,8 +82,15 @@ def main() -> None:
     else:
         fail("zz must terminate the two-letter namespace")
 
-    if data["next_stage"] != "Stage14-toolbox-ab":
-        fail("foundation must hand off to toolbox-ab")
+    # Foundation invariants must remain true after later toolbox stages advance
+    # the mutable registry. The initial aa->ab handoff is locked in README;
+    # index.next_stage is deliberately allowed to move forward.
+    next_stage = data["next_stage"]
+    match = NEXT_STAGE.fullmatch(next_stage)
+    if not match:
+        fail(f"invalid current toolbox next_stage: {next_stage}")
+    if match.group(1) == "aa":
+        fail("current toolbox next_stage must advance beyond foundation aa")
     if not data["next_theme"].strip():
         fail("next theme must be nonempty")
 
@@ -133,6 +141,9 @@ def main() -> None:
             fail(f"bad source merge SHA: {card['id']}")
         if not card["source_files"]:
             fail(f"empty source files: {card['id']}")
+        for source_file in card["source_files"]:
+            if not (ROOT / source_file).is_file():
+                fail(f"missing source file for {card['id']}: {source_file}")
         if card["status"] == "SUPERSEDED" and not card.get("superseded_by"):
             fail(f"superseded card lacks successor: {card['id']}")
         if card["status"] == "DEPRECATED" and not card.get("deprecated_reason"):
@@ -169,16 +180,18 @@ def main() -> None:
         "future_s_dependency": False,
         "fixed_mathematical_roadmap": False,
         "historical_asset_mining": True,
-        "next_stage": data["next_stage"],
-        "next_theme": data["next_theme"],
+        "current_next_stage": data["next_stage"],
+        "current_next_theme": data["next_theme"],
+        "initial_handoff_locked_in_readme": "Stage14-toolbox-ab",
         "decision": {
             "TOOLBOX_FOUNDATION_VALID": True,
             "TWO_LETTER_NUMBERING_VALID": True,
             "CANONICAL_SOURCE_PROVENANCE_REQUIRED": True,
             "SUPERSESSION_CHAIN_SUPPORTED": True,
             "PROGRESS_INDEPENDENT_MAINTENANCE_SUPPORTED": True,
-            "NEW_THEOREM_OWNERSHIP": False,
-        },
+            "FOUNDATION_AUDIT_FORWARD_COMPATIBLE_WITH_LATER_TOOLBOX_STAGES": True,
+            "NEW_THEOREM_OWNERSHIP": False
+        }
     }
     print(json.dumps(report, indent=2, sort_keys=True))
 
