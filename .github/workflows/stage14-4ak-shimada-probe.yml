@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install exact lattice enumerator
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq pari-gp
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends pari-gp
       - name: Download official Shimada level-4 data
         run: |
           set -euxo pipefail
@@ -29,8 +29,21 @@ jobs:
         run: python stages/stage14/scripts/14-4/shimada_stage14_refine.py /tmp/shimada /tmp/identify.json --out /tmp/refine.json
       - name: Prove surviving labelings equivalent under AutX0f
         run: python stages/stage14/scripts/14-4/shimada_stage14_equiv.py /tmp/shimada /tmp/refine.json --out /tmp/equiv.json
-      - name: Enumerate the complete anti-invariant split-root lattice
+      - name: Enumerate split roots with PARI Fincke-Pohst
         run: python stages/stage14/scripts/14-4/shimada_stage14_roots.py /tmp/shimada /tmp/refine.json /tmp/equiv.json --out /tmp/roots.json
+      - name: Independently verify norm-16 void by exact Python LDL recursion
+        run: python stages/stage14/scripts/14-4/shimada_stage14_verify.py /tmp/shimada /tmp/refine.json --out /tmp/verify.json
+      - name: Cross-check independent enumerators
+        run: |
+          python - <<'PY'
+          import json
+          r=json.load(open('/tmp/roots.json')); v=json.load(open('/tmp/verify.json'))
+          assert r['anti_invariant_rank']==v['anti_rank']==6
+          assert r['norm16_representatives']==0
+          assert r['parity_compatible_split_root_pairs']==0
+          assert v['norm16_void'] and v['exact_norm16_vectors']==0
+          print('STAGE14_4AK_SPLIT_ROOT_VOID_CROSSCHECK=PASS')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: stage14-4ak-enumeration
@@ -39,3 +52,4 @@ jobs:
             /tmp/refine.json
             /tmp/equiv.json
             /tmp/roots.json
+            /tmp/verify.json
