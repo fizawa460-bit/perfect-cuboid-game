@@ -1,0 +1,22 @@
+name: Stage14-s5d odd local matrix and Q2 finite state
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5d/**'
+      - 'stages/stage14/scripts/14-s5d/**'
+      - '.github/workflows/stage14-s5d-full-local-matrix.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run local matrix audit
+        run: python3 stages/stage14/scripts/14-s5d/local_matrix_audit.py
+      - name: Validate theorem boundary
+        run: |
+          grep -q 'ALL_ODD_BAD_PRIME_ROWS_EXPLICIT=true' stages/stage14/14-s5d/result.md
+          grep -q 'P2_COMPLETE_LOCAL_MATRIX_DERIVED=false' stages/stage14/14-s5d/result.md
+          grep -q 'NEXT=Stage14-s5e' stages/stage14/14-s5d/result.md
