@@ -1,0 +1,46 @@
+name: Stage14-t28 four-linear cover packet
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t28/**'
+      - 'stages/stage14/scripts/14-t/t28_four_linear_cover_packet_audit.py'
+      - 'stages/stage14/data/14-t28/**'
+      - '.github/workflows/stage14-t28-four-linear-cover-packet.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t27 regression
+        run: python stages/stage14/scripts/14-t/t27_trivial_kernel_smooth_barrier_audit.py
+      - name: Run t28 four-linear cover audit
+        run: python stages/stage14/scripts/14-t/t28_four_linear_cover_packet_audit.py
+      - name: Check frozen t28 summary
+        run: git diff --exit-code stages/stage14/data/14-t28/four_linear_cover_packet.json
+      - name: Validate locked t28 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t28/four_linear_cover_packet.json'
+          d=json.load(open(p))
+          f=d['finite_candidate_universe']
+          s=d['synthetic_cover_audit']
+          q=d['decision']
+          assert f['candidate_directions_D_le_B2m']==636640
+          assert f['candidate_directions_top_shell_B2m']==318362
+          assert s['universal_p_eq_q_order4_hits']==489
+          assert s['non_torsion_cover_hits']==98
+          assert s['non_torsion_largest_prime_kernel_visible']==32
+          assert s['non_torsion_largest_prime_kernel_invisible']==66
+          assert q['UNIVERSAL_P_EQ_Q_POINT_EXACT_ORDER4'] is True
+          assert q['FOUR_LINEAR_COVER_FACTORISATION'] is True
+          assert q['WEIGHTED_DIAGONAL_BIQUADRATE_REDUCTION'] is True
+          assert q['CANONICAL_LARGE_PRIME_ALWAYS_KERNEL_VISIBLE'] is False
+          assert q['A_11_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q, indent=2, sort_keys=True))
+          PY
