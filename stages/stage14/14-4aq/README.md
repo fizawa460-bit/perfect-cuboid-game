@@ -1,0 +1,8 @@
+# Stage14-4aq
+
+Canonical result: [`result.md`](result.md).
+
+```text
+STAGE14_4AQ=GLOBAL_SHA_RETAINER_ISOLATED_AND_WEIGHTED_TARGET_FORMULATED
+NEXT=Stage14-4ar isolate the positive-rank-to-first-small-point retainer and formulate a uniform weighted lower-tail target using the s3 height window
+```
