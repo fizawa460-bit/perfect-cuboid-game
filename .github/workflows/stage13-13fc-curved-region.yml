@@ -1,0 +1,30 @@
+name: Stage13-13fc curved-region error accumulation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fc/**'
+      - 'stages/stage13/scripts/13-13fc/**'
+      - 'stages/stage13/data/13-13fc/**'
+      - 'stages/stage13/13-13f/r05-repair-plan.md'
+      - 'stages/stage13/13-13/roadmap.md'
+      - '.github/workflows/stage13-13fc-curved-region.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute report
+        run: python stages/stage13/scripts/13-13fc/curved_region_error_audit.py --write-report
+      - name: Verify report
+        run: git diff --exit-code -- stages/stage13/data/13-13fc/curved_region_error_audit.json
+      - name: Check Gate C
+        run: python stages/stage13/scripts/13-13fc/curved_region_error_audit.py --check-report
