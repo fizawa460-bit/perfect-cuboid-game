@@ -1,0 +1,39 @@
+name: Stage14-num-alpha2 exact overlap
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha2/**'
+      - 'stages/stage14/14-num-alpha2/**'
+      - 'stages/stage14/data/14-num1/baseline_manifest.json'
+      - 'stages/stage14/scripts/14-num3/extended_exact_census.py'
+      - '.github/workflows/stage14-num-alpha2-reference-overlap.yml'
+  workflow_dispatch:
+
+jobs:
+  exact-overlap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run diagonal-first reference overlap audit
+        run: |
+          python stages/stage14/scripts/14-num-alpha2/alpha_reference_overlap.py \
+            --output /tmp/stage14-num-alpha2-audit.json
+      - name: Show exact decision locks
+        run: |
+          python - <<'PY'
+          import json
+          p='/tmp/stage14-num-alpha2-audit.json'
+          d=json.load(open(p))
+          print(json.dumps(d['decision'], indent=2, sort_keys=True))
+          print(json.dumps(d['frozen_b2m_crosscheck']['summary'], indent=2, sort_keys=True))
+          PY
+      - name: Upload audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-num-alpha2-reference-overlap
+          path: /tmp/stage14-num-alpha2-audit.json
