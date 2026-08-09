@@ -23,11 +23,11 @@ Never promote a citation merely because its vocabulary resembles Stage14. Record
 
 `Stage14-q3` audited the first-small-point height literature against the actual Stage14 family. Petsche/Naccarato remain useful fixed-fiber tools, while the strongest family-transfer architecture is Le Boudec's large-prime-factor plus complete-2-descent strategy rebuilt on the five Euclid factors.
 
-`Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem and shifted the preferred weapon order toward square/polynomial sieve before generic Selmer machinery.
+`Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem. Draft `t21` has since sharpened the immediate obstruction further: fixed split partition and reduced direction/scale are explicitly parameterized, but the coarse bound is insufficient, so the required saving now sits in simultaneous two-face completion counts along generalized-Pell/norm-type directions. Square/polynomial sieve remains conditional if t22 exposes a compatible polynomial square-value formulation.
 
 `Stage14-q5` confirmed that the decisive Shimada level-4 modular K3 package has already been consumed for the fixed `M`-degree-4 route. The required NS parity coset is empty, so broad K3/root searches are closed unless a genuinely new geometric trigger appears.
 
-`Stage14-q6` now converts those results into an active routing contract. The most important traffic rule is that, after the pending `Stage14-s5k` six-linear medium-dispersion theorem merges, `Stage14-4ay` must import it rather than independently re-proving the same determinant estimate. Both analytic lanes should then converge on the microscopic modes and the state-split `m^2+n^2` mixed-sign `D*S` kernel. The t-route is routed to square/polynomial sieve at t21; the height gate is routed to a Le Boudec-style large-prime + exact Stage14 2-descent transfer test; num6 receives targeted finite diagnostics for all three.
+`Stage14-q6` converts these results into an active routing contract. `Stage14-s5k` is now merged, so `Stage14-4ay` must import its six-linear medium-dispersion theorem rather than independently re-proving it. The s/main analytic lanes should converge on microscopic modes and the state-split `m^2+n^2` mixed-sign `D*S` kernel. The t-route is now routed first to an explicit t22 generalized-Pell/simultaneous-completion formulation, with square/polynomial sieve retained conditionally; the height gate is routed to a Le Boudec-style large-prime + exact Stage14 2-descent transfer test. `num6` keeps its B150m bootstrap scope, with q6 diagnostics assigned only after the exact append is frozen.
 
 The next scheduled radar task is `Stage14-q7`, the negative-results archive and durable anti-regression ledger.
 
@@ -84,11 +84,13 @@ Key decisions:
 ```text
 STAGE14_Q6=COMPLETE_CROSS_TRACK_WEAPON_ROUTING
 Q2_TO_S_AND_MAIN_ROUTING_LOCKED=true
+S5K_MERGED_AND_MAIN_IMPORT_REQUIRED=true
 Q3_HEIGHT_HANDOFF_LOCKED=true
-Q4_TO_T21_SQUARE_SIEVE_HANDOFF_LOCKED=true
+Q4_T_ROUTE_UPDATED_FOR_T21_DIRECTION_SCALE_REDUCTION=true
+T22_GENERALIZED_PELL_COMPLETION_SEARCH_FAMILY_PRIMARY=true
 Q5_K3_REOPEN_RULE_LOCKED=true
 S5K_TO_4AY_ANTI_DUPLICATION_GATE=true
-NUM6_DIAGNOSTIC_HANDOFF_DEFINED=true
+NUM6_POST_BOOTSTRAP_DIAGNOSTIC_HANDOFF_DEFINED=true
 ```
 
 ### Stage14-q7 — Negative-results archive
