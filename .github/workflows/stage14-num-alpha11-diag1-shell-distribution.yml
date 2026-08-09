@@ -1,0 +1,44 @@
+name: Stage14-num-alpha11-diag1 shell distribution
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag1/**'
+      - 'stages/stage14/data/14-num-alpha11-diag1/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag1/**'
+      - '.github/workflows/stage14-num-alpha11-diag1-shell-distribution.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run shell diagnostic
+        run: python stages/stage14/scripts/14-num-alpha11-diag1/shell_distribution_diagnostic.py > /tmp/diag1.json
+      - name: Verify frozen shell summary
+        run: |
+          python - <<'PY'
+          import json
+          got=json.load(open('/tmp/diag1.json'))
+          lock=json.load(open('stages/stage14/data/14-num-alpha11-diag1/shell_distribution_summary.json'))
+          assert got['source_rows']==lock['source_rows']==3495
+          for g,w in zip(got['shells'],lock['shells']):
+              assert g['lo_exclusive']==w['lo'] and g['hi_inclusive']==w['hi']
+              assert g['N2']==w['N2']
+              assert (g['counts']['a'],g['counts']['b'],g['counts']['c'])==(w['a'],w['b'],w['c'])
+              assert g['ratios']=={'a':w['Ra'],'b':w['Rb'],'c':w['Rc']}
+          mx=max((v,q,x['from'],x['to']) for x in got['adjacent_shell_shifts'] for q,v in x['absolute_ratio_shift'].items())
+          assert abs(mx[0]-lock['max_adjacent_absolute_ratio_shift']['value'])<1e-15
+          PY
+      - name: Check interpretation boundary
+        run: |
+          grep -q 'SHELL_LOCAL_MOVEMENT_MATERIAL=true' stages/stage14/14-num-alpha11-diag1/result.md
+          grep -q 'CUMULATIVE_2PCT_GATE_REUSED_AS_SIGNIFICANCE=false' stages/stage14/14-num-alpha11-diag1/result.md
+          grep -q 'NEXT=Stage14-num-alpha11-diag2' stages/stage14/14-num-alpha11-diag1/result.md
