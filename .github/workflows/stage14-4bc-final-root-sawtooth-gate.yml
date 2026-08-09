@@ -1,0 +1,36 @@
+name: Stage14-4bc final root-sawtooth gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bc/**'
+      - 'stages/stage14/data/14-4/final_root_sawtooth_gate_summary.json'
+      - 'stages/stage14/scripts/14-4/final_root_sawtooth_gate_audit.py'
+      - '.github/workflows/stage14-4bc-final-root-sawtooth-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/final_root_sawtooth_gate_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/final_root_sawtooth_gate_audit.py
+      - name: Check boundary flags
+        run: |
+          grep -q 'S5P_AUXILIARY_UNIFORMITY_IMPORTED=true' stages/stage14/14-4bc/result.md
+          grep -q 'S5Q_FOURIER_TENSOR_CONTRACTION_IMPORTED=true' stages/stage14/14-4bc/result.md
+          grep -q 'E_COLUMN_SINGLE_WALSH_SUBSET_EXACT=true' stages/stage14/14-4bc/result.md
+          grep -q 'FINAL_ROOT_SAWTOOTH_KERNEL_EXPLICIT=true' stages/stage14/14-4bc/result.md
+          grep -q 'ROOT_SAWTOOTH_HANDOFF_BAND=R_E>-1/200' stages/stage14/14-4bc/result.md
+          grep -q 'CONDITIONAL_RECIPROCAL_EXPONENT_FORMULA=min(1/200,delta_saw)' stages/stage14/14-4bc/result.md
+          grep -q 'COMPLETE_POSITIVE_RECIPROCAL_EXPONENT_PROVED=false' stages/stage14/14-4bc/result.md
+          grep -q 'NEXT=Stage14-4bd' stages/stage14/14-4bc/result.md
