@@ -1,0 +1,20 @@
+name: Stage13-13ft R07 hardening
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13ft/**'
+      - 'stages/stage13/scripts/13-13ft/**'
+      - '.github/workflows/stage13-13ft-r07-hardening.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit R07 hardening
+        run: python stages/stage13/scripts/13-13ft/r07_hardening_audit.py
