@@ -33,12 +33,9 @@ jobs:
           assert x['trajectory_diagnostics']['mc_p']==f['trajectory_mc_p']
           b=x['B1m_fitted_endpoint_uncertainty']
           fb=f['B1m']
-          assert b['rate_ratio_ab_ac'][0]==fb['rate_ratio_ab_ac_95'][0]
-          assert b['rate_ratio_ab_ac'][2]==fb['rate_ratio_ab_ac_95'][1]
-          assert b['rate_ratio_ab_bc'][0]==fb['rate_ratio_ab_bc_95'][0]
-          assert b['rate_ratio_ab_bc'][2]==fb['rate_ratio_ab_bc_95'][1]
-          assert b['rate_ratio_ac_bc'][0]==fb['rate_ratio_ac_bc_95'][0]
-          assert b['rate_ratio_ac_bc'][2]==fb['rate_ratio_ac_bc_95'][1]
+          assert b['rate_ratio_ab_ac']==fb['rate_ratio_ab_ac_95']
+          assert b['rate_ratio_ab_bc']==fb['rate_ratio_ab_bc_95']
+          assert b['rate_ratio_ac_bc']==fb['rate_ratio_ac_bc_95']
           assert b['prob_ab_lt_ac']==fb['prob_ab_lt_ac']==1.0
           assert b['prob_ab_lt_bc']==fb['prob_ab_lt_bc']==1.0
           assert b['prob_ac_lt_bc']==fb['prob_ac_lt_bc']==0.85242
