@@ -1,0 +1,33 @@
+name: Stage14-s6-05 compact torsion normalization audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-05/**'
+      - 'stages/stage14/scripts/14-s6-05/**'
+      - '.github/workflows/stage14-s6-05-compact-torsion-normalization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regress s6-04 predecessor audit
+        run: python stages/stage14/scripts/14-s6-04/witness_resonance_denominator_audit.py
+      - name: Run s6-05 deterministic audit
+        run: python stages/stage14/scripts/14-s6-05/compact_torsion_normalization_audit.py | tee /tmp/s6-05-audit.txt
+      - name: Lock theorem boundary
+        run: |
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/s6-05-audit.txt
+          grep -q 'STAGE14_S6_05=COMPLETE_COMPACT_TORSION_NORMALIZATION_AND_PHYSICAL_CLASS_REDUCTION' stages/stage14/14-s6-05/result.md
+          grep -q 'PHYSICAL_TORSION_TRANSLATE_COMPACT=true' stages/stage14/14-s6-05/result.md
+          grep -q 'COMPACT_TRANSLATE_NONZERO_MOD_2=true' stages/stage14/14-s6-05/result.md
+          grep -q 'MAXIMAL_HALVING_REQUIRED_FOR_PHYSICAL_MAJORANT=false' stages/stage14/14-s6-05/result.md
+          grep -q 'PHYSICAL_COMPACT_TAU_PACKET_COUNT=4' stages/stage14/14-s6-05/result.md
+          grep -q 'PHYSICAL_COMPACT_COVER_POSITIVE_DEFINITE=true' stages/stage14/14-s6-05/result.md
+          grep -q 'TORSION_TRANSLATE_DENOMINATOR_INVOLUTION_EXACT=true' stages/stage14/14-s6-05/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-s6-05/result.md
