@@ -1,30 +1,17 @@
 #!/usr/bin/env python3
-"""Stage14-4an: compress the selected-prime s5c Hilbert rows and audit gate reach.
+"""Stage14-4an: compress s5c selected rows, import s5d full odd rows, audit gate reach.
 
-This stage deliberately studies the *selected odd support-prime subsystem* only.
-It does not pretend that omitted bad primes or Q_2 are automatic.  For a fixed
-odd support and fixed p-unit normalization, the global square-class relation
+For a fixed odd support the s5c supported-prime conditions compress, using
+`d1*d2*d3 = square`, to one character row at S/H and one row plus a mod-4
+sign obstruction at X.  Merged s5d supplies the complementary unselected
+odd-prime rows, so all odd bad-prime local conditions are now explicit.
 
-    d1*d2*d3 = square
-
-makes the two s5c character equations at an S- or H-prime redundant, and
-separates the X-prime sign obstruction.  In F_2 character notation:
-
-    S / 12 : chi_p(a3) = 0
-    X / 13 : chi_p(a2) = 0 and chi_p(-1) = 0
-    H / 23 : chi_p(a1) = 0.
-
-For the homogeneous odd-only normalization (no 2/sign affine offset), this is
-a three-block reciprocity system between selected primes dividing S, X, H.
 The audit enumerates every primitive oriented Pythagorean base through H<=20k
-and every odd support subset, checks equivalence with the original s5c rows,
-and records how much the selected-prime subsystem thins *support choices*.
-
-Crucially, this subsystem alone cannot sieve bases: every genuine base has a
-nonempty singleton support at an S- or H-prime satisfying all selected-prime
-rows.  Exact A->Sigma control therefore requires the omitted-bad-prime rows and
-the complete Q_2 table.  Even exact Sigma is only the first gate; 4am shows the
-observed finite thinning is dominated later by R->V.
+and every odd support subset in the homogeneous odd-only normalization.  It
+checks the compressed selected rows against s5c, then applies the complete s5d
+odd local matrix.  This remains a local-Selmer component: the covering-specific
+Q_2 classification, global representability/Sha, and physical small-point
+height are separate gates.
 """
 
 from collections import Counter
@@ -39,9 +26,9 @@ AM = ROOT / "stages/stage14/data/14-4/rank_smallpoint_factor_summary.json"
 CUTS = (2000, 5000, 10000, 20000)
 
 LABEL = {
-    "S": (1, 1, 0),  # selected p|S -> 12
-    "X": (1, 0, 1),  # selected p|X -> 13
-    "H": (0, 1, 1),  # selected p|H -> 23
+    "S": (1, 1, 0),  # p|S selected -> 12
+    "X": (1, 0, 1),  # p|X selected -> 13
+    "H": (0, 1, 1),  # p|H selected -> 23
 }
 
 
@@ -63,7 +50,7 @@ def odd_prime_factors(n):
 
 
 def legendre_bit(a, p):
-    """0 for quadratic residue, 1 for nonresidue; p odd and p∤a."""
+    """0 for residue, 1 for nonresidue; p odd and p does not divide a."""
     a %= p
     if a == 0:
         raise AssertionError((a, p))
@@ -87,7 +74,6 @@ def euclid_rows(B):
             h = m * m + n * n
             if h > B:
                 continue
-            # Both oriented first-face choices belong to A(B).
             rows.append((u, v, h, m, n, "odd-leg-shared"))
             rows.append((v, u, h, m, n, "even-leg-shared"))
         m += 1
@@ -122,45 +108,51 @@ def check_five_factor_odd_separation(m, n):
 
 
 def truth_table_redundancy():
-    """Check the compression for arbitrary local unit character bits.
-
-    ci=chi_p(ai), with c1+c2+c3=0 from d1*d2*d3 being a local square.
-    s=chi_p(-1).
-    """
+    """Compress s5c rows for arbitrary local unit-character bits."""
     checked = 0
     for c1 in (0, 1):
         for c2 in (0, 1):
             for c3 in (0, 1):
                 if c1 ^ c2 ^ c3:
                     continue
-                for s in (0, 1):
-                    S_original = ((c1 ^ c2) == 0 and c3 == 0)
-                    S_compact = (c3 == 0)
-                    H_original = ((c2 ^ c3) == 0 and c1 == 0)
-                    H_compact = (c1 == 0)
-                    X_original = ((c1 ^ c3) == 0 and (s ^ c2) == 0)
-                    X_compact = (c2 == 0 and s == 0)
-                    assert S_original == S_compact
-                    assert H_original == H_compact
-                    assert X_original == X_compact
+                for sign in (0, 1):  # chi_p(-1)
+                    s_old = ((c1 ^ c2) == 0 and c3 == 0)
+                    s_new = (c3 == 0)
+                    h_old = ((c2 ^ c3) == 0 and c1 == 0)
+                    h_new = (c1 == 0)
+                    x_old = ((c1 ^ c3) == 0 and (sign ^ c2) == 0)
+                    x_new = (c2 == 0 and sign == 0)
+                    assert s_old == s_new
+                    assert h_old == h_new
+                    assert x_old == x_new
                     checked += 1
     return checked
 
 
-def unit_parts(selected, p, groups):
-    """Homogeneous odd-only p-unit parts a1,a2,a3 for a fixed support."""
-    a = [1, 1, 1]
+def odd_d_values(selected, groups):
+    """Homogeneous odd-only representatives of d1,d2,d3."""
+    d = [1, 1, 1]
     for q in selected:
-        if q == p:
-            continue
         lab = LABEL[groups[q]]
         for i in range(3):
             if lab[i]:
-                a[i] *= q
-    return a
+                d[i] *= q
+    return d
 
 
-def original_s5c_row_ok(selected, p, groups):
+def unit_parts(selected, p, groups):
+    d = odd_d_values(selected, groups)
+    lab = LABEL[groups[p]]
+    if p in selected:
+        for i in range(3):
+            if lab[i]:
+                assert d[i] % p == 0
+                d[i] //= p
+    return d
+
+
+def original_s5c_selected_row_ok(selected, p, groups):
+    assert p in selected
     a1, a2, a3 = unit_parts(selected, p, groups)
     g = groups[p]
     if g == "S":
@@ -172,29 +164,56 @@ def original_s5c_row_ok(selected, p, groups):
     raise AssertionError(g)
 
 
-def compact_row_ok(selected, p, groups):
-    """Three-block compact form for the homogeneous odd-only normalization."""
+def compact_selected_row_ok(selected, p, groups):
+    """Compressed s5c row in homogeneous odd-only normalization."""
+    assert p in selected
     g = groups[p]
     if g == "X" and p % 4 == 3:
         return False
     bit = 0
     for q in selected:
-        if q == p:
-            continue
-        if groups[q] != g:
+        if q != p and groups[q] != g:
             bit ^= legendre_bit(q, p)
     return bit == 0
+
+
+def s5d_unselected_row_ok(selected, p, groups):
+    """Exact merged-s5d odd local row for an unselected bad prime."""
+    assert p not in selected
+    d1, d2, d3 = odd_d_values(selected, groups)
+    g = groups[p]
+    if g == "S":
+        return legendre_bit(d3, p) == 0
+    if g == "H":
+        return legendre_bit(d1, p) == 0
+    if g == "X":
+        # s5d: chi(d2)=+1 OR chi(-d2)=+1.
+        return legendre_bit(d2, p) == 0 or legendre_bit(-d2, p) == 0
+    raise AssertionError(g)
+
+
+def complete_odd_matrix_ok(selected, ps, groups):
+    selected_set = set(selected)
+    for p in ps:
+        if p in selected_set:
+            if not compact_selected_row_ok(selected, p, groups):
+                return False
+        else:
+            if not s5d_unselected_row_ok(selected, p, groups):
+                return False
+    return True
 
 
 def support_census(S, X, H):
     groups = prime_groups(S, X, H)
     ps = sorted(groups)
     omega = len(ps)
-    admissible = 0
-    nonempty = 0
-    sizes = Counter()
 
-    # Every S/H singleton passes; an X singleton passes iff p=1 mod 4.
+    selected_only = 0
+    selected_only_nonempty = 0
+    full_odd = 0
+    full_odd_nonempty = 0
+
     guaranteed_singletons = sum(
         1 for p, g in groups.items() if g in ("S", "H") or (g == "X" and p % 4 == 1)
     )
@@ -202,32 +221,36 @@ def support_census(S, X, H):
 
     for mask in range(1 << omega):
         selected = tuple(ps[i] for i in range(omega) if (mask >> i) & 1)
-        ok_original = True
-        ok_compact = True
-        for p in selected:
-            ok_original &= original_s5c_row_ok(selected, p, groups)
-            ok_compact &= compact_row_ok(selected, p, groups)
-        assert ok_original == ok_compact, (S, X, H, selected)
-        if ok_compact:
-            admissible += 1
-            sizes[len(selected)] += 1
-            nonempty += bool(selected)
 
-    assert nonempty >= guaranteed_singletons >= 1
+        old_ok = all(original_s5c_selected_row_ok(selected, p, groups) for p in selected)
+        compressed_ok = all(compact_selected_row_ok(selected, p, groups) for p in selected)
+        assert old_ok == compressed_ok, (S, X, H, selected)
+
+        if compressed_ok:
+            selected_only += 1
+            selected_only_nonempty += bool(selected)
+
+        odd_ok = complete_odd_matrix_ok(selected, ps, groups)
+        if odd_ok:
+            full_odd += 1
+            full_odd_nonempty += bool(selected)
+
+    assert selected_only_nonempty >= guaranteed_singletons >= 1
+    assert full_odd >= 1  # empty odd support always passes the homogeneous odd matrix
+
     return {
         "omega_odd_SXH": omega,
         "all_odd_support_subsets": 1 << omega,
-        "selected_row_admissible_supports_including_empty": admissible,
-        "selected_row_admissible_nonempty_supports": nonempty,
-        "guaranteed_singleton_supports": guaranteed_singletons,
-        "support_size_histogram": dict(sorted(sizes.items())),
+        "selected_row_admissible_supports_including_empty": selected_only,
+        "selected_row_admissible_nonempty_supports": selected_only_nonempty,
+        "guaranteed_selected_row_singletons": guaranteed_singletons,
+        "complete_odd_matrix_admissible_supports_including_empty": full_odd,
+        "complete_odd_matrix_admissible_nonempty_supports": full_odd_nonempty,
     }
 
 
 def quantile(xs, q):
     ys = sorted(xs)
-    if not ys:
-        return None
     k = (len(ys) - 1) * q
     lo = int(k)
     hi = min(lo + 1, len(ys) - 1)
@@ -237,22 +260,29 @@ def quantile(xs, q):
 
 def profile_at(B):
     rows = euclid_rows(B)
-    support_counts = []
-    ratios = []
-    omegas = []
-    singletons = []
-    no_nonempty = 0
+    omega = []
+    sel_counts = []
+    sel_ratios = []
+    sel_singletons = []
+    odd_counts = []
+    odd_ratios = []
+    no_sel_nonempty = 0
+    no_odd_nonempty = 0
     orientations = Counter()
 
     for S, X, H, m, n, orientation in rows:
         assert S * S + X * X == H * H and gcd(S, X) == 1
         check_five_factor_odd_separation(m, n)
         c = support_census(S, X, H)
-        support_counts.append(c["selected_row_admissible_supports_including_empty"])
-        ratios.append(c["selected_row_admissible_supports_including_empty"] / c["all_odd_support_subsets"])
-        omegas.append(c["omega_odd_SXH"])
-        singletons.append(c["guaranteed_singleton_supports"])
-        no_nonempty += int(c["selected_row_admissible_nonempty_supports"] == 0)
+        total = c["all_odd_support_subsets"]
+        omega.append(c["omega_odd_SXH"])
+        sel_counts.append(c["selected_row_admissible_supports_including_empty"])
+        sel_ratios.append(c["selected_row_admissible_supports_including_empty"] / total)
+        sel_singletons.append(c["guaranteed_selected_row_singletons"])
+        odd_counts.append(c["complete_odd_matrix_admissible_supports_including_empty"])
+        odd_ratios.append(c["complete_odd_matrix_admissible_supports_including_empty"] / total)
+        no_sel_nonempty += int(c["selected_row_admissible_nonempty_supports"] == 0)
+        no_odd_nonempty += int(c["complete_odd_matrix_admissible_nonempty_supports"] == 0)
         orientations[orientation] += 1
 
     return {
@@ -260,19 +290,26 @@ def profile_at(B):
         "eligible_oriented_bases": len(rows),
         "orientation_counts": dict(orientations),
         "odd_bad_prime_count": {
-            "mean": sum(omegas) / len(omegas),
-            "median": quantile(omegas, 0.5),
-            "max": max(omegas),
+            "mean": sum(omega) / len(omega),
+            "median": quantile(omega, 0.5),
+            "max": max(omega),
         },
-        "homogeneous_selected_row_supports": {
-            "mean_admissible_including_empty": sum(support_counts) / len(support_counts),
-            "median_admissible_including_empty": quantile(support_counts, 0.5),
-            "max_admissible_including_empty": max(support_counts),
-            "mean_fraction_of_all_support_subsets": sum(ratios) / len(ratios),
-            "bases_with_no_nonempty_admissible_support": no_nonempty,
-            "mean_guaranteed_singletons": sum(singletons) / len(singletons),
-            "min_guaranteed_singletons": min(singletons),
-            "max_guaranteed_singletons": max(singletons),
+        "homogeneous_selected_rows": {
+            "mean_admissible_including_empty": sum(sel_counts) / len(sel_counts),
+            "median_admissible_including_empty": quantile(sel_counts, 0.5),
+            "max_admissible_including_empty": max(sel_counts),
+            "mean_fraction_of_all_support_subsets": sum(sel_ratios) / len(sel_ratios),
+            "bases_with_no_nonempty_admissible_support": no_sel_nonempty,
+            "mean_guaranteed_singletons": sum(sel_singletons) / len(sel_singletons),
+            "min_guaranteed_singletons": min(sel_singletons),
+            "max_guaranteed_singletons": max(sel_singletons),
+        },
+        "homogeneous_complete_odd_matrix": {
+            "mean_admissible_including_empty": sum(odd_counts) / len(odd_counts),
+            "median_admissible_including_empty": quantile(odd_counts, 0.5),
+            "max_admissible_including_empty": max(odd_counts),
+            "mean_fraction_of_all_support_subsets": sum(odd_ratios) / len(odd_ratios),
+            "bases_with_no_nonempty_admissible_odd_support": no_odd_nonempty,
         },
     }
 
@@ -284,12 +321,12 @@ def main():
     expected_A = {r["B"]: r["A"] for r in imported["cuts"]}
     for r in profile:
         assert r["eligible_oriented_bases"] == expected_A[r["B"]]
-        assert r["homogeneous_selected_row_supports"]["bases_with_no_nonempty_admissible_support"] == 0
+        assert r["homogeneous_selected_rows"]["bases_with_no_nonempty_admissible_support"] == 0
 
     report = {
         "metadata": {
             "stage": "14-4an",
-            "title": "Euclid-factor selected-prime character matrix and gate-reach audit",
+            "title": "Euclid-factor complete odd character matrix and gate-reach audit",
             "max_B": max(CUTS),
             "truth_table_redundancy_checks": truth_checks,
         },
@@ -299,54 +336,59 @@ def main():
             "forced_selected_labels": {"S": "12", "X": "13", "H": "23"},
             "compressed_selected_rows": {
                 "S/12": "chi_p(a3)=0",
-                "X/13": "chi_p(a2)=0 and chi_p(-1)=0, hence selected X-prime p=1 mod 4",
+                "X/13": "chi_p(a2)=0 and chi_p(-1)=0; selected X-prime p=1 mod 4",
                 "H/23": "chi_p(a1)=0",
             },
-            "homogeneous_three_block_rows": {
-                "p_in_S": "sum_{q selected in X union H} [q/p] = 0",
-                "p_in_X": "p=1 mod 4 and sum_{q selected in S union H} [q/p] = 0",
-                "p_in_H": "sum_{q selected in S union X} [q/p] = 0",
+            "s5d_unselected_rows": {
+                "p|S": "chi_p(d3)=0",
+                "p|H": "chi_p(d1)=0",
+                "p|X": "chi_p(d2)=0 OR chi_p(-d2)=0; automatic for p=3 mod 4",
             },
-            "affine_offset_note": (
-                "For a general covering, p-unit sign/2 normalization contributes affine character offsets. "
-                "Quadratic reciprocity supplies the odd cross-prime matrix; mod-8/2-adic data are additionally required."
-            ),
-            "global_support_equations_are_support_gated": (
-                "For fixed selected support the rows are linear character equations; allowing support itself to vary gates "
-                "each row by the support bit and produces a quadratic F2 support-selection system."
+            "all_odd_bad_prime_rows_explicit": True,
+            "all_odd_rows_reduced_to_reciprocity_bits": True,
+            "q2_boundary": (
+                "s5d reduces Q2 to 64 product-square squareclass states; covering-specific Q2 solubility "
+                "is not yet classified on this branch."
             ),
         },
         "profile": profile,
         "imported_4am_B20000": imported["B20000"],
         "gate_reach": {
             "selected_odd_rows_alone_exclude_any_base": False,
+            "selected_rows_reason": (
+                "Every primitive oriented base has an odd prime in S or H; that prime as a singleton support "
+                "satisfies the selected-prime subsystem."
+            ),
+            "complete_odd_matrix_is_full_local_selmer_test": False,
             "reason": (
-                "Every primitive oriented Pythagorean base has an odd prime in S or H; selecting that prime alone "
-                "satisfies every selected-prime row in the homogeneous odd subsystem. Omitted bad-prime rows and Q2 "
-                "are therefore indispensable even to turn the character skeleton into an A->Sigma base sieve."
+                "All odd bad-prime rows are explicit after s5d, but Q2 covering-specific solubility remains. "
+                "The homogeneous odd-only census is a diagnostic slice, not the full Selmer image."
             ),
             "full_exact_Sigma_gate_at_20k": imported["B20000"]["Sigma_over_A"],
             "first_hit_given_rank_interval_at_20k": imported["B20000"]["V_over_R_interval"],
             "interpretation": (
-                "The reciprocity matrix is a local-Selmer interface. It does not control Sha/global representability "
-                "or the physical first-small-point height. Stage14-4am shows the latter is the dominant finite thinning gate."
+                "The completed odd reciprocity matrix belongs only to the local A->Sigma interface. It cannot "
+                "control Sha/global representability in Sigma->R or the physical first-small-point height in R->V."
             ),
         },
         "decision": {
-            "STAGE14_4AN": "COMPLETE_SELECTED_PRIME_CHARACTER_MATRIX_AND_GATE_REACH_BOUNDARY",
+            "STAGE14_4AN": "COMPLETE_ODD_CHARACTER_MATRIX_AND_GATE_REACH_BOUNDARY",
             "S5C_SUPPORTED_ROWS_COMPRESSED_USING_GLOBAL_SQUARECLASS": True,
             "SELECTED_ODD_SYSTEM_THREE_BLOCK_AFFINE_F2": True,
             "SELECTED_X_PRIME_REQUIRES_P_EQ_1_MOD4": True,
-            "SELECTED_ODD_ROWS_ALONE_FORM_COMPLETE_SELMER_TEST": False,
+            "S5D_ALL_ODD_BAD_PRIME_ROWS_IMPORTED": True,
+            "ALL_ODD_BAD_PRIME_ROWS_EXPLICIT": True,
+            "ALL_ODD_ROWS_REDUCED_TO_RECIPROCITY_BITS": True,
             "SELECTED_ODD_ROWS_ALONE_SIEVE_BASES": False,
-            "UNSELECTED_ODD_AND_Q2_REQUIRED_FOR_A_TO_SIGMA": True,
+            "Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED": False,
+            "FULL_LOCAL_SELMER_MATRIX_COMPLETE": False,
             "CHARACTER_MATRIX_CONTROLS_SIGMA_TO_R": False,
             "CHARACTER_MATRIX_CONTROLS_R_TO_V": False,
             "HEIGHT_COUPLING_REQUIRED_FOR_MAIN_THINNING": True,
             "FAMILY_LARGE_SIEVE_THEOREM_PROVED": False,
             "UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED": False,
             "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": False,
-            "NEXT": "Stage14-4ao complete the full local matrix via s5d handoff, then formulate a height-weighted descent-class count for R->V",
+            "NEXT": "Stage14-4ao finish Q2 covering-specific 64-state classification, then formulate a height-weighted descent-class count for R->V",
         },
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)
