@@ -1,0 +1,68 @@
+name: Stage14-num-alpha11-diag8 extended denominator census
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag8/**'
+      - 'stages/stage14/data/14-num-alpha11-diag8/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag8/**'
+      - '.github/workflows/stage14-num-alpha11-diag8-extended-denominator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extended-denominator:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute extended raw-face denominator census through B=1m
+        run: python stages/stage14/scripts/14-num-alpha11-diag8/extended_raw_denominator_census.py > /tmp/diag8.json
+      - name: Verify frozen diag8 summary
+        run: |
+          python - <<'PY'
+          import json, math
+          x=json.load(open('/tmp/diag8.json'))
+          f=json.load(open('stages/stage14/data/14-num-alpha11-diag8/extended_denominator_summary.json'))
+          assert x['decision']['EXTENDED_DENOMINATOR_CENSUS_COMPLETE'] is True
+          assert x['decision']['STAGE13_B100K_LOCK_REPRODUCED'] is True
+          assert x['decision']['FROZEN_STAGE14_PAIR_COUNTS_MATCH_AT_ALL_CHECKPOINTS'] is True
+          assert x['decision']['RAW_MINUS_EXACT_ONE_ENDPOINT_IDENTITY_AT_ALL_CHECKPOINTS'] is True
+          assert x['checkpoints']==f['checkpoints']
+          assert len(x['rows'])==len(f['rows'])==7
+          assert x['rows'][0]['raw']==[84212,43236,40760]
+          assert x['rows'][0]['pair_a_b_c']==[33,33,23]
+          last=x['rows'][-1]
+          flast=f['rows'][-1]
+          assert last['B']==1000000
+          assert last['raw']==flast['raw']==[1237105,636722,589898]
+          assert last['pair_a_b_c']==flast['pair']==[98,101,56]
+          assert last['endpoint']==flast['endpoint']==[199,154,157]
+          assert last['N2_exactly_two']==flast['N2']==255
+          for a,b in zip(last['survival_rel_bc'],flast['survival_rel_bc']): assert math.isclose(a,b,rel_tol=0,abs_tol=1e-15)
+          assert all(r['triple']==0 for r in x['rows'])
+          assert all(r['survival_rel_bc'][0] < r['survival_rel_bc'][1] < 1.0000000001 for r in x['rows'])
+          assert x['decision']['ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM'] is False
+          assert x['decision']['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
+          PY
+      - name: Check result boundary locks
+        run: |
+          grep -q 'STAGE14_NUM_ALPHA11_DIAG8=EXTENDED_RAW_FACE_DENOMINATOR_CENSUS_COMPLETE' stages/stage14/14-num-alpha11-diag8/result.md
+          grep -q 'MATCHED_MAX_B=1000000' stages/stage14/14-num-alpha11-diag8/result.md
+          grep -q 'TRIPLE_COUNT_ZERO_THROUGH_B1M=true' stages/stage14/14-num-alpha11-diag8/result.md
+          grep -q 'SURVIVAL_PROFILE_MONOTONE_TO_HYPOTHETICAL_BRIDGE=false' stages/stage14/14-num-alpha11-diag8/result.md
+          grep -q 'ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM=false' stages/stage14/14-num-alpha11-diag8/result.md
+      - name: Print compact summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag8.json'))
+          print('DIAG8_FINAL_SUMMARY_BEGIN')
+          print(json.dumps({'target':x['required_relative_survival_if_stage13_limit_plus_hypothetical_221'],'rows':x['rows'],'diagnostics':x['enumeration_diagnostics'],'decision':x['decision']},indent=2))
+          print('DIAG8_FINAL_SUMMARY_END')
+          PY
