@@ -1,6 +1,6 @@
 # Stage13-13f — R05 repair / closure plan
 
-> STATUS: `ACTIVE_REPAIR_PLAN_GATES_A_B_COMPLETE_GATE_C_NEXT`
+> STATUS: `ACTIVE_REPAIR_PLAN_GATES_A_B_C_COMPLETE_GATE_D_NEXT`
 >
 > SOURCE_BUNDLE: `STAGE13-FINAL-SELF-CONTAINED-20260809-R04`
 >
@@ -132,29 +132,77 @@ Gate B closes the DeepSeek/Claude objection to the unexplained `529 p^-5/4` step
 
 ## Gate C — curved-region error ledger
 
-Status: `[>] NEXT — 13-13fc`.
+Status: `[x] COMPLETE — 13-13fc`.
 
-Write explicit lemmas for:
-
-- small height;
-- small coordinate;
-- multiplicative core boxes;
-- rectangle Perron tails;
-- boxes meeting the curved boundary;
-- accumulation over `O((log B)^C)` boxes.
-
-All exponents must be substituted with
+Artifacts:
 
 ```text
-H0=U=exp((log B)^(1/4))
-eta=(log B)^(-8)
+stages/stage13/13-13fc/curved-region-error-lemma.md
+stages/stage13/13-13fc/result.md
+stages/stage13/scripts/13-13fc/curved_region_error_audit.py
+stages/stage13/data/13-13fc/curved_region_error_audit.json
+.github/workflows/stage13-13fc-curved-region.yml
 ```
 
-so the final `o(B(log B)^3)` conclusion is mechanically auditable.
+The multiplicative core grid is now counted explicitly. Since each coordinate uses `O((log B)^9)` intervals at mesh `eta=(log B)^-8`, the full grid has
+
+```text
+BOX_COUNT=O((log B)^27).
+```
+
+The zero-mode Perron expansions are taken to fixed order `N=64`. A uniform per-box endpoint remainder `O(B(log B)^-62)` therefore sums to
+
+```text
+FINITE_REMAINDER_AFTER_ALL_BOXES=O(B(log B)^-35).
+```
+
+For the rectangle power tails Gate C fixes `epsilon=1/16`; the core cutoff yields
+
+```text
+POWER_TAIL_SAVING=exp(-(3/16)(log B)^(1/4)),
+```
+
+so even after the `27` logarithmic box powers the power tail beats every fixed negative power of `log B`.
+
+The remaining zero-mode ledger is explicit:
+
+```text
+small height       O(B(log B)^(9/4))
+small coordinate   O(B(log B)^(5/2))
+mixed log shifts   O(B(log B)^2)
+boundary shell      O(B(log B)^-5) + lower-order ledger
+Riemann mesh        O(B(log B)^-5)
+```
+
+A boundary-intersecting box is placed inside the exact shell
+
+```text
+2B e^(-3eta) <= h(r^2+s^2) <= 2B e^(3eta),
+```
+
+so the boundary main-polynomial contribution is `O(eta B(log B)^3)`; all analytic rectangle remainders are charged separately to the global accumulated ledger above.
+
+Locks:
+
+```text
+STAGE13_13FC=COMPLETE_CURVED_REGION_ERROR_ACCUMULATION
+BOX_COUNT=O((log B)^27)
+FINITE_REMAINDER_N=64
+FINITE_REMAINDER_AFTER_ALL_BOXES=O(B(log B)^-35)
+POWER_TAIL_SAVING=exp(-(3/16)(log B)^(1/4))
+CURVED_BOUNDARY=O(B(log B)^-5)+lower-order-ledger
+MESH_ERROR=O(B(log B)^-5)
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R04_IMMUTABLE=true
+R05_REQUIRED=true
+```
+
+Gate C closes the DeepSeek objection to the previously implicit global box accumulation. It deliberately leaves the nonzero-harmonic conductor/log budget to Gate D.
 
 ## Gate D — retained nonzero harmonics
 
-Status: `[ ] Pending Gate C`.
+Status: `[>] NEXT — 13-13fd`.
 
 State an explicit Hecke-family lemma on the exact strip used, with conductor dependence sufficient for
 
@@ -224,9 +272,10 @@ After Gates A-H:
 R04_IMMUTABLE=true
 STAGE13_13FA=COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT
 STAGE13_13FB=COMPLETE_EXPLICIT_WIENER_BOUND
+STAGE13_13FC=COMPLETE_CURVED_REGION_ERROR_ACCUMULATION
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
 R05_REQUIRED_IF_THEOREM_SURVIVES_AUDIT=true
 R05_FRESH_REVIEW_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13fc
+NEXT=13-13fd
 ```
