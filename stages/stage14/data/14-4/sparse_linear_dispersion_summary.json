@@ -1,0 +1,75 @@
+{
+  "stage": "14-4ax",
+  "classification": "SPARSE_LINEAR_L2_CLOSED_AND_DETERMINANT_NORM_OBSTRUCTIONS_ISOLATED",
+  "linear_projective_core": {
+    "columns": [
+      "m",
+      "n",
+      "m-n",
+      "m+n"
+    ],
+    "projective_roots": {
+      "m": "[0:1]",
+      "n": "[1:0]",
+      "m-n": "[1:1]",
+      "m+n": "[-1:1]"
+    },
+    "reciprocal_edge_count": 6,
+    "collision_determinant": "D(P,P')=m*n'-m'*n",
+    "same_cell_implication": "q=uv divides D(P,P')",
+    "primitive_positive_D_zero_implies_same_point": true
+  },
+  "sparse_linear_dispersion": {
+    "rectangle": "0<m<=X, 0<n<=Y",
+    "determinant_bound": "|D(P,P')|<2XY",
+    "threshold": "Q=UV>2XY",
+    "cell_occupancy": "W(u,v) in {0,1}",
+    "raw_second_moment": "sum W(u,v)^2 <<_epsilon N*B^epsilon",
+    "rank_one_bulk_second_moment": "sum M(u,v)^2 <<_epsilon N^2*B^epsilon/Q << N*B^epsilon",
+    "discrepancy_second_moment": "sum |Delta(u,v)|^2 <<_epsilon N*B^epsilon",
+    "natural_diagonal_scale": "N*B^epsilon",
+    "fixed_power_retainer_saving_from_this_alone": false
+  },
+  "medium_linear_boundary": {
+    "range": "Q<=2XY",
+    "off_diagonal_support": "uv divides D(P,P')",
+    "arbitrary_matrix_obstruction": false,
+    "determinant_dispersion_required": true,
+    "power_saving_proved": false
+  },
+  "microscopic_boundary": {
+    "unit_modulus_character": "(1/v)=1",
+    "unit_edge_reclassified_as_lower_dimensional": true,
+    "full_small_side_range_closed": false
+  },
+  "norm_split_boundary": {
+    "split_prime_roots": "[+r:1],[-r:1] with r^2=-1 mod p",
+    "same_sign": "p divides D(P,P')",
+    "opposite_sign": "p divides S(P,P')=m*n'+m'*n",
+    "state_split_factorization": "q_E=q_same*q_opp with q_same|D and q_opp|S",
+    "mixed_sign_sparse_closed_by_q_gt_2XY": false
+  },
+  "updated_frontier": "MEDIUM_DETERMINANT_DISPERSION_PLUS_MICROSCOPIC_SMALL_SIDE_INDUCTION_PLUS_NORM_MIXED_SIGN_D_TIMES_S_DISPERSION",
+  "decision": {
+    "STAGE14_4AX": "SPARSE_LINEAR_L2_CLOSED_AND_DETERMINANT_NORM_OBSTRUCTIONS_ISOLATED",
+    "SIX_LINEAR_RECIPROCAL_EDGES_PROJECTIVE": true,
+    "LINEAR_COLLISION_DIVIDES_DETERMINANT": true,
+    "SPARSE_LINEAR_THRESHOLD_Q_GT_2XY": true,
+    "SPARSE_LINEAR_DISCREPANCY_L2_DIAGONAL_SCALE_PROVED": true,
+    "N_SCALE_DIAGONAL_GENUINE": true,
+    "SPARSE_LINEAR_FIXED_POWER_RETAINER_SAVING_PROVED": false,
+    "MEDIUM_LINEAR_OFFDIAGONAL_REDUCED_TO_DETERMINANT": true,
+    "MEDIUM_LINEAR_L2_POWER_SAVING_PROVED": false,
+    "UNIT_MODULUS_RECIPROCAL_EDGE_RECLASSIFIED": true,
+    "FULL_MICROSCOPIC_SMALL_SIDE_CLOSED": false,
+    "NORM_SAME_SIGN_COLLISION_DIVIDES_DETERMINANT": true,
+    "NORM_OPPOSITE_SIGN_COLLISION_DIVIDES_ANTIDETERMINANT": true,
+    "FULL_STATE_SPLIT_E_SPARSE_REGIME_CLOSED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4ay prove a medium-range determinant-dispersion estimate for the six linear reciprocal edges and organize the remaining microscopic small-side modes inductively, then isolate the state-split E mixed-sign D*S kernel as a separate norm problem"
+  }
+}
