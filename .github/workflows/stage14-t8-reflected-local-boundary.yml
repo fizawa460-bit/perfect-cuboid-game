@@ -1,0 +1,21 @@
+name: Stage14-t8 reflected local boundary
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t8/**'
+      - 'stages/stage14/scripts/14-t8/**'
+      - 'stages/stage14/data/14-t8/**'
+      - '.github/workflows/stage14-t8-reflected-local-boundary.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate exact audit
+        run: |
+          cp stages/stage14/data/14-t8/reflected_local_boundary.json /tmp/expected.json
+          python stages/stage14/scripts/14-t8/reflected_local_boundary_audit.py
+          diff -u /tmp/expected.json stages/stage14/data/14-t8/reflected_local_boundary.json
