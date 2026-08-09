@@ -1,0 +1,161 @@
+name: Stage14-num6 rolling exact B150m
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/scripts/14-num6/**'
+      - 'stages/stage14/data/14-num6/**'
+      - 'stages/stage14/14-num6/**'
+      - 'stages/stage14/scripts/14-num3/extended_exact_census.py'
+      - 'stages/stage14/data/14-num5/scaling_anomaly_manifest.json'
+      - '.github/workflows/stage14-num6-rolling-b150m.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      frozen: ${{ steps.mode.outputs.frozen }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: mode
+        shell: bash
+        run: |
+          if [[ -f stages/stage14/data/14-num6/rolling_append_manifest.json && \
+                -d stages/stage14/data/14-num6/b150m_objects.csv.bz2.b64.parts ]]; then
+            echo 'frozen=true' >> "$GITHUB_OUTPUT"
+            echo 'Frozen B150m source present: use deterministic replay validation.'
+          else
+            echo 'frozen=false' >> "$GITHUB_OUTPUT"
+            echo 'Bootstrap mode: run fresh exact B150m chunks.'
+          fi
+
+  b150m-chunks:
+    needs: plan
+    if: needs.plan.outputs.frozen != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        chunk: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact B150m chunk
+        run: |
+          mkdir -p /tmp/num6
+          /usr/bin/time -v -o /tmp/num6/time-${{ matrix.chunk }}.txt \
+            python stages/stage14/scripts/14-num3/extended_exact_census.py \
+              --bound 150000000 \
+              --chunk-count 48 \
+              --chunk-index ${{ matrix.chunk }} \
+              --output /tmp/num6/chunk-${{ matrix.chunk }}.json \
+            | tee /tmp/num6/console-${{ matrix.chunk }}.txt
+          cat /tmp/num6/time-${{ matrix.chunk }}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: num6-b150m-chunk-${{ matrix.chunk }}
+          path: /tmp/num6/chunk-${{ matrix.chunk }}.json
+          retention-days: 5
+
+  b150m-bootstrap-aggregate:
+    needs: [plan, b150m-chunks]
+    if: always() && needs.plan.outputs.frozen != 'true' && needs.b150m-chunks.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: num6-b150m-chunk-*
+          path: /tmp/num6-chunks
+          merge-multiple: true
+      - name: Independent num3 aggregate cross-check
+        run: |
+          python stages/stage14/scripts/14-num3/extended_exact_census.py \
+            --bound 150000000 \
+            --merge-dir /tmp/num6-chunks \
+            --output /tmp/num3-b150m.json \
+            | tee /tmp/num3-b150m-console.txt
+      - name: Build rolling append and compact frozen source
+        run: |
+          python stages/stage14/scripts/14-num6/rolling_observatory.py \
+            --chunk-dir /tmp/num6-chunks \
+            --num3-aggregate /tmp/num3-b150m.json \
+            --num5-manifest stages/stage14/data/14-num5/scaling_anomaly_manifest.json \
+            --manifest-out /tmp/rolling_append_manifest.json \
+            --objects-b64-out /tmp/b150m_objects.csv.bz2.b64 \
+            | tee /tmp/num6-console.txt
+      - name: Enforce finite-only and emergency gates
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/rolling_append_manifest.json').read_text())
+          assert r['metadata']['bound'] == 150000000
+          assert r['B100m_anchor_regression']['object_count'] == 1875
+          assert r['B100m_anchor_regression']['counts'] == {'a':729,'b':758,'c':388,'total':1875,'triple':0}
+          assert r['num3_aggregate_crosscheck']['exact_summary_match'] is True
+          assert r['diagnostic_append']['prefix_regression']['prefix_exactly_reproduced'] is True
+          assert r['decision']['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert r['decision']['ASYMPTOTIC_CLAIM'] is False
+          assert r['decision']['PERFECT_CUBOID_EXISTENCE_CLAIM'] is False
+          assert r['decision']['PERFECT_CUBOID_NONEXISTENCE_CLAIM'] is False
+          if r['decision']['PERFECT_CUBOID_EMERGENCY']:
+              raise SystemExit('PERFECT CUBOID EMERGENCY: independent second generation route required')
+          assert r['decision']['STAGE14_NUM6'] == 'COMPLETE_ROLLING_EXACT_B150M_APPEND'
+          print(json.dumps(r['exact_cutoff_B150m'],indent=2,sort_keys=True))
+          print(json.dumps(r['diagnostic_append']['summary'],indent=2,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: num6-b150m-bootstrap-aggregate
+          path: |
+            /tmp/rolling_append_manifest.json
+            /tmp/b150m_objects.csv.bz2.b64
+            /tmp/num3-b150m.json
+            /tmp/num6-console.txt
+          retention-days: 5
+
+  frozen-replay:
+    needs: plan
+    if: needs.plan.outputs.frozen == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay frozen B150m source
+        run: |
+          cat stages/stage14/data/14-num6/b150m_objects.csv.bz2.b64.parts/part-*.b64 > /tmp/b150m_objects.csv.bz2.b64
+          python stages/stage14/scripts/14-num6/rolling_observatory.py \
+            --objects-b64 /tmp/b150m_objects.csv.bz2.b64 \
+            --num5-manifest stages/stage14/data/14-num5/scaling_anomaly_manifest.json \
+            --manifest-out /tmp/replayed.json \
+            | tee /tmp/num6-replay-console.txt
+      - name: Compare deterministic frozen sections
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          got=json.loads(Path('/tmp/replayed.json').read_text())
+          want=json.loads(Path('stages/stage14/data/14-num6/rolling_append_manifest.json').read_text())
+          for key in ('metadata','object_source','B100m_anchor_regression','exact_cutoff_B150m','diagnostic_append','handoff','decision'):
+              assert got[key] == want[key], key
+          assert got['decision']['STAGE14_NUM6'] == 'COMPLETE_ROLLING_EXACT_B150M_APPEND'
+          assert got['decision']['PERFECT_CUBOID_EMERGENCY'] is False
+          print('Stage14-num6 frozen B150m replay: PASS')
+          PY
