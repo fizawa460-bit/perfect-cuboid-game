@@ -41,8 +41,6 @@ def build_summary() -> dict:
         ]:
             require(t33, marker, "Stage14-t33")
         higher_order = "HIGHER_ORDER_MELLIN_MODES_REQUIRED=true" in t33
-        # Older/alternate frozen t33 wording is also accepted if the result text
-        # explicitly states that higher-order characters are unavoidable.
         if not higher_order:
             require(t33, "Higher-order modes are unavoidable", "Stage14-t33")
     else:
@@ -127,10 +125,10 @@ def main() -> None:
         print(FROZEN)
         return
 
-    frozen = FROZEN.read_text(encoding="utf-8")
-    if frozen != rendered:
+    frozen = json.loads(FROZEN.read_text(encoding="utf-8"))
+    if frozen != summary:
         raise AssertionError(
-            "frozen tH0 summary differs; run roadworks_architecture_audit.py --write"
+            "frozen tH0 summary differs semantically; run roadworks_architecture_audit.py --write"
         )
 
     print("Stage14-tH0 roadworks architecture audit: OK")
