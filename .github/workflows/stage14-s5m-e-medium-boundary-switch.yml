@@ -1,0 +1,30 @@
+name: Stage14-s5m E medium and boundary switch audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5m/**'
+      - 'stages/stage14/scripts/14-s5m/**'
+      - '.github/workflows/stage14-s5m-e-medium-boundary-switch.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5m deterministic audit
+        run: python3 stages/stage14/scripts/14-s5m/e_medium_boundary_switch_audit.py | tee /tmp/s5m.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5M=COMPLETE_MEDIUM_E_SIGNED_ROOT_LATTICE_DISPERSION_AND_LINEAR_BOUNDARY_SWITCH$' /tmp/s5m.txt
+          grep -q '^E_FIXED_ROOT_LATTICE_DETERMINANT_UV=true$' /tmp/s5m.txt
+          grep -q '^E_FIXED_ROOT_SHORTEST_VECTOR_BOUND_PROVED=true$' /tmp/s5m.txt
+          grep -q '^MEDIUM_E_LINEAR_DISPERSION_PROVED=true$' /tmp/s5m.txt
+          grep -q '^E_CENTRAL_MEDIUM_POWER_SAVING_PROVED=true$' /tmp/s5m.txt
+          grep -q '^LINEAR_LARGE_BOUNDARY_COMPLEMENT_SWITCH_EXACT=true$' /tmp/s5m.txt
+          grep -q '^LINEAR_BOUNDARY_REDUCED_TO_ONE_SMALL_VARIABLE=true$' /tmp/s5m.txt
+          grep -q '^FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED=false$' /tmp/s5m.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5m.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5m.txt
+          grep -q '^NEXT=Stage14-s5n$' /tmp/s5m.txt
