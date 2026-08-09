@@ -1,0 +1,78 @@
+{
+  "stage": "14-4az",
+  "classification": "LINEAR_ENDPOINT_FINITE_REDUCTION_AND_COMPLEMENT_SWITCH_CLOSED",
+  "imports": {
+    "stage14_4ay_interior_full_mode_power_saving": true,
+    "s5m_linear_large_boundary_complement_switch_exact": true,
+    "s5m_linear_boundary_reduced_to_one_small_variable": true
+  },
+  "linear_complexity": {
+    "vertices": [
+      "m",
+      "n",
+      "m-n",
+      "m+n"
+    ],
+    "edge_count": 6,
+    "complexity_definition": "number of active linear-linear reciprocal Jacobi edges",
+    "complexity_max": 6,
+    "unit_endpoint_deletion": "(1/v)=1 and (u/1)=1",
+    "unit_deletion_strictly_decreases_complexity": true,
+    "maximum_deletion_steps": 6
+  },
+  "endpoint_partition": {
+    "cutoff": "1<Z<min(H_i,H_j)",
+    "small": "u<Z",
+    "central": "Z<=u<=H_i/Z",
+    "large": "u>H_i/Z",
+    "central_two_side_mode_already_saved": true
+  },
+  "complement_switch": {
+    "large_condition": "u>H_i/Z, u|x=L_i(P), |x|<=H_i",
+    "small_cofactor": "k=|x|/u<Z",
+    "bijection": "(P,u)<->(P,k) retaining reconstructed-u state predicate",
+    "jacobi_rewrite": "(u/v)=(|L_i(P)|/v)*(k/v)",
+    "sign_correction": "(-1/v) absorbed into mod-4 character when needed",
+    "full_fourier_monomial_identity": true,
+    "new_large_large_linear_edge_created": false
+  },
+  "finite_reduction": {
+    "rules": [
+      "unit endpoint -> delete edge",
+      "small endpoint -> ONE_SMALL_VARIABLE",
+      "large endpoint -> complementary switch -> SWITCHED_ONE_SMALL_VARIABLE",
+      "otherwise -> CENTRAL_SAVED"
+    ],
+    "terminates": true,
+    "all_linear_endpoint_modes_reduced": true,
+    "unresolved_large_large_linear_reciprocal_edge": false,
+    "terminal_one_small_variable_operators_analytically_averaged": false
+  },
+  "remaining_local_frontier": {
+    "linear": "ONE_SMALL_VARIABLE_LINEAR_BOUNDARY_AVERAGING",
+    "norm": "STATE_SPLIT_E_BOUNDARY_ASSEMBLY",
+    "switched_physical_character_sums_averaged": false,
+    "full_linear_six_dyadic_summation_proved": false
+  },
+  "decision": {
+    "STAGE14_4AZ": "LINEAR_ENDPOINT_FINITE_REDUCTION_AND_COMPLEMENT_SWITCH_CLOSED",
+    "S5M_LINEAR_LARGE_BOUNDARY_SWITCH_IMPORTED": true,
+    "LINEAR_RECIPROCITY_COMPLEXITY_MAX": 6,
+    "UNIT_ENDPOINT_EDGE_DELETION_EXACT": true,
+    "LOWER_DIMENSIONAL_BULK_MODE_INDUCTION_CLOSED": true,
+    "FULL_FOURIER_MONOMIAL_COMPLEMENT_SWITCH_EXACT": true,
+    "UPPER_COMPLEMENTARY_STATE_FOURIER_SWITCH_CLOSED": true,
+    "ALL_LINEAR_ENDPOINT_MODES_REDUCED_TO_CENTRAL_OR_ONE_SMALL_VARIABLE": true,
+    "UNRESOLVED_LARGE_LARGE_LINEAR_RECIPROCAL_EDGE": false,
+    "ONE_SMALL_VARIABLE_LINEAR_BOUNDARY_AVERAGED": false,
+    "SWITCHED_PHYSICAL_CHARACTER_SUMS_AVERAGED": false,
+    "FULL_LINEAR_SIX_DYADIC_SUMMATION_PROVED": false,
+    "STATE_SPLIT_E_BOUNDARY_ASSEMBLY_CLOSED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4ba import the s5n one-small-variable boundary estimate when available, assemble the linear boundary normal forms with the central six-linear saving, and determine the first explicit complete local rho_loc/E_loc pair or isolate the remaining E-boundary loss"
+  }
+}

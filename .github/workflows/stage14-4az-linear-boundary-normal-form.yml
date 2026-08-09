@@ -1,0 +1,35 @@
+name: Stage14-4az linear boundary normal form
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4az/**'
+      - 'stages/stage14/data/14-4/linear_boundary_normal_form_summary.json'
+      - 'stages/stage14/scripts/14-4/linear_boundary_normal_form_audit.py'
+      - '.github/workflows/stage14-4az-linear-boundary-normal-form.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/linear_boundary_normal_form_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/linear_boundary_normal_form_audit.py
+      - name: Check boundary flags
+        run: |
+          grep -q 'LOWER_DIMENSIONAL_BULK_MODE_INDUCTION_CLOSED=true' stages/stage14/14-4az/result.md
+          grep -q 'UPPER_COMPLEMENTARY_STATE_FOURIER_SWITCH_CLOSED=true' stages/stage14/14-4az/result.md
+          grep -q 'ALL_LINEAR_ENDPOINT_MODES_REDUCED_TO_CENTRAL_OR_ONE_SMALL_VARIABLE=true' stages/stage14/14-4az/result.md
+          grep -q 'UNRESOLVED_LARGE_LARGE_LINEAR_RECIPROCAL_EDGE=false' stages/stage14/14-4az/result.md
+          grep -q 'ONE_SMALL_VARIABLE_LINEAR_BOUNDARY_AVERAGED=false' stages/stage14/14-4az/result.md
+          grep -q 'FULL_LINEAR_SIX_DYADIC_SUMMATION_PROVED=false' stages/stage14/14-4az/result.md
+          grep -q 'NEXT=Stage14-4ba' stages/stage14/14-4az/result.md
