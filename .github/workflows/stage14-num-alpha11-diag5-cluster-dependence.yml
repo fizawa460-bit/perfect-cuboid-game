@@ -1,0 +1,72 @@
+name: Stage14-num-alpha11-diag5 cluster dependence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag5/**'
+      - 'stages/stage14/data/14-num-alpha11-diag5/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag5/**'
+      - '.github/workflows/stage14-num-alpha11-diag5-cluster-dependence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cluster-dependence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run diag5 family cluster diagnostic
+        run: python stages/stage14/scripts/14-num-alpha11-diag5/family_cluster_dependence.py > /tmp/diag5.json
+      - name: Verify frozen diag5 summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag5.json'))
+          lock=json.load(open('stages/stage14/data/14-num-alpha11-diag5/cluster_summary.json'))
+          assert x['source_rows']==lock['source_rows']==3495
+          assert x['global_direction_counts']==lock['global_direction_counts']=={'a':1374,'b':1371,'c':750}
+          sd=x['same_diagonal']; sl=lock['same_diagonal']
+          fc=x['face_graph_component']; fl=lock['face_graph_component']
+          assert sd['groups']==sl['groups']==3325
+          assert sd['group_size_histogram']==sl['group_size_histogram']=={'1':3159,'2':162,'3':4}
+          assert sd['max_objects_per_group']==sl['max_objects_per_group']==3
+          assert fc['groups']==fl['groups']==1703
+          assert fc['group_size_histogram']==fl['group_size_histogram']
+          assert fc['max_objects_per_group']==fl['max_objects_per_group']==95
+          pairs=[
+            (sd['singleton_object_fraction'],sl['singleton_object_fraction']),
+            (sd['repeated_object_fraction'],sl['repeated_object_fraction']),
+            (sd['direction_support']['multiple_direction_fraction_among_repeated'],sl['multiple_direction_fraction_among_repeated']),
+            (sd['pair_direction_clustering']['z_normal_moment_calibration'],sl['pair_direction_clustering']['z_normal_moment_calibration']),
+            (sd['late_shell_equalization']['equal_group_to_object_shift_l2_ratio'],sl['late_equal_group_to_object_shift_l2_ratio']),
+            (sd['late_shell_group_size_mixture']['mixture_explained_fraction_l2'],sl['late_group_size_mixture_explained_fraction_l2']),
+            (fc['singleton_object_fraction'],fl['singleton_object_fraction']),
+            (fc['repeated_object_fraction'],fl['repeated_object_fraction']),
+            (fc['direction_support']['multiple_direction_fraction_among_repeated'],fl['multiple_direction_fraction_among_repeated']),
+            (fc['pair_direction_clustering']['z_normal_moment_calibration'],fl['pair_direction_clustering']['z_normal_moment_calibration']),
+            (fc['late_shell_equalization']['equal_group_to_object_shift_l2_ratio'],fl['late_equal_group_to_object_shift_l2_ratio']),
+            (fc['late_shell_group_size_mixture']['mixture_explained_fraction_l2'],fl['late_group_size_mixture_explained_fraction_l2']),
+          ]
+          for got,want in pairs:
+              assert abs(got-want)<1e-14,(got,want)
+          p=x['diag4_p7_shared_divisibility_cluster_controls']; pl=lock['p7_cluster_controls']
+          for q in ('a','b','c'):
+              assert abs(p['raw_object_weighted_rates'][q]['rate']-pl['raw_object_weighted_rates'][q]['rate'])<1e-14
+              assert abs(p['equal_same_d_weighted_rates'][q]['equal_group_mean_rate']-pl['equal_same_d_weighted_rates'][q]['equal_group_mean_rate'])<1e-14
+              assert abs(p['equal_face_component_weighted_rates'][q]['equal_group_mean_rate']-pl['equal_face_component_weighted_rates'][q]['equal_group_mean_rate'])<1e-14
+          for k in ('same_d_singleton_subset','same_d_repeated_subset','face_component_isolated_subset','face_component_nontrivial_subset'):
+              assert abs(p[k]['pearson_p']-pl[k]['pearson_p'])<1e-14
+          assert x['decision']==lock['decision']
+          PY
+      - name: Check interpretation boundary
+        run: |
+          grep -q 'LATE_SHIFT_ATTENUATED_BY_TESTED_CLUSTER_REWEIGHTING=false' stages/stage14/14-num-alpha11-diag5/result.md
+          grep -q 'P7_SHARED_DIVISIBILITY_PATTERN_SURVIVES_EQUAL_D_WEIGHTING=true' stages/stage14/14-num-alpha11-diag5/result.md
+          grep -q 'P7_SHARED_DIVISIBILITY_PATTERN_SURVIVES_EQUAL_COMPONENT_WEIGHTING=true' stages/stage14/14-num-alpha11-diag5/result.md
+          grep -q 'ASYMPTOTIC_CLAIM=false' stages/stage14/14-num-alpha11-diag5/result.md
+          grep -q 'NEXT=Stage14-num-alpha11-diag6' stages/stage14/14-num-alpha11-diag5/result.md
