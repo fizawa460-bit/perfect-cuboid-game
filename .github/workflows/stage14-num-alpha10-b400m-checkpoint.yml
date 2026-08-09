@@ -1,0 +1,266 @@
+name: Stage14-num-alpha10 exact B400m checkpoint
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha10/**'
+      - 'stages/stage14/data/14-num-alpha10/**'
+      - 'stages/stage14/14-num-alpha10/**'
+      - 'stages/stage14/scripts/14-num-alpha8/**'
+      - 'stages/stage14/data/14-num-alpha9/b300m_manifest.json'
+      - 'stages/stage14/data/14-num-alpha9/b300m_objects.csv.bz2.b64'
+      - '.github/workflows/stage14-num-alpha10-b400m-checkpoint.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      frozen: ${{ steps.mode.outputs.frozen }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: mode
+        shell: bash
+        run: |
+          if [[ -f stages/stage14/data/14-num-alpha10/b400m_manifest.json && \
+                -f stages/stage14/data/14-num-alpha10/b400m_objects.csv.bz2.b64 ]]; then
+            echo 'frozen=true' >> "$GITHUB_OUTPUT"
+            echo 'Frozen B400m source present: replay only.'
+          else
+            echo 'frozen=false' >> "$GITHUB_OUTPUT"
+            echo 'Bootstrap mode: scan only 300m<d<=400m.'
+          fi
+
+  scan:
+    needs: plan
+    if: needs.plan.outputs.frozen != 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    strategy:
+      fail-fast: true
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scan new 25m diagonal shard
+        shell: bash
+        run: |
+          SHARD=${{ matrix.shard }}
+          WIDTH=25000000
+          LO=$((300000001 + SHARD * WIDTH))
+          HI=$((325000000 + SHARD * WIDTH))
+          python stages/stage14/scripts/14-num-alpha8/segmented_production_census.py scan \
+            --lo "$LO" \
+            --hi "$HI" \
+            --segment-size 250000 \
+            --output "shard-${SHARD}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alpha10-new-shard-${{ matrix.shard }}
+          path: shard-${{ matrix.shard }}.json
+          retention-days: 7
+
+  aggregate-freeze:
+    needs: [plan, scan]
+    if: always() && needs.plan.outputs.frozen != 'true' && needs.scan.result == 'success' && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: alpha10-new-shard-*
+          path: new-shards
+          merge-multiple: true
+      - name: Aggregate exact B400m union
+        shell: bash
+        run: |
+          python stages/stage14/scripts/14-num-alpha10/b400m_stability_checkpoint.py \
+            --fresh-shard-dir new-shards \
+            --baseline-b300-source stages/stage14/data/14-num-alpha9/b300m_objects.csv.bz2.b64 \
+            --output alpha10-b400m-report.json \
+            --b400-source-out alpha10-b400m-objects.csv.bz2.b64
+      - name: Enforce nesting, emergency boundary, and freeze exact files
+        shell: bash
+        run: |
+          mkdir -p stages/stage14/data/14-num-alpha10 stages/stage14/14-num-alpha10
+          cp alpha10-b400m-objects.csv.bz2.b64 \
+             stages/stage14/data/14-num-alpha10/b400m_objects.csv.bz2.b64
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          r=json.load(open('alpha10-b400m-report.json'))
+          d=r['decision']
+          assert d['STAGE14_NUM_ALPHA10']=='COMPLETE_EXACT_B400M_CHECKPOINT'
+          assert d['B250M_ALPHA9_FULL_HASH_REGRESSION_MATCH'] is True
+          assert d['B300M_ALPHA9_FULL_HASH_REGRESSION_MATCH'] is True
+          assert d['B400M_EXACT_CENSUS_FROZEN'] is True
+          assert d['PERFECT_CUBOID_EMERGENCY'] is False
+          assert d['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert d['ASYMPTOTIC_CLAIM'] is False
+          b400=r['exact_cutoff_B400m']
+          assert b400['counts']['triple'] == 0
+          keep=(
+            'stage','classification','B250m_alpha9_regression',
+            'B300m_alpha9_regression','exact_cutoff_B400m',
+            'shell_300m_to_400m_counts','stability_panel',
+            'object_source','decision'
+          )
+          m={k:r[k] for k in keep}
+          m['provenance']={
+            'bootstrap_actions_run':int(os.environ['GITHUB_RUN_ID']),
+            'alpha9_source_path':'stages/stage14/data/14-num-alpha9/b300m_objects.csv.bz2.b64',
+            'alpha9_manifest_path':'stages/stage14/data/14-num-alpha9/b300m_manifest.json',
+          }
+          Path('stages/stage14/data/14-num-alpha10/b400m_manifest.json').write_text(
+            json.dumps(m,indent=2,sort_keys=True)+'\n')
+          tr=m['stability_panel']['transitions']
+          d34=tr[1]['relative_drift']
+          status=[
+            'STAGE14_NUM_ALPHA10=COMPLETE_EXACT_B400M_CHECKPOINT',
+            'B250M_ALPHA9_FULL_HASH_REGRESSION_MATCH=true',
+            'B300M_ALPHA9_FULL_HASH_REGRESSION_MATCH=true',
+            'B400M_EXACT_CENSUS_FROZEN=true',
+            f"B400M_DIRECTIONAL_COUNTS={b400['counts']['a']},{b400['counts']['b']},{b400['counts']['c']}",
+            f"B400M_N2={b400['counts']['total']}",
+            f"B400M_T={b400['counts']['triple']}",
+            f"B400M_ACTIVE_ORIENTED_FACES={b400['graph']['active_oriented_face_vertices']}",
+            f"B400M_RAW_PAIR_EDGES={b400['graph']['raw_pair_edges']}",
+            f"B400M_MAX_DEGREE={b400['graph']['max_degree']}",
+            f"B300M_TO_B400M_ALL_PRIMARY_DRIFTS_LE_2PCT={str(tr[1]['all_primary_at_or_below_2pct']).lower()}",
+            'PERFECT_CUBOID_EMERGENCY=false',
+            'FINITE_DIAGNOSTIC_ONLY=true',
+            'ASYMPTOTIC_CLAIM=false',
+            'STABILITY_GATE_IS_HEURISTIC=true',
+            'TERMINAL_STOP_GATE_EVALUATED=false',
+            f"SOURCE_ACTIONS_RUN={os.environ['GITHUB_RUN_ID']}",
+            'NEXT=Stage14-num-alpha11 exact B500m terminal checkpoint and stability stop gate',
+          ]
+          Path('stages/stage14/14-num-alpha10/status.txt').write_text('\n'.join(status)+'\n')
+          p=m['stability_panel']['checkpoints']
+          lines=[
+            '# Stage14-num-α10 — exact B400m stability checkpoint',
+            '',
+            '> STATUS: `STAGE14_NUM_ALPHA10=COMPLETE_EXACT_B400M_CHECKPOINT`',
+            '>',
+            '> CLASSIFICATION: finite exact census + operational finite stability diagnostics; no asymptotic claim.',
+            '',
+            'The validated α engine scanned only the new interval `300m<d<=400m` in four disjoint 25m shards. Before accepting the new checkpoint, the nested B250m and B300m subsets reproduced merged α9 in every frozen count, graph field and SHA lock.',
+            '',
+            '## Exact B400m checkpoint',
+            '',
+            '```text',
+            f"(Na,Nb,Nc)=({b400['counts']['a']},{b400['counts']['b']},{b400['counts']['c']})",
+            f"N2={b400['counts']['total']}",
+            f"T={b400['counts']['triple']}",
+            f"active oriented faces={b400['graph']['active_oriented_face_vertices']}",
+            f"raw pair edges={b400['graph']['raw_pair_edges']}",
+            f"max degree={b400['graph']['max_degree']}",
+            f"object SHA={b400['object_key_sha256']}",
+            f"object+mask SHA={b400['object_key_mask_sha256']}",
+            f"vertex SHA={b400['graph']['vertex_ledger_sha256']}",
+            f"edge SHA={b400['graph']['edge_ledger_sha256']}",
+            '```',
+            '',
+            f"New shell `300m<d<=400m`: `{m['shell_300m_to_400m_counts']}`.",
+            '',
+            '## Stability panel',
+            '',
+            f"`N2/sqrt(B)` is `{p[0]['R0_N2_over_sqrt_B']:.15f}` at B250m, `{p[1]['R0_N2_over_sqrt_B']:.15f}` at B300m, and `{p[2]['R0_N2_over_sqrt_B']:.15f}` at B400m.",
+            '',
+            f"For 300m→400m, the largest primary relative drift is `{max(d34.values()):.4%}` and `all_primary_at_or_below_2pct={str(tr[1]['all_primary_at_or_below_2pct']).lower()}`.",
+            '',
+            'The terminal stopping gate is intentionally not evaluated here; α11 still needs the 400m→500m transition. This 2% gate is an operational finite-data convention, not an asymptotic theorem or confidence interval. `T=0` through B400m is not a nonexistence proof.',
+            '',
+            '```text',
+            'B250M_ALPHA9_FULL_HASH_REGRESSION_MATCH=true',
+            'B300M_ALPHA9_FULL_HASH_REGRESSION_MATCH=true',
+            'B400M_EXACT_CENSUS_FROZEN=true',
+            'PERFECT_CUBOID_EMERGENCY=false',
+            'FINITE_DIAGNOSTIC_ONLY=true',
+            'ASYMPTOTIC_CLAIM=false',
+            'NEXT=Stage14-num-alpha11 exact B500m terminal checkpoint and stability stop gate',
+            '```',
+          ]
+          Path('stages/stage14/14-num-alpha10/result.md').write_text('\n'.join(lines)+'\n')
+          PY
+      - name: Reproduce deterministic frozen sections before commit
+        shell: bash
+        run: |
+          python stages/stage14/scripts/14-num-alpha10/b400m_stability_checkpoint.py \
+            --replay-b400-source stages/stage14/data/14-num-alpha10/b400m_objects.csv.bz2.b64 \
+            --output /tmp/replayed.json
+          python - <<'PY'
+          import json
+          got=json.load(open('/tmp/replayed.json'))
+          want=json.load(open('stages/stage14/data/14-num-alpha10/b400m_manifest.json'))
+          keys=(
+            'stage','classification','B250m_alpha9_regression',
+            'B300m_alpha9_regression','exact_cutoff_B400m',
+            'shell_300m_to_400m_counts','stability_panel',
+            'object_source','decision'
+          )
+          for k in keys: assert got[k] == want[k], k
+          print('alpha10 bootstrap freeze replay: PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alpha10-b400m-exact-census
+          path: |
+            stages/stage14/data/14-num-alpha10/b400m_manifest.json
+            stages/stage14/data/14-num-alpha10/b400m_objects.csv.bz2.b64
+          retention-days: 30
+      - name: Commit frozen exact checkpoint
+        shell: bash
+        run: |
+          git config user.name 'stage14-num-alpha10-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add stages/stage14/data/14-num-alpha10 stages/stage14/14-num-alpha10
+          git commit -m 'Stage14-num-alpha10 freeze exact B400m checkpoint'
+          git push origin HEAD:${GITHUB_HEAD_REF}
+
+  frozen-replay:
+    needs: plan
+    if: needs.plan.outputs.frozen == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay frozen B400m object source
+        run: |
+          python stages/stage14/scripts/14-num-alpha10/b400m_stability_checkpoint.py \
+            --replay-b400-source stages/stage14/data/14-num-alpha10/b400m_objects.csv.bz2.b64 \
+            --output /tmp/replayed.json
+      - name: Compare deterministic frozen sections
+        run: |
+          python - <<'PY'
+          import json
+          got=json.load(open('/tmp/replayed.json'))
+          want=json.load(open('stages/stage14/data/14-num-alpha10/b400m_manifest.json'))
+          keys=(
+            'stage','classification','B250m_alpha9_regression',
+            'B300m_alpha9_regression','exact_cutoff_B400m',
+            'shell_300m_to_400m_counts','stability_panel',
+            'object_source','decision'
+          )
+          for k in keys: assert got[k] == want[k], k
+          assert got['decision']['PERFECT_CUBOID_EMERGENCY'] is False
+          print('Stage14-num-alpha10 frozen B400m replay: PASS')
+          PY
