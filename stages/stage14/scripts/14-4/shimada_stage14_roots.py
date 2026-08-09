@@ -3,7 +3,7 @@
 Requires PARI/GP for matkerint + Fincke-Pohst qfminim.
 """
 from __future__ import annotations
-import argparse, ast, json, shutil, subprocess, tempfile
+import argparse, ast, json, shutil, subprocess
 from pathlib import Path
 N=20
 OK=(ast.Expression,ast.List,ast.Tuple,ast.Constant,ast.UnaryOp,ast.USub,ast.UAdd,ast.Load)
@@ -37,13 +37,13 @@ def main():
     s0=next(a.root.rglob('S0S3.txt'));b=next(a.root.rglob('Borcherds.txt'))
     G=parse(s0,'GramS0');fr=parse(b,'fsigma');Ts=parse(b,'Tsigma');inv=parse(b,'iotasigmaz')
     M=p['M'];di=p['deck_candidates'][0]['index'];D=mm(inv,Ts[di])
-    A=mm([[int(i==j) for j in range(N)] for i in range(N)],D)
+    A=[r[:] for r in D]
     for i in range(N):A[i][i]+=1
-    gp=f'''A={gps(A)}; G={gps(G)}; K=matkerint(A~); Q=-K~*G*K;\nprint("RANK=",matsize(K)[2]);\nfor(j=1,matsize(K)[2],print("K=",Vec(K[,j])));\nprint("DETQ=",matdet(Q));\nR=qfminim(Q,16); print("ENUMCOUNT=",R[1]); V=R[3];\nfor(j=1,matsize(V)[2],if((V[,j]~*Q*V[,j])[1,1]==16,print("V=",Vec(V[,j]))));\n'''
+    gp=f'''A={gps(A)}; G={gps(G)}; K=matkerint(A~); Q=-K~*G*K;\nprint("RANK=",matsize(K)[2]);\nfor(j=1,matsize(K)[2],print("K=",Vec(K[,j])));\nprint("DETQ=",matdet(Q));\nR=qfminim(Q,16); print("ENUMCOUNT=",R[1]); V=R[3];\nfor(j=1,matsize(V)[2],if(qfeval(Q,V[,j])==16,print("V=",Vec(V[,j]))));\n'''
     z=subprocess.run(['gp','-fq'],input=gp,text=True,capture_output=True,check=True).stdout.splitlines()
     rank=int(next(x.split('=',1)[1] for x in z if x.startswith('RANK=')))
     kb=[ast.literal_eval(x.split('=',1)[1]) for x in z if x.startswith('K=')]
-    detq=int(next(x.split('=',1)[1] for x in z if x.startswith('DETQ=')))
+    detq=int(next(x.split('=',1)[1]) for x in z if x.startswith('DETQ='))
     vv=[ast.literal_eval(x.split('=',1)[1]) for x in z if x.startswith('V=')]
     assert len(kb)==rank
     def xfrom(v):return [sum(kb[j][i]*v[j] for j in range(rank)) for i in range(N)]
@@ -58,7 +58,7 @@ def main():
         C=[(M[i]+x[i])//2 for i in range(N)];Cp=[M[i]-C[i] for i in range(N)]
         pairs.append({'C':C,'delta_C':Cp,'C2':-2,'M_C':4,'f_r_C':2,'pair_intersection':dot(C,Cp,G)})
     out={'representative_raw_candidate_index':p['raw_candidate_index'],'f_s':p['f_s'],'M':M,'deck_label':p['deck_candidates'][0]['label'],
-         'anti_invariant_rank':rank,'positive_form_determinant':detq,'qfminim_norm_le_16_pair_count':int(next(x.split('=',1)[1] for x in z if x.startswith('ENUMCOUNT='))),
-         'norm16_representatives':len(vv),'parity_compatible_split_root_pairs':len(pairs),'split_root_pairs':pairs}
-    a.out.write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({k:out[k] for k in ('anti_invariant_rank','positive_form_determinant','norm16_representatives','parity_compatible_split_root_pairs')},indent=2))
+         'anti_invariant_rank':rank,'positive_form_determinant':detq,'qfminim_norm_le_16_vector_count':int(next(x.split('=',1)[1] for x in z if x.startswith('ENUMCOUNT='))),
+         'norm16_pair_representatives':len(vv),'parity_compatible_split_root_pairs':len(pairs),'split_root_pairs':pairs}
+    a.out.write_text(json.dumps(out,indent=2)+'\n');print(json.dumps({k:out[k] for k in ('anti_invariant_rank','positive_form_determinant','norm16_pair_representatives','parity_compatible_split_root_pairs')},indent=2))
 if __name__=='__main__':main()
