@@ -5,6 +5,7 @@ on:
     paths:
       - 'stages/stage14/14-t25/**'
       - 'stages/stage14/scripts/14-t/t25_local_minimality_large_prime_audit.py'
+      - 'stages/stage14/scripts/14-t/t25_freeze_summary.py'
       - 'stages/stage14/data/14-t25/**'
       - '.github/workflows/stage14-t25-local-minimality-large-prime.yml'
   workflow_dispatch:
@@ -19,6 +20,10 @@ jobs:
         run: python stages/stage14/scripts/14-t/t24_torsion_energy_rank_cover_audit.py
       - name: Run t25 local-minimality/large-prime audit
         run: python stages/stage14/scripts/14-t/t25_local_minimality_large_prime_audit.py
+      - name: Normalize frozen t25 summary
+        run: python stages/stage14/scripts/14-t/t25_freeze_summary.py
+      - name: Check frozen t25 summary
+        run: git diff --exit-code stages/stage14/data/14-t25/local_minimality_large_prime.json
       - name: Validate locked t25 boundary
         run: |
           python - <<'PY'
@@ -27,7 +32,13 @@ jobs:
           d=json.load(open(p))
           f=d['finite']
           assert f['rank_active_raw_edges']==356
+          assert f['odd_local_minimality_checks']==3466
           assert f['minus_one_cover_orientation_checks']==712
+          assert f['edges_with_nontrivial_3mod4_ru_part']==113
+          assert f['edges_with_trivial_3mod4_ru_part']==243
+          assert f['forced_orientation_checks']==226
+          assert f['max_3mod4_ru_part']==33
+          assert f['max_3mod4_prime_in_ru']==19
           q=d['decision']
           assert q['ODD_DISPLAYED_MODEL_MINIMAL_MULTIPLICATIVE'] is True
           assert q['ODD_CONDUCTOR_RADICAL_EXPLICIT'] is True
