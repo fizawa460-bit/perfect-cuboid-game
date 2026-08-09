@@ -2,9 +2,10 @@
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[4]
-claude = (root / "stages/stage13/13-13fp/claude-r06-verdict.md").read_text(encoding="utf-8")
-ledger = (root / "stages/stage13/13-13fp/r06-review-ledger.md").read_text(encoding="utf-8")
-plan = (root / "stages/stage13/13-13fp/r07-repair-plan.md").read_text(encoding="utf-8")
+base = root / "stages/stage13/13-13fp"
+claude = (base / "claude-r06-verdict.md").read_text(encoding="utf-8")
+ledger = (base / "r06-review-ledger.md").read_text(encoding="utf-8")
+plan = (base / "r07-repair-plan.md").read_text(encoding="utf-8")
 
 for token in [
     "CLAUDE_R06_VERDICT=OPEN",
@@ -20,8 +21,9 @@ for token in [
 for token in [
     "DEEPSEEK_R06_VERDICT=OPEN",
     "CLAUDE_R06_VERDICT=OPEN",
-    "R06_EXTERNAL_REVIEWS_RECORDED=2",
-    "R06_INDEPENDENT_CLOSED_VERDICTS=0",
+    "QWEN_R06_VERDICT=CLOSED",
+    "R06_EXTERNAL_REVIEWS_RECORDED=3",
+    "R06_INDEPENDENT_CLOSED_VERDICTS=1",
     "R06_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=3",
     "R07_BLOCKER_A_FIXED_TWIST_CONTRACT=true",
     "R07_BLOCKER_B_CONCRETE_FIXED_S_RESIDUE_MODEL=true",
@@ -35,5 +37,7 @@ assert "R07_ACTUAL_RESIDUE_COORDINATES_EXPLICIT=true" in plan
 assert "PROMOTE_TO_13_13G=false" in plan
 
 print("STAGE13_13FP_CLAUDE_AUDIT=PASS")
+print("CLAUDE_R06_VERDICT=OPEN")
+print("INTEGRATED_CLOSED_VERDICTS=1")
 print("R06_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=3")
 print("DETERMINISTIC_AUDIT_SCOPE=REPRODUCIBILITY_AND_CONSISTENCY_ONLY")
