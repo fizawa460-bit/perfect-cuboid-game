@@ -1,0 +1,38 @@
+name: Stage14-4bg post-local witness route
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bg/**'
+      - 'stages/stage14/data/14-4/post_local_witness_route_summary.json'
+      - 'stages/stage14/scripts/14-4/post_local_witness_route_audit.py'
+      - '.github/workflows/stage14-4bg-post-local-witness-route.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/post_local_witness_route_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/post_local_witness_route_audit.py
+      - name: Check route boundary flags
+        run: |
+          grep -q 'STAGE14_4BG=POST_LOCAL_DIRECT_GLOBAL_SMALL_POINT_WITNESS_ROUTE_SELECTED' stages/stage14/14-4bg/result.md
+          grep -q 'S5U_LOCAL_METHOD_CLOSURE_IMPORTED=true' stages/stage14/14-4bg/result.md
+          grep -q 'CURRENT_LOCAL_CLASS_B_EXPONENT=41/42' stages/stage14/14-4bg/result.md
+          grep -q 'CURRENT_SQRT_REMAINING_POST_LOCAL_DELTA=10/21' stages/stage14/14-4bg/result.md
+          grep -q 'DIRECT_POST_LOCAL_CLASS_COUNT_DEFINED=true' stages/stage14/14-4bg/result.md
+          grep -q 'INTEGRAL_WITNESS_EQUATION_EXACT=true' stages/stage14/14-4bg/result.md
+          grep -q 'WITNESS_SQUAREFREE_KERNEL_SUPPORTED_ON_2SXH=true' stages/stage14/14-4bg/result.md
+          grep -q 'SEPARATED_GLOBAL_HEIGHT_ROUTE_REJECTED_AS_PRIMARY=true' stages/stage14/14-4bg/result.md
+          grep -q 'DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bg/result.md
+          grep -q 'NEXT=Stage14-4bh' stages/stage14/14-4bg/result.md
