@@ -1,0 +1,39 @@
+name: Stage14-s5r root sawtooth spacing audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5r/**'
+      - 'stages/stage14/scripts/14-s5r/**'
+      - '.github/workflows/stage14-s5r-root-sawtooth-spacing.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5r deterministic audit
+        run: python3 stages/stage14/scripts/14-s5r/root_sawtooth_spacing_audit.py | tee /tmp/s5r.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5R=COMPLETE_ROOT_SAWTOOTH_SPACING_AND_FULL_LOCAL_CHARACTER_AVERAGE$' /tmp/s5r.txt
+          grep -q '^ROOT_CHART_QUADRATIC_FORMS_EXACT=true$' /tmp/s5r.txt
+          grep -q '^ROOT_SAWTOOTH_FINITE_FOURIER_EXACT=true$' /tmp/s5r.txt
+          grep -q '^ROOT_FREQUENCY_QUADRATIC_FORM_DIVISIBILITY_PROVED=true$' /tmp/s5r.txt
+          grep -q '^ROOT_NEAR_RESONANCE_DIVISOR_COUNT_PROVED=true$' /tmp/s5r.txt
+          grep -q '^ROOT_SAWTOOTH_SPACING_BOUND_PROVED=true$' /tmp/s5r.txt
+          grep -q '^CRITICAL_U_SQRTM_V_M_POWER_SAVING_PROVED=true$' /tmp/s5r.txt
+          grep -q '^E_WALSH_SMALL_SIDE_PAIRING_EXACT=true$' /tmp/s5r.txt
+          grep -q '^E_ANALYTIC_SUBSET_MODULUS_LE_SQRT_E=true$' /tmp/s5r.txt
+          grep -q '^WHOLE_E_PAIRED_FACTOR_ONE_VARIABLE=true$' /tmp/s5r.txt
+          grep -q '^MIXED_SQUAREFREE_GAUSS_COMPLETION_PROVED=true$' /tmp/s5r.txt
+          grep -q '^E_LINEAR_TRANSITION_WEDGE_CLOSED=true$' /tmp/s5r.txt
+          grep -q '^GENUINE_ROOT_SAWTOOTH_RESONANCE_FOUND=false$' /tmp/s5r.txt
+          grep -q '^FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED=true$' /tmp/s5r.txt
+          grep -q '^ACTUAL_LOCAL_SYSTEM_POWER_SAVING_PROVED=true$' /tmp/s5r.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5r.txt
+          grep -q '^GLOBAL_SOLUBILITY_AVERAGED=false$' /tmp/s5r.txt
+          grep -q '^SMALL_POINT_WINDOW_AVERAGED=false$' /tmp/s5r.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5r.txt
+          grep -q '^NEXT=Stage14-s5s$' /tmp/s5r.txt
