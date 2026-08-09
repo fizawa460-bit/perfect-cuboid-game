@@ -1,0 +1,45 @@
+name: Stage14-4bj L-S reunification
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bj/**'
+      - 'stages/stage14/data/14-4/ls_reunification_summary.json'
+      - 'stages/stage14/scripts/14-4/ls_reunification_audit.py'
+      - '.github/workflows/stage14-4bj-ls-reunification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/ls_reunification_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/ls_reunification_audit.py | tee /tmp/4bj.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^MISSING_POST_LOCAL_SAVING=10/21$' /tmp/4bj.txt
+          grep -q '^RADICAL_POOR_SQRT_THRESHOLD=1/2$' /tmp/4bj.txt
+          grep -q '^CRITICAL_WITNESS_SCALE=10/21$' /tmp/4bj.txt
+          grep -q '^EXACT_WITNESS_CHARACTER_RESONANCE_AUDIT=true$' /tmp/4bj.txt
+          grep -q '^DENOMINATOR_SQUARE_ROOT_MULTIPLICITY_AUDIT=true$' /tmp/4bj.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/4bj.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BJ=LS_REUNIFIED_AND_LEAST_DENOMINATOR_GATE_FROZEN' stages/stage14/14-4bj/result.md
+          grep -q 'TEMPORARY_LS_PARALLELIZATION_CLOSED=true' stages/stage14/14-4bj/result.md
+          grep -q 'S6_04_RESONANCE_AND_D2_MODULUS_IMPORTED=true' stages/stage14/14-4bj/result.md
+          grep -q 'RADICAL_POOR_THRESHOLD_FOR_SQRT_SCALE=1/2' stages/stage14/14-4bj/result.md
+          grep -q 'REQUIRED_POST_LOCAL_SAVING=10/21' stages/stage14/14-4bj/result.md
+          grep -q 'EXACT_WITNESS_AUXILIARY_CHARACTER_CANCELLATION_TARGET_VALID=false' stages/stage14/14-4bj/result.md
+          grep -q 'UNIQUE_POST_LOCAL_QUANTITATIVE_GATE=RADICAL_RICH_LEAST_DENOMINATOR_PACKET_DISTRIBUTION' stages/stage14/14-4bj/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bj/result.md
+          grep -q 'NEXT=Stage14-4bk' stages/stage14/14-4bj/result.md
