@@ -1,0 +1,52 @@
+name: Stage14-num-alpha11-diag8 extended denominator census
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag8/**'
+      - 'stages/stage14/data/14-num-alpha11-diag8/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag8/**'
+      - '.github/workflows/stage14-num-alpha11-diag8-extended-denominator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  extended-denominator:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run extended raw-face denominator census through B=500k
+        run: python stages/stage14/scripts/14-num-alpha11-diag8/extended_raw_denominator_census.py > /tmp/diag8.json
+      - name: Validate locks
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag8.json'))
+          assert x['decision']['EXTENDED_DENOMINATOR_CENSUS_COMPLETE'] is True
+          assert x['decision']['STAGE13_B100K_LOCK_REPRODUCED'] is True
+          assert x['decision']['FROZEN_STAGE14_PAIR_COUNTS_MATCH_AT_ALL_CHECKPOINTS'] is True
+          assert x['decision']['RAW_MINUS_EXACT_ONE_ENDPOINT_IDENTITY_AT_ALL_CHECKPOINTS'] is True
+          assert x['rows'][0]['raw']==[84212,43236,40760]
+          assert x['rows'][0]['pair_a_b_c']==[33,33,23]
+          assert x['decision']['ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM'] is False
+          PY
+      - name: Print compact summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag8.json'))
+          print('DIAG8_SUMMARY_BEGIN')
+          print(json.dumps({'target':x['required_relative_survival_if_stage13_limit_plus_hypothetical_221'],'rows':x['rows'],'diagnostics':x['enumeration_diagnostics'],'decision':x['decision']},indent=2))
+          print('DIAG8_SUMMARY_END')
+          PY
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-num-alpha11-diag8-report
+          path: /tmp/diag8.json
