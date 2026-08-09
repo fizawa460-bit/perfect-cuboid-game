@@ -1,0 +1,45 @@
+name: Stage14-4am rank-smallpoint factor audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py'
+      - 'stages/stage14/data/14-4/rank_smallpoint_factor_audit.json'
+      - 'stages/stage14/archive/stage14-4am-*'
+      - 'stages/stage14/main.md'
+      - 'stages/stage14/README.md'
+      - 'stages/stage14/roadmap.md'
+      - '.github/workflows/stage14-4am-rank-smallpoint.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install PARI/GP
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends pari-gp
+      - name: Run complete H<=20k rank/Selmer census
+        run: python stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py
+      - name: Validate Stage14-4am boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-4/rank_smallpoint_factor_audit.json'
+          d=json.load(open(p))
+          assert d['metadata']['max_full_rank_census_H']==20000
+          assert d['profile'][-1]['active_V']==54
+          assert d['decision']['ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED'] is True
+          assert d['decision']['MATCHED_CASE_CONTROL_ONLY'] is False
+          assert d['decision']['POSITIVE_RANK_DENSITY_PROVED'] is False
+          assert d['decision']['UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED'] is False
+          assert d['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          for r in d['profile']:
+              assert r['active_V'] <= r['mw_rank_positive_lower'] <= r['mw_rank_positive_upper'] <= r['selmer_candidate_Sigma'] <= r['eligible_A']
+          print(json.dumps(d['finite_max_cut_summary'],indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage14-4am-rank-smallpoint-factor-audit
+          path: stages/stage14/data/14-4/rank_smallpoint_factor_audit.json
