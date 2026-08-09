@@ -30,40 +30,17 @@ def main() -> None:
     assert ar["decision"]["POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED"] is False
 
     transition = Fraction(1, 4)
-    theta_grid = [
-        Fraction(0, 1),
-        Fraction(1, 16),
-        Fraction(1, 8),
-        Fraction(3, 16),
-        Fraction(1, 4),
-        Fraction(5, 16),
-    ]
+    theta_grid = [Fraction(0), Fraction(1, 16), Fraction(1, 8), Fraction(3, 16), Fraction(1, 4), Fraction(5, 16)]
     rows = []
     for theta in theta_grid:
         q4_exp = 4 * theta
-        second_moment_prefactor_exp = max(Fraction(1, 1), q4_exp)
-        rows.append(
-            {
-                "theta": fstr(theta),
-                "Q4_exponent": fstr(q4_exp),
-                "bulk_prefactor_exponent_max_1_4theta": fstr(second_moment_prefactor_exp),
-                "super_volume": theta > transition,
-                "at_or_below_transition": theta <= transition,
-            }
-        )
-
-    # Generic propagation algebra from 14-4as.
-    # Final exponents under hypothetical power laws:
-    # main = 1-dloc-dglob-dht
-    # Eloc = kloc-dglob-dht
-    # Eglob = kglob-dht
-    # Eht = kht
-    exponent_map = {
-        "main": "1-delta_loc-delta_glob-delta_ht",
-        "propagated_E_loc": "kappa_loc-delta_glob-delta_ht",
-        "propagated_E_glob": "kappa_glob-delta_ht",
-        "E_ht": "kappa_ht",
-    }
+        rows.append({
+            "theta": fstr(theta),
+            "Q4_exponent": fstr(q4_exp),
+            "bulk_prefactor_exponent_max_1_4theta": fstr(max(Fraction(1), q4_exp)),
+            "super_volume": theta > transition,
+            "at_or_below_transition": theta <= transition,
+        })
 
     report = {
         "stage": "14-4at",
@@ -86,7 +63,12 @@ def main() -> None:
             "theta_grid": rows,
             "warning": "Q^4 is a second-moment scale, not an identified additive E_loc",
         },
-        "end_to_end_exponent_bookkeeping": exponent_map,
+        "end_to_end_exponent_bookkeeping": {
+            "main": "1-delta_loc-delta_glob-delta_ht",
+            "propagated_E_loc": "kappa_loc-delta_glob-delta_ht",
+            "propagated_E_glob": "kappa_glob-delta_ht",
+            "E_ht": "kappa_ht",
+        },
         "square_root_requirements": [
             "1-delta_loc-delta_glob-delta_ht <= 1/2",
             "kappa_loc-delta_glob-delta_ht <= 1/2",
@@ -123,7 +105,8 @@ def main() -> None:
         },
     }
 
-    OUT.write_text(json.dumps(report, indent=2) + "\n")
+    committed = json.loads(OUT.read_text())
+    assert committed == report
     print(json.dumps(report["decision"], indent=2))
 
 
