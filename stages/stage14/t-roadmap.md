@@ -86,45 +86,64 @@ J(C_t)_{\overline{\mathbf Q}(s)}\sim E_+^2\times E_0\times E_-^2.
 
 `E_R` is exactly the Stage14 raw-pair elliptic factor. By Stage14-4af every physical triple point therefore lies over a positive-rank specialization of `E_R`.
 
-The Stage14-4ah third-square cover of the physical Kummer surface has branch class `2M`. On an extremal rational bisection with
+The third-square cover has branch class `2M`; on an extremal rational bisection with `M.C=4`, a transverse restriction has normalized genus `3`.
 
-\[
-M\cdot C=4,
-\]
+## 14-t5 / t5a — fixed minimal-curve transfer gate
 
-the restricted branch degree is `8`. A transverse restriction has eight odd branch points and normalized genus
+Status: [x] Complete.
 
-\[
-\boxed{3}.
-\]
-
-Thus a generic raw-pair `sqrt(B)` accumulating bisection does **not** remain rational or elliptic after imposing the third square. A low-genus triple restriction requires at most four odd branch points, i.e. exceptional branch contact/tangency.
+Stage14-4ak independently verifies that the final split singular-anticanonical `M`-degree-4 mechanism has an empty required parity coset. Hence
 
 ```text
-STAGE14_T4=COMPLETE_ELLIPTIC_COMPRESSION_AND_KUMMER_RESTRICTION
-ELLIPTIC_FACTOR_COUNT=5
-GEOMETRIC_ELLIPTIC_J_TYPES=3
-RAW_PAIR_FACTOR=E_R
-THIRD_FACE_FACTOR=E_W
-PHYSICAL_TRIPLE_IMPLIES_E_R_POSITIVE_RANK_SPECIALIZATION=true
-KUMMER_TRIPLE_BRANCH_CLASS=2M
-M_DEGREE4_RESTRICTED_BRANCH_DEGREE=8
-GENERIC_M_DEGREE4_TRIPLE_LIFT_GENUS=3
-LOW_GENUS_TRIPLE_RESTRICTION_REQUIRES_ODD_BRANCH_SUPPORT_LE_4=true
-T_O_SQRT_B_PROVED=false
+PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTS=false
+FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
 ```
 
-## 14-t5 — transfer gate
+and the t5 root-by-root third-square branch audit has zero actual roots to process. This removes the fixed minimal-bisection contamination path for `T(B)` but does not prove `T(B)=o(sqrt(B))`.
 
-Status: [>] Next, but conditional on the main-track degree-four bisection classification / branch-contact audit.
+## 14-t6 — reflected moving double-small-point gate
 
-Use
+Status: [x] Complete.
+
+After the fixed-curve void, the relevant raw and third-face elliptic quotients satisfy the exact mirror identity
 
 \[
-N_2(B)=E(B)-3T(B)
+\boxed{j_W(s)=j_R(-s)}.
 \]
 
-to transfer a proved raw-pair law only after the surviving triple restrictions are controlled at the same scale. If the main `14-4` track produces the physical `M`-degree-4 bisections, the immediate t-side task is to compute the odd branch support of the `2M` third-square divisor on each one.
+Moreover
+
+\[
+j_R(s)-j_W(s)=512\frac{(s^2+1)(s^2-s-1)(s^2+s-1)}{s(s-1)^2(s+1)^2},
+\]
+
+so the two quotient curves never have equal j-invariant at a physical rational base `s>0`, `s!=1`.
+
+A physical triple with `d<=B` therefore requires compatible rational points on the reflected pair
+
+\[
+E_+(s),\qquad E_+(-s),
+\]
+
+coming from the same Humbert--Edge point / physical `q`, with both induced points in logarithmic canonical-height windows of shape `O(log B + log H)`.
+
+This is the moving triple gate left after 4ak. No nonisogeny theorem or simultaneous-small-point density estimate is claimed.
+
+## 14-t7 — simultaneous reflected-pair sieve
+
+Status: [>] Next.
+
+Attack the remaining gate by one or more of:
+
+1. simultaneous first-small-point counting for `E_+(s)` and `E_+(-s)`;
+2. shared-`q` local incompatibility / descent-class sieve;
+3. a uniform physical-height rational-point estimate on the moving Humbert--Edge fiber product.
+
+The target remains
+
+\[
+T(B)=o(\sqrt B).
+\]
 
 ## Scope boundary
 
@@ -136,6 +155,8 @@ STAGE14_T1=COMPLETE_BASELINE_AND_THEOREM_GAP
 STAGE14_T2=COMPLETE_QUANTITATIVE_BOUNDARY
 STAGE14_T3=COMPLETE_HUMBERT_EDGE_AND_ELLIPTIC_SPLITTING
 STAGE14_T4=COMPLETE_ELLIPTIC_COMPRESSION_AND_KUMMER_RESTRICTION
+STAGE14_T5=COMPLETE_FIXED_M4_TRANSFER_GATE_ZERO_CASES
+STAGE14_T6=COMPLETE_MIRROR_DOUBLE_SMALL_POINT_GATE
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t5 transfer gate / branch-contact audit after main-track bisection classification
+NEXT=Stage14-t7 simultaneous reflected-pair small-point/local-compatibility sieve
 ```
