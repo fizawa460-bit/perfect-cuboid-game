@@ -1,0 +1,34 @@
+name: Stage14-t32 split torus norm sieve
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t32/**'
+      - 'stages/stage14/scripts/14-t/t32_split_torus_norm_sieve_audit.py'
+      - 'stages/stage14/data/14-t32/**'
+      - '.github/workflows/stage14-t32-split-torus-norm-sieve.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t31 regression
+        run: python stages/stage14/scripts/14-t/t31_gaussian_cofactor_sieve_audit.py
+
+      - name: Run t32 split-torus norm audit
+        run: python stages/stage14/scripts/14-t/t32_split_torus_norm_sieve_audit.py
+
+      - name: Check frozen t32 summary
+        run: git diff --exit-code stages/stage14/data/14-t32/split_torus_norm_sieve.json
+
+      - name: Validate locked t32 boundary
+        run: |
+          grep -F 'STAGE14_T32=COMPLETE_SPLIT_TORUS_NORM_CORRELATION_AND_UNIFIED_COFACTOR_SKELETON' stages/stage14/14-t32/result.md
+          grep -F 'VISIBLE_INVISIBLE_SUPER_SQRT_NORM_SKELETON_UNIFIED=true' stages/stage14/14-t32/result.md
+          grep -F 'INERT_AUXILIARY_NORM_CIRCLE_RESONANCE_EXISTS=true' stages/stage14/14-t32/result.md
+          grep -F 'SPLIT_GOOD_PRIME_NORM_CIRCLE_CORRELATION=O(lambda)' stages/stage14/14-t32/result.md
+          grep -F 'GAUSSIAN_HECKE_LARGE_SIEVE_TRANSFER_PROVED=false' stages/stage14/14-t32/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t32/result.md
