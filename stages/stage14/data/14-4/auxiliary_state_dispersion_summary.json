@@ -1,0 +1,110 @@
+{
+  "stage": "14-4aw",
+  "classification": "AUXILIARY_STATE_BULK_FACTORIZED_AND_DISCREPANCY_ENDPOINT_BOUNDARY_ISOLATED",
+  "exact_local_density": {
+    "linear_prime_factor": "1/(p+1)",
+    "norm_prime_factor": "2/(p+1) for p=1 mod 4; 0 for p=3 mod 4",
+    "primitive_opposite_parity_baseline": "4/pi^2",
+    "tested_prime_column_rows": 50,
+    "all_exact_root_counts_pass": true
+  },
+  "rank_one_bulk": {
+    "formula": "W_R=(4/pi^2)XY*lambda_L(qA)*lambda_L(qB)*lambda_L(qC)*lambda_L(qD)*lambda_E(qE)+Delta_R",
+    "state_moduli_pairwise_odd_support": true,
+    "state_split_multiplicativity": true,
+    "representative_split_tests": [
+      {
+        "a": 3,
+        "b": 5,
+        "lambda_L_ab": "1/24",
+        "lambda_E_ab": "0"
+      },
+      {
+        "a": 5,
+        "b": 13,
+        "lambda_L_ab": "1/84",
+        "lambda_E_ab": "1/21"
+      },
+      {
+        "a": 7,
+        "b": 17,
+        "lambda_L_ab": "1/144",
+        "lambda_E_ab": "0"
+      },
+      {
+        "a": 13,
+        "b": 29,
+        "lambda_L_ab": "1/420",
+        "lambda_E_ab": "1/105"
+      }
+    ],
+    "frozen_auxiliary_state_bulk_separable": true,
+    "quadratic_large_sieve_applies_to_bulk_edge_after_freezing": true
+  },
+  "mobius_discrepancy": {
+    "decomposition": "Delta_R=Delta_<=D+Delta_>D",
+    "small_bound": "rho(Q)*((X+Y)/Q*log(2D)+D)",
+    "tail_bound": "XY/D+(X+Y)log(2M)+M",
+    "optimized_pointwise": "Q^eps*((X+Y)log(2M)+sqrt(QXY)+Q)",
+    "pointwise_is_L2": false,
+    "medium_balanced_condition": "X~Y~L and Q<=L^(2-2kappa)",
+    "medium_pointwise_conclusion": "Delta_R<<L^(2-kappa+o(1))",
+    "exponent_audit": [
+      {
+        "kappa": "1/10",
+        "Q_max_exponent": "9/5",
+        "sqrt_QXY_exponent": "19/10",
+        "pointwise_discrepancy_exponent": "19/10",
+        "saving_exponent": "1/10"
+      },
+      {
+        "kappa": "1/8",
+        "Q_max_exponent": "7/4",
+        "sqrt_QXY_exponent": "15/8",
+        "pointwise_discrepancy_exponent": "15/8",
+        "saving_exponent": "1/8"
+      },
+      {
+        "kappa": "1/6",
+        "Q_max_exponent": "5/3",
+        "sqrt_QXY_exponent": "11/6",
+        "pointwise_discrepancy_exponent": "11/6",
+        "saving_exponent": "1/6"
+      },
+      {
+        "kappa": "1/4",
+        "Q_max_exponent": "3/2",
+        "sqrt_QXY_exponent": "7/4",
+        "pointwise_discrepancy_exponent": "7/4",
+        "saving_exponent": "1/4"
+      }
+    ]
+  },
+  "endpoint_ledger": {
+    "medium_balanced": "L^kappa<=U,V<=L^(1-kappa), Q<=L^(2-2kappa): bulk saving proved; Delta L2 missing",
+    "microscopic_side": "min(U,V)<L^kappa: no uniform fixed-power large-sieve gain down to side 1",
+    "sparse_large_modulus": "Q>L^(2-2kappa): pointwise discrepancy can compete with bulk; switching required",
+    "dyadic_range_count": "O((log L)^2) per frozen structural case",
+    "dyadic_count_is_power_obstruction": false
+  },
+  "first_remaining_local_object": "DISCREPANCY_L2_AND_SPARSE_ENDPOINT_CONTROL",
+  "decision": {
+    "STAGE14_4AW": "AUXILIARY_STATE_BULK_FACTORIZED_AND_DISCREPANCY_ENDPOINT_BOUNDARY_ISOLATED",
+    "LINEAR_PRIMITIVE_LOCAL_FACTOR_EXACT": true,
+    "NORM_PRIMITIVE_LOCAL_FACTOR_EXACT": true,
+    "PRIMITIVE_MOBIUS_RANK_ONE_BULK": true,
+    "STATE_SPLIT_PRESERVES_BULK_SEPARABILITY": true,
+    "GROWING_AUXILIARY_STATE_COUPLING_IN_BULK": false,
+    "MOBIUS_TRUNCATION_DISCREPANCY_DECOMPOSITION": true,
+    "MEDIUM_MODULUS_POINTWISE_DISCREPANCY_POWER_SAVING": true,
+    "DISCREPANCY_SECOND_MOMENT_PROVED": false,
+    "MICROSCOPIC_ENDPOINT_BLOCKS_CLOSED": false,
+    "SPARSE_LARGE_MODULUS_BLOCKS_CLOSED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4ax prove an L2 dispersion bound for the primitive-Mobius discrepancy on balanced/medium blocks and close the microscopic/sparse endpoint ranges by divisor switching or isolate a persistent diagonal"
+  }
+}
