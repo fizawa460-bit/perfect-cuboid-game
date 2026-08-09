@@ -74,27 +74,7 @@ There are no physical branch-collision fibers of genus 0, 1, or 2.
 ## 14-t14 — bielliptic quotient and second-square decomposition
 Status: [x] Complete.
 
-The genus-three branch polynomial is even in `r`. With `x=r^2`, quotienting by `r -> -r` gives the genus-one quartic
-
-\[
-E_t:\quad Z^2=((x-1)^2-4t^2x)(x^2+(4t^4-2)x+1).
-\]
-
-Thus the genus-three cover is bielliptic over `Q(t)`. However a rational point on this quotient is not sufficient for a physical triple because lifting requires `x` itself to be a rational square.
-
-The additional root condition `y=q^2` is equivalent on the discriminant cover to
-
-\[
--B_{t,r}-2\in(\mathbf Q^\times)^2,
-\]
-
-and, because a physical base has `1+t^2=h^2`, this is exactly
-
-\[
-U^2=(r^2-2tr-1)(r^2+2tr-1).
-\]
-
-In quotient coordinate `x=r^2`, the full discriminant square plus `y=q^2` condition therefore separates into
+With `x=r^2`, the full discriminant-square plus `y=q^2` gate separates as
 
 \[
 U^2=(x-1)^2-4t^2x,
@@ -104,28 +84,79 @@ U^2=(x-1)^2-4t^2x,
 V^2=x^2+(4t^4-2)x+1,
 \]
 
-with the additional lift condition `x in Q^2` and the physical height cutoff.
-
-So the paired triple gate is now an explicit simultaneous two-conic plus x-square fiber-product problem rather than an opaque genus-five condition.
+with `x` itself required to be a rational square and with the physical height cutoff retained.
 
 ## 14-t15 — simultaneous two-conic plus x-square fiber product
+Status: [x] Complete.
+
+Let
+
+\[
+A_t(x)=(x-1)^2-4t^2x,
+\qquad
+B_t(x)=x^2+(4t^4-2)x+1.
+\]
+
+The x-level fiber product
+
+\[
+C_{0,t}:\quad U^2=A_t(x),\qquad V^2=B_t(x)
+\]
+
+has genus one for every genuine physical rational base. Indeed
+
+\[
+\operatorname{disc}(A_t)=16t^2(t^2+1),
+\]
+
+\[
+\operatorname{disc}(B_t)=16t^4(t-1)(t+1)(t^2+1),
+\]
+
+\[
+\operatorname{Res}(A_t,B_t)=16t^4(t^2+1)^2,
+\]
+
+so its four quadratic branch points are distinct on every physical fiber.
+
+Reimposing `x=r^2` gives a double cover `C_t -> C_{0,t}` branched at the four points above `x=0` and four points above `x=infinity`. Hence
+
+\[
+\boxed{g(C_t)=5}.
+\]
+
+Over the r-line the `(Z/2)^2` sign quotients have genus pattern
+
+```text
+U-only quotient        1
+V-only quotient        1
+UV quotient            3
+```
+
+and therefore
+
+\[
+J(C_t)\sim E_{A,t}\times E_{B,t}\times J(G_t).
+\]
+
+No physical low-genus degeneration or component splitting occurs. The reduction has reconstructed the original genus-five triple fiber as an eight-branch square lift of a moving elliptic curve.
+
+## 14-t16 — square-x lift on the moving elliptic family
 Status: [>] Next.
 
-Classify the fiber product
+Treat
 
 \[
-U^2=(x-1)^2-4t^2x,
+C_{0,t}: U^2=A_t(x),\quad V^2=B_t(x)
 \]
+
+as the base elliptic family and count rational points for which
 
 \[
-V^2=x^2+(4t^4-2)x+1,
+x\in(\mathbf Q^\times)^2.
 \]
 
-\[
-x=r^2,
-\]
-
-for physical Pythagorean `t`. Determine its generic genus/fibration, rational/elliptic quotient structure, and whether any low-degree component can accumulate under the physical height.
+This is the genuine remaining thin-lift / 2-cover condition after all generic-genus reductions. Determine its divisor/Kummer class on `C_{0,t}`, relate it to the elliptic Mordell--Weil group, and retain the physical small-height window.
 
 Primary target remains
 
@@ -153,6 +184,7 @@ STAGE14_T11=COMPLETE_COMPATIBLE_PAIRED_ACTIVATION_FORMULATION
 STAGE14_T12=COMPLETE_CONDITIONAL_REFLECTED_SQUARE_PARAMETER_GATE
 STAGE14_T13=COMPLETE_DISCRIMINANT_COVER_GENUS_CLASSIFICATION
 STAGE14_T14=COMPLETE_BIELLIPTIC_QUOTIENT_AND_SECOND_SQUARE_DECOMPOSITION
+STAGE14_T15=COMPLETE_THREE_SQUARE_FIBER_PRODUCT_CLASSIFICATION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t15 simultaneous two-conic plus x-square fiber-product classification
+NEXT=Stage14-t16 square-x lift / 2-cover on moving elliptic C0 family
 ```
