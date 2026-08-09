@@ -8,7 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[4]
 S13 = ROOT / 'stages/stage13/data/13-3/raw_incidence_report.json'
 S14 = ROOT / 'stages/stage14/data/14-num-alpha11/b500m_objects.csv.bz2.b64'
-CHECKPOINTS = (100_000, 200_000, 300_000, 400_000, 500_000)
+CHECKPOINTS = (100_000, 200_000, 300_000, 400_000, 500_000, 750_000, 1_000_000)
 FACES = ('ab','ac','bc')
 STAGE13_LIMIT = {'ab':0.5347369332313988,'ac':0.24535917783225203,'bc':0.21990388893634913}
 ENDPOINT_433 = {'ab':0.4,'ac':0.3,'bc':0.3}
