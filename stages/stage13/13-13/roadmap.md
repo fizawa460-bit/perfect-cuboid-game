@@ -168,7 +168,10 @@ PROJECTION_PARITY_STRATIFIED=true
 EXTRA_2ADIC_PROJECTION_FACTOR=false
 MULTI_FACE_FACTOR_TWO_EXACT=true
 STAGE12_REOPENED=false
+NEXT=13-13ff
 ```
+
+The `NEXT=13-13ff` line above is the immutable historical Gate E completion lock used by its deterministic CI. The active global next step is Gate G below.
 
 ### 13-13ff — Gate F complete
 
