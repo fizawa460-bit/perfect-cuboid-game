@@ -1,0 +1,86 @@
+{
+  "stage": "14-4bb",
+  "classification": "K4_GRAPH_ESCAPE_AND_INTRINSIC_PRODUCT_CONDUCTOR_OBSTRUCTION_CLOSED",
+  "inputs": {
+    "stage14_4ba_k4_2core_reduction": true,
+    "s5h_quadratic_large_sieve": true,
+    "s5n_squarefree_completion": true,
+    "s5n_centered_periodic_bound": true
+  },
+  "k4_2core_ledger": {
+    "all_edge_subsets": 64,
+    "empty_2core": 38,
+    "triangle_core": 16,
+    "c4_core": 3,
+    "diamond_core": 6,
+    "k4_core": 1,
+    "nonempty_2core_total": 26
+  },
+  "graph_escape": {
+    "eta": "1/100",
+    "case_A": {
+      "condition": "some active edge has both endpoints >= M^eta",
+      "method": "freeze all other variables and apply one-edge quadratic large sieve",
+      "relative_saving": "M^(-eta/2+epsilon)",
+      "eta_1_100_saving": "M^(-1/200+epsilon)"
+    },
+    "case_B": {
+      "condition": "no long-long edge and some active vertex >= M^(4eta)",
+      "method": "all neighbors < M^eta; combine product conductor and apply squarefree completion",
+      "neighbor_product_conductor": "<=M^(3eta)",
+      "relative_saving": "M^(-5eta/4+epsilon)",
+      "eta_1_100_saving": "M^(-1/80+epsilon)"
+    },
+    "case_C": {
+      "condition": "all active vertices < M^(4eta)",
+      "method": "exact local centering plus fixed-conductor periodic estimate",
+      "total_conductor": "<M^(16eta)",
+      "tuple_count": "<M^(16eta)",
+      "summed_bound": "B^epsilon*(M^(1+32eta)+M^(48eta))"
+    },
+    "exhaustive_configuration_count": 5103,
+    "case_counts": {
+      "A": 3568,
+      "B": 840,
+      "C": 695,
+      "unclassified": 0
+    },
+    "conservative_graph_saving_exponent": "1/200"
+  },
+  "scope": {
+    "separable_k4_multi_edge_monomials_averaged": true,
+    "one_small_variable_k4_boundary_assembly_proved": true,
+    "auxiliary_incidence_uniformity_proved": false,
+    "state_split_E_multi_edge_assembly_proved": false,
+    "full_local_character_polynomial_averaged": false
+  },
+  "conditional_reciprocal_error": {
+    "delta_rec": "min(1/200,delta_aux,delta_E)",
+    "bound": "E_rec(M)<<M^(2-delta_rec+o(1))",
+    "rho_loc_identified_with_graph_saving": false
+  },
+  "updated_frontier": "AUXILIARY_INCIDENCE_UNIFORMITY_PLUS_STATE_SPLIT_E_MULTI_EDGE_ASSEMBLY",
+  "decision": {
+    "STAGE14_4BB": "K4_GRAPH_ESCAPE_AND_INTRINSIC_PRODUCT_CONDUCTOR_OBSTRUCTION_CLOSED",
+    "K4_2CORE_TYPES_CONTROLLED": true,
+    "K4_FREEZE_ONE_EDGE_ESCAPE_PROVED": true,
+    "K4_VERY_LONG_VERTEX_ESCAPE_PROVED": true,
+    "K4_ALL_SHORT_PERIODIC_ESCAPE_PROVED": true,
+    "K4_GRAPH_DICHOTOMY_EXHAUSTIVE": true,
+    "K4_GRAPH_ASSEMBLY_SAVING_EXPONENT": "1/200",
+    "DEGREE_2_PRODUCT_CONDUCTOR_INTRINSIC_OBSTRUCTION": false,
+    "DEGREE_3_PRODUCT_CONDUCTOR_INTRINSIC_OBSTRUCTION": false,
+    "PERSISTENT_RESONANT_K4_SUBGRAPH_FOUND": false,
+    "SEPARABLE_K4_MULTI_EDGE_MONOMIALS_AVERAGED": true,
+    "ONE_SMALL_VARIABLE_K4_BOUNDARY_ASSEMBLY_PROVED": true,
+    "AUXILIARY_INCIDENCE_UNIFORMITY_PROVED": false,
+    "STATE_SPLIT_E_MULTI_EDGE_ASSEMBLY_PROVED": false,
+    "FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4bc prove uniform auxiliary-progression versions of the linear and signed-root E discrepancy estimates, then insert the K4 escape into the complete finite local polynomial and attempt the first explicit reciprocal E_loc exponent"
+  }
+}
