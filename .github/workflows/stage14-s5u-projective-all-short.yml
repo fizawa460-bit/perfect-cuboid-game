@@ -1,0 +1,38 @@
+name: Stage14-s5u projective all-short closure audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5u/**'
+      - 'stages/stage14/scripts/14-s5u/**'
+      - '.github/workflows/stage14-s5u-projective-all-short.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5u deterministic audit
+        run: python3 stages/stage14/scripts/14-s5u/projective_all_short_closure_audit.py | tee /tmp/s5u.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5U=COMPLETE_PROJECTIVE_ALL_SHORT_REFINEMENT_AND_S5_METHOD_CLOSURE$' /tmp/s5u.txt
+          grep -q '^FULL_SHORT_STATE_TUPLE_IS_PROJECTIVE_LATTICE=true$' /tmp/s5u.txt
+          grep -q '^FIXED_TUPLE_PROJECTIVE_LATTICE_INDEX_PRODUCT=true$' /tmp/s5u.txt
+          grep -q '^FIXED_TUPLE_CENTERED_DISCREPANCY_O_M=true$' /tmp/s5u.txt
+          grep -q '^ALL_SHORT_GENERIC_PERIODIC_Q_LOSS_REMOVED=true$' /tmp/s5u.txt
+          grep -Fq 'ALL_SHORT_TUPLEWISE_BOUND=M^(1+4lambda+epsilon)' /tmp/s5u.txt
+          grep -q '^HILBERT_GLOBAL_TUPLE_CARDINALITY_ELIMINATION_JUSTIFIED=false$' /tmp/s5u.txt
+          grep -q '^HILBERT_QUANTIFIER_MISMATCH_ISOLATED=true$' /tmp/s5u.txt
+          grep -q '^GRAPH_ESCAPE_OPTIMAL_SIGMA=2/21$' /tmp/s5u.txt
+          grep -q '^GRAPH_ESCAPE_OPTIMAL_LAMBDA=5/21$' /tmp/s5u.txt
+          grep -q '^ACTUAL_LOCAL_SYSTEM_POWER_SAVING_EXPONENT=1/21$' /tmp/s5u.txt
+          grep -q '^ACTIVE_PHYSICAL_BASE_UPPER_BOUND_EXPONENT=41/42$' /tmp/s5u.txt
+          grep -q '^S5R_E_TRANSITION_COMPATIBLE_WITH_S5U_THRESHOLDS=true$' /tmp/s5u.txt
+          grep -q '^CURRENT_PROVED_SINGLE_EDGE_CEILING=1/20$' /tmp/s5u.txt
+          grep -q '^NEW_ARITHMETIC_RESONANCE_FOUND=false$' /tmp/s5u.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5u.txt
+          grep -q '^S5_METHOD_CLOSED=true$' /tmp/s5u.txt
+          grep -q '^S5_SUBSTAGE_SPLIT_REQUIRED=false$' /tmp/s5u.txt
+          grep -q '^NEXT=Stage14-s6$' /tmp/s5u.txt
