@@ -100,7 +100,7 @@ B_t(x)=x^2+(4t^4-2)x+1.
 The x-level fiber product
 
 \[
-C_{0,t}:\quad U^2=A_t(x),\qquad V^2=B_t(x)
+C_{0,t}:\quad U^2=A_t(x),\quad V^2=B_t(x)
 \]
 
 has genus one for every genuine physical rational base. Indeed
@@ -295,17 +295,77 @@ This bound is not strong enough to give a power saving for `Q_split`: small-kern
 
 At `B=2m`, all 356 observed reduced directions and all 356 split partitions remain distinct; 317 edges have `g=1`, and the 39 nontrivial-scale edges use observed scales `5,13,17,29,37,41`. This is finite diagnostic evidence only.
 
-## 14-t22 — simultaneous face-completion correlation
-Status: [>] Next.
+## 14-t22 — uniform fixed-direction simultaneous-completion bound
+Status: [x] Complete.
 
-For a fixed reduced direction `(D,C)`, study
+For fixed reduced `(D,C)`, normalize a raw edge by
 
 \[
-M_{D,C}(G)
-=\#\{g\le G:\text{ both Pythagorean face completions coexist at }s=gC,d=gD\},
+X=x/g,\quad Y=y/g,\quad P=H_1/g,\quad Q=H_2/g.
 \]
 
-with the missing-norm and primitive conditions retained. Seek a power-saving average for `M_{D,C}` over the generalized-Pell directions attached to `(alpha,beta)`, strong enough to improve the coarse t21 direction-scale majorant and drive `Q_split(B)` below `B`.
+All scales in that direction lie on
+
+\[
+P^2=C^2+X^2,\qquad Q^2=C^2+Y^2,\qquad X^2+Y^2=D^2-C^2.
+\]
+
+The bounded-degree elliptic quotient is
+
+\[
+R^2=(D^2-C^2-X^2)(D^2-X^2),\qquad R=YQ.
+\]
+
+With
+
+\[
+U=\frac{2D}{D-X},\qquad V=\frac{2DR}{(D-X)^2},
+\]
+
+this becomes
+
+\[
+V^2=(U-1)(-C^2U^2+4D^2U-4D^2).
+\]
+
+Equivalently, `x_E=-U`, `y_E=V/C` gives a monic Weierstrass equation with the nonzero rational 2-torsion point `(-1,0)`.  Primitivity also makes the physical scale canonical:
+
+\[
+\boxed{g=\operatorname{lcm}(\operatorname{den}X,\operatorname{den}Y).}
+\]
+
+Physical height transfers polynomially: `H(U)<=2d` and a crude `H(V)<=2d^3`.  The quotient equation height is polynomial in `D,C`.  Dujella's uniform bounded-height theorem for elliptic curves with rational prime-order torsion therefore gives, uniformly over all reduced directions,
+
+\[
+\boxed{M_{D,C}(B/D)=B^{o(1)}.}
+\]
+
+Thus scale reuse is closed at the polynomial-exponent level.  If `A_{alpha,beta}(B)` counts active reduced directions in a fixed split partition, then
+
+\[
+N_{\alpha,\beta}(B)\le B^{o(1)}A_{\alpha,\beta}(B),
+\]
+
+and hence
+
+\[
+Q_{split}(B)\le B^{o(1)}Q_{active-dir}(B),
+\qquad
+Q_{active-dir}(B)=\sum_{\alpha,\beta}A_{\alpha,\beta}(B)^2.
+\]
+
+Any fixed power saving for this active-direction second moment now closes the t-track target.  At `B=2m` the 356 frozen edges still occupy 356 distinct active directions and 356 distinct partitions, so the finite `Q_active-dir` equals 356; this is diagnostic only.
+
+## 14-t23 — active generalized-Pell direction second moment
+Status: [>] Next.
+
+Attack
+
+\[
+Q_{active-dir}(B)=\sum_{\alpha,\beta}A_{\alpha,\beta}(B)^2.
+\]
+
+Classify whether a physical simultaneous completion on the t22 elliptic quotient is forced to be nontorsion (or isolate the torsion exceptional directions), then seek a uniform family count for active generalized-Pell directions strong enough to obtain a fixed power saving below `B`.
 
 Primary target remains
 
@@ -340,6 +400,7 @@ STAGE14_T18=COMPLETE_SELECTED_BRANCH_LOCAL_IMAGE_AND_PACKET_FOURIER_BOUND
 STAGE14_T19=COMPLETE_CONDITIONED_DISCRIMINANT_IDENTITY_AND_FINITE_COLLISION_LEDGER
 STAGE14_T20=COMPLETE_RAW_EDGE_COLLISION_CORRECTION_AND_COPRIME_FACTOR_REDUCTION
 STAGE14_T21=COMPLETE_PARTITION_DIRECTION_SCALE_REDUCTION
+STAGE14_T22=COMPLETE_UNIFORM_FIXED_DIRECTION_ELLIPTIC_QUOTIENT_BOUND
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t22 simultaneous face-completion correlation / generalized-Pell direction average
+NEXT=Stage14-t23 active generalized-Pell direction second moment / torsion-rank activation
 ```

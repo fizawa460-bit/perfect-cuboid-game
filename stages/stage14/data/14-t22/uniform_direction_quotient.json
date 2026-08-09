@@ -1,0 +1,132 @@
+{
+  "stage": "14-t22",
+  "normalized_completion_curve": {
+    "curve": "P^2=C^2+X^2; Q^2=C^2+Y^2; X^2+Y^2=D^2-C^2",
+    "elliptic_quotient_quartic": "R^2=(D^2-C^2-X^2)(D^2-X^2), R=YQ",
+    "birational_cubic": "V^2=(U-1)(-C^2 U^2+4D^2 U-4D^2), U=2D/(D-X), V=2DR/(D-X)^2",
+    "quotient_degree_upper_bound": 4,
+    "rational_exact_2_torsion": "(U,V)=(1,0)",
+    "smooth_for_every_reduced_direction_D_gt_C_gt_0": true
+  },
+  "height_and_scale": {
+    "canonical_primitive_scale": "g=lcm(den(X),den(Y))",
+    "canonical_scale_verified_on_all_frozen_edges": true,
+    "quotient_U_height_bound": "H(U)<=2d",
+    "quotient_V_height_bound": "H(V)<=2d^3",
+    "dujella_reference": "Marta Dujella, arXiv:2312.03655, uniform exp(C log H/log log H) bound for elliptic curves with rational prime-order torsion",
+    "uniform_fixed_direction_total_edge_bound": "(DG)^o(1) for g<=G, hence B^o(1) under d=gD<=B"
+  },
+  "active_direction_reduction": {
+    "definition": "A_{alpha,beta}(B)=number of generalized-Pell reduced directions in partition (alpha,beta) that have at least one physical simultaneous completion with d<=B",
+    "fixed_partition_bound": "N_{alpha,beta}(B) <= B^o(1) A_{alpha,beta}(B)",
+    "second_moment_reduction": "Q_split(B) <= B^o(1) Q_active_dir(B), Q_active_dir=sum A_{alpha,beta}(B)^2",
+    "sufficient_target": "Q_active_dir(B)=O(B^(1-delta)) for some delta>0 implies T(B)=o(sqrt(B))"
+  },
+  "finite": {
+    "max_B": 2000000,
+    "raw_pair_edges_B2m": 356,
+    "canonical_scale_identity_checks_B2m": 356,
+    "elliptic_quotient_identity_checks_B2m": 712,
+    "smooth_cubic_checks_B2m": 356,
+    "active_reduced_directions_B2m": 356,
+    "max_edges_per_reduced_direction_B2m": 1,
+    "active_direction_partition_second_moment_B2m": 356
+  },
+  "rows": [
+    {
+      "B": 1000,
+      "raw_pair_edges": 2,
+      "active_reduced_directions": 2,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 2
+    },
+    {
+      "B": 2000,
+      "raw_pair_edges": 5,
+      "active_reduced_directions": 5,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 5
+    },
+    {
+      "B": 5000,
+      "raw_pair_edges": 15,
+      "active_reduced_directions": 15,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 15
+    },
+    {
+      "B": 10000,
+      "raw_pair_edges": 25,
+      "active_reduced_directions": 25,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 25
+    },
+    {
+      "B": 20000,
+      "raw_pair_edges": 42,
+      "active_reduced_directions": 42,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 42
+    },
+    {
+      "B": 50000,
+      "raw_pair_edges": 62,
+      "active_reduced_directions": 62,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 62
+    },
+    {
+      "B": 100000,
+      "raw_pair_edges": 89,
+      "active_reduced_directions": 89,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 89
+    },
+    {
+      "B": 200000,
+      "raw_pair_edges": 116,
+      "active_reduced_directions": 116,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 116
+    },
+    {
+      "B": 500000,
+      "raw_pair_edges": 188,
+      "active_reduced_directions": 188,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 188
+    },
+    {
+      "B": 1000000,
+      "raw_pair_edges": 255,
+      "active_reduced_directions": 255,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 255
+    },
+    {
+      "B": 2000000,
+      "raw_pair_edges": 356,
+      "active_reduced_directions": 356,
+      "max_edges_per_reduced_direction": 1,
+      "active_direction_partition_second_moment": 356
+    }
+  ],
+  "decision": {
+    "STAGE14_T22": "COMPLETE_UNIFORM_FIXED_DIRECTION_ELLIPTIC_QUOTIENT_BOUND",
+    "SIMULTANEOUS_COMPLETION_NORMALIZED_CURVE_EXPLICIT": true,
+    "ELLIPTIC_QUOTIENT_EXPLICIT": true,
+    "ELLIPTIC_QUOTIENT_RATIONAL_2_TORSION": true,
+    "PRIMITIVE_SCALE_IS_CANONICAL_DENOMINATOR": true,
+    "PHYSICAL_TO_QUOTIENT_HEIGHT_POLYNOMIAL": true,
+    "DUJELLA_UNIFORM_BOUND_APPLIES": true,
+    "FIXED_DIRECTION_ALL_SCALE_MULTIPLICITY": "B^o(1)",
+    "N_ALPHA_BETA_LE_B_O1_ACTIVE_DIRECTIONS": true,
+    "Q_SPLIT_LE_B_O1_Q_ACTIVE_DIRECTION": true,
+    "ACTIVE_DIRECTION_SECOND_MOMENT_POWER_SAVING_PROVED": false,
+    "Q_SPLIT_POWER_SAVING_PROVED": false,
+    "Q_EDGE_O_B_PROVED": false,
+    "T_O_SQRT_B_PROVED": false,
+    "PERFECT_CUBOID_NONEXISTENCE_PROVED": false,
+    "NEXT": "Stage14-t23 attack the active generalized-Pell direction second moment; classify torsion/positive-rank activation and seek a power-saving family count"
+  }
+}

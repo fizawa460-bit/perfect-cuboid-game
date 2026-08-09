@@ -1,0 +1,50 @@
+name: Stage14-t22 uniform direction quotient
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t22/**'
+      - 'stages/stage14/scripts/14-t/t22_uniform_direction_quotient_audit.py'
+      - 'stages/stage14/data/14-t22/uniform_direction_quotient.json'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t22-uniform-direction-quotient.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t21 regression
+        run: python stages/stage14/scripts/14-t/t21_direction_scale_reduction_audit.py
+      - name: Run t22 uniform-direction quotient audit
+        run: python stages/stage14/scripts/14-t/t22_uniform_direction_quotient_audit.py
+      - name: Check frozen t22 summary
+        run: git diff --exit-code stages/stage14/data/14-t22/uniform_direction_quotient.json
+      - name: Validate locked t22 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t22/uniform_direction_quotient.json'
+          d=json.load(open(p))
+          f=d['finite']
+          assert f['raw_pair_edges_B2m']==356
+          assert f['canonical_scale_identity_checks_B2m']==356
+          assert f['elliptic_quotient_identity_checks_B2m']==712
+          assert f['smooth_cubic_checks_B2m']==356
+          assert f['active_reduced_directions_B2m']==356
+          assert f['max_edges_per_reduced_direction_B2m']==1
+          assert f['active_direction_partition_second_moment_B2m']==356
+          assert all(r['active_reduced_directions']==r['raw_pair_edges'] for r in d['rows'])
+          assert all(r['active_direction_partition_second_moment']==r['raw_pair_edges'] for r in d['rows'])
+          q=d['decision']
+          assert q['ELLIPTIC_QUOTIENT_RATIONAL_2_TORSION'] is True
+          assert q['PRIMITIVE_SCALE_IS_CANONICAL_DENOMINATOR'] is True
+          assert q['DUJELLA_UNIFORM_BOUND_APPLIES'] is True
+          assert q['N_ALPHA_BETA_LE_B_O1_ACTIVE_DIRECTIONS'] is True
+          assert q['Q_SPLIT_LE_B_O1_Q_ACTIVE_DIRECTION'] is True
+          assert q['ACTIVE_DIRECTION_SECOND_MOMENT_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
