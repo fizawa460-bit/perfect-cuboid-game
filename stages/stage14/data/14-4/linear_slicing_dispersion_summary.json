@@ -1,0 +1,74 @@
+{
+  "stage": "14-4ay",
+  "classification": "FROZEN_STATE_LINEAR_DISPERSION_STABLE_AND_INTERIOR_FULL_MODE_SUMMED",
+  "imported_s5k": {
+    "six_linear_pointwise_discrepancy": true,
+    "medium_linear_l2": true,
+    "linear_reciprocal_discrepancy_bound": true,
+    "bare_full_dyadic_summation_was_open": true
+  },
+  "frozen_state_extension": {
+    "endpoint_coordinates": "x=a0*u*r; y=b0*v*s",
+    "endpoint_moduli_coprime": true,
+    "norm_root_sign_refinement_cost": "2^omega(q_E)=B^o(1)",
+    "auxiliary_congruence": "r=c*s mod R",
+    "c_unit_mod_R": true,
+    "R_coprime_to_endpoint_moduli": true,
+    "q2_branch_count": "O(1)",
+    "slicing_error_uniform_in_R": true,
+    "pointwise_bound": "Delta_state << B^epsilon*(1+H_i/(a0*u)+H_j/(b0*v))"
+  },
+  "frozen_state_l2": {
+    "bound": "sum|Delta_state|^2 << B^epsilon*(UV+H_i^2*V/U+H_j^2*U/V)",
+    "reciprocal_transfer": "sum Delta_state*(u/v) << B^epsilon*(UV+H_i*V+H_j*U)",
+    "balanced_medium_consequence": "max(U,V)<=L^(1-kappa) => discrepancy << L^(2-kappa+epsilon)",
+    "lower_bound_on_min_UV_required_for_discrepancy": false
+  },
+  "full_linear_interior": {
+    "bulk_input": "E_bulk << L^(2+epsilon)*sqrt(1/U+1/V)",
+    "interior_range": "L^kappa<=U,V<=L^(1-kappa)",
+    "bulk_bound": "L^(2-kappa/2+epsilon)",
+    "discrepancy_bound": "L^(2-kappa+epsilon)",
+    "full_mode_bound": "L^(2-kappa/2+epsilon)",
+    "dyadic_state_sum": "L^(2-kappa/2+o(1))",
+    "interior_full_mode_power_saving": true
+  },
+  "endpoint_ledger": {
+    "microscopic_discrepancy_closed": true,
+    "bounded_side_bulk_reclassification": "delete reciprocal edge; lower-dimensional character mode",
+    "lower_dimensional_induction_formulated": true,
+    "lower_dimensional_induction_closed": false,
+    "upper_endpoint": "max(U,V)~L",
+    "upper_switch_target": "complementary state piece + Jacobi/Fourier coefficient rewrite",
+    "upper_complementary_state_fourier_switch_closed": false
+  },
+  "norm_boundary": {
+    "linear_edge_auxiliary_norm_signs_absorbed": true,
+    "remaining_norm_problem": "reciprocal modes involving state-split E=m^2+n^2 pieces",
+    "mixed_sign_kernel": "q_same|D(P,P'), q_opp|S(P,P')",
+    "state_split_E_reciprocal_dispersion_closed": false
+  },
+  "updated_frontier": "LOWER_DIMENSIONAL_BULK_MODE_INDUCTION_PLUS_UPPER_COMPLEMENTARY_STATE_FOURIER_SWITCH_PLUS_STATE_SPLIT_E_RECIPROCAL_DISPERSION",
+  "decision": {
+    "STAGE14_4AY": "FROZEN_STATE_LINEAR_DISPERSION_STABLE_AND_INTERIOR_FULL_MODE_SUMMED",
+    "S5K_SIX_LINEAR_MEDIUM_DISPERSION_IMPORTED": true,
+    "FROZEN_AUXILIARY_STATE_SINGLE_PROJECTIVE_CONGRUENCE": true,
+    "FROZEN_AUXILIARY_MODULUS_DOES_NOT_WORSEN_SLICING_ERROR": true,
+    "FROZEN_STATE_POINTWISE_DISCREPANCY_BOUND_PROVED": true,
+    "FROZEN_STATE_L2_DISPERSION_PROVED": true,
+    "SIX_LINEAR_MEDIUM_DISCREPANCY_POWER_SAVING_PROVED": true,
+    "SIX_LINEAR_INTERIOR_FULL_MODE_POWER_SAVING_PROVED": true,
+    "SIX_LINEAR_INTERIOR_DYADIC_STATE_SUMMATION_PROVED": true,
+    "MICROSCOPIC_DISCREPANCY_CLOSED": true,
+    "LOWER_DIMENSIONAL_BULK_MODE_INDUCTION_FORMULATED": true,
+    "LOWER_DIMENSIONAL_BULK_MODE_INDUCTION_CLOSED": false,
+    "UPPER_COMPLEMENTARY_STATE_FOURIER_SWITCH_CLOSED": false,
+    "STATE_SPLIT_E_RECIPROCAL_DISPERSION_CLOSED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4az close the finite lower-dimensional bulk-mode induction and prove the upper complementary-state Fourier switch for the linear columns, while the s-track attacks the state-split E mixed-sign reciprocal sector"
+  }
+}
