@@ -1,0 +1,86 @@
+name: Stage14-num-alpha8 exact B200m scaleout
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha8/**'
+      - 'stages/stage14/14-num-alpha8/**'
+      - '.github/workflows/stage14-num-alpha8-scale-b200m.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: true
+      max-parallel: 8
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scan exact diagonal shard
+        shell: bash
+        run: |
+          SHARD=${{ matrix.shard }}
+          WIDTH=25000000
+          LO=$((SHARD * WIDTH + 1))
+          HI=$(((SHARD + 1) * WIDTH))
+          python stages/stage14/scripts/14-num-alpha8/segmented_production_census.py scan \
+            --lo "$LO" \
+            --hi "$HI" \
+            --segment-size 250000 \
+            --output "shard-${SHARD}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alpha8-shard-${{ matrix.shard }}
+          path: shard-${{ matrix.shard }}.json
+          retention-days: 7
+
+  aggregate:
+    needs: scan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: alpha8-shard-*
+          path: shards
+          merge-multiple: true
+      - name: Aggregate, regress B150m, and freeze B200m exact census
+        shell: bash
+        run: |
+          python stages/stage14/scripts/14-num-alpha8/segmented_production_census.py aggregate \
+            --input-dir shards \
+            --bound 200000000 \
+            --regression-bound 150000000 \
+            --output alpha8-b200m-report.json \
+            --object-source alpha8-b200m-objects.csv.bz2.b64
+          python - <<'PY'
+          import json
+          p=json.load(open('alpha8-b200m-report.json'))
+          d=p['decision']
+          assert d['STAGE14_NUM_ALPHA8']=='COMPLETE_EXACT_B200M_ALPHA_SCALEOUT'
+          assert d['B150M_NUM6_FULL_HASH_REGRESSION_MATCH'] is True
+          assert d['B200M_EXACT_CENSUS_FROZEN'] is True
+          assert d['EXTENDS_BEYOND_ORDINARY_B150M_CUTOFF'] is True
+          PY
+          echo 'ALPHA8_OBJECT_SOURCE_BEGIN'
+          fold -w 120 alpha8-b200m-objects.csv.bz2.b64
+          echo 'ALPHA8_OBJECT_SOURCE_END'
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alpha8-b200m-exact-census
+          path: |
+            alpha8-b200m-report.json
+            alpha8-b200m-objects.csv.bz2.b64
+          retention-days: 30
