@@ -31,7 +31,7 @@ jobs:
         run: python stages/stage14/scripts/14-4/shimada_stage14_equiv.py /tmp/shimada /tmp/refine.json --out /tmp/equiv.json
       - name: Enumerate split roots with PARI Fincke-Pohst
         run: python stages/stage14/scripts/14-4/shimada_stage14_roots.py /tmp/shimada /tmp/refine.json /tmp/equiv.json --out /tmp/roots.json
-      - name: Independently verify norm-16 void by exact Python LDL recursion
+      - name: Independently enumerate by exact Python LDL recursion
         run: python stages/stage14/scripts/14-4/shimada_stage14_verify.py /tmp/shimada /tmp/refine.json --out /tmp/verify.json
       - name: Cross-check independent enumerators
         run: |
@@ -39,10 +39,11 @@ jobs:
           import json
           r=json.load(open('/tmp/roots.json')); v=json.load(open('/tmp/verify.json'))
           assert r['anti_invariant_rank']==v['anti_rank']==6
-          assert r['norm16_representatives']==0
-          assert r['parity_compatible_split_root_pairs']==0
-          assert v['norm16_void'] and v['exact_norm16_vectors']==0
-          print('STAGE14_4AK_SPLIT_ROOT_VOID_CROSSCHECK=PASS')
+          assert 2*r['norm16_pair_representatives']==v['exact_norm16_vectors']
+          assert r['parity_compatible_split_root_pairs']==v['parity_compatible_split_root_pairs']
+          print('STAGE14_4AK_ENUMERATOR_CROSSCHECK=PASS')
+          print('NORM16_VECTORS=',v['exact_norm16_vectors'])
+          print('PARITY_COMPATIBLE_SPLIT_ROOT_PAIRS=',r['parity_compatible_split_root_pairs'])
           PY
       - uses: actions/upload-artifact@v4
         with:
