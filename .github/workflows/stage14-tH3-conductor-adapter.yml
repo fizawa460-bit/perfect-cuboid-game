@@ -1,0 +1,37 @@
+name: Stage14-tH3 conductor adapter
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH3/**'
+      - 'stages/stage14/data/tH3/**'
+      - 'stages/stage14/scripts/tH3/**'
+      - 'stages/stage14/14-tH1/**'
+      - 'stages/stage14/14-tH2/**'
+      - '.github/workflows/stage14-tH3-conductor-adapter.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/tH3/all_order_conductor_adapter_audit.py
+      - name: Run deterministic conductor adapter audit
+        run: python stages/stage14/scripts/tH3/all_order_conductor_adapter_audit.py
+      - name: Check locked boundary
+        run: |
+          grep -F 'STAGE14_TH3=COMPLETE_ALL_ORDER_RAY_CLASS_HYPERBOLA_CONDUCTOR_ADAPTER' stages/stage14/14-tH3/result.md
+          grep -F 'MU4_TRIVIAL_FAMILY_TWO_ADIC_CONDUCTOR_EXPONENT_ZERO=true' stages/stage14/14-tH3/result.md
+          grep -F 'SHARED_AUXILIARY_MODULUS_PRESERVED=true' stages/stage14/14-tH3/result.md
+          grep -F 'SHARED_PRIME_JOINT_MODULUS_SQUARED=false' stages/stage14/14-tH3/result.md
+          grep -F 'HYPERBOLA_GOOD_MODULUS_CONDITION=gcd(Q_rat,g*h*r*delta)=1' stages/stage14/14-tH3/result.md
+          grep -F 'ALL_CHARACTER_MELLIN_HECKE_LARGE_SIEVE_PROVED=false' stages/stage14/14-tH3/result.md
+          grep -F 'NEXT=Stage14-tH4' stages/stage14/14-tH3/result.md
