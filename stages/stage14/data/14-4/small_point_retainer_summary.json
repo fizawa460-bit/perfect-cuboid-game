@@ -1,0 +1,74 @@
+{
+  "stage": "14-4ar",
+  "classification": "FIRST_SMALL_POINT_RETAINER_ISOLATED_AND_WEIGHTED_LOWER_TAIL_TARGET_FORMULATED",
+  "minimum_height_interface": {
+    "lambda_F": "minimum canonical height among non-torsion points on E_F(Q), with +infinity at rank zero",
+    "h_BC_F": "1_{lambda(F) <= C(log B + log H(F))}",
+    "u_BC_F": "r(F)-h_BC(F)",
+    "aggregate_identity": "H_C(B)=R(B)-U_C(B)",
+    "physical_inclusion": "for any fixed admissible s3 comparison constant C, V(B)<=H_C(B)",
+    "converse_claimed": false
+  },
+  "centered_local_compatible_weighted_target": {
+    "weight": "any nonnegative W_Q(F) compatible with the centered full-local sieve; no independence assumption",
+    "R_Q": "sum_F W_Q(F) r(F)",
+    "H_Q_C": "sum_F W_Q(F) h_BC(F)",
+    "U_Q_C": "sum_F W_Q(F) u_BC(F)",
+    "exact_identity": "H_Q_C=R_Q-U_Q_C",
+    "uniform_lower_tail_target": "H_Q_C <= rho_ht(B,Q,C) R_Q + E_ht(B,Q,C), uniformly in dyadic Euclid boxes and allowed weights",
+    "equivalent_large_minimum_target": "U_Q_C >= (1-rho_ht(B,Q,C)) R_Q - E_ht(B,Q,C)",
+    "power_saving_transfer": "rho_ht << B^(-delta_ht) with negligible error contributes delta_ht to the 4ap exponent budget",
+    "constant_density_boundary": "rho_ht=O(1) contributes no B-power saving"
+  },
+  "finite_complete_census": [
+    {
+      "B": 2000,
+      "R_interval": [371, 385],
+      "V": 7,
+      "physical_V_over_R_interval": [0.01818181818181818, 0.018867924528301886],
+      "height_retainer_information": "V<=H_C<=R, so complete data give only V/R <= H_C/R <= 1"
+    },
+    {
+      "B": 5000,
+      "R_interval": [916, 989],
+      "V": 25,
+      "physical_V_over_R_interval": [0.025278058645096056, 0.027292576419213975],
+      "height_retainer_information": "V<=H_C<=R, so complete data give only V/R <= H_C/R <= 1"
+    },
+    {
+      "B": 10000,
+      "R_interval": [1875, 2057],
+      "V": 39,
+      "physical_V_over_R_interval": [0.018959649975692758, 0.0208],
+      "height_retainer_information": "V<=H_C<=R, so complete data give only V/R <= H_C/R <= 1"
+    },
+    {
+      "B": 20000,
+      "R_interval": [3784, 4239],
+      "V": 54,
+      "physical_V_over_R_interval": [0.012738853503184714, 0.01427061310782241],
+      "height_retainer_information": "V<=H_C<=R, so complete data give only V/R <= H_C/R <= 1"
+    }
+  ],
+  "s3_sample_diagnostic": {
+    "active_actual_first_hit_canonical_height": {"n": 96, "min": 1.383259102435484, "median": 3.608013380948547, "max": 6.524257101210422, "mean": 3.694228433321874},
+    "active_canonical_height_over_log_mu": {"n": 96, "min": 0.12024014555571505, "median": 0.30414606603918637, "max": 0.46292147225321434, "mean": 0.296870544688963},
+    "inactive_positive_rank_controls_with_witness": 29,
+    "inactive_found_witness_canonical_height": {"n": 29, "min": 6.060340687967191, "median": 10.283932014326751, "max": 35.9079943588786, "mean": 14.223753134974444},
+    "boundary": "inactive witnesses are not certified minima; sample diagnostics do not estimate H_C/R"
+  },
+  "decision": {
+    "STAGE14_4AR": "FIRST_SMALL_POINT_RETAINER_ISOLATED_AND_WEIGHTED_LOWER_TAIL_TARGET_FORMULATED",
+    "MINIMUM_NON_TORSION_CANONICAL_HEIGHT_INTERFACE_LOCKED": true,
+    "PHYSICAL_HIT_IMPLIES_HEIGHT_RETAINER": true,
+    "HEIGHT_RETAINER_EXACT_COMPLEMENT_IDENTITY": true,
+    "CENTERED_LOCAL_WEIGHTED_HEIGHT_IDENTITY": true,
+    "UNIFORM_WEIGHTED_SMALL_POINT_LOWER_TAIL_TARGET_FORMULATED": true,
+    "HEIGHT_RETAINER_FINITE_COMPLETE_CENSUS_MEASURED": false,
+    "UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "FAMILY_LARGE_SIEVE_THEOREM_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4as synthesize the local, global/Sha, and first-small-point weighted retainers into one end-to-end theorem target without assuming independence"
+  }
+}

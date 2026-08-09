@@ -1,0 +1,37 @@
+name: Stage14-4ar small-point retainer
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ar/**'
+      - 'stages/stage14/scripts/14-4/small_point_retainer_audit.py'
+      - 'stages/stage14/data/14-4/small_point_retainer_summary.json'
+      - '.github/workflows/stage14-4ar-small-point-retainer.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/small_point_retainer_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/small_point_retainer_audit.py
+      - name: Check locked decisions
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('stages/stage14/data/14-4/small_point_retainer_summary.json')
+          d = json.loads(p.read_text())
+          q = d['decision']
+          assert q['MINIMUM_NON_TORSION_CANONICAL_HEIGHT_INTERFACE_LOCKED'] is True
+          assert q['UNIFORM_WEIGHTED_SMALL_POINT_LOWER_TAIL_TARGET_FORMULATED'] is True
+          assert q['HEIGHT_RETAINER_FINITE_COMPLETE_CENSUS_MEASURED'] is False
+          assert q['UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED'] is False
+          assert q['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          PY
