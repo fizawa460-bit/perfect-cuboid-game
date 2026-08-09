@@ -1,0 +1,37 @@
+name: Stage14-4bd reciprocal exponent freeze
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bd/**'
+      - 'stages/stage14/data/14-4/reciprocal_exponent_freeze_summary.json'
+      - 'stages/stage14/scripts/14-4/reciprocal_exponent_freeze_audit.py'
+      - '.github/workflows/stage14-4bd-reciprocal-exponent-freeze.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/reciprocal_exponent_freeze_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/reciprocal_exponent_freeze_audit.py
+      - name: Check frozen boundary
+        run: |
+          grep -Fq 'S5R_ROOT_SPACING_THEOREM_IMPORTED=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'ROOT_SAWTOOTH_SPACING_BOUND_PROVED=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'E_LINEAR_TRANSITION_WEDGE_CLOSED=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'COMPLETE_POSITIVE_RECIPROCAL_EXPONENT_PROVED=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'COMPLETE_RECIPROCAL_SAVING_EXPONENT_M_SCALE=1/200' stages/stage14/14-4bd/result.md
+          grep -Fq 'COMPLETE_RECIPROCAL_ERROR_B_SCALE=B^(399/400+o(1))' stages/stage14/14-4bd/result.md
+          grep -Fq 'EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED=false' stages/stage14/14-4bd/result.md
+          grep -Fq 'NEXT=Stage14-4be' stages/stage14/14-4bd/result.md
