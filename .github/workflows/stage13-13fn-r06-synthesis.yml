@@ -1,0 +1,20 @@
+name: Stage13-13fn R06 canonical synthesis
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fn/**'
+      - 'stages/stage13/scripts/13-13fn/**'
+      - '.github/workflows/stage13-13fn-r06-synthesis.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit R06 canonical synthesis
+        run: python stages/stage13/scripts/13-13fn/r06_synthesis_audit.py
