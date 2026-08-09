@@ -19,7 +19,7 @@ RESULT_PATH = Path("stages/stage13/13-13fo/result.md")
 
 SOURCES = [
     ("R06 canonical proof", "stages/stage13/13-13fn/stage13-r06-canonical-proof.md"),
-    ("Explicit Wiener lemma", "stages/stage13/13-13fb/explicit-wiener-bound.md"),
+    ("Explicit Wiener lemma", "stages/stage13/13-13fb/wiener-bound-lemma.md"),
     ("Gaussian-Hecke primary-source normalization", "stages/stage13/13-13fl/gaussian-hecke-normalization.md"),
     ("Fixed-S principal-pole closure", "stages/stage13/13-13fm/principal-pole-sector-closure.md"),
     ("R06 repair plan", "stages/stage13/13-13fj/r06-repair-plan.md"),
