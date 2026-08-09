@@ -1,0 +1,37 @@
+name: Stage14-s5p auxiliary incidence uniformity audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5p/**'
+      - 'stages/stage14/scripts/14-s5p/**'
+      - '.github/workflows/stage14-s5p-auxiliary-incidence-uniformity.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5p deterministic audit
+        run: python3 stages/stage14/scripts/14-s5p/auxiliary_incidence_uniformity_audit.py | tee /tmp/s5p.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5P=COMPLETE_AUXILIARY_PROGRESSION_UNIFORMITY_AND_TENSOR_ENERGY_REDUCTION$' /tmp/s5p.txt
+          grep -q '^AUX_PROJECTIVE_CRT_CELL_EXACT=true$' /tmp/s5p.txt
+          grep -q '^LINEAR_AUX_FIXED_POINTWISE_DISCREPANCY_PROVED=true$' /tmp/s5p.txt
+          grep -q '^LINEAR_AUX_DYADIC_L2_PROVED=true$' /tmp/s5p.txt
+          grep -q '^FULL_STATE_CELL_SECOND_LARGEST_SHORTEST_BARRIER_PROVED=true$' /tmp/s5p.txt
+          grep -q '^E_SIGNED_ROOT_AUX_UNIFORMITY_PROVED=true$' /tmp/s5p.txt
+          grep -q '^AUX_PROGRESSIONS_SQUAREFREE_COMPLETION_PROVED=true$' /tmp/s5p.txt
+          grep -q '^SWITCHED_BOUNDARY_AUX_UNIFORMITY_PROVED=true$' /tmp/s5p.txt
+          grep -q '^AUXILIARY_STATE_ENERGY_TRANSFER_PROVED=true$' /tmp/s5p.txt
+          grep -q '^HILBERT_QUADRATIC_LARGE_SIEVE_LIFT_PROVED=true$' /tmp/s5p.txt
+          grep -q '^AUXILIARY_INCIDENCE_UNIFORMITY_PROVED=true$' /tmp/s5p.txt
+          grep -q '^AUXILIARY_PROGRESSION_MODULUS_LOSS_PERSISTS=false$' /tmp/s5p.txt
+          grep -q '^MULTI_EDGE_DISCREPANCY_TENSOR_CONTRACTION_PROVED=false$' /tmp/s5p.txt
+          grep -q '^STATE_SPLIT_E_MULTI_EDGE_ASSEMBLY_PROVED=false$' /tmp/s5p.txt
+          grep -q '^FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED=false$' /tmp/s5p.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5p.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5p.txt
+          grep -q '^NEXT=Stage14-s5q$' /tmp/s5p.txt
