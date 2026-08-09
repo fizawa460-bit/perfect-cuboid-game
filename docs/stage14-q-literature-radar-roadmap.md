@@ -17,13 +17,15 @@ Do not search the literature continuously and broadly. Search when the active pr
 
 Never promote a citation merely because its vocabulary resembles Stage14. Record exact theorem/lemma numbers, hypotheses, variables, losses, field-of-definition conditions, and the precise Stage14 object to which it would be applied.
 
-## Current frontier (2026-08-09, after q2)
+## Current frontier (2026-08-09, after q2/q3/q4)
 
-The original arbitrary `W(u,v)` obstruction has been reduced substantially by the active proof tracks. `Stage14-s5i` proves a rank-one bulk for pure Euclid divisibility incidence and leaves an explicit centered discrepancy `Delta(u,v)`, primitive Möbius bookkeeping, and sparse large-modulus blocks. `Stage14-4av` proves a bare CRT reciprocal-block power saving and leaves growing auxiliary-state coupling plus endpoint ranges.
+`Stage14-q2` narrowed the local analytic problem from an arbitrary Euclid-correlated matrix to explicit discrepancy/covariance terms and identified direct Jacobi-bilinear subroutines after genuine separation.
 
-Stage14-q2 found no theorem that directly proves the required `L2` dispersion for `Delta`. It did identify two direct subroutines: Heath-Brown/Liu for separated rectangular Jacobi blocks and Cameron Wilson for separated hyperbolic/lopsided Jacobi blocks. The preferred proof order is now centered congruence covariance first, divisor switching for sparse large moduli, and modular-root/spectral escalation only if the norm column survives the elementary dispersion reduction.
+`Stage14-q3` audited the first-small-point height literature against the actual Stage14 family. The exact odd conductor/discriminant interface is controlled by the radical of `SXH`; Petsche/Naccarato remain useful fixed-fiber tools but do not provide the required family lower-tail saving. The strongest transfer architecture is Le Boudec's large-prime-factor plus complete-2-descent strategy, to be rebuilt on the five Euclid factors.
 
-The `14-t` track has reached a global missing-face squareclass collision target (`t19 -> t20`), so q4 will later have a concrete collision-energy object to search against. The exact Shimada K3 package remains standing reusable infrastructure.
+`Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem and shifted the preferred weapon order toward square/polynomial sieve before generic Selmer machinery.
+
+The next scheduled radar task is `Stage14-q5`, a focused audit of whether the exact Shimada level-4 K3 computational package has been fully consumed and whether any remaining geometric/lattice gap still needs literature input.
 
 ## Roadmap
 
@@ -55,13 +57,15 @@ Result: `docs/stage14-q2-correlated-bilinear-literature.md`.
 
 Refresh the `14-s` Petsche / Naccarato / Le Boudec line. Test the actual Stage14 discriminant, minimal discriminant, conductor, Szpiro ratio, and 2-descent data rather than citing generic elliptic-curve height bounds. Determine whether a lower bound for the first non-torsion physical point survives uniformly or for density-one Pythagorean fibers.
 
-Deliverable: a transfer table listing each required hypothesis and whether Stage14 satisfies it.
+Result: `docs/stage14-q3-small-point-height-literature.md`.
 
 ### Stage14-q4 — Squareclass / Selmer collision pass
 
 When `14-t` has an explicit global squareclass-signature collision statement, search for a theorem architecture in Selmer groups, squareclass sieves, thin sets, Hilbert irreducibility, square-value problems, branched covers, Prym/generalized Jacobian methods, or arithmetic statistics that matches the exact signature map.
 
 Do not restart generic local-obstruction searches if the local images are already known to be full.
+
+Result: `docs/stage14-q4-squareclass-collision-literature.md`.
 
 ### Stage14-q5 — K3 / lattice computational refresh
 
@@ -104,4 +108,4 @@ If any critical hypothesis is unknown, classify the lead as `NEAR`, not `DIRECT`
 
 ## Immediate next task
 
-Start **Stage14-q3**: refresh the Petsche / Naccarato / Le Boudec first-small-point line against the actual Stage14 minimal discriminant, conductor, Szpiro ratio, and complete 2-descent data. Keep the q2 handoff active in `Stage14-s5j` and `Stage14-4aw`; do not reopen a generic correlated-bilinear literature search unless those stages expose a new named obstruction.
+Start **Stage14-q5**: audit the exact Shimada level-4 K3 computational package against the current `14-4` frontier. Determine which package objects have actually been consumed, whether the physical class `M` is now known in the fixed `S0` basis, and whether any remaining geometric/lattice step has an unused direct literature or machine-data route.
