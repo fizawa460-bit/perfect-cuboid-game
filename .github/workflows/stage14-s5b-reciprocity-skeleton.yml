@@ -1,0 +1,22 @@
+name: Stage14-s5b odd reciprocity skeleton
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5b/**'
+      - 'stages/stage14/scripts/14-s5b/**'
+      - '.github/workflows/stage14-s5b-reciprocity-skeleton.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run reciprocity skeleton audit
+        run: python3 stages/stage14/scripts/14-s5b/reciprocity_skeleton_audit.py
+      - name: Validate theorem boundary
+        run: |
+          grep -q 'FIVE_MOVING_FACTORS_ODD_PAIRWISE_COPRIME=true' stages/stage14/14-s5b/result.md
+          grep -q 'LABEL_DEPENDENT_LOCAL_HILBERT_EQUATIONS_DERIVED=false' stages/stage14/14-s5b/result.md
+          grep -q 'SQRT_B_ASYMPTOTIC_PROVED=false' stages/stage14/14-s5b/result.md
