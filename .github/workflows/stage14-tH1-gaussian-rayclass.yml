@@ -1,0 +1,35 @@
+name: Stage14-tH1 Gaussian ray-class normalization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH1/**'
+      - 'stages/stage14/data/tH1/**'
+      - 'stages/stage14/scripts/tH1/**'
+      - 'stages/stage14/14-tH0/**'
+      - 'stages/stage14/14-t32/**'
+      - '.github/workflows/stage14-tH1-gaussian-rayclass.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/tH1/gaussian_rayclass_normalization_audit.py
+      - name: Run deterministic Gaussian normalization audit
+        run: python stages/stage14/scripts/tH1/gaussian_rayclass_normalization_audit.py
+      - name: Check locked theorem boundary
+        run: |
+          grep -F 'STAGE14_TH1=COMPLETE_GAUSSIAN_PRIMARY_RAY_CLASS_AND_CONDUCTOR_NORMALIZATION' stages/stage14/14-tH1/result.md
+          grep -F 'TWO_ADIC_CONDUCTOR_EXPONENT_ONE_OCCURS=false' stages/stage14/14-tH1/result.md
+          grep -F 'ARBITRARY_LOCAL_CHARACTER_ORDER_SUPPORTED=true' stages/stage14/14-tH1/result.md
+          grep -F 'ALL_CHARACTER_MELLIN_HECKE_LARGE_SIEVE_PROVED=false' stages/stage14/14-tH1/result.md
+          grep -F 'NEXT=Stage14-tH2' stages/stage14/14-tH1/result.md
