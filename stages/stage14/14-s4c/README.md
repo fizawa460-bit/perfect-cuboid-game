@@ -1,0 +1,1 @@
+This stage follows merged Stage14-4ak and merged Stage14-s4b. It is intentionally complementary to Stage14-4al: 4al measures collective activation; s4c locks the conditional exponent budget that any higher-degree stratum explanation would have to satisfy.
