@@ -1,0 +1,53 @@
+{
+  "stage": "14-4bi-S",
+  "classification": "FULL_EDGE_RADICAL_MODULUS_AND_SMALL_DENOMINATOR_CORE",
+  "imports": {
+    "stage14_4bi_L": true,
+    "stage14_s6_01": true,
+    "stage14_s6_02": true
+  },
+  "edge_radicals": {
+    "S": "rad_odd(S)",
+    "X": "rad_odd(X)",
+    "H": "rad_odd(H)"
+  },
+  "normalized_equations": {
+    "S": "tau0*b*u0^2-tau1*c*u1^2 = a*(S/a)^2*D^2",
+    "X": "tau2*c*u2^2-tau0*a*u0^2 = b*(X/b)^2*D^2",
+    "H": "tau2*b*u2^2-tau1*a*u1^2 = c*(H/c)^2*D^2"
+  },
+  "full_radical_congruences": {
+    "S": "tau0*b*u0^2 == tau1*c*u1^2 mod rad_odd(S)",
+    "X": "tau2*c*u2^2 == tau0*a*u0^2 mod rad_odd(X)",
+    "H": "tau2*b*u2^2 == tau1*a*u1^2 mod rad_odd(H)"
+  },
+  "rectangle_bound": "B^eps*(Ui*Uj/R + min(Ui,Uj) + 1)",
+  "radical_poor_integer_bound": "#{n<=B:rad(n)<=B^rho} << B^(rho+eps)",
+  "radical_poor_hypotenuse_class_bound": "B^(rho+eps)",
+  "radical_rich_long_witness_layer_gain": "B^(-min(rho,nu)+eps)",
+  "short_transfer": "Ustar<B^nu => D<=2*Ustar<2*B^nu",
+  "remaining_gate": "RADICAL_RICH_CANONICAL_WITNESS_OCCUPANCY",
+  "remaining_core": {
+    "radical": "rad_odd(H)>=B^rho",
+    "witness": "max(U1,U2)<B^nu",
+    "denominator": "D<2B^nu"
+  },
+  "claims": {
+    "FULL_ODD_EDGE_RADICAL_CONGRUENCES_PROVED": true,
+    "FULL_ODD_EDGE_RADICAL_RECTANGLE_BOUND_PROVED": true,
+    "SMALL_KERNEL_INTRINSIC_MODULUS_OBSTRUCTION": false,
+    "RADICAL_POOR_HYPOTENUSE_SECTOR_GLOBALLY_SPARSE": true,
+    "CANONICAL_WITNESS_SELECTION_AVAILABLE": true,
+    "SMALL_DENOMINATOR_ALONE_POWER_SAVING_PROVED": false,
+    "EXISTENTIAL_PROJECTION_TO_CLASS_SAVING_PROVED": false,
+    "CANONICAL_WITNESS_OCCUPANCY_POWER_SAVING_PROVED": false,
+    "S_ROUTE_GLOBAL_POSITIVE_SAVING_PROVED": false,
+    "FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED": false
+  },
+  "exponents": {
+    "current_local_class": "41/42",
+    "sqrt_target": "1/2",
+    "required_post_local_saving": "10/21"
+  },
+  "next": "Stage14-4bj"
+}
