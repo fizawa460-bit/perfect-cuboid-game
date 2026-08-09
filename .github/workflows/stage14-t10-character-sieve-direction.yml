@@ -1,0 +1,18 @@
+name: Stage14-t10 character sieve direction audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t10/**'
+      - 'stages/stage14/scripts/14-t10/**'
+      - 'stages/stage14/data/14-t10/**'
+      - '.github/workflows/stage14-t10-character-sieve-direction.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run exact rewrite audit
+        run: python stages/stage14/scripts/14-t10/character_sieve_direction_audit.py

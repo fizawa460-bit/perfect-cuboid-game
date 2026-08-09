@@ -32,31 +32,50 @@ Status: [x] Complete. Triple points require compatible logarithmic small points 
 Status: [x] Complete. The exact conic relation is useful structurally but the naive fixed-prime square-class sieve is vacuous on physical bases.
 
 ## 14-t8 — reflected moving-prime local boundary
-Status: [x] Complete. New reflected gates can occur only at split primes `p|Delta_-`, `p=1 mod 4`, and only on the two residues `q^2=-1 mod p`.
+Status: [x] Complete. At new reflected primes the local square condition is automatic unless the easy unit argument degenerates at `q^2=-1 mod p`.
 
-## 14-t9 — Euclid-parameter sparse-residue family sieve target
+## 14-t9 — Euclid sparse-residue formulation
+Status: [x] Complete, with interpretation corrected by t10.
+
+The exceptional residues have density `2/p` at split primes. They are a sparse moving set, but t10 verifies that they are not a necessary condition for triple points; they are the exceptional set where the automatic local argument stops.
+
+## 14-t10 — character-sieve direction audit
 Status: [x] Complete.
 
-For every odd split prime the exceptional set has exact residue density
+For reduced `q=u/v` and odd `p` away from denominator primes,
 
 \[
-\rho_p=2/p,
+q^2\equiv-1\pmod p
+\iff
+p\mid u^2+v^2.
 \]
 
-while inert primes contribute zero. This is not a fixed positive-density sieve and no product-independence is assumed.
+Thus the reflected exceptional support is the odd support of
 
-The correct analytic object is the joint base-point family `(F,q)`: raw Stage14-s activation/descent conditions first, then reflected split divisors of `Delta_-`, exceptional residues, and the physical small-point window. Single-fiber point counts or average rank alone cannot close this.
+\[
+\gcd(\Delta_-,u^2+v^2).
+\]
 
-## 14-t10 — character-sum / large-sieve realization
+However this is an **error/exception set**, not a thinning condition satisfied by every triple. If no such exceptional prime occurs, the new reflected local tests are automatic. Therefore a large sieve for this gcd support can simplify exceptional bookkeeping but cannot by itself prove a power saving for `T(B)`.
+
+The main saving must come from the global simultaneous condition already isolated in t6: compatible physical small points on `E_+(s)` and `E_+(-s)` with the same Humbert--Edge/shared-`q` lift.
+
+## 14-t11 — paired reflected activation count
 Status: [>] Next.
 
-Rewrite the exceptional condition and raw 2-descent constraints as explicit quadratic-character weights over primitive Euclid parameters and the physical point coordinate. Seek averaged cancellation strong enough to give at least a logarithmic saving after raw activation, without assuming independent prime factors.
-
-Primary target remains
+Define and attack the paired activation population
 
 \[
-T(B)=o(\sqrt B).
+V_{\pm}(B)=\#\{F:\ E_+(s_F),E_+(-s_F)\text{ both admit compatible physical small points}\}.
 \]
+
+Seek either
+
+\[
+V_{\pm}(B)=o(\sqrt B)
+\]
+
+or a relative thinning theorem `V_pm(B)=o(V(B))` that can be combined with the main/raw activation law. The t8 exceptional-prime sieve is retained only as a secondary error decomposition.
 
 ## Scope boundary
 
@@ -73,6 +92,7 @@ STAGE14_T6=COMPLETE_MIRROR_DOUBLE_SMALL_POINT_GATE
 STAGE14_T7=COMPLETE_SHARED_Q_CONIC_AND_LOCAL_SIEVE_BOUNDARY
 STAGE14_T8=COMPLETE_REFLECTED_MOVING_PRIME_LOCAL_BOUNDARY
 STAGE14_T9=COMPLETE_EUCLID_SPARSE_RESIDUE_SIEVE_FORMULATION
+STAGE14_T10=COMPLETE_CHARACTER_SIEVE_DIRECTION_AUDIT
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t10 character-sum / large-sieve realization
+NEXT=Stage14-t11 paired reflected activation count / global compatibility target
 ```
