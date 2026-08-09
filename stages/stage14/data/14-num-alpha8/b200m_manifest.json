@@ -1,0 +1,59 @@
+{
+  "stage": "14-num-alpha8",
+  "classification": "FINITE_EXACT_SEGMENTED_ALPHA_SCALEOUT",
+  "source_actions_run": 31314521041,
+  "source_artifact_id": 9038386745,
+  "source_artifact_digest": "sha256:0531f8cd829c46d8886492ee5f49cf531f89ddf515adc6d0273df4d3c40e1c1a",
+  "B150m_regression": {
+    "all_fields_equal": true,
+    "counts": {"a": 859, "b": 892, "c": 462, "total": 2213, "triple": 0},
+    "distinct_physical_cuboids": 2213,
+    "object_key_sha256": "e4fdfc2172aa17cb376bee512d354436c1c5cf00a24f0d3649eaf2b3be3b7e41",
+    "object_key_mask_sha256": "02f7d8576f1d0c8b2abc6e8ea07afec340e0349f980a1ef56d427d8182b56438",
+    "graph": {
+      "active_oriented_face_vertices": 3187,
+      "raw_pair_edges": 2213,
+      "max_degree": 11,
+      "vertex_ledger_sha256": "ddcd0e20d6ba913256a66493033b81987f381f792cf859afb18f7b9fe3d2b536",
+      "edge_ledger_sha256": "8500a753d0d159f79a5198a3b760a49931988f921983dbd7df69e09b70d7f1f8"
+    }
+  },
+  "exact_cutoff_B200m": {
+    "counts": {"a": 957, "b": 967, "c": 533, "total": 2457, "triple": 0},
+    "distinct_physical_cuboids": 2457,
+    "object_key_sha256": "79f38bc8841ee43505598d07f3b7cbed1fe4127243a3ae58c83e686267ce65ae",
+    "object_key_mask_sha256": "048ea27298801dcdb0baea3ac143f011de34b68ba658deb36ebdb37d3e5faeab",
+    "graph": {
+      "active_oriented_face_vertices": 3563,
+      "raw_pair_edges": 2457,
+      "max_degree": 11,
+      "vertex_first_hit_events": 3563,
+      "vertex_repeat_incidence_events": 1351,
+      "vertex_ledger_sha256": "8a6e151c6eb98f0e23c15715b3968f2fbfc304429836b87fdc69f9af9aa35001",
+      "edge_ledger_sha256": "0d3c4320c530faebba8b157b20473c58f3cc6ff3984ec41cce3eb3c93578ea75"
+    }
+  },
+  "new_shell_150m_to_200m_counts": {"a": 98, "b": 75, "c": 71, "total": 244, "triple": 0},
+  "finite_diagnostics": {
+    "N2_over_sqrt_B": 0.17373613613753472,
+    "B150m_N2_over_sqrt_B": 0.18069069335930577,
+    "relative_change_from_B150m": -0.03848874057913887
+  },
+  "artifact_object_source": {
+    "rows": 2457,
+    "raw_bytes": 87908,
+    "bz2_base64_chars": 48668,
+    "retention_days": 30
+  },
+  "decision": {
+    "STAGE14_NUM_ALPHA8": "COMPLETE_EXACT_B200M_ALPHA_SCALEOUT",
+    "SEGMENTED_DIAGONAL_SHARDS_EXACT_DISJOINT_UNION": true,
+    "B150M_NUM6_FULL_HASH_REGRESSION_MATCH": true,
+    "B200M_EXACT_CENSUS_FROZEN": true,
+    "EXTENDS_BEYOND_ORDINARY_B150M_CUTOFF": true,
+    "PERFECT_CUBOID_EMERGENCY": false,
+    "FINITE_DIAGNOSTIC_ONLY": true,
+    "ASYMPTOTIC_CLAIM": false,
+    "NEXT": "Stage14-num-alpha9 optional historical-interval validation / alpha10+ only on demonstrated value"
+  }
+}
