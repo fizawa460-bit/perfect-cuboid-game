@@ -1,8 +1,8 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13F_R05_REPAIR_GATES_A_B_C_D_E_F_G_COMPLETE_GATE_H_NEXT`
+> STATUS: `STAGE13_13F_R05_REPAIR_GATES_A_THROUGH_H_COMPLETE_R05_BUNDLE_NEXT`
 >
-> PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, externally reviewed and finally frozen theorem package.
+> PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, freshly reviewed and finally frozen theorem package.
 >
 > IMPORTANT: the theorem/counting contract is unchanged unless a genuine defect is explicitly recorded.
 
@@ -10,9 +10,11 @@
 
 ```text
 13-13a 13-13b 13-13c 13-13d 13-13e 13-13f
-13-13fa 13-13fb 13-13fc 13-13fd 13-13fe 13-13ff 13-13fg 13-13fh
+13-13fa 13-13fb 13-13fc 13-13fd 13-13fe 13-13ff 13-13fg 13-13fh 13-13fi
 13-13g
 ```
+
+`13-13fi` is now reserved for construction of the immutable R05 self-contained review bundle and manifest.
 
 ## Frozen theorem candidate
 
@@ -42,6 +44,7 @@ CLAIM_COUNT=30
 THEOREM_STATEMENT_FROZEN_FOR_RESYNTHESIS=true
 THEOREM_LEVEL_DEFECT_FOUND=false
 HISTORICAL_SUPERSEDED_ARGUMENT_REQUIRED=false
+NEXT=13-13b
 
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 UNMAPPED_EXTERNAL_INPUTS=0
@@ -50,14 +53,17 @@ MINIMAL_EXTERNAL_BOUNDARY_LOCKED=true
 GENERAL_SELBERG_DELANGE_BLACK_BOX_REQUIRED=false
 GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED_FOR_FINAL_PROOF=false
 GROWING_MODULUS_INPUT_USED=false
+NEXT=13-13c
 
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
 MINIMAL_EXTERNAL_BOUNDARY_PRESERVED=true
+NEXT=13-13d
 
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
 AUDIT_STATUS=PASS
 CANONICAL_CONSTANTS_REPRODUCED=true
 STALE_SUPERSEDED_FORMULAS_IN_CANONICAL_FILES=0
+NEXT=13-13e
 
 STAGE13_13E=COMPLETE_R04_REVIEW_BUNDLE
 BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260809-R04
@@ -65,27 +71,25 @@ SOURCE_SNAPSHOT_COMMIT=f652833d194bade57794e4c03c184928a54a31b9
 CONTENT_SHA256=789656b5bb2190ae62cf2dcae7a3da06ece4f473780a1229ba7284b10b7f4f1b
 R04_IMMUTABLE=true
 R03_IMMUTABLE=true
+NEXT=13-13f
 ```
 
 The deterministic audit is reproducibility/consistency evidence only, not proof validation.
 
-## 13-13f — R04 review ingestion / R05 repair gate
+## 13-13f — R04 review ingestion / R05 repair and fresh-review gate
 
-Status: `[!] BLOCKED — repairs in progress`.
+R04 review record remains historical:
 
 ```text
 GROK_R04_VERDICT=CLOSED
 CLAUDE_R04_VERDICT=OPEN
 DEEPSEEK_R04_VERDICT=REPAIRABLE
 QWEN_R04_VERDICT=NOT_RECORDED
-INDEPENDENT_CLOSED_VERDICTS=1
-UNRESOLVED_SUBSTANTIVE_REVIEW_OBJECTIONS=2
-UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
 R04_REPAIR_REQUIRED=true
-PROMOTE_TO_13_13G=false
+R04_VERDICTS_CARRY_FORWARD_TO_R05=false
 ```
 
-Active repair plan: `stages/stage13/13-13f/r05-repair-plan.md`.
+The R04 objections triggered repair Gates A--H. Those internal repairs are now complete, but Stage13 remains blocked because R05 has not yet been built or freshly reviewed.
 
 ### 13-13fa — Gate A complete
 
@@ -96,6 +100,7 @@ LEADING_Q_DEPENDENT_ARITHMETIC_FACTOR_FOUND=false
 COMMON_THETA_AUDIT=PASS_AT_CURRENT_PROOF_LEVEL
 PROVED_EFFECTIVE_CONVERGENCE_RATE=false
 FINITE_DISCREPANCY_QUANTITATIVELY_EXPLAINED_BY_PROVED_REMAINDER=false
+NEXT=13-13fb
 ```
 
 ### 13-13fb — Gate B complete
@@ -109,6 +114,7 @@ WIENER_EXPONENT=5/4
 P5_EXPLICIT_FINITE_BOUND_LT=432
 PHASE_UNIFORM=true
 RETAINED_HARMONIC_UNIFORM=true
+NEXT=13-13fc
 ```
 
 ### 13-13fc — Gate C complete
@@ -121,6 +127,7 @@ FINITE_REMAINDER_AFTER_ALL_BOXES=O(B(log B)^-35)
 POWER_TAIL_SAVING=exp(-(3/16)(log B)^(1/4))
 CURVED_BOUNDARY=O(B(log B)^-5)+lower-order-ledger
 MESH_ERROR=O(B(log B)^-5)
+NEXT=13-13fd
 ```
 
 ### 13-13fd — Gate D complete
@@ -137,6 +144,7 @@ VAALER_ZERO_MODE_EXCESS=O(B(log B)^-1)
 FIXED_A48_REQUIRED=false
 GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED=false
 WINGS_EXPANDED_HARMONIC_BY_HARMONIC=false
+NEXT=13-13fe
 ```
 
 ### 13-13fe — Gate E complete
@@ -161,8 +169,6 @@ MULTI_FACE_FACTOR_TWO_EXACT=true
 STAGE12_REOPENED=false
 NEXT=13-13ff
 ```
-
-The `NEXT=13-13ff` line is the historical Gate E lock retained for its deterministic CI.
 
 ### 13-13ff — Gate F complete
 
@@ -189,20 +195,12 @@ GENERAL_SELBERG_DELANGE_REQUIRED=false
 GROWING_MODULUS_THEOREM_USED=false
 THEOREM_CHANGED=false
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
-R04_IMMUTABLE=true
-R05_REQUIRED=true
 NEXT=13-13fg
 ```
-
-The `NEXT=13-13fg` line is the historical Gate F completion lock retained for its deterministic CI.
 
 ### 13-13fg — Gate G complete
 
 Expanded fixed inert-prime transfer: `stages/stage13/13-13fg/fixed-inert-transfer.md`.
-
-The unit-residue predicate is expanded by finite character orthogonality and CRT. The leading contribution is grouped by **principal pole sector**: all auxiliary character tuples whose induced characters on every pole-producing channel are principal. This avoids an unsafe assumption that only one literally all-trivial auxiliary tuple can contribute at top order.
-
-The complete principal pole sector contributes the exact finite local multiplier `prod lambda_p`; every tuple outside it loses at least one pole. Gate B keeps the mixed correction holomorphic under fixed twists, and Gate F supplies fixed-conductor holomorphy/growth for the Dirichlet/Gaussian-Hecke factors.
 
 ```text
 STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER
@@ -218,7 +216,6 @@ AUXILIARY_CHARACTER_ALIASING_INCLUDED=true
 MIXED_CORRECTION_REMAINS_HOLOMORPHIC=true
 NONPRINCIPAL_POLE_SECTOR_LOSS_AT_LEAST_ONE=true
 NONPRINCIPAL_TOTAL=o_S(B(log B)^3)
-FIXED_S_CONSTANTS_MAY_DEPEND_ON_S=true
 LIMIT_ORDER=FIX_S_THEN_B_TO_INFINITY_THEN_ENLARGE_S
 GROWING_MODULUS_THEOREM_USED=false
 PAIR_OVERLAP=o(B(log B)^3)
@@ -226,35 +223,72 @@ TRIPLE_OVERLAP=o(B(log B)^3)
 PERFECT_CUBOID_NONEXISTENCE_ASSUMED=false
 THEOREM_CHANGED=false
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
-R04_IMMUTABLE=true
-R05_REQUIRED=true
 NEXT=13-13fh
 ```
 
-## Remaining R05 gate
+### 13-13fh — Gate H complete
+
+New R05 proof-facing entrypoint:
 
 ```text
-13-13fh  [>] notation cleanup + deterministic-audit scope + repaired-proof synthesis + R05 readiness
+stages/stage13/13-13fh/stage13-r05-canonical-proof.md
 ```
 
-Gate H must propagate notation fixes (`theta`/`vartheta`, first-use `C_{ell,p}` substitutions), limit deterministic `PASS` language to reproducibility/consistency, synthesize Gates A–G into one repaired canonical proof, and decide whether immutable R05 can be generated.
+It synthesizes A--G in theorem order and removes the R04 presentation defects: spherical `theta` is separated from Gaussian phase `vartheta`; `C_{ell,p}` substitutions are defined at first use; deterministic `PASS` is explicitly limited to reproducibility/consistency; the finite-vector discrepancy is stated together with the nonclaim of an effective convergence rate.
 
-After A–H, if the theorem survives unchanged, create immutable R05 and obtain fresh independent reviews. R04 verdicts do not automatically count for R05.
+```text
+STAGE13_13FH=COMPLETE_R05_SYNTHESIS_READINESS
+R05_CANONICAL_PROOF=stages/stage13/13-13fh/stage13-r05-canonical-proof.md
+R05_CANONICAL_PROOF_SINGLE_ENTRYPOINT=true
+NOTATION_THETA_GEOMETRIC_ONLY=true
+NOTATION_VARTTHETA_GAUSSIAN_PHASE=true
+C_ELL_P_SUBSTITUTION_DEFINED_AT_FIRST_USE=true
+DETERMINISTIC_AUDIT_SCOPE=REPRODUCIBILITY_AND_CONSISTENCY_ONLY
+REPAIR_GATES_A_THROUGH_H_COMPLETE=true
+R04_OBJECTIONS_REPAIRED_IN_R05_CANDIDATE=true
+R04_VERDICTS_CARRY_FORWARD_TO_R05=false
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R05_SYNTHESIS_READY=true
+R05_BUNDLE_CREATED=false
+R05_FRESH_EXTERNAL_REVIEW_REQUIRED=true
+PROMOTE_TO_13_13G=false
+NEXT=13-13fi
+```
 
-13-13f closes only when:
+## 13-13fi — immutable R05 bundle
+
+Status: `[>] NEXT`.
+
+Build a new immutable self-contained review artifact from the merged Gate-H snapshot. It must use the new `13-13fh` proof as its canonical entrypoint, embed the exact Stage12 interface and external-contract boundary needed for review, record a new source snapshot and SHA256, and never mutate R04.
+
+After R05 is built:
+
+```text
+R05_FRESH_EXTERNAL_REVIEW_REQUIRED=true
+R04_VERDICTS_CARRY_FORWARD_TO_R05=false
+```
+
+Fresh R05 reviewer verdicts are ingested under parent gate `13-13f`.
+
+## 13-13f closure rule
+
+Stage13 final freeze remains forbidden until the final immutable bundle satisfies
 
 ```text
 INDEPENDENT_CLOSED_VERDICTS>=2
 UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
 ```
 
-Until then:
+Current parent state:
 
 ```text
-STAGE13_13F=BLOCKED_R05_REPAIR_IN_PROGRESS
+STAGE13_13F=BLOCKED_R05_BUNDLE_AND_REVIEW_PENDING
+R05_SYNTHESIS_READY=true
+R05_BUNDLE_CREATED=false
 R05_FRESH_REVIEW_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13fh
+NEXT=13-13fi
 ```
 
 ## 13-13g — final freeze
@@ -273,14 +307,14 @@ NEXT_STAGE13_ACTION=NONE_UNLESS_A_GENUINE_DEFECT_IS_REPORTED
 ## Global lock
 
 ```text
-STAGE13_13_ROADMAP=ACTIVE_BLOCKED_R05_REPAIR
+STAGE13_13_ROADMAP=ACTIVE_BLOCKED_R05_BUNDLE_AND_REVIEW
 NUMERIC_ONLY_DISPATCH=true
 STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
 STAGE13_13E=COMPLETE_R04_REVIEW_BUNDLE
-STAGE13_13F=BLOCKED_R05_REPAIR_IN_PROGRESS
+STAGE13_13F=BLOCKED_R05_BUNDLE_AND_REVIEW_PENDING
 STAGE13_13FA=COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT
 STAGE13_13FB=COMPLETE_EXPLICIT_WIENER_BOUND
 STAGE13_13FC=COMPLETE_CURVED_REGION_ERROR_ACCUMULATION
@@ -288,9 +322,13 @@ STAGE13_13FD=COMPLETE_RETAINED_HARMONIC_CONDUCTOR_BOOKKEEPING
 STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE
 STAGE13_13FF=COMPLETE_EXACT_EXTERNAL_THEOREM_CONTRACTS
 STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER
+STAGE13_13FH=COMPLETE_R05_SYNTHESIS_READINESS
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R03_IMMUTABLE=true
 R04_IMMUTABLE=true
-R05_REQUIRED=true
+R05_SYNTHESIS_READY=true
+R05_BUNDLE_CREATED=false
+R05_FRESH_REVIEW_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13fh
+NEXT=13-13fi
 ```
