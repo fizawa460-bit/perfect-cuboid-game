@@ -1,0 +1,35 @@
+name: Stage14-t36 fixed-direction squareclass energy
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t36/**'
+      - 'stages/stage14/scripts/14-t/t36_fixed_direction_squareclass_energy_audit.py'
+      - 'stages/stage14/data/14-t36/**'
+      - '.github/workflows/stage14-t36-fixed-direction-squareclass-energy.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t35 regression
+        run: python stages/stage14/scripts/14-t/t35_same_modulus_dispersion_audit.py
+
+      - name: Run t36 fixed-direction squareclass audit
+        run: python stages/stage14/scripts/14-t/t36_fixed_direction_squareclass_energy_audit.py
+
+      - name: Check frozen t36 summary
+        run: git diff --exit-code stages/stage14/data/14-t36/fixed_direction_squareclass_energy.json
+
+      - name: Validate locked t36 boundary
+        run: |
+          grep -F 'STAGE14_T36=COMPLETE_FIXED_DIRECTION_SQUARECLASS_ENERGY_AND_FIBER_SQRT_SAVING' stages/stage14/14-t36/result.md
+          grep -F 'FIXED_DIRECTION_SQUARECLASS_ENERGY=J*B^o(1)' stages/stage14/14-t36/result.md
+          grep -F 'SIGNED_TRACE_FIBER_CANCELLATION_PROVED=true' stages/stage14/14-t36/result.md
+          grep -F 'FIXED_ELL_SHELL_ACTIVE_DIRECTION_BOUND=sqrt(M*N)*B^o(1)' stages/stage14/14-t36/result.md
+          grep -F 'LONG_FIBER_POWER_SAVING_PROVED=true' stages/stage14/14-t36/result.md
+          grep -F 'SHORT_FIBER_ENDPOINT_POWER_SAVING_PROVED=false' stages/stage14/14-t36/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t36/result.md
