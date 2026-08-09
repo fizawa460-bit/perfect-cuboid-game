@@ -37,45 +37,51 @@ Status: [x] Complete. At new reflected primes the local square condition is auto
 ## 14-t9 — Euclid sparse-residue formulation
 Status: [x] Complete, with interpretation corrected by t10.
 
-The exceptional residues have density `2/p` at split primes. They are a sparse moving set, but t10 verifies that they are not a necessary condition for triple points; they are the exceptional set where the automatic local argument stops.
-
 ## 14-t10 — character-sieve direction audit
+Status: [x] Complete. The sparse reflected residue support is an exceptional regime where automatic local solubility stops, not a necessary thinning condition for every triple.
+
+## 14-t11 — compatible paired small-point activation
 Status: [x] Complete.
 
-For reduced `q=u/v` and odd `p` away from denominator primes,
+For each primitive oriented physical base `F`, define `mu_R(F)` as the first raw physical height and `mu_pair(F)` as the first height of a compatible shared-`q` point on the genus-5 Humbert--Edge fiber product. Then
 
 \[
-q^2\equiv-1\pmod p
-\iff
-p\mid u^2+v^2.
+\mu_R(F)\le\mu_{pair}(F),\qquad V_{pair}(B)\le V_R(B).
 \]
 
-Thus the reflected exceptional support is the odd support of
+The new t-side conditional thinning factor is
 
 \[
-\gcd(\Delta_-,u^2+v^2).
+\theta_{pair}(B)=V_{pair}(B)/V_R(B).
 \]
 
-However this is an **error/exception set**, not a thinning condition satisfied by every triple. If no such exceptional prime occurs, the new reflected local tests are automatic. Therefore a large sieve for this gcd support can simplify exceptional bookkeeping but cannot by itself prove a power saving for `T(B)`.
+This is strictly stronger than simultaneous positive rank or unrelated small points on the two reflected elliptic quotients: both projections must arise from the same rational `q`.
 
-The main saving must come from the global simultaneous condition already isolated in t6: compatible physical small points on `E_+(s)` and `E_+(-s)` with the same Humbert--Edge/shared-`q` lift.
+At object level define `P(B)` as the number of compatible physical pairs `(F,q)` below height `B`. A theorem for `T(B)` must control `P(B)` directly or combine a paired-base count with a compatible-point multiplicity bound.
 
-## 14-t11 — paired reflected activation count
+The raw/main activation factorization therefore extends as
+
+\[
+\frac{V_{pair}}A=
+\frac\Sigma A\frac R\Sigma\frac{V_R}R\frac{V_{pair}}{V_R}.
+\]
+
+The first three gates belong mainly to main/Stage14-s; the final shared-`q` gate is the t-side target.
+
+The finite exact census through `B=2,000,000` has 490 raw active oriented face vertices and zero retained triple objects. This remains finite diagnostic evidence only.
+
+## 14-t12 — point-conditioned reflected-square average
 Status: [>] Next.
 
-Define and attack the paired activation population
+Condition on an already existing raw physical small point `(F,q)` and average the indicator that the reflected quartic at the **same q** is also a square. Equivalently, average physical-height rational points on the moving genus-5 fiber product after raw activation.
+
+Seek a theorem of the form
 
 \[
-V_{\pm}(B)=\#\{F:\ E_+(s_F),E_+(-s_F)\text{ both admit compatible physical small points}\}.
+P(B)=o(\sqrt B)
 \]
 
-Seek either
-
-\[
-V_{\pm}(B)=o(\sqrt B)
-\]
-
-or a relative thinning theorem `V_pm(B)=o(V(B))` that can be combined with the main/raw activation law. The t8 exceptional-prime sieve is retained only as a secondary error decomposition.
+or a conditional-density saving strong enough to combine with the raw activation/multiplicity bounds.
 
 ## Scope boundary
 
@@ -93,6 +99,7 @@ STAGE14_T7=COMPLETE_SHARED_Q_CONIC_AND_LOCAL_SIEVE_BOUNDARY
 STAGE14_T8=COMPLETE_REFLECTED_MOVING_PRIME_LOCAL_BOUNDARY
 STAGE14_T9=COMPLETE_EUCLID_SPARSE_RESIDUE_SIEVE_FORMULATION
 STAGE14_T10=COMPLETE_CHARACTER_SIEVE_DIRECTION_AUDIT
+STAGE14_T11=COMPLETE_COMPATIBLE_PAIRED_ACTIVATION_FORMULATION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t11 paired reflected activation count / global compatibility target
+NEXT=Stage14-t12 point-conditioned reflected-square average / moving fiber-product small-point bound
 ```
