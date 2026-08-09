@@ -1,0 +1,90 @@
+name: Stage13-13fv immutable R07 review bundle
+
+on:
+  push:
+    branches:
+      - agent/stage13-13fv-r07-review-bundle
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fv/**'
+      - 'stages/stage13/scripts/13-13fv/**'
+      - '.github/workflows/stage13-13fv-r07-review-bundle.yml'
+      - 'review/STAGE13-FINAL-SELF-CONTAINED-20260810-R07.html'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build immutable R07 bundle
+        run: python stages/stage13/scripts/13-13fv/build_r07_review_bundle.py
+      - name: Audit immutable locks and content hash
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+
+          bundle = Path('review/STAGE13-FINAL-SELF-CONTAINED-20260810-R07.html')
+          locks = Path('stages/stage13/13-13fv/locks.txt').read_text()
+          result = Path('stages/stage13/13-13fv/result.md').read_text()
+          manifest = Path('stages/stage13/13-13fv/review-manifest.md').read_text()
+          data = bundle.read_bytes()
+          sha = hashlib.sha256(data).hexdigest()
+
+          required = [
+              'BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260810-R07',
+              'SOURCE_SNAPSHOT_COMMIT=a2bb16304e02fe8d6f9b0454188fe410e16b9afb',
+              f'CONTENT_SHA256={sha}',
+              'R07_IMMUTABLE=true',
+              'R06_IMMUTABLE=true',
+              'R07_FRESH_EXTERNAL_REVIEW_REQUIRED=true',
+              'R06_VERDICTS_CARRY_FORWARD_TO_R07=false',
+              'R07_INDEPENDENT_CLOSED_VERDICTS=0',
+              'R07_REQUIRED_INDEPENDENT_CLOSED_VERDICTS=2',
+              'R07_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0',
+              'R07_REPAIR_BLOCKERS_OPEN=0',
+              'R07_HARDENING_OBLIGATIONS_OPEN=0',
+              'PROMOTE_TO_13_13G=false',
+              'NEXT=13-13fw',
+          ]
+          for token in required:
+              assert token in locks, token
+              assert token in result or token.startswith('CONTENT_SHA256=') and token in manifest, token
+          html = data.decode('utf-8')
+          for token in [
+              'Stage13 final self-contained review bundle — R07',
+              'R07 starts with zero independent CLOSED verdicts',
+              'Vaaler approximates only the angular chamber interval',
+              'R07 Gate A', 'R07 Gate B', 'R07 Gate C', 'R07 Gate D',
+          ]:
+              assert token in html, token
+          print('Stage13-13fv immutable R07 bundle audit: PASS')
+          print('CONTENT_SHA256=' + sha)
+          PY
+      - name: Commit generated immutable artifacts when needed
+        shell: bash
+        run: |
+          generated_status="$(git status --porcelain -- \
+            review/STAGE13-FINAL-SELF-CONTAINED-20260810-R07.html \
+            stages/stage13/13-13fv)"
+          if [ -z "${generated_status}" ]; then
+            echo 'Generated artifacts already committed.'
+            exit 0
+          fi
+          printf '%s\n' "${generated_status}"
+          target_branch="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add review/STAGE13-FINAL-SELF-CONTAINED-20260810-R07.html stages/stage13/13-13fv
+          git commit -m 'Stage13-13fv: generate immutable R07 review artifacts'
+          git push origin HEAD:"${target_branch}"
