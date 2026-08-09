@@ -42,12 +42,10 @@ def eta_key(frac):
 
 def is_smooth_at(pmax, B, frac):
     a,b = frac
-    # pmax <= B^(a/b), avoiding floating-point threshold errors.
     return pow(pmax, b) <= pow(B, a)
 
 
 def actual_trivial_kernel_edges():
-    """Regenerate actual raw-pair edges and extract alpha=beta=1 edges."""
     t21 = runpy.run_path(str(T21))
     direction_data = t21['direction_data']
     graph = runpy.run_path(str(GRAPH))
@@ -68,7 +66,6 @@ def actual_trivial_kernel_edges():
             s = sides[shared_idx]
             z = direction_data(d, s)
             if z['alpha'] == 1 and z['beta'] == 1:
-                # kappa=alpha*beta=1, so this must be a triple edge.
                 assert mask.bit_count() == 3
                 edge_ds.append(d)
 
@@ -85,12 +82,6 @@ def actual_trivial_kernel_edges():
 
 
 def enumerate_candidate_directions(lpf):
-    """Enumerate all primitive alpha=beta=1 reduced directions D<=MAX_B.
-
-    For coprime u>r>0, h=1 for both odd and h=2 otherwise,
-      D=h(r^2+u^2)/2, C=h(u^2-r^2)/2,
-    and D^2-C^2=(hru)^2.
-    """
     rows = []
     umax = isqrt(2 * MAX_B) + 2
     for u in range(2, umax + 1):
@@ -112,7 +103,6 @@ def enumerate_candidate_directions(lpf):
             assert D*D - C*C == L*L
             assert D - C == h*r*r
             assert D + C == h*u*u
-
             pmax = max(
                 largest_odd_prime_factor(r, lpf),
                 largest_odd_prime_factor(u, lpf),
@@ -122,7 +112,6 @@ def enumerate_candidate_directions(lpf):
             rows.append((D, pmax, r, u, C, h))
 
     rows.sort(key=lambda z: (z[0],z[2],z[3]))
-    # Parametrization is injective in the ordered positive coprime pair (r,u).
     assert len({(z[0],z[4]) for z in rows}) == len(rows)
     return rows
 
@@ -158,15 +147,20 @@ def main():
     for B in CUTS:
         hi = bisect_right(Ds, B)
         shell_lo = bisect_right(Ds, B//2)
-        all_stats = aggregate_range(candidates, 0, hi, B)
-        shell_stats = aggregate_range(candidates, shell_lo, hi, B)
         rows.append({
             'B': B,
             'actual_alpha_beta_1_1_edges': 0,
-            'all_D_le_B': all_stats,
-            'top_dyadic_shell_B_over_2_lt_D_le_B': shell_stats,
+            'all_D_le_B': aggregate_range(candidates, 0, hi, B),
+            'top_dyadic_shell_B_over_2_lt_D_le_B': aggregate_range(candidates, shell_lo, hi, B),
         })
 
+    # All standard cutoffs are computed on every run.  Freeze only the final
+    # B=2m row so the audit artifact stays compact while preserving the main
+    # diagnostic and deterministic regression target.
+    assert len(rows) == len(CUTS)
+    assert [r['all_D_le_B']['candidate_directions'] for r in rows] == sorted(
+        r['all_D_le_B']['candidate_directions'] for r in rows
+    )
     final = rows[-1]
     report = {
         'stage': '14-t27',
@@ -194,11 +188,12 @@ def main():
         'finite_actual': actual,
         'finite_candidate_universe': {
             'max_B': MAX_B,
+            'cutoffs_computed': len(rows),
             'candidate_directions_D_le_B2m': final['all_D_le_B']['candidate_directions'],
             'candidate_directions_top_shell_B2m': final['top_dyadic_shell_B_over_2_lt_D_le_B']['candidate_directions'],
             'actual_active_alpha_beta_1_1_edges_B2m': 0,
         },
-        'rows': rows,
+        'final_cutoff': final,
         'decision': {
             'STAGE14_T27': 'COMPLETE_TRIVIAL_KERNEL_TARGET_COMPRESSION_AND_COVER_CONDITIONED_FRIABILITY_SPLIT',
             'TRIVIAL_KERNEL_PARTITION_ONLY_1_1': True,
