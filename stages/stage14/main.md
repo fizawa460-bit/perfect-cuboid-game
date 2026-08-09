@@ -1,6 +1,6 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_4AI_COMPLETE_MINIMAL_BISECTION_REDUCTION_14_4AJ_NEXT`
+> **STATUS:** `STAGE14_4AK_COMPLETE_SPLIT_ROOT_COSET_VOID_14_4AL_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 >
@@ -15,7 +15,9 @@ Stage14 counts primitive canonical cuboids
 
 with exactly two integral face diagonals. No perfect-cuboid nonexistence assumption is made.
 
-## §1. Ledgers and finite ceiling
+This file is the current canonical resynthesis through Stage14-4ak. Detailed historical derivations remain in the stage archive files.
+
+## §1. Exact ledger and finite ceiling
 
 Let `T(B)` count all-three-face objects and let `E(B)=O_pair_raw(B)` be the sum of the three raw face-pair incidences. Then
 
@@ -55,8 +57,9 @@ g=(S_1,S_2),\qquad L_0=\operatorname{lcm}(S_1,S_2),\qquad t_i=X_i/S_i.
 Primitive gluing has multiplicity one and
 
 \[
-(e,x,y)=L_0(1,t_1,t_2),
-\qquad d=L_0\sqrt{1+t_1^2+t_2^2}.
+\boxed{(e,x,y)=L_0(1,t_1,t_2)},
+\qquad
+\boxed{d=L_0\sqrt{1+t_1^2+t_2^2}}.
 \]
 
 The space-square condition is equivalent to
@@ -65,7 +68,7 @@ The space-square condition is equivalent to
 \boxed{(X_1X_2)^2+(gd)^2=(H_1H_2)^2.}
 \]
 
-Fixing the first face gives
+Fixing the first face gives the elliptic curve
 
 \[
 \boxed{E_t:Y^2=X(X-1)(X+t^2).}
@@ -77,17 +80,17 @@ For the actual Pythagorean base
 r=\frac{X_1}{H_1+S_1},\qquad t=\frac{2r}{1-r^2},
 \]
 
-the elliptic K3 has six `I4` fibers, geometric generic Mordell--Weil rank zero, and only nonphysical rational torsion. Hence every physical raw pair lies on a positive-rank specialization.
+the pulled-back elliptic surface has six `I4` fibers and geometric generic Mordell--Weil rank zero. Rational torsion on genuine physical fibers is nonphysical, so every physical raw pair lies on a positive-rank specialization.
 
-## §3. Level-4 Kummer geometry and physical height
+## §3. Level-4 Kummer geometry and exact physical height
 
-Stage14-4ag identifies this K3 over `Q(i)` with the classical level-4 modular surface; over `C` it is `Km(E_i x E_i)`. In the two half-angle variables,
+Stage14-4ag identifies the Pythagorean-base K3 over `Q(i)` with the classical level-4 modular surface; over `C` it is `Km(E_i x E_i)`. In symmetric half-angle variables,
 
 \[
 \boxed{Z^2=F(r,s):=(1+r^2)^2(1+s^2)^2-16r^2s^2.}
 \]
 
-The independent toric control surface is
+The toric control surface is
 
 \[
 Y=\operatorname{Bl}_4(\mathbf P^1_r\times\mathbf P^1_s),
@@ -109,12 +112,14 @@ The branch has strict class `2L`. For the resolved double cover
 Stage14-4ah proves
 
 \[
-\boxed{M=\pi^*L=\Phi^*\mathcal O_{\mathbf P^2}(1)},
-\qquad \boxed{M^2=8},
-\qquad \boxed{H_M=d}.
+\boxed{M=\pi^*L},
+\qquad
+\boxed{M^2=8},
+\qquad
+\boxed{H_M=d}.
 \]
 
-`M` is big and nef but not ample; its null curves are nonphysical toric-boundary lifts.
+Thus the original space-diagonal cutoff is the actual Kummer `M`-height.
 
 ## §4. Active rank-jump graph
 
@@ -130,7 +135,7 @@ A uniform bounded-height estimate on each elliptic fiber gives
 \max_F\deg_B(F)=B^{o(1)},
 \]
 
-so raw edges and active vertices have identical polynomial growth exponents.
+so raw edges and active vertices have identical limsup and liminf polynomial growth exponents.
 
 Finite data give
 
@@ -142,9 +147,9 @@ B           V(B)     V(B)/sqrt(B)
 2,000,000    490      0.34648
 ```
 
-with effective exponent `0.4998643818582221` on `200k -> 2m`. No asymptotic law is inferred.
+with effective exponent `0.4998643818582221` on `200k -> 2m`. This remains a finite diagnostic.
 
-## §5. Stage14-4ah extremal fixed-curve target
+## §5. Fixed rational curves: the extremal degree target
 
 For a physical rational curve `C/Q`, put
 
@@ -164,265 +169,289 @@ There are no physical sections, hence
 \boxed{n\ge2},\qquad \boxed{M\cdot C\ge4}.
 \]
 
-For `C~=P1`, a fixed `M`-degree `m` curve contributes bounded-height polynomial exponent `2/m`. Therefore a fixed curve can reach exponent `1/2` only if
+For `C\simeq\mathbf P^1`, a fixed `M`-degree `m` curve contributes bounded-height polynomial exponent `2/m`. Therefore a fixed curve can reach exponent `1/2` only if
 
 \[
-\boxed{M\cdot C=4,\qquad n=2.}
+\boxed{M\cdot C=4,\qquad \deg(C\to\mathbf P^1_r)=2.}
 \]
 
-Stage14-4ai attacks exactly this minimal bisection problem.
-
-## §6. Stage14-4ai second projection bound
-
-The second half-angle also satisfies
-
-\[
-t(s)=\frac{2s}{1-s^2}=y/e,
-\]
-
-a quotient of `M`-sections. Hence on a minimal curve
+The second physical coordinate also gives
 
 \[
 \boxed{\deg(C\to\mathbf P^1_s)\le2.}
 \]
 
+This finite degree pattern is the object classified in Stage14-4ai through 4ak.
+
+## §6. Stage14-4ai — all but one minimal mechanism eliminated
+
 Let
 
 \[
-D=\pi(C),\qquad \delta=\deg(C\to D)\in\{1,2\}.
+D=\pi(C),\qquad \delta_0=\deg(C\to D)\in\{1,2\}.
 \]
 
-This degree bound makes the image-class analysis finite.
+Stage14-4ai proves:
 
-## §7. New symmetric `(lambda,mu)` Kummer coordinates
+1. `delta_0=2`: after boundary reduction only constant sections and opposite-corner `(1,1)` pencils remain; exact branch discriminants eliminate every physical rational inverse image.
+2. `delta_0=1`, arithmetic genus zero: every `(1,2)` contact core and every `(2,2)` genus-zero ancestor is eliminated by exact resultant/discriminant identities.
+3. The sole unresolved class is
+   \[
+   \boxed{D=L=-K_Y},\qquad D^2=4,\qquad p_a(D)=1.
+   \]
+   A singular member can have normalization `P1`; if the Kummer branch restricts evenly, its pullback can split into an `M`-degree-four rational bisection.
 
-Define
+Thus at the end of 14-4ai the entire fixed-curve question had been reduced to a split singular anticanonical curve.
+
+## §7. Symmetric Kummer coordinates
+
+Stage14-4ai introduces
 
 \[
-\boxed{\lambda=\frac{1-rs}{r-s}},
+\lambda=\frac{1-rs}{r-s},
 \qquad
-\boxed{\mu=\frac{1+rs}{r+s}}.
+\mu=\frac{1+rs}{r+s}.
 \]
 
-For `0<r<s<1`,
+Then
 
 \[
-\lambda<-1<1<\mu.
+(\lambda^2-1)(\mu^2-1)=\square
 \]
 
-One has the exact identities
+encodes rational recovery of `r,s`, while the space-square condition is
 
 \[
-\boxed{
-(\lambda^2-1)(\mu^2-1)
-=\left(\frac{(1-r^2)(1-s^2)}{(r-s)(r+s)}\right)^2,
-}
+(\lambda^2+1)(\mu^2+1)=\square.
 \]
 
-and
-
-\[
-\boxed{
-(\lambda^2+1)(\mu^2+1)
-=\frac{F(r,s)}{(r-s)^2(r+s)^2}.
-}
-\]
-
-Consequently the Stage14 rationality and space-square conditions combine to
+Hence
 
 \[
 \boxed{(\lambda^4-1)(\mu^4-1)=\square.}
 \]
 
-These coordinates are the preferred input for the next CM/Kummer contact analysis.
+These coordinates identify the same Gaussian-CM/Kummer structure used by the Shimada lattice computation.
 
-## §8. `delta=2` is eliminated
+## §8. Stage14-4aj — exact Shimada/deck interface
 
-If `delta=2`, then `D->P1_r` has degree one and `D->P1_s` has degree at most one. After removal of forced null-boundary components, only two movable mechanisms remain.
-
-### Constant section
-
-For `s=c`,
+On the elliptic model
 
 \[
-\operatorname{disc}_rF(r,c)
-=2^{16}c^4(c-1)^4(c+1)^4(c^2+1)^4.
+E_t:y^2=x(x-1)(x+t^2),
 \]
 
-For rational `0<c<1` it is nonzero, so the connected inverse image has genus one.
-
-### Opposite-corner `(1,1)` pencil
-
-A representative is
+the physical inverse coordinate has the form `q=x/(s_0y)`. The raw Kummer deck involution fixing `q` is
 
 \[
-1-rs+k(s-r)=0.
+\boxed{\delta(x,y)=\left(-\frac{t^2}{x},-\frac{t^2y}{x^2}\right)}.
 \]
 
-The resolved branch restriction leaves
+In the group law,
 
 \[
-Q_k=(k^2+1)r^4-8kr^3+6(k^2+1)r^2-8kr+(k^2+1),
+\boxed{\delta(P)=(0,0)-P}. 
 \]
 
-with
+Therefore, in Shimada's fixed NS basis, the Stage14 deck matrix is a nonzero 2-torsion translation composed with elliptic inversion, not bare inversion.
+
+For a split anticanonical survivor,
 
 \[
-\operatorname{disc}Q_k=2^{14}(k-1)^6(k+1)^6.
+\pi^{-1}(D)=C+\delta(C),
+\qquad
+\pi^*D=M,
 \]
 
-The only rational degenerations are `k=+/-1`, where the defining curve itself splits into toric boundary components.
+so
+
+\[
+\boxed{M=C+\delta(C)},
+\qquad
+\boxed{C^2=-2},
+\qquad
+\boxed{M\cdot C=4},
+\qquad
+C\cdot\delta(C)=6.
+\]
+
+This is the exact lattice contract consumed in 14-4ak.
+
+## §9. Stage14-4ak — published Shimada data and physical labeling
+
+Stage14-4ak directly consumes Shimada's published level-4 computation objects
+
+```text
+GramS0
+L40vs
+SixFs
+fsigma
+AutX0h0
+AutX0f
+MWtorsigmaz
+Tsigma
+iotasigmaz
+```
+
+using the published row-vector/right-action convention.
+
+The `AutX0h0` orbit of `fsigma` has size five. Intrinsic Stage14 fiber/corner constraints leave four candidates for the symmetric second fiber class `f_s`. Requiring the actual coordinate swap `r<->s` to exchange the two fibrations and the corresponding boundary systems leaves two complete labelings.
+
+Those two are equivalent: 64 elements of `AutX0f` map one full labeling to the other, including `f_s`, `M`, corner classes, and deck involution. Hence there is one physical labeling up to the relevant symmetry.
+
+One representative is
+
+```text
+f_s = [0,0,0,0,1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0]
+M   = [1,-1,1,-1,0,0,0,2,0,2,2,2,0,2,2,0,0,0,0,0]
+deck 2-torsion label = [0,2]
+```
+
+## §10. Complete split-root reduction
+
+For a hypothetical split root put
+
+\[
+\boxed{x=2C-M}.
+\]
+
+Since `delta(M)=M` and `delta(C)=M-C`,
+
+\[
+\boxed{\delta(x)=-x}.
+\]
+
+Also
+
+\[
+x^2=(2C-M)^2=4(-2)-4(4)+8=-16.
+\]
+
+Finally `C=(M+x)/2` is an integral NS class exactly when
+
+\[
+\boxed{x\equiv M\pmod2}.
+\]
+
+Thus the unique remaining Stage14-4ai mechanism is equivalent to finding a vector satisfying
+
+```text
+delta(x) = -x
+x^2 = -16
+x = M mod 2.
+```
+
+This reduction is exhaustive: any split `M.C=4` component gives such an `x`, and conversely such an `x` gives an integral root class `C` with the required numerical split identities.
+
+## §11. Anti-invariant lattice and exact enumeration
+
+Let `K` be a saturated integer basis of
+
+\[
+\ker(\delta+1)\cap NS(X).
+\]
+
+The computation gives
+
+```text
+anti-invariant rank = 6
+```
+
+and for the positive definite form
+
+\[
+Q=-K^T\operatorname{GramS0}K
+\]
+
+one has
+
+```text
+det Q = 256.
+```
+
+The exact vector census through norm 16 is
+
+```text
+norm 0   :    1
+norm 4   :   60
+norm 8   :  252
+norm 12  :  544
+norm 16  : 1020
+```
+
+So the anti-invariant lattice has many norm-16 vectors. The decisive Stage14 obstruction is the parity coset.
+
+Two independent exact enumeration routes agree:
+
+```text
+PARI qfminim nonzero vectors norm <=16 = 1876
+PARI norm-16 +/- representatives        = 510
+independent exact LDL norm-16 vectors    = 1020
+parity-compatible norm-16 vectors       = 0
+parity-compatible split-root pairs      = 0
+```
+
+The PARI route uses the saturated integer kernel and Fincke--Pohst enumeration. The independent route uses exact rational LDL decomposition and recursive integer enumeration. Their cross-check passes.
+
+An earlier implementation diagnostic accidentally extracted the PARI norm incorrectly and temporarily printed zero norm-16 vectors. The independent enumerator exposed that bug. The corrected promoted result is **not** a norm-16 void; it is the required Stage14 parity-coset void.
+
+## §12. Fixed-curve conclusion
+
+Every hypothetical split singular-anticanonical `M`-degree-four component would give an integral anti-invariant norm-16 vector in the coset `M mod 2`. That coset contains none.
 
 Therefore
 
 \[
-\boxed{\delta=2\text{ gives no physical irreducible }M\text{-degree-4 bisection}.}
+\boxed{\text{no split singular-anticanonical }M\text{-degree-four bisection exists}.}
 \]
 
-## §9. `delta=1`: all genus-zero image classes are eliminated
-
-Now `C` maps birationally to a splitting/contact curve
+Combined with the complete 14-4ai classification,
 
 \[
-D=aH_r+2H_s-\sum m_jE_j,
-\qquad a\le2,
+\boxed{\text{there is no physical rational }M\text{-degree-four bisection}.}
 \]
-
-with
-
-\[
-L\cdot D=4,
-\qquad \sum m_j=2a.
-\]
-
-### Arithmetic-genus-zero cores
-
-For `a=1`, nonnegative arithmetic genus forces two simple toric-corner conditions. After removing forced boundary components, four physical-position classes remain, in two symmetry orbits: same-`r` and opposite-corner.
-
-For `a=2`, the arithmetic-genus-zero multiplicity pattern is `(2,1,1,0)`. Exhausting all placements and removing negative-intersection boundary components reduces every such class to an `a=1` core or a degree-one section.
-
-The two `a=1` orbits are then eliminated by exact square-contact algebra.
-
-#### Same-r orbit
-
-For
-
-\[
-P=r\{(-c-d-f)s^2-es+c\}+ds^2+es+f=0,
-\]
-
-the resolved branch restriction is `R_-R_+`, with
-
-\[
-R_+-R_-=4s(c+f)^2(s^2+1),
-\]
-
-and
-
-\[
-\begin{aligned}
-\operatorname{Res}(R_-,R_+)=2^{10}(c+f)^8&(c^2+f^2)((d-f)^2+e^2)\\
-&((c+d+f)^2+d^2)((2c+d+f)^2+e^2).
-\end{aligned}
-\]
-
-The rational resultant-zero branches are reducible/boundary or lower-degree. In the coprime branch, square parity plus the difference identity reduces to discriminant-zero cases; the remaining quartic factor has the sum-of-squares certificate
-
-\[
-\mathcal R=(p^2+2pq)^2+4q^2(p+2f)^2,
-\qquad p=c-f,\ q=d+f,
-\]
-
-and again only boundary/reduced cases survive.
-
-#### Opposite-corner orbit
-
-For
-
-\[
-P=r\{-(c+e)s^2-(d+f)s+c\}+ds^2+es+f=0,
-\]
-
-the resolved restriction is `U_2U_6`, with
-
-\[
-\operatorname{disc}U_2=-4(c^2+ce+df)^2.
-\]
-
-The only nontrivial resultant-zero branch is `c^2+ce+df=0`. On `c=1`, write `e=-1-df`; then
-
-\[
-U_2=(1+f^2)(ds-1)^2,
-\]
-
-\[
-U_6=(ds-1)^2Q_f(s),
-\]
-
-where
-
-\[
-Q_f=(1+f^2)s^4-8fs^3+6(1+f^2)s^2-8fs+(1+f^2),
-\]
-
-and
-
-\[
-\operatorname{disc}Q_f=2^{14}(f-1)^6(f+1)^6.
-\]
-
-The rational degenerations `f=+/-1` are boundary factorizations. Thus no genus-zero split core survives.
 
 Hence
 
-\[
-\boxed{\text{all genus-zero }\delta=1\text{ minimal image mechanisms are eliminated}.}
-\]
+```text
+PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTENCE_RESOLVED=true
+PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTS=false
+FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
+```
 
-## §10. The unique unresolved minimal mechanism
+This is a geometric lattice obstruction before any `Q`-descent, `Galmu`, effectivity, or physical-open filter is needed.
 
-There is one class that must **not** be discarded by setting arithmetic genus equal to geometric genus.
+## §13. Meaning for the finite sqrt(B) signal
 
-For `a=2` with four simple corner conditions,
+The stable finite values of `V(B)/sqrt(B)` cannot be explained by a finite collection of fixed extremal rational curves. If a `sqrt(B)` law exists, it must be collective: a moving positive-rank specialization phenomenon together with the first-small-point height gate.
 
-\[
-\boxed{D=L=-K_Y},
-\]
+This reconnects the main track directly to Stage14-s, which has already isolated:
 
-\[
-D^2=4,
-\qquad p_a(D)=1.
-\]
+```text
+positive rank
++ moving bad-prime/Selmer structure
++ first non-torsion point in a logarithmic canonical-height window
+```
 
-A singular member of `|L|` may have normalization `P1`. If the branch restriction on such a singular rational anticanonical curve is even / a square in `Q(D)`, then `pi^{-1}(D)` splits and produces a physical `M.C=4` rational bisection.
+No square-root asymptotic is promoted by 14-4ak itself.
 
-Therefore Stage14-4ai proves only
+## §14. Triple gate
 
-\[
-\boxed{
-\text{any remaining fixed-curve }\sqrt B\text{ mechanism must be a split singular anticanonical curve }D\in|L|.
-}
-\]
-
-It does **not** yet prove that this locus is empty.
-
-## §11. Triple restriction on a hypothetical minimal survivor
-
-The third-face relative cover has branch class `2M`. On a hypothetical minimal rational bisection `C`,
+The exact relation remains
 
 \[
-(2M)\cdot C=8.
+N_2(B)=E(B)-3T(B).
 \]
 
-With eight simple branch intersections, the induced double cover of `C~=P1` has genus
+The independent Stage14-t track must still prove sufficiently strong moving-base control, ideally
 
 \[
-\boxed{3}.
+T(B)=o(\sqrt B),
 \]
 
-Special tangencies/splitting must be audited separately; no `T=o(sqrt(B))` conclusion follows here. The independent Stage14-t track handles that gate.
+before any future raw-pair square-root law can be transferred to exactly-two.
 
-## §12. Locked decision
+## §15. Locked decision
 
 ```text
 STAGE14_4AA=COMPLETE
@@ -434,28 +463,53 @@ STAGE14_4AF=COMPLETE
 STAGE14_4AG=COMPLETE
 STAGE14_4AH=COMPLETE
 STAGE14_4AI=COMPLETE_MINIMAL_BISECTION_REDUCTION
+STAGE14_4AJ=COMPLETE_SHIMADA_LATTICE_INTERFACE
+STAGE14_4AK=COMPLETE_SPLIT_ROOT_COSET_VOID
 
 PHYSICAL_KUMMER_POLARIZATION_LOCKED=true
 PHYSICAL_LINE_BUNDLE=M=pi^*(-K_Y)
 PHYSICAL_POLARIZATION_SQUARE=8
-LAMBDA_MU_KUMMER_COORDINATES_LOCKED=true
 
 DEGREE_TWO_IMAGE_M4_MECHANISM_ELIMINATED=true
 GENUS_ZERO_SPLIT_M4_MECHANISM_ELIMINATED=true
-ONLY_REMAINING_FIXED_SQRTB_CURVE_TARGET=split singular anticanonical D in |L|
-PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTENCE_RESOLVED=false
-FIXED_CURVE_SQRTB_MECHANISM_REJECTED=false
+SINGULAR_ANTICANONICAL_SPLIT_M4_MECHANISM_ELIMINATED=true
+PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTENCE_RESOLVED=true
+PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTS=false
+FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
+
+SHIMADA_PHYSICAL_LABELINGS_UP_TO_AUTX0F=1
+ANTI_INVARIANT_LATTICE_RANK=6
+ANTI_INVARIANT_POSITIVE_FORM_DETERMINANT=256
+NORM16_VECTOR_COUNT=1020
+PARITY_COMPATIBLE_NORM16_VECTOR_COUNT=0
+ENUMERATOR_CROSSCHECK=PASS
 
 RANK_JUMP_GRAPH_IDENTITY_LOCKED=true
 RAW_PAIR_AND_ACTIVE_VERTEX_POWER_EXPONENT_EQUAL=true
 FINITE_CORE_SQRTB_SIGNAL_SURVIVES=true
 SQRT_B_ASYMPTOTIC_CLAIM=false
 TRUE_GROWTH_ORDER_IDENTIFIED=false
+ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false
 
 TRIPLE_FIXED_BASE_GENUS=5
 TRIPLE_RELATIVE_COVER_BRANCH_CLASS=2M
 T_O_SQRT_B_PROVED=false
 PERFECT_CUBOID_NONEXISTENCE_PROVED=false
 
-NEXT=Stage14-4aj singular anticanonical contact discriminant / CM-Kummer lattice classification
+NEXT=Stage14-4al collective rank-jump / first-small-point mechanism
+```
+
+## §16. Primary artifacts
+
+```text
+stages/stage14/archive/stage14-4ai-degree4-bisections.md
+stages/stage14/archive/stage14-4aj-shimada-lattice-interface.md
+stages/stage14/archive/stage14-4ak-shimada-split-root-void.md
+stages/stage14/data/14-4/shimada_stage14_4ak_result.json
+stages/stage14/scripts/14-4/shimada_stage14_identify.py
+stages/stage14/scripts/14-4/shimada_stage14_refine.py
+stages/stage14/scripts/14-4/shimada_stage14_equiv.py
+stages/stage14/scripts/14-4/shimada_stage14_roots.py
+stages/stage14/scripts/14-4/shimada_stage14_verify.py
+.github/workflows/stage14-4ak-shimada-probe.yml
 ```
