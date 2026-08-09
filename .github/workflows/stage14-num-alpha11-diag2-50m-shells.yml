@@ -1,0 +1,51 @@
+name: Stage14-num-alpha11-diag2 50m shell distribution
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag2/**'
+      - 'stages/stage14/data/14-num-alpha11-diag2/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag2/**'
+      - '.github/workflows/stage14-num-alpha11-diag2-50m-shells.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run 50m shell diagnostic
+        run: python stages/stage14/scripts/14-num-alpha11-diag2/shell50_distribution_diagnostic.py | tee /tmp/diag2.json
+      - name: Verify frozen summary if present
+        run: |
+          if [[ -f stages/stage14/data/14-num-alpha11-diag2/shell50_distribution_summary.json ]]; then
+            python - <<'PY'
+          import json
+          got=json.load(open('/tmp/diag2.json'))
+          lock=json.load(open('stages/stage14/data/14-num-alpha11-diag2/shell50_distribution_summary.json'))
+          assert got['source_rows']==lock['source_rows']==3495
+          assert got['global_counts']==lock['global_counts']
+          assert len(got['shells'])==len(lock['shells'])==10
+          for g,w in zip(got['shells'],lock['shells']):
+              assert g['lo_exclusive']==w['lo'] and g['hi_inclusive']==w['hi']
+              assert g['N2']==w['N2']
+              assert (g['counts']['a'],g['counts']['b'],g['counts']['c'])==(w['a'],w['b'],w['c'])
+              assert g['ratios']=={'a':w['Ra'],'b':w['Rb'],'c':w['Rc']}
+          assert got['max_adjacent_50m_absolute_ratio_shift']==lock['max_adjacent_50m_absolute_ratio_shift']
+          assert got['max_within_100m_half_to_half_absolute_ratio_shift']==lock['max_within_100m_half_to_half_absolute_ratio_shift']
+          assert all(x['exact'] for x in got['diag1_100m_parent_recomposition'])
+          PY
+          fi
+      - name: Check interpretation boundary if result is frozen
+        run: |
+          if [[ -f stages/stage14/14-num-alpha11-diag2/result.md ]]; then
+            grep -q 'DIAG1_100M_PARENT_RECOMPOSITION_EXACT=true' stages/stage14/14-num-alpha11-diag2/result.md
+            grep -q 'CUMULATIVE_2PCT_GATE_REUSED_AS_SIGNIFICANCE=false' stages/stage14/14-num-alpha11-diag2/result.md
+            grep -q 'NEXT=Stage14-num-alpha11-diag3' stages/stage14/14-num-alpha11-diag2/result.md
+          fi
