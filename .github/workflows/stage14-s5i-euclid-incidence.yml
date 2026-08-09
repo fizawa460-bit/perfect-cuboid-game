@@ -1,0 +1,27 @@
+name: Stage14-s5i Euclid incidence dispersion audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5i/**'
+      - 'stages/stage14/scripts/14-s5i/**'
+      - '.github/workflows/stage14-s5i-euclid-incidence.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5i structural audit
+        run: python3 stages/stage14/scripts/14-s5i/euclid_incidence_dispersion_audit.py | tee /tmp/s5i.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5I=COMPLETE_EUCLID_INCIDENCE_RANK_ONE_BULK_AND_DISCREPANCY_REDUCTION$' /tmp/s5i.txt
+          grep -q '^PURE_EUCLID_DIVISIBILITY_BULK_SEPARABLE=true$' /tmp/s5i.txt
+          grep -q '^STATE_SPLIT_MODULI_PRESERVE_BULK_FACTORIZATION=true$' /tmp/s5i.txt
+          grep -q '^DISCREPANCY_SECOND_MOMENT_PROVED=false$' /tmp/s5i.txt
+          grep -q '^SPARSE_LARGE_MODULUS_BLOCKS_CLOSED=false$' /tmp/s5i.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5i.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5i.txt
+          grep -q '^NEXT=Stage14-s5j$' /tmp/s5i.txt
