@@ -1,0 +1,44 @@
+name: Stage14-num-alpha11-diag5 family clusters
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag5/**'
+      - 'stages/stage14/data/14-num-alpha11-diag5/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag5/**'
+      - '.github/workflows/stage14-num-alpha11-diag5-family-clusters.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cluster-diagnostic:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run diag5 cluster diagnostic
+        run: python stages/stage14/scripts/14-num-alpha11-diag5/family_cluster_dependence.py > /tmp/diag5.json
+      - name: Validate source and boundaries
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag5.json'))
+          assert x['source_rows']==3495
+          assert x['global_direction_counts']=={'a':1374,'b':1371,'c':750}
+          assert x['primitive_face_graph_clusters']['unique_edges']==3495
+          assert x['primitive_face_graph_clusters']['duplicate_graph_edges']==0
+          assert x['interpretation_boundary']['graph_component_equals_true_parametric_family_claim'] is False
+          assert x['interpretation_boundary']['asymptotic_claim'] is False
+          print('DIAG5_SUMMARY_BEGIN')
+          print(json.dumps({'same_diagonal':x['same_diagonal'],'cluster_head':{k:x['primitive_face_graph_clusters'][k] for k in ('vertices','unique_edges','connected_components','max_component_edges','component_edge_size_histogram','equal_weight_per_component_ratios')},'largest_components':x['primitive_face_graph_clusters']['largest_components'][:5],'late':x['late_shell_300_400_vs_400_500'],'decision':x['decision']},indent=2,sort_keys=True))
+          print('DIAG5_SUMMARY_END')
+          PY
+      - name: Upload diag5 report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-num-alpha11-diag5-report
+          path: /tmp/diag5.json
