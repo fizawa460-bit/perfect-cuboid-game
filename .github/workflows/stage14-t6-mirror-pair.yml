@@ -1,0 +1,21 @@
+name: Stage14-t6 mirror pair audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t6/**'
+      - 'stages/stage14/scripts/14-t6/**'
+      - 'stages/stage14/data/14-t6/**'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t6-mirror-pair.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Regenerate exact mirror-pair audit
+        run: python stages/stage14/scripts/14-t6/mirror_pair_audit.py
+      - name: Check frozen result
+        run: git diff --exit-code -- stages/stage14/data/14-t6/mirror_pair_audit.json
