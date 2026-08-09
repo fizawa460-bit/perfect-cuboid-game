@@ -60,7 +60,7 @@ jobs:
           pattern: num3-b50m-chunk-*
           path: /tmp/num3-chunks
           merge-multiple: true
-      - name: Merge chunks and enforce frozen 2m/5m/10m/20m regression
+      - name: Merge chunks and enforce frozen 2m/5m/10m/20m/50m regression
         run: |
           python stages/stage14/scripts/14-num3/extended_exact_census.py \
             --bound 50000000 \
@@ -76,10 +76,13 @@ jobs:
           assert r['num1_regression']['all_four_sha256_match'] is True
           assert r['num1_regression']['counts_match'] is True
           assert r['num1_regression']['graph_match'] is True
-          assert r['frozen_num3_milestone_regression']['verified_cutoffs']==[5000000,10000000,20000000]
+          assert r['frozen_num3_milestone_regression']['verified_cutoffs']==[5000000,10000000,20000000,50000000]
           assert r['cutoff_summaries']['5000000']['counts']=={'a':207,'b':211,'c':113,'total':531,'triple':0}
           assert r['cutoff_summaries']['10000000']['counts']=={'a':293,'b':286,'c':141,'total':720,'triple':0}
           assert r['cutoff_summaries']['20000000']['counts']=={'a':392,'b':388,'c':197,'total':977,'triple':0}
+          assert r['cutoff_summaries']['50000000']['counts']=={'a':552,'b':573,'c':303,'total':1428,'triple':0}
+          assert r['cutoff_summaries']['50000000']['graph']['active_oriented_face_vertices']==2028
+          assert r['cutoff_summaries']['50000000']['graph']['max_degree']==10
           assert r['decision']['FROZEN_NUM3_MILESTONES_UNCHANGED'] is True
           assert r['decision']['FINITE_DIAGNOSTIC_ONLY'] is True
           assert r['decision']['ASYMPTOTIC_CLAIM'] is False
@@ -89,7 +92,7 @@ jobs:
           if r['perfect_cuboid_emergency']['triggered']:
               raise SystemExit('PERFECT CUBOID EMERGENCY: independent reproduction required before num3 closure')
           assert r['decision']['STAGE14_NUM3']=='COMPLETE_EXTENDED_EXACT_CENSUS'
-          print('Stage14-num3 B=50m exact census: PASS')
+          print('Stage14-num3 B=50m exact census + frozen milestone regression: PASS')
           print(json.dumps(r['extended_census'], indent=2, sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
