@@ -21,12 +21,15 @@ jobs:
             'https://home.hiroshima-u.ac.jp/ichiro-shimada/preprints/X0X3/PreprintX0X3/compdata/compdata.zip' \
             -o /tmp/shimada.zip
           unzip -q /tmp/shimada.zip -d /tmp/shimada
-      - name: Identify Stage14 classes in Shimada basis
+      - name: Identify Stage14 intrinsic candidates
         run: |
-          python stages/stage14/scripts/14-4/shimada_stage14_identify.py \
-            /tmp/shimada \
-            --out /tmp/stage14-4ak-identify.json
+          python stages/stage14/scripts/14-4/shimada_stage14_identify.py /tmp/shimada --out /tmp/identify.json > /tmp/identify.log
+      - name: Refine by the r-s coordinate swap
+        run: |
+          python stages/stage14/scripts/14-4/shimada_stage14_refine.py /tmp/shimada /tmp/identify.json --out /tmp/refine.json
       - uses: actions/upload-artifact@v4
         with:
           name: stage14-4ak-identify
-          path: /tmp/stage14-4ak-identify.json
+          path: |
+            /tmp/identify.json
+            /tmp/refine.json
