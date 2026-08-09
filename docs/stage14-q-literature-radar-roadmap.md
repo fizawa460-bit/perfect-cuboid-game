@@ -17,15 +17,17 @@ Do not search the literature continuously and broadly. Search when the active pr
 
 Never promote a citation merely because its vocabulary resembles Stage14. Record exact theorem/lemma numbers, hypotheses, variables, losses, field-of-definition conditions, and the precise Stage14 object to which it would be applied.
 
-## Current frontier (2026-08-09, after q2/q3/q4)
+## Current frontier (2026-08-09, after q2/q3/q4/q5)
 
 `Stage14-q2` narrowed the local analytic problem from an arbitrary Euclid-correlated matrix to explicit discrepancy/covariance terms and identified direct Jacobi-bilinear subroutines after genuine separation.
 
-`Stage14-q3` audited the first-small-point height literature against the actual Stage14 family. The exact odd conductor/discriminant interface is controlled by the radical of `SXH`; Petsche/Naccarato remain useful fixed-fiber tools but do not provide the required family lower-tail saving. The strongest transfer architecture is Le Boudec's large-prime-factor plus complete-2-descent strategy, to be rebuilt on the five Euclid factors.
+`Stage14-q3` audited the first-small-point height literature against the actual Stage14 family. Petsche/Naccarato remain useful fixed-fiber tools, while the strongest family-transfer architecture is Le Boudec's large-prime-factor plus complete-2-descent strategy rebuilt on the five Euclid factors.
 
 `Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem and shifted the preferred weapon order toward square/polynomial sieve before generic Selmer machinery.
 
-The next scheduled radar task is `Stage14-q5`, a focused audit of whether the exact Shimada level-4 K3 computational package has been fully consumed and whether any remaining geometric/lattice gap still needs literature input.
+`Stage14-q5` rechecked the Shimada level-4 modular K3 package against the completed 14-4ag--4ak chain. The physical class `M`, deck involution, automorphism labeling, and anti-invariant lattice are already known explicitly. The required norm-16 parity coset is empty, so the fixed `M`-degree-4 `sqrt(B)` curve mechanism is closed before effectivity/Galois filters. Unused Shimada files are therefore not live proof gaps. The newer Shimada Mordell--Weil/automorphism machinery is retained only as a reserve if a future stage creates a new geometric orbit problem.
+
+The next scheduled radar task is `Stage14-q6`, a cross-track weapon test that converts q2--q5 into explicit handoffs and stop/reopen rules for the active proof lanes.
 
 ## Roadmap
 
@@ -33,57 +35,55 @@ The next scheduled radar task is `Stage14-q5`, a focused audit of whether the ex
 
 Recover and normalize the useful results from PR #185 and related literature notes. Build one ledger keyed by active Stage14 bottleneck, with `DIRECT / NEAR / BACKGROUND / BLOCKED`, exact source identifiers, theorem/lemma numbers, hypotheses, and the last date checked. Preserve negative results so later agents do not repeat failed searches.
 
-Deliverable: `docs/stage14-q1-literature-ledger.md`.
+Result: `docs/stage14-q1-literature-ledger.md`.
 
 ### Stage14-q2 — Correlated bilinear / quadratic-large-sieve pass
 
-Target the common `14-4` / `14-s` obstruction. Search specifically for results that tolerate or exploit coefficients `W(u,v)` correlated through Pythagorean/Euclidean parametrization, reciprocal divisors, quadratic characters, or congruence-root structure.
-
-Priority method families:
-
-1. quadratic large sieve with structured coefficients;
-2. dispersion method / Linnik-type bilinear decomposition;
-3. bilinear forms in quadratic characters and Jacobi symbols;
-4. divisor switching and reciprocal-divisor decompositions;
-5. low-rank, tensor, Fourier/Mellin, or dyadic separable decompositions of two-variable weights;
-6. spectral/Kuznetsov treatments if the correlation can be encoded by Kloosterman-type sums;
-7. determinant/incidence methods if the Euclid relation creates sparse algebraic support.
-
-For every promising source, write the exact model sum and compare it line-by-line with the Stage14 sum. The pass succeeds only if it either produces a legitimate transfer lemma or a precise incompatibility certificate.
+Target the common `14-4` / `14-s` obstruction. Search specifically for results that tolerate or exploit coefficients correlated through Pythagorean/Euclidean parametrization, reciprocal divisors, quadratic characters, or congruence-root structure.
 
 Result: `docs/stage14-q2-correlated-bilinear-literature.md`.
 
 ### Stage14-q3 — Small-point / first-point height pass
 
-Refresh the `14-s` Petsche / Naccarato / Le Boudec line. Test the actual Stage14 discriminant, minimal discriminant, conductor, Szpiro ratio, and 2-descent data rather than citing generic elliptic-curve height bounds. Determine whether a lower bound for the first non-torsion physical point survives uniformly or for density-one Pythagorean fibers.
+Refresh the Petsche / Naccarato / Le Boudec line against the actual Stage14 discriminant, conductor, Szpiro ratio, and exact 2-descent interface.
 
 Result: `docs/stage14-q3-small-point-height-literature.md`.
 
 ### Stage14-q4 — Squareclass / Selmer collision pass
 
-When `14-t` has an explicit global squareclass-signature collision statement, search for a theorem architecture in Selmer groups, squareclass sieves, thin sets, Hilbert irreducibility, square-value problems, branched covers, Prym/generalized Jacobian methods, or arithmetic statistics that matches the exact signature map.
-
-Do not restart generic local-obstruction searches if the local images are already known to be full.
+Search for methods matching the explicit t-track global squareclass collision target, with square/polynomial sieve, thin sets, Hilbert irreducibility, square-value problems, branched covers, and Selmer machinery compared against the exact collision object.
 
 Result: `docs/stage14-q4-squareclass-collision-literature.md`.
 
 ### Stage14-q5 — K3 / lattice computational refresh
 
-Audit whether the Shimada computational package has been fully consumed by `14-4`. If the remaining obstruction is still geometric, search only for exact lattice/automorphism/Galois tools that close a named gap: identification of the physical class `M`, effective `(-2)`-curve enumeration, rational descent, orbit reduction, or bisection classification.
+Audit whether the Shimada computational package has been fully consumed by `14-4`, and distinguish genuinely unused geometric weapons from data rendered unnecessary by an earlier obstruction.
 
-Avoid broad K3 literature once the exact level-4 modular K3 data already supplies the needed object.
+Result: `docs/stage14-q5-shimada-k3-lattice-refresh.md`.
+
+Key decision:
+
+```text
+SHIMADA_FIXED_CURVE_PACKAGE_CONSUMED=true
+PHYSICAL_M_IN_S0_BASIS_KNOWN=true
+REQUIRED_NS_PARITY_COSET_EMPTY=true
+UNUSED_SHIMADA_DATA_IS_LIVE_BLOCKER=false
+NEW_DIRECT_K3_LATTICE_WEAPON_FOR_CURRENT_FRONTIER=false
+```
 
 ### Stage14-q6 — Cross-track weapon test
 
-Compare all `DIRECT` and `NEAR` weapons against the current frontiers of `14-4`, `14-s`, `14-t`, and numerical/fingerprint tracks. A method discovered for one route may transfer to another. Record explicit handoffs with the target stage name and the minimal lemma/computation the receiving track should attempt next.
+Compare all `DIRECT`, `NEAR`, and completed-negative weapons against the current frontiers of `14-4`, `14-s`, `14-t`, and numerical/fingerprint tracks. A method discovered for one route may transfer to another. Record explicit handoffs with the target stage name and the minimal lemma/computation the receiving track should attempt next.
+
+q6 must also record negative routing rules. In particular, do not reopen the Shimada fixed-curve computation unless a new geometric trigger appears.
 
 ### Stage14-q7 — Negative-results archive
 
-Maintain a compact archive of attractive but invalid transfers: wrong height, wrong field, fixed-twist versus non-isotrivial family, independent versus correlated coefficients, geometric existence versus `Q`-rational classification, local obstruction versus global collision, etc. This is part of the result, not failed work.
+Maintain a compact archive of attractive but invalid transfers: wrong height, wrong field, fixed-twist versus non-isotrivial family, independent versus correlated coefficients, geometric existence versus `Q`-rational classification, local obstruction versus global collision, and already-closed geometric mechanisms. This is part of the result, not failed work.
 
 ### Stage14-q8+ — Periodic focused radar passes
 
-After q1–q7, do not manufacture a fixed endless sequence. Open the next q-stage only when an active Stage14 route reports a stable named obstruction or when a materially new paper/data set appears. Each new pass must state at its top:
+After q1--q7, do not manufacture a fixed endless sequence. Open the next q-stage only when an active Stage14 route reports a stable named obstruction or when a materially new paper/data set appears. Each new pass must state at its top:
 
 - `TRIGGER_STAGE`
 - `EXACT_OBSTRUCTION`
@@ -108,4 +108,4 @@ If any critical hypothesis is unknown, classify the lead as `NEAR`, not `DIRECT`
 
 ## Immediate next task
 
-Start **Stage14-q5**: audit the exact Shimada level-4 K3 computational package against the current `14-4` frontier. Determine which package objects have actually been consumed, whether the physical class `M` is now known in the fixed `S0` basis, and whether any remaining geometric/lattice step has an unused direct literature or machine-data route.
+Start **Stage14-q6**: cross-check the current active Stage14 frontiers against the complete q2--q5 weapon shelf. Produce a concise routing matrix specifying which literature weapon each lane should test next, which methods have already been consumed, which transfers remain conditional, and which dead ends must not be reopened.
