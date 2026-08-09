@@ -22,7 +22,7 @@ required_proof = [
     "O(B\\Lambda^{-5})",
     "4C_H+D_H+6",
     "finite sum of functions each having pole order at most three cannot create a pole of order four",
-    "choose **one fixed** `k`",
+    "Choose **one fixed** `k`",
     "R07 Gate A: fixed finite Hecke/ray-class twist contract",
     "R07 Gate B: concrete fixed-S residue/pole model",
     "R07 Gate C: self-contained curved-region transfer",
