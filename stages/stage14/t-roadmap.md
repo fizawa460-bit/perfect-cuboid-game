@@ -195,42 +195,111 @@ N_\square\le\frac{M}{2^r}+\sqrt{(1-2^{-r})\left(Q-\frac{M^2}{2^r}\right)}.
 \]
 
 ## 14-t19 — conditioned discriminant identity and finite collision ledger
+Status: [x] Complete, with the asymptotic collision population corrected by t20.
+
+Instantiating the t12--t18 variables on the actual raw Stage14 ledger gives
+
+\[
+\Delta_x=\left(\frac{t(1+t^2)(1-q^2)R}{q^2}\right)^2(t^2+u^2),
+\]
+
+so `[Delta_x]=[t^2+u^2]`, exactly the missing third-face squareclass after shared-edge scaling. Thus the conditioned discriminant is not a new independent gate.
+
+The exact finite ledger through `B=2,000,000` has 356 exactly-two objects, all with distinct missing-face squareclasses. Because `T(B)=0` throughout the frozen range, this ledger is also the raw-pair-edge ledger there. The finite computation remains valid; only the earlier asymptotic statement `T(B)^2<=Q_Delta(B)` for an exactly-two-only population is superseded by t20.
+
+## 14-t20 — raw-edge collision correction and coprime factor reduction
 Status: [x] Complete.
 
-Instantiating the t12--t18 variables on the actual raw Stage14 ledger exposes the exact conditioned identity. If `t` is the first-face slope, `q` the raw partner half-angle, `u=2q/(1-q^2)`, and
+Use the raw-pair edge population: one edge for an exactly-two object and three edges for a triple object. For an edge with shared side `s` and space diagonal `d`, define
 
 \[
-R^2=q^4+2\frac{1-t^2}{1+t^2}q^2+1,
+m=d^2-s^2,
+\qquad
+\kappa=[m].
 \]
 
-then the reciprocal quotient-`x` discriminant satisfies
+Then the graph identity is
 
 \[
-\Delta_x=\left(\frac{t(1+t^2)(1-q^2)R}{q^2}\right)^2(t^2+u^2).
+E(B)=N_2(B)+3T(B),
 \]
 
-Hence `[Delta_x]=[t^2+u^2]`, exactly the missing third-face squareclass after shared-edge scaling. Conditioned on an already-existing raw pair, the discriminant-square gate is therefore not a new independent gate; it is the original triple condition in different coordinates.
-
-The exact finite ledger through `B=2,000,000` has 356 exactly-two objects and 712 oriented conditioned incidences. No incidence enters conditioned `C0`, because the frozen triple count is zero. More strongly, the 356 object-level missing-face squareclasses are all distinct. This injectivity holds at all 11 frozen cutoffs, so the finite collision energy
+and the trivial squareclass occurs exactly on the three edges of each triple:
 
 \[
-Q_\Delta(B)=\sum_c n_c(B)^2
+\boxed{n_1(B)=3T(B)}.
 \]
 
-equals the object count `M(B)` throughout the audited range. At `2m` the union of observed prime coordinates has rank 554.
-
-Since `T(B)^2<=Q_Delta(B)`, a theorem
+Therefore, with
 
 \[
-Q_\Delta(B)=o(B)
+Q_{edge}(B)=\sum_k n_k(B)^2,
 \]
 
-would already imply the primary target `T(B)=o(sqrt(B))`.
+one has the exact inequality
 
-## 14-t20 — missing-face squareclass collision theorem attack
+\[
+\boxed{9T(B)^2\le Q_{edge}(B)}.
+\]
+
+Hence `Q_edge(B)=o(B)` is a valid sufficient target for `T(B)=o(sqrt(B))`.
+
+The edge squareclass admits an exact coprime factorization. Put
+
+\[
+g=(d,s),\quad D=d/g,\quad C=s/g,\quad h=(D-C,D+C)\in\{1,2\},
+\]
+
+\[
+A=(D-C)/h,\qquad B=(D+C)/h.
+\]
+
+Then `(A,B)=1` and
+
+\[
+m=g^2h^2AB.
+\]
+
+Writing
+
+\[
+A=\alpha r^2,\qquad B=\beta u^2
+\]
+
+with squarefree coprime `alpha,beta` gives
+
+\[
+\kappa=\alpha\beta.
+\]
+
+Moreover the missing face is a primitive sum of two squares after removing its gcd, so every kernel prime is `2` or `1 mod 4`.
+
+For
+
+\[
+N_{\alpha,\beta}(B)=\#\{e:A_e=\alpha r^2,\ B_e=\beta u^2\},
+\]
+
+Cauchy over the at most `2^{omega(k)}` partitions of `k` gives
+
+\[
+Q_{edge}(B)\le B^{o(1)}Q_{split}(B),
+\qquad
+Q_{split}(B)=\sum_{\alpha,\beta}N_{\alpha,\beta}(B)^2.
+\]
+
+Thus any fixed power saving `Q_split(B)=O(B^{1-delta})` would close the t-track target. At every frozen cutoff through `2m`, `Q_edge=Q_split=E`, and at `2m` both equal 356; this is finite evidence only.
+
+## 14-t21 — partition-resolved collision-energy attack
 Status: [>] Next.
 
-Express equality of missing-face squareclasses for two raw exactly-two objects as an explicit Diophantine / Gaussian-norm correlation problem, then seek an averaged collision estimate `Q_Delta(B)=o(B)`. The finite injectivity signal is diagnostic only and must not be promoted without a uniform collision theorem.
+Insert the raw-pair Pythagorean parametrization into
+
+\[
+D-C=h\alpha r^2,\qquad D+C=h\beta u^2,
+\]
+
+and count repeated solutions for the same coprime squarefree `(alpha,beta)`. Seek a uniform power-saving estimate for `Q_split(B)` using the split-prime support and the two already-integral face conditions.
 
 Primary target remains
 
@@ -263,6 +332,7 @@ STAGE14_T16=COMPLETE_SQUARE_X_DIVISOR_AND_RAMIFIED_COVER_BOUNDARY
 STAGE14_T17=COMPLETE_GENERALIZED_JACOBIAN_SQUARECLASS_SIEVE_INTERFACE
 STAGE14_T18=COMPLETE_SELECTED_BRANCH_LOCAL_IMAGE_AND_PACKET_FOURIER_BOUND
 STAGE14_T19=COMPLETE_CONDITIONED_DISCRIMINANT_IDENTITY_AND_FINITE_COLLISION_LEDGER
+STAGE14_T20=COMPLETE_RAW_EDGE_COLLISION_CORRECTION_AND_COPRIME_FACTOR_REDUCTION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t20 missing-face squareclass collision theorem / Q_Delta(B)=o(B)
+NEXT=Stage14-t21 partition-resolved collision-energy attack / Q_split(B)
 ```

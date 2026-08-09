@@ -1,0 +1,45 @@
+name: Stage14-t20 edge collision factorization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t20/**'
+      - 'stages/stage14/scripts/14-t/t20_edge_collision_factorization.py'
+      - 'stages/stage14/data/14-t20/edge_collision_factorization.json'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t20-edge-collision-factorization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t19 regression
+        run: python stages/stage14/scripts/14-t/t19_conditioned_discriminant_ledger.py
+      - name: Run t20 edge collision audit
+        run: python stages/stage14/scripts/14-t/t20_edge_collision_factorization.py
+      - name: Check frozen t20 summary
+        run: git diff --exit-code stages/stage14/data/14-t20/edge_collision_factorization.json
+      - name: Validate locked t20 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t20/edge_collision_factorization.json'
+          d=json.load(open(p))
+          assert d['finite']['raw_pair_edges_B2m']==356
+          assert d['finite']['triple_objects_B2m']==0
+          assert d['finite']['collision_Q_edge_B2m']==356
+          assert d['finite']['collision_Q_split_B2m']==356
+          assert all(r['collision_Q_edge']==r['raw_pair_edges'] for r in d['rows'])
+          assert all(r['collision_Q_split']==r['raw_pair_edges'] for r in d['rows'])
+          q=d['decision']
+          assert q['ASYMPTOTIC_COLLISION_POPULATION']=='RAW_PAIR_EDGES'
+          assert q['NINE_T_SQUARED_LE_Q_EDGE'] is True
+          assert q['T19_EXACTLY_TWO_COLLISION_ASYMPTOTIC_STATEMENT_SUPERSEDED'] is True
+          assert q['PARTITION_RESOLVED_COLLISION_REDUCTION'] is True
+          assert q['Q_EDGE_O_B_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
