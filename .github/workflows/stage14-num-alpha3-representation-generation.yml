@@ -1,0 +1,20 @@
+name: Stage14-num-alpha3 representation generation audit
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha3/**'
+      - '.github/workflows/stage14-num-alpha3-representation-generation.yml'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compare complete representation generators
+        run: |
+          python stages/stage14/scripts/14-num-alpha3/representation_generation_audit.py --bound 200000 --output /tmp/alpha3.json
+          cat /tmp/alpha3.json
