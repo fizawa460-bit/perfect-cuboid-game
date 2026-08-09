@@ -1,0 +1,32 @@
+name: Stage14-toolbox-ac exponent ledger audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-ac/**'
+      - 'stages/stage14/scripts/14-toolbox-ac/**'
+      - '.github/workflows/stage14-toolbox-ac.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exponent ledger audit
+        run: python stages/stage14/scripts/14-toolbox-ac/exponent_ledger_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-ac/exponent_ledger_audit.py
+      - name: Validate toolbox-ac boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AC=COMPLETE_CURRENT_EXPONENT_AND_SAVING_LEDGER' stages/stage14/14-toolbox-ac/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=41/42' stages/stage14/14-toolbox-ac/result.md
+          grep -q 'REQUIRED_POST_LOCAL_SAVING=10/21' stages/stage14/14-toolbox-ac/result.md
+          grep -q 'NEXT=Stage14-toolbox-ad Pythagorean and Euclid conversion formulas' stages/stage14/14-toolbox-ac/result.md
