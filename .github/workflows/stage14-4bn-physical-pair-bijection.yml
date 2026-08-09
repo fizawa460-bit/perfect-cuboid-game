@@ -1,0 +1,47 @@
+name: Stage14-4bn physical pair bijection
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bn/**'
+      - 'stages/stage14/data/14-4/physical_pair_bijection_active_direction_summary.json'
+      - 'stages/stage14/scripts/14-4/physical_pair_bijection_active_direction_audit.py'
+      - '.github/workflows/stage14-4bn-physical-pair-bijection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4bn audit
+        run: python -m py_compile stages/stage14/scripts/14-4/physical_pair_bijection_active_direction_audit.py
+      - name: Run 4bn deterministic audit
+        run: python stages/stage14/scripts/14-4/physical_pair_bijection_active_direction_audit.py | tee /tmp/4bn.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^ORDERED_PHYSICAL_INCIDENCES=124$' /tmp/4bn.txt
+          grep -q '^PHYSICAL_PAIR_CONVERSE_AUDIT=true$' /tmp/4bn.txt
+          grep -q '^RECONSTRUCTED_RAW_PRIMITIVITY_AUDIT=true$' /tmp/4bn.txt
+          grep -q '^RECONSTRUCTED_CUTOFF_D_EQUALS_C0_H3_AUDIT=true$' /tmp/4bn.txt
+          grep -q '^PHYSICAL_CROSS_SQUARE_BIJECTION_AUDIT=true$' /tmp/4bn.txt
+          grep -q '^T36_MINUS_SQUARECLASS_IDENTITY_AUDIT=true$' /tmp/4bn.txt
+          grep -q '^UNIVERSAL_MINUS_ANCHOR_AUDIT=true$' /tmp/4bn.txt
+          grep -q '^SYMMETRIC_PLUS_SQUARECLASS_IDENTITY_AUDIT=true$' /tmp/4bn.txt
+          grep -q '^ACTIVE_DIRECTION_OBJECT_AUDIT=true$' /tmp/4bn.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/4bn.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BN=EXACT_PHYSICAL_PAIR_BIJECTION_AND_ACTIVE_DIRECTION_REDUCTION' stages/stage14/14-4bn/result.md
+          grep -q 'PHYSICAL_EDGE_TO_CROSS_SQUARE_PAIR_BIJECTION=true' stages/stage14/14-4bn/result.md
+          grep -q 'FIXED_F2_ADMISSIBLE_PARTNER_MULTIPLICITY=B^o(1)' stages/stage14/14-4bn/result.md
+          grep -q 'PHYSICAL_EDGE_ACTIVE_DIRECTION_EXPONENT_EQUIVALENCE=true' stages/stage14/14-4bn/result.md
+          grep -q 'UNRESOLVED_ACTIVE_DIRECTION_GCD_CELL_SCALE=4/21' stages/stage14/14-4bn/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bn/result.md
+          grep -q 'NEXT=Stage14-4bo' stages/stage14/14-4bn/result.md
