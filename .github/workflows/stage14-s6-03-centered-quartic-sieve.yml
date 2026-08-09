@@ -1,0 +1,32 @@
+name: Stage14-s6-03 centered quartic auxiliary sieve audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-03/**'
+      - 'stages/stage14/scripts/14-s6-03/**'
+      - '.github/workflows/stage14-s6-03-centered-quartic-sieve.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regress s6-02 predecessor audit
+        run: python stages/stage14/scripts/14-s6-02/genus1_large_prime_audit.py
+      - name: Run s6-03 deterministic audit
+        run: python stages/stage14/scripts/14-s6-03/centered_quartic_sieve_audit.py | tee /tmp/s6-03-audit.txt
+      - name: Lock theorem boundary
+        run: |
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/s6-03-audit.txt
+          grep -q 'STAGE14_S6_03=COMPLETE_CENTERED_QUARTIC_AUXILIARY_SIEVE_AND_SMALL_DENOMINATOR_REDUCTION' stages/stage14/14-s6-03/result.md
+          grep -q 'THREE_CENTERED_QUARTIC_PROJECTIONS_EXACT=true' stages/stage14/14-s6-03/result.md
+          grep -q 'FIXED_PACKET_RECTANGLE_SQUARE_SIEVE_PROVED=true' stages/stage14/14-s6-03/result.md
+          grep -q 'TINY_KERNEL_COMPLEMENT_CLOSED_AT_COORDINATE_LEVEL=true' stages/stage14/14-s6-03/result.md
+          grep -q 'SHORT_VARIABLE_COMPLEMENT_REDUCED_TO_SMALL_DENOMINATOR=true' stages/stage14/14-s6-03/result.md
+          grep -q 'EXISTENCE_VS_COORDINATE_DENSITY_QUANTIFIER_GAP=true' stages/stage14/14-s6-03/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-s6-03/result.md
