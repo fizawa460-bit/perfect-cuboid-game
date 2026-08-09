@@ -63,36 +63,69 @@ Compatibility requires both `D_{t,r}=B_{t,r}^2-4` square and the selected root `
 ## 14-t13 — discriminant-cover geometry
 Status: [x] Complete.
 
-The discriminant factors exactly as
-
-\[
-D_{t,r}=\frac{(r^2-2tr-1)(r^2+2tr-1)(r^4+(4t^4-2)r^2+1)}{r^4t^4(1+t^2)^2}.
-\]
-
-After removing the square denominator, the normalized cover is
+The discriminant cover is genus 3 on every genuine physical rational base:
 
 \[
 Z^2=(r^2-2tr-1)(r^2+2tr-1)(r^4+(4t^4-2)r^2+1).
 \]
 
-The degree-eight branch polynomial has discriminant
+There are no physical branch-collision fibers of genus 0, 1, or 2.
+
+## 14-t14 — bielliptic quotient and second-square decomposition
+Status: [x] Complete.
+
+The genus-three branch polynomial is even in `r`. With `x=r^2`, quotienting by `r -> -r` gives the genus-one quartic
 
 \[
-2^{40}t^{28}(t-1)^2(t+1)^2(t^2+1)^{12}.
+E_t:\quad Z^2=((x-1)^2-4t^2x)(x^2+(4t^4-2)x+1).
 \]
 
-Hence every genuine physical rational base has a squarefree degree-eight branch divisor and a genus-three hyperelliptic discriminant fiber. There are no physical rational branch-collision fibers of genus 0, 1, or 2. The extra root condition `y=q^2` remains essential.
+Thus the genus-three cover is bielliptic over `Q(t)`. However a rational point on this quotient is not sufficient for a physical triple because lifting requires `x` itself to be a rational square.
 
-## 14-t14 — genus-three quotient/involution and second-square cover
+The additional root condition `y=q^2` is equivalent on the discriminant cover to
+
+\[
+-B_{t,r}-2\in(\mathbf Q^\times)^2,
+\]
+
+and, because a physical base has `1+t^2=h^2`, this is exactly
+
+\[
+U^2=(r^2-2tr-1)(r^2+2tr-1).
+\]
+
+In quotient coordinate `x=r^2`, the full discriminant square plus `y=q^2` condition therefore separates into
+
+\[
+U^2=(x-1)^2-4t^2x,
+\]
+
+\[
+V^2=x^2+(4t^4-2)x+1,
+\]
+
+with the additional lift condition `x in Q^2` and the physical height cutoff.
+
+So the paired triple gate is now an explicit simultaneous two-conic plus x-square fiber-product problem rather than an opaque genus-five condition.
+
+## 14-t15 — simultaneous two-conic plus x-square fiber product
 Status: [>] Next.
 
-Exploit the reciprocal/even branch structure of the genus-three discriminant cover to identify quotient maps and lower-genus factors, then impose the further condition that
+Classify the fiber product
 
 \[
-y=\frac{-B_{t,r}\pm Z}{2}
+U^2=(x-1)^2-4t^2x,
 \]
 
-is itself a rational square. Classify whether the resulting second cover admits any physical low-degree accumulating components.
+\[
+V^2=x^2+(4t^4-2)x+1,
+\]
+
+\[
+x=r^2,
+\]
+
+for physical Pythagorean `t`. Determine its generic genus/fibration, rational/elliptic quotient structure, and whether any low-degree component can accumulate under the physical height.
 
 Primary target remains
 
@@ -119,6 +152,7 @@ STAGE14_T10=COMPLETE_CHARACTER_SIEVE_DIRECTION_AUDIT
 STAGE14_T11=COMPLETE_COMPATIBLE_PAIRED_ACTIVATION_FORMULATION
 STAGE14_T12=COMPLETE_CONDITIONAL_REFLECTED_SQUARE_PARAMETER_GATE
 STAGE14_T13=COMPLETE_DISCRIMINANT_COVER_GENUS_CLASSIFICATION
+STAGE14_T14=COMPLETE_BIELLIPTIC_QUOTIENT_AND_SECOND_SQUARE_DECOMPOSITION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t14 genus-three quotient/involution and second-square cover
+NEXT=Stage14-t15 simultaneous two-conic plus x-square fiber-product classification
 ```
