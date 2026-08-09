@@ -1,0 +1,30 @@
+name: Stage14-s5a Euclid descent sieve target
+
+on:
+  push:
+    branches:
+      - agent/stage14-s5a-euclid-descent-sieve
+    paths:
+      - 'stages/stage14/14-s5a/**'
+      - 'stages/stage14/scripts/14-s5a/**'
+      - '.github/workflows/stage14-s5a-euclid-descent-target.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5a/**'
+      - 'stages/stage14/scripts/14-s5a/**'
+      - '.github/workflows/stage14-s5a-euclid-descent-target.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit Euclid/descent target identities
+        run: python stages/stage14/scripts/14-s5a/euclid_descent_target_audit.py
+      - name: Lock theorem boundary
+        run: |
+          grep -q 'STAGE14_S5A=EUCLID_PARAMETER_DESCENT_SIEVE_TARGET_FORMULATED' stages/stage14/14-s5a/result.md
+          grep -q 'LOCAL_SOLUBILITY_CHARACTER_MATRIX_DERIVED=false' stages/stage14/14-s5a/result.md
+          grep -q 'FAMILY_LARGE_SIEVE_THEOREM_PROVED=false' stages/stage14/14-s5a/result.md
+          grep -q 'SQRT_B_ASYMPTOTIC_PROVED=false' stages/stage14/14-s5a/result.md
