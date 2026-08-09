@@ -158,10 +158,27 @@ x\in(\mathbf Q^\times)^2.
 
 The divisor is `div(x)=D_0-D_infinity`, with both divisors reduced of degree four. Thus `r^2=x` is ramified at eight points and is not an ordinary etale elliptic `2`-cover/E[2] Kummer torsor. It is a branched quadratic-cover/Prym interface, and ordinary Mordell--Weil modulo 2 is insufficient by itself.
 
-## 14-t17 — square-value sieve on the branched cover
+## 14-t17 — generalized-Jacobian square-value sieve
+Status: [x] Complete.
+
+Let `m_t=D_0+D_infinity`. The cover has Prym dimension `5-1=4`. Since the eight branch points are rational, the generalized Jacobian of `C_{0,t}` with modulus `m_t` is an extension of the elliptic Jacobian by the split torus
+
+\[
+\operatorname{Res}_{m_t}\mathbf G_m/\mathbf G_m\cong\mathbf G_m^7.
+\]
+
+For `P` away from the branch modulus the lift condition is exactly
+
+\[
+\delta_t(P)=[x(P)]=1\in\mathbf Q^\times/\mathbf Q^{\times2}.
+\]
+
+At any finite place set `S`, the local squareclass condition has an exact finite-character projector. Thus the triple gate is reduced to a branch-sensitive moving character-sum average over physical points on `C_{0,t}` with the original cuboid-height cutoff. A fixed universal prime set is not asserted to thin the family.
+
+## 14-t18 — explicit branch-modulus local image
 Status: [>] Next.
 
-Formulate a square-value/branched-cover sieve on `C_{0,t}` using the Prym or generalized-Jacobian interface, averaged over physical rational Pythagorean `t`, while retaining the physical height window.
+Derive the explicit `2`-descent/local image attached to the eight-point modulus, identify a useful moving place set from the Euclid/point arithmetic support, and formulate/test the first nontrivial family character-sum inequality with the physical height window.
 
 Primary target remains
 
@@ -191,6 +208,7 @@ STAGE14_T13=COMPLETE_DISCRIMINANT_COVER_GENUS_CLASSIFICATION
 STAGE14_T14=COMPLETE_BIELLIPTIC_QUOTIENT_AND_SECOND_SQUARE_DECOMPOSITION
 STAGE14_T15=COMPLETE_THREE_SQUARE_FIBER_PRODUCT_CLASSIFICATION
 STAGE14_T16=COMPLETE_SQUARE_X_DIVISOR_AND_RAMIFIED_COVER_BOUNDARY
+STAGE14_T17=COMPLETE_GENERALIZED_JACOBIAN_SQUARECLASS_SIEVE_INTERFACE
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t17 square-value/branched-cover sieve with Prym or generalized-Jacobian and physical height
+NEXT=Stage14-t18 explicit branch-modulus 2-descent/local image and moving character-sum inequality
 ```
