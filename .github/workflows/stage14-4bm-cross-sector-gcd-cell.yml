@@ -1,0 +1,46 @@
+name: Stage14-4bm cross sector gcd cell
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bm/**'
+      - 'stages/stage14/data/14-4/cross_sector_gcd_cell_summary.json'
+      - 'stages/stage14/scripts/14-4/cross_sector_gcd_cell_audit.py'
+      - '.github/workflows/stage14-4bm-cross-sector-gcd-cell.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/cross_sector_gcd_cell_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/cross_sector_gcd_cell_audit.py | tee /tmp/4bm.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^ORDERED_PHYSICAL_INCIDENCES=124$' /tmp/4bm.txt
+          grep -q '^HALF_ANGLE_FOUR_LINEAR_SQUARE_FACTORIZATION_AUDIT=true$' /tmp/4bm.txt
+          grep -q '^GOOD_GCD_CELL_AUTOMATIC_SQUARE_FACTOR_AUDIT=true$' /tmp/4bm.txt
+          grep -q '^CROSS_FACTOR_2_C_H2_DECOMPOSITION_AUDIT=true$' /tmp/4bm.txt
+          grep -q '^CROSS_BOUND_61_63_LEDGER_AUDIT=true$' /tmp/4bm.txt
+          grep -q '^CROSS_SAVING_1_126_LEDGER_AUDIT=true$' /tmp/4bm.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/4bm.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BM=CROSS_SECTOR_POWER_SAVING_AND_SQUARE_NEUTRAL_GCD_CELL_BARRIER' stages/stage14/14-4bm/result.md
+          grep -q 'POST_4BL_FORCED_FIVE_FACTOR_EXPONENT=4/21' stages/stage14/14-4bm/result.md
+          grep -q 'CROSS_SECTOR_BOUND=B^(61/63+o(1))' stages/stage14/14-4bm/result.md
+          grep -q 'CROSS_SECTOR_SAVING_VS_41_42=1/126' stages/stage14/14-4bm/result.md
+          grep -q 'UNRESOLVED_GOOD_GCD_CELL_SCALE=4/21' stages/stage14/14-4bm/result.md
+          grep -q 'LARGE_GOOD_GCD_CELL_AUTOMATIC_SQUARE_FACTOR=true' stages/stage14/14-4bm/result.md
+          grep -q 'NAIVE_GCD_CELL_DENSITY_GAIN_VALID=false' stages/stage14/14-4bm/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bm/result.md
+          grep -q 'NEXT=Stage14-4bn' stages/stage14/14-4bm/result.md
