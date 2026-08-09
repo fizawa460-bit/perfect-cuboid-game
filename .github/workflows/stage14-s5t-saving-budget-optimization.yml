@@ -1,0 +1,38 @@
+name: Stage14-s5t saving budget optimization audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5t/**'
+      - 'stages/stage14/scripts/14-s5t/**'
+      - '.github/workflows/stage14-s5t-saving-budget-optimization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5t deterministic audit
+        run: python3 stages/stage14/scripts/14-s5t/saving_budget_optimization_audit.py | tee /tmp/s5t.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5T=COMPLETE_SAVING_BUDGET_OPTIMIZATION_AND_ALL_SHORT_BOTTLENECK_ISOLATION$' /tmp/s5t.txt
+          grep -q '^OLD_GRAPH_SAVING_1_OVER_200_STRUCTURAL=false$' /tmp/s5t.txt
+          grep -q '^GRAPH_ESCAPE_GENERAL_THRESHOLD_LEDGER_PROVED=true$' /tmp/s5t.txt
+          grep -q '^GRAPH_ESCAPE_OPTIMAL_SIGMA=2/41$' /tmp/s5t.txt
+          grep -q '^GRAPH_ESCAPE_OPTIMAL_LAMBDA=5/41$' /tmp/s5t.txt
+          grep -q '^GRAPH_ESCAPE_OPTIMAL_SAVING=1/41$' /tmp/s5t.txt
+          grep -q '^OPTIMAL_WITHIN_CURRENT_THREE_CASE_ARCHITECTURE=true$' /tmp/s5t.txt
+          grep -q '^S5R_E_TRANSITION_COMPATIBLE_WITH_OPTIMIZED_THRESHOLDS=true$' /tmp/s5t.txt
+          grep -q '^ACTUAL_LOCAL_SYSTEM_POWER_SAVING_EXPONENT=1/41$' /tmp/s5t.txt
+          grep -q '^ACTIVE_PHYSICAL_BASE_UPPER_BOUND_EXPONENT=81/82$' /tmp/s5t.txt
+          grep -q '^ACTIVE_PHYSICAL_BASE_POWER_SAVING_UPPER_BOUND_IMPROVED=true$' /tmp/s5t.txt
+          grep -q '^ALL_SHORT_ABSOLUTE_TUPLE_SUM_IS_CURRENT_BOTTLENECK=true$' /tmp/s5t.txt
+          grep -q '^NEW_ARITHMETIC_RESONANCE_FOUND=false$' /tmp/s5t.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5t.txt
+          grep -q '^GLOBAL_SOLUBILITY_AVERAGED=false$' /tmp/s5t.txt
+          grep -q '^SMALL_POINT_DISTRIBUTION_PROVED=false$' /tmp/s5t.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5t.txt
+          grep -q '^S5T_SUBSTAGE_SPLIT_REQUIRED=false$' /tmp/s5t.txt
+          grep -q '^NEXT=Stage14-s5u$' /tmp/s5t.txt
