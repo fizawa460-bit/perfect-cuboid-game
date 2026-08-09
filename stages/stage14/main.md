@@ -1,6 +1,6 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_4AL_COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_14_4AM_NEXT`
+> **STATUS:** `STAGE14_4AM_COMPLETE_SELMER_RANK_SMALLPOINT_FACTORIZATION_14_4AN_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 >
@@ -15,7 +15,7 @@ Stage14 counts primitive canonical cuboids
 
 with exactly two integral face diagonals. No perfect-cuboid nonexistence assumption is made.
 
-This is the canonical resynthesis through Stage14-4al. Detailed historical calculations remain frozen in the stage archive and substage result files.
+This is the canonical resynthesis through Stage14-4am. Detailed historical calculations remain frozen in the stage archive and substage result files.
 
 ## §1. Exact ledger and finite ceiling
 
@@ -201,6 +201,9 @@ The parallel arithmetic track is now a direct input to the main line.
 - `14-s3`: a physical hit implies a non-torsion point in a logarithmic canonical-height window; positive rank and the first-small-point gate are distinct.
 - `14-s4a`: all 490 active vertices are fingerprinted through `B=2m`; `483/490` exact Kummer square-class triples are distinct.
 - `14-s4b`: `393` coarse arithmetic signatures remain, with largest cluster only `4`; rank/Selmer/root type is comparatively concentrated while the actual small-point arithmetic is dispersed.
+- `14-s4c`: any hypothetical higher-degree stratum explanation of a square-root law must proliferate at a positive power rate; a few fixed higher-degree families cannot replace the rejected `M.C=4` mechanism.
+- `14-s5`: single-fiber small-point estimates are insufficient for a power saving in the number of activated bases; a family-level theorem is required.
+- `14-s5a`: in primitive Euclid parameters, the moving full-2-descent support is carried by `m,n,m-n,m+n,m^2+n^2` plus `2`; the proposed next tool is a quadratic-character / Hilbert-symbol family sieve coupled to the physical small-point window.
 
 No Selmer-rank/Mordell--Weil-rank equality or uniform least-generator theorem is assumed.
 
@@ -287,7 +290,7 @@ interval 1..3      10
 
 The exact rank-1 and rank-2 active strata have `200k -> 2m` effective exponents about `0.45544` and `0.50331`. Hence no single exact-rank stratum alone explains the whole finite signal.
 
-## §8. First-small-point lower tail is the remaining obstruction
+## §8. First-small-point lower tail is a genuine obstruction
 
 At `B=2m`, the first-hit/base-height ratio among active bases has
 
@@ -319,29 +322,131 @@ hhat/log(mu) q75      0.3700583881
 
 consistent with Stage14-s3, but no uniform distribution theorem is known here.
 
-## §9. Exact remaining main-track formulation
+## §9. Stage14-4am — exact three-gate activation factorization
 
-Conceptually,
+For the integral full-2-torsion fiber
+
+\[
+E_F:\quad Y^2=Z(Z-S^2)(Z+X^2),
+\]
+
+define four nested base populations:
+
+```text
+A(B)      = primitive oriented Pythagorean bases with H<=B
+Sigma(B)  = bases with dim Sel_2(E_F)>2
+R(B)      = bases with rank E_F(Q)>0
+V(B)      = bases with mu(F)<=B
+```
+
+Every physical active fiber has positive rank, and positive rank forces a nontrivial 2-Selmer class beyond rational 2-torsion. Therefore
+
+\[
+\boxed{V(B)\subset R(B)\subset\Sigma(B)\subset A(B)}
+\]
+
+and the activation density factors exactly as
 
 \[
 \boxed{
-V(B)=\sum_{\substack{F\text{ primitive oriented}\\H(F)\le B}}
-1_{\{\operatorname{rank}E_F(\mathbf Q)>0\}}
-1_{\{\mu(F)\le B\}}.
+\frac{V(B)}{A(B)}=
+\frac{\Sigma(B)}{A(B)}
+\frac{R(B)}{\Sigma(B)}
+\frac{V(B)}{R(B)}.
 }
 \]
 
-A physical hit implies positive rank, but positive rank alone does not imply `mu(F)<=B`. The next theorem-level input must therefore control a joint moving lower tail over primitive Pythagorean bases.
-
-The finite target suggested by 4al is
+If the three factors have power-law thinning exponents `alpha_S`, `alpha_R`, `beta_mu`, then their exact sum is the total activation exponent. Since `A(B)=B^{1+o(1)}`, an eventual `V(B)=B^{1/2+o(1)}` law would require
 
 \[
-\Pr(\mu(F)\le B\mid H(F)\le B)\asymp B^{-1/2},
+\boxed{\alpha_S+\alpha_R+\beta_\mu=1/2}.
 \]
 
-but neither this order nor a constant is proved.
+This is an exact accounting identity, not a proof that the exponents exist.
 
-## §10. Triple gate
+## §10. Complete finite Selmer/rank census through H<=20,000
+
+Stage14-4am replaces the old s1 matched sample by a complete PARI/GP `ellrank(E,0)` census of every primitive oriented Pythagorean base with `H<=20,000`.
+
+For full rational 2-torsion, merged s1 gives
+
+\[
+\dim_{\mathbf F_2}\operatorname{Sel}_2(E_F)=r_2+2+s,
+\]
+
+where `[r1,r2]` is PARI's unconditional Mordell--Weil rank interval and `s` is the Cassels-pairing term. Hence `Sigma(B)` is exact. The true positive-rank count `R(B)` is bracketed unconditionally by certified positive ranks from below and nonzero rank upper bounds from above. Every active fiber through `20k` is already PARI-certified positive from below.
+
+The complete finite counts are
+
+```text
+B        A       Sigma      R interval       V
+2,000      638      476       371..385         7
+5,000     1584     1234       916..989        25
+10,000    3186     2553      1875..2057       39
+20,000    6372     5209      3784..4239       54
+```
+
+At `B=20,000`:
+
+```text
+Sigma/A          = 0.8174827369742624
+R/A              in [0.5938480853735091, 0.6652542372881356]
+V/R              in [0.012738853503184714, 0.01427061310782241]
+V/A              = 0.00847457627118644
+```
+
+The corresponding finite logarithmic thinning budget is
+
+```text
+gamma(total)                   = 0.4817176373
+alpha_Selmer                   = 0.02034894195
+alpha_MW | Selmer              in [0.02080686276, 0.03227209060]
+beta_first-hit | MW            in [0.4290966047, 0.4405618326]
+```
+
+The two interval contributions are correlated through the unknown exact value of `R(B)` and their endpoints must not be chosen independently.
+
+The robust finite conclusion is that nontrivial 2-Selmer is common and positive Mordell--Weil rank is also common on the complete audited base family, whereas physical activation conditional on positive rank is rare. At `20k`, the first two gates retain roughly `82%` and `59–67%` of all bases, while the final `R -> V` gate retains only about `1.3–1.4%` of positive-rank bases.
+
+Thus the finite activation thinning is overwhelmingly located **after positive rank**, in the height-sensitive first-small-point gate. This is finite evidence only: it does not prove positive-rank density, a first-small-point lower-tail exponent, or a square-root asymptotic.
+
+## §11. Consequence for the Euclid-parameter family theorem
+
+For primitive opposite-parity Euclid parameters
+
+\[
+S=m^2-n^2,\qquad X=2mn,\qquad H=m^2+n^2,
+\]
+
+the moving full-2-descent support is carried by
+
+```text
+m, n, m-n, m+n, m^2+n^2
+```
+
+plus the fixed prime `2`.
+
+Stage14-s5a proposes exposing local solubility as quadratic-character / Hilbert-symbol constraints among squarefree pieces of these five factors and averaging them by a family large sieve. Stage14-4am clarifies the role of such a theorem:
+
+1. the local reciprocity matrix naturally controls `A -> Sigma`;
+2. global representability / Sha information is required to pass `Sigma -> R`;
+3. because the finite dominant thinning occurs at `R -> V`, a theorem aligned with the observed mechanism must remain coupled to the physical logarithmic height window rather than stop at a Selmer-density bound.
+
+A purely local/Selmer sieve may still be an essential component, but 4am rules out treating it as automatically equivalent to the activation count.
+
+## §12. Next main-track target
+
+Stage14-4an must derive the explicit Euclid-factor local character/reciprocity matrix and identify precisely which factor of
+
+\[
+V/A=(\Sigma/A)(R/\Sigma)(V/R)
+\]
+
+it can bound unconditionally. The key design requirement is to couple the character calculation to global representability and the first-small-point height window wherever possible.
+
+No `sqrt(B)` endpoint is assumed. Any genuine power saving for the joint activation set would already advance the theorem boundary.
+
+## §13. Triple gate
 
 The exact relation remains
 
@@ -357,7 +462,7 @@ T(B)=o(\sqrt B),
 
 before a future raw-pair square-root law can be transferred to exactly-two.
 
-## §11. Locked decision
+## §14. Locked decision
 
 ```text
 STAGE14_4AA=COMPLETE
@@ -372,6 +477,7 @@ STAGE14_4AI=COMPLETE_MINIMAL_BISECTION_REDUCTION
 STAGE14_4AJ=COMPLETE_SHIMADA_LATTICE_INTERFACE
 STAGE14_4AK=COMPLETE_SPLIT_ROOT_COSET_VOID
 STAGE14_4AL=COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_AND_FINITE_FIRST_HIT_PROFILE
+STAGE14_4AM=COMPLETE_EXACT_SELMER_RANK_SMALLPOINT_FACTOR_AND_FINITE_FULL_BASE_CENSUS
 
 PHYSICAL_KUMMER_POLARIZATION_LOCKED=true
 PHYSICAL_LINE_BUNDLE=M=pi^*(-K_Y)
@@ -381,26 +487,32 @@ FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
 COLLECTIVE_FIRST_HIT_IDENTITY_LOCKED=true
 ORIENTED_PRIMITIVE_PYTHAGOREAN_BASE_ASYMPTOTIC_LINEAR=true
 SQRTB_EQUIVALENT_TO_INVERSE_SQRT_ACTIVATION_DENSITY=true
+ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED=true
+FULL_BASE_RANK_SELMER_CENSUS_MAX_H=20000
+FINITE_FIRST_SMALL_POINT_GATE_DOMINATES_THINNING_BUDGET=true
+FINITE_SELMER_GATE_IS_RARE_EVENT=false
+FINITE_POSITIVE_RANK_GATE_IS_RARE_EVENT=false
+
 POSITIVE_RANK_DENSITY_PROVED=false
 UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED=false
+FAMILY_LARGE_SIEVE_THEOREM_PROVED=false
 ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false
 TRUE_GROWTH_ORDER_IDENTIFIED=false
 
 T_O_SQRT_B_PROVED=false
 PERFECT_CUBOID_NONEXISTENCE_PROVED=false
 
-NEXT=Stage14-4am uniform arithmetic lower-tail statement for mu(F)
+NEXT=Stage14-4an Euclid-factor reciprocity matrix coupled to height-sensitive activation
 ```
 
-## §12. Primary artifacts
+## §15. Primary artifacts
 
 ```text
 stages/stage14/archive/stage14-4ak-shimada-split-root-void.md
 stages/stage14/archive/stage14-4al-collective-first-hit.md
-stages/stage14/data/14-4/shimada_stage14_4ak_result.json
+stages/stage14/archive/stage14-4am-rank-smallpoint-factorization.md
 stages/stage14/data/14-4/collective_first_hit_summary.json
-stages/stage14/scripts/14-4/collective_first_hit_audit.py
-.github/workflows/stage14-4al-collective-first-hit.yml
+stages/stage14/data/14-4/rank_smallpoint_factor_summary.json
+stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py
+.github/workflows/stage14-4am-rank-smallpoint.yml
 ```
-
-Stage14-4am now targets the uniform arithmetic lower tail of `mu(F)`, explicitly separating positive-rank frequency from first-small-point frequency.
