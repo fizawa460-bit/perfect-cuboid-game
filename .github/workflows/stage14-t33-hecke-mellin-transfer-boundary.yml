@@ -1,0 +1,35 @@
+name: Stage14-t33 Hecke Mellin transfer boundary
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t33/**'
+      - 'stages/stage14/scripts/14-t/t33_hecke_mellin_transfer_boundary_audit.py'
+      - 'stages/stage14/data/14-t33/**'
+      - '.github/workflows/stage14-t33-hecke-mellin-transfer-boundary.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t32 regression
+        run: python stages/stage14/scripts/14-t/t32_split_torus_norm_sieve_audit.py
+
+      - name: Run t33 Hecke Mellin transfer audit
+        run: python stages/stage14/scripts/14-t/t33_hecke_mellin_transfer_boundary_audit.py
+
+      - name: Check frozen t33 summary
+        run: git diff --exit-code stages/stage14/data/14-t33/hecke_mellin_transfer_boundary.json
+
+      - name: Validate locked t33 boundary
+        run: |
+          grep -F 'STAGE14_T33=COMPLETE_QUADRATIC_HECKE_VALUE_TRANSFER_AND_MELLIN_SPECTRAL_BOUNDARY' stages/stage14/14-t33/result.md
+          grep -F 'QUADRATIC_HECKE_VALUE_SYMBOL_IDENTIFIED=true' stages/stage14/14-t33/result.md
+          grep -F 'HIGHER_ORDER_MELLIN_MODES_REQUIRED=true' stages/stage14/14-t33/result.md
+          grep -F 'GOLDMAKHER_LOUVEL_QUADRATIC_LARGE_SIEVE_DIRECTLY_SUFFICIENT=false' stages/stage14/14-t33/result.md
+          grep -F 'ALL_CHARACTER_MELLIN_HECKE_SIEVE_OBJECT_DEFINED=true' stages/stage14/14-t33/result.md
+          grep -F 'A_11_POWER_SAVING_PROVED=false' stages/stage14/14-t33/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t33/result.md
