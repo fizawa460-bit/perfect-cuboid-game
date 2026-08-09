@@ -1,0 +1,97 @@
+name: Stage14-num-alpha11-diag4 arithmetic classes
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag4/**'
+      - 'stages/stage14/data/14-num-alpha11-diag4/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag4/**'
+      - '.github/workflows/stage14-num-alpha11-diag4-arithmetic-classes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  arithmetic-decomposition:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute diag4 arithmetic decomposition
+        run: python stages/stage14/scripts/14-num-alpha11-diag4/arithmetic_class_decomposition.py > /tmp/diag4.json
+      - name: Recompute exhaustive finite-field local audit
+        run: python stages/stage14/scripts/14-num-alpha11-diag4/two_face_local_qr_audit.py > /tmp/diag4-local.json
+      - name: Verify frozen arithmetic summary and local audit
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag4.json'))
+          l=json.load(open('/tmp/diag4-local.json'))
+          lock=json.load(open('stages/stage14/data/14-num-alpha11-diag4/arithmetic_summary.json'))
+          local_lock=json.load(open('stages/stage14/data/14-num-alpha11-diag4/two_face_local_qr_audit.json'))
+          def pick(name):
+              return next(r for r in x['partition_results'] if r['name']==name)
+          p7s=pick('p7_shared_divisible')
+          p7n=pick('p7_nonshared_zero_count')
+          best=pick(x['selection_summary']['best_late_mixture_partition'])
+          got={
+            'stage':'14-num-alpha11-diag4',
+            'source_rows':x['source_rows'],
+            'global_direction_counts':x['global_direction_counts'],
+            'predeclared_partition_count':x['predeclared_partition_count'],
+            'inferential_eligible_partition_count':x['inferential_eligible_partition_count'],
+            'strongest_direction_association':{
+              'partition':'p7_shared_divisible',
+              'classes':p7s['classes'],
+              'table_class_by_direction_abc':p7s['table_class_by_direction_abc'],
+              'pearson_p':p7s['pearson_p'],
+              'holm_adjusted_p':p7s['holm_adjusted_pearson_p_across_predeclared_eligible_partitions'],
+              'cramers_v':p7s['cramers_v'],
+              'holm_reject_5pct':p7s['holm_reject_5pct'],
+            },
+            'second_direction_association':{
+              'partition':'p7_nonshared_zero_count',
+              'classes':p7n['classes'],
+              'table_class_by_direction_abc':p7n['table_class_by_direction_abc'],
+              'pearson_p':p7n['pearson_p'],
+              'holm_adjusted_p':p7n['holm_adjusted_pearson_p_across_predeclared_eligible_partitions'],
+              'cramers_v':p7n['cramers_v'],
+              'holm_reject_5pct':p7n['holm_reject_5pct'],
+            },
+            'late_shell_mixture':{
+              'observed_shift_l2':best['late_mixture']['observed_shift_l2'],
+              'best_partition':x['selection_summary']['best_late_mixture_partition'],
+              'best_mixture_explained_fraction_l2':x['selection_summary']['best_late_mixture_explained_fraction_l2'],
+              'best_shift_cosine_alignment':x['selection_summary']['best_late_mixture_shift_cosine_alignment'],
+              'fully_explained_by_tested_class_mixture':x['decision']['LATE_SHELL_SHIFT_FULLY_EXPLAINED_BY_TESTED_CLASS_MIXTURE'],
+            },
+            'missing_third_face_qr0_observed':{
+              p:{'pass':v['overall_pass'],'total':v['overall_total'],'rate':v['overall_rate']}
+              for p,v in x['missing_third_face_inert_qr0_panel'].items()
+            },
+            'family_top_by_cramers_v':x['selection_summary']['family_top_by_cramers_v'],
+            'decision':{
+              'ARITHMETIC_CLASS_DECOMPOSITION_COMPLETE':x['decision']['ARITHMETIC_CLASS_DECOMPOSITION_COMPLETE'],
+              'HOLM_CORRECTED_DIRECTION_ASSOCIATION_FOUND':x['decision']['HOLM_CORRECTED_DIRECTION_ASSOCIATION_FOUND'],
+              'P7_DIVISIBILITY_STRUCTURE_IS_DIRECTION_ASSOCIATED':p7s['holm_reject_5pct'],
+              'LATE_SHELL_SHIFT_FULLY_EXPLAINED_BY_TESTED_CLASS_MIXTURE':x['decision']['LATE_SHELL_SHIFT_FULLY_EXPLAINED_BY_TESTED_CLASS_MIXTURE'],
+              'FINER_25M_SHELLS_RECOMMENDED_NEXT':x['decision']['FINER_25M_SHELLS_RECOMMENDED_NEXT'],
+              'IID_ARITHMETIC_OBJECTS_CLAIM':x['decision']['IID_ARITHMETIC_OBJECTS_CLAIM'],
+              'ASYMPTOTIC_CLAIM':x['decision']['ASYMPTOTIC_CLAIM'],
+              'NEXT':'Stage14-num-alpha11-diag5 family/cluster dependence and same-diagonal multiplicity diagnostics',
+            },
+          }
+          assert got==lock, (got,lock)
+          assert l==local_lock, (l,local_lock)
+          PY
+      - name: Check result boundary
+        run: |
+          grep -q 'HOLM_CORRECTED_DIRECTION_ASSOCIATION_FOUND=true' stages/stage14/14-num-alpha11-diag4/result.md
+          grep -q 'P7_MISSING_THIRD_FACE_QR0_FORCED_IN_FINITE_FIELD_TWO_FACE_LOCAL_UNIVERSE=true' stages/stage14/14-num-alpha11-diag4/result.md
+          grep -q 'LATE_SHELL_SHIFT_FULLY_EXPLAINED_BY_TESTED_CLASS_MIXTURE=false' stages/stage14/14-num-alpha11-diag4/result.md
+          grep -q 'IID_ARITHMETIC_OBJECTS_CLAIM=false' stages/stage14/14-num-alpha11-diag4/result.md
+          grep -q 'ASYMPTOTIC_CLAIM=false' stages/stage14/14-num-alpha11-diag4/result.md
+          grep -q 'NEXT=Stage14-num-alpha11-diag5' stages/stage14/14-num-alpha11-diag4/result.md
