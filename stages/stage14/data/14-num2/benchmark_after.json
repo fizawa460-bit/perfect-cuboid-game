@@ -1,0 +1,64 @@
+{
+  "stage": "14-num2",
+  "classification": "FINITE_ENGINEERING_VALIDATION",
+  "bound": 2000000,
+  "regression": {
+    "all_four_sha256_match": true,
+    "all_11_cutoffs_match": true,
+    "counts_match": true,
+    "graph_match": true
+  },
+  "optimized_kernel_profile": {
+    "candidate_glues": 28754577,
+    "early_nonprimitive_rejects_before_sort": 23286679,
+    "second_face_pair_membership_lookups": 10935796,
+    "reject_less_than_two_integral_faces": 5467186,
+    "sorts_after_two_face_gate": 712,
+    "face_mask_validation_tests": 712,
+    "retained_generation_records": 712,
+    "duplicate_two_plus_records_suppressed": 356,
+    "distinct_two_plus_objects": 356
+  },
+  "engineering_reduction": {
+    "num1_face_mask_tests": 5467898,
+    "num2_face_mask_validation_tests": 712,
+    "face_mask_test_fraction_removed": 0.9998697854275994,
+    "num1_candidate_records_sorted_before_primitive_gate": 28754577,
+    "num2_sorts_after_two_face_gate": 712,
+    "sort_fraction_removed": 0.9999752387246037,
+    "candidate_glue_stream_reduced": false
+  },
+  "incremental_shell_architecture": {
+    "shells": [[0,200000],[200000,500000],[500000,1000000],[1000000,2000000]],
+    "single_index_reused": true,
+    "shell_union_matches_full_ledger": true
+  },
+  "deterministic_chunk_architecture": {
+    "partition": "shared face hypotenuse p modulo 8",
+    "chunks": 8,
+    "chunk_union_matches_full_ledger": true,
+    "global_canonical_dedup_required": true
+  },
+  "github_actions_reference_profile": {
+    "runner_os": "Ubuntu 24.04",
+    "python": "CPython 3.12.13",
+    "index_build_seconds_python": 10.070383281999995,
+    "optimized_kernel_seconds_python": 12.237941038999992,
+    "total_python_seconds": 22.308324320999986,
+    "wall_seconds_usr_bin_time": 25.76,
+    "user_cpu_seconds": 24.84,
+    "system_cpu_seconds": 0.88,
+    "maximum_resident_set_kbytes": 2035840,
+    "note": "Timing/RSS are environment-specific. Relative algorithmic work reductions and ledger hashes are the stable regression facts. RSS rises because num2 trades memory for an exact Pythagorean mate-pair set."
+  },
+  "decision": {
+    "STAGE14_NUM2": "COMPLETE_EXACT_ENUMERATOR_ACCELERATION",
+    "BASELINE_LEDGER_UNCHANGED": true,
+    "ALL_11_FROZEN_CUTOFFS_UNCHANGED": true,
+    "INCREMENTAL_CUTOFF_ARCHITECTURE": true,
+    "PARALLEL_CHUNK_REPRODUCIBILITY": true,
+    "FINITE_DIAGNOSTIC_ONLY": true,
+    "ASYMPTOTIC_CLAIM": false,
+    "NEXT": "Stage14-num3 extended exact census"
+  }
+}
