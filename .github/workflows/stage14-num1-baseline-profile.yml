@@ -1,0 +1,86 @@
+name: Stage14-num1 baseline crosscheck profile
+
+on:
+  push:
+    branches:
+      - agent/stage14-num1-main-integration
+    paths:
+      - 'stages/stage14/scripts/14-num1/**'
+      - 'stages/stage14/data/14-num1/**'
+      - 'stages/stage14/14-num1/**'
+      - '.github/workflows/stage14-num1-baseline-profile.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'stages/stage14/scripts/14-num1/**'
+      - 'stages/stage14/data/14-num1/**'
+      - 'stages/stage14/14-num1/**'
+      - '.github/workflows/stage14-num1-baseline-profile.yml'
+  workflow_dispatch:
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run two-route B=2m census under resource profiler
+        run: |
+          mkdir -p /tmp/num1
+          /usr/bin/time -v -o /tmp/num1/time.txt \
+            python stages/stage14/scripts/14-num1/baseline_crosscheck_profile.py \
+              --output /tmp/num1/report.json | tee /tmp/num1/console.txt
+          echo '--- /usr/bin/time -v ---'
+          cat /tmp/num1/time.txt
+
+      - name: Verify frozen manifest and exact baseline contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/num1/report.json').read_text())
+          m=json.loads(Path('stages/stage14/data/14-num1/baseline_manifest.json').read_text())
+          b=r['baseline']
+          assert b['exactly_two']==m['counts']=={'a':142,'b':134,'c':80,'total':356,'triple':0}
+          assert b['object_count_two_plus']==356
+          assert len(b['ledger'])==356
+          assert b['graph']['raw_pair_edges']==m['graph']['raw_pair_edges']==356
+          assert b['graph']['active_oriented_face_vertices']==m['graph']['active_oriented_face_vertices']==490
+          assert b['graph']['max_degree']==m['graph']['max_degree']==9
+          assert b['object_key_sha256']==m['hashes']['object_key_sha256']=='1869ce6d30b661a3ea53049f2c86ffda5dd3d23b14aa9511301d72b1d4e8a89a'
+          assert b['object_key_mask_sha256']==m['hashes']['object_key_mask_sha256']=='84ce4239d482207ef8d961514c06b966f2eb9043fbbd5be3a7aea83d779314ce'
+          assert b['graph']['vertex_ledger_sha256']==m['hashes']['vertex_ledger_sha256']=='0c91e088324a703253cf7c100569eb25971135a4481512de1f63aa7657396e5b'
+          assert b['graph']['edge_ledger_sha256']==m['hashes']['edge_ledger_sha256']=='cd8f0ffa7d26ce38e316b65644bb25d39857b5d074a8bb1b96db2e05e8714a1f'
+          a=r['deterministic_workload_profile']['route_A_hypotenuse_glue']
+          z=r['deterministic_workload_profile']['route_B_shared_leg']
+          ma=m['deterministic_workload_profile']['route_A_hypotenuse_glue']
+          mz=m['deterministic_workload_profile']['route_B_shared_leg']
+          for k,v in ma.items(): assert a[k]==v, (k,a[k],v)
+          for k,v in mz.items(): assert z[k]==v, (k,z[k],v)
+          c=r['crosscheck']; assert all(c.values())
+          d=r['decision']
+          assert d['STAGE14_NUM1']=='COMPLETE_BASELINE_CROSSCHECK_AND_PROFILE'
+          assert d['B2M_MAIN_COUNTS_REPRODUCED'] is True
+          assert d['B2M_OBJECT_LEDGER_HASH_LOCKED'] is True
+          assert d['DIRECTION_LABELS_CROSSCHECKED'] is True
+          assert d['TRIPLE_HANDLING_CROSSCHECKED'] is True
+          assert d['DUPLICATE_SUPPRESSION_CROSSCHECKED'] is True
+          assert d['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert d['ASYMPTOTIC_CLAIM'] is False
+          print('Stage14-num1 exact baseline + manifest contract: PASS')
+          print('object_key_mask_sha256=', b['object_key_mask_sha256'])
+          print('route_A_candidate_glues=', a['candidate_glues'])
+          print('route_B_candidate_pairs=', z['candidate_shared_leg_face_pairs'])
+          PY
+
+      - name: Verify numerical-only interpretation boundary
+        run: |
+          grep -F 'FINITE_DIAGNOSTIC_ONLY=true' stages/stage14/14-num1/result.md
+          grep -F 'ASYMPTOTIC_CLAIM=false' stages/stage14/14-num1/result.md
+          grep -F 'SQRT_B_ASYMPTOTIC_CLAIM=false' stages/stage14/14-num1/result.md
+          grep -F 'NEXT=Stage14-num2 enumerator acceleration and incremental architecture' stages/stage14/14-num1/result.md
