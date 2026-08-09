@@ -1,0 +1,280 @@
+name: Stage14-num-alpha11 exact B500m terminal gate
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha11/**'
+      - 'stages/stage14/data/14-num-alpha11/**'
+      - 'stages/stage14/14-num-alpha11/**'
+      - 'stages/stage14/scripts/14-num-alpha8/**'
+      - 'stages/stage14/data/14-num-alpha10/b400m_manifest.json'
+      - 'stages/stage14/data/14-num-alpha10/b400m_objects.csv.bz2.b64'
+      - '.github/workflows/stage14-num-alpha11-b500m-terminal-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      frozen: ${{ steps.mode.outputs.frozen }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: mode
+        shell: bash
+        run: |
+          if [[ -f stages/stage14/data/14-num-alpha11/b500m_manifest.json && \
+                -f stages/stage14/data/14-num-alpha11/b500m_objects.csv.bz2.b64 ]]; then
+            echo 'frozen=true' >> "$GITHUB_OUTPUT"
+            echo 'Frozen B500m source present: replay only.'
+          else
+            echo 'frozen=false' >> "$GITHUB_OUTPUT"
+            echo 'Bootstrap mode: scan only 400m<d<=500m.'
+          fi
+
+  scan:
+    needs: plan
+    if: needs.plan.outputs.frozen != 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    strategy:
+      fail-fast: true
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scan new 25m diagonal shard
+        shell: bash
+        run: |
+          SHARD=${{ matrix.shard }}
+          WIDTH=25000000
+          LO=$((400000001 + SHARD * WIDTH))
+          HI=$((425000000 + SHARD * WIDTH))
+          python stages/stage14/scripts/14-num-alpha8/segmented_production_census.py scan \
+            --lo "$LO" \
+            --hi "$HI" \
+            --segment-size 250000 \
+            --output "shard-${SHARD}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alpha11-new-shard-${{ matrix.shard }}
+          path: shard-${{ matrix.shard }}.json
+          retention-days: 7
+
+  aggregate-freeze:
+    needs: [plan, scan]
+    if: always() && needs.plan.outputs.frozen != 'true' && needs.scan.result == 'success' && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: alpha11-new-shard-*
+          path: new-shards
+          merge-multiple: true
+      - name: Aggregate exact B500m union and evaluate terminal gate
+        shell: bash
+        run: |
+          python stages/stage14/scripts/14-num-alpha11/b500m_terminal_gate.py \
+            --fresh-shard-dir new-shards \
+            --baseline-b400-source stages/stage14/data/14-num-alpha10/b400m_objects.csv.bz2.b64 \
+            --output alpha11-b500m-report.json \
+            --b500-source-out alpha11-b500m-objects.csv.bz2.b64
+      - name: Enforce nesting, emergency boundary, terminal gate, and freeze exact files
+        shell: bash
+        run: |
+          mkdir -p stages/stage14/data/14-num-alpha11 stages/stage14/14-num-alpha11
+          cp alpha11-b500m-objects.csv.bz2.b64 \
+             stages/stage14/data/14-num-alpha11/b500m_objects.csv.bz2.b64
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          r=json.load(open('alpha11-b500m-report.json'))
+          d=r['decision']
+          assert d['STAGE14_NUM_ALPHA11']=='COMPLETE_EXACT_B500M_TERMINAL_GATE_EVALUATED'
+          assert d['B250M_ALPHA10_FULL_HASH_REGRESSION_MATCH'] is True
+          assert d['B300M_ALPHA10_FULL_HASH_REGRESSION_MATCH'] is True
+          assert d['B400M_ALPHA10_FULL_HASH_REGRESSION_MATCH'] is True
+          assert d['B500M_EXACT_CENSUS_FROZEN'] is True
+          assert d['TERMINAL_STOP_GATE_EVALUATED'] is True
+          assert d['PERFECT_CUBOID_EMERGENCY'] is False
+          assert d['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert d['ASYMPTOTIC_CLAIM'] is False
+          b500=r['exact_cutoff_B500m']
+          assert b500['counts']['triple'] == 0
+          keep=(
+            'stage','classification',
+            'B250m_alpha10_regression','B300m_alpha10_regression','B400m_alpha10_regression',
+            'exact_cutoff_B500m','shell_400m_to_500m_counts',
+            'stability_panel','terminal_stop_gate','object_source','decision'
+          )
+          m={k:r[k] for k in keep}
+          m['provenance']={
+            'bootstrap_actions_run':int(os.environ['GITHUB_RUN_ID']),
+            'alpha10_source_path':'stages/stage14/data/14-num-alpha10/b400m_objects.csv.bz2.b64',
+            'alpha10_manifest_path':'stages/stage14/data/14-num-alpha10/b400m_manifest.json',
+          }
+          Path('stages/stage14/data/14-num-alpha11/b500m_manifest.json').write_text(
+            json.dumps(m,indent=2,sort_keys=True)+'\n')
+          tr=m['stability_panel']['transitions']
+          d45=tr[2]['relative_drift']
+          gate=m['terminal_stop_gate']
+          status=[
+            'STAGE14_NUM_ALPHA11=COMPLETE_EXACT_B500M_TERMINAL_GATE_EVALUATED',
+            'B250M_ALPHA10_FULL_HASH_REGRESSION_MATCH=true',
+            'B300M_ALPHA10_FULL_HASH_REGRESSION_MATCH=true',
+            'B400M_ALPHA10_FULL_HASH_REGRESSION_MATCH=true',
+            'B500M_EXACT_CENSUS_FROZEN=true',
+            f"B500M_DIRECTIONAL_COUNTS={b500['counts']['a']},{b500['counts']['b']},{b500['counts']['c']}",
+            f"B500M_N2={b500['counts']['total']}",
+            f"B500M_T={b500['counts']['triple']}",
+            f"B500M_ACTIVE_ORIENTED_FACES={b500['graph']['active_oriented_face_vertices']}",
+            f"B500M_RAW_PAIR_EDGES={b500['graph']['raw_pair_edges']}",
+            f"B500M_MAX_DEGREE={b500['graph']['max_degree']}",
+            f"B250M_TO_B300M_ALL_PRIMARY_DRIFTS_LE_2PCT={str(tr[0]['all_primary_at_or_below_2pct']).lower()}",
+            f"B300M_TO_B400M_ALL_PRIMARY_DRIFTS_LE_2PCT={str(tr[1]['all_primary_at_or_below_2pct']).lower()}",
+            f"B400M_TO_B500M_ALL_PRIMARY_DRIFTS_LE_2PCT={str(tr[2]['all_primary_at_or_below_2pct']).lower()}",
+            'TERMINAL_STOP_GATE_EVALUATED=true',
+            f"TERMINAL_STOP_GATE_PASSED={str(gate['passed']).lower()}",
+            'PERFECT_CUBOID_EMERGENCY=false',
+            'FINITE_DIAGNOSTIC_ONLY=true',
+            'ASYMPTOTIC_CLAIM=false',
+            'STABILITY_GATE_IS_HEURISTIC=true',
+            f"SOURCE_ACTIONS_RUN={os.environ['GITHUB_RUN_ID']}",
+            f"NEXT={d['NEXT']}",
+          ]
+          Path('stages/stage14/14-num-alpha11/status.txt').write_text('\n'.join(status)+'\n')
+          p=m['stability_panel']['checkpoints']
+          transitions=m['stability_panel']['transitions']
+          lines=[
+            '# Stage14-num-α11 — exact B500m terminal stability gate',
+            '',
+            '> STATUS: `STAGE14_NUM_ALPHA11=COMPLETE_EXACT_B500M_TERMINAL_GATE_EVALUATED`',
+            '>',
+            '> CLASSIFICATION: finite exact census + predeclared operational stability stopping rule; no asymptotic claim.',
+            '',
+            'The validated α engine scanned only `400m<d<=500m` in four disjoint 25m shards. The nested B250m, B300m and B400m subsets reproduce the merged α10 lineage across every frozen count, graph field and SHA lock.',
+            '',
+            '## Exact B500m checkpoint',
+            '',
+            '```text',
+            f"(Na,Nb,Nc)=({b500['counts']['a']},{b500['counts']['b']},{b500['counts']['c']})",
+            f"N2={b500['counts']['total']}",
+            f"T={b500['counts']['triple']}",
+            f"active oriented faces={b500['graph']['active_oriented_face_vertices']}",
+            f"raw pair edges={b500['graph']['raw_pair_edges']}",
+            f"max degree={b500['graph']['max_degree']}",
+            f"object SHA={b500['object_key_sha256']}",
+            f"object+mask SHA={b500['object_key_mask_sha256']}",
+            f"vertex SHA={b500['graph']['vertex_ledger_sha256']}",
+            f"edge SHA={b500['graph']['edge_ledger_sha256']}",
+            '```',
+            '',
+            f"New shell `400m<d<=500m`: `{m['shell_400m_to_500m_counts']}`.",
+            '',
+            '## Three-transition terminal gate',
+            '',
+            'The predeclared rule requires all five primary finite diagnostics to move by at most 2% on each of 250m→300m, 300m→400m and 400m→500m.',
+            '',
+            f"250m→300m pass = `{str(transitions[0]['all_primary_at_or_below_2pct']).lower()}`; largest drift `{max(transitions[0]['relative_drift'].values()):.4%}`.",
+            f"300m→400m pass = `{str(transitions[1]['all_primary_at_or_below_2pct']).lower()}`; largest drift `{max(transitions[1]['relative_drift'].values()):.4%}`.",
+            f"400m→500m pass = `{str(transitions[2]['all_primary_at_or_below_2pct']).lower()}`; largest drift `{max(d45.values()):.4%}`.",
+            '',
+            f"Therefore `TERMINAL_STOP_GATE_PASSED={str(gate['passed']).lower()}`.",
+            '',
+            'This gate is only an operational finite-data stopping convention. Passing would not prove an asymptotic law; failing does not refute one. `T=0` through B500m is not a nonexistence proof for a perfect cuboid.',
+            '',
+            '```text',
+            'B400M_ALPHA10_FULL_HASH_REGRESSION_MATCH=true',
+            'B500M_EXACT_CENSUS_FROZEN=true',
+            'TERMINAL_STOP_GATE_EVALUATED=true',
+            f"TERMINAL_STOP_GATE_PASSED={str(gate['passed']).lower()}",
+            'PERFECT_CUBOID_EMERGENCY=false',
+            'FINITE_DIAGNOSTIC_ONLY=true',
+            'ASYMPTOTIC_CLAIM=false',
+            f"NEXT={d['NEXT']}",
+            '```',
+          ]
+          Path('stages/stage14/14-num-alpha11/result.md').write_text('\n'.join(lines)+'\n')
+          PY
+      - name: Reproduce deterministic frozen sections before commit
+        shell: bash
+        run: |
+          python stages/stage14/scripts/14-num-alpha11/b500m_terminal_gate.py \
+            --replay-b500-source stages/stage14/data/14-num-alpha11/b500m_objects.csv.bz2.b64 \
+            --output /tmp/replayed.json
+          python - <<'PY'
+          import json
+          got=json.load(open('/tmp/replayed.json'))
+          want=json.load(open('stages/stage14/data/14-num-alpha11/b500m_manifest.json'))
+          keys=(
+            'stage','classification',
+            'B250m_alpha10_regression','B300m_alpha10_regression','B400m_alpha10_regression',
+            'exact_cutoff_B500m','shell_400m_to_500m_counts',
+            'stability_panel','terminal_stop_gate','object_source','decision'
+          )
+          for k in keys: assert got[k] == want[k], k
+          print('alpha11 bootstrap freeze replay: PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: alpha11-b500m-exact-census
+          path: |
+            stages/stage14/data/14-num-alpha11/b500m_manifest.json
+            stages/stage14/data/14-num-alpha11/b500m_objects.csv.bz2.b64
+          retention-days: 30
+      - name: Commit frozen exact checkpoint and terminal gate
+        shell: bash
+        run: |
+          git config user.name 'stage14-num-alpha11-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add stages/stage14/data/14-num-alpha11 stages/stage14/14-num-alpha11
+          git commit -m 'Stage14-num-alpha11 freeze exact B500m terminal gate'
+          git push origin HEAD:${GITHUB_HEAD_REF}
+
+  frozen-replay:
+    needs: plan
+    if: needs.plan.outputs.frozen == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay frozen B500m object source
+        run: |
+          python stages/stage14/scripts/14-num-alpha11/b500m_terminal_gate.py \
+            --replay-b500-source stages/stage14/data/14-num-alpha11/b500m_objects.csv.bz2.b64 \
+            --output /tmp/replayed.json
+      - name: Compare deterministic frozen sections and terminal gate
+        run: |
+          python - <<'PY'
+          import json
+          got=json.load(open('/tmp/replayed.json'))
+          want=json.load(open('stages/stage14/data/14-num-alpha11/b500m_manifest.json'))
+          keys=(
+            'stage','classification',
+            'B250m_alpha10_regression','B300m_alpha10_regression','B400m_alpha10_regression',
+            'exact_cutoff_B500m','shell_400m_to_500m_counts',
+            'stability_panel','terminal_stop_gate','object_source','decision'
+          )
+          for k in keys: assert got[k] == want[k], k
+          assert got['decision']['TERMINAL_STOP_GATE_EVALUATED'] is True
+          assert got['decision']['PERFECT_CUBOID_EMERGENCY'] is False
+          print('Stage14-num-alpha11 frozen B500m replay: PASS')
+          PY
