@@ -1,0 +1,67 @@
+{
+  "stage": "14-4bg",
+  "classification": "POST_LOCAL_DIRECT_GLOBAL_SMALL_POINT_WITNESS_ROUTE_SELECTED",
+  "merged_inputs": {
+    "stage14_4bf_local_B_exponent": "81/82",
+    "stage14_4aq_positive_global_saving_proved": false,
+    "stage14_4ar_positive_height_saving_proved": false,
+    "stage14_s3_physical_hit_implies_log_height": true
+  },
+  "route_comparison": {
+    "separated": {
+      "chain": "local -> global/rank -> small height",
+      "new_family_retainers_required": 2,
+      "selected_primary": false
+    },
+    "direct": {
+      "chain": "local -> globally soluble low-height Kummer class",
+      "new_conjunction_counts_required": 1,
+      "selected_primary": true
+    }
+  },
+  "direct_object": {
+    "name": "J_C(B)",
+    "sandwich": "V(B) <= J_C(B) <= N_loc(B)",
+    "current_bound": "J_C(B) << B^(81/82+epsilon)",
+    "first_improvement_target": "J_C(B) << B^(81/82-delta_post+epsilon), delta_post>0",
+    "sqrt_sufficient_target": "J_C(B) << B^(1/2+epsilon)",
+    "post_local_saving_needed_for_sqrt": "20/41"
+  },
+  "integral_witness": {
+    "curve": "W^2=Z(Z-S^2)(Z+X^2)",
+    "coordinates": "Z=A/D^2, W=Y/D^3, gcd(A,D)=1",
+    "equation": "Y^2=A(A-S^2 D^2)(A+X^2 D^2)",
+    "factors": ["G0=A", "G1=A-S^2 D^2", "G2=A+X^2 D^2"],
+    "differences": [
+      "G0-G1=S^2 D^2",
+      "G2-G0=X^2 D^2",
+      "G2-G1=H^2 D^2"
+    ],
+    "odd_pairwise_gcd_support": ["S", "X", "H"],
+    "squarefree_kernel_support": "2 S X H",
+    "fixed_state_system": [
+      "d0 u0^2-d1 u1^2=S^2 D^2",
+      "d2 u2^2-d0 u0^2=X^2 D^2"
+    ],
+    "coordinate_box": "|A|<=B^K_C, D^2<=B^K_C"
+  },
+  "pending_s5u": {
+    "pr": 338,
+    "imported": false,
+    "reason": "not merged at 14-4bg branch creation",
+    "proposed_local_B_exponent": "41/42",
+    "if_merged_post_local_saving_needed_for_sqrt": "10/21"
+  },
+  "flags": {
+    "STAGE14_4BG": "POST_LOCAL_DIRECT_GLOBAL_SMALL_POINT_WITNESS_ROUTE_SELECTED",
+    "DIRECT_POST_LOCAL_CLASS_COUNT_DEFINED": true,
+    "PHYSICAL_BASE_INJECTS_TO_DIRECT_POST_LOCAL_CLASS": true,
+    "NONZERO_KUMMER_REPRESENTATIVE_WITH_NO_HEIGHT_INCREASE_PROVED": true,
+    "INTEGRAL_WITNESS_EQUATION_EXACT": true,
+    "WITNESS_SQUAREFREE_KERNEL_SUPPORTED_ON_2SXH": true,
+    "SEPARATED_GLOBAL_HEIGHT_ROUTE_REJECTED_AS_PRIMARY": true,
+    "DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED": false,
+    "SQRT_B_ASYMPTOTIC_PROVED": false
+  },
+  "next": "Stage14-4bh"
+}
