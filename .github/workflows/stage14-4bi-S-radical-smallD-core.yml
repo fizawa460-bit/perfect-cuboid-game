@@ -1,0 +1,36 @@
+name: Stage14-4bi-S radical small-D core
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bi-S/**'
+      - 'stages/stage14/data/14-4/radical_smallD_core_summary.json'
+      - 'stages/stage14/scripts/14-4/radical_smallD_core_audit.py'
+      - '.github/workflows/stage14-4bi-S-radical-smallD-core.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/radical_smallD_core_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/radical_smallD_core_audit.py
+      - name: Check S-route boundary flags
+        run: |
+          grep -q 'STAGE14_4BI_S=FULL_EDGE_RADICAL_MODULUS_AND_SMALL_DENOMINATOR_CORE_ISOLATED' stages/stage14/14-4bi-S/result.md
+          grep -q 'FULL_ODD_EDGE_RADICAL_CONGRUENCES_PROVED=true' stages/stage14/14-4bi-S/result.md
+          grep -q 'SMALL_KERNEL_INTRINSIC_MODULUS_OBSTRUCTION=false' stages/stage14/14-4bi-S/result.md
+          grep -q 'RADICAL_POOR_HYPOTENUSE_SECTOR_GLOBALLY_SPARSE=true' stages/stage14/14-4bi-S/result.md
+          grep -q 'RADICAL_RICH_SHORT_WITNESS_IMPLIES_D_LE_2_USTAR=true' stages/stage14/14-4bi-S/result.md
+          grep -q 'EXISTENTIAL_PROJECTION_TO_CLASS_SAVING_PROVED=false' stages/stage14/14-4bi-S/result.md
+          grep -q 'S_ROUTE_GLOBAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bi-S/result.md
+          grep -q 'NEXT=Stage14-4bj' stages/stage14/14-4bi-S/result.md
