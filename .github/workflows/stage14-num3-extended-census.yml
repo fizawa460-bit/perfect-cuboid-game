@@ -16,7 +16,7 @@ permissions:
   contents: read
 
 jobs:
-  b10m-chunks:
+  b20m-chunks:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:
@@ -28,12 +28,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Run memory-bounded exact chunk through B10m
+      - name: Run memory-bounded exact chunk through B20m
         run: |
           mkdir -p /tmp/num3
           /usr/bin/time -v -o /tmp/num3/time-${{ matrix.chunk }}.txt \
             python stages/stage14/scripts/14-num3/extended_exact_census.py \
-              --bound 10000000 \
+              --bound 20000000 \
               --chunk-count 8 \
               --chunk-index ${{ matrix.chunk }} \
               --output /tmp/num3/chunk-${{ matrix.chunk }}.json \
@@ -42,12 +42,12 @@ jobs:
           cat /tmp/num3/time-${{ matrix.chunk }}.txt
       - uses: actions/upload-artifact@v4
         with:
-          name: num3-b10m-chunk-${{ matrix.chunk }}
+          name: num3-b20m-chunk-${{ matrix.chunk }}
           path: /tmp/num3/chunk-${{ matrix.chunk }}.json
           retention-days: 3
 
-  b10m-aggregate:
-    needs: b10m-chunks
+  b20m-aggregate:
+    needs: b20m-chunks
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -57,28 +57,28 @@ jobs:
           python-version: '3.12'
       - uses: actions/download-artifact@v4
         with:
-          pattern: num3-b10m-chunk-*
+          pattern: num3-b20m-chunk-*
           path: /tmp/num3-chunks
           merge-multiple: true
-      - name: Merge chunks and enforce B2m plus frozen B5m regression
+      - name: Merge chunks and enforce frozen 2m/5m/10m regression
         run: |
           python stages/stage14/scripts/14-num3/extended_exact_census.py \
-            --bound 10000000 \
+            --bound 20000000 \
             --merge-dir /tmp/num3-chunks \
-            --output /tmp/num3-b10m.json \
-            | tee /tmp/num3-b10m-console.txt
+            --output /tmp/num3-b20m.json \
+            | tee /tmp/num3-b20m-console.txt
       - name: Verify finite-only and emergency boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          r=json.loads(Path('/tmp/num3-b10m.json').read_text())
+          r=json.loads(Path('/tmp/num3-b20m.json').read_text())
           assert r['num1_regression']['all_four_sha256_match'] is True
           assert r['num1_regression']['counts_match'] is True
           assert r['num1_regression']['graph_match'] is True
-          assert r['frozen_num3_milestone_regression']['verified_cutoffs']==[5000000]
+          assert r['frozen_num3_milestone_regression']['verified_cutoffs']==[5000000,10000000]
           assert r['cutoff_summaries']['5000000']['counts']=={'a':207,'b':211,'c':113,'total':531,'triple':0}
-          assert r['decision']['EXTENDED_BEYOND_B2M'] is True
+          assert r['cutoff_summaries']['10000000']['counts']=={'a':293,'b':286,'c':141,'total':720,'triple':0}
           assert r['decision']['FROZEN_NUM3_MILESTONES_UNCHANGED'] is True
           assert r['decision']['FINITE_DIAGNOSTIC_ONLY'] is True
           assert r['decision']['ASYMPTOTIC_CLAIM'] is False
@@ -88,11 +88,11 @@ jobs:
           if r['perfect_cuboid_emergency']['triggered']:
               raise SystemExit('PERFECT CUBOID EMERGENCY: independent reproduction required before num3 closure')
           assert r['decision']['STAGE14_NUM3']=='COMPLETE_EXTENDED_EXACT_CENSUS'
-          print('Stage14-num3 B=10m exact census: PASS')
+          print('Stage14-num3 B=20m exact census: PASS')
           print(json.dumps(r['extended_census'], indent=2, sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: num3-b10m-aggregate
-          path: /tmp/num3-b10m.json
+          name: num3-b20m-aggregate
+          path: /tmp/num3-b20m.json
           retention-days: 3
