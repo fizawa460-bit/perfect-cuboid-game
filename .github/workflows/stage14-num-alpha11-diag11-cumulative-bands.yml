@@ -21,19 +21,45 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Run diag11 cumulative uncertainty audit
+      - name: Recompute diag11 cumulative uncertainty audit
         run: python stages/stage14/scripts/14-num-alpha11-diag11/cumulative_survival_bands.py > /tmp/diag11.json
-      - name: Validate decision boundary
+      - name: Verify frozen diag11 summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag11.json'))
+          f=json.load(open('stages/stage14/data/14-num-alpha11-diag11/cumulative_survival_summary.json'))
+          assert x['shell_N2']==f['shell_N2']==[89,27,22,29,21,40,27]
+          assert x['trajectory_diagnostics']['mc_p']==f['trajectory_mc_p']
+          b=x['B1m_fitted_endpoint_uncertainty']
+          fb=f['B1m']
+          assert b['rate_ratio_ab_ac'][0]==fb['rate_ratio_ab_ac_95'][0]
+          assert b['rate_ratio_ab_ac'][2]==fb['rate_ratio_ab_ac_95'][1]
+          assert b['rate_ratio_ab_bc'][0]==fb['rate_ratio_ab_bc_95'][0]
+          assert b['rate_ratio_ab_bc'][2]==fb['rate_ratio_ab_bc_95'][1]
+          assert b['rate_ratio_ac_bc'][0]==fb['rate_ratio_ac_bc_95'][0]
+          assert b['rate_ratio_ac_bc'][2]==fb['rate_ratio_ac_bc_95'][1]
+          assert b['prob_ab_lt_ac']==fb['prob_ab_lt_ac']==1.0
+          assert b['prob_ab_lt_bc']==fb['prob_ab_lt_bc']==1.0
+          assert b['prob_ac_lt_bc']==fb['prob_ac_lt_bc']==0.85242
+          last=x['pointwise_cumulative_bands'][-1]
+          assert last['B']==1000000
+          assert last['ab_95_band']==fb['plugin_pointwise_ab_95_band']
+          assert last['ac_95_band']==fb['plugin_pointwise_ac_95_band']
+          assert x['hypothetical_bridge_target_rel_bc']==f['hypothetical_stage13_limit_plus_221_target_rel_bc']
+          assert x['decision']==f['decision']
+          PY
+      - name: Check result boundary locks
         run: |
           python - <<'PY'
           import json
           x=json.load(open('/tmp/diag11.json'))
           d=x['decision']
-          assert x['shell_N2']==[89,27,22,29,21,40,27]
           assert d['AB_RATE_LOWER_THAN_AC_AT_B1M_95_CALIBRATION'] is True
           assert d['AB_RATE_LOWER_THAN_BC_AT_B1M_95_CALIBRATION'] is True
           assert d['AC_VS_BC_RESOLVED_AT_B1M_95_CALIBRATION'] is False
           assert d['CUMULATIVE_DRIFT_EXCEEDS_COMMON_SURVIVAL_NOISE_AT_5PCT'] is False
+          assert d['HYPOTHETICAL_STAGE13_LIMIT_PLUS_221_TARGET_INSIDE_B1M_POINTWISE_95_BANDS'] is True
           assert d['ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM'] is False
           assert d['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
           assert d['NUM_ALPHA_DIAGNOSTIC_BRANCH_PARK_RECOMMENDED'] is True
@@ -52,8 +78,3 @@ jobs:
           },indent=2))
           print('DIAG11_SUMMARY_END')
           PY
-      - name: Upload report
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage14-num-alpha11-diag11-report
-          path: /tmp/diag11.json
