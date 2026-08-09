@@ -21,6 +21,7 @@ Count and explain primitive canonical exactly-two-face cuboids with integer spac
 - `14-4aj`: exact Shimada lattice/deck/polarization interface.
 - `14-4ak`: published Shimada data ingested; the final split-root parity coset is empty by two independent exact enumerators; all fixed `M.C=4` rational-bisection mechanisms are closed.
 - `14-4al`: exact collective first-hit activation measure `V(B)=#{F:mu(F)<=B}`; ambient primitive oriented Pythagorean base count is linear; the finite sqrt signal is reformulated as inverse-square-root activation density.
+- `14-4am`: exact three-gate factorization `V/A=(Sigma/A)(R/Sigma)(V/R)` and complete rank/Selmer census of every primitive oriented base through `H<=20,000`.
 
 Frozen Stage13 upstream remains `R03 + Stage13-12ag`, including
 
@@ -101,76 +102,99 @@ Thus, whenever either asymptotic exists,
 V(B)/A(B)\sim \pi c/\sqrt B.}
 \]
 
-This turns the post-4ak question into a moving-base activation/lower-tail problem rather than another accumulating-curve search.
+The late finite profile gives effective exponent `0.4998644` for `V` on `200k -> 2m`, and `sqrt(B)V/A` has coefficient of variation about `1.54%` on the four late cutoffs. These are finite diagnostics only.
 
-The exact finite audit gives
+## 14-4am — Selmer / MW-rank / first-small-point factorization
 
-```text
-B          A(B)      V(B)      sqrt(B)*V/A
-200,000     63,638      155       1.0892565339
-500,000    159,164      254       1.1284280517
-1,000,000  318,278      347       1.0902418640
-2,000,000  636,640      490       1.0884717353
-```
+Status: [x] Complete.
 
-and on `200k -> 2m`
+Define nested base sets
 
 ```text
-A effective exponent                1.0001773995
-V effective exponent                0.4998643819
-(V/A) effective exponent           -0.5003130177
-mean sqrt(B)*V/A                    1.0990995462
-CV   sqrt(B)*V/A                    0.0154166485
+A(B)      = all primitive oriented Pythagorean bases with H<=B
+Sigma(B)  = bases with dim Sel_2(E_F)>2
+R(B)      = bases with rank E_F(Q)>0
+V(B)      = bases with mu(F)<=B
 ```
 
-These numbers are finite diagnostics only. No square-root asymptotic is promoted.
+Merged Stage14 gives
 
-The active population is not a single rank or descent class. At `B=2m`, exact PARI ranks include `254` rank-1 and `188` rank-2 fibers; their `200k -> 2m` effective exponents are about `0.4554` and `0.5033`. Stage14-s4a/b independently finds `483/490` distinct exact Kummer square-class triples and `393` coarse arithmetic signatures, with largest coarse cluster only `4`.
+\[
+\boxed{V(B)\subset R(B)\subset\Sigma(B)\subset A(B)}
+\]
 
-The first-small-point gate also remains substantial: at `B=2m`, `mu(F)/H(F)` has median `21.03`, 75th percentile `98.23`, and maximum about `1.15e4`. Positive-rank specialization therefore cannot simply be identified with physical activation near the base height.
+and therefore the exact density identity
 
-Locked boundary:
+\[
+\boxed{\frac{V}{A}=\frac{\Sigma}{A}\frac{R}{\Sigma}\frac{V}{R}}.
+\]
+
+If `A(B)=B^{1+o(1)}` and an eventual `V(B)=B^{1/2+o(1)}` law holds, the Selmer, MW-rank-given-Selmer, and first-hit-given-rank thinning exponents must sum to `1/2`.
+
+Stage14-4am replaces the old s1 matched sample by a complete PARI `ellrank(E,0)` census of every primitive oriented Pythagorean base through `H<=20,000`. The exact full-2-torsion Selmer dimension is read from the merged s1 interface; the true positive-rank count is bracketed by unconditional PARI rank bounds.
+
+Exact finite counts:
 
 ```text
-STAGE14_4AL=COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_AND_FINITE_FIRST_HIT_PROFILE
-COLLECTIVE_FIRST_HIT_IDENTITY_LOCKED=true
-ORIENTED_PRIMITIVE_PYTHAGOREAN_BASE_ASYMPTOTIC_LINEAR=true
-SQRTB_EQUIVALENT_TO_INVERSE_SQRT_ACTIVATION_DENSITY=true
-FIXED_CURVE_MECHANISM_REOPENED=false
-POSITIVE_RANK_DENSITY_PROVED=false
-UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED=false
-ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false
-TRUE_GROWTH_ORDER_IDENTIFIED=false
+B        A       Sigma      R interval       V
+2,000      638      476       371..385         7
+5,000     1584     1234       916..989        25
+10,000    3186     2553      1875..2057       39
+20,000    6372     5209      3784..4239       54
 ```
+
+At `B=20,000`:
+
+```text
+Sigma/A          = 0.8174827369742624
+R/A              in [0.5938480853735091, 0.6652542372881356]
+V/R              in [0.012738853503184714, 0.01427061310782241]
+V/A              = 0.00847457627118644
+```
+
+The finite thinning-exponent budget is
+
+```text
+gamma(total)                   = 0.4817176373
+alpha_Selmer                   = 0.02034894195
+alpha_MW | Selmer              in [0.02080686276, 0.03227209060]
+beta_first-hit | MW            in [0.4290966047, 0.4405618326]
+```
+
+These exponents are finite diagnostics, and the interval endpoints are correlated through the unknown exact `R(B)`. They must not be combined independently.
+
+The robust finite conclusion is that neither nontrivial 2-Selmer nor positive MW rank is rare on the complete audited base family, whereas physical activation conditional on positive rank is only about `1.3–1.4%` at `20k`. Thus the observed finite thinning budget is overwhelmingly located in the height-sensitive `R -> V` first-small-point gate.
+
+This does **not** prove positive-rank density, a first-small-point lower-tail law, or a square-root asymptotic.
 
 Artifacts:
 
 ```text
-stages/stage14/archive/stage14-4al-collective-first-hit.md
-stages/stage14/scripts/14-4/collective_first_hit_audit.py
-stages/stage14/data/14-4/collective_first_hit_summary.json
-.github/workflows/stage14-4al-collective-first-hit.yml
+stages/stage14/archive/stage14-4am-rank-smallpoint-factorization.md
+stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py
+stages/stage14/data/14-4/rank_smallpoint_factor_summary.json
+.github/workflows/stage14-4am-rank-smallpoint.yml
 ```
 
-## 14-4am — uniform arithmetic lower tail for first activation
+## 14-4an — Euclid-factor reciprocity matrix coupled to height
 
 Status: [>] Next.
 
-The remaining main-track count has the conceptual form
+Stage14-s5a expresses the moving 2-descent support in primitive opposite-parity Euclid parameters as
 
-\[
-V(B)=\sum_{\substack{F\text{ primitive oriented}\\H(F)\le B}}
-1_{\{\operatorname{rank}E_F(\mathbf Q)>0\}}
-1_{\{\mu(F)\le B\}}.
-\]
+```text
+m, n, m-n, m+n, m^2+n^2
+```
 
-Stage14-4am must separate and control the two moving gates:
+plus the fixed prime `2`.
 
-1. frequency of positive-rank specialization on the primitive Pythagorean base;
-2. conditional lower tail of the first physical non-torsion point `mu(F)` on positive-rank fibers;
-3. dependence on the moving bad-prime / 2-descent support already exposed by Stage14-s2/s4;
-4. a uniform upper or lower exponent for the joint activation probability, without assuming rank equals Selmer rank or first hit equals a Mordell--Weil generator;
-5. only after that, decide whether the finite inverse-square-root activation density can be promoted, rejected, or narrowed.
+Stage14-4an must now:
+
+1. derive the explicit local quadratic-character / Hilbert-symbol conditions between squarefree pieces of those five moving factors;
+2. organize them as a reciprocity matrix suitable for a family average / large-sieve argument;
+3. state precisely which part controls `A -> Sigma`, which part can reach `Sigma -> R`, and where Sha/global representability remains;
+4. because 4am shows the finite dominant thinning lies in `R -> V`, couple the character analysis to the physical logarithmic height window rather than stop at a Selmer-density bound;
+5. seek any unconditional family-level power saving for the joint activation set before attempting the square-root endpoint.
 
 ## 14-5 — directionwise asymptotic structure
 
@@ -178,7 +202,7 @@ Status: pending Stage14-4.
 
 ## Parallel arithmetic small-point track
 
-Stage14-s is now a direct input to the main line: s1/s2 isolate rank/Selmer and moving bad-prime support, s3 isolates the canonical-height small-point gate, and s4a/b show that active arithmetic fingerprints are highly dispersed.
+Stage14-s is now a direct input to the main line. In particular s5a has already fixed the Euclid-parameter descent support and theorem target; 4am clarifies that a purely local/Selmer sieve is unlikely to explain the observed finite thinning unless it is coupled to global representability and the small-point height window.
 
 ## Parallel triple gate
 
@@ -199,5 +223,5 @@ T(B)=o(\sqrt B).
 No true Stage14 growth exponent, leading constant, limiting directional vector, perfect-cuboid existence/nonexistence theorem, or `T=o(sqrt(B))` theorem is established yet.
 
 ```text
-NEXT=Stage14-4am uniform arithmetic lower-tail statement for mu(F)
+NEXT=Stage14-4an Euclid-factor reciprocity matrix coupled to height-sensitive activation
 ```
