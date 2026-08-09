@@ -1,0 +1,33 @@
+name: Stage14-s5n boundary operator assembly audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5n/**'
+      - 'stages/stage14/scripts/14-s5n/**'
+      - '.github/workflows/stage14-s5n-boundary-operator-assembly.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5n deterministic audit
+        run: python3 stages/stage14/scripts/14-s5n/boundary_operator_assembly_audit.py | tee /tmp/s5n.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5N=COMPLETE_ONE_SMALL_VARIABLE_BOUNDARY_AVERAGING_AND_MULTI_EDGE_CONDUCTOR_OBSTRUCTION$' /tmp/s5n.txt
+          grep -q '^SQUAREFREE_QUADRATIC_COMPLETION_LEMMA_PROVED=true$' /tmp/s5n.txt
+          grep -q '^SINGLE_EDGE_SMALL_STATE_BOUNDARY_AVERAGED=true$' /tmp/s5n.txt
+          grep -q '^SINGLE_EDGE_SWITCHED_PHYSICAL_CHARACTER_AVERAGED=true$' /tmp/s5n.txt
+          grep -q '^SINGLE_EDGE_SMALL_LARGE_CORNER_AVERAGED=true$' /tmp/s5n.txt
+          grep -q '^MICROSCOPIC_CENTERED_PERIODIC_BOUND_PROVED=true$' /tmp/s5n.txt
+          grep -q '^REGULAR_BOX_COMMON_CUTOFF_Z_EQ_M_2_5_VALID=true$' /tmp/s5n.txt
+          grep -q '^SINGLE_LINEAR_EDGE_FULL_DYADIC_SUMMATION_PROVED=true$' /tmp/s5n.txt
+          grep -q '^ALL_SIX_LINEAR_EDGES_INDIVIDUALLY_CLOSED=true$' /tmp/s5n.txt
+          grep -q '^MULTI_EDGE_PRODUCT_CONDUCTOR_OBSTRUCTION_ISOLATED=true$' /tmp/s5n.txt
+          grep -q '^FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED=false$' /tmp/s5n.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5n.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5n.txt
+          grep -q '^NEXT=Stage14-s5o$' /tmp/s5n.txt
