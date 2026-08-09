@@ -1,0 +1,64 @@
+name: Stage14-num-alpha11-diag7 second-face survival
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag7/**'
+      - 'stages/stage14/data/14-num-alpha11-diag7/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag7/**'
+      - '.github/workflows/stage14-num-alpha11-diag7-second-face-survival.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  second-face-survival:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute conditional second-face survival diagnostic
+        run: python stages/stage14/scripts/14-num-alpha11-diag7/conditional_second_face_survival.py > /tmp/diag7.json
+      - name: Verify frozen diag7 summary
+        run: |
+          python - <<'PY'
+          import json, math
+          x=json.load(open('/tmp/diag7.json'))
+          f=json.load(open('stages/stage14/data/14-num-alpha11-diag7/second_face_survival_summary.json'))
+          assert x['decision']['MATCHED_SECOND_FACE_SURVIVAL_DECOMPOSITION_COMPLETE'] is True
+          assert x['decision']['RAW_MINUS_EXACT_ONE_EQUALS_EXACT_TWO_ENDPOINT_LOAD_AT_EVERY_MATCHED_CUTOFF'] is True
+          assert x['decision']['PAIR_2_2_1_EQUIVALENT_TO_ENDPOINT_4_3_3'] is True
+          assert x['B100k_snapshot']['raw_face_incidence']==dict(zip(('ab','ac','bc'), f['B100k']['raw']))
+          assert x['B100k_snapshot']['exactly_two_pair_counts']==dict(zip(('a','b','c'), f['B100k']['pair']))
+          assert x['B100k_snapshot']['exactly_two_endpoint_load']==dict(zip(('ab','ac','bc'), f['B100k']['endpoint']))
+          for q,v in zip(('ab','ac','bc'), f['B100k']['survival']):
+              assert math.isclose(x['B100k_snapshot']['second_face_survival_rate'][q],v,rel_tol=0,abs_tol=1e-18)
+          assert x['B500m_exactly_two_numerator_only']['pair_counts_a_b_c']==f['B500m_numerator_only']['pair_counts_a_b_c']
+          assert x['B500m_exactly_two_numerator_only']['endpoint_load_ab_ac_bc']==f['B500m_numerator_only']['endpoint_load_ab_ac_bc']
+          assert math.isclose(x['B500m_exactly_two_numerator_only']['endpoint_L1_to_4_3_3'],f['B500m_numerator_only']['endpoint_L1_to_4_3_3'],rel_tol=0,abs_tol=1e-18)
+          assert x['decision']['ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM'] is False
+          assert x['decision']['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
+          PY
+      - name: Check result boundary locks
+        run: |
+          grep -q 'STAGE14_NUM_ALPHA11_DIAG7=CONDITIONAL_SECOND_FACE_SURVIVAL_DIAGNOSTIC_COMPLETE' stages/stage14/14-num-alpha11-diag7/result.md
+          grep -q 'PAIR_2_2_1_EQUIVALENT_TO_ENDPOINT_4_3_3=true' stages/stage14/14-num-alpha11-diag7/result.md
+          grep -q 'B500M_RAW_FACE_DENOMINATORS_AVAILABLE=false' stages/stage14/14-num-alpha11-diag7/result.md
+          grep -q 'ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM=false' stages/stage14/14-num-alpha11-diag7/result.md
+      - name: Print compact diag7 summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag7.json'))
+          print('DIAG7_FINAL_SUMMARY_BEGIN')
+          print(json.dumps({
+            'targets':x['conditional_bridge_targets'],
+            'B100k':x['B100k_snapshot'],
+            'B500m':x['B500m_exactly_two_numerator_only'],
+            'decision':x['decision'],
+          }, indent=2, sort_keys=True))
+          print('DIAG7_FINAL_SUMMARY_END')
+          PY

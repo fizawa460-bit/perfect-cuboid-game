@@ -1,0 +1,70 @@
+{
+  "B100k": {
+    "destination_mix": {
+      "from_ab": {"to_ac": 0.5, "to_bc": 0.5},
+      "from_ac": {"to_ab": 0.5892857142857143, "to_bc": 0.4107142857142857},
+      "from_bc": {"to_ab": 0.5892857142857143, "to_ac": 0.4107142857142857}
+    },
+    "endpoint": [66, 56, 56],
+    "pair": [33, 33, 23],
+    "raw": [84212, 43236, 40760],
+    "survival": [0.0007837362846150192, 0.0012952169488389305, 0.0013738959764474975],
+    "survival_rel_bc": [0.5704480528733604, 0.9427329077620501, 1.0],
+    "survival_shape_l1_to_stage13limit_plus_221_target": 0.022335698920091462
+  },
+  "B500m_numerator_only": {
+    "destination_mix_given_survival": {
+      "from_ab": {"to_ac": 0.5005464480874317, "to_bc": 0.4994535519125683},
+      "from_ac": {"to_ab": 0.6468926553672316, "to_bc": 0.3531073446327684},
+      "from_bc": {"to_ab": 0.6463932107496464, "to_ac": 0.3536067892503536}
+    },
+    "endpoint_L1_to_4_3_3": 0.014592274678111639,
+    "endpoint_load_ab_ac_bc": {"ab": 2745, "ac": 2124, "bc": 2121},
+    "endpoint_proportion": {"ab": 0.3927038626609442, "ac": 0.303862660944206, "bc": 0.3034334763948498},
+    "endpoint_ratio_to_bc": {"ab": 1.2942008486562941, "ac": 1.0014144271570014, "bc": 1.0},
+    "pair_L1_to_2_2_1": 0.02918454935622322,
+    "pair_counts_a_b_c": {"a": 1374, "b": 1371, "c": 750},
+    "pair_proportion": {"a": 0.3931330472103004, "b": 0.392274678111588, "c": 0.2145922746781116},
+    "raw_face_denominators_available": false
+  },
+  "classification": "CONDITIONAL_SECOND_FACE_SURVIVAL_AND_ENDPOINT_FLATTENING_DIAGNOSTIC",
+  "conditional_bridge_targets": {
+    "if_source_is_Stage13_theorem_limit_and_pair_limit_is_2_2_1": {
+      "normalized_shape": {"ab": 0.2242998846103957, "ac": 0.366630158734234, "bc": 0.4090699566553704},
+      "relative_to_bc": {"ab": 0.5483166899967721, "ac": 0.8962529581293825, "bc": 1.0}
+    },
+    "if_source_is_finite_2_1_1_and_pair_limit_is_2_2_1": {
+      "normalized_shape": {"ab": 0.25, "ac": 0.37499999999999994, "bc": 0.37499999999999994},
+      "relative_to_bc": {"ab": 0.6666666666666667, "ac": 1.0, "bc": 1.0}
+    },
+    "interpretation": "These are required relative second-face survival profiles, not proved Stage14 limits."
+  },
+  "cumulative": [
+    {"B":1000,"raw":[306,160,138],"pair":[2,0,0],"endpoint":[2,2,0],"survival":[0.006535947712418301,0.0125,0.0],"survival_rel_bc":[null,null,null]},
+    {"B":2000,"raw":[702,372,370],"pair":[2,2,1],"endpoint":[4,3,3],"survival":[0.005698005698005698,0.008064516129032258,0.008108108108108109],"survival_rel_bc":[0.7027540360873694,0.9946236559139784,1.0]},
+    {"B":5000,"raw":[2300,1138,1077],"pair":[6,6,3],"endpoint":[12,9,9],"survival":[0.0052173913043478265,0.007908611599297012,0.008356545961002786],"survival_rel_bc":[0.6243478260869565,0.9463971880492091,1.0]},
+    {"B":10000,"raw":[5281,2740,2659],"pair":[9,11,5],"endpoint":[20,14,16],"survival":[0.0037871615224389322,0.0051094890510948905,0.006017299736743136],"survival_rel_bc":[0.62937890551032,0.8491332116788322,1.0]},
+    {"B":20000,"raw":[12407,6284,6105],"pair":[16,16,10],"endpoint":[32,26,26],"survival":[0.002579189167405497,0.004137492043284532,0.004258804258804259],"survival_rel_bc":[0.605613456423483,0.9715149586250794,1.0]},
+    {"B":50000,"raw":[37014,19080,17905],"pair":[24,24,14],"endpoint":[48,38,38],"survival":[0.00129680661371373,0.001991614255765199,0.002122312203295169],"survival_rel_bc":[0.6110348004880088,0.9384171907756813,1.0]},
+    {"B":100000,"raw":[84212,43236,40760],"pair":[33,33,23],"endpoint":[66,56,56],"survival":[0.0007837362846150192,0.0012952169488389305,0.0013738959764474975],"survival_rel_bc":[0.5704480528733604,0.9427329077620501,1.0]}
+  ],
+  "decision": {
+    "ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM": false,
+    "ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM": false,
+    "B100K_AB_SECOND_FACE_SURVIVAL_LOWER_THAN_AC_AND_BC": true,
+    "B500M_ENDPOINT_MIX_CLOSE_TO_4_3_3": true,
+    "B500M_RAW_DENOMINATORS_AVAILABLE": false,
+    "MATCHED_SECOND_FACE_SURVIVAL_DECOMPOSITION_COMPLETE": true,
+    "NEXT": "Stage14-num-alpha11-diag8 extend the matched raw-face denominator census beyond B=100k before inferring persistence of the conditional survival profile",
+    "PAIR_2_2_1_EQUIVALENT_TO_ENDPOINT_4_3_3": true,
+    "RAW_MINUS_EXACT_ONE_EQUALS_EXACT_TWO_ENDPOINT_LOAD_AT_EVERY_MATCHED_CUTOFF": true
+  },
+  "identity": {
+    "endpoint_load": "E_ab=a+b, E_ac=a+c, E_bc=b+c",
+    "matched_window_exact_identity": "A_q-N1_q=E_q because T=0",
+    "pair_2_2_1_implies_endpoint_4_3_3": true,
+    "pair_axes": "a=ab&ac, b=ab&bc, c=ac&bc"
+  },
+  "matched_cutoffs": [1000,2000,5000,10000,20000,50000,100000],
+  "stage": "14-num-alpha11-diag7"
+}
