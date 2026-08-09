@@ -32,39 +32,25 @@ Status: [x] Complete. Triple points require compatible logarithmic small points 
 Status: [x] Complete. The exact conic relation is useful structurally but the naive fixed-prime square-class sieve is vacuous on physical bases.
 
 ## 14-t8 — reflected moving-prime local boundary
+Status: [x] Complete. New reflected gates can occur only at split primes `p|Delta_-`, `p=1 mod 4`, and only on the two residues `q^2=-1 mod p`.
+
+## 14-t9 — Euclid-parameter sparse-residue family sieve target
 Status: [x] Complete.
 
-The reflected quartic satisfies
+For every odd split prime the exceptional set has exact residue density
 
 \[
-R^2=(q^2+1)^2+4\frac{1-s}{s}q^2.
+\rho_p=2/p,
 \]
 
-For `s=X^2/S^2`, the new reflected moving factor is
+while inert primes contribute zero. This is not a fixed positive-density sieve and no product-independence is assumed.
 
-\[
-\Delta_-=S^2-X^2.
-\]
+The correct analytic object is the joint base-point family `(F,q)`: raw Stage14-s activation/descent conditions first, then reflected split divisors of `Delta_-`, exceptional residues, and the physical small-point window. Single-fiber point counts or average rank alone cannot close this.
 
-At an odd new prime `p | Delta_-`, the reflected square condition is locally automatic whenever `q^2+1` is a `p`-adic unit. Hence inert primes `p == 3 mod 4` contribute no new local gate. Only split primes `p == 1 mod 4` can be nontrivial, and only on the two exceptional residues
-
-\[
-q^2\equiv-1\pmod p.
-\]
-
-Thus the remaining triple sieve is a moving split-prime sparse-residue problem, not a fixed-prime positive-density sieve.
-
-## 14-t9 — Euclid-parameter split-prime exceptional-residue large sieve
+## 14-t10 — character-sum / large-sieve realization
 Status: [>] Next.
 
-Parameterize primitive first faces by Euclid variables and study the split prime divisors of `Delta_-=S^2-X^2`. Combine:
-
-1. raw Stage14-s 2-descent activation classes;
-2. split divisors `p | Delta_-`, `p == 1 mod 4`;
-3. exceptional residues `q^2 == -1 mod p`;
-4. the physical logarithmic small-point window.
-
-The target is a genuine family-level saving after raw activation. No independence among prime divisors may be assumed.
+Rewrite the exceptional condition and raw 2-descent constraints as explicit quadratic-character weights over primitive Euclid parameters and the physical point coordinate. Seek averaged cancellation strong enough to give at least a logarithmic saving after raw activation, without assuming independent prime factors.
 
 Primary target remains
 
@@ -86,6 +72,7 @@ STAGE14_T5=COMPLETE_FIXED_M4_TRANSFER_GATE_ZERO_CASES
 STAGE14_T6=COMPLETE_MIRROR_DOUBLE_SMALL_POINT_GATE
 STAGE14_T7=COMPLETE_SHARED_Q_CONIC_AND_LOCAL_SIEVE_BOUNDARY
 STAGE14_T8=COMPLETE_REFLECTED_MOVING_PRIME_LOCAL_BOUNDARY
+STAGE14_T9=COMPLETE_EUCLID_SPARSE_RESIDUE_SIEVE_FORMULATION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t9 Euclid-parameter split-prime exceptional-residue large sieve
+NEXT=Stage14-t10 character-sum / large-sieve realization
 ```
