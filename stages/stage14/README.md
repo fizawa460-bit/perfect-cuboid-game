@@ -20,6 +20,7 @@ STAGE14_4AI=COMPLETE_MINIMAL_BISECTION_REDUCTION
 STAGE14_4AJ=COMPLETE_SHIMADA_LATTICE_INTERFACE
 STAGE14_4AK=COMPLETE_SPLIT_ROOT_COSET_VOID
 STAGE14_4AL=COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_AND_FINITE_FIRST_HIT_PROFILE
+STAGE14_4AM=COMPLETE_EXACT_SELMER_RANK_SMALLPOINT_FACTOR_AND_FINITE_FULL_BASE_CENSUS
 MAX_VERIFIED_B=2000000
 STAGE13_FROZEN_CONTRACT=R03_PLUS_13_12AG
 PHYSICAL_LINE_BUNDLE=M=pi^*(-K_Y)
@@ -29,12 +30,15 @@ PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTS=false
 FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
 COLLECTIVE_FIRST_HIT_IDENTITY_LOCKED=true
 SQRTB_EQUIVALENT_TO_INVERSE_SQRT_ACTIVATION_DENSITY=true
+ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED=true
+FULL_BASE_RANK_SELMER_CENSUS_MAX_H=20000
+FINITE_FIRST_SMALL_POINT_GATE_DOMINATES_THINNING_BUDGET=true
 POSITIVE_RANK_DENSITY_PROVED=false
 UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED=false
 ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false
 TRUE_GROWTH_ORDER_IDENTIFIED=false
 T_O_SQRT_B_PROVED=false
-NEXT=Stage14-4am uniform arithmetic lower-tail statement for mu(F)
+NEXT=Stage14-4an Euclid-factor reciprocity matrix coupled to height-sensitive activation
 ```
 
 Canonical source: `stages/stage14/main.md`. Detailed derivations are frozen in the stage archive.
@@ -139,9 +143,7 @@ Hence any eventual square-root active-vertex law is exactly equivalent to invers
 \iff V(B)/A(B)\sim \pi c/\sqrt B}.
 \]
 
-This is a reformulation, not an asymptotic theorem.
-
-The exact late finite profile is
+The late finite profile is
 
 ```text
 B          A(B)      V(B)      sqrt(B)*V/A
@@ -151,23 +153,92 @@ B          A(B)      V(B)      sqrt(B)*V/A
 2,000,000  636,640      490       1.0884717353
 ```
 
-Over `200k -> 2m`, the effective exponents are `1.0001774` for `A`, `0.4998644` for `V`, and `-0.5003130` for `V/A`. The scaled activation `sqrt(B)V/A` has mean `1.09910` and coefficient of variation about `1.54%` on the four late cutoffs. These are finite diagnostics only.
+Over `200k -> 2m`, the effective exponents are `1.0001774` for `A`, `0.4998644` for `V`, and `-0.5003130` for `V/A`. The scaled activation `sqrt(B)V/A` has coefficient of variation about `1.54%`. These are finite diagnostics only.
 
-The signal is not concentrated in one exact-rank type: at `2m`, the active census contains `254` exact-rank-1 and `188` exact-rank-2 fibers. Stage14-s4a/b also records `483/490` distinct exact Kummer square-class triples and `393` coarse arithmetic signatures, largest coarse cluster `4`.
+## Stage14-4am — where the activation thinning occurs
 
-The first-small-point gate is quantitatively substantial. At `2m`, `mu(F)/H(F)` has median `21.03`, 75th percentile `98.23`, and maximum about `1.15e4`. Positive rank therefore cannot simply be identified with a physical hit near the base height.
+For the integral full-2-torsion fiber
+
+\[
+E_F:\quad Y^2=Z(Z-S^2)(Z+X^2),
+\]
+
+define
+
+```text
+A(B)      = all primitive oriented bases with H<=B
+Sigma(B)  = bases with dim Sel_2(E_F)>2
+R(B)      = bases with rank E_F(Q)>0
+V(B)      = bases with mu(F)<=B
+```
+
+Then exactly
+
+\[
+\boxed{V(B)\subset R(B)\subset\Sigma(B)\subset A(B)}
+\]
+
+and
+
+\[
+\boxed{
+\frac{V}{A}=\frac{\Sigma}{A}\frac{R}{\Sigma}\frac{V}{R}.
+}
+\]
+
+Thus a hypothetical square-root activation law has an exact thinning budget: because `A(B)=B^{1+o(1)}`, the Selmer, MW-rank-given-Selmer, and first-hit-given-rank exponents must sum to `1/2` if `V(B)=B^{1/2+o(1)}`.
+
+Stage14-4am runs PARI/GP `ellrank(E,0)` on **every** primitive oriented Pythagorean base through `H<=20,000`, replacing the old s1 matched-control sample by a complete finite base census.
+
+```text
+B        A       Sigma      R interval       V
+2,000      638      476       371..385         7
+5,000     1584     1234       916..989        25
+10,000    3186     2553      1875..2057       39
+20,000    6372     5209      3784..4239       54
+```
+
+At `B=20,000`:
+
+```text
+Sigma/A          = 0.8174827369742624
+R/A              in [0.5938480853735091, 0.6652542372881356]
+V/R              in [0.012738853503184714, 0.01427061310782241]
+V/A              = 0.00847457627118644
+```
+
+The corresponding finite exponent budget is
+
+```text
+gamma(total)                   = 0.4817176373
+alpha_Selmer                   = 0.02034894195
+alpha_MW | Selmer              in [0.02080686276, 0.03227209060]
+beta_first-hit | MW            in [0.4290966047, 0.4405618326]
+```
+
+The interval endpoints are correlated through the unknown exact `R(B)` and must not be combined independently. No asymptotic conclusion is drawn from them.
+
+The finite structural result is nevertheless clear: nontrivial 2-Selmer occurs on about `82%` of the audited bases, and positive Mordell--Weil rank on between about `59%` and `67%`, while physical activation among positive-rank fibers is only about `1.3–1.4%` at `20k`. On this complete finite family, most observed thinning therefore occurs **after positive rank**, at the height-sensitive first-small-point gate.
+
+This refines the s5a program. In Euclid parameters
+
+```text
+S=m^2-n^2
+X=2mn
+H=m^2+n^2
+```
+
+the moving 2-descent support lies on
+
+```text
+m, n, m-n, m+n, m^2+n^2
+```
+
+plus `2`. A local character/reciprocity matrix naturally controls `A -> Sigma`; global representability is needed for `Sigma -> R`; and a proof aligned with the finite mechanism must still control the physical height window for `R -> V` rather than stop at Selmer density.
 
 ## What remains
 
-The main count is now organized as the moving joint gate
-
-\[
-V(B)=\sum_{\substack{F\text{ primitive oriented}\\H(F)\le B}}
-1_{\{\operatorname{rank}E_F(\mathbf Q)>0\}}
-1_{\{\mu(F)\le B\}}.
-\]
-
-Stage14-4am must obtain a uniform arithmetic lower-tail statement separating positive-rank frequency from the conditional frequency of a sufficiently small first physical point. It must not identify Selmer rank with Mordell--Weil rank or first hit with a shortest generator without proof.
+Stage14-4an will derive the explicit quadratic-character / Hilbert-symbol reciprocity matrix on the five Euclid factors and determine how much of the three-gate factorization it can rigorously control. Because 4am places the finite dominant thinning at `R -> V`, the next family theorem must be coupled to the small-point height window.
 
 The independent triple track still must control
 
@@ -182,8 +253,9 @@ before a future raw-pair square-root law could transfer to exactly-two.
 ```text
 stages/stage14/archive/stage14-4ak-shimada-split-root-void.md
 stages/stage14/archive/stage14-4al-collective-first-hit.md
-stages/stage14/data/14-4/shimada_stage14_4ak_result.json
+stages/stage14/archive/stage14-4am-rank-smallpoint-factorization.md
 stages/stage14/data/14-4/collective_first_hit_summary.json
-stages/stage14/scripts/14-4/collective_first_hit_audit.py
-.github/workflows/stage14-4al-collective-first-hit.yml
+stages/stage14/data/14-4/rank_smallpoint_factor_summary.json
+stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py
+.github/workflows/stage14-4am-rank-smallpoint.yml
 ```
