@@ -1,0 +1,35 @@
+name: Stage14-t35 same-modulus dispersion
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t35/**'
+      - 'stages/stage14/scripts/14-t/t35_same_modulus_dispersion_audit.py'
+      - 'stages/stage14/data/14-t35/**'
+      - '.github/workflows/stage14-t35-same-modulus-dispersion.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t34 regression
+        run: python stages/stage14/scripts/14-t/t34_all_character_gaussian_large_sieve_audit.py
+
+      - name: Run t35 same-modulus dispersion audit
+        run: python stages/stage14/scripts/14-t/t35_same_modulus_dispersion_audit.py
+
+      - name: Check frozen t35 summary
+        run: git diff --exit-code stages/stage14/data/14-t35/same_modulus_dispersion.json
+
+      - name: Validate locked t35 boundary
+        run: |
+          grep -F 'STAGE14_T35=COMPLETE_SHARED_PRIME_DISPERSION_AND_FIBER_BARRIER' stages/stage14/14-t35/result.md
+          grep -F 'SHARED_PRIME_COLLISION_DIVISOR_BOUND=true' stages/stage14/14-t35/result.md
+          grep -F 'L_GT_8M_FORCES_U_UNIT_ORBIT=true' stages/stage14/14-t35/result.md
+          grep -F 'TENSOR_SQRT_M_LOSS_RECOVERED=true' stages/stage14/14-t35/result.md
+          grep -F 'GENERIC_PACKET_CAUCHY_CLOSES_NORM_HYPERBOLA=false' stages/stage14/14-t35/result.md
+          grep -F 'SIGNED_TRACE_FIBER_CANCELLATION_PROVED=false' stages/stage14/14-t35/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t35/result.md
