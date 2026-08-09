@@ -43,7 +43,8 @@ def main() -> None:
     s3 = S3.read_text()
 
     # Merged interface locks.
-    require(four_bf, "CURRENT_UNWEIGHTED_LOCAL_B_EXPONENT=81/82")
+    require(four_bf, "UNWEIGHTED_LOCAL_B_SCALE_SAVING_EXPONENT=1/82")
+    require(four_bf, "ACTIVE_PHYSICAL_BASE_UPPER_BOUND=B^(81/82+epsilon)")
     require(four_bf, "MAIN_TRACK_PRIMARY_FOCUS=POST_LOCAL_GLOBAL_SMALL_POINT_THINNING")
     require(four_aq, "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED=false")
     require(four_ar, "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED=false")
