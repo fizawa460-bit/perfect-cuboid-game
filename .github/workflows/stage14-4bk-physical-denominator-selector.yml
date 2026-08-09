@@ -1,0 +1,48 @@
+name: Stage14-4bk physical denominator selector
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bk/**'
+      - 'stages/stage14/data/14-4/physical_denominator_selector_summary.json'
+      - 'stages/stage14/scripts/14-4/physical_denominator_selector_audit.py'
+      - '.github/workflows/stage14-4bk-physical-denominator-selector.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/physical_denominator_selector_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/physical_denominator_selector_audit.py | tee /tmp/4bk.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^PHYSICAL_RAW_EDGE_R_IDENTITY_AUDIT=true$' /tmp/4bk.txt
+          grep -q '^PHYSICAL_S3_Z_SIMPLIFICATION_AUDIT=true$' /tmp/4bk.txt
+          grep -q '^PHYSICAL_COMPACT_TRANSLATE_AUDIT=true$' /tmp/4bk.txt
+          grep -q '^PHYSICAL_DENOMINATOR_DIVIDES_X2_AUDIT=true$' /tmp/4bk.txt
+          grep -q '^PHYSICAL_CANCELLATION_COFACTOR_AUDIT=true$' /tmp/4bk.txt
+          grep -q '^ODD_GOOD_HALF_ANGLE_ROOT_SIGN_AUDIT=true$' /tmp/4bk.txt
+          grep -q '^SMALL_PARTNER_LEG_FACE_COUNT_SHAPE_AUDIT=true$' /tmp/4bk.txt
+          grep -q '^EXPONENT_LEDGER_40_84_PLUS_1_84_EQUALS_41_84=true$' /tmp/4bk.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/4bk.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BK=PHYSICAL_COMPACT_DENOMINATOR_SELECTOR_AND_SECOND_LEG_COFACTOR_REDUCTION' stages/stage14/14-4bk/result.md
+          grep -q 'PHYSICAL_DENOMINATOR_DIVIDES_SECOND_LEG=true' stages/stage14/14-4bk/result.md
+          grep -q 'ODD_GOOD_DENOMINATOR_ROOT_SIGN_LAW_PROVED=true' stages/stage14/14-4bk/result.md
+          grep -q 'PARTNER_LEG_SQRT_CONTROL_THRESHOLD=41/84' stages/stage14/14-4bk/result.md
+          grep -q 'SMALL_PARTNER_LEG_SECTOR_SQRT_SCALE_CONTROLLED=true' stages/stage14/14-4bk/result.md
+          grep -q 'SMALL_DENOMINATOR_LARGE_LEG_IMPLIES_C_PHYS_GT_B^(1/84)=true' stages/stage14/14-4bk/result.md
+          grep -q 'PHYSICAL_D_PHYS_PRIMARY_MAIN_TRACK_SELECTOR=true' stages/stage14/14-4bk/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bk/result.md
+          grep -q 'NEXT=Stage14-4bl' stages/stage14/14-4bk/result.md
