@@ -1,0 +1,61 @@
+name: Stage14-num-alpha11-diag9 shell survival bridge
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag9/**'
+      - 'stages/stage14/data/14-num-alpha11-diag9/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag9/**'
+      - '.github/workflows/stage14-num-alpha11-diag9-shell-survival.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shell-survival:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run shell survival and bridge decomposition
+        run: python stages/stage14/scripts/14-num-alpha11-diag9/shell_survival_bridge.py > /tmp/diag9.json
+      - name: Validate diagnostic boundaries
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag9.json'))
+          d=x['decision']
+          assert d['SHELL_DECOMPOSITION_COMPLETE'] is True
+          assert d['RAW_SOURCE_SHELL_PROPORTION_STABLE_AT_PERCENT_SCALE'] is True
+          assert d['SURVIVAL_SIDE_COUNTERFACTUAL_VOLATILITY_DOMINATES_SOURCE_SIDE'] is True
+          assert d['N2_WEIGHTED_SURVIVAL_SIDE_VOLATILITY_DOMINATES_SOURCE_SIDE'] is True
+          assert d['SHELL_N2_SMALL_ENOUGH_THAT_SAMPLING_NOISE_REMAINS_A_MAJOR_ALTERNATIVE'] is True
+          assert d['ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM'] is False
+          assert d['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
+          assert len(x['shells'])==7
+          assert x['shells'][1]['pair_a_b_c']==[9,17,1]
+          assert x['shells'][-1]['pair_a_b_c']==[13,7,7]
+          assert x['shell_volatility_unweighted']['survival_to_source_RMS_ratio'] > 20
+          PY
+      - name: Print compact diag9 summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag9.json'))
+          print('DIAG9_SUMMARY_BEGIN')
+          print(json.dumps({
+            'shells':[{k:s[k] for k in ('lo','hi','N2','raw_proportion','pair_a_b_c','pair_proportion','survival_relative_to_bc','endpoint_L1_to_4_3_3','source_only_L1_to_4_3_3','survival_only_L1_to_4_3_3')} for s in x['shells']],
+            'volatility':x['shell_volatility_unweighted'],
+            'weighted_volatility':x['shell_volatility_N2_weighted'],
+            'decision':x['decision'],
+          },indent=2))
+          print('DIAG9_SUMMARY_END')
+          PY
+      - name: Upload diag9 report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-num-alpha11-diag9-report
+          path: /tmp/diag9.json
