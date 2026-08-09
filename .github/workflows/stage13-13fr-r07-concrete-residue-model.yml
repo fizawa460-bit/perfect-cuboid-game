@@ -1,0 +1,24 @@
+name: Stage13-13fr R07 concrete fixed-S residue model
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage13/13-13fr/**'
+      - 'stages/stage13/scripts/13-13fr/**'
+      - '.github/workflows/stage13-13fr-r07-concrete-residue-model.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit concrete fixed-S residue model
+        run: python stages/stage13/scripts/13-13fr/concrete_residue_model_audit.py
