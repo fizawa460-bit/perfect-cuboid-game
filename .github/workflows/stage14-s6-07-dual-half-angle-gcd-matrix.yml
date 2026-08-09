@@ -1,0 +1,48 @@
+name: Stage14-s6-07 dual half-angle gcd matrix audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-07/**'
+      - 'stages/stage14/scripts/14-s6-07/**'
+      - '.github/workflows/stage14-s6-07-dual-half-angle-gcd-matrix.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s6-07/dual_half_angle_gcd_matrix_audit.py
+      - name: Run s6-06 predecessor audit
+        run: python stages/stage14/scripts/14-s6-06/physical_conjugate_denominator_audit.py > /tmp/s606.txt
+      - name: Run s6-07 deterministic audit
+        run: python stages/stage14/scripts/14-s6-07/dual_half_angle_gcd_matrix_audit.py | tee /tmp/s607.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^THIRD_FACE_TRANSFER_AUDIT=true$' /tmp/s607.txt
+          grep -q '^PHYSICAL_EDGE_TO_F2_F3_INJECTIVE_AUDIT=true$' /tmp/s607.txt
+          grep -q '^F2_F3_CROSS_PRODUCT_SQUARE_AUDIT=true$' /tmp/s607.txt
+          grep -q '^DUAL_COMPACT_SELECTOR_AUDIT=true$' /tmp/s607.txt
+          grep -q '^GOOD_ODD_GCD_MATRIX_PRODUCT_AUDIT=true$' /tmp/s607.txt
+          grep -q '^DUAL_SELECTOR_GCD_CELL_IDENTIFICATION_AUDIT=true$' /tmp/s607.txt
+          grep -q '^FIVE_FACTOR_DICHOTOMY_AUDIT=true$' /tmp/s607.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s607.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S6_07=COMPLETE_THIRD_FACE_TRANSFER_DUAL_HALF_ANGLE_GCD_MATRIX_AND_ROOT_SIGN_NOGO' stages/stage14/14-s6-07/result.md
+          grep -q 'THIRD_PRIMITIVE_PYTHAGOREAN_FACE_EXACT=true' stages/stage14/14-s6-07/result.md
+          grep -q 'PHYSICAL_EDGE_TO_F2_F3_INJECTIVE=true' stages/stage14/14-s6-07/result.md
+          grep -q 'GOOD_ODD_ROOT_SIGN_GCD_MATRIX_EXACT=true' stages/stage14/14-s6-07/result.md
+          grep -q 'ROOT_SIGN_INDEPENDENT_BERNOULLI_MODEL_JUSTIFIED=false' stages/stage14/14-s6-07/result.md
+          grep -q 'FIVE_FACTOR_LARGE_INCIDENCE_DICHOTOMY=true' stages/stage14/14-s6-07/result.md
+          grep -q 'FORCED_LARGE_INCIDENCE_CELL_EXPONENT=41/420' stages/stage14/14-s6-07/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-s6-07/result.md
+          grep -q 'NEXT=Stage14-s6-08' stages/stage14/14-s6-07/result.md
