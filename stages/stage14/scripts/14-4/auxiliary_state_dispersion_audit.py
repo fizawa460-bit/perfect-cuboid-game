@@ -81,7 +81,7 @@ def fstr(x: Fraction) -> str:
 def main() -> None:
     av = AV.read_text()
     s5h = S5H.read_text()
-    assert "BARE_LINEAR_EDGE_POWER_SAVING_PROVED=true" in av
+    assert "INTERIOR_DYADIC_POWER_SAVING_PROVED=true" in av
     assert "FIRST_SEPARABLE_DYADIC_BILINEAR_BOUND_PROVED=true" in s5h
     assert "EUCLID_INCIDENCE_SEPARABILITY_PROVED=false" in s5h
 
@@ -98,7 +98,6 @@ def main() -> None:
             assert got == expected, (p, col, got, expected)
             local_rows.append({"p": p, "column": col, "roots": got})
 
-    # Multiplicativity on representative coprime squarefree state splits.
     split_tests = []
     pairs = ((3, 5), (5, 13), (7, 17), (13, 29))
     for a, b in pairs:
