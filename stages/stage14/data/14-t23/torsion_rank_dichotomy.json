@@ -1,0 +1,147 @@
+{
+  "stage": "14-t23",
+  "torsion_model": {
+    "shifted_curve": "E_{D,C}: y^2=z(z^2+(4D^2/C^2-2)z+1)",
+    "built_in_order_4_point": "P4=(1,2D/C), 2P4=(0,0)",
+    "physical_kummer_class": "z=1-U=-(D+X)/(D-X)=-((D+X)/Q)^2, hence [z]=[-1]",
+    "mazur_dichotomy": "with built-in Z/4, torsion is cyclic Z/4,Z/8,Z/12 when E[2](Q)=Z/2, or Z/2xZ/4,Z/2xZ/8 when full rational 2-torsion",
+    "physical_torsion_reduction": "physical z<-1 and [z]=[-1] exclude all torsion possibilities except exact order 8"
+  },
+  "order8_reduction": {
+    "duplication": "x(2P)=(z^2-1)^2/(4z(z^2+Az+1))=(C X/(QY))^2",
+    "necessary_and_exact_target": "physical torsion => order 8 => x(2P)=1 => X^2=D(D-C)",
+    "square_direction_consequence": "D=a^2, C=b^2, D-C=c^2 with primitive a^2=b^2+c^2",
+    "global_first_moment_bound": "number of torsion-active reduced directions with D<=B is O(B^(1/2+o(1)))"
+  },
+  "torsion_quartic_packets": {
+    "euclid_parameters": "a=m^2+n^2, legs 2mn and m^2-n^2, gcd(m,n)=1, opposite parity",
+    "alpha_1_packet": "if C=(2mn)^2 then alpha=1 and beta=core(m^4+6m^2n^2+n^4)",
+    "alpha_2_packet": "if C=(m^2-n^2)^2 then alpha=2 and beta=core(m^4+n^4)",
+    "synthetic_identity_checks": 630,
+    "polynomial_square_sieve_trigger": true
+  },
+  "second_moment_split": {
+    "definition": "A=A_rank+A_tor by split partition; Q_active<=2Q_rank+2Q_tor",
+    "rank_branch": "every active direction carrying a physical point outside the order-8 locus has a non-torsion rational quotient point, hence positive Mordell-Weil rank",
+    "torsion_branch": "supported on the two explicit quartic squarefree-kernel packets above; first moment O(B^(1/2+o(1))) but its partition second moment is not yet power-saved",
+    "sufficient_next_target": "prove fixed power savings for both Q_rank(B) and Q_tor(B)"
+  },
+  "finite": {
+    "max_B": 2000000,
+    "raw_pair_edges_B2m": 356,
+    "physical_quotient_checks_B2m": 712,
+    "physical_order8_necessary_edges_B2m": 0,
+    "physical_positive_rank_certified_edges_B2m": 356,
+    "rank_active_partition_second_moment_B2m": 356
+  },
+  "rows": [
+    {
+      "B": 1000,
+      "raw_pair_edges": 2,
+      "physical_quotient_positive_rank_certified_edges": 2,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 2,
+      "rank_active_partition_second_moment": 2
+    },
+    {
+      "B": 2000,
+      "raw_pair_edges": 5,
+      "physical_quotient_positive_rank_certified_edges": 5,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 5,
+      "rank_active_partition_second_moment": 5
+    },
+    {
+      "B": 5000,
+      "raw_pair_edges": 15,
+      "physical_quotient_positive_rank_certified_edges": 15,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 15,
+      "rank_active_partition_second_moment": 15
+    },
+    {
+      "B": 10000,
+      "raw_pair_edges": 25,
+      "physical_quotient_positive_rank_certified_edges": 25,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 25,
+      "rank_active_partition_second_moment": 25
+    },
+    {
+      "B": 20000,
+      "raw_pair_edges": 42,
+      "physical_quotient_positive_rank_certified_edges": 42,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 42,
+      "rank_active_partition_second_moment": 42
+    },
+    {
+      "B": 50000,
+      "raw_pair_edges": 62,
+      "physical_quotient_positive_rank_certified_edges": 62,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 62,
+      "rank_active_partition_second_moment": 62
+    },
+    {
+      "B": 100000,
+      "raw_pair_edges": 89,
+      "physical_quotient_positive_rank_certified_edges": 89,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 89,
+      "rank_active_partition_second_moment": 89
+    },
+    {
+      "B": 200000,
+      "raw_pair_edges": 116,
+      "physical_quotient_positive_rank_certified_edges": 116,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 116,
+      "rank_active_partition_second_moment": 116
+    },
+    {
+      "B": 500000,
+      "raw_pair_edges": 188,
+      "physical_quotient_positive_rank_certified_edges": 188,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 188,
+      "rank_active_partition_second_moment": 188
+    },
+    {
+      "B": 1000000,
+      "raw_pair_edges": 255,
+      "physical_quotient_positive_rank_certified_edges": 255,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 255,
+      "rank_active_partition_second_moment": 255
+    },
+    {
+      "B": 2000000,
+      "raw_pair_edges": 356,
+      "physical_quotient_positive_rank_certified_edges": 356,
+      "physical_order8_necessary_edges": 0,
+      "active_direction_partition_second_moment": 356,
+      "rank_active_partition_second_moment": 356
+    }
+  ],
+  "decision": {
+    "STAGE14_T23": "COMPLETE_TORSION_POSITIVE_RANK_DICHOTOMY_AND_ORDER8_PACKET_REDUCTION",
+    "DIRECTION_QUOTIENT_HAS_RATIONAL_4_TORSION": true,
+    "PHYSICAL_KUMMER_CLASS_MINUS_ONE": true,
+    "PHYSICAL_TORSION_ONLY_POSSIBLE_ORDER8": true,
+    "ORDER8_IMPLIES_D_C_DMINUSC_ALL_SQUARE": true,
+    "TORSION_ACTIVE_DIRECTION_FIRST_MOMENT": "B^(1/2+o(1))",
+    "TORSION_BRANCH_QUARTIC_PACKET_EXPLICIT": true,
+    "FINITE_ORDER8_NECESSARY_HITS_B2M": 0,
+    "FINITE_ALL_ACTIVE_EDGES_CERTIFIED_POSITIVE_RANK_B2M": true,
+    "ACTIVE_SECOND_MOMENT_SPLIT_RANK_PLUS_TORSION": true,
+    "TORSION_SECOND_MOMENT_POWER_SAVING_PROVED": false,
+    "RANK_ACTIVE_SECOND_MOMENT_POWER_SAVING_PROVED": false,
+    "Q_ACTIVE_DIRECTION_POWER_SAVING_PROVED": false,
+    "Q_SPLIT_POWER_SAVING_PROVED": false,
+    "Q_EDGE_O_B_PROVED": false,
+    "T_O_SQRT_B_PROVED": false,
+    "PERFECT_CUBOID_NONEXISTENCE_PROVED": false,
+    "NEXT": "Stage14-t24 attack the two second moments separately: quartic squarefree-kernel collisions on the order-8 torsion packet and positive-rank/small-point frequency on the remaining active direction family"
+  }
+}

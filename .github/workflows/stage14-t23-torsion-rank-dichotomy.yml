@@ -1,0 +1,49 @@
+name: Stage14-t23 torsion rank dichotomy
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t23/**'
+      - 'stages/stage14/scripts/14-t/t23_torsion_rank_dichotomy_audit.py'
+      - 'stages/stage14/data/14-t23/torsion_rank_dichotomy.json'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t23-torsion-rank-dichotomy.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t22 regression
+        run: python stages/stage14/scripts/14-t/t22_uniform_direction_quotient_audit.py
+      - name: Run t23 torsion-rank audit
+        run: python stages/stage14/scripts/14-t/t23_torsion_rank_dichotomy_audit.py
+      - name: Check frozen t23 summary
+        run: git diff --exit-code stages/stage14/data/14-t23/torsion_rank_dichotomy.json
+      - name: Validate locked t23 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t23/torsion_rank_dichotomy.json'
+          d=json.load(open(p))
+          f=d['finite']
+          assert f['raw_pair_edges_B2m']==356
+          assert f['physical_quotient_checks_B2m']==712
+          assert f['physical_order8_necessary_edges_B2m']==0
+          assert f['physical_positive_rank_certified_edges_B2m']==356
+          assert f['rank_active_partition_second_moment_B2m']==356
+          assert d['torsion_quartic_packets']['synthetic_identity_checks']==630
+          assert d['torsion_quartic_packets']['polynomial_square_sieve_trigger'] is True
+          q=d['decision']
+          assert q['DIRECTION_QUOTIENT_HAS_RATIONAL_4_TORSION'] is True
+          assert q['PHYSICAL_KUMMER_CLASS_MINUS_ONE'] is True
+          assert q['PHYSICAL_TORSION_ONLY_POSSIBLE_ORDER8'] is True
+          assert q['ORDER8_IMPLIES_D_C_DMINUSC_ALL_SQUARE'] is True
+          assert q['FINITE_ORDER8_NECESSARY_HITS_B2M']==0
+          assert q['FINITE_ALL_ACTIVE_EDGES_CERTIFIED_POSITIVE_RANK_B2M'] is True
+          assert q['Q_ACTIVE_DIRECTION_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
