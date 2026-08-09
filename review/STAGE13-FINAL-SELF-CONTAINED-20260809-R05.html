@@ -1,0 +1,2955 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>STAGE13-FINAL-SELF-CONTAINED-20260809-R05</title>
+<style>
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.45;max-width:1180px;margin:0 auto;padding:28px;color:#171717;background:#fff}
+header{border-bottom:2px solid #222;padding-bottom:18px;margin-bottom:24px}
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f6f7f8;border:1px solid #ddd;padding:18px;border-radius:8px;font-size:13px;line-height:1.42}
+section{margin:40px 0} nav{background:#f6f7f8;border:1px solid #ddd;padding:12px 20px;border-radius:8px}
+dt{font-weight:700;margin-top:8px} dd{margin-left:0} .source{font-size:13px;color:#555}
+.lock{background:#fff8dc;border-left:4px solid #9a7b00;padding:12px 16px}
+.warn{background:#f6f7f8;border-left:4px solid #555;padding:12px 16px}
+</style>
+</head>
+<body>
+<header>
+<h1>Stage13 final self-contained review bundle — R05</h1>
+
+    <dl>
+      <dt>Bundle ID</dt><dd><code>STAGE13-FINAL-SELF-CONTAINED-20260809-R05</code></dd>
+      <dt>Source snapshot commit</dt><dd><code>79f03341b67dd49a8c128cfbeba3f756c91de6f6</code></dd>
+      <dt>Canonical proof</dt><dd><code>stages/stage13/13-13fh/stage13-r05-canonical-proof.md</code></dd>
+      <dt>Theorem status entering review</dt><dd>Repair Gates A–H complete; theorem/counting contract unchanged; R05 fresh external review required.</dd>
+      <dt>Deterministic audit meaning</dt><dd>Reproducibility and consistency only; never a substitute for mathematical review.</dd>
+    </dl>
+    
+<p class="lock"><strong>Immutability rule:</strong> this exact HTML byte sequence is the R05 review target. Reviewer comments or repairs do not alter it.</p>
+<p class="warn"><strong>Fresh-review rule:</strong> all R05 verdicts start from zero. R04 CLOSED/OPEN/REPAIRABLE verdicts are provenance, not votes on this bundle.</p>
+</header>
+<section><h2>Frozen theorem contract under review</h2><pre>N_q(B) ~ kappa I_q/(3 pi^3) B(log B)^3, q in {ab,ac,bc}
+N1(B)  ~ kappa/(24 pi) B(log B)^3
+P_q    = 8 I_q/pi^2
+sum I_q = pi^2/8
+J_q    = 2 I_q/pi
+O_qr(B)=o(B(log B)^3)
+T(B)   =o(B(log B)^3)
+lambda_p=(p+5)/(2(p+1)) for inert p</pre></section>
+<section><h2>Scope and non-claims</h2>
+    <ul>
+      <li>R05 is a new review target. R03/R04 remain immutable historical artifacts and their verdicts do not automatically carry forward.</li>
+      <li>No claim of perfect-cuboid existence or nonexistence is made.</li>
+      <li>No effective convergence rate for the finite directional proportions is claimed. The finite 100k→5m trajectory is disclosed only as a consistency diagnostic.</li>
+      <li>Stage12 R09 is an upstream frozen theorem interface; its counting object, kappa normalization and exact factor-two projection are fully restated in the R05 canonical proof.</li>
+      <li>Hecke/Dirichlet/Vaaler inputs are exposed at the exact proof-facing strength consumed by the argument. No growing-modulus theorem, general Selberg–Delange black box or Gaussian-Hecke zero-free region is a final logical gate.</li>
+      <li>Any substantive repair after R05 review must create a new immutable R06 or later bundle. This R05 HTML is never edited in place.</li>
+    </ul>
+    </section>
+<section><h2>Adversarial review focus</h2>
+    <ol>
+      <li>Check that the common arithmetic factor Theta is established before Stage12 total-mass calibration and that no hidden q-dependent leading factor survives.</li>
+      <li>Check the explicit Wiener bound, including the derivation of 3465625/6561 &lt; 529 and the separate p=5 bound.</li>
+      <li>Check the curved-region accumulation with O((log B)^27) boxes, N=64, boundary and mesh estimates.</li>
+      <li>Check the nonzero-harmonic family estimate with explicit conductor dependence and the Riesz/Perron smoothing bridge.</li>
+      <li>Check the exact Stage12 counting/factor-two interface and the fixed-S inert-prime character transfer, including principal-pole-sector aliasing and the order fix S → B→∞ → enlarge S.</li>
+      <li>Treat deterministic PASS outputs only as byte/constant/reproducibility checks, not as proof validation.</li>
+    </ol>
+    </section>
+<nav><h2>Bundle contents</h2><ol><li><a href="#section-1">R05 canonical proof</a></li><li><a href="#section-2">Exact external theorem contracts</a></li><li><a href="#section-3">Finite discrepancy / q-independence audit result</a></li><li><a href="#section-4">Finite discrepancy audit JSON</a></li><li><a href="#section-5">R05 synthesis-readiness result</a></li><li><a href="#section-6">R05 synthesis-readiness audit JSON</a></li></ol></nav>
+<section id="section-1"><h2>R05 canonical proof</h2><p class="source"><code>stages/stage13/13-13fh/stage13-r05-canonical-proof.md</code> · SHA-256 <code>237fa8fce22bbd54ab320d82714ba9d287f72654cf12789d1c997167408f4952</code></p><pre># Stage13 — R05 canonical proof candidate
+
+&gt; STATUS: `STAGE13_13FH_R05_CANONICAL_PROOF_CANDIDATE`
+&gt;
+&gt; PURPOSE: one proof-facing synthesis of the Stage13 exactly-one directional asymptotic after R05 repair Gates A--G.
+&gt;
+&gt; PRECEDENCE: this file supersedes `stages/stage13/13-13c/stage13-final-proof.md` for the future R05 bundle only. R03 and R04 remain immutable historical review artifacts.
+&gt;
+&gt; THEOREM_CHANGED: `false`.
+&gt;
+&gt; THEOREM_CONTRACT_REOPEN_REQUIRED: `false`.
+
+---
+
+## 0. The theorem, counting convention, and nonclaims
+
+Count primitive canonical integer triples
+
+\[
+0&lt;a&lt;b&lt;c,\qquad \gcd(a,b,c)=1,
+\qquad d^2=a^2+b^2+c^2,
+\qquad d\in\mathbf Z_{&gt;0}.
+\]
+
+For a face label
+
+\[
+q\in\{ab,ac,bc\},
+\]
+
+let `A_q(B)` count triples with `d&lt;=B` for which face `q` has integral diagonal, with additional integral faces allowed. For distinct `q,r`, let `O_{qr}(B)` count triples on which both faces are integral, and let `T(B)` count triples on which all three faces are integral. Let `N_q(B)` count triples with exactly one integral face, namely `q`, and set
+
+\[
+N_1(B)=N_{ab}(B)+N_{ac}(B)+N_{bc}(B).
+\]
+
+On the canonical spherical chamber
+
+\[
+\mathcal R=\{(x,y,z)\in S^2:0&lt;x&lt;y&lt;z\},
+\]
+
+define
+
+\[
+w_{ab}=\frac1{\sqrt{x^2+y^2}},\qquad
+w_{ac}=\frac1{\sqrt{x^2+z^2}},\qquad
+w_{bc}=\frac1{\sqrt{y^2+z^2}},
+\]
+
+and
+
+\[
+I_q=\int_{\mathcal R}w_q\,d\omega.
+\]
+
+The theorem is
+
+\[
+\boxed{
+N_q(B)\sim
+\frac{\kappa I_q}{3\pi^3}B(\log B)^3
+}
+\]
+
+for every `q`, and
+
+\[
+\boxed{
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
+}
+\]
+
+Moreover
+
+\[
+\boxed{I_{ab}+I_{ac}+I_{bc}=\frac{\pi^2}{8}},
+\]
+
+so
+
+\[
+\boxed{
+\frac{N_q(B)}{N_1(B)}\to\frac{8I_q}{\pi^2}.
+}
+\]
+
+The numerical validator is
+
+```text
+(ab,ac,bc)
+=
+(0.5347369332313988,
+ 0.24535917783225203,
+ 0.21990388893634913).
+```
+
+No effective convergence rate is claimed. No monotonicity of finite directional ratios is claimed. No assumption that perfect cuboids do not exist is used.
+
+---
+
+## 1. Exact combinatorics
+
+For `{q,r,s}={ab,ac,bc}`,
+
+\[
+\boxed{N_q=A_q-O_{qr}-O_{qs}+T},
+\]
+
+and
+
+\[
+\boxed{
+N_1=\sum_qA_q-2\sum_{q&lt;r}O_{qr}+3T.
+}
+\]
+
+These are finite identities. It therefore suffices to prove
+
+\[
+A_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3
+\]
+
+with the stated category dependence, and
+
+\[
+O_{qr}(B)=o(B(\log B)^3).
+\]
+
+---
+
+## 2. Complete frozen Stage12 R09 interface
+
+Stage12 uses positive integers `h,r,s` with
+
+\[
+1\le r&lt;s,\qquad (r,s)=1,
+\]
+
+and
+
+\[
+P=hrs,\qquad
+z=\frac{h(s^2-r^2)}2,\qquad
+d=\frac{h(r^2+s^2)}2.
+\]
+
+Its admissible parameter set is
+
+\[
+\mathcal D_B=\{(h,r,s):1\le r&lt;s,(r,s)=1,
+ h(r^2+s^2)\le2B,
+ h(r^2+s^2)\equiv0\pmod2\}.
+\]
+
+Thus its cutoff is exactly `d&lt;=B`.
+
+For
+
+\[
+G(n)=\prod_{\substack{p\mid n\\p\equiv1(4)}}(2v_p(n)+1),
+\]
+
+Stage12 defines
+
+\[
+C_{\rm raw}(B)=\sum_{(h,r,s)\in\mathcal D_B}(G(hrs)-1),
+\]
+
+and, by exact common-scale decomposition and Möbius inversion,
+
+\[
+C_{\rm prim}(B)=\sum_{k\le B}\mu(k)C_{\rm raw}(\lfloor B/k\rfloor).
+\]
+
+This is a primitive **oriented distinguished-face record count**. The outer pair already obeys `r&lt;s`; Stage12 retains a distinguished integral face and does not quotient by all edge permutations.
+
+The frozen theorem is
+
+\[
+\boxed{
+C_{\rm prim}(B)\sim\frac{\kappa}{12\pi}B(\log B)^3.
+}
+\]
+
+The constant is explicitly
+
+\[
+\boxed{
+\begin{aligned}
+\kappa={}&amp;
+\left(\frac\pi4\right)^3\left(\frac12\right)^3
+\prod_{p\equiv3(4)}(1-p^{-2})^3\\
+&amp;\times
+\prod_{q\equiv1(4)}
+\frac{q^2+6q+1}{q^2-1}(1-q^{-1})^6.
+\end{aligned}}
+\]
+
+The normalized local factors are `1+O(p^-2)`, so the product converges absolutely. Stage12 also has a constant `eta` satisfying the exact identity
+
+\[
+\boxed{\eta=\pi\kappa}.
+\]
+
+### Exact projection fiber
+
+Fix one primitive canonical raw incidence counted by `A_q(B)`. Stage12 has exactly two oriented preimages for that distinguished face:
+
+\[
+(x,y),\qquad(y,x).
+\]
+
+There is no additional outer factor because `r&lt;s` already fixes the outer orientation; canonical sorting preserves the cutoff and gcd; OE/EE parity does not change the two-element leg-order fiber; and the repeated-side contribution is zero. The statement remains true on exactly-two and exactly-three face objects because the distinguished incidence is retained.
+
+Hence, for every `B` and `q`,
+
+\[
+\boxed{C^{\rm proj}_{\rm prim,q}(B)=2A_q(B)},
+\]
+
+and therefore
+
+\[
+\boxed{C_{\rm prim}(B)=2\sum_qA_q(B)}.
+\]
+
+This factor two is exact, finite, and independent of asymptotics.
+
+---
+
+## 3. Canonical chamber geometry
+
+Fix distinguished face `ab` and write
+
+\[
+a^2+b^2=P^2,\qquad P^2+c^2=d^2.
+\]
+
+For
+
+\[
+F_1=a^2+b^2-P^2,\qquad F_2=P^2+c^2-d^2,
+\]
+
+one has
+
+\[
+\det\frac{\partial(F_1,F_2)}{\partial(P,d)}=4Pd.
+\]
+
+After radial normalization to `S^2`, the directional Gelfand--Leray factor is proportional to
+
+\[
+\frac1{P/d}=\frac1{\sqrt{x^2+y^2}}=w_{ab}.
+\]
+
+The other two categories follow by permutation. Thus the category dependence at the real place is exactly `I_q`.
+
+Pointwise on the chamber,
+
+\[
+w_{ab}&gt;w_{ac}&gt;w_{bc}.
+\]
+
+The chamber partition gives
+
+\[
+\boxed{\sum_qI_q=\frac{\pi^2}{8}}.
+\]
+
+---
+
+## 4. Exact bridge to the zero Fourier kernel; notation separation
+
+For a fixed face `q={i,j}` and complementary coordinate `k`, use geometric spherical variables
+
+\[
+x_i=\sin\theta\cos\alpha,\qquad
+x_j=\sin\theta\sin\alpha,\qquad
+x_k=\cos\theta.
+\]
+
+Here and only here `theta` is the geometric polar angle. Then
+
+\[
+w_q=\frac1{\sin\theta},\qquad
+d\omega=\sin\theta\,d\theta\,d\alpha,
+\]
+
+so
+
+\[
+\boxed{w_q\,d\omega=d\theta\,d\alpha}.
+\]
+
+Put
+
+\[
+\psi=\frac\pi2-\theta,
+\]
+
+and let `ell_q(psi)` be the allowed inner-angle length in the canonical chamber. Tonelli applies because the integrand is nonnegative; the domain has finite measure. Hence
+
+\[
+I_q=\int\ell_q(\psi)\,d\psi.
+\]
+
+Write
+
+\[
+r=R\cos\phi,\qquad s=R\sin\phi,
+\qquad\phi\in[\pi/4,\pi/2].
+\]
+
+Then
+
+\[
+\frac Pd=\sin2\phi,\qquad\frac zd=-\cos2\phi,
+\]
+
+so
+
+\[
+\psi=2\phi-\frac\pi2,\qquad d\psi=2d\phi.
+\]
+
+The ordered inner Pythagorean angle has total length `pi/4`. Therefore its category zero-mode coefficient is
+
+\[
+k_q(\phi)=\frac4\pi\ell_q(\psi).
+\]
+
+Define
+
+\[
+J_q=\int_{\pi/4}^{\pi/2}k_q(\phi)\,d\phi.
+\]
+
+Then
+
+\[
+\boxed{J_q=\frac{2I_q}{\pi}},\qquad
+\boxed{\sum_qJ_q=\frac\pi4}.
+\]
+
+Numerical integration is only a validator for this analytic identity.
+
+From now on the **Gaussian local angular phase** is denoted `vartheta`; it is never denoted `theta`. This removes the R04 notation collision.
+
+---
+
+## 5. Primitive split-prime coefficient system
+
+On each fixed OE/EE branch retain
+
+\[
+P=hrs,\qquad z=\frac{h(s^2-r^2)}2,
+\qquad d=\frac{h(r^2+s^2)}2,
+\qquad(r,s)=1.
+\]
+
+The parity distinction is finite and 2-adic. For odd primes the coefficient system is common to every canonical face category.
+
+Let `p congruent 1 mod 4` be split. Put
+
+\[
+a=v_p(h),\qquad b=v_p(rs),\qquad e=a+b.
+\]
+
+At zero Gaussian angular mode the representation multiplicity is
+
+\[
+G_e=2e+1.
+\]
+
+For local phase `vartheta`, put
+
+\[
+H_e(\vartheta)=1+2\sum_{m=1}^e\cos(m\vartheta).
+\]
+
+Primitive support subtraction gives
+
+\[
+Z_0(a,b)=
+\begin{cases}
+2b+1,&amp;a=0,\\
+2,&amp;a\ge1,
+\end{cases}
+\]
+
+and
+
+\[
+Z_\ell(a,b;\vartheta)=
+\begin{cases}
+H_b(\vartheta),&amp;a=0,\\
+2\cos((a+b)\vartheta),&amp;a\ge1.
+\end{cases}
+\]
+
+No face label occurs in these coefficients.
+
+For the one-variable pure axes define
+
+\[
+A_\vartheta(x)=\frac{1-x^2}{1-2\cos\vartheta\,x+x^2},
+\qquad
+B_\vartheta(y)=\frac{1+y}{1-2\cos\vartheta\,y+y^2}.
+\]
+
+At `vartheta=0`,
+
+\[
+A_0(x)=\frac{1+x}{1-x},\qquad
+B_0(y)=\frac{1+y}{(1-y)^2}.
+\]
+
+After finite 2-adic and inert factors are collected into residual Euler products,
+
+\[
+A_0(s)=\zeta(s)L(s,\chi_4)E_{h,0}(s),
+\]
+
+\[
+B_0(s)=\zeta(s)^2L(s,\chi_4)E_{b,0}(s),
+\]
+
+whereas for `ell&gt;=1`,
+
+\[
+A_\ell(s)=L(s,\Xi_{8\ell})E_{h,\ell}(s).
+\]
+
+Thus the zero-mode scale/base pole orders are `1,2,2`; the nonzero angular scale channel has no zeta pole.
+
+---
+
+## 6. Three-variable mixed correction and the explicit Wiener constant
+
+At a split prime define
+
+\[
+\begin{aligned}
+D_\vartheta(x,y,z)={}&amp;1
++\sum_{a\ge1}2\cos(a\vartheta)x^a\\
+&amp;+\sum_{b\ge1}H_b(\vartheta)(y^b+z^b)\\
+&amp;+\sum_{a,b\ge1}2\cos((a+b)\vartheta)x^a(y^b+z^b).
+\end{aligned}
+\]
+
+There is no simultaneous positive `y,z` support because `(r,s)=1`. Define
+
+\[
+C_\vartheta(x,y,z)=
+\frac{D_\vartheta(x,y,z)}
+{A_\vartheta(x)B_\vartheta(y)B_\vartheta(z)}.
+\]
+
+The actual local Dirichlet factor notation is fixed at first use by
+
+\[
+\boxed{
+C_{\ell,p}(s_h,s_r,s_s)
+:=C_\vartheta(p^{-s_h},p^{-s_r},p^{-s_s}),
+}
+\]
+
+where `vartheta` is the phase attached to `(ell,p)`.
+
+The pure axes cancel exactly. Every nonconstant monomial of `C_vartheta-1` therefore uses at least two coordinates.
+
+For
+
+\[
+\sigma=\frac58,\qquad\rho=p^{-5/8},
+\]
+
+define the weighted Wiener norm
+
+\[
+\|F\|_\rho=\sum_{i,j,k\ge0}|f_{ijk}|\rho^{i+j+k}.
+\]
+
+It is submultiplicative by the Cauchy product and Tonelli.
+
+For `p&gt;=13`, `rho&lt;1/4`. Put `a=A_vartheta-1`, `b=B_vartheta-1`, and let `M` be the positive-height/base mixed part. Coefficientwise,
+
+\[
+\|a\|_\rho\le\frac83\rho,
+\qquad
+\|b\|_\rho\le\frac{44}{9}\rho,
+\qquad
+\|M\|_\rho\le\frac{32}{9}\rho^2,
+\]
+
+and the exact inverse formulas give
+
+\[
+\|A_\vartheta^{-1}\|_\rho\le\frac53,
+\qquad
+\|B_\vartheta^{-1}\|_\rho\le\frac{25}{12}.
+\]
+
+If
+
+\[
+E_\vartheta=D_\vartheta-A_\vartheta B_\vartheta(y)B_\vartheta(z),
+\]
+
+then exact pure-axis cancellation gives
+
+\[
+E_\vartheta=(M_{xy}-ab_y)+(M_{xz}-ab_z)-b_yb_z-ab_yb_z.
+\]
+
+Hence
+
+\[
+\|E_\vartheta\|_\rho
+\le\frac{17744}{243}\rho^2.
+\]
+
+Therefore
+
+\[
+\begin{aligned}
+\|C_\vartheta-1\|_\rho
+&amp;\le
+\frac{17744}{243}\rho^2
+\frac53\left(\frac{25}{12}\right)^2\\
+&amp;=
+\frac{3465625}{6561}\rho^2
+&lt;529\rho^2.
+\end{aligned}
+\]
+
+Since `rho^2=p^-5/4`,
+
+\[
+\boxed{
+\|C_{\ell,p}-1\|_{5/8}\le529p^{-5/4}
+\qquad(p\ge13,\ p\equiv1(4)).
+}
+\]
+
+The constant is therefore derived, not fitted. The split prime `p=5` is separated and the same coefficient argument gives the explicit phase-uniform finite bound
+
+\[
+\boxed{\|C_{\ell,5}-1\|_{5/8}&lt;432}.
+\]
+
+Because
+
+\[
+\sum_{p\equiv1(4),p\ge13}p^{-5/4}&lt;\infty,
+\]
+
+the global mixed correction converges absolutely in the weighted Wiener algebra, uniformly in the retained phase family. For every fixed integer `m&gt;=0`,
+
+\[
+\boxed{
+\sum_{u,v,w}\frac{|c_\ell(u,v,w)|(1+\log(uvw))^m}{uvw}&lt;\infty
+}
+\]
+
+uniformly in retained `ell`. Consequently correction-induced logarithmic shifts are absolutely summable and every nonconstant shift lowers the final log degree.
+
+---
+
+## 7. Exact external analytic boundary
+
+The proof imports only the following analytic statements beyond frozen Stage12.
+
+### H1: nonzero Gaussian angular Hecke functions
+
+For nonzero integer `k`, the Gaussian ideal character `Xi_k` has an `L`-function
+
+\[
+L(s,\Xi_k)
+\]
+
+which is entire, and whose completion
+
+\[
+\xi(s,k)=\pi^{-(s+2|k|)}\Gamma(s+2|k|)L(s,\Xi_k)
+\]
+
+satisfies
+
+\[
+\xi(s,k)=\xi(1-s,k).
+\]
+
+In particular, for Stage13 `k=8ell`, `ell&gt;=1`, there is no pole at `s=1`.
+
+### H2: fixed finite residue twists
+
+For any fixed finite residue modulus used later in the overlap proof, a nontrivial Dirichlet or Gaussian/ray-class Hecke twist is holomorphic at `s=1` and satisfies the classical continuation and functional equation. Only the trivial Hecke character may have a pole at `s=1`. The finite residue set is fixed before `B-&gt;infinity`, so no conductor growing with `B` occurs.
+
+### D1: `L(s,chi_4)`
+
+The primitive nonprincipal Dirichlet `L`-function `L(s,chi_4)` is holomorphic at `s=1`, has the classical continuation and functional equation, and has polynomial growth on fixed strips.
+
+### V1: Vaaler sawtooth approximation
+
+For degree `L`, Vaaler&#x27;s finite sawtooth approximation has a nonnegative Fejer-kernel error. Applying it to the two endpoint sawtooths of an interval gives internal trigonometric majorants/minorants `P^pm` with
+
+\[
+\boxed{\widehat P^\pm(0)=|I|\pm\frac1{L+1}},
+\]
+
+and, for `1&lt;=|h|&lt;=L`,
+
+\[
+\boxed{
+|\widehat P^\pm(h)|
+\le\frac1{\pi|h|}+\frac1{L+1}&lt;1.
+}
+\]
+
+Thus Vaaler contributes no positive power of the harmonic index.
+
+### Fixed-strip growth and Riesz/Perron consequence
+
+On a fixed strip, right-boundary absolute convergence, the functional equation, Stirling, and Phragmen--Lindelof give polynomial growth in `2+|t|+|k|`. Multiplying by the phase-uniform residual Wiener factor preserves polynomial growth.
+
+To pass from this to ordinary partial sums, use an `m`-fold Riesz/Perron kernel
+
+\[
+\frac{X^s}{s(s+1)\cdots(s+m)}
+\]
+
+with `m` larger than the fixed vertical-growth exponent, shift the smoothed contour to a fixed line left of `1`, and recover the ordinary sum by finite differencing plus the coefficient majorant. Therefore there exist fixed
+
+\[
+\delta_H&gt;0,\qquad C_H,D_H\ge0
+\]
+
+such that, for every `X&gt;=2` and `ell&gt;=1`,
+
+\[
+\boxed{
+S_\ell(X):=\sum_{h\le X}a_\ell(h)
+\ll X^{1-\delta_H}(1+\ell)^{C_H}(\log2X)^{D_H}.
+}
+\]
+
+This is an all-`ell` family bound. The invalid shortcut `ell&lt;=(log X)^4` near the core lower endpoint is not used.
+
+No Gaussian-Hecke zero-free region, general Selberg--Delange theorem, growing-modulus theorem, or Dirichlet prime-distribution theorem is a logical input.
+
+---
+
+## 8. Zero mode on the curved physical region: explicit accumulation
+
+Write
+
+\[
+\Lambda=\log B,
+\qquad
+H_0=U=\exp(\Lambda^{1/4}),
+\qquad
+\eta=\Lambda^{-8}.
+\]
+
+The physical cutoff is
+
+\[
+h(r^2+s^2)\le2B.
+\]
+
+Remove the wings
+
+```text
+h &lt; H0,
+min(r,s) &lt; U.
+```
+
+Positive zero-mode partial summation gives
+
+\[
+\boxed{\mathcal E_{\rm small\ h}\ll B\Lambda^{9/4}},
+\]
+
+\[
+\boxed{\mathcal E_{\rm small\ coord}\ll B\Lambda^{5/2}}.
+\]
+
+Both are `o(B Lambda^3)`.
+
+On the core use the multiplicative mesh `e^eta`. Every coordinate is at most `2B`, and one coordinate needs at most
+
+\[
+O(\Lambda^9)
+\]
+
+mesh intervals. Hence the actual three-dimensional box count is
+
+\[
+\boxed{N_{\rm box}=O(\Lambda^{27})}.
+\]
+
+For the finite-order zero-mode Perron endpoint expansions choose
+
+\[
+N=64.
+\]
+
+On a core box, `H(R^2+S^2)&lt;&lt;B`, hence `HRS&lt;&lt;B`. A one-variable finite-order remainder costs at most
+
+\[
+B\Lambda^{2-N}=B\Lambda^{-62}
+\]
+
+per box. After every box,
+
+\[
+\boxed{\mathcal E_{\rm finite}\ll B\Lambda^{-35}}.
+\]
+
+For the rectangle power tails choose `epsilon=1/16`. The saving exponent is
+
+\[
+\frac14-\varepsilon=\frac3{16}.
+\]
+
+Since every core variable is at least `H0=U`, the total after all boxes is
+
+\[
+\boxed{
+\mathcal E_{\rm pow,total}
+\ll
+B\Lambda^{C_{\rm rect}+27}
+\exp\left(-\frac3{16}\Lambda^{1/4}\right)
+}
+\]
+
+for one fixed `C_rect`. This is `o_A(B Lambda^-A)` for every fixed `A&gt;0`.
+
+The mixed-correction logarithmic moments imply that every nonconstant convolution shift lowers the global log degree; altogether
+
+\[
+\boxed{\mathcal E_{\rm shift}\ll B\Lambda^2}.
+\]
+
+A box meeting the curved boundary lies in a shell of logarithmic thickness `O(eta)`. The cumulative main expression is homogeneous of degree one in `B` with log degree at most three, hence
+
+\[
+\boxed{
+\mathcal E_{\rm boundary}=O(B\Lambda^{-5})+
+\text{already-counted lower-order terms}.
+}
+\]
+
+On interior boxes, total first variation times mesh width gives
+
+\[
+\boxed{\mathcal E_{\rm mesh}=O(B\Lambda^{-5})}.
+\]
+
+No extra `N_box` multiplies this Riemann-sum variation estimate.
+
+The resulting zero-mode main is
+
+\[
+\boxed{
+A_q^{(0)}(B)=\Theta J_qB\Lambda^3+o(B\Lambda^3)
+}
+\]
+
+for one arithmetic constant `Theta&gt;0` independent of `q`. The reason is structural: every arithmetic coefficient system above is category-independent, while the category enters only through the real zero-mode kernel `J_q`.
+
+---
+
+## 9. Retained nonzero harmonics with visible conductor loss
+
+Use Vaaler degree
+
+\[
+L=\lfloor\Lambda^4\rfloor.
+\]
+
+The small-height and small-coordinate wings have already been removed by positive majorants before Fourier expansion; they are not multiplied by `L`.
+
+On the core, partial summation of the Hecke-family bound gives
+
+\[
+\left|\sum_{H_0&lt;h\le B}\frac{a_\ell(h)}h\right|
+\ll
+(1+\ell)^{C_H}\Lambda^{D_H}
+\exp(-\delta_H\Lambda^{1/4}).
+\]
+
+The two positive base channels cost at most `Lambda^2`, and the phase-uniform mixed correction adds no positive `ell` power. Therefore one mode contributes
+
+\[
+\mathcal H_\ell(B)
+\ll
+B\Lambda^{D_H+2}(1+\ell)^{C_H}
+\exp(-\delta_H\Lambda^{1/4}).
+\]
+
+Since the Vaaler nonzero coefficient is `&lt;1`, summing `ell&lt;=L` yields
+
+\[
+\boxed{
+\mathcal E_{\rm harm,core}
+\ll
+B\Lambda^{4C_H+D_H+6}
+\exp(-\delta_H\Lambda^{1/4}).
+}
+\]
+
+For every fixed `A&gt;0`, this is
+
+\[
+o_A(B\Lambda^{-A}).
+\]
+
+Thus the old fixed cancellation choice `A=48` is not a logical parameter.
+
+The Vaaler zero-mode excess is exactly `1/(L+1)=O(L^-1)`. The positive total identity from Stage12 gives
+
+\[
+\sum_qA_q(B)=O(B\Lambda^3),
+\]
+
+so
+
+\[
+\boxed{\mathcal E_{\rm Vaaler}=O(B\Lambda^{-1})}.
+\]
+
+This use of Stage12 is only a positive error majorant, not a source of directional proportions.
+
+Consequently
+
+\[
+\boxed{
+A_q(B)\sim\Theta J_qB(\log B)^3
+}
+\]
+
+with one common `Theta`.
+
+---
+
+## 10. Calibration of the common constant only after commonness
+
+Summing the raw asymptotics and using `sum J_q=pi/4`,
+
+\[
+\sum_qA_q(B)\sim\Theta\frac\pi4B(\log B)^3.
+\]
+
+The exact Stage12 bridge gives
+
+\[
+C_{\rm prim}(B)=2\sum_qA_q(B),
+\]
+
+hence
+
+\[
+C_{\rm prim}(B)\sim\Theta\frac\pi2B(\log B)^3.
+\]
+
+Compare with the frozen Stage12 theorem:
+
+\[
+\Theta\frac\pi2=\frac\kappa{12\pi},
+\]
+
+so
+
+\[
+\boxed{\Theta=\frac\kappa{6\pi^2}}.
+\]
+
+Since `J_q=2I_q/pi`,
+
+\[
+\boxed{
+A_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+}
+\]
+
+The order is non-circular:
+
+```text
+local arithmetic commonness
+-&gt; common Theta
+-&gt; sum over q
+-&gt; frozen Stage12 total calibration.
+```
+
+No Stage12 directional constant is used upstream.
+
+---
+
+## 11. Finite directional discrepancy is not an omitted theorem premise
+
+At `B=100000`, exactly-one counts are
+
+```text
+(84146, 43180, 40704)
+```
+
+with normalized vector approximately
+
+```text
+(0.500779622686425,
+ 0.256977920609415,
+ 0.242242456704160).
+```
+
+At `B=5000000`, the counts are
+
+```text
+(7846274, 4018971, 3708949)
+```
+
+with vector
+
+```text
+(0.503799682988410,
+ 0.258053225739979,
+ 0.238147091271611).
+```
+
+Over this audited endpoint interval the L1 distance to exact `2:1:1` increases from about `0.0155151` to `0.0237058`, while the distance to the claimed limiting vector decreases from about `0.0679146` to `0.0618745`. The finite population therefore does not remain stationary at `2:1:1`.
+
+This is diagnostic only. The theorem proves a little-`o` remainder and does **not** give an effective function controlling the ratio at `B=5m`. Accordingly
+
+```text
+FINITE_DATA_CONTRADICTS_THEOREM=false
+PROVED_EFFECTIVE_CONVERGENCE_RATE=false
+FINITE_DISCREPANCY_QUANTITATIVELY_EXPLAINED_BY_PROVED_REMAINDER=false
+```
+
+are part of the theorem scope. Finite data neither prove nor disprove the common-`Theta` argument.
+
+---
+
+## 12. Exact inert local state for a second-face test
+
+For a tagged raw incidence
+
+\[
+x^2+y^2=P^2,\qquad P^2+z^2=d^2,
+\]
+
+a second face sharing tagged leg `x` requires
+
+\[
+x^2+z^2=w^2.
+\]
+
+For inert odd `p congruent 3 mod 4`, define
+
+\[
+W_p=1_{\{x^2+z^2\in QR_0(\mathbf F_p)\}}.
+\]
+
+Write
+
+\[
+a=v_p(h),\qquad b=v_p(r),\qquad c=v_p(s).
+\]
+
+Primitivity forces `a=0`: if `p|h`, then `p|P,z`, while inertness in `x^2+y^2=P^2` forces `p|x,y`, contradicting gcd one. Also `(r,s)=1` gives `min(b,c)=0`. The complete valuation states are therefore
+
+```text
+U   = (0,0,0)
+R_b = (0,b,0), b&gt;=1
+S_c = (0,0,c), c&gt;=1.
+```
+
+The unrestricted zero-mode inert local series is
+
+\[
+L_{p,0}(Y,Z)=\frac{1-YZ}{(1-Y)(1-Z)}.
+\]
+
+At `Y=Z=1/p`,
+
+\[
+L_{p,0}=\frac{p+1}{p-1},
+\]
+
+and positive-valuation mass is exactly
+
+\[
+\frac2{p-1},
+\]
+
+or fraction
+
+\[
+\boxed{\frac2{p+1}}.
+\]
+
+Every positive-valuation state passes automatically, because `p|P` forces `x=y=0 mod p` while `z` is a unit.
+
+---
+
+## 13. Exact inert unit-state character sum
+
+On `U`, normalize `P=1`:
+
+\[
+X^2+Y^2=1,\qquad \Delta^2-Z^2=1.
+\]
+
+For `p congruent 3 mod 4`, the circle has `p+1` points and the hyperbola `p-1`, hence
+
+\[
+T=p^2-1
+\]
+
+unit states.
+
+Let `chi` be the quadratic character with `chi(0)=0`. The symbolic sum
+
+\[
+S=\sum_{x,z}
+(1+\chi(1-x^2))(1+\chi(1+z^2))\chi(x^2+z^2)
+\]
+
+splits as `S0+S1+S2+S3`. The quadratic character identity
+
+\[
+\sum_t\chi(t^2-A)=-1\quad(A\ne0)
+\]
+
+and the Jacobi sum give
+
+\[
+S_0=0,\qquad S_1=p-1,\qquad S_2=p+1.
+\]
+
+After `u=x^2`, `t=-z^2`, the final term is `A+B-C-D` with
+
+\[
+(A,B,C,D)=(0,-1,1,0),
+\]
+
+so
+
+\[
+S_3=-2,
+\qquad
+\boxed{S=2(p-1)}.
+\]
+
+Exactly four unit states have `X^2+Z^2=0`. Therefore the accepted unit count is
+
+\[
+\frac{T+S+4}{2}=\frac{(p+1)^2}{2},
+\]
+
+and
+
+\[
+\boxed{\alpha_p=\frac{p+1}{2(p-1)}}.
+\]
+
+Adding the automatically accepted positive-valuation mass gives
+
+\[
+L^W_{p,0}=\frac{p+5}{2(p-1)}.
+\]
+
+Thus the exact constrained/unrestricted multiplier is
+
+\[
+\boxed{
+\lambda_p=\frac{p+5}{2(p+1)}
+=\frac12+\frac2{p+1}.
+}
+\]
+
+For every inert `p&gt;=7`,
+
+\[
+\boxed{\lambda_p\le\frac34}.
+\]
+
+There are infinitely many primes `3 mod 4` by the elementary Euclidean argument applied to `4p_1...p_k-1`; no Dirichlet theorem on arithmetic progressions is needed.
+
+---
+
+## 14. Fixed inert-prime residue transfer: full character argument
+
+A unit residue predicate is not merely a replacement of one Euler factor: the residue of a multiplicatively built coordinate depends on all prime factors. We therefore separate p-adic valuation strata from unit residue conditions.
+
+Fix a finite inert-prime set
+
+\[
+S=\{p_1,\dots,p_k\}
+\]
+
+before `B` grows. On each valuation stratum, the remaining unit predicate is a finite function on a finite product of residue groups `G_p`. Fourier inversion gives
+
+\[
+W_p(u)=\sum_{\chi\in\widehat G_p}c_{p,\chi}\chi(u).
+\]
+
+CRT tensors the groups and gives an exact finite expansion
+
+\[
+W_S=\prod_{p\in S}W_p
+=
+\sum_{\boldsymbol\chi\in\widehat G_S}
+ c_{S,\boldsymbol\chi}\boldsymbol\chi.
+\]
+
+The auxiliary residue coordinates may satisfy algebraic relations, so the safe leading classification is not “the literally all-trivial auxiliary tuple.” Define the **principal pole sector** to be the full set of auxiliary character tuples whose induced characters on every unbounded pole-producing multiplicative channel are principal.
+
+Summing this entire sector exactly reproduces the finite accepted local average at each `p`; hence its top coefficient is
+
+\[
+\boxed{
+2D_q\prod_{p\in S}\lambda_p,
+\qquad
+D_q=\frac{\kappa I_q}{3\pi^3}.
+}
+\]
+
+The factor `2` is only the safe two-tag upper multiplicity. It is not an exact two-to-one assertion about pair-overlap objects.
+
+### Mixed correction in the character sectors
+
+Outside the fixed modulus, the principal sector has the same infinite split-prime mixed correction as the raw zero mode. The finitely many modulus primes are absorbed into the finite local multiplier.
+
+For a nonprincipal fixed-conductor sector, inserted character phases have modulus at most one. The Gate-B Wiener estimate is phase-uniform, so the same coefficientwise majorant applies. Therefore the mixed correction remains absolutely convergent and holomorphic on the same half-plane, has the same finite logarithmic moments, and cannot create or restore a pole at `s=1`.
+
+### Pole loss outside the principal sector
+
+Every tuple outside the principal pole sector makes at least one unbounded pole-producing channel nonprincipal. That channel is then represented by a fixed-conductor nonprincipal Dirichlet or Gaussian-Hecke factor, holomorphic at `s=1` by the external contracts. Hence the total zero-mode pole order drops by at least one.
+
+The same finite Riesz/Perron/residue machinery gives at most `O_S(B(log B)^2)` at the rectangular zero-mode level, plus the already-audited curved/harmonic lower-order terms. Since the character expansion is finite for fixed `S`, all nonprincipal sectors together are
+
+\[
+\boxed{o_S(B(\log B)^3)}.
+\]
+
+Thus, for fixed `S`, the tagged constrained raw count satisfies
+
+\[
+\boxed{
+A^{\rm tag}_{q,S}(B)
+=
+2D_q\left(\prod_{p\in S}\lambda_p\right)
+B(\log B)^3
++o_S(B(\log B)^3).
+}
+\]
+
+No uniformity as `|S|` grows is asserted or needed.
+
+---
+
+## 15. Pair and triple overlaps
+
+Choose `k` distinct inert primes `p_i&gt;=7`, set `S_k={p_1,...,p_k}`, and hold `S_k` fixed. Every pair-overlap object passes every selected second-face test, with an appropriate shared-edge tag. Therefore
+
+\[
+O_{qr}(B)\le A^{\rm tag}_{q,S_k}(B).
+\]
+
+Taking `B-&gt;infinity` first,
+
+\[
+\limsup_{B\to\infty}
+\frac{O_{qr}(B)}{B(\log B)^3}
+\le
+2D_q\prod_{p\in S_k}\lambda_p
+\le
+2D_q\left(\frac34\right)^k.
+\]
+
+Only after this limsup do we let `k-&gt;infinity`. Hence
+
+\[
+\boxed{O_{qr}(B)=o(B(\log B)^3)}.
+\]
+
+The triple overlap is a subset of every pair overlap, so
+
+\[
+\boxed{T(B)=o(B(\log B)^3)}.
+\]
+
+The permanent quantifier order is
+
+```text
+fix S_k
+-&gt; B -&gt; infinity
+-&gt; take limsup
+-&gt; k -&gt; infinity.
+```
+
+There is no `k=k(B)` and no growing modulus.
+
+---
+
+## 16. Exactly-one theorem
+
+Insert the overlap estimates into
+
+\[
+N_q=A_q-O_{qr}-O_{qs}+T.
+\]
+
+The raw directional asymptotic gives
+
+\[
+\boxed{
+N_q(B)\sim
+\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
+}
+\]
+
+Summing and using `sum I_q=pi^2/8`,
+
+\[
+\boxed{
+N_1(B)\sim\frac\kappa{24\pi}B(\log B)^3.
+}
+\]
+
+Dividing gives
+
+\[
+\boxed{
+\frac{N_q(B)}{N_1(B)}\to\frac{8I_q}{\pi^2}.
+}
+\]
+
+No perfect-cuboid nonexistence assumption has appeared.
+
+---
+
+## 17. Consolidated quantitative ledger
+
+With `Lambda=log B`,
+
+```text
+H0 = U = exp(Lambda^(1/4))
+eta = Lambda^(-8)
+epsilon = 1/16
+zero-mode finite remainder order N = 64
+Vaaler degree L = floor(Lambda^4)
+box count = O(Lambda^27)
+```
+
+we have
+
+```text
+small height                  O(B Lambda^(9/4))
+small coordinate              O(B Lambda^(5/2))
+mixed logarithmic shifts      O(B Lambda^2)
+all-box finite remainders     O(B Lambda^(-35))
+power tails                   B Lambda^(C_rect+27) exp(-(3/16)Lambda^(1/4))
+curved boundary               O(B Lambda^(-5)) + lower-order ledger
+interior mesh                 O(B Lambda^(-5))
+Vaaler zero-mode excess       O(B Lambda^(-1))
+retained harmonic core        B Lambda^(4C_H+D_H+6) exp(-delta_H Lambda^(1/4))
+```
+
+Every term is `o(B Lambda^3)`. The fixed historical value `A=48` is not required.
+
+---
+
+## 18. Deterministic audits: exact scope
+
+Repository CI and deterministic scripts check reproducibility and consistency only. They are not substitutes for the mathematical arguments above.
+
+They may verify, for example:
+
+- chamber quadrature and `J_q=2I_q/pi` numerically;
+- exact finite Stage12/Stage13 factor-two checksums;
+- exact unit-state enumeration for small inert primes;
+- exact constants such as `3465625/6561&lt;529`;
+- the declared box exponent `27`, finite remainder order `64`, and workflow locks;
+- absence of superseded formulas in the R05 proof core.
+
+A displayed `PASS` therefore means
+
+```text
+DETERMINISTIC_AUDIT_SCOPE=REPRODUCIBILITY_AND_CONSISTENCY_ONLY
+```
+
+and does not mean “the theorem has been proved by computation.”
+
+---
+
+## 19. Imported source boundary and historical nondependencies
+
+The final proof imports:
+
+1. frozen Stage12 R09 total primitive-oriented theorem and its explicit counting definition;
+2. classical Hecke continuation/functional equation for the Gaussian angular characters and fixed finite twists;
+3. the classical Dirichlet `L(s,chi_4)` continuation/functional equation;
+4. Vaaler&#x27;s finite sawtooth approximation.
+
+The Gaussian angular normalization is the one recorded in Huang--Liu--Rudnick, `Gaussian primes in almost all narrow sectors`, §2.1; the fixed Gaussian residue-character model is the one recorded in Merikoski, `On Gaussian primes in sparse sets`, §2.7; Vaaler is `Some extremal functions in Fourier analysis` (1985). The stronger Gaussian zero-free-region references are valid context but not required.
+
+The following historical routes are not proof dependencies:
+
+```text
+Stage13-7jb old direction-neutrality route
+Stage13-7jf old compressed fixed-prime route
+R01/R02/R03/R04 verdicts as mathematical evidence
+finite directional fitting as proof of the limiting vector
+finite-field enumeration as proof of alpha_p
+old categorywise D_q/K_q equality as proof of common Theta
+general Selberg--Delange as a black box
+Gaussian-Hecke zero-free region
+Dirichlet theorem on primes in arithmetic progressions
+growing-modulus sieve theorem
+```
+
+---
+
+## 20. R05 canonical theorem lock
+
+```text
+COUNTING_CONVENTION=primitive canonical exactly-one-face count with integer space diagonal
+STAGE12_COUNTING_TARGET=PRIMITIVE_ORIENTED_DISTINGUISHED_FACE_RECORDS
+STAGE12_PRIMITIVE_DEFINITION=MOBIUS_COMMON_SCALE
+STAGE12_INPUT=C_prim(B)~kappa/(12*pi)B(log B)^3
+STAGE12_KAPPA_EXPLICIT=true
+STAGE12_ETA_EQUALS_PI_KAPPA=true
+STAGE13_PROJECTION_FIBER=2
+PROJECTION_FIBER_REASON=TWO_ORDERS_OF_DISTINGUISHED_FACE_LEGS
+JQ_BRIDGE=J_q=2*I_q/pi
+RAW_DIRECTIONAL=A_q(B)~kappa*I_q/(3*pi^3)B(log B)^3
+COMMON_THETA_PROVED_BEFORE_STAGE12_CALIBRATION=true
+WIENER_EXACT_CONSTANT=3465625/6561
+WIENER_ROUNDED_CONSTANT=529
+P5_EXPLICIT_FINITE_BOUND_LT=432
+BOX_COUNT=O((log B)^27)
+FINITE_REMAINDER_N=64
+FINITE_REMAINDER_AFTER_ALL_BOXES=O(B(log B)^-35)
+FIXED_A48_REQUIRED=false
+HECKE_FAMILY_BOUND=all_ell_polynomial_conductor_times_fixed_power_saving
+VAALER_ZERO_MODE_EXCESS=1/(L+1)
+VAALER_NONZERO_COEFFICIENT_BOUND_LT=1
+INERT_LOCAL_MULTIPLIER=lambda_p=(p+5)/(2*(p+1))
+FIXED_RESIDUE_TRANSFER=FINITE_CHARACTER_ORTHOGONALITY_PLUS_CRT
+PRINCIPAL_POLE_SECTOR_MULTIPLIER=product_{p_in_S}_lambda_p
+AUXILIARY_CHARACTER_ALIASING_INCLUDED=true
+NONPRINCIPAL_POLE_SECTOR_LOSS_AT_LEAST_ONE=true
+LIMIT_ORDER=FIX_S_THEN_B_TO_INFINITY_THEN_ENLARGE_S
+PAIR_OVERLAP=O_qr(B)=o(B(log B)^3)
+TRIPLE_OVERLAP=T(B)=o(B(log B)^3)
+EXACT_ONE_DIRECTIONAL=N_q(B)~kappa*I_q/(3*pi^3)B(log B)^3
+EXACT_ONE_TOTAL=N1(B)~kappa/(24*pi)B(log B)^3
+DIRECTION_LIMIT=P_q=8*I_q/pi^2
+CHAMBER_SUM=sum I_q=pi^2/8
+FINITE_DATA_CONTRADICTS_THEOREM=false
+PROVED_EFFECTIVE_CONVERGENCE_RATE=false
+DETERMINISTIC_AUDIT_SCOPE=REPRODUCIBILITY_AND_CONSISTENCY_ONLY
+NO_PERFECT_CUBOID_NONEXISTENCE_ASSUMPTION=true
+GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED=false
+GENERAL_SELBERG_DELANGE_REQUIRED=false
+GROWING_MODULUS_THEOREM_USED=false
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R03_IMMUTABLE=true
+R04_IMMUTABLE=true
+```
+
+This is the repaired canonical proof candidate to be frozen into R05 only after Gate H&#x27;s deterministic synthesis audit passes.</pre></section><section id="section-2"><h2>Exact external theorem contracts</h2><p class="source"><code>stages/stage13/13-13ff/external-theorem-contracts.md</code> · SHA-256 <code>42413e367c8aeffcbf5ee8a08cfbe87e1682b03b1aefca2dc2d1523725e92422</code></p><pre># Stage13-13ff — exact external theorem contracts for R05
+
+&gt; STATUS: `STAGE13_13FF_EXTERNAL_THEOREM_CONTRACTS`
+&gt;
+&gt; PURPOSE: expose the complete proof-facing external boundary used by the repaired Stage13 proof. No phrase such as “standard Hecke theory” or “controlled Vaaler coefficients” is accepted as a proof step after this gate.
+&gt;
+&gt; INPUTS: Stage13-13b hypothesis crosswalk, Gate D harmonic-conductor ledger, Gate E Stage12 counting interface.
+&gt;
+&gt; SCOPE: external analytic continuation / functional equations for the relevant Dirichlet and Gaussian-Hecke L-functions, and Vaaler’s periodic sawtooth approximation. The Perron/Riesz conversion and the interval-polynomial construction are written internally below.
+
+---
+
+## 1. Source ledger and normalization
+
+The proof uses the following primary sources.
+
+1. **Hecke, 1918/1920.** E. Hecke, *Eine neue Art von Zetafunktionen und ihre Beziehungen zur Verteilung der Primzahlen*, Math. Z. 1 (1918), 357–376; II, Math. Z. 6 (1920), 11–51.
+2. **Modern Gaussian restatement.** B. Huang, J. Liu, Z. Rudnick, *Gaussian primes in almost all narrow sectors*, arXiv:1903.04005, §2.1. For the Gaussian characters
+   \[
+   \Xi_k(\mathfrak a)=e^{i4k\theta_{\mathfrak a}},
+   \]
+   they record for `k != 0` entire continuation and the completed functional equation
+   \[
+   \xi(s,k)=\pi^{-(s+2|k|)}\Gamma(s+2|k|)L(s,\Xi_k)=\xi(1-s,k).
+   \]
+3. **Finite Gaussian residue twists.** J. Merikoski, *On Gaussian primes in sparse sets*, Compositio Math. 161 (2025), 181–243, §2.7. For a Gaussian residue character `chi` modulo `u`, the paper defines
+   \[
+   L(s,\xi_k\chi)
+   =\sum_{(\mathfrak a,2)=1}
+   \frac{\xi_k(\mathfrak a)\chi(\mathfrak a)}{(N\mathfrak a)^s}.
+   \]
+   Stage13 uses only **fixed** finite residue conductor in the overlap transfer. No theorem uniform in a modulus growing with `B` is imported.
+4. **Vaaler.** J. D. Vaaler, *Some extremal functions in Fourier analysis*, Bull. Amer. Math. Soc. 12 (1985), 183–216. We import the finite-degree sawtooth approximation stated below and derive the interval majorants/minorants ourselves.
+
+The historical Gaussian zero-free citation (Merikoski Lemma 2.13 / Coleman) is valid but is not a logical input to the final nonzero-harmonic contour, because that contour contains `L` itself rather than `1/L` or `L&#x27;/L`.
+
+---
+
+## 2. Contract H1 — nonzero Gaussian angular Hecke L-functions
+
+Let `k` be a nonzero integer. For the Gaussian angular character `Xi_k` on ideals of `Z[i]`, define for `Re s&gt;1`
+
+\[
+L(s,\Xi_k)=\sum_{\mathfrak a\neq0}\frac{\Xi_k(\mathfrak a)}{(N\mathfrak a)^s}.
+\]
+
+### Imported statement
+
+For `k != 0`:
+
+1. `L(s,Xi_k)` continues holomorphically to all `s in C`;
+2. the completed function
+   \[
+   \xi(s,k)=\pi^{-(s+2|k|)}\Gamma(s+2|k|)L(s,\Xi_k)
+   \]
+   satisfies
+   \[
+   \xi(s,k)=\xi(1-s,k);
+   \]
+3. hence `L(s,Xi_k)` has **no pole at `s=1`**.
+
+Stage13 uses angular indices `k=8 ell`, `ell&gt;=1`; therefore every retained nonzero harmonic is in the holomorphic case.
+
+```text
+HECKE_NONZERO_ENTIRE=true
+HECKE_NONZERO_FUNCTIONAL_EQUATION=true
+HECKE_NONZERO_POLE_AT_1=false
+ANGULAR_INDEX=k=8*ell
+```
+
+---
+
+## 3. Contract H2 — fixed finite residue twists
+
+For Gate G, fix once and for all a finite set of inert primes `S`, and let `u` be the resulting finite Gaussian residue modulus. Let `chi` range over the finite character group attached to that fixed modulus.
+
+The product `xi_k chi` is a Hecke character of `Q(i)`. We import the classical Hecke continuation/functional-equation theorem in the following proof-facing form:
+
+- if `xi_k chi` is nontrivial, `L(s,xi_k chi)` is holomorphic at `s=1` and admits analytic continuation and a Hecke functional equation;
+- the only possible pole at `s=1` belongs to the trivial Hecke character;
+- because `S` is fixed before `B -&gt; infinity`, every finite conductor parameter occurring here is a fixed constant for that limiting problem.
+
+The exact root number and the exact conductor normalization are not used by Stage13. Only continuation, pole/no-pole status, and fixed-strip polynomial growth are used.
+
+```text
+FIXED_RESIDUE_CONDUCTOR=true
+NONTRIVIAL_HECKE_TWIST_HOLOMORPHIC_AT_1=true
+ONLY_TRIVIAL_HECKE_CHARACTER_HAS_POLE_AT_1=true
+GROWING_MODULUS_THEOREM_USED=false
+```
+
+Merikoski §2.7 supplies the exact Gaussian residue-character model used by the repository; its Landau–Page lemma is not needed for the final contour.
+
+---
+
+## 4. Contract D1 — the Dirichlet factor `L(s,chi_4)`
+
+The zero-mode factors contain the primitive nonprincipal Dirichlet character modulo `4`,
+
+\[
+\chi_4(n)=
+\begin{cases}
+0,&amp;2\mid n,\\
+1,&amp;n\equiv1\pmod4,\\
+-1,&amp;n\equiv3\pmod4.
+\end{cases}
+\]
+
+We import the classical Dirichlet-L theorem in exactly the form needed here:
+
+- `L(s,chi_4)` is holomorphic at `s=1` and continues holomorphically to `C`;
+- its completed L-function satisfies the standard functional equation;
+- on every fixed vertical strip it has polynomial growth.
+
+No zero-free region and no prime-number theorem in arithmetic progressions is required for Stage13.
+
+```text
+CHI4_NONPRINCIPAL=true
+L_CHI4_HOLOMORPHIC_AT_1=true
+DIRICHLET_AP_THEOREM_REQUIRED=false
+```
+
+---
+
+## 5. Internal consequence — polynomial strip/angular growth
+
+DeepSeek’s R04 objection correctly asked what “polynomial strip/conductor growth” actually means in the proof. We now make the logical interface explicit.
+
+Fix a strip
+
+\[
+\sigma_-\le \Re s\le\sigma_+,
+\qquad \sigma_-&lt;1&lt;\sigma_+,
+\]
+
+with Stage13 ultimately taking `sigma_-=3/4` after the residual Euler factor has been separated.
+
+For the untwisted nonzero angular family, absolute convergence gives a uniform bound on the right boundary `Re s=sigma_+&gt;1`. On the reflected left boundary, the functional equation expresses `L(s,Xi_k)` as a ratio of gamma factors times `L(1-s,Xi_k)`. Stirling’s formula on a fixed strip gives a bound by a fixed power of
+
+\[
+2+|t|+|k|.
+\]
+
+Phragmén–Lindelöf across the fixed strip therefore yields constants `C_strip,D_strip` depending only on the chosen strip such that
+
+\[
+\boxed{
+|L(\sigma+it,\Xi_k)|
+\ll
+(2+|t|+|k|)^{C_{\rm strip}}
+}
+\]
+
+for all `k!=0` and all `sigma` in the strip. Fixed finite residue twists satisfy the same type of statement with an additional fixed conductor factor; because `S` is fixed, that factor is absorbed into the implied constant.
+
+The residual Euler/Wiener factor `E_{h,ell}(s)` from Gate B is holomorphic and phase-uniform on the required half-plane. Hence
+
+\[
+A_\ell(s)=L(s,\xi_{8\ell})E_{h,\ell}(s)
+\]
+
+has polynomial growth in `|t|+ell` on `Re s&gt;=3/4`.
+
+This section is an internal deduction from H1/H2/D1 plus Stirling and Phragmén–Lindelöf; it is not a new number-theoretic black box.
+
+```text
+POLYNOMIAL_STRIP_GROWTH_DERIVED=true
+POLYNOMIAL_ANGULAR_GROWTH_DERIVED=true
+FIXED_STRIP_LEFT=3/4
+```
+
+---
+
+## 6. Internal consequence — why the Gate D summatory power saving follows
+
+A bare phrase “shift Perron” is too terse when only polynomial vertical growth is known. We therefore state the smoothing step that makes the implication rigorous.
+
+Let
+
+\[
+F_\ell(s)=\sum_{n\ge1}a_\ell(n)n^{-s}
+\]
+
+be holomorphic on `Re s&gt;=sigma_0` for a fixed `sigma_0&lt;1`, and suppose on that half-plane it has polynomial growth in `|t|+ell`. Gate B supplies the required uniform coefficient majorants for the residual convolution.
+
+Choose an integer `m` larger than the fixed vertical-growth exponent and use the `m`-fold Riesz/Perron kernel
+
+\[
+\frac{X^s}{s(s+1)\cdots(s+m)}.
+\]
+
+The denominator kills the polynomial vertical growth, so the contour can be shifted from `Re s&gt;1` to `Re s=sigma_0` without crossing a pole for `ell&gt;=1`. This gives a smoothed bound
+
+\[
+R_{m,\ell}(X)
+\ll
+X^{\sigma_0}(1+\ell)^C(\log 2X)^D.
+\]
+
+Finite differencing with a step `H=X^{1-eta}` converts the Riesz sum to the ordinary partial sum. The short transition interval is bounded by the coefficient majorant. Since `sigma_0&lt;1`, choose fixed `eta&gt;0` small enough to leave a positive power gap. Consequently there exist fixed
+
+\[
+\delta_H&gt;0,\qquad C_H,D_H\ge0
+\]
+
+such that
+
+\[
+\boxed{
+S_\ell(X)=\sum_{n\le X}a_\ell(n)
+\ll X^{1-\delta_H}(1+\ell)^{C_H}(\log 2X)^{D_H}
+}
+\]
+
+uniformly for all `X&gt;=2`, `ell&gt;=1`.
+
+This is exactly the Gate D interface. No numerical value of `delta_H,C_H,D_H` is required, because Gate D keeps their polynomial loss visible and absorbs it by the stretched exponential from `H_0`.
+
+```text
+HECKE_FAMILY_SUMMATORY_INTERFACE_DERIVED=true
+UNSMOOTHED_PERRON_SHORTCUT_USED=false
+RIESZ_PERRON_SMOOTHING_EXPLICIT=true
+FIXED_A48_REQUIRED=false
+```
+
+---
+
+## 7. Contract V1 — Vaaler sawtooth approximation
+
+Let
+
+\[
+e(x)=e^{2\pi i x},
+\qquad
+\psi(x)=\{x\}-\frac12
+\]
+
+away from integers, with the conventional midpoint value at discontinuities. For every integer `L&gt;=1`, Vaaler’s finite Fourier approximation gives a trigonometric polynomial
+
+\[
+\psi_L(x)
+=
+\sum_{1\le |h|\le L}
+\frac{a_h}{-2\pi i h}e(hx),
+\qquad 0\le a_h\le1,
+\]
+
+and the pointwise error bound
+
+\[
+\boxed{
+|\psi(x)-\psi_L(x)|
+\le
+E_L(x)
+:=
+\frac1{2L+2}
+\sum_{|h|\le L}
+\left(1-\frac{|h|}{L+1}\right)e(hx).
+}
+\]
+
+The right side is a nonnegative Fejér-kernel multiple.
+
+This sawtooth statement is the only Vaaler result imported as a black box.
+
+---
+
+## 8. Internal derivation — interval majorant/minorant and exact coefficients
+
+Let `I=(alpha,beta]` be an interval on `R/Z`, with length `|I|` interpreted modulo one. Away from endpoints,
+
+\[
+1_I(x)
+=|I|+\psi(\alpha-x)+\psi(x-\beta).
+\]
+
+Define
+
+\[
+P_{I,L}^{\pm}(x)
+=|I|
++\psi_L(\alpha-x)+\psi_L(x-\beta)
+\pm E_L(\alpha-x)\pm E_L(x-\beta).
+\]
+
+Then pointwise (with the usual endpoint convention)
+
+\[
+\boxed{
+P_{I,L}^-(x)\le1_I(x)\le P_{I,L}^+(x).
+}
+\]
+
+Both polynomials have degree at most `L`.
+
+### Zero mode
+
+Each `E_L` has constant coefficient `1/(2L+2)`, so
+
+\[
+\boxed{
+\widehat P_{I,L}^{\pm}(0)
+=|I|\pm\frac1{L+1}.
+}
+\]
+
+Thus the bracket excess is exactly `1/(L+1)=O(1/L)`.
+
+### Nonzero coefficients
+
+For `1&lt;=|h|&lt;=L`, the two sawtooth terms together contribute at most
+
+\[
+\frac1{\pi |h|}
+\]
+
+in absolute value, and the two error kernels contribute at most
+
+\[
+\frac1{L+1}.
+\]
+
+Therefore
+
+\[
+\boxed{
+|\widehat P_{I,L}^{\pm}(h)|
+\le
+\frac1{\pi|h|}+\frac1{L+1}&lt;1
+\qquad(1\le|h|\le L).
+}
+\]
+
+This is stronger than Gate D needs: the Vaaler coefficient contributes **no positive power of the harmonic index**.
+
+A union of a bounded number of intervals is handled by summing the corresponding polynomials; all constants are multiplied only by that fixed endpoint-complexity bound.
+
+```text
+VAALER_IMPORTED_OBJECT=SAWTOOTH_APPROXIMATION
+VAALER_INTERVAL_MAJORANT_DERIVED_INTERNALLY=true
+VAALER_ZERO_MODE_EXCESS=1/(L+1)
+VAALER_NONZERO_COEFFICIENT_BOUND_LT=1
+VAALER_POSITIVE_ELL_POWER=0
+```
+
+---
+
+## 9. Application to the Stage13 harmonic ledger
+
+Take
+
+\[
+L=\lfloor(\log B)^4\rfloor.
+\]
+
+The interval zero-mode excess is `O(1/L)`. Multiplying by the positive raw total mass `O(B(log B)^3)` gives
+
+\[
+O\!\left(B(\log B)^{-1}\right).
+\]
+
+For the nonzero modes, the coefficient bound `&lt;1` combines with Gate D’s family estimate and gives
+
+\[
+\mathcal E_{\rm harm,core}
+\ll
+B(\log B)^{4C_H+D_H+6}
+\exp\{-\delta_H(\log B)^{1/4}\},
+\]
+
+which is smaller than every fixed negative logarithmic power.
+
+Thus the external input and the internal bookkeeping now meet without an unspecified coefficient constant or an unexplained conductor exponent.
+
+---
+
+## 10. What is explicitly *not* imported
+
+The final R05 route does **not** require:
+
+- a Gaussian-Hecke zero-free region;
+- a zero-density theorem;
+- a general Selberg–Delange black box;
+- a theorem uniform in a residue modulus growing with `B`;
+- Dirichlet’s theorem on primes in arithmetic progressions;
+- an external Wiener lemma.
+
+The zero mode uses the internal pole-order Perron/Riesz argument with `zeta(s)` and `zeta(s)^2`; the nonzero angular mode uses H1 plus the internal smoothed contour argument above.
+
+---
+
+## 11. Gate F locks
+
+```text
+STAGE13_13FF=COMPLETE_EXACT_EXTERNAL_THEOREM_CONTRACTS
+HECKE_NONZERO_ENTIRE=true
+HECKE_NONZERO_FUNCTIONAL_EQUATION=true
+HECKE_NONZERO_POLE_AT_1=false
+FIXED_RESIDUE_CONDUCTOR=true
+NONTRIVIAL_HECKE_TWIST_HOLOMORPHIC_AT_1=true
+L_CHI4_HOLOMORPHIC_AT_1=true
+POLYNOMIAL_STRIP_GROWTH_DERIVED=true
+POLYNOMIAL_ANGULAR_GROWTH_DERIVED=true
+RIESZ_PERRON_SMOOTHING_EXPLICIT=true
+HECKE_FAMILY_SUMMATORY_INTERFACE_DERIVED=true
+VAALER_IMPORTED_OBJECT=SAWTOOTH_APPROXIMATION
+VAALER_INTERVAL_MAJORANT_DERIVED_INTERNALLY=true
+VAALER_ZERO_MODE_EXCESS=1/(L+1)
+VAALER_NONZERO_COEFFICIENT_BOUND_LT=1
+GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED=false
+GENERAL_SELBERG_DELANGE_REQUIRED=false
+GROWING_MODULUS_THEOREM_USED=false
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R04_IMMUTABLE=true
+R05_REQUIRED=true
+NEXT=13-13fg
+```
+</pre></section><section id="section-3"><h2>Finite discrepancy / q-independence audit result</h2><p class="source"><code>stages/stage13/13-13fa/result.md</code> · SHA-256 <code>89d2bbe57a1fd994b13d84f91720a14dc4823309668bc265594f3385d614f89d</code></p><pre># Stage13-13fa — finite directional discrepancy and leading q-independence audit
+
+&gt; STATUS: `STAGE13_13FA_COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT`
+&gt;
+&gt; PARENT_GATE: Stage13-13f / R05 repair plan Gate A
+&gt;
+&gt; R04: immutable
+&gt;
+&gt; THEOREM CONTRACT REOPENED: `false`
+&gt;
+&gt; NEXT: `13-13fb`
+
+## 1. Question audited
+
+R04 received a substantive objection that the finite exactly-one vector is still much closer to `2:1:1` than to the claimed limiting vector
+
+```text
+P_inf =
+(0.5347369332313988,
+ 0.24535917783225203,
+ 0.21990388893634913).
+```
+
+That observation requires two logically separate checks:
+
+1. does the complete finite trajectory actually contradict, or move against, the claimed asymptotic vector?
+2. is there a still-unaccounted category-dependent arithmetic factor in the leading `j=0` proof that could invalidate the common-`Theta` conclusion?
+
+This stage audits those two questions only. It does **not** claim an effective convergence rate.
+
+---
+
+## 2. Finite data audited
+
+The deterministic audit combines:
+
+- the historical exact-one checkpoints from PR #89 at `B=1000,3000,10000,30000`;
+- the active complete enumeration `100000 &lt;= B &lt;= 1000000`;
+- the active complete enumeration `1000000 &lt;= B &lt;= 5000000`.
+
+The overlapping `B=1000000` row agrees exactly between the two active reports.
+
+At the two endpoints central to the R04 objection:
+
+```text
+B=100000
+counts = (84146, 43180, 40704)
+
+P =
+(0.500779622686425,
+ 0.256977920609415,
+ 0.242242456704160)
+
+L1(P, 2:1:1) = 0.015515086591680
+L1(P, P_inf) = 0.067914621089948
+```
+
+and
+
+```text
+B=5000000
+counts = (7846274, 4018971, 3708949)
+
+P =
+(0.503799682988410,
+ 0.258053225739979,
+ 0.238147091271611)
+
+L1(P, 2:1:1) = 0.023705817456749
+L1(P, P_inf) = 0.061874500485977
+```
+
+Therefore, from `100k` to `5m`:
+
+```text
+distance to exact 2:1:1 grows by factor 1.527920409...
+distance to claimed limit falls to factor 0.911063030...
+```
+
+The motion is not monotone at every intermediate cutoff, so no monotonicity claim is made. But the endpoint statement is unambiguous:
+
+```text
+the finite population does not remain stationary at 2:1:1;
+over the audited 100k -&gt; 5m interval it moves away from 2:1:1
+and modestly toward the claimed limiting vector.
+```
+
+Thus the finite data are **not a contradiction** to the asymptotic theorem.
+
+---
+
+## 3. Why the discrepancy still looks large
+
+Use the Stage13 deviation coordinates
+
+```text
+alpha(B) = P_ab(B) - 1/2
+beta(B)  = (P_ac(B)-P_bc(B))/2.
+```
+
+The claimed limits are
+
+```text
+alpha_inf = 0.034736933231399
+beta_inf  = 0.012727644447951.
+```
+
+At `B=100000`:
+
+```text
+alpha = 0.000779622686425  = 2.24% of alpha_inf
+beta  = 0.007367731952628  = 57.89% of beta_inf
+```
+
+At `B=5000000`:
+
+```text
+alpha = 0.003799682988410  = 10.94% of alpha_inf
+beta  = 0.009953067234170  = 78.20% of beta_inf
+```
+
+So the visually persistent near-`2:1:1` behavior is concentrated mainly in the slow `alpha` coordinate: the `ac/bc` split has moved substantially toward its claimed limiting value, while the `ab` excess above one half is still small at accessible cutoffs.
+
+This is a finite diagnostic, not a secondary asymptotic theorem.
+
+---
+
+## 4. Important limitation: no proved effective rate
+
+The canonical theorem proves
+
+```text
+A_q(B)
+ = Theta J_q B(log B)^3
+ + o(B(log B)^3)
+```
+
+and transfers the same leading constants to exactly-one counts after the overlap estimate.
+
+That little-`o` statement does **not** supply an explicit numerical threshold or an effective bound of the form
+
+```text
+|P_q(B)-P_q(infinity)| &lt;= f(B)
+```
+
+usable at `B=5m`.
+
+Therefore the present proof does not quantitatively predict the observed `100k..5m` convergence speed.
+
+The correct closure statement is:
+
+```text
+FINITE_DATA_CONTRADICTS_THEOREM=false
+PROVED_EFFECTIVE_CONVERGENCE_RATE=false
+FINITE_DISCREPANCY_QUANTITATIVELY_EXPLAINED_BY_PROVED_REMAINDER=false
+```
+
+R05 must state this scope explicitly. The absence of an effective rate is not itself a contradiction of an asymptotic theorem.
+
+---
+
+## 5. Leading q-independence retrace
+
+The common-`Theta` proof was retraced without using the superseded Stage13-7jb categorywise constant check.
+
+### 5.1 Primitive split-prime zero mode
+
+Before any chamber factor or Stage12 constant enters, the primitive raw local coefficient is
+
+```text
+Z_0(a,b) =
+  2b+1   if a=0
+  2      if a&gt;=1.
+```
+
+It depends on valuation data only. No canonical face label appears.
+
+The pure one-variable factors are likewise common:
+
+```text
+A_0(s) = zeta(s) L(s,chi_4) E_h,0(s)
+B_0(s) = zeta(s)^2 L(s,chi_4) E_b,0(s).
+```
+
+### 5.2 Mixed correction
+
+The full local factor is divided by the same pure-axis factors:
+
+```text
+C_ell = D_ell / (A_ell B_ell B_ell).
+```
+
+Pure axes cancel exactly, and every nonconstant coefficient of `C_ell-1` uses at least two coordinate variables. Its top-degree contribution is therefore one common arithmetic scalar after convolution.
+
+The explicit norm and error details are deliberately deferred to `13-13fb` and later repair gates; Gate A only checks whether a category label enters this leading arithmetic object. It does not.
+
+### 5.3 Odd inert and 2-adic/parity factors
+
+The active non-circular repair explicitly records the inert coprimality factors and finite OE/EE factors as category-independent arithmetic factors. They alter the common scalar, not the zero-mode category kernel.
+
+### 5.4 Curved-region assembly
+
+After the arithmetic coefficient system is fixed, the category enters through the archimedean zero Fourier kernel
+
+```text
+J_q = 2 I_q/pi.
+```
+
+Thus
+
+```text
+A_q^(0)(B)
+ = Theta J_q B(log B)^3
+ + o(B(log B)^3)
+```
+
+with one `Theta`.
+
+### 5.5 Nonzero harmonics
+
+Nonzero angular modes have no scale zeta pole and are lower order at the raw `B(log B)^3` scale. Therefore they cannot supply another leading category-dependent arithmetic constant.
+
+### 5.6 Stage12 is used only afterwards
+
+Only after the single common `Theta` has been obtained does the proof use
+
+```text
+C_prim(B)=2 sum_q A_q(B)
+```
+
+and the frozen Stage12 total theorem to determine
+
+```text
+Theta = kappa/(6 pi^2).
+```
+
+No Stage12 directional proportion is seeded upstream of commonness.
+
+---
+
+## 6. Gate-A decision
+
+No leading category-dependent arithmetic factor was found in the active `j=0` proof chain.
+
+The Claude objection is therefore split as follows:
+
+```text
+finite-data-is-a-contradiction:
+  CLOSED_BY_AUDIT
+
+missing-leading-q-dependent-factor:
+  NO_DEFECT_FOUND_AT_CURRENT_PROOF_LEVEL
+
+effective quantitative explanation of finite convergence:
+  NOT SUPPLIED BY CURRENT THEOREM
+```
+
+The last item must be disclosed in R05, but it does not force the theorem contract to be reopened.
+
+DeepSeek&#x27;s explicitness objections remain active and are not silently declared repaired here.
+
+---
+
+## 7. Machine-readable audit
+
+Artifacts:
+
+```text
+stages/stage13/scripts/13-13fa/q_independence_finite_audit.py
+stages/stage13/data/13-13fa/q_independence_finite_audit.json
+```
+
+The audit fails if:
+
+- the two active reports disagree at their shared `B=1m` checkpoint;
+- the `100k -&gt; 5m` endpoint facts stated above cease to hold;
+- the canonical/common-factor proof loses the required non-circular common-`Theta` lock statements.
+
+It intentionally does not turn finite agreement into mathematical evidence for the asymptotic theorem.
+
+---
+
+## 8. Completion lock
+
+```text
+STAGE13_13FA=COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT
+FINITE_DATA_CONTRADICTS_THEOREM=false
+FINITE_100K_TO_5M_MOVES_AWAY_FROM_2_1_1=true
+FINITE_100K_TO_5M_ENDPOINT_DISTANCE_TO_LIMIT_DECREASES=true
+LEADING_Q_DEPENDENT_ARITHMETIC_FACTOR_FOUND=false
+COMMON_THETA_AUDIT=PASS_AT_CURRENT_PROOF_LEVEL
+PROVED_EFFECTIVE_CONVERGENCE_RATE=false
+FINITE_DISCREPANCY_QUANTITATIVELY_EXPLAINED_BY_PROVED_REMAINDER=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R04_IMMUTABLE=true
+R05_REQUIRED=true
+R04_REPAIR_GATE_REMAINS_BLOCKED=true
+NEXT=13-13fb
+```
+
+`13-13fb` must expose the full `529 p^{-5/4}` Wiener derivation inside the R05 repair chain rather than merely citing the older repair artifact.
+</pre></section><section id="section-4"><h2>Finite discrepancy audit JSON</h2><p class="source"><code>stages/stage13/data/13-13fa/q_independence_finite_audit.json</code> · SHA-256 <code>e8f5d33252bc81cf71a2b68344d1ff5cb3095df63d345b00c2ace0ba015aa044</code></p><pre>{
+  &quot;checks&quot;: {
+    &quot;active_1m_overlap_rows_match&quot;: true,
+    &quot;common_theta_structural_audit_pass&quot;: true,
+    &quot;endpoint_100k_to_5m_moves_away_from_2_1_1&quot;: true,
+    &quot;endpoint_100k_to_5m_moves_toward_claimed_limit&quot;: true,
+    &quot;finite_data_contradicts_asymptotic_theorem&quot;: false,
+    &quot;finite_discrepancy_quantitatively_explained_by_proved_remainder&quot;: false,
+    &quot;leading_q_dependent_arithmetic_factor_found&quot;: false,
+    &quot;proved_effective_convergence_rate&quot;: false,
+    &quot;r04_immutable&quot;: true,
+    &quot;r05_required&quot;: true,
+    &quot;stage12_directional_constant_seeded_before_common_theta&quot;: false,
+    &quot;theorem_contract_reopen_required&quot;: false
+  },
+  &quot;endpoint_summary&quot;: {
+    &quot;B_end&quot;: 5000000,
+    &quot;B_start&quot;: 100000,
+    &quot;alpha_end&quot;: 0.00379968298841,
+    &quot;alpha_fraction_of_limit_end&quot;: 0.109384526351205,
+    &quot;alpha_fraction_of_limit_start&quot;: 0.022443624520091,
+    &quot;alpha_limit&quot;: 0.034736933231399,
+    &quot;alpha_start&quot;: 0.000779622686425,
+    &quot;beta_end&quot;: 0.00995306723417,
+    &quot;beta_fraction_of_limit_end&quot;: 0.782003871562579,
+    &quot;beta_fraction_of_limit_start&quot;: 0.578876317825948,
+    &quot;beta_limit&quot;: 0.012727644447951,
+    &quot;beta_start&quot;: 0.007367731952628,
+    &quot;l1_to_2_1_1_end&quot;: 0.023705817456749,
+    &quot;l1_to_2_1_1_end_over_start&quot;: 1.527920409381492,
+    &quot;l1_to_2_1_1_start&quot;: 0.01551508659168,
+    &quot;l1_to_claimed_limit_end&quot;: 0.061874500485977,
+    &quot;l1_to_claimed_limit_end_over_start&quot;: 0.911063030213018,
+    &quot;l1_to_claimed_limit_start&quot;: 0.067914621089948
+  },
+  &quot;finite_rows&quot;: [
+    {
+      &quot;B&quot;: 1000,
+      &quot;alpha&quot;: 0.006666666666667,
+      &quot;beta&quot;: 0.016666666666667,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 304,
+        &quot;ac&quot;: 158,
+        &quot;bc&quot;: 138,
+        &quot;total&quot;: 600
+      },
+      &quot;l1_to_2_1_1&quot;: 0.04,
+      &quot;l1_to_claimed_limit&quot;: 0.056140533129464,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.506666666666667,
+        &quot;ac&quot;: 0.263333333333333,
+        &quot;bc&quot;: 0.23
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.202898550724638,
+        &quot;ac&quot;: 1.144927536231884,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 3000,
+      &quot;alpha&quot;: -0.000418760469012,
+      &quot;beta&quot;: 0.004396984924623,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 1193,
+        &quot;ac&quot;: 608,
+        &quot;bc&quot;: 587,
+        &quot;total&quot;: 2388
+      },
+      &quot;l1_to_2_1_1&quot;: 0.009212730318258,
+      &quot;l1_to_claimed_limit&quot;: 0.070311387400821,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.499581239530988,
+        &quot;ac&quot;: 0.254606365159129,
+        &quot;bc&quot;: 0.245812395309883
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.03236797274276,
+        &quot;ac&quot;: 1.035775127768313,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 10000,
+      &quot;alpha&quot;: -0.005079962370649,
+      &quot;beta&quot;: 0.003904045155221,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 5261,
+        &quot;ac&quot;: 2726,
+        &quot;bc&quot;: 2643,
+        &quot;total&quot;: 10630
+      },
+      &quot;l1_to_2_1_1&quot;: 0.012888052681091,
+      &quot;l1_to_claimed_limit&quot;: 0.079633791204096,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.494920037629351,
+        &quot;ac&quot;: 0.256444026340546,
+        &quot;bc&quot;: 0.248635936030103
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 1.990541051835036,
+        &quot;ac&quot;: 1.031403707907681,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 30000,
+      &quot;alpha&quot;: -0.002455318194282,
+      &quot;beta&quot;: 0.008088840142583,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 19960,
+        &quot;ac&quot;: 10403,
+        &quot;bc&quot;: 9754,
+        &quot;total&quot;: 40117
+      },
+      &quot;l1_to_2_1_1&quot;: 0.018632998479448,
+      &quot;l1_to_claimed_limit&quot;: 0.074384502851361,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.497544681805718,
+        &quot;ac&quot;: 0.259316499239724,
+        &quot;bc&quot;: 0.243138818954558
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.046339963092065,
+        &quot;ac&quot;: 1.066536805413164,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 100000,
+      &quot;alpha&quot;: 0.000779622686425,
+      &quot;beta&quot;: 0.007367731952628,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 84146,
+        &quot;ac&quot;: 43180,
+        &quot;bc&quot;: 40704,
+        &quot;total&quot;: 168030
+      },
+      &quot;l1_to_2_1_1&quot;: 0.01551508659168,
+      &quot;l1_to_claimed_limit&quot;: 0.067914621089948,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.500779622686425,
+        &quot;ac&quot;: 0.256977920609415,
+        &quot;bc&quot;: 0.24224245670416
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.067266116352201,
+        &quot;ac&quot;: 1.060829402515723,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 200000,
+      &quot;alpha&quot;: 0.001159604181419,
+      &quot;beta&quot;: 0.008448920817857,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 190376,
+        &quot;ac&quot;: 97957,
+        &quot;bc&quot;: 91538,
+        &quot;total&quot;: 379871
+      },
+      &quot;l1_to_2_1_1&quot;: 0.018057445817133,
+      &quot;l1_to_claimed_limit&quot;: 0.067154658099959,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.501159604181419,
+        &quot;ac&quot;: 0.257869118727147,
+        &quot;bc&quot;: 0.240971277091434
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.079748301251939,
+        &quot;ac&quot;: 1.070123882977561,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 300000,
+      &quot;alpha&quot;: 0.001604099419773,
+      &quot;beta&quot;: 0.008548646218698,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 306291,
+        &quot;ac&quot;: 157386,
+        &quot;bc&quot;: 146946,
+        &quot;total&quot;: 610623
+      },
+      &quot;l1_to_2_1_1&quot;: 0.018701391857169,
+      &quot;l1_to_claimed_limit&quot;: 0.066265667623252,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.501604099419773,
+        &quot;ac&quot;: 0.257746596508811,
+        &quot;bc&quot;: 0.240649304071416
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.084377934751541,
+        &quot;ac&quot;: 1.071046506880078,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 400000,
+      &quot;alpha&quot;: 0.000920944181755,
+      &quot;beta&quot;: 0.008650778669737,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 427250,
+        &quot;ac&quot;: 220218,
+        &quot;bc&quot;: 205461,
+        &quot;total&quot;: 852929
+      },
+      &quot;l1_to_2_1_1&quot;: 0.018222501521229,
+      &quot;l1_to_claimed_limit&quot;: 0.067631978099288,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.500920944181755,
+        &quot;ac&quot;: 0.258190306578859,
+        &quot;bc&quot;: 0.240888749239386
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.079470069745597,
+        &quot;ac&quot;: 1.07182384978171,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 500000,
+      &quot;alpha&quot;: 0.001507441294843,
+      &quot;beta&quot;: 0.008615759909662,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 554258,
+        &quot;ac&quot;: 284985,
+        &quot;bc&quot;: 265941,
+        &quot;total&quot;: 1105184
+      },
+      &quot;l1_to_2_1_1&quot;: 0.018738961114167,
+      &quot;l1_to_claimed_limit&quot;: 0.066458983873111,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.501507441294843,
+        &quot;ac&quot;: 0.25786203926224,
+        &quot;bc&quot;: 0.240630519442916
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.084138963153481,
+        &quot;ac&quot;: 1.071609868354259,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 600000,
+      &quot;alpha&quot;: 0.001438623730071,
+      &quot;beta&quot;: 0.008709079859928,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 684038,
+        &quot;ac&quot;: 351937,
+        &quot;bc&quot;: 328176,
+        &quot;total&quot;: 1364151
+      },
+      &quot;l1_to_2_1_1&quot;: 0.018856783449926,
+      &quot;l1_to_claimed_limit&quot;: 0.066596619002656,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.501438623730071,
+        &quot;ac&quot;: 0.257989767994892,
+        &quot;bc&quot;: 0.240571608275037
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.084363268490078,
+        &quot;ac&quot;: 1.072403222661011,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 700000,
+      &quot;alpha&quot;: 0.00186773848841,
+      &quot;beta&quot;: 0.009064953648328,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 818605,
+        &quot;ac&quot;: 421042,
+        &quot;bc&quot;: 391470,
+        &quot;total&quot;: 1631117
+      },
+      &quot;l1_to_2_1_1&quot;: 0.019997645785066,
+      &quot;l1_to_claimed_limit&quot;: 0.065738389485978,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.50186773848841,
+        &quot;ac&quot;: 0.258131084404123,
+        &quot;bc&quot;: 0.240001177107467
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.091105320969679,
+        &quot;ac&quot;: 1.075540909903696,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 800000,
+      &quot;alpha&quot;: 0.002489925604057,
+      &quot;beta&quot;: 0.009218262568915,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 957282,
+        &quot;ac&quot;: 491459,
+        &quot;bc&quot;: 456336,
+        &quot;total&quot;: 1905077
+      },
+      &quot;l1_to_2_1_1&quot;: 0.020926450741886,
+      &quot;l1_to_claimed_limit&quot;: 0.064494015254684,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.502489925604057,
+        &quot;ac&quot;: 0.257973299766886,
+        &quot;bc&quot;: 0.239536774629057
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.097756915956663,
+        &quot;ac&quot;: 1.076967409978612,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 900000,
+      &quot;alpha&quot;: 0.002492193570141,
+      &quot;beta&quot;: 0.009347558383299,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 1096848,
+        &quot;ac&quot;: 563388,
+        &quot;bc&quot;: 522580,
+        &quot;total&quot;: 2182816
+      },
+      &quot;l1_to_2_1_1&quot;: 0.021187310336739,
+      &quot;l1_to_claimed_limit&quot;: 0.064489479322516,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.502492193570141,
+        &quot;ac&quot;: 0.258101461598229,
+        &quot;bc&quot;: 0.23940634483163
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.098909257912664,
+        &quot;ac&quot;: 1.078089479122814,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 1000000,
+      &quot;alpha&quot;: 0.002151050557909,
+      &quot;beta&quot;: 0.009505260401548,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 1236906,
+        &quot;ac&quot;: 636568,
+        &quot;bc&quot;: 589741,
+        &quot;total&quot;: 2463215
+      },
+      &quot;l1_to_2_1_1&quot;: 0.021161571361006,
+      &quot;l1_to_claimed_limit&quot;: 0.06517176534698,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.502151050557909,
+        &quot;ac&quot;: 0.258429735122594,
+        &quot;bc&quot;: 0.239419214319497
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.097371558022929,
+        &quot;ac&quot;: 1.079402653029041,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 1500000,
+      &quot;alpha&quot;: 0.002733067753414,
+      &quot;beta&quot;: 0.009428333116201,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 1975749,
+        &quot;ac&quot;: 1014187,
+        &quot;bc&quot;: 940080,
+        &quot;total&quot;: 3930016
+      },
+      &quot;l1_to_2_1_1&quot;: 0.021589733985816,
+      &quot;l1_to_claimed_limit&quot;: 0.06400773095597,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.502733067753414,
+        &quot;ac&quot;: 0.258061799239494,
+        &quot;bc&quot;: 0.239205133007092
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.101681771764105,
+        &quot;ac&quot;: 1.078830525061697,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 2000000,
+      &quot;alpha&quot;: 0.002887591532463,
+      &quot;beta&quot;: 0.009542203246789,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 2749380,
+        &quot;ac&quot;: 1411072,
+        &quot;bc&quot;: 1306734,
+        &quot;total&quot;: 5467186
+      },
+      &quot;l1_to_2_1_1&quot;: 0.021971998026041,
+      &quot;l1_to_claimed_limit&quot;: 0.063698683397872,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.502887591532463,
+        &quot;ac&quot;: 0.258098407480558,
+        &quot;bc&quot;: 0.239014000986979
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.104008926070646,
+        &quot;ac&quot;: 1.079846395670427,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 2500000,
+      &quot;alpha&quot;: 0.002935083239933,
+      &quot;beta&quot;: 0.009554484931614,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 3548976,
+        &quot;ac&quot;: 1821198,
+        &quot;bc&quot;: 1686355,
+        &quot;total&quot;: 7056529
+      },
+      &quot;l1_to_2_1_1&quot;: 0.022044053103162,
+      &quot;l1_to_claimed_limit&quot;: 0.063603699982932,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.502935083239933,
+        &quot;ac&quot;: 0.258086943311648,
+        &quot;bc&quot;: 0.238977973448419
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.104524847970919,
+        &quot;ac&quot;: 1.079961218130228,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 3000000,
+      &quot;alpha&quot;: 0.003327861369032,
+      &quot;beta&quot;: 0.009650619699094,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 4376246,
+        &quot;ac&quot;: 2243097,
+        &quot;bc&quot;: 2075280,
+        &quot;total&quot;: 8694623
+      },
+      &quot;l1_to_2_1_1&quot;: 0.022629100767221,
+      &quot;l1_to_claimed_limit&quot;: 0.062818143724733,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.503327861369032,
+        &quot;ac&quot;: 0.257986689014578,
+        &quot;bc&quot;: 0.238685449616389
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.108749662696118,
+        &quot;ac&quot;: 1.080864750780618,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 3500000,
+      &quot;alpha&quot;: 0.003366797322534,
+      &quot;beta&quot;: 0.009823398057513,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 5219138,
+        &quot;ac&quot;: 2676514,
+        &quot;bc&quot;: 2472807,
+        &quot;total&quot;: 10368459
+      },
+      &quot;l1_to_2_1_1&quot;: 0.023013593437559,
+      &quot;l1_to_claimed_limit&quot;: 0.06274027181773,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.503366797322534,
+        &quot;ac&quot;: 0.258139999396246,
+        &quot;bc&quot;: 0.23849320328122
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.110612757081325,
+        &quot;ac&quot;: 1.082378851240716,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 4000000,
+      &quot;alpha&quot;: 0.003532328705347,
+      &quot;beta&quot;: 0.009840587908013,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 6080813,
+        &quot;ac&quot;: 3116587,
+        &quot;bc&quot;: 2878911,
+        &quot;total&quot;: 12076311
+      },
+      &quot;l1_to_2_1_1&quot;: 0.023213504521372,
+      &quot;l1_to_claimed_limit&quot;: 0.062409209052103,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.503532328705347,
+        &quot;ac&quot;: 0.258074423555339,
+        &quot;bc&quot;: 0.238393247739314
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.112192075406291,
+        &quot;ac&quot;: 1.082557605983651,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 4500000,
+      &quot;alpha&quot;: 0.003682034386889,
+      &quot;beta&quot;: 0.00984598979491,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 6957710,
+        &quot;ac&quot;: 3564002,
+        &quot;bc&quot;: 3291983,
+        &quot;total&quot;: 13813695
+      },
+      &quot;l1_to_2_1_1&quot;: 0.023374013976709,
+      &quot;l1_to_claimed_limit&quot;: 0.062109797689019,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.503682034386889,
+        &quot;ac&quot;: 0.258004972601465,
+        &quot;bc&quot;: 0.238312993011645
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.113531570485024,
+        &quot;ac&quot;: 1.082630742625342,
+        &quot;bc&quot;: 1.0
+      }
+    },
+    {
+      &quot;B&quot;: 5000000,
+      &quot;alpha&quot;: 0.00379968298841,
+      &quot;beta&quot;: 0.00995306723417,
+      &quot;counts&quot;: {
+        &quot;ab&quot;: 7846274,
+        &quot;ac&quot;: 4018971,
+        &quot;bc&quot;: 3708949,
+        &quot;total&quot;: 15574194
+      },
+      &quot;l1_to_2_1_1&quot;: 0.023705817456749,
+      &quot;l1_to_claimed_limit&quot;: 0.061874500485977,
+      &quot;proportions&quot;: {
+        &quot;ab&quot;: 0.50379968298841,
+        &quot;ac&quot;: 0.258053225739964,
+        &quot;bc&quot;: 0.238147091271625
+      },
+      &quot;ratio_bc&quot;: {
+        &quot;ab&quot;: 2.115497948340622,
+        &quot;ac&quot;: 1.083587560788784,
+        &quot;bc&quot;: 1.0
+      }
+    }
+  ],
+  &quot;locks&quot;: {
+    &quot;COMMON_THETA_AUDIT&quot;: &quot;PASS_AT_CURRENT_PROOF_LEVEL&quot;,
+    &quot;FINITE_DATA_CONTRADICTS_THEOREM&quot;: false,
+    &quot;FINITE_DISCREPANCY_QUANTITATIVELY_EXPLAINED_BY_PROVED_REMAINDER&quot;: false,
+    &quot;LEADING_Q_DEPENDENT_ARITHMETIC_FACTOR_FOUND&quot;: false,
+    &quot;NEXT&quot;: &quot;13-13fb&quot;,
+    &quot;PROVED_EFFECTIVE_CONVERGENCE_RATE&quot;: false,
+    &quot;R04_IMMUTABLE&quot;: true,
+    &quot;R05_REQUIRED&quot;: true,
+    &quot;STAGE13_13FA&quot;: &quot;COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT&quot;,
+    &quot;THEOREM_CONTRACT_REOPEN_REQUIRED&quot;: false
+  },
+  &quot;missing_q_independence_tokens&quot;: [],
+  &quot;purpose&quot;: &quot;R05 Gate A: finite directional discrepancy and leading q-independence audit&quot;,
+  &quot;q_independence_trace&quot;: [
+    {
+      &quot;category_dependence&quot;: &quot;none&quot;,
+      &quot;evidence&quot;: &quot;Z_0(a,b) depends only on valuations; no face label enters&quot;,
+      &quot;step&quot;: &quot;primitive split-prime zero-mode local coefficient&quot;
+    },
+    {
+      &quot;category_dependence&quot;: &quot;none at top degree&quot;,
+      &quot;evidence&quot;: &quot;common local D/A/B quotient; pure-axis cancellation and common correction scalar&quot;,
+      &quot;step&quot;: &quot;mixed Euler/Wiener correction&quot;
+    },
+    {
+      &quot;category_dependence&quot;: &quot;none at top degree&quot;,
+      &quot;evidence&quot;: &quot;OE/EE and local primitive factors enter the common arithmetic multiplier&quot;,
+      &quot;step&quot;: &quot;odd inert and finite 2-adic/parity factors&quot;
+    },
+    {
+      &quot;category_dependence&quot;: &quot;J_q only&quot;,
+      &quot;evidence&quot;: &quot;category label enters through the archimedean zero Fourier kernel&quot;,
+      &quot;step&quot;: &quot;curved-region zero mode&quot;
+    },
+    {
+      &quot;category_dependence&quot;: &quot;lower order&quot;,
+      &quot;evidence&quot;: &quot;no scale zeta pole; retained modes are o(B(log B)^3)&quot;,
+      &quot;step&quot;: &quot;nonzero harmonics&quot;
+    },
+    {
+      &quot;category_dependence&quot;: &quot;none&quot;,
+      &quot;evidence&quot;: &quot;total theorem used only after one common Theta is established&quot;,
+      &quot;step&quot;: &quot;Stage12 calibration&quot;
+    }
+  ],
+  &quot;reference_vectors&quot;: {
+    &quot;claimed_alpha&quot;: 0.034736933231399,
+    &quot;claimed_beta&quot;: 0.012727644447951,
+    &quot;claimed_limit&quot;: {
+      &quot;ab&quot;: 0.5347369332313988,
+      &quot;ac&quot;: 0.24535917783225203,
+      &quot;bc&quot;: 0.21990388893634913
+    },
+    &quot;two_one_one&quot;: {
+      &quot;ab&quot;: 0.5,
+      &quot;ac&quot;: 0.25,
+      &quot;bc&quot;: 0.25
+    }
+  },
+  &quot;review_resolution&quot;: {
+    &quot;claude_effective_rate_request&quot;: &quot;NOT_SUPPLIED_BY_CURRENT_THEOREM&quot;,
+    &quot;claude_finite_contradiction_component&quot;: &quot;CLOSED_BY_AUDIT&quot;,
+    &quot;claude_missing_leading_q_factor_component&quot;: &quot;NO_DEFECT_FOUND_AT_CURRENT_PROOF_LEVEL&quot;,
+    &quot;deepseek_explicit_estimate_items&quot;: &quot;DEFERRED_TO_13_13FB_AND_LATER_GATES&quot;,
+    &quot;overall_r04_repair_gate&quot;: &quot;REMAINS_BLOCKED&quot;
+  },
+  &quot;sources&quot;: {
+    &quot;active_100k_to_1m&quot;: &quot;stages/stage13/data/13-7/deviation_scaling_report.json&quot;,
+    &quot;active_1m_to_5m&quot;: &quot;stages/stage13/data/13-7/parity_g_scaling_report.json&quot;,
+    &quot;canonical_proof&quot;: &quot;stages/stage13/13-13c/stage13-final-proof.md&quot;,
+    &quot;common_factor_repair&quot;: &quot;stages/stage13/13-12aa/result.md&quot;,
+    &quot;legacy_exact_one_fixture&quot;: {
+      &quot;cutoffs&quot;: [
+        1000,
+        3000,
+        10000,
+        30000
+      ],
+      &quot;provenance&quot;: &quot;PR #89 historical data/13-3/raw_incidence.json; file is no longer on current main&quot;
+    }
+  },
+  &quot;stage&quot;: &quot;13-13fa&quot;,
+  &quot;status&quot;: &quot;PASS&quot;
+}
+</pre></section><section id="section-5"><h2>R05 synthesis-readiness result</h2><p class="source"><code>stages/stage13/13-13fh/result.md</code> · SHA-256 <code>1b4e7df75fa71c5d8b97e50c3be2f3ca24e789043421666b9f87c377d7a30580</code></p><pre># Stage13-13fh — notation cleanup, audit scope, repaired-proof synthesis, and R05 readiness
+
+&gt; STATUS: `STAGE13_13FH_COMPLETE_R05_SYNTHESIS_READINESS`
+&gt;
+&gt; INPUT: R05 repair Gates A--G.
+&gt;
+&gt; OUTPUT: one repaired canonical proof candidate and an explicit authorization boundary for building immutable R05.
+
+## Result
+
+Gate H creates the new proof-facing entrypoint
+
+```text
+stages/stage13/13-13fh/stage13-r05-canonical-proof.md
+```
+
+and makes it the only canonical mathematical proof source for the future R05 bundle. The older `13-13c/stage13-final-proof.md` remains immutable provenance for R04 and is not the R05 proof entrypoint.
+
+The theorem statement and counting convention are unchanged.
+
+## Notation cleanup
+
+The R05 candidate uses:
+
+```text
+theta     = geometric spherical polar angle only
+alpha     = geometric inner spherical angle
+vartheta  = Gaussian local angular phase
+phi       = outer Pythagorean polar parameter
+psi       = complementary geometric angle
+```
+
+The actual split-prime mixed factor is defined at first use as
+
+```text
+C_{ell,p}(s_h,s_r,s_s)
+:= C_vartheta(p^{-s_h},p^{-s_r},p^{-s_s}).
+```
+
+Thus the R04 `theta` collision and the first-use ambiguity of `C_{ell,p}` are removed.
+
+## A--G synthesis
+
+The canonical candidate now contains, in theorem order rather than repair-history order:
+
+1. the complete Stage12 `D_B -&gt; G -&gt; C_raw -&gt; C_prim` interface, explicit `kappa`, `eta=pi*kappa`, and exact factor-two fiber;
+2. chamber/Gelfand--Leray geometry and `J_q=2I_q/pi`;
+3. primitive split-prime coefficient system with the `theta/vartheta` notation separated;
+4. the full `529 p^-5/4` Wiener derivation and explicit `p=5` bound `&lt;432`;
+5. exact Hecke/Dirichlet/Vaaler proof-facing contracts and Riesz/Perron smoothing;
+6. the explicit `O((log B)^27)` box count, `N=64`, all-box `O(B(log B)^-35)` remainder, boundary/mesh ledger;
+7. all-`ell` conductor bookkeeping and removal of logical dependence on fixed `A=48`;
+8. non-circular common-`Theta` proof followed only afterwards by Stage12 calibration;
+9. the finite `100k -&gt; 5m` discrepancy scope statement, including the explicit nonclaim of an effective convergence rate;
+10. exact inert local states and symbolic unit character sum;
+11. fixed-`S` finite character orthogonality, principal pole sector including auxiliary-character aliasing, nonprincipal pole loss, and fixed limit order;
+12. exactly-one transfer and consolidated theorem lock.
+
+No repair-chain reading is required for the future R05 reviewer.
+
+## Deterministic audit scope
+
+Any `PASS` emitted by Stage13 deterministic scripts means only
+
+```text
+DETERMINISTIC_AUDIT_SCOPE=REPRODUCIBILITY_AND_CONSISTENCY_ONLY
+```
+
+It does not certify the mathematical proof. Finite quadrature/enumeration/checksums remain validators, not theorem evidence.
+
+## R04 objection crosswalk after repair
+
+The repair candidate now explicitly addresses:
+
+```text
+Claude finite-vector/common-Theta concern        -&gt; Gate A + R05 scope section
+DeepSeek 529 black box                           -&gt; Gate B
+DeepSeek curved-region/box uniformity             -&gt; Gate C
+DeepSeek nonzero-harmonic conductor bookkeeping   -&gt; Gates D/F
+DeepSeek Stage12 object/factor-two interface       -&gt; Gate E
+DeepSeek Hecke/Vaaler exact assumptions            -&gt; Gate F
+DeepSeek fixed-prime transfer/nonprincipal terms   -&gt; Gate G
+DeepSeek notation/audit-scope presentation         -&gt; Gate H
+```
+
+This is an **internal repair closure**, not a replacement for fresh external review. The R04 verdicts remain attached to R04 and do not automatically count toward R05.
+
+## Readiness decision
+
+No Gate A--H audit found a theorem-level contradiction or changed the theorem constants. Therefore an immutable R05 bundle may now be built from the new canonical proof candidate.
+
+R05 has **not** yet been created by this gate.
+
+The next numeric task is reserved as
+
+```text
+13-13fi = build immutable R05 self-contained review bundle and manifest
+```
+
+After R05 is frozen, fresh independent reviews are required. Stage13 final freeze remains blocked until the final bundle receives at least two independent `CLOSED` verdicts and has zero unresolved theorem-level objections.
+
+## Completion lock
+
+```text
+STAGE13_13FH=COMPLETE_R05_SYNTHESIS_READINESS
+R05_CANONICAL_PROOF=stages/stage13/13-13fh/stage13-r05-canonical-proof.md
+R05_CANONICAL_PROOF_SINGLE_ENTRYPOINT=true
+R04_CANONICAL_PROOF_SUPERSEDED_FOR_R05=true
+R03_IMMUTABLE=true
+R04_IMMUTABLE=true
+NOTATION_THETA_GEOMETRIC_ONLY=true
+NOTATION_VARTTHETA_GAUSSIAN_PHASE=true
+C_ELL_P_SUBSTITUTION_DEFINED_AT_FIRST_USE=true
+DETERMINISTIC_AUDIT_SCOPE=REPRODUCIBILITY_AND_CONSISTENCY_ONLY
+REPAIR_GATES_A_THROUGH_H_COMPLETE=true
+R04_OBJECTIONS_REPAIRED_IN_R05_CANDIDATE=true
+R04_VERDICTS_CARRY_FORWARD_TO_R05=false
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+R05_SYNTHESIS_READY=true
+R05_BUNDLE_CREATED=false
+R05_FRESH_EXTERNAL_REVIEW_REQUIRED=true
+PROMOTE_TO_13_13G=false
+NEXT=13-13fi
+```</pre></section><section id="section-6"><h2>R05 synthesis-readiness audit JSON</h2><p class="source"><code>stages/stage13/data/13-13fh/r05_synthesis_readiness_audit.json</code> · SHA-256 <code>2729440a04909a7adbd8471310c5d42aa0e29681e6984019af873eb008871df3</code></p><pre>{
+  &quot;checks&quot;: {
+    &quot;audit_scope_limited&quot;: true,
+    &quot;cellp_defined_at_first_use&quot;: true,
+    &quot;curved_box_ledger_explicit&quot;: true,
+    &quot;external_contracts_visible&quot;: true,
+    &quot;finite_discrepancy_scope_visible&quot;: true,
+    &quot;gate_h_result_ready&quot;: true,
+    &quot;gates_a_through_g_complete&quot;: true,
+    &quot;harmonic_conductor_visible&quot;: true,
+    &quot;legacy_r04_shortcuts_absent&quot;: true,
+    &quot;limit_order_visible&quot;: true,
+    &quot;notation_separated&quot;: true,
+    &quot;principal_pole_sector_visible&quot;: true,
+    &quot;r05_entrypoint_visible&quot;: true,
+    &quot;repair_plan_closed&quot;: true,
+    &quot;roadmap_advanced&quot;: true,
+    &quot;stage12_interface_inlined&quot;: true,
+    &quot;theorem_lock_unchanged&quot;: true,
+    &quot;wiener_constant_derived&quot;: true
+  },
+  &quot;decision&quot;: {
+    &quot;failed_checks&quot;: [],
+    &quot;fresh_external_review_required&quot;: true,
+    &quot;next&quot;: &quot;13-13fi&quot;,
+    &quot;r05_bundle_created&quot;: false,
+    &quot;r05_synthesis_ready&quot;: true,
+    &quot;status&quot;: &quot;COMPLETE_R05_SYNTHESIS_READINESS&quot;,
+    &quot;theorem_changed&quot;: false,
+    &quot;theorem_contract_reopen_required&quot;: false
+  },
+  &quot;locks&quot;: {
+    &quot;deterministic_audit_scope&quot;: &quot;REPRODUCIBILITY_AND_CONSISTENCY_ONLY&quot;,
+    &quot;promote_to_13_13g&quot;: false,
+    &quot;r03_immutable&quot;: true,
+    &quot;r04_immutable&quot;: true,
+    &quot;r04_verdicts_carry_forward_to_r05&quot;: false
+  },
+  &quot;metadata&quot;: {
+    &quot;scope&quot;: &quot;R05 repaired canonical proof synthesis and bundle-build readiness&quot;,
+    &quot;stage&quot;: &quot;13-13fh&quot;
+  }
+}
+</pre></section>
+</body>
+</html>
