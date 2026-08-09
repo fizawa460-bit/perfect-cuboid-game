@@ -1,0 +1,68 @@
+{
+  "stage": "Stage14-tH5",
+  "status": "COMPLETE_EXACT_GAUSSIAN_PAIR_COEFFICIENT_COLLISION_ENERGY",
+  "requires_future_t_result": false,
+  "dependencies": [
+    "Stage14-tH2",
+    "Stage14-tH3",
+    "Stage14-tH4"
+  ],
+  "exact_fiber_formula": {
+    "fixed_state": "epsilon,g",
+    "c": "epsilon/g",
+    "m": "h*r",
+    "n": "g*h*delta",
+    "shared_h_condition": "h divides gcd(m,n/g)",
+    "coprimality": "gcd(h,epsilon/g)=1",
+    "physical_budget": "m*n <= g*h*Y",
+    "multiplicity_upper_bound": "tau(gcd(m,n/g)) <= tau_max(Y)"
+  },
+  "energy_theorem": {
+    "exact_gaussian_pair_collision_multiplicity_divisor_bounded": true,
+    "full_exact_gaussian_pair_coefficient_collision_energy_proved": true,
+    "exact_pair_collapse_fixed_power_loss": false,
+    "exact_pair_collision_energy": "source_mass*Y^o(1)",
+    "unit_orbit_expansion_cost_at_most": 16,
+    "pair_retention_essential": true,
+    "one_coordinate_projection_collision_energy_proved": false,
+    "same_modulus_residue_collision_energy_proved": false,
+    "same_modulus_joint_second_moment_theorem_proved": false
+  },
+  "audit": {
+    "epsilon_states": [1, 2, 3, 4, 6, 8, 12],
+    "Y": 128,
+    "source_transformed_tuples": 33257,
+    "retained_state_norm_pair_fibers": 28955,
+    "maximum_exact_fiber_multiplicity": 5,
+    "tau_max_Y": 16,
+    "exact_fiber_formula_failures": 0,
+    "fiber_multiplicity_histogram": {
+      "1": 25351,
+      "2": 3043,
+      "3": 431,
+      "4": 123,
+      "5": 7
+    },
+    "exact_norm_pair_collision_energy": 43545,
+    "gaussian_source_lifts": 357568,
+    "distinct_exact_gaussian_pair_labels": 314064,
+    "exact_gaussian_pair_collision_energy": 460064,
+    "gaussian_collision_source_ratio": 1.286647574727045,
+    "weighted_source_l2_energy": 366056,
+    "weighted_collapsed_pair_l2_energy": 395576,
+    "weighted_energy_ratio": 1.0806433988242237,
+    "weighted_fiber_cauchy_violations": 0
+  },
+  "proof_boundary": {
+    "exact_shared_h_fiber_formula_proved": true,
+    "exact_paired_norm_collision_multiplicity_le_tau_max": true,
+    "full_exact_gaussian_pair_coefficient_collision_energy_proved": true,
+    "same_modulus_residue_collision_energy_proved": false,
+    "same_modulus_joint_second_moment_theorem_proved": false,
+    "norm_index_hyperbolic_correlation_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "next": "Stage14-tH6"
+}
