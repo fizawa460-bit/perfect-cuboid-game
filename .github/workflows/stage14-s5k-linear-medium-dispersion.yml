@@ -1,0 +1,26 @@
+name: Stage14-s5k linear medium dispersion audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5k/**'
+      - 'stages/stage14/scripts/14-s5k/**'
+      - '.github/workflows/stage14-s5k-linear-medium-dispersion.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5k deterministic audit
+        run: python3 stages/stage14/scripts/14-s5k/linear_medium_dispersion_audit.py | tee /tmp/s5k.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5K=COMPLETE_SIX_LINEAR_MEDIUM_DISPERSION_THEOREM$' /tmp/s5k.txt
+          grep -q '^LINEAR_SIX_POINTWISE_DISCREPANCY_PROVED=true$' /tmp/s5k.txt
+          grep -q '^MEDIUM_LINEAR_L2_DISPERSION_PROVED=true$' /tmp/s5k.txt
+          grep -q '^STATE_SPLIT_E_MIXED_SIGN_OBSTRUCTION_PERSISTS=true$' /tmp/s5k.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5k.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5k.txt
+          grep -q '^NEXT=Stage14-s5l$' /tmp/s5k.txt
