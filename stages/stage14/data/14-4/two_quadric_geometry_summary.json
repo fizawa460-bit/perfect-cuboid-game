@@ -1,0 +1,57 @@
+{
+  "stage": "14-4bh",
+  "classification": "TWO_QUADRIC_GENUS_ONE_GEOMETRY_AND_LARGE_KERNEL_INCIDENCE_SPLIT",
+  "fixed_packet": {
+    "Q1": "d0*u0^2-d1*u1^2-S^2*D^2=0",
+    "Q2": "d2*u2^2-d0*u0^2-X^2*D^2=0",
+    "pencil_determinant": "d0*d1*d2*lambda*mu*(lambda-mu)*(lambda*S^2+mu*X^2)",
+    "singular_parameters": ["[0:1]", "[1:0]", "[1:1]", "[-X^2:S^2]"],
+    "geometry": "smooth genus-one complete intersection of two quadrics in P3",
+    "positive_dimensional_coordinate_boundary": false
+  },
+  "elimination": {
+    "conic": "d2*u2^2-d1*u1^2=H^2*D^2",
+    "square_lift": "d0*u0^2=d1*u1^2+S^2*D^2",
+    "double_cover_branch_count_geometric": 4
+  },
+  "odd_kernel_edges": {
+    "d0_odd": "a*b",
+    "d1_odd": "a*c",
+    "d2_odd": "b*c",
+    "a_support": "rad_odd(S)",
+    "b_support": "rad_odd(X)",
+    "c_support": "rad_odd(H)"
+  },
+  "large_prime_incidence": {
+    "S_edge": "d0'*u0^2 == d1'*u1^2 mod ell",
+    "X_edge": "d2'*u2^2 == d0'*u0^2 mod ell",
+    "H_edge": "d2'*u2^2 == d1'*u1^2 mod ell",
+    "residue_geometry": "at most two lines",
+    "box_bound": "O(Ui*Uj/ell + min(Ui,Uj) + 1)",
+    "sector_saving_condition": "ell>=B^eta and max(Ui,Uj)>=B^eta",
+    "sector_saving": "B^(-eta)"
+  },
+  "remaining_obstruction": [
+    "smooth_or_tiny_odd_kernel",
+    "short_incident_square_variables",
+    "generic polynomial height exponent K_C not sharp enough for a black-box determinant estimate"
+  ],
+  "flags": {
+    "FIXED_PACKET_PENCIL_DETERMINANT_EXACT": true,
+    "FIXED_PACKET_PENCIL_HAS_FOUR_DISTINCT_SINGULAR_PARAMETERS": true,
+    "FIXED_PACKET_CURVE_SMOOTH_GENUS_ONE": true,
+    "POSITIVE_DIMENSIONAL_TORSION_OR_COORDINATE_BOUNDARY": false,
+    "ONE_SQUARE_VARIABLE_ELIMINATION_EXACT": true,
+    "CONIC_PLUS_SQUARE_LIFT_EXACT": true,
+    "ODD_KERNEL_EDGE_PACKET_FACTORIZATION_REPROVED": true,
+    "LARGE_KERNEL_EDGE_PRIME_TWO_LINE_CONGRUENCE": true,
+    "DYADIC_LARGE_PRIME_INCIDENCE_BOUND_PROVED": true,
+    "DIRECT_POST_LOCAL_LARGE_KERNEL_SECTOR_SAVING_PROVED": true,
+    "DETERMINANT_METHOD_GEOMETRY_READY": true,
+    "DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED": false,
+    "SQRT_B_UPPER_BOUND_PROVED": false,
+    "SQRT_B_ASYMPTOTIC_PROVED": false
+  },
+  "post_local_saving_required_for_sqrt": "10/21",
+  "next": "Stage14-4bi"
+}
