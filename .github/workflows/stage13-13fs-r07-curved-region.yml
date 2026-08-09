@@ -1,0 +1,24 @@
+name: Stage13-13fs R07 curved-region self-contained closure
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage13/13-13fs/**'
+      - 'stages/stage13/scripts/13-13fs/**'
+      - 'stages/stage13/13-13fp/r07-repair-plan.md'
+      - '.github/workflows/stage13-13fs-r07-curved-region.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit curved-region closure
+        run: python stages/stage13/scripts/13-13fs/curved_region_closure_audit.py
