@@ -5,6 +5,7 @@ on:
     paths:
       - 'stages/stage14/14-t23/**'
       - 'stages/stage14/scripts/14-t/t23_torsion_rank_dichotomy_audit.py'
+      - 'stages/stage14/data/14-t23/torsion_rank_dichotomy.json'
       - 'stages/stage14/t-roadmap.md'
       - '.github/workflows/stage14-t23-torsion-rank-dichotomy.yml'
   workflow_dispatch:
@@ -19,6 +20,8 @@ jobs:
         run: python stages/stage14/scripts/14-t/t22_uniform_direction_quotient_audit.py
       - name: Run t23 torsion-rank audit
         run: python stages/stage14/scripts/14-t/t23_torsion_rank_dichotomy_audit.py
+      - name: Check frozen t23 summary
+        run: git diff --exit-code stages/stage14/data/14-t23/torsion_rank_dichotomy.json
       - name: Validate locked t23 boundary
         run: |
           python - <<'PY'
@@ -31,6 +34,7 @@ jobs:
           assert f['physical_order8_necessary_edges_B2m']==0
           assert f['physical_positive_rank_certified_edges_B2m']==356
           assert f['rank_active_partition_second_moment_B2m']==356
+          assert d['torsion_quartic_packets']['synthetic_identity_checks']==630
           assert d['torsion_quartic_packets']['polynomial_square_sieve_trigger'] is True
           q=d['decision']
           assert q['DIRECTION_QUOTIENT_HAS_RATIONAL_4_TORSION'] is True
