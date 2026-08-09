@@ -1,21 +1,29 @@
 # Stage13-13fw — result
 
-Claude's fresh R07 review has been adjudicated against the immutable review target.
+Claude's and Grok's fresh R07 reviews have been adjudicated against the same immutable review target.
 
 ```text
-STAGE13_13FW=COMPLETE_R07_CLAUDE_REVIEW_ADJUDICATION
-REVIEWER=Claude
+STAGE13_13FW=R07_FRESH_REVIEW_ADJUDICATION_IN_PROGRESS
 REVIEW_TARGET_BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260810-R07
 REVIEW_TARGET_CONTENT_SHA256=52b660f6ff234da4b73d241cec981744d6d3d9cdcd406ab5fe2c1f746b784578
+R07_EXTERNAL_REVIEWS_RECORDED=2
+
 CLAUDE_R07_VERDICT=OPEN
 CLAUDE_R07_LABEL=REPAIRABLE
 CLAUDE_R07_CLOSED_VOTE_COUNTED=false
-R07_INDEPENDENT_CLOSED_VERDICTS=0
+
+GROK_R07_VERDICT=CLOSED
+GROK_R07_CLOSED_VOTE_COUNTED=true
+GROK_R07_NEW_THEOREM_LEVEL_BLOCKERS=0
+GROK_R07_NEW_SELF_CONTAINED_BLOCKERS=0
+
+R07_INDEPENDENT_CLOSED_VERDICTS=1
 R07_REQUIRED_INDEPENDENT_CLOSED_VERDICTS=2
 R07_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
 R07_UNRESOLVED_SELF_CONTAINED_BLOCKERS=2
 R07_QR0_UNDEFINED_BLOCKER=true
 R07_FULL_JACOBI_SUM_EMBED_BLOCKER=true
+
 R08_REQUIRED=true
 R08_QR0_DEFINITION_REQUIRED=true
 R08_FULL_JACOBI_SUM_EMBED_REQUIRED=true
@@ -27,4 +35,4 @@ PROMOTE_TO_13_13G=false
 NEXT=13-13fx
 ```
 
-The two accepted defects are review-target self-containedness defects, not contradictions of the frozen Stage13 theorem. R08 must explicitly define `QR_0(F_p)` as all squares including zero and inline the complete Stage13-12ag inert-unit Jacobi-sum derivation before a new immutable bundle is reviewed.
+The integrated adjudication is intentionally asymmetric: Grok contributes one valid independent `CLOSED` vote, but that vote does not erase Claude's independently verified self-containedness defects. The theorem-level objection count remains zero. R08 must explicitly define `QR_0(F_p)` as all squares including zero and inline the complete Stage13-12ag inert-unit Jacobi-sum derivation before a new immutable bundle is reviewed.
