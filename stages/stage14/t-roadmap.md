@@ -41,74 +41,58 @@ Status: [x] Complete, with interpretation corrected by t10.
 Status: [x] Complete. The sparse reflected residue support is an exceptional regime where automatic local solubility stops, not a necessary thinning condition for every triple.
 
 ## 14-t11 — compatible paired small-point activation
-Status: [x] Complete.
-
-For each primitive oriented physical base `F`, define `mu_R(F)` as the first raw physical height and `mu_pair(F)` as the first height of a compatible shared-`q` point on the genus-5 Humbert--Edge fiber product. Then
-
-\[
-\mu_R(F)\le\mu_{pair}(F),\qquad V_{pair}(B)\le V_R(B).
-\]
-
-The new t-side conditional thinning factor is
-
-\[
-\theta_{pair}(B)=V_{pair}(B)/V_R(B).
-\]
-
-This is strictly stronger than simultaneous positive rank or unrelated small points on the two reflected elliptic quotients: both projections must arise from the same rational `q`.
-
-At object level define `P(B)` as the number of compatible physical pairs `(F,q)` below height `B`.
+Status: [x] Complete. Define `V_pair(B)` and object-level `P(B)` for compatible shared-`q` points; simultaneous rank or unrelated small points are insufficient.
 
 ## 14-t12 — point-conditioned reflected-square parameter gate
 Status: [x] Complete.
 
-Condition on an already-existing raw point
+Conditioning on a raw point and parametrizing the auxiliary right triangle by `r` gives
 
 \[
-W^2=q^4+2\frac{1-t^2}{1+t^2}q^2+1,
-\qquad h^2=1+t^2.
-\]
-
-The reflected square is equivalent to the rational right-triangle condition
-
-\[
-W^2+\left(\frac{2q}{th}\right)^2=R^2.
-\]
-
-Parametrizing this conic by `r in Q` gives
-
-\[
-W=\frac{q(1-r^2)}{thr},\qquad
-R=\frac{q(1+r^2)}{thr}.
-\]
-
-Writing `y=q^2`, substitution into the raw quartic gives the reciprocal quadratic
-
-\[
-y^2+B_{t,r}y+1=0,
+y^2+B_{t,r}y+1=0,\qquad y=q^2,
 \]
 
 with
 
 \[
-B_{t,r}=2\frac{1-t^2}{1+t^2}
--\frac{(1-r^2)^2}{t^2(1+t^2)r^2}.
+B_{t,r}=2\frac{1-t^2}{1+t^2}-\frac{(1-r^2)^2}{t^2(1+t^2)r^2}.
 \]
 
-Thus compatibility requires the discriminant
+Compatibility requires both `D_{t,r}=B_{t,r}^2-4` square and the selected root `y` itself square in the physical height window.
+
+## 14-t13 — discriminant-cover geometry
+Status: [x] Complete.
+
+The discriminant factors exactly as
 
 \[
-D_{t,r}=B_{t,r}^2-4
+D_{t,r}=\frac{(r^2-2tr-1)(r^2+2tr-1)(r^4+(4t^4-2)r^2+1)}{r^4t^4(1+t^2)^2}.
 \]
 
-to be a rational square **and** the chosen quadratic root `y` itself to be a rational square satisfying the physical height cutoff. The second condition is essential.
+After removing the square denominator, the normalized cover is
 
-This converts the t11 moving genus-5 shared-`q` gate into an explicit lower-dimensional auxiliary cover over `(t,r)` without assuming any local-density independence.
+\[
+Z^2=(r^2-2tr-1)(r^2+2tr-1)(r^4+(4t^4-2)r^2+1).
+\]
 
-## 14-t13 — auxiliary discriminant-cover geometry
+The degree-eight branch polynomial has discriminant
+
+\[
+2^{40}t^{28}(t-1)^2(t+1)^2(t^2+1)^{12}.
+\]
+
+Hence every genuine physical rational base has a squarefree degree-eight branch divisor and a genus-three hyperelliptic discriminant fiber. There are no physical rational branch-collision fibers of genus 0, 1, or 2. The extra root condition `y=q^2` remains essential.
+
+## 14-t14 — genus-three quotient/involution and second-square cover
 Status: [>] Next.
 
-Factor and normalize the `(t,r)` discriminant-square cover, determine its generic genus/fibration type, and audit whether it contains rational/elliptic low-degree components capable of accumulating under the physical height. Retain the additional `y=q^2` square-root condition throughout.
+Exploit the reciprocal/even branch structure of the genus-three discriminant cover to identify quotient maps and lower-genus factors, then impose the further condition that
+
+\[
+y=\frac{-B_{t,r}\pm Z}{2}
+\]
+
+is itself a rational square. Classify whether the resulting second cover admits any physical low-degree accumulating components.
 
 Primary target remains
 
@@ -134,6 +118,7 @@ STAGE14_T9=COMPLETE_EUCLID_SPARSE_RESIDUE_SIEVE_FORMULATION
 STAGE14_T10=COMPLETE_CHARACTER_SIEVE_DIRECTION_AUDIT
 STAGE14_T11=COMPLETE_COMPATIBLE_PAIRED_ACTIVATION_FORMULATION
 STAGE14_T12=COMPLETE_CONDITIONAL_REFLECTED_SQUARE_PARAMETER_GATE
+STAGE14_T13=COMPLETE_DISCRIMINANT_COVER_GENUS_CLASSIFICATION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t13 auxiliary discriminant-square cover geometry
+NEXT=Stage14-t14 genus-three quotient/involution and second-square cover
 ```
