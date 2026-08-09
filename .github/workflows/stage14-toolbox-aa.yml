@@ -1,0 +1,30 @@
+name: Stage14-toolbox-aa foundation audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-aa/**'
+      - 'stages/stage14/scripts/14-toolbox-aa/**'
+      - '.github/workflows/stage14-toolbox-aa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run toolbox foundation audit
+        run: python stages/stage14/scripts/14-toolbox-aa/toolbox_foundation_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-aa/toolbox_foundation_audit.py
+      - name: Validate foundation boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AA=COMPLETE_PERMANENT_REUSABLE_RESEARCH_TOOLBOX_FOUNDATION' stages/stage14/14-toolbox-aa/result.md
+          grep -q 'NEXT=Stage14-toolbox-ab cross-route variable and normalization dictionary' stages/stage14/14-toolbox-aa/result.md
