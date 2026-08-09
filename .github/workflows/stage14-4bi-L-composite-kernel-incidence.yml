@@ -1,0 +1,36 @@
+name: Stage14-4bi-L composite kernel incidence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bi-L/**'
+      - 'stages/stage14/data/14-4/composite_kernel_incidence_summary.json'
+      - 'stages/stage14/scripts/14-4/composite_kernel_incidence_audit.py'
+      - '.github/workflows/stage14-4bi-L-composite-kernel-incidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/composite_kernel_incidence_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/composite_kernel_incidence_audit.py
+      - name: Check L-route boundary flags
+        run: |
+          grep -q 'STAGE14_4BI_L=COMPOSITE_EDGE_KERNEL_INCIDENCE_AND_LARGE_KERNEL_DICHOTOMY_CLOSED' stages/stage14/14-4bi-L/result.md
+          grep -q 'COMPOSITE_EDGE_KERNEL_NORMALIZATION_EXACT=true' stages/stage14/14-4bi-L/result.md
+          grep -q 'SMOOTH_LARGE_EDGE_KERNEL_INCIDENCE_CLOSED=true' stages/stage14/14-4bi-L/result.md
+          grep -q 'LARGEST_KERNEL_SHORT_INCIDENT_IMPLIES_D_LE_2_USTAR=true' stages/stage14/14-4bi-L/result.md
+          grep -q 'LARGE_KERNEL_SHORT_INCIDENT_TRANSFERS_TO_SMALL_DENOMINATOR=true' stages/stage14/14-4bi-L/result.md
+          grep -q 'ARBITRARY_LARGE_KERNEL_REMAINDER_OPEN=false' stages/stage14/14-4bi-L/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bi-L/result.md
+          grep -q 'NEXT=Stage14-4bj after 14-4bi-S' stages/stage14/14-4bi-L/result.md
