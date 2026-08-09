@@ -1,0 +1,57 @@
+name: Stage13-13fi build immutable R05
+
+on:
+  push:
+    paths:
+      - 'stages/stage13/scripts/13-13fi/**'
+      - 'stages/stage13/13-13fi/**'
+      - 'review/STAGE13-FINAL-SELF-CONTAINED-20260809-R05.html'
+      - '.github/workflows/stage13-13fi-build-r05.yml'
+  pull_request:
+    paths:
+      - 'stages/stage13/scripts/13-13fi/**'
+      - 'stages/stage13/13-13fi/**'
+      - 'review/STAGE13-FINAL-SELF-CONTAINED-20260809-R05.html'
+      - '.github/workflows/stage13-13fi-build-r05.yml'
+      - 'stages/stage13/13-13/roadmap.md'
+      - 'stages/stage13/13-13f/r05-repair-plan.md'
+
+permissions:
+  contents: write
+
+jobs:
+  build-r05:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Build deterministic R05 bundle
+        run: python stages/stage13/scripts/13-13fi/build_r05_review_bundle.py
+
+      - name: Verify fixed source snapshot exists
+        run: git cat-file -e 79f03341b67dd49a8c128cfbeba3f756c91de6f6^{commit}
+
+      - name: Commit generated immutable files on branch push
+        if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+        run: |
+          git add review/STAGE13-FINAL-SELF-CONTAINED-20260809-R05.html \
+                  stages/stage13/13-13fi/review-manifest.md \
+                  stages/stage13/13-13fi/result.md
+          if git diff --cached --quiet; then
+            echo 'R05 generated files already exact.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Stage13-13fi: generate immutable R05 review bundle'
+          git push
+
+      - name: Verify committed bytes on pull request/main
+        if: github.event_name != 'push' || github.ref == 'refs/heads/main'
+        run: |
+          git diff --exit-code -- \
+            review/STAGE13-FINAL-SELF-CONTAINED-20260809-R05.html \
+            stages/stage13/13-13fi/review-manifest.md \
+            stages/stage13/13-13fi/result.md
