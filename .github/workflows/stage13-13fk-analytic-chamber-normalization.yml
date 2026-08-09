@@ -1,0 +1,28 @@
+name: Stage13-13fk analytic chamber normalization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fk/**'
+      - 'stages/stage13/scripts/13-13fk/**'
+      - '.github/workflows/stage13-13fk-analytic-chamber-normalization.yml'
+      - 'stages/stage13/13-13/roadmap.md'
+      - 'stages/stage13/13-13fj/r06-repair-plan.md'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exact normalization audit
+        run: python stages/stage13/scripts/13-13fk/analytic_chamber_normalization_audit.py
+      - name: Check proof-facing lock tokens
+        run: |
+          grep -F 'SUM_IQ_ANALYTIC_PROOF_COMPLETE=true' stages/stage13/13-13fk/analytic-chamber-normalization.md
+          grep -F 'PAIR_WEIGHT_OCTANT_INTEGRAL=pi^2/4' stages/stage13/13-13fk/analytic-chamber-normalization.md
+          grep -F 'SUM_IQ=pi^2/8' stages/stage13/13-13fk/analytic-chamber-normalization.md
+          grep -F 'NUMERICAL_QUADRATURE_USED_AS_PROOF=false' stages/stage13/13-13fk/analytic-chamber-normalization.md
