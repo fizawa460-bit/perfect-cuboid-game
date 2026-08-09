@@ -1,0 +1,35 @@
+name: Stage14-4ba K4 2-core assembly
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ba/**'
+      - 'stages/stage14/data/14-4/k4_2core_assembly_summary.json'
+      - 'stages/stage14/scripts/14-4/k4_2core_assembly_audit.py'
+      - '.github/workflows/stage14-4ba-k4-2core-assembly.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/k4_2core_assembly_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/k4_2core_assembly_audit.py
+      - name: Check boundary flags
+        run: |
+          grep -q 'STAGE14_4BA=K4_2CORE_ASSEMBLY_REDUCTION_AND_LOCAL_EXPONENT_GATE' stages/stage14/14-4ba/result.md
+          grep -q 'EMPTY_2CORE_EDGE_SUBSET_COUNT=38' stages/stage14/14-4ba/result.md
+          grep -q 'NONEMPTY_2CORE_EDGE_SUBSET_COUNT=26' stages/stage14/14-4ba/result.md
+          grep -q 'K4_NONEMPTY_2CORE_PRODUCT_CONDUCTOR_CLOSED=false' stages/stage14/14-4ba/result.md
+          grep -q 'STATE_SPLIT_E_BOUNDARY_ASSEMBLY_CLOSED=false' stages/stage14/14-4ba/result.md
+          grep -q 'EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED=false' stages/stage14/14-4ba/result.md
+          grep -q 'NEXT=Stage14-4bb' stages/stage14/14-4ba/result.md
