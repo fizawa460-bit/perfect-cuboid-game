@@ -29,6 +29,8 @@ def value(col: str, m: int, n: int) -> int:
 
 def odd_squarefree_rad(x: int) -> int:
     x = abs(x)
+    while x and x % 2 == 0:
+        x //= 2
     out = 1
     p = 3
     while p * p <= x:
@@ -37,7 +39,7 @@ def odd_squarefree_rad(x: int) -> int:
             while x % p == 0:
                 x //= p
         p += 2
-    if x > 1 and x % 2 == 1:
+    if x > 1:
         out *= x
     return out
 
@@ -129,9 +131,9 @@ def main() -> None:
         else:
             assert r is None
 
-    # The unit Jacobi edge is literally constant and must be reclassified.
+    # The unit Jacobi edge (1/v) is identically +1 for odd v.
     for v in range(3, 100, 2):
-        assert 1 % v == 1
+        assert pow(1, (v - 1) // 2, v) == 1
 
     report = {
         "stage": "14-4ax",
