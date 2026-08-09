@@ -20,7 +20,7 @@ def build_report() -> dict:
 
     checks = {
         "chi4_contract_visible": all(token in contract for token in [
-            "L(s,\\chi_4)",
+            "L(s,chi_4)",
             "L_CHI4_HOLOMORPHIC_AT_1=true",
         ]),
         "crosswalk_zero_free_redundancy_preserved": "VALID_BUT_LOGICALLY_REDUNDANT_FOR_FINAL_PROOF" in crosswalk,
