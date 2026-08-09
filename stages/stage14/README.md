@@ -7,16 +7,17 @@ STAGE14_4AK=COMPLETE_SPLIT_ROOT_COSET_VOID
 STAGE14_4AL=COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_AND_FINITE_FIRST_HIT_PROFILE
 STAGE14_4AM=COMPLETE_EXACT_SELMER_RANK_SMALLPOINT_FACTOR_AND_FINITE_FULL_BASE_CENSUS
 STAGE14_4AN=COMPLETE_ODD_CHARACTER_MATRIX_AND_GATE_REACH_BOUNDARY
+STAGE14_4AO=COMPLETE_FULL_LOCAL_MATRIX_AND_HEIGHT_WEIGHTED_COUNTING_INTERFACE
 MAX_VERIFIED_B=2000000
 FULL_RANK_SELMER_CENSUS_MAX_H=20000
 FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
 ALL_ODD_BAD_PRIME_ROWS_EXPLICIT=true
 ALL_ODD_ROWS_REDUCED_TO_RECIPROCITY_BITS=true
-Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED=false
-FULL_LOCAL_SELMER_MATRIX_COMPLETE=false
+Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED=true
+FULL_LOCAL_SELMER_MATRIX_COMPLETE=true
 HEIGHT_COUPLING_REQUIRED_FOR_MAIN_THINNING=true
 ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false
-NEXT=Stage14-4ao Q2 completion plus height-weighted descent-class count
+NEXT=Stage14-4ap family character-sum estimate coupled to global solubility and the s3 height window
 ```
 
 ## Current reduction
@@ -85,9 +86,11 @@ The last number is only a homogeneous odd-only diagnostic, not a Selmer base cou
 
 The character matrix remains an `A -> Sigma` local interface; it does not control `Sigma -> R` or the height-sensitive `R -> V` gate.
 
-## Next
+## 4ao and next
 
-`Stage14-4ao` finishes/imports the 64-state `Q_2` covering classification, combines it with the complete odd matrix, and then formulates a height-weighted descent-class count retaining the physical small-point window.
+Merged s5f leaves exactly 8 covering-soluble `Q_2` states among the 64 product-square states. Stage14-4ao combines this with 4an, records the exact finite full-local gate `Sigma/A=5209/6372`, and formulates a base-counted descent object retaining global solubility and the s3 logarithmic height window.
+
+`Stage14-4ap` must now prove or sharply delimit the corresponding moving family character-sum estimate without dropping the global-solubility or first-small-point gates.
 
 Primary 4an artifacts:
 

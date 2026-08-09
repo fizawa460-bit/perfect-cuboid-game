@@ -1,0 +1,128 @@
+{
+  "stage": "14-4ao",
+  "q2": {
+    "product_square_state_count": 64,
+    "covering_soluble_state_count": 8,
+    "covering_soluble_states": [
+      [
+        1,
+        1,
+        1
+      ],
+      [
+        3,
+        7,
+        5
+      ],
+      [
+        5,
+        1,
+        5
+      ],
+      [
+        7,
+        7,
+        1
+      ],
+      [
+        2,
+        1,
+        2
+      ],
+      [
+        6,
+        7,
+        10
+      ],
+      [
+        10,
+        1,
+        10
+      ],
+      [
+        14,
+        7,
+        2
+      ]
+    ]
+  },
+  "full_local_system": {
+    "odd_rows_source": "merged Stage14-4an / s5c / s5d",
+    "prime_2_source": "merged Stage14-s5f",
+    "all_local_rows_explicit": true,
+    "finite_B20000_A_to_Sigma": {
+      "A": 6372,
+      "Sigma": 5209,
+      "Sigma_over_A": 0.8174827369742624
+    }
+  },
+  "height_weighted_count": {
+    "notation": "H_loc,glob(B;C)=sum_{F in A(B)} 1{there exists a nontrivial locally soluble 2-cover class xi, a rational point P on C_{F,xi}, and hhat(phi_xi(P)) <= C(log B+log H(F))}",
+    "physical_implication": "V(B) <= H_loc,glob(B;C) for the constant C supplied by the s3 height comparison; extra physical coordinate conditions may make the inclusion strict.",
+    "gate_separation": [
+      "local admissibility A->Sigma",
+      "global solubility / Sha Sigma->R",
+      "least physical small point R->V"
+    ],
+    "multiplicity_rule": "count each base F once by existence, not once per Selmer class or rational point"
+  },
+  "finite_B20000": {
+    "Sigma_over_A": 0.8174827369742624,
+    "R_over_A_interval": [
+      0.5938480853735091,
+      0.6652542372881356
+    ],
+    "V_over_R_interval": [
+      0.012738853503184714,
+      0.01427061310782241
+    ],
+    "V_over_A": 0.00847457627118644,
+    "total_thinning_exponent_gamma": 0.4817176372624377,
+    "selmer_thinning_exponent_alpha": 0.020348941947540496,
+    "mw_given_selmer_exponent_interval": [
+      0.020806862764197204,
+      0.032272090602221894
+    ],
+    "smallpoint_given_mw_exponent_interval": [
+      0.42909660471267524,
+      0.4405618325506999
+    ]
+  },
+  "s3_height_diagnostic": {
+    "active_actual_first_hit_canonical_height": {
+      "n": 96,
+      "min": 1.383259102435484,
+      "median": 3.608013380948547,
+      "max": 6.524257101210422,
+      "mean": 3.694228433321874
+    },
+    "active_canonical_height_over_log_mu": {
+      "n": 96,
+      "min": 0.12024014555571505,
+      "median": 0.30414606603918637,
+      "max": 0.46292147225321434,
+      "mean": 0.296870544688963
+    },
+    "inactive_controls_with_certified_positive_rank_and_pari_witness": 29,
+    "inactive_found_witness_canonical_height": {
+      "n": 29,
+      "min": 6.060340687967191,
+      "median": 10.283932014326751,
+      "max": 35.9079943588786,
+      "mean": 14.223753134974444
+    },
+    "interpretation": "Actual first physical hits occupy a logarithmic canonical-height window, while many physically inactive controls already have positive-rank witnesses. Witness heights are not certified minima and are used only diagnostically."
+  },
+  "decision": {
+    "STAGE14_4AO": "COMPLETE_FULL_LOCAL_MATRIX_AND_HEIGHT_WEIGHTED_COUNTING_INTERFACE",
+    "Q2_COVERING_SPECIFIC_64_STATE_SOLUBILITY_CLASSIFIED": true,
+    "FULL_LOCAL_2_DESCENT_CHARACTER_SYSTEM_COMPLETE": true,
+    "FINITE_A_TO_SIGMA_SIEVE_QUANTIFIED": true,
+    "HEIGHT_WEIGHTED_DESCENT_COUNT_FORMULATED": true,
+    "GLOBAL_SOLUBILITY_AVERAGED": false,
+    "FAMILY_LARGE_SIEVE_THEOREM_PROVED": false,
+    "UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4ap prove or sharply delimit a family character-sum estimate coupled to global solubility and the s3 height window"
+  }
+}

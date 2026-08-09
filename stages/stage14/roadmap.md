@@ -13,6 +13,7 @@ Count and explain primitive canonical exactly-two-face cuboids with integer spac
 - `14-4al`: collective first-hit measure `V(B)=#{F:mu(F)<=B}`.
 - `14-4am`: exact activation factorization `A -> Sigma -> R -> V` and complete `H<=20k` rank/Selmer census.
 - `14-4an`: compress selected-prime rows, import s5d unselected rows, and close the **entire odd-prime local character matrix**; identify its exact gate reach.
+- `14-4ao`: import the exact eight-state `Q_2` image, close the full local matrix, quantify the finite `A -> Sigma` gate, and formulate the height-weighted descent count.
 
 ## Locked geometry
 
@@ -108,14 +109,17 @@ HEIGHT_COUPLING_REQUIRED_FOR_MAIN_THINNING=true
 
 ## 14-4ao — Q2 completion + height-weighted descent count
 
+Status: [x] Complete.
+
+The exact `Q_2` image contains 8 of the 64 product-square states. Together with 4an this completes the local character system. At `H<=20,000`, the full local gate is `Sigma/A=5209/6372=0.8174827369742624`, while `V/R` remains only about `1.3--1.4%`.
+
+The locked height-weighted count retains local admissibility, global solubility/Sha, and the s3 logarithmic canonical-height window. No family power saving or small-point lower-tail theorem is claimed.
+
+## 14-4ap — family character sum with global/height coupling
+
 Status: [>] Next.
 
-1. Finish/import the covering-specific classification of the 64 product-square `Q_2` descent states.
-2. Combine it with the complete odd matrix to obtain the full local Selmer matrix.
-3. Quantify the actual `A -> Sigma` family sieve produced by that matrix.
-4. Do **not** stop there: formulate a height-weighted descent-class counting object retaining the Stage14-s3 physical logarithmic canonical-height window.
-5. Target the finite-dominant `R -> V` gate, separating global representability from first-small-point size.
-6. Seek any rigorous power saving before attempting a `sqrt(B)` law or leading constant.
+Prove or sharply delimit a moving character-sum estimate over primitive opposite-parity Euclid pairs, but preserve both the global-solubility gate and the s3 physical height window. A local Selmer-density estimate alone is not sufficient.
 
 ## Parallel arithmetic track
 
@@ -142,5 +146,5 @@ A future raw-pair law cannot transfer to exactly-two until sufficiently strong t
 No true Stage14 growth exponent, leading constant, family large-sieve theorem, uniform first-small-point lower-tail theorem, perfect-cuboid nonexistence theorem, or `T=o(sqrt(B))` theorem is established.
 
 ```text
-NEXT=Stage14-4ao Q2 completion plus height-weighted descent-class count
+NEXT=Stage14-4ap family character-sum estimate coupled to global solubility and the s3 height window
 ```
