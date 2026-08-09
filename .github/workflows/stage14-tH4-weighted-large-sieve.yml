@@ -1,0 +1,35 @@
+name: Stage14-tH4 weighted large-sieve transfer
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH4/**'
+      - 'stages/stage14/data/tH4/**'
+      - 'stages/stage14/scripts/tH4/**'
+      - 'stages/stage14/14-tH3/**'
+      - '.github/workflows/stage14-tH4-weighted-large-sieve.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/tH4/weighted_large_sieve_toolbox_audit.py
+      - name: Run deterministic weighted-transfer audit
+        run: python stages/stage14/scripts/tH4/weighted_large_sieve_toolbox_audit.py
+      - name: Check locked boundary
+        run: |
+          grep -F 'STAGE14_TH4=COMPLETE_WEIGHTED_MELLIN_HECKE_LARGE_SIEVE_TRANSFER_TOOLBOX' stages/stage14/14-tH4/result.md
+          grep -F 'WEIGHTED_ONE_VARIABLE_LARGE_SIEVE_TRANSFER_PROVED=true' stages/stage14/14-tH4/result.md
+          grep -F 'DIVISOR_LIFT_FIXED_POWER_LOSS=false' stages/stage14/14-tH4/result.md
+          grep -F 'INDEPENDENT_UV_MODULUS_TENSORIZATION_ALLOWED=false' stages/stage14/14-tH4/result.md
+          grep -F 'SAME_MODULUS_JOINT_SECOND_MOMENT_THEOREM_PROVED=false' stages/stage14/14-tH4/result.md
+          grep -F 'NEXT=Stage14-tH5' stages/stage14/14-tH4/result.md
