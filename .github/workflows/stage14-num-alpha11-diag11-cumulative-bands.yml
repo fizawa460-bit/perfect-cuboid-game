@@ -1,0 +1,59 @@
+name: Stage14-num-alpha11-diag11 cumulative survival bands
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag11/**'
+      - 'stages/stage14/data/14-num-alpha11-diag11/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag11/**'
+      - '.github/workflows/stage14-num-alpha11-diag11-cumulative-bands.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cumulative-bands:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run diag11 cumulative uncertainty audit
+        run: python stages/stage14/scripts/14-num-alpha11-diag11/cumulative_survival_bands.py > /tmp/diag11.json
+      - name: Validate decision boundary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag11.json'))
+          d=x['decision']
+          assert x['shell_N2']==[89,27,22,29,21,40,27]
+          assert d['AB_RATE_LOWER_THAN_AC_AT_B1M_95_CALIBRATION'] is True
+          assert d['AB_RATE_LOWER_THAN_BC_AT_B1M_95_CALIBRATION'] is True
+          assert d['AC_VS_BC_RESOLVED_AT_B1M_95_CALIBRATION'] is False
+          assert d['CUMULATIVE_DRIFT_EXCEEDS_COMMON_SURVIVAL_NOISE_AT_5PCT'] is False
+          assert d['ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM'] is False
+          assert d['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
+          assert d['NUM_ALPHA_DIAGNOSTIC_BRANCH_PARK_RECOMMENDED'] is True
+          PY
+      - name: Print compact summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag11.json'))
+          print('DIAG11_SUMMARY_BEGIN')
+          print(json.dumps({
+            'trajectory':x['trajectory_diagnostics'],
+            'B1m':x['B1m_fitted_endpoint_uncertainty'],
+            'last_band':x['pointwise_cumulative_bands'][-1],
+            'decision':x['decision'],
+          },indent=2))
+          print('DIAG11_SUMMARY_END')
+          PY
+      - name: Upload report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-num-alpha11-diag11-report
+          path: /tmp/diag11.json
