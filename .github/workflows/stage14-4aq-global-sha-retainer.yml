@@ -1,0 +1,34 @@
+name: Stage14-4aq global Sha retainer
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4aq/**'
+      - 'stages/stage14/scripts/14-4/global_sha_retainer_audit.py'
+      - 'stages/stage14/data/14-4/global_sha_retainer_summary.json'
+      - '.github/workflows/stage14-4aq-global-sha-retainer.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/global_sha_retainer_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/global_sha_retainer_audit.py
+      - name: Validate generated JSON semantics
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('stages/stage14/data/14-4/global_sha_retainer_summary.json')
+          d = json.loads(p.read_text())
+          assert d['decision']['STAGE14_4AQ'] == 'GLOBAL_SHA_RETAINER_ISOLATED_AND_WEIGHTED_TARGET_FORMULATED'
+          assert d['finite_census'][-1]['Sha_trap_base_interval'] == [970, 1425]
+          assert d['decision']['GLOBAL_SOLUBILITY_DENSITY_PROVED'] is False
+          PY
