@@ -56,13 +56,15 @@ X^{1-\delta_H}(1+\ell)^{C_H}(\log 2X)^{D_H}
 }
 \]
 
-uniformly for
+uniformly for every
 
 \[
 X\ge2,
 \qquad
-1\le\ell\le(\log X)^4.
+\ell\ge1.
 \]
+
+The retained restriction `ell<=floor((log B)^4)` is imposed only later, when the Vaaler modes are summed. This distinction matters: at the core lower cutoff `X=H0`, the retained `ell` range can be much larger than `(log X)^4`, so a local condition of that form would not be sufficient.
 
 This is the proof-facing form of the finite Perron consequence of:
 
@@ -334,7 +336,7 @@ No effective numerical convergence rate for the final directional ratio is claim
 ```text
 STAGE13_13FD=COMPLETE_RETAINED_HARMONIC_CONDUCTOR_BOOKKEEPING
 HECKE_STRIP_LEFT=3/4
-HECKE_FAMILY_BOUND=S_ell(X)<<X^(1-delta_H)(1+ell)^C_H(log(2X))^D_H
+HECKE_FAMILY_BOUND=S_ell(X)<<X^(1-delta_H)(1+ell)^C_H(log(2X))^D_H_for_all_ell>=1
 RETAINED_HARMONICS=ell<=floor((log B)^4)
 HARMONIC_POLYLOG_EXPONENT=4*C_H+D_H+6
 HARMONIC_STRETCHED_SAVING=exp(-delta_H*(log B)^(1/4))
