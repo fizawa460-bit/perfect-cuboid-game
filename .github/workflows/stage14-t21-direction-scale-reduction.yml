@@ -1,0 +1,51 @@
+name: Stage14-t21 direction scale reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t21/**'
+      - 'stages/stage14/scripts/14-t/t21_direction_scale_reduction_audit.py'
+      - 'stages/stage14/data/14-t21/direction_scale_reduction.json'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t21-direction-scale-reduction.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t20 regression
+        run: python stages/stage14/scripts/14-t/t20_edge_collision_factorization.py
+      - name: Run t21 direction-scale audit
+        run: python stages/stage14/scripts/14-t/t21_direction_scale_reduction_audit.py
+      - name: Check frozen t21 summary
+        run: git diff --exit-code stages/stage14/data/14-t21/direction_scale_reduction.json
+      - name: Validate locked t21 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t21/direction_scale_reduction.json'
+          d=json.load(open(p))
+          f=d['finite']
+          assert f['raw_pair_edges_B2m']==356
+          assert f['h_1_edges_B2m']==268
+          assert f['h_2_edges_B2m']==88
+          assert f['g_1_edges_B2m']==317
+          assert f['nontrivial_g_edges_B2m']==39
+          assert f['observed_g_values_B2m']==[1,5,13,17,29,37,41]
+          assert f['distinct_reduced_directions_B2m']==356
+          assert f['distinct_split_partitions_B2m']==356
+          assert d['direction_parametrization']['synthetic_round_trip_checks']==1148
+          assert all(r['distinct_reduced_directions']==r['raw_pair_edges'] for r in d['rows'])
+          assert all(r['distinct_split_partitions']==r['raw_pair_edges'] for r in d['rows'])
+          q=d['decision']
+          assert q['FIXED_PARTITION_DIRECTION_PARAMETRIZATION_BIJECTIVE'] is True
+          assert q['SCALE_PRIME_SUPPORT_ONLY_1MOD4'] is True
+          assert q['N_ALPHA_BETA_DIRECTION_SCALE_MAJORANT'] is True
+          assert q['COARSE_BOUND_SUFFICIENT_FOR_Q_SPLIT_POWER_SAVING'] is False
+          assert q['Q_SPLIT_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
