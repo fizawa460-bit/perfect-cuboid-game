@@ -1,0 +1,54 @@
+name: Stage14-num4 unified fingerprint ledger
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num4/**'
+      - 'stages/stage14/scripts/14-num4/**'
+      - 'stages/stage14/data/14-num4/**'
+      - '.github/workflows/stage14-num4-unified-fingerprint-ledger.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-num4/unified_fingerprint_ledger.py
+      - name: Regenerate unified ledger and manifest
+        run: |
+          python stages/stage14/scripts/14-num4/unified_fingerprint_ledger.py \
+            --objects stages/stage14/data/14-num4/b100m_objects.csv.bz2.b64.parts \
+            --ledger-out "$RUNNER_TEMP/stage14-num4-full-ledger.json" \
+            --manifest-out "$RUNNER_TEMP/stage14-num4-manifest.json"
+          python - <<'PY2'
+          import json, os
+          from pathlib import Path
+          a=json.loads(Path('stages/stage14/data/14-num4/unified_fingerprint_manifest.json').read_text())
+          b=json.loads(Path(os.environ['RUNNER_TEMP']+'/stage14-num4-manifest.json').read_text())
+          assert a == b
+          PY2
+      - name: Lock theorem boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('stages/stage14/data/14-num4/unified_fingerprint_manifest.json')
+          d=json.loads(p.read_text())
+          q=d['decision']
+          assert q['STAGE14_NUM4']=='COMPLETE_UNIFIED_FINITE_FINGERPRINT_LEDGER'
+          assert q['CANONICAL_OBJECT_KEYS_STABLE'] is True
+          assert q['SOURCE_PROVENANCE_RECORDED'] is True
+          assert q['CROSS_TRACK_JOIN_REPRODUCIBLE'] is True
+          assert q['THEOREM_SENSITIVE_FIELDS_RECOMPUTED'] is False
+          assert q['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert q['ASYMPTOTIC_CLAIM'] is False
+          assert d['base_num3_regression']['object_key_sha256']=='b8151aedbf46f33700b213c79a5227fa62653d2279eed954103a2b9e768fff42'
+          assert d['base_num3_regression']['object_key_mask_sha256']=='2ac9a994f735d2d4f8f3c519145de17d920bdcf9841f32a73793cae3ec94e14f'
+          assert d['coverage']['certified_rank_interval']==0
+          assert d['coverage']['canonical_height_of_actual_first_hit']==0
+          PY
