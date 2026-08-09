@@ -1,0 +1,32 @@
+name: Stage14-s6-04 witness resonance and denominator audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-04/**'
+      - 'stages/stage14/scripts/14-s6-04/**'
+      - '.github/workflows/stage14-s6-04-witness-resonance-denominator.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regress s6-03 predecessor audit
+        run: python stages/stage14/scripts/14-s6-03/centered_quartic_sieve_audit.py
+      - name: Run s6-04 deterministic audit
+        run: python stages/stage14/scripts/14-s6-04/witness_resonance_denominator_audit.py | tee /tmp/s6-04-audit.txt
+      - name: Lock theorem boundary
+        run: |
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/s6-04-audit.txt
+          grep -q 'STAGE14_S6_04=COMPLETE_EXACT_WITNESS_RESONANCE_AUDIT_AND_DENOMINATOR_SQUARE_INCIDENCE' stages/stage14/14-s6-04/result.md
+          grep -q 'EXACT_WITNESS_AUXILIARY_CHARACTER_RESONANCE=true' stages/stage14/14-s6-04/result.md
+          grep -q 'MOVING_EXACT_WITNESS_CHARACTER_CANCELLATION_TARGET_VALID=false' stages/stage14/14-s6-04/result.md
+          grep -q 'DENOMINATOR_SQUARE_MODULUS_EXACT=true' stages/stage14/14-s6-04/result.md
+          grep -q 'DENOMINATOR_SQUARE_LINE_RECTANGLE_BOUND_PROVED=true' stages/stage14/14-s6-04/result.md
+          grep -q 'LEAST_DENOMINATOR_PACKET_STATISTIC_DEFINED=true' stages/stage14/14-s6-04/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-s6-04/result.md
