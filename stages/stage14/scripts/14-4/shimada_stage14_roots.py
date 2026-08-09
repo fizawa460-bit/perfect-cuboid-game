@@ -43,7 +43,7 @@ def main():
     z=subprocess.run(['gp','-fq'],input=gp,text=True,capture_output=True,check=True).stdout.splitlines()
     rank=int(next(x.split('=',1)[1] for x in z if x.startswith('RANK=')))
     kb=[ast.literal_eval(x.split('=',1)[1]) for x in z if x.startswith('K=')]
-    detq=int(next(x.split('=',1)[1]) for x in z if x.startswith('DETQ='))
+    detq=int(next(x.split('=',1)[1] for x in z if x.startswith('DETQ=')))
     vv=[ast.literal_eval(x.split('=',1)[1]) for x in z if x.startswith('V=')]
     assert len(kb)==rank
     def xfrom(v):return [sum(kb[j][i]*v[j] for j in range(rank)) for i in range(N)]
