@@ -1,0 +1,33 @@
+name: Stage14-4ax sparse linear dispersion
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ax/**'
+      - 'stages/stage14/data/14-4/sparse_linear_dispersion_summary.json'
+      - 'stages/stage14/scripts/14-4/sparse_linear_dispersion_audit.py'
+      - '.github/workflows/stage14-4ax-sparse-linear-dispersion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/sparse_linear_dispersion_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/sparse_linear_dispersion_audit.py
+      - name: Check theorem boundary
+        run: |
+          grep -q 'SPARSE_LINEAR_DISCREPANCY_L2_DIAGONAL_SCALE_PROVED=true' stages/stage14/14-4ax/result.md
+          grep -q 'SPARSE_LINEAR_FIXED_POWER_RETAINER_SAVING_PROVED=false' stages/stage14/14-4ax/result.md
+          grep -q 'MEDIUM_LINEAR_L2_POWER_SAVING_PROVED=false' stages/stage14/14-4ax/result.md
+          grep -q 'FULL_STATE_SPLIT_E_SPARSE_REGIME_CLOSED=false' stages/stage14/14-4ax/result.md
+          grep -q 'NEXT=Stage14-4ay' stages/stage14/14-4ax/result.md
