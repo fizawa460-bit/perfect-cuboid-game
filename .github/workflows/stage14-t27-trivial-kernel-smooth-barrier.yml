@@ -19,6 +19,8 @@ jobs:
         run: python stages/stage14/scripts/14-t/t26_complete_large_prime_routing_audit.py
       - name: Run t27 trivial-kernel/friability audit
         run: python stages/stage14/scripts/14-t/t27_trivial_kernel_smooth_barrier_audit.py
+      - name: Show generated t27 summary
+        run: cat stages/stage14/data/14-t27/trivial_kernel_smooth_barrier.json
       - name: Validate locked t27 boundary
         run: |
           python - <<'PY'
