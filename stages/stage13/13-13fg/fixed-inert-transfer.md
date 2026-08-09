@@ -2,9 +2,9 @@
 
 > STATUS: `STAGE13_13FG_FIXED_INERT_TRANSFER_LEMMA`
 >
-> PURPOSE: close R05 Gate G by replacing the compressed fixed-prime overlap paragraph with a proof-facing finite-character transfer, principal/nonprincipal decomposition, exact inert multiplier, and explicit order-of-limits squeeze.
+> PURPOSE: close R05 Gate G by replacing the compressed fixed-prime overlap paragraph with a proof-facing finite-character transfer, exact inert multiplier, principal-pole-sector decomposition, and explicit order-of-limits squeeze.
 >
-> INPUTS: the raw directional asymptotic and common arithmetic factor already audited in Gates A–F; the exact inert local-state calculation of 13-12ae/13-12ag; and the fixed-conductor Dirichlet/Gaussian-Hecke contracts made explicit in 13-13ff.
+> INPUTS: Gates A–F; exact inert local states from 13-12ae/13-12ag; fixed-conductor Dirichlet/Gaussian-Hecke contracts from 13-13ff.
 >
 > SCOPE: pair/triple overlap only. No effective growing-modulus estimate is claimed.
 
@@ -13,18 +13,12 @@ Write
 \[
 D_q:=\frac{\kappa I_q}{3\pi^3},
 \qquad
-A_q(B)\sim D_q B(\log B)^3.
+A_q(B)\sim D_qB(\log B)^3.
 \]
 
-For a pair of canonical face types `q,r`, let `O_{qr}(B)` denote the pair overlap. A pair-overlap object has a shared edge. Relative to the distinguished `q` face, tag one of its two legs; if the tag is the shared edge then a second-face square condition must hold. We use the two possible tags only as a safe upper multiplicity. Thus
+For a pair overlap `O_{qr}(B)`, tag one of the two legs of the distinguished `q` face. If the tag is the shared edge with the second integral face, then the tagged square test below holds. We retain the two tags only as a safe upper multiplicity, so the unconstrained tagged population has leading constant `2D_q`.
 
-\[
-O_{qr}(B)\le A^{\rm tag}_{q,S}(B)
-\]
-
-for the population of tagged raw incidences passing every chosen local test in a finite inert-prime set `S`, and the unconstrained tagged population has leading constant `2D_q`.
-
-The point of this gate is to prove, for every fixed finite `S`,
+For every fixed finite inert-prime set `S` we prove
 
 \[
 \boxed{
@@ -36,23 +30,19 @@ B(\log B)^3
 }
 \]
 
-where
+with
 
 \[
-\boxed{
-\lambda_p=\frac{p+5}{2(p+1)}
-}
+\boxed{\lambda_p=\frac{p+5}{2(p+1)}}.
 \]
 
-for every inert odd prime `p\equiv3 (mod 4)`.
-
-The subscript `S` on the remainder is deliberate: no uniformity as `|S|` grows is used or needed.
+No uniformity in `S` is used.
 
 ---
 
-## 1. One tagged overlap test
+## 1. Tagged local test
 
-For a tagged raw incidence write
+For one tagged raw incidence write
 
 \[
 x^2+y^2=P^2,
@@ -60,33 +50,25 @@ x^2+y^2=P^2,
 P^2+z^2=d^2.
 \]
 
-If the tagged leg is shared with a second integral face, then
+If the tagged leg `x` is shared by a second integral face, then
 
 \[
 x^2+z^2=w^2.
 \]
 
-For an inert odd prime
-
-\[
-p\equiv3\pmod4,
-\]
-
-define
+For inert `p\equiv3 (mod 4)`, define
 
 \[
 W_p=1_{\{x^2+z^2\in QR_0(\mathbf F_p)\}}.
 \]
 
-Every genuine tagged pair-overlap passes `W_p=1` for every such `p`.
-
-The tag matters only to select which face leg appears in the test. The unit-state calculation is symmetric under interchange of the two face legs, so the same local multiplier applies to either tag and to every canonical direction.
+Every genuine tagged pair overlap passes every chosen `W_p`. The local calculation is symmetric under exchange of the two face legs, so the same multiplier applies to either tag and every canonical direction.
 
 ---
 
 ## 2. Exact inert valuation states
 
-Use the odd-prime outer coordinates
+Use
 
 \[
 P=hrs,
@@ -94,36 +76,20 @@ P=hrs,
 z=\frac{h(s^2-r^2)}2,
 \qquad
 d=\frac{h(r^2+s^2)}2,
-\qquad (r,s)=1.
+\qquad(r,s)=1.
 \]
 
-At an inert `p`, put
+At inert `p`, put `a=v_p(h)`, `b=v_p(r)`, `c=v_p(s)`. Primitivity forces `a=0`: if `p|h`, then `p|P,z`, and inertness in `x^2+y^2=P^2` forces `p|x,y`, contradicting primitive gcd one. Also `(r,s)=1` gives `min(b,c)=0`.
 
-\[
-a=v_p(h),\qquad b=v_p(r),\qquad c=v_p(s).
-\]
-
-Primitivity forces
-
-\[
-a=0.
-\]
-
-Indeed, if `p|h` then `p|P,z`; inertness in `x^2+y^2=P^2` forces `p|x,y`, contradicting primitive gcd one. Also `(r,s)=1` gives
-
-\[
-\min(b,c)=0.
-\]
-
-Therefore the complete allowed valuation states are
+Hence the only allowed states are
 
 ```text
-U    : (a,b,c)=(0,0,0)
-R_b  : (a,b,c)=(0,b,0), b>=1
-S_c  : (a,b,c)=(0,0,c), c>=1.
+U    : (0,0,0)
+R_b  : (0,b,0), b>=1
+S_c  : (0,0,c), c>=1.
 ```
 
-The unrestricted zero-mode inert local series is
+The unrestricted inert zero-mode local series is
 
 \[
 L_{p,0}(Y,Z)
@@ -134,28 +100,24 @@ L_{p,0}(Y,Z)
 At `Y=Z=p^{-1}`,
 
 \[
-L_{p,0}(p^{-1},p^{-1})=\frac{p+1}{p-1},
+L_{p,0}=\frac{p+1}{p-1},
+\qquad
+\text{positive-valuation mass}=\frac{2}{p-1},
 \]
 
-and the positive-valuation mass is exactly
-
-\[
-\frac{2}{p-1}.
-\]
-
-Hence its fraction of the unrestricted local mass is exactly
+so the positive-valuation fraction is exactly
 
 \[
 \frac{2}{p+1}.
 \]
 
-Every positive-valuation state passes the tagged square test automatically: `p|P` forces `x\equiv y\equiv0 (mod p)`, while primitivity forces `z` to be a unit, so `x^2+z^2\equiv z^2`.
+Every positive-valuation state passes `W_p` automatically: `p|P` forces `x\equiv y\equiv0`, while primitivity forces `z` to be a unit, hence `x^2+z^2\equiv z^2`.
 
 ---
 
-## 3. Unit-state symbolic acceptance
+## 3. Unit-state acceptance and exact lambda
 
-On the unit state normalize `P=1`. Then
+On the unit state normalize `P=1`:
 
 \[
 X^2+Y^2=1,
@@ -163,176 +125,159 @@ X^2+Y^2=1,
 D^2-Z^2=1.
 \]
 
-For inert `p`, these have respectively `p+1` and `p-1` points, so the unrestricted unit state contains
-
-\[
-T=p^2-1
-\]
-
-normalized pairs.
-
-The symbolic quadratic-character calculation already expanded in 13-12ag gives
-
-\[
-S=2(p-1)
-\]
-
-for the signed character sum, while exactly four unit states have `X^2+Z^2=0`. Therefore
+For inert `p`, the two curves have `p+1` and `p-1` points, hence `T=p^2-1` pairs. The symbolic quadratic-character calculation of 13-12ag gives signed sum `S=2(p-1)`, while exactly four unit states have `X^2+Z^2=0`. Therefore
 
 \[
 N_{\rm acc}=\frac{T+S+4}{2}=\frac{(p+1)^2}{2}.
 \]
 
-Thus the accepted unit mass relative to the normalized unit local mass is
+Thus
 
 \[
-\boxed{
-\alpha_p=\frac{p+1}{2(p-1)}.
-}
+\boxed{\alpha_p=\frac{p+1}{2(p-1)}}.
 \]
 
-Combining this with the automatic positive-valuation mass gives
+Adding the automatic positive-valuation mass,
 
 \[
 L^W_{p,0}
 =\alpha_p+\frac{2}{p-1}
-=\frac{p+5}{2(p-1)}.
+=\frac{p+5}{2(p-1)},
 \]
 
-Dividing by the unrestricted local factor,
+and hence
 
 \[
 \boxed{
 \lambda_p
-:=\frac{L^W_{p,0}}{L_{p,0}}
+=\frac{L^W_{p,0}}{L_{p,0}}
 =\frac{p+5}{2(p+1)}
 =\frac12+\frac{2}{p+1}.
 }
 \]
 
-Hence
+Therefore
 
 \[
-\boxed{\lambda_p\le\frac34\qquad(p\ge7,\ p\equiv3\pmod4).}
+\boxed{\lambda_p\le\frac34\quad(p\ge7,\ p\equiv3\pmod4).}
 \]
-
-This exact formula, not a soft `1/2+O(1/p)`, is the multiplier used below.
 
 ---
 
-## 4. Why a residue condition is not merely a single Euler-factor replacement
+## 4. Why finite residue conditions require characters
 
-A divisibility condition such as `p|r` is genuinely p-adic and may be handled directly in the `p`-local valuation state. A unit residue condition such as `W_p`, however, depends on the residue modulo `p` of integers built from all prime factors. It is therefore not justified to say only “replace the `p`th Euler factor” and stop.
+A divisibility condition such as `p|r` is genuinely p-adic and belongs to the valuation state. A unit residue condition such as `W_p` depends on residues modulo `p` of integers built from all prime factors. It is therefore not enough to say only “replace the pth Euler factor”.
 
-For fixed `p`, after splitting the three valuation strata above, the remaining unit residue predicate is a finite function on a finite product of residue groups. Denote the relevant finite unit group by `G_p`. Fourier inversion on `G_p` gives the exact identity
+After the valuation strata are fixed, the unit residue predicate is a finite function on a finite product of unit groups `G_p`. Fourier inversion gives
 
 \[
 W_p(u)=\sum_{\chi\in\widehat G_p}c_{p,\chi}\chi(u),
 \qquad
-c_{p,\chi}
-=\frac1{|G_p|}\sum_{u\in G_p}W_p(u)\overline{\chi(u)}.
+c_{p,\chi}=\frac1{|G_p|}\sum_{u\in G_p}W_p(u)\overline{\chi(u)}.
 \]
 
-Depending on the coordinate channel, these characters are ordinary Dirichlet characters on rational unit variables or fixed-conductor Gaussian/ray-class characters on the Gaussian face variable. This is precisely the fixed-conductor external boundary recorded in Gate F.
+The characters that appear are ordinary Dirichlet characters on rational unit variables and fixed-conductor Gaussian/ray-class characters on the Gaussian face variable. These are exactly the fixed-conductor objects covered by Gate F.
 
-For a finite prime set
+For fixed
 
 \[
 S=\{p_1,\ldots,p_k\},
 \qquad M=\prod_{p\in S}p,
 \]
 
-CRT tensors the local residue groups and character groups:
+CRT gives
 
 \[
 G_S\cong\prod_{p\in S}G_p,
 \qquad
-\widehat G_S\cong\prod_{p\in S}\widehat G_p.
+\widehat G_S\cong\prod_{p\in S}\widehat G_p,
 \]
 
-Therefore the simultaneous indicator is an exact finite character expansion
+and therefore the simultaneous test has an exact finite character expansion
 
 \[
-W_S:=\prod_{p\in S}W_p
-=\sum_{\boldsymbol\chi\in\widehat G_S}
+W_S=\prod_{p\in S}W_p
+=
+\sum_{\boldsymbol\chi\in\widehat G_S}
  c_{S,\boldsymbol\chi}\,\boldsymbol\chi.
 \]
 
-There are finitely many terms because `S` is fixed before `B->infinity`.
+Because `S` is fixed, this is a fixed finite sum before `B->infinity`.
 
 ---
 
-## 5. Principal tuple and the exact product of local multipliers
+## 5. Principal pole sector
 
-Call the tuple in which every residue character is principal the **principal character tuple**. In that tuple all pole-producing global factors are the same principal zeta/zero-angular factors as in the raw zero mode. The archimedean chamber kernel is also unchanged because the residue test is finite and arithmetic.
+The auxiliary character parameterization can have algebraic relations among coordinates. Consequently it is safer not to identify the leading sector with the single raw tuple in which every auxiliary character symbol is literally trivial.
 
-The principal coefficient is the finite local average of the accepted residue states, separately in each valuation stratum. With the normalization of §2–3, this multiplies the raw local zero-mode mass at `p` by exactly
+Define the **principal pole sector** to be the set of character tuples whose induced characters on every pole-producing unbounded multiplicative channel are principal. Any auxiliary character combination that is nontrivial only on a holomorphic mixed coordinate but induces the principal character on all pole channels is included in this sector.
 
-\[
-\lambda_p.
-\]
+For this whole sector:
 
-CRT makes the principal finite-local factor multiplicative across distinct fixed primes, hence the principal tuple contributes
+1. the pole-producing zeta/zero-angular factors are exactly the raw principal factors;
+2. the archimedean chamber kernel `J_q` is unchanged;
+3. finite Fourier inversion over the accepted residue states gives the exact local average `lambda_p` at each `p`;
+4. CRT makes those local averages multiplicative across `S`.
+
+Hence the **sum of all principal-pole-sector tuples**, not merely one auxiliary tuple, contributes
 
 \[
 \boxed{
 2D_q\Bigl(\prod_{p\in S}\lambda_p\Bigr)
-B(\log B)^3
+B(\log B)^3.
 }
 \]
 
-at leading order.
+This formulation automatically handles harmless auxiliary-character aliasing and is the exact leading coefficient required by the fixed-local transfer.
 
-No direction-dependent arithmetic factor is introduced here. The category `q` remains only in the real chamber factor already contained in `D_q`; the inert residue calculation is symmetric in the tagged face legs and is independent of the chamber direction.
-
----
-
-## 6. Mixed split-prime correction under the fixed residue refinement
-
-The raw proof factors the coefficient system into pure pole-producing channels times a mixed Euler correction controlled in the weighted Wiener algebra.
-
-For the principal tuple, primes outside the fixed modulus `M` carry exactly the raw principal characters, so the infinite split-prime mixed correction is literally the same one as in the unconstrained zero mode. The finitely many primes dividing `M` are absorbed into the finite local acceptance multiplier above.
-
-For a nonprincipal fixed-conductor tuple, characters at primes `q\nmid M` have modulus at most one. The Gate B coefficientwise estimates are phase-uniform, so inserting these character phases cannot enlarge the weighted-Wiener majorant. Consequently:
-
-1. the mixed Euler quotient remains absolutely convergent and holomorphic on the same fixed half-plane;
-2. its logarithmic moments remain finite, with constants allowed to depend on fixed `S` and the finite character tuple;
-3. it cannot create a pole at `s=1` or restore a pole removed by a nonprincipal Dirichlet/Hecke factor.
-
-This is the precise reason the split-prime mixed correction does not invalidate the principal/nonprincipal separation.
+The multiplier is direction-independent: the category remains only in the real chamber factor inside `D_q`, while the inert acceptance is a symmetric finite arithmetic condition on the tagged oriented variables.
 
 ---
 
-## 7. Every nonprincipal tuple is lower order
+## 6. Mixed split-prime correction
 
-Consider one nonprincipal character tuple in the finite expansion of `W_S`. At least one unbounded multiplicative channel carries a nonprincipal character. In the Euler-product factorization this replaces at least one pole-producing principal factor by one of:
+The raw coefficient system is pure pole-producing channels times a mixed Euler correction controlled in the weighted Wiener algebra.
 
-- a nonprincipal Dirichlet `L`-function of fixed conductor; or
-- a nontrivial Gaussian/ray-class Hecke `L`-function of fixed conductor/nonzero angular type.
+For every fixed character tuple, values of the inserted characters at primes `q\nmid M` have modulus at most one. Gate B's coefficientwise bounds are phase-uniform, so these twists do not enlarge the weighted-Wiener majorant. Therefore the mixed quotient:
 
-By Gate F these factors are holomorphic at `s=1` and have the required fixed-strip polynomial growth. The mixed correction of §6 is holomorphic and cannot restore the missing pole.
+- stays absolutely convergent and holomorphic on the same fixed half-plane;
+- keeps finite logarithmic moments, with constants allowed to depend on fixed `S` and the fixed tuple;
+- cannot create a pole at `s=1` or restore a pole removed from a pure channel.
 
-Thus the total pole order at the zero-mode corner drops by at least one. Applying the same finite Riesz/Perron/residue machinery as in Gates C–F gives, for each fixed nonprincipal tuple,
+Inside the principal pole sector it only changes the finite holomorphic coefficient already included in the finite Fourier sum that evaluates to `prod lambda_p`. Outside that sector it cannot undo pole loss.
+
+This is the missing compatibility statement between the fixed residue refinement and the split-prime mixed correction.
+
+---
+
+## 7. Nonprincipal pole sectors are lower order
+
+Every tuple outside the principal pole sector induces a nonprincipal character on at least one pole-producing unbounded multiplicative channel. Hence at least one principal pole factor is replaced by either
+
+- a nonprincipal fixed-conductor Dirichlet `L`-function; or
+- a nontrivial fixed-conductor Gaussian/ray-class Hecke `L`-function.
+
+Gate F gives holomorphy at `s=1` and fixed-strip polynomial growth. Section 6 shows the mixed correction is holomorphic and cannot restore the lost pole. Thus the total zero-mode pole order drops by at least one.
+
+For each fixed tuple, the same Riesz/Perron/residue machinery gives at most
 
 \[
-O_{S,\boldsymbol\chi}(B(\log B)^2)
+O_S(B(\log B)^2)
 \]
 
-at the rectangular zero-mode level, plus the already-audited curved/boundary/harmonic errors, all of which are `o(B(log B)^3)`. Since the character expansion has only finitely many terms for fixed `S`, their total is
+at rectangular zero mode, together with the Gate C–F curved/boundary/harmonic errors, all `o(B(log B)^3)`. Because the expansion is finite for fixed `S`, all nonprincipal pole sectors together contribute
 
 \[
 \boxed{o_S(B(\log B)^3).}
 \]
 
-No estimate uniform in `S` is asserted.
-
-This is enough for the overlap squeeze because the limit order is fixed `S`, then `B->infinity`, then enlarge `S`.
+No uniform estimate in `S` is claimed.
 
 ---
 
-## 8. Fixed-S constrained asymptotic
+## 8. Fixed-S asymptotic
 
-Combining the principal tuple and all nonprincipal tuples yields, for every fixed finite inert-prime set `S`,
+Combining the principal pole sector and all pole-losing sectors gives, for every fixed finite inert set `S`,
 
 \[
 \boxed{
@@ -344,30 +289,29 @@ B(\log B)^3
 }
 \]
 
-The factor `2` is only the safe two-tag upper multiplicity. It is not used as an exact two-to-one description of pair overlaps.
+The factor `2` is only a safe two-tag upper multiplicity, not an exact two-to-one statement for pair overlaps.
 
-The OE/EE distinction is purely 2-adic. Since every `p\in S` is odd, the same inert multiplier and fixed-character transfer apply separately to each parity branch; the finite 2-adic normalization factors out before taking the ratio.
+The OE/EE distinction is purely 2-adic. Every `p\in S` is odd, so the same multiplier and transfer apply branchwise; the finite 2-adic normalization factors out of the ratio.
 
 ---
 
 ## 9. Order-of-limits squeeze
 
-There are arbitrarily many inert primes `p\equiv3 (mod 4)` without invoking Dirichlet's theorem on primes in progressions. If `p_1,...,p_k` were all such primes, then
+There are arbitrarily many primes `3 mod 4` by the elementary Euclidean argument: if `p_1,...,p_k` were all of them, then
 
 \[
 N=4p_1\cdots p_k-1\equiv3\pmod4
 \]
 
-has a prime divisor `q\equiv3 (mod 4)` not among them.
+has a prime divisor `q\equiv3 (mod 4)` not in the list.
 
-Choose any `k` distinct inert primes
+Choose `k` distinct inert primes `p_i>=7` and hold
 
 \[
-S_k=\{p_1,\ldots,p_k\},
-\qquad p_i\ge7,
+S_k=\{p_1,\ldots,p_k\}
 \]
 
-and **hold `S_k` fixed**. Every pair-overlap object passes all tests, so
+fixed. Every pair-overlap object passes all tests, so
 
 \[
 O_{qr}(B)\le A^{\rm tag}_{q,S_k}(B).
@@ -384,27 +328,21 @@ Therefore
 2D_q\left(\frac34\right)^k.
 \]
 
-Only now let `k->infinity`. Hence
+Only after this `B`-limsup do we let `k->infinity`. Hence
 
 \[
-\boxed{
-O_{qr}(B)=o(B(\log B)^3)
-}
+\boxed{O_{qr}(B)=o(B(\log B)^3)}
 \]
 
-for every pair of face directions.
-
-The triple overlap is a subset of every pair overlap, so
+for every pair direction. Since `T(B)` is a subset of every pair overlap,
 
 \[
-\boxed{
-T(B)=o(B(\log B)^3).
-}
+\boxed{T(B)=o(B(\log B)^3)}.
 \]
 
 No perfect-cuboid nonexistence assumption is used.
 
-The quantifier order is permanently locked as
+The quantifier order is locked as
 
 ```text
 fix S_k
@@ -412,52 +350,45 @@ fix S_k
 -> k -> infinity.
 ```
 
-There is no choice `k=k(B)` and no modulus growing with `B`.
+There is no `k=k(B)` and no modulus growing with `B`.
 
 ---
 
 ## 10. Exactly-one transfer
 
-The exact inclusion-exclusion identity is
+The exact identity
 
 \[
-N_q=A_q-O_{qr}-O_{qs}+T.
+N_q=A_q-O_{qr}-O_{qs}+T
 \]
 
-Since
+combined with `A_q(B)~D_qB(log B)^3` and the overlap bounds yields
 
 \[
-A_q(B)\sim D_qB(\log B)^3
+N_q(B)\sim\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
 \]
 
-and all pair/triple overlaps are lower order,
-
-\[
-N_q(B)\sim D_qB(\log B)^3
-=\frac{\kappa I_q}{3\pi^3}B(\log B)^3.
-\]
-
-Summing the three directions and using `sum I_q=pi^2/8` gives
+Summing directions and using `sum I_q=pi^2/8` gives
 
 \[
 N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
 \]
 
-Thus Gate G changes no theorem constant.
+Gate G changes no theorem constant.
 
 ---
 
-## 11. What this repairs relative to R04
+## 11. R04 objection closed by this lemma
 
-R04 compressed the fixed-prime transfer enough that an adversarial reader still had to supply several steps. Gate G makes them explicit:
+This gate explicitly supplies the steps omitted in R04:
 
-1. divisibility strata and unit residue conditions are separated;
-2. unit residue predicates are expanded by finite character orthogonality rather than asserted to be a one-prime Euler-factor replacement;
-3. the principal character tuple is identified and shown to contribute exactly `prod lambda_p`;
-4. the mixed split-prime correction is shown to remain holomorphic and unable to alter pole order under fixed characters;
-5. every nonprincipal tuple loses at least one pole and is lower order;
-6. constants may depend on fixed `S`; no growing-modulus uniformity is used;
-7. the order `fix S -> B limit -> enlarge S` is explicit.
+1. divisibility strata versus unit residue conditions;
+2. finite character orthogonality and CRT;
+3. principal **pole sector** rather than an unsafe one-tuple shorthand;
+4. exact sector multiplier `prod lambda_p`;
+5. phase-uniform mixed-correction compatibility;
+6. at-least-one-pole loss outside the principal pole sector;
+7. fixed-`S` constants and the exact order of limits.
 
 ---
 
@@ -472,9 +403,10 @@ INERT_UNIT_ACCEPTANCE=(p+1)/(2(p-1))
 INERT_LAMBDA=(p+5)/(2(p+1))
 INERT_LAMBDA_LE_3_OVER_4_FOR_P_GE_7=true
 FIXED_RESIDUE_TRANSFER=FINITE_CHARACTER_ORTHOGONALITY_PLUS_CRT
-PRINCIPAL_TUPLE_MULTIPLIER=product_{p_in_S}_lambda_p
+PRINCIPAL_POLE_SECTOR_MULTIPLIER=product_{p_in_S}_lambda_p
+AUXILIARY_CHARACTER_ALIASING_INCLUDED=true
 MIXED_CORRECTION_REMAINS_HOLOMORPHIC=true
-NONPRINCIPAL_TUPLE_POLE_LOSS_AT_LEAST_ONE=true
+NONPRINCIPAL_POLE_SECTOR_LOSS_AT_LEAST_ONE=true
 NONPRINCIPAL_TOTAL=o_S(B(log B)^3)
 FIXED_S_CONSTANTS_MAY_DEPEND_ON_S=true
 LIMIT_ORDER=FIX_S_THEN_B_TO_INFINITY_THEN_ENLARGE_S
