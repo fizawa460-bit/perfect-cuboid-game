@@ -5,6 +5,7 @@ on:
     paths:
       - 'stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py'
       - 'stages/stage14/data/14-4/rank_smallpoint_factor_audit.json'
+      - 'stages/stage14/data/14-4/rank_smallpoint_factor_summary.json'
       - 'stages/stage14/archive/stage14-4am-*'
       - 'stages/stage14/main.md'
       - 'stages/stage14/README.md'
@@ -22,22 +23,33 @@ jobs:
         run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends pari-gp
       - name: Run complete H<=20k rank/Selmer census
         run: python stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py
-      - name: Validate Stage14-4am boundary
+      - name: Validate Stage14-4am boundary and frozen summary
         run: |
           python - <<'PY'
           import json
-          p='stages/stage14/data/14-4/rank_smallpoint_factor_audit.json'
-          d=json.load(open(p))
-          assert d['metadata']['max_full_rank_census_H']==20000
-          assert d['profile'][-1]['active_V']==54
-          assert d['decision']['ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED'] is True
-          assert d['decision']['MATCHED_CASE_CONTROL_ONLY'] is False
-          assert d['decision']['POSITIVE_RANK_DENSITY_PROVED'] is False
-          assert d['decision']['UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED'] is False
-          assert d['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
-          for r in d['profile']:
+          generated=json.load(open('stages/stage14/data/14-4/rank_smallpoint_factor_audit.json'))
+          frozen=json.load(open('stages/stage14/data/14-4/rank_smallpoint_factor_summary.json'))
+          assert generated['metadata']['max_full_rank_census_H']==frozen['max_full_rank_census_H']==20000
+          got=[]
+          for r in generated['profile']:
+              got.append({
+                  'B':r['B'],'A':r['eligible_A'],'Sigma':r['selmer_candidate_Sigma'],
+                  'R_lower':r['mw_rank_positive_lower'],'R_upper':r['mw_rank_positive_upper'],'V':r['active_V']
+              })
               assert r['active_V'] <= r['mw_rank_positive_lower'] <= r['mw_rank_positive_upper'] <= r['selmer_candidate_Sigma'] <= r['eligible_A']
-          print(json.dumps(d['finite_max_cut_summary'],indent=2))
+          assert got==frozen['cuts']
+          assert generated['decision']['ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED'] is True
+          assert generated['decision']['MATCHED_CASE_CONTROL_ONLY'] is False
+          assert generated['decision']['POSITIVE_RANK_DENSITY_PROVED'] is False
+          assert generated['decision']['UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED'] is False
+          assert generated['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          g=generated['profile'][-1]
+          f=frozen['B20000']
+          assert g['densities']['Sigma_over_A']==f['Sigma_over_A']
+          assert g['densities']['R_over_A_interval']==f['R_over_A_interval']
+          assert g['densities']['V_over_R_interval']==f['V_over_R_interval']
+          assert g['densities']['V_over_A']==f['V_over_A']
+          print(json.dumps(g,indent=2))
           PY
       - uses: actions/upload-artifact@v4
         with:
