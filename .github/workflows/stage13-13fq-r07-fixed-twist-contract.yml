@@ -1,0 +1,23 @@
+name: Stage13-13fq R07 fixed-twist Hecke contract
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fq/**'
+      - 'stages/stage13/scripts/13-13fq/**'
+      - '.github/workflows/stage13-13fq-r07-fixed-twist-contract.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Audit fixed-twist contract
+        run: python stages/stage13/scripts/13-13fq/fixed_twist_contract_audit.py
