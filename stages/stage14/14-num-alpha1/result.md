@@ -4,18 +4,33 @@
 >
 > CLASSIFICATION: exact finite-enumeration specification only; no performance or asymptotic claim.
 
-## 1. Starting identities
+## 1. Frozen Stage14 population
 
-For a cuboid with positive integer edges `(a,b,c)`, face diagonals `(x,y,z)` and integer space diagonal `d`, use
+The ordinary Stage14 numerical contract is
+
+```text
+0 < a < b < c,
+gcd(a,b,c)=1,
+a^2+b^2+c^2=d^2,
+d <= B,
+at least two of a^2+b^2, a^2+c^2, b^2+c^2 are squares.
+```
+
+Thus `B` is already the **space-diagonal cutoff**. A diagonal-first search over exactly `d<=B` uses the same physical finite region as ordinary num; there is no height-envelope conversion to prove.
+
+This is a major compatibility advantage of the α architecture.
+
+## 2. Opposite-edge representations
+
+Write the three face diagonals as
 
 ```text
 x^2 = a^2+b^2
 y^2 = a^2+c^2
-z^2 = b^2+c^2
-d^2 = a^2+b^2+c^2.
+z^2 = b^2+c^2.
 ```
 
-Hence every active face produces one ordered **opposite-edge representation** of the same square `d^2`:
+Every integral face diagonal gives one ordered representation of the same square `d^2`:
 
 ```text
 (a,z), (b,y), (c,x),
@@ -27,87 +42,198 @@ because
 d^2 = a^2+z^2 = b^2+y^2 = c^2+x^2.
 ```
 
-The ordered role matters: the first coordinate is an edge, the second is the face diagonal opposite that edge. An unordered sum-of-two-squares representation `{u,v}` therefore supplies up to two role orientations `(u,v)` and `(v,u)` before geometric filtering.
+The role is ordered: first coordinate = edge, second coordinate = opposite face diagonal.
 
-## 2. Exact two-representation collision theorem
-
-Take two distinct ordered representations of the same `d^2`,
+A sum-of-two-squares generator normally returns an unordered pair `{u,v}` (or a sorted pair `u<=v`). For Stage14 both role orientations must be considered:
 
 ```text
-d^2 = a^2+F_a^2 = b^2+F_b^2.
+(u,v)
+(v,u).
 ```
 
-Then automatically
+No universal inequality says the edge must be the smaller component.
+
+## 3. Exact two-representation collision theorem
+
+Take two distinct ordered representations
 
 ```text
-F_a^2-b^2 = F_b^2-a^2.
+d^2 = a^2 + F_a^2 = b^2 + F_b^2.
+```
+
+Then
+
+```text
+F_a^2 - b^2 = F_b^2 - a^2.
 ```
 
 Define
 
 ```text
-c^2 := F_a^2-b^2.
+c^2 := d^2-a^2-b^2
+     = F_a^2-b^2
+     = F_b^2-a^2.
 ```
 
-If `c^2>0` is a perfect square, then
+If this is a positive perfect square, then
 
 ```text
-F_a^2=b^2+c^2,
-F_b^2=a^2+c^2,
-d^2=a^2+b^2+c^2.
+F_a^2 = b^2+c^2,
+F_b^2 = a^2+c^2,
+d^2   = a^2+b^2+c^2.
 ```
 
-Therefore `(a,b,c)` is an integer cuboid with integer space diagonal and at least the two face diagonals `F_a,F_b` integral. Conversely, every cuboid with integer space diagonal and at least two integer face diagonals yields such a pair of ordered representations by choosing the two edges opposite those active faces.
+Therefore `(a,b,c)` is an integer cuboid with integer space diagonal and at least two integral face diagonals.
 
-Thus:
+Conversely, any Stage14 object with at least two integral face diagonals supplies the two corresponding ordered opposite-edge representations, and their cross-difference is exactly the remaining edge square.
+
+Hence, before primitive/canonical filtering,
 
 ```text
 TWO_FACE_OR_MORE
 <=>
-there exist two distinct ordered representations of d^2
-whose cross-difference is a positive square.
+two distinct ordered representations of d^2
+have positive-square residual d^2-a^2-b^2.
 ```
 
-No probabilistic or heuristic step is involved.
+This is exact, not heuristic.
 
-## 3. Exactly two versus all three faces
+## 4. Exactly two versus three faces
 
-After reconstructing `(a,b,c)`, compute the remaining face square
+After reconstructing `(a,b,c)`, test all three face squares directly.
+
+For the two witness faces integrality is automatic. The remaining test is
 
 ```text
-R^2 = a^2+b^2.
+a^2+b^2 = square ?
 ```
 
-If `R^2` is not a square, the reconstructed object has exactly the two active faces used in the collision. If it is a square, all three face diagonals are integral and the object is a perfect-cuboid candidate.
+in the displayed orientation; after canonical sorting simply recompute all three masks.
 
-A three-face object produces three active ordered representations and therefore three pair collisions. The α engine must canonicalize the edge triple and merge these three collision witnesses into one physical object with the all-three face mask. It must not count them as three cuboids.
+- exactly two integral faces -> Stage14 `N2` object;
+- all three integral faces -> Stage14 `T` object / perfect-cuboid candidate.
 
-An exactly-two object produces one unordered pair of active-face representations, modulo exchanging the two witnesses.
+An all-three-face object has three active opposite-edge representations, hence three representation-pair witnesses. The α engine must deduplicate these to one physical object.
 
-## 4. Canonicalization and duplicate symmetries
+## 5. Canonicalization
 
-The collision layer is allowed to generate all role orientations. After a positive-square cross-difference is found:
+The reference α enumerator must favor completeness over clever orientation pruning.
 
-1. form `(a,b,c)`;
-2. reject zero/negative coordinates;
-3. sort the edge triple into the ordinary Stage14 canonical order;
-4. compute all three face-square tests from the sorted triple;
-5. compute `gcd(a,b,c)` and apply the ordinary primitive rule;
-6. emit the same canonical object key and face mask as main num;
-7. deduplicate by canonical object key, not by representation-pair identity.
+For every successful collision:
 
-The following search symmetries are therefore harmless if canonicalized:
+1. reconstruct positive integer `(a,b,c,d)`;
+2. sort `(a,b,c)` into ordinary Stage14 order;
+3. require `gcd(a,b,c)=1`;
+4. recompute all three face-square tests exactly;
+5. require at least two active faces;
+6. emit the ordinary canonical object key and face mask;
+7. deduplicate by canonical object key.
+
+Harmless generation multiplicities include:
 
 ```text
-representation pair order: (R1,R2) <-> (R2,R1)
-within-representation role trial: (u,v) versus (v,u)
-edge permutation after reconstruction
-three pair witnesses of one all-three-face object
+representation-pair order,
+within-representation role reversal,
+edge permutation,
+three pair witnesses of an all-three-face object.
 ```
 
-No orientation may be discarded merely because one component of `{u,v}` is larger: for the third opposite-edge representation `(c,x)`, the ordering of `c` and `x=sqrt(a^2+b^2)` is not fixed in general.
+They are removed only after exact reconstruction.
 
-## 5. What one representation can and cannot enumerate
+## 6. Primitive semantics
+
+The Stage14 primitive rule is exactly
+
+```text
+gcd(a,b,c)=1.
+```
+
+It is applied to the reconstructed edge triple. No representation-level shortcut may replace this gate unless separately proved equivalent.
+
+The historical source also checks gcds involving the space diagonal. For a genuine reconstructed cuboid this does not strengthen the primitive edge condition: a common divisor of all three edges automatically divides `d`, so the canonical Stage14 check remains the authoritative normalization.
+
+## 7. Safe diagonal sieve inherited from the mathematics
+
+Some diagonal-first pruning is valid for the **complete primitive Stage14 population**, not merely for perfect cuboids.
+
+Suppose a primitive cuboid has integer space diagonal `d` and even one integral face diagonal `F` opposite edge `a`:
+
+```text
+d^2 = a^2 + F^2,
+F^2 = b^2 + c^2.
+```
+
+### 7.1 `d` is odd
+
+If `d` were even, `d^2 ≡ 0 (mod 4)`. Since a square is `0` or `1 mod 4`, `a^2+F^2 ≡0` forces `a,F` even. Then `F^2=b^2+c^2 ≡0 mod4` forces `b,c` even, contradicting `gcd(a,b,c)=1`.
+
+Thus
+
+```text
+d is odd.
+```
+
+### 7.2 no prime `p ≡ 3 (mod 4)` divides `d`
+
+If such a prime `p|d`, then from
+
+```text
+a^2 + F^2 ≡ 0 (mod p)
+```
+
+and the fact that `-1` is not a quadratic residue modulo `p`, we get `p|a` and `p|F`. Applying the same argument to
+
+```text
+b^2+c^2 = F^2 ≡0 (mod p)
+```
+
+gives `p|b,c`, again contradicting primitivity.
+
+Therefore every prime divisor of `d` is `1 mod4`, and in particular
+
+```text
+d ≡ 1 (mod 4).
+```
+
+So the historical outer-loop ideas
+
+```text
+scan d = 1 mod 4
+reject d having a 3 mod 4 prime factor
+```
+
+are safe for the complete Stage14 primitive population.
+
+## 8. Historical optimizations that are NOT safe for Stage14 N2
+
+The Belogourov source code v3.05 contains a fast `search_perfect` path. It generates Girard representations of `G^2`, then performs representation-pair collision tests. But that fast path also uses modular requirements such as the existence of an edge divisible by `11` and by `19` before accepting a candidate branch.
+
+Those restrictions are Euler-brick/perfect-cuboid necessities; they rely on all three face diagonals being integral. They are not valid filters for an exactly-two-face Stage14 object.
+
+This matches the author's distributed-search report: after the first full almost-perfect batch, the accelerated version became more than four times faster by deliberately abandoning most almost-perfect checks, and the later reported Face-cuboid samples are explicitly not complete.
+
+Therefore α may import:
+
+```text
+SAFE:
+  diagonal-first organization
+  factorization of d
+  Girard/Gaussian generation of Rep(d^2)
+  d odd / d=1 mod4 primitive sieve
+  no p=3 mod4 divisor of d
+  exact representation collision identity
+  exact square tests
+
+UNSAFE UNTIL REPROVED FOR N2:
+  perfect/Euler-brick-specific 11,19 or similar edge divisibility cuts
+  geometric loop cuts whose proof assumes the missing third face is integral
+  any optimization introduced by dropping almost-perfect checks
+  historical Face-cuboid lists as if they were complete
+```
+
+α2 starts with **none of the unsafe cuts**.
+
+## 9. What pair collisions do not enumerate
 
 A single representation
 
@@ -115,119 +241,121 @@ A single representation
 d^2 = a^2+F^2
 ```
 
-only says that `a` is an edge and `F` is the opposite face diagonal. It does **not** determine the two edges spanning `F`.
+does not determine the two edges inside `F`.
 
-To enumerate the full one-active-face population from a diagonal-first engine one needs a nested decomposition
+To enumerate the entire population having merely one integral face requires a nested decomposition
 
 ```text
 F^2 = b^2+c^2.
 ```
 
-Then `(a,b,c)` has integer space diagonal `d` and at least that one active face; the other two faces are tested afterward.
-
-Consequently there are two distinct α workloads:
+So there are conceptually two diagonal-first modes:
 
 ```text
-PAIR_COLLISION_MODE:
-    complete enumeration of two-face-or-more objects from collisions inside Rep(d^2)
+PAIR_COLLISION_MODE
+  complete for the frozen Stage14 >=2-face population (N2 and T)
 
-NESTED_SINGLE_FACE_MODE:
-    complete enumeration of the full one-face population by Rep(d^2) followed by Rep(F^2)
+NESTED_SINGLE_FACE_MODE
+  required only for a full census of all one-face objects
 ```
 
-The immediate performance experiment should prioritize `PAIR_COLLISION_MODE`, because Stage14-num6 currently freezes the two-face population `N2` and `T` and this mode is closest to the historical high-range perfect-cuboid search architecture.
+The ordinary Stage14-num3 contract already starts at **at least two faces**, so `PAIR_COLLISION_MODE` is sufficient to reproduce the current num population exactly. The ordinary `active faces` ledger is derived from those retained N2/T objects; α does not need a separate full one-face census to match it.
 
-## 6. Primitive semantics
+## 10. Relation to Belogourov's implementation
 
-Primitive normalization is a property of the reconstructed physical edge triple:
+The checked public source (`renyxadarox/pcuboid`, C version 3.05) implements the same backbone:
 
 ```text
-gcd(a,b,c)=1.
+fix body diagonal G
+-> factor G
+-> synthesize all Girard representations G^2=A^2+F^2
+-> combine representation pairs
+-> test a difference/residual for being a square
+-> test the remaining face square
 ```
 
-It must be checked after reconstruction/canonicalization. A restriction on `d` or on a single sum-of-two-squares representation is not by itself a substitute for the Stage14 primitive contract.
-
-Scaled copies share the same representation geometry after scaling and must be removed exactly as in ordinary num.
-
-## 7. Physical cutoff semantics
-
-For every physical cuboid,
+In the fast path, with two sorted representations
 
 ```text
-max(a,b,c) < d.
+G^2=A^2+F^2=B^2+E^2,
 ```
 
-Therefore a search bounded by space diagonal `d<=D` is not automatically identical to an edge-height search `max(a,b,c)<=B`: it is a different finite region.
-
-For α1 the conversion is deliberately not guessed. The α2 reference enumerator must support both filters on each reconstructed object:
+the code tests
 
 ```text
-DIAGONAL_CUTOFF: d<=D
-ORDINARY_STAGE14_CUTOFF: existing main-num physical B predicate
+C^2 = B^2-A^2,
+D^2 = A^2+B^2.
 ```
 
-Exact overlap with main num is judged only using the latter predicate. α5 will formalize the optimal diagonal envelope needed to cover a given ordinary `B` cutoff without omission.
+When `C` is integral, `(A,B,C)` automatically has two integral opposite face diagonals `E,F` and space diagonal `G`; `D` distinguishes Perfect from Face. This is one canonical orientation of the general ordered-role theorem above.
 
-## 8. Relation to the Belogourov search architecture
+The source's Girard synthesis recursively combines prime `1 mod4` sum-of-two-squares representations via the Brahmagupta-Fibonacci/Girard product identity and deduplicates the resulting pairs.
 
-Belogourov's diagonal-first search fixes the body diagonal `g`, factors/sieves it, generates Girard sum-of-two-squares representations of `g^2`, and combines representations to test cuboid compatibility. The author's earlier/full version retained several almost-perfect classes; later speed-oriented versions intentionally skipped most almost-perfect checks.
+α1 imports the mathematical architecture, not its perfect-only pruning policy.
 
-Stage14-num-α adopts only the **enumeration architecture**:
+## 11. Exact α2 interface
+
+The α2 reference implementation should expose auditable primitives:
 
 ```text
-fix d -> generate Rep(d^2) -> collide compatible representations.
+representations_of_square(d)
+  -> unordered positive pairs {u,v} with u^2+v^2=d^2
+
+ordered_roles({u,v})
+  -> (u,v),(v,u)
+
+collide((a,Fa),(b,Fb))
+  -> c if d^2-a^2-b^2 is a positive square, else NONE
+
+canonicalize(a,b,c,d)
+  -> ordinary Stage14 object key
+
+face_mask(a,b,c)
+  -> exact ordinary Stage14 mask
+
+primitive(a,b,c)
+  -> gcd(a,b,c)==1
 ```
 
-It does not import historical almost-perfect counts as a census, and it may not copy any optimization that discards exactly-two objects.
-
-Primary/authoritative descriptions checked for α1:
-
-- Alexander Belogourov, *Distributed search for a perfect cuboid* (2022 author manuscript / distributed-search report).
-- Belogourov's earlier project description of the same diagonal-decomposition search architecture.
-
-## 9. Exact α2 interface
-
-The α2 reference implementation should expose the following auditable primitives:
+For a frozen cutoff `B`, α2 searches exactly
 
 ```text
-representations_of_square(d) -> unordered positive pairs {u,v} with u^2+v^2=d^2
-ordered_roles({u,v}) -> (u,v),(v,u)
-collide((a,Fa),(b,Fb)) -> c or NONE
-canonicalize(a,b,c) -> ordinary Stage14 object key
-face_mask(a,b,c) -> ordinary Stage14 three-face mask
-primitive(a,b,c) -> gcd(a,b,c)==1
+d <= B
 ```
 
-For every tested ordinary cutoff, α2 must compare exact key sets rather than only counts.
+and compares **sets of canonical keys**, not merely counts.
 
-Required α2 locks:
+Required locks:
 
 ```text
 ALPHA_PAIR_COLLISION_N2_KEYS_EQUAL_MAIN=true
 ALPHA_PAIR_COLLISION_FACE_MASKS_EQUAL_MAIN=true
 ALPHA_PAIR_COLLISION_T_EQUAL_MAIN=true
 ALPHA_PAIR_COLLISION_RAW_EDGE_KEYS_EQUAL_MAIN=true
+ALPHA_ACTIVE_FACE_KEYS_EQUAL_MAIN=true
 ```
 
-If α2 also implements nested one-face mode, that comparison is additional and must use the corresponding main-num one-face source contract; it is not required to validate the pair-collision accelerator first.
-
-## 10. α1 decision
-
-The diagonal-first idea is mathematically compatible with the exact Stage14 two-face census.
+## 12. α1 decision
 
 ```text
+STAGE14_NUM_ALPHA1=COMPLETE_EXACT_DIAGONAL_FIRST_DICTIONARY
+PAIR_COLLISION_ENUMERATION_COMPLETE_FOR_STAGE14_NUM_POPULATION=true
 PAIR_COLLISION_ENUMERATION_COMPLETE_FOR_TWO_FACE_OR_MORE=true
 ALL_THREE_REQUIRES_CANONICAL_DEDUP_OF_THREE_WITNESSES=true
 UNORDERED_REPRESENTATION_WITHOUT_ROLE_TRIAL_INCOMPLETE=true
 FULL_ONE_FACE_FROM_PAIR_COLLISIONS_ALONE=false
 FULL_ONE_FACE_REQUIRES_NESTED_FACE_DECOMPOSITION=true
 PRIMITIVE_FILTER_MUST_USE_RECONSTRUCTED_EDGE_TRIPLE=true
-PHYSICAL_B_TO_DIAGONAL_ENVELOPE_NOT_YET_LOCKED=true
+STAGE14_PHYSICAL_CUTOFF_IS_SPACE_DIAGONAL=true
+ALPHA_DIAGONAL_RANGE_EQUALS_MAIN_NUM_RANGE=true
+D_ODD_AND_ONLY_1MOD4_PRIME_SUPPORT_SAFE=true
+PERFECT_SPECIFIC_11_19_PRUNING_SAFE_FOR_N2=false
+HISTORICAL_FAST_FACE_LIST_COMPLETE=false
 MEANINGFUL_SPEEDUP_PROVED=false
 ```
 
-The important outcome is that the fast historical idea can be tested **without weakening `N2/T` completeness**. The first implementation does not need to reproduce the entire one-face family before we know whether the diagonal collision engine is worthwhile.
+The strongest α1 outcome is not yet speed. It is that the historical diagonal-first architecture can be tested against Stage14 **without any cutoff translation and without weakening the exact N2/T census contract**.
 
 ## Next
 
-`Stage14-num-α2`: build a deliberately simple reference implementation of the ordered-representation collision theorem and compare its canonical two-face object keys, face masks, raw-edge keys and `T` exactly against ordinary num on small frozen cutoffs.
+`Stage14-num-α2`: build the simplest standard-library ordered-role collision enumerator, use only the proven-safe diagonal sieve, and compare canonical N2/T object keys, face masks, active-face keys and raw-edge keys exactly against ordinary num on small frozen cutoffs before adding any performance optimization.
