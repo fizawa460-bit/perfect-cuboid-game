@@ -1,0 +1,58 @@
+# <TITLE>
+
+```yaml
+ID: TB-<type>-<slug>
+TYPE: <FORMULA|LEMMA|BOUND|DICTIONARY|RECIPE|LEDGER|WARNING>
+STATUS: <CURRENT|SUPERSEDED|DEPRECATED|PARKED>
+TITLE: <short title>
+SCOPE: <MAIN|S|BOTH>
+SOURCE_STAGE: <Stage14-...>
+SOURCE_PR: <integer>
+SOURCE_MERGE_SHA: <40-hex SHA>
+SOURCE_FILES:
+  - <path>
+```
+
+## INPUT
+
+- ...
+
+## OUTPUT
+
+```text
+...
+```
+
+## VARIABLE DICTIONARY
+
+- `...` = ...
+
+## USED BY
+
+- ...
+
+## DO NOT USE FOR
+
+- ...
+
+## PROVENANCE NOTES
+
+- ...
+
+<!--
+If STATUS=SUPERSEDED add:
+SUPERSEDED_BY: TB-...
+
+If STATUS=DEPRECATED add:
+DEPRECATED_REASON: ...
+
+If STATUS=PARKED add:
+PARK_REASON: ...
+
+For exact bound ledgers, prefer:
+EXPONENT_SCALE: B
+EXPONENT_EXACT: 41/42
+SAVING_EXACT: 1/42
+TARGET_EXACT: 1/2
+CONVERSION: ...
+-->
