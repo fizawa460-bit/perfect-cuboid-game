@@ -2,135 +2,160 @@
 
 ## Purpose
 
-Stage14-num-α is a side experimental numerical track dedicated to one question only:
+Stage14-num-α is an experimental numerical side track dedicated to one question:
 
-> Can a space-diagonal-first enumeration, inspired by large perfect-cuboid searches, be converted into a much faster exact Stage14 census engine for primitive one-face / two-face / three-face incidence data?
+> Can the historical body-diagonal-first search architecture be converted into a materially faster **exact** Stage14 census engine without losing any primitive exactly-two-face objects?
 
-This is intentionally separate from the ordinary `Stage14-numN` rolling observatory. The normal num track protects its existing exact-census semantics and physical-height history. num-α may change parametrization, enumeration order, storage format, and algorithmic architecture aggressively, but it must reproduce the ordinary num census exactly on overlapping ranges before it is trusted.
+The ordinary rolling `Stage14-numN` observatory remains authoritative until α reproduces its frozen key sets exactly.
 
-## Mathematical object
+## Frozen Stage14 target
 
-For a cuboid with edges `a,b,c`, face diagonals `x,y,z`, and space diagonal `d`,
+The ordinary numerical population is
 
 ```text
-x^2 = a^2+b^2
-y^2 = a^2+c^2
-z^2 = b^2+c^2
-d^2 = a^2+b^2+c^2.
+0<a<b<c
+gcd(a,b,c)=1
+a^2+b^2+c^2=d^2
+d<=B
+at least two integral face diagonals
 ```
 
-Each active face therefore gives an ordered opposite-edge representation
+Thus α's natural outer variable `d` is already the ordinary Stage14 physical cutoff. Searching `d<=B` covers exactly the same finite height region.
+
+## α1 exact dictionary — COMPLETE
+
+Every active face gives an ordered opposite-edge representation
 
 ```text
 d^2 = a^2+z^2 = b^2+y^2 = c^2+x^2.
 ```
 
-`Stage14-num-α1` has now proved the exact collision dictionary:
+For two ordered representations
 
 ```text
-TWO_FACE_OR_MORE
-<=>
-two distinct ordered representations of one d^2 have positive-square cross-difference.
+d^2=a^2+F_a^2=b^2+F_b^2,
 ```
 
-The representation role must be tried in both orientations; an unordered `{u,v}` alone is insufficient. An all-three-face object gives three collision witnesses and must be canonicalized to one object. A full one-face census cannot be recovered from pair collisions alone; it requires a nested decomposition of the opposite face diagonal square.
+the residual
+
+```text
+c^2=d^2-a^2-b^2=F_a^2-b^2=F_b^2-a^2
+```
+
+being a positive square is **equivalent** to reconstructing an integer cuboid with space diagonal `d` and at least those two face diagonals integral. The remaining face-square test separates `N2` from `T`.
 
 Result: `stages/stage14/14-num-alpha1/result.md`.
 
-## Non-goals
-
-- Do not infer asymptotics from the accelerated census.
-- Do not treat historical almost-perfect counts as complete unless their enumeration contract is proved complete.
-- Do not replace the ordinary num source until overlap equality is exact.
-- Do not optimize for the perfect-cuboid yes/no test at the cost of losing two-face objects; Stage14 specifically needs the one-to-two-to-three transition data.
-
-## Roadmap
-
-### Stage14-num-α1 — Exact algorithm reconstruction and Stage14 dictionary — COMPLETE
-
-Locked results:
+Locked α1 decisions:
 
 ```text
+PAIR_COLLISION_ENUMERATION_COMPLETE_FOR_STAGE14_NUM_POPULATION=true
 PAIR_COLLISION_ENUMERATION_COMPLETE_FOR_TWO_FACE_OR_MORE=true
 ALL_THREE_REQUIRES_CANONICAL_DEDUP_OF_THREE_WITNESSES=true
 UNORDERED_REPRESENTATION_WITHOUT_ROLE_TRIAL_INCOMPLETE=true
 FULL_ONE_FACE_FROM_PAIR_COLLISIONS_ALONE=false
 FULL_ONE_FACE_REQUIRES_NESTED_FACE_DECOMPOSITION=true
 PRIMITIVE_FILTER_MUST_USE_RECONSTRUCTED_EDGE_TRIPLE=true
-PHYSICAL_B_TO_DIAGONAL_ENVELOPE_NOT_YET_LOCKED=true
+STAGE14_PHYSICAL_CUTOFF_IS_SPACE_DIAGONAL=true
+ALPHA_DIAGONAL_RANGE_EQUALS_MAIN_NUM_RANGE=true
+D_ODD_AND_ONLY_1MOD4_PRIME_SUPPORT_SAFE=true
+PERFECT_SPECIFIC_11_19_PRUNING_SAFE_FOR_N2=false
+HISTORICAL_FAST_FACE_LIST_COMPLETE=false
 ```
 
-### Stage14-num-α2 — Reference implementation
+### Safe historical ideas
 
-Build a small standard-library reference enumerator implementing the α1 ordered-role collision theorem. Prioritize the current Stage14 two-face population: reconstruct canonical object keys, masks, raw-pair edges and `T`, then compare exact key sets against ordinary num on small frozen cutoffs.
+α may use, after exact implementation checks:
 
-Required lock:
+- body-diagonal-first enumeration;
+- factorization of `d`;
+- Girard/Gaussian generation of all representations of `d^2` as two squares;
+- primitive-safe diagonal sieve: `d` odd, `d≡1 mod4`, no `3 mod4` prime divisor;
+- exact representation collisions and integer-square tests.
+
+### Unsafe historical shortcuts
+
+Do not import without a new N2 completeness proof:
+
+- edge divisibility cuts such as the fast-source `11` and `19` tests;
+- any Euler-brick/perfect-only modular filter;
+- loop pruning whose proof uses the missing third face being integral;
+- optimizations introduced specifically by dropping almost-perfect checks;
+- historical later-batch Face-cuboid samples as complete data.
+
+The author explicitly reports that the accelerated historical search dropped most almost-perfect checks and that the later Face-cuboid lists were incomplete.
+
+## Roadmap
+
+### Stage14-num-α2 — Reference collision enumerator
+
+Build the simplest auditable standard-library implementation of the α1 theorem. Use only proven-safe pruning.
+
+For frozen cutoffs compare **canonical key sets**, not only totals:
 
 ```text
 ALPHA_PAIR_COLLISION_N2_KEYS_EQUAL_MAIN=true
 ALPHA_PAIR_COLLISION_FACE_MASKS_EQUAL_MAIN=true
+ALPHA_PAIR_COLLISION_ACTIVE_FACE_KEYS_EQUAL_MAIN=true
 ALPHA_PAIR_COLLISION_RAW_EDGE_KEYS_EQUAL_MAIN=true
 ALPHA_PAIR_COLLISION_T_EQUAL_MAIN=true
 ```
 
-Nested one-face mode is optional at this stage and must not delay validation of the pair-collision accelerator.
+No optimization is accepted before these locks pass.
 
 ### Stage14-num-α3 — Sum-of-two-squares generation audit
 
-Compare candidate generation strategies for `d^2`:
+Compare complete generation strategies for `Rep(d^2)`:
 
-1. direct Euclid/Pythagorean generation;
-2. factorization/Gaussian-integer representation generation;
-3. divisor-formula/Girard style representation synthesis;
-4. cached or segmented representation generation by diagonal interval.
+1. simple reference generation;
+2. factorization/Gaussian-integer synthesis;
+3. Girard/Brahmagupta-Fibonacci product generation;
+4. segmented/cached diagonal blocks.
 
-Measure candidate counts, duplication, factorization cost, and memory. Preserve completeness certificates for the exact target range.
+Measure factorization cost, number of representations, duplicate work and memory while preserving exact α2 output.
 
 ### Stage14-num-α4 — Compatible-representation collision engine
 
-Optimize the α1 collision layer after α2 exact equality is locked. Preserve both role orientations and canonical deduplication; do not optimize away exactly-two objects.
+Optimize the collision layer: ordering, indexing, residual-square filters, batching and deduplication. Both role orientations remain mandatory unless a replacement orientation theorem is proved.
 
-### Stage14-num-α5 — Primitive and physical-height transfer
+### Stage14-num-α5 — Safe-pruning theorem pack
 
-Prove and implement the exact conversion between the diagonal-first search range and the ordinary Stage14 physical cutoff. Determine the diagonal envelope needed for complete ordinary-`B` coverage.
+Audit every proposed high-speed filter individually against the complete Stage14 `N2/T` population. Promote only filters with a proof independent of the missing third face. Historical perfect-only congruence tests remain disabled by default.
 
-### Stage14-num-α6 — Cross-validation at existing frozen cutoffs
+### Stage14-num-α6 — Frozen-cutoff cross-validation
 
-Run α against multiple already-frozen ordinary num cutoffs and require byte-level/canonical-key equality for totals, directional counts, masks, raw-pair edges, max degree, `T(B)`, and compatible hashes.
+Require exact equality with ordinary num over multiple frozen cutoffs, including directional counts, masks, active-face ledger, raw edges, max degree, `T(B)` and compatible hashes.
 
-### Stage14-num-α7 — Performance crossover test
+### Stage14-num-α7 — Performance crossover
 
-Benchmark α against the current exact num engine under identical hardware/runtime constraints. Classify `ALPHA_LOSES`, `ALPHA_DIAGNOSTIC_ONLY`, `ALPHA_WINS_CONSTANT_FACTOR`, or `ALPHA_WINS_ASYMPTOTICALLY`.
+Benchmark against the ordinary exact num engine under comparable runners and classify:
 
-### Stage14-num-α8 — Stage14-complete large-cutoff mode
+```text
+ALPHA_LOSES
+ALPHA_DIAGNOSTIC_ONLY
+ALPHA_WINS_CONSTANT_FACTOR
+ALPHA_WINS_ASYMPTOTICALLY
+```
 
-Only if α7 is favorable, scale while preserving the complete two-face census.
+### Stage14-num-α8 — Large exact cutoff
 
-### Stage14-num-α9 — Optional historical-search reproduction
+Only if α7 is favorable, extend the exact Stage14 census beyond the rolling-num frontier while preserving all α2/α6 regression gates.
 
-Reproduce selected published diagonal-first intervals/results as algorithm validation only. Historical incomplete almost-perfect lists are not Stage14 census data.
+### Stage14-num-α9 — Optional historical reproduction
+
+Reproduce selected historical diagonal intervals as algorithm validation only. This is never substituted for the Stage14 census.
 
 ### Stage14-num-α10+ — Conditional continuation
 
-Continue only if the engine demonstrates meaningful performance gain or an independent structural diagnostic.
+Continue only on demonstrated performance or structural value.
 
-## Acceptance contract
+## Non-goals
 
-```text
-EXACT_OVERLAP_WITH_MAIN_NUM=true
-TWO_FACE_ENUMERATION_COMPLETE=true
-PRIMITIVE_SEMANTICS_IDENTICAL=true
-PHYSICAL_HEIGHT_SEMANTICS_IDENTICAL=true
-NO_HISTORICAL_INCOMPLETE_FACE_LIST_USED_AS_CENSUS=true
-```
-
-Performance remains separate:
-
-```text
-MEANINGFUL_SPEEDUP_PROVED=false
-LARGER_EXACT_STAGE14_CUTOFF_REACHED=false
-```
+- no asymptotic inference from faster finite data;
+- no perfect-cuboid nonexistence inference from a finite cutoff;
+- no full one-face census requirement before the pair-collision accelerator is evaluated;
+- no sacrifice of exactly-two completeness for perfect-cuboid search speed.
 
 ## Immediate next task
 
-Start **Stage14-num-α2**: implement the simplest auditable ordered-representation collision enumerator and require exact canonical-key equality with ordinary num before any optimization.
+Start **Stage14-num-α2**: implement the deliberately simple ordered-role collision enumerator over exactly `d<=B` and prove exact key-set equality against ordinary num on small frozen cutoffs.
