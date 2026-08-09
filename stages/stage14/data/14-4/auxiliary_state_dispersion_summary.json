@@ -1,0 +1,82 @@
+{
+  "stage": "14-4aw",
+  "classification": "AUXILIARY_STATE_BULK_TRANSFERRED_AND_ENDPOINT_LEDGER_QUANTIFIED",
+  "merged_inputs": {
+    "stage14_4av_interior_bulk_saving": true,
+    "stage14_s5i_rank_one_bulk": true,
+    "stage14_s5i_state_split_factorization": true,
+    "stage14_s5i_mobius_discrepancy": true
+  },
+  "bulk_transfer": {
+    "frozen_state_shape": "Gamma(frozen)*alpha(u)*beta(v)",
+    "growing_auxiliary_state_coupling_in_bulk": false,
+    "interior_block_bound": "L^2*(UV)^eps*sqrt(1/U+1/V)",
+    "interior_condition": "L^kappa<=U,V<=L^(1-kappa)",
+    "interior_dyadic_sum": "L^(2-kappa/2+o(1))",
+    "interior_power_saving_summed": true
+  },
+  "mobius_discrepancy": {
+    "pointwise_bound": "Q^eps*((X+Y)log(2M)+sqrt(QXY)+Q)",
+    "balanced_medium_condition": "X~Y~L, Q<=L^(2-2kappa)",
+    "balanced_medium_pointwise": "Delta<<L^(2-kappa+o(1))",
+    "pointwise_not_summable_as_L2": true,
+    "sufficient_L2_contract": "sum_{u~U,v~V}|Delta(u,v)|^2 << L^(4-2eta+o(1))/(UV)",
+    "second_moment_proved": false
+  },
+  "endpoint_ledger": {
+    "microscopic_condition": "min(U,V)<L^kappa",
+    "microscopic_bulk_dyadic_sum": "L^(2+o(1))",
+    "microscopic_geometric_sum_test_lt_4": true,
+    "microscopic_fixed_power_saving": false,
+    "microscopic_reason": "side 1 degenerates Jacobi edge to a constant/lower-dimensional mode",
+    "sparse_condition": "Q>L^(2-2kappa)",
+    "sparse_closed": false,
+    "sparse_required_method": "divisor switching/complementary divisors or sparse-incidence estimate"
+  },
+  "exponent_audit": [
+    {
+      "kappa": "1/10",
+      "interior_bulk_L_exponent": "39/20",
+      "medium_Q_threshold_L_exponent": "9/5",
+      "pointwise_Delta_L_exponent": "19/10"
+    },
+    {
+      "kappa": "1/8",
+      "interior_bulk_L_exponent": "31/16",
+      "medium_Q_threshold_L_exponent": "7/4",
+      "pointwise_Delta_L_exponent": "15/8"
+    },
+    {
+      "kappa": "1/6",
+      "interior_bulk_L_exponent": "23/12",
+      "medium_Q_threshold_L_exponent": "5/3",
+      "pointwise_Delta_L_exponent": "11/6"
+    },
+    {
+      "kappa": "1/4",
+      "interior_bulk_L_exponent": "15/8",
+      "medium_Q_threshold_L_exponent": "3/2",
+      "pointwise_Delta_L_exponent": "7/4"
+    }
+  ],
+  "first_remaining_local_object": "DISCREPANCY_L2_PLUS_MICROSCOPIC_DIAGONAL_PLUS_SPARSE_SWITCHING",
+  "decision": {
+    "STAGE14_4AW": "AUXILIARY_STATE_BULK_TRANSFERRED_AND_ENDPOINT_LEDGER_QUANTIFIED",
+    "S5I_RANK_ONE_BULK_IMPORTED": true,
+    "GROWING_AUXILIARY_STATE_COUPLING_IN_BULK": false,
+    "INTERIOR_AUXILIARY_BULK_POWER_SAVING_SUMMED": true,
+    "MICROSCOPIC_BULK_DYADIC_SUMMED": true,
+    "MICROSCOPIC_BULK_FIXED_POWER_SAVING": false,
+    "MEDIUM_MODULUS_POINTWISE_DISCREPANCY_POWER_SAVING": true,
+    "DISCREPANCY_L2_TARGET_EXPLICIT": true,
+    "DISCREPANCY_SECOND_MOMENT_PROVED": false,
+    "SPARSE_LARGE_MODULUS_BLOCKS_CLOSED": false,
+    "MICROSCOPIC_DIAGONAL_CLOSED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4ax attack the discrepancy L2 target on balanced/medium blocks and close either the microscopic diagonal or sparse large-modulus regime by divisor switching, exposing whichever obstruction survives first"
+  }
+}
