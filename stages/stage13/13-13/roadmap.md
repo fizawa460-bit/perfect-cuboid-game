@@ -1,6 +1,6 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13F_R05_REPAIR_GATES_A_THROUGH_H_COMPLETE_R05_BUNDLE_NEXT`
+> STATUS: `STAGE13_13F_R05_IMMUTABLE_BUNDLE_FRESH_REVIEW_NEXT`
 >
 > PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, freshly reviewed and finally frozen theorem package.
 >
@@ -10,11 +10,11 @@
 
 ```text
 13-13a 13-13b 13-13c 13-13d 13-13e 13-13f
-13-13fa 13-13fb 13-13fc 13-13fd 13-13fe 13-13ff 13-13fg 13-13fh 13-13fi
+13-13fa 13-13fb 13-13fc 13-13fd 13-13fe 13-13ff 13-13fg 13-13fh 13-13fi 13-13fj
 13-13g
 ```
 
-`13-13fi` is now reserved for construction of the immutable R05 self-contained review bundle and manifest.
+`13-13fj` is the fresh external-review ingestion gate for immutable R05.
 
 ## Frozen theorem candidate
 
@@ -76,7 +76,7 @@ NEXT=13-13f
 
 The deterministic audit is reproducibility/consistency evidence only, not proof validation.
 
-## 13-13f — R04 review ingestion / R05 repair and fresh-review gate
+## 13-13f — R04 repair parent / R05 fresh-review parent
 
 R04 review record remains historical:
 
@@ -89,7 +89,7 @@ R04_REPAIR_REQUIRED=true
 R04_VERDICTS_CARRY_FORWARD_TO_R05=false
 ```
 
-The R04 objections triggered repair Gates A--H. Those internal repairs are now complete, but Stage13 remains blocked because R05 has not yet been built or freshly reviewed.
+Those objections triggered repair Gates A--H. The repair synthesis and immutable R05 bundle are now complete. Stage13 remains blocked only on fresh external review of R05.
 
 ### 13-13fa — Gate A complete
 
@@ -258,18 +258,41 @@ NEXT=13-13fi
 
 ## 13-13fi — immutable R05 bundle
 
-Status: `[>] NEXT`.
-
-Build a new immutable self-contained review artifact from the merged Gate-H snapshot. It must use the new `13-13fh` proof as its canonical entrypoint, embed the exact Stage12 interface and external-contract boundary needed for review, record a new source snapshot and SHA256, and never mutate R04.
-
-After R05 is built:
+Status: `[x] COMPLETE`.
 
 ```text
+STAGE13_13FI=COMPLETE_R05_REVIEW_BUNDLE
+BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260809-R05
+SOURCE_SNAPSHOT_COMMIT=79f03341b67dd49a8c128cfbeba3f756c91de6f6
+CONTENT_SHA256=4214a6e3621b52ce39373799b48fc8325351f650514e732d6e2244d28d475458
+BUNDLE_PATH=review/STAGE13-FINAL-SELF-CONTAINED-20260809-R05.html
+R05_IMMUTABLE=true
+R04_IMMUTABLE=true
+R03_IMMUTABLE=true
+THEOREM_CHANGED=false
 R05_FRESH_EXTERNAL_REVIEW_REQUIRED=true
 R04_VERDICTS_CARRY_FORWARD_TO_R05=false
+DETERMINISTIC_AUDIT_SCOPE=REPRODUCIBILITY_AND_CONSISTENCY_ONLY
+PROMOTE_TO_13_13G=false
+NEXT=13-13fj
 ```
 
-Fresh R05 reviewer verdicts are ingested under parent gate `13-13f`.
+The bundle is generated only from the fixed merged Gate-H snapshot. Any substantive post-review repair must create R06 or later; R05 is never edited in place.
+
+## 13-13fj — fresh R05 external-review ingestion
+
+Status: `[>] NEXT`.
+
+Start a fresh reviewer ledger for `STAGE13-FINAL-SELF-CONTAINED-20260809-R05`. R04 verdicts are provenance only and count as zero votes on R05.
+
+Required closure condition:
+
+```text
+R05_INDEPENDENT_CLOSED_VERDICTS>=2
+R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
+```
+
+If a substantive defect is found, preserve R05 and create R06 or later. If the condition is met on the final immutable bundle, advance to `13-13g`.
 
 ## 13-13f closure rule
 
@@ -283,12 +306,14 @@ UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
 Current parent state:
 
 ```text
-STAGE13_13F=BLOCKED_R05_BUNDLE_AND_REVIEW_PENDING
+STAGE13_13F=BLOCKED_R05_FRESH_REVIEW_PENDING
 R05_SYNTHESIS_READY=true
-R05_BUNDLE_CREATED=false
+R05_BUNDLE_CREATED=true
 R05_FRESH_REVIEW_REQUIRED=true
+R05_INDEPENDENT_CLOSED_VERDICTS=0
+R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
 PROMOTE_TO_13_13G=false
-NEXT=13-13fi
+NEXT=13-13fj
 ```
 
 ## 13-13g — final freeze
@@ -307,14 +332,14 @@ NEXT_STAGE13_ACTION=NONE_UNLESS_A_GENUINE_DEFECT_IS_REPORTED
 ## Global lock
 
 ```text
-STAGE13_13_ROADMAP=ACTIVE_BLOCKED_R05_BUNDLE_AND_REVIEW
+STAGE13_13_ROADMAP=ACTIVE_BLOCKED_R05_FRESH_REVIEW
 NUMERIC_ONLY_DISPATCH=true
 STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
 STAGE13_13E=COMPLETE_R04_REVIEW_BUNDLE
-STAGE13_13F=BLOCKED_R05_BUNDLE_AND_REVIEW_PENDING
+STAGE13_13F=BLOCKED_R05_FRESH_REVIEW_PENDING
 STAGE13_13FA=COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT
 STAGE13_13FB=COMPLETE_EXPLICIT_WIENER_BOUND
 STAGE13_13FC=COMPLETE_CURVED_REGION_ERROR_ACCUMULATION
@@ -323,12 +348,16 @@ STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE
 STAGE13_13FF=COMPLETE_EXACT_EXTERNAL_THEOREM_CONTRACTS
 STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER
 STAGE13_13FH=COMPLETE_R05_SYNTHESIS_READINESS
+STAGE13_13FI=COMPLETE_R05_REVIEW_BUNDLE
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
 R03_IMMUTABLE=true
 R04_IMMUTABLE=true
+R05_IMMUTABLE=true
 R05_SYNTHESIS_READY=true
-R05_BUNDLE_CREATED=false
+R05_BUNDLE_CREATED=true
 R05_FRESH_REVIEW_REQUIRED=true
+R05_INDEPENDENT_CLOSED_VERDICTS=0
+R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
 PROMOTE_TO_13_13G=false
-NEXT=13-13fi
+NEXT=13-13fj
 ```
