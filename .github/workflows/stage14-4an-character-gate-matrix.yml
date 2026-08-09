@@ -1,0 +1,45 @@
+name: Stage14-4an character gate matrix audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-4/character_gate_matrix_audit.py'
+      - 'stages/stage14/data/14-4/character_gate_matrix_audit.json'
+      - 'stages/stage14/data/14-4/character_gate_matrix_summary.json'
+      - 'stages/stage14/archive/stage14-4an-*'
+      - 'stages/stage14/main.md'
+      - 'stages/stage14/README.md'
+      - 'stages/stage14/roadmap.md'
+      - '.github/workflows/stage14-4an-character-gate-matrix.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run selected-prime character matrix audit
+        run: python stages/stage14/scripts/14-4/character_gate_matrix_audit.py
+      - name: Validate Stage14-4an theorem boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-4/character_gate_matrix_audit.json'
+          d=json.load(open(p))
+          assert d['metadata']['max_B']==20000
+          assert d['profile'][-1]['eligible_oriented_bases']==6372
+          assert d['profile'][-1]['homogeneous_selected_row_supports']['bases_with_no_nonempty_admissible_support']==0
+          assert d['decision']['S5C_SUPPORTED_ROWS_COMPRESSED_USING_GLOBAL_SQUARECLASS'] is True
+          assert d['decision']['SELECTED_X_PRIME_REQUIRES_P_EQ_1_MOD4'] is True
+          assert d['decision']['SELECTED_ODD_ROWS_ALONE_FORM_COMPLETE_SELMER_TEST'] is False
+          assert d['decision']['SELECTED_ODD_ROWS_ALONE_SIEVE_BASES'] is False
+          assert d['decision']['UNSELECTED_ODD_AND_Q2_REQUIRED_FOR_A_TO_SIGMA'] is True
+          assert d['decision']['CHARACTER_MATRIX_CONTROLS_R_TO_V'] is False
+          assert d['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          print(json.dumps(d['profile'][-1],indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage14-4an-character-gate-matrix
+          path: stages/stage14/data/14-4/character_gate_matrix_audit.json
