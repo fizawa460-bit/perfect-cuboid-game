@@ -1,0 +1,19 @@
+name: Stage14-t7 shared-q conic audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t7/**'
+      - 'stages/stage14/scripts/14-t7/**'
+      - '.github/workflows/stage14-t7-shared-q-conic.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python stages/stage14/scripts/14-t7/shared_q_conic_audit.py
