@@ -1,0 +1,17 @@
+name: Stage14-t9 sparse residue audit
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t9/**'
+      - 'stages/stage14/scripts/14-t9/**'
+      - '.github/workflows/stage14-t9-sparse-residue.yml'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python stages/stage14/scripts/14-t9/sparse_residue_audit.py
