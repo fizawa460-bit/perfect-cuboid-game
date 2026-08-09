@@ -1,0 +1,35 @@
+name: Stage14-4ay frozen-state linear summation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ay/**'
+      - 'stages/stage14/data/14-4/linear_slicing_dispersion_summary.json'
+      - 'stages/stage14/scripts/14-4/linear_slicing_dispersion_audit.py'
+      - '.github/workflows/stage14-4ay-linear-slicing-dispersion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/linear_slicing_dispersion_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/linear_slicing_dispersion_audit.py
+      - name: Check boundary flags
+        run: |
+          grep -q 'S5K_SIX_LINEAR_MEDIUM_DISPERSION_IMPORTED=true' stages/stage14/14-4ay/result.md
+          grep -q 'SIX_LINEAR_INTERIOR_FULL_MODE_POWER_SAVING_PROVED=true' stages/stage14/14-4ay/result.md
+          grep -q 'SIX_LINEAR_INTERIOR_DYADIC_STATE_SUMMATION_PROVED=true' stages/stage14/14-4ay/result.md
+          grep -q 'LOWER_DIMENSIONAL_BULK_MODE_INDUCTION_CLOSED=false' stages/stage14/14-4ay/result.md
+          grep -q 'UPPER_COMPLEMENTARY_STATE_FOURIER_SWITCH_CLOSED=false' stages/stage14/14-4ay/result.md
+          grep -q 'STATE_SPLIT_E_RECIPROCAL_DISPERSION_CLOSED=false' stages/stage14/14-4ay/result.md
+          grep -q 'NEXT=Stage14-4az' stages/stage14/14-4ay/result.md
