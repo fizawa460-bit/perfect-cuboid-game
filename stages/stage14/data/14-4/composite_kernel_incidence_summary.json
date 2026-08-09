@@ -1,0 +1,64 @@
+{
+  "stage": "14-4bi-L",
+  "classification": "COMPOSITE_EDGE_KERNEL_INCIDENCE_AND_LARGE_KERNEL_DICHOTOMY_CLOSED",
+  "inputs": {
+    "s6_01_edge_packet": "d0=tau0*a*b, d1=tau1*a*c, d2=tau2*b*c",
+    "tau_values": ["+1", "-1", "+2", "-2"],
+    "edge_support": {
+      "a": "a | rad_odd(S)",
+      "b": "b | rad_odd(X)",
+      "c": "c | rad_odd(H)"
+    },
+    "pairwise_coprime": true,
+    "current_local_B_exponent": "41/42",
+    "sqrt_post_local_saving_required": "10/21"
+  },
+  "normalized_edge_equations": {
+    "a": "tau0*b*u0^2 - tau1*c*u1^2 = a*(S/a)^2*D^2",
+    "b": "tau2*c*u2^2 - tau0*a*u0^2 = b*(X/b)^2*D^2",
+    "c": "tau2*b*u2^2 - tau1*a*u1^2 = c*(H/c)^2*D^2"
+  },
+  "composite_line_lemma": {
+    "modulus": "odd squarefree q",
+    "line_cover_count": "<=2^omega(q)",
+    "each_lattice_index": "q",
+    "rectangle_bound": "N_q(U,V) <<_eps B^eps*(U*V/q + min(U,V) + 1)"
+  },
+  "large_kernel_dichotomy": {
+    "K": "max(a,b,c)",
+    "U_star": "max dyadic size of the two square variables incident to an edge attaining K",
+    "thresholds": ["kappa", "upsilon"],
+    "assumption": "K >= B^kappa",
+    "long_incident": {
+      "condition": "U_star >= B^upsilon",
+      "relative_gain": "B^(-min(kappa,upsilon)+epsilon)"
+    },
+    "short_incident": {
+      "condition": "U_star < B^upsilon",
+      "consequence": "D < 2*B^upsilon"
+    },
+    "symmetric_threshold": "kappa=upsilon=eta gives B^(-eta+epsilon) OR D<2B^eta"
+  },
+  "handoff": {
+    "L_closed_region": "K>=B^kappa and U_star>=B^upsilon",
+    "L_to_S_region": "K>=B^kappa and U_star<B^upsilon => D<2B^upsilon",
+    "S_intrinsic_region": "K<B^kappa",
+    "large_but_smooth_kernel_separate_obstruction": false
+  },
+  "flags": {
+    "STAGE14_4BI_L": "COMPOSITE_EDGE_KERNEL_INCIDENCE_AND_LARGE_KERNEL_DICHOTOMY_CLOSED",
+    "S6_01_EDGE_PACKET_FACTORIZATION_IMPORTED": true,
+    "S6_02_PRIME_LEVEL_INCIDENCE_IMPORTED": true,
+    "COMPOSITE_EDGE_KERNEL_NORMALIZATION_EXACT": true,
+    "COMPOSITE_EDGE_RECTANGLE_BOUND_PROVED": true,
+    "SMOOTH_LARGE_EDGE_KERNEL_INCIDENCE_CLOSED": true,
+    "LARGEST_KERNEL_SHORT_INCIDENT_IMPLIES_D_LE_2_USTAR": true,
+    "LARGE_KERNEL_SHORT_INCIDENT_TRANSFERS_TO_SMALL_DENOMINATOR": true,
+    "ARBITRARY_LARGE_KERNEL_REMAINDER_OPEN": false,
+    "S_ROUTE_RECEIVES_SMALL_KERNEL_OR_SMALL_DENOMINATOR": true,
+    "FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED": false,
+    "SQRT_B_UPPER_BOUND_PROVED": false,
+    "SQRT_B_ASYMPTOTIC_PROVED": false
+  },
+  "next": "Stage14-4bj after 14-4bi-S"
+}
