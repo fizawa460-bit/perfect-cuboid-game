@@ -1,0 +1,86 @@
+{
+  "stage": "14-4aq",
+  "classification": "GLOBAL_SHA_RETAINER_ISOLATED_AND_WEIGHTED_TARGET_FORMULATED",
+  "exact_sequence": {
+    "sequence": "0 -> E(Q)/2E(Q) -> Sel_2(E) -> Sha(E)[2] -> 0",
+    "full_rational_2_torsion_dimension": 2,
+    "dimension_identity": "dim Sel_2(E)=2+rank(E(Q))+dim Sha(E)[2]",
+    "base_indicators": {
+      "s(F)": "1_{dim Sel_2(E_F)>2}",
+      "r(F)": "1_{rank E_F(Q)>0}",
+      "tau(F)": "s(F)-r(F)=1 exactly for rank-zero Selmer-excess / Sha[2] trap bases"
+    },
+    "aggregate_identity": "R(B)=Sigma(B)-T_Sha(B)",
+    "retainer_identity": "R/Sigma=1-T_Sha/Sigma when Sigma>0"
+  },
+  "centered_local_compatible_target": {
+    "weight": "any nonnegative W_Q(F) built from the full centered local 2-descent sieve",
+    "weighted_counts": {
+      "S_Q": "sum_F W_Q(F) s(F)",
+      "G_Q": "sum_F W_Q(F) r(F)",
+      "T_Q": "sum_F W_Q(F) tau(F)"
+    },
+    "exact_weighted_identity": "G_Q=S_Q-T_Q",
+    "uniform_target": "G_Q <= rho_glob(B,Q) S_Q + E_glob(B,Q), uniformly in dyadic Euclid boxes and centered-local weights",
+    "equivalent_sha_target": "T_Q >= (1-rho_glob(B,Q)) S_Q - E_glob(B,Q)",
+    "transfer_if_power_saving": "rho_glob << B^(-delta_global) with negligible error contributes delta_global to the 4ap exponent budget",
+    "constant_density_boundary": "rho_glob=O(1) contributes no B-power saving"
+  },
+  "finite_census": [
+    {
+      "B": 2000,
+      "A": 638,
+      "Sigma": 476,
+      "R_interval": [371, 385],
+      "Sha_trap_base_interval": [91, 105],
+      "R_over_Sigma_interval": [0.7794117647058824, 0.8088235294117647],
+      "Sha_trap_over_Sigma_interval": [0.19117647058823528, 0.22058823529411764],
+      "V": 7
+    },
+    {
+      "B": 5000,
+      "A": 1584,
+      "Sigma": 1234,
+      "R_interval": [916, 989],
+      "Sha_trap_base_interval": [245, 318],
+      "R_over_Sigma_interval": [0.7423014586709886, 0.8014586709886548],
+      "Sha_trap_over_Sigma_interval": [0.19854132901134522, 0.2576985413290113],
+      "V": 25
+    },
+    {
+      "B": 10000,
+      "A": 3186,
+      "Sigma": 2553,
+      "R_interval": [1875, 2057],
+      "Sha_trap_base_interval": [496, 678],
+      "R_over_Sigma_interval": [0.7344300822561692, 0.8057187622405013],
+      "Sha_trap_over_Sigma_interval": [0.19428123775949863, 0.26556991774383076],
+      "V": 39
+    },
+    {
+      "B": 20000,
+      "A": 6372,
+      "Sigma": 5209,
+      "R_interval": [3784, 4239],
+      "Sha_trap_base_interval": [970, 1425],
+      "R_over_Sigma_interval": [0.7264350163179113, 0.8137838356690343],
+      "Sha_trap_over_Sigma_interval": [0.18621616433096563, 0.2735649836820887],
+      "V": 54
+    }
+  ],
+  "finite_interpretation": "Sha-trap population is substantial at all audited cutoffs; no positive global saving exponent is inferred",
+  "decision": {
+    "STAGE14_4AQ": "GLOBAL_SHA_RETAINER_ISOLATED_AND_WEIGHTED_TARGET_FORMULATED",
+    "SEL2_EXACT_SEQUENCE_IMPORTED": true,
+    "SHA_TRAP_INDICATOR_EXACT": true,
+    "GLOBAL_RETAINER_IDENTITY_R_EQ_SIGMA_MINUS_SHA_TRAP": true,
+    "CENTERED_LOCAL_WEIGHTED_GLOBAL_IDENTITY": true,
+    "GLOBAL_RETAINER_UNIFORM_AVERAGING_TARGET_FORMULATED": true,
+    "GLOBAL_SOLUBILITY_DENSITY_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "FAMILY_LARGE_SIEVE_THEOREM_PROVED": false,
+    "UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4ar isolate the positive-rank-to-first-small-point retainer and formulate a uniform weighted lower-tail target using the s3 height window"
+  }
+}
