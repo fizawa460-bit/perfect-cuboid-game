@@ -1,0 +1,26 @@
+name: Stage14-s6-06 physical conjugate denominator audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-06/**'
+      - 'stages/stage14/scripts/14-s6-06/**'
+      - '.github/workflows/stage14-s6-06-physical-conjugate-denominator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regress Stage14-s6-05 compact normalization
+        run: python stages/stage14/scripts/14-s6-05/compact_torsion_normalization_audit.py
+      - name: Audit Stage14-s6-06 physical conjugate denominator
+        run: python stages/stage14/scripts/14-s6-06/physical_conjugate_denominator_audit.py
