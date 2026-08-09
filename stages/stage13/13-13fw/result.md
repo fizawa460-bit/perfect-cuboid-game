@@ -1,0 +1,30 @@
+# Stage13-13fw — result
+
+Claude's fresh R07 review has been adjudicated against the immutable review target.
+
+```text
+STAGE13_13FW=COMPLETE_R07_CLAUDE_REVIEW_ADJUDICATION
+REVIEWER=Claude
+REVIEW_TARGET_BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260810-R07
+REVIEW_TARGET_CONTENT_SHA256=52b660f6ff234da4b73d241cec981744d6d3d9cdcd406ab5fe2c1f746b784578
+CLAUDE_R07_VERDICT=OPEN
+CLAUDE_R07_LABEL=REPAIRABLE
+CLAUDE_R07_CLOSED_VOTE_COUNTED=false
+R07_INDEPENDENT_CLOSED_VERDICTS=0
+R07_REQUIRED_INDEPENDENT_CLOSED_VERDICTS=2
+R07_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
+R07_UNRESOLVED_SELF_CONTAINED_BLOCKERS=2
+R07_QR0_UNDEFINED_BLOCKER=true
+R07_FULL_JACOBI_SUM_EMBED_BLOCKER=true
+R08_REQUIRED=true
+R08_QR0_DEFINITION_REQUIRED=true
+R08_FULL_JACOBI_SUM_EMBED_REQUIRED=true
+R07_IMMUTABLE=true
+R06_IMMUTABLE=true
+THEOREM_CHANGED=false
+THEOREM_CONTRACT_REOPEN_REQUIRED=false
+PROMOTE_TO_13_13G=false
+NEXT=13-13fx
+```
+
+The two accepted defects are review-target self-containedness defects, not contradictions of the frozen Stage13 theorem. R08 must explicitly define `QR_0(F_p)` as all squares including zero and inline the complete Stage13-12ag inert-unit Jacobi-sum derivation before a new immutable bundle is reviewed.
