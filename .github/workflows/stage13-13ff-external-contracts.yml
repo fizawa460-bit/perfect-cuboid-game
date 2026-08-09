@@ -1,0 +1,34 @@
+name: Stage13-13ff external theorem contracts
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage13/13-13ff/**'
+      - 'stages/stage13/scripts/13-13ff/**'
+      - 'stages/stage13/data/13-13ff/**'
+      - 'stages/stage13/13-13/roadmap.md'
+      - 'stages/stage13/13-13f/r05-repair-plan.md'
+      - '.github/workflows/stage13-13ff-external-contracts.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute external-contract report
+        run: python stages/stage13/scripts/13-13ff/external_contract_audit.py --write-report
+      - name: Verify committed report
+        run: python stages/stage13/scripts/13-13ff/external_contract_audit.py --check-report
+      - name: Check Gate F lock
+        run: |
+          grep -F 'STAGE13_13FF=COMPLETE_EXACT_EXTERNAL_THEOREM_CONTRACTS' stages/stage13/13-13/roadmap.md
+          grep -F 'NEXT=13-13fg' stages/stage13/13-13/roadmap.md
+          grep -F 'RIESZ_PERRON_SMOOTHING_EXPLICIT=true' stages/stage13/13-13ff/external-theorem-contracts.md
+          grep -F 'VAALER_NONZERO_COEFFICIENT_BOUND_LT=1' stages/stage13/13-13ff/external-theorem-contracts.md
