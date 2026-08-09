@@ -1,0 +1,24 @@
+name: Stage14-s5f Q2 covering classification
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5f/**'
+      - 'stages/stage14/scripts/14-s5f/**'
+      - '.github/workflows/stage14-s5f-q2-covering-classification.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Q2 covering-state audit
+        run: python3 stages/stage14/scripts/14-s5f/q2_covering_classification.py | tee /tmp/s5f.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5F=COMPLETE_FULL_LOCAL_CHARACTER_SYSTEM$' /tmp/s5f.txt
+          grep -q '^Q2_COVERING_SOLUBLE_STATE_COUNT=8$' /tmp/s5f.txt
+          grep -q '^Q2_COVERING_SPECIFIC_64_STATE_SOLUBILITY_CLASSIFIED=true$' /tmp/s5f.txt
+          grep -q '^FULL_LOCAL_2_DESCENT_CHARACTER_SYSTEM_COMPLETE=true$' /tmp/s5f.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5f.txt
