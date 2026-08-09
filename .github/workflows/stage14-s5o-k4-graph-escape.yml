@@ -1,0 +1,36 @@
+name: Stage14-s5o K4 graph escape audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5o/**'
+      - 'stages/stage14/scripts/14-s5o/**'
+      - '.github/workflows/stage14-s5o-k4-graph-escape.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Stage14-s5o deterministic audit
+        run: python3 stages/stage14/scripts/14-s5o/k4_graph_escape_audit.py | tee /tmp/s5o.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5O=COMPLETE_K4_GRAPH_ESCAPE_AND_PRODUCT_CONDUCTOR_ELIMINATION$' /tmp/s5o.txt
+          grep -q '^K4_FREEZE_ONE_EDGE_LARGE_SIEVE_ESCAPE_PROVED=true$' /tmp/s5o.txt
+          grep -q '^K4_NO_LONG_EDGE_LONG_VERTICES_INDEPENDENT=true$' /tmp/s5o.txt
+          grep -q '^K4_VERY_LONG_VERTEX_SMALL_PRODUCT_CONDUCTOR_PROVED=true$' /tmp/s5o.txt
+          grep -q '^K4_ALL_SHORT_CENTERED_PERIODIC_ESCAPE_PROVED=true$' /tmp/s5o.txt
+          grep -q '^K4_GRAPH_DICHOTOMY_EXHAUSTIVE=true$' /tmp/s5o.txt
+          grep -q '^DEGREE_2_PRODUCT_CONDUCTOR_INTRINSIC_OBSTRUCTION=false$' /tmp/s5o.txt
+          grep -q '^DEGREE_3_PRODUCT_CONDUCTOR_INTRINSIC_OBSTRUCTION=false$' /tmp/s5o.txt
+          grep -q '^PERSISTENT_RESONANT_K4_SUBGRAPH_FOUND=false$' /tmp/s5o.txt
+          grep -q '^SEPARABLE_K4_MULTI_EDGE_MONOMIALS_AVERAGED=true$' /tmp/s5o.txt
+          grep -q '^ONE_SMALL_VARIABLE_K4_BOUNDARY_ASSEMBLY_PROVED=true$' /tmp/s5o.txt
+          grep -q '^AUXILIARY_INCIDENCE_UNIFORMITY_PROVED=false$' /tmp/s5o.txt
+          grep -q '^STATE_SPLIT_E_MULTI_EDGE_ASSEMBLY_PROVED=false$' /tmp/s5o.txt
+          grep -q '^FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED=false$' /tmp/s5o.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5o.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5o.txt
+          grep -q '^NEXT=Stage14-s5p$' /tmp/s5o.txt
