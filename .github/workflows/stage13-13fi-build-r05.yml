@@ -26,6 +26,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
 
       - name: Build deterministic R05 bundle
         run: python stages/stage13/scripts/13-13fi/build_r05_review_bundle.py
@@ -33,8 +34,8 @@ jobs:
       - name: Verify fixed source snapshot exists
         run: git cat-file -e 79f03341b67dd49a8c128cfbeba3f756c91de6f6^{commit}
 
-      - name: Commit generated immutable files on branch push
-        if: github.event_name == 'push' && github.ref != 'refs/heads/main'
+      - name: Materialize exact generated files on working branch
+        if: github.ref_name != 'main'
         run: |
           git add review/STAGE13-FINAL-SELF-CONTAINED-20260809-R05.html \
                   stages/stage13/13-13fi/review-manifest.md \
@@ -46,10 +47,10 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'Stage13-13fi: generate immutable R05 review bundle'
-          git push
+          git push origin HEAD:${{ github.event_name == 'pull_request' && github.head_ref || github.ref_name }}
 
-      - name: Verify committed bytes on pull request/main
-        if: github.event_name != 'push' || github.ref == 'refs/heads/main'
+      - name: Verify committed bytes on main
+        if: github.ref_name == 'main'
         run: |
           git diff --exit-code -- \
             review/STAGE13-FINAL-SELF-CONTAINED-20260809-R05.html \
