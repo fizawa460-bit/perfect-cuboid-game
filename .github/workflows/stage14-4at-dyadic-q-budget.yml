@@ -1,0 +1,33 @@
+name: Stage14-4at dyadic Q budget
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4at/**'
+      - 'stages/stage14/data/14-4/dyadic_q_budget_summary.json'
+      - 'stages/stage14/scripts/14-4/dyadic_q_budget_audit.py'
+      - '.github/workflows/stage14-4at-dyadic-q-budget.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic dyadic/Q audit
+        run: python3 stages/stage14/scripts/14-4/dyadic_q_budget_audit.py
+      - name: Syntax check
+        run: python3 -m py_compile stages/stage14/scripts/14-4/dyadic_q_budget_audit.py
+      - name: Generated summary is committed
+        run: git diff --exit-code -- stages/stage14/data/14-4/dyadic_q_budget_summary.json
+      - name: Boundary flags
+        run: |
+          grep -q 'FIRST_QUANTITATIVE_GAP=FULL_LOCAL_INDICATOR_CONVERSION' stages/stage14/14-4at/result.md
+          grep -q 'E_LOC_IDENTIFIED_WITH_Q4=false' stages/stage14/14-4at/result.md
+          grep -q 'ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false' stages/stage14/14-4at/result.md

@@ -1,0 +1,69 @@
+{
+  "stage": "14-4at",
+  "classification": "DYADIC_Q_BUDGET_AND_FIRST_QUANTITATIVE_GAP",
+  "dyadic_geometry": {
+    "box": "m~M, n~N inside m^2+n^2<=B",
+    "M_N_upper_scale": "B^(1/2)",
+    "box_population_bound": "A(M,N)<<MN",
+    "number_of_boxes": "O((log B)^2)",
+    "bulk_volume_scale": "MN~B",
+    "dyadic_loss": "B^o(1)"
+  },
+  "s5g_candidate": {
+    "second_moment_prefactor": "MN+Q^4",
+    "proved": false,
+    "full_local_indicator_bound": false,
+    "transition_theta_for_Q_eq_Btheta_on_bulk_boxes": "1/4",
+    "benchmark_global_Q": "B^(1/4-eta), eta>0 fixed",
+    "box_adaptive_Q": "min(B^(1/4-eta),(MN)^(1/4-eta))",
+    "theta_grid": [
+      {"theta": "0", "Q4_exponent": "0", "bulk_prefactor_exponent_max_1_4theta": "1", "super_volume": false, "at_or_below_transition": true},
+      {"theta": "1/16", "Q4_exponent": "1/4", "bulk_prefactor_exponent_max_1_4theta": "1", "super_volume": false, "at_or_below_transition": true},
+      {"theta": "1/8", "Q4_exponent": "1/2", "bulk_prefactor_exponent_max_1_4theta": "1", "super_volume": false, "at_or_below_transition": true},
+      {"theta": "3/16", "Q4_exponent": "3/4", "bulk_prefactor_exponent_max_1_4theta": "1", "super_volume": false, "at_or_below_transition": true},
+      {"theta": "1/4", "Q4_exponent": "1", "bulk_prefactor_exponent_max_1_4theta": "1", "super_volume": false, "at_or_below_transition": true},
+      {"theta": "5/16", "Q4_exponent": "5/4", "bulk_prefactor_exponent_max_1_4theta": "5/4", "super_volume": true, "at_or_below_transition": false}
+    ],
+    "warning": "Q^4 is a second-moment scale, not an identified additive E_loc"
+  },
+  "end_to_end_exponent_bookkeeping": {
+    "main": "1-delta_loc-delta_glob-delta_ht",
+    "propagated_E_loc": "kappa_loc-delta_glob-delta_ht",
+    "propagated_E_glob": "kappa_glob-delta_ht",
+    "E_ht": "kappa_ht"
+  },
+  "square_root_requirements": [
+    "1-delta_loc-delta_glob-delta_ht <= 1/2",
+    "kappa_loc-delta_glob-delta_ht <= 1/2",
+    "kappa_glob-delta_ht <= 1/2",
+    "kappa_ht <= 1/2"
+  ],
+  "first_quantitative_gap": {
+    "name": "FULL_LOCAL_INDICATOR_CONVERSION",
+    "missing_map": "centered prime-level second moment -> nonnegative full local 2-descent indicator -> explicit rho_loc,E_loc",
+    "reciprocal_off_diagonal_control_required": true,
+    "rho_loc_available": false,
+    "E_loc_available": false,
+    "why_first": "the ordered end-to-end chain cannot insert a numerical local retainer before this conversion"
+  },
+  "later_known_gaps": {
+    "positive_global_saving_exponent_proved": false,
+    "positive_height_saving_exponent_proved": false
+  },
+  "decision": {
+    "STAGE14_4AT": "DYADIC_Q_BUDGET_INSTANTIATED_AND_FIRST_QUANTITATIVE_GAP_IDENTIFIED",
+    "DYADIC_EUCLID_BOX_COUNT_O_LOG2_B": true,
+    "S5G_Q4_TRANSITION_THETA": "1/4",
+    "BENCHMARK_Q_CHOSEN": "B^(1/4-eta)",
+    "BOX_ADAPTIVE_Q_CLIPPED": true,
+    "S5G_SECOND_MOMENT_IS_LOCAL_INDICATOR_BOUND": false,
+    "E_LOC_IDENTIFIED_WITH_Q4": false,
+    "RHO_LOC_EXPLICITLY_PROVED": false,
+    "E_LOC_EXPLICITLY_PROVED": false,
+    "FIRST_QUANTITATIVE_GAP": "FULL_LOCAL_INDICATOR_CONVERSION",
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4au close the first local quantitative gap by expanding the full centered local indicator on dyadic Euclid boxes and deriving explicit rho_loc/E_loc bounds, or isolate the reciprocal off-diagonal obstruction in coordination with Stage14-s5h"
+  }
+}
