@@ -142,7 +142,7 @@ J(C_t)\sim E_{A,t}\times E_{B,t}\times J(G_t).
 No physical low-genus degeneration or component splitting occurs. The reduction has reconstructed the original genus-five triple fiber as an eight-branch square lift of a moving elliptic curve.
 
 ## 14-t16 — square-x lift on the moving elliptic family
-Status: [>] Next.
+Status: [x] Complete.
 
 Treat
 
@@ -156,7 +156,12 @@ as the base elliptic family and count rational points for which
 x\in(\mathbf Q^\times)^2.
 \]
 
-This is the genuine remaining thin-lift / 2-cover condition after all generic-genus reductions. Determine its divisor/Kummer class on `C_{0,t}`, relate it to the elliptic Mordell--Weil group, and retain the physical small-height window.
+The divisor is `div(x)=D_0-D_infinity`, with both divisors reduced of degree four. Thus `r^2=x` is ramified at eight points and is not an ordinary etale elliptic `2`-cover/E[2] Kummer torsor. It is a branched quadratic-cover/Prym interface, and ordinary Mordell--Weil modulo 2 is insufficient by itself.
+
+## 14-t17 — square-value sieve on the branched cover
+Status: [>] Next.
+
+Formulate a square-value/branched-cover sieve on `C_{0,t}` using the Prym or generalized-Jacobian interface, averaged over physical rational Pythagorean `t`, while retaining the physical height window.
 
 Primary target remains
 
@@ -185,6 +190,7 @@ STAGE14_T12=COMPLETE_CONDITIONAL_REFLECTED_SQUARE_PARAMETER_GATE
 STAGE14_T13=COMPLETE_DISCRIMINANT_COVER_GENUS_CLASSIFICATION
 STAGE14_T14=COMPLETE_BIELLIPTIC_QUOTIENT_AND_SECOND_SQUARE_DECOMPOSITION
 STAGE14_T15=COMPLETE_THREE_SQUARE_FIBER_PRODUCT_CLASSIFICATION
+STAGE14_T16=COMPLETE_SQUARE_X_DIVISOR_AND_RAMIFIED_COVER_BOUNDARY
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t16 square-x lift / 2-cover on moving elliptic C0 family
+NEXT=Stage14-t17 square-value/branched-cover sieve with Prym or generalized-Jacobian and physical height
 ```
