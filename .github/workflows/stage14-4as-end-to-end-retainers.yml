@@ -1,0 +1,29 @@
+name: Stage14-4as end-to-end retainers
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4as/**'
+      - 'stages/stage14/data/14-4/end_to_end_retainer_summary.json'
+      - 'stages/stage14/scripts/14-4/end_to_end_retainer_audit.py'
+      - '.github/workflows/stage14-4as-end-to-end-retainers.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic synthesis audit
+        run: python stages/stage14/scripts/14-4/end_to_end_retainer_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/end_to_end_retainer_audit.py
+      - name: Boundary assertions
+        run: |
+          grep -q 'INDEPENDENCE_ASSUMPTION_REQUIRED=false' stages/stage14/14-4as/result.md
+          grep -q 'PROPAGATED_ERROR_BUDGET_EXPLICIT=true' stages/stage14/14-4as/result.md
+          grep -q 'FAMILY_LARGE_SIEVE_THEOREM_PROVED=false' stages/stage14/14-4as/result.md
+          grep -q 'ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED=false' stages/stage14/14-4as/result.md
