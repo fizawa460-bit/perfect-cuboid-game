@@ -1,0 +1,79 @@
+{
+  "stage": "14-4bc",
+  "classification": "S5P_AUXILIARY_UNIFORMITY_IMPORTED_AND_SPLIT_E_TOP_STRIP_ISOLATED",
+  "s5p_import": {
+    "auxiliary_incidence_uniformity": true,
+    "auxiliary_progression_modulus_loss_persists": false,
+    "E_signed_root_aux_uniformity": true,
+    "E_sparse_aux_uniformity": true,
+    "auxiliary_state_energy_transfer": true,
+    "hilbert_quadratic_large_sieve_lift": true
+  },
+  "split_E_structure": {
+    "E_is_H_factor": true,
+    "odd_squareclass_pieces": ["e_23", "e_0"],
+    "max_piece_count": 2,
+    "internal_E_E_reciprocal_edge": false,
+    "edge_transfer": "(u/e_23)=(u/e)*(u/e_0)",
+    "one_reciprocal_active_E_vertex": true,
+    "active_piece": "min(e_23,e_0)",
+    "active_piece_scale": "<=M"
+  },
+  "E_density_completion": {
+    "dirichlet_factorization": "L(s,chi)*L(s,chi*chi_4)*G(s)",
+    "partial_sum": "sum_{n<=x}b(n)chi(n) << (xq)^(1/2)(xq)^epsilon for x>=q",
+    "dyadic_lambda_E": "sum_{n~N}lambda_E(n)chi(n) << N^(-1/2)q^(1/2)(Nq)^epsilon"
+  },
+  "K5_bulk": {
+    "eta": "1/100",
+    "long_long_saving": "1/200",
+    "very_long_E_saving": "1/100",
+    "all_short_modulus_exponent": "22/100",
+    "all_short_periodic_exponents": ["36/25", "33/50"],
+    "worst_saving": "1/200"
+  },
+  "E_tensor": {
+    "discrepancy_exponent": "a+b+1-max(a,b/2)",
+    "outside_top_strip_saving": "1/100",
+    "top_strip": {
+      "E_piece": "V>=M^(99/100)",
+      "linear_neighbor": "U>=M^(49/100)",
+      "name": "BALANCED_SPLIT_E_TOP_STRIP_TENSOR"
+    }
+  },
+  "reciprocal_contract": {
+    "previous": "min(1/200,delta_aux,delta_E)",
+    "current": "min(1/200,delta_top)",
+    "closed_M_scale_error": "M^(2-1/200+o(1))",
+    "closed_B_scale_error": "B^(399/400+o(1))"
+  },
+  "decision": {
+    "STAGE14_4BC": "S5P_AUXILIARY_UNIFORMITY_IMPORTED_AND_SPLIT_E_TOP_STRIP_ISOLATED",
+    "S5P_AUXILIARY_UNIFORMITY_IMPORTED": true,
+    "S5P_AUXILIARY_STATE_ENERGY_TRANSFER_IMPORTED": true,
+    "S5P_HILBERT_QUADRATIC_LARGE_SIEVE_LIFT_IMPORTED": true,
+    "AUXILIARY_INCIDENCE_UNIFORMITY_PROVED": true,
+    "AUXILIARY_PROGRESSION_MODULUS_EXPONENT_LOSS": "0",
+    "E_COLUMN_IS_H_FACTOR": true,
+    "E_ODD_STATE_PIECE_COUNT_MAX": 2,
+    "SPLIT_E_INTERNAL_RECIPROCAL_EDGE": false,
+    "WHOLE_E_SPLIT_EDGE_TRANSFER_EXACT": true,
+    "RECIPROCAL_ACTIVE_E_PIECE_CAN_BE_CHOSEN_LE_M": true,
+    "SPLIT_E_DENSITY_COMPLETION_LEMMA_PROVED": true,
+    "K5_SEPARABLE_E_GRAPH_BULK_ASSEMBLED": true,
+    "K5_BULK_SAVING_EXPONENT": "1/200",
+    "E_DISCREPANCY_TENSOR_OUTSIDE_TOP_STRIP_SAVING_EXPONENT": "1/100",
+    "BALANCED_SPLIT_E_TOP_STRIP_TENSOR_PROVED": false,
+    "STATE_SPLIT_E_MULTI_EDGE_ASSEMBLY_REDUCED_TO_TOP_STRIP": true,
+    "CONDITIONAL_RECIPROCAL_EXPONENT_FORMULA": "min(1/200,delta_top)",
+    "CLOSED_RECIPROCAL_B_SCALE_ERROR_EXPONENT": "399/400",
+    "FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED": false,
+    "EXPLICIT_COMPLETE_RECIPROCAL_E_REC_PROVED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_COMPLETE_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4bd prove a positive-power two-copy energy bound in the balanced split-E top strip, using both E state pieces and signed-root determinant/anti-determinant collisions; then freeze the first complete E_rec exponent and return to the D_loc/rho_loc diagonal assignment"
+  }
+}
