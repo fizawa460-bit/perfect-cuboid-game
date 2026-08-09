@@ -1,0 +1,25 @@
+name: Stage14-s5e Q2 Hilbert table
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5e/**'
+      - 'stages/stage14/scripts/14-s5e/**'
+      - '.github/workflows/stage14-s5e-q2-hilbert-table.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run exact Q2 Hilbert audit
+        run: python3 stages/stage14/scripts/14-s5e/q2_hilbert_table.py | tee /tmp/s5e.out
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^Q2_SQUARECLASS_GROUP_SIZE=8$' /tmp/s5e.out
+          grep -q '^Q2_PRODUCT_SQUARE_DESCENT_STATE_COUNT=64$' /tmp/s5e.out
+          grep -q '^Q2_HILBERT_SYMBOL_FORMULA_LOCKED=true$' /tmp/s5e.out
+          grep -q '^Q2_PAIRING_TABLE_EXACT=true$' /tmp/s5e.out
+          grep -q '^P2_COVERING_SPECIFIC_64_STATE_SOLUBILITY_CLASSIFIED=false$' /tmp/s5e.out
+          grep -q '^NEXT=Stage14-s5f$' /tmp/s5e.out
