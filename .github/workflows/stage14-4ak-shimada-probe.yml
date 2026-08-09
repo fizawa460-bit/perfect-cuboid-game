@@ -1,0 +1,53 @@
+name: Stage14-4ak Shimada data probe
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage14-4ak-shimada-probe.yml'
+      - 'stages/stage14/scripts/14-4/**'
+      - 'stages/stage14/data/14-4/**'
+      - 'stages/stage14/archive/stage14-4ak-*'
+  workflow_dispatch:
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download official Shimada level-4 data
+        run: |
+          set -euxo pipefail
+          curl --fail --location --retry 3 \
+            'https://home.hiroshima-u.ac.jp/ichiro-shimada/preprints/X0X3/PreprintX0X3/compdata/compdata.zip' \
+            -o /tmp/shimada.zip
+          unzip -q /tmp/shimada.zip -d /tmp/shimada
+          find /tmp/shimada -maxdepth 4 -type f -printf '%p %s bytes\n' | sort
+      - name: Probe named objects and syntax
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          roots=list(Path('/tmp/shimada').rglob('*'))
+          targets=['S0S3.txt','Borcherds.txt']
+          tokens=['GramS0','L40vs','SixFs','fsigma','zsigma','AutX0f','AutX0h0','MWtorsigmaz','Tsigma','iotasigmaz','Galmu','Wout0']
+          out=[]
+          for name in targets:
+              matches=[p for p in roots if p.is_file() and p.name==name]
+              out.append(f'## {name}: {matches}')
+              for p in matches:
+                  text=p.read_text(errors='replace')
+                  lines=text.splitlines()
+                  out.append(f'bytes={p.stat().st_size} lines={len(lines)}')
+                  for tok in tokens:
+                      hits=[i for i,l in enumerate(lines) if tok in l]
+                      if not hits: continue
+                      out.append(f'### {tok} hits={hits[:8]}')
+                      for i in hits[:2]:
+                          lo=max(0,i-2); hi=min(len(lines),i+7)
+                          out.extend(f'{j+1}: {lines[j]}' for j in range(lo,hi))
+          Path('/tmp/shimada-probe.txt').write_text('\n'.join(out))
+          print('\n'.join(out))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage14-4ak-shimada-probe
+          path: /tmp/shimada-probe.txt
