@@ -8,14 +8,15 @@ Count and explain primitive canonical exactly-two-face cuboids with integer spac
 
 - `14-1`: definition/counting interface.
 - `14-2`: two independent exact finite enumerators through `B=2,000,000`.
-- `14-3`: finite directional reconnaissance only.
+- `14-3`: finite directional reconnaissance.
 - `14-4aa`: common shared-edge parametrization.
 - `14-4ab`: exact face-pair bijection, multiplicity one.
 - `14-4ac`: rational slope/lcm height envelope.
 - `14-4ad`: elliptic reduction `E_t:Y^2=X(X-1)(X+t^2)`.
 - `14-4ae`: physical fiber height `v asymp sqrt(Bg/S1)` and generic rank zero.
-- `14-4af`: actual Pythagorean base is a six-`I4` K3; torsion is nonphysical; physical pair implies positive rank; fixed-base triple genus 5.
-- `14-4ag`: exact level-4/Kummer identification; active rank-jump graph; raw-edge and active-vertex polynomial exponents are equal.
+- `14-4af`: six-`I4` Pythagorean-base K3; torsion nonphysical; fixed-base triple genus 5.
+- `14-4ag`: exact level-4/Kummer identification; active rank-jump graph; raw-edge and active-vertex polynomial exponents equal.
+- `14-4ah`: exact physical Kummer polarization `M=pi^*(-K_Y)`, `M^2=8`, `H_M=d`; fixed physical rational curves have `M.C>=4`.
 
 Frozen Stage13 upstream remains `R03 + Stage13-12ag`, including
 
@@ -25,184 +26,159 @@ N_2(B)=o(B(\log B)^3),
 
 with no imported growing-modulus power saving.
 
-## 14-4ah — physical Kummer height and minimum accumulating bisection
+## 14-4ai — minimum bisection reduction
 
 Status: [x] Complete.
 
-### Exact physical polarization
-
-The independent e3 toric compactification is
+Stage14-4ah showed that a fixed rational curve can produce exponent `1/2` only if
 
 \[
-Y=\operatorname{Bl}_4(\mathbf P^1\times\mathbf P^1),
+M\cdot C=4,
 \qquad
-L=2H_1+2H_2-\sum E_j=-K_Y,
-\qquad L^2=4.
+\deg(C\to\mathbf P^1_r)=2.
 \]
 
-With
+Stage14-4ai first adds
 
 \[
-t_1=\frac{2r}{1-r^2},
-\qquad
-t_2=\frac{2s}{1-s^2},
+\deg(C\to\mathbf P^1_s)\le2,
 \]
 
-the space-square branch is
+because the second half-angle map `t(s)=y/e` is also a quotient of `M`-sections.
 
-\[
-F=(1+r^2)^2(1+s^2)^2-16r^2s^2.
-\]
+Let `D=pi(C)` and `delta=deg(C->D)`.
 
-It has bidegree `(4,4)` and multiplicity two at each of the four toric corners `(+-1,+-1)`, so its strict transform has class
+### `delta=2`
 
-\[
-\boxed{2L=-2K_Y}.
-\]
-
-For the resolved K3 double cover `pi:X->Y`,
-
-\[
-\boxed{M=\pi^*L=\Phi^*O_{P2}(1)},
-\qquad
-\boxed{M^2=8}.
-\]
-
-On the Stage14 arithmetic open set the corresponding height is exactly
-
-\[
-\boxed{H_M=d}.
-\]
-
-Thus Stage14 now knows the divisor class of the **actual** physical cutoff.
-
-### Big and nef boundary
-
-`M` is big and nef but not ample. The four toric `L`-null boundary curves lift geometrically to eight `M`-null `(-2)`-curves, all outside the primitive positive Stage14 open set.
-
-Because McKinnon's product-Kummer counting theorem uses an ample height, its asymptotic is not imported directly for Stage14 `M`.
-
-### Minimum physical rational-curve degree
-
-Let `C` be a physical rational curve and
-
-\[
-n=\deg(C\to P^1_r).
-\]
-
-The slope map `t(r)=2r/(1-r^2)` has degree two and `t=x/e` is a quotient of two `M`-sections, hence
-
-\[
-\boxed{M\cdot C\ge2n.}
-\]
-
-A physical `n=1` curve would be a section. Generic Mordell--Weil rank is zero and all torsion sections are nonphysical, so
-
-\[
-\boxed{n\ge2},
-\qquad
-\boxed{M\cdot C\ge4}.
-\]
-
-A rational curve of `M`-degree `m` has bounded-height polynomial exponent `2/m`. Therefore no fixed physical rational curve can exceed exponent `1/2`, and the extremal square-root target is exactly
-
-\[
-\boxed{\text{a Q-rational M-degree-4 bisection}.}
-\]
-
-Existence/classification/dominance of such bisections is not yet proved.
-
-### Interior finite diagnostic
-
-The active-vertex `sqrt(B)` signal survives fixed cusp deletion:
+After the second degree bound and boundary reduction, only constant sections and opposite-corner `(1,1)` pencils remain. Exact branch-discriminant calculations show that their connected inverse images are genus one throughout the physical chamber; every rational degeneration is boundary/reducible.
 
 ```text
-B          all V    0.1<=r<=0.9    0.2<=r<=0.8    0.25<=r<=0.75
-200k         155          134             105                92
-500k         254          227             174               147
-1m           347          307             238               197
-2m           490          426             338               283
+DEGREE_TWO_IMAGE_M4_MECHANISM_ELIMINATED=true
 ```
 
-The `200k -> 2m` effective exponents are
+### `delta=1`, arithmetic genus zero
+
+Writing
+
+\[
+D=aH_r+2H_s-\sum m_iE_i,
+\]
+
+one has `a<=2` and `L.D=4`.
+
+- `a=1`: the physical genus-zero cores reduce to same-`r` and opposite-corner `(1,2)` contact families. Exact resultant/discriminant identities eliminate every irreducible square-contact member.
+- `a=2`, multiplicities `(2,1,1,0)`: every arithmetic-genus-zero class reduces by forced null-boundary components to an `a=1` core or a section.
 
 ```text
-0.49986438, 0.50230480, 0.50772740, 0.48799861.
+GENUS_ZERO_SPLIT_M4_MECHANISM_ELIMINATED=true
 ```
 
-This is finite evidence only.
+### The remaining class
 
-### Relative triple cover
-
-The third-face-square numerator
+The all-simple `a=2` class is
 
 \[
-G=r^2(1-s^2)^2+s^2(1-r^2)^2
+\boxed{D=L=-K_Y},
 \]
 
-also has strict class `2L` on `Y`. Hence the relative degree-two cover of the raw K3 has branch class
+with
 
 \[
-\boxed{2M}.
+D^2=4,
+\qquad p_a(D)=1.
 \]
 
-Its rational image is type-II thin, but no thin-set zero-density theorem for the raw K3 under the big-and-nef `M`-height is currently imported or proved. Therefore
+A singular member may have normalization `P1`. If the Kummer branch restricts evenly to such a singular rational anticanonical curve, the pullback splits and gives an `M`-degree-four rational bisection.
 
-\[
-T(B)=o(\sqrt B)
-\]
-
-remains open.
-
-Decision:
+Therefore the correct 14-4ai boundary is
 
 ```text
-STAGE14_4AH=COMPLETE
-PHYSICAL_KUMMER_POLARIZATION_LOCKED=true
-PHYSICAL_LINE_BUNDLE=M=pi^*(-K_Y)
-PHYSICAL_POLARIZATION_SQUARE=8
-PHYSICAL_POLARIZATION_BIG_NEF_NOT_AMPLE=true
-PHYSICAL_RATIONAL_CURVE_M_DEGREE_LOWER_BOUND=4
-SQRTB_MINIMAL_RATIONAL_CURVE_TARGET=M-degree-4 rational bisection
-MCKINNON_DIRECT_ASYMPTOTIC_IMPORTED=false
-FINITE_CORE_SQRTB_SIGNAL_SURVIVES=true
-TRIPLE_RELATIVE_COVER_BRANCH_CLASS=2M
-TRIPLE_TYPE_II_THIN=true
-T_O_SQRT_B_PROVED=false
-SQRT_B_ASYMPTOTIC_CLAIM=false
-TRUE_GROWTH_ORDER_IDENTIFIED=false
+ONLY_REMAINING_FIXED_SQRTB_CURVE_TARGET=split singular anticanonical D in |L|
+PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTENCE_RESOLVED=false
+FIXED_CURVE_SQRTB_MECHANISM_REJECTED=false
 ```
+
+The earlier shortcut `rational normalization => arithmetic genus zero` is explicitly forbidden.
+
+### Symmetric Kummer coordinates
+
+14-4ai also introduces
+
+\[
+\lambda=\frac{1-rs}{r-s},
+\qquad
+\mu=\frac{1+rs}{r+s},
+\]
+
+for which
+
+\[
+(\lambda^2-1)(\mu^2-1)=\square,
+\qquad
+(\lambda^2+1)(\mu^2+1)=\square,
+\]
+
+and hence
+
+\[
+\boxed{(\lambda^4-1)(\mu^4-1)=\square.}
+\]
+
+These are the preferred coordinates for the remaining contact/CM audit.
+
+### Triple restriction
+
+The third-face cover has branch class `2M`. On a hypothetical minimal bisection its branch degree is `8`; with transverse branch the restricted double cover has genus `3`. Special tangencies remain open and belong to the parallel triple gate.
 
 Artifacts:
 
 ```text
-stages/stage14/archive/stage14-4ah-kummer-height.md
-stages/stage14/scripts/14-4/kummer_height_audit.py
-stages/stage14/data/14-4/kummer_height_audit.json
+stages/stage14/archive/stage14-4ai-degree4-bisections.md
+stages/stage14/scripts/14-4/degree4_bisection_audit.py
+stages/stage14/data/14-4/degree4_bisection_audit.json
 stages/stage14/data/14-4/proof_input_audit.json
 ```
 
-## 14-4ai — classify the extremal bisections
+## 14-4aj — singular anticanonical contact / CM-lattice classification
 
 Status: [>] Next.
 
-Purpose:
+There is now a single fixed-curve square-root target.
 
-- classify `Q`-rational bisections `C` with `M.C=4` on the level-4/Kummer model;
-- determine which such curves meet the primitive positive Stage14 open set;
-- derive the exact physical height on their rational parameters and count first-hit vertices contributed by them;
-- test whether the degree-four bisections account for `V(B)=B^(1/2+o(1))` or only a subpopulation;
-- restrict the relative triple cover to each candidate bisection and determine whether triple points are finite / lower-order on the same curves;
-- only after this promote, reject, or refine the square-root growth candidate.
+Tasks:
+
+1. parameterize the singular locus in the anticanonical system `|L|`;
+2. impose the exact even-contact / splitting condition against the space branch `B~2L`;
+3. classify the resulting splitting classes over `Q` and over `Q(i)`;
+4. compare them with the Gaussian-CM/Kummer lattice using the `(lambda,mu)` model;
+5. determine which classes meet the physical chamber `0<r<s<1`;
+6. if a physical Q-rational splitting curve exists, compute its `M`-height first-hit law and restrict the third-face cover to it;
+7. if none exists, reject the complete fixed-curve `sqrt(B)` mechanism and return to a genuinely collective rank-jump/CM-strata count.
+
+No square-root asymptotic is promoted before this last minimal contact case is decided.
 
 ## 14-5 — directionwise asymptotic structure
 
 Status: pending Stage14-4.
+
+## Parallel triple gate
+
+Stage14-t1 is merged and has its own quantitative roadmap. The exact identity remains
+
+\[
+N_2(B)=E(B)-3T(B).
+\]
+
+The main-track raw law cannot be transferred to exactly-two until the triple track proves a sufficient bound, ideally
+
+\[
+T(B)=o(\sqrt B).
+\]
 
 ## Scope boundary
 
 No true Stage14 growth exponent, leading constant, limiting directional vector, perfect-cuboid existence/nonexistence theorem, or `T=o(sqrt(B))` theorem is established yet.
 
 ```text
-NEXT=Stage14-4ai classify Q-rational M-degree-4 bisections and count their first-hit height
+NEXT=Stage14-4aj singular anticanonical contact discriminant / CM-Kummer lattice classification
 ```

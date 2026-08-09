@@ -1,0 +1,84 @@
+{
+  "metadata": {
+    "stage": "14-4ai",
+    "title": "minimum M-degree-four bisection reduction"
+  },
+  "lambda_mu": {
+    "definition": [
+      "lambda=(1-rs)/(r-s)",
+      "mu=(1+rs)/(r+s)"
+    ],
+    "physical_region": "lambda<-1<1<mu",
+    "rationality_square": "(lambda^2-1)(mu^2-1)=square",
+    "space_square": "(lambda^2+1)(mu^2+1)=square",
+    "combined_kummer": "(lambda^4-1)(mu^4-1)=square",
+    "tests": [
+      {"r":"1/4","s":"3/7","lambda":"-5","mu":"31/19"},
+      {"r":"2/9","s":"5/8","lambda":"-62/29","mu":"82/61"},
+      {"r":"3/10","s":"7/10","lambda":"-79/40","mu":"121/100"}
+    ]
+  },
+  "minimal_degree_bounds": {
+    "curve": "M.C=4 and deg(C->P1_r)=2",
+    "second_projection": "deg(C->P1_s)<=2",
+    "cover_image_degree": "delta=deg(C->D) in {1,2}"
+  },
+  "divisor_audit": {
+    "split_case_count": 19,
+    "split_core_histogram": {
+      "(1, 2, 0, 0, 1, 1)": 1,
+      "(1, 1, 0, 0, 0, 0)": 6,
+      "(1, 2, 0, 1, 1, 0)": 3,
+      "(1, 2, 1, 0, 0, 1)": 3,
+      "(1, 2, 1, 1, 0, 0)": 1,
+      "(2, 1, 0, 1, 1, 0)": 2,
+      "(2, 1, 1, 0, 0, 1)": 2,
+      "(2, 2, 1, 1, 1, 1)": 1
+    },
+    "double_case_count": 7,
+    "double_core_histogram": {
+      "(0, 1, 0, 0, 0, 0)": 3,
+      "(1, 0, 0, 0, 0, 0)": 2,
+      "(1, 1, 0, 1, 1, 0)": 1,
+      "(1, 1, 1, 0, 0, 1)": 1
+    },
+    "unique_unresolved_core": "D=(2,2;1,1,1,1)=L=-K_Y, pa=1; normalization can be P1 only when D is singular"
+  },
+  "exact_eliminations": {
+    "degree_two_over_image": true,
+    "genus_zero_split_same_r_12": true,
+    "genus_zero_split_opposite_12": true,
+    "singular_anticanonical_split": false
+  },
+  "genus_zero_contact_crosscheck": {
+    "same_r": {
+      "coefficient_box": 5,
+      "square_specializations": 1360,
+      "gcd1_full_bidegree_candidates": 0
+    },
+    "opposite": {
+      "coefficient_box": 5,
+      "square_specializations": 200,
+      "gcd1_full_bidegree_candidates": 0
+    }
+  },
+  "triple_on_hypothetical_minimal_curve": {
+    "third_cover_branch_class": "2M",
+    "branch_degree_on_C": 8,
+    "generic_restricted_double_cover_genus": 3,
+    "special_tangency_audit_needed": true
+  },
+  "decision": {
+    "STAGE14_4AI": "COMPLETE_MINIMAL_BISECTION_REDUCTION",
+    "LAMBDA_MU_KUMMER_COORDINATES_LOCKED": true,
+    "DEGREE_TWO_IMAGE_M4_MECHANISM_ELIMINATED": true,
+    "GENUS_ZERO_SPLIT_M4_MECHANISM_ELIMINATED": true,
+    "ONLY_REMAINING_FIXED_SQRTB_CURVE_TARGET": "split singular anticanonical D in |L|",
+    "PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTENCE_RESOLVED": false,
+    "FIXED_CURVE_SQRTB_MECHANISM_REJECTED": false,
+    "SQRT_B_ASYMPTOTIC_CLAIM": false,
+    "TRUE_GROWTH_ORDER_IDENTIFIED": false,
+    "T_O_SQRT_B_PROVED": false,
+    "NEXT": "Stage14-4aj singular anticanonical contact discriminant / CM-Kummer lattice classification"
+  }
+}
