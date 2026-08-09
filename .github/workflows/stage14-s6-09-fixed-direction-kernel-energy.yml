@@ -1,0 +1,49 @@
+name: Stage14-s6-09 fixed-direction kernel energy audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-09/**'
+      - 'stages/stage14/scripts/14-s6-09/**'
+      - '.github/workflows/stage14-s6-09-fixed-direction-kernel-energy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s6-09/fixed_direction_kernel_energy_transfer_audit.py
+      - name: Run predecessor s6-08 audit
+        run: python stages/stage14/scripts/14-s6-08/normalized_cross_square_resonance_audit.py
+      - name: Run s6-09 deterministic audit
+        run: python stages/stage14/scripts/14-s6-09/fixed_direction_kernel_energy_transfer_audit.py | tee /tmp/s6-09.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^MERGED_T36_BOUNDARY_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^MERGED_S6_08_BOUNDARY_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^MERGED_4BL_BOUNDARY_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^S6_T36_QUARTIC_ISOMORPHISM_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^PHYSICAL_TARGET_SQUARECLASS_MINUS_ONE_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^FIXED_DIRECTION_BRANCH_NONDEGENERACY_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^PHYSICAL_F3_SLOPE_INJECTIVITY_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^FIXED_DIRECTION_SAME_SQUARECLASS_COLLISION_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^ACTIVE_DIRECTION_EXPONENT_LEDGER_AUDIT=true$' /tmp/s6-09.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s6-09.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S6_09=COMPLETE_FIXED_DIRECTION_SQUARECLASS_ENERGY_TRANSFER_AND_ACTIVE_DIRECTION_BARRIER' stages/stage14/14-s6-09/result.md
+          grep -q 'S6_RAW_CROSS_SQUARE_IS_T36_QUARTIC_EXACT=true' stages/stage14/14-s6-09/result.md
+          grep -q 'PHYSICAL_F3_TARGET_SQUARECLASS=-1' stages/stage14/14-s6-09/result.md
+          grep -q 'FIXED_F2_PHYSICAL_F3_MULTIPLICITY=B^o(1)' stages/stage14/14-s6-09/result.md
+          grep -q 'PHYSICAL_EDGE_ACTIVE_DIRECTION_EXPONENT_EQUIVALENCE=true' stages/stage14/14-s6-09/result.md
+          grep -q 'T36_FIXED_FIBER_SAVING_IMPROVES_GLOBAL_41_42=false' stages/stage14/14-s6-09/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-s6-09/result.md
+          grep -q 'NEXT=Stage14-s6-10' stages/stage14/14-s6-09/result.md
