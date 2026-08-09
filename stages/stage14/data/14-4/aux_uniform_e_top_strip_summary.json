@@ -1,0 +1,102 @@
+{
+  "stage": "14-4bc",
+  "classification": "AUXILIARY_UNIFORMITY_CLOSED_AND_SPLIT_E_TOP_STRIP_ISOLATED",
+  "imports": {
+    "stage14_4bb_k4_graph_saving": "1/200",
+    "stage14_4ay_linear_frozen_state_uniformity": true,
+    "stage14_s5m_signed_root_E_lattice": true,
+    "stage14_s5c_selected_H_label": "23",
+    "stage14_s5d_unselected_H_row": "chi(d1)=+1"
+  },
+  "auxiliary_uniformity": {
+    "linear_linear": "imported_from_14-4ay",
+    "signed_root_E_auxiliary_lattice_is_sublattice": true,
+    "auxiliary_lattice_determinant": "u*v*Q_aux",
+    "shortest_vector_not_decreased": true,
+    "uniform_E_pointwise": "Delta_aux << B^epsilon*(1+P/K(u,v))",
+    "uniform_E_L2": "sum|Delta_aux|^2 << B^epsilon*UV*(1+P^2/K(U,V)^2)",
+    "auxiliary_progression_exponent_loss": "0"
+  },
+  "split_E_structure": {
+    "E_is_H_factor": true,
+    "selected_label": "23",
+    "odd_state_pieces": ["e_23", "e_0"],
+    "max_piece_count": 2,
+    "internal_E_E_reciprocal_edge": false,
+    "whole_kernel_identity": {
+      "m": "(u/e)=1",
+      "n": "(u/e)=1",
+      "m-n": "(u/e)=(2/u)",
+      "m+n": "(u/e)=(2/u)"
+    },
+    "edge_transfer": "(u/e_23)=(u/e)*(u/e_0)",
+    "one_reciprocal_active_E_vertex": true,
+    "active_E_piece_choice": "min(e_23,e_0)",
+    "active_E_piece_scale": "<=M"
+  },
+  "E_density_completion": {
+    "coefficient": "b(n)=mu^2(n)*1_split*prod_{p|n}(2p/(p+1))",
+    "dirichlet_factorization": "L(s,chi)*L(s,chi*chi4)*G(s)",
+    "G_absolute_half_plane": "Re(s)>1/2+epsilon",
+    "partial_sum_bound": "sum_{n<=x}b(n)chi(n) << (xq)^(1/2+epsilon) for x>=q",
+    "lambda_E_dyadic_bound": "sum_{n~N}lambda_E(n)chi(n) << N^(-1/2)q^(1/2)(Nq)^epsilon"
+  },
+  "K5_bulk": {
+    "eta": "1/100",
+    "long_long_saving": "1/200",
+    "very_long_E_threshold": "M^(6/100)",
+    "very_long_E_saving": "1/100",
+    "all_short_linear_threshold": "M^(4/100)",
+    "all_short_E_threshold": "M^(6/100)",
+    "all_short_modulus_exponent": "22/100",
+    "periodic_first_exponent": "36/25",
+    "periodic_second_exponent": "33/50",
+    "worst_bulk_saving": "1/200"
+  },
+  "E_discrepancy": {
+    "U": "M^a",
+    "V": "M^b",
+    "K_exponent": "max(a,b/2)",
+    "error_exponent": "a+b+1-max(a,b/2)",
+    "kappa": "1/100",
+    "closed_outside_top_strip_saving": "1/100",
+    "top_strip": {
+      "V_lower": "M^(99/100)",
+      "U_lower": "M^(49/100)",
+      "name": "BALANCED_SPLIT_E_TOP_STRIP_DISPERSION"
+    }
+  },
+  "updated_reciprocal_contract": {
+    "old": "min(1/200,delta_aux,delta_E)",
+    "new": "min(1/200,delta_top)",
+    "closed_M_scale_saving": "1/200",
+    "closed_B_scale_saving": "1/400",
+    "closed_B_scale_error_exponent": "399/400"
+  },
+  "decision": {
+    "STAGE14_4BC": "AUXILIARY_UNIFORMITY_CLOSED_AND_SPLIT_E_TOP_STRIP_ISOLATED",
+    "LINEAR_AUXILIARY_UNIFORMITY_IMPORTED_FROM_4AY": true,
+    "E_SIGNED_ROOT_AUXILIARY_SUBLATTICE_THEOREM_PROVED": true,
+    "AUXILIARY_INCIDENCE_UNIFORMITY_PROVED": true,
+    "AUXILIARY_PROGRESSION_MODULUS_EXPONENT_LOSS": "0",
+    "E_COLUMN_IS_H_FACTOR": true,
+    "E_ODD_STATE_PIECE_COUNT_MAX": 2,
+    "SPLIT_E_INTERNAL_RECIPROCAL_EDGE": false,
+    "WHOLE_E_SPLIT_EDGE_TRANSFER_EXACT": true,
+    "RECIPROCAL_ACTIVE_E_PIECE_CAN_BE_CHOSEN_LE_M": true,
+    "K5_SEPARABLE_E_GRAPH_BULK_ASSEMBLED": true,
+    "K5_BULK_SAVING_EXPONENT": "1/200",
+    "E_DISCREPANCY_OUTSIDE_TOP_STRIP_SAVING_EXPONENT": "1/100",
+    "BALANCED_SPLIT_E_TOP_STRIP_DISPERSION_PROVED": false,
+    "STATE_SPLIT_E_MULTI_EDGE_ASSEMBLY_REDUCED_TO_TOP_STRIP": true,
+    "CONDITIONAL_RECIPROCAL_EXPONENT_FORMULA": "min(1/200,delta_top)",
+    "CLOSED_RECIPROCAL_B_SCALE_EXPONENT": "1-1/400",
+    "FULL_LOCAL_CHARACTER_POLYNOMIAL_AVERAGED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_COMPLETE_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4bd attack the balanced split-E top strip by a two-copy signed-root determinant/anti-determinant energy estimate, keeping both E state pieces visible; if a fixed saving is obtained, freeze the first complete reciprocal E_rec exponent and then return to the diagonal D_loc/rho_loc assignment"
+  }
+}
