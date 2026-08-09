@@ -67,12 +67,17 @@ jobs:
             --merge-dir /tmp/num3-chunks \
             --output /tmp/num3-b100m.json \
             | tee /tmp/num3-b100m-console.txt
-      - name: Verify finite-only and emergency boundary
+      - name: Verify frozen B100m census and finite-only boundary
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
+
           r=json.loads(Path('/tmp/num3-b100m.json').read_text())
+          m=json.loads(Path('stages/stage14/data/14-num3/census_manifest.json').read_text())
+          frozen=m['completed_cutoffs']['100000000']
+          got=r['extended_census']
+
           assert r['num1_regression']['all_four_sha256_match'] is True
           assert r['num1_regression']['counts_match'] is True
           assert r['num1_regression']['graph_match'] is True
@@ -83,7 +88,14 @@ jobs:
           assert r['cutoff_summaries']['50000000']['counts']=={'a':552,'b':573,'c':303,'total':1428,'triple':0}
           assert r['cutoff_summaries']['50000000']['graph']['active_oriented_face_vertices']==2028
           assert r['cutoff_summaries']['50000000']['graph']['max_degree']==10
-          assert r['extended_census']['counts']['total'] >= 1428
+
+          assert got['counts'] == frozen['counts']
+          assert got['distinct_physical_cuboids'] == frozen['distinct_physical_cuboids']
+          assert got['object_key_sha256'] == frozen['object_key_sha256']
+          assert got['object_key_mask_sha256'] == frozen['object_key_mask_sha256']
+          assert got['graph'] == frozen['graph']
+          assert got['counts']['triple'] == frozen['perfect_cuboid_triple_count'] == 0
+
           assert r['metadata']['bound'] == 100000000
           assert r['metadata']['chunk_count'] == 32
           assert r['decision']['FROZEN_NUM3_MILESTONES_UNCHANGED'] is True
@@ -95,8 +107,8 @@ jobs:
           if r['perfect_cuboid_emergency']['triggered']:
               raise SystemExit('PERFECT CUBOID EMERGENCY: independent reproduction required before num3 closure')
           assert r['decision']['STAGE14_NUM3']=='COMPLETE_EXTENDED_EXACT_CENSUS'
-          print('Stage14-num3 B=100m exact census + frozen milestone regression: PASS')
-          print(json.dumps(r['extended_census'], indent=2, sort_keys=True))
+          print('Stage14-num3 frozen B=100m exact census + earlier milestone regression: PASS')
+          print(json.dumps(got, indent=2, sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
