@@ -2,45 +2,32 @@
 
 ## Purpose
 
-Stage14-q is the recurring literature-surveillance track for Stage14. Its job is not to prove the theorem directly. Its job is to periodically ask whether the current mathematical bottlenecks already have a usable human-developed weapon: a theorem, proof architecture, reduction, computational package, classification, sieve, descent, lattice method, or explicit data set that can be transferred into the active Stage14 tracks.
+Stage14-q is the recurring literature-surveillance track for Stage14. It does not prove the theorem directly. It asks whether a newly isolated Stage14 bottleneck already has a usable human-developed theorem, proof architecture, descent, sieve, lattice method, computational package, or data set that can be transferred into the active proof tracks.
 
-This track continues the role previously played by PR #185 (`agent/stage14-literature-radar`), but makes the literature radar a named, persistent Stage14 route rather than a one-off search.
+The operating rule is **triggered search, not continuous broad search**. A q-stage opens only after an active route exposes a stable named obstruction whose mathematical form has changed enough that the previous q ledger no longer answers it.
 
-## Operating principle
+A useful q result ends in one of four states:
 
-Do not search continuously and broadly. Search when an active proof track exposes a concrete bottleneck, then perform a focused pass against that bottleneck.
+- `DIRECT`: external theorem/data imports essentially as stated after exact hypothesis checks;
+- `NEAR`: a concrete proof architecture has a falsifiable Stage14 transfer lemma;
+- `BACKGROUND`: relevant context but not currently actionable;
+- `BLOCKED`: a tempting shortcut fails a named hypothesis or compatibility condition.
 
-A useful Stage14-q result must end in one of four states:
+Never promote a citation from vocabulary similarity alone. Record the Stage14 variable dictionary, verified/unverified hypotheses, quantitative loss, and the smallest receiving-stage falsification test.
 
-- `DIRECT`: theorem/data can be imported essentially as stated after checking hypotheses.
-- `NEAR`: a proof architecture or lemma has a concrete Stage14 transfer test.
-- `BACKGROUND`: conceptually relevant but not currently actionable.
-- `BLOCKED`: tempting lead fails a named hypothesis or geometry/arithmetic compatibility condition.
+## Current frontier (2026-08-10, after q9)
 
-Never promote a citation merely because its vocabulary resembles Stage14. Record exact hypotheses, variables, losses, field-of-definition conditions, and the precise Stage14 object to which it would be applied.
+The q-route has now passed through three different obstruction shapes.
 
-## Current frontier (2026-08-09, after q8)
+- `q2--q7` built the base ledger, closed false shortcuts, and made q8+ trigger-driven.
+- `q8` reacted to `s5m/t23`: the local boundary had become a one-small-variable switched Jacobi operator and the t torsion branch had become explicit quartic squareclass packets. Wilson-2025 was handed to s5n; factorized square-sieve/Pierce--Xu architecture was handed to t24.
+- those receiving tracks advanced materially. `s5n/s5o` closed the one-small-variable and K4 product-conductor problems; draft `s5p` removes auxiliary-progression loss and leaves the active state-split `E=m^2+n^2` multi-edge tensor. `t24` closes torsion second moment at `O(B^(1/2+o(1)))`; draft `t25` partially validates the Le-Boudec large-prime transfer and leaves `1 mod 4` Gaussian allocation plus the `C`-column dual-isogeny descent on the rank branch. Merged `14-4bb` should import these s-track results rather than duplicate them.
 
-`Stage14-q2` narrowed the local analytic problem from an arbitrary Euclid-correlated matrix to explicit discrepancy/covariance terms and identified direct Jacobi-bilinear subroutines after genuine separation.
+`q9` therefore identifies a new common cross-domain candidate: quadratic large-sieve technology over `Q(i)` / number fields. The signed split roots of `m^2+n^2` and the remaining `1 mod 4` prime allocation are both naturally Gaussian. Goldmakher--Louvel's number-field quadratic Hecke-family large sieve and Onodera's `Z[i]` Jacobi-symbol large sieve are `NEAR_HIGH_PRIORITY` for the exact s5q/t26 transfer tests. Fisher's higher-descent architecture for elliptic curves with rational 2-torsion is `NEAR_STRUCTURE_HIGH_PRIORITY` for making the t26 dual cover explicit before counting.
 
-`Stage14-q3` audited the first-small-point height literature against the actual Stage14 family. Petsche/Naccarato remain fixed-fiber tools; the strongest family-transfer architecture remains Le Boudec's large-prime-factor plus complete-2-descent strategy rebuilt on the five Euclid factors.
+No q9 source proves the full residual Stage14 obstruction unchanged.
 
-`Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem. The later t21/t22 chain sharpened the live target to the active-direction second moment rather than fixed-direction multiplicity.
-
-`Stage14-q5` confirmed that the decisive Shimada level-4 modular K3 package has already been consumed for the fixed `M`-degree-4 route. Broad K3/root searches remain closed unless a genuinely new geometric trigger appears.
-
-`Stage14-q6` converted the literature shelf into an active routing contract: import s-track determinant/dispersion theorems rather than duplicate them in 14-4; route the height gate to a Le-Boudec-style large-prime + exact 2-descent transfer; keep square/polynomial sieve conditional on the actual t geometry; and preserve num as diagnostics rather than theorem replacement.
-
-`Stage14-q7` froze the negative knowledge behind those decisions and made q8+ trigger-driven only.
-
-`Stage14-q8` was legitimately reopened by two q7-authorized explicit triggers:
-
-- draft `Stage14-s5m` reduces the remaining linear boundary to a **one-small-variable complementary-divisor Jacobi operator**. The strongest new transfer is Cameron Wilson's 2025 Hooley-neutraliser quadratic large sieve for hyper-skewed character sums. It is `NEAR_HIGH_PRIORITY`, not `DIRECT`, until s5n proves the remaining physical/local-state dependence separates into the theorem's coefficient/multiplicative-weight shape.
-- draft `Stage14-t23` splits the active second moment into rank and torsion branches and makes the torsion branch two explicit quartic squareclass packets. q8 observes that the square-sieve prime correlation factors into two binary-quartic character sums, so t24 should exploit this separated structure before generic nonseparable polynomial-sieve machinery. Pierce–Xu Burgess-at-forms technology is a `NEAR_HIGH_PRIORITY` candidate building block.
-
-No q8 source proves the full Stage14 obstruction theorem unchanged. The rank-active first-small-point branch remains on the q3 Le-Boudec transfer architecture, and 14-4 should import s5n before opening an independent new literature scan.
-
-## Roadmap
+## Completed roadmap
 
 ### Stage14-q1 — Reconstruct the literature ledger
 
@@ -54,59 +41,52 @@ Result: `docs/stage14-q2-correlated-bilinear-literature.md`.
 
 Result: `docs/stage14-q3-small-point-height-literature.md`.
 
+Primary retained architecture:
+
+```text
+LE_BOUDEC_2018_LARGE_PRIME_PLUS_COMPLETE_2_DESCENT
+```
+
+Fixed-fiber point-count/height theorems are not moving-family first-point frequency theorems.
+
 ### Stage14-q4 — Squareclass / Selmer collision pass
 
 Result: `docs/stage14-q4-squareclass-collision-literature.md`.
+
+Square/polynomial sieve remains conditional on the actual collision geometry exposed by the t-track.
 
 ### Stage14-q5 — K3 / lattice computational refresh
 
 Result: `docs/stage14-q5-shimada-k3-lattice-refresh.md`.
 
-Key decision:
-
 ```text
 SHIMADA_FIXED_CURVE_PACKAGE_CONSUMED=true
-PHYSICAL_M_IN_S0_BASIS_KNOWN=true
 REQUIRED_NS_PARITY_COSET_EMPTY=true
-UNUSED_SHIMADA_DATA_IS_LIVE_BLOCKER=false
 NEW_DIRECT_K3_LATTICE_WEAPON_FOR_CURRENT_FRONTIER=false
 ```
 
-### Stage14-q6 — Cross-track weapon test
+### Stage14-q6 — Cross-track weapon routing
 
 Result: `docs/stage14-q6-cross-track-weapon-routing.md`.
 
-Key decisions:
-
 ```text
-STAGE14_Q6=COMPLETE_CROSS_TRACK_WEAPON_ROUTING
-S5K_MERGED_AND_MAIN_IMPORT_REQUIRED=true
+S_TRACK_IMPORT_TO_MAIN_REQUIRED=true
 Q3_HEIGHT_HANDOFF_LOCKED=true
 Q5_K3_REOPEN_RULE_LOCKED=true
-S5K_TO_4AY_ANTI_DUPLICATION_GATE=true
-NUM6_POST_BOOTSTRAP_DIAGNOSTIC_HANDOFF_DEFINED=true
+ANTI_DUPLICATION_GATE=true
 ```
 
 ### Stage14-q7 — Negative-results archive
 
-Result: `docs/stage14-q7-negative-results-archive.md`.
+Results:
 
-Key decisions:
+- `docs/stage14-q7-negative-results-archive.md`
+- `docs/stage14-q7-summary.md`
+
+Key locks include:
 
 ```text
-STAGE14_Q7=COMPLETE_NEGATIVE_RESULTS_ARCHIVE
 ARBITRARY_MATRIX_LARGE_SIEVE_REOPEN=false
-SIX_LINEAR_SPECTRAL_ESCALATION_REOPEN=false
-SIX_LINEAR_CENTRAL_DYADIC_OBSTRUCTION_SUPERSEDED=true
-NORM_SPARSE_D_S_OBSTRUCTION_SUPERSEDED=true
-NORM_MEDIUM_SIGNED_ROOT_REOPEN_CONDITIONAL=true
-PETSche_AS_FAMILY_POWER_SAVING=false
-NACCARATO_OR_DUJELLA_FIXED_FIBER_MULTIPLICITY_AS_FAMILY_FREQUENCY=false
-AMBIENT_LANG_DIRECT_TRANSFER=false
-FIXED_PRIME_T_LOCAL_SAVING=false
-T19_EXACTLY_TWO_COLLISION_FORMULATION_SUPERSEDED=true
-T21_COARSE_BOUND_AS_POWER_SAVING=false
-T22_FIXED_DIRECTION_MULTIPLICITY_AS_ACTIVE_DIRECTION_SAVING=false
 FIXED_M4_K3_ROUTE_REOPEN=false
 FINITE_ZERO_TRIPLE_NONEXISTENCE_INFERENCE=false
 LOCAL_GLOBAL_HEIGHT_INDEPENDENCE_ASSUMPTION=false
@@ -115,16 +95,15 @@ TRIGGER_DRIVEN_Q8_PLUS_ONLY=true
 
 ### Stage14-q8 — s5n / t24 cross-domain transfer radar
 
-Result: `docs/stage14-q8-cross-domain-transfer-radar.md`.
+Results:
 
-Compact handoff: `docs/stage14-q8-summary.md`.
+- `docs/stage14-q8-cross-domain-transfer-radar.md`
+- `docs/stage14-q8-summary.md`
 
 Trigger:
 
 ```text
 TRIGGER_STAGE=Stage14-s5m+Stage14-t23
-EXACT_OBSTRUCTION=s5m switched one-small-variable boundary + t23 rank/torsion active-direction second moment
-LAST_RADAR_BASELINE=Stage14-q7
 ```
 
 Key decisions:
@@ -133,25 +112,65 @@ Key decisions:
 STAGE14_Q8=COMPLETE_TRIGGERED_CROSS_DOMAIN_TRANSFER_RADAR
 DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0
 S5N_WILSON2025_NEUTRALISER_TRANSFER=NEAR_HIGH_PRIORITY
-S5N_WILSON2023_NEAR_AXIS_DIRECT_USE=BLOCKED
 T24_TORSION_COLLISION_IS_QUARTIC_SQUARE_VALUE_PROBLEM=true
 T24_SQUARE_SIEVE_PRIME_CORRELATION_FACTORIZES=true
 T24_PIERCE_XU_BINARY_QUARTIC_TRANSFER=NEAR_HIGH_PRIORITY
-BONOLIS_PIERCE_GENERIC_NONSEPARABLE_DIRECT=false
-T24_RANK_PAN_TIAN_SELMER_AS_SMALL_POINT_FREQUENCY=BLOCKED
 Q3_LE_BOUDEC_HEIGHT_TRANSFER_REMAINS_PRIMARY=true
-MAIN_14_4_IMPORT_S5N_FIRST=true
-HANDOFF_S=Stage14-s5n
-HANDOFF_T=Stage14-t24
 ```
 
-### Stage14-q9+ — Trigger-driven focused radar passes only
+Receiving-stage outcome by q9 time:
 
-Do not manufacture a fixed endless q sequence and do not perform broad periodic searches merely because another q-number is available.
+```text
+Q8_S5N_ONE_SMALL_VARIABLE_HANDOFF_CONSUMED=true
+Q8_T24_TORSION_HANDOFF_CONSUMED_SUCCESSFULLY=true
+```
 
-Open another q-stage only when an active Stage14 route reports a stable named obstruction or a materially new paper/data set directly matches one of those obstructions.
+The t24 torsion branch was closed by a stronger binary-quartic/Jacobian route before square-sieve escalation became necessary.
 
-Every q9+ stage must state at its top:
+### Stage14-q9 — Gaussian/Hecke + isogeny transfer radar
+
+Results:
+
+- `docs/stage14-q9-gaussian-hecke-isogeny-transfer-radar.md`
+- `docs/stage14-q9-summary.md`
+
+Trigger:
+
+```text
+TRIGGER_STAGE=Stage14-4bb+Stage14-s5p+Stage14-t25
+EXACT_OBSTRUCTION=state-split E multi-edge tensor + Gaussian allocation / dual-isogeny rank routing
+LAST_RADAR_BASELINE=Stage14-q8
+```
+
+Key decisions:
+
+```text
+STAGE14_Q9=COMPLETE_GAUSSIAN_HECKE_AND_ISOGENY_TRANSFER_RADAR
+DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0
+S5Q_GAUSSIAN_HECKE_LARGE_SIEVE_TRANSFER=NEAR_HIGH_PRIORITY
+S5Q_ONODERA_QI_SPECIAL_CASE=NEAR_HIGH_PRIORITY
+S5Q_SHORT_INTERVAL_2026_TRANSFER=NEAR_SECONDARY
+T26_FISHER_RATIONAL_2TORSION_DESCENT=NEAR_STRUCTURE_HIGH_PRIORITY
+T26_GAUSSIAN_ALLOCATION_HECKE_SIEVE=NEAR_HIGH_PRIORITY
+T26_ISOGENY_SELMER_AS_QRANK_POWER_SAVING=BLOCKED
+Q3_LE_BOUDEC_TRANSFER_PARTIALLY_VALIDATED_BY_T25=true
+MAIN_14_4_NEW_INDEPENDENT_LITERATURE_BRANCH=false
+HANDOFF_S=Stage14-s5q
+HANDOFF_T=Stage14-t26
+HANDOFF_MAIN=Stage14-4bc
+```
+
+The q9 transfer is deliberately falsifiable:
+
+- s5q must take one **actual** active state-split E multi-edge monomial, encode split roots as squarefree Gaussian ideals, derive the finite ray-class-corrected quadratic Hecke symbol, and test whether s5p leaves one-ideal-at-a-time coefficients suitable for Goldmakher--Louvel/Onodera;
+- t26 must first derive the explicit dual-isogeny homogeneous space of the t25 integral model, then factor the `1 mod 4` columns in `Z[i]` and test whether same-`(alpha,beta)` pair energy becomes a quadratic-Hecke ideal bilinear form;
+- 14-4bc should import those receiving-stage results rather than reproduce them and must keep the diagonal/local-density term separate from reciprocal cancellation.
+
+## Stage14-q10+ — trigger-driven only
+
+Do not manufacture an endless q sequence and do not search broadly merely because a new q-number is available.
+
+Every q10+ stage must state:
 
 ```text
 TRIGGER_STAGE=
@@ -159,37 +178,40 @@ EXACT_OBSTRUCTION=
 CURRENT_BEST_BOUND=
 WHY_EXISTING_Q_LEDGER_DOES_NOT_ALREADY_ANSWER_IT=
 SEARCH_FAMILIES=
-LAST_RADAR_BASELINE=Stage14-q8
+LAST_RADAR_BASELINE=Stage14-q9
 PROMOTION_STANDARD=
 ```
 
-Likely legitimate future triggers now include:
+Legitimate next triggers include:
 
-- s5n failure to separate the physical character/local state into Wilson-2025-admissible coefficients, with the exact residual dependence written down;
-- t24 failure of the factorized binary-quartic square-sieve route, with the exact character-sum exponent or bad-prime/congruence obstruction identified;
-- a precise obstruction in the Le-Boudec-style five-factor height transfer;
-- a genuinely new K3 fibration/divisor/orbit problem not equivalent to the consumed fixed-M4 route;
-- a reproducible numerical structural anomaly first formulated as a theorem-level mathematical question.
+- s5q proves that the Gaussian/Hecke rewrite fails because of one explicitly named residual two-ideal/Euclid dependence;
+- t26 exposes a new explicit descent column after Gaussian allocation and dual-isogeny normalization;
+- a main-track residual remains after importing s5q and has a mathematical form not already covered by q1--q9;
+- a reproducible numerical anomaly is promoted into a precise theorem-level mathematical question;
+- genuinely new K3 geometry appears that is not equivalent to the consumed fixed-M4 route.
+
+A mere stage-number increment is not a trigger.
 
 ## Handoff discipline
 
-A Stage14-q worker may recommend a theorem or method but must not silently modify another track's proof contract. Every handoff must include:
+Every q handoff must contain:
 
 1. source and exact theorem/lemma/data object;
 2. Stage14 variable dictionary;
 3. verified hypotheses;
 4. unverified hypotheses;
-5. quantitative loss/exponent/constants that matter;
-6. the smallest receiving-stage experiment or lemma that can falsify the transfer quickly.
+5. relevant exponent/loss/constants;
+6. smallest receiving-stage experiment or lemma that can falsify the transfer quickly.
 
-If any critical hypothesis is unknown, classify the lead as `NEAR`, not `DIRECT`.
+If a critical hypothesis remains unknown, classify the lead as `NEAR`, not `DIRECT`.
 
 ## Immediate next task
 
 ```text
-NEXT_Q_STAGE=NONE_UNTIL_TRANSFER_TEST_FAILURE_OR_NEW_TRIGGER
-HANDOFF_S=Stage14-s5n
-HANDOFF_T=Stage14-t24
+NEXT_Q_STAGE=NONE_UNTIL_GAUSSIAN_TRANSFER_TEST_FAILURE_OR_NEW_STABLE_OBSTRUCTION
+HANDOFF_S=Stage14-s5q
+HANDOFF_T=Stage14-t26
+HANDOFF_MAIN=Stage14-4bc
 ```
 
-The q-route is parked again after q8. The next work belongs in the receiving proof tracks: test Wilson's neutraliser large sieve inside the actual s5n switched boundary and test the factorized quartic square-sieve architecture inside t24. Reopen q only if one of those tests exposes a new stable obstruction not already covered by q1--q8.
+The q-route is parked after q9. The next value-producing work belongs in the receiving proof tracks, not in q10.
