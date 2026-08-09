@@ -1,0 +1,50 @@
+name: Stage13-13fo immutable R06 review bundle
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/scripts/13-13fo/**'
+      - '.github/workflows/stage13-13fo-r06-review-bundle.yml'
+      - 'review/STAGE13-FINAL-SELF-CONTAINED-20260809-R06.html'
+      - 'stages/stage13/13-13fo/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-r06:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - name: Build fixed-snapshot R06 bundle
+        run: python stages/stage13/scripts/13-13fo/build_r06_review_bundle.py
+      - name: Validate manifest hash and locks
+        shell: bash
+        run: |
+          set -euo pipefail
+          manifest=stages/stage13/13-13fo/review-manifest.md
+          bundle=review/STAGE13-FINAL-SELF-CONTAINED-20260809-R06.html
+          expected=$(grep '^CONTENT_SHA256=' "$manifest" | head -1 | cut -d= -f2)
+          actual=$(sha256sum "$bundle" | awk '{print $1}')
+          test "$expected" = "$actual"
+          grep -q '^R06_INDEPENDENT_CLOSED_VERDICTS=0$' "$manifest"
+          grep -q '^R05_VERDICTS_CARRY_FORWARD_TO_R06=false$' "$manifest"
+          grep -q '^NEXT=13-13fp$' "$manifest"
+      - name: Commit generated immutable target on PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add review/STAGE13-FINAL-SELF-CONTAINED-20260809-R06.html stages/stage13/13-13fo/review-manifest.md stages/stage13/13-13fo/result.md
+          if git diff --cached --quiet; then
+            echo 'Generated files already match.'
+          else
+            git commit -m 'Stage13-13fo: generate immutable R06 review bundle'
+            git push origin "HEAD:${GITHUB_HEAD_REF}"
+          fi
