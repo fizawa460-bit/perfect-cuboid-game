@@ -1,0 +1,17 @@
+name: Stage13-13fp R06 Claude review adjudication
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fp/**'
+      - 'stages/stage13/scripts/13-13fp/**'
+      - '.github/workflows/stage13-13fp-r06-claude-review.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit R06 Claude adjudication locks
+        run: python stages/stage13/scripts/13-13fp/r06_claude_review_audit.py
