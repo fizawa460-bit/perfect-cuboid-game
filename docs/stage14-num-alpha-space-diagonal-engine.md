@@ -2,15 +2,13 @@
 
 ## Purpose
 
-Stage14-num-α is an experimental numerical side track dedicated to one question:
+Stage14-num-α began as an experimental numerical side track asking whether the historical body-diagonal-first architecture could be converted into a materially faster **exact** Stage14 census engine without losing primitive two-face-or-more objects.
 
-> Can the historical body-diagonal-first search architecture be converted into a materially faster **exact** Stage14 census engine without losing any primitive exactly-two-face objects?
+That validation phase is now complete. α1 through α8 established exact equivalence against the ordinary Stage14-num engine, a matched constant-factor speedup, safe primitive pruning, exact diagonal sharding, and a production-scale extension from the ordinary `B=150,000,000` frontier to exact `B=200,000,000`.
 
-The ordinary rolling `Stage14-numN` observatory remains authoritative until α reproduces its frozen key sets exactly.
+The ordinary Stage14-num results through `B=150,000,000` remain an independent regression oracle. Beyond that frontier, the validated α engine is the production extension path, with exact manifests and hash locks required at each new checkpoint.
 
 ## Frozen Stage14 target
-
-The ordinary numerical population is
 
 ```text
 0<a<b<c
@@ -20,142 +18,187 @@ d<=B
 at least two integral face diagonals
 ```
 
-Thus α's natural outer variable `d` is already the ordinary Stage14 physical cutoff. Searching `d<=B` covers exactly the same finite height region.
+Thus α's outer variable `d` is exactly the Stage14 physical cutoff. Searching `d<=B` covers the same finite height region.
 
-## α1 exact dictionary — COMPLETE
+## Completed validation and production phases
 
-Every active face gives an ordered opposite-edge representation
+### α1 — exact dictionary: COMPLETE
 
-```text
-d^2 = a^2+z^2 = b^2+y^2 = c^2+x^2.
-```
+Two ordered representations of one fixed `d^2`, together with a positive-square residual, are exactly equivalent to reconstructing a Stage14 cuboid with at least two integral face diagonals. Canonical deduplication separates exactly-two from triple witnesses.
 
-For two ordered representations
+### α2 — reference collision enumerator: COMPLETE
 
-```text
-d^2=a^2+F_a^2=b^2+F_b^2,
-```
+The deliberately simple diagonal-first implementation reproduced the ordinary exact census at the raw `(a,b,c,d,mask)` level and at the frozen B2m hashes.
 
-the residual
+### α3 — sum-of-two-squares generation audit: COMPLETE
 
-```text
-c^2=d^2-a^2-b^2=F_a^2-b^2=F_b^2-a^2
-```
+Gaussian/Girard generation was corrected to preserve scaled representations and then matched the reference representation sets exactly.
 
-being a positive square is **equivalent** to reconstructing an integer cuboid with space diagonal `d` and at least those two face diagonals integral. The remaining face-square test separates `N2` from `T`.
+### α4 — compressed collision engine: COMPLETE
 
-Result: `stages/stage14/14-num-alpha1/result.md`.
+The four ordered-role collision search was algebraically compressed to at most three positive residual candidates per unordered representation pair, with exact output preserved. Square-root calls were reduced substantially.
 
-Locked α1 decisions:
+### α5 — primitive-safe sieve: COMPLETE
 
-```text
-PAIR_COLLISION_ENUMERATION_COMPLETE_FOR_STAGE14_NUM_POPULATION=true
-PAIR_COLLISION_ENUMERATION_COMPLETE_FOR_TWO_FACE_OR_MORE=true
-ALL_THREE_REQUIRES_CANONICAL_DEDUP_OF_THREE_WITNESSES=true
-UNORDERED_REPRESENTATION_WITHOUT_ROLE_TRIAL_INCOMPLETE=true
-FULL_ONE_FACE_FROM_PAIR_COLLISIONS_ALONE=false
-FULL_ONE_FACE_REQUIRES_NESTED_FACE_DECOMPOSITION=true
-PRIMITIVE_FILTER_MUST_USE_RECONSTRUCTED_EDGE_TRIPLE=true
-STAGE14_PHYSICAL_CUTOFF_IS_SPACE_DIAGONAL=true
-ALPHA_DIAGONAL_RANGE_EQUALS_MAIN_NUM_RANGE=true
-D_ODD_AND_ONLY_1MOD4_PRIME_SUPPORT_SAFE=true
-PERFECT_SPECIFIC_11_19_PRUNING_SAFE_FOR_N2=false
-HISTORICAL_FAST_FACE_LIST_COMPLETE=false
-```
+Only filters proved safe for the full primitive two-face-or-more population were admitted. In particular, primitive accepted objects force `d` to have only `1 mod 4` prime support; representation-count and pair-level common-divisor filters were proved and audited. Perfect-only historical congruence shortcuts remain disabled.
 
-### Safe historical ideas
+### α6 — independent equality matrix: COMPLETE
 
-α may use, after exact implementation checks:
+Raw-set equality against ordinary num was verified at multiple small cutoffs, and all frozen counts, graph fields and hashes matched at B2m, B5m and B10m.
 
-- body-diagonal-first enumeration;
-- factorization of `d`;
-- Girard/Gaussian generation of all representations of `d^2` as two squares;
-- primitive-safe diagonal sieve: `d` odd, `d≡1 mod4`, no `3 mod4` prime divisor;
-- exact representation collisions and integer-square tests.
+### α7 — matched performance crossover: COMPLETE
 
-### Unsafe historical shortcuts
-
-Do not import without a new N2 completeness proof:
-
-- edge divisibility cuts such as the fast-source `11` and `19` tests;
-- any Euler-brick/perfect-only modular filter;
-- loop pruning whose proof uses the missing third face being integral;
-- optimizations introduced specifically by dropping almost-perfect checks;
-- historical later-batch Face-cuboid samples as complete data.
-
-The author explicitly reports that the accelerated historical search dropped most almost-perfect checks and that the later Face-cuboid lists were incomplete.
-
-## Roadmap
-
-### Stage14-num-α2 — Reference collision enumerator
-
-Build the simplest auditable standard-library implementation of the α1 theorem. Use only proven-safe pruning.
-
-For frozen cutoffs compare **canonical key sets**, not only totals:
+On the same runner and exact-output semantics, the α engine was faster at every tested cutoff:
 
 ```text
-ALPHA_PAIR_COLLISION_N2_KEYS_EQUAL_MAIN=true
-ALPHA_PAIR_COLLISION_FACE_MASKS_EQUAL_MAIN=true
-ALPHA_PAIR_COLLISION_ACTIVE_FACE_KEYS_EQUAL_MAIN=true
-ALPHA_PAIR_COLLISION_RAW_EDGE_KEYS_EQUAL_MAIN=true
-ALPHA_PAIR_COLLISION_T_EQUAL_MAIN=true
+B=200k   1.55x
+B=500k   1.93x
+B=1m     2.08x
+B=2m     2.23x
 ```
 
-No optimization is accepted before these locks pass.
+This is a finite engineering speedup, not an asymptotic runtime theorem.
 
-### Stage14-num-α3 — Sum-of-two-squares generation audit
+### α8 — production scaleout to B200m: COMPLETE
 
-Compare complete generation strategies for `Rep(d^2)`:
+Eight disjoint body-diagonal shards extended the exact census beyond the ordinary B150m frontier. The α union restricted to B150m matched Stage14-num6 in every frozen field before the new shell was accepted.
 
-1. simple reference generation;
-2. factorization/Gaussian-integer synthesis;
-3. Girard/Brahmagupta-Fibonacci product generation;
-4. segmented/cached diagonal blocks.
-
-Measure factorization cost, number of representations, duplicate work and memory while preserving exact α2 output.
-
-### Stage14-num-α4 — Compatible-representation collision engine
-
-Optimize the collision layer: ordering, indexing, residual-square filters, batching and deduplication. Both role orientations remain mandatory unless a replacement orientation theorem is proved.
-
-### Stage14-num-α5 — Safe-pruning theorem pack
-
-Audit every proposed high-speed filter individually against the complete Stage14 `N2/T` population. Promote only filters with a proof independent of the missing third face. Historical perfect-only congruence tests remain disabled by default.
-
-### Stage14-num-α6 — Frozen-cutoff cross-validation
-
-Require exact equality with ordinary num over multiple frozen cutoffs, including directional counts, masks, active-face ledger, raw edges, max degree, `T(B)` and compatible hashes.
-
-### Stage14-num-α7 — Performance crossover
-
-Benchmark against the ordinary exact num engine under comparable runners and classify:
+Frozen B200m result:
 
 ```text
-ALPHA_LOSES
-ALPHA_DIAGNOSTIC_ONLY
-ALPHA_WINS_CONSTANT_FACTOR
-ALPHA_WINS_ASYMPTOTICALLY
+N_a^(2),N_b^(2),N_c^(2) = 957,967,533
+N2 = 2457
+T = 0
+active oriented faces = 3563
+raw pair edges = 2457
+max degree = 11
+N2/sqrt(B) = 0.17373613613753472
 ```
 
-### Stage14-num-α8 — Large exact cutoff
+The change in `N2/sqrt(B)` from B150m to B200m is about `-3.85%`, so the large-census diagnostics are not yet declared stable.
 
-Only if α7 is favorable, extend the exact Stage14 census beyond the rolling-num frontier while preserving all α2/α6 regression gates.
+## Post-B200m roadmap — explicit stopping rule
 
-### Stage14-num-α9 — Optional historical reproduction
+The numerical program no longer extends the cutoff merely because a larger number is possible. Its provisional terminal target is **B=500,000,000**. The purpose of the next checkpoints is to decide whether the principal normalized finite diagnostics have become empirically stable.
 
-Reproduce selected historical diagonal intervals as algorithm validation only. This is never substituted for the Stage14 census.
+This is a deterministic exact census, not an iid random sample. The stability rule below is therefore an operational research diagnostic, **not** a confidence interval, p-value, or proof of an asymptotic law.
 
-### Stage14-num-α10+ — Conditional continuation
+### Primary stability panel
 
-Continue only on demonstrated performance or structural value.
+At every checkpoint freeze the exact census and compute at least:
 
-## Non-goals
+```text
+R0 = N2/sqrt(B)
+Ra = N_a^(2)/N2
+Rb = N_b^(2)/N2
+Rc = N_c^(2)/N2
+Rg = active_oriented_face_vertices/N2
+```
 
-- no asymptotic inference from faster finite data;
-- no perfect-cuboid nonexistence inference from a finite cutoff;
-- no full one-face census requirement before the pair-collision accelerator is evaluated;
-- no sacrifice of exactly-two completeness for perfect-cuboid search speed.
+Also report, but do not use as primary stop-gate quantities:
 
-## Immediate next task
+```text
+T(B)
+shell counts by direction
+raw pair edges
+vertex repeat incidence rate
+max degree
+all exact object/mask/graph SHA locks
+```
 
-Start **Stage14-num-α2**: implement the deliberately simple ordered-role collision enumerator over exactly `d<=B` and prove exact key-set equality against ordinary num on small frozen cutoffs.
+For a primary diagnostic `R`, define the checkpoint drift by
+
+```text
+relative_drift(R; B_old,B_new)
+  = |R(B_new)-R(B_old)| / max(|R(B_new)|, 1e-30).
+```
+
+### Stage14-num-α9 — exact B300m extension, with B250m checkpoint
+
+Run the validated segmented/sharded α engine through `B=300,000,000`. From the same exact object union freeze nested checkpoints at:
+
+```text
+B=250,000,000
+B=300,000,000
+```
+
+Requirements:
+
+- B200m nested regression reproduces α8 exactly;
+- freeze counts, directional counts, `T`, graph fields, object SHA, object+mask SHA, vertex SHA and edge SHA at B250m and B300m;
+- publish the first post-B200m stability panel;
+- if `T>0`, stop the ordinary roadmap and enter the emergency independent-verification protocol before any mathematical claim.
+
+### Stage14-num-α10 — exact B400m checkpoint
+
+Extend to `B=400,000,000`, preserving the B200m/B250m/B300m nested manifests. Freeze the B400m exact census and update the stability matrix.
+
+No early stopping is declared here: B400m exists to provide enough separated checkpoints for the terminal B500m decision.
+
+### Stage14-num-α11 — exact B500m terminal checkpoint and stop gate
+
+Extend to the provisional terminal cutoff
+
+```text
+B=500,000,000.
+```
+
+Evaluate each primary normalized diagnostic over the last three checkpoint transitions:
+
+```text
+250m -> 300m
+300m -> 400m
+400m -> 500m
+```
+
+The large-census program is considered **empirically stable enough to stop at B500m** if all of the following hold:
+
+1. every exact integrity/hash/nesting gate passes;
+2. `T(B)=0` through B500m;
+3. every primary diagnostic `R0,Ra,Rb,Rc,Rg` has relative drift `<= 0.02` on **each** of those three transitions.
+
+If this gate passes, set:
+
+```text
+LARGE_CENSUS_COMPLETE_AT_B500M=true
+B1B_ESCALATION_REQUIRED=false
+```
+
+and park large-scale Stage14-num. Further numerical work should then be driven only by a named request from a proof lane or by a genuinely new structural diagnostic.
+
+### Stage14-num-α12 — conditional B1B escalation only
+
+`B=1,000,000,000` is **not automatic**. Open α12 only if the B500m stop gate fails materially while exact integrity remains sound, or if another Stage14 proof route requests a specifically defined larger-cutoff diagnostic.
+
+If opened, α12 must declare its checkpoints and stopping test before computation starts; it must not become an indefinite "keep increasing B" loop.
+
+### Stage14-num-αH — optional historical reproduction
+
+Historical diagonal-interval reproduction is moved off the numbered critical path. `αH` may be used occasionally to validate old search architecture or compare historical almost-perfect data, but it never blocks α9–α11 and is never substituted for the exact Stage14 census.
+
+## Emergency and non-goal rules
+
+- `T>0` is an emergency verification event, not an automatic perfect-cuboid announcement. Recompute the candidate independently with ordinary/reference arithmetic and verify every edge, face diagonal, space diagonal and primitive condition exactly.
+- `T=0` at any finite cutoff, including B500m or B1B, does **not** prove nonexistence.
+- A 2% stability gate is a declared finite-data stopping convention, not evidence by itself for a limiting constant.
+- Do not import historical perfect-only `11`/`19` or analogous pruning without a separate proof that it preserves the full Stage14 two-face-or-more population.
+- Do not sacrifice exact two-face completeness for perfect-cuboid search speed.
+
+## Locked roadmap state
+
+```text
+STAGE14_NUM_ALPHA_ROADMAP=POST_B200M_STABILITY_PLAN
+ALPHA1_THROUGH_ALPHA8_COMPLETE=true
+ORDINARY_NUM_B150M_REMAINS_INDEPENDENT_REGRESSION_ORACLE=true
+ALPHA_PRODUCTION_EXACT_CUTOFF_B=200000000
+PROVISIONAL_LARGE_CENSUS_TARGET_B=500000000
+STABILITY_CHECKPOINTS_B=250000000,300000000,400000000,500000000
+STABILITY_RELATIVE_DRIFT_THRESHOLD=0.02
+STABILITY_REQUIRED_CONSECUTIVE_TRANSITIONS=3
+STABILITY_IS_HEURISTIC_NOT_CONFIDENCE_INTERVAL=true
+FINITE_CENSUS_ASYMPTOTIC_CLAIM=false
+B1B_ESCALATION_AUTOMATIC=false
+PERFECT_CUBOID_EMERGENCY_ON_T_POSITIVE=true
+HISTORICAL_REPRODUCTION_MOVED_TO_ALPHA_H=true
+NEXT=Stage14-num-alpha9 exact B300m extension with nested B250m/B300m stability checkpoints
+```
