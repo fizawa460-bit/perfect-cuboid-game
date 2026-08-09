@@ -1,0 +1,38 @@
+name: Stage14-4bf local bottleneck refocus
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bf/**'
+      - 'stages/stage14/data/14-4/local_bottleneck_refocus_summary.json'
+      - 'stages/stage14/scripts/14-4/local_bottleneck_refocus_audit.py'
+      - '.github/workflows/stage14-4bf-local-bottleneck-refocus.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/local_bottleneck_refocus_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/local_bottleneck_refocus_audit.py
+      - name: Check theorem and roadmap boundary flags
+        run: |
+          grep -q 'STAGE14_4BF=S5T_IMPORTED_LOCAL_EXPONENT_UPGRADED_AND_MAIN_TRACK_REFOCUSED' stages/stage14/14-4bf/result.md
+          grep -q 'LOCAL_M_SCALE_SAVING_EXPONENT=1/41' stages/stage14/14-4bf/result.md
+          grep -q 'UNWEIGHTED_LOCAL_B_SCALE_SAVING_EXPONENT=1/82' stages/stage14/14-4bf/result.md
+          grep -q 'ACTIVE_PHYSICAL_BASE_UPPER_BOUND=B^(81/82+epsilon)' stages/stage14/14-4bf/result.md
+          grep -q 'ALL_SHORT_ABSOLUTE_TUPLE_SUM_IS_CURRENT_BOTTLENECK=true' stages/stage14/14-4bf/result.md
+          grep -q 'MAIN_TRACK_WAITS_FOR_S5U=false' stages/stage14/14-4bf/result.md
+          grep -q 'MAIN_TRACK_PRIMARY_FOCUS=POST_LOCAL_GLOBAL_SMALL_POINT_THINNING' stages/stage14/14-4bf/result.md
+          grep -q 'CURRENT_SQRT_REMAINING_DELTA=20/41' stages/stage14/14-4bf/result.md
+          grep -q 'CASE_C_REMOVED_CURRENT_AB_ARCHITECTURE_LOCAL_B_CEILING=1/10' stages/stage14/14-4bf/result.md
+          grep -q 'NEXT=Stage14-4bg' stages/stage14/14-4bf/result.md
