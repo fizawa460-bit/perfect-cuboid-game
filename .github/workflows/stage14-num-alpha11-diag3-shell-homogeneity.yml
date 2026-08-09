@@ -1,0 +1,60 @@
+name: Stage14-num-alpha11-diag3 shell homogeneity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag3/**'
+      - 'stages/stage14/data/14-num-alpha11-diag3/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag3/**'
+      - '.github/workflows/stage14-num-alpha11-diag3-shell-homogeneity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calibration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run multinomial calibration
+        run: python stages/stage14/scripts/14-num-alpha11-diag3/shell_homogeneity_calibration.py > /tmp/diag3.json
+      - name: Verify frozen calibration
+        run: |
+          python - <<'PY'
+          import json
+          got=json.load(open('/tmp/diag3.json'))
+          lock=json.load(open('stages/stage14/data/14-num-alpha11-diag3/homogeneity_summary.json'))
+          assert got['source_rows']==lock['source_rows']==3495
+          pairs=[
+            ('global_50m_homogeneity','pearson_chi2'),
+            ('global_50m_homogeneity','pearson_p'),
+            ('global_50m_homogeneity','g_p'),
+            ('global_50m_homogeneity','cramers_v'),
+            ('global_100m_parent_homogeneity','pearson_chi2'),
+            ('global_100m_parent_homogeneity','pearson_p'),
+            ('global_100m_parent_homogeneity','g_p'),
+            ('global_100m_parent_homogeneity','cramers_v'),
+            ('exploratory_300m_400m_vs_400m_500m','pearson_chi2'),
+            ('exploratory_300m_400m_vs_400m_500m','pearson_p'),
+            ('exploratory_300m_400m_vs_400m_500m','g_p'),
+            ('exploratory_300m_400m_vs_400m_500m','cramers_v'),
+          ]
+          for section,key in pairs:
+              assert abs(got[section][key]-lock[section][key]) < 1e-14, (section,key,got[section][key],lock[section][key])
+          assert got['decision']['GLOBAL_50M_HOMOGENEITY_REJECTED_AT_5PCT'] is False
+          assert got['decision']['GLOBAL_100M_PARENT_HOMOGENEITY_REJECTED_AT_5PCT'] is True
+          assert got['decision']['ADJACENT_50M_HOLM_ANY_REJECTED_AT_5PCT'] is False
+          assert got['decision']['WITHIN_100M_HOLM_ANY_REJECTED_AT_5PCT'] is False
+          assert abs(min(x['holm_adjusted_pearson_p'] for x in got['adjacent_50m_pair_tests'])-lock['multiple_comparison_calibration']['min_adjacent_50m_holm_adjusted_p']) < 1e-14
+          assert abs(min(x['holm_adjusted_pearson_p'] for x in got['within_100m_half_tests'])-lock['multiple_comparison_calibration']['min_within_100m_holm_adjusted_p']) < 1e-14
+          PY
+      - name: Check interpretation boundary
+        run: |
+          grep -q 'GLOBAL_50M_HOMOGENEITY_REJECTED_AT_5PCT=false' stages/stage14/14-num-alpha11-diag3/result.md
+          grep -q 'ADJACENT_50M_HOLM_ANY_REJECTED_AT_5PCT=false' stages/stage14/14-num-alpha11-diag3/result.md
+          grep -q 'STATISTICAL_MODEL_IS_CALIBRATION_ONLY=true' stages/stage14/14-num-alpha11-diag3/result.md
+          grep -q 'NEXT=Stage14-num-alpha11-diag4' stages/stage14/14-num-alpha11-diag3/result.md
