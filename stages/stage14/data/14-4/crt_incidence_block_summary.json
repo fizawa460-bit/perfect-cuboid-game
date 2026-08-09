@@ -1,0 +1,145 @@
+{
+  "stage": "14-4av",
+  "classification": "BARE_LINEAR_EDGE_CRT_FACTORIZATION_AND_INTERIOR_POWER_SAVING",
+  "imported_s5h": {
+    "separable_dyadic_bilinear_bound_proved": true,
+    "separable_bound": "|sum alpha_u beta_v (u/v)| <<_eps (UV)^eps sqrt(U+V)||alpha||_2||beta||_2",
+    "full_euclid_incidence_separability_proved_in_s5h": false
+  },
+  "linear_edge_geometry": {
+    "forms": {
+      "m": [
+        1,
+        0
+      ],
+      "n": [
+        0,
+        1
+      ],
+      "m-n": [
+        1,
+        -1
+      ],
+      "m+n": [
+        1,
+        1
+      ]
+    },
+    "genuine_whole_kernel_linear_edges": 6,
+    "edges": [
+      {
+        "edge": "m--n",
+        "abs_determinant": 1
+      },
+      {
+        "edge": "m--m-n",
+        "abs_determinant": 1
+      },
+      {
+        "edge": "m--m+n",
+        "abs_determinant": 1
+      },
+      {
+        "edge": "n--m-n",
+        "abs_determinant": 1
+      },
+      {
+        "edge": "n--m+n",
+        "abs_determinant": 1
+      },
+      {
+        "edge": "m-n--m+n",
+        "abs_determinant": 2
+      }
+    ],
+    "odd_moduli": true,
+    "opposite_parity_density": "1/2",
+    "bare_incidence_asymptotic": "C_ij(u,v;M,N)=MN/(2uv)+O((M+N)(1/u+1/v)+1) for coprime odd u,v",
+    "proof_mechanism": "solve the two primitive linear congruences sequentially / CRT; odd moduli are independent of the fixed parity split"
+  },
+  "bare_reciprocal_block": {
+    "definition": "B_ij^bare=sum_{u~U}^* sum_{v~V}^* (u/v) C_ij(u,v;M,N)",
+    "bound": "<<_eps MN(UV)^eps sqrt(U+V)/sqrt(UV) + (M+N)(U+V) + UV",
+    "main_term_input": "s5h separable quadratic-large-sieve bound with alpha_u=1/u, beta_v=1/v",
+    "boundary_treatment": "triangle inequality applied only to the elementary CRT lattice-count remainder"
+  },
+  "balanced_box_interior_range": {
+    "assumption": "M~N~X and X^kappa <= U,V <= X^(1-kappa), fixed 0<kappa<1/2",
+    "conclusion": "B_ij^bare <<_eps X^(2-kappa/2+eps)",
+    "saving_vs_trivial_X2": "X^(-kappa/2+eps)",
+    "exponent_table": [
+      {
+        "kappa": "1/10",
+        "main_X_exponent": "39/20",
+        "boundary_X_exponent": "19/10",
+        "UV_X_exponent": "9/5",
+        "uniform_saving_in_X": "1/20"
+      },
+      {
+        "kappa": "1/8",
+        "main_X_exponent": "31/16",
+        "boundary_X_exponent": "15/8",
+        "UV_X_exponent": "7/4",
+        "uniform_saving_in_X": "1/16"
+      },
+      {
+        "kappa": "1/6",
+        "main_X_exponent": "23/12",
+        "boundary_X_exponent": "11/6",
+        "UV_X_exponent": "5/3",
+        "uniform_saving_in_X": "1/12"
+      },
+      {
+        "kappa": "1/4",
+        "main_X_exponent": "15/8",
+        "boundary_X_exponent": "7/4",
+        "UV_X_exponent": "3/2",
+        "uniform_saving_in_X": "1/8"
+      },
+      {
+        "kappa": "1/3",
+        "main_X_exponent": "11/6",
+        "boundary_X_exponent": "5/3",
+        "UV_X_exponent": "4/3",
+        "uniform_saving_in_X": "1/6"
+      }
+    ]
+  },
+  "finite_consistency": {
+    "sample_count": 90,
+    "max_normalized_lattice_error": 0.17008387698042873,
+    "proof_status": "diagnostic only; theorem is elementary CRT/lattice counting plus the imported s5h bilinear theorem"
+  },
+  "remaining_full_indicator_obstruction": {
+    "name": "GROWING_AUXILIARY_STATE_INCIDENCE_COUPLING",
+    "bare_linear_incidence_is_now_factorized": true,
+    "still_uncontrolled": [
+      "complementary divisor/state pieces that vary with u and v",
+      "primitive gcd/Mobius coupling after state splitting",
+      "state-split interactions involving pieces of m^2+n^2",
+      "small-side, large-side, and strongly unbalanced dyadic endpoint blocks"
+    ],
+    "fixed_auxiliary_modulus_extension": "CRT factorization persists for finitely many frozen residue conditions coprime to 2uv; the obstruction is that the actual auxiliary modulus grows and is summed over"
+  },
+  "ci_repair": {
+    "stage14_4au_failure_root_cause": "committed JSON used compact five_factors formatting while audit rewrote json.dumps(indent=2)",
+    "mathematical_failure": false,
+    "summary_format_repaired_on_4av_branch": true
+  },
+  "decision": {
+    "STAGE14_4AV": "BARE_LINEAR_EDGE_CRT_FACTORIZATION_AND_INTERIOR_POWER_SAVING_PROVED",
+    "S5H_SEPARABLE_BILINEAR_BOUND_IMPORTED": true,
+    "SIX_LINEAR_WHOLE_KERNEL_EDGES_CRT_FACTORIZED": true,
+    "BARE_OPPOSITE_PARITY_INCIDENCE_ASYMPTOTIC_PROVED": true,
+    "BARE_RECIPROCAL_BLOCK_BOUND_PROVED": true,
+    "INTERIOR_DYADIC_POWER_SAVING_PROVED": true,
+    "FULL_AUXILIARY_STATE_WEIGHT_SEPARABILITY_PROVED": false,
+    "ENDPOINT_DYADIC_BLOCKS_CONTROLLED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4aw lift the bare CRT block estimate to the growing auxiliary state weight via modulus freezing/dispersion and primitive Mobius bookkeeping, while isolating and summing the dyadic endpoint ranges"
+  }
+}
