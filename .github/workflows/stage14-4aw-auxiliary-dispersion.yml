@@ -1,0 +1,35 @@
+name: Stage14-4aw auxiliary-state dispersion
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4aw/**'
+      - 'stages/stage14/data/14-4/auxiliary_state_dispersion_summary.json'
+      - 'stages/stage14/scripts/14-4/auxiliary_state_dispersion_audit.py'
+      - '.github/workflows/stage14-4aw-auxiliary-dispersion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/auxiliary_state_dispersion_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/auxiliary_state_dispersion_audit.py
+      - name: Check generated summary is committed
+        run: git diff --exit-code -- stages/stage14/data/14-4/auxiliary_state_dispersion_summary.json
+      - name: Check boundary flags
+        run: |
+          grep -q 'INTERIOR_AUXILIARY_BULK_POWER_SAVING_SUMMED=true' stages/stage14/14-4aw/result.md
+          grep -q 'MICROSCOPIC_BULK_FIXED_POWER_SAVING=false' stages/stage14/14-4aw/result.md
+          grep -q 'DISCREPANCY_SECOND_MOMENT_PROVED=false' stages/stage14/14-4aw/result.md
+          grep -q 'SPARSE_LARGE_MODULUS_BLOCKS_CLOSED=false' stages/stage14/14-4aw/result.md
+          grep -q 'NEXT=Stage14-4ax' stages/stage14/14-4aw/result.md
