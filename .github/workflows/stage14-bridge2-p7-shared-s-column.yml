@@ -1,0 +1,23 @@
+name: Stage14-bridge2 p7 shared S-column bridge
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-bridge2/**'
+      - 'stages/stage14/scripts/14-bridge2/**'
+      - 'stages/stage14/data/14-bridge2/**'
+      - '.github/workflows/stage14-bridge2-p7-shared-s-column.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run p=7 shared-edge translation audit
+        run: python stages/stage14/scripts/14-bridge2/p7_shared_s_column_bridge.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-bridge2/p7_shared_s_column_bridge.py
