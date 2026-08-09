@@ -19,21 +19,26 @@ A useful Stage14-q result must end in one of four states:
 
 Never promote a citation merely because its vocabulary resembles Stage14. Record exact hypotheses, variables, losses, field-of-definition conditions, and the precise Stage14 object to which it would be applied.
 
-## Current frontier (2026-08-09, after q1--q7)
+## Current frontier (2026-08-09, after q8)
 
 `Stage14-q2` narrowed the local analytic problem from an arbitrary Euclid-correlated matrix to explicit discrepancy/covariance terms and identified direct Jacobi-bilinear subroutines after genuine separation.
 
 `Stage14-q3` audited the first-small-point height literature against the actual Stage14 family. Petsche/Naccarato remain fixed-fiber tools; the strongest family-transfer architecture remains Le Boudec's large-prime-factor plus complete-2-descent strategy rebuilt on the five Euclid factors.
 
-`Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem. The later t21/t22 chain now sharpens the live target further: fixed reduced directions have an explicit elliptic quotient and all-scale multiplicity `B^o(1)`, so the remaining power saving must come from the active-direction second moment, not fixed-direction multiplicity.
+`Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem. The later t21/t22 chain sharpened the live target to the active-direction second moment rather than fixed-direction multiplicity.
 
-`Stage14-q5` confirmed that the decisive Shimada level-4 modular K3 package has already been consumed for the fixed `M`-degree-4 route. The required NS parity coset is empty, so broad K3/root searches are closed unless a genuinely new geometric trigger appears.
+`Stage14-q5` confirmed that the decisive Shimada level-4 modular K3 package has already been consumed for the fixed `M`-degree-4 route. Broad K3/root searches remain closed unless a genuinely new geometric trigger appears.
 
-`Stage14-q6` converted the literature shelf into an active routing contract: import merged s5k rather than duplicate the six-linear determinant theorem; route the height gate to a Le-Boudec-style large-prime + exact 2-descent transfer; keep square/polynomial sieve conditional on the actual t active-direction geometry; and preserve num as diagnostics rather than theorem replacement.
+`Stage14-q6` converted the literature shelf into an active routing contract: import s-track determinant/dispersion theorems rather than duplicate them in 14-4; route the height gate to a Le-Boudec-style large-prime + exact 2-descent transfer; keep square/polynomial sieve conditional on the actual t geometry; and preserve num as diagnostics rather than theorem replacement.
 
-`Stage14-q7` freezes the negative knowledge behind those decisions. It also incorporates the merged s5l/t22 updates: the central six-linear dyadic obstruction and sparse norm-root obstruction are no longer live, while medium signed-root dispersion, linear boundary switching, height frequency, and active-direction second moment remain possible future literature triggers.
+`Stage14-q7` froze the negative knowledge behind those decisions and made q8+ trigger-driven only.
 
-There is **no automatic Stage14-q8 task**. From here onward, q-stages are trigger-driven only.
+`Stage14-q8` was legitimately reopened by two q7-authorized explicit triggers:
+
+- draft `Stage14-s5m` reduces the remaining linear boundary to a **one-small-variable complementary-divisor Jacobi operator**. The strongest new transfer is Cameron Wilson's 2025 Hooley-neutraliser quadratic large sieve for hyper-skewed character sums. It is `NEAR_HIGH_PRIORITY`, not `DIRECT`, until s5n proves the remaining physical/local-state dependence separates into the theorem's coefficient/multiplicative-weight shape.
+- draft `Stage14-t23` splits the active second moment into rank and torsion branches and makes the torsion branch two explicit quartic squareclass packets. q8 observes that the square-sieve prime correlation factors into two binary-quartic character sums, so t24 should exploit this separated structure before generic nonseparable polynomial-sieve machinery. Pierce–Xu Burgess-at-forms technology is a `NEAR_HIGH_PRIORITY` candidate building block.
+
+No q8 source proves the full Stage14 obstruction theorem unchanged. The rank-active first-small-point branch remains on the q3 Le-Boudec transfer architecture, and 14-4 should import s5n before opening an independent new literature scan.
 
 ## Roadmap
 
@@ -108,13 +113,45 @@ LOCAL_GLOBAL_HEIGHT_INDEPENDENCE_ASSUMPTION=false
 TRIGGER_DRIVEN_Q8_PLUS_ONLY=true
 ```
 
-### Stage14-q8+ — Trigger-driven focused radar passes only
+### Stage14-q8 — s5n / t24 cross-domain transfer radar
 
-After q7, do not manufacture a fixed endless sequence and do not perform broad periodic searches merely because another q-number is available.
+Result: `docs/stage14-q8-cross-domain-transfer-radar.md`.
 
-Open a new q-stage only when an active Stage14 route reports a stable named obstruction or when a materially new paper/data set directly matches one of those obstructions.
+Compact handoff: `docs/stage14-q8-summary.md`.
 
-Every q8+ stage must state at its top:
+Trigger:
+
+```text
+TRIGGER_STAGE=Stage14-s5m+Stage14-t23
+EXACT_OBSTRUCTION=s5m switched one-small-variable boundary + t23 rank/torsion active-direction second moment
+LAST_RADAR_BASELINE=Stage14-q7
+```
+
+Key decisions:
+
+```text
+STAGE14_Q8=COMPLETE_TRIGGERED_CROSS_DOMAIN_TRANSFER_RADAR
+DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0
+S5N_WILSON2025_NEUTRALISER_TRANSFER=NEAR_HIGH_PRIORITY
+S5N_WILSON2023_NEAR_AXIS_DIRECT_USE=BLOCKED
+T24_TORSION_COLLISION_IS_QUARTIC_SQUARE_VALUE_PROBLEM=true
+T24_SQUARE_SIEVE_PRIME_CORRELATION_FACTORIZES=true
+T24_PIERCE_XU_BINARY_QUARTIC_TRANSFER=NEAR_HIGH_PRIORITY
+BONOLIS_PIERCE_GENERIC_NONSEPARABLE_DIRECT=false
+T24_RANK_PAN_TIAN_SELMER_AS_SMALL_POINT_FREQUENCY=BLOCKED
+Q3_LE_BOUDEC_HEIGHT_TRANSFER_REMAINS_PRIMARY=true
+MAIN_14_4_IMPORT_S5N_FIRST=true
+HANDOFF_S=Stage14-s5n
+HANDOFF_T=Stage14-t24
+```
+
+### Stage14-q9+ — Trigger-driven focused radar passes only
+
+Do not manufacture a fixed endless q sequence and do not perform broad periodic searches merely because another q-number is available.
+
+Open another q-stage only when an active Stage14 route reports a stable named obstruction or a materially new paper/data set directly matches one of those obstructions.
+
+Every q9+ stage must state at its top:
 
 ```text
 TRIGGER_STAGE=
@@ -122,16 +159,15 @@ EXACT_OBSTRUCTION=
 CURRENT_BEST_BOUND=
 WHY_EXISTING_Q_LEDGER_DOES_NOT_ALREADY_ANSWER_IT=
 SEARCH_FAMILIES=
-LAST_RADAR_BASELINE=Stage14-q7
+LAST_RADAR_BASELINE=Stage14-q8
 PROMOTION_STANDARD=
 ```
 
-Legitimate triggers include:
+Likely legitimate future triggers now include:
 
-- a surviving medium `m^2+n^2` signed-root estimate after elementary root-pattern reduction;
-- a named complementary-divisor/Fourier-state rewriting failure in the linear boundary strips;
+- s5n failure to separate the physical character/local state into Wilson-2025-admissible coefficients, with the exact residual dependence written down;
+- t24 failure of the factorized binary-quartic square-sieve route, with the exact character-sum exponent or bad-prime/congruence obstruction identified;
 - a precise obstruction in the Le-Boudec-style five-factor height transfer;
-- an explicit active generalized-Pell/elliptic-direction second-moment obstruction from t23+;
 - a genuinely new K3 fibration/divisor/orbit problem not equivalent to the consumed fixed-M4 route;
 - a reproducible numerical structural anomaly first formulated as a theorem-level mathematical question.
 
@@ -151,7 +187,9 @@ If any critical hypothesis is unknown, classify the lead as `NEAR`, not `DIRECT`
 ## Immediate next task
 
 ```text
-NEXT_Q_STAGE=NONE_UNTIL_EXPLICIT_TRIGGER
+NEXT_Q_STAGE=NONE_UNTIL_TRANSFER_TEST_FAILURE_OR_NEW_TRIGGER
+HANDOFF_S=Stage14-s5n
+HANDOFF_T=Stage14-t24
 ```
 
-The q-route is now parked. Continue the active proof/numerical tracks and reopen literature radar only when one of them exposes a stable obstruction not already covered by q1--q7.
+The q-route is parked again after q8. The next work belongs in the receiving proof tracks: test Wilson's neutraliser large sieve inside the actual s5n switched boundary and test the factorized quartic square-sieve architecture inside t24. Reopen q only if one of those tests exposes a new stable obstruction not already covered by q1--q8.
