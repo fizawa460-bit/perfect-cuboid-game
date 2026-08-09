@@ -1,6 +1,6 @@
 # Stage13-13f — R05 repair / closure plan
 
-> STATUS: `R05_REPAIR_GATES_A_THROUGH_H_COMPLETE_BUNDLE_BUILD_NEXT`
+> STATUS: `R05_REPAIR_GATES_A_THROUGH_H_AND_IMMUTABLE_BUNDLE_COMPLETE_FRESH_REVIEW_NEXT`
 >
 > SOURCE_BUNDLE: `STAGE13-FINAL-SELF-CONTAINED-20260809-R04`
 >
@@ -121,7 +121,7 @@ NEXT=13-13fg
 
 Status: `[x] COMPLETE — 13-13fg`.
 
-The proof now separates p-adic strata from unit residue predicates, expands the latter by finite character orthogonality and CRT, groups all aliasing-compatible leading tuples into the principal pole sector, and proves pole loss for every sector outside it.
+The proof separates p-adic strata from unit residue predicates, expands the latter by finite character orthogonality and CRT, groups all aliasing-compatible leading tuples into the principal pole sector, and proves pole loss for every sector outside it.
 
 ```text
 STAGE13_13FG=COMPLETE_FIXED_INERT_PRIME_TRANSFER
@@ -193,38 +193,63 @@ notation collision / audit PASS presentation     -> H
 
 The statement `R04_OBJECTIONS_REPAIRED_IN_R05_CANDIDATE=true` means the repair candidate contains explicit responses to every recorded R04 objection. It is **not** an external `CLOSED` verdict.
 
-## Next: 13-13fi — immutable R05 review bundle
+## 13-13fi — immutable R05 review bundle
 
-Gate H authorizes a new immutable R05 review artifact. `13-13fi` must:
+Status: `[x] COMPLETE`.
 
-- build R05 from a fixed merged source snapshot;
-- use `13-13fh/stage13-r05-canonical-proof.md` as the canonical proof entrypoint;
-- embed the exact Stage12 and external-theorem interfaces needed by a reviewer;
-- include the repair/audit ledger while labeling computation as validation only;
-- write a new manifest and content SHA256;
-- leave R03 and R04 byte-for-byte immutable.
+```text
+STAGE13_13FI=COMPLETE_R05_REVIEW_BUNDLE
+BUNDLE_ID=STAGE13-FINAL-SELF-CONTAINED-20260809-R05
+SOURCE_SNAPSHOT_COMMIT=79f03341b67dd49a8c128cfbeba3f756c91de6f6
+CONTENT_SHA256=4214a6e3621b52ce39373799b48fc8325351f650514e732d6e2244d28d475458
+BUNDLE_PATH=review/STAGE13-FINAL-SELF-CONTAINED-20260809-R05.html
+R05_IMMUTABLE=true
+R04_IMMUTABLE=true
+R03_IMMUTABLE=true
+THEOREM_CHANGED=false
+R05_FRESH_EXTERNAL_REVIEW_REQUIRED=true
+R04_VERDICTS_CARRY_FORWARD_TO_R05=false
+DETERMINISTIC_AUDIT_SCOPE=REPRODUCIBILITY_AND_CONSISTENCY_ONLY
+NEXT=13-13fj
+```
 
-Fresh independent R05 reviews are then required. R04 verdicts do not carry forward automatically.
+R05 is built deterministically from the fixed merged Gate-H snapshot and is now the only review target for the next external-review round. Any substantive defect creates R06 or later; R05 is never edited.
 
-## Promotion rule
+## Next: 13-13fj — fresh R05 external review
 
-Final Stage13 freeze is forbidden until the final immutable bundle has
+Start a new reviewer ledger for `STAGE13-FINAL-SELF-CONTAINED-20260809-R05` with zero inherited votes.
+
+```text
+R05_INDEPENDENT_CLOSED_VERDICTS=0
+R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
+R05_FRESH_EXTERNAL_REVIEW_REQUIRED=true
+R04_VERDICTS_CARRY_FORWARD_TO_R05=false
+```
+
+Fresh reviewer text must be stored against the R05 bundle ID/hash. Final Stage13 freeze is forbidden until the final immutable bundle has
 
 ```text
 INDEPENDENT_CLOSED_VERDICTS>=2
 UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
 ```
 
+If a substantive R05 defect appears, preserve R05 and create R06 or later.
+
+## Promotion rule
+
 Current parent lock:
 
 ```text
 R03_IMMUTABLE=true
 R04_IMMUTABLE=true
+R05_IMMUTABLE=true
 REPAIR_GATES_A_THROUGH_H_COMPLETE=true
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
 R05_SYNTHESIS_READY=true
-R05_BUNDLE_CREATED=false
+R05_BUNDLE_CREATED=true
 R05_FRESH_REVIEW_REQUIRED=true
+R05_INDEPENDENT_CLOSED_VERDICTS=0
+R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=0
 PROMOTE_TO_13_13G=false
-NEXT=13-13fi
+NEXT=13-13fj
 ```
