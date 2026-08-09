@@ -1,1 +1,68 @@
-{}
+{
+  "stage": "14-t25",
+  "odd_local_model": {
+    "curve": "E_{D,C}: Y^2=X(X^2+(4D^2-2C^2)X+C^4)",
+    "c4": "16(16D^4-16D^2C^2+C^4)",
+    "displayed_discriminant": "256 C^8 D^2(D^2-C^2)",
+    "odd_minimality": "for every odd ell|C D(D^2-C^2), c4 is an ell-adic unit; displayed model is minimal with multiplicative reduction",
+    "odd_conductor": "N_odd=rad(C D(D^2-C^2))",
+    "prime_2_status": "not resolved in t25"
+  },
+  "large_prime_routing": {
+    "cover": "W^2=(4D^2-2C^2)p^2q^2-C^2(p^4+q^4), gcd(p,q)=1",
+    "D_identity": "W^2+C^2(p^2+q^2)^2=(2Dpq)^2",
+    "difference_identity": "W^2+C^2(p^2-q^2)^2=4(D^2-C^2)p^2q^2",
+    "D_3mod4_exclusion": "every odd prime divisor of D on a physical rank-active direction is 1 mod 4",
+    "kernel_3mod4_exclusion": "odd primes in alpha*beta are 1 mod 4",
+    "ru_3mod4_forcing": "R3(ru)=prod_{ell=3 mod4} ell^v_ell(ru) divides both W and p^2-q^2 for every physical orientation",
+    "large_prime_transfer": "if ell=3 mod4 divides r or u, then ell^v_ell(ru) divides exactly one of p-q or p+q at the ell-adic level",
+    "gaussian_factorizations": [
+      "(W+iC(p^2+q^2))(W-iC(p^2+q^2))=(2Dpq)^2",
+      "(W+iC(p^2-q^2))(W-iC(p^2-q^2))=4(D^2-C^2)p^2q^2"
+    ]
+  },
+  "transfer_boundary": {
+    "Le_Boudec_2018_architecture": "large-prime factor plus complete 2-descent is structurally applicable, but the elementary integer forcing only captures 3 mod 4 primes in the square parts r,u",
+    "unrouted_columns": [
+      "1 mod 4 primes in D",
+      "1 mod 4 primes in r,u",
+      "odd primes in C"
+    ],
+    "reason_power_saving_not_closed": "the remaining large primes split in Z[i] or are invisible on this one isogeny cover; a Gaussian gcd/allocation audit and dual-isogeny descent are still required before a complete counting argument",
+    "rank_second_moment_power_saving_proved": false
+  },
+  "finite": {
+    "max_B": 2000000,
+    "rank_active_raw_edges": 356,
+    "odd_local_minimality_checks": 3466,
+    "minus_one_cover_orientation_checks": 712,
+    "edges_with_nontrivial_3mod4_ru_part": 113,
+    "edges_with_trivial_3mod4_ru_part": 243,
+    "forced_orientation_checks": 226,
+    "max_3mod4_ru_part": 33,
+    "max_3mod4_prime_in_ru": 19,
+    "largest_3mod4_prime_histogram": {
+      "3": 84,
+      "7": 23,
+      "11": 5,
+      "19": 1
+    }
+  },
+  "decision": {
+    "STAGE14_T25": "COMPLETE_ODD_LOCAL_MINIMALITY_AND_PARTIAL_LARGE_PRIME_ROUTING",
+    "ODD_DISPLAYED_MODEL_MINIMAL_MULTIPLICATIVE": true,
+    "ODD_CONDUCTOR_RADICAL_EXPLICIT": true,
+    "ALL_ODD_D_PRIMES_1MOD4_ON_PHYSICAL_RANK_BRANCH": true,
+    "RU_3MOD4_PART_FORCED_INTO_P2_MINUS_Q2": true,
+    "LE_BOUDEC_LARGE_PRIME_TRANSFER_PARTIAL": true,
+    "LE_BOUDEC_TRANSFER_FULL_POWER_SAVING_PROVED": false,
+    "GAUSSIAN_OR_DUAL_DESCENT_REQUIRED": true,
+    "RANK_ACTIVE_SECOND_MOMENT_POWER_SAVING_PROVED": false,
+    "Q_ACTIVE_DIRECTION_POWER_SAVING_PROVED": false,
+    "Q_SPLIT_POWER_SAVING_PROVED": false,
+    "Q_EDGE_O_B_PROVED": false,
+    "T_O_SQRT_B_PROVED": false,
+    "PERFECT_CUBOID_NONEXISTENCE_PROVED": false,
+    "NEXT": "Stage14-t26 complete the large-prime routing: Gaussian gcd/allocation for 1 mod 4 primes and dual-isogeny descent for the C-column, then formulate the same-partition pair count"
+  }
+}
