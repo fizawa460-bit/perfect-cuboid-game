@@ -1,0 +1,24 @@
+name: Stage14-s5g centered character-sum audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5g/**'
+      - 'stages/stage14/scripts/14-s5g/**'
+      - '.github/workflows/stage14-s5g-character-sum.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run centered character-sum audit
+        run: python3 stages/stage14/scripts/14-s5g/global_character_sum_audit.py | tee /tmp/s5g.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5G=FIRST_GLOBAL_CHARACTER_SUM_CANDIDATE_AND_FINITE_STRESS_TEST$' /tmp/s5g.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5g.txt
+          grep -q '^SMALL_POINT_WINDOW_AVERAGED=false$' /tmp/s5g.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5g.txt
+          grep -q '^NEXT=Stage14-s5h$' /tmp/s5g.txt
