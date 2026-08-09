@@ -1,0 +1,42 @@
+name: Stage14-num-alpha7 matched crossover benchmark
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha7/**'
+      - 'stages/stage14/14-num-alpha7/**'
+      - '.github/workflows/stage14-num-alpha7-crossover-benchmark.yml'
+      - 'stages/stage14/scripts/14-num-alpha5/**'
+      - 'stages/stage14/scripts/14-num3/**'
+  workflow_dispatch:
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run matched end-to-end crossover benchmark
+        run: |
+          python stages/stage14/scripts/14-num-alpha7/crossover_benchmark.py \
+            --bounds 200000 500000 1000000 2000000 \
+            --repeats 3 \
+            --output /tmp/alpha7.json
+          cat /tmp/alpha7.json
+          python - <<'PY'
+          import json
+          p=json.load(open('/tmp/alpha7.json'))
+          assert p['decision']['STAGE14_NUM_ALPHA7']=='COMPLETE_MATCHED_END_TO_END_CROSSOVER_BENCHMARK'
+          assert p['decision']['EXACT_EQUALITY_PRESERVED_IN_ALL_TIMED_RUNS'] is True
+          # α7 is a measurement stage: either speed verdict is acceptable,
+          # but it must be explicit and internally consistent.
+          m=p['decision']['MEANINGFUL_END_TO_END_SPEEDUP_PROVED']
+          c=p['decision']['FIRST_TESTED_SUSTAINED_20PCT_CROSSOVER_BOUND']
+          assert (c is not None) == m
+          for row in p['rows']:
+              assert row['exact_object_sets_equal_every_repeat'] is True
+              assert len(row['trials']) == 3
+          PY
