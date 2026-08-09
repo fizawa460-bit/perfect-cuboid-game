@@ -1,0 +1,59 @@
+name: Stage14-num-alpha11-diag6 matched one-two comparison
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-num-alpha11-diag6/**'
+      - 'stages/stage14/data/14-num-alpha11-diag6/**'
+      - 'stages/stage14/scripts/14-num-alpha11-diag6/**'
+      - '.github/workflows/stage14-num-alpha11-diag6-matched-one-two.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matched-comparison:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run matched Stage13/Stage14 comparison
+        run: python stages/stage14/scripts/14-num-alpha11-diag6/matched_stage13_stage14_comparison.py > /tmp/diag6.json
+      - name: Validate exact cross-source bridge
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag6.json'))
+          assert x['matched_window']['max_common_cutoff']==100000
+          assert x['matched_window']['exactly_two_cross_source_recomposition_exact_at_every_cutoff'] is True
+          assert x['B100k_snapshot']['N1']==168030
+          assert x['B100k_snapshot']['N2']==89
+          assert x['B100k_snapshot']['exactly_two_counts_shared_edge_a_b_c']=={'a':33,'b':33,'c':23}
+          assert x['Stage14_extended_exactly_two_B500m_only']['counts_shared_edge_a_b_c']=={'a':1374,'b':1371,'c':750}
+          assert x['decision']['FINITE_2_1_1_TO_2_2_1_SHORTHAND_IS_LITERAL_THEOREM_TO_THEOREM_TRANSITION'] is False
+          assert x['decision']['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
+          PY
+      - name: Print compact diag6 summary
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('/tmp/diag6.json'))
+          print('DIAG6_SUMMARY_BEGIN')
+          print(json.dumps({
+            'matched_window':x['matched_window'],
+            'B100k_snapshot':x['B100k_snapshot'],
+            'late_shared_shell_stability':x['late_shared_shell_stability_summary_lower_endpoint_ge_5000'],
+            'B500m_two_only':x['Stage14_extended_exactly_two_B500m_only'],
+            'shells':x['shells'],
+            'decision':x['decision'],
+          }, indent=2, sort_keys=True))
+          print('DIAG6_SUMMARY_END')
+          PY
+      - name: Upload full diag6 report
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage14-num-alpha11-diag6-report
+          path: /tmp/diag6.json
