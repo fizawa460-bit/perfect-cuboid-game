@@ -20,98 +20,74 @@ GROK_R05_VERDICT=CLOSED
 CLAUDE_R05_VERDICT=OPEN
 QWEN_R05_VERDICT=OPEN
 QWEN_R05_REVIEWER_LABEL=NEAR_ACCEPTABLE_CONDITIONAL
-DEEPSEEK_R05_VERDICT=NOT_RECORDED
+DEEPSEEK_R05_VERDICT=OPEN
+DEEPSEEK_R05_REVIEWER_LABEL=REPAIR_REQUIRED_CONDITIONAL_ACCEPT
 
 R05_INDEPENDENT_CLOSED_VERDICTS=1
 R05_REQUIRED_INDEPENDENT_CLOSED_VERDICTS=2
-R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
+R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=3
 R05_SUBSTANTIVE_REPAIR_REQUIRED=true
 R06_REQUIRED=true
 ```
 
-Grok's user-relayed external review is recorded at `stages/stage13/13-13fj/grok-r05-verdict.md` and is `CLOSED`.
-
-Claude's user-relayed external review is recorded at `stages/stage13/13-13fj/claude-r05-verdict.md` and is `OPEN`.
-
-Qwen's user-relayed zero-base external review is recorded at `stages/stage13/13-13fj/qwen-r05-verdict.md`. Qwen labels the bundle `NEAR-ACCEPTABLE / CONDITIONAL`, but explicitly recommends against freeze until a high-severity proof-completeness defect is repaired; for the repository gate this is therefore `OPEN`.
+Grok's user-relayed external review is recorded at `grok-r05-verdict.md` and is `CLOSED`. Claude's review is `OPEN`. Qwen's zero-base review is `OPEN`. DeepSeek's fresh adversarial review is recorded at `deepseek-r05-verdict.md`; its final label is conditional repair required, therefore the repository freeze gate records it as `OPEN`.
 
 ## What the independent reviews strongly validate
 
-Claude and Qwen independently reconstructed the repaired Wiener/error arithmetic and report exact agreement with R05, including:
+Claude and Qwen independently reconstructed the repaired Wiener/error arithmetic and report exact agreement with R05, including `17744/243`, `3465625/6561 < 529`, the `(log B)^27` box ledger and the all-box `(log B)^-35` remainder. DeepSeek also recognizes the explicit Wiener derivation, non-circular common-Theta ordering, external-contract exposure and deterministic-audit scope as substantial improvements.
+
+## Unresolved theorem-level objection 1 — Gaussian-Hecke primary-source contract / normalization
+
+Claude requires primary-source verification of the exact proof-facing Gaussian-Hecke family. DeepSeek independently strengthens this objection by requiring the definition of `Xi_k` and its completed functional equation/gamma factor to match the cited source normalization exactly. R06 must verify analytic continuation, functional equation, holomorphy/no pole at `s=1` for nonzero angular modes, fixed finite twists, and sufficient fixed-strip polynomial growth.
+
+## Unresolved theorem-level objection 2 — analytic chamber normalization
+
+Qwen identifies the missing symbolic proof of
 
 ```text
-||a||_rho <= (8/3) rho
-||b||_rho <= (44/9) rho
-||M||_rho <= (32/9) rho^2
-||E_vartheta||_rho <= (17744/243) rho^2
-||C_vartheta-1||_rho <= (3465625/6561) rho^2 < 529 rho^2
-BOX_ACCUMULATION=(log B)^-62 * (log B)^27 = (log B)^-35
-HARMONIC_AGGREGATION_EXPONENT=4*C_H+D_H+6
+I_ab + I_ac + I_bc = pi^2/8.
 ```
 
-Qwen also confirms the repaired all-ell Riesz/Perron route, fixed-S order of limits, inert multiplier, Stage12 calibration and factor-two bridge are internally coherent at the reviewed level.
+Numerical quadrature is validation only. Because this identity normalizes the directional proportions and total exactly-one constant, R06 must contain an analytic derivation.
 
-## Unresolved theorem-level objection 1 — Claude external H1/H2 boundary
+## Unresolved theorem-level objection 3 — fixed-S principal pole sector / pole-loss closure
 
-Claude does not accept `CLOSED` while the exact Gaussian-Hecke primary-source boundary remains independently unverified for the proof-facing family:
-
-```text
-k=8 ell, ell>=1
-required fixed residue twists
-analytic continuation / functional equation
-no pole at s=1 for the nonzero angular family
-required fixed-strip / conductor growth
-```
-
-This external-boundary objection may be closed by a primary-source audit if the cited theorems exactly imply the proof-facing contract; otherwise the proof route must be repaired.
-
-## Unresolved theorem-level objection 2 — Qwen geometric normalization identity
-
-Qwen identifies a separate high-severity proof-completeness defect:
-
-```text
-I_ab + I_ac + I_bc = pi^2/8
-```
-
-is asserted in the R05 canonical proof without an analytic derivation. The deterministic Simpson computation is only a validator and cannot prove the identity. Because this identity normalizes both the directional proportions and the total exactly-one constant, Qwen requires a symbolic derivation in the proof-facing text.
-
-That change is substantive. R05 is immutable, so this repair cannot be made in R05 and requires a new R06 (or later) bundle.
+DeepSeek requires §14 to be made proof-facing rather than intensional: explicitly characterize the unbounded pole-producing channels, include auxiliary-character aliasing/algebraic relations, show that the full principal pole sector reproduces `product_{p in S} lambda_p`, prove the tagged factor `2` never undercounts the true overlap states, and show every tuple outside that sector leaves at least one induced unbounded channel genuinely nonprincipal, hence loses at least one pole and contributes `o_S(B(log B)^3)`.
 
 ## R06 repair plan
 
-The active repair plan is:
-
-```text
-stages/stage13/13-13fj/r06-repair-plan.md
-```
-
 Mandatory:
 
-1. prove `sum_q I_q=pi^2/8` analytically, directly by chamber partition/symmetry or via the `J_q` bridge with an analytic proof of `sum_q J_q=pi/4`;
-2. resolve Claude's H1/H2 primary-source boundary or replace it with a fully justified proof-facing external contract.
+1. analytic proof of `sum_q I_q=pi^2/8`;
+2. exact Gaussian-Hecke primary-source contract and normalization closure;
+3. explicit principal-pole-sector / channel / aliasing / tagged-upper-bound proof for fixed-S transfer.
 
-Recommended explicitness repairs to include while rebuilding the proof:
+Proof-facing hardening to include while rebuilding R06:
 
-3. define the Wiener mixed term `M` explicitly before the `32/9` bound;
-4. state explicitly that inert `p=3` gives `lambda_3=1`, hence contraction uses inert `p>=7`;
-5. strengthen the finite-data caveat: the `100k -> 5m` data are neither a contradiction nor positive convergence evidence;
-6. expand the Gelfand–Leray radial normalization leading to the dimensionless `1/(P/d)` factor;
-7. expose OE/EE 2-adic face-independence branchwise;
-8. identify the unbounded pole-producing channels and their character-twist pole loss;
-9. decompose the `4*C_H+D_H+6` harmonic exponent ledger.
+- define Wiener `M` explicitly;
+- expose the `p=5` `<432` calculation and state `ell>=1` in `C_{ell,p}`;
+- state `lambda_3=1`, hence inert contraction starts at `p>=7`;
+- strengthen the finite-data nonclaim;
+- expand Gelfand–Leray radial normalization;
+- expose OE/EE 2-adic face-independence;
+- display `O((log B)^27)` as `(O((log B)^9))^3`;
+- decompose the harmonic `4*C_H+D_H+6` exponent;
+- state Vaaler endpoint convention / measure-zero handling;
+- retain `theta`/`vartheta` separation and optionally expose the elementary `kappa` Euler-product convergence expansion.
 
 ## Gate decision
 
-The freeze condition is not met, and majority voting cannot override either unresolved theorem-level objection. Because Qwen's high-severity objection requires a proof-text change, R05 is now historical immutable review evidence and a repaired immutable R06 is required before final freeze.
+No majority vote overrides an unresolved theorem-level objection. R05 remains immutable historical review evidence. R06 is mandatory and must restart external review from zero.
 
 ```text
 STAGE13_13F=BLOCKED_R05_R06_REPAIR_REQUIRED
 STAGE13_13FJ=R05_FRESH_REVIEW_BLOCKED_R06_REQUIRED
 R05_INDEPENDENT_CLOSED_VERDICTS=1
 R05_REQUIRED_INDEPENDENT_CLOSED_VERDICTS=2
-R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=2
+R05_UNRESOLVED_THEOREM_LEVEL_OBJECTIONS=3
 CLAUDE_H1_H2_PRIMARY_SOURCE_VERIFICATION_REQUIRED=true
 QWEN_SUM_IQ_ANALYTIC_DERIVATION_REQUIRED=true
+DEEPSEEK_PRINCIPAL_POLE_SECTOR_CLOSURE_REQUIRED=true
 R05_SUBSTANTIVE_REPAIR_REQUIRED=true
 R06_REQUIRED=true
 R06_FRESH_EXTERNAL_REVIEW_REQUIRED=true
