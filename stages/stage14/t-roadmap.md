@@ -175,10 +175,49 @@ For `P` away from the branch modulus the lift condition is exactly
 
 At any finite place set `S`, the local squareclass condition has an exact finite-character projector. Thus the triple gate is reduced to a branch-sensitive moving character-sum average over physical points on `C_{0,t}` with the original cuboid-height cutoff. A fixed universal prime set is not asserted to thin the family.
 
-## 14-t18 — explicit branch-modulus local image
+## 14-t18 — selected branch local image and packet Fourier bound
+Status: [x] Complete.
+
+The eight branch points have a seven-dimensional quadratic branch-character space, and the Stage14 cover `r^2=x` selects the all-ones monodromy vector.
+
+For this selected character the local squareclass map is surjective at every completion. Indeed `A_t(0)=B_t(0)=1`, and every local squareclass has representatives arbitrarily close to `x=0`, where both defining values are squares. Thus there is no local-image density saving; the required thinning must come from global distribution of squareclass signatures.
+
+For a physical base `F=(S,X,H)`, a canonical moving base support is
+
+\[
+S_{base}(F)=\{\infty,2\}\cup\operatorname{Supp}(SXH(S-X)(S+X)),
+\]
+
+with point numerator/denominator primes added as needed.
+
+On a packet with `r` selected quadratic characters, total candidate count `M`, and signature collision count
+
+\[
+Q=\sum_a n_a^2,
+\]
+
+finite Fourier orthogonality and Parseval give
+
+\[
+E_{\ne0}=2^rQ-M^2.
+\]
+
+Cauchy--Schwarz then gives the exact finite inequality
+
+\[
+N_\square
+\le
+\frac{M}{2^r}
++
+\sqrt{(1-2^{-r})\left(Q-\frac{M^2}{2^r}\right)}.
+\]
+
+The remaining theorem problem is therefore a moving packet collision-energy / character second-moment bound with the physical height window retained.
+
+## 14-t19 — moving packet collision-energy attack
 Status: [>] Next.
 
-Derive the explicit `2`-descent/local image attached to the eight-point modulus, identify a useful moving place set from the Euclid/point arithmetic support, and formulate/test the first nontrivial family character-sum inequality with the physical height window.
+Instantiate the moving arithmetic packets on the exact physical point ledger, measure the squareclass-signature collision excess, separate stable signal from sparse finite artifacts, and formulate the first family second-moment/large-sieve estimate strong enough to drive the packet bound toward `o(sqrt(B))`.
 
 Primary target remains
 
@@ -209,6 +248,7 @@ STAGE14_T14=COMPLETE_BIELLIPTIC_QUOTIENT_AND_SECOND_SQUARE_DECOMPOSITION
 STAGE14_T15=COMPLETE_THREE_SQUARE_FIBER_PRODUCT_CLASSIFICATION
 STAGE14_T16=COMPLETE_SQUARE_X_DIVISOR_AND_RAMIFIED_COVER_BOUNDARY
 STAGE14_T17=COMPLETE_GENERALIZED_JACOBIAN_SQUARECLASS_SIEVE_INTERFACE
+STAGE14_T18=COMPLETE_SELECTED_BRANCH_LOCAL_IMAGE_AND_PACKET_FOURIER_BOUND
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t18 explicit branch-modulus 2-descent/local image and moving character-sum inequality
+NEXT=Stage14-t19 moving packet collision-energy / family second-moment attack
 ```
