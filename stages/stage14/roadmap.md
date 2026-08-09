@@ -15,6 +15,7 @@ Count and explain primitive canonical exactly-two-face cuboids with integer spac
 - `14-4an`: compress selected-prime rows, import s5d unselected rows, and close the **entire odd-prime local character matrix**; identify its exact gate reach.
 - `14-4ao`: import the exact eight-state `Q_2` image, close the full local matrix, quantify the finite `A -> Sigma` gate, and formulate the height-weighted descent count.
 - `14-4ap`: import the s5g centering obstruction, delimit local character-sum reach, and formulate the conditional three-retainer transfer.
+- `14-4aq`: isolate the exact global-solubility/Sha retainer, identify rank-zero Selmer excess as the `Sha[2]` trap, and formulate a centered-local-compatible weighted averaging target.
 
 ## Locked geometry
 
@@ -126,9 +127,30 @@ For retainers `Sigma/A`, `R/Sigma`, and `H/R`, conditional exponents add. A squa
 
 ## 14-4aq — global-solubility/Sha retainer
 
+Status: [x] Complete.
+
+For the full-rational-2-torsion family,
+
+\[
+0\to E(\mathbf Q)/2E(\mathbf Q)\to\operatorname{Sel}_2(E)\to\Sha(E)[2]\to0
+\]
+
+implies that the pointwise difference between nontrivial Selmer excess and positive rank is exactly the rank-zero `Sha[2]` trap. Hence
+
+\[
+R(B)=\Sigma(B)-T_{\Sha}(B),\qquad
+R/\Sigma=1-T_{\Sha}/\Sigma.
+\]
+
+This identity remains exact after multiplication by any nonnegative centered-local sieve weight: `G_Q=S_Q-T_Q`. The uniform target is therefore a weighted bound `G_Q <= rho_glob S_Q + E_glob`, equivalently a lower bound on the weighted Sha-trap term. No global density or positive power-saving exponent is asserted.
+
+At `H<=20,000`, the unconditional rank interval gives `970..1425` Sha-trap bases among `Sigma=5209`, so `R/Sigma` lies in `0.7264..0.8138`. The global gate is visibly nontrivial but not a finite power-law thinning signal.
+
+## 14-4ar — first-small-point retainer
+
 Status: [>] Next.
 
-Isolate the global-solubility/Sha retainer `R/Sigma` and formulate a uniform averaging target compatible with the centered local sieve. Keep the s3 first-small-point retainer separate; do not infer global solubility from local character cancellation.
+Isolate the positive-rank-to-first-small-point retainer and formulate a uniform weighted lower-tail target using the s3 canonical-height window. Keep physical activation distinct from mere positive rank and from local/global solubility.
 
 ## Parallel arithmetic track
 
@@ -152,9 +174,8 @@ A future raw-pair law cannot transfer to exactly-two until sufficiently strong t
 
 ## Scope boundary
 
-No true Stage14 growth exponent, leading constant, family large-sieve theorem, uniform first-small-point lower-tail theorem, perfect-cuboid nonexistence theorem, or `T=o(sqrt(B))` theorem is established.
+No true Stage14 growth exponent, leading constant, family large-sieve theorem, global-solubility density theorem, uniform first-small-point lower-tail theorem, perfect-cuboid nonexistence theorem, or `T=o(sqrt(B))` theorem is established.
 
 ```text
-NEXT=Stage14-4aq isolate the global-solubility/Sha retainer and formulate a uniform averaging target compatible with the centered local sieve
+NEXT=Stage14-4ar isolate the positive-rank-to-first-small-point retainer and formulate a uniform weighted lower-tail target using the s3 height window
 ```
-
