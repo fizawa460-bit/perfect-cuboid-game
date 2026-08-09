@@ -2,92 +2,41 @@
 
 ## Purpose
 
-Stage14-t31 proved a genuine auxiliary-character saving on full Gaussian cofactor boxes, but that argument discarded the physical norm coupling
+Stage14-t31 obtained auxiliary-character cancellation on full Gaussian cofactor boxes but lost the physical coupling
 
 \[
 N(V)=k\delta,\qquad k\mid\varepsilon N(U),\qquad N(U)\delta\ll B/\ell.
 \]
 
-Stage14-t32 keeps this coupling. The main conclusions are:
+Stage14-t32 keeps this coupling. The new output is an exact unification of the super-square-root visible and invisible D/sum states, plus a much stronger complete auxiliary-character bound on fixed Gaussian norm circles.
 
-1. the super-square-root visible rational branch and the super-square-root kernel-invisible local-root branch have the **same Gaussian cofactor norm skeleton**;
-2. after restricting auxiliary primes to split primes `lambda = 1 mod 4`, the complete character correlation on fixed Gaussian norm circles improves from the t31 four-variable bound `O(lambda^(7/2))` to
-   \[
-   \boxed{O(\lambda)};
-   \]
-3. inert auxiliary primes can be maximally resonant on fixed norm circles, so the split-prime restriction is mathematically necessary for this torus argument;
-4. the remaining obstruction is no longer angular cancellation. It is the incomplete hyperbolic norm-index sum over `(m,delta,k)` together with the canonical largest-prime selection.
+## 1. Visible and invisible states have the same norm skeleton
 
-No global `A_{1,1}` power saving is claimed in t32.
-
-## 1. One cofactor skeleton for visible and invisible states
-
-Keep the super-square-root D/sum branch
+On the super-square-root D/sum branch,
 
 \[
 \ell>2\sqrt B,
-\qquad
-D=\frac{\varepsilon}{2}(a^2+b^2),
-\qquad
-\ell\mid a^2+b^2.
+\qquad a^2+b^2=\ell m,
+\qquad a+ib=\pi U,
+\qquad N(\pi)=\ell,
+\qquad N(U)=m.
 \]
 
-As in t31,
-
-\[
-a^2+b^2=\ell m,
-\qquad \ell\nmid m.
-\]
-
-Write
-
-\[
-a+ib=\pi U,\qquad N(\pi)=\ell,\qquad N(U)=m.
-\]
-
-### 1.1 Visible rational branch
-
-Visibility is equivalent to
-
-\[
-\ell\mid S:=p^2+q^2.
-\]
-
-Exact exponent one gives
+For the visible rational branch, `ell|S=p^2+q^2`, so exact exponent one gives
 
 \[
 S=\ell n,
 \qquad n=k\delta,
 \qquad k=\gcd(n,\varepsilon m),
-\qquad k\mid\varepsilon m.
 \]
 
-After dividing `p+iq` by the appropriate orientation of `pi`, write
+and after dividing `p+iq` by the correct orientation of `pi`,
 
 \[
-p+iq=\pi^{\pm}V,
-\qquad
-\boxed{N(V)=k\delta}.
+N(V)=k\delta.
 \]
 
-The physical denominator is `delta`, so
-
-\[
-\boxed{
-\frac{\varepsilon\ell m\delta}{2}\le B.
-}
-\tag{32.1}
-\]
-
-### 1.2 Kernel-invisible local-root branch
-
-On the D/sum residual branch t31 showed
-
-\[
-\ell\nmid S.
-\]
-
-Now
+For the kernel-invisible D/sum residual, `ell` does not divide `S`. Therefore
 
 \[
 \operatorname{den}(Q)
@@ -95,278 +44,152 @@ Now
 =\frac{S}{\gcd(S,\varepsilon m)}.
 \]
 
-Put
+Writing
 
 \[
-k=\gcd(S,\varepsilon m),
-\qquad
-\delta=S/k.
+k=\gcd(S,\varepsilon m),\qquad \delta=S/k,
 \]
 
-Then again
+and now taking `V=p+iq`, again
 
 \[
-\boxed{k\mid\varepsilon m,\qquad S=k\delta,}
+N(V)=k\delta.
 \]
 
-and, now taking the raw cover Gaussian integer
-
-\[
-V=p+iq,
-\]
-
-we have
-
-\[
-\boxed{N(V)=k\delta}
-\]
-
-with exactly the same scale condition (32.1).
-
-Thus the two branches differ only in the canonical `ell`-adic state:
-
-```text
-visible:
-  p+iq carries pi or bar(pi), then descend by that Gaussian prime;
-
-invisible:
-  p+iq carries no pi factor; the t26 state is only W = +/- rho C S mod ell^2.
-```
-
-After choosing the appropriate cofactor variable `V`, both branches live on the same norm skeleton
+Both branches therefore satisfy the identical cofactor skeleton
 
 \[
 \boxed{
 N(U)=m,
-\qquad
-N(V)=k\delta,
-\qquad
-k\mid\varepsilon m,
-\qquad
-m\delta\le\frac{2B}{\varepsilon\ell}.
+\qquad N(V)=k\delta,
+\qquad k\mid\varepsilon m,
+\qquad \frac{\varepsilon\ell m\delta}{2}\le B.
 }
+\tag{32.1}
+\]
+
+The canonical `ell`-adic datum is now only a bounded state label: Gaussian orientation on the visible branch, local square-root sign on the invisible branch.
+
+Since
+
+\[
+r_2(r)\le4\tau(r)=r^{o(1)},
+\]
+
+each fixed norm layer has only subpolynomially many Gaussian representatives. On a shell `X<D<=2X`, one has `m~X/ell` and `delta<<B/X`, so the unsieved mass at one fixed canonical prime is
+
+\[
+\boxed{\mathcal M_\ell(X,B)\ll (B/\ell)B^{o(1)}.}
 \tag{32.2}
 \]
 
-This is the first exact unification of the visible and invisible super-square-root D/sum states.
+This removes the full-box enlargement from t31, but summing (32.2) over all possible canonical primes still does not close the active-direction count.
 
-## 2. Representation multiplicity is already subpolynomial
+## 2. Inert auxiliary primes can resonate on norm circles
 
-For every positive integer `r`,
-
-\[
-r_2(r)=\#\{(x,y)\in\mathbb Z^2:x^2+y^2=r\}\le4\tau(r).
-\]
-
-Hence each fixed norm layer in (32.2) contains only `B^o(1)` Gaussian `U` and `V` representatives.
-
-On a direction shell `X<D<=2X`,
-
-\[
-m\asymp X/\ell,
-\qquad
-\delta\ll B/X.
-\]
-
-After the divisor choice `k|epsilon*m`, the entire unsieved cofactor mass at one fixed canonical prime satisfies
-
-\[
-\boxed{
-\mathcal M_\ell(X,B)
-\ll \frac{B}{\ell}B^{o(1)}.
-}
-\tag{32.3}
-\]
-
-Thus the full-box loss from t31 is removed: the correct ambient object is already hyperbolic and essentially two-dimensional in the norm variables.
-
-However, summing (32.3) over all possible super-square-root canonical primes still does not produce a fixed power saving for the active-direction first moment. Character cancellation must therefore act on the norm-indexed family itself.
-
-## 3. Why auxiliary primes are restricted to `lambda = 1 mod 4`
-
-The t30 good-prime condition `lambda not | Delta` is sufficient for the unrestricted quartic. On fixed norm circles there is one further issue: inert primes can create angular resonance.
+The t30 condition `lambda` not dividing `Delta` is enough for the unrestricted quartic, but not for a uniform fixed-norm-circle estimate.
 
 A frozen counterexample is
 
 \[
-\ell=5,\qquad \pi=1+2i,
-\qquad \lambda=11,
-\qquad N(U)=1,
-\qquad N(V)=2.
+\pi=1+2i,\qquad \lambda=11,\qquad N(U)=1,\qquad N(V)=2.
 \]
 
-For the same Gaussian orientation, every one of the `(lambda+1)^2=144` norm-circle pairs has the same nonzero quadratic-character value, so the complete correlation has absolute value
+For the same Gaussian orientation the complete norm-circle product has `(11+1)^2=144` points and every point contributes the same nonzero quadratic-character value. Hence
 
 \[
-\boxed{144=(11+1)^2.}
+\boxed{|C_{11}(1,2)|=144.}
 \]
 
-Thus there is **no uniform square-root cancellation on norm circles over inert auxiliary primes**.
-
-Stage14-t32 therefore uses only split auxiliary primes
+Thus inert auxiliary primes can be maximally resonant. Stage14-t32 therefore restricts the torus sieve to
 
 \[
 \boxed{\lambda\equiv1\pmod4,\qquad \lambda\nmid\ell\Delta mn.}
-\tag{32.4}
+\tag{32.3}
 \]
 
-This loses only a fixed-density prime subfamily and removes the torus resonance.
+## 3. Split norm circles are one-dimensional tori
 
-## 4. Split norm circles become a one-dimensional torus
-
-Fix a split auxiliary prime `lambda` and choose
+Choose `iota^2=-1 mod lambda`. For a nonzero norm `R`, write
 
 \[
-\iota^2=-1\pmod\lambda.
+s=x+\iota y,\qquad x-\iota y=R/s.
 \]
 
-For a nonzero norm `R`, the circle
+Then
 
 \[
-x^2+y^2=R
+x=\frac{s+R/s}{2},\qquad y=\frac{s-R/s}{2\iota}.
 \]
 
-is identified with `F_lambda^*` by
-
-\[
-s=x+\iota y,
-\qquad
-x-\iota y=R/s.
-\]
-
-Hence
-
-\[
-x=\frac{s+R/s}{2},
-\qquad
-y=\frac{s-R/s}{2\iota}.
-\]
-
-For any nonzero Gaussian constant `c` with split components
-
-\[
-c_+=c_x+\iota c_y,
-\qquad c_-=c_x-\iota c_y,
-\]
-
-we obtain
+For a nonzero Gaussian constant `c`, with split components `c_+,c_-`,
 
 \[
 \boxed{
 \Re(cz)\Im(cz)
 =\frac{c_+^2s^4-c_-^2R^2}{4\iota s^2}.
 }
-\tag{32.5}
+\tag{32.4}
 \]
 
-The denominator is a square for the Legendre symbol. Since `c_+c_-R != 0`, the numerator is a squarefree quartic. Therefore
+The numerator is a squarefree quartic. Therefore the untwisted one-variable character sum is bounded by `3 sqrt(lambda)`. After inserting the quadratic torus character, the relevant polynomial has degree five and the bound is `4 sqrt(lambda)`.
+
+## 4. Exact two-torus factorisation
+
+After the Gaussian descent, the Stage14 four-linear character is, up to a fixed square/sign, a product of two terms of the form
 
 \[
-\left|\sum_{s\in\mathbf F_\lambda^*}
-\chi_\lambda(\Re(cz)\Im(cz))\right|
-\le3\sqrt\lambda.
-\tag{32.6}
+\Re(c_1U\bar V)\Im(c_1U\bar V),
+\qquad
+\Re(c_2UV)\Im(c_2UV),
 \]
 
-If the quadratic character of the torus parameter is inserted, the relevant polynomial is degree five and squarefree, giving
+with nonzero constants `c_1,c_2`. This holds for both visible orientations and for the invisible local-root state.
+
+Write
 
 \[
-\left|\sum_s\chi_\lambda(s)\,
-\chi_\lambda(\Re(cz)\Im(cz))\right|
-\le4\sqrt\lambda.
-\tag{32.7}
+U=U_0s,\qquad V=V_0t
 \]
 
-## 5. Exact two-torus factorisation of the Stage14 character
-
-On the visible same-orientation branch,
+on the split norm-one torus. The two arguments depend on
 
 \[
-(a+ib)(p-iq)=\ell\,U\bar V,
+r=s/t,\qquad w=st.
 \]
 
-while
-
-\[
-(a+ib)(p+iq)=\pi^2UV.
-\]
-
-The four-linear product is, up to a fixed nonzero square and a fixed sign, the product of
-
-\[
-\Re(U\bar V)\Im(U\bar V)
-\]
-
-and
-
-\[
-\Re(cUV)\Im(cUV)
-\]
-
-for a nonzero constant `c`. The opposite visible orientation and the invisible local-root branch have the same form with different invertible constants.
-
-Write fixed norm-circle points as
-
-\[
-U=U_0s,
-\qquad V=V_0t,
-\qquad s,t\in T_\lambda,
-\]
-
-where the split norm-one torus is `T_lambda ~= F_lambda^*`.
-
-The two arguments depend only on
-
-\[
-r=s/t,
-\qquad w=st.
-\]
-
-The map
-
-\[
-(s,t)\mapsto(r,w)
-\]
-
-has kernel `{(1,1),(-1,-1)}` and image characterised by `rw` being a square in the torus. Therefore, for one-variable character functions `A(r),B(w)`, the exact identity is
+The map `(s,t)->(r,w)` has kernel `{(1,1),(-1,-1)}` and image characterised by `rw` being a square. Hence
 
 \[
 \boxed{
 \sum_{s,t}A(s/t)B(st)
 =
-\left(\sum_rA(r)\right)\left(\sum_wB(w)\right)
+\Big(\sum A\Big)\Big(\sum B\Big)
 +
-\left(\sum_r\eta(r)A(r)\right)
-\left(\sum_w\eta(w)B(w)\right),
+\Big(\sum\eta A\Big)\Big(\sum\eta B\Big).
 }
-\tag{32.8}
+\tag{32.5}
 \]
 
-where `eta` is the quadratic character of the split torus.
-
-Applying (32.6)--(32.7) gives the uniform fixed-norm correlation theorem
+Combining the `3 sqrt(lambda)` and `4 sqrt(lambda)` one-variable bounds yields
 
 \[
-\boxed{
-|C_\lambda(m,n)|\le25\lambda.
-}
-\tag{32.9}
+\boxed{|C_\lambda(m,n)|\le25\lambda.}
+\tag{32.6}
 \]
 
 For two distinct split good primes, CRT gives
 
 \[
-\boxed{
-|C_{\lambda\mu}(m,n)|\le625\lambda\mu.
-}
-\tag{32.10}
+\boxed{|C_{\lambda\mu}(m,n)|\le625\lambda\mu.}
+\tag{32.7}
 \]
 
-This is a full square-root saving relative to the `~lambda^2` points on the product of two norm circles, and is much stronger than the unrestricted four-variable complete bound from t31.
+This is full square-root cancellation relative to the `~lambda^2` points on the product of two norm circles and is much stronger than t31's unrestricted four-variable complete estimate.
 
-## 6. What the stronger local theorem does — and does not — solve
+## 5. Exact remaining analytic object
 
-The angular variables are now closed at the complete finite-field level. What remains is the incomplete norm-index sum
+The angular complete correlation is now closed. The remaining sum is the incomplete arithmetic average
 
 \[
 \boxed{
@@ -376,41 +199,20 @@ The angular variables are now closed at the complete finite-field level. What re
 \sum_{\delta\ll B/X}
 \sum_{k\mid\varepsilon m}
 \sum_{\substack{N(U)=m\\N(V)=k\delta}}
-\chi_{\lambda\mu}(\widetilde F_{\ell}(U,V)),
+\chi_{\lambda\mu}(\widetilde F_\ell(U,V)),
 }
-\tag{32.11}
+\tag{32.8}
 \]
 
-with the canonical-largest-prime condition and the physical interval/reconstruction conditions retained.
+with the canonical-largest-prime condition, physical interval/reconstruction and the bounded visible/invisible state label retained.
 
-The complete torus estimate (32.10) cannot simply be inserted into (32.11), because an integral norm circle contains only `r_2(n)=n^o(1)` representatives rather than a complete residue torus. The missing theorem is an arithmetic average over Gaussian representations and the divisor coupling `k|epsilon*m`.
+A complete finite-field torus estimate cannot simply replace (32.8): an integral norm circle has only `r_2(n)=n^o(1)` representatives. The missing theorem is therefore a large-sieve estimate over the **Gaussian norm indices and representations**, not another local Weil bound.
 
-This is the exact place where a quadratic large sieve over `Q(i)` becomes structurally relevant. Goldmakher--Louvel prove a quadratic large-sieve inequality for Hecke families over general number fields, explicitly including the `Q(i)` setting and generalising Onodera's Gaussian-integer large sieve. But Stage14 still needs an explicit transfer of the character in (32.11) into that Hecke-family formalism while preserving:
+Goldmakher--Louvel's quadratic large sieve over number fields is structurally relevant and includes the `Q(i)` setting, but Stage14 still needs to identify the character in (32.8) with the required quadratic Hecke-family symbol while preserving `k|epsilon*m`, the hyperbolic cutoff, canonical `ell`, and the existential direction projection. That transfer is not claimed here.
 
-- `k|epsilon*m`;
-- `m delta << B/ell`;
-- the canonical largest-prime condition;
-- the visible orientation or invisible local-root label;
-- the existential projection from cover points to directions.
+## 6. Frozen diagnostics
 
-That transfer is not claimed in t32.
-
-## 7. Visible and invisible branches are now analytically aligned
-
-Before t32 the two super-square-root states appeared different:
-
-- visible: rational congruence `ell|p^2+q^2`;
-- invisible: local Gaussian root `W=+/-rho C S mod ell^2`.
-
-After descent, both are represented by the same norm set (32.2), and the auxiliary split-prime character has the same torus-factorised shape. The canonical `ell`-adic state only changes a bounded orientation/root label.
-
-Therefore the next global estimate does **not** need two unrelated sieve theories. It needs one norm-indexed Gaussian/Hecke average with finitely many local state labels.
-
-## 8. Frozen finite diagnostics
-
-The deterministic t32 audit keeps the t31 box `a,b,p,q<=40`.
-
-For every super-square-root D/sum non-torsion tuple it verifies the unified norm skeleton:
+The t32 audit keeps `a,b,p,q<=40` and checks the unified skeleton on every super-square-root D/sum non-torsion tuple:
 
 ```text
 visible non-torsion states        1018
@@ -423,7 +225,7 @@ invisible delta=1                  230
 invisible delta>1                11960
 ```
 
-For the split auxiliary torus audit it uses `pi=1+2i` and checks **all nonzero norm pairs** for both Gaussian orientations:
+For `pi=1+2i`, every nonzero norm pair is checked for both orientations at split auxiliary primes:
 
 ```text
 lambda   max |C_lambda|
@@ -434,21 +236,12 @@ lambda   max |C_lambda|
   41         288
 ```
 
-All satisfy `|C_lambda|<=25 lambda`.
-
-The inert-prime resonance counterexample is frozen as
-
-```text
-lambda=11, pi=1+2i, m=1, n=2:
-|C_11|=144=(11+1)^2.
-```
-
-These are finite algebraic diagnostics only; they are not asymptotic density statements.
+All satisfy `|C_lambda|<=25 lambda`. The inert resonance is frozen at `lambda=11`, `m=1`, `n=2`, where `|C_11|=144=(11+1)^2`.
 
 ## Boundary
 
 ```text
-STAGE14_T32=COMPLETE_SPLIT_TORUS_NORM_CORRELATION_AND_UNIFIED_COFATOR_SKELETON
+STAGE14_T32=COMPLETE_SPLIT_TORUS_NORM_CORRELATION_AND_UNIFIED_COFACTOR_SKELETON
 VISIBLE_INVISIBLE_SUPER_SQRT_NORM_SKELETON_UNIFIED=true
 UNIFIED_NORM_SKELETON=N(U)=m,N(V)=k*delta,k|epsilon*m,m*delta<<B/ell
 FIXED_ELL_UNSIEVED_NORM_MASS=B/ell*B^o(1)
