@@ -1,6 +1,6 @@
 # Stage13-13 — final proof hardening and freeze roadmap
 
-> STATUS: `STAGE13_13F_R05_REPAIR_GATES_A_B_C_D_COMPLETE_GATE_E_NEXT`
+> STATUS: `STAGE13_13F_R05_REPAIR_GATES_A_B_C_D_E_COMPLETE_GATE_F_NEXT`
 >
 > PURPOSE: turn the reviewed Stage13 theorem candidate into one canonical, reproducible, externally reviewed and finally frozen theorem package.
 >
@@ -13,8 +13,6 @@
 13-13fa 13-13fb 13-13fc 13-13fd 13-13fe 13-13ff 13-13fg 13-13fh
 13-13g
 ```
-
-A theorem-level defect blocks promotion.
 
 ## Frozen theorem candidate
 
@@ -43,7 +41,6 @@ STAGE13_13A=COMPLETE_CLAIM_DEPENDENCY_LEDGER
 CLAIM_COUNT=30
 THEOREM_STATEMENT_FROZEN_FOR_RESYNTHESIS=true
 THEOREM_LEVEL_DEFECT_FOUND=false
-HISTORICAL_SUPERSEDED_ARGUMENT_REQUIRED=false
 
 STAGE13_13B=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_AUDIT
 UNMAPPED_EXTERNAL_INPUTS=0
@@ -54,10 +51,7 @@ GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED_FOR_FINAL_PROOF=false
 GROWING_MODULUS_INPUT_USED=false
 
 STAGE13_13C=COMPLETE_CANONICAL_PROOF_RESYNTHESIS
-MINIMAL_EXTERNAL_BOUNDARY_PRESERVED=true
-
 STAGE13_13D=COMPLETE_DETERMINISTIC_FINAL_CONSISTENCY_AUDIT
-AUDIT_STATUS=PASS
 CANONICAL_CONSTANTS_REPRODUCED=true
 STALE_SUPERSEDED_FORMULAS_IN_CANONICAL_FILES=0
 
@@ -75,8 +69,6 @@ The deterministic audit is reproducibility/consistency evidence only, not proof 
 
 Status: `[!] BLOCKED — repairs in progress`.
 
-Historical R04 verdicts:
-
 ```text
 GROK_R04_VERDICT=CLOSED
 CLAUDE_R04_VERDICT=OPEN
@@ -89,11 +81,9 @@ R04_REPAIR_REQUIRED=true
 PROMOTE_TO_13_13G=false
 ```
 
-Active plan: `stages/stage13/13-13f/r05-repair-plan.md`.
+Active repair plan: `stages/stage13/13-13f/r05-repair-plan.md`.
 
 ### 13-13fa — Gate A complete
-
-Finite exact-one data through `B=5,000,000` do not contradict the claimed limit, no hidden leading q-dependent arithmetic factor was found, and no effective convergence rate is claimed.
 
 ```text
 STAGE13_13FA=COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT
@@ -106,9 +96,8 @@ FINITE_DISCREPANCY_QUANTITATIVELY_EXPLAINED_BY_PROVED_REMAINDER=false
 
 ### 13-13fb — Gate B complete
 
-The split-prime Wiener estimate is coefficientwise explicit:
-
 ```text
+STAGE13_13FB=COMPLETE_EXPLICIT_WIENER_BOUND
 WIENER_E_BOUND=17744/243
 WIENER_EXACT_CONSTANT=3465625/6561
 WIENER_ROUNDED_CONSTANT=529
@@ -116,12 +105,9 @@ WIENER_EXPONENT=5/4
 P5_EXPLICIT_FINITE_BOUND_LT=432
 PHASE_UNIFORM=true
 RETAINED_HARMONIC_UNIFORM=true
-STAGE13_13FB=COMPLETE_EXPLICIT_WIENER_BOUND
 ```
 
 ### 13-13fc — Gate C complete
-
-The curved-region accumulation now has explicit global exponents:
 
 ```text
 STAGE13_13FC=COMPLETE_CURVED_REGION_ERROR_ACCUMULATION
@@ -135,51 +121,84 @@ MESH_ERROR=O(B(log B)^-5)
 
 ### 13-13fd — Gate D complete
 
-The retained nonzero harmonic family no longer relies on the unexplained `A=48` ledger. On the fixed strip `Re s>=3/4`, use the proof-facing family interface
-
-```text
-S_ell(X) << X^(1-delta_H) (1+ell)^C_H (log(2X))^D_H
-```
-
-uniformly for every `X>=2`, `ell>=1`. The retained restriction `ell<=floor((log B)^4)` is imposed only when modes are summed, avoiding the local-`X` mismatch near `H0`.
-
-Partial summation on `h>=H0=exp((log B)^(1/4))`, two base logarithms, and all retained modes give
-
-```text
-HARMONIC_POLYLOG_EXPONENT=4*C_H+D_H+6
-HARMONIC_STRETCHED_SAVING=exp(-delta_H*(log B)^(1/4))
-HARMONIC_CORE=o_A(B(log B)^(-A))_for_every_fixed_A
-VAALER_ZERO_MODE_EXCESS=O(B(log B)^-1)
-```
-
-The wings are removed by the positive Gate C majorant before Fourier expansion, so no factor `(log B)^4` multiplies their errors.
-
 ```text
 STAGE13_13FD=COMPLETE_RETAINED_HARMONIC_CONDUCTOR_BOOKKEEPING
 HECKE_STRIP_LEFT=3/4
 HECKE_FAMILY_BOUND=S_ell(X)<<X^(1-delta_H)(1+ell)^C_H(log(2X))^D_H_for_all_ell>=1
 RETAINED_HARMONICS=ell<=floor((log B)^4)
+HARMONIC_POLYLOG_EXPONENT=4*C_H+D_H+6
+HARMONIC_STRETCHED_SAVING=exp(-delta_H*(log B)^(1/4))
+HARMONIC_CORE=o_A(B(log B)^(-A))_for_every_fixed_A
+VAALER_ZERO_MODE_EXCESS=O(B(log B)^-1)
 FIXED_A48_REQUIRED=false
 GAUSSIAN_HECKE_ZERO_FREE_REGION_REQUIRED=false
 WINGS_EXPANDED_HARMONIC_BY_HARMONIC=false
+```
+
+### 13-13fe — Gate E complete
+
+The Stage12 interface is now copied into an R05-facing proof lemma rather than referenced by name only.
+
+```text
+stages/stage13/13-13fe/stage12-counting-interface.md
+```
+
+It contains the exact chain
+
+```text
+D_B -> G(hrs)-1 -> C_raw(B) -> Mobius/common-scale C_prim(B)
+```
+
+and the frozen constant/theorem interface
+
+```text
+C_prim(B) ~ kappa/(12*pi) B(log B)^3
+          = eta/(12*pi^2) B(log B)^3
+eta=pi*kappa
+```
+
+with `kappa` written as its explicit Euler product.
+
+The exact Stage13 projection is proved object-by-object:
+
+```text
+C_prim,q^proj(B)=2 A_q(B)
+C_prim(B)=2 sum_q A_q(B)
+```
+
+where the fiber is exactly the two orders of the two distinguished face legs. The Stage12 outer `r<s` convention contributes no additional order; the fiber remains exact in OE/EE parity strata and on multi-face objects.
+
+```text
+STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE
+STAGE12_R09_BUNDLE=PC-N1-2-FINAL-SELF-CONTAINED-20260807-R09
+STAGE12_R09_CONTENT_SHA256=0da06c78bbb546039dbe8d423dcc6ed403fe1af90d777488c2393c0c77c16848
+STAGE12_COUNTING_TARGET=PRIMITIVE_ORIENTED_DISTINGUISHED_FACE_RECORDS
+STAGE12_PRIMITIVE_DEFINITION=MOBIUS_COMMON_SCALE
+STAGE12_CUTOFF=d<=B
+STAGE12_THEOREM=C_prim(B)~kappa/(12*pi)B(log B)^3
+KAPPA_EULER_PRODUCT_EXPLICIT=true
+ETA_EQUALS_PI_KAPPA=true
+STAGE13_PROJECTION_FIBER=2
+PROJECTION_FIBER_REASON=TWO_ORDERS_OF_DISTINGUISHED_FACE_LEGS
+PROJECTION_PARITY_STRATIFIED=true
+EXTRA_2ADIC_PROJECTION_FACTOR=false
+MULTI_FACE_FACTOR_TWO_EXACT=true
+STAGE12_REOPENED=false
 THEOREM_CHANGED=false
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
-R04_IMMUTABLE=true
-R05_REQUIRED=true
 ```
 
 ## Remaining R05 gates
 
 ```text
-13-13fe  [>] complete Stage12 R09 counting and factor-two interface
-13-13ff  [ ] precise external Hecke/Dirichlet/Vaaler contracts
+13-13ff  [>] precise external Hecke/Dirichlet/Vaaler contracts
 13-13fg  [ ] expanded fixed inert-prime transfer
 13-13fh  [ ] notation cleanup + deterministic-audit scope + R05 synthesis readiness
 ```
 
-Gate E must copy the exact Stage12 `C_prim` definition, orientation convention, kappa interface, projection and factor-two proof into the repaired proof. Gate F must expose the exact external hypotheses/conclusions used by the Gate D family interface and Vaaler approximation. Gate G expands fixed inert-prime transfer. Gate H performs notation/audit cleanup and determines R05 synthesis readiness.
+Gate F must expose the exact imported hypotheses/conclusions used by the Gate D family interface and Vaaler approximation. Gate G expands fixed inert-prime transfer. Gate H performs notation/audit cleanup and determines R05 synthesis readiness.
 
-After A–H, if the theorem survives unchanged, create immutable R05 and obtain fresh independent reviews. R04 verdicts do not automatically count for R05.
+After A-H, if the theorem survives unchanged, create immutable R05 and obtain fresh independent reviews. R04 verdicts do not automatically count for R05.
 
 13-13f closes only when:
 
@@ -194,14 +213,12 @@ Until then:
 STAGE13_13F=BLOCKED_R05_REPAIR_IN_PROGRESS
 R05_FRESH_REVIEW_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13fe
+NEXT=13-13ff
 ```
 
 ## 13-13g — final freeze
 
 Status: `[ ] BLOCKED by 13-13f`.
-
-Target only after the review gate closes:
 
 ```text
 STAGE13_13G=COMPLETE_FINAL_FREEZE
@@ -227,9 +244,10 @@ STAGE13_13FA=COMPLETE_Q_INDEPENDENCE_AND_FINITE_DISCREPANCY_AUDIT
 STAGE13_13FB=COMPLETE_EXPLICIT_WIENER_BOUND
 STAGE13_13FC=COMPLETE_CURVED_REGION_ERROR_ACCUMULATION
 STAGE13_13FD=COMPLETE_RETAINED_HARMONIC_CONDUCTOR_BOOKKEEPING
+STAGE13_13FE=COMPLETE_STAGE12_COUNTING_INTERFACE
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
 R04_IMMUTABLE=true
 R05_REQUIRED=true
 PROMOTE_TO_13_13G=false
-NEXT=13-13fe
+NEXT=13-13ff
 ```
