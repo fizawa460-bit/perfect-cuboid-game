@@ -1,0 +1,33 @@
+name: Stage14-4au local indicator obstruction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4au/**'
+      - 'stages/stage14/data/14-4/local_indicator_obstruction_summary.json'
+      - 'stages/stage14/scripts/14-4/local_indicator_obstruction_audit.py'
+      - '.github/workflows/stage14-4au-local-indicator-obstruction.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/local_indicator_obstruction_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/local_indicator_obstruction_audit.py
+      - name: Check generated summary is committed
+        run: git diff --exit-code -- stages/stage14/data/14-4/local_indicator_obstruction_summary.json
+      - name: Check boundary flags
+        run: |
+          grep -q 'RECIPROCAL_DIVISOR_BILINEAR_BOUND_PROVED=false' stages/stage14/14-4au/result.md
+          grep -q 'S5G_PRIME_LEVEL_SECOND_MOMENT_CONTROLS_FULL_INDICATOR=false' stages/stage14/14-4au/result.md
+          grep -q 'NEXT=Stage14-4av' stages/stage14/14-4au/result.md
