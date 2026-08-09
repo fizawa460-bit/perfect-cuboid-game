@@ -1,0 +1,55 @@
+name: Stage14-t24 torsion energy rank cover
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t24/**'
+      - 'stages/stage14/scripts/14-t/t24_torsion_energy_rank_cover_audit.py'
+      - 'stages/stage14/data/14-t24/torsion_energy_rank_cover.json'
+      - 'stages/stage14/t-roadmap.md'
+      - '.github/workflows/stage14-t24-torsion-energy-rank-cover.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t23 regression
+        run: python stages/stage14/scripts/14-t/t23_torsion_rank_dichotomy_audit.py
+      - name: Run t24 torsion-energy/rank-cover audit
+        run: python stages/stage14/scripts/14-t/t24_torsion_energy_rank_cover_audit.py
+      - name: Check frozen t24 summary
+        run: git diff --exit-code stages/stage14/data/14-t24/torsion_energy_rank_cover.json
+      - name: Validate locked t24 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t24/torsion_energy_rank_cover.json'
+          d=json.load(open(p))
+          f=d['finite']
+          assert f['actual_rank_active_raw_edges_B2m']==356
+          assert f['rank_discriminant_squareclass_checks_B2m']==356
+          assert f['rank_minus_one_cover_orientation_checks_B2m']==712
+          assert f['potential_primitive_euclid_parameters_B2m']==225
+          assert f['potential_oriented_torsion_directions_B2m']==450
+          assert f['F_plus_packet_energy_B2m']==225
+          assert f['F_minus_packet_energy_B2m']==229
+          assert f['combined_potential_torsion_packet_energy_B2m']==454
+          assert f['max_F_plus_kernel_multiplicity_B2m']==1
+          assert f['max_F_minus_kernel_multiplicity_B2m']==2
+          assert f['repeated_F_minus_kernels_B2m']==[17,113]
+          assert f['actual_physical_torsion_active_directions_B2m']==0
+          q=d['decision']
+          assert q['TORSION_PACKET_BINARY_QUARTIC_2_COVER'] is True
+          assert q['TORSION_PACKET_JACOBIAN_RATIONAL_2_TORSION'] is True
+          assert q['TORSION_SECOND_MOMENT_POWER_SAVING_PROVED'] is True
+          assert q['PIERCE_XU_ODD_PRIME_ADMISSIBILITY'] is True
+          assert q['RANK_DISPLAYED_DISCRIMINANT_SQUARECLASS']=='alpha*beta'
+          assert q['RANK_PHYSICAL_MINUS_ONE_2_COVER_EXPLICIT'] is True
+          assert q['Q_ACTIVE_REDUCED_TO_RANK_ENERGY'] is True
+          assert q['RANK_ACTIVE_SECOND_MOMENT_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
