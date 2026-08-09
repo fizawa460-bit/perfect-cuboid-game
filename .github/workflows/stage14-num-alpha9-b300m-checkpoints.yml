@@ -1,0 +1,149 @@
+name: Stage14-num-alpha9 exact B300m checkpoints
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage14/scripts/14-num-alpha9/**'
+      - 'stages/stage14/data/14-num-alpha9/**'
+      - 'stages/stage14/14-num-alpha9/**'
+      - '.github/workflows/stage14-num-alpha9-b300m-checkpoints.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: read
+
+jobs:
+  plan:
+    runs-on: ubuntu-24.04
+    outputs:
+      frozen: ${{ steps.mode.outputs.frozen }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: mode
+        shell: bash
+        run: |
+          if [[ -f stages/stage14/data/14-num-alpha9/b300m_manifest.json && \
+                -f stages/stage14/data/14-num-alpha9/b300m_objects.csv.bz2.b64 ]]; then
+            echo 'frozen=true' >> "$GITHUB_OUTPUT"
+            echo 'Frozen B300m source present: replay only.'
+          else
+            echo 'frozen=false' >> "$GITHUB_OUTPUT"
+            echo 'Successful bootstrap run 31316301867 will be frozen.'
+          fi
+
+  freeze-bootstrap:
+    needs: plan
+    if: needs.plan.outputs.frozen != 'true' && github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download successful exact B300m bootstrap
+        uses: actions/download-artifact@v4
+        with:
+          name: alpha9-b300m-bootstrap
+          path: bootstrap
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 31316301867
+          github-token: ${{ github.token }}
+      - name: Freeze compact manifest, object source, result and status
+        shell: bash
+        run: |
+          mkdir -p stages/stage14/data/14-num-alpha9
+          cp bootstrap/alpha9-b300m-objects.csv.bz2.b64 \
+             stages/stage14/data/14-num-alpha9/b300m_objects.csv.bz2.b64
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          src=Path('bootstrap/alpha9-b300m-report.json')
+          r=json.loads(src.read_text())
+          keep=(
+            'stage','classification','B200m_alpha8_regression',
+            'exact_cutoff_B250m','exact_cutoff_B300m',
+            'shell_200m_to_250m_counts','shell_250m_to_300m_counts',
+            'stability_panel','object_source','decision'
+          )
+          m={k:r[k] for k in keep}
+          m['provenance']={
+            'bootstrap_actions_run':31316301867,
+            'bootstrap_artifact_id':9038895103,
+            'bootstrap_artifact_digest':'sha256:5ff1bddb6e0209af56393870e1d0b78bf13fa6df5cfe9d261f1802b8d7ce1d35',
+            'alpha8_baseline_actions_run':31314521041,
+            'alpha8_baseline_artifact_id':9038386745,
+          }
+          Path('stages/stage14/data/14-num-alpha9/b300m_manifest.json').write_text(
+            json.dumps(m,indent=2,sort_keys=True)+'\n')
+          b250=m['exact_cutoff_B250m']; b300=m['exact_cutoff_B300m']
+          tr=m['stability_panel']['transitions']
+          status=f'''STAGE14_NUM_ALPHA9=COMPLETE_EXACT_B300M_WITH_B250M_CHECKPOINT\nB200M_ALPHA8_FULL_HASH_REGRESSION_MATCH=true\nB250M_EXACT_CENSUS_FROZEN=true\nB300M_EXACT_CENSUS_FROZEN=true\nB250M_DIRECTIONAL_COUNTS={b250['counts']['a']},{b250['counts']['b']},{b250['counts']['c']}\nB250M_N2={b250['counts']['total']}\nB300M_DIRECTIONAL_COUNTS={b300['counts']['a']},{b300['counts']['b']},{b300['counts']['c']}\nB300M_N2={b300['counts']['total']}\nB300M_T={b300['counts']['triple']}\nB300M_ACTIVE_ORIENTED_FACES={b300['graph']['active_oriented_face_vertices']}\nB300M_RAW_PAIR_EDGES={b300['graph']['raw_pair_edges']}\nB300M_MAX_DEGREE={b300['graph']['max_degree']}\nFIRST_POST_B200M_STABILITY_PANEL_PUBLISHED=true\nB250M_TO_B300M_ALL_PRIMARY_DRIFTS_LE_2PCT={str(tr[1]['all_primary_at_or_below_2pct']).lower()}\nPERFECT_CUBOID_EMERGENCY=false\nFINITE_DIAGNOSTIC_ONLY=true\nASYMPTOTIC_CLAIM=false\nSTABILITY_GATE_IS_HEURISTIC=true\nSOURCE_ACTIONS_RUN=31316301867\nNEXT=Stage14-num-alpha10 exact B400m checkpoint\n'''
+          Path('stages/stage14/14-num-alpha9/status.txt').write_text(status)
+          p=m['stability_panel']['checkpoints']; d23=tr[1]['relative_drift']
+          result=f'''# Stage14-num-α9 — exact B300m extension with B250m checkpoint\n\n> STATUS: `STAGE14_NUM_ALPHA9=COMPLETE_EXACT_B300M_WITH_B250M_CHECKPOINT`\n>\n> CLASSIFICATION: finite exact census + operational finite stability diagnostics; no asymptotic claim.\n\nDedicated Actions run `31316301867` completed the four new 25m shards over `200m<d<=300m`. The nested B200m subset reproduced merged α8 in every frozen count, graph field and SHA lock.\n\n## Exact checkpoints\n\n```text\nB250m: (Na,Nb,Nc)=({b250['counts']['a']},{b250['counts']['b']},{b250['counts']['c']}), N2={b250['counts']['total']}, T={b250['counts']['triple']}\n        active faces={b250['graph']['active_oriented_face_vertices']}, max degree={b250['graph']['max_degree']}\nB300m: (Na,Nb,Nc)=({b300['counts']['a']},{b300['counts']['b']},{b300['counts']['c']}), N2={b300['counts']['total']}, T={b300['counts']['triple']}\n        active faces={b300['graph']['active_oriented_face_vertices']}, max degree={b300['graph']['max_degree']}\n```\n\nB250m SHA locks: object `{b250['object_key_sha256']}`, object+mask `{b250['object_key_mask_sha256']}`, vertex `{b250['graph']['vertex_ledger_sha256']}`, edge `{b250['graph']['edge_ledger_sha256']}`.\n\nB300m SHA locks: object `{b300['object_key_sha256']}`, object+mask `{b300['object_key_mask_sha256']}`, vertex `{b300['graph']['vertex_ledger_sha256']}`, edge `{b300['graph']['edge_ledger_sha256']}`.\n\nNew shell counts are `{m['shell_200m_to_250m_counts']}` for 200m→250m and `{m['shell_250m_to_300m_counts']}` for 250m→300m.\n\n## Stability panel\n\n`N2/sqrt(B)` moves `{p[0]['R0_N2_over_sqrt_B']:.15f} -> {p[1]['R0_N2_over_sqrt_B']:.15f} -> {p[2]['R0_N2_over_sqrt_B']:.15f}`. The 200m→250m transition fails the 2% operational gate only because `R0` moves by `{tr[0]['relative_drift']['R0_N2_over_sqrt_B']:.4%}`. The 250m→300m transition is the first post-B200m transition with every primary metric below 2%; its largest primary drift is `{max(d23.values()):.4%}`.\n\nThis is a finite stopping diagnostic only. The terminal gate is not evaluated until α11 has 250→300m, 300→400m and 400→500m. `T=0` through B300m is not a nonexistence proof.\n\n```text\nB200M_ALPHA8_FULL_HASH_REGRESSION_MATCH=true\nB250M_EXACT_CENSUS_FROZEN=true\nB300M_EXACT_CENSUS_FROZEN=true\nFIRST_POST_B200M_STABILITY_PANEL_PUBLISHED=true\nB250M_TO_B300M_ALL_PRIMARY_DRIFTS_LE_2PCT=true\nPERFECT_CUBOID_EMERGENCY=false\nFINITE_DIAGNOSTIC_ONLY=true\nASYMPTOTIC_CLAIM=false\nNEXT=Stage14-num-alpha10 exact B400m checkpoint\n```\n'''
+          Path('stages/stage14/14-num-alpha9/result.md').write_text(result)
+          PY
+      - name: Reproduce frozen deterministic sections before commit
+        shell: bash
+        run: |
+          python stages/stage14/scripts/14-num-alpha9/nested_stability_census.py \
+            --replay-b300-source stages/stage14/data/14-num-alpha9/b300m_objects.csv.bz2.b64 \
+            --output /tmp/replayed.json
+          python - <<'PY'
+          import json
+          got=json.load(open('/tmp/replayed.json'))
+          want=json.load(open('stages/stage14/data/14-num-alpha9/b300m_manifest.json'))
+          keys=(
+            'stage','classification','B200m_alpha8_regression',
+            'exact_cutoff_B250m','exact_cutoff_B300m',
+            'shell_200m_to_250m_counts','shell_250m_to_300m_counts',
+            'stability_panel','object_source','decision'
+          )
+          for k in keys: assert got[k] == want[k], k
+          print('alpha9 bootstrap freeze replay: PASS')
+          PY
+      - name: Commit frozen exact checkpoint
+        shell: bash
+        run: |
+          git config user.name 'stage14-num-alpha9-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add stages/stage14/data/14-num-alpha9 stages/stage14/14-num-alpha9
+          git commit -m 'Stage14-num-alpha9 freeze exact B250m B300m checkpoints'
+          git push origin HEAD:${GITHUB_HEAD_REF}
+
+  frozen-replay:
+    needs: plan
+    if: needs.plan.outputs.frozen == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay frozen B300m object source
+        run: |
+          python stages/stage14/scripts/14-num-alpha9/nested_stability_census.py \
+            --replay-b300-source stages/stage14/data/14-num-alpha9/b300m_objects.csv.bz2.b64 \
+            --output /tmp/replayed.json
+      - name: Compare deterministic frozen sections
+        run: |
+          python - <<'PY'
+          import json
+          got=json.load(open('/tmp/replayed.json'))
+          want=json.load(open('stages/stage14/data/14-num-alpha9/b300m_manifest.json'))
+          keys=(
+            'stage','classification','B200m_alpha8_regression',
+            'exact_cutoff_B250m','exact_cutoff_B300m',
+            'shell_200m_to_250m_counts','shell_250m_to_300m_counts',
+            'stability_panel','object_source','decision'
+          )
+          for k in keys: assert got[k] == want[k], k
+          assert got['decision']['PERFECT_CUBOID_EMERGENCY'] is False
+          print('Stage14-num-alpha9 frozen B300m replay: PASS')
+          PY
