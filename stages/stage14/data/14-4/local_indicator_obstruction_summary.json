@@ -1,0 +1,69 @@
+{
+  "stage": "14-4au",
+  "classification": "FULL_LOCAL_INDICATOR_EXPANDED_AND_RECIPROCAL_OFF_DIAGONAL_OBSTRUCTION_ISOLATED",
+  "support_count_interface": {
+    "five_factors": ["m", "n", "m-n", "m+n", "m^2+n^2"],
+    "odd_support_pairwise_disjoint": true,
+    "selected_labels": {
+      "m,n": "13",
+      "m-n,m+n": "12",
+      "m^2+n^2": "23"
+    },
+    "q2_exact_state_count": 8,
+    "N_loc_F": "sum over nontrivial descent states xi of L_F(xi)",
+    "base_indicator_identity": "s(F)=1_{N_loc(F)>=1}",
+    "nonnegative_upper_bound": "s(F)<=N_loc(F)",
+    "state_count_bound": "8*2^omega(P_F)",
+    "P_F": "rad_odd(m*n*(m-n)*(m+n)*(m^2+n^2))",
+    "P_F_size_on_height_B": "O(B^3)",
+    "support_multiplicity_scale": "B^o(1)"
+  },
+  "boolean_fourier_interface": {
+    "odd_row_form": "finite Boolean polynomial in quadratic-character bits",
+    "fixed_support_expansion": "L_F(xi)=1_Q2 * sum_omega c_{xi,omega} X_{xi,omega}(F)",
+    "coefficient_bound": "|c_{xi,omega}|<=1",
+    "constant_mode": "diagonal/main contribution",
+    "nonconstant_modes": "products of off-diagonal Jacobi symbols (u_i/u_j), i!=j, plus explicit mod-4 bits",
+    "reciprocity_source": "Stage14-s5b/s5c/s5d"
+  },
+  "dyadic_nonnegative_conversion": {
+    "exact_support_sum_split": "sum_F W(F)N_loc(F)=D_loc+sum_{omega!=0} B_omega",
+    "rigorous_upper_bound": "S_W<=D_loc+sum_{omega!=0}|B_omega|",
+    "transfer_contract": {
+      "diagonal": "D_loc<=rho_diag*A_W+E_diag",
+      "reciprocal": "sum|B_omega|<=E_rec",
+      "local_input": "rho_loc=rho_diag; E_loc=E_diag+E_rec"
+    },
+    "independence_assumption": false
+  },
+  "representative_obstruction": {
+    "shape": "sum_{m~M,n~N} w_mn sum_{u|rad(F_i),u~U} sum_{v|rad(F_j),v~V} a_{u;mn} b_{v;mn} (u/v), i!=j",
+    "correlation": "u and v divide two columns of the same polynomial tuple; coefficients retain complementary divisor pieces, remaining local rows, and Q2 state",
+    "free_coefficient_quadratic_large_sieve_directly_applicable": false,
+    "s5g_prime_level_second_moment_sufficient": false,
+    "sufficient_target": "each nonconstant block << (MN)^(1-eta_rec+o(1)) uniformly with summable B^o(1) losses",
+    "target_proved": false
+  },
+  "q_budget_boundary": {
+    "stage14_4at_benchmark_Q": "B^(1/4-eta)",
+    "Q4_is_second_moment_cost_not_E_loc": true,
+    "first_gap_refined_to": "RECIPROCAL_DIVISOR_OFF_DIAGONAL_BILINEAR_BOUND"
+  },
+  "decision": {
+    "STAGE14_4AU": "FULL_LOCAL_INDICATOR_EXPANDED_AND_RECIPROCAL_OFF_DIAGONAL_OBSTRUCTION_ISOLATED",
+    "BASE_EXISTENCE_TO_NONNEGATIVE_SUPPORT_COUNT": true,
+    "SUPPORT_MULTIPLICITY_B_TO_O1": true,
+    "ALL_ODD_ROWS_BOOLEAN_CHARACTER_POLYNOMIALS": true,
+    "FULL_FIXED_SUPPORT_FOURIER_EXPANSION_FORMULATED": true,
+    "CONSTANT_MODE_VS_RECIPROCAL_OFF_DIAGONAL_SPLIT": true,
+    "LOCAL_RHO_E_TRANSFER_FROM_DIAGONAL_AND_RECIPROCAL_BOUNDS": true,
+    "S5G_PRIME_LEVEL_SECOND_MOMENT_CONTROLS_FULL_INDICATOR": false,
+    "RECIPROCAL_DIVISOR_BILINEAR_BOUND_PROVED": false,
+    "EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED": false,
+    "EXPLICIT_E_LOC_PROVED": false,
+    "POSITIVE_GLOBAL_SAVING_EXPONENT_PROVED": false,
+    "POSITIVE_HEIGHT_SAVING_EXPONENT_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4av dyadically factor the reciprocal-divisor blocks into quadratic-character bilinear forms with controlled correlated coefficients, then prove a first uniform block estimate or identify the remaining coefficient-correlation obstruction"
+  }
+}
