@@ -1,0 +1,20 @@
+name: Stage13-13fm principal pole sector closure
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fm/**'
+      - 'stages/stage13/scripts/13-13fm/**'
+      - '.github/workflows/stage13-13fm-principal-pole-sector.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run principal-pole-sector audit
+        run: python stages/stage13/scripts/13-13fm/principal_pole_sector_audit.py
