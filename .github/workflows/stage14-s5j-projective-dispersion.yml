@@ -1,0 +1,27 @@
+name: Stage14-s5j projective dispersion audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5j/**'
+      - 'stages/stage14/scripts/14-s5j/**'
+      - '.github/workflows/stage14-s5j-projective-dispersion.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run projective dispersion audit
+        run: python3 stages/stage14/scripts/14-s5j/projective_dispersion_audit.py | tee /tmp/s5j.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5J=COMPLETE_PROJECTIVE_COLLISION_REDUCTION_AND_SPARSE_LINEAR_L2_BOUND$' /tmp/s5j.txt
+          grep -q '^LINEAR_COLLISION_DIVIDES_DETERMINANT=true$' /tmp/s5j.txt
+          grep -q '^SPARSE_LINEAR_L2_DISPERSION=O_epsilon(N\*B\^epsilon)$' /tmp/s5j.txt
+          grep -q '^MEDIUM_RANGE_L2_DISPERSION_PROVED=false$' /tmp/s5j.txt
+          grep -q '^FULL_STATE_SPLIT_E_SPARSE_REGIME_CLOSED=false$' /tmp/s5j.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5j.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5j.txt
+          grep -q '^NEXT=Stage14-s5k$' /tmp/s5j.txt
