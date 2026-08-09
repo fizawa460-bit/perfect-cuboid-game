@@ -68,6 +68,8 @@ MASTER_LOCKS = [
     "Open Stage14-4bk is intentionally not used as canonical provenance",
 ]
 
+CODE = re.compile(r"^Stage14-toolbox-([a-z]{2})$")
+
 
 def fail(msg: str) -> None:
     raise AssertionError(msg)
@@ -77,10 +79,14 @@ def main() -> None:
     data = json.loads(INDEX.read_text())
     cards = {c["id"]: c for c in data["cards"]}
 
-    if data.get("next_stage") != "Stage14-toolbox-ac":
-        fail("toolbox next_stage must be Stage14-toolbox-ac")
-    if data.get("next_theme") != "current exponent and saving ledger":
-        fail("toolbox next_theme mismatch")
+    # Forward-compatible: ab established the dictionary and originally handed
+    # off to ac, but later toolbox stages must be allowed to advance the index.
+    next_stage = data.get("next_stage", "")
+    match = CODE.fullmatch(next_stage)
+    if not match or match.group(1) < "ac":
+        fail(f"toolbox next_stage must be ac or later, got {next_stage!r}")
+    if not str(data.get("next_theme", "")).strip():
+        fail("toolbox next_theme must remain nonempty")
 
     for card_id, expected in EXPECTED.items():
         if card_id not in cards:
