@@ -1,0 +1,46 @@
+name: Stage14-4bl dual half-angle critical square
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bl/**'
+      - 'stages/stage14/data/14-4/dual_half_angle_critical_square_summary.json'
+      - 'stages/stage14/scripts/14-4/dual_half_angle_critical_square_audit.py'
+      - '.github/workflows/stage14-4bl-dual-half-angle-critical-square.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/dual_half_angle_critical_square_audit.py
+      - name: Run deterministic physical-edge audit
+        run: python stages/stage14/scripts/14-4/dual_half_angle_critical_square_audit.py | tee /tmp/4bl.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^ORDERED_PHYSICAL_INCIDENCES=124$' /tmp/4bl.txt
+          grep -q '^DUAL_HALF_ANGLE_SELECTOR_AUDIT=true$' /tmp/4bl.txt
+          grep -q '^DUAL_PRODUCT_IDENTITY_AUDIT=true$' /tmp/4bl.txt
+          grep -q '^DUAL_CANCELLATION_SQUARE_AUDIT=true$' /tmp/4bl.txt
+          grep -q '^DUAL_GOOD_ROOT_SIGN_AUDIT=true$' /tmp/4bl.txt
+          grep -q '^OPTIMAL_BETA_20_21_LEDGER_AUDIT=true$' /tmp/4bl.txt
+          grep -q '^SECTORAL_SAVING_1_42_LEDGER_AUDIT=true$' /tmp/4bl.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/4bl.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BL=DUAL_COMPACT_HALF_ANGLE_CRITICAL_SQUARE_REDUCTION' stages/stage14/14-4bl/result.md
+          grep -q 'DUAL_PRODUCT_IDENTITY=Q\*K=X2/kappa' stages/stage14/14-4bl/result.md
+          grep -q 'OPTIMAL_PARTNER_LEG_SPLIT_EXPONENT=20/21' stages/stage14/14-4bl/result.md
+          grep -q 'SMALL_PARTNER_LEG_SECTOR_SAVING_VS_41_42=1/42' stages/stage14/14-4bl/result.md
+          grep -q 'CRITICAL_DUAL_DENOMINATOR_OR_CANCELLATION_SCALE=10/21' stages/stage14/14-4bl/result.md
+          grep -q 'JOINT_DUAL_SELECTOR_INCIDENCE_THEOREM_PROVED=false' stages/stage14/14-4bl/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bl/result.md
+          grep -q 'NEXT=Stage14-4bm' stages/stage14/14-4bl/result.md
