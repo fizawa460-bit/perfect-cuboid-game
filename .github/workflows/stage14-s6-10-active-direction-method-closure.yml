@@ -1,0 +1,44 @@
+name: Stage14-s6-10 active-direction method closure audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s6-10/**'
+      - 'stages/stage14/scripts/14-s6-10/**'
+      - '.github/workflows/stage14-s6-10-active-direction-method-closure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s6-10/active_direction_method_closure_audit.py
+      - name: Run predecessor s6-09 audit
+        run: python stages/stage14/scripts/14-s6-09/fixed_direction_kernel_energy_transfer_audit.py
+      - name: Run s6-10 deterministic audit
+        run: python stages/stage14/scripts/14-s6-10/active_direction_method_closure_audit.py | tee /tmp/s6-10.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^MERGED_S6_09_BOUNDARY_AUDIT=true$' /tmp/s6-10.txt
+          grep -q '^MERGED_4BM_BOUNDARY_AUDIT=true$' /tmp/s6-10.txt
+          grep -q '^UNIVERSAL_BOUNDARY_RATIONAL_ANCHOR_AUDIT=true$' /tmp/s6-10.txt
+          grep -q '^ACTIVE_DIRECTION_EDGE_INEQUALITY_AUDIT=true$' /tmp/s6-10.txt
+          grep -q '^MATCHING_OBSTRUCTION_AUDIT=true$' /tmp/s6-10.txt
+          grep -q '^S6_10_EXPONENT_LEDGER_AUDIT=true$' /tmp/s6-10.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s6-10.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S6_10=COMPLETE_ACTIVE_DIRECTION_OBSTRUCTION_AND_S6_METHOD_CLOSURE' stages/stage14/14-s6-10/result.md
+          grep -q 'UNIVERSAL_BOUNDARY_RATIONAL_ANCHOR=true' stages/stage14/14-s6-10/result.md
+          grep -q 'FIXED_FIBER_MULTIPLICITY_AT_POWER_SCALE_FLOOR=true' stages/stage14/14-s6-10/result.md
+          grep -q 'ACTIVE_DIRECTION_SAVING_TO_REACH_CROSS_CEILING=1/126' stages/stage14/14-s6-10/result.md
+          grep -q 'S6_METHOD_CLOSED=true' stages/stage14/14-s6-10/result.md
+          grep -q 'NEXT=Stage14-s7-00' stages/stage14/14-s6-10/result.md
