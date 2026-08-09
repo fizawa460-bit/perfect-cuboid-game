@@ -1,0 +1,74 @@
+{
+  "stage": "Stage14-tH2",
+  "status": "COMPLETE_DIVISOR_COUPLED_GAUSSIAN_NORM_HYPERBOLA_ENGINE",
+  "minimum_frozen_t_input": "Stage14-t32",
+  "requires_future_t_result": false,
+  "exact_reparameterization": {
+    "g": "gcd(k,epsilon)",
+    "h": "k/g",
+    "r": "m/h",
+    "inverse_m": "h*r",
+    "inverse_k": "g*h",
+    "g_divides_epsilon": true,
+    "coprimality": "gcd(h,epsilon/g)=1",
+    "transformed_budget": "h*r*delta<=Y",
+    "u_norm": "h*r",
+    "v_norm": "g*h*delta",
+    "shared_norm_factor": "h"
+  },
+  "hyperbola": {
+    "fixed_gh_T": "Y/h",
+    "r_threshold": "sqrt(g*Y/h)",
+    "delta_threshold": "sqrt(Y/(g*h))",
+    "balance_norm_scale": "sqrt(g*h*Y)",
+    "exact_two_arm_identity": true,
+    "every_point_has_one_short_norm": true,
+    "sharp_cutoff_retained": true,
+    "rectangularized_without_error": false
+  },
+  "dyadic": {
+    "block_variables": ["epsilon", "g", "H", "R", "D"],
+    "active_block_condition": "H*R*D<=Y",
+    "full_box_product_upper_factor": 8,
+    "u_norm_scale": "H*R",
+    "v_norm_scale": "g*H*D",
+    "balance_ratio": "R/(g*D)",
+    "block_count_power_loss": false
+  },
+  "multiplicity": {
+    "r2_bound": "r2(n)<=4*tau(n)",
+    "unsieved_mass": "Y^(1+eta)",
+    "fixed_power_loss": false,
+    "coefficient_collision_energy_closed": false
+  },
+  "audit": {
+    "epsilon_states": [1, 2, 3, 4, 6, 8, 12],
+    "Y": 256,
+    "original_tuple_count": 82740,
+    "transformed_tuple_count": 82740,
+    "unique_transformed_tuple_count": 82740,
+    "bijection_failures": 0,
+    "r_arm_memberships": 59711,
+    "delta_arm_memberships": 39848,
+    "overlap_memberships": 16819,
+    "inclusion_exclusion_total": 82740,
+    "hyperbola_cover_failures": 0,
+    "active_dyadic_blocks": 3114,
+    "max_full_box_product_over_Y": 8,
+    "max_u_norm": 256,
+    "max_v_norm": 3072,
+    "exact_gaussian_representation_pair_mass": 926416,
+    "r2_product_bound_violations": 0
+  },
+  "proof_boundary": {
+    "divisor_reparameterization_bijection_proved": true,
+    "exact_summation_identity_proved": true,
+    "exact_balanced_hyperbola_identity_proved": true,
+    "all_character_mellin_hecke_large_sieve_proved": false,
+    "norm_index_hyperbolic_correlation_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "next": "Stage14-tH3"
+}
