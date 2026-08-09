@@ -1,0 +1,36 @@
+name: Stage14-4bc auxiliary uniformity and E top strip
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bc/**'
+      - 'stages/stage14/data/14-4/aux_uniform_e_top_strip_summary.json'
+      - 'stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit.py'
+      - '.github/workflows/stage14-4bc-aux-uniform-e-top-strip.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit.py
+      - name: Check boundary flags
+        run: |
+          grep -q 'S5P_AUXILIARY_UNIFORMITY_IMPORTED=true' stages/stage14/14-4bc/result.md
+          grep -q 'AUXILIARY_INCIDENCE_UNIFORMITY_PROVED=true' stages/stage14/14-4bc/result.md
+          grep -q 'SPLIT_E_INTERNAL_RECIPROCAL_EDGE=false' stages/stage14/14-4bc/result.md
+          grep -q 'WHOLE_E_SPLIT_EDGE_TRANSFER_EXACT=true' stages/stage14/14-4bc/result.md
+          grep -q 'K5_SEPARABLE_E_GRAPH_BULK_ASSEMBLED=true' stages/stage14/14-4bc/result.md
+          grep -q 'BALANCED_SPLIT_E_TOP_STRIP_TENSOR_PROVED=false' stages/stage14/14-4bc/result.md
+          grep -q 'CONDITIONAL_RECIPROCAL_EXPONENT_FORMULA=min(1/200,delta_top)' stages/stage14/14-4bc/result.md
+          grep -q 'NEXT=Stage14-4bd' stages/stage14/14-4bc/result.md
