@@ -1,0 +1,37 @@
+name: Stage14-4bd root sawtooth mixed Burgess audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bd/**'
+      - 'stages/stage14/data/14-4/root_sawtooth_mixed_burgess_summary.json'
+      - 'stages/stage14/scripts/14-4/root_sawtooth_mixed_burgess_audit.py'
+      - '.github/workflows/stage14-4bd-root-sawtooth-mixed-burgess.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile deterministic audit
+        run: python -m py_compile stages/stage14/scripts/14-4/root_sawtooth_mixed_burgess_audit.py
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/root_sawtooth_mixed_burgess_audit.py
+      - name: Check theorem boundary flags
+        run: |
+          grep -Fq 'E_WALSH_SMALL_SIDE_ORIENTATION_EXACT=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'HANDOFF_FORCES_ALPHA_GT_99_OVER_200=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'KERR_SQUAREFREE_MIXED_THEOREM_IMPORTED=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'ROOT_SAWTOOTH_HANDOFF_BAND_CLOSED=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'ROOT_SAWTOOTH_SAVING_EXPONENT=1/100' stages/stage14/14-4bd/result.md
+          grep -Fq 'COMPLETE_POSITIVE_RECIPROCAL_EXPONENT_PROVED=true' stages/stage14/14-4bd/result.md
+          grep -Fq 'COMPLETE_RECIPROCAL_SAVING_EXPONENT_M_SCALE=1/200' stages/stage14/14-4bd/result.md
+          grep -Fq 'EXPLICIT_NONTRIVIAL_RHO_LOC_PROVED=false' stages/stage14/14-4bd/result.md
+          grep -Fq 'NEXT=Stage14-4be' stages/stage14/14-4bd/result.md
