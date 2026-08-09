@@ -63,7 +63,7 @@ no pole at s=1 for the nonzero angular family
 required fixed-strip / conductor growth
 ```
 
-This external-boundary objection may in principle be closed by a primary-source audit if the cited theorems exactly imply the proof-facing contract.
+This external-boundary objection may be closed by a primary-source audit if the cited theorems exactly imply the proof-facing contract; otherwise the proof route must be repaired.
 
 ## Unresolved theorem-level objection 2 — Qwen geometric normalization identity
 
@@ -77,7 +77,13 @@ is asserted in the R05 canonical proof without an analytic derivation. The deter
 
 That change is substantive. R05 is immutable, so this repair cannot be made in R05 and requires a new R06 (or later) bundle.
 
-## R06 repair ledger
+## R06 repair plan
+
+The active repair plan is:
+
+```text
+stages/stage13/13-13fj/r06-repair-plan.md
+```
 
 Mandatory:
 
@@ -108,6 +114,7 @@ CLAUDE_H1_H2_PRIMARY_SOURCE_VERIFICATION_REQUIRED=true
 QWEN_SUM_IQ_ANALYTIC_DERIVATION_REQUIRED=true
 R05_SUBSTANTIVE_REPAIR_REQUIRED=true
 R06_REQUIRED=true
+R06_FRESH_EXTERNAL_REVIEW_REQUIRED=true
 R05_IMMUTABLE=true
 THEOREM_CHANGED=false
 THEOREM_CONTRACT_REOPEN_REQUIRED=false
