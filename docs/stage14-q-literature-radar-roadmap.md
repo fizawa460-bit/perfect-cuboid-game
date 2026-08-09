@@ -8,58 +8,52 @@ This track continues the role previously played by PR #185 (`agent/stage14-liter
 
 ## Operating principle
 
-Do not search the literature continuously and broadly. Search when the active proof tracks expose a concrete bottleneck, then perform a focused pass against that bottleneck. A useful Stage14-q result must end in one of four states:
+Do not search continuously and broadly. Search when an active proof track exposes a concrete bottleneck, then perform a focused pass against that bottleneck.
+
+A useful Stage14-q result must end in one of four states:
 
 - `DIRECT`: theorem/data can be imported essentially as stated after checking hypotheses.
 - `NEAR`: a proof architecture or lemma has a concrete Stage14 transfer test.
 - `BACKGROUND`: conceptually relevant but not currently actionable.
 - `BLOCKED`: tempting lead fails a named hypothesis or geometry/arithmetic compatibility condition.
 
-Never promote a citation merely because its vocabulary resembles Stage14. Record exact theorem/lemma numbers, hypotheses, variables, losses, field-of-definition conditions, and the precise Stage14 object to which it would be applied.
+Never promote a citation merely because its vocabulary resembles Stage14. Record exact hypotheses, variables, losses, field-of-definition conditions, and the precise Stage14 object to which it would be applied.
 
-## Current frontier (2026-08-09, after q2--q6)
+## Current frontier (2026-08-09, after q1--q7)
 
 `Stage14-q2` narrowed the local analytic problem from an arbitrary Euclid-correlated matrix to explicit discrepancy/covariance terms and identified direct Jacobi-bilinear subroutines after genuine separation.
 
-`Stage14-q3` audited the first-small-point height literature against the actual Stage14 family. Petsche/Naccarato remain useful fixed-fiber tools, while the strongest family-transfer architecture is Le Boudec's large-prime-factor plus complete-2-descent strategy rebuilt on the five Euclid factors.
+`Stage14-q3` audited the first-small-point height literature against the actual Stage14 family. Petsche/Naccarato remain fixed-fiber tools; the strongest family-transfer architecture remains Le Boudec's large-prime-factor plus complete-2-descent strategy rebuilt on the five Euclid factors.
 
-`Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem. Draft `t21` has since sharpened the immediate obstruction further: fixed split partition and reduced direction/scale are explicitly parameterized, but the coarse bound is insufficient, so the required saving now sits in simultaneous two-face completion counts along generalized-Pell/norm-type directions. Square/polynomial sieve remains conditional if t22 exposes a compatible polynomial square-value formulation.
+`Stage14-q4` reinterpreted the t-track squareclass collision energy as a square-value/polynomial-sieve problem. The later t21/t22 chain now sharpens the live target further: fixed reduced directions have an explicit elliptic quotient and all-scale multiplicity `B^o(1)`, so the remaining power saving must come from the active-direction second moment, not fixed-direction multiplicity.
 
 `Stage14-q5` confirmed that the decisive Shimada level-4 modular K3 package has already been consumed for the fixed `M`-degree-4 route. The required NS parity coset is empty, so broad K3/root searches are closed unless a genuinely new geometric trigger appears.
 
-`Stage14-q6` converts these results into an active routing contract. `Stage14-s5k` is merged, so `Stage14-4ay` must import its six-linear medium-dispersion theorem rather than independently re-proving it. The s/main analytic lanes should converge on microscopic modes and the state-split `m^2+n^2` mixed-sign `D*S` kernel. The t-route is now routed first to an explicit t22 generalized-Pell/simultaneous-completion formulation, with square/polynomial sieve retained conditionally; the height gate is routed to a Le Boudec-style large-prime + exact Stage14 2-descent transfer test. `num6` keeps its B150m bootstrap scope, with q6 diagnostics assigned only after the exact append is frozen.
+`Stage14-q6` converted the literature shelf into an active routing contract: import merged s5k rather than duplicate the six-linear determinant theorem; route the height gate to a Le-Boudec-style large-prime + exact 2-descent transfer; keep square/polynomial sieve conditional on the actual t active-direction geometry; and preserve num as diagnostics rather than theorem replacement.
 
-The next scheduled radar task is `Stage14-q7`, the negative-results archive and durable anti-regression ledger.
+`Stage14-q7` freezes the negative knowledge behind those decisions. It also incorporates the merged s5l/t22 updates: the central six-linear dyadic obstruction and sparse norm-root obstruction are no longer live, while medium signed-root dispersion, linear boundary switching, height frequency, and active-direction second moment remain possible future literature triggers.
+
+There is **no automatic Stage14-q8 task**. From here onward, q-stages are trigger-driven only.
 
 ## Roadmap
 
 ### Stage14-q1 — Reconstruct the literature ledger
 
-Recover and normalize the useful results from PR #185 and related literature notes. Build one ledger keyed by active Stage14 bottleneck, with `DIRECT / NEAR / BACKGROUND / BLOCKED`, exact source identifiers, theorem/lemma numbers, hypotheses, and the last date checked. Preserve negative results so later agents do not repeat failed searches.
-
 Result: `docs/stage14-q1-literature-ledger.md`.
 
 ### Stage14-q2 — Correlated bilinear / quadratic-large-sieve pass
-
-Target the common `14-4` / `14-s` obstruction. Search specifically for results that tolerate or exploit coefficients correlated through Pythagorean/Euclidean parametrization, reciprocal divisors, quadratic characters, or congruence-root structure.
 
 Result: `docs/stage14-q2-correlated-bilinear-literature.md`.
 
 ### Stage14-q3 — Small-point / first-point height pass
 
-Refresh the Petsche / Naccarato / Le Boudec line against the actual Stage14 discriminant, conductor, Szpiro ratio, and exact 2-descent interface.
-
 Result: `docs/stage14-q3-small-point-height-literature.md`.
 
 ### Stage14-q4 — Squareclass / Selmer collision pass
 
-Search for methods matching the explicit t-track global squareclass collision target, with square/polynomial sieve, thin sets, Hilbert irreducibility, square-value problems, branched covers, and Selmer machinery compared against the exact collision object.
-
 Result: `docs/stage14-q4-squareclass-collision-literature.md`.
 
 ### Stage14-q5 — K3 / lattice computational refresh
-
-Audit whether the Shimada computational package has been fully consumed by `14-4`, and distinguish genuinely unused geometric weapons from data rendered unnecessary by an earlier obstruction.
 
 Result: `docs/stage14-q5-shimada-k3-lattice-refresh.md`.
 
@@ -75,19 +69,14 @@ NEW_DIRECT_K3_LATTICE_WEAPON_FOR_CURRENT_FRONTIER=false
 
 ### Stage14-q6 — Cross-track weapon test
 
-Compare all `DIRECT`, `NEAR`, reserve, and completed-negative weapons against the current frontiers of `14-4`, `14-s`, `14-t`, and numerical/fingerprint tracks. Record explicit handoffs, dependency gates, anti-duplication rules, stop rules, and concrete triggers for reopening literature search.
-
 Result: `docs/stage14-q6-cross-track-weapon-routing.md`.
 
 Key decisions:
 
 ```text
 STAGE14_Q6=COMPLETE_CROSS_TRACK_WEAPON_ROUTING
-Q2_TO_S_AND_MAIN_ROUTING_LOCKED=true
 S5K_MERGED_AND_MAIN_IMPORT_REQUIRED=true
 Q3_HEIGHT_HANDOFF_LOCKED=true
-Q4_T_ROUTE_UPDATED_FOR_T21_DIRECTION_SCALE_REDUCTION=true
-T22_GENERALIZED_PELL_COMPLETION_SEARCH_FAMILY_PRIMARY=true
 Q5_K3_REOPEN_RULE_LOCKED=true
 S5K_TO_4AY_ANTI_DUPLICATION_GATE=true
 NUM6_POST_BOOTSTRAP_DIAGNOSTIC_HANDOFF_DEFINED=true
@@ -95,21 +84,56 @@ NUM6_POST_BOOTSTRAP_DIAGNOSTIC_HANDOFF_DEFINED=true
 
 ### Stage14-q7 — Negative-results archive
 
-Maintain a compact archive of attractive but invalid transfers: wrong height, wrong field, fixed-twist versus non-isotrivial family, independent versus correlated coefficients, geometric existence versus `Q`-rational classification, local obstruction versus global collision, already-closed geometric mechanisms, and superseded intermediate formulations.
+Result: `docs/stage14-q7-negative-results-archive.md`.
 
-The archive should state the exact condition under which each negative decision can be reopened. This is part of the mathematical result, not failed work.
+Key decisions:
 
-### Stage14-q8+ — Periodic focused radar passes
+```text
+STAGE14_Q7=COMPLETE_NEGATIVE_RESULTS_ARCHIVE
+ARBITRARY_MATRIX_LARGE_SIEVE_REOPEN=false
+SIX_LINEAR_SPECTRAL_ESCALATION_REOPEN=false
+SIX_LINEAR_CENTRAL_DYADIC_OBSTRUCTION_SUPERSEDED=true
+NORM_SPARSE_D_S_OBSTRUCTION_SUPERSEDED=true
+NORM_MEDIUM_SIGNED_ROOT_REOPEN_CONDITIONAL=true
+PETSche_AS_FAMILY_POWER_SAVING=false
+NACCARATO_OR_DUJELLA_FIXED_FIBER_MULTIPLICITY_AS_FAMILY_FREQUENCY=false
+AMBIENT_LANG_DIRECT_TRANSFER=false
+FIXED_PRIME_T_LOCAL_SAVING=false
+T19_EXACTLY_TWO_COLLISION_FORMULATION_SUPERSEDED=true
+T21_COARSE_BOUND_AS_POWER_SAVING=false
+T22_FIXED_DIRECTION_MULTIPLICITY_AS_ACTIVE_DIRECTION_SAVING=false
+FIXED_M4_K3_ROUTE_REOPEN=false
+FINITE_ZERO_TRIPLE_NONEXISTENCE_INFERENCE=false
+LOCAL_GLOBAL_HEIGHT_INDEPENDENCE_ASSUMPTION=false
+TRIGGER_DRIVEN_Q8_PLUS_ONLY=true
+```
 
-After q1--q7, do not manufacture a fixed endless sequence. Open the next q-stage only when an active Stage14 route reports a stable named obstruction or when a materially new paper/data set appears. Each new pass must state at its top:
+### Stage14-q8+ — Trigger-driven focused radar passes only
 
-- `TRIGGER_STAGE`
-- `EXACT_OBSTRUCTION`
-- `SEARCH_FAMILIES`
-- `LAST_RADAR_BASELINE`
-- `PROMOTION_STANDARD`
+After q7, do not manufacture a fixed endless sequence and do not perform broad periodic searches merely because another q-number is available.
 
-This keeps literature work coupled to the proof rather than becoming an unbounded bibliography project.
+Open a new q-stage only when an active Stage14 route reports a stable named obstruction or when a materially new paper/data set directly matches one of those obstructions.
+
+Every q8+ stage must state at its top:
+
+```text
+TRIGGER_STAGE=
+EXACT_OBSTRUCTION=
+CURRENT_BEST_BOUND=
+WHY_EXISTING_Q_LEDGER_DOES_NOT_ALREADY_ANSWER_IT=
+SEARCH_FAMILIES=
+LAST_RADAR_BASELINE=Stage14-q7
+PROMOTION_STANDARD=
+```
+
+Legitimate triggers include:
+
+- a surviving medium `m^2+n^2` signed-root estimate after elementary root-pattern reduction;
+- a named complementary-divisor/Fourier-state rewriting failure in the linear boundary strips;
+- a precise obstruction in the Le-Boudec-style five-factor height transfer;
+- an explicit active generalized-Pell/elliptic-direction second-moment obstruction from t23+;
+- a genuinely new K3 fibration/divisor/orbit problem not equivalent to the consumed fixed-M4 route;
+- a reproducible numerical structural anomaly first formulated as a theorem-level mathematical question.
 
 ## Handoff discipline
 
@@ -126,4 +150,8 @@ If any critical hypothesis is unknown, classify the lead as `NEAR`, not `DIRECT`
 
 ## Immediate next task
 
-Start **Stage14-q7**: consolidate every important failed, blocked, consumed, or superseded transfer from q1--q6 into a durable negative-results archive. For each item, record why it failed, what false inference it prevents, and the exact future trigger required before anyone is allowed to reopen it.
+```text
+NEXT_Q_STAGE=NONE_UNTIL_EXPLICIT_TRIGGER
+```
+
+The q-route is now parked. Continue the active proof/numerical tracks and reopen literature radar only when one of them exposes a stable obstruction not already covered by q1--q7.
