@@ -14,6 +14,7 @@ Count and explain primitive canonical exactly-two-face cuboids with integer spac
 - `14-4am`: exact activation factorization `A -> Sigma -> R -> V` and complete `H<=20k` rank/Selmer census.
 - `14-4an`: compress selected-prime rows, import s5d unselected rows, and close the **entire odd-prime local character matrix**; identify its exact gate reach.
 - `14-4ao`: import the exact eight-state `Q_2` image, close the full local matrix, quantify the finite `A -> Sigma` gate, and formulate the height-weighted descent count.
+- `14-4ap`: import the s5g centering obstruction, delimit local character-sum reach, and formulate the conditional three-retainer transfer.
 
 ## Locked geometry
 
@@ -117,9 +118,17 @@ The locked height-weighted count retains local admissibility, global solubility/
 
 ## 14-4ap — family character sum with global/height coupling
 
+Status: [x] Complete.
+
+Merged s5g forces exact local mean subtraction: the uncentered character-sum target has local resonances. Even a centered family estimate controls only `Sigma/A`; it does not determine global solubility/Sha or the s3 first-small-point window.
+
+For retainers `Sigma/A`, `R/Sigma`, and `H/R`, conditional exponents add. A square-root upper-bound scale requires total saving at least `1/2`. No individual uniform retainer estimate is proved.
+
+## 14-4aq — global-solubility/Sha retainer
+
 Status: [>] Next.
 
-Prove or sharply delimit a moving character-sum estimate over primitive opposite-parity Euclid pairs, but preserve both the global-solubility gate and the s3 physical height window. A local Selmer-density estimate alone is not sufficient.
+Isolate the global-solubility/Sha retainer `R/Sigma` and formulate a uniform averaging target compatible with the centered local sieve. Keep the s3 first-small-point retainer separate; do not infer global solubility from local character cancellation.
 
 ## Parallel arithmetic track
 
@@ -146,5 +155,6 @@ A future raw-pair law cannot transfer to exactly-two until sufficiently strong t
 No true Stage14 growth exponent, leading constant, family large-sieve theorem, uniform first-small-point lower-tail theorem, perfect-cuboid nonexistence theorem, or `T=o(sqrt(B))` theorem is established.
 
 ```text
-NEXT=Stage14-4ap family character-sum estimate coupled to global solubility and the s3 height window
+NEXT=Stage14-4aq isolate the global-solubility/Sha retainer and formulate a uniform averaging target compatible with the centered local sieve
 ```
+
