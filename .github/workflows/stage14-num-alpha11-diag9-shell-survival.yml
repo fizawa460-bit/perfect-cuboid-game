@@ -20,13 +20,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Run shell survival and bridge decomposition
+      - name: Recompute shell survival and bridge decomposition
         run: python stages/stage14/scripts/14-num-alpha11-diag9/shell_survival_bridge.py > /tmp/diag9.json
-      - name: Validate diagnostic boundaries
+      - name: Verify frozen diag9 summary
         run: |
           python - <<'PY'
-          import json
+          import json, math
           x=json.load(open('/tmp/diag9.json'))
+          f=json.load(open('stages/stage14/data/14-num-alpha11-diag9/shell_survival_summary.json'))
           d=x['decision']
           assert d['SHELL_DECOMPOSITION_COMPLETE'] is True
           assert d['RAW_SOURCE_SHELL_PROPORTION_STABLE_AT_PERCENT_SCALE'] is True
@@ -35,27 +36,34 @@ jobs:
           assert d['SHELL_N2_SMALL_ENOUGH_THAT_SAMPLING_NOISE_REMAINS_A_MAJOR_ALTERNATIVE'] is True
           assert d['ASYMPTOTIC_SECOND_FACE_SURVIVAL_PROFILE_CLAIM'] is False
           assert d['ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM'] is False
-          assert len(x['shells'])==7
-          assert x['shells'][1]['pair_a_b_c']==[9,17,1]
-          assert x['shells'][-1]['pair_a_b_c']==[13,7,7]
-          assert x['shell_volatility_unweighted']['survival_to_source_RMS_ratio'] > 20
+          assert len(x['shells'])==len(f['shells'])==7
+          for a,b in zip(x['shells'], f['shells']):
+              assert (a['lo'],a['hi'],a['N2'])==(b['lo'],b['hi'],b['N2'])
+              assert a['pair_a_b_c']==b['pair']
+              for u,v in zip(a['survival_relative_to_bc'], b['survival_rel_bc']):
+                  assert math.isclose(u,v,rel_tol=0,abs_tol=1e-15)
+          for key in ('actual_endpoint_shell_RMS','source_only_counterfactual_shell_RMS','survival_only_counterfactual_shell_RMS','survival_to_source_RMS_ratio'):
+              assert math.isclose(x['shell_volatility_unweighted'][key],f['shell_volatility_unweighted'][key],rel_tol=0,abs_tol=1e-15)
+              assert math.isclose(x['shell_volatility_N2_weighted'][key],f['shell_volatility_N2_weighted'][key],rel_tol=0,abs_tol=1e-15)
           PY
+      - name: Check result boundary locks
+        run: |
+          grep -q 'STAGE14_NUM_ALPHA11_DIAG9=SHELL_SECOND_FACE_SURVIVAL_DRIFT_AND_BRIDGE_RESIDUAL_COMPLETE' stages/stage14/14-num-alpha11-diag9/result.md
+          grep -q 'UNWEIGHTED_SURVIVAL_TO_SOURCE_RMS_RATIO=27.888062705291098' stages/stage14/14-num-alpha11-diag9/result.md
+          grep -q 'N2_WEIGHTED_SURVIVAL_TO_SOURCE_RMS_RATIO=22.673066726410056' stages/stage14/14-num-alpha11-diag9/result.md
+          grep -q 'ARITHMETIC_SHELL_HETEROGENEITY_PROVED=false' stages/stage14/14-num-alpha11-diag9/result.md
+          grep -q 'ASYMPTOTIC_TWO_FACE_DIRECTION_LAW_CLAIM=false' stages/stage14/14-num-alpha11-diag9/result.md
       - name: Print compact diag9 summary
         run: |
           python - <<'PY'
           import json
           x=json.load(open('/tmp/diag9.json'))
-          print('DIAG9_SUMMARY_BEGIN')
+          print('DIAG9_FINAL_SUMMARY_BEGIN')
           print(json.dumps({
             'shells':[{k:s[k] for k in ('lo','hi','N2','raw_proportion','pair_a_b_c','pair_proportion','survival_relative_to_bc','endpoint_L1_to_4_3_3','source_only_L1_to_4_3_3','survival_only_L1_to_4_3_3')} for s in x['shells']],
             'volatility':x['shell_volatility_unweighted'],
             'weighted_volatility':x['shell_volatility_N2_weighted'],
             'decision':x['decision'],
           },indent=2))
-          print('DIAG9_SUMMARY_END')
+          print('DIAG9_FINAL_SUMMARY_END')
           PY
-      - name: Upload diag9 report
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage14-num-alpha11-diag9-report
-          path: /tmp/diag9.json
