@@ -1,57 +1,57 @@
 # Stage14-num-α8 — exact segmented alpha scaleout beyond B150m
 
-> STATUS: `STAGE14_NUM_ALPHA8=PENDING_GITHUB_ACTIONS_FINAL_LOCK`
+> STATUS: `STAGE14_NUM_ALPHA8=COMPLETE_EXACT_B200M_ALPHA_SCALEOUT`
 >
 > CLASSIFICATION: finite exact census / production-scale numerical extension; no asymptotic claim.
 
-## Goal
+## Result
 
-Promote the validated alpha engine from an audit/benchmark path into a real exact-census engine and extend the Stage14 two-face-or-more population beyond the ordinary rolling cutoff `B=150,000,000`.
+Dedicated Actions run `31314521041` completed successfully. The body-diagonal range `1 <= d <= 200,000,000` was split into eight disjoint 25m shards and enumerated through the alpha diagonal-first engine.
+
+The mandatory `d<=150,000,000` regression reproduced merged Stage14-num6 in every frozen field, including all object/mask/vertex/edge SHA locks.
+
+Exact B200m census:
+
+```text
+(N_a^(2),N_b^(2),N_c^(2)) = (957,967,533)
+N2 = 2457
+T = 0
+active oriented faces = 3563
+raw pair edges = 2457
+max graph degree = 11
+object SHA = 79f38bc8841ee43505598d07f3b7cbed1fe4127243a3ae58c83e686267ce65ae
+object+mask SHA = 048ea27298801dcdb0baea3ac143f011de34b68ba658deb36ebdb37d3e5faeab
+vertex SHA = 8a6e151c6eb98f0e23c15715b3968f2fbfc304429836b87fdc69f9af9aa35001
+edge SHA = 0d3c4320c530faebba8b157b20473c58f3cc6ff3984ec41cce3eb3c93578ea75
+```
+
+The new shell `150m < d <= 200m` contributes exactly:
+
+```text
+(+98,+75,+71), total +244, triple +0.
+```
+
+The finite diagnostic `N2/sqrt(B)` is `0.17373613613753472`, down about 3.85% from the B150m value `0.18069069335930577`. This remains diagnostic only.
 
 ## Production architecture
 
-The body-diagonal domain
+Each shard performs segmented exact factorization of odd diagonals, removes primitive-impossible `3 mod 4` prime support, requires at least two positive nontrivial representations of `d^2`, synthesizes split-prime representations by Cornacchia, generates Gaussian/Girard representations, and applies the alpha4 compressed collision plus alpha5 primitive-safe pair filters.
 
-```text
-1 <= d <= 200,000,000
-```
+Since every representation collision is internal to one fixed body diagonal `d`, the shard union is mathematically exact and no cross-shard collision step is needed.
 
-is partitioned into eight disjoint contiguous shards of width 25,000,000. Each shard independently performs:
-
-```text
-segmented exact factorization of odd d
--> reject any 3 mod 4 prime support
--> require at least two positive nontrivial representations of d^2
--> Cornacchia sum-of-two-squares prime synthesis
--> Gaussian/Girard representation generation
--> alpha4 compressed collision
--> alpha5 primitive-safe pair filter
--> exact canonical (a,b,c,d,mask) records
-```
-
-Because every collision is entirely internal to one fixed body diagonal `d`, the shard union is mathematically exact and requires no cross-shard collision step.
-
-## Regression gate
-
-Before accepting any new B200m result, the union restricted to `d<=150,000,000` must reproduce the merged Stage14-num6 census in all frozen fields:
-
-- directional counts and triple count;
-- distinct physical object count;
-- object-key SHA;
-- object+mask SHA;
-- raw-edge and active-face graph counts;
-- max degree;
-- vertex and edge ledger SHA values.
-
-Only after that full regression passes is `150m < d <= 200m` treated as new exact territory.
+The exact B200m manifest is frozen at `stages/stage14/data/14-num-alpha8/b200m_manifest.json`. The source Actions artifact contains the 2457-row compressed object source.
 
 ## Boundary
 
-This stage extends a finite exact computational census. It does not establish an asymptotic runtime exponent, an asymptotic counting law, or existence/nonexistence of a perfect cuboid.
+This is a finite exhaustive census through B200m. `T=0` through this cutoff is not a proof of perfect-cuboid nonexistence. No asymptotic runtime or counting-law claim is made.
 
 ```text
-B150M_NUM6_FULL_HASH_REGRESSION_MATCH=PENDING_ACTIONS
-B200M_EXACT_CENSUS_FROZEN=PENDING_ACTIONS
-EXTENDS_BEYOND_ORDINARY_B150M_CUTOFF=PENDING_ACTIONS
-NEXT_AFTER_SUCCESS=Stage14-num-alpha9 optional historical-interval validation / alpha10+ only on demonstrated value
+SEGMENTED_DIAGONAL_SHARDS_EXACT_DISJOINT_UNION=true
+B150M_NUM6_FULL_HASH_REGRESSION_MATCH=true
+B200M_EXACT_CENSUS_FROZEN=true
+EXTENDS_BEYOND_ORDINARY_B150M_CUTOFF=true
+PERFECT_CUBOID_EMERGENCY=false
+FINITE_DIAGNOSTIC_ONLY=true
+ASYMPTOTIC_CLAIM=false
+NEXT=Stage14-num-alpha9 optional historical-interval validation / alpha10+ only on demonstrated value
 ```
