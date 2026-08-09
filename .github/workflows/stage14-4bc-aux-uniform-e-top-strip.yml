@@ -5,7 +5,7 @@ on:
     paths:
       - 'stages/stage14/14-4bc/**'
       - 'stages/stage14/data/14-4/aux_uniform_e_top_strip_summary.json'
-      - 'stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit.py'
+      - 'stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit_v2.py'
       - '.github/workflows/stage14-4bc-aux-uniform-e-top-strip.yml'
   workflow_dispatch:
 
@@ -21,9 +21,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile audit
-        run: python -m py_compile stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit.py
+        run: python -m py_compile stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit_v2.py
       - name: Run deterministic audit
-        run: python stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit.py
+        run: python stages/stage14/scripts/14-4/aux_uniform_e_top_strip_audit_v2.py
       - name: Check boundary flags
         run: |
           grep -q 'AUXILIARY_INCIDENCE_UNIFORMITY_PROVED=true' stages/stage14/14-4bc/result.md
