@@ -1,0 +1,19 @@
+name: Stage13-13fl Gaussian-Hecke normalization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage13/13-13fl/**'
+      - 'stages/stage13/scripts/13-13fl/**'
+      - '.github/workflows/stage13-13fl-hecke-normalization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python stages/stage13/scripts/13-13fl/hecke_normalization_audit.py
