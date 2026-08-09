@@ -1,0 +1,27 @@
+name: Stage14-s5h reciprocal bilinear audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s5h/**'
+      - 'stages/stage14/scripts/14-s5h/**'
+      - '.github/workflows/stage14-s5h-reciprocal-bilinear.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run reciprocal bilinear audit
+        run: python3 stages/stage14/scripts/14-s5h/reciprocal_bilinear_audit.py | tee /tmp/s5h.txt
+      - name: Validate theorem boundary
+        run: |
+          grep -q '^STAGE14_S5H=COMPLETE_RECIPROCAL_OFFDIAGONAL_REDUCTION_AND_FIRST_DYADIC_BILINEAR_BOUND$' /tmp/s5h.txt
+          grep -q '^WHOLE_KERNEL_GENUINE_RECIPROCAL_EDGE_COUNT=6$' /tmp/s5h.txt
+          grep -q '^FIRST_SEPARABLE_DYADIC_BILINEAR_BOUND_PROVED=true$' /tmp/s5h.txt
+          grep -q '^EUCLID_INCIDENCE_SEPARABILITY_PROVED=false$' /tmp/s5h.txt
+          grep -q '^FAMILY_LARGE_SIEVE_THEOREM_PROVED=false$' /tmp/s5h.txt
+          grep -q '^SMALL_POINT_WINDOW_AVERAGED=false$' /tmp/s5h.txt
+          grep -q '^SQRT_B_ASYMPTOTIC_PROVED=false$' /tmp/s5h.txt
+          grep -q '^NEXT=Stage14-s5i$' /tmp/s5h.txt
