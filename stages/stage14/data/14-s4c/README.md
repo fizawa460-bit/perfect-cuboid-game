@@ -1,0 +1,1 @@
+Generated `collective_activation_reverse_count.json` is produced deterministically by the Stage14-s4c audit and uploaded by CI. It is not pre-frozen in this initial commit; the workflow validates the theorem-boundary locks and exact `V(2,000,000)=490` endpoint.

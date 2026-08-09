@@ -1,0 +1,39 @@
+name: Stage14-s4c collective activation reverse count
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-s4c/**'
+      - 'stages/stage14/data/14-s4c/**'
+      - 'stages/stage14/14-s4c/**'
+      - '.github/workflows/stage14-s4c-collective-activation.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run reverse-count audit
+        run: python stages/stage14/scripts/14-s4c/collective_activation_reverse_count.py
+      - name: Validate theorem boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-s4c/collective_activation_reverse_count.json'
+          d=json.load(open(p))
+          assert d['finite_activation'][-1]['V_active_first_hit']==490
+          q=d['decision']
+          assert q['FIXED_M4_MECHANISM_CLOSED_BY_4AK'] is True
+          assert q['COLLECTIVE_PROLIFERATION_NECESSITY_FORMULA_LOCKED'] is True
+          assert q['DEGREE8_REQUIRED_COUNT_EXPONENT']=='1/4'
+          assert q['DEGREE12_REQUIRED_COUNT_EXPONENT']=='1/3'
+          assert q['SQRT_B_ASYMPTOTIC_PROVED'] is False
+          assert q['HIGHER_DEGREE_STRATA_EXISTENCE_PROVED'] is False
+          print(json.dumps(d['finite_activation'],indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage14-s4c-collective-activation
+          path: stages/stage14/data/14-s4c/collective_activation_reverse_count.json
