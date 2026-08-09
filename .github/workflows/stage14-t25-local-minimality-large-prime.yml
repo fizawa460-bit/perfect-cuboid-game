@@ -1,0 +1,42 @@
+name: Stage14-t25 local minimality large-prime routing
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t25/**'
+      - 'stages/stage14/scripts/14-t/t25_local_minimality_large_prime_audit.py'
+      - 'stages/stage14/data/14-t25/**'
+      - '.github/workflows/stage14-t25-local-minimality-large-prime.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t24 regression
+        run: python stages/stage14/scripts/14-t/t24_torsion_energy_rank_cover_audit.py
+      - name: Run t25 local-minimality/large-prime audit
+        run: python stages/stage14/scripts/14-t/t25_local_minimality_large_prime_audit.py
+      - name: Validate locked t25 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage14/data/14-t25/local_minimality_large_prime.json'
+          d=json.load(open(p))
+          f=d['finite']
+          assert f['rank_active_raw_edges']==356
+          assert f['minus_one_cover_orientation_checks']==712
+          q=d['decision']
+          assert q['ODD_DISPLAYED_MODEL_MINIMAL_MULTIPLICATIVE'] is True
+          assert q['ODD_CONDUCTOR_RADICAL_EXPLICIT'] is True
+          assert q['ALL_ODD_D_PRIMES_1MOD4_ON_PHYSICAL_RANK_BRANCH'] is True
+          assert q['RU_3MOD4_PART_FORCED_INTO_P2_MINUS_Q2'] is True
+          assert q['LE_BOUDEC_LARGE_PRIME_TRANSFER_PARTIAL'] is True
+          assert q['LE_BOUDEC_TRANSFER_FULL_POWER_SAVING_PROVED'] is False
+          assert q['GAUSSIAN_OR_DUAL_DESCENT_REQUIRED'] is True
+          assert q['RANK_ACTIVE_SECOND_MOMENT_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          print(json.dumps(q,indent=2))
+          PY
