@@ -1,0 +1,79 @@
+name: Stage14-num1 baseline crosscheck profile
+
+on:
+  push:
+    branches:
+      - agent/stage14-num1-baseline-profile
+    paths:
+      - 'stages/stage14/scripts/14-num1/**'
+      - 'stages/stage14/data/14-num1/**'
+      - 'stages/stage14/14-num1/**'
+      - '.github/workflows/stage14-num1-baseline-profile.yml'
+  pull_request:
+    branches:
+      - main
+      - agent/stage14-num-roadmap
+    paths:
+      - 'stages/stage14/scripts/14-num1/**'
+      - 'stages/stage14/data/14-num1/**'
+      - 'stages/stage14/14-num1/**'
+      - '.github/workflows/stage14-num1-baseline-profile.yml'
+  workflow_dispatch:
+
+jobs:
+  baseline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run two-route B=2m census under resource profiler
+        run: |
+          mkdir -p /tmp/num1
+          /usr/bin/time -v -o /tmp/num1/time.txt \
+            python stages/stage14/scripts/14-num1/baseline_crosscheck_profile.py \
+              --output /tmp/num1/report.json | tee /tmp/num1/console.txt
+          echo '--- /usr/bin/time -v ---'
+          cat /tmp/num1/time.txt
+
+      - name: Verify exact baseline contract
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=json.loads(Path('/tmp/num1/report.json').read_text())
+          b=r['baseline']
+          assert b['exactly_two']=={'a':142,'b':134,'c':80,'total':356,'triple':0}
+          assert b['object_count_two_plus']==356
+          assert len(b['ledger'])==356
+          assert b['graph']['raw_pair_edges']==356
+          assert b['graph']['active_oriented_face_vertices']==490
+          assert b['graph']['max_degree']==9
+          c=r['crosscheck']
+          assert all(c.values())
+          d=r['decision']
+          assert d['STAGE14_NUM1']=='COMPLETE_BASELINE_CROSSCHECK_AND_PROFILE'
+          assert d['B2M_MAIN_COUNTS_REPRODUCED'] is True
+          assert d['B2M_OBJECT_LEDGER_HASH_LOCKED'] is True
+          assert d['DIRECTION_LABELS_CROSSCHECKED'] is True
+          assert d['TRIPLE_HANDLING_CROSSCHECKED'] is True
+          assert d['DUPLICATE_SUPPRESSION_CROSSCHECKED'] is True
+          assert d['FINITE_DIAGNOSTIC_ONLY'] is True
+          assert d['ASYMPTOTIC_CLAIM'] is False
+          print('Stage14-num1 exact baseline contract: PASS')
+          print('object_key_sha256=', b['object_key_sha256'])
+          print('object_key_mask_sha256=', b['object_key_mask_sha256'])
+          print('vertex_ledger_sha256=', b['graph']['vertex_ledger_sha256'])
+          print('edge_ledger_sha256=', b['graph']['edge_ledger_sha256'])
+          print('route_A_profile=', json.dumps(r['deterministic_workload_profile']['route_A_hypotenuse_glue'], sort_keys=True))
+          print('route_B_profile=', json.dumps(r['deterministic_workload_profile']['route_B_shared_leg'], sort_keys=True))
+          PY
+
+      - name: Verify numerical-only interpretation boundary
+        run: |
+          grep -F 'FINITE_DIAGNOSTIC_ONLY' stages/stage14/scripts/14-num1/baseline_crosscheck_profile.py
+          grep -F 'ASYMPTOTIC_CLAIM' stages/stage14/scripts/14-num1/baseline_crosscheck_profile.py
+          grep -F 'Stage14-num2 enumerator acceleration and incremental architecture' stages/stage14/scripts/14-num1/baseline_crosscheck_profile.py
