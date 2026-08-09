@@ -1,4 +1,4 @@
-name: Stage13-13fw R07 Claude review adjudication
+name: Stage13-13fw R07 review adjudication
 
 on:
   pull_request:
@@ -20,3 +20,5 @@ jobs:
           python-version: '3.12'
       - name: Audit Claude R07 review adjudication
         run: python stages/stage13/scripts/13-13fw/r07_claude_review_audit.py
+      - name: Audit Grok R07 review adjudication
+        run: python stages/stage13/scripts/13-13fw/r07_grok_review_audit.py
