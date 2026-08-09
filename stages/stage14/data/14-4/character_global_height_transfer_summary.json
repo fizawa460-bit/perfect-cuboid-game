@@ -1,0 +1,60 @@
+{
+  "stage": "14-4ap",
+  "classification": "RIGOROUS_GATE_DELIMITATION_AND_CONDITIONAL_TRANSFER_ONLY",
+  "gate_chain": {
+    "N0": "A(B): eligible primitive opposite-parity Euclid pairs",
+    "N1": "Sigma(B): bases surviving the full local 2-descent system",
+    "N2": "R(B): bases with a globally soluble nontrivial class / positive rank",
+    "N3": "H(B;C): bases with a globally soluble class in the s3 height window",
+    "identity": "N3=N0*(N1/N0)*(N2/N1)*(N3/N2), with zero-denominator ratios interpreted as zero"
+  },
+  "local_character_input": {
+    "source": "merged Stage14-s5g",
+    "exact_local_mean_subtraction_required": true,
+    "controls": "the local-admissibility retainer N1/N0 only",
+    "does_not_determine": [
+      "global solubility / Sha (N2/N1)",
+      "first-small-point height (N3/N2)"
+    ]
+  },
+  "conditional_transfer": {
+    "hypotheses": [
+      "N0(B) << B",
+      "N1/N0 << B^(-delta_local)",
+      "N2/N1 << B^(-delta_global)",
+      "N3/N2 << B^(-delta_height)"
+    ],
+    "conclusion": "H(B;C) << B^(1-delta_local-delta_global-delta_height)",
+    "physical_consequence": "V(B)<=H(B;C), so the same conditional upper bound transfers to V(B)",
+    "square_root_threshold": "delta_local+delta_global+delta_height >= 1/2",
+    "threshold": 0.5
+  },
+  "finite_B20000": {
+    "A": 6372,
+    "Sigma": 5209,
+    "R_interval": [
+      3784,
+      4239
+    ],
+    "V": 54,
+    "Sigma_over_A": 0.8174827369742624,
+    "V_over_R_interval": [
+      0.012738853503184714,
+      0.01427061310782241
+    ],
+    "interpretation": "finite diagnostic only; no retainer is assigned an asymptotic exponent"
+  },
+  "decision": {
+    "STAGE14_4AP": "LOCAL_CHARACTER_REACH_AND_CONDITIONAL_GLOBAL_HEIGHT_TRANSFER_BOUNDARY",
+    "EXACT_LOCAL_MEAN_SUBTRACTION_REQUIRED": true,
+    "LOCAL_CHARACTERS_DETERMINE_GLOBAL_SOLUBILITY": false,
+    "LOCAL_CHARACTERS_DETERMINE_FIRST_SMALL_POINT_HEIGHT": false,
+    "LOCAL_LARGE_SIEVE_ALONE_CONTROLS_HEIGHT_WEIGHTED_COUNT": false,
+    "CONDITIONAL_THREE_RETAINER_TRANSFER_FORMULATED": true,
+    "FAMILY_LARGE_SIEVE_THEOREM_PROVED": false,
+    "GLOBAL_SOLUBILITY_AVERAGED": false,
+    "UNIFORM_FIRST_SMALL_POINT_LOWER_TAIL_PROVED": false,
+    "ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED": false,
+    "NEXT": "Stage14-4aq isolate the global-solubility/Sha retainer and formulate a uniform averaging target compatible with the centered local sieve"
+  }
+}

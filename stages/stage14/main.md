@@ -1,6 +1,6 @@
 # Stage14 — primitive canonical exactly-two-face population
 
-> **STATUS:** `STAGE14_4AO_COMPLETE_FULL_LOCAL_HEIGHT_WEIGHTED_INTERFACE_14_4AP_NEXT`
+> **STATUS:** `STAGE14_4AP_COMPLETE_CHARACTER_GLOBAL_HEIGHT_TRANSFER_BOUNDARY_14_4AQ_NEXT`
 >
 > **TRACK:** integer-space-diagonal / two-integral-face layer
 
@@ -10,7 +10,7 @@ Stage14 studies primitive canonical cuboids
 0<a<b<c,\quad \gcd(a,b,c)=1,\quad a^2+b^2+c^2=d^2,\quad d\le B,
 \]
 
-with exactly two integral face diagonals. Detailed derivations are retained in the archive; this is the canonical synthesis through Stage14-4ao.
+with exactly two integral face diagonals. Detailed derivations are retained in the archive; this is the canonical synthesis through Stage14-4ap.
 
 ## 1. Locked exact population
 
@@ -227,7 +227,25 @@ For a nontrivial locally soluble cover `C_{F,xi}`, 4ao locks the base-counted ex
 
 It retains local admissibility, global solubility/Sha, and the s3 first-small-point window, and counts each base once. Physical activation implies membership for the s3 comparison constant, but the converse can fail because the physical-coordinate conditions are stronger.
 
-## 9. Locked decision
+## 9. Stage14-4ap — reach of character sums and conditional transfer
+
+Merged s5g shows that raw prime-level quadratic-character traces require exact local mean subtraction; local resonances at `p=3,5,17` make the uncentered cancellation target false. After centering, the character system still controls only the local retainer `Sigma/A`.
+
+Set `N0=A(B)`, `N1=Sigma(B)`, `N2=R(B)`, and `N3=H(B;C)`. The exact gate identity is
+
+\[
+N_3=N_0\frac{N_1}{N_0}\frac{N_2}{N_1}\frac{N_3}{N_2}.
+\]
+
+Consequently, conditional bounds `N0(B)<<B` and `Ni/N{i-1}<<B^{-delta_i}` imply
+
+\[
+\mathcal H(B;C)\ll B^{1-\delta_{\rm loc}-\delta_{\rm glob}-\delta_{\rm ht}}.
+\]
+
+Since `V(B)<=H(B;C)`, this transfers conditionally to `V`. A square-root upper-bound scale requires combined saving at least `1/2`. No one of the three retainer estimates is proved here: centered local cancellation cannot decide the global-solubility/Sha or first-small-point gates.
+
+## 10. Locked decision
 
 ```text
 STAGE14_4AK=COMPLETE_SPLIT_ROOT_COSET_VOID
@@ -235,6 +253,7 @@ STAGE14_4AL=COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_AND_FINITE_FIRST_HIT_PROFILE
 STAGE14_4AM=COMPLETE_EXACT_SELMER_RANK_SMALLPOINT_FACTOR_AND_FINITE_FULL_BASE_CENSUS
 STAGE14_4AN=COMPLETE_ODD_CHARACTER_MATRIX_AND_GATE_REACH_BOUNDARY
 STAGE14_4AO=COMPLETE_FULL_LOCAL_MATRIX_AND_HEIGHT_WEIGHTED_COUNTING_INTERFACE
+STAGE14_4AP=LOCAL_CHARACTER_REACH_AND_CONDITIONAL_GLOBAL_HEIGHT_TRANSFER_BOUNDARY
 
 FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
 ACTIVATION_DENSITY_THREE_GATE_FACTORIZATION_LOCKED=true
@@ -247,6 +266,11 @@ Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED=true
 FULL_LOCAL_SELMER_MATRIX_COMPLETE=true
 FINITE_A_TO_SIGMA_SIEVE_QUANTIFIED=true
 HEIGHT_WEIGHTED_DESCENT_COUNT_FORMULATED=true
+EXACT_LOCAL_MEAN_SUBTRACTION_REQUIRED=true
+LOCAL_CHARACTERS_DETERMINE_GLOBAL_SOLUBILITY=false
+LOCAL_CHARACTERS_DETERMINE_FIRST_SMALL_POINT_HEIGHT=false
+LOCAL_LARGE_SIEVE_ALONE_CONTROLS_HEIGHT_WEIGHTED_COUNT=false
+CONDITIONAL_THREE_RETAINER_TRANSFER_FORMULATED=true
 GLOBAL_SOLUBILITY_AVERAGED=false
 CHARACTER_MATRIX_CONTROLS_SIGMA_TO_R=false
 CHARACTER_MATRIX_CONTROLS_R_TO_V=false
@@ -260,17 +284,18 @@ T_O_SQRT_B_PROVED=false
 PERFECT_CUBOID_NONEXISTENCE_PROVED=false
 ```
 
-## 10. Next
+## 11. Next
 
-`Stage14-4ap`: prove or sharply delimit a family character-sum estimate over the explicit moving local system while retaining global solubility and the Stage14-s3 logarithmic small-point window. No local-only estimate may be promoted to control of `R -> V`.
+`Stage14-4aq`: isolate the global-solubility/Sha retainer and formulate a uniform averaging target compatible with the centered local sieve. The separate s3 first-small-point retainer remains explicit.
 
 The independent triple track still must supply strong enough `T(B)` control before a future raw-pair law can transfer to exactly-two.
 
-## Primary 4ao artifacts
+## Primary 4ap artifacts
 
 ```text
-stages/stage14/14-4ao/result.md
-stages/stage14/data/14-4/q2_height_weighted_descent_summary.json
-stages/stage14/scripts/14-4/q2_height_weighted_descent_audit.py
-.github/workflows/stage14-4ao-q2-height-weighted.yml
+stages/stage14/14-4ap/result.md
+stages/stage14/data/14-4/character_global_height_transfer_summary.json
+stages/stage14/scripts/14-4/character_global_height_transfer_audit.py
+.github/workflows/stage14-4ap-character-global-height.yml
 ```
+
