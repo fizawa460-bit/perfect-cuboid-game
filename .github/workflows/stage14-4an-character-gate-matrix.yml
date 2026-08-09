@@ -1,0 +1,56 @@
+name: Stage14-4an character gate matrix audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/scripts/14-4/character_gate_matrix_audit.py'
+      - 'stages/stage14/data/14-4/character_gate_matrix_audit.json'
+      - 'stages/stage14/data/14-4/character_gate_matrix_summary.json'
+      - 'stages/stage14/14-4an/**'
+      - 'stages/stage14/archive/stage14-4an-*'
+      - 'stages/stage14/main.md'
+      - 'stages/stage14/README.md'
+      - 'stages/stage14/roadmap.md'
+      - '.github/workflows/stage14-4an-character-gate-matrix.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run complete odd character matrix audit
+        run: python stages/stage14/scripts/14-4/character_gate_matrix_audit.py
+      - name: Validate Stage14-4an theorem boundary and frozen summary
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('stages/stage14/data/14-4/character_gate_matrix_audit.json'))
+          f=json.load(open('stages/stage14/data/14-4/character_gate_matrix_summary.json'))
+          r=a['profile'][-1]; b=f['B20000']
+          assert a['metadata']['max_B']==f['max_B']==20000
+          assert r['eligible_oriented_bases']==b['eligible_oriented_bases']==6372
+          assert abs(r['odd_bad_prime_count']['mean']-b['odd_bad_prime_mean'])<1e-15
+          s=r['homogeneous_selected_rows']; fs=b['selected_rows']
+          assert s['bases_with_no_nonempty_admissible_support']==fs['bases_with_no_nonempty_admissible_support']==0
+          assert abs(s['mean_fraction_of_all_support_subsets']-fs['mean_fraction_of_all_support_subsets'])<1e-15
+          o=r['homogeneous_complete_odd_matrix']; fo=b['complete_odd_matrix_homogeneous_slice']
+          assert o['bases_with_no_nonempty_admissible_odd_support']==fo['bases_with_no_nonempty_admissible_odd_support']==779
+          assert abs(o['mean_admissible_including_empty']-fo['mean_admissible_including_empty'])<1e-15
+          assert abs(o['mean_fraction_of_all_support_subsets']-fo['mean_fraction_of_all_support_subsets'])<1e-15
+          for k,v in f['decision'].items():
+              if k in a['decision']:
+                  assert a['decision'][k]==v, (k,a['decision'][k],v)
+          assert a['decision']['S5D_ALL_ODD_BAD_PRIME_ROWS_IMPORTED'] is True
+          assert a['decision']['ALL_ODD_BAD_PRIME_ROWS_EXPLICIT'] is True
+          assert a['decision']['Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED'] is False
+          assert a['decision']['FULL_LOCAL_SELMER_MATRIX_COMPLETE'] is False
+          assert a['decision']['CHARACTER_MATRIX_CONTROLS_R_TO_V'] is False
+          assert a['decision']['ACTIVE_VERTEX_SQRT_B_ASYMPTOTIC_PROVED'] is False
+          print(json.dumps(r,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage14-4an-character-gate-matrix
+          path: stages/stage14/data/14-4/character_gate_matrix_audit.json

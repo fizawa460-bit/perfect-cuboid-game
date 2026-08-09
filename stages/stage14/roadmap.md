@@ -4,207 +4,130 @@
 
 Count and explain primitive canonical exactly-two-face cuboids with integer space diagonal under `d<=B`.
 
-## Completed foundation
+## Completed main-track foundation
 
-- `14-1`: definition/counting interface.
-- `14-2`: two independent exact finite enumerators through `B=2,000,000`.
-- `14-3`: finite directional reconnaissance.
-- `14-4aa`: common shared-edge parametrization.
-- `14-4ab`: exact face-pair bijection, multiplicity one.
-- `14-4ac`: rational slope/lcm height envelope.
-- `14-4ad`: elliptic reduction `E_t:Y^2=X(X-1)(X+t^2)`.
-- `14-4ae`: physical fiber height and generic rank zero.
-- `14-4af`: six-`I4` Pythagorean-base K3; torsion nonphysical; fixed-base triple genus 5.
-- `14-4ag`: level-4/Kummer identification; active rank-jump graph; raw-edge and active-vertex polynomial exponents equal.
-- `14-4ah`: exact physical Kummer polarization `M=pi^*(-K_Y)`, `M^2=8`, `H_M=d`; fixed physical rational curves have `M.C>=4`.
-- `14-4ai`: all minimal `M`-degree-4 mechanisms reduced to one split singular-anticanonical target.
-- `14-4aj`: exact Shimada lattice/deck/polarization interface.
-- `14-4ak`: published Shimada data ingested; the final split-root parity coset is empty by two independent exact enumerators; all fixed `M.C=4` rational-bisection mechanisms are closed.
-- `14-4al`: exact collective first-hit activation measure `V(B)=#{F:mu(F)<=B}`; ambient primitive oriented Pythagorean base count is linear; the finite sqrt signal is reformulated as inverse-square-root activation density.
-- `14-4am`: exact three-gate factorization `V/A=(Sigma/A)(R/Sigma)(V/R)` and complete rank/Selmer census of every primitive oriented base through `H<=20,000`.
+- `14-1` through `14-3`: definition, independent exact enumeration, finite reconnaissance.
+- `14-4aa` through `14-4ae`: two-face gluing, height envelope, elliptic reduction, generic rank zero.
+- `14-4af` through `14-4ag`: Pythagorean-base K3, level-4/Kummer identification, rank-jump graph.
+- `14-4ah` through `14-4ak`: physical polarization and complete closure of fixed `M.C=4` rational-curve square-root mechanisms.
+- `14-4al`: collective first-hit measure `V(B)=#{F:mu(F)<=B}`.
+- `14-4am`: exact activation factorization `A -> Sigma -> R -> V` and complete `H<=20k` rank/Selmer census.
+- `14-4an`: compress selected-prime rows, import s5d unselected rows, and close the **entire odd-prime local character matrix**; identify its exact gate reach.
 
-Frozen Stage13 upstream remains `R03 + Stage13-12ag`, including
-
-\[
-N_2(B)=o(B(\log B)^3),
-\]
-
-with no imported growing-modulus power saving.
-
-## 14-4ai through 14-4ak — close the fixed-curve path
-
-Status: [x] Complete.
-
-A fixed physical rational curve capable of exponent `1/2` must satisfy
-
-\[
-M\cdot C=4,\qquad \deg(C\to\mathbf P^1_r)=2,
-\qquad \deg(C\to\mathbf P^1_s)\le2.
-\]
-
-Stage14-4ai eliminates every connected degree-two image mechanism and every arithmetic-genus-zero split/contact mechanism. The sole survivor was a singular rational member of the anticanonical class `D=L=-K_Y` whose K3 pullback could split.
-
-Stage14-4aj identifies the raw Kummer deck involution as
-
-\[
-\delta(P)=(0,0)-P
-\]
-
-on `E_t:y^2=x(x-1)(x+t^2)`. For a split component,
-
-\[
-M=C+\delta(C),\qquad C^2=-2,\qquad M\cdot C=4.
-\]
-
-Putting `x=2C-M` reduces the last case to
-
-\[
-\delta(x)=-x,\qquad x^2=-16,\qquad x\equiv M\pmod2.
-\]
-
-Stage14-4ak consumes Shimada's official level-4 computation data. Up to the relevant automorphism group there is one physical labeling. Its deck anti-invariant NS lattice has rank `6`, positive-form determinant `256`, and `1020` norm-16 vectors; nevertheless none lies in the required parity coset. PARI/Fincke--Pohst and an independent exact rational-LDL enumerator agree.
-
-Hence
+## Locked geometry
 
 ```text
-PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTENCE_RESOLVED=true
 PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTS=false
 FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
 ```
 
-## 14-4al — collective rank-jump / first-small-point activation
+Any square-root phenomenon must be collective.
+
+## Locked activation factorization
+
+```text
+A      eligible primitive oriented Pythagorean bases
+Sigma  nontrivial full-2-Selmer beyond rational torsion
+R      positive Mordell--Weil rank
+V      physical first hit by B
+```
+
+Exactly
+
+\[
+V/A=(\Sigma/A)(R/\Sigma)(V/R).
+\]
+
+At `H<=20,000`:
+
+```text
+A=6372
+Sigma=5209
+R in [3784,4239]
+V=54
+Sigma/A=0.81748
+V/R in [0.01274,0.01427]
+```
+
+Thus finite Selmer and positive rank are common; the dominant observed thinning is `R -> V`.
+
+## 14-4an — complete odd reciprocity matrix
 
 Status: [x] Complete.
 
-For each primitive oriented Pythagorean first-face base
-
-\[
-F=(S,X,H),\qquad S^2+X^2=H^2,
-\]
-
-define `mu(F)` as the least physical Stage14 space-diagonal height among all partners of `F`, and `mu(F)=infinity` if no physical partner exists. Then exactly
-
-\[
-\boxed{V(B)=\#\{F:\mu(F)\le B\}}.
-\]
-
-Let `A(B)` be the number of primitive oriented Pythagorean bases with `H<=B`. Euclid-parameter lattice counting gives
-
-\[
-\boxed{A(B)=\frac{B}{\pi}+O(\sqrt B\log B)}.
-\]
-
-Thus, whenever either asymptotic exists,
-
-\[
-\boxed{V(B)\sim c\sqrt B
-\iff
-V(B)/A(B)\sim \pi c/\sqrt B.}
-\]
-
-The late finite profile gives effective exponent `0.4998644` for `V` on `200k -> 2m`, and `sqrt(B)V/A` has coefficient of variation about `1.54%` on the four late cutoffs. These are finite diagnostics only.
-
-## 14-4am — Selmer / MW-rank / first-small-point factorization
-
-Status: [x] Complete.
-
-Define nested base sets
+For selected odd bad primes the s5c rows compress to
 
 ```text
-A(B)      = all primitive oriented Pythagorean bases with H<=B
-Sigma(B)  = bases with dim Sel_2(E_F)>2
-R(B)      = bases with rank E_F(Q)>0
-V(B)      = bases with mu(F)<=B
+S / 12 : chi_p(a3)=0
+X / 13 : chi_p(a2)=0 and chi_p(-1)=0
+H / 23 : chi_p(a1)=0.
 ```
 
-Merged Stage14 gives
+Hence selected odd `p|X` requires `p=1 mod 4`.
 
-\[
-\boxed{V(B)\subset R(B)\subset\Sigma(B)\subset A(B)}
-\]
-
-and therefore the exact density identity
-
-\[
-\boxed{\frac{V}{A}=\frac{\Sigma}{A}\frac{R}{\Sigma}\frac{V}{R}}.
-\]
-
-If `A(B)=B^{1+o(1)}` and an eventual `V(B)=B^{1/2+o(1)}` law holds, the Selmer, MW-rank-given-Selmer, and first-hit-given-rank thinning exponents must sum to `1/2`.
-
-Stage14-4am replaces the old s1 matched sample by a complete PARI `ellrank(E,0)` census of every primitive oriented Pythagorean base through `H<=20,000`. The exact full-2-torsion Selmer dimension is read from the merged s1 interface; the true positive-rank count is bracketed by unconditional PARI rank bounds.
-
-Exact finite counts:
+Merged s5d gives all unselected odd bad-prime rows:
 
 ```text
-B        A       Sigma      R interval       V
-2,000      638      476       371..385         7
-5,000     1584     1234       916..989        25
-10,000    3186     2553      1875..2057       39
-20,000    6372     5209      3784..4239       54
+p|S : chi_p(d3)=+1
+p|H : chi_p(d1)=+1
+p|X : chi_p(d2)=+1 OR chi_p(-d2)=+1.
 ```
 
-At `B=20,000`:
+Therefore
 
 ```text
-Sigma/A          = 0.8174827369742624
-R/A              in [0.5938480853735091, 0.6652542372881356]
-V/R              in [0.012738853503184714, 0.01427061310782241]
-V/A              = 0.00847457627118644
+ALL_ODD_BAD_PRIME_ROWS_EXPLICIT=true
+ALL_ODD_ROWS_REDUCED_TO_RECIPROCITY_BITS=true
 ```
 
-The finite thinning-exponent budget is
+The `H<=20,000` support audit gives
 
 ```text
-gamma(total)                   = 0.4817176373
-alpha_Selmer                   = 0.02034894195
-alpha_MW | Selmer              in [0.02080686276, 0.03227209060]
-beta_first-hit | MW            in [0.4290966047, 0.4405618326]
+selected-row mean surviving support fraction       0.1695801
+selected-row bases with no nonempty support        0
+complete-odd mean surviving support fraction       0.04556219
+complete-odd mean surviving supports                4.09149
+bases with no nonempty homogeneous odd support     779
 ```
 
-These exponents are finite diagnostics, and the interval endpoints are correlated through the unknown exact `R(B)`. They must not be combined independently.
+The `779` count is not a Selmer base count: it is the homogeneous odd-only slice. The remaining local problem is covering-specific `Q_2` solubility; s5d has already reduced the product-square state space to 64 states.
 
-The robust finite conclusion is that neither nontrivial 2-Selmer nor positive MW rank is rare on the complete audited base family, whereas physical activation conditional on positive rank is only about `1.3–1.4%` at `20k`. Thus the observed finite thinning budget is overwhelmingly located in the height-sensitive `R -> V` first-small-point gate.
-
-This does **not** prove positive-rank density, a first-small-point lower-tail law, or a square-root asymptotic.
-
-Artifacts:
+Locked boundary:
 
 ```text
-stages/stage14/archive/stage14-4am-rank-smallpoint-factorization.md
-stages/stage14/scripts/14-4/rank_smallpoint_factor_audit.py
-stages/stage14/data/14-4/rank_smallpoint_factor_summary.json
-.github/workflows/stage14-4am-rank-smallpoint.yml
+STAGE14_4AN=COMPLETE_ODD_CHARACTER_MATRIX_AND_GATE_REACH_BOUNDARY
+S5D_ALL_ODD_BAD_PRIME_ROWS_IMPORTED=true
+ALL_ODD_BAD_PRIME_ROWS_EXPLICIT=true
+ALL_ODD_ROWS_REDUCED_TO_RECIPROCITY_BITS=true
+Q2_COVERING_SPECIFIC_SOLUBILITY_CLASSIFIED=false
+FULL_LOCAL_SELMER_MATRIX_COMPLETE=false
+CHARACTER_MATRIX_CONTROLS_SIGMA_TO_R=false
+CHARACTER_MATRIX_CONTROLS_R_TO_V=false
+HEIGHT_COUPLING_REQUIRED_FOR_MAIN_THINNING=true
 ```
 
-## 14-4an — Euclid-factor reciprocity matrix coupled to height
+## 14-4ao — Q2 completion + height-weighted descent count
 
 Status: [>] Next.
 
-Stage14-s5a expresses the moving 2-descent support in primitive opposite-parity Euclid parameters as
+1. Finish/import the covering-specific classification of the 64 product-square `Q_2` descent states.
+2. Combine it with the complete odd matrix to obtain the full local Selmer matrix.
+3. Quantify the actual `A -> Sigma` family sieve produced by that matrix.
+4. Do **not** stop there: formulate a height-weighted descent-class counting object retaining the Stage14-s3 physical logarithmic canonical-height window.
+5. Target the finite-dominant `R -> V` gate, separating global representability from first-small-point size.
+6. Seek any rigorous power saving before attempting a `sqrt(B)` law or leading constant.
 
-```text
-m, n, m-n, m+n, m^2+n^2
-```
+## Parallel arithmetic track
 
-plus the fixed prime `2`.
+The s-track is a direct input to the main line:
 
-Stage14-4an must now:
+- s5a: Euclid-parameter descent target;
+- s5b: odd reciprocity skeleton;
+- s5c: selected-prime local rows;
+- s5d: complete odd local rows and 64-state `Q_2` reduction;
+- later s5 stages: exact `Q_2` covering classification and family-level analytic estimates.
 
-1. derive the explicit local quadratic-character / Hilbert-symbol conditions between squarefree pieces of those five moving factors;
-2. organize them as a reciprocity matrix suitable for a family average / large-sieve argument;
-3. state precisely which part controls `A -> Sigma`, which part can reach `Sigma -> R`, and where Sha/global representability remains;
-4. because 4am shows the finite dominant thinning lies in `R -> V`, couple the character analysis to the physical logarithmic height window rather than stop at a Selmer-density bound;
-5. seek any unconditional family-level power saving for the joint activation set before attempting the square-root endpoint.
-
-## 14-5 — directionwise asymptotic structure
-
-Status: pending Stage14-4.
-
-## Parallel arithmetic small-point track
-
-Stage14-s is now a direct input to the main line. In particular s5a has already fixed the Euclid-parameter descent support and theorem target; 4am clarifies that a purely local/Selmer sieve is unlikely to explain the observed finite thinning unless it is coupled to global representability and the small-point height window.
-
-## Parallel triple gate
+## Triple gate
 
 The exact identity remains
 
@@ -212,16 +135,12 @@ The exact identity remains
 N_2(B)=E(B)-3T(B).
 \]
 
-A future raw-pair law cannot be transferred to exactly-two until the triple track proves sufficiently strong control, ideally
-
-\[
-T(B)=o(\sqrt B).
-\]
+A future raw-pair law cannot transfer to exactly-two until sufficiently strong triple control is proved, ideally `T(B)=o(sqrt(B))`.
 
 ## Scope boundary
 
-No true Stage14 growth exponent, leading constant, limiting directional vector, perfect-cuboid existence/nonexistence theorem, or `T=o(sqrt(B))` theorem is established yet.
+No true Stage14 growth exponent, leading constant, family large-sieve theorem, uniform first-small-point lower-tail theorem, perfect-cuboid nonexistence theorem, or `T=o(sqrt(B))` theorem is established.
 
 ```text
-NEXT=Stage14-4an Euclid-factor reciprocity matrix coupled to height-sensitive activation
+NEXT=Stage14-4ao Q2 completion plus height-weighted descent-class count
 ```
