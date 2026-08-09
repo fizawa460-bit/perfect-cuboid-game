@@ -328,19 +328,19 @@ this becomes
 V^2=(U-1)(-C^2U^2+4D^2U-4D^2).
 \]
 
-Equivalently, `x_E=-U`, `y_E=V/C` gives a monic Weierstrass equation with the nonzero rational 2-torsion point `(-1,0)`.  Primitivity also makes the physical scale canonical:
+Equivalently, `x_E=-U`, `y_E=V/C` gives a monic Weierstrass equation with the nonzero rational 2-torsion point `(-1,0)`. Primitivity also makes the physical scale canonical:
 
 \[
 \boxed{g=\operatorname{lcm}(\operatorname{den}X,\operatorname{den}Y).}
 \]
 
-Physical height transfers polynomially: `H(U)<=2d` and a crude `H(V)<=2d^3`.  The quotient equation height is polynomial in `D,C`.  Dujella's uniform bounded-height theorem for elliptic curves with rational prime-order torsion therefore gives, uniformly over all reduced directions,
+Physical height transfers polynomially: `H(U)<=2d` and a crude `H(V)<=2d^3`. The quotient equation height is polynomial in `D,C`. Dujella's uniform bounded-height theorem for elliptic curves with rational prime-order torsion therefore gives, uniformly over all reduced directions,
 
 \[
 \boxed{M_{D,C}(B/D)=B^{o(1)}.}
 \]
 
-Thus scale reuse is closed at the polynomial-exponent level.  If `A_{alpha,beta}(B)` counts active reduced directions in a fixed split partition, then
+Thus scale reuse is closed at the polynomial-exponent level. If `A_{alpha,beta}(B)` counts active reduced directions in a fixed split partition, then
 
 \[
 N_{\alpha,\beta}(B)\le B^{o(1)}A_{\alpha,\beta}(B),
@@ -354,20 +354,73 @@ Q_{split}(B)\le B^{o(1)}Q_{active-dir}(B),
 Q_{active-dir}(B)=\sum_{\alpha,\beta}A_{\alpha,\beta}(B)^2.
 \]
 
-Any fixed power saving for this active-direction second moment now closes the t-track target.  At `B=2m` the 356 frozen edges still occupy 356 distinct active directions and 356 distinct partitions, so the finite `Q_active-dir` equals 356; this is diagnostic only.
+Any fixed power saving for this active-direction second moment now closes the t-track target. At `B=2m` the 356 frozen edges still occupy 356 distinct active directions and 356 distinct partitions, so the finite `Q_active-dir` equals 356; this is diagnostic only.
 
-## 14-t23 — active generalized-Pell direction second moment
-Status: [>] Next.
+## 14-t23 — torsion / positive-rank dichotomy and order-8 packet
+Status: [x] Complete.
 
-Attack
+Shift the t22 quotient by `z=1-U`. Then
 
 \[
-Q_{active-dir}(B)=\sum_{\alpha,\beta}A_{\alpha,\beta}(B)^2.
+E_{D,C}: y^2=z\left(z^2+\left(4D^2/C^2-2\right)z+1\right)
 \]
 
-Classify whether a physical simultaneous completion on the t22 elliptic quotient is forced to be nontorsion (or isolate the torsion exceptional directions), then seek a uniform family count for active generalized-Pell directions strong enough to obtain a fixed power saving below `B`.
+contains the rational order-four point `(1,2D/C)`. Every physical point satisfies
 
-Primary target remains
+\[
+z=-\left(\frac{D+X}{Q}\right)^2<-1,
+\]
+
+so its rational 2-isogeny Kummer class is `[-1]`. Combining this with Mazur's torsion classification and the exact duplication formula shows that a physical quotient point can be torsion only with exact order eight.
+
+For a physical point
+
+\[
+x(2P)=\left(\frac{CX}{QY}\right)^2,
+\]
+
+and order eight forces `x(2P)=1`, equivalently
+
+\[
+X^2=D(D-C).
+\]
+
+The physical equations then give `Q^2=CD` and `Y^2=C(D-C)`. Since `(D,C)=1`, this implies
+
+\[
+D=a^2,\qquad C=b^2,\qquad D-C=c^2,
+\qquad a^2=b^2+c^2.
+\]
+
+Hence torsion-active reduced directions have first moment `O(B^{1/2+o(1)})` under `D<=B`. Moreover their split partitions lie in two explicit quartic squarefree-kernel packets:
+
+\[
+\alpha=1,\quad \beta=\operatorname{core}(m^4+6m^2n^2+n^4),
+\]
+
+or
+
+\[
+\alpha=2,\quad \beta=\operatorname{core}(m^4+n^4).
+\]
+
+Thus the active-direction second moment splits into a positive-rank branch and an explicit quartic torsion branch:
+
+\[
+Q_{active-dir}\le2Q_{rank}+2Q_{tor}.
+\]
+
+At `B=2m` there are zero order-eight necessary hits, so all 356 frozen active edges are certified to map to non-torsion quotient points and hence positive-rank direction quotients. This remains finite evidence for the family distribution.
+
+## 14-t24 — split second-moment attack
+Status: [>] Next.
+
+Attack the two residual energies separately:
+
+1. `Q_tor(B)`: squarefree-kernel collisions of the explicit quartics `m^4+n^4` and `m^4+6m^2n^2+n^4`, now eligible for the q4/q6 polynomial-square-sieve route;
+2. `Q_rank(B)`: positive-rank generalized-Pell direction activation in the physical small-height window, with q3 height-frequency tools as the natural comparison route.
+
+A fixed power saving for both implies one for `Q_active-dir`, then `Q_split`, then `Q_edge=o(B)`, and finally
 
 \[
 T(B)=o(\sqrt B).
@@ -401,6 +454,7 @@ STAGE14_T19=COMPLETE_CONDITIONED_DISCRIMINANT_IDENTITY_AND_FINITE_COLLISION_LEDG
 STAGE14_T20=COMPLETE_RAW_EDGE_COLLISION_CORRECTION_AND_COPRIME_FACTOR_REDUCTION
 STAGE14_T21=COMPLETE_PARTITION_DIRECTION_SCALE_REDUCTION
 STAGE14_T22=COMPLETE_UNIFORM_FIXED_DIRECTION_ELLIPTIC_QUOTIENT_BOUND
+STAGE14_T23=COMPLETE_TORSION_POSITIVE_RANK_DICHOTOMY_AND_ORDER8_PACKET_REDUCTION
 PRIMARY_TARGET=T(B)=o(sqrt(B))
-NEXT=Stage14-t23 active generalized-Pell direction second moment / torsion-rank activation
+NEXT=Stage14-t24 split second-moment attack / quartic torsion packet plus rank-active height frequency
 ```
