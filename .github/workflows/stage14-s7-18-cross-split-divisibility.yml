@@ -1,0 +1,48 @@
+name: Stage14-s7-18 cross-split divisibility
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-18/**'
+      - 'stages/stage14/scripts/14-s7-18/**'
+      - '.github/workflows/stage14-s7-18-cross-split-divisibility.yml'
+      - 'stages/stage14/14-s7-17/**'
+      - 'stages/stage14/14-s7-14/**'
+      - 'stages/stage14/14-4cc/**'
+      - 'stages/stage14/14-4cd/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-18 cross-split divisibility audit
+        run: python stages/stage14/scripts/14-s7-18/cross_split_divisibility_audit.py
+
+      - name: Check merged s7-17 boundary
+        run: |
+          grep -Fq 'STAGE14_S7_17=COMPLETE_PROJECTIVE_SLOPE_REDUCTION_AND_ALIAS_FREE_CENTERED_TRANSFER' stages/stage14/14-s7-17/result.md
+          grep -Fq 'PRIME_PAIR_PROJECTIVE_SLOPE_DISPERSION_PROVED=false' stages/stage14/14-s7-17/result.md
+
+      - name: Check merged collision and k-shell receivers
+        run: |
+          grep -Fq 'E_off(B)' stages/stage14/14-s7-14/result.md
+          grep -Fq 'K_SHELL_COORDINATE_SUPPORT_EXPONENT=(1+kappa)/2' stages/stage14/14-4cc/result.md
+          grep -Fq 'SEVEN_EIGHT_RESIDUAL_REQUIRES_K_EXPONENT=1-o(1)' stages/stage14/14-4cd/result.md
+
+      - name: Lock s7-18 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-18/result.md
+          grep -Fq 'STAGE14_S7_18=COMPLETE_SAME_SPLIT_COLLISION_ELIMINATION_AND_LARGE_CROSS_SPLIT_DISAGREEMENT_REDUCTION' "$f"
+          grep -Fq 'FIXED_SPLIT_XI_INJECTIVE_IF_k2_xi_GT_32_X4=true' "$f"
+          grep -Fq 'FIXED_SPLIT_CRITICAL_COLLISIONS_EXIST=false' "$f"
+          grep -Fq 'CRITICAL_SWITCH_PRODUCT_LOWER_EXPONENT=1/8' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_SWITCH_PRODUCT_LOWER_EXPONENT=3/8' "$f"
+          grep -Fq 'LARGE_DISAGREEMENT_CROSS_SPLIT_K_COLLISION_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'NEXT=Stage14-s7-19' "$f"
