@@ -41,7 +41,7 @@ These clauses identify a common kernel.  They do not bound it.
 |---|---|---|---|
 | `PositiveXiKCollision` | unit/nonnegative specialization; same-`k` row coherence; `o(P)` bad-prime budget; centered `H_xi^2 P` scale | `C_off(xi) << H_xi^2/P * B^o(1)` | s |
 | `SignedGaussianDispersion` | actual Gaussian rows; selector-sensitive signed estimate; compatible conductor and split-prime scale | a bound for `K_X(a,c_G)` only on its stated coefficient class | t/tH or named dispersion owner |
-| `SharedUBipartiteSquareclassEnergy` | fixed primitive `U`; divisor fan retained; both `(pi,V)` coordinates retained; squareclass fibers counted without row/column globalization | `E_U <= R_U B^o(1)` | t/tH15 |
+| `SharedUBipartiteSquareclassEnergy` | fixed primitive `U`; divisor fan retained; both `(pi,V)` coordinates retained; squareclass fibers counted without row/column globalization | after merged tH15, same-`pi` and same-`V` slices are near-linear; only `SharedUPhysicalBipartiteDispersion` may close the transverse term and hence `E_U <= R_U B^o(1)` | t/tH15/t55 |
 | `PrimePairProjectiveSlopeDispersion` | alias-free projective slope adapter; exact centered correction; joint distinct-prime averaging | the named projective second moment | s |
 
 ## Separation theorem
@@ -60,7 +60,9 @@ promotions are prohibited unless the listed extension hypotheses are proved:
 
 The H0 two-row sign example and the Gaussian squareclasses `1,6` at primes
 `5,13` witness the first two logical separations.  The Latin-square guard from
-the t route witnesses the row/column-to-bipartite separation.
+the t route witnesses the row/column-to-bipartite separation.  Merged tH15
+sharpens this last boundary by proving the same-`pi` and same-`V` slices and
+isolating the transverse term; it does not prove the transverse dispersion.
 
 ## Import rule
 
