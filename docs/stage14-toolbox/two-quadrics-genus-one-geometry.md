@@ -107,9 +107,11 @@ For 4bq, all layers are supplied: fixed core + one diagonal gives `B^o(1)` possi
 E_good-res(B)<<B^(3/7+1/2+o(1))=B^(13/14+o(1)).
 ```
 
-## 3. Current main exponent ledger
+## 3. Main exponent checkpoints around the genus-one closure
 
-Merged 4bq recombines
+### 3.1 4bq checkpoint
+
+Merged 4bq recombined
 
 ```text
 small partner leg : 20/21 = 120/126
@@ -117,25 +119,57 @@ cross branch      : 61/63 = 122/126
 good residual     : 13/14 = 117/126
 ```
 
-so
+and obtained
 
 ```text
 V(B)<<B^(61/63+o(1)).
 ```
 
-Compared with the prior `41/42=123/126`, the first full direct post-local saving is
+Compared with `41/42=123/126`, this gave the first full direct post-local saving
 
 ```text
-1/126.
+1/126,
 ```
 
-The current remaining gap to square-root scale is
+with then-remaining square-root gap
 
 ```text
-61/63-1/2=59/126.
+59/126.
 ```
 
-Historical `10/21` thresholds remain valid inside stages that froze them relative to the old `41/42` checkpoint, but `10/21` is no longer the current remaining whole-family gap.
+### 3.2 Current 4br checkpoint
+
+Merged 4br reoptimizes the cross branch to
+
+```text
+E_cross(B)<<B^(20/21+o(1)).
+```
+
+so the exhaustive sector maximum is now
+
+```text
+max(20/21,20/21,13/14)=20/21.
+```
+
+Hence
+
+```text
+V(B)<<B^(20/21+o(1)).
+```
+
+The cumulative direct post-local saving from the closed local baseline is
+
+```text
+41/42-20/21=1/42,
+```
+
+and the current remaining gap to square-root scale is
+
+```text
+20/21-1/2=19/42.
+```
+
+Historical `10/21` and `59/126` thresholds remain valid only at their respective checkpoints; the current remaining whole-family gap is `19/42`.
 
 ## 4. Fast dispatch
 
@@ -164,5 +198,6 @@ TB-FORMULA-conic-square-lift
 TB-LEMMA-diagonal-pair-genus-one-slope
 TB-BOUND-diagonal-pair-genus-one-count
 TB-WARNING-genus-one-quantifier-and-model-boundary
-TB-LEDGER-current-main-after-4bq
+TB-LEDGER-current-main-after-4bq [SUPERSEDED]
+TB-LEDGER-current-main-after-4br [CURRENT]
 ```
