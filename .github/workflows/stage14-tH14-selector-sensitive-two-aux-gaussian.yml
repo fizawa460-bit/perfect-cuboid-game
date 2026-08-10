@@ -24,6 +24,9 @@ jobs:
       - name: Run tH5 exact Gaussian-pair regression
         run: python stages/stage14/scripts/tH5/gaussian_pair_collision_energy_audit.py
 
+      - name: Rebuild merged t50 live ledger
+        run: python stages/stage14/scripts/14-t/t50_selector_sensitive_two_modulus_audit.py
+
       - name: Validate merged t50 frozen boundary
         run: python stages/stage14/scripts/14-t/t50_validate_frozen.py
 
