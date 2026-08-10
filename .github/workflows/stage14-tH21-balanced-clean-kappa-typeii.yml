@@ -1,0 +1,53 @@
+name: Stage14-tH21 balanced clean-kappa Type-II audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH21/**'
+      - 'stages/stage14/data/tH21/**'
+      - 'stages/stage14/scripts/14-tH21/**'
+      - '.github/workflows/stage14-tH21-balanced-clean-kappa-typeii.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Compile tH21 audit
+        run: python -m py_compile stages/stage14/scripts/14-tH21/balanced_clean_kappa_typeii_audit.py
+      - name: Run merged t75 regression
+        run: python stages/stage14/scripts/14-t/t75_angular_gcd_imbalance_audit.py
+      - name: Run merged t75 frozen validator
+        run: python stages/stage14/scripts/14-t/t75_validate_frozen.py
+      - name: Run merged t76 regression
+        run: python stages/stage14/scripts/14-t/t76_clean_kappa_cover_rootline_audit.py
+      - name: Run merged t76 frozen validator
+        run: python stages/stage14/scripts/14-t/t76_validate_frozen.py
+      - name: Run merged X12 global-ledger regression
+        run: python stages/stage14/scripts/14-X12/lost_core_fourth_root_71_128_audit.py
+      - name: Run tH21 deterministic audit
+        run: python stages/stage14/scripts/14-tH21/balanced_clean_kappa_typeii_audit.py
+      - name: Lock tH21 boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          f=stages/stage14/14-tH21/result.md
+          grep -q 'STAGE14_TH21=COMPLETE_BALANCED_CLEAN_KAPPA_CANONICAL_PRIME_PRIMITIVE_COVER_TYPEII_DISPERSION_APPLICABILITY_AUDIT' "$f"
+          grep -q 'T76_LARGE_CLEAN_KAPPA_BRANCH_REOPENED=false' "$f"
+          grep -q 'PROJECTIVE_ROOTLINE_KERNEL_RETAINED=true' "$f"
+          grep -q 'DFI_STYLE_DISPERSION_APPLICABLE=false' "$f"
+          grep -q 'KUZNETSOV_KLOOSTERMAN_APPLICABLE=false' "$f"
+          grep -q 'SPECTRAL_LARGE_SIEVE_APPLICABLE=false' "$f"
+          grep -q 'DIVISOR_SWITCHING_CAUCHY_POISSON_APPLICABLE=false' "$f"
+          grep -q 'MOVING_GAUSSIAN_PRIME_BILINEAR_APPLICABLE=false' "$f"
+          grep -q 'OFF_THE_SHELF_TYPEII_POWER_SAVING_PROVED=false' "$f"
+          grep -q 'CERTIFIED_TYPEII_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=71/128' "$f"
+          grep -q 'TH22_NEEDED=false' "$f"
+          grep -q 'NEXT=Stage14-t77' "$f"
