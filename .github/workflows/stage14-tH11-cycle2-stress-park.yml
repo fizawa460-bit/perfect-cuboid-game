@@ -1,0 +1,37 @@
+name: Stage14-tH11 second-cycle stress gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH11/**'
+      - 'stages/stage14/data/tH11/**'
+      - 'stages/stage14/scripts/tH11/**'
+      - '.github/workflows/stage14-tH11-cycle2-stress-park.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-tH11 deterministic stress gate
+        run: python stages/stage14/scripts/tH11/cycle2_stress_park_audit.py
+
+      - name: Validate locked boundary
+        run: |
+          grep -q 'STAGE14_TH11=COMPLETE_SECOND_CYCLE_STRESS_GATE_AND_PARK' stages/stage14/14-tH11/result.md
+          grep -q 'TH_CYCLE2_PARKED=true' stages/stage14/14-tH11/result.md
+          grep -q 'TH_SUPPORT_ROUTE_PARKED=true' stages/stage14/14-tH11/result.md
+          grep -q 'TH_NEW_INDEPENDENT_ROADWORK_AVAILABLE=false' stages/stage14/14-tH11/result.md
+          grep -q 'GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED=false' stages/stage14/14-tH11/result.md
+          grep -q '"status": "COMPLETE_SECOND_CYCLE_STRESS_GATE_AND_PARK"' stages/stage14/data/tH11/cycle2_stress_park_summary.json
