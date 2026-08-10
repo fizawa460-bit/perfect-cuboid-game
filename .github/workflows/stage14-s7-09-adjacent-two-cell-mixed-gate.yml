@@ -1,0 +1,49 @@
+name: Stage14-s7-09 adjacent two-cell mixed gate audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-09/**'
+      - 'stages/stage14/scripts/14-s7-09/**'
+      - '.github/workflows/stage14-s7-09-adjacent-two-cell-mixed-gate.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile s7-09 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-09/adjacent_two_cell_mixed_gate_audit.py
+
+      - name: Run predecessor s7-08 audit
+        run: python stages/stage14/scripts/14-s7-08/shared_xi_cell_switch_audit.py
+
+      - name: Run s7-09 deterministic audit
+        run: python stages/stage14/scripts/14-s7-09/adjacent_two_cell_mixed_gate_audit.py | tee /tmp/s709.log
+
+      - name: Check audit flags
+        run: |
+          grep -q 'ADJACENT_TWO_CELL_UNIVERSAL_NORMALISATION_AUDIT=true' /tmp/s709.log
+          grep -q 'INERT_ADJACENT_TWO_CELL_COMPLETE_TRACE_ZERO_AUDIT=true' /tmp/s709.log
+          grep -q 'TORUS_PRODUCT_RATIO_FACTORIZATION_AUDIT=true' /tmp/s709.log
+          grep -q 'MIXED_FOURIER_OP_SCALE_FINITE_EVIDENCE=true' /tmp/s709.log
+          grep -q 'MIXED_FOURIER_OP_BOUND_PROVED=false' /tmp/s709.log
+          grep -q 'SEQUENTIAL_ONE_CELL_SAVINGS_MULTIPLY=false' /tmp/s709.log
+          grep -q 'CONDITIONAL_16_17_LEDGER_AUDIT=true' /tmp/s709.log
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' /tmp/s709.log
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/s709.log
+
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_09=COMPLETE_ADJACENT_TWO_CELL_UNIVERSAL_TRACE_AND_MIXED_CHARACTER_GATE' stages/stage14/14-s7-09/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=18/19' stages/stage14/14-s7-09/result.md
+          grep -q 'INERT_ADJACENT_TWO_CELL_COMPLETE_TRACE_ZERO=true' stages/stage14/14-s7-09/result.md
+          grep -q 'ADJACENT_TWO_CELL_MIXED_FOURIER_OP_BOUND_PROVED=false' stages/stage14/14-s7-09/result.md
+          grep -q 'CONDITIONAL_WHOLE_FAMILY_EXPONENT=16/17' stages/stage14/14-s7-09/result.md
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' stages/stage14/14-s7-09/result.md
+          grep -q 'NEXT=Stage14-s7-10' stages/stage14/14-s7-09/result.md
