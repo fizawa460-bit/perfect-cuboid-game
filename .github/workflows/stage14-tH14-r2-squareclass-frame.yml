@@ -1,0 +1,44 @@
+name: Stage14-tH14 R2 squareclass frame boundary
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH14/**'
+      - 'stages/stage14/data/tH14/**'
+      - 'stages/stage14/scripts/tH14/**'
+      - '.github/workflows/stage14-tH14-r2-squareclass-frame.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile R2 audit
+        run: python -m py_compile stages/stage14/scripts/tH14/selector_sensitive_two_aux_gaussian_r2_audit.py
+
+      - name: Run merged tH14 regression
+        run: python stages/stage14/scripts/tH14/selector_sensitive_two_aux_gaussian_audit.py
+
+      - name: Run merged t51 regression
+        run: python stages/stage14/scripts/14-t/t51_exact_pair_diagonal_audit.py
+
+      - name: Run tH14 R2 deterministic audit
+        run: python stages/stage14/scripts/tH14/selector_sensitive_two_aux_gaussian_r2_audit.py
+
+      - name: Lock R2 theorem and failure boundary
+        run: |
+          grep -q 'STAGE14_TH14_R2=COMPLETE_R2_QUADRATIC_FRAME_REDUCTION_AND_MINIMAL_SQUARECLASS_FIBER_BOUNDARY' stages/stage14/14-tH14/r2.md
+          grep -q 'T32_ANGULAR_COMPLETION_BEFORE_STATE_PAIR_COLLAPSE=true' stages/stage14/14-tH14/r2.md
+          grep -q 'ORDERED_STATE_PAIR_CROSS_KERNEL_PRECOLLAPSE_USED=false' stages/stage14/14-tH14/r2.md
+          grep -q 'E4_COEFFICIENT_ENERGY_USED=false' stages/stage14/14-tH14/r2.md
+          grep -q 'DUAL_QUADRATIC_LARGE_SIEVE_PRODUCT_ROW_ADAPTER_PROVED=true' stages/stage14/14-tH14/r2.md
+          grep -q 'PHYSICAL_WEIGHTED_SQUARECLASS_FIBER_ENERGY_PROVED=false' stages/stage14/14-tH14/r2.md
+          grep -q 'MINIMAL_REMAINING_OBSTRUCTION=PhysicalWeightedSquareclassFiberEnergy' stages/stage14/14-tH14/r2.md
+          grep -q 'SELECTOR_SENSITIVE_TWO_AUXILIARY_GAUSSIAN_SECOND_MOMENT_PROVED=false' stages/stage14/14-tH14/r2.md
+          grep -q 'GLOBAL_EXTERNAL_TWO_PRIME_MEAN_SQUARE_BOUND_PROVED=false' stages/stage14/14-tH14/r2.md
+          grep -q 'NEXT=Stage14-t52 / Stage14-4cd' stages/stage14/14-tH14/LATEST.md
