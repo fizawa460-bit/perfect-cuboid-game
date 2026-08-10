@@ -1,0 +1,100 @@
+{
+  "stage": "14-tH16",
+  "status": "COMPLETE_CANONICAL_PRIME_DELTA_TOROIDAL_SECOND_MOMENT_APPLICABILITY_AUDIT",
+  "input": {
+    "source": "merged Stage14-t58",
+    "target": "SharedUCanonicalPrimeDeltaToroidalSecondMoment",
+    "target_bound": "sum_{p!=q}|sum_{ell*delta<=Y_U} sum_{s in C_U(ell,delta)} w_s K_pq(s)|^2 <= P^2*B^o(1)*sum_s|w_s|^2",
+    "t57_kernel": "K_p(t,x)=A_p(x/t)A_p(tx), A_p(z)=chi_p(z^2-1)",
+    "sharp_hyperbola_retained": true,
+    "same_modulus_two_coordinate_packet": true
+  },
+  "reciprocity": {
+    "projective_integer_value": "Delta_s=(B^2 P^2-A^2 Q^2)(B^2 Q^2-A^2 P^2) for t=A/B, x=P/Q",
+    "good_prime_identity": "K_r(s)=(Delta_s/r)=chi_{D_s}(r) after finite local refinement",
+    "D_s": "funddisc(sqf(Delta_s))",
+    "projection_proved": true,
+    "tH14_R2_product_row_QLS_import_valid": true,
+    "product_row_bound": "sum_{p!=q}|sum_D C_D chi_D(pq)|^2 <= B^o(1)*(K+L^2)*E_D",
+    "coefficient_energy": "E_D=sum_D |sum_{s:D_s=D} w_s|^2",
+    "closes_target": false,
+    "failure": "E_D is the unresolved fixed-U weighted squareclass-fiber energy"
+  },
+  "same_modulus_mellin": {
+    "t57_normalized_packet_L2_le_1": true,
+    "full_character_pair_orthogonality": "sum_{alpha,beta}|S_p(alpha,beta)|^2=(p-1)^2*residue_collision_energy",
+    "naive_one_prime_exact_injective_cost": "p^2*sum|a_s|^2",
+    "naive_two_prime_spectral_universe_cost": "p^2*q^2*sum|a_s|^2",
+    "naive_two_prime_fixed_power_overhead": "L^4",
+    "full_mode_cauchy_closes_target": false,
+    "gaussian_additive_sparse_moduli_large_sieve_direct_import_valid": false
+  },
+  "hyperbolic_bilinear": {
+    "radial_region": "ell*delta<=Y_U",
+    "region_geometry_compatible": true,
+    "ell_squarefree": true,
+    "delta_squarefree_on_physical_packet": false,
+    "kernel_is_Jacobi_delta_over_ell": false,
+    "angular_dependence_remains": true,
+    "external_auxiliary_modulus_remains": true,
+    "small_delta_axis_requires_separate_control": true,
+    "Wilson_direct_import_valid": false
+  },
+  "gaussian_reciprocity": {
+    "single_separated_symbol_identity": false,
+    "direct_FI_Gaussian_symbol_import_valid": false,
+    "multi_term_bounded_energy_reciprocity_decomposition_possible_future_route": true,
+    "proved": false
+  },
+  "new_contracts": {
+    "SameModulusToroidalKummerLargeSieve": {
+      "defined": true,
+      "proved": false,
+      "required_loss": "B^o(1) only"
+    },
+    "ToroidalHyperbolicJacobiBridge": {
+      "defined": true,
+      "proved": false,
+      "requirements": [
+        "bounded-energy separated angular coefficients",
+        "odd squarefree radial Jacobi variable",
+        "B^o(1) squarepart/orientation lift energy",
+        "target-scale axis/exceptional error",
+        "preserve sharp hyperbola"
+      ]
+    }
+  },
+  "critical_ledger": {
+    "N_U": "B^(u+o(1))",
+    "Y_U": "B^(1-u+o(1))",
+    "critical_ell": "B^(1/2+o(1))",
+    "delta_max": "B^(1/2-u+o(1))",
+    "auxiliary_L": "B^(rho+o(1))",
+    "quadratic_frame_conductor_condition": "2*rho>=d if K=B^(d+o(1))",
+    "allowed_fixed_power_loss": 0
+  },
+  "proof_boundary": {
+    "QUADRATIC_RECIPROCITY_PROJECTION_PROVED": true,
+    "TH14_R2_PRODUCT_ROW_QUADRATIC_LARGE_SIEVE_IMPORT_VALID": true,
+    "QUADRATIC_LARGE_SIEVE_CLOSES_T58_TARGET": false,
+    "QUADRATIC_LARGE_SIEVE_FAILURE_IS_SQUARECLASS_COEFFICIENT_ENERGY": true,
+    "FULL_MODE_ORTHOGONALITY_IDENTITY_PROVED": true,
+    "NAIVE_SAME_MODULUS_MELLIN_CAUCHY_CLOSES_TARGET": false,
+    "GAUSSIAN_ADDITIVE_SPARSE_MODULI_LARGE_SIEVE_DIRECT_IMPORT_VALID": false,
+    "DIRECT_GAUSSIAN_RECIPROCITY_SEPARATION_PROVED": false,
+    "DIRECT_FI_GAUSSIAN_SYMBOL_IMPORT_VALID": false,
+    "HYPERBOLIC_REGION_GEOMETRY_COMPATIBLE": true,
+    "HYPERBOLIC_JACOBI_KERNEL_IDENTITY_PROVED": false,
+    "DELTA_SQUAREFREE_ON_PHYSICAL_PACKET": false,
+    "WILSON_HYPERBOLIC_BILINEAR_DIRECT_IMPORT_VALID": false,
+    "SAME_MODULUS_TOROIDAL_KUMMER_LARGE_SIEVE_PROVED": false,
+    "TOROIDAL_HYPERBOLIC_JACOBI_BRIDGE_PROVED": false,
+    "PAIR_COLLAPSE_BEFORE_PHYSICAL_CANCELLATION_ALLOWED": false,
+    "E4_COEFFICIENT_ENERGY_USED": false,
+    "SHARED_U_CANONICAL_PRIME_DELTA_TOROIDAL_SECOND_MOMENT_PROVED": false,
+    "SHARED_U_PHYSICAL_TOROIDAL_MELLIN_CORRELATION_PROVED": false,
+    "SHARED_U_BIPARTITE_SQUARECLASS_ENERGY_PROVED": false
+  },
+  "minimal_remaining_obstruction": "SameModulusToroidalKummerLargeSieve_or_ToroidalHyperbolicJacobiBridge",
+  "next": "Stage14-t59 consume the no-import boundary and attack the actual canonical-prime/delta arithmetic"
+}
