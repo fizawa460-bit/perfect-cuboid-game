@@ -1,0 +1,41 @@
+name: Stage14-4bs architecture barrier joint receiver
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bs/**'
+      - 'stages/stage14/data/14-4/architecture_barrier_joint_receiver_summary.json'
+      - 'stages/stage14/scripts/14-4/architecture_barrier_joint_receiver_audit.py'
+      - '.github/workflows/stage14-4bs-architecture-barrier-joint-receiver.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4bs audit
+        run: python -m py_compile stages/stage14/scripts/14-4/architecture_barrier_joint_receiver_audit.py
+      - name: Run predecessor 4br audit
+        run: python stages/stage14/scripts/14-4/cross_weighted_threshold_audit.py
+      - name: Run 4bs exact audit
+        run: python stages/stage14/scripts/14-4/architecture_barrier_joint_receiver_audit.py | tee /tmp/4bs-audit.txt
+      - name: Check audit flags
+        run: |
+          grep -q 'ARCHITECTURE_OPTIMAL_THETA_20_21=true' /tmp/4bs-audit.txt
+          grep -q 'ARCHITECTURE_MIN_EXPONENT_20_21=true' /tmp/4bs-audit.txt
+          grep -q 'REMAINING_SQRT_GAP_19_42=true' /tmp/4bs-audit.txt
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/4bs-audit.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BS=EXACT_20_21_ARCHITECTURE_BARRIER_AND_JOINT_RECEIVER_SELECTION' stages/stage14/14-4bs/result.md
+          grep -q 'CURRENT_ARCHITECTURE_MIN_EXPONENT=20/21' stages/stage14/14-4bs/result.md
+          grep -q 'SIZE_SPLITTING_ALONE_CAN_BEAT_20_21=false' stages/stage14/14-4bs/result.md
+          grep -q 'NEXT_PRIMARY_RECEIVER=JOINT_DENOMINATOR_HYPERBOLA_SAME_KERNEL' stages/stage14/14-4bs/result.md
+          grep -q 'NEXT=Stage14-4bt' stages/stage14/14-4bs/result.md
