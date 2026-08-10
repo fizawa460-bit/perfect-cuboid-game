@@ -1,0 +1,28 @@
+name: Stage14-t66 primewise Cayley CRT
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t66/**'
+      - 'stages/stage14/data/14-t66/**'
+      - 'stages/stage14/scripts/14-t/t66_primewise_cayley_crt_audit.py'
+      - 'stages/stage14/scripts/14-t/t66_validate_frozen.py'
+      - '.github/workflows/stage14-t66-primewise-cayley-crt.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t65 predecessor regression
+        run: python stages/stage14/scripts/14-t/t65_cayley_divisor_lock_audit.py > /tmp/t65.json
+      - name: Run t66 primewise CRT audit
+        run: python stages/stage14/scripts/14-t/t66_primewise_cayley_crt_audit.py > /tmp/t66.json
+      - name: Validate frozen t66 boundary
+        run: python stages/stage14/scripts/14-t/t66_validate_frozen.py
+      - name: Compile t66 scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t66_primewise_cayley_crt_audit.py stages/stage14/scripts/14-t/t66_validate_frozen.py
