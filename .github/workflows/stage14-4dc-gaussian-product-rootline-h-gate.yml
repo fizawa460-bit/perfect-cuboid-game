@@ -1,0 +1,75 @@
+name: Stage14-4dc Gaussian product root-line H gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dc/**'
+      - 'stages/stage14/scripts/14-4/gaussian_product_rootline_h_gate_audit.py'
+      - 'stages/stage14/data/14-4/gaussian_product_rootline_h_gate_summary.json'
+      - '.github/workflows/stage14-4dc-gaussian-product-rootline-h-gate.yml'
+      - 'stages/stage14/14-s7-44/**'
+      - 'stages/stage14/14-4db/**'
+      - 'stages/stage14/14-s7-42/**'
+      - 'stages/stage14/14-s7-29/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4dc deterministic audit
+        run: python stages/stage14/scripts/14-4/gaussian_product_rootline_h_gate_audit.py
+
+      - name: Compile Stage14-4dc audit
+        run: python -m py_compile stages/stage14/scripts/14-4/gaussian_product_rootline_h_gate_audit.py
+
+      - name: Merged s7-44 dual-root-line regression
+        run: python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
+
+      - name: Merged 4db regression
+        run: python stages/stage14/scripts/14-4/cross_root_first_sqrt_audit.py
+
+      - name: Merged s7-42 regression
+        run: python stages/stage14/scripts/14-s7-42/sh41_critical_closure_stability_prism_audit.py
+
+      - name: Lock predecessor theorem facts
+        run: |
+          grep -Fq 'STAGE14_S7_44=COMPLETE_DUAL_PRIMITIVE_FULL_CORE_ROOT_LINE_REDUCTION_DETERMINANT_NOGO_AND_H_GATE' stages/stage14/14-s7-44/result.md
+          grep -Fq 'ENDPOINT_COLUMN_PRIMITIVE_ROOT_LINE_PROVED=true' stages/stage14/14-s7-44/result.md
+          grep -Fq 'SECOND_FULL_CORE_DETERMINANT_SPACING_LEGAL_FROM_CURRENT_IDENTITIES=false' stages/stage14/14-s7-44/result.md
+          grep -Fq 'S7_44_AUXILIARY_H_NEEDED=true' stages/stage14/14-s7-44/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' stages/stage14/14-4db/result.md
+          grep -Fq 'FIRST_RESIDUAL_AND_SINGLE_COLUMN_POWER_EQUIVALENT=true' stages/stage14/14-s7-42/result.md
+          grep -Fq 'RESIDUAL_TO_SINGLE_COLUMN_FIBER_MULTIPLICITY=Bo1' stages/stage14/14-s7-42/result.md
+          grep -Fq 'PRIMITIVE_ROOT_LINE_DYADIC_COUNT_PROVED=true' stages/stage14/14-s7-29/result.md
+
+      - name: Lock Stage14-4dc theorem boundary
+        run: |
+          f=stages/stage14/14-4dc/result.md
+          grep -Fq 'STAGE14_4DC=COMPLETE_GAUSSIAN_PRODUCT_ROOT_LINE_COMPRESSION_TRANSVERSE_RESULTANT_NOGO_AND_MAINLINE_H_GATE' "$f"
+          grep -Fq 'GAUSSIAN_PRODUCT_ROOT_LINE_EXPONENT=1/2-chi' "$f"
+          grep -Fq 'PRODUCT_PAIR_TO_RESIDUAL_PRIMITIVE_SPLIT_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'PRODUCT_PAIR_TO_SINGLE_COLUMN_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'DUAL_ROOT_LINE_CARTESIAN_PRODUCT_REPARAMETERIZED=true' "$f"
+          grep -Fq 'TRANSVERSE_ROOT_POLYNOMIAL_RESULTANT=4' "$f"
+          grep -Fq 'RATIONAL_CROSS_DETERMINANT_COPRIME_TO_FULL_GOOD_CORE=true' "$f"
+          grep -Fq 'RATIONAL_CROSS_SUM_COPRIME_TO_FULL_GOOD_CORE=true' "$f"
+          grep -Fq 'GAUSSIAN_CROSS_NORM_SECOND_MODULUS_ALLOWED=false' "$f"
+          grep -Fq 'SECOND_FULL_CORE_DETERMINANT_SPACING_LEGAL=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=true' "$f"
+          grep -Fq 'MAINLINE_BLOCKED_BY_H=true' "$f"
+          grep -Fq 'S7_44_DUAL_ROOT_LINE_H_TARGET_REFINED=true' "$f"
+          grep -Fq 'T80_CROSS_PROMOTED_TO_MAINLINE=false' "$f"
+          grep -Fq 'TH23_CROSS_PROMOTED_TO_MAINLINE=false' "$f"
+          grep -Fq 'NEXT=Stage14-4dd_after_H' "$f"
