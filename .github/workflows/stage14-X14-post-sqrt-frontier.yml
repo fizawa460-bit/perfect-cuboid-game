@@ -1,0 +1,99 @@
+name: Stage14-X14 post-sqrt frontier unification
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X14/**'
+      - 'stages/stage14/data/14-X14/**'
+      - 'stages/stage14/scripts/14-X14/**'
+      - '.github/workflows/stage14-X14-post-sqrt-frontier.yml'
+      - 'stages/stage14/14-X13/**'
+      - 'stages/stage14/14-s7-42/**'
+      - 'stages/stage14/14-s7-44/**'
+      - 'stages/stage14/14-s7-45/**'
+      - 'stages/stage14/14-4dc/**'
+      - 'stages/stage14/14-sH44/**'
+      - 'stages/stage14/14-4dH/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X14 exact audit
+        run: python stages/stage14/scripts/14-X14/post_sqrt_frontier_audit.py
+
+      - name: Compile Stage14-X14 audit
+        run: python -m py_compile stages/stage14/scripts/14-X14/post_sqrt_frontier_audit.py
+
+      - name: Run merged X13 regression
+        run: python stages/stage14/scripts/14-X13/reverse_reciprocal_sqrt_audit.py
+
+      - name: Run merged s7-42 regression
+        run: python stages/stage14/scripts/14-s7-42/sh41_critical_closure_stability_prism_audit.py
+
+      - name: Run merged s7-44 regression
+        run: python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
+
+      - name: Run merged s7-45 route-closure regression
+        run: python stages/stage14/scripts/14-s7-45/sh44_consumption_route_closure_audit.py
+
+      - name: Run merged 4dc regression
+        run: python stages/stage14/scripts/14-4/gaussian_product_rootline_h_gate_audit.py
+
+      - name: Run merged sH44 frozen audit regression
+        run: python stages/stage14/scripts/14-sH44/dual_root_line_snapshot_h_audit.py
+
+      - name: Run merged 4dH frozen audit regression
+        run: python stages/stage14/scripts/14-4/gaussian_product_physical_energy_h_audit.py
+
+      - name: Lock post-sqrt predecessor boundaries
+        run: |
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X13/result.md
+          grep -Fq 'RESIDUAL_TO_SINGLE_COLUMN_FIBER_MULTIPLICITY=Bo1' stages/stage14/14-s7-42/result.md
+          grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreDualRootLineCompatibilityEnergy' stages/stage14/14-s7-44/result.md
+          grep -Fq 'S7_ROUTE_CLOSED_AT_SQRT=true' stages/stage14/14-s7-45/result.md
+          grep -Fq 'S7_RESIDUAL_RECEIVER_EQUALS_MAINLINE_ZERO_FREQUENCY_DENSITY=true' stages/stage14/14-s7-45/result.md
+          grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreGaussianProductRootLinePhysicalCompletionEnergy' stages/stage14/14-4dc/result.md
+          grep -Fq 'SAFE_UNIFORM_DELTA=0' stages/stage14/14-sH44/result.md
+          grep -Fq 'ZERO_FREQUENCY_PHYSICAL_DENSITY_OBSTRUCTION=true' stages/stage14/14-4dH/result.md
+          grep -Fq 'COMMON_ODD_CORE_DIVIDES_BOTH_RESIDUAL_NORMS=true' stages/stage14/14-4cg/result.md
+
+      - name: Lock merged s7-45 X14 compatibility
+        run: |
+          f=stages/stage14/14-X14/s7-45-compatibility.md
+          grep -Fq 'MERGED_S7_45_COMPATIBILITY_CHECKED=true' "$f"
+          grep -Fq 'S7_45_ROUTE_CLOSURE_RESPECTED=true' "$f"
+          grep -Fq 'S7_45_ZERO_FREQUENCY_HANDOFF_REFINED_BY_X14=true' "$f"
+          grep -Fq 'S7_45_SAVING_DOUBLE_CHARGED=false' "$f"
+          grep -Fq 'S7_ROUTE_REOPENED_BY_X14=false' "$f"
+
+      - name: Lock Stage14-X14 theorem boundary
+        run: |
+          f=stages/stage14/14-X14/result.md
+          grep -Fq 'STAGE14_X14=COMPLETE_POST_SQRT_FRONTIER_UNIFICATION_AND_SWITCH_SUPPORTED_ZERO_FREQUENCY_IDENTIFICATION' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'SH44_AND_4DH_PHYSICAL_RECEIVERS_FINITE_FIBER_EQUIVALENT=true' "$f"
+          grep -Fq 'POST_SQRT_GLOBAL_H_RECEIVER_COUNT=1' "$f"
+          grep -Fq 'GAUSSIAN_PRODUCT_NORM_IDENTITY=P2_PLUS_Q2_EQUALS_2HKPLUS_OVER_G2' "$f"
+          grep -Fq 'ODDPART_HKPLUS_EQUALS_XI_SWITCH_TIMES_C=true' "$f"
+          grep -Fq 'GAUSSIAN_NORM_QUOTIENT_FIXED_POWER_SUPPORT=XI_SWITCH_PRODUCT' "$f"
+          grep -Fq 'SWITCH_SUPPORTED_ZERO_MODE_REPARAMETERIZES_GAUSSIAN_ROOT_LINE=true' "$f"
+          grep -Fq 'SWITCH_SUPPORT_IDENTIFICATION_ALONE_GIVES_POWER_SAVING=false' "$f"
+          grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterSwitchSupportedGaussianNormPhysicalAdmissibilityDensity' "$f"
+          grep -Fq 'X14_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X15' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
