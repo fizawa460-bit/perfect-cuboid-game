@@ -1,0 +1,115 @@
+{
+  "stage": "14-tH15",
+  "status": "COMPLETE_SHARED_U_BIPARTITE_RECEIVER_AND_TRANSVERSE_DISPERSION_BOUNDARY",
+  "trigger": {
+    "source": "merged Stage14-t54",
+    "fixed_U_reduces_to_one_dimension": false,
+    "shared_U_bipartite_squareclass_energy_required": true,
+    "shared_U_bipartite_squareclass_energy_assumed": false
+  },
+  "fixed_U_skeleton": {
+    "N_U": "m",
+    "N_V": "n=k*delta",
+    "divisor_condition": "k|epsilon*m",
+    "complementary_divisor": "h*k=epsilon*m",
+    "divisor_fan_choices": "B^o(1)",
+    "delta_remains_moving": true,
+    "primitive_V_remains_moving": true,
+    "canonical_pi_remains_moving": true
+  },
+  "mandatory_preservation": {
+    "fixed_primitive_U": true,
+    "epsilon": true,
+    "k_divides_epsilon_NU": true,
+    "moving_canonical_Gaussian_pi": true,
+    "moving_primitive_Gaussian_V": true,
+    "delta": true,
+    "visible_invisible_orientation": true,
+    "interval_selector": true,
+    "reconstruction_conditions": true,
+    "hyperbola_divisor_coupling": true,
+    "pair_to_cross_kernel_precollapse": false
+  },
+  "energy_partition": {
+    "identity": "E_U=R_U+I_same_pi+I_same_V+I_transverse",
+    "cauchy_used": false,
+    "same_pi_source": "t36 fixed-direction squareclass energy",
+    "same_pi_bound": "R_U*B^o(1)",
+    "same_V_source": "t38 moving-prime genus-one quartic",
+    "same_V_bound": "R_U*B^o(1)",
+    "remaining": "I_transverse"
+  },
+  "projective_trace": {
+    "variables": "x=Re(pi)/Im(pi), y=Re(V)/Im(V)",
+    "scale_invariant_squareclass": true,
+    "invisible": "-L(A_plus,B_plus;x)*L(A_minus,B_minus;x)",
+    "visible_same": "-A_plus*B_plus*(A_minus*(x^2-1)-2*B_minus*x)*(B_minus*(x^2-1)+2*A_minus*x)",
+    "visible_opposite": "same formula with plus/minus interchanged",
+    "bidegree_at_most": [4, 4],
+    "generic_geometry": "(4,4) double cover of P1xP1; K3-type after smooth/reduced certification",
+    "row_column_slices": "genus-one fibrations"
+  },
+  "transverse_frobenius": {
+    "state_character": "c_s(p)=chi_p(Ftilde_s)",
+    "energy": "Frob_tr=sum_{s,t:pi_s!=pi_t,V_s!=V_t}|sum_p c_s(p)c_t(p)|^2",
+    "principal_lower_bound": "I_tr*(P-2b)^2 <= Frob_tr",
+    "matrix_identity": "sum_pq[G_U^2-sum_pi G_U,pi^2-sum_V G_U,V^2+D_U]",
+    "pair_cross_kernel_aggregation_used": false
+  },
+  "missing_theorem": {
+    "name": "SharedUPhysicalBipartiteDispersion",
+    "contract": "Frob_tr <= P^2*R_U*B^o(1)",
+    "bad_prime_condition": "b=o(P)",
+    "natural_uncentered_amplifier_scale": "P>=R_U*B^-o(1)",
+    "implies": "E_U<=R_U*B^o(1)",
+    "proved": false
+  },
+  "known_theorem_audit": {
+    "direct_FI_Gaussian_Dirichlet_symbol_transfer": false,
+    "quadratic_large_sieve_after_squareclass_collapse_noncircular": false,
+    "arbitrary_set_trace_theorem_directly_certified": false,
+    "hyperbolic_Jacobi_bilinear_directly_certified": false
+  },
+  "countermodels": {
+    "latin_square": {
+      "N": 32,
+      "states": 1024,
+      "global_energy": 32768,
+      "near_linear_target": 1024,
+      "failure_factor": 32
+    },
+    "arbitrary_one_squareclass_selector": "E_U=R_U^2 even with explicit bivariate trace if arbitrary masks are allowed",
+    "cellwise_cauchy": "delta/common-core cell count may be polynomial and cannot be paid implicitly",
+    "pair_collapse": "tau-coefficient energy reintroduces unresolved E4"
+  },
+  "critical_ledger": {
+    "ell": "B^(1/2+o(1))",
+    "m_delta": "<=B^(1/2+o(1))",
+    "N_V": "<=B^(1/2+o(1))",
+    "pi_coordinate_height": "B^(1/4+o(1))",
+    "V_coordinate_height": "<=B^(1/4+o(1))",
+    "R_U": "B^(r+o(1))",
+    "auxiliary_P": "B^(rho+o(1))",
+    "natural_uncentered_condition": "rho>=r",
+    "required_fixed_power_loss": "omega=0"
+  },
+  "proof_boundary": {
+    "cauchy_free_row_column_transverse_partition_proved": true,
+    "same_pi_principal_energy_near_linear": true,
+    "same_V_principal_energy_near_linear": true,
+    "t38_projective_bipartite_factorization_proved": true,
+    "projective_trace_bidegree_at_most_4_4": true,
+    "K3_type_double_cover_theorem_shape_identified": true,
+    "transverse_positive_frobenius_receiver_proved": true,
+    "transverse_matrix_inclusion_exclusion_identity_proved": true,
+    "shared_U_physical_bipartite_dispersion_defined": true,
+    "shared_U_physical_bipartite_dispersion_proved": false,
+    "E4_coefficient_energy_used": false,
+    "shared_U_bipartite_squareclass_energy_proved": false,
+    "global_principal_collision_power_saving_proved": false,
+    "global_fourth_energy_power_saving_proved": false,
+    "critical_sqrt_ell_strip_power_saving_proved": false
+  },
+  "minimal_remaining_obstruction": "SharedUPhysicalBipartiteDispersion",
+  "next": "Stage14-t55"
+}
