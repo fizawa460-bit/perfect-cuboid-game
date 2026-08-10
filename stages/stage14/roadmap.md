@@ -144,33 +144,43 @@ The s-track is a direct input to the main line:
 
 The later `s7` route exhausted its then-known exact gcd/CRT/common-core/Cayley/root-line/row-column/reciprocal-reconstruction reductions at the square-root scale and was closed by merged `Stage14-s7-45`.
 
-Stage14-4de subsequently produced a genuinely new exact bridge which was not available at that closure snapshot: on full-residual square-root saturation, the common core and first signed residual have only `B^o(1)` cross gcd and combine into a quarter-scale mixed fourth-root modulus
-
-```text
-Q_mix=C_*u_*=B^(1/4+o(1)),
-t^2=-1 mod C_*,
-t^2=+1 mod u_*,
-t^4=1 mod Q_mix,
-```
-
-with the `C_*/u_*` prime-power allocation recovered from `(Q_mix,t)` by `gcd(Q_mix,t^2+1)` and `gcd(Q_mix,t^2-1)`.
-
-Stage14-s7-46 consumes that reactivation and proves that the mixed-root tuple also reconstructs, with only `B^o(1)` fibers,
+Stage14-4de then produced a genuinely new exact mixed-root bridge and made the positive reactivation decision. Merged `Stage14-s7-46` consumed that reactivation and proved finite-fiber equivalence between the mixed-root tuple and the full signed reciprocal physical packet, reconstructing
 
 ```text
 first-residual sign allocation,
-xi-switch product S*T,
-xi-agreement product R*J,
-first signed quotient/agreement pair,
+M_+=oddpart(D^2+A^2)/C_* = S*T * B^o(1),
+M_-=oddpart(D^2-A^2)/u_* = R*J * B^o(1),
+first signed quotient/agreement data,
 second reciprocal / X13 physical completion.
 ```
 
-The second reciprocal therefore has no independent fixed-power support. The newly exposed exact receiver is the simultaneous balanced squarefree two-cell factorization of the complementary cofactors
+Stage14-4df then peels the two same-side overlaps
 
 ```text
-M_+=oddpart(D^2+A^2)/C_* = S*T * B^o(1),
-M_-=oddpart(D^2-A^2)/u_* = R*J * B^o(1).
+W_+=gcd(C_*,M_+),
+W_-=gcd(u_*,M_-),
 ```
+
+which are divisor-many after the mixed tuple is fixed but lift the actual root modulus to
+
+```text
+Q_eff=Q_mix*W_+*W_-.
+```
+
+For fixed overlap exponents,
+
+```text
+E<=1/2-w_+-w_-.
+```
+
+Hence possible square-root saturation requires
+
+```text
+gcd(C_*,M_+)=B^o(1),
+gcd(u_*,M_-)=B^o(1),
+```
+
+and, together with 4de cross-coprimality, the four blocks `C_*`, `M_+`, `u_*`, `M_-` are pairwise separated at fixed-power scale.
 
 Current route state:
 
@@ -180,41 +190,40 @@ S_ROUTE_CLOSED_BY=Stage14-s7-45
 S_ROUTE_REACTIVATION_TRIGGERED_BY=Stage14-4de
 S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46
 S_ROUTE_REACTIVATION_NEEDED=false
+S_ROUTE_REACTIVATION_DECISION_REQUIRED=false
+S_ROUTE_REACTIVATION_CHECK_SUSPENDED=true
+S_ROUTE_REACTIVATION_CHECK_RESUMES_WHEN_S_ROUTE_CLOSED=true
 USER_DECIDES_S_ROUTE_REACTIVATION=false
 ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
-S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScaleMixedFourthRootDualBalancedXiCofactorSplitPhysicalAdmissibilityDensity
+S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootDualBalancedXiCofactorSplitPhysicalAdmissibilityDensity
 S_ROUTE_NEXT=Stage14-s7-47
 ```
 
-The user is **not** expected to decide whether the s-route should be restarted. Any later mainline, `t`, `X`, toolbox, q/literature, or other Stage14 stage that materially changes the surviving receiver must explicitly evaluate whether the new result creates a genuinely new s-specific exact structure or theorem bridge.
-
-Required decision fields for any such material receiver change:
+Operational state machine:
 
 ```text
-MATERIAL_RECEIVER_CHANGE_REQUIRES_S_REACTIVATION_CHECK=true
-S_ROUTE_REACTIVATION_NEEDED=true|false
+if S_ROUTE_CURRENT_STATE is ACTIVE / ACTIVE_REACTIVATED / SCHEDULED:
+    do not perform a yes/no s-route reactivation decision in each mainline/X/t/toolbox/q stage
+    compatible new results may refine the receiver handed to the active s route
+
+if a future s-stage explicitly declares the route CLOSED:
+    set S_ROUTE_REACTIVATION_CHECK_SUSPENDED=false
+    resume the reactivation yes/no check on subsequent material receiver changes
 ```
 
-If the answer is `true`, the same stage result or immediate roadmap update must also record:
+Therefore a reactivation decision is required only while the s route is closed. Once s has been revived, the decision remains settled until s closes again.
+
+When the check is active because s is closed, a positive decision still requires an explicit new exact/theorem bridge into an s-specific receiver. A new route name, a stronger global exponent, or similar notation alone is not enough.
+
+Operational locks:
 
 ```text
-S_ROUTE_REACTIVATION_TRIGGER=<exact new identity/theorem/bridge>
-S_ROUTE_REACTIVATION_TARGET=<named next s stage>
-S_ROUTE_REACTIVATION_REASON=<why the new structure is actionable in s coordinates>
-```
-
-and the roadmap must visibly tell the user that the s-route should be restarted. A new route name by itself, a stronger global exponent by itself, or a theorem with merely similar notation is not enough: an explicit bridge back to an s-specific receiver is required.
-
-If a later stage answers `false`, s remains in its then-current state and no s stage should be scheduled merely to re-audit an already exhausted obstruction.
-
-Operational lock:
-
-```text
+S_REACTIVATION_CHECK_ONLY_WHEN_S_ROUTE_CLOSED=true
+S_REACTIVATION_CHECK_SUSPENDED_WHILE_S_ACTIVE_OR_SCHEDULED=true
+S_REACTIVATION_CHECK_RESUMES_ON_NEXT_S_CLOSURE=true
 S_REACTIVATION_REQUIRES_NEW_EXACT_STRUCTURE_OR_THEOREM_BRIDGE=true
 S_REACTIVATION_REQUIRES_EXPLICIT_RECEIVER=true
-S_REACTIVATION_MUST_BE_SURFACED_TO_USER_IN_ROADMAP=true
 S_ROUTE_MUST_NOT_BE_RESTARTED_BY_USER_GUESS=true
-NO_NEW_S_SPECIFIC_RECEIVER_MEANS_KEEP_S_CLOSED=true
 ```
 
 ## Triple gate
@@ -242,7 +251,7 @@ COMPLETED_H_MERGES_AS_SCOPED_SNAPSHOT_RESULT=true
 LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true
 ```
 
-In particular, once `tH23` (or any other H stage) starts, later `t82/t83/...` work must not repeatedly rewrite the `tH23` target. The H result is merged as a certificate about its recorded source snapshot. If later reductions expose a materially different receiver that needs another external audit, open `tH24` rather than revising `tH23`.
+In particular, once `tH23` (or any other H stage) starts, later `t82/t83/...` work must not repeatedly rewrite the `tH23` target. The H result is merged as a certificate about its recorded source snapshot. If later reductions expose a materially different receiver that needs another external audit, open the next H number rather than revising the running snapshot.
 
 Prefer to start H from a merged source stage. If true parallelism is useful before the source merges, freeze the exact source head SHA, use a Draft/stacked H PR, and after the source merges perform only a mechanical retarget/rebase without changing the mathematical target.
 
