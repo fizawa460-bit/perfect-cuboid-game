@@ -30,8 +30,9 @@ def predecessor_audit() -> None:
     x13 = X13.read_text()
     s744 = S744.read_text()
 
-    need(t80, "T80_PROJECTIVE_GAUSS_DUALIZATION_RETAINED=true", "t80")
-    need(t80, "ADDITIVE_DUAL_MODULUS_IS_RATIONAL_D=true", "t80")
+    need(t80, "STAGE14_T80=COMPLETE_NEAR_FULL_SUPPORT_PROJECTIVE_GAUSS_DUALIZATION_TO_PRIMITIVE_INVERSE_FRACTION_KERNEL", "t80")
+    need(t80, "PROJECTIVE_ADDITIVE_DUAL_MODULUS=d", "t80")
+    need(t80, "PROJECTIVE_CONDUCTOR_COMPRESSION_TO_RATIONAL_ADDITIVE_MODULUS_PROVED=true", "t80")
     need(t81, "TWO_ADDITIVE_FREQUENCIES_COLLAPSE_TO_ONE=Bo1", "t81")
     need(t81, "AFFINE_DEGENERACY_IS_FIXED_U_BETA_COORDINATE_SUPPORT=true", "t81")
     need(t82, "STAGE14_T82=COMPLETE_AFFINE_DEGENERATE_RAY_MODULUS_TO_FIXED_U_COORDINATE_DIVISOR_HOST", "t82")
@@ -65,9 +66,6 @@ def selector_divisor_audit() -> dict[str, int]:
     max_ratio_den = 1
     divisor_host_checks = 0
 
-    # Primitive fixed-U samples; synthetic alpha/beta ray moduli are chosen
-    # squarefreely from coordinate divisors.  This checks only the exact
-    # selector/divisor identities consumed by tH23, not analytic saving.
     samples = [(3, 4), (5, 12), (8, 15), (20, 21), (12, 35), (33, 56)]
     for R, S in samples:
         assert gcd(R, S) == 1
@@ -89,10 +87,10 @@ def selector_divisor_audit() -> dict[str, int]:
                 for d_diag in divisors(D):
                     assert D % d_diag == 0
                     assert abs(R * S) % d_diag == 0
-                    # Choose any ell satisfying merged t65 ell>2m.
+                    # Any ell satisfying merged t65 ell>2m gives d_diag<ell/4.
                     ell = 2 * m + 1
-                    assert d_diag <= m // 2 or d_diag * 2 <= m
-                    assert 4 * d_diag < ell * 2  # weaker integer form of d<=m/2<ell/4 up to endpoint convention
+                    assert 2 * d_diag <= m
+                    assert 4 * d_diag < ell
                     checks += 1
 
                     if D * max_ratio_den > max_ratio_num * m:
@@ -122,8 +120,6 @@ def modulus_multiplicity_audit() -> dict[str, int]:
 
 def matched_frequency_audit() -> dict[str, int]:
     checks = 0
-    # For squarefree sample moduli and signs s^2=1, each primitive a has a
-    # unique matched b=s*a modulo the full diagonal modulus.
     for d in [15, 21, 35, 55, 77, 105]:
         signs = [1, d - 1]
         for s in signs:
