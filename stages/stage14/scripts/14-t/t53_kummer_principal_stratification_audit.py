@@ -58,9 +58,9 @@ def block_flags(x, y):
 def main():
     t52 = json.loads(T52.read_text())
     assert t52["boundary"] == "COMPLETE_SSGC_PRINCIPAL_RESONANCE_AUDIT_AND_KUMMER_REIDENTIFICATION"
-    assert t52["FROZEN_POST_RESIDUE_PRINCIPAL_BLOCKS"] == 14
-    assert t52["FROZEN_POST_RESIDUE_DISTINCT_ELL_CROSS_GOOD_BLOCKS"] == 12
-    assert t52["FROZEN_POST_RESIDUE_SAME_ELL_BLOCKS"] == 2
+    assert t52["principal"]["post_residue_blocks"] == 14
+    assert t52["principal"]["post_residue_distinct_ell_cross_good_blocks"] == 12
+    assert t52["principal"]["post_residue_same_ell_blocks"] == 2
 
     t36 = runpy.run_path(str(T36_SCRIPT), run_name="stage14_t36_import")
     t42 = runpy.run_path(str(T42_SCRIPT), run_name="stage14_t42_import")
@@ -110,10 +110,7 @@ def main():
     shared_v = [r for r in distinct if r["same_V_unit"]]
     transverse = [r for r in distinct if not r["same_U_unit"] and not r["same_V_unit"]]
 
-    # Every post-residue block has distinct exact Gaussian-pair labels by construction.
     assert all(not r["same_exact_unit_pair"] for r in post)
-    # t52/t44 identify every distinct-ell post-residue block as cross-good LD2.
-    # We retain that merged classification; this stage only refines its arithmetic fibers.
 
     report = {
         "stage": "14-t53",
