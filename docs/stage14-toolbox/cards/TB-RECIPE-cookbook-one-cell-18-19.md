@@ -4,7 +4,7 @@
 ID: TB-RECIPE-cookbook-one-cell-18-19
 TYPE: RECIPE
 STATUS: CURRENT
-TITLE: Proved one-cell shared-xi adaptive sieve checklist yielding 18/19
+TITLE: Proved one-cell shared-xi adaptive sieve checklist yielding historical 18/19 checkpoint
 SCOPE: BOTH
 SOURCE_STAGE: Stage14-s7-08
 SOURCE_PR: 417
@@ -21,7 +21,7 @@ The hard product-square/same-kernel sector after the denominator, square-part, a
 
 ## OUTPUT
 
-The proved whole-family estimate
+The proved checkpoint estimate
 
 ```text
 V(B) << B^(18/19+o(1))
@@ -44,15 +44,16 @@ theta=8/19
 
 ## USED BY
 
-- Current whole-family bound comparisons.
-- Any future attempt to improve the one-cell architecture.
-- Identifying which sector must beat `18/19` to change the current ledger.
+- Reusing the one-cell thin receiver inside later architectures such as 4bx.
+- Historical comparison with the first post-20/21 one-cell optimum.
+- Any future attempt to improve the one-cell thin mechanism itself.
 
 ## DO NOT USE FOR
 
+- Do not call `18/19` current after merged 4bx; read the terminal CURRENT ledger.
 - Do not multiply two one-cell savings unless a joint two-variable theorem is proved.
-- Do not replace the current `18/19` by the conditional `16/17` receiver from s7-09.
+- Do not promote a conditional two-cell target to a theorem.
 
 ## PROVENANCE NOTES
 
-Merged s7-08 is the canonical first source of the `18/19` theorem.
+Merged s7-08 is the canonical first source of the proved `18/19` theorem; later stages may reuse the receiver while superseding its whole-family checkpoint.
