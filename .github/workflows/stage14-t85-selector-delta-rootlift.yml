@@ -1,0 +1,72 @@
+name: Stage14-t85 selector-delta root lift
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t85/**'
+      - 'stages/stage14/data/14-t85/**'
+      - 'stages/stage14/scripts/14-t/t85_*'
+      - '.github/workflows/stage14-t85-selector-delta-rootlift.yml'
+      - 'stages/stage14/14-t84/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-t85 deterministic audit
+        run: python stages/stage14/scripts/14-t/t85_selector_delta_rootlift_audit.py
+
+      - name: Stage14-t85 frozen validator
+        run: python stages/stage14/scripts/14-t/t85_validate_frozen.py
+
+      - name: Compile t85 scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t85_selector_delta_rootlift_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t85_validate_frozen.py
+
+      - name: Regress merged t84 binary norm audit
+        run: python stages/stage14/scripts/14-t/t84_primitive_binary_norm_lpf_audit.py
+
+      - name: Lock t84 predecessor
+        run: |
+          f=stages/stage14/14-t84/result.md
+          grep -Fq 'STAGE14_T84=COMPLETE_PRIMITIVE_BINARY_NORM_SUPER_SQRT_LPF_AND_SHORT_COFACTOR_REDUCTION' "$f"
+          grep -Fq 'PRIMITIVE_SWITCHED_BINARY_NORM_PROVED=true' "$f"
+          grep -Fq 'CANONICAL_ELL_RECOVERED_AS_BINARY_NORM_LPF=true' "$f"
+          grep -Fq 'TH24_NEEDED=true' "$f"
+          grep -Fq 'TH24_DISPATCHED=false' "$f"
+
+      - name: Lock immutable H protocol
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock t85 theorem boundary
+        run: |
+          f=stages/stage14/14-t85/result.md
+          grep -Fq 'STAGE14_T85=COMPLETE_SELECTOR_DELTA_COPRIMALITY_MODULUS_SQUARE_ROOT_LIFT_AND_SQUARE_QUOTIENT_REDUCTION' "$f"
+          grep -Fq 'VERTICAL_COORDINATE_COPRIME_TO_BINARY_NORM=true' "$f"
+          grep -Fq 'SELECTOR_DIVISOR_COPRIME_TO_DELTA=true' "$f"
+          grep -Fq 'BINARY_NORM_SQUARE_ROOT_LIFT_MOD_D2=true' "$f"
+          grep -Fq 'SELECTOR_ROOT_LIFT_QUADRATIC_CHARACTER_EXPANSION_PROVED=true' "$f"
+          grep -Fq 'PRIME_COFACTOR_QUADRATIC_CHARACTER_TENSORIZATION_PROVED=true' "$f"
+          grep -Fq 'VERTICAL_DIVISOR_CONDITION_EQUIVALENT_TO_ROOT_LIFT_PLUS_SQUARE_QUOTIENT=true' "$f"
+          grep -Fq 'SELECTOR_DELTA_PRODUCT_HYPERBOLA_PROVED=true' "$f"
+          grep -Fq 'SELECTOR_DELTA_SQUARED_HYPERBOLA_PROVED=true' "$f"
+          grep -Fq 'TH24_TARGET_REOPENED=false' "$f"
+          grep -Fq 'TH25_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t86' "$f"
