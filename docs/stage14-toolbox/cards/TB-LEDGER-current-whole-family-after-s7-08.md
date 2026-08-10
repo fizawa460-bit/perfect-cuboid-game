@@ -35,7 +35,7 @@ CURRENT_REMAINING_GAP_TO_SQRT=17/38
 Relative to the closed local `41/42` baseline, the cumulative direct post-local saving is
 
 ```text
-41/42 - 18/19 = 11/798.
+41/42 - 18/19 = 23/798.
 ```
 
 ## VARIABLE DICTIONARY
@@ -43,6 +43,7 @@ Relative to the closed local `41/42` baseline, the cumulative direct post-local 
 - `V(B)` = current Stage14 physical whole-family count at the merged receiver boundary.
 - `18/19` = whole-family exponent, not a single-sector exponent.
 - `17/38` = remaining exponent gap to `1/2`.
+- `23/798` = cumulative saving relative to the closed local `41/42` physical baseline.
 
 ## USED BY
 
