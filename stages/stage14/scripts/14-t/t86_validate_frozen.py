@@ -29,7 +29,7 @@ EXPECTED = {
 
 
 def main():
-    root = Path(__file__).resolve().parents[3]
+    root = Path(__file__).resolve().parents[2]
     path = root / "data" / "14-t86" / "fixed_discriminant_prime_form_frozen.json"
     data = json.loads(path.read_text())
 
