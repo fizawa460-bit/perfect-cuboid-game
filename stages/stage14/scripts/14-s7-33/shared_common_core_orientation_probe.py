@@ -3,7 +3,11 @@
 
 Classify how odd common-core primes occur in the k-plus Gaussian host,
 xi-plus Gaussian host, and the residual xi switched Gaussian quotient W_S.
-This is finite diagnostic evidence; asymptotic claims belong in result.md.
+Also audit the exact auxiliary Gaussian factor in
+
+    2*T*Z_S = g1*g2*(D+iA)*(beta*r1*s2+i*gamma*s1*r2).
+
+Finite output is diagnostic evidence; asymptotic claims belong in result.md.
 """
 from collections import Counter
 from importlib.util import module_from_spec, spec_from_file_location
@@ -46,7 +50,6 @@ def prime_factors(n: int):
 
 
 def relation(z, w, p):
-    """same/opposite Gaussian slope mod p, or degenerate."""
     a, b = z
     c, d = w
     if (a * b * c * d) % p == 0:
@@ -75,15 +78,29 @@ def packet_probe(a_state, b_state):
     dd = int(d["ck_minus"])
     h = gcd(c, dd)
 
-    P1, Q1, g1 = s32.state_pq(a_state)
-    P2, Q2, g2 = s32.state_pq(b_state)
+    _, _, g1 = s32.state_pq(a_state)
+    _, _, g2 = s32.state_pq(b_state)
     omega1 = g1 * a_state["r"] * a_state["s"]
     omega2 = g2 * b_state["r"] * b_state["s"]
     ZS = (R * b_state["x"] ** 2 * omega1, J * a_state["y"] ** 2 * omega2)
-    lamS, WS = s32.gaussian_descent_allow_one(ZS[0], ZS[1], S)
+    _, WS = s32.gaussian_descent_allow_one(ZS[0], ZS[1], S)
     assert s32.gnorm(WS) == C * v_res * (S // s32.oddpart(S)) ** 2
 
+    # Exact Gaussian product identity.
+    ES = (
+        beta * a_state["r"] * b_state["s"],
+        gamma * a_state["s"] * b_state["r"],
+    )
     hk = (D, A)
+    lhs = (2 * T * ZS[0], 2 * T * ZS[1])
+    rhs = (
+        g1 * g2 * (hk[0] * ES[0] - hk[1] * ES[1]),
+        g1 * g2 * (hk[0] * ES[1] + hk[1] * ES[0]),
+    )
+    assert lhs == rhs
+    # Odd norm relation forced by taking norms in the product identity.
+    assert s32.oddpart(s32.gnorm(ES)) == s32.oddpart(S * T * v_res)
+
     hx = (Q, P)
     ctr = Counter()
     for ell in prime_factors(C):
@@ -100,7 +117,7 @@ def packet_probe(a_state, b_state):
         ctr[("hk_hx", relation(hk, hx, ell))] += 1
         ctr[("hk_ws", relation(hk, WS, ell))] += 1
         ctr[("hx_ws", relation(hx, WS, ell))] += 1
-    return ctr, C, v_res, h, WS
+    return ctr, C, v_res, h, WS, S, T, s32.gnorm(ES)
 
 
 def main():
@@ -108,6 +125,8 @@ def main():
     total = Counter()
     checked = 0
     max_C = max_v = max_h = max_wgcd = 1
+    max_C_ST = max_C_v = max_C_STv = max_C_ES = 1
+    nontrivial_C_ST = nontrivial_C_v = nontrivial_C_STv = 0
     for states in groups.values():
         for i in range(len(states)):
             for j in range(i + 1, len(states)):
@@ -116,13 +135,24 @@ def main():
                     continue
                 if (a["km"], a["kp"]) == (b["km"], b["kp"]):
                     continue
-                ctr, C, v, h, WS = packet_probe(a, b)
+                ctr, C, v, h, WS, S, T, NES = packet_probe(a, b)
                 total.update(ctr)
                 checked += 1
                 max_C = max(max_C, C)
                 max_v = max(max_v, v)
                 max_h = max(max_h, h)
                 max_wgcd = max(max_wgcd, gcd(abs(WS[0]), abs(WS[1])))
+                gST = gcd(C, S * T)
+                gv = gcd(C, v)
+                gSTv = gcd(C, S * T * v)
+                gES = gcd(C, NES)
+                max_C_ST = max(max_C_ST, gST)
+                max_C_v = max(max_C_v, gv)
+                max_C_STv = max(max_C_STv, gSTv)
+                max_C_ES = max(max_C_ES, gES)
+                nontrivial_C_ST += int(gST > 1)
+                nontrivial_C_v += int(gv > 1)
+                nontrivial_C_STv += int(gSTv > 1)
     assert checked > 0
     print("Stage14-s7-33 shared common-core orientation probe: PASS")
     print(f"finite physical pairs checked: {checked}")
@@ -130,6 +160,10 @@ def main():
     print(f"max v_res: {max_v}")
     print(f"max quotient gcd h: {max_h}")
     print(f"max gcd(Re W_S, Im W_S): {max_wgcd}")
+    print(f"max gcd(C,S*T): {max_C_ST}; nontrivial packets: {nontrivial_C_ST}")
+    print(f"max gcd(C,v_res): {max_C_v}; nontrivial packets: {nontrivial_C_v}")
+    print(f"max gcd(C,S*T*v_res): {max_C_STv}; nontrivial packets: {nontrivial_C_STv}")
+    print(f"max gcd(C,N(E_S)): {max_C_ES}")
     for key in sorted(total, key=str):
         print(f"{key}: {total[key]}")
 
