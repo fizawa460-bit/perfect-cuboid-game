@@ -1,0 +1,50 @@
+name: Stage14-s7-02 specialization torsion audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-02/**'
+      - 'stages/stage14/scripts/14-s7-02/**'
+      - '.github/workflows/stage14-s7-02-specialization-torsion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-02/specialization_torsion_positive_rank_audit.py
+      - name: Run predecessor s7-01 audit
+        run: python stages/stage14/scripts/14-s7-01/generic_mw_section_classification_audit.py
+      - name: Run s7-02 deterministic audit
+        run: python stages/stage14/scripts/14-s7-02/specialization_torsion_positive_rank_audit.py | tee /tmp/s7-02.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^MERGED_S7_01_BOUNDARY_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^BOUNDARY_TO_E2_TWO_TO_ONE_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^BOUNDARY_Z2_Z4_RECEIVER_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^MAZUR_ONLY_Z2_Z8_GROWTH_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^PHYSICAL_LEGENDRE_ORDER4_OBSTRUCTION_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^FERMAT_QUARTIC_PHYSICAL_GRID_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^PHYSICAL_U_OPEN_INTERVAL_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^PHYSICAL_NONBOUNDARY_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^POSITIVE_RANK_GATE_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^S7_02_EXPONENT_LEDGER_AUDIT=true$' /tmp/s7-02.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s7-02.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_02=COMPLETE_SPECIALIZATION_TORSION_GROWTH_EXCLUSION_AND_POSITIVE_RANK_GATE' stages/stage14/14-s7-02/result.md
+          grep -q 'BOUNDARY_SUBGROUP_STRUCTURE=(Z/2Z)x(Z/4Z)' stages/stage14/14-s7-02/result.md
+          grep -q 'LEGENDRE_PHYSICAL_ORDER4_TORSION_EXISTS=false' stages/stage14/14-s7-02/result.md
+          grep -q 'JACOBI_PHYSICAL_TORSION_GROWTH_EXISTS=false' stages/stage14/14-s7-02/result.md
+          grep -q 'PHYSICAL_NONBOUNDARY_POINT_HAS_INFINITE_ORDER=true' stages/stage14/14-s7-02/result.md
+          grep -q 'PHYSICAL_ACTIVATION_IMPLIES_POSITIVE_RANK_UNCONDITIONALLY=true' stages/stage14/14-s7-02/result.md
+          grep -q 'SMALL_POINT_HEIGHT_GATE_REMAINS=true' stages/stage14/14-s7-02/result.md
+          grep -q 'NEXT=Stage14-s7-03' stages/stage14/14-s7-02/result.md
