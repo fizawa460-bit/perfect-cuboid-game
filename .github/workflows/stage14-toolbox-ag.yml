@@ -1,0 +1,36 @@
+name: Stage14-toolbox-ag kernel radical incidence audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-ag/**'
+      - 'stages/stage14/scripts/14-toolbox-ag/**'
+      - 'stages/stage14/scripts/14-toolbox-af/**'
+      - '.github/workflows/stage14-toolbox-ag.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run kernel radical incidence audit
+        run: python stages/stage14/scripts/14-toolbox-ag/kernel_radical_incidence_audit.py
+      - name: Compile audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-ag/kernel_radical_incidence_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-af/integral_witness_formula_audit.py
+      - name: Regress integral witness formula toolbox
+        run: python stages/stage14/scripts/14-toolbox-af/integral_witness_formula_audit.py
+      - name: Validate toolbox-ag boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AG=COMPLETE_ODD_KERNEL_EDGE_PACKET_AND_FULL_RADICAL_INCIDENCE' stages/stage14/14-toolbox-ag/result.md
+          grep -q 'TAU_PACKET_COUNT=16' stages/stage14/14-toolbox-ag/result.md
+          grep -q 'NEXT=Stage14-toolbox-ah two-quadrics and genus-one geometry' stages/stage14/14-toolbox-ag/result.md
