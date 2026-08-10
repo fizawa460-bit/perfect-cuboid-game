@@ -42,7 +42,6 @@ def audit_fraction_ledger():
 def audit_overlap_modulus_lift():
     checks = 0
     root_checks = 0
-    # Opposite parity + gcd 1 makes H_+, H_- odd and cross-coprime.
     for A in range(1, 35):
         for D in range(A + 1, 55):
             if gcd(A, D) != 1 or (A - D) % 2 == 0:
@@ -54,7 +53,6 @@ def audit_overlap_modulus_lift():
             for C in divisors(hp):
                 X = hp // C
                 wp = gcd(C, X)
-                assert (C * wp) > 0
                 assert hp % (C * wp) == 0
                 for u in divisors(hm):
                     R = hm // u
@@ -82,8 +80,7 @@ def audit_overlap_modulus_lift():
 def audit_divisor_choice_zero_cost_model():
     checks = 0
     for n in range(1, 500):
-        ds = divisors(n)
-        for w in ds:
+        for w in divisors(n):
             assert n % w == 0
             checks += 1
     assert checks > 2000
@@ -102,8 +99,10 @@ def main():
     print("FIXED_POWER_PLUS_OVERLAP_STRICTLY_SUBSQRT=true")
     print("FIXED_POWER_MINUS_OVERLAP_STRICTLY_SUBSQRT=true")
     print("SQRT_SATURATION_FOUR_NORM_BLOCKS_PAIRWISE_SEPARATED=true")
-    print("S_ROUTE_REACTIVATION_NEEDED=true")
-    print("S_ROUTE_REACTIVATION_CONFIRMED_BY_STAGE14_4DF=true")
+    print("S_ROUTE_CURRENT_STATE=REACTIVATED_SCHEDULED_AT_STAGE14_S7_46")
+    print("S_ROUTE_REACTIVATION_DECISION_REQUIRED=false")
+    print("S_ROUTE_REACTIVATION_CHECK_SUSPENDED=true")
+    print("S_ROUTE_REACTIVATION_CHECK_RESUMES_WHEN_S_ROUTE_CLOSED=true")
     print("MAINLINE_H_NEEDED=false")
     print("CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2")
     print("STRICT_SUBSQRT_POWER_SAVING_PROVED=false")
