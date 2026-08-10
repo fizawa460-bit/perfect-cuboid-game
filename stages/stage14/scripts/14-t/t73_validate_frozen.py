@@ -9,11 +9,13 @@ import json
 ROOT = Path(__file__).resolve().parents[4]
 DATA = ROOT / "stages/stage14/data/14-t73/fixed_tag_norm_fiber_frozen.json"
 RESULT = ROOT / "stages/stage14/14-t73/result.md"
+TH19 = ROOT / "stages/stage14/14-t73/th19-consumption.md"
 
 
 def main() -> None:
     data = json.loads(DATA.read_text())
     text = RESULT.read_text()
+    th19_text = TH19.read_text()
 
     assert data["stage"] == "14-t73"
     assert data["reciprocal_states"] == 560
@@ -50,6 +52,14 @@ def main() -> None:
         "NEXT=Stage14-t74",
     ):
         assert needle in text
+
+    for needle in (
+        "STAGE14_TH19=COMPLETE_INDEPENDENT_PELL_SMOOTH_ENERGY_AUDIT",
+        "TH19_PARALLEL_AUDIT_CONSUMED=true",
+        "TH19_PREFERRED_RECEIVER_POST_T73=SmallOddKappaMovingCanonicalLargestPrimeSmoothNormValueEnergy",
+        "TH19_SHARP_ELL_DELTA_HYPERBOLA_RETAINED=true",
+    ):
+        assert needle in th19_text
 
 
 if __name__ == "__main__":
