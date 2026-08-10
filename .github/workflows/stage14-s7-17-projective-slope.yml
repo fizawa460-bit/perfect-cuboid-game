@@ -1,0 +1,44 @@
+name: Stage14-s7-17 projective slope dispersion
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-17/**'
+      - 'stages/stage14/scripts/14-s7-17/**'
+      - '.github/workflows/stage14-s7-17-projective-slope.yml'
+      - 'stages/stage14/14-s7-16/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Regress Stage14-s7-16 Fourier boundary
+        run: python stages/stage14/scripts/14-s7-16/split_k_fourier_self_duality_audit.py
+
+      - name: Audit Stage14-s7-17 projective slope reduction
+        run: python stages/stage14/scripts/14-s7-17/projective_slope_dispersion_audit.py
+
+      - name: Lock Stage14-s7-17 boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          f=stages/stage14/14-s7-17/result.md
+          grep -F 'STAGE14_S7_17=COMPLETE_PROJECTIVE_SLOPE_REDUCTION_AND_ALIAS_FREE_CENTERED_TRANSFER' "$f"
+          grep -F 'CRITICAL_SLOPE_DETERMINANT_EXPONENT=1/8' "$f"
+          grep -F 'PROJECTIVE_SLOPE_NO_ALIAS_FOR_RHO_GT_ONE_EIGHTH=true' "$f"
+          grep -F 'CONDITIONAL_RHO_ONE_SEVENTH_ALIAS_MARGIN=1/56' "$f"
+          grep -F 'INERT_PROJECTIVE_COMPLETE_TRACE=1' "$f"
+          grep -F 'PROJECTIVE_CENTERED_SELECTOR_ENERGY=H-H^2/m' "$f"
+          grep -F 'CENTERED_DIAGONAL_TRANSFER_CORRECTION=O(H^2/m)' "$f"
+          grep -F 'PRIME_PAIR_PROJECTIVE_SLOPE_DISPERSION_PROVED=false' "$f"
+          grep -F 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -F 'TH15_NEEDED=false' "$f"
+          grep -F 'S_ROUTE_BLOCKED_WAITING_FOR_TH14=false' "$f"
+          grep -F 'NEXT=Stage14-s7-18' "$f"
