@@ -1,0 +1,30 @@
+name: Stage14-t65 Cayley divisor lock
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t65/**'
+      - 'stages/stage14/data/14-t65/**'
+      - 'stages/stage14/scripts/14-t/t65_cayley_divisor_lock_audit.py'
+      - 'stages/stage14/scripts/14-t/t65_validate_frozen.py'
+      - '.github/workflows/stage14-t65-cayley-divisor-lock.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t58 predecessor regression
+        run: python stages/stage14/scripts/14-t/t58_physical_toroidal_mask_audit.py > /tmp/t58.json
+      - name: Run t64 predecessor regression
+        run: python stages/stage14/scripts/14-t/t64_square_lifted_cross_ratio_audit.py > /tmp/t64.json
+      - name: Run t65 Cayley divisor-lock audit
+        run: python stages/stage14/scripts/14-t/t65_cayley_divisor_lock_audit.py > /tmp/t65.json
+      - name: Validate frozen t65 boundary
+        run: python stages/stage14/scripts/14-t/t65_validate_frozen.py
+      - name: Compile t65 scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t65_cayley_divisor_lock_audit.py stages/stage14/scripts/14-t/t65_validate_frozen.py
