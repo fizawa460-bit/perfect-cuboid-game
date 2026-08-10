@@ -1,0 +1,69 @@
+{
+  "stage": "14-tH17",
+  "object": "SignedOrthogonalRectangleKummerBilinearLargeSieve",
+  "inputs": {
+    "merged_t59": true,
+    "merged_t61": true,
+    "polar_absolute_value_forbidden": true,
+    "shared_auxiliary_pair_preserved": true,
+    "row_projections_pairwise_disjoint": true,
+    "column_projections_pairwise_disjoint": true,
+    "aspect_energy_balance_retained": true
+  },
+  "exact_reductions": {
+    "vertical_matrix": "V_R(r,s)=K_r(s)",
+    "two_prime_matrix": "T_pq=(V_R V_R^T)_pq",
+    "offdiagonal_moment": "||offdiag(V_R V_R^T)||_HS^2",
+    "full_pair_moment": "||V_R||_S4^4=sum_{s,t}|sum_r K_r(s)K_r(t)|^2",
+    "auxiliary_diagonal_bound": "P*R_R^2",
+    "auxiliary_diagonal_absorbed_if": "R_R<=P*B^o(1)"
+  },
+  "minimal_operator_receiver": {
+    "name": "OrthogonalRectangleVerticalKummerSchatten4",
+    "contract": "||V_R||_S4^4 <= P^2*R_R*B^o(1)",
+    "proved": false
+  },
+  "stronger_sufficient_receiver": {
+    "name": "OrthogonalRectangleOnePrimeKummerBessel",
+    "contract": "||V_R||_op^2 <= P*B^o(1)",
+    "implies_target": true,
+    "proved": false
+  },
+  "applicability": {
+    "same_modulus_horizontal_trace_large_sieve_direct_import": false,
+    "ttstar_formulation_valid": true,
+    "ttstar_alone_closes_target": false,
+    "dual_large_sieve_formulation_valid": true,
+    "duality_alone_closes_target": false,
+    "operator_valued_formulation_valid": true,
+    "operator_valued_large_sieve_target_proved": false,
+    "t59_geometry_alone_closes_target": false,
+    "ping_xi_direct_import": false,
+    "fkms_direct_import": false
+  },
+  "obstruction": {
+    "name": "vertical Kummer Gram principal coherence",
+    "gram": "G_R(s,t)=sum_r K_r(s)K_r(t)",
+    "equal_squareclass_behavior": "G_R(s,t)=P-O(B^o(1)) on common-good primes",
+    "coherent_block_of_size_h": "operator eigenvalue ~P*h and S4 contribution ~P^2*h^2",
+    "aspect_balance_removes_this": false
+  },
+  "decision": {
+    "STAGE14_TH17": "COMPLETE_SIGNED_RECTANGLE_TTSTAR_OPERATOR_LARGE_SIEVE_APPLICABILITY_AUDIT",
+    "SIGNED_PHYSICAL_TO_VERTICAL_MATRIX_IDENTITY_PROVED": true,
+    "POLAR_ABSOLUTE_VALUE_USED": false,
+    "TTSTAR_VERTICAL_SCHATTEN4_IDENTITY_PROVED": true,
+    "ORTHOGONAL_RECTANGLE_VERTICAL_KUMMER_SCHATTEN4_PROVED": false,
+    "ONE_PRIME_VERTICAL_KUMMER_BESSEL_IMPLIES_SIGNED_RECTANGLE_TARGET": true,
+    "ONE_PRIME_VERTICAL_KUMMER_BESSEL_PROVED": false,
+    "DUALITY_ALONE_CLOSES_TARGET": false,
+    "T59_GEOMETRY_ALONE_IMPLIES_VERTICAL_CANCELLATION": false,
+    "SIGNED_ORTHOGONAL_RECTANGLE_KUMMER_BILINEAR_LARGE_SIEVE_PROVED": false,
+    "SHARED_U_ENERGY_BALANCED_ORTHOGONAL_RECTANGLE_SECOND_MOMENT_PROVED": false,
+    "E4_COEFFICIENT_ENERGY_USED": false,
+    "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT": "7/8",
+    "MINIMAL_REMAINING_OBSTRUCTION": "OrthogonalRectangleVerticalKummerSchatten4",
+    "STRONGER_SUFFICIENT_THEOREM": "OrthogonalRectangleOnePrimeKummerBessel",
+    "NEXT": "Stage14-t62"
+  }
+}
