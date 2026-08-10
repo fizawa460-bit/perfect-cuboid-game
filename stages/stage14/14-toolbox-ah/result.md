@@ -9,7 +9,7 @@ This stage separates two distinct models which had both begun to be described in
 1. the fixed global-witness packet `C_sigma` as a smooth `(2,2)` complete intersection in `P^3`;
 2. the merged 4bq diagonal-pair reduced-slope quartics used to obtain a genuine moving-family count.
 
-It also performs maintenance required by the new merged main result: the historical `41/42 -> 1/2` gap `10/21` is retained for provenance but is no longer the current whole-family gap after 4bq proves exponent `61/63`.
+It also performs ongoing toolbox maintenance after new main-track merges. The historical `41/42 -> 1/2` gap `10/21` and the intermediate 4bq `61/63` checkpoint are retained for provenance, while merged 4br supplies the current whole-family exponent `20/21`.
 
 ## Canonical source boundary
 
@@ -18,6 +18,7 @@ Canonical theorem sources used here are already merged:
 ```text
 Stage14-s6-02 / PR #348 / merge 1338ee0170a6d92c26a9dd4fa21c886a8125d6db
 Stage14-4bq   / PR #395 / merge aa21a3604cf72e06f797c8ba2ecff96b49e60f44
+Stage14-4br   / PR #396 / merge 01afa63539e32e62070a84927bbc0530241a79e9
 ```
 
 Merged 4bh is recorded as an independent main-track derivation of the fixed-packet geometry, but no open PR is promoted to a canonical source.
@@ -109,28 +110,42 @@ This is the important contrast with the fixed witness curve: here an explicit re
 
 ## Current exponent maintenance
 
-Merged 4bq recombines
+At the 4bq checkpoint the exhaustive sector maximum was `61/63`, giving the first full direct post-local saving `1/126` and remaining square-root gap `59/126`.
+
+Merged 4br then improves the cross branch to
 
 ```text
-20/21,
-61/63,
-13/14,
+E_cross(B)<<B^(20/21+o(1)).
 ```
 
-so the current whole-family main-track upper bound is
+and recombines
 
 ```text
-V(B)<<B^(61/63+o(1)).
+small partner leg : 20/21,
+cross branch      : 20/21,
+good-cell residual: 13/14.
 ```
 
-Exact ledger:
+Hence the current whole-family main-track upper bound is
 
 ```text
-41/42 - 61/63 = 1/126  # already proved post-local saving
-61/63 - 1/2   = 59/126 # current remaining gap to sqrt scale
+V(B)<<B^(20/21+o(1)).
 ```
 
-Therefore the old `TB-LEDGER-post-local-sqrt-gap` is marked `SUPERSEDED` only as the current global ledger. Its historical `10/21` threshold remains valid in stages that explicitly froze parameters relative to `41/42`.
+Exact current ledger:
+
+```text
+41/42 - 20/21 = 1/42  # cumulative proved post-local saving
+20/21 - 1/2   = 19/42 # current remaining gap to sqrt scale
+```
+
+The historical cards remain linked by supersession:
+
+```text
+10/21 historical pre-post-local gap
+ -> 61/63 / 59/126 checkpoint after 4bq
+ -> 20/21 / 19/42 current checkpoint after 4br.
+```
 
 ## New canonical cards
 
@@ -144,14 +159,17 @@ TB-LEMMA-diagonal-pair-genus-one-slope
 TB-BOUND-diagonal-pair-genus-one-count
 TB-WARNING-genus-one-quantifier-and-model-boundary
 TB-LEDGER-current-main-after-4bq
+TB-LEDGER-current-main-after-4br
 ```
+
+The 4bq ledger is already `SUPERSEDED`; it is counted as an ah-created canonical history card, while 4br is the current successor.
 
 ## Boundary
 
 ```text
 STAGE14_TOOLBOX_AH=COMPLETE_TWO_QUADRICS_AND_GENUS_ONE_GEOMETRY
-CANONICAL_NEW_CARD_COUNT=9
-CANONICAL_TOTAL_CARD_COUNT=47
+CANONICAL_NEW_CARD_COUNT=10
+CANONICAL_TOTAL_CARD_COUNT=48
 FIXED_PACKET_TWO_QUADRICS_MODEL_FROZEN=true
 FIXED_PACKET_PENCIL_DETERMINANT_FROZEN=true
 FIXED_PACKET_SMOOTH_GENUS_ONE_FROZEN=true
@@ -159,10 +177,12 @@ POSITIVE_DIMENSIONAL_COORDINATE_BOUNDARY=false
 CONIC_PLUS_FOUR_BRANCH_SQUARE_LIFT_FROZEN=true
 DIAGONAL_PAIR_MOVING_SLOPE_GENUS_ONE_FROZEN=true
 DIAGONAL_PAIR_GENUS_ONE_GOOD_RESIDUAL_BOUND=13/14
-CURRENT_WHOLE_FAMILY_EXPONENT=61/63
-WHOLE_FAMILY_POST_LOCAL_SAVING=1/126
-CURRENT_REMAINING_GAP_TO_SQRT=59/126
+HISTORICAL_4BQ_WHOLE_FAMILY_EXPONENT=61/63
+CURRENT_WHOLE_FAMILY_EXPONENT=20/21
+CUMULATIVE_POST_LOCAL_SAVING=1/42
+CURRENT_REMAINING_GAP_TO_SQRT=19/42
 HISTORICAL_10_21_LEDGER_SUPERSEDED_AS_CURRENT=true
+HISTORICAL_4BQ_LEDGER_SUPERSEDED_AS_CURRENT=true
 GENUS_ONE_ALONE_IMPLIES_MOVING_FAMILY_SAVING=false
 OPEN_PR_USED_AS_CANONICAL_SOURCE=false
 TOOLBOX_OWNS_NEW_STAGE14_THEOREM=false
