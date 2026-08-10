@@ -1,0 +1,38 @@
+name: Stage14-toolbox-ax first-consumer five-eighths refresh
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-toolbox-ax/**'
+      - 'stages/stage14/scripts/14-toolbox-ax/**'
+      - 'docs/stage14-toolbox/first-consumer-five-eighths-receiver-matrix.md'
+      - '.github/workflows/stage14-toolbox-ax.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile toolbox-ax audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-ax/first_consumer_refresh_audit.py
+      - name: Run toolbox-aw predecessor regression
+        run: python stages/stage14/scripts/14-toolbox-aw/superseded_consumer_audit.py > /tmp/toolbox-aw.json
+      - name: Run merged s7-31 five-eighths regression
+        run: python stages/stage14/scripts/14-s7-31/fixed_outer_common_gcd_audit.py > /tmp/s7-31.json
+      - name: Run merged t70 common-support regression
+        run: python stages/stage14/scripts/14-t/t70_common_support_rootline_audit.py > /tmp/t70.json
+      - name: Run toolbox-ax deterministic audit
+        run: python stages/stage14/scripts/14-toolbox-ax/first_consumer_refresh_audit.py > /tmp/toolbox-ax.json
+      - name: Lock toolbox-ax boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AX=COMPLETE_FIRST_CONSUMER_AUDIT_AND_FIVE_EIGHTHS_RECEIVER_REFRESH' stages/stage14/14-toolbox-ax/result.md
+          grep -q 'CANONICAL_MERGED_S7_30_PR=517' stages/stage14/14-toolbox-ax/result.md
+          grep -q 'CLOSED_UNMERGED_ALTERNATE_S7_30_PR_521_CANONICAL=false' stages/stage14/14-toolbox-ax/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=5/8' stages/stage14/14-toolbox-ax/result.md
+          grep -q 'CURRENT_GLOBAL_S_RECEIVER=FiveEighthsTwoBoundaryCommonCoreReciprocalIncidence' stages/stage14/14-toolbox-ax/result.md
+          grep -q 'CURRENT_FIXED_U_RECEIVER=SharedUPrivateLargestPrimeSmallCommonSupportPhysicalSquareScaleEnergy' stages/stage14/14-toolbox-ax/result.md
+          grep -q 'TOOLBOX_H_CONTINUATION_NEEDED=false' stages/stage14/14-toolbox-ax/result.md
