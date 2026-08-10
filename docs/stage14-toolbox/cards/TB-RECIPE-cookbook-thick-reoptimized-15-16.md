@@ -1,10 +1,10 @@
-# Current reoptimized thick-sieve cookbook
+# Proved reoptimized thick-sieve cookbook
 
 ```yaml
 ID: TB-RECIPE-cookbook-thick-reoptimized-15-16
 TYPE: RECIPE
 STATUS: CURRENT
-TITLE: Current 4bx thick-packet reoptimization plus one-cell thin receiver yielding 15/16
+TITLE: Proved 4bx thick-packet reoptimization plus one-cell thin receiver yielding 15/16
 SCOPE: BOTH
 SOURCE_STAGE: Stage14-4bx
 SOURCE_PR: 422
@@ -21,13 +21,13 @@ The proved product-square packet inequality together with the proved shared-`xi`
 
 ## OUTPUT
 
-The current unconditional whole-family theorem
+The reusable thick-packet theorem
 
 ```text
-V(B) << B^(15/16+o(1)).
+N_packet << M*H^(-4/5) B^o(1)
 ```
 
-obtained by the optimized auxiliary prime scale `L=H^(4/5)` and exhaustive reoptimization.
+and the historical exhaustive `15/16` whole-family checkpoint obtained before the two-cell theorem was closed.
 
 ## VARIABLE DICTIONARY
 
@@ -36,21 +36,19 @@ THICK_PACKET_RELATIVE_SAVING=H^(-4/5)
 lambda=15/32
 nu=13/32
 tau=5/64
-current exponent=15/16
-sqrt gap=7/16
+historical whole-family exponent=15/16
 ```
 
 ## USED BY
 
-- Current main/s exponent comparisons.
-- Any future attempt to improve the thick-packet or one-cell-thin architecture.
-- Updating conditional two-cell targets after a proved thick-side improvement.
+- The current 13/14 two-cell architecture as its thick-side input.
+- Future attempts to improve the four-square-part receiver.
 
 ## DO NOT USE FOR
 
-- Do not claim the s7-09 mixed Fourier theorem is proved; 4bx explicitly does not use it.
-- Do not treat `13/14` as current; it remains conditional on the missing two-cell theorem.
+- Do not call `15/16` current after merged s7-10/4by.
+- Do not infer that the packet theorem itself was superseded; only its old global recombination was.
 
 ## PROVENANCE NOTES
 
-Merged 4bx uses only previously merged one-cell inputs and proves the unconditional `15/16` bound.
+Merged 4bx proves the `H^(-4/5)` packet estimate. Merged s7-10/4by later retain that estimate and improve only the thin receiver/global recombination to `13/14`.
