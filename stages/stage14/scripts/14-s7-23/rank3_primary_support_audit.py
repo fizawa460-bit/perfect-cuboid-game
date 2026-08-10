@@ -8,8 +8,8 @@ not a proof by finite search.
 
 from fractions import Fraction
 from functools import reduce
-from itertools import combinations, product
-from math import gcd
+from itertools import combinations, product as cartesian_product
+from math import gcd, prod
 
 
 ROWS = {
@@ -49,7 +49,7 @@ def synthetic_primary_projection_audit() -> None:
 
     checked = 0
     for orders in order_sets:
-        d_h = product(orders.values())
+        d_h = prod(orders.values())
         for lambdas in [
             {"R": 2, "J": 2, "S": 3, "T": 4},
             {"R": 1, "J": 3, "S": 5, "T": 2},
@@ -65,7 +65,7 @@ def synthetic_primary_projection_audit() -> None:
                 units = [a for a in range(1, min(orders[c], 5)) if gcd(a, orders[c]) == 1]
                 coeff_choices.append(units[:2])
 
-            for coeff_tuple in product(*coeff_choices):
+            for coeff_tuple in cartesian_product(*coeff_choices):
                 coeff = dict(zip(("R", "J", "S", "T"), coeff_tuple))
                 nums = []
                 for j in range(4):
@@ -117,7 +117,7 @@ def exponent_contradiction_audit() -> None:
     minima = {}
     for i, j in combinations(range(4), 2):
         best = None
-        for r, jj, s, t in product(range(1, 9), repeat=4):
+        for r, jj, s, t in cartesian_product(range(1, 9), repeat=4):
             e = {
                 "R": r * unit,
                 "J": jj * unit,
