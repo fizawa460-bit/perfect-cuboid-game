@@ -31,8 +31,9 @@ STOP_CONDITION=
 LEGAL_OUTPUT=
 FORBIDDEN_PROMOTION=
 
-CURRENT_WHOLE_FAMILY_EXPONENT=18/19
-CURRENT_GAP_TO_SQRT=17/38
+CURRENT_WHOLE_FAMILY_EXPONENT=15/16
+CURRENT_GAP_TO_SQRT=7/16
+CURRENT_CONDITIONAL_TWO_CELL_TARGET=13/14
 ```
 
-For a conditional recipe, `MISSING_THEOREM_GATE` must be nonempty and the current ledger must remain unchanged.
+For a conditional recipe, `MISSING_THEOREM_GATE` must be nonempty and the current theorem ledger must remain unchanged.
