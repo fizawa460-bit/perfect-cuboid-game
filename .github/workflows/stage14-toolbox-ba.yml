@@ -1,0 +1,36 @@
+name: Stage14-toolbox-ba 23/44 endpoint refresh
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-toolbox-ba/**'
+      - 'stages/stage14/scripts/14-toolbox-ba/**'
+      - 'docs/stage14-toolbox/first-consumer-23-44-endpoint-matrix.md'
+      - '.github/workflows/stage14-toolbox-ba.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile toolbox-ba audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-ba/first_consumer_23_44_refresh_audit.py
+      - name: Run global predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-s7-40/h2_row_endpoint_23_44_audit.py > /tmp/s7_40.json
+          python stages/stage14/scripts/14-4/cross_root_square_row_reduction_23_44_audit.py > /tmp/4cy.json
+      - name: Run fixed-U predecessor regression
+        run: python stages/stage14/scripts/14-t/t78_external_kappa_gcd_tensor_audit.py > /tmp/t78.json
+      - name: Run toolbox-ba audit
+        run: python stages/stage14/scripts/14-toolbox-ba/first_consumer_23_44_refresh_audit.py > /tmp/toolbox_ba.json
+      - name: Lock toolbox-ba boundary
+        run: |
+          f=stages/stage14/14-toolbox-ba/result.md
+          grep -q 'STAGE14_TOOLBOX_BA=COMPLETE_FIRST_CONSUMER_AUDIT_AND_TWENTY_THREE_FORTY_FOURTHS_ENDPOINT_REFRESH' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=23/44' "$f"
+          grep -q 'TH22_MERGED_INPUT_IMPORTED=false' "$f"
+          grep -q 'NEW_BA_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
