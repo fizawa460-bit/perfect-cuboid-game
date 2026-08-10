@@ -1,0 +1,20 @@
+name: Stage14-t44 canonical-prime twist support
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t44/**'
+      - 'stages/stage14/scripts/14-t/t44_canonical_prime_twist_support_audit.py'
+      - 'stages/stage14/data/14-t44/**'
+      - '.github/workflows/stage14-t44-canonical-prime-twist-support.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t43 regression
+        run: python stages/stage14/scripts/14-t/t43_low_degree_kummer_transversality_audit.py
+      - name: Run t44 canonical-prime twist-support audit
+        run: python stages/stage14/scripts/14-t/t44_canonical_prime_twist_support_audit.py
