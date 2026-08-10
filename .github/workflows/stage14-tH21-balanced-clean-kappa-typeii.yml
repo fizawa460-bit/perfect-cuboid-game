@@ -29,8 +29,10 @@ jobs:
         run: python stages/stage14/scripts/14-t/t76_clean_kappa_cover_rootline_audit.py
       - name: Run merged t76 frozen validator
         run: python stages/stage14/scripts/14-t/t76_validate_frozen.py
-      - name: Run merged X12 global-ledger regression
+      - name: Run merged X12 regression
         run: python stages/stage14/scripts/14-X12/lost_core_fourth_root_71_128_audit.py
+      - name: Run merged s7-38 global-ledger regression
+        run: python stages/stage14/scripts/14-s7-38/full_cayley_row_61_112_audit.py
       - name: Run tH21 deterministic audit
         run: python stages/stage14/scripts/14-tH21/balanced_clean_kappa_typeii_audit.py
       - name: Lock tH21 boundary
@@ -48,6 +50,6 @@ jobs:
           grep -q 'MOVING_GAUSSIAN_PRIME_BILINEAR_APPLICABLE=false' "$f"
           grep -q 'OFF_THE_SHELF_TYPEII_POWER_SAVING_PROVED=false' "$f"
           grep -q 'CERTIFIED_TYPEII_B_POWER_SAVING_EXPONENT=0' "$f"
-          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=71/128' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=61/112' "$f"
           grep -q 'TH22_NEEDED=false' "$f"
           grep -q 'NEXT=Stage14-t77' "$f"
