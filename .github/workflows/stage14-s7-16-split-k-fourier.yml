@@ -1,0 +1,30 @@
+name: Stage14-s7-16 split-k Fourier self-duality
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-16/**'
+      - 'stages/stage14/scripts/14-s7-16/**'
+      - '.github/workflows/stage14-s7-16-split-k-fourier.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run s7-15 centered collision regression
+        run: python stages/stage14/scripts/14-s7-15/centered_k_collision_audit.py
+      - name: Run s7-16 split-k Fourier audit
+        run: python stages/stage14/scripts/14-s7-16/split_k_fourier_self_duality_audit.py
+      - name: Check merged 4cc localization boundary
+        run: |
+          grep -q 'K_SHELL_COORDINATE_SUPPORT_EXPONENT=(1+kappa)/2' stages/stage14/14-4cc/result.md
+          grep -q 'SEVEN_EIGHT_CRITICAL_K_LOWER_EXPONENT=3/4' stages/stage14/14-4cc/result.md
+      - name: Check s7-16 theorem boundary
+        run: |
+          grep -q 'INERT_TWO_DIMENSIONAL_FOURIER_SELF_DUALITY_EXACT=true' stages/stage14/14-s7-16/result.md
+          grep -q 'ABSOLUTE_PER_MODULUS_COMPLETION_BEATS_POINTWISE_COLLISION=false' stages/stage14/14-s7-16/result.md
+          grep -q 'S_ROUTE_BLOCKED_WAITING_FOR_TH14=false' stages/stage14/14-s7-16/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' stages/stage14/14-s7-16/result.md
+          grep -q 'NEXT=Stage14-s7-17' stages/stage14/14-s7-16/result.md
