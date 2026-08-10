@@ -1,0 +1,36 @@
+name: Stage14-tH12 LD2 Kummer incidence receiver
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH12/**'
+      - 'stages/stage14/data/tH12/**'
+      - 'stages/stage14/scripts/tH12/**'
+      - '.github/workflows/stage14-tH12-ld2-kummer-incidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-tH12 deterministic receiver audit
+        run: python stages/stage14/scripts/tH12/ld2_kummer_incidence_receiver_audit.py
+
+      - name: Validate locked boundary
+        run: |
+          grep -q 'STAGE14_TH12=COMPLETE_LD2_KUMMER_CANONICAL_PRIME_COMMON_CORE_RECEIVER' stages/stage14/14-tH12/result.md
+          grep -q 'GENERIC_LD2_INCIDENCE_FUBINI_PARTITIONS_PROVED=true' stages/stage14/14-tH12/result.md
+          grep -q 'SINGLE_LEGENDRE_SYMBOL_IS_GLOBAL_SQUARE_DETECTOR=false' stages/stage14/14-tH12/result.md
+          grep -q 'GENERIC_KUMMER_INCIDENCE_POWER_SAVING_PROVED=false' stages/stage14/14-tH12/result.md
+          grep -q '"status": "COMPLETE_LD2_KUMMER_CANONICAL_PRIME_COMMON_CORE_RECEIVER"' stages/stage14/data/tH12/ld2_kummer_incidence_receiver_summary.json

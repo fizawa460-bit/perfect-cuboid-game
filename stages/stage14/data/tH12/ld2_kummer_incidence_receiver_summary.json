@@ -1,0 +1,87 @@
+{
+  "stage": "Stage14-tH12",
+  "status": "COMPLETE_LD2_KUMMER_CANONICAL_PRIME_COMMON_CORE_RECEIVER",
+  "requires_t44_result": false,
+  "reopen_trigger": "Stage14-t43: generic LD2-transverse twisted-Kummer incidence remains the primary obstruction",
+  "dependencies": [
+    "Stage14-tH1",
+    "Stage14-tH9",
+    "Stage14-tH10",
+    "Stage14-t42",
+    "Stage14-t43"
+  ],
+  "incidence_object": {
+    "surface": "K^(tau)_{gamma,gamma'}: Y^2=tau*f_gamma(x)*f_gamma_prime(y)",
+    "generic_pair": "off-direction pair classified ld2_transverse by t43 with squareclass difference tau",
+    "common_core": "C=(eps,delta,h,branch), h=eps*m/k, k=n/delta",
+    "fixed_core_partition": "c_gen(tau)=sum_C c_C(tau)",
+    "fixed_prime_partition": "c_gen(tau)=sum_ell c_ell(tau)",
+    "joint_partition": "c_gen(tau)=sum_(C,ell) c_(C,ell)(tau)"
+  },
+  "prime_route": {
+    "target": "one-dimensional primary-Gaussian-prime / norm-induced quadratic character sum",
+    "required_certificates": [
+      "residual_free_dimension_is_one",
+      "character_conductor_independent_of_moving_varpi",
+      "nonprincipal_or_separately_principal",
+      "canonical_selector_accounted",
+      "bad_primes_accounted",
+      "coefficient_separated_from_character_family"
+    ],
+    "canonical_sum": "S_B(D;L)=sum_{primary varpi,Nvarpi~L} a_B(varpi)*omega_B(varpi)*eta_D(varpi)",
+    "power_saving_proved": false
+  },
+  "common_core_route": {
+    "scalarization_requirement": "eps,delta,branch and all residual variables must be fixed/accounted before h is the sole variable",
+    "character_receiver": "chi_q(P_B(h)) with q fixed and P_B nonsquare modulo q; local filter only unless used in a proved square sieve",
+    "lattice_receiver": "P_B(h)=0 mod q => at most deg(P_B)*(H/q+1) interval points",
+    "divisor_receiver": "h|M_B with M_B fixed and polynomial-size => tau(M_B)=B^o(1)",
+    "genus_one_fallback": "Y^2=P_B(h) may be routed to a uniform bounded-height genus-one theorem if coefficient dependence is controlled"
+  },
+  "heavy_light_route": {
+    "tH10_receiver": "E4<=A1^2+T*(H^2-A1)+(R_non-T)*M_T",
+    "generic_mass": "M_T_gen=sum over a disjoint block partition of generic LD2 heavy-kernel pair mass",
+    "combine_rule": "for the same refined block take the minimum of certified prime/core/direct bounds, then sum",
+    "incompatible_partition_minimum_forbidden": true,
+    "higher_degree_isogeny_policy": "classify only if it contributes relevant heavy mass; LD2 does not exclude higher-degree isogeny"
+  },
+  "quantifier_guards": {
+    "per_block_subpoly_implies_global_subpoly": false,
+    "single_legendre_plus_one_implies_global_square": false,
+    "adaptive_auxiliary_modulus_creates_one_character_sum": false,
+    "ld2_transverse_implies_all_degree_nonisogenous": false,
+    "fixed_common_core_automatically_leaves_one_variable": false,
+    "fixed_prime_automatically_makes_common_core_scalar": false,
+    "root_bound_applies_to_legendre_plus_one_condition": false,
+    "moving_dividend_allows_divisor_bound": false,
+    "all_split_prime_theorem_automatically_handles_canonical_selector": false,
+    "overlapping_heavy_exception_masses_may_be_added_without_disjointification": false,
+    "principal_kernel_may_be_fed_to_nonprincipal_heavy_receiver": false
+  },
+  "t43_frozen_regression": {
+    "reciprocal_quotient_states": 560,
+    "A1": 592,
+    "principal_ld2_transverse_blocks": 16,
+    "ordered_off_direction_ld2_pair_mass": 308846,
+    "heavy_threshold": 20,
+    "heavy_kernel_count": 72,
+    "heavy_pair_mass": 1834,
+    "max_nonprincipal_multiplicity": 40
+  },
+  "proof_boundary": {
+    "generic_ld2_incidence_fubini_partitions_proved": true,
+    "fixed_core_moving_canonical_prime_receiver_defined": true,
+    "fixed_prime_moving_common_core_receiver_defined": true,
+    "one_dimensional_prime_character_certificate_defined": true,
+    "one_dimensional_common_core_character_certificate_defined": true,
+    "one_dimensional_lattice_root_receiver_proved": true,
+    "one_dimensional_divisor_receiver_defined": true,
+    "heavy_light_generic_kernel_mass_receiver_defined": true,
+    "canonical_prime_selector_cancellation_proved": false,
+    "generic_kummer_incidence_power_saving_proved": false,
+    "nonprincipal_twist_multiplicity_subpoly_proved": false,
+    "critical_sqrt_ell_strip_power_saving_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "next": "Stage14-tH13 only if live t exposes a concrete certified prime/core specialization needing a sharper adapter; otherwise hand tH12 to t44 and PARK"
+}
