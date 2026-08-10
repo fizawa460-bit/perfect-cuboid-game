@@ -1,0 +1,20 @@
+name: Stage14-t53 Kummer principal stratification
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t53/**'
+      - 'stages/stage14/scripts/14-t/t53_kummer_principal_stratification_audit.py'
+      - 'stages/stage14/data/14-t53/**'
+      - '.github/workflows/stage14-t53-kummer-principal-stratification.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t52 regression
+        run: python stages/stage14/scripts/14-t/t52_ssgc_principal_resonance_audit.py
+      - name: Run t53 Kummer principal stratification audit
+        run: python stages/stage14/scripts/14-t/t53_kummer_principal_stratification_audit.py
