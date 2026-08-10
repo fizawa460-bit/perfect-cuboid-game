@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Merged Stage14-t72 reduces the live fixed-`U` small-squareclass branch to
+Merged Stage14-t72 leaves the fixed-`U` small-squareclass branch in the exact form
 
 \[
 \eta P_+=\alpha r^2+\beta t^2,
@@ -12,32 +12,31 @@ Merged Stage14-t72 reduces the live fixed-`U` small-squareclass branch to
 \alpha\beta=\kappa,
 \]
 
-with the exact denominator tag
+with denominator tag
 
 \[
 \beta=\gcd(\kappa,v).
 \]
 
-It then identifies the genuinely live analytic object as a canonical-largest-prime / smooth-companion Pell-norm energy.  Stage14-t73 separates the parts of that formulation which are actually harmless:
+Stage14-t73 removes three apparent obstructions before any further analytic theorem is requested:
 
-1. `kappa=1` is not a Pell-unit problem at all; it is an exact coprime difference-of-squares factorization;
-2. denominator tags can be conditioned on at divisor-many cost, and once the two tags are fixed the t72 agree/switch orientation is unique rather than `2^omega(kappa)`-many;
-3. for fixed `kappa`, fixed tag `beta`, and fixed negative norm value `P_-`, the number of integral norm representations in any polynomial physical height box is `B^o(1)` uniformly in the moving real quadratic field;
-4. no class-number factor is needed, and the unit/regulator orbit contributes only logarithmically.
+1. `kappa=1` is an elementary coprime difference-of-squares factorization, not a Pell orbit;
+2. denominator-tag conditioning costs only `B^{o(1)}`, and fixed tag pairs determine the t72 CRT sign uniquely;
+3. for fixed `(kappa,beta,P_-)`, the real-quadratic norm fiber in a polynomial physical height box is uniformly `B^{o(1)}` with no class-number loss.
 
-Therefore tH19 should no longer investigate fixed-norm Pell orbit multiplicity.  The remaining obstruction is the **average over moving physical norm values** `P_-` carrying the distinguished largest prime `ell` and the angular/radial smooth companion.
+The completed parallel tH19 audit is consumed here. Its negative result is consistent with t73: the remaining obstruction is not fixed-norm Pell multiplicity, but the average over **moving canonical-largest-prime norm values** while retaining the sharp physical filters.
 
 No additional whole-family power saving is claimed.
 
 ---
 
-## 1. Exact normalized tagged form
+## 1. Exact tagged normal form
 
-Write the t65/t66 square scale as
+Write
 
 \[
 s=\kappa(u/v)^2,
-\qquad \gcd(u,v)=1,
+\qquad (u,v)=1,
 \]
 
 and put
@@ -56,7 +55,13 @@ Let
 G=\gcd(v^2+\kappa u^2,v^2-\kappa u^2).
 \]
 
-Merged t66 gives `G/beta in {1,2}`.  Define
+Merged t66 proves
+
+\[
+G\in\{\beta,2\beta\}.
+\]
+
+Set
 
 \[
 \eta=G/\beta\in\{1,2\}.
@@ -73,29 +78,27 @@ P_-=\frac{\beta w^2-\alpha u^2}{\eta}.
 \tag{73.1}
 \]
 
-Equivalently, with
+With
 
 \[
 x=\beta w,\qquad y=u,
 \]
 
-one has
+this is
 
 \[
-\boxed{
-x^2-\kappa y^2=\beta\eta P_-}
+\boxed{x^2-\kappa y^2=\beta\eta P_-}
 \tag{73.2}
 \]
 
 and
 
 \[
-\boxed{
-x^2+\kappa y^2=\beta\eta P_+.}
+\boxed{x^2+\kappa y^2=\beta\eta P_+.}
 \tag{73.3}
 \]
 
-Thus the t72 signed split contains no extra variable beyond the divisor tag `beta`.
+Thus the t72 signed split is completely determined by the divisor tag `beta`; it is not an independent combinatorial datum.
 
 ```text
 TAGGED_NORMAL_FORM_PROVED=true
@@ -104,9 +107,9 @@ TAGGED_NORM_EQUATION_PROVED=true
 
 ---
 
-## 2. `kappa=1` degenerates to two coprime linear factors
+## 2. `kappa=1` is a coprime linear-factor problem
 
-If `kappa=1`, then `alpha=beta=1` and `eta=G in {1,2}`.  Put
+If `kappa=1`, then `alpha=beta=1` and `eta=G in {1,2}`. Define
 
 \[
 L_-=(v-u)/\eta,
@@ -114,10 +117,10 @@ L_-=(v-u)/\eta,
 L_+=(v+u)/\eta.
 \]
 
-Because `(u,v)=1`, `eta=1` exactly in the opposite-parity case and `eta=2` exactly in the odd/odd case.  Hence
+Because `(u,v)=1`, `eta=1` in the opposite-parity case and `eta=2` in the odd/odd case. Hence
 
 \[
-\boxed{\gcd(L_-,L_+)=1}
+\boxed{(L_-,L_+)=1}
 \tag{73.4}
 \]
 
@@ -128,49 +131,45 @@ and
 \tag{73.5}
 \]
 
-Conversely, once `eta` and an admissible ordered coprime factorization
+Conversely, after fixing `eta` and an admissible ordered coprime factorization
 
 \[
-P_-/\eta=L_-L_+
+P_-/\eta=L_-L_+,
 \]
 
-are fixed,
+one recovers
 
 \[
 \boxed{
  u=\frac{\eta(L_+-L_-)}2,
  \qquad
- v=\frac{\eta(L_++L_-)}2
+ v=\frac{\eta(L_++L_-)}2.
 }
 \tag{73.6}
 \]
 
-are recovered uniquely whenever the parity condition is legal.
-
-Therefore, for fixed `P_-`, the number of primitive `kappa=1` square scales is divisor-many:
+Therefore
 
 \[
 \boxed{
-\#\{(u,v):\kappa=1,\ P_-=D\}\ll \tau(D).
+\#\{(u,v):\kappa=1,\ P_-=D\}\ll\tau(D).
 }
 \tag{73.7}
 \]
 
-After merged t65's fixed `(U,s)` `O(1)` lift, the physical fixed-`(U,P_-)` fiber is also `B^{o(1)}`.
+Merged t65 then gives only `O(1)` physical lifts for each exact `(U,s)`.
 
-### Canonical prime becomes a unique linear-factor tag
-
-The physical t69/t72 boundary retains
+The physical boundary also retains
 
 \[
 \ell=\operatorname{LPF}_{\rm odd}(P_+P_-),
-\quad
+\qquad
 v_\ell(P_-)=1,
-\quad
+\qquad
 2\,\operatorname{odd}(P_-/\ell)<\ell.
 \]
 
-Since the odd parts of `L_-` and `L_+` are coprime, the odd canonical prime `ell` divides **exactly one** of the two linear factors.  Thus `kappa=1` has no real-quadratic unit orbit: its residual arithmetic is a moving canonical-prime-tagged difference-of-squares value problem.
+Since the odd parts of `L_-` and `L_+` are coprime, the odd canonical prime `ell` divides exactly one linear factor. Thus the `kappa=1` residual problem is a moving canonical-prime-tagged factor-value problem, not a real-quadratic unit orbit.
 
 ```text
 KAPPA_ONE_PELL_ORBIT_EXISTS=false
@@ -179,37 +178,34 @@ KAPPA_ONE_CANONICAL_ELL_UNIQUE_LINEAR_FACTOR_TAG=true
 KAPPA_ONE_FIXED_DENOMINATOR_VALUE_FIBER=Bo1
 ```
 
-The frozen 419-state audit happens to contain no `kappa=1` physical state.  This is recorded only as a regression fact and is **not** promoted to a theorem that the branch is empty.
+The frozen physical sample contains zero `kappa=1` states; this is diagnostic only and is not promoted to branch emptiness.
 
 ---
 
-## 3. Denominator-tag conditioning costs only `B^o(1)`
+## 3. Fixed denominator tags determine the t72 orientation
 
-Because `kappa` is squarefree and `beta|kappa`,
+Since `kappa` is squarefree and `beta|kappa`,
 
 \[
-\#\{\beta:\beta\mid\kappa\}=\tau(\kappa)=2^{\omega(\kappa)}=B^{o(1)}.
+\#\{\beta:\beta|\kappa\}=\tau(\kappa)=2^{\omega(\kappa)}=B^{o(1)}.
 \tag{73.8}
 \]
 
-For a pair of states in one squareclass, conditioning on `(beta_i,beta_j)` costs at most
-
-\[
-\tau(\kappa)^2=B^{o(1)}.
-\tag{73.9}
-\]
+For a pair of states, conditioning on `(beta_i,beta_j)` therefore costs only `B^{o(1)}`.
 
 Let
 
 \[
 K=\operatorname{odd}(\kappa),
 \qquad
-d_i=\gcd(K,\beta_i),
+d_i=(K,\beta_i),
 \qquad
-d_j=\gcd(K,\beta_j),
+d_j=(K,\beta_j),
+\qquad
+g=(d_i,d_j).
 \]
 
-and `g=gcd(d_i,d_j)`.  Then merged t72's switch modulus is
+Merged t72 gives
 
 \[
 \boxed{
@@ -217,36 +213,35 @@ K_{\rm switch}=\frac{d_i d_j}{g^2},
 \qquad
 K_{\rm agree}=K/K_{\rm switch}.
 }
+\tag{73.9}
+\]
+
+Because `K` is squarefree, `K_switch` is exactly the symmetric-difference support of the two denominator tags. Every odd prime of `K` therefore has a predetermined sign once the tags are fixed:
+
+```text
+same tag side      -> +1 / agreement
+different tag side -> -1 / switch
+```
+
+Hence the CRT sign of t72 has multiplicity exactly
+
+\[
+\boxed{1}
 \tag{73.10}
 \]
 
-Since `K` is squarefree, `K_switch` is exactly the product of odd primes lying in the symmetric difference of the two denominator-tag supports.  Hence, once `(beta_i,beta_j)` are fixed, every odd prime of `K` has a predetermined sign:
+for fixed tags. The earlier `2^{omega(K)}` is only the cost of summing over all tag patterns.
 
-```text
-same tag side     -> +1 / agreement,
-different tag side -> -1 / switch.
-```
-
-The CRT orientation of t72 is therefore **unique** for fixed tags.
-
-\[
-\boxed{
-\text{fixed-tag orientation multiplicity}=1.
-}
-\tag{73.11}
-\]
-
-The previous `2^{omega(K)}` is only the total cost of summing over all possible tag patterns, already `B^{o(1)}`.
-
-In particular, if `beta_i=beta_j`, then
+If `beta_i=beta_j`, then
 
 \[
 K_{\rm switch}=1,
-\qquad K_{\rm agree}=K.
-\tag{73.12}
+\qquad
+K_{\rm agree}=K.
+\tag{73.11}
 \]
 
-For equal full tags `beta`, (73.1) gives the exact identity
+Moreover (73.1) gives the exact same-tag identity
 
 \[
 \boxed{
@@ -255,10 +250,10 @@ For equal full tags `beta`, (73.1) gives the exact identity
 =2\kappa
 (u_j^2w_i^2-u_i^2w_j^2).
 }
-\tag{73.13}
+\tag{73.12}
 \]
 
-Thus the agreement divisibility by `K` in this diagonal-tag subclass is coefficient-forced.  It is a valid Cayley root-line restriction, but it must not be charged again as an independent root-coordinate modulus.
+Thus same-tag agreement divisibility is coefficient-forced and must not be charged a second time as an independent root-coordinate modulus.
 
 ```text
 DENOMINATOR_TAG_CONDITIONING_COST=Bo1
@@ -271,20 +266,22 @@ SAME_TAG_KAPPA_AGREEMENT_DIVISIBILITY_COEFFICIENT_FORCED=true
 
 ---
 
-## 4. Uniform fixed-norm Pell fiber: no class-number loss
+## 4. Uniform fixed-norm fiber has no class-number loss
 
-The remaining nondegenerate equation for `kappa>1` is
+For `kappa>1`, fix
 
 \[
-x^2-\kappa y^2=n,
-\qquad
-n=\beta\eta P_->0.
-\tag{73.14}
+n=\beta\eta P_->0
 \]
 
-A generic statement that this equation has infinitely many solutions is irrelevant: the physical problem has a polynomial height cutoff, and `n` is fixed in the fiber considered here.
+and consider
 
-Let `K_kappa=Q(sqrt(kappa))` and `O_K` be its maximal order.  For every integral solution
+\[
+x^2-\kappa y^2=n.
+\tag{73.13}
+\]
+
+Let `K_kappa=Q(sqrt(kappa))` with maximal order `O_K`. Every integral solution gives
 
 \[
 z=x+y\sqrt\kappa\in O_K,
@@ -297,51 +294,48 @@ Then
 (z)(\bar z)=(n),
 \]
 
-so the principal ideal `(z)` is an integral ideal divisor of `(n)`.
+so `(z)` is an integral ideal divisor of `(n)`.
 
-For `n=prod p^{e_p}`, each rational prime contributes at most two prime ideals; even in the ramified case the number of ideal-divisor exponents is bounded by `(e_p+1)^2`.  Therefore
+If `n=prod p^{e_p}`, each rational prime contributes at most two prime ideals, hence
 
 \[
-\#\{\text{ideal divisors of }(n)\}
-\le \tau(n)^2.
+\boxed{
+\#\{\text{ideal divisors of }(n)\}\le\tau(n)^2.
+}
+\tag{73.14}
+\]
+
+No class-number factor appears: the principal ideals coming from actual solutions are merely a subset of these ideal divisors.
+
+For one fixed principal ideal, all generators differ by units. A real-quadratic fundamental unit satisfies the uniform degree-two lower bound
+
+\[
+\varepsilon_\kappa\ge\frac{1+\sqrt5}{2}.
 \tag{73.15}
 \]
 
-No class-number factor occurs: principal ideals arising from solutions form only a subset of these ideal divisors.
-
-For one fixed principal ideal, all generators differ by a real-quadratic unit.  If `epsilon_kappa>1` is the fundamental unit, the universal degree-two trace bound gives
-
-\[
-\epsilon_\kappa\ge\frac{1+\sqrt5}{2}.
-\tag{73.16}
-\]
-
-Hence, inside any polynomial archimedean height box `H=B^{O(1)}`, the allowable unit exponents form an interval of length `O(log B)`.  Consequently
+Inside any polynomial physical height box `H=B^{O(1)}`, the allowable unit exponents therefore form an interval of length `O(log B)`. Consequently
 
 \[
 \boxed{
 R_\kappa(n;H)
-\ll \tau(n)^2\,(1+\log H)
+\ll \tau(n)^2(1+\log H)
 =B^{o(1)}
 }
-\tag{73.17}
+\tag{73.16}
 \]
 
-uniformly in the moving squarefree `kappa>1`.
+uniformly in moving squarefree `kappa>1`.
 
-For `kappa=1`, the same conclusion is stronger by (73.5): `R_1(n) <= 2 tau(n)`.
-
-Applying (73.17) to `n=beta eta P_-` proves
+For `kappa=1`, (73.5) gives the stronger divisor bound directly. Therefore
 
 \[
 \boxed{
-\#\{\text{physical square scales with fixed }(\kappa,\beta,P_-),U\}
+\#\{\text{square scales with fixed }(U,\kappa,\beta,P_-)\}
 =B^{o(1)}.
 }
-\tag{73.18}
+\tag{73.17}
 \]
-
-The fixed `U` lift from exact `s` then costs only `O(1)` per scale.
 
 ```text
 UNIFORM_FIXED_NORM_REAL_QUADRATIC_ELEMENT_COUNT=Bo1
@@ -351,111 +345,164 @@ UNIT_ORBIT_FIXED_NORM_COST=Bo1
 REGULATOR_FIXED_POWER_LOSS=0
 ```
 
-This removes the class-number / regulator / fixed-norm unit-orbit item from the tH19 obstruction list.
+This is stronger than merely assuming that a moving class-number/regulator average is harmless: the fixed-norm count bypasses class-number averaging completely.
 
 ---
 
-## 5. What remains: moving norm-value energy
+## 5. Consumption of completed tH19
 
-The preceding argument does **not** sum over the moving negative Cayley value
+The supplied parallel audit completed with
+
+```text
+STAGE14_TH19=COMPLETE_INDEPENDENT_PELL_SMOOTH_ENERGY_AUDIT
+PRIMITIVE_DIVISOR_LUCAS_PELL_APPLICABLE_PARTIALLY=true
+PRIMITIVE_DIVISOR_FORCES_CANONICAL_LPF=false
+PRIMITIVE_DIVISOR_FORCES_V_ELL_ONE=false
+PRIMITIVE_DIVISOR_FORCES_2C_LT_ELL=false
+FIXED_S_SUNIT_SMOOTH_THEOREMS_AVAILABLE=true
+MOVING_KAPPA_MOVING_S_UNIFORM_QUANTITATIVE_SAVING_AVAILABLE=false
+PELL_UNIT_ORBIT_COST=Bo1_COMPATIBLE
+MOVING_CLASS_NUMBER_REGULATOR_UNIFORM_AVERAGE_SUFFICIENTLY_STRONG=false
+SHARP_ELL_DELTA_HYPERBOLA_MUST_BE_RETAINED=true
+DISTINGUISHED_LARGEST_PRIME_FILTER_MUST_BE_RETAINED=true
+EXPONENT_ONE_FILTER_MUST_BE_RETAINED=true
+SMOOTH_COMPANION_FILTER_MUST_BE_RETAINED=true
+OFF_THE_SHELF_UNIFORM_FIXED_POWER_SAVING_PROVED=false
+```
+
+This is fully consistent with t73.
+
+- `PELL_UNIT_ORBIT_COST=Bo1_COMPATIBLE` is upgraded here to the uniform fixed-norm theorem (73.16).
+- the weak moving class-number/regulator average is no longer a fixed-norm obstruction because no class-number factor is used;
+- primitive-divisor technology remains only a possible ingredient for the moving-value average;
+- tH19 correctly shows that primitive divisors alone do not force `ell=LPF`, `v_ell=1`, or `2c<ell`.
+
+Hence the pre-t73 receiver
+
+```text
+SmallOddKappaCanonicalLargestPrimePellSmoothEnergy
+```
+
+is not minimal after t73.
+
+```text
+TH19_CONSUMED=true
+TH19_FIXED_NORM_PELL_ORBIT_SUBPROBLEM_SUPERSEDED=true
+TH19_CLASS_NUMBER_FIXED_NORM_SUBPROBLEM_SUPERSEDED=true
+TH19_KAPPA_ONE_PELL_SUBPROBLEM_SUPERSEDED=true
+```
+
+---
+
+## 6. Minimal live receiver: moving norm values
+
+The argument above does **not** sum over the moving negative Cayley value
 
 \[
 P_-=\ell\,c\,2^{e_2},
 \qquad
 c=\operatorname{odd}(h)R_V,
 \qquad
-2c<\ell.
+2c<\ell,
 \]
 
-Nor does it use the coupled positive value
+nor over the coupled positive value
 
 \[
 \operatorname{odd}(P_+)
-=\operatorname{odd}(\delta)R_\pi
+=\operatorname{odd}(\delta)R_\pi,
 \]
 
-and the sharp radial hyperbola
+with the sharp radial hyperbola
 
 \[
 \ell\delta\le Y_U.
 \]
 
-Thus the minimal live nondegenerate receiver is no longer a generic Pell-orbit count.  It is
+Thus the live fixed-`U` receiver is
 
 ```text
 SharedUSmallOddKappaFixedTagMovingCanonicalNormValueEnergy
 ```
 
-which must average the divisor-many fixed-norm fibers over the physical moving values while retaining:
+with mandatory retained filters
 
 ```text
-ell = LPF_odd(P+*P-),
-v_ell(P-)=1,
-2*odd(P-/ell)<ell,
-odd(P-)/ell=odd(h)*R_V,
-odd(P+)=odd(delta)*R_pi,
-ell*delta<=Y_U,
-fixed U,
-fixed kappa band,
-fixed denominator tag beta.
+ell = LPF_odd(P+*P-)
+v_ell(P-)=1
+2*odd(P-/ell)<ell
+odd(P-)/ell=odd(h)*R_V
+odd(P+)=odd(delta)*R_pi
+ell*delta<=Y_U
+fixed U
+fixed kappa band
+fixed denominator tag beta
 ```
 
-The `kappa=1` specialization is the separate elementary receiver
+The `kappa=1` specialization is
 
 ```text
 SharedUKappaOneMovingCanonicalLinearFactorValueEnergy.
 ```
 
-No claim that either moving-value energy is already near-linear is made here.
+Neither moving-value energy is proved near-linear here.
 
 ---
 
-## 6. tH19 decision
+## 7. tH decision after completed tH19
 
-`tH19` remains useful, but its target is strictly narrower than in t72.
-
-### Superseded tH19 subproblems
-
-Do **not** spend tH19 effort on:
-
-- fixed-norm Pell solution multiplicity;
-- class-number factors;
-- regulator lower bounds;
-- the number of unit translates in a polynomial box;
-- denominator-tag orientation enumeration;
-- `kappa=1` Pell theory.
-
-Stage14-t73 proves all of those cost only `B^{o(1)}` or degenerate to elementary factorization.
-
-### Revised requested object
+`tH19` is complete and consumed. A new auxiliary audit is justified because t73 changed the theorem target from Pell-orbit multiplicity to a tagged binary-quadratic **value-distribution** problem.
 
 ```text
-SmallOddKappaMovingCanonicalLargestPrimeSmoothNormValueEnergy
+TH20_NEEDED=true
+TH20_REQUESTED_OBJECT=SmallOddKappaFixedTagMovingCanonicalLargestPrimeSmoothNormValueSieve
 ```
 
-The useful independent audit is now:
+`tH20` should independently test only the following:
 
-1. average over moving values of `beta*w^2-alpha*u^2` after `(kappa,beta)` are fixed;
-2. preserve `ell=LPF_odd(P+P-)`, `v_ell(P-)=1`, and `2c<ell`;
-3. preserve `c=odd(h)R_V`, `odd(P+)=odd(delta)R_pi`, and `ell*delta<=Y_U`;
-4. test primitive-divisor / smooth-value / largest-prime-factor technology for this **moving norm-value family**, not for one Pell orbit;
-5. determine whether averaging over moving `kappa` and moving physical norm values has a uniform power saving.
+1. largest-prime-factor / beta-sieve / dispersion technology for
+   `beta*w^2-alpha*u^2` with `alpha*beta=kappa` squarefree and `(kappa,beta)` conditioned;
+2. simultaneous retention of the positive companion `beta*w^2+alpha*u^2`;
+3. distinguished `ell=LPF_odd(P+P-)`, exponent one, and `2c<ell`;
+4. the exact smooth companion `c=odd(h)R_V` and positive factor `odd(delta)R_pi`;
+5. the sharp `ell*delta<=Y_U` average;
+6. whether averaging over moving `(kappa,beta)` and moving physical norm values yields any uniform power saving.
 
-`t` does not wait for tH19.
+Do **not** reopen fixed-norm Pell orbit counting, class-number/regulator averaging, denominator-tag enumeration, or generic Legendre-only large sieve.
+
+The t-route does not wait for tH20.
 
 ```text
-TH19_NEEDED=true
-TH19_REQUESTED_OBJECT=SmallOddKappaMovingCanonicalLargestPrimeSmoothNormValueEnergy
-TH19_FIXED_NORM_PELL_ORBIT_SUBPROBLEM_SUPERSEDED=true
-TH19_KAPPA_ONE_PELL_SUBPROBLEM_SUPERSEDED=true
-T_ROUTE_BLOCKED_WAITING_FOR_TH19=false
+TH19_CONSUMED=true
+TH20_NEEDED=true
+TH20_REQUESTED_OBJECT=SmallOddKappaFixedTagMovingCanonicalLargestPrimeSmoothNormValueSieve
+T_ROUTE_BLOCKED_WAITING_FOR_TH20=false
 ```
 
 ---
 
-## 7. Shared exponent and next step
+## 8. Frozen audit
 
-Merged s7-31/s7-32 and the current mainline still give
+```text
+reciprocal states                                560
+invisible states                                 419
+tagged normal-form checks                        419
+canonical largest-prime filter checks            419
+private fixed-tag orientation checks               5
+same-denominator-tag private pairs                 1
+kappa=1 exhaustive factorization checks         1965
+fixed-norm small-box regression checks           3240
+max frozen fixed (kappa,beta,Pminus) multiplicity   1
+kappa=1 frozen physical states                      0
+```
+
+The last two values are diagnostic only; neither is used as an asymptotic theorem input.
+
+---
+
+## 9. Shared exponent and next step
+
+Current merged whole-family exponent remains
 
 ```text
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=5/8
@@ -463,7 +510,7 @@ CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=5/8
 
 Stage14-t73 proves no additional whole-family saving.
 
-Stage14-t74 should attack the moving negative norm value itself: first split by which prime ideal / linear factor hosts the canonical `ell`, then combine the `2c<ell` largest-prime condition with the angular identities for `R_V` and the sharp `ell*delta` hyperbola.
+Stage14-t74 should attack the moving negative norm value directly: split by which prime-ideal / linear orientation hosts canonical `ell`, then combine `2c<ell` with the angular formula for `R_V`, the positive companion, and the sharp `ell*delta` hyperbola.
 
 ---
 
@@ -488,13 +535,14 @@ FIXED_KAPPA_BETA_PMINUS_SQUARE_SCALE_FIBER=Bo1
 CLASS_NUMBER_FIXED_NORM_COST=0
 UNIT_ORBIT_FIXED_NORM_COST=Bo1
 REGULATOR_FIXED_POWER_LOSS=0
+TH19_CONSUMED=true
+TH19_FIXED_NORM_PELL_ORBIT_SUBPROBLEM_SUPERSEDED=true
 SHARED_U_KAPPA_ONE_MOVING_CANONICAL_LINEAR_FACTOR_VALUE_ENERGY_PROVED=false
 SHARED_U_SMALL_ODD_KAPPA_FIXED_TAG_MOVING_CANONICAL_NORM_VALUE_ENERGY_PROVED=false
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=5/8
 T73_PROVES_ADDITIONAL_WHOLE_FAMILY_POWER_SAVING=false
-TH19_NEEDED=true
-TH19_REQUESTED_OBJECT=SmallOddKappaMovingCanonicalLargestPrimeSmoothNormValueEnergy
-TH19_FIXED_NORM_PELL_ORBIT_SUBPROBLEM_SUPERSEDED=true
-T_ROUTE_BLOCKED_WAITING_FOR_TH19=false
+TH20_NEEDED=true
+TH20_REQUESTED_OBJECT=SmallOddKappaFixedTagMovingCanonicalLargestPrimeSmoothNormValueSieve
+T_ROUTE_BLOCKED_WAITING_FOR_TH20=false
 NEXT=Stage14-t74
 ```
