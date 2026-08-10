@@ -1,0 +1,35 @@
+name: Stage14-t39 FI transfer obstruction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t39/**'
+      - 'stages/stage14/scripts/14-t/t39_fi_transfer_obstruction_audit.py'
+      - 'stages/stage14/data/14-t39/**'
+      - '.github/workflows/stage14-t39-fi-transfer-obstruction.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t38 regression
+        run: python stages/stage14/scripts/14-t/t38_moving_prime_elliptic_packet_audit.py
+
+      - name: Run t39 FI transfer obstruction audit
+        run: python stages/stage14/scripts/14-t/t39_fi_transfer_obstruction_audit.py
+
+      - name: Check frozen t39 summary
+        run: git diff --exit-code stages/stage14/data/14-t39/fi_transfer_obstruction.json
+
+      - name: Validate locked t39 boundary
+        run: |
+          grep -F 'STAGE14_T39=COMPLETE_FI_TRANSFER_AUDIT_AND_EXTERNAL_AUXILIARY_TRILINEAR_BOUNDARY' stages/stage14/14-t39/result.md
+          grep -F 'NATURAL_MODULUS_PSI_TRACE=CONSTANT_OR_ZERO' stages/stage14/14-t39/result.md
+          grep -F 'NATURAL_MODULUS_PHI_TRACE=CONSTANT_OR_ZERO' stages/stage14/14-t39/result.md
+          grep -F 'DIRECT_TWO_VARIABLE_FI_TRANSFER_VALID=false' stages/stage14/14-t39/result.md
+          grep -F 'EXTERNAL_AUXILIARY_THIRD_VARIABLE_ESSENTIAL=true' stages/stage14/14-t39/result.md
+          grep -F 'CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED=false' stages/stage14/14-t39/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t39/result.md
