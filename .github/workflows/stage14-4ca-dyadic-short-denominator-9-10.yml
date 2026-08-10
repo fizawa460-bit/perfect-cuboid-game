@@ -1,0 +1,33 @@
+name: Stage14-4ca dyadic short denominator 9-10
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ca/**'
+      - 'stages/stage14/data/14-4/dyadic_short_denominator_9_10_summary.json'
+      - 'stages/stage14/scripts/14-4/dyadic_short_denominator_9_10_audit.py'
+      - '.github/workflows/stage14-4ca-dyadic-short-denominator-9-10.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4ca audit
+        run: python -m py_compile stages/stage14/scripts/14-4/dyadic_short_denominator_9_10_audit.py
+      - name: Run merged s7-12 regression
+        run: python stages/stage14/scripts/14-s7-12/unbalanced_short_denominator_audit.py
+      - name: Run 4ca deterministic audit
+        run: python stages/stage14/scripts/14-4/dyadic_short_denominator_9_10_audit.py
+      - name: Check locked 4ca boundary
+        run: |
+          grep -q 'STAGE14_4CA=DYADIC_SHORT_DENOMINATOR_SUPPORT_TWO_CELL_MIN_RECEIVER_AND_9_10_BOUND' stages/stage14/14-4ca/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=9/10' stages/stage14/14-4ca/result.md
+          grep -q 'DYADIC_RECEIVER_COMBINATION=min' stages/stage14/14-4ca/result.md
+          grep -q 'DYADIC_RECEIVER_SAVINGS_MULTIPLIED=false' stages/stage14/14-4ca/result.md
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true' stages/stage14/14-4ca/result.md
+          grep -q 'SQRT_B_UPPER_BOUND_PROVED=false' stages/stage14/14-4ca/result.md
