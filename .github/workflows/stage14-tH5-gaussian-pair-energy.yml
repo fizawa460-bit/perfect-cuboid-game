@@ -1,0 +1,37 @@
+name: Stage14-tH5 Gaussian pair collision energy
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH5/**'
+      - 'stages/stage14/data/tH5/**'
+      - 'stages/stage14/scripts/tH5/**'
+      - 'stages/stage14/14-tH2/**'
+      - 'stages/stage14/14-tH3/**'
+      - 'stages/stage14/14-tH4/**'
+      - '.github/workflows/stage14-tH5-gaussian-pair-energy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/tH5/gaussian_pair_collision_energy_audit.py
+      - name: Run deterministic collision-energy audit
+        run: python stages/stage14/scripts/tH5/gaussian_pair_collision_energy_audit.py
+      - name: Check locked boundary
+        run: |
+          grep -F 'STAGE14_TH5=COMPLETE_EXACT_GAUSSIAN_PAIR_COEFFICIENT_COLLISION_ENERGY' stages/stage14/14-tH5/result.md
+          grep -F 'EXACT_SHARED_H_FIBER_FORMULA_PROVED=true' stages/stage14/14-tH5/result.md
+          grep -F 'FULL_EXACT_GAUSSIAN_PAIR_COEFFICIENT_COLLISION_ENERGY_PROVED=true' stages/stage14/14-tH5/result.md
+          grep -F 'PAIR_RETENTION_ESSENTIAL=true' stages/stage14/14-tH5/result.md
+          grep -F 'SAME_MODULUS_RESIDUE_COLLISION_ENERGY_PROVED=false' stages/stage14/14-tH5/result.md
+          grep -F 'NEXT=Stage14-tH6' stages/stage14/14-tH5/result.md
