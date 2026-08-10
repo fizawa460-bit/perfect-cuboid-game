@@ -1,0 +1,59 @@
+name: Stage14-s7-19 Pythagorean cross-split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-19/**'
+      - 'stages/stage14/scripts/14-s7-19/**'
+      - '.github/workflows/stage14-s7-19-pythagorean-cross-split.yml'
+      - 'stages/stage14/14-s7-18/**'
+      - 'stages/stage14/14-4cd/**'
+      - 'stages/stage14/14-toolbox-H0/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-19 Pythagorean cross-split audit
+        run: python stages/stage14/scripts/14-s7-19/pythagorean_cross_split_audit.py
+
+      - name: Check merged s7-18 boundary
+        run: |
+          f=stages/stage14/14-s7-18/result.md
+          grep -Fq 'STAGE14_S7_18=COMPLETE_SAME_SPLIT_COLLISION_ELIMINATION_AND_LARGE_CROSS_SPLIT_DISAGREEMENT_REDUCTION' "$f"
+          grep -Fq 'CRITICAL_SWITCH_PRODUCT_LOWER_EXPONENT=1/8' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_SWITCH_PRODUCT_LOWER_EXPONENT=3/8' "$f"
+          grep -Fq 'NEXT=Stage14-s7-19' "$f"
+
+      - name: Check merged 4cd endpoint
+        run: |
+          f=stages/stage14/14-4cd/result.md
+          grep -Fq 'SEVEN_EIGHT_RESIDUAL_REQUIRES_K_EXPONENT=1-o(1)' "$f"
+          grep -Fq 'K_MINUS_EXPONENT=1/2+o(1)' "$f"
+          grep -Fq 'K_PLUS_EXPONENT=1/2+o(1)' "$f"
+
+      - name: Check toolbox-H0 caution boundary
+        run: |
+          f=stages/stage14/14-toolbox-H0/result.md
+          grep -Fq 'COLLISION_TO_GAUSSIAN_IMPLICATION_PROVED=false' "$f"
+
+      - name: Lock s7-19 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-19/result.md
+          grep -Fq 'STAGE14_S7_19=COMPLETE_CROSS_SPLIT_PYTHAGOREAN_COMPOSITION_AND_TWO_LEG_DIVISOR_REDUCTION' "$f"
+          grep -Fq 'CROSS_SPLIT_PYTHAGOREAN_TRIPLE_EXACT=true' "$f"
+          grep -Fq 'GCD_D_K=1' "$f"
+          grep -Fq 'K_SWITCH_DIVIDES_PRIMITIVE_HYPOTENUSE=true' "$f"
+          grep -Fq 'XI0_DIVIDES_PRIMITIVE_TRANSVERSE_LEG=true' "$f"
+          grep -Fq 'CRITICAL_PRIMITIVE_XI0_LOWER_EXPONENT=1/8' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_PRIMITIVE_XI0_LOWER_EXPONENT=1/4' "$f"
+          grep -Fq 'LARGE_SWITCH_PRIMITIVE_PYTHAGOREAN_TWO_LEG_INCIDENCE_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'TH15_NEEDED_BY_S7_19=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-20' "$f"
