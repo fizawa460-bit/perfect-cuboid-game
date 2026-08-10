@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Exploratory/diagnostic audit for Stage14-s7-33.
+"""Diagnostic audit for Stage14-s7-33.
 
-Classify how odd common-core primes occur in the k-plus Gaussian host,
-xi-plus Gaussian host, and the residual xi switched Gaussian quotient W_S.
-Also audit the exact auxiliary Gaussian factor in
+Tests the exact Gaussian product identity
 
-    2*T*Z_S = g1*g2*(D+iA)*(beta*r1*s2+i*gamma*s1*r2).
+    2*T*Z_S = g1*g2*(D+iA)*(beta*r1*s2+i*gamma*s1*r2)
 
-Finite output is diagnostic evidence; asymptotic claims belong in result.md.
+and checks whether the full odd common core C can be realized as a common
+same-orientation Gaussian divisor of D+iA and the residual quotient W_S.
+Finite enumeration is diagnostic; the proof is recorded separately.
 """
 from collections import Counter
 from importlib.util import module_from_spec, spec_from_file_location
@@ -32,7 +32,7 @@ s32 = load_module("s32_s733", SCRIPTS / "14-s7-32" / "one_host_gaussian_boundary
 ch = s28.ch
 
 
-def prime_factors(n: int):
+def factor(n: int):
     out = []
     p = 2
     x = n
@@ -40,12 +40,14 @@ def prime_factors(n: int):
         if x % p:
             p = 3 if p == 2 else p + 2
             continue
-        out.append(p)
+        e = 0
         while x % p == 0:
             x //= p
+            e += 1
+        out.append((p, e))
         p = 3 if p == 2 else p + 2
     if x > 1:
-        out.append(x)
+        out.append((x, 1))
     return out
 
 
@@ -63,6 +65,39 @@ def relation(z, w, p):
     if same and opp:
         return "both"
     return "neither"
+
+
+def gaussian_v(z, pi):
+    e = 0
+    cur = z
+    while True:
+        q = s32.g4cf.gdiv_exact(cur, pi)
+        if q is None:
+            return e
+        e += 1
+        cur = q
+
+
+def common_C_gaussian_valuation_ok(hk, WS, C):
+    """For each odd p^e||C, find one orientation with >=e in both hosts."""
+    profile = []
+    for p, e in factor(C):
+        if p == 2:
+            continue
+        assert p % 4 == 1, (C, p)
+        a, b = s32.g4cf.prime_sum_two_squares(p)
+        pi = (a, b)
+        pib = (a, -b)
+        vals = (
+            gaussian_v(hk, pi), gaussian_v(hk, pib),
+            gaussian_v(WS, pi), gaussian_v(WS, pib),
+        )
+        same_pi = vals[0] >= e and vals[2] >= e
+        same_pib = vals[1] >= e and vals[3] >= e
+        if not (same_pi or same_pib):
+            return False, profile + [(p, e, vals)]
+        profile.append((p, e, vals))
+    return True, profile
 
 
 def packet_probe(a_state, b_state):
@@ -86,7 +121,6 @@ def packet_probe(a_state, b_state):
     _, WS = s32.gaussian_descent_allow_one(ZS[0], ZS[1], S)
     assert s32.gnorm(WS) == C * v_res * (S // s32.oddpart(S)) ** 2
 
-    # Exact Gaussian product identity.
     ES = (
         beta * a_state["r"] * b_state["s"],
         gamma * a_state["s"] * b_state["r"],
@@ -98,12 +132,13 @@ def packet_probe(a_state, b_state):
         g1 * g2 * (hk[0] * ES[1] + hk[1] * ES[0]),
     )
     assert lhs == rhs
-    # Odd norm relation forced by taking norms in the product identity.
     assert s32.oddpart(s32.gnorm(ES)) == s32.oddpart(S * T * v_res)
+
+    full_ok, profile = common_C_gaussian_valuation_ok(hk, WS, C)
 
     hx = (Q, P)
     ctr = Counter()
-    for ell in prime_factors(C):
+    for ell, _ in factor(C):
         if ell == 2:
             continue
         ctr[("Cprime",)] += 1
@@ -117,7 +152,7 @@ def packet_probe(a_state, b_state):
         ctr[("hk_hx", relation(hk, hx, ell))] += 1
         ctr[("hk_ws", relation(hk, WS, ell))] += 1
         ctr[("hx_ws", relation(hx, WS, ell))] += 1
-    return ctr, C, v_res, h, WS, S, T, s32.gnorm(ES)
+    return ctr, C, v_res, h, WS, S, T, s32.gnorm(ES), full_ok, profile
 
 
 def main():
@@ -127,6 +162,8 @@ def main():
     max_C = max_v = max_h = max_wgcd = 1
     max_C_ST = max_C_v = max_C_STv = max_C_ES = 1
     nontrivial_C_ST = nontrivial_C_v = nontrivial_C_STv = 0
+    full_common_ok = 0
+    failed_profiles = []
     for states in groups.values():
         for i in range(len(states)):
             for j in range(i + 1, len(states)):
@@ -135,9 +172,12 @@ def main():
                     continue
                 if (a["km"], a["kp"]) == (b["km"], b["kp"]):
                     continue
-                ctr, C, v, h, WS, S, T, NES = packet_probe(a, b)
+                ctr, C, v, h, WS, S, T, NES, full_ok, profile = packet_probe(a, b)
                 total.update(ctr)
                 checked += 1
+                full_common_ok += int(full_ok)
+                if not full_ok:
+                    failed_profiles.append((C, v, S, T, profile))
                 max_C = max(max_C, C)
                 max_v = max(max_v, v)
                 max_h = max(max_h, h)
@@ -156,6 +196,8 @@ def main():
     assert checked > 0
     print("Stage14-s7-33 shared common-core orientation probe: PASS")
     print(f"finite physical pairs checked: {checked}")
+    print(f"full C same-orientation Gaussian divisor packets: {full_common_ok}/{checked}")
+    print(f"failed full-C profiles: {failed_profiles[:5]}")
     print(f"max C: {max_C}")
     print(f"max v_res: {max_v}")
     print(f"max quotient gcd h: {max_h}")
