@@ -36,11 +36,15 @@ jobs:
         run: python stages/stage14/scripts/14-4/shared_xi_cell_sieve_audit.py
       - name: Regress s7-09 conditional two-cell gate
         run: python stages/stage14/scripts/14-s7-09/adjacent_two_cell_mixed_gate_audit.py
+      - name: Regress current 4bx thick reoptimization
+        run: python stages/stage14/scripts/14-4/thick_sieve_reoptimization_audit.py
       - name: Validate toolbox-al boundary
         run: |
           grep -q 'STAGE14_TOOLBOX_AL=COMPLETE_PROOF_RECIPE_COOKBOOK_AND_RECEIVER_CHECKLISTS' stages/stage14/14-toolbox-al/result.md
-          grep -q 'CANONICAL_TOTAL_CARD_COUNT=84' stages/stage14/14-toolbox-al/result.md
-          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=18/19' stages/stage14/14-toolbox-al/result.md
-          grep -q 'TWO_CELL_RECIPE_STATUS=CONDITIONAL' stages/stage14/14-toolbox-al/result.md
-          grep -q 'CONDITIONAL_16_17_PROMOTED_TO_CURRENT=false' stages/stage14/14-toolbox-al/result.md
+          grep -q 'CANONICAL_TOTAL_CARD_COUNT=87' stages/stage14/14-toolbox-al/result.md
+          grep -q 'COOKBOOK_RECIPE_COUNT=7' stages/stage14/14-toolbox-al/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=15/16' stages/stage14/14-toolbox-al/result.md
+          grep -q 'CURRENT_REMAINING_GAP_TO_SQRT=7/16' stages/stage14/14-toolbox-al/result.md
+          grep -q 'UPDATED_TWO_CELL_CONDITIONAL_TARGET=13/14' stages/stage14/14-toolbox-al/result.md
+          grep -q 'CONDITIONAL_13_14_PROMOTED_TO_CURRENT=false' stages/stage14/14-toolbox-al/result.md
           grep -q 'NEXT=Stage14-toolbox-am external theorem hypothesis contract and import checklist' stages/stage14/14-toolbox-al/result.md
