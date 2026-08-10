@@ -1,0 +1,58 @@
+name: Stage14-4cy cross-root square row reduction 23/44
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cy/**'
+      - 'stages/stage14/scripts/14-4/cross_root_square_row_reduction_23_44_audit.py'
+      - 'stages/stage14/data/14-4/cross_root_square_row_reduction_23_44_summary.json'
+      - '.github/workflows/stage14-4cy-cross-root-square-row-reduction-23-44.yml'
+      - 'stages/stage14/14-4cx/**'
+      - 'stages/stage14/14-s7-39/**'
+      - 'stages/stage14/14-s7-31/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4cy deterministic audit
+        run: python stages/stage14/scripts/14-4/cross_root_square_row_reduction_23_44_audit.py
+
+      - name: Compile Stage14-4cy audit
+        run: python -m py_compile stages/stage14/scripts/14-4/cross_root_square_row_reduction_23_44_audit.py
+
+      - name: Stage14-4cx regression
+        run: python stages/stage14/scripts/14-4/cayley_annulus_collapse_23_44_audit.py
+
+      - name: Stage14-s7-39 regression
+        run: python stages/stage14/scripts/14-s7-39/cayley_residual_disjoint_17_32_audit.py
+
+      - name: Stage14-s7-31 regression
+        run: python stages/stage14/scripts/14-s7-31/fixed_outer_common_gcd_audit.py
+
+      - name: Boundary locks
+        run: |
+          f=stages/stage14/14-4cy/result.md
+          grep -Fq 'STAGE14_4CY=COMPLETE_CROSS_ROOT_SQUARE_ROW_REDUCTION_AND_UNIQUE_23_44_SATURATION' "$f"
+          grep -Fq 'CAYLEY_ROW_DESCENDS_AFTER_CROSS_ROOT_SQUARE_DIVISION=true' "$f"
+          grep -Fq 'CROSS_ROOT_SQUARE_REMOVED_FROM_COLUMN_SUPPORT=true' "$f"
+          grep -Fq 'CROSS_ROOT_SQUARE_REMOVED_FROM_ROW_SUPPORT=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=23/44' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'TWENTYTHREE_44_SATURATION_SEGMENT_COLLAPSED_TO_POINT=true' "$f"
+          grep -Fq 'TWENTYTHREE_44_UNIQUE_SATURATION_THETA=23/88' "$f"
+          grep -Fq 'TWENTYTHREE_44_UNIQUE_SATURATION_PHI=19/88' "$f"
+          grep -Fq 'TWENTYTHREE_44_COLUMN_RESIDUAL_EXPONENT=1/22' "$f"
+          grep -Fq 'TWENTYTHREE_44_REDUCED_ROW_LIFT_EXPONENT=1/22' "$f"
+          grep -Fq 'REMAINING_RECEIVER=TwentyThreeFortyFourthsCrossRootFreeEqualCoreTwinOneTwentySecondLiftIncidence' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4cz' "$f"
