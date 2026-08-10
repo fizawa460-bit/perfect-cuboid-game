@@ -1,0 +1,37 @@
+name: Stage14-tH13 sparse many-conductor adapter
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH13/**'
+      - 'stages/stage14/data/tH13/**'
+      - 'stages/stage14/scripts/tH13/**'
+      - '.github/workflows/stage14-tH13-sparse-many-conductor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-tH13 deterministic adapter audit
+        run: python stages/stage14/scripts/tH13/sparse_many_conductor_adapter_audit.py
+
+      - name: Validate locked boundary
+        run: |
+          grep -q 'STAGE14_TH13=COMPLETE_SPARSE_MANY_CONDUCTOR_LARGE_SIEVE_DISPERSION_ADAPTER' stages/stage14/14-tH13/result.md
+          grep -q 'T45_POWER_SAVING_ASSUMED=false' stages/stage14/14-tH13/result.md
+          grep -q 'SPARSE_CARDINALITY_REPLACES_CONDUCTOR_RANGE=false' stages/stage14/14-tH13/result.md
+          grep -q 'CONDUCTOR_ENERGY_REFINEMENT_AVAILABLE=true' stages/stage14/14-tH13/result.md
+          grep -q 'CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED=false' stages/stage14/14-tH13/result.md
+          grep -q '"status": "COMPLETE_SPARSE_MANY_CONDUCTOR_LARGE_SIEVE_DISPERSION_ADAPTER"' stages/stage14/data/tH13/sparse_many_conductor_adapter_summary.json
