@@ -1,0 +1,34 @@
+name: Stage14-X3 primitive-line quartic audit
+
+on:
+  push:
+    paths:
+      - "stages/stage14/14-X3/**"
+      - "stages/stage14/data/14-X3/**"
+      - "stages/stage14/scripts/14-X3/**"
+      - ".github/workflows/stage14-X3-primitive-line-quartic.yml"
+  pull_request:
+    paths:
+      - "stages/stage14/14-X3/**"
+      - "stages/stage14/data/14-X3/**"
+      - "stages/stage14/scripts/14-X3/**"
+      - ".github/workflows/stage14-X3-primitive-line-quartic.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run X3 quartic audit
+        run: python3 stages/stage14/scripts/14-X3/primitive_line_quartic_audit.py
+      - name: Compile X3 audit
+        run: python3 -m py_compile stages/stage14/scripts/14-X3/primitive_line_quartic_audit.py
+      - name: Check frozen X3 boundary
+        run: |
+          grep -q '^RELAXED_DIAGONAL_FIXED_POWER_OBSTRUCTION=true$' stages/stage14/14-X3/result.md
+          grep -q '^PHYSICAL_RECEIVER_COUNTEREXAMPLE_PROVED=false$' stages/stage14/14-X3/result.md
+          grep -q '^CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8$' stages/stage14/14-X3/result.md
+          grep -q '^NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false$' stages/stage14/14-X3/result.md
