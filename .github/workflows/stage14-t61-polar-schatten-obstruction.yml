@@ -1,0 +1,28 @@
+name: Stage14-t61 polar Schatten obstruction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t61/**'
+      - 'stages/stage14/data/14-t61/**'
+      - 'stages/stage14/scripts/14-t/t61_polar_schatten_obstruction_audit.py'
+      - 'stages/stage14/scripts/14-t/t61_validate_frozen.py'
+      - '.github/workflows/stage14-t61-polar-schatten-obstruction.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t60 predecessor regression
+        run: python stages/stage14/scripts/14-t/t60_polar_kummer_fourth_moment_audit.py > /tmp/t60.json
+      - name: Run t61 polar Schatten obstruction audit
+        run: python stages/stage14/scripts/14-t/t61_polar_schatten_obstruction_audit.py > /tmp/t61.json
+      - name: Validate frozen t61 boundary
+        run: python stages/stage14/scripts/14-t/t61_validate_frozen.py
+      - name: Compile t61 scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t61_polar_schatten_obstruction_audit.py stages/stage14/scripts/14-t/t61_validate_frozen.py
