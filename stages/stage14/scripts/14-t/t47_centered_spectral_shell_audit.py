@@ -84,7 +84,6 @@ def main():
     D = {k: funddisc(k) for k in kernels}
     maxD, L = max(D.values()), max(ells)
 
-    # tH13 shell ledger, compacted for frozen output.
     shells = defaultdict(list)
     for k in kernels:
         if D[k] != 1:
@@ -111,7 +110,6 @@ def main():
     weighted_rows.sort(reverse=True)
     max_envelope = (L + maxD) * A1
 
-    # Weighted state-squareclass character Gram.
     G = []
     max_offdiag = 0
     max_pair = None
@@ -135,7 +133,6 @@ def main():
     single_schur = max(row_abs)
     single_power = power_iteration(G)
 
-    # Ordered-pair squareclass Gram is the Hadamard square G o G.
     G2 = [[x * x for x in row] for row in G]
     pair_off_l2 = max(sum(G[i][j] ** 2 for j in range(P) if j != i) for i in range(P))
     pair_schur = max(sum(row) for row in G2)
@@ -222,8 +219,17 @@ def main():
             "NEXT": "Stage14-t48 prove a uniform physical row-correlation/spectral estimate for the squareclass character Gram matrix, or classify exceptional coherent rows using common-core/canonical-prime geometry",
         },
     }
-    OUT.parent.mkdir(parents=True, exist_ok=True)
-    OUT.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
+
+    # Frozen lock: if the checked-in summary exists, require semantic equality and
+    # leave its byte representation untouched. This catches every value/key change
+    # while avoiding false failures from harmless JSON whitespace/layout choices.
+    if OUT.exists():
+        frozen = json.loads(OUT.read_text())
+        assert frozen == report, "Stage14-t47 frozen JSON semantic mismatch"
+        print("Stage14-t47 frozen semantic lock: PASS")
+    else:
+        OUT.parent.mkdir(parents=True, exist_ok=True)
+        OUT.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
     print(json.dumps(report, indent=2, sort_keys=True))
 
 
