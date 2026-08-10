@@ -1,0 +1,62 @@
+name: Stage14-4dH Gaussian product physical energy H audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dH/**'
+      - 'stages/stage14/data/14-4/gaussian_product_physical_energy_h_summary.json'
+      - 'stages/stage14/scripts/14-4/gaussian_product_physical_energy_h_audit.py'
+      - '.github/workflows/stage14-4dH-gaussian-product-physical-energy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4dH deterministic audit
+        run: python stages/stage14/scripts/14-4/gaussian_product_physical_energy_h_audit.py
+
+      - name: Compile Stage14-4dH audit
+        run: python -m py_compile stages/stage14/scripts/14-4/gaussian_product_physical_energy_h_audit.py
+
+      - name: Merged 4dc regression
+        run: |
+          f=stages/stage14/14-4dc/result.md
+          grep -Fq 'STAGE14_4DC=COMPLETE_GAUSSIAN_PRODUCT_ROOT_LINE_COMPRESSION_TRANSVERSE_RESULTANT_NOGO_AND_MAINLINE_H_GATE' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=true' "$f"
+
+      - name: Merged s7-44 regression
+        run: |
+          f=stages/stage14/14-s7-44/result.md
+          grep -Fq 'COMMON_CORE_PLUS_DUAL_PRIMITIVE_ROOT_LINES_EXPONENT=1/2' "$f"
+          grep -Fq 'SECOND_FULL_CORE_DETERMINANT_SPACING_LEGAL_FROM_CURRENT_IDENTITIES=false' "$f"
+
+      - name: Literature file locks
+        run: |
+          f=stages/stage14/14-4dH/literature.md
+          grep -Fq 'https://arxiv.org/abs/1502.00769' "$f"
+          grep -Fq 'https://arxiv.org/abs/2604.25177' "$f"
+          grep -Fq 'https://arxiv.org/abs/2607.24311' "$f"
+          grep -Fq 'https://arxiv.org/abs/1811.07300' "$f"
+          grep -Fq 'https://arxiv.org/abs/math/0404456' "$f"
+
+      - name: Stage14-4dH theorem boundary
+        run: |
+          f=stages/stage14/14-4dH/result.md
+          grep -Fq 'STAGE14_4DH=COMPLETE_MAINLINE_H_APPLICABILITY_AUDIT_NO_CERTIFIED_UNIFORM_DELTA' "$f"
+          grep -Fq 'CERTIFIED_MAINLINE_H_DELTA=0' "$f"
+          grep -Fq 'ZERO_FREQUENCY_PHYSICAL_DENSITY_OBSTRUCTION=true' "$f"
+          grep -Fq 'OFF_THE_SHELF_UNIFORM_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'MAINLINE_BLOCKED_BY_H=false' "$f"
+          grep -Fq 'ADDITIONAL_MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterGaussianNormDivisorSplitPhysicalAdmissibilityZeroFrequencyDensity' "$f"
+          grep -Fq 'NEXT=Stage14-4dd' "$f"
