@@ -89,7 +89,6 @@ def main():
     direction_keys = sorted({(s["a"], s["b"]) for s in reps})
     relation, _relation_counts = t43["relation_matrix"](direction_keys)
 
-    # Frozen evidence for the tH12 quantifier warning: fixed common core is not scalar.
     by_core = defaultdict(list)
     by_ell = defaultdict(list)
     by_joint = defaultdict(list)
@@ -112,7 +111,6 @@ def main():
     core_ell_counts = [len({s["ell"] for s in members}) for members in by_core.values()]
     ell_core_counts = [len({common_core_key(s) for s in members}) for members in by_ell.values()]
 
-    # Full convolution gives target twists and heavy set.
     conv = Counter()
     for x in reps:
         for y in reps:
@@ -123,7 +121,6 @@ def main():
     assert len(heavy) == 72
     targets = [tau for tau, _mult in heavy[:TOP_TARGET_COUNT]]
 
-    # Materialize the genuinely generic distinct-ell cross-good pair family once.
     generic_pairs = []
     for ix, x in enumerate(reps):
         dx = (x["a"], x["b"])
@@ -137,10 +134,6 @@ def main():
                 continue
             generic_pairs.append((ix, iy))
 
-    # Exact fixed-partner character identity and two endogenous local filters.
-    # For a true tau-pair, tau*F_x^#*F_y and tau*F_x*F_y^# are rational squares,
-    # hence both own-prime Legendre symbols are +1. For arbitrary candidates these
-    # are only two local necessary tests.
     target_rows = []
     prime_character_identity_checks = 0
     actual_subset_checks = 0
@@ -155,8 +148,6 @@ def main():
 
         for ix, iy in generic_pairs:
             x, y = reps[ix], reps[iy]
-            # If tau itself contains an endogenous modulus, this local test is bad and is
-            # routed away exactly as required by t44/tH12 bad-prime accounting.
             if tau % x["ell"] == 0 or tau % y["ell"] == 0:
                 continue
             good_candidates += 1
@@ -170,9 +161,6 @@ def main():
             right_pass += int(R == 1)
             both_pass += int(L == 1 and R == 1)
 
-            # Fixed y: chi_{ell_x}(tau F_y) is exactly the primitive quadratic
-            # Dirichlet character attached to the fundamental discriminant of the
-            # squarefree part of tau F_y, evaluated at ell_x.
             d_y = squarefree_product(tau, y["kernel"])
             D_y = fundamental_discriminant_from_squarefree(d_y)
             conductor_set.add(D_y)
@@ -199,16 +187,13 @@ def main():
             "max_pairs_sharing_one_partner_conductor": max(partner_conductor_hist.values()),
         })
 
-    # The endogenous two-prime positivity detector has a fixed constant term 1/4.
-    # This is an exact algebraic barrier: without cancellation in the three nonconstant
-    # character terms it cannot change an exponent.
     detector_expansion = (
         "1_square(N) <= ((1+chi_ellx(N))/2)*((1+chi_elly(N))/2) "
         "= (1+chi_ellx(N)+chi_elly(N)+chi_ellx(N)chi_elly(N))/4"
     )
 
     report = {
-        "stage": "14-t45-probe",
+        "stage": "14-t45",
         "th12_reuse": {
             "receiver_imported": True,
             "fixed_partner_prime_character_identity_proved": True,
@@ -249,19 +234,30 @@ def main():
             "blockwise_1d_character_implies_global_saving": False,
             "aggregate_multi_conductor_large_sieve_or_dispersion_required": True,
         },
-        "boundary": {
-            "STAGE14_T45": "PROBE_TWO_CANONICAL_LOCAL_FILTER_AND_MANY_CONDUCTOR_BOUNDARY",
+        "th13_reopen": {
+            "needed": True,
+            "trigger": "t45 certifies a genuine fixed-partner one-dimensional quadratic prime character, but moving the partner produces a 544-conductor family in each frozen top-heavy target and blockwise estimates do not aggregate",
+            "task": "build a sparse multi-conductor quadratic-character/large-sieve adapter for chi_{D_{tau,y}}(ell_x), retaining canonical-prime selector weights, tH12 common refinements, t44 O(1) bad-prime routing, and a separate principal-conductor slice",
+        },
+        "decision": {
+            "STAGE14_T45": "COMPLETE_TWO_CANONICAL_LOCAL_CHARACTER_AND_MANY_CONDUCTOR_BARRIER",
             "TH12_PRIME_CHARACTER_SPECIALIZATION_FOUND": True,
+            "FIXED_PARTNER_QUADRATIC_CHARACTER_CERTIFIED": True,
+            "FIXED_COMMON_CORE_ALONE_ONE_DIMENSIONAL": False,
             "TWO_ENDOGENOUS_CANONICAL_LOCAL_FILTERS_EXACT": True,
             "TWO_ENDOGENOUS_CANONICAL_LOCAL_FILTERS_POWER_SAVING": False,
+            "TWO_LOCAL_FILTER_CONSTANT_TERM": "1/4",
             "MANY_CONDUCTOR_AGGREGATION_REQUIRED": True,
+            "TH13_REOPEN_TRIGGER": True,
             "GENERIC_CROSS_GOOD_KUMMER_INCIDENCE_BOUND_PROVED": False,
             "GLOBAL_PRINCIPAL_COLLISION_POWER_SAVING_PROVED": False,
             "GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED": False,
             "CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED": False,
+            "CANONICAL_PRIME_SUM_POWER_SAVING_PROVED": False,
             "A_11_POWER_SAVING_PROVED": False,
             "T_O_SQRT_B_PROVED": False,
             "PERFECT_CUBOID_NONEXISTENCE_PROVED": False,
+            "NEXT": "Stage14-t46 attack the sparse many-conductor quadratic-character aggregate; in parallel Stage14-tH13 build the reusable multi-conductor large-sieve/dispersion adapter triggered here",
         },
     }
 
