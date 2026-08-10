@@ -1,1 +1,74 @@
-{}
+{
+  "bad_auxiliary": {
+    "control": "each polynomial-size F has only B^o(1) prime divisors; remove/charge these pairwise bad incidences",
+    "issue": "if lambda divides F_j*F_j', Legendre is zero and kernel-only reciprocity need not equal the trace"
+  },
+  "decision": {
+    "A_11_POWER_SAVING_PROVED": false,
+    "CANONICAL_PRIME_SUM_POWER_SAVING_PROVED": false,
+    "CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED": false,
+    "CROSS_KERNEL_IS_NORM_INDUCED_QUADRATIC_HECKE_CHARACTER_OVER_QI": true,
+    "CROSS_KERNEL_IS_QUADRATIC_DIRICHLET_CHARACTER_IN_AUXILIARY_NORM": true,
+    "FOURTH_ORDER_CROSS_KERNEL_ENERGY_REQUIRED": true,
+    "GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED": false,
+    "GLOBAL_PRINCIPAL_COLLISION_POWER_SAVING_PROVED": false,
+    "NEXT": "Stage14-t41 analyze the principal and fourth-order cross-kernel energies globally. Exploit the t38 genus-one moving-prime fibers and t37 reverse fibers simultaneously; test whether a two-sided incidence/energy decomposition gives A_1 and E4 below the sqrt-B barrier",
+    "ONE_CAUCHY_REMOVES_EXTERNAL_TRACE_NONMULTIPLICATIVITY": true,
+    "PERFECT_CUBOID_NONEXISTENCE_PROVED": false,
+    "PRINCIPAL_CROSS_KERNEL_EQUALS_GLOBAL_SQUARECLASS_COLLISION": true,
+    "QUADRATIC_HECKE_LARGE_SIEVE_INTERFACE_VALID": true,
+    "SAFE_CROSS_CONDUCTOR_BOUND": "2^18*B^8",
+    "STAGE14_T40": "COMPLETE_ONE_CAUCHY_QUADRATIC_HECKE_CROSS_KERNEL_AND_ENERGY_BOUNDARY",
+    "T_O_SQRT_B_PROVED": false
+  },
+  "frozen_audit": {
+    "kernel_energy": {
+      "cross_kernel_fourth_energy": 21193216,
+      "distinct_cross_kernels": 132961,
+      "distinct_single_squareclasses": 544,
+      "global_second_squareclass_energy": 2368,
+      "max_cross_kernel": 1,
+      "max_cross_kernel_multiplicity": 2368,
+      "max_fundamental_discriminant_frozen": 3876687838903516,
+      "max_single_squareclass_multiplicity": 4,
+      "ordered_cross_pairs": 1254400,
+      "principal_cross_kernel_pairs": 2368,
+      "states": 1120
+    },
+    "norm_pullback": {
+      "norm_pullback_multiplicativity_checks": 1244
+    },
+    "reciprocity": {
+      "bad_pair_prime_skips": 15723,
+      "good_pair_prime_checks": 76437
+    },
+    "size_bounds": {
+      "max_F_frozen": 3471127615409,
+      "proved_cross_fundamental_discriminant_bound": "|D_cross|<=2^18*B^8",
+      "proved_per_state_bound": "|F|<=256*B^4"
+    }
+  },
+  "one_cauchy_dispersion": {
+    "cauchy_identity": "|T|^2 <= P * sum_{j,j'} d_j*conj(d_j') K_Lambda(j,j'), K_Lambda=sum_lambda chi_lambda(F_j*F_j')",
+    "cross_squarefree_kernel": "kappa_jj'=sqfree(F_j*F_j')",
+    "fundamental_discriminant": "D(k)=k if k=1 mod 4, otherwise 4k",
+    "gaussian_pullback": "eta_D(z)=chi_D(N(z)) is a quadratic norm-induced Hecke character on Q(i)",
+    "good_auxiliary_identity": "chi_lambda(F_j*F_j')=chi_D(kappa_jj')(lambda)",
+    "trilinear_form": "T=sum_lambda a_lambda sum_j d_j chi_lambda(F_j), j=(pi,gamma)"
+  },
+  "quadratic_large_sieve_interface": {
+    "available_theorem": "Goldmakher-Louvel quadratic Hecke large sieve; in this norm-induced subfamily the classical rational quadratic large sieve already controls the auxiliary variable",
+    "dispersion_bound": "|T|^2 << P^2*A_1 + P^(3/2)*(K+Q)^(1/2)*E4^(1/2)*(KQ)^epsilon + bad_auxiliary_error",
+    "fourth_energy": "E4=sum_D |A_D|^2",
+    "off_principal_bound": "sum_{D!=1} A_D S_D << E4^(1/2)*(K+Q)^(1/2)*P^(1/2)*(KQ)^epsilon",
+    "pair_coefficients": "A_D=sum_{j,j':D_jj'=D} d_j*conj(d_j')",
+    "principal_coefficient": "A_1 is the global squareclass collision energy"
+  },
+  "remaining_boundary": {
+    "local_energy_not_global": "t36/t37 control collisions after freezing one side; t40 needs global collisions with both pi and gamma moving",
+    "nonprincipal_kernel": "one Cauchy makes the auxiliary dependence genuinely quadratic-Hecke, but a direct large-sieve estimate pays the cross-kernel conductor height and the fourth-order energy E4",
+    "principal_kernel": "kappa_jj'=1 iff F_j and F_j' have the same rational squareclass; this is the global collision term and contains all target-target pairs",
+    "safe_conductor_height": "|D_cross|<=2^18*B^8 from the physical coordinate bounds"
+  },
+  "stage": "14-t40"
+}
