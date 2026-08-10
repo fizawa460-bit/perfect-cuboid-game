@@ -1,0 +1,61 @@
+name: Stage14-4ck quartic agreement incidence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ck/**'
+      - 'stages/stage14/scripts/14-4/quartic_agreement_incidence_audit.py'
+      - 'stages/stage14/data/14-4/quartic_agreement_incidence_summary.json'
+      - '.github/workflows/stage14-4ck-quartic-agreement-incidence.yml'
+      - 'stages/stage14/14-4ci/**'
+      - 'stages/stage14/14-4cj/**'
+      - 'stages/stage14/14-s7-24/**'
+      - 'stages/stage14/14-X1/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-4ck audit
+        run: python stages/stage14/scripts/14-4/quartic_agreement_incidence_audit.py
+
+      - name: Run merged Stage14-4ci regression
+        run: python stages/stage14/scripts/14-4/full_k_dual_common_core_audit.py
+
+      - name: Run merged Stage14-4cj regression
+        run: python stages/stage14/scripts/14-4/xi_rank1_collapse_audit.py
+
+      - name: Run merged Stage14-s7-24 regression
+        run: python stages/stage14/scripts/14-s7-24/rank2_plucker_root_line_audit.py
+
+      - name: Run merged Stage14-X1 regression
+        run: python stages/stage14/scripts/14-X1/joint_physical_fiber_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_4CI=COMPLETE_COMMON_CORE_FULL_K_DUAL_SATURATION_AND_NORMALIZED_HOST_REDUCTION' stages/stage14/14-4ci/result.md
+          grep -Fq 'STAGE14_4CJ=COMPLETE_XI_RANK_TWO_ELIMINATION_AND_RANK_ONE_PHYSICAL_ROOT_RIGIDITY' stages/stage14/14-4cj/result.md
+          grep -Fq 'STAGE14_S7_24=COMPLETE_RANK_TWO_PLUCKER_ELIMINATION_AND_PRIMITIVE_ROOT_LINE_SATURATION' stages/stage14/14-s7-24/result.md
+          grep -Fq 'JOINT_COMMON_CORE_CRT_PHYSICAL_FIBER_LEMMA_PROVED=true' stages/stage14/14-X1/result.md
+
+      - name: Lock Stage14-4ck theorem boundary
+        run: |
+          f=stages/stage14/14-4ck/result.md
+          grep -Fq 'STAGE14_4CK=COMPLETE_SWITCH_PRODUCT_ELIMINATION_AND_BINARY_QUARTIC_AGREEMENT_REDUCTION' "$f"
+          grep -Fq 'COMPLEMENTARY_MINUS_FACTOR_CROSS_IDENTITY_PROVED=true' "$f"
+          grep -Fq 'SWITCH_XI_PRODUCT_ST_RECOVERED_FROM_AGREEMENT_CELLS=true' "$f"
+          grep -Fq 'SWITCH_K_PRODUCT_BETA_GAMMA_RECOVERED_FROM_AGREEMENT_CELLS=true' "$f"
+          grep -Fq 'SWITCH_PRODUCT_SPLIT_COMPLETION_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'EIGHT_CELL_FIBER_REDUCED_TO_FOUR_AGREEMENT_CELLS=true' "$f"
+          grep -Fq 'BINARY_QUARTIC_AGREEMENT_EQUATION_PROVED=true' "$f"
+          grep -Fq 'COMMON_CORE_BINARY_QUARTIC_AGREEMENT_INCIDENCE_PROVED=false' "$f"
+          grep -Fq 'UNIQUE_CONDITIONAL_7_8_SATURATION_CORNER=(theta,phi)=(5/16,1/4)' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4cl' "$f"
