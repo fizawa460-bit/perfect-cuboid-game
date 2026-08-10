@@ -1,0 +1,70 @@
+name: Stage14-s7-26 linear agreement allocation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-26/**'
+      - 'stages/stage14/scripts/14-s7-26/**'
+      - '.github/workflows/stage14-s7-26-linear-agreement-allocation.yml'
+      - 'stages/stage14/14-s7-25/**'
+      - 'stages/stage14/14-4cg/**'
+      - 'stages/stage14/14-4cl/**'
+      - 'stages/stage14/14-X4/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-26 linear agreement allocation audit
+        run: python stages/stage14/scripts/14-s7-26/linear_agreement_allocation_audit.py
+
+      - name: Compile s7-26 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-26/linear_agreement_allocation_audit.py
+
+      - name: Run merged s7-25 regression
+        run: python stages/stage14/scripts/14-s7-25/xi_switch_shell_reconstruction_audit.py
+
+      - name: Run merged 4cl regression
+        run: python stages/stage14/scripts/14-4/cyclotomic_quartic_allocation_audit.py
+
+      - name: Run merged X4 compatibility regression
+        run: python stages/stage14/scripts/14-X4/physical_diagonal_elimination_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_S7_25=COMPLETE_FIXED_RESIDUAL_XI_SWITCH_PRODUCT_RECONSTRUCTION_AND_TOP_THETA_LOCALIZATION' stages/stage14/14-s7-25/result.md
+          grep -Fq 'FIXED_RESIDUAL_XI_SWITCH_PRODUCT_PACKET_FIBER_BO1=true' stages/stage14/14-s7-25/result.md
+          grep -Fq 'TOP_THETA_BARRIER=theta=5/16' stages/stage14/14-s7-25/result.md
+          grep -Fq 'STAGE14_4CL=COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_RECIPROCAL_CYCLOTOMIC_REDUCTION' stages/stage14/14-4cl/result.md
+          grep -Fq 'XI_THREE_WAY_CYCLOTOMIC_ALLOCATION_PROVED=true' stages/stage14/14-4cl/result.md
+          grep -Fq 'K_THREE_WAY_CYCLOTOMIC_ALLOCATION_PROVED=true' stages/stage14/14-4cl/result.md
+          grep -Fq 'gcd(H_k^+, oddpart(Xi_agree))=1' stages/stage14/14-4cg/result.md
+          grep -Fq 'gcd(H_xi^+, oddpart(K_agree))=1' stages/stage14/14-4cg/result.md
+          grep -Fq 'STAGE14_X4=COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_X_ROUTE_ALIGNMENT' stages/stage14/14-X4/result.md
+          grep -Fq 'REMAINING_RECEIVER=OffDiagonalReciprocalCyclotomicQuarticAllocationIncidence' stages/stage14/14-X4/result.md
+          grep -Fq 'X4_AUXILIARY_H_NEEDED=false' stages/stage14/14-X4/result.md
+
+      - name: Lock s7-26 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-26/result.md
+          grep -Fq 'STAGE14_S7_26=COMPLETE_COMMON_CORE_AGREEMENT_I_BRANCH_ELIMINATION_AND_TOP_EDGE_LINEAR_ALLOCATION' "$f"
+          grep -Fq 'XI_AGREEMENT_I_BRANCH_EMPTY=true' "$f"
+          grep -Fq 'K_AGREEMENT_I_BRANCH_EMPTY=true' "$f"
+          grep -Fq 'XI_AGREEMENT_EXACT_TWO_WAY_LINEAR_ALLOCATION=true' "$f"
+          grep -Fq 'K_AGREEMENT_EXACT_TWO_WAY_LINEAR_ALLOCATION=true' "$f"
+          grep -Fq 'HK_MINUS_EXACT_RESIDUAL_CANCELLATION=true' "$f"
+          grep -Fq 'HXI_MINUS_EXACT_RESIDUAL_CANCELLATION=true' "$f"
+          grep -Fq 'TOP_EDGE_XI_DOMINANT_LINEAR_MODULUS_LOWER_EXPONENT=phi' "$f"
+          grep -Fq 'TOP_EDGE_K_DOMINANT_LINEAR_MODULUS_LOWER_EXPONENT=5/16' "$f"
+          grep -Fq 'TOP_EDGE_DOMINANT_LINEAR_BRANCH_TYPE_COUNT=4' "$f"
+          grep -Fq 'TOP_EDGE_DOMINANT_LINEAR_COFACTOR_TOTAL_EXPONENT=1/8' "$f"
+          grep -Fq 'TOP_THETA_RECIPROCAL_LINEAR_AGREEMENT_ALLOCATION_INCIDENCE_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'S7_26_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-27' "$f"
