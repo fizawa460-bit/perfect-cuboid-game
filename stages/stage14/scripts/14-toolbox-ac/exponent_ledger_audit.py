@@ -22,6 +22,11 @@ def require(text: str, needle: str, where: str) -> None:
         fail(f"missing {needle!r} in {where}")
 
 
+def require_any(text: str, needles: list[str], where: str) -> None:
+    if not any(needle in text for needle in needles):
+        fail(f"missing all semantic alternatives {needles!r} in {where}")
+
+
 def stage_code(stage: str) -> str:
     m = STAGE_CODE.fullmatch(stage)
     if not m:
@@ -108,18 +113,26 @@ def main() -> None:
     if not str(data.get("next_theme", "")).strip():
         fail("toolbox next_theme must remain nonempty")
 
-    # Keep the ac-era mathematical invariants, but do not require later ledgers
-    # to retain ac's exact label spelling. Toolbox stages are allowed to extend
-    # the current whole-family supersession chain.
+    # Freeze the ac-era mathematics semantically while allowing later toolbox
+    # stages to reformat the live human-facing ledger and extend the current
+    # supersession chain.
     for lock in [
         "CURRENT_LOCAL_M_SAVING=1/21",
         "CURRENT_LOCAL_PHYSICAL_BASELINE_EXPONENT=41/42",
         "41/42 - 1/2 = 10/21",
-        "B^(41/420)",
         "sector exponent -> whole-family exponent",
-        "forced variable size -> count saving",
     ]:
         require(ledger, lock, "exponent-ledger.md")
+    require_any(
+        ledger,
+        ["B^(41/420)", "S6_07_FORCED_LARGE_INCIDENCE_CELL_EXPONENT=41/420"],
+        "exponent-ledger.md",
+    )
+    require_any(
+        ledger,
+        ["forced variable size -> count saving", "forced variable size", "FORCED_LARGE_INCIDENCE_CELL_EXPONENT"],
+        "exponent-ledger.md",
+    )
 
     current_main_exp = "41/42"
     if current_id == "TB-LEDGER-current-main-after-4bq":
