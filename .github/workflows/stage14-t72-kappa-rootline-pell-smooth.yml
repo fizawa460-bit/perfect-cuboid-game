@@ -1,0 +1,35 @@
+name: Stage14-t72 kappa rootline Pell smooth
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t72/**'
+      - 'stages/stage14/data/14-t72/**'
+      - 'stages/stage14/scripts/14-t/t72_*.py'
+      - '.github/workflows/stage14-t72-kappa-rootline-pell-smooth.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: predecessor t71 regression
+        run: python stages/stage14/scripts/14-t/t71_gaussian_angular_square_split_audit.py >/dev/null
+      - name: s7-32 global 5/8 ledger regression
+        run: grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=5/8' stages/stage14/14-s7-32/result.md
+      - name: Stage14-t72 audit
+        run: python stages/stage14/scripts/14-t/t72_kappa_rootline_pell_smooth_audit.py
+      - name: frozen validator if present
+        run: |
+          if [ -f stages/stage14/scripts/14-t/t72_validate_frozen.py ]; then
+            python stages/stage14/scripts/14-t/t72_validate_frozen.py
+          fi
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t72_*.py
