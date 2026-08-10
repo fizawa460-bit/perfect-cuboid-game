@@ -1,0 +1,50 @@
+name: Stage14-tH15 shared-U bipartite squareclass receiver
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH15/**'
+      - 'stages/stage14/data/tH15/**'
+      - 'stages/stage14/scripts/tH15/**'
+      - '.github/workflows/stage14-tH15-shared-u-bipartite-energy.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH15 audit
+        run: python -m py_compile stages/stage14/scripts/tH15/shared_u_bipartite_squareclass_audit.py
+
+      - name: Run merged t38 moving-prime regression
+        run: python stages/stage14/scripts/14-t/t38_moving_prime_elliptic_packet_audit.py
+
+      - name: Run merged t54 shared-U regression
+        run: python stages/stage14/scripts/14-t/t54_shared_u_canonical_prime_audit.py
+
+      - name: Validate merged t54 frozen boundary
+        run: python stages/stage14/scripts/14-t/validate_t54_frozen.py
+
+      - name: Run tH15 deterministic audit
+        run: python stages/stage14/scripts/tH15/shared_u_bipartite_squareclass_audit.py
+
+      - name: Lock tH15 theorem and failure boundary
+        run: |
+          grep -q 'STAGE14_TH15=COMPLETE_SHARED_U_BIPARTITE_RECEIVER_AND_TRANSVERSE_DISPERSION_BOUNDARY' stages/stage14/14-tH15/result.md
+          grep -q 'FIXED_U_DIVISOR_FAN_PRESERVED=true' stages/stage14/14-tH15/result.md
+          grep -q 'CAUCHY_FREE_ROW_COLUMN_TRANSVERSE_PARTITION_PROVED=true' stages/stage14/14-tH15/result.md
+          grep -q 'SAME_PI_PRINCIPAL_ENERGY_NEAR_LINEAR=true' stages/stage14/14-tH15/result.md
+          grep -q 'SAME_V_PRINCIPAL_ENERGY_NEAR_LINEAR=true' stages/stage14/14-tH15/result.md
+          grep -q 'T38_PROJECTIVE_BIPARTITE_FACTORIZATION_PROVED=true' stages/stage14/14-tH15/result.md
+          grep -q 'PROJECTIVE_TRACE_BIDEGREE_AT_MOST_4_4=true' stages/stage14/14-tH15/result.md
+          grep -q 'TRANSVERSE_POSITIVE_FROBENIUS_RECEIVER_PROVED=true' stages/stage14/14-tH15/result.md
+          grep -q 'SHARED_U_PHYSICAL_BIPARTITE_DISPERSION_PROVED=false' stages/stage14/14-tH15/result.md
+          grep -q 'E4_COEFFICIENT_ENERGY_USED=false' stages/stage14/14-tH15/result.md
+          grep -q 'SHARED_U_BIPARTITE_SQUARECLASS_ENERGY_PROVED=false' stages/stage14/14-tH15/result.md
+          grep -q 'MINIMAL_REMAINING_OBSTRUCTION=SharedUPhysicalBipartiteDispersion' stages/stage14/14-tH15/result.md
+          grep -q 'NEXT=Stage14-t55' stages/stage14/14-tH15/result.md
