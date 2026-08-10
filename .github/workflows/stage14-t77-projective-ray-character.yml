@@ -22,7 +22,7 @@ jobs:
       - name: merged tH21 boundary regression
         run: grep -q 'STAGE14_TH21=COMPLETE_BALANCED_CLEAN_KAPPA_CANONICAL_PRIME_PRIMITIVE_COVER_TYPEII_DISPERSION_APPLICABILITY_AUDIT' stages/stage14/14-tH21/result.md
       - name: merged s7-38 global 61/112 ledger regression
-        run: grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=61/112' stages/stage14/14-s7-38/result.md
+        run: grep -Fq 'V(B) << B^(61/112+o(1))' stages/stage14/14-s7-38/result.md
       - name: Stage14-t77 audit
         run: python stages/stage14/scripts/14-t/t77_projective_ray_character_audit.py
       - name: frozen validator if present
