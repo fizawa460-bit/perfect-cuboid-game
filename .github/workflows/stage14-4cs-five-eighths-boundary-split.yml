@@ -1,0 +1,39 @@
+name: Stage14-4cs five-eighths boundary split
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cs/**'
+      - 'stages/stage14/scripts/14-4/five_eighths_boundary_split_audit.py'
+      - 'stages/stage14/data/14-4/five_eighths_boundary_split_summary.json'
+      - '.github/workflows/stage14-4cs-five-eighths-boundary-split.yml'
+      - 'stages/stage14/14-s7-31/**'
+      - 'stages/stage14/14-4cr/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run Stage14-4cs audit
+        run: python stages/stage14/scripts/14-4/five_eighths_boundary_split_audit.py
+      - name: Run s7-31 regression
+        run: python stages/stage14/scripts/14-s7-31/fixed_outer_common_gcd_audit.py
+      - name: Run 4cr regression
+        run: python stages/stage14/scripts/14-4/two_thirds_cayley_gaussian_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-4cs/result.md
+          grep -Fq 'STAGE14_4CS=COMPLETE_FIVE_EIGHTHS_PROMOTION_COMMON_GCD_ROOT_GCD_IDENTIFICATION_AND_TWO_BOUNDARY_SPLIT' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=5/8' "$f"
+          grep -Fq 'IMPROVEMENT_OVER_PREVIOUS_2_3=1/24' "$f"
+          grep -Fq 'FIVE_EIGHTHS_SATURATION_COMPONENT_COUNT=2' "$f"
+          grep -Fq 'ODDPART_H_EQUALS_ODDPART_GCD_XY=true' "$f"
+          grep -Fq 'C_BAD_EXPONENT_MAX=1/4' "$f"
+          grep -Fq 'UPPER_RECEIVER=UpperFiveEighthsCayleyGaussianOuterSupportPrimitiveRootLineIncidence' "$f"
+          grep -Fq 'LOWER_RECEIVER=LowerFiveEighthsCoprimeRootProductTwoPrimitiveReciprocalFactorizationIncidence' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4ct' "$f"
