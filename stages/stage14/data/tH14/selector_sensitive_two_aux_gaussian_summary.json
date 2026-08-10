@@ -1,0 +1,117 @@
+{
+  "stage": "14-tH14",
+  "status": "COMPLETE_TWO_AUXILIARY_SELECTOR_RECEIVER_AND_RESIDUE_COLLISION_CLOSURE",
+  "trigger": {
+    "source": "merged Stage14-t50",
+    "tH11_reopen_trigger": "genuinely multi-modulus post-dispersion packet",
+    "hit": true,
+    "t50_global_mean_square_power_saving_assumed": false
+  },
+  "target": {
+    "block_sum": "S_R(p,q)=sum_{xi in X_R} w_R(xi)*chi_{pq}(Ftilde(xi))",
+    "global_second_moment": "sum_{p!=q}|sum_R S_R(p,q)|^2 <= P^2*(sum_R ||w_R||_2^2)*B^o(1)",
+    "physical_unweighted": "R_good <= H*P^2*B^o(1)"
+  },
+  "mandatory_preservation": {
+    "signed_common_refinement_aggregation": true,
+    "shared_UV_modulus_group": true,
+    "divisor_coupled_hyperbola": true,
+    "canonical_prime_selector": true,
+    "interval_reconstruction_branch_masks": true,
+    "distinct_split_auxiliary_primes": true,
+    "pair_to_cross_kernel_precollapse": false
+  },
+  "exact_pair_layer": {
+    "label": "z=(R,U,V,finite physical labels)",
+    "coefficient": "A_z",
+    "energy": "E_A=sum_z |A_z|^2",
+    "energy_transfer": "E_A <= B^o(1)*sum_R ||w_R||_2^2",
+    "source": "tH4+tH5",
+    "common_refinement_label_discarded": false
+  },
+  "residue_collision": {
+    "definition": "U and V agree modulo each of the two oriented split Gaussian prime ideals up to independent mu_4 units",
+    "difference_data": {
+      "D_U": "product_{u in mu4} N(U-uU')",
+      "D_V": "product_{v in mu4} N(V-vV')",
+      "Delta": "gcd(D_U,D_V)"
+    },
+    "nonexact_collision_implies": "p*q divides Delta(z,z')",
+    "nonzero_difference_polynomial_size": true,
+    "fixed_nonexact_pair_auxiliary_prime_pair_multiplicity": "O_rho(1)",
+    "aggregate_operator_bound": "sum_{p!=q} C_{p,q}(A) <= P^2*E_A*B^o(1) when P>=H*B^-o(1)",
+    "aggregate_same_modulus_residue_collision_energy_proved": true,
+    "exact_unit_orbit_diagonal_source": "tH5",
+    "global_equal_squareclass_resonance_absorbed_by_tH5": false
+  },
+  "large_product_injectivity": {
+    "block_norm_bound": "N(U),N(V)<=Y",
+    "sufficient_condition": "p*q>4Y",
+    "critical_ell": "B^(1/2+o(1))",
+    "critical_Y": "B^(1/2+o(1))",
+    "auxiliary_scale": "p,q=B^(rho+o(1))",
+    "fixed_margin_threshold": "rho>1/4",
+    "endpoint_rho_eq_1_4_claimed": false
+  },
+  "completion_audit": {
+    "t32_complete_two_prime_scale": "O(p*q) on the full split angular torus",
+    "complete_bound_implies_sparse_selector_bound": false,
+    "naive_selector_fourier_L1_completion_closes_target": false,
+    "gaussian_additive_large_sieve_directly_closes_target": false,
+    "generic_quadratic_large_sieve_after_Ftilde_collapse_is_noncircular": false,
+    "known_generic_trace_large_sieve_directly_certified": false
+  },
+  "missing_external_theorem": {
+    "name": "SelectorSensitiveGaussianCompletion",
+    "receiver": "sum_{p!=q}|T(p,q)|^2 <= B^o(1)*(P^2*E_A + sum_{p!=q} C_nonexact_{p,q}(A))",
+    "after_tH14_collision_closure": "sum_{p!=q}|T(p,q)|^2 <= P^2*E_A*B^o(1)",
+    "equivalent_discrepancy": "mean square of sparse integral selector discrepancy against the t32 two-prime trace <= P^2*E_A*B^o(1)",
+    "proved": false,
+    "must_preserve_signed_R_sum": true,
+    "must_preserve_shared_modulus": true,
+    "must_not_use_E4_as_input": true
+  },
+  "countermodels": {
+    "complete_vs_selected": "mod 13 complete Legendre sum 0 but selecting six quadratic residues gives sum 6",
+    "arbitrary_selector": "if all selected Ftilde values are nonzero rational squares then every good two-prime trace is +1 and the second moment is ~P^2 H^2, not P^2 H",
+    "pair_collapse": "aggregating ordered pairs by cross-kernel tau before cancellation makes coefficient energy equal unresolved E4"
+  },
+  "critical_exponent_ledger": {
+    "H": "B^(h+o(1))",
+    "P": "B^(rho+o(1))",
+    "amplifier_condition": "rho>=h",
+    "target_exponent": "h+2*rho",
+    "trivial_exponent": "2*h+2*rho",
+    "required_mean_square_saving": "h",
+    "residue_collision_exponent": "h+2*rho",
+    "residue_collision_fixed_power_overhead": 0,
+    "large_product_injectivity_threshold": "rho>1/4",
+    "future_SSGC_loss_required": "omega=0 at fixed-power level"
+  },
+  "literature_orientation_only": [
+    "Baier-Bansal: sparse-moduli Gaussian additive large sieve; not direct nonlinear selector theorem",
+    "Goldmakher-Louvel: quadratic large sieve over number fields; value-collapse route is circular here",
+    "Ping Xi: arbitrary-subset trace-function bilinear estimates over one finite field; no direct two-prime shared-modulus certificate"
+  ],
+  "proof_boundary": {
+    "signed_common_refinement_aggregation_preserved": true,
+    "shared_UV_modulus_group_preserved": true,
+    "divisor_coupled_hyperbola_preserved": true,
+    "canonical_selector_preserved": true,
+    "interval_reconstruction_branch_masks_preserved": true,
+    "distinct_split_auxiliary_primes_preserved": true,
+    "aggregate_same_modulus_residue_collision_energy_proved": true,
+    "selector_sensitive_gaussian_completion_theorem_defined": true,
+    "selector_sensitive_gaussian_completion_theorem_proved": false,
+    "selector_discrepancy_theorem_proved": false,
+    "pair_collapse_before_physical_cancellation_allowed": false,
+    "global_external_two_prime_mean_square_bound_proved": false,
+    "global_principal_collision_power_saving_proved": false,
+    "global_fourth_energy_power_saving_proved": false,
+    "critical_sqrt_ell_strip_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "next": "Stage14-t51 prove SelectorSensitiveGaussianCompletion on the physical divisor-coupled Gaussian selector; residue collisions are no longer the obstruction"
+}
