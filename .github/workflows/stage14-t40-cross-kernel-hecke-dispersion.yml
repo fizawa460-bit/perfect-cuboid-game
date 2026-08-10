@@ -1,0 +1,35 @@
+name: Stage14-t40 cross-kernel Hecke dispersion
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t40/**'
+      - 'stages/stage14/scripts/14-t/t40_cross_kernel_hecke_dispersion_audit.py'
+      - 'stages/stage14/data/14-t40/**'
+      - '.github/workflows/stage14-t40-cross-kernel-hecke-dispersion.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t39 regression
+        run: python stages/stage14/scripts/14-t/t39_fi_transfer_obstruction_audit.py
+
+      - name: Run t40 cross-kernel Hecke dispersion audit
+        run: python stages/stage14/scripts/14-t/t40_cross_kernel_hecke_dispersion_audit.py
+
+      - name: Check frozen t40 summary
+        run: git diff --exit-code stages/stage14/data/14-t40/cross_kernel_hecke_dispersion.json
+
+      - name: Validate locked t40 boundary
+        run: |
+          grep -F 'STAGE14_T40=COMPLETE_ONE_CAUCHY_QUADRATIC_HECKE_CROSS_KERNEL_AND_ENERGY_BOUNDARY' stages/stage14/14-t40/result.md
+          grep -F 'ONE_CAUCHY_REMOVES_EXTERNAL_TRACE_NONMULTIPLICATIVITY=true' stages/stage14/14-t40/result.md
+          grep -F 'CROSS_KERNEL_IS_NORM_INDUCED_QUADRATIC_HECKE_CHARACTER_OVER_QI=true' stages/stage14/14-t40/result.md
+          grep -F 'PRINCIPAL_CROSS_KERNEL_EQUALS_GLOBAL_SQUARECLASS_COLLISION=true' stages/stage14/14-t40/result.md
+          grep -F 'FOURTH_ORDER_CROSS_KERNEL_ENERGY_REQUIRED=true' stages/stage14/14-t40/result.md
+          grep -F 'CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED=false' stages/stage14/14-t40/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t40/result.md
