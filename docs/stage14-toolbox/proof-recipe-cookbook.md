@@ -9,12 +9,12 @@ This cookbook turns the Stage14 toolbox dependency map into an operational check
 [ ] STATUS: PROVED / CONDITIONAL / HEURISTIC is explicit
 [ ] INPUT LEVEL: L0..L8 is named
 [ ] COUNTED UNIVERSE is named
-[ ] CONDITIONING: every fixed packet/direction/coefficient/modulus/sector is named
+[ ] CONDITIONING is named
 [ ] SCALE: M-scale and B-scale are not mixed
-[ ] TRANSFER: any skipped receiver level has a merged transfer theorem
-[ ] COMPLEMENT: sector promotion waits for complementary sectors to close
+[ ] TRANSFER: any skipped receiver level has a merged theorem
+[ ] COMPLEMENT: sector promotion waits for complementary sectors
 [ ] OUTPUT LEVEL is stated
-[ ] CURRENT LEDGER: terminal CURRENT ledger card is read before exponent claims
+[ ] CURRENT LEDGER: terminal CURRENT ledger is read before exponent claims
 ```
 
 If an external theorem is used, also complete `external-theorem-import-checklist-template.md`.
@@ -25,11 +25,11 @@ Input `L0`. Use the five-column local routing, odd local rows, `Q_2` image, and 
 
 ## 2. Recipe B — integral witness to arithmetic or geometry
 
-Input `L2`. Write the integral witness equation, extract the signed kernel packet, and choose either full-radical incidence or fixed-packet genus-one geometry. Coordinate saving is not packet saving; fixed-curve bounds are not moving-family bounds.
+Input `L2`. Write the integral witness equation, extract the signed kernel packet, and choose full-radical incidence or fixed-packet genus-one geometry. Coordinate saving is not packet saving; fixed-curve bounds are not moving-family bounds.
 
 ## 3. Recipe C — physical compact half-angle routing
 
-Input `L5`. Translate to the compact chamber, form `D_-,D_+,k_-,k_+`, use `QK=X2/kappa`, and route good odd primes through the deterministic gcd cells. Do not replace this by Bernoulli root-sign heuristics.
+Input `L5`. Translate to the compact chamber, form `D_-,D_+,k_-,k_+`, use `QK=X2/kappa`, and route good odd primes through deterministic gcd cells.
 
 ## 4. Recipe D — fixed fiber to active direction
 
@@ -39,54 +39,38 @@ Use a fixed-fiber `B^o(1)` partner bound only after freezing exactly the theorem
 
 Status: **PROVED HISTORICAL ARCHITECTURE**.
 
-```text
-a=r*s
-b=t*j
-c=r*t
-d=s*j
-xi=r*s*t*j
-```
-
-Merged s7-08 / 4bw give one selected-cell relative saving `T^(-1/2)` and the historical whole-family checkpoint `18/19`. This recipe remains a valid component but is not the current global ceiling.
+Merged s7-08 / 4bw give one selected-cell relative saving `T^(-1/2)` and the historical whole-family checkpoint `18/19`. This remains a valid component.
 
 ## 6. Recipe F — proved 4bx thick reoptimization
 
 Status: **PROVED REUSABLE COMPONENT / HISTORICAL GLOBAL CHECKPOINT**.
-
-Merged 4bx proves
 
 ```text
 L=H^(4/5)
 N_packet << M*H^(-4/5) B^o(1)
 ```
 
-and, before the two-cell theorem was closed, the whole-family checkpoint `15/16`. The `H^(-4/5)` packet theorem remains an input to the current architecture even though `15/16` is superseded.
+The packet theorem remains live; the historical global checkpoint was `15/16`.
 
 ## 7. Recipe G — proved adjacent two-cell mixed transform
 
-Status: **PROVED CURRENT ARCHITECTURE**.
+Status: **PROVED REUSABLE RECEIVER / HISTORICAL 13/14 GLOBAL CHECKPOINT**.
 
-The universal detector is
+Universal detector:
 
 ```text
-H(R,S)=(1-R^2*S^2)(S^2-R^2)
-      =(1-RS)(1+RS)(S-R)(S+R).
+H(R,S)=(1-R^2*S^2)(S^2-R^2).
 ```
 
-Merged s7-10 and 4by independently prove, through different external-theorem contracts,
+Merged s7-10 and 4by independently prove through different external-theorem contracts
 
 ```text
 |T_p(h,k)| << p
-```
-
-for all required good inert primes and additive frequencies. Hence
-
-```text
 N_2cell(R,S) << (RS)^(2/3) B^o(1)
-relative saving = (RS)^(-1/3).
+relative saving=(RS)^(-1/3).
 ```
 
-Combined with the proved 4bx thick input, the exact minimax is
+Together with the 4bx thick input this gave the historical checkpoint
 
 ```text
 lambda=13/28
@@ -95,16 +79,53 @@ tau=5/56
 V(B) << B^(13/14+o(1)).
 ```
 
-Current ledger:
+The two-cell theorem remains a current reusable receiver even though `13/14` is no longer the terminal global exponent.
+
+## 8. Recipe H — current full-coordinate common refinement
+
+Status: **PROVED CURRENT ARCHITECTURE**.
+
+Merged s7-13 refines one short reduced coordinate simultaneously:
 
 ```text
-CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=13/14
-CURRENT_REMAINING_GAP_TO_SQRT=3/7
+P~B^p, Q~B^q
+P=a*x^2, Q=b*y^2
+alpha=p-2s
+beta=q-2t
+m=max(alpha,beta).
 ```
 
-Merged 4bz / s7-11 show threshold retuning or naive 3-/4-cell enlargement does not improve this square-sieve architecture.
+On the same common-refinement block it has two valid upper bounds:
 
-## 8. External theorem import recipe
+```text
+coordinate support <= B^(1/2+m+o(1))
+two-cell receiver  <= B^(1-m/3+o(1)).
+```
+
+Do not multiply them. Use
+
+```text
+min(1/2+m, 1-m/3).
+```
+
+The exact worst point is `m=3/8`, hence
+
+```text
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8
+CURRENT_REMAINING_GAP_TO_SQRT=3/8
+FULL_COORDINATE_REFINEMENT_ARCHITECTURE_BARRIER=7/8
+```
+
+Critical geometry:
+
+```text
+P,Q~B^(1/2)
+a,b~B^(3/8)
+x,y~B^(1/16)
+xi=ab~B^(3/4).
+```
+
+## 9. External theorem import recipe
 
 Status: **MANDATORY FOR LITERATURE INPUTS**.
 
@@ -127,7 +148,7 @@ CANDIDATE -> HYPOTHESIS_MAPPED -> IMPORTED
                              \-> REJECTED
 ```
 
-For s7-10/4by the live examples are:
+Live examples:
 
 ```text
 Katz 2007 direct nonsingular-polynomial shortcut -> REJECTED
@@ -135,15 +156,13 @@ Katz--Laumon stationary-phase specialization     -> IMPORTED
 Lei Fu Corollary 0.3 specialization              -> IMPORTED
 ```
 
-An imported complete-sum theorem still needs the explicit transfer chain:
+An imported complete-sum theorem still needs
 
 ```text
 complete sum -> CRT -> completion -> sieve -> packet/fiber -> sector -> whole family.
 ```
 
-## 9. Receiver-composition checklist
-
-Before combining two savings:
+## 10. Receiver-composition checklist
 
 ```text
 [ ] SAME UNIVERSE
@@ -152,32 +171,30 @@ Before combining two savings:
 [ ] EXHAUSTIVE RECOMBINATION
 ```
 
-If one gate is false, do not multiply savings or promote the exponent.
+For two bounds on the same common-refinement block, taking a minimum is legal; multiplying them requires a separate theorem proving independent/joint savings.
 
-## 10. New-result maintenance checklist
+## 11. New-result maintenance checklist
 
 ```text
 [ ] verify merged=true and record merge SHA
 [ ] classify theorem / conditional / rejected import
 [ ] identify receiver input/output levels
-[ ] determine whether a CURRENT ledger is superseded
-[ ] preserve old cards and add SUPERSEDED_BY
+[ ] preserve superseded cards and add SUPERSEDED_BY
 [ ] recompute exact fractions
-[ ] update current ledger only for a proved exhaustive whole-family theorem
-[ ] record external theorem locator and full hypothesis map when applicable
+[ ] update current ledger only for a proved exhaustive theorem
+[ ] record external theorem locator and full hypothesis map
 [ ] keep finite regression separate from theorem proof
 [ ] rerun toolbox regression suite
 ```
 
-## 11. Current boundary at toolbox-am
+## 12. Current boundary at toolbox-am
 
 ```text
-CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=13/14
-CURRENT_REMAINING_GAP_TO_SQRT=3/7
-CURRENT_SQUARE_ROOT_SQUARE_SIEVE_ARCHITECTURE_BARRIER=13/14
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8
+CURRENT_REMAINING_GAP_TO_SQRT=3/8
+FULL_COORDINATE_REFINEMENT_ARCHITECTURE_BARRIER=7/8
+HISTORICAL_TWO_CELL_GLOBAL_CHECKPOINT=13/14
 HISTORICAL_4BX_WHOLE_FAMILY_EXPONENT=15/16
-HISTORICAL_S7_09_CONDITIONAL_TARGET=16/17
-HISTORICAL_4BX_CONDITIONAL_TARGET=13/14
 ADJACENT_TWO_CELL_MIXED_FOURIER_OP_BOUND_PROVED=true
 SQRT_B_UPPER_BOUND_PROVED=false
 ```
