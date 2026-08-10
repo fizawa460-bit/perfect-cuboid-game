@@ -1,0 +1,22 @@
+name: Stage14-t47 centered spectral shell
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t47/**'
+      - 'stages/stage14/scripts/14-t/t47_centered_spectral_shell_audit.py'
+      - 'stages/stage14/data/14-t47/**'
+      - '.github/workflows/stage14-t47-centered-spectral-shell.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t46 regression
+        run: python stages/stage14/scripts/14-t/t46_twist_translation_conductor_energy_audit.py
+      - name: Run tH13 regression
+        run: python stages/stage14/scripts/tH13/sparse_many_conductor_adapter_audit.py
+      - name: Run t47 centered spectral shell audit
+        run: python stages/stage14/scripts/14-t/t47_centered_spectral_shell_audit.py
