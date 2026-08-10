@@ -1,0 +1,29 @@
+name: Stage14-4cb shared label 7-8 barrier
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cb/**'
+      - 'stages/stage14/data/14-4/shared_label_7_8_barrier_summary.json'
+      - 'stages/stage14/scripts/14-4/shared_label_7_8_barrier_audit.py'
+      - 'stages/stage14/14-s7-13/**'
+      - 'stages/stage14/scripts/14-s7-13/full_coordinate_refinement_audit.py'
+      - 'stages/stage14/14-t49/**'
+      - '.github/workflows/stage14-4cb-shared-label-7-8-barrier.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regression Stage14-s7-13
+        run: python stages/stage14/scripts/14-s7-13/full_coordinate_refinement_audit.py
+      - name: Audit Stage14-4cb including merged t49 boundary tokens
+        run: python stages/stage14/scripts/14-4/shared_label_7_8_barrier_audit.py
