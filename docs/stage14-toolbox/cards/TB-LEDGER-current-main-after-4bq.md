@@ -1,10 +1,10 @@
-# Current main-track exponent after diagonal-pair genus-one closure
+# Historical main-track exponent after diagonal-pair genus-one closure
 
 ```yaml
 ID: TB-LEDGER-current-main-after-4bq
 TYPE: LEDGER
-STATUS: CURRENT
-TITLE: Current whole-family exponent 61/63 and remaining square-root gap after 4bq
+STATUS: SUPERSEDED
+TITLE: Historical whole-family exponent 61/63 and square-root gap after 4bq
 SCOPE: MAIN
 SOURCE_STAGE: Stage14-4bq
 SOURCE_PR: 395
@@ -13,15 +13,16 @@ SOURCE_FILES:
   - stages/stage14/14-4bq/result.md
 EXPONENT_SCALE: physical B
 PREVIOUS_EXPONENT_EXACT: 41/42
-CURRENT_EXPONENT_EXACT: 61/63
-POST_LOCAL_SAVING_EXACT: 1/126
+CURRENT_AT_SOURCE_EXACT: 61/63
+POST_LOCAL_SAVING_AT_SOURCE_EXACT: 1/126
 TARGET_EXACT: 1/2
-REMAINING_GAP_EXACT: 59/126
+REMAINING_GAP_AT_SOURCE_EXACT: 59/126
+SUPERSEDED_BY: TB-LEDGER-current-main-after-4br
 ```
 
 ## INPUT
 
-Merged exhaustive main-track sectors after 4bq:
+Merged exhaustive main-track sectors at the 4bq checkpoint:
 
 ```text
 small partner leg:  B^(20/21+o(1)),
@@ -31,49 +32,49 @@ good-cell residual: B^(13/14+o(1)).
 
 ## OUTPUT
 
-The maximum exponent is
+At that checkpoint the maximum exponent was
 
 ```text
-61/63.
+61/63,
 ```
 
-Therefore
+so
 
 ```text
 V(B) << B^(61/63+o(1)).
 ```
 
-Relative to the previous `41/42` whole-family bound,
+Relative to `41/42`, the newly proved direct post-local saving was
 
 ```text
-41/42 - 61/63 = 1/126.
+41/42 - 61/63 = 1/126,
 ```
 
-This is the first proved positive whole-family direct post-local saving. The remaining gap to square-root scale is
+and the remaining square-root gap was
 
 ```text
 61/63 - 1/2 = 59/126.
 ```
 
-The active exponent bottleneck at this checkpoint is the cross branch `61/63`.
+Merged Stage14-4br later improves the cross branch and whole-family exponent to `20/21`, so this is now a historical checkpoint ledger.
 
 ## VARIABLE DICTIONARY
 
-- `1/126` = already-proved whole-family post-local saving relative to `41/42`.
-- `59/126` = remaining whole-family exponent reduction needed to reach `1/2` from `61/63`.
+- `1/126` = post-local saving proved at the 4bq checkpoint.
+- `59/126` = remaining gap at the 4bq checkpoint.
 
 ## USED BY
 
-- Current main-track exponent comparisons after 4bq.
-- Deciding whether a new sector theorem actually improves the whole-family maximum.
-- Preventing continued use of `10/21` as the current remaining gap after the first full post-local saving.
+- Reconstructing the first full post-local improvement.
+- Provenance for the 4bq genus-one good-cell closure.
+- Comparing the later 4br threshold optimization against its immediate predecessor.
 
 ## DO NOT USE FOR
 
-- `61/63` is not a square-root theorem.
-- `1/126` is already achieved saving, not remaining saving.
-- The historical `10/21` scale remains valid inside stages that explicitly froze thresholds relative to `41/42`; it is merely superseded as the current whole-family gap ledger.
+- Do not report `61/63` as the current whole-family exponent after merged 4br.
+- Do not report `59/126` as the current remaining square-root gap.
+- The `13/14` good-cell residual bound itself remains current as a sector theorem unless separately superseded.
 
 ## PROVENANCE NOTES
 
-Merged PR #395 recombines the exhaustive sectors and proves the exact ledger `61/63`, `1/126`, and `59/126`.
+Merged PR #395 proves `61/63`, `1/126`, and `59/126`. Merged PR #396 later supersedes this card as the current global exponent ledger without invalidating the 4bq geometry or good-cell residual theorem.
