@@ -1,4 +1,4 @@
-# Stage14-tH22 literature applicability note — t78 refined
+# Stage14-tH22 literature applicability note — through merged t79
 
 Target:
 
@@ -6,157 +6,109 @@ Target:
 CanonicalGaussianPrimeProjectiveRayCharacterBalancedCoverBilinearLargeSieve
 ```
 
-No source below is imported as a proof of the Stage14 receiver. The purpose is exact theorem-adapter auditing after t77 produces the projective ray-character kernel and merged t78 proves four-cell Möbius tensorization.
+No external source below is imported as a proof of the Stage14 receiver.  Merged t78 and t79 already remove two internal issues before literature is tested:
 
-## 1. What merged t78 removes from the external-theorem problem
+1. t78 proves exact four-cell Möbius tensorization and rewrites the strongest hyperbola as `ell*H*R*T<2B`;
+2. t79 removes the principal character, endpoint-small ray groups, and every nonprincipal character with fixed-power inactive-support deficit.
 
-Merged Stage14-t78 / PR #567 proves internally
-
-```text
-M=K_ext/gcd(K_ext,g),
-ANGULAR_GCD_MOBIUS_TENSOR_DECOMPOSITION_PROVED=true,
-CELL_CONDITIONED_ARITHMETIC_WEIGHT_TENSORIZATION_PROVED=true,
-ell*g*c = ell*H*R*T.
-```
-
-Therefore an external theorem no longer needs to prove algebraic separation of the angular gcd. The remaining questions are:
+Thus the hard family is
 
 ```text
-actual projective/Hecke conductor,
-projective-family compression,
-divisor-decomposed coefficient L2 norms,
-nonprincipal pi x V character moments,
-short ellipse / ell*H*R*T / ell*delta localization.
+M=B^(positive power+o(1)),
+d_chi=M/B^o(1),
+N f_fin(chi)=M^2 B^o(1),
 ```
 
-## 2. Projective characters and actual conductor
+with the balanced primitive-cover and physical masks retained.
 
-For `chi in dual G(M)`, inflate to a character of `(Z[i]/MZ[i])^x` trivial on rational scalars. After splitting the two possible values of `chi(i)`, the character is a standard Hecke character over `Q(i)`; the `chi(i)=-1` half needs one fixed archimedean type.
+## 1. Actual projective conductor
 
-For a nontrivial local projective factor at a rational prime `p|M`:
+A projective character is trivial on rational scalars.  After a two-parity split according to `chi(i)=+/-1`, it embeds into standard Hecke-character language over `Q(i)`; the odd parity is corrected by one fixed infinity type.
 
-- if `p=3 mod 4`, `(p)` is inert and the local projective quotient is `F_{p^2}^x/F_p^x`;
-- if `p=1 mod 4`, the quotient is represented by the ratio on the two split factors, so a nontrivial character depends on both primes above `p`.
-
-Thus if
-
-```text
-d_chi=product_{p|M, chi_p nonprincipal} p,
-```
-
-then
+For every nontrivial local projective factor at `p|M`, both inert and split cases require the full rational ideal `(p)`.  Hence
 
 ```text
 f_fin(chi)=(d_chi),
 N f_fin(chi)=d_chi^2.
 ```
 
-The family size and the conductor norm must not be confused:
+The key mismatch is therefore
 
 ```text
-|G(M)|=M*B^o(1),
-N f_fin(chi)<=M^2.
+projective family size: M*B^o(1),
+hard Hecke conductor norm: M^2*B^o(1).
 ```
 
-## 3. Huxley-type large sieve over number fields
+## 2. Huxley-type ambient large sieve
 
-M. N. Huxley's large-sieve work over algebraic number fields is the correct ambient paradigm: modulus/conductor ideals are the arithmetic parameter.
+Huxley's algebraic-number-field large sieve is the correct ambient paradigm: modulus/conductor ideals are the arithmetic scale.
 
-Applicability issue here:
+It does not by itself exploit a projective subfamily of cardinality only `~M` inside conductor norm `~M^2`, nor does it supply the t78 divisor-decomposed `pi x V` coefficient moments with the Stage14 masks.
 
-- the ambient conductor geometry sees norm up to `M^2`;
-- the actual projective subfamily has only `M*B^o(1)` characters;
-- no located theorem gives the compressed projective-subfamily moment at the desired `M + N` scale while simultaneously retaining the t78 divisor-decomposed coefficients.
+Verdict: relevant ambient technology, not a direct adapter.
 
-Hence ambient Hecke large sieve is relevant but not directly applicable to the Stage14 full block.
-
-## 4. Wu — conductor-aspect GL1 subconvexity
+## 3. Han Wu — GL1 conductor-aspect subconvexity
 
 Han Wu, *Burgess-like subconvexity for GL1* (arXiv:1604.08551; Compositio Math. 155 (2019)).
 
-Relevance:
+This gives genuine conductor-aspect subconvexity for Hecke characters over a fixed number field.  It confirms that an identified Hecke conductor can lead to short character-sum cancellation.
 
-- genuine conductor-aspect cancellation for Hecke characters over a fixed number field;
-- provides a mechanism from an identified analytic conductor to individual character-sum savings.
+It is not a projective-subfamily hybrid large sieve and does not directly control the Stage14 divisor-decomposed Gaussian-prime/cover correlation.
 
-Mismatch:
+## 4. Likun Xie — ray-class short sums
 
-- not a projective-subfamily hybrid large sieve;
-- does not itself control the t78 `pi x V` divisor-decomposed coefficient sequence.
-
-## 5. Xie — ray-class short-sum input
-
-Likun Xie, *Products of prime ideals in ray class groups* (arXiv:2606.30567, 2026).
-
-The paper works with ray-class characters modulo an ideal `q` and takes
+Likun Xie, *Products of prime ideals in ray class groups* (arXiv:2606.30567, 2026), formulates ray-class character input with
 
 ```text
 Q=N(q)
 ```
 
-as the modulus/conductor norm scale. Its explicit use of Wu gives short-character-sum exponent `103/256`.
+as the ideal modulus/conductor norm scale and records the Wu-based short-sum exponent `103/256`.
 
-For the t77/t78 projective character the corresponding standard norm scale is
+For the t79 hard projective family this standard scale is
 
 ```text
-Q=d_chi^2,
+Q=d_chi^2=M^2 B^o(1).
 ```
 
-not `d_chi`.
+The raw cover length remains promising in portions of the deficient range, but Xie's sequence is an ordinary ray-class/ideal sequence, not the Stage14 balanced primitive four-cell divisor sequence with the short ellipse and hyperbolas.
 
-The balanced deficient cover has promising raw length because `M<R*T*B^o(1)` and `N(V)` is of exponent scale `R*T`; however Xie's sequence is an ordinary ray-class/ideal sequence, not the Stage14 primitive balanced four-cell divisor sequence.
-
-## 6. Gaussian / number-field Bombieri–Vinogradov
+## 5. Gaussian / number-field Bombieri–Vinogradov
 
 Tanmay Khale, Cooper O'Kuhn, Apoorva Panidapu, Alec Sun, Shengtong Zhang, *A Bombieri-Vinogradov Theorem for primes in short intervals and small sectors* (arXiv:2008.09677).
 
 Yujiao Jiang, Guangshi Lü, Jesse Thorner, Zihao Wang, *A Bombieri-Vinogradov theorem for higher rank groups* (arXiv:2104.02711).
 
-Relevance:
+These works demonstrate that Hecke/sector restrictions can coexist with strong averaged distribution over arithmetic moduli.  The Stage14 quantifier order is different: after packet conditioning there is no broad free `M` average, the hard conductor is near maximal `M^2`, and the canonical Gaussian prime remains coupled to the short cover masks.
 
-- confirms that Hecke/sector restrictions on prime ideals can coexist with Bombieri–Vinogradov-type modulus averaging;
-- provides the right conceptual Type-I/Type-II architecture.
+Verdict: no uniform full-range adapter.
 
-Mismatch:
+## 6. Structured Hecke-character large sieves
 
-- on a fixed Stage14 packet, `M` has only divisor-many values rather than a broad free modulus average;
-- standard conductor norm may be `M^2`;
-- the moving canonical Gaussian prime remains coupled through the short ellipse and the `ell*H*R*T`, `ell*delta` localizations.
+Leo Goldmakher and Benoit Louvel, *A quadratic large sieve inequality over number fields* (arXiv:1112.1642), gives a strong large sieve for structured bounded-order Hecke families.
 
-Therefore these theorems do not give a uniform full-range adapter.
+The t77/t79 projective local character order can divide `p-chi_4(p)` and is not a quadratic family. Restricting to quadratic characters would not reproduce the projective class indicator.
 
-## 7. Structured Hecke-character large sieves
+## 7. Refined literature conclusion after t79
 
-Leo Goldmakher and Benoit Louvel, *A quadratic large sieve inequality over number fields* (arXiv:1112.1642).
+The external theorem no longer needs to solve angular-gcd tensorization, principal density, endpoint-small character enumeration, or support-deficient characters.
 
-Relevance:
-
-- proves strong large-sieve inequalities for structured Hecke-character families over number fields.
-
-Mismatch:
-
-- t77 projective local character order divides `p-chi_4(p)` and is not a bounded quadratic family;
-- a quadratic restriction would not reproduce projective character orthogonality.
-
-## 8. Refined applicability conclusion
-
-After t78, the external literature no longer has to solve angular-gcd tensorization. The exact missing theorem is narrower:
+It would need to prove a **near-full-support, near-maximal-conductor** hybrid estimate exploiting projective family compression:
 
 ```text
-ProjectiveConductorCompressedGaussianPrimeExternalKappaFourCellMobiusCoverHybridLargeSieve
+MINIMAL_REMAINING_OBSTRUCTION=NearFullSupportProjectiveConductorCompressedGaussianPrimeFourCellMobiusCoverHybridLargeSieve
 ```
 
-It would have to combine:
+Required simultaneous ingredients:
 
-1. projective family cardinality `M*B^o(1)` rather than paying ambient conductor norm `M^2` twice;
+1. exploit only `M*B^o(1)` projective characters despite conductor norm `M^2 B^o(1)`;
 2. moving canonical Gaussian-prime character moments;
 3. t78 four-cell Möbius/divisor-decomposed cover coefficients with uniform `L2` control;
-4. balanced primitive cover and the short `ell*H*R*T`, ellipse, and `ell*delta` masks.
+4. balanced primitive cover and the `ell*H*R*T`, short ellipse, and `ell*delta` masks.
 
-No located off-the-shelf theorem supplies all four simultaneously.
+No located off-the-shelf theorem supplies all four.
 
 ```text
 OFF_THE_SHELF_RAY_CHARACTER_POWER_SAVING_PROVED=false
 CERTIFIED_RAY_CHARACTER_B_POWER_SAVING_EXPONENT=0
-MINIMAL_REMAINING_OBSTRUCTION=ProjectiveConductorCompressedGaussianPrimeExternalKappaFourCellMobiusCoverHybridLargeSieve
 ```
