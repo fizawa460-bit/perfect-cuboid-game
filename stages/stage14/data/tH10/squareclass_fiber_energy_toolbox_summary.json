@@ -1,0 +1,59 @@
+{
+  "stage": "Stage14-tH10",
+  "status": "COMPLETE_SQUARECLASS_FIBER_AND_AUTOCORRELATION_INCIDENCE_TOOLBOX",
+  "requires_future_t_result": false,
+  "dependencies": [
+    "Stage14-tH9",
+    "Stage14-t41"
+  ],
+  "principal_receiver": {
+    "partition_identity": "A1=L_P+I_off",
+    "generic_exceptional_split": "A1=L_P+I_gen+I_exc",
+    "invalid_shortcut": "two-sided local near-linear energy does not imply global A1 near-linear",
+    "required_external_input": "mixed off-fiber incidence bound, possibly split into generic transverse and exceptional/isogenous packet pairs"
+  },
+  "fourth_energy_receivers": {
+    "autocorrelation": "c(kappa)=sum_s r(s)r(s xor kappa)",
+    "mass_identity": "sum_kappa c(kappa)=H^2",
+    "principal": "c(1)=A1",
+    "energy": "E4=sum_kappa c(kappa)^2",
+    "uniform_nonprincipal": "E4<=A1^2+R_non*(H^2-A1)",
+    "heavy_light": "E4<=A1^2+T*(H^2-A1)+(R_non-T)*M_T",
+    "fiber_support_factorization": "R_non<=M^2*D_non",
+    "fiber_support_receiver": "E4<=A1^2+M^2*D_non*(H^2-A1)"
+  },
+  "exponent_ledger": {
+    "population": "H<=B^(h+o(1))",
+    "principal": "a=max(lambda,g,e) for local/generic/exceptional exponents",
+    "uniform_fourth": "q=max(2a,r+2h)",
+    "heavy_light_fourth": "q<=max(2a,t+2h,r+m)",
+    "near_quadratic_heavy_light_sufficient": "a<=h, t<=0, r+m<=2h"
+  },
+  "t41_frozen_regression": {
+    "H": 1120,
+    "A1": 2368,
+    "same_direction_local_energy": 2240,
+    "off_direction_ordered_collisions": 128,
+    "E4": 21193216,
+    "largest_nonprincipal_kernel": 160,
+    "A1_squared": 5607424,
+    "nonprincipal_E4": 15585792,
+    "uniform_receiver_upper_bound": 205932544
+  },
+  "proof_boundary": {
+    "principal_partition_identity_proved": true,
+    "two_sided_local_energy_shortcut_rejected": true,
+    "generic_exceptional_off_fiber_receiver_defined": true,
+    "uniform_nonprincipal_e4_receiver_proved": true,
+    "heavy_light_nonprincipal_e4_receiver_proved": true,
+    "fiber_times_support_expansion_bound_proved": true,
+    "principal_and_fourth_exponent_ledger_proved": true,
+    "global_principal_collision_power_saving_proved": false,
+    "global_fourth_energy_power_saving_proved": false,
+    "critical_sqrt_ell_strip_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "next": "Stage14-tH11"
+}
