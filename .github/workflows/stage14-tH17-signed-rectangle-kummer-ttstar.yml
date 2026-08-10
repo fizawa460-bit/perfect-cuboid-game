@@ -1,0 +1,35 @@
+name: Stage14-tH17 signed rectangle Kummer TTstar audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH17/**'
+      - 'stages/stage14/data/tH17/**'
+      - 'stages/stage14/scripts/tH17/**'
+      - '.github/workflows/stage14-tH17-signed-rectangle-kummer-ttstar.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile tH17 audit
+        run: python -m py_compile stages/stage14/scripts/tH17/signed_orthogonal_rectangle_kummer_large_sieve_audit.py
+      - name: Run merged t59 orthogonal rectangle regression
+        run: python stages/stage14/scripts/14-t/t59_orthogonal_rectangle_reduction_audit.py > /tmp/t59.json
+      - name: Run merged t61 polar obstruction regression
+        run: python stages/stage14/scripts/14-t/t61_polar_schatten_obstruction_audit.py > /tmp/t61.json
+      - name: Run tH17 deterministic TTstar/operator audit
+        run: python stages/stage14/scripts/tH17/signed_orthogonal_rectangle_kummer_large_sieve_audit.py > /tmp/th17.json
+      - name: Lock tH17 theorem-import boundary
+        run: |
+          grep -q 'TTSTAR_VERTICAL_SCHATTEN4_IDENTITY_PROVED=true' stages/stage14/14-tH17/result.md
+          grep -q 'POLAR_ABSOLUTE_VALUE_USED=false' stages/stage14/14-tH17/result.md
+          grep -q 'ORTHOGONAL_RECTANGLE_VERTICAL_KUMMER_SCHATTEN4_PROVED=false' stages/stage14/14-tH17/result.md
+          grep -q 'ONE_PRIME_VERTICAL_KUMMER_BESSEL_PROVED=false' stages/stage14/14-tH17/result.md
+          grep -q 'SIGNED_ORTHOGONAL_RECTANGLE_KUMMER_BILINEAR_LARGE_SIEVE_PROVED=false' stages/stage14/14-tH17/result.md
+          grep -q 'MINIMAL_REMAINING_OBSTRUCTION=OrthogonalRectangleVerticalKummerSchatten4' stages/stage14/14-tH17/result.md
