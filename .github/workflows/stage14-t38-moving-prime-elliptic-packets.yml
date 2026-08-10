@@ -1,0 +1,35 @@
+name: Stage14-t38 moving-prime elliptic packets
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t38/**'
+      - 'stages/stage14/scripts/14-t/t38_moving_prime_elliptic_packet_audit.py'
+      - 'stages/stage14/data/14-t38/**'
+      - '.github/workflows/stage14-t38-moving-prime-elliptic-packets.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t37 regression
+        run: python stages/stage14/scripts/14-t/t37_common_core_fixed_ell_saving_audit.py
+
+      - name: Run t38 moving-prime elliptic-packet audit
+        run: python stages/stage14/scripts/14-t/t38_moving_prime_elliptic_packet_audit.py
+
+      - name: Check frozen t38 summary
+        run: git diff --exit-code stages/stage14/data/14-t38/moving_prime_elliptic_packets.json
+
+      - name: Validate locked t38 boundary
+        run: |
+          grep -F 'STAGE14_T38=COMPLETE_MOVING_PRIME_ELLIPTIC_PACKET_BOUND_AND_CRITICAL_STRIP_REDUCTION' stages/stage14/14-t38/result.md
+          grep -F 'MOVING_PRIME_PACKET_MULTIPLICITY=B^o(1)' stages/stage14/14-t38/result.md
+          grep -F 'GLOBAL_SUPER_SQRT_PACKET_BOUND=B^(1/2+o(1))' stages/stage14/14-t38/result.md
+          grep -F 'LARGE_ELL_AWAY_FROM_SQRT_POWER_SAVING_PROVED=true' stages/stage14/14-t38/result.md
+          grep -F 'CRITICAL_SQRT_ELL_STRIP_REMAINS=true' stages/stage14/14-t38/result.md
+          grep -F 'CANONICAL_PRIME_SUM_POWER_SAVING_PROVED=false' stages/stage14/14-t38/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t38/result.md
