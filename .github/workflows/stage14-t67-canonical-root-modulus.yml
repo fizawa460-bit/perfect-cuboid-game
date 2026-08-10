@@ -1,0 +1,32 @@
+name: Stage14-t67 canonical root modulus
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t67/**'
+      - 'stages/stage14/data/14-t67/**'
+      - 'stages/stage14/scripts/14-t/t67_canonical_root_modulus_audit.py'
+      - 'stages/stage14/scripts/14-t/t67_validate_frozen.py'
+      - '.github/workflows/stage14-t67-canonical-root-modulus.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t36 predecessor regression
+        run: python stages/stage14/scripts/14-t/t36_fixed_direction_squareclass_energy_audit.py > /tmp/t36.json
+      - name: Run t58 predecessor regression
+        run: python stages/stage14/scripts/14-t/t58_physical_mask_radial_transfer_audit.py > /tmp/t58.json
+      - name: Run t66 predecessor regression
+        run: python stages/stage14/scripts/14-t/t66_primewise_cayley_crt_audit.py > /tmp/t66.json
+      - name: Run t67 canonical root modulus audit
+        run: python stages/stage14/scripts/14-t/t67_canonical_root_modulus_audit.py > /tmp/t67.json
+      - name: Validate frozen t67 boundary
+        run: python stages/stage14/scripts/14-t/t67_validate_frozen.py
+      - name: Compile t67 scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t67_canonical_root_modulus_audit.py stages/stage14/scripts/14-t/t67_validate_frozen.py
