@@ -1,0 +1,48 @@
+name: Stage14-t47 centered spectral shell
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t47/**'
+      - 'stages/stage14/scripts/14-t/t47_centered_spectral_shell_audit.py'
+      - 'stages/stage14/data/14-t47/**'
+      - '.github/workflows/stage14-t47-centered-spectral-shell.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t46 regression
+        run: python stages/stage14/scripts/14-t/t46_twist_translation_conductor_energy_audit.py
+      - name: Run tH13 regression
+        run: python stages/stage14/scripts/tH13/sparse_many_conductor_adapter_audit.py
+      - name: Preserve frozen t47 JSON
+        run: cp stages/stage14/data/14-t47/centered_spectral_shell.json /tmp/t47-frozen.json
+      - name: Run t47 centered spectral shell audit
+        run: python stages/stage14/scripts/14-t/t47_centered_spectral_shell_audit.py
+      - name: Check frozen t47 JSON
+        run: cmp /tmp/t47-frozen.json stages/stage14/data/14-t47/centered_spectral_shell.json
+      - name: Validate locked t47 boundary
+        run: |
+          python - <<'PY'
+          import json
+          p = 'stages/stage14/data/14-t47/centered_spectral_shell.json'
+          d = json.load(open(p))
+          x = d['decision']
+          assert x['STAGE14_T47'] == 'COMPLETE_TH13_SHELL_INSTANTIATION_AND_CENTERED_SPECTRAL_DETECTOR_REDUCTION'
+          assert x['TH13_USED_DIRECTLY'] is True
+          assert x['CENTERED_DETECTOR_REMOVES_ONE_QUARTER_CONSTANT_TERM'] is True
+          assert x['SINGLE_STATE_TARGET_REDUCES_TO_BASE_OPERATOR_SPECTRAL_NORM'] is True
+          assert x['PAIR_PRINCIPAL_ENERGY_REDUCES_TO_HADAMARD_GRAM_SPECTRAL_NORM'] is True
+          assert x['CENTERED_DISPERSION_IS_TH13_PRODUCT_KERNEL_RECEIVER'] is True
+          assert x['UNIFORM_PHYSICAL_ROW_CORRELATION_POWER_SAVING_PROVED'] is False
+          assert x['GLOBAL_PRINCIPAL_COLLISION_POWER_SAVING_PROVED'] is False
+          assert x['CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED'] is False
+          assert x['A_11_POWER_SAVING_PROVED'] is False
+          assert x['T_O_SQRT_B_PROVED'] is False
+          assert x['PERFECT_CUBOID_NONEXISTENCE_PROVED'] is False
+          assert x['TH14_NEEDED'] is False
+          print('Stage14-t47 locked boundary: PASS')
+          PY
