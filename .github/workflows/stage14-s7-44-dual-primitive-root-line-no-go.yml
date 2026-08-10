@@ -1,0 +1,67 @@
+name: Stage14-s7-44 dual primitive root-line no-go
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-44/**'
+      - 'stages/stage14/scripts/14-s7-44/**'
+      - '.github/workflows/stage14-s7-44-dual-primitive-root-line-no-go.yml'
+      - 'stages/stage14/14-s7-43/**'
+      - 'stages/stage14/14-4db/**'
+      - 'stages/stage14/14-X13/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-44 audit
+        run: python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
+
+      - name: Compile Stage14-s7-44 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
+
+      - name: Merged s7-43 regression
+        run: python stages/stage14/scripts/14-s7-43/common_core_square_compression_audit.py
+
+      - name: Merged 4db regression
+        run: python stages/stage14/scripts/14-4/cross_root_first_sqrt_audit.py
+
+      - name: Merged X13 regression
+        run: python stages/stage14/scripts/14-X13/reverse_reciprocal_sqrt_audit.py
+
+      - name: Lock primitive root-line predecessors
+        run: |
+          grep -Fq 'PRIMITIVE_ROOT_LINE_DYADIC_COUNT_PROVED=true' stages/stage14/14-s7-29/result.md
+          grep -Fq 'COMMON_CORE_ORIENTATION_DOUBLE_CHARGE_FORBIDDEN=true' stages/stage14/14-s7-33/result.md
+          grep -Fq 'JOINT_CORE_TWO_BY_TWO_ROW_COLUMN_PARTITION_PROVED=true' stages/stage14/14-4cv/result.md
+
+      - name: Lock sqrt saturation predecessors
+        run: |
+          grep -Fq 'SQRT_SATURATION_CROSS_ROOT_GCD=Bo1' stages/stage14/14-4db/result.md
+          grep -Fq 'SQRT_SATURATION_SAMESIDE_ROOT_GCD=Bo1' stages/stage14/14-4db/result.md
+          grep -Fq 'SQRT_SATURATION_LOST_CORE=Bo1' stages/stage14/14-4db/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-s7-43/result.md
+
+      - name: Lock Stage14-s7-44 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-44/result.md
+          grep -Fq 'STAGE14_S7_44=COMPLETE_DUAL_PRIMITIVE_FULL_CORE_ROOT_LINE_REDUCTION_DETERMINANT_NOGO_AND_H_GATE' "$f"
+          grep -Fq 'ENDPOINT_COLUMN_PRIMITIVE_ROOT_LINE_PROVED=true' "$f"
+          grep -Fq 'COMMON_CORE_PLUS_DUAL_PRIMITIVE_ROOT_LINES_EXPONENT=1/2' "$f"
+          grep -Fq 'ORIENTATION_ONLY_CORRELATION_FIXED_POWER_SAVING=false' "$f"
+          grep -Fq 'SECOND_FULL_CORE_DETERMINANT_SPACING_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S7_44_AUXILIARY_H_NEEDED=true' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=true' "$f"
+          grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreDualRootLineCompatibilityEnergy' "$f"
+          grep -Fq 'NEXT=Stage14-s7-45_after_H' "$f"
