@@ -1,0 +1,56 @@
+name: Stage14-4cw full Cayley row 11/20
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cw/**'
+      - 'stages/stage14/data/14-4/full_cayley_row_11_20_summary.json'
+      - 'stages/stage14/scripts/14-4/full_cayley_row_11_20_audit.py'
+      - '.github/workflows/stage14-4cw-full-cayley-row-11-20.yml'
+      - 'stages/stage14/14-X11/**'
+      - 'stages/stage14/14-s7-36/**'
+      - 'stages/stage14/14-s7-35/**'
+      - 'stages/stage14/14-4cv/**'
+      - 'stages/stage14/14-4cu/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4cw deterministic audit
+        run: python stages/stage14/scripts/14-4/full_cayley_row_11_20_audit.py
+
+      - name: Compile Stage14-4cw audit
+        run: python -m py_compile stages/stage14/scripts/14-4/full_cayley_row_11_20_audit.py
+
+      - name: Stage14-X11 regression
+        run: python stages/stage14/scripts/14-X11/proportional_root_gcd_19_34_audit.py
+
+      - name: Stage14-s7-36 regression
+        run: python stages/stage14/scripts/14-s7-36/row_column_proportional_9_16_audit.py
+
+      - name: Stage14-s7-35 regression
+        run: python stages/stage14/scripts/14-s7-35/extra_gcd_collapse_4_7_audit.py
+
+      - name: Stage14-4cv regression
+        run: python stages/stage14/scripts/14-4/row_column_cofactor_7_12_audit.py
+
+      - name: Boundary locks
+        run: |
+          f=stages/stage14/14-4cw/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=11/20' "$f"
+          grep -Fq 'FULL_CAYLEY_GOOD_CORE_ROW_REUSED_AFTER_COLUMN_M_RECONSTRUCTION=true' "$f"
+          grep -Fq 'FULL_CAYLEY_ROW_AFTER_JOINT_COLUMN_DOUBLE_CHARGE=false' "$f"
+          grep -Fq 'ELEVEN_TWENTIETHS_FULL_ROW_N_LIFT_EXPONENT=0' "$f"
+          grep -Fq 'REMAINING_RECEIVER=ElevenTwentiethsFullCayleyRowUniqueNLinearShortCofactorIncidence' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4cx' "$f"
