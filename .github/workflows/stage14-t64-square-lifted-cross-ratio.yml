@@ -1,0 +1,30 @@
+name: Stage14-t64 square-lifted cross-ratio
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t64/**'
+      - 'stages/stage14/data/14-t64/**'
+      - 'stages/stage14/scripts/14-t/t64_square_lifted_cross_ratio_audit.py'
+      - 'stages/stage14/scripts/14-t/t64_validate_frozen.py'
+      - '.github/workflows/stage14-t64-square-lifted-cross-ratio.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t55 predecessor regression
+        run: python stages/stage14/scripts/14-t/t55_shared_u_projective_trace_audit.py > /tmp/t55.json
+      - name: Run t63 predecessor regression
+        run: python stages/stage14/scripts/14-t/t63_transverse_vertical_defect_audit.py > /tmp/t63.json
+      - name: Run t64 square-lifted cross-ratio audit
+        run: python stages/stage14/scripts/14-t/t64_square_lifted_cross_ratio_audit.py > /tmp/t64.json
+      - name: Validate frozen t64 boundary
+        run: python stages/stage14/scripts/14-t/t64_validate_frozen.py
+      - name: Compile t64 scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t64_square_lifted_cross_ratio_audit.py stages/stage14/scripts/14-t/t64_validate_frozen.py
