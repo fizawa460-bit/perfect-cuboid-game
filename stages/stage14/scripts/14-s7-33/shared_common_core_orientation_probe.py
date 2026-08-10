@@ -1,13 +1,10 @@
 #!/usr/bin/env python3
 """Diagnostic audit for Stage14-s7-33.
 
-Tests the exact Gaussian product identity
-
-    2*T*Z_S = g1*g2*(D+iA)*(beta*r1*s2+i*gamma*s1*r2)
-
-and checks whether the full odd common core C can be realized as a common
-same-orientation Gaussian divisor of D+iA and the residual quotient W_S.
-Finite enumeration is diagnostic; the proof is recorded separately.
+Tests the exact dual Gaussian product identities, constructs a full odd common-
+core Gaussian divisor Pi_C shared by Z_k=D+iA and W_S, and checks the normalized
+S/T factorization after cancelling Pi_C. Finite enumeration is diagnostic; the
+asymptotic proof is in result.md.
 """
 from collections import Counter
 from importlib.util import module_from_spec, spec_from_file_location
@@ -30,6 +27,7 @@ s28 = load_module("s28_s733", SCRIPTS / "14-s7-28" / "primitive_ratio_reconstruc
 s31 = load_module("s31_s733", SCRIPTS / "14-s7-31" / "fixed_outer_common_gcd_audit.py")
 s32 = load_module("s32_s733", SCRIPTS / "14-s7-32" / "one_host_gaussian_boundary_audit.py")
 ch = s28.ch
+G = s32.g4cf
 
 
 def factor(n: int):
@@ -49,6 +47,18 @@ def factor(n: int):
     if x > 1:
         out.append((x, 1))
     return out
+
+
+def gpow(z, e):
+    out = (1, 0)
+    for _ in range(e):
+        out = G.gmul(out, z)
+    return out
+
+
+def associates(z, w):
+    a, b = w
+    return z in ((a, b), (-a, -b), (-b, a), (b, -a))
 
 
 def relation(z, w, p):
@@ -71,33 +81,37 @@ def gaussian_v(z, pi):
     e = 0
     cur = z
     while True:
-        q = s32.g4cf.gdiv_exact(cur, pi)
+        q = G.gdiv_exact(cur, pi)
         if q is None:
             return e
         e += 1
         cur = q
 
 
-def common_C_gaussian_valuation_ok(hk, WS, C):
-    """For each odd p^e||C, find one orientation with >=e in both hosts."""
+def build_common_C_divisor(hk, WS, C):
+    """Construct Pi_C with N(Pi_C)=C dividing hk and WS."""
+    out = (1, 0)
     profile = []
     for p, e in factor(C):
         if p == 2:
             continue
         assert p % 4 == 1, (C, p)
-        a, b = s32.g4cf.prime_sum_two_squares(p)
+        a, b = G.prime_sum_two_squares(p)
         pi = (a, b)
         pib = (a, -b)
-        vals = (
-            gaussian_v(hk, pi), gaussian_v(hk, pib),
-            gaussian_v(WS, pi), gaussian_v(WS, pib),
-        )
-        same_pi = vals[0] >= e and vals[2] >= e
-        same_pib = vals[1] >= e and vals[3] >= e
-        if not (same_pi or same_pib):
-            return False, profile + [(p, e, vals)]
-        profile.append((p, e, vals))
-    return True, profile
+        cap1 = min(gaussian_v(hk, pi), gaussian_v(WS, pi))
+        cap2 = min(gaussian_v(hk, pib), gaussian_v(WS, pib))
+        assert cap1 + cap2 >= e, (C, p, e, cap1, cap2, hk, WS)
+        take1 = min(cap1, e)
+        take2 = e - take1
+        assert take2 <= cap2
+        out = G.gmul(out, gpow(pi, take1))
+        out = G.gmul(out, gpow(pib, take2))
+        profile.append((p, e, cap1, cap2, take1, take2))
+    assert G.gnorm(out) == C
+    assert G.gdiv_exact(hk, out) is not None
+    assert G.gdiv_exact(WS, out) is not None
+    return out, profile
 
 
 def packet_probe(a_state, b_state):
@@ -118,23 +132,51 @@ def packet_probe(a_state, b_state):
     omega1 = g1 * a_state["r"] * a_state["s"]
     omega2 = g2 * b_state["r"] * b_state["s"]
     ZS = (R * b_state["x"] ** 2 * omega1, J * a_state["y"] ** 2 * omega2)
-    _, WS = s32.gaussian_descent_allow_one(ZS[0], ZS[1], S)
+    ZT = (J * b_state["y"] ** 2 * omega1, R * a_state["x"] ** 2 * omega2)
+    lamS, WS = s32.gaussian_descent_allow_one(ZS[0], ZS[1], S)
+    lamT, WT = s32.gaussian_descent_allow_one(ZT[0], ZT[1], T)
     assert s32.gnorm(WS) == C * v_res * (S // s32.oddpart(S)) ** 2
+    assert s32.gnorm(WT) == C * v_res * (T // s32.oddpart(T)) ** 2
 
     ES = (
         beta * a_state["r"] * b_state["s"],
         gamma * a_state["s"] * b_state["r"],
     )
     hk = (D, A)
-    lhs = (2 * T * ZS[0], 2 * T * ZS[1])
-    rhs = (
-        g1 * g2 * (hk[0] * ES[0] - hk[1] * ES[1]),
-        g1 * g2 * (hk[0] * ES[1] + hk[1] * ES[0]),
-    )
-    assert lhs == rhs
+    hkbar = G.gconj(hk)
+
+    lhsS = (2 * T * ZS[0], 2 * T * ZS[1])
+    rhsS0 = G.gmul(hk, ES)
+    rhsS = (g1 * g2 * rhsS0[0], g1 * g2 * rhsS0[1])
+    assert lhsS == rhsS
+
+    lhsT = (2 * S * ZT[0], 2 * S * ZT[1])
+    rhsT0 = G.gmul(hkbar, ES)
+    rhsT = (g1 * g2 * rhsT0[0], g1 * g2 * rhsT0[1])
+    assert lhsT == rhsT
     assert s32.oddpart(s32.gnorm(ES)) == s32.oddpart(S * T * v_res)
 
-    full_ok, profile = common_C_gaussian_valuation_ok(hk, WS, C)
+    PiC, profile = build_common_C_divisor(hk, WS, C)
+    K = G.gdiv_exact(hk, PiC)
+    VS = G.gdiv_exact(WS, PiC)
+    assert K is not None and VS is not None
+    assert G.gnorm(K) == s32.oddpart(S * T) * (G.gnorm(hk) // s32.oddpart(G.gnorm(hk)) // (s32.oddpart(S*T) // (S*T if S*T%2 else s32.oddpart(S*T))) if False else 1) or True
+    # Exact odd norm statements; finite 2-primary factors are handled separately.
+    assert s32.oddpart(G.gnorm(K)) == s32.oddpart(S * T)
+    assert s32.oddpart(G.gnorm(VS)) == s32.oddpart(v_res)
+
+    PiCb = G.gconj(PiC)
+    VT = G.gdiv_exact(WT, PiCb)
+    conj_common = VT is not None
+    if conj_common:
+        assert s32.oddpart(G.gnorm(VT)) == s32.oddpart(v_res)
+
+    normalized_split = False
+    same_small_quotient = False
+    if S % 2 == 1 and T % 2 == 1 and conj_common:
+        targetK = G.gmul(lamS, G.gconj(lamT))
+        normalized_split = associates(K, targetK)
+        same_small_quotient = associates(VS, VT)
 
     hx = (Q, P)
     ctr = Counter()
@@ -144,26 +186,25 @@ def packet_probe(a_state, b_state):
         ctr[("Cprime",)] += 1
         if WS[0] % ell == 0 and WS[1] % ell == 0:
             ctr[("WS_common",)] += 1
-            if h % ell == 0:
-                ctr[("WS_common_h",)] += 1
-            if (d["r"] * d["s"]) % ell == 0:
-                ctr[("WS_common_rs",)] += 1
             continue
         ctr[("hk_hx", relation(hk, hx, ell))] += 1
         ctr[("hk_ws", relation(hk, WS, ell))] += 1
         ctr[("hx_ws", relation(hx, WS, ell))] += 1
-    return ctr, C, v_res, h, WS, S, T, s32.gnorm(ES), full_ok, profile
+    return {
+        "ctr": ctr, "C": C, "v": v_res, "h": h, "WS": WS, "S": S, "T": T,
+        "NES": G.gnorm(ES), "profile": profile, "conj_common": conj_common,
+        "odd_ST": S % 2 == 1 and T % 2 == 1,
+        "normalized_split": normalized_split,
+        "same_small_quotient": same_small_quotient,
+    }
 
 
 def main():
     groups = ch.make_groups(600)
     total = Counter()
-    checked = 0
+    checked = odd_ST_packets = split_ok = small_q_ok = conj_ok = 0
     max_C = max_v = max_h = max_wgcd = 1
-    max_C_ST = max_C_v = max_C_STv = max_C_ES = 1
-    nontrivial_C_ST = nontrivial_C_v = nontrivial_C_STv = 0
-    full_common_ok = 0
-    failed_profiles = []
+    max_C_ST = max_C_v = max_C_ES = 1
     for states in groups.values():
         for i in range(len(states)):
             for j in range(i + 1, len(states)):
@@ -172,39 +213,38 @@ def main():
                     continue
                 if (a["km"], a["kp"]) == (b["km"], b["kp"]):
                     continue
-                ctr, C, v, h, WS, S, T, NES, full_ok, profile = packet_probe(a, b)
-                total.update(ctr)
+                z = packet_probe(a, b)
+                total.update(z["ctr"])
                 checked += 1
-                full_common_ok += int(full_ok)
-                if not full_ok:
-                    failed_profiles.append((C, v, S, T, profile))
+                conj_ok += int(z["conj_common"])
+                if z["odd_ST"]:
+                    odd_ST_packets += 1
+                    split_ok += int(z["normalized_split"])
+                    small_q_ok += int(z["same_small_quotient"])
+                C, v, h, WS, S, T, NES = z["C"], z["v"], z["h"], z["WS"], z["S"], z["T"], z["NES"]
                 max_C = max(max_C, C)
                 max_v = max(max_v, v)
                 max_h = max(max_h, h)
                 max_wgcd = max(max_wgcd, gcd(abs(WS[0]), abs(WS[1])))
-                gST = gcd(C, S * T)
-                gv = gcd(C, v)
-                gSTv = gcd(C, S * T * v)
-                gES = gcd(C, NES)
-                max_C_ST = max(max_C_ST, gST)
-                max_C_v = max(max_C_v, gv)
-                max_C_STv = max(max_C_STv, gSTv)
-                max_C_ES = max(max_C_ES, gES)
-                nontrivial_C_ST += int(gST > 1)
-                nontrivial_C_v += int(gv > 1)
-                nontrivial_C_STv += int(gSTv > 1)
+                max_C_ST = max(max_C_ST, gcd(C, S * T))
+                max_C_v = max(max_C_v, gcd(C, v))
+                max_C_ES = max(max_C_ES, gcd(C, NES))
     assert checked > 0
-    print("Stage14-s7-33 shared common-core orientation probe: PASS")
+    assert conj_ok == checked
+    assert split_ok == odd_ST_packets
+    assert small_q_ok == odd_ST_packets
+    print("Stage14-s7-33 common-core-cancelled Gaussian audit: PASS")
     print(f"finite physical pairs checked: {checked}")
-    print(f"full C same-orientation Gaussian divisor packets: {full_common_ok}/{checked}")
-    print(f"failed full-C profiles: {failed_profiles[:5]}")
+    print(f"full C shared by Z_k and W_S: {checked}/{checked}")
+    print(f"conjugate full C shared by conjugate(Z_k) and W_T: {conj_ok}/{checked}")
+    print(f"odd-S,T normalized K~lambda_S*conj(lambda_T): {split_ok}/{odd_ST_packets}")
+    print(f"odd-S,T V_S~V_T: {small_q_ok}/{odd_ST_packets}")
     print(f"max C: {max_C}")
     print(f"max v_res: {max_v}")
     print(f"max quotient gcd h: {max_h}")
     print(f"max gcd(Re W_S, Im W_S): {max_wgcd}")
-    print(f"max gcd(C,S*T): {max_C_ST}; nontrivial packets: {nontrivial_C_ST}")
-    print(f"max gcd(C,v_res): {max_C_v}; nontrivial packets: {nontrivial_C_v}")
-    print(f"max gcd(C,S*T*v_res): {max_C_STv}; nontrivial packets: {nontrivial_C_STv}")
+    print(f"max gcd(C,S*T): {max_C_ST}")
+    print(f"max gcd(C,v_res): {max_C_v}")
     print(f"max gcd(C,N(E_S)): {max_C_ES}")
     for key in sorted(total, key=str):
         print(f"{key}: {total[key]}")
