@@ -1,0 +1,66 @@
+name: Stage14-4cl cyclotomic quartic allocation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cl/**'
+      - 'stages/stage14/scripts/14-4/cyclotomic_quartic_allocation_audit.py'
+      - 'stages/stage14/data/14-4/cyclotomic_quartic_allocation_summary.json'
+      - '.github/workflows/stage14-4cl-cyclotomic-allocation.yml'
+      - 'stages/stage14/14-4ck/**'
+      - 'stages/stage14/14-X3/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-4cl audit
+        run: python stages/stage14/scripts/14-4/cyclotomic_quartic_allocation_audit.py
+
+      - name: Run merged Stage14-4ck regression
+        run: python stages/stage14/scripts/14-4/quartic_agreement_incidence_audit.py
+
+      - name: Run merged Stage14-X3 regression
+        run: python stages/stage14/scripts/14-X3/primitive_line_quartic_audit.py
+
+      - name: Compile Stage14-4cl audit
+        run: python -m py_compile stages/stage14/scripts/14-4/cyclotomic_quartic_allocation_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_4CK=COMPLETE_SWITCH_PRODUCT_ELIMINATION_AND_BINARY_QUARTIC_AGREEMENT_REDUCTION' stages/stage14/14-4ck/result.md
+          grep -Fq 'BINARY_QUARTIC_AGREEMENT_EQUATION_PROVED=true' stages/stage14/14-4ck/result.md
+          grep -Fq 'STAGE14_X3=COMPLETE_EXACT_QUARTIC_REDUCTION_AND_RELAXED_DIAGONAL_OBSTRUCTION' stages/stage14/14-X3/result.md
+          grep -Fq 'RELAXED_DIAGONAL_FIXED_POWER_OBSTRUCTION=true' stages/stage14/14-X3/result.md
+          grep -Fq 'PHYSICAL_RECEIVER_COUNTEREXAMPLE_PROVED=false' stages/stage14/14-X3/result.md
+
+      - name: Lock Stage14-4cl theorem boundary
+        run: |
+          f=stages/stage14/14-4cl/result.md
+          grep -Fq 'STAGE14_4CL=COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_RECIPROCAL_CYCLOTOMIC_REDUCTION' "$f"
+          grep -Fq 'MERGED_X3_IMPORTED=true' "$f"
+          grep -Fq 'PROPORTIONAL_BRANCH_ENDPOINT_EXPONENT_GAP=1/4' "$f"
+          grep -Fq 'PHYSICAL_PROPORTIONAL_QUARTIC_BRANCH_EMPTY=true' "$f"
+          grep -Fq 'RELAXED_DIAGONAL_OBSTRUCTION_SURVIVES_PHYSICAL_MASKS=false' "$f"
+          grep -Fq 'MOVING_GCD_UV_DIVIDES_FIXED_XY=true' "$f"
+          grep -Fq 'MOVING_GCD_AD_DIVIDES_FIXED_RS=true' "$f"
+          grep -Fq 'PRIMITIVE_SPLIT_QUARTIC_ODD_FACTOR_SUPPORT_DISJOINT=true' "$f"
+          grep -Fq 'QUARTIC_GOOD_PRIME_ALLOCATION_MATRIX_4X4_PROVED=true' "$f"
+          grep -Fq 'RECIPROCAL_XI_AGREEMENT_DIVIDES_OPPOSITE_FOURTH_DIFFERENCE=true' "$f"
+          grep -Fq 'RECIPROCAL_K_AGREEMENT_DIVIDES_OPPOSITE_FOURTH_DIFFERENCE=true' "$f"
+          grep -Fq 'XI_THREE_WAY_CYCLOTOMIC_ALLOCATION_PROVED=true' "$f"
+          grep -Fq 'K_THREE_WAY_CYCLOTOMIC_ALLOCATION_PROVED=true' "$f"
+          grep -Fq 'CYCLOTOMIC_I_BRANCH_ODD_PRIMES_ARE_1_MOD_4=true' "$f"
+          grep -Fq 'EXTREME_CORNER_XI_DOMINANT_CYCLOTOMIC_EXPONENT=1/6' "$f"
+          grep -Fq 'EXTREME_CORNER_K_DOMINANT_CYCLOTOMIC_EXPONENT=5/24' "$f"
+          grep -Fq 'EXTREME_CORNER_DOMINANT_BRANCH_TYPE_COUNT=9' "$f"
+          grep -Fq 'OFF_DIAGONAL_RECIPROCAL_CYCLOTOMIC_QUARTIC_ALLOCATION_INCIDENCE_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4cm' "$f"
