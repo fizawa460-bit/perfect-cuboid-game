@@ -1,0 +1,68 @@
+name: Stage14-s7-23 rank-three elimination
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-23/**'
+      - 'stages/stage14/scripts/14-s7-23/**'
+      - '.github/workflows/stage14-s7-23-rank3-elimination.yml'
+      - 'stages/stage14/14-s7-22/**'
+      - 'stages/stage14/14-4ch/**'
+      - 'stages/stage14/14-X0/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-23 primary-support audit
+        run: python stages/stage14/scripts/14-s7-23/rank3_primary_support_audit.py
+
+      - name: Run merged s7-22 regression
+        run: python stages/stage14/scripts/14-s7-22/dual_saturation_tangent_audit.py
+
+      - name: Check merged s7-22 boundary
+        run: |
+          f=stages/stage14/14-s7-22/result.md
+          grep -Fq 'STAGE14_S7_22=COMPLETE_RANK_THREE_DUAL_SATURATION_AND_TANGENT_RESONANCE_SPLIT' "$f"
+          grep -Fq 'RANK3_HYPERPLANE_SATURATION_LOWER_EXPONENT=21/16' "$f"
+          grep -Fq 'RANK3_EACH_CELL_DUAL_COMPONENT_ORDER_LOWER_EXPONENT=1/16' "$f"
+          grep -Fq 'RANK3_NORMAL_HEIGHT_UPPER_EXPONENT=3/16' "$f"
+          grep -Fq 'NEXT=Stage14-s7-23' "$f"
+
+      - name: Check merged 4ch reconstruction boundary
+        run: |
+          f=stages/stage14/14-4ch/result.md
+          grep -Fq 'STAGE14_4CH=COMPLETE_EIGHT_CELL_COMMON_CORE_RESIDUAL_PHYSICAL_LIFT_BOUND' "$f"
+          grep -Fq 'FIXED_EIGHT_CELLS_COMMON_CORE_RESIDUAL_PHYSICAL_LIFT_BO1=true' "$f"
+          grep -Fq 'RESIDUAL_TRIPLE_SUPPORT_EXPONENT=5/8' "$f"
+
+      - name: Check merged X0 joint coefficient-space boundary
+        run: |
+          f=stages/stage14/14-X0/result.md
+          grep -Fq 'STAGE14_X0=COMPLETE_THREE_RECEIVER_EXACT_TRANSFER_AND_FIBER_AUDIT' "$f"
+          grep -Fq 'CCGRI_BDCSVE_COMMON_PHYSICAL_COEFFICIENT_SPACE_PROVED=true' "$f"
+          grep -Fq 'CCGRI_BDCSVE_JOINT_EXACT_REFINEMENT_PROVED=true' "$f"
+
+      - name: Lock s7-23 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-23/result.md
+          grep -Fq 'STAGE14_S7_23=COMPLETE_CELLWISE_DUAL_SUPPORT_AND_RANK_THREE_ENDPOINT_ELIMINATION' "$f"
+          grep -Fq 'RANK3_D_R_DIVIDES_C1_C3=true' "$f"
+          grep -Fq 'RANK3_D_J_DIVIDES_C2_C4=true' "$f"
+          grep -Fq 'RANK3_D_S_DIVIDES_C1_C4=true' "$f"
+          grep -Fq 'RANK3_D_T_DIVIDES_C2_C3=true' "$f"
+          grep -Fq 'RANK3_ANY_TWO_NONZERO_NORMAL_COORDS_IMPOSSIBLE=true' "$f"
+          grep -Fq 'RANK3_PHYSICAL_ENDPOINT_PACKETS_EXIST=false' "$f"
+          grep -Fq 'RANK3_NONTANGENT_CONIC_ENERGY=0' "$f"
+          grep -Fq 'RANK3_TANGENT_RESONANCE_ENERGY=0' "$f"
+          grep -Fq 'BALANCED_DUAL_CRT_ENERGY_REDUCED_TO_RANK_LE_2=true' "$f"
+          grep -Fq 'LOW_RANK_JOINT_COMMON_CORE_CRT_CELL_MULTIPLICITY_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'TH16_NEEDED_BY_S7_23=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-24' "$f"
