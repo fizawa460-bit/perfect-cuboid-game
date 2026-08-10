@@ -1,0 +1,44 @@
+name: Stage14-4bo normalized core moving Q
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bo/**'
+      - 'stages/stage14/data/14-4/normalized_core_moving_q_summary.json'
+      - 'stages/stage14/scripts/14-4/normalized_core_moving_q_audit.py'
+      - '.github/workflows/stage14-4bo-normalized-core-moving-q.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4bo audit
+        run: python -m py_compile stages/stage14/scripts/14-4/normalized_core_moving_q_audit.py
+      - name: Run predecessor 4bm audit
+        run: python stages/stage14/scripts/14-4/cross_sector_gcd_cell_audit.py
+      - name: Run 4bo deterministic audit
+        run: python stages/stage14/scripts/14-4/normalized_core_moving_q_audit.py | tee /tmp/4bo-audit.txt
+      - name: Check audit flags
+        run: |
+          grep -q 'F2_CORE_IDENTITY_XCROSS_OVER_KAPPA=true' /tmp/4bo-audit.txt
+          grep -q 'F3_CORE_IDENTITY_X3_OVER_KAPPA_Q=true' /tmp/4bo-audit.txt
+          grep -q 'NORMALIZED_CORE_EXPONENT_3_7_LEDGER=true' /tmp/4bo-audit.txt
+          grep -q 'MOVING_Q_CROSS_CEILING_THRESHOLD_34_63=true' /tmp/4bo-audit.txt
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/4bo-audit.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BO=NORMALIZED_CORE_COMPRESSION_AND_MOVING_GOOD_PRODUCT_RECEIVER' stages/stage14/14-4bo/result.md
+          grep -q 'NORMALIZED_CORE_COUNT_EXPONENT=3/7' stages/stage14/14-4bo/result.md
+          grep -q 'MOVING_Q_EXPONENT_FOR_ANY_WHOLE_FAMILY_IMPROVEMENT=23/42' stages/stage14/14-4bo/result.md
+          grep -q 'MOVING_Q_EXPONENT_TO_REACH_CROSS_CEILING=34/63' stages/stage14/14-4bo/result.md
+          grep -q 'MOVING_Q_EXPONENT_FOR_SQRT_RESIDUAL=1/14' stages/stage14/14-4bo/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=false' stages/stage14/14-4bo/result.md
+          grep -q 'NEXT=Stage14-4bp' stages/stage14/14-4bo/result.md
