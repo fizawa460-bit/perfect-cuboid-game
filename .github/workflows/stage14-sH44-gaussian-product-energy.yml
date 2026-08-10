@@ -1,0 +1,81 @@
+name: Stage14-sH44 Gaussian product energy audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-sH44/**'
+      - 'stages/stage14/scripts/14-sH44/**'
+      - '.github/workflows/stage14-sH44-gaussian-product-energy.yml'
+      - 'stages/stage14/14-4dc/**'
+      - 'stages/stage14/14-s7-44/**'
+      - 'stages/stage14/14-4db/**'
+      - 'stages/stage14/14-X13/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-sH44 deterministic H audit
+        run: python stages/stage14/scripts/14-sH44/gaussian_product_energy_h_audit.py
+
+      - name: Compile Stage14-sH44 audit
+        run: python -m py_compile stages/stage14/scripts/14-sH44/gaussian_product_energy_h_audit.py
+
+      - name: Merged 4dc regression
+        run: python stages/stage14/scripts/14-4/gaussian_product_rootline_h_gate_audit.py
+
+      - name: Merged s7-44 regression
+        run: python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
+
+      - name: Merged 4db regression
+        run: python stages/stage14/scripts/14-4/cross_root_first_sqrt_audit.py
+
+      - name: Merged X13 regression
+        run: python stages/stage14/scripts/14-X13/reverse_reciprocal_sqrt_audit.py
+
+      - name: Lock 4dc canonical H target
+        run: |
+          f=stages/stage14/14-4dc/result.md
+          grep -Fq 'GAUSSIAN_PRODUCT_ROOT_LINE_EXPONENT=1/2-chi' "$f"
+          grep -Fq 'PRODUCT_ROOT_LINE_PLUS_CORE_TRIVIAL_COMPLETE_COUNT=1/2' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=true' "$f"
+          grep -Fq 'MAINLINE_H_TARGET=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreGaussianProductRootLinePhysicalCompletionEnergyPowerSaving' "$f"
+          grep -Fq 'SECOND_FULL_CORE_DETERMINANT_SPACING_LEGAL=false' "$f"
+
+      - name: Lock q10 literature handoff
+        run: |
+          grep -Fq 'REUSS_TRANSFER=NEAR_HIGH_PRIORITY' docs/stage14-q10-post-sqrt-dual-root-line-literature-radar.md
+          grep -Fq 'DONG_ROBLES_ZEINDLER_2026_TRANSFER=NEAR_HIGH_PRIORITY_ANALYTIC' docs/stage14-q10-post-sqrt-dual-root-line-literature-radar.md
+
+      - name: Lock Stage14-sH44 verdict
+        run: |
+          f=stages/stage14/14-sH44/result.md
+          grep -Fq 'STAGE14_SH44=COMPLETE' "$f"
+          grep -Fq 'SH44_CANONICAL_TARGET_REFINED_BY_4DC=true' "$f"
+          grep -Fq 'MERGED_Q10_LITERATURE_RADAR_CONSUMED=true' "$f"
+          grep -Fq 'FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_GAUSSIAN_PRODUCT_DELTA=0' "$f"
+          grep -Fq 'GAUSSIAN_PRODUCT_ROOT_LINE_PRINCIPAL_DENSITY_EXPONENT=1/2' "$f"
+          grep -Fq 'FULL_COMMON_CORE_DIVIDES_CLEARED_LAMBDA2_MINUS_16=true' "$f"
+          grep -Fq 'FULL_COMMON_CORE_IS_RECIPROCAL_EDWARDS_BAD_REDUCTION_SUPPORT=true' "$f"
+          grep -Fq 'REUSS_DIRECT_ADAPTER=false' "$f"
+          grep -Fq 'INVERSE_FRACTION_PHYSICAL_COMPLETION_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'FIXED_MODULUS_COMPLETE_KLOOSTERMAN_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'TH23_CROSS_PROMOTED_TO_SH44=false' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'MAINLINE_BLOCKED_WAITING_FOR_SH44=false' "$f"
+          grep -Fq 'S7_45_CAN_CONSUME_SH44=true' "$f"
+          grep -Fq 'STAGE14_4DD_CAN_CONSUME_SH44=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT_S_ROUTE=Stage14-s7-45' "$f"
+          grep -Fq 'NEXT_MAINLINE=Stage14-4dd' "$f"
