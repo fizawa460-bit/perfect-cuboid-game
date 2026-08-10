@@ -140,6 +140,52 @@ The s-track is a direct input to the main line:
 - s5d: complete odd local rows and 64-state `Q_2` reduction;
 - later s5 stages: exact `Q_2` covering classification and family-level analytic estimates.
 
+## s-route lifecycle / reactivation rule
+
+The later `s7` route has now exhausted its exact gcd/CRT/common-core/Cayley/root-line/row-column/reciprocal-reconstruction reductions at the square-root scale and is closed by merged `Stage14-s7-45`.
+
+Current route state:
+
+```text
+S_ROUTE_CURRENT_STATE=CLOSED_AT_SQRT
+S_ROUTE_CLOSED_BY=Stage14-s7-45
+S_ROUTE_HANDOFF=Stage14-4dd
+S_ROUTE_REACTIVATION_NEEDED=false
+USER_DECIDES_S_ROUTE_REACTIVATION=false
+ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
+```
+
+The user is **not** expected to decide whether the s-route should be restarted. Any later mainline, `t`, `X`, toolbox, q/literature, or other Stage14 stage that materially changes the surviving receiver must explicitly evaluate whether the new result creates a genuinely new s-specific exact structure or theorem bridge.
+
+Required decision fields for any such material receiver change:
+
+```text
+MATERIAL_RECEIVER_CHANGE_REQUIRES_S_REACTIVATION_CHECK=true
+S_ROUTE_REACTIVATION_NEEDED=true|false
+```
+
+If the answer is `true`, the same stage result or immediate roadmap update must also record:
+
+```text
+S_ROUTE_REACTIVATION_TRIGGER=<exact new identity/theorem/bridge>
+S_ROUTE_REACTIVATION_TARGET=<named next s stage>
+S_ROUTE_REACTIVATION_REASON=<why the new structure is actionable in s coordinates>
+```
+
+and the roadmap must visibly tell the user that the s-route should be restarted. A new route name by itself, a stronger global exponent by itself, or a theorem with merely similar notation is not enough: an explicit bridge back to an s-specific receiver is required.
+
+If the answer is `false`, s remains closed and no s stage should be scheduled merely to re-audit the same zero-frequency density obstruction.
+
+Operational lock:
+
+```text
+S_REACTIVATION_REQUIRES_NEW_EXACT_STRUCTURE_OR_THEOREM_BRIDGE=true
+S_REACTIVATION_REQUIRES_EXPLICIT_RECEIVER=true
+S_REACTIVATION_MUST_BE_SURFACED_TO_USER_IN_ROADMAP=true
+S_ROUTE_MUST_NOT_BE_RESTARTED_BY_USER_GUESS=true
+NO_NEW_S_SPECIFIC_RECEIVER_MEANS_KEEP_S_CLOSED=true
+```
+
 ## Triple gate
 
 The exact identity remains
