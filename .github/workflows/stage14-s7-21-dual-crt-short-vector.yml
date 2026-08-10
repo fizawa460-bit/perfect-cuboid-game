@@ -1,0 +1,63 @@
+name: Stage14-s7-21 dual CRT short vector
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-21/**'
+      - 'stages/stage14/scripts/14-s7-21/**'
+      - '.github/workflows/stage14-s7-21-dual-crt-short-vector.yml'
+      - 'stages/stage14/14-s7-20/**'
+      - 'stages/stage14/14-s7-19/**'
+      - 'stages/stage14/14-4ce/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-21 dual CRT audit
+        run: python stages/stage14/scripts/14-s7-21/dual_crt_short_vector_audit.py
+
+      - name: Check merged s7-20 boundary
+        run: |
+          f=stages/stage14/14-s7-20/result.md
+          grep -Fq 'STAGE14_S7_20=COMPLETE_DUAL_XI_SPLIT_INJECTIVITY_AND_BALANCED_EIGHT_CELL_LOCALIZATION' "$f"
+          grep -Fq 'BALANCED_DOUBLE_ALLOCATION_SQUARE_DIVISIBILITY_REQUIRED=true' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_INDIVIDUAL_K_CELL_RANGE=[3/16,5/16]' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_INDIVIDUAL_XI_CELL_RANGE=[1/8,1/4]' "$f"
+          grep -Fq 'NEXT=Stage14-s7-21' "$f"
+
+      - name: Check merged s7-19 product identity data
+        run: |
+          f=stages/stage14/14-s7-19/result.md
+          grep -Fq 'K_SWITCH_DIVIDES_PRIMITIVE_HYPOTENUSE=true' "$f"
+          grep -Fq 'XI0_DIVIDES_PRIMITIVE_TRANSVERSE_LEG=true' "$f"
+
+      - name: Check merged 4ce switch-prime lock
+        run: |
+          f=stages/stage14/14-4ce/result.md
+          grep -Fq 'ODD_XI_SWITCH_PRIMES_ARE_1_MOD_4=true' "$f"
+          grep -Fq 'ODD_K_SWITCH_PRIMES_ARE_1_MOD_4=true' "$f"
+          grep -Fq 'PRIMEWISE_LOCAL_DENSITIES_MAY_BE_MULTIPLIED_WITHOUT_DISPERSION=false' "$f"
+
+      - name: Lock s7-21 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-21/result.md
+          grep -Fq 'STAGE14_S7_21=COMPLETE_PRIMEWISE_ORIENTATION_LINEARIZATION_AND_DUAL_CRT_SHORT_VECTOR_REDUCTION' "$f"
+          grep -Fq 'EIGHT_SQUARE_DIVISIBILITIES_INDEPENDENT_DENSITIES=false' "$f"
+          grep -Fq 'PRIMEWISE_ORIENTATION_REFINEMENT_COST=B^o(1)' "$f"
+          grep -Fq 'XI_ROOT_CRT_LATTICE_DETERMINANT=xi^2' "$f"
+          grep -Fq 'K_Z_CRT_LATTICE_DETERMINANT=k^2' "$f"
+          grep -Fq 'XI_ROOT_SHORT_VECTOR_RANK_MAX=3' "$f"
+          grep -Fq 'K_Z_SHORT_VECTOR_RANK_MAX=1' "$f"
+          grep -Fq 'K_RANK_ONE_FIXES_Z_RATIO=true' "$f"
+          grep -Fq 'RAW_DUAL_CRT_RANK_REDUCTION_BEATS_7_8=false' "$f"
+          grep -Fq 'BALANCED_DUAL_CRT_SHORT_VECTOR_ENERGY_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'TH16_NEEDED_BY_S7_21=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-22' "$f"
