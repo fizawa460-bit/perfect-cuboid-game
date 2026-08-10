@@ -1,0 +1,50 @@
+name: Stage14-t81 projective graph Kloosterman reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t81/**'
+      - 'stages/stage14/data/14-t81/**'
+      - 'stages/stage14/scripts/14-t/t81_*.py'
+      - '.github/workflows/stage14-t81-projective-graph-kloosterman.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: merged t80 regression
+        run: python stages/stage14/scripts/14-t/t80_projective_gauss_dual_audit.py >/dev/null
+
+      - name: current sqrt global ledger regression
+        run: grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X13/result.md
+
+      - name: Stage14-t81 audit
+        run: python stages/stage14/scripts/14-t/t81_projective_graph_kloosterman_audit.py
+
+      - name: frozen validator if present
+        run: |
+          if [ -f stages/stage14/scripts/14-t/t81_validate_frozen.py ]; then
+            python stages/stage14/scripts/14-t/t81_validate_frozen.py
+          fi
+
+      - name: boundary locks
+        run: |
+          f=stages/stage14/14-t81/result.md
+          grep -Fq 'STAGE14_T81=COMPLETE_PROJECTIVE_CHARACTER_RESUMMATION_TO_AFFINE_DIAGONAL_AND_FRACTIONAL_KLOOSTERMAN_GRAPH_KERNEL' "$f"
+          grep -Fq 'GLOBAL_GRAPH_KERNEL_BOUND=d^-1*d_frac^-1/2*d_mis^-1*Bo1' "$f"
+          grep -Fq 'TWO_ADDITIVE_FREQUENCIES_COLLAPSE_TO_ONE=Bo1' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'TH23_NEEDED=true' "$f"
+          grep -Fq 'TH24_NEEDED=false' "$f"
+
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t81_*.py
