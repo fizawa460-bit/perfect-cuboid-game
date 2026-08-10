@@ -1,0 +1,43 @@
+name: Stage14-toolbox-ay unique-top-corner Pell refresh
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-toolbox-ay/**'
+      - 'stages/stage14/scripts/14-toolbox-ay/**'
+      - 'docs/stage14-toolbox/unique-top-corner-pell-receiver-matrix.md'
+      - '.github/workflows/stage14-toolbox-ay.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile toolbox-ay audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-ay/unique_top_corner_pell_refresh_audit.py
+      - name: Run toolbox-ax predecessor regression
+        run: python stages/stage14/scripts/14-toolbox-ax/first_consumer_refresh_audit.py > /tmp/toolbox_ax.json
+      - name: Run merged s7-32 unique-corner regression
+        run: python stages/stage14/scripts/14-s7-32/one_host_gaussian_boundary_audit.py > /tmp/s7_32.json
+      - name: Run merged 4ct Gaussian-core regression
+        run: python stages/stage14/scripts/14-4/top_corner_gaussian_core_lift_audit.py > /tmp/four_ct.json
+      - name: Run merged X10 Cayley-cofactor regression
+        run: python stages/stage14/scripts/14-X10/top_corner_h_cayley_cofactor_audit.py > /tmp/x10.json
+      - name: Run merged t72 Pell-smooth regression
+        run: python stages/stage14/scripts/14-t/t72_kappa_rootline_pell_smooth_audit.py > /tmp/t72.json
+      - name: Run toolbox-ay deterministic audit
+        run: python stages/stage14/scripts/14-toolbox-ay/unique_top_corner_pell_refresh_audit.py > /tmp/toolbox_ay.json
+      - name: Lock toolbox-ay boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AY=COMPLETE_FIRST_CONSUMER_AUDIT_AND_UNIQUE_TOP_CORNER_PELL_REFRESH' stages/stage14/14-toolbox-ay/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=5/8' stages/stage14/14-toolbox-ay/result.md
+          grep -q 'FIVE_EIGHTHS_SATURATION_COMPONENT_COUNT=1' stages/stage14/14-toolbox-ay/result.md
+          grep -q 'CURRENT_GLOBAL_TOOLBOX_RECEIVER=TopCornerPrimitiveResidualGaussianCoreSmallRootGcdDominantCayleyShortCofactorIncidence' stages/stage14/14-toolbox-ay/result.md
+          grep -q 'CURRENT_FIXED_U_RECEIVER=SharedUSmallOddKappaCanonicalLargestPrimePellSmoothPhysicalEnergy' stages/stage14/14-toolbox-ay/result.md
+          grep -q 'TH19_NEEDED=true' stages/stage14/14-toolbox-ay/result.md
+          grep -q 'OPEN_S7_33_DRAFT_USED_AS_CANONICAL_SOURCE=false' stages/stage14/14-toolbox-ay/result.md
+          grep -q 'NEW_AY_WHOLE_FAMILY_POWER_SAVING_PROVED=false' stages/stage14/14-toolbox-ay/result.md
