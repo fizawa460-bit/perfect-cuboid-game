@@ -150,6 +150,27 @@ N_2(B)=E(B)-3T(B).
 
 A future raw-pair law cannot transfer to exactly-two until sufficiently strong triple control is proved, ideally `T(B)=o(sqrt(B))`.
 
+## Auxiliary H / tH / sH theorem-audit protocol
+
+All Stage14 auxiliary theorem/literature lanes are governed by [`H-PROTOCOL.md`](./H-PROTOCOL.md).
+
+The operational rule is deliberately snapshot-based:
+
+```text
+ONE_H_REQUEST_ONE_SNAPSHOT=true
+H_TARGET_FREEZES_AT_DISPATCH=true
+RUNNING_H_CHASES_LATER_PARENT_STAGES=false
+PARENT_ROUTE_MAY_CONTINUE_WHEN_H_NONBLOCKING=true
+COMPLETED_H_MERGES_AS_SCOPED_SNAPSHOT_RESULT=true
+LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true
+```
+
+In particular, once `tH23` (or any other H stage) starts, later `t82/t83/...` work must not repeatedly rewrite the `tH23` target.  The H result is merged as a certificate about its recorded source snapshot.  If later reductions expose a materially different receiver that needs another external audit, open `tH24` rather than revising `tH23`.
+
+Prefer to start H from a merged source stage.  If true parallelism is useful before the source merges, freeze the exact source head SHA, use a Draft/stacked H PR, and after the source merges perform only a mechanical retarget/rebase without changing the mathematical target.
+
+The only normal reason to cancel a running snapshot audit is a substantive mathematical invalidation of its source stage; a stronger later reduction or a newer global exponent is not invalidation.
+
 ## Scope boundary
 
 No true Stage14 growth exponent, leading constant, family large-sieve theorem, uniform first-small-point lower-tail theorem, perfect-cuboid nonexistence theorem, or `T=o(sqrt(B))` theorem is established.
