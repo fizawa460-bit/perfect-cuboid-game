@@ -1,0 +1,98 @@
+{
+  "stage": "14-tH14-R2",
+  "status": "COMPLETE_R2_QUADRATIC_FRAME_REDUCTION_AND_MINIMAL_SQUARECLASS_FIBER_BOUNDARY",
+  "imports": {
+    "merged_t50_reopen_trigger": true,
+    "merged_t51_alias_free_diagonal": true,
+    "t51_alias_free_threshold": "rho>1/8",
+    "tH5_exact_pair_energy": true,
+    "t32_two_prime_complete_angular_bound": true,
+    "tH13_quadratic_large_sieve_adapter": true,
+    "t46_safe_base_discriminant_bound": "2^10*B^4"
+  },
+  "mandatory_order": {
+    "signed_common_refinement_aggregation_preserved": true,
+    "shared_UV_modulus_group_preserved": true,
+    "divisor_coupled_hyperbola_preserved": true,
+    "canonical_physical_selector_preserved": true,
+    "interval_reconstruction_branch_masks_preserved": true,
+    "distinct_split_auxiliary_primes_preserved": true,
+    "t32_angular_completion_before_state_pair_collapse": true,
+    "ordered_state_pair_cross_kernel_precollapse_used": false,
+    "E4_coefficient_energy_used": false
+  },
+  "target": {
+    "block_sum": "S_R(p,q)=sum_{xi in X_R} w_R(xi)*chi_{pq}(Ftilde(xi))",
+    "second_moment": "sum_{p!=q}|sum_R S_R(p,q)|^2 <= P^2*(sum_R ||w_R||_2^2)*B^o(1)",
+    "proved": false
+  },
+  "diagonal": {
+    "oriented_residue_diagonal_near_linear": true,
+    "source": "merged t51 + tH5",
+    "bound": "M_residue_diag <= P^2*E_A*B^o(1)",
+    "live_obstruction": false
+  },
+  "one_state_squareclass_layer": {
+    "kappa": "squareclass(Ftilde(z))",
+    "D": "funddisc(kappa)",
+    "coefficient": "C_D=sum_{z:D(z)=D} A_z with signed R aggregation inside",
+    "energy": "E_sq=sum_D |C_D|^2",
+    "identity": "T(p,q)=sum_D C_D*chi_D(p*q)",
+    "ordered_pair_cross_kernel_formed": false
+  },
+  "dual_quadratic_large_sieve": {
+    "product_row_bound": "M <= B^o(1)*(K+L^2)*E_sq",
+    "proof_source": "duality from tH13 Heath-Brown quadratic large sieve receiver",
+    "safe_K": "B^(4+o(1))",
+    "general_scale_condition": "2*rho>=d when K<=B^(d+o(1))",
+    "safe_scale_condition": "rho>=2",
+    "t49_amplifier_condition": "rho>=h",
+    "combined_safe_condition": "rho>=max(h,2)",
+    "adapter_proved": true
+  },
+  "minimal_missing_theorem": {
+    "name": "PhysicalWeightedSquareclassFiberEnergy",
+    "statement": "sum_D |sum_R sum_{xi in X_R:D(Ftilde(xi))=D} w_R(xi)|^2 <= B^o(1)*sum_R ||w_R||_2^2",
+    "equivalent_energy_form": "E_sq<=E_A*B^o(1)",
+    "proved": false,
+    "physical_unit_weight_specialization": "A1-type principal squareclass collision energy",
+    "may_not_be_assumed_to_prove_t49_A1": true
+  },
+  "countermodel": {
+    "type": "alias-free equal-squareclass coherent exact pairs",
+    "setup": "r pairwise residue-distinct exact Gaussian labels with the same nonzero squareclass and unit weights",
+    "exact_pair_energy": "r",
+    "residue_alias": false,
+    "second_moment": "P*(P-1)*r^2",
+    "target_scale": "P^2*r",
+    "conclusion": "exact-pair near-linear energy + no alias + complete local cancellation do not imply the target"
+  },
+  "critical_ledger": {
+    "H": "B^(h+o(1))",
+    "P": "B^(rho+o(1))",
+    "K": "B^(d+o(1))",
+    "E_A": "B^(e_A+o(1))",
+    "E_sq": "B^(e_sq+o(1))",
+    "target_exponent": "e_A+2*rho",
+    "R2_QLS_exponent": "e_sq+max(d,2*rho)",
+    "fixed_power_loss": "(e_sq-e_A)+max(0,d-2*rho)",
+    "safe_d4_rho2_loss": "e_sq-e_A"
+  },
+  "boundary": {
+    "original_SSGC_is_minimal_black_box": false,
+    "minimal_remaining_obstruction": "PhysicalWeightedSquareclassFiberEnergy",
+    "selector_sensitive_two_auxiliary_gaussian_second_moment_proved": false,
+    "global_external_two_prime_mean_square_bound_proved": false,
+    "global_principal_collision_power_saving_proved": false,
+    "global_fourth_energy_power_saving_proved": false,
+    "critical_sqrt_ell_strip_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "downstream_import": {
+    "t51_t52": "import R2 product-row QLS adapter and the exact squareclass-fiber obstruction",
+    "stage14_4cd": "may import the same weighted squareclass-fiber theorem contract; must not import A1 or E4 as a supplied coefficient energy",
+    "next": "prove PhysicalWeightedSquareclassFiberEnergy directly from physical divisor-coupled Gaussian geometry, or an equivalent selector-discrepancy theorem"
+  }
+}
