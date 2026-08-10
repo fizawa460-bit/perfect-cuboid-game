@@ -10,6 +10,7 @@ on:
       - 'stages/stage14/14-X13/**'
       - 'stages/stage14/14-s7-42/**'
       - 'stages/stage14/14-s7-44/**'
+      - 'stages/stage14/14-s7-45/**'
       - 'stages/stage14/14-4dc/**'
       - 'stages/stage14/14-sH44/**'
       - 'stages/stage14/14-4dH/**'
@@ -44,6 +45,9 @@ jobs:
       - name: Run merged s7-44 regression
         run: python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
 
+      - name: Run merged s7-45 route-closure regression
+        run: python stages/stage14/scripts/14-s7-45/sh44_consumption_route_closure_audit.py
+
       - name: Run merged 4dc regression
         run: python stages/stage14/scripts/14-4/gaussian_product_rootline_h_gate_audit.py
 
@@ -58,10 +62,21 @@ jobs:
           grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X13/result.md
           grep -Fq 'RESIDUAL_TO_SINGLE_COLUMN_FIBER_MULTIPLICITY=Bo1' stages/stage14/14-s7-42/result.md
           grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreDualRootLineCompatibilityEnergy' stages/stage14/14-s7-44/result.md
+          grep -Fq 'S7_ROUTE_CLOSED_AT_SQRT=true' stages/stage14/14-s7-45/result.md
+          grep -Fq 'S7_RESIDUAL_RECEIVER_EQUALS_MAINLINE_ZERO_FREQUENCY_DENSITY=true' stages/stage14/14-s7-45/result.md
           grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreGaussianProductRootLinePhysicalCompletionEnergy' stages/stage14/14-4dc/result.md
           grep -Fq 'SAFE_UNIFORM_DELTA=0' stages/stage14/14-sH44/result.md
           grep -Fq 'ZERO_FREQUENCY_PHYSICAL_DENSITY_OBSTRUCTION=true' stages/stage14/14-4dH/result.md
           grep -Fq 'COMMON_ODD_CORE_DIVIDES_BOTH_RESIDUAL_NORMS=true' stages/stage14/14-4cg/result.md
+
+      - name: Lock merged s7-45 X14 compatibility
+        run: |
+          f=stages/stage14/14-X14/s7-45-compatibility.md
+          grep -Fq 'MERGED_S7_45_COMPATIBILITY_CHECKED=true' "$f"
+          grep -Fq 'S7_45_ROUTE_CLOSURE_RESPECTED=true' "$f"
+          grep -Fq 'S7_45_ZERO_FREQUENCY_HANDOFF_REFINED_BY_X14=true' "$f"
+          grep -Fq 'S7_45_SAVING_DOUBLE_CHARGED=false' "$f"
+          grep -Fq 'S7_ROUTE_REOPENED_BY_X14=false' "$f"
 
       - name: Lock Stage14-X14 theorem boundary
         run: |
@@ -81,4 +96,4 @@ jobs:
           grep -Fq 'NEXT_RECOMMENDED=Stage14-X15' "$f"
 
       - name: Diff check
-        run: git diff --check HEAD^ HEAD
+        run: git diff --check origin/main...HEAD
