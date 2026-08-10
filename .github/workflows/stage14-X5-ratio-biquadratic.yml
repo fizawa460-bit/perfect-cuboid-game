@@ -1,0 +1,71 @@
+name: Stage14-X5 ratio biquadratic
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X5/**'
+      - 'stages/stage14/data/14-X5/**'
+      - 'stages/stage14/scripts/14-X5/**'
+      - '.github/workflows/stage14-X5-ratio-biquadratic.yml'
+      - 'stages/stage14/14-X4/**'
+      - 'stages/stage14/14-s7-26/**'
+      - 'stages/stage14/14-4cm/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X5 ratio-biquadratic audit
+        run: python stages/stage14/scripts/14-X5/ratio_biquadratic_audit.py
+
+      - name: Compile Stage14-X5 audit
+        run: python -m py_compile stages/stage14/scripts/14-X5/ratio_biquadratic_audit.py
+
+      - name: Run merged Stage14-4cm regression
+        run: python stages/stage14/scripts/14-4/signed_linear_reciprocal_audit.py
+
+      - name: Run merged Stage14-s7-26 regression
+        run: python stages/stage14/scripts/14-s7-26/linear_agreement_allocation_audit.py
+
+      - name: Run merged Stage14-X4 regression
+        run: python stages/stage14/scripts/14-X4/physical_diagonal_elimination_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_X4=COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_X_ROUTE_ALIGNMENT' stages/stage14/14-X4/result.md
+          grep -Fq 'X1_CHARGED_ONCE_QUANTIFIER_ORDER_PRESERVED=true' stages/stage14/14-X4/result.md
+          grep -Fq 'STAGE14_S7_26=COMPLETE_COMMON_CORE_AGREEMENT_I_BRANCH_ELIMINATION_AND_TOP_EDGE_LINEAR_ALLOCATION' stages/stage14/14-s7-26/result.md
+          grep -Fq 'TOP_EDGE_DOMINANT_LINEAR_BRANCH_TYPE_COUNT=4' stages/stage14/14-s7-26/result.md
+          grep -Fq 'STAGE14_4CM=COMPLETE_QUADRATIC_BRANCH_ELIMINATION_AND_TOP_THETA_SIGNED_LINEAR_QUOTIENT_REDUCTION' stages/stage14/14-4cm/result.md
+          grep -Fq 'DOMINANT_BRANCH_TYPE_COUNT=4' stages/stage14/14-4cm/result.md
+          grep -Fq 'TOP_THETA_SIGNED_QUOTIENT_PAIR_SUPPORT_EXPONENT_MAX=1/8' stages/stage14/14-4cm/result.md
+
+      - name: Lock Stage14-X5 boundary
+        run: |
+          f=stages/stage14/14-X5/result.md
+          grep -Fq 'STAGE14_X5=COMPLETE_FOUR_SIGN_DIFFERENCE_SQUARE_AND_RATIO_BIQUADRATIC_REDUCTION' "$f"
+          grep -Fq 'MERGED_X4_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_S7_26_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_4CM_IMPORTED=true' "$f"
+          grep -Fq 'X1_CHARGED_ONCE_QUANTIFIER_ORDER_PRESERVED=true' "$f"
+          grep -Fq 'RECIPROCAL_COUPLED_DIFFERENCE_SQUARE_SYSTEM_PROVED=true' "$f"
+          grep -Fq 'RATIO_BIQUADRATIC_BIDEGREE=(2,2)' "$f"
+          grep -Fq 'RATIO_BIQUADRATIC_ARITHMETIC_GENUS=1' "$f"
+          grep -Fq 'RATIO_BIQUADRATIC_NONSINGULAR_UNIFORMLY_PROVED=false' "$f"
+          grep -Fq 'SINGULAR_SPECIALIZATIONS_CLASSIFIED=false' "$f"
+          grep -Fq 'PHYSICAL_RATIO_CURVE_HEIGHT_TRANSFER_PROVED=false' "$f"
+          grep -Fq 'CHARGED_ONCE_RECIPROCAL_RATIO_BIQUADRATIC_INCIDENCE_PROVED=false' "$f"
+          grep -Fq 'REMAINING_RECEIVER=ChargedOnceReciprocalRatioBiquadraticIncidence' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'X5_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X6' "$f"
