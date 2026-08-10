@@ -1,0 +1,37 @@
+name: Stage14-toolbox-ah genus-one geometry audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-ah/**'
+      - 'stages/stage14/scripts/14-toolbox-ah/**'
+      - 'stages/stage14/scripts/14-toolbox-ag/**'
+      - '.github/workflows/stage14-toolbox-ah.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run two-quadrics genus-one geometry audit
+        run: python stages/stage14/scripts/14-toolbox-ah/genus_one_geometry_audit.py
+      - name: Compile toolbox audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-ah/genus_one_geometry_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-ag/kernel_radical_incidence_audit.py
+      - name: Regress toolbox-ag arithmetic interface
+        run: python stages/stage14/scripts/14-toolbox-ag/kernel_radical_incidence_audit.py
+      - name: Validate toolbox-ah boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AH=COMPLETE_TWO_QUADRICS_AND_GENUS_ONE_GEOMETRY' stages/stage14/14-toolbox-ah/result.md
+          grep -q 'CURRENT_WHOLE_FAMILY_EXPONENT=61/63' stages/stage14/14-toolbox-ah/result.md
+          grep -q 'CURRENT_REMAINING_GAP_TO_SQRT=59/126' stages/stage14/14-toolbox-ah/result.md
+          grep -q 'NEXT=Stage14-toolbox-ai compact torsion denominator and half-angle identities' stages/stage14/14-toolbox-ah/result.md
