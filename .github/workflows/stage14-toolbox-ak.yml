@@ -20,11 +20,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Run proof receiver dependency audit
-        run: python stages/stage14/scripts/14-toolbox-ak/proof_receiver_dependency_audit.py
+      - name: Run frozen proof receiver dependency audit
+        run: python stages/stage14/scripts/14-toolbox-ak/forward_regression.py
       - name: Compile toolbox audits
         run: |
           python -m py_compile stages/stage14/scripts/14-toolbox-ak/proof_receiver_dependency_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-ak/forward_regression.py
           python -m py_compile stages/stage14/scripts/14-toolbox-aj/quantifier_shortcut_warning_audit.py
           python -m py_compile stages/stage14/scripts/14-s7-08/shared_xi_cell_switch_audit.py
       - name: Regress predecessor toolbox-aj
