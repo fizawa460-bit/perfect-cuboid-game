@@ -1,0 +1,46 @@
+name: Stage14-tH14 selector-sensitive two-aux Gaussian receiver
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH14/**'
+      - 'stages/stage14/data/tH14/**'
+      - 'stages/stage14/scripts/tH14/**'
+      - '.github/workflows/stage14-tH14-selector-sensitive-two-aux-gaussian.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH14 audit
+        run: python -m py_compile stages/stage14/scripts/tH14/selector_sensitive_two_aux_gaussian_audit.py
+
+      - name: Run tH5 exact Gaussian-pair regression
+        run: python stages/stage14/scripts/tH5/gaussian_pair_collision_energy_audit.py
+
+      - name: Validate merged t50 frozen boundary
+        run: python stages/stage14/scripts/14-t/t50_validate_frozen.py
+
+      - name: Run tH14 deterministic audit
+        run: python stages/stage14/scripts/tH14/selector_sensitive_two_aux_gaussian_audit.py
+
+      - name: Lock tH14 theorem and failure boundary
+        run: |
+          grep -q 'STAGE14_TH14=COMPLETE_TWO_AUXILIARY_SELECTOR_RECEIVER_AND_RESIDUE_COLLISION_CLOSURE' stages/stage14/14-tH14/result.md
+          grep -q 'SIGNED_COMMON_REFINEMENT_AGGREGATION_PRESERVED=true' stages/stage14/14-tH14/result.md
+          grep -q 'SHARED_UV_MODULUS_GROUP_PRESERVED=true' stages/stage14/14-tH14/result.md
+          grep -q 'AGGREGATE_SAME_MODULUS_RESIDUE_COLLISION_ENERGY_PROVED=true' stages/stage14/14-tH14/result.md
+          grep -q 'LARGE_PRODUCT_RESIDUE_INJECTIVITY_THRESHOLD_RHO_GT_1_4=true' stages/stage14/14-tH14/result.md
+          grep -q 'TH5_ABSORBS_GLOBAL_SQUARECLASS_RESONANCE=false' stages/stage14/14-tH14/result.md
+          grep -q 'SELECTOR_SENSITIVE_GAUSSIAN_COMPLETION_THEOREM_DEFINED=true' stages/stage14/14-tH14/result.md
+          grep -q 'SELECTOR_SENSITIVE_GAUSSIAN_COMPLETION_THEOREM_PROVED=false' stages/stage14/14-tH14/result.md
+          grep -q 'PAIR_COLLAPSE_BEFORE_PHYSICAL_CANCELLATION_ALLOWED=false' stages/stage14/14-tH14/result.md
+          grep -q 'T50_GLOBAL_MEAN_SQUARE_POWER_SAVING_ASSUMED=false' stages/stage14/14-tH14/result.md
+          grep -q 'GLOBAL_EXTERNAL_TWO_PRIME_MEAN_SQUARE_BOUND_PROVED=false' stages/stage14/14-tH14/result.md
+          grep -q 'CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED=false' stages/stage14/14-tH14/result.md
