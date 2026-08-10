@@ -26,13 +26,18 @@ jobs:
       - name: Lock theorem boundary
         run: |
           f=stages/stage14/14-4co/result.md
-          grep -Fq 'STAGE14_4CO=COMPLETE_SINGULAR_CAYLEY_GCD_SQUARE_AND_RESIDUAL_SQUARECLASS_LOCK' "$f"
+          grep -Fq 'STAGE14_4CO=COMPLETE_SINGULAR_CAYLEY_GCD_SQUARE_RESIDUAL_SQUARECLASS_LOCK_AND_H_AUDIT_INTEGRATION' "$f"
           grep -Fq 'SINGULAR_ODD_VRES_SQUARECLASS_EQUALS_ODD_RS=true' "$f"
           grep -Fq 'SINGULAR_ODD_URES_SQUARECLASS_EQUALS_ODD_XY=true' "$f"
           grep -Fq 'FIXED_ROOT_SINGULAR_RESIDUAL_PAIR_SUPPORT_EXPONENT=1/8' "$f"
           grep -Fq 'SINGULAR_RELAXED_PRIMITIVE_LINEAR_FAMILY_EXISTS=true' "$f"
           grep -Fq 'SINGULAR_CAYLEY_FIBER_BO1_PROVED=false' "$f"
+          grep -Fq 'PHYSICAL_RECIPROCAL_EDWARDS_GENUS_ONE_H_AUDIT=COMPLETE' "$f"
+          grep -Fq 'FIXED_LAMBDA_UNIFORM_POINT_BOUND=B^(7/32+phi/2+o(1))' "$f"
+          grep -Fq 'FULL_TOP_EDGE_DETERMINANT_SAVING_PROVED=false' "$f"
+          grep -Fq 'GENERIC_GENUS_ONE_RECEIVER_IS_MINIMAL=false' "$f"
+          grep -Fq 'PREFERRED_MINIMAL_RECEIVER=TopThetaPrimitiveAgreementQuadraticValueDivisibilityIncidence' "$f"
           grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
-          grep -Fq 'MAINLINE_H_NEEDED=true' "$f"
-          grep -Fq 'SINGULAR_BRANCH_H_NEEDED=false' "$f"
+          grep -Fq 'MAINLINE_H_AUDIT_COMPLETE=true' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
           grep -Fq 'NEXT=Stage14-4cp' "$f"
