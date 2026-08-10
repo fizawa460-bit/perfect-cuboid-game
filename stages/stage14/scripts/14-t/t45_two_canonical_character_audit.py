@@ -72,10 +72,10 @@ def own_normalized_F(s):
 def main():
     frozen44 = json.loads(T44_DATA.read_text())
     th12 = json.loads(TH12_DATA.read_text())
-    assert frozen44["boundary"]["GENERIC_CROSS_GOOD_KUMMER_REMAINS_PRIMARY"] is True
-    assert frozen44["boundary"]["FROZEN_HEAVY_CROSS_BAD_MASS"] == 0
-    assert th12["boundary"]["STAGE14_TH12"] == "COMPLETE_LD2_KUMMER_CANONICAL_PRIME_COMMON_CORE_RECEIVER"
-    assert th12["boundary"]["ONE_DIMENSIONAL_PRIME_CHARACTER_CERTIFICATE_DEFINED"] is True
+    assert frozen44["decision"]["GENERIC_CROSS_GOOD_KUMMER_REMAINS_PRIMARY"] is True
+    assert frozen44["decision"]["FROZEN_HEAVY_CROSS_BAD_MASS"] == 0
+    assert th12["status"] == "COMPLETE_LD2_KUMMER_CANONICAL_PRIME_COMMON_CORE_RECEIVER"
+    assert th12["proof_boundary"]["one_dimensional_prime_character_certificate_defined"] is True
 
     t36 = runpy.run_path(str(T36_SCRIPT), run_name="stage14_t36_import")
     t42 = runpy.run_path(str(T42_SCRIPT), run_name="stage14_t42_import")
