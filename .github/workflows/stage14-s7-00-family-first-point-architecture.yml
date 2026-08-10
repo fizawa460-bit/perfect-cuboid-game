@@ -1,0 +1,48 @@
+name: Stage14-s7-00 family first-point architecture audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-00/**'
+      - 'stages/stage14/scripts/14-s7-00/**'
+      - '.github/workflows/stage14-s7-00-family-first-point-architecture.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-00/family_first_point_architecture_audit.py
+      - name: Run predecessor s6-10 audit
+        run: python stages/stage14/scripts/14-s6-10/active_direction_method_closure_audit.py
+      - name: Run s7-00 architecture audit
+        run: python stages/stage14/scripts/14-s7-00/family_first_point_architecture_audit.py | tee /tmp/s7-00.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^MERGED_S6_10_BOUNDARY_AUDIT=true$' /tmp/s7-00.txt
+          grep -q '^MERGED_4BN_BOUNDARY_AUDIT=true$' /tmp/s7-00.txt
+          grep -q '^JACOBI_NORMALIZATION_AUDIT=true$' /tmp/s7-00.txt
+          grep -q '^FOURTH_POWER_BASE_CHANGE_AUDIT=true$' /tmp/s7-00.txt
+          grep -q '^LEGENDRE_QUOTIENT_AUDIT=true$' /tmp/s7-00.txt
+          grep -q '^BASE_HEIGHT_EXPONENT_LEDGER_AUDIT=true$' /tmp/s7-00.txt
+          grep -q '^GENERIC_SECTION_GATE_AUDIT=true$' /tmp/s7-00.txt
+          grep -q '^ROUTE_SELECTION_AUDIT=true$' /tmp/s7-00.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s7-00.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_00=COMPLETE_FAMILY_FIRST_NONBOUNDARY_POINT_ARCHITECTURE' stages/stage14/14-s7-00/result.md
+          grep -q 'JACOBI_PARAMETER_IS_FOURTH_POWER_BASE_CHANGE=true' stages/stage14/14-s7-00/result.md
+          grep -q 'LEGENDRE_TYPE_DEGREE_TWO_QUOTIENT_EXACT=true' stages/stage14/14-s7-00/result.md
+          grep -q 'GENERIC_MORDELL_WEIL_GROUP_AUDITED=false' stages/stage14/14-s7-00/result.md
+          grep -q 'S7_PRIMARY_GATE=GENERIC_MORDELL_WEIL_AND_SECTION_CLASSIFICATION' stages/stage14/14-s7-00/result.md
+          grep -q 'ACTIVE_DIRECTION_SAVING_TO_CROSS_CEILING_T=1/63' stages/stage14/14-s7-00/result.md
+          grep -q 'ACTIVE_DIRECTION_SAVING_TO_SQRT_T=20/21' stages/stage14/14-s7-00/result.md
+          grep -q 'NEXT=Stage14-s7-01' stages/stage14/14-s7-00/result.md
