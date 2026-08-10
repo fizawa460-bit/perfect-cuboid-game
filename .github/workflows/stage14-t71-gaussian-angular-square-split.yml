@@ -1,0 +1,34 @@
+name: Stage14-t71 Gaussian angular squareclass split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t71/**'
+      - 'stages/stage14/data/14-t71/**'
+      - 'stages/stage14/scripts/14-t/t71_*.py'
+      - '.github/workflows/stage14-t71-gaussian-angular-square-split.yml'
+      - 'stages/stage14/14-t70/result.md'
+      - 'stages/stage14/14-s7-31/result.md'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: predecessor t70 regression
+        run: python stages/stage14/scripts/14-t/t70_common_support_rootline_audit.py >/dev/null
+      - name: s7-31 global 5/8 ledger regression
+        run: grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=5/8' stages/stage14/14-s7-31/result.md
+      - name: Stage14-t71 audit
+        run: python stages/stage14/scripts/14-t/t71_gaussian_angular_square_split_audit.py
+      - name: frozen validator if present
+        run: |
+          if [ -f stages/stage14/scripts/14-t/t71_validate_frozen.py ]; then
+            python stages/stage14/scripts/14-t/t71_validate_frozen.py
+          fi
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t71_*.py
