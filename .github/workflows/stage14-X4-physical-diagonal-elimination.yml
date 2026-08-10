@@ -1,0 +1,62 @@
+name: Stage14-X4 physical diagonal elimination
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X4/**'
+      - 'stages/stage14/data/14-X4/**'
+      - 'stages/stage14/scripts/14-X4/**'
+      - '.github/workflows/stage14-X4-physical-diagonal-elimination.yml'
+      - 'stages/stage14/14-X3/**'
+      - 'stages/stage14/14-4cl/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X4 deterministic audit
+        run: python stages/stage14/scripts/14-X4/physical_diagonal_elimination_audit.py
+
+      - name: Compile Stage14-X4 audit
+        run: python -m py_compile stages/stage14/scripts/14-X4/physical_diagonal_elimination_audit.py
+
+      - name: Run merged Stage14-X3 regression
+        run: python stages/stage14/scripts/14-X3/primitive_line_quartic_audit.py
+
+      - name: Run merged Stage14-4cl regression
+        run: python stages/stage14/scripts/14-4/cyclotomic_quartic_allocation_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_X3=COMPLETE_EXACT_QUARTIC_REDUCTION_AND_RELAXED_DIAGONAL_OBSTRUCTION' stages/stage14/14-X3/result.md
+          grep -Fq 'RELAXED_DIAGONAL_FIXED_POWER_OBSTRUCTION=true' stages/stage14/14-X3/result.md
+          grep -Fq 'PHYSICAL_RECEIVER_COUNTEREXAMPLE_PROVED=false' stages/stage14/14-X3/result.md
+          grep -Fq 'STAGE14_4CL=COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_RECIPROCAL_CYCLOTOMIC_REDUCTION' stages/stage14/14-4cl/result.md
+          grep -Fq 'PHYSICAL_PROPORTIONAL_QUARTIC_BRANCH_EMPTY=true' stages/stage14/14-4cl/result.md
+          grep -Fq 'OFF_DIAGONAL_RECIPROCAL_CYCLOTOMIC_QUARTIC_ALLOCATION_INCIDENCE_PROVED=false' stages/stage14/14-4cl/result.md
+
+      - name: Lock Stage14-X4 boundary
+        run: |
+          f=stages/stage14/14-X4/result.md
+          grep -Fq 'STAGE14_X4=COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_X_ROUTE_ALIGNMENT' "$f"
+          grep -Fq 'MERGED_X3_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_4CL_IMPORTED=true' "$f"
+          grep -Fq 'X1_CHARGED_ONCE_QUANTIFIER_ORDER_PRESERVED=true' "$f"
+          grep -Fq 'PHYSICAL_PROPORTIONAL_QUARTIC_BRANCH_EMPTY=true' "$f"
+          grep -Fq 'RELAXED_DIAGONAL_OBSTRUCTION_SURVIVES_PHYSICAL_MASKS=false' "$f"
+          grep -Fq 'BOTH_SWITCH_PRODUCT_INTEGRALITY_CONDITIONS_RETAINED=true' "$f"
+          grep -Fq 'CROSS_ROLE_PRIME_LOCKS_RETAINED=true' "$f"
+          grep -Fq 'REMAINING_RECEIVER=OffDiagonalReciprocalCyclotomicQuarticAllocationIncidence' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'X4_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X5' "$f"

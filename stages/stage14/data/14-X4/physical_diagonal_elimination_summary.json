@@ -1,0 +1,51 @@
+{
+  "stage": "Stage14-X4",
+  "status": "COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_X_ROUTE_ALIGNMENT",
+  "imports": {
+    "Stage14-X3": true,
+    "Stage14-4cl": true
+  },
+  "quantifier_contract": {
+    "x1_charged_once_order_preserved": true,
+    "fixed_outer_data": [
+      "C",
+      "u_res",
+      "v_res",
+      "primitive_xi_root_line",
+      "endpoint_small_roots"
+    ]
+  },
+  "proportional_branch": {
+    "equation": "R*delta*X*s = J*alpha*Y*r",
+    "cross_role_coprime": true,
+    "forced_divisibility": [
+      "oddpart(R*delta) | Y*r",
+      "oddpart(J*alpha) | X*s"
+    ],
+    "balanced_cell_product_lower_exponent": "3/8",
+    "small_host_upper_exponent": "1/8",
+    "exponent_gap": "1/4",
+    "physical_branch_empty": true,
+    "relaxed_diagonal_survives_physical_masks": false
+  },
+  "off_diagonal": {
+    "switch_integrality_retained": true,
+    "xi_reciprocal_divisibility": "alpha*delta | V^4-U^4",
+    "k_reciprocal_divisibility": "R*J | D^4-A^4",
+    "good_prime_allocation_matrix": "4x4",
+    "cyclotomic_branches": ["-", "+", "i"],
+    "i_branch_odd_primes": "1 mod 4",
+    "remaining_receiver": "OffDiagonalReciprocalCyclotomicQuarticAllocationIncidence",
+    "proved": false
+  },
+  "theorem_ledger": {
+    "current_physical_whole_family_exponent": "7/8",
+    "new_whole_family_power_saving_proved": false,
+    "physical_receiver_counterexample_proved": false
+  },
+  "h_decision": {
+    "x4_auxiliary_h_needed": false,
+    "x_route_blocked_by_h": false
+  },
+  "next_recommended": "Stage14-X5"
+}
