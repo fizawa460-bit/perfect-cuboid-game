@@ -1,0 +1,37 @@
+name: Stage14-tH17 R2 matched rectangle signed TTstar dual audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH17/r2.md'
+      - 'stages/stage14/14-tH17/LATEST.md'
+      - 'stages/stage14/data/tH17/matched_rectangle_signed_ttstar_dual_summary.json'
+      - 'stages/stage14/scripts/tH17/matched_rectangle_signed_ttstar_dual_audit.py'
+      - '.github/workflows/stage14-tH17-r2-matched-rectangle-dual-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile tH17 R2 audit
+        run: python -m py_compile stages/stage14/scripts/tH17/matched_rectangle_signed_ttstar_dual_audit.py
+      - name: Run merged t59 rectangle regression
+        run: python stages/stage14/scripts/14-t/t59_orthogonal_rectangle_reduction_audit.py > /tmp/t59.json
+      - name: Run merged t61 polar-obstruction regression
+        run: python stages/stage14/scripts/14-t/t61_polar_schatten_obstruction_audit.py > /tmp/t61.json
+      - name: Run merged t62 matched-frame regression
+        run: python stages/stage14/scripts/14-t/t62_matched_rectangle_frame_audit.py > /tmp/t62.json
+      - name: Run tH17 R2 deterministic audit
+        run: python stages/stage14/scripts/tH17/matched_rectangle_signed_ttstar_dual_audit.py > /tmp/th17r2.json
+      - name: Lock tH17 R2 boundary
+        run: |
+          grep -q 'STAGE14_TH17_R2=COMPLETE_MATCHED_RECTANGLE_SIGNED_TTSTAR_DUAL_APPLICABILITY_AUDIT' stages/stage14/14-tH17/r2.md
+          grep -q 'POLAR_ABSOLUTE_VALUE_USED=false' stages/stage14/14-tH17/r2.md
+          grep -q 'PHYSICAL_MASS_VECTOR_RAYLEIGH_IS_EXACT_TARGET=true' stages/stage14/14-tH17/r2.md
+          grep -q 'MATCHED_RECTANGLE_PROJECTED_KUMMER_DUAL_LARGE_SIEVE_PROVED=false' stages/stage14/14-tH17/r2.md
+          grep -q 'MINIMAL_REMAINING_OBSTRUCTION=PhysicalMassVectorKummerRayleighBound' stages/stage14/14-tH17/r2.md

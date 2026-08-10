@@ -1,0 +1,69 @@
+{
+  "stage": "14-tH17-R2",
+  "object": "SignedOrthogonalRectangleKummerBilinearLargeSieve",
+  "latest_live_projection": "MatchedRectangleProjectedKummerDualLargeSieve",
+  "inputs": {
+    "merged_t59": true,
+    "merged_t61": true,
+    "merged_t62": true,
+    "polar_absolute_value_forbidden": true,
+    "shared_auxiliary_pair_preserved": true,
+    "matched_rectangle_projection": true
+  },
+  "exact_frame": {
+    "block": "E_j=1_Rj/sqrt(m_j)",
+    "mass_vector": "z_j=sqrt(m_j)",
+    "mass_identity": "||z||_2^2=sum_j m_j",
+    "projected_trace": "kappa_pq,j=<E_j,K_pq>",
+    "physical_trace": "T_R(p,q)=sum_j z_j*kappa_pq,j",
+    "projection_isometry": true
+  },
+  "ttstar": {
+    "analysis_matrix": "K_R((p,q),j)=kappa_pq,j",
+    "gram": "G_R=K_R^* K_R",
+    "physical_target": "z^*G_R*z <= P^2*z^*z*B^o(1)",
+    "projected_dual_target": "||G_R||op <= P^2*B^o(1)",
+    "gram_entry": "(m_j*m_k)^(-1/2) sum_{s in R_j,t in R_k}(H(s,t)^2-D(s,t))",
+    "H": "sum_r K_r(s)K_r(t)",
+    "D": "sum_r K_r(s)^2 K_r(t)^2"
+  },
+  "applicability": {
+    "matched_block_bessel_zero_loss": true,
+    "one_pair_block_bessel_closes_second_moment": false,
+    "ttstar_formulation_valid": true,
+    "duality_alone_closes_target": false,
+    "operator_valued_formulation_valid": true,
+    "horizontal_C_r_operator_bound_transfers": false,
+    "ping_xi_direct_import": false,
+    "fkms_direct_import": false,
+    "one_prime_horizontal_theorem_iterates_to_shared_pq": false,
+    "aspect_balance_retained": true,
+    "aspect_balance_alone_closes_projected_rayleigh": false,
+    "ambient_state_space_large_sieve_required": false
+  },
+  "obstruction": {
+    "name": "matched projected vertical Kummer Gram",
+    "principal_coherence_survives_projection": true,
+    "geometry_only_counterguard": "single coherent rectangle gives P(P-1)m^2 against P^2*m target"
+  },
+  "decision": {
+    "STAGE14_TH17_R2": "COMPLETE_MATCHED_RECTANGLE_SIGNED_TTSTAR_DUAL_APPLICABILITY_AUDIT",
+    "POLAR_ABSOLUTE_VALUE_USED": false,
+    "SIGNED_KUMMER_PHASE_PRESERVED": true,
+    "MATCHED_RECTANGLE_PROJECTION_ISOMETRY_PROVED": true,
+    "MATCHED_BLOCK_PROJECTION_BESSEL_ZERO_LOSS": true,
+    "ONE_PAIR_BLOCK_BESSEL_ALONE_CLOSES_SECOND_MOMENT": false,
+    "PHYSICAL_MASS_VECTOR_RAYLEIGH_IS_EXACT_TARGET": true,
+    "PROJECTED_TTSTAR_GRAM_IDENTITY_PROVED": true,
+    "MATCHED_GRAM_EXACT_H2_MINUS_DIAGONAL_FORMULA_PROVED": true,
+    "MATCHED_RECTANGLE_PROJECTED_DUAL_LARGE_SIEVE_IMPLIES_PHYSICAL_TARGET": true,
+    "MATCHED_RECTANGLE_PROJECTED_KUMMER_DUAL_LARGE_SIEVE_PROVED": false,
+    "PHYSICAL_MASS_VECTOR_KUMMER_RAYLEIGH_BOUND_PROVED": false,
+    "SIGNED_ORTHOGONAL_RECTANGLE_KUMMER_BILINEAR_LARGE_SIEVE_PROVED": false,
+    "E4_COEFFICIENT_ENERGY_USED": false,
+    "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT": "7/8",
+    "MINIMAL_REMAINING_OBSTRUCTION": "PhysicalMassVectorKummerRayleighBound",
+    "STRONGER_SUFFICIENT_THEOREM": "MatchedRectangleProjectedKummerDualLargeSieve",
+    "NEXT": "Stage14-t63"
+  }
+}
