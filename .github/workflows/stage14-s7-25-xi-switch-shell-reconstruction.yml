@@ -1,0 +1,84 @@
+name: Stage14-s7-25 xi-switch shell reconstruction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-25/**'
+      - 'stages/stage14/scripts/14-s7-25/**'
+      - '.github/workflows/stage14-s7-25-xi-switch-shell-reconstruction.yml'
+      - 'stages/stage14/14-s7-24/**'
+      - 'stages/stage14/14-4cg/**'
+      - 'stages/stage14/14-4ci/**'
+      - 'stages/stage14/14-X1/**'
+      - 'stages/stage14/14-4cj/**'
+      - 'stages/stage14/14-4ck/**'
+      - 'stages/stage14/14-X3/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-25 xi-switch shell reconstruction audit
+        run: python stages/stage14/scripts/14-s7-25/xi_switch_shell_reconstruction_audit.py
+
+      - name: Run merged s7-24 regression
+        run: python stages/stage14/scripts/14-s7-24/rank2_plucker_root_line_audit.py
+
+      - name: Run merged 4ci regression
+        run: python stages/stage14/scripts/14-4/full_k_dual_common_core_audit.py
+
+      - name: Run merged X1 charged-once regression
+        run: python stages/stage14/scripts/14-X1/joint_physical_fiber_audit.py
+
+      - name: Check merged s7-24 boundary
+        run: |
+          f=stages/stage14/14-s7-24/result.md
+          grep -Fq 'STAGE14_S7_24=COMPLETE_RANK_TWO_PLUCKER_ELIMINATION_AND_PRIMITIVE_ROOT_LINE_SATURATION' "$f"
+          grep -Fq 'XI_PHYSICAL_ENDPOINT_SHORT_RANK_EXACT=1' "$f"
+          grep -Fq 'XI_ROOT_LINE_DUAL_DEFECT=1' "$f"
+
+      - name: Check merged 4cg/4ci/X1 boundaries
+        run: |
+          grep -Fq 'STAGE14_4CG=COMPLETE_PAIRWISE_RESIDUAL_COLLAPSE_AND_COMMON_CORE_COUPLING' stages/stage14/14-4cg/result.md
+          grep -Fq 'STAGE14_4CI=COMPLETE_COMMON_CORE_FULL_K_DUAL_SATURATION_AND_NORMALIZED_HOST_REDUCTION' stages/stage14/14-4ci/result.md
+          grep -Fq 'DYADIC_RESIDUAL_TRIPLE_SUPPORT_EXPONENT=2*(theta+phi)-1/2' stages/stage14/14-4ci/result.md
+          grep -Fq 'STAGE14_X1=COMPLETE_JOINT_COMMON_CORE_CRT_PHYSICAL_FIBER_LEMMA' stages/stage14/14-X1/result.md
+          grep -Fq 'CCGRI_BDCSVE_JOINT_CHARGE_ADAPTER_PROVED=true' stages/stage14/14-X1/result.md
+
+      - name: Check merged 4cj/4ck/X3 compatibility
+        run: |
+          grep -Fq 'STAGE14_4CJ=COMPLETE_XI_RANK_TWO_ELIMINATION_AND_RANK_ONE_PHYSICAL_ROOT_RIGIDITY' stages/stage14/14-4cj/result.md
+          grep -Fq 'ORIENTED_XI_CRT_PACKET_PHYSICAL_ROOT_VECTOR_MULTIPLICITY=1' stages/stage14/14-4cj/result.md
+          grep -Fq 'STAGE14_4CK=COMPLETE_SWITCH_PRODUCT_ELIMINATION_AND_BINARY_QUARTIC_AGREEMENT_REDUCTION' stages/stage14/14-4ck/result.md
+          grep -Fq 'COMMON_CORE_BINARY_QUARTIC_AGREEMENT_INCIDENCE_PROVED=false' stages/stage14/14-4ck/result.md
+          grep -Fq 'STAGE14_X3=COMPLETE_EXACT_QUARTIC_REDUCTION_AND_RELAXED_DIAGONAL_OBSTRUCTION' stages/stage14/14-X3/result.md
+          grep -Fq 'RELAXED_DIAGONAL_FIXED_POWER_OBSTRUCTION=true' stages/stage14/14-X3/result.md
+          grep -Fq 'PHYSICAL_RECEIVER_COUNTEREXAMPLE_PROVED=false' stages/stage14/14-X3/result.md
+
+      - name: Lock s7-25 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-25/result.md
+          grep -Fq 'STAGE14_S7_25=COMPLETE_FIXED_RESIDUAL_XI_SWITCH_PRODUCT_RECONSTRUCTION_AND_TOP_THETA_LOCALIZATION' "$f"
+          grep -Fq 'XI_SWITCH_PRODUCT_DEFINED=U=S*T' "$f"
+          grep -Fq 'HK_PYTHAGOREAN_SHELL_EXACT=true' "$f"
+          grep -Fq 'FIXED_CUVU_V_N_MULTIPLICITY=B^o(1)' "$f"
+          grep -Fq 'HXI_DIFFERENCE_OF_SQUARES_SHELL_EXACT=true' "$f"
+          grep -Fq 'FIXED_RESIDUAL_XI_SWITCH_PRODUCT_PACKET_FIBER_BO1=true' "$f"
+          grep -Fq 'DYADIC_XI_SWITCH_PRODUCT_SUPPORT_EXPONENT=3/4-2*phi' "$f"
+          grep -Fq 'DYADIC_PHYSICAL_PACKET_BOUND_EXPONENT=2*theta+1/4' "$f"
+          grep -Fq 'TOP_THETA_BARRIER=theta=5/16' "$f"
+          grep -Fq 'TOP_THETA_ALLOWED_PHI_INTERVAL=[3/16,1/4]' "$f"
+          grep -Fq 'MERGED_4CK_COMPATIBILITY_CHECKED=true' "$f"
+          grep -Fq 'MERGED_X3_COMPATIBILITY_CHECKED=true' "$f"
+          grep -Fq 'X3_PHYSICAL_RECEIVER_COUNTEREXAMPLE_CONTRADICTED=false' "$f"
+          grep -Fq 'TOP_THETA_COMMON_CORE_XI_SWITCH_COUPLED_SHELL_INCIDENCE_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'TH16_NEEDED_BY_S7_25=false' "$f"
+          grep -Fq 'TH17_CROSS_PROMOTED_TO_S7_25=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-26' "$f"
