@@ -1,0 +1,58 @@
+name: Stage14-4cw proportional root gcd 19/34
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cw/**'
+      - 'stages/stage14/data/14-4/proportional_root_gcd_19_34_summary.json'
+      - 'stages/stage14/scripts/14-4/proportional_root_gcd_19_34_audit.py'
+      - '.github/workflows/stage14-4cw-proportional-root-gcd-19-34.yml'
+      - 'stages/stage14/14-s7-36/**'
+      - 'stages/stage14/14-s7-34/**'
+      - 'stages/stage14/14-4ci/**'
+      - 'stages/stage14/14-s7-21/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4cw deterministic audit
+        run: python stages/stage14/scripts/14-4/proportional_root_gcd_19_34_audit.py
+
+      - name: Compile Stage14-4cw audit
+        run: python -m py_compile stages/stage14/scripts/14-4/proportional_root_gcd_19_34_audit.py
+
+      - name: Stage14-s7-36 regression
+        run: python stages/stage14/scripts/14-s7-36/row_column_proportional_9_16_audit.py
+
+      - name: Stage14-s7-34 regression
+        run: python stages/stage14/scripts/14-s7-34/fourth_power_root_transfer_47_80_audit.py
+
+      - name: Predecessor theorem locks
+        run: |
+          grep -Fq 'COMMON_Z_SCALE_SQUARE_DIVIDES_QK=true' stages/stage14/14-4ci/result.md
+          grep -Fq 'g_i=gcd(Q_i-P_i,Q_i+P_i) in {1,2}' stages/stage14/14-s7-21/result.md
+          grep -Fq 'XI_COMMON_ROOT_GCD_FOURTH_POWER_DIVIDES_QXI=true' stages/stage14/14-s7-34/result.md
+          grep -Fq 'NONPROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=19/34' stages/stage14/14-s7-36/result.md
+
+      - name: Stage14-4cw boundary locks
+        run: |
+          f=stages/stage14/14-4cw/result.md
+          grep -Fq 'STAGE14_4CW=COMPLETE_PROPORTIONAL_COMMON_Z_ROOT_GCD_DECOMPOSITION_AND_19_34_PROMOTION' "$f"
+          grep -Fq 'PROPORTIONAL_ODDPART_T_EQUALS_KX_KY_HS_HT=true' "$f"
+          grep -Fq 'PROPORTIONAL_NONCROSS_BUCKET_SQUARE_DIVIDES_URES=true' "$f"
+          grep -Fq 'PROPORTIONAL_FORCED_CROSS_ROOT_EXPONENT_LOWER_BOUND=phi-theta+1/8' "$f"
+          grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=7/16' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=19/34' "$f"
+          grep -Fq 'REMAINING_RECEIVER=NineteenThirtyFourthsSingleCrossRootRowColumnTwinShortLiftIncidence' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4cx' "$f"
