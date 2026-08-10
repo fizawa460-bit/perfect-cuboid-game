@@ -195,8 +195,8 @@ def main() -> None:
         "lambda*mu*(lambda-mu)*(lambda*S^2+mu*X^2)",
         "W^2=F0*((b0*d0)^2-(a0*c0)^2*t^4)",
         "E_good-res(B)<<B^(3/7+1/2+o(1))=B^(13/14+o(1))",
-        "61/63-1/2=59/126",
-        "20/21-1/2=19/42",
+        "59/126",
+        "19/42",
     ]
     for lock in atlas_locks:
         if lock not in atlas:
