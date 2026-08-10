@@ -1,0 +1,35 @@
+name: Stage14-4bv inert Fourier thin switch
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bv/**'
+      - 'stages/stage14/14-4bv/result.md'
+      - 'stages/stage14/data/14-4/inert_fourier_thin_switch_summary.json'
+      - 'stages/stage14/scripts/14-4/inert_fourier_thin_switch_audit.py'
+      - '.github/workflows/stage14-4bv-inert-fourier-thin-switch.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4bv audit
+        run: python -m py_compile stages/stage14/scripts/14-4/inert_fourier_thin_switch_audit.py
+      - name: Run merged 4bt audit
+        run: python stages/stage14/scripts/14-4/squarefree_j1728_twist_audit.py
+      - name: Run merged s7-06 audit
+        run: python stages/stage14/scripts/14-s7-06/torsion_self_correspondence_audit.py
+      - name: Run 4bv deterministic audit
+        run: python stages/stage14/scripts/14-4/inert_fourier_thin_switch_audit.py
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BV=INERT_FOURIER_COMPLETION_AND_THIN_PACKET_COEFFICIENT_SWITCH' stages/stage14/14-4bv/result.md
+          grep -q 'INERT_ADDITIVE_FOURIER_TRANSFORM_EXACT=true' stages/stage14/14-4bv/result.md
+          grep -q 'CRITICAL_SQUAREPART_THICKNESS_EXPONENT=2/21' stages/stage14/14-4bv/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=20/21' stages/stage14/14-4bv/result.md
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' stages/stage14/14-4bv/result.md
