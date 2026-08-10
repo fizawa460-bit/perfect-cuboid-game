@@ -1,0 +1,28 @@
+name: Stage14-t60 polar Kummer fourth-moment reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t60/**'
+      - 'stages/stage14/data/14-t60/**'
+      - 'stages/stage14/scripts/14-t/t60_polar_kummer_fourth_moment_audit.py'
+      - 'stages/stage14/scripts/14-t/t60_validate_frozen.py'
+      - '.github/workflows/stage14-t60-polar-kummer-fourth-moment.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t59 predecessor regression
+        run: python stages/stage14/scripts/14-t/t59_orthogonal_rectangle_reduction_audit.py > /tmp/t59.json
+      - name: Run t60 polar Kummer coefficient-matrix audit
+        run: python stages/stage14/scripts/14-t/t60_polar_kummer_fourth_moment_audit.py > /tmp/t60.json
+      - name: Validate frozen t60 boundary
+        run: python stages/stage14/scripts/14-t/t60_validate_frozen.py
+      - name: Compile t60 scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t60_polar_kummer_fourth_moment_audit.py stages/stage14/scripts/14-t/t60_validate_frozen.py
