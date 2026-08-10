@@ -20,7 +20,7 @@ jobs:
       - name: Compile tH18 audit
         run: python -m py_compile stages/stage14/scripts/tH18/private_canonical_root_modulus_large_sieve_audit.py
       - name: Run merged t66 opposite-sign root regression
-        run: python stages/stage14/scripts/14-t/t66_opposite_sign_root_line_audit.py > /tmp/t66.json
+        run: python stages/stage14/scripts/14-t/t66_primewise_cayley_crt_audit.py > /tmp/t66.json
       - name: Run merged t67 private-prime regression
         run: python stages/stage14/scripts/14-t/t67_canonical_root_modulus_audit.py > /tmp/t67.json
       - name: Run tH18 deterministic audit
