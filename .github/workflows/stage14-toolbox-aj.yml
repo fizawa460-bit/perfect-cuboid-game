@@ -1,0 +1,43 @@
+name: Stage14-toolbox-aj quantifier shortcut warning audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-aj/**'
+      - 'stages/stage14/scripts/14-toolbox-aj/**'
+      - '.github/workflows/stage14-toolbox-aj.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run quantifier shortcut warning audit
+        run: python stages/stage14/scripts/14-toolbox-aj/quantifier_shortcut_warning_audit.py
+      - name: Compile toolbox audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-aj/quantifier_shortcut_warning_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-ai/compact_torsion_half_angle_audit.py
+      - name: Regress predecessor toolbox-ai
+        run: python stages/stage14/scripts/14-toolbox-ai/compact_torsion_half_angle_audit.py
+      - name: Regress warning-source stages
+        run: |
+          python stages/stage14/scripts/14-s6-07/dual_half_angle_gcd_matrix_audit.py
+          python stages/stage14/scripts/14-s6-08/normalized_cross_square_resonance_audit.py
+          python stages/stage14/scripts/14-s6-09/fixed_direction_kernel_energy_transfer_audit.py
+      - name: Validate toolbox-aj boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AJ=COMPLETE_QUANTIFIER_MISMATCH_AND_INVALID_SHORTCUT_WARNING_ATLAS' stages/stage14/14-toolbox-aj/result.md
+          grep -q 'CANONICAL_TOTAL_CARD_COUNT=67' stages/stage14/14-toolbox-aj/result.md
+          grep -q 'QUANTIFIER_LADDER_FROZEN=true' stages/stage14/14-toolbox-aj/result.md
+          grep -q 'AUTOMATIC_SQUARE_FACTOR_RECHARGE_ALLOWED=false' stages/stage14/14-toolbox-aj/result.md
+          grep -q 'CURRENT_WHOLE_FAMILY_EXPONENT=20/21' stages/stage14/14-toolbox-aj/result.md
+          grep -q 'NEXT=Stage14-toolbox-ak proof-receiver dispatch and lemma dependency map' stages/stage14/14-toolbox-aj/result.md
