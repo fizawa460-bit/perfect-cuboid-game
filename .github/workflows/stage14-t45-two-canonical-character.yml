@@ -1,0 +1,54 @@
+name: Stage14-t45 two-canonical character
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t45/**'
+      - 'stages/stage14/scripts/14-t/t45_two_canonical_character_audit.py'
+      - 'stages/stage14/data/14-t45/**'
+      - '.github/workflows/stage14-t45-two-canonical-character.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t44 regression
+        run: python stages/stage14/scripts/14-t/t44_canonical_prime_twist_support_audit.py
+      - name: Run tH12 regression
+        run: python stages/stage14/scripts/tH12/ld2_kummer_incidence_receiver_audit.py
+      - name: Preserve frozen t45 JSON
+        run: cp stages/stage14/data/14-t45/two_canonical_character.json /tmp/t45-frozen.json
+      - name: Run t45 audit
+        run: python stages/stage14/scripts/14-t/t45_two_canonical_character_audit.py
+      - name: Check frozen t45 JSON
+        run: diff -u /tmp/t45-frozen.json stages/stage14/data/14-t45/two_canonical_character.json
+      - name: Validate locked t45 boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('stages/stage14/data/14-t45/two_canonical_character.json')
+          d = json.loads(p.read_text())
+          b = d['decision']
+          assert b['STAGE14_T45'] == 'COMPLETE_TWO_CANONICAL_LOCAL_CHARACTER_AND_MANY_CONDUCTOR_BARRIER'
+          assert b['TH12_PRIME_CHARACTER_SPECIALIZATION_FOUND'] is True
+          assert b['FIXED_PARTNER_QUADRATIC_CHARACTER_CERTIFIED'] is True
+          assert b['FIXED_COMMON_CORE_ALONE_ONE_DIMENSIONAL'] is False
+          assert b['TWO_ENDOGENOUS_CANONICAL_LOCAL_FILTERS_EXACT'] is True
+          assert b['TWO_ENDOGENOUS_CANONICAL_LOCAL_FILTERS_POWER_SAVING'] is False
+          assert b['TWO_LOCAL_FILTER_CONSTANT_TERM'] == '1/4'
+          assert b['MANY_CONDUCTOR_AGGREGATION_REQUIRED'] is True
+          assert b['TH13_REOPEN_TRIGGER'] is True
+          assert b['GENERIC_CROSS_GOOD_KUMMER_INCIDENCE_BOUND_PROVED'] is False
+          assert b['GLOBAL_PRINCIPAL_COLLISION_POWER_SAVING_PROVED'] is False
+          assert b['GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED'] is False
+          assert b['CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED'] is False
+          assert b['CANONICAL_PRIME_SUM_POWER_SAVING_PROVED'] is False
+          assert b['A_11_POWER_SAVING_PROVED'] is False
+          assert b['T_O_SQRT_B_PROVED'] is False
+          assert b['PERFECT_CUBOID_NONEXISTENCE_PROVED'] is False
+          assert d['th13_reopen']['needed'] is True
+          print('Stage14-t45 locked boundary: PASS')
+          PY
