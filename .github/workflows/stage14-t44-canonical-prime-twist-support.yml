@@ -1,0 +1,46 @@
+name: Stage14-t44 canonical-prime twist support
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t44/**'
+      - 'stages/stage14/scripts/14-t/t44_canonical_prime_twist_support_audit.py'
+      - 'stages/stage14/data/14-t44/**'
+      - '.github/workflows/stage14-t44-canonical-prime-twist-support.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t43 regression
+        run: python stages/stage14/scripts/14-t/t43_low_degree_kummer_transversality_audit.py
+      - name: Check frozen t43 JSON remains stable
+        run: git diff --exit-code -- stages/stage14/data/14-t43/low_degree_kummer_transversality.json
+      - name: Preserve frozen t44 JSON
+        run: cp stages/stage14/data/14-t44/canonical_prime_twist_support.json /tmp/t44-frozen.json
+      - name: Run t44 canonical-prime twist-support audit
+        run: python stages/stage14/scripts/14-t/t44_canonical_prime_twist_support_audit.py
+      - name: Check frozen t44 JSON
+        run: diff -u /tmp/t44-frozen.json stages/stage14/data/14-t44/canonical_prime_twist_support.json
+      - name: Validate locked t44 boundary
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          text = Path('stages/stage14/14-t44/result.md').read_text()
+          required = [
+              'STAGE14_T44=COMPLETE_CANONICAL_PRIME_TWIST_SUPPORT_ROUTING_AND_GENERIC_CROSS_GOOD_REDUCTION',
+              'CANONICAL_OWN_VALUATION_EVEN=true',
+              'PRINCIPAL_DISTINCT_ELL_CROSS_SUPPORT_GOOD=true',
+              'NONPRINCIPAL_CROSS_BAD_PRIME_ROUTES_INTO_TWIST=true',
+              'FROZEN_HEAVY_CROSS_BAD_MASS=0',
+              'GENERIC_CROSS_GOOD_KUMMER_INCIDENCE_BOUND_PROVED=false',
+              'CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED=false',
+              'T_O_SQRT_B_PROVED=false',
+              'PERFECT_CUBOID_NONEXISTENCE_PROVED=false',
+          ]
+          for item in required:
+              assert item in text, item
+          print('locked t44 boundary: PASS')
+          PY
