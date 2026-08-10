@@ -1,0 +1,20 @@
+name: Stage14 toolbox-aw superseded-consumer audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-toolbox-aw/**'
+      - 'stages/stage14/scripts/14-toolbox-aw/**'
+      - 'docs/stage14-toolbox/superseded-consumer-current-receiver-matrix.md'
+      - '.github/workflows/stage14-toolbox-aw.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python stages/stage14/scripts/14-toolbox-aw/superseded_consumer_audit.py
