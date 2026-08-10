@@ -1,0 +1,67 @@
+name: Stage14-t83 determinant quotient switch
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t83/**'
+      - 'stages/stage14/data/14-t83/**'
+      - 'stages/stage14/scripts/14-t/t83_*'
+      - '.github/workflows/stage14-t83-determinant-quotient-switch.yml'
+      - 'stages/stage14/14-t82/**'
+      - 'stages/stage14/14-tH23/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-t83 deterministic audit
+        run: python stages/stage14/scripts/14-t/t83_determinant_quotient_switch_audit.py
+
+      - name: Stage14-t83 frozen validator
+        run: python stages/stage14/scripts/14-t/t83_validate_frozen.py
+
+      - name: Compile t83 scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t83_determinant_quotient_switch_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t83_validate_frozen.py
+
+      - name: Regress merged t82 fixed-U selector host
+        run: python stages/stage14/scripts/14-t/t82_fixed_u_selector_divisor_audit.py
+
+      - name: Regress merged tH23 snapshot audit
+        run: python stages/stage14/scripts/14-tH23/single_frequency_inverse_fraction_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_T82=COMPLETE_AFFINE_DEGENERATE_RAY_MODULUS_TO_FIXED_U_COORDINATE_DIVISOR_HOST' stages/stage14/14-t82/result.md
+          grep -Fq 'PURE_PI_V_PROJECTIVE_RELATION_ON_DIAGONAL_MODULUS=true' stages/stage14/14-t82/result.md
+          grep -Fq 'STAGE14_TH23=COMPLETE_T82_REFINED_FIXED_U_COORDINATE_DIVISOR_SINGLE_FREQUENCY_INVERSE_FRACTION_APPLICABILITY_AUDIT' stages/stage14/14-tH23/result.md
+          grep -Fq 'OFF_THE_SHELF_FIXED_DIVISOR_SINGLE_FREQUENCY_POWER_SAVING_PROVED=false' stages/stage14/14-tH23/result.md
+
+      - name: Lock immutable H protocol
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock t83 theorem boundary
+        run: |
+          f=stages/stage14/14-t83/result.md
+          grep -Fq 'DETERMINANT_QUOTIENT_SWITCH_PROVED=true' "$f"
+          grep -Fq 'NONZERO_DETERMINANT_QUOTIENT_FORCED=true' "$f"
+          grep -Fq 'FIXED_DETERMINANT_QUOTIENT_COVER_MULTIPLICITY_AT_MOST=2' "$f"
+          grep -Fq 'TH23_TARGET_REOPENED=false' "$f"
+          grep -Fq 'TH24_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t84' "$f"
