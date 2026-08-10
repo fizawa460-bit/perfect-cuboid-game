@@ -138,9 +138,12 @@ def main() -> None:
 
     bw = (ROOT / "stages/stage14/14-4bw/result.md").read_text(encoding="utf-8")
     for lock in [
-        "MERGED_S7_08_CANONICAL_18_19_SOURCE=true",
-        "STAGE14_4BW_INDEPENDENT_REDERIVATION=true",
+        "STAGE14_4BW=SHARED_XI_FOUR_CELL_ONE_VARIABLE_SIEVE_AND_18_19_BOUND",
+        "SHARED_XI_FOUR_CELL_DECOMPOSITION_EXACT=true",
+        "ONE_CELL_SQUARE_SIEVE_RELATIVE_SAVING=T^(-1/2)",
+        "ADAPTIVE_ONE_CELL_ARCHITECTURE_OPTIMAL_EXPONENT=18/19",
         "CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=18/19",
+        "NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true",
     ]:
         require(bw, lock, "4bw source")
 
