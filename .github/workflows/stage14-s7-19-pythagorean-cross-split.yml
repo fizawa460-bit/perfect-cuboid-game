@@ -41,7 +41,8 @@ jobs:
       - name: Check toolbox-H0 caution boundary
         run: |
           f=stages/stage14/14-toolbox-H0/result.md
-          grep -Fq 'COLLISION_TO_GAUSSIAN_IMPLICATION_PROVED=false' "$f"
+          grep -Fq 'CENTERED_XI_K_DISPERSION_PROVED=false' "$f"
+          grep -Fq 'SAME_K_TO_GAUSSIAN_ROW_COHERENCE_REQUIRED=true' "$f"
 
       - name: Lock s7-19 theorem boundary
         run: |
