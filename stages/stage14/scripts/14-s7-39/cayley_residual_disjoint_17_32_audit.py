@@ -30,7 +30,6 @@ def divisors(n: int):
 
 
 def check_divisor_intersection_lemma():
-    # A|C, G|C, B=C/G => A/gcd(A,B) | gcd(A,G).
     checks = 0
     for C in range(1, 121):
         for A in divisors(C):
@@ -44,7 +43,6 @@ def check_divisor_intersection_lemma():
 
 
 def check_square_root_lost_core():
-    # D0|H^2 => R2(D0)|H and R2(D0)>=sqrt(D0).
     checks = 0
     for H in range(1, 181):
         for D0 in divisors(H * H):
@@ -56,15 +54,12 @@ def check_square_root_lost_core():
 
 
 def check_column_transfer():
-    # If R divides both L signs and coprime J columns multiply to J,
-    # then R divides the cofactor product.
     checks = 0
     for R in range(1, 40):
         for jm in range(1, 35):
             for jp in range(1, 35):
                 if gcd(jm, jp) != 1:
                     continue
-                # choose L signs as lcm(R,J_column)*free so divisibility is exact
                 Lm = (R * jm // gcd(R, jm)) * 3
                 Lp = (R * jp // gcd(R, jp)) * 5
                 assert Lm % jm == 0 and Lp % jp == 0
@@ -103,9 +98,7 @@ def candidate_s(theta, phi):
         max(F(0), d),
         F(0),
         F(1, 8),
-        # crossing in d/2 <= s <= d: EH = 2phi+2s-d
         (phi - F(1, 8) + d) / 5,
-        # crossing in s>=d (and also d<=0): EH = 2phi+3s-2d
         (phi - F(1, 8) + 2 * d) / 6,
     }
     return [s for s in cands if lo <= s <= F(1, 8)]
@@ -133,7 +126,6 @@ def check_symbolic_equality():
 
 
 def check_whole_strip_mesh():
-    # Denominator 3200 contains theta=17/64 and phi=1/4 exactly.
     D = 3200
     best = F(-1)
     equality = set()
@@ -170,9 +162,9 @@ def check_predecessor_text():
     s35 = (ROOT / 'stages/stage14/14-s7-35/result.md').read_text()
     s38 = (ROOT / 'stages/stage14/14-s7-38/result.md').read_text()
     cw = (ROOT / 'stages/stage14/14-4cw/result.md').read_text()
-    assert 'gcd(C_*,M*N)=1' in cr or 'gcd(C_*,M*N)=1.' in cr or 'gcd(C_*,M*N)=1.' in cr.replace(' ', '')
+    assert 'gcd(C_*,M*N)=1' in cr
     assert 'oddpart(h)' in cs and 'oddpart(gcd(X,Y))' in cs
-    assert 'omega1*omega2' in s35 and 'H_star' in s35
+    assert 'omega_1*omega_2' in s35 and 'H_star' in s35
     assert 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=61/112' in s38
     assert 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=61/112' in cw
 
