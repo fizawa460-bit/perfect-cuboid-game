@@ -51,7 +51,7 @@ def predecessor_audit() -> None:
         "t76",
     )
     need(x12, "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=71/128", "X12")
-    need(s738, "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=61/112", "s7-38")
+    need(s738, "CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=61/112", "s7-38")
 
 
 def divisors(n: int) -> list[int]:
