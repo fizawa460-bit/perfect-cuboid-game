@@ -14,15 +14,16 @@ RESULT = ROOT / "stages/stage14/14-toolbox-ah/result.md"
 STAGE_CODE = re.compile(r"^Stage14-toolbox-([a-z]{2})$")
 
 EXPECTED = {
-    "TB-FORMULA-fixed-packet-two-quadrics": ("FORMULA", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
-    "TB-FORMULA-two-quadric-pencil": ("FORMULA", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
-    "TB-LEMMA-fixed-packet-smooth-genus-one": ("LEMMA", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
-    "TB-LEMMA-coordinate-boundary-finite": ("LEMMA", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
-    "TB-FORMULA-conic-square-lift": ("FORMULA", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
-    "TB-LEMMA-diagonal-pair-genus-one-slope": ("LEMMA", 395, "aa21a3604cf72e06f797c8ba2ecff96b49e60f44"),
-    "TB-BOUND-diagonal-pair-genus-one-count": ("BOUND", 395, "aa21a3604cf72e06f797c8ba2ecff96b49e60f44"),
-    "TB-WARNING-genus-one-quantifier-and-model-boundary": ("WARNING", 395, "aa21a3604cf72e06f797c8ba2ecff96b49e60f44"),
-    "TB-LEDGER-current-main-after-4bq": ("LEDGER", 395, "aa21a3604cf72e06f797c8ba2ecff96b49e60f44"),
+    "TB-FORMULA-fixed-packet-two-quadrics": ("FORMULA", "CURRENT", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
+    "TB-FORMULA-two-quadric-pencil": ("FORMULA", "CURRENT", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
+    "TB-LEMMA-fixed-packet-smooth-genus-one": ("LEMMA", "CURRENT", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
+    "TB-LEMMA-coordinate-boundary-finite": ("LEMMA", "CURRENT", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
+    "TB-FORMULA-conic-square-lift": ("FORMULA", "CURRENT", 348, "1338ee0170a6d92c26a9dd4fa21c886a8125d6db"),
+    "TB-LEMMA-diagonal-pair-genus-one-slope": ("LEMMA", "CURRENT", 395, "aa21a3604cf72e06f797c8ba2ecff96b49e60f44"),
+    "TB-BOUND-diagonal-pair-genus-one-count": ("BOUND", "CURRENT", 395, "aa21a3604cf72e06f797c8ba2ecff96b49e60f44"),
+    "TB-WARNING-genus-one-quantifier-and-model-boundary": ("WARNING", "CURRENT", 395, "aa21a3604cf72e06f797c8ba2ecff96b49e60f44"),
+    "TB-LEDGER-current-main-after-4bq": ("LEDGER", "SUPERSEDED", 395, "aa21a3604cf72e06f797c8ba2ecff96b49e60f44"),
+    "TB-LEDGER-current-main-after-4br": ("LEDGER", "CURRENT", 396, "01afa63539e32e62070a84927bbc0530241a79e9"),
 }
 SECTIONS = ["## INPUT", "## OUTPUT", "## VARIABLE DICTIONARY", "## USED BY", "## DO NOT USE FOR", "## PROVENANCE NOTES"]
 
@@ -67,7 +68,6 @@ def rank_less_than_two(g1, g2, p: int) -> bool:
 
 
 def audit_smoothness_mod_p() -> int:
-    # Good-reduction samples; projective duplicates are harmless for singularity detection.
     samples = [
         (3, 4, 1, 1, 1, 7),
         (3, 4, 2, -1, -2, 7),
@@ -103,7 +103,6 @@ def sqrt_roots_mod(a: int, p: int) -> list[int]:
 
 
 def audit_four_branch_sample() -> int:
-    # d1=-1,d2=1 makes both branch square equations visible over these fields.
     total = 0
     S, X = 3, 4
     for p in (7, 11):
@@ -154,14 +153,14 @@ def main() -> None:
     atlas = ATLAS.read_text(encoding="utf-8")
     result = RESULT.read_text(encoding="utf-8")
     cards = {c["id"]: c for c in data["cards"]}
-    if len(cards) != len(data["cards"]) or len(cards) != 47:
+    if len(cards) != len(data["cards"]) or len(cards) != 48:
         fail(f"registry count/uniqueness failure: {len(cards)}")
 
-    for cid, (ctype, pr, sha) in EXPECTED.items():
+    for cid, (ctype, status, pr, sha) in EXPECTED.items():
         card = cards.get(cid)
         if not card:
             fail(f"missing {cid}")
-        if (card["type"], card["status"], card["source_pr"], card["source_merge_sha"]) != (ctype, "CURRENT", pr, sha):
+        if (card["type"], card["status"], card["source_pr"], card["source_merge_sha"]) != (ctype, status, pr, sha):
             fail(f"metadata mismatch for {cid}")
         text = (ROOT / card["path"]).read_text(encoding="utf-8")
         for sec in SECTIONS:
@@ -172,11 +171,20 @@ def main() -> None:
                 fail(f"missing source file {source}")
 
     old = cards["TB-LEDGER-post-local-sqrt-gap"]
+    q = cards["TB-LEDGER-current-main-after-4bq"]
+    r = cards["TB-LEDGER-current-main-after-4br"]
     if old["status"] != "SUPERSEDED" or old.get("superseded_by") != "TB-LEDGER-current-main-after-4bq":
-        fail("historical 10/21 ledger was not superseded correctly")
+        fail("historical 10/21 ledger chain broken")
+    if q["status"] != "SUPERSEDED" or q.get("superseded_by") != "TB-LEDGER-current-main-after-4br":
+        fail("4bq ledger chain broken")
+    if r["status"] != "CURRENT":
+        fail("4br ledger is not current")
     old_text = (ROOT / old["path"]).read_text(encoding="utf-8")
+    q_text = (ROOT / q["path"]).read_text(encoding="utf-8")
     if "STATUS: SUPERSEDED" not in old_text or "SUPERSEDED_BY: TB-LEDGER-current-main-after-4bq" not in old_text:
-        fail("historical ledger card body not updated")
+        fail("historical 10/21 ledger card body not updated")
+    if "STATUS: SUPERSEDED" not in q_text or "SUPERSEDED_BY: TB-LEDGER-current-main-after-4br" not in q_text:
+        fail("4bq ledger card body not updated")
 
     nxt = STAGE_CODE.fullmatch(data["next_stage"])
     if not nxt or nxt.group(1) < "ai":
@@ -188,6 +196,7 @@ def main() -> None:
         "W^2=F0*((b0*d0)^2-(a0*c0)^2*t^4)",
         "E_good-res(B)<<B^(3/7+1/2+o(1))=B^(13/14+o(1))",
         "61/63-1/2=59/126",
+        "20/21-1/2=19/42",
     ]
     for lock in atlas_locks:
         if lock not in atlas:
@@ -207,6 +216,12 @@ def main() -> None:
             "CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=61/63",
             "REMAINING_GAP_TO_SQRT=59/126",
         ],
+        "stages/stage14/14-4br/result.md": [
+            "CROSS_SECTOR_BOUND=B^(20/21+o(1))",
+            "CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=20/21",
+            "CUMULATIVE_POST_LOCAL_SAVING_FROM_41_42=1/42",
+            "REMAINING_GAP_TO_SQRT=19/42",
+        ],
     }
     for path, locks in source_locks.items():
         text = (ROOT / path).read_text(encoding="utf-8")
@@ -216,14 +231,15 @@ def main() -> None:
 
     expected_result = [
         "STAGE14_TOOLBOX_AH=COMPLETE_TWO_QUADRICS_AND_GENUS_ONE_GEOMETRY",
-        "CANONICAL_NEW_CARD_COUNT=9",
-        "CANONICAL_TOTAL_CARD_COUNT=47",
+        "CANONICAL_NEW_CARD_COUNT=10",
+        "CANONICAL_TOTAL_CARD_COUNT=48",
         "FIXED_PACKET_SMOOTH_GENUS_ONE_FROZEN=true",
         "POSITIVE_DIMENSIONAL_COORDINATE_BOUNDARY=false",
         "DIAGONAL_PAIR_GENUS_ONE_GOOD_RESIDUAL_BOUND=13/14",
-        "CURRENT_WHOLE_FAMILY_EXPONENT=61/63",
-        "WHOLE_FAMILY_POST_LOCAL_SAVING=1/126",
-        "CURRENT_REMAINING_GAP_TO_SQRT=59/126",
+        "HISTORICAL_4BQ_WHOLE_FAMILY_EXPONENT=61/63",
+        "CURRENT_WHOLE_FAMILY_EXPONENT=20/21",
+        "CUMULATIVE_POST_LOCAL_SAVING=1/42",
+        "CURRENT_REMAINING_GAP_TO_SQRT=19/42",
         "GENUS_ONE_ALONE_IMPLIES_MOVING_FAMILY_SAVING=false",
         "NEXT=Stage14-toolbox-ai compact torsion denominator and half-angle identities",
     ]
@@ -233,13 +249,20 @@ def main() -> None:
 
     if Fraction(3, 7) + Fraction(1, 2) != Fraction(13, 14):
         fail("13/14 ledger failure")
-    sectors = [Fraction(20,21), Fraction(61,63), Fraction(13,14)]
-    if max(sectors) != Fraction(61,63):
-        fail("whole-family sector max failure")
+    q_sectors = [Fraction(20,21), Fraction(61,63), Fraction(13,14)]
+    if max(q_sectors) != Fraction(61,63):
+        fail("4bq sector max failure")
     if Fraction(41,42) - Fraction(61,63) != Fraction(1,126):
-        fail("1/126 saving ledger failure")
+        fail("4bq 1/126 saving ledger failure")
     if Fraction(61,63) - Fraction(1,2) != Fraction(59,126):
-        fail("59/126 gap ledger failure")
+        fail("4bq 59/126 gap ledger failure")
+    r_sectors = [Fraction(20,21), Fraction(20,21), Fraction(13,14)]
+    if max(r_sectors) != Fraction(20,21):
+        fail("4br sector max failure")
+    if Fraction(41,42) - Fraction(20,21) != Fraction(1,42):
+        fail("4br cumulative saving ledger failure")
+    if Fraction(20,21) - Fraction(1,2) != Fraction(19,42):
+        fail("4br current sqrt gap ledger failure")
 
     pencil = audit_pencil_roots()
     ff_points = audit_smoothness_mod_p()
@@ -257,8 +280,9 @@ def main() -> None:
         "split_branch_points_checked": branches,
         "coprime_reduced_slopes_checked": slopes,
         "quartic_affine_derivative_checks": quartic,
-        "current_main_exponent": "61/63",
-        "remaining_gap_to_sqrt": "59/126",
+        "historical_4bq_exponent": "61/63",
+        "current_main_exponent": "20/21",
+        "remaining_gap_to_sqrt": "19/42",
         "next_stage": data["next_stage"],
     }, indent=2, sort_keys=True))
 
