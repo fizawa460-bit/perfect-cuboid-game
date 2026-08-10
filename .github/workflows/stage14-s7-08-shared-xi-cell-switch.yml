@@ -1,0 +1,53 @@
+name: Stage14-s7-08 shared xi cell switch audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-08/**'
+      - 'stages/stage14/scripts/14-s7-08/**'
+      - '.github/workflows/stage14-s7-08-shared-xi-cell-switch.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile s7-08 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-08/shared_xi_cell_switch_audit.py
+
+      - name: Run predecessor s7-07 audit
+        run: python stages/stage14/scripts/14-s7-07/balanced_strip_inert_trace_audit.py
+
+      - name: Run merged 4bv regression
+        run: python stages/stage14/scripts/14-4/inert_fourier_thin_switch_audit.py
+
+      - name: Run s7-08 deterministic audit
+        run: python stages/stage14/scripts/14-s7-08/shared_xi_cell_switch_audit.py | tee /tmp/s708.log
+
+      - name: Check audit flags
+        run: |
+          grep -q 'SHARED_XI_FOUR_CELL_FACTORIZATION_AUDIT=true' /tmp/s708.log
+          grep -q 'PHYSICAL_RATIO_DEGENERACY_EXCLUDED=true' /tmp/s708.log
+          grep -q 'PHYSICAL_PRODUCT_DEGENERACY_EXCLUDED=true' /tmp/s708.log
+          grep -q 'CELL_QUARTIC_FINITE_WEIL_SCALE_REGRESSION=true' /tmp/s708.log
+          grep -q 'ADAPTIVE_18_19_OPTIMISATION_AUDIT=true' /tmp/s708.log
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true' /tmp/s708.log
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/s708.log
+
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_08=COMPLETE_SHARED_XI_CELL_SWITCH_AND_18_19_WHOLE_FAMILY_BOUND' stages/stage14/14-s7-08/result.md
+          grep -q 'MERGED_4BV_IMPORTED=true' stages/stage14/14-s7-08/result.md
+          grep -q 'SHARED_XI_FOUR_CELL_FACTORIZATION_EXACT=true' stages/stage14/14-s7-08/result.md
+          grep -q 'PHYSICAL_CELL_QUARTIC_SQUARE_DEGENERATION=false' stages/stage14/14-s7-08/result.md
+          grep -q 'OPTIMAL_LAMBDA=9/19' stages/stage14/14-s7-08/result.md
+          grep -q 'OPTIMAL_TAU=2/19' stages/stage14/14-s7-08/result.md
+          grep -q 'OPTIMAL_THETA=8/19' stages/stage14/14-s7-08/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=18/19' stages/stage14/14-s7-08/result.md
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true' stages/stage14/14-s7-08/result.md
+          grep -q 'NEXT=Stage14-s7-09' stages/stage14/14-s7-08/result.md
