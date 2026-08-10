@@ -1,0 +1,85 @@
+name: Stage14-s7-46 mixed-root cofactor reconstruction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-46/**'
+      - 'stages/stage14/scripts/14-s7-46/**'
+      - '.github/workflows/stage14-s7-46-mixed-root-cofactor-reconstruction.yml'
+      - 'stages/stage14/roadmap.md'
+      - 'stages/stage14/14-4de/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-46 deterministic audit
+        run: python stages/stage14/scripts/14-s7-46/mixed_root_cofactor_reconstruction_audit.py
+
+      - name: Compile Stage14-s7-46 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-46/mixed_root_cofactor_reconstruction_audit.py
+
+      - name: Merged 4de reactivation regression
+        run: python stages/stage14/scripts/14-4/mixed_fourth_root_reactivation_audit.py
+
+      - name: Merged X14 regression
+        run: |
+          f=stages/stage14/14-X14/result.md
+          grep -Fq 'STAGE14_X14=COMPLETE_POST_SQRT_FRONTIER_UNIFICATION_AND_SWITCH_SUPPORTED_ZERO_FREQUENCY_IDENTIFICATION' "$f"
+          grep -Fq 'GAUSSIAN_NORM_QUOTIENT_FIXED_POWER_SUPPORT=XI_SWITCH_PRODUCT' "$f"
+          grep -Fq 'GAUSSIAN_PRODUCT_PAIR_RETAINS_ALL_SATURATION_CELL_SUPPORT=true' "$f"
+
+      - name: Merged 4dd regression
+        run: |
+          f=stages/stage14/14-4dd/result.md
+          grep -Fq 'FIRST_RESIDUAL_FIXED_POWER_DEFICIT_SAVING_PROVED=true' "$f"
+          grep -Fq 'SQRT_SATURATION_REQUIRES_FIRST_RESIDUAL_AT_CAP=true' "$f"
+          grep -Fq 'SQRT_SATURATION_GAUSSIAN_PAIR_BALANCED=true' "$f"
+
+      - name: Merged s7-42 reciprocal regression
+        run: |
+          f=stages/stage14/14-s7-42/result.md
+          grep -Fq 'THETA_QUARTER_OPPOSITE_QUOTIENT_CAP_EQUALS_CHI=true' "$f"
+          grep -Fq 'RESIDUAL_TO_SINGLE_COLUMN_FIBER_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'SINGLE_COLUMN_TO_RESIDUAL_FIBER_MULTIPLICITY=Bo1' "$f"
+
+      - name: Lock Stage14-s7-46 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-46/result.md
+          grep -Fq 'STAGE14_S7_46=COMPLETE_MIXED_FOURTH_ROOT_SIGN_ALLOCATION_COFACTOR_RECONSTRUCTION_AND_SECOND_RECIPROCAL_FINITE_FIBER' "$f"
+          grep -Fq 'MIXED_ROOT_RECOVERS_FIRST_RESIDUAL_SIGN_ALLOCATION=true' "$f"
+          grep -Fq 'XI_SWITCH_PRODUCT_RECONSTRUCTED_FROM_MIXED_ROOT_TUPLE=true' "$f"
+          grep -Fq 'XI_AGREEMENT_PRODUCT_RECONSTRUCTED_FROM_MIXED_ROOT_TUPLE=true' "$f"
+          grep -Fq 'DUAL_BALANCED_XI_COFACTOR_SPLIT_REQUIRED=true' "$f"
+          grep -Fq 'FIRST_SIGNED_QUOTIENT_PAIR_RECONSTRUCTED_FROM_MIXED_ROOT_TUPLE=true' "$f"
+          grep -Fq 'MIXED_ROOT_TO_SECOND_RECIPROCAL_FIBER_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'SECOND_RECIPROCAL_INDEPENDENT_FIXED_POWER_SUPPORT=false' "$f"
+          grep -Fq 'MIXED_FOURTH_ROOT_TUPLE_PHYSICAL_PACKET_FINITE_FIBER_EQUIVALENCE=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S7_46_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED' "$f"
+          grep -Fq 'S7_47_SCHEDULED=true' "$f"
+          grep -Fq 'NEXT=Stage14-s7-47' "$f"
+
+      - name: Roadmap route-state lock
+        run: |
+          f=stages/stage14/roadmap.md
+          grep -Fq 'S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED' "$f"
+          grep -Fq 'S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46' "$f"
+          grep -Fq 'S_ROUTE_REACTIVATION_NEEDED=false' "$f"
+          grep -Fq 'S_ROUTE_NEXT=Stage14-s7-47' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
