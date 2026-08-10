@@ -1,0 +1,51 @@
+name: Stage14-tH20 short angular cofactor hyperbola sieve audit
+
+on:
+  push:
+    paths:
+      - 'stages/stage14/14-tH20/**'
+      - 'stages/stage14/data/tH20/**'
+      - 'stages/stage14/scripts/14-tH20/**'
+      - '.github/workflows/stage14-tH20-short-angular-cofactor-hyperbola-sieve.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH20/**'
+      - 'stages/stage14/data/tH20/**'
+      - 'stages/stage14/scripts/14-tH20/**'
+      - '.github/workflows/stage14-tH20-short-angular-cofactor-hyperbola-sieve.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH20 audit
+        run: python -m py_compile stages/stage14/scripts/14-tH20/short_angular_cofactor_hyperbola_sieve_audit.py
+
+      - name: Run merged t73 regression
+        run: python stages/stage14/scripts/14-t/t73_fixed_tag_norm_fiber_audit.py
+
+      - name: Run merged t74 regression
+        run: python stages/stage14/scripts/14-t/t74_canonical_host_short_cofactor_audit.py
+
+      - name: Run merged t74 frozen validator
+        run: python stages/stage14/scripts/14-t/t74_validate_frozen.py
+
+      - name: Run merged s7-36 global-ledger regression
+        run: python stages/stage14/scripts/14-s7-36/row_column_proportional_9_16_audit.py
+
+      - name: Run tH20 deterministic audit
+        run: python stages/stage14/scripts/14-tH20/short_angular_cofactor_hyperbola_sieve_audit.py
+
+      - name: Lock tH20 boundary
+        run: |
+          grep -q 'STAGE14_TH20=COMPLETE_CANONICAL_PRIME_SHORT_ANGULAR_COFACTOR_HYPERBOLA_SIEVE_APPLICABILITY_AUDIT' stages/stage14/14-tH20/result.md
+          grep -q 'TH20_CURRENT_OBJECT=SmallOddKappaFixedTagCanonicalPrimeShortAngularCofactorHyperbolaSieve' stages/stage14/14-tH20/result.md
+          grep -q 'ANGULAR_DIVISOR_SWITCHING_POST_T74_PREFERRED=true' stages/stage14/14-tH20/result.md
+          grep -q 'CERTIFIED_DIRECT_EXTERNAL_SIEVE_B_POWER_SAVING_EXPONENT=0' stages/stage14/14-tH20/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=9/16' stages/stage14/14-tH20/result.md
+          grep -q 'NEXT=Stage14-t75' stages/stage14/14-tH20/result.md
