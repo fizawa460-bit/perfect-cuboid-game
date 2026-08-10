@@ -1,0 +1,67 @@
+name: Stage14-s7-41 residual twin finite-fiber H gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-41/**'
+      - 'stages/stage14/scripts/14-s7-41/**'
+      - '.github/workflows/stage14-s7-41-residual-twin-finite-fiber-h-gate.yml'
+      - 'stages/stage14/14-s7-40/**'
+      - 'stages/stage14/14-4cy/**'
+      - 'stages/stage14/14-s7-31/**'
+      - 'stages/stage14/14-s7-28/**'
+      - 'stages/stage14/14-4cv/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-s7-41 audit
+        run: python stages/stage14/scripts/14-s7-41/residual_twin_finite_fiber_23_44_audit.py
+
+      - name: Compile Stage14-s7-41 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-41/residual_twin_finite_fiber_23_44_audit.py
+
+      - name: Run merged s7-40 regression
+        run: python stages/stage14/scripts/14-s7-40/h2_row_endpoint_23_44_audit.py
+
+      - name: Run merged 4cy regression
+        run: python stages/stage14/scripts/14-4/cross_root_square_row_reduction_23_44_audit.py
+
+      - name: Run merged s7-31 regression
+        run: python stages/stage14/scripts/14-s7-31/fixed_outer_common_gcd_audit.py
+
+      - name: Lock reciprocal reconstruction predecessors
+        run: |
+          grep -Fq 'OPPOSITE_AGREEMENT_PRODUCT_RECONSTRUCTED_FROM_PRIMITIVE_X_PAIR=true' stages/stage14/14-s7-28/result.md
+          grep -Fq 'MOVING_XY_RECONSTRUCTED_FROM_PRIMITIVE_MODULI=true' stages/stage14/14-s7-28/result.md
+          grep -Fq 'FIXED_N_SIGNED_QUOTIENT_QUADRUPLE_MULTIPLICITY=Bo1' stages/stage14/14-4cv/result.md
+          grep -Fq 'TWENTYTHREE_44_U_RESIDUAL_CAP_EXPONENT=1/11' stages/stage14/14-s7-40/result.md
+
+      - name: Lock Stage14-s7-41 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-41/result.md
+          grep -Fq 'STAGE14_S7_41=COMPLETE_FIRST_RESIDUAL_TWIN_SHORT_FINITE_FIBER_IDENTIFICATION_AND_H_GATE' "$f"
+          grep -Fq 'RESIDUAL_TO_TWIN_SHORT_FIBER_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'TWIN_SHORT_TO_FIRST_RESIDUAL_FIBER_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'FIRST_RESIDUAL_AND_TWIN_SHORT_PARAMETRIZATIONS_POWER_EQUIVALENT=true' "$f"
+          grep -Fq 'TWIN_SHORT_DOUBLE_SAVING_ALLOWED=false' "$f"
+          grep -Fq 'REVERSE_ROOT_LINE_REUSE_WITHOUT_QUANTIFIER_BRIDGE_ALLOWED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=23/44' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CURRENT_GAP_TO_SQRT=1/44' "$f"
+          grep -Fq 'S7_41_AUXILIARY_H_NEEDED=true' "$f"
+          grep -Fq 'S7_41_AUXILIARY_H_REQUIRED_SAVING=delta>0' "$f"
+          grep -Fq 'S7_41_AUXILIARY_H_SQRT_THRESHOLD_SAVING=1/44' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=true' "$f"
+          grep -Fq 'TH22_CROSS_PROMOTED_TO_S7_41=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-42_AFTER_AUXILIARY_H' "$f"
