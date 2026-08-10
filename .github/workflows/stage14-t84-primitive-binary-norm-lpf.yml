@@ -1,0 +1,74 @@
+name: Stage14-t84 primitive binary norm super-sqrt LPF
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t84/**'
+      - 'stages/stage14/data/14-t84/**'
+      - 'stages/stage14/scripts/14-t/t84_*'
+      - '.github/workflows/stage14-t84-primitive-binary-norm-lpf.yml'
+      - 'stages/stage14/14-t83/**'
+      - 'stages/stage14/14-tH23/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-t84 deterministic audit
+        run: python stages/stage14/scripts/14-t/t84_primitive_binary_norm_lpf_audit.py
+
+      - name: Stage14-t84 frozen validator
+        run: python stages/stage14/scripts/14-t/t84_validate_frozen.py
+
+      - name: Compile t84 scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t84_primitive_binary_norm_lpf_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t84_validate_frozen.py
+
+      - name: Regress merged t83 determinant switch
+        run: python stages/stage14/scripts/14-t/t83_determinant_quotient_switch_audit.py
+
+      - name: Regress merged tH23 snapshot audit
+        run: python stages/stage14/scripts/14-tH23/single_frequency_inverse_fraction_audit.py
+
+      - name: Lock t83 predecessor
+        run: |
+          f=stages/stage14/14-t83/result.md
+          grep -Fq 'STAGE14_T83=COMPLETE_FIXED_U_PROJECTIVE_INCIDENCE_TO_SHORT_DETERMINANT_QUOTIENT_BINARY_NORM' "$f"
+          grep -Fq 'DETERMINANT_QUOTIENT_SWITCH_PROVED=true' "$f"
+          grep -Fq 'NONZERO_DETERMINANT_QUOTIENT_FORCED=true' "$f"
+
+      - name: Lock immutable H protocol
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock t84 theorem boundary
+        run: |
+          f=stages/stage14/14-t84/result.md
+          grep -Fq 'STAGE14_T84=COMPLETE_PRIMITIVE_BINARY_NORM_SUPER_SQRT_LPF_AND_SHORT_COFACTOR_REDUCTION' "$f"
+          grep -Fq 'PRIMITIVE_SWITCHED_BINARY_NORM_PROVED=true' "$f"
+          grep -Fq 'CANONICAL_ELL_RECOVERED_AS_BINARY_NORM_LPF=true' "$f"
+          grep -Fq 'CANONICAL_ELL_EXPONENT_ONE_IN_BINARY_NORM=true' "$f"
+          grep -Fq 'CANONICAL_PRIME_INDEPENDENT_CHOICE_ELIMINATED=true' "$f"
+          grep -Fq 'SHORT_COVER_NORM_COFACTOR_PROVED=true' "$f"
+          grep -Fq 'FIXED_ORIENTATION_PI_V_RECONSTRUCTION_UNIQUE=true' "$f"
+          grep -Fq 'BILINEAR_PI_V_MULTIPLICITY_ELIMINATED=true' "$f"
+          grep -Fq 'TH23_TARGET_REOPENED=false' "$f"
+          grep -Fq 'TH24_NEEDED=true' "$f"
+          grep -Fq 'TH24_DISPATCHED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t85' "$f"
