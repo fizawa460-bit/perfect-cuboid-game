@@ -1,0 +1,265 @@
+# Stage14-t43 — low-degree isogeny certificate and the generic twisted-Kummer barrier
+
+## Purpose
+
+Stage14-t42 reduced the critical-square-root-strip energy problem, after quotienting the exact reciprocal symmetry `(p,q)<->(q,p)`, to a twisted Kummer family
+
+\[
+K^{(\tau)}_{\gamma,\gamma'}:\qquad
+Y^2=\tau f_\gamma(x)f_{\gamma'}(y).
+\]
+
+The principal twist `tau=1` controls the off-direction contribution to `A1`, while `tau!=1` controls the nonprincipal autocorrelation multiplicities entering `E4`.
+
+Stage14-t43 asks whether the remaining mixed incidences are mainly caused by low-degree elliptic correspondences between the two direction fibers.  It also explicitly reuses the merged `tH9/tH10` roadwork instead of rebuilding the squareclass-energy bookkeeping.
+
+The answer of the frozen audit is sharp: degree-1 / degree-2 isogeny exceptions are **not** the observed source of the principal or heavy nonprincipal collisions.  The genuinely transverse twisted-Kummer incidence remains the primary obstruction.
+
+No global principal/fourth-energy power saving is claimed.
+
+---
+
+## 1. Direct reuse of the tH roadwork
+
+Merged Stage14-tH9 already identifies the one-Cauchy pair kernel as a squareclass difference and rewrites the fourth energy as squareclass autocorrelation energy.
+
+Merged Stage14-tH10 then gives the exact reusable receivers
+
+\[
+\boxed{A_1=L_P+I_{\rm gen}+I_{\rm exc}}
+\tag{43.1}
+\]
+
+and
+
+\[
+\boxed{
+E_4\le A_1^2+R_{\rm non}(H^2-A_1).
+}
+\tag{43.2}
+\]
+
+More flexibly, for a threshold `T` and total heavy-kernel pair mass `M_T`,
+
+\[
+\boxed{
+E_4\le
+A_1^2+T(H^2-A_1)+(R_{\rm non}-T)M_T.
+}
+\tag{43.3}
+\]
+
+Thus t43 does **not** need to re-prove the energy algebra.  It only has to classify which off-fiber pairs are exceptional and whether heavy nonprincipal mass concentrates on those exceptional pairs.
+
+This is a direct use of the tH infrastructure, not merely a consistency check.
+
+---
+
+## 2. The direction elliptic family and its j-invariant
+
+For one direction `(a,b)`, the t36 collision quartic is
+
+\[
+f_{a,b}(x)=(b^2x^2-a^2)(b^2-a^2x^2).
+\]
+
+Put
+
+\[
+u=(a/b)^2.
+\]
+
+The four branch points are `+-a/b, +-b/a`.  A Legendre cross-ratio parameter is
+
+\[
+\lambda(u)=\left(\frac{1-u}{1+u}\right)^2.
+\tag{43.4}
+\]
+
+Substituting (43.4) into the standard Legendre formula gives the exact rational function
+
+\[
+\boxed{
+j(u)=
+16\frac{(u^4+14u^2+1)^3}{u^2(1-u^2)^4}.
+}
+\tag{43.5}
+\]
+
+This supplies algebraic certificates for the first two exceptional levels:
+
+```text
+degree 1:  j(u)=j(v)
+degree 2:  Phi_2(j(u),j(v))=0
+```
+
+where `Phi_2` is the classical level-2 modular polynomial.
+
+Define `LD2-transverse` to mean that neither certificate holds.  This is only a low-degree certificate: higher-degree isogenies are not classified in t43.
+
+---
+
+## 3. Frozen direction-moduli atlas
+
+On the reciprocal-quotient frozen population there are 137 direction fibers.  Exact rational arithmetic gives, among all `137^2=18769` ordered direction pairs,
+
+```text
+degree-1 same-j pairs                 193
+off-diagonal degree-1 same-j pairs     56
+degree-2 isogenous pairs                0
+LD2-transverse pairs                18576
+```
+
+So even in the whole frozen direction grid there is no distinct degree-2 isogeny pair.
+
+The same-j count is deliberately kept separate from the stronger rational branch-divisor `PGL2` test from t42.  The latter had already shown zero `PGL2`-equivalent blocks among the 16 actual principal collisions.
+
+---
+
+## 4. All 16 actual principal blocks are low-degree transverse
+
+Stage14-t42 reduced the 128 ordered off-direction collisions to 16 unordered reciprocal-quotient collision blocks.
+
+Testing those exact 16 pairs against (43.5) and `Phi_2` gives
+
+```text
+principal blocks                       16
+LD2-transverse                         16
+degree-1 same-j                         0
+degree-2 isogenous                      0
+same canonical ell                      2
+```
+
+Hence
+
+\[
+\boxed{
+\text{every frozen off-direction principal collision is LD2-transverse.}
+}
+\tag{43.6}
+\]
+
+This falsifies the simple strategy “remove isomorphic / 2-isogenous direction fibers and the principal excess disappears”.
+
+---
+
+## 5. Heavy nonprincipal kernels are also generic at low degree
+
+Use the tH10 heavy/light receiver with the fixed frozen threshold
+
+\[
+T=20.
+\]
+
+On the 560 reciprocal orbits,
+
+```text
+H                                      560
+A1                                     592
+max nonprincipal c(tau)                 40
+heavy kernels c(tau)>20                 72
+heavy pair mass                       1834
+```
+
+Among that heavy pair mass, the contribution from off-direction degree-1/degree-2 exceptional direction pairs is only
+
+```text
+4
+```
+
+and every one of the top 20 nonprincipal kernels has
+
+```text
+low-degree-exception contribution = 0.
+```
+
+Thus the finite heavy tail is not generated by the degree-1 / degree-2 exceptional locus.
+
+In the full off-direction ordered pair mass the split is
+
+```text
+degree-1 same-j                       1060
+degree-2 isogenous                       0
+LD2-transverse                      308846
+```
+
+Again, this is diagnostic rather than an asymptotic theorem, but it decisively chooses the next proof target.
+
+---
+
+## 6. Correct generic/exceptional interface after t43
+
+The tH10 receiver can now be instantiated as follows.
+
+### Low-degree exceptional contribution
+
+Put into `I_exc` all pairs satisfying
+
+```text
+j(u)=j(v)
+or
+Phi_2(j(u),j(v))=0.
+```
+
+These form explicit algebraic correspondences in the two direction parameters.
+
+### Generic contribution
+
+The complement is the `LD2-transverse` twisted-Kummer family.  The frozen principal excess and essentially all of the heavy nonprincipal tail lie here.
+
+### Higher-degree isogenies
+
+They are **not** claimed absent.  However equation (43.3) shows that t43 does not need an exhaustive classification of every higher modular correspondence before proceeding.  A higher-degree exceptional family needs separate treatment only when it contributes enough pair mass to the heavy term `M_T` or blocks the generic incidence estimate.
+
+This is exactly where the tH10 roadwork saves effort: it supplies a heavy/light receiver rather than forcing a uniform theorem for every twist/correspondence at once.
+
+---
+
+## 7. Remaining mathematical problem
+
+The desired bounds remain
+
+\[
+A_1\le H B^{o(1)}
+\]
+
+and either
+
+\[
+R_{\rm non}\le B^{o(1)}
+\]
+
+or a sufficiently sparse heavy-kernel alternative through (43.3).
+
+T43 proves neither.  What it proves is that the first plausible exceptional explanation — equality of the direction elliptic moduli or a cyclic 2-isogeny between them — does not account for the observed obstruction.
+
+Therefore the next stage must attack the **genuinely generic LD2-transverse Kummer incidence** using the arithmetic that has not yet been exploited on the surface level: canonical Gaussian prime separation, common-core norm structure, and the physical divisibility/congruence conditions inherited from t29--t38.
+
+---
+
+## Boundary
+
+```text
+STAGE14_T43=COMPLETE_LOW_DEGREE_ISOGENY_CERTIFICATE_AND_GENERIC_KUMMER_BARRIER
+TH9_AUTOCORRELATION_ATLAS_REUSED=true
+TH10_ENERGY_RECEIVERS_REUSED=true
+DIRECTION_J_INVARIANT_EXACT=true
+DEGREE2_MODULAR_POLYNOMIAL_CERTIFICATE_EXACT=true
+FROZEN_PRINCIPAL_BLOCKS_ALL_LD2_TRANSVERSE=true
+FROZEN_DEGREE2_ISOGENOUS_DIRECTION_PAIRS=0
+FROZEN_TOP20_HEAVY_KERNELS_LOW_DEGREE_EXCEPTION_FREE=true
+LOW_DEGREE_ISOGENY_EXPLAINS_FROZEN_HEAVY_ENERGY=false
+GENERIC_TWISTED_KUMMER_REMAINS_PRIMARY=true
+HIGHER_DEGREE_ISOGENY_EXCEPTION_CLASSIFIED=false
+GENERIC_KUMMER_INCIDENCE_BOUND_PROVED=false
+OFF_DIRECTION_PRINCIPAL_AGGREGATE_BOUND_PROVED=false
+NONPRINCIPAL_TWIST_MULTIPLICITY_SUBPOLY_PROVED=false
+GLOBAL_PRINCIPAL_COLLISION_POWER_SAVING_PROVED=false
+GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED=false
+CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED=false
+CANONICAL_PRIME_SUM_POWER_SAVING_PROVED=false
+A_11_POWER_SAVING_PROVED=false
+T_O_SQRT_B_PROVED=false
+PERFECT_CUBOID_NONEXISTENCE_PROVED=false
+NEXT=Stage14-t44 attack the genuinely generic LD2-transverse twisted-Kummer incidence using canonical Gaussian-prime/common-core arithmetic; use the tH10 heavy-light receiver so higher-isogeny exceptions need only be isolated when they create heavy mass
+```
