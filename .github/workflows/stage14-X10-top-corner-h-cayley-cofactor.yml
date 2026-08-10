@@ -1,0 +1,86 @@
+name: Stage14-X10 top-corner H/Cayley cofactor
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X10/**'
+      - 'stages/stage14/data/14-X10/**'
+      - 'stages/stage14/scripts/14-X10/**'
+      - '.github/workflows/stage14-X10-top-corner-h-cayley-cofactor.yml'
+      - 'stages/stage14/14-X9/**'
+      - 'stages/stage14/14-s7-32/**'
+      - 'stages/stage14/14-4cs/**'
+      - 'stages/stage14/14-4cr/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X10 top-corner audit
+        run: python stages/stage14/scripts/14-X10/top_corner_h_cayley_cofactor_audit.py
+
+      - name: Compile Stage14-X10 audit
+        run: python -m py_compile stages/stage14/scripts/14-X10/top_corner_h_cayley_cofactor_audit.py
+
+      - name: Run merged Stage14-s7-32 regression
+        run: python stages/stage14/scripts/14-s7-32/one_host_gaussian_boundary_audit.py
+
+      - name: Run merged Stage14-4cs regression
+        run: python stages/stage14/scripts/14-4/five_eighths_boundary_split_audit.py
+
+      - name: Run merged Stage14-X9 regression
+        run: python stages/stage14/scripts/14-X9/five_eighths_boundary_split_audit.py
+
+      - name: Run merged Stage14-4cr regression
+        run: python stages/stage14/scripts/14-4/two_thirds_cayley_gaussian_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_S7_32=COMPLETE_ONE_HOST_GAUSSIAN_RECONSTRUCTION_AND_UNIQUE_TOP_CORNER_5_8_LOCALIZATION' stages/stage14/14-s7-32/result.md
+          grep -Fq 'UNIQUE_FIVE_EIGHTHS_SATURATION=(theta,phi)=(5/16,1/4)' stages/stage14/14-s7-32/result.md
+          grep -Fq 'K_ONE_SWITCHED_GAUSSIAN_HOST_PHYSICAL_FIBER=Bo1' stages/stage14/14-s7-32/result.md
+          grep -Fq 'STAGE14_4CS=COMPLETE_FIVE_EIGHTHS_PROMOTION_COMMON_GCD_ROOT_GCD_IDENTIFICATION_AND_TWO_BOUNDARY_SPLIT' stages/stage14/14-4cs/result.md
+          grep -Fq 'ODDPART_H_EQUALS_ODDPART_GCD_XY=true' stages/stage14/14-4cs/result.md
+          grep -Fq 'STAGE14_X9=COMPLETE_FIVE_EIGHTHS_PROMOTION_AND_UPPER_CORE_LOWER_CORELESS_BOUNDARY_SPLIT' stages/stage14/14-X9/result.md
+          grep -Fq 'STAGE14_4CR=COMPLETE_TWO_THIRDS_PROMOTION_AND_CAYLEY_GAUSSIAN_ORIENTATION_FACTORIZATION' stages/stage14/14-4cr/result.md
+          grep -Fq 'CAYLEY_GOOD_CORE_SIGN_ALLOCATION_PROVED=true' stages/stage14/14-4cr/result.md
+
+      - name: Lock Stage14-X10 theorem boundary
+        run: |
+          f=stages/stage14/14-X10/result.md
+          grep -Fq 'STAGE14_X10=COMPLETE_TOP_CORNER_ROOT_GCD_DICHOTOMY_AND_DOMINANT_CAYLEY_SHORT_COFACTOR_REDUCTION' "$f"
+          grep -Fq 'MERGED_X9_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_S7_32_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_4CS_IMPORTED=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=5/8' "$f"
+          grep -Fq 'FIVE_EIGHTHS_SATURATION_COMPONENT_COUNT=1' "$f"
+          grep -Fq 'FIVE_EIGHTHS_UNIQUE_SATURATION_THETA=5/16' "$f"
+          grep -Fq 'FIVE_EIGHTHS_UNIQUE_SATURATION_PHI=1/4' "$f"
+          grep -Fq 'TOP_CORNER_H_SQUARE_DIVIDES_QK=true' "$f"
+          grep -Fq 'TOP_CORNER_K_ONE_HOST_H_DYADIC_EXPONENT=11/16-h' "$f"
+          grep -Fq 'TOP_CORNER_LARGE_H_FIXED_POWER_SAVED=true' "$f"
+          grep -Fq 'POTENTIAL_SATURATION_H_EXPONENT_MAX=1/16' "$f"
+          grep -Fq 'POTENTIAL_SATURATION_C_BAD_EXPONENT_MAX=1/8' "$f"
+          grep -Fq 'POTENTIAL_SATURATION_C_STAR_EXPONENT_MIN=1/4' "$f"
+          grep -Fq 'POTENTIAL_SATURATION_DOMINANT_CAYLEY_FACTOR_EXPONENT_MIN=1/8' "$f"
+          grep -Fq 'POTENTIAL_SATURATION_DOMINANT_CAYLEY_SHORT_COFACTOR_EXPONENT_MAX=1/8' "$f"
+          grep -Fq 'DOMINANT_CAYLEY_SHORT_COFACTOR_REDUCTION_PROVED=true' "$f"
+          grep -Fq 'REMAINING_RECEIVER=TopCornerSmallRootGcdDominantCayleyGaussianShortCofactorIncidence' "$f"
+          grep -Fq 'X10_PROVES_ADDITIONAL_WHOLE_FAMILY_POWER_SAVING=false' "$f"
+          grep -Fq 'X10_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X11' "$f"
+
+      - name: Diff check
+        run: git diff --check HEAD^ HEAD
