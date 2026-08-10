@@ -1,0 +1,77 @@
+name: Stage14-sH44 frozen dual-root-line snapshot audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-sH44/**'
+      - 'stages/stage14/scripts/14-sH44/**'
+      - '.github/workflows/stage14-sH44-dual-root-line-snapshot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-sH44 deterministic frozen-snapshot audit
+        run: python stages/stage14/scripts/14-sH44/dual_root_line_snapshot_h_audit.py
+
+      - name: Compile Stage14-sH44 audit
+        run: python -m py_compile stages/stage14/scripts/14-sH44/dual_root_line_snapshot_h_audit.py
+
+      - name: Source s7-44 regression
+        run: python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
+
+      - name: Source snapshot contract lock
+        run: |
+          f=stages/stage14/14-sH44/BOUNDARY.txt
+          grep -Fq 'AUDITED_THROUGH=Stage14-s7-44' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=4588528adb7776978c4071f9d3cb4e6ff5231570' "$f"
+          grep -Fq 'TARGET_FILE=stages/stage14/14-s7-44/result.md' "$f"
+          grep -Fq 'REQUESTED_OBJECT=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreDualRootLineCompatibilityEnergyPowerSaving' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_FROZEN=true' "$f"
+
+      - name: H protocol lock
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Frozen theorem verdict lock
+        run: |
+          f=stages/stage14/14-sH44/BOUNDARY.txt
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'DUAL_ROOT_LINE_PRINCIPAL_DENSITY_EXPONENT=1/2' "$f"
+          grep -Fq 'FULL_COMMON_CORE_DIVIDES_CLEARED_LAMBDA2_MINUS_16=true' "$f"
+          grep -Fq 'FULL_COMMON_CORE_IS_RECIPROCAL_EDWARDS_BAD_REDUCTION_SUPPORT=true' "$f"
+          grep -Fq 'SECOND_COMMON_CORE_SPACING_REOPENED=false' "$f"
+          grep -Fq 'ROW_CRT_REOPENED=false' "$f"
+          grep -Fq 'TH23_CROSS_PROMOTED_TO_SH44=false' "$f"
+
+      - name: Downstream compatibility does not mutate target
+        run: |
+          f=stages/stage14/14-sH44/BOUNDARY.txt
+          grep -Fq 'DOWNSTREAM_4DC_REDUCTION_OBSERVED=true' "$f"
+          grep -Fq 'SH44_TARGET_REWRITTEN_FOR_4DC=false' "$f"
+          grep -Fq 'SH44_SOURCE_INVALIDATED=false' "$f"
+          grep -Fq 'NEW_4DC_H_AUDIT_REQUIRES_NEW_H_IDENTIFIER=true' "$f"
+
+      - name: Route unblock and global ledger lock
+        run: |
+          f=stages/stage14/14-sH44/BOUNDARY.txt
+          grep -Fq 'SH44_AUDIT_COMPLETE=true' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'S7_45_CAN_CONSUME_SH44=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT_S_ROUTE=Stage14-s7-45' "$f"
