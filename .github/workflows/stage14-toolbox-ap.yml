@@ -1,0 +1,29 @@
+name: Stage14 toolbox ap audit
+
+on:
+  pull_request:
+    paths:
+      - "docs/stage14-toolbox/theorem-compatibility-matrix.md"
+      - "stages/stage14/14-toolbox-ap/**"
+      - "stages/stage14/scripts/14-toolbox-ap/**"
+      - ".github/workflows/stage14-toolbox-ap.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/stage14-toolbox/theorem-compatibility-matrix.md"
+      - "stages/stage14/14-toolbox-ap/**"
+      - "stages/stage14/scripts/14-toolbox-ap/**"
+      - ".github/workflows/stage14-toolbox-ap.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python stages/stage14/scripts/14-toolbox-ap/compatibility_audit.py
