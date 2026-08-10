@@ -1,0 +1,54 @@
+name: Stage14-s7-10 two-cell Fourier 13-14 audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-10/**'
+      - 'stages/stage14/scripts/14-s7-10/**'
+      - '.github/workflows/stage14-s7-10-two-cell-fourier-13-14.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile s7-10 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-10/uniform_two_cell_fourier_audit.py
+
+      - name: Run predecessor s7-09 audit
+        run: python stages/stage14/scripts/14-s7-09/adjacent_two_cell_mixed_gate_audit.py
+
+      - name: Run merged 4bx regression
+        run: python stages/stage14/scripts/14-4/thick_sieve_reoptimization_audit.py
+
+      - name: Run s7-10 deterministic audit
+        run: python stages/stage14/scripts/14-s7-10/uniform_two_cell_fourier_audit.py | tee /tmp/s710.log
+
+      - name: Check audit flags
+        run: |
+          grep -q 'SNC_DIVISOR_AUDIT=true' /tmp/s710.log
+          grep -q 'GENERIC_MORSE_STATIONARY_LEDGER_AUDIT=true' /tmp/s710.log
+          grep -q 'DIAGONAL_EXACT_CANCELLATION_AUDIT=true' /tmp/s710.log
+          grep -q 'AXIS_GENUS_ONE_DISCRIMINANT_AUDIT=true' /tmp/s710.log
+          grep -q 'ALL_FREQUENCY_FINITE_OP_SCALE_REGRESSION=true' /tmp/s710.log
+          grep -q 'EXTERNAL_KL_STATIONARY_PHASE_CONTRACT_LOCKED=true' /tmp/s710.log
+          grep -q 'UPDATED_13_14_LEDGER_AUDIT=true' /tmp/s710.log
+          grep -q 'ADJACENT_TWO_CELL_MIXED_FOURIER_OP_BOUND_PROVED=true' /tmp/s710.log
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true' /tmp/s710.log
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/s710.log
+
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_10=COMPLETE_UNIFORM_ADJACENT_TWO_CELL_MIXED_FOURIER_AND_13_14_BOUND' stages/stage14/14-s7-10/result.md
+          grep -q 'MERGED_4BX_IMPORTED=true' stages/stage14/14-s7-10/result.md
+          grep -q 'DIRECT_KATZ_2007_DELIGNE_POLYNOMIAL_SHORTCUT_APPLICABLE=false' stages/stage14/14-s7-10/result.md
+          grep -q 'H_DIVISOR_SIMPLE_NORMAL_CROSSING=true' stages/stage14/14-s7-10/result.md
+          grep -q 'ADJACENT_TWO_CELL_MIXED_FOURIER_OP_BOUND_PROVED=true' stages/stage14/14-s7-10/result.md
+          grep -q 'TWO_CELL_RECTANGLE_EXPONENT=2/3' stages/stage14/14-s7-10/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=13/14' stages/stage14/14-s7-10/result.md
+          grep -q 'NEXT=Stage14-s7-11' stages/stage14/14-s7-10/result.md
