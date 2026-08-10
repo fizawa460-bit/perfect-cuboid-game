@@ -1,0 +1,29 @@
+name: Stage14-4cc xi saturation and k shell
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cc/**'
+      - 'stages/stage14/data/14-4/xi_saturation_k_shell_summary.json'
+      - 'stages/stage14/scripts/14-4/xi_saturation_k_shell_audit.py'
+      - 'stages/stage14/14-s7-14/**'
+      - 'stages/stage14/scripts/14-s7-14/large_xi_k_collision_audit.py'
+      - 'stages/stage14/14-t50/**'
+      - '.github/workflows/stage14-4cc-xi-saturation-k-shell.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Regression Stage14-s7-14
+        run: python stages/stage14/scripts/14-s7-14/large_xi_k_collision_audit.py
+      - name: Audit Stage14-4cc
+        run: python stages/stage14/scripts/14-4/xi_saturation_k_shell_audit.py
