@@ -1,0 +1,1 @@
+Stage14-4ce is rebased onto current main after merged s7-19/toolbox-as. The canonical theorem source remains stages/stage14/14-4ce/result.md plus s7-19-addendum.md. No mainline H branch is required.
