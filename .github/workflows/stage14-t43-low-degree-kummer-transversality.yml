@@ -1,0 +1,22 @@
+name: Stage14-t43 low-degree Kummer transversality
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t43/**'
+      - 'stages/stage14/scripts/14-t/t43_low_degree_kummer_transversality_audit.py'
+      - 'stages/stage14/data/14-t43/**'
+      - '.github/workflows/stage14-t43-low-degree-kummer-transversality.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t42 regression
+        run: python stages/stage14/scripts/14-t/t42_kummer_transversality_audit.py
+      - name: Run tH10 regression
+        run: python stages/stage14/scripts/tH10/squareclass_fiber_energy_toolbox_audit.py
+      - name: Run t43 exploratory audit
+        run: python stages/stage14/scripts/14-t/t43_low_degree_kummer_transversality_audit.py
