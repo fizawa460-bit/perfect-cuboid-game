@@ -1,0 +1,68 @@
+name: Stage14-4da reverse reciprocal sqrt
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4da/**'
+      - 'stages/stage14/scripts/14-4/reverse_reciprocal_sqrt_audit.py'
+      - 'stages/stage14/data/14-4/reverse_reciprocal_sqrt_summary.json'
+      - '.github/workflows/stage14-4da-reverse-reciprocal-sqrt.yml'
+      - 'stages/stage14/14-4cz/**'
+      - 'stages/stage14/14-s7-41/**'
+      - 'stages/stage14/14-4cx/**'
+      - 'stages/stage14/14-s7-37/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4da deterministic audit
+        run: python stages/stage14/scripts/14-4/reverse_reciprocal_sqrt_audit.py
+
+      - name: Compile Stage14-4da audit
+        run: python -m py_compile stages/stage14/scripts/14-4/reverse_reciprocal_sqrt_audit.py
+
+      - name: Stage14-4cz regression
+        run: python stages/stage14/scripts/14-4/sameside_root_gcd_primitive_23_44_audit.py
+
+      - name: Stage14-s7-41 regression
+        run: python stages/stage14/scripts/14-s7-41/residual_twin_finite_fiber_23_44_audit.py
+
+      - name: Stage14-4cx regression
+        run: python stages/stage14/scripts/14-4/cayley_annulus_collapse_23_44_audit.py
+
+      - name: Lock merged reciprocal equations and branch bounds
+        run: |
+          grep -Fq '(L_x^+c_x^+)²-(L_x^-c_x^-)²' stages/stage14/14-s7-27/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=23/44' stages/stage14/14-4cx/result.md
+          grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=7/16' stages/stage14/14-s7-37/result.md
+          grep -Fq 'REVERSE_ROOT_LINE_REUSE_WITHOUT_QUANTIFIER_BRIDGE_ALLOWED=false' stages/stage14/14-s7-41/result.md
+          grep -Fq 'S7_41_AUXILIARY_H_NEEDED=true' stages/stage14/14-s7-41/result.md
+
+      - name: Lock Stage14-4da theorem boundary
+        run: |
+          f=stages/stage14/14-4da/result.md
+          grep -Fq 'STAGE14_4DA=COMPLETE_REVERSE_RECIPROCAL_DIVISOR_RECONSTRUCTION_AND_MAINLINE_SQRT_CLOSURE' "$f"
+          grep -Fq 'REVERSE_RECIPROCAL_QUANTIFIER_BRIDGE_PROVED=true' "$f"
+          grep -Fq 'FIXED_UV_M_FULL_SIGNED_QUOTIENT_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'FIXED_UV_M_N_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'ROW_CRT_LIFT_INDEPENDENT_SUPPORT=false' "$f"
+          grep -Fq 'POST_COLUMN_ROW_RECONSTRUCTION_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'LOW_CORE_REVERSE_RECIPROCAL_COMPLETE_COUNT_SIMPLIFIED=1-2theta' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'IMPROVEMENT_OVER_MERGED_23_44=1/44' "$f"
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' "$f"
+          grep -Fq 'STRICT_SUB_SQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S7_41_MAINLINE_H_GATE_SUPERSEDED=true' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'OPEN_X13_USED_AS_HARD_PREDECESSOR=false' "$f"
+          grep -Fq 'NEXT=Stage14-4db' "$f"
