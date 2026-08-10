@@ -1,0 +1,46 @@
+name: Stage14-4ce double disagreement switch audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ce/**'
+      - 'stages/stage14/scripts/14-4/double_disagreement_switch_audit.py'
+      - 'stages/stage14/data/14-4/double_disagreement_switch_summary.json'
+      - '.github/workflows/stage14-4ce-double-disagreement-switch.yml'
+      - 'stages/stage14/14-4cd/**'
+      - 'stages/stage14/14-s7-18/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/double_disagreement_switch_audit.py
+
+      - name: Audit Stage14-4ce double disagreement packet
+        run: python stages/stage14/scripts/14-4/double_disagreement_switch_audit.py
+
+      - name: Lock Stage14-4ce boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          f=stages/stage14/14-4ce/result.md
+          grep -F 'STAGE14_4CE=COMPLETE_DUAL_ALLOCATION_INJECTIVITY_AND_DOUBLE_DISAGREEMENT_REDUCTION' "$f"
+          grep -F 'FOUR_CD_ENDPOINT_XI_SWITCH_LOWER_EXPONENT=1/4' "$f"
+          grep -F 'FOUR_CD_ENDPOINT_K_SWITCH_LOWER_EXPONENT=3/8' "$f"
+          grep -F 'FOUR_CD_ENDPOINT_DOUBLE_SWITCH_PRODUCT_LOWER_EXPONENT=5/8' "$f"
+          grep -F 'ODD_XI_SWITCH_PRIMES_ARE_1_MOD_4=true' "$f"
+          grep -F 'ODD_K_SWITCH_PRIMES_ARE_1_MOD_4=true' "$f"
+          grep -F 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -F 'MAINLINE_H_NEEDED=false' "$f"
+          grep -F 'NEXT=Stage14-4cf' "$f"
