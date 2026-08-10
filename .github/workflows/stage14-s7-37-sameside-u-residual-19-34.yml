@@ -1,0 +1,64 @@
+name: Stage14-s7-37 same-side residual 19/34
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-37/**'
+      - 'stages/stage14/scripts/14-s7-37/**'
+      - '.github/workflows/stage14-s7-37-sameside-u-residual-19-34.yml'
+      - 'stages/stage14/14-s7-36/**'
+      - 'stages/stage14/14-s7-34/**'
+      - 'stages/stage14/14-4ci/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-s7-37 same-side residual audit
+        run: python stages/stage14/scripts/14-s7-37/sameside_u_residual_19_34_audit.py
+
+      - name: Compile Stage14-s7-37 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-37/sameside_u_residual_19_34_audit.py
+
+      - name: Run merged s7-36 regression
+        run: python stages/stage14/scripts/14-s7-36/row_column_proportional_9_16_audit.py
+
+      - name: Run merged s7-34 regression
+        run: python stages/stage14/scripts/14-s7-34/fourth_power_root_transfer_47_80_audit.py
+
+      - name: Run merged 4ci regression
+        run: python stages/stage14/scripts/14-4/full_k_dual_saturation_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_S7_36=COMPLETE_ROW_COLUMN_REOPTIMIZATION_AND_9_16_PROPORTIONAL_BARRIER_PROMOTION' stages/stage14/14-s7-36/result.md
+          grep -Fq 'NONPROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=19/34' stages/stage14/14-s7-36/result.md
+          grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=9/16' stages/stage14/14-s7-36/result.md
+          grep -Fq 'XI_COMMON_ROOT_GCD_FOURTH_POWER_DIVIDES_QXI=true' stages/stage14/14-s7-34/result.md
+          grep -Fq 'COMMON_Z_SCALE_SQUARE_DIVIDES_QK=true' stages/stage14/14-4ci/result.md
+
+      - name: Lock Stage14-s7-37 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-37/result.md
+          grep -Fq 'STAGE14_S7_37=COMPLETE_PROPORTIONAL_SAMESIDE_RESIDUAL_TRANSFER_AND_19_34_PROMOTION' "$f"
+          grep -Fq 'PROPORTIONAL_COMMON_Z_FOUR_ROOT_GCD_DECOMPOSITION_PROVED=true' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_COPRIME_TO_QXI=true' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQUARE_DIVIDES_U_RES=true' "$f"
+          grep -Fq 'PROPORTIONAL_CROSS_ROOT_LOWER_EXPONENT=1/8-theta+phi' "$f"
+          grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=7/16' "$f"
+          grep -Fq 'NONPROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=19/34' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=19/34' "$f"
+          grep -Fq 'IMPROVEMENT_OVER_PREVIOUS_9_16=1/272' "$f"
+          grep -Fq 'CURRENT_GAP_TO_SQRT=1/17' "$f"
+          grep -Fq 'REMAINING_RECEIVER=NineteenThirtyFourthsSingleCrossRootJointCoreTwinShortRowColumnIncidence' "$f"
+          grep -Fq 'S7_37_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-38' "$f"
