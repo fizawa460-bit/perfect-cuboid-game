@@ -46,10 +46,20 @@ def complete_bounds(t,p,r):
     return chi,Es,Ek,Ex,Erc,min(Es,Ek,Ex,Erc)
 
 
+def optimal_rho(t,p):
+    chi=2*t+2*p-F(3,4)
+    r0=max(F(0),(chi-F(1,4))/3)
+    A=3*p-F(1,8)
+    B=2*p+F(1,2)-2*chi
+    crossing=(A-B)/7
+    return max(r0,crossing)
+
+
 def check_symbolic():
     t,p,r=F(7,24),F(1,4),F(1,24)
     chi,Es,Ek,Ex,Erc,E=complete_bounds(t,p,r)
     assert chi==F(1,3)
+    assert optimal_rho(t,p)==r
     assert Es==Ex==Erc==E==F(7,12)
     assert Ek==F(5,8)
     j=chi-3*r
@@ -61,33 +71,24 @@ def check_symbolic():
     weighted=(6*Ex+Erc)/7
     closed=(16*p-4*t+F(5,4))/7
     assert weighted==closed==F(7,12)
-    d=max(F(0),chi-F(1,4))
-    eta=F(0)
+    d=max(F(0),chi-F(1,4)); eta=F(0)
     assert d==F(1,12)==2*r+eta
-    EH=3*p-F(1,8)-3*eta
-    assert EH==F(5,8)>F(7,12)
+    assert 3*p-F(1,8)-3*eta==F(5,8)>F(7,12)
 
 
 def check_grid():
     target=F(7,12); max_seen=F(-1); eq=set()
+    # Exact optimization in rho: min(A-rho,B+6rho) peaks at their crossing,
+    # clipped by the 4cu lower bound rho>=max(0,(chi-1/4)/3).
     for it in range(144,241):
         t=F(it,768)
         for ip in range(96,193):
             p=F(ip,768)
             if not strip_ok(t,p): continue
-            chi=2*t+2*p-F(3,4)
-            r0=max(F(0),(chi-F(1,4))/3)
-            local=F(-1); args=[]
-            for ir in range(0,385):
-                r=F(ir,1536)
-                if r<r0: continue
-                *_,E=complete_bounds(t,p,r)
-                if E>local: local,args=E,[r]
-                elif E==local: args.append(r)
-            if local>max_seen:
-                max_seen=local; eq={(t,p,r) for r in args}
-            elif local==max_seen:
-                eq|={(t,p,r) for r in args}
+            r=optimal_rho(t,p)
+            *_,E=complete_bounds(t,p,r)
+            if E>max_seen: max_seen=E; eq={(t,p,r)}
+            elif E==max_seen: eq.add((t,p,r))
     assert max_seen==target,(max_seen,eq)
     assert eq=={(F(7,24),F(1,4),F(1,24))},eq
 
