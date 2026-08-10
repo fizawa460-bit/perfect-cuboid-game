@@ -23,7 +23,7 @@ EXPECTED = {
 
 
 def main():
-    root = Path(__file__).resolve().parents[3]
+    root = Path(__file__).resolve().parents[2]
     path = root / "data" / "14-t84" / "primitive_binary_norm_lpf_frozen.json"
     data = json.loads(path.read_text())
 
