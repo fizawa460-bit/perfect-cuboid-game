@@ -1,0 +1,43 @@
+name: Stage14-4bq diagonal pair genus one
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bq/**'
+      - 'stages/stage14/data/14-4/diagonal_pair_genus_one_summary.json'
+      - 'stages/stage14/scripts/14-4/diagonal_pair_genus_one_audit.py'
+      - '.github/workflows/stage14-4bq-diagonal-pair-genus-one.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4bq audit
+        run: python -m py_compile stages/stage14/scripts/14-4/diagonal_pair_genus_one_audit.py
+      - name: Run 4bo predecessor audit
+        run: python stages/stage14/scripts/14-4/normalized_core_moving_q_audit.py
+      - name: Run 4bq audit
+        run: python stages/stage14/scripts/14-4/diagonal_pair_genus_one_audit.py | tee /tmp/4bq.txt
+      - name: Check audit flags
+        run: |
+          grep -q 'DIAGONAL_PRODUCTS_UV_EQUAL_Q_AUDIT=true' /tmp/4bq.txt
+          grep -q 'MAIN_DIAGONAL_QUARTIC_FORM_AUDIT=true' /tmp/4bq.txt
+          grep -q 'OFF_DIAGONAL_QUARTIC_FORM_AUDIT=true' /tmp/4bq.txt
+          grep -q 'WHOLE_FAMILY_POST_LOCAL_SAVING_1_126=true' /tmp/4bq.txt
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/4bq.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BQ=DIAGONAL_PAIR_GENUS_ONE_CLOSURE_AND_FIRST_FULL_POST_LOCAL_SAVING' stages/stage14/14-4bq/result.md
+          grep -q 'GOOD_CELL_RESIDUAL_BOUND=B^(13/14+o(1))' stages/stage14/14-4bq/result.md
+          grep -q 'WHOLE_FAMILY_SECTOR_MAX_EXPONENT=61/63' stages/stage14/14-4bq/result.md
+          grep -q 'FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=true' stages/stage14/14-4bq/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=61/63' stages/stage14/14-4bq/result.md
+          grep -q 'NEXT=Stage14-4br' stages/stage14/14-4bq/result.md
