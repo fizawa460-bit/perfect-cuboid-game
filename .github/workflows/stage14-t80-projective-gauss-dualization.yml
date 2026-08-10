@@ -1,0 +1,39 @@
+name: Stage14-t80 projective Gauss dualization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t80/**'
+      - 'stages/stage14/data/14-t80/**'
+      - 'stages/stage14/scripts/14-t/t80_*.py'
+      - '.github/workflows/stage14-t80-projective-gauss-dualization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: merged t79 regression
+        run: python stages/stage14/scripts/14-t/t79_ray_character_support_audit.py >/dev/null
+      - name: merged tH22 regression
+        run: python stages/stage14/scripts/14-tH22/projective_ray_large_sieve_audit.py >/dev/null
+      - name: current 23/44 global ledger regression
+        run: grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=23/44' stages/stage14/14-4cx/result.md
+      - name: Stage14-t80 audit
+        run: python stages/stage14/scripts/14-t/t80_projective_gauss_dual_audit.py
+      - name: frozen validator
+        run: python stages/stage14/scripts/14-t/t80_validate_frozen.py
+      - name: boundary locks
+        run: |
+          f=stages/stage14/14-t80/result.md
+          grep -Fq 'MERGED_TH22_IMPORTED=true' "$f"
+          grep -Fq 'PROJECTIVE_ADDITIVE_DUAL_MODULUS=d' "$f"
+          grep -Fq 'PROJECTIVE_CHARACTER_KERNEL_BECOMES_INVERSE_FRACTION_ADDITIVE_KERNEL=true' "$f"
+          grep -Fq 'TH23_NEEDED=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=23/44' "$f"
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t80_*.py
