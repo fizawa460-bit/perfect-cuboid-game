@@ -165,12 +165,45 @@ first signed quotient/agreement pair,
 second reciprocal / X13 physical completion.
 ```
 
-The second reciprocal therefore has no independent fixed-power support. The newly exposed exact receiver is the simultaneous balanced squarefree two-cell factorization of the complementary cofactors
+The second reciprocal therefore has no independent fixed-power support. The exposed cofactors are
 
 ```text
 M_+=oddpart(D^2+A^2)/C_* = S*T * B^o(1),
 M_-=oddpart(D^2-A^2)/u_* = R*J * B^o(1).
 ```
+
+Stage14-s7-47 independently peels the same-sign overlaps
+
+```text
+W_+=gcd(C_*,M_+),
+W_-=gcd(u_*,M_-).
+```
+
+They enlarge the mixed-root modulus to
+
+```text
+Q_eff=Q_mix*W_+*W_-,
+```
+
+and every fixed-power overlap block satisfies
+
+```text
+E<=1/2-w_+-w_-.
+```
+
+Hence possible square-root saturation requires
+
+```text
+W_+=W_-=B^o(1),
+```
+
+so the four norm blocks
+
+```text
+C_*, M_+, u_*, M_-
+```
+
+are pairwise separated at fixed-power scale. The mere existence of balanced squarefree splits `M_+=S*T`, `M_-=R*J` is not, by itself, a fixed-power sparse condition in the ambient product ranges; the next s step must retain their correlation with the two complementary square identities.
 
 Current route state:
 
@@ -182,8 +215,8 @@ S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46
 S_ROUTE_REACTIVATION_NEEDED=false
 USER_DECIDES_S_ROUTE_REACTIVATION=false
 ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
-S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScaleMixedFourthRootDualBalancedXiCofactorSplitPhysicalAdmissibilityDensity
-S_ROUTE_NEXT=Stage14-s7-47
+S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootDualBalancedXiCofactorCorrelationPhysicalDensity
+S_ROUTE_NEXT=Stage14-s7-48
 ```
 
 The user is **not** expected to decide whether the s-route should be restarted. Any later mainline, `t`, `X`, toolbox, q/literature, or other Stage14 stage that materially changes the surviving receiver must explicitly evaluate whether the new result creates a genuinely new s-specific exact structure or theorem bridge.
