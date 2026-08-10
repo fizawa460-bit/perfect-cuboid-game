@@ -1,0 +1,46 @@
+name: Stage14-toolbox-ai compact torsion half-angle audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-ai/**'
+      - 'stages/stage14/scripts/14-toolbox-ai/**'
+      - 'stages/stage14/scripts/14-toolbox-ah/**'
+      - '.github/workflows/stage14-toolbox-ai.yml'
+      - '.github/workflows/stage14-toolbox-ah.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run compact torsion half-angle atlas audit
+        run: python stages/stage14/scripts/14-toolbox-ai/compact_torsion_half_angle_audit.py
+      - name: Compile toolbox audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-ai/compact_torsion_half_angle_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-ah/forward_regression.py
+      - name: Regress merged compact torsion source stages
+        run: |
+          python stages/stage14/scripts/14-s6-05/compact_torsion_normalization_audit.py
+          python stages/stage14/scripts/14-s6-06/physical_conjugate_denominator_audit.py
+          python stages/stage14/scripts/14-s6-07/dual_half_angle_gcd_matrix_audit.py
+          python stages/stage14/scripts/14-4/dual_half_angle_critical_square_audit.py
+      - name: Regress toolbox-ah frozen interface
+        run: python stages/stage14/scripts/14-toolbox-ah/forward_regression.py
+      - name: Validate toolbox-ai boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AI=COMPLETE_COMPACT_TORSION_DENOMINATOR_AND_HALF_ANGLE_ATLAS' stages/stage14/14-toolbox-ai/result.md
+          grep -q 'CANONICAL_TOTAL_CARD_COUNT=57' stages/stage14/14-toolbox-ai/result.md
+          grep -q 'DUAL_PRODUCT_IDENTITY_QK_EQUAL_X2_OVER_KAPPA_FROZEN=true' stages/stage14/14-toolbox-ai/result.md
+          grep -q 'ROOT_SIGN_INDEPENDENT_BERNOULLI_MODEL_ALLOWED=false' stages/stage14/14-toolbox-ai/result.md
+          grep -q 'CURRENT_WHOLE_FAMILY_EXPONENT=20/21' stages/stage14/14-toolbox-ai/result.md
+          grep -q 'NEXT=Stage14-toolbox-aj quantifier-mismatch and invalid-shortcut warnings' stages/stage14/14-toolbox-ai/result.md
