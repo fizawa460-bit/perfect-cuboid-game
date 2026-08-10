@@ -16,5 +16,34 @@ jobs:
       - uses: actions/checkout@v4
       - name: Run t45 regression
         run: python stages/stage14/scripts/14-t/t45_two_canonical_character_audit.py
+      - name: Preserve frozen t46 JSON
+        run: cp stages/stage14/data/14-t46/twist_translation_conductor_energy.json /tmp/t46-frozen.json
       - name: Run t46 twist-translation conductor-energy audit
         run: python stages/stage14/scripts/14-t/t46_twist_translation_conductor_energy_audit.py
+      - name: Check frozen t46 JSON
+        run: diff -u /tmp/t46-frozen.json stages/stage14/data/14-t46/twist_translation_conductor_energy.json
+      - name: Validate locked t46 boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage14/data/14-t46/twist_translation_conductor_energy.json').read_text())
+          q=d['decision']
+          assert q['STAGE14_T46']=='COMPLETE_TWIST_TRANSLATION_CONDUCTOR_ENERGY_AND_BASE_OPERATOR_REDUCTION'
+          assert q['MOVING_CONDUCTOR_FAMILY_IS_TWIST_TRANSLATED_SQUARECLASS_SPECTRUM'] is True
+          assert q['TRANSLATED_CONDUCTOR_MULTIPLICITY_ENERGY_EQUALS_A1'] is True
+          assert q['PRINCIPAL_CONDUCTOR_SLICE_EQUALS_R_TAU'] is True
+          assert q['TWIST_DEPENDENCE_FACTORS_AS_ROW_CHARACTER'] is True
+          assert q['ALL_TWISTS_SHARE_BASE_QUADRATIC_CHARACTER_OPERATOR'] is True
+          assert q['STANDARD_MAX_RANGE_LARGE_SIEVE_CLOSES_CRITICAL_STRIP'] is False
+          assert q['SPARSE_CARDINALITY_ENERGY_LARGE_SIEVE_PROVED'] is False
+          assert q['TWO_LOCAL_FILTER_CONSTANT_TERM_REMOVED'] is False
+          assert q['CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED'] is False
+          assert q['A_11_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          assert q['PERFECT_CUBOID_NONEXISTENCE_PROVED'] is False
+          assert q['TH13_NEEDED'] is True
+          text=Path('stages/stage14/14-t46/result.md').read_text()
+          assert 'STAGE14_T46=COMPLETE_TWIST_TRANSLATION_CONDUCTOR_ENERGY_AND_BASE_OPERATOR_REDUCTION' in text
+          assert 'TH13_NEEDED=true' in text
+          PY
