@@ -1,10 +1,11 @@
-# Updated conditional two-cell ledger after 4bx
+# Historical conditional two-cell ledger after 4bx
 
 ```yaml
 ID: TB-LEDGER-updated-conditional-two-cell-after-4bx
 TYPE: LEDGER
-STATUS: CURRENT
-TITLE: Conditional adjacent two-cell target 13/14 after importing the proved 4bx thick improvement
+STATUS: SUPERSEDED
+SUPERSEDED_BY: TB-LEDGER-current-whole-family-after-s7-10
+TITLE: Historical conditional adjacent two-cell target 13/14 before the theorem gate was closed
 SCOPE: BOTH
 SOURCE_STAGE: Stage14-4bx
 SOURCE_PR: 422
@@ -16,32 +17,32 @@ SOURCE_FILES:
 
 ## INPUT
 
-The still-unproved s7-09 adjacent two-cell mixed Fourier receiver, combined only conditionally with the newly proved 4bx thick-packet improvement.
+At the 4bx checkpoint the s7-09 adjacent two-cell mixed Fourier theorem was still open, while the thick side had already improved to `H^(-4/5)`.
 
 ## OUTPUT
 
+Historical planning target:
+
 ```text
-UPDATED_CONDITIONAL_TWO_CELL_WHOLE_FAMILY_EXPONENT=13/14
-S7_09_TWO_CELL_MIXED_FOURIER_BOUND_PROVED=false
-CONDITIONAL_TARGET_IS_CURRENT_THEOREM=false
+HISTORICAL_CONDITIONAL_TWO_CELL_WHOLE_FAMILY_EXPONENT=13/14
+AT_4BX_TWO_CELL_MIXED_FOURIER_BOUND_PROVED=false
 ```
 
 ## VARIABLE DICTIONARY
 
-- `16/17` = historical conditional target at the s7-09 checkpoint before 4bx.
-- `13/14` = updated conditional target after the proved thick-side improvement.
-- `15/16` = current unconditional theorem.
+- `16/17` = older s7-09 conditional target before 4bx.
+- `13/14` = conditional target at 4bx, later promoted by actual theorem proofs in s7-10/4by.
 
 ## USED BY
 
-- Planning the next two-cell theorem attack.
-- Keeping conditional optimization current when proved complementary ingredients improve.
+- Provenance for the prediction that became the current `13/14` theorem.
+- Distinguishing a formerly conditional target from its later proof.
 
 ## DO NOT USE FOR
 
-- Do not supersede the unconditional `15/16` current ledger with this card.
-- Do not treat finite mixed-sum evidence as the missing uniform theorem.
+- Do not call the two-cell theorem open after merged s7-10/4by.
+- Do not use this historical status instead of the current terminal ledger.
 
 ## PROVENANCE NOTES
 
-Merged 4bx explicitly records the updated conditional target `13/14` while keeping the two-cell mixed Fourier theorem unproved.
+Merged s7-10 closes the missing all-frequency `O(p)` theorem and merged 4by independently confirms it, so this conditional ledger is superseded by the proved current ledger.
