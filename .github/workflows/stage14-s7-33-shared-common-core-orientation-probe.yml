@@ -19,8 +19,10 @@ jobs:
           python-version: '3.12'
       - name: Run shared common-core orientation probe
         run: python stages/stage14/scripts/14-s7-33/shared_common_core_orientation_probe.py
-      - name: Compile probe
-        run: python -m py_compile stages/stage14/scripts/14-s7-33/shared_common_core_orientation_probe.py
+      - name: Run transfer overlap probe
+        run: python stages/stage14/scripts/14-s7-33/transfer_overlap_probe.py
+      - name: Compile probes
+        run: python -m py_compile stages/stage14/scripts/14-s7-33/*.py
       - name: Predecessor locks
         run: |
           grep -Fq 'STAGE14_S7_32=COMPLETE_ONE_HOST_GAUSSIAN_RECONSTRUCTION_AND_UNIQUE_TOP_CORNER_5_8_LOCALIZATION' stages/stage14/14-s7-32/result.md
