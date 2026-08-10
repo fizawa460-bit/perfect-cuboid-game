@@ -1,0 +1,47 @@
+name: Stage14-tH22 projective ray-character large sieve audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH22/**'
+      - 'stages/stage14/data/tH22/**'
+      - 'stages/stage14/scripts/14-tH22/**'
+      - '.github/workflows/stage14-tH22-projective-ray-large-sieve.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile tH22 audit
+        run: python -m py_compile stages/stage14/scripts/14-tH22/projective_ray_large_sieve_audit.py
+      - name: Run predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-t/t74_canonical_host_short_cofactor_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t75_angular_gcd_imbalance_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t76_clean_kappa_cover_rootline_audit.py >/dev/null
+          python stages/stage14/scripts/14-tH21/balanced_clean_kappa_typeii_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t77_projective_ray_character_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t77_validate_frozen.py
+          python stages/stage14/scripts/14-t/t78_external_kappa_gcd_tensor_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t78_validate_frozen.py
+          python stages/stage14/scripts/14-t/t79_ray_character_support_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t79_validate_frozen.py
+          python stages/stage14/scripts/14-4/cayley_annulus_collapse_23_44_audit.py >/dev/null
+      - name: Run tH22 deterministic audit
+        run: python stages/stage14/scripts/14-tH22/projective_ray_large_sieve_audit.py
+      - name: Lock t79-refined boundary
+        run: |
+          grep -Fq 'STAGE14_TH22=COMPLETE_T79_REFINED_CANONICAL_GAUSSIAN_PRIME_PROJECTIVE_RAY_CHARACTER_BALANCED_COVER_LARGE_SIEVE_APPLICABILITY_AUDIT' stages/stage14/14-tH22/BOUNDARY.txt
+          grep -Fq 'MERGED_T79_IMPORTED=true' stages/stage14/14-tH22/BOUNDARY.txt
+          grep -Fq 'HARD_PROJECTIVE_CHARACTERS_HAVE_NEAR_FULL_ACTIVE_SUPPORT=true' stages/stage14/14-tH22/BOUNDARY.txt
+          grep -Fq 'PROJECTIVE_CHARACTER_FINITE_CONDUCTOR_NORM=d_chi^2' stages/stage14/14-tH22/BOUNDARY.txt
+          grep -Fq 'CERTIFIED_RAY_CHARACTER_B_POWER_SAVING_EXPONENT=0' stages/stage14/14-tH22/BOUNDARY.txt
+          grep -Fq 'NEXT=Stage14-t80' stages/stage14/14-tH22/BOUNDARY.txt
