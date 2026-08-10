@@ -1,0 +1,113 @@
+{
+  "stage": "Stage14-tH7",
+  "status": "COMPLETE_ROADWORKS_STRESS_GATE_AND_NEW_CYCLE_DECISION",
+  "requires_future_t_result": false,
+  "cycle1": {
+    "covered_stages": [
+      "tH1",
+      "tH2",
+      "tH3",
+      "tH4",
+      "tH5",
+      "tH6"
+    ],
+    "complete": true,
+    "reusable": true,
+    "parked": true,
+    "standard_fixed_power_overhead": "0",
+    "hidden_fixed_power_loss_found": false
+  },
+  "stress_matrix": {
+    "cases": [
+      {"name": "higher_order_mellin", "classification": "SAFE"},
+      {"name": "non_mu4_unit_signature", "classification": "SAFE"},
+      {"name": "same_oriented_prime_uv", "classification": "SAFE"},
+      {"name": "conjugate_primes_both_active", "classification": "SAFE"},
+      {"name": "bad_prime_mask", "classification": "SAFE"},
+      {"name": "many_shared_h_decompositions", "classification": "SAFE"},
+      {"name": "gaussian_representation_multiplicity", "classification": "SAFE"},
+      {"name": "unit_orbit_quotient", "classification": "SAFE"},
+      {"name": "u_only_projection", "classification": "REOPEN_OLD_CYCLE"},
+      {"name": "prime_power_odd_conductor", "classification": "REOPEN_OLD_CYCLE"},
+      {"name": "polynomial_spectral_energy", "classification": "ACCOUNTED_FIXED_LOSS"},
+      {"name": "polynomial_mellin_kernel", "classification": "ACCOUNTED_FIXED_LOSS"},
+      {"name": "polynomial_block_count", "classification": "ACCOUNTED_FIXED_LOSS"},
+      {"name": "independent_uv_modulus_tensorization", "classification": "INVALID_SHORTCUT"},
+      {"name": "missing_same_modulus_theorem", "classification": "EXTERNAL_ANALYTIC"},
+      {"name": "direct_count_vs_second_moment", "classification": "SAFE"},
+      {"name": "leave_gaussian_field", "classification": "REOPEN_OLD_CYCLE"},
+      {"name": "higher_rank_packet", "classification": "REOPEN_OLD_CYCLE"}
+    ],
+    "counts": {
+      "SAFE": 9,
+      "REOPEN_OLD_CYCLE": 4,
+      "ACCOUNTED_FIXED_LOSS": 3,
+      "INVALID_SHORTCUT": 1,
+      "EXTERNAL_ANALYTIC": 1
+    }
+  },
+  "reopen_old_cycle_triggers": [
+    "prime-power odd conductors",
+    "unavoidable one-coordinate projection",
+    "unaccounted polynomial spectral/Mellin/block budget",
+    "higher-rank packet replacing exact (U,V) pair",
+    "arithmetic leaves Q(i)"
+  ],
+  "external_not_roadworks_defect": [
+    "same-modulus joint second-moment or direct-count power-saving theorem"
+  ],
+  "exponent_audit": {
+    "formula": "Omega=sigma+2*kappa+beta+Omega_new",
+    "grid_checks": 108,
+    "sigma_values": [
+      "0",
+      "1/20",
+      "1/7"
+    ],
+    "kappa_values": [
+      "0",
+      "1/30",
+      "1/11"
+    ],
+    "beta_values": [
+      "0",
+      "1/16"
+    ],
+    "omega_new_values": [
+      "0",
+      "1/50"
+    ],
+    "gamma_values": [
+      "1/2",
+      "20/21",
+      "1"
+    ]
+  },
+  "stage14_thresholds": {
+    "current_local_exponent": "41/42",
+    "sqrt_B_exponent": "1/2",
+    "post_local_direct_saving_required": "10/21",
+    "one_root_squared_saving_required_at_zero_overhead": "20/21"
+  },
+  "current_live_t_compatibility": {
+    "audited_through": "Stage14-t38",
+    "t38_classical_gaussian_spin_identified": true,
+    "stage14_packet_equals_fi_spin": false,
+    "critical_sqrt_ell_strip_remains": true,
+    "old_cycle_invalidated": false
+  },
+  "next_cycle": {
+    "support_route_parked": false,
+    "new_independent_roadwork_available": true,
+    "next": "Stage14-tH8",
+    "theme": "Gaussian spin / Dirichlet-symbol Type-I/II infrastructure",
+    "wait_for_t39": false
+  },
+  "proof_boundary": {
+    "same_modulus_joint_second_moment_theorem_proved": false,
+    "canonical_prime_sum_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  }
+}
