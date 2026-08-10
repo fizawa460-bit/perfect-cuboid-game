@@ -1,0 +1,36 @@
+name: Stage14-toolbox-af integral witness formula audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-af/**'
+      - 'stages/stage14/scripts/14-toolbox-af/**'
+      - 'stages/stage14/scripts/14-toolbox-ae/**'
+      - '.github/workflows/stage14-toolbox-af.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run integral witness formula audit
+        run: python stages/stage14/scripts/14-toolbox-af/integral_witness_formula_audit.py
+      - name: Compile audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-af/integral_witness_formula_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-ae/local_descent_interface_audit.py
+      - name: Regress local descent interface
+        run: python stages/stage14/scripts/14-toolbox-ae/local_descent_interface_audit.py
+      - name: Validate toolbox-af boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AF=COMPLETE_INTEGRAL_GLOBAL_SMALL_POINT_WITNESS_FORMULAS' stages/stage14/14-toolbox-af/result.md
+          grep -q 'SIGNED_KERNEL_EDGE_PACKET_CANONICALIZED_IN_AF=false' stages/stage14/14-toolbox-af/result.md
+          grep -q 'NEXT=Stage14-toolbox-ag odd kernel edge packet and full-radical incidence' stages/stage14/14-toolbox-af/result.md
