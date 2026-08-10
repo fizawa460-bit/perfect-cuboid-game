@@ -1,0 +1,66 @@
+name: Stage14-X5 singular biquadratic
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X5/**'
+      - 'stages/stage14/data/14-X5/**'
+      - 'stages/stage14/scripts/14-X5/**'
+      - '.github/workflows/stage14-X5-singular-biquadratic.yml'
+      - 'stages/stage14/14-X4/**'
+      - 'stages/stage14/14-s7-27/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X5 singular-biquadratic audit
+        run: python stages/stage14/scripts/14-X5/singular_biquadratic_audit.py
+
+      - name: Compile Stage14-X5 audit
+        run: python -m py_compile stages/stage14/scripts/14-X5/singular_biquadratic_audit.py
+
+      - name: Run merged Stage14-s7-27 regression
+        run: python stages/stage14/scripts/14-s7-27/full_signed_quotient_curve_audit.py
+
+      - name: Run merged Stage14-X4 regression
+        run: python stages/stage14/scripts/14-X4/physical_diagonal_elimination_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_X4=COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_X_ROUTE_ALIGNMENT' stages/stage14/14-X4/result.md
+          grep -Fq 'X1_CHARGED_ONCE_QUANTIFIER_ORDER_PRESERVED=true' stages/stage14/14-X4/result.md
+          grep -Fq 'STAGE14_S7_27=COMPLETE_FULL_SIGNED_QUOTIENT_DIVISOR_COLLAPSE_AND_RECIPROCAL_BIQUADRATIC_REDUCTION' stages/stage14/14-s7-27/result.md
+          grep -Fq 'RECIPROCAL_RATIO_BIDEGREE_2_2_CURVE_PROVED=true' stages/stage14/14-s7-27/result.md
+          grep -Fq 'TOP_THETA_RECIPROCAL_BIQUADRATIC_MODULUS_RATIO_INCIDENCE_PROVED=false' stages/stage14/14-s7-27/result.md
+
+      - name: Lock Stage14-X5 boundary
+        run: |
+          f=stages/stage14/14-X5/result.md
+          grep -Fq 'STAGE14_X5=COMPLETE_RECIPROCAL_BIQUADRATIC_SINGULAR_LOCUS_AND_POSITIVE_COMPONENT_REDUCTION' "$f"
+          grep -Fq 'MERGED_X4_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_S7_27_IMPORTED=true' "$f"
+          grep -Fq 'X1_CHARGED_ONCE_QUANTIFIER_ORDER_PRESERVED=true' "$f"
+          grep -Fq 'PHYSICAL_LAMBDA_POSITIVE=true' "$f"
+          grep -Fq 'NONZERO_RATIO_CURVE_SINGULAR_LAMBDA_VALUES=+4,-4' "$f"
+          grep -Fq 'PHYSICAL_SINGULAR_LAMBDA=4' "$f"
+          grep -Fq 'PHYSICAL_RATIO_FIBER_SINGULAR_OR_REDUCIBLE_IFF_LAMBDA_4=true' "$f"
+          grep -Fq 'PHYSICAL_SINGULAR_COMPONENT=uv-u-v-1=0' "$f"
+          grep -Fq 'SMOOTH_PHYSICAL_RATIO_FIBER_GENUS=1' "$f"
+          grep -Fq 'SMOOTH_PHYSICAL_RATIO_FIBER_GEOMETRICALLY_IRREDUCIBLE=true' "$f"
+          grep -Fq 'SINGULAR_POSITIVE_RECIPROCAL_MOBIUS_INCIDENCE_PROVED=false' "$f"
+          grep -Fq 'PHYSICAL_SMOOTH_RATIO_CURVE_HEIGHT_TRANSFER_PROVED=false' "$f"
+          grep -Fq 'SMOOTH_CHARGED_ONCE_RECIPROCAL_ELLIPTIC_RATIO_INCIDENCE_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'X5_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X6' "$f"
