@@ -1,0 +1,45 @@
+name: Stage14-toolbox-am external theorem import audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-am/**'
+      - 'stages/stage14/scripts/14-toolbox-am/**'
+      - 'stages/stage14/scripts/14-toolbox-al/**'
+      - '.github/workflows/stage14-toolbox-am.yml'
+      - '.github/workflows/stage14-toolbox-al.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile toolbox-am audit
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-am/external_theorem_import_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-al/forward_regression.py
+      - name: Run toolbox-am theorem import audit
+        run: python stages/stage14/scripts/14-toolbox-am/external_theorem_import_audit.py
+      - name: Regress frozen toolbox-al interface
+        run: python stages/stage14/scripts/14-toolbox-al/forward_regression.py
+      - name: Regress merged s7-10 theorem gate
+        run: python stages/stage14/scripts/14-s7-10/uniform_two_cell_fourier_audit.py
+      - name: Regress merged 4by independent theorem import
+        run: python stages/stage14/scripts/14-4/fu_two_cell_13_14_audit.py
+      - name: Regress merged 4bz architecture barrier
+        run: python stages/stage14/scripts/14-4/square_sieve_dimension_barrier_audit.py
+      - name: Validate toolbox-am boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AM=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_CONTRACT_AND_IMPORT_CHECKLIST' stages/stage14/14-toolbox-am/result.md
+          grep -q 'CANONICAL_TOTAL_CARD_COUNT=97' stages/stage14/14-toolbox-am/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=13/14' stages/stage14/14-toolbox-am/result.md
+          grep -q 'CURRENT_REMAINING_GAP_TO_SQRT=3/7' stages/stage14/14-toolbox-am/result.md
+          grep -q 'NEXT=Stage14-toolbox-an barrier and obstruction atlas / next-receiver selector' stages/stage14/14-toolbox-am/result.md
