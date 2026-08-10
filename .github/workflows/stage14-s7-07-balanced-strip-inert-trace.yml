@@ -1,0 +1,47 @@
+name: Stage14-s7-07 balanced strip inert trace audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-07/**'
+      - 'stages/stage14/scripts/14-s7-07/**'
+      - '.github/workflows/stage14-s7-07-balanced-strip-inert-trace.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile s7-07 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-07/balanced_strip_inert_trace_audit.py
+
+      - name: Run predecessor s7-06 audit
+        run: python stages/stage14/scripts/14-s7-06/torsion_self_correspondence_audit.py
+
+      - name: Run s7-07 deterministic audit
+        run: python stages/stage14/scripts/14-s7-07/balanced_strip_inert_trace_audit.py | tee /tmp/s707.log
+
+      - name: Check audit flags
+        run: |
+          grep -q 'FIXED_QUARTIC_KERNEL_IDENTITY_AUDIT=true' /tmp/s707.log
+          grep -q 'BALANCED_DENOMINATOR_STRIP_AUDIT=true' /tmp/s707.log
+          grep -q 'INERT_PRIME_COMPLETE_ZERO_TRACE_AUDIT=true' /tmp/s707.log
+          grep -q 'INERT_SQUAREFREE_CRT_ZERO_TRACE_AUDIT=true' /tmp/s707.log
+          grep -q 'PRIMITIVE_INCOMPLETE_BOX_BOUND_REGRESSION=true' /tmp/s707.log
+          grep -q 'MULTI_MODULUS_INERT_LARGE_SIEVE_REQUIRED=true' /tmp/s707.log
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/s707.log
+
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_07=COMPLETE_FIXED_QUARTIC_BALANCED_STRIP_AND_INERT_TRACE_RECEIVER' stages/stage14/14-s7-07/result.md
+          grep -q 'OPEN_4BU_USED_AS_THEOREM_INPUT=false' stages/stage14/14-s7-07/result.md
+          grep -q 'CRITICAL_DENOMINATOR_EXPONENT=10/21' stages/stage14/14-s7-07/result.md
+          grep -q 'BALANCED_DENOMINATOR_STRIP_UPPER=11/21' stages/stage14/14-s7-07/result.md
+          grep -q 'SINGLE_POLYNOMIAL_CRT_MODULUS_FIXED_POWER_SAVING=false' stages/stage14/14-s7-07/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=20/21' stages/stage14/14-s7-07/result.md
+          grep -q 'NEXT=Stage14-s7-08' stages/stage14/14-s7-07/result.md
