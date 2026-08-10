@@ -1,0 +1,48 @@
+name: Stage14-tH16 toroidal second-moment applicability audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH16/**'
+      - 'stages/stage14/data/tH16/**'
+      - 'stages/stage14/scripts/tH16/**'
+      - '.github/workflows/stage14-tH16-toroidal-second-moment-audit.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH16 audit
+        run: python -m py_compile stages/stage14/scripts/tH16/canonical_prime_delta_toroidal_second_moment_audit.py
+
+      - name: Run merged t57 regression
+        run: |
+          python stages/stage14/scripts/14-t/t57_rank1_kummer_mellin_audit.py
+          python stages/stage14/scripts/14-t/t57_validate_frozen.py
+
+      - name: Run merged t58 regression
+        run: |
+          python stages/stage14/scripts/14-t/t58_physical_mask_radial_transfer_audit.py
+          python stages/stage14/scripts/14-t/t58_validate_frozen.py
+
+      - name: Run tH16 deterministic audit
+        run: python stages/stage14/scripts/tH16/canonical_prime_delta_toroidal_second_moment_audit.py
+
+      - name: Lock tH16 theorem-import boundary
+        run: |
+          grep -q 'STAGE14_TH16=COMPLETE_CANONICAL_PRIME_DELTA_TOROIDAL_SECOND_MOMENT_APPLICABILITY_AUDIT' stages/stage14/14-tH16/result.md
+          grep -q 'QUADRATIC_RECIPROCITY_PROJECTION_PROVED=true' stages/stage14/14-tH16/result.md
+          grep -q 'TH14_R2_PRODUCT_ROW_QUADRATIC_LARGE_SIEVE_IMPORT_VALID=true' stages/stage14/14-tH16/result.md
+          grep -q 'QUADRATIC_LARGE_SIEVE_CLOSES_T58_TARGET=false' stages/stage14/14-tH16/result.md
+          grep -q 'NAIVE_SAME_MODULUS_MELLIN_CAUCHY_CLOSES_TARGET=false' stages/stage14/14-tH16/result.md
+          grep -q 'WILSON_HYPERBOLIC_BILINEAR_DIRECT_IMPORT_VALID=false' stages/stage14/14-tH16/result.md
+          grep -q 'SAME_MODULUS_TOROIDAL_KUMMER_LARGE_SIEVE_PROVED=false' stages/stage14/14-tH16/result.md
+          grep -q 'TOROIDAL_HYPERBOLIC_JACOBI_BRIDGE_PROVED=false' stages/stage14/14-tH16/result.md
+          grep -q 'E4_COEFFICIENT_ENERGY_USED=false' stages/stage14/14-tH16/result.md
+          grep -q 'SHARED_U_CANONICAL_PRIME_DELTA_TOROIDAL_SECOND_MOMENT_PROVED=false' stages/stage14/14-tH16/result.md
