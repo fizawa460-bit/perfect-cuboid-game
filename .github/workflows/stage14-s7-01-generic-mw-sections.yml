@@ -1,0 +1,49 @@
+name: Stage14-s7-01 generic Mordell-Weil section audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-01/**'
+      - 'stages/stage14/scripts/14-s7-01/**'
+      - '.github/workflows/stage14-s7-01-generic-mw-sections.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-01/generic_mw_section_classification_audit.py
+      - name: Run predecessor s7-00 audit
+        run: python stages/stage14/scripts/14-s7-00/family_first_point_architecture_audit.py
+      - name: Run s7-01 deterministic audit
+        run: python stages/stage14/scripts/14-s7-01/generic_mw_section_classification_audit.py | tee /tmp/s7-01.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^MERGED_S7_00_BOUNDARY_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^WEIERSTRASS_INVARIANT_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^INFINITY_I8_MODEL_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^K3_FIBER_EULER_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^SHIODA_TATE_RANK_ZERO_LEDGER_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^R2_SPECIALIZATION_TORSION_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^NO_ORDER4_SPECIALIZATION_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^JACOBI_EIGHT_BOUNDARY_POINT_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^DEGREE_TWO_QUOTIENT_IDENTITY_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^S7_01_BOUNDARY_AUDIT=true$' /tmp/s7-01.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s7-01.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_01=COMPLETE_GENERIC_MORDELL_WEIL_AND_SECTION_CLASSIFICATION' stages/stage14/14-s7-01/result.md
+          grep -q 'SINGULAR_FIBER_CONFIGURATION=I8,I8,I2,I2,I2,I2' stages/stage14/14-s7-01/result.md
+          grep -q 'GENERIC_GEOMETRIC_MORDELL_WEIL_RANK=0' stages/stage14/14-s7-01/result.md
+          grep -q 'GENERIC_LEGENDRE_QR_TORSION=(Z/2Z)^2' stages/stage14/14-s7-01/result.md
+          grep -q 'GENERIC_JACOBI_QR_POINT_COUNT=8' stages/stage14/14-s7-01/result.md
+          grep -q 'GENERIC_RATIONAL_NONBOUNDARY_SECTION_EXISTS=false' stages/stage14/14-s7-01/result.md
+          grep -q 'NEXT=Stage14-s7-02' stages/stage14/14-s7-01/result.md
