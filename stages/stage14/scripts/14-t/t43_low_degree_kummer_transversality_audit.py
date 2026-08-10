@@ -63,23 +63,30 @@ def relation_matrix(direction_keys):
     return out, dict(counts)
 
 
-def audit_principal_blocks(t42, relation):
-    blocks = t42["off_direction_principal"]["collision_blocks"]
+def audit_principal_blocks(reps, relation, common_packet_key):
+    by_kernel = defaultdict(list)
+    for s in reps:
+        by_kernel[s["kernel"]].append(s)
+
     counts = Counter()
     rows = []
-    for block in blocks:
-        d1 = tuple(block["directions"][0])
-        d2 = tuple(block["directions"][1])
+    for kernel, members in sorted(by_kernel.items()):
+        if len(members) != 2:
+            continue
+        x, y = members
+        d1 = (x["a"], x["b"])
+        d2 = (y["a"], y["b"])
+        assert d1 != d2
         label = relation[(d1, d2)]
         counts[label] += 1
         rows.append({
-            "kernel": block["kernel"],
+            "kernel": kernel,
             "directions": [list(d1), list(d2)],
             "relation": label,
-            "same_ell": block["same_ell"],
-            "same_common_packet": block["same_common_packet"],
+            "same_ell": x["ell"] == y["ell"],
+            "same_common_packet": common_packet_key(x) == common_packet_key(y),
         })
-    assert len(blocks) == 16
+    assert len(rows) == 16
     return dict(counts), rows
 
 
@@ -147,7 +154,9 @@ def main():
     reps = t42mod["reciprocal_quotient"](states)
     direction_keys = sorted({(s["a"], s["b"]) for s in reps})
     relation, relation_counts = relation_matrix(direction_keys)
-    principal_counts, principal_rows = audit_principal_blocks(t42, relation)
+    principal_counts, principal_rows = audit_principal_blocks(
+        reps, relation, t42mod["common_packet_key"]
+    )
     autocorr = audit_autocorrelation(reps, relation, t42mod["cross_kernel"])
 
     report = {
