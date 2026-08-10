@@ -1,0 +1,62 @@
+name: Stage14-s7-22 dual saturation tangent
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-22/**'
+      - 'stages/stage14/scripts/14-s7-22/**'
+      - '.github/workflows/stage14-s7-22-dual-saturation-tangent.yml'
+      - 'stages/stage14/14-s7-21/**'
+      - 'stages/stage14/14-s7-20/**'
+      - 'stages/stage14/14-4cg/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-22 dual saturation tangent audit
+        run: python stages/stage14/scripts/14-s7-22/dual_saturation_tangent_audit.py
+
+      - name: Run merged s7-21 regression
+        run: python stages/stage14/scripts/14-s7-21/dual_crt_short_vector_audit.py
+
+      - name: Check merged s7-21 boundary
+        run: |
+          f=stages/stage14/14-s7-21/result.md
+          grep -Fq 'STAGE14_S7_21=COMPLETE_PRIMEWISE_ORIENTATION_LINEARIZATION_AND_DUAL_CRT_SHORT_VECTOR_REDUCTION' "$f"
+          grep -Fq 'XI_ROOT_CRT_LATTICE_DETERMINANT=xi^2' "$f"
+          grep -Fq 'XI_ROOT_SHORT_VECTOR_RANK_MAX=3' "$f"
+          grep -Fq 'K_RANK_ONE_FIXES_Z_RATIO=true' "$f"
+          grep -Fq 'NEXT=Stage14-s7-22' "$f"
+
+      - name: Check merged 4cg compatibility boundary
+        run: |
+          f=stages/stage14/14-4cg/result.md
+          grep -Fq 'STAGE14_4CG=COMPLETE_PAIRWISE_RESIDUAL_COLLAPSE_AND_COMMON_CORE_COUPLING' "$f"
+          grep -Fq 'u*v <= B^(1/4+o(1))' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+
+      - name: Lock s7-22 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-22/result.md
+          grep -Fq 'STAGE14_S7_22=COMPLETE_RANK_THREE_DUAL_SATURATION_AND_TANGENT_RESONANCE_SPLIT' "$f"
+          grep -Fq 'PRODUCT_RATIO_FIXED_BEFORE_XI_RANK_SPLIT=true' "$f"
+          grep -Fq 'RANK3_NORMAL_HEIGHT_UPPER_EXPONENT=3/16' "$f"
+          grep -Fq 'RANK3_HYPERPLANE_SATURATION_DIVIDES_XI2=true' "$f"
+          grep -Fq 'RANK3_HYPERPLANE_SATURATION_LOWER_EXPONENT=21/16' "$f"
+          grep -Fq 'RANK3_DUAL_DEFECT_UPPER_EXPONENT=3/16' "$f"
+          grep -Fq 'RANK3_EACH_CELL_DUAL_COMPONENT_ORDER_LOWER_EXPONENT=1/16' "$f"
+          grep -Fq 'RANK3_TANGENT_CRITERION=u*g1*c1*c2=v*g2*c3*c4' "$f"
+          grep -Fq 'RANK3_NONTANGENT_SECTION_SMOOTH_CONIC=true' "$f"
+          grep -Fq 'RANK3_TANGENT_SECTION_TWO_RATIONAL_PLANES=true' "$f"
+          grep -Fq 'FIXED_PRODUCT_RATIO_TANGENT_NORMAL_COUNT_EXPONENT=3/8' "$f"
+          grep -Fq 'PACKET_TO_DUAL_NORMAL_AVERAGE_FIBER_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'TH16_NEEDED_BY_S7_22=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-23' "$f"
