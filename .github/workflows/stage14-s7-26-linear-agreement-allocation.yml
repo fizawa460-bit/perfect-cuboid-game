@@ -9,6 +9,7 @@ on:
       - 'stages/stage14/14-s7-25/**'
       - 'stages/stage14/14-4cg/**'
       - 'stages/stage14/14-4cl/**'
+      - 'stages/stage14/14-X4/**'
   workflow_dispatch:
 
 jobs:
@@ -32,6 +33,9 @@ jobs:
       - name: Run merged 4cl regression
         run: python stages/stage14/scripts/14-4/cyclotomic_quartic_allocation_audit.py
 
+      - name: Run merged X4 compatibility regression
+        run: python stages/stage14/scripts/14-X4/physical_diagonal_elimination_audit.py
+
       - name: Lock predecessor boundaries
         run: |
           grep -Fq 'STAGE14_S7_25=COMPLETE_FIXED_RESIDUAL_XI_SWITCH_PRODUCT_RECONSTRUCTION_AND_TOP_THETA_LOCALIZATION' stages/stage14/14-s7-25/result.md
@@ -42,6 +46,9 @@ jobs:
           grep -Fq 'K_THREE_WAY_CYCLOTOMIC_ALLOCATION_PROVED=true' stages/stage14/14-4cl/result.md
           grep -Fq 'gcd(H_k^+, oddpart(Xi_agree))=1' stages/stage14/14-4cg/result.md
           grep -Fq 'gcd(H_xi^+, oddpart(K_agree))=1' stages/stage14/14-4cg/result.md
+          grep -Fq 'STAGE14_X4=COMPLETE_PHYSICAL_PROPORTIONAL_BRANCH_ELIMINATION_AND_X_ROUTE_ALIGNMENT' stages/stage14/14-X4/result.md
+          grep -Fq 'REMAINING_RECEIVER=OffDiagonalReciprocalCyclotomicQuarticAllocationIncidence' stages/stage14/14-X4/result.md
+          grep -Fq 'X4_AUXILIARY_H_NEEDED=false' stages/stage14/14-X4/result.md
 
       - name: Lock s7-26 theorem boundary
         run: |
