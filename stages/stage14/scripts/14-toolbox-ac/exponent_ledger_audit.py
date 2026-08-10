@@ -40,6 +40,29 @@ def stage_code(stage: str) -> str:
     return m.group(1)
 
 
+def current_successor(cards: dict[str, dict], start_id: str) -> tuple[str, list[str]]:
+    seen: set[str] = set()
+    chain: list[str] = []
+    cid = start_id
+    while True:
+        if cid in seen:
+            fail(f"supersession cycle at {cid}")
+        seen.add(cid)
+        chain.append(cid)
+        card = cards.get(cid)
+        if card is None:
+            fail(f"supersession target missing: {cid}")
+        status = card["status"]
+        if status == "CURRENT":
+            return cid, chain
+        if status != "SUPERSEDED":
+            fail(f"supersession chain ended at non-current status {cid}:{status}")
+        nxt = card.get("superseded_by")
+        if not nxt:
+            fail(f"superseded card lacks successor: {cid}")
+        cid = nxt
+
+
 def main() -> None:
     data = json.loads(INDEX.read_text(encoding="utf-8"))
     ledger = LEDGER.read_text(encoding="utf-8")
@@ -67,10 +90,8 @@ def main() -> None:
         if not path or not (ROOT / path).exists():
             fail(f"missing card file for {card_id}: {path}")
 
-    # This card records the historical 41/42 -> 1/2 budget. Later whole-family
-    # improvements may supersede it as the CURRENT gap without invalidating the
-    # original arithmetic or the stages that froze thresholds from it.
-    gap = cards.get("TB-LEDGER-post-local-sqrt-gap")
+    gap_id = "TB-LEDGER-post-local-sqrt-gap"
+    gap = cards.get(gap_id)
     if not gap:
         fail("missing historical post-local gap card")
     pr, merge_sha = HISTORICAL_GAP
@@ -78,10 +99,8 @@ def main() -> None:
         fail("historical post-local gap provenance changed")
     if gap["status"] not in {"CURRENT", "SUPERSEDED"}:
         fail(f"invalid historical gap status {gap['status']}")
-    if gap["status"] == "SUPERSEDED":
-        successor = gap.get("superseded_by")
-        if not successor or successor not in cards or cards[successor]["status"] != "CURRENT":
-            fail("superseded historical gap lacks a current successor")
+
+    current_id, gap_chain = current_successor(cards, gap_id)
 
     if cards["TB-BOUND-local-descent-s5s"].get("superseded_by") != "TB-BOUND-local-descent-s5t":
         fail("s5s supersession chain broken")
@@ -113,7 +132,6 @@ def main() -> None:
     if Fraction(41, 84) / 5 != Fraction(41, 420):
         fail("s6-07 five-factor exponent mismatch")
 
-    # ac originally handed off to ad. Later toolbox stages are allowed to advance.
     if stage_code(data["next_stage"]) < "ad":
         fail("toolbox registry regressed before ad")
     if not str(data.get("next_theme", "")).strip():
@@ -130,13 +148,8 @@ def main() -> None:
     ]:
         require(ledger, lock, "exponent-ledger.md")
 
-    # If a later current whole-family ledger exists, verify its exact arithmetic
-    # rather than insisting that 41/42 remain the current post-local exponent.
-    current_main = cards.get("TB-LEDGER-current-main-after-4bq")
     current_main_exp = "41/42"
-    if current_main:
-        if current_main["status"] != "CURRENT":
-            fail("new main exponent ledger is not CURRENT")
+    if current_id == "TB-LEDGER-current-main-after-4bq":
         for lock in [
             "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=61/63",
             "WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=1/126",
@@ -145,13 +158,30 @@ def main() -> None:
         ]:
             require(ledger, lock, "exponent-ledger.md")
         if Fraction(41,42) - Fraction(61,63) != Fraction(1,126):
-            fail("post-local improvement ledger mismatch")
+            fail("4bq improvement ledger mismatch")
         if Fraction(61,63) - Fraction(1,2) != Fraction(59,126):
-            fail("current sqrt gap ledger mismatch")
+            fail("4bq sqrt gap ledger mismatch")
         current_main_exp = "61/63"
+    elif current_id == "TB-LEDGER-current-main-after-4br":
+        for lock in [
+            "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=20/21",
+            "WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=1/42",
+            "CURRENT_REMAINING_GAP_TO_SQRT=19/42",
+            "FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=true",
+        ]:
+            require(ledger, lock, "exponent-ledger.md")
+        if Fraction(41,42) - Fraction(20,21) != Fraction(1,42):
+            fail("4br cumulative saving ledger mismatch")
+        if Fraction(20,21) - Fraction(1,2) != Fraction(19,42):
+            fail("4br sqrt gap ledger mismatch")
+        current_main_exp = "20/21"
+    else:
+        # Future toolbox stages may extend the supersession chain. At that point
+        # ac only requires a valid CURRENT terminal card and nonempty current facts.
+        require(ledger, "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=", "exponent-ledger.md")
+        require(ledger, "CURRENT_REMAINING_GAP_TO_SQRT=", "exponent-ledger.md")
+        current_main_exp = f"future:{current_id}"
 
-    # Historical ac stage result remains immutable evidence of what was current
-    # when ac itself was created.
     for lock in [
         "STAGE14_TOOLBOX_AC=COMPLETE_CURRENT_EXPONENT_AND_SAVING_LEDGER",
         "CURRENT_LOCAL_M_SAVING=1/21",
@@ -184,6 +214,8 @@ def main() -> None:
         "local_saving_chain_M": ["1/200", "1/41", "1/21"],
         "physical_local_chain_B": ["399/400", "81/82", "41/42"],
         "historical_required_post_local_saving": "10/21",
+        "whole_family_supersession_chain": gap_chain,
+        "current_main_ledger": current_id,
         "current_main_exponent": current_main_exp,
         "forward_compatible_next_stage": data["next_stage"],
     }, indent=2, sort_keys=True))
