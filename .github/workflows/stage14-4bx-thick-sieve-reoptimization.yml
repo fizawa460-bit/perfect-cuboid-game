@@ -1,0 +1,34 @@
+name: Stage14-4bx thick sieve reoptimization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bx/**'
+      - 'stages/stage14/data/14-4/thick_sieve_reoptimization_summary.json'
+      - 'stages/stage14/scripts/14-4/thick_sieve_reoptimization_audit.py'
+      - '.github/workflows/stage14-4bx-thick-sieve-reoptimization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4bx audit
+        run: python -m py_compile stages/stage14/scripts/14-4/thick_sieve_reoptimization_audit.py
+      - name: Run merged 4bv regression
+        run: python stages/stage14/scripts/14-4/inert_fourier_thin_switch_audit.py
+      - name: Run merged 4bw regression
+        run: python stages/stage14/scripts/14-4/shared_xi_cell_sieve_audit.py
+      - name: Run 4bx deterministic audit
+        run: python stages/stage14/scripts/14-4/thick_sieve_reoptimization_audit.py
+      - name: Check locked 4bx boundary
+        run: |
+          grep -q 'STAGE14_4BX=REOPTIMIZED_THICK_PACKET_SQUARE_SIEVE_AND_15_16_WHOLE_FAMILY_BOUND' stages/stage14/14-4bx/result.md
+          grep -q 'THICK_PACKET_RELATIVE_SAVING=H^(-4/5)' stages/stage14/14-4bx/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=15/16' stages/stage14/14-4bx/result.md
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true' stages/stage14/14-4bx/result.md
+          grep -q 'SQRT_B_UPPER_BOUND_PROVED=false' stages/stage14/14-4bx/result.md
