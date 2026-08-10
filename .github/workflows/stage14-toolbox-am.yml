@@ -22,12 +22,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile toolbox-am audit
+      - name: Compile toolbox-am regression
         run: |
           python -m py_compile stages/stage14/scripts/14-toolbox-am/external_theorem_import_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-am/forward_regression.py
           python -m py_compile stages/stage14/scripts/14-toolbox-al/forward_regression.py
-      - name: Run toolbox-am theorem import and current-ledger audit
-        run: python stages/stage14/scripts/14-toolbox-am/external_theorem_import_audit.py
+      - name: Run frozen toolbox-am interface regression
+        run: python stages/stage14/scripts/14-toolbox-am/forward_regression.py
       - name: Regress frozen toolbox-al interface
         run: python stages/stage14/scripts/14-toolbox-al/forward_regression.py
       - name: Regress merged s7-10 theorem gate
@@ -36,9 +37,9 @@ jobs:
         run: python stages/stage14/scripts/14-4/fu_two_cell_13_14_audit.py
       - name: Regress merged 4bz 13/14 architecture barrier
         run: python stages/stage14/scripts/14-4/square_sieve_dimension_barrier_audit.py
-      - name: Regress merged s7-13 current 7/8 bound
+      - name: Regress merged s7-13 7/8 checkpoint
         run: python stages/stage14/scripts/14-s7-13/full_coordinate_refinement_audit.py
-      - name: Validate toolbox-am boundary
+      - name: Validate historical toolbox-am boundary
         run: |
           grep -q 'STAGE14_TOOLBOX_AM=COMPLETE_EXTERNAL_THEOREM_HYPOTHESIS_CONTRACT_AND_IMPORT_CHECKLIST' stages/stage14/14-toolbox-am/result.md
           grep -q 'CANONICAL_TOTAL_CARD_COUNT=98' stages/stage14/14-toolbox-am/result.md
