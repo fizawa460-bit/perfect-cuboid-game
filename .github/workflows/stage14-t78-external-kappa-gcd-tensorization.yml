@@ -1,0 +1,32 @@
+name: Stage14-t78 external kappa gcd tensorization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t78/**'
+      - 'stages/stage14/data/14-t78/**'
+      - 'stages/stage14/scripts/14-t/t78_*.py'
+      - '.github/workflows/stage14-t78-external-kappa-gcd-tensorization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: merged t77 regression
+        run: python stages/stage14/scripts/14-t/t77_projective_ray_character_audit.py >/dev/null
+      - name: current 23/44 global ledger regression
+        run: grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=23/44' stages/stage14/14-4cx/result.md
+      - name: Stage14-t78 audit
+        run: python stages/stage14/scripts/14-t/t78_external_kappa_gcd_tensor_audit.py
+      - name: frozen validator if present
+        run: |
+          if [ -f stages/stage14/scripts/14-t/t78_validate_frozen.py ]; then
+            python stages/stage14/scripts/14-t/t78_validate_frozen.py
+          fi
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t78_*.py
