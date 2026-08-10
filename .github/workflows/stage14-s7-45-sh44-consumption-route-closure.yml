@@ -1,0 +1,94 @@
+name: Stage14-s7-45 consume sH44 and close s7 route
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-45/**'
+      - 'stages/stage14/scripts/14-s7-45/**'
+      - '.github/workflows/stage14-s7-45-sh44-consumption-route-closure.yml'
+      - 'stages/stage14/14-sH44/**'
+      - 'stages/stage14/14-4dc/**'
+      - 'stages/stage14/14-4dH/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-45 audit
+        run: python stages/stage14/scripts/14-s7-45/sh44_consumption_route_closure_audit.py
+
+      - name: Compile Stage14-s7-45 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-45/sh44_consumption_route_closure_audit.py
+
+      - name: Frozen sH44 regression
+        run: python stages/stage14/scripts/14-sH44/dual_root_line_snapshot_h_audit.py
+
+      - name: Merged s7-44 regression
+        run: python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
+
+      - name: Merged 4dc regression
+        run: python stages/stage14/scripts/14-4/gaussian_product_rootline_h_gate_audit.py
+
+      - name: Merged 4dH regression
+        run: python stages/stage14/scripts/14-4/gaussian_product_physical_energy_h_audit.py
+
+      - name: X13 sqrt regression
+        run: python stages/stage14/scripts/14-X13/reverse_reciprocal_sqrt_audit.py
+
+      - name: Lock sH44 consumed verdict
+        run: |
+          f=stages/stage14/14-sH44/BOUNDARY.txt
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'SAFE_UNIFORM_DELTA=0' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'S7_45_CAN_CONSUME_SH44=true' "$f"
+
+      - name: Lock downstream Gaussian-product handoff
+        run: |
+          f=stages/stage14/14-4dc/result.md
+          grep -Fq 'DUAL_ROOT_LINE_CARTESIAN_PRODUCT_REPARAMETERIZED=true' "$f"
+          grep -Fq 'PRODUCT_PAIR_TO_RESIDUAL_PRIMITIVE_SPLIT_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'PRODUCT_PAIR_TO_SINGLE_COLUMN_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'SECOND_FULL_CORE_DETERMINANT_SPACING_LEGAL=false' "$f"
+          h=stages/stage14/14-4dH/result.md
+          grep -Fq 'ZERO_FREQUENCY_PHYSICAL_DENSITY_OBSTRUCTION=true' "$h"
+          grep -Fq 'CERTIFIED_MAINLINE_H_DELTA=0' "$h"
+          grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterGaussianNormDivisorSplitPhysicalAdmissibilityZeroFrequencyDensity' "$h"
+          grep -Fq 'NEXT=Stage14-4dd' "$h"
+
+      - name: Lock Stage14-s7-45 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-45/result.md
+          grep -Fq 'STAGE14_S7_45=COMPLETE_SH44_CONSUMPTION_ZERO_FREQUENCY_HANDOFF_AND_S7_ROUTE_CLOSURE_AT_SQRT' "$f"
+          grep -Fq 'SH44_CONSUMED=true' "$f"
+          grep -Fq 'SH44_TARGET_REOPENED=false' "$f"
+          grep -Fq 'S7_44_DUAL_ROOT_LINES_COMPRESSED_TO_GAUSSIAN_PRODUCT=true' "$f"
+          grep -Fq 'FIRST_RECIPROCAL_PRODUCT_RECONSTRUCTED_FROM_P_Q=true' "$f"
+          grep -Fq 'FIRST_RECIPROCAL_FRESH_FIXED_POWER_MODULUS=false' "$f"
+          grep -Fq 'SECOND_RECIPROCAL_FRESH_FIXED_POWER_SUPPORT=false' "$f"
+          grep -Fq 'S7_EXACT_GCD_CRT_PEELS_EXHAUSTED=true' "$f"
+          grep -Fq 'ZERO_FREQUENCY_PHYSICAL_DENSITY_OBSTRUCTION=true' "$f"
+          grep -Fq 'S7_RESIDUAL_RECEIVER_EQUALS_MAINLINE_ZERO_FREQUENCY_DENSITY=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S7_ROUTE_CLOSED_AT_SQRT=true' "$f"
+          grep -Fq 'S7_46_SCHEDULED=false' "$f"
+          grep -Fq 'S7_45_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'S7_ROUTE_HANDOFF=Stage14-4dd' "$f"
+          grep -Fq 'NEXT_S_ROUTE=NONE_UNTIL_NEW_EXACT_STRUCTURE' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
