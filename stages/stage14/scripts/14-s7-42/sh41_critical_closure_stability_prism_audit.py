@@ -1,94 +1,87 @@
 #!/usr/bin/env python3
 from fractions import Fraction as F
 
-TH0 = F(23, 88)
-PH0 = F(19, 88)
-CHI0 = F(9, 44)
-OLD = F(23, 44)
-BASE = F(19, 44)
-HFIB = F(1, 22)
 SQRT = F(1, 2)
+OLD = F(23, 44)
+SH41_BASE = F(19, 44)
+SH41_FIBER = F(1, 22)
 
-assert BASE + HFIB == F(21, 44)
-assert OLD - (BASE + HFIB) == F(1, 22)
-assert SQRT - (BASE + HFIB) == F(1, 44)
-assert 2 * TH0 + 2 * PH0 - F(3, 4) == CHI0
-
-
-def env(theta: F, phi: F, s: F = F(0)) -> F:
-    es = max(2 * theta, 1 - 2 * theta)
-    ek = 3 * theta - F(1, 4)
-    erc = 2 - 4 * theta - 2 * phi
-    eh = 3 * phi - F(1, 8) - 3 * s
-    return min(es, ek, erc, eh)
+# Independent sH41 old-critical check.
+assert SH41_BASE + SH41_FIBER == F(21, 44)
+assert SQRT - (SH41_BASE + SH41_FIBER) == F(1, 44)
 
 
-assert env(TH0, PH0) == OLD
-
-# Exact one-sided near-critical approach: the pointwise H replacement alone
-# does not yield an explicit fixed global delta.
-for n in (100, 200, 500, 1000):
-    eps = F(1, n)
-    assert env(TH0, PH0 + eps) == OLD - 2 * eps
-    assert env(TH0, PH0 - eps) == OLD - 3 * eps
+def chi(phi: F) -> F:
+    # theta = 1/4
+    return 2 * phi - F(1, 4)
 
 
-def inherited_domain(theta: F, phi: F, s: F) -> bool:
-    if not (F(3, 16) <= theta <= F(5, 16)):
-        return False
-    if not (F(1, 8) <= phi <= F(1, 4)):
-        return False
-    if not (F(0) <= theta - phi <= F(1, 8)):
-        return False
-    if theta + phi < F(3, 8):
-        return False
-    chi = 2 * theta + 2 * phi - F(3, 4)
-    if chi > F(1, 4):
-        return False
-    if s < 0:
-        return False
-    return True
+def A(phi: F) -> F:
+    # first residual and X13 single-column exponent
+    return F(1, 2) - 2 * phi
 
 
-def danger_formula(theta: F, phi: F, s: F) -> bool:
-    return (
-        theta > F(1, 4)
-        and 2 * theta + phi < F(3, 4)
-        and phi - s > F(5, 24)
-        and inherited_domain(theta, phi, s)
-    )
+def nu(phi: F) -> F:
+    # opposite signed product cap at theta=1/4
+    return 2 * phi - F(1, 4)
 
 
-# Exhaustive rational mesh: on the inherited low-core region, env>1/2 iff
-# the three displayed danger inequalities hold.
+def fixed_k_bound(phi: F, kappa: F) -> F:
+    a = A(phi)
+    assert 0 <= kappa <= a / 2
+    # common base 2phi + K choice kappa + column quotient a-2kappa
+    return 2 * phi + kappa + (a - 2 * kappa)
+
+
+# X13 sqrt band and exact theta-quarter scale identities.
 checks = 0
-for ti in range(48, 81):
-    theta = F(ti, 256)
-    for pi in range(32, 65):
-        phi = F(pi, 256)
-        for si in range(0, 17):
-            s = F(si, 256)
-            if not inherited_domain(theta, phi, s):
-                continue
-            checks += 1
-            assert (env(theta, phi, s) > SQRT) == danger_formula(theta, phi, s)
+for i in range(0, 89):
+    # phi from 5/24 to 1/4 on denominator 1056 grid.
+    phi = F(5, 24) + F(i, 2112)
+    if phi > F(1, 4):
+        break
+    checks += 1
+    a = A(phi)
+    assert F(0) <= a <= F(1, 12)
+    assert F(1, 4) - chi(phi) == a
+    assert nu(phi) == chi(phi)
+    assert 2 * phi + a == SQRT
 
-# s=0 projection is the open triangle with closure vertices
-# (1/4,5/24), (1/4,1/4), (13/48,5/24).
-A = (F(1, 4), F(5, 24))
-B = (F(1, 4), F(1, 4))
-C = (F(13, 48), F(5, 24))
-assert F(1, 4) < TH0 < F(13, 48)
-assert F(5, 24) < PH0 < F(3, 4) - 2 * TH0
+    # Test all rational K strata on a small exact mesh.
+    for j in range(0, 17):
+        kappa = (a / 2) * F(j, 16)
+        e = fixed_k_bound(phi, kappa)
+        assert e == SQRT - kappa
+        assert e <= SQRT
+        if kappa > 0:
+            assert e < SQRT
 
-# The critical point is strictly inside the s=0 danger triangle.
-assert danger_formula(TH0, PH0, F(0))
+# Endpoints.
+assert A(F(5, 24)) == F(1, 12)
+assert A(F(1, 4)) == 0
+assert chi(F(5, 24)) == F(1, 6)
+assert chi(F(1, 4)) == F(1, 4)
 
-print("Stage14-s7-42 sH41 critical-closure / stability-prism audit: PASS")
-print("mesh inherited blocks checked:", checks)
-print("old critical exponent:", OLD)
-print("sH41 critical endpoint exponent:", BASE + HFIB)
-print("critical margin below sqrt:", SQRT - (BASE + HFIB))
-print("current whole-family exponent remains:", OLD)
-print("s=0 danger triangle vertices:", A, B, C)
-print("next receiver: HalfBarrierNormalizedCrossRootSameSideSquareRemovedReverseReciprocalStabilityPrism")
+# X13 piecewise whole-strip closure.
+def ek(theta: F) -> F:
+    return 3 * theta - F(1, 4)
+
+
+def errf(theta: F) -> F:
+    return 1 - 2 * theta
+
+for t in range(48, 81):
+    theta = F(t, 256)
+    if theta <= F(1, 4):
+        assert ek(theta) <= SQRT
+    if theta >= F(1, 4):
+        assert errf(theta) <= SQRT
+
+print("Stage14-s7-42 X13 sqrt / theta-quarter same-side-gcd audit: PASS")
+print("theta-quarter phi blocks checked:", checks)
+print("current whole-family exponent:", SQRT)
+print("sH41 old critical endpoint:", SH41_BASE + SH41_FIBER)
+print("theta-quarter residual/column exponent range: [0, 1/12]")
+print("fixed K block exponent: 1/2-kappa")
+print("sqrt saturation requires K=B^o(1)")
+print("next receiver: SquareRootThetaQuarterSameSidePrimitiveFirstResidualSingleColumnIncidence")
