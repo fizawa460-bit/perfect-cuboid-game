@@ -1,0 +1,44 @@
+name: Stage14-tH7 roadworks stress gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH0/**'
+      - 'stages/stage14/14-tH1/**'
+      - 'stages/stage14/14-tH2/**'
+      - 'stages/stage14/14-tH3/**'
+      - 'stages/stage14/14-tH4/**'
+      - 'stages/stage14/14-tH5/**'
+      - 'stages/stage14/14-tH6/**'
+      - 'stages/stage14/14-tH7/**'
+      - 'stages/stage14/14-t38/**'
+      - 'stages/stage14/data/tH6/**'
+      - 'stages/stage14/data/tH7/**'
+      - 'stages/stage14/scripts/tH7/**'
+      - '.github/workflows/stage14-tH7-roadworks-stress-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/tH7/roadworks_stress_gate_audit.py
+      - name: Run deterministic stress gate
+        run: python stages/stage14/scripts/tH7/roadworks_stress_gate_audit.py
+      - name: Check locked boundary
+        run: |
+          grep -F 'STAGE14_TH7=COMPLETE_ROADWORKS_STRESS_GATE_AND_NEW_CYCLE_DECISION' stages/stage14/14-tH7/result.md
+          grep -F 'TH_CYCLE1_PARKED=true' stages/stage14/14-tH7/result.md
+          grep -F 'TH_SUPPORT_ROUTE_PARKED=false' stages/stage14/14-tH7/result.md
+          grep -F 'T38_GAUSSIAN_SPIN_TYPE_I_II_NEW_ROADWORK_IDENTIFIED=true' stages/stage14/14-tH7/result.md
+          grep -F 'T38_PACKET_EQUALS_FI_JACOBI_KUBOTA_SPIN=false' stages/stage14/14-tH7/result.md
+          grep -F 'A_11_POWER_SAVING_PROVED=false' stages/stage14/14-tH7/result.md
+          grep -F 'NEXT=Stage14-tH8 Gaussian spin / Dirichlet-symbol Type-I/II infrastructure; do not wait for t39' stages/stage14/14-tH7/result.md
