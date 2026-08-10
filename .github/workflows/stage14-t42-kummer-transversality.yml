@@ -1,0 +1,45 @@
+name: Stage14-t42 Kummer transversality
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t42/**'
+      - 'stages/stage14/scripts/14-t/t42_kummer_transversality_audit.py'
+      - 'stages/stage14/data/14-t42/**'
+      - '.github/workflows/stage14-t42-kummer-transversality.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t41 regression
+        run: python stages/stage14/scripts/14-t/t41_global_energy_incidence_audit.py
+      - name: Run t42 twisted-Kummer audit
+        run: python stages/stage14/scripts/14-t/t42_kummer_transversality_audit.py
+      - name: Check frozen t42 JSON
+        run: git diff --exit-code stages/stage14/data/14-t42/kummer_transversality.json
+      - name: Validate locked t42 boundary
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d = json.loads(Path('stages/stage14/data/14-t42/kummer_transversality.json').read_text())
+          q = d['decision']
+          assert q['STAGE14_T42'] == 'COMPLETE_RECIPROCAL_QUOTIENT_AND_TWISTED_KUMMER_ENERGY_REDUCTION'
+          assert q['RECIPROCAL_DOUBLE_COVER_QUOTIENTED'] is True
+          assert q['FROZEN_RECIPROCAL_ORBITS'] == 560
+          assert q['FROZEN_OFF_DIRECTION_PRINCIPAL_BLOCKS'] == 16
+          assert q['FROZEN_DIRECTION_COLLISION_GRAPH_MAX_DEGREE'] == 2
+          assert q['FROZEN_DIRECTION_BRANCH_PGL2_EQUIVALENT_BLOCKS'] == 0
+          assert q['PRINCIPAL_AND_NONPRINCIPAL_UNIFIED_BY_TWISTED_KUMMER'] is True
+          assert q['A1_NEAR_LINEAR_PLUS_CNON_SUBPOLY_IMPLIES_E4_NEAR_QUADRATIC'] is True
+          assert q['OFF_DIRECTION_PRINCIPAL_AGGREGATE_BOUND_PROVED'] is False
+          assert q['NONPRINCIPAL_TWIST_MULTIPLICITY_SUBPOLY_PROVED'] is False
+          assert q['GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED'] is False
+          assert q['A_11_POWER_SAVING_PROVED'] is False
+          assert q['T_O_SQRT_B_PROVED'] is False
+          assert q['PERFECT_CUBOID_NONEXISTENCE_PROVED'] is False
+          print('locked t42 boundary: OK')
+          PY
