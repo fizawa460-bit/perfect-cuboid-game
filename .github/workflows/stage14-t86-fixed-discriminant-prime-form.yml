@@ -1,0 +1,88 @@
+name: Stage14-t86 fixed-discriminant prime-value form
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t86/**'
+      - 'stages/stage14/data/14-t86/**'
+      - 'stages/stage14/scripts/14-t/t86_*'
+      - '.github/workflows/stage14-t86-fixed-discriminant-prime-form.yml'
+      - 'stages/stage14/14-t85/**'
+      - 'stages/stage14/14-tH24/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-t86 deterministic audit
+        run: python stages/stage14/scripts/14-t/t86_fixed_discriminant_prime_form_audit.py
+
+      - name: Stage14-t86 frozen validator
+        run: python stages/stage14/scripts/14-t/t86_validate_frozen.py
+
+      - name: Compile t86 scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t86_fixed_discriminant_prime_form_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t86_validate_frozen.py
+
+      - name: Regress merged t85 root-lift audit
+        run: python stages/stage14/scripts/14-t/t85_selector_delta_rootlift_audit.py
+
+      - name: Regress merged frozen tH24 snapshot audit
+        run: python stages/stage14/scripts/14-tH24/primitive_binary_norm_sieve_audit.py
+
+      - name: Lock t85 predecessor
+        run: |
+          f=stages/stage14/14-t85/result.md
+          grep -Fq 'STAGE14_T85=COMPLETE_SELECTOR_DELTA_COPRIMALITY_MODULUS_SQUARE_ROOT_LIFT_AND_SQUARE_QUOTIENT_REDUCTION' "$f"
+          grep -Fq 'VERTICAL_DIVISOR_CONDITION_EQUIVALENT_TO_ROOT_LIFT_PLUS_SQUARE_QUOTIENT=true' "$f"
+          grep -Fq 'SELECTOR_DELTA_SQUARED_HYPERBOLA_PROVED=true' "$f"
+          grep -Fq 'TH24_TARGET_REOPENED=false' "$f"
+
+      - name: Lock completed tH24 snapshot verdict
+        run: |
+          f=stages/stage14/14-tH24/result.md
+          grep -Fq 'STAGE14_TH24=COMPLETE_T84_SNAPSHOT_PRIMITIVE_BINARY_NORM_SUPER_SQRT_LPF_VERTICAL_DIVISOR_SIEVE_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'OFF_THE_SHELF_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+
+      - name: Lock immutable H protocol
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock t86 theorem boundary
+        run: |
+          f=stages/stage14/14-t86/result.md
+          grep -Fq 'STAGE14_T86=COMPLETE_COFACTOR_ROOT_LINE_TO_FIXED_DISCRIMINANT_FIXED_COFACTOR_PRIME_VALUE_FORM' "$f"
+          grep -Fq 'DELTA_ROOT_OF_MINUS_ONE_PROVED=true' "$f"
+          grep -Fq 'COFACTOR_ROOT_LINE_QUOTIENT_FORM_PROVED=true' "$f"
+          grep -Fq 'SQUARE_QUOTIENT_NONLINEARITY_ELIMINATED=true' "$f"
+          grep -Fq 'FIXED_DISCRIMINANT_REDUCTION_PROVED=true' "$f"
+          grep -Fq 'FORM_DISCRIMINANT=-4*d^2' "$f"
+          grep -Fq 'PRIMITIVE_POSITIVE_DEFINITE_FORM_PROVED=true' "$f"
+          grep -Fq 'FIXED_COFACTOR_PRIME_VALUE_FORM_PROVED=true' "$f"
+          grep -Fq 'MOVING_DELTA_REMOVED_FROM_VALUE_SIDE=true' "$f"
+          grep -Fq 'DELTA_GAUSSIAN_IDEAL_EXTRACTION_PROVED=true' "$f"
+          grep -Fq 'FIXED_K_GAUSSIAN_FACTOR_PEEL_PROVED=true' "$f"
+          grep -Fq 'BILINEAR_PI_V_MULTIPLICITY_REOPENED=false' "$f"
+          grep -Fq 'TH24_CONSUMED=true' "$f"
+          grep -Fq 'TH24_TARGET_REOPENED=false' "$f"
+          grep -Fq 'TH25_NEEDED=true' "$f"
+          grep -Fq 'TH25_DISPATCHED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t87' "$f"
