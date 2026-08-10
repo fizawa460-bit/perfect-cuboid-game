@@ -5,6 +5,7 @@ on:
     paths:
       - 'stages/stage14/14-t48/**'
       - 'stages/stage14/scripts/14-t/t48_physical_row_correlation_audit.py'
+      - 'stages/stage14/scripts/14-t/t48_validate_frozen.py'
       - 'stages/stage14/data/14-t48/**'
       - '.github/workflows/stage14-t48-physical-row-correlation.yml'
   workflow_dispatch:
@@ -18,3 +19,5 @@ jobs:
         run: python stages/stage14/scripts/14-t/t47_centered_spectral_shell_audit.py
       - name: Run t48 physical row-correlation audit
         run: python stages/stage14/scripts/14-t/t48_physical_row_correlation_audit.py
+      - name: Validate frozen t48 ledger and boundary
+        run: python stages/stage14/scripts/14-t/t48_validate_frozen.py
