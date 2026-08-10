@@ -1,0 +1,42 @@
+name: Stage14-4cq dual common-core Cayley collapse
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cq/**'
+      - 'stages/stage14/scripts/14-4/dual_common_core_cayley_audit.py'
+      - 'stages/stage14/data/14-4/dual_common_core_cayley_summary.json'
+      - '.github/workflows/stage14-4cq-dual-common-core-cayley.yml'
+      - 'stages/stage14/14-4cp/**'
+      - 'stages/stage14/14-s7-29/**'
+      - 'stages/stage14/14-X6/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run Stage14-4cq audit
+        run: python stages/stage14/scripts/14-4/dual_common_core_cayley_audit.py
+      - name: Run Stage14-4cp regression
+        run: python stages/stage14/scripts/14-4/three_quarter_rootline_promotion_audit.py
+      - name: Run Stage14-s7-29 regression
+        run: python stages/stage14/scripts/14-s7-29/common_core_primitive_root_line_audit.py
+      - name: Run Stage14-X6 regression
+        run: python stages/stage14/scripts/14-X6/singular_elimination_four_root_crt_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-4cq/result.md
+          grep -Fq 'STAGE14_4CQ=COMPLETE_DUAL_COMMON_CORE_CAYLEY_DIVISOR_COLLAPSE_AND_SYMMETRIC_QUARTER_QUARTER_REDUCTION' "$f"
+          grep -Fq 'DUAL_COMMON_CORE_CAYLEY_DIVISOR_LOCK_PROVED=true' "$f"
+          grep -Fq 'FIXED_RESIDUAL_QUOTIENT_ROOT_PRODUCT_COMMON_CORE_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'BALANCED_STRIP_LAMBDA4_SINGULAR_BRANCH_EMPTY=true' "$f"
+          grep -Fq 'ALTERNATIVE_DUAL_CAYLEY_BLOCK_EXPONENT=1/2+2phi-c' "$f"
+          grep -Fq 'CURRENT_THREE_QUARTER_SATURATION_CORNER=theta=phi=1/4,c=1/4' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=3/4' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_BELOW_3_4_PROVED=false' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4cr' "$f"
