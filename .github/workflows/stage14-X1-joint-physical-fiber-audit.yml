@@ -1,0 +1,30 @@
+name: Stage14-X1 joint physical-fiber audit
+
+on:
+  pull_request:
+    paths:
+      - "stages/stage14/14-X1/**"
+      - "stages/stage14/data/14-X1/**"
+      - "stages/stage14/scripts/14-X1/**"
+      - ".github/workflows/stage14-X1-joint-physical-fiber-audit.yml"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run common-core predecessor regression
+        run: python3 stages/stage14/scripts/14-4/coupled_residual_common_core_audit.py
+      - name: Run dual-CRT predecessor regression
+        run: python3 stages/stage14/scripts/14-s7-21/dual_crt_short_vector_audit.py
+      - name: Run X0 transfer regression
+        run: python3 stages/stage14/scripts/14-X0/receiver_transfer_audit.py
+      - name: Run stronger 4ch fiber regression
+        run: python3 stages/stage14/scripts/14-4/eight_cell_residual_lift_audit.py
+      - name: Run latest s7-22 resonance regression
+        run: python3 stages/stage14/scripts/14-s7-22/dual_saturation_tangent_audit.py
+      - name: Audit X1 joint physical fiber
+        run: python3 stages/stage14/scripts/14-X1/joint_physical_fiber_audit.py
+      - name: Compile X1 audit
+        run: python3 -m py_compile stages/stage14/scripts/14-X1/joint_physical_fiber_audit.py
