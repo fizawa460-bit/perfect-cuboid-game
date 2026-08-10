@@ -1,0 +1,127 @@
+{
+  "stage": "Stage14-tH6",
+  "status": "COMPLETE_ABSTRACT_POWER_SAVING_TRANSFER_RECEIVER",
+  "requires_future_t_result": false,
+  "dependencies": [
+    "Stage14-tH4",
+    "Stage14-tH5"
+  ],
+  "standard_roadworks_fixed_power_exponents": {
+    "gaussian_normalization": "0",
+    "finite_state_sum": "0",
+    "divisor_hyperbola_lift": "0",
+    "conductor_adapter": "0",
+    "spectral_energy_under_declared_subpolynomial_budget": "0",
+    "mellin_kernel_under_declared_subpolynomial_budget": "0",
+    "dyadic_assembly": "0",
+    "exact_pair_collision": "0"
+  },
+  "standard_total_overhead": "0",
+  "transfer_formulas": {
+    "squared_effective": "Gamma-Omega",
+    "one_root_delivered": "(Gamma-Omega)/2",
+    "direct_count_effective": "Delta-Omega_count",
+    "positive_squared_survival_condition": "Gamma>Omega",
+    "positive_direct_survival_condition": "Delta>Omega_count"
+  },
+  "stage14_thresholds": {
+    "current_local_exponent": "41/42",
+    "sqrt_B_exponent": "1/2",
+    "post_local_direct_saving_required": "10/21",
+    "one_root_squared_saving_required_at_zero_overhead": "20/21",
+    "general_one_root_condition": "Gamma-Omega>=20/21"
+  },
+  "audit": {
+    "squared_second_moment_cases": [
+      {
+        "name": "positive_basic",
+        "gamma": "1/3",
+        "omega": "0",
+        "effective_squared_saving": "1/3",
+        "delivered_after_one_root": "1/6",
+        "classification": "POSITIVE"
+      },
+      {
+        "name": "sqrt_threshold_exact",
+        "gamma": "20/21",
+        "omega": "0",
+        "effective_squared_saving": "20/21",
+        "delivered_after_one_root": "10/21",
+        "classification": "POSITIVE"
+      },
+      {
+        "name": "overhead_threshold_exact",
+        "gamma": "1",
+        "omega": "1/21",
+        "effective_squared_saving": "20/21",
+        "delivered_after_one_root": "10/21",
+        "classification": "POSITIVE"
+      },
+      {
+        "name": "positive_with_overhead",
+        "gamma": "1/2",
+        "omega": "1/6",
+        "effective_squared_saving": "1/3",
+        "delivered_after_one_root": "1/6",
+        "classification": "POSITIVE"
+      },
+      {
+        "name": "critical",
+        "gamma": "1/4",
+        "omega": "1/4",
+        "effective_squared_saving": "0",
+        "delivered_after_one_root": "0",
+        "classification": "CRITICAL"
+      },
+      {
+        "name": "fail",
+        "gamma": "1/5",
+        "omega": "1/4",
+        "effective_squared_saving": "-1/20",
+        "delivered_after_one_root": "-1/40",
+        "classification": "FAIL"
+      }
+    ],
+    "direct_count_cases": [
+      {
+        "name": "positive_basic",
+        "delta": "1/5",
+        "omega_count": "0",
+        "effective_count_saving": "1/5",
+        "classification": "POSITIVE"
+      },
+      {
+        "name": "sqrt_threshold_exact",
+        "delta": "10/21",
+        "omega_count": "0",
+        "effective_count_saving": "10/21",
+        "classification": "POSITIVE"
+      },
+      {
+        "name": "overhead_threshold_exact",
+        "delta": "1/2",
+        "omega_count": "1/42",
+        "effective_count_saving": "10/21",
+        "classification": "POSITIVE"
+      },
+      {
+        "name": "critical",
+        "delta": "1/4",
+        "omega_count": "1/4",
+        "effective_count_saving": "0",
+        "classification": "CRITICAL"
+      }
+    ],
+    "exact_fraction_grid_checks": 81
+  },
+  "proof_boundary": {
+    "abstract_power_saving_transfer_receiver_proved": true,
+    "standard_th1_th5_fixed_power_overhead_zero": true,
+    "same_modulus_joint_second_moment_theorem_proved": false,
+    "norm_index_hyperbolic_correlation_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "next": "Stage14-tH7"
+}
