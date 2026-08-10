@@ -1,10 +1,11 @@
-# Current whole-family ledger after s7-10 / 4by
+# Historical whole-family ledger after s7-10 / 4by
 
 ```yaml
 ID: TB-LEDGER-current-whole-family-after-s7-10
 TYPE: LEDGER
-STATUS: CURRENT
-TITLE: Current whole-family exponent 13/14 and square-root gap after the proved two-cell receiver
+STATUS: SUPERSEDED
+SUPERSEDED_BY: TB-LEDGER-current-whole-family-after-s7-13
+TITLE: Historical whole-family exponent 13/14 after the proved two-cell receiver
 SCOPE: BOTH
 SOURCE_STAGE: Stage14-s7-10
 SOURCE_PR: 425
@@ -21,32 +22,31 @@ Merged s7-10 and 4by prove the adjacent two-cell mixed Fourier receiver and comb
 
 ## OUTPUT
 
+At that checkpoint:
+
 ```text
-CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=13/14
+HISTORICAL_PHYSICAL_WHOLE_FAMILY_EXPONENT=13/14
 IMPROVEMENT_OVER_15_16=1/112
 CUMULATIVE_POST_LOCAL_SAVING_FROM_41_42=1/21
-CURRENT_REMAINING_GAP_TO_SQRT=3/7
-CURRENT_SQUARE_ROOT_SQUARE_SIEVE_ARCHITECTURE_BARRIER=13/14
-SQRT_B_UPPER_BOUND_PROVED=false
+HISTORICAL_REMAINING_GAP_TO_SQRT=3/7
+SQUARE_ROOT_SQUARE_SIEVE_ARCHITECTURE_BARRIER=13/14
 ```
 
 ## VARIABLE DICTIONARY
 
-- `13/14` = current proved whole-family exponent.
-- `1/112` = gain over merged 4bx `15/16`.
-- `1/21` = cumulative saving from the closed local `41/42` baseline.
-- `3/7` = remaining gap to exponent `1/2`.
+- `13/14` = proved global checkpoint and a reusable two-cell/square-sieve receiver architecture.
+- the all-frequency `O(p)` theorem and `(RS)^(-1/3)` coefficient saving remain valid inputs after this global ledger is superseded.
 
 ## USED BY
 
-- Every current main/s exponent comparison after s7-10/4by.
-- Selecting genuinely new receivers beyond the present square-sieve architecture.
+- External-theorem import provenance.
+- The later full-coordinate refinements that use the proved two-cell theorem.
 
 ## DO NOT USE FOR
 
-- Do not claim a square-root upper bound.
-- Do not expect threshold retuning or naive 3-/4-cell enlargement to improve this ceiling; merged 4bz/s7-11 rule those routes out within the current architecture.
+- Do not call `13/14` the current whole-family ceiling after merged s7-13.
+- Do not infer that superseding the global exponent invalidates the two-cell theorem.
 
 ## PROVENANCE NOTES
 
-Merged s7-10 first closes the missing s7-09 theorem gate; merged 4by independently rederives the same `13/14`; merged 4bz records the resulting architecture barrier.
+Merged s7-13 imports the s7-10 two-cell theorem inside a finer common-coordinate refinement and improves the whole-family exponent to `7/8`.
