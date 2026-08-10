@@ -1,0 +1,38 @@
+name: Stage14-toolbox-bb square-root receiver refresh
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-toolbox-bb/**'
+      - 'stages/stage14/scripts/14-toolbox-bb/**'
+      - 'docs/stage14-toolbox/post-ba-sqrt-receiver-matrix.md'
+      - '.github/workflows/stage14-toolbox-bb.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile toolbox-bb audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-bb/post_ba_sqrt_refresh_audit.py
+      - name: Run square-root predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-X13/reverse_reciprocal_sqrt_audit.py > /tmp/x13.json
+          python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py > /tmp/s7_44.json
+      - name: Run fixed-U predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-tH23/single_frequency_inverse_fraction_audit.py > /tmp/th23.json
+          python stages/stage14/scripts/14-t/t83_determinant_quotient_switch_audit.py > /tmp/t83.json
+      - name: Run toolbox-bb audit
+        run: python stages/stage14/scripts/14-toolbox-bb/post_ba_sqrt_refresh_audit.py > /tmp/toolbox_bb.json
+      - name: Lock toolbox-bb boundary
+        run: |
+          f=stages/stage14/14-toolbox-bb/result.md
+          grep -q 'STAGE14_TOOLBOX_BB=COMPLETE_POST_BA_FIRST_CONSUMER_AUDIT_AND_SQUARE_ROOT_RECEIVER_REFRESH' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -q 'NEW_BB_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
