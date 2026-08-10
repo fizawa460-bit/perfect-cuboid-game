@@ -1,0 +1,20 @@
+name: Stage14-t56 centered selector SUBD bridge
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t56/**'
+      - 'stages/stage14/scripts/14-t/t56_centered_selector_subd_bridge_audit.py'
+      - 'stages/stage14/data/14-t56/**'
+      - '.github/workflows/stage14-t56-centered-selector-subd-bridge.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t55 predecessor regression
+        run: python stages/stage14/scripts/14-t/t55_shared_u_projective_trace_audit.py
+      - name: Run t56 centered-selector/SUBD bridge audit
+        run: python stages/stage14/scripts/14-t/t56_centered_selector_subd_bridge_audit.py
