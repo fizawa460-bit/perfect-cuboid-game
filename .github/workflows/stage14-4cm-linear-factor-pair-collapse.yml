@@ -1,0 +1,38 @@
+name: Stage14-4cm linear factor-pair collapse
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cm/**'
+      - 'stages/stage14/scripts/14-4/linear_factor_pair_collapse_audit.py'
+      - 'stages/stage14/data/14-4/linear_factor_pair_collapse_summary.json'
+      - '.github/workflows/stage14-4cm-linear-factor-pair-collapse.yml'
+      - 'stages/stage14/14-4cl/**'
+      - 'stages/stage14/14-4cg/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run 4cm audit
+        run: python stages/stage14/scripts/14-4/linear_factor_pair_collapse_audit.py
+      - name: Run 4cl regression
+        run: python stages/stage14/scripts/14-4/cyclotomic_quartic_allocation_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-4cm/result.md
+          grep -Fq 'STAGE14_4CM=COMPLETE_QUADRATIC_BRANCH_ELIMINATION_AND_RESIDUAL_LINEAR_FACTOR_PAIR_COLLAPSE' "$f"
+          grep -Fq 'XI_CYCLOTOMIC_I_BRANCH=1' "$f"
+          grep -Fq 'K_CYCLOTOMIC_I_BRANCH=1' "$f"
+          grep -Fq 'XI_LINEAR_QUOTIENT_PRODUCT=oddpart(u_res)' "$f"
+          grep -Fq 'K_LINEAR_QUOTIENT_PRODUCT=oddpart(v_res)' "$f"
+          grep -Fq 'EXTREME_CORNER_XI_DOMINANT_LINEAR_EXPONENT=1/4' "$f"
+          grep -Fq 'EXTREME_CORNER_K_DOMINANT_LINEAR_EXPONENT=5/16' "$f"
+          grep -Fq 'RECIPROCAL_COUPLED_DIFFERENCE_SQUARE_SYSTEM_PROVED=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4cn' "$f"
