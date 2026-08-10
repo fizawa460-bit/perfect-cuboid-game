@@ -1,0 +1,23 @@
+name: Stage14-toolbox-an obstruction atlas audit
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-an/**'
+      - 'stages/stage14/scripts/14-toolbox-an/**'
+      - '.github/workflows/stage14-toolbox-an.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile stages/stage14/scripts/14-toolbox-an/barrier_obstruction_audit.py
+      - run: python stages/stage14/scripts/14-toolbox-an/barrier_obstruction_audit.py
+      - run: python stages/stage14/scripts/14-s7-13/full_coordinate_refinement_audit.py
+      - run: grep -q 'TOOLBOX_H_REQUIRED_FOR_TOOLBOX_MAIN=false' stages/stage14/14-toolbox-an/result.md
