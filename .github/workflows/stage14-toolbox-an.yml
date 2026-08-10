@@ -1,0 +1,48 @@
+name: Stage14-toolbox-an barrier obstruction atlas audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-an/**'
+      - 'stages/stage14/scripts/14-toolbox-an/**'
+      - 'stages/stage14/scripts/14-toolbox-am/**'
+      - '.github/workflows/stage14-toolbox-an.yml'
+      - '.github/workflows/stage14-toolbox-am.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile toolbox audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-an/barrier_obstruction_atlas_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-am/forward_regression.py
+      - name: Run toolbox-an barrier atlas audit
+        run: python stages/stage14/scripts/14-toolbox-an/barrier_obstruction_atlas_audit.py
+      - name: Regress frozen toolbox-am interface
+        run: python stages/stage14/scripts/14-toolbox-am/forward_regression.py
+      - name: Regress current s7-13 whole-family checkpoint
+        run: python stages/stage14/scripts/14-s7-13/full_coordinate_refinement_audit.py
+      - name: Regress merged s7-14 xi-k collision barrier
+        run: python stages/stage14/scripts/14-s7-14/large_xi_k_collision_audit.py
+      - name: Regress merged 4cb shared-label barrier
+        run: python stages/stage14/scripts/14-4/shared_label_7_8_barrier_audit.py
+      - name: Regress merged t50 selector-sensitive boundary
+        run: python stages/stage14/scripts/14-t/t50_selector_sensitive_two_modulus_audit.py
+      - name: Validate toolbox-an boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AN=COMPLETE_BARRIER_OBSTRUCTION_ATLAS_AND_NEXT_RECEIVER_SELECTOR' stages/stage14/14-toolbox-an/result.md
+          grep -q 'CANONICAL_TOTAL_CARD_COUNT=109' stages/stage14/14-toolbox-an/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8' stages/stage14/14-toolbox-an/result.md
+          grep -q 'PRIMARY_DIRECT_OBSTRUCTION=OFF_DIAGONAL_XI_K_COLLISION_ENERGY' stages/stage14/14-toolbox-an/result.md
+          grep -q 'TH14_NEEDED=true' stages/stage14/14-toolbox-an/result.md
+          grep -q 'NEXT=Stage14-toolbox-ao critical-shell collision and second-moment interface contracts' stages/stage14/14-toolbox-an/result.md
