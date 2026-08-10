@@ -1,0 +1,35 @@
+name: Stage14-t74 canonical host short cofactor
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t74/**'
+      - 'stages/stage14/data/14-t74/**'
+      - 'stages/stage14/scripts/14-t/t74_*.py'
+      - '.github/workflows/stage14-t74-canonical-host-short-cofactor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: predecessor t73 regression
+        run: python stages/stage14/scripts/14-t/t73_fixed_tag_norm_fiber_audit.py >/dev/null
+      - name: s7-34 global 47/80 ledger regression
+        run: grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=47/80' stages/stage14/14-s7-34/result.md
+      - name: Stage14-t74 audit
+        run: python stages/stage14/scripts/14-t/t74_canonical_host_short_cofactor_audit.py
+      - name: frozen validator if present
+        run: |
+          if [ -f stages/stage14/scripts/14-t/t74_validate_frozen.py ]; then
+            python stages/stage14/scripts/14-t/t74_validate_frozen.py
+          fi
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t74_*.py
