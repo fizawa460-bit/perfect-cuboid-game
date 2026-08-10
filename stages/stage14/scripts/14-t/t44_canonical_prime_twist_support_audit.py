@@ -36,7 +36,7 @@ def main():
     t42 = runpy.run_path(str(T42_SCRIPT), run_name="stage14_t42_import")
     t43 = json.loads(T43_DATA.read_text())
     assert t43["stage"] == "14-t43"
-    assert t43["boundary"]["GENERIC_TWISTED_KUMMER_REMAINS_PRIMARY"] is True
+    assert t43["decision"]["GENERIC_TWISTED_KUMMER_REMAINS_PRIMARY"] is True
 
     states = t36["build_frozen_states"]()
     reps = t42["reciprocal_quotient"](states)
@@ -52,7 +52,6 @@ def main():
         else:
             assert v == 2
 
-    # Principal quotient blocks: 16 unordered collisions, represented by the 16 doubled squareclasses.
     by_kernel = defaultdict(list)
     for s in reps:
         by_kernel[s["kernel"]].append(s)
@@ -69,11 +68,8 @@ def main():
             principal["same_ell"] += 1
         else:
             principal["distinct_ell"] += 1
-            # Principal parity + the super-sqrt one-factor routing predicts zero cross valuation.
             assert vx_y == 0 and vy_x == 0
             principal["distinct_ell_cross_good"] += 1
-            # In the frozen super-sqrt branch, the foreign canonical prime is absent from the
-            # other direction discriminant as predicted by the prime-size separation.
             assert direction_delta(y) % x["ell"] != 0
             assert direction_delta(x) % y["ell"] != 0
         principal_rows.append({
@@ -84,8 +80,6 @@ def main():
         })
     assert len(principal_rows) == 16
 
-    # Full nonprincipal autocorrelation, now resolved state-pairwise so we can see whether
-    # a foreign canonical prime enters the partner's F.  If it does, parity forces it into tau.
     conv = Counter()
     heavy_rows = defaultdict(lambda: Counter())
     routing_checks = 0
@@ -94,7 +88,6 @@ def main():
     same_ell_pairs = 0
     distinct_ell_cross_good_pairs = 0
 
-    pair_records = []
     for x in reps:
         dx = (x["a"], x["b"])
         for y in reps:
@@ -110,9 +103,6 @@ def main():
             else:
                 vx_y = vp(y["F"], x["ell"])
                 vy_x = vp(x["F"], y["ell"])
-                # Foreign super-sqrt prime can occur with exponent at most one on the good
-                # one-factor side. Frozen audit checks that every occurrence is parity-routed
-                # into the squarefree twist tau.
                 if vx_y:
                     assert vx_y == 1
                     assert tau % x["ell"] == 0
@@ -138,7 +128,6 @@ def main():
         row = heavy_rows[tau]
         for k, v in row.items():
             heavy_summary[k] += v
-        # number of canonical super-sqrt primes from the observed family exposed in tau
         exposed = sorted({s["ell"] for s in reps if tau % s["ell"] == 0})
         top.append({
             "tau": tau,
@@ -149,17 +138,11 @@ def main():
             "observed_exposed_canonical_primes": exposed,
         })
 
-    # General conductor-size ledger: |tau| <= |F_x F_y| <= 2^16 B^8 from t40's safe bound,
-    # so the number of prime divisors >2 sqrt(B) is <= 16+o(1); freeze the elementary finite-B check.
     safe_tau_bound = (256 * B**4) ** 2
     max_super_sqrt_prime_count = 0
+    observed_ells = {s["ell"] for s in reps if s["ell"] > 2 * isqrt(B)}
     for tau in conv:
-        n = tau
-        cnt = 0
-        p = 2 * isqrt(B) + 1
-        # We do not factor arbitrary tau here. Count only observed canonical primes; the theorem
-        # bound is recorded symbolically in result.md.
-        cnt = len({s["ell"] for s in reps if s["ell"] > 2 * isqrt(B) and tau % s["ell"] == 0})
+        cnt = len({ell for ell in observed_ells if tau % ell == 0})
         max_super_sqrt_prime_count = max(max_super_sqrt_prime_count, cnt)
         assert tau <= safe_tau_bound
 
