@@ -202,8 +202,13 @@ def main() -> None:
     nxt = STAGE_CODE.fullmatch(data["next_stage"])
     if not nxt or nxt.group(1) < "ah":
         fail("toolbox registry must be at ah or later after ag")
-    if data.get("next_theme") != "two-quadrics and genus-one geometry":
-        fail("unexpected toolbox-ag handoff theme")
+    # At ag itself the exact handoff theme was fixed. Once the registry has
+    # advanced beyond ah, only require a nonempty next theme; later stages own it.
+    if nxt.group(1) == "ah":
+        if data.get("next_theme") != "two-quadrics and genus-one geometry":
+            fail("unexpected toolbox-ag handoff theme")
+    elif not str(data.get("next_theme", "")).strip():
+        fail("advanced toolbox registry must retain a nonempty next theme")
 
     taus = tau_packets()
     if len(taus) != 16:

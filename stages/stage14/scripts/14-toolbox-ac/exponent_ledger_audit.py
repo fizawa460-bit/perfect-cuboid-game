@@ -17,11 +17,11 @@ EXPECTED_AC = {
     "TB-BOUND-local-descent-s5s": ("SUPERSEDED", 328, "3cbdde9bc94c55c63f72946805d3315e83c35097"),
     "TB-BOUND-local-descent-s5t": ("SUPERSEDED", 333, "9f9e74f22e80fb8432e865f3eebee8cd7c842fff"),
     "TB-BOUND-local-descent-current": ("CURRENT", 338, "516ffb08155e0aa618b2539efb07802a389ca219"),
-    "TB-LEDGER-post-local-sqrt-gap": ("CURRENT", 341, "b4c9408441e501cb4d8f9a98b71f809d30a25f97"),
     "TB-BOUND-dual-half-angle-small-leg-sector": ("CURRENT", 365, "dffc5669ca73c4bb7e4b5115e1fe238dde5605ae"),
     "TB-LEDGER-s6-07-forced-incidence-scale": ("CURRENT", 364, "c51992e2373c0f7f265275c211684f6bd5ef9ccf"),
     "TB-WARNING-exponent-scope-and-transfer": ("CURRENT", 365, "dffc5669ca73c4bb7e4b5115e1fe238dde5605ae"),
 }
+HISTORICAL_GAP = (341, "b4c9408441e501cb4d8f9a98b71f809d30a25f97")
 
 
 def fail(msg: str) -> None:
@@ -38,6 +38,29 @@ def stage_code(stage: str) -> str:
     if not m:
         fail(f"invalid toolbox next_stage: {stage}")
     return m.group(1)
+
+
+def current_successor(cards: dict[str, dict], start_id: str) -> tuple[str, list[str]]:
+    seen: set[str] = set()
+    chain: list[str] = []
+    cid = start_id
+    while True:
+        if cid in seen:
+            fail(f"supersession cycle at {cid}")
+        seen.add(cid)
+        chain.append(cid)
+        card = cards.get(cid)
+        if card is None:
+            fail(f"supersession target missing: {cid}")
+        status = card["status"]
+        if status == "CURRENT":
+            return cid, chain
+        if status != "SUPERSEDED":
+            fail(f"supersession chain ended at non-current status {cid}:{status}")
+        nxt = card.get("superseded_by")
+        if not nxt:
+            fail(f"superseded card lacks successor: {cid}")
+        cid = nxt
 
 
 def main() -> None:
@@ -67,6 +90,18 @@ def main() -> None:
         if not path or not (ROOT / path).exists():
             fail(f"missing card file for {card_id}: {path}")
 
+    gap_id = "TB-LEDGER-post-local-sqrt-gap"
+    gap = cards.get(gap_id)
+    if not gap:
+        fail("missing historical post-local gap card")
+    pr, merge_sha = HISTORICAL_GAP
+    if gap["source_pr"] != pr or gap["source_merge_sha"] != merge_sha:
+        fail("historical post-local gap provenance changed")
+    if gap["status"] not in {"CURRENT", "SUPERSEDED"}:
+        fail(f"invalid historical gap status {gap['status']}")
+
+    current_id, gap_chain = current_successor(cards, gap_id)
+
     if cards["TB-BOUND-local-descent-s5s"].get("superseded_by") != "TB-BOUND-local-descent-s5t":
         fail("s5s supersession chain broken")
     if cards["TB-BOUND-local-descent-s5t"].get("superseded_by") != "TB-BOUND-local-descent-current":
@@ -87,17 +122,16 @@ def main() -> None:
     if not (s5s_M < s5t_M < s5u_M):
         fail("local saving chain is not strictly improving")
 
-    post_gap = s5u_B_exp - Fraction(1, 2)
-    if post_gap != Fraction(10, 21):
-        fail("post-local sqrt gap mismatch")
-    if 2 * post_gap != Fraction(20, 21):
+    historical_gap = s5u_B_exp - Fraction(1, 2)
+    if historical_gap != Fraction(10, 21):
+        fail("historical post-local sqrt gap mismatch")
+    if 2 * historical_gap != Fraction(20, 21):
         fail("4bl optimal split mismatch")
     if s5u_B_exp - Fraction(20, 21) != Fraction(1, 42):
         fail("4bl sector gain mismatch")
     if Fraction(41, 84) / 5 != Fraction(41, 420):
         fail("s6-07 five-factor exponent mismatch")
 
-    # ac originally handed off to ad. Later toolbox stages are allowed to advance the registry.
     if stage_code(data["next_stage"]) < "ad":
         fail("toolbox registry regressed before ad")
     if not str(data.get("next_theme", "")).strip():
@@ -105,14 +139,48 @@ def main() -> None:
 
     for lock in [
         "CURRENT_LOCAL_M_SAVING=1/21",
-        "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=41/42",
-        "REQUIRED_POST_LOCAL_SAVING=10/21",
+        "CURRENT_LOCAL_PHYSICAL_BASELINE_EXPONENT=41/42",
+        "HISTORICAL_PRE_4BQ_REQUIRED_POST_LOCAL_SAVING=10/21",
         "4BL_SMALL_PARTNER_LEG_SECTOR_EXPONENT=20/21",
         "S6_07_FORCED_LARGE_INCIDENCE_CELL_EXPONENT=41/420",
         "sector exponent -> whole-family exponent",
         "forced variable size -> count saving",
     ]:
         require(ledger, lock, "exponent-ledger.md")
+
+    current_main_exp = "41/42"
+    if current_id == "TB-LEDGER-current-main-after-4bq":
+        for lock in [
+            "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=61/63",
+            "WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=1/126",
+            "CURRENT_REMAINING_GAP_TO_SQRT=59/126",
+            "FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=true",
+        ]:
+            require(ledger, lock, "exponent-ledger.md")
+        if Fraction(41,42) - Fraction(61,63) != Fraction(1,126):
+            fail("4bq improvement ledger mismatch")
+        if Fraction(61,63) - Fraction(1,2) != Fraction(59,126):
+            fail("4bq sqrt gap ledger mismatch")
+        current_main_exp = "61/63"
+    elif current_id == "TB-LEDGER-current-main-after-4br":
+        for lock in [
+            "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=20/21",
+            "WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=1/42",
+            "CURRENT_REMAINING_GAP_TO_SQRT=19/42",
+            "FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=true",
+        ]:
+            require(ledger, lock, "exponent-ledger.md")
+        if Fraction(41,42) - Fraction(20,21) != Fraction(1,42):
+            fail("4br cumulative saving ledger mismatch")
+        if Fraction(20,21) - Fraction(1,2) != Fraction(19,42):
+            fail("4br sqrt gap ledger mismatch")
+        current_main_exp = "20/21"
+    else:
+        # Future toolbox stages may extend the supersession chain. At that point
+        # ac only requires a valid CURRENT terminal card and nonempty current facts.
+        require(ledger, "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=", "exponent-ledger.md")
+        require(ledger, "CURRENT_REMAINING_GAP_TO_SQRT=", "exponent-ledger.md")
+        current_main_exp = f"future:{current_id}"
 
     for lock in [
         "STAGE14_TOOLBOX_AC=COMPLETE_CURRENT_EXPONENT_AND_SAVING_LEDGER",
@@ -140,12 +208,15 @@ def main() -> None:
 
     print(json.dumps({
         "stage": "14-toolbox-ac",
-        "classification": "CURRENT_EXPONENT_AND_SAVING_LEDGER_AUDIT",
+        "classification": "EXPONENT_AND_SAVING_LEDGER_REGRESSION",
         "canonical_card_count": len(cards),
-        "ac_card_count": len(EXPECTED_AC),
+        "ac_card_count": len(EXPECTED_AC) + 1,
         "local_saving_chain_M": ["1/200", "1/41", "1/21"],
-        "physical_exponent_chain_B": ["399/400", "81/82", "41/42"],
-        "required_post_local_saving": "10/21",
+        "physical_local_chain_B": ["399/400", "81/82", "41/42"],
+        "historical_required_post_local_saving": "10/21",
+        "whole_family_supersession_chain": gap_chain,
+        "current_main_ledger": current_id,
+        "current_main_exponent": current_main_exp,
         "forward_compatible_next_stage": data["next_stage"],
     }, indent=2, sort_keys=True))
 
