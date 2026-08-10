@@ -1,0 +1,34 @@
+name: Stage14-4by Fu two-cell 13-14
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4by/**'
+      - 'stages/stage14/14-4by/result.md'
+      - 'stages/stage14/data/14-4/fu_two_cell_13_14_summary.json'
+      - 'stages/stage14/scripts/14-4/fu_two_cell_13_14_audit.py'
+      - '.github/workflows/stage14-4by-fu-two-cell-13-14.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4by audit
+        run: python -m py_compile stages/stage14/scripts/14-4/fu_two_cell_13_14_audit.py
+      - name: Run merged 4bx regression
+        run: python stages/stage14/scripts/14-4/thick_sieve_reoptimization_audit.py
+      - name: Run 4by deterministic audit
+        run: python stages/stage14/scripts/14-4/fu_two_cell_13_14_audit.py
+      - name: Check predecessor and theorem boundary
+        run: |
+          grep -q 'ADJACENT_TWO_CELL_MIXED_FOURIER_OP_BOUND_PROVED=false' stages/stage14/14-s7-09/result.md
+          grep -q 'STAGE14_4BY=FU_GAUSS_LIFT_TWO_CELL_MIXED_TRANSFORM_AND_13_14_BOUND' stages/stage14/14-4by/result.md
+          grep -q 'ADJACENT_TWO_CELL_MIXED_FOURIER_OP_BOUND_PROVED=true' stages/stage14/14-4by/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=13/14' stages/stage14/14-4by/result.md
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true' stages/stage14/14-4by/result.md
+          grep -q 'SQRT_B_UPPER_BOUND_PROVED=false' stages/stage14/14-4by/result.md
