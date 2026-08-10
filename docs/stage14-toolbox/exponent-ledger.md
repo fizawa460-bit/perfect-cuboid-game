@@ -18,6 +18,14 @@ s5t: 1/41  -> 81/82 physical  [SUPERSEDED]
 s5u: 1/21  -> 41/42 physical  [CURRENT LOCAL BASELINE]
 ```
 
+Historical pre-refinement square-root gap:
+
+```text
+41/42 - 1/2 = 10/21
+```
+
+This remains a valid historical checkpoint only; it is not the current square-root gap.
+
 ## Whole-family checkpoints
 
 ```text
