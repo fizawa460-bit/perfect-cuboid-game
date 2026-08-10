@@ -1,0 +1,134 @@
+{
+  "decision": {
+    "A1_DECOMPOSED_INTO_LOCAL_PLUS_OFF_FIBER": true,
+    "A_11_POWER_SAVING_PROVED": false,
+    "CANONICAL_PRIME_SUM_POWER_SAVING_PROVED": false,
+    "CRITICAL_SQRT_ELL_STRIP_POWER_SAVING_PROVED": false,
+    "E4_LOWER_BOUND_A1_SQUARED": true,
+    "E4_UPPER_BOUND_A1_H_SQUARED": true,
+    "GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED": false,
+    "GLOBAL_PRINCIPAL_COLLISION_POWER_SAVING_PROVED": false,
+    "NEXT": "Stage14-t42 isolate the 128-type off-direction collision mechanism as a mixed Kummer incidence. Use canonical-prime/common-core constraints to seek a transversality or isogeny-exception split; simultaneously control nonprincipal squareclass convolution needed for E4",
+    "OFF_FIBER_COLLISION_SURFACE_KUMMER_TYPE": true,
+    "PERFECT_CUBOID_NONEXISTENCE_PROVED": false,
+    "STAGE14_T41": "COMPLETE_TWO_SIDED_INCIDENCE_AUDIT_AND_KUMMER_ENERGY_BARRIER",
+    "T36_ROW_ENERGY_REUSED": true,
+    "T37_REVERSE_COLUMN_ENERGY_REUSED": true,
+    "TWO_SIDED_LOCAL_ENERGY_IMPLIES_GLOBAL_NEAR_LINEAR": false,
+    "T_O_SQRT_B_PROVED": false
+  },
+  "energy_boundary": {
+    "fourth": "E4 is the multiplicative energy of the squareclass multiset; A1 alone only gives A1^2 <= E4 <= A1*H^2, so near-linear A1 would still not prove near-quadratic E4",
+    "needed_new_input": "a mixed transversality / squareclass-expansion theorem controlling off-fiber Kummer incidences and nonprincipal cross-kernel convolution, while retaining canonical-prime and physical packet constraints",
+    "principal": "A1 splits into already-controlled same-direction energy plus genuine off-direction Kummer-surface incidences"
+  },
+  "frozen_audit": {
+    "fourth_energy": {
+      "A1": 2368,
+      "A1_over_H": 2.1142857142857143,
+      "E4": 21193216,
+      "E4_over_H2": 16.895102040816326,
+      "H": 1120,
+      "largest_nonprincipal_cross_kernel_multiplicity": 160,
+      "nonprincipal_fourth_contribution": 15585792,
+      "principal_fourth_contribution": 5607424,
+      "principal_fraction": 0.2645857995313217,
+      "top_nonprincipal_cross_kernels": [
+        [
+          91,
+          160
+        ],
+        [
+          209,
+          152
+        ],
+        [
+          286,
+          136
+        ],
+        [
+          34034,
+          136
+        ],
+        [
+          41,
+          128
+        ],
+        [
+          329,
+          128
+        ],
+        [
+          4641,
+          128
+        ],
+        [
+          11,
+          120
+        ]
+      ],
+      "universal_inequalities": {
+        "lower": "E4>=A1^2 (principal cross kernel alone)",
+        "upper": "E4<=A1*H^2 by Cauchy: c(t)<=A1 and sum_t c(t)=H^2"
+      }
+    },
+    "principal_collision_breakdown": {
+      "ordered_collision_categories": {
+        "cross_direction": 128,
+        "cross_direction_and_cover": 104,
+        "cross_direction_same_common_packet": 16,
+        "cross_direction_same_descended_packet": 8,
+        "cross_direction_same_ell": 16,
+        "cross_direction_same_exact_F": 8,
+        "global": 2368,
+        "same_U": 2304,
+        "same_V": 1132,
+        "same_common_packet": 2256,
+        "same_descended_packet": 1128,
+        "same_direction": 2240,
+        "same_ell": 2256,
+        "same_exact_F": 2248,
+        "same_ordered_cover": 1132,
+        "same_unordered_cover": 2264
+      },
+      "partition_energies": {
+        "common_packet": {
+          "cells": 37,
+          "energy": 2256
+        },
+        "descended_packet": {
+          "cells": 108,
+          "energy": 1128
+        },
+        "direction": {
+          "cells": 137,
+          "energy": 2240
+        },
+        "ell": {
+          "cells": 87,
+          "energy": 2256
+        },
+        "ordered_cover": {
+          "cells": 216,
+          "energy": 1132
+        },
+        "unordered_cover": {
+          "cells": 108,
+          "energy": 2264
+        }
+      }
+    }
+  },
+  "off_fiber_geometry": {
+    "consequence": "t36/t38 genus-one bounds control either elliptic fibration after freezing one variable, but they do not by themselves give B^o(1) points on the two-dimensional off-fiber surface",
+    "elliptic_curves": "E_gamma:u^2=f_gamma(x), E_gamma_prime:v^2=f_gamma_prime(y)",
+    "fixed_packet_pair_surface": "Y^2=f_gamma(x)*f_gamma_prime(y)",
+    "quotient_identity": "the map (x,u;y,v)->(x,y,Y=u*v) identifies the collision surface birationally with (E_gamma x E_gamma_prime)/{(u,v)~(-u,-v)}; after resolution this is Kummer-type"
+  },
+  "stage": "14-t41",
+  "two_sided_incidence": {
+    "column_theorem": "t37 reverse: for each fixed cover state v, sum_k r_{v,k}^2 <= K_v*B^o(1)",
+    "logical_gap": "row and column energies being near-linear do not imply global A1 near-linear: a perfect matching with one common color has O(H) row/column energy but H^2 global energy",
+    "row_theorem": "t36: for each fixed direction d, sum_k r_{d,k}^2 <= J_d*B^o(1)"
+  }
+}

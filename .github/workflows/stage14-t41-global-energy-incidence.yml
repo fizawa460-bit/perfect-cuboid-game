@@ -1,0 +1,34 @@
+name: Stage14-t41 global energy incidence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t41/**'
+      - 'stages/stage14/scripts/14-t/t41_global_energy_incidence_audit.py'
+      - 'stages/stage14/data/14-t41/**'
+      - '.github/workflows/stage14-t41-global-energy-incidence.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run t40 regression
+        run: python stages/stage14/scripts/14-t/t40_cross_kernel_hecke_dispersion_audit.py
+
+      - name: Run t41 global-energy incidence audit
+        run: python stages/stage14/scripts/14-t/t41_global_energy_incidence_audit.py
+
+      - name: Check frozen t41 summary
+        run: git diff --exit-code stages/stage14/data/14-t41/global_energy_incidence.json
+
+      - name: Validate locked t41 boundary
+        run: |
+          grep -F 'STAGE14_T41=COMPLETE_TWO_SIDED_INCIDENCE_AUDIT_AND_KUMMER_ENERGY_BARRIER' stages/stage14/14-t41/result.md
+          grep -F 'TWO_SIDED_LOCAL_ENERGY_IMPLIES_GLOBAL_NEAR_LINEAR=false' stages/stage14/14-t41/result.md
+          grep -F 'OFF_FIBER_COLLISION_SURFACE_KUMMER_TYPE=true' stages/stage14/14-t41/result.md
+          grep -F 'GLOBAL_PRINCIPAL_COLLISION_POWER_SAVING_PROVED=false' stages/stage14/14-t41/result.md
+          grep -F 'GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED=false' stages/stage14/14-t41/result.md
+          grep -F 'T_O_SQRT_B_PROVED=false' stages/stage14/14-t41/result.md
