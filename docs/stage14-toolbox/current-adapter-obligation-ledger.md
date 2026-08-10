@@ -1,15 +1,13 @@
-# Current adapter-obligation ledger (Stage14-toolbox-at)
+# Current adapter-obligation ledger (Stage14-toolbox-au)
 
-| Branch | Live receiver | Promotion obligations | Explicit rejection |
-|---|---|---|---|
-| s | `BalancedDoubleAllocationSquareDivisibility` | eight-cell kernel identity; physical-lift energy; fixed-saving endpoint estimate; zero-loss physical recombination | stale Pythagorean receiver, cell-product collapse, dropping positive divisibilities |
-| fixed-U invisible | `SharedUInvisibleCenteredProjectiveSelectorDispersion` | one-field sheaf certificate; selector support-energy; two-prime zero-loss reassembly | complete-trace promotion, blockwise Cauchy, circular squareclass energy |
-| fixed-U mixed | separate invisible/visible packet | centered dispersion or proved exceptional estimate | frozen finite block count as negligibility |
-
-t56 certifies that the fixed-U invisible receiver is sufficient for invisible SUBD once proved; it does not prove the receiver. The mixed packet is not covered by this implication.
+| Branch | Live receiver | Imported closure | Remaining promotion obligations | Explicit rejection |
+|---|---|---|---|---|
+| s | `BalancedFourHostGaussianSquareDivisorIncidence` | exact four Gaussian square descents; residual norms at most `B^(1/2+o(1))` | preserve four-host simultaneity; moving-host uniformity; fixed-power incidence gain; zero-loss physical recombination | fixed-host divisor bound as global saving, independent local densities |
+| fixed-U invisible | `SharedUPhysicalToroidalMellinCorrelation` | rank-one Kummer certificate; all-order Mellin packet; spectral L2 energy at most 1; kernel CRT zero loss | actual centered physical-selector correlation; two-prime physical dispersion | complete-kernel or bounded spectral energy as sparse-selector cancellation |
+| fixed-U mixed | separate invisible/visible packet | none from invisible factorization | centered dispersion or proved exceptional estimate | frozen finite block count as negligibility |
 
 ## Promotion checklist
 
-A later stage may set a receiver to proved only if every obligation in its row has an exact source citation, the same physical coefficient space and centering, uniform dyadic parameters, and no polynomial recombination loss. Similar theorem vocabulary is not a certificate.
+Use `adapter-promotion-certificate-template.md`. A receiver may be promoted only when the certificate cites exact source stages, preserves the identical physical coefficient space and centering, is uniform in every live dyadic parameter, controls bad/exceptional cases, proves the quantitative target, and recombines with no fixed-power loss. Partial certificates and structural identities are not analytic estimates.
 
-The s and fixed-U rows are disjoint and parallel-safe. Additional toolbox-H work is unnecessary unless a later adapter attempt exposes a new hypothesis class not represented here.
+The s and fixed-U rows remain disjoint and parallel-safe. Additional toolbox-H work is unnecessary. Reconsider H only if a later stage invokes a genuinely external theorem whose hypotheses are not already certified.
