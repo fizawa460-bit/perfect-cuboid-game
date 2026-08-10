@@ -93,7 +93,7 @@ def main() -> None:
 
     ledger_locks = [
         "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=18/19",
-        "WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=11/798",
+        "WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=23/798",
         "CURRENT_REMAINING_GAP_TO_SQRT=17/38",
         "HISTORICAL_4BR_WHOLE_FAMILY_EXPONENT=20/21",
         "S7_08_OPTIMAL_LAMBDA=9/19",
@@ -121,6 +121,7 @@ def main() -> None:
         "HISTORICAL_4BR_LEDGER_SUPERSEDED=true",
         "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=18/19",
         "CURRENT_REMAINING_GAP_TO_SQRT=17/38",
+        "CUMULATIVE_POST_LOCAL_SAVING_FROM_41_42=23/798",
         "NEW_WHOLE_FAMILY_POWER_SAVING_OWNED_BY_TOOLBOX_AK=false",
         "NEXT=Stage14-toolbox-al proof recipe cookbook and receiver checklists",
     ]
@@ -131,7 +132,7 @@ def main() -> None:
         fail("20/21 to 18/19 improvement arithmetic regressed")
     if Fraction(18,19) - Fraction(1,2) != Fraction(17,38):
         fail("current sqrt gap arithmetic regressed")
-    if Fraction(41,42) - Fraction(18,19) != Fraction(11,798):
+    if Fraction(41,42) - Fraction(18,19) != Fraction(23,798):
         fail("cumulative post-local saving arithmetic regressed")
 
     print(json.dumps({
@@ -142,6 +143,7 @@ def main() -> None:
         "receiver_level_count": 9,
         "current_whole_family_exponent": "18/19",
         "current_gap_to_sqrt": "17/38",
+        "cumulative_post_local_saving": "23/798",
         "toolbox_owned_new_theorem": False,
         "next_stage": data["next_stage"],
     }, indent=2, sort_keys=True))
