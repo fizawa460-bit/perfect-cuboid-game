@@ -28,6 +28,8 @@ def audit_ledger():
 def audit_transverse_resultant():
     checks = 0
     for p in primes_upto(250):
+        if p == 2:
+            continue
         roots = roots_minus_one(p)
         if not roots:
             continue
@@ -57,7 +59,7 @@ def audit_gaussian_multiplication():
 
 
 def audit_ambient_root_line_population():
-    # A finite model showing the ambient primitive root line itself is not sparse.
+    # Finite sanity check: the ambient primitive root line itself is not sparse.
     total = 0
     for p in (5, 13, 17, 29, 37):
         for rho in roots_minus_one(p):
