@@ -1,0 +1,25 @@
+name: Stage14-t58 physical mask radial transfer
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t58/**'
+      - 'stages/stage14/scripts/14-t/t58_physical_mask_radial_transfer_audit.py'
+      - 'stages/stage14/scripts/14-t/t58_validate_frozen.py'
+      - 'stages/stage14/data/14-t58/**'
+      - '.github/workflows/stage14-t58-physical-mask-radial-transfer.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t57 predecessor regression
+        run: python stages/stage14/scripts/14-t/t57_rank1_kummer_mellin_audit.py
+      - name: Run t58 physical-mask/radial transfer audit
+        run: python stages/stage14/scripts/14-t/t58_physical_mask_radial_transfer_audit.py
+      - name: Validate frozen t58 boundary
+        run: python stages/stage14/scripts/14-t/t58_validate_frozen.py
+      - name: Compile t58 audit
+        run: python -m py_compile stages/stage14/scripts/14-t/t58_physical_mask_radial_transfer_audit.py stages/stage14/scripts/14-t/t58_validate_frozen.py
