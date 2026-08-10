@@ -3,7 +3,7 @@
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import defaultdict
 from pathlib import Path
 import json
 import runpy
@@ -104,7 +104,7 @@ def principal_pair_audit(reps):
 
 def synthetic_guard(P=16, N=32):
     # Logical countermodel: exact labels and residue labels are all distinct,
-    # but every F-value is a nonzero rational square.  Hence all quadratic
+    # but every F-value is a nonzero rational square. Hence all quadratic
     # trace columns are identical although residue collision energy is diagonal.
     exact_pair_energy = N
     residue_collision_energy = N
@@ -135,7 +135,7 @@ def main():
     assert th14["status"] == "COMPLETE_TWO_AUXILIARY_SELECTOR_RECEIVER_AND_RESIDUE_COLLISION_CLOSURE"
     assert th14["proof_boundary"]["aggregate_same_modulus_residue_collision_energy_proved"] is True
     assert th14["proof_boundary"]["selector_sensitive_gaussian_completion_theorem_proved"] is False
-    assert th14["proof_boundary"]["th5_absorbs_global_squareclass_resonance"] is False
+    assert th14["residue_collision"]["global_equal_squareclass_resonance_absorbed_by_tH5"] is False
     assert t43["decision"]["FROZEN_PRINCIPAL_BLOCKS_ALL_LD2_TRANSVERSE"] is True
     assert t43["principal_collision_audit"]["ld2_transverse_blocks"] == 16
     assert t44["principal"]["distinct_ell"] == 14
@@ -157,10 +157,6 @@ def main():
 
     guard = synthetic_guard()
 
-    # The t49 Frobenius receiver plus t50 bad-prime closure shows that a
-    # target-scale SSGC theorem for the physical family would itself imply
-    # A1 <= H*B^o(1).  Therefore SSGC is not an independent generic completion
-    # theorem: it contains the principal squareclass theorem as a subproblem.
     report = {
         "stage": "14-t52",
         "inputs": {
