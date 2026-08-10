@@ -1,0 +1,32 @@
+name: Stage14-t69 noncanonical Cayley cofactors
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t69/**'
+      - 'stages/stage14/data/14-t69/**'
+      - 'stages/stage14/scripts/14-t/t69_*'
+      - '.github/workflows/stage14-t69-noncanonical-cayley-cofactors.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: predecessor t68 regression
+        run: python stages/stage14/scripts/14-t/t68_private_canonical_residue_audit.py
+      - name: tH18 regression
+        run: python stages/stage14/scripts/tH18/private_canonical_root_modulus_large_sieve_audit.py
+      - name: Stage14-t69 audit
+        run: python stages/stage14/scripts/14-t/t69_noncanonical_cayley_support_audit.py
+      - name: frozen validator if present
+        run: |
+          if [ -f stages/stage14/scripts/14-t/t69_validate_frozen.py ]; then
+            python stages/stage14/scripts/14-t/t69_validate_frozen.py
+          fi
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t69_*.py
