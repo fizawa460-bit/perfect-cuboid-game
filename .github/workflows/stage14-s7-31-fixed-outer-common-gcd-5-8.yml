@@ -1,0 +1,70 @@
+name: Stage14-s7-31 fixed-outer common-gcd 5/8
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-31/**'
+      - 'stages/stage14/scripts/14-s7-31/**'
+      - '.github/workflows/stage14-s7-31-fixed-outer-common-gcd-5-8.yml'
+      - 'stages/stage14/14-s7-30/**'
+      - 'stages/stage14/14-4ci/**'
+      - 'stages/stage14/14-4cj/**'
+      - 'stages/stage14/14-4cq/**'
+      - 'stages/stage14/14-X7/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-31 fixed-outer common-gcd audit
+        run: python stages/stage14/scripts/14-s7-31/fixed_outer_common_gcd_audit.py
+
+      - name: Compile s7-31 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-31/fixed_outer_common_gcd_audit.py
+
+      - name: Run merged s7-30 regression
+        run: python stages/stage14/scripts/14-s7-30/two_sided_common_core_root_pair_audit.py
+
+      - name: Run merged s7-29 regression
+        run: python stages/stage14/scripts/14-s7-29/common_core_primitive_root_line_audit.py
+
+      - name: Run merged s7-28 regression
+        run: python stages/stage14/scripts/14-s7-28/primitive_ratio_reconstruction_audit.py
+
+      - name: Lock imported boundaries
+        run: |
+          grep -Fq 'STAGE14_S7_30=COMPLETE_TWO_SIDED_COMMON_CORE_QUADRATIC_ROOT_PAIR_COUNT_AND_11_16_BOUND' stages/stage14/14-s7-30/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=11/16' stages/stage14/14-s7-30/result.md
+          grep -Fq 'REMAINING_RECEIVER=TopCornerOppositeSignedQuotientCommonGcdRootProductIncidence' stages/stage14/14-s7-30/result.md
+          grep -Fq 'COMMON_Z_SCALE_SQUARE_DIVIDES_QK=true' stages/stage14/14-4ci/result.md
+          grep -Fq 'PHYSICAL_XI_ROOT_VECTOR_PRIMITIVE=true' stages/stage14/14-4cj/result.md
+          grep -Fq 'STAGE14_4CQ=COMPLETE_DUAL_COMMON_CORE_CAYLEY_DIVISOR_COLLAPSE_AND_SYMMETRIC_QUARTER_QUARTER_REDUCTION' stages/stage14/14-4cq/result.md
+          grep -Fq 'SECOND_DETERMINANT_SPACING_FROM_POINTWISE_FOUR_ROOT_DATA=false' stages/stage14/14-X7/result.md
+
+      - name: Lock s7-31 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-31/result.md
+          grep -Fq 'STAGE14_S7_31=COMPLETE_FIXED_OUTER_COMMON_GCD_SQUARE_DIVISIBILITY_AND_5_8_BOUND' "$f"
+          grep -Fq 'OPPOSITE_QUOTIENT_COMMON_GCD_ODDPART_DIVIDES_COMMON_Z_SCALE=true' "$f"
+          grep -Fq 'OPPOSITE_QUOTIENT_COMMON_GCD_ODDPART_SQUARE_DIVIDES_QK=true' "$f"
+          grep -Fq 'OPPOSITE_QUOTIENT_COMMON_GCD_ODDPART_SQUARE_DIVIDES_C_URES=true' "$f"
+          grep -Fq 'FIXED_OUTER_COMMON_GCD_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'FIXED_OUTER_NONPRIMITIVE_ROOT_PAIR_LEMMA_PROVED=true' "$f"
+          grep -Fq 'FIXED_OUTER_NONPRIMITIVE_ROOT_PAIR_BOUND=1+M/C' "$f"
+          grep -Fq 'OPPOSITE_SIGNED_QUOTIENT_PAIR_EXPONENT=max(0,nu-chi)' "$f"
+          grep -Fq 'DYADIC_FIXED_OUTER_BLOCK_EXPONENT=max(2theta,1-2theta)' "$f"
+          grep -Fq 'FIXED_OUTER_COMMON_CORE_STRIP_UPPER_BOUND_EXPONENT=5/8' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=5/8' "$f"
+          grep -Fq 'IMPROVEMENT_OVER_11_16=1/16' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true' "$f"
+          grep -Fq 'FIVE_EIGHTHS_UPPER_EDGE_THETA=5/16' "$f"
+          grep -Fq 'FIVE_EIGHTHS_LOWER_CORNER=(theta,phi)=(3/16,3/16)' "$f"
+          grep -Fq 'REMAINING_RECEIVER=FiveEighthsTwoBoundaryCommonCoreReciprocalIncidence' "$f"
+          grep -Fq 'S7_31_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-32' "$f"
