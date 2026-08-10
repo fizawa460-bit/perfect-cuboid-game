@@ -1,0 +1,85 @@
+name: Stage14-X12 lost-core fourth-root 71/128
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X12/**'
+      - 'stages/stage14/data/14-X12/**'
+      - 'stages/stage14/scripts/14-X12/**'
+      - '.github/workflows/stage14-X12-lost-core-fourth-root-71-128.yml'
+      - 'stages/stage14/14-X11/**'
+      - 'stages/stage14/14-s7-37/**'
+      - 'stages/stage14/14-s7-35/**'
+      - 'stages/stage14/14-4cu/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X12 exact audit
+        run: python stages/stage14/scripts/14-X12/lost_core_fourth_root_71_128_audit.py
+
+      - name: Compile Stage14-X12 audit
+        run: python -m py_compile stages/stage14/scripts/14-X12/lost_core_fourth_root_71_128_audit.py
+
+      - name: Run merged Stage14-X11 regression
+        run: python stages/stage14/scripts/14-X11/proportional_root_gcd_19_34_audit.py
+
+      - name: Run merged Stage14-s7-37 regression
+        run: python stages/stage14/scripts/14-s7-37/sameside_u_residual_19_34_audit.py
+
+      - name: Run merged Stage14-s7-35 regression
+        run: python stages/stage14/scripts/14-s7-35/extra_gcd_collapse_4_7_audit.py
+
+      - name: Run merged Stage14-4cu regression
+        run: python stages/stage14/scripts/14-4/orientation_linear_product_19_32_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_X11=COMPLETE_PROPORTIONAL_FOUR_ROOT_GCD_DECOMPOSITION_AND_19_34_PROMOTION' stages/stage14/14-X11/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=19/34' stages/stage14/14-X11/result.md
+          grep -Fq 'STAGE14_S7_37=COMPLETE_PROPORTIONAL_SAMESIDE_RESIDUAL_TRANSFER_AND_19_34_REFINEMENT' stages/stage14/14-s7-37/result.md
+          grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=7/16' stages/stage14/14-s7-37/result.md
+          grep -Fq 'STAGE14_S7_35=COMPLETE_EXTRA_XI_RESIDUAL_GCD_COLLAPSE_AND_4_7_PROMOTION' stages/stage14/14-s7-35/result.md
+          grep -Fq 'XI_EXTRA_GCD_DIVIDES_ENDPOINT_OMEGA_PRODUCT=true' stages/stage14/14-s7-35/result.md
+          grep -Fq 'STAGE14_4CU=COMPLETE_RESIDUAL_CAYLEY_ORIENTATION_LINEAR_PRODUCT_TRANSFER_AND_19_32_PROMOTION' stages/stage14/14-4cu/result.md
+          grep -Fq 'JOINT_CORE_DIVIDES_ENDPOINT_LINEAR_PRODUCT=true' stages/stage14/14-4cu/result.md
+
+      - name: Lock Stage14-X12 theorem boundary
+        run: |
+          f=stages/stage14/14-X12/result.md
+          grep -Fq 'STAGE14_X12=COMPLETE_LOST_CORE_FOURTH_ROOT_COLUMN_COFACTOR_COUPLING_AND_71_128_PROMOTION' "$f"
+          grep -Fq 'MERGED_X11_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_S7_37_IMPORTED=true' "$f"
+          grep -Fq 'LOST_CORE_QUOTIENT_D_EQUALS_C_OVER_J=true' "$f"
+          grep -Fq 'LOST_CORE_QUOTIENT_DIVIDES_ENDPOINT_SMALL_HSTAR4_HOTHER2=true' "$f"
+          grep -Fq 'LOST_CORE_FOURTH_ROOT_DIVISOR_DIVIDES_H=true' "$f"
+          grep -Fq 'LOST_CORE_FOURTH_ROOT_DIVISOR_DIVIDES_COLUMN_COFACTOR_PRODUCT=true' "$f"
+          grep -Fq 'REFINED_ROW_COLUMN_COMPLETE_COUNT=2phi+1/2-chi/4-7j/4' "$f"
+          grep -Fq 'NONPROPORTIONAL_WEIGHTED_COMPLETE_COUNT_COMBINATION=7:3' "$f"
+          grep -Fq 'NONPROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=71/128' "$f"
+          grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=7/16' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=71/128' "$f"
+          grep -Fq 'IMPROVEMENT_OVER_MERGED_19_34=9/2176' "$f"
+          grep -Fq 'CURRENT_GAP_TO_SQRT=7/128' "$f"
+          grep -Fq 'SEVENTY_ONE_ONE_HUNDRED_TWENTY_EIGHTHS_SATURATION_THETA=71/256' "$f"
+          grep -Fq 'SEVENTY_ONE_ONE_HUNDRED_TWENTY_EIGHTHS_EFFECTIVE_COLUMN_QUOTIENT_EXPONENT=1/64' "$f"
+          grep -Fq 'SWITCHED_CELL_PRIMES_MAY_REMAIN_IN_J=true' "$f"
+          grep -Fq 'JOINT_CORE_CROSS_ROOT_PRODUCT_SHORTCUT_USED=false' "$f"
+          grep -Fq 'REMAINING_RECEIVER=SeventyOneOneHundredTwentyEighthsLostCoreFourthRootColumnCRTLiftIncidence' "$f"
+          grep -Fq 'X12_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X13' "$f"
+
+      - name: Diff check
+        run: git diff --check HEAD^ HEAD
