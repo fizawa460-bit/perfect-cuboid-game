@@ -1,0 +1,45 @@
+name: Stage14-tH13 R2 squareclass operator
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH13/**'
+      - 'stages/stage14/data/tH13/**'
+      - 'stages/stage14/scripts/tH13/**'
+      - '.github/workflows/stage14-tH13-r2-squareclass-operator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run prior Stage14-tH13 adapter regression
+        run: python stages/stage14/scripts/tH13/sparse_many_conductor_adapter_audit.py
+
+      - name: Run merged Stage14-t46 regression
+        run: |
+          python stages/stage14/scripts/14-t/t46_twist_translation_conductor_energy_audit.py
+          git diff --exit-code -- stages/stage14/data/14-t46/twist_translation_conductor_energy.json
+
+      - name: Run Stage14-tH13 R2 deterministic audit
+        run: python stages/stage14/scripts/tH13/twist_uniform_squareclass_operator_audit.py
+
+      - name: Validate locked R2 boundary
+        run: |
+          grep -q 'STAGE14_TH13_R2=COMPLETE_TWIST_UNIFORM_SPARSE_SQUARECLASS_OPERATOR_RECEIVER' stages/stage14/14-tH13/t46-squareclass-operator-extension.md
+          grep -q 'ALL_TWISTS_SHARE_ONE_BASE_OPERATOR=true' stages/stage14/14-tH13/t46-squareclass-operator-extension.md
+          grep -q 'CARDINALITY_PLUS_E_KAPPA_ALONE_GIVES_CANCELLATION=false' stages/stage14/14-tH13/t46-squareclass-operator-extension.md
+          grep -q 'OPERATOR_CANCELLATION_REMOVES_TWO_LOCAL_CONSTANT_TERM=false' stages/stage14/14-tH13/t46-squareclass-operator-extension.md
+          grep -q 'STAGE14_T46_POWER_SAVING_ASSUMED=false' stages/stage14/14-tH13/t46-squareclass-operator-extension.md
+          grep -q '"status": "COMPLETE_TWIST_UNIFORM_SPARSE_SQUARECLASS_OPERATOR_RECEIVER"' stages/stage14/data/tH13/twist_uniform_squareclass_operator_summary.json

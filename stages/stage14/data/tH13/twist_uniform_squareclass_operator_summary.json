@@ -1,0 +1,154 @@
+{
+  "stage": "14-tH13-r2",
+  "status": "COMPLETE_TWIST_UNIFORM_SPARSE_SQUARECLASS_OPERATOR_RECEIVER",
+  "inputs": {
+    "merged_t46_twist_translation_imported": true,
+    "moving_family": "kappa_{tau,y}=tau*kappa_y in Q^x/Q^{x2}",
+    "good_row_factorization": "chi_{D(tau*kappa)}(ell)=chi_tau(ell)*chi_{D(kappa)}(ell)",
+    "translated_conductor_energy": "sum_D m_tau(D)^2=A1",
+    "principal_translated_conductor": "D(tau*kappa)=1 iff kappa=tau",
+    "t46_power_saving_assumed": false
+  },
+  "coefficient_interface": {
+    "canonical_prime_coefficient": "A_ell=sum_{x:ell_x=ell} a_x*w_R(x)",
+    "squareclass_coefficient": "B_kappa=sum_{y:kappa_y=kappa} b_y*v_R(y)",
+    "canonical_prime_energy": "E_ell=sum_ell |A_ell|^2",
+    "squareclass_energy": "E_kappa=sum_kappa |B_kappa|^2",
+    "canonical_prime_support": "N_ell=#supp(A_ell)",
+    "squareclass_support": "N_kappa=#supp(B_kappa)",
+    "frozen_unit_E_kappa_equals_A1": 592,
+    "frozen_unit_E_ell": 7184
+  },
+  "twist_uniform_operator": {
+    "base_matrix": "M_R(ell,kappa)=chi_{D(kappa)}(ell)",
+    "row_sign": "U_tau(ell)=chi_tau(ell)",
+    "nonprincipal_twist_operator": "P_good*U_tau*M_R*P_{kappa!=tau}",
+    "operator_norm_uniform_in_tau": true,
+    "principal_slice": "B_tau^(kappa)*sum_{good ell} A_ell; unit weights B_tau^(kappa)=r(tau)",
+    "t44_bad_rows": "ell|tau; O(1) super-sqrt rows per fixed tau",
+    "canonical_prime_selector_weight_preserved": true,
+    "common_disjoint_refinement_required": true
+  },
+  "receivers": {
+    "standard_max_range_quadratic_large_sieve": "Lambda_R^2 << (K+Q)(KQ)^eps",
+    "reciprocity_dual_large_sieve": "same operator norm and same K+Q envelope after finite local refinement",
+    "cardinality_hilbert_schmidt": "Lambda_R^2 <= N_ell*N_kappa",
+    "row_gram_identity": "G_R(ell,ell')=sum_kappa chi_{D(kappa)}(ell*ell')",
+    "spectral_R1_R2": "Lambda_R^2 <= N_kappa+min(R1,sqrt(R2))",
+    "spectral_R1": "R1=max_ell sum_{ell'!=ell}|G_R(ell,ell')|",
+    "spectral_R2": "R2=sum_{ell!=ell'}|G_R(ell,ell')|^2",
+    "weighted_product_character_dispersion": "||M_R B||_2^2 <= N_ell*E_kappa + E_times^(1/2)*H_times^(1/2)",
+    "product_character_energy": "E_times=sum_{psi!=1}|Gamma_R(psi)|^2",
+    "prime_product_character_second_moment": "H_times=sum_{psi in supp Gamma}|sum_ell psi(ell)|^2",
+    "known_sparse_additive_moduli_after_gauss": "conditional on AP-distribution parameter X_AP: Lambda_R^2 is dominated by a Baier-type additive sparse-moduli bound; this is not a direct sparse quadratic theorem"
+  },
+  "sparse_support_decision": {
+    "support_cardinality_replaces_conductor_range_universally": false,
+    "support_cardinality_is_usable_via_hilbert_schmidt": true,
+    "E_kappa_alone_forces_cancellation": false,
+    "simple_factor_structure_alone_forces_cancellation": false,
+    "countermodel": "For any finite odd row-prime set P, choose arbitrarily many distinct primes q_j congruent 1 mod 8*prod(P). Taking kappa_j=q_j gives E_kappa=N_kappa and chi_{D(kappa_j)}(p)=1 for every p in P, so the character matrix is all ones and Lambda^2=N_ell*N_kappa.",
+    "known_sparse_additive_moduli_requirement": "quantitative distribution of the selected moduli in arithmetic progressions",
+    "known_sparse_additive_route_closes_stage14_critical_endpoint": false,
+    "required_stage14_specific_structure": [
+      "row spectral anti-coherence / Gram control",
+      "squareclass or discriminant progression distribution",
+      "weighted product-character energy control",
+      "prime-character second moment on the actual product-character support",
+      "a disjoint structural decomposition on which one of these certificates is provable"
+    ]
+  },
+  "preferred_new_theorem": {
+    "name": "Stage14-specific sparse squareclass quadratic large sieve",
+    "statement": "sum_{ell in L_R(Q)} |sum_{kappa in K_R} b_kappa chi_{D(kappa)}(ell)|^2 << B^o(1)*(N_ell+N_kappa)*sum_kappa |b_kappa|^2",
+    "uniform_on_common_refinements_required": true,
+    "known_from_cardinality_alone": false,
+    "alternative_contract": "prove the weighted product-character dispersion receiver strong enough to improve the critical exponent ledger"
+  },
+  "critical_strip_ledger": {
+    "canonical_prime_scale": "Q=B^(1/2+o(1))",
+    "safe_base_conductor": "K<=B^(4+o(1))",
+    "parameters": "N_ell=B^(alpha+o(1)), N_kappa=B^(beta+o(1)), E_ell=B^(e_ell+o(1)), E_kappa=B^(e_kappa+o(1))",
+    "standard_qls_operator_squared_exponent": "4",
+    "standard_qls_operator_amplitude_cost_exponent": "2",
+    "standard_qls_bilinear_exponent": "(e_ell+e_kappa+4)/2",
+    "dual_qls_bilinear_exponent": "(e_ell+e_kappa+4)/2",
+    "hilbert_schmidt_bilinear_exponent": "(e_ell+e_kappa+alpha+beta)/2",
+    "spectral_parameters": "R1=B^(g1+o(1)), R2=B^(g2+o(1))",
+    "spectral_operator_squared_exponent": "max(beta,min(g1,g2/2))",
+    "spectral_bilinear_exponent": "(e_ell+e_kappa+max(beta,min(g1,g2/2)))/2",
+    "near_orthogonality_operator_squared_exponent": "max(alpha,beta)",
+    "near_orthogonality_amplitude_gain_over_HS": "min(alpha,beta)/2",
+    "known_sparse_additive_route_min_operator_squared_exponent_at_K_B4": "at least 17/4 when X_AP=B^o(1) and beta=0",
+    "weighted_dispersion_bilinear_exponent": "(e_ell+max(alpha+e_kappa,(e_times+h_times)/2))/2",
+    "critical_strip_power_saving_proved": false
+  },
+  "detector_boundary": {
+    "two_endogenous_local_tests_constant_term": "1/4",
+    "operator_cancellation_removes_constant_term": false,
+    "valid_route_1": "bypass the fixed positivity detector and estimate the exact squareclass/twist convolution",
+    "valid_route_2": "use a growing auxiliary test family or square sieve so the diagonal constant decays, then apply the operator receiver to correlations",
+    "invalid_shortcut": "two fixed endogenous local tests plus cancellation of nonconstant terms implies a power-saving square-incidence bound"
+  },
+  "frozen_diagnostic": {
+    "states": 560,
+    "N_kappa": 544,
+    "E_kappa": 592,
+    "N_ell": 87,
+    "E_ell": 7184,
+    "row_squared_norm_min": 540,
+    "row_squared_norm_max": 544,
+    "max_offdiagonal_abs_row_correlation": 81,
+    "frozen_gershgorin_operator_squared_upper": 7510,
+    "frozen_hilbert_schmidt_operator_squared_upper": 47328,
+    "asymptotic_claim": false
+  },
+  "t47_contract": {
+    "must_supply_same_refinement": [
+      "actual selector-weighted A_ell and E_ell",
+      "actual squareclass-collapsed B_kappa and E_kappa",
+      "N_ell and N_kappa",
+      "principal coefficient B_tau^(kappa)=r(tau) for unit weights or its weighted analogue",
+      "t44 tau-bad row mass",
+      "either Gram R1/R2 control or weighted E_times/H_times dispersion control if claiming a sparse gain",
+      "a separate mechanism removing or bypassing the fixed two-local 1/4 baseline",
+      "common-refinement aggregation ledger"
+    ],
+    "unconditional_receiver": "|S_np| <= E_ell^(1/2)*E_kappa^(1/2)*min(B^o(1)*(K+Q)^(1/2),(N_ell*N_kappa)^(1/2),(N_kappa+min(R1,sqrt(R2)))^(1/2))",
+    "next": "Stage14-t47 prove a Stage14-specific sparse squareclass spectral/dispersion theorem and separately remove or bypass the fixed two-local 1/4 detector baseline"
+  },
+  "proof_boundary": {
+    "adapter_extension_proved": true,
+    "arbitrary_544_conductor_model_superseded": true,
+    "all_twists_share_one_base_operator": true,
+    "twist_row_sign_unitary": true,
+    "principal_translated_conductor_column_separated": true,
+    "t44_tau_bad_canonical_rows_retained": true,
+    "canonical_prime_selector_weight_preserved": true,
+    "squareclass_energy_E_kappa_explicit": true,
+    "canonical_prime_energy_E_ell_explicit": true,
+    "standard_max_range_quadratic_large_sieve_receiver": true,
+    "reciprocity_dual_large_sieve_receiver": true,
+    "cardinality_hilbert_schmidt_receiver": true,
+    "known_sparse_additive_moduli_route_compared": true,
+    "known_sparse_additive_moduli_route_closes_critical_strip": false,
+    "squareclass_row_gram_identity_exact": true,
+    "spectral_R1_R2_receiver": true,
+    "weighted_product_character_dispersion_receiver": true,
+    "cardinality_plus_E_kappa_alone_gives_cancellation": false,
+    "simple_factor_structure_alone_gives_cancellation": false,
+    "sparse_cardinality_countermodel_recorded": true,
+    "two_local_filter_constant_term_removed": false,
+    "t46_power_saving_assumed": false,
+    "critical_sqrt_ell_strip_power_saving_proved": false,
+    "generic_cross_good_global_power_saving_proved": false,
+    "A_11_power_saving_proved": false,
+    "T_o_sqrt_B_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "references": [
+    "D. R. Heath-Brown, A mean value estimate for real character sums, Acta Arith. 72 (1995), 235-275",
+    "L. Goldmakher and B. Louvel, A quadratic large sieve inequality over number fields, Math. Proc. Cambridge Philos. Soc. 154 (2013), 193-212",
+    "S. Baier, On the large sieve with sparse sets of moduli, arXiv:math/0512228"
+  ]
+}
