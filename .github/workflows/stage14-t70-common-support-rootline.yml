@@ -1,0 +1,37 @@
+name: Stage14-t70 common-support rootline
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t70/**'
+      - 'stages/stage14/data/14-t70/**'
+      - 'stages/stage14/scripts/14-t/t70_*.py'
+      - '.github/workflows/stage14-t70-common-support-rootline.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: predecessor t69 regression
+        run: python stages/stage14/scripts/14-t/t69_noncanonical_cayley_support_audit.py
+      - name: tH18 regression
+        run: python stages/stage14/scripts/tH18/private_canonical_root_modulus_large_sieve_audit.py
+      - name: s7-30 global ledger regression
+        run: grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=11/16' stages/stage14/14-s7-30/result.md
+      - name: Stage14-t70 audit
+        run: python stages/stage14/scripts/14-t/t70_common_support_rootline_audit.py
+      - name: frozen validator if present
+        run: |
+          if [ -f stages/stage14/scripts/14-t/t70_validate_frozen.py ]; then
+            python stages/stage14/scripts/14-t/t70_validate_frozen.py
+          fi
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t70_*.py
