@@ -1,0 +1,53 @@
+name: Stage14-s7-05 joint twist pair audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-05/**'
+      - 'stages/stage14/scripts/14-s7-05/**'
+      - '.github/workflows/stage14-s7-05-joint-twist-pair.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile s7-05 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-05/joint_twist_pair_receiver_audit.py
+      - name: Run predecessor s7-04 audit
+        run: python stages/stage14/scripts/14-s7-04/small_denominator_projection_audit.py
+      - name: Run s7-05 deterministic audit
+        run: python stages/stage14/scripts/14-s7-05/joint_twist_pair_receiver_audit.py | tee /tmp/s7-05.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^ORDERED_PHYSICAL_INCIDENCES=124$' /tmp/s7-05.txt
+          grep -q '^CANONICAL_XI_K_LABEL_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^SAME_TWIST_TWO_POINT_RECEIVER_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^TWIST_INVERSE_R_X_RECONSTRUCTION_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^PHYSICAL_OFFDIAGONAL_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^BINARY_QUARTIC_J_ZERO_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^J1728_JACOBIAN_COEFFICIENT_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^JACOBIAN_DEPENDS_ON_K_TIMES_XI_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^FINITE_TWIST_COLLISION_ATLAS_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^MERGED_4BR_EXPONENT_LEDGER_AUDIT=true$' /tmp/s7-05.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s7-05.txt
+      - name: Check merged 4br baseline
+        run: |
+          grep -q 'STAGE14_4BR=OPTIMIZED_CROSS_FACTOR_THRESHOLD_AND_WHOLE_FAMILY_20_21_BOUND' stages/stage14/14-4br/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=20/21' stages/stage14/14-4br/result.md
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_05=COMPLETE_JOINT_SQUARECLASS_TO_J1728_TWIST_PAIR_RECEIVER' stages/stage14/14-s7-05/result.md
+          grep -q 'PRODUCT_SQUARE_IFF_XI_LABELS_EQUAL=true' stages/stage14/14-s7-05/result.md
+          grep -q 'SAME_DIFFERENCE_KERNEL_IFF_K_LABELS_EQUAL=true' stages/stage14/14-s7-05/result.md
+          grep -q 'TWIST_JACOBIAN=y^2=x^3+4\*(k\*xi)^2\*x' stages/stage14/14-s7-05/result.md
+          grep -q 'DIRECT_OFF_DIAGONAL_TWIST_SAVING_REQUIRED_GT=1/21' stages/stage14/14-s7-05/result.md
+          grep -q 'PHYSICAL_TWIST_PAIR_IMPLIES_POSITIVE_RANK_ON_E_N=false' stages/stage14/14-s7-05/result.md
+          grep -q 'NEXT=Stage14-s7-06' stages/stage14/14-s7-05/result.md
