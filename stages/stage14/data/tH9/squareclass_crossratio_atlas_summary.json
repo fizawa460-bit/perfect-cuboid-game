@@ -1,0 +1,69 @@
+{
+  "stage": "Stage14-tH9",
+  "status": "COMPLETE_SQUARECLASS_CROSS_RATIO_AND_AUTOCORRELATION_ATLAS",
+  "requires_future_t_result": false,
+  "dependencies": [
+    "Stage14-tH8",
+    "Stage14-t40"
+  ],
+  "algebra": {
+    "squareclass_operation": "s xor t = sqfree(s*t) = (s/gcd(s,t))*(t/gcd(s,t))",
+    "pair_kernel": "kappa_ij = sigma_i xor sigma_j",
+    "principal_condition": "kappa_ij=1 iff sigma_i=sigma_j",
+    "cross_ratio": "rho(i,j;k,l)=sigma_i xor sigma_j xor sigma_k xor sigma_l",
+    "cross_ratio_collision": "rho=1 iff kappa_ij=kappa_kl",
+    "triangle_law": "kappa_ij xor kappa_jk = kappa_ik",
+    "four_cycle_law": "kappa_ij xor kappa_jk xor kappa_kl xor kappa_li = 1"
+  },
+  "weighted_compression": {
+    "class_weight": "W(s)=sum_{j:sigma_j=s} d_j",
+    "pair_autocorrelation": "A(kappa)=sum_s W(s)*conj(W(s xor kappa))",
+    "principal": "A(1)=sum_s |W(s)|^2",
+    "fourth_energy": "E4=sum_kappa |A(kappa)|^2",
+    "discriminant_reindexing": "D(kappa)=kappa for kappa=1 mod 4 else 4*kappa; injective on positive squarefree kappa"
+  },
+  "route_certificates": {
+    "auxiliary_route": {
+      "nonprincipal": "QUADRATIC_HECKE_READY",
+      "principal": "PRINCIPAL_COLLISION",
+      "bad_auxiliary": "BAD_AUXILIARY_ZERO",
+      "good_identity": "chi_lambda(F_i*F_j)=chi_D(kappa_ij)(lambda)"
+    },
+    "physical_route": {
+      "value_level_quadratic_character": true,
+      "packet_multiplicative_parameterization_proved": false,
+      "fi_ready": false,
+      "hecke_packet_ready": false
+    }
+  },
+  "t40_frozen_regression": {
+    "states": 1120,
+    "distinct_single_squareclasses": 544,
+    "max_single_squareclass_multiplicity": 4,
+    "global_second_squareclass_energy_A1": 2368,
+    "ordered_cross_pairs": 1254400,
+    "distinct_cross_kernels": 132961,
+    "cross_kernel_fourth_energy_E4": 21193216,
+    "principal_energy_A1_squared": 5607424,
+    "off_principal_E4": 15585792,
+    "good_pair_prime_checks": 76437,
+    "norm_pullback_multiplicativity_checks": 1244
+  },
+  "proof_boundary": {
+    "pair_kernel_is_squareclass_difference": true,
+    "principal_kernel_iff_equal_squareclass": true,
+    "pair_coefficient_is_squareclass_autocorrelation": true,
+    "fourth_energy_is_squareclass_additive_energy": true,
+    "cross_ratio_collision_certificate_proved": true,
+    "fundamental_discriminant_reindexing_lossless": true,
+    "auxiliary_route_quadratic_hecke_certificate_proved": true,
+    "physical_route_hecke_packet_certificate_proved": false,
+    "global_principal_collision_power_saving_proved": false,
+    "global_fourth_energy_power_saving_proved": false,
+    "critical_sqrt_ell_strip_power_saving_proved": false,
+    "a11_power_saving_proved": false,
+    "t_o_sqrt_b_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  },
+  "next": "Stage14-tH10"
+}

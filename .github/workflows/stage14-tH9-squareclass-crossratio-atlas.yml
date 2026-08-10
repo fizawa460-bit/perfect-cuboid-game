@@ -1,0 +1,35 @@
+name: Stage14-tH9 squareclass cross-ratio atlas
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH9/**'
+      - 'stages/stage14/data/tH9/**'
+      - 'stages/stage14/scripts/tH9/**'
+      - 'stages/stage14/data/14-t40/**'
+      - 'stages/stage14/scripts/14-t/**'
+      - '.github/workflows/stage14-tH9-squareclass-crossratio-atlas.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: t40 regression
+        run: python stages/stage14/scripts/14-t/t40_cross_kernel_hecke_dispersion_audit.py
+      - name: tH9 squareclass/cross-ratio atlas audit
+        run: python stages/stage14/scripts/tH9/squareclass_crossratio_atlas_audit.py
+      - name: locked boundary markers
+        run: |
+          grep -F 'STAGE14_TH9=COMPLETE_SQUARECLASS_CROSS_RATIO_AND_AUTOCORRELATION_ATLAS' stages/stage14/14-tH9/result.md
+          grep -F 'AUXILIARY_ROUTE_QUADRATIC_HECKE_CERTIFICATE_PROVED=true' stages/stage14/14-tH9/result.md
+          grep -F 'GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED=false' stages/stage14/14-tH9/result.md
+          grep -F 'NEXT=Stage14-tH10' stages/stage14/14-tH9/result.md
