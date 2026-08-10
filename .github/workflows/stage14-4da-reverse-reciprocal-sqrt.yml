@@ -42,7 +42,7 @@ jobs:
 
       - name: Lock merged reciprocal equations and branch bounds
         run: |
-          grep -Fq '(L_x^+c_x^+)²-(L_x^-c_x^-)²' stages/stage14/14-s7-27/result.md
+          grep -Fq 'RECIPROCAL_FOUR_MODULUS_QUADRATIC_SYSTEM_PROVED=true' stages/stage14/14-s7-27/result.md
           grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=23/44' stages/stage14/14-4cx/result.md
           grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=7/16' stages/stage14/14-s7-37/result.md
           grep -Fq 'REVERSE_ROOT_LINE_REUSE_WITHOUT_QUANTIFIER_BRIDGE_ALLOWED=false' stages/stage14/14-s7-41/result.md
