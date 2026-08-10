@@ -1,0 +1,78 @@
+name: Stage14-tH24 primitive binary norm super-sqrt LPF sieve audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH24/**'
+      - 'stages/stage14/data/tH24/**'
+      - 'stages/stage14/scripts/14-tH24/**'
+      - '.github/workflows/stage14-tH24-primitive-binary-norm-sieve.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH24 audit
+        run: python -m py_compile stages/stage14/scripts/14-tH24/primitive_binary_norm_sieve_audit.py
+
+      - name: Lock immutable H protocol and t84 target
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'H_STAGE=Stage14-tH24' stages/stage14/14-t84/th24-target.md
+          grep -Fq 'TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/14-t84/th24-target.md
+          grep -Fq 'RUNNING_TH24_MAY_CHASE_T85_PLUS=false' stages/stage14/14-t84/th24-target.md
+          grep -Fq 'FixedUPrimitiveBinaryNormSuperSqrtLargestPrimeShortCofactorVerticalDivisorSieve' stages/stage14/14-t84/th24-target.md
+
+      - name: Run frozen t84 predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-t/t84_primitive_binary_norm_lpf_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t84_validate_frozen.py
+          grep -Fq 'CANONICAL_ELL_RECOVERED_AS_BINARY_NORM_LPF=true' stages/stage14/14-t84/result.md
+          grep -Fq 'BILINEAR_PI_V_MULTIPLICITY_ELIMINATED=true' stages/stage14/14-t84/result.md
+          grep -Fq 'MOVING_MODULUS_FAMILY_REOPENED=false' stages/stage14/14-t84/result.md
+
+      - name: Run current whole-family ledger regression
+        run: |
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X14/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-X14/result.md
+
+      - name: Run tH24 deterministic audit
+        run: python stages/stage14/scripts/14-tH24/primitive_binary_norm_sieve_audit.py
+
+      - name: Lock tH24 frozen boundary
+        run: |
+          f=stages/stage14/14-tH24/BOUNDARY.txt
+          grep -Fq 'STAGE14_TH24=COMPLETE_T84_SNAPSHOT_PRIMITIVE_BINARY_NORM_SUPER_SQRT_LPF_VERTICAL_DIVISOR_SIEVE_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'AUDITED_THROUGH=Stage14-t84' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=fa93c79084e05a2f1aa39eeb80b48f2e82f82113' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'T84_PRIMITIVE_BINARY_NORM_RETAINED=true' "$f"
+          grep -Fq 'T84_CANONICAL_ELL_AS_LPF_RETAINED=true' "$f"
+          grep -Fq 'T84_SUPER_SQRT_LPF_GAP_RETAINED=true' "$f"
+          grep -Fq 'T84_SHORT_COFACTOR_RETAINED=true' "$f"
+          grep -Fq 'T84_FIXED_U_VERTICAL_DIVISOR_RETAINED=true' "$f"
+          grep -Fq 'T84_PI_V_RECONSTRUCTION_RETAINED=true' "$f"
+          grep -Fq 'CANONICAL_PRIME_INDEPENDENT_CHOICE_REOPENED=false' "$f"
+          grep -Fq 'BILINEAR_PI_V_MULTIPLICITY_REOPENED=false' "$f"
+          grep -Fq 'FULL_PHYSICAL_MASKS_RETAINED=true' "$f"
+          grep -Fq 'HALF_DIMENSIONAL_SIEVE_APPLICABLE=false' "$f"
+          grep -Fq 'HARMAN_BUCHSTAB_APPLICABLE=false' "$f"
+          grep -Fq 'GAUSSIAN_BV_BDH_APPLICABLE=false' "$f"
+          grep -Fq 'BINARY_QUADRATIC_LARGE_PRIME_FACTOR_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'VERTICAL_DIVISOR_DISPERSION_APPLICABLE=false' "$f"
+          grep -Fq 'OFF_THE_SHELF_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_FIXED_U_PACKET_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'FIXED_U_SAVING_LEGALLY_CROSS_PROMOTES_TO_WHOLE_FAMILY=false' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
