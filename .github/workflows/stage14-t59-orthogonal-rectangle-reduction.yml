@@ -1,0 +1,25 @@
+name: Stage14-t59 orthogonal rectangle reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t59/**'
+      - 'stages/stage14/scripts/14-t/t59_orthogonal_rectangle_reduction_audit.py'
+      - 'stages/stage14/scripts/14-t/t59_validate_frozen.py'
+      - 'stages/stage14/data/14-t59/**'
+      - '.github/workflows/stage14-t59-orthogonal-rectangle-reduction.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t58 predecessor regression
+        run: python stages/stage14/scripts/14-t/t58_physical_mask_radial_transfer_audit.py > /tmp/t58.json
+      - name: Run t59 orthogonal rectangle audit
+        run: python stages/stage14/scripts/14-t/t59_orthogonal_rectangle_reduction_audit.py > /tmp/t59.json
+      - name: Validate frozen t59 boundary
+        run: python stages/stage14/scripts/14-t/t59_validate_frozen.py
+      - name: Compile t59 scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t59_orthogonal_rectangle_reduction_audit.py stages/stage14/scripts/14-t/t59_validate_frozen.py
