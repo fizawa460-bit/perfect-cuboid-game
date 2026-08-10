@@ -29,13 +29,20 @@ def main() -> None:
     if terminal is None:
         raise AssertionError(f"missing ah terminal card {AH_TERMINAL_CARD}")
 
-    # Freeze the exact registry view that existed at the end of toolbox-ah.
-    # Later toolbox stages append cards and advance next_stage; those changes
-    # must not invalidate the historical ah theorem/audit.
+    # Freeze the registry view that existed at the end of toolbox-ah. Later
+    # stages may append cards and may also supersede the then-current terminal
+    # ledger. Historical ah regression must reconstruct its original metadata
+    # rather than treating a legitimate later supersession as a regression.
     frozen = dict(data)
-    frozen["cards"] = cards[: terminal + 1]
-    if len(frozen["cards"]) != 48:
-        raise AssertionError(f"unexpected frozen ah card count {len(frozen['cards'])}")
+    frozen_cards = [dict(c) for c in cards[: terminal + 1]]
+    if len(frozen_cards) != 48:
+        raise AssertionError(f"unexpected frozen ah card count {len(frozen_cards)}")
+    frozen_terminal = frozen_cards[-1]
+    if frozen_terminal["id"] != AH_TERMINAL_CARD:
+        raise AssertionError("ah terminal position changed")
+    frozen_terminal["status"] = "CURRENT"
+    frozen_terminal.pop("superseded_by", None)
+    frozen["cards"] = frozen_cards
 
     mod = load_original()
     with tempfile.TemporaryDirectory() as td:
