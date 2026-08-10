@@ -1,0 +1,40 @@
+name: Stage14-toolbox-ak proof receiver dependency audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-ak/**'
+      - 'stages/stage14/scripts/14-toolbox-ak/**'
+      - '.github/workflows/stage14-toolbox-ak.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run proof receiver dependency audit
+        run: python stages/stage14/scripts/14-toolbox-ak/proof_receiver_dependency_audit.py
+      - name: Compile toolbox audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-ak/proof_receiver_dependency_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-aj/quantifier_shortcut_warning_audit.py
+          python -m py_compile stages/stage14/scripts/14-s7-08/shared_xi_cell_switch_audit.py
+      - name: Regress predecessor toolbox-aj
+        run: python stages/stage14/scripts/14-toolbox-aj/quantifier_shortcut_warning_audit.py
+      - name: Regress merged s7-08 current bound
+        run: python stages/stage14/scripts/14-s7-08/shared_xi_cell_switch_audit.py
+      - name: Validate toolbox-ak boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AK=COMPLETE_PROOF_RECEIVER_DISPATCH_AND_LEMMA_DEPENDENCY_MAP' stages/stage14/14-toolbox-ak/result.md
+          grep -q 'CANONICAL_TOTAL_CARD_COUNT=76' stages/stage14/14-toolbox-ak/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=18/19' stages/stage14/14-toolbox-ak/result.md
+          grep -q 'CURRENT_REMAINING_GAP_TO_SQRT=17/38' stages/stage14/14-toolbox-ak/result.md
+          grep -q 'NEXT=Stage14-toolbox-al proof recipe cookbook and receiver checklists' stages/stage14/14-toolbox-ak/result.md

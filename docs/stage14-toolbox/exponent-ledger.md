@@ -1,320 +1,150 @@
 # Stage14 main/s exponent and saving ledger
 
-This ledger is the human-readable entry point for exponent arithmetic shared by Stage14 `14-4` and `s`.
+Rule: compare exponents only after matching both scale and quantifier scope. Keep the closed local baseline separate from the current whole-family theorem.
 
-The central rule is:
-
-> Never compare or combine two exponents until both their **scale** and **quantifier scope** match.
-
-A second rule is now necessary:
-
-> Keep the **closed local baseline** distinct from the **current whole-family main-track bound** after post-local improvements.
-
-## 1. Closed local baseline
-
-The closed Stage14-s5 local method gives
+## Local baseline
 
 ```text
-N_local(M) << M^(2-1/21+epsilon)
-```
-
-and physical conversion `M<=sqrt(B)` gives the local/base-class baseline
-
-```text
-#Q_B^phys << B^(41/42+epsilon).
-```
-
-Therefore:
-
-```text
-current closed local physical baseline = 41/42
-local physical saving vs B^1         = 1/42
-```
-
-This remains the correct current statement about the closed s5 local theorem itself.
-
-## 2. Local supersession chain
-
-All three rows below refer to the same normalized local-count use case and therefore may be ordered by strength.
-
-| Stage | M-scale saving | M exponent | physical B exponent | status |
-|---|---:|---:|---:|---|
-| s5s | `1/200` | `399/200` | `399/400` | SUPERSEDED |
-| s5t | `1/41` | `81/41` | `81/82` | SUPERSEDED |
-| s5u | `1/21` | `41/21` | `41/42` | CURRENT LOCAL BASELINE |
-
-Exact conversion rule:
-
-```text
-M^(2-delta_M), M<=B^(1/2)
- -> B^(1-delta_M/2).
-```
-
-## 3. Whole-family post-local checkpoints
-
-### 3.1 Stage14-4bq checkpoint
-
-Merged 4bq first recombined
-
-```text
-small partner leg : B^(20/21+o(1))
-cross branch      : B^(61/63+o(1))
-good-cell residual: B^(13/14+o(1))
-```
-
-and obtained
-
-```text
-V(B) << B^(61/63+o(1)).
-```
-
-At that checkpoint,
-
-```text
-41/42 - 61/63 = 1/126,
-61/63 - 1/2   = 59/126.
-```
-
-This was the first positive whole-family direct post-local saving.
-
-### 3.2 Current Stage14-4br checkpoint
-
-Merged 4br reoptimizes the cross branch to
-
-```text
-E_cross(B) << B^(20/21+o(1)).
-```
-
-while the other exhaustive sectors are
-
-```text
-small partner leg : B^(20/21+o(1))
-good-cell residual: B^(13/14+o(1)).
-```
-
-Therefore the current whole-family exponent is
-
-```text
-CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=20/21
-V(B) << B^(20/21+o(1)).
-```
-
-Relative to the closed local baseline `41/42`, the cumulative proved direct post-local saving is
-
-```text
-41/42 - 20/21 = 1/42.
-```
-
-Thus
-
-```text
-WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=1/42
-FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=true.
-```
-
-## 4. Current square-root budget
-
-Target:
-
-```text
-B^(1/2+epsilon).
-```
-
-Current whole-family exponent:
-
-```text
-20/21.
-```
-
-Current remaining saving required:
-
-```text
-20/21 - 1/2 = 19/42.
-```
-
-Therefore
-
-```text
-CURRENT_REMAINING_GAP_TO_SQRT=19/42.
-```
-
-### Historical checkpoints
-
-Before any full post-local improvement,
-
-```text
-41/42 - 1/2 = 10/21.
-```
-
-After 4bq but before 4br,
-
-```text
-61/63 - 1/2 = 59/126.
-```
-
-Both remain valid as historical threshold/provenance facts. Neither is the current whole-family remaining gap.
-
-## 5. Specialized exponents that must not be promoted incorrectly
-
-### 5.1 Stage14-4bl small-partner-leg sector
-
-```text
-X2 <= B^(20/21)
- -> count << B^(20/21+o(1)).
-```
-
-This remains one sector theorem. After 4br it happens to equal the current whole-family maximum, but that equality comes only after exhaustive recombination.
-
-### 5.2 Stage14-s6-07 forced incidence scale
-
-After the relevant five-factor decomposition, one factor is forced above
-
-```text
-B^(41/420),
-```
-
-because
-
-```text
-(41/84)/5 = 41/420.
-```
-
-This is a structural variable/incidence threshold, not a count saving.
-
-### 5.3 Stage14-4bq good-cell residual
-
-The diagonal-pair genus-one transfer gives
-
-```text
-E_good-res(B) << B^(13/14+o(1)).
-```
-
-This remains a genuine moving-family sector bound and is now strictly below the current `20/21` whole-family maximum.
-
-### 5.4 Stage14-4br optimized cross branch
-
-The merged factor-threshold optimization gives
-
-```text
-E_cross(B) << B^(20/21+o(1)).
-```
-
-This is a genuine sector bound and, together with the small-partner sector, sets the current whole-family ceiling.
-
-## 6. Method ceilings and hypothetical bounds
-
-The closed s5 source records a single-edge module ceiling near
-
-```text
-1/20 on M-scale.
-```
-
-This is not a whole-system theorem. Likewise planning diagnostics or fixed-curve point estimates do not become whole-family exponents without a merged transfer theorem.
-
-## 7. Canonical current facts
-
-Local baseline:
-
-```text
+N_local(M) << M^(2-1/21+epsilon), M<=B^(1/2)
 CURRENT_LOCAL_M_SAVING=1/21
 CURRENT_LOCAL_M_EXPONENT=41/21
 CURRENT_LOCAL_PHYSICAL_BASELINE_EXPONENT=41/42
 ```
 
-Whole-family main track:
+Local supersession:
 
 ```text
-CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=20/21
-WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=1/42
-SQRT_TARGET_EXPONENT=1/2
-CURRENT_REMAINING_GAP_TO_SQRT=19/42
-FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=true
+s5s: 1/200 -> 399/400 physical [SUPERSEDED]
+s5t: 1/41  -> 81/82 physical  [SUPERSEDED]
+s5u: 1/21  -> 41/42 physical  [CURRENT LOCAL BASELINE]
 ```
 
-Historical checkpoints:
+Historical pre-4bq square-root gap:
+
+```text
+41/42 - 1/2 = 10/21.
+```
+
+## Whole-family checkpoints
+
+```text
+4bq: V(B) << B^(61/63+o(1))
+      41/42-61/63=1/126
+      61/63-1/2=59/126
+
+4br: V(B) << B^(20/21+o(1))
+      41/42-20/21=1/42
+      20/21-1/2=19/42
+      [SUPERSEDED AS CURRENT]
+
+s7-08 CURRENT:
+      V(B) << B^(18/19+o(1))
+      20/21-18/19=2/399
+      41/42-18/19=23/798
+      18/19-1/2=17/38
+```
+
+Canonical current facts:
+
+```text
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=18/19
+WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=23/798
+SQRT_TARGET_EXPONENT=1/2
+CURRENT_REMAINING_GAP_TO_SQRT=17/38
+FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=true
+SQRT_B_UPPER_BOUND_PROVED=false
+```
+
+Historical facts:
 
 ```text
 HISTORICAL_PRE_4BQ_WHOLE_FAMILY_EXPONENT=41/42
 HISTORICAL_PRE_4BQ_REQUIRED_POST_LOCAL_SAVING=10/21
 HISTORICAL_4BQ_WHOLE_FAMILY_EXPONENT=61/63
 HISTORICAL_4BQ_REMAINING_GAP_TO_SQRT=59/126
+HISTORICAL_4BR_WHOLE_FAMILY_EXPONENT=20/21
+HISTORICAL_4BR_REMAINING_GAP_TO_SQRT=19/42
 ```
 
-Specialized facts:
+## Current s7-08 optimization
+
+```text
+S7_08_OPTIMAL_LAMBDA=9/19
+S7_08_OPTIMAL_TAU=2/19
+S7_08_OPTIMAL_THETA=8/19
+S7_08_ADAPTIVE_ARCHITECTURE_EXPONENT=18/19
+S7_08_IMPROVEMENT_OVER_20_21=2/399
+```
+
+The active architecture terms are
+
+```text
+2lambda,
+1-tau/2,
+1+theta-lambda,
+1-(theta-2tau)/4,
+```
+
+and optimize at `18/19`.
+
+## Specialized results that are not automatically whole-family bounds
 
 ```text
 4BL_SMALL_PARTNER_LEG_SECTOR_EXPONENT=20/21
 S6_07_FORCED_LARGE_INCIDENCE_CELL_EXPONENT=41/420
 4BQ_GOOD_CELL_RESIDUAL_EXPONENT=13/14
-4BR_CROSS_SECTOR_EXPONENT=20/21
+4BV_FIXED_PACKET_RELATIVE_SAVING=H^(-1/2)
+S7_08_CELL_SWITCH_RELATIVE_SAVING=T^(-1/2)
 ```
 
-## 8. Safe arithmetic recipes
+Interpretation:
+- `B^(41/420)` is a structural variable/incidence scale, not a count saving.
+- 4bv gives `N_packet << M*H^(-1/2)*B^o(1)` on a fixed product-square packet.
+- s7-08 turns a selected shared-`xi` cell `q~T` into `O(T^(1/2)B^o(1))` solutions.
+- sector bounds become a whole-family bound only after exhaustive recombination.
 
-### Convert an M-scale local saving
-
-If a merged theorem proves
+## Safe recipes
 
 ```text
-N(M) << M^(2-delta_M+epsilon)
+M^(2-delta_M), M<=B^(1/2)
+ -> physical exponent 1-delta_M/2
+
+remaining saving = current exponent - target exponent
+
+whole-family exponent = max(exhaustive sector exponents)
 ```
 
-and the same interface allows `M<=sqrt(B)`, then
+Always follow the CURRENT ledger through its `SUPERSEDED_BY` chain before using a gap or threshold.
 
-```text
-physical exponent = 1-delta_M/2.
-```
-
-### Compute remaining saving to a target
-
-If the current whole-family exponent is `alpha` and target is `beta<alpha`, then
-
-```text
-remaining saving = alpha-beta.
-```
-
-Use the latest CURRENT whole-family ledger, not a historical threshold card.
-
-### Promote sector bounds to a whole-family bound
-
-Only after the sectors form an exhaustive partition may one take
-
-```text
-whole-family exponent = max(sector exponents).
-```
-
-A per-fixed-curve point bound must first be transferred through the moving family with controlled multiplicity.
-
-## 9. Common forbidden substitutions
-
-Do not perform any of these silently:
+## Forbidden substitutions
 
 ```text
 M-scale saving <-> B-scale saving
-local baseline exponent -> current post-local whole-family exponent
-historical remaining gap -> current remaining gap
+local baseline -> current whole-family exponent
+historical gap -> current gap
 sector exponent -> whole-family exponent without exhaustive recombination
 forced variable size -> count saving
-coordinate-density saving -> packet/base-count saving
+coordinate density -> packet/base-count saving
 fixed genus-one point bound -> moving-family count without transfer
-single-module ceiling -> whole-system theorem
-local soluble -> global soluble
+fixed-fiber B^o(1) -> active-direction sparsity
+single CRT modulus -> required power saving without a large-sieve/second-moment transfer
 ```
 
-## 10. Canonical card map
+In particular: `sector exponent -> whole-family exponent` and `forced variable size -> count saving` are forbidden without their explicit transfer theorem.
+
+## Canonical card chain
 
 ```text
 TB-BOUND-local-descent-s5s
-  -> TB-BOUND-local-descent-s5t
-  -> TB-BOUND-local-descent-current
+ -> TB-BOUND-local-descent-s5t
+ -> TB-BOUND-local-descent-current
 
-TB-LEDGER-post-local-sqrt-gap [SUPERSEDED AS CURRENT GLOBAL GAP]
-  -> TB-LEDGER-current-main-after-4bq [SUPERSEDED]
-  -> TB-LEDGER-current-main-after-4br [CURRENT]
+TB-LEDGER-post-local-sqrt-gap [SUPERSEDED]
+ -> TB-LEDGER-current-main-after-4bq [SUPERSEDED]
+ -> TB-LEDGER-current-main-after-4br [SUPERSEDED]
+ -> TB-LEDGER-current-whole-family-after-s7-08 [CURRENT]
 
-TB-BOUND-dual-half-angle-small-leg-sector
-TB-LEDGER-s6-07-forced-incidence-scale
-TB-BOUND-diagonal-pair-genus-one-count
-TB-WARNING-exponent-scope-and-transfer
-TB-WARNING-genus-one-quantifier-and-model-boundary
+TB-RECIPE-dispatch-balanced-inert-square-sieve
+ -> TB-RECIPE-dispatch-shared-xi-cell-switch
+ -> TB-LEDGER-current-whole-family-after-s7-08
 ```
