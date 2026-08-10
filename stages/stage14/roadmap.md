@@ -155,18 +155,35 @@ t^4=1 mod Q_mix,
 
 with the `C_*/u_*` prime-power allocation recovered from `(Q_mix,t)` by `gcd(Q_mix,t^2+1)` and `gcd(Q_mix,t^2-1)`.
 
+Stage14-s7-46 consumes that reactivation and proves that the mixed-root tuple also reconstructs, with only `B^o(1)` fibers,
+
+```text
+first-residual sign allocation,
+xi-switch product S*T,
+xi-agreement product R*J,
+first signed quotient/agreement pair,
+second reciprocal / X13 physical completion.
+```
+
+The second reciprocal therefore has no independent fixed-power support. The newly exposed exact receiver is the simultaneous balanced squarefree two-cell factorization of the complementary cofactors
+
+```text
+M_+=oddpart(D^2+A^2)/C_* = S*T * B^o(1),
+M_-=oddpart(D^2-A^2)/u_* = R*J * B^o(1).
+```
+
 Current route state:
 
 ```text
-S_ROUTE_CURRENT_STATE=REACTIVATION_REQUESTED_BY_STAGE14_4DE
+S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED
 S_ROUTE_CLOSED_BY=Stage14-s7-45
-S_ROUTE_PREVIOUS_HANDOFF=Stage14-4dd
-S_ROUTE_REACTIVATION_NEEDED=true
+S_ROUTE_REACTIVATION_TRIGGERED_BY=Stage14-4de
+S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46
+S_ROUTE_REACTIVATION_NEEDED=false
 USER_DECIDES_S_ROUTE_REACTIVATION=false
 ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
-S_ROUTE_REACTIVATION_TRIGGER=FULL_RESIDUAL_CROSS_GCD_AND_MIXED_FOURTH_ROOT_COMPRESSION
-S_ROUTE_REACTIVATION_TARGET=Stage14-s7-46
-S_ROUTE_REACTIVATION_RECEIVER=SquareRootQuarterScaleMixedFourthRootSignedResidualPhysicalCompletionIncidence
+S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScaleMixedFourthRootDualBalancedXiCofactorSplitPhysicalAdmissibilityDensity
+S_ROUTE_NEXT=Stage14-s7-47
 ```
 
 The user is **not** expected to decide whether the s-route should be restarted. Any later mainline, `t`, `X`, toolbox, q/literature, or other Stage14 stage that materially changes the surviving receiver must explicitly evaluate whether the new result creates a genuinely new s-specific exact structure or theorem bridge.
@@ -188,9 +205,7 @@ S_ROUTE_REACTIVATION_REASON=<why the new structure is actionable in s coordinate
 
 and the roadmap must visibly tell the user that the s-route should be restarted. A new route name by itself, a stronger global exponent by itself, or a theorem with merely similar notation is not enough: an explicit bridge back to an s-specific receiver is required.
 
-For Stage14-4de this test is satisfied because the new mixed fourth-root modulus explicitly couples the s-owned signed residual `u_res` to the common core and recovers their prime-power allocation. Therefore `Stage14-s7-46` should be scheduled.
-
-If a later stage answers `false`, s remains in its then-current state and no s stage should be scheduled merely to re-audit the same zero-frequency density obstruction.
+If a later stage answers `false`, s remains in its then-current state and no s stage should be scheduled merely to re-audit an already exhausted obstruction.
 
 Operational lock:
 
