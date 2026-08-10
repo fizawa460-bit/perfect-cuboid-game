@@ -1,0 +1,45 @@
+name: Stage14-4br cross weighted threshold
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4br/**'
+      - 'stages/stage14/data/14-4/cross_weighted_threshold_summary.json'
+      - 'stages/stage14/scripts/14-4/cross_weighted_threshold_audit.py'
+      - '.github/workflows/stage14-4br-cross-weighted-threshold.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4br audit
+        run: python -m py_compile stages/stage14/scripts/14-4/cross_weighted_threshold_audit.py
+      - name: Run predecessor 4bm audit
+        run: python stages/stage14/scripts/14-4/cross_sector_gcd_cell_audit.py
+      - name: Run predecessor 4bq audit
+        run: python stages/stage14/scripts/14-4/diagonal_pair_genus_one_audit.py
+      - name: Run 4br exact exponent audit
+        run: python stages/stage14/scripts/14-4/cross_weighted_threshold_audit.py | tee /tmp/4br-audit.txt
+      - name: Check audit flags
+        run: |
+          grep -q 'OPTIMAL_COMMON_RECEIVER_THRESHOLD=1/21' /tmp/4br-audit.txt
+          grep -q 'CROSS_SECTOR_EXPONENT=20/21' /tmp/4br-audit.txt
+          grep -q 'WHOLE_FAMILY_EXPONENT=20/21' /tmp/4br-audit.txt
+          grep -q 'CUMULATIVE_POST_LOCAL_SAVING=1/42' /tmp/4br-audit.txt
+          grep -q 'ALL_AUDITS_PASS=true' /tmp/4br-audit.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BR=OPTIMIZED_CROSS_FACTOR_THRESHOLD_AND_WHOLE_FAMILY_20_21_BOUND' stages/stage14/14-4br/result.md
+          grep -q 'CROSS_SECTOR_BOUND=B^(20/21+o(1))' stages/stage14/14-4br/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=20/21' stages/stage14/14-4br/result.md
+          grep -q 'CUMULATIVE_POST_LOCAL_SAVING_FROM_41_42=1/42' stages/stage14/14-4br/result.md
+          grep -q 'SQRT_B_UPPER_BOUND_PROVED=false' stages/stage14/14-4br/result.md
+          grep -q 'NEXT=Stage14-4bs' stages/stage14/14-4br/result.md
