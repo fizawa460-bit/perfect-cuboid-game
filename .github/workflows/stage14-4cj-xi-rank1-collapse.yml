@@ -1,0 +1,34 @@
+name: Stage14-4cj xi rank1 collapse
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cj/**'
+      - 'stages/stage14/data/14-4/xi_rank1_collapse_summary.json'
+      - 'stages/stage14/scripts/14-4/xi_rank1_collapse_audit.py'
+      - '.github/workflows/stage14-4cj-xi-rank1-collapse.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Stage14-4cj audit
+        run: python -m py_compile stages/stage14/scripts/14-4/xi_rank1_collapse_audit.py
+      - name: Run Stage14-4cj audit
+        run: python stages/stage14/scripts/14-4/xi_rank1_collapse_audit.py
+      - name: Regress Stage14-4ci
+        run: python stages/stage14/scripts/14-4/full_k_dual_common_core_audit.py
+      - name: Regress Stage14-s7-23
+        run: python stages/stage14/scripts/14-s7-23/rank3_primary_support_audit.py
+      - name: Freeze boundary
+        run: |
+          grep -q 'XI_RANK2_PHYSICAL_ENDPOINT_PACKETS_EXIST=false' stages/stage14/14-4cj/result.md
+          grep -q 'XI_PHYSICAL_SHORT_SPAN_RANK=1' stages/stage14/14-4cj/result.md
+          grep -q 'ORIENTED_XI_CRT_PACKET_PHYSICAL_ROOT_VECTOR_MULTIPLICITY=1' stages/stage14/14-4cj/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' stages/stage14/14-4cj/result.md
+          grep -q 'MAINLINE_H_NEEDED=false' stages/stage14/14-4cj/result.md
