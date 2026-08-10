@@ -1,0 +1,67 @@
+name: Stage14-4da sqrt root-gcd excess
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4da/**'
+      - 'stages/stage14/scripts/14-4/sqrt_root_gcd_excess_audit.py'
+      - 'stages/stage14/data/14-4/sqrt_root_gcd_excess_summary.json'
+      - '.github/workflows/stage14-4da-sqrt-root-gcd-excess.yml'
+      - 'stages/stage14/14-X13/**'
+      - 'stages/stage14/14-4cz/**'
+      - 'stages/stage14/14-4cx/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4da deterministic audit
+        run: python stages/stage14/scripts/14-4/sqrt_root_gcd_excess_audit.py
+
+      - name: Compile Stage14-4da audit
+        run: python -m py_compile stages/stage14/scripts/14-4/sqrt_root_gcd_excess_audit.py
+
+      - name: Merged X13 square-root regression
+        run: python stages/stage14/scripts/14-X13/reverse_reciprocal_sqrt_audit.py
+
+      - name: Merged 4cz regression
+        run: python stages/stage14/scripts/14-4/sameside_root_gcd_primitive_23_44_audit.py
+
+      - name: Merged 4cx regression
+        run: python stages/stage14/scripts/14-4/cayley_annulus_collapse_23_44_audit.py
+
+      - name: Lock predecessor theorem facts
+        run: |
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' stages/stage14/14-X13/result.md
+          grep -Fq 'ROW_CRT_LIFT_INDEPENDENT_SUPPORT=false' stages/stage14/14-X13/result.md
+          grep -Fq 'FULL_LOST_CORE_DIVIDES_COLUMN_COFACTOR_PRODUCT=true' stages/stage14/14-4cx/result.md
+          grep -Fq 'FIXED_POWER_HIGH_CORE_NONPROPORTIONAL_BRANCH_EMPTY=true' stages/stage14/14-4cx/result.md
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQUARE_DIVIDES_COLUMN_COFACTOR_PRODUCT=true' stages/stage14/14-4cz/result.md
+
+      - name: Lock Stage14-4da theorem boundary
+        run: |
+          f=stages/stage14/14-4da/result.md
+          grep -Fq 'STAGE14_4DA=COMPLETE_SQRT_ROOT_GCD_EXCESS_PEEL_AND_MATCHED_LOST_CORE_SATURATION_REFINEMENT' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'LOST_CORE_D0_DIVIDES_CROSS_ROOT_SQUARE=true' "$f"
+          grep -Fq 'FIXED_D0_CROSS_ROOT_EXCESS_HAS_FIXED_SQUARECLASS=true' "$f"
+          grep -Fq 'RESIDUAL_COLUMN_FORCED_DIVISOR=K^2*G' "$f"
+          grep -Fq 'ROOT_GCD_EXCESS_COMPLETE_COUNT=1/2-kappa-e/2' "$f"
+          grep -Fq 'FIXED_POWER_SAMESIDE_ROOT_GCD_STRICTLY_SUBSQRT=true' "$f"
+          grep -Fq 'FIXED_POWER_CROSS_ROOT_EXCESS_STRICTLY_SUBSQRT=true' "$f"
+          grep -Fq 'SQRT_SATURATION_SAMESIDE_ROOT_GCD=Bo1' "$f"
+          grep -Fq 'SQRT_SATURATION_CROSS_ROOT_EXCESS=Bo1' "$f"
+          grep -Fq 'SQRT_SATURATION_JOINT_CORE_LOWER_EXPONENT=1/6' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4db' "$f"
