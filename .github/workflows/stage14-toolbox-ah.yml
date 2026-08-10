@@ -21,11 +21,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Run two-quadrics genus-one geometry audit
-        run: python stages/stage14/scripts/14-toolbox-ah/genus_one_geometry_audit.py
+      - name: Run frozen toolbox-ah regression against later registry
+        run: python stages/stage14/scripts/14-toolbox-ah/forward_regression.py
       - name: Compile toolbox audits
         run: |
           python -m py_compile stages/stage14/scripts/14-toolbox-ah/genus_one_geometry_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-ah/forward_regression.py
           python -m py_compile stages/stage14/scripts/14-toolbox-ag/kernel_radical_incidence_audit.py
       - name: Regress toolbox-ag arithmetic interface
         run: python stages/stage14/scripts/14-toolbox-ag/kernel_radical_incidence_audit.py
