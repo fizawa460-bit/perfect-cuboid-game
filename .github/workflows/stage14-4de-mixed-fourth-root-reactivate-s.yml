@@ -1,0 +1,73 @@
+name: Stage14-4de mixed fourth-root s reactivation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4de/**'
+      - 'stages/stage14/data/14-4/mixed_fourth_root_reactivation_summary.json'
+      - 'stages/stage14/scripts/14-4/mixed_fourth_root_reactivation_audit.py'
+      - 'stages/stage14/roadmap.md'
+      - '.github/workflows/stage14-4de-mixed-fourth-root-reactivate-s.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4de deterministic audit
+        run: python stages/stage14/scripts/14-4/mixed_fourth_root_reactivation_audit.py
+
+      - name: Compile Stage14-4de audit
+        run: python -m py_compile stages/stage14/scripts/14-4/mixed_fourth_root_reactivation_audit.py
+
+      - name: Merged 4dd regression
+        run: |
+          f=stages/stage14/14-4dd/result.md
+          grep -Fq 'STAGE14_4DD=COMPLETE_FIRST_RESIDUAL_DEFICIT_SAVING_AND_BALANCED_GAUSSIAN_SATURATION_REDUCTION' "$f"
+          grep -Fq 'SQRT_SATURATION_REQUIRES_FIRST_RESIDUAL_AT_CAP=true' "$f"
+          grep -Fq 'SQRT_SATURATION_GAUSSIAN_PAIR_BALANCED=true' "$f"
+          python stages/stage14/scripts/14-4/full_residual_balanced_gaussian_density_audit.py >/dev/null
+
+      - name: Merged X14 regression
+        run: |
+          f=stages/stage14/14-X14/result.md
+          grep -Fq 'STAGE14_X14=COMPLETE_POST_SQRT_FRONTIER_UNIFICATION_AND_SWITCH_SUPPORTED_ZERO_FREQUENCY_IDENTIFICATION' "$f"
+          grep -Fq 'GAUSSIAN_NORM_QUOTIENT_FIXED_POWER_SUPPORT=XI_SWITCH_PRODUCT' "$f"
+          grep -Fq 'ODDPART_HKPLUS_EQUALS_XI_SWITCH_TIMES_C=true' "$f"
+
+      - name: Closed s-route predecessor and roadmap rule
+        run: |
+          grep -Fq 'S7_ROUTE_CLOSED_AT_SQRT=true' stages/stage14/14-s7-45/result.md
+          grep -Fq 'NEXT_S_ROUTE=NONE_UNTIL_NEW_EXACT_STRUCTURE' stages/stage14/14-s7-45/result.md
+          grep -Fq 'S_REACTIVATION_REQUIRES_NEW_EXACT_STRUCTURE_OR_THEOREM_BRIDGE=true' stages/stage14/roadmap.md
+          grep -Fq 'MATERIAL_RECEIVER_CHANGE_REQUIRES_S_REACTIVATION_CHECK=true' stages/stage14/roadmap.md
+
+      - name: Stage14-4de theorem boundary
+        run: |
+          f=stages/stage14/14-4de/result.md
+          grep -Fq 'STAGE14_4DE=COMPLETE_FULL_RESIDUAL_CROSS_COPRIMALITY_MIXED_FOURTH_ROOT_COMPRESSION_AND_S_ROUTE_REACTIVATION' "$f"
+          grep -Fq 'COMMON_CORE_FIRST_RESIDUAL_CROSS_GCD_BO1=true' "$f"
+          grep -Fq 'XI_SWITCH_FIRST_RESIDUAL_CROSS_GCD_BO1=true' "$f"
+          grep -Fq 'MIXED_MODULUS_EXPONENT=1/4' "$f"
+          grep -Fq 'MIXED_FOURTH_ROOT_LINE_PROVED=true' "$f"
+          grep -Fq 'MIXED_ROOT_LABEL_RECOVERS_CORE_RESIDUAL_ALLOCATION=true' "$f"
+          grep -Fq 'S_ROUTE_REACTIVATION_NEEDED=true' "$f"
+          grep -Fq 'S_ROUTE_REACTIVATION_TARGET=Stage14-s7-46' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'NEXT=Stage14-4df' "$f"
+
+      - name: Roadmap reactivation lock
+        run: |
+          f=stages/stage14/roadmap.md
+          grep -Fq 'S_ROUTE_CURRENT_STATE=REACTIVATION_REQUESTED_BY_STAGE14_4DE' "$f"
+          grep -Fq 'S_ROUTE_REACTIVATION_NEEDED=true' "$f"
+          grep -Fq 'S_ROUTE_REACTIVATION_TARGET=Stage14-s7-46' "$f"
