@@ -15,10 +15,6 @@ R2 = ROOT / "stages/stage14/14-tH17/r2.md"
 SUMMARY = ROOT / "stages/stage14/data/tH17/matched_rectangle_signed_ttstar_dual_summary.json"
 
 
-def dot(a, b):
-    return sum(x * y for x, y in zip(a, b))
-
-
 def matmul(a, b):
     bt = list(zip(*b))
     return [[sum(x * y for x, y in zip(row, col)) for col in bt] for row in a]
@@ -26,10 +22,6 @@ def matmul(a, b):
 
 def transpose(a):
     return [list(row) for row in zip(*a)]
-
-
-def quadratic_form(g, z):
-    return sum(z[j] * g[j][k] * z[k] for j in range(len(z)) for k in range(len(z)))
 
 
 def main() -> None:
@@ -57,7 +49,7 @@ def main() -> None:
     source_energy = sum(x * x for x in f)
     assert projected_energy <= source_energy
 
-    # Five ordered auxiliary-pair rows; entries imitate signed K_p(s)K_q(s) in {-1,0,1}.
+    # Five synthetic signed auxiliary-pair rows.
     phi = [
         [1, -1, 1, 1, -1, 0],
         [-1, -1, 0, 1, 1, -1],
@@ -65,26 +57,19 @@ def main() -> None:
         [0, 1, 1, -1, -1, 1],
         [1, 1, -1, 1, 0, -1],
     ]
-
-    # Unnormalised block sums n_{a,j}=sum_{s in R_j} phi_{a,s}.
     n = [[sum(row[s] for s in block) for block in blocks] for row in phi]
 
-    # Physical trace for one family is sum_j n_{a,j}; reconstruct directly from states.
+    # z_j*kappa_{a,j}=n_{a,j}; hence the physical Rayleigh form is exactly
+    # sum_a (sum_j n_{a,j})^2.  The normalising square roots cancel against z.
     traces_block = [sum(row) for row in n]
     traces_state = [sum(row) for row in phi]
     assert traces_block == traces_state
     physical_moment = sum(t * t for t in traces_state)
-
-    # Normalised projected matrix kappa_{a,j}=n_{a,j}/sqrt(m_j) is represented
-    # without irrational arithmetic by observing z_j=sqrt(m_j): z_j*kappa_{a,j}=n_{a,j}.
-    # Hence the physical Rayleigh form equals sum_a (sum_j n_{a,j})^2.
-    # Build the unnormalised Gram N^T N; z-normalisations cancel in z^*Gz.
     gram_n = matmul(transpose(n), n)
     rayleigh_unnormalised = sum(gram_n[j][k] for j in range(len(blocks)) for k in range(len(blocks)))
     assert rayleigh_unnormalised == physical_moment
 
     # Exact H^2-D identity for ordered p!=q on a synthetic one-prime Kummer table.
-    # prime_rows[r][s] is K_r(s).  Build all ordered p!=q traces two ways.
     prime_rows = [
         [1, -1, 1, 1, -1, 1],
         [-1, -1, 1, -1, 1, 1],
@@ -97,8 +82,9 @@ def main() -> None:
     def kpair(p, q, s):
         return prime_rows[p][s] * prime_rows[q][s]
 
-    # Gram block entries using explicit ordered auxiliary pairs.
-    explicit_g = [[Fraction(0) for _ in blocks] for _ in blocks]
+    # Compare the raw numerators of sqrt(m_j*m_k) G_jk.  This avoids irrational
+    # square roots while testing exactly the formula stated in R2.11.
+    explicit_raw = [[0 for _ in blocks] for _ in blocks]
     for j, bj in enumerate(blocks):
         for k, bk in enumerate(blocks):
             raw = 0
@@ -109,12 +95,9 @@ def main() -> None:
                     sj = sum(kpair(p, q, s) for s in bj)
                     sk = sum(kpair(p, q, t) for t in bk)
                     raw += sj * sk
-            # Normalised Gram has denominator sqrt(mj*mk); compare after multiplying by m_j*m_k.
-            explicit_g[j][k] = Fraction(raw, masses[j] * masses[k])
+            explicit_raw[j][k] = raw
 
-    # H^2-D summed on state pairs, with the same rational block normalisation after
-    # dividing by m_j*m_k. Squared-normalisation is enough for exact audit and avoids radicals.
-    hd_g = [[Fraction(0) for _ in blocks] for _ in blocks]
+    hd_raw = [[0 for _ in blocks] for _ in blocks]
     for j, bj in enumerate(blocks):
         for k, bk in enumerate(blocks):
             raw = 0
@@ -123,8 +106,8 @@ def main() -> None:
                     h = sum(prime_rows[r][s] * prime_rows[r][t] for r in range(P))
                     d = sum((prime_rows[r][s] * prime_rows[r][t]) ** 2 for r in range(P))
                     raw += h * h - d
-            hd_g[j][k] = Fraction(raw, masses[j] * masses[k])
-    assert explicit_g == hd_g
+            hd_raw[j][k] = raw
+    assert explicit_raw == hd_raw
 
     # Geometry-only coherent counterguard: one rectangle of mass m, all K=1.
     P_coh, m = 7, 5
@@ -132,7 +115,6 @@ def main() -> None:
     target = P_coh * P_coh * m
     assert lhs > target
     assert Fraction(lhs, target) == Fraction((P_coh - 1) * m, P_coh)
-    # Single rectangle satisfies t59 aspect balance exactly up to factor <=2.
     a, b = 1, m
     assert (a * a) * (b * b) <= 2 * (a * b) ** 2
 
@@ -180,7 +162,7 @@ def main() -> None:
         "h2_minus_d_gram": {
             "prime_count": P,
             "state_count": states,
-            "verified": True,
+            "raw_gram_numerators_verified": True,
         },
         "coherent_single_rectangle_guard": {
             "P": P_coh,
