@@ -1,0 +1,48 @@
+name: Stage14-s7-03 first-point multiplicative height audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-03/**'
+      - 'stages/stage14/scripts/14-s7-03/**'
+      - '.github/workflows/stage14-s7-03-first-point-multiplicative-height.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-03/first_point_multiplicative_height_audit.py
+      - name: Run predecessor s7-02 audit
+        run: python stages/stage14/scripts/14-s7-02/specialization_torsion_positive_rank_audit.py
+      - name: Run s7-03 deterministic audit
+        run: python stages/stage14/scripts/14-s7-03/first_point_multiplicative_height_audit.py | tee /tmp/s7-03.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^ORDERED_PHYSICAL_INCIDENCES=124$' /tmp/s7-03.txt
+          grep -q '^MERGED_S7_02_BOUNDARY_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^MERGED_4BN_PHYSICAL_BIJECTION_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^JACOBI_LEGENDRE_COORDINATE_IDENTITY_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^REDUCED_DENOMINATOR_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^CROSS_GCD_PRODUCT_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^SHARP_DIAGONAL_HALF_ANGLE_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^MULTIPLICATIVE_HEIGHT_COMPARISON_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^FIRST_HEIGHT_SANDWICH_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^SMALL_DENOMINATOR_HYPERBOLA_AUDIT=true$' /tmp/s7-03.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s7-03.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_03=COMPLETE_PHYSICAL_FIRST_POINT_MULTIPLICATIVE_HEIGHT_RECEIVER' stages/stage14/14-s7-03/result.md
+          grep -q 'SHARP_DIAGONAL_FORMULA=d_rec=(X2/gcd(X2,X3))\*H3' stages/stage14/14-s7-03/result.md
+          grep -q 'FIRST_PHYSICAL_AND_MULTIPLICATIVE_HEIGHT_POWER_EXPONENTS_EQUAL=true' stages/stage14/14-s7-03/result.md
+          grep -q 'PHYSICAL_HIT_IMPLIES_DU_TIMES_DX_LE_2B=true' stages/stage14/14-s7-03/result.md
+          grep -q 'PHYSICAL_ACTIVATION_IMPLIES_POSITIVE_RANK_UNCONDITIONALLY=true' stages/stage14/14-s7-03/result.md
+          grep -q 'NEXT=Stage14-s7-04' stages/stage14/14-s7-03/result.md
