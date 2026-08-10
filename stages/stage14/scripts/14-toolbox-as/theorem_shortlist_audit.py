@@ -12,6 +12,7 @@ for token in [
     "S_CURRENT_RECEIVER=LargeSwitchPrimitivePythagoreanTwoLegIncidence",
     "FIXED_U_CURRENT_RECEIVER=SharedUInvisibleCenteredProjectiveSelectorDispersion",
     "RECEIVER_CROSS_PROMOTION_ALLOWED=false",
+    "COMPLETE_TRACE_IMPLIES_PHYSICAL_SELECTOR_DISPERSION=false",
 ]:
     assert token in ar, f"missing ar certificate: {token}"
 
@@ -22,8 +23,8 @@ for token in [
     assert token in s719, f"missing s7-19 boundary: {token}"
 
 for token in [
+    "SHARED_U_INVISIBLE_COMPLETE_PROJECTIVE_TRACE_PROVED=true",
     "SHARED_U_CENTERED_PROJECTIVE_SELECTOR_DISPERSION_PROVED=false",
-    "COMPLETE_TRACE_IMPLIES_PHYSICAL_SELECTOR_DISPERSION=false",
 ]:
     assert token in t55, f"missing t55 boundary: {token}"
 
