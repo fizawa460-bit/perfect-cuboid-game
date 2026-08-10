@@ -1,30 +1,36 @@
-name: Stage14-s7-33 shared common-core orientation probe
+name: Stage14-s7-33 canonical common-core agreement bridge
 
 on:
   pull_request:
     paths:
+      - 'stages/stage14/14-s7-33/**'
       - 'stages/stage14/scripts/14-s7-33/**'
       - '.github/workflows/stage14-s7-33-shared-common-core-orientation-probe.yml'
       - 'stages/stage14/14-s7-32/**'
+      - 'stages/stage14/14-4ct/**'
       - 'stages/stage14/14-4cs/**'
   workflow_dispatch:
 
 jobs:
-  probe:
+  audit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Run shared common-core orientation probe
+      - name: Run canonical core agreement bridge audit
+        run: python stages/stage14/scripts/14-s7-33/canonical_core_agreement_bridge_audit.py
+      - name: Run shared common-core orientation audit
         run: python stages/stage14/scripts/14-s7-33/shared_common_core_orientation_probe.py
-      - name: Run transfer overlap probe
+      - name: Run strong-split counterexample audit
         run: python stages/stage14/scripts/14-s7-33/transfer_overlap_probe.py
-      - name: Compile probes
+      - name: Compile audits
         run: python -m py_compile stages/stage14/scripts/14-s7-33/*.py
       - name: Predecessor locks
         run: |
           grep -Fq 'STAGE14_S7_32=COMPLETE_ONE_HOST_GAUSSIAN_RECONSTRUCTION_AND_UNIQUE_TOP_CORNER_5_8_LOCALIZATION' stages/stage14/14-s7-32/result.md
           grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=5/8' stages/stage14/14-s7-32/result.md
           grep -Fq 'ODDPART_H_EQUALS_ODDPART_GCD_XY=true' stages/stage14/14-4cs/result.md
+          grep -Fq 'STAGE14_4CT=COMPLETE_TOP_CORNER_RESIDUAL_HOST_GCD_PEEL_AND_PRIMITIVE_GAUSSIAN_COMMON_CORE_LIFT' stages/stage14/14-4ct/result.md
+          grep -Fq 'CANONICAL_GOOD_COMMON_CORE_GAUSSIAN_DIVISOR_EXISTS=true' stages/stage14/14-4ct/result.md
