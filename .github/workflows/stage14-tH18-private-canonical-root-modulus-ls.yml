@@ -1,0 +1,36 @@
+name: Stage14-tH18 private canonical root-modulus large-sieve audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH18/**'
+      - 'stages/stage14/data/tH18/**'
+      - 'stages/stage14/scripts/tH18/**'
+      - '.github/workflows/stage14-tH18-private-canonical-root-modulus-ls.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile tH18 audit
+        run: python -m py_compile stages/stage14/scripts/tH18/private_canonical_root_modulus_large_sieve_audit.py
+      - name: Run merged t66 opposite-sign root regression
+        run: python stages/stage14/scripts/14-t/t66_opposite_sign_root_line_audit.py > /tmp/t66.json
+      - name: Run merged t67 private-prime regression
+        run: python stages/stage14/scripts/14-t/t67_canonical_root_modulus_audit.py > /tmp/t67.json
+      - name: Run tH18 deterministic audit
+        run: python stages/stage14/scripts/tH18/private_canonical_root_modulus_large_sieve_audit.py > /tmp/th18.json
+      - name: Lock tH18 theorem boundary
+        run: |
+          grep -q 'T67_RADIAL_COLLAPSE_REOPENED=false' stages/stage14/14-tH18/result.md
+          grep -q 'PRIVATE_PRIME_FORCES_ONE_OVER_Q_SPACING=false' stages/stage14/14-tH18/result.md
+          grep -q 'GENERIC_PRIVATE_ROOT_FRACTION_LARGE_SIEVE_PROVED=true' stages/stage14/14-tH18/result.md
+          grep -q 'OPPOSITE_SIGN_CRT_RECIPROCAL_PHASE_FACTORIZATION_PROVED=true' stages/stage14/14-tH18/result.md
+          grep -q 'FOUVRY_IWANIEC_DIRECT_IMPORT_VALID=false' stages/stage14/14-tH18/result.md
+          grep -q 'PRIVATE_RECIPROCAL_CROSS_TWIST_OPPOSITE_SIGN_ROOT_LARGE_SIEVE_PROVED=false' stages/stage14/14-tH18/result.md
+          grep -q 'MINIMAL_REMAINING_OBSTRUCTION=PrivateReciprocalCrossTwistOppositeSignRootLargeSieve' stages/stage14/14-tH18/result.md
