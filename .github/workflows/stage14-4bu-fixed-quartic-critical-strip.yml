@@ -1,0 +1,34 @@
+name: Stage14-4bu fixed quartic critical strip
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bu/**'
+      - 'stages/stage14/14-4bu/result.md'
+      - 'stages/stage14/data/14-4/fixed_quartic_critical_strip_summary.json'
+      - 'stages/stage14/scripts/14-4/fixed_quartic_critical_strip_audit.py'
+      - '.github/workflows/stage14-4bu-fixed-quartic-critical-strip.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4bu audit
+        run: python -m py_compile stages/stage14/scripts/14-4/fixed_quartic_critical_strip_audit.py
+      - name: Run predecessor 4bt audit
+        run: python stages/stage14/scripts/14-4/squarefree_j1728_twist_audit.py
+      - name: Run 4bu deterministic audit
+        run: python stages/stage14/scripts/14-4/fixed_quartic_critical_strip_audit.py
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_4BU=FIXED_QUARTIC_CRITICAL_STRIP_AND_INERT_PRIME_ZERO_TRACE' stages/stage14/14-4bu/result.md
+          grep -q 'TWIST_PARAMETER_IS_FIXED_BINARY_QUARTIC_KERNEL=true' stages/stage14/14-4bu/result.md
+          grep -q 'CRITICAL_DENOMINATOR_EXPONENT=10/21' stages/stage14/14-4bu/result.md
+          grep -q 'INERT_PRIME_COMPLETE_CHARACTER_SUM_ZERO=true' stages/stage14/14-4bu/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=20/21' stages/stage14/14-4bu/result.md
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' stages/stage14/14-4bu/result.md
