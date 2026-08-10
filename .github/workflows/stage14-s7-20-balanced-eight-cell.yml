@@ -1,0 +1,55 @@
+name: Stage14-s7-20 balanced eight-cell
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-20/**'
+      - 'stages/stage14/scripts/14-s7-20/**'
+      - '.github/workflows/stage14-s7-20-balanced-eight-cell.yml'
+      - 'stages/stage14/14-s7-19/**'
+      - 'stages/stage14/14-s7-18/**'
+      - 'stages/stage14/14-4cd/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-20 balanced eight-cell audit
+        run: python stages/stage14/scripts/14-s7-20/balanced_eight_cell_audit.py
+
+      - name: Check merged s7-19 boundary
+        run: |
+          f=stages/stage14/14-s7-19/result.md
+          grep -Fq 'STAGE14_S7_19=COMPLETE_CROSS_SPLIT_PYTHAGOREAN_COMPOSITION_AND_TWO_LEG_DIVISOR_REDUCTION' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_PRIMITIVE_XI0_LOWER_EXPONENT=1/4' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_SWITCH_PRODUCT_LOWER_EXPONENT=3/8' "$f"
+          grep -Fq 'NEXT=Stage14-s7-20' "$f"
+
+      - name: Check merged s7-18 and 4cd endpoint
+        run: |
+          grep -Fq 'CROSS_SPLIT_AGREEMENT_NECESSARY_BOUND=(alpha*delta)^2*xi<=32*X^4' stages/stage14/14-s7-18/result.md
+          grep -Fq 'SEVEN_EIGHT_RESIDUAL_REQUIRES_K_EXPONENT=1-o(1)' stages/stage14/14-4cd/result.md
+          grep -Fq 'K_MINUS_EXPONENT=1/2+o(1)' stages/stage14/14-4cd/result.md
+          grep -Fq 'K_PLUS_EXPONENT=1/2+o(1)' stages/stage14/14-4cd/result.md
+
+      - name: Lock s7-20 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-20/result.md
+          grep -Fq 'STAGE14_S7_20=COMPLETE_DUAL_XI_SPLIT_INJECTIVITY_AND_BALANCED_EIGHT_CELL_LOCALIZATION' "$f"
+          grep -Fq 'FIXED_XI_SPLIT_K_INJECTIVE_IF_xi2_k_GT_2_X4=true' "$f"
+          grep -Fq 'CROSS_XI_SPLIT_AGREEMENT_NECESSARY_BOUND=(R*J)^2*k<=2*X^4' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_XI_SWITCH_PRODUCT_LOWER_EXPONENT=1/4' "$f"
+          grep -Fq 'ODD_GCD_XI_D_EQUALS_ODD_XI_SWITCH=true' "$f"
+          grep -Fq 'ODD_XI0_EQUALS_ODD_XI_AGREE=true' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_INDIVIDUAL_K_CELL_RANGE=[3/16,5/16]' "$f"
+          grep -Fq 'FOUR_CD_ENDPOINT_INDIVIDUAL_XI_CELL_RANGE=[1/8,1/4]' "$f"
+          grep -Fq 'BALANCED_DOUBLE_ALLOCATION_SQUARE_DIVISIBILITY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'TH15_NEEDED_BY_S7_20=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-21' "$f"
