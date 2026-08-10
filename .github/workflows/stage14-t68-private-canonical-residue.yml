@@ -1,0 +1,32 @@
+name: Stage14-t68 private canonical residue
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t68/**'
+      - 'stages/stage14/data/14-t68/**'
+      - 'stages/stage14/scripts/14-t/t68_private_canonical_residue_audit.py'
+      - 'stages/stage14/scripts/14-t/t68_validate_frozen.py'
+      - '.github/workflows/stage14-t68-private-canonical-residue.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t36 predecessor regression
+        run: python stages/stage14/scripts/14-t/t36_fixed_direction_squareclass_energy_audit.py > /tmp/t36.json
+      - name: Run t67 predecessor regression
+        run: python stages/stage14/scripts/14-t/t67_canonical_root_modulus_audit.py > /tmp/t67.json
+      - name: Run s7-29 global exponent regression
+        run: grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=3/4' stages/stage14/14-s7-29/result.md
+      - name: Run t68 private canonical residue audit
+        run: python stages/stage14/scripts/14-t/t68_private_canonical_residue_audit.py > /tmp/t68.json
+      - name: Validate frozen t68 boundary
+        run: python stages/stage14/scripts/14-t/t68_validate_frozen.py
+      - name: Compile t68 scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t68_private_canonical_residue_audit.py stages/stage14/scripts/14-t/t68_validate_frozen.py
