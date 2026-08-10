@@ -39,15 +39,18 @@ def main() -> None:
     assert b["STAGE14_T73"].startswith("COMPLETE_")
     assert b["UNIFORM_FIXED_NORM_REAL_QUADRATIC_ELEMENT_COUNT"] == "Bo1"
     assert b["FIXED_TAG_CAYLEY_ROOTLINE_ORIENTATION_MULTIPLICITY"] == 1
-    assert b["TH19_PARALLEL_AUDIT_CONSUMED"] is True
+    assert b["TH19_CONSUMED"] is True
     assert b["CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT"] == "5/8"
-    assert b["TH19_NEEDED"] is True
+    assert b["TH20_NEEDED"] is True
+    assert b["TH20_REQUESTED_OBJECT"] == "SmallOddKappaFixedTagMovingCanonicalLargestPrimeSmoothNormValueSieve"
     assert b["NEXT"] == "Stage14-t74"
 
     for needle in (
         "STAGE14_T73=COMPLETE_KAPPA_ONE_LINEAR_FACTORIZATION_FIXED_TAG_CONDITIONING_AND_UNIFORM_FIXED_NORM_FIBER_REDUCTION",
         "UNIFORM_FIXED_NORM_REAL_QUADRATIC_ELEMENT_COUNT=Bo1",
-        "TH19_REQUESTED_OBJECT=SmallOddKappaMovingCanonicalLargestPrimeSmoothNormValueEnergy",
+        "TH19_CONSUMED=true",
+        "TH20_NEEDED=true",
+        "TH20_REQUESTED_OBJECT=SmallOddKappaFixedTagMovingCanonicalLargestPrimeSmoothNormValueSieve",
         "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=5/8",
         "NEXT=Stage14-t74",
     ):
