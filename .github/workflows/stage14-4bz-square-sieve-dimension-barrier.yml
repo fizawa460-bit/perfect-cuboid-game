@@ -1,0 +1,34 @@
+name: Stage14-4bz square sieve dimension barrier
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4bz/**'
+      - 'stages/stage14/data/14-4/square_sieve_dimension_barrier_summary.json'
+      - 'stages/stage14/scripts/14-4/square_sieve_dimension_barrier_audit.py'
+      - '.github/workflows/stage14-4bz-square-sieve-dimension-barrier.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile 4bz audit
+        run: python -m py_compile stages/stage14/scripts/14-4/square_sieve_dimension_barrier_audit.py
+      - name: Run merged 4by regression
+        run: python stages/stage14/scripts/14-4/fu_two_cell_13_14_audit.py
+      - name: Run merged s7-10 regression
+        run: python stages/stage14/scripts/14-s7-10/uniform_two_cell_fourier_audit.py
+      - name: Run 4bz deterministic audit
+        run: python stages/stage14/scripts/14-4/square_sieve_dimension_barrier_audit.py
+      - name: Check locked 4bz boundary
+        run: |
+          grep -q 'STAGE14_4BZ=SQUARE_ROOT_SQUARE_SIEVE_DIMENSION_BARRIER_AND_NEXT_RECEIVER_LOCK' stages/stage14/14-4bz/result.md
+          grep -q 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=13/14' stages/stage14/14-4bz/result.md
+          grep -q 'CURRENT_SQUARE_ROOT_SQUARE_SIEVE_ARCHITECTURE_BARRIER=13/14' stages/stage14/14-4bz/result.md
+          grep -q 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' stages/stage14/14-4bz/result.md
+          grep -q 'SQRT_B_UPPER_BOUND_PROVED=false' stages/stage14/14-4bz/result.md
