@@ -1,0 +1,66 @@
+name: Stage14-4cz same-side root-gcd primitive 23/44
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cz/**'
+      - 'stages/stage14/scripts/14-4/sameside_root_gcd_primitive_23_44_audit.py'
+      - 'stages/stage14/data/14-4/sameside_root_gcd_primitive_23_44_summary.json'
+      - '.github/workflows/stage14-4cz-sameside-root-gcd-primitive-23-44.yml'
+      - 'stages/stage14/14-4cy/**'
+      - 'stages/stage14/14-s7-40/**'
+      - 'stages/stage14/14-s7-37/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4cz deterministic audit
+        run: python stages/stage14/scripts/14-4/sameside_root_gcd_primitive_23_44_audit.py
+
+      - name: Compile Stage14-4cz audit
+        run: python -m py_compile stages/stage14/scripts/14-4/sameside_root_gcd_primitive_23_44_audit.py
+
+      - name: Stage14-4cy regression
+        run: python stages/stage14/scripts/14-4/cross_root_square_row_reduction_23_44_audit.py
+
+      - name: Stage14-s7-40 regression
+        run: python stages/stage14/scripts/14-s7-40/h2_row_endpoint_23_44_audit.py
+
+      - name: Lock same-side predecessor facts
+        run: |
+          grep -Fq 'SAMESIDE_ROOT_GCD_COPRIME_TO_QXI=true' stages/stage14/14-s7-37/result.md
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQUARE_DIVIDES_U_RES=true' stages/stage14/14-s7-37/result.md
+          grep -Fq 'TWENTYTHREE_44_SATURATION_POINT_UNIQUE=true' stages/stage14/14-s7-40/result.md
+          grep -Fq 'TWENTYTHREE_44_SATURATION_THETA=23/88' stages/stage14/14-s7-40/result.md
+          grep -Fq 'TWENTYTHREE_44_SATURATION_PHI=19/88' stages/stage14/14-s7-40/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=23/44' stages/stage14/14-4cy/result.md
+
+      - name: Lock Stage14-4cz theorem boundary
+        run: |
+          f=stages/stage14/14-4cz/result.md
+          grep -Fq 'STAGE14_4CZ=COMPLETE_SAMESIDE_ROOT_GCD_SQUARE_ROW_COLUMN_TRANSFER_AND_GLOBALLY_ODD_PRIMITIVE_23_44_RECEIVER' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQUARE_DIVIDES_U_RES=true' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQUARE_DIVIDES_CAYLEY_M=true' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQUARE_DIVIDES_CAYLEY_N=true' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQUARE_DIVIDES_COLUMN_COFACTOR_PRODUCT=true' "$f"
+          grep -Fq 'CAYLEY_ROW_DIVIDABLE_BY_SAMESIDE_ROOT_GCD_SQUARE=true' "$f"
+          grep -Fq 'KAPPA_STRATIFIED_SHORT_COST=kappa+2*max(0,1/22-2kappa)' "$f"
+          grep -Fq 'FIXED_POWER_SAMESIDE_ROOT_GCD_STRICTLY_SUBCRITICAL=true' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQRT_CLOSURE_THRESHOLD=1/132' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_AT_23_44_SATURATION=Bo1' "$f"
+          grep -Fq 'GLOBAL_ODD_FOUR_ROOT_PRIMITIVITY_AT_SATURATION=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=23/44' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'T79_CROSS_PROMOTED_TO_MAINLINE=false' "$f"
+          grep -Fq 'NEXT=Stage14-4da' "$f"
