@@ -4,7 +4,7 @@
 
 `COMPLETE_WITHIN_SIDE_OVERLAP_EFFECTIVE_MODULUS_LIFT_AND_PAIRWISE_SEPARATED_SQRT_SATURATION`
 
-Stage14-4df consumes merged `Stage14-4de`, together with the exact factor identities already imported there from `4cg`, `s7-27`, `4dd`, and `X14`.
+Stage14-4df consumes merged `Stage14-4de` and the exact factor identities imported there from `4cg`, `s7-27`, `4dd`, and `X14`.
 
 The entering theorem is
 
@@ -12,13 +12,13 @@ The entering theorem is
 V(B) << B^(1/2+o(1)).
 ```
 
-No strict sub-square-root whole-family power saving is proved here.  The new result is a fixed-stratum saving which eliminates every square-root packet carrying a fixed-power overlap between the two factors on either side of the `D^2 +/- A^2` decomposition.
+No strict sub-square-root whole-family power saving is proved here. The new result is a fixed-stratum saving which eliminates every square-root packet carrying a fixed-power overlap between the two factors on either side of the `D^2 +/- A^2` decomposition.
 
 ---
 
 ## 1. Imported 4de equality packet
 
-Every possible square-root-saturating sequence already satisfies
+Every possible square-root-saturating sequence satisfies
 
 ```text
 theta=1/4,
@@ -37,22 +37,18 @@ H_+ := D^2+A^2,
 H_- := D^2-A^2>0.
 ```
 
-Merged 4cg gives exactly on odd parts
+Merged 4cg and s7-27 give, on odd parts,
 
 ```text
 oddpart(H_+) = C * X_o,
-X_o := oddpart(S*T),                               (1.1)
-```
+X_o := oddpart(S*T),
 
-and merged s7-27 gives
-
-```text
 oddpart(H_-) = R_o * u_o,
 R_o := oddpart(R*J),
-u_o := oddpart(u_res),                                      (1.2)
+u_o := oddpart(u_res),
 ```
 
-up to the already-frozen finite 2-primary convention.
+up to the frozen 2-primary convention.
 
 Merged 4de removes only subpolynomial cross/unit defects and supplies odd factors
 
@@ -62,247 +58,191 @@ u_* | u_o,
 Q_mix=C_*u_*,
 gcd(C_*,u_*)=1,
 gcd(Q_mix,D*A)=1,
-Q_mix=B^(1/4+o(1)).                                (1.3)
+Q_mix=B^(1/4+o(1)).
 ```
 
-It also proves every plus/minus cross gcd is subpolynomial.  In particular, after an additional `B^o(1)` cross-support peel when needed,
-
-```text
-gcd(C_*X_o,u_*R_o)=1                              (1.4)
-```
-
-at fixed-power scale.
-
-The mixed root is
+It also proves every plus/minus cross gcd is `B^o(1)`. The mixed root is
 
 ```text
 t=D*A^(-1) mod Q_mix,
 t^2=-1 mod C_*,
-t^2=+1 mod u_*.                                   (1.5)
+t^2=+1 mod u_*.
 ```
 
 The 4de complete ledger is exactly `1/2`.
 
 ---
 
-## 2. The two unpeeled same-side overlaps
+## 2. The two same-side overlaps
 
-Define the odd same-side overlaps
+Define
 
 ```text
 W_+ := gcd(C_*,X_o),
-W_- := gcd(u_*,R_o).                               (2.1)
+W_- := gcd(u_*,R_o).
 ```
 
-Write their dyadic fixed-power sizes as
+Write
 
 ```text
 W_+=B^(w_++o(1)),
-W_-=B^(w_-+o(1)).                                  (2.2)
+W_-=B^(w_-+o(1)).
 ```
 
-Because
+Since
 
 ```text
 W_+|C_*,
-W_-|u_*,                                           (2.3)
+W_-|u_*,
 ```
 
-once `(C_*,u_*)` has been chosen, the possible overlap pair `(W_+,W_-)` is only divisor-many:
+once `(C_*,u_*)` has been chosen, the possible pair `(W_+,W_-)` is only divisor-many:
 
 ```text
 #(W_+,W_- | C_*,u_*)
  <= tau(C_*) tau(u_*)
- = B^o(1).                                         (2.4)
+ = B^o(1).
 ```
 
 Thus `w_+` and `w_-` are not new ambient support exponents.
 
-The trivial size constraints are
+Also
 
 ```text
 0<=w_+<=chi,
 0<=w_-<=A_phi,
-w_++w_-<=chi+A_phi=1/4.                           (2.5)
+w_++w_-<=1/4.
 ```
 
 ---
 
-## 3. Overlap forces an extra copy of the root modulus
+## 3. Overlap lifts the actual root modulus
 
-Equation (1.1) and `W_+|X_o` give
-
-```text
-C_* W_+ | H_+.                                    (3.1)
-```
-
-Indeed primewise
+From
 
 ```text
-v_p(C_*W_+)
- =v_p(C_*)+min(v_p(C_*),v_p(X_o))
- <=v_p(C)+v_p(X_o)
- =v_p(oddpart(H_+)).                               (3.2)
+oddpart(H_+)=C*X_o
 ```
 
-Likewise (1.2) and `W_-|R_o` give
+and `W_+|X_o`, primewise valuations give
 
 ```text
-u_* W_- | H_-.                                    (3.3)
+C_* W_+ | H_+.
 ```
 
-After removing the `B^o(1)` plus/minus cross defect already bounded by 4de, the two effective moduli
+Likewise
+
+```text
+u_* W_- | H_-.
+```
+
+After the already-known `B^o(1)` plus/minus cross peel, define
 
 ```text
 C_eff:=C_*W_+,
-u_eff:=u_*W_-                                      (3.4)
-```
-
-are odd and coprime at fixed-power scale and remain coprime to `D*A`.
-
-Therefore
-
-```text
-D^2+A^2 ==0 mod C_eff,
-D^2-A^2 ==0 mod u_eff.                             (3.5)
-```
-
-With
-
-```text
-t_eff:=D*A^(-1) mod Q_eff,
+u_eff:=u_*W_-,
 Q_eff:=C_eff*u_eff
-       =Q_mix*W_+*W_-,                             (3.6)
+      =Q_mix*W_+*W_-.
 ```
 
-we obtain
+Then
+
+```text
+D^2+A^2 == 0 mod C_eff,
+D^2-A^2 == 0 mod u_eff,
+```
+
+and, with `t_eff=D*A^(-1) mod Q_eff`, exact CRT gives
 
 ```text
 t_eff^2 == -1 mod C_eff,
 t_eff^2 == +1 mod u_eff,
-t_eff^4 == 1  mod Q_eff.                           (3.7)
+t_eff^4 == 1 mod Q_eff.
 ```
 
-Thus a same-side overlap is not merely a repeated prime in a factorization: it **amplifies the actual primitive root-line modulus by one extra copy of the overlap**.
+Therefore
 
 ```text
 WITHIN_SIDE_OVERLAP_EFFECTIVE_MODULUS_LIFT_PROVED=true.
 ```
 
----
-
-## 4. Root multiplicity remains subpolynomial
-
-For every odd prime power `p^e`, the congruences
-
-```text
-x^2=+1 mod p^e,
-x^2=-1 mod p^e
-```
-
-have at most two roots of the prescribed type.  Hensel lifting across the extra overlap powers introduces no polynomial multiplicity.
-
-Hence for fixed `(C_*,u_*,W_+,W_-)`, the number of effective mixed-root labels is at most
-
-```text
-4^omega(Q_eff)=B^o(1).                             (4.1)
-```
-
-No root-orientation support is charged independently.
+The extra overlap powers introduce only `B^o(1)` root-label multiplicity.
 
 ---
 
-## 5. Primitive effective-root spacing
+## 4. Primitive effective-root spacing
 
-Peel the already-known endpoint-small coordinate gcd:
+Remove the endpoint-small coordinate gcd:
 
 ```text
 D=h0*D0,
 A=h0*A0,
 h0=B^o(1),
-gcd(D0,A0)=1.                                    (5.1)
+gcd(D0,A0)=1.
 ```
 
 On square-root equality
 
 ```text
 D0,A0=B^(1/4+o(1)),
-D0*A0=B^(1/2+o(1)).                               (5.2)
+D0*A0=B^(1/2+o(1)).
 ```
 
 For fixed effective root label,
 
 ```text
-D0 == t_eff*A0 mod Q_eff.                         (5.3)
+D0 == t_eff*A0 mod Q_eff.
 ```
 
-Two distinct primitive points on this line have a nonzero determinant divisible by `Q_eff`.  The primitive dyadic root-line lemma therefore gives
+The primitive dyadic root-line lemma gives
 
 ```text
 #(D0,A0 | C_*,u_*,W_+,W_-,t_eff)
- << B^o(1)*(1+D0*A0/Q_eff).                       (5.4)
+ << B^o(1)*(1+D0*A0/Q_eff).
 ```
 
-Now
+Since
 
 ```text
-Q_eff
- =B^(1/4+w_++w_-+o(1)).                           (5.5)
+Q_eff=B^(1/4+w_++w_-+o(1)),
 ```
 
-and (2.5) ensures `w_++w_-<=1/4`.  Therefore
+we obtain
 
 ```text
-boxed:
-E_root <= 1/4-w_+-w_-.                            (5.6)
+E_root <= 1/4-w_+-w_-.
 ```
-
-At the extreme `w_++w_-=1/4`, the root-line fiber is `B^o(1)`.
 
 ---
 
-## 6. Charged-once fixed-overlap count
+## 5. Charged-once fixed-overlap count
 
-It is convenient here to use the legal 4de coordinate order
+Use the legal order
 
 ```text
 C_*,u_*
 -> divisor overlaps W_+,W_-
 -> effective mixed-root label
 -> primitive (D0,A0)
--> old physical completion filters.
+-> retained physical filters.
 ```
 
-The common-core and full-residual choices cost
+The common-core/full-residual support costs
 
 ```text
-chi+A_phi=1/4.                                    (6.1)
+chi+A_phi=1/4.
 ```
 
-By (2.4) the overlap choices cost `0` at fixed-power scale.  By Section 4 the root label costs `0`, and by Section 5 the primitive pair costs `1/4-w_+-w_-`.
-
-All remaining cell, interval, reciprocal, Cayley, orientation and reverse-reconstruction conditions are retained as filters/fibers exactly as in merged 4de.
-
-Hence
+The overlap choice and root label cost `0` at fixed-power scale. Hence
 
 ```text
 boxed:
 E_4df(w_+,w_-)
  <=1/4+(1/4-w_+-w_-)
- =1/2-w_+-w_-.                                    (6.2)
+ =1/2-w_+-w_-.
 ```
 
-Therefore every stratum with
-
-```text
-w_++w_->=epsilon
-```
-
-for a fixed `epsilon>0` satisfies
-
-```text
-E_4df<=1/2-epsilon.                               (6.3)
-```
+Therefore every fixed-power same-side overlap is strict sub-square-root:
 
 ```text
 FIXED_POWER_PLUS_OVERLAP_STRICTLY_SUBSQRT=true
@@ -312,41 +252,38 @@ COMBINED_WITHIN_SIDE_OVERLAP_SAVING=w_++w_-.
 
 ---
 
-## 7. Square-root equality is pairwise separated
+## 6. Square-root equality is pairwise separated
 
-A sequence which still saturates the global `1/2` theorem must have
+Any sequence still saturating `1/2` must have
 
 ```text
 w_+=0,
-w_-=0.                                            (7.1)
+w_-=0.
 ```
 
 Equivalently,
 
 ```text
-boxed:
 gcd(C_*,X_o)=B^o(1),
-
-boxed:
-gcd(u_*,R_o)=B^o(1).                              (7.2)
+gcd(u_*,R_o)=B^o(1).
 ```
 
-Merged 4de already proves every cross gcd between a plus factor and a minus factor is `B^o(1)`.  Combining those cross relations with (7.2) gives the complete fixed-power separation
+Merged 4de already proves every plus/minus cross gcd is `B^o(1)`. Combining the cross relations with these two same-side relations yields
 
 ```text
-boxed:
 C_*, X_o, u_*, R_o
-are pairwise coprime up to B^o(1).                 (7.3)
 ```
 
-Thus the only possible square-root equality packet has four separated norm blocks:
+pairwise separated at fixed-power scale.
+
+Thus the only possible square-root equality packet has
 
 ```text
 plus norm : H_+ ~ C_* X_o,
 minus norm: H_- ~ u_* R_o,
 ```
 
-with no fixed-power prime support shared anywhere between the four blocks.
+with no fixed-power prime support shared among the four blocks.
 
 ```text
 SQRT_SATURATION_FOUR_NORM_BLOCKS_PAIRWISE_SEPARATED=true.
@@ -354,7 +291,7 @@ SQRT_SATURATION_FOUR_NORM_BLOCKS_PAIRWISE_SEPARATED=true.
 
 ---
 
-## 8. Refined receiver
+## 7. Refined receiver
 
 The mainline receiver is now
 
@@ -377,60 +314,58 @@ C_*,X_o,u_*,R_o pairwise separated at fixed-power scale,
 all original physical masks and finite-fiber reverse reconstruction.
 ```
 
-On the zero-overlap stratum the deterministic ledger is still
+On the zero-overlap stratum the ledger remains
 
 ```text
 C_*,u_* support : 1/4
 primitive root   : 1/4
 ----------------------
-total            : 1/2.                           (8.1)
+total            : 1/2.
 ```
 
-So
+Therefore
 
 ```text
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false.
 ```
 
-The next mainline step should exploit the now pairwise-separated complementary quotients `X_o` and `R_o` against the physical reciprocal completion, rather than repeating the same mixed-root spacing.
-
 ---
 
-## 9. s-route reactivation decision — remains TRUE
+## 8. s-route lifecycle — no repeated reactivation decision while active
 
-This stage materially refines the receiver, so the roadmap reactivation check is mandatory.
+Stage14-4de already made the positive reactivation decision and scheduled
 
 ```text
-MATERIAL_RECEIVER_CHANGE_REQUIRES_S_REACTIVATION_CHECK=true
-S_ROUTE_REACTIVATION_NEEDED=true.
+Stage14-s7-46.
 ```
 
-The original 4de trigger remains valid, and 4df adds a new s-specific refinement:
+Therefore Stage14-4df does **not** repeat the yes/no reactivation test. It only refines the receiver supplied to the already-reactivated s route:
 
 ```text
-S_ROUTE_REACTIVATION_TRIGGER=FULL_RESIDUAL_MIXED_ROOT_PLUS_WITHIN_SIDE_OVERLAP_EFFECTIVE_MODULUS_LIFT
-S_ROUTE_REACTIVATION_TARGET=Stage14-s7-46
-S_ROUTE_REACTIVATION_REASON=the s-owned signed residual overlap gcd(u_*,R_o) is a zero-cost divisor stratum whose extra copy lifts the +1 root modulus and yields a fixed-power saving; the surviving s packet is therefore the pairwise-separated mixed-root incidence.
-```
-
-The refined s receiver is
-
-```text
-SquareRootQuarterScalePairwiseSeparatedMixedFourthRootSignedResidualPhysicalCompletionIncidence.
-```
-
-No new `sH` request is opened.  `s7-46` should consume this exact pairwise-separated receiver and test the second reciprocal / signed allocation structure without reopening the exhausted pre-closure gcd/CRT arguments.
-
-```text
-S_ROUTE_REACTIVATION_CONFIRMED_BY_STAGE14_4DF=true
+S_ROUTE_CURRENT_STATE=REACTIVATED_SCHEDULED_AT_STAGE14_S7_46
+S_ROUTE_REACTIVATION_DECISION_REQUIRED=false
+S_ROUTE_REACTIVATION_CHECK_SUSPENDED=true
+S_ROUTE_REACTIVATION_CHECK_RESUMES_WHEN_S_ROUTE_CLOSED=true
+S_ROUTE_ACTIVE_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootSignedResidualPhysicalCompletionIncidence
 S7_46_SCHEDULED=true
 SH44_REOPENED=false
 NEW_S_AUXILIARY_H_NEEDED=false.
 ```
 
+Operational rule:
+
+```text
+while s route is active or already scheduled after a reactivation:
+    do not ask/recompute whether to reactivate s
+when s route declares CLOSED again:
+    resume the reactivation check on later material receiver changes
+```
+
+The new `W_- = gcd(u_*,R_o)` peel is passed to `s7-46` because it is directly in the signed-residual/agreement coordinates, but that is an input refinement, not another reactivation decision.
+
 ---
 
-## 10. H / tH / fixed-U decision
+## 9. H / tH / fixed-U decision
 
 The mainline still has unexhausted exact arithmetic after the pairwise-separation peel, so no new mainline H is requested.
 
@@ -441,7 +376,7 @@ ADDITIONAL_MAINLINE_H_NEEDED=false
 GENERIC_GENUS_ONE_H_REOPENED=false.
 ```
 
-Merged `t85` and `tH24` remain in a fixed-`U` primitive-binary-norm / selector-square coefficient space.  No exact charged-once adapter from the current global mixed-root packet is proved.
+Merged `t85` and `tH24` remain in a fixed-`U` coefficient space. No exact charged-once adapter is proved here.
 
 ```text
 T85_CROSS_PROMOTED_TO_MAINLINE=false
@@ -450,9 +385,7 @@ TH24_CROSS_PROMOTED_TO_MAINLINE=false.
 
 ---
 
-## 11. Whole-family ledger
-
-No global exponent change is claimed:
+## 10. Whole-family ledger and next stages
 
 ```text
 CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2
@@ -461,20 +394,20 @@ NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false.
 ```
 
-The new local theorem is
+The local theorem is
 
 ```text
 WITHIN_SIDE_OVERLAP_EXPONENT=w_++w_-
 => E<=1/2-(w_++w_-).
 ```
 
-Next mainline stage:
+Next mainline:
 
 ```text
 NEXT=Stage14-4dg.
 ```
 
-Next s-route stage:
+Already-reactivated s route:
 
 ```text
 NEXT_S_ROUTE=Stage14-s7-46.
@@ -505,12 +438,11 @@ SQRT_SATURATION_REQUIRES_W_PLUS=0
 SQRT_SATURATION_REQUIRES_W_MINUS=0
 SQRT_SATURATION_FOUR_NORM_BLOCKS_PAIRWISE_SEPARATED=true
 REMAINING_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootFullResidualPhysicalCompletionDensity
-MATERIAL_RECEIVER_CHANGE_REQUIRES_S_REACTIVATION_CHECK=true
-S_ROUTE_REACTIVATION_NEEDED=true
-S_ROUTE_REACTIVATION_CONFIRMED_BY_STAGE14_4DF=true
-S_ROUTE_REACTIVATION_TRIGGER=FULL_RESIDUAL_MIXED_ROOT_PLUS_WITHIN_SIDE_OVERLAP_EFFECTIVE_MODULUS_LIFT
-S_ROUTE_REACTIVATION_TARGET=Stage14-s7-46
-S_ROUTE_REACTIVATION_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootSignedResidualPhysicalCompletionIncidence
+S_ROUTE_CURRENT_STATE=REACTIVATED_SCHEDULED_AT_STAGE14_S7_46
+S_ROUTE_REACTIVATION_DECISION_REQUIRED=false
+S_ROUTE_REACTIVATION_CHECK_SUSPENDED=true
+S_ROUTE_REACTIVATION_CHECK_RESUMES_WHEN_S_ROUTE_CLOSED=true
+S_ROUTE_ACTIVE_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootSignedResidualPhysicalCompletionIncidence
 S7_46_SCHEDULED=true
 SH44_REOPENED=false
 NEW_S_AUXILIARY_H_NEEDED=false
