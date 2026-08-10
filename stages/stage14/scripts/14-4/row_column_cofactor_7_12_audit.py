@@ -61,7 +61,6 @@ def check_symbolic():
     weighted=(6*Ex+Erc)/7
     closed=(16*p-4*t+F(5,4))/7
     assert weighted==closed==F(7,12)
-    # s7-34 compatibility at equality: d=chi-1/4=2rho, so eta=0 is allowed.
     d=max(F(0),chi-F(1,4))
     eta=F(0)
     assert d==F(1,12)==2*r+eta
@@ -71,14 +70,13 @@ def check_symbolic():
 
 def check_grid():
     target=F(7,12); max_seen=F(-1); eq=set()
-    # Grid contains theta=7/24, phi=1/4, rho=1/24 exactly.
     for it in range(144,241):
         t=F(it,768)
         for ip in range(96,193):
             p=F(ip,768)
             if not strip_ok(t,p): continue
             chi=2*t+2*p-F(3,4)
-            r0=max(F(0),(chi-F(1,4))/3)  # 4cu nonproportional condition
+            r0=max(F(0),(chi-F(1,4))/3)
             local=F(-1); args=[]
             for ir in range(0,385):
                 r=F(ir,1536)
@@ -103,7 +101,7 @@ def check_predecessors():
         assert tok in cu,tok
     for tok in ['COMMON_CORE_ORIENTATION_DOUBLE_CHARGE_FORBIDDEN=true','STRONG_CANONICAL_ST_SPLIT_UNIVERSALLY_VALID=false']:
         assert tok in s33,tok
-    for tok in ['CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=47/80','H_FOURTH_POWER_DIVIDES_Q_XI=true']:
+    for tok in ['CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=47/80','XI_COMMON_ROOT_GCD_FOURTH_POWER_DIVIDES_QXI=true']:
         assert tok in s34,tok
     assert 'oddpart(c_x^- c_x^+) = oddpart(u_res)' in s27
     assert 'oddpart(c_k^- c_k^+) = oddpart(v_res)' in s27
