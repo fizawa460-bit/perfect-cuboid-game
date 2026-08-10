@@ -1,0 +1,42 @@
+name: Stage14-toolbox-az 19/34 receiver refresh
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-toolbox-az/**'
+      - 'stages/stage14/scripts/14-toolbox-az/**'
+      - 'docs/stage14-toolbox/unique-corner-to-19-34-receiver-matrix.md'
+      - '.github/workflows/stage14-toolbox-az.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile toolbox-az audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-az/unique_corner_19_34_refresh_audit.py
+      - name: Run merged s7-36 row-column regression
+        run: python stages/stage14/scripts/14-s7-36/row_column_proportional_9_16_audit.py > /tmp/s7_36.json
+      - name: Run X11 current exponent regression
+        run: python stages/stage14/scripts/14-X11/proportional_root_gcd_19_34_audit.py > /tmp/x11.json
+      - name: Run s7-37 current receiver regression
+        run: python stages/stage14/scripts/14-s7-37/sameside_u_residual_19_34_audit.py > /tmp/s7_37.json
+      - name: Run merged t74 angular-cofactor regression
+        run: python stages/stage14/scripts/14-t/t74_canonical_host_short_cofactor_audit.py > /tmp/t74.json
+      - name: Run tH20 applicability regression
+        run: python stages/stage14/scripts/14-tH20/short_angular_cofactor_hyperbola_sieve_audit.py > /tmp/th20.json
+      - name: Run t75 current receiver regression
+        run: python stages/stage14/scripts/14-t/t75_angular_gcd_imbalance_audit.py > /tmp/t75.json
+      - name: Run toolbox-az deterministic audit
+        run: python stages/stage14/scripts/14-toolbox-az/unique_corner_19_34_refresh_audit.py > /tmp/toolbox_az.json
+      - name: Lock toolbox-az boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AZ=COMPLETE_UNIQUE_CORNER_CONSUMER_AUDIT_AND_NINETEEN_THIRTY_FOURTHS_REFRESH' stages/stage14/14-toolbox-az/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=19/34' stages/stage14/14-toolbox-az/result.md
+          grep -q 'CURRENT_GAP_TO_SQRT=1/17' stages/stage14/14-toolbox-az/result.md
+          grep -q 'TH21_NEEDED=false' stages/stage14/14-toolbox-az/result.md
+          grep -q 'NEW_AZ_WHOLE_FAMILY_POWER_SAVING_PROVED=false' stages/stage14/14-toolbox-az/result.md
