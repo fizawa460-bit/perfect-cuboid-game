@@ -1,6 +1,6 @@
 # Stage14 main/s exponent and saving ledger
 
-Rule: compare exponents only after matching both scale and quantifier scope. Keep the closed local baseline separate from the current whole-family theorem.
+Rule: compare exponents only after matching both scale and quantifier scope. Keep reusable receiver theorems separate from the terminal whole-family ledger.
 
 ## Local baseline
 
@@ -25,71 +25,91 @@ s5u: 1/21  -> 41/42 physical  [CURRENT LOCAL BASELINE]
 4br:  20/21 [SUPERSEDED]
 s7-08 / 4bw: 18/19 [SUPERSEDED]
 4bx:  15/16 [SUPERSEDED]
-s7-10 / 4by: 13/14 [CURRENT]
+s7-10 / 4by: 13/14 [SUPERSEDED AS GLOBAL, REUSABLE TWO-CELL THEOREM]
+s7-13: 7/8 [CURRENT]
 ```
 
 Exact current arithmetic:
 
 ```text
-15/16 - 13/14 = 1/112
-41/42 - 13/14 = 1/21
-13/14 - 1/2   = 3/7
+13/14 - 7/8 = 3/56
+41/42 - 7/8 = 17/168
+7/8 - 1/2   = 3/8
 ```
 
 Canonical current facts:
 
 ```text
-CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=13/14
-WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=1/21
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8
+WHOLE_FAMILY_POST_LOCAL_SAVING_PROVED=17/168
 SQRT_TARGET_EXPONENT=1/2
-CURRENT_REMAINING_GAP_TO_SQRT=3/7
+CURRENT_REMAINING_GAP_TO_SQRT=3/8
 FULL_DIRECT_POST_LOCAL_POSITIVE_SAVING_PROVED=true
 SQRT_B_UPPER_BOUND_PROVED=false
 ```
 
-## Current two-cell architecture
+## Reusable two-cell theorem from s7-10 / 4by
 
-Merged s7-10 and 4by prove the formerly conditional adjacent two-cell mixed Fourier receiver:
+The imported external-theorem contracts prove
 
 ```text
 |T_p(h,k)| << p
 N_2cell(R,S) << (RS)^(2/3) B^o(1)
-ADJACENT_TWO_CELL_RELATIVE_SAVING=(RS)^(-1/3)
+TWO_CELL_COEFFICIENT_RELATIVE_SAVING=(RS)^(-1/3)
 ```
 
-Combined with the merged 4bx thick theorem
+The resulting `13/14` whole-family checkpoint is historical, but the two-cell theorem remains a live input.
+
+## Current full-coordinate refinement
+
+Merged s7-13 writes
 
 ```text
-THICK_PACKET_RELATIVE_SAVING=H^(-4/5)
+P=a*x^2
+Q=b*y^2
+alpha=p-2s
+beta=q-2t
+m=max(alpha,beta)
 ```
 
-and exact thresholds
+and obtains two valid upper bounds on the same common-refinement block:
 
 ```text
-lambda=13/28
-nu=11/28
-tau=5/56
+coordinate support <= 1/2+m
+two-cell receiver  <= 1-m/3
 ```
 
-gives `13/14` exhaustively.
-
-Merged 4bz and s7-11 then show that naive threshold retuning or higher-cell enlargement within the same square-root square-sieve architecture does not improve the ceiling:
+The estimates are not multiplied. Taking their minimum gives
 
 ```text
-CURRENT_SQUARE_ROOT_SQUARE_SIEVE_ARCHITECTURE_BARRIER=13/14
-THRESHOLD_RETUNING_BEATS_13_14=false
-NAIVE_MULTICELL_ENLARGEMENT_BEATS_TWO_CELL=false
+min(1/2+m, 1-m/3).
 ```
 
-## Historical conditional chain
+The exact worst point is `m=3/8`, hence
 
 ```text
-s7-09: conditional 16/17
-4bx:   updated conditional 13/14
-s7-10 / 4by: theorem gate CLOSED; 13/14 becomes proved CURRENT
+FULL_COORDINATE_REFINEMENT_ARCHITECTURE_BARRIER=7/8
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8
 ```
 
-The conditional status is historical. Do not keep describing the two-cell Fourier bound as open after merged s7-10/4by.
+Critical geometry:
+
+```text
+P,Q ~ B^(1/2)
+a,b ~ B^(3/8)
+x,y ~ B^(1/16)
+xi=ab ~ B^(3/4)
+```
+
+## Historical architecture markers
+
+```text
+SQUARE_ROOT_SQUARE_SIEVE_ARCHITECTURE_BARRIER_AT_4BZ=13/14
+HISTORICAL_4BX_WHOLE_FAMILY_EXPONENT=15/16
+HISTORICAL_S7_10_WHOLE_FAMILY_EXPONENT=13/14
+S7_13_IMPROVEMENT_OVER_13_14=3/56
+S7_13_IMPROVEMENT_OVER_10_11=3/88
+```
 
 ## Specialized reusable results
 
@@ -100,8 +120,7 @@ S6_07_FORCED_LARGE_INCIDENCE_CELL_EXPONENT=41/420
 S7_08_CELL_SWITCH_RELATIVE_SAVING=T^(-1/2)
 4BX_THICK_PACKET_RELATIVE_SAVING=H^(-4/5)
 S7_10_4BY_TWO_CELL_RELATIVE_SAVING=(RS)^(-1/3)
-4BZ_DENOMINATOR_THIN_EXPONENT=19/21
-4BZ_DENOMINATOR_THIN_SLACK_BELOW_CURRENT_CEILING=1/42
+S7_13_FULL_COORDINATE_BARRIER=7/8
 ```
 
 These are not interchangeable whole-family bounds; retain their scale and conditioning.
@@ -109,15 +128,12 @@ These are not interchangeable whole-family bounds; retain their scale and condit
 ## Safe recipes
 
 ```text
-M^(2-delta_M), M<=B^(1/2)
- -> physical exponent 1-delta_M/2
-
 remaining saving = current exponent - target exponent
-
 whole-family exponent = max(exhaustive sector exponents)
+common-refinement alternative bounds -> take min when both bound the same block
 ```
 
-Always follow the CURRENT ledger through `SUPERSEDED_BY` before using a gap or threshold.
+Always follow the terminal ledger through `SUPERSEDED_BY` before using a gap or threshold.
 
 ## Forbidden substitutions
 
@@ -126,30 +142,26 @@ M-scale saving <-> B-scale saving
 local baseline -> current whole-family exponent
 historical gap -> current gap
 sector exponent -> whole-family exponent without exhaustive recombination
-forced variable size -> count saving
 coordinate density -> packet/base-count saving
-fixed genus-one point bound -> moving-family count without transfer
 fixed-fiber B^o(1) -> active-direction sparsity
-external complete-sum theorem -> whole-family bound without CRT/completion/sieve/transfer
+external complete-sum theorem -> whole-family bound without transfer
 finite regression -> uniform theorem
 rejected theorem shortcut -> imported theorem without new hypothesis proof
+two valid bounds on same refinement -> multiply instead of take a justified min
 ```
 
 ## Canonical card chain
 
 ```text
-TB-BOUND-local-descent-s5s
- -> TB-BOUND-local-descent-s5t
- -> TB-BOUND-local-descent-current
-
 TB-LEDGER-post-local-sqrt-gap [SUPERSEDED]
  -> TB-LEDGER-current-main-after-4bq [SUPERSEDED]
  -> TB-LEDGER-current-main-after-4br [SUPERSEDED]
  -> TB-LEDGER-current-whole-family-after-s7-08 [SUPERSEDED]
  -> TB-LEDGER-current-whole-family-after-4bx [SUPERSEDED]
- -> TB-LEDGER-current-whole-family-after-s7-10 [CURRENT]
+ -> TB-LEDGER-current-whole-family-after-s7-10 [SUPERSEDED]
+ -> TB-LEDGER-current-whole-family-after-s7-13 [CURRENT]
 
 TB-RECIPE-cookbook-two-cell-conditional-gate [SUPERSEDED]
- -> TB-RECIPE-cookbook-two-cell-proved-13-14 [CURRENT]
- -> TB-LEDGER-current-whole-family-after-s7-10
+ -> TB-RECIPE-cookbook-two-cell-proved-13-14 [CURRENT REUSABLE RECEIVER]
+ -> TB-LEDGER-current-whole-family-after-s7-13
 ```
