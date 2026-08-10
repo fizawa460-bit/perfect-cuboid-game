@@ -1,0 +1,68 @@
+name: Stage14-s7-32 one-host Gaussian boundary collapse
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-32/**'
+      - 'stages/stage14/scripts/14-s7-32/**'
+      - '.github/workflows/stage14-s7-32-one-host-gaussian-boundary-collapse.yml'
+      - 'stages/stage14/14-s7-31/**'
+      - 'stages/stage14/14-4cf/**'
+      - 'stages/stage14/14-4cg/**'
+      - 'stages/stage14/14-4cj/**'
+      - 'stages/stage14/14-4cr/**'
+      - 'stages/stage14/14-X8/**'
+      - 'stages/stage14/14-t70/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-32 one-host Gaussian audit
+        run: python stages/stage14/scripts/14-s7-32/one_host_gaussian_boundary_audit.py
+
+      - name: Compile s7-32 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-32/one_host_gaussian_boundary_audit.py
+
+      - name: Run merged s7-31 regression
+        run: python stages/stage14/scripts/14-s7-31/fixed_outer_common_gcd_audit.py
+
+      - name: Run merged 4cf Gaussian descent regression
+        run: python stages/stage14/scripts/14-4/gaussian_square_divisor_descent_audit.py
+
+      - name: Lock imported boundaries
+        run: |
+          grep -Fq 'STAGE14_S7_31=COMPLETE_FIXED_OUTER_COMMON_GCD_SQUARE_DIVISIBILITY_AND_5_8_BOUND' stages/stage14/14-s7-31/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=5/8' stages/stage14/14-s7-31/result.md
+          grep -Fq 'COMPLETE_BALANCED_EIGHT_CELL_GAUSSIAN_SQUARE_DIVISOR_DESCENT' stages/stage14/14-4cf/result.md
+          grep -Fq 'K_HOST_RESIDUAL_NORMS_EQUAL=true' stages/stage14/14-4cg/result.md
+          grep -Fq 'XI_HOST_RESIDUAL_NORMS_EQUAL=true' stages/stage14/14-4cg/result.md
+          grep -Fq 'XI_PHYSICAL_SHORT_SPAN_RANK=1' stages/stage14/14-4cj/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=2/3' stages/stage14/14-4cr/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=2/3' stages/stage14/14-X8/result.md
+          grep -Fq 'COMMON_SUPPORT_ROOT_LINE_MULTIPLICITY=Bo1' stages/stage14/14-t70/result.md
+
+      - name: Lock s7-32 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-32/result.md
+          grep -Fq 'STAGE14_S7_32=COMPLETE_ONE_HOST_GAUSSIAN_RECONSTRUCTION_AND_UNIQUE_TOP_CORNER_5_8_LOCALIZATION' "$f"
+          grep -Fq 'K_ONE_SWITCHED_GAUSSIAN_HOST_PHYSICAL_FIBER=Bo1' "$f"
+          grep -Fq 'XI_ONE_SWITCHED_GAUSSIAN_HOST_PLUS_AGREEMENT_ORIENTATION_PHYSICAL_FIBER=Bo1' "$f"
+          grep -Fq 'K_ONE_HOST_BLOCK_EXPONENT=3theta-1/4' "$f"
+          grep -Fq 'XI_ONE_HOST_BLOCK_EXPONENT=3phi-1/8' "$f"
+          grep -Fq 'COMBINED_BLOCK_EXPONENT=min(max(2theta,1-2theta),3theta-1/4,3phi-1/8)' "$f"
+          grep -Fq 'LOWER_THETA_HALF_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'OLD_FIVE_EIGHTHS_LOWER_CORNER_SURVIVES=false' "$f"
+          grep -Fq 'OLD_FIVE_EIGHTHS_TOP_EDGE_PHI_LT_1_4_SURVIVES=false' "$f"
+          grep -Fq 'UNIQUE_FIVE_EIGHTHS_SATURATION=(theta,phi)=(5/16,1/4)' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=5/8' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_BELOW_5_8_PROVED=false' "$f"
+          grep -Fq 'REMAINING_RECEIVER=TopCornerCommonCoreXiGaussianSquareHostPrimitiveAgreementIncidence' "$f"
+          grep -Fq 'S7_32_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-33' "$f"
