@@ -1,0 +1,20 @@
+name: Stage14-t42 Kummer transversality
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t42/**'
+      - 'stages/stage14/scripts/14-t/t42_kummer_transversality_audit.py'
+      - 'stages/stage14/data/14-t42/**'
+      - '.github/workflows/stage14-t42-kummer-transversality.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t41 regression
+        run: python stages/stage14/scripts/14-t/t41_global_energy_incidence_audit.py
+      - name: Run t42 exploratory audit
+        run: python stages/stage14/scripts/14-t/t42_kummer_transversality_audit.py
