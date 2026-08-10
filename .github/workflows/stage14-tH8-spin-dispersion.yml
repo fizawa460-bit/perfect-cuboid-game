@@ -1,0 +1,38 @@
+name: Stage14-tH8 spin dispersion adapter
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH8/**'
+      - 'stages/stage14/data/tH8/**'
+      - 'stages/stage14/scripts/tH8/**'
+      - 'stages/stage14/14-tH7/**'
+      - 'stages/stage14/14-t39/**'
+      - '.github/workflows/stage14-tH8-spin-dispersion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/tH8/external_auxiliary_spin_dispersion_audit.py
+      - name: Run deterministic dispersion audit
+        run: python stages/stage14/scripts/tH8/external_auxiliary_spin_dispersion_audit.py
+      - name: Check locked boundary
+        run: |
+          grep -F 'STAGE14_TH8=COMPLETE_EXTERNAL_AUXILIARY_GAUSSIAN_SPIN_DISPERSION_ADAPTER' stages/stage14/14-tH8/result.md
+          grep -F 'AUXILIARY_FAMILY_CAUCHY_DISPERSION_IDENTITY_PROVED=true' stages/stage14/14-tH8/result.md
+          grep -F 'PHYSICAL_PACKET_CAUCHY_DISPERSION_IDENTITY_PROVED=true' stages/stage14/14-tH8/result.md
+          grep -F 'FI_DIRICHLET_SYMBOL_CERTIFICATE_DEFINED=true' stages/stage14/14-tH8/result.md
+          grep -F 'QUADRATIC_HECKE_FAMILY_CERTIFICATE_DEFINED=true' stages/stage14/14-tH8/result.md
+          grep -F 'RAW_STAGE14_EXTERNAL_TRACE_FI_READY=false' stages/stage14/14-tH8/result.md
+          grep -F 'AUXILIARY_DISPERSION_FI_CERTIFICATE_PROVED=false' stages/stage14/14-tH8/result.md
+          grep -F 'NEXT=Stage14-tH9' stages/stage14/14-tH8/result.md
