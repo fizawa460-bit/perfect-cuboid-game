@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Deterministic audit for Stage14-s7-33.
+"""Deterministic audit/probe for Stage14-s7-33.
 
-Checks the exact dual Gaussian product identities, the full common-core
-same-orientation divisor, and (after fixing the finite 2-primary case) the
-existence of the normalized S/T factorization selected by lambda_S,lambda_T.
+Checks the exact dual Gaussian product identities and the full common-core
+same-orientation divisor. It also records, without assuming, whether the
+stronger canonical S/T split selected by lambda_S,lambda_T happens on the
+finite packet; failures are a guard against overclaiming.
 """
-from collections import Counter
 from importlib.util import module_from_spec, spec_from_file_location
 from math import gcd
 from pathlib import Path
@@ -92,7 +92,6 @@ def build_common_C_divisor(hk, WS, C):
 
 
 def packet_probe(a_state, b_state):
-    # predecessor reconstruction + one-host identities
     s32.audit_packet(a_state, b_state)
     d = s28.packet_data(a_state, b_state)
     R, S, T, J, alpha, beta, gamma, delta = d["cells"]
@@ -113,10 +112,8 @@ def packet_probe(a_state, b_state):
     hkbar = G.gconj(hk)
     ES = (beta * a_state["r"] * b_state["s"], gamma * a_state["s"] * b_state["r"])
 
-    # 2*T*Z_S = g1*g2*Z_k*E_S
     rS = G.gmul(hk, ES)
     assert (2*T*ZS[0], 2*T*ZS[1]) == (g1*g2*rS[0], g1*g2*rS[1])
-    # 2*S*Z_T = g1*g2*conj(Z_k)*E_S
     rT = G.gmul(hkbar, ES)
     assert (2*S*ZT[0], 2*S*ZT[1]) == (g1*g2*rT[0], g1*g2*rT[1])
 
@@ -125,12 +122,9 @@ def packet_probe(a_state, b_state):
     assert s32.oddpart(G.gnorm(WT)) == C * s32.oddpart(v_res)
     assert s32.oddpart(G.gnorm(ES)) == s32.oddpart(S*T*v_res)
 
-    # Full common-core Gaussian overlap always exists.
     Pi_any = build_common_C_divisor(hk, WS, C)
     assert G.gnorm(Pi_any) == C
 
-    # For odd S,T the switched Gaussian square roots select a canonical
-    # compatible common-core orientation by prescribing K=lambda_S*conj(lambda_T).
     canonical_ok = quotient_associate = False
     if S % 2 and T % 2:
         K0 = G.gmul(lamS, G.gconj(lamT))
@@ -179,13 +173,12 @@ def main():
                     canonical_ok += int(z["canonical_ok"])
                     quotient_ok += int(z["quotient_associate"])
     assert checked > 0
-    assert canonical_ok == odd_ST
-    assert quotient_ok == odd_ST
-    print("Stage14-s7-33 common-core-cancelled Gaussian audit: PASS")
+    print("Stage14-s7-33 common-core-cancelled Gaussian probe: PASS")
     print(f"finite physical pairs checked: {checked}")
     print(f"full C shared Gaussian divisor: {checked}/{checked}")
-    print(f"odd-S,T canonical Pi_C from K0=lambda_S*conj(lambda_T): {canonical_ok}/{odd_ST}")
-    print(f"odd-S,T normalized residual quotients V_S~V_T: {quotient_ok}/{odd_ST}")
+    print(f"odd-S,T strong canonical Pi_C candidates: {canonical_ok}/{odd_ST}")
+    print(f"odd-S,T strong V_S~V_T candidates: {quotient_ok}/{odd_ST}")
+    print(f"strong canonical split universally valid: {canonical_ok == odd_ST and quotient_ok == odd_ST}")
     print(f"max C: {max_C}")
     print(f"max v_res: {max_v}")
     print(f"max gcd(C,S*T): {max_C_ST}")
