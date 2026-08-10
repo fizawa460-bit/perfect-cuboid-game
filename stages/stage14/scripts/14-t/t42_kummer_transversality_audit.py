@@ -49,9 +49,8 @@ def direction_lambda(a, b):
 def direction_branch_moduli_key(a, b):
     lam = direction_lambda(a, b)
     assert 0 < lam < 1
-    # For lambda,lambda' in (0,1), an S3 cross-ratio orbit meets (0,1)
-    # exactly in {lambda,1-lambda}.  Thus this is the exact PGL2
-    # branch-divisor-equivalence key for {+-a/b,+-b/a}.
+    # For lambda,lambda' in (0,1), the S3 cross-ratio orbit meets (0,1)
+    # exactly in {lambda,1-lambda}.
     return min(lam, 1 - lam)
 
 
@@ -62,7 +61,7 @@ def reciprocal_quotient(states):
         groups[key].append(s)
     assert len(groups) == 560
     reps = []
-    for (a, b, p0, q0), members in groups.items():
+    for (_, _, p0, q0), members in groups.items():
         assert len(members) == 2
         assert {(s["p"], s["q"]) for s in members} == {(p0, q0), (q0, p0)}
         assert len({s["F"] for s in members}) == 1
@@ -75,8 +74,7 @@ def principal_blocks(reps):
     by_kernel = defaultdict(list)
     for s in reps:
         by_kernel[s["kernel"]].append(s)
-    hist = Counter(len(v) for v in by_kernel.values())
-    assert hist == Counter({1: 528, 2: 16})
+    assert Counter(len(v) for v in by_kernel.values()) == Counter({1: 528, 2: 16})
 
     names = (
         "same_U_unit",
@@ -119,16 +117,7 @@ def principal_blocks(reps):
         direction_degree[dy] += 1
         cover_degree[cx] += 1
         cover_degree[cy] += 1
-        blocks.append(
-            {
-                "kernel": kernel,
-                "directions": [list(dx), list(dy)],
-                "covers": [list(cx), list(cy)],
-                "ells": [x["ell"], y["ell"]],
-                "branches": [x["branch"], y["branch"]],
-                "square_ratio_root_reduced": square_ratio(x["F"], y["F"]),
-            }
-        )
+        blocks.append({"kernel": kernel, "square_ratio_root_reduced": square_ratio(x["F"], y["F"])})
 
     assert len(blocks) == 16
     assert summary == {
@@ -147,7 +136,7 @@ def principal_blocks(reps):
     assert Counter(cover_degree.values()) == Counter({1: 7, 2: 2, 4: 2, 6: 1, 7: 1})
 
     return {
-        "blocks": blocks,
+        "collision_blocks": blocks,
         "summary": {"blocks": 16, **summary},
         "direction_collision_graph": {
             "vertices": len(direction_degree),
