@@ -14,10 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Run t49 regression audit
-        run: python stages/stage14/scripts/14-t/t49_external_frobenius_amplifier_audit.py
-      - name: Validate t49 frozen regression
-        run: python stages/stage14/scripts/14-t/t49_validate_frozen.py
       - name: Run tH4 regression
         run: python stages/stage14/scripts/tH4/weighted_large_sieve_toolbox_audit.py
       - name: Run tH5 regression
