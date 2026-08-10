@@ -26,7 +26,7 @@ CURRENT_SHARED_WHOLE_FAMILY_EXPONENT=5/8
 
 ## Relation to t73
 
-tH19 and t73 agree that a bare Pell count is not the minimal receiver.  tH19 already found the unit-orbit cost compatible with `B^o(1)`.  t73 makes that fixed-norm statement exact and uniform by avoiding class-number averaging altogether:
+tH19 and t73 agree that a bare Pell count is not the minimal receiver. tH19 already found the unit-orbit cost compatible with `B^o(1)`. t73 makes that fixed-norm statement exact and uniform by avoiding class-number averaging altogether:
 
 ```text
 # fixed norm fibers
@@ -35,15 +35,15 @@ tH19 and t73 agree that a bare Pell count is not the minimal receiver.  tH19 alr
 = B^o(1).
 ```
 
-Thus the tH19 negative finding
+Thus
 
 ```text
 MOVING_CLASS_NUMBER_REGULATOR_UNIFORM_AVERAGE_SUFFICIENTLY_STRONG=false
 ```
 
-does not obstruct a fixed norm value; class number never enters that fiber count.  It remains relevant only as evidence that one should not expect an off-the-shelf theorem to average the entire moving family automatically.
+does not obstruct one fixed norm value. Class number never enters that fiber count. It remains evidence that no off-the-shelf theorem averages the full moving family automatically.
 
-The primitive-divisor / Lucas-Pell mechanism is likewise retained only as a possible tool for the **moving value** average.  tH19 correctly shows that primitive divisors by themselves do not force any of
+The primitive-divisor / Lucas-Pell mechanism is retained only as a possible ingredient for the **moving value** average. tH19 correctly shows that primitive divisors alone do not force
 
 ```text
 ell = LPF_odd(P+P-),
@@ -51,9 +51,9 @@ v_ell(P-)=1,
 2c<ell.
 ```
 
-Therefore those filters, together with the sharp `ell*delta` hyperbola and the smooth companion, remain mandatory.
+Those filters, together with the sharp `ell*delta` hyperbola and smooth companion, remain mandatory.
 
-## Post-t73 preferred receiver
+## Post-t73 receiver and next auxiliary audit
 
 The tH19 preferred receiver is narrowed from
 
@@ -61,16 +61,25 @@ The tH19 preferred receiver is narrowed from
 SmallOddKappaCanonicalLargestPrimePellSmoothEnergy
 ```
 
-to
+to the t73 live receiver
 
 ```text
-SmallOddKappaMovingCanonicalLargestPrimeSmoothNormValueEnergy.
+SharedUSmallOddKappaFixedTagMovingCanonicalNormValueEnergy.
 ```
 
-The word `Pell` is intentionally removed from the minimal name: fixed-norm Pell orbit multiplicity is now proved `B^o(1)`.  The remaining issue is the average over moving physical norm values after fixed `(kappa,beta)` conditioning.
+The word `Pell` is removed from the minimal obstruction because fixed-norm Pell orbit multiplicity is now proved `B^o(1)`.
+
+A new independent audit is therefore justified, but it must target the **value distribution**, not Pell orbits:
+
+```text
+TH20_REQUESTED_OBJECT=SmallOddKappaFixedTagMovingCanonicalLargestPrimeSmoothNormValueSieve
+```
+
+Its scope is the moving binary quadratic values `beta*w^2-alpha*u^2` together with the positive companion, distinguished largest-prime tag, exponent-one condition, short cofactor, smooth companion and sharp `ell*delta` hyperbola.
 
 ```text
 TH19_PARALLEL_AUDIT_CONSUMED=true
+TH19_CONSUMED=true
 TH19_PREFERRED_RECEIVER_PRE_T73=SmallOddKappaCanonicalLargestPrimePellSmoothEnergy
 TH19_PREFERRED_RECEIVER_POST_T73=SmallOddKappaMovingCanonicalLargestPrimeSmoothNormValueEnergy
 TH19_FIXED_NORM_PELL_ORBIT_SUBPROBLEM_SUPERSEDED=true
@@ -81,5 +90,7 @@ TH19_LARGEST_PRIME_FILTER_RETAINED=true
 TH19_EXPONENT_ONE_FILTER_RETAINED=true
 TH19_SMOOTH_COMPANION_FILTER_RETAINED=true
 TH19_SHARP_ELL_DELTA_HYPERBOLA_RETAINED=true
-T_ROUTE_BLOCKED_WAITING_FOR_TH19=false
+TH20_NEEDED=true
+TH20_REQUESTED_OBJECT=SmallOddKappaFixedTagMovingCanonicalLargestPrimeSmoothNormValueSieve
+T_ROUTE_BLOCKED_WAITING_FOR_TH20=false
 ```
