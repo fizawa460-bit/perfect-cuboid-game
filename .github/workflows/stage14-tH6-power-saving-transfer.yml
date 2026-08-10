@@ -1,0 +1,39 @@
+name: Stage14-tH6 power-saving transfer
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH6/**'
+      - 'stages/stage14/data/tH6/**'
+      - 'stages/stage14/scripts/tH6/**'
+      - 'stages/stage14/14-tH4/**'
+      - 'stages/stage14/14-tH5/**'
+      - '.github/workflows/stage14-tH6-power-saving-transfer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/tH6/power_saving_transfer_audit.py
+      - name: Run exact exponent-ledger audit
+        run: python stages/stage14/scripts/tH6/power_saving_transfer_audit.py
+      - name: Check locked boundary
+        run: |
+          grep -F 'STAGE14_TH6=COMPLETE_ABSTRACT_POWER_SAVING_TRANSFER_RECEIVER' stages/stage14/14-tH6/result.md
+          grep -F 'STANDARD_TH1_TH5_FIXED_POWER_OVERHEAD=0' stages/stage14/14-tH6/result.md
+          grep -F 'SQUARED_SECOND_MOMENT_EFFECTIVE_SAVING=Gamma-Omega' stages/stage14/14-tH6/result.md
+          grep -F 'ONE_ROOT_DELIVERED_SAVING=(Gamma-Omega)/2' stages/stage14/14-tH6/result.md
+          grep -F 'DIRECT_COUNT_EFFECTIVE_SAVING=Delta-Omega_count' stages/stage14/14-tH6/result.md
+          grep -F 'POST_LOCAL_SAVING_REQUIRED_FOR_SQRT_B_UPPER_BOUND=10/21' stages/stage14/14-tH6/result.md
+          grep -F 'ONE_ROOT_SQUARED_SAVING_REQUIRED_FOR_SQRT_B=20/21+Omega' stages/stage14/14-tH6/result.md
+          grep -F 'SAME_MODULUS_JOINT_SECOND_MOMENT_THEOREM_PROVED=false' stages/stage14/14-tH6/result.md
+          grep -F 'NEXT=Stage14-tH7' stages/stage14/14-tH6/result.md
