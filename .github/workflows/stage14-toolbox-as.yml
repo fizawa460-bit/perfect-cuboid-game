@@ -1,0 +1,18 @@
+name: Stage14 toolbox-as theorem shortlist
+
+on:
+  pull_request:
+    paths:
+      - "docs/stage14-toolbox/current-receiver-theorem-shortlist.md"
+      - "stages/stage14/14-toolbox-as/**"
+      - "stages/stage14/scripts/14-toolbox-as/**"
+      - ".github/workflows/stage14-toolbox-as.yml"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit theorem shortlist and adapter gates
+        run: python3 stages/stage14/scripts/14-toolbox-as/theorem_shortlist_audit.py
