@@ -1,0 +1,35 @@
+name: Stage14-tH10 squareclass fiber energy toolbox
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH10/**'
+      - 'stages/stage14/data/tH10/**'
+      - 'stages/stage14/scripts/tH10/**'
+      - '.github/workflows/stage14-tH10-squareclass-fiber-energy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-tH10 deterministic audit
+        run: python stages/stage14/scripts/tH10/squareclass_fiber_energy_toolbox_audit.py
+
+      - name: Validate locked boundary
+        run: |
+          grep -q 'STAGE14_TH10=COMPLETE_SQUARECLASS_FIBER_AND_AUTOCORRELATION_INCIDENCE_TOOLBOX' stages/stage14/14-tH10/result.md
+          grep -q 'HEAVY_LIGHT_NONPRINCIPAL_E4_RECEIVER_PROVED=true' stages/stage14/14-tH10/result.md
+          grep -q 'GLOBAL_FOURTH_ENERGY_POWER_SAVING_PROVED=false' stages/stage14/14-tH10/result.md
+          grep -q '"status": "COMPLETE_SQUARECLASS_FIBER_AND_AUTOCORRELATION_INCIDENCE_TOOLBOX"' stages/stage14/data/tH10/squareclass_fiber_energy_toolbox_summary.json
