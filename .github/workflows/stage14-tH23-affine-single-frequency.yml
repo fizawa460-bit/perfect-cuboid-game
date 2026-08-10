@@ -1,0 +1,61 @@
+name: Stage14-tH23 t82-refined fixed-U divisor modulus audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH23/**'
+      - 'stages/stage14/data/tH23/**'
+      - 'stages/stage14/scripts/14-tH23/**'
+      - '.github/workflows/stage14-tH23-affine-single-frequency.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH23 audit
+        run: python -m py_compile stages/stage14/scripts/14-tH23/single_frequency_inverse_fraction_audit.py
+
+      - name: Run t80-t82 predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-t/t80_projective_gauss_dual_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t80_validate_frozen.py
+          python stages/stage14/scripts/14-t/t81_projective_graph_kloosterman_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t81_validate_frozen.py
+          python stages/stage14/scripts/14-t/t82_fixed_u_selector_divisor_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t82_validate_frozen.py
+          grep -Fq 'FixedUCoordinateDivisorModulusSingleFrequencyCanonicalPrimeShortCoverInverseFractionLargeSieve' stages/stage14/14-t82/th23-refinement.md
+
+      - name: Run current square-root ledger regressions
+        run: |
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X13/result.md
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' stages/stage14/14-X13/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-s7-44/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-s7-44/result.md
+
+      - name: Run tH23 deterministic audit
+        run: python stages/stage14/scripts/14-tH23/single_frequency_inverse_fraction_audit.py
+
+      - name: Lock t82-refined tH23 boundary
+        run: |
+          f=stages/stage14/14-tH23/BOUNDARY.txt
+          grep -Fq 'STAGE14_TH23=COMPLETE_T82_REFINED_FIXED_U_COORDINATE_DIVISOR_SINGLE_FREQUENCY_INVERSE_FRACTION_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'T82_FIXED_U_SELECTOR_DIVISOR_RETAINED=true' "$f"
+          grep -Fq 'MOVING_MODULUS_FAMILY_LENGTH_REOPENED=false' "$f"
+          grep -Fq 'FIXED_DIVISOR_MODULUS_RANGE_RETAINED=true' "$f"
+          grep -Fq 'PURE_PI_V_PROJECTIVE_RELATION_RETAINED=true' "$f"
+          grep -Fq 'FOUR_CELL_COEFFICIENT_L2_THEOREM_READY=true' "$f"
+          grep -Fq 'OFF_THE_SHELF_FIXED_DIVISOR_SINGLE_FREQUENCY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_FIXED_U_PACKET_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'TH24_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t83' "$f"
