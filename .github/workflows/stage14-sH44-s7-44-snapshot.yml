@@ -1,0 +1,81 @@
+name: Stage14-sH44 frozen s7-44 snapshot audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-sH44/**'
+      - 'stages/stage14/scripts/14-sH44/**'
+      - '.github/workflows/stage14-sH44-s7-44-snapshot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile sH44 audit
+        run: python -m py_compile stages/stage14/scripts/14-sH44/dual_root_line_snapshot_h_audit.py
+
+      - name: Run sH44 deterministic audit
+        run: python stages/stage14/scripts/14-sH44/dual_root_line_snapshot_h_audit.py
+
+      - name: Lock immutable source snapshot
+        run: |
+          src=ca427d50b9afcbae226b6ffe619dba2cc98deebc
+          git cat-file -e "$src^{commit}"
+          git show "$src:stages/stage14/14-s7-44/result.md" > /tmp/s7-44-source.md
+          grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreDualRootLineCompatibilityEnergy' /tmp/s7-44-source.md
+          grep -Fq 'S7_44_AUXILIARY_H_NEEDED=true' /tmp/s7-44-source.md
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=true' /tmp/s7-44-source.md
+          grep -Fq 'SECOND_FULL_CORE_DETERMINANT_SPACING_LEGAL_FROM_CURRENT_IDENTITIES=false' /tmp/s7-44-source.md
+
+      - name: Lock source Cayley relation
+        run: |
+          src=ca427d50b9afcbae226b6ffe619dba2cc98deebc
+          git show "$src:stages/stage14/14-4cr/result.md" > /tmp/4cr-source.md
+          grep -Fq 'lambda=4*M/N' /tmp/4cr-source.md
+          grep -Fq 'gcd(C_*,M*N)=1' /tmp/4cr-source.md
+          grep -Fq 'C_* | (M-N)(M+N)' /tmp/4cr-source.md
+
+      - name: Current H protocol regression
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'COMPLETED_H_MERGES_AS_SCOPED_SNAPSHOT_RESULT=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Merged source-stage deterministic regression
+        run: python stages/stage14/scripts/14-s7-44/dual_root_line_no_go_audit.py
+
+      - name: X13 sqrt regression
+        run: python stages/stage14/scripts/14-X13/reverse_reciprocal_sqrt_audit.py
+
+      - name: Lock sH44 frozen verdict
+        run: |
+          f=stages/stage14/14-sH44/BOUNDARY.txt
+          grep -Fq 'STAGE14_SH44=COMPLETE_S7_44_FROZEN_DUAL_ROOT_LINE_COMPATIBILITY_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=ca427d50b9afcbae226b6ffe619dba2cc98deebc' "$f"
+          grep -Fq 'SOURCE_STAGE_HEAD_SHA=4588528adb7776978c4071f9d3cb4e6ff5231570' "$f"
+          grep -Fq 'H_TARGET_FROZEN=true' "$f"
+          grep -Fq 'H_SOURCE_SNAPSHOT_FROZEN=true' "$f"
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'FULL_COMMON_CORE_DIVIDES_CLEARED_LAMBDA2_MINUS_16=true' "$f"
+          grep -Fq 'FULL_COMMON_CORE_IS_RECIPROCAL_EDWARDS_BAD_REDUCTION_SUPPORT=true' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'S7_45_CAN_CONSUME_SH44=true' "$f"
+          grep -Fq 'SH44_TARGET_REWRITTEN_FOR_4DC=false' "$f"
+          grep -Fq 'NEXT_S_ROUTE=Stage14-s7-45' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
