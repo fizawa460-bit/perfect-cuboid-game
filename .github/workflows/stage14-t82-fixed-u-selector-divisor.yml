@@ -1,0 +1,42 @@
+name: Stage14-t82 fixed-U selector divisor modulus
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t82/**'
+      - 'stages/stage14/scripts/14-t/t82_*'
+      - '.github/workflows/stage14-t82-fixed-u-selector-divisor.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: t81 predecessor regression
+        run: |
+          grep -Fq 'STAGE14_T81=COMPLETE_PROJECTIVE_CHARACTER_RESUMMATION_TO_AFFINE_DIAGONAL_AND_FRACTIONAL_KLOOSTERMAN_GRAPH_KERNEL' stages/stage14/14-t81/result.md
+      - name: current sqrt ledger regression
+        run: |
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X13/result.md
+      - name: Stage14-t82 audit
+        run: python stages/stage14/scripts/14-t/t82_fixed_u_selector_divisor_audit.py
+      - name: frozen validator if present
+        run: |
+          if [ -f stages/stage14/scripts/14-t/t82_validate_frozen.py ]; then
+            python stages/stage14/scripts/14-t/t82_validate_frozen.py
+          fi
+      - name: boundary locks
+        run: |
+          f=stages/stage14/14-t82/result.md
+          grep -Fq 'STAGE14_T82=COMPLETE_AFFINE_DEGENERATE_RAY_MODULUS_TO_FIXED_U_COORDINATE_DIVISOR_HOST' "$f"
+          grep -Fq 'HARD_DIAGONAL_MODULUS_DIVIDES_FIXED_U_SELECTOR=true' "$f"
+          grep -Fq 'MOVING_MODULUS_FAMILY_LENGTH_REOPENED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'TH23_NEEDED=true' "$f"
+          grep -Fq 'TH24_NEEDED=false' "$f"
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t82_*.py
