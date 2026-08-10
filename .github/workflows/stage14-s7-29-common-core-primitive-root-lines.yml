@@ -1,0 +1,64 @@
+name: Stage14-s7-29 common-core primitive root lines
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-29/**'
+      - 'stages/stage14/scripts/14-s7-29/**'
+      - '.github/workflows/stage14-s7-29-common-core-primitive-root-lines.yml'
+      - 'stages/stage14/14-s7-28/**'
+      - 'stages/stage14/14-s7-27/**'
+      - 'stages/stage14/14-4cg/**'
+      - 'stages/stage14/14-4cn/**'
+      - 'stages/stage14/14-t66/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run s7-29 common-core primitive root-line audit
+        run: python stages/stage14/scripts/14-s7-29/common_core_primitive_root_line_audit.py
+
+      - name: Compile s7-29 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-29/common_core_primitive_root_line_audit.py
+
+      - name: Run merged s7-28 regression
+        run: python stages/stage14/scripts/14-s7-28/primitive_ratio_reconstruction_audit.py
+
+      - name: Run merged s7-27 regression
+        run: python stages/stage14/scripts/14-s7-27/full_signed_quotient_curve_audit.py
+
+      - name: Lock imported boundaries
+        run: |
+          grep -Fq 'STAGE14_4CG=COMPLETE_PAIRWISE_RESIDUAL_COLLAPSE_AND_COMMON_CORE_COUPLING' stages/stage14/14-4cg/result.md
+          grep -Fq 'REDUCED_RESIDUAL_PRODUCT_MAX_EXPONENT=1/4' stages/stage14/14-4cg/result.md
+          grep -Fq 'STAGE14_S7_27=COMPLETE_FULL_SIGNED_QUOTIENT_DIVISOR_COLLAPSE_AND_RECIPROCAL_BIQUADRATIC_REDUCTION' stages/stage14/14-s7-27/result.md
+          grep -Fq 'FIXED_RESIDUAL_FULL_SIGNED_QUOTIENT_QUADRUPLE_MULTIPLICITY=Bo1' stages/stage14/14-s7-27/result.md
+          grep -Fq 'STAGE14_S7_28=COMPLETE_RATIO_SINGULAR_CLASSIFICATION_AND_PRIMITIVE_MODULUS_PAIR_RECONSTRUCTION' stages/stage14/14-s7-28/result.md
+          grep -Fq 'ABSOLUTE_MODULUS_SCALE_DEFECT=1' stages/stage14/14-s7-28/result.md
+          grep -Fq 'STAGE14_4CN=COMPLETE_PRIMITIVE_RATIO_INJECTIVITY_AND_RECIPROCAL_EDWARDS_SINGULAR_SMOOTH_SPLIT' stages/stage14/14-4cn/result.md
+          grep -Fq 'TH18_REQUESTED_OBJECT=CanonicalPrimeTaggedOppositeSignQuadraticRootLargeSieve' stages/stage14/14-t66/result.md
+
+      - name: Lock s7-29 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-29/result.md
+          grep -Fq 'STAGE14_S7_29=COMPLETE_COMMON_CORE_GAUSSIAN_ROOT_LINE_PRIMITIVE_LATTICE_COUNT_AND_3_4_BOUND' "$f"
+          grep -Fq 'FULL_STRIP_PRIMITIVE_PARAMETERIZATION_VALID=true' "$f"
+          grep -Fq 'COMMON_CORE_GAUSSIAN_ROOT_LINES_PROVED=true' "$f"
+          grep -Fq 'COMMON_CORE_GAUSSIAN_CRT_ROOT_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'PRIMITIVE_ROOT_LINE_DYADIC_COUNT_PROVED=true' "$f"
+          grep -Fq 'FIXED_RESIDUAL_PRIMITIVE_AGREEMENT_PAIR_EXPONENT=2*phi-c' "$f"
+          grep -Fq 'DYADIC_RESIDUAL_SUPPORT_EXPONENT=c+1/4' "$f"
+          grep -Fq 'DYADIC_POST_ROOT_LINE_PACKET_EXPONENT=2*phi+1/4' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=3/4' "$f"
+          grep -Fq 'IMPROVEMENT_OVER_7_8=1/8' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=true' "$f"
+          grep -Fq 'S7_29_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'REMAINING_RECEIVER=QuarterPhiReciprocalPrimitiveRootLineEnergy' "$f"
+          grep -Fq 'NEXT=Stage14-s7-30' "$f"
