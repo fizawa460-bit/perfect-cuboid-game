@@ -1,0 +1,30 @@
+name: Stage14-t63 transverse vertical defect
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t63/**'
+      - 'stages/stage14/data/14-t63/**'
+      - 'stages/stage14/scripts/14-t/t63_transverse_vertical_defect_audit.py'
+      - 'stages/stage14/scripts/14-t/t63_validate_frozen.py'
+      - '.github/workflows/stage14-t63-transverse-vertical-defect.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t62 predecessor regression
+        run: python stages/stage14/scripts/14-t/t62_matched_rectangle_frame_audit.py > /tmp/t62.json
+      - name: Run tH17 deterministic regression
+        run: python stages/stage14/scripts/tH17/signed_orthogonal_rectangle_kummer_large_sieve_audit.py > /tmp/th17.json
+      - name: Run t63 audit
+        run: python stages/stage14/scripts/14-t/t63_transverse_vertical_defect_audit.py > /tmp/t63.json
+      - name: Validate frozen boundary
+        run: python stages/stage14/scripts/14-t/t63_validate_frozen.py
+      - name: Compile scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t63_transverse_vertical_defect_audit.py stages/stage14/scripts/14-t/t63_validate_frozen.py
