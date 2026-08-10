@@ -12,7 +12,7 @@ H_- = u_* R_* * B^o(1),
 Q_mix=C_*u_*=B^(1/4+o(1)),
 ```
 
-where `X_*` denotes the odd xi-switch product `S*T` and `R_*` the odd xi-agreement product `R*J`.  Merged 4de already proves every plus/minus cross gcd is `B^o(1)`.
+where `X_*` denotes the odd xi-switch product `S*T` and `R_*` the odd xi-agreement product `R*J`. Merged 4de already proves every plus/minus cross gcd is `B^o(1)`.
 
 The new step is to keep the two same-side overlaps
 
@@ -21,7 +21,7 @@ W_+ = gcd(C_*,X_*),
 W_- = gcd(u_*,R_*).
 ```
 
-They cost no fixed power after `(C_*,u_*)` is fixed because `W_+|C_*` and `W_-|u_*`.  But the exact factorizations imply
+They cost no fixed power after `(C_*,u_*)` is fixed because `W_+|C_*` and `W_-|u_*`. But the exact factorizations imply
 
 ```text
 C_* W_+ | H_+,
@@ -44,13 +44,13 @@ W_+=B^(w_++o(1)),
 W_-=B^(w_-+o(1)),
 ```
 
-then the primitive `(D,A)` root-line fiber loses exactly `w_++w_-` in exponent while the overlap choices remain divisor-many.  Therefore
+then the primitive `(D,A)` root-line fiber loses exactly `w_++w_-` in exponent while the overlap choices remain divisor-many. Therefore
 
 ```text
 E_4df(w_+,w_-) <= 1/2-w_+-w_-.
 ```
 
-Every fixed-power same-side overlap is strict sub-square-root.  Consequently square-root saturation requires
+Every fixed-power same-side overlap is strict sub-square-root. Consequently square-root saturation requires
 
 ```text
 gcd(C_*,X_*)=B^o(1),
@@ -73,10 +73,18 @@ The refined mainline receiver is
 SquareRootQuarterScalePairwiseSeparatedMixedFourthRootFullResidualPhysicalCompletionDensity.
 ```
 
-The s-route reactivation test remains **true**.  The new `W_- = gcd(u_*,R_*)` peel is directly in the signed-residual / agreement coordinates owned by the s route, so `Stage14-s7-46` remains the correct restart stage with the refined receiver
+## s-route lifecycle
+
+The s route was already reactivated by Stage14-4de and `Stage14-s7-46` is scheduled. Therefore Stage14-4df does **not** perform another reactivation yes/no decision. It only refines the receiver passed to the already-reactivated route:
 
 ```text
-SquareRootQuarterScalePairwiseSeparatedMixedFourthRootSignedResidualPhysicalCompletionIncidence.
+S_ROUTE_CURRENT_STATE=REACTIVATED_SCHEDULED_AT_STAGE14_S7_46
+S_ROUTE_REACTIVATION_DECISION_REQUIRED=false
+S_ROUTE_REACTIVATION_CHECK_SUSPENDED=true
+S_ROUTE_REACTIVATION_CHECK_RESUMES_WHEN_S_ROUTE_CLOSED=true
+S_ROUTE_ACTIVE_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootSignedResidualPhysicalCompletionIncidence
 ```
 
-No new mainline H is needed.  Next mainline stage: `Stage14-4dg`.
+When the s route later declares itself `CLOSED` again, subsequent mainline/X/t/toolbox/q stages must resume the reactivation check.
+
+No new mainline H is needed. Next mainline stage: `Stage14-4dg`.
