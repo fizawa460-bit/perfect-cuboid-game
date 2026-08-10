@@ -1,0 +1,68 @@
+name: Stage14-s7-42 X13 sqrt theta-quarter K reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-42/**'
+      - 'stages/stage14/scripts/14-s7-42/**'
+      - '.github/workflows/stage14-s7-42-sh41-critical-closure-stability-prism.yml'
+      - 'stages/stage14/14-X13/**'
+      - 'stages/stage14/14-4cz/**'
+      - 'stages/stage14/14-s7-41/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-42 audit
+        run: python stages/stage14/scripts/14-s7-42/sh41_critical_closure_stability_prism_audit.py
+
+      - name: Compile Stage14-s7-42 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-42/sh41_critical_closure_stability_prism_audit.py
+
+      - name: Merged X13 regression
+        run: python stages/stage14/scripts/14-X13/reverse_reciprocal_sqrt_audit.py
+
+      - name: Merged s7-41 regression
+        run: python stages/stage14/scripts/14-s7-41/residual_twin_finite_fiber_23_44_audit.py
+
+      - name: Lock X13 sqrt theorem
+        run: |
+          f=stages/stage14/14-X13/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' "$f"
+          grep -Fq 'ROW_CRT_LIFT_INDEPENDENT_SUPPORT=false' "$f"
+          grep -Fq 'SQRT_SATURATION_THETA=1/4' "$f"
+
+      - name: Lock merged 4cz support identities
+        run: |
+          f=stages/stage14/14-4cz/result.md
+          grep -Fq 'SAMESIDE_ROOT_GCD_COPRIME_TO_COMMON_CORE=true' "$f" || grep -Fq 'gcd(K,C)=gcd(K,J)=gcd(K,C_Cayley)=1' "$f"
+          grep -Fq 'SAMESIDE_ROOT_GCD_SQUARE_DIVIDES_U_RES=true' "$f" || grep -Fq 'K^2|u_res' "$f"
+          grep -Fq 'K^2|h_-h_+' "$f"
+
+      - name: Lock Stage14-s7-42 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-42/result.md
+          grep -Fq 'STAGE14_S7_42=COMPLETE_X13_SQRT_IMPORT_AND_THETA_QUARTER_SAMESIDE_PRIMITIVE_REDUCTION' "$f"
+          grep -Fq 'MERGED_X13_IMPORTED=true' "$f"
+          grep -Fq 'SH41_OLD_CRITICAL_ENDPOINT_BOUND=21/44' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'SQRT_B_UPPER_BOUND_PROVED=true' "$f"
+          grep -Fq 'THETA_QUARTER_FIRST_RESIDUAL_EXPONENT=1/2-2phi' "$f"
+          grep -Fq 'THETA_QUARTER_SINGLE_COLUMN_EXPONENT=1/2-2phi' "$f"
+          grep -Fq 'FIRST_RESIDUAL_AND_SINGLE_COLUMN_POWER_EQUIVALENT=true' "$f"
+          grep -Fq 'THETA_QUARTER_FIXED_K_BLOCK_EXPONENT=1/2-kappa' "$f"
+          grep -Fq 'SQRT_SATURATION_REQUIRES_SAMESIDE_K=Bo1' "$f"
+          grep -Fq 'S7_42_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'REMAINING_RECEIVER=SquareRootThetaQuarterSameSidePrimitiveFirstResidualSingleColumnIncidence' "$f"
+          grep -Fq 'NEXT=Stage14-s7-43' "$f"
