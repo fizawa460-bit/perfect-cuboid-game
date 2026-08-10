@@ -1,0 +1,25 @@
+name: Stage14-t50 external Frobenius mean square
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t50/**'
+      - 'stages/stage14/scripts/14-t/t50_selector_sensitive_two_modulus_audit.py'
+      - 'stages/stage14/scripts/14-t/t50_validate_frozen.py'
+      - 'stages/stage14/data/14-t50/**'
+      - '.github/workflows/stage14-t50-external-frobenius-mean-square.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tH4 regression
+        run: python stages/stage14/scripts/tH4/weighted_large_sieve_toolbox_audit.py
+      - name: Run tH5 regression
+        run: python stages/stage14/scripts/tH5/gaussian_pair_collision_energy_audit.py
+      - name: Run t50 selector-sensitive two-modulus audit
+        run: python stages/stage14/scripts/14-t/t50_selector_sensitive_two_modulus_audit.py
+      - name: Validate frozen t50 ledger and boundary
+        run: python stages/stage14/scripts/14-t/t50_validate_frozen.py
