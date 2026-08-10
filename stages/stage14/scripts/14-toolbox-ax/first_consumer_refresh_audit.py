@@ -48,7 +48,11 @@ def main() -> None:
         "STAGE14_4CQ=COMPLETE_DUAL_COMMON_CORE_CAYLEY_DIVISOR_COLLAPSE_AND_SYMMETRIC_QUARTER_QUARTER_REDUCTION",
         "4cq",
     )
-    need(docs["x8"], "STAGE14_X8=COMPLETE_TWO_THIRDS_MINIMAX", "X8")
+    need(
+        docs["x8"],
+        "COMPLETE_TWO_SIDED_DUAL_CAYLEY_MINIMAX_AND_TWO_THIRDS_PROMOTION",
+        "X8",
+    )
     need(docs["x8"], "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=2/3", "X8")
     need(
         docs["four_cr"],
