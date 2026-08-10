@@ -1,0 +1,26 @@
+name: Stage14-t43 low-degree Kummer transversality
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t43/**'
+      - 'stages/stage14/scripts/14-t/t43_low_degree_kummer_transversality_audit.py'
+      - 'stages/stage14/data/14-t43/**'
+      - '.github/workflows/stage14-t43-low-degree-kummer-transversality.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t42 regression
+        run: python stages/stage14/scripts/14-t/t42_kummer_transversality_audit.py
+      - name: Run tH10 regression
+        run: python stages/stage14/scripts/tH10/squareclass_fiber_energy_toolbox_audit.py
+      - name: Run t43 low-degree transversality audit
+        run: python stages/stage14/scripts/14-t/t43_low_degree_kummer_transversality_audit.py
+      - name: Check frozen t43 JSON
+        run: git diff --exit-code -- stages/stage14/data/14-t43/low_degree_kummer_transversality.json
+      - name: Validate locked t43 boundary
+        run: python -c "import json,pathlib; d=json.loads(pathlib.Path('stages/stage14/data/14-t43/low_degree_kummer_transversality.json').read_text())['decision']; assert d['STAGE14_T43']=='COMPLETE_LOW_DEGREE_ISOGENY_CERTIFICATE_AND_GENERIC_KUMMER_BARRIER'; assert d['TH10_ENERGY_RECEIVERS_REUSED'] is True; assert d['FROZEN_PRINCIPAL_BLOCKS_ALL_LD2_TRANSVERSE'] is True; assert d['FROZEN_DEGREE2_ISOGENOUS_DIRECTION_PAIRS']==0; assert d['FROZEN_TOP20_HEAVY_KERNELS_LOW_DEGREE_EXCEPTION_FREE'] is True; assert d['GENERIC_KUMMER_INCIDENCE_BOUND_PROVED'] is False; assert d['T_O_SQRT_B_PROVED'] is False"
