@@ -1,0 +1,50 @@
+name: Stage14-s7-04 small denominator projection audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-04/**'
+      - 'stages/stage14/scripts/14-s7-04/**'
+      - '.github/workflows/stage14-s7-04-small-denominator-projection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-04/small_denominator_projection_audit.py
+      - name: Run predecessor s7-03 audit
+        run: python stages/stage14/scripts/14-s7-03/first_point_multiplicative_height_audit.py
+      - name: Run s7-04 deterministic audit
+        run: python stages/stage14/scripts/14-s7-04/small_denominator_projection_audit.py | tee /tmp/s7-04.txt
+      - name: Check audit flags
+        run: |
+          grep -q '^ORDERED_PHYSICAL_INCIDENCES=124$' /tmp/s7-04.txt
+          grep -q '^S7_03_PREDECESSOR_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^CROSS_GCD_DENOMINATOR_FACTORIZATION_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^FIXED_U_GENUS_ONE_IDENTITY_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^FIXED_W_GENUS_ONE_IDENTITY_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^FAREY_L2_PROJECTION_SPACE_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^SEPARATE_PROJECTION_HYPERBOLA_CEILING_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^JOINT_REDUCED_COORDINATE_RECEIVER_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^JOINT_SAME_SQUAREFREE_KERNEL_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^MERGED_4BQ_BOUNDARY_AUDIT=true$' /tmp/s7-04.txt
+          grep -q '^ALL_AUDITS_PASS=true$' /tmp/s7-04.txt
+      - name: Check theorem boundary
+        run: |
+          grep -q 'STAGE14_S7_04=COMPLETE_SEPARATE_PROJECTION_GENUS_ONE_AUDIT_AND_JOINT_DENOMINATOR_RECEIVER' stages/stage14/14-s7-04/result.md
+          grep -q 'FIXED_U_DIRECTION_FIBER_GENUS_ONE=true' stages/stage14/14-s7-04/result.md
+          grep -q 'FIXED_W_DIRECTION_FIBER_GENUS_ONE=true' stages/stage14/14-s7-04/result.md
+          grep -q 'SEPARATE_PROJECTION_HYPERBOLA_OPTIMAL_EXPONENT=1' stages/stage14/14-s7-04/result.md
+          grep -q 'SEPARATE_PROJECTION_METHOD_BEATS_MERGED_61_63=false' stages/stage14/14-s7-04/result.md
+          grep -q 'JOINT_MULTIPLICATIVE_HEIGHT=Q\*S' stages/stage14/14-s7-04/result.md
+          grep -q 'JOINT_DIFFERENCE_SQUAREFREE_KERNEL_COLLISION=true' stages/stage14/14-s7-04/result.md
+          grep -q 'NEXT=Stage14-s7-05' stages/stage14/14-s7-04/result.md
