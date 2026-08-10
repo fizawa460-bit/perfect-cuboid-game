@@ -1,0 +1,20 @@
+name: Stage14-t51 exact-pair diagonal
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t51/**'
+      - 'stages/stage14/scripts/14-t/t51_exact_pair_diagonal_audit.py'
+      - 'stages/stage14/data/14-t51/**'
+      - '.github/workflows/stage14-t51-exact-pair-diagonal.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tH5 regression
+        run: python stages/stage14/scripts/tH5/gaussian_pair_collision_energy_audit.py
+      - name: Run t51 exact-pair diagonal audit
+        run: python stages/stage14/scripts/14-t/t51_exact_pair_diagonal_audit.py
