@@ -1,0 +1,19 @@
+name: Stage14 toolbox-au promotion certificates
+
+on:
+  pull_request:
+    paths:
+      - "docs/stage14-toolbox/adapter-promotion-certificate-template.md"
+      - "docs/stage14-toolbox/current-adapter-obligation-ledger.md"
+      - "stages/stage14/14-toolbox-au/**"
+      - "stages/stage14/scripts/14-toolbox-au/**"
+      - ".github/workflows/stage14-toolbox-au.yml"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit promotion certificate gates
+        run: python3 stages/stage14/scripts/14-toolbox-au/promotion_certificate_audit.py
