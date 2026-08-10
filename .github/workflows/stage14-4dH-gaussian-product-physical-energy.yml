@@ -1,0 +1,63 @@
+name: Stage14-4dH Gaussian product physical energy H audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dH/**'
+      - 'stages/stage14/data/14-4/gaussian_product_physical_energy_h_summary.json'
+      - 'stages/stage14/scripts/14-4/gaussian_product_physical_energy_h_audit.py'
+      - '.github/workflows/stage14-4dH-gaussian-product-physical-energy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-4dH deterministic audit
+        run: python stages/stage14/scripts/14-4/gaussian_product_physical_energy_h_audit.py
+      - name: Compile Stage14-4dH audit
+        run: python -m py_compile stages/stage14/scripts/14-4/gaussian_product_physical_energy_h_audit.py
+      - name: H protocol regression
+        run: |
+          grep -Fq 'ONE H REQUEST = ONE IMMUTABLE SOURCE SNAPSHOT = ONE AUDIT RESULT' stages/stage14/H-PROTOCOL.md
+          f=stages/stage14/14-4dH/result.md
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=949718da097bb8aa2dec95095ba72de54bf088ba' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'FULL_REQUIRED_MASKS_RETAINED=true' "$f"
+      - name: Frozen 4dc source regression
+        run: |
+          f=stages/stage14/14-4dc/result.md
+          grep -Fq 'STAGE14_4DC=COMPLETE_GAUSSIAN_PRODUCT_ROOT_LINE_COMPRESSION_TRANSVERSE_RESULTANT_NOGO_AND_MAINLINE_H_GATE' "$f"
+          grep -Fq 'MAINLINE_H_TARGET=SquareRootThetaQuarterGloballyOddPrimitiveFullCoreGaussianProductRootLinePhysicalCompletionEnergyPowerSaving' "$f"
+      - name: Merged q10 context regression
+        run: |
+          grep -Fq 'STAGE14_Q10=COMPLETE_POST_SQRT_DUAL_ROOT_LINE_LITERATURE_RADAR' docs/stage14-q10-post-sqrt-dual-root-line-literature-radar.md
+          grep -Fq 'REUSS_BILINEAR_TRILINEAR_TRANSFER=NEAR_HIGH_PRIORITY' docs/stage14-q10-post-sqrt-dual-root-line-literature-radar.md
+      - name: Literature source locks
+        run: |
+          f=stages/stage14/14-4dH/literature.md
+          grep -Fq 'https://arxiv.org/abs/1502.07594' "$f"
+          grep -Fq 'https://arxiv.org/abs/2601.00292' "$f"
+          grep -Fq 'https://arxiv.org/abs/2604.25177' "$f"
+          grep -Fq 'https://arxiv.org/abs/2607.24311' "$f"
+          grep -Fq 'https://arxiv.org/abs/2601.15448' "$f"
+          grep -Fq 'https://arxiv.org/abs/2605.01635' "$f"
+      - name: Stage14-4dH theorem boundary
+        run: |
+          f=stages/stage14/14-4dH/result.md
+          grep -Fq 'STAGE14_4DH=COMPLETE_MAINLINE_H_APPLICABILITY_AUDIT_NO_CERTIFIED_UNIFORM_DELTA' "$f"
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'ZERO_FREQUENCY_PHYSICAL_DENSITY_OBSTRUCTION=true' "$f"
+          grep -Fq 'REUSS_TRANSFER_TESTED=true' "$f"
+          grep -Fq 'MAINLINE_BLOCKED_BY_H=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'PREFERRED_RECEIVER=SquareRootThetaQuarterGaussianNormDivisorSplitPhysicalAdmissibilityZeroFrequencyDensity' "$f"
+          grep -Fq 'NEXT=Stage14-4dd' "$f"
