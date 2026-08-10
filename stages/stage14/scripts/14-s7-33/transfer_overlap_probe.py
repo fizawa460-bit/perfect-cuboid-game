@@ -10,11 +10,16 @@ m = module_from_spec(spec)
 spec.loader.exec_module(m)
 
 
+def pq(st):
+    return st["a"] * st["x"] * st["x"], st["b"] * st["y"] * st["y"]
+
+
 def main():
     groups = m.ch.make_groups(600)
     checked = fail = 0
     max_st_v = max_st_cv = max_fail_overlap = 1
     nontriv_st_v = nontriv_st_cv = fail_with_overlap = 0
+    first_failure = None
     for states in groups.values():
         for i in range(len(states)):
             for j in range(i + 1, len(states)):
@@ -35,10 +40,14 @@ def main():
                     fail += 1
                     max_fail_overlap = max(max_fail_overlap, gcv)
                     fail_with_overlap += int(gcv > 1)
+                    if first_failure is None:
+                        first_failure = (pq(a), pq(b), z["C"], z["v"], z["S"], z["T"], gv, gcv)
                 checked += 1
+    assert first_failure is not None
     print("Stage14-s7-33 transfer overlap probe: PASS")
     print(f"finite physical pairs checked: {checked}")
     print(f"strong canonical split failures: {fail}")
+    print(f"first exact physical counterexample: {first_failure}")
     print(f"max gcd(S*T,v_res): {max_st_v}; nontrivial packets: {nontriv_st_v}")
     print(f"max gcd(S*T,C*v_res): {max_st_cv}; nontrivial packets: {nontriv_st_cv}")
     print(f"canonical failures with nontrivial gcd(S*T,C*v_res): {fail_with_overlap}/{fail}")
