@@ -1,0 +1,66 @@
+{
+  "stage": "14-tH18",
+  "object": "PrivateCanonicalPrimeOppositeSignRootModulusLargeSieve",
+  "import": {
+    "merged_t67": true,
+    "reopen_ell_delta_hyperbola": false,
+    "reopen_fixed_M": false,
+    "reopen_same_ell": false,
+    "reopen_nested_pairs": false
+  },
+  "exact_structure": {
+    "modulus": "M=ell*H*D with H=odd(h), D=odd(delta)",
+    "largest_prime": "ell=LPF_odd(M), 2*(M/ell)<ell",
+    "root_orientation": "rho^2=+kappa mod ell*H; rho^2=-kappa mod D",
+    "global_envelope": "rho^4=kappa^2 mod M",
+    "private_pair": "ell1 not|M2 and ell2 not|M1",
+    "private_gcd": "gcd(M1,M2)=gcd(c1,c2)"
+  },
+  "spacing": {
+    "generic_lower_bound": "||rho1/M1-rho2/M2|| >= gcd(M1,M2)/(M1*M2)",
+    "private_prime_forces_1_over_Q_spacing": false,
+    "generic_large_sieve_scale": "(Q^2+N)*B^o(1)",
+    "target_root_specific_scale": "(Q+N)*B^o(1)"
+  },
+  "crt_phase": {
+    "A": "ell*H",
+    "D": "M/A",
+    "identity": "e_M(n*rho)=e_A(n*alpha*inv(D mod A))*e_D(n*beta*inv(A mod D))",
+    "alpha": "alpha^2=+kappa mod A",
+    "beta": "beta^2=-kappa mod D",
+    "moving_cross_twists": true
+  },
+  "theorem_audit": {
+    "Fouvry_Iwaniec_relevant": true,
+    "Fouvry_Iwaniec_direct_import": false,
+    "DFI_Ngo_relevant": true,
+    "DFI_Ngo_direct_import": false,
+    "biquadratic_ideal_parameterization_plausible": true,
+    "algebraic_number_field_large_sieve_direct_import": false,
+    "recent_modular_sqrt_bilinear_relevant": true,
+    "recent_modular_sqrt_bilinear_direct_import": false
+  },
+  "new_contract": {
+    "name": "PrivateReciprocalCrossTwistOppositeSignRootLargeSieve",
+    "shape": "sum_private |sum_n a_n e_A(n alpha D^-1)e_D(n beta A^-1)|^2 <= (Q+N)B^o(1) sum|a_n|^2",
+    "proved": false
+  },
+  "decision": {
+    "STAGE14_TH18": "COMPLETE_PRIVATE_CANONICAL_ROOT_MODULUS_LARGE_SIEVE_APPLICABILITY_AUDIT",
+    "GLOBAL_BIQUADRATIC_ROOT_ENVELOPE_PROVED": true,
+    "PRIVATE_PRIME_FORCES_ONE_OVER_Q_SPACING": false,
+    "GENERIC_PRIVATE_ROOT_FRACTION_LARGE_SIEVE_PROVED": true,
+    "GENERIC_LARGE_SIEVE_CLOSES_PRIVATE_RECEIVER": false,
+    "OPPOSITE_SIGN_CRT_RECIPROCAL_PHASE_FACTORIZATION_PROVED": true,
+    "FOUVRY_IWANIEC_DIRECT_IMPORT_VALID": false,
+    "DFI_NGO_DIRECT_IMPORT_VALID": false,
+    "ALGEBRAIC_NUMBER_FIELD_LARGE_SIEVE_DIRECT_IMPORT_VALID": false,
+    "PRIVATE_RECIPROCAL_CROSS_TWIST_OPPOSITE_SIGN_ROOT_LARGE_SIEVE_PROVED": false,
+    "PRIVATE_CANONICAL_PRIME_OPPOSITE_SIGN_ROOT_MODULUS_LARGE_SIEVE_PROVED": false,
+    "SHARED_U_PRIVATE_CANONICAL_PRIME_ROOT_MODULUS_ENERGY_PROVED": false,
+    "E4_COEFFICIENT_ENERGY_USED": false,
+    "MINIMAL_REMAINING_OBSTRUCTION": "PrivateReciprocalCrossTwistOppositeSignRootLargeSieve",
+    "T_ROUTE_BLOCKED_WAITING_FOR_TH18": false,
+    "NEXT": "Stage14-t68"
+  }
+}
