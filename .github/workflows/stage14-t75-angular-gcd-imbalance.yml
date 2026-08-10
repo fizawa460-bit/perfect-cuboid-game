@@ -1,0 +1,37 @@
+name: Stage14-t75 angular gcd imbalance split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t75/**'
+      - 'stages/stage14/data/14-t75/**'
+      - 'stages/stage14/scripts/14-t/t75_*.py'
+      - '.github/workflows/stage14-t75-angular-gcd-imbalance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: predecessor t74 regression
+        run: python stages/stage14/scripts/14-t/t74_canonical_host_short_cofactor_audit.py >/dev/null
+      - name: merged tH20 boundary regression
+        run: |
+          grep -q 'STAGE14_TH20=COMPLETE_CANONICAL_PRIME_SHORT_ANGULAR_COFACTOR_HYPERBOLA_SIEVE_APPLICABILITY_AUDIT' stages/stage14/14-tH20/result.md
+          grep -q 'ANGULAR_DIVISOR_SWITCHING_POST_T74_PREFERRED=true' stages/stage14/14-tH20/result.md
+          grep -q 'TH21_NEEDED=false' stages/stage14/14-tH20/result.md
+      - name: X11 global 19/34 ledger regression
+        run: grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=19/34' stages/stage14/14-X11/result.md
+      - name: Stage14-t75 audit
+        run: python stages/stage14/scripts/14-t/t75_angular_gcd_imbalance_audit.py
+      - name: frozen validator
+        run: python stages/stage14/scripts/14-t/t75_validate_frozen.py
+      - name: syntax
+        run: python -m py_compile stages/stage14/scripts/14-t/t75_*.py
