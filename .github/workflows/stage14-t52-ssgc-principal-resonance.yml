@@ -1,0 +1,20 @@
+name: Stage14-t52 SSGC principal resonance
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t52/**'
+      - 'stages/stage14/scripts/14-t/t52_ssgc_principal_resonance_audit.py'
+      - 'stages/stage14/data/14-t52/**'
+      - '.github/workflows/stage14-t52-ssgc-principal-resonance.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run tH14 regression
+        run: python stages/stage14/scripts/tH14/selector_sensitive_two_aux_gaussian_audit.py
+      - name: Run t52 principal-resonance audit
+        run: python stages/stage14/scripts/14-t/t52_ssgc_principal_resonance_audit.py
