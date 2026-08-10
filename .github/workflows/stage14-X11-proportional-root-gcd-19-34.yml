@@ -1,0 +1,75 @@
+name: Stage14-X11 proportional root-gcd 19/34
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X11/**'
+      - 'stages/stage14/data/14-X11/**'
+      - 'stages/stage14/scripts/14-X11/**'
+      - '.github/workflows/stage14-X11-proportional-root-gcd-19-34.yml'
+      - 'stages/stage14/14-s7-36/**'
+      - 'stages/stage14/14-s7-34/**'
+      - 'stages/stage14/14-4cq/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X11 exact audit
+        run: python stages/stage14/scripts/14-X11/proportional_root_gcd_19_34_audit.py
+
+      - name: Compile Stage14-X11 audit
+        run: python -m py_compile stages/stage14/scripts/14-X11/proportional_root_gcd_19_34_audit.py
+
+      - name: Run merged Stage14-s7-36 regression
+        run: python stages/stage14/scripts/14-s7-36/row_column_proportional_9_16_audit.py
+
+      - name: Run merged Stage14-s7-34 regression
+        run: python stages/stage14/scripts/14-s7-34/fourth_power_root_transfer_47_80_audit.py
+
+      - name: Run merged Stage14-4cq regression
+        run: python stages/stage14/scripts/14-4/dual_common_core_cayley_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_S7_36=COMPLETE_ROW_COLUMN_REOPTIMIZATION_AND_9_16_PROPORTIONAL_BARRIER_PROMOTION' stages/stage14/14-s7-36/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=9/16' stages/stage14/14-s7-36/result.md
+          grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=9/16' stages/stage14/14-s7-36/result.md
+          grep -Fq 'NONPROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=19/34' stages/stage14/14-s7-36/result.md
+          grep -Fq 'STAGE14_S7_34=COMPLETE_XI_FOURTH_POWER_ROOT_GCD_TRANSFER_AND_47_80_PROMOTION' stages/stage14/14-s7-34/result.md
+          grep -Fq 'XI_COMMON_ROOT_GCD_FOURTH_POWER_DIVIDES_QXI=true' stages/stage14/14-s7-34/result.md
+          grep -Fq 'STAGE14_4CQ=COMPLETE_DUAL_COMMON_CORE_CAYLEY_DIVISOR_COLLAPSE_AND_SYMMETRIC_QUARTER_QUARTER_REDUCTION' stages/stage14/14-4cq/result.md
+          grep -Fq 'ALTERNATIVE_DUAL_CAYLEY_BLOCK_EXPONENT=1/2+2phi-c' stages/stage14/14-4cq/result.md
+
+      - name: Lock Stage14-X11 theorem boundary
+        run: |
+          f=stages/stage14/14-X11/result.md
+          grep -Fq 'STAGE14_X11=COMPLETE_PROPORTIONAL_FOUR_ROOT_GCD_DECOMPOSITION_AND_19_34_PROMOTION' "$f"
+          grep -Fq 'MERGED_S7_36_IMPORTED=true' "$f"
+          grep -Fq 'PROPORTIONAL_COMMON_Z_FOUR_ROOT_GCD_DECOMPOSITION_PROVED=true' "$f"
+          grep -Fq 'PROPORTIONAL_COMMON_Z_ODDPART_PRODUCT=K_x*K_y*H_S*H_T' "$f"
+          grep -Fq 'PROPORTIONAL_SAME_SIDE_SQUARE_DIVIDES_XY=true' "$f"
+          grep -Fq 'PROPORTIONAL_CROSS_FOURTH_POWER_DIVIDES_QXI=true' "$f"
+          grep -Fq 'PROPORTIONAL_KAPPA_PLUS_ETA=1/8' "$f"
+          grep -Fq 'PROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=13/24' "$f"
+          grep -Fq 'NONPROPORTIONAL_BRANCH_UPPER_BOUND_EXPONENT=19/34' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=19/34' "$f"
+          grep -Fq 'IMPROVEMENT_OVER_MERGED_9_16=1/272' "$f"
+          grep -Fq 'CURRENT_GAP_TO_SQRT=1/17' "$f"
+          grep -Fq 'REMAINING_RECEIVER=NineteenThirtyFourthsFourthPowerJointCoreTwinShortRowColumnIncidence' "$f"
+          grep -Fq 'X11_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X12' "$f"
+
+      - name: Diff check
+        run: git diff --check HEAD^ HEAD
