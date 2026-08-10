@@ -1,0 +1,30 @@
+name: Stage14-X2 joint packet rank-one audit
+
+on:
+  pull_request:
+    paths:
+      - "stages/stage14/14-X2/**"
+      - "stages/stage14/data/14-X2/**"
+      - "stages/stage14/scripts/14-X2/**"
+      - ".github/workflows/stage14-X2-joint-packet-rank-one.yml"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run X1 joint-fiber regression
+        run: python3 stages/stage14/scripts/14-X1/joint_physical_fiber_audit.py
+      - name: Run latest mainline full-k/common-core regression
+        run: python3 stages/stage14/scripts/14-4/full_k_dual_common_core_audit.py
+      - name: Run latest s rank-three regression
+        run: python3 stages/stage14/scripts/14-s7-23/rank3_primary_support_audit.py
+      - name: Run publication-base mainline rank-one regression
+        run: python3 stages/stage14/scripts/14-4/xi_rank1_collapse_audit.py
+      - name: Run publication-base s rank-one regression
+        run: python3 stages/stage14/scripts/14-s7-24/rank2_plucker_root_line_audit.py
+      - name: Audit X2 Pluecker rank-one collapse
+        run: python3 stages/stage14/scripts/14-X2/joint_packet_rank_one_audit.py
+      - name: Compile X2 audit
+        run: python3 -m py_compile stages/stage14/scripts/14-X2/joint_packet_rank_one_audit.py
