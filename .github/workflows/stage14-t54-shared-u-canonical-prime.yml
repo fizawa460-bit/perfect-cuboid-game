@@ -1,0 +1,20 @@
+name: Stage14-t54 shared-U canonical-prime
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t54/**'
+      - 'stages/stage14/scripts/14-t/t54_shared_u_canonical_prime_audit.py'
+      - 'stages/stage14/data/14-t54/**'
+      - '.github/workflows/stage14-t54-shared-u-canonical-prime.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run t53 regression
+        run: python stages/stage14/scripts/14-t/t53_kummer_principal_stratification_audit.py
+      - name: Run t54 shared-U canonical-prime audit
+        run: python stages/stage14/scripts/14-t/t54_shared_u_canonical_prime_audit.py
