@@ -86,6 +86,11 @@ def principal_pair_audit(reps):
                 )
 
     assert A1 - H == ordered_off
+    absorbed_distinct = sum(1 for row in block_rows if row["same_exact_unit_pair"] and not row["same_ell"])
+    absorbed_same = sum(1 for row in block_rows if row["same_exact_unit_pair"] and row["same_ell"])
+    residual_distinct = sum(1 for row in block_rows if not row["same_exact_unit_pair"] and not row["same_ell"])
+    residual_same = sum(1 for row in block_rows if not row["same_exact_unit_pair"] and row["same_ell"])
+
     return {
         "H": H,
         "A1": A1,
@@ -98,6 +103,11 @@ def principal_pair_audit(reps):
         "same_ell_ordered_mass": same_ell_ordered_off,
         "distinct_ell_ordered_mass": distinct_ell_ordered_off,
         "residue_offdiagonal_principal_ordered_mass": ordered_off - exact_unit_ordered_off,
+        "residue_absorbed_distinct_ell_blocks": absorbed_distinct,
+        "residue_absorbed_same_ell_blocks": absorbed_same,
+        "residual_distinct_ell_blocks": residual_distinct,
+        "residual_same_ell_blocks": residual_same,
+        "residual_principal_blocks": residual_distinct + residual_same,
         "blocks": block_rows,
     }
 
@@ -152,8 +162,15 @@ def main():
     assert principal["A1"] == 592
     assert principal["principal_offdiagonal_unordered_blocks"] == 16
     assert principal["principal_offdiagonal_ordered_mass"] == 32
+    assert principal["same_exact_unit_pair_ordered_mass"] == 4
+    assert principal["residue_offdiagonal_principal_ordered_mass"] == 28
     assert principal["same_ell_ordered_mass"] == 4
     assert principal["distinct_ell_ordered_mass"] == 28
+    assert principal["residue_absorbed_distinct_ell_blocks"] == 2
+    assert principal["residue_absorbed_same_ell_blocks"] == 0
+    assert principal["residual_distinct_ell_blocks"] == 12
+    assert principal["residual_same_ell_blocks"] == 2
+    assert principal["residual_principal_blocks"] == 14
 
     guard = synthetic_guard()
 
@@ -172,15 +189,24 @@ def main():
         },
         "frozen_principal_audit": principal,
         "synthetic_quantifier_guard": guard,
+        "post_residue_barrier": {
+            "original_principal_blocks": 16,
+            "absorbed_by_exact_unit_residue_diagonal": 2,
+            "residual_principal_blocks": 14,
+            "residual_distinct_ell_cross_good_blocks": 12,
+            "residual_same_ell_blocks": 2,
+            "all_original_blocks_LD2_transverse": True,
+            "interpretation": "tH14/t51 local residue cleanup removes two frozen principal blocks but leaves fourteen globally coherent equal-squareclass blocks; twelve are the generic distinct-ell cross-good LD2 family",
+        },
         "old_barrier_reidentification": {
             "t43_all_frozen_principal_blocks_LD2_transverse": True,
             "t43_principal_blocks": 16,
-            "t44_distinct_ell_principal_blocks": 14,
-            "t44_distinct_ell_cross_good_principal_blocks": 14,
+            "t44_distinct_ell_principal_blocks_before_residue_cleanup": 14,
+            "t44_distinct_ell_cross_good_principal_blocks_before_residue_cleanup": 14,
             "t44_same_ell_principal_blocks": 2,
             "primary_live_object": "GenericCrossGoodLD2KummerPrincipalIncidence",
             "same_ell_slice": "separate exceptional slice",
-            "interpretation": "after t51/tH14 local residue cleanup, the principal part of SSGC returns exactly to the generic LD2-transverse cross-good Kummer incidence isolated at t43/t44",
+            "interpretation": "after t51/tH14 local residue cleanup, the principal part of SSGC returns to the generic LD2-transverse cross-good Kummer incidence isolated at t43/t44",
         },
         "corrected_ssgc_contract": {
             "local_residue_component": "closed at P^2*E_A*B^o(1) by tH14 and strengthened by t51 in rho>1/8 alias-free regime",
@@ -202,7 +228,9 @@ def main():
             "RESIDUE_COLLISION_CONTROL_ALONE_IMPLIES_SSGC": False,
             "SYNTHETIC_SQUARECLASS_COHERENCE_COUNTERMODEL": True,
             "FROZEN_PRINCIPAL_BLOCKS_ALL_LD2_TRANSVERSE": True,
-            "FROZEN_DISTINCT_ELL_PRINCIPAL_BLOCKS_ALL_CROSS_GOOD": True,
+            "FROZEN_POST_RESIDUE_PRINCIPAL_BLOCKS": 14,
+            "FROZEN_POST_RESIDUE_DISTINCT_ELL_CROSS_GOOD_BLOCKS": 12,
+            "FROZEN_POST_RESIDUE_SAME_ELL_BLOCKS": 2,
             "GENERIC_CROSS_GOOD_LD2_KUMMER_PRINCIPAL_INCIDENCE_REQUIRED": True,
             "GENERIC_CROSS_GOOD_LD2_KUMMER_PRINCIPAL_INCIDENCE_PROVED": False,
             "NONPRINCIPAL_SELECTOR_DISPERSION_PROVED": False,
@@ -215,7 +243,7 @@ def main():
             "T_O_SQRT_B_PROVED": False,
             "PERFECT_CUBOID_NONEXISTENCE_PROVED": False,
             "TH15_NEEDED": False,
-            "NEXT": "Stage14-t53 attack GenericCrossGoodLD2KummerPrincipalIncidence directly, with the 14 distinct-ell cross-good principal blocks as the generic model and the 2 same-ell blocks separated; do not treat SSGC as an independent black-box completion theorem",
+            "NEXT": "Stage14-t53 attack GenericCrossGoodLD2KummerPrincipalIncidence directly; use the post-residue frozen model of 12 distinct-ell cross-good LD2 blocks plus 2 same-ell blocks, and do not treat SSGC as an independent black-box completion theorem",
         },
     }
 
