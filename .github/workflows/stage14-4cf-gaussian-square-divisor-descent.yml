@@ -1,0 +1,51 @@
+name: Stage14-4cf Gaussian square-divisor descent
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4cf/**'
+      - 'stages/stage14/scripts/14-4/gaussian_square_divisor_descent_audit.py'
+      - 'stages/stage14/data/14-4/gaussian_square_divisor_descent_summary.json'
+      - '.github/workflows/stage14-4cf-gaussian-square-divisor-descent.yml'
+      - 'stages/stage14/14-4ce/**'
+      - 'stages/stage14/14-s7-20/**'
+      - 'stages/stage14/14-toolbox-at/**'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-4cf Gaussian descent audit
+        run: python stages/stage14/scripts/14-4/gaussian_square_divisor_descent_audit.py
+
+      - name: Regress balanced eight-cell predecessor
+        run: python stages/stage14/scripts/14-s7-20/balanced_eight_cell_audit.py
+
+      - name: Check merged predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_4CE=COMPLETE_DUAL_SPLIT_SWITCH_RIGIDITY_AND_PRIMEWISE_RESIDUE_LOCK' stages/stage14/14-4ce/result.md
+          grep -Fq 'PRIMEWISE_RESIDUE_LOCK_EXACT=true' stages/stage14/14-4ce/result.md
+          grep -Fq 'STAGE14_S7_20=COMPLETE_DUAL_XI_SPLIT_INJECTIVITY_AND_BALANCED_EIGHT_CELL_LOCALIZATION' stages/stage14/14-s7-20/result.md
+          grep -Fq 'FOUR_CD_ENDPOINT_INDIVIDUAL_K_CELL_RANGE=[3/16,5/16]' stages/stage14/14-s7-20/result.md
+          grep -Fq 'FOUR_CD_ENDPOINT_INDIVIDUAL_XI_CELL_RANGE=[1/8,1/4]' stages/stage14/14-s7-20/result.md
+          grep -Fq 'S_CURRENT_RECEIVER=BalancedDoubleAllocationSquareDivisibility' stages/stage14/14-toolbox-at/result.md
+
+      - name: Lock Stage14-4cf theorem boundary
+        run: |
+          f=stages/stage14/14-4cf/result.md
+          grep -Fq 'STAGE14_4CF=COMPLETE_BALANCED_EIGHT_CELL_GAUSSIAN_SQUARE_DIVISOR_DESCENT' "$f"
+          grep -Fq 'ODD_SWITCH_CELL_GAUSSIAN_SQUARE_DIVISOR_DESCENT=true' "$f"
+          grep -Fq 'GAUSSIAN_SWITCH_ORIENTATION_UNIQUE_UP_TO_UNIT=true' "$f"
+          grep -Fq 'K_SWITCH_RESIDUAL_NORM_EXPONENT_MAX=1/2' "$f"
+          grep -Fq 'XI_SWITCH_RESIDUAL_NORM_EXPONENT_MAX=1/2' "$f"
+          grep -Fq 'FIXED_HOST_BOUND_GLOBALIZES_TO_POWER_SAVING=false' "$f"
+          grep -Fq 'BALANCED_FOUR_HOST_GAUSSIAN_SQUARE_DIVISOR_INCIDENCE_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=7/8' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4cg' "$f"
