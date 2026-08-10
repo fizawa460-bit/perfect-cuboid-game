@@ -6,24 +6,19 @@ This contract governs every literature theorem used as a proof input in Stage14 
 
 ```text
 CANDIDATE
-  theorem located but hypotheses not yet mapped
-
 HYPOTHESIS_MAPPED
-  every required hypothesis has a repository proof/check or an explicit open gate
-
 REJECTED
-  at least one required hypothesis fails for the proposed specialization
-
 IMPORTED
-  all hypotheses required for the exact specialization are proved,
-  exceptions are treated, and the theorem output is connected to the intended receiver
 ```
+
+- `CANDIDATE`: theorem located but hypotheses not yet mapped.
+- `HYPOTHESIS_MAPPED`: every required hypothesis has a repository proof/check or explicit open gate.
+- `REJECTED`: at least one required hypothesis fails for the proposed specialization.
+- `IMPORTED`: all hypotheses for the exact specialization are proved, exceptions are treated, uniformity is correct, and the theorem output is connected to the intended receiver.
 
 `REJECTED` is a useful terminal result. It must not be silently changed back to `CANDIDATE` by citing the same theorem under a different informal description.
 
 ## Mandatory theorem identity
-
-Record all of:
 
 ```text
 THEOREM_AUTHOR=
@@ -34,11 +29,9 @@ THEOREM_ROLE=
 EXACT_CONCLUSION_USED=
 ```
 
-A paper-level citation without the locator and exact conclusion is insufficient for `IMPORTED`.
+A paper-level citation without locator and exact conclusion is insufficient for `IMPORTED`.
 
 ## Mandatory hypothesis map
-
-For every candidate, fill the following ledger.
 
 ```text
 BASE_FIELD_AND_CHARACTERISTIC=
@@ -60,11 +53,11 @@ COMPLEXITY_CONSTANT_DEPENDENCE=
 OUTPUT_SCALE=
 ```
 
-Each nontrivial entry must point to a merged repository derivation or to the external theorem statement itself. If an entry is not required by the theorem, record `NOT_REQUIRED`; do not omit it ambiguously.
+Each nontrivial entry must point to a merged repository derivation or to the external theorem statement. If an item is not required by the theorem, record `NOT_REQUIRED` rather than omitting it.
 
 ## Stage14 object map
 
-The import must explicitly identify the Stage14 variables with theorem variables. In a mixed character sum, for example, record:
+Explicitly identify live variables with theorem variables:
 
 ```text
 STAGE14_POLYNOMIAL_OR_SHEAF=
@@ -75,11 +68,11 @@ STAGE14_GOOD_PRIME_CONDITION=
 THEOREM_CHARACTERISTIC_EXCLUSIONS=
 ```
 
-A theorem about a fixed object is not automatically uniform in a moving Stage14 packet. Uniformity must be part of the theorem contract or separately proved.
+A theorem about a fixed object is not automatically uniform in a moving Stage14 packet.
 
 ## Exception split
 
-Before applying a generic theorem, partition every excluded parameter/frequency/stratum and give each piece a receiver:
+Before applying a generic theorem, partition every excluded parameter/frequency/stratum and give it a receiver:
 
 ```text
 GENERIC_CHAMBER -> external theorem
@@ -89,11 +82,11 @@ BAD_PRIMES      -> finite or B^o(1) charge with proof
 BOUNDARY        -> explicit boundary lemma
 ```
 
-The generic theorem is not an exhaustive estimate until all exceptions are closed.
+The generic theorem is not exhaustive until all exceptions are closed.
 
 ## Output transfer
 
-An imported complete-sum theorem is only one receiver level. Record every subsequent transfer separately:
+An imported complete-sum theorem occupies only one receiver level:
 
 ```text
 external complete-sum bound
@@ -105,11 +98,11 @@ external complete-sum bound
  -> exhaustive whole-family recombination
 ```
 
-No arrow may be skipped merely because the exponents look compatible.
+No arrow may be skipped because the exponents merely look compatible.
 
 ## Evidence versus theorem
 
-Finite-field enumeration, numerical traces, symbolic discriminants, and small-prime checks are deterministic regressions and hypothesis diagnostics. They may confirm code and expose exceptions, but they do not replace the imported theorem or prove its uniform asymptotic conclusion.
+Finite-field enumeration, numerical traces, symbolic discriminants, and small-prime checks are regressions and hypothesis diagnostics. They do not replace a uniform theorem.
 
 ## Live Stage14 case study
 
@@ -121,13 +114,11 @@ For
 H(R,S)=(1-R^2 S^2)(S^2-R^2),
 ```
 
-the top homogeneous piece contains repeated factors `R^2 S^2`. Merged s7-10 therefore records
+the top homogeneous piece contains repeated factors `R^2 S^2`. Merged s7-10 records
 
 ```text
 DIRECT_KATZ_2007_DELIGNE_POLYNOMIAL_SHORTCUT_APPLICABLE=false.
 ```
-
-The desired `O(p)` conclusion does not make that shortcut applicable.
 
 ### Imported route A: Katz--Laumon stationary phase
 
@@ -135,22 +126,30 @@ Merged s7-10 maps the finite divisor to four multiplicity-one SNC components, pr
 
 ### Imported route B: Lei Fu Newton-polyhedron theorem
 
-Merged 4by performs an exact four-Kummer Gauss lift to a six-variable Laurent polynomial, proves full-dimensional Newton support and face nondegeneracy for `h != +/-k`, and proves exact zero on the two exceptional frequency lines. Lei Fu's Corollary 0.3 then gives the torus `O(p)` scale; coordinate axes are handled directly.
+Merged 4by performs a four-Kummer Gauss lift to a six-variable Laurent polynomial, proves full-dimensional Newton support and face nondegeneracy for `h != +/-k`, and proves exact zero on the exceptional frequency lines. Lei Fu Corollary 0.3 gives the torus `O(p)` scale; axes are handled directly.
 
-These are two valid theorem imports of the same live receiver. They are cross-checks, not two multiplicative savings.
+These are two valid imports of the same receiver. They are cross-checks, not multiplicative savings.
 
-## Current theorem consequence
+## Theorem consequence versus current global ledger
 
-The imported all-frequency two-cell transform gives
+The imported all-frequency two-cell transform gives the reusable theorem
 
 ```text
 N_2cell(R,S) << (RS)^(2/3) B^o(1)
 ```
 
-and, after the already-merged transfer/reoptimization,
+and historically yielded
 
 ```text
 V(B) << B^(13/14+o(1)).
 ```
 
-The current square-root gap is `3/7`; merged 4bz records `13/14` as the present square-root square-sieve architecture barrier.
+Merged s7-13 later reuses this same two-cell theorem inside a finer full-coordinate common refinement and improves the terminal whole-family ledger to
+
+```text
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8
+CURRENT_REMAINING_GAP_TO_SQRT=3/8
+FULL_COORDINATE_REFINEMENT_ARCHITECTURE_BARRIER=7/8
+```
+
+Thus an external theorem import can remain current as a receiver even after the global exponent it first produced becomes historical.
