@@ -5,6 +5,7 @@ on:
     paths:
       - 'stages/stage14/14-t49/**'
       - 'stages/stage14/scripts/14-t/t49_external_frobenius_amplifier_audit.py'
+      - 'stages/stage14/scripts/14-t/t49_validate_frozen.py'
       - 'stages/stage14/data/14-t49/**'
       - '.github/workflows/stage14-t49-external-frobenius-amplifier.yml'
   workflow_dispatch:
@@ -20,3 +21,5 @@ jobs:
         run: python stages/stage14/scripts/tH13/sparse_many_conductor_adapter_audit.py
       - name: Run t49 external Frobenius amplifier audit
         run: python stages/stage14/scripts/14-t/t49_external_frobenius_amplifier_audit.py
+      - name: Validate frozen t49 ledger and boundary
+        run: python stages/stage14/scripts/14-t/t49_validate_frozen.py
