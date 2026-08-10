@@ -50,8 +50,9 @@ jobs:
 
       - name: Lock immutable H protocol
         run: |
-          grep -Fq 'ONE_H_REQUEST_ONE_IMMUTABLE_SOURCE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
-          grep -Fq 'RUNNING_H_TARGET_MAY_CHASE_PARENT_REFINEMENTS=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
 
       - name: Lock t83 theorem boundary
         run: |
