@@ -1,0 +1,37 @@
+name: Stage14-toolbox-ae local descent interface audit
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage14-toolbox/**'
+      - 'stages/stage14/14-toolbox-ae/**'
+      - 'stages/stage14/scripts/14-toolbox-ae/**'
+      - 'stages/stage14/scripts/14-toolbox-ad/**'
+      - '.github/workflows/stage14-toolbox-ae.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run local descent five-column interface audit
+        run: python stages/stage14/scripts/14-toolbox-ae/local_descent_interface_audit.py
+      - name: Compile audits
+        run: |
+          python -m py_compile stages/stage14/scripts/14-toolbox-ae/local_descent_interface_audit.py
+          python -m py_compile stages/stage14/scripts/14-toolbox-ad/pythagorean_formula_audit.py
+      - name: Regress Pythagorean formula atlas
+        run: python stages/stage14/scripts/14-toolbox-ad/pythagorean_formula_audit.py
+      - name: Validate toolbox-ae boundary
+        run: |
+          grep -q 'STAGE14_TOOLBOX_AE=COMPLETE_LOCAL_2_DESCENT_FIVE_COLUMN_INTERFACE' stages/stage14/14-toolbox-ae/result.md
+          grep -q 'S5_S6_ORIENTATION_ADAPTER_FROZEN=true' stages/stage14/14-toolbox-ae/result.md
+          grep -q 'Q2_COVERING_SOLUBLE_STATE_COUNT=8' stages/stage14/14-toolbox-ae/result.md
+          grep -q 'NEXT=Stage14-toolbox-af integral global-small-point witness formulas' stages/stage14/14-toolbox-ae/result.md
