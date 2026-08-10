@@ -1,0 +1,70 @@
+name: Stage14-X6 singular elimination four-root CRT
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X6/**'
+      - 'stages/stage14/data/14-X6/**'
+      - 'stages/stage14/scripts/14-X6/**'
+      - '.github/workflows/stage14-X6-singular-elimination-four-root-crt.yml'
+      - 'stages/stage14/14-X5/**'
+      - 'stages/stage14/14-s7-28/**'
+      - 'stages/stage14/14-4cg/**'
+      - 'stages/stage14/14-4cn/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X6 singular / four-root audit
+        run: python stages/stage14/scripts/14-X6/singular_elimination_four_root_crt_audit.py
+
+      - name: Compile Stage14-X6 audit
+        run: python -m py_compile stages/stage14/scripts/14-X6/singular_elimination_four_root_crt_audit.py
+
+      - name: Run merged Stage14-s7-28 regression
+        run: python stages/stage14/scripts/14-s7-28/primitive_ratio_reconstruction_audit.py
+
+      - name: Run merged Stage14-X5 regression
+        run: python stages/stage14/scripts/14-X5/singular_biquadratic_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'STAGE14_X5=COMPLETE_RECIPROCAL_BIQUADRATIC_SINGULAR_LOCUS_AND_POSITIVE_COMPONENT_REDUCTION' stages/stage14/14-X5/result.md
+          grep -Fq 'PHYSICAL_SINGULAR_HOST_IDENTITY=D*(Q-P)=A*(Q+P)' stages/stage14/14-X5/result.md
+          grep -Fq 'STAGE14_S7_28=COMPLETE_RATIO_SINGULAR_CLASSIFICATION_AND_PRIMITIVE_MODULUS_PAIR_RECONSTRUCTION' stages/stage14/14-s7-28/result.md
+          grep -Fq 'GENERIC_GENUS_ONE_RECEIVER_MINIMAL=false' stages/stage14/14-s7-28/result.md
+          grep -Fq 'REMAINING_RECEIVER=TopThetaPrimitiveAgreementQuadraticValueDivisibilityIncidence' stages/stage14/14-s7-28/result.md
+          grep -Fq 'g_1 g_2 K_switch H_k^+' stages/stage14/14-4cg/result.md
+          grep -Fq 'STAGE14_4CN=COMPLETE_PRIMITIVE_RATIO_INJECTIVITY_AND_RECIPROCAL_EDWARDS_SINGULAR_SMOOTH_SPLIT' stages/stage14/14-4cn/result.md
+
+      - name: Lock Stage14-X6 theorem boundary
+        run: |
+          f=stages/stage14/14-X6/result.md
+          grep -Fq 'STAGE14_X6=COMPLETE_TOP_THETA_SINGULAR_ELIMINATION_AND_PRIMITIVE_FOUR_ROOT_CRT_REDUCTION' "$f"
+          grep -Fq 'MERGED_X5_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_S7_28_IMPORTED=true' "$f"
+          grep -Fq 'MERGED_4CG_IMPORTED=true' "$f"
+          grep -Fq 'X1_CHARGED_ONCE_QUANTIFIER_ORDER_PRESERVED=true' "$f"
+          grep -Fq 'SINGULAR_FORCES_ODDPART_K_SWITCH=1' "$f"
+          grep -Fq 'SINGULAR_FORCES_ODDPART_XI_SWITCH=1' "$f"
+          grep -Fq 'TOP_THETA_LAMBDA4_SINGULAR_BRANCH_EMPTY=true' "$f"
+          grep -Fq 'TOP_THETA_CAYLEY_SINGULAR_CROSS_ROLE_INCIDENCE_PROVED_ZERO=true' "$f"
+          grep -Fq 'FIXED_LAMBDA_GENUS_ONE_SLICE_MINIMAL_FOR_X_ROUTE=false' "$f"
+          grep -Fq 'PRIMITIVE_PLUS_MINUS_GCD_DIVIDES=2*a^2*b^2' "$f"
+          grep -Fq 'OUTSIDE_FIXED_BAD_SUPPORT_MOVING_KERNELS_DISJOINT=true' "$f"
+          grep -Fq 'XI_SWITCH_GOOD_PRIMES_ARE_1_MOD_4=true' "$f"
+          grep -Fq 'REMAINING_RECEIVER=TopThetaPrimitiveAgreementFourRootCRTQuadraticValueIncidence' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8' "$f"
+          grep -Fq 'NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'X6_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X7' "$f"
