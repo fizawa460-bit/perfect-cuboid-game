@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+from math import gcd
 from pathlib import Path
 import json
 import runpy
@@ -24,13 +25,8 @@ def common_packet_key(s):
 
 def descended_packet_key(s):
     return (
-        s["branch"],
-        tuple(s["U"]),
-        tuple(s["V"]),
-        s["eps"],
-        s["m"],
-        s["n"],
-        s["delta"],
+        s["branch"], tuple(s["U"]), tuple(s["V"]),
+        s["eps"], s["m"], s["n"], s["delta"],
     )
 
 
@@ -55,16 +51,13 @@ def energy_by_partition(states, keyfn):
 
 def principal_collision_breakdown(states):
     by_kernel = defaultdict(list)
-    for idx, s in enumerate(states):
-        by_kernel[int(s["kernel"])].append((idx, s))
+    for s in states:
+        by_kernel[int(s["kernel"])].append(s)
 
     counts = Counter()
-    off_examples = []
-    cross_kernel_hist = Counter()
-
-    for kernel, members in by_kernel.items():
-        for ia, a in members:
-            for ib, b in members:
+    for members in by_kernel.values():
+        for a in members:
+            for b in members:
                 counts["global"] += 1
                 same_dir = direction_key(a) == direction_key(b)
                 same_cov = ordered_cover_key(a) == ordered_cover_key(b)
@@ -76,10 +69,7 @@ def principal_collision_breakdown(states):
                 same_common = common_packet_key(a) == common_packet_key(b)
                 same_desc = descended_packet_key(a) == descended_packet_key(b)
 
-                if same_dir:
-                    counts["same_direction"] += 1
-                else:
-                    counts["cross_direction"] += 1
+                counts["same_direction" if same_dir else "cross_direction"] += 1
                 if same_cov:
                     counts["same_ordered_cover"] += 1
                 if same_ucov:
@@ -96,40 +86,16 @@ def principal_collision_breakdown(states):
                     counts["same_common_packet"] += 1
                 if same_desc:
                     counts["same_descended_packet"] += 1
-                if (not same_dir) and (not same_ucov):
+                if not same_dir and not same_ucov:
                     counts["cross_direction_and_cover"] += 1
-                if (not same_dir) and same_f:
+                if not same_dir and same_f:
                     counts["cross_direction_same_exact_F"] += 1
-                if (not same_dir) and same_ell:
+                if not same_dir and same_ell:
                     counts["cross_direction_same_ell"] += 1
-                if (not same_dir) and same_common:
+                if not same_dir and same_common:
                     counts["cross_direction_same_common_packet"] += 1
-                if (not same_dir) and same_desc:
+                if not same_dir and same_desc:
                     counts["cross_direction_same_descended_packet"] += 1
-
-                if ia < ib and not same_dir and len(off_examples) < 40:
-                    off_examples.append(
-                        {
-                            "kernel": kernel,
-                            "same_exact_F": same_f,
-                            "same_ell": same_ell,
-                            "same_unordered_cover": same_ucov,
-                            "same_common_packet": same_common,
-                            "same_descended_packet": same_desc,
-                            "left": {
-                                "a": a["a"], "b": a["b"], "p": a["p"], "q": a["q"],
-                                "ell": a["ell"], "branch": a["branch"], "F": a["F"],
-                                "m": a["m"], "n": a["n"], "delta": a["delta"],
-                                "U": list(a["U"]), "V": list(a["V"]),
-                            },
-                            "right": {
-                                "a": b["a"], "b": b["b"], "p": b["p"], "q": b["q"],
-                                "ell": b["ell"], "branch": b["branch"], "F": b["F"],
-                                "m": b["m"], "n": b["n"], "delta": b["delta"],
-                                "U": list(b["U"]), "V": list(b["V"]),
-                            },
-                        }
-                    )
 
     row_energy, direction_cells = energy_by_partition(states, direction_key)
     ordered_cover_energy, ordered_cover_cells = energy_by_partition(states, ordered_cover_key)
@@ -138,22 +104,47 @@ def principal_collision_breakdown(states):
     common_packet_energy, common_packet_cells = energy_by_partition(states, common_packet_key)
     descended_packet_energy, descended_packet_cells = energy_by_partition(states, descended_packet_key)
 
-    assert counts["global"] == 2368
-    assert row_energy == 2240
-    assert counts["same_direction"] == row_energy
-    assert counts["cross_direction"] == 128
+    expected = {
+        "global": 2368,
+        "same_direction": 2240,
+        "cross_direction": 128,
+        "cross_direction_and_cover": 104,
+        "cross_direction_same_common_packet": 16,
+        "cross_direction_same_descended_packet": 8,
+        "cross_direction_same_ell": 16,
+        "cross_direction_same_exact_F": 8,
+        "same_U": 2304,
+        "same_V": 1132,
+        "same_common_packet": 2256,
+        "same_descended_packet": 1128,
+        "same_ell": 2256,
+        "same_exact_F": 2248,
+        "same_ordered_cover": 1132,
+        "same_unordered_cover": 2264,
+    }
+    assert dict(counts) == expected
+    assert row_energy == counts["same_direction"] == 2240
+
+    partitions = {
+        "direction": {"cells": direction_cells, "energy": row_energy},
+        "ordered_cover": {"cells": ordered_cover_cells, "energy": ordered_cover_energy},
+        "unordered_cover": {"cells": unordered_cover_cells, "energy": unordered_cover_energy},
+        "ell": {"cells": ell_cells, "energy": ell_energy},
+        "common_packet": {"cells": common_packet_cells, "energy": common_packet_energy},
+        "descended_packet": {"cells": descended_packet_cells, "energy": descended_packet_energy},
+    }
+    assert partitions == {
+        "direction": {"cells": 137, "energy": 2240},
+        "ordered_cover": {"cells": 216, "energy": 1132},
+        "unordered_cover": {"cells": 108, "energy": 2264},
+        "ell": {"cells": 87, "energy": 2256},
+        "common_packet": {"cells": 37, "energy": 2256},
+        "descended_packet": {"cells": 108, "energy": 1128},
+    }
 
     return {
         "ordered_collision_categories": dict(sorted(counts.items())),
-        "partition_energies": {
-            "direction": {"cells": direction_cells, "energy": row_energy},
-            "ordered_cover": {"cells": ordered_cover_cells, "energy": ordered_cover_energy},
-            "unordered_cover": {"cells": unordered_cover_cells, "energy": unordered_cover_energy},
-            "ell": {"cells": ell_cells, "energy": ell_energy},
-            "common_packet": {"cells": common_packet_cells, "energy": common_packet_energy},
-            "descended_packet": {"cells": descended_packet_cells, "energy": descended_packet_energy},
-        },
-        "cross_direction_unordered_examples": off_examples,
+        "partition_energies": partitions,
     }
 
 
@@ -163,7 +154,6 @@ def fourth_energy_decomposition(states):
     A1 = sum(v * v for v in single.values())
 
     def cross_kernel(s, t):
-        from math import gcd
         g = gcd(s, t)
         return (s // g) * (t // g)
 
@@ -176,12 +166,16 @@ def fourth_energy_decomposition(states):
     E4 = sum(v * v for v in conv.values())
     principal_fourth = A1 * A1
     nonprincipal_fourth = E4 - principal_fourth
+    assert H == 1120 and A1 == 2368 and E4 == 21_193_216
     assert conv[1] == A1
-    assert E4 == 21_193_216
-    assert principal_fourth > 0 and nonprincipal_fourth > 0
 
-    top = sorted(conv.items(), key=lambda kv: (-kv[1], kv[0]))[:20]
-    assert top[0][0] == 1 and top[0][1] == A1
+    top = sorted(conv.items(), key=lambda kv: (-kv[1], kv[0]))[:9]
+    assert top[0] == (1, 2368)
+    top_nonprincipal = top[1:9]
+    assert top_nonprincipal == [
+        (91, 160), (209, 152), (286, 136), (34034, 136),
+        (41, 128), (329, 128), (4641, 128), (11, 120),
+    ]
 
     return {
         "H": H,
@@ -192,7 +186,8 @@ def fourth_energy_decomposition(states):
         "principal_fraction": principal_fourth / E4,
         "E4_over_H2": E4 / (H * H),
         "A1_over_H": A1 / H,
-        "top_cross_kernel_multiplicities": [[k, v] for k, v in top],
+        "largest_nonprincipal_cross_kernel_multiplicity": top_nonprincipal[0][1],
+        "top_nonprincipal_cross_kernels": [[k, v] for k, v in top_nonprincipal],
         "universal_inequalities": {
             "lower": "E4>=A1^2 (principal cross kernel alone)",
             "upper": "E4<=A1*H^2 by Cauchy: c(t)<=A1 and sum_t c(t)=H^2",
@@ -212,14 +207,11 @@ def main():
     states = t36["build_frozen_states"]()
     assert len(states) == 1120
 
-    principal = principal_collision_breakdown(states)
-    fourth = fourth_energy_decomposition(states)
-
     report = {
         "stage": "14-t41",
         "frozen_audit": {
-            "principal_collision_breakdown": principal,
-            "fourth_energy": fourth,
+            "principal_collision_breakdown": principal_collision_breakdown(states),
+            "fourth_energy": fourth_energy_decomposition(states),
         },
         "two_sided_incidence": {
             "row_theorem": "t36: for each fixed direction d, sum_k r_{d,k}^2 <= J_d*B^o(1)",
@@ -242,9 +234,7 @@ def main():
             ),
         },
         "energy_boundary": {
-            "principal": (
-                "A1 splits into already-controlled same-direction energy plus genuine off-direction Kummer-surface incidences"
-            ),
+            "principal": "A1 splits into already-controlled same-direction energy plus genuine off-direction Kummer-surface incidences",
             "fourth": (
                 "E4 is the multiplicative energy of the squareclass multiset; A1 alone only gives "
                 "A1^2 <= E4 <= A1*H^2, so near-linear A1 would still not prove near-quadratic E4"
