@@ -1,4 +1,4 @@
-name: Stage14-s7-33 canonical common-core agreement bridge
+name: Stage14-s7-33 common-core Gaussian orientation bridge
 
 on:
   pull_request:
@@ -9,6 +9,7 @@ on:
       - 'stages/stage14/14-s7-32/**'
       - 'stages/stage14/14-4ct/**'
       - 'stages/stage14/14-4cs/**'
+      - 'stages/stage14/14-X10/**'
   workflow_dispatch:
 
 jobs:
@@ -25,8 +26,16 @@ jobs:
         run: python stages/stage14/scripts/14-s7-33/shared_common_core_orientation_probe.py
       - name: Run strong-split counterexample audit
         run: python stages/stage14/scripts/14-s7-33/transfer_overlap_probe.py
+      - name: Run theorem boundary audit
+        run: python stages/stage14/scripts/14-s7-33/theorem_boundary_audit.py
       - name: Compile audits
         run: python -m py_compile stages/stage14/scripts/14-s7-33/*.py
+      - name: Run s7-32 regression
+        run: python stages/stage14/scripts/14-s7-32/one_host_gaussian_boundary_audit.py
+      - name: Run 4ct regression
+        run: python stages/stage14/scripts/14-4/top_corner_gaussian_core_lift_audit.py
+      - name: Run X10 regression
+        run: python stages/stage14/scripts/14-X10/top_corner_h_cayley_cofactor_audit.py
       - name: Predecessor locks
         run: |
           grep -Fq 'STAGE14_S7_32=COMPLETE_ONE_HOST_GAUSSIAN_RECONSTRUCTION_AND_UNIQUE_TOP_CORNER_5_8_LOCALIZATION' stages/stage14/14-s7-32/result.md
@@ -34,3 +43,18 @@ jobs:
           grep -Fq 'ODDPART_H_EQUALS_ODDPART_GCD_XY=true' stages/stage14/14-4cs/result.md
           grep -Fq 'STAGE14_4CT=COMPLETE_TOP_CORNER_RESIDUAL_HOST_GCD_PEEL_AND_PRIMITIVE_GAUSSIAN_COMMON_CORE_LIFT' stages/stage14/14-4ct/result.md
           grep -Fq 'CANONICAL_GOOD_COMMON_CORE_GAUSSIAN_DIVISOR_EXISTS=true' stages/stage14/14-4ct/result.md
+          grep -Fq 'STAGE14_X10=COMPLETE_TOP_CORNER_ROOT_GCD_DICHOTOMY_AND_DOMINANT_CAYLEY_SHORT_COFACTOR_REDUCTION' stages/stage14/14-X10/result.md
+          grep -Fq 'DOMINANT_CAYLEY_SHORT_COFACTOR_REDUCTION_PROVED=true' stages/stage14/14-X10/result.md
+      - name: Stage14-s7-33 theorem locks
+        run: |
+          f=stages/stage14/14-s7-33/result.md
+          grep -Fq 'STAGE14_S7_33=COMPLETE_COMMON_CORE_GAUSSIAN_ORIENTATION_IDENTIFICATION_AND_TRANSFER_NOGO' "$f"
+          grep -Fq 'PRIMITIVE_XI_ROOT_LINE_GAUSSIAN_ORIENTATION_IDENTIFIED=true' "$f"
+          grep -Fq 'COMMON_CORE_ORIENTATION_DOUBLE_CHARGE_FORBIDDEN=true' "$f"
+          grep -Fq 'COMMON_CORE_CANCELLED_GAUSSIAN_TRANSFER_IDENTITY_PROVED=true' "$f"
+          grep -Fq 'STRONG_CANONICAL_ST_SPLIT_UNIVERSALLY_VALID=false' "$f"
+          grep -Fq 'FINITE_STRONG_CANONICAL_SPLIT_FAILURES=23' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=5/8' "$f"
+          grep -Fq 'REMAINING_RECEIVER=TopCornerSmallRootGcdCommonCoreCancelledGaussianSquareDivisorTransferIncidence' "$f"
+          grep -Fq 'S7_33_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-34' "$f"
