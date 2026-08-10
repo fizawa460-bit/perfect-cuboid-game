@@ -1,0 +1,18 @@
+name: Stage14 toolbox-at obligation ledger
+
+on:
+  pull_request:
+    paths:
+      - "docs/stage14-toolbox/current-adapter-obligation-ledger.md"
+      - "stages/stage14/14-toolbox-at/**"
+      - "stages/stage14/scripts/14-toolbox-at/**"
+      - ".github/workflows/stage14-toolbox-at.yml"
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Audit adapter obligations and failure modes
+        run: python3 stages/stage14/scripts/14-toolbox-at/adapter_obligation_audit.py
