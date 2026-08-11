@@ -1,0 +1,23 @@
+name: Stage14-t-batch t129-t131 scalar norm character split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t129/**'
+      - 'stages/stage14/14-t130/**'
+      - 'stages/stage14/14-t131/**'
+      - 'stages/stage14/14-t-batch-t129-131/**'
+      - '.github/workflows/stage14-t-batch-t129-131.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t129-t131 deterministic audit
+        run: python stages/stage14/14-t-batch-t129-131/audit.py
+      - name: Regress previous t125-t128+tH29 batch
+        run: python stages/stage14/14-t-batch-t125-128-th29/audit.py
