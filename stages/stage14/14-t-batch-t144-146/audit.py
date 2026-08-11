@@ -17,7 +17,8 @@ t140 = text('stages/stage14/14-t140/result.md')
 
 # Predecessor / frozen boundary locks.
 assert 'NEXT=Stage14-t144' in t143
-assert 'h*k = epsilon*m' in t65
+# t65 writes the exact relation in LaTeX, not ASCII variable names.
+assert 'hk=\\varepsilon m' in t65
 assert 'D_Ubeta <= m/2' in t82
 assert 'Y/(h*k0)+1' in t140
 
