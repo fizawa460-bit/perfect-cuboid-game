@@ -38,18 +38,14 @@ for D in range(2, 161):
         assert (xp - xm) // 2 == A * A
         reconstruction_checks += 4
 
-        # Any odd common prime of a Pythagorean side and X0 must already
-        # come from the primitive-coordinate gcd.  Remove g^2 because
-        # xp/xm scale quadratically in a common factor.
-        g_xp_x0 = oddpart(gcd(xp, x0))
-        g_xm_x0 = oddpart(gcd(xm, x0))
-        assert g_xp_x0 == 1 or g_xp_x0 <= oddpart(g * g)
-        assert g_xm_x0 == 1 or g_xm_x0 <= oddpart(g * g)
-
-        if g == 1:
-            assert g_xp_x0 == 1
-            assert g_xm_x0 == 1
-            assert oddpart(gcd(xp, xm)) == 1
+        # After writing D=g*D0, A=g*A0 with gcd(D0,A0)=1, the odd gcd
+        # of any two Pythagorean sides is exactly oddpart(g^2).  Thus the
+        # primitive peel removes all odd common support, not merely a bounded
+        # portion of it.
+        expected_odd_common = oddpart(g * g)
+        assert oddpart(gcd(xp, x0)) == expected_odd_common
+        assert oddpart(gcd(xm, x0)) == expected_odd_common
+        assert oddpart(gcd(xp, xm)) == expected_odd_common
         primitive_gcd_checks += 3
 
 
