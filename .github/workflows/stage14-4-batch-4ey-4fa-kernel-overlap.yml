@@ -36,6 +36,6 @@ jobs:
           grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4ey-4fa-report.md
           grep -Fq 'NEXT=Stage14-4fb' stages/stage14/14-4-batch/4ey-4fa-report.md
       - name: Previous mainline regression
-        run: python stages/stage14/scripts/14-4/batch_4ev_4ex_radial_support_audit.py
+        run: python stages/stage14/scripts/14-4/batch_4ev_4ex_radial_square_kernel_audit.py
       - name: Diff check
         run: git diff --check origin/main...HEAD
