@@ -1,0 +1,62 @@
+name: Stage14-s-batch s7-81..83 squareclass mobility
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-81/**'
+      - 'stages/stage14/14-s7-82/**'
+      - 'stages/stage14/14-s7-83/**'
+      - 'stages/stage14/14-s-batch/s7-81-83-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_81_83_squareclass_mobility_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-81-83-squareclass-mobility.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_81_83_squareclass_mobility_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_81_83_squareclass_mobility_audit.py
+
+      - name: Regress merged mainline 4ev..4ex
+        run: python stages/stage14/scripts/14-4/batch_4ev_4ex_radial_square_kernel_audit.py
+
+      - name: Regress merged mainline 4eq..4eu
+        run: python stages/stage14/scripts/14-4/batch_4eq_4eu_radial_diffuse_audit.py
+
+      - name: Regress merged Work-boX27
+        run: python stages/stage14/scripts/14-Work-boX27/polynomial_outer_mobility_audit.py
+
+      - name: Lock integrated sH batch contract
+        run: |
+          grep -Fq 'STAGE14_S_BATCH_INTEGRATES_NEW_SH=true' docs/stage14-s-batch-task-contract.md
+          grep -Fq 'STAGE14_S_BATCH_H_COUNTS_AS_WORK_UNIT=true' docs/stage14-s-batch-task-contract.md
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'STAGE14_S7_81=COMPLETE_FIXED_KERNEL_SQUARE_VALUE_TO_FOUR_FACTOR_SQUARECLASS_RELATION' stages/stage14/14-s7-81/result.md
+          grep -Fq 'FOUR_FACTOR_PRODUCT_SQUARECLASS_EQUALS_FIXED_K=true' stages/stage14/14-s7-81/result.md
+          grep -Fq 'STAGE14_S7_82=COMPLETE_FIXED_KERNEL_RADIAL_SUPPORT_TO_ONE_FACTOR_POLYNOMIAL_OUTER_MOBILITY' stages/stage14/14-s7-82/result.md
+          grep -Fq 'POLYNOMIAL_RADIAL_SUPPORT_FORCES_POLYNOMIAL_FACTOR_VALUE_SUPPORT=true' stages/stage14/14-s7-82/result.md
+          grep -Fq 'STAGE14_S7_83=COMPLETE_POLYNOMIAL_FACTOR_MOBILITY_TO_KERNEL_DIFFUSION_OR_SQUARE_PART_MOBILITY_SPLIT' stages/stage14/14-s7-83/result.md
+          grep -Fq 'POLYNOMIAL_FACTOR_MOBILITY_SPLIT_QUANTITATIVE=true' stages/stage14/14-s7-83/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-81-83-report.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=NONE' stages/stage14/14-s-batch/s7-81-83-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-81-83-report.md
+          grep -Fq 'NEXT=Stage14-s7-84' stages/stage14/14-s-batch/s7-81-83-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
