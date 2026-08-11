@@ -1,0 +1,29 @@
+name: Stage14-t99 boundary class pigeonhole
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t99/**'
+      - '.github/workflows/stage14-t99.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify predecessor
+        run: |
+          grep -q 'NEXT=Stage14-t99' stages/stage14/14-t98/boundary.md
+          grep -q 'TH27_NEEDED=false' stages/stage14/14-t98/boundary.md
+      - name: Run deterministic pigeonhole audit
+        run: python stages/stage14/14-t99/audit.py
+      - name: Verify t99 boundary
+        run: |
+          grep -q 'SINGLE_ELEMENTARY_BOUNDARY_PIGEONHOLE_PROVED=true' stages/stage14/14-t99/boundary.md
+          grep -q 'TH27_NEEDED=true' stages/stage14/14-t99/boundary.md
+          grep -q 'NEXT=Stage14-t100' stages/stage14/14-t99/boundary.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t99/boundary.md
