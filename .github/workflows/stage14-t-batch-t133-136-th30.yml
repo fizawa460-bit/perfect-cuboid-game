@@ -1,0 +1,25 @@
+name: Stage14-t-batch t133-t136 th30 fixed residue hyperbola
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t133/**'
+      - 'stages/stage14/14-t134/**'
+      - 'stages/stage14/14-t135/**'
+      - 'stages/stage14/14-t136/**'
+      - 'stages/stage14/14-tH30/**'
+      - 'stages/stage14/14-t-batch-t133-136-th30/**'
+      - '.github/workflows/stage14-t-batch-t133-136-th30.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t133-t136 plus tH30 deterministic audit
+        run: python stages/stage14/14-t-batch-t133-136-th30/audit.py
+      - name: Regress merged t132 localization
+        run: python stages/stage14/14-t-batch-t132/audit.py
