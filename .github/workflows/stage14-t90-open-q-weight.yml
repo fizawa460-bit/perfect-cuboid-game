@@ -1,0 +1,104 @@
+name: Stage14-t90 open bounded Q weight
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t90/**'
+      - 'stages/stage14/data/14-t90/**'
+      - 'stages/stage14/scripts/14-t/t90_*'
+      - '.github/workflows/stage14-t90-open-q-weight.yml'
+      - 'stages/stage14/14-t89/**'
+      - 'stages/stage14/14-t78/**'
+      - 'stages/stage14/14-t87/**'
+      - 'stages/stage14/14-tH25/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-t90 deterministic audit
+        run: python stages/stage14/scripts/14-t/t90_open_q_weight_audit.py | tee /tmp/t90.json
+
+      - name: Stage14-t90 frozen validator
+        run: python stages/stage14/scripts/14-t/t90_validate_frozen.py
+
+      - name: Compare deterministic output with frozen data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          live=json.loads(Path('/tmp/t90.json').read_text())
+          frozen=json.loads(Path('stages/stage14/data/14-t90/open_q_weight_frozen.json').read_text())
+          for key,value in live.items():
+              assert frozen[key] == value, (key, frozen[key], value)
+          print('Stage14-t90 deterministic output matches frozen data')
+          PY
+
+      - name: Compile t90 scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t90_open_q_weight_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t90_validate_frozen.py
+
+      - name: Regress merged t89
+        run: python stages/stage14/scripts/14-t/t89_strong_gap_q_weight_audit.py >/dev/null
+
+      - name: Lock merged t89 boundary
+        run: |
+          f=stages/stage14/14-t89/result.md
+          grep -Fq 'STAGE14_T89=COMPLETE_STRONG_FIXED_U_Q_GAP_AND_SHORT_COVER_MASK_ABSORPTION' "$f"
+          grep -Fq 'PHYSICAL_COMPLETION_BOUNDED_Q_WEIGHT_PROVED=true' "$f"
+          grep -Fq 'ONE_DIMENSIONAL_WEIGHTED_Q_KERNEL_PROVED=true' "$f"
+          grep -Fq 'TH26_NEEDED=false' "$f"
+
+      - name: Lock four-cell and projective predecessors
+        run: |
+          grep -Fq 'ANGULAR_GCD_FOUR_CELL_DECOMPOSITION_PROVED=true' stages/stage14/14-t78/result.md
+          grep -Fq 'ANGULAR_GCD_MOBIUS_TENSOR_DECOMPOSITION_PROVED=true' stages/stage14/14-t78/result.md
+          grep -Fq 'PROJECTIVE_CHARACTER_ORTHOGONALITY_EXACT=true' stages/stage14/14-t87/result.md
+          grep -Fq 'HARD_SELECTOR_CONDUCTOR_ENDPOINT=d=Bo1' stages/stage14/14-t87/result.md
+          grep -Fq 'FIXED_TAG_CAYLEY_ROOTLINE_ORIENTATION_MULTIPLICITY=1' stages/stage14/14-t73/result.md
+
+      - name: Lock immutable H protocol and tH25
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'STAGE14_TH25=COMPLETE_T86_SNAPSHOT_FIXED_DISCRIMINANT_RING_CLASS_PRIME_VALUE_APPLICABILITY_AUDIT' stages/stage14/14-tH25/result.md
+
+      - name: Lock t90 theorem boundary
+        run: |
+          f=stages/stage14/14-t90/result.md
+          grep -Fq 'STAGE14_T90=COMPLETE_BOUNDED_Q_WEIGHT_OPENING_LOCAL_SELECTOR_PEEL_AND_GAUSSIAN_ORIENTATION_CORE' "$f"
+          grep -Fq 'PRIMITIVE_COVER_MOBIUS_EXPANSION_EXACT=true' "$f"
+          grep -Fq 'FOUR_CELL_LABELS_DETERMINED_BY_GAUSSIAN_LABEL=true' "$f"
+          grep -Fq 'ENDPOINT_PROJECTIVE_SELECTOR_CHARACTER_EXPANSION_EXACT=true' "$f"
+          grep -Fq 'Q_WEIGHT_REDUCED_TO_GAUSSIAN_ORIENTATION_SUM=true' "$f"
+          grep -Fq 'FULL_REDUCED_WEIGHT_MULTIPLICATIVE_PROVED=false' "$f"
+          grep -Fq 'ONE_DIMENSIONAL_CANONICAL_LPF_GAUSSIAN_ORIENTATION_CORRELATION_PROVED=true' "$f"
+          grep -Fq 'TH26_NEEDED=true' "$f"
+          grep -Fq 'TH26_DISPATCHED=false' "$f"
+          grep -Fq 'T_ROUTE_BLOCKED_WAITING_FOR_TH26=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t91' "$f"
+
+      - name: Lock current global non-cross-promotion ledger
+        run: |
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X15/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-X15/result.md
+          grep -Fq 'T87_CROSS_PROMOTED_TO_X15=false' stages/stage14/14-X15/result.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
