@@ -8,19 +8,19 @@ Batch start main:
 e601b1e4224e718eafa67018f964ca40ee607377
 ```
 
-Publication recheck observed newly merged main through
+Publication recheck observed latest merged main through
 
 ```text
-76bc8a4e59d8d220c58552e42dafef7d12ef55a3
+957f84101465959915058bd4e5aad012cc8c1312
 ```
 
-including merged `Stage14-s7-69..71` and t-batch `t106..108`. Unmerged work, including later open Work PRs, is advisory only and is not used as theorem source.
+including merged `Stage14-s7-69..71`, t-batch `t106..108`, `Stage14-Work-bmX25`, and `Stage14-tH28`. Work-bmX25 is compatible boundary context only: its common projected primitive Gaussian norm-form language explicitly proves no arithmetic adapter or cross-promotable saving. tH28 is a fixed-U negative applicability certificate and explicitly proves no whole-family cross-promotion. Neither supplies a theorem that changes the `4eb..4ef` conclusions below. Unmerged descendants remain advisory only.
 
 ## Stage summary
 
 `Stage14-4eb` substitutes the canonical primitive allocation coordinates into the first reciprocal equation and proves that it is exactly the reconstructed identity `(D+A)^2-(D-A)^2=4DA`. The first reciprocal layer has no independent fixed-power selector.
 
-`Stage14-4ec` consumes newly merged s7-69/70 and reduces the live reciprocal factor to the primitive Gaussian norm divisibility
+`Stage14-4ec` consumes merged s7-69/70 and reduces the live reciprocal factor to the primitive Gaussian norm divisibility
 
 ```text
 C0 | X0^2+Y0^2,
@@ -64,13 +64,17 @@ The second already has the merged auxiliary request `Stage14-sH71`. The first no
 ```text
 STAGE14_4_BATCH=COMPLETE_FIVE_STAGE_RUN
 BATCH_START_MAIN_SHA=e601b1e4224e718eafa67018f964ca40ee607377
-BATCH_PUBLICATION_MAIN_SHA=76bc8a4e59d8d220c58552e42dafef7d12ef55a3
+BATCH_PUBLICATION_MAIN_SHA=957f84101465959915058bd4e5aad012cc8c1312
 BATCH_REQUESTED_MAX_STAGE_COUNT=5
 BATCH_FIRST_STAGE=Stage14-4eb
 BATCH_LAST_STAGE=Stage14-4ef
 BATCH_SUBSTANTIVE_STAGE_COUNT=5
 BATCH_STOP_REASON=requested_stage_limit_reached_with_theorem_gates
 NEWLY_MERGED_S7_69_71_CONSUMED=true
+MERGED_WORK_BMX25_RECHECKED=true
+MERGED_TH28_RECHECKED=true
+WORK_BMX25_SAVING_CROSS_PROMOTED=false
+TH28_WHOLE_FAMILY_SAVING_CROSS_PROMOTED=false
 CURRENT_GLOBAL_RECEIVER=CanonicalBalancedIntegerGaussianThreeDivisorCorrelationDensity_x_ConditionalPrimitiveGaussianRootDensity
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
