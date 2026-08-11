@@ -1,0 +1,38 @@
+name: Stage14-t93 conjugation antipodal pairing
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t93/**'
+      - 'stages/stage14/scripts/14-t/t93_*'
+      - 'stages/stage14/data/14-t93/**'
+      - '.github/workflows/stage14-t93-conjugation-pairing.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Deterministic audit
+        run: python stages/stage14/scripts/14-t/t93_conjugation_pairing_audit.py | tee /tmp/t93.json
+      - name: Frozen validator
+        run: python stages/stage14/scripts/14-t/t93_validate_frozen.py
+      - name: Compare deterministic output with frozen data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          live=json.loads(Path('/tmp/t93.json').read_text())
+          frozen=json.loads(Path('stages/stage14/data/14-t93/conjugation_pairing_frozen.json').read_text())
+          assert live==frozen,(live,frozen)
+          print('Stage14-t93 deterministic output matches frozen data')
+          PY
+      - name: Lock t92 and tH26 boundaries
+        run: |
+          grep -q 'Stage14-t92' stages/stage14/14-t92/result.md
+          grep -q 'STAGE14_TH26=' stages/stage14/14-tH26/result.md
+      - name: Lock t93 boundary
+        run: |
+          grep -q 'PRINCIPAL_CUBE_MEAN_KILLED_BY_CONJUGATION=false' stages/stage14/14-t93/result.md
+          grep -q 'TH27_NEEDED=false' stages/stage14/14-t93/result.md
