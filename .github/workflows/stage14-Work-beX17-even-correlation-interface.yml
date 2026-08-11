@@ -32,6 +32,9 @@ jobs:
       - name: Run merged 4dk regression
         run: python stages/stage14/scripts/14-4/interior_dense_cell_audit.py
 
+      - name: Run merged 4dl publication regression
+        run: python stages/stage14/scripts/14-4/pairwise_correlation_localization_audit.py
+
       - name: Run merged s7-53 regression
         run: python stages/stage14/scripts/14-s7-53/pairwise_connected_cumulant_audit.py
 
@@ -48,12 +51,21 @@ jobs:
       - name: Lock current merged boundaries
         run: |
           grep -Fq 'STAGE14_4DK=COMPLETE_NEAR_MAXIMAL_CELL_INTERIOR_VARIANCE_REDUCTION' stages/stage14/14-4dk/result.md
+          grep -Fq 'STAGE14_4DL=COMPLETE_PAIRWISE_CORRELATION_COEFFICIENT_LOCALIZATION' stages/stage14/14-4dl/result.md
           grep -Fq 'STAGE14_S7_53=COMPLETE_PAIRWISE_VS_CONNECTED_TRIPLE_CUMULANT_REDUCTION' stages/stage14/14-s7-53/result.md
           grep -Fq 'STAGE14_T93=COMPLETE_ORIENTATION_CUBE_CONJUGATION_EVEN_ODD_SPLIT' stages/stage14/14-t93/result.md
-          grep -Fq 'PAIRWISE_AND_TRIPLE_COVARIANCE_REMAIN_MAIN_TERM_SCALE_POSSIBLE=true' stages/stage14/14-4dk/result.md
+          grep -Fq 'PAIRWISE_SQRT_SATURATION_REQUIRES_RIJ=Bo0=true' stages/stage14/14-4dl/result.md
           grep -Fq 'CONNECTED_TRIPLE_CUMULANT_BRANCH_SEPARATED=true' stages/stage14/14-s7-53/result.md
           grep -Fq 'ODD_WALSH_SECTOR_ANTIPODALLY_CENTERED=true' stages/stage14/14-t93/result.md
           grep -Fq 'CENTERED_EVEN_SPECTRUM_ELIMINATED=false' stages/stage14/14-t93/result.md
+
+      - name: Lock publication addendum
+        run: |
+          a=stages/stage14/14-Work-beX17/latest-main-addendum.md
+          grep -Fq 'PUBLICATION_RECHECK_CONSUMED_4DL=true' "$a"
+          grep -Fq 'AUDITED_THROUGH_MAINLINE_PUBLICATION=Stage14-4dl' "$a"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$a"
+          grep -Fq 'SAVING_CROSS_PROMOTABLE=false' "$a"
 
       - name: Lock beX17 theorem boundary
         run: |
