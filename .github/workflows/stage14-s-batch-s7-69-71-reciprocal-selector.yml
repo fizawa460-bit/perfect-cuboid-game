@@ -1,0 +1,44 @@
+name: Stage14-s-batch s7-69..71 reciprocal selector
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-69/**'
+      - 'stages/stage14/14-s7-70/**'
+      - 'stages/stage14/14-s7-71/**'
+      - 'stages/stage14/14-s-batch/**'
+      - 'stages/stage14/scripts/14-s-batch/**'
+      - '.github/workflows/stage14-s-batch-s7-69-71-reciprocal-selector.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_69_71_reciprocal_selector_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_69_71_reciprocal_selector_audit.py
+      - name: Regress merged s7-66..68 batch
+        run: python stages/stage14/scripts/14-s-batch/s7_66_68_allocation_normalization_audit.py
+      - name: Regress merged Work-blX24
+        run: python stages/stage14/scripts/14-Work-blX24/background_scale_relocation_audit.py
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=false' stages/stage14/14-s7-69/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=false' stages/stage14/14-s7-70/result.md
+          grep -Fq 'S7_71_NEW_AUXILIARY_H_NEEDED=true' stages/stage14/14-s7-71/result.md
+          grep -Fq 'NEXT=Stage14-sH71' stages/stage14/14-s7-71/result.md
+          grep -Fq 'BATCH_STOP_REASON=new_external_lemma_needed' stages/stage14/14-s-batch/s7-69-71-report.md
+          grep -Fq 'BATCH_SUBSTANTIVE_STAGE_COUNT=3' stages/stage14/14-s-batch/s7-69-71-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
