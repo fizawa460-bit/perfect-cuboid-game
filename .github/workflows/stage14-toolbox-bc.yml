@@ -1,0 +1,38 @@
+name: Stage14-toolbox-bc centered receiver refresh
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-toolbox-bc/**'
+      - 'stages/stage14/scripts/14-toolbox-bc/**'
+      - 'docs/stage14-toolbox/post-bb-centered-receiver-matrix.md'
+      - '.github/workflows/stage14-toolbox-bc.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile toolbox-bc audit
+        run: python -m py_compile stages/stage14/scripts/14-toolbox-bc/post_bb_centered_receiver_audit.py
+      - name: Run global predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-s7-48/gaussian_coordinate_product_reduction_audit.py > /tmp/s7_48.json
+          python stages/stage14/scripts/14-sH48/gaussian_product_sum_correlation_audit.py > /tmp/sh48.json
+      - name: Run fixed-U predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-tH24/primitive_binary_norm_sieve_audit.py > /tmp/th24.json
+          python stages/stage14/scripts/14-tH25/fixed_discriminant_ring_class_audit.py > /tmp/th25.json
+      - name: Run toolbox-bc audit
+        run: python stages/stage14/scripts/14-toolbox-bc/post_bb_centered_receiver_audit.py > /tmp/toolbox_bc.json
+      - name: Lock toolbox-bc boundary
+        run: |
+          f=stages/stage14/14-toolbox-bc/result.md
+          grep -q 'STAGE14_TOOLBOX_BC=COMPLETE_POST_BB_FIRST_CONSUMER_AUDIT_AND_CENTERED_CORRELATION_RECEIVER_REFRESH' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -q 'NEW_BC_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
