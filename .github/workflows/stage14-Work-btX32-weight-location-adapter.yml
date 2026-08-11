@@ -1,0 +1,59 @@
+name: Stage14-Work-btX32 weight location adapter audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-btX32/**'
+      - 'docs/stage14-toolbox/work-btX32-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-btX32/**'
+      - '.github/workflows/stage14-Work-btX32-weight-location-adapter.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated btX32 audit
+        run: python stages/stage14/scripts/14-Work-btX32/weight_location_adapter_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-btX32/weight_location_adapter_audit.py
+
+      - name: Regress merged Work-bsX31
+        run: python stages/stage14/scripts/14-Work-bsX31/scalar_outer_reciprocal_selector_audit.py
+
+      - name: Regress merged mainline 4fk..4fm
+        run: python stages/stage14/scripts/14-4/batch_4fk_4fm_physical_weight_opening_audit.py
+
+      - name: Regress merged s7-93..95
+        run: python stages/stage14/scripts/14-s-batch/s7_93_95_weighted_unitary_divisor_audit.py
+
+      - name: Regress merged t132
+        run: python stages/stage14/14-t-batch-t132/audit.py
+
+      - name: Lock integrated boundary
+        run: |
+          grep -Fq 'STAGE14_WORK_BTX32=COMPLETE' stages/stage14/14-Work-btX32/result.md
+          grep -Fq 'GLOBAL_S_WEIGHTED_UNITARY_DIVISOR_INCIDENCE_IDENTIFIED=true' stages/stage14/14-Work-btX32/result.md
+          grep -Fq 'PHYSICAL_WEIGHT_LOCATION_ASYMMETRY_PROVED=true' stages/stage14/14-Work-btX32/result.md
+          grep -Fq 'DIRECT_WEIGHTED_UNITARY_TO_FIXED_PROJECTIVE_PRIME_ADAPTER_NOGO_AT_CURRENT_LEVEL=true' stages/stage14/14-Work-btX32/result.md
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' stages/stage14/14-Work-btX32/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-btX32/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -Fq 'COMMON_PHYSICAL_WEIGHT_ADAPTER_PROVED=false' docs/stage14-toolbox/work-btX32-receiver-matrix.md
+          grep -Fq 'NEXT_INTEGRATED_TARGET=OuterInnerPhysicalWeightFactorizationAdapterOrNoGo' docs/stage14-toolbox/work-btX32-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
