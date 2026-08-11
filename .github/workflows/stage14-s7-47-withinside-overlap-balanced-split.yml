@@ -1,0 +1,74 @@
+name: Stage14-s7-47 within-side overlap and balanced split boundary
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-47/**'
+      - 'stages/stage14/scripts/14-s7-47/**'
+      - '.github/workflows/stage14-s7-47-withinside-overlap-balanced-split.yml'
+      - 'stages/stage14/roadmap.md'
+      - 'stages/stage14/14-s7-46/**'
+      - 'stages/stage14/14-4de/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-47 deterministic audit
+        run: python stages/stage14/scripts/14-s7-47/withinside_overlap_balanced_split_audit.py
+
+      - name: Compile Stage14-s7-47 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-47/withinside_overlap_balanced_split_audit.py
+
+      - name: Merged s7-46 regression
+        run: python stages/stage14/scripts/14-s7-46/mixed_root_cofactor_reconstruction_audit.py
+
+      - name: Merged 4de regression
+        run: python stages/stage14/scripts/14-4/mixed_fourth_root_reactivation_audit.py
+
+      - name: Lock s7-46 input
+        run: |
+          f=stages/stage14/14-s7-46/result.md
+          grep -Fq 'MIXED_ROOT_TO_SECOND_RECIPROCAL_FIBER_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'DUAL_BALANCED_XI_COFACTOR_SPLIT_REQUIRED=true' "$f"
+          grep -Fq 'MIXED_FOURTH_ROOT_TUPLE_PHYSICAL_PACKET_FINITE_FIBER_EQUIVALENCE=true' "$f"
+
+      - name: Lock Stage14-s7-47 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-47/result.md
+          grep -Fq 'STAGE14_S7_47=COMPLETE_WITHINSIDE_OVERLAP_EFFECTIVE_MIXED_ROOT_AND_BALANCED_SPLIT_DENSITY_BOUNDARY' "$f"
+          grep -Fq 'OPEN_4DF_USED_AS_THEOREM_INPUT=false' "$f"
+          grep -Fq 'WITHINSIDE_OVERLAP_EFFECTIVE_MIXED_ROOT_PROVED=true' "$f"
+          grep -Fq 'FIXED_OVERLAP_BLOCK_EXPONENT=1/2-w_plus-w_minus' "$f"
+          grep -Fq 'FIXED_POWER_WITHINSIDE_OVERLAP_SAVING_PROVED=true' "$f"
+          grep -Fq 'SQRT_SATURATION_REQUIRES_W_PLUS_BO1=true' "$f"
+          grep -Fq 'SQRT_SATURATION_REQUIRES_W_MINUS_BO1=true' "$f"
+          grep -Fq 'SQRT_SATURATION_FOUR_NORM_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'BALANCED_SQUAREFREE_SPLIT_ALONE_FIXED_POWER_SAVING=false' "$f"
+          grep -Fq 'DUAL_BALANCED_COFACTOR_COUPLED_SQUARE_SYSTEM_PROVED=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S7_47_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'S_ROUTE_NEXT=Stage14-s7-48' "$f"
+          grep -Fq 'NEXT=Stage14-s7-48' "$f"
+
+      - name: Roadmap route-state lock
+        run: |
+          f=stages/stage14/roadmap.md
+          grep -Fq 'S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED' "$f"
+          grep -Fq 'S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootDualBalancedXiCofactorCorrelationPhysicalDensity' "$f"
+          grep -Fq 'S_ROUTE_NEXT=Stage14-s7-48' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
