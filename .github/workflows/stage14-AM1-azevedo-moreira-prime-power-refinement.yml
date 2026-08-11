@@ -1,0 +1,77 @@
+name: Stage14-AM1 Azevedo-Moreira prime-power refinement
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-AM1/**'
+      - 'stages/stage14/scripts/14-AM1/**'
+      - 'stages/stage14/data/14-AM1/**'
+      - '.github/workflows/stage14-AM1-azevedo-moreira-prime-power-refinement.yml'
+      - 'stages/stage14/14-AM/**'
+      - 'stages/stage14/scripts/14-AM/**'
+      - 'stages/stage14/data/14-AM/**'
+      - 'docs/stage14-q11-**'
+      - 'stages/stage14/14-X15/**'
+      - 'stages/stage14/14-Work-beX17/**'
+      - 'stages/stage14/14-4dl/**'
+      - 'stages/stage14/14-s7-55/**'
+      - 'stages/stage14/14-s7-56/**'
+      - 'stages/stage14/14-4dm/**'
+      - 'stages/stage14/14-Work-bfX18/**'
+      - 'stages/stage14/14-4dn/**'
+      - 'stages/stage14/14-s7-57/**'
+      - 'stages/stage14/14-t97/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-AM1 deterministic refinement audit
+        run: python stages/stage14/scripts/14-AM1/prime_power_adapter_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-AM1/prime_power_adapter_audit.py
+      - name: Regress merged X15 and s-route identities
+        run: |
+          python stages/stage14/scripts/14-AM/transfer_contract_audit.py
+          python stages/stage14/scripts/14-X15/pythagorean_three_projection_audit.py
+          python stages/stage14/scripts/14-s7-55/pairwise_joint_density_split_audit.py
+          python stages/stage14/scripts/14-s7-56/pair_joint_occupancy_peel_audit.py
+          python stages/stage14/scripts/14-4/pairwise_zero_centered_split_audit.py
+          python stages/stage14/scripts/14-Work-bfX18/conditional_sensitivity_audit.py
+          python stages/stage14/scripts/14-4/zero_mode_conditional_uplift_audit.py
+          python stages/stage14/scripts/14-s7-57/bernoulli_frechet_audit.py
+          python stages/stage14/14-t97/audit.py
+      - name: Lock theorem boundary and no-overclaim verdict
+        run: |
+          f=stages/stage14/14-AM1/result.md
+          grep -Fq 'STAGE14_AM1=COMPLETE_MERGED_AM_PRIME_POWER_ORIENTATION_ROOT_DICTIONARY_AND_RECENTERING_REFINEMENT' "$f"
+          grep -Fq 'MERGED_AM_CONSUMED=true' "$f"
+          grep -Fq 'MERGED_AM_OVERWRITTEN=false' "$f"
+          grep -Fq 'LOCAL_GAUSSIAN_IDEAL_VALUATION_ADAPTER_PROVED=true' "$f"
+          grep -Fq 'LOCAL_ADAPTER_SCOPE=FIXED_NORMALIZED_VALUATION_STRATUM_ONLY' "$f"
+          grep -Fq 'MERGED_AM_SQUAREFREE_WALSH_EXTENDED_TO_PRIME_POWER_STRATA=true' "$f"
+          grep -Fq 'ROTATED_ROOT_MOBIUS_DICTIONARY_PROVED=true' "$f"
+          grep -Fq 'S7_55_TO_4DM_RECENTERING_TRANSFER_PROVED=true' "$f"
+          grep -Fq 'RATIONAL_RAY_FIXED_ROOT_CHARACTER_RANK_OBSTRUCTION_PROVED=true' "$f"
+          grep -Fq 'RATIONAL_RAY_MINIMAL_ORIENTED_PHASE_COUNT=phi(q)=B^(chi+o(1))' "$f"
+          grep -Fq 'AM_CERTIFIED_DELTA=0' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'FINAL_VERDICT=BLOCKED' "$f"
+          grep -Fq 'NEAR_ADAPTER_INCOMPLETE=false' "$f"
+          grep -Fq 'GENUINE_HECKE_CHARACTER_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'MINIMAL_AM_TRANSFER_OBSTRUCTION=PRIMITIVE_K1_VS_MULTIPLICATIVE_FOLNER_K_AVERAGE' "$f"
+          grep -Fq 'NEXT_ADAPTER_LEMMA=PrimitivePhysicalHeckeAdapterLemma' "$f"
+          grep -Fq 'MERGED_T97_CONSUMED=true' "$f"
+          grep -Fq 'MERGED_4DN_CONSUMED=true' "$f"
+          grep -Fq 'MERGED_S7_57_CONSUMED=true' "$f"
+          grep -Fq 'UNMERGED_RELATED_STAGE14_USED_AS_THEOREM_SOURCE=false' "$f"
+          grep -Fq 'MERGED_4DM_CONSUMED=true' "$f"
+          grep -Fq 'MERGED_WORK_BFX18_CONSUMED=true' "$f"
