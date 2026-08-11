@@ -1,0 +1,8 @@
+# Stage14-main-batch 4fq-4fs final lock
+
+```text
+BATCH_PUBLICATION_MAIN_SHA=3af02c764300db002cce3e3bdf7da1236548ecbd
+RECEIVER_MATERIALLY_CHANGED=true
+CURRENT_HEAVY_RECEIVER=ComplementaryDilationBareShortUnitaryShadowExponentVersusConditionalCanonicalReverseCompletionDeficitBudget
+NEXT=Stage14-4ft
+```
