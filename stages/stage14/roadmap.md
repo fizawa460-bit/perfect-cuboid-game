@@ -203,20 +203,48 @@ so the four norm blocks
 C_*, M_+, u_*, M_-
 ```
 
-are pairwise separated at fixed-power scale. The mere existence of balanced squarefree splits `M_+=S*T`, `M_-=R*J` is not, by itself, a fixed-power sparse condition in the ambient product ranges; the next s step must retain their correlation with the two complementary square identities.
+are pairwise separated at fixed-power scale.
+
+Stage14-s7-48 then exhausts the remaining elementary two-square algebra.  With `Z=D+iA`, the two complementary square identities are exactly
+
+```text
+N(Z)=D^2+A^2=epsilon_+ C_* S T,
+(1+i)conjugate(Z)=(D+A)+i(D-A),
+(D+A)(D-A)=D^2-A^2=epsilon_- u_* R J.
+```
+
+For fixed `(C_*,S,T)`, the Gaussian representation bound `r_2(n)<=4*tau(n)` and divisor reconstruction give only `B^o(1)` physical completions.  Conversely fixed `(u_*,R,J)` gives only `B^o(1)` completions through the divisor pair `(D-A,D+A)`.  Both source triples have total exponent exactly `1/2`, so they are alternative charged-once coordinate systems, not independent savings.
+
+Moreover, after writing
+
+```text
+X=epsilon_+ C_*ST,
+Y=epsilon_- u_*RJ,
+```
+
+the system is simply
+
+```text
+X=D^2+A^2,
+Y=D^2-A^2,
+```
+
+whose elimination ideal in `Q[X,Y]` is trivial.  Thus no fresh polynomial resultant among the six norm blocks is available from the two-square equations alone.  The surviving obstruction is genuinely arithmetic: simultaneous balanced physical factorization of a Gaussian norm and the rotated coordinate product of the same Gaussian integer.
 
 Current route state:
 
 ```text
-S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED
+S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED_BLOCKED_ON_SH48
 S_ROUTE_CLOSED_BY=Stage14-s7-45
 S_ROUTE_REACTIVATION_TRIGGERED_BY=Stage14-4de
 S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46
 S_ROUTE_REACTIVATION_NEEDED=false
 USER_DECIDES_S_ROUTE_REACTIVATION=false
 ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
-S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScalePairwiseSeparatedMixedFourthRootDualBalancedXiCofactorCorrelationPhysicalDensity
-S_ROUTE_NEXT=Stage14-s7-48
+S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScalePairwiseSeparatedGaussianNormRotatedCoordinateProductDualBalancedCellFactorizationDensity
+S_ROUTE_BLOCKED_WAITING_FOR_H=true
+S_ROUTE_AUXILIARY_H=Stage14-sH48
+S_ROUTE_NEXT=Stage14-s7-49_after_sH48
 ```
 
 The user is **not** expected to decide whether the s-route should be restarted. Any later mainline, `t`, `X`, toolbox, q/literature, or other Stage14 stage that materially changes the surviving receiver must explicitly evaluate whether the new result creates a genuinely new s-specific exact structure or theorem bridge.
