@@ -1,0 +1,68 @@
+name: Stage14-Work-bmX25 projected primitive norm-form H gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bmX25/**'
+      - 'stages/stage14/scripts/14-Work-bmX25/**'
+      - 'docs/stage14-toolbox/work-bmX25-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-bmX25-projected-norm-form-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bmX25 audit
+        run: python stages/stage14/scripts/14-Work-bmX25/projected_norm_form_h_gate_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bmX25/projected_norm_form_h_gate_audit.py
+
+      - name: Regress merged Work-blX24
+        run: python stages/stage14/scripts/14-Work-blX24/background_scale_relocation_audit.py
+
+      - name: Regress merged 4ea
+        run: python stages/stage14/scripts/14-4/canonical_allocation_reciprocal_density_audit.py
+
+      - name: Regress merged s7-69..71 batch
+        run: python stages/stage14/scripts/14-s-batch/s7_69_71_reciprocal_selector_audit.py
+
+      - name: Regress merged t106..108 batch
+        run: python stages/stage14/14-t-batch-t106-108/audit.py
+
+      - name: Lock integrated theorem boundary
+        run: |
+          f=stages/stage14/14-Work-bmX25/result.md
+          grep -Fq 'STAGE14_WORK_BMX25=COMPLETE_PROJECTED_PRIMITIVE_GAUSSIAN_NORM_FORM_COMMON_LANGUAGE_WITH_SEPARATE_H_CONTRACTS' "$f"
+          grep -Fq 'COMMON_PROJECTED_PRIMITIVE_GAUSSIAN_NORM_FORM_LANGUAGE_PROVED=true' "$f"
+          grep -Fq 'COMMON_ARITHMETIC_NORM_FORM_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'S_ROUTE_H_NEEDED=true' "$f"
+          grep -Fq 'S_ROUTE_H_REQUEST=Stage14-sH71' "$f"
+          grep -Fq 'FIXED_U_H_NEEDED=true' "$f"
+          grep -Fq 'TH28_NEEDED=true' "$f"
+          grep -Fq 'COMMON_H_AUDIT_MERGE_ALLOWED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+
+      - name: Lock receiver matrix
+        run: |
+          f=docs/stage14-toolbox/work-bmX25-receiver-matrix.md
+          grep -Fq 'ProjectedPrimitiveGaussianNormFormPhysicalIncidence' "$f"
+          grep -Fq 'Stage14-sH71' "$f"
+          grep -Fq 'Stage14-tH28' "$f"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
