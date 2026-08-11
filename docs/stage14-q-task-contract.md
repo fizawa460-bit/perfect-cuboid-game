@@ -8,6 +8,17 @@ Permanent invocation name:
 
 This short name is intentionally stable.  It is not a stage number.  The concrete output stage remains monotone (`Stage14-q11`, `Stage14-q12`, ...).
 
+The preferred Work-side orchestration is now:
+
+```text
+Stage14-Work-toolbox-XQ
+```
+
+That invocation performs its toolbox/X audit first and then applies this q gate
+to the newly frozen obstruction. If triggered, q is completed on the same branch
+and in the same Draft PR. The standalone `14-q` name remains available for an
+explicit literature-only run or for a `DEFERRED_SCOPED` target frozen by XQ.
+
 On every `14-q` invocation:
 
 1. read `docs/stage14-q-literature-radar-roadmap.md`;
@@ -17,6 +28,8 @@ On every `14-q` invocation:
 5. if a trigger exists, execute the next unused q-number, search current primary literature, classify each candidate `DIRECT / NEAR / BACKGROUND / BLOCKED`, write a falsifiable receiving-stage handoff, and open the scoped PR;
 6. do not re-search a branch already covered by the previous q ledger merely because its stage number advanced;
 7. never cross-promote fixed-U results to the whole-family theorem without an explicit bridge.
+8. when called from `Stage14-Work-toolbox-XQ`, do not create a second branch or
+   PR; return the classification and receiving-stage handoff to the Work result.
 
 Required q10+ header:
 
