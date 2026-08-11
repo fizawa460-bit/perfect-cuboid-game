@@ -12,22 +12,28 @@ Before deriving a concrete successor, read
 [`docs/stage14-t-batch-task-contract.md`](../../docs/stage14-t-batch-task-contract.md)
 from latest merged `main`. The entry point advances the existing t ledger; it
 does not create a parallel numbering system. A normal run follows the unique
-merged `NEXT` chain for 3--5 substantive stages on one branch and publishes one
+merged `NEXT` chain for 3--5 substantive work units on one branch and publishes one
 Draft PR at the batch boundary.
 
-The batch stops early when the fixed-`U` receiver changes, a new tH/external
-lemma becomes necessary, or a rigorous counterexample is obtained. It also stops
-at five stages. Every internal stage records the tH decision and, when needed,
-the exact frozen request and target. Existing tH work remains an independent
-snapshot and is never rewritten to chase the batch.
+The batch stops early when the fixed-`U` receiver changes, an integrated tH audit
+leaves an unresolved external gate, or a rigorous counterexample is obtained.
+It also stops at five work units. Every internal stage records the tH decision
+and, when needed, the exact frozen request and target. A new tH is normally run
+inside the same branch and Draft PR, counts as one of the 3--5 substantive work
+units, and remains a clean-room frozen-snapshot audit. Existing tH work is never
+rewritten to chase the batch.
 
 ```text
 STAGE14_T_CANONICAL_EXECUTION_ENTRY=Stage14-t-batch
+STAGE14_T_BATCH_MINIMUM_TARGET_WORK_UNITS=3
+STAGE14_T_BATCH_MAXIMUM_WORK_UNITS=5
 STAGE14_T_BATCH_MINIMUM_TARGET_STAGES=3
 STAGE14_T_BATCH_MAXIMUM_STAGES=5
 STAGE14_T_BATCH_ONE_BRANCH_ONE_PR=true
-STAGE14_T_BATCH_EARLY_STOP=receiver_change|new_tH_or_external_lemma_needed|rigorous_counterexample
+STAGE14_T_BATCH_EARLY_STOP=receiver_change|unresolved_external_gate|rigorous_counterexample
 STAGE14_T_BATCH_EVERY_STAGE_RECORDS_TH_DECISION=true
+STAGE14_T_BATCH_INTEGRATES_NEW_TH=true
+STAGE14_T_BATCH_H_COUNTS_AS_WORK_UNIT=true
 STAGE14_T_BATCH_REWRITES_EXISTING_TH_TARGET=false
 ```
 
