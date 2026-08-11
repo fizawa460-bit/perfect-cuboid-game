@@ -1,0 +1,61 @@
+name: Stage14-Work-blX24 background scale relocation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-blX24/**'
+      - 'stages/stage14/scripts/14-Work-blX24/**'
+      - 'docs/stage14-toolbox/work-blX24-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-blX24-background-scale-relocation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated blX24 audit
+        run: python stages/stage14/scripts/14-Work-blX24/background_scale_relocation_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-blX24/background_scale_relocation_audit.py
+
+      - name: Regress merged 4dz
+        run: python stages/stage14/scripts/14-4/nested_acceptance_density_audit.py
+
+      - name: Regress merged s7-66..68 batch
+        run: python stages/stage14/scripts/14-s-batch/s7_66_68_allocation_normalization_audit.py
+
+      - name: Regress merged t105
+        run: python stages/stage14/14-t105/audit.py
+
+      - name: Lock integrated theorem boundary
+        run: |
+          f=stages/stage14/14-Work-blX24/result.md
+          grep -Fq 'DIRECT_GLOBAL_TO_FIXED_Q_FIBER_DENSITY_ADAPTER_NOGO=true' "$f"
+          grep -Fq 'COMMON_PRINCIPAL_SCALE_RELOCATION_PRINCIPLE_PROVED=true' "$f"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'SAVING_CROSS_PROMOTABLE=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'TH28_NEEDED=false' "$f"
+          grep -Fq 'NEXT_INTEGRATED_TARGET=PolynomialPrincipalSupportArithmeticDecomposition' "$f"
+
+      - name: Lock receiver matrix
+        run: |
+          f=docs/stage14-toolbox/work-blX24-receiver-matrix.md
+          grep -Fq 'DIRECT_LOCAL_BACKGROUND_FIBER_SCALE_MATCH=false' "$f"
+          grep -Fq 'FIXED_U_OUTER_Q_OCCUPANCY_IS_REMAINING_PRINCIPAL_SCALE=true' "$f"
+          grep -Fq 'FUTURE_OUTER_SUPPORT_ADAPTER_NOT_RULED_OUT=true' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
