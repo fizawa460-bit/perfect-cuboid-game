@@ -15,6 +15,8 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -24,8 +26,8 @@ jobs:
           python stages/stage14/scripts/14-t/t94_validate_frozen.py
       - name: Lock t94 publication boundary
         run: |
-          grep -Fq 'STAGE14_T94=COMPLETE_ANTIPODAL_QUOTIENT_OCCUPANCY_REDUCTION' stages/stage14/14-t94/result.md
           grep -Fq 'PAIR_OCCUPANCY_DEFICIT_FIXED_POWER_SAVING_PROVED=true' stages/stage14/14-t94/result.md
+          grep -Fq 'SQRT_SATURATION_FORCES_NEAR_MAXIMAL_PAIR_OCCUPANCY=true' stages/stage14/14-t94/result.md
           a=stages/stage14/14-Work-beX17/t94-addendum.md
           grep -Fq 'PUBLICATION_RECHECK_CONSUMED_T94=true' "$a"
           grep -Fq 'LOCAL_OCCUPANCY_DEFICIT_ADAPTER_PROVED=true' "$a"
