@@ -1,0 +1,60 @@
+name: Stage14-Work-byX37 completion and hosted capacity audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-byX37/**'
+      - 'docs/stage14-toolbox/work-byX37-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-byX37/**'
+      - '.github/workflows/stage14-Work-byX37-completion-hosted-capacity.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated byX37 audit
+        run: python stages/stage14/scripts/14-Work-byX37/completion_hosted_capacity_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-byX37/completion_hosted_capacity_audit.py
+
+      - name: Regress merged Work-bxX36
+        run: python stages/stage14/scripts/14-Work-bxX36/ambient_threshold_localization_audit.py
+
+      - name: Regress merged mainline 4fz..4gb
+        run: python stages/stage14/scripts/14-4/batch_4fz_4gb_primitive_product_fiber_audit.py
+
+      - name: Regress merged s7-108..110
+        run: python stages/stage14/scripts/14-s-batch/s7_108_110_fibered_product_capacity_audit.py
+
+      - name: Regress merged t144..146
+        run: python stages/stage14/14-t-batch-t144-146/audit.py
+
+      - name: Lock merged q16 boundary
+        run: |
+          grep -q 'FIXED_E_DISTINCT_PRODUCT_CAPACITY_FULL_EXPONENT_PROVED=true' docs/stage14-q16-summary.md
+          grep -q 'FIXED_E_CONDITIONAL_PHYSICAL_LIFT_REMAINS=true' docs/stage14-q16-summary.md
+
+      - name: Lock integrated boundary
+        run: |
+          grep -q 'FIBERED_BOUNDED_MULTIPLICITY_MULTIPLICATION_LEMMA_PROVED=true' stages/stage14/14-Work-byX37/result.md
+          grep -q 'GLOBAL_S_HEAVY_RECEIVERS_ALL_REDUCED_TO_CONDITIONAL_PHYSICAL_COMPLETION_OR_LIFT=true' stages/stage14/14-Work-byX37/result.md
+          grep -q 'FIXED_U_SELECTOR_MODULUS_HOSTED_NOT_INDEPENDENT_ENTROPY=true' stages/stage14/14-Work-byX37/result.md
+          grep -q 'COMMON_ADAPTER_PROVED=false' stages/stage14/14-Work-byX37/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-byX37/result.md
+          grep -q 'TH33_NEEDED=false' stages/stage14/14-Work-byX37/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -q 'COMMON_HOSTED_AUXILIARY_NONENTROPY_LANGUAGE_PROVED=true' docs/stage14-toolbox/work-byX37-receiver-matrix.md
+          grep -q 'COMMON_COMPLETION_TO_GAUSSIAN_PRIME_OCCUPANCY_ADAPTER_PROVED=false' docs/stage14-toolbox/work-byX37-receiver-matrix.md
+          grep -q 'NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false' docs/stage14-toolbox/work-byX37-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check
