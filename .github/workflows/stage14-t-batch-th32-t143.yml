@@ -1,0 +1,24 @@
+name: Stage14-t-batch th32-t143 safe endpoint short interval
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH32/**'
+      - 'stages/stage14/14-t143/**'
+      - 'stages/stage14/14-t-batch-th32-t143/**'
+      - '.github/workflows/stage14-t-batch-th32-t143.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Audit th32-t143
+        run: python stages/stage14/14-t-batch-th32-t143/audit.py
+      - name: Regression t140-t142
+        run: python stages/stage14/14-t-batch-t140-142/audit.py
+      - name: Regression t137-t139-th31
+        run: python stages/stage14/14-t-batch-t137-139-th31/audit.py
