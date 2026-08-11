@@ -5,7 +5,7 @@
 ```text
 STAGE14_4_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=7f8b5c1f683a68ba2bcf8a9393b26d8872a5c457
-BATCH_PUBLICATION_MAIN_SHA=PENDING_RECHECK
+BATCH_PUBLICATION_MAIN_SHA=7f8b5c1f683a68ba2bcf8a9393b26d8872a5c457
 BATCH_FIRST_STAGE=Stage14-4ey
 BATCH_LAST_STAGE=Stage14-4fa
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3
@@ -59,6 +59,10 @@ The heavy-ray branch is not declared closed because the concentrated exact-`C` c
 ```text
 FixedPrimitiveRayFixedAgreementPairShortRadialSquareScalePhysicalIncidence.
 ```
+
+## Publication recheck
+
+Latest main remained `7f8b5c1f683a68ba2bcf8a9393b26d8872a5c457`. The newly merged fixed-U `t118..t120` route ends at generic scalar-norm support and proves no charged-once adapter to the global heavy-ray `(K,G,h)` coordinates, so no fixed-U saving is cross-promoted.
 
 ## Other mainline branches
 
