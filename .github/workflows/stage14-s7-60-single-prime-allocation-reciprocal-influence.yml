@@ -1,0 +1,37 @@
+name: Stage14-s7-60 single-prime allocation reciprocal influence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-60/**'
+      - 'stages/stage14/scripts/14-s7-60/**'
+      - '.github/workflows/stage14-s7-60-single-prime-allocation-reciprocal-influence.yml'
+      - 'stages/stage14/14-s7-59/**'
+      - 'stages/stage14/14-4dp/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-60 deterministic audit
+        run: python stages/stage14/scripts/14-s7-60/single_prime_allocation_influence_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-60/single_prime_allocation_influence_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-60/result.md
+          grep -Fq 'STAGE14_S7_60=COMPLETE_SINGLE_PRIME_DISJOINT_ALLOCATION_RECIPROCAL_INFLUENCE_LOCALIZATION' "$f"
+          grep -Fq 'BALANCED_ALLOCATION_AND_RECIPROCAL_COMPLETION_SHARE_ONE_COORDINATE_PACKET=true' "$f"
+          grep -Fq 'SINGLE_PRIME_INFLUENCE_HAS_EXPLICIT_TWO_SQUARE_ADMISSIBILITY_PACKET=true' "$f"
+          grep -Fq 'FRESH_DIVISOR_SWITCH_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'SQRT_ARITHMETIC_UPLIFT_REQUIRES_EXPONENT_ZERO_SINGLE_PRIME_INFLUENCE=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'NEXT=Stage14-s7-61' "$f"
