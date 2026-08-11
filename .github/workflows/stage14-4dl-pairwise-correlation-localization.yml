@@ -1,0 +1,23 @@
+name: Stage14-4dl pairwise correlation localization
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dl/**'
+      - 'stages/stage14/scripts/14-4/pairwise_correlation_localization_audit.py'
+      - '.github/workflows/stage14-4dl-pairwise-correlation-localization.yml'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python -m py_compile stages/stage14/scripts/14-4/pairwise_correlation_localization_audit.py
+      - run: python stages/stage14/scripts/14-4/pairwise_correlation_localization_audit.py
+      - run: |
+          f=stages/stage14/14-4dl/result.md
+          grep -q 'STAGE14_4DL=COMPLETE_PAIRWISE_CORRELATION_COEFFICIENT_LOCALIZATION' "$f"
+          grep -q 'PAIRWISE_SQRT_SATURATION_REQUIRES_RIJ=Bo0=true' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -q 'NEXT_H_NEEDED=false' "$f"
