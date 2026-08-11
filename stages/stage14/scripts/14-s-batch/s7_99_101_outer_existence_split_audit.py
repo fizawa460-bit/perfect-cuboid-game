@@ -45,7 +45,7 @@ for E in (5, 13, 41):
     ratios.append((xr * beta * v0 * v0, yr * alpha * u0 * u0))
 assert all(a == b for a, b in ratios)
 
-# s7-101 endpoint: freeze one primitive side r0, opposite side s carries all polynomial mobility.
+# s7-101 endpoint: freeze one primitive side r0; the opposite side s carries all polynomial mobility.
 E0, r0 = 7, 3
 for s in (5, 8, 11, 17):
     if gcd(r0, s) != 1:
@@ -70,8 +70,8 @@ def require(path: str, token: str):
 # Merged source locks.
 require("stages/stage14/14-4fp/result.md", "PHYSICAL_WEIGHT_OUTERIZED_AT_SUPPORT_LEVEL=true")
 require("stages/stage14/14-Work-buX33/result.md", "GLOBAL_S_OUTER_PHYSICAL_EXISTENCE_SUPPORT_RECEIVER_PROVED=true")
-require("stages/stage14/14-s7-98/result.md", "POLYNOMIAL_E_FIXED_M_ONLY_POLYNOMIAL_MOBILITY_IS_E=true")
-require("stages/stage14/14-s7-94/result.md", "INNER_RATIO_ENDPOINT_GEOMETRY_FIXED_POWER_SAVING_PROVED=false")
+require("stages/stage14/14-s7-98/result.md", "P0_POLYNOMIAL_ENTROPY_ONLY_IN_E=true")
+require("stages/stage14/14-s7-94/result.md", "SMALL_ONE_SIDE_GEOMETRY_ALONE_FIXED_POWER_SAVING=false")
 
 # New stage locks.
 require("stages/stage14/14-s7-99/result.md", "POLYNOMIAL_E_FIXED_M_OUTER_SUPPORT_PREDICATE_DEFINED=true")
