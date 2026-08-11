@@ -1,0 +1,90 @@
+name: Stage14-t88 canonical Q norm finite fiber
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t88/**'
+      - 'stages/stage14/data/14-t88/**'
+      - 'stages/stage14/scripts/14-t/t88_*'
+      - '.github/workflows/stage14-t88-canonical-q-norm-fiber.yml'
+      - 'stages/stage14/14-t87/**'
+      - 'stages/stage14/14-tH25/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-t88 deterministic audit
+        run: python stages/stage14/scripts/14-t/t88_canonical_q_norm_fiber_audit.py
+
+      - name: Stage14-t88 frozen validator
+        run: python stages/stage14/scripts/14-t/t88_validate_frozen.py
+
+      - name: Compile t88 scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t88_canonical_q_norm_fiber_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t88_validate_frozen.py
+
+      - name: Regress merged t87 projective endpoint audit
+        run: python stages/stage14/scripts/14-t/t87_projective_line_conductor_endpoint_audit.py
+
+      - name: Regress merged frozen tH25 audit
+        run: python stages/stage14/scripts/14-tH25/fixed_discriminant_ring_class_audit.py
+
+      - name: Lock t87 predecessor
+        run: |
+          f=stages/stage14/14-t87/result.md
+          grep -Fq 'STAGE14_T87=COMPLETE_PROJECTIVE_RING_CLASS_BRIDGE_AND_FIXED_POWER_CONDUCTOR_ENDPOINT_COLLAPSE' "$f"
+          grep -Fq 'HARD_SELECTOR_CONDUCTOR_ENDPOINT=d=Bo1' "$f"
+          grep -Fq 'HARD_RING_CLASS_NUMBER=Bo1' "$f"
+          grep -Fq 'TH26_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t88' "$f"
+
+      - name: Lock completed tH25 snapshot verdict
+        run: |
+          f=stages/stage14/14-tH25/result.md
+          grep -Fq 'AUDITED_THROUGH=Stage14-t86' "$f"
+          grep -Fq 'OFF_THE_SHELF_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'FORM_CLASS_FAMILY_POWER_COST_CONTROLLED=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+
+      - name: Lock immutable H protocol
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock t88 theorem boundary
+        run: |
+          f=stages/stage14/14-t88/result.md
+          grep -Fq 'STAGE14_T88=COMPLETE_ENDPOINT_SMALL_PROJECTIVE_SELECTOR_TO_CANONICAL_Q_NORM_FINITE_FIBER_REDUCTION' "$f"
+          grep -Fq 'CANONICAL_T84_PRIME_IDENTIFIED_WITH_T86_PI_PRIME=true' "$f"
+          grep -Fq 'ORIENTED_COVER_EQUALS_GAMMA_TIMES_FIXED_K_FACTOR=true' "$f"
+          grep -Fq 'CANONICAL_Q_VARIABLE_PROVED=true' "$f"
+          grep -Fq 'ELL_RECOVERED_AS_Q_LPF=true' "$f"
+          grep -Fq 'DELTA0_RECOVERED_FROM_Q=true' "$f"
+          grep -Fq 'FIXED_Q_PHYSICAL_FIBER_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'RING_CLASS_FAMILY_COST_SURVIVES=false' "$f"
+          grep -Fq 'ONE_DIMENSIONAL_Q_ENERGY_BOUND=X*Bo1' "$f"
+          grep -Fq 'TH25_TARGET_REOPENED=false' "$f"
+          grep -Fq 'TH26_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t89' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
