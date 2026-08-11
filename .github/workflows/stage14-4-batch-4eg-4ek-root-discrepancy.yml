@@ -1,0 +1,57 @@
+name: Stage14-4 batch 4eg-4ek root discrepancy
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4eg/**'
+      - 'stages/stage14/14-4eh/**'
+      - 'stages/stage14/14-4ei/**'
+      - 'stages/stage14/14-4ej/**'
+      - 'stages/stage14/14-4ek/**'
+      - 'stages/stage14/14-4-batch/**'
+      - 'stages/stage14/scripts/14-4/batch_4eg_4ek_root_discrepancy_audit.py'
+      - '.github/workflows/stage14-4-batch-4eg-4ek-root-discrepancy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-4 five-stage root discrepancy audit
+        run: python stages/stage14/scripts/14-4/batch_4eg_4ek_root_discrepancy_audit.py
+
+      - name: Compile batch audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4eg_4ek_root_discrepancy_audit.py
+
+      - name: Regress merged 4eb-4ef batch
+        run: python stages/stage14/scripts/14-4/batch_4eb_4ef_allocation_root_gates_audit.py
+
+      - name: Regress merged sH71
+        run: python stages/stage14/scripts/14-sH71/canonical_allocation_gaussian_root_density_audit.py
+
+      - name: Regress merged s7-72..74 publication boundary
+        run: python stages/stage14/scripts/14-s-batch/s7_72_74_common_core_stratification_audit.py
+
+      - name: Lock five-stage boundary
+        run: |
+          grep -Fq 'STAGE14_4EG=COMPLETE_COMMON_CORE_SCALE_STRATIFICATION_AND_PRINCIPAL_CENTERED_ROOT_DECOMPOSITION' stages/stage14/14-4eg/result.md
+          grep -Fq 'STAGE14_4EH=COMPLETE_POLYNOMIAL_COMMON_CORE_SATURATION_TO_CENTERED_ROOT_DISCREPANCY_RECEIVER' stages/stage14/14-4eh/result.md
+          grep -Fq 'STAGE14_4EI=COMPLETE_LOW_CORE_ALLOCATION_VS_POLYNOMIAL_CORE_CENTERED_DISCREPANCY_DICHOTOMY' stages/stage14/14-4ei/result.md
+          grep -Fq 'STAGE14_4EJ=COMPLETE_CENTERED_ROOT_DISCREPANCY_TO_VARIABLE_MODULUS_CHARACTER_CORRELATION' stages/stage14/14-4ej/result.md
+          grep -Fq 'STAGE14_4EK=COMPLETE_CHARACTER_ENERGY_TO_PROJECTIVE_COLLISION_OR_DIFFUSE_NORM_DIVISOR_GRAPH_DICHOTOMY' stages/stage14/14-4ek/result.md
+          grep -Fq 'MERGED_S7_72_74_CONSUMED=true' stages/stage14/14-4-batch/4eg-4ek-report.md
+          grep -Fq 'BATCH_SUBSTANTIVE_STAGE_COUNT=5' stages/stage14/14-4-batch/4eg-4ek-report.md
+          grep -Fq 'NEXT=Stage14-4el' stages/stage14/14-4-batch/4eg-4ek-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
