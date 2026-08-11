@@ -1,0 +1,60 @@
+name: Stage14-Work-bsX31 scalar outer reciprocal selector audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bsX31/**'
+      - 'docs/stage14-toolbox/work-bsX31-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-bsX31/**'
+      - '.github/workflows/stage14-Work-bsX31-scalar-outer-reciprocal-selector.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bsX31 audit
+        run: python stages/stage14/scripts/14-Work-bsX31/scalar_outer_reciprocal_selector_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bsX31/scalar_outer_reciprocal_selector_audit.py
+
+      - name: Regress merged Work-brX30
+        run: python stages/stage14/scripts/14-Work-brX30/reciprocal_window_adapter_audit.py
+
+      - name: Regress merged mainline 4fh..4fj
+        run: python stages/stage14/scripts/14-4/batch_4fh_4fj_reciprocal_window_interior_audit.py
+
+      - name: Regress merged s7-90..92
+        run: python stages/stage14/scripts/14-s-batch/s7_90_92_primitive_ratio_window_audit.py
+
+      - name: Regress merged t129..t131
+        run: python stages/stage14/14-t-batch-t129-131/audit.py
+
+      - name: Lock integrated boundary
+        run: |
+          grep -Fq 'STAGE14_WORK_BSX31=COMPLETE' stages/stage14/14-Work-bsX31/result.md
+          grep -Fq 'GLOBAL_S_PRIMITIVE_DIVISOR_RATIO_COORDINATE_IDENTIFIED=true' stages/stage14/14-Work-bsX31/result.md
+          grep -Fq 'COMMON_ENDPOINT_INTERIOR_TRANSFER_PROVED=false' stages/stage14/14-Work-bsX31/result.md
+          grep -Fq 'COMMON_PHYSICAL_WEIGHT_ADAPTER_PROVED=false' stages/stage14/14-Work-bsX31/result.md
+          grep -Fq 'TH30_NEEDED=false' stages/stage14/14-Work-bsX31/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-bsX31/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -Fq 'COMMON_ONE_DIMENSIONAL_OUTER_RECIPROCAL_SELECTOR_LANGUAGE_PROVED=true' docs/stage14-toolbox/work-bsX31-receiver-matrix.md
+          grep -Fq 'COMMON_ARITHMETIC_SCALAR_OUTER_COORDINATE_IDENTIFICATION_PROVED=false' docs/stage14-toolbox/work-bsX31-receiver-matrix.md
+          grep -Fq 'NEXT_REVISIT_CONDITION=4fm+s7-95+t134' docs/stage14-toolbox/work-bsX31-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
