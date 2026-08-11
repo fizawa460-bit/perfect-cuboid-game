@@ -17,7 +17,7 @@ jobs:
           python-version: '3.x'
       - name: Verify predecessors
         run: |
-          grep -q 'NEXT=Stage14-t101' stages/stage14/14-t100/frozen-boundary.txt
+          grep -q 'NEXT=Stage14-t101' stages/stage14/14-t100/boundary.md
           grep -q 'STAGE14_TH27=' stages/stage14/14-tH27/result.md
           grep -q 'NEXT_H_NEEDED=false' stages/stage14/14-tH27/result.md
       - name: Run deterministic audit
