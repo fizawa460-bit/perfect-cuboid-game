@@ -1,0 +1,60 @@
+name: Stage14-s-batch s7-108..110 fibered product capacity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-108/**'
+      - 'stages/stage14/14-s7-109/**'
+      - 'stages/stage14/14-s7-110/**'
+      - 'stages/stage14/14-s-batch/s7-108-110-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_108_110_fibered_product_capacity_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-108-110-fibered-product-capacity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_108_110_fibered_product_capacity_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_108_110_fibered_product_capacity_audit.py
+
+      - name: Regress merged s7-105..107
+        run: python stages/stage14/scripts/14-s-batch/s7_105_107_ordinary_capacity_audit.py
+
+      - name: Regress merged mainline 4fw..4fy
+        run: python stages/stage14/scripts/14-4/batch_4fw_4fy_rectangular_product_capacity_audit.py
+
+      - name: Regress merged Work-bxX36
+        run: python stages/stage14/scripts/14-Work-bxX36/ambient_threshold_localization_audit.py
+
+      - name: Lock common and s batch contracts
+        run: |
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
+          grep -Fq 'Integrated sH work unit' docs/stage14-s-batch-task-contract.md
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'POLYNOMIAL_PAIR_FIBERED_PRODUCT_IMAGE_EXACT=true' stages/stage14/14-s7-108/result.md
+          grep -Fq 'SUBCRITICAL_FIBERED_PAIR_CAPACITY_BRANCH_CLOSED=true' stages/stage14/14-s7-109/result.md
+          grep -Fq 'POLYNOMIAL_FIBER_SURVIVAL_BUDGET=pi_fib_minus_delta_lift_ge_mu' stages/stage14/14-s7-110/result.md
+          grep -Fq 'WORK_BXX36_REVISIT_TRIGGER_S7_110_REACHED=true' stages/stage14/14-s7-110/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-108-110-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-108-110-report.md
+          grep -Fq 'S_ROUTE_H_NEEDED=false' stages/stage14/14-s-batch/s7-108-110-report.md
+          grep -Fq 'NEXT=Stage14-s7-111' stages/stage14/14-s-batch/s7-108-110-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
