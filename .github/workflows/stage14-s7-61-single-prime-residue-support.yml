@@ -1,0 +1,35 @@
+name: Stage14-s7-61 single-prime residue support
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-61/**'
+      - 'stages/stage14/scripts/14-s7-61/**'
+      - '.github/workflows/stage14-s7-61-single-prime-residue-support.yml'
+      - 'stages/stage14/14-s7-60/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-61 deterministic audit
+        run: python stages/stage14/scripts/14-s7-61/single_prime_residue_support_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-61/single_prime_residue_support_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-61/result.md
+          grep -Fq 'STAGE14_S7_61=COMPLETE_SINGLE_PRIME_TWO_SQUARE_INFLUENCE_RESIDUE_SUPPORT_BOUNDARY' "$f"
+          grep -Fq 'FRESH_THIN_RESIDUE_SUPPORT_PROVED=false' "$f"
+          grep -Fq 'LOCAL_CONGRUENCE_ONLY_REPRODUCES_EXISTING_SPLIT_PRIME_SUPPORT=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'S7_61_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-62' "$f"
