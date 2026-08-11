@@ -3,7 +3,7 @@
 ```text
 STAGE14_S_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=c5c84d2727caad0afdc08dec69f6696716f21b38
-BATCH_PUBLICATION_MAIN_SHA=PENDING_FINAL_RECHECK
+BATCH_PUBLICATION_MAIN_SHA=c5c84d2727caad0afdc08dec69f6696716f21b38
 BATCH_FIRST_STAGE=Stage14-s7-87
 BATCH_LAST_STAGE=Stage14-s7-89
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3
@@ -88,3 +88,8 @@ FixedPrimitiveRayFixedAgreementPairSharedSquarefreeDilationFixedCoefficientSquar
 ```
 
 No generic square/squarefree/multiplication-table density is recharged.  No new `sH` is opened: the next internal stage must project the actual physical root-origin/range/reverse-completion masks onto the normalized `(J1,a1,b1)` coefficient system before an external theorem audit is justified.
+
+```text
+PUBLICATION_MAIN_RECHECK_COMPLETE=true
+NEW_MERGED_CONSUMER_AFTER_BATCH_START=false
+```
