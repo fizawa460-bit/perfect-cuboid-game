@@ -3,7 +3,7 @@
 ```text
 STAGE14_S_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=d519dcccee5bedb4844dbcee5cb4b5171600c0bf
-BATCH_PUBLICATION_MAIN_SHA=PENDING_FINAL_RECHECK
+BATCH_PUBLICATION_MAIN_SHA=d519dcccee5bedb4844dbcee5cb4b5171600c0bf
 BATCH_FIRST_STAGE=Stage14-s7-90
 BATCH_LAST_STAGE=Stage14-s7-92
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3
@@ -94,3 +94,8 @@ FixedPrimitiveRayFixedAgreementPairNormalizedRadialPrimitiveCoprimeDivisorRatioS
 ```
 
 No generic divisor-ratio, squarefree, or dyadic-window density is charged. No new `sH` is opened. `Stage14-s7-93` should split endpoint/subpolynomial primitive ratios from genuinely interior balanced ratios and freeze the exact inherited weight on `E=n/(uv)` before any external theorem audit.
+
+```text
+PUBLICATION_MAIN_RECHECK_COMPLETE=true
+NEW_MERGED_CONSUMER_AFTER_BATCH_START=false
+```
