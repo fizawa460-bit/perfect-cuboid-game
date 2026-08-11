@@ -1,0 +1,18 @@
+name: Stage14-t95 occupancy variance
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t95/**'
+      - 'stages/stage14/data/14-t95/**'
+      - '.github/workflows/stage14-t95.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python stages/stage14/14-t95/audit.py
+      - run: grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t95/boundary.md
+      - run: grep -q 'TH27_NEEDED=false' stages/stage14/14-t95/boundary.md
