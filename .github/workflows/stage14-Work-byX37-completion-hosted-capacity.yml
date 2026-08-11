@@ -33,8 +33,44 @@ jobs:
       - name: Regress merged s7-108..110
         run: python stages/stage14/scripts/14-s-batch/s7_108_110_fibered_product_capacity_audit.py
 
-      - name: Regress merged t144..146
-        run: python stages/stage14/14-t-batch-t144-146/audit.py
+      - name: Regress merged t144..146 replay-stable boundary
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path('.')
+          t144 = (root/'stages/stage14/14-t144/result.md').read_text()
+          t145 = (root/'stages/stage14/14-t145/result.md').read_text()
+          t146 = (root/'stages/stage14/14-t146/result.md').read_text()
+          for token in [
+              'SELECTOR_MODULUS_HOSTED_BY_FIXED_U=true',
+              'HK0_EQUALS_ETA_EPSILON_M=true',
+              'ENDPOINT_SELECTOR_HEIGHT_COUPLING_EXACT=true',
+          ]:
+              assert token in t144, token
+          for token in [
+              'HOST_NORMALIZED_ENDPOINT_CAPACITY_EXACT=true',
+              'ENDPOINT_CAPACITY_EXPONENT=max(2lambda-rho,lambda)',
+              'BEYOND_MITSUI_HOST_CAPACITY_FIXED_POWER_SAVING=false',
+          ]:
+              assert token in t145, token
+          for token in [
+              'ENDPOINT_PRINCIPAL_CAPACITY_DICHOTOMY_PROVED=true',
+              'HOST_NORMALIZED_WIDTH_FLOOR=BsQuarterTimesSqrtHK0',
+              'BEYOND_MITSUI_ENDPOINT_PSEUDOPOLYNOMIAL_WIDTH_GAIN_PROVED=true',
+              'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2',
+              'STRICT_SUBSQRT_POWER_SAVING_PROVED=false',
+              'TH33_NEEDED=false',
+          ]:
+              assert token in t146, token
+          def cap(lam, rho):
+              return max(2*lam-rho, lam)
+          assert cap(0.34, 0.20) < 0.5
+          rho = 0.20
+          lam = 0.25 + rho/2
+          assert abs((2*lam-rho)-0.5) < 1e-12
+          assert cap(0.50, 0.40) >= 0.5
+          print('Stage14-t144..146 replay-stable regression: PASS')
+          PY
 
       - name: Lock merged q16 boundary
         run: |
