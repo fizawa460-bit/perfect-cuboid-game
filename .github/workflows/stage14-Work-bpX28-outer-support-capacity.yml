@@ -1,0 +1,47 @@
+name: Stage14-Work-bpX28 outer support capacity audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bpX28/**'
+      - 'stages/stage14/scripts/14-Work-bpX28/**'
+      - 'docs/stage14-toolbox/work-bpX28-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-bpX28-outer-support-capacity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run integrated bpX28 audit
+        run: python stages/stage14/scripts/14-Work-bpX28/outer_support_capacity_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bpX28/outer_support_capacity_audit.py
+      - name: Regress merged Work-boX27
+        run: python stages/stage14/scripts/14-Work-boX27/polynomial_outer_mobility_audit.py
+      - name: Regress merged mainline 4ey..4fa
+        run: python stages/stage14/scripts/14-4/batch_4ey_4fa_kernel_overlap_audit.py
+      - name: Regress merged s7-81..83
+        run: python stages/stage14/scripts/14-s-batch/s7_81_83_squareclass_mobility_audit.py
+      - name: Regress merged t121..123
+        run: python stages/stage14/14-t-batch-t121-123/audit.py
+      - name: Lock integrated boundary
+        run: |
+          grep -Fq 'OUTER_SUPPORT_CAPACITY_LEMMA_PROVED=true' stages/stage14/14-Work-bpX28/result.md
+          grep -Fq 'COMMON_SUPPORT_TIMES_ATOMIC_WEIGHT_TEMPLATE_PROVED=true' stages/stage14/14-Work-bpX28/result.md
+          grep -Fq 'MAINLINE_HEAVY_RAY_SUPPORT_CAPACITY_EXPONENT_MAX=1/24' stages/stage14/14-Work-bpX28/result.md
+          grep -Fq 'FIXED_U_FINITE_BOUNDARY_ATOMIC_WEIGHT_DEFICIT_PROVED=false' stages/stage14/14-Work-bpX28/result.md
+          grep -Fq 'NEXT_INTEGRATED_TARGET=OuterAtomicWeightCapacityDeficitOrNoGo' stages/stage14/14-Work-bpX28/result.md
+      - name: Lock receiver matrix
+        run: grep -Fq 'OUTER_SUPPORT_CARDINALITY_AND_ATOMIC_WEIGHT_DOUBLE_CHARGE_FORBIDDEN=true' docs/stage14-toolbox/work-bpX28-receiver-matrix.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
