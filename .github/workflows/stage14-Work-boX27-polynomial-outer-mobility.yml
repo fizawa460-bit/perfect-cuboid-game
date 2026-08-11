@@ -1,0 +1,73 @@
+name: Stage14-Work-boX27 polynomial outer mobility audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-boX27/**'
+      - 'stages/stage14/scripts/14-Work-boX27/**'
+      - 'docs/stage14-toolbox/work-boX27-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-boX27-polynomial-outer-mobility.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated boX27 audit
+        run: python stages/stage14/scripts/14-Work-boX27/polynomial_outer_mobility_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-boX27/polynomial_outer_mobility_audit.py
+
+      - name: Regress merged Work-bnX26
+        run: python stages/stage14/scripts/14-Work-bnX26/correlation_obstruction_pivot_audit.py
+
+      - name: Regress merged mainline 4eq..4eu batch
+        run: python stages/stage14/scripts/14-4/batch_4eq_4eu_radial_diffuse_audit.py
+
+      - name: Regress merged s7-78..80 batch
+        run: python stages/stage14/scripts/14-s-batch/s7_78_80_heavy_ray_reverse_incidence_audit.py
+
+      - name: Regress merged t115..117 batch
+        run: python stages/stage14/14-t-batch-t115-117/audit.py
+
+      - name: Lock q13 negative direct-theorem boundary
+        run: |
+          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q13-summary.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_FROM_LITERATURE_PROVED=false' docs/stage14-q13-summary.md
+
+      - name: Lock integrated theorem boundary
+        run: |
+          f=stages/stage14/14-Work-boX27/result.md
+          grep -Fq 'STAGE14_WORK_BOX27=COMPLETE_SUBPOLYNOMIAL_FIBER_SUPPORT_RELOCATION_AND_POLYNOMIAL_OUTER_MOBILITY' "$f"
+          grep -Fq 'SUBPOLYNOMIAL_FIBER_SUPPORT_RELOCATION_LEMMA_PROVED=true' "$f"
+          grep -Fq 'COMMON_FIXED_POWER_SAVING_REQUIRES_POLYNOMIAL_OUTER_MOBILITY=true' "$f"
+          grep -Fq 'HEAVY_RAY_RADIAL_CONCENTRATION_BRANCH_CLOSED=true' "$f"
+          grep -Fq 'FIXED_U_LOCAL_AND_ORIENTATION_DEFICITS_RELOCATE_TO_WEIGHTED_NORM_SUPPORT=true' "$f"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=true' "$f"
+          grep -Fq 'S_ROUTE_H_NEEDED=false' "$f"
+          grep -Fq 'FIXED_U_H_NEEDED=false' "$f"
+
+      - name: Lock receiver matrix
+        run: |
+          f=docs/stage14-toolbox/work-boX27-receiver-matrix.md
+          grep -Fq 'SUBPOLYNOMIAL_FIBER_SUPPORT_RELOCATION_LEMMA_PROVED=true' "$f"
+          grep -Fq 'HEAVY_RAY_SATURATION_REQUIRES_POLYNOMIALLY_MANY_RADIAL_SCALES=true' "$f"
+          grep -Fq 'SharedUWeightedPhysicalScalarNormSupportDeficit' "$f"
+          grep -Fq 'COMMON_ARITHMETIC_OUTER_MOBILITY_ADAPTER_PROVED=false' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
