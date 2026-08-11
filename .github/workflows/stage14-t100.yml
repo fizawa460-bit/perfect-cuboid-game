@@ -1,0 +1,29 @@
+name: Stage14-t100 boundary stabilizer mover
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t100/**'
+      - '.github/workflows/stage14-t100.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify predecessor
+        run: |
+          grep -q 'NEXT=Stage14-t100' stages/stage14/14-t99/boundary.md
+          grep -q 'TH27_NEEDED=true' stages/stage14/14-t99/boundary.md
+      - name: Run deterministic stabilizer/mover audit
+        run: python stages/stage14/14-t100/audit.py
+      - name: Verify t100 boundary
+        run: |
+          grep -q 'SATURATION_REQUIRES_BOUNDARY_MOVER=true' stages/stage14/14-t100/boundary.md
+          grep -q 'TH27_TARGET_REOPENED=false' stages/stage14/14-t100/boundary.md
+          grep -q 'TH28_NEEDED=false' stages/stage14/14-t100/boundary.md
+          grep -q 'NEXT=Stage14-t101' stages/stage14/14-t100/boundary.md
