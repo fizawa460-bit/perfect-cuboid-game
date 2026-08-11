@@ -88,7 +88,8 @@ jobs:
         run: |
           grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X15/result.md
           grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-X15/result.md
-          grep -Fq 'FIXED_U_TO_WHOLE_FAMILY_CROSS_PROMOTION_PROVED=false' stages/stage14/14-X15/result.md
+          grep -Fq 'T87_CROSS_PROMOTED_TO_X15=false' stages/stage14/14-X15/result.md
+          grep -Fq 'TH25_CROSS_PROMOTED_TO_X15=false' stages/stage14/14-X15/result.md
 
       - name: Diff check
         run: git diff --check origin/main...HEAD
