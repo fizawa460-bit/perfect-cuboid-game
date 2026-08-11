@@ -1,0 +1,38 @@
+name: Stage14-t103 common boundary skeleton
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t103/**'
+      - '.github/workflows/stage14-t103.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Verify merged predecessors
+        run: |
+          grep -q 'STAGE14_T102=COMPLETE_FIXED_U_GENERIC_PRIME_MOVER_DENSITY_ENERGY_REDUCTION' stages/stage14/14-t102/result.md
+          grep -q 'STAGE14_WORK_BIX21=COMPLETE_SUBPOLYNOMIAL_PRIME_SUPPORT_CONCENTRATION_ENERGY_UNIFICATION' stages/stage14/14-Work-biX21/result.md
+          grep -q 'STAGE14_T100=COMPLETE_SINGLE_BOUNDARY_STABILIZER_MOVER_REDUCTION' stages/stage14/14-t100/result.md
+          grep -q 'STAGE14_TH27=COMPLETE_T99_SNAPSHOT_SINGLE_ELEMENTARY_INFLUENTIAL_BOUNDARY_APPLICABILITY_AUDIT' stages/stage14/14-tH27/result.md
+
+      - name: Run deterministic common-skeleton audit
+        run: python stages/stage14/14-t103/audit.py
+
+      - name: Verify t103 frozen boundary
+        run: |
+          grep -q 'COMMON_ELEMENTARY_BOUNDARY_SKELETON_ACROSS_PRIMES_PROVED=true' stages/stage14/14-t103/frozen-boundary.txt
+          grep -q 'COMMON_ELEMENTARY_BOUNDARY_FULL_COEFFICIENTS_ACROSS_PRIMES_PROVED=false' stages/stage14/14-t103/frozen-boundary.txt
+          grep -q 'COMMON_SKELETON_PRIME_ENERGY_EXPONENT_ZERO=true' stages/stage14/14-t103/frozen-boundary.txt
+          grep -q 'TWO_LEVEL_PRIME_STATE_CENTERING_EXACT=true' stages/stage14/14-t103/frozen-boundary.txt
+          grep -q 'GLOBAL_FIXED_U_ARITHMETIC_ADAPTER_PROVED=false' stages/stage14/14-t103/frozen-boundary.txt
+          grep -q 'TH28_NEEDED=false' stages/stage14/14-t103/frozen-boundary.txt
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t103/frozen-boundary.txt
+          grep -q 'NEXT=Stage14-t104' stages/stage14/14-t103/frozen-boundary.txt
