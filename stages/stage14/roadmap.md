@@ -234,7 +234,7 @@ q=C_*/g,
 
 the phase reduces to effective modulus `q`, and the exact-conductor frequency multiplicity is `phi(q)`.
 
-Stage14-s7-50 peels this conductor loss without an external theorem.  For
+Stage14-s7-50 peels this conductor loss without an external theorem. For
 
 ```text
 d=gcd(h,C_*),
@@ -261,37 +261,46 @@ gcd(h,C_*)=B^o(1),
 q=C_* B^o(1).
 ```
 
-Merged X15 is compatible with this endpoint and must be retained.  Its k-agreement projection gives the same root line in the equivalent form
+Merged X15 is compatible with this endpoint and must be retained. Its k-agreement projection gives the same root line in the equivalent form
 
 ```text
 delta*s == -rho*alpha*r (mod q),
 ```
 
-not a second independent modulus.  X15 also proves that triple centering retains the principal term, three pairwise covariance terms, and the genuine triple covariance.  Therefore an absolute power-saving bound for only the oscillatory full-conductor error cannot by itself beat the square-root principal density.
+not a second independent modulus. X15 also proves that triple centering retains the principal term, three pairwise covariance terms, and the genuine triple covariance. Therefore an absolute power-saving bound for only the oscillatory full-conductor error cannot by itself beat the square-root principal density.
 
-Stage14-s7-50 consequently freezes the new immutable theorem audit
+The frozen Stage14-sH50 audit now checks the full-conductor theorem landscape. It confirms that the old sH48 centering/conductor objections are resolved, but no surveyed theorem controls the **full physical principal-density plus covariance count** with a fixed power saving. Complete/incomplete Kloosterman theorems are cancellation tools for oscillatory errors; the required mask-preserving coefficient packaging is not yet proved, and even an ideal oscillatory error bound would leave the exponent-`1/2` principal term unless a new marginal-density loss or main-term-scale signed anti-correlation is supplied.
 
 ```text
-Stage14-sH50
-SquareRootQuarterFullConductorPrimitivePythagoreanThreeProjectionPhysicalPrincipalDensityAndInverseFractionCovariancePowerSaving
+STAGE14_SH50=COMPLETE
+OFF_THE_SHELF_THEOREM_APPLICABLE=false
+OSCILLATORY_ERROR_POWER_SAVING_CERTIFIED=false
+PRINCIPAL_DENSITY_FIXED_POWER_LOSS_CERTIFIED=false
+MAIN_TERM_SCALE_SIGNED_ANTICORRELATION_CERTIFIED=false
+X15_ALL_COVARIANCE_TERMS_CONTROLLED=false
+CERTIFIED_B_POWER_SAVING_EXPONENT=0
 ```
 
-which must audit the **full physical count**, not merely the centered error.
+The sharpened receiver is
+
+```text
+FullConductorPrimitiveQuarterPythagoreanThreeProjectionConditionalPrincipalDensityAndSignedCovarianceCorrelation.
+```
 
 Current route state:
 
 ```text
-S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED_BLOCKED_ON_SH50
+S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED
 S_ROUTE_CLOSED_BY=Stage14-s7-45
 S_ROUTE_REACTIVATION_TRIGGERED_BY=Stage14-4de
 S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46
 S_ROUTE_REACTIVATION_NEEDED=false
 USER_DECIDES_S_ROUTE_REACTIVATION=false
 ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
-S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterFullConductorPrimitivePythagoreanThreeProjectionPhysicalPrincipalDensityAndInverseFractionCovariancePowerSaving
-S_ROUTE_BLOCKED_WAITING_FOR_H=true
-S_ROUTE_AUXILIARY_H=Stage14-sH50
-S_ROUTE_NEXT=Stage14-s7-51_after_sH50
+S_ROUTE_CURRENT_RECEIVER=FullConductorPrimitiveQuarterPythagoreanThreeProjectionConditionalPrincipalDensityAndSignedCovarianceCorrelation
+S_ROUTE_BLOCKED_WAITING_FOR_H=false
+S_ROUTE_AUXILIARY_H=Stage14-sH50_COMPLETE
+S_ROUTE_NEXT=Stage14-s7-51
 ```
 
 The user is **not** expected to decide whether the s-route should be restarted. Reactivation checks are relevant when the s route is CLOSED; while it is ACTIVE, downstream Stage14 work must preserve the current route state rather than overwrite it with an older snapshot.
