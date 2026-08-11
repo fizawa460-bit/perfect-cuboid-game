@@ -1,0 +1,22 @@
+name: Stage14-t-batch t112-t114 principal depletion dichotomy
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t112/**'
+      - 'stages/stage14/14-t113/**'
+      - 'stages/stage14/14-t114/**'
+      - 'stages/stage14/14-t-batch-t112-114/**'
+      - '.github/workflows/stage14-t-batch-t112-114.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run deterministic t112-t114 audit
+        run: python stages/stage14/14-t-batch-t112-114/audit.py
