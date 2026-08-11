@@ -1,0 +1,45 @@
+name: Stage14-Work-bvX34 local theorem coverage audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bvX34/result.md'
+      - 'docs/stage14-toolbox/work-bvX34-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-bvX34/local_theorem_coverage_audit.py'
+      - '.github/workflows/stage14-Work-bvX34-local-theorem-coverage.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run integrated bvX34 audit
+        run: python stages/stage14/scripts/14-Work-bvX34/local_theorem_coverage_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bvX34/local_theorem_coverage_audit.py
+      - name: Regress merged Work-buX33
+        run: python stages/stage14/scripts/14-Work-buX33/support_occupancy_adapter_audit.py
+      - name: Regress merged mainline 4fq..4fs
+        run: python stages/stage14/scripts/14-4/batch_4fq_4fs_bare_shadow_completion_audit.py
+      - name: Regress merged s7-99..101
+        run: python stages/stage14/scripts/14-s-batch/s7_99_101_outer_existence_split_audit.py
+      - name: Regress merged t137..t139+tH31
+        run: python stages/stage14/14-t-batch-t137-139-th31/audit.py
+      - name: Lock integrated boundary
+        run: |
+          grep -F 'PRINCIPAL_SCALE_THEOREM_COVERAGE_COMPLETENESS_LEMMA_PROVED=true' stages/stage14/14-Work-bvX34/result.md
+          grep -F 'MITSUI_SAFE_LONG_HEADROOM_BRANCH_DISCHARGED=true' stages/stage14/14-Work-bvX34/result.md
+          grep -F 'MERGED_DIRECT_COMMON_THEOREM_FOR_CURRENT_SURVIVORS=NONE' stages/stage14/14-Work-bvX34/result.md
+          grep -F 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-bvX34/result.md
+          grep -F 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-bvX34/result.md
+          grep -F 'TH32_NEEDED=false' stages/stage14/14-Work-bvX34/result.md
+      - name: Lock receiver matrix
+        run: |
+          grep -F 'BRANCH_LOCAL_THEOREM_DISCHARGE_WHOLE_FAMILY_SAVING_AUTOMATIC=false' docs/stage14-toolbox/work-bvX34-receiver-matrix.md
+          grep -F 'COMMON_ADAPTER_PROVED=false' docs/stage14-toolbox/work-bvX34-receiver-matrix.md
+      - name: Diff check
+        run: git diff --check
