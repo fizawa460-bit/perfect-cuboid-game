@@ -1,0 +1,99 @@
+name: Stage14-X15 Pythagorean three-projection synthesis
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-X15/**'
+      - 'stages/stage14/data/14-X15/**'
+      - 'stages/stage14/scripts/14-X15/**'
+      - '.github/workflows/stage14-X15-pythagorean-three-projection.yml'
+      - 'stages/stage14/14-X14/**'
+      - 'stages/stage14/14-4dd/**'
+      - 'stages/stage14/14-4de/**'
+      - 'stages/stage14/14-4df/**'
+      - 'stages/stage14/14-s7-46/**'
+      - 'stages/stage14/14-s7-48/**'
+      - 'stages/stage14/14-sH48/**'
+      - 'stages/stage14/14-toolbox-bc/**'
+      - 'stages/stage14/14-t88/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run Stage14-X15 exact audit
+        run: python stages/stage14/scripts/14-X15/pythagorean_three_projection_audit.py
+
+      - name: Compile Stage14-X15 audit
+        run: python -m py_compile stages/stage14/scripts/14-X15/pythagorean_three_projection_audit.py
+
+      - name: Run merged X14 regression
+        run: python stages/stage14/scripts/14-X14/post_sqrt_frontier_audit.py
+
+      - name: Run merged 4dd regression
+        run: python stages/stage14/scripts/14-4/full_residual_balanced_gaussian_density_audit.py
+
+      - name: Run merged 4de regression
+        run: python stages/stage14/scripts/14-4/mixed_fourth_root_reactivation_audit.py
+
+      - name: Run merged s7-46 regression
+        run: python stages/stage14/scripts/14-s7-46/mixed_root_cofactor_reconstruction_audit.py
+
+      - name: Run merged 4df regression
+        run: python stages/stage14/scripts/14-4/s7_47_six_block_audit.py
+
+      - name: Run merged s7-48 regression
+        run: python stages/stage14/scripts/14-s7-48/gaussian_coordinate_product_reduction_audit.py
+
+      - name: Run merged sH48 regression
+        run: python stages/stage14/scripts/14-sH48/gaussian_product_sum_correlation_audit.py
+
+      - name: Lock predecessor boundaries
+        run: |
+          grep -Fq 'GAUSSIAN_PRODUCT_PAIR_RETAINS_ALL_SATURATION_CELL_SUPPORT=true' stages/stage14/14-X14/result.md
+          grep -Fq 'SQRT_SATURATION_REQUIRES_FIRST_RESIDUAL_AT_CAP=true' stages/stage14/14-4dd/result.md
+          grep -Fq 'MIXED_FOURTH_ROOT_LINE_PROVED=true' stages/stage14/14-4de/result.md
+          grep -Fq 'MIXED_ROOT_TO_SECOND_RECIPROCAL_FIBER_MULTIPLICITY=Bo1' stages/stage14/14-s7-46/result.md
+          grep -Fq 'SIX_ATOMIC_NORM_BLOCKS_PAIRWISE_SEPARATED=true' stages/stage14/14-4df/result.md
+          grep -Fq 'TWO_SQUARE_ELIMINATION_IDEAL_TRIVIAL=true' stages/stage14/14-s7-48/result.md
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' stages/stage14/14-sH48/result.md
+
+      - name: Lock latest-main compatibility
+        run: |
+          c=stages/stage14/14-X15/latest-main-compatibility.md
+          grep -Fq 'MERGED_TOOLBOX_BC_IMPORTED=true' "$c"
+          grep -Fq 'TOOLBOX_BC_COMPATIBLE_WITH_X15=true' "$c"
+          grep -Fq 'MERGED_T88_IMPORTED_AS_BOUNDARY_CONTEXT=true' "$c"
+          grep -Fq 'T88_CROSS_PROMOTED_TO_X15=false' "$c"
+          grep -Fq 'FIXED_U_TO_WHOLE_FAMILY_CROSS_PROMOTION_PROVED=false' "$c"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-toolbox-bc/result.md
+          grep -Fq 'FIXED_U_TO_WHOLE_FAMILY_CROSS_PROMOTION_PROVED=false' stages/stage14/14-t88/result.md
+
+      - name: Lock Stage14-X15 theorem boundary
+        run: |
+          f=stages/stage14/14-X15/result.md
+          grep -Fq 'STAGE14_X15=COMPLETE_THREE_PROJECTION_PYTHAGOREAN_CLOSURE_EIGHT_BLOCK_SEPARATION_AND_SQRT_DENSITY_REFINEMENT' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'THREE_PROJECTION_PYTHAGOREAN_IDENTITY_PROVED=true' "$f"
+          grep -Fq 'THREE_PROJECTION_ELIMINATION_IDEAL_PRINCIPAL=true' "$f"
+          grep -Fq 'EIGHT_ATOMIC_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'THREE_COMPLETE_COORDINATE_SYSTEMS_FINITE_FIBER_EQUIVALENT=true' "$f"
+          grep -Fq 'PYTHAGOREAN_CONE_ALONE_GIVES_FIXED_POWER_SAVING=false' "$f"
+          grep -Fq 'TRIPLE_CENTERING_PAIRWISE_COVARIANCE_TERMS_REMAIN=true' "$f"
+          grep -Fq 'REMAINING_RECEIVER=SquareRootQuarterPrimitivePythagoreanConeEightAtomicBlockThreeProjectionPhysicalCorrelationDensity' "$f"
+          grep -Fq 'X15_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_RECOMMENDED=Stage14-X16_after_centering_consumers' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
