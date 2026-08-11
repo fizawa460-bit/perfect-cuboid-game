@@ -5,7 +5,7 @@
 ```text
 STAGE14_MAIN_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=d519dcccee5bedb4844dbcee5cb4b5171600c0bf
-BATCH_PUBLICATION_MAIN_SHA=d519dcccee5bedb4844dbcee5cb4b5171600c0bf
+BATCH_PUBLICATION_MAIN_SHA=1416641f09246c308227f6ab51952a7afcc6d5e3
 BATCH_FIRST_STAGE=Stage14-4fh
 BATCH_LAST_STAGE=Stage14-4fj
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3
@@ -120,10 +120,16 @@ WHOLE_MAINLINE_BLOCKED_BY_H=false
 
 ## Publication recheck
 
-Latest merged main remained
+Main advanced during the batch to merged q14 at
 
 ```text
-d519dcccee5bedb4844dbcee5cb4b5171600c0bf
+1416641f09246c308227f6ab51952a7afcc6d5e3.
 ```
 
-through the publication recheck. No concurrent unmerged route result is used as a theorem source.
+q14 is consumed as a literature-routing boundary only. It confirms that Ford-type divisor-in-an-interval results are the closest classical architecture, but no direct theorem preserves the Stage14 squareclass restriction, reciprocal partner, charged physical subfamily, and bundled `w_phys(n,L)` masks with a fixed-power deficit. Therefore it does not alter 4fh--4fj and supports the decision not to open a new heavy H before `4fk` exposes the residual physical weight.
+
+```text
+Q14_CONSUMED_AS_ROUTING_BOUNDARY=true
+Q14_DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0
+Q14_FORD_TRANSFER_PREMATURE_BEFORE_W_PHYS_OPENING=true
+```
