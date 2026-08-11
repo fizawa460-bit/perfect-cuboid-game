@@ -1,0 +1,78 @@
+name: Stage14-4df s7-47 six-block consolidation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4df/**'
+      - 'stages/stage14/data/14-4/s7_47_six_block_summary.json'
+      - 'stages/stage14/scripts/14-4/s7_47_six_block_audit.py'
+      - '.github/workflows/stage14-4df-s7-47-six-block.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4df deterministic audit
+        run: python stages/stage14/scripts/14-4/s7_47_six_block_audit.py
+
+      - name: Compile Stage14-4df audit
+        run: python -m py_compile stages/stage14/scripts/14-4/s7_47_six_block_audit.py
+
+      - name: Merged s7-47 source regression
+        run: |
+          f=stages/stage14/14-s7-47/result.md
+          grep -Fq 'STAGE14_S7_47=COMPLETE_WITHINSIDE_OVERLAP_EFFECTIVE_MIXED_ROOT_AND_BALANCED_SPLIT_DENSITY_BOUNDARY' "$f"
+          grep -Fq 'SQRT_SATURATION_FOUR_NORM_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'DUAL_BALANCED_COFACTOR_COUPLED_SQUARE_SYSTEM_PROVED=true' "$f"
+          python stages/stage14/scripts/14-s7-47/withinside_overlap_balanced_split_audit.py >/dev/null
+
+      - name: Merged s7-46 source regression
+        run: |
+          f=stages/stage14/14-s7-46/result.md
+          grep -Fq 'MIXED_FOURTH_ROOT_TUPLE_PHYSICAL_PACKET_FINITE_FIBER_EQUIVALENCE=true' "$f"
+          grep -Fq 'DUAL_BALANCED_XI_COFACTOR_SPLIT_REQUIRED=true' "$f"
+
+      - name: Preserve downstream merged s-route work
+        run: |
+          grep -Fq 'EXACT_S_ROUTE_ALGEBRA_EXHAUSTED_AT_THIS_RECEIVER=true' stages/stage14/14-s7-48/result.md
+          grep -Fq 'STAGE14_SH48=COMPLETE_S7_48_SNAPSHOT_GAUSSIAN_PRODUCT_SUM_CORRELATION_APPLICABILITY_AUDIT' stages/stage14/14-sH48/result.md
+          grep -Fq 'NEXT_S_ROUTE=Stage14-s7-49' stages/stage14/14-sH48/result.md
+
+      - name: Fixed-U non-cross-promotion locks
+        run: |
+          grep -Fq 'STAGE14_T86=' stages/stage14/14-t86/result.md
+          grep -Fq 'STAGE14_TH24=' stages/stage14/14-tH24/result.md
+
+      - name: Stage14-4df theorem boundary
+        run: |
+          f=stages/stage14/14-4df/result.md
+          grep -Fq 'STAGE14_4DF=COMPLETE_S7_47_MAINLINE_CONSUMPTION_SIX_BLOCK_PAIRWISE_SEPARATION_AND_SQUARE_RECONSTRUCTION' "$f"
+          grep -Fq 'SOURCE_THEOREM_SNAPSHOT=Stage14-s7-47' "$f"
+          grep -Fq 'MERGED_S7_47_IMPORTED=true' "$f"
+          grep -Fq 'S7_47_OVERLAP_THEOREM_REPROVED_BY_4DF=false' "$f"
+          grep -Fq 'S7_47_AND_4DF_OVERLAP_SAVINGS_MULTIPLICABLE=false' "$f"
+          grep -Fq 'SIX_ATOMIC_NORM_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'SIX_BLOCK_PACKET_TO_BALANCED_PAIR_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'D_A_INDEPENDENT_FIXED_POWER_SUPPORT_AFTER_SIX_BLOCKS=false' "$f"
+          grep -Fq 'MIXED_ROOT_LABEL_INDEPENDENT_SUPPORT_AFTER_SIX_BLOCKS=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S_ROUTE_LIFECYCLE_OWNED_BY_CURRENT_ROADMAP=true' "$f"
+          grep -Fq 'CURRENT_S_ROUTE_STATE_NOT_OVERWRITTEN_BY_4DF=true' "$f"
+          grep -Fq 'LATER_MERGED_S7_48_SH48_PRESERVED=true' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4dg' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
