@@ -1,70 +1,75 @@
-# Stage14-4eo — theorem gate for separated fixed-common-core off-diagonal projective collision energy
+# Stage14-4eo — theorem gate for separated fixed-common-core genuine-mover dispersion
 
 ## Status
 
-`COMPLETE_SEPARATED_COMMON_CORE_OFFDIAGONAL_PROJECTIVE_COLLISION_DISPERSION_H_GATE`
+`COMPLETE_SEPARATED_COMMON_CORE_GENUINE_MOVER_DISPERSION_H_GATE`
 
-Consumes batch-local `Stage14-4el/4em/4en`, merged `Stage14-4ek`, and merged `Stage14-Work-bnX26`.
+Consumes corrected batch-local `Stage14-4el/4em/4en`, merged `Stage14-s7-75..77`, merged `Stage14-4ek`, and merged `Stage14-Work-bnX26`.
+
+This stage applies only to the **genuine determinant-mover** alternative. The merged s7-77 heavy primitive-ray alternative remains an independent live receiver.
 
 ```text
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+HEAVY_RAY_BRANCH_UNCHANGED=true
 ```
 
-## 1. Exact surviving concentrated receiver
+## 1. Exact surviving mover receiver
 
-After 4el and 4en, a concentrated polynomial-common-core saturating branch can only survive on a frozen cell with
+After 4em/4en, the genuine-mover alternative can survive only on a frozen cell with
 
 ```text
 C=B^(kappa+o(1)), kappa>0,
 |X_j|~R,
 |Y_j|~S,
-RS/C >= B^(eta+o(1))
+RS/C >= B^(eta+o(1)), eta>0,
 ```
 
-for some fixed `eta>0`, and with exponent-zero weighted mass of genuine off-diagonal pairs satisfying
+and exponent-zero mover pair mass satisfying
 
 ```text
-X1*Y2-X2*Y1 = q C,
-q != 0,
+X1*Y2-X2*Y1=qC,
+q!=0,
 |q| <= B^o(1) RS/C.
 ```
 
-The exact modulus `C` is frozen; the determinant quotient `q` remains polynomial and may not be frozen at `B^o(1)` cost.
-
-All candidate weights remain the actual canonical-allocation / reciprocal physical weights. They are not arbitrary independent box weights.
+The exact modulus `C` is frozen; `q` has polynomial range and may not be frozen at `B^o(1)` cost. Candidate weights remain the actual canonical-allocation / reciprocal physical weights.
 
 ```text
-CONCENTRATED_RECEIVER_FIXED_EXACT_C=true
-CONCENTRATED_RECEIVER_GENUINE_OFFDIAGONAL_ONLY=true
-CONCENTRATED_RECEIVER_Q_POLYNOMIAL=true
+MOVER_RECEIVER_FIXED_EXACT_C=true
+MOVER_RECEIVER_GENUINE_NONZERO_DETERMINANT_ONLY=true
+MOVER_RECEIVER_Q_POLYNOMIAL=true
 CANONICAL_PHYSICAL_WEIGHT_CORRELATION_RETAINED=true
 ```
 
-## 2. Elementary reductions are exhausted on this branch
+## 2. Elementary mover reductions are exhausted
 
-The following sources have already been removed or discharged:
+On this subbranch the following have already been discharged:
 
 ```text
-diagonal collisions,
-exact rational proportional collisions,
-near-maximal C~RS fixed-quotient collisions,
+diagonal self-pairs,
+zero-determinant pairs by routing them to the separate heavy-ray branch,
+near-maximal C~RS genuine movers,
 Gaussian splitting/root principal density,
-finite reciprocal/allocation witness multiplicity,
+finite per-candidate reconstruction fibers,
 second-modulus recharge.
 ```
 
-For the surviving scale, the affine-line parameter `t` can range polynomially after `q` ranges polynomially. Pointwise lattice counting reproduces the ambient pair exponent and does not give a uniform fixed-power energy deficit.
-
-Likewise treating `q` as an independent uniformly distributed variable is illegal: it is defined by the same physical pair and the same exact modulus `C`.
+Importantly, zero-determinant repeated rays are **not** claimed to have finite global multiplicity. They survive separately as
 
 ```text
-ELEMENTARY_FIXED_Q_AFFINE_LINE_REDUCTION_EXHAUSTED=true
-Q_INDEPENDENCE_ASSUMED=false
-POINTWISE_LATTICE_COUNT_FIXED_POWER_SAVING_PROVED=false
+ConcentratedExactCommonCoreHeavyPrimitiveReciprocalRayIncidence.
 ```
 
-## 3. Freeze the independent theorem target
+For the separated mover scale, pointwise affine-line counting reproduces the ambient exponent after polynomial `q` summation. Treating `q` as independent is illegal.
+
+```text
+ELEMENTARY_MOVER_AFFINE_LINE_REDUCTION_EXHAUSTED=true
+Q_INDEPENDENCE_ASSUMED=false
+POINTWISE_MOVER_LATTICE_COUNT_FIXED_POWER_SAVING_PROVED=false
+```
+
+## 3. Freeze the mover theorem target
 
 The theorem-ready object is
 
@@ -72,20 +77,19 @@ The theorem-ready object is
 FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion
 ```
 
-with the immutable contract recorded in `reciprocal-h-target.md`.
+with the immutable contract recorded in `reciprocal-h-target.md`. Here “off-diagonal projective collision” is restricted to the genuine nonzero-determinant mover component.
 
-A successful theorem/audit must prove, for some fixed `delta>0`, a bound strong enough to exclude exponent-zero off-diagonal energy uniformly on every frozen physical packet, schematically
+A successful audit must prove, for some fixed `delta>0`, a bound such as
 
 ```text
-OffDiagEnergy_C
- << M_C^2 B^(-delta+o(1)),
+MoverEnergy_C << M_C^2 B^(-delta+o(1)),
 ```
 
-or an equivalent bilinear/dispersion/incidence estimate, while retaining:
+or an equivalent bilinear/dispersion/incidence estimate, retaining:
 
 ```text
 exact correlated modulus C,
-primitive candidate vectors,
+primitive distinct projective rays,
 canonical allocation background,
 range/angular/chart masks,
 squarefree/coprime/smooth-rough masks,
@@ -93,38 +97,51 @@ charged-once reciprocal candidate fibers,
 nonzero determinant quotient with polynomial range.
 ```
 
-An estimate for unrestricted box points, independent coefficient sequences, or a different modulus average is advisory only unless a mask-preserving adapter is proved.
+An unrestricted-box estimate or unrelated modulus average is advisory unless a mask-preserving adapter is proved.
+
+```text
+NEW_RECIPROCAL_MOVER_H_NEEDED=true
+NEW_RECIPROCAL_MOVER_H_TARGET=FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion
+NEW_RECIPROCAL_MOVER_H_BLOCKING_MOVER_BRANCH=true
+```
+
+For compatibility with the Stage14 H ledger:
 
 ```text
 NEW_RECIPROCAL_H_NEEDED=true
 NEW_RECIPROCAL_H_TARGET=FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion
-NEW_RECIPROCAL_H_BLOCKING_CONCENTRATED_BRANCH=true
 ```
 
-## 4. Whole mainline is not blocked
+## 4. Whole mainline remains open
 
-The low-common-core allocation branch already has the separate merged-4ef H target
+Three other routes remain independent:
 
 ```text
-CanonicalBalancedIntegerGaussianThreeDivisorCorrelationDensity.
+low C0 allocation correlation,
+concentrated heavy primitive-ray reverse incidence,
+diffuse polynomial-C norm-divisor graph.
 ```
 
-The diffuse polynomial-common-core branch from 4ek is also independent of the exact-modulus concentrated branch and still admits internal reduction. Therefore this new H gate blocks only the concentrated subroute; the requested batch may continue to Stage14-4ep on the diffuse branch without consuming any positive H conclusion.
+Therefore this H gate blocks only the separated genuine-mover subbranch. Stage14-4ep may continue on the diffuse branch without consuming any positive H conclusion; the heavy-ray branch also remains available for internal work.
 
 ```text
 WHOLE_MAINLINE_BLOCKED_BY_NEW_RECIPROCAL_H=false
+HEAVY_RAY_BRANCH_MAY_CONTINUE_INTERNAL_REDUCTION=true
 DIFFUSE_BRANCH_MAY_CONTINUE_INTERNAL_REDUCTION=true
 ```
 
 ## Boundary
 
 ```text
-STAGE14_4EO=COMPLETE_SEPARATED_COMMON_CORE_OFFDIAGONAL_PROJECTIVE_COLLISION_DISPERSION_H_GATE
-ELEMENTARY_FIXED_Q_AFFINE_LINE_REDUCTION_EXHAUSTED=true
-CONCENTRATED_RECEIVER_Q_POLYNOMIAL=true
+STAGE14_4EO=COMPLETE_SEPARATED_COMMON_CORE_GENUINE_MOVER_DISPERSION_H_GATE
+ELEMENTARY_MOVER_AFFINE_LINE_REDUCTION_EXHAUSTED=true
+MOVER_RECEIVER_Q_POLYNOMIAL=true
+HEAVY_RAY_BRANCH_UNCHANGED=true
+NEW_RECIPROCAL_MOVER_H_NEEDED=true
+NEW_RECIPROCAL_MOVER_H_TARGET=FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion
+NEW_RECIPROCAL_MOVER_H_BLOCKING_MOVER_BRANCH=true
 NEW_RECIPROCAL_H_NEEDED=true
 NEW_RECIPROCAL_H_TARGET=FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion
-NEW_RECIPROCAL_H_BLOCKING_CONCENTRATED_BRANCH=true
 WHOLE_MAINLINE_BLOCKED_BY_NEW_RECIPROCAL_H=false
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
