@@ -1,0 +1,86 @@
+name: Stage14-s7-48 Gaussian norm coordinate-product reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-48/**'
+      - 'stages/stage14/scripts/14-s7-48/**'
+      - '.github/workflows/stage14-s7-48-gaussian-coordinate-product.yml'
+      - 'stages/stage14/roadmap.md'
+      - 'stages/stage14/14-s7-47/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-48 deterministic audit
+        run: python stages/stage14/scripts/14-s7-48/gaussian_coordinate_product_reduction_audit.py
+
+      - name: Compile Stage14-s7-48 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-48/gaussian_coordinate_product_reduction_audit.py
+
+      - name: Merged s7-47 regression
+        run: python stages/stage14/scripts/14-s7-47/withinside_overlap_balanced_split_audit.py
+
+      - name: Lock s7-47 predecessor
+        run: |
+          f=stages/stage14/14-s7-47/result.md
+          grep -Fq 'SQRT_SATURATION_FOUR_NORM_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'DUAL_BALANCED_COFACTOR_COUPLED_SQUARE_SYSTEM_PROVED=true' "$f"
+          grep -Fq 'S_ROUTE_NEXT=Stage14-s7-48' "$f"
+
+      - name: Lock H protocol
+        run: |
+          grep -Fq 'ONE H REQUEST = ONE IMMUTABLE SOURCE SNAPSHOT = ONE AUDIT RESULT' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock Stage14-s7-48 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-48/result.md
+          grep -Fq 'STAGE14_S7_48=COMPLETE_GAUSSIAN_NORM_ROTATED_COORDINATE_PRODUCT_FINITE_FIBER_AND_RESULTANT_NO_GO' "$f"
+          grep -Fq 'GAUSSIAN_NORM_ROTATED_COORDINATE_PRODUCT_REDUCTION_PROVED=true' "$f"
+          grep -Fq 'PLUS_TRIPLE_TO_PHYSICAL_PACKET_FIBER_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'MINUS_TRIPLE_TO_PHYSICAL_PACKET_FIBER_MULTIPLICITY=Bo1' "$f"
+          grep -Fq 'PLUS_COMPLETE_COUNT_EXPONENT=1/2' "$f"
+          grep -Fq 'MINUS_COMPLETE_COUNT_EXPONENT=1/2' "$f"
+          grep -Fq 'TWO_SQUARE_ELIMINATION_IDEAL_TRIVIAL=true' "$f"
+          grep -Fq 'FRESH_ALGEBRAIC_RESULTANT_AMONG_SIX_NORM_BLOCKS=false' "$f"
+          grep -Fq 'SECOND_DIVISOR_SWITCH_FIXED_POWER_SAVING=false' "$f"
+          grep -Fq 'EXACT_S_ROUTE_ALGEBRA_EXHAUSTED_AT_THIS_RECEIVER=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S7_48_NEW_AUXILIARY_H_NEEDED=true' "$f"
+          grep -Fq 'S7_48_AUXILIARY_H_STAGE=Stage14-sH48' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=true' "$f"
+          grep -Fq 'NEXT=Stage14-s7-49_after_sH48' "$f"
+
+      - name: Lock sH48 target
+        run: |
+          f=stages/stage14/14-s7-48/sh48-target.md
+          grep -Fq 'H_STAGE=Stage14-sH48' "$f"
+          grep -Fq 'SOURCE_STAGE=Stage14-s7-48' "$f"
+          grep -Fq 'TARGET_FREEZES_AT_DISPATCH=true' "$f"
+          grep -Fq 'SquareRootQuarterScalePairwiseSeparatedGaussianNormRotatedCoordinateProductDualBalancedCellFactorizationPowerSaving' "$f"
+
+      - name: Roadmap route-state lock
+        run: |
+          f=stages/stage14/roadmap.md
+          grep -Fq 'S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED_BLOCKED_ON_SH48' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=true' "$f"
+          grep -Fq 'S_ROUTE_AUXILIARY_H=Stage14-sH48' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
