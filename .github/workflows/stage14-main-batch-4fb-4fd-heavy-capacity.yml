@@ -1,0 +1,40 @@
+name: Stage14-main-batch 4fb-4fd heavy capacity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4fb/**'
+      - 'stages/stage14/14-4fc/**'
+      - 'stages/stage14/14-4fd/**'
+      - 'stages/stage14/14-4-batch/4fb-4fd-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4fb_4fd_heavy_capacity_audit.py'
+      - '.github/workflows/stage14-main-batch-4fb-4fd-heavy-capacity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4fb_4fd_heavy_capacity_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4fb_4fd_heavy_capacity_audit.py
+      - name: Previous batch regression
+        run: python stages/stage14/scripts/14-4/batch_4ey_4fa_kernel_overlap_audit.py
+      - name: Boundary tokens
+        run: |
+          grep -Fq 'HEAVY_RAY_SURVIVAL_REQUIRES_MU_LE_1_24=true' stages/stage14/14-4fc/result.md
+          grep -Fq 'SURVIVING_HEAVY_RAY_RADIAL_SUPPORT_LOWER_BOUND=B^(mu-o(1))' stages/stage14/14-4fd/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4fb-4fd-report.md
+          grep -Fq 'NEXT=Stage14-4fe' stages/stage14/14-4-batch/4fb-4fd-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
