@@ -24,7 +24,8 @@ for M in range(1, 65):
         checked += 1
 
 # 2. Complement thinness only kills the centered term, not principal mass.
-for M in range(2, 65):
+# Start at M=3 so the near-full example is strictly above 1/2.
+for M in range(3, 65):
     rho_full = Fraction(M, M)
     var_full = rho_full * (1 - rho_full)
     assert rho_full == 1
