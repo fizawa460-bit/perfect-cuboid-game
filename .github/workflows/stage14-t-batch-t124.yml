@@ -1,0 +1,19 @@
+name: Stage14-t-batch t124 boundary discharge
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t124/**'
+      - 'stages/stage14/14-t-batch-t124/**'
+      - '.github/workflows/stage14-t-batch-t124.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t124 audit
+        run: python stages/stage14/14-t-batch-t124/audit.py
