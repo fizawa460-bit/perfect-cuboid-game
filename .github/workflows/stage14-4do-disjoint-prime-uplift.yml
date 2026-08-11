@@ -1,0 +1,27 @@
+name: Stage14-4do disjoint-prime uplift
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4do/**'
+      - 'stages/stage14/scripts/14-4/disjoint_prime_uplift_audit.py'
+      - '.github/workflows/stage14-4do-disjoint-prime-uplift.yml'
+  workflow_dispatch:
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile stages/stage14/scripts/14-4/disjoint_prime_uplift_audit.py
+      - run: python stages/stage14/scripts/14-4/disjoint_prime_uplift_audit.py
+      - name: Lock boundary
+        run: |
+          f=stages/stage14/14-4do/result.md
+          grep -q 'STAGE14_4DO=COMPLETE_ZERO_MODE_UPLIFT_DISJOINT_PRIME_ALLOCATION_REDUCTION' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -q 'NEXT_H_NEEDED=false' "$f"
+      - run: git diff --check origin/main...HEAD
