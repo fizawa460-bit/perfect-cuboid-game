@@ -1,0 +1,94 @@
+name: Stage14-sH48 frozen Gaussian product-sum correlation audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-sH48/**'
+      - 'stages/stage14/scripts/14-sH48/**'
+      - '.github/workflows/stage14-sH48-gaussian-product-sum-correlation.yml'
+      - 'stages/stage14/14-s7-48/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_SHA: e228c62d6e0fa7d4bf2939bd8e1710f67aa4a9be
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify immutable source snapshot exists
+        run: git cat-file -e "${SOURCE_SHA}^{commit}"
+
+      - name: Verify frozen source target directly
+        run: |
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-48/sh48-target.md" | grep -Fq 'H_STAGE=Stage14-sH48'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-48/sh48-target.md" | grep -Fq 'TARGET_FREEZES_AT_DISPATCH=true'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-48/sh48-target.md" | grep -Fq 'SquareRootQuarterScalePairwiseSeparatedGaussianNormRotatedCoordinateProductDualBalancedCellFactorizationPowerSaving'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-48/sh48-refinement.md" | grep -Fq 'PRIMITIVE_ROTATED_PAIR_REDUCTION_PROVED=true'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-48/sh48-refinement.md" | grep -Fq 'ROTATED_PAIR_PRODUCT=epsilon_minus*u_star*R*J'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-48/sh48-refinement.md" | grep -Fq 'ROTATED_PAIR_SUM_SQUARES=2*epsilon_plus*C_star*S*T'
+
+      - name: Stage14-sH48 deterministic audit
+        run: python stages/stage14/scripts/14-sH48/gaussian_product_sum_correlation_audit.py
+
+      - name: Compile Stage14-sH48 audit
+        run: python -m py_compile stages/stage14/scripts/14-sH48/gaussian_product_sum_correlation_audit.py
+
+      - name: Regress frozen s7-48 arithmetic reduction
+        run: python stages/stage14/scripts/14-s7-48/gaussian_coordinate_product_reduction_audit.py
+
+      - name: H protocol locks
+        run: |
+          grep -Fq 'ONE H REQUEST = ONE IMMUTABLE SOURCE SNAPSHOT = ONE AUDIT RESULT' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'COMPLETED_H_MERGES_AS_SCOPED_SNAPSHOT_RESULT=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock Stage14-sH48 boundary
+        run: |
+          f=stages/stage14/14-sH48/result.md
+          grep -Fq 'STAGE14_SH48=COMPLETE_S7_48_SNAPSHOT_GAUSSIAN_PRODUCT_SUM_CORRELATION_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=e228c62d6e0fa7d4bf2939bd8e1710f67aa4a9be' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'FULL_REQUIRED_MASKS_RETAINED=true' "$f"
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'REUSS_BILINEAR_TRILINEAR_DIRECTLY_APPLICABLE=false' "$f"
+          grep -Fq 'DONG_ROBLES_ZEINDLER_DIRECTLY_APPLICABLE=false' "$f"
+          grep -Fq 'BLOMER_PASCADI_DIRECTLY_APPLICABLE=false' "$f"
+          grep -Fq 'BAIER_MODULAR_ROOT_BILINEAR_DIRECTLY_APPLICABLE=false' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_S_ROUTE=Stage14-s7-49' "$f"
+
+      - name: Literature matrix locks
+        run: |
+          f=stages/stage14/14-sH48/literature.md
+          grep -Fq 'arXiv:1502.07594' "$f"
+          grep -Fq 'arXiv:2601.00292' "$f"
+          grep -Fq 'arXiv:2607.24311' "$f"
+          grep -Fq 'arXiv:2603.25814' "$f"
+          grep -Fq 'arXiv:1901.02548' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+
+      - name: Boundary file locks
+        run: |
+          f=stages/stage14/14-sH48/BOUNDARY.txt
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=e228c62d6e0fa7d4bf2939bd8e1710f67aa4a9be' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'PREFERRED_RECEIVER=CenteredPrimitiveQuarterPairProductNormDualBalancedCellFactorizationDispersion' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
