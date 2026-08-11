@@ -1,0 +1,41 @@
+name: Stage14-4 batch 4ey-4fa kernel overlap
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ey/**'
+      - 'stages/stage14/14-4ez/**'
+      - 'stages/stage14/14-4fa/**'
+      - 'stages/stage14/14-4-batch/4ey-4fa-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4ey_4fa_kernel_overlap_audit.py'
+      - '.github/workflows/stage14-4-batch-4ey-4fa-kernel-overlap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4ey_4fa_kernel_overlap_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4ey_4fa_kernel_overlap_audit.py
+      - name: Lock boundary
+        run: |
+          grep -Fq 'XI_AGREEMENT_PRODUCT_RECONSTRUCTED_FROM_K_AND_Z=true' stages/stage14/14-4ey/result.md
+          grep -Fq 'UNIFORM_AGREEMENT_KERNEL_OVERLAP_LOWER_BOUND=1/3' stages/stage14/14-4ez/result.md
+          grep -Fq 'UNIFORM_FIXED_AGREEMENT_RADIAL_SCALE_COUNT_MAX=B^(1/24+o(1))' stages/stage14/14-4fa/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4ey-4fa-report.md
+          grep -Fq 'NEXT=Stage14-4fb' stages/stage14/14-4-batch/4ey-4fa-report.md
+      - name: Previous mainline regression
+        run: python stages/stage14/scripts/14-4/batch_4ev_4ex_radial_square_kernel_audit.py
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
