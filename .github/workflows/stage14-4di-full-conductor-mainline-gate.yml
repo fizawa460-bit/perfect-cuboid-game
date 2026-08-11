@@ -1,0 +1,71 @@
+name: Stage14-4di full-conductor mainline gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4di/**'
+      - 'stages/stage14/data/14-4/full_conductor_mainline_gate_summary.json'
+      - 'stages/stage14/scripts/14-4/full_conductor_mainline_gate_audit.py'
+      - '.github/workflows/stage14-4di-full-conductor-mainline-gate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-4di deterministic audit
+        run: python stages/stage14/scripts/14-4/full_conductor_mainline_gate_audit.py
+      - name: Compile Stage14-4di audit
+        run: python -m py_compile stages/stage14/scripts/14-4/full_conductor_mainline_gate_audit.py
+      - name: Merged 4dh regression
+        run: |
+          f=stages/stage14/14-4dh/result.md
+          grep -Fq 'STAGE14_4DH=' "$f"
+          grep -Fq 'NONZERO_RAMANUJAN_ABSOLUTE_CONTRIBUTION' "$f"
+      - name: Merged s7-49 regression
+        run: |
+          f=stages/stage14/14-s7-49/result.md
+          grep -Fq 'NONZERO_FREQUENCY_INVERSE_FRACTION_ADAPTER_PROVED=true' "$f"
+          grep -Fq 'FREQUENCY_CONDUCTOR_STRATIFICATION_PROVED=true' "$f"
+          grep -Fq 'ZERO_MODE_EXPONENT=1/2' "$f"
+      - name: Merged X15 regression
+        run: |
+          f=stages/stage14/14-X15/result.md
+          grep -Fq 'THREE_PROJECTION_PYTHAGOREAN_IDENTITY_PROVED=true' "$f"
+          grep -Fq 'EIGHT_ATOMIC_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'TRIPLE_CENTERING_PRINCIPAL_TERM_REMAINS=true' "$f"
+          grep -Fq 'SINGLE_CENTERED_REMAINDER_BOUND_ALONE_SUFFICIENT=false' "$f"
+      - name: Stage14-4di boundary
+        run: |
+          f=stages/stage14/14-4di/result.md
+          grep -Fq 'STAGE14_4DI=COMPLETE_CONDUCTOR_LOSS_POWER_SAVING_FULL_CONDUCTOR_ENDPOINT_AND_MAINLINE_H_GATE' "$f"
+          grep -Fq 'OPEN_S7_50_USED_AS_THEOREM_SOURCE=false' "$f"
+          grep -Fq 'CONDUCTOR_LOSS_FIXED_POWER_SAVING_PROVED=true' "$f"
+          grep -Fq 'CONDUCTOR_LOSS_STRATUM_EXPONENT=1/2-lambda' "$f"
+          grep -Fq 'SQRT_SATURATION_FREQUENCY_GCD=Bo1' "$f"
+          grep -Fq 'FULL_CONDUCTOR_ENDPOINT_PROVED=true' "$f"
+          grep -Fq 'FULL_CONDUCTOR_THREE_PROJECTION_SAME_ROOT=true' "$f"
+          grep -Fq 'THIRD_PROJECTION_INDEPENDENT_FULL_CONDUCTOR_SAVING=false' "$f"
+          grep -Fq 'CONDUCTOR_GCD_PEEL_EXHAUSTED=true' "$f"
+          grep -Fq 'PRINCIPAL_ZERO_MODE_STILL_EXPONENT_HALF=true' "$f"
+          grep -Fq 'OSCILLATORY_ERROR_SAVING_ALONE_SUFFICIENT=false' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=true' "$f"
+          grep -Fq 'MAINLINE_H_STAGE=Stage14-4diH' "$f"
+      - name: H target lock
+        run: |
+          f=stages/stage14/14-4di/h-target.md
+          grep -Fq 'H_STAGE=Stage14-4diH' "$f"
+          grep -Fq 'TARGET_FREEZES_AT_DISPATCH=true' "$f"
+          grep -Fq 'DO_NOT_REPLACE_FULL_COUNT_BY_ONLY_CENTERED_ERROR=true' "$f"
+          grep -Fq 'ONE H REQUEST = ONE IMMUTABLE SOURCE SNAPSHOT = ONE AUDIT RESULT' stages/stage14/H-PROTOCOL.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
