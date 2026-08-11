@@ -1,0 +1,22 @@
+name: Stage14-t-batch t109-t111 ray-class reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t109/**'
+      - 'stages/stage14/14-t110/**'
+      - 'stages/stage14/14-t111/**'
+      - 'stages/stage14/14-t-batch-t109-111/**'
+      - '.github/workflows/stage14-t-batch-t109-111.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run consolidated deterministic audit
+        run: python stages/stage14/14-t-batch-t109-111/audit.py
