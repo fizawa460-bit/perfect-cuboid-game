@@ -1,0 +1,60 @@
+name: Stage14-main-batch 4fz-4gb primitive product fiber
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4fz/**'
+      - 'stages/stage14/14-4ga/**'
+      - 'stages/stage14/14-4gb/**'
+      - 'stages/stage14/14-4-batch/4fz-4gb-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4fz_4gb_primitive_product_fiber_audit.py'
+      - '.github/workflows/stage14-main-batch-4fz-4gb-primitive-product-fiber.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run deterministic 4fz-4gb audit
+        run: python stages/stage14/scripts/14-4/batch_4fz_4gb_primitive_product_fiber_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4fz_4gb_primitive_product_fiber_audit.py
+
+      - name: Regress merged mainline 4fw-4fy
+        run: python stages/stage14/scripts/14-4/batch_4fw_4fy_rectangular_product_capacity_audit.py
+
+      - name: Regress merged s7-105-107
+        run: python stages/stage14/scripts/14-s-batch/s7_105_107_ordinary_capacity_audit.py
+
+      - name: Regress merged Work-bxX36
+        run: python stages/stage14/scripts/14-Work-bxX36/ambient_threshold_localization_audit.py
+
+      - name: Lock fixed-U no-cross-promotion boundary
+        run: |
+          grep -Fq 'TH32_COMPLETE_CONSUMED=true' stages/stage14/14-Work-bxX36/result.md
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' stages/stage14/14-Work-bxX36/result.md
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'RECTANGULAR_PRODUCT_FIBER_BOUND=Bo1' stages/stage14/14-4fz/result.md
+          grep -Fq 'POLYNOMIAL_COLLISION_EXCESS_BRANCH_EXISTS=false' stages/stage14/14-4fz/result.md
+          grep -Fq 'UNITARY_TO_ORDINARY_FIXED_POWER_SUPPORT_DISTORTION=0' stages/stage14/14-4ga/result.md
+          grep -Fq 'UNITARY_COPRIME_FIXED_POWER_DEFICIT=0' stages/stage14/14-4gb/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-4gb/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-4-batch/4fz-4gb-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4fz-4gb-report.md
+          grep -Fq 'NEXT=Stage14-4gc' stages/stage14/14-4-batch/4fz-4gb-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
