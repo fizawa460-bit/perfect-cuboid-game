@@ -1,0 +1,49 @@
+name: Stage14-s7-51 dense principal-cell reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-51/**'
+      - 'stages/stage14/scripts/14-s7-51/**'
+      - '.github/workflows/stage14-s7-51-dense-principal-cell.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-51 deterministic audit
+        run: python stages/stage14/scripts/14-s7-51/dense_principal_cell_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-51/dense_principal_cell_audit.py
+      - name: Merged s7-50 lock
+        run: |
+          f=stages/stage14/14-s7-50/result.md
+          grep -Fq 'FULL_CONDUCTOR_ENDPOINT_PROVED=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+      - name: Merged sH50 lock
+        run: |
+          f=stages/stage14/14-sH50/result.md
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'NEXT_S_ROUTE=Stage14-s7-51' "$f"
+      - name: Stage14-s7-51 boundary
+        run: |
+          f=stages/stage14/14-s7-51/result.md
+          grep -Fq 'STAGE14_S7_51=COMPLETE_DENSE_PRINCIPAL_CELL_REDUCTION_AND_SIGNED_COVARIANCE_SATURATION_DICHOTOMY' "$f"
+          grep -Fq 'DENSE_PRINCIPAL_CELL_REDUCTION_PROVED=true' "$f"
+          grep -Fq 'ANY_FIXED_POWER_MARGINAL_DEFICIT_IS_SUBSQRT=true' "$f"
+          grep -Fq 'SQRT_SATURATION_DICHOTOMY_PROVED=true' "$f"
+          grep -Fq 'S7_51_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-52' "$f"
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
