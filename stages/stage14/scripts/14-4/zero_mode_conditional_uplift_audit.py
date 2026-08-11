@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[4]
 for rel, needle in {
     "stages/stage14/14-4dm/result.md": "COMMON_PAIRWISE_COVARIANCE_ZERO_CENTERED_RECENTERING_PROVED=true",
     "stages/stage14/14-s7-56/result.md": "PAIR_JOINT_OCCUPANCY_FIXED_POWER_DEFICIT_STRICT_SUBSQRT=true",
-    "stages/stage14/14-s7-52/result.md": "INTERIOR_MARGINAL_VARIANCE_REDUCTION_PROVED=true",
+    "stages/stage14/14-s7-52/result.md": "SQRT_THREE_PROJECTION_SATURATION_REQUIRES_ALL_MARGINALS_INTERIOR=true",
     "stages/stage14/14-s7-54/result.md": "PAIRWISE_BRANCHES_POWER_EQUIVALENT=true",
 }.items():
     assert needle in (ROOT / rel).read_text(), (rel, needle)
