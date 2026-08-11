@@ -1,0 +1,95 @@
+name: Stage14-t89 strong-gap bounded Q weight
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t89/**'
+      - 'stages/stage14/data/14-t89/**'
+      - 'stages/stage14/scripts/14-t/t89_*'
+      - '.github/workflows/stage14-t89-strong-gap-q-weight.yml'
+      - 'stages/stage14/14-t88/**'
+      - 'stages/stage14/14-tH25/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-t89 deterministic audit
+        run: python stages/stage14/scripts/14-t/t89_strong_gap_q_weight_audit.py | tee /tmp/t89.json
+
+      - name: Stage14-t89 frozen validator
+        run: python stages/stage14/scripts/14-t/t89_validate_frozen.py
+
+      - name: Compare deterministic output with frozen data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          live=json.loads(Path('/tmp/t89.json').read_text())
+          frozen=json.loads(Path('stages/stage14/data/14-t89/strong_gap_q_weight_frozen.json').read_text())
+          for key,value in live.items():
+              assert frozen[key] == value, (key, frozen[key], value)
+          print('Stage14-t89 deterministic output matches frozen data')
+          PY
+
+      - name: Compile t89 scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t89_strong_gap_q_weight_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t89_validate_frozen.py
+
+      - name: Regress merged t88
+        run: python stages/stage14/scripts/14-t/t88_canonical_q_norm_fiber_audit.py >/dev/null
+
+      - name: Lock merged t88 and tH25 boundaries
+        run: |
+          grep -Fq 'STAGE14_T88=COMPLETE_ENDPOINT_SMALL_PROJECTIVE_SELECTOR_TO_CANONICAL_Q_NORM_FINITE_FIBER_REDUCTION' stages/stage14/14-t88/result.md
+          grep -Fq 'Q_DEFINITION=Q=ell*delta0=N(gamma*pi)' stages/stage14/14-t88/result.md
+          grep -Fq 'FIXED_Q_PHYSICAL_FIBER_MULTIPLICITY=Bo1' stages/stage14/14-t88/result.md
+          grep -Fq 'STAGE14_TH25=COMPLETE_T86_SNAPSHOT_FIXED_DISCRIMINANT_RING_CLASS_PRIME_VALUE_APPLICABILITY_AUDIT' stages/stage14/14-tH25/result.md
+          grep -Fq 'CERTIFIED_FIXED_U_PACKET_B_POWER_SAVING_EXPONENT=0' stages/stage14/14-tH25/result.md
+
+      - name: Lock immutable H protocol
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock t89 theorem boundary
+        run: |
+          f=stages/stage14/14-t89/result.md
+          grep -Fq 'STAGE14_T89=COMPLETE_STRONG_FIXED_U_Q_GAP_AND_SHORT_COVER_MASK_ABSORPTION' "$f"
+          grep -Fq 'FULL_T65_FIXED_U_SEPARATION_RESTORED=true' "$f"
+          grep -Fq 'STRONG_Q_LPF_GAP=ell^2>2*h*k0*Q' "$f"
+          grep -Fq 'Q_BUDGET_EQUIVALENCE=h*k0*Q<=2B' "$f"
+          grep -Fq 'COVER_LINEAR_FORM_DETERMINANT=2*k0' "$f"
+          grep -Fq 'T74_SHORT_R_T_BOUNDS_AUTOMATIC_FROM_STRONG_Q_GAP=true' "$f"
+          grep -Fq 'T75_T78_ANGULAR_HYPERBOLA_AUTOMATIC=true' "$f"
+          grep -Fq 'PHYSICAL_COMPLETION_BOUNDED_Q_WEIGHT_PROVED=true' "$f"
+          grep -Fq 'ONE_DIMENSIONAL_WEIGHTED_Q_KERNEL_PROVED=true' "$f"
+          grep -Fq 'TH25_TARGET_REOPENED=false' "$f"
+          grep -Fq 'TH26_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t90' "$f"
+
+      - name: Lock current X15 whole-family ledger
+        run: |
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X15/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-X15/result.md
+          grep -Fq 'T87_CROSS_PROMOTED_TO_X15=false' stages/stage14/14-X15/result.md
+          grep -Fq 'TH25_CROSS_PROMOTED_TO_X15=false' stages/stage14/14-X15/result.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
