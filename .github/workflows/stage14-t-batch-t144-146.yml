@@ -1,0 +1,26 @@
+name: Stage14-t-batch t144-t146 hosted modulus capacity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t144/**'
+      - 'stages/stage14/14-t145/**'
+      - 'stages/stage14/14-t146/**'
+      - 'stages/stage14/14-t-batch-t144-146/**'
+      - '.github/workflows/stage14-t-batch-t144-146.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Audit t144-t146
+        run: python stages/stage14/14-t-batch-t144-146/audit.py
+      - name: Regression t140-t142
+        run: python stages/stage14/14-t-batch-t140-142/audit.py
+      - name: Regression tH32-t143
+        run: python stages/stage14/14-t-batch-th32-t143/audit.py
