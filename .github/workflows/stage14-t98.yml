@@ -1,0 +1,31 @@
+name: Stage14-t98 boundary type decomposition
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t98/**'
+      - '.github/workflows/stage14-t98.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify predecessor
+        run: |
+          grep -q 'NEXT=Stage14-t98' stages/stage14/14-t97/boundary.md
+          grep -q 'TH27_NEEDED=false' stages/stage14/14-t97/boundary.md
+      - name: Run deterministic boundary audit
+        run: python stages/stage14/14-t98/audit.py
+      - name: Verify t98 boundary
+        run: |
+          grep -q 'GENERIC_BIT_FLIP_PRIMITIVE_SELECTOR_INVARIANT=true' stages/stage14/14-t98/boundary.md
+          grep -q 'SIGN_BOUNDARY_REDUCED_TO_O1_LINEAR_HALFSPACE_XOR=true' stages/stage14/14-t98/boundary.md
+          grep -q 'FOUR_CELL_BOUNDARY_REDUCED_TO_BO1_FIXED_DIVISOR_CONGRUENCE_XORS=true' stages/stage14/14-t98/boundary.md
+          grep -q 'ENDPOINT_BOUNDARY_REDUCED_TO_BO1_SMALL_MODULUS_RESIDUE_XORS=true' stages/stage14/14-t98/boundary.md
+          grep -q 'TH27_NEEDED=false' stages/stage14/14-t98/boundary.md
+          grep -q 'NEXT=Stage14-t99' stages/stage14/14-t98/boundary.md
