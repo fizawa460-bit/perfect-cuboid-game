@@ -1,0 +1,60 @@
+name: Stage14-s-batch s7-96..98 weight factorization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-96/**'
+      - 'stages/stage14/14-s7-97/**'
+      - 'stages/stage14/14-s7-98/**'
+      - 'stages/stage14/14-s-batch/s7-96-98-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_96_98_weight_factorization_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-96-98-weight-factorization.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_96_98_weight_factorization_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_96_98_weight_factorization_audit.py
+
+      - name: Regress merged s7-93..95
+        run: python stages/stage14/scripts/14-s-batch/s7_93_95_weighted_unitary_divisor_audit.py
+
+      - name: Regress merged mainline 4fk..4fm
+        run: python stages/stage14/scripts/14-4/batch_4fk_4fm_physical_weight_opening_audit.py
+
+      - name: Regress merged Work-btX32
+        run: python stages/stage14/scripts/14-Work-btX32/weight_location_adapter_audit.py
+
+      - name: Lock common and s batch contracts
+        run: |
+          grep -Fq '## Integrated sH work unit' docs/stage14-s-batch-task-contract.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
+          grep -Fq 'unresolved_external_gate' docs/stage14-batch-common-contract.md
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'STAGE14_S7_96=COMPLETE_WEIGHTED_UNITARY_PACKET_SYNCHRONIZATION_AND_E_LOCAL_WEIGHT_FACTORIZATION' stages/stage14/14-s7-96/result.md
+          grep -Fq 'STAGE14_S7_97=COMPLETE_FIXED_E_LOCAL_MASK_EXHAUSTION_AND_CANONICAL_REVERSE_WEIGHT_ISOLATION' stages/stage14/14-s7-97/result.md
+          grep -Fq 'STAGE14_S7_98=COMPLETE_POLYNOMIAL_E_PRIMITIVE_PRODUCT_SCALE_SPLIT_TO_OUTER_OCCUPANCY_OR_TWO_SCALE_UNITARY_CORRELATION' stages/stage14/14-s7-98/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-96-98-report.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=NONE' stages/stage14/14-s-batch/s7-96-98-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-96-98-report.md
+          grep -Fq 'NEXT=Stage14-s7-99' stages/stage14/14-s-batch/s7-96-98-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
