@@ -1,0 +1,54 @@
+name: Stage14-4 batch 4el-4ep correlation receivers
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4el/**'
+      - 'stages/stage14/14-4em/**'
+      - 'stages/stage14/14-4en/**'
+      - 'stages/stage14/14-4eo/**'
+      - 'stages/stage14/14-4ep/**'
+      - 'stages/stage14/14-4-batch/**'
+      - 'stages/stage14/scripts/14-4/batch_4el_4ep_correlation_audit.py'
+      - '.github/workflows/stage14-4-batch-4el-4ep-correlation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run 4el-4ep deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4el_4ep_correlation_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4el_4ep_correlation_audit.py
+
+      - name: Regress merged 4eg-4ek
+        run: python stages/stage14/scripts/14-4/batch_4eg_4ek_root_discrepancy_audit.py
+
+      - name: Regress merged Work-bnX26
+        run: python stages/stage14/scripts/14-Work-bnX26/correlation_obstruction_pivot_audit.py
+
+      - name: Lock stage boundaries
+        run: |
+          grep -Fq 'STAGE14_4EL=COMPLETE_CONCENTRATED_PROJECTIVE_COLLISION_DIAGONAL_PROPORTIONAL_REMOVAL' stages/stage14/14-4el/result.md
+          grep -Fq 'STAGE14_4EM=COMPLETE_NONZERO_PROJECTIVE_COLLISION_DETERMINANT_QUOTIENT_SCALE_STRATIFICATION' stages/stage14/14-4em/result.md
+          grep -Fq 'STAGE14_4EN=COMPLETE_NEAR_MAXIMAL_COMMON_CORE_FIXED_QUOTIENT_AFFINE_LATTICE_NOGO' stages/stage14/14-4en/result.md
+          grep -Fq 'STAGE14_4EO=COMPLETE_SEPARATED_COMMON_CORE_OFFDIAGONAL_PROJECTIVE_COLLISION_DISPERSION_H_GATE' stages/stage14/14-4eo/result.md
+          grep -Fq 'REQUESTED_OBJECT=FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion' stages/stage14/14-4eo/reciprocal-h-target.md
+          grep -Fq 'STAGE14_4EP=COMPLETE_DIFFUSE_COMMON_CORE_NORM_DIVISOR_GRAPH_TO_NORM_FACTOR_CORRELATION' stages/stage14/14-4ep/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_STAGE_COUNT=5' stages/stage14/14-4-batch/4el-4ep-report.md
+          grep -Fq 'NEXT=Stage14-4eq' stages/stage14/14-4-batch/4el-4ep-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
