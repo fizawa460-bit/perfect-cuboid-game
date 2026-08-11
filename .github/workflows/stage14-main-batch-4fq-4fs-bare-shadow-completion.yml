@@ -1,0 +1,58 @@
+name: Stage14-main-batch 4fq-4fs bare shadow completion
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4fq/**'
+      - 'stages/stage14/14-4fr/**'
+      - 'stages/stage14/14-4fs/**'
+      - 'stages/stage14/14-4-batch/4fq-4fs-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4fq_4fs_bare_shadow_completion_audit.py'
+      - '.github/workflows/stage14-main-batch-4fq-4fs-bare-shadow-completion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4fq_4fs_bare_shadow_completion_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4fq_4fs_bare_shadow_completion_audit.py
+
+      - name: Previous mainline regression
+        run: python stages/stage14/scripts/14-4/batch_4fn_4fp_outer_physical_support_audit.py
+
+      - name: s7-96-98 regression
+        run: python stages/stage14/scripts/14-s-batch/s7_96_98_weight_factorization_audit.py
+
+      - name: Work-buX33 regression
+        run: python stages/stage14/scripts/14-Work-buX33/support_occupancy_adapter_audit.py
+
+      - name: Lock batch contracts
+        run: |
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
+          grep -Fq 'Stage14-main-batch' docs/stage14-main-batch-task-contract.md
+
+      - name: Lock new receiver boundary
+        run: |
+          grep -Fq 'FIXED_E_BARE_UNITARY_SHADOW_DEFINED=true' stages/stage14/14-4fq/result.md
+          grep -Fq 'POLYNOMIAL_E_BARE_SHADOW_DEFINED=true' stages/stage14/14-4fr/result.md
+          grep -Fq 'CURRENT_HEAVY_RECEIVER=ComplementaryDilationBareShortUnitaryShadowExponentVersusConditionalCanonicalReverseCompletionDeficitBudget' stages/stage14/14-4fs/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-4-batch/4fq-4fs-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4fq-4fs-report.md
+          grep -Fq 'NEXT=Stage14-4ft' stages/stage14/14-4-batch/4fq-4fs-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
