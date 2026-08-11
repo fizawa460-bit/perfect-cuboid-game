@@ -1,0 +1,49 @@
+name: Stage14-t92 Walsh orientation coefficient
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t92/**'
+      - 'stages/stage14/data/14-t92/**'
+      - 'stages/stage14/scripts/14-t/t92_*'
+      - '.github/workflows/stage14-t92-walsh-orientation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Deterministic Walsh audit
+        run: python stages/stage14/scripts/14-t/t92_walsh_orientation_audit.py | tee /tmp/t92.json
+      - name: Frozen validator
+        run: python stages/stage14/scripts/14-t/t92_validate_frozen.py
+      - name: Compare deterministic output with frozen data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          live=json.loads(Path('/tmp/t92.json').read_text())
+          frozen=json.loads(Path('stages/stage14/data/14-t92/walsh_orientation_frozen.json').read_text())
+          assert live==frozen,(live,frozen)
+          print('Stage14-t92 deterministic output matches frozen data')
+          PY
+      - name: Compile scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t92_walsh_orientation_audit.py stages/stage14/scripts/14-t/t92_validate_frozen.py
+      - name: Lock merged predecessors and H protocol
+        run: |
+          grep -F 'PRIMITIVE_GAUSSIAN_REPRESENTATION_ORIENTATION_HYPERCUBE_PROVED=true' stages/stage14/14-t91/result.md
+          grep -F 'OFF_THE_SHELF_UNIFORM_FIXED_POWER_SAVING_PROVED=false' stages/stage14/14-tH26/result.md
+          grep -F 'PrincipalGaussianRepresentationDensityAndNonmultiplicativeCenteredCofactorCoefficient' stages/stage14/14-tH26/result.md
+          test -f stages/stage14/H-PROTOCOL.md
+      - name: Lock t92 boundary
+        run: |
+          grep -F 'PRINCIPAL_CUBE_MEAN_ISOLATED=true' stages/stage14/14-t92/result.md
+          grep -F 'CENTERED_ORIENTATION_COEFFICIENT_MEAN_ZERO=true' stages/stage14/14-t92/result.md
+          grep -F 'TH27_NEEDED=false' stages/stage14/14-t92/result.md
+          grep -F 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t92/result.md
