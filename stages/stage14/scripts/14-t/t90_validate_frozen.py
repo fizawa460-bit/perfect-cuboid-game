@@ -35,10 +35,11 @@ assert boundary["NEXT"] == "Stage14-t91"
 target = (ROOT / "stages/stage14/14-t90/th26-target.md").read_text()
 for needle in [
     "PARENT_STAGE=Stage14-t90",
+    "PARENT_RECEIVER=SharedUCanonicalLPFPrimitiveGaussianCofactorRepresentationCharacterWeightedPhysicalSieve",
     "H_NUMBER=26",
     "H_TARGET_FROZEN_AT_PARENT_DISPATCH=true",
-    "FixedPacketCanonicalLargestPrime",
-    "PrimitiveGaussianCofactorRepresentationCharacterWeightedSieve",
+    "Sum_U,chi(delta0)",
+    "OFF_THE_SHELF_UNIFORM_FIXED_POWER_SAVING_PROVED=true|false",
 ]:
     assert needle in target, needle
 
