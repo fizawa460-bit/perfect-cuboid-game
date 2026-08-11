@@ -1,0 +1,60 @@
+name: Stage14-Work-buX33 support occupancy adapter audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-buX33/**'
+      - 'stages/stage14/scripts/14-Work-buX33/**'
+      - 'docs/stage14-toolbox/work-buX33-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-buX33-support-occupancy-adapter.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated buX33 audit
+        run: python stages/stage14/scripts/14-Work-buX33/support_occupancy_adapter_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-buX33/support_occupancy_adapter_audit.py
+
+      - name: Regress merged Work-btX32
+        run: python stages/stage14/scripts/14-Work-btX32/weight_location_adapter_audit.py
+
+      - name: Regress merged mainline 4fn..4fp
+        run: python stages/stage14/scripts/14-4/batch_4fn_4fp_outer_physical_support_audit.py
+
+      - name: Regress merged s7-96..98
+        run: python stages/stage14/scripts/14-s-batch/s7_96_98_weight_factorization_audit.py
+
+      - name: Regress merged t133..t136+tH30
+        run: python stages/stage14/14-t-batch-t133-136-th30/audit.py
+
+      - name: Lock integrated boundary
+        run: |
+          grep -Fq 'GLOBAL_S_INNER_UNITARY_MULTIPLICITY_POLYNOMIAL_OBSTRUCTION_EXHAUSTED=true' stages/stage14/14-Work-buX33/result.md
+          grep -Fq 'FIXED_U_OPAQUE_COFACTOR_WEIGHT_OBSTRUCTION_EXHAUSTED=true' stages/stage14/14-Work-buX33/result.md
+          grep -Fq 'FIXED_U_RECEIVER_RELOCATED_TO_PRIME_SIDE_ONLY=true' stages/stage14/14-Work-buX33/result.md
+          grep -Fq 'DIRECT_OUTER_SUPPORT_EXISTENCE_TO_FIXED_RESIDUE_PRIME_OCCUPANCY_ADAPTER_NOGO_AT_CURRENT_LEVEL=true' stages/stage14/14-Work-buX33/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-buX33/result.md
+          grep -Fq 'TH31_NEEDED=false' stages/stage14/14-Work-buX33/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -Fq 'GLOBAL_S_MAIN_S_COUNTS_MULTIPLICABLE=false' docs/stage14-toolbox/work-buX33-receiver-matrix.md
+          grep -Fq 'FIXED_U_TYPE_I_II_COFACTOR_ADAPTER_OBSTRUCTION_EXHAUSTED=true' docs/stage14-toolbox/work-buX33-receiver-matrix.md
+          grep -Fq 'COMMON_PHYSICAL_MEASURE_ADAPTER_PROVED=false' docs/stage14-toolbox/work-buX33-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
