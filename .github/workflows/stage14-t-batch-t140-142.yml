@@ -1,0 +1,25 @@
+name: Stage14-t-batch t140-t142 endpoint quarter width
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t140/**'
+      - 'stages/stage14/14-t141/**'
+      - 'stages/stage14/14-t142/**'
+      - 'stages/stage14/14-t-batch-t140-142/**'
+      - '.github/workflows/stage14-t-batch-t140-142.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t140-t142 deterministic audit
+        run: python stages/stage14/14-t-batch-t140-142/audit.py
+      - name: Regress merged t137-t139+tH31 batch
+        run: python stages/stage14/14-t-batch-t137-139-th31/audit.py
+      - name: Regress merged t133-t136+tH30 batch
+        run: python stages/stage14/14-t-batch-t133-136-th30/audit.py
