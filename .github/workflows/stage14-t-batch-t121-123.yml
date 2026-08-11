@@ -1,0 +1,21 @@
+name: Stage14-t-batch t121-t123 sign support
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t121/**'
+      - 'stages/stage14/14-t122/**'
+      - 'stages/stage14/14-t123/**'
+      - 'stages/stage14/14-t-batch-t121-123/**'
+      - '.github/workflows/stage14-t-batch-t121-123.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t121-t123 audit
+        run: python stages/stage14/14-t-batch-t121-123/audit.py
