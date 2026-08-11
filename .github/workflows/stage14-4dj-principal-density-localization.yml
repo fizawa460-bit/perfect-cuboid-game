@@ -1,0 +1,49 @@
+name: Stage14-4dj principal-density localization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dj/**'
+      - 'stages/stage14/data/14-4/principal_density_localization_summary.json'
+      - 'stages/stage14/scripts/14-4/principal_density_localization_audit.py'
+      - '.github/workflows/stage14-4dj-principal-density-localization.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-4dj deterministic audit
+        run: python stages/stage14/scripts/14-4/principal_density_localization_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/principal_density_localization_audit.py
+      - name: Merged 4diH lock
+        run: |
+          f=stages/stage14/14-4diH/result.md
+          grep -Fq 'MAINLINE_H_COMPLETED=true' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+      - name: Merged sH50 compatibility
+        run: |
+          f=stages/stage14/14-sH50/result.md
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+      - name: Boundary lock
+        run: |
+          f=stages/stage14/14-4dj/result.md
+          grep -Fq 'STAGE14_4DJ=COMPLETE_FULL_CONDUCTOR_PRINCIPAL_DENSITY_DEFICIT_LOCALIZATION' "$f"
+          grep -Fq 'PRINCIPAL_DENSITY_DEFICIT_STRATUM_EXPONENT=1/2-delta' "$f"
+          grep -Fq 'SQRT_SATURATION_REQUIRES_NEAR_MAXIMAL_CONDITIONAL_OCCUPANCY=true' "$f"
+          grep -Fq 'SATURATING_CELL_OCCUPANCY=B^(-o(1))' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4dk' "$f"
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
