@@ -1,0 +1,26 @@
+name: Stage14-t-batch t137-t139 th31 Mitsui safe range
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t137/**'
+      - 'stages/stage14/14-t138/**'
+      - 'stages/stage14/14-t139/**'
+      - 'stages/stage14/14-tH31/**'
+      - 'stages/stage14/14-t-batch-t137-139-th31/**'
+      - '.github/workflows/stage14-t-batch-t137-139-th31.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t137-t139 plus tH31 deterministic audit
+        run: python stages/stage14/14-t-batch-t137-139-th31/audit.py
+      - name: Regress previous t133-t136 plus tH30 batch
+        run: python stages/stage14/14-t-batch-t133-136-th30/audit.py
+      - name: Regress t132 localization batch
+        run: python stages/stage14/14-t-batch-t132/audit.py
