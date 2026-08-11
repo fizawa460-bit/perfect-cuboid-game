@@ -1,0 +1,26 @@
+name: Stage14-s7-57 Bernoulli Frechet boundary
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-57/**'
+      - 'stages/stage14/scripts/14-s7-57/**'
+      - '.github/workflows/stage14-s7-57-bernoulli-frechet-boundary.yml'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python stages/stage14/scripts/14-s7-57/bernoulli_frechet_audit.py
+      - run: python -m py_compile stages/stage14/scripts/14-s7-57/bernoulli_frechet_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-57/result.md
+          grep -Fq 'PAIRWISE_SQRT_SATURATION_IMPLIES_NEAR_DETERMINISTIC_COUPLING=false' "$f"
+          grep -Fq 'PAIRWISE_FRECHET_RATIO_FIXED_POWER_SMALL_STRICT_SUBSQRT=true' "$f"
+          grep -Fq 'PAIRWISE_NEAR_DETERMINISM_PROMOTION_LEGAL=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-58' "$f"
