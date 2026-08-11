@@ -1,0 +1,21 @@
+name: Stage14-t-batch t118-t120 generic norm support
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t118/**'
+      - 'stages/stage14/14-t119/**'
+      - 'stages/stage14/14-t120/**'
+      - 'stages/stage14/14-t-batch-t118-120/**'
+      - '.github/workflows/stage14-t-batch-t118-120.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic batch audit
+        run: python stages/stage14/14-t-batch-t118-120/audit.py
