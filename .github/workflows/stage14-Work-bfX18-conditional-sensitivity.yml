@@ -1,0 +1,89 @@
+name: Stage14-Work-bfX18 integrated conditional sensitivity audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bfX18/**'
+      - 'stages/stage14/scripts/14-Work-bfX18/**'
+      - 'docs/stage14-toolbox/work-bfX18-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-bfX18-conditional-sensitivity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bfX18 audit
+        run: python stages/stage14/scripts/14-Work-bfX18/conditional_sensitivity_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bfX18/conditional_sensitivity_audit.py
+
+      - name: Run merged 4dm regression
+        run: python stages/stage14/scripts/14-4/pairwise_zero_centered_split_audit.py
+
+      - name: Run merged s7-56 regression
+        run: python stages/stage14/scripts/14-s7-56/pair_joint_occupancy_peel_audit.py
+
+      - name: Run merged t96 regression
+        run: python scripts/stage14/validate_t96_influence.py
+
+      - name: Run previous integrated beX17 regression
+        run: python stages/stage14/scripts/14-Work-beX17/integrated_degree_parity_audit.py
+
+      - name: Lock merged current boundaries
+        run: |
+          grep -Fq 'STAGE14_4DM=COMPLETE_POSITIVE_PAIRWISE_ZERO_MODE_COFACTOR_AND_MASKED_CENTERED_COVARIANCE_REDUCTION' stages/stage14/14-4dm/result.md
+          grep -Fq 'COMMON_PAIRWISE_COVARIANCE_ZERO_CENTERED_RECENTERING_PROVED=true' stages/stage14/14-4dm/result.md
+          grep -Fq 'STAGE14_S7_56=COMPLETE_PAIRWISE_JOINT_OCCUPANCY_SPARSE_LAYER_PEEL' stages/stage14/14-s7-56/result.md
+          grep -Fq 'PAIRWISE_SQRT_SATURATION_REQUIRES_MU_PAIR=Bo0=true' stages/stage14/14-s7-56/result.md
+          grep -Fq 'STAGE14_T96=COMPLETE_ANTIPODAL_QUOTIENT_INFLUENCE_LOCALIZATION' stages/stage14/14-t96/frozen-boundary.txt
+          grep -Fq 'SATURATION_FORCES_A_NONNEGLIGIBLE_GENERIC_ORIENTATION_INFLUENCE=true' stages/stage14/14-t96/frozen-boundary.txt
+
+      - name: Lock q11 advisory boundary
+        run: |
+          q=docs/stage14-q11-nearmax-pythagorean-correlation-literature-radar.md
+          grep -Fq 'AZEVEDO_MOREIRA_2026_PYTHAGOREAN_MULTIPLICATIVE=NEAR_STRUCTURE_HIGH_PRIORITY' "$q"
+          grep -Fq 'Q10_INVERSE_FRACTION_BRANCH_RETAINED=true' "$q"
+          grep -Fq 'FIXED_U_TO_GLOBAL_CROSS_PROMOTION_PROVED=false' "$q"
+
+      - name: Lock bfX18 theorem boundary
+        run: |
+          f=stages/stage14/14-Work-bfX18/result.md
+          grep -Fq 'STAGE14_WORK_BFX18=COMPLETE_POST_BEX17_DENSE_PAIR_CONDITIONAL_RESPONSE_AND_FIXED_U_INFLUENCE_INTERFACE' "$f"
+          grep -Fq 'STAGE14_WORK_TOOLBOX_X=RUN' "$f"
+          grep -Fq 'TOOLBOX_COMPONENT_COMPLETE=true' "$f"
+          grep -Fq 'X_COMPONENT_COMPLETE=true' "$f"
+          grep -Fq 'GLOBAL_PAIRWISE_COVARIANCE_AS_CONDITIONAL_RESPONSE_PROVED=true' "$f"
+          grep -Fq 'COMMON_CONDITIONAL_SENSITIVITY_LANGUAGE_PROVED=true' "$f"
+          grep -Fq 'T96_INFLUENCE_IMPLIES_FIRST_ORDER_CONDITIONAL_BIAS=false' "$f"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'SAVING_CROSS_PROMOTABLE=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'S_ROUTE_H_NEEDED=false' "$f"
+          grep -Fq 'FIXED_U_H_NEEDED=false' "$f"
+          grep -Fq 'TH27_NEEDED=false' "$f"
+          grep -Fq 'NEXT_REVISIT_CONDITION=4do_and_s7-58_and_t98_or_material_early_trigger' "$f"
+
+      - name: Lock receiver matrix
+        run: |
+          m=docs/stage14-toolbox/work-bfX18-receiver-matrix.md
+          grep -Fq 'ALTERNATIVE_PAIRWISE_VIEWS_MULTIPLICABLE=false' "$m"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$m"
+          grep -Fq 'SAVING_CROSS_PROMOTABLE=false' "$m"
+          grep -Fq 'TH27_NEEDED=false' "$m"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
