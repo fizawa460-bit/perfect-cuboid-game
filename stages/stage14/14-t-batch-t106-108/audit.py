@@ -1,11 +1,11 @@
 from pathlib import Path
 
-root = Path(__file__).resolve().parents[3]
+stage14 = Path(__file__).resolve().parents[1]
 files = {
-    't106': root / 'stage14/14-t106/result.md',
-    't107': root / 'stage14/14-t107/result.md',
-    't108': root / 'stage14/14-t108/result.md',
-    'th28': root / 'stage14/14-t108/th28-target.md',
+    't106': stage14 / '14-t106/result.md',
+    't107': stage14 / '14-t107/result.md',
+    't108': stage14 / '14-t108/result.md',
+    'th28': stage14 / '14-t108/th28-target.md',
 }
 for name, path in files.items():
     assert path.exists(), (name, path)
@@ -45,12 +45,8 @@ for token in required107:
 for token in required108:
     assert token in text108, token
 
-assert 'Q=ell*(u^2+v^2)' in text108
-assert 'gcd(u,v)=1' in text108
-assert 'ell=LPF(Q)' in text108
-assert 'ell^2>4B' in text108
-assert 'ell^2>2*h*k0*Q' in text108
-assert 'h*k0*Q<=2B' in text108
+for token in ('Q=ell*(u^2+v^2)', 'gcd(u,v)=1', 'ell=LPF(Q)', 'ell^2>4B', 'ell^2>2*h*k0*Q', 'h*k0*Q<=2B'):
+    assert token in text108, token
 assert 'CanonicalLPFPrimitiveSumOfTwoSquaresProjectedPhysicalSupportSieveOrDispersion' in th28
 assert 'DIRECT_THEOREM_APPLICABLE=true|false' in th28
 assert 'UNIFORM_FIXED_POWER_SAVING_PROVED=true|false' in th28
