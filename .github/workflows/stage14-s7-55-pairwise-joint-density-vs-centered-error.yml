@@ -1,0 +1,35 @@
+name: Stage14-s7-55 pairwise joint density split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-55/**'
+      - 'stages/stage14/scripts/14-s7-55/**'
+      - '.github/workflows/stage14-s7-55-pairwise-joint-density-vs-centered-error.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-55 deterministic audit
+        run: python stages/stage14/scripts/14-s7-55/pairwise_joint_density_split_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-55/pairwise_joint_density_split_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-55/result.md
+          grep -Fq 'STAGE14_S7_55=COMPLETE_PAIRWISE_JOINT_DENSITY_DEFECT_VS_CENTERED_ERROR_SPLIT' "$f"
+          grep -Fq 'PAIRWISE_COVARIANCE_EQUALS_S7_49_CENTERED_ERROR=false' "$f"
+          grep -Fq 'PAIRWISE_PRINCIPAL_JOINT_DENSITY_DEFECT_PRESENT=true' "$f"
+          grep -Fq 'CENTERED_KLOOSTERMAN_ERROR_ALONE_SUFFICIENT=false' "$f"
+          grep -Fq 'PAIRWISE_FIXED_POWER_BRANCH_COUNT=1' "$f"
+          grep -Fq 'S7_55_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-56' "$f"
