@@ -1,0 +1,59 @@
+name: Stage14-Work-bqX29 atomic capacity exhaustion audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bqX29/**'
+      - 'stages/stage14/scripts/14-Work-bqX29/**'
+      - 'docs/stage14-toolbox/work-bqX29-receiver-matrix.md'
+      - '.github/workflows/stage14-work-bqX29-atomic-capacity-exhaustion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bqX29 audit
+        run: python stages/stage14/scripts/14-Work-bqX29/atomic_capacity_exhaustion_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bqX29/atomic_capacity_exhaustion_audit.py
+
+      - name: Regress merged Work-bpX28
+        run: python stages/stage14/scripts/14-Work-bpX28/outer_support_capacity_audit.py
+
+      - name: Regress merged mainline 4fb..4fd
+        run: python stages/stage14/scripts/14-4/batch_4fb_4fd_heavy_capacity_audit.py
+
+      - name: Regress merged s7-84..86
+        run: python stages/stage14/scripts/14-s-batch/s7_84_86_root_overlap_radial_factorization_audit.py
+
+      - name: Regress merged t124
+        run: python stages/stage14/14-t-batch-t124/audit.py
+
+      - name: Lock integrated boundary
+        run: |
+          grep -Fq 'STAGE14_WORK_BQX29=COMPLETE' stages/stage14/14-Work-bqX29/result.md
+          grep -Fq 'COMMON_ATOMIC_CAPACITY_AS_FINAL_RECEIVER_SUPERSEDED=true' stages/stage14/14-Work-bqX29/result.md
+          grep -Fq 'GLOBAL_S_COMMON_RADIAL_OUTER_COORDINATE_PROVED=true' stages/stage14/14-Work-bqX29/result.md
+          grep -Fq 'FIXED_U_FINITE_BOUNDARY_ATOMIC_BRANCH_DISCHARGED=true' stages/stage14/14-Work-bqX29/result.md
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' stages/stage14/14-Work-bqX29/result.md
+          grep -Fq 'NEXT_REVISIT_CONDITION=4fg+s7-89+t127' stages/stage14/14-Work-bqX29/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -Fq 'S_HEAVY_CAPACITY_GAP_SUPERSEDED_BY_MERGED_4FD=true' docs/stage14-toolbox/work-bqX29-receiver-matrix.md
+          grep -Fq 'TH29_NEEDED=false' docs/stage14-toolbox/work-bqX29-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
