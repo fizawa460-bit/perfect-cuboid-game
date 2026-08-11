@@ -5,7 +5,7 @@
 ```text
 STAGE14_MAIN_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=43c2beeda0c9c5af2154d6deca5912d5be9e3ab2
-BATCH_PUBLICATION_MAIN_SHA=PENDING_RECHECK
+BATCH_PUBLICATION_MAIN_SHA=43c2beeda0c9c5af2154d6deca5912d5be9e3ab2
 BATCH_FIRST_STAGE=Stage14-4fn
 BATCH_LAST_STAGE=Stage14-4fp
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3
@@ -108,3 +108,13 @@ WHOLE_MAINLINE_BLOCKED_BY_H=false
 ```
 
 This receiver change satisfies the common batch stop rule after three substantive work units.
+
+## Publication recheck
+
+Latest merged main remained
+
+```text
+43c2beeda0c9c5af2154d6deca5912d5be9e3ab2
+```
+
+through publication recheck. No concurrent unmerged route result is consumed as a theorem source.
