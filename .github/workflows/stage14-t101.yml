@@ -1,0 +1,30 @@
+name: Stage14-t101 principal-centered boundary split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t101/**'
+      - '.github/workflows/stage14-t101.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify t100 predecessor
+        run: grep -q 'NEXT=Stage14-t101' stages/stage14/14-t100/boundary.md
+      - name: Verify frozen tH27 result
+        run: |
+          grep -q 'FIXED_U_PACKET_POWER_SAVING_PROVED=false' stages/stage14/14-tH27/result.md
+          grep -q 'NEXT_H_NEEDED=false' stages/stage14/14-tH27/result.md
+      - name: Run deterministic audit
+        run: python stages/stage14/14-t101/audit.py
+      - name: Verify t101 boundary
+        run: |
+          grep -q 'PRINCIPAL_CENTERED_SPLIT_EXACT=true' stages/stage14/14-t101/boundary.md
+          grep -q 'TH28_NEEDED=false' stages/stage14/14-t101/boundary.md
+          grep -q 'NEXT=Stage14-t102' stages/stage14/14-t101/boundary.md
