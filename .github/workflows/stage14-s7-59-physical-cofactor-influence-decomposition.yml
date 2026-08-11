@@ -1,0 +1,38 @@
+name: Stage14-s7-59 physical cofactor influence decomposition
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-59/**'
+      - 'stages/stage14/scripts/14-s7-59/**'
+      - '.github/workflows/stage14-s7-59-physical-cofactor-influence-decomposition.yml'
+      - 'stages/stage14/14-s7-58/**'
+      - 'stages/stage14/14-4do/**'
+      - 'stages/stage14/14-4dn/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-59 deterministic audit
+        run: python stages/stage14/scripts/14-s7-59/physical_cofactor_influence_decomposition_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-59/physical_cofactor_influence_decomposition_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-59/result.md
+          grep -Fq 'STAGE14_S7_59=COMPLETE_PHYSICAL_COFACTOR_UPLIFT_MARTINGALE_INFLUENCE_DECOMPOSITION' "$f"
+          grep -Fq 'PHYSICAL_COFACTOR_INFLUENCE_TELESCOPING_PROVED=true' "$f"
+          grep -Fq 'FIXED_POWER_COMMON_PRIME_INFLUENCE_REMOVED=true' "$f"
+          grep -Fq 'ZERO_MODE_ARITHMETIC_RECEIVER_COUNT=1' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'S7_59_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-60' "$f"
