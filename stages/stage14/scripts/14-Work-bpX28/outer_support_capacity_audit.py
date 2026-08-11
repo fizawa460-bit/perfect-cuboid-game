@@ -1,6 +1,6 @@
 from pathlib import Path
 
-repo = Path(__file__).resolve().parents[3]
+repo = Path(__file__).resolve().parents[4]
 paths = {
     "result": repo / "stages/stage14/14-Work-bpX28/result.md",
     "matrix": repo / "docs/stage14-toolbox/work-bpX28-receiver-matrix.md",
