@@ -1,0 +1,29 @@
+name: Stage14-4dk interior dense cell reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dk/**'
+      - 'stages/stage14/scripts/14-4/interior_dense_cell_audit.py'
+      - '.github/workflows/stage14-4dk-interior-dense-cell.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/interior_dense_cell_audit.py
+      - name: Run Stage14-4dk audit
+        run: python stages/stage14/scripts/14-4/interior_dense_cell_audit.py
+      - name: Lock boundary
+        run: |
+          f=stages/stage14/14-4dk/result.md
+          grep -q 'STAGE14_4DK=COMPLETE_NEAR_MAXIMAL_CELL_INTERIOR_VARIANCE_REDUCTION' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -q 'NEXT_H_NEEDED=false' "$f"
