@@ -9,10 +9,11 @@ for rel, needle in {
     "stages/stage14/14-4dl/result.md": "PAIRWISE_SQRT_SATURATION_REQUIRES_RIJ=Bo0=true",
     "stages/stage14/14-s7-54/result.md": "PAIRWISE_BRANCHES_POWER_EQUIVALENT=true",
     "stages/stage14/14-s7-55/result.md": "PAIRWISE_PRINCIPAL_JOINT_DENSITY_DEFECT_PRESENT=true",
+    "stages/stage14/14-s7-56/result.md": "PAIR_JOINT_OCCUPANCY_FIXED_POWER_DEFICIT_STRICT_SUBSQRT=true",
     "stages/stage14/14-s7-49/result.md": "EXACT_LOCAL_CENTERING_PROVED=true",
     "stages/stage14/14-s7-50/result.md": "FULL_CONDUCTOR_ENDPOINT_PROVED=true",
     "stages/stage14/14-X15/result.md": "THREE_COMPLETE_COORDINATE_SYSTEMS_FINITE_FIBER_EQUIVALENT=true",
-    "stages/stage14/14-q11/result.md": "DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0",
+    "docs/stage14-q11-nearmax-pythagorean-correlation-literature-radar.md": "DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0",
 }.items():
     assert needle in (ROOT / rel).read_text(), (rel, needle)
 
@@ -63,6 +64,7 @@ for needle in [
 print(json.dumps({
     "stage":"14-4dm",
     "s7_55_imported":True,
+    "s7_56_compatible":True,
     "q11_compatible":True,
     "positive_pairwise_only":True,
     "zero_centered_recentering":True,
