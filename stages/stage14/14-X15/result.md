@@ -1,0 +1,712 @@
+# Stage14-X15 — three-projection Pythagorean closure and eight-block square-root receiver
+
+## Status
+
+`COMPLETE_THREE_PROJECTION_PYTHAGOREAN_CLOSURE_EIGHT_BLOCK_SEPARATION_AND_SQRT_DENSITY_REFINEMENT`
+
+Stage14-X15 consumes the latest merged global chain through
+
+```text
+X14,
+4dd -> 4de -> 4df,
+s7-46 -> s7-47 -> s7-48,
+sH48.
+```
+
+The entering canonical theorem remains
+
+```text
+V(B) << B^(1/2+o(1)).
+```
+
+No strict sub-square-root whole-family power saving is proved in X15.
+
+The purpose of this cross-route stage is different.  The merged s7-48/4df receiver uses the two projections
+
+```text
+D^2+A^2,
+D^2-A^2,
+```
+
+and correctly proves that those two projections alone have no nonzero algebraic eliminant.  X14, however, had already retained the k-agreement support in
+
+```text
+D=delta*s,
+A=alpha*r,
+alpha,delta=B^(1/4+o(1)),
+r,s=B^o(1).
+```
+
+X15 restores this third projection and proves that the complete square-root packet lies on one primitive Pythagorean cone whose three sides carry the plus xi/common-core blocks, the minus xi/residual blocks, and the k-agreement blocks respectively.
+
+This identifies the exact missing algebraic relation, proves an eight-atomic-block fixed-power separation theorem, and closes all three obvious complete coordinate systems at exponent exactly `1/2`.
+
+---
+
+## 1. Imported square-root packet
+
+Merged 4dd--4df and s7-46--s7-48 confine every possible square-root equality sequence to
+
+```text
+theta=1/4,
+1/6<=chi<=1/4,
+phi=(chi+1/4)/2,
+```
+
+with quarter-scale primitive data
+
+```text
+D,A=B^(1/4+o(1)),
+D>A>0,
+gcd(D,A)=B^o(1).
+```
+
+After the frozen endpoint-small / 2-primary decoration, the six physical blocks satisfy
+
+```text
+X_+ := epsilon_+ C_* S T = D^2+A^2,
+X_- := epsilon_- u_* R J = D^2-A^2,               (1.1)
+```
+
+where
+
+```text
+C_* = B^(chi+o(1)),
+u_* = B^(1/4-chi+o(1)),
+S,T = B^(1/4-chi/2+o(1)),
+R,J = B^(1/8+chi/2+o(1)).                          (1.2)
+```
+
+Merged 4df proves that
+
+```text
+C_*,S,T,u_*,R,J
+```
+
+are pairwise separated at fixed-power scale.
+
+Merged X14 and the original k-cell notation give
+
+```text
+D=delta*s,
+A=alpha*r,
+alpha,delta=B^(1/4+o(1)),
+r,s=B^o(1),
+gcd(alpha,delta)=1.                               (1.3)
+```
+
+The factors `alpha,delta` are the two k-agreement cells.  Their endpoint cofactors `r,s` have only `B^o(1)` possibilities.
+
+---
+
+## 2. Rotated primitive pair and the three projections
+
+As in merged s7-48/sH48 put
+
+```text
+m=D+A,
+n=D-A.                                            (2.1)
+```
+
+Then
+
+```text
+m,n=B^(1/4+o(1)),
+gcd(m,n)=B^o(1),                                   (2.2)
+```
+
+and the plus/minus projections are
+
+```text
+mn = D^2-A^2 = X_-,                               (2.3)
+
+m^2+n^2 = 2(D^2+A^2)=2X_+.                        (2.4)
+```
+
+The X14 k-agreement projection is equally exact:
+
+```text
+m+n=2D=2*delta*s,
+m-n=2A=2*alpha*r.                                  (2.5)
+```
+
+Therefore
+
+```text
+m^2-n^2=(m+n)(m-n)=4DA=4*alpha*delta*r*s.          (2.6)
+```
+
+Define the third side
+
+```text
+X_0:=2DA=2*alpha*delta*r*s.                        (2.7)
+```
+
+All three fixed-power projections of the same quarter pair are now explicit:
+
+```text
+plus norm      : X_+ = epsilon_+ C_* S T,
+minus product  : X_- = epsilon_- u_* R J,
+k-agreement    : X_0 = 2 alpha delta r s.          (2.8)
+```
+
+No new counting variable has been introduced; `X_0` is an exact function of `(D,A)`.
+
+---
+
+## 3. Exact Pythagorean cone
+
+The elementary identity
+
+```text
+(D^2+A^2)^2-(D^2-A^2)^2=(2DA)^2
+```
+
+gives
+
+```text
+boxed:
+X_+^2 = X_-^2 + X_0^2.                            (3.1)
+```
+
+Equivalently, in the rotated pair,
+
+```text
+boxed:
+(m^2+n^2)^2=(2mn)^2+(m^2-n^2)^2.                 (3.2)
+```
+
+Thus the square-root packet lies on a Pythagorean cone whose physical side factorizations are
+
+```text
+hypotenuse X_+ : epsilon_+ C_* S T,
+first leg  X_- : epsilon_- u_* R J,
+second leg X_0 : 2 alpha delta r s.               (3.3)
+```
+
+This is the exact cross-route relation absent from the two-projection s7-48 elimination problem.
+
+```text
+THREE_PROJECTION_PYTHAGOREAN_IDENTITY_PROVED=true
+PYTHAGOREAN_HYPOTENUSE_SUPPORT=C_*_S_T
+PYTHAGOREAN_MINUS_LEG_SUPPORT=u_*_R_J
+PYTHAGOREAN_K_AGREEMENT_LEG_SUPPORT=alpha_delta_endpoint_small
+```
+
+---
+
+## 4. Exact elimination ideal after adjoining the third projection
+
+Merged s7-48 considers only
+
+```text
+X_+=D^2+A^2,
+X_-=D^2-A^2
+```
+
+and proves
+
+```text
+< X_+-D^2-A^2, X_--D^2+A^2 > cap Q[X_+,X_-] = {0}.
+```
+
+X15 does not contradict that theorem.  It explains it.
+
+Adjoin
+
+```text
+X_0=2DA.
+```
+
+Then the homomorphism
+
+```text
+Q[X_+,X_-,X_0] -> Q[D,A]
+```
+
+has transcendence-degree-two image because
+
+```text
+D^2=(X_++X_-)/2,
+A^2=(X_+-X_-)/2.                                  (4.1)
+```
+
+Hence its kernel is a height-one prime.  The irreducible quadratic
+
+```text
+F=X_+^2-X_-^2-X_0^2                               (4.2)
+```
+
+lies in that kernel.  Since `Q[X_+,X_-,X_0]` is a UFD, the height-one prime is generated by `F`.
+
+Therefore
+
+```text
+boxed:
+ker = < X_+^2-X_-^2-X_0^2 >.                      (4.3)
+```
+
+So the exact algebraic closure is:
+
+```text
+two projections  -> no eliminant,
+three projections -> one universal Pythagorean-cone equation.
+```
+
+```text
+TWO_PROJECTION_TRIVIAL_ELIMINATION_IMPORTED=true
+THREE_PROJECTION_ELIMINATION_IDEAL_PRINCIPAL=true
+THREE_PROJECTION_ELIMINANT=X_plus^2-X_minus^2-X_zero^2
+```
+
+---
+
+## 5. The Pythagorean triple is primitive after the existing `B^o(1)` peel
+
+Merged 4de proves
+
+```text
+gcd(X_+,X_-)=B^o(1).                              (5.1)
+```
+
+For an odd prime `p`, if
+
+```text
+p | X_+=D^2+A^2
+```
+
+and
+
+```text
+p | X_0=2DA,
+```
+
+then `p|D` or `p|A`; substituting into `D^2+A^2` forces the other coordinate to be divisible by `p`.  Hence
+
+```text
+p | gcd(D,A).
+```
+
+The same argument applies to `gcd(X_-,X_0)`.
+
+Therefore
+
+```text
+oddpart(gcd(X_+,X_0)) | oddpart(gcd(D,A)),
+oddpart(gcd(X_-,X_0)) | oddpart(gcd(D,A)),          (5.2)
+```
+
+up to the harmless square/valuation convention already frozen in 4de.
+
+Since
+
+```text
+gcd(D,A)=B^o(1),
+```
+
+all three Pythagorean sides are pairwise coprime at fixed-power scale after one common `B^o(1)` peel.
+
+```text
+PYTHAGOREAN_SIDE_PAIRWISE_GCD_BO1=true
+PYTHAGOREAN_TRIPLE_FIXED_POWER_PRIMITIVE=true
+```
+
+The 2-primary orientation is part of the frozen endpoint decoration and has no fixed-power cost.
+
+---
+
+## 6. Eight atomic blocks are pairwise separated at fixed-power scale
+
+We already have the six-block theorem
+
+```text
+C_*,S,T,u_*,R,J
+```
+
+from merged 4df.
+
+The k-agreement cells satisfy
+
+```text
+gcd(alpha,delta)=1.                               (6.1)
+```
+
+They lie in the k support, whereas
+
+```text
+R,S,T,J
+```
+
+are xi cells, and the physical parameterization has
+
+```text
+gcd(k,xi)=1.
+```
+
+Thus their cross gcds are already absent away from the endpoint-small support.
+
+For `C_*` and `u_*`, use Section 5.  Because
+
+```text
+alpha*delta | D*A * B^o(1)
+```
+
+and `C_*|X_+`, `u_*|X_-`, any fixed-power odd overlap between `alpha*delta` and `C_*u_*` would force a fixed-power prime into `gcd(D,A)`, impossible on a saturation sequence.
+
+Consequently
+
+```text
+boxed:
+alpha,delta,C_*,S,T,u_*,R,J
+```
+
+are pairwise separated at fixed-power scale.
+
+```text
+EIGHT_ATOMIC_BLOCKS_PAIRWISE_SEPARATED=true
+K_AGREEMENT_TO_SIX_BLOCK_CROSS_GCD_BO1=true
+```
+
+This is a receiver contraction, not an independent saving to multiply by the s7-47 overlap theorem.
+
+---
+
+## 7. The third projection is a complete charged-once coordinate system
+
+The plus triple gives the merged s7-48 complete count
+
+```text
+(C_*,S,T):
+chi + (1/4-chi/2)+(1/4-chi/2)=1/2.                (7.1)
+```
+
+The minus triple gives
+
+```text
+(u_*,R,J):
+(1/4-chi)+(1/8+chi/2)+(1/8+chi/2)=1/2.            (7.2)
+```
+
+Now fix the k-agreement pair
+
+```text
+(alpha,delta).
+```
+
+Both have scale
+
+```text
+B^(1/4+o(1)).
+```
+
+For each fixed pair, the endpoint cofactors `r,s=B^o(1)` have only `B^o(1)` possibilities, and
+
+```text
+D=delta*s,
+A=alpha*r,
+m=D+A,
+n=D-A
+```
+
+are then fixed.
+
+For fixed `(D,A)`, the admissible plus and minus triples are subsets of divisor factorizations of
+
+```text
+D^2+A^2,
+D^2-A^2,
+```
+
+and hence are `B^o(1)`-many.  Merged s7-46 gives only `B^o(1)` reciprocal/post-column completion multiplicity after those side factors are fixed.
+
+Therefore
+
+```text
+boxed:
+fixed (alpha,delta)
+=> full physical packet multiplicity = B^o(1).     (7.3)
+```
+
+The third complete count is
+
+```text
+alpha choice : 1/4
+delta choice : 1/4
+completion   : 0
+-------------------
+total        : 1/2.                                (7.4)
+```
+
+Thus the square-root mass has **three** complete finite-fiber coordinate systems, each of exponent exactly `1/2`.
+
+```text
+PLUS_TRIPLE_COMPLETE_COUNT_EXPONENT=1/2
+MINUS_TRIPLE_COMPLETE_COUNT_EXPONENT=1/2
+K_AGREEMENT_PAIR_COMPLETE_COUNT_EXPONENT=1/2
+THREE_COMPLETE_COORDINATE_SYSTEMS_FINITE_FIBER_EQUIVALENT=true
+THREE_COMPLETE_COORDINATE_COUNTS_MULTIPLICABLE=false
+```
+
+---
+
+## 8. Why the Pythagorean cone itself gives no strict saving
+
+After the common `B^o(1)` primitive peel, the Pythagorean triple
+
+```text
+(X_-,X_0,X_+)
+```
+
+has the Euclid parameterization already present in the physical variables:
+
+```text
+X_-=D^2-A^2,
+X_0=2DA,
+X_+=D^2+A^2.                                      (8.1)
+```
+
+The parameters range over
+
+```text
+D,A=B^(1/4+o(1)).
+```
+
+Thus the primitive Pythagorean cone itself carries
+
+```text
+B^(1/2+o(1))
+```
+
+possible parameter pairs.  Replacing the product/norm receiver by the cone therefore only reparameterizes the same square-root ambient mass.
+
+In particular one may not claim a second determinant-method saving from the quadratic relation (3.1): its primitive parameterization is exactly the already-counted quarter pair.
+
+```text
+PYTHAGOREAN_CONE_PARAMETER_BASE_EXPONENT=1/2
+PYTHAGOREAN_CONE_ALONE_GIVES_FIXED_POWER_SAVING=false
+PYTHAGOREAN_ELIMINANT_FRESH_DETERMINANT_SAVING_ALLOWED=false
+```
+
+The three side factorizations are the live arithmetic selectors; the cone equation is not an additional charged modulus.
+
+---
+
+## 9. Canonical three-projection physical weight
+
+For the primitive quarter-pair base define three nonnegative divisor-many weights:
+
+```text
+W_+(m,n)
+ = # admissible (C_*,S,T) factorizations of (m^2+n^2)/2,
+
+W_-(m,n)
+ = # admissible (u_*,R,J) factorizations of mn,
+
+W_k(m,n)
+ = # admissible endpoint-small (r,s) / quarter-scale
+   k-agreement factorizations
+   m+n=2delta*s,
+   m-n=2alpha*r.                                   (9.1)
+```
+
+Each satisfies
+
+```text
+0<=W_+,W_-,W_k<=B^o(1).                            (9.2)
+```
+
+Every physical saturation packet contributes to
+
+```text
+I_3(B)
+ := sum_{primitive quarter pairs (m,n)}
+      W_+(m,n) W_-(m,n) W_k(m,n),                 (9.3)
+```
+
+up to the merged `B^o(1)` reconstruction multiplicity.
+
+Therefore
+
+```text
+N_sat(B) <= B^o(1) I_3(B).                         (9.4)
+```
+
+This three-projection incidence is the smallest X-route outer majorant that visibly retains the plus xi/common-core split, the minus xi/residual split, and the k-agreement support simultaneously.
+
+---
+
+## 10. Triple centering bookkeeping
+
+Let `P` be the size of a nonempty primitive quarter-pair conditioning cell, and let
+
+```text
+mu_+, mu_-, mu_k
+```
+
+be the three conditional means on that cell.  Write
+
+```text
+W_i = mu_i + W_i^0,
+sum W_i^0=0.                                       (10.1)
+```
+
+Expanding the triple product and using the three zero-mean identities gives exactly
+
+```text
+sum W_+ W_- W_k
+ = P*mu_+*mu_-*mu_k
+ + mu_+ * sum W_-^0 W_k^0
+ + mu_- * sum W_+^0 W_k^0
+ + mu_k * sum W_+^0 W_-^0
+ + sum W_+^0 W_-^0 W_k^0.                         (10.2)
+```
+
+All linear centered terms vanish; the three pairwise covariance terms and the genuine triple covariance remain.
+
+Hence a future theorem controlling only one centered covariance, or only the genuine triple oscillatory remainder, is not by itself sufficient for a strict upper bound.  The principal density and every surviving covariance term must be controlled, or an exact signed identity must cancel them.
+
+```text
+TRIPLE_CENTERING_IDENTITY_PROVED=true
+TRIPLE_CENTERING_LINEAR_TERMS_VANISH=true
+TRIPLE_CENTERING_PAIRWISE_COVARIANCE_TERMS_REMAIN=true
+TRIPLE_CENTERING_PRINCIPAL_TERM_REMAINS=true
+SINGLE_CENTERED_REMAINDER_BOUND_ALONE_SUFFICIENT=false
+```
+
+This is exact bookkeeping, not an imported analytic estimate.
+
+---
+
+## 11. Relation to merged sH48 and current parallel work
+
+Merged sH48 is a frozen negative applicability audit for the two-projection positive correlation receiver.  X15 does not reopen it.
+
+The new Pythagorean identity and eight-block statement are internal exact arithmetic.  They do not yet produce a theorem-ready fixed-power estimate absent from sH48.
+
+At the time X15 is built, parallel branches may be working on centering / inverse-fraction or mainline covariance adapters.  Unmerged branches are not theorem inputs here.  X15 only records the durable cross-route algebra that any such adapter must respect once merged.
+
+```text
+SH48_REOPENED=false
+SH48_CERTIFIED_DELTA=0
+UNMERGED_CENTERING_BRANCH_USED_AS_THEOREM_SOURCE=false
+```
+
+The fixed-U `t87/tH25` coefficient space remains distinct.  No charged-once bridge from its ring-class/projective-conductor receiver to the X15 primitive Pythagorean eight-block receiver is proved.
+
+```text
+T87_CROSS_PROMOTED_TO_X15=false
+TH25_CROSS_PROMOTED_TO_X15=false
+```
+
+---
+
+## 12. Remaining receiver
+
+The X14 switch-supported Gaussian zero mode, the 4de mixed fourth-root packet, the 4df six-block complementary-square receiver, and the s7-48 product/norm receiver are now unified as one object:
+
+```text
+SquareRootQuarterPrimitivePythagoreanConeEightAtomicBlockThreeProjectionPhysicalCorrelationDensity.
+```
+
+Mandatory structure:
+
+```text
+m,n=B^(1/4+o(1)),
+gcd(m,n)=B^o(1),
+D=(m+n)/2,
+A=(m-n)/2,
+
+X_+=D^2+A^2=epsilon_+ C_* S T,
+X_-=D^2-A^2=epsilon_- u_* R J,
+X_0=2DA=2 alpha delta r s,
+X_+^2=X_-^2+X_0^2,
+
+alpha,delta,C_*,S,T,u_*,R,J
+pairwise separated at fixed-power scale,
+
+C_*u_*=B^(1/4+o(1)),
+alpha,delta=B^(1/4+o(1)),
+r,s=B^o(1),
+
+all squarefree-cell, mixed-root, reciprocal,
+orientation, interval, statewise and post-column masks retained.
+```
+
+A strict sub-square-root theorem must prove power sparsity of the simultaneous three-projection physical factorization density, or derive a centered/dispersion mechanism controlling the principal, pairwise-covariance and higher-correlation pieces without double charging any of the three complete `1/2` coordinate systems.
+
+---
+
+## 13. Whole-family theorem and H decision
+
+No exponent change is certified:
+
+```text
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
+SQRT_B_UPPER_BOUND_PROVED=true
+STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false
+```
+
+No new X auxiliary H is requested.
+
+Reasons:
+
+1. merged sH48 already completed the theorem inventory for the two-projection density;
+2. X15 adds exact third-projection algebra but no fully specified new oscillatory theorem family;
+3. parallel s/mainline work is already constructing the missing centering adapters;
+4. the next X pass should consume those adapters after merge rather than dispatch a duplicate H snapshot.
+
+```text
+X15_AUXILIARY_H_NEEDED=false
+X_ROUTE_BLOCKED_BY_H=false
+```
+
+The next useful X integration point is after a meaningful centered/conductor or principal-density consumer merges.
+
+```text
+NEXT_RECOMMENDED=Stage14-X16_after_centering_consumers
+```
+
+---
+
+## Stage boundary
+
+```text
+STAGE14_X15=COMPLETE_THREE_PROJECTION_PYTHAGOREAN_CLOSURE_EIGHT_BLOCK_SEPARATION_AND_SQRT_DENSITY_REFINEMENT
+MERGED_X14_IMPORTED=true
+MERGED_4DD_IMPORTED=true
+MERGED_4DE_IMPORTED=true
+MERGED_4DF_IMPORTED=true
+MERGED_S7_46_IMPORTED=true
+MERGED_S7_47_IMPORTED=true
+MERGED_S7_48_IMPORTED=true
+MERGED_SH48_IMPORTED=true
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
+SQRT_B_UPPER_BOUND_PROVED=true
+STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+NEW_WHOLE_FAMILY_POWER_SAVING_PROVED=false
+ROTATED_PRIMITIVE_PAIR_IMPORTED=true
+THREE_PROJECTION_PYTHAGOREAN_IDENTITY_PROVED=true
+THREE_PROJECTION_ELIMINATION_IDEAL_PRINCIPAL=true
+THREE_PROJECTION_ELIMINANT=X_plus^2-X_minus^2-X_zero^2
+PYTHAGOREAN_TRIPLE_FIXED_POWER_PRIMITIVE=true
+EIGHT_ATOMIC_BLOCKS_PAIRWISE_SEPARATED=true
+PLUS_TRIPLE_COMPLETE_COUNT_EXPONENT=1/2
+MINUS_TRIPLE_COMPLETE_COUNT_EXPONENT=1/2
+K_AGREEMENT_PAIR_COMPLETE_COUNT_EXPONENT=1/2
+THREE_COMPLETE_COORDINATE_SYSTEMS_FINITE_FIBER_EQUIVALENT=true
+THREE_COMPLETE_COORDINATE_COUNTS_MULTIPLICABLE=false
+PYTHAGOREAN_CONE_PARAMETER_BASE_EXPONENT=1/2
+PYTHAGOREAN_CONE_ALONE_GIVES_FIXED_POWER_SAVING=false
+PYTHAGOREAN_ELIMINANT_FRESH_DETERMINANT_SAVING_ALLOWED=false
+TRIPLE_CENTERING_IDENTITY_PROVED=true
+TRIPLE_CENTERING_PAIRWISE_COVARIANCE_TERMS_REMAIN=true
+TRIPLE_CENTERING_PRINCIPAL_TERM_REMAINS=true
+REMAINING_RECEIVER=SquareRootQuarterPrimitivePythagoreanConeEightAtomicBlockThreeProjectionPhysicalCorrelationDensity
+SH48_REOPENED=false
+T87_CROSS_PROMOTED_TO_X15=false
+TH25_CROSS_PROMOTED_TO_X15=false
+X15_AUXILIARY_H_NEEDED=false
+X_ROUTE_BLOCKED_BY_H=false
+NEXT_RECOMMENDED=Stage14-X16_after_centering_consumers
+```
