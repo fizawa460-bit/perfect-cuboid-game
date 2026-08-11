@@ -1,0 +1,46 @@
+name: Stage14-s7-63 proportional collision collapse
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-63/**'
+      - 'stages/stage14/scripts/14-s7-63/**'
+      - '.github/workflows/stage14-s7-63-proportional-collision-collapse.yml'
+      - 'stages/stage14/14-s7-62/**'
+      - 'stages/stage14/14-Work-biX21/**'
+      - 'stages/stage14/14-4dv/**'
+      - 'stages/stage14/14-4dw/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-63 deterministic audit
+        run: python stages/stage14/scripts/14-s7-63/proportional_collision_collapse_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-63/proportional_collision_collapse_audit.py
+      - name: Regress merged s7-62
+        run: python stages/stage14/scripts/14-s7-62/range_stable_divisor_graph_audit.py
+      - name: Regress merged Work-biX21
+        run: python stages/stage14/scripts/14-Work-biX21/prime_support_energy_audit.py
+      - name: Regress merged 4dv
+        run: python stages/stage14/scripts/14-4/fixed_prime_collision_tautology_audit.py
+      - name: Regress merged 4dw
+        run: python stages/stage14/scripts/14-4/fixed_prime_divisor_pair_mass_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-63/result.md
+          grep -Fq 'PROPORTIONAL_COLLISION_ENERGY_UPPER_EXPONENT=1/2' "$f"
+          grep -Fq 'NONPROPORTIONAL_COLLISION_ENERGY_LOWER_EXPONENT=1' "$f"
+          grep -Fq 'MERGED_4DW_PRIMITIVE_DIVISOR_PAIR_REDUCTION_IMPORTED=true' "$f"
+          grep -Fq 'NONPROPORTIONAL_COLLISION_PAIR_ADDS_FRESH_CODIMENSION=false' "$f"
+          grep -Fq 'S7_63_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-64' "$f"
