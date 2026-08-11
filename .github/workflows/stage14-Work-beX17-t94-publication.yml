@@ -1,0 +1,38 @@
+name: Stage14-Work-beX17 t94 publication regression
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-beX17/t94-addendum.md'
+      - '.github/workflows/stage14-Work-beX17-t94-publication.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run merged t94 regressions
+        run: |
+          python stages/stage14/scripts/14-t/t94_antipodal_quotient_audit.py
+          python stages/stage14/scripts/14-t/t94_validate_frozen.py
+      - name: Lock t94 publication boundary
+        run: |
+          grep -Fq 'PAIR_OCCUPANCY_DEFICIT_FIXED_POWER_SAVING_PROVED=true' stages/stage14/14-t94/result.md
+          grep -Fq 'SQRT_SATURATION_FORCES_NEAR_MAXIMAL_PAIR_OCCUPANCY=true' stages/stage14/14-t94/result.md
+          a=stages/stage14/14-Work-beX17/t94-addendum.md
+          grep -Fq 'PUBLICATION_RECHECK_CONSUMED_T94=true' "$a"
+          grep -Fq 'LOCAL_OCCUPANCY_DEFICIT_ADAPTER_PROVED=true' "$a"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$a"
+          grep -Fq 'SAVING_CROSS_PROMOTABLE=false' "$a"
+          grep -Fq 'TH27_NEEDED=false' "$a"
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
