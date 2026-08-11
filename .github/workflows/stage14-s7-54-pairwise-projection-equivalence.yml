@@ -1,0 +1,35 @@
+name: Stage14-s7-54 pairwise projection equivalence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-54/**'
+      - 'stages/stage14/scripts/14-s7-54/**'
+      - '.github/workflows/stage14-s7-54-pairwise-projection-equivalence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-54 deterministic audit
+        run: python stages/stage14/scripts/14-s7-54/pairwise_projection_equivalence_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-54/pairwise_projection_equivalence_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-54/result.md
+          grep -Fq 'STAGE14_S7_54=COMPLETE_PAIRWISE_PROJECTION_EQUIVALENCE_REDUCTION' "$f"
+          grep -Fq 'PAIRWISE_BRANCHES_POWER_EQUIVALENT=true' "$f"
+          grep -Fq 'PAIRWISE_BRANCH_COUNT_AT_FIXED_POWER=1' "$f"
+          grep -Fq 'PAIRWISE_COVARIANCE_DOUBLE_OR_TRIPLE_CHARGE_ALLOWED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'S7_54_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-55' "$f"
