@@ -42,8 +42,9 @@ jobs:
 
       - name: Lock integrated sH batch contract
         run: |
-          grep -Fq 'STAGE14_S_BATCH_INTEGRATES_NEW_SH=true' docs/stage14-s-batch-task-contract.md
-          grep -Fq 'STAGE14_S_BATCH_H_COUNTS_AS_WORK_UNIT=true' docs/stage14-s-batch-task-contract.md
+          grep -Fq '## Integrated sH work unit' docs/stage14-s-batch-task-contract.md
+          grep -Fq 'An integrated `sH` audit counts as one of the batch' docs/stage14-s-batch-task-contract.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-s-batch-task-contract.md
 
       - name: Lock batch boundary
         run: |
