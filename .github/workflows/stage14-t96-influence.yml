@@ -19,8 +19,8 @@ jobs:
           python-version: '3.x'
       - name: Verify predecessor boundaries
         run: |
-          grep -q 'NEXT=Stage14-t96' stages/stage14/14-t95/frozen-boundary.txt
-          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t95/frozen-boundary.txt
+          grep -q 'NEXT=Stage14-t96' stages/stage14/14-t95/boundary.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t95/boundary.md
           grep -q 'OFF_THE_SHELF_UNIFORM_FIXED_POWER_SAVING_PROVED=false' stages/stage14/14-tH26/result.md
       - name: Run deterministic influence audit
         run: python scripts/stage14/validate_t96_influence.py
