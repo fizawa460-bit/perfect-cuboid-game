@@ -1,0 +1,44 @@
+name: Stage14-s7-62 range-stable forced collision energy
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-62/**'
+      - 'stages/stage14/scripts/14-s7-62/**'
+      - '.github/workflows/stage14-s7-62-range-stable-divisor-graph-boundary.yml'
+      - 'stages/stage14/14-s7-61/**'
+      - 'stages/stage14/14-4dt/**'
+      - 'stages/stage14/14-4du/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-62 deterministic audit
+        run: python stages/stage14/scripts/14-s7-62/range_stable_divisor_graph_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-62/range_stable_divisor_graph_audit.py
+      - name: Regress merged s7-61
+        run: python stages/stage14/scripts/14-s7-61/single_prime_residue_support_audit.py
+      - name: Regress merged 4du
+        run: python stages/stage14/scripts/14-4du/candidate_image_energy_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-62/result.md
+          grep -Fq 'STAGE14_S7_62=COMPLETE_RANGE_STABLE_SUBPOLYNOMIAL_MOVER_AND_FORCED_COLLISION_ENERGY_REDUCTION' "$f"
+          grep -Fq 'MERGED_4DU_IMAGE_ENERGY_DICHOTOMY_IMPORTED=true' "$f"
+          grep -Fq 'RANGE_STABLE_ARITHMETIC_MOVER_PRIME_SCALE=Bo0' "$f"
+          grep -Fq 'RANGE_STABLE_CANDIDATE_PRIME_IMAGE_SIZE=Bo1' "$f"
+          grep -Fq 'RANGE_STABLE_ARITHMETIC_SATURATION_FORCES_COLLISION_ENERGY=true' "$f"
+          grep -Fq 'FORCED_COLLISION_ENERGY_EXPONENT=1' "$f"
+          grep -Fq 'DIFFUSE_IMAGE_BRANCH_REMOVED_ON_RANGE_STABLE_ARITHMETIC_RECEIVER=true' "$f"
+          grep -Fq 'S7_62_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-63' "$f"
