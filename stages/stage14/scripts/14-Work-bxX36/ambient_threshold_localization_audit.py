@@ -102,7 +102,7 @@ for needle in [
     assert needle in m, needle
 
 # Charged-once/no-cross-promotion sanity checks.
-assert "fixed-E rectangular straightening may not be charged on the polynomial-E outer-pair branch" in r
+assert "fixed-E straightening may not be charged on the polynomial-E outer-pair branch" in r
 assert "tH32's near-full Gaussian-prime theorem may not be charged on rectangular product sets" in r
 assert "COMMON_MULTIPLICATION_TO_GAUSSIAN_PRIME_THRESHOLD_ADAPTER_PROVED=false" in r
 
