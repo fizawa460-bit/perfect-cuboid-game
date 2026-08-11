@@ -1,0 +1,53 @@
+name: Stage14-s7-64 primitive slope acceptance
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-64/**'
+      - 'stages/stage14/scripts/14-s7-64/**'
+      - '.github/workflows/stage14-s7-64-primitive-slope-acceptance.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-64 deterministic audit
+        run: python stages/stage14/scripts/14-s7-64/primitive_slope_acceptance_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-64/primitive_slope_acceptance_audit.py
+
+      - name: Regress merged 4dx
+        run: python stages/stage14/scripts/14-4/projective_slope_mask_transport_audit.py
+
+      - name: Regress merged Work-bjX22
+        run: python stages/stage14/scripts/14-Work-bjX22/fixed_root_primitive_direction_audit.py
+
+      - name: Regress merged s7-63
+        run: python stages/stage14/scripts/14-s7-63/proportional_collision_collapse_audit.py
+
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-64/result.md
+          grep -Fq 'STAGE14_S7_64=COMPLETE_PRIMITIVE_RATIONAL_SLOPE_CONTRACTION_AND_PHYSICAL_ACCEPTANCE_PREDICATE' "$f"
+          grep -Fq 'INDEPENDENT_POLYNOMIAL_SCALE_AFTER_PRIMITIVE_REDUCTION=false' "$f"
+          grep -Fq 'ONE_ATOMIC_MOVER_CHART_CAN_BE_FROZEN=true' "$f"
+          grep -Fq 'FULL_PHYSICAL_ACCEPTANCE_COLLAPSES_TO_ONE_BOOLEAN_SLOPE_PREDICATE=true' "$f"
+          grep -Fq 'TRANSPORTED_PHYSICAL_ACCEPTANCE_FIXED_POWER_DEFICIT_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'S7_64_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-65' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
