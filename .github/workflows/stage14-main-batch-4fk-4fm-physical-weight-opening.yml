@@ -1,0 +1,54 @@
+name: Stage14-main-batch 4fk-4fm physical weight opening
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4fk/**'
+      - 'stages/stage14/14-4fl/**'
+      - 'stages/stage14/14-4fm/**'
+      - 'stages/stage14/14-4-batch/4fk-4fm-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4fk_4fm_physical_weight_opening_audit.py'
+      - '.github/workflows/stage14-main-batch-4fk-4fm-physical-weight-opening.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4fk_4fm_physical_weight_opening_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4fk_4fm_physical_weight_opening_audit.py
+
+      - name: Previous mainline regression
+        run: python stages/stage14/scripts/14-4/batch_4fh_4fj_reciprocal_window_interior_audit.py
+
+      - name: Work-bsX31 regression
+        run: python stages/stage14/scripts/14-Work-bsX31/scalar_outer_reciprocal_selector_audit.py
+
+      - name: s7-90-92 regression
+        run: python stages/stage14/scripts/14-s-batch/s7_90_92_primitive_ratio_window_audit.py
+
+      - name: Lock receiver boundary
+        run: |
+          grep -Fq 'FOUR_FJ_INCIDENCE_PULLBACK_TO_RATIO_EXACT=true' stages/stage14/14-4fk/result.md
+          grep -Fq 'ENDPOINT_RATIO_BRANCH_CLOSED=false' stages/stage14/14-4fl/result.md
+          grep -Fq 'FIXED_E_UNITARY_DIVISOR_SHORT_WINDOW_EXPLICIT=true' stages/stage14/14-4fm/result.md
+          grep -Fq 'POLYNOMIAL_E_UNITARY_DIVISOR_COUPLED_CORRELATION_EXPLICIT=true' stages/stage14/14-4fm/result.md
+          grep -Fq 'FORD_TRANSFER_FIXED_POWER_SAVING_PROVED=false' stages/stage14/14-4fm/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4fk-4fm-report.md
+          grep -Fq 'NEXT=Stage14-4fn' stages/stage14/14-4-batch/4fk-4fm-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
