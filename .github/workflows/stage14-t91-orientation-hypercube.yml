@@ -1,0 +1,62 @@
+name: Stage14-t91 primitive orientation hypercube
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t91/**'
+      - 'stages/stage14/data/14-t91/**'
+      - 'stages/stage14/scripts/14-t/t91_*'
+      - '.github/workflows/stage14-t91-orientation-hypercube.yml'
+      - 'stages/stage14/14-t90/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install sympy
+        run: pip install sympy
+      - name: Deterministic audit
+        run: python stages/stage14/scripts/14-t/t91_orientation_hypercube_audit.py | tee /tmp/t91.json
+      - name: Frozen validator
+        run: python stages/stage14/scripts/14-t/t91_validate_frozen.py
+      - name: Compare deterministic output with frozen data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          live=json.loads(Path('/tmp/t91.json').read_text())
+          frozen=json.loads(Path('stages/stage14/data/14-t91/orientation_hypercube_frozen.json').read_text())
+          assert live==frozen,(live,frozen)
+          print('Stage14-t91 deterministic output matches frozen data')
+          PY
+      - name: Compile scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t91_orientation_hypercube_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t91_validate_frozen.py
+      - name: Lock merged t90 and H protocol
+        run: |
+          grep -Fq 'STAGE14_T90=COMPLETE_BOUNDED_Q_WEIGHT_OPENING_LOCAL_SELECTOR_PEEL_AND_GAUSSIAN_ORIENTATION_CORE' stages/stage14/14-t90/result.md
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+      - name: Lock t91 boundary
+        run: |
+          f=stages/stage14/14-t91/result.md
+          grep -Fq 'PRIMITIVE_GAUSSIAN_REPRESENTATION_ORIENTATION_HYPERCUBE_PROVED=true' "$f"
+          grep -Fq 'FULL_GOOD_PRIME_COEFFICIENT_MULTIPLICATIVITY_PROVED=false' "$f"
+          grep -Fq 'TH26_TARGET_REOPENED=false' "$f"
+          grep -Fq 'TH27_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'NEXT=Stage14-t92' "$f"
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
