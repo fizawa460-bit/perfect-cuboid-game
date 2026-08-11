@@ -1,0 +1,40 @@
+name: Stage14-t94 antipodal quotient occupancy
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t94/**'
+      - 'stages/stage14/scripts/14-t/t94_*'
+      - 'stages/stage14/data/14-t94/**'
+      - '.github/workflows/stage14-t94.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Deterministic audit
+        run: python stages/stage14/scripts/14-t/t94_antipodal_quotient_audit.py | tee /tmp/t94.json
+      - name: Frozen validator
+        run: python stages/stage14/scripts/14-t/t94_validate_frozen.py
+      - name: Compare deterministic output with frozen data
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          live=json.loads(Path('/tmp/t94.json').read_text())
+          frozen=json.loads(Path('stages/stage14/data/14-t94/antipodal_quotient_frozen.json').read_text())
+          assert live==frozen,(live,frozen)
+          print('Stage14-t94 deterministic output matches frozen data')
+          PY
+      - name: Compile scripts
+        run: python -m py_compile stages/stage14/scripts/14-t/t94_*.py
+      - name: Lock predecessor and H snapshot
+        run: |
+          grep -q 'ANTIPODAL_QUOTIENT_REDUCTION_PROVED=true' stages/stage14/14-t94/result.md
+          grep -q 'TH27_NEEDED=false' stages/stage14/14-t94/result.md
+          test -f stages/stage14/14-t93/result.md
+          test -f stages/stage14/14-tH26/result.md
