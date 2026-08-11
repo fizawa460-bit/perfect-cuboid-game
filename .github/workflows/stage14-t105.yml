@@ -1,0 +1,50 @@
+name: Stage14-t105 background fiber density no-go
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t105/**'
+      - '.github/workflows/stage14-t105.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run t105 deterministic audit
+        run: python stages/stage14/14-t105/audit.py
+
+      - name: Compile t105 audit
+        run: python -m py_compile stages/stage14/14-t105/audit.py
+
+      - name: Verify predecessor locks
+        run: |
+          grep -Fq 'PHYSICAL_COMPLETION_BOUNDED_Q_WEIGHT_PROVED=true' stages/stage14/14-t89/result.md
+          grep -Fq 'GENERIC_COFACTOR_PARAMETER_IS_SPLIT_PRIME_ORIENTATION_CUBE=true' stages/stage14/14-t91/result.md
+          grep -Fq 'NEXT_INTERNAL_TARGET=FixedFullBoundaryBackgroundGaussianCofactorDensityDecomposition' stages/stage14/14-t104/result.md
+          grep -Fq 'COMMON_FIXED_BOOLEAN_PRINCIPAL_DENSITY_TEMPLATE_PROVED=true' stages/stage14/14-Work-bkX23/result.md
+
+      - name: Verify t105 frozen boundary
+        run: |
+          f=stages/stage14/14-t105/frozen-boundary.txt
+          grep -Fq 'FIXED_Q_BACKGROUND_GAUSSIAN_FIBER_SIZE=Bo1' "$f"
+          grep -Fq 'NONEMPTY_FIBER_ACCEPTANCE_IMPLIES_EXPONENT_ZERO_DENSITY=true' "$f"
+          grep -Fq 'COMPLEMENT_DEFICIT_ELIMINATES_POSITIVE_PRINCIPAL_MASS=false' "$f"
+          grep -Fq 'T104_TWO_SIDED_MINIMAL_PRINCIPAL_SURVIVOR_LOCK_SUPERSEDED=true' "$f"
+          grep -Fq 'OUTER_Q_SUPPORT_IS_FIRST_REMAINING_POLYNOMIAL_LENGTH=true' "$f"
+          grep -Fq 'POSITIVE_PRINCIPAL_MASS_REDUCED_TO_OUTER_Q_SUPPORT_WEIGHT=true' "$f"
+          grep -Fq 'TH28_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t106' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
