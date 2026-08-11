@@ -1,0 +1,65 @@
+name: Stage14-Work-bkX23 fixed Boolean principal density
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bkX23/**'
+      - 'stages/stage14/scripts/14-Work-bkX23/**'
+      - 'docs/stage14-toolbox/work-bkX23-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-bkX23-fixed-boolean-principal-density.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bkX23 audit
+        run: python stages/stage14/scripts/14-Work-bkX23/fixed_boolean_principal_density_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bkX23/fixed_boolean_principal_density_audit.py
+
+      - name: Regress merged Work-bjX22
+        run: python stages/stage14/scripts/14-Work-bjX22/fixed_root_primitive_direction_audit.py
+
+      - name: Regress merged 4dx
+        run: python stages/stage14/scripts/14-4/projective_slope_mask_transport_audit.py
+
+      - name: Regress merged s7-64
+        run: python stages/stage14/scripts/14-s7-64/primitive_slope_acceptance_audit.py
+
+      - name: Regress merged t104
+        run: python stages/stage14/14-t104/audit.py
+
+      - name: Lock integrated theorem boundary
+        run: |
+          f=stages/stage14/14-Work-bkX23/result.md
+          grep -Fq 'STAGE14_WORK_BKX23=COMPLETE_FIXED_BOOLEAN_PHYSICAL_ACCEPTANCE_PRINCIPAL_DENSITY_UNIFICATION' "$f"
+          grep -Fq 'GLOBAL_BOOLEAN_ACCEPTANCE_PRINCIPAL_CENTERED_SPLIT_EXACT=true' "$f"
+          grep -Fq 'GLOBAL_ACCEPTANCE_DENSITY_EXPONENT_ZERO_ON_SATURATING_SEQUENCE=true' "$f"
+          grep -Fq 'COMMON_FIXED_BOOLEAN_PRINCIPAL_DENSITY_TEMPLATE_PROVED=true' "$f"
+          grep -Fq 'COMMON_ARITHMETIC_ACCEPTANCE_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'COLLISION_ENERGY_RECHARGE_ALLOWED=false' "$f"
+          grep -Fq 'PRIME_AVERAGE_RECHARGE_ALLOWED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'TH28_NEEDED=false' "$f"
+
+      - name: Lock receiver matrix
+        run: |
+          f=docs/stage14-toolbox/work-bkX23-receiver-matrix.md
+          grep -Fq 'COMMON_FIXED_BOOLEAN_PRINCIPAL_DENSITY_TEMPLATE_PROVED=true' "$f"
+          grep -Fq 'GLOBAL_FIXED_U_BACKGROUND_MEASURES_IDENTIFIED=false' "$f"
+          grep -Fq 'COMMON_ARITHMETIC_ACCEPTANCE_ADAPTER_PROVED=false' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
