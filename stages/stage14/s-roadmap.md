@@ -22,12 +22,22 @@ ordinary per-stage theorem boundary and H-decision, treats unmerged work as
 advisory only, and never promotes a new saving without a proved uniform estimate
 for the full physical packet.
 
+A newly required `sH` is normally executed inside the same batch and Draft PR.
+It uses a frozen target and clean-room audit, counts as one of the 3--5
+substantive work units, and its result is consumed by the next internal `s`
+stage. Merely needing H is therefore not an early-stop condition; stop only if
+the completed H audit leaves an unresolved external dependency.
+
 ```text
 STAGE14_S_CANONICAL_EXECUTION_ENTRY=Stage14-s-batch
+STAGE14_S_BATCH_MINIMUM_TARGET_WORK_UNITS=3
+STAGE14_S_BATCH_MAXIMUM_WORK_UNITS=5
 STAGE14_S_BATCH_MINIMUM_TARGET_STAGES=3
 STAGE14_S_BATCH_MAXIMUM_STAGES=5
 STAGE14_S_BATCH_ONE_BRANCH_ONE_PR=true
-STAGE14_S_BATCH_EARLY_STOP=receiver_change|new_external_lemma_needed|rigorous_counterexample
+STAGE14_S_BATCH_EARLY_STOP=receiver_change|unresolved_external_gate|rigorous_counterexample
+STAGE14_S_BATCH_INTEGRATES_NEW_SH=true
+STAGE14_S_BATCH_H_COUNTS_AS_WORK_UNIT=true
 ```
 
 ## Purpose
