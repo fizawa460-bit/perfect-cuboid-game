@@ -1,0 +1,71 @@
+name: Stage14-t87 projective-line conductor endpoint
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t87/**'
+      - 'stages/stage14/data/14-t87/**'
+      - 'stages/stage14/scripts/14-t/t87_*'
+      - '.github/workflows/stage14-t87-projective-line-conductor-endpoint.yml'
+      - 'stages/stage14/14-t86/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-t87 deterministic audit
+        run: python stages/stage14/scripts/14-t/t87_projective_line_conductor_endpoint_audit.py
+
+      - name: Stage14-t87 frozen validator
+        run: python stages/stage14/scripts/14-t/t87_validate_frozen.py
+
+      - name: Compile t87 scripts
+        run: |
+          python -m py_compile stages/stage14/scripts/14-t/t87_projective_line_conductor_endpoint_audit.py
+          python -m py_compile stages/stage14/scripts/14-t/t87_validate_frozen.py
+
+      - name: Regress merged t86 fixed-discriminant audit
+        run: python stages/stage14/scripts/14-t/t86_fixed_discriminant_prime_form_audit.py
+
+      - name: Regress merged t86 frozen boundary
+        run: python stages/stage14/scripts/14-t/t86_validate_frozen.py
+
+      - name: Lock t86 predecessor and immutable tH25 target
+        run: |
+          f=stages/stage14/14-t86/result.md
+          grep -Fq 'STAGE14_T86=COMPLETE_COFACTOR_ROOT_LINE_TO_FIXED_DISCRIMINANT_FIXED_COFACTOR_PRIME_VALUE_FORM' "$f"
+          grep -Fq 'FIXED_DISCRIMINANT_REDUCTION_PROVED=true' "$f"
+          grep -Fq 'TH25_NEEDED=true' "$f"
+          grep -Fq 'TH25_DISPATCHED=false' "$f"
+          test -f stages/stage14/14-t86/th25-target.md
+
+      - name: Lock immutable H protocol
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock t87 theorem boundary
+        run: |
+          f=stages/stage14/14-t87/result.md
+          grep -Fq 'STAGE14_T87=COMPLETE_PROJECTIVE_RING_CLASS_BRIDGE_AND_FIXED_POWER_CONDUCTOR_ENDPOINT_COLLAPSE' "$f"
+          grep -Fq 'EXACT_GAMMA_A_PRIME_PROJECTIVE_INCIDENCE=true' "$f"
+          grep -Fq 'PROJECTIVE_CLASS_IS_INDEX_D_LATTICE=true' "$f"
+          grep -Fq 'FIXED_POWER_D_PROJECTIVE_LATTICE_SAVING_PROVED=true' "$f"
+          grep -Fq 'HARD_SELECTOR_CONDUCTOR_ENDPOINT=d=Bo1' "$f"
+          grep -Fq 'TH25_TARGET_REOPENED=false' "$f"
+          grep -Fq 'TH26_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-t88' "$f"
