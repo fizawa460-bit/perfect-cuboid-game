@@ -1,0 +1,77 @@
+name: Stage14-4dh same-root Ramanujan conductor spacing
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dh/**'
+      - 'stages/stage14/data/14-4/ramanujan_conductor_spacing_summary.json'
+      - 'stages/stage14/scripts/14-4/ramanujan_conductor_spacing_audit.py'
+      - '.github/workflows/stage14-4dh-ramanujan-conductor-spacing.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4dh deterministic audit
+        run: python stages/stage14/scripts/14-4/ramanujan_conductor_spacing_audit.py
+
+      - name: Compile Stage14-4dh audit
+        run: python -m py_compile stages/stage14/scripts/14-4/ramanujan_conductor_spacing_audit.py
+
+      - name: Merged 4dg regression
+        run: |
+          f=stages/stage14/14-4dg/result.md
+          grep -Fq 'STAGE14_4DG=COMPLETE_CENTERED_PRINCIPAL_COVARIANCE_BOUNDARY' "$f" || grep -Fq 'STAGE14_4DG=' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+
+      - name: Merged s7-49 centered conductor regression
+        run: |
+          f=stages/stage14/14-s7-49/result.md
+          grep -Fq 'STAGE14_S7_49=COMPLETE_CENTERED_NORM_ROOTLINE_TO_KLOOSTERMAN_INVERSE_FRACTION_ADAPTER' "$f"
+          grep -Fq 'EXACT_LOCAL_CENTERING_PROVED=true' "$f"
+          grep -Fq 'FREQUENCY_CONDUCTOR_STRATIFICATION_PROVED=true' "$f"
+          grep -Fq 'ZERO_MODE_EXPONENT=1/2' "$f"
+          grep -Fq 'S_ROUTE_NEXT=Stage14-s7-50' "$f"
+
+      - name: Merged X15 third-projection regression
+        run: |
+          f=stages/stage14/14-X15/result.md
+          grep -Fq 'THREE_PROJECTION_PYTHAGOREAN_IDENTITY_PROVED=true' "$f"
+          grep -Fq 'EIGHT_ATOMIC_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'PYTHAGOREAN_CONE_ALONE_GIVES_FIXED_POWER_SAVING=false' "$f"
+
+      - name: Fixed-U non-cross-promotion lock
+        run: |
+          grep -Fq 'STAGE14_T88=' stages/stage14/14-t88/result.md
+
+      - name: Stage14-4dh theorem boundary
+        run: |
+          f=stages/stage14/14-4dh/result.md
+          grep -Fq 'STAGE14_4DH=COMPLETE_SAME_ROOT_PYTHAGOREAN_SYNCHRONIZATION_RAMANUJAN_CONDUCTOR_RECOMBINATION_AND_ABSOLUTE_SQRT_BOUNDARY' "$f"
+          grep -Fq 'X15_THIRD_PROJECTION_SAME_GAUSSIAN_ROOT_LABEL=true' "$f"
+          grep -Fq 'THIRD_PROJECTION_INDEPENDENT_LOCAL_ROOT_DENSITY=false' "$f"
+          grep -Fq 'EXACT_CONDUCTOR_RAMANUJAN_RECOMBINATION_PROVED=true' "$f"
+          grep -Fq 'RAMANUJAN_AMPLITUDE_BOUND_BY_DISCREPANCY_GCD=true' "$f"
+          grep -Fq 'CONDUCTOR_LOSS_HARMLESS_AT_SQRT_SCALE=true' "$f"
+          grep -Fq 'NONZERO_RAMANUJAN_ABSOLUTE_SQRT_BOUND_PROVED=true' "$f"
+          grep -Fq 'RAMANUJAN_AMPLITUDE_SPACING_FIXED_POWER_CANCELLATION=true' "$f"
+          grep -Fq 'ABSOLUTE_CONDUCTOR_PEEL_STRICT_SAVING=false' "$f"
+          grep -Fq 'SECOND_1_OVER_D_SPACING_FACTOR_ALLOWED=false' "$f"
+          grep -Fq 'REMAINING_RECEIVER=PrimitiveQuarterPairSameRootRamanujanConductorWeightedPhysicalPrincipalDensityDeficitAndSignedCorrelation' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4di' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
