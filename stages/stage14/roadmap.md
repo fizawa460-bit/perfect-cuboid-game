@@ -172,91 +172,96 @@ M_+=oddpart(D^2+A^2)/C_* = S*T * B^o(1),
 M_-=oddpart(D^2-A^2)/u_* = R*J * B^o(1).
 ```
 
-Stage14-s7-47 independently peels the same-sign overlaps
+Stage14-s7-47 peels the same-sign overlaps
 
 ```text
 W_+=gcd(C_*,M_+),
-W_-=gcd(u_*,M_-).
+W_-=gcd(u_*,M_-),
 ```
 
-They enlarge the mixed-root modulus to
+and proves that every fixed-power overlap block is strict sub-square-root. Possible square-root saturation therefore has the four norm blocks `C_*,M_+,u_*,M_-` pairwise separated at fixed-power scale.
+
+Stage14-s7-48 exhausts the remaining elementary two-square algebra. With
 
 ```text
-Q_eff=Q_mix*W_+*W_-,
+Z=D+iA,
+m=D+A,
+n=D-A,
 ```
 
-and every fixed-power overlap block satisfies
-
-```text
-E<=1/2-w_+-w_-.
-```
-
-Hence possible square-root saturation requires
-
-```text
-W_+=W_-=B^o(1),
-```
-
-so the four norm blocks
-
-```text
-C_*, M_+, u_*, M_-
-```
-
-are pairwise separated at fixed-power scale.
-
-Stage14-s7-48 then exhausts the remaining elementary two-square algebra.  With `Z=D+iA`, the two complementary square identities are exactly
+the two complementary square identities become
 
 ```text
 N(Z)=D^2+A^2=epsilon_+ C_* S T,
-(1+i)conjugate(Z)=(D+A)+i(D-A),
-(D+A)(D-A)=D^2-A^2=epsilon_- u_* R J.
+mn=D^2-A^2=epsilon_- u_* R J.
 ```
 
-For fixed `(C_*,S,T)`, the Gaussian representation bound `r_2(n)<=4*tau(n)` and divisor reconstruction give only `B^o(1)` physical completions.  Conversely fixed `(u_*,R,J)` gives only `B^o(1)` completions through the divisor pair `(D-A,D+A)`.  Both source triples have total exponent exactly `1/2`, so they are alternative charged-once coordinate systems, not independent savings.
+For fixed plus triple `(C_*,S,T)` or fixed minus triple `(u_*,R,J)`, the full physical completion is only `B^o(1)`, but each source triple has total exponent exactly `1/2`. The two-square elimination ideal among the product variables is trivial, so no second deterministic resultant or divisor switch beats the square-root bound.
 
-Moreover, after writing
+The immutable Stage14-sH48 audit then verifies that no surveyed off-the-shelf theorem directly supplies a fixed-power saving for the positive product/norm correlation receiver. It returns
 
 ```text
-X=epsilon_+ C_*ST,
-Y=epsilon_- u_*RJ,
+OFF_THE_SHELF_THEOREM_APPLICABLE=false
+CERTIFIED_B_POWER_SAVING_EXPONENT=0
+S_ROUTE_BLOCKED_WAITING_FOR_H=false
 ```
 
-the system is simply
+and asks for an exact centered dispersion adapter rather than another uncentered theorem application.
+
+Stage14-s7-49 constructs that adapter. Pairwise separation gives `gcd(C_*,mn)=1`, so
 
 ```text
-X=D^2+A^2,
-Y=D^2-A^2,
+1_{C_*|m^2+n^2}
+ = r_-(C_*)/C_*
+ + (1/C_*) sum_{rho^2=-1 mod C_*} sum_{h!=0 mod C_*}
+     e_{C_*}(h(m-rho n)).
 ```
 
-whose elimination ideal in `Q[X,Y]` is trivial.  Thus no fresh polynomial resultant among the six norm blocks is available from the two-square equations alone.  The surviving obstruction is genuinely arithmetic: simultaneous balanced physical factorization of a Gaussian norm and the rotated coordinate product of the same Gaussian integer.
+The first term is the exact local zero mode. Its `C_*^{-1}` density cancels the `B^chi` choice of `C_*`, reproducing the existing exponent `1/2` and identifying the square-root barrier with the principal local density.
+
+For the nonzero modes, use the same physical product `P_-=mn` and `n=P_-*inverse(m) mod C_*` to obtain the exact inverse-fraction phase
+
+```text
+e_{C_*}(h*m-h*rho*P_-*inverse(m)).
+```
+
+Thus the missing Kloosterman/inverse-fraction adapter is now proved. The remaining internal issue is conductor loss: for
+
+```text
+g=gcd(h,C_*),
+q=C_*/g,
+```
+
+the phase reduces to effective modulus `q`, and the exact-conductor frequency multiplicity is `phi(q)`. A theorem requiring a fixed-power-large primitive modulus cannot yet be applied uniformly until this conductor stratification is peeled.
 
 Current route state:
 
 ```text
-S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED_BLOCKED_ON_SH48
+S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED
 S_ROUTE_CLOSED_BY=Stage14-s7-45
 S_ROUTE_REACTIVATION_TRIGGERED_BY=Stage14-4de
 S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46
 S_ROUTE_REACTIVATION_NEEDED=false
 USER_DECIDES_S_ROUTE_REACTIVATION=false
 ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
-S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterScalePairwiseSeparatedGaussianNormRotatedCoordinateProductDualBalancedCellFactorizationDensity
-S_ROUTE_BLOCKED_WAITING_FOR_H=true
-S_ROUTE_AUXILIARY_H=Stage14-sH48
-S_ROUTE_NEXT=Stage14-s7-49_after_sH48
+S_ROUTE_CURRENT_RECEIVER=CenteredPrimitiveQuarterPairPhysicalInverseFractionConductorStratifiedDispersion
+S_ROUTE_BLOCKED_WAITING_FOR_H=false
+S_ROUTE_AUXILIARY_H=none
+S_ROUTE_NEXT=Stage14-s7-50
 ```
 
-The user is **not** expected to decide whether the s-route should be restarted. Any later mainline, `t`, `X`, toolbox, q/literature, or other Stage14 stage that materially changes the surviving receiver must explicitly evaluate whether the new result creates a genuinely new s-specific exact structure or theorem bridge.
+The user is **not** expected to decide whether the s-route should be restarted. Reactivation checks are relevant when the s route is CLOSED; while it is ACTIVE, downstream Stage14 work must preserve the current route state rather than overwrite it with an older snapshot.
 
-Required decision fields for any such material receiver change:
+When the s route is closed again, any later mainline, `t`, `X`, toolbox, q/literature, or other Stage14 stage that materially changes the surviving receiver must explicitly evaluate whether the new result creates a genuinely new s-specific exact structure or theorem bridge.
+
+Required decision fields for such a material receiver change while s is CLOSED:
 
 ```text
 MATERIAL_RECEIVER_CHANGE_REQUIRES_S_REACTIVATION_CHECK=true
 S_ROUTE_REACTIVATION_NEEDED=true|false
 ```
 
-If the answer is `true`, the same stage result or immediate roadmap update must also record:
+If the answer is `true`, the same stage result or immediate roadmap update must also record
 
 ```text
 S_ROUTE_REACTIVATION_TRIGGER=<exact new identity/theorem/bridge>
@@ -264,9 +269,7 @@ S_ROUTE_REACTIVATION_TARGET=<named next s stage>
 S_ROUTE_REACTIVATION_REASON=<why the new structure is actionable in s coordinates>
 ```
 
-and the roadmap must visibly tell the user that the s-route should be restarted. A new route name by itself, a stronger global exponent by itself, or a theorem with merely similar notation is not enough: an explicit bridge back to an s-specific receiver is required.
-
-If a later stage answers `false`, s remains in its then-current state and no s stage should be scheduled merely to re-audit an already exhausted obstruction.
+and the roadmap must visibly tell the user that the s-route should be restarted.
 
 Operational lock:
 
@@ -303,11 +306,9 @@ COMPLETED_H_MERGES_AS_SCOPED_SNAPSHOT_RESULT=true
 LATER_RECEIVER_REQUIRING_AUDIT_USES_NEXT_H_NUMBER=true
 ```
 
-In particular, once `tH23` (or any other H stage) starts, later `t82/t83/...` work must not repeatedly rewrite the `tH23` target. The H result is merged as a certificate about its recorded source snapshot. If later reductions expose a materially different receiver that needs another external audit, open `tH24` rather than revising `tH23`.
+A completed H result is a scoped certificate about its frozen source snapshot. Later parent progress does not rewrite it. If a materially different later receiver requires another theorem audit, use the next H number.
 
 Prefer to start H from a merged source stage. If true parallelism is useful before the source merges, freeze the exact source head SHA, use a Draft/stacked H PR, and after the source merges perform only a mechanical retarget/rebase without changing the mathematical target.
-
-The only normal reason to cancel a running snapshot audit is a substantive mathematical invalidation of its source stage; a stronger later reduction or a newer global exponent is not invalidation.
 
 ## Scope boundary
 
