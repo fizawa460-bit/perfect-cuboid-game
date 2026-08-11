@@ -1,0 +1,51 @@
+name: Stage14-4 batch 4eb-4ef allocation and root gates
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4eb/**'
+      - 'stages/stage14/14-4ec/**'
+      - 'stages/stage14/14-4ed/**'
+      - 'stages/stage14/14-4ee/**'
+      - 'stages/stage14/14-4ef/**'
+      - 'stages/stage14/14-4-batch/**'
+      - 'stages/stage14/scripts/14-4/batch_4eb_4ef_allocation_root_gates_audit.py'
+      - '.github/workflows/stage14-4-batch-4eb-4ef-allocation-root-gates.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run Stage14-4 five-stage batch audit
+        run: python stages/stage14/scripts/14-4/batch_4eb_4ef_allocation_root_gates_audit.py
+      - name: Compile batch audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4eb_4ef_allocation_root_gates_audit.py
+      - name: Regress merged 4ea
+        run: python stages/stage14/scripts/14-4/canonical_allocation_reciprocal_density_audit.py
+      - name: Regress merged s7-69..71 batch when present on PR merge ref
+        run: |
+          if [ -f stages/stage14/scripts/14-s-batch/s7_69_71_reciprocal_selector_audit.py ]; then
+            python stages/stage14/scripts/14-s-batch/s7_69_71_reciprocal_selector_audit.py
+          fi
+      - name: Lock five-stage boundary
+        run: |
+          grep -Fq 'STAGE14_4EB=COMPLETE_CANONICAL_FIRST_RECIPROCAL_TAUTOLOGY_AND_SECOND_LAYER_LOCALIZATION' stages/stage14/14-4eb/result.md
+          grep -Fq 'STAGE14_4EC=COMPLETE_OPPOSITE_RECIPROCAL_TO_PRIMITIVE_GAUSSIAN_NORM_DIVISIBILITY' stages/stage14/14-4ec/result.md
+          grep -Fq 'STAGE14_4ED=COMPLETE_RECIPROCAL_ROOT_DENSITY_H_GATE_AND_MAINLINE_SWITCH_TO_CANONICAL_ALLOCATION' stages/stage14/14-4ed/result.md
+          grep -Fq 'STAGE14_4EE=COMPLETE_CANONICAL_ALLOCATION_TYPE_FREEZE_AND_EXPLICIT_THREE_DIVISOR_INCIDENCE' stages/stage14/14-4ee/result.md
+          grep -Fq 'STAGE14_4EF=COMPLETE_SINGLE_SIDE_ALLOCATION_LEDGER_NOGO_AND_CORRELATED_INTEGER_GAUSSIAN_DENSITY_GATE' stages/stage14/14-4ef/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_STAGE_COUNT=5' stages/stage14/14-4-batch/4eb-4ef-report.md
+          grep -Fq 'BATCH_STOP_REASON=requested_stage_limit_reached_with_theorem_gates' stages/stage14/14-4-batch/4eb-4ef-report.md
+          grep -Fq 'NEXT_H_NEEDED=true' stages/stage14/14-4-batch/4eb-4ef-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
