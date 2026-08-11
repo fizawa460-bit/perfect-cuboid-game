@@ -1,0 +1,63 @@
+name: Stage14-s-batch s7-87..89 normalized radial product
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-87/**'
+      - 'stages/stage14/14-s7-88/**'
+      - 'stages/stage14/14-s7-89/**'
+      - 'stages/stage14/14-s-batch/s7-87-89-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_87_89_normalized_radial_product_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-87-89-normalized-radial-product.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_87_89_normalized_radial_product_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_87_89_normalized_radial_product_audit.py
+
+      - name: Regress merged s7-84..86
+        run: python stages/stage14/scripts/14-s-batch/s7_84_86_root_overlap_radial_factorization_audit.py
+
+      - name: Regress merged mainline 4fb..4fd
+        run: python stages/stage14/scripts/14-4/batch_4fb_4fd_heavy_capacity_audit.py
+
+      - name: Regress merged Work-bqX29
+        run: python stages/stage14/scripts/14-Work-bqX29/atomic_capacity_exhaustion_audit.py
+
+      - name: Lock common and s batch contracts
+        run: |
+          grep -Fq 'Advance 3--5 substantive work units' docs/stage14-batch-common-contract.md
+          grep -Fq '## Integrated sH work unit' docs/stage14-s-batch-task-contract.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'STAGE14_S7_87=COMPLETE_MERGED_4FD_BQX29_SUPERSESSION_AND_FIXED_DENOMINATOR_RADIAL_NORMALIZATION' stages/stage14/14-s7-87/result.md
+          grep -Fq 'SURVIVAL_REQUIRES_lambda_LE_sigma_MINUS_mu=true' stages/stage14/14-s7-87/result.md
+          grep -Fq 'STAGE14_S7_88=COMPLETE_FIXED_NUMERATOR_PRIME_POWER_ALLOCATION_AND_COEFFICIENT_FREE_TRIPLE_PRODUCT_REDUCTION' stages/stage14/14-s7-88/result.md
+          grep -Fq 'COEFFICIENT_FREE_NORMALIZED_PRODUCT=n_equals_J1_a1_b1' stages/stage14/14-s7-88/result.md
+          grep -Fq 'STAGE14_S7_89=COMPLETE_NORMALIZED_TRIPLE_PRODUCT_TO_SHARED_SQUAREFREE_DILATION_AND_FIXED_COEFFICIENT_SQUARE_RATIO_RECEIVER' stages/stage14/14-s7-89/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-s7-89/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-87-89-report.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=NONE' stages/stage14/14-s-batch/s7-87-89-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-87-89-report.md
+          grep -Fq 'NEXT=Stage14-s7-90' stages/stage14/14-s-batch/s7-87-89-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
