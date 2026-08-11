@@ -1,0 +1,43 @@
+name: Stage14-main-batch 4fh-4fj reciprocal window interior
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4fh/**'
+      - 'stages/stage14/14-4fi/**'
+      - 'stages/stage14/14-4fj/**'
+      - 'stages/stage14/14-4-batch/4fh-4fj-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4fh_4fj_reciprocal_window_interior_audit.py'
+      - '.github/workflows/stage14-main-batch-4fh-4fj-reciprocal-window-interior.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4fh_4fj_reciprocal_window_interior_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4fh_4fj_reciprocal_window_interior_audit.py
+      - name: Previous mainline regression
+        run: python stages/stage14/scripts/14-4/batch_4fe_4fg_radial_physical_density_audit.py
+      - name: Work-brX30 regression
+        run: python stages/stage14/scripts/14-Work-brX30/reciprocal_window_adapter_audit.py
+      - name: Lock receiver boundary
+        run: |
+          grep -Fq 'RECIPROCAL_WINDOW_NONEMPTY_IFF_RADIAL_PRODUCT_WINDOW=true' stages/stage14/14-4fh/result.md
+          grep -Fq 'THETA_GT_NU_MINUS_MU_KILLS_ENDPOINT_SUPPORT=true' stages/stage14/14-4fi/result.md
+          grep -Fq 'INTERIOR_EXISTENTIAL_SUPPORT_INCIDENCE_EXPONENT_EQUIVALENT=true' stages/stage14/14-4fj/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4fh-4fj-report.md
+          grep -Fq 'NEXT=Stage14-4fk' stages/stage14/14-4fj/result.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
