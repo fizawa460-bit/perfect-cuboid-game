@@ -1,0 +1,102 @@
+name: Stage14-s7-50 full-conductor endpoint
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-50/**'
+      - 'stages/stage14/scripts/14-s7-50/**'
+      - '.github/workflows/stage14-s7-50-full-conductor-endpoint.yml'
+      - 'stages/stage14/roadmap.md'
+      - 'stages/stage14/14-s7-49/**'
+      - 'stages/stage14/14-4dg/**'
+      - 'stages/stage14/14-X15/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-50 deterministic audit
+        run: python stages/stage14/scripts/14-s7-50/full_conductor_endpoint_audit.py
+
+      - name: Compile Stage14-s7-50 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-50/full_conductor_endpoint_audit.py
+
+      - name: Merged s7-49 regression
+        run: |
+          python stages/stage14/scripts/14-s7-49/centered_kloosterman_adapter_audit.py >/dev/null
+          f=stages/stage14/14-s7-49/result.md
+          grep -Fq 'NONZERO_FREQUENCY_INVERSE_FRACTION_ADAPTER_PROVED=true' "$f"
+          grep -Fq 'FREQUENCY_CONDUCTOR_STRATIFICATION_PROVED=true' "$f"
+          grep -Fq 'ZERO_MODE_EXPONENT=1/2' "$f"
+
+      - name: Merged 4dg principal-density lock
+        run: |
+          f=stages/stage14/14-4dg/result.md
+          grep -Fq 'CURRENT_PHYSICAL_UPPER_BOUND_EXPONENT=1/2' "$f"
+          grep -Fq 'PRINCIPAL' "$f"
+          grep -Fq 'SH48_REOPENED=false' "$f"
+
+      - name: Merged X15 three-projection lock
+        run: |
+          f=stages/stage14/14-X15/result.md
+          grep -Fq 'THREE_PROJECTION_PYTHAGOREAN_IDENTITY_PROVED=true' "$f"
+          grep -Fq 'EIGHT_ATOMIC_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'TRIPLE_CENTERING_PAIRWISE_COVARIANCE_TERMS_REMAIN=true' "$f"
+          grep -Fq 'TRIPLE_CENTERING_PRINCIPAL_TERM_REMAINS=true' "$f"
+          grep -Fq 'SINGLE_CENTERED_REMAINDER_BOUND_ALONE_SUFFICIENT=false' "$f"
+
+      - name: Lock s7-50 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-50/result.md
+          grep -Fq 'STAGE14_S7_50=COMPLETE_CONDUCTOR_LOSS_PEEL_FULL_CONDUCTOR_ENDPOINT_AND_SH50_GATE' "$f"
+          grep -Fq 'CONDUCTOR_LOSS_FIXED_POWER_SAVING_PROVED=true' "$f"
+          grep -Fq 'CONDUCTOR_LOSS_STRATUM_EXPONENT=1/2-lambda' "$f"
+          grep -Fq 'SQRT_SATURATION_FREQUENCY_GCD=Bo1' "$f"
+          grep -Fq 'FULL_CONDUCTOR_ENDPOINT_PROVED=true' "$f"
+          grep -Fq 'EFFECTIVE_MODULUS_EQUALS_C_STAR_AT_FIXED_POWER=true' "$f"
+          grep -Fq 'X15_K_AGREEMENT_ROOTLINE_EQUIVALENT=true' "$f"
+          grep -Fq 'THIRD_PROJECTION_INDEPENDENT_FULL_CONDUCTOR_SAVING=false' "$f"
+          grep -Fq 'PRINCIPAL_ZERO_MODE_STILL_EXPONENT_HALF=true' "$f"
+          grep -Fq 'OSCILLATORY_ERROR_SAVING_ALONE_SUFFICIENT=false' "$f"
+          grep -Fq 'S7_50_NEW_AUXILIARY_H_NEEDED=true' "$f"
+          grep -Fq 'S7_50_AUXILIARY_H_STAGE=Stage14-sH50' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-51_after_sH50' "$f"
+
+      - name: Lock sH50 target
+        run: |
+          f=stages/stage14/14-s7-50/sh50-target.md
+          grep -Fq 'H_STAGE=Stage14-sH50' "$f"
+          grep -Fq 'TARGET_FREEZES_AT_DISPATCH=true' "$f"
+          grep -Fq 'SquareRootQuarterFullConductorPrimitivePythagoreanThreeProjectionPhysicalPrincipalDensityAndInverseFractionCovariancePowerSaving' "$f"
+          grep -Fq 'DO_NOT_REPLACE_FULL_COUNT_BY_ONLY_CENTERED_ERROR=true' "$f"
+
+      - name: H protocol lock
+        run: |
+          grep -Fq 'ONE H REQUEST = ONE IMMUTABLE SOURCE SNAPSHOT = ONE AUDIT RESULT' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Roadmap route-state lock
+        run: |
+          f=stages/stage14/roadmap.md
+          grep -Fq 'S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED_BLOCKED_ON_SH50' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=true' "$f"
+          grep -Fq 'S_ROUTE_AUXILIARY_H=Stage14-sH50' "$f"
+          grep -Fq 'S_ROUTE_NEXT=Stage14-s7-51_after_sH50' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD

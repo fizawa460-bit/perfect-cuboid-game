@@ -225,29 +225,73 @@ For the nonzero modes, use the same physical product `P_-=mn` and `n=P_-*inverse
 e_{C_*}(h*m-h*rho*P_-*inverse(m)).
 ```
 
-Thus the missing Kloosterman/inverse-fraction adapter is now proved. The remaining internal issue is conductor loss: for
+Thus the missing Kloosterman/inverse-fraction adapter is proved. The remaining internal issue is conductor loss: for
 
 ```text
 g=gcd(h,C_*),
 q=C_*/g,
 ```
 
-the phase reduces to effective modulus `q`, and the exact-conductor frequency multiplicity is `phi(q)`. A theorem requiring a fixed-power-large primitive modulus cannot yet be applied uniformly until this conductor stratification is peeled.
+the phase reduces to effective modulus `q`, and the exact-conductor frequency multiplicity is `phi(q)`.
+
+Stage14-s7-50 peels this conductor loss without an external theorem.  For
+
+```text
+d=gcd(h,C_*),
+q=C_*/d,
+d=B^(lambda+o(1)),
+```
+
+the exact-conductor frequency block has normalized Fourier coefficient mass
+
+```text
+phi(q)/C_* <= q/C_* = 1/d.
+```
+
+Charging the merged s7-48 plus-side complete coordinate system `(C_*,S,T)` exactly once gives
+
+```text
+E_s7-50(lambda) <= 1/2-lambda.
+```
+
+Hence every fixed-power conductor loss is strict sub-square-root and possible saturation is confined to
+
+```text
+gcd(h,C_*)=B^o(1),
+q=C_* B^o(1).
+```
+
+Merged X15 is compatible with this endpoint and must be retained.  Its k-agreement projection gives the same root line in the equivalent form
+
+```text
+delta*s == -rho*alpha*r (mod q),
+```
+
+not a second independent modulus.  X15 also proves that triple centering retains the principal term, three pairwise covariance terms, and the genuine triple covariance.  Therefore an absolute power-saving bound for only the oscillatory full-conductor error cannot by itself beat the square-root principal density.
+
+Stage14-s7-50 consequently freezes the new immutable theorem audit
+
+```text
+Stage14-sH50
+SquareRootQuarterFullConductorPrimitivePythagoreanThreeProjectionPhysicalPrincipalDensityAndInverseFractionCovariancePowerSaving
+```
+
+which must audit the **full physical count**, not merely the centered error.
 
 Current route state:
 
 ```text
-S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED
+S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED_BLOCKED_ON_SH50
 S_ROUTE_CLOSED_BY=Stage14-s7-45
 S_ROUTE_REACTIVATION_TRIGGERED_BY=Stage14-4de
 S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46
 S_ROUTE_REACTIVATION_NEEDED=false
 USER_DECIDES_S_ROUTE_REACTIVATION=false
 ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
-S_ROUTE_CURRENT_RECEIVER=CenteredPrimitiveQuarterPairPhysicalInverseFractionConductorStratifiedDispersion
-S_ROUTE_BLOCKED_WAITING_FOR_H=false
-S_ROUTE_AUXILIARY_H=none
-S_ROUTE_NEXT=Stage14-s7-50
+S_ROUTE_CURRENT_RECEIVER=SquareRootQuarterFullConductorPrimitivePythagoreanThreeProjectionPhysicalPrincipalDensityAndInverseFractionCovariancePowerSaving
+S_ROUTE_BLOCKED_WAITING_FOR_H=true
+S_ROUTE_AUXILIARY_H=Stage14-sH50
+S_ROUTE_NEXT=Stage14-s7-51_after_sH50
 ```
 
 The user is **not** expected to decide whether the s-route should be restarted. Reactivation checks are relevant when the s route is CLOSED; while it is ACTIVE, downstream Stage14 work must preserve the current route state rather than overwrite it with an older snapshot.
