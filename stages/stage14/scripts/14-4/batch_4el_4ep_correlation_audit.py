@@ -5,50 +5,57 @@ from math import gcd
 ROOT = Path(__file__).resolve().parents[4]
 
 locks = {
-    'stages/stage14/14-4ek/result.md': [
-        'POLYNOMIAL_CORE_DISCREPANCY_SPLIT_INTO_CONCENTRATED_OR_DIFFUSE_MODULUS=true',
-        'CONCENTRATED_MODULUS_BRANCH_REDUCES_TO_PROJECTIVE_COLLISION_ENERGY=true',
-        'DIFFUSE_MODULUS_BRANCH_REMAINS_VARIABLE_NORM_DIVISOR_GRAPH=true',
-    ],
-    'stages/stage14/14-Work-bnX26/result.md': [
-        'COMMON_CORRELATION_ONLY_OBSTRUCTION_LANGUAGE_PROVED=true',
-        'MAINLINE_H_TARGET=CanonicalBalancedIntegerGaussianThreeDivisorCorrelationDensity',
+    'stages/stage14/14-s7-77/result.md': [
+        'LARGE_REPEATED_RAY_ENERGY_FORCES_HEAVY_PRIMITIVE_RAY=true',
+        'HEAVY_RAY_RELATIVE_MASS_EXPONENT_ZERO=true',
+        'NON_HEAVY_RAY_SATURATION_FORCES_GENUINE_MOVER_ENERGY=true',
     ],
     'stages/stage14/14-4el/result.md': [
-        'DIAGONAL_COLLISIONS_CANNOT_SUPPORT_EXPONENT_ZERO_ENERGY=true',
-        'PROPORTIONAL_COLLISIONS_CANNOT_SUPPORT_EXPONENT_ZERO_ENERGY=true',
-        'CONCENTRATED_SATURATION_FORCES_GENUINE_OFF_DIAGONAL_PROJECTIVE_COLLISIONS=true',
+        'MERGED_S7_75_77_CONSUMED=true',
+        'GLOBAL_PRIMITIVE_RAY_MULTIPLICITY_BOUND=UNPROVED',
+        'HEAVY_PRIMITIVE_RAY_SURVIVOR_RETAINED=true',
+        'GENUINE_DETERMINANT_MOVER_SURVIVOR_RETAINED=true',
     ],
     'stages/stage14/14-4em/result.md': [
-        'SUPER_DETERMINANT_MODULUS_COLLISION_BRANCH_EMPTY=true',
-        'NEAR_MAXIMAL_MODULUS_HAS_SUBPOLYNOMIAL_Q_DICTIONARY=true',
-        'SEPARATED_MODULUS_HAS_POLYNOMIAL_Q_RANGE=true',
+        'SUPER_DETERMINANT_MODULUS_MOVER_BRANCH_EMPTY=true',
+        'NEAR_MAXIMAL_MOVER_MODULUS_HAS_SUBPOLYNOMIAL_Q_DICTIONARY=true',
+        'SEPARATED_MOVER_MODULUS_HAS_POLYNOMIAL_Q_RANGE=true',
+        'HEAVY_RAY_BRANCH_UNCHANGED=true',
     ],
     'stages/stage14/14-4en/result.md': [
         'FIXED_FIRST_VECTOR_DETERMINANT_SOLUTIONS_FORM_ONE_AFFINE_INTEGER_LINE=true',
-        'NEAR_MAXIMAL_COMMON_CORE_CONCENTRATED_BRANCH_CLOSED=true',
+        'NEAR_MAXIMAL_GENUINE_MOVER_BRANCH_CLOSED=true',
+        'HEAVY_RAY_BRANCH_UNCHANGED=true',
     ],
     'stages/stage14/14-4eo/result.md': [
-        'NEW_RECIPROCAL_H_NEEDED=true',
-        'NEW_RECIPROCAL_H_TARGET=FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion',
+        'NEW_RECIPROCAL_MOVER_H_NEEDED=true',
+        'NEW_RECIPROCAL_MOVER_H_TARGET=FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion',
+        'HEAVY_RAY_BRANCH_UNCHANGED=true',
+    ],
+    'stages/stage14/14-4eo/reciprocal-h-target.md': [
+        'TARGET_SCOPE=GENUINE_NONZERO_DETERMINANT_MOVER_BRANCH_ONLY',
+        'HEAVY_RAY_BRANCH_SEPARATELY_RETAINED=true|false',
     ],
     'stages/stage14/14-4ep/result.md': [
         'DIFFUSE_NORM_DIVISOR_GRAPH_REWRITTEN_AS_NORM_FACTOR_EQUATION=true',
         'ACCEPTED_NORM_VALUE_PROJECTION_FIBER=Bo1',
+        'HEAVY_RAY_BRANCH_UNCHANGED=true',
         'NEW_DIFFUSE_H_NEEDED=false',
     ],
     'stages/stage14/14-4-batch/4el-4ep-report.md': [
+        'MERGED_S7_75_77_CONSUMED=true',
+        'HEAVY_PRIMITIVE_RAY_SURVIVOR_RETAINED=true',
         'BATCH_SUBSTANTIVE_STAGE_COUNT=5',
         'NEXT=Stage14-4eq',
     ],
 }
-
 for rel, needles in locks.items():
     text = (ROOT / rel).read_text()
     for needle in needles:
         assert needle in text, (rel, needle)
 
-# Primitive rational proportionality: determinant zero implies equality up to sign.
+# Structural primitive-ray fact only: determinant zero identifies the same
+# primitive ray. This deliberately does NOT assert a global reverse-fiber bound.
 primitive = []
 for x in range(1, 20):
     for y in range(1, 20):
@@ -59,7 +66,7 @@ for x1, y1 in primitive:
         if x1 * y2 == x2 * y1:
             assert (x1, y1) == (x2, y2)
 
-# Nonzero collision quotient and determinant-scale bound.
+# Nonzero mover quotient identity and scale bound.
 for C in (5, 13, 17, 29):
     for x1, y1 in primitive[:40]:
         for x2, y2 in primitive[:40]:
@@ -70,9 +77,8 @@ for C in (5, 13, 17, 29):
                 assert delta == q * C
                 assert abs(delta) <= x1 * y2 + x2 * y1
 
-# Exact affine parameterization for determinant equation.
+# Exact affine-line parameterization on the genuine-mover branch.
 def bezout_det(x, y):
-    # Find A,B with x*B-A*y=1.
     for A in range(-abs(x) - 2, abs(x) + 3):
         for B in range(-abs(y) - 2, abs(y) + 3):
             if x * B - A * y == 1:
@@ -80,7 +86,6 @@ def bezout_det(x, y):
     raise AssertionError((x, y))
 
 for x1, y1 in [(1, 2), (2, 3), (3, 5), (5, 8), (7, 9)]:
-    assert gcd(x1, y1) == 1
     A, B = bezout_det(x1, y1)
     for C, q in [(5, 1), (5, -2), (13, 1), (17, 3)]:
         seen = []
@@ -92,8 +97,7 @@ for x1, y1 in [(1, 2), (2, 3), (3, 5), (5, 8), (7, 9)]:
         for (xa, ya), (xb, yb) in zip(seen, seen[1:]):
             assert (xb - xa, yb - ya) == (x1, y1)
 
-# Divisor and primitive two-square multiplicities are subpolynomial in the
-# theorem use; finite diagnostic checks ensure the projection identities.
+# Diffuse norm-factor projection identities.
 def divisors(n):
     return [d for d in range(1, n + 1) if n % d == 0]
 
@@ -101,20 +105,19 @@ for x in range(1, 25):
     for y in range(1, 25):
         if gcd(x, y) != 1:
             continue
-        n = x * x + y * y
+        n = x*x + y*y
         for C in divisors(n):
             m = n // C
-            assert n == C * m
-            assert m > 0
+            assert n == C * m and m > 0
 
 print({
     'batch': 'Stage14-4el..4ep',
     'substantive_stages': 5,
-    'diagonal_proportional_audit': 'ok',
-    'determinant_quotient_audit': 'ok',
-    'affine_line_parameterization_audit': 'ok',
-    'norm_factor_projection_audit': 'ok',
-    'new_reciprocal_h_target': 'FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion',
+    'heavy_ray_survivor_retained': True,
+    'mover_determinant_quotient_audit': 'ok',
+    'near_maximal_mover_affine_nogo_audit': 'ok',
+    'diffuse_norm_factor_projection_audit': 'ok',
+    'new_mover_h_target': 'FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion',
     'current_exponent': '1/2',
     'next': 'Stage14-4eq',
 })
