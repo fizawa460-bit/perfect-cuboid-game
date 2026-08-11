@@ -1,0 +1,36 @@
+name: Stage14-s7-56 pair joint occupancy peel
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-56/**'
+      - 'stages/stage14/scripts/14-s7-56/**'
+      - '.github/workflows/stage14-s7-56-pair-joint-occupancy-peel.yml'
+      - 'stages/stage14/14-s7-55/**'
+      - 'stages/stage14/14-s7-52/**'
+      - 'stages/stage14/14-s7-54/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-56 deterministic audit
+        run: python stages/stage14/scripts/14-s7-56/pair_joint_occupancy_peel_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-56/pair_joint_occupancy_peel_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-56/result.md
+          grep -Fq 'STAGE14_S7_56=COMPLETE_PAIRWISE_JOINT_OCCUPANCY_SPARSE_LAYER_PEEL' "$f"
+          grep -Fq 'PAIR_JOINT_OCCUPANCY_LAYER_EXPONENT=1/2-delta' "$f"
+          grep -Fq 'PAIRWISE_SQRT_SATURATION_REQUIRES_MU_PAIR=Bo0=true' "$f"
+          grep -Fq 'S7_56_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-57' "$f"
