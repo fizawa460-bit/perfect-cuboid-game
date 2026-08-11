@@ -29,24 +29,25 @@ jobs:
 
       - name: Run 4el-4ep deterministic audit
         run: python stages/stage14/scripts/14-4/batch_4el_4ep_correlation_audit.py
-
       - name: Compile audit
         run: python -m py_compile stages/stage14/scripts/14-4/batch_4el_4ep_correlation_audit.py
-
       - name: Regress merged 4eg-4ek
         run: python stages/stage14/scripts/14-4/batch_4eg_4ek_root_discrepancy_audit.py
-
       - name: Regress merged Work-bnX26
         run: python stages/stage14/scripts/14-Work-bnX26/correlation_obstruction_pivot_audit.py
+      - name: Regress merged s7-75-77
+        run: python stages/stage14/scripts/14-s-batch/s7_75_77_projective_collision_split_audit.py
 
-      - name: Lock stage boundaries
+      - name: Lock corrected stage boundaries
         run: |
-          grep -Fq 'STAGE14_4EL=COMPLETE_CONCENTRATED_PROJECTIVE_COLLISION_DIAGONAL_PROPORTIONAL_REMOVAL' stages/stage14/14-4el/result.md
-          grep -Fq 'STAGE14_4EM=COMPLETE_NONZERO_PROJECTIVE_COLLISION_DETERMINANT_QUOTIENT_SCALE_STRATIFICATION' stages/stage14/14-4em/result.md
-          grep -Fq 'STAGE14_4EN=COMPLETE_NEAR_MAXIMAL_COMMON_CORE_FIXED_QUOTIENT_AFFINE_LATTICE_NOGO' stages/stage14/14-4en/result.md
-          grep -Fq 'STAGE14_4EO=COMPLETE_SEPARATED_COMMON_CORE_OFFDIAGONAL_PROJECTIVE_COLLISION_DISPERSION_H_GATE' stages/stage14/14-4eo/result.md
-          grep -Fq 'REQUESTED_OBJECT=FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion' stages/stage14/14-4eo/reciprocal-h-target.md
+          grep -Fq 'STAGE14_4EL=COMPLETE_MERGED_S7_75_77_HEAVY_RAY_OR_GENUINE_MOVER_MAINLINE_INTEGRATION' stages/stage14/14-4el/result.md
+          grep -Fq 'HEAVY_PRIMITIVE_RAY_SURVIVOR_RETAINED=true' stages/stage14/14-4el/result.md
+          grep -Fq 'STAGE14_4EM=COMPLETE_GENUINE_MOVER_DETERMINANT_QUOTIENT_SCALE_STRATIFICATION' stages/stage14/14-4em/result.md
+          grep -Fq 'STAGE14_4EN=COMPLETE_NEAR_MAXIMAL_GENUINE_MOVER_FIXED_QUOTIENT_AFFINE_LATTICE_NOGO' stages/stage14/14-4en/result.md
+          grep -Fq 'STAGE14_4EO=COMPLETE_SEPARATED_COMMON_CORE_GENUINE_MOVER_DISPERSION_H_GATE' stages/stage14/14-4eo/result.md
+          grep -Fq 'TARGET_SCOPE=GENUINE_NONZERO_DETERMINANT_MOVER_BRANCH_ONLY' stages/stage14/14-4eo/reciprocal-h-target.md
           grep -Fq 'STAGE14_4EP=COMPLETE_DIFFUSE_COMMON_CORE_NORM_DIVISOR_GRAPH_TO_NORM_FACTOR_CORRELATION' stages/stage14/14-4ep/result.md
+          grep -Fq 'MERGED_S7_75_77_CONSUMED=true' stages/stage14/14-4-batch/4el-4ep-report.md
           grep -Fq 'BATCH_SUBSTANTIVE_STAGE_COUNT=5' stages/stage14/14-4-batch/4el-4ep-report.md
           grep -Fq 'NEXT=Stage14-4eq' stages/stage14/14-4-batch/4el-4ep-report.md
 
