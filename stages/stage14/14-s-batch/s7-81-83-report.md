@@ -3,7 +3,7 @@
 ```text
 STAGE14_S_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=826205ff8aee31a80612583248af81421000e39c
-BATCH_PUBLICATION_MAIN_SHA=PENDING_FINAL_RECHECK
+BATCH_PUBLICATION_MAIN_SHA=7f8b5c1f683a68ba2bcf8a9393b26d8872a5c457
 BATCH_FIRST_STAGE=Stage14-s7-81
 BATCH_LAST_STAGE=Stage14-s7-83
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3
@@ -17,7 +17,7 @@ S_ROUTE_H_NEEDED=false
 NEXT=Stage14-s7-84
 ```
 
-This batch is restacked on latest merged main after `Stage14-4ev..4ex` independently advanced the heavy-ray radial branch beyond the earlier s7-80 boundary. The merged mainline result
+This batch is restacked on merged main after `Stage14-4ev..4ex` independently advanced the heavy-ray radial branch beyond the earlier s7-80 boundary. The merged mainline result
 
 ```text
 T=4*Xr*Yr*epsilon_x*U*V=K*(t0*h)^2
@@ -56,3 +56,5 @@ FixedPrimitiveRayFixedFactorKernelPolynomialSquarePartPhysicalIncidence.
 ```
 
 The batch stops at that receiver change. No new `sH` is opened: both branches first need their exact factor-specific physical coefficient systems exposed. Existing mover/diffuse H gates are different receivers and are not cross-promoted.
+
+Publication recheck found main advanced only through merged fixed-U `Stage14-t118..t120` at `7f8b5c1f683a68ba2bcf8a9393b26d8872a5c457`. That batch relocates fixed-U core loss to generic scalar-norm support but does not identify the global heavy-ray factor measure and explicitly cross-promotes no whole-family saving. The s7-81..83 boundary is unchanged.
