@@ -1,0 +1,31 @@
+name: Stage14-t96 orientation influence localization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t96/**'
+      - 'stages/stage14/data/14-t96/**'
+      - 'scripts/stage14/validate_t96_influence.py'
+      - '.github/workflows/stage14-t96-influence.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify predecessor boundaries
+        run: |
+          grep -q 'NEXT=Stage14-t96' stages/stage14/14-t95/frozen-boundary.txt
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t95/frozen-boundary.txt
+          grep -q 'OFF_THE_SHELF_UNIFORM_FIXED_POWER_SAVING_PROVED=false' stages/stage14/14-tH26/result.md
+      - name: Run deterministic influence audit
+        run: python scripts/stage14/validate_t96_influence.py
+      - name: Verify t96 boundary
+        run: |
+          grep -q 'SATURATION_FORCES_A_NONNEGLIGIBLE_GENERIC_ORIENTATION_INFLUENCE=true' stages/stage14/14-t96/frozen-boundary.txt
+          grep -q 'TH27_NEEDED=false' stages/stage14/14-t96/frozen-boundary.txt
+          grep -q 'NEXT=Stage14-t97' stages/stage14/14-t96/frozen-boundary.txt
