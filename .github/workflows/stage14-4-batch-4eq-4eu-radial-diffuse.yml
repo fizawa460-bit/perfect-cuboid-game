@@ -1,0 +1,59 @@
+name: Stage14-4 batch 4eq-4eu radial and diffuse correlation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4eq/**'
+      - 'stages/stage14/14-4er/**'
+      - 'stages/stage14/14-4es/**'
+      - 'stages/stage14/14-4et/**'
+      - 'stages/stage14/14-4eu/**'
+      - 'stages/stage14/14-4-batch/4eq-4eu-*'
+      - 'stages/stage14/scripts/14-4/batch_4eq_4eu_radial_diffuse_audit.py'
+      - '.github/workflows/stage14-4-batch-4eq-4eu-radial-diffuse.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run corrected 4eq-4eu deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4eq_4eu_radial_diffuse_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4eq_4eu_radial_diffuse_audit.py
+
+      - name: Regress merged s7-78-80
+        run: python stages/stage14/scripts/14-s-batch/s7_78_80_heavy_ray_reverse_incidence_audit.py
+
+      - name: Regress merged 4el-4ep
+        run: python stages/stage14/scripts/14-4/batch_4el_4ep_correlation_audit.py
+
+      - name: Regress merged Work-bnX26
+        run: python stages/stage14/scripts/14-Work-bnX26/correlation_obstruction_pivot_audit.py
+
+      - name: Lock corrected five-stage boundary
+        run: |
+          grep -Fq 'STAGE14_4EQ=COMPLETE_FIXED_RADIAL_HEAVY_RAY_REVERSE_FIBER_CLOSURE' stages/stage14/14-4eq/result.md
+          grep -Fq 'HEAVY_RAY_RADIAL_DIFFUSION_BRANCH_RETAINED=true' stages/stage14/14-4eq/result.md
+          grep -Fq 'STAGE14_4ER=COMPLETE_DIFFUSE_PRIMITIVE_NORM_FACTOR_QUOTIENT_SCALE_SPLIT' stages/stage14/14-4er/result.md
+          grep -Fq 'STAGE14_4ES=COMPLETE_DIFFUSE_SUBPOLYNOMIAL_COMPLEMENTARY_QUOTIENT_NORM_VALUE_SAVING' stages/stage14/14-4es/result.md
+          grep -Fq 'STAGE14_4ET=COMPLETE_DIFFUSE_POLYNOMIAL_QUOTIENT_TO_GAUSSIAN_BILINEAR_CORRELATION' stages/stage14/14-4et/result.md
+          grep -Fq 'STAGE14_4EU=COMPLETE_DIFFUSE_POLYNOMIAL_GAUSSIAN_FACTOR_CORRELATION_H_GATE' stages/stage14/14-4eu/result.md
+          grep -Fq 'REQUESTED_OBJECT=DiffusePolynomialComplementaryGaussianFactorCanonicalAllocationBilinearCorrelation' stages/stage14/14-4eu/diffuse-h-target.md
+          grep -Fq 'BATCH_SUBSTANTIVE_STAGE_COUNT=5' stages/stage14/14-4-batch/4eq-4eu-report.md
+          grep -Fq 'WHOLE_MAINLINE_BLOCKED_BY_H=false' stages/stage14/14-4-batch/4eq-4eu-report.md
+          grep -Fq 'NEXT=Stage14-4ev' stages/stage14/14-4-batch/4eq-4eu-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
