@@ -1,119 +1,135 @@
-# Stage14-4ec — second-reciprocal difference-of-squares divisor predicate
+# Stage14-4ec — opposite reciprocal Gaussian norm selector
 
 ## Status
 
-`COMPLETE_SECOND_RECIPROCAL_REVERSE_DIVISOR_PAIR_LOCALIZATION`
+`COMPLETE_OPPOSITE_RECIPROCAL_TO_PRIMITIVE_GAUSSIAN_NORM_DIVISIBILITY`
 
-Consumes batch-local `Stage14-4eb` and merged `Stage14-X13`, `Stage14-s7-46`, `Stage14-s7-68`, `Stage14-4ea`. The theorem boundary remains merged main at batch start; batch-local predecessors are used only inside this batch.
+Consumes batch-local `Stage14-4eb`, merged `Stage14-s7-69/70` from publication recheck, merged `Stage14-s7-46`, `Stage14-s7-42`, `Stage14-X13`, and merged `Stage14-4ea`. The batch-start theorem boundary remains `e601b1e4224e718eafa67018f964ca40ee607377`; newly merged s7-69/70 are consumed as theorem sources only after their merge to main.
 
 ```text
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2,
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false.
 ```
 
-## 1. Entering reciprocal survivor
+## 1. First reciprocal layer is gone
 
-Stage14-4eb discharges the first reciprocal equation as reconstruction after canonical allocation. Retain one primitive slope and one canonical allocation incidence, including one allowed `B^o(1)` common-scale / endpoint decoration.
-
-Merged s7-46/X13 show that the outer data entering the opposite reciprocal packet are then fixed up to `B^o(1)` ambiguity. In X13 notation the exact second reciprocal equation is
+Stage14-4eb independently proves the same selector elimination now merged as s7-69: after canonical allocation reconstruction,
 
 ```text
-(c p)^2-(d q)^2
- = 4 X Y epsilon_x U V.
+(D+A)^2-(D-A)^2=4DA
 ```
 
-For one fixed outer decoration put
+is the first reciprocal equation itself, so it is not a live density condition.
+
+Merged X13/s7-42 also make final post-column reverse reconstruction a `B^o(1)` fiber once the opposite reciprocal data are fixed.
+
+Therefore the only live arithmetic condition inside the reciprocal conditional factor is the opposite/second reciprocal common-core root equation.
+
+## 2. Exact Gaussian norm divisibility
+
+Merged s7-46 writes
 
 ```text
-W_2 := 4 X Y epsilon_x U V > 0.
+Q_xi+P_xi = c p,
+Q_xi-P_xi = d q,
 ```
 
-## 2. Reverse difference-of-squares factorization
-
-Every physical completion satisfies
+and retains
 
 ```text
-(c p-d q)(c p+d q)=W_2.
+C | p^2 c^2 + q^2 d^2.
 ```
 
-Hence define
+Set
 
 ```text
-F_2^- := c p-d q,
-F_2^+ := c p+d q,
+X=p c,
+Y=q d.
 ```
 
-so
+The live reciprocal selector is exactly
 
 ```text
-F_2^- F_2^+ = W_2,
-0<F_2^-<F_2^+.
+C | X^2+Y^2.
 ```
 
-Conversely one positive factor pair of `W_2` with the required parity gives
+The canonical allocation witness fixes `(p,q)` up to divisor-many `B^o(1)` ambiguity, and merged s7-42 gives only `B^o(1)` opposite quotient candidates `(c,d)` after the outer data are fixed.
 
 ```text
-c p=(F_2^++F_2^-)/2,
-d q=(F_2^+-F_2^-)/2.
+SECOND_RECIPROCAL_SELECTOR_IS_GAUSSIAN_NORM_DIVISIBILITY=true
+SECOND_RECIPROCAL_CANDIDATE_MULTIPLICITY_PER_ALLOCATION=Bo1
 ```
 
-Each resulting positive product has divisor-many ordered splittings into `(c,p)` and `(d,q)`. Therefore
+## 3. Primitive root packet
+
+Write
 
 ```text
-fixed canonical allocation incidence + fixed allowed decoration
-=> # second-reciprocal candidate tuples = B^o(1).
+h=gcd(X,Y),
+X=hX0,
+Y=hY0,
+gcd(X0,Y0)=1.
 ```
 
-This is exactly the X13 reverse-reciprocal mechanism, now placed after the canonical allocation localization of 4ea/4eb.
+The fixed-power common-core/common-vector overlap has already been power-saved away on every possible square-root saturation sequence. After the charged `B^o(1)` overlap peel the live selector is
 
 ```text
-SECOND_RECIPROCAL_DIFFERENCE_OF_SQUARES_FACTORING_EXACT=true
-SECOND_RECIPROCAL_CANDIDATE_MULTIPLICITY=Bo1
-SECOND_RECIPROCAL_POLYNOMIAL_SUPPORT_AFTER_OUTER_FIXING=false
+C0 | X0^2+Y0^2,
+gcd(C0,X0Y0)=1,
 ```
 
-## 3. Existence remains a Boolean arithmetic selector
-
-The divisor bound controls candidate multiplicity only. A candidate factor pair must still satisfy all transported physical conditions, including
+with `C0` differing from the physical common core only by subpolynomial support.
 
 ```text
-parity and positivity,
-required divisibility into p,q,c,d,
-dyadic / balanced windows,
-squarefree and coprimality masks,
-common-core / Cayley row congruence filters,
-post-column reconstruction masks.
+PRIMITIVE_SECOND_RECIPROCAL_ROOT_PACKET_DEFINED=true
+SECOND_RECIPROCAL_COMMON_GCD_PEEL=Bo1
 ```
 
-Define
+## 4. Local splitting is not a fresh saving
+
+Primewise, for every odd `ell|C0`,
 
 ```text
-R_2(w)=1
+(X0 Y0^(-1))^2 == -1 (mod ell).
 ```
 
-for a canonical allocation incidence `w` iff at least one divisor pair `F_2^-F_2^+=W_2(w)` passes every surviving physical filter.
-
-Then the reciprocal conditional density is the density of this Boolean divisor-pair event on the canonical allocation background, up to the already-charged `B^o(1)` incidence/decoration fibers.
+Thus the primes of `C0` are Gaussian split and the primitive ratio selects a root orientation. These are already-frozen Gaussian support/orientation data in the Stage14 packet and may not be charged again as an independent `1/ell` density loss.
 
 ```text
-SECOND_RECIPROCAL_ACCEPTANCE_IS_BOOLEAN_DIVISOR_PAIR_EVENT=true
-DIVISOR_MULTIPLICITY_IMPLIES_DENSITY_SAVING=false
+SECOND_RECIPROCAL_PRIME_SUPPORT_GAUSSIAN_SPLIT=true
+LOCAL_GAUSSIAN_SPLITTING_RECHARGE_ALLOWED=false
+FRESH_LOCAL_CONGRUENCE_POWER_SAVING_PROVED=false
 ```
 
-## 4. Next
+Unlike the first reciprocal equation, no identity forces the divisibility `C0 | X0^2+Y0^2` for every canonical allocation witness. Finite candidate multiplicity therefore does not eliminate this Boolean selector.
 
-Stage14-4ed should consume X13's row/post-column quantifier order and determine whether the remaining Cayley/post-column conditions produce a second polynomial selector or are only filters on the same divisor-pair candidates.
+## 5. Updated density receiver
+
+Define `A_root=1` on a canonical allocation-bearing primitive slope iff at least one charged-once candidate `(C0,X0,Y0)` satisfies the primitive Gaussian norm divisibility above. Then, at the exponent scale,
+
+```text
+mu_G = mu_can * mu_root,
+```
+
+where `mu_root` is the conditional density of `A_root=1` and the post-root completion is only a `B^o(1)` reconstruction fiber.
+
+```text
+RECIPROCAL_CONDITIONAL_DENSITY_REDUCED_TO_ROOT_SELECTOR=true
+CANONICAL_ALLOCATION_GAUSSIAN_ROOT_DENSITY_CHAIN_EXACT=true
+RECIPROCAL_ROOT_FIXED_POWER_DEFICIT_PROVED=false
+```
 
 ## Boundary
 
 ```text
-STAGE14_4EC=COMPLETE_SECOND_RECIPROCAL_REVERSE_DIVISOR_PAIR_LOCALIZATION
-SECOND_RECIPROCAL_DIFFERENCE_OF_SQUARES_FACTORING_EXACT=true
-SECOND_RECIPROCAL_CANDIDATE_MULTIPLICITY=Bo1
-SECOND_RECIPROCAL_POLYNOMIAL_SUPPORT_AFTER_OUTER_FIXING=false
-SECOND_RECIPROCAL_ACCEPTANCE_IS_BOOLEAN_DIVISOR_PAIR_EVENT=true
-DIVISOR_MULTIPLICITY_IMPLIES_DENSITY_SAVING=false
-RECIPROCAL_CONDITIONAL_FIXED_POWER_DEFICIT_PROVED=false
+STAGE14_4EC=COMPLETE_OPPOSITE_RECIPROCAL_TO_PRIMITIVE_GAUSSIAN_NORM_DIVISIBILITY
+SECOND_RECIPROCAL_SELECTOR_IS_GAUSSIAN_NORM_DIVISIBILITY=true
+PRIMITIVE_SECOND_RECIPROCAL_ROOT_PACKET_DEFINED=true
+SECOND_RECIPROCAL_CANDIDATE_MULTIPLICITY_PER_ALLOCATION=Bo1
+LOCAL_GAUSSIAN_SPLITTING_RECHARGE_ALLOWED=false
+RECIPROCAL_CONDITIONAL_DENSITY_REDUCED_TO_ROOT_SELECTOR=true
+CANONICAL_ALLOCATION_GAUSSIAN_ROOT_DENSITY_CHAIN_EXACT=true
+RECIPROCAL_ROOT_FIXED_POWER_DEFICIT_PROVED=false
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
 NEXT_H_NEEDED=false
