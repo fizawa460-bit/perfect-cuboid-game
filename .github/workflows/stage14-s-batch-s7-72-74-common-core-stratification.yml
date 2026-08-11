@@ -1,0 +1,41 @@
+name: Stage14-s-batch s7-72..74 common-core stratification
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-72/**'
+      - 'stages/stage14/14-s7-73/**'
+      - 'stages/stage14/14-s7-74/**'
+      - 'stages/stage14/14-s-batch/**'
+      - 'stages/stage14/scripts/14-s-batch/**'
+      - '.github/workflows/stage14-s-batch-s7-72-74-common-core-stratification.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_72_74_common_core_stratification_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_72_74_common_core_stratification_audit.py
+      - name: Regress merged sH71
+        run: python stages/stage14/scripts/14-sH71/canonical_allocation_gaussian_root_density_audit.py
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=false' stages/stage14/14-s7-72/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=false' stages/stage14/14-s7-73/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-s7-74/result.md
+          grep -Fq 'NEXT=Stage14-s7-75' stages/stage14/14-s7-74/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-72-74-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
