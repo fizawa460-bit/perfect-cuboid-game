@@ -1,0 +1,28 @@
+name: Stage14-t97 single-bit arithmetic boundary
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t97/**'
+      - '.github/workflows/stage14-t97.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify predecessor
+        run: |
+          grep -q 'NEXT=Stage14-t97' stages/stage14/14-t96/frozen-boundary.txt
+          grep -q 'TH27_NEEDED=false' stages/stage14/14-t96/frozen-boundary.txt
+      - name: Run deterministic arithmetic audit
+        run: python stages/stage14/14-t97/audit.py
+      - name: Verify t97 boundary
+        run: |
+          grep -q 'INFLUENCE_EQUALS_EXPLICIT_PHYSICAL_SYMMETRIC_DIFFERENCE=true' stages/stage14/14-t97/boundary.md
+          grep -q 'TH27_NEEDED=false' stages/stage14/14-t97/boundary.md
+          grep -q 'NEXT=Stage14-t98' stages/stage14/14-t97/boundary.md
