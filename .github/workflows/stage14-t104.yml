@@ -1,0 +1,47 @@
+name: Stage14-t104 full prime action freeze
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t104/**'
+      - '.github/workflows/stage14-t104.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run deterministic action-freeze audit
+        run: python stages/stage14/14-t104/audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/14-t104/audit.py
+
+      - name: Regress merged t103
+        run: python stages/stage14/14-t103/audit.py
+
+      - name: Lock t104 theorem boundary
+        run: |
+          f=stages/stage14/14-t104/frozen-boundary.txt
+          grep -Fq 'FULL_PRIME_ACTION_FREEZE_PROVED=true' "$f"
+          grep -Fq 'COMMON_ELEMENTARY_BOUNDARY_FULL_COEFFICIENTS_ON_EXPONENT_ZERO_PRIME_SUBFAMILY_PROVED=true' "$f"
+          grep -Fq 'FIXED_ACTION_PRIME_FRACTION_EXPONENT_ZERO=true' "$f"
+          grep -Fq 'FIXED_FULL_BOUNDARY_STATE_DENSITY_EXPONENT_ZERO=true' "$f"
+          grep -Fq 'PRIME_ACTION_VARIATION_DISCHARGED_AS_LOCALIZATION=true' "$f"
+          grep -Fq 'PRIME_AVERAGING_ESCAPE_FROM_TH27_OBSTRUCTION_PROVED=false' "$f"
+          grep -Fq 'TH28_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'NEXT=Stage14-t105' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
