@@ -5,7 +5,7 @@
 ```text
 STAGE14_MAIN_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=1cce848e748d6b02d7e878c6bd1b326e953bc98c
-BATCH_PUBLICATION_MAIN_SHA=PENDING_RECHECK
+BATCH_PUBLICATION_MAIN_SHA=1cce848e748d6b02d7e878c6bd1b326e953bc98c
 BATCH_FIRST_STAGE=Stage14-4fk
 BATCH_LAST_STAGE=Stage14-4fm
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3
@@ -116,3 +116,13 @@ WHOLE_MAINLINE_BLOCKED_BY_H=false
 ```
 
 The next mainline step is `Stage14-4fn`, opening the canonical/reverse completion Boolean on the fixed-`E` unitary-divisor branch first.
+
+## Publication recheck
+
+Latest merged main remained
+
+```text
+1cce848e748d6b02d7e878c6bd1b326e953bc98c
+```
+
+through publication recheck. No concurrent unmerged route result is consumed as a theorem source.
