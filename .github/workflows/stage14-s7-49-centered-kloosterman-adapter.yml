@@ -1,0 +1,84 @@
+name: Stage14-s7-49 centered Kloosterman adapter
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-49/**'
+      - 'stages/stage14/scripts/14-s7-49/**'
+      - '.github/workflows/stage14-s7-49-centered-kloosterman-adapter.yml'
+      - 'stages/stage14/roadmap.md'
+      - 'stages/stage14/14-s7-48/**'
+      - 'stages/stage14/14-sH48/**'
+      - 'stages/stage14/14-4df/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-49 deterministic audit
+        run: python stages/stage14/scripts/14-s7-49/centered_kloosterman_adapter_audit.py
+
+      - name: Compile Stage14-s7-49 audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-49/centered_kloosterman_adapter_audit.py
+
+      - name: Merged s7-48 regression
+        run: python stages/stage14/scripts/14-s7-48/gaussian_coordinate_product_reduction_audit.py >/dev/null
+
+      - name: Merged sH48 verdict lock
+        run: |
+          f=stages/stage14/14-sH48/result.md
+          grep -Fq 'STAGE14_SH48=COMPLETE_S7_48_SNAPSHOT_GAUSSIAN_PRODUCT_SUM_CORRELATION_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'PREFERRED_RECEIVER=CenteredPrimitiveQuarterPairProductNormDualBalancedCellFactorizationDispersion' stages/stage14/14-sH48/BOUNDARY.txt
+          grep -Fq 'NEXT_S_ROUTE=Stage14-s7-49' "$f"
+
+      - name: Merged 4df six-block lock
+        run: |
+          f=stages/stage14/14-4df/result.md
+          grep -Fq 'SIX_ATOMIC_NORM_BLOCKS_PAIRWISE_SEPARATED=true' "$f"
+          grep -Fq 'LATER_MERGED_S7_48_SH48_PRESERVED=true' "$f"
+
+      - name: Lock Stage14-s7-49 theorem boundary
+        run: |
+          f=stages/stage14/14-s7-49/result.md
+          grep -Fq 'STAGE14_S7_49=COMPLETE_CENTERED_NORM_ROOTLINE_TO_KLOOSTERMAN_INVERSE_FRACTION_ADAPTER' "$f"
+          grep -Fq 'MERGED_SH48_CONSUMED=true' "$f"
+          grep -Fq 'C_STAR_COPRIME_TO_ROTATED_PRODUCT=true' "$f"
+          grep -Fq 'NORM_DIVISIBILITY_EXACT_ROOTLINE_UNION=true' "$f"
+          grep -Fq 'EXACT_LOCAL_CENTERING_PROVED=true' "$f"
+          grep -Fq 'CENTERED_KERNEL_MEAN_ZERO=true' "$f"
+          grep -Fq 'ZERO_MODE_EXPONENT=1/2' "$f"
+          grep -Fq 'SQRT_BARRIER_IDENTIFIED_WITH_LOCAL_ZERO_MODE=true' "$f"
+          grep -Fq 'NONZERO_FREQUENCY_INVERSE_FRACTION_ADAPTER_PROVED=true' "$f"
+          grep -Fq 'KLOOSTERMAN_TYPE_PHASE_EXACT=true' "$f"
+          grep -Fq 'FREQUENCY_CONDUCTOR_STRATIFICATION_PROVED=true' "$f"
+          grep -Fq 'SH48_REOPENED=false' "$f"
+          grep -Fq 'S7_49_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S_ROUTE_NEXT=Stage14-s7-50' "$f"
+          grep -Fq 'NEXT=Stage14-s7-50' "$f"
+
+      - name: Roadmap route-state lock
+        run: |
+          f=stages/stage14/roadmap.md
+          grep -Fq 'S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'S_ROUTE_CURRENT_RECEIVER=CenteredPrimitiveQuarterPairPhysicalInverseFractionConductorStratifiedDispersion' "$f"
+          grep -Fq 'S_ROUTE_NEXT=Stage14-s7-50' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
