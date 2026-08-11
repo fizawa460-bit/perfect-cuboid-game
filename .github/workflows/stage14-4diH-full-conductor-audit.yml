@@ -1,0 +1,76 @@
+name: Stage14-4diH frozen full-conductor audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4diH/**'
+      - 'stages/stage14/data/14-4/full_conductor_mainline_H_summary.json'
+      - 'stages/stage14/scripts/14-4/full_conductor_mainline_H_audit.py'
+      - '.github/workflows/stage14-4diH-full-conductor-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-4diH deterministic audit
+        run: python stages/stage14/scripts/14-4/full_conductor_mainline_H_audit.py
+
+      - name: Compile Stage14-4diH audit
+        run: python -m py_compile stages/stage14/scripts/14-4/full_conductor_mainline_H_audit.py
+
+      - name: Frozen source snapshot lock
+        run: |
+          src=0a2d313b4bd1baf8fad29cda70cc0f8a44e1b153
+          git cat-file -e "$src^{commit}"
+          git show "$src:stages/stage14/14-4di/h-target.md" | grep -Fq 'H_STAGE=Stage14-4diH'
+          git show "$src:stages/stage14/14-4di/h-target.md" | grep -Fq 'TARGET_FREEZES_AT_DISPATCH=true'
+          git show "$src:stages/stage14/14-4di/result.md" | grep -Fq 'FULL_CONDUCTOR_ENDPOINT_PROVED=true'
+          git show "$src:stages/stage14/14-4di/result.md" | grep -Fq 'MAINLINE_H_STAGE=Stage14-4diH'
+
+      - name: H protocol regression
+        run: |
+          grep -Fq 'ONE H REQUEST = ONE IMMUTABLE SOURCE SNAPSHOT = ONE AUDIT RESULT' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Literature source locks
+        run: |
+          f=stages/stage14/14-4diH/literature.md
+          grep -Fq 'arXiv:2601.00292' "$f"
+          grep -Fq 'arXiv:2607.24311' "$f"
+          grep -Fq 'arXiv:2511.07550' "$f"
+          grep -Fq 'arXiv:2204.05038' "$f"
+          grep -Fq 'arXiv:2604.25177' "$f"
+
+      - name: Stage14-4diH theorem boundary
+        run: |
+          f=stages/stage14/14-4diH/result.md
+          grep -Fq 'STAGE14_4DIH=COMPLETE_FULL_CONDUCTOR_PRINCIPAL_COVARIANCE_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=0a2d313b4bd1baf8fad29cda70cc0f8a44e1b153' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'FULL_REQUIRED_MASKS_RETAINED=true' "$f"
+          grep -Fq 'FULL_CONDUCTOR_ENDPOINT_USED=true' "$f"
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'OSCILLATORY_ERROR_POWER_SAVING_CERTIFIED=false' "$f"
+          grep -Fq 'PRINCIPAL_DENSITY_FIXED_POWER_LOSS_CERTIFIED=false' "$f"
+          grep -Fq 'MAIN_TERM_SCALE_SIGNED_ANTICORRELATION_CERTIFIED=false' "$f"
+          grep -Fq 'X15_ALL_COVARIANCE_TERMS_CONTROLLED=false' "$f"
+          grep -Fq 'FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'MAINLINE_H_COMPLETED=true' "$f"
+          grep -Fq 'MAINLINE_BLOCKED_BY_H=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-4dj' "$f"
+
+      - name: Diff check
+        run: git diff --check 0a2d313b4bd1baf8fad29cda70cc0f8a44e1b153...HEAD
