@@ -1,0 +1,61 @@
+name: Stage14-Work-bxX36 ambient threshold localization audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bxX36/**'
+      - 'docs/stage14-toolbox/work-bxX36-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-bxX36/**'
+      - '.github/workflows/stage14-Work-bxX36-ambient-threshold-localization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bxX36 audit
+        run: python stages/stage14/scripts/14-Work-bxX36/ambient_threshold_localization_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bxX36/ambient_threshold_localization_audit.py
+
+      - name: Regress merged Work-bwX35
+        run: python stages/stage14/scripts/14-Work-bwX35/absolute_capacity_localization_audit.py
+
+      - name: Regress merged mainline 4fw..4fy
+        run: python stages/stage14/scripts/14-4/batch_4fw_4fy_rectangular_product_capacity_audit.py
+
+      - name: Regress merged s7-105..107
+        run: python stages/stage14/scripts/14-s-batch/s7_105_107_ordinary_capacity_audit.py
+
+      - name: Regress merged tH32..t143
+        run: python stages/stage14/14-t-batch-th32-t143/audit.py
+
+      - name: Lock tH32 theorem boundary
+        run: |
+          grep -q 'B^(1/4' stages/stage14/14-tH32/result.md
+          grep -q '7/20' stages/stage14/14-tH32/result.md
+          grep -q 'TH33_NEEDED=false' stages/stage14/14-t143/result.md
+
+      - name: Lock integrated boundary
+        run: |
+          grep -q 'AMBIENT_CAPACITY_THRESHOLD_LOCALIZATION_LEMMA_PROVED=true' stages/stage14/14-Work-bxX36/result.md
+          grep -q 'TH32_COMPLETE_CONSUMED=true' stages/stage14/14-Work-bxX36/result.md
+          grep -q 'TH33_NEEDED=false' stages/stage14/14-Work-bxX36/result.md
+          grep -q 'COMMON_ADAPTER_PROVED=false' stages/stage14/14-Work-bxX36/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-bxX36/result.md
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-bxX36/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -q 'COMMON_AMBIENT_THRESHOLD_LOCALIZATION_LANGUAGE_PROVED=true' docs/stage14-toolbox/work-bxX36-receiver-matrix.md
+          grep -q 'COMMON_MULTIPLICATION_TO_GAUSSIAN_PRIME_THRESHOLD_ADAPTER_PROVED=false' docs/stage14-toolbox/work-bxX36-receiver-matrix.md
+          grep -q 'NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false' docs/stage14-toolbox/work-bxX36-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check
