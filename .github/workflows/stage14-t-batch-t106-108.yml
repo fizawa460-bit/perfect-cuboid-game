@@ -1,0 +1,21 @@
+name: Stage14-t-batch t106-t108 projected Q support
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t106/**'
+      - 'stages/stage14/14-t107/**'
+      - 'stages/stage14/14-t108/**'
+      - 'stages/stage14/14-t-batch-t106-108/**'
+      - '.github/workflows/stage14-t-batch-t106-108.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python stages/stage14/14-t-batch-t106-108/audit.py
