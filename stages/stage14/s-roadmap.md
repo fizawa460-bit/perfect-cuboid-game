@@ -8,7 +8,9 @@ The permanent execution entry point for advancing this route is:
 Stage14-s-batch
 ```
 
-Before deriving a concrete successor, read
+Before deriving a concrete successor, first read
+[`docs/stage14-batch-common-contract.md`](../../docs/stage14-batch-common-contract.md)
+and then
 [`docs/stage14-s-batch-task-contract.md`](../../docs/stage14-s-batch-task-contract.md)
 from latest merged `main`.  The entry point advances the existing `s` ledger; it
 does not create a parallel numbering system.  A normal run follows the unique
