@@ -1,0 +1,55 @@
+name: Stage14-tH27 single elementary boundary audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH27/**'
+      - 'stages/stage14/data/tH27/**'
+      - 'stages/stage14/scripts/14-tH27/**'
+      - '.github/workflows/stage14-tH27-single-boundary.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH27 audit
+        run: python -m py_compile stages/stage14/scripts/14-tH27/single_elementary_boundary_audit.py
+
+      - name: Lock immutable H protocol and t99 target
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'SharedUCanonicalLPFSingleGenericPrimeSingleElementaryBoundaryClassEnergy' stages/stage14/14-t99/th27-target.md
+          grep -Fq 'Do not infer sparsity of a sign half-space boundary' stages/stage14/14-t99/th27-target.md
+          grep -Fq 'Do not reopen tH26' stages/stage14/14-t99/th27-target.md
+
+      - name: Run frozen t99 predecessor regression
+        run: |
+          python stages/stage14/14-t99/audit.py
+          grep -Fq 'STAGE14_T99=COMPLETE_BOUNDARY_CLASS_PIGEONHOLE_LOCALIZATION' stages/stage14/14-t99/result.md
+          grep -Fq 'SINGLE_ELEMENTARY_BOUNDARY_PIGEONHOLE_PROVED=true' stages/stage14/14-t99/result.md
+          grep -Fq 'FIXED_POWER_BOUNDARY_SPARSITY_PROVED=false' stages/stage14/14-t99/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t99/result.md
+
+      - name: Run tH27 deterministic audit
+        run: python stages/stage14/scripts/14-tH27/single_elementary_boundary_audit.py
+
+      - name: Lock tH27 frozen boundary
+        run: |
+          f=stages/stage14/14-tH27/BOUNDARY.txt
+          grep -Fq 'STAGE14_TH27=COMPLETE_T99_SNAPSHOT_SINGLE_ELEMENTARY_INFLUENTIAL_BOUNDARY_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=41c850ab94f049f6a7523f9719bdc2f2ac9ecbaf' "$f"
+          grep -Fq 'SIGN_BOUNDARY_UNIFORM_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'FIXED_DIVISOR_BOUNDARY_UNIFORM_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'ENDPOINT_PROJECTIVE_BOUNDARY_UNIFORM_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_BOUNDARY_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
