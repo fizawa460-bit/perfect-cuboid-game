@@ -1,0 +1,75 @@
+name: Stage14-tH25 fixed-discriminant ring-class audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH25/**'
+      - 'stages/stage14/data/tH25/**'
+      - 'stages/stage14/scripts/14-tH25/**'
+      - 'stages/stage14/14-t86/**'
+      - '.github/workflows/stage14-tH25-fixed-discriminant-ring-class.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH25 audit
+        run: python -m py_compile stages/stage14/scripts/14-tH25/fixed_discriminant_ring_class_audit.py
+
+      - name: Lock immutable H protocol and t86 target
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'H_STAGE=Stage14-tH25' stages/stage14/14-t86/th25-target.md
+          grep -Fq 'TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/14-t86/th25-target.md
+          grep -Fq 'RUNNING_TH25_MAY_CHASE_T87_PLUS=false' stages/stage14/14-t86/th25-target.md
+          grep -Fq 'FixedUFixedDiscriminantMinus4dSquaredFixedCofactorPrimeValueFormPhysicalSieve' stages/stage14/14-t86/th25-target.md
+
+      - name: Run frozen t86 predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-t/t86_fixed_discriminant_prime_form_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t86_validate_frozen.py
+          grep -Fq 'FORM_DISCRIMINANT=-4*d^2' stages/stage14/14-t86/result.md
+          grep -Fq 'FIXED_COFACTOR_PRIME_VALUE_FORM_PROVED=true' stages/stage14/14-t86/result.md
+          grep -Fq 'TH25_NEEDED=true' stages/stage14/14-t86/result.md
+
+      - name: Run current whole-family ledger regression
+        run: |
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-X14/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-X14/result.md
+
+      - name: Run tH25 deterministic audit
+        run: python stages/stage14/scripts/14-tH25/fixed_discriminant_ring_class_audit.py
+
+      - name: Lock tH25 frozen boundary
+        run: |
+          f=stages/stage14/14-tH25/BOUNDARY.txt
+          grep -Fq 'STAGE14_TH25=COMPLETE_T86_SNAPSHOT_FIXED_DISCRIMINANT_RING_CLASS_PRIME_VALUE_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'AUDITED_THROUGH=Stage14-t86' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=798191aa5071a344cf642a1be265f1ad8e373fd5' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'T86_FORM_DISCRIMINANT=-4*d^2' "$f"
+          grep -Fq 'RING_CLASS_NUMBER_SCALE=d*Bo1' "$f"
+          grep -Fq 'UNRESTRICTED_T86_FORM_SHAPE_SPANS_FULL_RING_CLASS_GROUP=true' "$f"
+          grep -Fq 'PHYSICAL_FORM_CLASS_POWER_SPARSE_PROVED=false' "$f"
+          grep -Fq 'RING_CLASS_PRIME_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'GROWING_DISCRIMINANT_FORM_PRIME_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'RING_CLASS_LARGE_SIEVE_APPLICABLE=false' "$f"
+          grep -Fq 'GAUSSIAN_SHORT_COFACTOR_PRIME_BILINEAR_APPLICABLE=false' "$f"
+          grep -Fq 'FIXED_K_IDEAL_COMPOSITION_ADAPTER_PROVED=true' "$f"
+          grep -Fq 'FORM_CLASS_FAMILY_POWER_COST_CONTROLLED=false' "$f"
+          grep -Fq 'OFF_THE_SHELF_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_FIXED_U_PACKET_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'FIXED_U_SAVING_LEGALLY_CROSS_PROMOTES_TO_WHOLE_FAMILY=false' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
