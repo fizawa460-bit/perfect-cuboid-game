@@ -1,0 +1,47 @@
+name: Stage14-Work-bhX20 prime action taxonomy
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bhX20/**'
+      - 'stages/stage14/scripts/14-Work-bhX20/**'
+      - 'docs/stage14-toolbox/work-bhX20-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-bhX20-prime-action-taxonomy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run bhX20 audit
+        run: python stages/stage14/scripts/14-Work-bhX20/prime_action_taxonomy_audit.py
+      - name: Compile bhX20 audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bhX20/prime_action_taxonomy_audit.py
+      - name: Run merged s7-60 regression
+        run: python stages/stage14/scripts/14-s7-60/single_prime_allocation_influence_audit.py
+      - name: Run merged t100 regression
+        run: python stages/stage14/14-t100/audit.py
+      - name: Lock current merged boundaries
+        run: |
+          grep -Fq 'STAGE14_4DQ=COMPLETE_SINGLE_MASK_TO_BALANCED_RECIPROCAL_ARITHMETIC_CORE_REDUCTION' stages/stage14/14-4dq/result.md
+          grep -Fq 'STAGE14_S7_60=COMPLETE_SINGLE_PRIME_DISJOINT_ALLOCATION_RECIPROCAL_INFLUENCE_LOCALIZATION' stages/stage14/14-s7-60/result.md
+          grep -Fq 'STAGE14_T100=COMPLETE_SINGLE_BOUNDARY_STABILIZER_MOVER_REDUCTION' stages/stage14/14-t100/result.md
+      - name: Lock bhX20 boundary
+        run: |
+          f=stages/stage14/14-Work-bhX20/result.md
+          grep -Fq 'COMMON_SINGLE_PRIME_ACTION_LANGUAGE_PROVED=true' "$f"
+          grep -Fq 'COMMON_STABILIZER_MOVER_DICHOTOMY_PROVED=true' "$f"
+          grep -Fq 'COMMON_ARITHMETIC_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'TH28_NEEDED=false' "$f"
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
