@@ -1,0 +1,23 @@
+name: Stage14-t-batch t115-t117 cofactor core fibers
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t115/**'
+      - 'stages/stage14/14-t116/**'
+      - 'stages/stage14/14-t117/**'
+      - 'stages/stage14/14-t-batch-t115-117/**'
+      - '.github/workflows/stage14-t-batch-t115-117.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run Stage14 t-batch audit
+        run: python stages/stage14/14-t-batch-t115-117/audit.py
+      - name: Regress merged t114 boundary
+        run: python stages/stage14/14-t-batch-t112-114/audit.py
