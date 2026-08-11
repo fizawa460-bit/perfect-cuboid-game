@@ -1,0 +1,34 @@
+name: Stage14-4dm pairwise zero-centered split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dm/**'
+      - 'stages/stage14/data/14-4/pairwise_zero_centered_split_summary.json'
+      - 'stages/stage14/scripts/14-4/pairwise_zero_centered_split_audit.py'
+      - '.github/workflows/stage14-4dm-pairwise-zero-centered-split.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Stage14-4dm audit
+        run: python -m py_compile stages/stage14/scripts/14-4/pairwise_zero_centered_split_audit.py
+      - name: Run Stage14-4dm audit
+        run: python stages/stage14/scripts/14-4/pairwise_zero_centered_split_audit.py
+      - name: Lock Stage14-4dm boundary
+        run: |
+          f=stages/stage14/14-4dm/result.md
+          grep -q 'STAGE14_4DM=COMPLETE_COMMON_PAIRWISE_POSITIVE_EXCESS_ZERO_MODE_AND_CENTERED_INVERSE_FRACTION_SPLIT' "$f"
+          grep -q 'PAIRWISE_RECEIVER_EQUALS_ONLY_INVERSE_FRACTION_ERROR=false' "$f"
+          grep -q 'PAIRWISE_ZERO_MODE_COFACTOR_COVARIANCE_REMAINS=true' "$f"
+          grep -q 'PAIRWISE_CENTERED_INVERSE_FRACTION_COVARIANCE_REMAINS=true' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -q 'NEXT_H_NEEDED=false' "$f"
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
