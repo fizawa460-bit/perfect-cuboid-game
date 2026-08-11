@@ -1,0 +1,21 @@
+name: Stage14-t-batch t132 fixed projective class localization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t132/**'
+      - 'stages/stage14/14-t-batch-t132/**'
+      - '.github/workflows/stage14-t-batch-t132.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t132 deterministic audit
+        run: python stages/stage14/14-t-batch-t132/audit.py
+      - name: Regress previous t129-t131 batch
+        run: python stages/stage14/14-t-batch-t129-131/audit.py
