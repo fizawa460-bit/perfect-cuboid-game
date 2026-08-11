@@ -1,0 +1,36 @@
+name: Stage14-s7-58 zero-mode mask factorization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-58/**'
+      - 'stages/stage14/scripts/14-s7-58/**'
+      - '.github/workflows/stage14-s7-58-zero-mode-mask-factorization.yml'
+      - 'stages/stage14/14-4dn/**'
+      - 'stages/stage14/14-AM/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-58 deterministic audit
+        run: python stages/stage14/scripts/14-s7-58/zero_mode_mask_factorization_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-58/zero_mode_mask_factorization_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-58/result.md
+          grep -Fq 'STAGE14_S7_58=COMPLETE_ORIENTATION_HEECKE_PARTIAL_FACTOR_AND_NONMULTIPLICATIVE_MASK_BARRIER' "$f"
+          grep -Fq 'ZERO_MODE_ORIENTATION_HECKE_EXPANSION_PROVED=true' "$f"
+          grep -Fq 'FULL_ZERO_MODE_PHYSICAL_SELECTOR_HECKE_FACTORIZATION_PROVED=false' "$f"
+          grep -Fq 'CONDITIONAL_UPLIFT_FIXED_POWER_DEFICIT_PROVED=false' "$f"
+          grep -Fq 'S7_58_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-59' "$f"
