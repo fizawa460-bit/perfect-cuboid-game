@@ -37,23 +37,41 @@ Do not publish a separate branch or PR for each internal stage.  Checkpoint
 commits are allowed, but the batch has one final branch, one consolidated
 validation pass, and one Draft PR.
 
+## Integrated sH work unit
+
+A newly exposed `sH` target does not by itself end the batch. Freeze the exact
+source snapshot and theorem target, then perform the independent `sH` audit as
+the next work unit on the same branch. The H artifact must be clean-room with
+respect to later internal `s` stages: it may read the frozen target, but must not
+use a later `s` conclusion to prove that target. After the H audit is complete,
+the following `s` stage may consume its positive result, negative result, or
+minimal obstruction and continue within the same Draft PR.
+
+An integrated `sH` audit counts as one of the batch's 3--5 substantive work
+units. For example, `s7-n`, `sH-m`, `s7-(n+1)` is a three-unit batch. It is not a
+separate PR and it does not count as an extra stage outside the cap. Existing
+merged or concurrently running H work remains read-only/advisory and must not be
+rewritten.
+
 ## Stop rules
 
 End the batch at the first of these events:
 
 - **receiver change**: the minimal remaining arithmetic receiver changes in a
   mathematically material way;
-- **external lemma gate**: further progress requires a new external theorem or
-  independent H audit; freeze the exact theorem contract and H request;
+- **unresolved external gate**: after carrying out the integrated H audit,
+  further progress still depends on an unavailable source, an unfrozen theorem
+  statement, outside coordination, or another result that cannot be decided in
+  the current batch;
 - **rigorous counterexample**: an explicit verified witness rules out the active
   adapter, saving mechanism, or proposed reduction;
-- **five completed stages**: the hard cap, even if the receiver has not changed.
+- **five completed work units**: the hard cap, even if the receiver has not changed.
 
-The normal target is at least three completed stages.  Early stopping before
-three is permitted only for one of the first three mathematical events above,
-and the result must identify the exact trigger.  A mere renaming, restatement,
-or dependency refresh is not a substantive stage and does not count toward the
-3--5 target.
+The normal target is at least three completed work units, counting integrated
+H. Early stopping before three is permitted only for one of the first three
+mathematical events above, and the result must identify the exact trigger. A
+mere renaming, restatement, or dependency refresh is not substantive and does
+not count toward the 3--5 target.
 
 ## Publication boundary
 
@@ -70,13 +88,15 @@ BATCH_START_MAIN_SHA=<sha>
 BATCH_PUBLICATION_MAIN_SHA=<sha>
 BATCH_FIRST_STAGE=<stage>
 BATCH_LAST_STAGE=<stage>
-BATCH_SUBSTANTIVE_STAGE_COUNT=<3..5, or justified early count>
-BATCH_STOP_REASON=receiver_change|new_external_lemma_needed|rigorous_counterexample|five_stage_cap
+BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=<3..5, or justified early count; includes integrated sH>
+BATCH_SUBSTANTIVE_STAGE_COUNT=<same value; compatibility alias including integrated sH>
+BATCH_INTEGRATED_H_UNITS=<comma-separated sH stages or NONE>
+BATCH_STOP_REASON=receiver_change|unresolved_external_gate|rigorous_counterexample|five_stage_cap
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=<value>
 STRICT_SUBSQRT_POWER_SAVING_PROVED=<true|false>
 CURRENT_S_RECEIVER=<receiver>
 S_ROUTE_H_NEEDED=<true|false>
-NEXT=<next concrete Stage14-s stage or exact H gate>
+NEXT=<next concrete Stage14-s stage or exact unresolved gate>
 ```
 
 No strict sub-square-root saving may be declared unless the batch proves
