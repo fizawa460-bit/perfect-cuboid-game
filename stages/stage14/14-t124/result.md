@@ -15,7 +15,7 @@ H_bd=sum_{g in B_bd} A_m(g),
 H_nb=H-H_bd.
 ```
 
-Merged t122 shows that the only possible failure of the finite Gaussian sign/canonical normalization lies on the D4 boundary.  Merged t74 gives the exact physical short-cover chamber
+Merged t122 shows that the only possible failure of the finite Gaussian sign/canonical normalization lies on the D4 boundary. Merged t74 gives the exact physical short-cover chamber
 
 ```text
 r=q-p,
@@ -29,11 +29,15 @@ Hence every actual physical cover satisfies
 q>p>0,
 ```
 
-so neither an axis point nor a diagonal point can itself contribute to the physical count.  The D4-boundary atoms are therefore rejected atoms of the ambient principal measure, exactly as required by the t123 support-complement interpretation.
+so neither an axis point nor a diagonal point can itself contribute to the physical count. The D4-boundary atoms are therefore rejected atoms of the ambient principal measure, exactly as required by the t123 support-complement interpretation.
 
-Let `T` denote the full selected physical prime count for this fixed packet.  Split the proof target by the ambient boundary mass.
+Let `T` denote the full selected physical prime count for this fixed packet. Split the proof target by the ambient boundary mass.
 
-For any fixed `delta>0`, choose any fixed `theta` with `0<theta<delta`.
+For any fixed `delta>0`, choose a fixed `theta` with
+
+```text
+0<theta<delta.
+```
 
 ### Boundary-heavy packet
 
@@ -43,14 +47,14 @@ If
 H_nb <= B^(-theta+o(1)) H,
 ```
 
-then the actual count is supported only on nonboundary norms, so the trivial charged-once prime bound gives
+then the actual count is supported only on nonboundary norms. The projective class family, primitive-orientation fiber and all remaining finite/divisor labels have total multiplicity `B^o(1)`, so the charged-once trivial prime bound gives
 
 ```text
 T <= B^o(1) H_nb
   <= B^(-theta+o(1)) H.
 ```
 
-Thus a boundary-heavy packet is already a valid fixed-power core-saving packet.  No theorem about the atomic boundary weight is needed.
+Thus a boundary-heavy packet is already a valid fixed-power core-saving packet. No theorem about the atomic boundary weight is needed.
 
 ### Boundary-light packet
 
@@ -60,15 +64,29 @@ Otherwise
 H_nb > B^(-theta+o(1)) H.
 ```
 
-The nonboundary principal mass is then polynomially comparable to the original charged baseline.  Since merged t122 gives a physical sign/canonical representative on every nonboundary primitive orbit, the ell-independent support mechanism can no longer furnish a fixed positive power loss there.  Any further fixed-power saving on this packet must therefore come from the remaining t114/t123 mechanism:
+The nonboundary principal mass is polynomially comparable to the original charged baseline. If one still seeks the original target
+
+```text
+T <= B^(-delta+o(1)) H,
+```
+
+then necessarily
+
+```text
+T <= B^(-(delta-theta)+o(1)) H_nb.
+```
+
+Since `delta-theta>0`, a fixed positive power is retained after replacing the baseline by `H_nb`.
+
+Merged t122 gives a physical sign/canonical representative on every nonboundary primitive orbit. Therefore the ell-independent support mechanism can no longer furnish an independent fixed positive power loss on this normalized family. Any remaining fixed-power saving must come from the other t114/t123 mechanism:
 
 ```text
 PhysicalSelectedProjectiveClassNearTotalPrimeDepletion
 ```
 
-with all existing cofactor-dependent intervals, projective classes, fixed packet data, and charged-once rules retained.
+with the exact cofactor-dependent prime interval, selected projective class, fixed packet data and charged-once rules retained.
 
-Therefore the finite-boundary atomic concentration from t123/Work-bpX28 is not a separate live theorem receiver.  It is a proof-case split:
+Therefore the finite-boundary atomic concentration from t123/Work-bpX28 is not a separate live theorem receiver. It is a proof-case split:
 
 ```text
 boundary-heavy -> already closed by core support loss;
@@ -77,12 +95,13 @@ boundary-light -> normalize to H_nb and pass to selected-class depletion.
 
 This materially changes the minimal fixed-U receiver to the selected-projective-class depletion problem on the nonboundary physical cofactor family.
 
-No new tH is needed yet.  Merged tH26 and tH28 remain the relevant negative boundaries for generic Hecke/projective equidistribution and unmasked projected-norm sieves.  The next internal stage should freeze the exact nonboundary cofactor-to-projective-class map together with its prime interval and determine whether the depletion condition has any further deterministic structure before opening tH29.
+No new tH is needed yet. Merged tH26 and tH28 remain the relevant negative boundaries for generic Hecke/projective equidistribution and unmasked projected-norm sieves. The next internal stage should freeze the exact nonboundary cofactor-to-projective-class map together with its prime interval and determine whether the depletion condition has further deterministic structure before opening tH29.
 
 ```text
 D4_BOUNDARY_ATOMS_CONTRIBUTE_TO_ACTUAL_PHYSICAL_COUNT=false
 BOUNDARY_HEAVY_PACKET_CORE_SAVING_CLOSED=true
 BOUNDARY_LIGHT_PACKET_NONBOUNDARY_BASELINE_POLYNOMIALLY_COMPARABLE=true
+BOUNDARY_LIGHT_TARGET_RETAINS_FIXED_POSITIVE_POWER=true
 FINITE_BOUNDARY_ATOMIC_CONCENTRATION_AS_SEPARATE_RECEIVER_SUPERSEDED=true
 SELECTED_CLASS_NEAR_TOTAL_DEPLETION_IS_ONLY_LIVE_FIXED_U_MECHANISM=true
 RECEIVER_MATERIALLY_CHANGED=true
