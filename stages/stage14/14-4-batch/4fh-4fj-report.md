@@ -5,7 +5,7 @@
 ```text
 STAGE14_MAIN_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=d519dcccee5bedb4844dbcee5cb4b5171600c0bf
-BATCH_PUBLICATION_MAIN_SHA=PENDING_RECHECK
+BATCH_PUBLICATION_MAIN_SHA=d519dcccee5bedb4844dbcee5cb4b5171600c0bf
 BATCH_FIRST_STAGE=Stage14-4fh
 BATCH_LAST_STAGE=Stage14-4fj
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3
@@ -117,3 +117,13 @@ NEW_HEAVY_MAIN_H_NEEDED=false
 EXISTING_NONHEAVY_MAIN_H_GATES_PENDING=true
 WHOLE_MAINLINE_BLOCKED_BY_H=false
 ```
+
+## Publication recheck
+
+Latest merged main remained
+
+```text
+d519dcccee5bedb4844dbcee5cb4b5171600c0bf
+```
+
+through the publication recheck. No concurrent unmerged route result is used as a theorem source.
