@@ -1,0 +1,39 @@
+name: Stage14 Work bdX16 integrated receiver audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bdX16/**'
+      - 'stages/stage14/scripts/14-Work-bdX16/**'
+      - 'docs/stage14-toolbox/bd-x16-integrated-receiver-matrix.md'
+      - '.github/workflows/stage14-work-bdx16.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bdX16/integrated_receiver_audit.py
+      - name: Run current global regressions
+        run: |
+          python stages/stage14/scripts/14-s7-51/dense_principal_cell_audit.py > /tmp/s7_51.json
+          python stages/stage14/scripts/14-4/full_conductor_mainline_H_audit.py > /tmp/4diH.json
+      - name: Run current fixed-U regressions
+        run: |
+          python stages/stage14/scripts/14-t/t91_validate_frozen.py > /tmp/t91.txt
+          python stages/stage14/scripts/14-tH26/canonical_lpf_gaussian_weight_audit.py > /tmp/tH26.json
+      - name: Run integrated bdX16 audit
+        run: python stages/stage14/scripts/14-Work-bdX16/integrated_receiver_audit.py > /tmp/bdX16.json
+      - name: Lock integrated boundary
+        run: |
+          f=stages/stage14/14-Work-bdX16/result.md
+          grep -q 'TOOLBOX_BD_COMPONENT_COMPLETE=true' "$f"
+          grep -q 'X16_COMPONENT_COMPLETE=true' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -q 'NEW_BDX16_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
