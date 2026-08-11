@@ -1,0 +1,45 @@
+name: Stage14-s7-52 interior variance covariance peel
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-52/**'
+      - 'stages/stage14/scripts/14-s7-52/**'
+      - '.github/workflows/stage14-s7-52-interior-variance-covariance.yml'
+      - 'stages/stage14/14-s7-51/**'
+      - 'stages/stage14/14-sH50/**'
+      - 'stages/stage14/14-X15/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-52 deterministic audit
+        run: python stages/stage14/scripts/14-s7-52/interior_variance_covariance_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-52/interior_variance_covariance_audit.py
+      - name: Regress s7-51
+        run: python stages/stage14/scripts/14-s7-51/dense_principal_cell_audit.py >/dev/null
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-52/result.md
+          grep -Fq 'STAGE14_S7_52=COMPLETE_DENSE_CELL_VARIANCE_COVARIANCE_BOUNDARY_PEEL' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'PAIRWISE_COVARIANCE_VARIANCE_BOUND_PROVED=true' "$f"
+          grep -Fq 'TRIPLE_COVARIANCE_VARIANCE_BOUND_PROVED=true' "$f"
+          grep -Fq 'FIXED_POWER_BOUNDARY_VARIANCE_THREE_WAY_OBSTRUCTION_REMOVED=true' "$f"
+          grep -Fq 'S7_52_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-53' "$f"
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
