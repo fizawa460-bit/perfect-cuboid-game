@@ -1,0 +1,25 @@
+name: Stage14 AM transfer audit
+
+on:
+  push:
+    paths:
+      - 'stages/stage14/14-AM/**'
+      - 'stages/stage14/data/14-AM/**'
+      - 'stages/stage14/scripts/14-AM/**'
+      - '.github/workflows/stage14-am-transfer.yml'
+  pull_request:
+    paths:
+      - 'stages/stage14/14-AM/**'
+      - 'stages/stage14/data/14-AM/**'
+      - 'stages/stage14/scripts/14-AM/**'
+      - '.github/workflows/stage14-am-transfer.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python stages/stage14/scripts/14-AM/transfer_contract_audit.py
