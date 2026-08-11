@@ -1,0 +1,41 @@
+name: Stage14-main-batch 4fe-4fg radial physical density
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4fe/**'
+      - 'stages/stage14/14-4ff/**'
+      - 'stages/stage14/14-4fg/**'
+      - 'stages/stage14/14-4-batch/4fe-4fg-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4fe_4fg_radial_physical_density_audit.py'
+      - '.github/workflows/stage14-main-batch-4fe-4fg-radial-physical-density.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4fe_4fg_radial_physical_density_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4fe_4fg_radial_physical_density_audit.py
+      - name: Previous mainline regression
+        run: python stages/stage14/scripts/14-4/batch_4fb_4fd_heavy_capacity_audit.py
+      - name: Lock receiver boundary
+        run: |
+          grep -Fq 'BARE_NORMALIZED_RADIAL_EQUATION_ACCEPTS_EVERY_N=true' stages/stage14/14-4fe/result.md
+          grep -Fq 'HEAVY_MASS_RELOCATED_TO_NORMALIZED_RADIAL_ACCEPTANCE_SUPPORT=true' stages/stage14/14-4ff/result.md
+          grep -Fq 'RADIAL_THINNING_REDUCED_TO_PHYSICAL_DIVISOR_WINDOW_OCCUPANCY=true' stages/stage14/14-4fg/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4fe-4fg-report.md
+          grep -Fq 'NEXT=Stage14-4fh' stages/stage14/14-4-batch/4fe-4fg-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
