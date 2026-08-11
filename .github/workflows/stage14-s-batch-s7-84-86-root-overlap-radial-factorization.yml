@@ -1,0 +1,64 @@
+name: Stage14-s-batch s7-84..86 root overlap radial factorization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-84/**'
+      - 'stages/stage14/14-s7-85/**'
+      - 'stages/stage14/14-s7-86/**'
+      - 'stages/stage14/14-s-batch/s7-84-86-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_84_86_root_overlap_radial_factorization_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-84-86-root-overlap-radial-factorization.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_84_86_root_overlap_radial_factorization_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_84_86_root_overlap_radial_factorization_audit.py
+
+      - name: Regress merged s7-81..83
+        run: python stages/stage14/scripts/14-s-batch/s7_81_83_squareclass_mobility_audit.py
+
+      - name: Regress merged mainline 4ey..4fa
+        run: python stages/stage14/scripts/14-4/batch_4ey_4fa_kernel_overlap_audit.py
+
+      - name: Regress merged Work-bpX28
+        run: python stages/stage14/scripts/14-Work-bpX28/outer_support_capacity_audit.py
+
+      - name: Lock integrated sH/common batch contract
+        run: |
+          grep -Fq '## Common contract' docs/stage14-s-batch-task-contract.md
+          grep -Fq '## Integrated sH work unit' docs/stage14-s-batch-task-contract.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
+          grep -Fq 'unresolved_external_gate' docs/stage14-batch-common-contract.md
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'STAGE14_S7_84=COMPLETE_MERGED_4FA_AGREEMENT_COMPRESSION_LOCALIZES_S83_MOBILITY_TO_ROOT_SIDE' stages/stage14/14-s7-84/result.md
+          grep -Fq 'POLYNOMIAL_FACTOR_MOBILITY_MUST_BE_ROOT_SIDE=true' stages/stage14/14-s7-84/result.md
+          grep -Fq 'STAGE14_S7_85=COMPLETE_ROOT_KERNEL_DIFFUSION_TO_SHARED_SQUAREFREE_OVERLAP' stages/stage14/14-s7-85/result.md
+          grep -Fq 'ROOT_KERNEL_DIFFUSION_ONLY_THROUGH_SHARED_OVERLAP_J=true' stages/stage14/14-s7-85/result.md
+          grep -Fq 'STAGE14_S7_86=COMPLETE_ROOT_OVERLAP_SQUAREPART_MOBILITY_TO_SHORT_RADIAL_FACTORIZATION_CAPACITY' stages/stage14/14-s7-86/result.md
+          grep -Fq 'FIXED_H_ROOT_OVERLAP_SQUAREPART_FIBER=Bo1' stages/stage14/14-s7-86/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-84-86-report.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=NONE' stages/stage14/14-s-batch/s7-84-86-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-84-86-report.md
+          grep -Fq 'NEXT=Stage14-s7-87' stages/stage14/14-s-batch/s7-84-86-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
