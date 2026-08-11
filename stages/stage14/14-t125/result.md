@@ -116,10 +116,10 @@ with every odd `p` split and coprime to the fixed exceptional support, choose on
 [conj(varpi_p)]=[varpi_p]^(-1) in G
 ```
 
-(the rational norm `p` is trivial in the projective quotient), changing one orientation bit multiplies the selected class by the explicit ratio
+(the rational norm `p` is trivial in the projective quotient), flipping one orientation bit multiplies the **cofactor class** `[gamma_G]` by `[varpi_p]^(-2*e_p)`.  Because the selected class uses the inverse cofactor class, the selected class itself is multiplied by
 
 ```text
-r_p=[varpi_p]^(-2*e_p).
+r_p=[varpi_p]^(2*e_p).
 ```
 
 Hence, after choosing one base orientation,
