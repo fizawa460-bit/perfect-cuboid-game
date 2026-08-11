@@ -1,0 +1,63 @@
+name: Stage14-Work-bwX35 absolute capacity localization audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bwX35/**'
+      - 'docs/stage14-toolbox/work-bwX35-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-bwX35/**'
+      - '.github/workflows/stage14-Work-bwX35-absolute-capacity-localization.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bwX35 audit
+        run: python stages/stage14/scripts/14-Work-bwX35/absolute_capacity_localization_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bwX35/absolute_capacity_localization_audit.py
+
+      - name: Regress merged Work-bvX34
+        run: python stages/stage14/scripts/14-Work-bvX34/local_theorem_coverage_audit.py
+
+      - name: Regress merged mainline 4ft..4fv
+        run: python stages/stage14/scripts/14-4/batch_4ft_4fv_fixed_e_shadow_split_audit.py
+
+      - name: Regress merged s7-102..104
+        run: python stages/stage14/scripts/14-s-batch/s7_102_104_one_dimensional_completion_audit.py
+
+      - name: Regress merged t140..142
+        run: python stages/stage14/14-t-batch-t140-142/audit.py
+
+      - name: Lock merged q15 boundary
+        run: |
+          grep -q 'DIRECT_LOCALIZED_UNITARY_DIVISOR_SUPPORT_THEOREM_FOUND=false' docs/stage14-q15-summary.md
+          grep -q 'Q15_UNITARY_TO_ORDINARY_LOCALIZED_DIVISOR_TRANSFER_TEST' docs/stage14-q15-summary.md
+
+      - name: Lock tH32 frozen target
+        run: |
+          grep -q 'SafeMitsuiModulusQuarterScaleFixedGaussianResidueShortIntervalPrimeOccupancy' stages/stage14/14-t142/th32-target.md
+          grep -q 'TH32_NEEDED=true' stages/stage14/14-t142/result.md
+
+      - name: Lock integrated boundary
+        run: |
+          grep -q 'UPPER_ENVELOPE_ABSOLUTE_CAPACITY_LEMMA_PROVED=true' stages/stage14/14-Work-bwX35/result.md
+          grep -q 'COMMON_ADAPTER_PROVED=false' stages/stage14/14-Work-bwX35/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-bwX35/result.md
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-bwX35/result.md
+          grep -q 'TH32_NEEDED=true' stages/stage14/14-Work-bwX35/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -q 'COMMON_ABSOLUTE_CAPACITY_LOCALIZATION_LANGUAGE_PROVED=true' docs/stage14-toolbox/work-bwX35-receiver-matrix.md
+          grep -q 'NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false' docs/stage14-toolbox/work-bwX35-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check
