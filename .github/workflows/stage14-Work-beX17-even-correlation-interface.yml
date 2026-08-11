@@ -1,0 +1,85 @@
+name: Stage14-Work-beX17 integrated degree parity audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-beX17/**'
+      - 'stages/stage14/scripts/14-Work-beX17/**'
+      - 'docs/stage14-toolbox/work-beX17-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-beX17-even-correlation-interface.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated beX17 audit
+        run: python stages/stage14/scripts/14-Work-beX17/integrated_degree_parity_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-beX17/integrated_degree_parity_audit.py
+
+      - name: Run merged 4dk regression
+        run: python stages/stage14/scripts/14-4/interior_dense_cell_audit.py
+
+      - name: Run merged s7-53 regression
+        run: python stages/stage14/scripts/14-s7-53/pairwise_connected_cumulant_audit.py
+
+      - name: Run merged t93 regressions
+        run: |
+          python stages/stage14/scripts/14-t/t93_conjugation_pairing_audit.py
+          python stages/stage14/scripts/14-t/t93_validate_frozen.py
+
+      - name: Lock previous integrated boundary
+        run: |
+          grep -Fq 'STAGE14_WORK_BDX16=COMPLETE_POST_BC_CROSS_ROUTE_AUDIT_AND_X16_PRINCIPAL_CENTERED_ORIENTATION_INTERFACE' stages/stage14/14-Work-bdX16/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-bdX16/result.md
+
+      - name: Lock current merged boundaries
+        run: |
+          grep -Fq 'STAGE14_4DK=COMPLETE_NEAR_MAXIMAL_CELL_INTERIOR_VARIANCE_REDUCTION' stages/stage14/14-4dk/result.md
+          grep -Fq 'STAGE14_S7_53=COMPLETE_PAIRWISE_VS_CONNECTED_TRIPLE_CUMULANT_REDUCTION' stages/stage14/14-s7-53/result.md
+          grep -Fq 'STAGE14_T93=COMPLETE_ORIENTATION_CUBE_CONJUGATION_EVEN_ODD_SPLIT' stages/stage14/14-t93/result.md
+          grep -Fq 'PAIRWISE_AND_TRIPLE_COVARIANCE_REMAIN_MAIN_TERM_SCALE_POSSIBLE=true' stages/stage14/14-4dk/result.md
+          grep -Fq 'CONNECTED_TRIPLE_CUMULANT_BRANCH_SEPARATED=true' stages/stage14/14-s7-53/result.md
+          grep -Fq 'ODD_WALSH_SECTOR_ANTIPODALLY_CENTERED=true' stages/stage14/14-t93/result.md
+          grep -Fq 'CENTERED_EVEN_SPECTRUM_ELIMINATED=false' stages/stage14/14-t93/result.md
+
+      - name: Lock beX17 theorem boundary
+        run: |
+          f=stages/stage14/14-Work-beX17/result.md
+          grep -Fq 'STAGE14_WORK_BEX17=COMPLETE_POST_BDX16_CUMULANT_WALSH_PARITY_INTERFACE_AND_NO_CROSS_PROMOTION' "$f"
+          grep -Fq 'STAGE14_WORK_TOOLBOX_X=RUN' "$f"
+          grep -Fq 'TOOLBOX_COMPONENT_COMPLETE=true' "$f"
+          grep -Fq 'X_COMPONENT_COMPLETE=true' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'COMMON_CENTERED_MULTILINEAR_DEGREE_LANGUAGE_PROVED=true' "$f"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'SAVING_CROSS_PROMOTABLE=false' "$f"
+          grep -Fq 'GLOBAL_THREE_SELECTOR_ANTIPODE_PROVED=false' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=false' "$f"
+          grep -Fq 'S_ROUTE_H_NEEDED=false' "$f"
+          grep -Fq 'FIXED_U_H_NEEDED=false' "$f"
+          grep -Fq 'NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'NEXT_REVISIT_CONDITION=4dm_and_s7-55_and_t95_or_material_early_trigger' "$f"
+
+      - name: Lock receiver matrix
+        run: |
+          m=docs/stage14-toolbox/work-beX17-receiver-matrix.md
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$m"
+          grep -Fq 'SAVING_CROSS_PROMOTABLE=false' "$m"
+          grep -Fq 'TH27_NEEDED=false' "$m"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
