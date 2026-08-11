@@ -19,6 +19,7 @@ required = {
     "t125": [
         "LIVE_PRIME_INTERVALS_NESTED=true",
         "GENERIC_ORIENTATION_SELECTED_CLASS_SUBSET_PRODUCT_EXACT=true",
+        "r_p=[varpi_p]^(2*e_p)",
         "NEXT=Stage14-t126",
     ],
     "t126": [
@@ -63,6 +64,18 @@ for n in range(1, 10000):
     if Fraction(lower, 1) < upper:
         assert hk0 * n < sB
         assert lower == 2 * sB
+
+# t125 orientation inversion: in a cyclic test group written by exponents,
+# gamma orientation flip changes +e -> -e, hence gamma changes by -2e;
+# selected class c=gamma^{-1} therefore changes by +2e.
+order = 17
+e = 3
+gamma_base = e % order
+gamma_flip = (-e) % order
+c_base = (-gamma_base) % order
+c_flip = (-gamma_flip) % order
+assert (gamma_flip - gamma_base) % order == (-2 * e) % order
+assert (c_flip - c_base) % order == (2 * e) % order
 
 # t126: direct class-matched count equals hyperbola transposition.
 g = 3
@@ -109,11 +122,11 @@ threshold = Fraction(1, 10)
 assert Fraction(T_edge + T_long, M_edge + M_long) <= threshold
 assert min(Fraction(T_edge, M_edge), Fraction(T_long, M_long)) <= threshold
 
-# Character pigeonhole: if a sum of g-1 character contributions is principal-scale,
-# one individual contribution is at least the average absolute scale.
-D_terms = [-100, -90, -80, -80]
-assert len(D_terms) == g + 1  # synthetic group size here is 5 below
+# Character pigeonhole: if g-1 contributions sum to principal scale,
+# one individual contribution has at least the average absolute scale.
 char_g = 5
+D_terms = [-100, -90, -80, -80]
+assert len(D_terms) == char_g - 1
 assert abs(sum(D_terms)) >= 300
 assert max(abs(x) for x in D_terms) >= Fraction(abs(sum(D_terms)), char_g - 1)
 
