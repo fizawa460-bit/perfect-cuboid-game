@@ -16,6 +16,11 @@ locks = {
         'PREFERRED_NEXT_INTERNAL_REDUCTION=CommonCoreScaleStratifiedCanonicalAllocationRootLinePrincipalDensityPlusCenteredDiscrepancy',
         'NEXT_H_NEEDED=false',
     ],
+    'stages/stage14/14-s7-74/result.md': [
+        'POLYNOMIAL_C0_SATURATION_FORCES_CENTERED_DISCREPANCY_EXPONENT_ZERO=true',
+        'SMALL_C0_REVERTS_TO_CANONICAL_ALLOCATION_DENSITY_OBSTRUCTION=true',
+        'CURRENT_S_RECEIVER=SmallCommonCoreCanonicalBalancedIntegerGaussianAllocationDensity_OR_PolynomialCommonCoreCanonicalAllocationCenteredGaussianRootDiscrepancy',
+    ],
     'stages/stage14/14-4eg/result.md': [
         'ROOT_INDICATOR_PRINCIPAL_PLUS_CENTERED_DECOMPOSITION_EXACT=true',
         'POLYNOMIAL_COMMON_CORE_SATURATION_REQUIRES_CENTERED_DISCREPANCY=true',
@@ -37,6 +42,8 @@ locks = {
         'DIFFUSE_MODULUS_BRANCH_REMAINS_VARIABLE_NORM_DIVISOR_GRAPH=true',
     ],
     'stages/stage14/14-4-batch/4eg-4ek-report.md': [
+        'BATCH_PUBLICATION_MAIN_SHA=7bcb1b56d11c92249c826e7c6cbe9b86f2f9b3a4',
+        'MERGED_S7_72_74_CONSUMED=true',
         'BATCH_SUBSTANTIVE_STAGE_COUNT=5',
         'NEXT=Stage14-4el',
     ],
@@ -133,7 +140,6 @@ def check_prime_character_expansion(p):
 
     # Weighted projective-collision energy identity.
     candidates = [(1, 1, 1.0), (2, 1, 2.0), (3, 2, 1.5), (4, 3, 0.5)]
-    # all coordinates are units for p=5,13 in this sample
     A = []
     for j in range(order):
         A.append(sum(w * chi(j, X) * chi(j, Y).conjugate() for X, Y, w in candidates))
@@ -154,6 +160,7 @@ for p in (5, 13):
 print({
     'batch': 'Stage14-4eg..4ek',
     'substantive_stages': 5,
+    'merged_s7_72_74_regression': 'locked',
     'root_principal_density_checks': 'ok',
     'character_expansion_checks': 'ok',
     'projective_collision_energy_checks': 'ok',
