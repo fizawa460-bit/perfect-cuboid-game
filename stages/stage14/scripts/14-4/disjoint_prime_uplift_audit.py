@@ -5,7 +5,7 @@ locks = {
  'stages/stage14/14-4dn/result.md':'ZERO_MODE_POSITIVE_OBSTRUCTION_EQUALS_POSITIVE_CONDITIONAL_UPLIFT=true',
  'stages/stage14/14-s7-57/result.md':'PAIRWISE_NEAR_DETERMINISM_PROMOTION_LEGAL=false',
  'stages/stage14/14-Work-bfX18/result.md':'GLOBAL_PAIRWISE_COVARIANCE_AS_CONDITIONAL_RESPONSE_PROVED=true',
- 'stages/stage14/14-4df/result.md':'SIX_ATOMIC_BLOCK_PAIRWISE_SEPARATION_PROVED=true',
+ 'stages/stage14/14-4df/result.md':'SIX_ATOMIC_NORM_BLOCKS_PAIRWISE_SEPARATED=true',
 }
 for rel,needle in locks.items():
     assert needle in (ROOT/rel).read_text(), (rel,needle)
