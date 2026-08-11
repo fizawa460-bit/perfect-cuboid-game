@@ -1,0 +1,66 @@
+name: Stage14-s-batch s7-111..113 completion boolean opening
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-111/**'
+      - 'stages/stage14/14-s7-112/**'
+      - 'stages/stage14/14-s7-113/**'
+      - 'stages/stage14/14-s-batch/s7-111-113-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_111_113_completion_boolean_opening_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-111-113-completion-boolean-opening.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_111_113_completion_boolean_opening_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_111_113_completion_boolean_opening_audit.py
+
+      - name: Regress merged s7-108..110
+        run: python stages/stage14/scripts/14-s-batch/s7_108_110_fibered_product_capacity_audit.py
+
+      - name: Regress merged mainline 4fz..4gb
+        run: python stages/stage14/scripts/14-4/batch_4fz_4gb_primitive_product_fiber_audit.py
+
+      - name: Regress merged Work-byX37
+        run: python stages/stage14/scripts/14-Work-byX37/completion_hosted_capacity_audit.py
+
+      - name: Lock q16 no-cross-promotion
+        run: |
+          grep -Fq 'FIXED_E_DISTINCT_PRODUCT_CAPACITY_FULL_EXPONENT_PROVED=true' docs/stage14-q16-summary.md
+          grep -Fq 'Q16_CROSS_PROMOTED_TO_POLYNOMIAL_E_S=false' stages/stage14/14-Work-byX37/result.md
+
+      - name: Lock common and s batch contracts
+        run: |
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
+          grep -Fq 'Integrated sH work unit' docs/stage14-s-batch-task-contract.md
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'PRECOMPLETION_NORMALIZED_RECONSTRUCTION_EXACT=true' stages/stage14/14-s7-111/result.md
+          grep -Fq 'EXISTENTIAL_REVERSE_POSTCOLUMN_COMPLETION_BOOLEAN_DEFINED=true' stages/stage14/14-s7-112/result.md
+          grep -Fq 'REVERSE_POSTCOLUMN_EXISTENCE_AUTOMATIC=false' stages/stage14/14-s7-112/result.md
+          grep -Fq 'HEAVY_SURVIVAL_LEDGER=kappa_minus_delta_pre_minus_delta_ext_ge_mu' stages/stage14/14-s7-113/result.md
+          grep -Fq 'WORK_BYX37_REVISIT_TRIGGER_S7_113_REACHED=true' stages/stage14/14-s7-113/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-111-113-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-111-113-report.md
+          grep -Fq 'S_ROUTE_H_NEEDED=false' stages/stage14/14-s-batch/s7-111-113-report.md
+          grep -Fq 'NEXT=Stage14-s7-114' stages/stage14/14-s-batch/s7-111-113-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
