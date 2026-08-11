@@ -6,6 +6,12 @@ Stage14-q is the recurring literature-surveillance track for Stage14. It does no
 
 The operating rule is **triggered search, not continuous broad search**. A q-stage opens only after an active route exposes a stable named obstruction whose mathematical form has changed enough that the previous q ledger no longer answers it.
 
+The normal integrated entry point is `Stage14-Work-toolbox-XQ`: Work freezes the
+current cross-route receiver, X isolates the common obstruction, and the q gate
+then either records `NOT_TRIGGERED` or performs the next q stage in the same task
+and Draft PR. The standalone `14-q` invocation remains valid for explicitly
+requested literature-only work and scoped q investigations deferred by XQ.
+
 A useful q result ends in one of four states:
 
 - `DIRECT`: external theorem/data imports essentially as stated after exact hypothesis checks;
