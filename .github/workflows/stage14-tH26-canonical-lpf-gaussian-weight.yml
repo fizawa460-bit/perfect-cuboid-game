@@ -1,0 +1,67 @@
+name: Stage14-tH26 canonical LPF Gaussian weight audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH26/**'
+      - 'stages/stage14/data/tH26/**'
+      - 'stages/stage14/scripts/14-tH26/**'
+      - 'stages/stage14/14-t90/th26-target.md'
+      - 'stages/stage14/14-t90/result.md'
+      - 'stages/stage14/scripts/14-t/t90_**'
+      - '.github/workflows/stage14-tH26-canonical-lpf-gaussian-weight.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile tH26 audit
+        run: python -m py_compile stages/stage14/scripts/14-tH26/canonical_lpf_gaussian_weight_audit.py
+
+      - name: Lock immutable H protocol and t90 target
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'PARENT_STAGE=Stage14-t90' stages/stage14/14-t90/th26-target.md
+          grep -Fq 'H_NUMBER=26' stages/stage14/14-t90/th26-target.md
+          grep -Fq 'H_TARGET_FROZEN_AT_PARENT_DISPATCH=true' stages/stage14/14-t90/th26-target.md
+          grep -Fq 'PARENT_RECEIVER=SharedUCanonicalLPFPrimitiveGaussianCofactorRepresentationCharacterWeightedPhysicalSieve' stages/stage14/14-t90/th26-target.md
+          grep -Fq 'PRINCIPAL_REPRESENTATION_TERM_POWER_SPARSE=true|false' stages/stage14/14-t90/th26-target.md
+
+      - name: Run frozen t90 predecessor regressions
+        run: |
+          python stages/stage14/scripts/14-t/t90_open_q_weight_audit.py >/dev/null
+          python stages/stage14/scripts/14-t/t90_validate_frozen.py
+          grep -Fq 'FULL_REDUCED_WEIGHT_MULTIPLICATIVE_PROVED=false' stages/stage14/14-t90/result.md
+          grep -Fq 'PRINCIPAL_GAUSSIAN_REPRESENTATION_TERM_REMAINS=true' stages/stage14/14-t90/result.md
+          grep -Fq 'TH26_NEEDED=true' stages/stage14/14-t90/result.md
+
+      - name: Lock current whole-family ledger context
+        run: |
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-t90/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-t90/result.md
+
+      - name: Run tH26 deterministic audit
+        run: python stages/stage14/scripts/14-tH26/canonical_lpf_gaussian_weight_audit.py
+
+      - name: Lock tH26 frozen boundary
+        run: |
+          f=stages/stage14/14-tH26/BOUNDARY.txt
+          grep -Fq 'STAGE14_TH26=COMPLETE_T90_SNAPSHOT_CANONICAL_LPF_GAUSSIAN_REPRESENTATION_CHARACTER_WEIGHT_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'AUDITED_THROUGH=Stage14-t90' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=129a6a0625e46fb979e1ea757f2366d5e63c3b95' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'PRINCIPAL_REPRESENTATION_TERM_POWER_SPARSE=false' "$f"
+          grep -Fq 'NONPRINCIPAL_GAUSSIAN_CHARACTER_SAVING_AVAILABLE=false' "$f"
+          grep -Fq 'FULL_PHYSICAL_COEFFICIENT_DECOMPOSITION_THEOREM_READY=false' "$f"
+          grep -Fq 'CANONICAL_LPF_SHORT_COFACTOR_UNIFORMITY_CONTROLLED=false' "$f"
+          grep -Fq 'OFF_THE_SHELF_UNIFORM_FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_FIXED_U_PACKET_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
