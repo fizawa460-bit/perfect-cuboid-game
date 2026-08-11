@@ -1,0 +1,68 @@
+name: Stage14-main-batch 4gc-4ge reciprocal completion
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4gc/**'
+      - 'stages/stage14/14-4gd/**'
+      - 'stages/stage14/14-4ge/**'
+      - 'stages/stage14/14-4-batch/4gc-4ge-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4gc_4ge_reciprocal_completion_audit.py'
+      - '.github/workflows/stage14-main-batch-4gc-4ge-reciprocal-completion.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run deterministic reciprocal completion audit
+        run: python stages/stage14/scripts/14-4/batch_4gc_4ge_reciprocal_completion_audit.py
+
+      - name: Compile deterministic audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4gc_4ge_reciprocal_completion_audit.py
+
+      - name: Regress merged mainline 4fz-4gb
+        run: python stages/stage14/scripts/14-4/batch_4fz_4gb_primitive_product_fiber_audit.py
+
+      - name: Regress merged s7-108-110
+        run: python stages/stage14/scripts/14-s-batch/s7_108_110_fibered_product_capacity_audit.py
+
+      - name: Regress merged Work-byX37
+        run: python stages/stage14/scripts/14-Work-byX37/completion_hosted_capacity_audit.py
+
+      - name: Lock merged q16 boundary
+        run: |
+          grep -Fq 'FIXED_E_DISTINCT_PRODUCT_CAPACITY_FULL_EXPONENT_PROVED=true' docs/stage14-q16-summary.md
+          grep -Fq 'FIXED_E_CONDITIONAL_PHYSICAL_LIFT_REMAINS=true' docs/stage14-q16-summary.md
+
+      - name: Lock batch contracts
+        run: |
+          grep -Fq 'Stage14-main-batch' docs/stage14-main-batch-task-contract.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
+          grep -Fq 'a mathematically material receiver change' docs/stage14-batch-common-contract.md
+
+      - name: Lock new boundary
+        run: |
+          grep -Fq 'FIXED_E_COMPLETION_SUPPORT_EXPONENT_PRESERVED_UNDER_PAIR_PULLBACK=true' stages/stage14/14-4gc/result.md
+          grep -Fq 'EXACT_RECIPROCAL_DIVISOR_CRT_CANDIDATE_SET_DEFINED=true' stages/stage14/14-4gd/result.md
+          grep -Fq 'X13_COLUMN_PARAMETER_FIXED_SQUARE_CLASS_M0_TIMES_m2=true' stages/stage14/14-4gd/result.md
+          grep -Fq 'COMPLETION_DEFICIT_EXACTLY_SPLITS_AS_DELTA_REC_PLUS_DELTA_POST=true' stages/stage14/14-4ge/result.md
+          grep -Fq 'WORK_BYX37_REVISIT_TRIGGER_4GE_REACHED=true' stages/stage14/14-4ge/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-4ge/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-4-batch/4gc-4ge-report.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=NONE' stages/stage14/14-4-batch/4gc-4ge-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4gc-4ge-report.md
+          grep -Fq 'NEXT=Stage14-4gf' stages/stage14/14-4-batch/4gc-4ge-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
