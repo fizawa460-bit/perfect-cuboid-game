@@ -1,0 +1,42 @@
+name: Stage14-s7-53 pairwise connected cumulant
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-53/**'
+      - 'stages/stage14/scripts/14-s7-53/**'
+      - '.github/workflows/stage14-s7-53-pairwise-connected-cumulant.yml'
+      - 'stages/stage14/14-s7-52/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Stage14-s7-53 deterministic audit
+        run: python stages/stage14/scripts/14-s7-53/pairwise_connected_cumulant_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-53/pairwise_connected_cumulant_audit.py
+      - name: Regress s7-52
+        run: python stages/stage14/scripts/14-s7-52/interior_variance_covariance_audit.py
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-53/result.md
+          grep -Fq 'STAGE14_S7_53=COMPLETE_PAIRWISE_VS_CONNECTED_TRIPLE_CUMULANT_REDUCTION' "$f"
+          grep -Fq 'EXACT_THREE_WEIGHT_CUMULANT_IDENTITY_PROVED=true' "$f"
+          grep -Fq 'PAIRWISE_COVARIANCE_BRANCH_SEPARATED=true' "$f"
+          grep -Fq 'CONNECTED_TRIPLE_CUMULANT_BRANCH_SEPARATED=true' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'S7_53_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-54' "$f"
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
