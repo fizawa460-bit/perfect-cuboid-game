@@ -1,0 +1,54 @@
+name: Stage14-s-batch s7-78..80 heavy ray reverse incidence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-78/**'
+      - 'stages/stage14/14-s7-79/**'
+      - 'stages/stage14/14-s7-80/**'
+      - 'stages/stage14/14-s-batch/s7-78-80-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_78_80_heavy_ray_reverse_incidence_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-78-80-heavy-ray-reverse-incidence.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_78_80_heavy_ray_reverse_incidence_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_78_80_heavy_ray_reverse_incidence_audit.py
+
+      - name: Regress merged s7-75..77
+        run: python stages/stage14/scripts/14-s-batch/s7_75_77_projective_collision_split_audit.py
+
+      - name: Regress merged mainline 4el..4ep
+        run: python stages/stage14/scripts/14-4/batch_4el_4ep_correlation_audit.py
+
+      - name: Regress merged Work-bnX26
+        run: python stages/stage14/scripts/14-Work-bnX26/correlation_obstruction_pivot_audit.py
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'HEAVY_RAY_PRIMITIVE_VECTOR_FIXED_UP_TO_O1=true' stages/stage14/14-s7-78/result.md
+          grep -Fq 'FIXED_H_RECIPROCAL_FACTORIZATION_MULTIPLICITY=Bo1' stages/stage14/14-s7-79/result.md
+          grep -Fq 'HEAVY_RAY_SPLIT_INTO_FIXED_DATA_BACKGROUND_FIBER_OR_DIFFUSE_RADIAL_SUPPORT=true' stages/stage14/14-s7-80/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-s7-80/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_STAGE_COUNT=3' stages/stage14/14-s-batch/s7-78-80-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-78-80-report.md
+          grep -Fq 'NEXT=Stage14-s7-81' stages/stage14/14-s-batch/s7-78-80-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
