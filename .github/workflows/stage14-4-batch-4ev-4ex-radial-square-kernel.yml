@@ -1,0 +1,32 @@
+name: Stage14-4 batch 4ev-4ex radial square kernel
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4ev/**'
+      - 'stages/stage14/14-4ew/**'
+      - 'stages/stage14/14-4ex/**'
+      - 'stages/stage14/14-4-batch/4ev-4ex-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4ev_4ex_radial_square_kernel_audit.py'
+      - '.github/workflows/stage14-4-batch-4ev-4ex-radial-square-kernel.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4ev_4ex_radial_square_kernel_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4ev_4ex_radial_square_kernel_audit.py
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
