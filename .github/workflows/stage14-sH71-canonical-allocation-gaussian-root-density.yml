@@ -1,0 +1,64 @@
+name: Stage14-sH71 canonical allocation Gaussian root density audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-sH71/**'
+      - 'stages/stage14/data/sH71/**'
+      - 'stages/stage14/scripts/14-sH71/**'
+      - 'stages/stage14/14-s7-71/sh71-target.md'
+      - 'stages/stage14/14-s7-71/result.md'
+      - '.github/workflows/stage14-sH71-canonical-allocation-gaussian-root-density.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile sH71 audit
+        run: python -m py_compile stages/stage14/scripts/14-sH71/canonical_allocation_gaussian_root_density_audit.py
+
+      - name: Lock immutable H protocol and s7-71 source contract
+        run: |
+          grep -Fq 'ONE_H_REQUEST_ONE_SNAPSHOT=true' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'COMPLETED_H_MERGES_AS_SCOPED_SNAPSHOT_RESULT=true' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'STAGE14_S7_71=COMPLETE_PRIMITIVE_GAUSSIAN_ROOT_DENSITY_BOUNDARY_AND_SH71_GATE' stages/stage14/14-s7-71/result.md
+          grep -Fq 'S7_71_AUXILIARY_H_TARGET=CanonicalAllocationConditionalPrimitiveGaussianRootDensity' stages/stage14/14-s7-71/result.md
+          grep -Fq 'NEXT=Stage14-sH71' stages/stage14/14-s7-71/result.md
+
+      - name: Lock dispatch-formalized immutable target
+        run: |
+          f=stages/stage14/14-s7-71/sh71-target.md
+          grep -Fq 'H_STAGE=Stage14-sH71' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=76bc8a4e59d8d220c58552e42dafef7d12ef55a3' "$f"
+          grep -Fq 'REQUESTED_OBJECT=CanonicalAllocationConditionalPrimitiveGaussianRootDensity' "$f"
+          grep -Fq 'TARGET_FROZEN=true' "$f"
+          grep -Fq 'C0 | X0^2+Y0^2' "$f"
+
+      - name: Regress merged s7-69..71 batch
+        run: python stages/stage14/scripts/14-s-batch/s7_69_71_reciprocal_selector_audit.py
+
+      - name: Run sH71 deterministic theorem-boundary audit
+        run: python stages/stage14/scripts/14-sH71/canonical_allocation_gaussian_root_density_audit.py
+
+      - name: Lock frozen sH71 boundary
+        run: |
+          f=stages/stage14/14-sH71/BOUNDARY.txt
+          grep -Fq 'STAGE14_SH71=COMPLETE_S7_71_SNAPSHOT_CANONICAL_ALLOCATION_CONDITIONAL_PRIMITIVE_GAUSSIAN_ROOT_DENSITY_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'DIRECT_GAUSSIAN_ROOT_EQUIDISTRIBUTION_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'ROOT_LARGE_SIEVE_DIRECTLY_APPLICABLE=false' "$f"
+          grep -Fq 'BILINEAR_ROOT_DISPERSION_DIRECTLY_APPLICABLE=false' "$f"
+          grep -Fq 'CANONICAL_BACKGROUND_PSEUDORANDOMNESS_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'UNIFORM_FIXED_POWER_CONDITIONAL_DENSITY_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_CONDITIONAL_DENSITY_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
