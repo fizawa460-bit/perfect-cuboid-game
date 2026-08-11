@@ -1,0 +1,49 @@
+name: Stage14-Work-biX21 prime support energy
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-biX21/**'
+      - 'stages/stage14/scripts/14-Work-biX21/**'
+      - 'docs/stage14-toolbox/work-biX21-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-biX21-prime-support-energy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run integrated biX21 audit
+        run: python stages/stage14/scripts/14-Work-biX21/prime_support_energy_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-biX21/prime_support_energy_audit.py
+      - name: Run merged 4du regression
+        run: python stages/stage14/scripts/14-4/candidate_image_energy_audit.py
+      - name: Run merged s7-62 regression
+        run: python stages/stage14/scripts/14-s7-62/range_stable_divisor_graph_audit.py
+      - name: Run merged t102 regression
+        run: python stages/stage14/14-t102/audit.py
+      - name: Lock integrated theorem boundary
+        run: |
+          f=stages/stage14/14-Work-biX21/result.md
+          grep -Fq 'GLOBAL_RANGE_STABLE_HEAVY_MOVER_PRIME_PROVED=true' "$f"
+          grep -Fq 'GLOBAL_HEAVY_MOVER_STATE_MASS_EXPONENT=1/2' "$f"
+          grep -Fq 'HEAVY_PRIME_AND_ENERGY_DOUBLE_CHARGE_FORBIDDEN=true' "$f"
+          grep -Fq 'COMMON_ARITHMETIC_COLLISION_ADAPTER_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'TH28_NEEDED=false' "$f"
+      - name: Lock receiver matrix
+        run: |
+          grep -Fq 'COMMON_PRIME_SUPPORT_ENERGY_SKELETON_PROVED=true' docs/stage14-toolbox/work-biX21-receiver-matrix.md
+          grep -Fq 'COMMON_ARITHMETIC_COLLISION_ADAPTER_PROVED=false' docs/stage14-toolbox/work-biX21-receiver-matrix.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
