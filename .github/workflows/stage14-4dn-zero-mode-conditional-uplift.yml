@@ -1,0 +1,32 @@
+name: Stage14-4dn zero-mode conditional uplift
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4dn/**'
+      - 'stages/stage14/data/14-4/zero_mode_conditional_uplift_summary.json'
+      - 'stages/stage14/scripts/14-4/zero_mode_conditional_uplift_audit.py'
+      - '.github/workflows/stage14-4dn-zero-mode-conditional-uplift.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m py_compile stages/stage14/scripts/14-4/zero_mode_conditional_uplift_audit.py
+      - run: python stages/stage14/scripts/14-4/zero_mode_conditional_uplift_audit.py
+      - name: Lock boundary
+        run: |
+          f=stages/stage14/14-4dn/result.md
+          grep -q 'STAGE14_4DN=COMPLETE_ZERO_MODE_COFACTOR_COVARIANCE_CONDITIONAL_UPLIFT_REDUCTION' "$f"
+          grep -q 'ZERO_MODE_COVARIANCE_TWO_SLICE_IDENTITY_PROVED=true' "$f"
+          grep -q 'ZERO_MODE_POSITIVE_OBSTRUCTION_EQUALS_POSITIVE_CONDITIONAL_UPLIFT=true' "$f"
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -q 'NEXT_H_NEEDED=false' "$f"
+      - run: git diff --check origin/main...HEAD
