@@ -1,0 +1,55 @@
+name: Stage14-s7-65 primitive slope witness decomposition
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-65/**'
+      - 'stages/stage14/scripts/14-s7-65/**'
+      - '.github/workflows/stage14-s7-65-primitive-slope-witness-decomposition.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Stage14-s7-65 deterministic audit
+        run: python stages/stage14/scripts/14-s7-65/primitive_slope_witness_decomposition_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s7-65/primitive_slope_witness_decomposition_audit.py
+
+      - name: Regress merged 4dy
+        run: python stages/stage14/scripts/14-4/primitive_slope_principal_density_audit.py
+
+      - name: Regress merged s7-64
+        run: python stages/stage14/scripts/14-s7-64/primitive_slope_acceptance_audit.py
+
+      - name: Regress merged s7-60
+        run: python stages/stage14/scripts/14-s7-60/single_prime_allocation_influence_audit.py
+
+      - name: Lock theorem boundary
+        run: |
+          f=stages/stage14/14-s7-65/result.md
+          grep -Fq 'STAGE14_S7_65=COMPLETE_PRIMITIVE_SLOPE_PHYSICAL_WITNESS_DECOMPOSITION_AND_COPRIME_BINARY_FORM_CONTRACTION' "$f"
+          grep -Fq 'MERGED_4DY_IMPORTED=true' "$f"
+          grep -Fq 'PRIMITIVE_BINARY_FORM_CORE_GCD_ONE=true' "$f"
+          grep -Fq 'CROSS_SIGN_ALLOCATION_COMPONENT_DISCHARGED=true' "$f"
+          grep -Fq 'RECIPROCAL_COMPLETION_IS_BOOLEAN_ON_BALANCED_ALLOCATION_WITNESS=true' "$f"
+          grep -Fq 'JOINT_BALANCED_RECIPROCAL_SELECTOR_REMAINS=true' "$f"
+          grep -Fq 'FIXED_POWER_ACCEPTANCE_DENSITY_DEFICIT_PROVED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'S7_65_NEW_AUXILIARY_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT=Stage14-s7-66' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
