@@ -1,0 +1,25 @@
+name: Stage14-t-batch t125-t128 th29 projective hyperbola
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t125/**'
+      - 'stages/stage14/14-t126/**'
+      - 'stages/stage14/14-t127/**'
+      - 'stages/stage14/14-tH29/**'
+      - 'stages/stage14/14-t128/**'
+      - 'stages/stage14/14-t-batch-t125-128-th29/**'
+      - '.github/workflows/stage14-t-batch-t125-128-th29.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run t125-t128+tH29 audit
+        run: python stages/stage14/14-t-batch-t125-128-th29/audit.py
+      - name: Regress merged t124 boundary discharge
+        run: python stages/stage14/14-t-batch-t124/audit.py
