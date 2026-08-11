@@ -1,0 +1,74 @@
+name: Stage14-Work-bnX26 correlation obstruction pivot
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bnX26/**'
+      - 'stages/stage14/scripts/14-Work-bnX26/**'
+      - 'docs/stage14-toolbox/work-bnX26-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-bnX26-correlation-obstruction-pivot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bnX26 audit
+        run: python stages/stage14/scripts/14-Work-bnX26/correlation_obstruction_pivot_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bnX26/correlation_obstruction_pivot_audit.py
+
+      - name: Regress merged Work-bmX25
+        run: python stages/stage14/scripts/14-Work-bmX25/projected_norm_form_h_gate_audit.py
+
+      - name: Regress merged mainline 4eb..4ef batch
+        run: python stages/stage14/scripts/14-4/batch_4eb_4ef_allocation_root_gates_audit.py
+
+      - name: Regress merged sH71
+        run: python stages/stage14/scripts/14-sH71/canonical_allocation_gaussian_root_density_audit.py
+
+      - name: Regress merged s7-72..74 batch
+        run: python stages/stage14/scripts/14-s-batch/s7_72_74_common_core_stratification_audit.py
+
+      - name: Regress merged tH28
+        run: python stages/stage14/scripts/14-tH28/projected_support_audit.py
+
+      - name: Regress merged t109..111 batch
+        run: python stages/stage14/14-t-batch-t109-111/audit.py
+
+      - name: Lock integrated theorem boundary
+        run: |
+          f=stages/stage14/14-Work-bnX26/result.md
+          grep -Fq 'STAGE14_WORK_BNX26=COMPLETE_DUAL_NEGATIVE_H_INTERSECTION_AND_CORRELATION_ONLY_RECEIVER_PIVOT' "$f"
+          grep -Fq 'PROJECTED_NORM_FORM_THEOREM_INTERSECTION_AT_CURRENT_MASK_LEVEL=EMPTY' "$f"
+          grep -Fq 'COMMON_CORRELATION_ONLY_OBSTRUCTION_LANGUAGE_PROVED=true' "$f"
+          grep -Fq 'ALL_SURVIVING_POLYNOMIAL_SCALE_OBSTRUCTIONS_REQUIRE_PHYSICAL_CORRELATION=true' "$f"
+          grep -Fq 'MAINLINE_H_NEEDED=true' "$f"
+          grep -Fq 'MAINLINE_H_TARGET=CanonicalBalancedIntegerGaussianThreeDivisorCorrelationDensity' "$f"
+          grep -Fq 'S_ROUTE_H_NEEDED=false' "$f"
+          grep -Fq 'FIXED_U_H_NEEDED=false' "$f"
+          grep -Fq 'TH29_NEEDED=false' "$f"
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' "$f"
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' "$f"
+
+      - name: Lock receiver matrix
+        run: |
+          f=docs/stage14-toolbox/work-bnX26-receiver-matrix.md
+          grep -Fq 'CanonicalBalancedIntegerGaussianThreeDivisorCorrelationDensity' "$f"
+          grep -Fq 'PolynomialCommonCoreCanonicalAllocationCenteredGaussianRootDiscrepancy' "$f"
+          grep -Fq 'SharedUPrimitiveGaussianCofactorPhysicalCoreSelectedProjectivePrimeClassCorrelation' "$f"
+          grep -Fq 'COMMON_ADAPTER_PROVED=false' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
