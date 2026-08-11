@@ -4,11 +4,13 @@
 
 `COMPLETE_DIFFUSE_COMMON_CORE_NORM_DIVISOR_GRAPH_TO_NORM_FACTOR_CORRELATION`
 
-Consumes merged `Stage14-4ek`, merged `Stage14-s7-74`, merged `Stage14-Work-bnX26`, and batch-local `Stage14-4el..4eo`. No positive conclusion from the new 4eo auxiliary target is consumed.
+Consumes merged `Stage14-4ek`, merged `Stage14-s7-74`, newly merged `Stage14-s7-75..77`, merged `Stage14-Work-bnX26`, and corrected batch-local `Stage14-4el..4eo`. No positive conclusion from the new 4eo auxiliary target is consumed.
 
 ```text
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+HEAVY_RAY_BRANCH_UNCHANGED=true
+MOVER_H_RESULT_CONSUMED=false
 ```
 
 ## 1. Diffuse branch still has exponent-zero accepted incidence
@@ -19,13 +21,13 @@ Fix a polynomial common-core exponent cell
 C=B^(kappa+o(1)), kappa>0.
 ```
 
-Merged s7-73/74 and 4eh show that the root-line principal mass is at most `B^(-kappa+o(1))` of the candidate background. Therefore an exponent-zero positive centered discrepancy on the diffuse branch forces exponent-zero actual accepted incidence mass after the principal term is removed.
+Merged s7-73/74 and 4eh show that the root-line principal mass is `B^(-kappa+o(1))` relative to the candidate background. Therefore exponent-zero positive centered discrepancy on the diffuse branch forces exponent-zero actual accepted incidence mass after the principal term is removed.
 
 For every accepted candidate,
 
 ```text
-N := X0^2+Y0^2,
-C | N,
+N:=X0^2+Y0^2,
+C|N,
 N=C*m,
 m in Z_{>0}.
 ```
@@ -34,47 +36,42 @@ m in Z_{>0}.
 DIFFUSE_CENTERED_SATURATION_FORCES_EXPONENT_ZERO_ACCEPTED_NORM_DIVISOR_INCIDENCE=true
 ```
 
-## 2. The variable modulus has only divisor-many degree over one norm value
+## 2. Variable modulus has only divisor-many degree over one norm value
 
-For each positive integer `N`, the number of possible divisors `C|N` is
+For each positive integer `N`,
 
 ```text
-tau(N)=B^o(1)
+# {C:C|N} = tau(N)=B^o(1)
 ```
 
-on every Stage14 polynomial height range. The number of primitive representations
+on the Stage14 polynomial height range. Primitive representations
 
 ```text
 N=X^2+Y^2,
 gcd(X,Y)=1
 ```
 
-is also `B^o(1)` (bounded by the ordinary sum-of-two-squares representation divisor function). The already-merged reverse reciprocal / allocation reconstruction above one primitive candidate contributes only another `B^o(1)` factor.
+also have `B^o(1)` multiplicity, and reverse reciprocal/allocation reconstruction above one primitive candidate has another `B^o(1)` charged-once fiber.
 
-Hence the projection
+Hence
 
 ```text
 accepted candidate z -> N=X0(z)^2+Y0(z)^2
 ```
 
-has `B^o(1)` fiber multiplicity on the charged-once physical packet.
+has `B^o(1)` fiber multiplicity.
 
 ```text
 ACCEPTED_NORM_VALUE_PROJECTION_FIBER=Bo1
 VARIABLE_COMMON_CORE_DIVISOR_MULTIPLICITY=Bo1
 PRIMITIVE_TWO_SQUARE_REPRESENTATION_MULTIPLICITY=Bo1
-```
-
-Therefore the diffuse exact-modulus support cannot obtain a new power merely from having many possible divisors of one norm value. If polynomially many exact `C` values are genuinely needed, polynomially many physical norm values (up to `B^o(1)` fibers) are needed as well.
-
-```text
 DIFFUSE_C_SUPPORT_IMPLIES_DIFFUSE_NORM_VALUE_SUPPORT_UP_TO_BO1=true
 DIVISOR_MULTIPLICITY_RECHARGE_ALLOWED=false
 ```
 
 ## 3. Exact norm-factor receiver
 
-The diffuse branch is exponent-equivalent to the physical support of tuples
+The diffuse branch is exponent-equivalent to physical tuples
 
 ```text
 N=X0^2+Y0^2=C*m,
@@ -83,21 +80,19 @@ gcd(X0,Y0)=1,
 gcd(C,X0Y0)=1,
 ```
 
-where `C` is the common-core factor selected by the same canonical allocation / reciprocal witness and is diffuse across a polynomial family of values.
+where `C` is selected by the same canonical allocation / reciprocal witness and ranges diffusely over a polynomial family.
 
-Freeze also the quotient scale
+Freeze the quotient scale
 
 ```text
 m=B^(lambda+o(1)), lambda>=0
 ```
 
-at `B^o(1)` dyadic cost. The remaining object is
+at `B^o(1)` dyadic cost. The receiver becomes
 
 ```text
-DiffuseCanonicalAllocationPrimitiveGaussianNormFactorCorrelation
+DiffuseCanonicalAllocationPrimitiveGaussianNormFactorCorrelation.
 ```
-
-rather than an arbitrary variable-modulus root graph.
 
 ```text
 DIFFUSE_NORM_DIVISOR_GRAPH_REWRITTEN_AS_NORM_FACTOR_EQUATION=true
@@ -105,11 +100,11 @@ QUOTIENT_SCALE_LAMBDA_CAN_BE_FROZEN=true
 COMMON_CORE_AND_QUOTIENT_INDEPENDENCE_ASSUMED=false
 ```
 
-## 4. What this does and does not buy
+## 4. No new saving is created by the reparameterization
 
-The identity `N=C*m` is only a reparameterization. Generic divisor existence, Gaussian splitting, primitive two-square representation count, and finite candidate fibers are already charged and provide no fixed-power loss.
+The identity `N=C*m` is only a re-expression. Generic divisor existence, Gaussian splitting, primitive two-square representation multiplicity, and finite candidate fibers are already charged.
 
-The surviving arithmetic issue is the **correlation** between
+The surviving issue is the correlation among
 
 ```text
 canonical physical allocation background,
@@ -119,32 +114,42 @@ complementary quotient m,
 full reciprocal/range/chart masks.
 ```
 
-This agrees with merged Work-bnX26's correlation-only obstruction principle.
+No diffuse H is opened yet. The next internal split should distinguish
 
-No new diffuse-branch H is opened yet. Before theorem audit, the quotient exponent `lambda` should be split into near-full-common-core (`m=B^o(1)`) and genuinely two-polynomial-factor regimes and the corresponding physical coefficient system frozen.
+```text
+m=B^o(1)
+```
+
+from a genuinely polynomial quotient scale and freeze the corresponding physical coefficient system.
 
 ```text
 NEW_DIFFUSE_H_NEEDED=false
 PREFERRED_NEXT_INTERNAL_REDUCTION=CommonCoreQuotientScaleSplitOfDiffusePrimitiveGaussianNormFactorCorrelation
 ```
 
-## Batch boundary
+## Current four surviving mechanisms
 
-After five substantive stages, the current arithmetic survivors are
+After publication recheck against merged s7-75..77, the complete current arithmetic survivor list is
 
 ```text
 LOW COMMON CORE:
   CanonicalBalancedIntegerGaussianThreeDivisorCorrelationDensity
-  (existing mainline H target)
+  -> existing mainline allocation H target
 
-POLYNOMIAL COMMON CORE / CONCENTRATED EXACT C:
+POLYNOMIAL COMMON CORE / CONCENTRATED HEAVY RAY:
+  ConcentratedExactCommonCoreHeavyPrimitiveReciprocalRayIncidence
+  -> internal reverse-multiplicity audit remains
+
+POLYNOMIAL COMMON CORE / CONCENTRATED GENUINE MOVER:
   FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion
-  (new 4eo auxiliary H target)
+  -> new 4eo mover-only auxiliary H target
 
 POLYNOMIAL COMMON CORE / DIFFUSE C:
   DiffuseCanonicalAllocationPrimitiveGaussianNormFactorCorrelation
-  (continue internally by quotient-scale split)
+  -> internal quotient-scale split remains
 ```
+
+The mover H target does not cover or consume the heavy-ray branch.
 
 ## Boundary
 
@@ -155,6 +160,8 @@ ACCEPTED_NORM_VALUE_PROJECTION_FIBER=Bo1
 DIFFUSE_C_SUPPORT_IMPLIES_DIFFUSE_NORM_VALUE_SUPPORT_UP_TO_BO1=true
 DIFFUSE_NORM_DIVISOR_GRAPH_REWRITTEN_AS_NORM_FACTOR_EQUATION=true
 QUOTIENT_SCALE_LAMBDA_CAN_BE_FROZEN=true
+HEAVY_RAY_BRANCH_UNCHANGED=true
+MOVER_H_RESULT_CONSUMED=false
 NEW_DIFFUSE_H_NEEDED=false
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
