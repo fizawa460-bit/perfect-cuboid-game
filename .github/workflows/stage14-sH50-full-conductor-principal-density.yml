@@ -1,0 +1,92 @@
+name: Stage14-sH50 frozen full-conductor principal-density audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-sH50/**'
+      - 'stages/stage14/scripts/14-sH50/**'
+      - '.github/workflows/stage14-sH50-full-conductor-principal-density.yml'
+      - 'stages/stage14/14-s7-50/**'
+      - 'stages/stage14/H-PROTOCOL*'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SOURCE_SHA: fb866754667bbbed3b7592cdaa7eec47fc6fa8c8
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Verify immutable source snapshot exists
+        run: git cat-file -e "${SOURCE_SHA}^{commit}"
+
+      - name: Verify frozen s7-50 target directly
+        run: |
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-50/sh50-target.md" | grep -Fq 'H_STAGE=Stage14-sH50'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-50/sh50-target.md" | grep -Fq 'TARGET_FREEZES_AT_DISPATCH=true'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-50/sh50-target.md" | grep -Fq 'SquareRootQuarterFullConductorPrimitivePythagoreanThreeProjectionPhysicalPrincipalDensityAndInverseFractionCovariancePowerSaving'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-50/result.md" | grep -Fq 'FULL_CONDUCTOR_ENDPOINT_PROVED=true'
+          git show "${SOURCE_SHA}:stages/stage14/14-s7-50/result.md" | grep -Fq 'OSCILLATORY_ERROR_SAVING_ALONE_SUFFICIENT=false'
+
+      - name: Stage14-sH50 deterministic audit
+        run: python stages/stage14/scripts/14-sH50/full_conductor_principal_density_audit.py
+
+      - name: Compile Stage14-sH50 audit
+        run: python -m py_compile stages/stage14/scripts/14-sH50/full_conductor_principal_density_audit.py
+
+      - name: Regress frozen s7-50 arithmetic
+        run: python stages/stage14/scripts/14-s7-50/full_conductor_endpoint_audit.py >/dev/null
+
+      - name: H protocol locks
+        run: |
+          grep -Fq 'ONE H REQUEST = ONE IMMUTABLE SOURCE SNAPSHOT = ONE AUDIT RESULT' stages/stage14/H-PROTOCOL.md
+          grep -Fq 'H_TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'RUNNING_H_CHASES_LATER_PARENT_STAGES=false' stages/stage14/H-PROTOCOL.lock
+          grep -Fq 'COMPLETED_H_MERGES_AS_SCOPED_SNAPSHOT_RESULT=true' stages/stage14/H-PROTOCOL.lock
+
+      - name: Lock sH50 theorem boundary
+        run: |
+          f=stages/stage14/14-sH50/result.md
+          grep -Fq 'STAGE14_SH50=COMPLETE_S7_50_SNAPSHOT_FULL_CONDUCTOR_PRINCIPAL_DENSITY_AND_INVERSE_FRACTION_APPLICABILITY_AUDIT' "$f"
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=fb866754667bbbed3b7592cdaa7eec47fc6fa8c8' "$f"
+          grep -Fq 'FULL_CONDUCTOR_ENDPOINT_USED=true' "$f"
+          grep -Fq 'OFF_THE_SHELF_THEOREM_APPLICABLE=false' "$f"
+          grep -Fq 'OSCILLATORY_ERROR_POWER_SAVING_CERTIFIED=false' "$f"
+          grep -Fq 'PRINCIPAL_DENSITY_FIXED_POWER_LOSS_CERTIFIED=false' "$f"
+          grep -Fq 'MAIN_TERM_SCALE_SIGNED_ANTICORRELATION_CERTIFIED=false' "$f"
+          grep -Fq 'X15_ALL_COVARIANCE_TERMS_CONTROLLED=false' "$f"
+          grep -Fq 'FIXED_POWER_SAVING_PROVED=false' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'S_ROUTE_BLOCKED_WAITING_FOR_H=false' "$f"
+          grep -Fq 'NEXT_H_NEEDED=false' "$f"
+          grep -Fq 'NEXT_S_ROUTE=Stage14-s7-51' "$f"
+
+      - name: Literature matrix locks
+        run: |
+          f=stages/stage14/14-sH50/literature.md
+          grep -Fq 'arXiv:2601.00292' "$f"
+          grep -Fq 'arXiv:2607.24311' "$f"
+          grep -Fq 'arXiv:2511.07550' "$f"
+          grep -Fq 'arXiv:2204.05038' "$f"
+          grep -Fq 'arXiv:2604.25177' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+
+      - name: Boundary file locks
+        run: |
+          f=stages/stage14/14-sH50/BOUNDARY.txt
+          grep -Fq 'SOURCE_SNAPSHOT_SHA=fb866754667bbbed3b7592cdaa7eec47fc6fa8c8' "$f"
+          grep -Fq 'CERTIFIED_B_POWER_SAVING_EXPONENT=0' "$f"
+          grep -Fq 'PREFERRED_RECEIVER=FullConductorPrimitiveQuarterPythagoreanThreeProjectionConditionalPrincipalDensityAndSignedCovarianceCorrelation' "$f"
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
