@@ -1,0 +1,53 @@
+name: Stage14-main-batch 4fn-4fp outer physical support
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4fn/**'
+      - 'stages/stage14/14-4fo/**'
+      - 'stages/stage14/14-4fp/**'
+      - 'stages/stage14/14-4-batch/4fn-4fp-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4fn_4fp_outer_physical_support_audit.py'
+      - '.github/workflows/stage14-main-batch-4fn-4fp-outer-physical-support.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4fn_4fp_outer_physical_support_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4fn_4fp_outer_physical_support_audit.py
+
+      - name: Previous mainline regression
+        run: python stages/stage14/scripts/14-4/batch_4fk_4fm_physical_weight_opening_audit.py
+
+      - name: Work-btX32 regression
+        run: python stages/stage14/scripts/14-Work-btX32/weight_location_adapter_audit.py
+
+      - name: s7-93-95 regression
+        run: python stages/stage14/scripts/14-s-batch/s7_93_95_weighted_unitary_divisor_audit.py
+
+      - name: Lock receiver boundary
+        run: |
+          grep -Fq 'FIXED_E_WEIGHTED_INCIDENCE_OUTER_SUPPORT_EXPONENT_EQUIVALENT=true' stages/stage14/14-4fn/result.md
+          grep -Fq 'POLYNOMIAL_E_WEIGHTED_INCIDENCE_OUTER_PAIR_SUPPORT_EXPONENT_EQUIVALENT=true' stages/stage14/14-4fo/result.md
+          grep -Fq 'PHYSICAL_WEIGHT_OUTERIZED_AT_SUPPORT_LEVEL=true' stages/stage14/14-4fp/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-4fp/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-4-batch/4fn-4fp-report.md
+          grep -Fq 'NEXT=Stage14-4fq' stages/stage14/14-4fp/result.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
