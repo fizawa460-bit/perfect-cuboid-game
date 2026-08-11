@@ -1,143 +1,156 @@
-# Stage14-4el — diagonal/proportional removal in the concentrated projective-collision branch
+# Stage14-4el — integrate merged s7-75..77 heavy-ray / genuine-mover split
 
 ## Status
 
-`COMPLETE_CONCENTRATED_PROJECTIVE_COLLISION_DIAGONAL_PROPORTIONAL_REMOVAL`
+`COMPLETE_MERGED_S7_75_77_HEAVY_RAY_OR_GENUINE_MOVER_MAINLINE_INTEGRATION`
 
-Consumes merged `Stage14-4ek`, merged `Stage14-4ef`, merged `Stage14-Work-bnX26`, and latest main `c6c4136d21bc75bd14a92156d774c680feaa63bb`.
+Consumes merged `Stage14-4ek`, merged `Stage14-Work-bnX26`, and newly merged `Stage14-s7-75..77` on publication main `b41566868a201b220ef432528b0bcc01198e92ff`.
 
 ```text
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
 ```
 
-## 1. Fixed exact-modulus energy
+## 1. Diagonal collisions are discharged
 
-On the concentrated branch freeze one exact polynomial common-core modulus `C` with only `B^o(1)` loss. Use the merged 4ek notation
-
-```text
-M_C = sum_z w(z),
-E_C = (1/phi(C)) sum_{chi!=1}|A_C(chi)|^2,
-```
-
-where the charged-once physical candidate weights satisfy
+For one concentrated exact polynomial common-core modulus `C`, merged 4ek gives the character/projective-collision energy. Merged s7-75 makes the unit-incidence normalization explicit and proves that a square-root-saturating exact-`C` cell has
 
 ```text
-0 <= w(z) <= B^o(1).
+M_C=B^(mu+o(1)), mu>0,
+K_off(C)=M_C^2 B^(-o(1)),
 ```
 
-Merged 4ek gives exactly
+while the literal diagonal contributes only
 
 ```text
-E_C
- = sum_{z1,z2} w(z1)w(z2)
-     1_{C | X1*Y2-X2*Y1}
-   - M_C^2/phi(C).
+K_diag(C)=M_C B^o(1).
 ```
 
-On an exponent-zero centered-discrepancy subfamily,
+Therefore diagonal self-pairs are fixed-power too small.
 
 ```text
-|D_C| = M_C B^(-o(1)),
-|D_C|^2 <= B^o(1) E_C,
+MERGED_S7_75_CONSUMED=true
+DIAGONAL_COLLISIONS_CANNOT_SUPPORT_CONCENTRATED_SATURATION=true
 ```
 
-so
+## 2. Zero determinant is a repeated primitive ray, not a finite global fiber
+
+Merged s7-76 defines
 
 ```text
-E_C >= M_C^2 B^(-o(1)).
+Delta(z1,z2)=X1*Y2-X2*Y1
 ```
 
-Because a concentrated exact modulus carries polynomial physical mass on a square-root-saturating sequence,
+and proves the exact decomposition
 
 ```text
-M_C = B^(mu+o(1))
+K_off(C)=K_ray(C)+K_mov(C),
 ```
 
-for some fixed `mu>0` after a further exponent cell is frozen. A `B^o(1)`-mass exact modulus cannot by itself carry the polynomial branch mass.
+where
 
 ```text
-CONCENTRATED_SATURATING_EXACT_MODULUS_HAS_POLYNOMIAL_CANDIDATE_MASS=true
+K_ray(C): Delta=0,
+K_mov(C): Delta=kC, k!=0.
 ```
 
-## 2. Diagonal mass is too small
-
-The literal diagonal contribution is
+Because every candidate vector is primitive, `Delta=0` means the same primitive projective ray up to the frozen finite sign/unit convention. However this does **not** imply a `B^o(1)` global reverse fiber: polynomially many distinct canonical physical backgrounds may produce the same primitive reciprocal ray.
 
 ```text
-Diag_C = sum_z w(z)^2 <= B^o(1) M_C.
+MERGED_S7_76_CONSUMED=true
+ZERO_DETERMINANT_COLLISION_IFF_SAME_PRIMITIVE_PROJECTIVE_RAY=true
+GLOBAL_PRIMITIVE_RAY_MULTIPLICITY_BOUND=UNPROVED
+REPEATED_RAY_RECHARGED_AS_FINITE_FIBER=false
 ```
 
-Hence
+This supersedes the earlier batch-local attempt to discard all proportional collisions by per-candidate finite-fiber bookkeeping.
+
+## 3. Quantitative heavy-ray / genuine-mover dichotomy
+
+For primitive ray multiplicities `m_C(r)`, merged s7-77 gives
 
 ```text
-Diag_C = o_power(M_C^2)
+M_C=sum_r m_C(r),
+K_ray(C)=sum_r m_C(r)(m_C(r)-1)
+       <= m_max(C) M_C.
 ```
 
-on every polynomial-mass concentrated cell.
+Since
 
 ```text
-DIAGONAL_COLLISION_MASS_AT_MOST_M_C_BO1=true
-DIAGONAL_COLLISIONS_CANNOT_SUPPORT_EXPONENT_ZERO_ENERGY=true
+K_ray(C)+K_mov(C)=M_C^2 B^(-o(1)),
 ```
 
-## 3. Exact rational proportional pairs are also finite-fiber
+one of two mechanisms must carry exponent-zero pair mass.
 
-All live primitive reciprocal vectors satisfy
+### Heavy-ray branch
+
+If repeated-ray energy is exponent-zero, then
 
 ```text
-gcd(X0,Y0)=1
+m_max(C)=M_C B^(-o(1)).
 ```
 
-and the sign/unit convention is already frozen. If
+Thus one fixed growing `C` and one primitive reciprocal ray are produced by an exponent-zero fraction of the physical backgrounds.
+
+Receiver:
 
 ```text
-X1*Y2-X2*Y1 = 0,
+ConcentratedExactCommonCoreHeavyPrimitiveReciprocalRayIncidence.
 ```
 
-then the two primitive vectors are the same canonical projective vector. The reverse reciprocal / allocation decorations above one fixed primitive vector have only `B^o(1)` charged-once multiplicity by the merged finite-fiber reductions.
+### Genuine-mover branch
 
-Therefore the complete rationally proportional pair mass is bounded by
+Otherwise
 
 ```text
-Prop_C <= B^o(1) M_C.
+K_mov(C)=M_C^2 B^(-o(1))
 ```
 
-and likewise cannot support `E_C >= M_C^2 B^(-o(1))`.
+on pairs of distinct primitive rays satisfying
 
 ```text
-RATIONAL_PROPORTIONAL_COLLISION_FIBER=Bo1
-PROPORTIONAL_COLLISIONS_CANNOT_SUPPORT_EXPONENT_ZERO_ENERGY=true
+X1*Y2-X2*Y1=kC,
+k!=0.
 ```
 
-## 4. Genuine off-diagonal collision forced
-
-Remove the diagonal and exact-proportional pairs. A saturating concentrated modulus must retain exponent-zero pair mass on
+Receiver:
 
 ```text
-C | Delta,
-Delta := X1*Y2-X2*Y1 != 0.
+ConcentratedExactCommonCoreGenuineProjectiveDeterminantMoverEnergy.
 ```
-
-Thus the concentrated polynomial-core obstruction contracts to genuine nonzero determinant collisions.
 
 ```text
-CONCENTRATED_SATURATION_FORCES_GENUINE_OFF_DIAGONAL_PROJECTIVE_COLLISIONS=true
-NONZERO_DETERMINANT_COLLISION_MASS_EXPONENT_ZERO=true
-FRESH_DETERMINANT_SAVING_PROVED=false
+MERGED_S7_77_CONSUMED=true
+HEAVY_PRIMITIVE_RAY_SURVIVOR_RETAINED=true
+GENUINE_DETERMINANT_MOVER_SURVIVOR_RETAINED=true
+LARGE_REPEATED_RAY_ENERGY_FORCES_HEAVY_PRIMITIVE_RAY=true
+NON_HEAVY_RAY_SATURATION_FORCES_GENUINE_MOVER_ENERGY=true
 ```
 
-This is a contraction only; `C` is still the same root modulus and cannot be recharged as an independent spacing modulus.
+## 4. Mainline routing
+
+Stage14-4em will work **only on the genuine-mover branch**, determining the physical scale and fiber structure of
+
+```text
+k=(X1Y2-X2Y1)/C.
+```
+
+The heavy-ray branch remains live and requires a later reverse-incidence audit from fixed `(C, primitive ray)` back to canonical allocation slopes/witnesses. It is not consumed or bounded away by 4em.
+
+The diffuse exact-modulus branch from 4ek also remains independent.
 
 ## Boundary
 
 ```text
-STAGE14_4EL=COMPLETE_CONCENTRATED_PROJECTIVE_COLLISION_DIAGONAL_PROPORTIONAL_REMOVAL
-DIAGONAL_COLLISIONS_CANNOT_SUPPORT_EXPONENT_ZERO_ENERGY=true
-PROPORTIONAL_COLLISIONS_CANNOT_SUPPORT_EXPONENT_ZERO_ENERGY=true
-CONCENTRATED_SATURATION_FORCES_GENUINE_OFF_DIAGONAL_PROJECTIVE_COLLISIONS=true
-NONZERO_DETERMINANT_COLLISION_MASS_EXPONENT_ZERO=true
-FRESH_DETERMINANT_SAVING_PROVED=false
+STAGE14_4EL=COMPLETE_MERGED_S7_75_77_HEAVY_RAY_OR_GENUINE_MOVER_MAINLINE_INTEGRATION
+MERGED_S7_75_77_CONSUMED=true
+DIAGONAL_COLLISIONS_CANNOT_SUPPORT_CONCENTRATED_SATURATION=true
+GLOBAL_PRIMITIVE_RAY_MULTIPLICITY_BOUND=UNPROVED
+HEAVY_PRIMITIVE_RAY_SURVIVOR_RETAINED=true
+GENUINE_DETERMINANT_MOVER_SURVIVOR_RETAINED=true
+LARGE_REPEATED_RAY_ENERGY_FORCES_HEAVY_PRIMITIVE_RAY=true
+NON_HEAVY_RAY_SATURATION_FORCES_GENUINE_MOVER_ENERGY=true
 NEW_RECIPROCAL_H_NEEDED=false
 NEXT_H_NEEDED=false
 NEXT=Stage14-4em
