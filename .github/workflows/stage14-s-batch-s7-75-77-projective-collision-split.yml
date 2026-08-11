@@ -1,0 +1,53 @@
+name: Stage14-s-batch s7-75..77 projective collision split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-75/**'
+      - 'stages/stage14/14-s7-76/**'
+      - 'stages/stage14/14-s7-77/**'
+      - 'stages/stage14/14-s-batch/s7-75-77-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_75_77_projective_collision_split_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-75-77-projective-collision-split.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_75_77_projective_collision_split_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_75_77_projective_collision_split_audit.py
+
+      - name: Regress merged s7-72..74
+        run: python stages/stage14/scripts/14-s-batch/s7_72_74_common_core_stratification_audit.py
+
+      - name: Regress merged mainline 4eg..4ek
+        run: python stages/stage14/scripts/14-4/batch_4eg_4ek_root_discrepancy_audit.py
+
+      - name: Regress merged Work-bnX26
+        run: python stages/stage14/scripts/14-Work-bnX26/correlation_obstruction_pivot_audit.py
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'DIAGONAL_COLLISIONS_CANNOT_SUPPORT_CONCENTRATED_SATURATION=true' stages/stage14/14-s7-75/result.md
+          grep -Fq 'OFFDIAGONAL_COLLISION_RAY_MOVER_DECOMPOSITION_EXACT=true' stages/stage14/14-s7-76/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-s7-77/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_STAGE_COUNT=3' stages/stage14/14-s-batch/s7-75-77-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-75-77-report.md
+          grep -Fq 'NEXT=Stage14-s7-78' stages/stage14/14-s-batch/s7-75-77-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
