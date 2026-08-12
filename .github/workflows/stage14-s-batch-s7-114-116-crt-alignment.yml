@@ -1,0 +1,55 @@
+name: Stage14-s-batch s7-114..116 CRT alignment
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-114/**'
+      - 'stages/stage14/14-s7-115/**'
+      - 'stages/stage14/14-s7-116/**'
+      - 'stages/stage14/14-s-batch/s7-114-116-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_114_116_crt_alignment_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-114-116-crt-alignment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_114_116_crt_alignment_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_114_116_crt_alignment_audit.py
+
+      - name: Regress merged s7-111..113
+        run: python stages/stage14/scripts/14-s-batch/s7_111_113_completion_boolean_opening_audit.py
+
+      - name: Regress merged mainline 4gc..4ge
+        run: python stages/stage14/scripts/14-4/batch_4gc_4ge_reciprocal_completion_audit.py
+
+      - name: Regress merged Work-bzX38 plus q17
+        run: python stages/stage14/scripts/14-Work-bzX38/completion_support_q17_audit.py
+
+      - name: Lock boundary
+        run: |
+          grep -Fq 'S_FIXED_E_TWO_SIDED_EQUALS_MAIN_FIXED_E_TWO_SIDED_PACKET=true' stages/stage14/14-s7-114/result.md
+          grep -Fq 'S_FIXED_E_TWO_SIDED_DELTA_EXT_EQUALS_DELTA_REC_PLUS_DELTA_POST=true' stages/stage14/14-s7-115/result.md
+          grep -Fq 'S_NONALIGNED_CRT_ADAPTER_PROVED=false' stages/stage14/14-s7-116/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-s7-116/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-114-116-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-114-116-report.md
+          grep -Fq 'S_ROUTE_H_NEEDED=false' stages/stage14/14-s-batch/s7-114-116-report.md
+          grep -Fq 'NEXT=Stage14-s7-117' stages/stage14/14-s-batch/s7-114-116-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
