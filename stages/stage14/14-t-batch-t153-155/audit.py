@@ -12,7 +12,8 @@ t155 = text('stages/stage14/14-t155/result.md')
 th31 = text('stages/stage14/14-tH31/result.md')
 
 assert 'NEXT=Stage14-t153' in t152
-assert 'N(q)=d^2 <= exp(sqrt(log X)/O(1))' in th31
+assert 'N(q) <= exp(sqrt(log X)/O_K(1))' in th31
+assert 'MITSUI_SAFE_LONG_HEADROOM_THEOREM_APPLICABLE=true' in th31
 
 for tok in [
     'LONG_HEADROOM_DYADIC_SHELL_DEFINED=true',
