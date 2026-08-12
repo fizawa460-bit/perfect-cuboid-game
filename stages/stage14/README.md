@@ -2,6 +2,8 @@
 
 Current canonical source: `stages/stage14/main.md`.
 
+Reusable Stage14 tools and audited no-go results are indexed in `docs/stage14-arsenal.md`; use `docs/stage14-arsenal-index.md` for obstruction-shape lookup and `docs/stage14-arsenal-stage15-map.md` for Stage15 promotion guards.
+
 ```text
 STAGE14_4AK=COMPLETE_SPLIT_ROOT_COSET_VOID
 STAGE14_4AL=COMPLETE_COLLECTIVE_ACTIVATION_MEASURE_AND_FINITE_FIRST_HIT_PROFILE
@@ -105,4 +107,3 @@ stages/stage14/data/14-4/character_global_height_transfer_summary.json
 stages/stage14/scripts/14-4/character_global_height_transfer_audit.py
 .github/workflows/stage14-4ap-character-global-height.yml
 ```
-
