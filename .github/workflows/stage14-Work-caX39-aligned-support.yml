@@ -1,0 +1,33 @@
+name: Stage14-Work-caX39 aligned support audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-caX39/**'
+      - 'docs/stage14-toolbox/work-caX39-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-caX39/**'
+      - '.github/workflows/stage14-Work-caX39-aligned-support.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run integrated caX39 audit
+        run: python stages/stage14/scripts/14-Work-caX39/aligned_support_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-caX39/aligned_support_audit.py
+      - name: Regress Work-bzX38
+        run: python stages/stage14/scripts/14-Work-bzX38/completion_support_q17_audit.py
+      - name: Regress main 4gf-4gh
+        run: python stages/stage14/scripts/14-4/batch_4gf_4gh_kfree_reciprocal_first_moment_audit.py
+      - name: Regress s7-114-116
+        run: python stages/stage14/scripts/14-s-batch/s7_114_116_crt_alignment_audit.py
+      - name: Regress t150-152
+        run: python stages/stage14/14-t-batch-t150-152/audit.py
