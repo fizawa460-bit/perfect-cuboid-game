@@ -1,0 +1,47 @@
+name: Stage14-s-batch s7-129..131 second reverse weight
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-129/**'
+      - 'stages/stage14/14-s7-130/**'
+      - 'stages/stage14/14-s7-131/**'
+      - 'stages/stage14/14-s-batch/s7-129-131-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_129_131_second_reverse_weight_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-129-131-second-reverse-weight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_129_131_second_reverse_weight_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_129_131_second_reverse_weight_audit.py
+      - name: Regress merged s7-126..128
+        run: python stages/stage14/scripts/14-s-batch/s7_126_128_filtered_tau3_first_moment_audit.py
+      - name: Lock merged q19 handoff
+        run: |
+          grep -Fq 'Q19_SECOND_REVERSE_EXACT_WEIGHT_ENCODING_TEST' docs/stage14-q19-summary.md
+          grep -Fq 'Q19_SECOND_REVERSE_CORRELATION_SHAPE_TEST' docs/stage14-q19-summary.md
+      - name: Lock merged Work-cdX42 boundary
+        run: |
+          grep -Fq 'RESOLVED_INNER_SUPPORT_ADAPTER_CONSUMPTION_LEMMA_PROVED=true' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'S_ROUTE_H_NEEDED=false' stages/stage14/14-Work-cdX42/result.md
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'Q19_SECOND_REVERSE_EXACT_WEIGHT_ENCODING_TEST=PASS' stages/stage14/14-s7-129/result.md
+          grep -Fq 'SECOND_REVERSE_SUPPORT_FIRST_MOMENT_EQUIVALENCE_PROVED=true' stages/stage14/14-s7-130/result.md
+          grep -Fq 'Q19_SECOND_REVERSE_CORRELATION_SHAPE_TEST=PASS_NEW_STABLE_CORRELATION' stages/stage14/14-s7-131/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-129-131-report.md
+          grep -Fq 'NEXT=Stage14-s7-132' stages/stage14/14-s-batch/s7-129-131-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
