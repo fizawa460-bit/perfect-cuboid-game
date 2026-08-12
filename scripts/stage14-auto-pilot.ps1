@@ -54,7 +54,23 @@ foreach ($pr in ($candidates | Sort-Object number)) {
         throw "PR #$($pr.number) contains a stop marker. Manual review is required: $($pr.url)"
     }
 
-    if ($pr.mergeStateStatus -notin @("CLEAN", "HAS_HOOKS", "UNSTABLE")) {
+    $draftWouldBeReadied = $pr.isDraft -and $WhatIf
+    if ($pr.isDraft -and -not $WhatIf) {
+        gh pr ready $pr.number --repo $Repository | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            throw "Could not mark PR #$($pr.number) ready."
+        }
+
+        $refreshedJson = gh pr view $pr.number --repo $Repository `
+            --json number,title,body,author,isDraft,mergeStateStatus,statusCheckRollup,baseRefName,url
+        if ($LASTEXITCODE -ne 0) {
+            throw "Could not refresh PR #$($pr.number) after marking it ready."
+        }
+        $pr = $refreshedJson | ConvertFrom-Json
+        Write-Log "Marked PR #$($pr.number) ready and refreshed its merge state."
+    }
+
+    if (-not $draftWouldBeReadied -and $pr.mergeStateStatus -notin @("CLEAN", "HAS_HOOKS", "UNSTABLE")) {
         Write-Log "PR #$($pr.number) is not merge-ready (mergeStateStatus=$($pr.mergeStateStatus)); leaving it open."
         continue
     }
@@ -78,13 +94,6 @@ foreach ($pr in ($candidates | Sort-Object number)) {
     if ($WhatIf) {
         Write-Log "WhatIf: PR #$($pr.number) would be marked ready and squash-merged."
         continue
-    }
-
-    if ($pr.isDraft) {
-        gh pr ready $pr.number --repo $Repository | Out-Null
-        if ($LASTEXITCODE -ne 0) {
-            throw "Could not mark PR #$($pr.number) ready."
-        }
     }
 
     gh pr merge $pr.number --repo $Repository --squash --delete-branch
