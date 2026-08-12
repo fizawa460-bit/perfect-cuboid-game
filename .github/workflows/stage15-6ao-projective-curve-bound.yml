@@ -1,0 +1,24 @@
+name: Stage15-6ao projective curve bound
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage15/15-6ao/**'
+      - 'stages/stage15/evidence/stage15_6ao_projective_curve_bound.json'
+      - 'stages/stage15/replay/verify_stage15_6ao.py'
+      - 'stages/stage15/scripts/stage15_6ao_projective_curve_bound.py'
+      - '.github/workflows/stage15-6ao-projective-curve-bound.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage15-6ao projective embedding and theorem adapter
+        run: python stages/stage15/replay/verify_stage15_6ao.py
+      - name: Compile Stage15-6ao utility
+        run: python -m py_compile stages/stage15/scripts/stage15_6ao_projective_curve_bound.py stages/stage15/replay/verify_stage15_6ao.py
