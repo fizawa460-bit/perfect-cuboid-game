@@ -1,0 +1,74 @@
+name: Stage14-Work-ccX41 q18 squareclass reverse audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-ccX41/**'
+      - 'docs/stage14-toolbox/work-ccX41-receiver-matrix.md'
+      - 'docs/stage14-q18-*.md'
+      - 'stages/stage14/scripts/14-Work-ccX41/**'
+      - '.github/workflows/stage14-Work-ccX41-q18-squareclass-reverse.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated ccX41 plus q18 audit
+        run: python stages/stage14/scripts/14-Work-ccX41/squareclass_reverse_q18_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-ccX41/squareclass_reverse_q18_audit.py
+
+      - name: Regress merged Work-cbX40
+        run: python stages/stage14/scripts/14-Work-cbX40/external_gate_isolation_audit.py
+
+      - name: Regress merged main 4ghH
+        run: python stages/stage14/scripts/14-4/batch_4ghH_kfree_quadratic_divisor_root_audit.py
+
+      - name: Regress merged s7-123..125
+        run: python stages/stage14/scripts/14-s-batch/s7_123_125_squareclass_allocation_audit.py
+
+      - name: Regress merged t156..157
+        run: python stages/stage14/14-t-batch-t156-157/audit.py
+
+      - name: Lock merged q17 baseline
+        run: |
+          grep -Fq 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' docs/stage14-q17-summary.md
+          grep -Fq 'RECIPROCAL_CRT_SUPPORT_DIRECT_THEOREM_FOUND=false' docs/stage14-q17-summary.md
+
+      - name: Lock q18 result
+        run: |
+          grep -Fq 'STAGE14_Q18=COMPLETE_FILTERED_TRIPLE_PRODUCT_REVERSE_SUPPORT_LITERATURE_RADAR' docs/stage14-q18-summary.md
+          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q18-summary.md
+          grep -Fq 'Q18_SCALAR_FILTERED_TAU3_ENCODING_TEST' docs/stage14-q18-squareclass-reverse-literature-radar.md
+          grep -Fq 'Q18_POLYNOMIAL_PAIR_FIBERED_SUPPORT_MOMENT_TEST' docs/stage14-q18-squareclass-reverse-literature-radar.md
+
+      - name: Lock integrated XQ boundary
+        run: |
+          grep -Fq 'S_NONALIGNED_THEOREM_SPECIES_COUNT=2' stages/stage14/14-Work-ccX41/result.md
+          grep -Fq 'Q_COMPONENT=COMPLETE' stages/stage14/14-Work-ccX41/result.md
+          grep -Fq 'Q_LEDGER_BASELINE=Stage14-q17' stages/stage14/14-Work-ccX41/result.md
+          grep -Fq 'FIXED_U_H_TARGET=SuperKaiIndividualGaussianResidueLongIntervalPrimeOccupancyLowerRatio' stages/stage14/14-Work-ccX41/result.md
+          grep -Fq 'TH33_NEEDED=true' stages/stage14/14-Work-ccX41/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-ccX41/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-ccX41/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -Fq 'COMMON_HOST_ALGEBRA_DOES_NOT_IDENTIFY_CHARGED_SUPPORT_MEASURE=true' docs/stage14-toolbox/work-ccX41-receiver-matrix.md
+          grep -Fq 'S_POLYNOMIAL_PAIR_SCALAR_HOST_REPLACEMENT_PROVED=false' docs/stage14-toolbox/work-ccX41-receiver-matrix.md
+          grep -Fq 'NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false' docs/stage14-toolbox/work-ccX41-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
