@@ -1,6 +1,8 @@
 # Stage14 final self-contained mathematical review
 
-**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R01`
+**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R02`
+
+**R02 repair boundary.** R02 changes no Stage14 theorem, exponent, receiver, or route status. It repairs the R01 self-containment defect identified by external review by transcribing the already-merged proofs from 4ab, 4ag, 4cx, 4cy, s7-37, s7-40, and X13. No new mathematical bridge is asserted.
 
 **Frozen source snapshot:** `2c7ec9433edbd4f06f298df73cba9e18e164057a` (`main`, 2026-08-12 audit)
 
@@ -180,6 +182,27 @@ E(B)=N_2(B)+3T(B),\qquad E(B)=\frac12\sum_F\deg_B(F).
 
 **Whole-family promotion.** The identity already ranges over all physical incidences with `d<=B`.
 
+**Proof of multiplicity one (4ab, transcribed).** For oriented primitive face data
+`F_i=(S_i,X_i,H_i)`, a common physical edge has scales satisfying
+
+\[
+k_1S_1=k_2S_2.
+\]
+
+Put `g=gcd(S_1,S_2)`, `alpha=S_1/g`, and `beta=S_2/g`. Since `(alpha,beta)=1`, every positive solution is
+
+\[
+k_1=t\beta,\qquad k_2=t\alpha.
+\]
+
+The three physical edges are `t(e_0,x_0,y_0)` with
+
+\[
+e_0=g\alpha\beta,\qquad x_0=\beta X_1,\qquad y_0=\alpha X_2.
+\]
+
+If a prime divided all three minimal edges, then according as it divides `alpha`, `beta`, or only `g`, primitive-face coprimality would force it not to divide respectively `x_0`, `y_0`, or either nonshared edge. Hence `gcd(e_0,x_0,y_0)=1` and therefore `gcd(e,x,y)=t`. Global primitivity forces `t=1`. Each physical Pythagorean triangle has a unique scale-times-primitive-Euclid decomposition with the shared leg distinguished, and `x<y` removes the remaining face swap. Thus one raw shared-edge incidence has exactly one ordered parameter pair. Triple objects still yield three *different* intended shared-edge incidences; that is the coefficient `3T(B)`, not parametrization multiplicity.
+
 ### Lemma 3.2 — uniform elliptic-fiber multiplicity
 
 **Statement.** Uniformly in every active face vertex,
@@ -205,6 +228,21 @@ E(B)\le \tfrac12 V(B)\max_F\deg_B(F)\ll V(B)B^{o(1)}.
 **Loss.** `B^o(1)`, uniform in `F`; no fixed power.
 
 **Whole-family promotion.** Uniformity in the active vertex is essential. This is not a fixed-fiber-to-global extrapolation: the maximum degree is bounded uniformly before summing over all `V(B)` vertices.
+
+**Uniformity proof (4ag, transcribed).** The fiber is
+
+\[
+E_t:Y^2=X(X-1)(X+t^2),
+\]
+
+so `(0,0)` is rational 2-torsion on every specialization. For a physical pair with `d<=B`, `H_1<d` gives polynomial height for the base parameter, while the second-face rational parameter has height `O(B^{1/2})` by the previously proved gluing inequalities. The quartic-to-Weierstrass maps have fixed degree, so elementary Weil-height inequalities bound both the model coefficients and the image point height by `B^{C_0}` for one absolute `C_0`, uniformly in the active face. Dujella's theorem over the fixed field `Q` with prime torsion order `ell=2` therefore gives
+
+\[
+\#\{P\in E_t(\mathbf Q):H(P)\le B^{C_0}\}
+\le \exp\!\left(O\!\left(\frac{\log B}{\log\log B}\right)\right).
+\]
+
+The rational maps have fixed finite degree, and boundary, positivity, integrality, chamber, and third-face conditions only delete points. The constant is independent of the specialization, so taking `max_F` before summing is valid.
 
 ### Proposition 3.3 — complete balanced-packet reduction
 
@@ -243,6 +281,29 @@ The proportional branch has exponent at most `7/16`, and every fixed-power nonpr
 
 **Whole-family promotion.** The strip and branch split cover every decorated physical cell. No fixed-`U` input is invoked.
 
+**Proportional branch proof (s7-37, transcribed).** Write the proportional common scale with same-side and cross-side odd root gcds `K=B^{kappa+o(1)}` and `H=B^{eta+o(1)}`. Exact reducedness gives `(K,H)=1` and `kappa+eta=1/8`. Prime-by-prime Gaussian descent shows `(K,q_xi)=1`; since the common core `C` divides `q_xi`, also `(K,C)=1`. The already proved divisibility `K^2|C u_res` therefore sharpens to `K^2|u_res`. With `u_res<=B^{2theta-2phi+o(1)}`,
+
+\[
+\kappa\le\theta-\phi,\qquad
+\eta\ge\frac18-\theta+\phi.
+\]
+
+The complete fourth-power host count is `E_H<=3phi-1/8-3eta`, hence
+
+\[
+E_H\le 3\theta-\frac12\le\frac7{16}
+\]
+
+because `theta<=5/16`. The `7/16` bound thus comes from `E_H`, not from the unrelated complete host expression `E_s`.
+
+**Nonproportional high-core emptiness (4cx, transcribed).** Let `C_Cayley|C` be the Cayley-good core, `C_res=C/gcd(C,g_star^2)`, and `J=gcd(C_Cayley,C_res)`. Put `A_C=C_Cayley/J`. The Cayley unit equation and invertibility of the quotient product imply `gcd(C_Cayley,MN)=1`. Since the selected cross-root gcd `H_star` divides the Cayley numerator `M`, `(C_Cayley,H_star)=1`. The elementary identity `A/gcd(A,B)|C/B` for `A,B|C` gives
+
+\[
+A_C\mid C/C_{res}=\gcd(C,g_\star^2).
+\]
+
+The exact endpoint-small relation `g_star/H_star^2|Omega_1`, with `Omega_1=B^{o(1)}`, implies `A_C|H_star^4 Omega_1^2`. Coprimality cancels all `H_star`-supported prime powers, so `A_C|Omega_1^2` and `A_C=B^{o(1)}`. The remaining lost core `D=C/J` divides `B^{o(1)}H^2`, while exact endpoint-linear identities give `H^2|h_-` and `H^2|h_+`. If the two nonzero endpoint cofactors have total available size `B^{1/2+o(1)}`, the forced divisor `D_0` of exponent `chi` in their product consumes that support. For `chi>1/4`, the forced square/core divisibility exceeds the nonzero endpoint product cap, so the fixed-power cell is empty. For `chi<=1/4`, division by the already charged lost core leaves exactly `B^{1/4-chi+o(1)}` reduced column support.
+
 ### Lemma 3.4 — column reconstruction and charged support
 
 In the surviving region set
@@ -278,6 +339,8 @@ XY=\frac{M}{4rs\epsilon_x\epsilon_k}.
 **Loss.** `B^o(1)` multiplicity beyond the displayed fixed-power support.
 
 **Whole-family promotion.** It is applied cellwise inside the complete partition of Proposition 3.3; the number of cells is subpolynomial.
+
+**Charged-once audit (4cy and s7-40, transcribed).** The common cross-root gcd satisfies `H|X,Y` and `H|c,d`, hence `H^2|M` and `H^2|N=abcd`. It is coprime to the Cayley-good modulus. One may therefore either divide both Cayley variables by `H^2` without changing that modulus (4cy), or combine `N=N_0(M) mod J` with `N=0 mod H^2` into one class modulo `JH^2` (s7-40). These are the same prime-by-prime fact. They remove `2s` from the later row lift but do not create a second saving: `H` is already the root-gcd variable in the complete host count, and `J` is already part of the once-charged core. This is why the column cost `1/4-chi` and the subsequent divisor fiber may be combined without recharging the lost core.
 
 ### Lemma 3.5 — reverse reciprocal divisor reconstruction
 
