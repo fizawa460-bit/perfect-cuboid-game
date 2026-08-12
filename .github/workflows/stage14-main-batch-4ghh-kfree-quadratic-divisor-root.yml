@@ -1,0 +1,55 @@
+name: Stage14-main-batch 4ghH K-free quadratic divisor root
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4gh/h-target.md'
+      - 'stages/stage14/14-4ghH/**'
+      - 'stages/stage14/14-4-batch/4ghH-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4ghH_kfree_quadratic_divisor_root_audit.py'
+      - '.github/workflows/stage14-main-batch-4ghh-kfree-quadratic-divisor-root.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run 4ghH deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4ghH_kfree_quadratic_divisor_root_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4ghH_kfree_quadratic_divisor_root_audit.py
+
+      - name: Regress merged 4gf-4gh first-moment interface
+        run: python stages/stage14/scripts/14-4/batch_4gf_4gh_kfree_reciprocal_first_moment_audit.py
+
+      - name: Regress merged Work-bzX38 q17 boundary
+        run: python stages/stage14/scripts/14-Work-bzX38/completion_support_q17_audit.py
+
+      - name: Lock H source and unresolved-gate boundary
+        run: |
+          grep -q 'TARGET_FREEZES_AT_DISPATCH=true' stages/stage14/14-4gh/h-target.md
+          grep -q 'EXACT_QUADRATIC_DIVISOR_ROOT_NORMAL_FORM_DERIVED=true' stages/stage14/14-4ghH/result.md
+          grep -q 'MAINLINE_BLOCKED_BY_H=true' stages/stage14/14-4ghH/result.md
+          grep -q 'BATCH_STOP_REASON=unresolved_external_gate' stages/stage14/14-4-batch/4ghH-report.md
+          grep -q 'STAGE14_4GI_EXECUTED=false' stages/stage14/14-4-batch/4ghH-report.md
+
+      - name: Lock common and main batch contracts
+        run: |
+          grep -q 'unresolved_external_gate' docs/stage14-batch-common-contract.md
+          grep -q 'A justified early stop before three' docs/stage14-batch-common-contract.md
+          grep -q 'Stage14-main-batch' docs/stage14-main-batch-task-contract.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
