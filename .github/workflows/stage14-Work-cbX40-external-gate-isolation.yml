@@ -1,0 +1,63 @@
+name: Stage14-Work-cbX40 external gate isolation audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-cbX40/**'
+      - 'docs/stage14-toolbox/work-cbX40-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-cbX40/**'
+      - '.github/workflows/stage14-Work-cbX40-external-gate-isolation.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated cbX40 audit
+        run: python stages/stage14/scripts/14-Work-cbX40/external_gate_isolation_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-cbX40/external_gate_isolation_audit.py
+
+      - name: Regress merged Work-caX39
+        run: python stages/stage14/scripts/14-Work-caX39/aligned_support_audit.py
+
+      - name: Regress merged main 4ghH
+        run: python stages/stage14/scripts/14-4/batch_4ghH_kfree_quadratic_divisor_root_audit.py
+
+      - name: Regress merged s7-117..119
+        run: python stages/stage14/scripts/14-s-batch/s7_117_119_squareclass_reverse_audit.py
+
+      - name: Regress merged t153..155
+        run: python stages/stage14/14-t-batch-t153-155/audit.py
+
+      - name: Lock merged q17 baseline
+        run: |
+          grep -q 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' docs/stage14-q17-summary.md
+          grep -q 'RECIPROCAL_CRT_SUPPORT_DIRECT_THEOREM_FOUND=false' docs/stage14-q17-summary.md
+
+      - name: Lock integrated XQ boundary
+        run: |
+          grep -q 'LOCALIZED_EXTERNAL_GATE_NONPROPAGATION_LEMMA_PROVED=true' stages/stage14/14-Work-cbX40/result.md
+          grep -q 'Q_COMPONENT=NOT_TRIGGERED' stages/stage14/14-Work-cbX40/result.md
+          grep -q 'Q_LEDGER_BASELINE=Stage14-q17' stages/stage14/14-Work-cbX40/result.md
+          grep -q 'MAINLINE_H_TARGET=UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment' stages/stage14/14-Work-cbX40/result.md
+          grep -q 'MAINLINE_BLOCKED_BY_H=true' stages/stage14/14-Work-cbX40/result.md
+          grep -q 'WHOLE_STAGE14_BLOCKED_BY_MAIN_EXTERNAL_GATE=false' stages/stage14/14-Work-cbX40/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-cbX40/result.md
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-cbX40/result.md
+          grep -q 'TH33_NEEDED=false' stages/stage14/14-Work-cbX40/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -q 'S_NONALIGNED_COMMON_SQUARECLASS_REVERSE_WITNESS_KERNEL_PROVED=true' docs/stage14-toolbox/work-cbX40-receiver-matrix.md
+          grep -q 'S_NONALIGNED_SUPPORT_ADAPTER_PROVED=false' docs/stage14-toolbox/work-cbX40-receiver-matrix.md
+          grep -q 'NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false' docs/stage14-toolbox/work-cbX40-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check
