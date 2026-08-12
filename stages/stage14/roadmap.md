@@ -363,6 +363,60 @@ S_ROUTE_MUST_NOT_BE_RESTARTED_BY_USER_GUESS=true
 NO_NEW_S_SPECIFIC_RECEIVER_MEANS_KEEP_S_CLOSED=true
 ```
 
+## S-route final decision lock — s7-162 through s7-164 only
+
+The S route has reached its square-root barrier without a certified strict sub-square-root saving. To prevent receiver renaming or routine XQ reclassification from becoming an unbounded continuation mechanism, the active S route is now under a **final bounded decision batch**.
+
+Only the following stages may be executed under this lock:
+
+```text
+Stage14-s7-162
+Stage14-s7-163
+Stage14-s7-164
+```
+
+They must preserve the full physical packet and test the already isolated reduced-modulus/character receiver. They are not permission to introduce another receiver solely to continue the route. A new external theorem audit or sH unit may occur only when needed to decide the stated gate, must be frozen to its source snapshot, and counts within this three-stage decision budget.
+
+After `Stage14-s7-164`, record exactly one terminal decision:
+
+```text
+S_FINAL_DECISION=CONTINUE|PARKED_EXTERNAL_GATE
+S_FINAL_DECISION_EVIDENCE=<named proved result or named obstruction>
+S_FINAL_DECISION_STAGE=Stage14-s7-164
+```
+
+`CONTINUE` is permitted only if the final batch proves at least one of:
+
+```text
+FULL_PHYSICAL_MAIN_TERM_DOMINANCE_PROVED=true
+VALID_EXISTING_THEOREM_ADAPTER_PROVED=true
+```
+
+A proposed adapter must be a proved uniform, mask-preserving application to the full physical packet; a literature resemblance, an oscillatory-error estimate that leaves the principal density, or a receiver renaming does not qualify.
+
+If neither condition is proved, the mandatory decision is:
+
+```text
+S_FINAL_DECISION=PARKED_EXTERNAL_GATE
+S_ROUTE_CURRENT_STATE=PARKED_EXTERNAL_GATE
+STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+S_ROUTE_NEXT=NONE
+S_ROUTE_RESTART_REQUIRES_NEW_EXACT_STRUCTURE_OR_THEOREM_BRIDGE=true
+```
+
+In that parked state, no `Stage14-s7-165` or later S stage, and no routine XQ/q follow-up, may be created. A later restart requires a material new exact structure or theorem bridge under the existing reactivation rule, with the exact bridge and a fresh target stage surfaced in the roadmap. XQ is reserved for one final **continue-or-park audit** after the `s7-164` decision; it must not run between `s7-162`, `s7-163`, and `s7-164`.
+
+```text
+S_FINAL_DECISION_BATCH_START=Stage14-s7-162
+S_FINAL_DECISION_BATCH_END=Stage14-s7-164
+S_FINAL_DECISION_BATCH_STAGE_COUNT=3
+S_FINAL_DECISION_NO_RECEIVER_RENAMING_CONTINUATION=true
+S_FINAL_DECISION_REQUIRES_FULL_PHYSICAL_PACKET=true
+S_FINAL_DECISION_XQ_INTERMEDIATE_RUNS_FORBIDDEN=true
+S_FINAL_DECISION_XQ_FINAL_AUDIT_ONLY=true
+S_FINAL_DECISION_DEFAULT_IF_GATE_FAILS=PARKED_EXTERNAL_GATE
+```
+
 ## Triple gate
 
 The exact identity remains
