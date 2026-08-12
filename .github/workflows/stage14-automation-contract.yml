@@ -1,0 +1,47 @@
+name: Stage14 automation contract
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate Stage14 batch markers
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          expected=""
+          case "$PR_TITLE" in
+            Stage14-main-batch:*) expected="main" ;;
+            Stage14-s-batch:*) expected="s" ;;
+            Stage14-t-batch:*) expected="t" ;;
+            Stage14-Work-toolbox-XQ:*) expected="xq" ;;
+            *) exit 0 ;;
+          esac
+
+          safe_count="$(grep -c '^STAGE14_AUTOMATION_SAFE=true[[:space:]]*$' <<<"$PR_BODY" || true)"
+          route_count="$(grep -Ec '^STAGE14_ROUTE=(main|s|t|xq)[[:space:]]*$' <<<"$PR_BODY" || true)"
+
+          if [[ "$safe_count" -ne 1 ]]; then
+            echo "::error::Stage14 batch PR must contain exactly one STAGE14_AUTOMATION_SAFE=true marker."
+            exit 1
+          fi
+          if [[ "$route_count" -ne 1 ]]; then
+            echo "::error::Stage14 batch PR must contain exactly one valid STAGE14_ROUTE marker."
+            exit 1
+          fi
+          if ! grep -Eq "^STAGE14_ROUTE=${expected}[[:space:]]*$" <<<"$PR_BODY"; then
+            echo "::error::PR title requires STAGE14_ROUTE=${expected}."
+            exit 1
+          fi
+
+          echo "Stage14 automation contract is valid for route ${expected}."
