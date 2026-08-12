@@ -1,0 +1,45 @@
+{
+  "stage": "Stage15-6ad",
+  "base_main_merge": "815d23cbb893bd7f5384720bc65295ea2591b55c",
+  "classification": "LOW_CORE_ONE_SQUARE_ANTILINEAR_TRANSFER_RECONSTRUCTION",
+  "starting_receiver": "alpha0=K_alpha*z^2, beta0=K_beta*w^2 with the same physical r,s",
+  "reconstruction": {
+    "fixed_z_reconstructs_r_s": true,
+    "r_formula": "r=h_alpha*Re(K_alpha*z^2)/m",
+    "s_formula": "s=h_alpha*Im(K_alpha*z^2)/n",
+    "fixed_z_reconstructs_w_squared": true,
+    "w_squared_formula": "w^2=((m*s/h_beta)+i*(n*r/h_beta))/K_beta",
+    "fixed_z_w_root_fiber": "O(1), at most two roots after fixed unit/core convention",
+    "second_gaussian_parameter_independent": false,
+    "remaining_z_primitive": true
+  },
+  "anti_linear_transfer": {
+    "H_plus": "m^2+n^2",
+    "H_minus": "m^2-n^2",
+    "identity": "2*m*n*h_beta*K_beta*w^2 = i*h_alpha*(H_plus*conj(K_alpha*z^2)-H_minus*K_alpha*z^2)",
+    "receiver": "one primitive Gaussian z with a fixed-core Gaussian-square target"
+  },
+  "arsenal": {
+    "AR-010": "RECONSTRUCTION_FIREWALL_TRIGGERED_STAGE15_EXACT_ADAPTER_PROVED",
+    "AR-016": "DIRECT_REUSE_FOR_FINITE_SQRT_UNIT_FIBERS",
+    "AR-017": "GAUSSIAN_CORE_SQUARE_RECEIVER_RETAINED",
+    "AR-018": "CORE_ORIENTATION_ALREADY_CONSUMED",
+    "AR-023": "MEASURE_FIREWALL_PASS",
+    "AR-024": "MEASURE_FIREWALL_PASS",
+    "AR-028": "NO_DOUBLE_CHARGE_PASS",
+    "AR-012": "NOT_TRIGGERED",
+    "AR-013": "NOT_TRIGGERED",
+    "AR-014": "NOT_NEEDED"
+  },
+  "nonclaims": {
+    "low_core_global_count_proved": false,
+    "low_core_sqrt_bound_proved": false,
+    "causal_thinning_exponent_derived": false,
+    "strict_sub_sqrt_numerator": false,
+    "genus_one_route_opened": false,
+    "character_route_opened": false,
+    "stage15_5_reproved": false
+  },
+  "exit": "LOW_CORE_ONE_SQUARE_TRANSFER_RECEIVER_READY",
+  "next_gate": "count the one-primitive-pair anti-linear fixed-core Gaussian-square transfer receiver before opening any new analytic route"
+}
