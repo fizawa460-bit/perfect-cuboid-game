@@ -1,0 +1,40 @@
+name: Stage14-s-batch s7-144..146 good indicator moment
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-144/**'
+      - 'stages/stage14/14-s7-145/**'
+      - 'stages/stage14/14-s7-146/**'
+      - 'stages/stage14/14-s-batch/s7-144-146-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_144_146_good_indicator_moment_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-144-146-good-indicator-moment.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_144_146_good_indicator_moment_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_144_146_good_indicator_moment_audit.py
+      - name: Regress merged s7-141..143
+        run: grep -q 'Q21_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-143/result.md
+      - name: Lock Work-ciX47 q21 boundary
+        run: |
+          grep -q 'Q21_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-Work-ciX47/result.md
+          grep -q 'Q21_GOOD_PACKET_INDICATOR_CORRELATION_ENCODING_TEST' docs/stage14-q21-summary.md
+          grep -q 'RECEIVER=Stage14-s7-144' docs/stage14-q21-summary.md
+      - name: Lock batch boundary
+        run: |
+          grep -q 'S_GOOD_PACKET_SECOND_MOMENT_LE_Bo1_FIRST_MOMENT=true' stages/stage14/14-s7-145/result.md
+          grep -q 'Q22_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-146/result.md
+          grep -q 'NEXT=Stage14-s7-147' stages/stage14/14-s-batch/s7-144-146-report.md
+      - name: Diff check
+        run: git diff --check origin/${{ github.base_ref }}...HEAD
