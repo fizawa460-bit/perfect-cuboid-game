@@ -311,6 +311,17 @@ A small observed ratio does not prove density zero. A Stage14 upper bound alone 
 
 ## 7. Stage15-6 — mechanism audit: why does `R in Z` matter?
 
+### Canonical ChatGPT-first operation
+
+Stage15-6 normally uses exactly two human commands:
+
+```text
+Stage15-6-main-batch
+Stage15-6-audit
+```
+
+The main command advances the research; the audit command runs in a fresh ChatGPT chat and independently decides merge safety, the next task, and whether Codex is exceptionally required. The authoritative operating and transfer rules are in [`docs/stage15-6-chat-operations.md`](../../docs/stage15-6-chat-operations.md), with machine policy in `stages/stage15/15-6-controller.json`. Run `python stages/stage15/replay/verify_stage15_6_controller.py` for the complete discovered-substage regression and current-owner decision.
+
 ### Goal
 
 Identify which structural features change between B and A.
