@@ -1,0 +1,75 @@
+{
+  "stage": "Stage15-6aa",
+  "base_main_merge": "8b522fd87798812c3afa42b97d4a1292e4fd3303",
+  "classification": "TWO_CHANNEL_GAUSSIAN_DETERMINANT_LOCK",
+  "starting_normal_form": "sf(N(mr+i*ns))=sf(N(ms+i*nr))",
+  "core_decomposition": {
+    "k": "2^eta * k_odd",
+    "odd_core_unit_lemma": true,
+    "odd_core_prime_support": "p=1 mod 4",
+    "unique_split": "k_odd=k_S*k_O with gcd(k_S,k_O)=1",
+    "S_channel": [
+      "k_S divides m^2+n^2",
+      "k_S divides r^2-s^2"
+    ],
+    "O_channel": [
+      "k_O divides m^2-n^2",
+      "k_O divides r^2+s^2"
+    ],
+    "square_divisor_lock": "k_odd^2 divides (m^4-n^4)(r^4-s^4)"
+  },
+  "root_line_dictionary": {
+    "S_channel": "(m/n)^2=-1 and (r/s)^2=1 modulo each p|k_S",
+    "O_channel": "(m/n)^2=1 and (r/s)^2=-1 modulo each p|k_O",
+    "orientation_multiplicity": "at most 2^omega(k_odd) after a core is fixed"
+  },
+  "arsenal": {
+    "AR-009": "EXACT_LOCAL_ADAPTER_PROVED_GLOBAL_CHARGE_OPEN",
+    "AR-017": "LOCAL_GAUSSIAN_DIVISOR_LIFT_PROVED_GLOBAL_CHARGE_OPEN",
+    "AR-018": "STAGE15_ORIENTATION_SPLIT_REALIZED_NO_SAVING_TRANSFER",
+    "AR-014": "WATCH_ONLY",
+    "AR-023": "MEASURE_FIREWALL_ACTIVE",
+    "AR-024": "MEASURE_FIREWALL_ACTIVE",
+    "AR-028": "NO_DOUBLE_CHARGE_ACTIVE"
+  },
+  "witnesses": [
+    {
+      "params": [13, 1, 9, 1],
+      "k": 10,
+      "k_odd": 5,
+      "k_S": 5,
+      "k_O": 1,
+      "type": "S_ONLY",
+      "physical_exact_two": true
+    },
+    {
+      "params": [13, 4, 13, 1],
+      "k": 17,
+      "k_odd": 17,
+      "k_S": 1,
+      "k_O": 17,
+      "type": "O_ONLY",
+      "physical_exact_two": true
+    },
+    {
+      "params": [9, 1, 27, 14],
+      "k": 205,
+      "k_odd": 205,
+      "k_S": 41,
+      "k_O": 5,
+      "type": "MIXED",
+      "physical_exact_two": true
+    }
+  ],
+  "nonclaims": {
+    "global_core_charge_proved": false,
+    "physical_measure_adapter_proved": false,
+    "causal_thinning_exponent_derived": false,
+    "stage15_5_reproved": false,
+    "AR009_global_saving_applied": false,
+    "AR017_global_saving_applied": false,
+    "AR018_stage14_exponent_transferred": false
+  },
+  "exit": "LOCAL_CORE_ADAPTER_PROVED_GLOBAL_CHARGE_OPEN",
+  "next_gate": "charge moving (k_S,k_O) before root-line counting while preserving physical R<=B toric-pair measure"
+}
