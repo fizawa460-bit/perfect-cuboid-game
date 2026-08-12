@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify the frozen Stage14 R01 self-contained review bundle."""
+"""Build and verify the repaired Stage14 R02 self-contained review bundle."""
 
 from __future__ import annotations
 
@@ -12,12 +12,12 @@ import sys
 from pathlib import Path
 
 
-BUNDLE_ID = "STAGE14-FINAL-SELF-CONTAINED-20260812-R01"
+BUNDLE_ID = "STAGE14-FINAL-SELF-CONTAINED-20260812-R02"
 SOURCE_SNAPSHOT_COMMIT = "2c7ec9433edbd4f06f298df73cba9e18e164057a"
 SOURCE = Path("docs/stage14-final-self-contained.md")
 LEDGER = Path("docs/review/stage14-final-self-contained-provenance-20260812-r01.md")
-BUNDLE = Path("review/STAGE14-FINAL-SELF-CONTAINED-20260812-R01.html")
-MANIFEST = Path("docs/review/stage14-final-self-contained-manifest-20260812-r01.md")
+BUNDLE = Path("review/STAGE14-FINAL-SELF-CONTAINED-20260812-R02.html")
+MANIFEST = Path("docs/review/stage14-final-self-contained-manifest-20260812-r02.md")
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -273,7 +273,7 @@ main{{min-width:0;background:var(--paper);border:1px solid var(--line);border-ra
 
 
 def build_manifest(content_sha: str, source_sha: str, ledger_sha: str) -> str:
-    return f"""# Stage14 final self-contained R01 manifest
+    return f"""# Stage14 final self-contained R02 manifest
 
 ```text
 BUNDLE_ID={BUNDLE_ID}
