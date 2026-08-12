@@ -1,0 +1,45 @@
+name: Stage14-s-batch s7-135..137 q17 measure firewall
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-135/**'
+      - 'stages/stage14/14-s7-136/**'
+      - 'stages/stage14/14-s7-137/**'
+      - 'stages/stage14/14-s-batch/s7-135-137-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_135_137_q17_measure_firewall_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-135-137-q17-measure-firewall.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_135_137_q17_measure_firewall_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_135_137_q17_measure_firewall_audit.py
+      - name: Regress merged s7-132..134
+        run: python stages/stage14/scripts/14-s-batch/s7_132_134_quadratic_divisor_root_audit.py
+      - name: Lock Work-cfX44 cancellation boundary
+        run: |
+          grep -Fq 'SECOND_REVERSE_SELF_COUPLED_MODULUS_CANCELLATION_PROVED=true' stages/stage14/14-Work-cfX44/result.md
+          grep -Fq 'Q17_TO_S_CONDITIONED_MEASURE_ADAPTER_PROVED=false' stages/stage14/14-Work-cfX44/result.md
+          grep -Fq 'Q21_NEEDED=false' stages/stage14/14-Work-cfX44/result.md
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'Q17_TO_S_CONDITIONED_MEASURE_ADAPTER_TEST=FAIL' stages/stage14/14-s7-136/result.md
+          grep -Fq 'S_CONDITIONED_RECIPROCAL_CRT_DEFICIT_LEDGER_PROVED=true' stages/stage14/14-s7-137/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-135-137-report.md
+          grep -Fq 'NEXT=Stage14-s7-138' stages/stage14/14-s-batch/s7-135-137-report.md
+          grep -Fq 'STAGE14_AUTOMATION_SAFE=true' stages/stage14/14-s-batch/s7-135-137-report.md
+          grep -Fq 'STAGE14_ROUTE=s' stages/stage14/14-s-batch/s7-135-137-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
