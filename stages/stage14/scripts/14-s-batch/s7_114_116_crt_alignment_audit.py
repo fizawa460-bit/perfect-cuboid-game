@@ -41,7 +41,7 @@ for needle in [
     assert needle in s116, needle
 
 # Source locks.
-for needle in ["F_-*F_+", "mod 2U", "mod 2V"]:
+for needle in ["F_-*F_+", "mod 2*U", "mod 2*V"]:
     assert needle in m4gd, needle
 assert "delta_rec" in m4ge and "delta_post" in m4ge
 assert "COMMON_SUPPORT_EXISTENCE_AFTER_MULTIPLICITY_EXHAUSTION_LANGUAGE_PROVED=true" in x38
