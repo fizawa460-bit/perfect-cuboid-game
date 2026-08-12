@@ -1,0 +1,42 @@
+name: Stage14-s-batch s7-153..155 coprime side factorization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-153/**'
+      - 'stages/stage14/14-s7-154/**'
+      - 'stages/stage14/14-s7-155/**'
+      - 'stages/stage14/14-s-batch/s7-153-155-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_153_155_coprime_side_factorization_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-153-155-coprime-side-factorization.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_153_155_coprime_side_factorization_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_153_155_coprime_side_factorization_audit.py
+      - name: Regress merged s7-150..152
+        run: |
+          grep -q 'Q23_W1_WITNESS_DEPENDENCE_SEPARABILITY_TEST=FAIL_WITNESS_DEPENDENCE_ESSENTIAL' stages/stage14/14-s7-150/result.md
+          grep -q 'NEXT=Stage14-s7-153' stages/stage14/14-s7-152/result.md
+      - name: Lock first reverse baseline
+        run: |
+          grep -q 'S_FIRST_REVERSE_SQUARECLASS_ALLOCATION_NORMAL_FORM_PROVED=true' stages/stage14/14-s7-123/result.md
+          grep -q 'g\*x\*y = c\*z' stages/stage14/14-s7-123/result.md
+      - name: Lock batch boundary
+        run: |
+          grep -q 'FIRST_REVERSE_EXACT_COMMON_GCD_PROVED=true' stages/stage14/14-s7-153/result.md
+          grep -q 'PQ_COPRIME_SIDE_MOVERS_PROVED=true' stages/stage14/14-s7-154/result.md
+          grep -q 'Q24_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-155/result.md
+          grep -q 'NEXT=Stage14-s7-156' stages/stage14/14-s-batch/s7-153-155-report.md
+      - name: Diff check
+        run: git diff --check origin/${{ github.base_ref }}...HEAD
