@@ -1,0 +1,43 @@
+name: Stage14-Work-cgX45 conditioned measure firewall audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-cgX45/**'
+      - 'docs/stage14-toolbox/work-cgX45-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-cgX45/**'
+      - '.github/workflows/stage14-Work-cgX45-conditioned-measure-firewall.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Run integrated cgX45 audit
+        run: python stages/stage14/scripts/14-Work-cgX45/conditioned_measure_firewall_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-cgX45/conditioned_measure_firewall_audit.py
+      - name: Regress merged s7-135..137
+        run: python stages/stage14/scripts/14-s-batch/s7_135_137_q17_measure_firewall_audit.py
+      - name: Lock merged Work-cfX44
+        run: |
+          grep -Fq 'SECOND_REVERSE_SELF_COUPLED_MODULUS_CANCELLATION_PROVED=true' stages/stage14/14-Work-cfX44/result.md
+          grep -Fq 'Q17_TO_S_CONDITIONED_MEASURE_ADAPTER_PROVED=false' stages/stage14/14-Work-cfX44/result.md
+      - name: Lock q17 and q20 ledgers
+        run: |
+          grep -Fq 'RECIPROCAL_CRT_SUPPORT_DIRECT_THEOREM_FOUND=false' docs/stage14-q17-summary.md
+          grep -Fq 'CONDITIONED_SECOND_REVERSE_CORRELATION_DIRECT_THEOREM_FOUND=false' docs/stage14-q20-summary.md
+      - name: Lock integrated boundary
+        run: |
+          grep -Fq 'CONDITIONED_KERNEL_MEASURE_FIREWALL_LEMMA_PROVED=true' stages/stage14/14-Work-cgX45/result.md
+          grep -Fq 'Q21_NEEDED=false' stages/stage14/14-Work-cgX45/result.md
+          grep -Fq 'TH34_NEEDED=false' stages/stage14/14-Work-cgX45/result.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
