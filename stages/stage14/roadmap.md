@@ -316,20 +316,20 @@ The sharpened receiver is
 FullConductorPrimitiveQuarterPythagoreanThreeProjectionConditionalPrincipalDensityAndSignedCovarianceCorrelation.
 ```
 
-Current route state:
+Route state at the Stage14-s7-50 snapshot (historical; superseded by the final decision below):
 
 ```text
-S_ROUTE_CURRENT_STATE=ACTIVE_REACTIVATED
+S_ROUTE_S7_50_SNAPSHOT_STATE=ACTIVE_REACTIVATED
 S_ROUTE_CLOSED_BY=Stage14-s7-45
 S_ROUTE_REACTIVATION_TRIGGERED_BY=Stage14-4de
 S_ROUTE_REACTIVATION_CONSUMED_BY=Stage14-s7-46
 S_ROUTE_REACTIVATION_NEEDED=false
 USER_DECIDES_S_ROUTE_REACTIVATION=false
 ROADMAP_DECIDES_S_ROUTE_REACTIVATION=true
-S_ROUTE_CURRENT_RECEIVER=FullConductorPrimitiveQuarterPythagoreanThreeProjectionConditionalPrincipalDensityAndSignedCovarianceCorrelation
+S_ROUTE_S7_50_SNAPSHOT_RECEIVER=FullConductorPrimitiveQuarterPythagoreanThreeProjectionConditionalPrincipalDensityAndSignedCovarianceCorrelation
 S_ROUTE_BLOCKED_WAITING_FOR_H=false
 S_ROUTE_AUXILIARY_H=Stage14-sH50_COMPLETE
-S_ROUTE_NEXT=Stage14-s7-51
+S_ROUTE_S7_50_SNAPSHOT_NEXT=Stage14-s7-51
 ```
 
 The user is **not** expected to decide whether the s-route should be restarted. Reactivation checks are relevant when the s route is CLOSED; while it is ACTIVE, downstream Stage14 work must preserve the current route state rather than overwrite it with an older snapshot.
@@ -416,6 +416,33 @@ S_FINAL_DECISION_XQ_INTERMEDIATE_RUNS_FORBIDDEN=true
 S_FINAL_DECISION_XQ_FINAL_AUDIT_ONLY=true
 S_FINAL_DECISION_DEFAULT_IF_GATE_FAILS=PARKED_EXTERNAL_GATE
 ```
+
+## S-route final decision recorded — Stage14-s7-164
+
+The bounded final batch Stage14-s7-162..164 has completed. It found no uniform `B^o(1)` collapse of the reduced-modulus character family, no principal-mass domination from L1/L2 orthogonality, and no exact every-cell, mask-preserving adapter to the q26 AP, variance, smooth-modulus, or binary-form theorem families.
+
+The terminal result is authoritative and supersedes the historical active snapshot above:
+
+```text
+S_FINAL_DECISION_RECORDED=true
+S_FINAL_DECISION=PARKED_EXTERNAL_GATE
+S_FINAL_DECISION_EVIDENCE=WITNESS_COUPLED_POLYNOMIAL_CHARACTER_FAMILY_AND_NO_UNIFORM_TARGET_RESIDUE_DOMINATION_OR_MASK_PRESERVING_THEOREM_ADAPTER
+S_FINAL_DECISION_STAGE=Stage14-s7-164
+FULL_PHYSICAL_MAIN_TERM_DOMINANCE_PROVED=false
+VALID_EXISTING_THEOREM_ADAPTER_PROVED=false
+S_ROUTE_CURRENT_STATE=PARKED_EXTERNAL_GATE
+S_ROUTE_CURRENT_RECEIVER=UniformFilteredTau3CommonCoreAndQValuationAveragedReducedModulusTargetResiduePrincipalDominationThenConditionalPostMask
+S_ROUTE_NEXT=NONE
+S_ROUTE_RESTART_REQUIRES_NEW_EXACT_STRUCTURE_OR_THEOREM_BRIDGE=true
+S7_165_PLUS_FORBIDDEN_UNLESS_REACTIVATED=true
+S_FINAL_XQ_AUDIT_NEEDED=true
+S_FINAL_XQ_AUDIT_ONLY_NEXT=true
+Q27_NEEDED=false
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
+STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+```
+
+One final XQ run may verify the continue-or-park classification. It may not rename the receiver, open q27, or restart S.
 
 ## Triple gate
 

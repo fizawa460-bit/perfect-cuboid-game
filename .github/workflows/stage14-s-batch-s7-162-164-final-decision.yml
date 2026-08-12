@@ -1,0 +1,37 @@
+name: Stage14 S final decision s7-162 through s7-164
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-162/**'
+      - 'stages/stage14/14-s7-163/**'
+      - 'stages/stage14/14-s7-164/**'
+      - 'stages/stage14/14-s-batch/s7-162-164-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_162_164_final_decision_audit.py'
+      - 'stages/stage14/roadmap.md'
+      - '.github/workflows/stage14-s-batch-s7-162-164-final-decision.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run final S decision audit
+        run: python stages/stage14/scripts/14-s-batch/s7_162_164_final_decision_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_162_164_final_decision_audit.py
+      - name: Lock merged q26 and final-batch roadmap
+        run: |
+          grep -q 'Q26_REDUCED_MODULUS_CHARACTER_FAMILY_COMPLEXITY_TEST -> Stage14-s7-162' stages/stage14/14-q26/result.md
+          grep -q 'Q27_NEEDED=false' stages/stage14/14-q26/result.md
+          grep -q 'S_FINAL_DECISION_BATCH_END=Stage14-s7-164' stages/stage14/roadmap.md
+          grep -q 'S_FINAL_DECISION=PARKED_EXTERNAL_GATE' stages/stage14/roadmap.md
+          grep -q 'S_ROUTE_NEXT=NONE' stages/stage14/roadmap.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
