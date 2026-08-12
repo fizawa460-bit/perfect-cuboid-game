@@ -1,0 +1,43 @@
+name: Stage14-s-batch s7-138..140 pushforward measure
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-138/**'
+      - 'stages/stage14/14-s7-139/**'
+      - 'stages/stage14/14-s7-140/**'
+      - 'stages/stage14/14-s-batch/s7-138-140-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_138_140_pushforward_measure_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-138-140-pushforward-measure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_138_140_pushforward_measure_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_138_140_pushforward_measure_audit.py
+      - name: Regress merged s7-135..137
+        run: python stages/stage14/scripts/14-s-batch/s7_135_137_q17_measure_firewall_audit.py
+      - name: Lock Work-cgX45 boundary
+        run: |
+          grep -Fq 'CONDITIONED_KERNEL_MEASURE_FIREWALL_LEMMA_PROVED=true' stages/stage14/14-Work-cgX45/result.md
+          grep -Fq 'Q17_TO_S_CONDITIONED_MEASURE_ADAPTER_PROVED=false' stages/stage14/14-Work-cgX45/result.md
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'S_Q17_KERNEL_PUSHFORWARD_DISINTEGRATION_PROVED=true' stages/stage14/14-s7-138/result.md
+          grep -Fq 'Q17_TO_S_LOWER_DOMINATION_CRITERION_PROVED=true' stages/stage14/14-s7-139/result.md
+          grep -Fq 'S_Q17_GOOD_PACKET_COVERAGE_PROVED=false' stages/stage14/14-s7-140/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-138-140-report.md
+          grep -Fq 'NEXT=Stage14-s7-141' stages/stage14/14-s-batch/s7-138-140-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
