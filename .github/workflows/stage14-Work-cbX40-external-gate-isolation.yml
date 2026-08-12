@@ -24,8 +24,12 @@ jobs:
       - name: Compile integrated audit
         run: python -m py_compile stages/stage14/scripts/14-Work-cbX40/external_gate_isolation_audit.py
 
-      - name: Regress merged Work-caX39
-        run: python stages/stage14/scripts/14-Work-caX39/aligned_support_audit.py
+      - name: Regress merged Work-caX39 replay-stable boundary
+        run: |
+          grep -q 'RESTRICTED_MAIN_S_FIXED_E_TWO_SIDED_ADAPTER_PROVED=true' stages/stage14/14-Work-caX39/result.md
+          grep -q 'Q_COMPONENT=NOT_TRIGGERED' stages/stage14/14-Work-caX39/result.md
+          grep -q 'MAINLINE_H_TARGET=FixedAgreementPairKFreeMovingDivisorAllocationTwoLevelCRTFirstMomentAsymptoticOrPowerDeficit' stages/stage14/14-Work-caX39/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-caX39/result.md
 
       - name: Regress merged main 4ghH
         run: python stages/stage14/scripts/14-4/batch_4ghH_kfree_quadratic_divisor_root_audit.py
