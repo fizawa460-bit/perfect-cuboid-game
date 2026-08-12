@@ -1,0 +1,24 @@
+name: Stage15-6aj height bridge
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage15/15-6aj/**'
+      - 'stages/stage15/evidence/stage15_6aj_height_bridge.json'
+      - 'stages/stage15/replay/verify_stage15_6aj.py'
+      - 'stages/stage15/scripts/stage15_6aj_height_bridge.py'
+      - '.github/workflows/stage15-6aj-height-bridge.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage15-6aj exact height bridge
+        run: python stages/stage15/replay/verify_stage15_6aj.py
+      - name: Compile Stage15-6aj utility
+        run: python -m py_compile stages/stage15/scripts/stage15_6aj_height_bridge.py stages/stage15/replay/verify_stage15_6aj.py
