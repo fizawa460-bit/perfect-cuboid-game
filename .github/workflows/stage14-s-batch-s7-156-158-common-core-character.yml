@@ -1,0 +1,43 @@
+name: Stage14-s-batch s7-156..158 common-core character split
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-156/**'
+      - 'stages/stage14/14-s7-157/**'
+      - 'stages/stage14/14-s7-158/**'
+      - 'stages/stage14/14-s-batch/s7-156-158-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_156_158_common_core_character_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-156-158-common-core-character.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_156_158_common_core_character_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_156_158_common_core_character_audit.py
+      - name: Regress merged s7-153..155
+        run: |
+          grep -q 'PQ_COPRIME_SIDE_MOVERS_PROVED=true' stages/stage14/14-s7-154/result.md
+          grep -q 'Q24_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-155/result.md
+      - name: Lock Work-clX50 q24 boundary
+        run: |
+          grep -q 'COMMON_CORE_SIDE_COPRIME_DECOMPOSITION_RECHARGE_FORBIDDEN=true' stages/stage14/14-Work-clX50/result.md
+          grep -q 'MOVING_COMMON_CORE_TWO_COPRIME_SIDE_DIRECT_THEOREM_FOUND=false' stages/stage14/14-q24/result.md
+          grep -q 'Q24_COMMON_CORE_CONDITIONING_TEST=Stage14-s7-156' stages/stage14/14-q24/summary.md
+      - name: Lock batch boundary
+        run: |
+          grep -q 'COMMON_CORE_AVERAGE_MUST_BE_RETAINED=true' stages/stage14/14-s7-156/result.md
+          grep -q 'UNIT_STRATUM_DIRICHLET_CHARACTER_EXPANSION_PROVED=true' stages/stage14/14-s7-157/result.md
+          grep -q 'Q25_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-158/result.md
+          grep -q 'NEXT=Stage14-s7-159' stages/stage14/14-s-batch/s7-156-158-report.md
+      - name: Diff check
+        run: git diff --check origin/${{ github.base_ref }}...HEAD
