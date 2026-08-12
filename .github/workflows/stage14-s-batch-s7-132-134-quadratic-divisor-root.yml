@@ -1,0 +1,49 @@
+name: Stage14-s-batch s7-132..134 quadratic divisor root
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-132/**'
+      - 'stages/stage14/14-s7-133/**'
+      - 'stages/stage14/14-s7-134/**'
+      - 'stages/stage14/14-s-batch/s7-132-134-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_132_134_quadratic_divisor_root_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-132-134-quadratic-divisor-root.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_132_134_quadratic_divisor_root_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_132_134_quadratic_divisor_root_audit.py
+      - name: Regress merged s7-129..131
+        run: python stages/stage14/scripts/14-s-batch/s7_129_131_second_reverse_weight_audit.py
+      - name: Lock q20 handoff
+        run: |
+          grep -Fq 'Q20_WITNESS_DEPENDENCE_SEPARABILITY_TEST' docs/stage14-q20-summary.md
+          grep -Fq 'Q20_FIXED_SHIFT_OR_BINARY_FORM_NORMAL_FORM_TEST' docs/stage14-q20-summary.md
+      - name: Lock Work-ceX43 boundary
+        run: |
+          grep -Fq 'CONDITIONED_CORRELATION_RECEIVER_ISOLATION_LEMMA_PROVED=true' stages/stage14/14-Work-ceX43/result.md
+          grep -Fq 'S_ROUTE_H_NEEDED=false' stages/stage14/14-Work-ceX43/result.md
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'S_QUADRATIC_DIVISOR_ROOT_THEOREM_SPECIES_FROZEN=true' stages/stage14/14-s7-134/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-132-134-report.md
+          grep -Fq 'NEXT=Stage14-s7-135' stages/stage14/14-s-batch/s7-132-134-report.md
+          grep -Fq 'STAGE14_AUTOMATION_SAFE=true' stages/stage14/14-s-batch/s7-132-134-report.md
+          grep -Fq 'STAGE14_ROUTE=s' stages/stage14/14-s-batch/s7-132-134-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
