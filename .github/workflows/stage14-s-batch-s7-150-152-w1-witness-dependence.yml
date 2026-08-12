@@ -1,0 +1,39 @@
+name: Stage14-s-batch s7-150..152 W1 witness dependence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-150/**'
+      - 'stages/stage14/14-s7-151/**'
+      - 'stages/stage14/14-s7-152/**'
+      - 'stages/stage14/14-s-batch/s7-150-152-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_150_152_w1_witness_dependence_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-150-152-w1-witness-dependence.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_150_152_w1_witness_dependence_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_150_152_w1_witness_dependence_audit.py
+      - name: Regress merged s7-147..149
+        run: grep -q 'Q23_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-149/result.md
+      - name: Lock Work-ckX49 q23 boundary
+        run: |
+          grep -q 'COMPLETE_JOINT_FILTERED_TAU3_RECIPROCAL_CRT_FIRST_MOMENT_LITERATURE_RADAR' stages/stage14/14-q23/result.md
+          grep -q 'Q23_W1_WITNESS_DEPENDENCE_SEPARABILITY_TEST=Stage14-s7-150' stages/stage14/14-q23/result.md
+      - name: Lock batch boundary
+        run: |
+          grep -q 'Q23_W1_WITNESS_DEPENDENCE_SEPARABILITY_TEST=FAIL_WITNESS_DEPENDENCE_ESSENTIAL' stages/stage14/14-s7-150/result.md
+          grep -q 'Q23_FIXED_SHIFT_OR_AP_OR_BINARY_FORM_JOINT_NORMAL_FORM_TEST=FAIL_NO_EXACT_STANDARD_REDUCTION' stages/stage14/14-s7-151/result.md
+          grep -q 'NEXT=Stage14-s7-153' stages/stage14/14-s-batch/s7-150-152-report.md
+      - name: Diff check
+        run: git diff --check origin/${{ github.base_ref }}...HEAD
