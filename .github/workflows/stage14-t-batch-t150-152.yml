@@ -1,0 +1,27 @@
+name: Stage14-t-batch t150-t152 Gaussian lattice residue capacity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t150/**'
+      - 'stages/stage14/14-t151/**'
+      - 'stages/stage14/14-t152/**'
+      - 'stages/stage14/14-t-batch-t150-152/**'
+      - '.github/workflows/stage14-t-batch-t150-152.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Audit t150-t152
+        run: python stages/stage14/14-t-batch-t150-152/audit.py
+      - name: Regression t147-t149
+        run: python stages/stage14/14-t-batch-t147-149/audit.py
+      - name: Regression repaired t144-t146
+        run: python stages/stage14/14-t-batch-t144-146/audit.py
+      - name: Regression tH32-t143
+        run: python stages/stage14/14-t-batch-th32-t143/audit.py
