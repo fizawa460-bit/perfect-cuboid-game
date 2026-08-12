@@ -1,0 +1,49 @@
+{
+  "stage": "Stage15-2",
+  "classification": "AMBIENT_EXACTLY_TWO_POLYNOMIAL_EXPONENT_ONE",
+  "theorem": {
+    "lower_bound": "M2(B) >> B",
+    "upper_bound": "M2(B) << B^(1+o(1))",
+    "polynomial_exponent": 1,
+    "M2_INFINITE": true,
+    "M2_LINEAR_LOWER_BOUND": true,
+    "M2_POLYNOMIAL_EXPONENT_ONE": true
+  },
+  "explicit_family": {
+    "parameters": "coprime odd p<q<2p",
+    "edges_unsorted": ["4p^2-q^2", "4q^2-p^2", "4pq"],
+    "face_hypotenuses": ["4p^2+q^2", "4q^2+p^2"],
+    "height_identity": "R^2=17(p^4+q^4)",
+    "third_face_obstruction": "x,y odd => x^2+y^2 == 2 mod 4",
+    "canonical_injective_cone": "1<q/p<11/10",
+    "direction_in_that_cone": "c"
+  },
+  "upper_bound_receiver": {
+    "unique_shared_edge": true,
+    "completion_factorization": "(h-x)(h+x)=e^2",
+    "r_e_bound": "r(e)<=tau(e^2)",
+    "sum_bound": "M2(B)<=1/2 sum_{e<=B} tau(e^2)^2",
+    "uniform_divisor_bound_used": true
+  },
+  "finite_audit": {
+    "canonical_cone_parameter_pairs_tested": 98,
+    "family_members_under_B5000_checked_against_paired_enumerator": 4,
+    "paired_enumerator_M2_B5000": 16710,
+    "divisor_injection_checked_for_e_through": 200
+  },
+  "literature_gate": {
+    "direct_M2_R_height_asymptotic_found": false,
+    "common_leg_reference": "K. Ochieng, Pythagorean Triples with Common Sides, Journal of Mathematics (2019), DOI 10.1155/2019/4286517",
+    "modern_two_pair_reference": "R. Peschmann, arXiv:2605.00573 and arXiv:2604.09328",
+    "global_counting_candidate": "Batyrev-Tschinkel, arXiv:alg-geom/9510014",
+    "toric_del_pezzo_adapter_proved": false
+  },
+  "nonclaims": {
+    "M2_ASYMPTOTIC_PROVED": false,
+    "M2_LOG_POWER_PROVED": false,
+    "M2_THETA_B_PROVED": false,
+    "NOVEL_ASYMPTOTIC_CLAIM": false
+  },
+  "STAGE15_2_EXIT": "M2_ONLY_PARTIAL_BOUNDS",
+  "NEXT": "Stage15-2a compactification/height/Picard-rank audit for the ambient two-face surface"
+}
