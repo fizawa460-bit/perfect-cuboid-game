@@ -1,0 +1,25 @@
+name: Stage14-t-batch tH33 super-Kai individual residue audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-tH33/**'
+      - 'stages/stage14/14-t-batch-th33/**'
+      - '.github/workflows/stage14-t-batch-th33.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Audit tH33
+        run: python stages/stage14/14-t-batch-th33/audit.py
+      - name: Regression t156-t157
+        run: python stages/stage14/14-t-batch-t156-157/audit.py
+      - name: Regression t153-t155
+        run: python stages/stage14/14-t-batch-t153-155/audit.py
+      - name: Regression t150-t152
+        run: python stages/stage14/14-t-batch-t150-152/audit.py
