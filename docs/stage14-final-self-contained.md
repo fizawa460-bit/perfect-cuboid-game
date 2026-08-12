@@ -1,10 +1,10 @@
 # Stage14 final self-contained mathematical review
 
-**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R03`
+**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R04`
 
-**R03 repair boundary.** R03 changes no Stage14 theorem, exponent, receiver, or route status. It retains the R02 transcriptions and closes the remaining review defects by spelling out the already-merged 4ae physical-height comparison, the complete 4cx lost-core notation and threshold calculation, and the s7-29 fixed-common-core primitive root-line count. No new mathematical bridge is asserted.
+**R04 closure boundary.** R04 changes no Stage14 theorem, exponent, receiver, or route status. It is the final editorial closure: it retains R03 and transcribes the remaining exact definitions and elementary derivations requested by the independent R03 review—balanced-strip coordinates and hosts, the explicit elliptic base parameter, reciprocal notation and positivity/parity, and the endpoint determinant/size checks. No new mathematics or saving is introduced.
 
-**Frozen source snapshot:** `2c7ec9433edbd4f06f298df73cba9e18e164057a` (`main`, 2026-08-12 audit)
+**Frozen source snapshot:** `81bc12bc28f159e3af2b26e4b41ef406a4f98339` (`main`, 2026-08-12 closure audit; later Stage15 files do not enter this proof)
 
 **Purpose:** reconstruct, audit, compress, and freeze the final Stage14 state. This document starts no new Stage14 route.
 
@@ -235,7 +235,14 @@ E(B)\le \tfrac12 V(B)\max_F\deg_B(F)\ll V(B)B^{o(1)}.
 E_t:Y^2=X(X-1)(X+t^2),
 \]
 
-so `(0,0)` is rational 2-torsion on every specialization. Here is the height comparison imported from 4ae, rather than an unnamed “gluing inequality.” Write the two primitive faces as
+where the first oriented primitive face has the rational-circle coordinate
+
+\[
+r=\frac{X_1}{H_1+S_1}\in\mathbf Q\cap(0,1),\qquad
+t=\frac{2r}{1-r^2}.
+\]
+
+Thus `t` is an explicit rational function of `(S_1,X_1,H_1)`, and `(0,0)` is rational 2-torsion on every nonsingular physical specialization. Clearing the denominator of `t` gives a Weierstrass model whose coefficients are fixed-degree polynomials in the numerator and denominator of `r`; hence their multiplicative heights are bounded by a fixed power of `H_1`. Here is the height comparison imported from 4ae, rather than an unnamed “gluing inequality.” Write the two primitive faces as
 
 \[
 F_i=(S_i,X_i,H_i),\qquad S_i^2+X_i^2=H_i^2,
@@ -267,7 +274,7 @@ Therefore `d<=B` implies `H_1<B` and `v<2^(3/4)sqrt(Bg/S_1)<=2^(3/4)sqrt(B)`. Th
 \le \exp\!\left(O\!\left(\frac{\log B}{\log\log B}\right)\right).
 \]
 
-The rational maps have fixed finite degree, and boundary, positivity, integrality, chamber, and third-face conditions only delete points. The constant is independent of the specialization, so taking `max_F` before summing is valid.
+The rational maps have fixed finite degree, and boundary, positivity, integrality, chamber, and third-face conditions only delete points. The constant is independent of the specialization, so taking `max_F` before summing is valid. The point `(0,0)` has exact order two because a nonsingular Weierstrass point with `Y=0` is 2-torsion and is not the identity.
 
 ### Proposition 3.3 — complete balanced-packet reduction
 
@@ -305,6 +312,43 @@ The proportional branch has exponent at most `7/16`, and every fixed-power nonpr
 **Loss.** `B^o(1)` for dyadic choices, divisor fibers, signs, and 2-primary states. The displayed exponents are complete cell exponents.
 
 **Whole-family promotion.** The strip and branch split cover every decorated physical cell. No fixed-`U` input is invoked.
+
+**Balanced coordinates, feasible domain, and hosts (transcribed).** In each dyadic balanced packet the exact coefficient factorization is normalized by
+
+\[
+\alpha,\delta=B^{\theta+o(1)},\qquad
+\beta,\gamma=B^{1/2-\theta+o(1)},
+\]
+
+\[
+R,J=B^{\phi+o(1)},\qquad
+S,T=B^{3/8-\phi+o(1)}.
+\]
+
+The two physical states are
+
+\[
+P_1=RSx_1^2,\ Q_1=TJy_1^2,\qquad
+P_2=RTx_2^2,\ Q_2=SJy_2^2,
+\]
+
+with `x_i,y_i=B^{1/16+o(1)}`. Ordering each paired factor so the named larger side is retained gives `theta<=5/16`, `phi<=1/4`; the complementary factors give `theta>=3/16`, `phi>=1/8`. The two cross-state balance inequalities are respectively `theta>=phi` and `theta-phi<=1/8`, while the retained hard chamber is `theta+phi>=3/8`. These four elementary comparisons give exactly the displayed feasible domain—there is no omitted exceptional chamber.
+
+The equal residual norms split as
+
+\[
+q_k=C u_{res},\qquad q_\xi=C v_{res},
+\]
+
+with
+
+\[
+C\le B^{2\theta+2\phi-3/4+o(1)},\quad
+u_{res}\le B^{2\theta-2\phi+o(1)},\quad
+v_{res}\le B^{1/4+2\phi-2\theta+o(1)}.
+\]
+
+Dyadically fixing `C` at its active scale defines `chi=2theta+2phi-3/4`; smaller-core cells only improve the ensuing bounds. Direct enumeration of either original coefficient host gives `E_s<=max(2theta,1-2theta)`. Enumerating the `k` residual host after the common product constraint gives `E_k<=3theta-1/4`. Both are complete host counts for the same decorated physical cell, not savings promoted from a fixed parameter.
 
 **Proportional branch proof (s7-37, transcribed).** Write the proportional common scale with same-side and cross-side odd root gcds `K=B^{kappa+o(1)}` and `H=B^{eta+o(1)}`. Exact reducedness gives `(K,H)=1` and `kappa+eta=1/8`. Prime-by-prime Gaussian descent shows `(K,q_xi)=1`; since the common core `C` divides `q_xi`, also `(K,C)=1`. The already proved divisibility `K^2|C u_res` therefore sharpens to `K^2|u_res`. With `u_res<=B^{2theta-2phi+o(1)}`,
 
@@ -374,6 +418,8 @@ On the nonproportional branch the integer product is nonzero and 4cx's endpoint-
 0<|h_-h_+|\le B^{1/4-j+o(1)}.
 \]
 
+Indeed `L_-=z_1r_2s_2-z_2r_1s_1` and `L_+=z_1r_2s_2+z_2r_1s_1`, while the balanced packet has `z_i=B^{1/8+o(1)}` and `r_i,s_i=B^{o(1)}`. Thus each endpoint is `O(B^{1/8+o(1)})`, giving the product cap; nonproportionality is exactly the assertion that this integer product is nonzero. Dividing by `J_{L-}J_{L+}=J=B^{j+o(1)}` gives the second displayed bound.
+
 Comparing the size of its forced divisor with the nonzero host gives
 
 \[
@@ -427,11 +473,17 @@ XY=\frac{M}{4rs\epsilon_x\epsilon_k}.
 **Derivation of all three displayed costs.** First, choosing the common core `C=B^{chi+o(1)}` directly contributes at most `B^{chi+o(1)}`. Second, for fixed residual and quotient data, s7-29 turns
 
 \[
-C_0\mid a_0^2U^2+b_0^2V^2,qquad
+C_0\mid a_0^2U^2+b_0^2V^2,\qquad
 \gcd(C_0,a_0b_0UV)=1
 \]
 
-into `2^omega(C_0)=B^{o(1)}` Gaussian CRT root lines `U=rho V (mod C_0)`, where `C_0=C/B^{o(1)}`. Two distinct primitive points on one line have a nonzero determinant divisible by `C_0`; slope spacing in a dyadic box `U~U_0`, `V~V_0` therefore gives
+into `2^omega(C_0)=B^{o(1)}` Gaussian CRT root lines `U=rho V (mod C_0)`, where `C_0=C/B^{o(1)}`. For two distinct primitive points `(U_1,V_1)` and `(U_2,V_2)` on one line,
+
+\[
+U_1V_2-U_2V_1\equiv0\pmod {C_0}.
+\]
+
+The determinant cannot vanish: equality of slopes together with `gcd(U_i,V_i)=1` would make the positive primitive pairs equal. Hence its absolute value is at least `C_0`, while the dyadic box bounds it by `O(U_0V_0)`; ordering by slope therefore gives
 
 \[
 \#\{(U,V)\}\ll 1+\frac{U_0V_0}{C_0}.
@@ -448,6 +500,14 @@ Third, the preceding 4cx calculation gives the reduced column cost `B^{1/4-chi+o
 **Charged-once audit (4cy and s7-40, transcribed).** The common cross-root gcd satisfies `H|X,Y` and `H|c,d`, hence `H^2|M` and `H^2|N=abcd`. It is coprime to the Cayley-good modulus. One may therefore either divide both Cayley variables by `H^2` without changing that modulus (4cy), or combine `N=N_0(M) mod J` with `N=0 mod H^2` into one class modulo `JH^2` (s7-40). These are the same prime-by-prime fact. They remove `2s` from the later row lift but do not create a second saving: `H` is already the root-gcd variable in the complete host count, and `J` is already part of the once-charged core. This is why the column cost `1/4-chi` and the subsequent divisor fiber may be combined without recharging the lost core.
 
 ### Lemma 3.5 — reverse reciprocal divisor reconstruction
+
+The notation is entirely internal to the exact signed quotient factorization. The primitive xi agreement is
+
+\[
+U=L_x^+,\quad V=L_x^-,\quad UV=\operatorname{oddpart}(RJ),\quad (U,V)=1.
+\]
+
+The opposite agreement is `p=L_k^+`, `q=L_k^-`; the signed residual quotients are `a=c_x^+`, `b=c_x^-`, `c=c_k^+`, `d=c_k^-`. The endpoint factors satisfy `r,s=B^{o(1)}`, `X=x_1x_2`, `Y=y_1y_2`, and `epsilon_x,epsilon_k in {1,2}` record only the fixed 2-primary agreement state. With these definitions the two displayed identities below are obtained by multiplying the exact sum/difference relations `D+A=aU`, `D-A=bV`, `Q+P=cp`, `Q-P=dq`; no asymptotic replacement occurs.
 
 **Statement.** With
 
@@ -492,6 +552,14 @@ is fixed and
 \]
 
 Another divisor factorization, followed by divisibility by the fixed coprime `U,V`, gives `B^o(1)` possibilities for `(a,b)`. Multiplying the two subpolynomial fibers remains `B^o(1)`.
+
+More explicitly, physical positivity gives `cp=Q+P>dq=Q-P>0`, so both factors of `W_2` are positive. A divisor pair `(d_1,d_2)=(cp-dq,cp+dq)` reconstructs
+
+\[
+cp=(d_1+d_2)/2,\qquad dq=(d_2-d_1)/2.
+\]
+
+The necessary congruence `d_1\equiv d_2 (mod 2)` is a filter. The first reciprocal equation is identical after replacing `(cp,dq)` by `(aU,bV)`; positivity follows from its physical sum/difference variables, and parity and divisibility by `U,V` again only discard candidates.
 
 **Hypotheses.** Positivity of the two difference-of-square factor pairs and polynomial size of all physical coordinates; exactly the low-core nonproportional cell after Lemma 3.4.
 

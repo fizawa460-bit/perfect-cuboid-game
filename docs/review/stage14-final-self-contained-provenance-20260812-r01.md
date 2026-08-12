@@ -1,15 +1,16 @@
-# Stage14 R03 compact provenance ledger
+# Stage14 R04 compact provenance ledger
 
-`BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R03`
+`BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R04`
 
-R03 repair provenance: the R02 differential review closed multiplicity-one, rational 2-torsion, and the proportional `7/16` calculation, but found that the 4ae height comparison, 4cx threshold notation, and two costs in Lemma 3.4 were still under-transcribed. R03 supplies those already-merged arguments from 4ae, 4cx, and s7-29. No new mathematics is introduced.
+R04 closure provenance: the independent R03 review found no substantive mathematical gap and classified the theorem chain as passing. R04 is an editorial closeout that transcribes the remaining exact balanced-coordinate definitions, host meanings, elliptic base parameter, reciprocal notation, determinant, positivity, and parity checks. It changes no theorem or exponent and introduces no new mathematics.
 
-`SOURCE_SNAPSHOT_COMMIT=2c7ec9433edbd4f06f298df73cba9e18e164057a`
+`SOURCE_SNAPSHOT_COMMIT=81bc12bc28f159e3af2b26e4b41ef406a4f98339`
 
 This is a compact dependency ledger, not a chronological replay of roughly 800 pull requests. “Final-proof dependency” means dependency of the active theorem `N_2(B)<<B^(1/2+o(1))`, not dependency of a later strict-saving investigation.
 
 | Relevant PR | Stage | Commit SHA | Role | State | Final-proof dependency |
 |---:|---|---|---|---|---:|
+| #822 | Stage14 final R03 | `e0add452af4219ea7a3fb74c649bf71837d6210e` | Differential self-containment repair; source of the final R04 review | SUPERSEDED | NO as a bundle; mathematics retained |
 | #821 | Stage14 final R02 | `7b6cd2fbd24c9695d6c6e70527f2ee210970d86a` | First self-containment repair; source of the R03 differential review | SUPERSEDED | NO as a bundle; mathematics retained |
 | #160 | 14-4ag | `da73b1fe8f0b26c12e812a0800faab85f725f859` | Raw pair graph, active-face first-hit ordering, and Dujella uniform degree bridge | ACTIVE | YES |
 | #434 | 14-s7-13 | `079d053d1182e82a1924b37bba9ae33a3907f031` | Historical whole-family `7/8` bound | SUPERSEDED | NO |
