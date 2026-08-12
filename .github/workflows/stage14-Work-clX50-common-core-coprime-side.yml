@@ -1,0 +1,45 @@
+name: Stage14-Work-clX50 common core coprime side audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-clX50/**'
+      - 'stages/stage14/14-q24/**'
+      - 'docs/stage14-toolbox/work-clX50-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-clX50/**'
+      - '.github/workflows/stage14-Work-clX50-common-core-coprime-side.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run integrated clX50 and q24 audit
+        run: python stages/stage14/scripts/14-Work-clX50/common_core_coprime_side_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-clX50/common_core_coprime_side_audit.py
+      - name: Regress merged s7-153..155
+        run: |
+          grep -q 'FIRST_REVERSE_EXACT_COMMON_GCD_PROVED=true' stages/stage14/14-s7-153/result.md
+          grep -q 'PQ_COMMON_PRIME_SUPPORT_LOCALIZED_TO_H=true' stages/stage14/14-s7-154/result.md
+          grep -q 'PQ_COPRIME_SIDE_MOVERS_PROVED=true' stages/stage14/14-s7-154/result.md
+          grep -q 'Q24_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-155/result.md
+      - name: Lock merged Work-ckX49 and q23 boundary
+        run: |
+          grep -q 'JOINT_FILTERED_TAU3_Q17_CRT_INCIDENCE_NORMAL_FORM_CONSUMED=true' stages/stage14/14-Work-ckX49/result.md
+          grep -q 'STAGE14_Q23=COMPLETE_JOINT_FILTERED_TAU3_RECIPROCAL_CRT_FIRST_MOMENT_LITERATURE_RADAR' stages/stage14/14-q23/summary.md
+      - name: Lock q24 boundary
+        run: |
+          grep -q 'MOVING_COMMON_CORE_TWO_COPRIME_SIDE_DIRECT_THEOREM_FOUND=false' stages/stage14/14-q24/result.md
+          grep -q 'Q24_COMMON_CORE_CONDITIONING_TEST=Stage14-s7-156' stages/stage14/14-q24/summary.md
+      - name: Lock integrated boundary
+        run: |
+          grep -q 'COMMON_CORE_SIDE_COPRIME_DECOMPOSITION_RECHARGE_FORBIDDEN=true' stages/stage14/14-Work-clX50/result.md
+          grep -q 'TH34_NEEDED=false' stages/stage14/14-Work-clX50/result.md
+      - name: Diff check
+        run: git diff --check origin/${{ github.base_ref }}...HEAD
