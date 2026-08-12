@@ -1,0 +1,38 @@
+name: Stage14-s-batch s7-141..143 good packet intersection
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-141/**'
+      - 'stages/stage14/14-s7-142/**'
+      - 'stages/stage14/14-s7-143/**'
+      - 'stages/stage14/14-s-batch/s7-141-143-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_141_143_good_packet_intersection_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-141-143-good-packet-intersection.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_141_143_good_packet_intersection_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_141_143_good_packet_intersection_audit.py
+      - name: Regress merged s7-138..140
+        run: grep -q 'S_Q17_GOOD_PACKET_COVERAGE_PROVED=false' stages/stage14/14-s7-140/result.md
+      - name: Lock Work-chX46 boundary
+        run: |
+          grep -q 'PUSHFORWARD_UPPER_ENVELOPE_DOES_NOT_IMPLY_LOWER_COVERAGE=true' stages/stage14/14-Work-chX46/result.md
+          grep -q 'Q21_NEEDED=false' stages/stage14/14-Work-chX46/result.md
+      - name: Lock batch boundary
+        run: |
+          grep -q 'Q21_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-143/result.md
+          grep -q 'NEXT=Stage14-s7-144' stages/stage14/14-s-batch/s7-141-143-report.md
+      - name: Diff check
+        run: git diff --check HEAD^1..HEAD^2
