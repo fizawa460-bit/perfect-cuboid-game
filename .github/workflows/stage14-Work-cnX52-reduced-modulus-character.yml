@@ -1,0 +1,43 @@
+name: Stage14-Work-cnX52 reduced modulus character audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-cnX52/**'
+      - 'stages/stage14/14-q26/**'
+      - 'stages/stage14/scripts/14-Work-cnX52/**'
+      - 'docs/stage14-toolbox/work-cnX52-receiver-matrix.md'
+      - '.github/workflows/stage14-Work-cnX52-reduced-modulus-character.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run integrated cnX52 and q26 audit
+        run: python stages/stage14/scripts/14-Work-cnX52/reduced_modulus_character_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-cnX52/reduced_modulus_character_audit.py
+      - name: Regress merged s7-159..161
+        run: |
+          grep -q 'UNIT_CHARACTER_PRINCIPAL_NONPRINCIPAL_EXACT_DECOMPOSITION_PROVED=true' stages/stage14/14-s7-159/result.md
+          grep -q 'NONUNIT_REDUCED_MODULUS_Q_NU_PROVED=true' stages/stage14/14-s7-160/result.md
+          grep -q 'Q25_UNIT_NONUNIT_RECOMBINATION_TEST=PASS_EXACT_REDUCED_MODULUS_CHARACTER_RECOMBINATION' stages/stage14/14-s7-161/result.md
+          grep -q 'Q26_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-161/result.md
+      - name: Lock merged Work-cmX51 q25
+        run: |
+          grep -q 'STAGE14_Q25=COMPLETE_UNIT_CHARACTER_NONUNIT_VALUATION_LITERATURE_RADAR' stages/stage14/14-q25/result.md
+          grep -q 'TH34_NEEDED=false' stages/stage14/14-Work-cmX51/result.md
+      - name: Lock q26 boundary
+        run: |
+          grep -q 'STAGE14_Q26=COMPLETE_REDUCED_MODULUS_CHARACTER_DISCREPANCY_LITERATURE_RADAR' stages/stage14/14-q26/result.md
+          grep -q 'Q27_NEEDED=false' stages/stage14/14-q26/result.md
+      - name: Diff check
+        run: |
+          git diff --check origin/main...HEAD
