@@ -1,6 +1,6 @@
 from pathlib import Path
 
-root = Path(__file__).resolve().parents[3]
+root = Path(__file__).resolve().parents[2]
 
 checks = {
     root / '14-Work-cnX52/result.md': [
