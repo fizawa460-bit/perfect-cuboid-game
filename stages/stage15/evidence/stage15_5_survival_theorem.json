@@ -1,0 +1,47 @@
+{
+  "stage": "Stage15-5",
+  "classification": "MATCHED_SURVIVAL_THINNING_THEOREM",
+  "base": {
+    "stage15_4_merge_commit": "e1b4837d2eca24683a53027f8e26ce97daa2d8a4",
+    "stage14_arsenal_merged": true
+  },
+  "inputs": {
+    "common_cutoff_exact": true,
+    "common_cutoff_statement": "On A2, R=d and R<=B iff d<=B",
+    "numerator_source": "docs/stage14-final-self-contained.md Theorem 2.1",
+    "numerator_bound": "for every epsilon>0, N2(B) <= C_epsilon B^(1/2+epsilon)",
+    "denominator_source": "stages/stage15/15-2b/result.md",
+    "denominator_asymptotic": "M2(B) ~ C_M2 B(log B)^5 with C_M2>0",
+    "directional_denominator_asymptotic": "M2_j(B) ~ C_j B(log B)^5 with C_j>0"
+  },
+  "arsenal": {
+    "AR-006": "DIRECT_NUMERATOR_REUSE",
+    "AR-001": "CONTRACT_ALREADY_CONSUMED",
+    "AR-003": "CONTRACT_ALREADY_CONSUMED",
+    "AR-023": "MEASURE_FIREWALL_PASS",
+    "AR-024": "MEASURE_FIREWALL_PASS",
+    "AR-028": "NO_DOUBLE_CHARGE_PASS",
+    "AR-017": "ADAPTER_REQUIRED_NOT_USED",
+    "AR-009": "ADAPTER_REQUIRED_NOT_USED",
+    "AR-018": "ADAPTER_REQUIRED_NOT_USED",
+    "AR-012": "NOT_TRIGGERED",
+    "AR-013": "NOT_TRIGGERED",
+    "AR-014": "WATCH_ONLY"
+  },
+  "theorem": {
+    "survival_ratio_definition": "S(B)=N2(B)/M2(B)",
+    "epsilon_bound": "S(B) <<_epsilon B^(-1/2+epsilon)(log B)^(-5)",
+    "zero_density": true,
+    "polynomial_thinning_any_delta_lt_half": true,
+    "directional_zero_density": true,
+    "directional_epsilon_bound": "N2_j(B)/M2_j(B) <<_{epsilon,j} B^(-1/2+epsilon)(log B)^(-5)"
+  },
+  "nonclaims": {
+    "true_survival_exponent_identified": false,
+    "matching_lower_bound": false,
+    "strict_sub_sqrt_numerator_improvement": false,
+    "gaussian_causal_derivation_proved": false,
+    "finite_data_used_in_proof": false
+  },
+  "exit": "HALF_POWER_UPPER_THINNING_PROVED"
+}
