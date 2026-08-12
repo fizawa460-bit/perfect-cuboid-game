@@ -1,0 +1,41 @@
+name: Stage14-s-batch s7-159..161 reduced modulus character
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-159/**'
+      - 'stages/stage14/14-s7-160/**'
+      - 'stages/stage14/14-s7-161/**'
+      - 'stages/stage14/14-s-batch/s7-159-161-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_159_161_reduced_modulus_character_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-159-161-reduced-modulus-character.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_159_161_reduced_modulus_character_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_159_161_reduced_modulus_character_audit.py
+      - name: Regress merged s7-156..158
+        run: |
+          grep -q 'UNIT_STRATUM_DIRICHLET_CHARACTER_EXPANSION_PROVED=true' stages/stage14/14-s7-157/result.md
+          grep -q 'UNIT_NONUNIT_CRT_PARTITION_PROVED=true' stages/stage14/14-s7-158/result.md
+      - name: Lock Work-cmX51 q25 boundary
+        run: |
+          grep -q 'STAGE14_Q25=COMPLETE_UNIT_CHARACTER_NONUNIT_VALUATION_LITERATURE_RADAR' stages/stage14/14-q25/summary.md
+          grep -q 'Q25_UNIT_CHARACTER_PRINCIPAL_DOMINATION_NORMAL_FORM_TEST=Stage14-s7-159' stages/stage14/14-q25/summary.md
+      - name: Lock batch boundary
+        run: |
+          grep -q 'NONUNIT_REDUCED_MODULUS_Q_NU_PROVED=true' stages/stage14/14-s7-160/result.md
+          grep -q 'UNIT_NONUNIT_SEPARATE_ARITHMETIC_GATES_SUPERSEDED=true' stages/stage14/14-s7-161/result.md
+          grep -q 'NEXT=Stage14-s7-162' stages/stage14/14-s-batch/s7-159-161-report.md
+      - name: Diff check
+        run: git diff --check origin/${{ github.base_ref }}...HEAD
