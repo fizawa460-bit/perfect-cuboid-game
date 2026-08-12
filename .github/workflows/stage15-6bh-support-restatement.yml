@@ -1,0 +1,19 @@
+name: Stage15-6bh support restatement audit
+on:
+  pull_request:
+    paths:
+      - 'stages/stage15/15-6bh/**'
+      - 'stages/stage15/evidence/stage15_6bh_support_restatement.json'
+      - 'stages/stage15/replay/verify_stage15_6bh.py'
+      - 'stages/stage15/scripts/stage15_6bh_support_restatement.py'
+      - '.github/workflows/stage15-6bh-support-restatement.yml'
+  workflow_dispatch:
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python stages/stage15/replay/verify_stage15_6bh.py
+      - run: python -m py_compile stages/stage15/scripts/stage15_6bh_support_restatement.py
