@@ -1,0 +1,40 @@
+name: Stage14-Work-cmX51 character nonunit audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-cmX51/**'
+      - 'stages/stage14/14-q25/**'
+      - 'docs/stage14-toolbox/work-cmX51-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-cmX51/**'
+      - '.github/workflows/stage14-Work-cmX51-character-nonunit.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run integrated cmX51 and q25 audit
+        run: python stages/stage14/scripts/14-Work-cmX51/character_nonunit_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-cmX51/character_nonunit_audit.py
+      - name: Regress merged s7-156..158
+        run: |
+          grep -q 'COMMON_CORE_AVERAGE_MUST_BE_RETAINED=true' stages/stage14/14-s7-156/result.md
+          grep -q 'UNIT_STRATUM_DIRICHLET_CHARACTER_EXPANSION_PROVED=true' stages/stage14/14-s7-157/result.md
+          grep -q 'Q25_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-158/result.md
+      - name: Lock merged Work-clX50 q24
+        run: |
+          grep -q 'COMMON_CORE_SIDE_COPRIME_DECOMPOSITION_RECHARGE_FORBIDDEN=true' stages/stage14/14-Work-clX50/result.md
+          grep -q 'STAGE14_Q24=COMPLETE_MOVING_COMMON_CORE_TWO_COPRIME_SIDE_LITERATURE_RADAR' stages/stage14/14-q24/summary.md
+      - name: Lock q25 boundary
+        run: |
+          grep -q 'STAGE14_Q25=COMPLETE_UNIT_CHARACTER_NONUNIT_VALUATION_LITERATURE_RADAR' stages/stage14/14-q25/summary.md
+          grep -q 'Q25_UNIT_CHARACTER_PRINCIPAL_DOMINATION_NORMAL_FORM_TEST=Stage14-s7-159' stages/stage14/14-q25/summary.md
+      - name: Diff check
+        run: git diff --check origin/${{ github.base_ref }}...HEAD
