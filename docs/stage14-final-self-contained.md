@@ -1,8 +1,8 @@
 # Stage14 final self-contained mathematical review
 
-**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R02`
+**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R03`
 
-**R02 repair boundary.** R02 changes no Stage14 theorem, exponent, receiver, or route status. It repairs the R01 self-containment defect identified by external review by transcribing the already-merged proofs from 4ab, 4ag, 4cx, 4cy, s7-37, s7-40, and X13. No new mathematical bridge is asserted.
+**R03 repair boundary.** R03 changes no Stage14 theorem, exponent, receiver, or route status. It retains the R02 transcriptions and closes the remaining review defects by spelling out the already-merged 4ae physical-height comparison, the complete 4cx lost-core notation and threshold calculation, and the s7-29 fixed-common-core primitive root-line count. No new mathematical bridge is asserted.
 
 **Frozen source snapshot:** `2c7ec9433edbd4f06f298df73cba9e18e164057a` (`main`, 2026-08-12 audit)
 
@@ -235,7 +235,32 @@ E(B)\le \tfrac12 V(B)\max_F\deg_B(F)\ll V(B)B^{o(1)}.
 E_t:Y^2=X(X-1)(X+t^2),
 \]
 
-so `(0,0)` is rational 2-torsion on every specialization. For a physical pair with `d<=B`, `H_1<d` gives polynomial height for the base parameter, while the second-face rational parameter has height `O(B^{1/2})` by the previously proved gluing inequalities. The quartic-to-Weierstrass maps have fixed degree, so elementary Weil-height inequalities bound both the model coefficients and the image point height by `B^{C_0}` for one absolute `C_0`, uniformly in the active face. Dujella's theorem over the fixed field `Q` with prime torsion order `ell=2` therefore gives
+so `(0,0)` is rational 2-torsion on every specialization. Here is the height comparison imported from 4ae, rather than an unnamed “gluing inequality.” Write the two primitive faces as
+
+\[
+F_i=(S_i,X_i,H_i),\qquad S_i^2+X_i^2=H_i^2,
+\]
+
+put `g=gcd(S_1,S_2)` and `L=S_1S_2/g`, and reconstruct the physical edges by
+
+\[
+e=L,\qquad x=\frac{S_2}{g}X_1,\qquad y=\frac{S_1}{g}X_2.
+\]
+
+If `Q_2=max(S_2,X_2)`, then `Q_2<H_2<sqrt(2)Q_2`, while the exact max-height is `M=(S_1/g)Q_2` and `M<d<sqrt(3)M`. Hence, uniformly in direction,
+
+\[
+\frac{S_1H_2}{\sqrt2,g}<d<\frac{\sqrt3,S_1H_2}{g}.
+\]
+
+For the primitive rational-circle parameter `q=u/v`, `0<u<v`, `gcd(u,v)=1`, one has
+
+\[
+H_2=\frac{u^2+v^2}{\delta},\qquad \delta\in\{1,2\},
+\qquad \frac{v^2}{2}<H_2<2v^2.
+\]
+
+Therefore `d<=B` implies `H_1<B` and `v<2^(3/4)sqrt(Bg/S_1)<=2^(3/4)sqrt(B)`. Thus the base parameter and second-face parameter have polynomial height uniformly over every active face. The quartic-to-Weierstrass maps have fixed degree, so elementary Weil-height inequalities bound both the model coefficients and the image point height by `B^{C_0}` for one absolute `C_0`, uniformly in the active face. Dujella's theorem over the fixed field `Q` with prime torsion order `ell=2` therefore gives
 
 \[
 \#\{P\in E_t(\mathbf Q):H(P)\le B^{C_0}\}
@@ -296,13 +321,72 @@ E_H\le 3\theta-\frac12\le\frac7{16}
 
 because `theta<=5/16`. The `7/16` bound thus comes from `E_H`, not from the unrelated complete host expression `E_s`.
 
-**Nonproportional high-core emptiness (4cx, transcribed).** Let `C_Cayley|C` be the Cayley-good core, `C_res=C/gcd(C,g_star^2)`, and `J=gcd(C_Cayley,C_res)`. Put `A_C=C_Cayley/J`. The Cayley unit equation and invertibility of the quotient product imply `gcd(C_Cayley,MN)=1`. Since the selected cross-root gcd `H_star` divides the Cayley numerator `M`, `(C_Cayley,H_star)=1`. The elementary identity `A/gcd(A,B)|C/B` for `A,B|C` gives
+**Nonproportional high-core emptiness (4cx, transcribed with definitions).** Let `C_Cayley|C` be the part of the common core on which both Cayley ratios and the quotient product are units. In the 4cq notation
+
+\[
+M=4rsXY\epsilon_x\epsilon_k,\qquad N=abcd,
+\]
+
+the Cayley unit relation is `lambda*x*y=4 (mod C_Cayley)` with `lambda=4M/N`. Hence `gcd(C_Cayley,MN)=1`. Let `H_star` be the selected factor of the odd cross-root gcd `H=oddpart(gcd(X,Y))`; then `H_star|M`, so `(C_Cayley,H_star)=1`. The exact residual relation from s7-35 is
+
+\[
+g_\star/H_\star^2\mid\Omega_1,\qquad \Omega_1=B^{o(1)}.
+\]
+
+Define
+
+\[
+C_{res}=C/\gcd(C,g_\star^2),\quad
+J=\gcd(C_{Cayley},C_{res}),\quad
+A_C=C_{Cayley}/J.
+\]
+
+The elementary identity `A/gcd(A,B)|C/B` for `A,B|C` gives
 
 \[
 A_C\mid C/C_{res}=\gcd(C,g_\star^2).
 \]
 
-The exact endpoint-small relation `g_star/H_star^2|Omega_1`, with `Omega_1=B^{o(1)}`, implies `A_C|H_star^4 Omega_1^2`. Coprimality cancels all `H_star`-supported prime powers, so `A_C|Omega_1^2` and `A_C=B^{o(1)}`. The remaining lost core `D=C/J` divides `B^{o(1)}H^2`, while exact endpoint-linear identities give `H^2|h_-` and `H^2|h_+`. If the two nonzero endpoint cofactors have total available size `B^{1/2+o(1)}`, the forced divisor `D_0` of exponent `chi` in their product consumes that support. For `chi>1/4`, the forced square/core divisibility exceeds the nonzero endpoint product cap, so the fixed-power cell is empty. For `chi<=1/4`, division by the already charged lost core leaves exactly `B^{1/4-chi+o(1)}` reduced column support.
+The displayed residual relation implies `A_C|H_star^4 Omega_1^2`. Coprimality cancels all `H_star`-supported prime powers, so `A_C|Omega_1^2` and `A_C=B^{o(1)}`.
+
+Now define the lost core `D=C/J`. The earlier 4cs/4cu/X12 support relation supplies `Omega_0=B^{o(1)}` with `D|Omega_0H^2`; remove its endpoint-small part by
+
+\[
+D_0=D/\gcd(D,\Omega_0).
+\]
+
+If `J=B^{j+o(1)}`, then
+
+\[
+D_0=B^{\chi-j+o(1)},\qquad D_0\mid H^2.
+\]
+
+The endpoint columns are allocated as `L_-=J_{L-}h_-`, `L_+=J_{L+}h_+`, with `J_{L-}J_{L+}=J`. Since `H|L_-`, `H|L_+`, and `(J,H)=1`, division by the allocated `J` preserves `H|h_-` and `H|h_+`; consequently
+
+\[
+D_0\mid H^2\mid h_-h_+.
+\]
+
+On the nonproportional branch the integer product is nonzero and 4cx's endpoint-linear bound is
+
+\[
+0<|L_-L_+|\le B^{1/4+o(1)},\qquad
+0<|h_-h_+|\le B^{1/4-j+o(1)}.
+\]
+
+Comparing the size of its forced divisor with the nonzero host gives
+
+\[
+\chi-j\le\frac14-j+o(1),\qquad \chi\le\frac14+o(1).
+\]
+
+This is the source of the `1/4` threshold; it is not inferred from the final `B^(1/2)` budget. Thus every fixed-power cell with `chi>1/4` is empty. For `chi<=1/4`, fixing `C,J,D_0` and a divisor allocation of `D_0` between the columns leaves
+
+\[
+(1/4-j)-(\chi-j)=1/4-\chi
+\]
+
+as the reduced column-support exponent.
 
 ### Lemma 3.4 — column reconstruction and charged support
 
@@ -339,6 +423,27 @@ XY=\frac{M}{4rs\epsilon_x\epsilon_k}.
 **Loss.** `B^o(1)` multiplicity beyond the displayed fixed-power support.
 
 **Whole-family promotion.** It is applied cellwise inside the complete partition of Proposition 3.3; the number of cells is subpolynomial.
+
+**Derivation of all three displayed costs.** First, choosing the common core `C=B^{chi+o(1)}` directly contributes at most `B^{chi+o(1)}`. Second, for fixed residual and quotient data, s7-29 turns
+
+\[
+C_0\mid a_0^2U^2+b_0^2V^2,qquad
+\gcd(C_0,a_0b_0UV)=1
+\]
+
+into `2^omega(C_0)=B^{o(1)}` Gaussian CRT root lines `U=rho V (mod C_0)`, where `C_0=C/B^{o(1)}`. Two distinct primitive points on one line have a nonzero determinant divisible by `C_0`; slope spacing in a dyadic box `U~U_0`, `V~V_0` therefore gives
+
+\[
+\#\{(U,V)\}\ll 1+\frac{U_0V_0}{C_0}.
+\]
+
+Since `U_0V_0=B^{2phi+o(1)}` and `2phi-chi>=1/8` on the balanced strip, the `1` is lower order and the primitive-pair cost is exactly
+
+\[
+B^{2\phi-\chi+o(1)}.
+\]
+
+Third, the preceding 4cx calculation gives the reduced column cost `B^{1/4-chi+o(1)}`. These are three distinct supports in the fixed order `C`, then primitive root-line pair, then reduced column cofactor; none is inferred from the others and none is charged twice.
 
 **Charged-once audit (4cy and s7-40, transcribed).** The common cross-root gcd satisfies `H|X,Y` and `H|c,d`, hence `H^2|M` and `H^2|N=abcd`. It is coprime to the Cayley-good modulus. One may therefore either divide both Cayley variables by `H^2` without changing that modulus (4cy), or combine `N=N_0(M) mod J` with `N=0 mod H^2` into one class modulo `JH^2` (s7-40). These are the same prime-by-prime fact. They remove `2s` from the later row lift but do not create a second saving: `H` is already the root-gcd variable in the complete host count, and `J` is already part of the once-charged core. This is why the column cost `1/4-chi` and the subsequent divisor fiber may be combined without recharging the lost core.
 
