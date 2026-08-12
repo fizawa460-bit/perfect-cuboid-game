@@ -45,13 +45,28 @@ for needle in [
     "COMMON_ADAPTER_PROVED=false",
     "SAVING_CROSS_PROMOTABLE=false",
     "NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false",
+    "MAINLINE_H_NEEDED=true",
+    "NEW_HEAVY_MAIN_H_NEEDED=false",
+    "S_ROUTE_H_NEEDED=false",
+    "FIXED_U_H_NEEDED=false",
+    "TH33_NEEDED=false",
 ]:
     assert needle in r, needle
+
+# The three old non-heavy H targets remain pending; this heavy run opens no new H.
+for target in [
+    "CanonicalBalancedIntegerGaussianThreeDivisorCorrelationDensity",
+    "FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion",
+    "DiffusePolynomialComplementaryGaussianFactorCanonicalAllocationBilinearCorrelation",
+]:
+    assert target in r, target
 
 # Merged predecessor locks.
 assert "GLOBAL_S_HEAVY_RECEIVERS_ALL_REDUCED_TO_CONDITIONAL_PHYSICAL_COMPLETION_OR_LIFT=true" in w37
 assert "COMPLETION_DEFICIT_EXACTLY_SPLITS_AS_DELTA_REC_PLUS_DELTA_POST=true" in main
 assert "FIXED_PAIR_RECIPROCAL_CANDIDATE_MULTIPLICITY=Bo1" in main
+assert "EXISTING_NONHEAVY_MAIN_H_GATES_PENDING=true" in main
+assert "NEW_HEAVY_MAIN_H_NEEDED=false" in main
 assert "TWO_LEVEL_COMPLETION_DEFICIT_LEDGER_EXACT=true" in s
 assert "S7_113_NEW_AUXILIARY_H_NEEDED=false" in s
 assert "RESIDUE_HOST_NORMALIZED_MANY_WIDTH_FLOOR_PROVED=true" in t
@@ -71,7 +86,6 @@ for needle in [
     assert needle in r, needle
 
 # Finite sanity example: bounded witness multiplicity can coexist with tiny support.
-# Each nonempty fiber has size <= 1, but only one ambient point has a witness.
 for n in [10, 100, 1000]:
     fibers = [1] + [0] * (n - 1)
     assert max(fibers) <= 1
@@ -85,6 +99,7 @@ def nested_deficits(kappa, sigma, tau):
     d1 = kappa - sigma
     d2 = sigma - tau
     return d1, d2, kappa - tau
+
 
 for triple in [(0.40, 0.36, 0.31), (0.25, 0.25, 0.24), (0.5, 0.42, 0.42)]:
     d1, d2, total = nested_deficits(*triple)
@@ -111,13 +126,17 @@ for needle in [
 ]:
     assert needle in q17, needle
 
-# Matrix mirrors integrated locks.
+# Matrix mirrors integrated locks, including broad-vs-heavy H distinction.
 for needle in [
     "COMMON_SUPPORT_EXISTENCE_AFTER_MULTIPLICITY_EXHAUSTION_LANGUAGE_PROVED=true",
     "Q_COMPONENT=COMPLETE",
     "Q17_DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0",
     "COMMON_COMPLETION_TO_GAUSSIAN_PRIME_OCCUPANCY_ADAPTER_PROVED=false",
     "NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false",
+    "MAINLINE_H_NEEDED=true",
+    "NEW_HEAVY_MAIN_H_NEEDED=false",
+    "S_ROUTE_H_NEEDED=false",
+    "FIXED_U_H_NEEDED=false",
 ]:
     assert needle in m, needle
 
