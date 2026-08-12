@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
 from fractions import Fraction
-from math import gcd, isqrt
+from math import isqrt
 
 
 def squarefree_part(n: int) -> int:
@@ -62,10 +61,10 @@ def covering_point(A: int, B: int, kappa: int, a: int, b: int) -> tuple[Fraction
 
 
 def witness() -> dict[str, object]:
-    # 6aa S-only witness alpha0=117+i = (3+i?) core-square state.
-    # K=3+i has norm k=10 and z=6+i has norm 37:
-    # (3+i)(6+i)^2 = 117+i.
-    A, B, kappa, a, b = 3, 1, 13, 6, 1
+    # Stage15-6aa S-only witness: alpha0=117+i.
+    # The charged norm-10 Gaussian core can be taken as K=3-i, and
+    # (3-i)(6+i)^2=117+i.  Then kappa=sf(117*1)=13.
+    A, B, kappa, a, b = 3, -1, 13, 6, 1
     f, g = fg(A, B, a, b)
     X, Y = covering_point(A, B, kappa, a, b)
     return {
