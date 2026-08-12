@@ -1,0 +1,57 @@
+name: Stage14-s-batch s7-123..125 squareclass allocation
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-123/**'
+      - 'stages/stage14/14-s7-124/**'
+      - 'stages/stage14/14-s7-125/**'
+      - 'stages/stage14/14-s-batch/s7-123-125-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_123_125_squareclass_allocation_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-123-125-squareclass-allocation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_123_125_squareclass_allocation_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_123_125_squareclass_allocation_audit.py
+
+      - name: Regress merged s7-120..122
+        run: python stages/stage14/scripts/14-s-batch/s7_120_122_theorem_contract_audit.py
+
+      - name: Lock merged Work-cbX40 boundary
+        run: |
+          grep -Fq 'S_NONALIGNED_COMMON_SQUARECLASS_REVERSE_WITNESS_KERNEL_PROVED=true' stages/stage14/14-Work-cbX40/result.md
+          grep -Fq 'S_ROUTE_H_NEEDED=false' stages/stage14/14-Work-cbX40/result.md
+          grep -Fq 'Q18_PREMATURE_PENDING_S7_120_THEOREM_CONTRACT=true' stages/stage14/14-Work-cbX40/result.md
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'S_FIRST_REVERSE_SQUARECLASS_ALLOCATION_NORMAL_FORM_PROVED=true' stages/stage14/14-s7-123/result.md
+          grep -Fq 'S_FIRST_REVERSE_MULTIPLICATIVE_HOST_SET_DEFINED=true' stages/stage14/14-s7-124/result.md
+          grep -Fq 'S_MULTIPLICATIVE_REVERSE_POSTMASK_THREE_DEFICIT_LEDGER_PROVED=true' stages/stage14/14-s7-125/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-s7-125/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-123-125-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-123-125-report.md
+          grep -Fq 'S_ROUTE_H_NEEDED=false' stages/stage14/14-s-batch/s7-123-125-report.md
+          grep -Fq 'NEXT=Stage14-s7-126' stages/stage14/14-s-batch/s7-123-125-report.md
+          grep -Fq 'STAGE14_AUTOMATION_SAFE=true' stages/stage14/14-s-batch/s7-123-125-report.md
+          grep -Fq 'STAGE14_ROUTE=s' stages/stage14/14-s-batch/s7-123-125-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
