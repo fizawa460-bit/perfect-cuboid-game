@@ -1,0 +1,69 @@
+name: Stage14-Work-bzX38 q17 completion support audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-bzX38/**'
+      - 'docs/stage14-toolbox/work-bzX38-receiver-matrix.md'
+      - 'docs/stage14-q17-reciprocal-crt-literature-radar.md'
+      - 'docs/stage14-q17-summary.md'
+      - 'stages/stage14/scripts/14-Work-bzX38/**'
+      - '.github/workflows/stage14-Work-bzX38-q17-completion-support.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated bzX38 plus q17 audit
+        run: python stages/stage14/scripts/14-Work-bzX38/completion_support_q17_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-bzX38/completion_support_q17_audit.py
+
+      - name: Regress merged Work-byX37
+        run: python stages/stage14/scripts/14-Work-byX37/completion_hosted_capacity_audit.py
+
+      - name: Regress merged mainline 4gc..4ge
+        run: python stages/stage14/scripts/14-4/batch_4gc_4ge_reciprocal_completion_audit.py
+
+      - name: Regress merged s7-111..113
+        run: python stages/stage14/scripts/14-s-batch/s7_111_113_completion_boolean_opening_audit.py
+
+      - name: Regress merged t147..149
+        run: python stages/stage14/14-t-batch-t147-149/audit.py
+
+      - name: Lock merged q16 baseline
+        run: |
+          grep -q 'FIXED_E_CONDITIONAL_PHYSICAL_LIFT_REMAINS=true' docs/stage14-q16-summary.md
+          grep -q 'Q16_CONDITIONAL_LIFT_EXTERNAL_SEARCH_TRIGGERED=false' docs/stage14-q16-summary.md
+
+      - name: Lock q17 result
+        run: |
+          grep -q 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' docs/stage14-q17-summary.md
+          grep -q 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q17-summary.md
+          grep -q 'Q17_EXPLICIT_RECIPROCAL_SELECTOR_CONSTRUCTION_TEST' docs/stage14-q17-summary.md
+
+      - name: Lock integrated XQ boundary
+        run: |
+          grep -q 'TOOLBOX_COMPONENT_COMPLETE=true' stages/stage14/14-Work-bzX38/result.md
+          grep -q 'X_COMPONENT_COMPLETE=true' stages/stage14/14-Work-bzX38/result.md
+          grep -q 'Q_COMPONENT=COMPLETE' stages/stage14/14-Work-bzX38/result.md
+          grep -q 'Q_LEDGER_BASELINE=Stage14-q16' stages/stage14/14-Work-bzX38/result.md
+          grep -q 'COMMON_ADAPTER_PROVED=false' stages/stage14/14-Work-bzX38/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-bzX38/result.md
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-bzX38/result.md
+
+      - name: Lock receiver matrix
+        run: |
+          grep -q 'COMMON_SUPPORT_EXISTENCE_AFTER_MULTIPLICITY_EXHAUSTION_LANGUAGE_PROVED=true' docs/stage14-toolbox/work-bzX38-receiver-matrix.md
+          grep -q 'COMMON_COMPLETION_TO_GAUSSIAN_PRIME_OCCUPANCY_ADAPTER_PROVED=false' docs/stage14-toolbox/work-bzX38-receiver-matrix.md
+          grep -q 'NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false' docs/stage14-toolbox/work-bzX38-receiver-matrix.md
+
+      - name: Diff check
+        run: git diff --check
