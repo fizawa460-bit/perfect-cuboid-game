@@ -1,0 +1,44 @@
+name: Stage14-Work-ckX49 joint incidence first moment audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-ckX49/**'
+      - 'stages/stage14/14-q23/**'
+      - 'docs/stage14-toolbox/work-ckX49-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-ckX49/**'
+      - '.github/workflows/stage14-Work-ckX49-joint-incidence-first-moment.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run integrated ckX49 and q23 audit
+        run: python stages/stage14/scripts/14-Work-ckX49/joint_incidence_first_moment_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-ckX49/joint_incidence_first_moment_audit.py
+      - name: Regress merged s7-147..149
+        run: |
+          grep -q 'Q22_GOOD_INDICATOR_EXACT_WITNESS_EXPANSION_TEST=PASS_NONNEGATIVE_Q17_WITNESS_COUNT' stages/stage14/14-s7-147/result.md
+          grep -q 'Q22_POSITIVE_FIRST_MOMENT_NORMAL_FORM_TEST=PASS_JOINT_NONNEGATIVE_DIVISOR_CRT_INCIDENCE' stages/stage14/14-s7-148/result.md
+          grep -q 'Q23_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-149/result.md
+      - name: Lock merged Work-cjX48
+        run: grep -q 'GOOD_PACKET_SECOND_MOMENT_RECHARGE_FORBIDDEN=true' stages/stage14/14-Work-cjX48/result.md
+      - name: Lock q22 baseline
+        run: grep -q 'STAGE14_Q22=COMPLETE_GOOD_PACKET_INDICATOR_FIRST_MOMENT_LITERATURE_RADAR' stages/stage14/14-q22/summary.md
+      - name: Lock q23 boundary
+        run: |
+          grep -q 'JOINT_FILTERED_TAU3_RECIPROCAL_CRT_FIRST_MOMENT_DIRECT_THEOREM_FOUND=false' stages/stage14/14-q23/result.md
+          grep -q 'Q23_W1_WITNESS_DEPENDENCE_SEPARABILITY_TEST=Stage14-s7-150' stages/stage14/14-q23/summary.md
+      - name: Lock integrated boundary
+        run: |
+          grep -q 'JOINT_INCIDENCE_IS_CURRENT_S_ARITHMETIC_RECEIVER=true' stages/stage14/14-Work-ckX49/result.md
+          grep -q 'TH34_NEEDED=false' stages/stage14/14-Work-ckX49/result.md
+      - name: Diff check
+        run: git diff --check origin/${{ github.base_ref }}...HEAD
