@@ -1,0 +1,24 @@
+name: Stage15-6aq norm-core gate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage15/15-6aq/**'
+      - 'stages/stage15/evidence/stage15_6aq_norm_core_gate.json'
+      - 'stages/stage15/replay/verify_stage15_6aq.py'
+      - 'stages/stage15/scripts/stage15_6aq_norm_core_gate.py'
+      - '.github/workflows/stage15-6aq-norm-core-gate.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage15-6aq norm-core aggregation gate
+        run: python stages/stage15/replay/verify_stage15_6aq.py
+      - name: Compile Stage15-6aq utility
+        run: python -m py_compile stages/stage15/scripts/stage15_6aq_norm_core_gate.py stages/stage15/replay/verify_stage15_6aq.py
