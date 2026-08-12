@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "primary_operator": "ChatGPT",
+  "canonical_commands": {
+    "main": "Stage15-6-main-batch",
+    "audit": "Stage15-6-audit"
+  },
+  "main_contract": {
+    "default_work_units": 3,
+    "maximum_work_units": 5,
+    "required_before_stop": [
+      "EXHAUSTIVE_VIEW_AUDIT when triggered",
+      "BLIND_REDISCOVERY when triggered",
+      "Arsenal trigger search",
+      "exact reconstruction search",
+      "measure and quantifier audit"
+    ],
+    "must_emit": [
+      "CURRENT_SUBSTAGE",
+      "NEXT_GATE",
+      "ALL_PRIOR_CHECKS_PASS",
+      "AUDIT_REQUIRED",
+      "CODEX_REQUIRED",
+      "MERGE_ALLOWED"
+    ]
+  },
+  "audit_contract": {
+    "fresh_chat_required": true,
+    "write_changes": false,
+    "required_checks": [
+      "mathematical implication chain",
+      "physical measure and cutoff",
+      "quantifier order",
+      "no double charge",
+      "cross-promotion firewall",
+      "candidate-ledger completeness",
+      "unused internal route search",
+      "merge safety"
+    ],
+    "must_emit": [
+      "AUDIT_VERDICT",
+      "INTERNAL_ROUTE_REMAINS",
+      "NEXT_MAIN_TASK",
+      "CODEX_AUDIT_REQUIRED",
+      "CODEX_REASON",
+      "MERGE_ALLOWED"
+    ]
+  },
+  "codex_transfer_triggers": [
+    "aggregate verifier or CI failure requiring repository diagnosis",
+    "repo-wide mechanical edit or generator/controller implementation",
+    "large multi-file consistency repair",
+    "source volume cannot be inspected reliably in one ChatGPT audit",
+    "same mathematical verdict changes in two consecutive fresh audits",
+    "reproduction requires local execution beyond connector capabilities"
+  ],
+  "codex_non_triggers": [
+    "a new external theorem gate by itself",
+    "a difficult proof question by itself",
+    "multiple candidate ideas that can be ledgered sequentially",
+    "ordinary PR creation through the GitHub connector"
+  ],
+  "split_triggers": [
+    "two live non-equivalent obstructions with independent inputs",
+    "pointwise and averaged routes require a separate exceptional-set adapter",
+    "same kernel appears under distinct charged measures",
+    "upstream normal-form change invalidates multiple downstream branches"
+  ],
+  "merge_rule": "MERGE_ALLOWED only when aggregate verification passes and a fresh Stage15-6-audit returns PASS"
+}

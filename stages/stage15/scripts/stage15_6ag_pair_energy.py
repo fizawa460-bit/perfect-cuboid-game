@@ -41,14 +41,16 @@ def line_residue(z1: tuple[int, int], z2: tuple[int, int], p: int) -> str | None
 
 
 def synthetic_report() -> dict:
-    z1 = (2, 1)
+    # Keep the anchor norm nonzero modulo 5: the old (2,1) fixture had
+    # norm 5 and therefore violated line_residue's own unit hypothesis.
+    z1 = (1, 1)
     assert primitive(z1)
     pairs = {
-        "parallel": (2, 1),
-        "orthogonal": (-1, 2),
-        "generic_plus_mod5": (1, 3),
-        "generic_minus_mod5": (3, 4),
-        "generic_none_mod5": (1, 1),
+        "parallel": (1, 1),
+        "orthogonal": (-1, 1),
+        "generic_plus_mod5": (1, 4),
+        "generic_minus_mod5": (1, 6),
+        "generic_none_mod5": (1, 2),
     }
     for z in pairs.values():
         assert primitive(z)

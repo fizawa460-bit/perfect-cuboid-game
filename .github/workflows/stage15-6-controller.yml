@@ -1,0 +1,40 @@
+name: Stage15-6 ChatGPT-first controller
+
+on:
+  pull_request:
+    paths:
+      - 'docs/stage15-6-chat-operations.md'
+      - 'docs/cycle-exploration-safety-protocol.md'
+      - 'stages/stage15/15-6*/**'
+      - 'stages/stage15/evidence/stage15_6*'
+      - 'stages/stage15/replay/verify_stage15_6*.py'
+      - 'stages/stage15/scripts/stage15_6*.py'
+      - '.github/workflows/stage15-6-controller.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'docs/stage15-6-chat-operations.md'
+      - 'docs/cycle-exploration-safety-protocol.md'
+      - 'stages/stage15/15-6*/**'
+      - 'stages/stage15/evidence/stage15_6*'
+      - 'stages/stage15/replay/verify_stage15_6*.py'
+      - 'stages/stage15/scripts/stage15_6*.py'
+      - '.github/workflows/stage15-6-controller.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  aggregate-controller:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile controller and Stage15-6 utilities
+        run: python -m compileall -q stages/stage15/scripts stages/stage15/replay
+      - name: Run every discovered Stage15-6 verifier and route decision
+        run: python stages/stage15/replay/verify_stage15_6_controller.py
