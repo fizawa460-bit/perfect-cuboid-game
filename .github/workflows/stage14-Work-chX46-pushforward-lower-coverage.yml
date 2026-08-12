@@ -1,0 +1,46 @@
+name: Stage14-Work-chX46 pushforward lower coverage audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-chX46/**'
+      - 'docs/stage14-toolbox/work-chX46-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-chX46/**'
+      - '.github/workflows/stage14-Work-chX46-pushforward-lower-coverage.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Run integrated chX46 audit
+        run: python stages/stage14/scripts/14-Work-chX46/pushforward_lower_coverage_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-chX46/pushforward_lower_coverage_audit.py
+      - name: Regress merged s7-138..140
+        run: python stages/stage14/scripts/14-s-batch/s7_138_140_pushforward_measure_audit.py
+      - name: Lock merged Work-cgX45
+        run: |
+          grep -Fq 'CONDITIONED_KERNEL_MEASURE_FIREWALL_LEMMA_PROVED=true' stages/stage14/14-Work-cgX45/result.md
+          grep -Fq 'Q17_TO_S_CONDITIONED_MEASURE_ADAPTER_PROVED=false' stages/stage14/14-Work-cgX45/result.md
+      - name: Lock q17 and q20 ledgers
+        run: |
+          grep -Fq 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' docs/stage14-q17-summary.md
+          grep -Fq 'STAGE14_Q20=COMPLETE_CONDITIONED_DIVISOR_CORRELATION_LITERATURE_RADAR' docs/stage14-q20-summary.md
+      - name: Lock integrated boundary
+        run: |
+          grep -Fq 'PUSHFORWARD_UPPER_ENVELOPE_DOES_NOT_IMPLY_LOWER_COVERAGE=true' stages/stage14/14-Work-chX46/result.md
+          grep -Fq 'S_Q17_GOOD_PACKET_COVERAGE_PROVED=false' stages/stage14/14-Work-chX46/result.md
+          grep -Fq 'Q21_NEEDED=false' stages/stage14/14-Work-chX46/result.md
+          grep -Fq 'TH34_NEEDED=false' stages/stage14/14-Work-chX46/result.md
+          grep -Fq 'STAGE14_AUTOMATION_SAFE=true' stages/stage14/14-Work-chX46/result.md
+          grep -Fq 'STAGE14_ROUTE=xq' stages/stage14/14-Work-chX46/result.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
