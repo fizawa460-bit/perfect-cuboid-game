@@ -1,0 +1,67 @@
+name: Stage14-main-batch 4gf-4gh K-free reciprocal first moment
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-4gf/**'
+      - 'stages/stage14/14-4gg/**'
+      - 'stages/stage14/14-4gh/**'
+      - 'stages/stage14/14-4-batch/4gf-4gh-report.md'
+      - 'stages/stage14/scripts/14-4/batch_4gf_4gh_kfree_reciprocal_first_moment_audit.py'
+      - '.github/workflows/stage14-main-batch-4gf-4gh-kfree-reciprocal-first-moment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run 4gf-4gh deterministic audit
+        run: python stages/stage14/scripts/14-4/batch_4gf_4gh_kfree_reciprocal_first_moment_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-4/batch_4gf_4gh_kfree_reciprocal_first_moment_audit.py
+
+      - name: Regress merged mainline 4gc-4ge
+        run: python stages/stage14/scripts/14-4/batch_4gc_4ge_reciprocal_completion_audit.py
+
+      - name: Regress merged Work-bzX38 q17 boundary
+        run: python stages/stage14/scripts/14-Work-bzX38/completion_support_q17_audit.py
+
+      - name: Regress merged s7-111-113 completion opening
+        run: python stages/stage14/scripts/14-s-batch/s7_111_113_completion_boolean_opening_audit.py
+
+      - name: Lock q17 handoff and no-direct-theorem boundary
+        run: |
+          grep -q 'Q17_EXPLICIT_RECIPROCAL_SELECTOR_CONSTRUCTION_TEST' docs/stage14-q17-summary.md
+          grep -q 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q17-summary.md
+          grep -q 'DIVISOR_AP_MOMENT_TO_EXISTENTIAL_SUPPORT_ADAPTER_PROVED=false' docs/stage14-q17-summary.md
+
+      - name: Lock new theorem interface
+        run: |
+          grep -q 'HOMOGENEOUS_RECIPROCAL_SEED_CONSTRUCTION_EXACT=true' stages/stage14/14-4gf/result.md
+          grep -q 'K_SUPPORTED_CORE_RECHARGE_FORBIDDEN=true' stages/stage14/14-4gg/result.md
+          grep -q 'RECIPROCAL_SUPPORT_EXPONENT_EQUALS_FIRST_MOMENT_EXPONENT=true' stages/stage14/14-4gh/result.md
+          grep -q 'Q17_SECOND_MOMENT_SUPPORT_TRANSFER_REQUIRED=false' stages/stage14/14-4gh/result.md
+          grep -q 'NEW_HEAVY_MAIN_H_NEEDED=true' stages/stage14/14-4gh/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-4gh/result.md
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-4gh/result.md
+
+      - name: Lock common and main batch contracts
+        run: |
+          grep -q 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
+          grep -q 'unresolved_external_gate' docs/stage14-batch-common-contract.md
+          grep -q 'Stage14-main-batch' docs/stage14-main-batch-task-contract.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
