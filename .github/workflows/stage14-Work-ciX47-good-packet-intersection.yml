@@ -1,0 +1,55 @@
+name: Stage14-Work-ciX47 good packet intersection audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-ciX47/**'
+      - 'docs/stage14-toolbox/work-ciX47-receiver-matrix.md'
+      - 'docs/stage14-q21-literature-radar.md'
+      - 'docs/stage14-q21-summary.md'
+      - 'stages/stage14/scripts/14-Work-ciX47/**'
+      - '.github/workflows/stage14-Work-ciX47-good-packet-intersection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run integrated ciX47 and q21 audit
+        run: python stages/stage14/scripts/14-Work-ciX47/good_packet_intersection_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-ciX47/good_packet_intersection_audit.py
+      - name: Regress merged s7-141..143
+        run: python stages/stage14/scripts/14-s-batch/s7_141_143_good_packet_intersection_audit.py
+      - name: Lock merged Work-chX46
+        run: |
+          grep -Fq 'PUSHFORWARD_UPPER_ENVELOPE_DOES_NOT_IMPLY_LOWER_COVERAGE=true' stages/stage14/14-Work-chX46/result.md
+          grep -Fq 'S_Q17_GOOD_PACKET_COVERAGE_PROVED=false' stages/stage14/14-Work-chX46/result.md
+      - name: Lock q17 and q20 baselines
+        run: |
+          grep -Fq 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' docs/stage14-q17-summary.md
+          grep -Fq 'STAGE14_Q20=COMPLETE_CONDITIONED_DIVISOR_CORRELATION_LITERATURE_RADAR' docs/stage14-q20-summary.md
+      - name: Lock q21 boundary
+        run: |
+          grep -Fq 'STAGE14_Q21=COMPLETE_Q17_GOOD_PACKET_PUSHFORWARD_INTERSECTION_LITERATURE_RADAR' docs/stage14-q21-summary.md
+          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q21-summary.md
+          grep -Fq 'Q21_GOOD_PACKET_INDICATOR_CORRELATION_ENCODING_TEST' docs/stage14-q21-summary.md
+      - name: Lock integrated boundary
+        run: |
+          grep -Fq 'Q_COMPONENT=COMPLETE' stages/stage14/14-Work-ciX47/result.md
+          grep -Fq 'Q21_NEEDED=true' stages/stage14/14-Work-ciX47/result.md
+          grep -Fq 'TH34_NEEDED=false' stages/stage14/14-Work-ciX47/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-ciX47/result.md
+          grep -Fq 'STAGE14_AUTOMATION_SAFE=true' stages/stage14/14-Work-ciX47/result.md
+          grep -Fq 'STAGE14_ROUTE=xq' stages/stage14/14-Work-ciX47/result.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
