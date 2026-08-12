@@ -1,0 +1,26 @@
+name: Stage14-t-batch t156-t157 super-Kai modulus window
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-t156/**'
+      - 'stages/stage14/14-t157/**'
+      - 'stages/stage14/14-t-batch-t156-157/**'
+      - '.github/workflows/stage14-t-batch-t156-157.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Audit t156-t157
+        run: python stages/stage14/14-t-batch-t156-157/audit.py
+      - name: Regression t153-t155
+        run: python stages/stage14/14-t-batch-t153-155/audit.py
+      - name: Regression t150-t152
+        run: python stages/stage14/14-t-batch-t150-152/audit.py
+      - name: Regression t147-t149
+        run: python stages/stage14/14-t-batch-t147-149/audit.py
