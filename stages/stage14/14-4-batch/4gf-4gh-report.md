@@ -133,9 +133,12 @@ The batch stops after three substantive stages because 4gh materially changes th
 
 Existing non-heavy mainline H targets remain pending and are not consumed or multiplied with this heavy target.
 
+Publication recheck found latest `main` unchanged at `007ff032d7f757035029a04d6065b605c8a65ef0`; no mathematical consumer merged after batch start.
+
 ```text
 EXISTING_NONHEAVY_MAIN_H_GATES_PENDING=true
 WHOLE_MAINLINE_BLOCKED_BY_H=false
 NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false
-PUBLICATION_MAIN_RECHECK_COMPLETE=false
+PUBLICATION_MAIN_RECHECK_COMPLETE=true
+NEW_MERGED_CONSUMER_AFTER_BATCH_START=false
 ```
