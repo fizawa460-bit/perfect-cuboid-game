@@ -1,0 +1,43 @@
+name: Stage14-s-batch s7-126..128 filtered tau3 first moment
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-126/**'
+      - 'stages/stage14/14-s7-127/**'
+      - 'stages/stage14/14-s7-128/**'
+      - 'stages/stage14/14-s-batch/s7-126-128-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_126_128_filtered_tau3_first_moment_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-126-128-filtered-tau3-first-moment.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_126_128_filtered_tau3_first_moment_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_126_128_filtered_tau3_first_moment_audit.py
+      - name: Regress merged s7-123..125
+        run: python stages/stage14/scripts/14-s-batch/s7_123_125_squareclass_allocation_audit.py
+      - name: Lock q18 handoff
+        run: |
+          grep -Fq 'Q18_SCALAR_FILTERED_TAU3_ENCODING_TEST' docs/stage14-q18-summary.md
+          grep -Fq 'Q18_POLYNOMIAL_PAIR_FIBERED_SUPPORT_MOMENT_TEST' docs/stage14-q18-summary.md
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'Q18_FILTERED_TAU3_TO_SUPPORT_ADAPTER_PROVED=true' stages/stage14/14-s7-128/result.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-126-128-report.md
+          grep -Fq 'NEXT=Stage14-s7-129' stages/stage14/14-s-batch/s7-126-128-report.md
+          grep -Fq 'STAGE14_AUTOMATION_SAFE=true' stages/stage14/14-s-batch/s7-126-128-report.md
+          grep -Fq 'STAGE14_ROUTE=s' stages/stage14/14-s-batch/s7-126-128-report.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
