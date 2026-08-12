@@ -1,0 +1,24 @@
+name: Stage15-6ak outer reconstruction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage15/15-6ak/**'
+      - 'stages/stage15/evidence/stage15_6ak_outer_reconstruction.json'
+      - 'stages/stage15/replay/verify_stage15_6ak.py'
+      - 'stages/stage15/scripts/stage15_6ak_outer_reconstruction.py'
+      - '.github/workflows/stage15-6ak-outer-reconstruction.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage15-6ak global reconstruction
+        run: python stages/stage15/replay/verify_stage15_6ak.py
+      - name: Compile Stage15-6ak utility
+        run: python -m py_compile stages/stage15/scripts/stage15_6ak_outer_reconstruction.py stages/stage15/replay/verify_stage15_6ak.py
