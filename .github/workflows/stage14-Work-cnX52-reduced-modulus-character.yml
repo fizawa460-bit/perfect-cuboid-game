@@ -32,7 +32,8 @@ jobs:
           grep -q 'Q26_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-161/result.md
       - name: Lock merged Work-cmX51 q25
         run: |
-          grep -q 'STAGE14_Q25=COMPLETE_UNIT_CHARACTER_NONUNIT_VALUATION_LITERATURE_RADAR' stages/stage14/14-q25/result.md
+          grep -q 'COMPLETE_UNIT_CHARACTER_NONUNIT_VALUATION_LITERATURE_RADAR' stages/stage14/14-q25/result.md
+          grep -q 'Q25_THEOREM_TARGET_CONSUMED=true' stages/stage14/14-Work-cmX51/result.md
           grep -q 'TH34_NEEDED=false' stages/stage14/14-Work-cmX51/result.md
       - name: Lock q26 boundary
         run: |
