@@ -48,7 +48,7 @@ foreach ($pr in ($candidates | Sort-Object number)) {
         throw "PR #$($pr.number) must contain exactly one STAGE14_ROUTE marker."
     }
     $route = $routeMatches[0].Groups[1].Value
-    Write-Log "Inspecting PR #$($pr.number) route=$route: $($pr.title)"
+    Write-Log "Inspecting PR #$($pr.number) route=${route}: $($pr.title)"
 
     if ($pr.body -match $stopPattern) {
         throw "PR #$($pr.number) contains a stop marker. Manual review is required: $($pr.url)"
