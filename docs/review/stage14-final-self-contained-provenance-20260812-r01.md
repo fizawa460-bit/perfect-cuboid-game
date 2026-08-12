@@ -1,8 +1,8 @@
-# Stage14 R02 compact provenance ledger
+# Stage14 R03 compact provenance ledger
 
-`BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R02`
+`BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R03`
 
-R02 repair provenance: external review exposed missing proof transcription, not a new mathematical gap. The proofs transcribed into the canonical source are the merged 4ab multiplicity-one argument, 4ag uniform torsion/height argument, s7-37 proportional host bound, 4cx lost-core/high-core argument, 4cy/s7-40 charged-once row audit, and X13 reverse reciprocal reconstruction.
+R03 repair provenance: the R02 differential review closed multiplicity-one, rational 2-torsion, and the proportional `7/16` calculation, but found that the 4ae height comparison, 4cx threshold notation, and two costs in Lemma 3.4 were still under-transcribed. R03 supplies those already-merged arguments from 4ae, 4cx, and s7-29. No new mathematics is introduced.
 
 `SOURCE_SNAPSHOT_COMMIT=2c7ec9433edbd4f06f298df73cba9e18e164057a`
 
@@ -10,6 +10,7 @@ This is a compact dependency ledger, not a chronological replay of roughly 800 p
 
 | Relevant PR | Stage | Commit SHA | Role | State | Final-proof dependency |
 |---:|---|---|---|---|---:|
+| #821 | Stage14 final R02 | `7b6cd2fbd24c9695d6c6e70527f2ee210970d86a` | First self-containment repair; source of the R03 differential review | SUPERSEDED | NO as a bundle; mathematics retained |
 | #160 | 14-4ag | `da73b1fe8f0b26c12e812a0800faab85f725f859` | Raw pair graph, active-face first-hit ordering, and Dujella uniform degree bridge | ACTIVE | YES |
 | #434 | 14-s7-13 | `079d053d1182e82a1924b37bba9ae33a3907f031` | Historical whole-family `7/8` bound | SUPERSEDED | NO |
 | #519 | 14-X7 | `61517a46b367d180455bd5879536f29abb4ebf8d` | Historical whole-family `3/4` bound and Gaussian/resultant receiver | SUPERSEDED | NO |
