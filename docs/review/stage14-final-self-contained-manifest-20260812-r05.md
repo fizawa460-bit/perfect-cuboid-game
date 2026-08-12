@@ -1,0 +1,33 @@
+# Stage14 final self-contained R05 manifest
+
+```text
+BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R05
+SOURCE_SNAPSHOT_COMMIT=81bc12bc28f159e3af2b26e4b41ef406a4f98339
+BUNDLE_BASE_COMMIT=e67258aa01e6580ce86cb1a8dec153a3b60c5c0c
+CONTENT_SHA256=ea9e4b2cfef7f1950a9ea1e39d115d46c4266b0afae38c0237d95ac9016b3129
+SOURCE_LEDGER_SHA256=0e43e32465f523e7fc7a39622a8c03874c4e49264b161c9649d93d893661fdae
+CANONICAL_SOURCE_SHA256=de5a2c1ff7a32fccf3bb079da27bf08e60f2f0d26adfbcaf689d1ad24d10b3ab
+COMPLETED_THROUGH=Stage14-Work-coX53@81bc12bc28f159e3af2b26e4b41ef406a4f98339
+THEOREM_SCOPE=primitive_canonical_integer-space-diagonal_exactly-two-face_whole-family_d_le_B
+WHOLE_FAMILY_EXPONENT=1/2
+STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+MATCHING_LOWER_BOUND_PROVED=false
+TRUE_ORDER_OF_N2_PROVED=false
+PERFECT_CUBOID_EXISTENCE_RESULT=NONE
+SELF_CONTAINMENT_STATUS=SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS
+FINAL_BUNDLE_STATUS=SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS
+MAIN_ROUTE_STATUS=PARKED_EXTERNAL_GATE:UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment
+T_ROUTE_STATUS=PARKED_EXTERNAL_GATE:SuperKaiIndividualGaussianResidueLongIntervalPrimeOccupancyLowerRatio
+S_ROUTE_STATUS=PARKED_EXTERNAL_GATE:ValuationAveragedReducedModulusTargetClassPrincipalDominationOrMeasurePreservingAdapter
+EXTERNAL_REVIEW_P0_COUNT=3
+EXTERNAL_REVIEW_P1_COUNT=8
+BUNDLE_PATH=review/STAGE14-FINAL-SELF-CONTAINED-20260812-R05.html
+CANONICAL_SOURCE_PATH=docs/stage14-final-self-contained.md
+SOURCE_LEDGER_PATH=docs/review/stage14-final-self-contained-provenance-20260812-r01.md
+```
+
+## Integrity contract
+
+`CONTENT_SHA256` is the SHA-256 of the standalone HTML bytes. `SOURCE_LEDGER_SHA256` is the SHA-256 of the compact provenance-ledger bytes, and `CANONICAL_SOURCE_SHA256` is the SHA-256 of the canonical Markdown bytes. The HTML embeds both the canonical source and the ledger and has no external runtime assets.
+
+`SOURCE_SNAPSHOT_COMMIT` is the frozen Stage14 mathematical source state. `BUNDLE_BASE_COMMIT` is the later current `main` from which R05 was branched; intervening Stage15 files do not enter the Stage14 proof.

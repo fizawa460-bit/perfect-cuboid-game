@@ -1,11 +1,11 @@
-name: Stage14 final self-contained R04 integrity
+name: Stage14 final self-contained R05 integrity
 
 on:
   pull_request:
     paths:
       - "docs/stage14-final-self-contained.md"
       - "docs/review/stage14-final-self-contained-*.md"
-      - "review/STAGE14-FINAL-SELF-CONTAINED-20260812-R04.html"
+      - "review/STAGE14-FINAL-SELF-CONTAINED-20260812-R05.html"
       - "scripts/build_stage14_final_bundle_r01.py"
       - ".github/workflows/stage14-final-self-contained-r01.yml"
   push:
@@ -13,7 +13,7 @@ on:
     paths:
       - "docs/stage14-final-self-contained.md"
       - "docs/review/stage14-final-self-contained-*.md"
-      - "review/STAGE14-FINAL-SELF-CONTAINED-20260812-R04.html"
+      - "review/STAGE14-FINAL-SELF-CONTAINED-20260812-R05.html"
       - "scripts/build_stage14_final_bundle_r01.py"
       - ".github/workflows/stage14-final-self-contained-r01.yml"
   workflow_dispatch:
@@ -41,7 +41,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
 
-          path = Path("review/STAGE14-FINAL-SELF-CONTAINED-20260812-R04.html")
+          path = Path("review/STAGE14-FINAL-SELF-CONTAINED-20260812-R05.html")
           data = path.read_text(encoding="utf-8")
           assert data.startswith("<!doctype html>")
           assert len(data.encode("utf-8")) > 50_000

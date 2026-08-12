@@ -1,8 +1,16 @@
-# Stage14 R04 compact provenance ledger
+# Stage14 R05 compact provenance ledger
 
-`BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R04`
+`BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R05`
 
-R04 closure provenance: the independent R03 review found no substantive mathematical gap and classified the theorem chain as passing. R04 is an editorial closeout that transcribes the remaining exact balanced-coordinate definitions, host meanings, elliptic base parameter, reciprocal notation, determinant, positivity, and parity checks. It changes no theorem or exponent and introduces no new mathematics.
+R05 closure provenance: the independent R03 review verdict was `PASS_WITH_MINOR_FIXES`, not an unqualified pass. R04 resolved substantial portions of that editorial list but its differential review correctly retained two missing elementary transcriptions (`M<d<sqrt(3)M` and the definition of primitive-face coprimality) plus two minor clarity points (`a_0,b_0` normalization and the unused auxiliary role of `E_s`). R05 resolves all four explicitly. The review found no new substantive mathematical gap, and R05 changes no theorem or exponent and introduces no new mathematics.
+
+```text
+R04_REVIEW_VERDICT=PASS_WITH_MINOR_FIXES
+R04_NEW_SUBSTANTIVE_MATHEMATICAL_GAP_FOUND=false
+R04_RESIDUAL_EDITORIAL_ITEMS=4
+R05_RESIDUAL_EDITORIAL_ITEMS_RESOLVED=4
+R05_KNOWN_SELF_CONTAINMENT_ITEMS_OPEN=0
+```
 
 `SOURCE_SNAPSHOT_COMMIT=81bc12bc28f159e3af2b26e4b41ef406a4f98339`
 

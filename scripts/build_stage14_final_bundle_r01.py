@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build and verify the closed Stage14 R04 self-contained review bundle."""
+"""Build and verify the closed Stage14 R05 self-contained review bundle."""
 
 from __future__ import annotations
 
@@ -12,12 +12,13 @@ import sys
 from pathlib import Path
 
 
-BUNDLE_ID = "STAGE14-FINAL-SELF-CONTAINED-20260812-R04"
+BUNDLE_ID = "STAGE14-FINAL-SELF-CONTAINED-20260812-R05"
 SOURCE_SNAPSHOT_COMMIT = "81bc12bc28f159e3af2b26e4b41ef406a4f98339"
+BUNDLE_BASE_COMMIT = "e67258aa01e6580ce86cb1a8dec153a3b60c5c0c"
 SOURCE = Path("docs/stage14-final-self-contained.md")
 LEDGER = Path("docs/review/stage14-final-self-contained-provenance-20260812-r01.md")
-BUNDLE = Path("review/STAGE14-FINAL-SELF-CONTAINED-20260812-R04.html")
-MANIFEST = Path("docs/review/stage14-final-self-contained-manifest-20260812-r04.md")
+BUNDLE = Path("review/STAGE14-FINAL-SELF-CONTAINED-20260812-R05.html")
+MANIFEST = Path("docs/review/stage14-final-self-contained-manifest-20260812-r05.md")
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -273,11 +274,12 @@ main{{min-width:0;background:var(--paper);border:1px solid var(--line);border-ra
 
 
 def build_manifest(content_sha: str, source_sha: str, ledger_sha: str) -> str:
-    return f"""# Stage14 final self-contained R04 manifest
+    return f"""# Stage14 final self-contained R05 manifest
 
 ```text
 BUNDLE_ID={BUNDLE_ID}
 SOURCE_SNAPSHOT_COMMIT={SOURCE_SNAPSHOT_COMMIT}
+BUNDLE_BASE_COMMIT={BUNDLE_BASE_COMMIT}
 CONTENT_SHA256={content_sha}
 SOURCE_LEDGER_SHA256={ledger_sha}
 CANONICAL_SOURCE_SHA256={source_sha}
@@ -304,7 +306,7 @@ SOURCE_LEDGER_PATH={LEDGER.as_posix()}
 
 `CONTENT_SHA256` is the SHA-256 of the standalone HTML bytes. `SOURCE_LEDGER_SHA256` is the SHA-256 of the compact provenance-ledger bytes, and `CANONICAL_SOURCE_SHA256` is the SHA-256 of the canonical Markdown bytes. The HTML embeds both the canonical source and the ledger and has no external runtime assets.
 
-The snapshot is the latest merged `main` inspected before this bundle branch was created. It records the mathematical source state, not the later bundle commit.
+`SOURCE_SNAPSHOT_COMMIT` is the frozen Stage14 mathematical source state. `BUNDLE_BASE_COMMIT` is the later current `main` from which R05 was branched; intervening Stage15 files do not enter the Stage14 proof.
 """
 
 
@@ -323,6 +325,11 @@ def validate_semantics(source_text: str, ledger_text: str, document: str) -> Non
         "UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment",
         "SuperKaiIndividualGaussianResidueLongIntervalPrimeOccupancyLowerRatio",
         "FINAL_BUNDLE_STATUS=SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS",
+        "R05_KNOWN_SELF_CONTAINMENT_ITEMS_OPEN=0",
+        "primitive-face coprimality",
+        "M^2<e^2+x^2+y^2=d^2<3M^2",
+        "a=g_{ab}a_0",
+        "auxiliary complete-host cross-check",
     ]
     for token in required:
         if token not in source_text:
@@ -347,6 +354,8 @@ def validate_semantics(source_text: str, ledger_text: str, document: str) -> Non
 def git_snapshot_check() -> None:
     subprocess.run(["git", "cat-file", "-e", f"{SOURCE_SNAPSHOT_COMMIT}^{{commit}}"], check=True)
     subprocess.run(["git", "merge-base", "--is-ancestor", SOURCE_SNAPSHOT_COMMIT, "HEAD"], check=True)
+    subprocess.run(["git", "cat-file", "-e", f"{BUNDLE_BASE_COMMIT}^{{commit}}"], check=True)
+    subprocess.run(["git", "merge-base", "--is-ancestor", BUNDLE_BASE_COMMIT, "HEAD"], check=True)
 
 
 def main() -> int:
