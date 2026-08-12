@@ -1,0 +1,66 @@
+name: Stage14-Work-cdX42 q19 second reverse audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-cdX42/**'
+      - 'docs/stage14-toolbox/work-cdX42-receiver-matrix.md'
+      - 'docs/stage14-q19-*'
+      - 'stages/stage14/scripts/14-Work-cdX42/**'
+      - '.github/workflows/stage14-Work-cdX42-q19-second-reverse.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run integrated cdX42 plus q19 audit
+        run: python stages/stage14/scripts/14-Work-cdX42/second_reverse_gate_audit.py
+
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-cdX42/second_reverse_gate_audit.py
+
+      - name: Regress merged Work-ccX41
+        run: python stages/stage14/scripts/14-Work-ccX41/squareclass_reverse_q18_audit.py
+
+      - name: Regress merged s7-126..128
+        run: python stages/stage14/scripts/14-s-batch/s7_126_128_filtered_tau3_first_moment_audit.py
+
+      - name: Regress merged tH33
+        run: python stages/stage14/14-t-batch-th33/audit.py
+
+      - name: Lock merged main 4ghH boundary
+        run: |
+          grep -Fq 'NEXT=UNRESOLVED_EXTERNAL_GATE:UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment' stages/stage14/14-4ghH/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-4ghH/result.md
+
+      - name: Lock q18 baseline and q19 handoff
+        run: |
+          grep -Fq 'Q18_FILTERED_TAU3_TO_SUPPORT_ADAPTER_PROVED=true' stages/stage14/14-s7-128/result.md
+          grep -Fq 'STAGE14_Q19=COMPLETE_CONDITIONED_SECOND_REVERSE_EXTENSION_LITERATURE_RADAR' docs/stage14-q19-summary.md
+          grep -Fq 'Q19_SECOND_REVERSE_EXACT_WEIGHT_ENCODING_TEST' docs/stage14-q19-summary.md
+
+      - name: Lock integrated XQ boundary
+        run: |
+          grep -Fq 'RESOLVED_INNER_SUPPORT_ADAPTER_CONSUMPTION_LEMMA_PROVED=true' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'Q_COMPONENT=COMPLETE' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'Q_LEDGER_BASELINE=Stage14-q18' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'FIXED_U_H_COMPLETED=true' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'TH34_NEEDED=false' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'STAGE14_AUTOMATION_SAFE=true' stages/stage14/14-Work-cdX42/result.md
+          grep -Fq 'STAGE14_ROUTE=xq' stages/stage14/14-Work-cdX42/result.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
