@@ -1,0 +1,1350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>STAGE14-FINAL-SELF-CONTAINED-20260812-R05</title>
+<style>
+:root{--ink:#15202b;--muted:#5d6975;--line:#d7dde3;--paper:#fff;--soft:#f4f7f9;--accent:#155eef;--accent2:#0c7a5b;--warn:#9a6700;--bad:#b42318;--shadow:0 10px 30px rgba(20,32,43,.08)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#eef2f5;color:var(--ink);font:15.5px/1.62 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:var(--accent)}code,pre,.math{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}code{background:#edf1f5;border-radius:4px;padding:.08em .32em;font-size:.91em}
+.hero{background:linear-gradient(135deg,#102a43,#155eef 70%,#35a77a);color:white;padding:54px max(24px,calc((100vw - 1240px)/2)) 42px}.eyebrow{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:12px;opacity:.85}h1{font-size:clamp(30px,5vw,54px);line-height:1.08;margin:12px 0 18px;max-width:950px}.subtitle{font-size:19px;max-width:900px;opacity:.9}
+.hero-meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:28px}.meta-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:13px 15px}.meta-card b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;opacity:.75}.meta-card code{display:block;margin-top:5px;background:transparent;padding:0;color:#fff;overflow-wrap:anywhere}
+.verdict-strip{max-width:1240px;margin:-22px auto 24px;background:var(--paper);border-radius:14px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden}.verdict-strip div{padding:18px 20px;border-right:1px solid var(--line)}.verdict-strip div:last-child{border:0}.verdict-strip span{display:block;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em}.verdict-strip strong{display:block;margin-top:5px;font-size:17px}.good{color:var(--accent2)}.open{color:var(--warn)}
+.layout{max-width:1240px;margin:0 auto 60px;display:grid;grid-template-columns:245px minmax(0,1fr);gap:24px;padding:0 18px}nav{position:sticky;top:14px;align-self:start;max-height:calc(100vh - 28px);overflow:auto;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:15px}nav strong{display:block;margin:2px 6px 10px;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}nav a{display:block;text-decoration:none;color:var(--ink);padding:7px 8px;border-radius:6px;font-size:13px}nav a:hover{background:var(--soft);color:var(--accent)}
+main{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:clamp(24px,5vw,58px);box-shadow:var(--shadow)}article>h1:first-child{display:none}h2{font-size:29px;line-height:1.22;margin:56px 0 18px;padding-top:6px;border-top:1px solid var(--line)}h3{font-size:21px;line-height:1.3;margin:34px 0 12px}h4{font-size:17px;margin:25px 0 8px}.anchor{opacity:0;text-decoration:none;margin-left:8px;font-size:.7em}h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:.45}p{margin:10px 0 16px}li{margin:5px 0}hr{border:0;border-top:1px solid var(--line);margin:34px 0}blockquote{margin:18px 0;padding:14px 18px;border-left:4px solid var(--accent);background:var(--soft)}
+.math{white-space:pre-wrap;overflow:auto;text-align:center;background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:16px;margin:18px 0;color:#102a43}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#102a43;color:#eaf2f8;border-radius:9px;padding:17px;overflow:auto;font-size:13px;line-height:1.5}pre code{background:transparent;color:inherit;padding:0}
+.table-wrap{overflow:auto;margin:18px 0 28px;border:1px solid var(--line);border-radius:9px}table{border-collapse:collapse;width:100%;min-width:650px;font-size:13.5px}th{position:sticky;top:0;background:#eaf0f6;text-align:left}th,td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}tr:last-child td{border-bottom:0}tbody tr:nth-child(even){background:#fafbfd}
+.nonclaims{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:20px 0 40px}.nonclaims div{border:1px solid #f0c6c2;background:#fff7f6;border-radius:9px;padding:12px;color:#7a271a;font-size:13px}.ledger{margin-top:70px;border-top:5px solid #102a43;padding-top:24px}.ledger-label{display:inline-block;background:#102a43;color:#fff;border-radius:999px;padding:5px 10px;font-size:12px;font-weight:700}
+.footer{max-width:1240px;margin:0 auto 40px;padding:0 20px;color:var(--muted);font-size:12px}
+@media(max-width:900px){.verdict-strip{margin:0 18px 20px;grid-template-columns:1fr 1fr}.verdict-strip div:nth-child(2){border-right:0}.layout{grid-template-columns:1fr}nav{position:static;max-height:none}.nonclaims{grid-template-columns:1fr}}
+@media(prefers-color-scheme:dark){:root{--ink:#e6edf3;--muted:#9da7b1;--line:#38434d;--paper:#182129;--soft:#202c35;--accent:#75a7ff;--accent2:#66d1ad;--warn:#f4c152}body{background:#101820}code{background:#283641}.math{background:#101820;color:#e6edf3}th{background:#26343f}tbody tr:nth-child(even){background:#1c2730}.nonclaims div{background:#351f20;border-color:#713638;color:#ffb4ac}}
+@media print{body{background:white}.hero{padding:25px;color:#000;background:white;border-bottom:2px solid #000}.hero-meta,.verdict-strip,nav,.footer{display:none}.layout{display:block;padding:0}main{border:0;box-shadow:none;padding:0}a{color:#000;text-decoration:none}h2{break-after:avoid}.table-wrap{overflow:visible}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="eyebrow">Frozen mathematical review bundle · 2026-08-12</div>
+  <h1>Stage14 final self-contained review</h1>
+  <div class="subtitle">Definitions, active proof chain, route-specific stopping gates, S/X accounting audit, literature contracts, open problems, and compact provenance — in one standalone HTML file.</div>
+  <div class="hero-meta">
+    <div class="meta-card"><b>Bundle ID</b><code>STAGE14-FINAL-SELF-CONTAINED-20260812-R05</code></div>
+    <div class="meta-card"><b>Audited main snapshot</b><code>81bc12bc28f159e3af2b26e4b41ef406a4f98339</code></div>
+    <div class="meta-card"><b>Scope</b><code>primitive canonical exact-two · d ≤ B</code></div>
+    <div class="meta-card"><b>Final classification</b><code>SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS</code></div>
+  </div>
+</header>
+<section class="verdict-strip" aria-label="Final theorem status">
+  <div><span>Main result</span><strong>N₂(B) ≪ B<sup>1/2+o(1)</sup></strong></div>
+  <div><span>Whole-family exponent</span><strong class="good">1/2</strong></div>
+  <div><span>Strict sub-sqrt</span><strong class="open">Not proved</strong></div>
+  <div><span>Matching lower bound</span><strong class="open">Not proved</strong></div>
+</section>
+<div class="layout">
+  <nav aria-label="Document sections"><strong>Contents</strong><a href="#doc-executive-summary">Executive Summary</a><a href="#doc-1-frozen-problem-and-conventions">1. Frozen problem and conventions</a><a href="#doc-2-frozen-main-theorem">2. Frozen main theorem</a><a href="#doc-3-final-proof-chain-in-dependency-order">3. Final proof chain in dependency order</a><a href="#doc-4-what-was-not-used-in-the-square-root-proof">4. What was not used in the square-root proof</a><a href="#doc-5-final-stopping-points-of-the-independent-routes">5. Final stopping points of the independent routes</a><a href="#doc-6-audit-of-the-long-s-x-exchange">6. Audit of the long S &lt;-&gt; X exchange</a><a href="#doc-7-whole-family-exponent-progression">7. Whole-family exponent progression</a><a href="#doc-8-external-theorem-and-literature-contracts">8. External theorem and literature contracts</a><a href="#doc-9-numerical-route-exact-but-diagnostic-only">9. Numerical route: exact but diagnostic only</a><a href="#doc-10-open-problems-and-theorem-level-restart-conditions">10. Open problems and theorem-level restart conditions</a><a href="#doc-11-publication-extraction-inventory-buried-gold-audit">11. Publication-extraction inventory (“buried-gold” audit)</a><a href="#doc-12-final-route-matrix">12. Final route matrix</a><a href="#doc-13-final-verdict">13. Final verdict</a><a href="#doc-14-source-map">14. Source map</a><a href="#provenance-ledger"><b>Appendix · provenance</b></a></nav>
+  <main>
+    <div class="nonclaims"><div>No asymptotic equivalence or exact constant.</div><div>No proof that square-root is the true order.</div><div>No perfect-cuboid existence or nonexistence result.</div></div>
+    <article><h1 id="doc-stage14-final-self-contained-mathematical-review">Stage14 final self-contained mathematical review<a class="anchor" href="#doc-stage14-final-self-contained-mathematical-review" aria-label="Link to section">#</a></h1>
+<p><strong>Bundle ID:</strong> <code>STAGE14-FINAL-SELF-CONTAINED-20260812-R05</code></p>
+<p><strong>R05 closure boundary.</strong> R05 changes no Stage14 theorem, exponent, receiver, or route status. The independent R04 differential review returned <code>PASS_WITH_MINOR_FIXES</code>: no new substantive mathematical gap, but two elementary transcriptions and two notation/usage clarifications remained. R05 supplies exactly those items—the max-height sandwich derivation, the primitive-face coprimality definition, the <code>a_0,b_0</code> normalization, and the auxiliary status of <code>E_s</code>. No new mathematics or saving is introduced.</p>
+<p><strong>Frozen source snapshot:</strong> <code>81bc12bc28f159e3af2b26e4b41ef406a4f98339</code> (<code>main</code>, 2026-08-12 closure audit; later Stage15 files do not enter this proof)</p>
+<p><strong>Purpose:</strong> reconstruct, audit, compress, and freeze the final Stage14 state. This document starts no new Stage14 route.</p>
+<hr>
+<h2 id="doc-executive-summary">Executive Summary<a class="anchor" href="#doc-executive-summary" aria-label="Link to section">#</a></h2>
+<p>Stage14 asked how many primitive rectangular boxes with integer space diagonal have <strong>exactly two</strong> integral face diagonals when the space diagonal is at most <code>B</code>. Stage12 counted individual integral-face records, and Stage13 isolated and asymptotically counted boxes with exactly one integral face. Stage14 addressed the rarer overlap population left below the Stage13 main term.</p>
+<p>The final proved result is an <strong>upper bound</strong></p>
+<div class="math" role="math">N_2(B)\ll B^{1/2+o(1)}.</div>
+<p>An upper bound is a ceiling: the number of exactly-two boxes cannot grow faster than square-root scale up to subpolynomial factors. It is meaningful because Stage14 progressively lowered the best whole-family ceiling from exponent <code>41/42</code> to <code>1/2</code>, and the final proof covers every physical chamber rather than a fixed-parameter or local subfamily.</p>
+<p>This does <strong>not</strong> say that the count is asymptotic to a constant times <code>sqrt(B)</code>. There is no matching lower bound, no asymptotic constant, and no proof that <code>1/2</code> is the true growth exponent. A strict fixed-power improvement <code>B^(1/2-delta)</code> is also not proved.</p>
+<p>It is not a solution of the perfect-cuboid problem. Perfect cuboids have all three face diagonals integral; <code>N_2</code> counts boxes with exactly two. The triple population is retained separately, and Stage14 proves neither its emptiness nor its non-emptiness.</p>
+<p>Stopping is mathematically justified because the square-root theorem is complete, while every route aimed at a strict sub-square-root saving has reached a sharply stated external theorem gate. The main, fixed-<code>U</code> (<code>T</code>), and conditioned-character (<code>S</code>) routes stop for different reasons. The final integration stage found no legal cross-promotion or uncharged internal reduction. Work can restart only after a materially new theorem or exact measure-preserving adapter appears.</p>
+<hr>
+<h2 id="doc-1-frozen-problem-and-conventions">1. Frozen problem and conventions<a class="anchor" href="#doc-1-frozen-problem-and-conventions" aria-label="Link to section">#</a></h2>
+<h3 id="doc-1-1-physical-objects-and-cutoff">1.1 Physical objects and cutoff<a class="anchor" href="#doc-1-1-physical-objects-and-cutoff" aria-label="Link to section">#</a></h3>
+<p>A physical cuboid is a triple of positive integers</p>
+<div class="math" role="math">0&lt;a&lt;b&lt;c,\qquad \gcd(a,b,c)=1.</div>
+<p>This is the <strong>primitive canonical convention</strong>: primitiveness removes common scaling, and strict ordering chooses one representative of the permutation orbit. Its space diagonal <code>d</code> is required to be an integer:</p>
+<div class="math" role="math">a^2+b^2+c^2=d^2,\qquad d\in\mathbf Z_{&gt;0}.</div>
+<p>The cutoff is</p>
+<div class="math" role="math">\mathcal C(B)=\{(a,b,c,d):0&lt;a&lt;b&lt;c,\ \gcd(a,b,c)=1,\ a^2+b^2+c^2=d^2,\ d\le B\}.</div>
+<p>For real <code>B&gt;=1</code>, the inequality <code>d&lt;=B</code> is understood literally; changing <code>B</code> between consecutive integers does not change the population.</p>
+<p>The three face-square predicates are</p>
+<div class="math" role="math">I_{ab}=1_{a^2+b^2\ \mathrm{is\ a\ square}},\quad
+I_{ac}=1_{a^2+c^2\ \mathrm{is\ a\ square}},\quad
+I_{bc}=1_{b^2+c^2\ \mathrm{is\ a\ square}}.</div>
+<p>Define the exactly-one, exactly-two, and exactly-three populations by</p>
+<div class="math" role="math">N_j(B)=\#\{C\in\mathcal C(B):I_{ab}+I_{ac}+I_{bc}=j\},\qquad j=1,2,3.</div>
+<p>The triple count is also written <code>T(B)=N_3(B)</code>. The exactly-two directional counts are</p>
+<div class="math" role="math">N_a^{(2)}(B),\quad N_b^{(2)}(B),\quad N_c^{(2)}(B),</div>
+<p>according as the two integral faces share the smallest, middle, or largest edge, and</p>
+<div class="math" role="math">N_2(B)=N_a^{(2)}(B)+N_b^{(2)}(B)+N_c^{(2)}(B).</div>
+<p>No assumption <code>T(B)=0</code> is made. The finite censuses happened to find no triple through their tested ranges; that is diagnostic evidence only.</p>
+<h3 id="doc-1-2-physical-filters">1.2 Physical filters<a class="anchor" href="#doc-1-2-physical-filters" aria-label="Link to section">#</a></h3>
+<p>All theorem statements refer to the same physical measure above. Intermediate parametrizations retain the following as filters: positivity, strict canonical ordering, primitiveness, parity and local coprimality, integral space diagonal, the required two face-square predicates, exclusion of the third face square for <code>N_2</code>, dyadic localization, sign/orientation conventions, and any recorded root/allocation/cell masks. A filter may discard algebraic candidates; it may not create candidates. Whenever an upper bound is proved before applying a later physical filter, preservation is therefore monotone.</p>
+<h3 id="doc-1-3-exact-stage12-13-interface">1.3 Exact Stage12/13 interface<a class="anchor" href="#doc-1-3-exact-stage12-13-interface" aria-label="Link to section">#</a></h3>
+<p>Stage12 counted primitive oriented one-face records and proved a <code>B(log B)^3</code> asymptotic. Stage13 resolved the projection multiplicity and the overlap contamination sufficiently to prove, for exact-one boxes,</p>
+<div class="math" role="math">N_1(B)\sim \frac{\kappa}{24\pi}B(\log B)^3,</div>
+<p>with directional constants described by its fixed theorem contract. Its raw two-face overlaps and triples were only known to be <code>o(B(log B)^3)</code>. That statement supplied no polynomial exponent for the exact-two population.</p>
+<p>Stage14 starts precisely at this unresolved overlap scale. It does not alter the Stage12/13 asymptotic and does not infer an exact-two law from the exact-one law. The interface is:</p>
+<ol>
+<li>Stage12/13 fix the primitive/canonical physical population and identify exact-one as the dominant <code>B(log B)^3</code> family.</li>
+<li>Stage14 retains the raw two-face incidences separately and seeks a sharper bound for the exact-two subpopulation.</li>
+<li>Any directional Stage14 asymptotic would require new second-face information; it is not inherited from Stage13.</li>
+</ol>
+<h3 id="doc-1-4-relation-to-perfect-cuboids">1.4 Relation to perfect cuboids<a class="anchor" href="#doc-1-4-relation-to-perfect-cuboids" aria-label="Link to section">#</a></h3>
+<p>A perfect cuboid is a member of <code>C(B)</code> with all three face predicates equal to one, hence belongs to <code>T(B)</code>, not <code>N_2(B)</code>. The exact raw-incidence identity below includes triples, but the final upper bound only uses <code>N_2(B)&lt;=E(B)</code>. It neither proves <code>T(B)=0</code> nor produces a member of <code>T(B)</code>. Therefore Stage14 has no perfect-cuboid existence or nonexistence result.</p>
+<h3 id="doc-1-5-latest-merged-state-inventory">1.5 Latest-merged-state inventory<a class="anchor" href="#doc-1-5-latest-merged-state-inventory" aria-label="Link to section">#</a></h3>
+<p>The audit used the state reachable from <code>main</code> commit <code>2c7ec9433edbd4f06f298df73cba9e18e164057a</code>; no stale branch or older roadmap receiver was substituted.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Track</th>
+<th>Latest authoritative state at the snapshot</th>
+<th>Frozen interpretation</th>
+</tr></thead><tbody>
+<tr>
+<td>main</td>
+<td>14-4gh plus 14-4ghH, PR #782</td>
+<td>External MAIN first-moment gate unresolved; no 4gi continuation</td>
+</tr>
+<tr>
+<td>H</td>
+<td>14-4ghH</td>
+<td>Clean applicability audit complete; off-the-shelf theorem false</td>
+</tr>
+<tr>
+<td>t</td>
+<td>14-t157, PR #790</td>
+<td>Final super-Kai fixed-residue long-interval receiver frozen</td>
+</tr>
+<tr>
+<td>tH</td>
+<td>14-tH33, PR #794</td>
+<td>Negative applicability audit complete; fixed-<code>U</code> route blocked at named gate</td>
+</tr>
+<tr>
+<td>s</td>
+<td>14-s7-164, PR #818</td>
+<td><code>PARKED_EXTERNAL_GATE</code>; no s7-165 and no automatic continuation</td>
+</tr>
+<tr>
+<td>q</td>
+<td>14-q26, PR #816</td>
+<td>Final reduced-modulus character literature radar; direct theorem count zero; q27 not needed</td>
+</tr>
+<tr>
+<td>X</td>
+<td>14-Work-coX53, PR #819</td>
+<td>All active analytic routes parked; no common gate or legal cross-promotion</td>
+</tr>
+<tr>
+<td>toolbox</td>
+<td>coX53 final route-classification matrix</td>
+<td>Integration/accounting controller complete; <code>STAGE14_ANALYTIC_AUTOMATIC_NEXT=NONE</code></td>
+</tr>
+<tr>
+<td>num</td>
+<td>14-num-alpha11 plus alpha11-diag11</td>
+<td>Exact B500m numerator census; matched B1m diagnostic; numerical branch parked, asymptotic claim false</td>
+</tr>
+<tr>
+<td>whole family</td>
+<td>X13 theorem retained through coX53</td>
+<td>Current exponent <code>1/2</code>; strict sub-square-root false</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="doc-2-frozen-main-theorem">2. Frozen main theorem<a class="anchor" href="#doc-2-frozen-main-theorem" aria-label="Link to section">#</a></h2>
+<h3 id="doc-theorem-2-1-physical-whole-family-square-root-upper-bound">Theorem 2.1 — physical whole-family square-root upper bound<a class="anchor" href="#doc-theorem-2-1-physical-whole-family-square-root-upper-bound" aria-label="Link to section">#</a></h3>
+<p>For every <code>epsilon&gt;0</code> there are constants <code>C_epsilon&gt;0</code> and <code>B_epsilon&gt;=1</code> such that, for every real <code>B&gt;=B_epsilon</code>,</p>
+<div class="math" role="math">N_2(B)\le C_\epsilon B^{1/2+\epsilon}.</div>
+<p>Equivalently,</p>
+<div class="math" role="math">N_2(B)\ll B^{1/2+o(1)}.</div>
+<p>The quantifier ranges over the entire primitive canonical physical family with integer space diagonal <code>d&lt;=B</code>; it is not a fixed-<code>U</code>, fixed-cell, fixed-direction, or averaged-over-parameter assertion.</p>
+<h4 id="doc-exact-meaning-and-non-claims">Exact meaning and non-claims<a class="anchor" href="#doc-exact-meaning-and-non-claims" aria-label="Link to section">#</a></h4>
+<p>The <code>o(1)</code> is an exponent loss tending to zero, and the displayed Vinogradov notation is interpreted by the epsilon formulation above. It allows divisor-type and finite-decoration losses such as <code>exp(O(log B/log log B))</code>; it does not hide a fixed positive power.</p>
+<p>The theorem is not any of the following:</p>
+<ul>
+<li><code>N_2(B)~C sqrt(B)</code> or even <code>N_2(B) asymp sqrt(B)</code>;</li>
+<li>a matching lower bound <code>N_2(B)&gt;=B^(1/2-o(1))</code>;</li>
+<li>a proof that the true order of growth is square-root;</li>
+<li>a strict power saving <code>N_2(B)&lt;&lt;B^(1/2-delta)</code> for some fixed <code>delta&gt;0</code>;</li>
+<li>an exact asymptotic constant or a directional asymptotic;</li>
+<li>a perfect-cuboid existence or nonexistence theorem.</li>
+</ul>
+<hr>
+<h2 id="doc-3-final-proof-chain-in-dependency-order">3. Final proof chain in dependency order<a class="anchor" href="#doc-3-final-proof-chain-in-dependency-order" aria-label="Link to section">#</a></h2>
+<p>Only the active proof chain is included here. Sieve, dispersion, squareclass, Gaussian-prime, and literature-audit routes that did not enter the square-root proof are recorded later as obstruction provenance, not as ingredients of Theorem 2.1.</p>
+<h3 id="doc-lemma-3-1-raw-pair-graph-identity">Lemma 3.1 — raw pair graph identity<a class="anchor" href="#doc-lemma-3-1-raw-pair-graph-identity" aria-label="Link to section">#</a></h3>
+<p><strong>Statement.</strong> Form a finite simple graph <code>G_B</code> whose vertices are primitive oriented Pythagorean face data <code>F=(S,X,H)</code> appearing in at least one physical raw two-face incidence of height <code>d&lt;=B</code>, and whose edges are raw unordered pairs of integral faces belonging to one physical cuboid. Let <code>V(B)</code> and <code>E(B)</code> be its vertex and edge counts. Then</p>
+<div class="math" role="math">E(B)=N_2(B)+3T(B),\qquad E(B)=\frac12\sum_F\deg_B(F).</div>
+<p><strong>Hypotheses.</strong> The Stage14-4ab parameter/fiber multiplicity-one normalization and the frozen orientation convention are used, so one raw incidence is one simple graph edge.</p>
+<p><strong>Conclusion.</strong> <code>N_2(B)&lt;=E(B)</code> without assuming <code>T(B)=0</code>.</p>
+<p><strong>Dependency.</strong> Exact two-face gluing and multiplicity-one; no analytic theorem.</p>
+<p><strong>Physical-filter preservation.</strong> The graph is built from physical incidences. Triple objects contribute exactly three raw pair edges; exact-two objects contribute exactly one.</p>
+<p><strong>Loss.</strong> None; these are exact identities.</p>
+<p><strong>Whole-family promotion.</strong> The identity already ranges over all physical incidences with <code>d&lt;=B</code>.</p>
+<p><strong>Proof of multiplicity one (4ab, transcribed).</strong> For oriented primitive face data <code>F_i=(S_i,X_i,H_i)</code>, a common physical edge has scales satisfying</p>
+<div class="math" role="math">k_1S_1=k_2S_2.</div>
+<p>Put <code>g=gcd(S_1,S_2)</code>, <code>alpha=S_1/g</code>, and <code>beta=S_2/g</code>. Since <code>(alpha,beta)=1</code>, every positive solution is</p>
+<div class="math" role="math">k_1=t\beta,\qquad k_2=t\alpha.</div>
+<p>The three physical edges are <code>t(e_0,x_0,y_0)</code> with</p>
+<div class="math" role="math">e_0=g\alpha\beta,\qquad x_0=\beta X_1,\qquad y_0=\alpha X_2.</div>
+<p>Here <strong>primitive-face coprimality</strong> means the pairwise coprimality inherited from the primitive Euclid datum:</p>
+<div class="math" role="math">\gcd(S_i,X_i)=\gcd(S_i,H_i)=\gcd(X_i,H_i)=1.</div>
+<p>If a prime divided all three minimal edges, then according as it divides <code>alpha</code>, <code>beta</code>, or only <code>g</code>, primitive-face coprimality would force it not to divide respectively <code>x_0</code>, <code>y_0</code>, or either nonshared edge. Hence <code>gcd(e_0,x_0,y_0)=1</code> and therefore <code>gcd(e,x,y)=t</code>. Global primitivity forces <code>t=1</code>. Each physical Pythagorean triangle has a unique scale-times-primitive-Euclid decomposition with the shared leg distinguished, and <code>x&lt;y</code> removes the remaining face swap. Thus one raw shared-edge incidence has exactly one ordered parameter pair. Triple objects still yield three <em>different</em> intended shared-edge incidences; that is the coefficient <code>3T(B)</code>, not parametrization multiplicity.</p>
+<h3 id="doc-lemma-3-2-uniform-elliptic-fiber-multiplicity">Lemma 3.2 — uniform elliptic-fiber multiplicity<a class="anchor" href="#doc-lemma-3-2-uniform-elliptic-fiber-multiplicity" aria-label="Link to section">#</a></h3>
+<p><strong>Statement.</strong> Uniformly in every active face vertex,</p>
+<div class="math" role="math">\deg_B(F)\le \exp\!\left(O\!\left(\frac{\log B}{\log\log B}\right)\right)=B^{o(1)}.</div>
+<p>Consequently,</p>
+<div class="math" role="math">E(B)\le \tfrac12 V(B)\max_F\deg_B(F)\ll V(B)B^{o(1)}.</div>
+<p><strong>Hypotheses.</strong> Each Stage14 elliptic fiber has rational <code>2</code>-torsion; its model height and the height of every physical point with <code>d&lt;=B</code> are bounded by <code>B^O(1)</code>. The base field is <code>Q</code>.</p>
+<p><strong>Conclusion.</strong> A single prolific fiber cannot contribute a fixed positive power; raw edge count and active-vertex count have the same polynomial exponent.</p>
+<p><strong>Dependency.</strong> Dujella's uniform bounded-height rational-point theorem for elliptic curves with a rational point of exact prime order, together with elementary height comparison for the fixed Stage14 birational maps.</p>
+<p><strong>Physical-filter preservation.</strong> Dujella bounds a larger bounded-height rational-point set. Positivity, canonical chamber, integrality, and third-face masks only reduce it.</p>
+<p><strong>Loss.</strong> <code>B^o(1)</code>, uniform in <code>F</code>; no fixed power.</p>
+<p><strong>Whole-family promotion.</strong> Uniformity in the active vertex is essential. This is not a fixed-fiber-to-global extrapolation: the maximum degree is bounded uniformly before summing over all <code>V(B)</code> vertices.</p>
+<p><strong>Uniformity proof (4ag, transcribed).</strong> The fiber is</p>
+<div class="math" role="math">E_t:Y^2=X(X-1)(X+t^2),</div>
+<p>where the first oriented primitive face has the rational-circle coordinate</p>
+<div class="math" role="math">r=\frac{X_1}{H_1+S_1}\in\mathbf Q\cap(0,1),\qquad
+t=\frac{2r}{1-r^2}.</div>
+<p>Thus <code>t</code> is an explicit rational function of <code>(S_1,X_1,H_1)</code>, and <code>(0,0)</code> is rational 2-torsion on every nonsingular physical specialization. Clearing the denominator of <code>t</code> gives a Weierstrass model whose coefficients are fixed-degree polynomials in the numerator and denominator of <code>r</code>; hence their multiplicative heights are bounded by a fixed power of <code>H_1</code>. Here is the height comparison imported from 4ae, rather than an unnamed “gluing inequality.” Write the two primitive faces as</p>
+<div class="math" role="math">F_i=(S_i,X_i,H_i),\qquad S_i^2+X_i^2=H_i^2,</div>
+<p>put <code>g=gcd(S_1,S_2)</code> and <code>L=S_1S_2/g</code>, and reconstruct the physical edges by</p>
+<div class="math" role="math">e=L,\qquad x=\frac{S_2}{g}X_1,\qquad y=\frac{S_1}{g}X_2.</div>
+<p>If <code>Q_2=max(S_2,X_2)</code>, then <code>Q_2&lt;H_2&lt;sqrt(2)Q_2</code>. The retained directional ordering makes</p>
+<div class="math" role="math">M=\max(e,x,y)=\frac{S_1}{g}Q_2.</div>
+<p>Since the three edges are positive and at most <code>M</code>, with at least one strictly smaller than <code>M</code>,</p>
+<div class="math" role="math">M^2&lt;e^2+x^2+y^2=d^2&lt;3M^2,
+\qquad M&lt;d&lt;\sqrt3\,M.</div>
+<p>Consequently, uniformly in direction,</p>
+<div class="math" role="math">\frac{S_1H_2}{\sqrt2\,g}&lt;d&lt;\frac{\sqrt3\,S_1H_2}{g}.</div>
+<p>For the primitive rational-circle parameter <code>q=u/v</code>, <code>0&lt;u&lt;v</code>, <code>gcd(u,v)=1</code>, one has</p>
+<div class="math" role="math">H_2=\frac{u^2+v^2}{\delta},\qquad \delta\in\{1,2\},
+\qquad \frac{v^2}{2}&lt;H_2&lt;2v^2.</div>
+<p>Therefore <code>d&lt;=B</code> implies <code>H_1&lt;B</code> and <code>v&lt;2^(3/4)sqrt(Bg/S_1)&lt;=2^(3/4)sqrt(B)</code>. Thus the base parameter and second-face parameter have polynomial height uniformly over every active face. The quartic-to-Weierstrass maps have fixed degree, so elementary Weil-height inequalities bound both the model coefficients and the image point height by <code>B^{C_0}</code> for one absolute <code>C_0</code>, uniformly in the active face. Dujella's theorem over the fixed field <code>Q</code> with prime torsion order <code>ell=2</code> therefore gives</p>
+<div class="math" role="math">\#\{P\in E_t(\mathbf Q):H(P)\le B^{C_0}\}
+\le \exp\!\left(O\!\left(\frac{\log B}{\log\log B}\right)\right).</div>
+<p>The rational maps have fixed finite degree, and boundary, positivity, integrality, chamber, and third-face conditions only delete points. The constant is independent of the specialization, so taking <code>max_F</code> before summing is valid. The point <code>(0,0)</code> has exact order two because a nonsingular Weierstrass point with <code>Y=0</code> is 2-torsion and is not the identity.</p>
+<h3 id="doc-proposition-3-3-complete-balanced-packet-reduction">Proposition 3.3 — complete balanced-packet reduction<a class="anchor" href="#doc-proposition-3-3-complete-balanced-packet-reduction" aria-label="Link to section">#</a></h3>
+<p><strong>Statement.</strong> After the exact Cayley/Gaussian parametrizations, gcd peels, finite sign and 2-primary decorations, and dyadic localization, every active face is covered with <code>B^o(1)</code> multiplicity by cells with</p>
+<div class="math" role="math">\frac{3}{16}\le\theta\le\frac{5}{16},\quad
+\frac18\le\phi\le\frac14,\quad
+0\le\theta-\phi\le\frac18,\quad
+\theta+\phi\ge\frac38,</div>
+<p>and common-core size</p>
+<div class="math" role="math">C=B^{\chi+o(1)},\qquad \chi=2\theta+2\phi-\frac34.</div>
+<p>Two complete host bounds are always available:</p>
+<div class="math" role="math">E_s\le\max(2\theta,1-2\theta),\qquad E_k\le3\theta-\frac14.</div>
+<p>The proportional branch has exponent at most <code>7/16</code>, and every fixed-power nonproportional cell with <code>chi&gt;1/4</code> is empty.</p>
+<p><strong>Hypotheses.</strong> The frozen balanced-strip adapters through Stage14-4cx/4cy and s7-37/40, with their original quantifier order.</p>
+<p><strong>Conclusion.</strong> Only the nonproportional region <code>chi&lt;=1/4</code> requires the final reconstruction.</p>
+<p><strong>Dependency.</strong> Exact parametrization, common-factor separation, proportional/nonproportional split, and complete host counts.</p>
+<p><strong>Physical-filter preservation.</strong> Every physical active face enters at least one retained decorated cell; all later masks are restrictive.</p>
+<p><strong>Loss.</strong> <code>B^o(1)</code> for dyadic choices, divisor fibers, signs, and 2-primary states. The displayed exponents are complete cell exponents.</p>
+<p><strong>Whole-family promotion.</strong> The strip and branch split cover every decorated physical cell. No fixed-<code>U</code> input is invoked.</p>
+<p><strong>Balanced coordinates, feasible domain, and hosts (transcribed).</strong> In each dyadic balanced packet the exact coefficient factorization is normalized by</p>
+<div class="math" role="math">\alpha,\delta=B^{\theta+o(1)},\qquad
+\beta,\gamma=B^{1/2-\theta+o(1)},</div>
+<div class="math" role="math">R,J=B^{\phi+o(1)},\qquad
+S,T=B^{3/8-\phi+o(1)}.</div>
+<p>The two physical states are</p>
+<div class="math" role="math">P_1=RSx_1^2,\ Q_1=TJy_1^2,\qquad
+P_2=RTx_2^2,\ Q_2=SJy_2^2,</div>
+<p>with <code>x_i,y_i=B^{1/16+o(1)}</code>. Ordering each paired factor so the named larger side is retained gives <code>theta&lt;=5/16</code>, <code>phi&lt;=1/4</code>; the complementary factors give <code>theta&gt;=3/16</code>, <code>phi&gt;=1/8</code>. The two cross-state balance inequalities are respectively <code>theta&gt;=phi</code> and <code>theta-phi&lt;=1/8</code>, while the retained hard chamber is <code>theta+phi&gt;=3/8</code>. These four elementary comparisons give exactly the displayed feasible domain—there is no omitted exceptional chamber.</p>
+<p>The equal residual norms split as</p>
+<div class="math" role="math">q_k=C u_{res},\qquad q_\xi=C v_{res},</div>
+<p>with</p>
+<div class="math" role="math">C\le B^{2\theta+2\phi-3/4+o(1)},\quad
+u_{res}\le B^{2\theta-2\phi+o(1)},\quad
+v_{res}\le B^{1/4+2\phi-2\theta+o(1)}.</div>
+<p>Dyadically fixing <code>C</code> at its active scale defines <code>chi=2theta+2phi-3/4</code>; smaller-core cells only improve the ensuing bounds. Direct enumeration of either original coefficient host gives <code>E_s&lt;=max(2theta,1-2theta)</code>. Enumerating the <code>k</code> residual host after the common product constraint gives <code>E_k&lt;=3theta-1/4</code>. Both are complete host counts for the same decorated physical cell, not savings promoted from a fixed parameter. The displayed <code>E_s</code> bound is an auxiliary complete-host cross-check retained for provenance; Proposition 3.6 closes the final case split with <code>E_k</code>, <code>E_H</code>, and <code>E_RRF</code>, so it does not charge or invoke <code>E_s</code> as an additional saving.</p>
+<p><strong>Proportional branch proof (s7-37, transcribed).</strong> Write the proportional common scale with same-side and cross-side odd root gcds <code>K=B^{kappa+o(1)}</code> and <code>H=B^{eta+o(1)}</code>. Exact reducedness gives <code>(K,H)=1</code> and <code>kappa+eta=1/8</code>. Prime-by-prime Gaussian descent shows <code>(K,q_xi)=1</code>; since the common core <code>C</code> divides <code>q_xi</code>, also <code>(K,C)=1</code>. The already proved divisibility <code>K^2|C u_res</code> therefore sharpens to <code>K^2|u_res</code>. With <code>u_res&lt;=B^{2theta-2phi+o(1)}</code>,</p>
+<div class="math" role="math">\kappa\le\theta-\phi,\qquad
+\eta\ge\frac18-\theta+\phi.</div>
+<p>The complete fourth-power host count is <code>E_H&lt;=3phi-1/8-3eta</code>, hence</p>
+<div class="math" role="math">E_H\le 3\theta-\frac12\le\frac7{16}</div>
+<p>because <code>theta&lt;=5/16</code>. The <code>7/16</code> bound thus comes from <code>E_H</code>, not from the unrelated complete host expression <code>E_s</code>.</p>
+<p><strong>Nonproportional high-core emptiness (4cx, transcribed with definitions).</strong> Let <code>C_Cayley|C</code> be the part of the common core on which both Cayley ratios and the quotient product are units. In the 4cq notation</p>
+<div class="math" role="math">M=4rsXY\epsilon_x\epsilon_k,\qquad N=abcd,</div>
+<p>the Cayley unit relation is <code>lambda*x*y=4 (mod C_Cayley)</code> with <code>lambda=4M/N</code>. Hence <code>gcd(C_Cayley,MN)=1</code>. Let <code>H_star</code> be the selected factor of the odd cross-root gcd <code>H=oddpart(gcd(X,Y))</code>; then <code>H_star|M</code>, so <code>(C_Cayley,H_star)=1</code>. The exact residual relation from s7-35 is</p>
+<div class="math" role="math">g_\star/H_\star^2\mid\Omega_1,\qquad \Omega_1=B^{o(1)}.</div>
+<p>Define</p>
+<div class="math" role="math">C_{res}=C/\gcd(C,g_\star^2),\quad
+J=\gcd(C_{Cayley},C_{res}),\quad
+A_C=C_{Cayley}/J.</div>
+<p>The elementary identity <code>A/gcd(A,B)|C/B</code> for <code>A,B|C</code> gives</p>
+<div class="math" role="math">A_C\mid C/C_{res}=\gcd(C,g_\star^2).</div>
+<p>The displayed residual relation implies <code>A_C|H_star^4 Omega_1^2</code>. Coprimality cancels all <code>H_star</code>-supported prime powers, so <code>A_C|Omega_1^2</code> and <code>A_C=B^{o(1)}</code>.</p>
+<p>Now define the lost core <code>D=C/J</code>. The earlier 4cs/4cu/X12 support relation supplies <code>Omega_0=B^{o(1)}</code> with <code>D|Omega_0H^2</code>; remove its endpoint-small part by</p>
+<div class="math" role="math">D_0=D/\gcd(D,\Omega_0).</div>
+<p>If <code>J=B^{j+o(1)}</code>, then</p>
+<div class="math" role="math">D_0=B^{\chi-j+o(1)},\qquad D_0\mid H^2.</div>
+<p>The endpoint columns are allocated as <code>L_-=J_{L-}h_-</code>, <code>L_+=J_{L+}h_+</code>, with <code>J_{L-}J_{L+}=J</code>. Since <code>H|L_-</code>, <code>H|L_+</code>, and <code>(J,H)=1</code>, division by the allocated <code>J</code> preserves <code>H|h_-</code> and <code>H|h_+</code>; consequently</p>
+<div class="math" role="math">D_0\mid H^2\mid h_-h_+.</div>
+<p>On the nonproportional branch the integer product is nonzero and 4cx's endpoint-linear bound is</p>
+<div class="math" role="math">0&lt;|L_-L_+|\le B^{1/4+o(1)},\qquad
+0&lt;|h_-h_+|\le B^{1/4-j+o(1)}.</div>
+<p>Indeed <code>L_-=z_1r_2s_2-z_2r_1s_1</code> and <code>L_+=z_1r_2s_2+z_2r_1s_1</code>, while the balanced packet has <code>z_i=B^{1/8+o(1)}</code> and <code>r_i,s_i=B^{o(1)}</code>. Thus each endpoint is <code>O(B^{1/8+o(1)})</code>, giving the product cap; nonproportionality is exactly the assertion that this integer product is nonzero. Dividing by <code>J_{L-}J_{L+}=J=B^{j+o(1)}</code> gives the second displayed bound.</p>
+<p>Comparing the size of its forced divisor with the nonzero host gives</p>
+<div class="math" role="math">\chi-j\le\frac14-j+o(1),\qquad \chi\le\frac14+o(1).</div>
+<p>This is the source of the <code>1/4</code> threshold; it is not inferred from the final <code>B^(1/2)</code> budget. Thus every fixed-power cell with <code>chi&gt;1/4</code> is empty. For <code>chi&lt;=1/4</code>, fixing <code>C,J,D_0</code> and a divisor allocation of <code>D_0</code> between the columns leaves</p>
+<div class="math" role="math">(1/4-j)-(\chi-j)=1/4-\chi</div>
+<p>as the reduced column-support exponent.</p>
+<h3 id="doc-lemma-3-4-column-reconstruction-and-charged-support">Lemma 3.4 — column reconstruction and charged support<a class="anchor" href="#doc-lemma-3-4-column-reconstruction-and-charged-support" aria-label="Link to section">#</a></h3>
+<p>In the surviving region set</p>
+<div class="math" role="math">U=L_x^+,\quad V=L_x^-,\quad \gcd(U,V)=1,</div>
+<div class="math" role="math">M=4rsXY\epsilon_x\epsilon_k,\qquad N=abcd.</div>
+<p>After fixing the common-core data and a legal column sign allocation, the endpoint linear forms reconstruct <code>(z_1,z_2)</code> divisor-many, hence reconstruct <code>M</code>. The charged fixed-power costs are exactly</p>
+<div class="math" role="math">\underbrace{\chi}_{C}
++\underbrace{(2\phi-\chi)}_{\text{primitive }(U,V)}
++\underbrace{(1/4-\chi)}_{\text{reduced column support}}.</div>
+<p><strong>Hypotheses.</strong> Nonproportional, <code>chi&lt;=1/4</code>, and the once-charged common-core/column quantifier order.</p>
+<p><strong>Conclusion.</strong> The column support costs <code>1/4-chi</code>, and <code>M</code> fixes</p>
+<div class="math" role="math">XY=\frac{M}{4rs\epsilon_x\epsilon_k}.</div>
+<p><strong>Dependency.</strong> The cross-root and lost-core peels of 4cx/4cy plus the exact endpoint-linear reconstruction.</p>
+<p><strong>Physical-filter preservation.</strong> Parity, signs, endpoint positivity, and canonical masks are checked after reconstruction and only reject candidates.</p>
+<p><strong>Loss.</strong> <code>B^o(1)</code> multiplicity beyond the displayed fixed-power support.</p>
+<p><strong>Whole-family promotion.</strong> It is applied cellwise inside the complete partition of Proposition 3.3; the number of cells is subpolynomial.</p>
+<p><strong>Derivation of all three displayed costs.</strong> First, choosing the common core <code>C=B^{chi+o(1)}</code> directly contributes at most <code>B^{chi+o(1)}</code>. Second, in the signed relation <code>D+A=aU</code>, <code>D-A=bV</code>, put</p>
+<div class="math" role="math">g_{ab}=\gcd(a,b),\qquad a=g_{ab}a_0,\qquad b=g_{ab}b_0,
+\qquad \gcd(a_0,b_0)=1.</div>
+<p>Thus <code>a_0,b_0</code> are the primitive coefficient parts of the same <code>a,b</code> later identified in Lemma 3.5 with <code>c_x^+,c_x^-</code>; they are not new variables. The endpoint relations imply <code>g_{ab}=B^{o(1)}</code>. After removing <code>C_{bad}=gcd(C,g_{ab}^2)</code>, set <code>C_0=C/C_{bad}=C/B^{o(1)}</code>. For fixed residual and quotient data, s7-29 then turns</p>
+<div class="math" role="math">C_0\mid a_0^2U^2+b_0^2V^2,\qquad
+\gcd(C_0,a_0b_0UV)=1</div>
+<p>into <code>2^omega(C_0)=B^{o(1)}</code> Gaussian CRT root lines <code>U=rho V (mod C_0)</code>. For two distinct primitive points <code>(U_1,V_1)</code> and <code>(U_2,V_2)</code> on one line,</p>
+<div class="math" role="math">U_1V_2-U_2V_1\equiv0\pmod {C_0}.</div>
+<p>The determinant cannot vanish: equality of slopes together with <code>gcd(U_i,V_i)=1</code> would make the positive primitive pairs equal. Hence its absolute value is at least <code>C_0</code>, while the dyadic box bounds it by <code>O(U_0V_0)</code>; ordering by slope therefore gives</p>
+<div class="math" role="math">\#\{(U,V)\}\ll 1+\frac{U_0V_0}{C_0}.</div>
+<p>Since <code>U_0V_0=B^{2phi+o(1)}</code> and <code>2phi-chi&gt;=1/8</code> on the balanced strip, the <code>1</code> is lower order and the primitive-pair cost is exactly</p>
+<div class="math" role="math">B^{2\phi-\chi+o(1)}.</div>
+<p>Third, the preceding 4cx calculation gives the reduced column cost <code>B^{1/4-chi+o(1)}</code>. These are three distinct supports in the fixed order <code>C</code>, then primitive root-line pair, then reduced column cofactor; none is inferred from the others and none is charged twice.</p>
+<p><strong>Charged-once audit (4cy and s7-40, transcribed).</strong> The common cross-root gcd satisfies <code>H|X,Y</code> and <code>H|c,d</code>, hence <code>H^2|M</code> and <code>H^2|N=abcd</code>. It is coprime to the Cayley-good modulus. One may therefore either divide both Cayley variables by <code>H^2</code> without changing that modulus (4cy), or combine <code>N=N_0(M) mod J</code> with <code>N=0 mod H^2</code> into one class modulo <code>JH^2</code> (s7-40). These are the same prime-by-prime fact. They remove <code>2s</code> from the later row lift but do not create a second saving: <code>H</code> is already the root-gcd variable in the complete host count, and <code>J</code> is already part of the once-charged core. This is why the column cost <code>1/4-chi</code> and the subsequent divisor fiber may be combined without recharging the lost core.</p>
+<h3 id="doc-lemma-3-5-reverse-reciprocal-divisor-reconstruction">Lemma 3.5 — reverse reciprocal divisor reconstruction<a class="anchor" href="#doc-lemma-3-5-reverse-reciprocal-divisor-reconstruction" aria-label="Link to section">#</a></h3>
+<p>The notation is entirely internal to the exact signed quotient factorization. The primitive xi agreement is</p>
+<div class="math" role="math">U=L_x^+,\quad V=L_x^-,\quad UV=\operatorname{oddpart}(RJ),\quad (U,V)=1.</div>
+<p>The opposite agreement is <code>p=L_k^+</code>, <code>q=L_k^-</code>; the signed residual quotients are <code>a=c_x^+</code>, <code>b=c_x^-</code>, <code>c=c_k^+</code>, <code>d=c_k^-</code>. The endpoint factors satisfy <code>r,s=B^{o(1)}</code>, <code>X=x_1x_2</code>, <code>Y=y_1y_2</code>, and <code>epsilon_x,epsilon_k in {1,2}</code> record only the fixed 2-primary agreement state. With these definitions the two displayed identities below are obtained by multiplying the exact sum/difference relations <code>D+A=aU</code>, <code>D-A=bV</code>, <code>Q+P=cp</code>, <code>Q-P=dq</code>; no asymptotic replacement occurs.</p>
+<p><strong>Statement.</strong> With</p>
+<div class="math" role="math">a=c_x^+,\ b=c_x^-,\ c=c_k^+,\ d=c_k^-,\ p=L_k^+,\ q=L_k^-,</div>
+<p>the exact reciprocal equations are</p>
+<div class="math" role="math">(aU)^2-(bV)^2=4rs\epsilon_kpq,</div>
+<div class="math" role="math">(cp)^2-(dq)^2=4XY\epsilon_xUV.</div>
+<p>For fixed <code>(U,V,M)</code> and the already fixed endpoint/2-primary decorations, there are only <code>B^o(1)</code> possibilities for <code>(a,b,c,d,p,q)</code> and hence for <code>N=abcd</code>.</p>
+<p><strong>Proof.</strong> Since <code>M</code> fixes <code>XY</code>, the positive integer</p>
+<div class="math" role="math">W_2=4XY\epsilon_xUV</div>
+<p>is fixed. On a physical point,</p>
+<div class="math" role="math">(cp-dq)(cp+dq)=W_2.</div>
+<p>A polynomially bounded integer has <code>B^o(1)</code> ordered positive divisor pairs. Each pair determines <code>cp</code> and <code>dq</code>, and divisor factorization gives <code>B^o(1)</code> possibilities for <code>(c,d,p,q)</code>. For each such tuple,</p>
+<div class="math" role="math">W_1=4rs\epsilon_kpq</div>
+<p>is fixed and</p>
+<div class="math" role="math">(aU-bV)(aU+bV)=W_1.</div>
+<p>Another divisor factorization, followed by divisibility by the fixed coprime <code>U,V</code>, gives <code>B^o(1)</code> possibilities for <code>(a,b)</code>. Multiplying the two subpolynomial fibers remains <code>B^o(1)</code>.</p>
+<p>More explicitly, physical positivity gives <code>cp=Q+P&gt;dq=Q-P&gt;0</code>, so both factors of <code>W_2</code> are positive. A divisor pair <code>(d_1,d_2)=(cp-dq,cp+dq)</code> reconstructs</p>
+<div class="math" role="math">cp=(d_1+d_2)/2,\qquad dq=(d_2-d_1)/2.</div>
+<p>The necessary congruence <code>d_1\equiv d_2 (mod 2)</code> is a filter. The first reciprocal equation is identical after replacing <code>(cp,dq)</code> by <code>(aU,bV)</code>; positivity follows from its physical sum/difference variables, and parity and divisibility by <code>U,V</code> again only discard candidates.</p>
+<p><strong>Hypotheses.</strong> Positivity of the two difference-of-square factor pairs and polynomial size of all physical coordinates; exactly the low-core nonproportional cell after Lemma 3.4.</p>
+<p><strong>Conclusion.</strong> The later Cayley congruences</p>
+<div class="math" role="math">N\equiv M\pmod {C_-},\qquad N\equiv-M\pmod {C_+}</div>
+<p>are filters on an already divisor-many set. The row CRT lift is not an independent support variable.</p>
+<p><strong>Dependency.</strong> Lemma 3.4 and the earlier exact reciprocal identities. Only the elementary divisor bound is used.</p>
+<p><strong>Physical-filter preservation.</strong> Integrality, parity, coprimality, squarefree-cell, orientation, root/allocation, canonical and third-face conditions all reduce the reconstructed set.</p>
+<p><strong>Loss.</strong> <code>B^o(1)</code> and no fixed power.</p>
+<p><strong>No-double-charge rule.</strong> The common core is charged once in the primitive-pair/column support. The reverse step uses exact equalities and divisor multiplicity; it does not charge the core or the CRT row a second time.</p>
+<p><strong>Whole-family promotion.</strong> Uniform in every surviving cell. No theorem about a fixed <code>U</code> or a different charged measure is promoted.</p>
+<h3 id="doc-proposition-3-6-active-face-square-root-bound">Proposition 3.6 — active-face square-root bound<a class="anchor" href="#doc-proposition-3-6-active-face-square-root-bound" aria-label="Link to section">#</a></h3>
+<p>On <code>chi&lt;=1/4</code>, Lemmas 3.4–3.5 give the nonproportional complete exponent</p>
+<div class="math" role="math">E_{\rm RRF}\le \chi+(2\phi-\chi)+(1/4-\chi)=1-2\theta.</div>
+<p>Now split the complete balanced strip:</p>
+<ul>
+<li>proportional branch: <code>E&lt;=7/16&lt;1/2</code>;</li>
+<li>nonproportional and <code>theta&lt;=1/4</code>: <code>E&lt;=E_k&lt;=3theta-1/4&lt;=1/2</code>;</li>
+<li>nonproportional and <code>theta&gt;=1/4</code>: cells with <code>chi&gt;1/4</code> are empty, and otherwise <code>E&lt;=1-2theta&lt;=1/2</code>.</li>
+</ul>
+<p>Thus every physical cell is bounded and</p>
+<div class="math" role="math">V(B)\ll B^{1/2+o(1)}.</div>
+<p><strong>Dependencies.</strong> Propositions 3.3 and Lemmas 3.4–3.5.</p>
+<p><strong>Loss.</strong> Only <code>B^o(1)</code> cell/decorative/divisor factors.</p>
+<p><strong>Whole-family promotion.</strong> The cases are exhaustive and are bounds for the same physical active-face measure. The proof explicitly records that 4cz, t78, and tH22 are not cross-promoted, and that X13 needs no auxiliary H theorem.</p>
+<h3 id="doc-proof-of-theorem-2-1">Proof of Theorem 2.1<a class="anchor" href="#doc-proof-of-theorem-2-1" aria-label="Link to section">#</a></h3>
+<p>By Lemma 3.1, <code>N_2(B)&lt;=E(B)</code>. By Lemma 3.2,</p>
+<div class="math" role="math">E(B)\ll V(B)B^{o(1)}.</div>
+<p>By Proposition 3.6,</p>
+<div class="math" role="math">V(B)\ll B^{1/2+o(1)}.</div>
+<p>Absorbing the product of the two subpolynomial factors proves</p>
+<div class="math" role="math">N_2(B)\ll B^{1/2+o(1)}.</div>
+<p>No subtraction of <code>3T(B)</code> and no assumption on perfect cuboids are required for this upper bound.</p>
+<hr>
+<h2 id="doc-4-what-was-not-used-in-the-square-root-proof">4. What was not used in the square-root proof<a class="anchor" href="#doc-4-what-was-not-used-in-the-square-root-proof" aria-label="Link to section">#</a></h2>
+<p>The proof above uses exact algebra, uniform finite fibers, the elementary divisor bound, complete host counts, and the Dujella degree bound. It does <strong>not</strong> use a squareclass sieve, Gaussian-prime occupancy theorem, Hecke zero-density theorem, dispersion theorem, determinant theorem, genus-one H theorem, or any q26 literature candidate. Those routes continued only to investigate a strict improvement below exponent <code>1/2</code> and ended at the gates recorded next.</p>
+<hr>
+<h2 id="doc-5-final-stopping-points-of-the-independent-routes">5. Final stopping points of the independent routes<a class="anchor" href="#doc-5-final-stopping-points-of-the-independent-routes" aria-label="Link to section">#</a></h2>
+<h3 id="doc-5-1-main-route">5.1 MAIN route<a class="anchor" href="#doc-5-1-main-route" aria-label="Link to section">#</a></h3>
+<p><strong>Final receiver before audit</strong></p>
+<p><code>FixedAgreementPairKFreeMovingDivisorAllocationTwoLevelCRTFirstMomentAsymptoticOrPowerDeficit</code>.</p>
+<p>The exact H normalization reduces the receiver further. For primitive rectangle variables and squarefree/nested divisor choices <code>t_p,t_q|m^circ</code>, with <code>f|N=t_pt_q</code>, the live simultaneous roots are</p>
+<div class="math" role="math">G_-f^2\equiv-G_+N\pmod{2U},\qquad
+G_-f^2\equiv G_+N\pmod{2V}.</div>
+<p><strong>Final external gate</strong></p>
+<p><code>UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment</code>.</p>
+<p><strong>H verdict</strong></p>
+<p><code>COMPLETE_UNRESOLVED_EXTERNAL_FIRST_MOMENT_GATE</code>; <code>OFF_THE_SHELF_THEOREM_APPLICABLE=false</code>.</p>
+<p><strong>Why existing theorems do not apply directly.</strong> The target is not an ordinary divisor sum in one progression. It has two nested divisors of a moving product, two simultaneous quadratic root conditions modulo the primitive rectangle sides, every-principal-cell uniformity, and retained physical masks. The audited AP/binary-form/divisor-support papers cover nearby single-divisor, averaged, fixed-form, or specially factorable situations, but no exact adapter preserves all variables, uniformity, and masks. Main is therefore blocked by a genuinely external first-moment theorem, not by an unfinished algebraic simplification.</p>
+<p><strong>Restart condition.</strong> Prove the named gate uniformly in the frozen primitive-rectangle range, with either a full-exponent asymptotic, a fixed power deficit on the saturation band, or a dichotomy that disposes of every physical cell, plus an exact mask-preserving parameter map.</p>
+<h3 id="doc-5-2-t-route-fixed-u-gaussian-route">5.2 T route (fixed-<code>U</code> Gaussian route)<a class="anchor" href="#doc-5-2-t-route-fixed-u-gaussian-route" aria-label="Link to section">#</a></h3>
+<p><strong>Final receiver</strong></p>
+<p><code>SuperKaiIndividualGaussianResidueLongIntervalPrimeOccupancyLowerRatio</code>.</p>
+<p>For <code>K=Q(i)</code>, the packet fixes one odd squarefree modulus <code>d=B^o(1)</code>, one invertible Gaussian residue <code>beta_* mod d</code>, one strict canonical <code>D4</code> sector, lower scale <code>L_B=2sqrt(B)</code>, and upper scale <code>X=L_BR</code> with fixed-power headroom <code>R&gt;=B^theta</code>. The required conclusion is pointwise lower occupancy at relative scale <code>B^{-o(1)}</code> for every retained fixed-<code>U</code> packet.</p>
+<p><strong>tH verdict</strong></p>
+<p><code>COMPLETE_NEGATIVE_UNRESOLVED_SUPER_KAI_INDIVIDUAL_RESIDUE_GATE_AUDIT</code>; <code>DIRECT_THEOREM_APPLICABLE=false</code> on the final super-Kai range.</p>
+<p><strong>Final obstruction.</strong> Kai/Mitsui matches the individual residue and archimedean sector geometry and is direct in the completed safe range</p>
+<div class="math" role="math">d^2\le \exp(\sqrt{\log X}/C_K).</div>
+<p>The final packet assumes the opposite inequality. Fixed-power headroom makes subtraction of the lower endpoint harmless, but it does not enlarge the modulus/conductor range. Stucky reaches a short Gaussian sector only for the conductor-one angular family and not one growing ordinary residue. Log-free Hecke zero-density and least-prime results give ingredients or existence, not the required density in every fixed residue. Bombieri–Vinogradov/BDH results average over moduli or residues and cannot be charged to this one packet without an exceptional-set-to-Stage14-measure adapter. Prime-product ray-class representation is not single-prime density.</p>
+<p><strong>Why T stops.</strong> Its remaining obstacle is analytic uniformity in a moving conductor and one prescribed residue, not the MAIN nested-divisor first moment and not the S conditioned-character measure.</p>
+<p><strong>Restart condition.</strong> Prove the named pointwise lower-ratio theorem beyond the Kai envelope, or prove an exact Stage14 adapter that turns an averaged theorem into the required every-packet statement while paying the exceptional set in the fixed-<code>U</code> physical measure.</p>
+<h3 id="doc-5-3-s-route-conditioned-character-discrepancy-route">5.3 S route (conditioned character/discrepancy route)<a class="anchor" href="#doc-5-3-s-route-conditioned-character-discrepancy-route" aria-label="Link to section">#</a></h3>
+<p><strong>Final receiver</strong></p>
+<p>The terminal algebra is a valuation-averaged reduced-modulus character principal-domination problem, in two non-interchangeable charged measures: a scalar fixed-<code>E</code> variant and a polynomial outer <code>(E,m)</code>-pair variant. In the last notation,</p>
+<div class="math" role="math">J_\nu=S_\nu(\rho_\nu),\qquad P_\nu=A_0/\varphi(q),</div>
+<p>where <code>J_nu</code> is the moving target-class mass and <code>P_nu</code> is the principal average.</p>
+<p><strong>How far exact algebra peeled the problem.</strong> S completed the second reverse encoding, self-coupled modulus cancellation, q17 kernel reidentification, the conditioned-measure firewall, good-packet intersection/indicator first-moment equivalence, moving common-core plus two coprime sides, unit/nonunit character splitting, valuation reduction, and recombination. It also proved:</p>
+<ul>
+<li>the relevant character family cannot uniformly collapse to <code>B^o(1)</code> characters on positive-exponent moduli;</li>
+<li>the naive <code>L^1</code> Fourier bound loses <code>phi(q)</code> and Parseval alone supplies no target-class lower bound;</li>
+<li>an abstract nonnegative mass distribution can have zero mass at the target class, so total mass and <code>L^2</code> control do not logically imply principal domination. This is a theorem-contract countermodel, not a physical cuboid counterexample.</li>
+</ul>
+<p><strong>Final decision</strong></p>
+<p><code>PARKED_EXTERNAL_GATE</code>. Stage14-s7-164 found no exact mask-preserving adapter to Nguyen, Irving, Rodgers–Soundararajan, Frei–Sofos, or the other q26 candidates. There is no <code>s7-165</code>. The internal exact-reduction sequence is exhausted at the stated receiver.</p>
+<p><strong>Restart condition.</strong> Supply one of:</p>
+<ol>
+<li>a new exact structure collapsing the moving target residue/character family;</li>
+<li>a uniform target-class principal-domination theorem with the common-core, valuation, every-cell, and post-mask quantifiers;</li>
+<li>an explicit measure-preserving adapter to an existing theorem.</li>
+</ol>
+<p>The scalar and polynomial measures must remain separate unless a new pair-to-scalar host adapter is actually proved.</p>
+<hr>
+<h2 id="doc-6-audit-of-the-long-s-x-exchange">6. Audit of the long S &lt;-&gt; X exchange<a class="anchor" href="#doc-6-audit-of-the-long-s-x-exchange" aria-label="Link to section">#</a></h2>
+<h3 id="doc-6-1-audit-verdict">6.1 Audit verdict<a class="anchor" href="#doc-6-1-audit-verdict" aria-label="Link to section">#</a></h3>
+<p>No first broken stage or blast radius was found. The later S/X sequence is a one-way refinement of the theorem object, not a chain of exponent improvements and not a license to recharge old savings. The final coX53 classification correctly parks all active analytic routes.</p>
+<p>The controls that make this conclusion possible are explicit in the merged records:</p>
+<ul>
+<li><code>CONSUMED</code> marks an exact adapter already incorporated into the next receiver;</li>
+<li><code>SUPERSEDED</code> retires an older receiver after a strictly sharper exact normal form;</li>
+<li><code>RECHARGE_FORBIDDEN</code> prevents its fiber, support reduction, second moment, or saving from being billed again;</li>
+<li>scalar fixed-<code>E</code> support and polynomial outer <code>(E,m)</code> support remain distinct;</li>
+<li>identification of an algebraic kernel with q17 does not identify its charged measure;</li>
+<li><code>B^o(1)</code> fibers certify equivalence/multiplicity only and are not counted as a fixed-power saving;</li>
+<li>physical masks and the every-retained-cell quantifier remain attached through the progression.</li>
+</ul>
+<h3 id="doc-6-2-representative-receiver-progression">6.2 Representative receiver progression<a class="anchor" href="#doc-6-2-representative-receiver-progression" aria-label="Link to section">#</a></h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Integration stage</th>
+<th>Genuine refinement</th>
+<th>Accounting firewall</th>
+</tr></thead><tbody>
+<tr>
+<td>ccX41 -&gt; cdX42</td>
+<td>Common host algebra is separated from charged support; the first reverse layer is consumed and a second reverse receiver is exposed.</td>
+<td><code>SUBPOLYNOMIAL_HOST_FIBER_CANNOT_SCALARIZE_PAIR_SUPPORT</code>; pair-to-scalar adapter false; first reverse layer cannot be recharged.</td>
+</tr>
+<tr>
+<td>ceX43 -&gt; cfX44</td>
+<td>The second reverse weight/support first moment is encoded exactly; self-coupled modulus cancellation identifies the inner reciprocal-CRT kernel with q17.</td>
+<td>Support-to-moment and multiplicity adapters consumed once; q17 kernel reused structurally, not its deficit; q17-to-S conditioned-measure adapter false.</td>
+</tr>
+<tr>
+<td>cgX45 -&gt; ciX47</td>
+<td>The conditioned-kernel measure firewall is made explicit; the target becomes lower coverage of the q17-good-packet pushforward intersection.</td>
+<td>Identical kernel does not imply measure transfer; scalar/pair theorem species count remains two; good-hit fibers cannot be recharged.</td>
+</tr>
+<tr>
+<td>cjX48 -&gt; ckX49</td>
+<td>Intersection coverage is rewritten as an indicator first moment and then as a joint filtered-<code>tau_3</code>/q17 CRT incidence.</td>
+<td>The second moment is automatically controlled and therefore superseded as an independent gate; q17 witness multiplicity is not a saving.</td>
+</tr>
+<tr>
+<td>clX50 -&gt; cmX51</td>
+<td>Joint incidence is peeled to a moving common core with two coprime sides, then split into unit and nonunit character strata.</td>
+<td>Common-core side decomposition is consumed once; no positive-density factorization is silently assumed.</td>
+</tr>
+<tr>
+<td>cnX52 -&gt; s7-162..164 -&gt; coX53</td>
+<td>Unit/nonunit strata are recombined over valuation-reduced moduli; character complexity and target-class logic are audited; literature adapters fail; S is parked.</td>
+<td>Separate unit/nonunit gates are superseded, not accumulated; q26 is radar only; automatic continuation is set to none.</td>
+</tr>
+</tbody></table></div>
+<h3 id="doc-6-3-specific-prohibited-errors-checked">6.3 Specific prohibited errors checked<a class="anchor" href="#doc-6-3-specific-prohibited-errors-checked" aria-label="Link to section">#</a></h3>
+<p><strong>Receiver renaming.</strong> Names became longer because exact couplings and quantifiers were retained. Each representative transition above either proves a new identity/equivalence or removes an invalid inference. The last three S stages do not claim mathematical progress after the no-go: they test character complexity, identify the precise logical gap, and park.</p>
+<p><strong>Reappearance under another name.</strong> q17 reappears only as the same reciprocal-CRT inner kernel. cfX44/cgX45 explicitly forbid importing q17's unconditioned conclusion into S's conditioned measure. The old filtered-<code>tau_3</code> obstruction and the independent second-moment gate are marked superseded.</p>
+<p><strong>Double counting <code>B^o(1)</code>.</strong> Finite or divisor-many fibers are used to preserve exponents when changing coordinates. They do not pay for a principal-class lower bound, an exceptional set, or a second fixed-power support reduction.</p>
+<p><strong>Scalar versus polynomial measure.</strong> ccX41 onward states that a scalar fixed-<code>E</code> theorem and an outer <code>(E,m)</code>-pair theorem are distinct species. <code>PAIR_TO_SCALAR_HOST_ADAPTER_PROVED=false</code> remains invariant to coX53.</p>
+<p><strong>q17 recharge.</strong> q17's kernel search is <code>CONSUMED</code>; <code>Q17_INNER_KERNEL_RESEARCH_RECHARGED=false</code>. Only the algebraic normal form is reused.</p>
+<p><strong>Physical measure and quantifiers.</strong> The residual root/canonical/allocation/cell/post-column mask remains separately charged after the arithmetic principal-domination estimate. No average-over-moduli theorem is substituted for an every-retained-cell statement.</p>
+<hr>
+<h2 id="doc-7-whole-family-exponent-progression">7. Whole-family exponent progression<a class="anchor" href="#doc-7-whole-family-exponent-progression" aria-label="Link to section">#</a></h2>
+<p>The following table contains only milestones that the cited merged stage itself labeled as the current physical whole-family/global upper bound. Intermediate local, fixed-<code>U</code>, branch-only, or diagnostic exponents are excluded. Every entry before <code>1/2</code> is superseded as a current theorem but retained as history.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Exponent</th>
+<th>Canonical stage(s)</th>
+<th>Content commit on current tree</th>
+<th>Status now</th>
+<th>What changed</th>
+</tr></thead><tbody>
+<tr>
+<td>41/42</td>
+<td>s6-00 / 4bk</td>
+<td><code>0bde1bfd…</code> / <code>8656a2b7…</code></td>
+<td>SUPERSEDED</td>
+<td>First post-local whole-family architecture.</td>
+</tr>
+<tr>
+<td>61/63</td>
+<td>4bq</td>
+<td><code>df15c152…</code></td>
+<td>SUPERSEDED</td>
+<td>Good-cell residual closed by diagonal pairs.</td>
+</tr>
+<tr>
+<td>20/21</td>
+<td>4br / 4bs</td>
+<td><code>7893bc9b…</code> / <code>87d260f8…</code></td>
+<td>SUPERSEDED</td>
+<td>Cross-factor threshold optimization and barrier.</td>
+</tr>
+<tr>
+<td>18/19</td>
+<td>s7-08 / 4bw</td>
+<td><code>3c45ef9d…</code> / <code>aa361f21…</code></td>
+<td>SUPERSEDED</td>
+<td>Shared-xi cell switch.</td>
+</tr>
+<tr>
+<td>15/16</td>
+<td>4bx</td>
+<td><code>bccfe450…</code></td>
+<td>SUPERSEDED</td>
+<td>Thick-packet square-sieve optimization.</td>
+</tr>
+<tr>
+<td>13/14</td>
+<td>s7-10 / 4by</td>
+<td><code>ce6f1104…</code> / <code>4b690088…</code></td>
+<td>SUPERSEDED</td>
+<td>Uniform two-cell mixed transform.</td>
+</tr>
+<tr>
+<td>10/11</td>
+<td>s7-12</td>
+<td><code>e35ffe75…</code></td>
+<td>SUPERSEDED</td>
+<td>Unbalanced-denominator bound.</td>
+</tr>
+<tr>
+<td>9/10</td>
+<td>4ca</td>
+<td><code>aebf9898…</code></td>
+<td>SUPERSEDED</td>
+<td>Dyadic short-denominator bound.</td>
+</tr>
+<tr>
+<td>7/8</td>
+<td>s7-13, PR #434</td>
+<td><code>ff6ac72c…</code></td>
+<td>SUPERSEDED</td>
+<td>Full-coordinate refinement.</td>
+</tr>
+<tr>
+<td>3/4</td>
+<td>X7, PR #519</td>
+<td><code>9a251851…</code></td>
+<td>SUPERSEDED</td>
+<td>Gaussian quotient/resultant minimax.</td>
+</tr>
+<tr>
+<td>2/3</td>
+<td>X8, PR #522</td>
+<td><code>64a8d11c…</code></td>
+<td>SUPERSEDED</td>
+<td>Two-thirds minimax promotion.</td>
+</tr>
+<tr>
+<td>5/8</td>
+<td>s7-31 / X9, PR #525</td>
+<td><code>c06a48a7…</code> / <code>ef51a023…</code></td>
+<td>SUPERSEDED</td>
+<td>Removed common-gcd square-root loss and classified the boundary.</td>
+</tr>
+<tr>
+<td>19/32</td>
+<td>4cu</td>
+<td><code>9ede6a8a…</code></td>
+<td>SUPERSEDED</td>
+<td>Low-core nonproportional improvement.</td>
+</tr>
+<tr>
+<td>47/80</td>
+<td>s7-34</td>
+<td><code>db10d06a…</code></td>
+<td>SUPERSEDED</td>
+<td>Fourth-power root transfer.</td>
+</tr>
+<tr>
+<td>7/12</td>
+<td>4cv</td>
+<td><code>ee82cc4e…</code></td>
+<td>SUPERSEDED</td>
+<td>Row/column reconstruction.</td>
+</tr>
+<tr>
+<td>4/7</td>
+<td>s7-35</td>
+<td><code>461f7c15…</code></td>
+<td>SUPERSEDED</td>
+<td>Endpoint-small extra-gcd collapse.</td>
+</tr>
+<tr>
+<td>9/16</td>
+<td>s7-36, PR #546</td>
+<td><code>fd1df2a9…</code></td>
+<td>SUPERSEDED</td>
+<td>Row/column and proportional bounds combined.</td>
+</tr>
+<tr>
+<td>19/34</td>
+<td>X11, PR #550</td>
+<td><code>91c97374…</code></td>
+<td>SUPERSEDED</td>
+<td>Proportional root-gcd decomposition.</td>
+</tr>
+<tr>
+<td>71/128</td>
+<td>X12, PR #556</td>
+<td><code>45a84b77…</code></td>
+<td>SUPERSEDED</td>
+<td>Lost-core fourth root coupled to column cofactor.</td>
+</tr>
+<tr>
+<td>61/112</td>
+<td>4cw, PR #562</td>
+<td><code>01a2481e…</code></td>
+<td>SUPERSEDED</td>
+<td>Full-row fourth-root theorem.</td>
+</tr>
+<tr>
+<td>17/32</td>
+<td>s7-39</td>
+<td><code>7d8e653d…</code></td>
+<td>SUPERSEDED</td>
+<td>Cayley residual disjointness.</td>
+</tr>
+<tr>
+<td>23/44</td>
+<td>4cy, PR #569</td>
+<td><code>6468ba95…</code></td>
+<td>SUPERSEDED</td>
+<td>Cross-root square row reduction.</td>
+</tr>
+<tr>
+<td><strong>1/2</strong></td>
+<td><strong>X13, PR #580</strong></td>
+<td><code>3ff32625…</code> (merge <code>6d0608d6…</code>)</td>
+<td><strong>ACTIVE</strong></td>
+<td>Reverse reciprocal divisor reconstruction eliminates the row-lift support.</td>
+</tr>
+</tbody></table></div>
+<p>The final interpretation is deliberately limited: current methods prove a square-root upper bound, while a strict sub-square-root power saving and a matching lower bound remain unresolved. The table does not claim that <code>1/2</code> is the natural or true scale.</p>
+<hr>
+<h2 id="doc-8-external-theorem-and-literature-contracts">8. External theorem and literature contracts<a class="anchor" href="#doc-8-external-theorem-and-literature-contracts" aria-label="Link to section">#</a></h2>
+<h3 id="doc-8-1-contract-table">8.1 Contract table<a class="anchor" href="#doc-8-1-contract-table" aria-label="Link to section">#</a></h3>
+<div class="table-wrap"><table><thead><tr>
+<th>Input</th>
+<th>Exact hypothesis / parameter map</th>
+<th>Uniformity, conductor, modulus, support</th>
+<th>Physical compatibility</th>
+<th>Verdict</th>
+<th>Role in final proof</th>
+</tr></thead><tbody>
+<tr>
+<td>Marta Dujella, <em>Uniform Bounds for the Number of Rational Points of Bounded Height on Certain Elliptic Curves</em>, arXiv:2312.03655; Acta Arith. 217 (2025)</td>
+<td>Fixed field <code>Q</code>; each Stage14 fiber has rational exact 2-torsion; model and physical point heights are <code>B^O(1)</code></td>
+<td>Uniform in the elliptic curve within the theorem's torsion class; bounded-height count <code>exp(O(log B/log log B))</code></td>
+<td>Yes; physical points form a subset of the bounded-height rational points</td>
+<td><strong>DIRECT</strong></td>
+<td><strong>Used</strong> in Lemma 3.2 to obtain uniform <code>B^o(1)</code> graph degree</td>
+</tr>
+<tr>
+<td>Elementary divisor bound <code>tau(n)=n^o(1)</code></td>
+<td>All reconstructed integers are positive and polynomially bounded in <code>B</code></td>
+<td>Uniform for every integer in the packet; no modulus/conductor issue</td>
+<td>Yes; all physical filters only reduce factor pairs</td>
+<td><strong>BACKGROUND/DIRECT</strong></td>
+<td><strong>Used</strong> in Lemma 3.5</td>
+</tr>
+<tr>
+<td>Frozen Stage12/13 exact-one theorem contract</td>
+<td>Same primitive/canonical population and cutoff; exact-one main term</td>
+<td>Upstream asymptotic, not an exact-two exponent theorem</td>
+<td>Yes</td>
+<td><strong>BACKGROUND_UPSTREAM</strong></td>
+<td>Used only to define the interface and motivation; not used to prove <code>1/2</code></td>
+</tr>
+<tr>
+<td>Mitsui / Wataru Kai, arXiv:2209.11816v2</td>
+<td><code>K=Q(i)</code>, one residue, fixed archimedean sector; Kai retains possible Siegel term</td>
+<td>Direct while <code>d^2&lt;=exp(sqrt(log X)/C_K)</code>; cumulative subtraction valid with fixed-power headroom</td>
+<td>Yes in the tH31 safe branch</td>
+<td><strong>DIRECT in safe subrange; BLOCKED at final T gate</strong></td>
+<td>Not used in Theorem 2.1; used only to close one fixed-<code>U</code> depletion mechanism</td>
+</tr>
+<tr>
+<td>Joshua Stucky, arXiv:2008.11325</td>
+<td>Gaussian primes in a narrow sector and norm interval</td>
+<td>Comparator at <code>B^(7/20+epsilon)</code> after dropping growing ordinary residue; angular conductor-one</td>
+<td>Dropping the residue changes the T object</td>
+<td><strong>NEAR / COMPARATOR</strong></td>
+<td>Radar/audit only</td>
+</tr>
+<tr>
+<td>Thorner–Zaman, arXiv:1510.08086 and 1604.01750</td>
+<td>Hecke zero-density/repulsion and least-prime Chebotarev inputs</td>
+<td>Ingredients or existence; no every-residue lower density in the super-Kai window</td>
+<td>No direct fixed-packet density map</td>
+<td><strong>BACKGROUND / BLOCKED</strong></td>
+<td>Radar/audit only</td>
+</tr>
+<tr>
+<td>Khale–O'Kuhn–Panidapu–Sun–Zhang, arXiv:2008.09677; Smith, arXiv:1210.3862/3863</td>
+<td>Short interval/sector or number-field BDH after averaging</td>
+<td>Averaged over modulus/residue families</td>
+<td>Needs an unproved exceptional-set-to-fixed-<code>U</code> measure adapter</td>
+<td><strong>NEAR / BLOCKED</strong></td>
+<td>Radar/audit only</td>
+</tr>
+<tr>
+<td>Grimmelt–Merikoski, arXiv:2508.17979; Irving, arXiv:1403.8031; Nguyen I/II, arXiv:2308.06839 / 2302.12815; Zhong–Zhang, arXiv:2505.10341</td>
+<td>Divisor functions in AP/binary-cubic, smooth, averaged, or prime-power modulus settings</td>
+<td>Do not state the nested two-divisor/two-root every-cell theorem</td>
+<td>No exact preservation of moving rectangle variables and masks</td>
+<td><strong>NEAR / BLOCKED</strong></td>
+<td>MAIN-H and q radar only</td>
+</tr>
+<tr>
+<td>Frei–Sofos, arXiv:1609.04002</td>
+<td>Generalised divisor sums of bounded-complexity binary forms</td>
+<td>Fixed admissible forms/number-field setting</td>
+<td>No exact bounded-complexity encoding of the witness-dependent Stage14 family</td>
+<td><strong>NEAR / BLOCKED</strong></td>
+<td>MAIN/S radar only</td>
+</tr>
+<tr>
+<td>Rodgers–Soundararajan, arXiv:1610.06900</td>
+<td>Variance of divisor sums in AP</td>
+<td>Averaged variance over residue classes/moduli</td>
+<td>Does not imply a lower bound at the moving target class in every cell</td>
+<td><strong>NEAR / BLOCKED</strong></td>
+<td>q26/S radar only</td>
+</tr>
+<tr>
+<td>Ford divisor-in-an-interval theorem</td>
+<td>Single-divisor support in an interval</td>
+<td>Single divisor, not nested simultaneous CRT roots</td>
+<td>Incomplete parameter map</td>
+<td><strong>NEAR / BLOCKED</strong></td>
+<td>MAIN-H radar only</td>
+</tr>
+<tr>
+<td>Xie, arXiv:2606.30567; Deshouillers–Gun–Ramaré–Sivaraman, arXiv:2210.11051</td>
+<td>Small products of prime ideals/ray-class representations</td>
+<td>Product representation or upper bounds, not single-prime density</td>
+<td>Does not meet final T lower-ratio contract</td>
+<td><strong>BACKGROUND / TOO WEAK</strong></td>
+<td>tH33 radar only</td>
+</tr>
+</tbody></table></div>
+<h3 id="doc-8-2-contract-discipline">8.2 Contract discipline<a class="anchor" href="#doc-8-2-contract-discipline" aria-label="Link to section">#</a></h3>
+<p>Only Dujella's theorem and the standard divisor bound enter the Stage14 square-root proof. Kai/Mitsui is genuinely applied only inside the separately audited tH31 safe subrange and is never promoted to the whole family. Every q26 candidate remains a literature-radar entry. Failure to find a direct theorem is an applicability result, not evidence that the requested theorem is false.</p>
+<hr>
+<h2 id="doc-9-numerical-route-exact-but-diagnostic-only">9. Numerical route: exact but diagnostic only<a class="anchor" href="#doc-9-numerical-route-exact-but-diagnostic-only" aria-label="Link to section">#</a></h2>
+<p>The exact alpha engine completed the canonical census through <code>B=500,000,000</code>:</p>
+<div class="math" role="math">(N_a^{(2)},N_b^{(2)},N_c^{(2)})=(1374,1371,750),\quad N_2=3495,\quad T=0.</div>
+<p>The predeclared three-transition stability gate failed, and later matched-denominator diagnostics through <code>B=1,000,000</code> found only <code>N_2=255</code> objects for the directional survival comparison. The robust finite signal was <code>ab&lt;{ac,bc}</code> at the stated calibration, while <code>ac</code> versus <code>bc</code> was unresolved. The apparent <code>2:2:1</code> direction vector remained compatible with finite-count noise and was not promoted to an asymptotic law.</p>
+<p>The numerical branch is parked after alpha11-diag11. It may reopen only for a materially larger matched raw-face denominator census or a proof-side predeclared directional prediction. Its finite <code>T=0</code> observation is not a perfect-cuboid nonexistence proof, and its failed operational stability gate neither proves nor refutes any asymptotic.</p>
+<hr>
+<h2 id="doc-10-open-problems-and-theorem-level-restart-conditions">10. Open problems and theorem-level restart conditions<a class="anchor" href="#doc-10-open-problems-and-theorem-level-restart-conditions" aria-label="Link to section">#</a></h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Open statement</th>
+<th>Frozen status</th>
+<th>Concrete restart condition</th>
+</tr></thead><tbody>
+<tr>
+<td>Matching lower bound, e.g. <code>N_2(B)&gt;=B^(1/2-o(1))</code></td>
+<td>UNPROVED</td>
+<td>Construct a whole-family physical subfamily with controlled injectivity and square-root-many members, or prove a lower first moment with all primitive/canonical/third-face filters. No current receiver supplies this.</td>
+</tr>
+<tr>
+<td>True asymptotic order of <code>N_2(B)</code></td>
+<td>UNPROVED</td>
+<td>Combine comparable upper and lower bounds, or an asymptotic theorem. The present upper bound alone is insufficient.</td>
+</tr>
+<tr>
+<td>Strict <code>B^(1/2-delta)</code> saving</td>
+<td>UNPROVED</td>
+<td>Close every square-root saturation packet. Sufficient restart inputs include <code>UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment</code>, <code>SuperKaiIndividualGaussianResidueLongIntervalPrimeOccupancyLowerRatio</code> plus a fixed-<code>U</code> promotion adapter, or S's valuation-averaged target-class domination in both charged measures.</td>
+</tr>
+<tr>
+<td>Exact asymptotic constant</td>
+<td>UNPROVED</td>
+<td>First prove the true order and a whole-family asymptotic with local densities and overlap/multiplicity control.</td>
+</tr>
+<tr>
+<td>Two-face directional asymptotic law</td>
+<td>UNPROVED</td>
+<td>Prove asymptotics for each <code>N_a^(2),N_b^(2),N_c^(2)</code> under the same cutoff and physical filters. Finite <code>2:2:1</code> compatibility is not sufficient.</td>
+</tr>
+<tr>
+<td>Perfect-cuboid existence/nonexistence</td>
+<td>UNPROVED</td>
+<td>A separate theorem proving <code>T(B)</code> eventually/nonuniversally zero or explicitly producing a triple object. No Stage14 exact-two receiver addresses this.</td>
+</tr>
+</tbody></table></div>
+<p>No automatic Stage14 analytic continuation is authorized. A restart must identify the exact gate and preserve its charged measure and quantifier order.</p>
+<hr>
+<h2 id="doc-11-publication-extraction-inventory-buried-gold-audit">11. Publication-extraction inventory (“buried-gold” audit)<a class="anchor" href="#doc-11-publication-extraction-inventory-buried-gold-audit" aria-label="Link to section">#</a></h2>
+<p>The inventory distinguishes external-review urgency (<code>P0</code> highest) from publication potential (<code>A</code> highest). Counts used by the final verdict are <code>P0=3</code> and <code>P1=8</code>.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>ID</th>
+<th>Candidate result</th>
+<th>Review</th>
+<th>Publication</th>
+<th>Dependencies</th>
+<th>Assessment</th>
+</tr></thead><tbody>
+<tr>
+<td>BG-01</td>
+<td>Physical whole-family theorem <code>N_2(B)&lt;&lt;B^(1/2+o(1))</code></td>
+<td>P0</td>
+<td>A</td>
+<td>BG-02, BG-03, BG-04</td>
+<td>Stage14 main theorem; mandatory independent proof-chain review.</td>
+</tr>
+<tr>
+<td>BG-02</td>
+<td>X13 reverse reciprocal reconstruction and complete square-root promotion</td>
+<td>P0</td>
+<td>A</td>
+<td>Balanced packet, exact reciprocal identities, divisor bound</td>
+<td>Core new closure mechanism; strongest standalone mathematical section.</td>
+</tr>
+<tr>
+<td>BG-03</td>
+<td>Final closure/obstruction judgment: main, T, S parked with no legal cross-promotion</td>
+<td>P0</td>
+<td>B</td>
+<td>H, tH33, s7-164, q26, coX53</td>
+<td>Essential for research governance and honest theorem scope; publish mainly as review/appendix.</td>
+</tr>
+<tr>
+<td>BG-04</td>
+<td>Exact raw-pair graph identity plus uniform Dujella degree bridge</td>
+<td>P1</td>
+<td>A</td>
+<td>4ab multiplicity-one; Dujella</td>
+<td>Potentially reusable for other overlap counts on elliptic-fiber incidence graphs.</td>
+</tr>
+<tr>
+<td>BG-05</td>
+<td>Exact two-face gluing and parameter/fiber multiplicity-one adapters</td>
+<td>P1</td>
+<td>B</td>
+<td>Primitive canonical conventions</td>
+<td>Important algebraic foundation; notation-heavy but reusable.</td>
+</tr>
+<tr>
+<td>BG-06</td>
+<td>Column reconstruction: fixed <code>(U,V,M)</code> determines <code>XY</code> and endpoint column up to divisor-many fibers</td>
+<td>P1</td>
+<td>A</td>
+<td>Lost-core/cross-root peels</td>
+<td>Plausible standalone lemma when abstracted from Stage14 notation.</td>
+</tr>
+<tr>
+<td>BG-07</td>
+<td>Row CRT lift is not independent support after reverse reciprocal factorization</td>
+<td>P1</td>
+<td>A</td>
+<td>BG-06 and exact reciprocal equations</td>
+<td>Strong no-double-charge lemma; suitable with BG-02/BG-06 in one paper.</td>
+</tr>
+<tr>
+<td>BG-08</td>
+<td>Common-core/allocation no-double-charge accounting and overlap separation</td>
+<td>P1</td>
+<td>B</td>
+<td>s7-46/47 lineage</td>
+<td>Transferable proof-audit technique, likely supporting lemma rather than separate paper.</td>
+</tr>
+<tr>
+<td>BG-09</td>
+<td>Conditioned-kernel measure firewall: identical q17 kernel does not transfer a saving across measures</td>
+<td>P1</td>
+<td>B</td>
+<td>cfX44/cgX45</td>
+<td>Reusable warning/lemma for analytic reductions with changed outer measures.</td>
+</tr>
+<tr>
+<td>BG-10</td>
+<td>Scalar fixed-<code>E</code> versus polynomial <code>(E,m)</code> measure non-equivalence</td>
+<td>P1</td>
+<td>B</td>
+<td>ccX41 onward</td>
+<td>Independent quantifier/measure audit; prevents invalid cross-promotion.</td>
+</tr>
+<tr>
+<td>BG-11</td>
+<td>Valuation-reduced character recombination and target-class countermodel</td>
+<td>P1</td>
+<td>B</td>
+<td>cnX52, s7-159..163</td>
+<td>Clean no-go statement; candidate for an obstruction appendix.</td>
+</tr>
+<tr>
+<td>BG-12</td>
+<td>Exact Stage13 one-face to Stage14 two-face endpoint bridge and conditional survival decomposition</td>
+<td>P1</td>
+<td>B</td>
+<td>num diag6–8; Stage13 census</td>
+<td>Useful for future directional work, but currently partly diagnostic.</td>
+</tr>
+<tr>
+<td>BG-13</td>
+<td>Routine gcd, parity, divisor-multiplicity, dyadic, and height audits</td>
+<td>P2</td>
+<td>C</td>
+<td>Local stage files</td>
+<td>Necessary verification material, not separate publication targets.</td>
+</tr>
+<tr>
+<td>BG-14</td>
+<td>Exact alpha census through B500m and matched survival diagnostics through B1m</td>
+<td>P2</td>
+<td>C</td>
+<td>Validated enumerators and SHA locks</td>
+<td>Reproducibility/data appendix only; no asymptotic evidence claim.</td>
+</tr>
+<tr>
+<td>BG-15</td>
+<td>Superseded exponent receivers and failed theorem candidates</td>
+<td>P3</td>
+<td>C</td>
+<td>Historical routes</td>
+<td>Provenance/history only; exclude from the active theorem chain.</td>
+</tr>
+</tbody></table></div>
+<p><strong>Standalone assessment.</strong> BG-02/BG-06/BG-07 together form the clearest standalone mathematical candidate: an abstract reverse-reciprocal divisor reconstruction principle that removes an apparent CRT lift, with the Stage14 square-root theorem as application. BG-04 is a second plausible reusable lemma/note. BG-09–BG-11 are valuable methodological results but are better presented as rigorous obstruction/accounting appendices unless a broader family of applications is developed.</p>
+<hr>
+<h2 id="doc-12-final-route-matrix">12. Final route matrix<a class="anchor" href="#doc-12-final-route-matrix" aria-label="Link to section">#</a></h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Route</th>
+<th>Final mathematical state</th>
+<th>External gate</th>
+<th>Automatic next</th>
+</tr></thead><tbody>
+<tr>
+<td>MAIN</td>
+<td>Exact primitive-rectangle nested K-free two-level CRT divisor-root first moment isolated; H complete</td>
+<td><code>UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment</code></td>
+<td>NONE</td>
+</tr>
+<tr>
+<td>T</td>
+<td>Fixed-<code>U</code> Gaussian packet reduced to one residue/sector with super-Kai modulus; tH33 complete negative applicability audit</td>
+<td><code>SuperKaiIndividualGaussianResidueLongIntervalPrimeOccupancyLowerRatio</code></td>
+<td>NONE</td>
+</tr>
+<tr>
+<td>S</td>
+<td>Exact algebra exhausted at valuation-averaged target-class principal domination in scalar and polynomial measures; s7-164 parks route</td>
+<td>New uniform target-class theorem or exact measure-preserving adapter</td>
+<td>NONE</td>
+</tr>
+<tr>
+<td>X/Q integration</td>
+<td>coX53 verifies all active routes parked, q26 consumed as radar, q27 not needed</td>
+<td>Material new input only</td>
+<td>NONE</td>
+</tr>
+<tr>
+<td>NUM</td>
+<td>B500m exact census and B1m matched diagnostic; alpha11-diag11 park recommendation</td>
+<td>Larger matched census or predeclared theorem-side prediction</td>
+<td>NONE</td>
+</tr>
+</tbody></table></div>
+<hr>
+<h2 id="doc-13-final-verdict">13. Final verdict<a class="anchor" href="#doc-13-final-verdict" aria-label="Link to section">#</a></h2>
+<p>The bundle is self-contained as a map of definitions, exact proof dependencies, route stops, non-claims, and restart contracts. It states rather than reproves the one external theorem used quantitatively (Dujella), so the appropriate status is not “external-theorem-free.” No substantive mathematical gap was discovered in reconstructing the merged theorem chain.</p>
+<pre><code>STAGE14_FINAL_BUNDLE_STATUS=SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS
+STAGE14_MAIN_RESULT=N_2(B) &lt;&lt; B^(1/2+o(1))
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
+R04_REVIEW_VERDICT=PASS_WITH_MINOR_FIXES
+R04_NEW_SUBSTANTIVE_MATHEMATICAL_GAP_FOUND=false
+R05_RESIDUAL_EDITORIAL_ITEMS_RESOLVED=4
+R05_KNOWN_SELF_CONTAINMENT_ITEMS_OPEN=0
+STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+MATCHING_LOWER_BOUND_PROVED=false
+TRUE_ORDER_OF_N2_PROVED=false
+PERFECT_CUBOID_EXISTENCE_OR_NONEXISTENCE_PROVED=false
+
+MAIN_ROUTE_STATUS=PARKED_EXTERNAL_GATE:UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment
+T_ROUTE_STATUS=PARKED_EXTERNAL_GATE:SuperKaiIndividualGaussianResidueLongIntervalPrimeOccupancyLowerRatio
+S_ROUTE_STATUS=PARKED_EXTERNAL_GATE:ValuationAveragedReducedModulusTargetClassPrincipalDominationOrMeasurePreservingAdapter
+
+EXTERNAL_REVIEW_P0_COUNT=3
+EXTERNAL_REVIEW_P1_COUNT=8
+
+NEXT_RECOMMENDED_PROJECT_DIRECTION=Stage12-14 publication extraction and independent P0 proof-chain review; reopen Stage14 only on a named material theorem/adapter input</code></pre>
+<hr>
+<h2 id="doc-14-source-map">14. Source map<a class="anchor" href="#doc-14-source-map" aria-label="Link to section">#</a></h2>
+<p>The active mathematical chain is anchored at:</p>
+<ul>
+<li><code>stages/stage14/archive/stage14-4ag-kummer-rank-jump.md</code> — raw-pair graph and uniform elliptic-fiber degree;</li>
+<li><code>stages/stage14/14-X13/result.md</code> — reverse reciprocal reconstruction and square-root closure;</li>
+<li><code>stages/stage14/14-4gh/result.md</code> and <code>14-4ghH/result.md</code> — final MAIN receiver and H audit;</li>
+<li><code>stages/stage14/14-t157/result.md</code>, <code>14-tH31/result.md</code>, <code>14-tH32/result.md</code>, <code>14-tH33/result.md</code> — final T receiver and applicability boundary;</li>
+<li><code>stages/stage14/14-s7-162/result.md</code> through <code>14-s7-164/result.md</code> — final S no-go and park;</li>
+<li><code>stages/stage14/14-q26/result.md</code> — final literature radar;</li>
+<li><code>stages/stage14/14-Work-ccX41/result.md</code> through <code>14-Work-coX53/result.md</code> — accounting and final integration;</li>
+<li><code>stages/stage14/14-num-alpha11/result.md</code> and <code>14-num-alpha11-diag11/result.md</code> — latest exact/diagnostic numerical endpoints;</li>
+<li><code>stages/stage13/main.md</code> and Stage14 roadmaps — frozen interface and definitions.</li>
+</ul>
+<p>The compact PR/commit/status ledger is maintained separately and embedded in the standalone HTML appendix.</p></article>
+    <section class="ledger" id="provenance-ledger"><span class="ledger-label">Appendix</span><h1 id="ledger-stage14-r05-compact-provenance-ledger">Stage14 R05 compact provenance ledger<a class="anchor" href="#ledger-stage14-r05-compact-provenance-ledger" aria-label="Link to section">#</a></h1>
+<p><code>BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R05</code></p>
+<p>R05 closure provenance: the independent R03 review verdict was <code>PASS_WITH_MINOR_FIXES</code>, not an unqualified pass. R04 resolved substantial portions of that editorial list but its differential review correctly retained two missing elementary transcriptions (<code>M&lt;d&lt;sqrt(3)M</code> and the definition of primitive-face coprimality) plus two minor clarity points (<code>a_0,b_0</code> normalization and the unused auxiliary role of <code>E_s</code>). R05 resolves all four explicitly. The review found no new substantive mathematical gap, and R05 changes no theorem or exponent and introduces no new mathematics.</p>
+<pre><code>R04_REVIEW_VERDICT=PASS_WITH_MINOR_FIXES
+R04_NEW_SUBSTANTIVE_MATHEMATICAL_GAP_FOUND=false
+R04_RESIDUAL_EDITORIAL_ITEMS=4
+R05_RESIDUAL_EDITORIAL_ITEMS_RESOLVED=4
+R05_KNOWN_SELF_CONTAINMENT_ITEMS_OPEN=0</code></pre>
+<p><code>SOURCE_SNAPSHOT_COMMIT=81bc12bc28f159e3af2b26e4b41ef406a4f98339</code></p>
+<p>This is a compact dependency ledger, not a chronological replay of roughly 800 pull requests. “Final-proof dependency” means dependency of the active theorem <code>N_2(B)&lt;&lt;B^(1/2+o(1))</code>, not dependency of a later strict-saving investigation.</p>
+<div class="table-wrap"><table><thead><tr>
+<th>Relevant PR</th>
+<th>Stage</th>
+<th>Commit SHA</th>
+<th>Role</th>
+<th>State</th>
+<th>Final-proof dependency</th>
+</tr></thead><tbody>
+<tr>
+<td>#822</td>
+<td>Stage14 final R03</td>
+<td><code>e0add452af4219ea7a3fb74c649bf71837d6210e</code></td>
+<td>Differential self-containment repair; source of the final R04 review</td>
+<td>SUPERSEDED</td>
+<td>NO as a bundle; mathematics retained</td>
+</tr>
+<tr>
+<td>#821</td>
+<td>Stage14 final R02</td>
+<td><code>7b6cd2fbd24c9695d6c6e70527f2ee210970d86a</code></td>
+<td>First self-containment repair; source of the R03 differential review</td>
+<td>SUPERSEDED</td>
+<td>NO as a bundle; mathematics retained</td>
+</tr>
+<tr>
+<td>#160</td>
+<td>14-4ag</td>
+<td><code>da73b1fe8f0b26c12e812a0800faab85f725f859</code></td>
+<td>Raw pair graph, active-face first-hit ordering, and Dujella uniform degree bridge</td>
+<td>ACTIVE</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>#434</td>
+<td>14-s7-13</td>
+<td><code>079d053d1182e82a1924b37bba9ae33a3907f031</code></td>
+<td>Historical whole-family <code>7/8</code> bound</td>
+<td>SUPERSEDED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#519</td>
+<td>14-X7</td>
+<td><code>61517a46b367d180455bd5879536f29abb4ebf8d</code></td>
+<td>Historical whole-family <code>3/4</code> bound and Gaussian/resultant receiver</td>
+<td>SUPERSEDED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#522</td>
+<td>14-X8</td>
+<td><code>e9169335c0270d0311e0dc237744ee9e7bb7659a</code></td>
+<td>Historical whole-family <code>2/3</code> minimax bound</td>
+<td>SUPERSEDED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#525</td>
+<td>14-s7-31 / X9</td>
+<td><code>b8809744b9be5a072acc8b5d12b3f56d46162c34</code></td>
+<td>Common-gcd loss removal and historical <code>5/8</code> bound</td>
+<td>CONSUMED</td>
+<td>YES, through X13 packet lineage</td>
+</tr>
+<tr>
+<td>#546</td>
+<td>14-s7-36</td>
+<td><code>6f8f6f64d29fb195f97e4b7a3e1bf9352b8c466d</code></td>
+<td>Row/column and proportional split, historical <code>9/16</code></td>
+<td>CONSUMED</td>
+<td>YES, through balanced packet</td>
+</tr>
+<tr>
+<td>#550</td>
+<td>14-X11</td>
+<td><code>aba2732f74594c6b357648539ef206bdb567ad87</code></td>
+<td>Proportional root-gcd decomposition, historical <code>19/34</code></td>
+<td>CONSUMED</td>
+<td>YES, proportional branch</td>
+</tr>
+<tr>
+<td>#556</td>
+<td>14-X12</td>
+<td><code>dc917e586461566d385048e02faeb2533cbedfdd</code></td>
+<td>Lost-core fourth-root/column coupling, historical <code>71/128</code></td>
+<td>CONSUMED</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>#562</td>
+<td>14-4cw</td>
+<td><code>ebb31223745a136adef259deffc57fd86bb862bb</code></td>
+<td>Full-row fourth-root theorem, historical <code>61/112</code></td>
+<td>SUPERSEDED</td>
+<td>NO as a bound; algebra partly upstream</td>
+</tr>
+<tr>
+<td>#569</td>
+<td>14-4cy</td>
+<td><code>985507796cc978e4532e52c9f9ddf3fb665de1f9</code></td>
+<td>Cross-root square row reduction, column support, historical <code>23/44</code></td>
+<td>CONSUMED</td>
+<td>YES, column support</td>
+</tr>
+<tr>
+<td>#580</td>
+<td>14-X13</td>
+<td><code>6d0608d6752c203a236459618903ba43ff28ac05</code></td>
+<td>Reverse reciprocal divisor reconstruction and whole-family square-root closure</td>
+<td>ACTIVE</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>#297</td>
+<td>14-num-alpha11</td>
+<td><code>2080693c045778fd89d6059ef4bcd658ce1e9178</code></td>
+<td>Exact B500m census and operational stability gate</td>
+<td>DIAGNOSTIC</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#339</td>
+<td>14-num-alpha11-diag11</td>
+<td><code>152016ddf0439f97b976e61347189f3969252ed9</code></td>
+<td>B1m matched-survival uncertainty and numeric branch park</td>
+<td>DIAGNOSTIC</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#782</td>
+<td>14-4gh / 14-4ghH</td>
+<td><code>d6410e1c0b3d7e764d2a506a82dc36b06af9b8aa</code></td>
+<td>Final MAIN receiver and clean-room external theorem applicability audit</td>
+<td>ACTIVE</td>
+<td>NO; strict-saving route only</td>
+</tr>
+<tr>
+<td>#790</td>
+<td>14-t156..157</td>
+<td><code>51aca59116579dd4bec63f10cc5721d0c9dfc6ff</code></td>
+<td>Freeze final T long-interval fixed-residue receiver</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#794</td>
+<td>14-tH33</td>
+<td><code>265948d54f00942e4bb3197785541f4dfbe961c6</code></td>
+<td>Negative super-Kai individual-residue applicability audit</td>
+<td>ACTIVE</td>
+<td>NO; strict-saving route only</td>
+</tr>
+<tr>
+<td>#792</td>
+<td>14-ccX41 / q18</td>
+<td><code>4c46731e68b7d76291a37bc6f10638467c006c93</code></td>
+<td>Split scalar and polynomial charged measures; first reverse radar</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#795</td>
+<td>14-cdX42 / q19</td>
+<td><code>238642b4140a7320f4b2f5e9c601b87f02b217f8</code></td>
+<td>Consume first reverse layer; expose second reverse receiver</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#797</td>
+<td>14-ceX43 / q20</td>
+<td><code>b75d2784850766f936c9c7e586de7005f379094a</code></td>
+<td>Exact second-reverse weight/support first-moment equivalence</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#799</td>
+<td>14-cfX44</td>
+<td><code>64b65c9fe0abe9e0d2210d8a5bcf699c59e890b3</code></td>
+<td>Self-coupled modulus cancellation and q17 kernel reidentification</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#801</td>
+<td>14-cgX45</td>
+<td><code>fa189bcb7cac4eb29d8a277130a3fa261f4691d8</code></td>
+<td>Conditioned-kernel measure firewall; prohibits q17 recharge</td>
+<td>ACTIVE</td>
+<td>NO; audit dependency</td>
+</tr>
+<tr>
+<td>#805</td>
+<td>14-ciX47 / q21</td>
+<td><code>3565f8d30ad5082fff1c843089bfdb75c8697ca0</code></td>
+<td>Good-packet intersection localization</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#807</td>
+<td>14-cjX48 / q22</td>
+<td><code>c44c3a4bc16ddae1ff78bdad712a967238de4739</code></td>
+<td>Indicator first-moment encoding; second moment superseded</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#809</td>
+<td>14-ckX49 / q23</td>
+<td><code>8e2048fecb5cf13d30a203bd6940988ac215044d</code></td>
+<td>Joint filtered-tau3/q17 CRT incidence normal form</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#812</td>
+<td>14-clX50 / q24</td>
+<td><code>1e101abdab414ce428579dae83c00aca2a294d1a</code></td>
+<td>Moving common core and two coprime sides</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#814</td>
+<td>14-cmX51 / q25</td>
+<td><code>92f1b92e094681945792753f8ee25addcc05cd1d</code></td>
+<td>Unit/nonunit character split</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#816</td>
+<td>14-cnX52 / q26</td>
+<td><code>9632d760afcf529aeae5e56a40820b6cfbced44c</code></td>
+<td>Valuation-reduced recombination and final literature radar</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>#818</td>
+<td>14-s7-162..164</td>
+<td><code>69165c660c7d74b1b3ba2d645f3e5c494f656729</code></td>
+<td>Character-complexity no-go, target-class countermodel, S park</td>
+<td>ACTIVE</td>
+<td>NO; final obstruction</td>
+</tr>
+<tr>
+<td>#819</td>
+<td>14-coX53</td>
+<td><code>2c7ec9433edbd4f06f298df73cba9e18e164057a</code></td>
+<td>Final integrated route classification; all analytic routes parked</td>
+<td>ACTIVE</td>
+<td>NO; final closure audit</td>
+</tr>
+</tbody></table></div>
+<h2 id="ledger-literature-disposition-ledger">Literature disposition ledger<a class="anchor" href="#ledger-literature-disposition-ledger" aria-label="Link to section">#</a></h2>
+<div class="table-wrap"><table><thead><tr>
+<th>Source group</th>
+<th>Stage</th>
+<th>Role</th>
+<th>State</th>
+<th>Used in final proof</th>
+</tr></thead><tbody>
+<tr>
+<td>Dujella bounded-height rational points</td>
+<td>14-4ag</td>
+<td>Uniform elliptic-fiber degree</td>
+<td>ACTIVE</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>Elementary divisor bound</td>
+<td>14-X13</td>
+<td>Reverse factor-pair multiplicity</td>
+<td>ACTIVE</td>
+<td>YES</td>
+</tr>
+<tr>
+<td>Kai/Mitsui prime-element theorem</td>
+<td>14-tH31/tH33</td>
+<td>Direct safe-subrange theorem; blocked at final super-Kai range</td>
+<td>CONSUMED</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>Stucky; Thorner–Zaman; Khale et al.; Smith; Xie; Deshouillers et al.</td>
+<td>14-tH32/tH33</td>
+<td>Comparator/background for T applicability</td>
+<td>FAILED (as direct adapters)</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>Grimmelt–Merikoski; Irving; Nguyen I/II; Zhong–Zhang; Frei–Sofos; Ford</td>
+<td>14-4ghH</td>
+<td>MAIN receiver radar</td>
+<td>FAILED (as direct adapters)</td>
+<td>NO</td>
+</tr>
+<tr>
+<td>Nguyen I/II; Frei–Sofos; Rodgers–Soundararajan; Irving; Grimmelt–Merikoski</td>
+<td>14-q26 / s7-164</td>
+<td>S reduced-modulus discrepancy radar</td>
+<td>FAILED (as direct adapters)</td>
+<td>NO</td>
+</tr>
+</tbody></table></div>
+<h2 id="ledger-state-semantics">State semantics<a class="anchor" href="#ledger-state-semantics" aria-label="Link to section">#</a></h2>
+<ul>
+<li><code>ACTIVE</code>: part of the frozen theorem, final gate, or final closure judgment.</li>
+<li><code>CONSUMED</code>: exact content has been incorporated once into a later normal form; recharge is forbidden.</li>
+<li><code>SUPERSEDED</code>: historical receiver or exponent no longer current.</li>
+<li><code>FAILED</code>: tested as a direct theorem/adapter and found inapplicable; the underlying paper is not “failed.”</li>
+<li><code>DIAGNOSTIC</code>: exact finite or computational evidence with no asymptotic proof role.</li>
+</ul></section>
+  </main>
+</div>
+<footer class="footer">Deterministically generated from the canonical source and compact ledger. No external CSS, JavaScript, fonts, images, or network resources are required.</footer>
+</body>
+</html>

@@ -1,8 +1,8 @@
 # Stage14 final self-contained mathematical review
 
-**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R04`
+**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R05`
 
-**R04 closure boundary.** R04 changes no Stage14 theorem, exponent, receiver, or route status. It is the final editorial closure: it retains R03 and transcribes the remaining exact definitions and elementary derivations requested by the independent R03 review—balanced-strip coordinates and hosts, the explicit elliptic base parameter, reciprocal notation and positivity/parity, and the endpoint determinant/size checks. No new mathematics or saving is introduced.
+**R05 closure boundary.** R05 changes no Stage14 theorem, exponent, receiver, or route status. The independent R04 differential review returned `PASS_WITH_MINOR_FIXES`: no new substantive mathematical gap, but two elementary transcriptions and two notation/usage clarifications remained. R05 supplies exactly those items—the max-height sandwich derivation, the primitive-face coprimality definition, the `a_0,b_0` normalization, and the auxiliary status of `E_s`. No new mathematics or saving is introduced.
 
 **Frozen source snapshot:** `81bc12bc28f159e3af2b26e4b41ef406a4f98339` (`main`, 2026-08-12 closure audit; later Stage15 files do not enter this proof)
 
@@ -201,6 +201,12 @@ The three physical edges are `t(e_0,x_0,y_0)` with
 e_0=g\alpha\beta,\qquad x_0=\beta X_1,\qquad y_0=\alpha X_2.
 \]
 
+Here **primitive-face coprimality** means the pairwise coprimality inherited from the primitive Euclid datum:
+
+\[
+\gcd(S_i,X_i)=\gcd(S_i,H_i)=\gcd(X_i,H_i)=1.
+\]
+
 If a prime divided all three minimal edges, then according as it divides `alpha`, `beta`, or only `g`, primitive-face coprimality would force it not to divide respectively `x_0`, `y_0`, or either nonshared edge. Hence `gcd(e_0,x_0,y_0)=1` and therefore `gcd(e,x,y)=t`. Global primitivity forces `t=1`. Each physical Pythagorean triangle has a unique scale-times-primitive-Euclid decomposition with the shared leg distinguished, and `x<y` removes the remaining face swap. Thus one raw shared-edge incidence has exactly one ordered parameter pair. Triple objects still yield three *different* intended shared-edge incidences; that is the coefficient `3T(B)`, not parametrization multiplicity.
 
 ### Lemma 3.2 — uniform elliptic-fiber multiplicity
@@ -254,10 +260,23 @@ put `g=gcd(S_1,S_2)` and `L=S_1S_2/g`, and reconstruct the physical edges by
 e=L,\qquad x=\frac{S_2}{g}X_1,\qquad y=\frac{S_1}{g}X_2.
 \]
 
-If `Q_2=max(S_2,X_2)`, then `Q_2<H_2<sqrt(2)Q_2`, while the exact max-height is `M=(S_1/g)Q_2` and `M<d<sqrt(3)M`. Hence, uniformly in direction,
+If `Q_2=max(S_2,X_2)`, then `Q_2<H_2<sqrt(2)Q_2`. The retained directional ordering makes
 
 \[
-\frac{S_1H_2}{\sqrt2,g}<d<\frac{\sqrt3,S_1H_2}{g}.
+M=\max(e,x,y)=\frac{S_1}{g}Q_2.
+\]
+
+Since the three edges are positive and at most `M`, with at least one strictly smaller than `M`,
+
+\[
+M^2<e^2+x^2+y^2=d^2<3M^2,
+\qquad M<d<\sqrt3\,M.
+\]
+
+Consequently, uniformly in direction,
+
+\[
+\frac{S_1H_2}{\sqrt2\,g}<d<\frac{\sqrt3\,S_1H_2}{g}.
 \]
 
 For the primitive rational-circle parameter `q=u/v`, `0<u<v`, `gcd(u,v)=1`, one has
@@ -348,7 +367,7 @@ u_{res}\le B^{2\theta-2\phi+o(1)},\quad
 v_{res}\le B^{1/4+2\phi-2\theta+o(1)}.
 \]
 
-Dyadically fixing `C` at its active scale defines `chi=2theta+2phi-3/4`; smaller-core cells only improve the ensuing bounds. Direct enumeration of either original coefficient host gives `E_s<=max(2theta,1-2theta)`. Enumerating the `k` residual host after the common product constraint gives `E_k<=3theta-1/4`. Both are complete host counts for the same decorated physical cell, not savings promoted from a fixed parameter.
+Dyadically fixing `C` at its active scale defines `chi=2theta+2phi-3/4`; smaller-core cells only improve the ensuing bounds. Direct enumeration of either original coefficient host gives `E_s<=max(2theta,1-2theta)`. Enumerating the `k` residual host after the common product constraint gives `E_k<=3theta-1/4`. Both are complete host counts for the same decorated physical cell, not savings promoted from a fixed parameter. The displayed `E_s` bound is an auxiliary complete-host cross-check retained for provenance; Proposition 3.6 closes the final case split with `E_k`, `E_H`, and `E_RRF`, so it does not charge or invoke `E_s` as an additional saving.
 
 **Proportional branch proof (s7-37, transcribed).** Write the proportional common scale with same-side and cross-side odd root gcds `K=B^{kappa+o(1)}` and `H=B^{eta+o(1)}`. Exact reducedness gives `(K,H)=1` and `kappa+eta=1/8`. Prime-by-prime Gaussian descent shows `(K,q_xi)=1`; since the common core `C` divides `q_xi`, also `(K,C)=1`. The already proved divisibility `K^2|C u_res` therefore sharpens to `K^2|u_res`. With `u_res<=B^{2theta-2phi+o(1)}`,
 
@@ -470,14 +489,21 @@ XY=\frac{M}{4rs\epsilon_x\epsilon_k}.
 
 **Whole-family promotion.** It is applied cellwise inside the complete partition of Proposition 3.3; the number of cells is subpolynomial.
 
-**Derivation of all three displayed costs.** First, choosing the common core `C=B^{chi+o(1)}` directly contributes at most `B^{chi+o(1)}`. Second, for fixed residual and quotient data, s7-29 turns
+**Derivation of all three displayed costs.** First, choosing the common core `C=B^{chi+o(1)}` directly contributes at most `B^{chi+o(1)}`. Second, in the signed relation `D+A=aU`, `D-A=bV`, put
+
+\[
+g_{ab}=\gcd(a,b),\qquad a=g_{ab}a_0,\qquad b=g_{ab}b_0,
+\qquad \gcd(a_0,b_0)=1.
+\]
+
+Thus `a_0,b_0` are the primitive coefficient parts of the same `a,b` later identified in Lemma 3.5 with `c_x^+,c_x^-`; they are not new variables. The endpoint relations imply `g_{ab}=B^{o(1)}`. After removing `C_{bad}=gcd(C,g_{ab}^2)`, set `C_0=C/C_{bad}=C/B^{o(1)}`. For fixed residual and quotient data, s7-29 then turns
 
 \[
 C_0\mid a_0^2U^2+b_0^2V^2,\qquad
 \gcd(C_0,a_0b_0UV)=1
 \]
 
-into `2^omega(C_0)=B^{o(1)}` Gaussian CRT root lines `U=rho V (mod C_0)`, where `C_0=C/B^{o(1)}`. For two distinct primitive points `(U_1,V_1)` and `(U_2,V_2)` on one line,
+into `2^omega(C_0)=B^{o(1)}` Gaussian CRT root lines `U=rho V (mod C_0)`. For two distinct primitive points `(U_1,V_1)` and `(U_2,V_2)` on one line,
 
 \[
 U_1V_2-U_2V_1\equiv0\pmod {C_0}.
@@ -897,6 +923,10 @@ The bundle is self-contained as a map of definitions, exact proof dependencies, 
 STAGE14_FINAL_BUNDLE_STATUS=SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS
 STAGE14_MAIN_RESULT=N_2(B) << B^(1/2+o(1))
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
+R04_REVIEW_VERDICT=PASS_WITH_MINOR_FIXES
+R04_NEW_SUBSTANTIVE_MATHEMATICAL_GAP_FOUND=false
+R05_RESIDUAL_EDITORIAL_ITEMS_RESOLVED=4
+R05_KNOWN_SELF_CONTAINMENT_ITEMS_OPEN=0
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
 MATCHING_LOWER_BOUND_PROVED=false
 TRUE_ORDER_OF_N2_PROVED=false
