@@ -50,12 +50,12 @@ The receiver materially changes at t157, so the common batch contract stops befo
 
 ## Publication recheck
 
-During execution main advanced only by PR #788, a CI-only replay repair with no mathematical result, receiver, exponent, H decision, or NEXT change. Therefore the mathematics remains valid without rebasing the research derivation.
+During execution main advanced through PR #788 (CI-only replay repair) and PR #789 (s-route theorem-contract separation). Neither changes the fixed-U/t receiver, exponent, or H decision, so the mathematics remains valid without rebasing the research derivation.
 
 ```text
 STAGE14_T_BATCH=COMPLETE
 BATCH_START_MAIN_SHA=ede7e5d167d94790e241680f022e8489839683d3
-BATCH_PUBLICATION_MAIN_SHA=b3ba3dbedb1d0c65b41345b7ddf76c77c7189b66
+BATCH_PUBLICATION_MAIN_SHA=a9b864841a6c42e6f42d3e23ad583162aaf0653c
 BATCH_FIRST_STAGE=Stage14-t156
 BATCH_LAST_STAGE=Stage14-t157
 BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=2
