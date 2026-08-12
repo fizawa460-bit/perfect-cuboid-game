@@ -1,0 +1,41 @@
+name: Stage14-Work-coX53 final route classification audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-coX53/**'
+      - 'stages/stage14/scripts/14-Work-coX53/**'
+      - 'docs/stage14-toolbox/work-coX53-final-route-classification.md'
+      - '.github/workflows/stage14-Work-coX53-final-route-classification.yml'
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run final XQ classification audit
+        run: python stages/stage14/scripts/14-Work-coX53/final_route_classification_audit.py
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-coX53/final_route_classification_audit.py
+      - name: Lock final S decision
+        run: |
+          grep -q 'S_FINAL_DECISION=PARKED_EXTERNAL_GATE' stages/stage14/14-s7-164/result.md
+          grep -q 'S_ROUTE_NEXT=NONE' stages/stage14/14-s7-164/result.md
+          grep -q 'NEW_S7_165_ALLOWED=false' stages/stage14/14-s7-164/result.md
+          grep -q 'Q27_NEEDED=false' stages/stage14/14-s7-164/result.md
+      - name: Lock q26 no-successor boundary
+        run: grep -q 'Q27_NEEDED=false' stages/stage14/14-q26/result.md
+      - name: Lock coX53 terminal classification
+        run: |
+          grep -q 'ALL_ACTIVE_STAGE14_ANALYTIC_ROUTES_PARKED=true' stages/stage14/14-Work-coX53/result.md
+          grep -q 'STAGE14_ANALYTIC_AUTOMATIC_NEXT=NONE' stages/stage14/14-Work-coX53/result.md
+          grep -q 'CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2' stages/stage14/14-Work-coX53/result.md
+          grep -q 'STRICT_SUBSQRT_POWER_SAVING_PROVED=false' stages/stage14/14-Work-coX53/result.md
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
