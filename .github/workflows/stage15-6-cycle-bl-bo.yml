@@ -1,0 +1,31 @@
+name: Stage15-6 cycle bl-bo
+on:
+  pull_request:
+    paths:
+      - 'stages/stage15/15-6bl/**'
+      - 'stages/stage15/15-6bm/**'
+      - 'stages/stage15/15-6bn/**'
+      - 'stages/stage15/15-6bo/**'
+      - 'stages/stage15/15-6-cycle/6bl-6bo.md'
+      - 'stages/stage15/evidence/stage15_6bl_joint_rootline.json'
+      - 'stages/stage15/evidence/stage15_6bm_toric_congruence.json'
+      - 'stages/stage15/evidence/stage15_6bn_huang_audit.json'
+      - 'stages/stage15/evidence/stage15_6bo_hybrid_gate.json'
+      - 'stages/stage15/replay/verify_stage15_6bl.py'
+      - 'stages/stage15/replay/verify_stage15_6bm.py'
+      - 'stages/stage15/replay/verify_stage15_6bn.py'
+      - 'stages/stage15/replay/verify_stage15_6bo.py'
+      - '.github/workflows/stage15-6-cycle-bl-bo.yml'
+  workflow_dispatch:
+jobs:
+  verify-cycle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: python stages/stage15/replay/verify_stage15_6bl.py
+      - run: python stages/stage15/replay/verify_stage15_6bm.py
+      - run: python stages/stage15/replay/verify_stage15_6bn.py
+      - run: python stages/stage15/replay/verify_stage15_6bo.py
+      - run: python -m py_compile stages/stage15/scripts/stage15_6bl_joint_rootline.py stages/stage15/scripts/stage15_6bm_toric_congruence.py stages/stage15/scripts/stage15_6bn_huang_audit.py stages/stage15/scripts/stage15_6bo_hybrid_gate.py
