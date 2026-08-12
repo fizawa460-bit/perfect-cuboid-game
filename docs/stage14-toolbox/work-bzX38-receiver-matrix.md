@@ -100,11 +100,15 @@ Q17_FIXED_U_SEARCHED=false
 
 ## Exponent and H locks
 
+The broad mainline H ledger retains the three pre-existing non-heavy targets. The current heavy reciprocal-completion branch opens no new H yet; Stage14-4gf must first test explicit divisor-choice/CRT constructions.
+
 ```text
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
 NEW_INTEGRATED_WHOLE_FAMILY_POWER_SAVING_PROVED=false
-MAINLINE_H_NEEDED=false
+MAINLINE_H_NEEDED=true
+MAINLINE_H_TARGET=CanonicalBalancedIntegerGaussianThreeDivisorCorrelationDensity_OR_FixedPolynomialCommonCoreCanonicalAllocationOffDiagonalProjectiveCollisionDispersion_OR_DiffusePolynomialComplementaryGaussianFactorCanonicalAllocationBilinearCorrelation
+NEW_HEAVY_MAIN_H_NEEDED=false
 S_ROUTE_H_NEEDED=false
 FIXED_U_H_NEEDED=false
 TH33_NEEDED=false
