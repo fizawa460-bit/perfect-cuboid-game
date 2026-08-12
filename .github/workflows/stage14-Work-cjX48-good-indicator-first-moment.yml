@@ -1,0 +1,44 @@
+name: Stage14-Work-cjX48 good indicator first moment audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-Work-cjX48/**'
+      - 'stages/stage14/14-q22/**'
+      - 'docs/stage14-toolbox/work-cjX48-receiver-matrix.md'
+      - 'stages/stage14/scripts/14-Work-cjX48/**'
+      - '.github/workflows/stage14-Work-cjX48-good-indicator-first-moment.yml'
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Run integrated cjX48 and q22 audit
+        run: python stages/stage14/scripts/14-Work-cjX48/good_indicator_first_moment_audit.py
+      - name: Compile integrated audit
+        run: python -m py_compile stages/stage14/scripts/14-Work-cjX48/good_indicator_first_moment_audit.py
+      - name: Regress merged s7-144..146
+        run: |
+          grep -q 'M1_G' stages/stage14/14-s7-144/result.md
+          grep -q 'M2_G' stages/stage14/14-s7-145/result.md
+          grep -q 'Q22_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-146/result.md
+      - name: Lock merged Work-ciX47
+        run: grep -q 'GOOD_PACKET_INTERSECTION_SUPPORT_CONSUMED=true' stages/stage14/14-Work-ciX47/result.md
+      - name: Lock q21 baseline
+        run: grep -q 'STAGE14_Q21=COMPLETE_Q17_GOOD_PACKET_PUSHFORWARD_INTERSECTION_LITERATURE_RADAR' stages/stage14/14-q21/result.md
+      - name: Lock q22 boundary
+        run: |
+          grep -q 'GOOD_PACKET_INDICATOR_FIRST_MOMENT_DIRECT_THEOREM_FOUND=false' stages/stage14/14-q22/result.md
+          grep -q 'Q22_GOOD_INDICATOR_EXACT_WITNESS_EXPANSION_TEST=Stage14-s7-147' stages/stage14/14-q22/summary.md
+      - name: Lock integrated boundary
+        run: |
+          grep -q 'GOOD_PACKET_SECOND_MOMENT_RECHARGE_FORBIDDEN=true' stages/stage14/14-Work-cjX48/result.md
+          grep -q 'TH34_NEEDED=false' stages/stage14/14-Work-cjX48/result.md
+      - name: Diff check
+        run: git diff --check HEAD^1..HEAD^2
