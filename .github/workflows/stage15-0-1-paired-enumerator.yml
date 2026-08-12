@@ -1,0 +1,24 @@
+name: Stage15-0-1 paired enumerator
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage15/**'
+      - 'stages/stage14/data/14-num-alpha11-diag8/extended_denominator_summary.json'
+      - '.github/workflows/stage15-0-1-paired-enumerator.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate Stage15-0/1 contract and paired enumerator
+        run: python stages/stage15/replay/validate_paired_enumerator.py
