@@ -1,0 +1,32 @@
+# Stage14 final self-contained R02 manifest
+
+```text
+BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R02
+SOURCE_SNAPSHOT_COMMIT=2c7ec9433edbd4f06f298df73cba9e18e164057a
+CONTENT_SHA256=3720945ee5f0855bf4e8ea8060f5ae2921d07466dfa251c9e60e5d92569a676d
+SOURCE_LEDGER_SHA256=ecfd1bc9cc4f824344da7aff497ff0fc7e5fad2f227275319f2078dbf5fa0e94
+CANONICAL_SOURCE_SHA256=8fcadd10a80bcee7faa4c9ffefe4586e8258ce512c8109c0bd0513026b1ff46e
+COMPLETED_THROUGH=Stage14-Work-coX53@2c7ec9433edbd4f06f298df73cba9e18e164057a
+THEOREM_SCOPE=primitive_canonical_integer-space-diagonal_exactly-two-face_whole-family_d_le_B
+WHOLE_FAMILY_EXPONENT=1/2
+STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+MATCHING_LOWER_BOUND_PROVED=false
+TRUE_ORDER_OF_N2_PROVED=false
+PERFECT_CUBOID_EXISTENCE_RESULT=NONE
+SELF_CONTAINMENT_STATUS=SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS
+FINAL_BUNDLE_STATUS=SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS
+MAIN_ROUTE_STATUS=PARKED_EXTERNAL_GATE:UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment
+T_ROUTE_STATUS=PARKED_EXTERNAL_GATE:SuperKaiIndividualGaussianResidueLongIntervalPrimeOccupancyLowerRatio
+S_ROUTE_STATUS=PARKED_EXTERNAL_GATE:ValuationAveragedReducedModulusTargetClassPrincipalDominationOrMeasurePreservingAdapter
+EXTERNAL_REVIEW_P0_COUNT=3
+EXTERNAL_REVIEW_P1_COUNT=8
+BUNDLE_PATH=review/STAGE14-FINAL-SELF-CONTAINED-20260812-R02.html
+CANONICAL_SOURCE_PATH=docs/stage14-final-self-contained.md
+SOURCE_LEDGER_PATH=docs/review/stage14-final-self-contained-provenance-20260812-r01.md
+```
+
+## Integrity contract
+
+`CONTENT_SHA256` is the SHA-256 of the standalone HTML bytes. `SOURCE_LEDGER_SHA256` is the SHA-256 of the compact provenance-ledger bytes, and `CANONICAL_SOURCE_SHA256` is the SHA-256 of the canonical Markdown bytes. The HTML embeds both the canonical source and the ledger and has no external runtime assets.
+
+The snapshot is the latest merged `main` inspected before this bundle branch was created. It records the mathematical source state, not the later bundle commit.
