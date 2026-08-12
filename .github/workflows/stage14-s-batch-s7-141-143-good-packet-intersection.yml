@@ -33,4 +33,4 @@ jobs:
           grep -q 'Q21_THEOREM_TARGET_NOW_STABLE=true' stages/stage14/14-s7-143/result.md
           grep -q 'NEXT=Stage14-s7-144' stages/stage14/14-s-batch/s7-141-143-report.md
       - name: Diff check
-        run: git diff --check origin/${{ github.base_ref }}...HEAD
+        run: git diff --check HEAD^1..HEAD^2
