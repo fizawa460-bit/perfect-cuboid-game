@@ -1,0 +1,89 @@
+{
+  "stage": "Stage15-6ac",
+  "base_main_merge": "6dad73d7900a50c07305b4e2771bd1e27f48c0da",
+  "classification": "HIGH_CORE_ROOT_SPACING_LOW_CORE_GAUSSIAN_SQUARE_RECEIVER",
+  "split": {
+    "inner_box": "R0<=r<2R0, S0<=s<2S0",
+    "V": "R0*S0",
+    "high_core": "q^2>=V",
+    "low_core": "q^2<V",
+    "q": "k_S*k_O"
+  },
+  "high_core": {
+    "root_line_bound": "O(1+V/q)",
+    "consequence": "O(1+sqrt(V)) when q^2>=V",
+    "fiberwise_sqrt_collapse": true,
+    "global_stage15_exponent_claimed": false
+  },
+  "low_core": {
+    "nonempty": true,
+    "cross_gcd_alpha": "gcd(mr,ns)=gcd(m,s)*gcd(n,r)",
+    "cross_gcd_beta": "gcd(ms,nr)=gcd(m,r)*gcd(n,s)",
+    "cross_gcd_candidate_cost": "B^o(1) per fixed outer (m,n)",
+    "primitive_reduction": true,
+    "squarefree_core_preserved": true,
+    "receiver_alpha": "alpha0=epsilon_alpha*Pi_alpha*z^2",
+    "receiver_beta": "beta0=epsilon_beta*Pi_beta*w^2",
+    "gaussian_core_norm": "N(Pi_alpha)=N(Pi_beta)=k=2^eta*q",
+    "global_count_proved": false
+  },
+  "arsenal": {
+    "AR-009": "HIGH_CORE_FIBERWISE_SQRT_COLLAPSE_PROVED",
+    "AR-017": "EXACT_GAUSSIAN_SQUARE_QUOTIENT_RECEIVER_PROVED",
+    "AR-018": "ORIENTATION_DATA_CONSUMED_ONCE",
+    "AR-016": "DIRECT_REUSE_FOR_CROSS_GCD_CHARGE",
+    "AR-023": "MEASURE_FIREWALL_PASS",
+    "AR-024": "MEASURE_FIREWALL_PASS",
+    "AR-028": "NO_DOUBLE_CHARGE_PASS",
+    "AR-010": "WATCH_RECONSTRUCTION_BEFORE_GENUS_ONE",
+    "AR-012": "NOT_TRIGGERED",
+    "AR-013": "NOT_TRIGGERED",
+    "AR-014": "NOT_NEEDED"
+  },
+  "witnesses": [
+    {
+      "params": [13, 1, 9, 1],
+      "k": 10,
+      "q": 5,
+      "dyadic_V": 8,
+      "branch": "HIGH"
+    },
+    {
+      "params": [9, 1, 27, 14],
+      "k": 205,
+      "q": 205,
+      "dyadic_V": 128,
+      "branch": "HIGH"
+    },
+    {
+      "params": [5, 3, 7, 4],
+      "k": 1,
+      "q": 1,
+      "dyadic_V": 16,
+      "branch": "LOW_Q1"
+    },
+    {
+      "params": [31, 7, 31, 23],
+      "k": 2,
+      "q": 1,
+      "dyadic_V": 256,
+      "branch": "LOW_Q1_2PRIMARY"
+    },
+    {
+      "params": [11, 1, 29, 22],
+      "k": 5,
+      "q": 5,
+      "dyadic_V": 256,
+      "branch": "LOW_POSITIVE_ODD_CORE"
+    }
+  ],
+  "nonclaims": {
+    "low_core_global_count_proved": false,
+    "causal_thinning_exponent_derived": false,
+    "stage15_5_reproved": false,
+    "strict_sub_sqrt_numerator_improvement": false,
+    "AR012_triggered": false
+  },
+  "exit": "HIGH_CORE_SQRT_COLLAPSE_LOW_CORE_SQUARE_RECEIVER_READY",
+  "next_gate": "AR-010 reconstruction audit of the coupled low-core Gaussian-square receiver"
+}
