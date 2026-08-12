@@ -1,0 +1,57 @@
+name: Stage14-s-batch s7-117..119 squareclass reverse
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage14/14-s7-117/**'
+      - 'stages/stage14/14-s7-118/**'
+      - 'stages/stage14/14-s7-119/**'
+      - 'stages/stage14/14-s-batch/s7-117-119-report.md'
+      - 'stages/stage14/scripts/14-s-batch/s7_117_119_squareclass_reverse_audit.py'
+      - '.github/workflows/stage14-s-batch-s7-117-119-squareclass-reverse.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Batch deterministic audit
+        run: python stages/stage14/scripts/14-s-batch/s7_117_119_squareclass_reverse_audit.py
+
+      - name: Compile audit
+        run: python -m py_compile stages/stage14/scripts/14-s-batch/s7_117_119_squareclass_reverse_audit.py
+
+      - name: Regress merged s7-114..116
+        run: python stages/stage14/scripts/14-s-batch/s7_114_116_crt_alignment_audit.py
+
+      - name: Regress merged Work-caX39
+        run: python stages/stage14/scripts/14-Work-caX39/aligned_support_audit.py
+
+      - name: Regress merged main 4ghH audit
+        run: python stages/stage14/scripts/14-4/batch_4ghH_kfree_quadratic_divisor_root_audit.py
+
+      - name: Lock batch boundary
+        run: |
+          grep -Fq 'S_FIXED_E_TWO_SIDED_BRANCH_PARKED=true' stages/stage14/14-s7-117/result.md
+          grep -Fq 'S_NONALIGNED_THREE_BRANCH_SQUARECLASS_HOSTING_PROVED=true' stages/stage14/14-s7-118/result.md
+          grep -Fq 'S_SQUARECLASS_REVERSE_WITNESS_SET_DEFINED=true' stages/stage14/14-s7-119/result.md
+          grep -Fq 'RECEIVER_MATERIALLY_CHANGED=true' stages/stage14/14-s7-119/result.md
+          grep -Fq 'BATCH_SUBSTANTIVE_WORK_UNIT_COUNT=3' stages/stage14/14-s-batch/s7-117-119-report.md
+          grep -Fq 'BATCH_STOP_REASON=receiver_change' stages/stage14/14-s-batch/s7-117-119-report.md
+          grep -Fq 'S_ROUTE_H_NEEDED=false' stages/stage14/14-s-batch/s7-117-119-report.md
+          grep -Fq 'NEXT=Stage14-s7-120' stages/stage14/14-s-batch/s7-117-119-report.md
+          grep -Fq 'STAGE14_AUTOMATION_SAFE=true' stages/stage14/14-s-batch/s7-117-119-report.md
+          grep -Fq 'STAGE14_ROUTE=s' stages/stage14/14-s-batch/s7-117-119-report.md
+
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
