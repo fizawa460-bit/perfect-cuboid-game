@@ -1,0 +1,101 @@
+{
+  "stage": "Stage15-6ab",
+  "base_main_merge": "c80e24c1fc68b0fd39fd8c6275956bc7a466c27c",
+  "classification": "MEASURE_PRESERVING_OUTER_PAIR_CORE_CHARGE",
+  "outer_charge": {
+    "outer_pair": "(m,n)",
+    "H_plus": "m^2+n^2",
+    "H_minus": "m^2-n^2",
+    "actual_core_constraints": [
+      "k_S divides H_plus",
+      "k_O divides H_minus"
+    ],
+    "odd_host_coprimality": "gcd(H_plus,H_minus) divides 2",
+    "candidate_count": "<=tau(H_plus)*tau(H_minus)=B^o(1) per fixed physical outer pair",
+    "two_primary_cost": "O(1)"
+  },
+  "physical_height_adapter": {
+    "inverse": [
+      "m/n=(u+x)/e in lowest terms",
+      "r/s=(v+y)/e in lowest terms"
+    ],
+    "coordinate_bound": "e,x,y,u,v<=B",
+    "parameter_bounds": [
+      "m<=2B",
+      "n<=B",
+      "r<=2B",
+      "s<=B"
+    ],
+    "host_bounds": [
+      "H_plus<=5B^2",
+      "H_minus<4B^2"
+    ],
+    "physical_measure_disintegration_proved": true,
+    "raw_parameter_box_substituted_for_measure": false
+  },
+  "inner_root_line": {
+    "q": "k_S*k_O",
+    "conditions": [
+      "rho^2=1 mod k_S",
+      "rho^2=-1 mod k_O",
+      "r=rho*s mod q"
+    ],
+    "orientation_count": "<=2^omega(q)=B^o(1)",
+    "dyadic_physical_superset_cost": "O((log B)^2)=B^o(1)",
+    "box_count": "<<1+R0*S0/q"
+  },
+  "arsenal": {
+    "AR-016": "DIRECT_REUSE_FOR_OUTER_DIVISOR_CHARGE",
+    "AR-009": "FIBERWISE_GLOBALIZATION_LEGAL_AFTER_OUTER_CORE_CHARGE",
+    "AR-017": "CHARGE_ORDER_LEGAL_INSIDE_FIXED_CORE_FIBER",
+    "AR-023": "MEASURE_FIREWALL_PASS",
+    "AR-024": "MEASURE_FIREWALL_PASS",
+    "AR-028": "NO_DOUBLE_CHARGE_PASS",
+    "AR-014": "WATCH_ONLY_NOT_NEEDED"
+  },
+  "witnesses": [
+    {
+      "params": [13, 1, 9, 1],
+      "B": 925,
+      "k_S": 5,
+      "k_O": 1,
+      "q": 5,
+      "rho": 4,
+      "outer_candidate_count": 4
+    },
+    {
+      "params": [13, 4, 13, 1],
+      "B": 697,
+      "k_S": 1,
+      "k_O": 17,
+      "q": 17,
+      "rho": 13,
+      "outer_candidate_count": 8
+    },
+    {
+      "params": [9, 1, 27, 14],
+      "B": 3485,
+      "k_S": 41,
+      "k_O": 5,
+      "q": 205,
+      "rho": 163,
+      "outer_candidate_count": 4
+    }
+  ],
+  "proved": {
+    "global_core_charge_proved": true,
+    "physical_measure_adapter_proved": true,
+    "mixed_crt_root_line_proved": true,
+    "AR009_fiberwise_globalization_legal": true,
+    "AR017_charge_order_legal": true
+  },
+  "nonclaims": {
+    "low_core_negligible_proved": false,
+    "causal_thinning_exponent_derived": false,
+    "stage15_5_reproved": false,
+    "strict_sub_sqrt_numerator_improvement": false,
+    "matching_survival_exponent": false
+  },
+  "exit": "MOVING_CORE_CHARGED_ROOT_SPACING_READY",
+  "next_gate": "split high-core spacing from low-core survivors under the same physical outer-pair measure"
+}
