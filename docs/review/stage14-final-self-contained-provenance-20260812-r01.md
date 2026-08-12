@@ -1,6 +1,8 @@
-# Stage14 R01 compact provenance ledger
+# Stage14 R02 compact provenance ledger
 
-`BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R01`
+`BUNDLE_ID=STAGE14-FINAL-SELF-CONTAINED-20260812-R02`
+
+R02 repair provenance: external review exposed missing proof transcription, not a new mathematical gap. The proofs transcribed into the canonical source are the merged 4ab multiplicity-one argument, 4ag uniform torsion/height argument, s7-37 proportional host bound, 4cx lost-core/high-core argument, 4cy/s7-40 charged-once row audit, and X13 reverse reciprocal reconstruction.
 
 `SOURCE_SNAPSHOT_COMMIT=2c7ec9433edbd4f06f298df73cba9e18e164057a`
 
