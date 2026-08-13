@@ -2,7 +2,7 @@
 
 ```text
 BUNDLE_ID=STAGE16-FINAL-SELF-CONTAINED-20260814-R01
-STATUS=CANDIDATE_PENDING_FRESH_STAGE16_AUDIT
+STATUS=AUDITED_PASS_CLOSED
 BASE_MAIN_COMMIT=61630d0ae6fad02741f0d4dd4ed8f77f2a6d6925
 STANDARD=SELF_CONTAINED_REVIEW_STANDARD_V1
 STAGE70_POLICY=docs/stage16-28-stage70-policy.md
@@ -20,7 +20,7 @@ Checkpoint status:
 40=PROVED_AUDIT_PASS
 50=PROVED_AUDIT_PASS
 60=PROVED_AUDIT_PASS
-70=PROVED_CANDIDATE_PENDING_FRESH_AUDIT
+70=PROVED_AUDITED_PASS
 ```
 
 Frozen theorem candidate:
@@ -47,4 +47,9 @@ SYNTHESIS_STOP_RULE_SATISFIED=YES
 NEXT_STAGE_AFTER_PASS=Stage17
 ```
 
-The bundle and Stage16 closeout remain candidates until a fresh `Stage16-audit` returns PASS.
+The submitted candidate bundle passed fresh `Stage16-audit`; Stage16 is closed.
+
+
+## Certified closeout status
+
+This artifact was submitted as an audit candidate and was subsequently certified by [stages/stage16/16-70/audit.md](../stage16/16-70/audit.md) in PR #901. Current canonical status: `AUDITED_PASS_CLOSED`. Frozen mathematical claims and nonclaims are unchanged.
