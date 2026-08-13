@@ -1,31 +1,96 @@
 {
-  "schema_version":1,
-  "primary_operator":"ChatGPT",
-  "status":"OPEN",
-  "stage":"Stage17",
-  "parent_class":"population_state",
-  "stage_object":"primitive canonical cuboids with exactly one integral face diagonal and integral space diagonal",
-  "source_population":"Stage16 primitive canonical exactly-one population B_1(B) under R<=B",
-  "target_population":"the Stage16 population with R integral, equivalently positive integral space diagonal d=R",
-  "common_population_contract":"0<a<b<c; gcd(a,b,c)=1; exactly one integral face diagonal; R<=B; Stage17 additionally requires integral R",
-  "checkpoint_sequence":[10,20,30,40,50,60,70],
-  "checkpoint_status":{"10":"PROVED","20":"COMPUTED_AUDITED_PASS","30":"PROVED_AUDITED_PASS","40":"PROVED_AUDITED_PASS","50":"PROVED_AUDITED_PASS","60":"PROVED_AUDITED_PASS","70":"PROVED_CANDIDATE_PENDING_FRESH_AUDIT"},
-  "canonical_commands":{"main":"Stage17-main-batch","audit":"Stage17-audit"},
-  "state":{"CURRENT_STAGE":"Stage17","CURRENT_CHECKPOINT":70,"MAIN_STATUS":"SUBMITTED","AUDIT_STATUS":"PENDING","ADVANCE_ALLOWED":false,"NEXT_CHECKPOINT":"","NEXT_STAGE":"Stage18","NEW_INPUT_REQUIRED":false,"HUMAN_DECISION_REQUIRED":false},
-  "checkpoint_contract":{"10":"population contract","20":"finite-data baseline","30":"ratio / thinning law","40":"upper-bound ledger","50":"lower-bound / construction ledger","60":"causal decomposition","70":"intrinsic-status / audit verdict plus bounded final synthesis"},
-  "population":{"canonical":"0<a<b<c","primitive":"gcd(a,b,c)=1","faces":1,"integral_space_diagonal":true,"cutoff":"R<=B","adapter":"d=R"},
-  "sources":{"roadmap":"docs/stage16-28-population-roadmap.md","stage70_policy":"docs/stage16-28-stage70-policy.md","self_contained_standard":"docs/self-contained-review-standard.md","arsenal":"docs/stage14-arsenal.md","stage13":"stages/stage13/final.md","stage16":"stages/stage16/final.md","c20":"stages/stage17/17-20/result.md","a20":"stages/stage17/17-20/audit.md","c30":"stages/stage17/17-30/result.md","a30":"stages/stage17/17-30/audit.md","c40":"stages/stage17/17-40/result.md","a40":"stages/stage17/17-40/audit.md","c50":"stages/stage17/17-50/result.md","a50":"stages/stage17/17-50/audit.md","c60":"stages/stage17/17-60/result.md","a60":"stages/stage17/17-60/audit.md","c70":"stages/stage17/17-70/result.md","final":"stages/stage17/final.md","manifest":"stages/stage17/manifest-r01.md"},
-  "ratio":{"law":"N_1(B)/M_1(B) asymp (log B)^2/B","limit":0,"leading_constant_certified":false},
-  "upper":{"law":"N_1(B)=O(B(log B)^3)","audit":"PASS"},
-  "lower":{"law":"N_1(B)>>B(log B)^3","source":"Stage13","construction":"AR-039","construction_law":"N_1(B)>=sqrt(2)/(120*pi^2)B^(1/2)-O(B^(1/4)log B)","construction_adapter":"R=d","construction_is_strict_subfamily":true,"audit":"PASS"},
-  "causal":{"new_constraint":"p^2+z^2=d^2 after x^2+y^2=p^2","structural_mechanism":"second Pythagorean extension sharing the integral-face diagonal p","certified_survival":"Theta((log B)^2/B)","polynomial_cost":"one power of B","log_correction":"(log B)^2 net compensation only; not decomposed into independent probabilities","not_new_causes":["canonical ordering","global primitivity","exactly-one source contract","R<=B cutoff","d=R identity adapter"],"extra_face_overlap_leading_cause":false,"ar039_full_asymptotic_mechanism":false,"intrinsic_vs_interaction":"DEFER_TO_STAGE21_WITH_AUDITED_STAGE16S","evidence":"PROVED","finite_data_used_as_proof":false,"audit":"PASS"},
-  "intrinsic":{"absolute_law":"N_1(B) ~ kappa/(24*pi) B(log B)^3","polynomial_exponent":1,"log_power":3,"leading_constant":"kappa/(24*pi)","absolute_status":"PROVED_ASYMPTOTIC_CANDIDATE_PENDING_FRESH_AUDIT","space_diagonal_cost_intrinsicness":"DEFER_TO_STAGE21_WITH_STAGE16S","independence_claim":false},
-  "additional_deduction":{"population":"H_{1,d}(B)=integral-space-diagonal primitive canonical cuboids with at least one integral face","law":"H_{1,d}(B) ~ N_1(B)","ratio":"N_1(B)/H_{1,d}(B) -> 1","proof_source":"Stage13 pair-overlap o(B(log B)^3)","evidence":"PROVED_CANDIDATE_PENDING_FRESH_AUDIT"},
-  "synthesis":{"known_results_complete":true,"new_heuristics":"NONE","open_gates":"No gate blocks Stage17 absolute classification; leading ratio constant/effective rates need new input; Stage16S comparison belongs to Stage21","stop_reason":"Further refinement requires a new Stage16 leading-constant theorem, an effective Stage13 refinement, more Stage16S work, or Stage21 interaction analysis","stop_rule_satisfied":true,"lower_checkpoint_reopened":false},
-  "artifact_decisions":{"self_contained_bundle_required":true,"self_contained_bundle":"stages/stage17/final.md","bundle_reason":"Exact Stage13/Stage16 interface transfer and Stage16-to-17 survival law are subtle and will be reused by Stage21","arsenal_promotion_required":false,"arsenal_candidates":"NONE","arsenal_reason":"Stage21 can consume the stable Stage17 final interface directly; a duplicate registry entry would add a second source of truth"},
-  "last_audit":{"checkpoint":60,"verdict":"PASS","record":"stages/stage17/17-60/audit.md","audited_submission_sha":"9f4461bc09df93eb69848e26aaf35aa36495205b","pr":909,"merge_allowed":true,"codex":false,"codex_reason":"NONE"},
-  "last_submission":{"checkpoint":70,"status":"SUBMITTED_FOR_FRESH_AUDIT","result":"stages/stage17/17-70/result.md","bundle":"stages/stage17/final.md","manifest":"stages/stage17/manifest-r01.md","evidence":"PROVED","new_analytic_input":false,"codex":false},
-  "audit_checks":["checkpoints10-60 have canonical audited records","Stage13 target interface matches Stage17 after d=R","Stage16 source interface matches literal source population","survival ratio derivation has no leading constant claim","H_{1,d} dominance follows from Stage13 pair overlaps","absolute intrinsic status is separated from Stage16S/Stage21 interaction classification","bundle satisfies frozen-upstream-interface standard","finite data and AR-039 remain bounded to audited roles","no perfect-cuboid conclusion","artifact decisions and stop rule are justified","audit verdict must be durably persisted before reply","merge safety"],
-  "audit_persistence":{"required":true,"policy":"docs/stage16-28-population-roadmap.md","merge_execution_default":false},
-  "merge_rule":"Fresh Stage17-audit PASS must be durably persisted before Stage17 closes or this checkpoint may merge. Audit PASS permits merge but does not execute merge by default."
+  "schema_version": 1,
+  "primary_operator": "ChatGPT",
+  "status": "OPEN",
+  "stage": "Stage17",
+  "parent_class": "population_state",
+  "stage_object": "primitive canonical cuboids with exactly one integral face diagonal and integral space diagonal",
+  "source_population": "Stage16 primitive canonical exactly-one population B_1(B) under R<=B",
+  "target_population": "the Stage16 population with R integral, equivalently positive integral space diagonal d=R",
+  "common_population_contract": "0<a<b<c; gcd(a,b,c)=1; exactly one integral face diagonal; R<=B; Stage17 additionally requires integral R",
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_status": {
+    "10": "PROVED_AUDITED_PASS",
+    "20": "COMPUTED_AUDITED_PASS",
+    "30": "PROVED_AUDITED_PASS",
+    "40": "PROVED_AUDITED_PASS",
+    "50": "PROVED_AUDITED_PASS",
+    "60": "PROVED_AUDITED_PASS",
+    "70": "PROVED_CANDIDATE_AUDIT_FAIL_REPAIR_REQUIRED"
+  },
+  "canonical_commands": {
+    "main": "Stage17-main-batch",
+    "audit": "Stage17-audit"
+  },
+  "state": {
+    "CURRENT_STAGE": "Stage17",
+    "CURRENT_CHECKPOINT": 70,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "FAIL",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 70,
+    "NEXT_STAGE": "",
+    "NEW_INPUT_REQUIRED": false,
+    "HUMAN_DECISION_REQUIRED": false,
+    "MERGE_ALLOWED": false
+  },
+  "checkpoint_contract": {
+    "10": "population contract",
+    "20": "finite-data baseline",
+    "30": "ratio / thinning law",
+    "40": "upper-bound ledger",
+    "50": "lower-bound / construction ledger",
+    "60": "causal decomposition",
+    "70": "intrinsic-status / audit verdict plus bounded final synthesis"
+  },
+  "sources": {
+    "roadmap": "docs/stage16-28-population-roadmap.md",
+    "stage70_policy": "docs/stage16-28-stage70-policy.md",
+    "self_contained_standard": "docs/self-contained-review-standard.md",
+    "stage13": "stages/stage13/final.md",
+    "stage16": "stages/stage16/final.md",
+    "c70": "stages/stage17/17-70/result.md",
+    "a70": "stages/stage17/17-70/audit.md",
+    "final": "stages/stage17/final.md",
+    "manifest": "stages/stage17/manifest-r01.md"
+  },
+  "theorem_status": {
+    "absolute_law": "N_1(B) ~ kappa/(24*pi) B(log B)^3",
+    "survival_law": "N_1(B)/M_1(B) asymp (log B)^2/B -> 0",
+    "at_least_one_dominance": "N_1(B)/H_{1,d}(B) -> 1",
+    "mathematics_accepted_by_checkpoint70_audit": true,
+    "closeout_bundle_accepted": false
+  },
+  "stage21_boundary": {
+    "space_diagonal_cost_intrinsicness": "DEFER_TO_STAGE21_WITH_STAGE16S",
+    "independence_claim": false
+  },
+  "last_audit": {
+    "checkpoint": 70,
+    "verdict": "FAIL",
+    "record": "stages/stage17/17-70/audit.md",
+    "audited_submission_sha": "b344e7012942b54e49c97469cfc0fd0eaef79db6",
+    "pr": 912,
+    "merge_allowed": false,
+    "new_input_required": false,
+    "human_decision_required": false,
+    "codex_audit_required": false,
+    "codex_reason": "NONE",
+    "failure_reason": "V1 frozen Stage16 interface in final.md is not explicit enough; multiplicity, measure-adapter and quantifier-adapter fields must be certified before the bundle can freeze."
+  },
+  "last_submission": {
+    "checkpoint": 70,
+    "status": "AUDIT_FAIL_REPAIR_REQUIRED",
+    "result": "stages/stage17/17-70/result.md",
+    "bundle": "stages/stage17/final.md",
+    "manifest": "stages/stage17/manifest-r01.md",
+    "new_analytic_input": false
+  },
+  "audit_persistence": {
+    "required": true,
+    "policy": "docs/stage16-28-population-roadmap.md",
+    "last_persisted_verdict": "FAIL",
+    "merge_execution_default": false
+  },
+  "merge_rule": "Repair the Stage16 frozen-interface contract in stages/stage17/final.md, then rerun Stage17-audit. Merge and Stage18 advancement remain disallowed until a durably persisted PASS."
 }
