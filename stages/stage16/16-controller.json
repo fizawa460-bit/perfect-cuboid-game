@@ -23,11 +23,11 @@
   },
   "state": {
     "CURRENT_STAGE": "Stage16",
-    "CURRENT_CHECKPOINT": 50,
+    "CURRENT_CHECKPOINT": 60,
     "MAIN_STATUS": "SUBMITTED",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 60,
+    "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false
@@ -61,13 +61,15 @@
   },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "current_stop_reason": "Stage16-40 passed fresh audit. Stage16-50 submits the lower-bound/construction ledger extracted from the audited Stage16-30 theorem plus an exact subset/cutoff adapter for AR-039, then stops before checkpoint 60 causal synthesis.",
+    "current_stop_reason": "Stage16-50 passed fresh audit. Stage16-60 submits the causal decomposition and the derived at-least-one host comparison H_1(B) asymp B^2 log B, then stops before checkpoint 70 intrinsic-status/closeout verdict.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition",
       "AR-039 mod-7 two-parameter exactly-one family as a narrower integral-space-diagonal regression subset only"
     ],
-    "future_reuse_candidates": [],
+    "future_reuse_candidates": [
+      "Stage16 one-face Pythagorean dimension-drop plus harmonic-scale causal decomposition, pending checkpoint-60 audit and checkpoint-70 promotion decision"
+    ],
     "must_emit": [
       "MAIN_BATCH_STATUS",
       "CURRENT_STAGE",
@@ -96,7 +98,11 @@
       "finite Stage16-20 data is diagnostic only",
       "Stage16-40 upper-bound ledger matches the audited Stage16-30 theorem without cross-promotion",
       "Stage16-50 lower-bound ledger matches the audited Stage16-30 construction and does not weaken the sharp lower bound",
-      "AR-039 is used only through the exact subset inclusion and R=d cutoff adapter, with its B^(1/2) bound kept separate from the ambient B^2 log B order",
+      "AR-039 is used only through exact subset inclusion and the R=d cutoff adapter",
+      "Stage16-60 one-face host count is derived from the same Pythagorean face decomposition",
+      "Stage16-60 H_1(B) comparison uses only the union upper bound plus audited M_1 lower bound",
+      "Stage16-60 does not claim global overlap little-o or a limiting M_1/H_1 ratio",
+      "Stage16-60 does not charge space-diagonal arithmetic or finite directional imbalance to the Stage16 exponent",
       "merge safety"
     ],
     "required_footer": [
@@ -111,33 +117,38 @@
     ]
   },
   "last_audit": {
-    "checkpoint": 40,
+    "checkpoint": 50,
     "verdict": "PASS",
-    "audit_record": "stages/stage16/16-40/audit.md",
-    "audited_submission_sha": "51f43b278a438baedd66cd89b7f4bfc4f4659a24",
-    "pr": 897,
-    "merged_submission_commit": "b7f0fe16629732425fa49974846e2683e7196d66",
+    "audit_record": "stages/stage16/16-50/audit.md",
+    "audited_submission_sha": "9d9e751af771a976cd478c3c779e0523b9d3f6a9",
+    "pr": 898,
+    "merged_submission_commit": "b80affdaa0c529d884810e4b96777ec6ad3439c3",
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
-    "checkpoint": 50,
+    "checkpoint": 60,
     "status": "SUBMITTED_FOR_FRESH_AUDIT",
-    "result": "stages/stage16/16-50/result.md",
-    "evidence_level": "PROVED_LEDGER_FROM_AUDITED_STAGE16_30",
-    "new_claims": [],
-    "lower_bound": "M_1(B) >> B^2 log B",
-    "order_sharp": true,
-    "main_construction": "Stage16-30 Pythagorean-face scale plus free-third-edge family with coprimality and accidental-square deletion",
-    "ar039_adapted": true,
-    "ar039_role": "weaker integral-space-diagonal regression subfamily",
-    "ar039_bound": "M_1(B) >> B^(1/2) via subset inclusion",
-    "ar039_cutoff_adapter": "R=d exactly on the AR-039 family",
+    "result": "stages/stage16/16-60/result.md",
+    "evidence_level": "DERIVED_CAUSAL_SYNTHESIS_FROM_AUDITED_STAGE16_30_40_50",
+    "new_claims": [
+      "If H_1(B) counts the same primitive canonical R<=B population with at least one integral face, then H_1(B) asymp B^2 log B",
+      "the Stage16 log(B)/B thinning order is causally assigned to the one-face Pythagorean dimension drop plus harmonic face-scale sum, with the third edge remaining free"
+    ],
+    "primary_cause": "one-face Pythagorean dimension drop",
+    "log_source": "harmonic face-scale sum",
+    "free_third_edge_factor": "B",
+    "exact_one_changes_power_log_order": false,
+    "global_overlap_little_o_proved": false,
+    "primitivity_changes_power_log_order": false,
+    "canonicalization_changes_power_log_order": false,
+    "space_diagonal_charged": false,
+    "directional_law_proved": false,
     "population_contract_changed": false,
     "finite_data_used_as_proof": false,
     "codex_required": false,
-    "codex_reason": "Checkpoint 50 is a compact proof-ledger and exact population/cutoff adapter; no repository-heavy implementation or unavailable execution is required."
+    "codex_reason": "Checkpoint 60 is a compact mathematical synthesis from audited counting ledgers; no repository-heavy implementation is required."
   },
   "codex_policy": {
     "default_required": false,
