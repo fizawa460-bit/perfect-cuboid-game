@@ -101,6 +101,95 @@ stage advances when its known facts, quantitative bounds, causal explanation,
 and remaining unknowns have all been classified rather than when a promising
 route merely runs out of ideas.
 
+## Stage-end artifact decisions
+
+At `StageX-70`, the AI/controller must also decide whether the stage deserves a
+self-contained final bundle and whether any result deserves promotion into the
+reusable arsenal. These are **judgment calls made from the stage evidence**, not
+blanket requirements for every stage.
+
+Required closeout fields:
+
+```text
+SELF_CONTAINED_BUNDLE_REQUIRED=YES|NO
+SELF_CONTAINED_BUNDLE_REASON=
+ARSENAL_PROMOTION_REQUIRED=YES|NO
+ARSENAL_CANDIDATES=
+```
+
+### Self-contained bundle rule
+
+Default to `NO` when the stage mainly adapts standard literature, records routine
+finite data, or closes with no result that future stages need to cite as a single
+stable theorem package.
+
+Prefer `YES` when one or more of the following holds:
+
+- the stage proves a new major theorem or quantitatively sharp population law;
+- the stage combines several earlier stages into a result whose assumptions would
+  otherwise be easy to misstate;
+- the result is expected to be cited repeatedly by later stages;
+- external adversarial review needs one stable self-contained object;
+- a subtle distinction between proved, conditional, numerical, and open claims
+  would be unsafe to reconstruct from scattered task files.
+
+The AI/controller records the reason. The existence of a stage alone never forces
+a self-contained HTML or equivalent bundle.
+
+### Arsenal promotion rule
+
+The arsenal is for **portable research weapons**, not for everything that was
+important inside one stage. Promotion is based primarily on expected reuse in a
+different stage.
+
+Strong promotion candidates include:
+
+- reusable lemmas, theorems, inequalities, and asymptotic adapters;
+- parametrizations, normal forms, coordinate changes, and factor decompositions;
+- general congruence, squareclass, valuation, or local restrictions;
+- reusable upper-bound or lower-bound mechanisms;
+- negative certificates showing that a whole route cannot deliver a specified
+  target without an additional theorem;
+- verifiers, enumerators, replay procedures, or search reductions that transfer
+  to another population;
+- warnings about cutoff mismatch, symmetry, primitivity, double counting, or
+  invalid theorem transfer that future stages are likely to encounter again.
+
+Do **not** promote by default:
+
+- one-stage numerical tables or transient experimental observations;
+- intermediate calculations already subsumed by the final theorem;
+- a stage-specific restatement of an existing arsenal item;
+- speculative or unaudited ideas;
+- bulky provenance whose only purpose is historical reconstruction.
+
+Every promoted item should carry a compact contract:
+
+```text
+NAME=
+TYPE=lemma|theorem|method|obstruction|verifier|warning|adapter
+SOURCE_STAGE=
+ASSUMPTIONS=
+VALID_RANGE=
+WHAT_IT_DOES=
+WHAT_IT_DOES_NOT_DO=
+POTENTIAL_RECEIVERS=
+AUDIT_STATUS=
+```
+
+`WHAT_IT_DOES_NOT_DO` is mandatory for nontrivial mathematical weapons. This is
+intended to prevent a later stage from silently strengthening a theorem or using
+a mechanism outside its certified range.
+
+A stage may therefore close in any of these legitimate states:
+
+```text
+BUNDLE=NO,  ARSENAL=NO   # useful stage, no portable artifact needed
+BUNDLE=YES, ARSENAL=NO   # important fixed record, but stage-specific
+BUNDLE=NO,  ARSENAL=YES  # portable weapon, no large final bundle needed
+BUNDLE=YES, ARSENAL=YES  # major result with reusable components
+```
+
 ## Stage20 literature reuse rule
 
 Stage20 is expected to begin with more pre-filled checkpoints than the earlier
@@ -147,6 +236,9 @@ INDEPENDENT_OF_PRIOR_CONDITIONS=
 DOUBLE_CHARGE_CHECK=
 EXTERNAL_THEOREM_DEPENDENCIES=
 AUDIT_STATUS=
+SELF_CONTAINED_BUNDLE_REQUIRED=
+ARSENAL_PROMOTION_REQUIRED=
+ARSENAL_CANDIDATES=
 ```
 
 Numerical evidence and asymptotic theorems must remain explicitly separated.
