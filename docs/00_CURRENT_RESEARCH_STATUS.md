@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage17-50-SUBMITTED
+CURRENT_STAGE=Stage17-50-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -16,14 +16,14 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE17_STATUS=OPEN_CHECKPOINT_50_SUBMITTED
+STAGE17_STATUS=OPEN_CHECKPOINT_50_AUDIT_PASS
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
 STAGE17_CURRENT_RESULT=stages/stage17/17-50/result.md
-STAGE17_CURRENT_AUDIT=stages/stage17/17-40/audit.md
+STAGE17_CURRENT_AUDIT=stages/stage17/17-50/audit.md
 STAGE17_CURRENT_DATA=stages/stage17/17-20/counts.csv
 STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_NEXT_CHECKPOINT=60
-NEXT_EXPECTED_COMMAND=Stage17-audit
+NEXT_EXPECTED_COMMAND=Stage17-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -131,27 +131,28 @@ The polynomial exponent `2` and logarithmic power `1` are intrinsic at the prove
 
 ## Current operation
 
-Stage17-40 has passed fresh audit and is merged. Stage17-50 now submits the lower-bound / construction ledger on the same audited Stage17 population.
+Stage17-50 has passed fresh audit. The Stage17 population remains the same primitive canonical exactly-one population with integral space diagonal and common cutoff `R<=B`; on target objects `R=d` exactly.
 
 The frozen Stage13 theorem gives
 
 `N_1(B) ~ (kappa/(24*pi)) B(log B)^3`,
 
-with positive leading constant. Therefore the sharp certified lower bound is
+so the audited full-population lower order is
 
 `N_1(B) >> B(log B)^3`.
 
-This matches the audited Stage17-40 upper order `O(B(log B)^3)`.
+Together with the audited Stage17-40 upper ledger `N_1(B)=O(B(log B)^3)`, the upper and lower orders now match.
 
-AR-039 from the canonical Stage14 Arsenal is recorded separately as an explicit Stage17 construction family. Its population and cutoff match exactly because the constructed space diagonal satisfies `R=d`. AR-039 gives the weaker constructive lower bound
+AR-039 remains separately certified as an explicit strict Stage17 subfamily with
 
 `N_1(B) >= sqrt(2)/(120*pi^2) B^(1/2) - O(B^(1/4)log B)`.
 
-The two roles are not conflated: Stage13 supplies the sharp full-population lower order, while AR-039 supplies an unconditional symbolic infinite subfamily and regression family. No new analytic input, causal claim, independence claim, or perfect-cuboid conclusion is added at checkpoint 50.
+Its role is constructive and diagnostic; it is not promoted to the mechanism for the full Stage13 asymptotic. No causal or independence conclusion has yet been assigned to the lost power of `B` relative to Stage16.
 
-Canonical Stage17-50 submission:
+Canonical Stage17-50 records:
 
 - `stages/stage17/17-50/result.md`
+- `stages/stage17/17-50/audit.md`
 - `stages/stage17/17-controller.json`
 
-Checkpoint 60 remains blocked until fresh `Stage17-audit` certifies the lower-bound / construction ledger.
+Checkpoint 50 is merge-allowed. The next unresolved checkpoint is `Stage17-60` (causal decomposition), entered through `Stage17-main-batch` after the audited PR is merged.
