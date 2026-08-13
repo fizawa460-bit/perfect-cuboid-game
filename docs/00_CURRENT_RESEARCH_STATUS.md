@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage17-40-AUDIT-PASS
+CURRENT_STAGE=Stage17-50-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -16,13 +16,13 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE17_STATUS=OPEN_CHECKPOINT_40_AUDIT_PASS
+STAGE17_STATUS=OPEN_CHECKPOINT_50_AUDIT_PASS
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
-STAGE17_CURRENT_RESULT=stages/stage17/17-40/result.md
-STAGE17_CURRENT_AUDIT=stages/stage17/17-40/audit.md
+STAGE17_CURRENT_RESULT=stages/stage17/17-50/result.md
+STAGE17_CURRENT_AUDIT=stages/stage17/17-50/audit.md
 STAGE17_CURRENT_DATA=stages/stage17/17-20/counts.csv
 STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
-STAGE17_NEXT_CHECKPOINT=50
+STAGE17_NEXT_CHECKPOINT=60
 NEXT_EXPECTED_COMMAND=Stage17-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -131,22 +131,28 @@ The polynomial exponent `2` and logarithmic power `1` are intrinsic at the prove
 
 ## Current operation
 
-Stage17-40 has passed fresh audit. The audited upper-bound ledger uses the already-certified Stage13-to-Stage17 identity adapter and the frozen positive-constant asymptotic
+Stage17-50 has passed fresh audit. The Stage17 population remains the same primitive canonical exactly-one population with integral space diagonal and common cutoff `R<=B`; on target objects `R=d` exactly.
 
-`N_1(B) ~ (kappa/(24*pi)) B(log B)^3`.
+The frozen Stage13 theorem gives
 
-Therefore the strongest certified Stage17 upper bound is
+`N_1(B) ~ (kappa/(24*pi)) B(log B)^3`,
 
-`N_1(B) = O(B(log B)^3)`.
+so the audited full-population lower order is
 
-The same asymptotic supplies the matching lower order, so the scale is order-sharp at the current theorem resolution. A strict little-o improvement below `B(log B)^3` is incompatible with the frozen asymptotic. Formal intrinsic-status classification remains reserved for Stage17-70.
+`N_1(B) >> B(log B)^3`.
 
-The weaker subset argument `N_1(B)<=M_1(B)` only gives `O(B^2 log B)` and is correctly retained as a consistency bound, not the checkpoint-40 best bound. No Stage14 exactly-two result is imported across the population mismatch, and Stage17-20 finite data remain diagnostic only.
+Together with the audited Stage17-40 upper ledger `N_1(B)=O(B(log B)^3)`, the upper and lower orders now match.
 
-Canonical Stage17-40 records:
+AR-039 remains separately certified as an explicit strict Stage17 subfamily with
 
-- `stages/stage17/17-40/result.md`
-- `stages/stage17/17-40/audit.md`
+`N_1(B) >= sqrt(2)/(120*pi^2) B^(1/2) - O(B^(1/4)log B)`.
+
+Its role is constructive and diagnostic; it is not promoted to the mechanism for the full Stage13 asymptotic. No causal or independence conclusion has yet been assigned to the lost power of `B` relative to Stage16.
+
+Canonical Stage17-50 records:
+
+- `stages/stage17/17-50/result.md`
+- `stages/stage17/17-50/audit.md`
 - `stages/stage17/17-controller.json`
 
-Checkpoint 40 is merge-allowed. The next unresolved checkpoint is `Stage17-50` (lower-bound / construction ledger), entered through `Stage17-main-batch` after the audited PR is merged.
+Checkpoint 50 is merge-allowed. The next unresolved checkpoint is `Stage17-60` (causal decomposition), entered through `Stage17-main-batch` after the audited PR is merged.
