@@ -1,69 +1,20 @@
 {
-  "schema_version": 1,
-  "primary_operator": "ChatGPT",
-  "status": "OPEN",
-  "stage": "Stage16S",
-  "parent_class": "population_state",
-  "stage_object": "primitive canonical cuboids with integral space diagonal, tracking SPACE_AT_LEAST and SPACE_ONLY",
-  "source_population": "0<a<b<c; gcd(a,b,c)=1; R=sqrt(a^2+b^2+c^2)<=B",
-  "target_population": "SPACE_AT_LEAST: integral R with no face restriction; SPACE_ONLY: integral R with zero integral faces",
-  "common_population_contract": "positive primitive canonical triples under common R<=B cutoff",
-  "checkpoint_sequence": [10,20,30,40,50,60,70],
-  "checkpoint_status": {
-    "10": "PROVED_AUDITED_PASS",
-    "20": "COMPUTED_AUDITED_PASS",
-    "30": "LITERATURE_ADAPTED_AUDITED_PASS",
-    "40": "AUDITED_PASS",
-    "50": "AUDIT_BLOCKED_PERSISTENCE",
-    "60": "PENDING",
-    "70": "PENDING"
-  },
-  "canonical_commands": {"main":"Stage16S-main-batch","audit":"Stage16S-audit"},
-  "state": {
-    "CURRENT_STAGE": "Stage16S",
-    "CURRENT_CHECKPOINT": 50,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "BLOCKED",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 50,
-    "NEXT_STAGE": null,
-    "NEW_INPUT_REQUIRED": false,
-    "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": false
-  },
-  "parallel_lane": true,
-  "parallel_lane_rule": "Stage16S does not replace or block the numbered Stage18 lane",
-  "certified_inputs": [
-    "stages/stage16s/16s-30/result.md",
-    "stages/stage16s/16s-30/audit.md",
-    "stages/stage16s/16s-40/result.md",
-    "stages/stage16s/16s-40/audit.md",
-    "stages/stage16s/16s-50/result.md"
-  ],
-  "batch_audit": {
-    "pr": 914,
-    "submitted_head": "9e9e38d0a7a4a18453c2b03057522ee6cdefff65",
-    "checkpoint40_math": "PASS",
-    "checkpoint40_persistence": "COMMITTED",
-    "checkpoint50_math": "PASS",
-    "checkpoint50_persistence": "FAILED",
-    "checkpoint50_unsynced_state": "stages/stage16s/16s-50/audit.md",
-    "block_reason": "GitHub connector safety layer repeatedly rejected creation of the canonical checkpoint-50 audit record"
-  },
-  "last_audit": {
-    "checkpoint": 50,
-    "verdict": "BLOCKED",
-    "underlying_audit_result": "PASS",
-    "merge_allowed": false,
-    "new_input_required": false,
-    "human_decision_required": false,
-    "codex_audit_required": false,
-    "codex_reason": "NONE"
-  },
-  "audit_persistence": {
-    "required": true,
-    "status": "FAILED",
-    "unsynced_audit_state": "stages/stage16s/16s-50/audit.md"
-  },
-  "merge_rule": "Checkpoint 40 is audited PASS. Checkpoint 50 is mathematically PASS but audit persistence is BLOCKED; PR #914 must not merge and checkpoint 60 must not begin until the canonical 16s-50/audit.md write succeeds and Stage16S-audit is rerun."
+  "schema_version":1,
+  "status":"OPEN",
+  "stage":"Stage16S",
+  "parent_class":"population_state",
+  "stage_object":"primitive canonical cuboids with integral space diagonal, tracking SPACE_AT_LEAST and SPACE_ONLY",
+  "source_population":"0<a<b<c; gcd(a,b,c)=1; R<=B",
+  "target_population":"SPACE_AT_LEAST and SPACE_ONLY",
+  "checkpoint_sequence":[10,20,30,40,50,60,70],
+  "checkpoint_status":{"10":"PROVED_AUDITED_PASS","20":"COMPUTED_AUDITED_PASS","30":"LITERATURE_ADAPTED_AUDITED_PASS","40":"AUDITED_PASS","50":"AUDITED_PASS","60":"PENDING","70":"PENDING"},
+  "canonical_commands":{"main":"Stage16S-main-batch","audit":"Stage16S-audit"},
+  "state":{"CURRENT_STAGE":"Stage16S","CURRENT_CHECKPOINT":50,"MAIN_STATUS":"COMPLETE","AUDIT_STATUS":"PASS","ADVANCE_ALLOWED":true,"NEXT_CHECKPOINT":60,"NEXT_STAGE":null,"NEW_INPUT_REQUIRED":false,"HUMAN_DECISION_REQUIRED":false,"MERGE_ALLOWED":true},
+  "parallel_lane":true,
+  "parallel_lane_rule":"Stage16S does not replace or block the numbered Stage18 lane",
+  "certified_inputs":["stages/stage16s/16s-30/audit.md","stages/stage16s/16s-40/result.md","stages/stage16s/16s-40/audit.md","stages/stage16s/16s-50/result.md","stages/stage16s/16s-50/audit.md"],
+  "batch_audit":{"pr":914,"checkpoint40":"PASS","checkpoint50":"PASS","persistence":"COMMITTED","faceful_complement_sharpness":"UNKNOWN"},
+  "last_audit":{"checkpoint":50,"verdict":"PASS","record":"stages/stage16s/16s-50/audit.md","pr":914,"merge_allowed":true,"codex_audit_required":false,"codex_reason":"NONE"},
+  "audit_persistence":{"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
+  "merge_rule":"Checkpoints 40 and 50 passed fresh audit. PR #914 may merge; checkpoint 60 may begin after merge."
 }
