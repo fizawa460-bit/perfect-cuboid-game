@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "primary_operator": "ChatGPT",
+  "status": "OPEN",
+  "stage": "Stage16S",
+  "parent_class": "population_state",
+  "stage_object": "primitive canonical cuboids with integral space diagonal before any integer-face condition is imposed, tracking both SPACE_AT_LEAST and SPACE_ONLY",
+  "roadmap": "docs/stage16-28-population-roadmap.md",
+  "execution_template": "docs/stage16-28-execution-controller-template.md",
+  "stage70_policy": "docs/stage16-28-stage70-policy.md",
+  "github_write_policy": "docs/stage16-28-github-write-policy.md",
+  "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
+  "target_population": "SPACE_AT_LEAST: source population with integral R; SPACE_ONLY: SPACE_AT_LEAST with zero integral face diagonals",
+  "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; common geometric cutoff R<=B; face multiplicity is measured exactly when SPACE_ONLY is formed",
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_status": {
+    "10": "PROVED_AUDITED_PASS",
+    "20": "PENDING",
+    "30": "PENDING",
+    "40": "PENDING",
+    "50": "PENDING",
+    "60": "PENDING",
+    "70": "PENDING"
+  },
+  "source_of_truth": [
+    "docs/stage16-28-population-roadmap.md",
+    "docs/stage16-28-execution-controller-template.md",
+    "docs/stage16-28-stage70-policy.md",
+    "docs/stage16-28-github-write-policy.md",
+    "docs/stage14-arsenal.md",
+    "docs/00_CURRENT_RESEARCH_STATUS.md",
+    "stages/stage16/16-10/result.md",
+    "stages/stage17/17-controller.json",
+    "stages/stage16s/16s-10/audit.md"
+  ],
+  "canonical_commands": {
+    "main": "Stage16S-main-batch",
+    "audit": "Stage16S-audit"
+  },
+  "state": {
+    "CURRENT_STAGE": "Stage16S",
+    "CURRENT_CHECKPOINT": 10,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 20,
+    "NEXT_STAGE": null,
+    "NEW_INPUT_REQUIRED": false,
+    "HUMAN_DECISION_REQUIRED": false
+  },
+  "checkpoint_contract": {
+    "10": "population contract",
+    "20": "finite-data baseline",
+    "30": "ratio / thinning law",
+    "40": "upper-bound ledger",
+    "50": "lower-bound / construction ledger",
+    "60": "causal decomposition",
+    "70": "bounded maximal synthesis / intrinsic status / closeout"
+  },
+  "stage16s_contract": {
+    "canonical_edges": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "height": "R(a,b,c)=sqrt(a^2+b^2+c^2)",
+    "cutoff": "R<=B",
+    "space_at_least": "R is an integer; no face-diagonal restriction",
+    "space_only": "R is an integer and none of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
+    "face_square_predicates": [
+      "a^2+b^2 is a square",
+      "a^2+c^2 is a square",
+      "b^2+c^2 is a square"
+    ],
+    "space_diagonal_symbol": "d=R on the target population",
+    "comparison_adapter": "No height adapter is needed against Stage16 because both use the same primitive/canonical R<=B source convention. On Stage16S objects, d=R exactly, so d<=B and R<=B are identical. Stage17 is exactly Stage16 intersected with SPACE_AT_LEAST under this common convention.",
+    "suggested_count_notation": {
+      "space_at_least_set": "S_all(B)",
+      "space_at_least_count": "N_S^all(B)",
+      "space_only_set": "S_0(B)",
+      "space_only_count": "N_S^0(B)"
+    }
+  },
+  "main_contract": {
+    "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
+    "parallel_lane": true,
+    "parallel_lane_rule": "Stage16S must not replace or block the primary numbered-stage controller. The repository may continue Stage17/18 work while Stage16S is open; Stage21 final causal classification depends on the audited Stage16S baseline.",
+    "current_stop_reason": "Stage16S-10 passed fresh audit. Checkpoint 20 may begin after the audit-bearing PR #908 is merged; its finite census will then be submitted for a new fresh audit.",
+    "reuse_before_new_work": [
+      "Stage16-10 primitive/canonical R<=B source convention",
+      "AR-001 primitive/canonical physical convention"
+    ],
+    "must_emit": [
+      "MAIN_BATCH_STATUS",
+      "CURRENT_STAGE",
+      "CHECKPOINTS_ATTEMPTED",
+      "CHECKPOINTS_SUBMITTED",
+      "NEW_CLAIMS",
+      "REUSED_WEAPONS",
+      "CODEX_REQUIRED",
+      "CODEX_REASON",
+      "AUDIT_REQUIRED",
+      "NEXT_EXPECTED_COMMAND"
+    ]
+  },
+  "audit_contract": {
+    "fresh_read_only_audit": true,
+    "required_checks": [
+      "Stage16S is treated as an auxiliary parallel baseline and does not replace the active numbered-stage lane",
+      "primitive/canonical normalization is exactly 0<a<b<c with gcd(a,b,c)=1",
+      "source cutoff is the common R<=B geometric cutoff",
+      "SPACE_AT_LEAST means integral space diagonal with no face restriction",
+      "SPACE_ONLY means integral space diagonal with exactly zero integral face diagonals",
+      "on the target population d=R, so d<=B and R<=B are identical",
+      "Stage17 equals Stage16 intersected with SPACE_AT_LEAST under the common contract",
+      "checkpoint 10 makes no finite-count, asymptotic, density, upper-bound, lower-bound, or causal claim",
+      "checkpoint 20 is not entered before fresh checkpoint-10 audit PASS",
+      "merge safety"
+    ],
+    "required_footer": [
+      "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
+      "ADVANCE_ALLOWED=true|false",
+      "NEW_INPUT_REQUIRED=true|false",
+      "HUMAN_DECISION_REQUIRED=true|false",
+      "NEXT_CHECKPOINT=",
+      "NEXT_STAGE=",
+      "CODEX_AUDIT_REQUIRED=true|false",
+      "CODEX_REASON="
+    ]
+  },
+  "last_audit": {
+    "checkpoint": 10,
+    "verdict": "PASS",
+    "record": "stages/stage16s/16s-10/audit.md",
+    "audited_submission_sha": "a1aee23c90a45d8311592da1c3c30b7c63a3e6c9",
+    "pr": 908,
+    "merge_allowed": true,
+    "codex_audit_required": false,
+    "codex_reason": "NONE"
+  },
+  "last_submission": {
+    "checkpoint": 10,
+    "status": "AUDITED_PASS",
+    "result": "stages/stage16s/16s-10/result.md",
+    "evidence_level": "PROVED_DEFINITIONAL_CONTRACT",
+    "new_claims": [
+      "the Stage16S SPACE_AT_LEAST and SPACE_ONLY populations are frozen under the shared primitive/canonical R<=B convention",
+      "d=R gives an exact d<=B iff R<=B identity on Stage16S",
+      "Stage17 is the exact Stage16 intersection with SPACE_AT_LEAST under the shared convention"
+    ],
+    "finite_data_used_as_proof": false,
+    "population_contract_changed": false,
+    "comparison_adapter_required": false,
+    "codex_required": false,
+    "codex_reason": "Checkpoint 10 is a compact population-contract freeze and requires no bounded implementation or repository-heavy work."
+  },
+  "codex_policy": {
+    "default_required": false,
+    "delegate_when_useful": [
+      "deterministic Stage16S enumerator and replay implementation",
+      "large finite census generation",
+      "controller/manifest/CI repair",
+      "large mechanical repository work"
+    ],
+    "not_final_authority_for": [
+      "new mathematical claims",
+      "population-contract changes",
+      "theorem-transfer adapters",
+      "causal conclusions"
+    ]
+  },
+  "merge_rule": "Stage16S-10 passed fresh audit and PR #908 is merge-allowed. Checkpoint 20 may begin only from the merged audited Stage16S-10 state. Stage16S remains an auxiliary lane and does not alter the active Stage17/18 advancement state."
+}
