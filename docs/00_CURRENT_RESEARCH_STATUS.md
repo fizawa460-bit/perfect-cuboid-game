@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-20-SUBMITTED
+CURRENT_STAGE=Stage16-20-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,13 +10,14 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_20_SUBMITTED
+STAGE16_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
 STAGE16_CURRENT_RESULT=stages/stage16/16-20/result.md
 STAGE16_CURRENT_DATA=stages/stage16/16-20/counts.csv
 STAGE16_CURRENT_ENUMERATOR=stages/stage16/16-20/enumerate.py
+STAGE16_CURRENT_AUDIT=stages/stage16/16-20/audit.md
 STAGE16_NEXT_CHECKPOINT=30
-NEXT_EXPECTED_COMMAND=Stage16-audit
+NEXT_EXPECTED_COMMAND=Stage16-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
@@ -104,16 +105,17 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-Stage16-10 has passed fresh audit and its population/cutoff contract is frozen. Stage16-20 now submits the first deterministic finite-data baseline on that exact physical population.
+Stage16-10 has passed fresh audit and its population/cutoff contract is frozen. Stage16-20 finite-data baseline has now also passed fresh audit.
 
 Canonical Stage16-20 artifacts:
 
 - `stages/stage16/16-20/result.md`
 - `stages/stage16/16-20/counts.csv`
 - `stages/stage16/16-20/enumerate.py`
+- `stages/stage16/16-20/audit.md`
 
-The enumerator uses primitive Euclid face generation plus scale, exhaustive third-edge completion under `R<=B`, canonical/global-primitive filtering, and an exact-one face check. An independent direct canonical-triple reference enumeration agrees exactly at `B=100` with `M_1(100)=2620`. The frozen census is replayed through `B=2000`, where `M_1(2000)=1997863`.
+The enumerator uses primitive Euclid face generation plus scale, exhaustive third-edge completion under `R<=B`, canonical/global-primitive filtering, and an exact-one face check. Independent direct canonical-triple checks agree at `B=50,100,200`, and the frozen CSV hash matches the recorded SHA-256. The dedicated Stage16-20 finite-data CI completed successfully through the frozen `B=2000` replay.
 
-These are `COMPUTED` finite facts only. No asymptotic growth law, exponent, ratio, upper/lower bound, or causal mechanism is inferred at Stage16-20. The diagnostic `ab/ac/bc` face split is also not interpreted as an intrinsic arithmetic asymmetry.
+These remain `COMPUTED` finite facts only. No asymptotic growth law, exponent, ratio, upper/lower bound, or causal mechanism has been inferred at Stage16-20. The diagnostic `ab/ac/bc` face split is also not interpreted as an intrinsic arithmetic asymmetry.
 
-A fresh `Stage16-audit` must certify the enumerator/replay and frozen data before Stage16-30 may interpret finite growth or formulate a ratio/thinning law.
+Checkpoint 20 is certified. `ADVANCE_ALLOWED=true`; the next unresolved checkpoint is Stage16-30 (ratio / thinning law), entered through `Stage16-main-batch`.
