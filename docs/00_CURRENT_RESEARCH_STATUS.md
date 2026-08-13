@@ -8,6 +8,7 @@ STAGE14_STATUS=CLOSED_R05_WITH_KNOWN_MINOR_NOTES
 STAGE15_STATUS=ACTIVE
 STAGE15_6_STATUS=CLOSED
 STAGE15_7_TARGET=CAUSAL_COMPARISON_VERDICT_AND_FINAL_SELF_CONTAINED_BUNDLE
+FUTURE_ROADMAP=docs/stage16-28-population-roadmap.md
 ```
 
 ## Canonical completed-stage sources
@@ -62,3 +63,14 @@ Stage14, from the independent internal Stage15-6 causal zero-density theorem.
 The Stage15-6 controller and operation documents are retained only as closed
 operational provenance. Do not open another Stage15-6 internal route merely to
 pursue a future external quantitative sharpening.
+
+## Future program after Stage15 closure
+
+The agreed Stage16-28 population/condition-interaction program is recorded at
+`docs/stage16-28-population-roadmap.md`.
+
+It freezes Stage16-20 as population states (one face; one face + space diagonal;
+two faces; two faces + space diagonal; Euler cuboids), then studies meaningful
+transition ratios and mechanisms as separate Stage21-28 research objects,
+including `16->18`, `16->19`, and `18->20` comparisons. The perfect-cuboid
+endpoint is intentionally deferred and is not assigned a Stage16-28 number.
