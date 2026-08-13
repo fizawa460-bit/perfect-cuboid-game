@@ -109,18 +109,18 @@ Stage16-10 and Stage16-20 are certified. Stage16-30 has now passed fresh audit; 
 - `stages/stage16/16-30/audit.md`
 
 The certified theorem is
-[
-M_1(B)asymp B^2log B,
-qquad
-U(B)=rac{pi}{36zeta(3)}B^3+O(B^2),
-qquad
-rac{M_1(B)}{U(B)}asymprac{log B}{B}	o0.
-]
+\[
+M_1(B)\asymp B^2\log B,
+\qquad
+U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
+\qquad
+\frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
+\]
 
 Stage16-40 submits the upper-bound ledger
-[
-M_1(B)ll B^2log B.
-]
+\[
+M_1(B)\ll B^2\log B.
+\]
 It records the exact mechanism: linear primitive-Pythagorean face count, harmonic scale sum, and one free third edge. This is sharp in order because the Stage16-30 lower bound is already audited. No leading constant is claimed, and no Stage14/15 space-diagonal or exactly-two theorem is cross-promoted.
 
 Canonical Stage16-40 submission:
