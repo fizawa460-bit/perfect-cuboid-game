@@ -7,7 +7,7 @@ STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
 STAGE15_STATUS=FINAL_REVIEW_ACTIVE
 STAGE15_6_STATUS=CLOSED
-STAGE15_7_STATUS=CLOSED_R01
+STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_TARGET=SELF_CONTAINED_HTML_HOSTILE_REVIEW_AND_FREEZE
 SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
 ```
@@ -67,11 +67,31 @@ are classified as external future gates, not unfinished Stage15-6 routes.
 
 Canonical Stage15-6 closeout: `stages/stage15/15-6-final.md`.
 
+## Stage15-7 audit-status provenance
+
+PR #887 merged the Stage15 R01 synthesis bundle. However the canonical R01 files
+still explicitly record the pre-audit state:
+
+- `stages/stage15/final.md`: `Status: fresh-audit candidate`;
+- `stages/stage15/manifest-r01.md`: `Status: candidate pending fresh Stage15-7-audit`.
+
+No canonical Stage15-7 audit record or controller closeout was committed with that
+merge. Therefore repository state must **not** describe R01 as canonically audited
+or Stage15-7 as `CLOSED_R01`.
+
+Stage15-8 does not repair this by inventing a retrospective Stage15-7 closeout.
+Instead it treats the merged R01 synthesis as a source candidate and performs its
+own fresh hostile audit of the proof-facing R02 HTML against the immediate
+canonical mathematical sources. This provenance correction opens no new
+Stage15-7 mathematical route and does not reopen Stage15-6.
+
 ## Active operation
 
-Stage15-7 has completed the causal comparison synthesis. Stage15-8 is the
-presentation/preservation gate: build and hostile-review one offline self-contained
-HTML representation of the audited Stage15 verdict without changing the mathematics.
+Stage15-8 is the active presentation/preservation gate: build and hostile-review
+one offline self-contained HTML representation of the Stage15 theorem content
+without changing the mathematics and without assuming an unrecorded Stage15-7
+`AUDITED/CLOSED_R01` state.
 
 The active Stage15-8 review repair uses
-`SELF_CONTAINED_REVIEW_STANDARD_V1`; a fresh audit is required before merge/freeze.
+`SELF_CONTAINED_REVIEW_STANDARD_V1`; a fresh Stage15-8 audit is required before
+merge/freeze.
