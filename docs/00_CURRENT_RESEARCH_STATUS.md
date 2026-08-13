@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-60-SUBMITTED
+CURRENT_STAGE=Stage16-70-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,12 +10,15 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_60_SUBMITTED
+STAGE16_STATUS=OPEN_CHECKPOINT_70_SUBMITTED
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
-STAGE16_CURRENT_RESULT=stages/stage16/16-60/result.md
+STAGE16_CURRENT_RESULT=stages/stage16/16-70/result.md
+STAGE16_FINAL_BUNDLE=stages/stage16/final.md
+STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE16_LAST_AUDIT=stages/stage16/16-50/audit.md
-STAGE16_NEXT_CHECKPOINT=70
+STAGE16_LAST_AUDIT=stages/stage16/16-60/audit.md
+STAGE16_NEXT_CHECKPOINT=
+STAGE16_NEXT_STAGE_AFTER_PASS=Stage17
 NEXT_EXPECTED_COMMAND=Stage16-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -104,8 +107,11 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-Stage16-10 and Stage16-20 are certified. Stage16-30 has passed fresh audit and proves
+Stage16 checkpoints 10-60 are certified. The latest audit record is:
 
+- `stages/stage16/16-60/audit.md`
+
+The certified Stage16 population law is
 \[
 M_1(B)\asymp B^2\log B,
 \qquad
@@ -114,36 +120,31 @@ U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
 \frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
 \]
 
-Stage16-40 passed fresh audit and freezes the sharp upper-bound ledger
-
-\[
-M_1(B)\ll B^2\log B.
-\]
-
-Stage16-50 has now also passed fresh audit. Its canonical audit record is:
-
-- `stages/stage16/16-50/audit.md`
-
-The certified sharp construction gives
-
-\[
-M_1(B)\gg B^2\log B.
-\]
-
-AR-039 remains a narrower integral-space-diagonal regression subset only; on that subset `R=d` exactly and its weaker `B^{1/2}` lower bound is not used for the Stage16 ambient exponent.
-
-Stage16-60 now submits the causal decomposition. If `H_1(B)` denotes the same primitive canonical `R<=B` population with at least one integral face, then the face-union upper bound and the audited exactly-one lower bound give
-
+The certified causal decomposition also gives, for the same primitive canonical `R<=B` population with at least one integral face,
 \[
 H_1(B)\asymp M_1(B)\asymp B^2\log B.
 \]
+The power drop is assigned to the one-face Pythagorean restriction; the logarithm comes from the harmonic face-scale sum; the third edge remains free at order `B`. Primitivity and canonicalization do not change the proved power/log order, and the exactly-one mask is order-neutral relative to at-least-one at this resolution. No global overlap little-`o` theorem or limiting `M_1/H_1` ratio is claimed.
 
-The proved `\log(B)/B` thinning order is assigned to the one-face Pythagorean dimension drop: an unrestricted two-edge pair of order `B^2` is replaced by scaled primitive Pythagorean faces of order `B\log B`, while the third edge remains free at order `B`. The logarithm comes from the harmonic scale sum.
+Stage16-70 now submits the intrinsic-status / closeout verdict. Since the upper and lower bounds match, the polynomial exponent `2` and log power `1` are classified as intrinsic at the proved `Theta` resolution. A leading asymptotic constant, directional law, overlap ratio, and Stage16-to-Stage17 space-diagonal survival law remain unproved.
 
-At this resolution, primitivity and canonicalization do not change the power/log order, and the exactly-one mask is order-neutral relative to at-least-one. Stage16-60 does **not** prove a global overlap little-`o` theorem or a limiting ratio between exactly-one and at-least-one populations. Space-diagonal arithmetic is not charged at Stage16, and finite directional `ab/ac/bc` imbalance remains diagnostic only.
+Stage-end artifact decisions:
 
-Canonical Stage16-60 submission:
+```text
+SELF_CONTAINED_BUNDLE_REQUIRED=YES
+SELF_CONTAINED_BUNDLE=stages/stage16/final.md
+ARSENAL_PROMOTION_REQUIRED=NO
+ARSENAL_CANDIDATES=NONE
+POPULATION_CONTRACT_CHANGED=NO
+COMPARISON_ADAPTER_REQUIRED=NO
+EVIDENCE_LEVELS_COMPLETE=YES
+DEPENDENCY_LEDGER_COMPLETE=YES
+DOUBLE_CHARGE_CHECK=PASS
+```
 
-- `stages/stage16/16-60/result.md`
+The self-contained R01 candidate and manifest are:
 
-Because checkpoint 60 contains a new causal synthesis, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit`. Checkpoint 70 intrinsic-status / closeout verdict must not be treated as certified before that audit.
+- `stages/stage16/final.md`
+- `stages/stage16/manifest-r01.md`
+
+Stage16 is **not closed yet**. Checkpoint 70 and the bundle require a fresh `Stage16-audit`. If that audit passes, Stage16 may close and the next population stage is Stage17. Until then `ADVANCE_ALLOWED=false` and Stage17 must not treat the Stage16 final bundle as certified.
