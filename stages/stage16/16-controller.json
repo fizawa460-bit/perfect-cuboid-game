@@ -10,15 +10,7 @@
   "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "the source population for which exactly one of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
   "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; exact face multiplicity retained; common geometric cutoff R<=B; no requirement that R be integral",
-  "checkpoint_sequence": [
-    10,
-    20,
-    30,
-    40,
-    50,
-    60,
-    70
-  ],
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
   "source_of_truth": [
     "docs/stage16-28-population-roadmap.md",
     "docs/stage16-28-execution-controller-template.md",
@@ -31,11 +23,11 @@
   },
   "state": {
     "CURRENT_STAGE": "Stage16",
-    "CURRENT_CHECKPOINT": 40,
+    "CURRENT_CHECKPOINT": 50,
     "MAIN_STATUS": "SUBMITTED",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 50,
+    "NEXT_CHECKPOINT": 60,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false
@@ -69,14 +61,13 @@
   },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "current_stop_reason": "Stage16-30 passed fresh audit. Stage16-40 submits the upper-bound ledger extracted from that audited theorem and stops for fresh audit before checkpoint 50.",
+    "current_stop_reason": "Stage16-40 passed fresh audit. Stage16-50 submits the lower-bound/construction ledger extracted from the audited Stage16-30 theorem plus an exact subset/cutoff adapter for AR-039, then stops before checkpoint 60 causal synthesis.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
-      "AR-002 primitive Euclid face decomposition"
+      "AR-002 primitive Euclid face decomposition",
+      "AR-039 mod-7 two-parameter exactly-one family as a narrower integral-space-diagonal regression subset only"
     ],
-    "future_reuse_candidates": [
-      "AR-039 mod-7 two-parameter exactly-one family for the later lower-bound ledger after cutoff/population compatibility is checked"
-    ],
+    "future_reuse_candidates": [],
     "must_emit": [
       "MAIN_BATCH_STATUS",
       "CURRENT_STAGE",
@@ -103,8 +94,10 @@
       "Stage16-30 lower-bound injectivity, primitivity, exact-one deletion, and summed error uniformity",
       "same-measure U(B) ambient asymptotic and thinning ratio",
       "finite Stage16-20 data is diagnostic only",
-      "merge safety",
-      "Stage16-40 upper-bound ledger matches the audited Stage16-30 theorem without cross-promotion"
+      "Stage16-40 upper-bound ledger matches the audited Stage16-30 theorem without cross-promotion",
+      "Stage16-50 lower-bound ledger matches the audited Stage16-30 construction and does not weaken the sharp lower bound",
+      "AR-039 is used only through the exact subset inclusion and R=d cutoff adapter, with its B^(1/2) bound kept separate from the ambient B^2 log B order",
+      "merge safety"
     ],
     "required_footer": [
       "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
@@ -118,31 +111,33 @@
     ]
   },
   "last_audit": {
-    "checkpoint": 30,
+    "checkpoint": 40,
     "verdict": "PASS",
-    "audit_record": "stages/stage16/16-30/audit.md",
-    "canonical_comment": "https://github.com/fizawa460-bit/perfect-cuboid-game/pull/896#issuecomment-5281567858",
-    "audited_submission_sha": "c7bf042b88ec4cb4017aa9355c21ca19c3ea3161",
-    "pr": 896,
-    "merged_submission_commit": "4d41a229b6b4c85c20f46c05e3664c43b2ec437f",
+    "audit_record": "stages/stage16/16-40/audit.md",
+    "audited_submission_sha": "51f43b278a438baedd66cd89b7f4bfc4f4659a24",
+    "pr": 897,
+    "merged_submission_commit": "b7f0fe16629732425fa49974846e2683e7196d66",
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
-    "checkpoint": 40,
+    "checkpoint": 50,
     "status": "SUBMITTED_FOR_FRESH_AUDIT",
-    "result": "stages/stage16/16-40/result.md",
+    "result": "stages/stage16/16-50/result.md",
     "evidence_level": "PROVED_LEDGER_FROM_AUDITED_STAGE16_30",
     "new_claims": [],
-    "upper_bound": "M_1(B) << B^2 log B",
+    "lower_bound": "M_1(B) >> B^2 log B",
     "order_sharp": true,
-    "leading_constant_proved": false,
+    "main_construction": "Stage16-30 Pythagorean-face scale plus free-third-edge family with coprimality and accidental-square deletion",
+    "ar039_adapted": true,
+    "ar039_role": "weaker integral-space-diagonal regression subfamily",
+    "ar039_bound": "M_1(B) >> B^(1/2) via subset inclusion",
+    "ar039_cutoff_adapter": "R=d exactly on the AR-039 family",
     "population_contract_changed": false,
-    "comparison_adapter_required": false,
     "finite_data_used_as_proof": false,
     "codex_required": false,
-    "codex_reason": "Repository write recovery and ledger publication only; the mathematical upper bound was already fresh-audited."
+    "codex_reason": "Checkpoint 50 is a compact proof-ledger and exact population/cutoff adapter; no repository-heavy implementation or unavailable execution is required."
   },
   "codex_policy": {
     "default_required": false,

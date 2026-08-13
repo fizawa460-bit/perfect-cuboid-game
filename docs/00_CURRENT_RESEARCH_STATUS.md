@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-40-SUBMITTED
+CURRENT_STAGE=Stage16-50-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,12 +10,12 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_40_SUBMITTED
+STAGE16_STATUS=OPEN_CHECKPOINT_50_SUBMITTED
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
-STAGE16_CURRENT_RESULT=stages/stage16/16-40/result.md
+STAGE16_CURRENT_RESULT=stages/stage16/16-50/result.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE16_LAST_AUDIT=stages/stage16/16-30/audit.md
-STAGE16_NEXT_CHECKPOINT=50
+STAGE16_LAST_AUDIT=stages/stage16/16-40/audit.md
+STAGE16_NEXT_CHECKPOINT=60
 NEXT_EXPECTED_COMMAND=Stage16-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -104,7 +104,7 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-Stage16-10 and Stage16-20 are certified. Stage16-30 has now passed fresh audit; its canonical audit record is:
+Stage16-10 and Stage16-20 are certified. Stage16-30 has passed fresh audit; its canonical audit record is:
 
 - `stages/stage16/16-30/audit.md`
 
@@ -117,14 +117,26 @@ U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
 \frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
 \]
 
-Stage16-40 submits the upper-bound ledger
+Stage16-40 has now also passed fresh audit. Its canonical audit record is:
+
+- `stages/stage16/16-40/audit.md`
+
+The certified upper-bound ledger is
 \[
 M_1(B)\ll B^2\log B.
 \]
 It records the exact mechanism: linear primitive-Pythagorean face count, harmonic scale sum, and one free third edge. This is sharp in order because the Stage16-30 lower bound is already audited. No leading constant is claimed, and no Stage14/15 space-diagonal or exactly-two theorem is cross-promoted.
 
-Canonical Stage16-40 submission:
+Stage16-50 now submits the lower-bound / construction ledger. The strongest certified construction is the already-audited Stage16-30 family, which gives
+\[
+M_1(B)\gg B^2\log B.
+\]
+It uses a primitive Pythagorean face, harmonic face scale, a positive-density third-edge interval, global coprimality, and deletion of the two accidental-square sets. This is order-sharp against checkpoint 40 and adds no stronger theorem than Stage16-30.
 
-- `stages/stage16/16-40/result.md`
+AR-039 is also adapted, but only as a narrower regression subset. Its primitive exactly-one family additionally has integral space diagonal; because `R=d` exactly on that subset, its historical `d<=B` cutoff equals Stage16 `R<=B`. Hence it legally yields the weaker `M_1(B)\gg B^{1/2}` lower bound, but it is not used for the Stage16 ambient exponent or sharp lower bound.
 
-Because checkpoint 40 is newly submitted, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit`. Checkpoint 50 must not be treated as certified before that audit.
+Canonical Stage16-50 submission:
+
+- `stages/stage16/16-50/result.md`
+
+Because checkpoint 50 is newly submitted, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit`. Checkpoint 60 causal decomposition must not be treated as certified before that audit.
