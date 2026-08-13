@@ -15,7 +15,7 @@
   "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
-    "20": "COMPUTED_CANDIDATE_PENDING_FRESH_AUDIT",
+    "20": "COMPUTED_AUDITED_PASS",
     "30": "PENDING",
     "40": "PENDING",
     "50": "PENDING",
@@ -34,6 +34,7 @@
     "stages/stage17/17-20/counts.csv",
     "stages/stage16s/16s-10/audit.md",
     "stages/stage16s/16s-20/result.md",
+    "stages/stage16s/16s-20/audit.md",
     "stages/stage16s/16s-20/counts.csv",
     "stages/stage16s/16s-20/enumerate.py",
     "stages/stage16s/16s-20/counts.sha256"
@@ -45,13 +46,14 @@
   "state": {
     "CURRENT_STAGE": "Stage16S",
     "CURRENT_CHECKPOINT": 20,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": null,
     "NEW_INPUT_REQUIRED": false,
-    "HUMAN_DECISION_REQUIRED": false
+    "HUMAN_DECISION_REQUIRED": false,
+    "MERGE_ALLOWED": true
   },
   "checkpoint_contract": {
     "10": "population contract",
@@ -94,8 +96,9 @@
     "face2_at_max": 5,
     "face3_at_max": 0,
     "small_cutoff_crosscheck_B": 200,
-    "small_cutoff_crosscheck": "PASS_LOCAL_BEFORE_SUBMISSION",
-    "stage17_exact_one_interface": "PASS_LOCAL_BEFORE_SUBMISSION",
+    "small_cutoff_crosscheck": "PASS_AUDITED",
+    "stage17_exact_one_interface": "PASS_AUDITED",
+    "frozen_census_replay": "PASS_AUDITED",
     "evidence_level": "COMPUTED",
     "finite_data_used_as_proof": false
   },
@@ -103,9 +106,10 @@
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
     "parallel_lane": true,
     "parallel_lane_rule": "Stage16S must not replace or block the primary numbered-stage controller. The repository may continue Stage17/18 work while Stage16S is open; Stage21 final causal classification depends on the audited Stage16S baseline.",
-    "current_stop_reason": "Stage16S-20 freezes a deterministic finite census through B=2000, with independent direct-triple replay through B=200 and an exact Stage17 one-face interface check. Checkpoint 30 would interpret finite growth and therefore waits for fresh audit of checkpoint 20.",
+    "current_stop_reason": "Stage16S-20 passed fresh audit. The deterministic finite census through B=2000, independent B<=200 direct replay, frozen CSV regeneration, and Stage17 face1 interface are certified. Checkpoint 30 may proceed after the audited PR is merged.",
     "reuse_before_new_work": [
       "Stage16S-10 audited population contract",
+      "Stage16S-20 audited finite census",
       "Stage17-20 exact-one finite census as an interface regression check"
     ],
     "must_emit": [
@@ -139,29 +143,31 @@
     ],
     "required_footer": [
       "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
+      "AUDIT_PERSISTENCE_STATUS=COMMITTED|FAILED",
       "ADVANCE_ALLOWED=true|false",
       "NEW_INPUT_REQUIRED=true|false",
       "HUMAN_DECISION_REQUIRED=true|false",
       "NEXT_CHECKPOINT=",
       "NEXT_STAGE=",
       "CODEX_AUDIT_REQUIRED=true|false",
-      "CODEX_REASON="
+      "CODEX_REASON=",
+      "MERGE_ALLOWED=true|false"
     ]
   },
   "last_audit": {
-    "checkpoint": 10,
+    "checkpoint": 20,
     "verdict": "PASS",
-    "record": "stages/stage16s/16s-10/audit.md",
-    "audited_submission_sha": "a1aee23c90a45d8311592da1c3c30b7c63a3e6c9",
-    "pr": 908,
-    "merged_submission_commit": "b73b4898e9d59d03ad8b9246d95a22b1a7505283",
+    "record": "stages/stage16s/16s-20/audit.md",
+    "audited_submission_sha": "df7989bcfe8692a7d3d956e7a862b02bf3c816b3",
+    "pr": 910,
     "merge_allowed": true,
+    "audit_persistence_status": "COMMITTED",
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
     "checkpoint": 20,
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "AUDITED_PASS",
     "result": "stages/stage16s/16s-20/result.md",
     "data": "stages/stage16s/16s-20/counts.csv",
     "enumerator": "stages/stage16s/16s-20/enumerate.py",
@@ -193,5 +199,5 @@
       "causal conclusions"
     ]
   },
-  "merge_rule": "Stage16S-20 may advance to checkpoint 30 only after fresh Stage16S-audit PASS. Stage16S remains an auxiliary lane and does not alter the active numbered-stage advancement state."
+  "merge_rule": "Stage16S-20 passed fresh audit and is merge-allowed. Checkpoint 30 may begin after the audited checkpoint-20 PR is merged; Stage16S remains an auxiliary lane and does not alter the active numbered-stage advancement state."
 }
