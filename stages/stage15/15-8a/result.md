@@ -1,81 +1,146 @@
-# Stage15-8a — self-contained Stage15 final HTML and audit handoff
+# Stage15-8a — R02 self-containment repair and audit handoff
 
-Base: merged Stage15-7 R01 final bundle and its fresh audit PASS. Stage15-8 changes presentation only; it does not add a mathematical theorem or reopen Stage15-6/7 research.
+Base: merged Stage15-7 R01 final bundle and the existing Stage15-8 Draft PR #888. Stage15-8 changes presentation/preservation only; it does not add a mathematical theorem or reopen Stage15-6/7 research.
 
-## 1. Artifact
+## 1. Why R02 exists
 
-Created:
+Comparison with the active Stage12 R09, Stage13 R07, and Stage14 R06 review bundles showed that the initial Stage15 HTML was too summary-oriented for the project's established definition of “self-contained”.
+
+The defect was presentation-level, not mathematical: several already-certified Stage15-internal load-bearing arguments were represented by short claims plus repository provenance rather than proof-complete transcription.
+
+R02 repairs that defect under the new project-wide standard:
+
+`docs/self-contained-review-standard.md`
+
+```text
+SELF_CONTAINMENT_STANDARD=SELF_CONTAINED_REVIEW_STANDARD_V1
+SUMMARY_ONLY_IS_SELF_CONTAINED=false
+```
+
+## 2. R02 artifact
+
+Updated:
 
 `stages/stage15/stage15-final-self-contained.html`
 
-The file is a single offline-capable HTML review artifact with inline CSS and no required external JavaScript, fonts, images, MathJax, or CDN assets.
+Review bundle:
 
-It contains the final Stage15 implication chain in human-review order:
+`STAGE15-FINAL-SELF-CONTAINED-20260813-R02`
 
-1. primitive/canonical exactly-two population and exact `R<=B` cutoff;
-2. ambient theorem `M_2(B)~C_M2 B(log B)^5`;
-3. exact Gaussian norm squareclass survivor condition `sf(A)=sf(B)`;
-4. Stage15-5 quantitative survival theorem with its Stage14 numerator provenance;
-5. Stage15-6 independent fixed-prime causal zero-density theorem and exact split-prime density;
-6. explicit theorem-species separation and no-double-charge firewall;
-7. Stage15-3 finite matched evidence as diagnostic only;
-8. provenance and inherited external theorem interfaces;
-9. negative knowledge and external future gates;
-10. explicit firewall separating the exactly-two Stage15 population from the perfect-cuboid problem;
-11. audit checklist and machine-readable lock.
+The HTML remains a single offline-capable artifact with inline CSS and no required external JavaScript, fonts, images, MathJax, CDN assets, or live repository access.
 
-## 2. Mathematical preservation contract
+## 3. Newly embedded load-bearing proof chain
 
-The HTML preserves, without strengthening:
+R02 physically embeds the already-proved internal steps that R01 had compressed.
 
-- `M_2(B)~C_M2 B(log B)^5`, `C_M2>0` from Stage15-2b;
-- `R in Z <=> sf(A)=sf(B)` from Stage15-4;
-- `N_2/M_2 <<_eps B^(-1/2+eps)(log B)^(-5)` from Stage15-5 using Stage14 Theorem 2.1;
-- independently `N_2/M_2 -> 0` from Stage15-6 fixed-prime squareclass sieving;
+### Stage15-2a / 2b ambient theorem
+
+- shared-edge complete intersection `X`;
+- exact four `A1` singularities;
+- `Y=Bl_4(P1 x P1)` at the four torus-fixed corners;
+- anticanonical morphism and `rho(Y)=6`;
+- exact Stage15 `R` as an anticanonical adelic height;
+- physical chamber transfer;
+- exact incidence identity `A(B)=M_2(B)+3M_3(B)`;
+- geometrically integral generic degree-two third-face cover;
+- thin-set hypothesis map and subtraction;
+- `M_2(B)~C_M2 B(log B)^5`, `C_M2>0`.
+
+### Stage15-4 exact survivor normal form
+
+- raw toric coordinates and primitive gcd `G`;
+- multiplicity-one inverse reconstruction;
+- direct expansion `G^2 R^2=4AB`;
+- both directions of `R in Z <=> AB square`;
+- `AB square <=> sf(A)=sf(B)`;
+- unique `A=kP^2`, `B=kQ^2` squarefree core.
+
+### Stage15-6dy local density
+
+- same charged physical measure;
+- inert-prime acceptance `1`;
+- split Gaussian divisor geometry on the resolved toric surface;
+- exact residue counts `N00,N10,N01,N11`;
+- p-adic valuation-parity probabilities inside divisor/intersection tubes;
+- derivation of
+
+`rho_p=(p^4+4p^3+22p^2+4p+1)/((p+1)^2(p^2+6p+1))`.
+
+### Stage15-6dz fixed-S adapter
+
+- fixed-prime adelic refinement on the same `R<=B` physical measure;
+- exactly-two subtraction remains lower order;
+- fixed finite set tensor `rho_S=prod rho_p`;
+- explicit non-uniformity in `S`;
+- survivor domination and ordered limit `B->infinity` first, then `S` grows.
+
+## 4. External theorem boundary
+
+R02 does not reproduce published proofs. It prints the exact working interfaces and hypothesis maps for:
+
+- Batyrev–Tschinkel toric anticanonical counting;
+- Huang fixed adelic-neighbourhood equidistribution/counting;
+- Browning–Loughran thin-subset zero density.
+
+The Stage14 whole-family numerator theorem is treated as a completed upstream frozen interface because the Stage15 population/cutoff/multiplicity match is explicit.
+
+## 5. Project-wide future template
+
+Created:
+
+`docs/self-contained-review-standard.md`
+
+It fixes the Stage12 R09 / Stage13 R07 / Stage14 R06 convention for future final review artifacts. The top-level `review/` directory remains reserved for active rendered review targets; the reusable standard/template belongs under `docs/`.
+
+Also updated:
+
+- `docs/README.md` to expose the standard;
+- `docs/00_CURRENT_RESEARCH_STATUS.md` to make the standard part of the active review policy;
+- `stages/stage15/15-8-controller.json` so Stage15-8 audit must enforce it;
+- `stages/stage15/replay/verify_stage15_8_html.py` so CI checks R02 structural markers and the standard file;
+- `stages/stage15/15-8-manifest-r02.md` for immutable review-bundle provenance.
+
+## 6. Mathematical preservation contract
+
+R02 preserves, without strengthening:
+
+- `M_2(B)~C_M2 B(log B)^5`, `C_M2>0`;
+- `R in Z <=> sf(A)=sf(B)`;
+- `N_2/M_2 <<_eps B^(-1/2+eps)(log B)^(-5)` from Stage14 numerator + Stage15 denominator;
+- independently `N_2/M_2 -> 0` from the Stage15-6 fixed-prime squareclass sieve;
 - `1-rho_p=4/p+O(p^-2)` at good split primes;
 - Stage15-6 internal `delta>0=false` and `sigma>0=false`;
 - finite `B=100000` evidence `M2=796698`, `N2=89`, directional survivors `(33,33,23)` with no asymptotic promotion;
 - no perfect-cuboid existence/nonexistence conclusion.
 
-The Stage15-5 half-power rate is not attributed to Stage15-6. The Stage15-6 local parity factors are not multiplied into the Stage15-5 bound.
+## 7. Audit handoff
 
-## 3. Offline/self-contained contract
-
-The dedicated verifier rejects required remote assets. The HTML contains:
-
-- no `<script src=...>`;
-- no stylesheet `<link>`;
-- no remote `src=` resources;
-- no `@import`;
-- no MathJax/CDN dependency;
-- all layout and typography in inline `<style>`;
-- only internal fragment navigation links.
-
-Repository paths are printed only as provenance labels. The final mathematical verdict remains readable without opening them.
-
-## 4. Audit handoff
-
-This is an audit candidate, not yet the frozen human-facing Stage15 artifact. A fresh `Stage15-8-audit` must compare the HTML claim-by-claim against the canonical Stage15 final bundle and immediate sources, verify theorem-species separation, population/cutoff, local-density transcription, ordered limits, finite-evidence discipline, perfect-cuboid firewall, and offline self-containment.
+A fresh `Stage15-8-audit` must now audit R02 against `SELF_CONTAINED_REVIEW_STANDARD_V1`, not merely check claim-level fidelity.
 
 ```text
 STAGE15_8_SUBSTAGE=8a
+STAGE15_8A_REVIEW_BUNDLE=STAGE15-FINAL-SELF-CONTAINED-20260813-R02
+STAGE15_8A_R01_SELF_CONTAINMENT_DEFECT_REPAIRED=true
+STAGE15_8A_SELF_CONTAINMENT_STANDARD_APPLIED=true
 STAGE15_8A_HTML_CREATED=true
 STAGE15_8A_HTML_PATH=stages/stage15/stage15-final-self-contained.html
 STAGE15_8A_OFFLINE_SELF_CONTAINED=true
 STAGE15_8A_EXTERNAL_REQUIRED_ASSETS=false
+STAGE15_8A_INTERNAL_LOAD_BEARING_PROOFS_EMBEDDED=true
+STAGE15_8A_EXTERNAL_THEOREM_CONTRACTS_MAPPED=true
 STAGE15_8A_NEW_MATHEMATICS=false
 STAGE15_8A_THEOREM_SPECIES_SEPARATED=true
 STAGE15_8A_STAGE15_6_REOPENED=false
 STAGE15_8A_AUDIT_REQUIRED=true
 STAGE15_8A_MERGE_ALLOWED=false
-STAGE15_8A_EXIT=FRESH_AUDIT_OF_SELF_CONTAINED_HTML
+STAGE15_8A_EXIT=FRESH_AUDIT_OF_R02_SELF_CONTAINED_HTML
 ```
 
 Controller output:
 
 ```text
 CURRENT_SUBSTAGE=Stage15-8a
-NEXT_GATE=FRESH_AUDIT_OF_SELF_CONTAINED_HTML
+NEXT_GATE=FRESH_AUDIT_OF_R02_SELF_CONTAINED_HTML
 ALL_PRIOR_CHECKS_PASS=true
 AUDIT_REQUIRED=true
 CODEX_REQUIRED=false
