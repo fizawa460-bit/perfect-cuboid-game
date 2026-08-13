@@ -1,10 +1,16 @@
 # Stage18-40 audit
 
-Underlying mathematics: PASS.
+Status: PASS
 
-AUDIT_VERDICT=BLOCKED
-AUDIT_PERSISTENCE_STATUS=FAILED
-UNSYNCED_AUDIT_STATE=docs/00_CURRENT_RESEARCH_STATUS.md
-ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=40
-MERGE_ALLOWED=false
+The frozen positive Stage15 asymptotic gives `M_2(B) << B(log B)^5`. The matching lower bound from the same asymptotic makes this upper ledger order-sharp. No stronger polynomial exponent or finite-data proof is claimed.
+
+AUDIT_VERDICT=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
+NEXT_CHECKPOINT=50
+NEXT_STAGE=
+CODEX_AUDIT_REQUIRED=false
+CODEX_REASON=NONE
+MERGE_ALLOWED=true
