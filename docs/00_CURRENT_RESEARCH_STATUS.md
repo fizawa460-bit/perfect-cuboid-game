@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage18-50-SUBMITTED
+CURRENT_STAGE=Stage18-50-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -27,15 +27,15 @@ STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_NEXT_CHECKPOINT=
 STAGE17_NEXT_STAGE=Stage18
-STAGE18_STATUS=OPEN_CHECKPOINTS_30_40_50_SUBMITTED
+STAGE18_STATUS=OPEN_CHECKPOINTS_30_40_50_AUDIT_PASS
 STAGE18_CONTROLLER=stages/stage18/18-controller.json
 STAGE18_CURRENT_RESULT=stages/stage18/18-50/result.md
-STAGE18_CURRENT_AUDIT=stages/stage18/18-20/audit.md
+STAGE18_CURRENT_AUDIT=stages/stage18/18-50/audit.md
 STAGE18_CURRENT_DATA=stages/stage18/18-20/counts.csv
 STAGE18_CURRENT_ENUMERATOR=stages/stage18/18-20/enumerate.py
-STAGE18_AUDIT_PERSISTENCE=PENDING
+STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=60
-NEXT_EXPECTED_COMMAND=Stage18-audit
+NEXT_EXPECTED_COMMAND=Stage18-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -199,7 +199,7 @@ HUMAN_DECISION_REQUIRED=false
 
 ## Current operation
 
-Stage18 checkpoints 10 and 20 are fresh-audited. Checkpoints 30, 40 and 50 are now submitted together from frozen, population-matched upstream theorems.
+Stage18 checkpoints 10, 20, 30, 40 and 50 are fresh-audited. Checkpoints 30, 40 and 50 use frozen, population-matched upstream theorems.
 
 Stage15 gives
 \[
@@ -231,11 +231,11 @@ Canonical submissions:
 - `stages/stage18/18-controller.json`
 
 ```text
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 NEXT_CHECKPOINT=60
-NEXT_EXPECTED_COMMAND=Stage18-audit
+NEXT_EXPECTED_COMMAND=Stage18-main-batch
 CODEX_REQUIRED=false
 ```
