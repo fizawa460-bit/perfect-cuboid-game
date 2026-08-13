@@ -1,49 +1,69 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "primary_operator": "ChatGPT",
   "status": "OPEN",
   "stage": "Stage15-8",
-  "goal": "freeze the audited Stage15 final verdict as one self-contained offline HTML review artifact",
+  "goal": "repair and freeze the audited Stage15 final verdict as one proof-facing self-contained offline HTML review artifact under the project-wide Stage12/13/14 standard",
+  "self_containment_standard": {
+    "id": "SELF_CONTAINED_REVIEW_STANDARD_V1",
+    "path": "docs/self-contained-review-standard.md",
+    "precedents": [
+      "Stage12 R09",
+      "Stage13 R07",
+      "Stage14 R06"
+    ],
+    "summary_only_is_self_contained": false
+  },
   "source_of_truth": [
+    "docs/self-contained-review-standard.md",
     "stages/stage15/final.md",
     "stages/stage15/manifest-r01.md",
+    "stages/stage15/15-2a/result.md",
     "stages/stage15/15-2b/result.md",
     "stages/stage15/15-3/result.md",
     "stages/stage15/15-4/result.md",
     "stages/stage14/final.md",
     "stages/stage15/15-5/result.md",
-    "stages/stage15/15-6-final.md"
+    "stages/stage15/15-6dy/result.md",
+    "stages/stage15/15-6dz/result.md",
+    "stages/stage15/15-6-final.md",
+    "stages/stage15/15-8-manifest-r02.md"
   ],
-  "scope_rule": "Stage15-8 is a presentation, preservation, and hostile-review stage. It may repair omissions or mistranscriptions in the HTML, but it must not strengthen the mathematics, reopen Stage15-6, or invent a new Stage15 theorem.",
+  "scope_rule": "Stage15-8 is a presentation, preservation, and hostile-review stage. It may repair omitted proof transcription, theorem-contract mapping, provenance, or offline presentation, but it must not strengthen the mathematics, reopen Stage15-6/7, or invent a new Stage15 theorem.",
   "canonical_commands": {
     "main": "Stage15-8-main-batch",
     "audit": "Stage15-8-audit"
   },
   "command_semantics": {
-    "Stage15-8-main-batch": "Build or repair the self-contained Stage15 HTML from the audited Stage15 final bundle and manifest. Preserve theorem species, populations, cutoff, quantifier order, provenance, finite-evidence discipline, and non-claims. Keep the artifact offline-capable with no required external CSS, JavaScript, fonts, images, or MathJax. Create a Draft PR for substantive changes. The main operator cannot approve its own PR.",
-    "Stage15-8-audit": "Fresh read-only ChatGPT audit of the latest Stage15-8 Draft PR. Compare every load-bearing HTML claim against the canonical Stage15 final bundle and immediate sources, inspect offline self-containment and presentation completeness, and return the exact audit footer. Do not modify files."
+    "Stage15-8-main-batch": "Build or repair the self-contained Stage15 HTML from the audited Stage15 final bundle and immediate canonical proof sources. Apply docs/self-contained-review-standard.md. Embed every Stage15-internal load-bearing proof or adapter needed for the final implication chain; a repository path alone is provenance, not proof. Published external theorems may remain external only with exact working forms, hypothesis maps, height/measure adapters, and quantifier/uniformity limits. Preserve theorem species, populations, cutoff, provenance, finite-evidence discipline, and non-claims. Keep the artifact offline-capable. Repair the existing Draft PR; the main operator cannot approve its own PR.",
+    "Stage15-8-audit": "Fresh read-only ChatGPT audit of the latest Stage15-8 Draft PR. Treat docs/self-contained-review-standard.md as authoritative. Compare every load-bearing HTML implication against the canonical Stage15 sources, verify that internal proof steps are embedded rather than merely cited, verify external theorem working contracts and hypothesis maps, inspect offline self-containment, and return the exact audit footer. Do not modify files."
   },
   "main_contract": {
-    "default_work_units": 2,
-    "maximum_work_units": 3,
+    "default_work_units": 3,
+    "maximum_work_units": 4,
     "initial_substage": "8a",
     "required_before_stop": [
-      "mathematical transcription audit",
+      "Stage12/13/14 self-containment-standard compliance audit",
+      "internal load-bearing proof transcription audit",
+      "external theorem working-form and hypothesis-map audit",
       "Stage15-5 versus Stage15-6 theorem-species separation audit",
-      "population, canonical convention, and R<=B cutoff audit",
-      "local-density and ordered-limit quantifier audit",
+      "population, multiplicity, canonical convention, and R<=B cutoff audit",
+      "local-density derivation and ordered-limit quantifier audit",
       "provenance and non-claim audit",
       "offline self-containment audit",
       "HTML readability and navigation audit"
     ],
     "html_constraints": [
-      "single HTML file is understandable without repository browsing for the final implication chain",
+      "single HTML file is understandable without repository browsing for every load-bearing implication in the Stage15 proof chain",
+      "Stage15-internal geometry, height adapters, multiplicity, exact normal form, local-density computation, and fixed-S adapter are embedded in proof-complete form",
+      "completed Stage14 theorem may remain a frozen upstream interface because population/cutoff/multiplicity match is explicit",
+      "published external theorem proofs need not be embedded, but exact working forms, hypotheses, object/measure adapters, quantifier order, and non-uniformity boundaries must be printed",
       "all CSS is inline",
       "no required external JavaScript",
       "no required external fonts",
       "no required external images or other assets",
       "no MathJax or CDN dependency",
-      "repository paths may be printed as provenance text but the mathematical verdict must remain readable offline"
+      "repository paths may be printed as provenance text but cannot substitute for load-bearing proof"
     ],
     "must_emit": [
       "CURRENT_SUBSTAGE",
@@ -61,31 +81,39 @@
     "Stage15-6 proves no internal fixed delta>0 and no sigma>0",
     "finite Stage15-3 counts are diagnostic and are not promoted to an asymptotic",
     "zero density of the exactly-two survivor population does not prove perfect-cuboid existence or nonexistence",
-    "future effective growing-modulus or global-correlation mechanisms are external future gates, not unfinished Stage15-6 work"
+    "future effective growing-modulus or global-correlation mechanisms are external future gates, not unfinished Stage15-6 work",
+    "summary-only prose plus repository paths is not accepted as self-contained when the omitted step is load-bearing"
   ],
   "required_html_sections": [
     "executive verdict",
     "scope and physical populations",
-    "ambient exactly-two theorem",
-    "exact Gaussian squareclass survivor normal form",
+    "frozen upstream interface",
+    "ambient exactly-two internal proof chain",
+    "exact Gaussian squareclass internal proof",
     "strongest quantitative survival theorem",
-    "independent causal zero-density theorem",
+    "split-prime local-density internal proof",
+    "fixed-prime and fixed-finite-set refinement",
     "quantitative-versus-causal theorem comparison",
     "finite matched evidence",
-    "provenance and external theorem interfaces",
+    "external published theorem contracts",
     "negative knowledge and future gates",
     "relation to the perfect cuboid problem",
-    "audit checklist and machine-readable lock"
+    "provenance/source ledger",
+    "fresh audit checklist and machine-readable lock"
   ],
   "audit_contract": {
     "fresh_chat_required": true,
     "write_changes": false,
     "required_checks": [
+      "compliance with SELF_CONTAINED_REVIEW_STANDARD_V1",
       "claim-by-claim equivalence with the audited Stage15 final bundle",
+      "Stage15-2a/2b geometry, exact height, thin-cover and ambient proof transcription",
+      "Stage15-4 G normalization, inverse multiplicity, height identity and squareclass proof transcription",
+      "Stage15-6dy split-prime divisor ledger, tube probabilities and rho_p derivation",
+      "Stage15-6dz fixed-S same-measure adapter, tensor product and ordered limits",
+      "external theorem working forms, hypotheses, measure/height adapters and uniformity limits",
       "Stage15-5 versus Stage15-6 theorem-species separation",
       "physical population and exact cutoff",
-      "normal-form and local-density transcription",
-      "quantifier order",
       "no double charge or cross-promotion",
       "finite evidence versus theorem separation",
       "perfect-cuboid firewall",
@@ -94,11 +122,11 @@
       "merge safety"
     ],
     "verdict_semantics": {
-      "PASS": "The HTML is a faithful self-contained representation of the audited Stage15 verdict and may merge if verification also passes.",
-      "FIX_REQUIRED": "Repair the HTML/controller/verifier in the same Stage15-8 main line; do not open a new mathematical route.",
-      "BLOCKED": "A missing or contradictory canonical Stage15 dependency prevents a faithful HTML freeze. State the exact blocker."
+      "PASS": "The HTML satisfies the project-wide self-contained review standard, faithfully represents the audited Stage15 verdict, and may merge if deterministic verification also passes.",
+      "FIX_REQUIRED": "Repair the HTML/controller/verifier/manifest in the same Stage15-8 main line; do not open a new mathematical route.",
+      "BLOCKED": "A missing or contradictory canonical Stage15 dependency prevents a faithful self-contained freeze. State the exact blocker."
     },
-    "internal_route_remains_semantics": "For Stage15-8, INTERNAL_ROUTE_REMAINS means an unresolved HTML, preservation, provenance, or presentation gap. It never authorizes a new Stage15-6 or Stage15-7 mathematical route.",
+    "internal_route_remains_semantics": "For Stage15-8, INTERNAL_ROUTE_REMAINS means an unresolved proof-transcription, external-contract, HTML, preservation, provenance, or presentation gap. It never authorizes a new Stage15-6 or Stage15-7 mathematical route.",
     "must_emit_exactly_at_end": [
       "AUDIT_VERDICT=PASS|FIX_REQUIRED|BLOCKED",
       "INTERNAL_ROUTE_REMAINS=true|false",
@@ -111,11 +139,13 @@
   "closure_contract": {
     "close_only_if": [
       "the self-contained HTML exists and passes offline-asset verification",
+      "the HTML embeds every current-Stage load-bearing internal proof required by the final implication chain",
+      "external published theorem interfaces include working forms and hypothesis maps",
       "the HTML faithfully preserves the audited Stage15 theorem species and non-claims",
       "a fresh Stage15-8-audit returns PASS",
       "dedicated verification passes"
     ],
-    "after_close": "Freeze the HTML as the human-facing Stage15 review artifact. Any new mathematics belongs to a later research program, not Stage15-8."
+    "after_close": "Freeze the R02 HTML as the human-facing Stage15 review artifact. Any new mathematics belongs to a later research program, not Stage15-8."
   },
   "codex_transfer_triggers": [
     "large mechanical HTML repair beyond reliable connector editing",
@@ -124,8 +154,8 @@
   ],
   "codex_non_triggers": [
     "ordinary HTML authoring",
-    "ordinary mathematical transcription review",
-    "ordinary PR creation through the GitHub connector"
+    "ordinary mathematical proof transcription review",
+    "ordinary PR updates through the GitHub connector"
   ],
   "merge_rule": "MERGE_ALLOWED only when dedicated verification passes and a fresh Stage15-8-audit returns PASS. Main-batch cannot approve its own PR."
 }
