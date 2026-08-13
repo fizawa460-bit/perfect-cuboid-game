@@ -1,11 +1,13 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage15-6
+CURRENT_STAGE=Stage15-7
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R05_WITH_KNOWN_MINOR_NOTES
 STAGE15_STATUS=ACTIVE
+STAGE15_6_STATUS=CLOSED
+STAGE15_7_TARGET=CAUSAL_COMPARISON_VERDICT_AND_FINAL_SELF_CONTAINED_BUNDLE
 ```
 
 ## Canonical completed-stage sources
@@ -30,8 +32,33 @@ docs/stage14-arsenal-stage15-map.md
 Stage14 data, scripts, and literature keep stable paths. Historical task-result
 citations in the arsenal point to `stages/stage14/archive/tasks/`.
 
+## Stage15-6 closed result
+
+Stage15-6 is closed after merged PR #885 and a fresh audit `PASS` with
+`INTERNAL_ROUTE_REMAINS=false`.
+
+Its independent causal theorem is
+
+\[
+N_2(B)/M_2(B)\to0,
+\]
+
+proved from the fixed-prime local Gaussian-squareclass sieve on the same
+primitive/canonical exactly-two `R<=B` physical measure.
+
+Stage15-6 did **not** prove an internal fixed `delta>0` or `sigma>0`. Effective
+growing-modulus adelic/local sieving and stronger global quantitative mechanisms
+are classified as external future gates, not unfinished Stage15-6 routes.
+
+Canonical Stage15-6 closeout: `stages/stage15/15-6-final.md`.
+
 ## Active operation
 
-Stage15 is the active comparison project. Stage15-6 uses the ChatGPT-first
-controller documented in `docs/stage15-6-chat-operations.md` with canonical
-commands `Stage15-6-main-batch` and `Stage15-6-audit`.
+The next Stage15 roadmap target is Stage15-7: issue the causal comparison verdict
+and build the final self-contained Stage15 bundle. It must distinguish the
+Stage15-5 fixed-power comparison theorem, whose numerator input comes from
+Stage14, from the independent internal Stage15-6 causal zero-density theorem.
+
+The Stage15-6 controller and operation documents are retained only as closed
+operational provenance. Do not open another Stage15-6 internal route merely to
+pursue a future external quantitative sharpening.
