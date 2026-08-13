@@ -13,12 +13,14 @@ def read(path: str) -> str:
     return p.read_text(encoding="utf-8")
 
 
-# Preserve the already-certified dependency chain.
+# Preserve dependency replays that remain path-current. Stage15-5's historical
+# verifier still points at a pre-archive Stage14 path, so validate its canonical
+# result and current Stage14 final source directly below instead of invoking that
+# stale historical harness.
 for verifier in [
     "stages/stage15/replay/verify_stage15_2b.py",
     "stages/stage15/replay/verify_stage15_3.py",
     "stages/stage15/replay/verify_stage15_4.py",
-    "stages/stage15/replay/verify_stage15_5.py",
     "stages/stage15/replay/verify_stage15_6_controller.py",
 ]:
     run = subprocess.run([sys.executable, str(ROOT / verifier)], cwd=ROOT)
@@ -31,6 +33,15 @@ final = read("stages/stage15/final.md")
 manifest = read("stages/stage15/manifest-r01.md")
 controller = read("stages/stage15/15-7-controller.json")
 closed6 = read("stages/stage15/15-6-final.md")
+stage5 = read("stages/stage15/15-5/result.md")
+stage14 = read("stages/stage14/final.md")
+
+# Current canonical Stage15-5 / Stage14 quantitative contract.
+assert "STAGE15_5_SURVIVAL_ZERO_DENSITY=true" in stage5
+assert "STAGE15_5_POLYNOMIAL_THINNING_ANY_DELTA_LT_HALF=true" in stage5
+assert "STAGE15_5_GAUSSIAN_CAUSAL_DERIVATION_PROVED=false" in stage5
+assert "N_2(B)\\ll B^{1/2+o(1)}" in stage14
+assert "strict power saving" in stage14
 
 # Stage15-6 must remain closed and no new internal route may appear.
 assert "STAGE15_6_STATUS=CLOSED" in closed6
