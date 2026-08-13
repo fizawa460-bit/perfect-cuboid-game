@@ -3,133 +3,406 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Stage15 完全直方体研究 — 自己完結型最終レビュー</title>
+<title>Stage15 完全直方体研究 — 自己完結型最終レビュー R02</title>
 <style>
-:root{color-scheme:light dark;--bg:#f6f7f9;--panel:#fff;--ink:#18212b;--muted:#5e6b78;--line:#d9dee5;--accent:#2457c5;--soft:#edf3ff;--good:#0b6b3a;--warn:#855700;--code:#f2f4f7}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.7}main,header,footer{max-width:1080px;margin:auto;padding:24px}header{padding-top:48px}.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.12em;color:var(--accent)}h1{font-size:clamp(2rem,5vw,3.7rem);line-height:1.08;margin:.35rem 0 1rem}h2{margin-top:2.6rem;padding-top:.4rem;border-top:1px solid var(--line)}h3{margin-top:1.8rem}.lead{font-size:1.14rem;max-width:820px}.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.25rem .65rem;margin:.2rem .3rem .2rem 0;font-size:.78rem;background:var(--panel)}nav{position:sticky;top:0;z-index:2;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-block:1px solid var(--line)}nav .wrap{max-width:1080px;margin:auto;padding:10px 24px;display:flex;gap:14px;overflow:auto;white-space:nowrap}nav a{color:var(--accent);text-decoration:none;font-size:.9rem}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card,.callout{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}.card strong{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.big{font-size:1.2rem;font-weight:750;margin:.45rem 0}.math{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;white-space:nowrap}.good{border-left:5px solid var(--good)}.warn{border-left:5px solid var(--warn)}table{width:100%;border-collapse:collapse;background:var(--panel);font-size:.92rem}th,td{padding:11px 12px;border:1px solid var(--line);vertical-align:top;text-align:left}th{background:var(--code)}code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}pre{white-space:pre-wrap;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px}ul{padding-left:1.25rem}.small{font-size:.88rem;color:var(--muted)}.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:10px;margin:18px 0}.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}.arrow{font-weight:800;color:var(--accent)}footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);margin-top:40px}@media(max-width:760px){.grid{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);text-align:center}table{font-size:.82rem}header,main,footer{padding-inline:16px}}@media(prefers-color-scheme:dark){:root{--bg:#0f141a;--panel:#151c24;--ink:#e8edf3;--muted:#9ca9b7;--line:#2d3946;--accent:#8cb4ff;--soft:#17243a;--good:#56c98b;--warn:#e3b85f;--code:#101820}}
+:root{color-scheme:light dark;--bg:#f6f7f9;--panel:#fff;--ink:#18212b;--muted:#5e6b78;--line:#d9dee5;--accent:#2457c5;--good:#0b6b3a;--warn:#855700;--code:#f2f4f7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.7}
+main,header,footer{max-width:1120px;margin:auto;padding:24px}header{padding-top:46px}.eyebrow{font-size:.78rem;font-weight:700;letter-spacing:.12em;color:var(--accent)}
+h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.08;margin:.35rem 0 1rem}h2{margin-top:2.7rem;padding-top:.5rem;border-top:1px solid var(--line)}h3{margin-top:1.8rem}
+.lead{font-size:1.12rem;max-width:880px}.badge{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:.25rem .65rem;margin:.2rem .3rem .2rem 0;font-size:.78rem;background:var(--panel)}
+nav{position:sticky;top:0;z-index:2;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px);border-block:1px solid var(--line)}
+nav .wrap{max-width:1120px;margin:auto;padding:10px 24px;display:flex;gap:14px;overflow:auto;white-space:nowrap}nav a{color:var(--accent);text-decoration:none;font-size:.88rem}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.card,.callout{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
+.card strong{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}.big{font-size:1.18rem;font-weight:750;margin:.45rem 0}
+.math{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow:auto;white-space:pre-wrap}
+.good{border-left:5px solid var(--good)}.warn{border-left:5px solid var(--warn)}table{width:100%;border-collapse:collapse;background:var(--panel);font-size:.91rem}
+th,td{padding:10px 11px;border:1px solid var(--line);vertical-align:top;text-align:left}th{background:var(--code)}
+code,pre{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}pre{white-space:pre-wrap;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px}
+ul,ol{padding-left:1.3rem}.small{font-size:.87rem;color:var(--muted)}.proof{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin:14px 0}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:10px;margin:18px 0}.step{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px}.arrow{font-weight:800;color:var(--accent)}
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--line);margin-top:40px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.flow{grid-template-columns:1fr}.arrow{transform:rotate(90deg);text-align:center}table{font-size:.82rem}header,main,footer{padding-inline:16px}}
+@media(prefers-color-scheme:dark){:root{--bg:#0f141a;--panel:#151c24;--ink:#e8edf3;--muted:#9ca9b7;--line:#2d3946;--accent:#8cb4ff;--good:#56c98b;--warn:#e3b85f;--code:#101820}}
 </style>
 </head>
 <body>
 <header>
-<div class="eyebrow">STAGE15-8 · SELF-CONTAINED FINAL REVIEW</div>
+<div class="eyebrow">STAGE15-8 · SELF-CONTAINED FINAL REVIEW · R02 REPAIR</div>
 <h1>完全直方体研究 Stage15<br>最終因果比較レビュー</h1>
-<p class="lead">Stage15で確定した数学的結論を、外部CSS・JavaScript・フォント・画像・MathJaxなしで単体閲覧できるHTMLに固定したものです。定量的な薄さと、その薄さを説明する因果的な算術機構を意図的に分離して記述します。</p>
-<span class="badge">Source bundle: STAGE15-FINAL-SELF-CONTAINED-20260813-R01</span><span class="badge">Offline-capable</span><span class="badge">Audit candidate</span>
+<p class="lead">Stage12 R09・Stage13 R07・Stage14 R06で確立した自己完結基準に合わせ、Stage15内部の load-bearing な幾何・正規形・局所密度・fixed-S adapter を本文内に再掲した監査用HTMLです。公刊外部定理は証明し直さず、使用する working form と仮定対応を明示します。</p>
+<span class="badge">Review bundle: STAGE15-FINAL-SELF-CONTAINED-20260813-R02</span>
+<span class="badge">Source Stage15 bundle: R01</span>
+<span class="badge">Standard: SELF_CONTAINED_REVIEW_STANDARD_V1</span>
+<span class="badge">Offline-capable</span>
+<span class="badge">Audit candidate</span>
 </header>
-<nav><div class="wrap"><a href="#verdict">結論</a><a href="#scope">対象</a><a href="#ambient">母集団</a><a href="#normal">正規形</a><a href="#quant">定量</a><a href="#causal">因果</a><a href="#compare">比較</a><a href="#data">有限データ</a><a href="#provenance">出典</a><a href="#nonclaims">非主張</a><a href="#perfect">完全直方体</a><a href="#audit">監査</a></div></nav>
+
+<nav><div class="wrap">
+<a href="#verdict">結論</a><a href="#scope">対象</a><a href="#upstream">上流</a><a href="#ambient">母集団証明</a><a href="#normal">正規形証明</a><a href="#quant">定量</a><a href="#local">局所密度証明</a><a href="#fixeds">fixed-S</a><a href="#compare">比較</a><a href="#data">有限データ</a><a href="#external">外部定理</a><a href="#nonclaims">非主張</a><a href="#perfect">完全直方体</a><a href="#provenance">出典</a><a href="#audit">監査</a>
+</div></nav>
+
 <main>
 <section id="verdict">
 <h2>Executive verdict</h2>
 <div class="grid">
 <div class="card"><strong>Ambient population</strong><div class="big">M₂(B) ∼ C<sub>M₂</sub>B(log B)⁵</div><div>C<sub>M₂</sub>&gt;0。原始・標準化・ちょうど2面整数の母集団。</div></div>
-<div class="card"><strong>Strongest quantitative bound</strong><div class="big">N₂/M₂ ≪<sub>ε</sub> B<sup>−1/2+ε</sup>(log B)<sup>−5</sup></div><div>半冪の分子上界はStage14由来。</div></div>
-<div class="card"><strong>Independent causal theorem</strong><div class="big">N₂(B)/M₂(B) → 0</div><div>Stage15-6の固定素数局所 squareclass sieve による独立証明。</div></div>
+<div class="card"><strong>Strongest quantitative bound</strong><div class="big">N₂/M₂ ≪<sub>ε</sub> B<sup>−1/2+ε</sup>(log B)<sup>−5</sup></div><div>固定冪はStage14分子定理由来。</div></div>
+<div class="card"><strong>Independent causal theorem</strong><div class="big">N₂(B)/M₂(B) → 0</div><div>Stage15-4→6 の squareclass / fixed-prime sieve による独立証明。</div></div>
 </div>
-<div class="callout good"><b>最終解釈。</b> 空間対角線を整数にする条件は、ちょうど2面整数の母集団から零密度の算術部分集合を選ぶ。現在の最強の多項式上界はStage14分子定理から来る一方、Stage15自身は Gaussian norm の squareclass 一致と split prime の valuation-parity filter によって零密度を独立に説明する。</div>
+<div class="callout good"><b>最終解釈。</b> 空間対角線整数条件は、ちょうど2面整数の母集団から零密度の算術部分集合を選ぶ。最強の既知固定冪上界と、Stage15内部で得た因果的零密度証明は別の theorem species であり、掛け合わせたり同じsupportを二重課金したりしない。</div>
 </section>
+
 <section id="scope">
-<h2>1. Scope and physical populations</h2>
-<p>物理対象は原始・標準化された整数辺直方体</p>
-<div class="math">0 &lt; a &lt; b &lt; c,  gcd(a,b,c)=1,  R(a,b,c)=√(a²+b²+c²).</div>
-<p><b>ℬ₂(B)</b> は <code>R≤B</code> かつ3つの面対角線のうちちょうど2つが整数である直方体、<b>𝒜₂(B)</b> はそのうちさらに <code>R∈ℤ</code> を満たすものです。</p>
-<div class="math">M₂(B)=#ℬ₂(B),   N₂(B)=#𝒜₂(B).</div>
-<p>生存者では空間対角線を <code>d=R</code> と書けるため、<code>R≤B ⇔ d≤B</code> は完全に同一です。Stage14分子とStage15分母の比較に定数倍のheight置換は入りません。</p>
+<h2>1. Scope, physical population, exact cutoff</h2>
+<p>物理対象は</p>
+<div class="math">0 &lt; a &lt; b &lt; c,   gcd(a,b,c)=1,
+R(a,b,c)=√(a²+b²+c²).</div>
+<p><b>ℬ₂(B)</b> は <code>R≤B</code> かつ3面のうちちょうど2面の対角線が整数である原始・canonical直方体、<b>𝒜₂(B)</b> はその部分集合でさらに <code>R∈ℤ</code> を満たすものとする。</p>
+<div class="math">M₂(B)=#ℬ₂(B),    N₂(B)=#𝒜₂(B).</div>
+<p>生存者では正整数 <code>d=R</code> が存在するので <code>R≤B ⇔ d≤B</code> は定数比較ではなく同値である。Stage14の分子定理をStage15へ移すとき、heightを取り替える余地はない。</p>
+<p>exactly-two object には2つの整数面が共有する辺が一意にある。その辺を <code>e</code>、残りを <code>x&lt;y</code> とすれば、1個の exactly-two object は1個の shared-edge incidence に対応する。all-three-face object では共有辺が3本あるため3 incidences となり、後で別に差し引く。</p>
 </section>
+
+<section id="upstream">
+<h2>2. Frozen upstream interface</h2>
+<p>Stage15が再証明しない完成済み上流定理はStage14 Theorem 2.1だけである。これは Stage12→13 と同じ frozen-interface 扱いで、現在のpopulation/cutoffへの一致を上節で明示した。</p>
+<div class="proof">
+<b>Frozen Stage14 theorem.</b> 原始・canonical、整数空間対角線 <code>d≤B</code>、ちょうど2面整数の whole family について、任意の <code>ε&gt;0</code> に対し
+<div class="math">N₂(B) ≪ε B^(1/2+ε).</div>
+<p>matching lower bound、真の指数、漸近定数、完全直方体の存在・不存在は主張しない。</p>
+</div>
+<pre>UPSTREAM_STAGE=Stage14
+UPSTREAM_THEOREM=N2(B) &lt;&lt;_eps B^(1/2+eps)
+POPULATION_MATCH=true
+CUTOFF_MATCH=true
+MULTIPLICITY_MATCH=true
+MEASURE_ADAPTER_REQUIRED=false
+QUANTIFIER_ADAPTER_REQUIRED=false</pre>
+</section>
+
 <section id="ambient">
-<h2>2. Ambient exactly-two theorem</h2>
-<p>2つの整数面が共有する一意の辺を <code>e</code> とし、残りを <code>x&lt;y</code> と置くと、共有辺曲面は</p>
-<div class="math">u²=e²+x²,   v²=e²+y².</div>
-<p>その滑らかな split toric resolution は <code>Y=Bl₄(P¹×P¹)</code>、Picard rank は6です。Stage15のheight <code>R</code> 自体が anticanonical adelic height になります。第三面まで整数となる locus は geometrically integral degree-two thin image として下位項に除去され、</p>
-<div class="math">M₂(B) ∼ C<sub>M₂</sub> B(log B)⁵,  C<sub>M₂</sub>&gt;0.</div>
-<p>が得られます。共有辺が最小・中間・最大の各方向でも <code>M₂,j(B)∼Cj B(log B)⁵</code>、<code>Cj&gt;0</code> です。</p>
-</section>
-<section id="normal">
-<h2>3. Exact Gaussian squareclass survivor normal form</h2>
-<p>正の互いに素な toric pair <code>(m,n)</code>, <code>(r,s)</code> を用いて</p>
-<div class="math">A=m²r²+n²s²=N(mr+i·ns),   B=m²s²+n²r²=N(ms+i·nr).</div>
-<p>Stage15-4は raw height identity <code>G²R²=4AB</code> を証明し、そこから次の完全同値を得ます。</p>
-<div class="math">R∈ℤ  ⇔  AB is a square  ⇔  sf(A)=sf(B).</div>
-<p>したがって一意な squarefree core <code>k&gt;0</code> と正整数 <code>P,Q</code> が存在して</p>
-<div class="math">A=kP²,   B=kQ².</div>
-<p>となります。<code>k</code> の素因子は2および <code>p≡1 (mod 4)</code> の素数に限られます。正の toric pair は物理的 shared-edge incidence から一意に復元できるため、この表現に隠れた多項式的重複度はありません。</p>
-</section>
-<section id="quant">
-<h2>4. Strongest quantitative survival theorem</h2>
-<p>Stage14 final Theorem 2.1 は、整数空間対角線 <code>d≤B</code> を持つ原始・標準化・ちょうど2面整数の全体について、任意の <code>ε&gt;0</code> に対し</p>
-<div class="math">N₂(B) ≪<sub>ε</sub> B<sup>1/2+ε</sup>.</div>
-<p>を証明しています。これをStage15-2bの母集団漸近式で割るだけで</p>
-<div class="math">N₂(B)/M₂(B) ≪<sub>ε</sub> B<sup>−1/2+ε</sup>(log B)<sup>−5</sup>.</div>
-<p>したがって任意の固定 <code>δ&lt;1/2</code> について <code>N₂/M₂=Oδ(B<sup>−δ</sup>)</code> です。</p>
-<div class="callout warn"><b>出典 firewall。</b> この半冪はStage15-6の局所 squareclass 機構から再導出されたものではありません。Stage14の分子上界を、Stage15の正確に一致する物理population/cutoffへ適用した結果です。</div>
-</section>
-<section id="causal">
-<h2>5. Independent causal zero-density theorem</h2>
-<p>生存者は全ての素数 <code>p</code> で</p>
-<div class="math">v<sub>p</sub>(A) ≡ v<sub>p</sub>(B) (mod 2)</div>
-<p>を満たします。odd inert prime <code>p≡3 (mod 4)</code> では Gaussian norm valuation が自動的に偶数なので受理密度は1です。一方、good split prime <code>p≡1 (mod 4)</code> では、同じ物理 toric measure 上の厳密な局所受理密度が</p>
-<div class="math">ρ<sub>p</sub> = (p⁴+4p³+22p²+4p+1) / ((p+1)²(p²+6p+1))</div>
-<div class="math">1−ρ<sub>p</sub> = 4p(p−1)² / ((p+1)²(p²+6p+1)) = 4/p + O(p<sup>−2</sup>).</div>
-<p>固定有限集合 <code>S</code> の good split primes に対し、Stage15-6は</p>
-<div class="math">M₂,S(B)=C<sub>M₂</sub>(∏<sub>p∈S</sub>ρ<sub>p</sub>)B(log B)⁵ + o<sub>S</sub>(B(log B)⁵)</div>
-<p>を証明します。量化順序は重要です。まず <code>S</code> を固定して <code>B→∞</code>、その後にのみ <code>S</code> を増やします。split primes 上の逆数和の発散と <code>1−ρp∼4/p</code> により積は0へ行くため、</p>
-<div class="math">N₂(B)/M₂(B) → 0.</div>
-<p>これはStage15-5の半冪ratio boundを証明の入力に使わない独立な零密度証明です。</p>
-<div class="callout"><b>内部定量境界。</b> Stage15-6は内部の固定 <code>δ&gt;0</code> も <code>σ&gt;0</code> も証明していません。局所積の自然なスケールは <code>(log z)<sup>−2+o(1)</sup></code> です。</div>
-</section>
-<section id="compare">
-<h2>6. Quantitative versus causal theorem species</h2>
-<table><thead><tr><th>問い</th><th>確定回答</th><th>証明源</th></tr></thead><tbody>
-<tr><td>生存者の相対密度は0か</td><td>Yes</td><td>Stage15-5とStage15-6が別々に証明</td></tr>
-<tr><td>最強の確定rateは</td><td>B<sup>−1/2+ε</sup>(log B)<sup>−5</sup></td><td>Stage14 numerator + Stage15-2b denominator</td></tr>
-<tr><td>R∈ℤ の正確な算術条件は</td><td>2つの coupled Gaussian norm の squareclass 一致</td><td>Stage15-4</td></tr>
-<tr><td>Stage15内部で零密度を説明する機構は</td><td>split-prime valuation-parity filters</td><td>Stage15-6</td></tr>
-<tr><td>その局所機構だけで固定冪を再現したか</td><td>No</td><td>Stage15-6 quantitative boundary</td></tr>
-</tbody></table>
-<div class="flow"><div class="step"><b>Stage14</b><br>whole-family numerator<br>N₂≪B<sup>1/2+ε</sup></div><div class="arrow">→</div><div class="step"><b>Stage15-5</b><br>strong quantitative ratio</div><div class="arrow">∥</div><div class="step"><b>Stage15-4→6</b><br>squareclass normal form<br>→ independent causal zero density</div></div>
-<p>2本の savings を掛け合わせたり、同じsupportを二重に課金したりしません。</p>
-</section>
-<section id="data">
-<h2>7. Matched finite evidence</h2>
-<p>Stage15-3の同一 denominator による exact census は <code>B=100000</code> まで：</p>
-<table><thead><tr><th>B</th><th>M₂(B)</th><th>N₂(B)</th><th>N₂/M₂</th></tr></thead><tbody><tr><td>100000</td><td>796,698</td><td>89</td><td>1.11711×10<sup>−4</sup></td></tr></tbody></table>
-<p>共有辺方向別の survivor vector は <code>(33,33,23)</code>。ただし事前に定めた sample gate を満たさないため、これらの数値からglobal exponentや方向別killing rateは推論しません。有限データは機構探索の診断材料であり、上記漸近定理の証明入力ではありません。</p>
-</section>
-<section id="provenance">
-<h2>8. Provenance and external theorem interfaces</h2>
-<table><thead><tr><th>役割</th><th>Canonical source</th><th>使用するinterface</th></tr></thead><tbody>
-<tr><td>ambient theorem</td><td>stages/stage15/15-2b/result.md</td><td>M₂∼C B(log B)⁵、exact R height、directional asymptotics</td></tr>
-<tr><td>finite evidence</td><td>stages/stage15/15-3/result.md</td><td>B=100000 exact matched census、asymptotic promotionなし</td></tr>
-<tr><td>survivor normal form</td><td>stages/stage15/15-4/result.md</td><td>R∈ℤ ⇔ sf(A)=sf(B)、multiplicity-one reconstruction</td></tr>
-<tr><td>quantitative numerator</td><td>stages/stage14/final.md</td><td>N₂≪εB<sup>1/2+ε</sup></td></tr>
-<tr><td>quantitative comparison</td><td>stages/stage15/15-5/result.md</td><td>matched survival ratio、directional zero density</td></tr>
-<tr><td>causal theorem</td><td>stages/stage15/15-6-final.md</td><td>ρp、fixed-finite-set refinement、ordered-limit zero density</td></tr>
-<tr><td>final synthesis</td><td>stages/stage15/final.md / manifest-r01.md</td><td>theorem-species separation、firewalls、non-claims</td></tr>
-</tbody></table>
-<p>Stage15-2bが既に認証した外部interfaceは、Batyrev–Tschinkel の toric anticanonical counting、Huang の smooth proper split toric variety 上の Manin–Peyre equidistribution / adelic-neighbourhood counting、Browning–Loughran の thin-set zero-density theoremです。K3 rational-point asymptotic conjectureは使用しません。</p>
-</section>
-<section id="nonclaims">
-<h2>9. Negative knowledge and future gates</h2>
-<p>Stage15が<b>証明していない</b>もの：</p>
-<ul><li>N₂(B) のmatching lower boundまたは漸近定数</li><li>N₂(B) の真の成長指数が1/2であること</li><li>Stage15内部の局所squareclass機構だけから固定冪rateを導くこと</li><li>Stage14の平方根上界よりstrictに強い N₂≪B<sup>1/2−δ</sup></li><li>方向別survivor asymptotic</li><li>完全直方体の存在または非存在</li></ul>
-<p>effective growing-modulus adelic/local sieving や、より強いglobal squareclass correlation theoremは将来の外部定量program候補です。これらはCLOSEDなStage15-6の未完ルートではありません。</p>
-</section>
-<section id="perfect">
-<h2>10. Relation to the perfect cuboid problem</h2>
-<div class="callout warn"><b>重要な境界。</b> 完全直方体は3つの面対角線すべてと空間対角線が整数である直方体です。Stage15の主populationは「面対角線がちょうど2つ整数」の層であり、その中で空間対角線を整数にしたときの薄さを研究しています。</div>
-<p>したがって <code>N₂/M₂→0</code> は完全直方体の不存在を意味しません。零密度集合は無限でも有限非空でも空でもあり得ます。また exactly-three stratum は別の算術層です。Stage15は完全直方体問題のopen statusを変更しません。</p>
-</section>
-<section id="audit">
-<h2>11. Audit checklist and machine-readable lock</h2>
+<h2>3. Ambient exactly-two theorem: internal proof chain</h2>
+
+<h3>3.1 Shared-edge projective surface and singularities</h3>
+<p>2つの整数面が共有する辺を <code>e</code>、他の辺を <code>x,y</code>、面対角線を <code>u,v</code> とすると projective closure は</p>
+<div class="math">X:  u²=e²+x²,   v²=e²+y²   in P⁴[e:x:y:u:v].</div>
+<p>二つの二次式の完全交叉なので次数4。Jacobian の rank drop は</p>
+<div class="math">[0:±1:0:1:0],   [0:0:±1:0:1]</div>
+<p>の4点だけである。例えば <code>[0:1:0:1:0]</code> では第一式から <code>u</code> を局所的に解け、残る式は <code>v²−e²−y²=0</code> という非退化二次錐になる。よって4点はいずれも <code>A₁</code> 特異点で、<code>X</code> は split singular quartic del Pezzo of type <code>4A1</code>。</p>
+
+<h3>3.2 Toric parametrization and minimal resolution</h3>
+<p><code>(m:n),(r:s)∈P¹×P¹</code> に対して</p>
+<div class="math">E=4mnrs
+X₁=2rs(m²−n²)
+Y₁=2mn(r²−s²)
+U=2rs(m²+n²)
+V=2mn(r²+s²)</div>
+<p>と置く。5座標はすべて bidegree <code>(2,2)</code> で上の二二次式を恒等的に満たす。この線形系の base points は <code>P¹×P¹</code> の4つの torus-fixed corners だけである。</p>
+<p>その4点を blow up して</p>
+<div class="math">Y=Bl₄(P¹×P¹)</div>
+<p>とする。ruling classes を <code>F₁,F₂</code>、exceptional divisors を <code>E₁,…,E₄</code> とすれば</p>
+<div class="math">−K_Y = 2F₁+2F₂−E₁−E₂−E₃−E₄.</div>
+<p>上の5座標はちょうどこの divisor class の sections なので、解消後の morphism <code>Y→X</code> は anticanonical morphism。四つの境界fiberのstrict transformは self-intersection <code>−2</code> となり4個の <code>A₁</code> へ縮約される。blow-up中心はtorus-fixedなので <code>Y</code> は smooth split toric surface のまま。</p>
+<div class="math">K_Y²=8−4=4,    ρ(Y)=2+4=6.</div>
+
+<h3>3.3 Exact Stage15 height as an anticanonical adelic height</h3>
+<p>primitive integral representative に対して</p>
+<div class="math">H_R([e:x:y:u:v])=√(e²+x²+y²)</div>
+<p>とする。これは projective coordinates に degree one で homogeneous で、<code>X(R)</code> 上で常に正。archimedean place ではこの Euclidean norm で <code>O_X(1)</code> の連続metricを定め、有限placeでは標準integral projective metricを取る。前節で <code>π*O_X(1)≅−K_Y</code> を証明したので、<code>H_R</code> は <code>Y</code> 上の anticanonical adelic height である。</p>
+<p>primitive physical coordinates では <code>H_R=R</code> が文字通り成立する。よって後のtoric countingは「比較可能な別height」ではなくStage15の実際の cutoff を数える。</p>
+
+<h3>3.4 Full shared-edge toric count</h3>
+<p>外部toric counting theorem の working form を smooth split toric surface <code>Y</code>、<code>ρ(Y)=6</code>、anticanonical height <code>H_R</code> に適用すると dense torus で</p>
+<div class="math">N_T(B) ∼ c_T B(log B)^(ρ(Y)−1)=c_T B(log B)^5.</div>
+<p>physical chamber <code>e,x,y,u,v&gt;0</code> と <code>x&lt;y</code> の boundary は有限個の real algebraic hypersurfaces に含まれ Tamagawa measure zero。archimedean equidistribution でこのopen chamberへ制限しても</p>
+<div class="math">A(B) ∼ C_A B(log B)^5,   C_A&gt;0.</div>
+<p><code>A(B)</code> は共有辺を指定した「少なくともその2面が整数」の physical incidences を数える。</p>
+
+<h3>3.5 Exact incidence identity</h3>
+<p>exactly-two box は unique shared edge を持つので1回、三面すべて整数の Euler brick は各辺をshared edgeに選べるので3回数えられる。したがって</p>
+<div class="math">A(B)=M₂(B)+3M₃(B).</div>
+<p>directional chamber <code>e&lt;x&lt;y</code>, <code>x&lt;e&lt;y</code>, <code>x&lt;y&lt;e</code> ではそれぞれ</p>
+<div class="math">A_j(B)=M₂,j(B)+M₃(B).</div>
+
+<h3>3.6 Third-face square is a geometrically integral degree-two thin cover</h3>
+<p>第三面まで整数になる条件は <code>z²=x²+y²</code>。よって</p>
+<div class="math">W₀ ⊂ P⁵:
+u²=e²+x²,
+v²=e²+y²,
+z²=x²+y²</div>
+<p>から <code>z</code> を忘れる写像 <code>W₀→X</code> は generic degree 2。幾何学的function field上で <code>x²+y²=(x+iy)(x−iy)</code>。divisor <code>x+iy=0</code> のgeneric pointでは他因子は非零で valuation は1なので <code>x²+y²</code> は <code>Q̄(Y)</code> のsquareではない。したがってcoverは geometrically integral で、dense torus への rational image は type-II thin subset。</p>
+<p>参考として <code>W₀</code> は三二次式の complete intersection で adjunction により canonical class が trivial、12個の <code>A₁</code> を解消するとK3になる。ただしK3 rational-point asymptoticは一切使用しない。</p>
+
+<h3>3.7 Thin-set subtraction</h3>
+<p>Browning–Loughran の外部 thin-set theorem のworking contractは「equidistributed anticanonical rational pointsを持つ almost-Fano varietyの dense open において thin subset は bounded-height countでzero density」。現在の <code>Y</code> について</p>
 <ul>
-<li>Stage15-5 quantitative theorem と Stage15-6 causal theorem を混同していない。</li>
-<li>原始・標準化・exactly-two population と exact <code>R≤B</code> cutoff を維持している。</li>
-<li><code>sf(A)=sf(B)</code>、ρp、ordered limit をcanonical source通りに転記している。</li>
-<li>有限データをasymptoticへ昇格していない。</li>
-<li>Stage15-6の内部 <code>δ&gt;0</code>/<code>σ&gt;0</code> を偽って主張していない。</li>
-<li>完全直方体の存在・非存在を主張していない。</li>
-<li>外部CSS、JS、font、image、MathJaxを必要としない。</li>
+<li>smooth, projective, split toric;</li>
+<li><code>H¹(Y,O_Y)=H²(Y,O_Y)=0</code>;</li>
+<li><code>Pic(Y)</code> torsion free;</li>
+<li><code>−K_Y</code> big, <code>K_Y²=4</code>;</li>
+<li>dense torus上のanticanonical rational pointsは前節の外部toric equidistribution interfaceでequidistributed;</li>
+<li>third-face imageは geometrically integral degree-two thin subset。</li>
 </ul>
-<pre>STAGE15_HTML_BUNDLE_ID=STAGE15-FINAL-SELF-CONTAINED-20260813-R01
+<p>よって</p>
+<div class="math">M₃(B)=o(B(log B)^5).</div>
+<p>これを incidence identity に代入して</p>
+<div class="math">M₂(B)=C_A B(log B)^5+o(B(log B)^5).</div>
+<p>したがって</p>
+<div class="math">M₂(B) ∼ C_M₂ B(log B)^5,   C_M₂=C_A&gt;0.</div>
+<p>同じargumentを3つのarchimedean direction chambersへ適用し <code>M₂,j(B)∼C_jB(log B)^5</code>, <code>C_j&gt;0</code>。</p>
+</section>
+
+<section id="normal">
+<h2>4. Exact Gaussian squareclass survivor normal form: internal proof</h2>
+
+<h3>4.1 Raw toric coordinates, primitive normalization, inverse</h3>
+<p>positive coprime pairs <code>m&gt;n&gt;0</code>, <code>r&gt;s&gt;0</code> に対し raw coordinates を</p>
+<div class="math">E=4mnrs
+X=2rs(m²−n²)
+Y=2mn(r²−s²)
+U=2rs(m²+n²)
+V=2mn(r²+s²)</div>
+<p>とし</p>
+<div class="math">G=gcd(E,X,Y)=gcd(E,X,Y,U,V).</div>
+<p>primitive physical incidence は <code>(e,x,y,u,v)=(E,X,Y,U,V)/G</code>。逆に physical incidence から</p>
+<div class="math">m/n=(u+x)/e,    r/s=(v+y)/e</div>
+<p>をcoprime positive numerator/denominatorにreduceすればtoric pairを一意に復元できる。実際</p>
+<div class="math">(m²−n²)/(2mn)=x/e,   (m²+n²)/(2mn)=u/e</div>
+<p>および <code>(r,s)</code> 側の同式が成り立つ。unique shared edge と <code>x&lt;y</code> を固定後、hidden polynomial multiplicity はない。</p>
+
+<h3>4.2 Space-diagonal identity</h3>
+<p>次を定義する。</p>
+<div class="math">A=m²r²+n²s²=N(mr+i·ns)
+B=m²s²+n²r²=N(ms+i·nr).</div>
+<p>raw geometric height は</p>
+<div class="math">R_raw²=E²+X²+Y².</div>
+<p>直接展開すると</p>
+<div class="math">E²+X²+Y²=4(m²r²+n²s²)(m²s²+n²r²)=4AB.</div>
+<p>primitive coordinates は <code>G</code> で割るので</p>
+<div class="math">G²R²=4AB.</div>
+<p><code>G²</code> と4はsquare。もし <code>4AB=T²</code> なら <code>G²|T²</code> から <code>G|T</code> なので逆向きにもdivisibility gapはない。したがって</p>
+<div class="math">R∈ℤ  ⇔  AB is a square.</div>
+
+<h3>4.3 Squarefree kernel equivalence</h3>
+<p>正整数 <code>n</code> の squarefree kernel を</p>
+<div class="math">sf(n)=∏_{v_p(n) odd} p</div>
+<p>とする。<code>AB</code> がsquareであることは全primeで <code>v_p(A),v_p(B)</code> のparityが一致することと同値なので</p>
+<div class="math">AB square  ⇔  sf(A)=sf(B).</div>
+<p>共通squarefree kernelを <code>k</code> とすれば一意に</p>
+<div class="math">A=kP²,   B=kQ²,   k squarefree, P,Q&gt;0.</div>
+<p>Gaussian normでは <code>p≡3 (mod 4)</code> のvaluationは常にevenなので</p>
+<div class="math">supp(k) ⊂ {2} ∪ {p : p≡1 (mod 4)}.</div>
+<p>これがStage15のminimal exact survivor normal form。</p>
+</section>
+
+<section id="quant">
+<h2>5. Strongest quantitative survival theorem</h2>
+<p>上流のStage14定理と、このHTML内で証明したStage15 ambient theoremをそのまま割る。</p>
+<div class="math">N₂(B) ≪ε B^(1/2+ε)
+M₂(B) ∼ C_M₂ B(log B)^5</div>
+<p>したがって</p>
+<div class="math">N₂(B)/M₂(B) ≪ε B^(−1/2+ε)(log B)^(−5).</div>
+<p>任意の固定 <code>δ&lt;1/2</code> について <code>N₂/M₂=Oδ(B^−δ)</code>。</p>
+<div class="callout warn"><b>Source firewall.</b> この半冪はStage15-6のlocal squareclass mechanismから導いたものではない。Stage14 whole-family numerator theorem + Stage15 ambient denominator theorem の比較である。</div>
+</section>
+
+<section id="local">
+<h2>6. Split-prime local squareclass density: internal proof</h2>
+
+<h3>6.1 Correct charged measure</h3>
+<p>survivor conditionは全primeで</p>
+<div class="math">v_p(A) ≡ v_p(B) (mod 2).</div>
+<p>local event は unique physical toric stateそのものに課す。cell reconstructionでcompletion variableをexistentially消去して「あるcompletionが存在するbase」を数えることはしない。Stage15-4のtoric inverseとcell decompositionにより physical incidence ↔ toric pair ↔ reconstructed state は multiplicity one であり、local densityは同じcharged physical measure上で計算される。</p>
+
+<h3>6.2 Inert primes</h3>
+<p><code>p≡3 (mod 4)</code> ではGaussian normのvaluationはeven。よって全stateが自動acceptされ</p>
+<div class="math">ρ_p=1.</div>
+<p><code>p=2</code> はbounded local conventionとして分離し、sieve sourceには使わない。</p>
+
+<h3>6.3 Split divisor geometry on Y</h3>
+<p>good split prime <code>p≡1 (mod 4)</code> を固定し、<code>i²=−1</code> in <code>F_p</code> を選ぶ。</p>
+<div class="math">A=(mr+i ns)(mr−i ns)
+B=(ms+i nr)(ms−i nr).</div>
+<p><code>P¹×P¹</code> 上でAの2成分は2つのblow-up cornerで交わり、Bの2成分は別の2 cornerで交わる。4 cornerをblow upした <code>Y</code> では：</p>
+<ul>
+<li><code>D_A,+</code> と <code>D_A,−</code> はsmoothかつdisjoint;</li>
+<li><code>D_B,+</code> と <code>D_B,−</code> もsmoothかつdisjoint;</li>
+<li>exceptional multiplicityは2でsquareclass parityには影響しない;</li>
+<li>各A成分と各B成分は2点でtransverseに交わり、A/B intersectionsは合計8点。</li>
+</ul>
+<p>各 strict <code>(1,1)</code> transform は <code>p+1</code> rational points を持ち、smooth toric resolutionは</p>
+<div class="math">#Y(F_p)=(p+1)²+4p=p²+6p+1.</div>
+<p>residue classesはexactに</p>
+<div class="math">N00=p²+2p+5
+N10=N01=2p−6
+N11=8</div>
+<p>へ分かれる。添字はA odd divisor/B odd divisorの有無を表す。</p>
+
+<h3>6.4 Parity probability in residue tubes</h3>
+<p>A-only divisor tubeではunit/even exceptional factorsを除くと <code>A=ux</code>, <code>B∈Z_p×</code>, <code>x∈pZ_p</code>。条件付き分布は</p>
+<div class="math">Pr(v_p(x)=n)=(1−p^−1)p^(−(n−1)), n≥1.</div>
+<p>よって</p>
+<div class="math">Pr(v_p(A) even | A≡0 mod p)=1/(p+1).</div>
+<p>B-onlyも同じ。8個のtransverse intersectionでは <code>A=ux</code>, <code>B=vy</code> で <code>x,y∈pZ_p</code> は独立なので</p>
+<div class="math">Pr(v_p(A)≡v_p(B) mod 2)=(p²+1)/(p+1)².</div>
+
+<h3>6.5 Exact local density</h3>
+<p>good finite-place anticanonical modelのsmooth residue tubesは同じlocal measureを持つので、actual charged acceptance densityは</p>
+<div class="math">ρ_p =
+[N00 +(N10+N01)/(p+1) + N11 (p²+1)/(p+1)²]
+/ (p²+6p+1).</div>
+<p>整理して</p>
+<div class="math">ρ_p =
+(p⁴+4p³+22p²+4p+1) /
+((p+1)²(p²+6p+1)).</div>
+<p>したがって</p>
+<div class="math">1−ρ_p =
+4p(p−1)² / ((p+1)²(p²+6p+1))
+= 4/p + O(p<sup>−2</sup>).</div>
+<p>つまり各good split primeは正の割合をrejectするが、その割合はfixed positive constantではなく約 <code>4/p</code>。</p>
+</section>
+
+<section id="fixeds">
+<h2>7. Fixed-prime / fixed-finite-set refinement and ordered limit</h2>
+
+<h3>7.1 One fixed prime</h3>
+<p><code>E_p={v_p(A)≡v_p(B) mod2}</code> は valuation annuli のopen unionで、boundaryは4本のstrict Gaussian divisorsと交点に含まれp-adic measure zero。Stage15 ambient theoremで使用した同じ <code>Y</code>、同じ anticanonical height、同じ physical archimedean chamber に Huang の fixed adelic-neighbourhood equidistribution interfaceを適用し、inside/outside finite residue tubes で近似すると</p>
+<div class="math">A_p(B)=ρ_p C_A B(log B)^5 + o_p(B(log B)^5).</div>
+<p>triple-face setはlocal conditionを課しても増えないので <code>M₃,p(B)≤M₃(B)=o(B(log B)^5)</code>。incidence identityを局所条件付きで使い</p>
+<div class="math">M₂,p(B)=ρ_p C_M₂ B(log B)^5 + o_p(B(log B)^5).</div>
+
+<h3>7.2 Fixed finite set</h3>
+<p>good split primesの有限集合 <code>S</code> を <b>B→∞より先に固定</b>する。distinct finite placesのTamagawa measureはfactorizeするので</p>
+<div class="math">ρ_S=∏_{p∈S}ρ_p.</div>
+<p>同じfixed adelic-neighbourhood equidistributionで</p>
+<div class="math">M₂,S(B)=C_M₂ (∏_{p∈S}ρ_p) B(log B)^5
++ o_S(B(log B)^5).</div>
+<p><code>o_S</code> は固定された <code>S</code> に依存してよい。<code>max S</code>, <code>|S|</code>, product modulus にuniformなerrorは証明していない。</p>
+
+<h3>7.3 Survivor domination and ordered limits</h3>
+<p>integral-space-diagonal survivorは全primeでparity条件を満たすので、任意のfixed finite <code>S</code> に対し</p>
+<div class="math">N₂(B) ≤ M₂,S(B).</div>
+<p>ambient asymptoticで割って</p>
+<div class="math">limsup_{B→∞} N₂(B)/M₂(B) ≤ ∏_{p∈S}ρ_p.</div>
+<p>ここで初めて <code>B→∞</code> を終えた後、<code>S</code> を拡大する。split primes上の reciprocal-prime sum は発散し <code>1−ρ_p=4/p+O(p^−2)</code> なので</p>
+<div class="math">∏_{p∈S}ρ_p → 0.</div>
+<p>従ってStage15-6はStage15-5を使わず独立に</p>
+<div class="math">N₂(B)/M₂(B) → 0.</div>
+<p>を証明する。</p>
+<div class="callout"><b>Quantitative boundary.</b> このargumentには growing modulus uniformity がない。Stage15-6は内部の固定 <code>δ&gt;0</code> も <code>σ&gt;0</code> も証明していない。local productの自然なscaleは <code>(log z)^−2+o(1)</code>。</div>
+</section>
+
+<section id="compare">
+<h2>8. Quantitative versus causal theorem species</h2>
+<table><thead><tr><th>問い</th><th>確定回答</th><th>証明源</th></tr></thead><tbody>
+<tr><td>相対密度は0か</td><td>Yes</td><td>Stage15-5 comparison と Stage15-6 local sieve が独立に結論</td></tr>
+<tr><td>最強の確定rate</td><td>B<sup>−1/2+ε</sup>(log B)<sup>−5</sup></td><td>Stage14 numerator + Stage15 ambient denominator</td></tr>
+<tr><td>R∈ℤ の exact arithmetic condition</td><td>coupled Gaussian norms の squareclass 一致</td><td>Stage15-4 internal proof</td></tr>
+<tr><td>Stage15内部の因果機構</td><td>good split-prime valuation-parity filters</td><td>Stage15-6dy/dz internal proof</td></tr>
+<tr><td>local mechanismだけでfixed powerを再現したか</td><td>No</td><td>growing-modulus uniformityなし</td></tr>
+</tbody></table>
+<div class="flow"><div class="step"><b>Stage14</b><br>frozen numerator<br>N₂≪B<sup>1/2+ε</sup></div><div class="arrow">→</div><div class="step"><b>Stage15 quantitative</b><br>divide by M₂∼CB(log B)⁵</div><div class="arrow">∥</div><div class="step"><b>Stage15 causal</b><br>squareclass → local parity → fixed-S ordered limit</div></div>
+</section>
+
+<section id="data">
+<h2>9. Matched finite evidence</h2>
+<p>Stage15-3 の exact matched census at <code>B=100000</code>：</p>
+<table><thead><tr><th>B</th><th>M₂(B)</th><th>N₂(B)</th><th>N₂/M₂</th></tr></thead><tbody>
+<tr><td>100000</td><td>796,698</td><td>89</td><td>1.11711×10<sup>−4</sup></td></tr>
+</tbody></table>
+<p>directional survivor vector は <code>(33,33,23)</code>。これらはasymptoticの証明入力ではなくdiagnostic evidence。有限データからglobal exponent、directional killing rate、完全直方体の有無を推論しない。</p>
+</section>
+
+<section id="external">
+<h2>10. External published theorem contracts</h2>
+<p>以下の公刊定理そのものは再証明しない。代わりに、このStageで使うworking formと仮定mapを固定する。</p>
+<table><thead><tr><th>External input</th><th>Working form used</th><th>Hypothesis / adapter map</th><th>Uniformity boundary</th></tr></thead><tbody>
+<tr><td>Batyrev–Tschinkel toric anticanonical counting</td><td>smooth projective toric <code>Y</code> のdense torusで anticanonical bounded-height count <code>∼cB(log B)^(ρ−1)</code></td><td><code>Y=Bl₄(P¹×P¹)</code> smooth split toric, <code>ρ=6</code>; <code>H_R</code> は本文でexact anticanonical adelic heightと証明</td><td>Stage15では独自のeffective remainderを主張しない</td></tr>
+<tr><td>Huang Manin–Peyre equidistribution / adelic neighbourhood counting</td><td>smooth proper split toric varietyのfixed archimedean/finitely many p-adic neighbourhoodsへのequidistributed count</td><td>physical chamber boundaryはmeasure zero; <code>E_p</code> はmeasure-zero boundaryを持つp-adic set; exactly same <code>Y,H_R</code></td><td>prime set/modulusは先に固定。growing modulus uniformityなし</td></tr>
+<tr><td>Browning–Loughran thin-set zero density</td><td>equidistributed anticanonical pointsを持つ almost-Fano dense open のthin subsetはzero density</td><td><code>Y</code> smooth projective split toric, cohomology vanish, Pic torsion-free, <code>−K</code> big; third-face coverは本文でgeometrically integral degree 2と証明</td><td>third-face subtractionはlittle-oのみ。K3 counting theoremは使わない</td></tr>
+</tbody></table>
+<pre>EXTERNAL_THEOREM=Batyrev--Tschinkel
+WORKING_FORM=TORIC_ANTICANONICAL_MAIN_TERM
+HEIGHT_OR_MEASURE_MATCH=EXACT_H_R
+HYPOTHESES_CHECKED=true
+
+EXTERNAL_THEOREM=Huang
+WORKING_FORM=FIXED_ADELIC_NEIGHBOURHOOD_EQUIDISTRIBUTION
+QUANTIFIERS=FIX_LOCAL_DATA_THEN_B_TO_INFINITY
+UNIFORMITY_NOT_CLAIMED=GROWING_MODULUS
+
+EXTERNAL_THEOREM=Browning--Loughran
+WORKING_FORM=THIN_SUBSET_ZERO_DENSITY
+THIN_COVER_GEOMETRICALLY_INTEGRAL_DEGREE=2
+K3_COUNTING_THEOREM_USED=false</pre>
+</section>
+
+<section id="nonclaims">
+<h2>11. Negative knowledge and future gates</h2>
+<p>Stage15が証明していないもの：</p>
+<ul>
+<li><code>N₂(B)</code> のmatching lower boundまたはasymptotic constant;</li>
+<li><code>N₂(B)</code> のtrue growth exponentが1/2であること;</li>
+<li>Stage15内部local squareclass mechanismだけからfixed-power rateを得ること;</li>
+<li>Stage14 square-root upper boundよりstrictly strongerな <code>N₂≪B^(1/2−δ)</code>;</li>
+<li>directional survivor asymptotic;</li>
+<li>完全直方体の存在または非存在。</li>
+</ul>
+<p>effective growing-modulus adelic/local sieve、より強いglobal squareclass correlation/reconstructionは将来のexternal quantitative gateであって、closed Stage15-6の未完内部routeではない。</p>
+</section>
+
+<section id="perfect">
+<h2>12. Relation to the perfect cuboid problem</h2>
+<div class="callout warn"><b>Boundary.</b> 完全直方体は3つの面対角線すべてと空間対角線が整数である。Stage15のmain populationは「ちょうど2面整数」の層であり、その中で空間対角線整数条件がどれだけ薄いかを研究している。</div>
+<p><code>N₂/M₂→0</code> は完全直方体の不存在を意味しない。exactly-three stratumは別の算術層であり、Stage15は完全直方体問題のopen statusを変更しません。</p>
+</section>
+
+<section id="provenance">
+<h2>13. Provenance and source ledger</h2>
+<table><thead><tr><th>Role</th><th>Canonical source</th><th>R02での扱い</th></tr></thead><tbody>
+<tr><td>projective/toric geometry</td><td>stages/stage15/15-2a/result.md</td><td>load-bearing proofを本文へ再掲</td></tr>
+<tr><td>ambient M₂ theorem / thin subtraction</td><td>stages/stage15/15-2b/result.md</td><td>load-bearing proofを本文へ再掲</td></tr>
+<tr><td>finite evidence</td><td>stages/stage15/15-3/result.md</td><td>diagnostic summaryのみ</td></tr>
+<tr><td>survivor normal form</td><td>stages/stage15/15-4/result.md</td><td>G, inverse, identity, squareclass equivalenceを本文へ再掲</td></tr>
+<tr><td>quantitative numerator</td><td>stages/stage14/final.md</td><td>completed upstream frozen theorem interface</td></tr>
+<tr><td>quantitative comparison</td><td>stages/stage15/15-5/result.md</td><td>division argumentとsource firewallを本文化</td></tr>
+<tr><td>local density</td><td>stages/stage15/15-6dy/result.md</td><td>divisor geometry、tube probabilities、ρp計算を本文へ再掲</td></tr>
+<tr><td>fixed-S refinement</td><td>stages/stage15/15-6dz/result.md</td><td>same-measure adelic adapter、tensor、ordered limitを本文へ再掲</td></tr>
+<tr><td>Stage15-6 closeout</td><td>stages/stage15/15-6-final.md</td><td>quantitative boundary / route closure</td></tr>
+<tr><td>final synthesis</td><td>stages/stage15/final.md; stages/stage15/manifest-r01.md</td><td>theorem-species separation and non-claims</td></tr>
+<tr><td>project-wide review standard</td><td>docs/self-contained-review-standard.md</td><td>SELF_CONTAINED_REVIEW_STANDARD_V1</td></tr>
+</tbody></table>
+</section>
+
+<section id="audit">
+<h2>14. Fresh audit checklist and machine-readable lock</h2>
+<ul>
+<li>load-bearing Stage15内部証明がrepository pathだけに委ねられていない。</li>
+<li>Stage15-2a geometry→2b ambient asymptotic→thin subtractionのchainがHTMLだけで追える。</li>
+<li><code>G</code>、toric inverse、<code>G²R²=4AB</code>、squareclass equivalenceが両向きに追える。</li>
+<li>split-prime divisor geometry、<code>N00,N10,N01,N11</code>、tube parity probabilitiesから <code>ρp</code> を再計算できる。</li>
+<li>fixed prime→fixed finite <code>S</code>→<code>B→∞</code>→その後 <code>S</code>拡大、という量化順序を保持。</li>
+<li>Stage14 quantitative theorem と Stage15-6 causal theoremを混同・乗算していない。</li>
+<li>finite evidenceをtheoremへ昇格していない。</li>
+<li>perfect-cuboid existence/nonexistenceを主張していない。</li>
+<li>外部公刊定理はworking form、hypothesis map、uniformity boundaryを明示。</li>
+<li>外部CSS、JS、font、image、MathJax、live repository accessを数学理解に必要としない。</li>
+</ul>
+<pre>STAGE15_HTML_BUNDLE_ID=STAGE15-FINAL-SELF-CONTAINED-20260813-R02
+STAGE15_HTML_SOURCE_STAGE15_BUNDLE=STAGE15-FINAL-SELF-CONTAINED-20260813-R01
 STAGE15_HTML_STAGE=Stage15-8
+STAGE15_HTML_SELF_CONTAINMENT_STANDARD=SELF_CONTAINED_REVIEW_STANDARD_V1
+STAGE15_HTML_STANDARD_PATH=docs/self-contained-review-standard.md
+STAGE15_HTML_SUMMARY_ONLY=false
+STAGE15_HTML_INTERNAL_LOAD_BEARING_PROOFS_EMBEDDED=true
+STAGE15_HTML_EXTERNAL_THEOREM_WORKING_FORMS_STATED=true
+STAGE15_HTML_EXTERNAL_HYPOTHESES_MAPPED=true
+STAGE15_HTML_UPSTREAM_STAGE14_INTERFACE_FROZEN=true
+STAGE15_HTML_POPULATION_CUTOFF_AUDITED=true
+STAGE15_HTML_MULTIPLICITY_AUDITED=true
+STAGE15_HTML_LOCAL_DENSITY_DERIVATION_EMBEDDED=true
+STAGE15_HTML_FIXED_S_ADAPTER_EMBEDDED=true
+STAGE15_HTML_GROWING_MODULUS_USED=false
 STAGE15_HTML_OFFLINE_SELF_CONTAINED=true
 STAGE15_HTML_THEOREM_SPECIES_SEPARATED=true
 STAGE15_HTML_QUANTITATIVE_SOURCE=STAGE14_NUMERATOR_PLUS_STAGE15_2B_DENOMINATOR
@@ -139,9 +412,9 @@ STAGE15_HTML_STAGE15_6_INTERNAL_SIGMA=false
 STAGE15_HTML_FINITE_DATA_PROMOTED=false
 STAGE15_HTML_PERFECT_CUBOID_VERDICT=OPEN_UNCHANGED
 STAGE15_HTML_AUDIT_REQUIRED=true</pre>
-<p class="small">このHTMLはStage15 final R01の人間向け単体レビュー表現です。数学を追加する成果物ではありません。fresh Stage15-8-audit がPASSするまで監査候補として扱います。</p>
+<p class="small">R02はR01の数学を強化しない。Stage12〜14と同じ自己完結基準に合わせ、既に確定していた内部proof/adaptersをreview artifactへ移植したpresentation repairである。fresh Stage15-8-audit がPASSするまで監査候補。</p>
 </section>
 </main>
-<footer>Stage15-8 · 完全直方体研究 · self-contained offline review artifact</footer>
+<footer>Stage15-8 · 完全直方体研究 · self-contained offline review artifact R02</footer>
 </body>
 </html>
