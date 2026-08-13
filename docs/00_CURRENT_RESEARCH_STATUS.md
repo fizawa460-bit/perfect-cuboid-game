@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage17-50-AUDIT-PASS
+CURRENT_STAGE=Stage17-60-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -16,13 +16,13 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE17_STATUS=OPEN_CHECKPOINT_50_AUDIT_PASS
+STAGE17_STATUS=OPEN_CHECKPOINT_60_AUDIT_PASS
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
-STAGE17_CURRENT_RESULT=stages/stage17/17-50/result.md
-STAGE17_CURRENT_AUDIT=stages/stage17/17-50/audit.md
+STAGE17_CURRENT_RESULT=stages/stage17/17-60/result.md
+STAGE17_CURRENT_AUDIT=stages/stage17/17-60/audit.md
 STAGE17_CURRENT_DATA=stages/stage17/17-20/counts.csv
 STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
-STAGE17_NEXT_CHECKPOINT=60
+STAGE17_NEXT_CHECKPOINT=70
 NEXT_EXPECTED_COMMAND=Stage17-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -131,28 +131,40 @@ The polynomial exponent `2` and logarithmic power `1` are intrinsic at the prove
 
 ## Current operation
 
-Stage17-50 has passed fresh audit. The Stage17 population remains the same primitive canonical exactly-one population with integral space diagonal and common cutoff `R<=B`; on target objects `R=d` exactly.
+Stage17-60 has passed fresh audit. The Stage17 population remains the same primitive canonical exactly-one population with integral space diagonal and common cutoff `R<=B`; on target objects `R=d` exactly.
 
-The frozen Stage13 theorem gives
+For the unique integral face write
 
-`N_1(B) ~ (kappa/(24*pi)) B(log B)^3`,
+`x^2+y^2=p^2`.
 
-so the audited full-population lower order is
+The new Stage17 requirement that the space diagonal be integral is exactly
 
-`N_1(B) >> B(log B)^3`.
+`p^2+z^2=d^2`
 
-Together with the audited Stage17-40 upper ledger `N_1(B)=O(B(log B)^3)`, the upper and lower orders now match.
+for the complementary edge `z`. Thus the audited structural mechanism is a second Pythagorean extension sharing the face diagonal `p`.
 
-AR-039 remains separately certified as an explicit strict Stage17 subfamily with
+The audited laws
 
-`N_1(B) >= sqrt(2)/(120*pi^2) B^(1/2) - O(B^(1/4)log B)`.
+`M_1(B) asymp B^2 log B`
 
-Its role is constructive and diagnostic; it is not promoted to the mechanism for the full Stage13 asymptotic. No causal or independence conclusion has yet been assigned to the lost power of `B` relative to Stage16.
+and
 
-Canonical Stage17-50 records:
+`N_1(B) ~ (kappa/(24*pi)) B(log B)^3`
 
-- `stages/stage17/17-50/result.md`
-- `stages/stage17/17-50/audit.md`
+give the net survival law
+
+`N_1(B)/M_1(B) asymp (log B)^2/B`.
+
+At theorem scale this is one lost polynomial power of `B`, with `(log B)^2` net compensation. The logarithms are not split into independent probabilistic costs.
+
+Canonical ordering, global primitivity, exactly-one multiplicity and `R<=B` are already charged in Stage16. The identity `d=R` is not a new cost. Stage13's extra-face overlap theorem is lower order, so exactly-one subtraction is not the leading Stage17 mechanism. AR-039 remains an explicit survivor family rather than the source of the full asymptotic.
+
+Stage16S remains the separate ambient control for space-diagonal integrality. Stage17-60 does not decide whether the observed cost is intrinsic, independent, correlated, or interaction-dependent; that comparison is reserved for Stage21 once the necessary Stage16S baseline is audited.
+
+Canonical Stage17-60 records:
+
+- `stages/stage17/17-60/result.md`
+- `stages/stage17/17-60/audit.md`
 - `stages/stage17/17-controller.json`
 
-Checkpoint 50 is merge-allowed. The next unresolved checkpoint is `Stage17-60` (causal decomposition), entered through `Stage17-main-batch` after the audited PR is merged.
+Checkpoint 60 is merge-allowed. The next unresolved checkpoint is `Stage17-70` (bounded maximal synthesis / intrinsic-status closeout), entered through `Stage17-main-batch` after this audited checkpoint is merged.
