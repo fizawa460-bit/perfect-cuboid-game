@@ -5,8 +5,6 @@
   "stage": "Stage16S",
   "parent_class": "population_state",
   "stage_object": "primitive canonical cuboids with integral space diagonal, tracking SPACE_AT_LEAST and SPACE_ONLY",
-  "roadmap": "docs/stage16-28-population-roadmap.md",
-  "execution_template": "docs/stage16-28-execution-controller-template.md",
   "source_population": "0<a<b<c; gcd(a,b,c)=1; R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "SPACE_AT_LEAST: integral R with no face restriction; SPACE_ONLY: integral R with zero integral faces",
   "common_population_contract": "positive primitive canonical triples under common R<=B cutoff",
@@ -15,93 +13,57 @@
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "LITERATURE_ADAPTED_AUDITED_PASS",
-    "40": "SUBMITTED_FOR_FRESH_AUDIT",
-    "50": "SUBMITTED_FOR_FRESH_AUDIT",
+    "40": "AUDITED_PASS",
+    "50": "AUDIT_BLOCKED_PERSISTENCE",
     "60": "PENDING",
     "70": "PENDING"
-  },
-  "checkpoint_contract": {
-    "10": "population contract",
-    "20": "finite-data baseline",
-    "30": "ratio / thinning law",
-    "40": "upper-bound ledger",
-    "50": "lower-bound / construction ledger",
-    "60": "causal decomposition",
-    "70": "bounded maximal synthesis / intrinsic status / closeout"
   },
   "canonical_commands": {"main":"Stage16S-main-batch","audit":"Stage16S-audit"},
   "state": {
     "CURRENT_STAGE": "Stage16S",
     "CURRENT_CHECKPOINT": 50,
     "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
+    "AUDIT_STATUS": "BLOCKED",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 60,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": null,
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
     "MERGE_ALLOWED": false
   },
   "parallel_lane": true,
-  "parallel_lane_rule": "Stage16S does not replace or block the numbered Stage17/18 lane",
+  "parallel_lane_rule": "Stage16S does not replace or block the numbered Stage18 lane",
   "certified_inputs": [
-    "stages/stage16s/16s-10/audit.md",
-    "stages/stage16s/16s-20/audit.md",
     "stages/stage16s/16s-30/result.md",
-    "stages/stage16s/16s-30/audit.md"
+    "stages/stage16s/16s-30/audit.md",
+    "stages/stage16s/16s-40/result.md",
+    "stages/stage16s/16s-40/audit.md",
+    "stages/stage16s/16s-50/result.md"
   ],
-  "current_submission": {
-    "checkpoints": [40,50],
-    "results": ["stages/stage16s/16s-40/result.md","stages/stage16s/16s-50/result.md"],
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
-    "evidence_level": "EXTRACTED_FROM_AUDITED_STAGE16S_30",
-    "claims": [
-      "N_S^all(B) << B^2 and N_S^0(B) << B^2",
-      "N_S^all(B) >> B^2 and N_S^0(B) >> B^2",
-      "C_F(B) <<_epsilon B^(1+epsilon) with sharpness unknown",
-      "leading constant 1/(32G) remains inherited from audited checkpoint 30"
-    ],
-    "finite_data_used_as_proof": false,
-    "causal_claim_added": false,
-    "codex_required": false
+  "batch_audit": {
+    "pr": 914,
+    "submitted_head": "9e9e38d0a7a4a18453c2b03057522ee6cdefff65",
+    "checkpoint40_math": "PASS",
+    "checkpoint40_persistence": "COMMITTED",
+    "checkpoint50_math": "PASS",
+    "checkpoint50_persistence": "FAILED",
+    "checkpoint50_unsynced_state": "stages/stage16s/16s-50/audit.md",
+    "block_reason": "GitHub connector safety layer repeatedly rejected creation of the canonical checkpoint-50 audit record"
   },
   "last_audit": {
-    "checkpoint": 30,
-    "verdict": "PASS",
-    "record": "stages/stage16s/16s-30/audit.md",
-    "pr": 913,
-    "merge_allowed": true
+    "checkpoint": 50,
+    "verdict": "BLOCKED",
+    "underlying_audit_result": "PASS",
+    "merge_allowed": false,
+    "new_input_required": false,
+    "human_decision_required": false,
+    "codex_audit_required": false,
+    "codex_reason": "NONE"
   },
-  "audit_contract": {
-    "fresh_read_only_audit": true,
-    "required_checks": [
-      "checkpoint 30 audit PASS is merged",
-      "checkpoint 40 upper bounds are exact corollaries of audited checkpoint 30",
-      "checkpoint 50 lower bounds are exact corollaries of audited checkpoint 30",
-      "faceful-complement sharpness remains UNKNOWN",
-      "finite Stage16S-20 data are not used as asymptotic proof",
-      "no new order-sharp parametric subfamily is claimed",
-      "no causal conclusion is added",
-      "parallel-lane semantics are preserved",
-      "checkpoint 60 is not entered before fresh audit PASS",
-      "merge safety"
-    ],
-    "required_footer": [
-      "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
-      "AUDIT_PERSISTENCE_STATUS=COMMITTED|FAILED",
-      "ADVANCE_ALLOWED=true|false",
-      "NEW_INPUT_REQUIRED=true|false",
-      "HUMAN_DECISION_REQUIRED=true|false",
-      "NEXT_CHECKPOINT=",
-      "NEXT_STAGE=",
-      "CODEX_AUDIT_REQUIRED=true|false",
-      "CODEX_REASON=",
-      "MERGE_ALLOWED=true|false"
-    ]
+  "audit_persistence": {
+    "required": true,
+    "status": "FAILED",
+    "unsynced_audit_state": "stages/stage16s/16s-50/audit.md"
   },
-  "codex_policy": {
-    "default_required": false,
-    "not_final_authority_for": ["new mathematical claims","population-contract changes","theorem-transfer adapters","causal conclusions"]
-  },
-  "merge_rule": "Checkpoints 40 and 50 are submitted together. Do not merge or enter checkpoint 60 until fresh Stage16S-audit PASS."
+  "merge_rule": "Checkpoint 40 is audited PASS. Checkpoint 50 is mathematically PASS but audit persistence is BLOCKED; PR #914 must not merge and checkpoint 60 must not begin until the canonical 16s-50/audit.md write succeeds and Stage16S-audit is rerun."
 }
