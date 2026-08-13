@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "primary_operator": "ChatGPT",
-  "status": "OPEN",
+  "status": "CLOSED",
   "stage": "Stage17",
   "parent_class": "population_state",
   "stage_object": "primitive canonical cuboids with exactly one integral face diagonal and integral space diagonal",
@@ -16,7 +16,7 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "PROVED_REPAIRED_PENDING_FRESH_AUDIT"
+    "70": "PROVED_AUDITED_PASS"
   },
   "canonical_commands": {
     "main": "Stage17-main-batch",
@@ -25,14 +25,14 @@
   "state": {
     "CURRENT_STAGE": "Stage17",
     "CURRENT_CHECKPOINT": 70,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING_REAUDIT",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 70,
-    "NEXT_STAGE": "",
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": "",
+    "NEXT_STAGE": "Stage18",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "checkpoint_contract": {
     "10": "population contract",
@@ -58,39 +58,38 @@
     "absolute_law": "N_1(B) ~ kappa/(24*pi) B(log B)^3",
     "survival_law": "N_1(B)/M_1(B) asymp (log B)^2/B -> 0",
     "at_least_one_dominance": "N_1(B)/H_{1,d}(B) -> 1",
-    "mathematics_accepted_by_checkpoint70_audit": true,
-    "closeout_bundle_accepted": false
+    "absolute_status": "PROVED_ASYMPTOTIC",
+    "leading_constant_proved": true,
+    "closeout_bundle_accepted": true
   },
   "stage21_boundary": {
     "space_diagonal_cost_intrinsicness": "DEFER_TO_STAGE21_WITH_STAGE16S",
     "independence_claim": false
   },
-  "repair": {
-    "required_by_prior_audit": true,
-    "stage16_frozen_interface_contract_completed": true,
-    "upstream_interfaces_exact_lock_added": true,
-    "current_status_sync_required": false,
-    "current_status_sync_verified": true,
-    "new_mathematics_added": false
+  "self_contained_bundle": {
+    "bundle": "stages/stage17/final.md",
+    "standard": "SELF_CONTAINED_REVIEW_STANDARD_V1",
+    "upstream_interfaces_exact": true,
+    "stage13_interface_exact": true,
+    "stage16_interface_exact": true,
+    "status": "AUDITED_PASS"
   },
   "last_audit": {
     "checkpoint": 70,
-    "verdict": "BLOCKED",
-    "underlying_audit_result": "FAIL_REPAIR_REQUIRED",
+    "verdict": "PASS",
     "record": "stages/stage17/17-70/audit.md",
-    "audited_submission_sha": "b344e7012942b54e49c97469cfc0fd0eaef79db6",
+    "audited_submission_sha": "a25e263da7e78df59741039164b8dfe50a7b5910",
     "pr": 912,
-    "merge_allowed": false,
+    "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
     "codex_audit_required": false,
     "codex_reason": "NONE",
-    "bundle_failure_reason": "V1 frozen Stage16 interface lacked explicit multiplicity, measure-adapter and quantifier-adapter fields; repaired in the current submission.",
-    "persistence_failure": "Historical: docs/00_CURRENT_RESEARCH_STATUS.md was unsynchronized during the prior audit. The mirror is now synchronized for re-audit."
+    "prior_blocked_audit_superseded": true
   },
   "last_submission": {
     "checkpoint": 70,
-    "status": "REPAIRED_RESUBMITTED_FOR_FRESH_AUDIT",
+    "status": "AUDITED_PASS",
     "result": "stages/stage17/17-70/result.md",
     "bundle": "stages/stage17/final.md",
     "manifest": "stages/stage17/manifest-r01.md",
@@ -99,9 +98,9 @@
   "audit_persistence": {
     "required": true,
     "policy": "docs/stage16-28-population-roadmap.md",
-    "status": "SYNCED_FOR_REAUDIT",
-    "unsynced_audit_state": "NONE",
+    "status": "PENDING_CURRENT_STATUS_SYNC",
+    "unsynced_audit_state": "docs/00_CURRENT_RESEARCH_STATUS.md",
     "merge_execution_default": false
   },
-  "merge_rule": "Stage17-70 repair is submitted for fresh re-audit. Merge and Stage18 advancement remain disallowed until a durably persisted PASS."
+  "merge_rule": "Stage17-70 fresh re-audit PASS permits PR #912 merge. After merge, Stage18 is the next numbered population stage; Stage16S remains parallel and Stage21 consumes the Stage16/17/Stage16S comparison."
 }
