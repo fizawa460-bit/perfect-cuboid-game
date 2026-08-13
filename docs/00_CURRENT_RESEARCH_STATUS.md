@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage15-8-CLOSED
+CURRENT_STAGE=Stage16-10-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,6 +10,10 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
+STAGE16_STATUS=OPEN_CHECKPOINT_10_SUBMITTED
+STAGE16_CONTROLLER=stages/stage16/16-controller.json
+STAGE16_CURRENT_RESULT=stages/stage16/16-10/result.md
+NEXT_EXPECTED_COMMAND=Stage16-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
@@ -95,11 +99,14 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 ## Current operation
 
-There is no active Stage15 mathematical or presentation route. Do not reopen Stage15-6 or Stage15-7 merely to strengthen a closed theorem or to repair historical audit-status wording.
+Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-The next defined research program is the Stage16-28 population / condition-interaction roadmap:
+Stage16 is now active under the Stage16-28 roadmap. The parent controller is:
 
-- `docs/stage16-28-population-roadmap.md`
-- `docs/stage16-28-execution-controller-template.md`
+- `stages/stage16/16-controller.json`
 
-This defines the future program and its common main-batch / audit / Codex operating template without marking Stage16 active before its controller is opened.
+The first main batch has submitted `Stage16-10`, freezing the primitive/canonical exactly-one-face population under the common geometric cutoff `R<=B` with no space-diagonal integrality requirement:
+
+- `stages/stage16/16-10/result.md`
+
+The submission stops before finite-data checkpoint `Stage16-20`. A fresh `Stage16-audit` must first certify the population/cutoff contract and the exact `R=d` adapter on the integral-space-diagonal subpopulation. If that audit passes, the controller may advance to checkpoint 20 and safely reuse/adapt earlier enumerators and arsenal items.
