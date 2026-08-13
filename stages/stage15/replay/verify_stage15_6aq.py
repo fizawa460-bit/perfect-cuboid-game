@@ -49,7 +49,9 @@ def main() -> None:
     predecessor = (ROOT / "15-6ap/result.md").read_text()
     require(predecessor, "STAGE15_6AP_EXIT=GLOBAL_NORM_CORE_AGGREGATION_AUDIT_READY")
 
-    sh48 = (ROOT.parent / "stage14/14-sH48/result.md").read_text()
+    sh48 = (
+        ROOT.parent / "stage14/archive/tasks/14-sH48/result.md"
+    ).read_text()
     require(sh48, "OFF_THE_SHELF_THEOREM_APPLICABLE=false")
     require(sh48, "FIXED_POWER_SAVING_PROVED=false")
 
