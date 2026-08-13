@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage18-10-AUDIT-PASS
+CURRENT_STAGE=Stage18-20-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -27,13 +27,15 @@ STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_NEXT_CHECKPOINT=
 STAGE17_NEXT_STAGE=Stage18
-STAGE18_STATUS=OPEN_CHECKPOINT_10_AUDIT_PASS
+STAGE18_STATUS=OPEN_CHECKPOINT_20_SUBMITTED
 STAGE18_CONTROLLER=stages/stage18/18-controller.json
-STAGE18_CURRENT_RESULT=stages/stage18/18-10/result.md
+STAGE18_CURRENT_RESULT=stages/stage18/18-20/result.md
 STAGE18_CURRENT_AUDIT=stages/stage18/18-10/audit.md
-STAGE18_AUDIT_PERSISTENCE=COMMITTED
-STAGE18_NEXT_CHECKPOINT=20
-NEXT_EXPECTED_COMMAND=Stage18-main-batch
+STAGE18_CURRENT_DATA=stages/stage18/18-20/counts.csv
+STAGE18_CURRENT_ENUMERATOR=stages/stage18/18-20/enumerate.py
+STAGE18_AUDIT_PERSISTENCE=PENDING
+STAGE18_NEXT_CHECKPOINT=30
+NEXT_EXPECTED_COMMAND=Stage18-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -106,7 +108,7 @@ This historical status does not keep Stage15 mathematics open. Stage15-8 indepen
 
 ## Stage15-8 frozen review closeout
 
-PR #888 merged the R02 self-containment repair as commit
+PR #888 merged the Stage15 R01 self-containment repair as commit
 
 `b83dd74be283dc58b3ce5c6862d21e105a9fa3f9`.
 
@@ -197,23 +199,31 @@ HUMAN_DECISION_REQUIRED=false
 
 ## Current operation
 
-Stage18-10 population contract passed fresh audit. Stage18 counts primitive canonical positive triples `0<a<b<c`, `gcd(a,b,c)=1`, under `R<=B`, with exactly two integral face diagonals and no integral-space-diagonal requirement.
+Stage18-10 population contract has passed fresh audit. Stage18-20 now freezes an exact finite census for that same population.
 
-This is literally the frozen Stage15 ambient `B_2(B)` population, with count `M_2(B)`. Population, cutoff, multiplicity, measure and quantifier conventions match exactly, so no adapter is needed. Stage15's theorem `M_2(B) ~ C_{M_2} B(log B)^5`, `C_{M_2}>0`, remains frozen provenance for later Stage18 checkpoints and is not promoted by checkpoint 10 itself.
+The deterministic shared-edge enumerator gives
 
-Stage19 adds integral space diagonal to this exactly-two population; Stage20 is exactly-three-face and excluded here. The Stage16 -> Stage18 thinning comparison remains reserved for Stage22. No finite-data, ratio, causal, independence, or perfect-cuboid conclusion is added by Stage18-10.
+```text
+B:   50  100  200  400  800  1200  1600  2000
+M2:  16   56  172  494  1347 2350  3536  4812
+```
 
-Canonical Stage18-10 records:
+The optimized shared-edge construction and an independent direct canonical-triple brute-force enumerator agree as sets through `B=200`. The frozen `counts.csv` SHA-256 is `7873368267bbc21e5fd9ec6437d30e84a646ec4ddb14a50746575f59ac932e5a`.
 
-- `stages/stage18/18-10/result.md`
-- `stages/stage18/18-10/audit.md`
+These counts are `COMPUTED` evidence only. They neither prove nor modify the frozen Stage15 theorem `M_2(B) ~ C_{M_2} B(log B)^5`. No ratio, causal, independence, Stage16->Stage18 transition, or perfect-cuboid claim is added at checkpoint20.
+
+Canonical Stage18-20 submission:
+
+- `stages/stage18/18-20/result.md`
+- `stages/stage18/18-20/counts.csv`
+- `stages/stage18/18-20/enumerate.py`
 - `stages/stage18/18-controller.json`
 
 ```text
-AUDIT_STATUS=PASS
-AUDIT_PERSISTENCE_STATUS=COMMITTED
-ADVANCE_ALLOWED=true
-MERGE_ALLOWED=true
-NEXT_CHECKPOINT=20
-NEXT_EXPECTED_COMMAND=Stage18-main-batch
+AUDIT_STATUS=PENDING
+AUDIT_PERSISTENCE_STATUS=PENDING
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_CHECKPOINT=30
+NEXT_EXPECTED_COMMAND=Stage18-audit
 ```
