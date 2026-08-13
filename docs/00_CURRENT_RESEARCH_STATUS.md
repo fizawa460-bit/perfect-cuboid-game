@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage17-10-SUBMITTED
+CURRENT_STAGE=Stage17-20-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -16,11 +16,14 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE17_STATUS=OPEN_CHECKPOINT_10_SUBMITTED
+STAGE17_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
-STAGE17_CURRENT_RESULT=stages/stage17/17-10/result.md
-STAGE17_NEXT_CHECKPOINT=20
-NEXT_EXPECTED_COMMAND=Stage17-audit
+STAGE17_CURRENT_RESULT=stages/stage17/17-20/result.md
+STAGE17_CURRENT_AUDIT=stages/stage17/17-20/audit.md
+STAGE17_CURRENT_DATA=stages/stage17/17-20/counts.csv
+STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
+STAGE17_NEXT_CHECKPOINT=30
+NEXT_EXPECTED_COMMAND=Stage17-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -128,35 +131,12 @@ The polynomial exponent `2` and logarithmic power `1` are intrinsic at the prove
 
 ## Current operation
 
-Stage17-10 now submits the population contract obtained by adding integral space diagonal to the frozen Stage16 exactly-one population.
+Stage17-20 has passed fresh audit. The accepted finite census remains `COMPUTED` evidence on the frozen Stage17-10 population: primitive canonical `0<a<b<c`, `gcd(a,b,c)=1`, exactly one integral face diagonal, `R<=B`, and integral `R`.
 
-Let
-\[
-\mathcal B_{1,d}(B)=\{(a,b,c)\in\mathcal B_1(B):R(a,b,c)\in\mathbb Z\},
-\qquad
-N_1(B)=\#\mathcal B_{1,d}(B).
-\]
-The Stage17 contract preserves
+The dedicated `Stage17-20 finite-data` workflow passed on audited submission head `5f3b39dd372f8c67b3d80de1b3d345d65bbc49f5` (run `31744471773`, job `94595539391`). The independent canonical-triple cross-check through `B=200`, frozen CSV, face splits, and evidence boundary are therefore certified.
 
-```text
-0<a<b<c
-gcd(a,b,c)=1
-exactly one integral face diagonal
-R=sqrt(a^2+b^2+c^2)<=B
-R integral
-```
+Canonical Stage17-20 audit record:
 
-On the Stage17 target the positive integer space diagonal satisfies `d=R` exactly, hence `R<=B` if and only if `d<=B`. Therefore no cutoff adapter or loss factor is required, and
-\[
-\mathcal B_{1,d}(B)\subseteq\mathcal B_1(B),
-\qquad N_1(B)\le M_1(B).
-\]
+- `stages/stage17/17-20/audit.md`
 
-Checkpoint 10 makes no asymptotic claim for `N_1(B)` and no claim about the ratio `N_1(B)/M_1(B)`. AR-039 is parked for the lower-bound/construction ledger rather than charged at checkpoint 10.
-
-Canonical Stage17 submission:
-
-- `stages/stage17/17-10/result.md`
-- `stages/stage17/17-controller.json`
-
-Because this is a new population contract, checkpoint 20 finite data must wait for a fresh `Stage17-audit`.
+No asymptotic order, limiting ratio, decay exponent, upper/lower bound, independence claim, or causal conclusion was added at checkpoint 20. The next unresolved checkpoint is `Stage17-30` (ratio / thinning law), entered through `Stage17-main-batch` after the audited PR is merged.
