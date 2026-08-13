@@ -41,6 +41,7 @@ for path in (
     "stages/stage15/15-6-final.md",
 ):
     assert (ROOT / path).is_file(), path
+    assert path in ctrl["source_of_truth"], f"controller provenance missing: {path}"
 
 # Required human-review sections.
 for section_id in (
@@ -76,14 +77,14 @@ require(html, "まず <code>S</code> を固定して <code>B→∞</code>、そ�
 require(html, "完全直方体は3つの面対角線すべてと空間対角線が整数")
 require(html, "Stage15は完全直方体問題のopen statusを変更しません")
 
-# Self-contained/offline asset policy. Internal fragment hrefs are allowed.
+# Self-contained/offline asset policy. Explanatory mentions of MathJax/CDN are fine;
+# actual remote loads/imports are what is forbidden. Internal fragment hrefs are allowed.
 lower = html.lower()
 assert "<script" not in lower, "JavaScript is not required for this artifact"
 assert not re.search(r"<link\b", lower), "external/link assets are forbidden"
 assert "@import" not in lower, "CSS imports are forbidden"
 assert "http://" not in lower and "https://" not in lower, "remote URLs are forbidden"
 assert not re.search(r"\bsrc\s*=", lower), "external src resources are forbidden"
-assert "mathjax" not in lower and "cdn" not in lower, "MathJax/CDN dependencies are forbidden"
 assert re.search(r"<style>.*</style>", html, flags=re.I | re.S), "inline CSS missing"
 for href in re.findall(r'href=["\']([^"\']+)["\']', html, flags=re.I):
     assert href.startswith("#"), f"non-local navigation link: {href}"
