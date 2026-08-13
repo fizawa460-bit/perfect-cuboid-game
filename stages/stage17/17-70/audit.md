@@ -1,54 +1,47 @@
 # Stage17-70 — fresh audit record
 
-Status: **BLOCKED**
+## Re-audit verdict
 
-Audited submission: PR #912, head `b344e7012942b54e49c97469cfc0fd0eaef79db6`.
+Status: **PASS**
 
-## Underlying mathematical/bundle audit result
+Audited repaired submission: PR #912, head `a25e263da7e78df59741039164b8dfe50a7b5910`.
 
-The checkpoint-70 mathematics is accepted as far as the Stage17 theorem and bounded deductions are concerned.
+The prior checkpoint-70 audit was `BLOCKED` with underlying `FAIL_REPAIR_REQUIRED`. Its mathematical findings were accepted, but the Stage17 final bundle lacked the V1-explicit frozen Stage16 interface fields and the mirrored current-status file had not synchronized. The repaired submission resolves both defects without changing the mathematics.
 
-- The Stage13 target population matches Stage17 after the exact identity adapter `d=R`, so `N_1(B) ~ (kappa/(24*pi)) B(log B)^3` transfers without population or cutoff loss.
-- The frozen Stage16 source law `M_1(B) asymp B^2 log B` gives `N_1(B)/M_1(B) asymp (log B)^2/B -> 0`; no leading ratio constant is claimed.
-- If `H_{1,d}(B)` counts primitive canonical integral-space-diagonal cuboids with at least one integral face, every object in `H_{1,d}(B)-N_1(B)` lies in at least one Stage13 pair overlap. The three pair overlaps are `o(B(log B)^3)`, so `H_{1,d}(B) ~ N_1(B)` and `N_1(B)/H_{1,d}(B) -> 1` are valid.
-- The structural Stage16-to-Stage17 predicate `p^2+z^2=d^2` after `x^2+y^2=p^2` is exact, and intrinsic/independent/correlated/interaction-dependent classification of the space-diagonal cost is correctly deferred to Stage21 with Stage16S.
-- The required StageX-70 bounded-synthesis fields are present and the stop rule is satisfied.
-- No perfect-cuboid existence or nonexistence conclusion is introduced.
+### Re-audit checks
 
-The underlying closeout verdict would be **FAIL, repairable without new input**, because `SELF_CONTAINED_REVIEW_STANDARD_V1` requires every load-bearing frozen earlier-stage interface to state the upstream theorem and explicitly certify population, cutoff, multiplicity, measure-adapter, and quantifier-adapter compatibility. `stages/stage17/final.md` does this explicitly for Stage13, but its load-bearing Stage16 denominator import does not explicitly certify all of those fields.
+- The Stage13 target population still matches Stage17 exactly after the identity adapter `d=R`, so
+  `N_1(B) ~ (kappa/(24*pi)) B(log B)^3`
+  transfers without population, cutoff, multiplicity, measure, or quantifier loss.
+- The frozen Stage16 denominator interface is now explicit in `stages/stage17/final.md` and states the upstream theorem plus
+  `POPULATION_MATCH=true`, `CUTOFF_MATCH=true`, `MULTIPLICITY_MATCH=true`, `MEASURE_ADAPTER_REQUIRED=false`, and `QUANTIFIER_ADAPTER_REQUIRED=false`.
+- The final bundle now records `UPSTREAM_INTERFACES_EXACT=true`, satisfying the previous `SELF_CONTAINED_REVIEW_STANDARD_V1` failure.
+- The matched survival law remains
+  `N_1(B)/M_1(B) asymp (log B)^2/B -> 0`, with no unsupported leading ratio constant.
+- The bounded deduction is valid: if `H_{1,d}(B)` counts primitive canonical integral-space-diagonal cuboids with at least one integral face, every object in `H_{1,d}(B)-N_1(B)` lies in at least one Stage13 pair overlap; the overlap sum is `o(B(log B)^3)`, hence
+  `H_{1,d}(B) ~ N_1(B)` and `N_1(B)/H_{1,d}(B) -> 1`.
+- The Stage16-to-Stage17 structural predicate remains exactly the second Pythagorean extension `p^2+z^2=d^2` after `x^2+y^2=p^2`.
+- Absolute Stage17 order is settled, while intrinsic/independent/correlated/interaction-dependent classification of the space-diagonal cost remains correctly deferred to Stage21 with Stage16S.
+- All required StageX-70 bounded-synthesis fields are present, the stop rule is satisfied, and no lower checkpoint is invalidated.
+- Finite Stage17 data and AR-039 remain in their audited diagnostic/construction roles; no perfect-cuboid existence or nonexistence conclusion is introduced.
+- `docs/00_CURRENT_RESEARCH_STATUS.md` is synchronized for re-audit, so the prior persistence blocker is cleared.
+- Latest main contains the audited Stage16S-30 result. It does not conflict with the Stage17 closeout and does not alter the Stage17 theorem or Stage21 boundary.
 
-Minimum bundle repair:
-
-```text
-UPSTREAM_STAGE=Stage16
-UPSTREAM_THEOREM=M_1(B) asymp B^2 log B for primitive canonical exactly-one-face cuboids under R<=B
-POPULATION_MATCH=true
-CUTOFF_MATCH=true
-MULTIPLICITY_MATCH=true
-MEASURE_ADAPTER_REQUIRED=false
-QUANTIFIER_ADAPTER_REQUIRED=false
-ROLE=matched Stage16 source/denominator law
-```
-
-The repaired machine-readable lock should also expose `UPSTREAM_INTERFACES_EXACT=true` after the repair, while hostile review remains pending until the next Stage17-audit. The controller checkpoint-10 label should remain normalized to its already-recorded audit PASS.
-
-## Persistence blocker
-
-The audit record and Stage17 controller were written successfully, but synchronization of `docs/00_CURRENT_RESEARCH_STATUS.md` was rejected by the GitHub connector safety layer on repeated full-file update attempts. The Stage16-28 audit-persistence policy requires that mirrored status state be synchronized before an authoritative PASS/FAIL is returned.
-
-Therefore the externally reported verdict is `BLOCKED` until repository status synchronization succeeds. Advancement and merge remain disallowed.
+The repaired R01 bundle is accepted under `SELF_CONTAINED_REVIEW_STANDARD_V1`. Stage17 may close and PR #912 may merge. The next numbered population stage is Stage18; Stage16S remains a parallel lane and Stage21 remains the comparison receiver.
 
 ```text
-UNDERLYING_AUDIT_RESULT=FAIL_REPAIR_REQUIRED
-AUDIT_VERDICT=BLOCKED
-AUDIT_PERSISTENCE_STATUS=FAILED
-UNSYNCED_AUDIT_STATE=docs/00_CURRENT_RESEARCH_STATUS.md
-ADVANCE_ALLOWED=false
+AUDIT_VERDICT=PASS
+AUDIT_PERSISTENCE_STATUS=PENDING_CONTROLLER_STATUS_SYNC
+ADVANCE_ALLOWED=true
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
-NEXT_CHECKPOINT=70
-NEXT_STAGE=
+NEXT_CHECKPOINT=
+NEXT_STAGE=Stage18
 CODEX_AUDIT_REQUIRED=false
 CODEX_REASON=NONE
-MERGE_ALLOWED=false
+MERGE_ALLOWED=true
 ```
+
+## Historical first audit
+
+The first Stage17-70 audit inspected PR #912 at head `b344e7012942b54e49c97469cfc0fd0eaef79db6`. Its mathematics was accepted, but it returned `BLOCKED` because the frozen Stage16 interface was not explicit enough for V1 and `docs/00_CURRENT_RESEARCH_STATUS.md` failed to synchronize. Those defects are superseded by the repaired re-audit PASS above.
