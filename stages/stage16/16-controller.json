@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "primary_operator": "ChatGPT",
-  "status": "OPEN",
+  "status": "CLOSED",
   "stage": "Stage16",
   "parent_class": "population_state",
   "stage_object": "primitive canonical cuboids with exactly one integral face diagonal, with no space-diagonal integrality requirement",
@@ -12,15 +12,23 @@
   "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "the source population for which exactly one of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
   "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; exact face multiplicity retained; common geometric cutoff R<=B; no requirement that R be integral",
-  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_sequence": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70
+  ],
   "checkpoint_status": {
-    "10": "PROVED",
-    "20": "COMPUTED",
-    "30": "PROVED",
-    "40": "PROVED",
-    "50": "PROVED",
-    "60": "PROVED",
-    "70": "PROVED_CANDIDATE_PENDING_FRESH_AUDIT"
+    "10": "PROVED_AUDITED_PASS",
+    "20": "COMPUTED_AUDITED_PASS",
+    "30": "PROVED_AUDITED_PASS",
+    "40": "PROVED_AUDITED_PASS",
+    "50": "PROVED_AUDITED_PASS",
+    "60": "PROVED_AUDITED_PASS",
+    "70": "PROVED_AUDITED_PASS"
   },
   "source_of_truth": [
     "docs/stage16-28-population-roadmap.md",
@@ -40,13 +48,14 @@
   "state": {
     "CURRENT_STAGE": "Stage16",
     "CURRENT_CHECKPOINT": 70,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": null,
     "NEXT_STAGE": "Stage17",
     "NEW_INPUT_REQUIRED": false,
-    "HUMAN_DECISION_REQUIRED": false
+    "HUMAN_DECISION_REQUIRED": false,
+    "MERGE_ALLOWED": true
   },
   "checkpoint_contract": {
     "10": "population contract",
@@ -78,7 +87,7 @@
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
     "github_write_policy": "prefer_high_level_file_mutations_and_verify_after_fallback",
-    "current_stop_reason": "Stage16-60 passed fresh audit. Stage16-70 submits the intrinsic-status verdict, bounded synthesis required by docs/stage16-28-stage70-policy.md, proof-complete R01 bundle, manifest, and stage-end artifact decisions. Stage16 remains open until a fresh Stage16-audit certifies checkpoint 70 and the bundle.",
+    "current_stop_reason": "Stage16-70 and the R01 bundle passed fresh audit. Stage16 is closed; Stage17 is the certified next stage.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition",
@@ -139,7 +148,7 @@
       "lower-stage reinterpretations do not reopen a certified checkpoint without invalidating its foundation",
       "population/comparison/evidence/dependency/double-charge safety fields are complete",
       "self-contained bundle embeds all internal load-bearing mathematics required by SELF_CONTAINED_REVIEW_STANDARD_V1",
-      "bundle and manifest preserve nonclaims and audit-pending status",
+      "bundle and manifest preserve nonclaims and record the certified closeout status",
       "bundle-required YES and arsenal-promotion NO decisions are justified",
       "proposed next stage is Stage17 only after audit PASS",
       "merge safety"
@@ -156,19 +165,17 @@
     ]
   },
   "last_audit": {
-    "checkpoint": 60,
+    "checkpoint": 70,
     "verdict": "PASS",
-    "audit_record": "stages/stage16/16-60/audit.md",
-    "audited_submission_sha": "c27fcd4013a973d9a96c12a716b313914f9e61e8",
-    "pr": 899,
-    "merged_submission_commit": "da6b6436939fdaa845c47563cc295e14bda9b1f9",
+    "audit_record": "stages/stage16/16-70/audit.md",
+    "pr": 901,
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
     "checkpoint": 70,
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "AUDITED_PASS",
     "result": "stages/stage16/16-70/result.md",
     "bundle": "stages/stage16/final.md",
     "manifest": "stages/stage16/manifest-r01.md",
@@ -211,5 +218,10 @@
       "causal conclusions"
     ]
   },
-  "merge_rule": "Stage16 may close only after fresh Stage16-audit PASS on checkpoint 70 and the self-contained bundle. Until then the Stage16-70 PR remains audit-gated and Stage17 must not treat the closeout as certified."
+  "merge_rule": "Stage16 checkpoint 70 and the self-contained R01 bundle passed fresh audit. Stage16 is CLOSED; subsequent edits to frozen mathematics require explicit re-audit.",
+  "audit_persistence": {
+    "required": true,
+    "status": "COMMITTED",
+    "unsynced_audit_state": "NONE"
+  }
 }
