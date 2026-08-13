@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage17-60-AUDIT-PASS
+CURRENT_STAGE=Stage17-CLOSED-R01-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -16,14 +16,18 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE17_STATUS=OPEN_CHECKPOINT_60_AUDIT_PASS
+STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
-STAGE17_CURRENT_RESULT=stages/stage17/17-60/result.md
-STAGE17_CURRENT_AUDIT=stages/stage17/17-60/audit.md
+STAGE17_CURRENT_RESULT=stages/stage17/17-70/result.md
+STAGE17_CURRENT_AUDIT=stages/stage17/17-70/audit.md
+STAGE17_FINAL_BUNDLE=stages/stage17/final.md
+STAGE17_MANIFEST=stages/stage17/manifest-r01.md
 STAGE17_CURRENT_DATA=stages/stage17/17-20/counts.csv
 STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
-STAGE17_NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage17-main-batch
+STAGE17_AUDIT_PERSISTENCE=COMMITTED
+STAGE17_NEXT_CHECKPOINT=
+STAGE17_NEXT_STAGE=Stage18
+NEXT_EXPECTED_COMMAND=Stage18-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -39,6 +43,7 @@ SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
 | 14 | `stages/stage14/final.md` | `review/STAGE14-FINAL-SELF-CONTAINED-20260813-R06.html` | `stages/stage14/manifest-r06.md` |
 | 15 | `stages/stage15/final.md` (merged R01 synthesis; pre-audit status preserved) | `review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html` | `stages/stage15/15-8-manifest-r02.md` |
 | 16 | `stages/stage16/final.md` | none required beyond the fresh Stage16 audit lane | `stages/stage16/manifest-r01.md` |
+| 17 | `stages/stage17/final.md` | none required beyond the fresh Stage17 audit lane | `stages/stage17/manifest-r01.md` |
 
 Historical task results, superseded reviews, working roadmaps, and completed workflows remain stage-local/archive provenance.
 
@@ -49,6 +54,8 @@ The authoritative definition is:
 `docs/self-contained-review-standard.md`
 
 Future final review artifacts must use the Stage12 R09 / Stage13 R07 / Stage14 R06 / Stage15 R02 standard: internal load-bearing mathematics is embedded in proof-complete form; published external theorems may remain external only with an exact working contract, hypothesis map, measure/height adapter, and quantifier limitations.
+
+A completed earlier stage may be imported as a frozen theorem interface when population, cutoff, multiplicity, measure and quantifiers match; any new adapter must be proved in the receiving stage.
 
 A repository path is provenance, not a substitute for a load-bearing proof.
 
@@ -129,42 +136,55 @@ H_1(B)\asymp M_1(B)\asymp B^2\log B.
 \]
 The polynomial exponent `2` and logarithmic power `1` are intrinsic at the proved Theta resolution. No leading constant, overlap little-o theorem, directional limiting law, Stage16-to-Stage17 survival law, or perfect-cuboid conclusion is included in Stage16.
 
-## Current operation
+## Stage17 frozen closeout
 
-Stage17-60 has passed fresh audit. The Stage17 population remains the same primitive canonical exactly-one population with integral space diagonal and common cutoff `R<=B`; on target objects `R=d` exactly.
+Stage17 checkpoint 70 and the repaired R01 self-contained interface bundle passed fresh re-audit. The canonical audit record is:
 
-For the unique integral face write
+- `stages/stage17/17-70/audit.md`
 
-`x^2+y^2=p^2`.
+The frozen Stage17 population theorem is
+\[
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
+\]
+With the frozen Stage16 source law,
+\[
+\frac{N_1(B)}{M_1(B)}\asymp\frac{(\log B)^2}{B}\to0.
+\]
+No leading constant is claimed for this ratio because Stage16 has no certified leading constant for `M_1(B)`.
 
-The new Stage17 requirement that the space diagonal be integral is exactly
+If `H_{1,d}(B)` counts the same primitive canonical integral-space-diagonal population with at least one integral face, Stage13 pair-overlap control yields
+\[
+H_{1,d}(B)\sim N_1(B),
+\qquad
+\frac{N_1(B)}{H_{1,d}(B)}\to1.
+\]
+Thus exactly-one is asymptotically dominant among integral-space cuboids having at least one integral face. This does not assume perfect-cuboid nonexistence.
 
-`p^2+z^2=d^2`
+The Stage16-to-Stage17 structural restriction is the second Pythagorean extension
 
-for the complementary edge `z`. Thus the audited structural mechanism is a second Pythagorean extension sharing the face diagonal `p`.
+```text
+x^2+y^2=p^2
+p^2+z^2=d^2
+```
 
-The audited laws
+with shared face diagonal `p`. This identifies the new arithmetic predicate but does not assert probabilistic independence.
 
-`M_1(B) asymp B^2 log B`
+The final bundle explicitly certifies both frozen upstream interfaces under `SELF_CONTAINED_REVIEW_STANDARD_V1`. In particular the Stage16 denominator interface records population, cutoff, multiplicity, measure and quantifier compatibility, and the bundle lock records `UPSTREAM_INTERFACES_EXACT=true`.
 
-and
+Stage16S remains the separate ambient control for deciding intrinsic/independent/correlated/interaction-dependent space-diagonal cost at Stage21. Stage16S is parallel and does not block Stage17 closure.
 
-`N_1(B) ~ (kappa/(24*pi)) B(log B)^3`
+The prior Stage17-70 BLOCKED audit is retained as historical provenance inside the canonical audit record; the repaired re-audit PASS supersedes it.
 
-give the net survival law
-
-`N_1(B)/M_1(B) asymp (log B)^2/B`.
-
-At theorem scale this is one lost polynomial power of `B`, with `(log B)^2` net compensation. The logarithms are not split into independent probabilistic costs.
-
-Canonical ordering, global primitivity, exactly-one multiplicity and `R<=B` are already charged in Stage16. The identity `d=R` is not a new cost. Stage13's extra-face overlap theorem is lower order, so exactly-one subtraction is not the leading Stage17 mechanism. AR-039 remains an explicit survivor family rather than the source of the full asymptotic.
-
-Stage16S remains the separate ambient control for space-diagonal integrality. Stage17-60 does not decide whether the observed cost is intrinsic, independent, correlated, or interaction-dependent; that comparison is reserved for Stage21 once the necessary Stage16S baseline is audited.
-
-Canonical Stage17-60 records:
-
-- `stages/stage17/17-60/result.md`
-- `stages/stage17/17-60/audit.md`
-- `stages/stage17/17-controller.json`
-
-Checkpoint 60 is merge-allowed. The next unresolved checkpoint is `Stage17-70` (bounded maximal synthesis / intrinsic-status closeout), entered through `Stage17-main-batch` after this audited checkpoint is merged.
+```text
+STAGE_STATUS=CLOSED
+AUDIT_VERDICT=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
+NEXT_STAGE=Stage18
+SELF_CONTAINED_BUNDLE_REQUIRED=YES
+SELF_CONTAINED_BUNDLE=stages/stage17/final.md
+ARSENAL_PROMOTION_REQUIRED=NO
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
+```
