@@ -5,6 +5,9 @@
   "stage": "Stage16S",
   "parent_class": "population_state",
   "stage_object": "primitive canonical cuboids with integral space diagonal, tracking SPACE_AT_LEAST and SPACE_ONLY",
+  "roadmap": "docs/stage16-28-population-roadmap.md",
+  "execution_template": "docs/stage16-28-execution-controller-template.md",
+  "stage_object_source": "stages/stage16s/16s-30/result.md",
   "source_population": "0<a<b<c; gcd(a,b,c)=1; R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "SPACE_AT_LEAST: integral R with no face restriction; SPACE_ONLY: integral R with zero integral faces",
   "common_population_contract": "positive primitive canonical triples under common R<=B cutoff",
@@ -17,6 +20,15 @@
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
+  },
+  "checkpoint_contract": {
+    "10": "population contract",
+    "20": "finite-data baseline",
+    "30": "ratio / thinning law",
+    "40": "upper-bound ledger",
+    "50": "lower-bound / construction ledger",
+    "60": "causal decomposition",
+    "70": "bounded maximal synthesis / intrinsic status / closeout"
   },
   "canonical_commands": {
     "main": "Stage16S-main-batch",
@@ -71,7 +83,21 @@
       "faceful complement divisor bound",
       "SPACE_ONLY ratio limit",
       "no finite-data proof or causal overclaim",
+      "parallel-lane preservation",
+      "checkpoint 40 remains closed until PASS",
       "merge safety"
+    ],
+    "required_footer": [
+      "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
+      "AUDIT_PERSISTENCE_STATUS=COMMITTED|FAILED",
+      "ADVANCE_ALLOWED=true|false",
+      "NEW_INPUT_REQUIRED=true|false",
+      "HUMAN_DECISION_REQUIRED=true|false",
+      "NEXT_CHECKPOINT=",
+      "NEXT_STAGE=",
+      "CODEX_AUDIT_REQUIRED=true|false",
+      "CODEX_REASON=",
+      "MERGE_ALLOWED=true|false"
     ]
   },
   "last_audit": {
@@ -80,6 +106,10 @@
     "record": "stages/stage16s/16s-20/audit.md",
     "pr": 910,
     "merge_allowed": true
+  },
+  "codex_policy": {
+    "default_required": false,
+    "not_final_authority_for": ["new mathematical claims", "population-contract changes", "theorem-transfer adapters", "causal conclusions"]
   },
   "merge_rule": "Checkpoint 40 waits for fresh Stage16S-30 audit PASS and merge."
 }
