@@ -27,22 +27,62 @@ sequence of existence/nonexistence tests.
 | Stage | Population state | Primary question |
 |---|---|---|
 | **Stage16** | exactly one integer face diagonal | Why is the one-face population abundant, and what are its natural parameter freedoms? |
+| **Stage16S** | auxiliary space-diagonal baseline | How large is the population with integral space diagonal before any integer-face condition is imposed, and how much changes when all integer-face cases are excluded? |
 | **Stage17** | one integer face diagonal + integer space diagonal | What does the space-diagonal condition remove from the Stage16 population? |
 | **Stage18** | exactly two integer face diagonals | Why does adding the second integer face diagonal thin the Stage16 population so strongly? |
 | **Stage19** | exactly two integer face diagonals + integer space diagonal | Re-express the Stage14/15 population with matched upper/lower/causal questions; in particular test whether the current half-power upper exponent is intrinsic. |
 | **Stage20** | three integer face diagonals (Euler cuboids) | Establish the Euler-cuboid population baseline, using the large existing literature as an input rather than rediscovering it. |
+
+The numbered stages remain the primary roadmap. `Stage16S` is an **auxiliary
+parallel baseline**, not a renumbering or a mandatory serial stage between Stage16
+and Stage17. It exists because the roadmap needs a control population for the
+space-diagonal condition itself, independent of pre-existing integer-face
+conditions.
+
+### Stage16S population contract and role
+
+Stage16S studies primitive/canonical positive cuboids under the same compatible
+size and symmetry conventions used by the Stage16-28 roadmap, with
+
+```text
+SPACE_AT_LEAST = integer space diagonal, no face-diagonal restriction
+SPACE_ONLY     = integer space diagonal and zero integer face diagonals
+```
+
+The stage should determine both populations when feasible. This separates the
+intrinsic cost of imposing
+
+```text
+a^2 + b^2 + c^2 = d^2
+```
+
+from the interaction cost that appears when the same condition is imposed after
+one or more integer-face conditions have already been charged.
+
+Stage16S uses the ordinary checkpoint sequence
+`16S-10,20,30,40,50,60,70` and the canonical commands
+`Stage16S-main-batch` and `Stage16S-audit`.
+
+Stage16S may run in parallel once the common population/cutoff conventions needed
+for comparison are frozen. It must not block routine progress of Stage17 or
+Stage18 merely because its analysis is difficult. However, Stage21 may not close
+its final causal claim that the space-diagonal condition is intrinsically strong,
+weak, independent, or interaction-dependent unless the relevant Stage16S baseline
+has been audited. If Stage16S remains unresolved at that point, Stage21 must record
+the missing comparison as an explicit `OPEN_GATE` rather than guess.
 
 These are population states, not a claim that the project must traverse them in a
 single linear chain.
 
 ## Transition / thinning stages
 
-After the five populations are frozen under compatible conventions, study the
-meaningful arrows between them as separate research objects.
+After the primary populations and the auxiliary Stage16S control baseline are
+available under compatible conventions, study the meaningful arrows between them
+as separate research objects.
 
 | Stage | Transition | Main question |
 |---|---|---|
-| **Stage21** | **16 -> 17** | How much does the space-diagonal condition thin the one-face population, and why? |
+| **Stage21** | **16 -> 17**, compared against **16S** | How much does the space-diagonal condition thin the one-face population, why, and how does that cost compare with the intrinsic space-diagonal baseline? |
 | **Stage22** | **16 -> 18** | How much does the second face condition thin the one-face population, and why? |
 | **Stage23** | **17 -> 19** | With the space diagonal already integral, how much additional thinning comes from the second face condition? |
 | **Stage24** | **18 -> 19** | With two faces already integral, how much additional thinning comes from the space diagonal? This is the natural Stage15 comparison to deepen. |
@@ -74,11 +114,31 @@ confuse:
 Comparing `16->17` with `18->19`, and `16->18` with `17->19`, is the cleanest
 way to test those interactions.
 
+Stage16S adds a lower control comparison:
+
+```text
+Ambient primitive/canonical cuboids
+        |                         |
+        | + one integer face      | + integer space diagonal
+        v                         v
+     Stage16                  Stage16S
+        |                         |
+        | + space diagonal        | + one integer face
+        v                         v
+                Stage17 target
+```
+
+The two paths need not have equal conditional cost. Their purpose is to test
+whether a thinning attributed to the space diagonal is already typical in the
+ambient population or emerges only after an integer-face condition has reshaped
+the arithmetic population.
+
 ## Common stage completion gates
 
-Every Stage16-28 stage should use the same numbered checkpoints. Existing
-literature may pre-fill a checkpoint, but it must still be translated into the
-project's common population/cutoff conventions before being marked complete.
+Every Stage16-28 stage, including auxiliary Stage16S, should use the same numbered
+checkpoints. Existing literature may pre-fill a checkpoint, but it must still be
+translated into the project's common population/cutoff conventions before being
+marked complete.
 
 | Checkpoint | Required output | Closure question |
 |---|---|---|
@@ -88,7 +148,12 @@ project's common population/cutoff conventions before being marked complete.
 | **StageX-40** | upper-bound ledger | What is the strongest certified upper bound, and which mechanism pays for it? |
 | **StageX-50** | lower-bound / construction ledger | How large a family can definitely be constructed, and what lower bound does it imply under the common cutoff? |
 | **StageX-60** | causal decomposition | Why does the population decrease? Identify the actual arithmetic restrictions and distinguish new constraints from reformulations of earlier ones. |
-| **StageX-70** | intrinsic-status / audit verdict | Do upper and lower bounds meet? Is the exponent intrinsic? Are the mechanisms independent, correlated, or double-counted? Record what is still genuinely unknown. |
+| **StageX-70** | bounded maximal synthesis / intrinsic status / closeout | Using the certified StageX-10 through StageX-60 material, what additional consequences, reinterpretations, refinements, and causal comparisons can be extracted before genuinely new research is required? |
+
+The normative bounded-synthesis stopping rule for StageX-70 is defined in
+`docs/stage16-28-stage70-policy.md`. StageX-70 should exploit the certified
+material aggressively, but it must stop before a substantially new theorem,
+large computation, literature program, or off-stage branch becomes necessary.
 
 A stage is considered substantively closed only when all seven checkpoints have
 an explicit status: `PROVED`, `COMPUTED`, `LITERATURE_ADAPTED`, `OPEN_GATE`, or
@@ -243,6 +308,10 @@ ARSENAL_CANDIDATES=
 
 Numerical evidence and asymptotic theorems must remain explicitly separated.
 
+For Stage21 specifically, `INDEPENDENT_OF_PRIOR_CONDITIONS` must be assessed
+against the audited Stage16S control baseline whenever that conclusion depends on
+the intrinsic strength of the space-diagonal condition.
+
 ## Deferred endpoint
 
 The population with **three integer face diagonals plus an integer space diagonal**
@@ -264,14 +333,15 @@ obstruction remains at the three-face + space-diagonal boundary.
 
 ## Operational safety invariants
 
-These rules apply across Stage16-28 and are intended to prevent bookkeeping or
-comparison errors from masquerading as mathematical discoveries.
+These rules apply across Stage16-28 and Stage16S and are intended to prevent
+bookkeeping or comparison errors from masquerading as mathematical discoveries.
 
 ### 1. Freeze the common population contract
 
 The default Stage16-28 contract for cutoff, primitivity, canonical ordering,
 symmetry removal, and `exactly-one` / `exactly-two` meanings must not drift
-silently between stages. If any of these conventions changes, record
+silently between stages. Stage16S must use the same compatible conventions or a
+certified comparison adapter. If any of these conventions changes, record
 `POPULATION_CONTRACT_CHANGED=YES`, state the reason, and identify every earlier
 stage or transition whose counts, ratios, or bounds require recomputation.
 
