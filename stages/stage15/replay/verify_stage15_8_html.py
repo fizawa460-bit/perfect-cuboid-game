@@ -135,12 +135,12 @@ for needle in (
 # Historical Stage15-7 provenance must remain literal, not retroactively repaired.
 require(r01_final, "Status:** fresh-audit candidate")
 require(r01_manifest, "Status: candidate pending fresh `Stage15-7-audit`.")
+# Freeze Stage15 itself, but do not freeze the mutable successor-program pointer.
 for needle in (
     "STAGE15_STATUS=CLOSED_R02_REVIEW_FROZEN",
     "STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED",
     "STAGE15_8_STATUS=CLOSED_R02",
     "STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html",
-    "NEXT_RESEARCH_PROGRAM=UNDEFINED",
 ):
     require(status, needle)
 
