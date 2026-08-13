@@ -16,6 +16,12 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
+STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
+STAGE16S_CONTROLLER=stages/stage16s/16s-controller.json
+STAGE16S_FINAL_BUNDLE=stages/stage16s/final.md
+STAGE16S_MANIFEST=stages/stage16s/manifest-r01.md
+STAGE16S_FINAL_AUDIT=stages/stage16s/16s-70/audit.md
+STAGE16S_STAGE21_BASELINE_READY=true
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
 STAGE17_CURRENT_RESULT=stages/stage17/17-70/result.md
@@ -51,6 +57,7 @@ SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
 | 14 | `stages/stage14/final.md` | `review/STAGE14-FINAL-SELF-CONTAINED-20260813-R06.html` | `stages/stage14/manifest-r06.md` |
 | 15 | `stages/stage15/final.md` (merged R01 synthesis; pre-audit status preserved) | `review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html` | `stages/stage15/15-8-manifest-r02.md` |
 | 16 | `stages/stage16/final.md` | none required beyond the fresh Stage16 audit lane | `stages/stage16/manifest-r01.md` |
+| 16S | `stages/stage16s/final.md` | audited auxiliary space-diagonal baseline for Stage21 | `stages/stage16s/manifest-r01.md` |
 | 17 | `stages/stage17/final.md` | none required beyond the fresh Stage17 audit lane | `stages/stage17/manifest-r01.md` |
 
 Historical task results, superseded reviews, working roadmaps, and completed workflows remain stage-local/archive provenance.
@@ -143,6 +150,11 @@ For the same primitive canonical `R<=B` population with at least one integral fa
 H_1(B)\asymp M_1(B)\asymp B^2\log B.
 \]
 The polynomial exponent `2` and logarithmic power `1` are intrinsic at the proved Theta resolution. No leading constant, overlap little-o theorem, directional limiting law, Stage16-to-Stage17 survival law, or perfect-cuboid conclusion is included in Stage16.
+
+
+## Stage16S frozen closeout
+
+Stage16S checkpoint 70 and its R01 self-contained bundle passed fresh audit. The canonical audit record is `stages/stage16s/16s-70/audit.md`; the controller is CLOSED and `STAGE21_BASELINE_READY=true`. It remains an auxiliary control lane and does not alter the Stage16–18 population contracts.
 
 ## Stage17 frozen closeout
 
