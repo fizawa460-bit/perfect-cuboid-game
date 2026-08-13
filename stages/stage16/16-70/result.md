@@ -94,6 +94,25 @@ Stage16 closes its population-order question but leaves the following genuinely 
 
 These are not unfinished internal routes required to classify Stage16 itself. The space-diagonal questions belong to Stage17 and Stage21 under the frozen common cutoff.
 
+## Bounded StageX-70 synthesis
+
+The normative addendum is `docs/stage16-28-stage70-policy.md`.
+
+```text
+KNOWN_RESULTS=M_1(B) ASYM B^2 log B; U(B)=pi/(36 zeta(3)) B^3+O(B^2); M_1(B)/U(B) ASYM log(B)/B -> 0; H_1(B) ASYM M_1(B) ASYM B^2 log B; Stage16-20 finite census is COMPUTED diagnostic evidence only
+ADDITIONAL_DEDUCTIONS=matched bounds identify polynomial exponent 2 and log power 1 as intrinsic at Theta resolution; exactly-one is order-neutral relative to at-least-one at the power/log level
+CAUSAL_SYNTHESIS=one-face Pythagorean dimension drop supplies the power loss; harmonic face-scale summation supplies log B; the third edge remains a free B factor; primitivity/canonicalization do not change the proved power/log order
+LOWER_STAGE_REINTERPRETATIONS=Stage16-20 finite growth is diagnostic sampling of the proved B^2 log B order and does not imply a leading constant; Stage16-40/50 are sharp ledgers extracted from Stage16-30; AR-039 remains only a lower-order regression subset
+REFINEMENT_CANDIDATES=leading asymptotic constant; full error term; directional limiting vector; overlap asymptotic H_1(B)-M_1(B); limiting M_1/H_1 ratio
+NEW_HEURISTICS=NONE
+OPEN_GATES=No gate blocks Stage16 classification; leading-constant/directional/overlap refinements require new input and are deferred; the space-diagonal survival law belongs to Stage17/21
+NEXT_STAGE_QUESTIONS=Stage17 should count the exactly-one plus integral-space-diagonal subpopulation under the exact R=d adapter; Stage21 should compare it to Stage16 and identify the space-diagonal thinning mechanism
+SYNTHESIS_STOP_REASON=Further progress on the listed refinements requires a substantially new theorem, computation, literature program, or transition-stage question outside Stage16; the current Stage16 population-order and causal questions are classified
+SYNTHESIS_STOP_RULE_SATISFIED=YES
+```
+
+No lower checkpoint is reopened because no population definition, cutoff, canonicalization rule, theorem, or baseline computation has been invalidated.
+
 ## Checkpoint classification
 
 ```text
@@ -114,9 +133,7 @@ ARSENAL_SUPERSESSION_CHECK=NOT_APPLICABLE
 
 ## Stage-end artifact decisions
 
-Stage16 proves a new sharp population law and a causal decomposition expected to be cited repeatedly by Stage17 and Stage21. Reconstructing the theorem from scattered checkpoints would be unsafe, so a proof-complete bundle is included at
-
-`stages/stage16/final.md`.
+Stage16 proves a new sharp population law and a causal decomposition expected to be cited repeatedly by Stage17 and Stage21. Reconstructing the theorem from scattered checkpoints would be unsafe, so a proof-complete bundle is included at `stages/stage16/final.md`.
 
 The bundle follows `SELF_CONTAINED_REVIEW_STANDARD_V1` and embeds the load-bearing Stage16 proof chain.
 
@@ -147,7 +164,7 @@ CURRENT_STAGE=Stage16
 CURRENT_CHECKPOINT=70
 CHECKPOINTS_ATTEMPTED=70
 CHECKPOINTS_SUBMITTED=70
-NEW_CLAIMS=intrinsic-status verdict and stage-end artifact decisions; no stronger growth theorem than audited Stage16-30/40/50/60 chain
+NEW_CLAIMS=intrinsic-status verdict, bounded synthesis, and stage-end artifact decisions; no stronger growth theorem than audited Stage16-30/40/50/60 chain
 REUSED_WEAPONS=AR-001,AR-002,AR-039(regression only)
 CODEX_REQUIRED=false
 CODEX_REASON=Checkpoint 70 is a compact mathematical closeout and proof-bundle assembly; no repository-heavy implementation is required.
