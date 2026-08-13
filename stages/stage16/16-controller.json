@@ -10,15 +10,7 @@
   "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "the source population for which exactly one of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
   "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; exact face multiplicity retained; common geometric cutoff R<=B; no requirement that R be integral",
-  "checkpoint_sequence": [
-    10,
-    20,
-    30,
-    40,
-    50,
-    60,
-    70
-  ],
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
   "source_of_truth": [
     "docs/stage16-28-population-roadmap.md",
     "docs/stage16-28-execution-controller-template.md",
@@ -31,11 +23,11 @@
   },
   "state": {
     "CURRENT_STAGE": "Stage16",
-    "CURRENT_CHECKPOINT": 20,
-    "MAIN_STATUS": "COMPLETE",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 30,
+    "CURRENT_CHECKPOINT": 30,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false
@@ -69,7 +61,7 @@
   },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "current_stop_reason": "Stage16-20 finite-data baseline has passed fresh audit. Stage16-30 may now interpret finite growth / formulate a ratio or thinning law under the frozen population contract.",
+    "current_stop_reason": "Stage16-30 submits a new proof-level order-of-growth and zero-density theorem. Checkpoints 40 and 50 depend on that new claim, so the main lane stops for fresh audit before classifying the upper/lower ledgers.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition"
@@ -99,6 +91,10 @@
       "compatibility with the Stage16-28 roadmap and future Stage17/21 comparison",
       "notation does not collide with incompatible historical populations",
       "evidence-level and dependency declarations",
+      "Stage16-30 upper-bound face parametrization completeness and multiplicity",
+      "Stage16-30 lower-bound injectivity, primitivity, exact-one deletion, and summed error uniformity",
+      "same-measure U(B) ambient asymptotic and thinning ratio",
+      "finite Stage16-20 data is diagnostic only",
       "merge safety"
     ],
     "required_footer": [
@@ -125,21 +121,20 @@
     "codex_reason": "NONE"
   },
   "last_submission": {
-    "checkpoint": 20,
-    "status": "AUDITED_PASS",
-    "result": "stages/stage16/16-20/result.md",
-    "data": "stages/stage16/16-20/counts.csv",
-    "enumerator": "stages/stage16/16-20/enumerate.py",
-    "max_frozen_cutoff": 2000,
-    "self_check_cutoff": 100,
-    "self_check_count": 2620,
-    "max_frozen_count": 1997863,
-    "data_sha256": "407d9e7a6ed2218e7897271b4de299d805a06ea6bf149aad09df92fb4dc5a347",
-    "evidence_level": "COMPUTED",
+    "checkpoint": 30,
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "result": "stages/stage16/16-30/result.md",
+    "evidence_level": "PROVED_CANDIDATE",
+    "new_claims": [
+      "M_1(B) asymp B^2 log B up to positive constants",
+      "U(B)=pi/(36 zeta(3)) B^3+O(B^2)",
+      "M_1(B)/U(B) asymp log(B)/B and tends to 0"
+    ],
     "population_contract_changed": false,
     "comparison_adapter_required": false,
+    "finite_data_used_as_proof": false,
     "codex_required": false,
-    "codex_reason": "The exact enumerator and replay verifier are small bounded deterministic artifacts implemented and cross-checked directly."
+    "codex_reason": "The checkpoint is a compact mathematical counting argument; no repository-heavy implementation or unavailable local reproduction is required."
   },
   "codex_policy": {
     "default_required": false,
