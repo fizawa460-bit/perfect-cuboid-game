@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-70-SUBMITTED
+CURRENT_STAGE=Stage17-10-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,18 +10,20 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_70_SUBMITTED
+STAGE16_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
-STAGE16_CURRENT_RESULT=stages/stage16/16-70/result.md
 STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
+STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE16_LAST_AUDIT=stages/stage16/16-60/audit.md
-STAGE16_NEXT_CHECKPOINT=
-STAGE16_NEXT_STAGE_AFTER_PASS=Stage17
-NEXT_EXPECTED_COMMAND=Stage16-audit
+STAGE17_STATUS=OPEN_CHECKPOINT_10_SUBMITTED
+STAGE17_CONTROLLER=stages/stage17/17-controller.json
+STAGE17_CURRENT_RESULT=stages/stage17/17-10/result.md
+STAGE17_NEXT_CHECKPOINT=20
+NEXT_EXPECTED_COMMAND=Stage17-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
+STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
 SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
 ```
 
@@ -33,6 +35,7 @@ SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
 | 13 | `stages/stage13/final.md` | `review/STAGE13-FINAL-SELF-CONTAINED-20260810-R07.html` | `stages/stage13/manifest-r07.md` |
 | 14 | `stages/stage14/final.md` | `review/STAGE14-FINAL-SELF-CONTAINED-20260813-R06.html` | `stages/stage14/manifest-r06.md` |
 | 15 | `stages/stage15/final.md` (merged R01 synthesis; pre-audit status preserved) | `review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html` | `stages/stage15/15-8-manifest-r02.md` |
+| 16 | `stages/stage16/final.md` | none required beyond the fresh Stage16 audit lane | `stages/stage16/manifest-r01.md` |
 
 Historical task results, superseded reviews, working roadmaps, and completed workflows remain stage-local/archive provenance.
 
@@ -103,15 +106,13 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 - `stages/stage15/15-8-closeout.md`
 - `stages/stage15/15-8-controller.json`
 
-## Current operation
+## Stage16 frozen closeout
 
-Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
+Stage16 checkpoint 70 and the repaired R01 self-contained bundle passed fresh audit. The canonical audit record is:
 
-Stage16 checkpoints 10-60 are certified. The latest audit record is:
+- `stages/stage16/16-70/audit.md`
 
-- `stages/stage16/16-60/audit.md`
-
-The certified Stage16 population law is
+The frozen Stage16 population law is
 \[
 M_1(B)\asymp B^2\log B,
 \qquad
@@ -119,32 +120,43 @@ U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
 \qquad
 \frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
 \]
-
-The certified causal decomposition also gives, for the same primitive canonical `R<=B` population with at least one integral face,
+For the same primitive canonical `R<=B` population with at least one integral face,
 \[
 H_1(B)\asymp M_1(B)\asymp B^2\log B.
 \]
-The power drop is assigned to the one-face Pythagorean restriction; the logarithm comes from the harmonic face-scale sum; the third edge remains free at order `B`. Primitivity and canonicalization do not change the proved power/log order, and the exactly-one mask is order-neutral relative to at-least-one at this resolution. No global overlap little-`o` theorem or limiting `M_1/H_1` ratio is claimed.
+The polynomial exponent `2` and logarithmic power `1` are intrinsic at the proved Theta resolution. No leading constant, overlap little-o theorem, directional limiting law, Stage16-to-Stage17 survival law, or perfect-cuboid conclusion is included in Stage16.
 
-Stage16-70 now submits the intrinsic-status / closeout verdict. Since the upper and lower bounds match, the polynomial exponent `2` and log power `1` are classified as intrinsic at the proved `Theta` resolution. A leading asymptotic constant, directional law, overlap ratio, and Stage16-to-Stage17 space-diagonal survival law remain unproved.
+## Current operation
 
-Stage-end artifact decisions:
+Stage17-10 now submits the population contract obtained by adding integral space diagonal to the frozen Stage16 exactly-one population.
+
+Let
+\[
+\mathcal B_{1,d}(B)=\{(a,b,c)\in\mathcal B_1(B):R(a,b,c)\in\mathbb Z\},
+\qquad
+N_1(B)=\#\mathcal B_{1,d}(B).
+\]
+The Stage17 contract preserves
 
 ```text
-SELF_CONTAINED_BUNDLE_REQUIRED=YES
-SELF_CONTAINED_BUNDLE=stages/stage16/final.md
-ARSENAL_PROMOTION_REQUIRED=NO
-ARSENAL_CANDIDATES=NONE
-POPULATION_CONTRACT_CHANGED=NO
-COMPARISON_ADAPTER_REQUIRED=NO
-EVIDENCE_LEVELS_COMPLETE=YES
-DEPENDENCY_LEDGER_COMPLETE=YES
-DOUBLE_CHARGE_CHECK=PASS
+0<a<b<c
+gcd(a,b,c)=1
+exactly one integral face diagonal
+R=sqrt(a^2+b^2+c^2)<=B
+R integral
 ```
 
-The self-contained R01 candidate and manifest are:
+On the Stage17 target the positive integer space diagonal satisfies `d=R` exactly, hence `R<=B` if and only if `d<=B`. Therefore no cutoff adapter or loss factor is required, and
+\[
+\mathcal B_{1,d}(B)\subseteq\mathcal B_1(B),
+\qquad N_1(B)\le M_1(B).
+\]
 
-- `stages/stage16/final.md`
-- `stages/stage16/manifest-r01.md`
+Checkpoint 10 makes no asymptotic claim for `N_1(B)` and no claim about the ratio `N_1(B)/M_1(B)`. AR-039 is parked for the lower-bound/construction ledger rather than charged at checkpoint 10.
 
-Stage16 is **not closed yet**. Checkpoint 70 and the bundle require a fresh `Stage16-audit`. If that audit passes, Stage16 may close and the next population stage is Stage17. Until then `ADVANCE_ALLOWED=false` and Stage17 must not treat the Stage16 final bundle as certified.
+Canonical Stage17 submission:
+
+- `stages/stage17/17-10/result.md`
+- `stages/stage17/17-controller.json`
+
+Because this is a new population contract, checkpoint 20 finite data must wait for a fresh `Stage17-audit`.
