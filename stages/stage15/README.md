@@ -60,7 +60,7 @@ A triple-face object has three possible shared edges and therefore exactly three
 | Stage14 MAIN/T/S strict-saving receivers | forbidden cross-promotion | their hypotheses retain the Stage14 integral-space-diagonal measure and parameter system |
 | Stage12/13 one-face asymptotics | diagnostic/context only for `B_2` | proved under the inherited integral-space-diagonal population |
 
-The authoritative Stage14 lock used by Stage15-1 validation is `stages/stage14/data/14-num-alpha11-diag8/extended_denominator_summary.json`. At `B=100000` it records exactly-two directional counts `[33,33,23]`, total `89`, and zero triples through the tested range. The final theorem source remains `docs/stage14-final-self-contained.md`; review bundles are not imported as independent proof inputs.
+The authoritative Stage14 lock used by Stage15-1 validation is `stages/stage14/data/14-num-alpha11-diag8/extended_denominator_summary.json`. At `B=100000` it records exactly-two directional counts `[33,33,23]`, total `89`, and zero triples through the tested range. The final theorem source remains `stages/stage14/final.md`; review bundles are not imported as independent proof inputs.
 
 ```text
 STAGE15_COMPARISON_CONTRACT_PROVED=true

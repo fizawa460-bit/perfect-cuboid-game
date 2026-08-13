@@ -31,7 +31,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `DIRECT_REUSE`
 - **TRIGGER SIGNATURE:** A new count mixes scaled copies, edge permutations, or exactly-two with triple-face objects.
 - **FAILURE CONDITIONS:** Do not identify oriented records with canonical objects without a projection-fiber proof.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Sections 1.1–1.4; `stages/stage15/README.md`, Stage15-0 contract.
+- **SOURCE:** `stages/stage14/final.md`, Sections 1.1–1.4; `stages/stage15/README.md`, Stage15-0 contract.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** None.
@@ -52,7 +52,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `DIRECT_REUSE`
 - **TRIGGER SIGNATURE:** A face-square condition appears and a primitive parameter pair is needed.
 - **FAILURE CONDITIONS:** Do not forget the scale, swap the distinguished leg silently, or assume global cuboid primitivity from face primitivity.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Lemma 3.1 proof; `stages/stage13/main.md`, Sections 3.18–3.20 and 8.
+- **SOURCE:** `stages/stage14/final.md`, Lemma 3.1 proof; `stages/stage13/final.md`, Sections 3.18–3.20 and 8.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `BACKGROUND`
 - **DEPENDENCIES:** AR-001.
@@ -73,7 +73,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `DIRECT_REUSE`
 - **TRIGGER SIGNATURE:** Two face certificates share a leg and generator multiplicity must be proved.
 - **FAILURE CONDITIONS:** Do not fold triple-face objects into exactly-two or omit orientation/swap conventions.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Lemma 3.1; `stages/stage14/archive/stage14-4ag-kummer-rank-jump.md`; `stages/stage15/README.md`, “Inclusion and multiplicity”.
+- **SOURCE:** `stages/stage14/final.md`, Lemma 3.1; `stages/stage14/archive/stage14-4ag-kummer-rank-jump.md`; `stages/stage15/README.md`, “Inclusion and multiplicity”.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-001, AR-002.
@@ -94,7 +94,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `STAGE14_SPACE_DIAGONAL_ONLY`
 - **TRIGGER SIGNATURE:** Overlap objects can be represented as pairs of one-face records and vertex degrees may be controlled.
 - **FAILURE CONDITIONS:** Not automatically an ambient Stage15 `B_2` theorem; rebuild the graph and degree model there.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Lemma 3.1; `stages/stage14/archive/stage14-4ag-kummer-rank-jump.md`.
+- **SOURCE:** `stages/stage14/final.md`, Lemma 3.1; `stages/stage14/archive/stage14-4ag-kummer-rank-jump.md`.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-003.
@@ -115,7 +115,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `STAGE14_SPACE_DIAGONAL_ONLY`
 - **TRIGGER SIGNATURE:** An incidence graph has genus-one/elliptic degree fibers with uniform torsion and polynomial heights.
 - **FAILURE CONDITIONS:** Never extrapolate a fixed curve to a family without uniform model and point heights; forbidden for Stage15 ambient `B_2` as currently formulated.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Lemma 3.2 and Section 8; `stages/stage14/archive/stage14-4ag-kummer-rank-jump.md`.
+- **SOURCE:** `stages/stage14/final.md`, Lemma 3.2 and Section 8; `stages/stage14/archive/stage14-4ag-kummer-rank-jump.md`.
 - **SOURCE CONFIDENCE:** `EXTERNAL_THEOREM_DEPENDENT`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-004.
@@ -136,7 +136,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `STAGE14_SPACE_DIAGONAL_ONLY`
 - **TRIGGER SIGNATURE:** A later argument needs a certified upper bound on the `A_2` numerator.
 - **FAILURE CONDITIONS:** Says nothing directly about Stage15 ambient `M_2`, a lower bound, a strict sub-square-root saving, or perfect-cuboid existence.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Theorem 2.1 and Proposition 3.6; `stages/stage14/14-X13/result.md`.
+- **SOURCE:** `stages/stage14/final.md`, Theorem 2.1 and Proposition 3.6; `stages/stage14/archive/tasks/14-X13/result.md`.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-003–AR-016.
@@ -157,7 +157,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `STAGE14_SPACE_DIAGONAL_ONLY`
 - **TRIGGER SIGNATURE:** A future normal form reproduces the same balanced coefficient factorization and hosts exactly.
 - **FAILURE CONDITIONS:** Similar exponent symbols or Cayley formulas are insufficient; prove a map preserving population, cutoff, masks, and measure.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Proposition 3.3; `stages/stage14/14-X13/result.md`, Sections 1–2.
+- **SOURCE:** `stages/stage14/final.md`, Proposition 3.3; `stages/stage14/archive/tasks/14-X13/result.md`, Sections 1–2.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-001–AR-003.
@@ -178,7 +178,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `STAGE14_SPACE_DIAGONAL_ONLY`
 - **TRIGGER SIGNATURE:** A common modulus/core also divides an endpoint product and may be too large for the available short support.
 - **FAILURE CONDITIONS:** Do not import the `1/4` threshold without the exact endpoint bound and coprimality chain.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Proposition 3.3; `stages/stage14/14-4cy/result.md`, Sections 1–3; upstream `Stage14-4cx` as cited there.
+- **SOURCE:** `stages/stage14/final.md`, Proposition 3.3; `stages/stage14/archive/tasks/14-4cy/result.md`, Sections 1–3; upstream `Stage14-4cx` as cited there.
 - **SOURCE CONFIDENCE:** `PROVED_BUT_SOURCE_FRAGMENTED`
 - **STATUS:** `CONSUMED`
 - **DEPENDENCIES:** AR-007, AR-028.
@@ -199,7 +199,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** A primitive pair satisfies a unit sum-of-two-squares congruence modulo a common core.
 - **FAILURE CONDITIONS:** Without primitivity the determinant can vanish along multiples and the boundary term returns; do not cross-promote from fixed residual data to a whole family silently.
-- **SOURCE:** `stages/stage14/14-s7-29/result.md`, Sections 2–5; `docs/stage14-final-self-contained.md`, Lemma 3.4.
+- **SOURCE:** `stages/stage14/archive/tasks/14-s7-29/result.md`, Sections 2–5; `stages/stage14/final.md`, Lemma 3.4.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `SUPERSEDED_BUT_REUSABLE`
 - **DEPENDENCIES:** AR-016, AR-028.
@@ -220,7 +220,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** A generic genus-one curve appears only because a moving coefficient was frozen too early.
 - **FAILURE CONDITIONS:** Do not freeze `X*Y` as independent if the original equations reconstruct it; do not promote fixed-fiber multiplicity globally without counting the outer pair.
-- **SOURCE:** `stages/stage14/14-s7-28/result.md`, Sections 5–9.
+- **SOURCE:** `stages/stage14/archive/tasks/14-s7-28/result.md`, Sections 5–9.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `SUPERSEDED_BUT_REUSABLE`
 - **DEPENDENCIES:** AR-016, AR-028.
@@ -241,7 +241,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** Two endpoint sum/difference forms determine two latent variables and a product/numerator.
 - **FAILURE CONDITIONS:** Do not use the exponent outside its exact strip or omit determinant nonzero/positivity conditions.
-- **SOURCE:** `stages/stage14/14-4cy/result.md`; `stages/stage14/14-X13/result.md`, Section 2; R04 Proposition 3.3/Lemma 3.4.
+- **SOURCE:** `stages/stage14/archive/tasks/14-4cy/result.md`; `stages/stage14/archive/tasks/14-X13/result.md`, Section 2; R04 Proposition 3.3/Lemma 3.4.
 - **SOURCE CONFIDENCE:** `PROVED_BUT_SOURCE_FRAGMENTED`
 - **STATUS:** `CONSUMED`
 - **DEPENDENCIES:** AR-007, AR-008.
@@ -262,7 +262,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** Two reciprocal variables are fixed in sequence and both equations factor as signed differences of squares.
 - **FAILURE CONDITIONS:** No positivity, no fixed right-hand side, super-polynomial integers, or lost reciprocal coupling; `B^o(1)` is not a fixed-power saving.
-- **SOURCE:** `stages/stage14/14-X13/result.md`, Sections 3–5; `docs/stage14-final-self-contained.md`, Lemma 3.5.
+- **SOURCE:** `stages/stage14/archive/tasks/14-X13/result.md`, Sections 3–5; `stages/stage14/final.md`, Lemma 3.5.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-010, AR-011, AR-016.
@@ -283,7 +283,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** A CRT lift is counted after an exact equality already reconstructs its lifted variable.
 - **FAILURE CONDITIONS:** If CRT variables precede reconstruction or range independently, the lift may be real support.
-- **SOURCE:** `stages/stage14/14-X13/result.md`, Section 6; `docs/stage14-final-self-contained.md`, Lemma 3.5 and buried-gold BG-07.
+- **SOURCE:** `stages/stage14/archive/tasks/14-X13/result.md`, Section 6; `stages/stage14/final.md`, Lemma 3.5 and buried-gold BG-07.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-012, AR-028.
@@ -304,7 +304,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** A nonprimitive quadratic-congruence count contains a `sqrt(M)` term and its common gcd may square-divide fixed data.
 - **FAILURE CONDITIONS:** Do not use if only `h|W` (not `h^2|W`) or if `W` is not fixed first.
-- **SOURCE:** `stages/stage14/14-s7-31/result.md`, Sections 3–6.
+- **SOURCE:** `stages/stage14/archive/tasks/14-s7-31/result.md`, Sections 3–6.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `SUPERSEDED_BUT_REUSABLE`
 - **DEPENDENCIES:** AR-009, AR-016, AR-028.
@@ -325,7 +325,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** A proportional branch contains same-side/cross-side gcd cells and a square may be forced into a residual norm.
 - **FAILURE CONDITIONS:** Do not reuse the `7/16` exponent without the same strip; do not conflate same-side and cross-side primes.
-- **SOURCE:** `stages/stage14/14-s7-37/result.md`, Sections 1–4; `docs/stage14-final-self-contained.md`, Proposition 3.3.
+- **SOURCE:** `stages/stage14/archive/tasks/14-s7-37/result.md`, Sections 1–4; `stages/stage14/final.md`, Proposition 3.3.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `SUPERSEDED_BUT_REUSABLE`
 - **DEPENDENCIES:** AR-007, AR-014.
@@ -346,7 +346,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `DIRECT_REUSE`
 - **TRIGGER SIGNATURE:** Product factorization, parity-filtered divisor pairs, finite root orientations, or fixed-degree maps.
 - **FAILURE CONDITIONS:** Super-polynomial integers, growing number of layers, or using the fiber to change scalar/pair measure.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Lemmas 3.2 and 3.5, Sections 6.3 and 8.
+- **SOURCE:** `stages/stage14/final.md`, Lemmas 3.2 and 3.5, Sections 6.3 and 8.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `BACKGROUND`
 - **DEPENDENCIES:** None.
@@ -367,7 +367,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** A quadratic `x^2+y^2` value has one fixed Gaussian divisor and remaining prime roots appear self-generated.
 - **FAILURE CONDITIONS:** Never multiply the already charged common-core modulus by root moduli that are functions of the point; private primes give no cross spacing.
-- **SOURCE:** `stages/stage14/14-X7/result.md`, Sections 2–7; `stages/stage14/14-X9/result.md`, Sections 5–8.
+- **SOURCE:** `stages/stage14/archive/tasks/14-X7/result.md`, Sections 2–7; `stages/stage14/archive/tasks/14-X9/result.md`, Sections 5–8.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `SUPERSEDED_BUT_REUSABLE`
 - **DEPENDENCIES:** AR-009, AR-028.
@@ -388,7 +388,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** A sum-of-two-squares core carries conjugate-prime choices and simultaneous `M±N` divisibilities.
 - **FAILURE CONDITIONS:** Do not count `C_+` and `C_-` as two moduli or infer energy from orientation tags alone.
-- **SOURCE:** `stages/stage14/14-X9/result.md`, Sections 5–7; `stages/stage14/14-4cy/result.md`, Section 3.
+- **SOURCE:** `stages/stage14/archive/tasks/14-X9/result.md`, Sections 5–7; `stages/stage14/archive/tasks/14-4cy/result.md`, Section 3.
 - **SOURCE CONFIDENCE:** `PROVED_BUT_SOURCE_FRAGMENTED`
 - **STATUS:** `SUPERSEDED_BUT_REUSABLE`
 - **DEPENDENCIES:** AR-017, AR-028.
@@ -409,7 +409,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** Two nested divisor allocations feed reciprocal factor-pair CRT solvability.
 - **FAILURE CONDITIONS:** Do not transfer q17 conclusions to conditioned filtered-tau3, `(E,m)` pair, post-mask, fixed-U, or averaged measures.
-- **SOURCE:** `docs/stage14-q17-reciprocal-crt-literature-radar.md`; `docs/stage14-q17-summary.md`; `stages/stage14/14-4gh/result.md`.
+- **SOURCE:** `docs/stage14-q17-reciprocal-crt-literature-radar.md`; `docs/stage14-q17-summary.md`; `stages/stage14/archive/tasks/14-4gh/result.md`.
 - **SOURCE CONFIDENCE:** `PROVED_BUT_SOURCE_FRAGMENTED`
 - **STATUS:** `CONSUMED`
 - **DEPENDENCIES:** AR-016, AR-023, AR-024.
@@ -430,7 +430,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `EXTERNAL_THEOREM_GATE`
 - **TRIGGER SIGNATURE:** A new normal form exactly matches nested K-free divisors plus two moving quadratic roots.
 - **FAILURE CONDITIONS:** One-AP divisor theorems, Ford single-divisor support, binary-form results without exact encoding, or averaged modulus results are not direct.
-- **SOURCE:** `stages/stage14/14-4gh/result.md`; `stages/stage14/14-4ghH/result.md`; `docs/stage14-final-self-contained.md`, Sections 8 and 12.
+- **SOURCE:** `stages/stage14/archive/tasks/14-4gh/result.md`; `stages/stage14/archive/tasks/14-4ghH/result.md`; `stages/stage14/final.md`, Sections 8 and 12.
 - **SOURCE CONFIDENCE:** `AUDITED_NEGATIVE`
 - **STATUS:** `PARKED_EXTERNAL_GATE`
 - **DEPENDENCIES:** AR-019, AR-023, AR-027.
@@ -451,7 +451,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `LOCAL_ONLY`
 - **TRIGGER SIGNATURE:** A fixed Gaussian residue in a fixed sector has long interval headroom and small enough modulus.
 - **FAILURE CONDITIONS:** Outside Kai's modulus range; short endpoint without headroom; average-to-pointwise promotion; whole-family or non-fixed-U use.
-- **SOURCE:** `stages/stage14/14-tH31/result.md`; `docs/stage14-final-self-contained.md`, Section 8.
+- **SOURCE:** `stages/stage14/archive/tasks/14-tH31/result.md`; `stages/stage14/final.md`, Section 8.
 - **SOURCE CONFIDENCE:** `EXTERNAL_THEOREM_DEPENDENT`
 - **STATUS:** `CONSUMED`
 - **DEPENDENCIES:** AR-027.
@@ -472,7 +472,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `EXTERNAL_THEOREM_GATE`
 - **TRIGGER SIGNATURE:** Someone argues that `d=B^o(1)`, least-prime, sector-only, or average results imply density in one super-range residue.
 - **FAILURE CONDITIONS:** Never treat BV/BDH, zero-density, least-prime, sector-only, or products-of-primes results as the requested pointwise density theorem.
-- **SOURCE:** `stages/stage14/14-t157/result.md`; `stages/stage14/14-tH33/result.md`.
+- **SOURCE:** `stages/stage14/archive/tasks/14-t157/result.md`; `stages/stage14/archive/tasks/14-tH33/result.md`.
 - **SOURCE CONFIDENCE:** `AUDITED_NEGATIVE`
 - **STATUS:** `PARKED_EXTERNAL_GATE`
 - **DEPENDENCIES:** AR-021, AR-027.
@@ -493,7 +493,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `SAME_KERNEL_DIFFERENT_MEASURE`
 - **TRIGGER SIGNATURE:** A product host is proposed to replace an outer factor pair because factorization count is small.
 - **FAILURE CONDITIONS:** No reuse until every pair-dependent mask is preserved by a proved adapter.
-- **SOURCE:** `stages/stage14/14-Work-ccX41/result.md`, Sections 1–3; `docs/stage14-final-self-contained.md`, Sections 6.3 and 11.
+- **SOURCE:** `stages/stage14/archive/tasks/14-Work-ccX41/result.md`, Sections 1–3; `stages/stage14/final.md`, Sections 6.3 and 11.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-016, AR-028.
@@ -514,7 +514,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `SAME_KERNEL_DIFFERENT_MEASURE`
 - **TRIGGER SIGNATURE:** “The inner formulas are identical, so the old theorem applies.”
 - **FAILURE CONDITIONS:** Never infer common measure from common kernel; do not recharge earlier kernel research.
-- **SOURCE:** `stages/stage14/14-Work-cgX45/result.md`, Sections 1–3.
+- **SOURCE:** `stages/stage14/archive/tasks/14-Work-cgX45/result.md`, Sections 1–3.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-019, AR-023, AR-028.
@@ -535,7 +535,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `EXTERNAL_THEOREM_GATE`
 - **TRIGGER SIGNATURE:** Unit/nonunit CRT strata can be reduced to moving moduli and one target residue.
 - **FAILURE CONDITIONS:** Do not collapse character complexity from `B^o(1)` valuation patterns; do not discard the common-core average or merge scalar/pair measures.
-- **SOURCE:** `stages/stage14/14-Work-cnX52/result.md`; `stages/stage14/14-s7-162/result.md`; `stages/stage14/14-s7-164/result.md`.
+- **SOURCE:** `stages/stage14/archive/tasks/14-Work-cnX52/result.md`; `stages/stage14/archive/tasks/14-s7-162/result.md`; `stages/stage14/archive/tasks/14-s7-164/result.md`.
 - **SOURCE CONFIDENCE:** `PROVED_BUT_SOURCE_FRAGMENTED`
 - **STATUS:** `PARKED_EXTERNAL_GATE`
 - **DEPENDENCIES:** AR-023, AR-024, AR-027.
@@ -556,7 +556,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `NEGATIVE_RESULT`
 - **TRIGGER SIGNATURE:** A proof claims second moment/Parseval or total mass makes a specific residue class positive.
 - **FAILURE CONDITIONS:** The countermodel does not prove the arithmetic theorem false; it only rejects the stated inference.
-- **SOURCE:** `stages/stage14/14-s7-163/result.md`.
+- **SOURCE:** `stages/stage14/archive/tasks/14-s7-163/result.md`.
 - **SOURCE CONFIDENCE:** `AUDITED_NEGATIVE`
 - **STATUS:** `NEGATIVE`
 - **DEPENDENCIES:** AR-025.
@@ -577,7 +577,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `NEGATIVE_RESULT`
 - **TRIGGER SIGNATURE:** “Almost all moduli” or mean-square/variance is used for one frozen modulus or every cell.
 - **FAILURE CONDITIONS:** Direct reuse only after an explicit exceptional-set-to-physical-measure adapter is proved.
-- **SOURCE:** `stages/stage14/14-4ghH/result.md`; `stages/stage14/14-tH33/result.md`; `stages/stage14/14-s7-164/result.md`; `docs/stage14-final-self-contained.md`, Section 8.
+- **SOURCE:** `stages/stage14/archive/tasks/14-4ghH/result.md`; `stages/stage14/archive/tasks/14-tH33/result.md`; `stages/stage14/archive/tasks/14-s7-164/result.md`; `stages/stage14/final.md`, Section 8.
 - **SOURCE CONFIDENCE:** `AUDITED_NEGATIVE`
 - **STATUS:** `NEGATIVE`
 - **DEPENDENCIES:** AR-028.
@@ -598,7 +598,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `DIRECT_REUSE`
 - **TRIGGER SIGNATURE:** A later stage renames an old receiver, multiplies two counts of the same core, or deletes a superseded mechanism.
 - **FAILURE CONDITIONS:** Superseded theorem exponent does not imply its exact lemma is false; consumed data cannot be charged again.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Sections 6–7; `docs/review/stage14-final-self-contained-provenance-20260812-r01.md`; `stages/stage14/14-Work-coX53/result.md`.
+- **SOURCE:** `stages/stage14/final.md`, Sections 6–7; `docs/review/stage14-final-self-contained-provenance-20260812-r01.md`; `stages/stage14/archive/tasks/14-Work-coX53/result.md`.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** None.
@@ -619,7 +619,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** An upstream oriented count is projected to canonical objects or a face-record weight looks like object multiplicity.
 - **FAILURE CONDITIONS:** Do not interpret representation richness `G(p)-1` as repeated weight on one incidence; do not transfer Stage13 asymptotics to ambient Stage15 `B_2`.
-- **SOURCE:** `stages/stage13/main.md`, Sections 3.17–3.23 and 8; `docs/stage14-final-self-contained.md`, Section 1.3.
+- **SOURCE:** `stages/stage13/final.md`, Sections 3.17–3.23 and 8; `stages/stage14/final.md`, Section 1.3.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `BACKGROUND`
 - **DEPENDENCIES:** AR-001, AR-002, AR-003.
@@ -640,7 +640,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `DIRECT_REUSE`
 - **TRIGGER SIGNATURE:** A reconstruction postpones parity, positivity, coprimality, ordering, or third-face exclusion.
 - **FAILURE CONDITIONS:** Cannot drop filters in a lower-bound/asymptotic argument; cannot change the outer measure unnoticed.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Sections 1.2, 3, 6.3; `stages/stage14/14-X13/result.md`, Sections 4–6.
+- **SOURCE:** `stages/stage14/final.md`, Sections 1.2, 3, 6.3; `stages/stage14/archive/tasks/14-X13/result.md`, Sections 4–6.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** AR-001, AR-028.
@@ -661,7 +661,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `DO_NOT_REUSE`
 - **TRIGGER SIGNATURE:** A future implementation needs regression locks or a conjecture suggests a predeclared diagnostic.
 - **FAILURE CONDITIONS:** Never infer a directional limit, true exponent, matching lower bound, or perfect-cuboid nonexistence.
-- **SOURCE:** `docs/stage14-final-self-contained.md`, Sections 9 and 11 (BG-14); `stages/stage14/14-num-alpha11/result.md`; `stages/stage14/14-num-alpha11-diag11/result.md`.
+- **SOURCE:** `stages/stage14/final.md`, Sections 9 and 11 (BG-14); `stages/stage14/archive/tasks/14-num-alpha11/result.md`; `stages/stage14/archive/tasks/14-num-alpha11-diag11/result.md`.
 - **SOURCE CONFIDENCE:** `HEURISTIC_DIAGNOSTIC`
 - **STATUS:** `NEGATIVE`
 - **DEPENDENCIES:** AR-001.
