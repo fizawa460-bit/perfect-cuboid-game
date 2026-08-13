@@ -7,6 +7,7 @@
   "stage_object": "primitive canonical cuboids with exactly one integral face diagonal, with no space-diagonal integrality requirement",
   "roadmap": "docs/stage16-28-population-roadmap.md",
   "execution_template": "docs/stage16-28-execution-controller-template.md",
+  "stage70_policy": "docs/stage16-28-stage70-policy.md",
   "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "the source population for which exactly one of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
   "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; exact face multiplicity retained; common geometric cutoff R<=B; no requirement that R be integral",
@@ -23,6 +24,7 @@
   "source_of_truth": [
     "docs/stage16-28-population-roadmap.md",
     "docs/stage16-28-execution-controller-template.md",
+    "docs/stage16-28-stage70-policy.md",
     "docs/self-contained-review-standard.md",
     "docs/stage14-arsenal.md",
     "docs/00_CURRENT_RESEARCH_STATUS.md",
@@ -51,7 +53,7 @@
     "40": "upper-bound ledger",
     "50": "lower-bound / construction ledger",
     "60": "causal decomposition",
-    "70": "intrinsic-status / audit verdict"
+    "70": "intrinsic-status / audit verdict plus bounded final synthesis"
   },
   "stage16_contract": {
     "canonical_edges": "0<a<b<c",
@@ -73,7 +75,7 @@
   },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "current_stop_reason": "Stage16-60 passed fresh audit. Stage16-70 submits the intrinsic-status verdict, proof-complete R01 bundle, manifest, and stage-end artifact decisions. Stage16 remains open until a fresh Stage16-audit certifies checkpoint 70 and the bundle.",
+    "current_stop_reason": "Stage16-60 passed fresh audit. Stage16-70 submits the intrinsic-status verdict, bounded synthesis required by docs/stage16-28-stage70-policy.md, proof-complete R01 bundle, manifest, and stage-end artifact decisions. Stage16 remains open until a fresh Stage16-audit certifies checkpoint 70 and the bundle.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition",
@@ -111,7 +113,8 @@
     "dependency_ledger_complete": true,
     "open_gate_reentry_justified": "NOT_APPLICABLE",
     "arsenal_supersession_check": "NOT_APPLICABLE",
-    "double_charge_check": "PASS"
+    "double_charge_check": "PASS",
+    "synthesis_stop_rule_satisfied": true
   },
   "audit_contract": {
     "fresh_read_only_audit": true,
@@ -128,6 +131,9 @@
       "AR-039 remains a narrower regression subset and is not used for the ambient exponent",
       "space-diagonal arithmetic and finite directional imbalance are not charged to the Stage16 exponent",
       "all checkpoint roadmap statuses are explicit",
+      "Stage16-70 includes all required bounded-synthesis fields KNOWN_RESULTS through SYNTHESIS_STOP_RULE_SATISFIED",
+      "bounded synthesis stops before work requiring a substantially new theorem, computation, literature program, or transition-stage branch",
+      "lower-stage reinterpretations do not reopen a certified checkpoint without invalidating its foundation",
       "population/comparison/evidence/dependency/double-charge safety fields are complete",
       "self-contained bundle embeds all internal load-bearing mathematics required by SELF_CONTAINED_REVIEW_STANDARD_V1",
       "bundle and manifest preserve nonclaims and audit-pending status",
@@ -163,12 +169,15 @@
     "result": "stages/stage16/16-70/result.md",
     "bundle": "stages/stage16/final.md",
     "manifest": "stages/stage16/manifest-r01.md",
-    "evidence_level": "INTRINSIC_STATUS_CANDIDATE_FROM_AUDITED_STAGE16_30_40_50_60",
+    "evidence_level": "INTRINSIC_STATUS_AND_BOUNDED_SYNTHESIS_CANDIDATE_FROM_AUDITED_STAGE16_30_40_50_60",
     "new_claims": [
       "the true Stage16 order is identified as Theta(B^2 log B), so polynomial exponent 2 and log power 1 are intrinsic at this resolution",
+      "bounded StageX-70 synthesis is complete and its stop rule is satisfied",
       "Stage16 deserves a self-contained final bundle",
       "no new arsenal promotion is required"
     ],
+    "required_synthesis_fields_present": true,
+    "synthesis_stop_rule_satisfied": true,
     "remaining_unknowns": [
       "leading asymptotic constant for M_1(B)",
       "full asymptotic error term",
@@ -182,7 +191,7 @@
     "comparison_adapter_required": false,
     "finite_data_used_as_proof": false,
     "codex_required": false,
-    "codex_reason": "Checkpoint 70 is a compact mathematical closeout and proof-bundle assembly; no repository-heavy implementation is required."
+    "codex_reason": "Checkpoint 70 is a compact mathematical closeout, bounded synthesis, and proof-bundle assembly; no repository-heavy implementation is required."
   },
   "codex_policy": {
     "default_required": false,
