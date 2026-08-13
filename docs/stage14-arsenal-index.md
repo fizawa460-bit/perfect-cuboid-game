@@ -36,13 +36,19 @@ Use this file to locate candidate IDs, then read the full entry in `docs/stage14
 | Stage13 interface / oriented to canonical | AR-029 | Preserve exact factor 2 and overlap correction. |
 | third square condition / space diagonal square | AR-004–AR-008, AR-012–AR-018, AR-030 | Stage14 inputs are not ambient Stage15 facts; wait for exact 15-4 normal form. |
 | numerical evidence / perfect cuboid | AR-031 | Validation only; no asymptotic or nonexistence claim. |
+| primitive-first / Möbius inversion / scale | AR-032 | Is scaling unique and the cutoff homogeneous before reindexing? |
+| coprime rectangle / cross correction | AR-033, AR-037 | Is the weighted coefficient norm proved in the required half-plane? |
+| wing / shallow sector / curved boundary | AR-034 | Are the exceptional regions disjoint and bounded directly? |
+| overlap sieve / extra square condition | AR-035 | Is the order `fix primes -> B -> infinity -> primes -> infinity` preserved? |
+| ordered chamber / directional density / coarea | AR-036 | Are the density and arithmetic main factor valid direction by direction? |
+| Selberg--Delange / finite pole expansion | AR-037 | Are analytic region, vertical growth, and coefficient majorant mapped explicitly? |
 
 ## Reuse-class index
 
 | Class | IDs |
 |---|---|
 | `DIRECT_REUSE` | AR-001, AR-002, AR-003, AR-016, AR-028, AR-030 |
-| `REUSE_AFTER_EXACT_ADAPTER` | AR-009–AR-015, AR-017–AR-019, AR-029 |
+| `REUSE_AFTER_EXACT_ADAPTER` | AR-009–AR-015, AR-017–AR-019, AR-029, AR-032–AR-037 |
 | `SAME_KERNEL_DIFFERENT_MEASURE` | AR-023, AR-024 |
 | `STAGE14_SPACE_DIAGONAL_ONLY` | AR-004–AR-008 |
 | `LOCAL_ONLY` | AR-021 |
@@ -54,8 +60,8 @@ Use this file to locate candidate IDs, then read the full entry in `docs/stage14
 
 | Confidence | IDs |
 |---|---|
-| `PROVED_CANONICAL` | AR-001–AR-004, AR-006, AR-007, AR-009, AR-010, AR-012–AR-017, AR-023, AR-024, AR-028–AR-030 |
+| `PROVED_CANONICAL` | AR-001–AR-004, AR-006, AR-007, AR-009, AR-010, AR-012–AR-017, AR-023, AR-024, AR-028–AR-030, AR-032–AR-036 |
 | `PROVED_BUT_SOURCE_FRAGMENTED` | AR-008, AR-011, AR-018, AR-019, AR-025 |
-| `EXTERNAL_THEOREM_DEPENDENT` | AR-005, AR-021 |
+| `EXTERNAL_THEOREM_DEPENDENT` | AR-005, AR-021, AR-037 |
 | `AUDITED_NEGATIVE` | AR-020, AR-022, AR-026, AR-027 |
 | `HEURISTIC_DIAGNOSTIC` | AR-031 |

@@ -1,6 +1,6 @@
 # Stage14 Arsenal / Weapon Registry
 
-**Registry version:** `STAGE14-ARSENAL-20260812-R01`
+**Registry version:** `STAGE14-ARSENAL-20260813-R02`
 
 **Authority:** this Markdown file is the human-authoritative registry.
 **Seed:** Stage14 final self-contained R04, frozen source/provenance ledgers, buried-gold inventory, final route matrix, external-theorem contracts, and the Stage15-0 reuse matrix. Targeted source inspection then covered X13, column/root-line/common-gcd precursors, q17/MAIN/T/S endpoints, Stage13 projection machinery, and the final accounting chain.
@@ -668,6 +668,132 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **KNOWN APPLICATION:** Stage15 paired-enumerator regression check.
 - **POSSIBLE FUTURE USE:** Validation only after restricting to the same `A_2` cutoff.
 
+### AR-032 — Primitive-first Möbius reindexing
+
+- **CATEGORY:** exact algebra / primitive counting
+- **ONE-LINE PURPOSE:** Insert the common-scale Möbius inversion before truncation so primitive coefficients and boundary layers are counted in their natural variables.
+- **INPUT SHAPE:** A homogeneous raw parameter count whose objects have a unique positive common integer scale.
+- **OUTPUT:** An exact primitive-first sum with the Möbius variable absorbed into the height coefficient, eliminating a separate outer truncation error.
+- **HYPOTHESES:** Scaling acts freely away from explicitly removed ties; the cutoff is homogeneous; the raw-to-primitive relation is exact at object level.
+- **PHYSICAL DEPENDENCE:** The mechanism is general; Stage12 used the primitive oriented one-face population with space-diagonal cutoff.
+- **MEASURE:** Whole raw population projected to its primitive oriented measure.
+- **QUANTIFIERS:** Exact finite reindexing before any asymptotic estimate.
+- **LOSS / COST:** No analytic loss; orientation and overlap corrections remain separate.
+- **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
+- **TRIGGER SIGNATURE:** A late Möbius truncation creates a boundary layer or an apparent outer error.
+- **FAILURE CONDITIONS:** Do not move Möbius inversion across a nonhomogeneous cutoff, nonunique scaling fiber, or changed canonical/oriented measure.
+- **SOURCE:** `stages/stage12/final.md`, embedded definition sheet ``4–6 and Stage12-N1-2j ``1–5.
+- **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
+- **STATUS:** `BACKGROUND_REUSABLE`
+- **DEPENDENCIES:** AR-001, AR-029.
+- **KNOWN APPLICATION:** Stage12 primitive oriented asymptotic and removal of the historical outer Möbius boundary.
+- **POSSIBLE FUTURE USE:** Any later primitive ambient or square-survivor count after its scale and cutoff adapter is written.
+
+### AR-033 — Weighted coprime rectangle convolution
+
+- **CATEGORY:** analytic counting / Euler product
+- **ONE-LINE PURPOSE:** Transfer one-variable summatory estimates through a two-variable coprime correction with a rigorously summable coefficient tail.
+- **INPUT SHAPE:** `S(R,S)=sum beta(r)beta(s)1_(r,s)=1` with a factorization into two one-variable series and a cross correction `C(s_1,s_2)`.
+- **OUTPUT:** A uniform rectangle main term and the certified tail `R^(3/4+epsilon)S+RS^(3/4+epsilon)`, plus logarithmic refinements when finite-order expansions are inserted.
+- **HYPOTHESES:** `B_beta(X)<<X`; weighted absolute norm `sum |c(a,b)|/(ab)^(1/2+delta)<infinity`; fixed `epsilon<1/8`.
+- **PHYSICAL DEPENDENCE:** Abstract analytic lemma; the Stage12 weights and local factors are population-specific.
+- **MEASURE:** Two-variable scalar coefficient measure on a rectangle.
+- **QUANTIFIERS:** Uniform in `R,S>=2`; kernel promotion requires a separately proved partial-summation norm.
+- **LOSS / COST:** The `3/4+epsilon` tails are retained; the invalid historical `1/2+delta` strengthening is forbidden.
+- **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
+- **TRIGGER SIGNATURE:** A coprime two-variable host factors into marginal Dirichlet series times an absolutely summable cross correction.
+- **FAILURE CONDITIONS:** Do not reuse only the main Euler factor while omitting the weighted tail norm, or assume a rectangle estimate transfers to a curved region without a kernel-variation proof.
+- **SOURCE:** `stages/stage12/final.md`, Stage12-N1-3a Lemma 3a.1, integrated proof `6, and Stage12-N1-3i ``1–4.
+- **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
+- **STATUS:** `ACTIVE_REUSABLE`
+- **DEPENDENCIES:** AR-023, AR-024.
+- **KNOWN APPLICATION:** Stage12 parity-weighted coprime rectangle and corrected boundary exponent.
+- **POSSIBLE FUTURE USE:** Stage15 coefficient rectangles if its normal form exposes the same scalar coprime convolution.
+
+### AR-034 — Core/wing/shallow boundary separation
+
+- **CATEGORY:** analytic counting / boundary control
+- **ONE-LINE PURPOSE:** Separate small-coordinate wings and fixed-height shallow sectors from the retained core before applying smooth rectangle or radial transfer.
+- **INPUT SHAPE:** A coupled positive region with a dyadic core, small-coordinate wings, and a shallow radial or height sector.
+- **OUTPUT:** Direct lower-order bounds on wings and shallow sectors, leaving a core with controlled partial-summation kernel and no artificial boundary main term.
+- **HYPOTHESES:** Direct summatory majorants on excluded sectors; explicit core cutoff; kernel boundary and mixed-variation bounds on retained boxes.
+- **PHYSICAL DEPENDENCE:** General decomposition; all numerical cutoffs and Stage12 weights are source-specific.
+- **MEASURE:** Whole scalar parameter sum partitioned exactly into disjoint regions.
+- **QUANTIFIERS:** Bound excluded regions first, then sum the uniform core estimate.
+- **LOSS / COST:** Source-dependent lower-order errors; no wing estimate may be silently reused as a shallow estimate.
+- **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
+- **TRIGGER SIGNATURE:** A curved or radial region has axes, cusps, shallow annuli, or dyadic boxes where uniform asymptotics fail.
+- **FAILURE CONDITIONS:** Do not merge geometrically different exceptional regions, create an uncharged artificial boundary, or infer lower order without summing all boxes.
+- **SOURCE:** `stages/stage12/final.md`, Stage12-N1-3f ``1–7 and Stage12-N1-3g ``1–8.
+- **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
+- **STATUS:** `ACTIVE_REUSABLE`
+- **DEPENDENCIES:** AR-033.
+- **KNOWN APPLICATION:** Stage12 small-coordinate wing and fixed-height shallow-sector closure.
+- **POSSIBLE FUTURE USE:** Any Stage15 asymptotic transfer with unbalanced parameter wings or a thin height boundary.
+
+### AR-035 — Fixed-prime overlap sieve with ordered limits
+
+- **CATEGORY:** sieve / overlap control
+- **ONE-LINE PURPOSE:** Prove an additional square-condition overlap is lower order using finitely many independent local rejection factors without invoking a growing-modulus theorem.
+- **INPUT SHAPE:** A raw incidence asymptotic admitting congruence refinement for every fixed finite set of suitable inert primes.
+- **OUTPUT:** Pair and triple overlap `o` of the ambient main scale when each added prime has acceptance bounded uniformly below one.
+- **HYPOTHESES:** Fixed-modulus refined asymptotic with the same pole order; multiplicative local acceptance; sufficiently large primes with acceptance at most a fixed `rho<1`.
+- **PHYSICAL DEPENDENCE:** Stage13 used primitive canonical space-diagonal one-face incidences; a new population needs its own congruence-refined asymptotic.
+- **MEASURE:** Raw incidence population before exact-one subtraction.
+- **QUANTIFIERS:** Fix `k` primes, take `B->infinity`, and only then let `k->infinity`.
+- **LOSS / COST:** Qualitative `o` only unless the refined theorem is effective uniformly in `k`.
+- **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
+- **TRIGGER SIGNATURE:** A second or third square condition imposes a local quadratic-residue restriction at many inert primes.
+- **FAILURE CONDITIONS:** Never interchange the limits, let the modulus grow inside a fixed-modulus theorem, or conclude a quantitative rate from the qualitative diagonal argument.
+- **SOURCE:** `stages/stage13/final.md`, ``7.2, 8.5, and 9.3; hardened source `stages/stage13/archive/tasks/13-13ft/r07-hardening-lemma.md`.
+- **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
+- **STATUS:** `ACTIVE_REUSABLE`
+- **DEPENDENCIES:** AR-024, AR-027, AR-029.
+- **KNOWN APPLICATION:** Stage13 pair/triple face overlaps are `o(B(log B)^3)` without assuming perfect-cuboid nonexistence.
+- **POSSIBLE FUTURE USE:** High-priority Stage15 square-survivor thinning route after a fixed-modulus ambient refinement is proved.
+
+### AR-036 — Ordered-chamber Gelfand--Leray directional transfer
+
+- **CATEGORY:** archimedean geometry / directional asymptotic
+- **ONE-LINE PURPOSE:** Convert a symmetric ambient shell count into canonical direction constants by integrating the induced real density over the ordered chamber.
+- **INPUT SHAPE:** A homogeneous shell with canonical order `0<a<b<c` and a distinguished constraint surface whose coarea density is known.
+- **OUTPUT:** Directional constants `I_q`, their exact sum, and a normalized limiting vector after arithmetic factors are proved common across directions.
+- **HYPOTHESES:** Exact coarea/Gelfand--Leray density; boundary has lower order; arithmetic main factor is direction-independent; oriented/canonical projection is audited.
+- **PHYSICAL DEPENDENCE:** The principle is general; Stage13's `1/sqrt(x_i^2+x_j^2)` densities and constants are specific to one integral face.
+- **MEASURE:** Archimedean chamber measure coupled to the matching arithmetic population.
+- **QUANTIFIERS:** Whole-family asymptotic after exact chamber partition and projection.
+- **LOSS / COST:** None at the formal integral level; analytic transfer and overlap removal retain their own errors.
+- **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
+- **TRIGGER SIGNATURE:** Canonical sorting breaks apparent coordinate symmetry and directional counts need separate leading constants.
+- **FAILURE CONDITIONS:** Canonical relabeling alone does not create the bias; do not transfer Stage13 constants when the density, cutoff, or arithmetic factor changes.
+- **SOURCE:** `stages/stage13/final.md`, ``3.6–3.10, 7.1, and 9.1–9.4.
+- **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
+- **STATUS:** `BACKGROUND_REUSABLE`
+- **DEPENDENCIES:** AR-001, AR-029, AR-035.
+- **KNOWN APPLICATION:** Stage13 exactly-one directional vector and its non-`2:1:1` limiting law.
+- **POSSIBLE FUTURE USE:** Directional decomposition of Stage15 ambient or survivor counts after matching coarea and arithmetic-factor proofs.
+
+### AR-037 — Finite-order Selberg--Delange contract
+
+- **CATEGORY:** external theorem interface / analytic verification
+- **ONE-LINE PURPOSE:** Lock exactly which finite-order Selberg--Delange theorem is imported and verify every coefficient, analytic-region, and vertical-growth hypothesis separately.
+- **INPUT SHAPE:** `F(s)=zeta(s)^z H(s)` with fixed-degree divisor majorant and `H` regular in a standard zero-free-shaped region.
+- **OUTPUT:** Any prescribed fixed logarithmic saving by choosing a fixed expansion depth `J`, with constants and uniformity recorded.
+- **HYPOTHESES:** Analyticity of `H`; polynomial vertical growth on fixed strips; coefficient majorant; nonzero leading factor; all auxiliary parameters inside the declared uniformity.
+- **PHYSICAL DEPENDENCE:** None in the contract; the factorizations `H` and their uniform ranges are application-specific.
+- **MEASURE:** One-variable multiplicative coefficient sum, before any two-variable or curved-region transfer.
+- **QUANTIFIERS:** Choose the required fixed log-saving and then fix `J`; no parameter-dependent expansion depth.
+- **LOSS / COST:** External theorem dependence; later box summation must budget the chosen logarithmic power.
+- **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
+- **TRIGGER SIGNATURE:** An Euler product has a finite-order pole and a proof needs strong fixed log-power remainder rather than a guessed subexponential error.
+- **FAILURE CONDITIONS:** Do not cite the theorem without mapping its analytic region and vertical growth, or use one-variable uniformity after introducing an uncontrolled conductor.
+- **SOURCE:** `stages/stage12/final.md`, embedded Selberg--Delange reference lock and Stage12-N1-3h/3i/3j; Tenenbaum, Chapter II.5, Theorem II.5.2.
+- **SOURCE CONFIDENCE:** `EXTERNAL_THEOREM_DEPENDENT`
+- **STATUS:** `ACTIVE_REUSABLE`
+- **DEPENDENCIES:** AR-024, AR-033.
+- **KNOWN APPLICATION:** Stage12 `beta` and `1*beta` summatory expansions with arbitrary fixed log-power saving.
+- **POSSIBLE FUTURE USE:** Any later Euler-product host after its exact factorization and uniformity ledger are supplied.
+
 ## Audit summary
 
 - Every `DIRECT_REUSE` entry states exact hypotheses and measure.
@@ -677,14 +803,15 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - Same-kernel/different-measure cases are AR-023/024 and indexed explicitly.
 - Superseded but reusable mechanisms AR-009/010/014/015/017/018 are retained.
 - External/no-go knowledge AR-020/022/025/026/027 and diagnostic AR-031 are retained.
+- Upstream reusable mechanisms AR-032–AR-037 are provenance-labeled and require exact population/measure adapters.
 - The registry asserts no new Stage14 theorem and restarts no parked route.
 
 ## Frozen registry report
 
 ```text
-ARSENAL_ENTRY_COUNT=31
+ARSENAL_ENTRY_COUNT=37
 DIRECT_REUSE_COUNT=6
-ADAPTER_REQUIRED_COUNT=13
+ADAPTER_REQUIRED_COUNT=19
 NEGATIVE_KNOWLEDGE_COUNT=8
 SPACE_DIAGONAL_ONLY_COUNT=5
 STAGE15_CURRENTLY_RELEVANT_COUNT=10
@@ -692,8 +819,8 @@ UNINDEXED_STAGE14_REGIONS_REMAINING=NONE_IDENTIFIED_AFTER_R04_BURIED_GOLD_AND_TA
 ARSENAL_READY_FOR_FUTURE_AGENT_SEARCH=true
 ```
 
-`ADAPTER_REQUIRED_COUNT` combines eleven `REUSE_AFTER_EXACT_ADAPTER` entries and two `SAME_KERNEL_DIFFERENT_MEASURE` entries. `NEGATIVE_KNOWLEDGE_COUNT` counts AR-020, AR-022–AR-027, and AR-031. Historical exponent-only stages not cited by R04's source/provenance/buried-gold ledgers remain deliberately outside the Arsenal; their current bounds are superseded and no additional reusable mechanism was identified by the targeted audit.
+`ADAPTER_REQUIRED_COUNT` combines seventeen `REUSE_AFTER_EXACT_ADAPTER` entries and two `SAME_KERNEL_DIFFERENT_MEASURE` entries. `NEGATIVE_KNOWLEDGE_COUNT` counts AR-020, AR-022–AR-027, and AR-031. Historical exponent-only stages not cited by R04's source/provenance/buried-gold ledgers remain deliberately outside the Arsenal; their current bounds are superseded and no additional reusable mechanism was identified by the targeted audit.
 
-**Top ten reusable weapons:** AR-003 two-face gluing; AR-009 primitive Gaussian root lines; AR-010 primitive-ratio reconstruction; AR-012 reverse reciprocal reconstruction; AR-013 CRT-lift filter; AR-014 fixed-outer gcd lock; AR-016 divisor/finite-fiber adapter; AR-017 Gaussian quotient/resultants; AR-023 scalar/pair separation; AR-028 recharge discipline.
+**High-value reusable weapons:** AR-003 two-face gluing; AR-009 primitive Gaussian root lines; AR-012 reverse reciprocal reconstruction; AR-016 divisor/finite-fiber adapter; AR-023 scalar/pair separation; AR-028 recharge discipline; AR-032 primitive-first Möbius; AR-033 weighted rectangles; AR-035 fixed-prime overlap sieve; AR-036 ordered-chamber transfer.
 
 **Five most dangerous traps:** AR-024 same kernel/different conditioned measure; AR-023 scalarizing `(E,m)` through divisor-many fibers; AR-027 average→every-cell promotion; AR-021/022 fixed-U or conductor-range promotion; AR-005/006 Stage14 integral-space-diagonal→Stage15 ambient promotion.
