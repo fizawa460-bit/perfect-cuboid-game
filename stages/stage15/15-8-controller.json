@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "primary_operator": "ChatGPT",
+  "status": "OPEN",
+  "stage": "Stage15-8",
+  "goal": "freeze the audited Stage15 final verdict as one self-contained offline HTML review artifact",
+  "source_of_truth": [
+    "stages/stage15/final.md",
+    "stages/stage15/manifest-r01.md",
+    "stages/stage15/15-2b/result.md",
+    "stages/stage15/15-4/result.md",
+    "stages/stage15/15-5/result.md",
+    "stages/stage15/15-6-final.md"
+  ],
+  "scope_rule": "Stage15-8 is a presentation, preservation, and hostile-review stage. It may repair omissions or mistranscriptions in the HTML, but it must not strengthen the mathematics, reopen Stage15-6, or invent a new Stage15 theorem.",
+  "canonical_commands": {
+    "main": "Stage15-8-main-batch",
+    "audit": "Stage15-8-audit"
+  },
+  "command_semantics": {
+    "Stage15-8-main-batch": "Build or repair the self-contained Stage15 HTML from the audited Stage15 final bundle and manifest. Preserve theorem species, populations, cutoff, quantifier order, provenance, finite-evidence discipline, and non-claims. Keep the artifact offline-capable with no required external CSS, JavaScript, fonts, images, or MathJax. Create a Draft PR for substantive changes. The main operator cannot approve its own PR.",
+    "Stage15-8-audit": "Fresh read-only ChatGPT audit of the latest Stage15-8 Draft PR. Compare every load-bearing HTML claim against the canonical Stage15 final bundle and immediate sources, inspect offline self-containment and presentation completeness, and return the exact audit footer. Do not modify files."
+  },
+  "main_contract": {
+    "default_work_units": 2,
+    "maximum_work_units": 3,
+    "initial_substage": "8a",
+    "required_before_stop": [
+      "mathematical transcription audit",
+      "Stage15-5 versus Stage15-6 theorem-species separation audit",
+      "population, canonical convention, and R<=B cutoff audit",
+      "local-density and ordered-limit quantifier audit",
+      "provenance and non-claim audit",
+      "offline self-containment audit",
+      "HTML readability and navigation audit"
+    ],
+    "html_constraints": [
+      "single HTML file is understandable without repository browsing for the final implication chain",
+      "all CSS is inline",
+      "no required external JavaScript",
+      "no required external fonts",
+      "no required external images or other assets",
+      "no MathJax or CDN dependency",
+      "repository paths may be printed as provenance text but the mathematical verdict must remain readable offline"
+    ],
+    "must_emit": [
+      "CURRENT_SUBSTAGE",
+      "NEXT_GATE",
+      "ALL_PRIOR_CHECKS_PASS",
+      "AUDIT_REQUIRED",
+      "CODEX_REQUIRED",
+      "MERGE_ALLOWED"
+    ],
+    "merge_default": false
+  },
+  "html_claim_firewalls": [
+    "Stage15-5 fixed-power survival bound is sourced from the Stage14 numerator theorem plus the Stage15-2b denominator",
+    "Stage15-6 independently proves qualitative zero density from the local squareclass sieve and does not internally recover the half-power rate",
+    "Stage15-6 proves no internal fixed delta>0 and no sigma>0",
+    "finite Stage15-3 counts are diagnostic and are not promoted to an asymptotic",
+    "zero density of the exactly-two survivor population does not prove perfect-cuboid existence or nonexistence",
+    "future effective growing-modulus or global-correlation mechanisms are external future gates, not unfinished Stage15-6 work"
+  ],
+  "required_html_sections": [
+    "executive verdict",
+    "scope and physical populations",
+    "ambient exactly-two theorem",
+    "exact Gaussian squareclass survivor normal form",
+    "strongest quantitative survival theorem",
+    "independent causal zero-density theorem",
+    "quantitative-versus-causal theorem comparison",
+    "finite matched evidence",
+    "provenance and external theorem interfaces",
+    "negative knowledge and future gates",
+    "relation to the perfect cuboid problem",
+    "audit checklist and machine-readable lock"
+  ],
+  "audit_contract": {
+    "fresh_chat_required": true,
+    "write_changes": false,
+    "required_checks": [
+      "claim-by-claim equivalence with the audited Stage15 final bundle",
+      "Stage15-5 versus Stage15-6 theorem-species separation",
+      "physical population and exact cutoff",
+      "normal-form and local-density transcription",
+      "quantifier order",
+      "no double charge or cross-promotion",
+      "finite evidence versus theorem separation",
+      "perfect-cuboid firewall",
+      "provenance completeness",
+      "offline self-containment and absence of required external assets",
+      "merge safety"
+    ],
+    "verdict_semantics": {
+      "PASS": "The HTML is a faithful self-contained representation of the audited Stage15 verdict and may merge if verification also passes.",
+      "FIX_REQUIRED": "Repair the HTML/controller/verifier in the same Stage15-8 main line; do not open a new mathematical route.",
+      "BLOCKED": "A missing or contradictory canonical Stage15 dependency prevents a faithful HTML freeze. State the exact blocker."
+    },
+    "internal_route_remains_semantics": "For Stage15-8, INTERNAL_ROUTE_REMAINS means an unresolved HTML, preservation, provenance, or presentation gap. It never authorizes a new Stage15-6 or Stage15-7 mathematical route.",
+    "must_emit_exactly_at_end": [
+      "AUDIT_VERDICT=PASS|FIX_REQUIRED|BLOCKED",
+      "INTERNAL_ROUTE_REMAINS=true|false",
+      "NEXT_MAIN_TASK=<exact next task>",
+      "CODEX_AUDIT_REQUIRED=true|false",
+      "CODEX_REASON=<NONE or exact reason>",
+      "MERGE_ALLOWED=true|false"
+    ]
+  },
+  "closure_contract": {
+    "close_only_if": [
+      "the self-contained HTML exists and passes offline-asset verification",
+      "the HTML faithfully preserves the audited Stage15 theorem species and non-claims",
+      "a fresh Stage15-8-audit returns PASS",
+      "dedicated verification passes"
+    ],
+    "after_close": "Freeze the HTML as the human-facing Stage15 review artifact. Any new mathematics belongs to a later research program, not Stage15-8."
+  },
+  "codex_transfer_triggers": [
+    "large mechanical HTML repair beyond reliable connector editing",
+    "CI or verifier failure requiring repository-wide diagnosis",
+    "source volume cannot be inspected reliably in one fresh ChatGPT audit"
+  ],
+  "codex_non_triggers": [
+    "ordinary HTML authoring",
+    "ordinary mathematical transcription review",
+    "ordinary PR creation through the GitHub connector"
+  ],
+  "merge_rule": "MERGE_ALLOWED only when dedicated verification passes and a fresh Stage15-8-audit returns PASS. Main-batch cannot approve its own PR."
+}
