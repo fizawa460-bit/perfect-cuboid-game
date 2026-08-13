@@ -1,10 +1,18 @@
 # Stage18-30 audit
 
-Underlying mathematics: PASS.
+Status: PASS
 
-AUDIT_VERDICT=BLOCKED
-AUDIT_PERSISTENCE_STATUS=FAILED
-UNSYNCED_AUDIT_STATE=docs/00_CURRENT_RESEARCH_STATUS.md
-ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=30
-MERGE_ALLOWED=false
+The frozen Stage15 and Stage16 population-matched laws imply
+`M_2(B)/U(B) ~ [36 zeta(3) C_M2/pi](log B)^5/B^2 -> 0`.
+This is the ambient Stage18 density law; the conditional Stage16 -> Stage18 comparison remains Stage22. Finite data are not proof.
+
+AUDIT_VERDICT=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
+NEXT_CHECKPOINT=40
+NEXT_STAGE=
+CODEX_AUDIT_REQUIRED=false
+CODEX_REASON=NONE
+MERGE_ALLOWED=true
