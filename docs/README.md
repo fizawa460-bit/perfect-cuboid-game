@@ -5,9 +5,19 @@ Completed stage-specific research and operational history lives with its stage.
 
 ## Current project entry points
 
-- `00_CURRENT_RESEARCH_STATUS.md` — current research status and Stage15-7 handoff
+- `00_CURRENT_RESEARCH_STATUS.md` — current research status and active Stage15 review handoff
 - `face-ratio-geometry-research.md` — geometric research overview
 - `cycle-exploration-safety-protocol.md` — current cycle safety protocol
+- `self-contained-review-standard.md` — project-wide definition and template for final self-contained mathematical review artifacts
+
+## Review construction standard
+
+`self-contained-review-standard.md` is authoritative for every future artifact labeled
+`SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS`.
+
+The top-level `review/` directory remains reserved for active rendered review artifacts.
+Do not put policy/template documents there. A stage controller, manifest, build script, or
+audit contract that creates a self-contained review should reference the standard explicitly.
 
 ## Stage14 reusable interfaces
 
