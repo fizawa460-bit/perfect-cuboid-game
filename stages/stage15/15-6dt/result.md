@@ -1,115 +1,149 @@
-# Stage15-6dt — same-measure Pell averaging test and Arsenal audit
+# Stage15-6dt — branchwise same-measure test for k=1 factor and k>1 Pell receivers
 
-Base: Stage15-6ds. The exact receiver is now a correlation of two Pell/unit orbits in the same field `K=Q(sqrt(k))`. Test whether this representation, after averaging over the reconstructed base triples and legal cores, yields a fixed-power saving on the **same physical measure**.
+Base: repaired Stage15-6ds. The squarefree survivor-core population is now split into the degenerate branch `k=1` and the real-quadratic branch `k>1`. Test both on the same reconstructed physical measure and do not charge the 6da completion multiplicity twice.
 
-The target remains a genuine polynomial deficit, not a reduction of one `B^{o(1)}` multiplicity to another.
+The target remains a genuine polynomial deficit on the outer reconstructed-base population, not an improvement of one `B^{o(1)}` completion fiber to another.
 
-## 1. What the exact Pell decomposition actually counts
+## 1. Quantitative contribution of the k=1 factor branch
 
-For fixed `(a,b,c,d,M,N,U,k)` the first norm has
+For fixed `(a,b,c,d,M,N,U)` with `k=1`, Stage15-6ds gives
 \[
-B^{o(1)}
+(P-L_1)(P+L_1)=C_1^2,
+\qquad
+(Q-L_2)(Q+L_2)=C_2^2,
 \]
-principal-ideal seeds and `O(log B)` physically bounded unit exponents per seed. Stage15-6da already charged this as one `B^{o(1)}` completion fiber.
-
-The second norm selects those terms satisfying
+where
 \[
-(b^2M L_{\nu,j})^2-kY^2=-C_2^2.
+C_1=a^2MU,\quad L_1=d^2NV,
+\qquad
+C_2=c^2NU,\quad L_2=b^2MV.
 \]
-Equivalently, after choosing a second Pell seed, one asks for intersections
+Enumerate only the first primitive factor pair. It gives at most
 \[
-\operatorname{Re}(\zeta_{\mu,\ell})=b^2M\operatorname{Re}(\xi_{\nu,j}).
+\tau(C_1^2)=B^{o(1)}
 \]
-For fixed two seed orbits the exponent ranges are only logarithmic. Even a theorem replacing `O(log B)` admissible intersections by `O(1)` would therefore improve only an already-charged `B^{o(1)}` fiber. By itself it would **not** produce a factor `B^{-delta}` in the outer reconstructed-base population.
+possible values of `V`; the second factor equation and all physical masks are postfilters. Hence if `\mathcal B_1(B)` denotes the reconstructed base tuples for which the legal core is `k=1`, then the certified contribution is only
+\[
+\boxed{
+N_{k=1}(B)
+\le B^{o(1)}\,\#\mathcal B_1(B),
+}
+\]
+with one completion charge.
 
-A fixed-power gain must instead show that a polynomial fraction of base triples/cores admit **no** legal second-orbit intersection, uniformly in the full physical masks. No such statement follows from the pointwise Pell parametrization.
+The simultaneous factor-gap condition
+\[
+\frac{s_1-r_1}{2d^2N}
+=\frac{s_2-r_2}{2b^2M}
+\]
+is a genuine arithmetic restriction on a base completion. But algebraically the factor-pair data are reversible to `(P,Q,V)`, and 6dg already proves the original two quadrics are equivalent to the double-eliminant pair when `Delta!=0`. Therefore the `k=1` factor branch is **not a new independent codimension**.
 
-## 2. Norm-ideal averaging
+Could the factor-gap representation nevertheless yield a distinct same-measure thinning theorem? Only if one proves that a polynomial fraction of outer bases admit no compatible pair of primitive divisor gaps. No such family theorem is supplied by the factorization itself. Counting divisor pairs pointwise gives only `B^{o(1)}`; averaging ordinary divisor moments gives logarithmic/subpolynomial factors. Thus
+\[
+\boxed{\text{k=1 factorization alone proves no fixed-power outer thinning}.}
+\]
 
-The first and second seed sets are controlled by ideal divisors of `(C_1)^2` and `(C_2)^2`. Uniformly, their counts are divisor-like. Averaging divisor-like weights over the reconstructed base can at most replace worst-case `B^{o(1)}` by logarithmic/divisor moments using currently certified inputs. It cannot create a polynomial deficit.
+Operationally, the factor gaps are still valuable: they expose the exact data that a **residual-cell complementary divisor switch** would act on. That is the already-preserved next route, not an additional saving that may be charged now.
 
-This is precisely the safe role of **AR-016**: divisor and finite-fiber reconstruction preserves an exponent; it never supplies one. Therefore norm-ideal averaging is useful bookkeeping but is exponent-neutral for the present target.
+## 2. Quantitative contribution of squarefree k>1 Pell branch
 
-## 3. Local valuation / recurrence-period test
+For `k>1`, repaired 6ds retains the exact rank-one unit-orbit receiver. For fixed `(a,b,c,d,M,N,U,k)` the first norm has divisor-many principal-ideal seeds and `O(log B)` physically bounded unit exponents per seed. This is already one `B^{o(1)}` completion charge from 6da.
 
-For a fixed prime `p` away from the charged core and bad coefficients, a Pell/Lucas sequence modulo `p^r` is periodic. Requiring the second norm to be a square or to occupy a legal local class can remove some exponent classes `j mod ord_{p^r}(epsilon_k)`.
+The second norm selects intersections of two unit orbits in the same `Q(sqrt(k))`. Even a theorem reducing `O(log B)` orbit intersections to `O(1)` would improve only that already-subpolynomial completion fiber. A fixed-power family saving requires instead a theorem showing that a polynomial fraction of reconstructed bases/cores admit no legal second-orbit intersection. The current norm-ideal, recurrence-period and local-valuation inputs do not prove such a statement.
 
-This is genuine local structure, but two obstacles remain:
+Therefore if `\mathcal B_{>1}(B)` denotes the reconstructed base/core tuples with squarefree `k>1`, the current certified contribution is
+\[
+\boxed{
+N_{k>1}(B)
+\le B^{o(1)}\,\#\mathcal B_{>1}(B),
+}
+\]
+again with exactly one completion charge.
 
-1. the unit `epsilon_k`, the seed, and hence the local period vary with the reconstructed base/core;
-2. removing exponent classes inside a logarithmic completion fiber does not by itself thin the outer base population by a fixed power.
+The previous Pell negative certificate is retained:
+\[
+\boxed{\text{no same-measure fixed-power saving follows from current k>1 Pell inputs}.}
+\]
+It remains a current-input negative certificate, not an impossibility theorem.
 
-To turn many such local restrictions into a family-level saving one would need a congruence-refined asymptotic or sieve theorem for the **same reconstructed base measure**, uniform enough in the selected primes. That theorem is not currently certified.
+## 3. Union bound and no-double-charge accounting
 
-## 4. Required Arsenal audit
+Since the squarefree core is uniquely either `1` or `>1`,
+\[
+N_{\rm surv}(B)=N_{k=1}(B)+N_{k>1}(B).
+\]
+The branchwise reconstruction yields only
+\[
+\boxed{
+N_{\rm surv}(B)
+\le B^{o(1)}
+\bigl(\#\mathcal B_1(B)+\#\mathcal B_{>1}(B)\bigr),
+}
+\]
+where `B^{o(1)}` is the single 6da completion multiplicity. We do not multiply the `k=1` first/second divisor counts, and we do not multiply the `k>1` first/second Pell seed counts.
 
-### AR-016 — direct, exponent-neutral
+Thus the branch split corrects the receiver geometry but does not itself produce `delta>0` or `sigma>0`.
 
-Applicable exactly to the seed/ideal/divisor and finite reconstruction layers. It confirms `B^{o(1)}` multiplicity only. It cannot be charged as a second saving.
+## 4. Arsenal audit after the branch split
 
-### AR-023 / AR-024 — active firewalls
+### AR-016 — applicable to both branches, exponent-neutral
 
-The triples `(M,N,U)` and legal core `k` cannot be compressed to a scalar such as `C_1`, `C_2`, `Delta`, or a recurrence discriminant merely because each scalar has divisor-many preimages. The physical masks, cells, `kg^2|Delta`, switched channel assignment and second-norm condition remain pair/triple dependent. No measure-preserving scalar adapter has been proved.
+For `k=1`, AR-016 controls the first primitive factor-pair enumeration. For `k>1`, it controls ideal/divisor seeds and fixed finite decorations. In both cases the output is multiplicity only and cannot be charged as a density saving.
 
-Likewise, a theorem for a superficially identical Pell or Lucas recurrence under another outer conditioning cannot be promoted to this receiver without matching the reconstructed physical measure.
+### AR-023 / AR-024 — measure firewalls remain active
+
+Neither branch may replace `(M,N,U,k,cells,channel decorations)` by a scalar such as `C_1`, `C_2`, `Delta`, a factor gap, or a recurrence discriminant merely because scalar fibers are divisor-many. The survivor and switched-channel masks remain base-dependent.
 
 ### AR-028 — no recharge
 
-The 6da completion multiplicity, the common core and the double-eliminant support have already been charged. The second Pell seed decomposition is a postfilter/re-expression of the same two survivor equations; its divisor count cannot be multiplied in as an independent source of saving.
+The common core, the 6da fourth-variable completion, and the double-eliminant structure have already been charged. The `k=1` factor variables and `k>1` Pell seeds are branchwise parametrizations/postfilters of the same survivor equations, not independent savings.
 
-### AR-033 — no rectangle adapter
+### AR-033 — no current scalar rectangle adapter
 
-The unit-orbit correlation is not presently a scalar coprime rectangle with a proved factorization into two marginal Dirichlet series and a summable cross correction. The required weighted coefficient norm and curved/product-height transfer are absent. The Stage12 `3/4+epsilon` tail is therefore not portable.
+Neither the simultaneous primitive factor-gap condition for `k=1` nor the varying Pell intersection for `k>1` has been converted into the required two-variable scalar coprime convolution with the certified weighted coefficient norm. No Stage12 `3/4+epsilon` error transfers.
 
-### AR-035 — relevant but only qualitative without a new adapter
+### AR-035 — qualitative backup only
 
-A fixed finite set of local primes could in principle reject some reconstructed-base states. But AR-035 requires a fixed-modulus congruence-refined asymptotic for the **same ambient/reconstructed population** and, without uniformity as the prime set grows, yields only qualitative `o(1)`. Such a Stage15 Pell-base refined asymptotic has not been proved here, so AR-035 does not yield a fixed `delta>0`.
+Fixed primes may reject some `k=1` factor-gap states or some `k>1` recurrence states, but a congruence-refined asymptotic on the same reconstructed base measure is still missing. Without uniformity as the prime set grows, AR-035 supplies at most a qualitative `o(1)` mechanism, not the fixed power required here.
 
-### AR-037 — wrong current analytic object
+### AR-037 — no uniform Euler/Dirichlet adapter
 
-No uniform Euler factorization `F(s)=zeta(s)^z H(s)` for the varying `(k,seed,epsilon_k)` recurrence-correlation family has been established. Regulators/conductors vary with the base. Even a legal finite-order Selberg--Delange application would supply fixed logarithmic savings unless a new polynomial mechanism were separately present.
+No uniform fixed-conductor Euler factorization has been established for either the simultaneous factor-gap family or the varying real-quadratic unit family. A finite-order Selberg--Delange contract therefore does not presently apply, and logarithmic saving alone would not solve the polynomial gate.
 
-### Pell/recurrence Arsenal search
+### Pell/recurrence and factor assets
 
-The current `STAGE14-ARSENAL-20260813-R02` index contains no dedicated Pell/Lucas recurrence theorem asset. The relevant reusable entries are therefore the generic finite-fiber, measure-firewall, no-recharge, fixed-prime and analytic-interface mechanisms audited above. No external recurrence theorem is silently promoted.
+The active Arsenal contains no dedicated theorem that gives a same-measure fixed-power zero-density result for the varying Pell family. The `k=1` factor branch uses only the generic divisor/factor machinery already covered by AR-016 and the existing double-eliminant/factor-incidence route.
 
-## 5. Current-input negative certificate
+## 5. Branchwise verdict
 
-The Pell representation **does** sharpen the structural picture: a survivor is an intersection of two rank-one unit orbits in the same real quadratic field, with all local masks attached. But under the currently certified inputs:
-
-- pointwise orbit length is only `B^{o(1)}` and was already known/charged;
-- reducing logarithmic exponent multiplicity cannot yield a polynomial outer saving;
-- ideal-divisor averaging remains divisor/logarithmic;
-- local valuation restrictions lack a same-measure uniform base-triple sieve;
-- the second norm algebraically returns the already-tested double eliminant after eliminating `L`.
-
-Therefore
-\[
-\boxed{\text{no same-measure fixed-power saving follows from the current Pell/unit-orbit inputs}.}
-\]
-This is a rigorous **current-input negative certificate**, not an impossibility theorem for future recurrence/primitive-divisor or family-sieve results.
+- `k=1`: exact primitive factor-gap receiver; algebraically equivalent to the original survivor quadrics/double eliminants; no distinct certified fixed-power thinning. Its only unconsumed leverage is to feed the residual complementary switch.
+- squarefree `k>1`: exact Pell recurrence-intersection receiver; current-input fixed-power negative certificate retained.
+- union: one `B^{o(1)}` completion charge, no extra multiplication across postfilters.
 
 Consequently
 \[
 \boxed{\delta>0\text{ remains unproved},\qquad \sigma>0\text{ remains unproved}.}
 \]
-There is no executable polynomial overlap window from this route.
+No polynomial overlap window is executable from the branchwise completion analysis alone.
 
-Because the receiver geometry has materially changed from centered modular occupancy to recurrence-orbit intersection, the controller protocol now requires an immediate fresh `EXHAUSTIVE_VIEW_AUDIT` and `BLIND_REDISCOVERY` before any parking or next-route selection.
+Because the corrected receiver is the union of two materially different branch geometries, the fresh `EXHAUSTIVE_VIEW_AUDIT` and `BLIND_REDISCOVERY` must now be rerun on that union before route confirmation.
 
 ```text
 STAGE15_6_SUBSTAGE=6dt
-STAGE15_6DT_PELL_AVERAGING_TESTED=true
+STAGE15_6DT_BRANCHWISE_TESTED=true
+STAGE15_6DT_K1_FACTOR_BRANCH_TESTED=true
+STAGE15_6DT_K1_FACTOR_BRANCH_OUTER_FIXED_POWER=false
+STAGE15_6DT_K1_FACTOR_BRANCH_ROLE=INPUT_TO_RESIDUAL_COMPLEMENTARY_SWITCH
+STAGE15_6DT_KGT1_PELL_AVERAGING_TESTED=true
+STAGE15_6DT_KGT1_NEGATIVE_CERTIFICATE=CURRENT_INPUTS_ONLY
 STAGE15_6DT_AR016=APPLICABLE_EXPONENT_NEUTRAL
 STAGE15_6DT_AR023_024=FIREWALL_PASS
 STAGE15_6DT_AR028=NO_RECHARGE_PASS
 STAGE15_6DT_AR033=NO_ADAPTER
 STAGE15_6DT_AR035=QUALITATIVE_ONLY_NO_STAGE15_BASE_ADAPTER
 STAGE15_6DT_AR037=NO_UNIFORM_EULER_ADAPTER
-STAGE15_6DT_DEDICATED_PELL_ARSENAL_ASSET=NONE_FOUND
-STAGE15_6DT_FIXED_POWER_FROM_CURRENT_PELL_INPUTS=false
+STAGE15_6DT_COMPLETION_MULTIPLICITY_CHARGED_ONCE=true
 STAGE15_6DT_DELTA_PROVED=false
 STAGE15_6DT_SIGMA_PROVED=false
-STAGE15_6DT_NEGATIVE_CERTIFICATE=CURRENT_INPUTS_ONLY
-STAGE15_6DT_EXIT=EXHAUSTIVE_AND_BLIND_PROTOCOL_REQUIRED
+STAGE15_6DT_EXIT=UNION_EXHAUSTIVE_AND_BLIND_PROTOCOL_REQUIRED
 ```
