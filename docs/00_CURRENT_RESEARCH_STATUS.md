@@ -35,11 +35,15 @@ Historical task results, superseded reviews, working roadmaps, and completed wor
 
 ## Project-wide self-contained review rule
 
-The authoritative definition is `docs/self-contained-review-standard.md`.
+The authoritative definition is:
+
+`docs/self-contained-review-standard.md`
 
 Future final review artifacts must use the Stage12 R09 / Stage13 R07 / Stage14 R06 / Stage15 R02 standard: internal load-bearing mathematics is embedded in proof-complete form; published external theorems may remain external only with an exact working contract, hypothesis map, measure/height adapter, and quantifier limitations.
 
-A repository path is provenance, not a substitute for a load-bearing proof. The top-level `review/` directory is reserved for active rendered review artifacts; the reusable standard/template remains under `docs/`.
+A repository path is provenance, not a substitute for a load-bearing proof.
+
+The top-level `review/` directory is reserved for active rendered review artifacts; the reusable standard/template remains under `docs/`.
 
 ## Stage14 reusable interfaces
 
@@ -51,13 +55,60 @@ docs/stage14-arsenal-stage15-map.md
 
 These remain reusable historical interfaces. Stage14 data, scripts, literature, and archive provenance retain their stable paths.
 
-## Stage15 closed status
+## Stage15-6 closed result
 
-Stage15 is closed. Its frozen human-facing review is `review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html`. Stage15-6 is closed with the independent causal theorem `N_2(B)/M_2(B)->0`, while Stage15-8 independently fresh-audited the R02 proof-facing review. Historical Stage15-7 audit-status wording remains preserved rather than retrospectively rewritten.
+Stage15-6 is closed after its audited final closeout.
+
+Its independent causal theorem is
+
+\[
+N_2(B)/M_2(B)\to0,
+\]
+
+proved from the fixed-prime local Gaussian-squareclass sieve on the same primitive/canonical exactly-two `R<=B` physical measure.
+
+Stage15-6 did **not** prove an internal fixed `delta>0` or `sigma>0`. Effective growing-modulus adelic/local sieving and stronger global quantitative mechanisms are external future gates, not unfinished Stage15-6 routes.
+
+Canonical Stage15-6 closeout: `stages/stage15/15-6-final.md`.
+
+## Stage15-7 audit-status provenance
+
+PR #887 merged the Stage15 R01 synthesis bundle. The canonical R01 files still explicitly preserve their pre-audit state:
+
+- `stages/stage15/final.md`: `Status: fresh-audit candidate`;
+- `stages/stage15/manifest-r01.md`: `Status: candidate pending fresh Stage15-7-audit`.
+
+No canonical Stage15-7 audit/closeout record exists in the repository. Therefore the repository does **not** describe Stage15-7 as `CLOSED_R01` and does not invent a retrospective audit record.
+
+This historical status does not keep Stage15 mathematics open. Stage15-8 independently fresh-audited the R02 proof-facing review against the merged R01 synthesis plus immediate canonical mathematical sources, with `AUDIT_VERDICT=PASS` and `INTERNAL_ROUTE_REMAINS=false`.
+
+## Stage15-8 frozen review closeout
+
+PR #888 merged the R02 self-containment repair as commit
+
+`b83dd74be283dc58b3ce5c6862d21e105a9fa3f9`.
+
+The frozen human-facing review is:
+
+`review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html`
+
+It is byte-identical to `stages/stage15/stage15-final-self-contained.html` and follows `SELF_CONTAINED_REVIEW_STANDARD_V1`.
+
+The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit was not required, and merge was allowed. Stage15-8 is therefore closed. See:
+
+- `stages/stage15/15-8-manifest-r02.md`
+- `stages/stage15/15-8-closeout.md`
+- `stages/stage15/15-8-controller.json`
 
 ## Current operation
 
-Stage16-10 and Stage16-20 are certified. Stage16-30 passed fresh audit and proved
+Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
+
+Stage16-10 and Stage16-20 are certified. Stage16-30 has passed fresh audit; its canonical audit record is:
+
+- `stages/stage16/16-30/audit.md`
+
+The certified theorem is
 \[
 M_1(B)\asymp B^2\log B,
 \qquad
@@ -66,14 +117,15 @@ U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
 \frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
 \]
 
-Stage16-40 has now also passed fresh audit. Its canonical audit record is
+Stage16-40 has now also passed fresh audit. Its canonical audit record is:
 
 - `stages/stage16/16-40/audit.md`
 
-and it freezes the sharp upper-bound ledger
+The certified upper-bound ledger is
 \[
 M_1(B)\ll B^2\log B.
 \]
+It records the exact mechanism: linear primitive-Pythagorean face count, harmonic scale sum, and one free third edge. This is sharp in order because the Stage16-30 lower bound is already audited. No leading constant is claimed, and no Stage14/15 space-diagonal or exactly-two theorem is cross-promoted.
 
 Stage16-50 now submits the lower-bound / construction ledger. The strongest certified construction is the already-audited Stage16-30 family, which gives
 \[
@@ -81,10 +133,10 @@ M_1(B)\gg B^2\log B.
 \]
 It uses a primitive Pythagorean face, harmonic face scale, a positive-density third-edge interval, global coprimality, and deletion of the two accidental-square sets. This is order-sharp against checkpoint 40 and adds no stronger theorem than Stage16-30.
 
-AR-039 is also adapted, but only as a narrower regression subset. Its primitive exactly-one family additionally has integral space diagonal; because `R=d` exactly on that subset, its historical `d<=B` cutoff equals Stage16 `R<=B`. Hence it legally yields the weaker `M_1(B)>>B^(1/2)` lower bound, but it is not used for the Stage16 ambient exponent or sharp lower bound.
+AR-039 is also adapted, but only as a narrower regression subset. Its primitive exactly-one family additionally has integral space diagonal; because `R=d` exactly on that subset, its historical `d<=B` cutoff equals Stage16 `R<=B`. Hence it legally yields the weaker `M_1(B)\gg B^{1/2}` lower bound, but it is not used for the Stage16 ambient exponent or sharp lower bound.
 
 Canonical Stage16-50 submission:
 
 - `stages/stage16/16-50/result.md`
 
-Checkpoint 50 is newly submitted, so `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit`. Checkpoint 60 causal decomposition must not be treated as certified before that audit.
+Because checkpoint 50 is newly submitted, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit`. Checkpoint 60 causal decomposition must not be treated as certified before that audit.
