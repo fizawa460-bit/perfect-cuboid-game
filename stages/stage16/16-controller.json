@@ -10,7 +10,15 @@
   "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "the source population for which exactly one of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
   "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; exact face multiplicity retained; common geometric cutoff R<=B; no requirement that R be integral",
-  "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
+  "checkpoint_sequence": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70
+  ],
   "source_of_truth": [
     "docs/stage16-28-population-roadmap.md",
     "docs/stage16-28-execution-controller-template.md",
@@ -24,9 +32,9 @@
   "state": {
     "CURRENT_STAGE": "Stage16",
     "CURRENT_CHECKPOINT": 20,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
@@ -61,7 +69,7 @@
   },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "current_stop_reason": "Stage16-20 submits a new deterministic finite census and replay implementation. Stage16-30 must wait for fresh audit so no growth or ratio interpretation depends on unaudited computed data.",
+    "current_stop_reason": "Stage16-20 finite-data baseline has passed fresh audit. Stage16-30 may now interpret finite growth / formulate a ratio or thinning law under the frozen population contract.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition"
@@ -105,20 +113,20 @@
     ]
   },
   "last_audit": {
-    "checkpoint": 10,
+    "checkpoint": 20,
     "verdict": "PASS",
-    "audit_record": "stages/stage16/16-10/audit.md",
-    "audited_submission_sha": "63ae1802cd2c8b74ce4e0ab471f77be1a23177e4",
-    "stage15_8_verifier_run": 31700486740,
-    "stage15_8_verifier_job": 94448162590,
-    "stage15_8_verifier_conclusion": "success",
+    "audit_record": "stages/stage16/16-20/audit.md",
+    "audited_submission_sha": "fcc84bc56d471e29e5b81674dfaeebda5d2a3d65",
+    "pr": 894,
+    "merged_submission_commit": "2112c1f479bf82bf5db9f6377ec72ddcec73deeb",
+    "stage16_20_ci_conclusion": "success",
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
     "checkpoint": 20,
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "AUDITED_PASS",
     "result": "stages/stage16/16-20/result.md",
     "data": "stages/stage16/16-20/counts.csv",
     "enumerator": "stages/stage16/16-20/enumerate.py",
