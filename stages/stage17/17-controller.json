@@ -16,7 +16,7 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "PROVED_CANDIDATE_AUDIT_BLOCKED_PERSISTENCE"
+    "70": "PROVED_REPAIRED_PENDING_FRESH_AUDIT"
   },
   "canonical_commands": {
     "main": "Stage17-main-batch",
@@ -26,7 +26,7 @@
     "CURRENT_STAGE": "Stage17",
     "CURRENT_CHECKPOINT": 70,
     "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "BLOCKED",
+    "AUDIT_STATUS": "PENDING_REAUDIT",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
@@ -65,6 +65,13 @@
     "space_diagonal_cost_intrinsicness": "DEFER_TO_STAGE21_WITH_STAGE16S",
     "independence_claim": false
   },
+  "repair": {
+    "required_by_prior_audit": true,
+    "stage16_frozen_interface_contract_completed": true,
+    "upstream_interfaces_exact_lock_added": true,
+    "current_status_sync_required": true,
+    "new_mathematics_added": false
+  },
   "last_audit": {
     "checkpoint": 70,
     "verdict": "BLOCKED",
@@ -77,12 +84,12 @@
     "human_decision_required": false,
     "codex_audit_required": false,
     "codex_reason": "NONE",
-    "bundle_failure_reason": "V1 frozen Stage16 interface in final.md is not explicit enough; multiplicity, measure-adapter and quantifier-adapter fields must be certified before the bundle can freeze.",
-    "persistence_failure": "docs/00_CURRENT_RESEARCH_STATUS.md update rejected by connector safety layer"
+    "bundle_failure_reason": "V1 frozen Stage16 interface lacked explicit multiplicity, measure-adapter and quantifier-adapter fields; repaired in the current submission.",
+    "persistence_failure": "docs/00_CURRENT_RESEARCH_STATUS.md was unsynchronized in the prior audit; Stage17-main-batch is repairing this mirror before re-audit."
   },
   "last_submission": {
     "checkpoint": 70,
-    "status": "AUDIT_BLOCKED_PERSISTENCE_AND_BUNDLE_REPAIR_REQUIRED",
+    "status": "REPAIRED_RESUBMITTED_FOR_FRESH_AUDIT",
     "result": "stages/stage17/17-70/result.md",
     "bundle": "stages/stage17/final.md",
     "manifest": "stages/stage17/manifest-r01.md",
@@ -91,9 +98,9 @@
   "audit_persistence": {
     "required": true,
     "policy": "docs/stage16-28-population-roadmap.md",
-    "status": "FAILED",
+    "status": "PENDING_STATUS_SYNC_VERIFICATION",
     "unsynced_audit_state": "docs/00_CURRENT_RESEARCH_STATUS.md",
     "merge_execution_default": false
   },
-  "merge_rule": "Stage17-70 is BLOCKED. Repair the Stage16 frozen-interface contract and synchronize docs/00_CURRENT_RESEARCH_STATUS.md, then rerun Stage17-audit. Merge and Stage18 advancement remain disallowed until a durably persisted PASS."
+  "merge_rule": "Stage17-70 repair is submitted for fresh re-audit. Merge and Stage18 advancement remain disallowed until a durably persisted PASS."
 }
