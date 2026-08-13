@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-30-SUBMITTED
+CURRENT_STAGE=Stage16-40-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,12 +10,12 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_30_SUBMITTED
+STAGE16_STATUS=OPEN_CHECKPOINT_40_SUBMITTED
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
-STAGE16_CURRENT_RESULT=stages/stage16/16-30/result.md
+STAGE16_CURRENT_RESULT=stages/stage16/16-40/result.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE16_LAST_AUDIT=stages/stage16/16-20/audit.md
-STAGE16_NEXT_CHECKPOINT=40
+STAGE16_LAST_AUDIT=stages/stage16/16-30/audit.md
+STAGE16_NEXT_CHECKPOINT=50
 NEXT_EXPECTED_COMMAND=Stage16-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -104,36 +104,27 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-Stage16-10 has passed fresh audit and its population/cutoff contract is frozen. Stage16-20 finite-data baseline has also passed fresh audit, including the dedicated replay through `B=2000`.
+Stage16-10 and Stage16-20 are certified. Stage16-30 has now passed fresh audit; its canonical audit record is:
 
-Stage16-30 now submits the first proof-level ratio/thinning law on that same physical population:
+- `stages/stage16/16-30/audit.md`
 
-\[
-M_1(B)\asymp B^2\log B,
-\]
+The certified theorem is
+[
+M_1(B)asymp B^2log B,
+qquad
+U(B)=rac{pi}{36zeta(3)}B^3+O(B^2),
+qquad
+rac{M_1(B)}{U(B)}asymprac{log B}{B}	o0.
+]
 
-where `M_1(B)` counts primitive canonical exactly-one-face triples under `R<=B` with no space-diagonal integrality requirement. The common source universe of all primitive canonical positive triples under the same cutoff is claimed to satisfy
+Stage16-40 submits the upper-bound ledger
+[
+M_1(B)ll B^2log B.
+]
+It records the exact mechanism: linear primitive-Pythagorean face count, harmonic scale sum, and one free third edge. This is sharp in order because the Stage16-30 lower bound is already audited. No leading constant is claimed, and no Stage14/15 space-diagonal or exactly-two theorem is cross-promoted.
 
-\[
-U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
-\]
+Canonical Stage16-40 submission:
 
-and therefore
+- `stages/stage16/16-40/result.md`
 
-\[
-\frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
-\]
-
-The proof candidate is self-contained at checkpoint level: the upper bound uses the unique scaled primitive Pythagorean face decomposition; the lower bound constructs a large exact-one family by choosing a third edge in a fixed radial interval and deleting the two accidental-square sets by a divisor bound; the ambient source count uses primitive lattice points in the positive Euclidean octant followed by canonical projection.
-
-Stage16-20 finite counts remain diagnostic only and are not used as proof of the Stage16-30 theorem. No leading constant for `M_1(B)`, directional limiting vector, Stage16-to-Stage17 survival ratio, or perfect-cuboid existence/nonexistence claim is made.
-
-Canonical Stage16-30 submission:
-
-- `stages/stage16/16-30/result.md`
-
-Last certified audit remains:
-
-- `stages/stage16/16-20/audit.md`
-
-Because Stage16-30 introduces a new load-bearing mathematical theorem, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit` checks the upper/lower counting argument, exact-one construction, same-measure ambient comparison, and merge safety. Checkpoints 40 and 50 must not be treated as certified before that audit.
+Because checkpoint 40 is newly submitted, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit`. Checkpoint 50 must not be treated as certified before that audit.
