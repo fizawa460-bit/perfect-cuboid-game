@@ -1,8 +1,14 @@
 # Stage14 final self-contained mathematical review
 
-**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260812-R05`
+**Bundle ID:** `STAGE14-FINAL-SELF-CONTAINED-20260813-R06`
 
-**R05 closure boundary.** R05 changes no Stage14 theorem, exponent, receiver, or route status. The independent R04 differential review returned `PASS_WITH_MINOR_FIXES`: no new substantive mathematical gap, but two elementary transcriptions and two notation/usage clarifications remained. R05 supplies exactly those items—the max-height sandwich derivation, the primitive-face coprimality definition, the `a_0,b_0` normalization, and the auxiliary status of `E_s`. No new mathematics or saving is introduced.
+**R06 closure boundary.** A second adversarial review correctly withdrew its
+initial fatal objections but identified two genuine self-containment omissions:
+R05 did not print the forward Jacobi-quartic/elliptic map used in Lemma 3.2,
+and it compressed the prime-allocation covering and complete-host quantifiers
+in Proposition 3.3. R06 transcribes those existing arguments, adds the local
+prime-power/root-line ledger in Lemma 3.4, and changes no theorem, exponent,
+population, cutoff, or route status.
 
 **Frozen source snapshot:** `81bc12bc28f159e3af2b26e4b41ef406a4f98339` (`main`, 2026-08-12 closure audit; later Stage15 files do not enter this proof)
 
@@ -295,6 +301,80 @@ Therefore `d<=B` implies `H_1<B` and `v<2^(3/4)sqrt(Bg/S_1)<=2^(3/4)sqrt(B)`. Th
 
 The rational maps have fixed finite degree, and boundary, positivity, integrality, chamber, and third-face conditions only delete points. The constant is independent of the specialization, so taking `max_F` before summing is valid. The point `(0,0)` has exact order two because a nonsingular Weierstrass point with `Y=0` is 2-torsion and is not the identity.
 
+**Explicit physical-neighbor correspondence.** Fix the first face and put
+
+\[
+\rho=X_1/H_1,\qquad s=S_1/H_1,\qquad A=1-2\rho^2.
+\]
+
+For a second primitive oriented face write its unique physical rational-circle
+coordinate as `q=u/v`, with `0<u<v` and `(u,v)=1`. The space-diagonal
+condition is exactly the nonsingular Jacobi quartic
+
+\[
+W^2=q^4+2Aq^2+1.                                      \tag{3.2.1}
+\]
+
+Indeed `A^2-1=-4\rho^2(1-\rho^2)\ne0` on the physical open
+chamber. For `q\ne0` define
+
+\[
+X_0=\frac{W+1}{q^2},\qquad
+U=A+X_0,\qquad
+V=\frac q2(X_0^2-1),
+\]
+
+and then
+
+\[
+X=\frac{U}{2s^2},\qquad Y=\frac{V}{2s^3}.
+\]
+
+Direct substitution gives
+
+\[
+2V^2=U(U-2s^2)(U+2\rho^2)
+\]
+
+and hence
+
+\[
+Y^2=X(X-1)(X+t^2),\qquad t=\rho/s=X_1/S_1.          \tag{3.2.2}
+\]
+
+Conversely, away from the three 2-torsion points and the finite points at
+infinity, the rational function
+
+\[
+q=\frac{X}{sY}                                       \tag{3.2.3}
+\]
+
+recovers the quartic coordinate, and substitution in (3.2.1) recovers `W`.
+Thus the two smooth projective curves are birational. The omitted charts are
+`q=0,\pm1,\infty` or torsion/infinity charts; none is a physical second face
+with `0<q<1`. Every physical neighbor therefore lies in the map domain.
+
+For one elliptic point, (3.2.3) determines at most one reduced positive
+`q=u/v`; that fraction determines the primitive face
+
+\[
+(S_2,X_2,H_2)
+=\delta^{-1}(v^2-u^2,2uv,v^2+u^2),\qquad
+\delta\in\{1,2\}.
+\]
+
+Lemma 3.1 then determines the primitive physical gluing uniquely. Changing
+the quartic sign or projective chart contributes only an absolute
+multiplicity. This proves the uniform finite fiber rather than declaring it.
+
+Finally, (3.2.1)--(3.2.3) have degree bounded independently of the first face.
+After clearing the numerator and denominator of `s,t`, their coefficients are
+fixed-degree integral polynomials. The bounds `H_1<B` and
+`v<2^{3/4}\sqrt B` therefore give
+`H(E_t),H(X:Y:1)\le B^{C_0}` for one absolute `C_0`. This is the
+naive-height range of Dujella's Corollary 1.3; its constant depends on
+`\mathbf Q` and not on the specialization.
+
 ### Proposition 3.3 — complete balanced-packet reduction
 
 **Statement.** After the exact Cayley/Gaussian parametrizations, gcd peels, finite sign and 2-primary decorations, and dyadic localization, every active face is covered with `B^o(1)` multiplicity by cells with
@@ -368,6 +448,65 @@ v_{res}\le B^{1/4+2\phi-2\theta+o(1)}.
 \]
 
 Dyadically fixing `C` at its active scale defines `chi=2theta+2phi-3/4`; smaller-core cells only improve the ensuing bounds. Direct enumeration of either original coefficient host gives `E_s<=max(2theta,1-2theta)`. Enumerating the `k` residual host after the common product constraint gives `E_k<=3theta-1/4`. Both are complete host counts for the same decorated physical cell, not savings promoted from a fixed parameter. The displayed `E_s` bound is an auxiliary complete-host cross-check retained for provenance; Proposition 3.6 closes the final case split with `E_k`, `E_H`, and `E_RRF`, so it does not charge or invoke `E_s` as an additional saving.
+
+**Complete covering and host ledger (R06 transcription).** For a squarefree
+odd kernel `k`, the four gcd cells are defined prime by prime by
+
+\[
+k_{-,1}=\alpha\beta,\qquad k_{+,1}=\gamma\delta,\qquad
+k_{-,2}=\alpha\gamma,\qquad k_{+,2}=\beta\delta .
+\]
+
+Thus `\alpha,\beta,\gamma,\delta` are pairwise coprime and
+`\alpha\beta\gamma\delta=k`. Every odd prime of `k` has exactly one of the four
+sign patterns, so this allocation is unique. The identical construction for the
+squarefree `\xi` kernel gives pairwise coprime `R,S,T,J`. After the finite
+2-primary decoration, the physical variables are exactly
+
+\[
+P_1=RSx_1^2,\quad Q_1=TJy_1^2,\qquad
+P_2=RTx_2^2,\quad Q_2=SJy_2^2,\qquad
+z_i=\frac{2x_i y_i}{g_i},\quad g_i\in\{1,2\}.
+\]
+
+Conversely, taking squarefree kernels and square parts of the four physical
+`P_i,Q_i` recovers these eight cells prime by prime. Hence the passage is
+reversible up to signs, the displayed 2-primary states, and divisor choices,
+all of total multiplicity `B^{o(1)}`. Dyadic subdivision of the recovered
+variables contributes only `O((\log B)^K)=B^{o(1)}` cells. Swapping the two
+faces and, within a face, the paired factors puts every cell into the stated
+ordering. The comparisons then give
+
+\[
+\frac3{16}\le\theta\le\frac5{16},\qquad
+\frac18\le\phi\le\frac14,\qquad
+\phi\le\theta\le\phi+\frac18,\qquad
+\theta+\phi\ge\frac38.
+\]
+
+The reverse swaps cover the boundary cases, so this is a partition of the
+whole balanced physical strip, not a selection of its favorable chamber.
+
+For completeness, the `k`-host is obtained before any candidate is fixed.
+Writing `k_{\pm,i}` for the four recovered sign factors, the common product
+identity factors exactly as
+
+\[
+\xi q_k=H_k^+H_k^-,\qquad
+H_k^\pm=\delta^2(s_1s_2)^2\pm\alpha^2(r_1r_2)^2 .
+\]
+
+The dyadic sizes above, the common-factor split `q_k=C u_{res}`, and the
+pairwise-coprime allocation leave at most
+`B^{3\theta-1/4+o(1)}` choices for the entire tuple
+`(\alpha,\beta,\gamma,\delta,q_k)`. Divisor splitting into the four cells and
+the finite parity/sign decorations is `B^{o(1)}`. This proves
+`E_k\le3\theta-1/4` as a complete pre-fixing host bound. Enumerating instead
+from either original coefficient pair gives
+`E_s\le\max(2\theta,1-2\theta)`, again before fixing a member. Because the
+prime allocation is reversible and every ordering swap was retained, neither
+bound silently discards an unbalanced packet or promotes a saving valid only
+for fixed auxiliary data.
 
 **Proportional branch proof (s7-37, transcribed).** Write the proportional common scale with same-side and cross-side odd root gcds `K=B^{kappa+o(1)}` and `H=B^{eta+o(1)}`. Exact reducedness gives `(K,H)=1` and `kappa+eta=1/8`. Prime-by-prime Gaussian descent shows `(K,q_xi)=1`; since the common core `C` divides `q_xi`, also `(K,C)=1`. The already proved divisibility `K^2|C u_res` therefore sharpens to `K^2|u_res`. With `u_res<=B^{2theta-2phi+o(1)}`,
 
@@ -522,6 +661,32 @@ B^{2\phi-\chi+o(1)}.
 \]
 
 Third, the preceding 4cx calculation gives the reduced column cost `B^{1/4-chi+o(1)}`. These are three distinct supports in the fixed order `C`, then primitive root-line pair, then reduced column cofactor; none is inferred from the others and none is charged twice.
+
+**Local-root and fixed-data ledger (R06 transcription).** The phrase “for
+fixed residual and quotient data” means that the dyadic cell,
+`C_{bad}`, `g_{ab}`, the coprime coefficient pair `(a_0,b_0)`, the residual
+quotients, all sign choices, and the 2-primary state have already been charged
+in Proposition 3.3 or in a `B^{o(1)}` divisor fiber. The variables still being
+counted here are precisely the primitive pair `(U,V)`; the later reduced
+column cofactor is not fixed and is charged only in the third cost.
+
+For every odd prime power `p^e\Vert C_0`, the unit congruence is
+
+\[
+(U/V)^2\equiv-(b_0/a_0)^2\pmod {p^e}.
+\]
+
+Solubility forces `p\equiv1\pmod4`. There are exactly two roots modulo `p`,
+and their derivatives are units, so Hensel lifting gives exactly two roots
+modulo `p^e`. The 2-primary component was removed into the already fixed
+decoration. The Chinese remainder theorem therefore yields exactly
+`2^{\omega(C_0)}=B^{o(1)}` admissible lines
+`U=\rho V\pmod {C_0}`. On each line the nonzero-determinant spacing argument
+above counts the full primitive dyadic rectangle. Multiplying by the already
+listed fixed-data fibers preserves the exponent
+`B^{2\phi-\chi+o(1)}`. This records the quantifier order explicitly and
+prevents either the root choice or the coefficient host from being counted
+twice.
 
 **Charged-once audit (4cy and s7-40, transcribed).** The common cross-root gcd satisfies `H|X,Y` and `H|c,d`, hence `H^2|M` and `H^2|N=abcd`. It is coprime to the Cayley-good modulus. One may therefore either divide both Cayley variables by `H^2` without changing that modulus (4cy), or combine `N=N_0(M) mod J` with `N=0 mod H^2` into one class modulo `JH^2` (s7-40). These are the same prime-by-prime fact. They remove `2s` from the later row lift but do not create a second saving: `H` is already the root-gcd variable in the complete host count, and `J` is already part of the once-charged core. This is why the column cost `1/4-chi` and the subsequent divisor fiber may be combined without recharging the lost core.
 
@@ -917,7 +1082,7 @@ The inventory distinguishes external-review urgency (`P0` highest) from publicat
 
 ## 13. Final verdict
 
-The bundle is self-contained as a map of definitions, exact proof dependencies, route stops, non-claims, and restart contracts. It states rather than reproves the one external theorem used quantitatively (Dujella), so the appropriate status is not “external-theorem-free.” No substantive mathematical gap was discovered in reconstructing the merged theorem chain.
+The bundle is self-contained as a map of definitions, exact proof dependencies, route stops, non-claims, and restart contracts. It states rather than reproves the one external theorem used quantitatively (Dujella), so the appropriate status is not “external-theorem-free.” R06 closes the three self-containment omissions identified by the second adversarial review: the explicit physical-neighbor/elliptic correspondence, the complete balanced-packet covering and host derivation, and the local-root quantifier ledger. These repairs transcribe existing arguments and do not change the theorem or any exponent.
 
 ```text
 STAGE14_FINAL_BUNDLE_STATUS=SELF_CONTAINED_WITH_STATED_EXTERNAL_THEOREMS
@@ -927,6 +1092,9 @@ R04_REVIEW_VERDICT=PASS_WITH_MINOR_FIXES
 R04_NEW_SUBSTANTIVE_MATHEMATICAL_GAP_FOUND=false
 R05_RESIDUAL_EDITORIAL_ITEMS_RESOLVED=4
 R05_KNOWN_SELF_CONTAINMENT_ITEMS_OPEN=0
+R06_REVIEW_TARGETS=ELLIPTIC_FORWARD_MAP,BALANCED_COMPLETE_COVERING,ROOT_LINE_QUANTIFIER_LEDGER
+R06_INTERNAL_SELF_CONTAINMENT_REPAIRS=3
+R06_KNOWN_SELF_CONTAINMENT_ITEMS_OPEN=0
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
 MATCHING_LOWER_BOUND_PROVED=false
 TRUE_ORDER_OF_N2_PROVED=false
