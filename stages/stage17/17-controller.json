@@ -6,7 +6,7 @@
   "parent_class": "population_state",
   "stage_object": "primitive canonical cuboids with exactly one integral face diagonal and integral space diagonal",
   "source_population": "Stage16 primitive canonical exactly-one population B_1(B) under R<=B",
-  "target_population": "the Stage16 population with R integral, equivalently positive integral space diagonal d=R",
+  "target_population": "the Stage16 population with integral R=d",
   "common_population_contract": "0<a<b<c; gcd(a,b,c)=1; exactly one integral face diagonal; R<=B; Stage17 additionally requires integral R",
   "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
@@ -18,10 +18,7 @@
     "60": "PROVED_AUDITED_PASS",
     "70": "PROVED_AUDITED_PASS"
   },
-  "canonical_commands": {
-    "main": "Stage17-main-batch",
-    "audit": "Stage17-audit"
-  },
+  "canonical_commands": {"main":"Stage17-main-batch","audit":"Stage17-audit"},
   "state": {
     "CURRENT_STAGE": "Stage17",
     "CURRENT_CHECKPOINT": 70,
@@ -34,45 +31,22 @@
     "HUMAN_DECISION_REQUIRED": false,
     "MERGE_ALLOWED": true
   },
-  "checkpoint_contract": {
-    "10": "population contract",
-    "20": "finite-data baseline",
-    "30": "ratio / thinning law",
-    "40": "upper-bound ledger",
-    "50": "lower-bound / construction ledger",
-    "60": "causal decomposition",
-    "70": "intrinsic-status / audit verdict plus bounded final synthesis"
-  },
-  "sources": {
-    "roadmap": "docs/stage16-28-population-roadmap.md",
-    "stage70_policy": "docs/stage16-28-stage70-policy.md",
-    "self_contained_standard": "docs/self-contained-review-standard.md",
-    "stage13": "stages/stage13/final.md",
-    "stage16": "stages/stage16/final.md",
-    "c70": "stages/stage17/17-70/result.md",
-    "a70": "stages/stage17/17-70/audit.md",
-    "final": "stages/stage17/final.md",
-    "manifest": "stages/stage17/manifest-r01.md"
-  },
   "theorem_status": {
     "absolute_law": "N_1(B) ~ kappa/(24*pi) B(log B)^3",
     "survival_law": "N_1(B)/M_1(B) asymp (log B)^2/B -> 0",
     "at_least_one_dominance": "N_1(B)/H_{1,d}(B) -> 1",
     "absolute_status": "PROVED_ASYMPTOTIC",
-    "leading_constant_proved": true,
     "closeout_bundle_accepted": true
-  },
-  "stage21_boundary": {
-    "space_diagonal_cost_intrinsicness": "DEFER_TO_STAGE21_WITH_STAGE16S",
-    "independence_claim": false
   },
   "self_contained_bundle": {
     "bundle": "stages/stage17/final.md",
     "standard": "SELF_CONTAINED_REVIEW_STANDARD_V1",
     "upstream_interfaces_exact": true,
-    "stage13_interface_exact": true,
-    "stage16_interface_exact": true,
     "status": "AUDITED_PASS"
+  },
+  "stage21_boundary": {
+    "space_diagonal_cost_intrinsicness": "DEFER_TO_STAGE21_WITH_STAGE16S",
+    "independence_claim": false
   },
   "last_audit": {
     "checkpoint": 70,
@@ -81,26 +55,22 @@
     "audited_submission_sha": "a25e263da7e78df59741039164b8dfe50a7b5910",
     "pr": 912,
     "merge_allowed": true,
-    "new_input_required": false,
-    "human_decision_required": false,
     "codex_audit_required": false,
     "codex_reason": "NONE",
     "prior_blocked_audit_superseded": true
   },
-  "last_submission": {
-    "checkpoint": 70,
-    "status": "AUDITED_PASS",
-    "result": "stages/stage17/17-70/result.md",
-    "bundle": "stages/stage17/final.md",
-    "manifest": "stages/stage17/manifest-r01.md",
-    "new_analytic_input": false
-  },
   "audit_persistence": {
     "required": true,
-    "policy": "docs/stage16-28-population-roadmap.md",
-    "status": "PENDING_CURRENT_STATUS_SYNC",
-    "unsynced_audit_state": "docs/00_CURRENT_RESEARCH_STATUS.md",
+    "status": "COMMITTED",
+    "unsynced_audit_state": "NONE",
     "merge_execution_default": false
   },
-  "merge_rule": "Stage17-70 fresh re-audit PASS permits PR #912 merge. After merge, Stage18 is the next numbered population stage; Stage16S remains parallel and Stage21 consumes the Stage16/17/Stage16S comparison."
+  "sources": {
+    "roadmap": "docs/stage16-28-population-roadmap.md",
+    "result": "stages/stage17/17-70/result.md",
+    "audit": "stages/stage17/17-70/audit.md",
+    "final": "stages/stage17/final.md",
+    "manifest": "stages/stage17/manifest-r01.md"
+  },
+  "merge_rule": "Stage17-70 fresh re-audit PASS permits PR #912 merge; next numbered stage is Stage18."
 }
