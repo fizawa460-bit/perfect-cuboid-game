@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-10-SUBMITTED
+CURRENT_STAGE=Stage16-10-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,10 +10,12 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_10_SUBMITTED
+STAGE16_STATUS=OPEN_CHECKPOINT_10_AUDIT_PASS
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
 STAGE16_CURRENT_RESULT=stages/stage16/16-10/result.md
-NEXT_EXPECTED_COMMAND=Stage16-audit
+STAGE16_CURRENT_AUDIT=stages/stage16/16-10/audit.md
+STAGE16_NEXT_CHECKPOINT=20
+NEXT_EXPECTED_COMMAND=Stage16-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
@@ -101,12 +103,10 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-Stage16 is now active under the Stage16-28 roadmap. The parent controller is:
+Stage16-10 has passed fresh audit. The primitive/canonical exactly-one-face population under the common geometric cutoff `R<=B`, with no space-diagonal integrality requirement, is certified. The exact adapter `R=d` on the integral-space-diagonal subpopulation is also certified.
 
-- `stages/stage16/16-controller.json`
+Canonical Stage16-10 audit record:
 
-The first main batch has submitted `Stage16-10`, freezing the primitive/canonical exactly-one-face population under the common geometric cutoff `R<=B` with no space-diagonal integrality requirement:
+- `stages/stage16/16-10/audit.md`
 
-- `stages/stage16/16-10/result.md`
-
-The submission stops before finite-data checkpoint `Stage16-20`. A fresh `Stage16-audit` must first certify the population/cutoff contract and the exact `R=d` adapter on the integral-space-diagonal subpopulation. If that audit passes, the controller may advance to checkpoint 20 and safely reuse/adapt earlier enumerators and arsenal items.
+The stale Stage15-8 successor-pointer verifier was repaired without changing Stage16 mathematics, and its dedicated GitHub Actions verification passed on the audited submission. After the audited Stage16 PR is merged, the next unresolved checkpoint is `Stage16-20` (finite-data baseline), entered through the canonical command `Stage16-main-batch`.
