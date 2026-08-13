@@ -4,200 +4,82 @@
   "status": "OPEN",
   "stage": "Stage16S",
   "parent_class": "population_state",
-  "stage_object": "primitive canonical cuboids with integral space diagonal before any integer-face condition is imposed, tracking both SPACE_AT_LEAST and SPACE_ONLY",
-  "roadmap": "docs/stage16-28-population-roadmap.md",
-  "execution_template": "docs/stage16-28-execution-controller-template.md",
-  "stage70_policy": "docs/stage16-28-stage70-policy.md",
-  "github_write_policy": "docs/stage16-28-github-write-policy.md",
-  "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
-  "target_population": "SPACE_AT_LEAST: source population with integral R; SPACE_ONLY: SPACE_AT_LEAST with zero integral face diagonals",
-  "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; common geometric cutoff R<=B; face multiplicity is measured exactly when SPACE_ONLY is formed",
-  "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
+  "stage_object": "primitive canonical cuboids with integral space diagonal, tracking SPACE_AT_LEAST and SPACE_ONLY",
+  "source_population": "0<a<b<c; gcd(a,b,c)=1; R=sqrt(a^2+b^2+c^2)<=B",
+  "target_population": "SPACE_AT_LEAST: integral R with no face restriction; SPACE_ONLY: integral R with zero integral faces",
+  "common_population_contract": "positive primitive canonical triples under common R<=B cutoff",
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "PENDING",
+    "30": "SUBMITTED_PENDING_FRESH_AUDIT",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
-  "source_of_truth": [
-    "docs/stage16-28-population-roadmap.md",
-    "docs/stage16-28-execution-controller-template.md",
-    "docs/stage16-28-stage70-policy.md",
-    "docs/stage16-28-github-write-policy.md",
-    "docs/stage14-arsenal.md",
-    "docs/00_CURRENT_RESEARCH_STATUS.md",
-    "stages/stage16/16-10/result.md",
-    "stages/stage17/17-controller.json",
-    "stages/stage17/17-20/counts.csv",
-    "stages/stage16s/16s-10/audit.md",
-    "stages/stage16s/16s-20/result.md",
-    "stages/stage16s/16s-20/audit.md",
-    "stages/stage16s/16s-20/counts.csv",
-    "stages/stage16s/16s-20/enumerate.py",
-    "stages/stage16s/16s-20/counts.sha256"
-  ],
   "canonical_commands": {
     "main": "Stage16S-main-batch",
     "audit": "Stage16S-audit"
   },
   "state": {
     "CURRENT_STAGE": "Stage16S",
-    "CURRENT_CHECKPOINT": 20,
-    "MAIN_STATUS": "COMPLETE",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 30,
+    "CURRENT_CHECKPOINT": 30,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": null,
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
-  "checkpoint_contract": {
-    "10": "population contract",
-    "20": "finite-data baseline",
-    "30": "ratio / thinning law",
-    "40": "upper-bound ledger",
-    "50": "lower-bound / construction ledger",
-    "60": "causal decomposition",
-    "70": "bounded maximal synthesis / intrinsic status / closeout"
-  },
-  "stage16s_contract": {
-    "canonical_edges": "0<a<b<c",
-    "primitive": "gcd(a,b,c)=1",
-    "height": "R(a,b,c)=sqrt(a^2+b^2+c^2)",
-    "cutoff": "R<=B",
-    "space_at_least": "R is an integer; no face-diagonal restriction",
-    "space_only": "R is an integer and none of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
-    "face_square_predicates": [
-      "a^2+b^2 is a square",
-      "a^2+c^2 is a square",
-      "b^2+c^2 is a square"
+  "parallel_lane": true,
+  "parallel_lane_rule": "Stage16S does not replace or block the numbered Stage17/18 lane",
+  "certified_inputs": [
+    "stages/stage16s/16s-10/audit.md",
+    "stages/stage16s/16s-20/audit.md",
+    "stages/stage16s/16s-20/counts.csv",
+    "stages/stage16/16-30/result.md"
+  ],
+  "current_submission": {
+    "checkpoint": 30,
+    "result": "stages/stage16s/16s-30/result.md",
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "literature_input": "Hurlimann 2015 JIS 18 Article 15.2.5 Theorem 7",
+    "claims": [
+      "N_S^all(B) ~ B^2/(32G)",
+      "N_S^0(B) ~ B^2/(32G)",
+      "N_S^all(B)/U(B) ~ [9 zeta(3)/(8 pi G)]/B",
+      "N_S^0(B)/U(B) ~ [9 zeta(3)/(8 pi G)]/B",
+      "N_S^all(B)-N_S^0(B)=O_epsilon(B^(1+epsilon))",
+      "N_S^0(B)/N_S^all(B) -> 1"
     ],
-    "space_diagonal_symbol": "d=R on the target population",
-    "comparison_adapter": "No height adapter is needed against Stage16 because both use the same primitive/canonical R<=B source convention. On Stage16S objects, d=R exactly, so d<=B and R<=B are identical. Stage17 is exactly Stage16 intersected with SPACE_AT_LEAST under this common convention.",
-    "suggested_count_notation": {
-      "space_at_least_set": "S_all(B)",
-      "space_at_least_count": "N_S^all(B)",
-      "space_only_set": "S_0(B)",
-      "space_only_count": "N_S^0(B)"
-    }
-  },
-  "finite_data": {
-    "thresholds": [50, 100, 200, 400, 800, 1200, 1600, 2000],
-    "counts_csv": "stages/stage16s/16s-20/counts.csv",
-    "counts_sha256": "0752d021b9df40c8035b10d1e8ed3cfd58a84086e64dca0ce0256492df63af2c",
-    "max_B": 2000,
-    "space_at_least_at_max": 136060,
-    "space_only_at_max": 134621,
-    "face1_at_max": 1434,
-    "face2_at_max": 5,
-    "face3_at_max": 0,
-    "small_cutoff_crosscheck_B": 200,
-    "small_cutoff_crosscheck": "PASS_AUDITED",
-    "stage17_exact_one_interface": "PASS_AUDITED",
-    "frozen_census_replay": "PASS_AUDITED",
-    "evidence_level": "COMPUTED",
-    "finite_data_used_as_proof": false
-  },
-  "main_contract": {
-    "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "parallel_lane": true,
-    "parallel_lane_rule": "Stage16S must not replace or block the primary numbered-stage controller. The repository may continue Stage17/18 work while Stage16S is open; Stage21 final causal classification depends on the audited Stage16S baseline.",
-    "current_stop_reason": "Stage16S-20 passed fresh audit. The deterministic finite census through B=2000, independent B<=200 direct replay, frozen CSV regeneration, and Stage17 face1 interface are certified. Checkpoint 30 may proceed after the audited PR is merged.",
-    "reuse_before_new_work": [
-      "Stage16S-10 audited population contract",
-      "Stage16S-20 audited finite census",
-      "Stage17-20 exact-one finite census as an interface regression check"
-    ],
-    "must_emit": [
-      "MAIN_BATCH_STATUS",
-      "CURRENT_STAGE",
-      "CHECKPOINTS_ATTEMPTED",
-      "CHECKPOINTS_SUBMITTED",
-      "NEW_CLAIMS",
-      "REUSED_WEAPONS",
-      "CODEX_REQUIRED",
-      "CODEX_REASON",
-      "AUDIT_REQUIRED",
-      "NEXT_EXPECTED_COMMAND"
-    ]
+    "comparison_adapter_required": true,
+    "comparison_adapter_status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "finite_data_used_as_proof": false,
+    "codex_required": false
   },
   "audit_contract": {
     "fresh_read_only_audit": true,
     "required_checks": [
-      "Stage16S-10 audit PASS is merged and remains unchanged",
-      "parent_class remains population_state while auxiliary semantics remain in parallel_lane metadata",
-      "enumerator covers every primitive canonical integral-space-diagonal triple under R=d<=B",
-      "optimized sum-of-two-squares join matches direct canonical-triple brute force through B=200",
-      "frozen counts.csv regenerates exactly through B=2000",
-      "SPACE_AT_LEAST decomposes exactly into face multiplicities 0,1,2,3 at every threshold",
-      "SPACE_ONLY is exactly the face0 column",
-      "face1 column matches audited Stage17-20 N1 values at every shared threshold",
-      "finite-data ratios remain diagnostic and are not promoted to asymptotic or causal claims",
-      "Stage16S remains parallel and does not alter the primary Stage17/18 controller",
-      "checkpoint 30 is not entered before fresh checkpoint-20 audit PASS",
+      "literature B^2/(32G) leading term",
+      "primitive implies odd d",
+      "gcd convention equivalence",
+      "strict-order repeated-edge adapter",
+      "ambient ratio constant",
+      "faceful complement divisor bound",
+      "SPACE_ONLY ratio limit",
+      "no finite-data proof or causal overclaim",
       "merge safety"
-    ],
-    "required_footer": [
-      "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
-      "AUDIT_PERSISTENCE_STATUS=COMMITTED|FAILED",
-      "ADVANCE_ALLOWED=true|false",
-      "NEW_INPUT_REQUIRED=true|false",
-      "HUMAN_DECISION_REQUIRED=true|false",
-      "NEXT_CHECKPOINT=",
-      "NEXT_STAGE=",
-      "CODEX_AUDIT_REQUIRED=true|false",
-      "CODEX_REASON=",
-      "MERGE_ALLOWED=true|false"
     ]
   },
   "last_audit": {
     "checkpoint": 20,
     "verdict": "PASS",
     "record": "stages/stage16s/16s-20/audit.md",
-    "audited_submission_sha": "df7989bcfe8692a7d3d956e7a862b02bf3c816b3",
     "pr": 910,
-    "merge_allowed": true,
-    "audit_persistence_status": "COMMITTED",
-    "codex_audit_required": false,
-    "codex_reason": "NONE"
+    "merge_allowed": true
   },
-  "last_submission": {
-    "checkpoint": 20,
-    "status": "AUDITED_PASS",
-    "result": "stages/stage16s/16s-20/result.md",
-    "data": "stages/stage16s/16s-20/counts.csv",
-    "enumerator": "stages/stage16s/16s-20/enumerate.py",
-    "evidence_level": "COMPUTED",
-    "new_claims": [
-      "deterministic finite SPACE_AT_LEAST and SPACE_ONLY counts through B=2000",
-      "exact finite face-multiplicity decomposition at the frozen thresholds",
-      "optimized enumerator agrees with independent brute force through B=200",
-      "face1 finite counts agree exactly with Stage17-20 at all shared thresholds"
-    ],
-    "finite_data_used_as_proof": false,
-    "population_contract_changed": false,
-    "comparison_adapter_required": false,
-    "codex_required": false,
-    "codex_reason": "The bounded O(B^2)-scale sum-of-two-squares join, direct B<=200 cross-check, and frozen replay were implemented and independently verified directly; no separate Codex delegation is needed."
-  },
-  "codex_policy": {
-    "default_required": false,
-    "delegate_when_useful": [
-      "deterministic Stage16S enumerator and replay implementation",
-      "large finite census generation",
-      "controller/manifest/CI repair",
-      "large mechanical repository work"
-    ],
-    "not_final_authority_for": [
-      "new mathematical claims",
-      "population-contract changes",
-      "theorem-transfer adapters",
-      "causal conclusions"
-    ]
-  },
-  "merge_rule": "Stage16S-20 passed fresh audit and is merge-allowed. Checkpoint 30 may begin after the audited checkpoint-20 PR is merged; Stage16S remains an auxiliary lane and does not alter the active numbered-stage advancement state."
+  "merge_rule": "Checkpoint 40 waits for fresh Stage16S-30 audit PASS and merge."
 }
