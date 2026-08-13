@@ -5,8 +5,8 @@ on:
     paths:
       - 'stages/stage14/14-Work-ciX47/**'
       - 'docs/stage14-toolbox/work-ciX47-receiver-matrix.md'
-      - 'docs/stage14-q21-literature-radar.md'
-      - 'docs/stage14-q21-summary.md'
+      - 'stages/stage14/archive/docs/q-research/stage14-q21-literature-radar.md'
+      - 'stages/stage14/archive/docs/q-research/stage14-q21-summary.md'
       - 'stages/stage14/scripts/14-Work-ciX47/**'
       - '.github/workflows/stage14-Work-ciX47-good-packet-intersection.yml'
   workflow_dispatch:
@@ -36,13 +36,13 @@ jobs:
           grep -Fq 'S_Q17_GOOD_PACKET_COVERAGE_PROVED=false' stages/stage14/14-Work-chX46/result.md
       - name: Lock q17 and q20 baselines
         run: |
-          grep -Fq 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' docs/stage14-q17-summary.md
-          grep -Fq 'STAGE14_Q20=COMPLETE_CONDITIONED_DIVISOR_CORRELATION_LITERATURE_RADAR' docs/stage14-q20-summary.md
+          grep -Fq 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
+          grep -Fq 'STAGE14_Q20=COMPLETE_CONDITIONED_DIVISOR_CORRELATION_LITERATURE_RADAR' stages/stage14/archive/docs/q-research/stage14-q20-summary.md
       - name: Lock q21 boundary
         run: |
-          grep -Fq 'STAGE14_Q21=COMPLETE_Q17_GOOD_PACKET_PUSHFORWARD_INTERSECTION_LITERATURE_RADAR' docs/stage14-q21-summary.md
-          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q21-summary.md
-          grep -Fq 'Q21_GOOD_PACKET_INDICATOR_CORRELATION_ENCODING_TEST' docs/stage14-q21-summary.md
+          grep -Fq 'STAGE14_Q21=COMPLETE_Q17_GOOD_PACKET_PUSHFORWARD_INTERSECTION_LITERATURE_RADAR' stages/stage14/archive/docs/q-research/stage14-q21-summary.md
+          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' stages/stage14/archive/docs/q-research/stage14-q21-summary.md
+          grep -Fq 'Q21_GOOD_PACKET_INDICATOR_CORRELATION_ENCODING_TEST' stages/stage14/archive/docs/q-research/stage14-q21-summary.md
       - name: Lock integrated boundary
         run: |
           grep -Fq 'Q_COMPONENT=COMPLETE' stages/stage14/14-Work-ciX47/result.md

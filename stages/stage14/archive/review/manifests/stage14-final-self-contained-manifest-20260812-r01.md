@@ -22,7 +22,7 @@ EXTERNAL_REVIEW_P0_COUNT=3
 EXTERNAL_REVIEW_P1_COUNT=8
 BUNDLE_PATH=review/STAGE14-FINAL-SELF-CONTAINED-20260812-R01.html
 CANONICAL_SOURCE_PATH=docs/stage14-final-self-contained.md
-SOURCE_LEDGER_PATH=docs/review/stage14-final-self-contained-provenance-20260812-r01.md
+SOURCE_LEDGER_PATH=stages/stage14/archive/review/manifests/stage14-final-self-contained-provenance-20260812-r01.md
 ```
 
 ## Integrity contract

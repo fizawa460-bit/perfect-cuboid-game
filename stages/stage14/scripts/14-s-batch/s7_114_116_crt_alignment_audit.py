@@ -9,7 +9,7 @@ REPORT = ROOT / "stages/stage14/14-s-batch/s7-114-116-report.md"
 MAIN4GD = ROOT / "stages/stage14/14-4gd/result.md"
 MAIN4GE = ROOT / "stages/stage14/14-4ge/result.md"
 X38 = ROOT / "stages/stage14/14-Work-bzX38/result.md"
-Q17 = ROOT / "docs/stage14-q17-summary.md"
+Q17 = ROOT / "stages/stage14/archive/docs/q-research/stage14-q17-summary.md"
 
 
 def text(p: Path) -> str:

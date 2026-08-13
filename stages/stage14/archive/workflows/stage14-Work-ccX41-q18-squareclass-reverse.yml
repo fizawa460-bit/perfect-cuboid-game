@@ -5,7 +5,7 @@ on:
     paths:
       - 'stages/stage14/14-Work-ccX41/**'
       - 'docs/stage14-toolbox/work-ccX41-receiver-matrix.md'
-      - 'docs/stage14-q18-*.md'
+      - 'stages/stage14/archive/docs/q-research/stage14-q18-*.md'
       - 'stages/stage14/scripts/14-Work-ccX41/**'
       - '.github/workflows/stage14-Work-ccX41-q18-squareclass-reverse.yml'
   workflow_dispatch:
@@ -44,15 +44,15 @@ jobs:
 
       - name: Lock merged q17 baseline
         run: |
-          grep -Fq 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' docs/stage14-q17-summary.md
-          grep -Fq 'RECIPROCAL_CRT_SUPPORT_DIRECT_THEOREM_FOUND=false' docs/stage14-q17-summary.md
+          grep -Fq 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
+          grep -Fq 'RECIPROCAL_CRT_SUPPORT_DIRECT_THEOREM_FOUND=false' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
 
       - name: Lock q18 result
         run: |
-          grep -Fq 'STAGE14_Q18=COMPLETE_FILTERED_TRIPLE_PRODUCT_REVERSE_SUPPORT_LITERATURE_RADAR' docs/stage14-q18-summary.md
-          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q18-summary.md
-          grep -Fq 'Q18_SCALAR_FILTERED_TAU3_ENCODING_TEST' docs/stage14-q18-squareclass-reverse-literature-radar.md
-          grep -Fq 'Q18_POLYNOMIAL_PAIR_FIBERED_SUPPORT_MOMENT_TEST' docs/stage14-q18-squareclass-reverse-literature-radar.md
+          grep -Fq 'STAGE14_Q18=COMPLETE_FILTERED_TRIPLE_PRODUCT_REVERSE_SUPPORT_LITERATURE_RADAR' stages/stage14/archive/docs/q-research/stage14-q18-summary.md
+          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' stages/stage14/archive/docs/q-research/stage14-q18-summary.md
+          grep -Fq 'Q18_SCALAR_FILTERED_TAU3_ENCODING_TEST' stages/stage14/archive/docs/q-research/stage14-q18-squareclass-reverse-literature-radar.md
+          grep -Fq 'Q18_POLYNOMIAL_PAIR_FIBERED_SUPPORT_MOMENT_TEST' stages/stage14/archive/docs/q-research/stage14-q18-squareclass-reverse-literature-radar.md
 
       - name: Lock integrated XQ boundary
         run: |

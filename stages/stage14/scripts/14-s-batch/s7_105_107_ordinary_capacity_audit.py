@@ -81,7 +81,7 @@ require("stages/stage14/14-s7-93/result.md", "gcd(sqf(E),K_Z)=1")
 require("stages/stage14/14-s7-104/result.md", "KNOWN_SQUAREFREE_KERNEL_MASK_FIXED_POWER_DEFICIT=0")
 require("stages/stage14/14-4fv/result.md", "Q14_UNITARY_UPPER_BOUND_ADAPTER_COMPLETE=true")
 require("stages/stage14/14-Work-bwX35/result.md", "COMMON_ABSOLUTE_CAPACITY_FIRST_PRINCIPLE_PROVED=true")
-require("docs/stage14-q15-summary.md", "Q15_LOCALIZED_DIVISOR_WIDTH_COMPATIBILITY_TEST")
+require("stages/stage14/archive/docs/q-research/stage14-q15-summary.md", "Q15_LOCALIZED_DIVISOR_WIDTH_COMPATIBILITY_TEST")
 
 # New-stage locks.
 require("stages/stage14/14-s7-105/result.md", "FIXED_E_TWO_SIDED_ABSOLUTE_CAPACITY_FIRST_CLOSURE=true")

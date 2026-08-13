@@ -10,8 +10,8 @@ def text(rel: str) -> str:
 work = text("stages/stage14/14-Work-cfX44/result.md")
 matrix = text("docs/stage14-toolbox/work-cfX44-receiver-matrix.md")
 s134 = text("stages/stage14/14-s7-134/result.md")
-q17 = text("docs/stage14-q17-summary.md")
-q20 = text("docs/stage14-q20-summary.md")
+q17 = text("stages/stage14/archive/docs/q-research/stage14-q17-summary.md")
+q20 = text("stages/stage14/archive/docs/q-research/stage14-q20-summary.md")
 
 for tok in [
     "WORK_RUN_GATE=RUN_S7_134_MATERIAL_RECEIVER_CHANGE",

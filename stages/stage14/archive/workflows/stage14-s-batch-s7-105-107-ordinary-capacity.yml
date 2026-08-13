@@ -42,14 +42,14 @@ jobs:
 
       - name: Lock q15 width handoff
         run: |
-          grep -Fq 'Q15_LOCALIZED_DIVISOR_WIDTH_COMPATIBILITY_TEST' docs/stage14-q15-summary.md
-          grep -Fq 'UNITARY_TO_ORDINARY_LOCALIZED_SHADOW_BOUNDED_DISTORTION=false' docs/stage14-q15-summary.md
+          grep -Fq 'Q15_LOCALIZED_DIVISOR_WIDTH_COMPATIBILITY_TEST' stages/stage14/archive/docs/q-research/stage14-q15-summary.md
+          grep -Fq 'UNITARY_TO_ORDINARY_LOCALIZED_SHADOW_BOUNDED_DISTORTION=false' stages/stage14/archive/docs/q-research/stage14-q15-summary.md
 
       - name: Lock common and s batch contracts
         run: |
-          grep -Fq '## Integrated sH work unit' docs/stage14-s-batch-task-contract.md
-          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
-          grep -Fq 'unresolved_external_gate' docs/stage14-batch-common-contract.md
+          grep -Fq '## Integrated sH work unit' stages/stage14/archive/docs/operations/stage14-s-batch-task-contract.md
+          grep -Fq 'BATCH_INTEGRATED_H_UNITS=' stages/stage14/archive/docs/operations/stage14-batch-common-contract.md
+          grep -Fq 'unresolved_external_gate' stages/stage14/archive/docs/operations/stage14-batch-common-contract.md
 
       - name: Lock batch boundary
         run: |

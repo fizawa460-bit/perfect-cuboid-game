@@ -47,9 +47,9 @@ jobs:
 
       - name: Lock common and main batch contracts
         run: |
-          grep -q 'unresolved_external_gate' docs/stage14-batch-common-contract.md
-          grep -q 'A justified early stop before three' docs/stage14-batch-common-contract.md
-          grep -q 'Stage14-main-batch' docs/stage14-main-batch-task-contract.md
+          grep -q 'unresolved_external_gate' stages/stage14/archive/docs/operations/stage14-batch-common-contract.md
+          grep -q 'A justified early stop before three' stages/stage14/archive/docs/operations/stage14-batch-common-contract.md
+          grep -q 'Stage14-main-batch' stages/stage14/archive/docs/operations/stage14-main-batch-task-contract.md
 
       - name: Diff check
         run: git diff --check origin/main...HEAD

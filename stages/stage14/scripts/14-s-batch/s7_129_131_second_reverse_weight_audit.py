@@ -9,7 +9,7 @@ s129 = text('stages/stage14/14-s7-129/result.md')
 s130 = text('stages/stage14/14-s7-130/result.md')
 s131 = text('stages/stage14/14-s7-131/result.md')
 rep = text('stages/stage14/14-s-batch/s7-129-131-report.md')
-q19 = text('docs/stage14-q19-summary.md')
+q19 = text('stages/stage14/archive/docs/q-research/stage14-q19-summary.md')
 
 for tok in [
     'Q19_SECOND_REVERSE_EXACT_WEIGHT_ENCODING_TEST',

@@ -18,6 +18,9 @@ docs/stage14-arsenal-stage15-map.md
 
 Historical task results, roadmaps, protocols, and completed workflows are under
 `stages/stage14/archive/`. Their citations were rewritten to the archive paths.
+Completed Q research is grouped under `archive/docs/q-research/`, retired batch
+contracts under `archive/docs/operations/`, and historical review manifests
+under `archive/review/manifests/`.
 Stage-specific `data/`, `scripts/`, and `literature/` keep their stable paths,
 including the Stage15 validation lock under `data/14-num-alpha11-diag8/`.
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Bridge3 executes the final predeclared bridge task from `docs/stage14-bridge-num-to-proof-roadmap.md`:
+Bridge3 executes the final predeclared bridge task from `stages/stage14/archive/docs/operations/stage14-bridge-num-to-proof-roadmap.md`:
 
 ```text
 raw direction shift

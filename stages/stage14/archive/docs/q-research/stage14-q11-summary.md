@@ -63,4 +63,4 @@ HANDOFF_T=Stage14-t96+
 NEXT_Q_STAGE=NONE_UNTIL_MULTIPLICATIVE_PHASE_TEST_OR_NEW_STABLE_OBSTRUCTION
 ```
 
-Full radar: `docs/stage14-q11-nearmax-pythagorean-correlation-literature-radar.md`.
+Full radar: `stages/stage14/archive/docs/q-research/stage14-q11-nearmax-pythagorean-correlation-literature-radar.md`.

@@ -8,8 +8,8 @@ def text(rel):
 r = text('stages/stage14/14-Work-cgX45/result.md')
 s = text('stages/stage14/14-s7-137/result.md')
 x = text('stages/stage14/14-Work-cfX44/result.md')
-q17 = text('docs/stage14-q17-summary.md')
-q20 = text('docs/stage14-q20-summary.md')
+q17 = text('stages/stage14/archive/docs/q-research/stage14-q17-summary.md')
+q20 = text('stages/stage14/archive/docs/q-research/stage14-q20-summary.md')
 
 for token in [
     'CONDITIONED_KERNEL_MEASURE_FIREWALL_LEMMA_PROVED=true',

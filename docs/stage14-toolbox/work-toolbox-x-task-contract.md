@@ -66,7 +66,7 @@ all physical filters.
 After the toolbox and X components are complete, but before publication:
 
 1. freeze the new merged-source receiver and the exact obstruction produced by X;
-2. read `docs/stage14-q-task-contract.md`, the latest merged q result, and the q literature ledger;
+2. read `stages/stage14/archive/docs/q-research/stage14-q-task-contract.md`, the latest merged q result, and the q literature ledger;
 3. decide whether the frozen obstruction is materially new relative to that ledger;
 4. if it is not new, record `Q_COMPONENT=NOT_TRIGGERED` and finish the X result;
 5. if it is new, execute the next unused q stage immediately as one additional charged-once work unit on the **same branch and in the same Draft PR**;
@@ -125,7 +125,7 @@ Create only task-owned files:
 4. a path-scoped dedicated GitHub Actions workflow.
 
 Only when the q gate triggers, also create the canonical q radar and summary files
-required by `docs/stage14-q-task-contract.md`. They belong to the same branch,
+required by `stages/stage14/archive/docs/q-research/stage14-q-task-contract.md`. They belong to the same branch,
 commit series, validation pass, and Draft PR as the Work result. Do not duplicate
 the Work receiver matrix in the q summary.
 

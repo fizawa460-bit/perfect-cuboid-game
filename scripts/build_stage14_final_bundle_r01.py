@@ -16,9 +16,9 @@ BUNDLE_ID = "STAGE14-FINAL-SELF-CONTAINED-20260812-R05"
 SOURCE_SNAPSHOT_COMMIT = "81bc12bc28f159e3af2b26e4b41ef406a4f98339"
 BUNDLE_BASE_COMMIT = "e67258aa01e6580ce86cb1a8dec153a3b60c5c0c"
 SOURCE = Path("docs/stage14-final-self-contained.md")
-LEDGER = Path("docs/review/stage14-final-self-contained-provenance-20260812-r01.md")
+LEDGER = Path("stages/stage14/archive/review/manifests/stage14-final-self-contained-provenance-20260812-r01.md")
 BUNDLE = Path("review/STAGE14-FINAL-SELF-CONTAINED-20260812-R05.html")
-MANIFEST = Path("docs/review/stage14-final-self-contained-manifest-20260812-r05.md")
+MANIFEST = Path("stages/stage14/archive/review/manifests/stage14-final-self-contained-manifest-20260812-r05.md")
 
 
 def sha256_bytes(data: bytes) -> str:

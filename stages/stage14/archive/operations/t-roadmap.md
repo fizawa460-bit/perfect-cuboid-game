@@ -9,9 +9,9 @@ Stage14-t-batch
 ```
 
 Before deriving a concrete successor, first read
-[`docs/stage14-batch-common-contract.md`](../../docs/stage14-batch-common-contract.md)
+[`stages/stage14/archive/docs/operations/stage14-batch-common-contract.md`](../../stages/stage14/archive/docs/operations/stage14-batch-common-contract.md)
 and then
-[`docs/stage14-t-batch-task-contract.md`](../../docs/stage14-t-batch-task-contract.md)
+[`stages/stage14/archive/docs/operations/stage14-t-batch-task-contract.md`](../../stages/stage14/archive/docs/operations/stage14-t-batch-task-contract.md)
 from latest merged `main`. The entry point advances the existing t ledger; it
 does not create a parallel numbering system. A normal run follows the unique
 merged `NEXT` chain for 3--5 substantive work units on one branch and publishes one

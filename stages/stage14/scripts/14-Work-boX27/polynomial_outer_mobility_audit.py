@@ -28,7 +28,7 @@ locks = {
         "FIXED_U_THREE_MECHANISM_SAVING_TRICHOTOMY_PROVED=true",
         "T_ROUTE_H_NEEDED=false",
     ],
-    "docs/stage14-q13-summary.md": [
+    "stages/stage14/archive/docs/q-research/stage14-q13-summary.md": [
         "DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0",
         "STRICT_SUBSQRT_POWER_SAVING_FROM_LITERATURE_PROVED=false",
     ],

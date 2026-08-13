@@ -7,7 +7,7 @@ paths = {
     "t121": repo / "stages/stage14/14-t121/result.md",
     "t122": repo / "stages/stage14/14-t122/result.md",
     "t123": repo / "stages/stage14/14-t123/result.md",
-    "contract": repo / "docs/stage14-t-batch-task-contract.md",
+    "contract": repo / "stages/stage14/archive/docs/operations/stage14-t-batch-task-contract.md",
 }
 for name, path in paths.items():
     assert path.exists(), (name, path)

@@ -30,8 +30,8 @@ jobs:
         run: python stages/stage14/scripts/14-s-batch/s7_123_125_squareclass_allocation_audit.py
       - name: Lock q18 handoff
         run: |
-          grep -Fq 'Q18_SCALAR_FILTERED_TAU3_ENCODING_TEST' docs/stage14-q18-summary.md
-          grep -Fq 'Q18_POLYNOMIAL_PAIR_FIBERED_SUPPORT_MOMENT_TEST' docs/stage14-q18-summary.md
+          grep -Fq 'Q18_SCALAR_FILTERED_TAU3_ENCODING_TEST' stages/stage14/archive/docs/q-research/stage14-q18-summary.md
+          grep -Fq 'Q18_POLYNOMIAL_PAIR_FIBERED_SUPPORT_MOMENT_TEST' stages/stage14/archive/docs/q-research/stage14-q18-summary.md
       - name: Lock batch boundary
         run: |
           grep -Fq 'Q18_FILTERED_TAU3_TO_SUPPORT_ADAPTER_PROVED=true' stages/stage14/14-s7-128/result.md

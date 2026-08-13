@@ -9,9 +9,9 @@ Stage14-main-batch
 ```
 
 Before deriving a successor, read the common contract
-[`docs/stage14-batch-common-contract.md`](../../docs/stage14-batch-common-contract.md)
+[`stages/stage14/archive/docs/operations/stage14-batch-common-contract.md`](../../stages/stage14/archive/docs/operations/stage14-batch-common-contract.md)
 and then the main specialization
-[`docs/stage14-main-batch-task-contract.md`](../../docs/stage14-main-batch-task-contract.md)
+[`stages/stage14/archive/docs/operations/stage14-main-batch-task-contract.md`](../../stages/stage14/archive/docs/operations/stage14-main-batch-task-contract.md)
 from latest merged `main`. It follows the unique merged `NEXT` for 3--5
 substantive work units on one branch and publishes one Draft PR. A newly needed
 main-line H audit is frozen and executed as one clean-room work unit in the same
@@ -19,8 +19,8 @@ batch; H need alone is not a stop condition.
 
 ```text
 STAGE14_MAIN_CANONICAL_EXECUTION_ENTRY=Stage14-main-batch
-STAGE14_MAIN_BATCH_COMMON_CONTRACT=docs/stage14-batch-common-contract.md
-STAGE14_MAIN_BATCH_ROUTE_CONTRACT=docs/stage14-main-batch-task-contract.md
+STAGE14_MAIN_BATCH_COMMON_CONTRACT=stages/stage14/archive/docs/operations/stage14-batch-common-contract.md
+STAGE14_MAIN_BATCH_ROUTE_CONTRACT=stages/stage14/archive/docs/operations/stage14-main-batch-task-contract.md
 STAGE14_MAIN_BATCH_MINIMUM_TARGET_WORK_UNITS=3
 STAGE14_MAIN_BATCH_MAXIMUM_WORK_UNITS=5
 STAGE14_MAIN_BATCH_ONE_BRANCH_ONE_PR=true

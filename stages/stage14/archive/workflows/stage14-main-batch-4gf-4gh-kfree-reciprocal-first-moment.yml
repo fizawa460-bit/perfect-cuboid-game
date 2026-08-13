@@ -43,9 +43,9 @@ jobs:
 
       - name: Lock q17 handoff and no-direct-theorem boundary
         run: |
-          grep -q 'Q17_EXPLICIT_RECIPROCAL_SELECTOR_CONSTRUCTION_TEST' docs/stage14-q17-summary.md
-          grep -q 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q17-summary.md
-          grep -q 'DIVISOR_AP_MOMENT_TO_EXISTENTIAL_SUPPORT_ADAPTER_PROVED=false' docs/stage14-q17-summary.md
+          grep -q 'Q17_EXPLICIT_RECIPROCAL_SELECTOR_CONSTRUCTION_TEST' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
+          grep -q 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
+          grep -q 'DIVISOR_AP_MOMENT_TO_EXISTENTIAL_SUPPORT_ADAPTER_PROVED=false' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
 
       - name: Lock new theorem interface
         run: |
@@ -59,9 +59,9 @@ jobs:
 
       - name: Lock common and main batch contracts
         run: |
-          grep -q 'BATCH_INTEGRATED_H_UNITS=' docs/stage14-batch-common-contract.md
-          grep -q 'unresolved_external_gate' docs/stage14-batch-common-contract.md
-          grep -q 'Stage14-main-batch' docs/stage14-main-batch-task-contract.md
+          grep -q 'BATCH_INTEGRATED_H_UNITS=' stages/stage14/archive/docs/operations/stage14-batch-common-contract.md
+          grep -q 'unresolved_external_gate' stages/stage14/archive/docs/operations/stage14-batch-common-contract.md
+          grep -q 'Stage14-main-batch' stages/stage14/archive/docs/operations/stage14-main-batch-task-contract.md
 
       - name: Diff check
         run: git diff --check origin/main...HEAD

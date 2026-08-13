@@ -9,8 +9,8 @@ def text(rel: str) -> str:
 
 work = text("stages/stage14/14-Work-ceX43/result.md")
 matrix = text("docs/stage14-toolbox/work-ceX43-receiver-matrix.md")
-q20 = text("docs/stage14-q20-summary.md")
-radar = text("docs/stage14-q20-conditioned-divisor-correlation-literature-radar.md")
+q20 = text("stages/stage14/archive/docs/q-research/stage14-q20-summary.md")
+radar = text("stages/stage14/archive/docs/q-research/stage14-q20-conditioned-divisor-correlation-literature-radar.md")
 s129 = text("stages/stage14/14-s7-129/result.md")
 s130 = text("stages/stage14/14-s7-130/result.md")
 s131 = text("stages/stage14/14-s7-131/result.md")

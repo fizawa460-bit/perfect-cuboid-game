@@ -118,7 +118,7 @@ Q21_THEOREM_TARGET_NOW_STABLE=true
 Q_LEDGER_BASELINE=Stage14-q17+Stage14-q20
 ```
 
-The q21 literature verdict is imported from `docs/stage14-q21-literature-radar.md` and `docs/stage14-q21-summary.md`.
+The q21 literature verdict is imported from `stages/stage14/archive/docs/q-research/stage14-q21-literature-radar.md` and `stages/stage14/archive/docs/q-research/stage14-q21-summary.md`.
 
 ## 6. H / route locks
 

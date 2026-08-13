@@ -21,7 +21,7 @@ explicit literature-only run or for a `DEFERRED_SCOPED` target frozen by XQ.
 
 On every `14-q` invocation:
 
-1. read `docs/stage14-q-literature-radar-roadmap.md`;
+1. read `stages/stage14/archive/docs/q-research/stage14-q-literature-radar-roadmap.md`;
 2. inspect latest merged `main` and the latest completed q-stage;
 3. identify whether the active proof routes expose a stable named obstruction whose mathematical form is materially different from the last q baseline;
 4. if no such trigger exists, return `WAIT` and create no q-stage / branch / PR;
