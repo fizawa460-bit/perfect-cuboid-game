@@ -108,7 +108,7 @@ This historical status does not keep Stage15 mathematics open. Stage15-8 indepen
 
 ## Stage15-8 frozen review closeout
 
-PR #888 merged the Stage15 R01 self-containment repair as commit
+PR #888 merged the R02 self-containment repair as commit
 
 `b83dd74be283dc58b3ce5c6862d21e105a9fa3f9`.
 
