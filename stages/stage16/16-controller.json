@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "primary_operator": "ChatGPT",
+  "status": "OPEN",
+  "stage": "Stage16",
+  "parent_class": "population_state",
+  "stage_object": "primitive canonical cuboids with exactly one integral face diagonal, with no space-diagonal integrality requirement",
+  "roadmap": "docs/stage16-28-population-roadmap.md",
+  "execution_template": "docs/stage16-28-execution-controller-template.md",
+  "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
+  "target_population": "the source population for which exactly one of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
+  "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; exact face multiplicity retained; common geometric cutoff R<=B; no requirement that R be integral",
+  "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
+  "source_of_truth": [
+    "docs/stage16-28-population-roadmap.md",
+    "docs/stage16-28-execution-controller-template.md",
+    "docs/stage14-arsenal.md",
+    "docs/00_CURRENT_RESEARCH_STATUS.md"
+  ],
+  "canonical_commands": {
+    "main": "Stage16-main-batch",
+    "audit": "Stage16-audit"
+  },
+  "state": {
+    "CURRENT_STAGE": "Stage16",
+    "CURRENT_CHECKPOINT": 10,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 20,
+    "NEXT_STAGE": "",
+    "NEW_INPUT_REQUIRED": false,
+    "HUMAN_DECISION_REQUIRED": false
+  },
+  "checkpoint_contract": {
+    "10": "population contract",
+    "20": "finite-data baseline",
+    "30": "ratio / thinning law",
+    "40": "upper-bound ledger",
+    "50": "lower-bound / construction ledger",
+    "60": "causal decomposition",
+    "70": "intrinsic-status / audit verdict"
+  },
+  "stage16_contract": {
+    "canonical_edges": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "face_square_predicates": [
+      "a^2+b^2 is a square",
+      "a^2+c^2 is a square",
+      "b^2+c^2 is a square"
+    ],
+    "exact_face_multiplicity": 1,
+    "space_diagonal_integrality": "NOT_REQUIRED",
+    "height": "R(a,b,c)=sqrt(a^2+b^2+c^2)",
+    "cutoff": "R<=B",
+    "comparison_adapter": "On any subpopulation with integral space diagonal d, R=d exactly, so R<=B agrees with d<=B. This is the intended Stage16/17 and Stage21 comparison interface.",
+    "suggested_count_notation": {
+      "population": "B_1(B)",
+      "count": "M_1(B)"
+    }
+  },
+  "main_contract": {
+    "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
+    "current_stop_reason": "Stage16-10 fixes the first common one-face population contract. Stage16-20 finite data must wait for an independent audit of that contract so counts are not generated under a drifting cutoff or canonicalization.",
+    "reuse_before_new_work": [
+      "AR-001 primitive/canonical physical convention",
+      "AR-002 primitive Euclid face decomposition"
+    ],
+    "future_reuse_candidates": [
+      "AR-039 mod-7 two-parameter exactly-one family for the later lower-bound ledger after cutoff/population compatibility is checked"
+    ],
+    "must_emit": [
+      "MAIN_BATCH_STATUS",
+      "CURRENT_STAGE",
+      "CHECKPOINTS_ATTEMPTED",
+      "CHECKPOINTS_SUBMITTED",
+      "NEW_CLAIMS",
+      "REUSED_WEAPONS",
+      "CODEX_REQUIRED",
+      "CODEX_REASON",
+      "AUDIT_REQUIRED",
+      "NEXT_EXPECTED_COMMAND"
+    ]
+  },
+  "audit_contract": {
+    "fresh_read_only_audit": true,
+    "required_checks": [
+      "primitive/canonical normalization",
+      "exactly-one exclusion of exactly-two and exactly-three populations",
+      "R<=B cutoff and integral-space-diagonal R=d adapter",
+      "compatibility with the Stage16-28 roadmap and future Stage17/21 comparison",
+      "notation does not collide with incompatible historical populations",
+      "evidence-level and dependency declarations",
+      "merge safety"
+    ],
+    "required_footer": [
+      "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
+      "ADVANCE_ALLOWED=true|false",
+      "NEW_INPUT_REQUIRED=true|false",
+      "HUMAN_DECISION_REQUIRED=true|false",
+      "NEXT_CHECKPOINT=",
+      "NEXT_STAGE=",
+      "CODEX_AUDIT_REQUIRED=true|false",
+      "CODEX_REASON="
+    ]
+  },
+  "codex_policy": {
+    "default_required": false,
+    "delegate_when_useful": [
+      "enumerator or replay implementation",
+      "deterministic data generation tooling",
+      "controller/manifest/CI repair",
+      "large mechanical repository work"
+    ],
+    "not_final_authority_for": [
+      "new mathematical claims",
+      "population-contract changes",
+      "theorem-transfer adapters",
+      "causal conclusions"
+    ]
+  },
+  "merge_rule": "The Stage16 main lane cannot approve its own substantive mathematical submission. Merge only after the required fresh Stage16-audit returns PASS and repository validation is satisfactory."
+}
