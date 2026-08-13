@@ -401,6 +401,54 @@ old item, then retain the old item as archive provenance unless there is a separ
 repository-cleanup reason to remove it. Later stages should use the newest valid
 weapon while historical dependency chains remain auditable.
 
+### 7. Audit verdicts are durable repository state, not chat-only opinions
+
+A canonical `StageX-audit` or `Stage16S-audit` command must not return an
+authoritative `PASS` or `FAIL` merely in chat while leaving the branch/controller
+in its pre-audit state. Before emitting the final verdict, the audit worker must,
+when repository writes are available:
+
+1. write the checkpoint audit record to the canonical `audit.md` location;
+2. update the stage controller with the audited status and all gate fields affected
+   by the verdict, including `AUDIT_STATUS`, `ADVANCE_ALLOWED`, next checkpoint or
+   stage, and any `NEW_INPUT_REQUIRED` / `HUMAN_DECISION_REQUIRED` state;
+3. update the current-research/status file when that stage protocol mirrors the
+   controller there;
+4. set `MERGE_ALLOWED` consistently when that field is part of the stage contract;
+5. re-read the written state, or otherwise verify the resulting commit, before
+   reporting the verdict to the user.
+
+The chat verdict is therefore a report of already-persisted audit state. In
+particular:
+
+```text
+AUDIT_VERDICT=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+```
+
+means the repository already records the PASS and its associated controller/status
+transition. A user may rely on that PASS without first repairing stale `PENDING`
+or `SUBMITTED` metadata.
+
+A `FAIL` should likewise be persisted with its stop gates and actionable reason
+before it is reported. `BLOCKED` should be persisted when possible. If an
+infrastructure or write failure prevents persistence, the audit worker must not
+upgrade the checkpoint to PASS in chat; it should instead report:
+
+```text
+AUDIT_VERDICT=BLOCKED
+AUDIT_PERSISTENCE_STATUS=FAILED
+UNSYNCED_AUDIT_STATE=<specific files/fields not written>
+```
+
+and leave advancement/merge disallowed until synchronization succeeds.
+
+The audit command itself does **not** merge the pull request by default.
+`MERGE_ALLOWED=true` means that the audited repository state permits merge; merge
+execution remains a separate action unless the user explicitly requests merge in
+that same instruction. This keeps audit semantics consistent across chats while
+preserving the user's ability to merge after seeing a durable PASS.
+
 At StageX-70 the controller should also report the safety state:
 
 ```text
