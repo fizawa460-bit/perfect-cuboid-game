@@ -459,3 +459,29 @@ DEPENDENCY_LEDGER_COMPLETE=YES|NO
 OPEN_GATE_REENTRY_JUSTIFIED=YES|NO|NOT_APPLICABLE
 ARSENAL_SUPERSESSION_CHECK=PASS|FAIL|NOT_APPLICABLE
 ```
+
+## Certified closeout synchronization gate
+
+A checkpoint-70 audit PASS does not by itself complete repository closure. In the same audit-persistence change, all four canonical surfaces must be synchronized:
+
+1. the stage controller is `CLOSED`, checkpoint 70 is `AUDITED_PASS`, and its last-audit record points to the canonical audit file;
+2. the final bundle records `AUDITED_PASS_CLOSED` while preserving the submitted-candidate provenance and frozen nonclaims;
+3. the manifest records checkpoint 70 as `PROVED_AUDITED_PASS` and no longer presents the bundle as awaiting audit;
+4. `docs/00_CURRENT_RESEARCH_STATUS.md` registers the closed stage, controller, final bundle, manifest, final audit, and any downstream-baseline readiness flag.
+
+Before merge, the audit-persistence step must search these surfaces for stale tokens such as `OPEN`, `PENDING`, `SUBMITTED_FOR_FRESH_AUDIT`, or `AUDIT_REQUIRED=true`. A stale closeout token makes the persistence state unsynchronized:
+
+```text
+AUDIT_PERSISTENCE_STATUS=UNSYNCED
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+```
+
+Closure becomes valid only after all four surfaces agree and the controller records:
+
+```text
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+UNSYNCED_AUDIT_STATE=NONE
+```
+
+The mathematical audit result remains unchanged during a synchronization-only repair. Any edit to a frozen claim or nonclaim instead requires a fresh audit.
