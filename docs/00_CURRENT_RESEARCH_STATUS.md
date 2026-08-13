@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage17-70-SUBMITTED
+CURRENT_STAGE=Stage17-70-REPAIRED-REAUDIT-PENDING
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -16,16 +16,17 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE17_STATUS=OPEN_CHECKPOINT_70_SUBMITTED
+STAGE17_STATUS=OPEN_CHECKPOINT_70_REPAIRED_REAUDIT_PENDING
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
 STAGE17_CURRENT_RESULT=stages/stage17/17-70/result.md
-STAGE17_CURRENT_AUDIT=stages/stage17/17-60/audit.md
+STAGE17_CURRENT_AUDIT=stages/stage17/17-70/audit.md
 STAGE17_FINAL_BUNDLE=stages/stage17/final.md
 STAGE17_MANIFEST=stages/stage17/manifest-r01.md
 STAGE17_CURRENT_DATA=stages/stage17/17-20/counts.csv
 STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
-STAGE17_NEXT_CHECKPOINT=
-STAGE17_NEXT_STAGE=Stage18
+STAGE17_AUDIT_PERSISTENCE=SYNCED_FOR_REAUDIT
+STAGE17_NEXT_CHECKPOINT=70
+STAGE17_NEXT_STAGE=
 NEXT_EXPECTED_COMMAND=Stage17-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -136,64 +137,52 @@ The polynomial exponent `2` and logarithmic power `1` are intrinsic at the prove
 
 ## Current operation
 
-Stage17 checkpoints 10 through 60 have audited records. Stage17-70 now submits the bounded maximal synthesis and R01 final interface bundle.
+The first Stage17-70 audit is durably recorded at `stages/stage17/17-70/audit.md` as `BLOCKED`, with underlying result `FAIL_REPAIR_REQUIRED`. Its mathematical findings remain accepted. Two closeout defects required repair: the Stage16 frozen-interface block in `stages/stage17/final.md` lacked the V1-explicit multiplicity/measure/quantifier fields, and this current-status mirror failed to synchronize during that audit.
 
-The absolute Stage17 theorem is
-
-\[
-N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
-\]
-
-Therefore polynomial exponent `1`, logarithmic power `3`, and the leading constant `kappa/(24*pi)` are identified for the absolute Stage17 population.
-
-Combined with the frozen Stage16 law `M_1(B)\asymp B^2\log B`, the matched survival law is
-
-\[
-N_1(B)/M_1(B)\asymp(\log B)^2/B\to0.
-\]
-
-No leading constant is claimed for this ratio because Stage16 has no leading constant for `M_1(B)`.
-
-Define `H_{1,d}(B)` as the same primitive canonical integral-space-diagonal population with at least one integral face. Stage13's pair-overlap theorem yields
-
-\[
-H_{1,d}(B)-N_1(B)=o(B(\log B)^3),
-\]
-
-hence
-
-\[
-H_{1,d}(B)\sim N_1(B),\qquad N_1(B)/H_{1,d}(B)\to1.
-\]
-
-Thus exactly-one is asymptotically dominant among integral-space cuboids that have at least one integral face. No perfect-cuboid nonexistence assumption is used.
-
-The structural Stage16-to-Stage17 predicate remains
+Stage17-main-batch has now repaired both defects without changing the mathematics. The Stage16 frozen-interface block explicitly records:
 
 ```text
-x^2+y^2=p^2
-p^2+z^2=d^2
+UPSTREAM_STAGE=Stage16
+UPSTREAM_THEOREM=M_1(B) asymp B^2 log B for primitive canonical exactly-one-face cuboids under R<=B
+POPULATION_MATCH=true
+CUTOFF_MATCH=true
+MULTIPLICITY_MATCH=true
+MEASURE_ADAPTER_REQUIRED=false
+QUANTIFIER_ADAPTER_REQUIRED=false
+ROLE=matched Stage16 source/denominator law
 ```
 
-with shared face diagonal `p`. This identifies the new arithmetic restriction but does not prove probabilistic independence.
+The final bundle also records `UPSTREAM_INTERFACES_EXACT=true`.
 
-The absolute Stage17 order is settled, but whether the space-diagonal condition is intrinsically strong in the ambient population or interaction-dependent after one face remains a Stage21 comparison against Stage16S. Stage16S is parallel and does not block Stage17 closure.
+The accepted Stage17 mathematics remains
+\[
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3,
+\qquad
+N_1(B)/M_1(B)\asymp\frac{(\log B)^2}{B}\to0,
+\]
+and, with `H_{1,d}(B)` denoting the same integral-space-diagonal population with at least one integral face,
+\[
+H_{1,d}(B)\sim N_1(B),
+\qquad
+N_1(B)/H_{1,d}(B)\to1.
+\]
 
-Stage-end artifact decisions:
+Stage16S remains the separate ambient control for deciding intrinsic/independent/correlated/interaction-dependent space-diagonal cost at Stage21. No perfect-cuboid existence/nonexistence conclusion is introduced.
 
-```text
-SELF_CONTAINED_BUNDLE_REQUIRED=YES
-SELF_CONTAINED_BUNDLE=stages/stage17/final.md
-ARSENAL_PROMOTION_REQUIRED=NO
-ARSENAL_CANDIDATES=NONE
-SYNTHESIS_STOP_RULE_SATISFIED=YES
-```
+The prior BLOCKED audit is historical and is not overwritten. The repaired checkpoint-70 candidate is now pending a fresh `Stage17-audit`. Advancement and merge remain disallowed until that audit durably persists PASS.
 
-Canonical Stage17-70 submission:
+Canonical Stage17-70 repair state:
 
 - `stages/stage17/17-70/result.md`
-- `stages/stage17/final.md`
+- `stages/stage17/17-70/audit.md` (prior BLOCKED audit record)
+- `stages/stage17/final.md` (V1 interface repaired)
 - `stages/stage17/manifest-r01.md`
 - `stages/stage17/17-controller.json`
 
-Stage17 remains open until fresh `Stage17-audit` durably persists checkpoint-70 PASS. Under the current roadmap audit policy, PASS permits merge but the audit command does not execute merge by default. After audited closure, the next numbered population stage is Stage18; Stage21 later consumes the Stage16/17/Stage16S comparison.
+```text
+REPAIR_STATUS=COMPLETE
+AUDIT_STATUS=PENDING_REAUDIT
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_EXPECTED_COMMAND=Stage17-audit
+```
