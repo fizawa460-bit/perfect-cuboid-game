@@ -12,12 +12,20 @@
   "source_population": "Stage16 primitive canonical exactly-one population B_1(B) under R<=B",
   "target_population": "the Stage16 population with R integral, equivalently with positive integral space diagonal d=R",
   "common_population_contract": "0<a<b<c; gcd(a,b,c)=1; exactly one integral face diagonal; R=sqrt(a^2+b^2+c^2)<=B; Stage17 additionally requires R integral",
-  "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
+  "checkpoint_sequence": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70
+  ],
   "checkpoint_status": {
     "10": "PROVED",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
-    "40": "UNRESOLVED",
+    "40": "PROVED_AUDITED_PASS",
     "50": "UNRESOLVED",
     "60": "UNRESOLVED",
     "70": "UNRESOLVED"
@@ -39,6 +47,8 @@
     "stages/stage17/17-20/enumerate.py",
     "stages/stage17/17-30/result.md",
     "stages/stage17/17-30/audit.md",
+    "stages/stage17/17-40/result.md",
+    "stages/stage17/17-40/audit.md",
     "docs/00_CURRENT_RESEARCH_STATUS.md"
   ],
   "canonical_commands": {
@@ -47,11 +57,11 @@
   },
   "state": {
     "CURRENT_STAGE": "Stage17",
-    "CURRENT_CHECKPOINT": 30,
+    "CURRENT_CHECKPOINT": 40,
     "MAIN_STATUS": "COMPLETE",
     "AUDIT_STATUS": "PASS",
     "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 40,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false
@@ -74,8 +84,14 @@
     "cutoff": "R<=B",
     "space_diagonal": "d=R is a positive integer on the Stage17 target",
     "comparison_adapter": "IDENTITY: on the Stage17 target d=R exactly, so R<=B iff d<=B",
-    "source_notation": {"population": "B_1(B)", "count": "M_1(B)"},
-    "target_notation": {"population": "B_{1,d}(B)", "count": "N_1(B)"},
+    "source_notation": {
+      "population": "B_1(B)",
+      "count": "M_1(B)"
+    },
+    "target_notation": {
+      "population": "B_{1,d}(B)",
+      "count": "N_1(B)"
+    },
     "subset_lock": "B_{1,d}(B) subseteq B_1(B), hence N_1(B)<=M_1(B)",
     "transition_receiver": "Stage21 (16 -> 17)"
   },
@@ -121,14 +137,32 @@
     "leading_ratio_constant": "NOT_CERTIFIED_BECAUSE_M1_HAS_NO_LEADING_CONSTANT",
     "finite_data_used_as_proof": false
   },
+  "upper_bound_ledger": {
+    "result": "stages/stage17/17-40/result.md",
+    "audit": "stages/stage17/17-40/audit.md",
+    "best_upper_bound": "N_1(B)=O(B(log B)^3)",
+    "equivalent_power_form": "B^(1+o(1))",
+    "source": "Stage13 exact-one asymptotic transferred through audited Stage17-30 adapter",
+    "mechanism": "full asymptotic count; no new Stage17 sieve",
+    "population_adapter": "IDENTITY via d=R",
+    "weaker_subset_bound": "N_1(B)<=M_1(B)=O(B^2 log B)",
+    "order_sharp_at_current_resolution": true,
+    "matching_lower_direction_from_same_theorem": true,
+    "strict_little_o_of_B_log3_possible": false,
+    "formal_intrinsic_status_reserved_for_checkpoint_70": true,
+    "evidence_level": "PROVED",
+    "finite_data_used_as_proof": false
+  },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
     "github_write_policy": "prefer_high_level_file_mutations_and_verify_after_fallback",
-    "current_stop_reason": "Stage17-30 passed fresh audit. Checkpoint 40 upper-bound ledger may proceed after the audited checkpoint-30 PR is merged.",
+    "current_stop_reason": "Stage17-40 passed fresh audit. Checkpoint 50 lower-bound / construction ledger may proceed after the audited checkpoint-40 PR is merged.",
     "reuse_before_new_work": [
       "Stage13 exact-one plus integral-space-diagonal asymptotic",
       "Stage16 R01 frozen one-face population law",
       "Stage17-20 audited finite baseline",
+      "Stage17-30 audited ratio law",
+      "Stage17-40 audited upper-bound ledger",
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition",
       "AR-039 exactly-one plus integral-space-diagonal family parked for checkpoint 50"
@@ -137,17 +171,15 @@
   "audit_contract": {
     "fresh_read_only_audit": true,
     "required_checks": [
-      "Stage17-20 PASS is canonically recorded and merged",
+      "Stage17-40 PASS is canonically recorded and merged before checkpoint 50 proceeds",
       "Stage13 N_1 population is literally the Stage17 target population",
-      "Stage13 d<=B cutoff equals Stage17 R<=B because d=R exactly",
-      "Stage13 and Stage17 primitive/canonical/exact-one conventions match",
-      "Stage13 theorem N_1(B) ~ (kappa/(24*pi)) B(log B)^3 is frozen and applicable",
-      "Stage16 theorem M_1(B) asymp B^2 log B is frozen on the literal source population",
-      "division yields N_1(B)/M_1(B) asymp (log B)^2/B and therefore zero density",
-      "no leading ratio constant is claimed without a leading M_1 constant",
-      "finite Stage17-20 ratios are not used as proof",
-      "no causal independence claim is smuggled into checkpoint 30",
-      "checkpoint 40 remains audit-gated before audit and available after PASS",
+      "Stage13 positive-constant asymptotic implies N_1(B)=O(B(log B)^3)",
+      "the subset bound N_1(B)<=M_1(B)=O(B^2 log B) is correctly classified as weaker",
+      "order-sharp wording follows only from the same positive Stage13 asymptotic",
+      "formal intrinsic-status classification remains reserved for checkpoint 70",
+      "no Stage14 exactly-two upper bound is imported across a population mismatch",
+      "finite Stage17-20 data are not used as proof",
+      "checkpoint 50 remains merge-gated until checkpoint 40 is merged",
       "merge safety"
     ],
     "required_footer": [
@@ -162,29 +194,29 @@
     ]
   },
   "last_audit": {
-    "checkpoint": 30,
+    "checkpoint": 40,
     "verdict": "PASS",
-    "audit_record": "stages/stage17/17-30/audit.md",
-    "audited_submission_sha": "ef1b01ffc5eb5347959738b1a2b27731fd953801",
-    "pr": 904,
+    "audit_record": "stages/stage17/17-40/audit.md",
+    "audited_submission_sha": "70373d9797cb89131b0a334d4530d4239760c1f9",
+    "pr": 905,
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
-    "checkpoint": 30,
+    "checkpoint": 40,
     "status": "AUDITED_PASS",
-    "result": "stages/stage17/17-30/result.md",
+    "result": "stages/stage17/17-40/result.md",
     "evidence_level": "PROVED",
     "new_claims": [
-      "Stage13 theorem transfers exactly to the Stage17 target with identity cutoff adapter",
-      "N_1(B)/M_1(B) asymp (log B)^2/B -> 0"
+      "N_1(B)=O(B(log B)^3) is the strongest certified Stage17 upper bound",
+      "the upper scale is order-sharp because the same frozen asymptotic has positive leading constant"
     ],
-    "leading_ratio_constant_claimed": false,
+    "new_analytic_input": false,
     "population_contract_changed": false,
     "finite_data_used_as_proof": false,
     "codex_required": false,
-    "codex_reason": "Checkpoint 30 is a compact theorem-interface audit and algebraic ratio derivation from frozen Stage13 and Stage16 results; no repository-heavy implementation is required."
+    "codex_reason": "Checkpoint 40 is a compact theorem-ledger extraction from the already-audited Stage13-to-Stage17 asymptotic adapter; no repository-heavy implementation is required."
   },
-  "merge_rule": "Stage17-30 passed fresh audit and is merge-allowed. Checkpoint 40 may begin only from the merged audited state."
+  "merge_rule": "Stage17-40 passed fresh audit and is merge-allowed. Checkpoint 50 may begin only from the merged audited state."
 }
