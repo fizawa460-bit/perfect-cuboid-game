@@ -794,6 +794,55 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **KNOWN APPLICATION:** Stage12 `beta` and `1*beta` summatory expansions with arbitrary fixed log-power saving.
 - **POSSIBLE FUTURE USE:** Any later Euler-product host after its exact factorization and uniformity ledger are supplied.
 
+### AR-038 — Exact shared-hypotenuse convolution
+
+- **CATEGORY:** exact algebra / representation convolution
+- **ONE-LINE PURPOSE:** Count oriented two-triangle chains by convolving representations in which the shared integer `p` is first a hypotenuse and then a leg.
+- **INPUT SHAPE:** Positive integer chains `x^2+y^2=p^2` and `p^2+c^2=d^2` under a declared height cutoff.
+- **OUTPUT:** With `H(p)` the unordered positive hypotenuse representation count and `L_B(p)` the bounded leg representation count,
+  `C_raw(B)=2 sum_(p<=B) H(p)L_B(p)`, while canonical primitive objects satisfy
+  `C_prim(B)=2N_1(B)+4N_exact2(B)+6N_3(B)`.
+- **HYPOTHESES:** Positive distinct sides; the shared `p` and cutoff are identical in both representation functions; primitive/canonical projection is applied only after the raw convolution.
+- **PHYSICAL DEPENDENCE:** Stage11 uses integral space diagonal and one or more integral faces; the convolution pattern itself applies to any two compatible representation problems sharing `p`.
+- **MEASURE:** Raw oriented chain measure, followed by a separately corrected primitive canonical object measure.
+- **QUANTIFIERS:** Exact finite identity for every cutoff.
+- **LOSS / COST:** None in the raw convolution; gcd, ordering, repeated-side, and multiple-face corrections remain coupled and cannot be multiplied in independently.
+- **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
+- **TRIGGER SIGNATURE:** One arithmetic value is represented in two roles and a chained population may factor through its representation counts.
+- **FAILURE CONDITIONS:** Do not interpret `H(p)L_B(p)` as a primitive unique-object count or treat representation richness as repeated weight on one fixed incidence.
+- **SOURCE:** `stages/stage11/scripts/audit_shared_p_convolution.py` and `stages/stage11/data/convolution_report.json`; absorbed analytically but not explicitly indexed in `stages/stage12/final.md`.
+- **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
+- **STATUS:** `BACKGROUND_REUSABLE`
+- **DEPENDENCIES:** AR-002, AR-029, AR-032.
+- **KNOWN APPLICATION:** Stage11 raw shared-face-diagonal convolution and the exact face-multiplicity identity.
+- **POSSIBLE FUTURE USE:** Representation-function decompositions in Stage15, provided primitive and survivor corrections are kept outside the raw product.
+
+### AR-039 — Mod-7 two-parameter exactly-one family
+
+- **CATEGORY:** explicit construction / lower bound / regression family
+- **ONE-LINE PURPOSE:** Produce an unconditional infinite primitive family with integral space diagonal and exactly one integral face.
+- **INPUT SHAPE:** Coprime integers `m>n>=1` with `m=2 mod 14` and `n=1 mod 14`.
+- **OUTPUT:** For
+  `x=m^2-n^2`, `y=2mn`, `p=m^2+n^2`,
+  `c=(p^2-1)/2`, and `d=(p^2+1)/2`, the canonical triple
+  `(min(x,y),max(x,y),c)` is primitive, has exactly the `xy` face integral,
+  and yields `N_1(B)>>B^(1/2)`.
+- **HYPOTHESES:** The stated residue classes and coprimality; canonical ordering after construction.
+- **PHYSICAL DEPENDENCE:** Integral space diagonal and exactly-one-face `A_1` population.
+- **MEASURE:** An injective two-parameter subfamily, not the full `N_1` population.
+- **QUANTIFIERS:** Every admissible pair; the lower bound comes from coprime pairs in `T<m<=2T`, `1<=n<=T`.
+- **LOSS / COST:** `d<=(25T^4+1)/2` and the coprime rectangle count give
+  `N_1(B)>=sqrt(2)/(120pi^2) B^(1/2)-O(B^(1/4)log B)`.
+- **REUSE CLASS:** `STAGE14_SPACE_DIAGONAL_ONLY`
+- **TRIGGER SIGNATURE:** A proof, enumerator, or regression suite needs certified primitive exactly-one positive examples with a symbolic non-square certificate.
+- **FAILURE CONDITIONS:** This is a lower-bound subfamily only; it gives no upper bound for `N_2`, no little-`o` comparison, and no full `N_1` asymptotic.
+- **SOURCE:** `stages/stage11/scripts/audit_shared_p_convolution.py` and `stages/stage11/data/convolution_report.json`; Stage10's one-parameter predecessor is `stages/stage10/scripts/audit_one_face_lower_bound.py`.
+- **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
+- **STATUS:** `BACKGROUND_REUSABLE`
+- **DEPENDENCIES:** AR-001, AR-002, AR-030.
+- **KNOWN APPLICATION:** Stage11 unconditional `N_1(B)>>B^(1/2)`; modulo 7 forces both remaining face sums to residue `6`, a nonsquare.
+- **POSSIBLE FUTURE USE:** Positive regression fixtures, constructive lower bounds, and local-obstruction sanity checks on the A-side.
+
 ## Audit summary
 
 - Every `DIRECT_REUSE` entry states exact hypotheses and measure.
@@ -804,23 +853,24 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - Superseded but reusable mechanisms AR-009/010/014/015/017/018 are retained.
 - External/no-go knowledge AR-020/022/025/026/027 and diagnostic AR-031 are retained.
 - Upstream reusable mechanisms AR-032–AR-037 are provenance-labeled and require exact population/measure adapters.
+- Early-stage survivors AR-038/039 retain one exact convolution and one certified construction; Stage02–10 otherwise add no unsuperseded weapon.
 - The registry asserts no new Stage14 theorem and restarts no parked route.
 
 ## Frozen registry report
 
 ```text
-ARSENAL_ENTRY_COUNT=37
+ARSENAL_ENTRY_COUNT=39
 DIRECT_REUSE_COUNT=6
-ADAPTER_REQUIRED_COUNT=19
+ADAPTER_REQUIRED_COUNT=20
 NEGATIVE_KNOWLEDGE_COUNT=8
-SPACE_DIAGONAL_ONLY_COUNT=5
+SPACE_DIAGONAL_ONLY_COUNT=6
 STAGE15_CURRENTLY_RELEVANT_COUNT=10
 UNINDEXED_STAGE14_REGIONS_REMAINING=NONE_IDENTIFIED_AFTER_R04_BURIED_GOLD_AND_TARGETED_SOURCE_AUDIT
 ARSENAL_READY_FOR_FUTURE_AGENT_SEARCH=true
 ```
 
-`ADAPTER_REQUIRED_COUNT` combines seventeen `REUSE_AFTER_EXACT_ADAPTER` entries and two `SAME_KERNEL_DIFFERENT_MEASURE` entries. `NEGATIVE_KNOWLEDGE_COUNT` counts AR-020, AR-022–AR-027, and AR-031. Historical exponent-only stages not cited by R04's source/provenance/buried-gold ledgers remain deliberately outside the Arsenal; their current bounds are superseded and no additional reusable mechanism was identified by the targeted audit.
+`ADAPTER_REQUIRED_COUNT` combines eighteen `REUSE_AFTER_EXACT_ADAPTER` entries and two `SAME_KERNEL_DIFFERENT_MEASURE` entries. `NEGATIVE_KNOWLEDGE_COUNT` counts AR-020, AR-022–AR-027, and AR-031. Historical exponent-only stages not cited by R04's source/provenance/buried-gold ledgers remain deliberately outside the Arsenal; their current bounds are superseded and no additional reusable mechanism was identified by the targeted audit.
 
-**High-value reusable weapons:** AR-003 two-face gluing; AR-009 primitive Gaussian root lines; AR-012 reverse reciprocal reconstruction; AR-016 divisor/finite-fiber adapter; AR-023 scalar/pair separation; AR-028 recharge discipline; AR-032 primitive-first Möbius; AR-033 weighted rectangles; AR-035 fixed-prime overlap sieve; AR-036 ordered-chamber transfer.
+**High-value reusable weapons:** AR-003 two-face gluing; AR-009 primitive Gaussian root lines; AR-012 reverse reciprocal reconstruction; AR-016 divisor/finite-fiber adapter; AR-023 scalar/pair separation; AR-028 recharge discipline; AR-032 primitive-first Möbius; AR-033 weighted rectangles; AR-035 fixed-prime overlap sieve; AR-036 ordered-chamber transfer; AR-038 shared-hypotenuse convolution; AR-039 certified exactly-one family.
 
 **Five most dangerous traps:** AR-024 same kernel/different conditioned measure; AR-023 scalarizing `(E,m)` through divisor-many fibers; AR-027 average→every-cell promotion; AR-021/022 fixed-U or conductor-range promotion; AR-005/006 Stage14 integral-space-diagonal→Stage15 ambient promotion.

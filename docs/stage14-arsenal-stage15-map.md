@@ -41,6 +41,8 @@
 | AR-035 | `HIGH_PRIORITY_AFTER_FIXED_MODULUS_REFINEMENT` | Most promising upstream route for proving the extra square survivor lower order without a growing-modulus theorem. |
 | AR-036 | `POSSIBLE_DIRECTIONAL_REFINEMENT` | Use only after Stage15 derives its own coarea density and proves the arithmetic main factor common across directions. |
 | AR-037 | `POSSIBLE_AFTER_EULER_FACTORIZATION` | Available when a Stage15 coefficient series has a fixed-order zeta pole with uniform analytic-factor control. |
+| AR-038 | `POSSIBLE_AFTER_ADAPTER` | Useful if Stage15 factors its paired-face host through a shared representation value; primitive and survivor corrections must remain outside the raw product. |
+| AR-039 | `A_SIDE_ONLY` | Certified exactly-one construction and regression family; it supplies no ambient `B_2` or square-survivor density statement. |
 
 ## Stage15-4/5 high-priority inspection order
 
