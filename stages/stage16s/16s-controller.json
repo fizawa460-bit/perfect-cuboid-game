@@ -15,7 +15,7 @@
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "SUBMITTED_PENDING_FRESH_AUDIT",
+    "30": "LITERATURE_ADAPTED_AUDITED_PASS",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
@@ -37,14 +37,14 @@
   "state": {
     "CURRENT_STAGE": "Stage16S",
     "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": null,
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "parallel_lane": true,
   "parallel_lane_rule": "Stage16S does not replace or block the numbered Stage17/18 lane",
@@ -52,12 +52,15 @@
     "stages/stage16s/16s-10/audit.md",
     "stages/stage16s/16s-20/audit.md",
     "stages/stage16s/16s-20/counts.csv",
-    "stages/stage16/16-30/result.md"
+    "stages/stage16/16-30/result.md",
+    "stages/stage16s/16s-30/result.md",
+    "stages/stage16s/16s-30/audit.md"
   ],
   "current_submission": {
     "checkpoint": 30,
     "result": "stages/stage16s/16s-30/result.md",
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "AUDITED_PASS",
+    "evidence_level": "LITERATURE_ADAPTED",
     "literature_input": "Hurlimann 2015 JIS 18 Article 15.2.5 Theorem 7",
     "claims": [
       "N_S^all(B) ~ B^2/(32G)",
@@ -68,9 +71,21 @@
       "N_S^0(B)/N_S^all(B) -> 1"
     ],
     "comparison_adapter_required": true,
-    "comparison_adapter_status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "comparison_adapter_status": "AUDITED_PASS",
     "finite_data_used_as_proof": false,
     "codex_required": false
+  },
+  "last_audit": {
+    "checkpoint": 30,
+    "verdict": "PASS",
+    "record": "stages/stage16s/16s-30/audit.md",
+    "audited_submission_sha": "51a1194853c390b0024bcc80996be802ace3dfd4",
+    "pr": 913,
+    "merge_allowed": true,
+    "new_input_required": false,
+    "human_decision_required": false,
+    "codex_audit_required": false,
+    "codex_reason": "NONE"
   },
   "audit_contract": {
     "fresh_read_only_audit": true,
@@ -100,16 +115,9 @@
       "MERGE_ALLOWED=true|false"
     ]
   },
-  "last_audit": {
-    "checkpoint": 20,
-    "verdict": "PASS",
-    "record": "stages/stage16s/16s-20/audit.md",
-    "pr": 910,
-    "merge_allowed": true
-  },
   "codex_policy": {
     "default_required": false,
     "not_final_authority_for": ["new mathematical claims", "population-contract changes", "theorem-transfer adapters", "causal conclusions"]
   },
-  "merge_rule": "Checkpoint 40 waits for fresh Stage16S-30 audit PASS and merge."
+  "merge_rule": "Stage16S-30 passed fresh audit. PR #913 may merge; checkpoint 40 may begin from the merged audited state."
 }
