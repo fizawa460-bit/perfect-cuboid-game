@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage18-20-AUDIT-PASS
+CURRENT_STAGE=Stage18-50-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -33,14 +33,14 @@ STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_NEXT_CHECKPOINT=
 STAGE17_NEXT_STAGE=Stage18
-STAGE18_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
+STAGE18_STATUS=OPEN_CHECKPOINTS_30_40_50_AUDIT_PASS
 STAGE18_CONTROLLER=stages/stage18/18-controller.json
-STAGE18_CURRENT_RESULT=stages/stage18/18-20/result.md
-STAGE18_CURRENT_AUDIT=stages/stage18/18-20/audit.md
+STAGE18_CURRENT_RESULT=stages/stage18/18-50/result.md
+STAGE18_CURRENT_AUDIT=stages/stage18/18-50/audit.md
 STAGE18_CURRENT_DATA=stages/stage18/18-20/counts.csv
 STAGE18_CURRENT_ENUMERATOR=stages/stage18/18-20/enumerate.py
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
-STAGE18_NEXT_CHECKPOINT=30
+STAGE18_NEXT_CHECKPOINT=60
 NEXT_EXPECTED_COMMAND=Stage18-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -211,25 +211,35 @@ HUMAN_DECISION_REQUIRED=false
 
 ## Current operation
 
-Stage18-10 population contract has passed fresh audit. Stage18-20 has now passed fresh audit on the exact finite census for the same population.
+Stage18 checkpoints 10, 20, 30, 40 and 50 are fresh-audited. Checkpoints 30, 40 and 50 use frozen, population-matched upstream theorems.
 
-The deterministic shared-edge enumerator gives
+Stage15 gives
+\[
+M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
+\]
+while Stage16 gives the same-cutoff ambient law
+\[
+U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2).
+\]
+Therefore Stage18-30 records
+\[
+\frac{M_2(B)}{U(B)}\sim\frac{36\zeta(3)C_{M_2}}{\pi}\frac{(\log B)^5}{B^2}\to0.
+\]
+This is the ambient Stage18 density law. The conditional Stage16 -> Stage18 ratio `M_2/M_1` remains reserved for Stage22.
 
-```text
-B:   50  100  200  400  800  1200  1600  2000
-M2:  16   56  172  494  1347 2350  3536  4812
-```
+The same positive Stage15 asymptotic gives the order-sharp ledgers
+\[
+M_2(B)\ll B(\log B)^5,
+\qquad
+M_2(B)\gg B(\log B)^5.
+\]
+No new order-sharp explicit parametric subfamily is claimed. Stage18-20 finite data are not used as proof.
 
-Independent replay reproduced all frozen counts and the CSV SHA-256 `7873368267bbc21e5fd9ec6437d30e84a646ec4ddb14a50746575f59ac932e5a`. At `B=200`, the optimized shared-edge construction and direct canonical-triple brute-force enumerator agree as sets with 172 objects. The older Stage15-3 census independently gives `M_2(1000)=1838` and `M_2(2000)=4812`, matching the Stage18 enumerator at both shared cutoffs.
+Canonical submissions:
 
-These counts remain `COMPUTED` evidence only. They neither prove nor modify the frozen Stage15 theorem `M_2(B) ~ C_{M_2} B(log B)^5`. No ratio, causal, independence, Stage16->Stage18 transition, or perfect-cuboid claim is added at checkpoint20.
-
-Canonical Stage18-20 records:
-
-- `stages/stage18/18-20/result.md`
-- `stages/stage18/18-20/counts.csv`
-- `stages/stage18/18-20/enumerate.py`
-- `stages/stage18/18-20/audit.md`
+- `stages/stage18/18-30/result.md`
+- `stages/stage18/18-40/result.md`
+- `stages/stage18/18-50/result.md`
 - `stages/stage18/18-controller.json`
 
 ```text
@@ -237,6 +247,7 @@ AUDIT_STATUS=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 ADVANCE_ALLOWED=true
 MERGE_ALLOWED=true
-NEXT_CHECKPOINT=30
+NEXT_CHECKPOINT=60
 NEXT_EXPECTED_COMMAND=Stage18-main-batch
+CODEX_REQUIRED=false
 ```
