@@ -7,7 +7,6 @@
   "stage_object": "primitive canonical cuboids with integral space diagonal, tracking SPACE_AT_LEAST and SPACE_ONLY",
   "roadmap": "docs/stage16-28-population-roadmap.md",
   "execution_template": "docs/stage16-28-execution-controller-template.md",
-  "stage_object_source": "stages/stage16s/16s-30/result.md",
   "source_population": "0<a<b<c; gcd(a,b,c)=1; R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "SPACE_AT_LEAST: integral R with no face restriction; SPACE_ONLY: integral R with zero integral faces",
   "common_population_contract": "positive primitive canonical triples under common R<=B cutoff",
@@ -16,8 +15,8 @@
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "LITERATURE_ADAPTED_AUDITED_PASS",
-    "40": "PENDING",
-    "50": "PENDING",
+    "40": "SUBMITTED_FOR_FRESH_AUDIT",
+    "50": "SUBMITTED_FOR_FRESH_AUDIT",
     "60": "PENDING",
     "70": "PENDING"
   },
@@ -30,76 +29,61 @@
     "60": "causal decomposition",
     "70": "bounded maximal synthesis / intrinsic status / closeout"
   },
-  "canonical_commands": {
-    "main": "Stage16S-main-batch",
-    "audit": "Stage16S-audit"
-  },
+  "canonical_commands": {"main":"Stage16S-main-batch","audit":"Stage16S-audit"},
   "state": {
     "CURRENT_STAGE": "Stage16S",
-    "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "COMPLETE",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 40,
+    "CURRENT_CHECKPOINT": 50,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 60,
     "NEXT_STAGE": null,
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "parallel_lane": true,
   "parallel_lane_rule": "Stage16S does not replace or block the numbered Stage17/18 lane",
   "certified_inputs": [
     "stages/stage16s/16s-10/audit.md",
     "stages/stage16s/16s-20/audit.md",
-    "stages/stage16s/16s-20/counts.csv",
-    "stages/stage16/16-30/result.md",
     "stages/stage16s/16s-30/result.md",
     "stages/stage16s/16s-30/audit.md"
   ],
   "current_submission": {
-    "checkpoint": 30,
-    "result": "stages/stage16s/16s-30/result.md",
-    "status": "AUDITED_PASS",
-    "evidence_level": "LITERATURE_ADAPTED",
-    "literature_input": "Hurlimann 2015 JIS 18 Article 15.2.5 Theorem 7",
+    "checkpoints": [40,50],
+    "results": ["stages/stage16s/16s-40/result.md","stages/stage16s/16s-50/result.md"],
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "evidence_level": "EXTRACTED_FROM_AUDITED_STAGE16S_30",
     "claims": [
-      "N_S^all(B) ~ B^2/(32G)",
-      "N_S^0(B) ~ B^2/(32G)",
-      "N_S^all(B)/U(B) ~ [9 zeta(3)/(8 pi G)]/B",
-      "N_S^0(B)/U(B) ~ [9 zeta(3)/(8 pi G)]/B",
-      "N_S^all(B)-N_S^0(B)=O_epsilon(B^(1+epsilon))",
-      "N_S^0(B)/N_S^all(B) -> 1"
+      "N_S^all(B) << B^2 and N_S^0(B) << B^2",
+      "N_S^all(B) >> B^2 and N_S^0(B) >> B^2",
+      "C_F(B) <<_epsilon B^(1+epsilon) with sharpness unknown",
+      "leading constant 1/(32G) remains inherited from audited checkpoint 30"
     ],
-    "comparison_adapter_required": true,
-    "comparison_adapter_status": "AUDITED_PASS",
     "finite_data_used_as_proof": false,
+    "causal_claim_added": false,
     "codex_required": false
   },
   "last_audit": {
     "checkpoint": 30,
     "verdict": "PASS",
     "record": "stages/stage16s/16s-30/audit.md",
-    "audited_submission_sha": "51a1194853c390b0024bcc80996be802ace3dfd4",
     "pr": 913,
-    "merge_allowed": true,
-    "new_input_required": false,
-    "human_decision_required": false,
-    "codex_audit_required": false,
-    "codex_reason": "NONE"
+    "merge_allowed": true
   },
   "audit_contract": {
     "fresh_read_only_audit": true,
     "required_checks": [
-      "literature B^2/(32G) leading term",
-      "primitive implies odd d",
-      "gcd convention equivalence",
-      "strict-order repeated-edge adapter",
-      "ambient ratio constant",
-      "faceful complement divisor bound",
-      "SPACE_ONLY ratio limit",
-      "no finite-data proof or causal overclaim",
-      "parallel-lane preservation",
-      "checkpoint 40 remains closed until PASS",
+      "checkpoint 30 audit PASS is merged",
+      "checkpoint 40 upper bounds are exact corollaries of audited checkpoint 30",
+      "checkpoint 50 lower bounds are exact corollaries of audited checkpoint 30",
+      "faceful-complement sharpness remains UNKNOWN",
+      "finite Stage16S-20 data are not used as asymptotic proof",
+      "no new order-sharp parametric subfamily is claimed",
+      "no causal conclusion is added",
+      "parallel-lane semantics are preserved",
+      "checkpoint 60 is not entered before fresh audit PASS",
       "merge safety"
     ],
     "required_footer": [
@@ -117,7 +101,7 @@
   },
   "codex_policy": {
     "default_required": false,
-    "not_final_authority_for": ["new mathematical claims", "population-contract changes", "theorem-transfer adapters", "causal conclusions"]
+    "not_final_authority_for": ["new mathematical claims","population-contract changes","theorem-transfer adapters","causal conclusions"]
   },
-  "merge_rule": "Stage16S-30 passed fresh audit. PR #913 may merge; checkpoint 40 may begin from the merged audited state."
+  "merge_rule": "Checkpoints 40 and 50 are submitted together. Do not merge or enter checkpoint 60 until fresh Stage16S-audit PASS."
 }
