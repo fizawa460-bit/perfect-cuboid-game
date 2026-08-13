@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-50-SUBMITTED
+CURRENT_STAGE=Stage16-60-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,12 +10,12 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_50_SUBMITTED
+STAGE16_STATUS=OPEN_CHECKPOINT_60_SUBMITTED
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
-STAGE16_CURRENT_RESULT=stages/stage16/16-50/result.md
+STAGE16_CURRENT_RESULT=stages/stage16/16-60/result.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE16_LAST_AUDIT=stages/stage16/16-40/audit.md
-STAGE16_NEXT_CHECKPOINT=60
+STAGE16_LAST_AUDIT=stages/stage16/16-50/audit.md
+STAGE16_NEXT_CHECKPOINT=70
 NEXT_EXPECTED_COMMAND=Stage16-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -104,11 +104,8 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-Stage16-10 and Stage16-20 are certified. Stage16-30 has passed fresh audit; its canonical audit record is:
+Stage16-10 and Stage16-20 are certified. Stage16-30 has passed fresh audit and proves
 
-- `stages/stage16/16-30/audit.md`
-
-The certified theorem is
 \[
 M_1(B)\asymp B^2\log B,
 \qquad
@@ -117,26 +114,36 @@ U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
 \frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
 \]
 
-Stage16-40 has now also passed fresh audit. Its canonical audit record is:
+Stage16-40 passed fresh audit and freezes the sharp upper-bound ledger
 
-- `stages/stage16/16-40/audit.md`
-
-The certified upper-bound ledger is
 \[
 M_1(B)\ll B^2\log B.
 \]
-It records the exact mechanism: linear primitive-Pythagorean face count, harmonic scale sum, and one free third edge. This is sharp in order because the Stage16-30 lower bound is already audited. No leading constant is claimed, and no Stage14/15 space-diagonal or exactly-two theorem is cross-promoted.
 
-Stage16-50 now submits the lower-bound / construction ledger. The strongest certified construction is the already-audited Stage16-30 family, which gives
+Stage16-50 has now also passed fresh audit. Its canonical audit record is:
+
+- `stages/stage16/16-50/audit.md`
+
+The certified sharp construction gives
+
 \[
 M_1(B)\gg B^2\log B.
 \]
-It uses a primitive Pythagorean face, harmonic face scale, a positive-density third-edge interval, global coprimality, and deletion of the two accidental-square sets. This is order-sharp against checkpoint 40 and adds no stronger theorem than Stage16-30.
 
-AR-039 is also adapted, but only as a narrower regression subset. Its primitive exactly-one family additionally has integral space diagonal; because `R=d` exactly on that subset, its historical `d<=B` cutoff equals Stage16 `R<=B`. Hence it legally yields the weaker `M_1(B)\gg B^{1/2}` lower bound, but it is not used for the Stage16 ambient exponent or sharp lower bound.
+AR-039 remains a narrower integral-space-diagonal regression subset only; on that subset `R=d` exactly and its weaker `B^{1/2}` lower bound is not used for the Stage16 ambient exponent.
 
-Canonical Stage16-50 submission:
+Stage16-60 now submits the causal decomposition. If `H_1(B)` denotes the same primitive canonical `R<=B` population with at least one integral face, then the face-union upper bound and the audited exactly-one lower bound give
 
-- `stages/stage16/16-50/result.md`
+\[
+H_1(B)\asymp M_1(B)\asymp B^2\log B.
+\]
 
-Because checkpoint 50 is newly submitted, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit`. Checkpoint 60 causal decomposition must not be treated as certified before that audit.
+The proved `\log(B)/B` thinning order is assigned to the one-face Pythagorean dimension drop: an unrestricted two-edge pair of order `B^2` is replaced by scaled primitive Pythagorean faces of order `B\log B`, while the third edge remains free at order `B`. The logarithm comes from the harmonic scale sum.
+
+At this resolution, primitivity and canonicalization do not change the power/log order, and the exactly-one mask is order-neutral relative to at-least-one. Stage16-60 does **not** prove a global overlap little-`o` theorem or a limiting ratio between exactly-one and at-least-one populations. Space-diagonal arithmetic is not charged at Stage16, and finite directional `ab/ac/bc` imbalance remains diagnostic only.
+
+Canonical Stage16-60 submission:
+
+- `stages/stage16/16-60/result.md`
+
+Because checkpoint 60 contains a new causal synthesis, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit`. Checkpoint 70 intrinsic-status / closeout verdict must not be treated as certified before that audit.
