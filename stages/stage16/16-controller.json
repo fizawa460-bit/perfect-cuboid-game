@@ -10,7 +10,15 @@
   "source_population": "positive primitive canonical edge triples 0<a<b<c with gcd(a,b,c)=1 and R=sqrt(a^2+b^2+c^2)<=B",
   "target_population": "the source population for which exactly one of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
   "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; exact face multiplicity retained; common geometric cutoff R<=B; no requirement that R be integral",
-  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_sequence": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70
+  ],
   "source_of_truth": [
     "docs/stage16-28-population-roadmap.md",
     "docs/stage16-28-execution-controller-template.md",
@@ -23,11 +31,11 @@
   },
   "state": {
     "CURRENT_STAGE": "Stage16",
-    "CURRENT_CHECKPOINT": 30,
+    "CURRENT_CHECKPOINT": 40,
     "MAIN_STATUS": "SUBMITTED",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 40,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false
@@ -61,7 +69,7 @@
   },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "current_stop_reason": "Stage16-30 submits a new proof-level order-of-growth and zero-density theorem. Checkpoints 40 and 50 depend on that new claim, so the main lane stops for fresh audit before classifying the upper/lower ledgers.",
+    "current_stop_reason": "Stage16-30 passed fresh audit. Stage16-40 submits the upper-bound ledger extracted from that audited theorem and stops for fresh audit before checkpoint 50.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition"
@@ -95,7 +103,8 @@
       "Stage16-30 lower-bound injectivity, primitivity, exact-one deletion, and summed error uniformity",
       "same-measure U(B) ambient asymptotic and thinning ratio",
       "finite Stage16-20 data is diagnostic only",
-      "merge safety"
+      "merge safety",
+      "Stage16-40 upper-bound ledger matches the audited Stage16-30 theorem without cross-promotion"
     ],
     "required_footer": [
       "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
@@ -109,32 +118,31 @@
     ]
   },
   "last_audit": {
-    "checkpoint": 20,
+    "checkpoint": 30,
     "verdict": "PASS",
-    "audit_record": "stages/stage16/16-20/audit.md",
-    "audited_submission_sha": "fcc84bc56d471e29e5b81674dfaeebda5d2a3d65",
-    "pr": 894,
-    "merged_submission_commit": "2112c1f479bf82bf5db9f6377ec72ddcec73deeb",
-    "stage16_20_ci_conclusion": "success",
+    "audit_record": "stages/stage16/16-30/audit.md",
+    "canonical_comment": "https://github.com/fizawa460-bit/perfect-cuboid-game/pull/896#issuecomment-5281567858",
+    "audited_submission_sha": "c7bf042b88ec4cb4017aa9355c21ca19c3ea3161",
+    "pr": 896,
+    "merged_submission_commit": "4d41a229b6b4c85c20f46c05e3664c43b2ec437f",
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
-    "checkpoint": 30,
+    "checkpoint": 40,
     "status": "SUBMITTED_FOR_FRESH_AUDIT",
-    "result": "stages/stage16/16-30/result.md",
-    "evidence_level": "PROVED_CANDIDATE",
-    "new_claims": [
-      "M_1(B) asymp B^2 log B up to positive constants",
-      "U(B)=pi/(36 zeta(3)) B^3+O(B^2)",
-      "M_1(B)/U(B) asymp log(B)/B and tends to 0"
-    ],
+    "result": "stages/stage16/16-40/result.md",
+    "evidence_level": "PROVED_LEDGER_FROM_AUDITED_STAGE16_30",
+    "new_claims": [],
+    "upper_bound": "M_1(B) << B^2 log B",
+    "order_sharp": true,
+    "leading_constant_proved": false,
     "population_contract_changed": false,
     "comparison_adapter_required": false,
     "finite_data_used_as_proof": false,
     "codex_required": false,
-    "codex_reason": "The checkpoint is a compact mathematical counting argument; no repository-heavy implementation or unavailable local reproduction is required."
+    "codex_reason": "Repository write recovery and ledger publication only; the mathematical upper bound was already fresh-audited."
   },
   "codex_policy": {
     "default_required": false,
