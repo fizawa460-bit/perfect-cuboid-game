@@ -14,8 +14,8 @@
   "common_population_contract": "0<a<b<c; gcd(a,b,c)=1; exactly one integral face diagonal; R=sqrt(a^2+b^2+c^2)<=B; Stage17 additionally requires R integral",
   "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
-    "10": "SUBMITTED_FOR_FRESH_AUDIT",
-    "20": "UNRESOLVED",
+    "10": "PROVED",
+    "20": "COMPUTED_CANDIDATE_PENDING_FRESH_AUDIT",
     "30": "UNRESOLVED",
     "40": "UNRESOLVED",
     "50": "UNRESOLVED",
@@ -30,6 +30,10 @@
     "docs/stage14-arsenal.md",
     "stages/stage16/final.md",
     "stages/stage16/16-70/audit.md",
+    "stages/stage17/17-10/audit.md",
+    "stages/stage17/17-20/result.md",
+    "stages/stage17/17-20/counts.csv",
+    "stages/stage17/17-20/enumerate.py",
     "docs/00_CURRENT_RESEARCH_STATUS.md"
   ],
   "canonical_commands": {
@@ -38,11 +42,11 @@
   },
   "state": {
     "CURRENT_STAGE": "Stage17",
-    "CURRENT_CHECKPOINT": 10,
+    "CURRENT_CHECKPOINT": 20,
     "MAIN_STATUS": "SUBMITTED",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 20,
+    "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false
@@ -65,14 +69,8 @@
     "cutoff": "R<=B",
     "space_diagonal": "d=R is a positive integer on the Stage17 target",
     "comparison_adapter": "IDENTITY: on the Stage17 target d=R exactly, so R<=B iff d<=B",
-    "source_notation": {
-      "population": "B_1(B)",
-      "count": "M_1(B)"
-    },
-    "target_notation": {
-      "population": "B_{1,d}(B)",
-      "count": "N_1(B)"
-    },
+    "source_notation": {"population": "B_1(B)", "count": "M_1(B)"},
+    "target_notation": {"population": "B_{1,d}(B)", "count": "N_1(B)"},
     "subset_lock": "B_{1,d}(B) subseteq B_1(B), hence N_1(B)<=M_1(B)",
     "transition_receiver": "Stage21 (16 -> 17)"
   },
@@ -87,43 +85,44 @@
     "measure_adapter_required": false,
     "quantifier_adapter_required": false
   },
+  "finite_data": {
+    "result": "stages/stage17/17-20/result.md",
+    "counts": "stages/stage17/17-20/counts.csv",
+    "enumerator": "stages/stage17/17-20/enumerate.py",
+    "workflow": ".github/workflows/stage17-20-finite-data.yml",
+    "thresholds": [50,100,200,400,800,1200,1600,2000],
+    "max_B": 2000,
+    "max_N1": 1434,
+    "csv_sha256": "2f066143090713c25eec2e8ecef7a31d5c5ec169dc008380577757b34674168a",
+    "small_cutoff_crosscheck": "optimized Pythagorean-face enumeration equals independent canonical-triple brute force through B=200",
+    "matched_stage16_ratio_diagnostic_only": true,
+    "finite_data_used_as_proof": false
+  },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
     "github_write_policy": "prefer_high_level_file_mutations_and_verify_after_fallback",
-    "current_stop_reason": "Stage17-10 introduces the new integral-space-diagonal population contract. Checkpoint 20 finite data must wait for fresh audit of this contract.",
+    "current_stop_reason": "Stage17-20 submits a deterministic finite-data baseline and matched Stage16 diagnostic. Checkpoint 30 must wait for fresh audit because no asymptotic thinning law may be inferred from finite data alone.",
     "reuse_before_new_work": [
       "Stage16 R01 frozen one-face population interface",
+      "Stage16-20 finite-data enumerator structure",
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition",
       "AR-039 exactly-one plus integral-space-diagonal family parked for checkpoint 50"
-    ],
-    "must_emit": [
-      "MAIN_BATCH_STATUS",
-      "CURRENT_STAGE",
-      "CHECKPOINTS_ATTEMPTED",
-      "CHECKPOINTS_SUBMITTED",
-      "NEW_CLAIMS",
-      "REUSED_WEAPONS",
-      "CODEX_REQUIRED",
-      "CODEX_REASON",
-      "AUDIT_REQUIRED",
-      "NEXT_EXPECTED_COMMAND"
     ]
   },
   "audit_contract": {
     "fresh_read_only_audit": true,
     "required_checks": [
-      "Stage16 checkpoint-70 PASS is canonically recorded and the upstream interface is frozen",
-      "Stage17 retains exactly one integral face and does not admit exactly-two or exactly-three objects",
-      "primitive/canonical normalization remains 0<a<b<c with gcd=1",
-      "Stage17 target requires integral R and therefore positive integral space diagonal d",
-      "R=d exactly on the target and R<=B iff d<=B",
-      "B_{1,d}(B) is a literal subset of Stage16 B_1(B), so N_1(B)<=M_1(B)",
-      "notation N_1(B) does not collide with an incompatible repository population",
-      "Stage21 transition interface remains compatible without population drift",
-      "AR-039 is parked only and no lower-bound exponent is charged at checkpoint 10",
-      "no Stage17 counting law or survivor ratio is inferred from Stage16 alone",
-      "finite data is not used as proof",
+      "Stage17-10 PASS is canonically recorded",
+      "enumerator preserves 0<a<b<c, gcd=1, exact face multiplicity one, R<=B, and integral R",
+      "Pythagorean-face coverage path is complete for exactly-one objects",
+      "optimized enumeration equals independent canonical-triple brute force through B=200",
+      "frozen counts regenerate exactly and face splits sum to N1",
+      "CSV SHA-256 matches the committed bytes",
+      "matched Stage16 counts use identical cutoffs and population source",
+      "finite N1/M1 ratios remain diagnostic only and are not promoted to an asymptotic law",
+      "AR-039 remains parked and no construction exponent is charged at checkpoint 20",
+      "checkpoint 30 remains audit-gated",
       "merge safety"
     ],
     "required_footer": [
@@ -137,47 +136,32 @@
       "CODEX_REASON="
     ]
   },
-  "last_upstream_audit": {
-    "stage": "Stage16",
-    "checkpoint": 70,
+  "last_audit": {
+    "checkpoint": 10,
     "verdict": "PASS",
-    "audit_record": "stages/stage16/16-70/audit.md",
-    "audited_submission_sha": "10d3b7b21465d833efeafa3ec216c84fb526053e",
-    "pr": 901,
-    "merged_submission_commit": "108160a34c8cc66a51af26d158e06a99e3d71971",
+    "audit_record": "stages/stage17/17-10/audit.md",
+    "audited_submission_sha": "a34d853ccde06b6e41edc33748d963ead929fadd",
+    "pr": 902,
+    "merged_submission_commit": "3bdb6ce135cec61db7a9280276522e30a280cb3f",
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
-    "checkpoint": 10,
+    "checkpoint": 20,
     "status": "SUBMITTED_FOR_FRESH_AUDIT",
-    "result": "stages/stage17/17-10/result.md",
-    "evidence_level": "PROVED_DEFINITIONAL_CONTRACT",
+    "result": "stages/stage17/17-20/result.md",
+    "evidence_level": "COMPUTED",
     "new_claims": [
-      "Stage17 is the Stage16 exactly-one population with integral R",
-      "on the Stage17 target d=R exactly and the common cutoff requires no adapter",
-      "N_1(B)<=M_1(B) by literal subset inclusion"
+      "deterministic Stage17 census through B=2000",
+      "finite matched N1/M1 diagnostic values only"
     ],
+    "asymptotic_claim": false,
     "population_contract_changed": false,
+    "comparison_adapter_required": false,
     "finite_data_used_as_proof": false,
     "codex_required": false,
-    "codex_reason": "Checkpoint 10 is a compact population/cutoff contract with no repository-heavy implementation."
+    "codex_reason": "The Stage16-20 deterministic enumerator structure was directly reusable with one integral-R filter; the implementation was independently replayed locally and is covered by dedicated CI."
   },
-  "codex_policy": {
-    "default_required": false,
-    "delegate_when_useful": [
-      "enumerator or replay implementation",
-      "deterministic data generation tooling",
-      "controller/manifest/CI repair",
-      "large mechanical repository work"
-    ],
-    "not_final_authority_for": [
-      "new mathematical claims",
-      "population-contract changes",
-      "theorem-transfer adapters",
-      "causal conclusions"
-    ]
-  },
-  "merge_rule": "Checkpoint 10 must receive fresh Stage17-audit PASS before the finite-data baseline is treated as canonical or the Stage17-10 PR is merged."
+  "merge_rule": "Checkpoint 20 must receive fresh Stage17-audit PASS before the finite-data baseline is certified or checkpoint 30 begins."
 }
