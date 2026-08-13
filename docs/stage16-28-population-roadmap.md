@@ -3,7 +3,7 @@
 Status: **future roadmap after Stage15 closure**.
 
 This roadmap does not reopen Stage15-6 and does not assign a stage number to the
-perfect-cuboid endpoint.  Its purpose is to understand, one condition at a time,
+perfect-cuboid endpoint. Its purpose is to understand, one condition at a time,
 how integer-face and integer-space-diagonal conditions change the population of
 primitive/canonical cuboids.
 
@@ -74,6 +74,47 @@ confuse:
 Comparing `16->17` with `18->19`, and `16->18` with `17->19`, is the cleanest
 way to test those interactions.
 
+## Common stage completion gates
+
+Every Stage16-28 stage should use the same numbered checkpoints. Existing
+literature may pre-fill a checkpoint, but it must still be translated into the
+project's common population/cutoff conventions before being marked complete.
+
+| Checkpoint | Required output | Closure question |
+|---|---|---|
+| **StageX-10** | population contract | What exactly is being counted? Fix primitive/canonical conventions, symmetry removal, cutoff, and source/target definitions. |
+| **StageX-20** | finite-data baseline | How many objects are observed as the cutoff grows, and are the enumerators/replay checks trustworthy? |
+| **StageX-30** | ratio / thinning law | What fraction survives the added condition, and does that ratio appear constant, logarithmically small, polynomially small, or zero-density? |
+| **StageX-40** | upper-bound ledger | What is the strongest certified upper bound, and which mechanism pays for it? |
+| **StageX-50** | lower-bound / construction ledger | How large a family can definitely be constructed, and what lower bound does it imply under the common cutoff? |
+| **StageX-60** | causal decomposition | Why does the population decrease? Identify the actual arithmetic restrictions and distinguish new constraints from reformulations of earlier ones. |
+| **StageX-70** | intrinsic-status / audit verdict | Do upper and lower bounds meet? Is the exponent intrinsic? Are the mechanisms independent, correlated, or double-counted? Record what is still genuinely unknown. |
+
+A stage is considered substantively closed only when all seven checkpoints have
+an explicit status: `PROVED`, `COMPUTED`, `LITERATURE_ADAPTED`, `OPEN_GATE`, or
+`NOT_APPLICABLE`. A checkpoint does not need a positive theorem to be complete;
+a precise, audited `OPEN_GATE` is an acceptable research result when the missing
+input is identified.
+
+This gate structure is intended to make the project stop condition explicit: a
+stage advances when its known facts, quantitative bounds, causal explanation,
+and remaining unknowns have all been classified rather than when a promising
+route merely runs out of ideas.
+
+## Stage20 literature reuse rule
+
+Stage20 is expected to begin with more pre-filled checkpoints than the earlier
+population stages because Euler cuboids have a large existing literature. In
+particular, parameter families, explicit constructions, computational data, and
+several arithmetic reformulations may populate parts of `20-10`, `20-20`,
+`20-50`, and `20-60`.
+
+Those inherited results must not be treated as automatically solving the
+population problem. The project still needs to adapt them to the common cutoff
+and determine `20-30`, `20-40`, `20-50`, and `20-70` in the same language used
+for Stages16-19. An infinite family, for example, is not automatically a matched
+asymptotic lower bound.
+
 ## Stage19 special carry-over
 
 Stage19 must preserve the distinction already established by Stage14/15:
@@ -113,7 +154,18 @@ Numerical evidence and asymptotic theorems must remain explicitly separated.
 ## Deferred endpoint
 
 The population with **three integer face diagonals plus an integer space diagonal**
-is the perfect-cuboid endpoint.  It is intentionally **not assigned a Stage16-28
-number here**.  The project should first complete enough of the population and
-interaction map to know what the final condition is actually doing before opening
-that endpoint as a dedicated stage.
+is the perfect-cuboid endpoint. It is intentionally **not assigned a Stage16-28
+number here**.
+
+The working expectation to test, not assume, is that the final space-diagonal
+condition may interact with the already highly constrained Euler-cuboid state far
+more severely than it does in the one-face or two-face populations. The purpose
+of Stages16-28 is to determine whether that expectation is supported by matched
+population laws and identified arithmetic mechanisms.
+
+Even a complete Stage16-28 map is not expected to settle the existence or
+nonexistence of a perfect cuboid automatically. Its success criterion is more
+modest and more useful: by the time the endpoint is opened, the project should
+know which restrictions are already understood, which interactions cause the
+observed thinning, which bounds are genuinely sharp or not, and exactly what new
+obstruction remains at the three-face + space-diagonal boundary.
