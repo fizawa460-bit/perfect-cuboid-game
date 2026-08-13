@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "primary_operator": "ChatGPT",
+  "status": "OPEN",
+  "stage": "Stage17",
+  "parent_class": "population_state",
+  "stage_object": "primitive canonical cuboids with exactly one integral face diagonal and integral space diagonal",
+  "roadmap": "docs/stage16-28-population-roadmap.md",
+  "execution_template": "docs/stage16-28-execution-controller-template.md",
+  "stage70_policy": "docs/stage16-28-stage70-policy.md",
+  "github_write_policy": "docs/stage16-28-github-write-policy.md",
+  "source_population": "Stage16 primitive canonical exactly-one population B_1(B) under R<=B",
+  "target_population": "the Stage16 population with R integral, equivalently with positive integral space diagonal d=R",
+  "common_population_contract": "0<a<b<c; gcd(a,b,c)=1; exactly one integral face diagonal; R=sqrt(a^2+b^2+c^2)<=B; Stage17 additionally requires R integral",
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_status": {
+    "10": "SUBMITTED_FOR_FRESH_AUDIT",
+    "20": "UNRESOLVED",
+    "30": "UNRESOLVED",
+    "40": "UNRESOLVED",
+    "50": "UNRESOLVED",
+    "60": "UNRESOLVED",
+    "70": "UNRESOLVED"
+  },
+  "source_of_truth": [
+    "docs/stage16-28-population-roadmap.md",
+    "docs/stage16-28-execution-controller-template.md",
+    "docs/stage16-28-stage70-policy.md",
+    "docs/stage16-28-github-write-policy.md",
+    "docs/stage14-arsenal.md",
+    "stages/stage16/final.md",
+    "stages/stage16/16-70/audit.md",
+    "docs/00_CURRENT_RESEARCH_STATUS.md"
+  ],
+  "canonical_commands": {
+    "main": "Stage17-main-batch",
+    "audit": "Stage17-audit"
+  },
+  "state": {
+    "CURRENT_STAGE": "Stage17",
+    "CURRENT_CHECKPOINT": 10,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 20,
+    "NEXT_STAGE": "",
+    "NEW_INPUT_REQUIRED": false,
+    "HUMAN_DECISION_REQUIRED": false
+  },
+  "checkpoint_contract": {
+    "10": "population contract",
+    "20": "finite-data baseline",
+    "30": "ratio / thinning law",
+    "40": "upper-bound ledger",
+    "50": "lower-bound / construction ledger",
+    "60": "causal decomposition",
+    "70": "intrinsic-status / audit verdict plus bounded final synthesis"
+  },
+  "stage17_contract": {
+    "canonical_edges": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "exact_face_multiplicity": 1,
+    "space_diagonal_integrality": "REQUIRED",
+    "height": "R(a,b,c)=sqrt(a^2+b^2+c^2)",
+    "cutoff": "R<=B",
+    "space_diagonal": "d=R is a positive integer on the Stage17 target",
+    "comparison_adapter": "IDENTITY: on the Stage17 target d=R exactly, so R<=B iff d<=B",
+    "source_notation": {
+      "population": "B_1(B)",
+      "count": "M_1(B)"
+    },
+    "target_notation": {
+      "population": "B_{1,d}(B)",
+      "count": "N_1(B)"
+    },
+    "subset_lock": "B_{1,d}(B) subseteq B_1(B), hence N_1(B)<=M_1(B)",
+    "transition_receiver": "Stage21 (16 -> 17)"
+  },
+  "upstream_stage16": {
+    "status": "CLOSED_AFTER_CHECKPOINT_70_AUDIT_PASS",
+    "final_bundle": "stages/stage16/final.md",
+    "final_audit": "stages/stage16/16-70/audit.md",
+    "theorem": "M_1(B) asymp B^2 log B",
+    "population_match": true,
+    "cutoff_match": true,
+    "multiplicity_match": true,
+    "measure_adapter_required": false,
+    "quantifier_adapter_required": false
+  },
+  "main_contract": {
+    "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
+    "github_write_policy": "prefer_high_level_file_mutations_and_verify_after_fallback",
+    "current_stop_reason": "Stage17-10 introduces the new integral-space-diagonal population contract. Checkpoint 20 finite data must wait for fresh audit of this contract.",
+    "reuse_before_new_work": [
+      "Stage16 R01 frozen one-face population interface",
+      "AR-001 primitive/canonical physical convention",
+      "AR-002 primitive Euclid face decomposition",
+      "AR-039 exactly-one plus integral-space-diagonal family parked for checkpoint 50"
+    ],
+    "must_emit": [
+      "MAIN_BATCH_STATUS",
+      "CURRENT_STAGE",
+      "CHECKPOINTS_ATTEMPTED",
+      "CHECKPOINTS_SUBMITTED",
+      "NEW_CLAIMS",
+      "REUSED_WEAPONS",
+      "CODEX_REQUIRED",
+      "CODEX_REASON",
+      "AUDIT_REQUIRED",
+      "NEXT_EXPECTED_COMMAND"
+    ]
+  },
+  "audit_contract": {
+    "fresh_read_only_audit": true,
+    "required_checks": [
+      "Stage16 checkpoint-70 PASS is canonically recorded and the upstream interface is frozen",
+      "Stage17 retains exactly one integral face and does not admit exactly-two or exactly-three objects",
+      "primitive/canonical normalization remains 0<a<b<c with gcd=1",
+      "Stage17 target requires integral R and therefore positive integral space diagonal d",
+      "R=d exactly on the target and R<=B iff d<=B",
+      "B_{1,d}(B) is a literal subset of Stage16 B_1(B), so N_1(B)<=M_1(B)",
+      "notation N_1(B) does not collide with an incompatible repository population",
+      "Stage21 transition interface remains compatible without population drift",
+      "AR-039 is parked only and no lower-bound exponent is charged at checkpoint 10",
+      "no Stage17 counting law or survivor ratio is inferred from Stage16 alone",
+      "finite data is not used as proof",
+      "merge safety"
+    ],
+    "required_footer": [
+      "AUDIT_VERDICT=PASS|FAIL|BLOCKED",
+      "ADVANCE_ALLOWED=true|false",
+      "NEW_INPUT_REQUIRED=true|false",
+      "HUMAN_DECISION_REQUIRED=true|false",
+      "NEXT_CHECKPOINT=",
+      "NEXT_STAGE=",
+      "CODEX_AUDIT_REQUIRED=true|false",
+      "CODEX_REASON="
+    ]
+  },
+  "last_upstream_audit": {
+    "stage": "Stage16",
+    "checkpoint": 70,
+    "verdict": "PASS",
+    "audit_record": "stages/stage16/16-70/audit.md",
+    "audited_submission_sha": "10d3b7b21465d833efeafa3ec216c84fb526053e",
+    "pr": 901,
+    "merged_submission_commit": "108160a34c8cc66a51af26d158e06a99e3d71971",
+    "merge_allowed": true,
+    "codex_audit_required": false,
+    "codex_reason": "NONE"
+  },
+  "last_submission": {
+    "checkpoint": 10,
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "result": "stages/stage17/17-10/result.md",
+    "evidence_level": "PROVED_DEFINITIONAL_CONTRACT",
+    "new_claims": [
+      "Stage17 is the Stage16 exactly-one population with integral R",
+      "on the Stage17 target d=R exactly and the common cutoff requires no adapter",
+      "N_1(B)<=M_1(B) by literal subset inclusion"
+    ],
+    "population_contract_changed": false,
+    "finite_data_used_as_proof": false,
+    "codex_required": false,
+    "codex_reason": "Checkpoint 10 is a compact population/cutoff contract with no repository-heavy implementation."
+  },
+  "codex_policy": {
+    "default_required": false,
+    "delegate_when_useful": [
+      "enumerator or replay implementation",
+      "deterministic data generation tooling",
+      "controller/manifest/CI repair",
+      "large mechanical repository work"
+    ],
+    "not_final_authority_for": [
+      "new mathematical claims",
+      "population-contract changes",
+      "theorem-transfer adapters",
+      "causal conclusions"
+    ]
+  },
+  "merge_rule": "Checkpoint 10 must receive fresh Stage17-audit PASS before the finite-data baseline is treated as canonical or the Stage17-10 PR is merged."
+}
