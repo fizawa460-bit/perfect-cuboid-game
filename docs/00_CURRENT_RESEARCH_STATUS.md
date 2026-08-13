@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-20-AUDIT-PASS
+CURRENT_STAGE=Stage16-30-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,14 +10,13 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
+STAGE16_STATUS=OPEN_CHECKPOINT_30_SUBMITTED
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
-STAGE16_CURRENT_RESULT=stages/stage16/16-20/result.md
-STAGE16_CURRENT_DATA=stages/stage16/16-20/counts.csv
-STAGE16_CURRENT_ENUMERATOR=stages/stage16/16-20/enumerate.py
-STAGE16_CURRENT_AUDIT=stages/stage16/16-20/audit.md
-STAGE16_NEXT_CHECKPOINT=30
-NEXT_EXPECTED_COMMAND=Stage16-main-batch
+STAGE16_CURRENT_RESULT=stages/stage16/16-30/result.md
+STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
+STAGE16_LAST_AUDIT=stages/stage16/16-20/audit.md
+STAGE16_NEXT_CHECKPOINT=40
+NEXT_EXPECTED_COMMAND=Stage16-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
@@ -105,17 +104,36 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-Stage16-10 has passed fresh audit and its population/cutoff contract is frozen. Stage16-20 finite-data baseline has now also passed fresh audit.
+Stage16-10 has passed fresh audit and its population/cutoff contract is frozen. Stage16-20 finite-data baseline has also passed fresh audit, including the dedicated replay through `B=2000`.
 
-Canonical Stage16-20 artifacts:
+Stage16-30 now submits the first proof-level ratio/thinning law on that same physical population:
 
-- `stages/stage16/16-20/result.md`
-- `stages/stage16/16-20/counts.csv`
-- `stages/stage16/16-20/enumerate.py`
+\[
+M_1(B)\asymp B^2\log B,
+\]
+
+where `M_1(B)` counts primitive canonical exactly-one-face triples under `R<=B` with no space-diagonal integrality requirement. The common source universe of all primitive canonical positive triples under the same cutoff is claimed to satisfy
+
+\[
+U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
+\]
+
+and therefore
+
+\[
+\frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
+\]
+
+The proof candidate is self-contained at checkpoint level: the upper bound uses the unique scaled primitive Pythagorean face decomposition; the lower bound constructs a large exact-one family by choosing a third edge in a fixed radial interval and deleting the two accidental-square sets by a divisor bound; the ambient source count uses primitive lattice points in the positive Euclidean octant followed by canonical projection.
+
+Stage16-20 finite counts remain diagnostic only and are not used as proof of the Stage16-30 theorem. No leading constant for `M_1(B)`, directional limiting vector, Stage16-to-Stage17 survival ratio, or perfect-cuboid existence/nonexistence claim is made.
+
+Canonical Stage16-30 submission:
+
+- `stages/stage16/16-30/result.md`
+
+Last certified audit remains:
+
 - `stages/stage16/16-20/audit.md`
 
-The enumerator uses primitive Euclid face generation plus scale, exhaustive third-edge completion under `R<=B`, canonical/global-primitive filtering, and an exact-one face check. Independent direct canonical-triple checks agree at `B=50,100,200`, and the frozen CSV hash matches the recorded SHA-256. The dedicated Stage16-20 finite-data CI completed successfully through the frozen `B=2000` replay.
-
-These remain `COMPUTED` finite facts only. No asymptotic growth law, exponent, ratio, upper/lower bound, or causal mechanism has been inferred at Stage16-20. The diagnostic `ab/ac/bc` face split is also not interpreted as an intrinsic arithmetic asymmetry.
-
-Checkpoint 20 is certified. `ADVANCE_ALLOWED=true`; the next unresolved checkpoint is Stage16-30 (ratio / thinning law), entered through `Stage16-main-batch`.
+Because Stage16-30 introduces a new load-bearing mathematical theorem, `ADVANCE_ALLOWED=false` until a fresh `Stage16-audit` checks the upper/lower counting argument, exact-one construction, same-measure ambient comparison, and merge safety. Checkpoints 40 and 50 must not be treated as certified before that audit.
