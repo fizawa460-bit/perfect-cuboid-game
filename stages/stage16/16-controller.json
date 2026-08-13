@@ -11,11 +11,23 @@
   "target_population": "the source population for which exactly one of a^2+b^2, a^2+c^2, b^2+c^2 is a square",
   "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; exact face multiplicity retained; common geometric cutoff R<=B; no requirement that R be integral",
   "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_status": {
+    "10": "PROVED",
+    "20": "COMPUTED",
+    "30": "PROVED",
+    "40": "PROVED",
+    "50": "PROVED",
+    "60": "PROVED",
+    "70": "PROVED_CANDIDATE_PENDING_FRESH_AUDIT"
+  },
   "source_of_truth": [
     "docs/stage16-28-population-roadmap.md",
     "docs/stage16-28-execution-controller-template.md",
+    "docs/self-contained-review-standard.md",
     "docs/stage14-arsenal.md",
-    "docs/00_CURRENT_RESEARCH_STATUS.md"
+    "docs/00_CURRENT_RESEARCH_STATUS.md",
+    "stages/stage16/final.md",
+    "stages/stage16/manifest-r01.md"
   ],
   "canonical_commands": {
     "main": "Stage16-main-batch",
@@ -23,12 +35,12 @@
   },
   "state": {
     "CURRENT_STAGE": "Stage16",
-    "CURRENT_CHECKPOINT": 60,
+    "CURRENT_CHECKPOINT": 70,
     "MAIN_STATUS": "SUBMITTED",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 70,
-    "NEXT_STAGE": "",
+    "NEXT_CHECKPOINT": null,
+    "NEXT_STAGE": "Stage17",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false
   },
@@ -61,15 +73,13 @@
   },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "current_stop_reason": "Stage16-50 passed fresh audit. Stage16-60 submits the causal decomposition and the derived at-least-one host comparison H_1(B) asymp B^2 log B, then stops before checkpoint 70 intrinsic-status/closeout verdict.",
+    "current_stop_reason": "Stage16-60 passed fresh audit. Stage16-70 submits the intrinsic-status verdict, proof-complete R01 bundle, manifest, and stage-end artifact decisions. Stage16 remains open until a fresh Stage16-audit certifies checkpoint 70 and the bundle.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition",
       "AR-039 mod-7 two-parameter exactly-one family as a narrower integral-space-diagonal regression subset only"
     ],
-    "future_reuse_candidates": [
-      "Stage16 one-face Pythagorean dimension-drop plus harmonic-scale causal decomposition, pending checkpoint-60 audit and checkpoint-70 promotion decision"
-    ],
+    "future_reuse_candidates": [],
     "must_emit": [
       "MAIN_BATCH_STATUS",
       "CURRENT_STAGE",
@@ -83,26 +93,46 @@
       "NEXT_EXPECTED_COMMAND"
     ]
   },
+  "stage_end_decision": {
+    "true_order_identified": true,
+    "polynomial_exponent": 2,
+    "log_power": 1,
+    "leading_constant_proved": false,
+    "self_contained_bundle_required": true,
+    "self_contained_bundle_reason": "Stage16 proves a new sharp population law and causal decomposition expected to be cited repeatedly by Stage17 and Stage21; a single proof-complete stable interface is safer than reconstructing checkpoint fragments.",
+    "self_contained_bundle": "stages/stage16/final.md",
+    "manifest": "stages/stage16/manifest-r01.md",
+    "arsenal_promotion_required": false,
+    "arsenal_candidates": [],
+    "arsenal_reason": "The portable ingredients are already represented by AR-001, AR-002, and AR-039. The new B^2 log B synthesis is primarily a Stage16 population theorem rather than a distinct cross-stage weapon.",
+    "population_contract_changed": false,
+    "comparison_adapter_required": false,
+    "evidence_levels_complete": true,
+    "dependency_ledger_complete": true,
+    "open_gate_reentry_justified": "NOT_APPLICABLE",
+    "arsenal_supersession_check": "NOT_APPLICABLE",
+    "double_charge_check": "PASS"
+  },
   "audit_contract": {
     "fresh_read_only_audit": true,
     "required_checks": [
-      "primitive/canonical normalization",
-      "exactly-one exclusion of exactly-two and exactly-three populations",
-      "R<=B cutoff and integral-space-diagonal R=d adapter",
-      "compatibility with the Stage16-28 roadmap and future Stage17/21 comparison",
-      "notation does not collide with incompatible historical populations",
-      "evidence-level and dependency declarations",
-      "Stage16-30 upper-bound face parametrization completeness and multiplicity",
-      "Stage16-30 lower-bound injectivity, primitivity, exact-one deletion, and summed error uniformity",
-      "same-measure U(B) ambient asymptotic and thinning ratio",
-      "finite Stage16-20 data is diagnostic only",
-      "Stage16-40 upper-bound ledger matches the audited Stage16-30 theorem without cross-promotion",
-      "Stage16-50 lower-bound ledger matches the audited Stage16-30 construction and does not weaken the sharp lower bound",
-      "AR-039 is used only through exact subset inclusion and the R=d cutoff adapter",
-      "Stage16-60 one-face host count is derived from the same Pythagorean face decomposition",
-      "Stage16-60 H_1(B) comparison uses only the union upper bound plus audited M_1 lower bound",
-      "Stage16-60 does not claim global overlap little-o or a limiting M_1/H_1 ratio",
-      "Stage16-60 does not charge space-diagonal arithmetic or finite directional imbalance to the Stage16 exponent",
+      "primitive/canonical normalization and exact-one population lock",
+      "R<=B cutoff and integral-space-diagonal R=d adapter boundary",
+      "Stage16-30 upper and lower proofs remain valid in the final bundle",
+      "source-universe constant pi/(36 zeta(3)) is transcribed correctly",
+      "Stage16-40 and Stage16-50 ledgers match the audited Stage16-30 theorem",
+      "Stage16-60 H_1(B) comparison uses only the face-union upper bound plus audited M_1 lower bound",
+      "Stage16-60 and Stage16-70 do not claim global overlap little-o or a limiting M_1/H_1 ratio",
+      "intrinsic-status verdict follows from matched upper and lower bounds",
+      "finite Stage16-20 data remains diagnostic only",
+      "AR-039 remains a narrower regression subset and is not used for the ambient exponent",
+      "space-diagonal arithmetic and finite directional imbalance are not charged to the Stage16 exponent",
+      "all checkpoint roadmap statuses are explicit",
+      "population/comparison/evidence/dependency/double-charge safety fields are complete",
+      "self-contained bundle embeds all internal load-bearing mathematics required by SELF_CONTAINED_REVIEW_STANDARD_V1",
+      "bundle and manifest preserve nonclaims and audit-pending status",
+      "bundle-required YES and arsenal-promotion NO decisions are justified",
+      "proposed next stage is Stage17 only after audit PASS",
       "merge safety"
     ],
     "required_footer": [
@@ -117,38 +147,42 @@
     ]
   },
   "last_audit": {
-    "checkpoint": 50,
+    "checkpoint": 60,
     "verdict": "PASS",
-    "audit_record": "stages/stage16/16-50/audit.md",
-    "audited_submission_sha": "9d9e751af771a976cd478c3c779e0523b9d3f6a9",
-    "pr": 898,
-    "merged_submission_commit": "b80affdaa0c529d884810e4b96777ec6ad3439c3",
+    "audit_record": "stages/stage16/16-60/audit.md",
+    "audited_submission_sha": "c27fcd4013a973d9a96c12a716b313914f9e61e8",
+    "pr": 899,
+    "merged_submission_commit": "da6b6436939fdaa845c47563cc295e14bda9b1f9",
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
-    "checkpoint": 60,
+    "checkpoint": 70,
     "status": "SUBMITTED_FOR_FRESH_AUDIT",
-    "result": "stages/stage16/16-60/result.md",
-    "evidence_level": "DERIVED_CAUSAL_SYNTHESIS_FROM_AUDITED_STAGE16_30_40_50",
+    "result": "stages/stage16/16-70/result.md",
+    "bundle": "stages/stage16/final.md",
+    "manifest": "stages/stage16/manifest-r01.md",
+    "evidence_level": "INTRINSIC_STATUS_CANDIDATE_FROM_AUDITED_STAGE16_30_40_50_60",
     "new_claims": [
-      "If H_1(B) counts the same primitive canonical R<=B population with at least one integral face, then H_1(B) asymp B^2 log B",
-      "the Stage16 log(B)/B thinning order is causally assigned to the one-face Pythagorean dimension drop plus harmonic face-scale sum, with the third edge remaining free"
+      "the true Stage16 order is identified as Theta(B^2 log B), so polynomial exponent 2 and log power 1 are intrinsic at this resolution",
+      "Stage16 deserves a self-contained final bundle",
+      "no new arsenal promotion is required"
     ],
-    "primary_cause": "one-face Pythagorean dimension drop",
-    "log_source": "harmonic face-scale sum",
-    "free_third_edge_factor": "B",
-    "exact_one_changes_power_log_order": false,
-    "global_overlap_little_o_proved": false,
-    "primitivity_changes_power_log_order": false,
-    "canonicalization_changes_power_log_order": false,
-    "space_diagonal_charged": false,
-    "directional_law_proved": false,
+    "remaining_unknowns": [
+      "leading asymptotic constant for M_1(B)",
+      "full asymptotic error term",
+      "directional limiting vector",
+      "global overlap little-o and M_1/H_1 limiting ratio",
+      "Stage16-to-Stage17 space-diagonal survival law",
+      "perfect-cuboid endpoint"
+    ],
+    "next_stage_after_pass": "Stage17",
     "population_contract_changed": false,
+    "comparison_adapter_required": false,
     "finite_data_used_as_proof": false,
     "codex_required": false,
-    "codex_reason": "Checkpoint 60 is a compact mathematical synthesis from audited counting ledgers; no repository-heavy implementation is required."
+    "codex_reason": "Checkpoint 70 is a compact mathematical closeout and proof-bundle assembly; no repository-heavy implementation is required."
   },
   "codex_policy": {
     "default_required": false,
@@ -165,5 +199,5 @@
       "causal conclusions"
     ]
   },
-  "merge_rule": "The Stage16 main lane cannot approve its own substantive mathematical submission. Merge only after the required fresh Stage16-audit returns PASS and repository validation is satisfactory."
+  "merge_rule": "Stage16 may close only after fresh Stage16-audit PASS on checkpoint 70 and the self-contained bundle. Until then the Stage16-70 PR remains audit-gated and Stage17 must not treat the closeout as certified."
 }
