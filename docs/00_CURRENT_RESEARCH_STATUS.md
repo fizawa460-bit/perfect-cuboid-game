@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage17-60-AUDIT-PASS
+CURRENT_STAGE=Stage17-70-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -16,14 +16,17 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE17_STATUS=OPEN_CHECKPOINT_60_AUDIT_PASS
+STAGE17_STATUS=OPEN_CHECKPOINT_70_SUBMITTED
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
-STAGE17_CURRENT_RESULT=stages/stage17/17-60/result.md
+STAGE17_CURRENT_RESULT=stages/stage17/17-70/result.md
 STAGE17_CURRENT_AUDIT=stages/stage17/17-60/audit.md
+STAGE17_FINAL_BUNDLE=stages/stage17/final.md
+STAGE17_MANIFEST=stages/stage17/manifest-r01.md
 STAGE17_CURRENT_DATA=stages/stage17/17-20/counts.csv
 STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
-STAGE17_NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage17-main-batch
+STAGE17_NEXT_CHECKPOINT=
+STAGE17_NEXT_STAGE=Stage18
+NEXT_EXPECTED_COMMAND=Stage17-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -49,6 +52,8 @@ The authoritative definition is:
 `docs/self-contained-review-standard.md`
 
 Future final review artifacts must use the Stage12 R09 / Stage13 R07 / Stage14 R06 / Stage15 R02 standard: internal load-bearing mathematics is embedded in proof-complete form; published external theorems may remain external only with an exact working contract, hypothesis map, measure/height adapter, and quantifier limitations.
+
+A completed earlier stage may be imported as a frozen theorem interface when population, cutoff, multiplicity, measure and quantifiers match; any new adapter must be proved in the receiving stage.
 
 A repository path is provenance, not a substitute for a load-bearing proof.
 
@@ -131,40 +136,64 @@ The polynomial exponent `2` and logarithmic power `1` are intrinsic at the prove
 
 ## Current operation
 
-Stage17-60 has passed fresh audit. The Stage17 population remains the same primitive canonical exactly-one population with integral space diagonal and common cutoff `R<=B`; on target objects `R=d` exactly.
+Stage17 checkpoints 10 through 60 have audited records. Stage17-70 now submits the bounded maximal synthesis and R01 final interface bundle.
 
-For the unique integral face write
+The absolute Stage17 theorem is
 
-`x^2+y^2=p^2`.
+\[
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
+\]
 
-The new Stage17 requirement that the space diagonal be integral is exactly
+Therefore polynomial exponent `1`, logarithmic power `3`, and the leading constant `kappa/(24*pi)` are identified for the absolute Stage17 population.
 
-`p^2+z^2=d^2`
+Combined with the frozen Stage16 law `M_1(B)\asymp B^2\log B`, the matched survival law is
 
-for the complementary edge `z`. Thus the audited structural mechanism is a second Pythagorean extension sharing the face diagonal `p`.
+\[
+N_1(B)/M_1(B)\asymp(\log B)^2/B\to0.
+\]
 
-The audited laws
+No leading constant is claimed for this ratio because Stage16 has no leading constant for `M_1(B)`.
 
-`M_1(B) asymp B^2 log B`
+Define `H_{1,d}(B)` as the same primitive canonical integral-space-diagonal population with at least one integral face. Stage13's pair-overlap theorem yields
 
-and
+\[
+H_{1,d}(B)-N_1(B)=o(B(\log B)^3),
+\]
 
-`N_1(B) ~ (kappa/(24*pi)) B(log B)^3`
+hence
 
-give the net survival law
+\[
+H_{1,d}(B)\sim N_1(B),\qquad N_1(B)/H_{1,d}(B)\to1.
+\]
 
-`N_1(B)/M_1(B) asymp (log B)^2/B`.
+Thus exactly-one is asymptotically dominant among integral-space cuboids that have at least one integral face. No perfect-cuboid nonexistence assumption is used.
 
-At theorem scale this is one lost polynomial power of `B`, with `(log B)^2` net compensation. The logarithms are not split into independent probabilistic costs.
+The structural Stage16-to-Stage17 predicate remains
 
-Canonical ordering, global primitivity, exactly-one multiplicity and `R<=B` are already charged in Stage16. The identity `d=R` is not a new cost. Stage13's extra-face overlap theorem is lower order, so exactly-one subtraction is not the leading Stage17 mechanism. AR-039 remains an explicit survivor family rather than the source of the full asymptotic.
+```text
+x^2+y^2=p^2
+p^2+z^2=d^2
+```
 
-Stage16S remains the separate ambient control for space-diagonal integrality. Stage17-60 does not decide whether the observed cost is intrinsic, independent, correlated, or interaction-dependent; that comparison is reserved for Stage21 once the necessary Stage16S baseline is audited.
+with shared face diagonal `p`. This identifies the new arithmetic restriction but does not prove probabilistic independence.
 
-Canonical Stage17-60 records:
+The absolute Stage17 order is settled, but whether the space-diagonal condition is intrinsically strong in the ambient population or interaction-dependent after one face remains a Stage21 comparison against Stage16S. Stage16S is parallel and does not block Stage17 closure.
 
-- `stages/stage17/17-60/result.md`
-- `stages/stage17/17-60/audit.md`
+Stage-end artifact decisions:
+
+```text
+SELF_CONTAINED_BUNDLE_REQUIRED=YES
+SELF_CONTAINED_BUNDLE=stages/stage17/final.md
+ARSENAL_PROMOTION_REQUIRED=NO
+ARSENAL_CANDIDATES=NONE
+SYNTHESIS_STOP_RULE_SATISFIED=YES
+```
+
+Canonical Stage17-70 submission:
+
+- `stages/stage17/17-70/result.md`
+- `stages/stage17/final.md`
+- `stages/stage17/manifest-r01.md`
 - `stages/stage17/17-controller.json`
 
-Checkpoint 60 is merge-allowed. The next unresolved checkpoint is `Stage17-70` (bounded maximal synthesis / intrinsic-status closeout), entered through `Stage17-main-batch` after this audited checkpoint is merged.
+Stage17 remains open until fresh `Stage17-audit` durably persists checkpoint-70 PASS. Under the current roadmap audit policy, PASS permits merge but the audit command does not execute merge by default. After audited closure, the next numbered population stage is Stage18; Stage21 later consumes the Stage16/17/Stage16S comparison.
