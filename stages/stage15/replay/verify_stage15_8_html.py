@@ -20,6 +20,11 @@ def require(text: str, needle: str) -> None:
         raise AssertionError(f"missing marker: {needle}")
 
 
+def git_blob_sha(data: bytes) -> str:
+    header = f"blob {len(data)}\0".encode("ascii")
+    return hashlib.sha1(header + data).hexdigest()
+
+
 html = HTML_PATH.read_text(encoding="utf-8")
 ctrl_text = CTRL_PATH.read_text(encoding="utf-8")
 result = RESULT_PATH.read_text(encoding="utf-8")
@@ -150,10 +155,10 @@ for needle in (
 ):
     require(html, needle)
 
-html_sha = hashlib.sha256(html.encode("utf-8")).hexdigest()
-standard_sha = hashlib.sha256(standard.encode("utf-8")).hexdigest()
-require(manifest, f"HTML_SHA256={html_sha}")
-require(manifest, f"SELF_CONTAINMENT_STANDARD_SHA256={standard_sha}")
+html_blob = git_blob_sha(html.encode("utf-8"))
+standard_blob = git_blob_sha(standard.encode("utf-8"))
+require(manifest, f"HTML_GIT_BLOB_SHA={html_blob}")
+require(manifest, f"SELF_CONTAINMENT_STANDARD_GIT_BLOB_SHA={standard_blob}")
 require(manifest, "STATUS=AUDIT_CANDIDATE")
 require(manifest, "NEW_MATHEMATICS=false")
 require(manifest, "SUMMARY_ONLY=false")
