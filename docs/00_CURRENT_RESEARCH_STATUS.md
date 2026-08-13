@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage18-10-SUBMITTED
+CURRENT_STAGE=Stage18-10-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -27,12 +27,13 @@ STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_NEXT_CHECKPOINT=
 STAGE17_NEXT_STAGE=Stage18
-STAGE18_STATUS=OPEN_CHECKPOINT_10_SUBMITTED
+STAGE18_STATUS=OPEN_CHECKPOINT_10_AUDIT_PASS
 STAGE18_CONTROLLER=stages/stage18/18-controller.json
 STAGE18_CURRENT_RESULT=stages/stage18/18-10/result.md
-STAGE18_CURRENT_AUDIT=
+STAGE18_CURRENT_AUDIT=stages/stage18/18-10/audit.md
+STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=20
-NEXT_EXPECTED_COMMAND=Stage18-audit
+NEXT_EXPECTED_COMMAND=Stage18-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -196,22 +197,23 @@ HUMAN_DECISION_REQUIRED=false
 
 ## Current operation
 
-Stage18-10 submits the population contract for the roadmap's exactly-two-face population. Stage18 uses primitive canonical positive edge triples `0<a<b<c`, `gcd(a,b,c)=1`, the common geometric cutoff `R<=B`, and requires exactly two of the three face diagonals to be integral. It imposes no integral-space-diagonal condition.
+Stage18-10 population contract passed fresh audit. Stage18 counts primitive canonical positive triples `0<a<b<c`, `gcd(a,b,c)=1`, under `R<=B`, with exactly two integral face diagonals and no integral-space-diagonal requirement.
 
-This is literally the ambient `B_2(B)` population already defined by Stage15, with count `M_2(B)`. Population, cutoff and physical multiplicity match exactly, with no measure or quantifier adapter. Stage15's asymptotic `M_2(B) ~ C_{M_2} B(log B)^5` is frozen provenance for later Stage18 checkpoints, not a checkpoint-10 self-promotion.
+This is literally the frozen Stage15 ambient `B_2(B)` population, with count `M_2(B)`. Population, cutoff, multiplicity, measure and quantifier conventions match exactly, so no adapter is needed. Stage15's theorem `M_2(B) ~ C_{M_2} B(log B)^5`, `C_{M_2}>0`, remains frozen provenance for later Stage18 checkpoints and is not promoted by checkpoint 10 itself.
 
-The Stage16 -> Stage18 thinning comparison is reserved for Stage22. Checkpoint20 remains blocked until fresh `Stage18-audit
-certifies the new parent-stage population contract.
+Stage19 adds integral space diagonal to this exactly-two population; Stage20 is exactly-three-face and excluded here. The Stage16 -> Stage18 thinning comparison remains reserved for Stage22. No finite-data, ratio, causal, independence, or perfect-cuboid conclusion is added by Stage18-10.
 
-Canonical Stage18-10 submission:
+Canonical Stage18-10 records:
 
 - `stages/stage18/18-10/result.md`
+- `stages/stage18/18-10/audit.md`
 - `stages/stage18/18-controller.json`
 
 ```text
-AUDIT_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 NEXT_CHECKPOINT=20
-NEXT_EXPECTED_COMMAND=Stage18-audit
+NEXT_EXPECTED_COMMAND=Stage18-main-batch
 ```
