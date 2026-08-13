@@ -9,15 +9,14 @@
   "target_population":"Stage18 B_2(B): exactly two integral face diagonals under R<=B",
   "common_population_contract":"0<a<b<c; gcd(a,b,c)=1; R=sqrt(a^2+b^2+c^2)<=B; exactly two face-square predicates; no integral-R requirement",
   "checkpoint_sequence":[10,20,30,40,50,60,70],
-  "checkpoint_status":{"10":"PROVED_AUDITED_PASS","20":"UNRESOLVED","30":"UNRESOLVED","40":"UNRESOLVED","50":"UNRESOLVED","60":"UNRESOLVED","70":"UNRESOLVED"},
+  "checkpoint_status":{"10":"PROVED_AUDITED_PASS","20":"COMPUTED_AUDITED_PASS","30":"UNRESOLVED","40":"UNRESOLVED","50":"UNRESOLVED","60":"UNRESOLVED","70":"UNRESOLVED"},
   "canonical_commands":{"main":"Stage18-main-batch","audit":"Stage18-audit"},
-  "state":{"CURRENT_STAGE":"Stage18","CURRENT_CHECKPOINT":10,"MAIN_STATUS":"COMPLETE","AUDIT_STATUS":"PASS","ADVANCE_ALLOWED":true,"NEXT_CHECKPOINT":20,"NEXT_STAGE":"","NEW_INPUT_REQUIRED":false,"HUMAN_DECISION_REQUIRED":false,"MERGE_ALLOWED":true},
-  "checkpoint_contract":{"10":"population contract","20":"finite-data baseline","30":"ratio / thinning law","40":"upper-bound ledger","50":"lower-bound / construction ledger","60":"causal decomposition","70":"intrinsic-status / audit verdict plus bounded final synthesis"},
+  "state":{"CURRENT_STAGE":"Stage18","CURRENT_CHECKPOINT":20,"MAIN_STATUS":"COMPLETE","AUDIT_STATUS":"PASS","ADVANCE_ALLOWED":true,"NEXT_CHECKPOINT":30,"NEXT_STAGE":"","NEW_INPUT_REQUIRED":false,"HUMAN_DECISION_REQUIRED":false,"MERGE_ALLOWED":true},
   "population":{"canonical":"0<a<b<c","primitive":"gcd(a,b,c)=1","faces":2,"exact_face_multiplicity":true,"integral_space_diagonal_required":false,"cutoff":"R<=B","count":"M_2(B)"},
-  "stage15_interface":{"source":"stages/stage15/final.md","object":"ambient exactly-two population B_2(B)","identity":"Stage18 target = Stage15 B_2(B)","population_match":true,"cutoff_match":true,"multiplicity_match":true,"measure_adapter_required":false,"quantifier_adapter_required":false,"frozen_theorem_provenance":"M_2(B) ~ C_{M_2} B(log B)^5, C_{M_2}>0","theorem_not_yet_promoted_to_checkpoint30":true},
+  "stage15_interface":{"source":"stages/stage15/final.md","identity":"Stage18 target = Stage15 B_2(B)","population_match":true,"cutoff_match":true,"multiplicity_match":true,"measure_adapter_required":false,"quantifier_adapter_required":false,"frozen_theorem_provenance":"M_2(B) ~ C_{M_2} B(log B)^5, C_{M_2}>0"},
+  "finite_data":{"result":"stages/stage18/18-20/result.md","counts":"stages/stage18/18-20/counts.csv","enumerator":"stages/stage18/18-20/enumerate.py","csv_sha256":"7873368267bbc21e5fd9ec6437d30e84a646ec4ddb14a50746575f59ac932e5a","thresholds":[50,100,200,400,800,1200,1600,2000],"counts_M2":[16,56,172,494,1347,2350,3536,4812],"small_cutoff_set_crosscheck":200,"evidence":"COMPUTED","finite_data_used_as_proof":false},
   "boundaries":{"stage16_to_18_transition":"DEFER_TO_STAGE22","stage19":"Stage18 plus integral space diagonal","stage20":"exactly three faces; excluded from Stage18","perfect_cuboid_conclusion":"NONE"},
-  "last_submission":{"checkpoint":10,"status":"AUDITED_PASS","result":"stages/stage18/18-10/result.md","evidence":"PROVED","codex":false},
-  "last_audit":{"checkpoint":10,"verdict":"PASS","record":"stages/stage18/18-10/audit.md","audited_submission_sha":"7c0b25c63b61f60817890e42c1aedf6a96e565ca","pr":915,"merge_allowed":true,"codex_audit_required":false,"codex_reason":"NONE"},
+  "last_audit":{"checkpoint":20,"verdict":"PASS","record":"stages/stage18/18-20/audit.md","audited_submission_sha":"a6769a60b643057f952d8d0ff274a11ba17f911f","pr":917,"merge_allowed":true,"codex_audit_required":false,"codex_reason":"NONE"},
   "audit_persistence":{"required":true,"policy":"docs/stage16-28-population-roadmap.md","status":"COMMITTED","unsynced_audit_state":"NONE","merge_execution_default":false},
-  "merge_rule":"Stage18-10 passed fresh audit. PR #915 may merge; checkpoint20 may begin after merge."
+  "merge_rule":"Stage18-20 passed fresh audit. PR #917 may merge; checkpoint30 may begin after merge."
 }
