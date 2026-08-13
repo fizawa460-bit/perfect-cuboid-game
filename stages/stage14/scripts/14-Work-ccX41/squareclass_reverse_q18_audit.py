@@ -11,14 +11,14 @@ def text(rel: str) -> str:
 
 result = text("stages/stage14/14-Work-ccX41/result.md")
 matrix = text("docs/stage14-toolbox/work-ccX41-receiver-matrix.md")
-q18 = text("docs/stage14-q18-summary.md")
-radar = text("docs/stage14-q18-squareclass-reverse-literature-radar.md")
+q18 = text("stages/stage14/archive/docs/q-research/stage14-q18-summary.md")
+radar = text("stages/stage14/archive/docs/q-research/stage14-q18-squareclass-reverse-literature-radar.md")
 cbx40 = text("stages/stage14/14-Work-cbX40/result.md")
 s125 = text("stages/stage14/14-s7-125/result.md")
 t157 = text("stages/stage14/14-t157/result.md")
 th33 = text("stages/stage14/14-t157/th33-target.md")
 main_h = text("stages/stage14/14-4ghH/result.md")
-q17 = text("docs/stage14-q17-summary.md")
+q17 = text("stages/stage14/archive/docs/q-research/stage14-q17-summary.md")
 contract = text("docs/stage14-toolbox/work-toolbox-x-task-contract.md")
 
 # Canonical XQ invocation contract and predecessor boundary.

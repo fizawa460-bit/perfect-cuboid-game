@@ -409,7 +409,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `REUSE_AFTER_EXACT_ADAPTER`
 - **TRIGGER SIGNATURE:** Two nested divisor allocations feed reciprocal factor-pair CRT solvability.
 - **FAILURE CONDITIONS:** Do not transfer q17 conclusions to conditioned filtered-tau3, `(E,m)` pair, post-mask, fixed-U, or averaged measures.
-- **SOURCE:** `docs/stage14-q17-reciprocal-crt-literature-radar.md`; `docs/stage14-q17-summary.md`; `stages/stage14/archive/tasks/14-4gh/result.md`.
+- **SOURCE:** `stages/stage14/archive/docs/q-research/stage14-q17-reciprocal-crt-literature-radar.md`; `stages/stage14/archive/docs/q-research/stage14-q17-summary.md`; `stages/stage14/archive/tasks/14-4gh/result.md`.
 - **SOURCE CONFIDENCE:** `PROVED_BUT_SOURCE_FRAGMENTED`
 - **STATUS:** `CONSUMED`
 - **DEPENDENCIES:** AR-016, AR-023, AR-024.
@@ -598,7 +598,7 @@ This is a toolbox, not a chronology and not a Stage14 continuation. Similar form
 - **REUSE CLASS:** `DIRECT_REUSE`
 - **TRIGGER SIGNATURE:** A later stage renames an old receiver, multiplies two counts of the same core, or deletes a superseded mechanism.
 - **FAILURE CONDITIONS:** Superseded theorem exponent does not imply its exact lemma is false; consumed data cannot be charged again.
-- **SOURCE:** `stages/stage14/final.md`, Sections 6–7; `docs/review/stage14-final-self-contained-provenance-20260812-r01.md`; `stages/stage14/archive/tasks/14-Work-coX53/result.md`.
+- **SOURCE:** `stages/stage14/final.md`, Sections 6–7; `stages/stage14/archive/review/manifests/stage14-final-self-contained-provenance-20260812-r01.md`; `stages/stage14/archive/tasks/14-Work-coX53/result.md`.
 - **SOURCE CONFIDENCE:** `PROVED_CANONICAL`
 - **STATUS:** `ACTIVE`
 - **DEPENDENCIES:** None.

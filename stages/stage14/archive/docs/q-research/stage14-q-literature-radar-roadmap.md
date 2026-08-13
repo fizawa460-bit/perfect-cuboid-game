@@ -37,15 +37,15 @@ No q9 source proves the full residual Stage14 obstruction unchanged.
 
 ### Stage14-q1 — Reconstruct the literature ledger
 
-Result: `docs/stage14-q1-literature-ledger.md`.
+Result: `stages/stage14/archive/docs/q-research/stage14-q1-literature-ledger.md`.
 
 ### Stage14-q2 — Correlated bilinear / quadratic-large-sieve pass
 
-Result: `docs/stage14-q2-correlated-bilinear-literature.md`.
+Result: `stages/stage14/archive/docs/q-research/stage14-q2-correlated-bilinear-literature.md`.
 
 ### Stage14-q3 — Small-point / first-point height pass
 
-Result: `docs/stage14-q3-small-point-height-literature.md`.
+Result: `stages/stage14/archive/docs/q-research/stage14-q3-small-point-height-literature.md`.
 
 Primary retained architecture:
 
@@ -57,13 +57,13 @@ Fixed-fiber point-count/height theorems are not moving-family first-point freque
 
 ### Stage14-q4 — Squareclass / Selmer collision pass
 
-Result: `docs/stage14-q4-squareclass-collision-literature.md`.
+Result: `stages/stage14/archive/docs/q-research/stage14-q4-squareclass-collision-literature.md`.
 
 Square/polynomial sieve remains conditional on the actual collision geometry exposed by the t-track.
 
 ### Stage14-q5 — K3 / lattice computational refresh
 
-Result: `docs/stage14-q5-shimada-k3-lattice-refresh.md`.
+Result: `stages/stage14/archive/docs/q-research/stage14-q5-shimada-k3-lattice-refresh.md`.
 
 ```text
 SHIMADA_FIXED_CURVE_PACKAGE_CONSUMED=true
@@ -73,7 +73,7 @@ NEW_DIRECT_K3_LATTICE_WEAPON_FOR_CURRENT_FRONTIER=false
 
 ### Stage14-q6 — Cross-track weapon routing
 
-Result: `docs/stage14-q6-cross-track-weapon-routing.md`.
+Result: `stages/stage14/archive/docs/q-research/stage14-q6-cross-track-weapon-routing.md`.
 
 ```text
 S_TRACK_IMPORT_TO_MAIN_REQUIRED=true
@@ -86,8 +86,8 @@ ANTI_DUPLICATION_GATE=true
 
 Results:
 
-- `docs/stage14-q7-negative-results-archive.md`
-- `docs/stage14-q7-summary.md`
+- `stages/stage14/archive/docs/q-research/stage14-q7-negative-results-archive.md`
+- `stages/stage14/archive/docs/q-research/stage14-q7-summary.md`
 
 Key locks include:
 
@@ -103,8 +103,8 @@ TRIGGER_DRIVEN_Q8_PLUS_ONLY=true
 
 Results:
 
-- `docs/stage14-q8-cross-domain-transfer-radar.md`
-- `docs/stage14-q8-summary.md`
+- `stages/stage14/archive/docs/q-research/stage14-q8-cross-domain-transfer-radar.md`
+- `stages/stage14/archive/docs/q-research/stage14-q8-summary.md`
 
 Trigger:
 
@@ -137,8 +137,8 @@ The t24 torsion branch was closed by a stronger binary-quartic/Jacobian route be
 
 Results:
 
-- `docs/stage14-q9-gaussian-hecke-isogeny-transfer-radar.md`
-- `docs/stage14-q9-summary.md`
+- `stages/stage14/archive/docs/q-research/stage14-q9-gaussian-hecke-isogeny-transfer-radar.md`
+- `stages/stage14/archive/docs/q-research/stage14-q9-summary.md`
 
 Trigger:
 

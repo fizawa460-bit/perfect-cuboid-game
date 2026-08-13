@@ -15,7 +15,7 @@ work39 = text("stages/stage14/14-Work-caX39/result.md")
 main_h = text("stages/stage14/14-4ghH/result.md")
 s119 = text("stages/stage14/14-s7-119/result.md")
 t155 = text("stages/stage14/14-t155/result.md")
-q17 = text("docs/stage14-q17-summary.md")
+q17 = text("stages/stage14/archive/docs/q-research/stage14-q17-summary.md")
 contract = text("docs/stage14-toolbox/work-toolbox-x-task-contract.md")
 
 # Canonical XQ contract and predecessor boundary.

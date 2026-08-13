@@ -5,7 +5,7 @@ on:
     paths:
       - 'stages/stage14/14-Work-cdX42/**'
       - 'docs/stage14-toolbox/work-cdX42-receiver-matrix.md'
-      - 'docs/stage14-q19-*'
+      - 'stages/stage14/archive/docs/q-research/stage14-q19-*'
       - 'stages/stage14/scripts/14-Work-cdX42/**'
       - '.github/workflows/stage14-Work-cdX42-q19-second-reverse.yml'
   workflow_dispatch:
@@ -47,8 +47,8 @@ jobs:
       - name: Lock q18 baseline and q19 handoff
         run: |
           grep -Fq 'Q18_FILTERED_TAU3_TO_SUPPORT_ADAPTER_PROVED=true' stages/stage14/14-s7-128/result.md
-          grep -Fq 'STAGE14_Q19=COMPLETE_CONDITIONED_SECOND_REVERSE_EXTENSION_LITERATURE_RADAR' docs/stage14-q19-summary.md
-          grep -Fq 'Q19_SECOND_REVERSE_EXACT_WEIGHT_ENCODING_TEST' docs/stage14-q19-summary.md
+          grep -Fq 'STAGE14_Q19=COMPLETE_CONDITIONED_SECOND_REVERSE_EXTENSION_LITERATURE_RADAR' stages/stage14/archive/docs/q-research/stage14-q19-summary.md
+          grep -Fq 'Q19_SECOND_REVERSE_EXACT_WEIGHT_ENCODING_TEST' stages/stage14/archive/docs/q-research/stage14-q19-summary.md
 
       - name: Lock integrated XQ boundary
         run: |

@@ -7,7 +7,7 @@ def text(p): return (ROOT / p).read_text(encoding='utf-8')
 s126=text('stages/stage14/14-s7-126/result.md')
 s127=text('stages/stage14/14-s7-127/result.md')
 s128=text('stages/stage14/14-s7-128/result.md')
-q18=text('docs/stage14-q18-summary.md')
+q18=text('stages/stage14/archive/docs/q-research/stage14-q18-summary.md')
 
 assert 'Q18_SCALAR_FILTERED_TAU3_ENCODING_TEST=PASS_EXACT_RESTRICTED_WEIGHT' in s126
 assert 'N_mult(z)' in s126 and 'd_3(c_C*z) <= B^o(1)' in s126

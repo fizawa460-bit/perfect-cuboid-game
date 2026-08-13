@@ -1,6 +1,6 @@
 # Stage14-s-batch — s7-66 through s7-68 report
 
-Batch contract: `docs/stage14-s-batch-task-contract.md`.
+Batch contract: `stages/stage14/archive/docs/operations/stage14-s-batch-task-contract.md`.
 
 The batch started from and was publication-rechecked against latest merged main
 

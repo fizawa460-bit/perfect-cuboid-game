@@ -9,7 +9,7 @@ s132 = text('stages/stage14/14-s7-132/result.md')
 s133 = text('stages/stage14/14-s7-133/result.md')
 s134 = text('stages/stage14/14-s7-134/result.md')
 rep = text('stages/stage14/14-s-batch/s7-132-134-report.md')
-q20 = text('docs/stage14-q20-summary.md')
+q20 = text('stages/stage14/archive/docs/q-research/stage14-q20-summary.md')
 
 for tok in [
     'Q20_WITNESS_DEPENDENCE_SEPARABILITY_TEST=FAIL_INTRINSIC_FIRST_WITNESS_DEPENDENCE',

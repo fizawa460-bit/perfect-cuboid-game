@@ -11,8 +11,8 @@ result = text("stages/stage14/14-Work-chX46/result.md")
 matrix = text("docs/stage14-toolbox/work-chX46-receiver-matrix.md")
 s140 = text("stages/stage14/14-s7-140/result.md")
 cgx45 = text("stages/stage14/14-Work-cgX45/result.md")
-q17 = text("docs/stage14-q17-summary.md")
-q20 = text("docs/stage14-q20-summary.md")
+q17 = text("stages/stage14/archive/docs/q-research/stage14-q17-summary.md")
+q20 = text("stages/stage14/archive/docs/q-research/stage14-q20-summary.md")
 
 required_result = [
     "TOOLBOX_COMPONENT_COMPLETE=true",

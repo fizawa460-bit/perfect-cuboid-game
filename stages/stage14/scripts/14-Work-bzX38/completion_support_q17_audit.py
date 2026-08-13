@@ -4,13 +4,13 @@ ROOT = Path(__file__).resolve().parents[4]
 
 RESULT = ROOT / "stages/stage14/14-Work-bzX38/result.md"
 MATRIX = ROOT / "docs/stage14-toolbox/work-bzX38-receiver-matrix.md"
-Q17 = ROOT / "docs/stage14-q17-summary.md"
-Q17_RADAR = ROOT / "docs/stage14-q17-reciprocal-crt-literature-radar.md"
+Q17 = ROOT / "stages/stage14/archive/docs/q-research/stage14-q17-summary.md"
+Q17_RADAR = ROOT / "stages/stage14/archive/docs/q-research/stage14-q17-reciprocal-crt-literature-radar.md"
 WORK37 = ROOT / "stages/stage14/14-Work-byX37/result.md"
 MAIN = ROOT / "stages/stage14/14-4ge/result.md"
 S = ROOT / "stages/stage14/14-s7-113/result.md"
 T = ROOT / "stages/stage14/14-t149/result.md"
-Q16 = ROOT / "docs/stage14-q16-summary.md"
+Q16 = ROOT / "stages/stage14/archive/docs/q-research/stage14-q16-summary.md"
 CONTRACT = ROOT / "docs/stage14-toolbox/work-toolbox-x-task-contract.md"
 
 

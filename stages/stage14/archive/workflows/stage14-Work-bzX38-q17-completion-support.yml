@@ -5,8 +5,8 @@ on:
     paths:
       - 'stages/stage14/14-Work-bzX38/**'
       - 'docs/stage14-toolbox/work-bzX38-receiver-matrix.md'
-      - 'docs/stage14-q17-reciprocal-crt-literature-radar.md'
-      - 'docs/stage14-q17-summary.md'
+      - 'stages/stage14/archive/docs/q-research/stage14-q17-reciprocal-crt-literature-radar.md'
+      - 'stages/stage14/archive/docs/q-research/stage14-q17-summary.md'
       - 'stages/stage14/scripts/14-Work-bzX38/**'
       - '.github/workflows/stage14-Work-bzX38-q17-completion-support.yml'
   workflow_dispatch:
@@ -40,14 +40,14 @@ jobs:
 
       - name: Lock merged q16 baseline
         run: |
-          grep -q 'FIXED_E_CONDITIONAL_PHYSICAL_LIFT_REMAINS=true' docs/stage14-q16-summary.md
-          grep -q 'Q16_CONDITIONAL_LIFT_EXTERNAL_SEARCH_TRIGGERED=false' docs/stage14-q16-summary.md
+          grep -q 'FIXED_E_CONDITIONAL_PHYSICAL_LIFT_REMAINS=true' stages/stage14/archive/docs/q-research/stage14-q16-summary.md
+          grep -q 'Q16_CONDITIONAL_LIFT_EXTERNAL_SEARCH_TRIGGERED=false' stages/stage14/archive/docs/q-research/stage14-q16-summary.md
 
       - name: Lock q17 result
         run: |
-          grep -q 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' docs/stage14-q17-summary.md
-          grep -q 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q17-summary.md
-          grep -q 'Q17_EXPLICIT_RECIPROCAL_SELECTOR_CONSTRUCTION_TEST' docs/stage14-q17-summary.md
+          grep -q 'STAGE14_Q17=COMPLETE_RECIPROCAL_CRT_SUPPORT_LITERATURE_RADAR' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
+          grep -q 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
+          grep -q 'Q17_EXPLICIT_RECIPROCAL_SELECTOR_CONSTRUCTION_TEST' stages/stage14/archive/docs/q-research/stage14-q17-summary.md
 
       - name: Lock integrated XQ boundary
         run: |

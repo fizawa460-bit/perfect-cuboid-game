@@ -3,7 +3,7 @@
 ```text
 STAGE14_Q7=COMPLETE_NEGATIVE_RESULTS_ARCHIVE
 BASELINE_MAIN=1b2117874701e2176ebc46e8c638d09aec71ee18
-NEGATIVE_RESULTS_ARCHIVE=docs/stage14-q7-negative-results-archive.md
+NEGATIVE_RESULTS_ARCHIVE=stages/stage14/archive/docs/q-research/stage14-q7-negative-results-archive.md
 Q_ROUTE_PARKED=true
 NEXT_Q_STAGE=NONE_UNTIL_EXPLICIT_TRIGGER
 ```

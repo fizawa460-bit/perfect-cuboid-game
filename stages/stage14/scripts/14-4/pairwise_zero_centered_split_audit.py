@@ -13,7 +13,7 @@ for rel, needle in {
     "stages/stage14/14-s7-49/result.md": "EXACT_LOCAL_CENTERING_PROVED=true",
     "stages/stage14/14-s7-50/result.md": "FULL_CONDUCTOR_ENDPOINT_PROVED=true",
     "stages/stage14/14-X15/result.md": "THREE_COMPLETE_COORDINATE_SYSTEMS_FINITE_FIBER_EQUIVALENT=true",
-    "docs/stage14-q11-nearmax-pythagorean-correlation-literature-radar.md": "DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0",
+    "stages/stage14/archive/docs/q-research/stage14-q11-nearmax-pythagorean-correlation-literature-radar.md": "DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0",
 }.items():
     assert needle in (ROOT / rel).read_text(), (rel, needle)
 

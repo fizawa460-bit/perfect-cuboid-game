@@ -5,7 +5,7 @@ on:
     paths:
       - 'stages/stage14/14-Work-ceX43/**'
       - 'docs/stage14-toolbox/work-ceX43-receiver-matrix.md'
-      - 'docs/stage14-q20-**'
+      - 'stages/stage14/archive/docs/q-research/stage14-q20-**'
       - 'stages/stage14/scripts/14-Work-ceX43/**'
       - '.github/workflows/stage14-Work-ceX43-q20-conditioned-correlation.yml'
   workflow_dispatch:
@@ -30,7 +30,7 @@ jobs:
       - name: Lock merged Work-cdX42 and q19
         run: |
           grep -Fq 'RESOLVED_INNER_SUPPORT_ADAPTER_CONSUMPTION_LEMMA_PROVED=true' stages/stage14/14-Work-cdX42/result.md
-          grep -Fq 'STAGE14_Q19=COMPLETE_CONDITIONED_SECOND_REVERSE_EXTENSION_LITERATURE_RADAR' docs/stage14-q19-summary.md
+          grep -Fq 'STAGE14_Q19=COMPLETE_CONDITIONED_SECOND_REVERSE_EXTENSION_LITERATURE_RADAR' stages/stage14/archive/docs/q-research/stage14-q19-summary.md
       - name: Lock parked main and fixed-U gates
         run: |
           grep -Fq 'MAINLINE_H_COMPLETED=true' stages/stage14/14-Work-cdX42/result.md
@@ -38,10 +38,10 @@ jobs:
           grep -Fq 'TH33_COMPLETE_CONSUMED=true' stages/stage14/14-Work-cdX42/result.md
       - name: Lock q20 boundary
         run: |
-          grep -Fq 'Q20_COMPONENT_COMPLETE=true' docs/stage14-q20-summary.md
-          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' docs/stage14-q20-summary.md
-          grep -Fq 'Q20_WITNESS_DEPENDENCE_SEPARABILITY_TEST' docs/stage14-q20-summary.md
-          grep -Fq 'Q20_FIXED_SHIFT_OR_BINARY_FORM_NORMAL_FORM_TEST' docs/stage14-q20-summary.md
+          grep -Fq 'Q20_COMPONENT_COMPLETE=true' stages/stage14/archive/docs/q-research/stage14-q20-summary.md
+          grep -Fq 'DIRECT_FULL_OBSTRUCTION_THEOREM_COUNT=0' stages/stage14/archive/docs/q-research/stage14-q20-summary.md
+          grep -Fq 'Q20_WITNESS_DEPENDENCE_SEPARABILITY_TEST' stages/stage14/archive/docs/q-research/stage14-q20-summary.md
+          grep -Fq 'Q20_FIXED_SHIFT_OR_BINARY_FORM_NORMAL_FORM_TEST' stages/stage14/archive/docs/q-research/stage14-q20-summary.md
       - name: Lock integrated XQ boundary
         run: |
           grep -Fq 'CONDITIONED_CORRELATION_RECEIVER_ISOLATION_LEMMA_PROVED=true' stages/stage14/14-Work-ceX43/result.md

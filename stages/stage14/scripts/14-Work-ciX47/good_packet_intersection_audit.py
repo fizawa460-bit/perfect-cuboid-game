@@ -9,8 +9,8 @@ def text(rel):
 
 result = text('stages/stage14/14-Work-ciX47/result.md')
 matrix = text('docs/stage14-toolbox/work-ciX47-receiver-matrix.md')
-qradar = text('docs/stage14-q21-literature-radar.md')
-qsummary = text('docs/stage14-q21-summary.md')
+qradar = text('stages/stage14/archive/docs/q-research/stage14-q21-literature-radar.md')
+qsummary = text('stages/stage14/archive/docs/q-research/stage14-q21-summary.md')
 s143 = text('stages/stage14/14-s7-143/result.md')
 
 required_result = [
