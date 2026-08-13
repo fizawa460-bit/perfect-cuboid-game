@@ -35,6 +35,14 @@
 | AR-029 | `A_SIDE_ONLY` | Oriented/canonical projection is useful for `A_2` checks; Stage13 asymptotics do not transfer to ambient `B_2`. |
 | AR-030 | `DIRECT_NOW` | Safe for Stage15 upper-bound supersets; exactly-two subtraction/lower bounds need quantitative survival. |
 | AR-031 | `A_SIDE_ONLY` | Regression locks only after restricting ambient output to `R^2` square. |
+| AR-032 | `POSSIBLE_AFTER_ADAPTER` | Use if a new primitive survivor count develops an outer Möbius boundary; first prove homogeneous scale and cutoff compatibility. |
+| AR-033 | `POSSIBLE_AFTER_ADAPTER` | Candidate for scalar coprime coefficient rectangles after the Stage15 normal form fixes the actual weight and cross correction. |
+| AR-034 | `DIRECT_AS_METHOD` | Use the core/wing/shallow partition discipline whenever Stage15 asymptotics encounter unbalanced or thin boundary sectors; exponents remain source-specific. |
+| AR-035 | `HIGH_PRIORITY_AFTER_FIXED_MODULUS_REFINEMENT` | Most promising upstream route for proving the extra square survivor lower order without a growing-modulus theorem. |
+| AR-036 | `POSSIBLE_DIRECTIONAL_REFINEMENT` | Use only after Stage15 derives its own coarea density and proves the arithmetic main factor common across directions. |
+| AR-037 | `POSSIBLE_AFTER_EULER_FACTORIZATION` | Available when a Stage15 coefficient series has a fixed-order zeta pole with uniform analytic-factor control. |
+| AR-038 | `POSSIBLE_AFTER_ADAPTER` | Useful if Stage15 factors its paired-face host through a shared representation value; primitive and survivor corrections must remain outside the raw product. |
+| AR-039 | `A_SIDE_ONLY` | Certified exactly-one construction and regression family; it supplies no ambient `B_2` or square-survivor density statement. |
 
 ## Stage15-4/5 high-priority inspection order
 
@@ -46,6 +54,8 @@
 6. **AR-010** — Is a proposed genus-one coefficient actually reconstructed by the original equations?
 7. **AR-023/024** — Does a familiar kernel live in the same ambient/survivor and scalar/pair measure?
 8. **AR-025/026/027** — If characters appear, is the target class pointwise controlled, or only averaged/softly bounded?
+9. **AR-035** — Can a fixed finite set of inert primes force the square-survivor overlap to lower density with the limits kept in the legal order?
+10. **AR-032/033/034/037** — If an asymptotic count is reopened, are primitivity, rectangles, exceptional regions, and external analytic input separated before summation?
 
 ## Current Stage15 facts that do not license Stage14 promotion
 
@@ -57,3 +67,5 @@
 ## Counts used by the final report
 
 `STAGE15_CURRENTLY_RELEVANT_COUNT=10` counts the ten `DIRECT_NOW` entries: AR-001, AR-002, AR-003, AR-016, AR-023, AR-024, AR-026, AR-027, AR-028, and AR-030.
+
+AR-034 is marked `DIRECT_AS_METHOD` but is not included in that theorem-reuse count; its decomposition discipline is available immediately while every numerical exponent still requires a Stage15 proof.
