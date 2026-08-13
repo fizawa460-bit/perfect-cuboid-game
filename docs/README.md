@@ -6,6 +6,8 @@ Completed stage-specific research and operational history lives with its stage.
 ## Current project entry points
 
 - `00_CURRENT_RESEARCH_STATUS.md` — current research status; Stage15 is closed at the R02 review freeze
+- `stage16-28-population-roadmap.md` — future population/condition-interaction roadmap after Stage15 closure
+- `stage16-28-execution-controller-template.md` — reusable StageX main-batch / audit / Codex controller contract for Stage16-28
 - `face-ratio-geometry-research.md` — geometric research overview
 - `cycle-exploration-safety-protocol.md` — reusable cycle safety protocol
 - `self-contained-review-standard.md` — project-wide definition and template for final self-contained mathematical review artifacts

@@ -10,7 +10,8 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-NEXT_RESEARCH_PROGRAM=UNDEFINED
+NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
+STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
 ```
 
@@ -96,4 +97,9 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 There is no active Stage15 mathematical or presentation route. Do not reopen Stage15-6 or Stage15-7 merely to strengthen a closed theorem or to repair historical audit-status wording.
 
-No Stage16 or other next research program is defined by this closeout. A future program should be opened explicitly from the frozen Stage15 R02 review and the reusable arsenal, with its own controller/roadmap.
+The next defined research program is the Stage16-28 population / condition-interaction roadmap:
+
+- `docs/stage16-28-population-roadmap.md`
+- `docs/stage16-28-execution-controller-template.md`
+
+This defines the future program and its common main-batch / audit / Codex operating template without marking Stage16 active before its controller is opened.
