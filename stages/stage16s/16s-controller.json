@@ -14,7 +14,7 @@
   "common_population_contract": "primitive canonical positive edge triples; scale copies removed by gcd=1; permutation copies removed by 0<a<b<c; common geometric cutoff R<=B; face multiplicity is measured exactly when SPACE_ONLY is formed",
   "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
-    "10": "SUBMITTED_PENDING_FRESH_AUDIT",
+    "10": "PROVED_AUDITED_PASS",
     "20": "PENDING",
     "30": "PENDING",
     "40": "PENDING",
@@ -30,7 +30,8 @@
     "docs/stage14-arsenal.md",
     "docs/00_CURRENT_RESEARCH_STATUS.md",
     "stages/stage16/16-10/result.md",
-    "stages/stage17/17-controller.json"
+    "stages/stage17/17-controller.json",
+    "stages/stage16s/16s-10/audit.md"
   ],
   "canonical_commands": {
     "main": "Stage16S-main-batch",
@@ -39,9 +40,9 @@
   "state": {
     "CURRENT_STAGE": "Stage16S",
     "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 20,
     "NEXT_STAGE": null,
     "NEW_INPUT_REQUIRED": false,
@@ -81,7 +82,7 @@
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
     "parallel_lane": true,
     "parallel_lane_rule": "Stage16S must not replace or block the primary numbered-stage controller. The repository may continue Stage17/18 work while Stage16S is open; Stage21 final causal classification depends on the audited Stage16S baseline.",
-    "current_stop_reason": "Stage16S-10 freezes the auxiliary population and cutoff contract. Checkpoint 20 would freeze a canonical finite census and therefore waits for fresh audit of checkpoint 10 before any enumerator output is treated as canonical.",
+    "current_stop_reason": "Stage16S-10 passed fresh audit. Checkpoint 20 may begin after the audit-bearing PR #908 is merged; its finite census will then be submitted for a new fresh audit.",
     "reuse_before_new_work": [
       "Stage16-10 primitive/canonical R<=B source convention",
       "AR-001 primitive/canonical physical convention"
@@ -124,9 +125,19 @@
       "CODEX_REASON="
     ]
   },
+  "last_audit": {
+    "checkpoint": 10,
+    "verdict": "PASS",
+    "record": "stages/stage16s/16s-10/audit.md",
+    "audited_submission_sha": "a1aee23c90a45d8311592da1c3c30b7c63a3e6c9",
+    "pr": 908,
+    "merge_allowed": true,
+    "codex_audit_required": false,
+    "codex_reason": "NONE"
+  },
   "last_submission": {
     "checkpoint": 10,
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "AUDITED_PASS",
     "result": "stages/stage16s/16s-10/result.md",
     "evidence_level": "PROVED_DEFINITIONAL_CONTRACT",
     "new_claims": [
@@ -155,5 +166,5 @@
       "causal conclusions"
     ]
   },
-  "merge_rule": "Stage16S-10 may advance to checkpoint 20 only after fresh Stage16S-audit PASS. Stage16S remains an auxiliary lane and does not alter the active Stage17/18 advancement state."
+  "merge_rule": "Stage16S-10 passed fresh audit and PR #908 is merge-allowed. Checkpoint 20 may begin only from the merged audited Stage16S-10 state. Stage16S remains an auxiliary lane and does not alter the active Stage17/18 advancement state."
 }
