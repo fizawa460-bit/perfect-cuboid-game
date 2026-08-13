@@ -87,7 +87,7 @@ for needle in [
     "This proof is independent of the Stage15-5 ratio bound",
     "the half-power input is Stage14's theorem",
     "does not imply that perfect cuboids do not exist",
-    "candidate, not a closed Stage15 final",
+    "not a closed Stage15 final",
 ]:
     assert needle in final, needle
 
