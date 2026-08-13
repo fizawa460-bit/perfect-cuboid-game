@@ -1,83 +1,23 @@
 {
-  "schema_version": 1,
-  "primary_operator": "ChatGPT",
-  "status": "OPEN",
-  "stage": "Stage18",
-  "parent_class": "population_state",
-  "stage_object": "primitive canonical cuboids with exactly two integral face diagonals and no space-diagonal requirement",
-  "source_population": "common primitive canonical positive edge triples under R<=B",
-  "target_population": "Stage18 B_2(B): exactly two integral face diagonals under R<=B",
-  "common_population_contract": "0<a<b<c; gcd(a,b,c)=1; R=sqrt(a^2+b^2+c^2)<=B; exactly two face-square predicates; no integral-R requirement",
-  "checkpoint_sequence": [10,20,30,40,50,60,70],
-  "checkpoint_status": {
-    "10": "PROVED_CANDIDATE_PENDING_FRESH_AUDIT",
-    "20": "UNRESOLVED",
-    "30": "UNRESOLVED",
-    "40": "UNRESOLVED",
-    "50": "UNRESOLVED",
-    "60": "UNRESOLVED",
-    "70": "UNRESOLVED"
-  },
-  "canonical_commands": {"main":"Stage18-main-batch","audit":"Stage18-audit"},
-  "state": {
-    "CURRENT_STAGE": "Stage18",
-    "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 20,
-    "NEXT_STAGE": "",
-    "NEW_INPUT_REQUIRED": false,
-    "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": false
-  },
-  "checkpoint_contract": {
-    "10":"population contract",
-    "20":"finite-data baseline",
-    "30":"ratio / thinning law",
-    "40":"upper-bound ledger",
-    "50":"lower-bound / construction ledger",
-    "60":"causal decomposition",
-    "70":"intrinsic-status / audit verdict plus bounded final synthesis"
-  },
-  "population": {
-    "canonical":"0<a<b<c",
-    "primitive":"gcd(a,b,c)=1",
-    "faces":2,
-    "exact_face_multiplicity":true,
-    "integral_space_diagonal_required":false,
-    "cutoff":"R<=B",
-    "count":"M_2(B)"
-  },
-  "stage15_interface": {
-    "source":"stages/stage15/final.md",
-    "object":"ambient exactly-two population B_2(B)",
-    "identity":"Stage18 target = Stage15 B_2(B)",
-    "population_match":true,
-    "cutoff_match":true,
-    "multiplicity_match":true,
-    "measure_adapter_required":false,
-    "quantifier_adapter_required":false,
-    "frozen_theorem_provenance":"M_2(B) ~ C_{M_2} B(log B)^5, C_{M_2}>0",
-    "theorem_not_yet_promoted_to_checkpoint30":true
-  },
-  "boundaries": {
-    "stage16_to_18_transition":"DEFER_TO_STAGE22",
-    "stage19":"Stage18 plus integral space diagonal",
-    "stage20":"exactly three faces; excluded from Stage18",
-    "perfect_cuboid_conclusion":"NONE"
-  },
-  "last_submission": {
-    "checkpoint":10,
-    "status":"SUBMITTED_FOR_FRESH_AUDIT",
-    "result":"stages/stage18/18-10/result.md",
-    "evidence":"PROVED",
-    "codex":false
-  },
-  "audit_persistence": {
-    "required":true,
-    "policy":"docs/stage16-28-population-roadmap.md",
-    "merge_execution_default":false
-  },
-  "merge_rule":"Fresh Stage18-audit PASS must be durably persisted before checkpoint20 or merge."
+  "schema_version":1,
+  "primary_operator":"ChatGPT",
+  "status":"OPEN",
+  "stage":"Stage18",
+  "parent_class":"population_state",
+  "stage_object":"primitive canonical cuboids with exactly two integral face diagonals and no space-diagonal requirement",
+  "source_population":"common primitive canonical positive edge triples under R<=B",
+  "target_population":"Stage18 B_2(B): exactly two integral face diagonals under R<=B",
+  "common_population_contract":"0<a<b<c; gcd(a,b,c)=1; R=sqrt(a^2+b^2+c^2)<=B; exactly two face-square predicates; no integral-R requirement",
+  "checkpoint_sequence":[10,20,30,40,50,60,70],
+  "checkpoint_status":{"10":"PROVED_AUDITED_PASS","20":"UNRESOLVED","30":"UNRESOLVED","40":"UNRESOLVED","50":"UNRESOLVED","60":"UNRESOLVED","70":"UNRESOLVED"},
+  "canonical_commands":{"main":"Stage18-main-batch","audit":"Stage18-audit"},
+  "state":{"CURRENT_STAGE":"Stage18","CURRENT_CHECKPOINT":10,"MAIN_STATUS":"COMPLETE","AUDIT_STATUS":"PASS","ADVANCE_ALLOWED":true,"NEXT_CHECKPOINT":20,"NEXT_STAGE":"","NEW_INPUT_REQUIRED":false,"HUMAN_DECISION_REQUIRED":false,"MERGE_ALLOWED":true},
+  "checkpoint_contract":{"10":"population contract","20":"finite-data baseline","30":"ratio / thinning law","40":"upper-bound ledger","50":"lower-bound / construction ledger","60":"causal decomposition","70":"intrinsic-status / audit verdict plus bounded final synthesis"},
+  "population":{"canonical":"0<a<b<c","primitive":"gcd(a,b,c)=1","faces":2,"exact_face_multiplicity":true,"integral_space_diagonal_required":false,"cutoff":"R<=B","count":"M_2(B)"},
+  "stage15_interface":{"source":"stages/stage15/final.md","object":"ambient exactly-two population B_2(B)","identity":"Stage18 target = Stage15 B_2(B)","population_match":true,"cutoff_match":true,"multiplicity_match":true,"measure_adapter_required":false,"quantifier_adapter_required":false,"frozen_theorem_provenance":"M_2(B) ~ C_{M_2} B(log B)^5, C_{M_2}>0","theorem_not_yet_promoted_to_checkpoint30":true},
+  "boundaries":{"stage16_to_18_transition":"DEFER_TO_STAGE22","stage19":"Stage18 plus integral space diagonal","stage20":"exactly three faces; excluded from Stage18","perfect_cuboid_conclusion":"NONE"},
+  "last_submission":{"checkpoint":10,"status":"AUDITED_PASS","result":"stages/stage18/18-10/result.md","evidence":"PROVED","codex":false},
+  "last_audit":{"checkpoint":10,"verdict":"PASS","record":"stages/stage18/18-10/audit.md","audited_submission_sha":"7c0b25c63b61f60817890e42c1aedf6a96e565ca","pr":915,"merge_allowed":true,"codex_audit_required":false,"codex_reason":"NONE"},
+  "audit_persistence":{"required":true,"policy":"docs/stage16-28-population-roadmap.md","status":"PENDING_CURRENT_STATUS_SYNC","unsynced_audit_state":"docs/00_CURRENT_RESEARCH_STATUS.md","merge_execution_default":false},
+  "merge_rule":"Stage18-10 passed fresh audit. PR #915 may merge; checkpoint20 may begin after merge."
 }
