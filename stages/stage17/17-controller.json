@@ -16,7 +16,7 @@
   "checkpoint_status": {
     "10": "PROVED",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "PROVED_CANDIDATE_PENDING_FRESH_AUDIT",
+    "30": "PROVED_AUDITED_PASS",
     "40": "UNRESOLVED",
     "50": "UNRESOLVED",
     "60": "UNRESOLVED",
@@ -38,6 +38,7 @@
     "stages/stage17/17-20/counts.csv",
     "stages/stage17/17-20/enumerate.py",
     "stages/stage17/17-30/result.md",
+    "stages/stage17/17-30/audit.md",
     "docs/00_CURRENT_RESEARCH_STATUS.md"
   ],
   "canonical_commands": {
@@ -47,9 +48,9 @@
   "state": {
     "CURRENT_STAGE": "Stage17",
     "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
@@ -109,6 +110,7 @@
   },
   "ratio_law": {
     "result": "stages/stage17/17-30/result.md",
+    "audit": "stages/stage17/17-30/audit.md",
     "numerator": "N_1(B) ~ (kappa/(24*pi)) B(log B)^3",
     "denominator": "M_1(B) asymp B^2 log B",
     "survivor_ratio": "N_1(B)/M_1(B) asymp (log B)^2/B",
@@ -122,7 +124,7 @@
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
     "github_write_policy": "prefer_high_level_file_mutations_and_verify_after_fallback",
-    "current_stop_reason": "Stage17-30 promotes an inherited matched-measure theorem transfer to a zero-density survivor law. Checkpoint 40 must wait for fresh audit of the Stage13-to-Stage17 adapter and ratio derivation.",
+    "current_stop_reason": "Stage17-30 passed fresh audit. Checkpoint 40 upper-bound ledger may proceed after the audited checkpoint-30 PR is merged.",
     "reuse_before_new_work": [
       "Stage13 exact-one plus integral-space-diagonal asymptotic",
       "Stage16 R01 frozen one-face population law",
@@ -145,7 +147,7 @@
       "no leading ratio constant is claimed without a leading M_1 constant",
       "finite Stage17-20 ratios are not used as proof",
       "no causal independence claim is smuggled into checkpoint 30",
-      "checkpoint 40 remains audit-gated",
+      "checkpoint 40 remains audit-gated before audit and available after PASS",
       "merge safety"
     ],
     "required_footer": [
@@ -160,22 +162,18 @@
     ]
   },
   "last_audit": {
-    "checkpoint": 20,
+    "checkpoint": 30,
     "verdict": "PASS",
-    "audit_record": "stages/stage17/17-20/audit.md",
-    "audited_submission_sha": "5f3b39dd372f8c67b3d80de1b3d345d65bbc49f5",
-    "pr": 903,
-    "merged_submission_commit": "29cdea2eb441dbc661ad14fd5416aec0aebdef4f",
-    "workflow_run": 31744471773,
-    "workflow_job": 94595539391,
-    "workflow_conclusion": "success",
+    "audit_record": "stages/stage17/17-30/audit.md",
+    "audited_submission_sha": "ef1b01ffc5eb5347959738b1a2b27731fd953801",
+    "pr": 904,
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "last_submission": {
     "checkpoint": 30,
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "AUDITED_PASS",
     "result": "stages/stage17/17-30/result.md",
     "evidence_level": "PROVED",
     "new_claims": [
@@ -188,5 +186,5 @@
     "codex_required": false,
     "codex_reason": "Checkpoint 30 is a compact theorem-interface audit and algebraic ratio derivation from frozen Stage13 and Stage16 results; no repository-heavy implementation is required."
   },
-  "merge_rule": "Checkpoint 30 requires fresh Stage17-audit PASS before merge or checkpoint 40."
+  "merge_rule": "Stage17-30 passed fresh audit and is merge-allowed. Checkpoint 40 may begin only from the merged audited state."
 }
