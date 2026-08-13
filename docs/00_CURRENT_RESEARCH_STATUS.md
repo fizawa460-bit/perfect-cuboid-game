@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage17-30-SUBMITTED
+CURRENT_STAGE=Stage17-30-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -16,14 +16,14 @@ STAGE16_FINAL_BUNDLE=stages/stage16/final.md
 STAGE16_MANIFEST=stages/stage16/manifest-r01.md
 STAGE16_FINAL_AUDIT=stages/stage16/16-70/audit.md
 STAGE16_SUPPORTING_DATA=stages/stage16/16-20/counts.csv
-STAGE17_STATUS=OPEN_CHECKPOINT_30_SUBMITTED
+STAGE17_STATUS=OPEN_CHECKPOINT_30_AUDIT_PASS
 STAGE17_CONTROLLER=stages/stage17/17-controller.json
 STAGE17_CURRENT_RESULT=stages/stage17/17-30/result.md
-STAGE17_CURRENT_AUDIT=stages/stage17/17-20/audit.md
+STAGE17_CURRENT_AUDIT=stages/stage17/17-30/audit.md
 STAGE17_CURRENT_DATA=stages/stage17/17-20/counts.csv
 STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_NEXT_CHECKPOINT=40
-NEXT_EXPECTED_COMMAND=Stage17-audit
+NEXT_EXPECTED_COMMAND=Stage17-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -131,35 +131,30 @@ The polynomial exponent `2` and logarithmic power `1` are intrinsic at the prove
 
 ## Current operation
 
-Stage17-20 has passed fresh audit and is merged. Stage17-30 now submits the ratio / thinning law by adapting two frozen theorems to the already-audited common population contract.
+Stage17-30 has passed fresh audit. The Stage13 numerator theorem is certified as a literal match to the Stage17 target population: primitive canonical `0<a<b<c`, `gcd(a,b,c)=1`, exactly one integral face diagonal, integral positive space diagonal `d`, and cutoff `d<=B`. On Stage17 objects `d=R`, so the common `R<=B` cutoff is identical without a comparison loss.
 
-Stage13 counts the literal Stage17 target population: primitive canonical `0<a<b<c`, `gcd(a,b,c)=1`, integral space diagonal `d`, exactly one integral face diagonal, and `d<=B`. Its frozen exact-one theorem is
-
-\[
-N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
-\]
-
-On the Stage17 target `d=R` exactly, so Stage13 `d<=B` and Stage17 `R<=B` are identical cutoffs. No population or measure conversion is charged.
-
-The frozen Stage16 source theorem is
+The audited numerator and denominator laws are
 
 \[
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3,
+\qquad
 M_1(B)\asymp B^2\log B.
 \]
 
-Therefore the matched survivor ratio satisfies
+Therefore
 
 \[
 \boxed{\frac{N_1(B)}{M_1(B)}\asymp\frac{(\log B)^2}{B}\to0.}
 \]
 
-Thus the integral-space-diagonal condition cuts the Stage16 one-face population to zero density, with proved ratio class `B^{-1+o(1)}` and sharper Theta profile `(log B)^2/B`. No leading ratio constant is claimed because Stage16 has no certified leading constant for `M_1(B)`.
+The integral-space-diagonal condition therefore leaves a zero-density subset of the Stage16 exactly-one population, with proved ratio class `B^{-1+o(1)}` and sharper Theta profile `(log B)^2/B`. No leading ratio constant is claimed because Stage16 has no certified leading constant for `M_1(B)`.
 
-The finite Stage17-20 ratios remain diagnostic only and are not used in this proof. Checkpoint 30 also makes no causal independence claim and does not explain the arithmetic mechanism behind the lost power of `B`; those questions remain for later checkpoints.
+The finite Stage17-20 ratios remain diagnostic only and are not used in this proof. Checkpoint 30 makes no causal independence claim and does not assign the arithmetic mechanism behind the lost power of `B`.
 
-Canonical Stage17-30 submission:
+Canonical Stage17-30 records:
 
 - `stages/stage17/17-30/result.md`
+- `stages/stage17/17-30/audit.md`
 - `stages/stage17/17-controller.json`
 
-Checkpoint 40 remains blocked until a fresh `Stage17-audit` certifies the Stage13-to-Stage17 identity adapter and the ratio derivation.
+Checkpoint 30 is merge-allowed. The next unresolved checkpoint is `Stage17-40` (upper-bound ledger), entered through `Stage17-main-batch` after the audited PR is merged.
