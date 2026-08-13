@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage16-10-AUDIT-PASS
+CURRENT_STAGE=Stage16-20-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -10,12 +10,13 @@ STAGE15_6_STATUS=CLOSED
 STAGE15_7_STATUS=R01_MERGED_AUDIT_STATUS_NOT_CANONICALLY_RECORDED
 STAGE15_8_STATUS=CLOSED_R02
 STAGE15_FINAL_REVIEW=review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html
-STAGE16_STATUS=OPEN_CHECKPOINT_10_AUDIT_PASS
+STAGE16_STATUS=OPEN_CHECKPOINT_20_SUBMITTED
 STAGE16_CONTROLLER=stages/stage16/16-controller.json
-STAGE16_CURRENT_RESULT=stages/stage16/16-10/result.md
-STAGE16_CURRENT_AUDIT=stages/stage16/16-10/audit.md
-STAGE16_NEXT_CHECKPOINT=20
-NEXT_EXPECTED_COMMAND=Stage16-main-batch
+STAGE16_CURRENT_RESULT=stages/stage16/16-20/result.md
+STAGE16_CURRENT_DATA=stages/stage16/16-20/counts.csv
+STAGE16_CURRENT_ENUMERATOR=stages/stage16/16-20/enumerate.py
+STAGE16_NEXT_CHECKPOINT=30
+NEXT_EXPECTED_COMMAND=Stage16-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
@@ -103,10 +104,16 @@ The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit 
 
 Stage15 is closed and must not be reopened merely to strengthen a closed theorem or repair historical audit-status wording.
 
-Stage16-10 has passed fresh audit. The primitive/canonical exactly-one-face population under the common geometric cutoff `R<=B`, with no space-diagonal integrality requirement, is certified. The exact adapter `R=d` on the integral-space-diagonal subpopulation is also certified.
+Stage16-10 has passed fresh audit and its population/cutoff contract is frozen. Stage16-20 now submits the first deterministic finite-data baseline on that exact physical population.
 
-Canonical Stage16-10 audit record:
+Canonical Stage16-20 artifacts:
 
-- `stages/stage16/16-10/audit.md`
+- `stages/stage16/16-20/result.md`
+- `stages/stage16/16-20/counts.csv`
+- `stages/stage16/16-20/enumerate.py`
 
-The stale Stage15-8 successor-pointer verifier was repaired without changing Stage16 mathematics, and its dedicated GitHub Actions verification passed on the audited submission. After the audited Stage16 PR is merged, the next unresolved checkpoint is `Stage16-20` (finite-data baseline), entered through the canonical command `Stage16-main-batch`.
+The enumerator uses primitive Euclid face generation plus scale, exhaustive third-edge completion under `R<=B`, canonical/global-primitive filtering, and an exact-one face check. An independent direct canonical-triple reference enumeration agrees exactly at `B=100` with `M_1(100)=2620`. The frozen census is replayed through `B=2000`, where `M_1(2000)=1997863`.
+
+These are `COMPUTED` finite facts only. No asymptotic growth law, exponent, ratio, upper/lower bound, or causal mechanism is inferred at Stage16-20. The diagnostic `ab/ac/bc` face split is also not interpreted as an intrinsic arithmetic asymmetry.
+
+A fresh `Stage16-audit` must certify the enumerator/replay and frozen data before Stage16-30 may interpret finite growth or formulate a ratio/thinning law.

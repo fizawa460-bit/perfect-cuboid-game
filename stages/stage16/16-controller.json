@@ -23,11 +23,11 @@
   },
   "state": {
     "CURRENT_STAGE": "Stage16",
-    "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "COMPLETE",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 20,
+    "CURRENT_CHECKPOINT": 20,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false
@@ -61,7 +61,7 @@
   },
   "main_contract": {
     "safe_batching": "May advance through multiple checkpoints only when later work does not depend on an unaudited novel claim or population-contract choice.",
-    "current_stop_reason": "Stage16-10 population/cutoff contract has passed fresh audit. The next main batch may proceed to Stage16-20 under the frozen contract after the audited PR is merged.",
+    "current_stop_reason": "Stage16-20 submits a new deterministic finite census and replay implementation. Stage16-30 must wait for fresh audit so no growth or ratio interpretation depends on unaudited computed data.",
     "reuse_before_new_work": [
       "AR-001 primitive/canonical physical convention",
       "AR-002 primitive Euclid face decomposition"
@@ -115,6 +115,23 @@
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
+  },
+  "last_submission": {
+    "checkpoint": 20,
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "result": "stages/stage16/16-20/result.md",
+    "data": "stages/stage16/16-20/counts.csv",
+    "enumerator": "stages/stage16/16-20/enumerate.py",
+    "max_frozen_cutoff": 2000,
+    "self_check_cutoff": 100,
+    "self_check_count": 2620,
+    "max_frozen_count": 1997863,
+    "data_sha256": "407d9e7a6ed2218e7897271b4de299d805a06ea6bf149aad09df92fb4dc5a347",
+    "evidence_level": "COMPUTED",
+    "population_contract_changed": false,
+    "comparison_adapter_required": false,
+    "codex_required": false,
+    "codex_reason": "The exact enumerator and replay verifier are small bounded deterministic artifacts implemented and cross-checked directly."
   },
   "codex_policy": {
     "default_required": false,
