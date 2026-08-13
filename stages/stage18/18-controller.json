@@ -14,7 +14,7 @@
   },
   "state":{
     "CURRENT_CHECKPOINT":60,
-    "MAIN_STATUS":"SUBMITTED",
+    "MAIN_STATUS":"SUBMITTED_WITH_STATUS_SYNC_BLOCK",
     "AUDIT_STATUS":"PENDING",
     "ADVANCE_ALLOWED":false,
     "NEXT_CHECKPOINT":70,
@@ -51,11 +51,18 @@
     "evidence":"DERIVED_FROM_AUDITED_INPUTS",
     "codex_required":false
   },
+  "repository_write":{
+    "policy":"docs/stage16-28-github-write-policy.md",
+    "result_and_controller_written":true,
+    "current_status_sync":"BLOCKED_BY_CONNECTOR_SAFETY",
+    "unsynced_path":"docs/00_CURRENT_RESEARCH_STATUS.md",
+    "mathematical_content_changed_by_block":false
+  },
   "audit_persistence":{
     "required":true,
     "status":"PENDING",
-    "unsynced_audit_state":"NONE",
+    "unsynced_audit_state":"docs/00_CURRENT_RESEARCH_STATUS.md",
     "merge_execution_default":false
   },
-  "merge_rule":"Fresh Stage18-audit PASS for checkpoint60 must be durably persisted before checkpoint70 or merge."
+  "merge_rule":"Fresh Stage18-audit cannot permit checkpoint70 or merge until docs/00_CURRENT_RESEARCH_STATUS.md is synchronized and the checkpoint60 verdict is durably persisted."
 }
