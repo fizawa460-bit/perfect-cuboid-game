@@ -86,6 +86,21 @@ Completed Stage16 counts the same primitive canonical exactly-one-face objects u
 M_1(B)\asymp B^2\log B.
 \]
 
+The load-bearing frozen-interface contract is:
+
+```text
+UPSTREAM_STAGE=Stage16
+UPSTREAM_THEOREM=M_1(B) asymp B^2 log B for primitive canonical exactly-one-face cuboids under R<=B
+POPULATION_MATCH=true
+CUTOFF_MATCH=true
+MULTIPLICITY_MATCH=true
+MEASURE_ADAPTER_REQUIRED=false
+QUANTIFIER_ADAPTER_REQUIRED=false
+ROLE=matched Stage16 source/denominator law
+```
+
+Stage16 and the Stage17 source use the same canonical representative, global primitivity convention, exactly-one face predicate, and `R<=B` physical cutoff. `M_1(B)` counts physical canonical objects once, exactly as required for the Stage17 denominator. No orientation, incidence, measure, height, or quantifier conversion is used in this import.
+
 Stage17 is the literal subset
 
 \[
@@ -226,6 +241,7 @@ A fresh Stage17 auditor must verify the exact Stage13 target match, the exact St
 BUNDLE_ID=STAGE17-FINAL-SELF-CONTAINED-20260814-R01
 STATUS=CANDIDATE_PENDING_FRESH_STAGE17_AUDIT
 FROZEN_UPSTREAM_INTERFACES=Stage13,Stage16
+UPSTREAM_INTERFACES_EXACT=true
 INTERNAL_LOAD_BEARING_ADAPTERS_EMBEDDED=true
 EXTERNAL_THEOREMS_DIRECTLY_INVOKED=NONE
 FINITE_DATA_PROMOTED_TO_THEOREM=false
