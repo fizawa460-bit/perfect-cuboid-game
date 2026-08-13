@@ -7,6 +7,7 @@ Completed stage-specific research and operational history lives with its stage.
 
 - `00_CURRENT_RESEARCH_STATUS.md` — current research status and Stage15-7 handoff
 - `stage16-28-population-roadmap.md` — future population/condition-interaction roadmap after Stage15 closure
+- `stage16-28-execution-controller-template.md` — reusable StageX main-batch / audit / Codex controller contract for Stage16-28
 - `face-ratio-geometry-research.md` — geometric research overview
 - `cycle-exploration-safety-protocol.md` — current cycle safety protocol
 
