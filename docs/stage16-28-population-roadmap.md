@@ -261,3 +261,83 @@ modest and more useful: by the time the endpoint is opened, the project should
 know which restrictions are already understood, which interactions cause the
 observed thinning, which bounds are genuinely sharp or not, and exactly what new
 obstruction remains at the three-face + space-diagonal boundary.
+
+## Operational safety invariants
+
+These rules apply across Stage16-28 and are intended to prevent bookkeeping or
+comparison errors from masquerading as mathematical discoveries.
+
+### 1. Freeze the common population contract
+
+The default Stage16-28 contract for cutoff, primitivity, canonical ordering,
+symmetry removal, and `exactly-one` / `exactly-two` meanings must not drift
+silently between stages. If any of these conventions changes, record
+`POPULATION_CONTRACT_CHANGED=YES`, state the reason, and identify every earlier
+stage or transition whose counts, ratios, or bounds require recomputation.
+
+### 2. No direct ratio across incompatible populations
+
+A survivor ratio may be reported only when source and target counts are expressed
+under compatible cutoff and canonicalization conventions. If an adapter is
+required, record `COMPARISON_ADAPTER_REQUIRED=YES` and certify that adapter before
+using the ratio asymptotically. Raw counts from incompatible populations must not
+be divided merely because they share a stage label.
+
+### 3. Keep proof, literature, computation, and heuristic claims distinct
+
+Every material result must carry an evidence level:
+
+```text
+EVIDENCE_LEVEL=PROVED|LITERATURE|COMPUTED|HEURISTIC
+```
+
+Large finite searches do not upgrade themselves to proofs, and a theorem does not
+downgrade merely because the finite-data window is small. When a literature claim
+is adapted to a new cutoff or population contract, distinguish the cited theorem
+from the project's adaptation step.
+
+### 4. Record dependency edges
+
+Every nontrivial theorem, bound, adapter, or causal claim should record its direct
+research dependencies, for example:
+
+```text
+DEPENDS_ON=Stage16-10,Stage18-40,arsenal:item-name
+```
+
+If an upstream population contract, theorem, or weapon is revised or superseded,
+the controller must identify dependent stages that need re-audit rather than
+assuming the change is local.
+
+### 5. No infinite excavation of an OPEN_GATE
+
+When a checkpoint has reached an audited `OPEN_GATE`, the same route must not be
+re-run under new wording unless at least one genuinely new input has appeared:
+new theorem, new data, new reusable weapon, or new external literature. Otherwise
+record:
+
+```text
+NEW_INPUT_REQUIRED=true
+```
+
+and stop that route. A precisely identified missing theorem/input is a completed
+research outcome for the checkpoint; repeated paraphrases are not progress.
+
+### 6. Arsenal supersession is explicit, never destructive
+
+A new weapon that improves or replaces an earlier item must not silently erase
+its predecessor. Record `SUPERSEDES=` on the new item and `SUPERSEDED_BY=` on the
+old item, then retain the old item as archive provenance unless there is a separate
+repository-cleanup reason to remove it. Later stages should use the newest valid
+weapon while historical dependency chains remain auditable.
+
+At StageX-70 the controller should also report the safety state:
+
+```text
+POPULATION_CONTRACT_CHANGED=YES|NO
+COMPARISON_ADAPTER_REQUIRED=YES|NO
+EVIDENCE_LEVELS_COMPLETE=YES|NO
+DEPENDENCY_LEDGER_COMPLETE=YES|NO
+OPEN_GATE_REENTRY_JUSTIFIED=YES|NO|NOT_APPLICABLE
+ARSENAL_SUPERSESSION_CHECK=PASS|FAIL|NOT_APPLICABLE
+```
