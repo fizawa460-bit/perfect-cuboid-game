@@ -26,7 +26,9 @@ stages/stage09/   divisor-chain analysis
 stages/stage10/   explicit one-face family / lower bound
 stages/stage11/   shared-face-diagonal convolution
 stages/stage12/   frozen Stage12 R09 result and provenance
-stages/stage13/   active Stage13 work
+stages/stage13/   frozen Stage13 R07 result and provenance
+stages/stage14/   frozen Stage14 R05 result, arsenal, and provenance
+stages/stage15/   active Stage15 comparison work
 ```
 
 Stage-specific mathematics, scripts, derived reports, and frozen workflows belong under the corresponding stage directory. Repository-wide/shared source data and status documents may remain at top level.
@@ -60,15 +62,17 @@ Workflows that existed only to reproduce a completed research stage are stored i
 
 `docs/face-ratio-geometry-research.md` remains a cross-stage research memo. Canonical/raw datasets used by multiple stages may remain under top-level `data/`; stage-specific derived JSON reports belong inside the stage that produced them.
 
-## Stage13 rule
+## Completed Stage13/14 rule
 
-Stage13 mathematics is maintained in one living canonical file:
+Completed Stage13 and Stage14 mathematics use one final file each:
 
 ```text
-stages/stage13/main.md
+stages/stage13/final.md
+stages/stage14/final.md
 ```
 
-Support scripts/data use task subdirectories only when needed.
+Historical task directories and completed workflows are archive-only. Stage14's
+arsenal indexes under `docs/` remain protected interfaces for Stage15.
 
 ## Review artifacts
 
