@@ -114,3 +114,9 @@ DISCOVERY_LEDGER_STATUS=COMPLETE|INCOMPLETE
 ```
 
 When `REUSE_MATCH_STATUS=NO_MATCH`, the rejected-candidate ledger is mandatory. When a candidate is accepted only after an adapter, the exact population/cutoff/multiplicity/measure/quantifier map must be named. An empty candidate result is credible only when searched paths, synonyms, structural signatures, and dependency neighbors are all recorded.
+
+### Stage14/15 bound-attack ledger
+
+Before a Stage21–28 checkpoint asserts a strongest upper/lower bound, absence of a compatible construction, a new mechanism, or an `OPEN_GATE`, it must search `docs/stage14-15-bound-attack-map.md` and the complete sharded ledger under `docs/stage14-15-bound-attack-ledger/`.
+
+The consumer must record accepted and rejected `S1415-ATTACK-*` IDs. Entries with `review_required=true`, especially `UNCLASSIFIED`, `PARTIAL`, or `BLOCKED` outcomes, must receive targeted source reading before a claim that no prior project route applies. Automatic classifications are discovery hints only and never replace population/cutoff/multiplicity/measure/quantifier or audit checks.
