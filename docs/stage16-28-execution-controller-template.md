@@ -65,16 +65,26 @@ The main batch is the research/build lane. On each invocation it should:
 
 1. read the parent-stage contract and current controller state;
 2. discover which checkpoint outputs are already certified and which are pending;
-3. reuse verified literature, earlier stages, and arsenal items before opening new
-   work;
-4. execute the current checkpoint and, when safe, continue through additional
+3. run the repository-wide reuse preflight in
+   `docs/stage16-28-reuse-preflight.md`, including arsenal, numerical index,
+   stage/supplement/archive files, and historical PR discovery, before opening
+   new work;
+4. reuse verified literature, earlier stages, and compatible prior results before
+   opening new work;
+5. execute the current checkpoint and, when safe, continue through additional
    checkpoints in the same batch;
-5. create or update the required result, verifier, manifest, data, or proof files;
-6. decide whether Codex should be delegated a bounded implementation/repository
+6. create or update the required result, verifier, manifest, data, or proof files;
+7. decide whether Codex should be delegated a bounded implementation/repository
    task;
-7. stop at the first boundary that requires audit, new mathematical input, human
+8. stop at the first boundary that requires audit, new mathematical input, human
    policy choice, incompatible population repair, or unresolved external gate;
-8. emit a standardized handoff for the audit lane.
+9. emit a standardized handoff for the audit lane.
+
+The arsenal is a curated fast index, not a complete inventory. A result's absence
+from the arsenal does not justify re-proving it. In particular, checkpoints that
+claim a strongest bound, best construction, absent theorem, new mechanism, or
+`OPEN_GATE` must first verify that no stronger compatible audited result is lying
+in a prior stage, supplement, archive, or historical PR.
 
 ### Safe multi-checkpoint batching
 
@@ -89,6 +99,29 @@ not elimination of the independent audit boundary.
 
 The main lane may mark work `SUBMITTED`; it must not self-award the final audit
 PASS for a nontrivial mathematical result.
+
+## Repository-wide reuse preflight
+
+The normative discovery contract is
+`docs/stage16-28-reuse-preflight.md`.
+
+Before submitting a checkpoint, the main lane must emit:
+
+```text
+REPO_REUSE_PREFLIGHT=PASS
+REUSE_SEARCH_SCOPE=ARSENAL,NUM_INDEX,STAGES,SUPPLEMENTS,ARCHIVE,PRS
+REUSED_RESULTS=<IDs/paths/PRs or NONE>
+REUSE_MATCH_STATUS=EXACT|ADAPTER_PROVED|MIXED|NO_MATCH
+STRONGEST_KNOWN_CHECK=PASS
+STRONGER_PRIOR_RESULT_FOUND=true|false
+NEW_RESEARCH_JUSTIFIED=<reason or NOT_REQUIRED>
+```
+
+This is mandatory for new theorem/proof/construction work as well as for claims
+that a checkpoint records the strongest currently certified project result. If a
+later search discovers a stronger audited result after an earlier PASS, preserve
+the older valid theorem as provenance and supersede only the strongest-known
+metadata or strengthened claim that actually changed.
 
 ## Codex delegation rule
 
@@ -143,8 +176,8 @@ Rejected or partial Codex work must not silently become a stage premise.
 
 The audit lane is independent of the main lane. It inspects the submitted
 checkpoint/batch against the frozen population contract, evidence level,
-dependencies, mathematical claims, verifier coverage, and stage-specific exit
-criteria.
+dependencies, mathematical claims, verifier coverage, reuse-preflight state, and
+stage-specific exit criteria.
 
 The audit must end with standardized markers:
 
@@ -172,6 +205,11 @@ human policy choice. It should identify the exact blocker. If the checkpoint is 
 valid audited `OPEN_GATE`, the checkpoint can still count as classified under the
 roadmap's closure rule, but the blocked research route must not be repeatedly
 reopened without new input.
+
+A missing repository-wide reuse preflight does not automatically falsify a theorem
+proved inside the checkpoint. It does block unsupported metadata claims such as
+`STRONGEST_CERTIFIED_*`, `BEST_*`, `NO_KNOWN_*`, or an `OPEN_GATE` justified by
+asserting that no prior compatible project result exists.
 
 ## Automatic checkpoint advancement
 
@@ -263,6 +301,8 @@ CHECKPOINTS_ATTEMPTED=
 CHECKPOINTS_SUBMITTED=
 NEW_CLAIMS=
 REUSED_WEAPONS=
+REPO_REUSE_PREFLIGHT=PASS
+STRONGEST_KNOWN_CHECK=PASS
 CODEX_REQUIRED=true|false
 CODEX_REASON=
 AUDIT_REQUIRED=true|false
@@ -304,4 +344,7 @@ NUM_EVIDENCE_LEVEL=<level or NOT_APPLICABLE>
 NUM_NEW_COMPUTATION_JUSTIFIED=<reason or NOT_REQUIRED>
 ```
 
-This preflight prevents duplicate computation but never upgrades finite evidence into a theorem. Missing the preflight blocks a newly proposed computation; it does not reopen already audited mathematics.
+This numerical preflight is a specialized subset of the repository-wide reuse
+preflight. It prevents duplicate computation but never upgrades finite evidence
+into a theorem. Missing the numerical preflight blocks a newly proposed
+computation; it does not reopen already audited mathematics.
