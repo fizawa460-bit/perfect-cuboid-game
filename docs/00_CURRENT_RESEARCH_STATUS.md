@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage21-70-PENDING-REAUDIT
+CURRENT_STAGE=Stage21-70-FAIL-SELF-CONTAINED-BUNDLE-REPAIR
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -13,7 +13,7 @@ STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE20_STATUS=CLOSED_R01_AUDIT_PASS
-STAGE21_STATUS=OPEN_CHECKPOINT_70_REPAIR_SUBMITTED_FOR_FRESH_AUDIT
+STAGE21_STATUS=OPEN_CHECKPOINT_70_FAIL_REPAIR_REQUIRED
 STAGE21_CONTROLLER=stages/stage21/21-controller.json
 STAGE21_CURRENT_RESULT=stages/stage21/21-70/result.md
 STAGE21_CURRENT_AUDIT=stages/stage21/21-70/audit.md
@@ -22,9 +22,9 @@ STAGE21_MANIFEST=stages/stage21/manifest-r01.md
 STAGE21_ARSENAL=docs/stage21-arsenal.md
 STAGE21_SELF_CONTAINED_BUNDLE_PRESENT=true
 STAGE21_ARSENAL_PROMOTION_PRESENT=true
-STAGE21_AUDIT_PERSISTENCE=PENDING_REAUDIT
+STAGE21_AUDIT_PERSISTENCE=COMMITTED
 STAGE21_NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage21-audit
+NEXT_EXPECTED_COMMAND=Stage21-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE21_28_EXPLORATION_POLICY=docs/stage21-28-exploration-policy.md
 STAGE16_28_REUSE_PREFLIGHT=docs/stage16-28-reuse-preflight.md
@@ -32,7 +32,7 @@ STAGE16_28_REUSE_PREFLIGHT=docs/stage16-28-reuse-preflight.md
 
 ## Current operation
 
-Stage21-70 mathematics remains unchanged and substantively accepted by the prior audit. The bounded closeout repair has now materialized every artifact that checkpoint70 declared required.
+Stage21-70 mathematics remains substantively accepted. The prior repair successfully created the required final bundle, manifest, canonical evidence enum, and arsenal promotions. Fresh re-audit found one remaining closeout defect: `stages/stage21/final.md` is not yet proof-complete under `SELF_CONTAINED_REVIEW_STANDARD_V1`.
 
 The certified transition remains
 
@@ -46,27 +46,23 @@ with intrinsic ambient space-diagonal cost `B^-1`, positive `(log B)^2` interact
 OPEN_GATE=LOG_SQUARED_FINE_POLE_OR_LOCAL_FACTOR_DECOMPOSITION_UNRESOLVED
 ```
 
-Repair completion:
+Required bounded repair:
 
 ```text
 EVIDENCE_LEVEL=PROVED
-SELF_CONTAINED_BUNDLE_REQUIRED=true
 SELF_CONTAINED_BUNDLE_PRESENT=true
-SELF_CONTAINED_BUNDLE=stages/stage21/final.md
-MANIFEST_PRESENT=true
-MANIFEST=stages/stage21/manifest-r01.md
-ARSENAL_PROMOTION_REQUIRED=true
-ARSENAL_PROMOTION_PRESENT=true
-ARSENAL_ARTIFACT=docs/stage21-arsenal.md
-ARSENAL_PROMOTIONS=S21-W01,S21-W02
+FINAL_BUNDLE_V1_COMPLETE=false
+MISSING=frozen interface contract per load-bearing upstream import; Stage21-internal adapter proofs for AR038/Stage13 bridge and AR039 Theta(B^1/2) upgrade
 MATHEMATICS_REOPEN_REQUIRED=false
-AUDIT_STATUS=PENDING_REAUDIT
-AUDIT_PERSISTENCE_STATUS=PENDING_REAUDIT
+ARSENAL_PROMOTION_PRESENT=true
+AUDIT_STATUS=FAIL
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+UNSYNCED_AUDIT_STATE=NONE
 ADVANCE_ALLOWED=false
 MERGE_ALLOWED=false
 NEXT_CHECKPOINT=70
 NEXT_STAGE=
-NEXT_EXPECTED_COMMAND=Stage21-audit
+NEXT_EXPECTED_COMMAND=Stage21-main-batch
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
 CODEX_REQUIRED=false
