@@ -13,6 +13,8 @@ Use this map before claiming a strongest bound, missing lower bound, new mechani
 - `docs/stage14-15-bound-attack-ledger/manifest.json` — shard manifest for the complete ledger.
 - `docs/stage14-15-bound-attack-ledger/part-*.jsonl` — one record for every result file, split for GitHub/API readability.
 - `docs/stage14-15-bound-coverage.json` — aggregate coverage and review queue counts.
+- `docs/stage14-15-bound-deep-review-queue.md` — curated chronological route clusters for Stage23 and later consumers.
+- `docs/stage14-15-bound-deep-review-queue.json` — machine-readable priority, resolution, and reopen status for those clusters.
 - `scripts/build_stage14_15_attack_map.py` — deterministic regenerator.
 
 ## Coverage summary
@@ -62,6 +64,7 @@ Use this map before claiming a strongest bound, missing lower bound, new mechani
 4. Check population, cutoff, multiplicity, measure, quantifier order, and audit status.
 5. Review LOW/UNCLASSIFIED/PARTIAL/BLOCKED entries before asserting no compatible route exists.
 6. Record accepted/rejected attack IDs in the Stage21–28 discovery ledger.
+7. Consult the deep-review queue before treating an intermediate `LIVE` marker as still open; later Stage15 substages may already have executed or blocked it.
 
 ## Interpretation boundary
 
