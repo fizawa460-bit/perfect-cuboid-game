@@ -1,38 +1,75 @@
-# Stage21-50 fresh audit
+# Stage21-50 fresh re-audit
 
-AUDIT_VERDICT=FAIL
+AUDIT_VERDICT=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 UNSYNCED_AUDIT_STATE=NONE
-ADVANCE_ALLOWED=false
+ADVANCE_ALLOWED=true
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
-NEXT_CHECKPOINT=50
+NEXT_CHECKPOINT=60
 NEXT_STAGE=
 CODEX_AUDIT_REQUIRED=false
 CODEX_REASON=NONE
-MERGE_ALLOWED=false
+MERGE_ALLOWED=true
 
-## Finding
+## Re-audit finding
 
-The Stage17 frozen interface certifies that AR-039 supplies an explicit Stage17 subfamily yielding the lower bound
+The prior FAIL correctly identified that the frozen AR-039 lower bound alone did not prove that the entire constructed family was negligible in `N_1(B)`.
+
+The bounded repair supplies the missing upper-side count from the original Stage11 two-parameter construction. For admissible `m>n`,
 
 \[
-N_1(B)\ge \frac{\sqrt2}{120\pi^2}B^{1/2}-O(B^{1/4}\log B).
+p=m^2+n^2,\qquad d=\frac{p^2+1}{2}=\frac{(m^2+n^2)^2+1}{2}.
 \]
 
-That is sufficient to certify a constructive lower contribution of order at least `B^(1/2)` and, after division by the E-1e denominator, a conditional lower contribution `>> B^(-3/2)(log B)^(-1)`.
+Thus `d<=B` implies
 
-It is **not**, by itself, an upper bound or asymptotic formula for the full count of the AR-039 constructed subset. Therefore the submission's inference
+\[
+m<(2B)^{1/4}.
+\]
 
-`N_{1,AR039}(B)=o(N_1(B))`
+Dropping congruence and coprimality restrictions only enlarges the parameter set, so the number of candidate pairs is at most
 
-and the stronger conclusion that the AR-039 family itself is asymptotically negligible are not supported by the frozen interface currently cited.
+\[
+\sum_{m<(2B)^{1/4}}(m-1)=O(B^{1/2}).
+\]
 
-## Bounded repair
+The construction is injective: the cuboid determines `d`, hence `p` from `p^2=2d-1`; the primitive Pythagorean triple with legs `a,b` and hypotenuse `p` then determines the Euclid parameters `m>n` uniquely. Therefore
 
-Either:
+\[
+N_{\rm AR039}(B)=O(B^{1/2}).
+\]
 
-1. import an audited AR-039 theorem that gives an upper bound/asymptotic count for the constructed subset strong enough to prove `N_{1,AR039}=o(N_1)`, with population/cutoff/multiplicity contract; or
-2. weaken checkpoint50 to the supported statement: the **certified lower contribution furnished by AR-039** is far below the full Stage21 transition scale, so that lower-bound certificate alone does not explain the `(log B)^2` enhancement. Do not claim the family itself is negligible without a matching upper-side count.
+Combined with the audited AR-039 lower bound,
 
-Checkpoint30/40 mathematics remains frozen and valid. No reopening of the transition asymptotic or Stage16S intrinsic baseline is required.
+\[
+N_{\rm AR039}(B)=\Theta(B^{1/2}).
+\]
+
+Using the matched E-1e denominator,
+
+\[
+M_1(B)\sim\frac{3}{4\pi^2}B^2\log B,
+\]
+
+we get
+
+\[
+\frac{N_{\rm AR039}(B)}{M_1(B)}=\Theta(B^{-3/2}(\log B)^{-1}).
+\]
+
+Since audited Stage17 gives `N_1(B)~const*B(log B)^3`, it follows that
+
+\[
+N_{\rm AR039}(B)=o(N_1(B)).
+\]
+
+Hence the entire known AR-039 family is asymptotically negligible in the Stage17 population and cannot explain the full Stage21 `(log B)^2` enhancement. The bulk mechanism remains open.
+
+```text
+REPAIR_ROUTE=AR039_ELEMENTARY_UPPER_COUNT
+AR039_COUNT=Theta(B^1/2)
+AR039_NEGLIGIBLE_IN_N1=true
+OPEN_GATE=LOG_SQUARED_ENHANCEMENT_BULK_MECHANISM_UNRESOLVED
+CHECKPOINT30_40_REOPENED=false
+```
