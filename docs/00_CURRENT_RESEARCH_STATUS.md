@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage18-70-SUBMITTED
+CURRENT_STAGE=Stage18-CLOSED_R01_AUDIT_PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -33,17 +33,19 @@ STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_NEXT_CHECKPOINT=
 STAGE17_NEXT_STAGE=Stage18
-STAGE18_STATUS=OPEN_CHECKPOINT_70_SUBMITTED
+STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_CONTROLLER=stages/stage18/18-controller.json
 STAGE18_CURRENT_RESULT=stages/stage18/18-70/result.md
-STAGE18_CURRENT_AUDIT=stages/stage18/18-60/audit.md
+STAGE18_CURRENT_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_CURRENT_DATA=stages/stage18/18-20/counts.csv
 STAGE18_CURRENT_ENUMERATOR=stages/stage18/18-20/enumerate.py
 STAGE18_FINAL_BUNDLE=stages/stage18/final.md
 STAGE18_MANIFEST=stages/stage18/manifest-r01.md
-STAGE18_AUDIT_PERSISTENCE=PENDING
-STAGE18_NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage18-audit
+STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
+STAGE18_AUDIT_PERSISTENCE=COMMITTED
+STAGE18_NEXT_CHECKPOINT=
+STAGE18_NEXT_STAGE=Stage19
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -61,7 +63,7 @@ SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
 | 16 | `stages/stage16/final.md` | none required beyond the fresh Stage16 audit lane | `stages/stage16/manifest-r01.md` |
 | 16S | `stages/stage16s/final.md` | audited auxiliary space-diagonal baseline for Stage21 | `stages/stage16s/manifest-r01.md` |
 | 17 | `stages/stage17/final.md` | none required beyond the fresh Stage17 audit lane | `stages/stage17/manifest-r01.md` |
-| 18 | `stages/stage18/final.md` (candidate pending fresh Stage18 audit) | none yet | `stages/stage18/manifest-r01.md` |
+| 18 | `stages/stage18/final.md` | none required beyond the fresh Stage18 audit lane | `stages/stage18/manifest-r01.md` |
 
 Historical task results, superseded reviews, working roadmaps, and completed workflows remain stage-local/archive provenance.
 
@@ -211,9 +213,9 @@ NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
 ```
 
-## Current operation
+## Stage18 frozen closeout
 
-Stage18 checkpoints 10 through 60 are fresh-audited. Checkpoint70 is now submitted as the bounded maximal synthesis and closeout candidate.
+Stage18 checkpoints 10 through 70 are fresh-audited and the R01 self-contained interface is closed.
 
 The frozen absolute theorem is
 \[
@@ -225,7 +227,7 @@ and the matched ambient law gives
 \]
 Thus the absolute Stage18 polynomial exponent is `1`, the logarithmic power is `5`, the population is infinite, and the complete exactly-two predicate has a net two-power ambient polynomial cost.
 
-The checkpoint60 causal normal form remains
+The causal normal form is
 \[
 s^2+x^2=p^2,\qquad s^2+y^2=q^2,\qquad x^2+y^2\notin\square.
 \]
@@ -234,18 +236,18 @@ The two successful face conditions are coupled through their shared edge. No ind
 Stage18 stops before decomposing the net cost into the second-face contribution and third-face exclusion contribution. Stage16 to Stage18 belongs to Stage22, Stage18 to Stage20 belongs to Stage26, and integral-space-diagonal questions belong to Stage19/24. No perfect-cuboid conclusion is made.
 
 ```text
+STAGE_STATUS=CLOSED
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
+NEXT_CHECKPOINT=
+NEXT_STAGE=Stage19
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 SELF_CONTAINED_BUNDLE_REQUIRED=YES
 SELF_CONTAINED_BUNDLE=stages/stage18/final.md
-SELF_CONTAINED_BUNDLE_REASON=stable interface for Stage19, Stage22, Stage26 and Stage28 with net-versus-incremental causal boundaries
 ARSENAL_PROMOTION_REQUIRED=NO
-ARSENAL_CANDIDATES=NONE
-SYNTHESIS_STOP_RULE_SATISFIED=YES
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
-NEXT_CHECKPOINT=70
-NEXT_STAGE_AFTER_PASS=Stage19
-NEXT_EXPECTED_COMMAND=Stage18-audit
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
 CODEX_REQUIRED=false
 ```
