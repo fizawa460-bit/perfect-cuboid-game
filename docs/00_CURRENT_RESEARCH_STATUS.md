@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-60-AUDIT-PASS
+CURRENT_STAGE=Stage19-70-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,19 +45,21 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_60_AUDIT_PASS
+STAGE19_STATUS=OPEN_CHECKPOINT_70_SUBMITTED
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
-STAGE19_CURRENT_RESULT=stages/stage19/19-60/result.md
+STAGE19_CURRENT_RESULT=stages/stage19/19-70/result.md
 STAGE19_CURRENT_AUDIT=stages/stage19/19-60/audit.md
 STAGE19_PRIOR_AUDIT=stages/stage19/19-50/audit.md
-STAGE19_EARLIER_AUDIT=stages/stage19/19-40/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
 STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.json
+STAGE19_FINAL_BUNDLE=stages/stage19/final.md
+STAGE19_MANIFEST=stages/stage19/manifest-r01.md
 STAGE19_NUM_REUSE_CHECK=PASS
 STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
-STAGE19_AUDIT_PERSISTENCE=COMMITTED
-STAGE19_NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage19-main-batch
+STAGE19_AUDIT_PERSISTENCE=PENDING
+STAGE19_NEXT_CHECKPOINT=
+STAGE19_NEXT_STAGE_AFTER_PASS=Stage20
+NEXT_EXPECTED_COMMAND=Stage19-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -267,58 +269,46 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10 through 60 are fresh-audited. Checkpoint50 remains frozen as `OPEN_GATE_AUDITED_PASS`; its lower-bound route was not reopened at checkpoint60.
+Stage19 checkpoints 10 through 60 are fresh-audited. Checkpoint70 is now submitted as the bounded synthesis and closeout candidate under `docs/stage16-28-stage70-policy.md`.
 
-Checkpoint60 identifies the exact new Stage19 arithmetic restriction on the matched Stage18 exactly-two population. In the frozen shared-edge toric coordinates,
+The frozen Stage19 theorem stack is:
 \[
-A=m^2r^2+n^2s^2=N(mr+i\,ns),
+N_2(B)\ll_\varepsilon B^{1/2+\varepsilon},
 \qquad
-B=m^2s^2+n^2r^2=N(ms+i\,nr),
+\frac{N_2(B)}{M_2(B)}\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-5}\to0,
 \]
-and Stage19 space integrality is exactly
+with the exact new predicate
 \[
-\boxed{R\in\mathbf Z\iff \operatorname{sf}(A)=\operatorname{sf}(B).}
+R\in\mathbf Z\iff \operatorname{sf}(A)=\operatorname{sf}(B)
 \]
-Thus the new predicate is a paired Gaussian-norm squareclass coincidence, not a generic independent square test.
+and an independent same-measure split-prime parity-sieve proof of `N_2/M_2->0`. The half-power remains separate Stage14 upper-bound provenance and is not credited to the local sieve.
 
-The same-measure Stage15 local sieve supplies the mechanism-level zero-density theorem. For every good split prime `p=1 mod 4`, the valuation-parity acceptance density satisfies
-\[
-1-\rho_p=\frac4p+O(p^{-2}),
-\]
-and the fixed-finite-prime refined asymptotics imply
-\[
-\frac{N_2(B)}{M_2(B)}\to0.
-\]
+The exact numerical oracle gives `N_2(500000000)=3495` and hence the rigorous finite floor `N_2(B)>=3495` for all larger cutoffs. It does not prove unboundedness. The checkpoint50 gate `UNBOUNDED_OR_MATCHING_LOWER_BOUND_FOR_STAGE19` remains `OPEN_GATE_AUDITED_PASS` and is not reopened.
 
-The stronger fixed-power ceiling
-\[
-N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}
-\]
-remains a separate Stage14 global upper-bound theorem. The split-prime squareclass sieve is not credited with paying for the half-power, and no savings are multiplied together.
+Stage24 retains the independence/correlation/interaction classification. No perfect-cuboid conclusion is made.
 
-NUM-R01/R02/R03 and AR-040 remain the finite regression oracle. They confirm `N_2(500000000)=3495`, while the predeclared `N_2/sqrt(B)` stability gate remains FAIL. These finite diagnostics do not identify the true exponent and are not used as theorem proof.
+Stage19-70 creates:
 
-Stage24 still owns the independence/correlation/interaction classification for imposing the space diagonal after two faces are already integral. Checkpoint60 makes no independence claim.
-
-Canonical checkpoint60 records:
-
-- `stages/stage19/19-60/result.md`
-- `stages/stage19/19-60/audit.md`
-- `stages/stage19/19-controller.json`
+- `stages/stage19/19-70/result.md`;
+- `stages/stage19/final.md` with bundle ID `STAGE19-FINAL-SELF-CONTAINED-20260814-R01`;
+- `stages/stage19/manifest-r01.md`.
 
 ```text
 EVIDENCE_LEVEL=PROVED
-AUDIT_STATUS=PASS
-AUDIT_PERSISTENCE_STATUS=COMMITTED
-ADVANCE_ALLOWED=true
-MERGE_ALLOWED=true
-NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage19-main-batch
-NEW_INPUT_REQUIRED=false
-HUMAN_DECISION_REQUIRED=false
-DOUBLE_CHARGE_CHECK=PASS
+CHECKPOINT_70=PROVED_CANDIDATE_PENDING_FRESH_AUDIT
+SELF_CONTAINED_BUNDLE_REQUIRED=YES
+SELF_CONTAINED_BUNDLE=stages/stage19/final.md
+ARSENAL_PROMOTION_REQUIRED=NO
+ARSENAL_CANDIDATES=NONE
+SYNTHESIS_STOP_RULE_SATISFIED=YES
 OPEN_GATE_REENTRY_JUSTIFIED=NO
 NUM_REUSE_CHECK=PASS
 NUM_NEW_COMPUTATION_JUSTIFIED=NOT_REQUIRED
+AUDIT_STATUS=PENDING
+AUDIT_PERSISTENCE_STATUS=PENDING
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_STAGE_AFTER_PASS=Stage20
+NEXT_EXPECTED_COMMAND=Stage19-audit
 CODEX_REQUIRED=false
 ```
