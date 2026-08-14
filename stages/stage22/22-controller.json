@@ -12,16 +12,16 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "PENDING"
+    "70": "CLOSEOUT_SUBMITTED_FOR_FRESH_AUDIT"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 60,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 70,
+    "CURRENT_CHECKPOINT": 70,
+    "MAIN_STATUS": "CLOSEOUT_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": "",
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage16",
   "target_stage": "Stage18",
@@ -104,9 +104,22 @@
     "fine_mechanism_open": true,
     "finite_data_used_as_proof": false
   },
+  "checkpoint70": {
+    "bounded_maximal_synthesis": true,
+    "ratio_asymptotic_frozen": "M2/M1~(4*pi^2*C_M2/3)(log B)^4/B",
+    "sharp_scale": "(log B)^4/B",
+    "bulk_causal_localization_frozen": true,
+    "fine_mechanism_open": true,
+    "intrinsic_status": "YES_AS_TRANSITION_SYNTHESIS",
+    "new_standalone_theorem_promotion_required": false,
+    "promotion_materialized": false,
+    "perfect_cuboid_conclusion": "NONE",
+    "finite_data_used_as_proof": false
+  },
   "stage70_closeout": {
     "promotion_materialization_required_if_yes": true,
-    "yes_classification_alone_is_completion": false
+    "yes_classification_alone_is_completion": false,
+    "close_stage_after_audit_pass": true
   },
   "last_audit": {
     "checkpoint": 60,
@@ -119,9 +132,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED",
+    "status": "PENDING",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage22-main-batch",
+  "next_expected_command": "Stage22-audit",
   "codeX_required": false
 }
