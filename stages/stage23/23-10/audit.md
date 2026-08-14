@@ -2,14 +2,17 @@
 
 Status: **PASS**
 
-The checkpoint10 population contract is accepted.
+The checkpoint10 population contract and the post-audit aggressive-search policy are accepted.
 
 - Stage17 supplies exactly `N1(B) ~ kappa/(24*pi) B(log B)^3` for primitive canonical exactly-one-face cuboids with integral space diagonal under `R<=B`.
-- Stage19 supplies exactly the whole-family upper bound `N2(B) <<_epsilon B^(1/2+epsilon)` for primitive canonical exactly-two-face cuboids with integral space diagonal under the same `R<=B` cutoff, and explicitly does not provide a matching lower bound or a true half-power asymptotic.
-- Source and target share strict canonicalization, global primitivity, physical multiplicity one, integral space diagonal, and the same exact geometric cutoff. Because `d=R` on both populations, no cutoff adapter is needed.
-- Exactly-one and exactly-two are disjoint strata, so `N2/N1` is correctly frozen as a matched adjacent-stratum population-size ratio rather than an objectwise subset-survival probability.
-- The checkpoint correctly prevents Stage19's upper exponent from being promoted into an intrinsic thinning law and correctly marks the finite lower floor as non-asymptotic.
-- Controller schema is valid with `parent_class=transition` and already requires explicit self-contained-bundle and arsenal-promotion decisions at checkpoint70.
+- Stage19 supplies only the whole-family upper bound `N2(B) <<_epsilon B^(1/2+epsilon)` on the matched exactly-two-face integral-space population; no matching lower bound, unbounded family, or true half-power asymptotic is frozen.
+- Source and target share canonicalization, global primitivity, multiplicity one, integral space diagonal, and exact cutoff `R<=B=d<=B`; no adapter is needed.
+- Exactly-one and exactly-two are disjoint strata, so `N2/N1` is an adjacent-stratum population-size ratio, not objectwise survival.
+- The added aggressive-search policy is compatible with these facts: it preserves the prohibition against promoting the half-power upper exponent while explicitly forbidding Stage23 from stopping merely because that upper bound exists.
+- Checkpoint20 must inventory and test alternative coordinates / candidate families. The required attack surface includes shared-edge double-Pythagorean reparametrization, Stage17/Stage19 coordinate overlays, Gaussian-norm squareclass escape, split-prime parity satisfying families, positive-power lower bounds, and half-power-scale candidate families.
+- A negative attack result is not accepted without a search ledger, failed-family catalog, and an explanation of why each attempted family does not scale.
+- Finite examples alone cannot discharge the attack obligations.
+- Controller schema remains valid with `parent_class=transition`, and checkpoint70 still requires explicit self-contained-bundle and arsenal-promotion decisions plus the aggressive-search ledger.
 
 ```text
 AUDIT_VERDICT=PASS
@@ -23,4 +26,7 @@ NEXT_STAGE=
 CODEX_AUDIT_REQUIRED=false
 CODEX_REASON=NONE
 MERGE_ALLOWED=true
+AGGRESSIVE_SEARCH_POLICY=REQUIRED
+STOP_ON_EXISTING_UPPER_BOUND_ONLY=false
+NEGATIVE_RESULT_REQUIRES_SEARCH_LEDGER=true
 ```
