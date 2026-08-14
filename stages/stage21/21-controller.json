@@ -11,15 +11,15 @@
     "30": "PROVED_AUDITED_PASS",
     "40": "OPEN_GATE_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
-    "60": "PENDING",
+    "60": "PROVED_AUDITED_PASS",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 50,
+    "CURRENT_CHECKPOINT": 60,
     "MAIN_STATUS": "COMPLETE",
     "AUDIT_STATUS": "PASS",
     "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 60,
+    "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
     "MERGE_ALLOWED": true
   },
@@ -37,22 +37,30 @@
     "sharp_upper_scale": "(log B)^2/B",
     "sharpness_proved": true,
     "polynomial_cost_mechanism": "space quadratic constraint / one-dimension loss",
-    "log_enhancement_mechanism": "arithmetically present but not yet factorized",
-    "open_gate": "LOG_SQUARED_ENHANCEMENT_MECHANISM_UNRESOLVED"
+    "log_enhancement_mechanism": "arithmetically present but not yet factorized"
   },
-  "checkpoint50_repair": {
-    "previous_issue": "lower bound alone did not imply AR039=o(N1)",
-    "source": "AR-039 registry imported PR #878; stages/stage11/scripts/audit_shared_p_convolution.py",
-    "exact_height": "d=((m^2+n^2)^2+1)/2",
-    "injective": true,
-    "new_upper": "N_AR039(B)=O(B^(1/2)) from m<(2B)^(1/4) and at most m-1 choices of n",
-    "combined_family_count": "N_AR039(B)=Theta(B^(1/2))",
-    "conditional_scale": "Theta(B^(-3/2)*(log B)^(-1))",
-    "negligible_in_N1": true,
-    "open_gate": "LOG_SQUARED_ENHANCEMENT_BULK_MECHANISM_UNRESOLVED"
+  "checkpoint50_claims": {
+    "AR039_count": "Theta(B^(1/2))",
+    "AR039_negligible_in_N1": true,
+    "AR039_explains_enhancement": false
+  },
+  "checkpoint60_claims": {
+    "polynomial_loss": "B^-1",
+    "polynomial_loss_cause": "intrinsic space-diagonal quadratic/Pythagorean constraint",
+    "log_enhancement": "(log B)^2",
+    "log_enhancement_location": "bulk multiplicative shared-P nested-Pythagorean principal sector",
+    "shared_P_convolution": "AR-038 exact",
+    "stage13_principal_sector_dominates": true,
+    "nonprincipal_sectors_lower_order": true,
+    "canonical_directional_geometry_is_net_log_source": false,
+    "exactly_one_overlap_is_main_log_source": false,
+    "AR039_is_main_log_source": false,
+    "fine_open_gate": "LOG_SQUARED_FINE_POLE_OR_LOCAL_FACTOR_DECOMPOSITION_UNRESOLVED",
+    "independent_log_factor_claim": false,
+    "double_charge_check": "PASS"
   },
   "exploration_policy": "docs/stage21-28-exploration-policy.md",
-  "last_audit": {"checkpoint":50,"verdict":"PASS","record":"stages/stage21/21-50/audit.md","pr":948,"merge_allowed":true},
+  "last_audit": {"checkpoint":60,"verdict":"PASS","record":"stages/stage21/21-60/audit.md","pr":949,"merge_allowed":true},
   "audit_persistence": {"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
   "next_expected_command": "Stage21-main-batch",
   "codeX_required": false
