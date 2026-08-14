@@ -1,9 +1,9 @@
 # Stage20 final — primitive canonical Euler-cuboid population
 
 BUNDLE_ID=STAGE20-FINAL-SELF-CONTAINED-20260814-R01
-STATUS=SUBMITTED_FOR_FRESH_AUDIT
-AUDIT_VERDICT=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
+STATUS=REPAIR_REQUIRED_AFTER_FRESH_AUDIT_FAIL
+AUDIT_VERDICT=FAIL
+AUDIT_PERSISTENCE_STATUS=COMMITTED
 FRESH_AUDIT_REQUIRED=true
 
 ## 1. Population contract
@@ -250,10 +250,23 @@ Stage20 does **not** prove or assume:
 - independence of the third-face condition from prior face conditions;
 - a Stage18-to-Stage20 transition law.
 
-## 12. Closeout candidate
+## 12. Fresh-audit repair requirement
+
+The Stage20-70 fresh audit found the mathematical synthesis substantively correct but the self-contained bundle incomplete under `SELF_CONTAINED_REVIEW_STANDARD_V1`.
+
+Required bounded repair:
+
+1. transcribe the proof-complete Stage20-50a derivation into this bundle, including the three face-square identities, primitivity, canonical inequalities, injectivity, and `R<31m^6` cutoff proof;
+2. print exact frozen-upstream interface contracts for every load-bearing Stage14-e8/e10/e11 import, including theorem statement, population/cutoff/multiplicity match, measure-adapter status, quantifier-adapter status, and any relevant uniformity limitation.
+
+No new theorem or computation is required. The existing OPEN_GATES are not reopened.
 
 ```text
 SELF_CONTAINED_BUNDLE_REQUIRED=YES
+SELF_CONTAINED_REVIEW_GATE=FAIL
+REPAIR_SCOPE=EMBED_STAGE20_50A_PROOF_AND_PRINT_EXACT_STAGE14_E8_E10_E11_UPSTREAM_INTERFACES
+NEW_THEOREM_REQUIRED=false
+NEW_COMPUTATION_REQUIRED=false
 ARSENAL_PROMOTION_REQUIRED=YES
 SYNTHESIS_STOP_RULE_SATISFIED=YES
 POPULATION_CONTRACT_CHANGED=NO
@@ -261,9 +274,10 @@ COMPARISON_ADAPTER_REQUIRED=NO
 EVIDENCE_LEVELS_COMPLETE=YES
 DEPENDENCY_LEDGER_COMPLETE=YES
 DOUBLE_CHARGE_CHECK=PASS
-AUDIT_VERDICT=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
+AUDIT_VERDICT=FAIL
+AUDIT_PERSISTENCE_STATUS=COMMITTED
 FRESH_AUDIT_REQUIRED=true
 MERGE_ALLOWED=false
-NEXT_STAGE=Stage21
+NEXT_CHECKPOINT=70
+NEXT_STAGE=
 ```
