@@ -31,9 +31,11 @@ The 500k job cannot start unless 200k validation passes, and the 1m job cannot s
 
 | `B` | `M2(B)` | `N2(B)` | `N2/M2` | `M3(B)` | `N3(B)` |
 |---:|---:|---:|---:|---:|---:|
-| 200000 | 1896505 | 116 | 0.0000611651567 | 82 | 0 |
-| 500000 | 5899985 | 188 | 0.0000318644878 | 144 | 0 |
-| 1000000 | 13817725 | 255 | 0.0000184545575 | 219 | 0 |
+| 200000 | 1896505 | 116 | 0.0000611651432503 | 82 | 0 |
+| 500000 | 5899985 | 188 | 0.0000318644877911 | 144 | 0 |
+| 1000000 | 13817725 | 255 | 0.0000184545574615 | 219 | 0 |
+
+The original merged r202 result had a transcription/derived-value typo only in the displayed B=200000 ratio. The exact counts and CI census were unchanged; `116/1896505` gives the corrected value above.
 
 At one million the directional counts are
 
@@ -62,6 +64,8 @@ R202_LEGACY_OVERLAP_BOUND=200000
 R202_STAGED_BOUNDS=200000,500000,1000000
 R202_HARD_MAX_BOUND=1000000
 R202_AUTO_EXPAND_ABOVE_1M=false
+R202_DERIVED_RATIO_TYPO_REPAIRED=true
+R202_COUNTS_CHANGED_BY_RATIO_REPAIR=false
 R202_ASYMPTOTIC_CLAIM=false
 R202_PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 R202_CI_STATUS=SUCCESS
