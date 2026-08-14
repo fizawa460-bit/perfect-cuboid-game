@@ -8,20 +8,20 @@
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "PENDING",
+    "30": "SUBMITTED_FOR_FRESH_AUDIT",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 20,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
+    "CURRENT_CHECKPOINT": 30,
+    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -78,7 +78,6 @@
     "r202_counts_changed_by_typo_repair": false,
     "r203_required_for_main_correctness": false,
     "r203_history_backflow_sync": "PASS",
-    "r203_stale_ratio_backflow_found": false,
     "finite_ratio_trend": "STRICTLY_DECREASING_ON_FROZEN_MATCHED_GRID",
     "finite_ratio_slope_100k_to_1m": -0.7819926443966883,
     "old_ratio_slope_1k_to_100k_approx": -0.494,
@@ -88,10 +87,37 @@
     "true_ratio_exponent_identified": false,
     "true_target_exponent_identified": false,
     "finite_data_used_as_proof": false,
-    "mathematics_reopen_required": false,
-    "counts_recompute_required": false,
     "advance_allowed": true,
     "merge_allowed": true
+  },
+  "checkpoint30": {
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "result_path": "stages/stage24/24-30/result.md",
+    "discovery_ledger": "stages/stage24/24-30/discovery-ledger.md",
+    "space_thin_cover_proof": "stages/stage24/24-30/space-thin-cover.md",
+    "quantitative_ratio": "N2/M2 <<_epsilon B^(-1/2+epsilon)(log B)^(-5)",
+    "global_zero_density_proved": true,
+    "directional_zero_density_proved": true,
+    "directional_quantitative_ratio_proved": true,
+    "leading_constant_search_complete": true,
+    "source_constant_exists": true,
+    "source_constant_explicit": false,
+    "survivor_ratio_leading_constant_available": false,
+    "independent_zero_density_routes": 3,
+    "route_quantitative_quotient": true,
+    "route_squareclass_local_sieve": true,
+    "route_space_square_thin_cover": true,
+    "space_thin_cover_geometrically_integral": true,
+    "space_thin_cover_degree": 2,
+    "space_thin_image_type_II": true,
+    "space_thin_route_effective_power_saving": false,
+    "true_ratio_exponent_identified": false,
+    "true_target_exponent_identified": false,
+    "half_power_intrinsic_proved": false,
+    "finite_data_used_as_proof": false,
+    "audit_required": true,
+    "advance_allowed": false,
+    "merge_allowed": false
   },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
@@ -157,14 +183,14 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT20_AUDIT_PASS",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT20_AUDIT_PASS",
-    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT20",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT30_SUBMISSION",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT30_SUBMISSION",
+    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT30",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
-    "required": false,
-    "reason": "checkpoint20 is exact finite evidence and source-level revalidation; no exhaustive theorem absence or strongest-bound claim is asserted"
+    "required": true,
+    "reason": "checkpoint30 asserts a new independent type-II thin-cover zero-density route and directional theorem refinement; fresh audit must verify geometric non-splitting and theorem transfer"
   },
   "last_audit": {
     "checkpoint": 20,
@@ -180,9 +206,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED_CHECKPOINT20_PASS",
+    "status": "PENDING_CHECKPOINT30_FRESH_AUDIT",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-main-batch",
+  "next_expected_command": "Stage24-audit",
   "codeX_required": false
 }
