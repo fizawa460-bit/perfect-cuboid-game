@@ -11,17 +11,17 @@
     "30": "PROVED_AUDITED_PASS",
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
-    "60": "SUBMITTED_FOR_FRESH_AUDIT",
+    "60": "PROVED_AUDITED_PASS",
     "70": "PENDING"
   },
   "state": {
     "CURRENT_CHECKPOINT": 60,
-    "MAIN_STATUS": "AWAITING_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 60,
+    "MAIN_STATUS": "AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -215,8 +215,9 @@
     "merge_allowed": true
   },
   "checkpoint60": {
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
-    "audit": "PENDING",
+    "status": "PROVED_AUDITED_PASS",
+    "audit": "PASS",
+    "audit_path": "stages/stage24/24-60/audit.md",
     "result_path": "stages/stage24/24-60/result.md",
     "discovery_ledger": "stages/stage24/24-60/discovery-ledger.md",
     "interaction_lattice": "stages/stage24/24-60/interaction-lattice.md",
@@ -253,9 +254,9 @@
     "half_power_intrinsic_proved": false,
     "finite_data_used_as_proof": false,
     "num_new_computation_required": false,
-    "audit_required": true,
-    "advance_allowed": false,
-    "merge_allowed": false
+    "audit_required": false,
+    "advance_allowed": true,
+    "merge_allowed": true
   },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
@@ -321,8 +322,8 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT60_SUBMISSION",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT60_SUBMISSION_AND_STAGE50_BACKFLOW",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT60_AUDIT_PASS",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT60_AUDIT_PASS_AND_STAGE50_BACKFLOW",
     "UPSTREAM_PREMISE_CHECK": "PASS_WITH_STAGE19_LOWER_SUPERSESSION",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
@@ -330,27 +331,26 @@
     "required": true,
     "reason": "checkpoint60 asserts new interaction brackets, thin-but-infinite classification, arithmetic-stratum heterogeneity, and a complete double-charge map while deliberately leaving the global interaction sign unresolved",
     "auditor": "FRESH_STAGE24_AUDIT",
-    "verdict": "PENDING",
+    "verdict": "PASS",
     "record": "stages/stage24/24-60/audit.md"
   },
   "last_audit": {
-    "checkpoint": 50,
+    "checkpoint": 60,
     "verdict": "PASS",
-    "record": "stages/stage24/24-50/audit.md",
-    "audit_commit": "281efae3628efb3d7aaa51d0fb1448a21fed3939",
-    "pr": 976,
+    "record": "stages/stage24/24-60/audit.md",
+    "audit_commit": "6e41e884457569ccb52fa2d313608ab5e726b5ae",
+    "pr": 977,
     "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
     "codex_audit_required": false,
-    "codex_reason": "NONE",
-    "history_backflow_materialized": true
+    "codex_reason": "NONE"
   },
   "audit_persistence": {
     "required": true,
-    "status": "CHECKPOINT50_PASS_CHECKPOINT60_SUBMITTED",
+    "status": "COMMITTED_CHECKPOINT60_PASS",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-audit",
+  "next_expected_command": "Stage24-main-batch",
   "codeX_required": false
 }
