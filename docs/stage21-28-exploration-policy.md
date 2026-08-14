@@ -45,6 +45,42 @@ A transition stage should stop exploration when further progress requires an ide
 
 Conversely, the controller must not prolong a stage with repeated paraphrases of the same failed route. Existing `NEW_INPUT_REQUIRED` and OPEN_GATE re-entry rules still apply.
 
+## Upstream premise failure / return-to-source rule
+
+Stage16-20 and Stage16S interfaces are frozen for ordinary downstream use, but they are **not immune from correction**. A Stage21-28 comparison can expose an error, hidden population mismatch, missing multiplicity, wrong cutoff adapter, unjustified asymptotic upgrade, non-sharp bound incorrectly treated as intrinsic, or a materially stronger theorem that changes the transition analysis.
+
+If a load-bearing upstream premise is found to be mathematically false, incomplete in a way that invalidates the downstream deduction, or materially misclassified, the transition controller must not patch around it by changing only the downstream ratio. It must stop the affected transition and return to the earliest responsible source stage or theorem interface for a substantive repair.
+
+The return may include, as needed:
+
+- reopening theorem or population analysis;
+- repository/literature search for a corrected or stronger result;
+- new analytic, algebraic, local/sieve, construction, or computational sublanes;
+- a fresh upper-bound proof;
+- a fresh lower-bound/construction investigation;
+- exact constant or exponent re-evaluation;
+- corrected population/cutoff/multiplicity adapters;
+- fresh audit of the repaired upstream interface;
+- re-audit of every downstream stage whose load-bearing deduction used the changed premise.
+
+A merely stronger result does not make the older correct theorem false. In that case the old theorem remains provenance and the strongest-known metadata is superseded. But when the previous premise itself is wrong or insufficient for the claim that depended on it, **full upstream investigation is authorized and required rather than preserving chronology for its own sake**.
+
+Lower-bound work is explicitly included in this rule. If a transition or comparison shows that an existing lower bound is too weak to classify the mechanism, distinguish competing growth laws, or test sharpness, Stage21-28 may open additional bounded construction/lower-bound research. It is not required to accept the Stage16-20 lower ledger as permanently final merely because that baseline stage is closed.
+
+Required markers when this rule triggers:
+
+```text
+UPSTREAM_PREMISE_CHECK=FAIL
+AFFECTED_SOURCE_STAGE=<stage/interface>
+PREMISE_FAILURE_TYPE=FALSE|POPULATION_MISMATCH|ADAPTER_GAP|MISCLASSIFIED_STRENGTH|INSUFFICIENT_FOR_DOWNSTREAM_CLAIM
+RETURN_TO_SOURCE_REQUIRED=true
+UPSTREAM_RESEARCH_MODE=FULL_BOUNDED_REINVESTIGATION
+LOWER_BOUND_REINVESTIGATION=YES|NO
+DOWNSTREAM_REAUDIT_REQUIRED=<stages or NONE>
+```
+
+The repaired source must receive a fresh audit before the affected downstream theorem is promoted again.
+
 ## Required Stage21-28 exploration markers
 
 Before Stage21-28 checkpoint70 submission, record:
@@ -63,6 +99,8 @@ ALTERNATE_PATH_COMPARISON=PASS|OPEN_GATE|NOT_APPLICABLE
 INTERACTION_CLASSIFICATION=PROVED|PARTIAL|OPEN_GATE
 NEW_SUBLANES_OPENED=<list or NONE>
 NEW_DEDUCTIONS_RECORDED=<list or NONE>
+UPSTREAM_PREMISE_CHECK=PASS|FAIL
+RETURN_TO_SOURCE_REQUIRED=true|false
 EXPLORATION_STOP_REASON=<specific reason>
 ```
 
@@ -104,5 +142,7 @@ PROACTIVE_REFINEMENT_SEARCH=true
 PROACTIVE_INTERACTION_SEARCH=true
 BOUNDED_NEW_RESEARCH_SUBLANES_ALLOWED=true
 MAXIMIZE_RIGOROUS_DEDUCTIONS_WITHIN_STAGE_SCOPE=true
+UPSTREAM_PREMISE_FAILURE_RETURNS_TO_SOURCE=true
+LOWER_BOUND_REINVESTIGATION_ALLOWED=true
 STAGE70_PREVENTS_CLOSEOUT_EXPLOSION_NOT_STAGE_RESEARCH=true
 ```
