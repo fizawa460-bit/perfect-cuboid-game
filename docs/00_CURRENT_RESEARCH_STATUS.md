@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-20-SUBMITTED
+CURRENT_STAGE=Stage19-20-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,14 +45,14 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_20_SUBMITTED
+STAGE19_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
 STAGE19_CURRENT_RESULT=stages/stage19/19-20/result.md
-STAGE19_CURRENT_AUDIT=stages/stage19/19-10/audit.md
+STAGE19_CURRENT_AUDIT=stages/stage19/19-20/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
-STAGE19_AUDIT_PERSISTENCE=PENDING
+STAGE19_AUDIT_PERSISTENCE=COMMITTED
 STAGE19_NEXT_CHECKPOINT=30
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -265,7 +265,7 @@ Stage19 checkpoints 10 and 20 use the literal Stage15 numerator population
 \[
 \mathcal A_2(B)=\{(a,b,c):0<a<b<c,\ \gcd(a,b,c)=1,\ R\le B,\ I_{ab}+I_{ac}+I_{bc}=2,\ R\in\mathbf Z\},
 \]
-with count \(N_2(B)\). Checkpoint10 is fresh-audited; checkpoint20 is submitted for fresh audit.
+with count \(N_2(B)\). Checkpoints 10 and 20 are fresh-audited.
 
 Because Stage19 is literally Stage15 `A_2(B)`, the exact Stage15-3 matched census transfers without any population, cutoff, multiplicity, measure, or quantifier adapter. The frozen Stage19 finite baseline is
 
@@ -282,14 +282,15 @@ Canonical Stage19-20 records:
 
 - `stages/stage19/19-20/result.md`
 - `stages/stage19/19-20/counts.csv`
+- `stages/stage19/19-20/audit.md`
 - `stages/stage19/19-controller.json`
 
 ```text
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 NEXT_CHECKPOINT=30
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 CODEX_REQUIRED=false
 ```
