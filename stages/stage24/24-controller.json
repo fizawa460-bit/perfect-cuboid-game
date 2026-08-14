@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "stage": "Stage24",
+  "status": "OPEN",
+  "parent_class": "transition",
+  "transition": "Stage18 -> Stage19",
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_status": {
+    "10": "PROVED_AUDITED_PASS",
+    "20": "PENDING",
+    "30": "PENDING",
+    "40": "PENDING",
+    "50": "PENDING",
+    "60": "PENDING",
+    "70": "PENDING"
+  },
+  "state": {
+    "CURRENT_CHECKPOINT": 10,
+    "MAIN_STATUS": "AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 20,
+    "NEXT_STAGE": "",
+    "MERGE_ALLOWED": true
+  },
+  "source_stage": "Stage18",
+  "target_stage": "Stage19",
+  "source_count": "M_2(B)",
+  "target_count": "N_2(B)",
+  "common_cutoff": "R=sqrt(a^2+b^2+c^2)<=B",
+  "source_contract": "0<a<b<c; gcd(a,b,c)=1; R<=B; exactly two integral face diagonals; no space requirement",
+  "target_contract": "source contract plus R integral",
+  "literal_subset_transition": true,
+  "literal_relation": "Stage19 = Stage18 intersect {R integral}",
+  "ratio_semantics": "literal survivor ratio N2/M2",
+  "population_adapter_required": false,
+  "cutoff_adapter_required": false,
+  "multiplicity_adapter_required": false,
+  "checkpoint10": {
+    "audit": "PASS",
+    "audit_path": "stages/stage24/24-10/audit.md",
+    "result_path": "stages/stage24/24-10/result.md",
+    "discovery_ledger": "stages/stage24/24-10/discovery-ledger.md",
+    "population_contract_frozen": true,
+    "comparison_lattice_frozen": true,
+    "source_interface": "M2(B)~C_M2 B(log B)^5, C_M2>0",
+    "target_upper_interface": "N2(B)<<_epsilon B^(1/2+epsilon)",
+    "target_certified_lower_floor": "N2(B)>=3495 for B>=500000000",
+    "target_unboundedness_proved": false,
+    "target_positive_power_lower_bound_proved": false,
+    "half_power_intrinsic_status": "UNRESOLVED",
+    "true_target_exponent_identified": false,
+    "finite_data_used_as_proof": false,
+    "stage21_current_audit_status_verified": "PASS"
+  },
+  "full_exploration_policy": {
+    "EXPLORATION_PHASE": "FULL_TRANSITION_RESEARCH",
+    "FORMULA_SUBSTITUTION_ONLY": false,
+    "PROACTIVE_REFINEMENT_SEARCH": true,
+    "PROACTIVE_INTERACTION_SEARCH": true,
+    "BOUNDED_NEW_RESEARCH_SUBLANES_ALLOWED": true,
+    "MAXIMIZE_RIGOROUS_DEDUCTIONS_WITHIN_STAGE_SCOPE": true,
+    "UPSTREAM_PREMISE_FAILURE_RETURNS_TO_SOURCE": true,
+    "LOWER_BOUND_REINVESTIGATION_ALLOWED": true,
+    "DISCOVERY_LEDGER_REQUIRED_EACH_CHECKPOINT_10_TO_60": true,
+    "SEARCH_MODES": ["DIRECT_TERMS","SYNONYMS_NOTATION","STRUCTURAL_SIGNATURES","DEPENDENCY_NEIGHBORS"],
+    "SEARCH_SCOPE": ["STAGE18","STAGE19","STAGE14","STAGE15","STAGE16S","STAGE21","STAGE22","STAGE23","ARSENAL","NUM_INDEX","SUPPLEMENTS","ARCHIVE","PRS"],
+    "FINITE_ZERO_HIT_ALONE_CANNOT_CONFIRM_DEAD": true,
+    "HISTORY_SUPERSESSION_BACKFLOW_REQUIRED": true
+  },
+  "checkpoint30_policy": {
+    "FIRST_RATIO_LAW_ONLY_NOT_STAGE_COMPLETION": true,
+    "LEADING_CONSTANT_SEARCH_REQUIRED_IF_AVAILABLE": true,
+    "DIRECTIONAL_REFINEMENT_SEARCH_REQUIRED": true,
+    "INDEPENDENT_PROOF_ROUTE_SEARCH_REQUIRED": true
+  },
+  "checkpoint40_policy": {
+    "FRESH_STAGE19_UPPER_SURGEON_FIRST": true,
+    "DO_NOT_STOP_AT_INHERITED_HALF_POWER_UPPER": true,
+    "STRICT_SUB_SQRT_ATTACK_REQUIRED": true,
+    "Q06_MOVING_FAMILY_BOUNDARY_RECHECK_REQUIRED": true,
+    "LOCAL_SIEVE_GROWING_MODULUS_UNIFORMITY_RECHECK_REQUIRED": true,
+    "SOURCE_LEVEL_ATTACK_OPEN_REQUIRED": true
+  },
+  "checkpoint50_policy": {
+    "FRESH_STAGE19_LOWER_SURGEON_FIRST": true,
+    "EXPLICIT_UNBOUNDED_FAMILY_SEARCH_REQUIRED": true,
+    "POSITIVE_POWER_LOWER_BOUND_SEARCH_REQUIRED": true,
+    "STAGE18_EXPLICIT_FAMILY_SPACE_LIFT_TEST_REQUIRED": true,
+    "NEW_CANDIDATE_GENERATION_REQUIRED_BEFORE_NEGATIVE_RESULT": true,
+    "MIN_FRESH_CANDIDATES_IF_NO_BREAKTHROUGH": 4,
+    "OLD_DEAD_BRANCH_REVALIDATION_REQUIRED_IF_NEGATIVE": true,
+    "MIN_SOURCE_LEVEL_OLD_BRANCHES_IF_REVALIDATION_NEEDED": 8,
+    "FINITE_EXAMPLES_ARE_NOT_ENOUGH": true
+  },
+  "checkpoint60_policy": {
+    "INTRINSIC_BASELINE_COMPARISON_REQUIRED": ["Stage16S ambient space cost","Stage21 one-face space transition when audited"],
+    "ALTERNATE_PATH_COMPARISON_REQUIRED": ["Stage22 second-face without space","Stage23 second-face with space"],
+    "INDEPENDENCE_CORRELATION_CLASSIFICATION_REQUIRED": true,
+    "DOUBLE_CHARGE_CHECK_REQUIRED": true,
+    "SPACE_SQUARECLASS_IS_NEW_CONDITION": true,
+    "HALF_POWER_RATE_MUST_NOT_BE_ATTRIBUTED_TO_LOCAL_SIEVE_WITHOUT_PROOF": true
+  },
+  "stage70_closeout": {
+    "SELF_CONTAINED_BUNDLE_DECISION_REQUIRED": true,
+    "ARSENAL_PROMOTION_DECISION_REQUIRED": true,
+    "PROMOTION_MATERIALIZATION_REQUIRED_IF_YES": true,
+    "AGGRESSIVE_SEARCH_LEDGER_REQUIRED": true
+  },
+  "safety_state": {
+    "POPULATION_CONTRACT_CHANGED": "NO",
+    "COMPARISON_ADAPTER_REQUIRED": "NO",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_FOR_CHECKPOINT10",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_FOR_CHECKPOINT10",
+    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT10",
+    "RETURN_TO_SOURCE_REQUIRED": false
+  },
+  "discovery_audit": {
+    "required": false,
+    "reason": "checkpoint10 freezes exact contracts and candidate map only; no exhaustive absence, strongest-new-bound, or new OPEN_GATE claim is asserted"
+  },
+  "last_audit": {
+    "checkpoint": 10,
+    "verdict": "PASS",
+    "record": "stages/stage24/24-10/audit.md",
+    "audit_commit": "b3b6fe17846570cb95a0d8ffe8c0a8bfcd0cf29b",
+    "pr": 967,
+    "merge_allowed": true,
+    "new_input_required": false,
+    "human_decision_required": false,
+    "codex_audit_required": false,
+    "codex_reason": "NONE"
+  },
+  "audit_persistence": {
+    "required": true,
+    "status": "COMMITTED",
+    "unsynced_audit_state": "NONE"
+  },
+  "next_expected_command": "Stage24-main-batch",
+  "codeX_required": false
+}
