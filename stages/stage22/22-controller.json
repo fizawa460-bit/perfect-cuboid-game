@@ -7,7 +7,7 @@
   "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
-    "20": "PENDING",
+    "20": "COMPUTED_AUDITED_PASS",
     "30": "PENDING",
     "40": "PENDING",
     "50": "PENDING",
@@ -15,11 +15,11 @@
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "COMPLETE",
+    "CURRENT_CHECKPOINT": 20,
+    "MAIN_STATUS": "AUDITED_PASS",
     "AUDIT_STATUS": "PASS",
     "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 20,
+    "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": "",
     "MERGE_ALLOWED": true
   },
@@ -39,15 +39,23 @@
     "known_stronger_source_candidate": "E-1e PR #128 leading M1 asymptotic",
     "target_constant_search_required": true
   },
+  "checkpoint20": {
+    "source_counts": "stages/stage16/16-20/counts.csv",
+    "target_counts": "stages/stage18/18-20/counts.csv",
+    "num_reuse_check": "PASS",
+    "num_population_match": "EXACT",
+    "finite_data_used_as_proof": false,
+    "monotone_decrease_on_shared_thresholds": true
+  },
   "stage70_closeout": {
     "promotion_materialization_required_if_yes": true,
     "yes_classification_alone_is_completion": false
   },
   "last_audit": {
-    "checkpoint": 10,
+    "checkpoint": 20,
     "verdict": "PASS",
-    "record": "stages/stage22/22-10/audit.md",
-    "pr": 951,
+    "record": "stages/stage22/22-20/audit.md",
+    "pr": 952,
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
