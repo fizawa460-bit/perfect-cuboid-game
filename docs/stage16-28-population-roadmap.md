@@ -489,3 +489,58 @@ The mathematical audit result remains unchanged during a synchronization-only re
 ## Stage14 numerical observatory handoff
 
 Stage16–28 controllers must treat `docs/stage14-num-reuse-index.md` as the canonical finite-evidence handoff. Exact Stage14 integral-space censuses may be reused directly only after population/cutoff/mask agreement; otherwise they serve as matched intersections, negative controls, software regressions, or hypothesis diagnostics. New computation requires the numerical reuse preflight defined by the execution-controller template.
+
+## Repository-wide reuse preflight
+
+The curated arsenal and numerical reuse index are not a complete inventory of
+prior research. Audited reusable results may remain in ordinary stage files,
+supplement tracks, archives, final bundles, or historical PR descriptions and
+patches. Therefore every `StageX-main-batch` in Stage16-28 and Stage16S must run
+the bounded repository-wide preflight defined in
+`docs/stage16-28-reuse-preflight.md` before opening new theorem, construction,
+computation, or literature work.
+
+The mandatory discovery surface is:
+
+```text
+ARSENAL
+NUM_INDEX
+FROZEN_FINAL_BUNDLES_AND_CONTROLLERS
+STAGE_RESULTS_AND_PROOFS
+SUPPLEMENTS_AND_AUXILIARY_TRACKS
+ARCHIVES
+HISTORICAL_PULL_REQUESTS
+EXTERNAL_LITERATURE_AFTER_REPO_CLASSIFICATION
+```
+
+The search must be population/cutoff/multiplicity aware. A similar theorem under
+an incompatible primitive convention, symmetry convention, face mask, cutoff,
+measure, or quantifier requires an explicit adapter before reuse.
+
+Before checkpoints 30, 40, 50, 60, and 70 are submitted, the controller must also
+perform a strongest-known check. This is especially mandatory before writing
+`STRONGEST_CERTIFIED_*`, `BEST_UPPER_BOUND`, `BEST_LOWER_BOUND`,
+`NO_KNOWN_*`, `NEW_ARITHMETIC_MECHANISM`, or an `OPEN_GATE` whose justification
+includes absence of prior project input.
+
+Required main-batch markers:
+
+```text
+REPO_REUSE_PREFLIGHT=PASS
+REUSE_SEARCH_SCOPE=ARSENAL,NUM_INDEX,STAGES,SUPPLEMENTS,ARCHIVE,PRS
+REUSED_RESULTS=<IDs/paths/PRs or NONE>
+REUSE_MATCH_STATUS=EXACT|ADAPTER_PROVED|MIXED|NO_MATCH
+STRONGEST_KNOWN_CHECK=PASS
+STRONGER_PRIOR_RESULT_FOUND=true|false
+NEW_RESEARCH_JUSTIFIED=<reason or NOT_REQUIRED>
+```
+
+A later discovery of a stronger audited result does not retroactively make an
+older valid theorem false. The old result remains provenance; only the
+strongest-known metadata or genuinely strengthened claim is superseded and
+re-audited as needed. The Stage20 e8/e10 recovery is the canonical example of why
+this distinction matters.
+
+The search is bounded, not an invitation to infinite archaeology. Once the
+mandatory repository surfaces have been checked with matched queries, the
+controller records `STRONGEST_KNOWN_CHECK=PASS` and proceeds.
