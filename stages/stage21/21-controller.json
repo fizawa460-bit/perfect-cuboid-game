@@ -8,7 +8,7 @@
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
+    "30": "PROVED_AUDITED_PASS",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
@@ -16,12 +16,12 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage16",
   "target_stage": "Stage17",
@@ -52,8 +52,8 @@
     "cross_enumerator_match": "Stage17 N1 equals Stage16S face1 at every shared threshold"
   },
   "exploration_policy": "docs/stage21-28-exploration-policy.md",
-  "last_audit": {"checkpoint":20,"verdict":"PASS","record":"stages/stage21/21-20/audit.md","pr":945,"merge_allowed":true},
-  "audit_persistence": {"required":true,"status":"PENDING","unsynced_audit_state":"NONE"},
-  "next_expected_command": "Stage21-audit",
+  "last_audit": {"checkpoint":30,"verdict":"PASS","record":"stages/stage21/21-30/audit.md","pr":946,"merge_allowed":true},
+  "audit_persistence": {"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
+  "next_expected_command": "Stage21-main-batch",
   "codeX_required": false
 }
