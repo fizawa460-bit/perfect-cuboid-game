@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage18-60-SUBMITTED
+CURRENT_STAGE=Stage18-60-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -33,15 +33,15 @@ STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_NEXT_CHECKPOINT=
 STAGE17_NEXT_STAGE=Stage18
-STAGE18_STATUS=OPEN_CHECKPOINT_60_SUBMITTED
+STAGE18_STATUS=OPEN_CHECKPOINT_60_AUDIT_PASS
 STAGE18_CONTROLLER=stages/stage18/18-controller.json
 STAGE18_CURRENT_RESULT=stages/stage18/18-60/result.md
-STAGE18_CURRENT_AUDIT=stages/stage18/18-50/audit.md
+STAGE18_CURRENT_AUDIT=stages/stage18/18-60/audit.md
 STAGE18_CURRENT_DATA=stages/stage18/18-20/counts.csv
 STAGE18_CURRENT_ENUMERATOR=stages/stage18/18-20/enumerate.py
-STAGE18_AUDIT_PERSISTENCE=PENDING
+STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage18-audit
+NEXT_EXPECTED_COMMAND=Stage18-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -149,8 +149,7 @@ For the same primitive canonical `R<=B` population with at least one integral fa
 \[
 H_1(B)\asymp M_1(B)\asymp B^2\log B.
 \]
-The polynomial exponent `2` and logarithmic power `1` are intrinsic at the proved Theta resolution. No leading constant, overlap little-o theorem, directional limiting law, Stage16-to-Stage17 survival law, or perfect-cuboid conclusion is included in Stage16.
-
+The polynomial exponent `2` and logarithmic power `1` are intrinsic at the proved Theta resolution. No leading asymptotic constant for `M_1(B)` is claimed.
 
 ## Stage16S frozen closeout
 
@@ -211,7 +210,7 @@ HUMAN_DECISION_REQUIRED=false
 
 ## Current operation
 
-Stage18 checkpoints 10 through 50 are fresh-audited. Checkpoint60 is now submitted for fresh audit.
+Stage18 checkpoints 10 through 60 are fresh-audited. Checkpoint60 passed fresh audit and checkpoint70 is next.
 
 The exact positive structure of a Stage18 object is two integral Pythagorean faces sharing one edge. After naming the shared edge `s` and the two remaining edges `x,y`, one has
 \[
@@ -234,14 +233,15 @@ Canonical ordering, primitivity, `R<=B`, and physical-object counting are common
 Canonical Stage18-60 submission:
 
 - `stages/stage18/18-60/result.md`
+- `stages/stage18/18-60/audit.md`
 - `stages/stage18/18-controller.json`
 
 ```text
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage18-audit
+NEXT_EXPECTED_COMMAND=Stage18-main-batch
 CODEX_REQUIRED=false
 ```
