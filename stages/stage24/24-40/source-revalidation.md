@@ -2,7 +2,7 @@
 
 CHECKPOINT=40
 ROLE=SOURCE_LEVEL_ATTACK_REOPEN
-STATUS=COMPLETE
+STATUS=COMPLETE_WITH_REAUDIT_REPAIR_NOTE
 
 ## Sources opened
 
@@ -22,7 +22,7 @@ Revalidated facts:
 - Stage14-4ak independently enumerates the anti-invariant lattice and proves the required norm-16 parity coset empty;
 - therefore `PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTS=false`.
 
-Current Stage24 consequence: fixed `M=4` accumulation cannot explain a square-root whole-family law. The remaining problem is collective/moving.
+Current Stage24 consequence: each fixed physical rational curve has `M.C>=5` and hence fixed-curve exponent at most `2/5`; every genuinely fixed finite union is strict sub-square-root. This source does **not** provide uniform implied constants or a uniform `o(1)` over a number of curves growing with `B`, so checkpoint40 makes no quantitative growing-family summation or `B^(1/10)` proliferation claim.
 
 ### R40-02 — Stage14 conditional principal-density localization
 
@@ -48,7 +48,7 @@ Revalidated facts:
 - same-row and same-column pieces are already partitioned;
 - the residual transverse receiver is a moving Jacobi square-lift incidence;
 - fixed rational curves alone cannot exceed half-power, and after 4ak the extremal fixed degree-four curve mechanism is absent;
-- moving-family count/dispersion remains unproved.
+- moving-family count/dispersion and uniform per-family bounded-height summation remain unproved.
 
 Thus Q06 is genuinely executed but still blocked at a uniform moving-family theorem.
 
@@ -110,17 +110,23 @@ Checkpoint40 does not treat this final status as a reason to skip attacks; it is
 
 No source-level contradiction to the inherited half-power theorem was found, and no certified input upgrades it to a strict sub-square-root theorem.
 
-The strongest new structural localization is:
+The strongest safe structural localization is:
 
 1. fixed extremal rational curves are eliminated;
-2. fixed-power occupancy-deficit strata are eliminated from possible square-root saturation;
-3. the unresolved half-power mass, if real, must be collective/moving and near-maximal in the surviving charged cells.
+2. each fixed curve is at most `B^(2/5+o(1))`, and each fixed finite union is strict sub-square-root;
+3. no uniform summation over a `B`-dependent moving curve family is certified;
+4. fixed-power occupancy-deficit strata are eliminated from possible square-root saturation;
+5. the unresolved half-power mass, if real, must be collective/moving and near-maximal in the surviving charged cells.
 
 ```text
 SOURCE_LEVEL_ATTACK_OPENED=true
 SOURCE_CLUSTERS_REVALIDATED=7
 HEIGHT_ADAPTER_LOSS=0
 FIXED_M4_MECHANISM_REJECTED=true
+FIXED_CURVE_SINGLE_EXPONENT_UPPER=2/5+o(1)
+FIXED_CURVE_FINITE_UNION_SUBSQRT=true
+GROWING_CURVE_FAMILY_UNIFORM_SUMMATION_PROVED=false
+B_ONE_TENTH_PROLIFERATION_CLAIM=false
 MOVING_GENUS_ONE_FAMILY_CONFIRMED=true
 GROWING_MODULUS_UNIFORMITY_PROVED=false
 LOCAL_TENSOR_POWER_SAVING_CAPABLE=false
