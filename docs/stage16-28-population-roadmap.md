@@ -485,3 +485,7 @@ UNSYNCED_AUDIT_STATE=NONE
 ```
 
 The mathematical audit result remains unchanged during a synchronization-only repair. Any edit to a frozen claim or nonclaim instead requires a fresh audit.
+
+## Stage14 numerical observatory handoff
+
+Stage16–28 controllers must treat `docs/stage14-num-reuse-index.md` as the canonical finite-evidence handoff. Exact Stage14 integral-space censuses may be reused directly only after population/cutoff/mask agreement; otherwise they serve as matched intersections, negative controls, software regressions, or hypothesis diagnostics. New computation requires the numerical reuse preflight defined by the execution-controller template.

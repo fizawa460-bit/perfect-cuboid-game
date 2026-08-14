@@ -874,3 +874,42 @@ ARSENAL_READY_FOR_FUTURE_AGENT_SEARCH=true
 **High-value reusable weapons:** AR-003 two-face gluing; AR-009 primitive Gaussian root lines; AR-012 reverse reciprocal reconstruction; AR-016 divisor/finite-fiber adapter; AR-023 scalar/pair separation; AR-028 recharge discipline; AR-032 primitive-first Möbius; AR-033 weighted rectangles; AR-035 fixed-prime overlap sieve; AR-036 ordered-chamber transfer; AR-038 shared-hypotenuse convolution; AR-039 certified exactly-one family.
 
 **Five most dangerous traps:** AR-024 same kernel/different conditioned measure; AR-023 scalarizing `(E,m)` through divisor-many fibers; AR-027 average→every-cell promotion; AR-021/022 fixed-U or conductor-range promotion; AR-005/006 Stage14 integral-space-diagonal→Stage15 ambient promotion.
+
+### AR-040 — Stage14 exact finite census and regression oracle
+
+- **CATEGORY:** numerical validation / exact finite census
+- **ONE-LINE PURPOSE:** Reuse the independently locked integral-space exactly-two census through (B=500,000,000) as a later-stage enumerator and intersection regression oracle.
+- **INPUT SHAPE:** Primitive canonical integral-space cuboids under (d\le B), with exact face masks retained.
+- **OUTPUT:** Nested exact counts, canonical object/mask/vertex/edge SHA locks, and a finite (T=0) record through the frozen cutoff.
+- **REUSE CLASS:** `FINITE_EXACT_REUSE_AFTER_POPULATION_MATCH`
+- **FAILURE CONDITIONS:** Not the ambient Stage15/18 (M_2) population; finite (T=0) is not nonexistence.
+- **SOURCE:** `docs/stage14-num-reuse-index.md`, NUM-R01–NUM-R03.
+- **SOURCE CONFIDENCE:** `EXACT_FINITE_CENSUS`
+- **STATUS:** `ACTIVE`
+- **POSSIBLE FUTURE USE:** Stage19/20/24/26/28 regression and finite intersection checks.
+
+### AR-041 — Matched second-face survival diagnostic
+
+- **CATEGORY:** numerical causal diagnostic
+- **ONE-LINE PURPOSE:** Separate movement of the one-face source population from conditional survival of a second integral face.
+- **INPUT SHAPE:** Matched primitive/canonical Stage13-style one-face records and Stage14 exactly-two records under the same (d\le B) cutoff and orientation convention.
+- **OUTPUT:** Exact finite survival panels through (B=10^6), shell decomposition, and finite-count uncertainty calibration.
+- **REUSE CLASS:** `FINITE_DIAGNOSTIC_AFTER_EXACT_ADAPTER`
+- **FAILURE CONDITIONS:** No asymptotic survival law, independence law, or ambient-population transfer.
+- **SOURCE:** `docs/stage14-num-reuse-index.md`, NUM-R06–NUM-R07.
+- **SOURCE CONFIDENCE:** `DERIVED_EXACT_FINITE`
+- **STATUS:** `ACTIVE`
+- **POSSIBLE FUTURE USE:** Stage21/22/24/25/28 causal comparisons.
+
+### AR-042 — Local and cluster-controlled numerical panel
+
+- **CATEGORY:** exact local fact / finite diagnostic
+- **ONE-LINE PURPOSE:** Test directional and third-face hypotheses against congruence classes, repeated diagonals, and face-graph families without confusing finite volatility with arithmetic heterogeneity.
+- **INPUT SHAPE:** Frozen Stage14 exact-two object ledger with declared local state and cluster key.
+- **OUTPUT:** The exact finite-field (p=7) local statement plus finite association and cluster-control diagnostics.
+- **REUSE CLASS:** `LOCAL_EXACT_OR_FINITE_DIAGNOSTIC_ONLY`
+- **FAILURE CONDITIONS:** Finite association is not a global obstruction or limiting distribution.
+- **SOURCE:** `docs/stage14-num-reuse-index.md`, NUM-R08.
+- **SOURCE CONFIDENCE:** `MIXED_EXACT_LOCAL_AND_FINITE_DIAGNOSTIC`
+- **STATUS:** `ACTIVE`
+- **POSSIBLE FUTURE USE:** Stage22/26/27/28 local-mechanism testing.
