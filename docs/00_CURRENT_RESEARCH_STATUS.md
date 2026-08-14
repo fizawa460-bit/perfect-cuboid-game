@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-30-40-AUDIT-PASS
+CURRENT_STAGE=Stage19-50-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,17 +45,18 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINTS_30_40_AUDIT_PASS
+STAGE19_STATUS=OPEN_CHECKPOINT_50_AUDIT_PASS_OPEN_GATE_CLASSIFIED
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
-STAGE19_CURRENT_RESULT=stages/stage19/19-40/result.md
-STAGE19_CURRENT_AUDIT=stages/stage19/19-30/audit.md
-STAGE19_SECONDARY_AUDIT=stages/stage19/19-40/audit.md
+STAGE19_CURRENT_RESULT=stages/stage19/19-50/result.md
+STAGE19_CURRENT_AUDIT=stages/stage19/19-50/audit.md
+STAGE19_PRIOR_AUDIT=stages/stage19/19-40/audit.md
+STAGE19_EARLIER_AUDIT=stages/stage19/19-30/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
 STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.json
 STAGE19_NUM_REUSE_CHECK=PASS
 STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
 STAGE19_AUDIT_PERSISTENCE=COMMITTED
-STAGE19_NEXT_CHECKPOINT=50
+STAGE19_NEXT_CHECKPOINT=60
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -266,33 +267,38 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10 and 20 remain fresh-audited on the literal Stage15 numerator population `A_2(B)`. Checkpoints 30 and 40 have now passed fresh re-audit after the metadata-only evidence-level repair.
+Stage19 checkpoints 10, 20, 30 and 40 are fresh-audited. Checkpoint50 is now fresh-audited as a valid OPEN_GATE classification for the lower-bound/construction ledger.
 
-The certified mathematics is unchanged:
-
+The strongest certified upper bound remains
 \[
-\frac{N_2(B)}{M_2(B)}\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-5}\to0,
-\qquad
 N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
+The numerical-reuse preflight reuses NUM-R01, NUM-R02 and NUM-R03 / AR-040 without launching a new census. The exact B500m census certifies 3495 distinct primitive canonical Stage19 objects. By monotonicity,
+\[
+\boxed{N_2(B)\ge3495\qquad(B\ge500{,}000{,}000).}
+\]
+This is a proved finite constant lower floor only.
 
-The canonical evidence enum is now `EVIDENCE_LEVEL=PROVED` in both result files, while the exact numerical diagnostics remain separately labeled under `NUM_EVIDENCE_LEVEL`. The Stage14-num reuse remains valid: exact finite evidence reaches `B=500000000`, `N2=3495`, `(Na,Nb,Nc)=(1374,1371,750)`, and the predeclared terminal stability gate remains FAIL. Finite `T=0` remains finite evidence only.
+No audited construction currently proves `N_2(B)->infinity`, an infinite primitive Stage19 family, any positive-power lower bound, or a matching `B^{1/2-o(1)}` lower bound. Scalar multiples cannot supply such a construction because Stage19 removes nonprimitive copies by `gcd(a,b,c)=1`. The missing unbounded/matching lower bound is therefore classified as `OPEN_GATE=UNBOUNDED_OR_MATCHING_LOWER_BOUND_FOR_STAGE19`, not as a nonexistence theorem. This open route must not be re-entered without genuinely new input.
 
-The half-power upper bound remains one-sided. No matching lower bound, asymptotic `N_2(B)~C sqrt(B)`, intrinsic/sharp exponent claim, strict sub-square-root theorem, independence claim, or Stage24 interaction conclusion is promoted.
+Canonical checkpoint50 records:
 
-Canonical audits:
-
-- `stages/stage19/19-30/audit.md`
-- `stages/stage19/19-40/audit.md`
+- `stages/stage19/19-50/result.md`
+- `stages/stage19/19-50/audit.md`
+- `stages/stage19/19-controller.json`
 
 ```text
+CHECKPOINT_STATUS=OPEN_GATE_AUDITED_PASS
+OPEN_GATE_CLASSIFIED=true
 AUDIT_STATUS=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 ADVANCE_ALLOWED=true
 MERGE_ALLOWED=true
-NEXT_CHECKPOINT=50
+NEXT_CHECKPOINT=60
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
+NUM_REUSE_CHECK=PASS
+NUM_NEW_COMPUTATION_JUSTIFIED=NOT_REQUIRED
 CODEX_REQUIRED=false
 ```
