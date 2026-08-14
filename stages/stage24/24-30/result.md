@@ -55,18 +55,13 @@ This is the strongest certified quantitative Stage24 ratio law at checkpoint30. 
 
 ## 3. Leading-constant search
 
-The checkpoint30 policy requires an explicit search for a leading constant.
-
 Stage15-2b proves
 
 \[
-C_{M_2}=C_a+C_b+C_c,
-\qquad C_a,C_b,C_c>0,
+C_{M_2}=C_a+C_b+C_c,\qquad C_a,C_b,C_c>0,
 \]
 
-and identifies these as toric/Tamagawa chamber constants. But it explicitly records that neither `C_M2` nor the directional constants were evaluated in closed numerical form. The numerator theorem is also a big-O theorem with an implicit `epsilon`-dependent constant.
-
-Hence no rigorous numerical leading constant exists for the quantitative survivor upper bound at the frozen interface level.
+and identifies these as toric/Tamagawa chamber constants. But it explicitly records that neither `C_M2` nor the directional constants were evaluated in closed numerical form. The numerator theorem is also a big-O theorem with an implicit `epsilon`-dependent constant. Hence no rigorous numerical leading constant exists for the quantitative survivor upper bound at the frozen interface level.
 
 ```text
 LEADING_CONSTANT_SEARCH=COMPLETE
@@ -96,13 +91,9 @@ B^{-1/2+\varepsilon}(\log B)^{-5}
 }
 \]
 
-for all three directions.
-
-This is a rigorous directional zero-density statement. It does not provide directional survivor constants, asymptotic ratios, or a limiting order among `a,b,c`.
+for all three directions. This proves direction-by-direction zero relative density but no directional survivor constants or limiting order.
 
 ## 5. Three independent zero-density routes
-
-Checkpoint30 searched for an independent proof route rather than stopping after division.
 
 ### Route A — quantitative quotient
 
@@ -144,54 +135,53 @@ adjoin
 w^2=e^2+x^2+y^2.
 \]
 
-Over the geometric function field,
+To verify that this quadratic cover does not split geometrically, work on `e=1` and use the standard Pythagorean rational parameters
 
 \[
-e^2+x^2+y^2=u^2+y^2=(u+i y)(u-i y).
+x=2t/(1-t^2),\quad u=(1+t^2)/(1-t^2),
+\qquad
+y=2s/(1-s^2).
 \]
 
-A generic component of `u+i y=0` in the dense torus has odd valuation one on the radicand, so that radicand is not a geometric square. Hence the cover is geometrically integral and generically degree two. Its rational image is a type-II thin subset.
-
-Stage15-2b already verifies on this same toric resolution and the exact height `R` the hypotheses used for Browning-Loughran thin-set zero density. Consequently
+Then the radicand is
 
 \[
-\boxed{N_2(B)=o(B(\log B)^5)}
+\frac{u^2s^4+(4-2u^2)s^2+u^2}{(1-s^2)^2}.
 \]
 
-and again
+As a quadratic in `z=s^2`, its numerator has discriminant
 
 \[
+16(1-u^2)=-16x^2,
+\]
+
+which is nonzero generically. Its two `z`-roots are distinct and nonzero, so the numerator has four simple roots in `s` and is not a square. Therefore the radicand is not a square in the geometric function field. The cover is geometrically integral and generically degree two, hence its rational image is type-II thin.
+
+Stage15-2b already verifies on the same toric resolution and exact height `R` the hypotheses used for Browning-Loughran thin-set zero density. Consequently
+
+\[
+\boxed{N_2(B)=o(B(\log B)^5)},\qquad
 \boxed{N_2(B)/M_2(B)\to0}.
 \]
 
-This proof is independent of both the Stage14 half-power upper theorem and the Stage15/19 split-prime squareclass sieve. It yields qualitative zero density, not an effective fixed power.
-
-Full proof ledger: `space-thin-cover.md`.
+This proof is independent of both the Stage14 half-power upper theorem and the Stage15/19 split-prime squareclass sieve. It yields qualitative zero density, not an effective fixed power. Full proof ledger: `space-thin-cover.md`.
 
 ## 6. Directional zero density from the thin cover
 
-The global thin-image count is `o(B(log B)^5)`. Since each directional denominator satisfies
-
-\[
-M_{2,j}(B)\sim C_jB(\log B)^5
-\]
-
-with `C_j>0`, it follows also that
+The global thin-image count is `o(B(log B)^5)`. Since each directional denominator satisfies `M2,j(B)~C_j B(log B)^5` with `C_j>0`, it follows independently that
 
 \[
 N_{2,j}(B)/M_{2,j}(B)\to0
 \]
 
-for each `j`, independently of the quantitative Route A.
+for every direction.
 
 ## 7. Million-scale finite evidence
 
 Checkpoint20/r202 supplies exact same-population data through one million. At the endpoint,
 
 \[
-M_2(10^6)=13{,}817{,}725,
-\qquad
-N_2(10^6)=255,
+M_2(10^6)=13{,}817{,}725,\qquad N_2(10^6)=255,
 \]
 
 so
@@ -208,7 +198,7 @@ b: 101 / 5816786 = 1.7363540622e-5
 c: 56 / 3408403 = 1.6429982018e-5
 ```
 
-They are consistent with the directional zero-density theorem but do not identify directional limits. The finite effective slope of the global ratio changes from about `-0.494` on 1k->100k to about `-0.782` on 100k->1m, so checkpoint30 explicitly refuses to infer a single empirical power law.
+They are consistent with the directional zero-density theorem but do not identify directional limits. The finite effective slope of the global ratio changes from about `-0.494` on 1k->100k to about `-0.782` on 100k->1m, so checkpoint30 refuses to infer a single empirical power law.
 
 ## 8. What checkpoint30 proves and does not prove
 
