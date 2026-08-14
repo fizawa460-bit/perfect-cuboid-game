@@ -8,6 +8,7 @@ Completed stage-specific research and operational history lives with its stage.
 - `00_CURRENT_RESEARCH_STATUS.md` — current research status; Stage15 is closed at the R02 review freeze
 - `stage16-28-population-roadmap.md` — population/condition-interaction roadmap; for Stage21-28 it must be read together with the full-exploration normative addendum below
 - `stage21-28-exploration-policy.md` — **normative Stage21-28 research-phase addendum**: formula substitution is only the starting point; require proactive interface upgrades, refinement search, interaction analysis, bounded research sublanes, and maximal rigorous deductions within stage scope
+- `stage14-15-bound-attack-map.md` — AI-readable entry point to the complete Stage14/15 upper/lower attack ledger, method/signature coverage, failed-route evidence, and targeted-review queue
 - `stage16-28-execution-controller-template.md` — reusable StageX main-batch / audit / Codex controller contract for Stage16-28
 - `face-ratio-geometry-research.md` — geometric research overview
 - `cycle-exploration-safety-protocol.md` — reusable cycle safety protocol
