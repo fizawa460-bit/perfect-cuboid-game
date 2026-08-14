@@ -10,53 +10,60 @@ The accepted order remains: fresh Stage19 surgeon first; new compatible attack i
 
 ## Deep fresh surgeon repair
 
-The previous theorem-stack reread was insufficient. The repair now materializes `stages/stage23/23-50/fresh-surgeon-candidate-ledger.md`, containing four newly generated candidate mechanisms and literal Stage19 failure/survival tests.
+The fresh-surgeon depth is accepted. The materialized ledger `stages/stage23/23-50/fresh-surgeon-candidate-ledger.md` contains four new candidates generated from the Stage17 Pythagorean-chain interface and pushed through the literal Stage19 contract.
 
-The strongest fresh construction is a synchronized two-level Pythagorean chain. For coprime `u>v`,
-
-\[
-x=(u^2-v^2)^2,\ y=2uv(u^2-v^2),\ p=u^4-v^4,
-\]
-\[
-z=2uv(u^2+v^2),\ d=(u^2+v^2)^2,
-\]
-
-so `x^2+y^2=p^2` and `p^2+z^2=d^2` identically. The two added-face conditions become the explicit fresh receivers
+The synchronized two-level Pythagorean candidate reaches the fresh receivers
 
 \[
-Q^2=u^8+14u^4v^4+v^8
-\]
-
-and
-
-\[
+Q^2=u^8+14u^4v^4+v^8,
+\qquad
 W^2=2(u^4+v^4).
 \]
 
-The latter is locally impossible when `u,v` have opposite parity (`2 mod 16`). Same-parity primitive-parameter classes and the binary octic branch remain arithmetic gates; no infinite Stage19 family is certified.
+Other fresh candidates are killed by positivity, primitive homothety collapse, or local-parity/high-degree square-value gates. No candidate proves a stronger upper bound or an unbounded Stage19 family.
 
-A second fresh construction factors the desired second face by `r=q-z`. Coupled to the unit-gap Stage17 space extension, `r=1` forces `x=p` and hence `y=0`; every fixed `r>1` gives a sign contradiction after elimination. This whole subfamily is globally excluded by positivity.
+## Current certified Stage19 lower bound
 
-A third candidate, proportional synchronization of the two Pythagorean parameter pairs, collapses after primitive normalization: the extra parameter creates only homothetic copies and cannot contribute a primitive lower bound.
+The current proved lower bound is explicitly
 
-A fourth near-diagonal slice `u=v+h` of the synchronized family has physical height `d~v^4`, so an infinite survivor sequence would have supplied a constructive `B^(1/4)`-scale lower-bound candidate. Odd `h` is killed by the same mod-16 obstruction; the residual even-gap class reaches explicit quartic/octic square-value gates but no identity or infinite solution family.
+\[
+\boxed{N_2(B)\ge3495\qquad(B\ge500{,}000{,}000)}.
+\]
+
+This is obtained from the exact Stage19 census `N2(500000000)=3495` together with monotonicity of the nested height cutoff. It is a genuine certified constant floor, not an asymptotic extrapolation.
+
+It does **not** imply any of the following:
 
 ```text
-FRESH_STAGE19_SURGEON_SEARCH=COMPLETE_WITH_GENERATED_CANDIDATE_LEDGER
-FRESH_CANDIDATES_GENERATED=4
-COPIED_FROM_STAGE14_15_LEDGER=false
-STAGE19_CONTRACT_TESTED=true
-NEW_STAGE19_SPECIFIC_ATTACK_FOUND=true
-NEW_PROMOTABLE_BREAKTHROUGH=false
-FRESH_NEGATIVE_RESULT=SUPPORTED
-SURGEON_SEARCH_PROVES_EXHAUSTIVENESS=false
+STAGE19_UNBOUNDEDNESS_PROVED=false
+STAGE19_POSITIVE_POWER_LOWER_BOUND_PROVED=false
+STAGE19_MATCHING_HALF_POWER_LOWER_BOUND_PROVED=false
+```
+
+Thus the current lower-bound hierarchy is: certified constant floor 3495; unboundedness open; every positive-power lower bound open; matching half-power lower bound open.
+
+## F50-S4 correction
+
+For the near-diagonal slice `u=v+h`,
+
+\[
+d=((v+h)^2+v^2)^2\asymp v^4.
+\]
+
+The previous wording "an infinite survivor sequence would yield a `B^(1/4)` lower bound" was too strong and is withdrawn. Mere infinitude gives no quantitative counting rate because the surviving parameters could be arbitrarily sparse.
+
+The correct statement is conditional: if the surviving parameters have a quantitatively dense count of order `V` up to `v<=V`, then `d\asymp v^4` would place that construction on a natural `B^(1/4)` counting scale.
+
+```text
+F50_S4_INFINITE_SEQUENCE_IMPLIES_B_QUARTER=false
+F50_S4_DENSE_SURVIVOR_COUNT_COULD_YIELD_B_QUARTER_SCALE=true
 ```
 
 ## Accepted Q04/Q11 outcome retained
 
-Q04 remains accepted as source-compatible but with no independent stronger global count beyond the Q06/t64 moving transverse Jacobi/Kummer boundary. Q11 remains accepted: fixed finitely many primes give only constant-density loss, while exponent/log improvement needs a growing prime set with uniformity not presently proved. Neither was re-attacked in this repair.
+Q04 remains accepted as source-compatible but without an independent stronger global count beyond the Q06/t64 moving transverse Jacobi/Kummer boundary. Q11 remains accepted: finitely many fixed primes give only constant-density loss, while exponent/log improvement requires a growing prime range with uniformity not presently proved. Neither is re-attacked here.
 
-## Current boundary
+## Current Stage23 boundary
 
 The frozen theorem remains
 
@@ -64,18 +71,22 @@ The frozen theorem remains
 N_2(B)/N_1(B)\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-3}\to0.
 \]
 
-No fresh candidate proves a stronger upper bound, target unboundedness, or a positive-power Stage19 lower bound. The surgeon repair is a concrete negative search, not an exhaustiveness theorem.
+No checkpoint50 repair changes the true-exponent gate or produces target unboundedness.
 
 ```text
+FRESH_STAGE19_SURGEON_DEPTH_ACCEPTED=true
+FRESH_CANDIDATE_GENERATION_ACCEPTED=true
+STAGE19_CERTIFIED_CONSTANT_LOWER_FLOOR=N2(B)>=3495_FOR_B>=500000000
+STAGE19_UNBOUNDEDNESS_PROVED=false
+STAGE19_POSITIVE_POWER_LOWER_BOUND_PROVED=false
+STAGE19_MATCHING_HALF_POWER_LOWER_BOUND_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
-TARGET_UNBOUNDEDNESS_PROVED=false
-POSITIVE_POWER_TARGET_LOWER_BOUND_FOUND=false
-MATCHING_HALF_POWER_LOWER_BOUND_FOUND=false
 HALF_POWER_INTRINSIC_STATUS=UNRESOLVED
 Q04_Q11_REOPENED=false
-FINITE_DATA_USED_AS_PROOF=false
+FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 NEXT_CHECKPOINT_AFTER_PASS=60
 AUDIT_REQUIRED=true
 ADVANCE_ALLOWED=false
 MERGE_ALLOWED=false
+CODEX_REQUIRED=false
 ```
