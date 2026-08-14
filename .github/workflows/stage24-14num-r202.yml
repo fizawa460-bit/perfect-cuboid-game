@@ -1,0 +1,69 @@
+name: 24-14num-r202 exact matched scaling to 1m
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage24/24-14num-r202/**'
+      - 'stages/stage15/scripts/paired_enumerator.py'
+      - '.github/workflows/stage24-14num-r202.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-200k:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Legacy overlap, shard boundary, and multiplicity validation
+        run: >-
+          python stages/stage24/24-14num-r202/validate.py
+          --bound 200000 --shards 2
+          --output stages/stage24/24-14num-r202/output/validation-200k.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage24-r202-validation-200k
+          path: stages/stage24/24-14num-r202/output/validation-200k.json
+
+  census-500k:
+    needs: validate-200k
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact 500k sharded census
+        run: >-
+          python stages/stage24/24-14num-r202/scaled_enumerator.py
+          --bound 500000 --shards 2
+          --output stages/stage24/24-14num-r202/output/census-500k.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage24-r202-census-500k
+          path: stages/stage24/24-14num-r202/output/census-500k.json
+
+  census-1m:
+    needs: census-500k
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact 1m sharded census and hard stop
+        run: >-
+          python stages/stage24/24-14num-r202/scaled_enumerator.py
+          --bound 1000000 --shards 2
+          --output stages/stage24/24-14num-r202/output/census-1m.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage24-r202-census-1m
+          path: stages/stage24/24-14num-r202/output/census-1m.json
