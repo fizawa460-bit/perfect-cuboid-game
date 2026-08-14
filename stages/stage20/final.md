@@ -1,12 +1,15 @@
 # Stage20 final — primitive canonical Euler-cuboid population
 
 BUNDLE_ID=STAGE20-FINAL-SELF-CONTAINED-20260814-R01
-STATUS=REPAIRED_RESUBMITTED_FOR_FRESH_AUDIT
+STATUS=AUDITED_PASS_CLOSED
 STANDARD=SELF_CONTAINED_REVIEW_STANDARD_V1
 PREVIOUS_AUDIT_VERDICT=FAIL_REPAIR_REQUIRED
 PREVIOUS_AUDIT_PERSISTENCE_STATUS=COMMITTED
-CURRENT_AUDIT_STATUS=PENDING_REAUDIT
-FRESH_AUDIT_REQUIRED=true
+CURRENT_AUDIT_STATUS=PASS
+AUDIT_VERDICT=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+FRESH_AUDIT_REQUIRED=false
+FINAL_AUDIT=stages/stage20/20-70/audit.md
 
 ## 1. Executive theorem and population contract
 
@@ -499,7 +502,7 @@ Checkpoint30's growth-law OPEN_GATE therefore remains valid but narrower than at
 
 ## 8. Downstream reusable interfaces
 
-Stage20 exports three candidate reusable interfaces in `docs/stage20-arsenal.md`:
+Stage20 exports three audited reusable interfaces in `docs/stage20-arsenal.md`:
 
 ```text
 S20-W01_EXPLICIT_EULER_THIN_COVER_UPPER
@@ -507,7 +510,7 @@ S20-W02_PRIMITIVE_SAUNDERSON_LOWER
 S20-W03_EULER_LOCAL_BLOCKER_LAW
 ```
 
-Expected receivers are Stages26, 27, and 28. Their Stage20 promotion remains pending the fresh checkpoint70 re-audit.
+Expected receivers are Stages26, 27, and 28. Their Stage20 promotion is certified by the checkpoint70 fresh audit.
 
 Stage26 owns the actual `Stage18 -> Stage20` conditional ratio and independence classification. Stage20 does not pre-claim that transition result.
 
@@ -566,18 +569,20 @@ Stage20 does **not** prove or assume:
 - independence of the third-face condition from prior face conditions;
 - a Stage18-to-Stage20 transition law.
 
-## 13. Repair record and fresh-audit gate
+## 13. Repair record and certified closeout
 
 The first Stage20-70 audit found the mathematical synthesis substantively sound but failed the self-contained bundle on two presentation/proof-boundary defects:
 
 1. the current-Stage Stage20-50a load-bearing construction had been summarized instead of embedded proof-completely;
 2. the frozen Stage14-e8/e10/e11 load-bearing imports lacked the exact upstream-interface contract required by V1.
 
-This repaired bundle now embeds the complete construction proof in Section 4 and prints the three exact frozen interfaces in Section 3. No theorem, population, cutoff, bound, OPEN_GATE, Stage26 deferral, or nonclaim was changed by the repair.
+The repaired bundle embeds the complete construction proof in Section 4 and prints the three exact frozen interfaces in Section 3. The fresh re-audit passes. No theorem, population, cutoff, bound, OPEN_GATE, Stage26 deferral, or nonclaim was changed by the repair.
 
 ```text
 SELF_CONTAINED_BUNDLE_REQUIRED=YES
 SELF_CONTAINED_REVIEW_REPAIR_COMPLETED=true
+SELF_CONTAINED_REVIEW_GATE=PASS
+SELF_CONTAINED_BUNDLE_AUDIT=PASS
 INTERNAL_LOAD_BEARING_PROOFS_EMBEDDED=true
 UPSTREAM_INTERFACES_EXACT=true
 EXTERNAL_THEOREM_WORKING_FORMS_STATED_VIA_FROZEN_UPSTREAM_INTERFACES=true
@@ -587,15 +592,18 @@ MEASURE_AND_EXCEPTIONAL_SETS_AUDITED=true
 QUANTIFIERS_AND_UNIFORMITY_AUDITED=true
 FINITE_DATA_PROMOTED_TO_THEOREM=false
 REMOTE_REQUIRED_ASSETS=false
-FRESH_HOSTILE_REVIEW=PENDING
+FRESH_HOSTILE_REVIEW=PASS
 ARSENAL_PROMOTION_REQUIRED=YES
+ARSENAL_PROMOTION_STATUS=AUDITED_PASS
 SYNTHESIS_STOP_RULE_SATISFIED=YES
 PREVIOUS_AUDIT_VERDICT=FAIL
 PREVIOUS_AUDIT_RECORD=stages/stage20/20-70/audit.md
-CURRENT_AUDIT_STATUS=PENDING_REAUDIT
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
-NEXT_CHECKPOINT=70
-NEXT_STAGE=
-NEXT_EXPECTED_COMMAND=Stage20-audit
+CURRENT_AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+UNSYNCED_AUDIT_STATE=NONE
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
+NEXT_CHECKPOINT=
+NEXT_STAGE=Stage21
+NEXT_EXPECTED_COMMAND=Stage21-main-batch
 ```
