@@ -123,7 +123,7 @@ No extra saving is double charged and the finite census is not used as proof of 
 - no asymptotic conclusion from finite regression locks.
 
 ```text
-EVIDENCE_LEVEL=PROVED_WITH_EXACT_FINITE_DIAGNOSTIC
+EVIDENCE_LEVEL=PROVED
 UPPER_BOUND=N_2(B) <<_epsilon B^(1/2+epsilon)
 EQUIVALENT_FORM=N_2(B) << B^(1/2+o(1))
 BOUND_SOURCE=Stage14 whole-family theorem
