@@ -8,12 +8,12 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "FAIL_REPAIR_REQUIRED"
+    "70": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT"
   },
   "current_checkpoint": 70,
-  "main_status": "REPAIR_REQUIRED",
-  "audit_status": "FAIL",
-  "audit_persistence_status": "COMMITTED",
+  "main_status": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
+  "audit_status": "PENDING_REAUDIT",
+  "audit_persistence_status": "PENDING",
   "unsynced_audit_state": "NONE",
   "advance_allowed": false,
   "next_checkpoint": 70,
@@ -39,8 +39,9 @@
   "causal_model": "two-face toric host -> degree-two K3 cover; exact local blockers explain rarity; Saunderson family certifies survival",
   "double_charge_check": "PASS",
   "self_contained_bundle_required": true,
-  "self_contained_review_gate": "FAIL",
-  "repair_scope": "embed Stage20-50a load-bearing proof in final.md and print exact frozen upstream interface contracts for Stage14-e8/e10/e11",
+  "self_contained_review_gate": "REPAIRED_PENDING_FRESH_AUDIT",
+  "repair_scope": "completed: embedded Stage20-50a load-bearing proof in final.md and printed exact frozen upstream interface contracts for Stage14-e8/e10/e11",
+  "repair_completed": true,
   "new_theorem_required": false,
   "new_computation_required": false,
   "arsenal_promotion_required": true,
@@ -49,12 +50,13 @@
   "open_gates": ["STAGE20_POPULATION_GROWTH_LAW_UNRESOLVED", "TRUE_EXPONENT_UNRESOLVED", "MATCHING_LOWER_BOUND_UNRESOLVED", "ASYMPTOTIC_CONSTANT_UNRESOLVED", "SQRT_B_SIGNAL_THEOREM_STATUS_UNRESOLVED"],
   "stage18_to_stage20_ratio": "DEFER_STAGE26",
   "independent_of_prior_conditions": "DEFER_STAGE26",
-  "last_audit": {
+  "previous_audit": {
     "checkpoint": 70,
-    "verdict": "FAIL",
+    "verdict": "FAIL_REPAIR_REQUIRED",
     "record": "stages/stage20/20-70/audit.md",
     "pr": 940,
+    "persistence": "COMMITTED",
     "merge_allowed": false
   },
-  "next_expected_command": "Stage20-main-batch"
+  "next_expected_command": "Stage20-audit"
 }
