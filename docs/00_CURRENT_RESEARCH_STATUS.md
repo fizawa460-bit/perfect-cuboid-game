@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-50-AUDIT-PASS
+CURRENT_STAGE=Stage19-60-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,18 +45,18 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_50_AUDIT_PASS_OPEN_GATE_CLASSIFIED
+STAGE19_STATUS=OPEN_CHECKPOINT_60_AUDIT_PASS
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
-STAGE19_CURRENT_RESULT=stages/stage19/19-50/result.md
-STAGE19_CURRENT_AUDIT=stages/stage19/19-50/audit.md
-STAGE19_PRIOR_AUDIT=stages/stage19/19-40/audit.md
-STAGE19_EARLIER_AUDIT=stages/stage19/19-30/audit.md
+STAGE19_CURRENT_RESULT=stages/stage19/19-60/result.md
+STAGE19_CURRENT_AUDIT=stages/stage19/19-60/audit.md
+STAGE19_PRIOR_AUDIT=stages/stage19/19-50/audit.md
+STAGE19_EARLIER_AUDIT=stages/stage19/19-40/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
 STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.json
 STAGE19_NUM_REUSE_CHECK=PASS
 STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
 STAGE19_AUDIT_PERSISTENCE=COMMITTED
-STAGE19_NEXT_CHECKPOINT=60
+STAGE19_NEXT_CHECKPOINT=70
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -267,37 +267,57 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10, 20, 30 and 40 are fresh-audited. Checkpoint50 is now fresh-audited as a valid OPEN_GATE classification for the lower-bound/construction ledger.
+Stage19 checkpoints 10 through 60 are fresh-audited. Checkpoint50 remains frozen as `OPEN_GATE_AUDITED_PASS`; its lower-bound route was not reopened at checkpoint60.
 
-The strongest certified upper bound remains
+Checkpoint60 identifies the exact new Stage19 arithmetic restriction on the matched Stage18 exactly-two population. In the frozen shared-edge toric coordinates,
 \[
-N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
+A=m^2r^2+n^2s^2=N(mr+i\,ns),
+\qquad
+B=m^2s^2+n^2r^2=N(ms+i\,nr),
 \]
-The numerical-reuse preflight reuses NUM-R01, NUM-R02 and NUM-R03 / AR-040 without launching a new census. The exact B500m census certifies 3495 distinct primitive canonical Stage19 objects. By monotonicity,
+and Stage19 space integrality is exactly
 \[
-\boxed{N_2(B)\ge3495\qquad(B\ge500{,}000{,}000).}
+\boxed{R\in\mathbf Z\iff \operatorname{sf}(A)=\operatorname{sf}(B).}
 \]
-This is a proved finite constant lower floor only.
+Thus the new predicate is a paired Gaussian-norm squareclass coincidence, not a generic independent square test.
 
-No audited construction currently proves `N_2(B)->infinity`, an infinite primitive Stage19 family, any positive-power lower bound, or a matching `B^{1/2-o(1)}` lower bound. Scalar multiples cannot supply such a construction because Stage19 removes nonprimitive copies by `gcd(a,b,c)=1`. The missing unbounded/matching lower bound is therefore classified as `OPEN_GATE=UNBOUNDED_OR_MATCHING_LOWER_BOUND_FOR_STAGE19`, not as a nonexistence theorem. This open route must not be re-entered without genuinely new input.
+The same-measure Stage15 local sieve supplies the mechanism-level zero-density theorem. For every good split prime `p=1 mod 4`, the valuation-parity acceptance density satisfies
+\[
+1-\rho_p=\frac4p+O(p^{-2}),
+\]
+and the fixed-finite-prime refined asymptotics imply
+\[
+\frac{N_2(B)}{M_2(B)}\to0.
+\]
 
-Canonical checkpoint50 records:
+The stronger fixed-power ceiling
+\[
+N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}
+\]
+remains a separate Stage14 global upper-bound theorem. The split-prime squareclass sieve is not credited with paying for the half-power, and no savings are multiplied together.
 
-- `stages/stage19/19-50/result.md`
-- `stages/stage19/19-50/audit.md`
+NUM-R01/R02/R03 and AR-040 remain the finite regression oracle. They confirm `N_2(500000000)=3495`, while the predeclared `N_2/sqrt(B)` stability gate remains FAIL. These finite diagnostics do not identify the true exponent and are not used as theorem proof.
+
+Stage24 still owns the independence/correlation/interaction classification for imposing the space diagonal after two faces are already integral. Checkpoint60 makes no independence claim.
+
+Canonical checkpoint60 records:
+
+- `stages/stage19/19-60/result.md`
+- `stages/stage19/19-60/audit.md`
 - `stages/stage19/19-controller.json`
 
 ```text
-CHECKPOINT_STATUS=OPEN_GATE_AUDITED_PASS
-OPEN_GATE_CLASSIFIED=true
+EVIDENCE_LEVEL=PROVED
 AUDIT_STATUS=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 ADVANCE_ALLOWED=true
 MERGE_ALLOWED=true
-NEXT_CHECKPOINT=60
+NEXT_CHECKPOINT=70
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
+DOUBLE_CHARGE_CHECK=PASS
+OPEN_GATE_REENTRY_JUSTIFIED=NO
 NUM_REUSE_CHECK=PASS
 NUM_NEW_COMPUTATION_JUSTIFIED=NOT_REQUIRED
 CODEX_REQUIRED=false
