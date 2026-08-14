@@ -4,24 +4,24 @@
   "status": "OPEN",
   "parent_class": "transition",
   "transition": "Stage18 -> Stage19",
-  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
-    "40": "PENDING",
+    "40": "SUBMITTED_FOR_FRESH_AUDIT",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
+    "CURRENT_CHECKPOINT": 40,
+    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -123,9 +123,43 @@
     "advance_allowed": true,
     "merge_allowed": true
   },
+  "checkpoint40": {
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "result_path": "stages/stage24/24-40/result.md",
+    "discovery_ledger": "stages/stage24/24-40/discovery-ledger.md",
+    "fresh_upper_surgeon": "stages/stage24/24-40/fresh-upper-surgeon.md",
+    "source_revalidation": "stages/stage24/24-40/source-revalidation.md",
+    "fresh_upper_surgeon_first": true,
+    "fresh_upper_candidates": 6,
+    "strict_sub_sqrt_attack_executed": true,
+    "q06_moving_family_recheck_complete": true,
+    "local_sieve_growing_modulus_recheck_complete": true,
+    "source_level_attack_opened": true,
+    "source_clusters_revalidated": 7,
+    "fixed_m4_sqrt_mechanism_eliminated": true,
+    "fixed_curve_minimum_degree_after_m4_void": 5,
+    "fixed_curve_single_exponent_upper": "2/5+o(1)",
+    "fixed_curve_finite_union_subsqrt": true,
+    "sqrt_saturation_minimum_degree5_curve_proliferation": "B^(1/10-o(1)) necessary if such strata account for saturation",
+    "principal_density_deficit_localization": true,
+    "sqrt_saturation_requires_near_maximal_occupancy": true,
+    "moving_family_control_proved": false,
+    "growing_modulus_uniformity_proved": false,
+    "same_local_tensor_fixed_power_capable": false,
+    "character_kappa_best_certified": 1,
+    "character_kappa_lt_1_proved": false,
+    "strict_sub_sqrt_whole_family_proved": false,
+    "current_whole_family_upper": "N2(B)<<_epsilon B^(1/2+epsilon)",
+    "half_power_intrinsic_proved": false,
+    "true_target_exponent_identified": false,
+    "finite_data_used_as_proof": false,
+    "audit_required": true,
+    "advance_allowed": false,
+    "merge_allowed": false
+  },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
-    "NUM_ASSETS_REUSED": ["NUM-R01","NUM-R02","NUM-R03","24-14num-r201","24-14num-r202"],
+    "NUM_ASSETS_REUSED": ["NUM-R01", "NUM-R02", "NUM-R03", "24-14num-r201", "24-14num-r202"],
     "NUM_POPULATION_MATCH": "EXACT",
     "NUM_EVIDENCE_LEVEL": "EXACT_FINITE_MATCHED_CENSUS_WITH_SOURCE_LEVEL_REVALIDATION",
     "NUM_NEW_COMPUTATION_JUSTIFIED": "NOT_REQUIRED_AFTER_MERGED_R202"
@@ -140,8 +174,8 @@
     "UPSTREAM_PREMISE_FAILURE_RETURNS_TO_SOURCE": true,
     "LOWER_BOUND_REINVESTIGATION_ALLOWED": true,
     "DISCOVERY_LEDGER_REQUIRED_EACH_CHECKPOINT_10_TO_60": true,
-    "SEARCH_MODES": ["DIRECT_TERMS","SYNONYMS_NOTATION","STRUCTURAL_SIGNATURES","DEPENDENCY_NEIGHBORS"],
-    "SEARCH_SCOPE": ["STAGE18","STAGE19","STAGE14","STAGE15","STAGE16S","STAGE21","STAGE22","STAGE23","ARSENAL","NUM_INDEX","SUPPLEMENTS","ARCHIVE","PRS"],
+    "SEARCH_MODES": ["DIRECT_TERMS", "SYNONYMS_NOTATION", "STRUCTURAL_SIGNATURES", "DEPENDENCY_NEIGHBORS"],
+    "SEARCH_SCOPE": ["STAGE18", "STAGE19", "STAGE14", "STAGE15", "STAGE16S", "STAGE21", "STAGE22", "STAGE23", "ARSENAL", "NUM_INDEX", "SUPPLEMENTS", "ARCHIVE", "PRS"],
     "FINITE_ZERO_HIT_ALONE_CANNOT_CONFIRM_DEAD": true,
     "HISTORY_SUPERSESSION_BACKFLOW_REQUIRED": true
   },
@@ -171,8 +205,8 @@
     "FINITE_EXAMPLES_ARE_NOT_ENOUGH": true
   },
   "checkpoint60_policy": {
-    "INTRINSIC_BASELINE_COMPARISON_REQUIRED": ["Stage16S ambient space cost","Stage21 one-face space transition when audited"],
-    "ALTERNATE_PATH_COMPARISON_REQUIRED": ["Stage22 second-face without space","Stage23 second-face with space"],
+    "INTRINSIC_BASELINE_COMPARISON_REQUIRED": ["Stage16S ambient space cost", "Stage21 one-face space transition when audited"],
+    "ALTERNATE_PATH_COMPARISON_REQUIRED": ["Stage22 second-face without space", "Stage23 second-face with space"],
     "INDEPENDENCE_CORRELATION_CLASSIFICATION_REQUIRED": true,
     "DOUBLE_CHARGE_CHECK_REQUIRED": true,
     "SPACE_SQUARECLASS_IS_NEW_CONDITION": true,
@@ -187,17 +221,17 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT30_AUDIT_PASS",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT30_AUDIT_PASS",
-    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT30",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT40_SUBMISSION",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT40_SUBMISSION",
+    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT40_SUBMISSION",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": true,
-    "reason": "checkpoint30 asserts a new independent type-II thin-cover zero-density route and directional theorem refinement; fresh audit verified geometric non-splitting, theorem transfer, and strongest-known quantitative scope",
-    "auditor": "FRESH_STAGE24_AUDIT",
-    "verdict": "PASS",
-    "record": "stages/stage24/24-30/audit.md"
+    "reason": "checkpoint40 asserts new fixed-curve and saturation localizations while also claiming no whole-family strict sub-square-root breakthrough; fresh audit must check source completeness, M-degree inference, measure firewalls, and the strongest-bound boundary",
+    "auditor": "PENDING_FRESH_STAGE24_AUDIT",
+    "verdict": "PENDING",
+    "record": ""
   },
   "last_audit": {
     "checkpoint": 30,
@@ -213,9 +247,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED_CHECKPOINT30_PASS",
+    "status": "PENDING_CHECKPOINT40_FRESH_AUDIT",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-main-batch",
+  "next_expected_command": "Stage24-audit",
   "codeX_required": false
 }
