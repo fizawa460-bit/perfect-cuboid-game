@@ -81,7 +81,7 @@ Together with the internal lower theorem,
 
 The true exponent, matching lower bound, asymptotic formula/constant and square-root finite signal remain OPEN_GATES. The local blocker law, K3/thin-cover theorem, divisor envelope and explicit family are not double charged. `Stage18->Stage20` conditional thinning and independence/correlation remain owned by Stage26. No integral-space-diagonal condition or perfect-cuboid conclusion is introduced.
 
-The repository-wide reuse preflight and strongest-known check are retained as PASS. No new theorem or computation was required by the repair. Stage70 bounded synthesis stop rule is satisfied.
+The repository-wide reuse preflight and strongest-known check are retained as PASS. No new theorem or computation was required by the repair. Stage70 bounded synthesis stop rule is satisfied. Arsenal promotion is audited PASS.
 
 ```text
 CHECKPOINT_STATUS=PROVED_AUDITED_PASS
@@ -106,14 +106,15 @@ PERFECT_CUBOID_CONCLUSION=NONE
 PREVIOUS_AUDIT_VERDICT=FAIL_REPAIR_REQUIRED
 PREVIOUS_AUDIT_PERSISTENCE_STATUS=COMMITTED
 CURRENT_AUDIT_VERDICT=PASS
-AUDIT_PERSISTENCE_STATUS=PENDING_STATUS_SYNC
-UNSYNCED_AUDIT_STATE=final.md,manifest-r01.md,20-controller.json,docs/00_CURRENT_RESEARCH_STATUS.md,20-70/result.md,docs/stage20-arsenal.md
-ADVANCE_ALLOWED=false
+AUDIT_VERDICT=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+UNSYNCED_AUDIT_STATE=NONE
+ADVANCE_ALLOWED=true
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
 NEXT_CHECKPOINT=
 NEXT_STAGE=Stage21
 CODEX_AUDIT_REQUIRED=false
 CODEX_REASON=NONE
-MERGE_ALLOWED=false
+MERGE_ALLOWED=true
 ```
