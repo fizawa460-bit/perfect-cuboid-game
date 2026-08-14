@@ -1,0 +1,1 @@
+This note is Stage21-discovered operational guidance only. The canonical execution template remains unchanged in PR #950; a separate policy PR should later incorporate the materialization gate after Stage21 closes.
