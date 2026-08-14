@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-40-SUBMITTED-NUM-REUSE
+CURRENT_STAGE=Stage19-30-40-AUDIT-FAIL
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,17 +45,18 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINTS_30_40_SUBMITTED_NUM_REUSE
+STAGE19_STATUS=OPEN_CHECKPOINTS_30_40_AUDIT_FAIL_REPAIR_REQUIRED
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
 STAGE19_CURRENT_RESULT=stages/stage19/19-40/result.md
-STAGE19_CURRENT_AUDIT=stages/stage19/19-20/audit.md
+STAGE19_CURRENT_AUDIT=stages/stage19/19-30/audit.md
+STAGE19_SECONDARY_AUDIT=stages/stage19/19-40/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
 STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.json
 STAGE19_NUM_REUSE_CHECK=PASS
 STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
-STAGE19_AUDIT_PERSISTENCE=PENDING
-STAGE19_NEXT_CHECKPOINT=50
-NEXT_EXPECTED_COMMAND=Stage19-audit
+STAGE19_AUDIT_PERSISTENCE=COMMITTED
+STAGE19_NEXT_CHECKPOINT=30
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -265,9 +266,23 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10 and 20 remain fresh-audited on the literal Stage15 numerator population `A_2(B)`. The checkpoint20 file retains its historical exact census through `B=100000`; it is not rewritten retroactively.
+Stage19 checkpoints 10 and 20 remain fresh-audited on the literal Stage15 numerator population `A_2(B)`.
 
-Checkpoints 30 and 40 are resubmitted after the Stage14 numerical observatory became an active reuse interface. The theorem statements are unchanged:
+Checkpoints 30 and 40 were mathematically valid but failed fresh audit on one machine-readable contract field. Both submitted result files use
+
+```text
+EVIDENCE_LEVEL=PROVED_WITH_EXACT_FINITE_DIAGNOSTIC
+```
+
+while the canonical roadmap enum is exactly
+
+```text
+EVIDENCE_LEVEL=PROVED|LITERATURE|COMPUTED|HEURISTIC
+```
+
+The bounded repair is metadata-only: set `EVIDENCE_LEVEL=PROVED` in both `stages/stage19/19-30/result.md` and `stages/stage19/19-40/result.md`; retain the already separate `NUM_EVIDENCE_LEVEL=EXACT_FINITE_CENSUS + EXACT_REGRESSION_ORACLE + PROVED_ALGORITHM_EXACT_REGRESSION` for numerical evidence. No theorem, bound, adapter, finite count, Stage24 boundary, or nonclaim changes.
+
+The audited mathematics remains:
 
 \[
 \frac{N_2(B)}{M_2(B)}\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-5}\to0,
@@ -275,43 +290,21 @@ Checkpoints 30 and 40 are resubmitted after the Stage14 numerical observatory be
 N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
 
-The new numerical preflight is
+The numerical reuse remains valid: exact Stage14-num evidence reaches `B=500000000`, `N2=3495`, `(Na,Nb,Nc)=(1374,1371,750)`, while the predeclared terminal stability gate remains FAIL. Finite `T=0` is finite evidence only.
+
+Canonical audits:
+
+- `stages/stage19/19-30/audit.md`
+- `stages/stage19/19-40/audit.md`
 
 ```text
-NUM_REUSE_CHECK=PASS
-NUM_ASSETS_REUSED=NUM-R01,NUM-R02,NUM-R03,AR-040
-NUM_POPULATION_MATCH=ADAPTER_PROVED
-NUM_POPULATION_ADAPTER=select exact-two mask from retained Stage14 at-least-two ledger; d=R
-NUM_EVIDENCE_LEVEL=EXACT_FINITE_CENSUS + EXACT_REGRESSION_ORACLE + PROVED_ALGORITHM_EXACT_REGRESSION
-NUM_NEW_COMPUTATION_JUSTIFIED=NOT_REQUIRED
-```
-
-The exact later-stage diagnostic reaches
-
-```text
-B=250000000  N2=2657
-B=300000000  N2=2866
-B=400000000  N2=3194
-B=500000000  N2=3495
-```
-
-so the old sample-size gate `N_2>=200` is now PASS for current validation. At `B=500m`, `(Na,Nb,Nc)=(1374,1371,750)` and finite `T=0` is retained only as finite evidence.
-
-The square-root-normalized diagnostic `R0=N_2/sqrt(B)` moves from `0.1680434349` at 250m to `0.1563011516` at 500m. The predeclared terminal stability gate still FAILS because the 300m→400m and 400m→500m transitions exceed the 2% all-primary-metrics rule. Thus the new weapon removes the small-sample objection but does not certify `1/2` as sharp or intrinsic.
-
-Canonical submissions:
-
-- `stages/stage19/19-30/result.md`
-- `stages/stage19/19-40/result.md`
-- `stages/stage19/19-controller.json`
-- `docs/stage14-num-reuse-index.md`
-
-```text
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
+AUDIT_STATUS=FAIL
+AUDIT_PERSISTENCE_STATUS=COMMITTED
 ADVANCE_ALLOWED=false
 MERGE_ALLOWED=false
-NEXT_CHECKPOINT=50
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_CHECKPOINT=30
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
 CODEX_REQUIRED=false
 ```
