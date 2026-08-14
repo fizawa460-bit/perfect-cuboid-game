@@ -2,7 +2,7 @@
 
 ```text
 BUNDLE_ID=STAGE19-FINAL-SELF-CONTAINED-20260814-R01
-STATUS=CANDIDATE_PENDING_FRESH_STAGE19_AUDIT
+STATUS=FROZEN_AUDIT_PASS
 STANDARD=SELF_CONTAINED_REVIEW_STANDARD_V1
 STAGE70_POLICY=docs/stage16-28-stage70-policy.md
 STAGE=Stage19
@@ -17,7 +17,7 @@ STAGE=Stage19
 40=PROVED_AUDITED_PASS
 50=OPEN_GATE_AUDITED_PASS
 60=PROVED_AUDITED_PASS
-70=PROVED_CANDIDATE_PENDING_FRESH_AUDIT
+70=PROVED_AUDITED_PASS
 ```
 
 ## Canonical Stage19 artifacts
@@ -36,6 +36,7 @@ STAGE=Stage19
 - `stages/stage19/19-60/result.md`
 - `stages/stage19/19-60/audit.md`
 - `stages/stage19/19-70/result.md`
+- `stages/stage19/19-70/audit.md`
 - `stages/stage19/final.md`
 - `stages/stage19/19-controller.json`
 
@@ -88,10 +89,12 @@ ARSENAL_REASON=reusable mechanisms already belong to Stage14/15 and numerical or
 NUM_REUSE_CHECK=PASS
 NUM_ASSETS_REUSED=NUM-R01,NUM-R02,NUM-R03,AR-040
 NUM_NEW_COMPUTATION_JUSTIFIED=NOT_REQUIRED
-FRESH_AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
+FRESH_AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+AUDIT_RECORD=stages/stage19/19-70/audit.md
+MERGE_ALLOWED=true
 NEXT_STAGE_AFTER_PASS=Stage20
 CODEX_REQUIRED=false
 ```
 
-The R01 bundle remains a candidate until a fresh `Stage19-audit` certifies checkpoint70 and the self-contained interface. No merge is authorized by this manifest.
+The R01 bundle passed fresh Stage19 checkpoint70 audit. Stage19 is closed subject only to synchronization of the bundle/status bookkeeping on this PR; no mathematical route is reopened.
