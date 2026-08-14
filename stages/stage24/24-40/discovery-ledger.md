@@ -2,7 +2,7 @@
 
 CHECKPOINT=40
 ROLE=STRICT_SUB_SQRT_UPPER_ATTACK
-SEARCH_STATUS=COMPLETE_FOR_CHECKPOINT40
+SEARCH_STATUS=REPAIRED_PENDING_FRESH_AUDIT
 
 ## Required searches executed
 
@@ -21,7 +21,7 @@ All six were executed.
 
 | ID | Candidate | Outcome | Whole-family strict sub-sqrt? |
 |---|---|---|---|
-| U40-S1 | fixed low-degree Kummer rational curves | degree-4 physical bisections globally eliminated; fixed curves individually strict | NO, moving proliferation uncontrolled |
+| U40-S1 | fixed low-degree Kummer rational curves | degree-4 physical bisections globally eliminated; each fixed curve and each fixed finite union is strict | NO, moving-family uniformity uncontrolled |
 | U40-S2 | principal-density deficit cells | every fixed-power deficit stratum is strict; saturation localized to `omega=B^-o(1)` | NO, near-maximal cells remain |
 | U40-S3 | effective growing-modulus squareclass sieve | same local tensor gives only logarithmic product even with polynomial prime window | NO |
 | U40-S4 | moving Jacobi / genus-one family | exact receiver and height known; uniform family count missing | NO |
@@ -34,7 +34,17 @@ The fixed-curve branch can be sharpened using the merged Stage14-4ak void.
 
 Stage14-4ah gives fixed-curve exponent `2/(M.C)` and `M.C>=4`. Stage14-4ak closes every physical `M.C=4` rational bisection. Therefore any fixed physical rational curve has `M.C>=5`, hence contributes at most `B^(2/5+o(1))`.
 
-So a finite set of fixed curves cannot saturate the square-root bound. If a collection of degree-at-least-five fixed curves does saturate, its cardinality must grow at least `B^(1/10-o(1))`. This is a necessary proliferation condition, not an existence theorem.
+So every genuinely fixed finite set of fixed curves is strict sub-square-root.
+
+The first checkpoint40 submission incorrectly extended this per-fixed-curve statement to a number `K(B)` of curves varying with `B` and inferred a `B^(1/10-o(1))` proliferation threshold. Fresh audit rejected that inference because Stage14-4ah does not provide a uniform implied constant or uniform `o(1)` over such a moving family. The repaired ledger therefore records:
+
+```text
+GROWING_CURVE_FAMILY_UNIFORM_SUMMATION_PROVED=false
+K_B_TIMES_B_TWO_FIFTH_BOUND_CERTIFIED=false
+B_ONE_TENTH_PROLIFERATION_CLAIM=false
+```
+
+This missing uniformity is itself part of the moving-family upper gate.
 
 Combined with Stage14-4dj, any square-root-saturating sequence must also avoid every fixed-power principal-density deficit and live in near-maximal conditional occupancy cells.
 
@@ -43,7 +53,8 @@ Thus the residual square-root obstruction is simultaneously:
 - non-fixed / collective;
 - moving across arithmetic/fiber data;
 - near-maximal at the surviving charged cell scale;
-- sensitive to first-small-point / transverse-incidence behavior.
+- sensitive to first-small-point / transverse-incidence behavior;
+- not currently controlled by a uniform fixed-curve summation theorem.
 
 ## Growing-modulus audit
 
@@ -55,7 +66,7 @@ Even granting a hypothetical legal range `p<=B^theta`, the natural product is on
 
 The Q06 source chain retains exact `H_M=d` and bounded orientation multiplicity. Its minimal receiver is the moving Jacobi quartic `y^2=(t^2+s)(1+s t^2)`. Stage15-6ai confirms a moving genus-one family with nonconstant pencil cross-ratio.
 
-The `M=4` fixed-curve void removes the simplest accumulating-curve explanation but does not bound the number of moving active fibers or their first physical small points. This remains the primary external upper gate.
+The `M=4` fixed-curve void removes the simplest accumulating-curve explanation but does not bound the number of moving active fibers, their first physical small points, or the uniform constants in per-fiber bounded-height estimates. This remains the primary external upper gate.
 
 ## Numerical boundary
 
@@ -67,6 +78,10 @@ Exact finite data are used only as diagnostics:
 
 These observations argue against treating exponent `1/2` as empirically settled, but prove no new exponent.
 
+## Repair boundary
+
+Fresh audit accepted the M4 void, each-fixed-curve `2/5` exponent, fixed finite-union strictness, 4dj occupancy localization, Q06/moving-family boundary, local-tensor limitation, character/dispersion negative boundary, and finite-data firewalls. Only the nonuniform growing-family summation was rejected. No accepted mathematical component was reopened in this repair.
+
 ## Exit
 
 ```text
@@ -76,10 +91,16 @@ STRICT_SUB_SQRT_ATTACK_EXECUTED=true
 Q06_MOVING_FAMILY_RECHECK=COMPLETE
 LOCAL_SIEVE_GROWING_MODULUS_RECHECK=COMPLETE
 SOURCE_LEVEL_ATTACK_OPEN=COMPLETE
-FIXED_CURVE_SQRT_SATURATION_ELIMINATED=true
+FIXED_M4_SQRT_MECHANISM_ELIMINATED=true
+FIXED_CURVE_SINGLE_EXPONENT_UPPER=2/5+o(1)
+FIXED_CURVE_FINITE_UNION_SUBSQRT=true
+GROWING_CURVE_FAMILY_UNIFORM_SUMMATION_PROVED=false
+B_ONE_TENTH_PROLIFERATION_CLAIM=false
 NEAR_MAXIMAL_MOVING_FAMILY_GATE_ISOLATED=true
 STRICT_SUB_SQRT_WHOLE_FAMILY_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
 HALF_POWER_INTRINSIC_PROVED=false
 FINITE_DATA_USED_AS_PROOF=false
+AUDIT_REQUIRED=true
+NEXT_CHECKPOINT=40
 ```
