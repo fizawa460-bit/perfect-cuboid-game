@@ -1,5 +1,6 @@
 {
   "stage": "Stage20",
+  "status": "CLOSED",
   "population": "primitive/canonical Euler cuboids: exactly three integral face diagonals, no space-diagonal integrality requirement, R<=B",
   "checkpoints": {
     "10": "PROVED_AUDITED_PASS",
@@ -8,16 +9,16 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT"
+    "70": "PROVED_AUDITED_PASS"
   },
   "current_checkpoint": 70,
-  "main_status": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
-  "audit_status": "PENDING_REAUDIT",
-  "audit_persistence_status": "PENDING",
-  "unsynced_audit_state": "NONE",
+  "main_status": "COMPLETE",
+  "audit_status": "PASS",
+  "audit_persistence_status": "PENDING_STATUS_SYNC",
+  "unsynced_audit_state": "final.md,manifest-r01.md,docs/00_CURRENT_RESEARCH_STATUS.md,20-70/result.md,docs/stage20-arsenal.md",
   "advance_allowed": false,
-  "next_checkpoint": 70,
-  "next_stage": "",
+  "next_checkpoint": "",
+  "next_stage": "Stage21",
   "merge_allowed": false,
   "codeX_required": false,
   "current_result": "stages/stage20/20-70/result.md",
@@ -39,12 +40,12 @@
   "causal_model": "two-face toric host -> degree-two K3 cover; exact local blockers explain rarity; Saunderson family certifies survival",
   "double_charge_check": "PASS",
   "self_contained_bundle_required": true,
-  "self_contained_review_gate": "REPAIRED_PENDING_FRESH_AUDIT",
-  "repair_scope": "completed: embedded Stage20-50a load-bearing proof in final.md and printed exact frozen upstream interface contracts for Stage14-e8/e10/e11",
+  "self_contained_review_gate": "PASS",
   "repair_completed": true,
   "new_theorem_required": false,
   "new_computation_required": false,
   "arsenal_promotion_required": true,
+  "arsenal_promotion_status": "AUDITED_PASS",
   "arsenal_candidates": ["S20-W01_EXPLICIT_EULER_THIN_COVER_UPPER", "S20-W02_PRIMITIVE_SAUNDERSON_LOWER", "S20-W03_EULER_LOCAL_BLOCKER_LAW"],
   "synthesis_stop_rule_satisfied": true,
   "open_gates": ["STAGE20_POPULATION_GROWTH_LAW_UNRESOLVED", "TRUE_EXPONENT_UNRESOLVED", "MATCHING_LOWER_BOUND_UNRESOLVED", "ASYMPTOTIC_CONSTANT_UNRESOLVED", "SQRT_B_SIGNAL_THEOREM_STATUS_UNRESOLVED"],
@@ -55,8 +56,15 @@
     "verdict": "FAIL_REPAIR_REQUIRED",
     "record": "stages/stage20/20-70/audit.md",
     "pr": 940,
-    "persistence": "COMMITTED",
+    "persistence": "COMMITTED"
+  },
+  "last_audit": {
+    "checkpoint": 70,
+    "verdict": "PASS",
+    "record": "stages/stage20/20-70/audit.md",
+    "pr": 940,
+    "persistence_status": "PENDING_STATUS_SYNC",
     "merge_allowed": false
   },
-  "next_expected_command": "Stage20-audit"
+  "next_expected_command": "Stage21-main-batch"
 }
