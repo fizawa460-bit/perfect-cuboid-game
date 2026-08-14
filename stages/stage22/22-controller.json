@@ -12,12 +12,12 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "CLOSEOUT_AUDIT_FAIL_ARTIFACT_FLAGS"
+    "70": "CLOSEOUT_REPAIR_SUBMITTED_FOR_FRESH_AUDIT"
   },
   "state": {
     "CURRENT_CHECKPOINT": 70,
-    "MAIN_STATUS": "CLOSEOUT_REPAIR_REQUIRED",
-    "AUDIT_STATUS": "FAIL",
+    "MAIN_STATUS": "CLOSEOUT_REPAIR_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
@@ -57,9 +57,14 @@
     "fine_mechanism_open": true,
     "intrinsic_status": "YES_AS_TRANSITION_SYNTHESIS",
     "new_standalone_theorem_promotion_required": false,
-    "promotion_materialized": false,
-    "self_contained_bundle_required": "UNDECIDED",
-    "arsenal_promotion_required": "UNDECIDED",
+    "self_contained_bundle_required": true,
+    "self_contained_bundle_decision": "YES",
+    "self_contained_bundle_materialized": true,
+    "self_contained_bundle_path": "stages/stage22/22-70/self-contained-bundle.md",
+    "arsenal_promotion_required": true,
+    "arsenal_promotion_decision": "YES",
+    "arsenal_promotion_materialized": true,
+    "arsenal_promotion_path": "docs/stage22-arsenal-promotion.md",
     "perfect_cuboid_conclusion": "NONE",
     "finite_data_used_as_proof": false
   },
@@ -68,6 +73,7 @@
     "yes_classification_alone_is_completion": false,
     "self_contained_bundle_decision_required": true,
     "arsenal_promotion_decision_required": true,
+    "artifact_materialization_status": "COMPLETE_PENDING_FRESH_AUDIT",
     "close_stage_after_audit_pass": true
   },
   "last_audit": {
@@ -83,9 +89,13 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED",
+    "status": "PENDING_REAUDIT_AFTER_REPAIR",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage22-main-batch",
+  "repair": {
+    "scope": "CLOSEOUT_FLAGS_AND_REQUIRED_ARTIFACT_MATERIALIZATION_ONLY",
+    "mathematics_reopen_required": false
+  },
+  "next_expected_command": "Stage22-audit",
   "codeX_required": false
 }
