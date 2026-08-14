@@ -10,18 +10,18 @@
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
     "40": "PROVED_AUDITED_PASS",
-    "50": "PENDING",
+    "50": "PROVED_BREAKTHROUGH_SUBMITTED_FOR_FRESH_AUDIT",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
+    "CURRENT_CHECKPOINT": 50,
+    "MAIN_STATUS": "AWAITING_FRESH_AUDIT_OF_NEW_LOWER_THEOREM",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -170,12 +170,52 @@
     "advance_allowed": true,
     "merge_allowed": true
   },
+  "checkpoint50": {
+    "status": "PROVED_BREAKTHROUGH_SUBMITTED_FOR_FRESH_AUDIT",
+    "audit": "PENDING",
+    "result_path": "stages/stage24/24-50/result.md",
+    "discovery_ledger": "stages/stage24/24-50/discovery-ledger.md",
+    "fresh_lower_surgeon": "stages/stage24/24-50/fresh-lower-surgeon.md",
+    "quartic_family_proof": "stages/stage24/24-50/u19-r501a-quartic-family.md",
+    "quartic_family_audit": "stages/stage24/24-50/quartic_family_audit.py",
+    "fresh_lower_surgeon_first": true,
+    "fresh_lower_candidates": 4,
+    "breakthrough_found": true,
+    "stage18_explicit_family_space_lift_test": "PASS_MIXED_PARITY_VARIANT",
+    "quartic_curve": "p^4+q^4=17Z^2",
+    "elliptic_target": "Y^2=X^3-1156X",
+    "positive_rank_certificate": "#E(F31)=32; #E(F41)=52; ord((-16,120) mod31)=16",
+    "primary_physical_witness": "(p,q,Z)=(38,43,569) -> (a,b,c,D)=(3927,5952,6536,9673)",
+    "third_face_exception_curve_genus": 5,
+    "stage19_unboundedness_proved": true,
+    "infinite_primitive_stage19_construction_proved": true,
+    "lower_bound": "N2(B)>>sqrt(log B)",
+    "lower_bound_class": "LOGARITHMIC_UNBOUNDED",
+    "positive_power_lower_bound_proved": false,
+    "matching_half_power_lower_bound_proved": false,
+    "true_target_exponent_identified": false,
+    "half_power_intrinsic_proved": false,
+    "old_stage23_r60_01_odd_odd_death_still_valid": true,
+    "old_stage23_r60_01_broader_formula_death_superseded_if_audit_pass": true,
+    "old_dead_branch_eight_revalidation_triggered": false,
+    "old_dead_branch_eight_revalidation_reason": "policy trigger applies only if checkpoint50 result is negative; F50-S1 is positive",
+    "history_supersession_backflow_required_after_audit_pass": true,
+    "history_backflow_executed": false,
+    "finite_data_used_as_proof": false,
+    "counts_recompute_required": false,
+    "targeted_construction_regression_only": true,
+    "discovery_audit_required": true,
+    "discovery_audit_verdict": "PENDING",
+    "audit_required": true,
+    "advance_allowed": false,
+    "merge_allowed": false
+  },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
     "NUM_ASSETS_REUSED": ["NUM-R01", "NUM-R02", "NUM-R03", "24-14num-r201", "24-14num-r202"],
     "NUM_POPULATION_MATCH": "EXACT",
-    "NUM_EVIDENCE_LEVEL": "EXACT_FINITE_MATCHED_CENSUS_WITH_SOURCE_LEVEL_REVALIDATION",
-    "NUM_NEW_COMPUTATION_JUSTIFIED": "NOT_REQUIRED_AFTER_MERGED_R202"
+    "NUM_EVIDENCE_LEVEL": "EXACT_FINITE_ORACLE_PLUS_NEW_THEOREM_CONSTRUCTION",
+    "NUM_NEW_COMPUTATION_JUSTIFIED": "TARGETED_CONSTRUCTION_REGRESSION_ONLY"
   },
   "full_exploration_policy": {
     "EXPLORATION_PHASE": "FULL_TRANSITION_RESEARCH",
@@ -234,18 +274,17 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT40_AUDIT_PASS",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT40_AUDIT_PASS",
-    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT40_AFTER_NARROW_REPAIR",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT50_SUBMISSION",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT50_SUBMISSION",
+    "UPSTREAM_PREMISE_CHECK": "MATERIAL_LOWER_BOUND_PREMISE_UPGRADED_PENDING_FRESH_AUDIT",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": true,
-    "reason": "checkpoint40 asserts upper-side structural localizations and a strongest-bound boundary; fresh audit accepted them after removal of the nonuniform growing-curve-family summation",
+    "reason": "checkpoint50 asserts a new infinite primitive Stage19 construction and N2(B)>>sqrt(log B), superseding the historical unboundedness-negative ledger",
     "auditor": "FRESH_STAGE24_AUDIT",
-    "verdict": "PASS",
-    "record": "stages/stage24/24-40/audit.md",
-    "previous_verdict": "FAIL"
+    "verdict": "PENDING",
+    "record": "stages/stage24/24-50/audit.md"
   },
   "last_audit": {
     "checkpoint": 40,
@@ -262,9 +301,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED_CHECKPOINT40_PASS",
+    "status": "CHECKPOINT50_SUBMITTED_PENDING_FRESH_AUDIT",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-main-batch",
+  "next_expected_command": "Stage24-audit",
   "codeX_required": false
 }
