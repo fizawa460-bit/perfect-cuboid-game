@@ -12,14 +12,14 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "CLOSEOUT_SUBMITTED_FOR_FRESH_AUDIT"
+    "70": "CLOSEOUT_AUDIT_FAIL_ARTIFACT_FLAGS"
   },
   "state": {
     "CURRENT_CHECKPOINT": 70,
-    "MAIN_STATUS": "CLOSEOUT_PENDING_AUDIT",
-    "AUDIT_STATUS": "PENDING",
+    "MAIN_STATUS": "CLOSEOUT_REPAIR_REQUIRED",
+    "AUDIT_STATUS": "FAIL",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": "",
+    "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
     "MERGE_ALLOWED": false
   },
@@ -44,66 +44,11 @@
     "target_interface": "Stage15-2b / Stage18: M2(B)~C_M2 B(log B)^5, C_M2>0",
     "target_constant_explicit_numeric": false
   },
-  "checkpoint20": {
-    "source_counts": "stages/stage16/16-20/counts.csv",
-    "target_counts": "stages/stage18/18-20/counts.csv",
-    "num_reuse_check": "PASS",
-    "num_population_match": "EXACT",
-    "finite_data_used_as_proof": false,
-    "monotone_decrease_on_shared_thresholds": true
-  },
-  "checkpoint30": {
-    "source_asymptotic": "M1(B)~3/(4*pi^2) B^2 log B",
-    "target_asymptotic": "M2(B)~C_M2 B(log B)^5, C_M2>0",
-    "ratio_asymptotic": "M2(B)/M1(B)~(4*pi^2*C_M2/3)*(log B)^4/B",
-    "ratio_limit": 0,
-    "polynomial_ratio_power": -1,
-    "log_ratio_power": 4,
-    "leading_ratio_constant": "4*pi^2*C_M2/3",
-    "finite_data_used_as_proof": false,
-    "literal_subset_interpretation": false
-  },
-  "checkpoint40": {
-    "sharp_upper_scale": "(log B)^4/B",
-    "sharpness_proved": true,
-    "net_polynomial_ratio_power": -1,
-    "net_log_ratio_power": 4,
-    "source_mechanism": "one scaled primitive Pythagorean face; harmonic face-scale log; complementary edge free at order B",
-    "target_mechanism": "coupled shared-edge double-Pythagorean toric surface; anticanonical height; Picard rank 6 gives log power 5",
-    "local_factor_product_for_log4_proved": false,
-    "unique_fine_causal_decomposition_proved": false,
-    "finite_data_used_as_proof": false
-  },
-  "checkpoint50": {
-    "sharp_lower_scale": "(log B)^4/B",
-    "target_lower_bound": "M2(B) >> B(log B)^5",
-    "target_lower_source": "positive Stage15 toric main term on the exact Stage18 population",
-    "target_real_chamber_nonempty": true,
-    "target_real_chamber_positive_measure": true,
-    "third_face_square_subtraction": "LOWER_ORDER",
-    "explicit_order_sharp_parametric_subfamily": "NOT_CLAIMED",
-    "new_construction_required": false,
-    "two_sided_order_match": true,
-    "finite_data_used_as_proof": false
-  },
-  "checkpoint60": {
-    "bulk_causal_localization_proved": true,
-    "polynomial_loss": "B^-1",
-    "polynomial_localization": "source free complementary edge replaced by coupled second Pythagorean face",
-    "log_compensation": "(log B)^4",
-    "log_localization": "source harmonic scale architecture versus target rank-6 anticanonical toric bulk",
-    "target_bulk_structure": "shared-edge double-Pythagorean surface",
-    "third_face_exclusion_is_leading_cause": false,
-    "third_face_exclusion_role": "LOWER_ORDER_SUBTRACTION",
-    "canonicalization_new_cause": false,
-    "primitivity_new_cause": false,
-    "cutoff_new_cause": false,
-    "physical_multiplicity_new_cause": false,
-    "four_independent_log_factors_proved": false,
-    "unique_fine_causal_decomposition_proved": false,
-    "fine_mechanism_open": true,
-    "finite_data_used_as_proof": false
-  },
+  "checkpoint20": {"finite_data_used_as_proof": false,"monotone_decrease_on_shared_thresholds": true},
+  "checkpoint30": {"ratio_asymptotic": "M2(B)/M1(B)~(4*pi^2*C_M2/3)*(log B)^4/B","ratio_limit": 0},
+  "checkpoint40": {"sharp_upper_scale": "(log B)^4/B","sharpness_proved": true},
+  "checkpoint50": {"sharp_lower_scale": "(log B)^4/B","two_sided_order_match": true},
+  "checkpoint60": {"bulk_causal_localization_proved": true,"fine_mechanism_open": true,"finite_data_used_as_proof": false},
   "checkpoint70": {
     "bounded_maximal_synthesis": true,
     "ratio_asymptotic_frozen": "M2/M1~(4*pi^2*C_M2/3)(log B)^4/B",
@@ -113,28 +58,34 @@
     "intrinsic_status": "YES_AS_TRANSITION_SYNTHESIS",
     "new_standalone_theorem_promotion_required": false,
     "promotion_materialized": false,
+    "self_contained_bundle_required": "UNDECIDED",
+    "arsenal_promotion_required": "UNDECIDED",
     "perfect_cuboid_conclusion": "NONE",
     "finite_data_used_as_proof": false
   },
   "stage70_closeout": {
     "promotion_materialization_required_if_yes": true,
     "yes_classification_alone_is_completion": false,
+    "self_contained_bundle_decision_required": true,
+    "arsenal_promotion_decision_required": true,
     "close_stage_after_audit_pass": true
   },
   "last_audit": {
-    "checkpoint": 60,
-    "verdict": "PASS",
-    "record": "stages/stage22/22-60/audit.md",
-    "pr": 956,
-    "merge_allowed": true,
+    "checkpoint": 70,
+    "verdict": "FAIL",
+    "record": "stages/stage22/22-70/audit.md",
+    "pr": 957,
+    "merge_allowed": false,
+    "new_input_required": false,
+    "human_decision_required": false,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "audit_persistence": {
     "required": true,
-    "status": "PENDING",
+    "status": "COMMITTED",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage22-audit",
+  "next_expected_command": "Stage22-main-batch",
   "codeX_required": false
 }
