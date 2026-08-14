@@ -1,16 +1,22 @@
-# Stage23-50 fresh audit
+# Stage23-50 fresh re-audit
 
 Status: **FAIL**
 
-The checkpoint50 execution order is correct: fresh Stage19 surgeon search first, then Q04, then Q11 only after the fresh search reports no new attack. Q04 and Q11 are also reasonable fallback analyses and are not the failure reason.
+The previous fresh-surgeon depth failure is repaired. `fresh-surgeon-candidate-ledger.md` now materializes four genuinely new Stage19 candidate mechanisms (F50-S1 through F50-S4), tests the literal Stage19 contract, and records distinct failure/survival gates. Q04/Q11 remain accepted and need not be reopened.
 
-The failure is the depth of the fresh Stage19 surgeon phase. The submitted ledger says the live Stage19 theorem stack and closeout lineage were reopened and no new Stage19-specific theorem or coordinate attack was found. However, it does not materialize a genuine fresh discovery ledger showing newly generated candidate coordinates, parametrizations, explicit Stage17-derived families, congruence constructions, receiver ansatzes, or other concrete candidate attacks together with the point at which each failed the literal Stage19 contract.
+Two narrow defects remain.
 
-Under Stage23's aggressive-search policy, rereading the existing interface and confirming the known open gates is not sufficient to mark `FRESH_STAGE19_SURGEON_SEARCH=COMPLETE`. Before reserves can be considered the canonical checkpoint50 outcome, the surgeon phase must attempt concrete new candidate generation. At minimum it should record several distinct fresh candidate directions, not copied from the Stage14/15 ledger, and for each one test the relevant Stage19 requirements: second face, space diagonal, primitivity/canonical multiplicity, physical height, infinitude/lower-bound potential, and any local obstruction encountered.
+First, the checkpoint50 result does not explicitly state the strongest currently certified Stage19 lower bound. The canonical Stage19 final interface proves the exact finite floor
 
-No breakthrough is required. A well-documented negative search is acceptable. But "no new viewpoint found" must be supported by a fresh attack-generation ledger rather than only by theorem-stack review.
+\[
+\boxed{N_2(B)\ge 3495\qquad(B\ge 500{,}000{,}000),}
+\]
 
-Q04/Q11 work need not be reopened unless a newly generated surgeon attack supersedes them.
+by monotonicity from `N_2(500,000,000)=3495`. This is a constant lower floor only. Stage19 still has no proof that `N_2(B)->infinity`, no infinite primitive construction, no positive-power lower bound `N_2(B)>>B^delta`, and no matching half-power lower bound. Checkpoint50 currently says only that no positive-power lower bound was found; for closeout-quality provenance it must distinguish the known constant floor from the unresolved unbounded/positive-power gate.
+
+Second, F50-S4 overstates what an infinite survivor sequence would imply. From `d~v^4`, an infinite but arbitrarily sparse sequence of admissible `v` does **not** by itself imply a `B^(1/4)` lower bound. A `B^(1/4)`-scale lower bound would require quantitative density/counting information in the parameter `v` (for example, a positive proportion or another proved counting law). The candidate remains valuable because its height law identifies the scale available under a sufficiently dense survivor set, but the unconditional implication from mere infinitude must be removed.
+
+No other checkpoint50 mathematics is reopened. In particular, the fresh candidate-generation ledger is accepted as satisfying the surgeon-depth repair, and Q04/Q11 remain accepted.
 
 ```text
 AUDIT_VERDICT=FAIL
@@ -24,12 +30,17 @@ NEXT_STAGE=
 CODEX_AUDIT_REQUIRED=false
 CODEX_REASON=NONE
 MERGE_ALLOWED=false
-REPAIR_SCOPE=DEEP_FRESH_STAGE19_SURGEON_CANDIDATE_GENERATION_LEDGER_ONLY
-CHECKPOINT50_ORDER_ACCEPTED=true
+REPAIR_SCOPE=EXPLICIT_STAGE19_CURRENT_LOWER_BOUND_STATUS_AND_F50_S4_RATE_CLAIM_CORRECTION_ONLY
+FRESH_STAGE19_SURGEON_DEPTH_ACCEPTED=true
+FRESH_CANDIDATE_GENERATION_ACCEPTED=true
 Q04_ANALYSIS_ACCEPTED=true
 Q11_ANALYSIS_ACCEPTED=true
-FRESH_STAGE19_SURGEON_SEARCH_DEPTH_INSUFFICIENT=true
-FRESH_CANDIDATE_GENERATION_REQUIRED=true
-FRESH_NEGATIVE_RESULT_ALLOWED=true
+STAGE19_CERTIFIED_CONSTANT_LOWER_FLOOR=N2(B)>=3495_FOR_B>=500000000
+STAGE19_UNBOUNDEDNESS_PROVED=false
+STAGE19_POSITIVE_POWER_LOWER_BOUND_PROVED=false
+STAGE19_MATCHING_HALF_POWER_LOWER_BOUND_PROVED=false
+F50_S4_INFINITE_SEQUENCE_IMPLIES_B_QUARTER=false
+F50_S4_DENSE_SURVIVOR_COUNT_COULD_YIELD_B_QUARTER_SCALE=true
 Q04_Q11_REOPEN_REQUIRED=false
+SURGEON_REOPEN_REQUIRED=false
 ```
