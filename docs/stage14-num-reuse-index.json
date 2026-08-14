@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "id": "STAGE14_NUM_REUSE",
+  "status": "ACTIVE",
+  "human_index": "docs/stage14-num-reuse-index.md",
+  "population": {
+    "primitive": true,
+    "canonical": "0<a<b<c",
+    "space_diagonal_integral": true,
+    "cutoff": "d<=B",
+    "face_scope": "at_least_two_with_exact_mask_retained",
+    "not_equal_to": [
+      "Stage15/Stage18 ambient M_2 population"
+    ]
+  },
+  "assets": [
+    {
+      "id": "NUM-R01",
+      "class": "EXACT_FINITE_CENSUS",
+      "max_cutoff": 500000000,
+      "sources": [
+        "stages/stage14/archive/tasks/14-num-alpha11/result.md",
+        "stages/stage14/data/14-num-alpha11/b500m_manifest.json"
+      ],
+      "targets": [
+        "Stage19",
+        "Stage20",
+        "Stage24",
+        "Stage26",
+        "Stage28"
+      ]
+    },
+    {
+      "id": "NUM-R02",
+      "class": "EXACT_REGRESSION_ORACLE",
+      "sources": [
+        "stages/stage14/archive/tasks/14-num1/result.md",
+        "stages/stage14/archive/tasks/14-num3/result.md",
+        "stages/stage14/archive/tasks/14-num-alpha4/result.md",
+        "stages/stage14/archive/tasks/14-num-alpha6/result.md"
+      ],
+      "targets": [
+        "Stage18",
+        "Stage19",
+        "Stage20",
+        "Stage26",
+        "Stage27"
+      ]
+    },
+    {
+      "id": "NUM-R03",
+      "class": "PROVED_ALGORITHM_EXACT_REGRESSION",
+      "sources": [
+        "stages/stage14/archive/tasks/14-num-alpha1/result.md",
+        "stages/stage14/archive/tasks/14-num-alpha8/result.md"
+      ],
+      "targets": [
+        "Stage19",
+        "Stage20",
+        "Stage26",
+        "Stage27"
+      ]
+    },
+    {
+      "id": "NUM-R04",
+      "class": "DERIVED_EXACT",
+      "sources": [
+        "stages/stage14/archive/tasks/14-num4/result.md"
+      ],
+      "targets": [
+        "Stage28"
+      ]
+    },
+    {
+      "id": "NUM-R05",
+      "class": "FINITE_DIAGNOSTIC_ONLY",
+      "sources": [
+        "stages/stage14/archive/tasks/14-num5/result.md",
+        "stages/stage14/archive/tasks/14-num6/result.md",
+        "stages/stage14/archive/tasks/14-num-alpha11/result.md"
+      ],
+      "targets": [
+        "Stage28"
+      ]
+    },
+    {
+      "id": "NUM-R06",
+      "class": "DERIVED_EXACT_FINITE",
+      "sources": [
+        "stages/stage14/archive/tasks/14-num-alpha11-diag6/result.md",
+        "stages/stage14/archive/tasks/14-num-alpha11-diag9/result.md"
+      ],
+      "targets": [
+        "Stage21",
+        "Stage22",
+        "Stage24",
+        "Stage25",
+        "Stage28"
+      ]
+    },
+    {
+      "id": "NUM-R07",
+      "class": "EXACT_FINITE_PANEL",
+      "max_cutoff": 1000000,
+      "sources": [
+        "stages/stage14/archive/tasks/14-num-alpha11-diag7/result.md",
+        "stages/stage14/archive/tasks/14-num-alpha11-diag11/result.md"
+      ],
+      "targets": [
+        "Stage21",
+        "Stage22",
+        "Stage24",
+        "Stage25",
+        "Stage28"
+      ]
+    },
+    {
+      "id": "NUM-R08",
+      "class": "MIXED_EXACT_LOCAL_AND_FINITE_DIAGNOSTIC",
+      "sources": [
+        "stages/stage14/archive/tasks/14-num-alpha11-diag4/result.md",
+        "stages/stage14/archive/tasks/14-num-alpha11-diag5/result.md",
+        "stages/stage14/archive/tasks/14-num-alpha11-diag10/result.md"
+      ],
+      "targets": [
+        "Stage22",
+        "Stage26",
+        "Stage27",
+        "Stage28"
+      ]
+    }
+  ],
+  "required_output": [
+    "NUM_REUSE_CHECK",
+    "NUM_ASSETS_REUSED",
+    "NUM_POPULATION_MATCH",
+    "NUM_EVIDENCE_LEVEL",
+    "NUM_NEW_COMPUTATION_JUSTIFIED"
+  ],
+  "prohibitions": [
+    "finite_T_zero_is_not_nonexistence",
+    "finite_fit_is_not_asymptotic",
+    "ambient_M2_is_not_integral_space_A2",
+    "hash_match_is_not_theorem_proof"
+  ]
+}
