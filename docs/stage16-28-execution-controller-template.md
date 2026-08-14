@@ -291,3 +291,18 @@ state machine in which routine advancement is automated, Codex work is delegated
 when appropriate, and independent audit remains the gate for new mathematical
 claims. The human operator supplies the parent command and intervenes only when a
 real research or policy boundary is reached.
+
+
+### Numerical reuse preflight
+
+Before launching a new census or finite diagnostic, the main lane must inspect `docs/stage14-num-reuse-index.md`. It must reuse a compatible frozen artifact, prove an exact population/intersection adapter, or state why no match exists. The handoff must emit:
+
+```text
+NUM_REUSE_CHECK=PASS
+NUM_ASSETS_REUSED=<IDs or NONE>
+NUM_POPULATION_MATCH=<EXACT | ADAPTER_PROVED | NO_MATCH>
+NUM_EVIDENCE_LEVEL=<level or NOT_APPLICABLE>
+NUM_NEW_COMPUTATION_JUSTIFIED=<reason or NOT_REQUIRED>
+```
+
+This preflight prevents duplicate computation but never upgrades finite evidence into a theorem. Missing the preflight blocks a newly proposed computation; it does not reopen already audited mathematics.
