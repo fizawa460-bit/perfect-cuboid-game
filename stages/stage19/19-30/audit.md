@@ -1,19 +1,26 @@
 # Stage19-30 audit
 
-Status: FAIL_REPAIR_REQUIRED
+Status: PASS
 
-The mathematics is correct: the matched Stage14 numerator bound and Stage15 denominator give `N_2/M_2 <<_epsilon B^(-1/2+epsilon)(log B)^(-5) -> 0`, and the Stage15 local squareclass route is correctly kept separate from the half-power mechanism. Stage24 remains reserved for the deeper interaction study. The Stage14-num reuse adapter and finite diagnostics are also valid.
+Fresh re-audit confirms the prior failure was repaired exactly as requested: the result now uses canonical `EVIDENCE_LEVEL=PROVED`, while finite diagnostics remain separately labeled under `NUM_EVIDENCE_LEVEL`. No mathematical claim changed.
 
-The repair is formal but mandatory: `EVIDENCE_LEVEL=PROVED_WITH_EXACT_FINITE_DIAGNOSTIC` is not in the roadmap enum `PROVED|LITERATURE|COMPUTED|HEURISTIC`. Set `EVIDENCE_LEVEL=PROVED` and keep the already separate `NUM_EVIDENCE_LEVEL=...` for the finite diagnostics. No mathematical claim needs changing.
+The matched Stage14 numerator bound and Stage15 denominator give
+`N_2/M_2 <<_epsilon B^(-1/2+epsilon)(log B)^(-5) -> 0`.
+The independent Stage15 local squareclass zero-density route remains separated from the half-power mechanism. Stage24 remains reserved for deeper interaction analysis. Stage14-num reuse and its exact finite adapter remain valid and are not used as theorem proof.
 
-AUDIT_VERDICT=FAIL
+PRIOR_AUDIT=FAIL_REPAIR_REQUIRED_METADATA_ONLY
+PRIOR_FAILURE_RESOLVED=true
+EVIDENCE_LEVEL=PROVED
+NUM_EVIDENCE_LEVEL_SEPARATE=true
+
+AUDIT_VERDICT=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 UNSYNCED_AUDIT_STATE=NONE
-ADVANCE_ALLOWED=false
+ADVANCE_ALLOWED=true
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
-NEXT_CHECKPOINT=30
+NEXT_CHECKPOINT=50
 NEXT_STAGE=
 CODEX_AUDIT_REQUIRED=false
 CODEX_REASON=NONE
-MERGE_ALLOWED=false
+MERGE_ALLOWED=true
