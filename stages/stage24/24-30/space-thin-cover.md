@@ -17,17 +17,10 @@ Its smooth split toric resolution is the frozen Stage15 surface `Y=Bl_4(P1 x P1)
 H_R=\sqrt{e^2+x^2+y^2}
 \]
 
-is exactly an anticanonical adelic height on `Y`. Stage15-2b proves the positive physical chamber count
+is exactly an anticanonical adelic height on `Y`. Stage15-2b proves
 
 \[
-A(B)\sim C_A B(\log B)^5,
-\]
-
-and, after the lower-order three-face subtraction,
-
-\[
-M_2(B)\sim C_{M_2}B(\log B)^5,
-\qquad C_{M_2}=C_A>0.
+M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0.
 \]
 
 ## 2. The added space-square cover
@@ -38,47 +31,68 @@ Add one coordinate `w` satisfying
 w^2=e^2+x^2+y^2.
 \]
 
-Let `Z -> Y` be the normalization of the corresponding degree-two function-field extension. A Stage18 physical object has integral space diagonal exactly when its rational point on `Y` lifts to a rational point of `Z`.
+Let `Z -> Y` be the normalization of the corresponding quadratic function-field extension. A Stage18 physical object has integral space diagonal exactly when its rational point on `Y` lifts to a rational point of this cover.
 
-For the primitive integral representative the radicand is an integer. If a rational `w` has `w^2` equal to this integer, then `w` is integral. Thus rational lifting and the Stage19 integral-space predicate agree exactly on the physical population.
+For the primitive integral representative the radicand is an integer. If rational `w` satisfies `w^2` equal to that integer, then `w` is integral. Hence rational lifting agrees exactly with the Stage19 integral-space predicate on the physical population.
 
-## 3. Geometric integrality
+## 3. Geometric integrality: explicit generic nonsquare test
 
-Over an algebraic closure,
-
-\[
-f:=e^2+x^2+y^2=u^2+y^2=(u+i y)(u-i y).
-\]
-
-Consider a generic irreducible component `D` of the divisor `u+i y=0` meeting the dense torus with `y!=0`. Such torus points exist; for example over the algebraic closure one may take a point satisfying
-
-`e=1, y=1, u=-i, x^2=-2, v^2=2`,
-
-with all torus coordinates nonzero.
-
-At the generic point of `D`, `u-i y=-2iy` is nonzero. Hence
+Work over an algebraic closure and on the affine chart `e=1` of the dense torus. Parametrize the two Pythagorean conics by independent parameters `t,s`:
 
 \[
-\operatorname{ord}_D(f)=1.
+x=\frac{2t}{1-t^2},\qquad u=\frac{1+t^2}{1-t^2},
+\]
+\[
+y=\frac{2s}{1-s^2},\qquad v=\frac{1+s^2}{1-s^2}.
 \]
 
-A square in the geometric function field has even valuation at every prime divisor. Therefore `f` is not a square in `\overline{Q}(Y)`. The cover `Z -> Y` is geometrically integral and generically finite of degree two.
+The function field is therefore a rational function field in `t,s`, and the space-square radicand is
+
+\[
+f=1+x^2+y^2=u^2+y^2.
+\]
+
+As a rational function of `s` over `\overline{\mathbf Q}(t)`,
+
+\[
+f=\frac{P_t(s)}{(1-s^2)^2},
+\]
+with
+\[
+P_t(s)=u^2s^4+(4-2u^2)s^2+u^2.
+\]
+
+Set `z=s^2`. The quadratic in `z` has discriminant
+
+\[
+(4-2u^2)^2-4u^4=16(1-u^2)=-16x^2.
+\]
+
+On the generic torus `x\ne0`, so this discriminant is nonzero. Its two `z`-roots are distinct; their product is one, so neither root is zero. Therefore `P_t(s)` has four distinct roots over the algebraic closure of `\overline{\mathbf Q}(t)` and in particular is not a square polynomial. The denominator `(1-s^2)^2` is already a square. Hence
+
+\[
+f\notin \overline{\mathbf Q}(Y)^{\times2}.
+\]
+
+Thus the quadratic extension obtained by adjoining `sqrt(f)` is nontrivial over the geometric function field. Consequently `Z` is geometrically integral and `Z -> Y` is generically finite of degree two.
+
+This argument avoids relying on an unverified divisor-multiplicity assertion.
 
 ## 4. Thin-image theorem
 
 The rational image `pi(Z(Q))` in `Y(Q)` is therefore a type-II thin subset.
 
-Stage15-2b already verifies the hypotheses used for Browning-Loughran thin-set zero density on this same `Y` and height:
+Stage15-2b already verifies the hypotheses used for Browning-Loughran thin-set zero density on this same `Y` and exact height `R`:
 
 - smooth projective split toric `Y`;
 - `-K_Y` big;
 - the required cohomological/Picard conditions;
 - anticanonical equidistribution on the dense torus.
 
-Thus
+Hence
 
 \[
-\#\{P\in \pi(Z(Q))\cap T(Q):H_R(P)\le B\}
+\#\{P\in \pi(Z(\mathbf Q))\cap T(\mathbf Q):H_R(P)\le B\}
 =o(B(\log B)^5).
 \]
 
@@ -134,6 +148,7 @@ This proof is qualitative. The invoked thin-set theorem gives zero density here,
 
 ```text
 SPACE_THIN_COVER_GEOMETRICALLY_INTEGRAL=true
+SPACE_THIN_COVER_NONSQUARE_PROOF=PYTHAGOREAN_RATIONAL_PARAMETERS_AND_SIMPLE_ROOTS
 SPACE_THIN_COVER_DEGREE=2
 SPACE_THIN_IMAGE_TYPE_II=true
 SPACE_THIN_ROUTE_ZERO_DENSITY=true
