@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage20-CLOSED-R01-AUDIT-PASS
+CURRENT_STAGE=Stage21-10-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -9,65 +9,59 @@ STAGE15_STATUS=CLOSED_R02_REVIEW_FROZEN
 STAGE16_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE16S_BASELINE_READY_FOR_STAGE21=true
-STAGE16S_CONTROLLER=stages/stage16s/16s-controller.json
-STAGE16S_FINAL_BUNDLE=stages/stage16s/final.md
-STAGE16S_MANIFEST=stages/stage16s/manifest-r01.md
-STAGE16S_FINAL_AUDIT=stages/stage16s/16s-70/audit.md
-STAGE16S_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE20_STATUS=CLOSED_R01_AUDIT_PASS
-STAGE20_CONTROLLER=stages/stage20/20-controller.json
-STAGE20_FINAL_BUNDLE=stages/stage20/final.md
-STAGE20_MANIFEST=stages/stage20/manifest-r01.md
-STAGE20_FINAL_AUDIT=stages/stage20/20-70/audit.md
-STAGE20_ARSENAL=docs/stage20-arsenal.md
-STAGE20_CURRENT_DATA=stages/stage20/20-20/counts.csv
-STAGE20_REPO_REUSE_PREFLIGHT=PASS
-STAGE20_STRONGEST_KNOWN_CHECK=PASS
-STAGE20_STRONGEST_UPPER_PROVENANCE=Stage14-e11_PR188
-STAGE20_STRONGEST_CERTIFIED_UPPER=M3(B)<<_eta_B(logB)^(5-eta)_for_each_eta<1/46
-STAGE20_CONCRETE_UPPER=M3(B)<<B(logB)^(5-1/50)
-STAGE20_LOWER_BOUND_PROVENANCE=20-50a_SAUNDERSON_CONSTRUCTION
-STAGE20_CERTIFIED_LOWER=M3(B)>>B^(1/6)
-STAGE20_POPULATION_INFINITE=true
-STAGE20_SELF_CONTAINED_REVIEW_GATE=PASS
-STAGE20_ARSENAL_PROMOTION=AUDITED_PASS
-STAGE20_AUDIT_PERSISTENCE=COMMITTED
-STAGE20_NEXT_STAGE=Stage21
-NEXT_EXPECTED_COMMAND=Stage21-main-batch
+STAGE21_STATUS=OPEN_CHECKPOINT_10_SUBMITTED
+STAGE21_CONTROLLER=stages/stage21/21-controller.json
+STAGE21_CURRENT_RESULT=stages/stage21/21-10/result.md
+STAGE21_REUSE_PREFLIGHT=PASS
+STAGE21_STRONGER_SOURCE_INTERFACE=E-1e_PR128
+STAGE21_STAGE16S_BASELINE_READY=true
+STAGE21_AUDIT_PERSISTENCE=PENDING
+STAGE21_NEXT_CHECKPOINT=20
+NEXT_EXPECTED_COMMAND=Stage21-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
+STAGE21_28_EXPLORATION_POLICY=docs/stage21-28-exploration-policy.md
 STAGE16_28_REUSE_PREFLIGHT=docs/stage16-28-reuse-preflight.md
 ```
 
 ## Current operation
 
-Stage16S synchronization re-audit is complete. The stale controller/status `BLOCKED` state was bookkeeping-only and has been reconciled with the already-audited final bundle, manifest, and canonical Stage16S-70 audit. No Stage16S mathematical theorem, population contract, cutoff, multiplicity convention, or Stage21 interaction claim changed.
+Stage21 is now open at checkpoint10. It studies the transition from the Stage16 primitive/canonical exactly-one-face population to the Stage17 subpopulation with integral space diagonal, under the exact common cutoff `R<=B` (`d=R` on target objects). Stage16S supplies the audited intrinsic space-diagonal baseline for comparison.
 
-The intrinsic Stage16S baseline remains:
-
-\[
-N_S^{all}(B)\sim \frac{B^2}{32G},\qquad
-N_S^0(B)\sim \frac{B^2}{32G},
-\]
-
-and against the Stage16 ambient population,
+The required repository-wide preflight was run before transition algebra. It found the merged E-1e / PR #128 same-population source theorem
 
 \[
-\frac{N_S^{all}(B)}{U(B)}\sim \frac{9\zeta(3)}{8\pi G}\frac1B.
+M_1(B)\sim \frac{3}{4\pi^2}B^2\log B,
 \]
 
-Thus Stage16S is closed, audit persistence is committed, and the intrinsic space-diagonal baseline is ready for the Stage21 `16 -> 17` transition analysis. Stage21 still owns the final independence/correlation/interaction classification.
+which strengthens the frozen Stage16 `Theta(B^2 log B)` interface. Directionwise E-1e also gives `M_{1,q}(B)~(6I_q/pi^4)B^2 log B`. Stage17 supplies `N_1(B)~kappa/(24pi) B(log B)^3` and a parallel directionwise `I_q` interface. These stronger formulas are frozen as checkpoint30 inputs but are not yet promoted to a Stage21 transition theorem at checkpoint10.
+
+Stage21 is governed by the full exploration policy: dividing source and target formulas is a starting point, not a default stop. Later checkpoints must test leading constants, directionwise structure, the Stage16S intrinsic baseline, interaction enhancement/suppression, and arithmetic mechanisms without double charging. If a load-bearing upstream premise fails, the roadmap reinvestigation rule applies.
 
 ```text
-STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
-STAGE16S_BASELINE_READY_FOR_STAGE21=true
-STAGE16S_AUDIT_STATUS=PASS
-STAGE16S_AUDIT_PERSISTENCE_STATUS=COMMITTED
-STAGE16S_UNSYNCED_AUDIT_STATE=NONE
-STAGE16S_ADVANCE_ALLOWED=true
-STAGE16S_MERGE_ALLOWED=true
-NEXT_STAGE=Stage21
-NEXT_EXPECTED_COMMAND=Stage21-main-batch
+STAGE_STATUS=OPEN
+CHECKPOINT=10
+CHECKPOINT_STATUS=PROVED_CANDIDATE_PENDING_FRESH_AUDIT
+SOURCE_STAGE=Stage16
+TARGET_STAGE=Stage17
+CONTROL_STAGE=Stage16S
+COMMON_CUTOFF=R<=B
+REPO_REUSE_PREFLIGHT=PASS
+STRONGEST_KNOWN_CHECK=PASS
+STRONGER_PRIOR_RESULT_FOUND=true
+STRONGER_SOURCE_INTERFACE=E-1e_PR128
+TRANSITION_FORMULA_IS_STARTING_POINT_NOT_DEFAULT_STOP=true
+AUDIT_STATUS=PENDING
+AUDIT_PERSISTENCE_STATUS=PENDING
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_CHECKPOINT=20
+NEXT_STAGE=
+NEXT_EXPECTED_COMMAND=Stage21-audit
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
+CODEX_REQUIRED=false
 ```
