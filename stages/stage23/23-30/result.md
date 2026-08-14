@@ -2,7 +2,7 @@
 
 EVIDENCE_LEVEL=PROVED
 CHECKPOINT=30
-STATUS=REPAIR_SUBMITTED_FOR_FRESH_REAUDIT
+STATUS=PROVED_AUDITED_PASS_WITH_LATER_SUPERSESSION_ADDENDUM
 
 The frozen ratio deduction remains unchanged:
 
@@ -24,9 +24,33 @@ Checkpoint20's fixed-`n` AR-039 attack remains frozen. Checkpoint30 independentl
 \boxed{w^2=(t^2+1)(t^2+2t+2)}.
 \]
 
-The finite scan `1<=t<10^6`, `t=1 mod 14` found no hit; this is finite diagnostic evidence only.
+At checkpoint30 the integer investigation stopped at the finite diagnostic scan `1<=t<10^6`, `t=1 mod 14`, with zero hits. That statement was not mathematically false, but the attack depth was retrospectively incomplete.
 
-The audit repair does not reopen either theorem. It integrates the Stage14/15 deep-review attack ledger and fixes a compatibility-driven attack queue in `stages/stage23/23-30/attack-priority-ledger.md`.
+## Later supersession / addendum from checkpoint40
+
+Checkpoint40 subsequently proves, directly from the same checkpoint30 equation, that for every integer `t`,
+
+\[
+(t^2+1)(t^2+2t+2)\equiv2\pmod8.
+\]
+
+Since square residues modulo 8 are only `0,1,4`, the integer pullback is globally empty:
+
+\[
+\boxed{\text{no integer }t\text{ satisfies }w^2=(t^2+1)(t^2+2t+2).}
+\]
+
+Therefore the checkpoint30 finite-scan line is superseded by a proof-level global exclusion. The checkpoint30 PASS is not withdrawn: its mathematics was correct, but the later stronger result must be read as the canonical status of this slice.
+
+```text
+STAGE30_MATHEMATICS_FALSE=false
+STAGE30_ATTACK_DEPTH_RETROSPECTIVELY_INCOMPLETE=true
+STAGE30_SUPERSEDED_SLICE_STATUS=GLOBAL_INTEGER_EXCLUSION_BY_MOD8
+FINITE_SCAN_CANONICAL_STATUS=SUPERSEDED_BY_PROOF
+Q03_FALSE_CLAIM_ORIGIN=CHECKPOINT40_ONLY
+```
+
+The audit repair does not reopen the zero-density theorem. It integrates the Stage14/15 deep-review attack ledger and fixes a compatibility-driven attack queue in `stages/stage23/23-30/attack-priority-ledger.md`.
 
 ```text
 ATTACK_SELECTION_POLICY=PRIORITY_DRIVEN
@@ -45,7 +69,7 @@ Q06_ROLE=(4,4) Kummer receiver + physical-height upper/support attack
 Q06_EXPONENT_IMPROVEMENT_PROVED=false
 
 CURRENT_LOWER_ATTACK=Q03
-Q03_ROLE=elliptic/Selmer attack on the newly found genus-1 Stage17 slice
+Q03_ROLE=genus-one slice attack; later globally excluded over integer t by mod 8 at checkpoint40
 Q03_INFINITE_STAGE19_FAMILY_PROVED=false
 
 NEXT_P1_RESERVES=Q04,Q11
@@ -55,18 +79,14 @@ P3_NO_REATTACK=Q07,Q08,Q09,Q10
 
 Q06 is not rejected merely because the inherited `B^(1/2+epsilon)` ceiling already exists. It stays active until the physical-height transfer and Kummer point-count support either produce a stronger bound or are shown not to improve the literal Stage19 count at the current input resolution.
 
-Q03 is activated in parallel because the new checkpoint30 slice is genuinely genus 1. Q04 is the next alternate-geometry receiver; Q11 is the next local-sieve upper weapon if sufficient uniformity becomes available. Q05 remains external-input gated. Q07-Q10 are not re-attacked without new equations, height control, or average-theorem input.
-
 ```text
 STAGE14_15_ATTACK_LEDGER_INTEGRATED=true
 ATTACK_IDS_ACCEPTED_REJECTED_RECORDED=true
 DEEP_REVIEW_QUEUE_CHECK=PASS
 ZERO_DENSITY_MATHEMATICS_REOPENED=false
-FRESH_ATTACK_REOPENED=false
-REPAIR_SCOPE=STAGE14_15_ATTACK_LEDGER_INTEGRATION_AND_PRIORITY_QUEUE_ONLY
-AUDIT_REQUIRED=true
-ADVANCE_ALLOWED=false
+STAGE30_SUPERSESSION_ADDENDUM_MATERIALIZED=true
+AUDIT_REQUIRED=false
+ADVANCE_ALLOWED=true
 NEXT_CHECKPOINT_AFTER_PASS=40
-MERGE_ALLOWED=false
 CODEX_REQUIRED=false
 ```
