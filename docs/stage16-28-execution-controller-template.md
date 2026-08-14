@@ -378,3 +378,18 @@ NEXT_EXPECTED_COMMAND=StageX-main-batch
 ```
 
 This enforcement applies even if the checkpoint's mathematical formula is correct. It protects the Stage21–28 requirement that the first visible formula is a starting point rather than the default stopping point.
+
+### Sublane identifier validation
+
+Before opening or auditing a Stage21–28 research sublane, the controller must validate its identifier against `docs/stage21-28-exploration-policy.md`:
+
+```text
+SUBLANE_NAMING_CHECK=PASS|FAIL
+TASK_ID=Stage<owner>[-u<source>]-r<PSS><branch>
+OWNER_STAGE_MATCH=true|false
+TRIGGER_CHECKPOINT_MATCH=true|false
+ROUTE_SERIAL_UNIQUE=true|false
+UPSTREAM_TARGET_RECORDED=true|false|NOT_APPLICABLE
+```
+
+A failed naming check blocks creation of the sublane artifact but does not block unrelated parent-checkpoint work. Renaming never changes mathematical provenance: the old identifier must remain recorded as an alias if it was already cited or audited.
