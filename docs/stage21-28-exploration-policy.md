@@ -226,3 +226,50 @@ NEXT_EXPECTED_COMMAND=StageX-main-batch
 Advancement is restored only when all discovery passes required up to the submitted checkpoint are complete, every mandatory exploration layer is classified, sublane decisions are recorded, and any triggered independent discovery audit has passed.
 
 This gate does not invalidate a correctly proved theorem. It prevents premature stage advancement or claims of exhaustive exploration until repository-wide discovery has actually been evidenced.
+
+## Stage21–28 sublane naming convention
+
+Every bounded additional-research sublane must use a stable identifier:
+
+```text
+Stage<owner>[-u<source>]-r<PSS><branch>
+```
+
+- `owner` is the transition stage that discovered and owns the question, for example `21`.
+- optional `u<source>` identifies an upstream stage being reinvestigated, for example `u16` or `u19`.
+- `P` is the originating checkpoint band: `0` for pre-stage/cross-checkpoint discovery, then `1` through `7` for checkpoints10 through70.
+- `SS` is a two-digit route serial `01`–`99`, allocated within that owner stage and checkpoint band.
+- `branch` is the ordered work item inside that route: `a`, `b`, `c`, and so on.
+
+Examples:
+
+```text
+Stage21-r301a       # Stage21-local route 01, discovered at checkpoint30
+Stage21-u16-r301a  # Stage21-owned reinvestigation of Stage16
+Stage21-u16-r301b  # second work item in the same route
+Stage24-u19-r501a  # Stage24 checkpoint50 route returning to Stage19
+Stage28-r001a      # cross-stage synthesis route discovered before checkpoint10
+```
+
+The route serial is immutable and must not be reused after rejection or closure. A changed wording is not a new route. If multiple upstream stages are affected, use `um` in the identifier and record the full list in `AFFECTED_SOURCE_STAGES`.
+
+Required route metadata:
+
+```text
+TASK_ID=
+SUBLANE_ID=
+OWNER_STAGE=
+RESEARCH_LOCATION=LOCAL|UPSTREAM|MULTI_UPSTREAM
+AFFECTED_SOURCE_STAGE=<stage or NONE>
+AFFECTED_SOURCE_STAGES=<list or NONE>
+TRIGGER_CHECKPOINT=<10|20|30|40|50|60|70|PRE_STAGE>
+ROUTE_SERIAL=<01-99>
+RESEARCH_QUESTION=
+INPUTS=
+EXPECTED_OUTPUT=
+STOP_CONDITION=
+AUDIT_REQUIRED=true
+DOWNSTREAM_REAUDIT_REQUIRED=<stages or NONE>
+```
+
+Ordinary checkpoint work, audit-persistence repair, formatting fixes, controller synchronization, and archive maintenance must not consume a research-sublane identifier.
