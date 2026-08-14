@@ -8,18 +8,18 @@
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "PENDING",
+    "30": "PROVED_AUDITED_PASS",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 20,
+    "CURRENT_CHECKPOINT": 30,
     "MAIN_STATUS": "AUDITED_PASS",
     "AUDIT_STATUS": "PASS",
     "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 30,
+    "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
     "MERGE_ALLOWED": true
   },
@@ -36,8 +36,13 @@
     "scope": ["ARSENAL","NUM_INDEX","STAGES","SUPPLEMENTS","ARCHIVE","PRS"],
     "search_modes": ["DIRECT_TERMS","SYNONYMS_NOTATION","STRUCTURAL_SIGNATURES","DEPENDENCY_NEIGHBORS"],
     "strongest_known_check_required": true,
-    "known_stronger_source_candidate": "E-1e PR #128 leading M1 asymptotic",
-    "target_constant_search_required": true
+    "status": "PASS",
+    "stronger_source_result_found": true,
+    "source_interface": "E-1e as audited through Stage21: M1(B)~3/(4*pi^2) B^2 log B",
+    "target_constant_search_required": true,
+    "target_constant_search": "PASS",
+    "target_interface": "Stage15-2b / Stage18: M2(B)~C_M2 B(log B)^5, C_M2>0",
+    "target_constant_explicit_numeric": false
   },
   "checkpoint20": {
     "source_counts": "stages/stage16/16-20/counts.csv",
@@ -47,15 +52,26 @@
     "finite_data_used_as_proof": false,
     "monotone_decrease_on_shared_thresholds": true
   },
+  "checkpoint30": {
+    "source_asymptotic": "M1(B)~3/(4*pi^2) B^2 log B",
+    "target_asymptotic": "M2(B)~C_M2 B(log B)^5, C_M2>0",
+    "ratio_asymptotic": "M2(B)/M1(B)~(4*pi^2*C_M2/3)*(log B)^4/B",
+    "ratio_limit": 0,
+    "polynomial_ratio_power": -1,
+    "log_ratio_power": 4,
+    "leading_ratio_constant": "4*pi^2*C_M2/3",
+    "finite_data_used_as_proof": false,
+    "literal_subset_interpretation": false
+  },
   "stage70_closeout": {
     "promotion_materialization_required_if_yes": true,
     "yes_classification_alone_is_completion": false
   },
   "last_audit": {
-    "checkpoint": 20,
+    "checkpoint": 30,
     "verdict": "PASS",
-    "record": "stages/stage22/22-20/audit.md",
-    "pr": 952,
+    "record": "stages/stage22/22-30/audit.md",
+    "pr": 953,
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
