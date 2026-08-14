@@ -2,36 +2,37 @@
 
 EVIDENCE_LEVEL=PROVED
 CHECKPOINT=40
-STATUS=OPEN_GATE_CANDIDATE_PENDING_FRESH_AUDIT
+STATUS=PROVED_CANDIDATE_PENDING_FRESH_AUDIT
 
-## Immediate certified upper bounds
-Stage20 is a subset of the Stage18 exactly-two-or-more host only after changing multiplicity, so Stage18's exactly-two asymptotic is not a literal superset bound. The safe ambient inclusion is instead the primitive/canonical cuboid population U(B) from Stage16:
+## Strongest certified upper bound
+Stage20 is exactly the primitive/canonical Euler-brick population counted in the audited Stage14-e8 Euclidean-height theorem: 0<a<b<c, gcd(a,b,c)=1, all three face diagonals integral, and R=sqrt(a^2+b^2+c^2)<=B, with no integral-space-diagonal requirement.
 
-M_3(B) <= U(B).
+Stage14-e8 proves, by projecting to the Pythagorean triple on the two largest edges and bounding the remaining completion multiplicity by tau(b^2), that
 
-With the audited Stage16 ambient asymptotic
+M_3(B) << B log B * exp(O(log B/log log B)) = B^(1+o(1)).
 
-U(B) ~ (pi/(36*zeta(3))) B^3,
+Equivalently, for every fixed epsilon>0,
 
-we obtain the unconditional project upper bound
+M_3(B)=O_epsilon(B^(1+epsilon)).
 
-M_3(B) = O(B^3).
+This strictly improves the ambient cubic bound M_3(B)<=U(B)=O(B^3).
 
-A second trivial geometric lattice count gives the same polynomial scale and no improvement.
+## Additional audited upper information
+Stage14-e10 also gives an independent thin-cover logarithmic saving relative to the two-face B(log B)^5 host, but the divisor-envelope bound B^(1+o(1)) is polynomially stronger and is therefore the Stage20 checkpoint40 headline upper bound.
 
-## Stronger-bound search status
-No audited project theorem currently supplies a strictly smaller polynomial exponent, logarithmic saving, or asymptotic upper formula for the Stage20 primitive/canonical Euler population under R<=B.
-
-STRONGEST_CERTIFIED_PROJECT_BOUND=M_3(B)=O(B^3)
-STRICTLY_BETTER_THAN_AMBIENT_CUBIC=false
+STRONGEST_CERTIFIED_PROJECT_BOUND=M_3(B)=B^(1+o(1))
+FOR_ALL_EPSILON=M_3(B)=O_epsilon(B^(1+epsilon))
+UPPER_BOUND_PROVENANCE=Stage14-e8
+STRICTLY_BETTER_THAN_AMBIENT_CUBIC=true
 TRUE_UPPER_EXPONENT_IDENTIFIED=false
 SHARPNESS_PROVED=false
-OPEN_GATE=NONTRIVIAL_STAGE20_UPPER_BOUND_UNRESOLVED
+MATCHING_LOWER_BOUND_PROVED=false
+OPEN_GATE=SHARPNESS_AND_MATCHING_LOWER_BOUND_UNRESOLVED
 
-The checkpoint30 growth-law OPEN_GATE remains open. This checkpoint does not infer an upper exponent from the seven finite objects through B=2000 and does not import an unadapted literature parameterization as a counting theorem.
+The polynomial upper exponent ceiling is one, but this does not prove M_3(B)=B^(1+o(1)) as a two-sided order statement. A lower bound must be handled separately at checkpoint50.
 
 ## Boundary
-The conditional M_3(B)/M_2(B) transition belongs to Stage26. No integral-space-diagonal condition is imposed and no perfect-cuboid conclusion is made.
+The checkpoint30 population-growth OPEN_GATE remains open. The conditional M_3(B)/M_2(B) transition belongs to Stage26. No integral-space-diagonal condition is imposed and no perfect-cuboid conclusion is made.
 
 NEXT_CHECKPOINT=50
 NEXT_EXPECTED_COMMAND=Stage20-audit
