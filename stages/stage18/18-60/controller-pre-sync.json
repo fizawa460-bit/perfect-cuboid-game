@@ -1,0 +1,68 @@
+{
+  "schema_version":1,
+  "stage":"Stage18",
+  "status":"OPEN",
+  "parent_class":"population_state",
+  "checkpoint_status":{
+    "10":"AUDITED_PASS",
+    "20":"AUDITED_PASS",
+    "30":"AUDITED_PASS",
+    "40":"AUDITED_PASS",
+    "50":"AUDITED_PASS",
+    "60":"PROVED_CANDIDATE_PENDING_FRESH_AUDIT",
+    "70":"UNRESOLVED"
+  },
+  "state":{
+    "CURRENT_CHECKPOINT":60,
+    "MAIN_STATUS":"SUBMITTED_WITH_STATUS_SYNC_BLOCK",
+    "AUDIT_STATUS":"PENDING",
+    "ADVANCE_ALLOWED":false,
+    "NEXT_CHECKPOINT":70,
+    "NEXT_STAGE":"",
+    "NEW_INPUT_REQUIRED":false,
+    "HUMAN_DECISION_REQUIRED":false,
+    "MERGE_ALLOWED":false
+  },
+  "last_audit":{
+    "checkpoints":[30,40,50],
+    "verdict":"PASS",
+    "pr":919,
+    "records":[
+      "stages/stage18/18-30/audit.md",
+      "stages/stage18/18-40/audit.md",
+      "stages/stage18/18-50/audit.md"
+    ]
+  },
+  "causal":{
+    "result":"stages/stage18/18-60/result.md",
+    "primary_structure":"double Pythagorean faces sharing one edge",
+    "normal_form":"s^2+x^2=p^2; s^2+y^2=q^2; x^2+y^2 non-square",
+    "net_ambient_survival":"[36 zeta(3) C_M2/pi](log B)^5/B^2",
+    "net_polynomial_cost":"TWO_POWERS_OF_B",
+    "independence_factorization":"NOT_CLAIMED",
+    "third_face_exclusion_leading_role":"UNRESOLVED_IN_STAGE18",
+    "stage16_to_18_incremental_cause":"DEFER_TO_STAGE22",
+    "stage18_to_20_incremental_cause":"DEFER_TO_STAGE26"
+  },
+  "last_submission":{
+    "checkpoint":60,
+    "status":"SUBMITTED_FOR_FRESH_AUDIT",
+    "result":"stages/stage18/18-60/result.md",
+    "evidence":"DERIVED_FROM_AUDITED_INPUTS",
+    "codex_required":false
+  },
+  "repository_write":{
+    "policy":"docs/stage16-28-github-write-policy.md",
+    "result_and_controller_written":true,
+    "current_status_sync":"BLOCKED_BY_CONNECTOR_SAFETY",
+    "unsynced_path":"docs/00_CURRENT_RESEARCH_STATUS.md",
+    "mathematical_content_changed_by_block":false
+  },
+  "audit_persistence":{
+    "required":true,
+    "status":"PENDING",
+    "unsynced_audit_state":"docs/00_CURRENT_RESEARCH_STATUS.md",
+    "merge_execution_default":false
+  },
+  "merge_rule":"Fresh Stage18-audit cannot permit checkpoint70 or merge until docs/00_CURRENT_RESEARCH_STATUS.md is synchronized and the checkpoint60 verdict is durably persisted."
+}
