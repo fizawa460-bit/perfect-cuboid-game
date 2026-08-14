@@ -9,19 +9,19 @@
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
-    "40": "PENDING",
+    "40": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "COMPLETE",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 40,
+    "CURRENT_CHECKPOINT": 40,
+    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage16",
   "target_stage": "Stage17",
@@ -30,30 +30,24 @@
   "reuse_preflight": {
     "status": "PASS",
     "scope": ["ARSENAL","NUM_INDEX","STAGES","SUPPLEMENTS","ARCHIVE","PRS"],
-    "direct_term_search": "PASS",
-    "synonym_notation_search": "PASS",
-    "structural_signature_search": "PASS",
-    "dependency_neighbor_search": "PASS",
-    "strongest_known_check": "PASS",
-    "stronger_prior_result_found": true,
     "stronger_source_interface": "E-1e PR #128: M1(B)~3/(4pi^2) B^2 log B"
   },
   "checkpoint30_claims": {
     "conditional_survival": "N1/M1 ~ (kappa*pi/18)*(log B)^2/B",
-    "directionwise_survival": "same leading constant for q=ab,ac,bc after I_q cancellation",
+    "directionwise_survival": "same leading constant for q=ab,ac,bc",
     "ambient_baseline": "NSall/U ~ [9*zeta(3)/(8*pi*G)]/B",
-    "enhancement_ratio": "(N1/M1)/(NSall/U) ~ [4*kappa*pi^2*G/(81*zeta(3))]*(log B)^2 -> infinity",
-    "interaction_classification": "positive logarithmic enhancement; asymptotic independence in ratio sense false"
+    "enhancement_ratio": "~ [4*kappa*pi^2*G/(81*zeta(3))]*(log B)^2 -> infinity"
   },
-  "finite_baseline": {
-    "stage16_counts": "stages/stage16/16-20/counts.csv",
-    "stage17_counts": "stages/stage17/17-20/counts.csv",
-    "stage16s_counts": "stages/stage16s/16s-20/counts.csv",
-    "cross_enumerator_match": "Stage17 N1 equals Stage16S face1 at every shared threshold"
+  "checkpoint40_claims": {
+    "sharp_upper_scale": "(log B)^2/B",
+    "sharpness_proved": true,
+    "polynomial_cost_mechanism": "space quadratic constraint / one-dimension loss",
+    "log_enhancement_mechanism": "arithmetically present but not yet factorized",
+    "open_gate": "LOG_SQUARED_ENHANCEMENT_MECHANISM_UNRESOLVED"
   },
   "exploration_policy": "docs/stage21-28-exploration-policy.md",
   "last_audit": {"checkpoint":30,"verdict":"PASS","record":"stages/stage21/21-30/audit.md","pr":946,"merge_allowed":true},
-  "audit_persistence": {"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
-  "next_expected_command": "Stage21-main-batch",
+  "audit_persistence": {"required":true,"status":"PENDING","unsynced_audit_state":"NONE"},
+  "next_expected_command": "Stage21-audit",
   "codeX_required": false
 }
