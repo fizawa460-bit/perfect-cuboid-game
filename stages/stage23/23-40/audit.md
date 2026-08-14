@@ -1,45 +1,32 @@
 # Stage23-40 fresh re-audit
 
-Status: **FAIL**
+Status: **PASS**
 
-The Q03 repair is mathematically accepted. The false claim `(t,w)=(0,1)` was introduced only at checkpoint40; it is not present in the audited checkpoint30 source. Checkpoint30 correctly stated only that the quartic is genus one, that a finite scan found no hits, and that the arithmetic remained open.
+The prior repair requirements are now satisfied.
 
-However, the later mod-8 argument reveals that checkpoint30 stopped too early: the same displayed equation already implies the global integer obstruction
+Q03 is resolved for the selected consecutive-parameter slice by a proof-level mod-8 obstruction, not by finite search. The false `(t,w)=(0,1)` claim is correctly confined to checkpoint40 and withdrawn. The stronger conclusion has also been propagated backward into checkpoint30 as a supersession/addendum: checkpoint30 was not mathematically false, but its finite-zero-hit diagnostic is now noncanonical and replaced by global integer exclusion for this slice.
 
-\[
-(t^2+1)(t^2+2t+2)\equiv2\pmod8
-\]
+Q06 is now executed from its actual Stage14 source receivers rather than from the queue label alone. The repair opens Stage14-4ah / PR #164, Stage14-tH15 / PR #457, and Stage14-t64 / PR #497; imports the physical Kummer receiver; records the exact height identity `H_M=d`; controls the canonical Stage19 orientation multiplicity by `O(1)`; and pushes the receiver through the transverse Jacobi square-lift incidence `y^2=(t^2+s)(1+s t^2)`. Fixed physical rational curves have M-degree at least 4, yielding at best the half-power height exponent. The unresolved boundary is now the moving transverse Jacobi/Kummer family count/dispersion theorem, not a missing repository lookup.
 
-for every integer `t`. Therefore checkpoint30 was not mathematically false, but its attack ledger is retrospectively superseded from `FINITE_ZERO_HIT_DIAGNOSTIC` to `GLOBAL_INTEGER_SLICE_EXCLUSION`. Before checkpoint40 can pass, this stronger conclusion must be propagated backward as an explicit Stage23-30 addendum/supersession record so future agents do not treat the genus-one slice as an unresolved elliptic-rank gate.
-
-The checkpoint40 authoritative result and PR body must also remove the stale `(0,1)` rational-point statement and the stale `LIVE_ARITHMETIC_GATE` classification.
-
-Q06 independently remains incomplete. The prior audit required opening the actual Stage14/15 sources behind Q06, importing the `(4,4)` receiver into Stage23 variables, and pushing the physical `d<=B` height and multiplicity relation to the first genuinely unavailable theorem/inequality. Saying only that the receiver package is not materialized in the Stage23 interface is insufficient because the selected weapon lives upstream in Stage14/15 and must actually be opened before it can be declared blocked.
-
-No Stage30 PASS revocation is required: its stated theorem and finite-scan claims were valid. What is required is retrospective strengthening/provenance synchronization plus the remaining Q06 source-level execution.
+No stronger exponent or logarithmic saving is proved, and the current `B^(1/2+epsilon)` ceiling is not declared optimal. Q06 is therefore internally exhausted at the current source/input resolution with a precise reopen condition. Q04 and Q11 may now become the next P1 reserves under the priority policy.
 
 ```text
-AUDIT_VERDICT=FAIL
+AUDIT_VERDICT=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 UNSYNCED_AUDIT_STATE=NONE
-ADVANCE_ALLOWED=false
+ADVANCE_ALLOWED=true
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
-NEXT_CHECKPOINT=40
+NEXT_CHECKPOINT=50
 NEXT_STAGE=
 CODEX_AUDIT_REQUIRED=false
 CODEX_REASON=NONE
-MERGE_ALLOWED=false
-REPAIR_SCOPE=Q06_SOURCE_LEVEL_EXECUTION_PLUS_Q03_RETROSPECTIVE_PROPAGATION
-Q03_FALSE_CLAIM_ORIGIN=CHECKPOINT40_ONLY
-STAGE30_MATHEMATICS_FALSE=false
-STAGE30_ATTACK_DEPTH_RETROSPECTIVELY_INCOMPLETE=true
-STAGE30_SUPERSESSION_ADDENDUM_REQUIRED=true
-STAGE30_NEW_STATUS_FOR_SLICE=GLOBAL_INTEGER_EXCLUSION_BY_MOD8
-Q03_RESULT_AND_PR_BODY_SYNC_REQUIRED=true
-Q06_SOURCE_ATTACK_IDS_MUST_BE_OPENED=true
-Q06_ACTUAL_RECEIVER_MAP_REQUIRED=true
-Q06_HEIGHT_MULTIPLICITY_PUSH_REQUIRED=true
-Q04_Q11_ACTIVATION_DEFERRED=true
+MERGE_ALLOWED=true
+Q03_MOD8_OBSTRUCTION_ACCEPTED=true
+STAGE30_SUPERSESSION_ADDENDUM_ACCEPTED=true
+Q06_SOURCE_LEVEL_EXECUTION=PASS_WITH_NO_BREAKTHROUGH
+Q06_INTERNAL_SOURCE_EXECUTION_EXHAUSTED_AT_CURRENT_INPUT=true
+Q06_REOPEN_CONDITION=NEW_TRANSVERSE_JACOBI_KUMMER_MOVING_FAMILY_COUNT_OR_DISPERSION_THEOREM
+Q04_Q11_ACTIVATION_ALLOWED=true
 ZERO_DENSITY_MATHEMATICS_REOPEN_REQUIRED=false
 ```
