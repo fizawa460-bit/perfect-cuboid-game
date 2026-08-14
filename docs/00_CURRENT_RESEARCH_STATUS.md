@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage20-30-SUBMITTED
+CURRENT_STAGE=Stage20-30-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -11,40 +11,40 @@ STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS
-STAGE20_STATUS=OPEN_CHECKPOINT_30_SUBMITTED
+STAGE20_STATUS=OPEN_CHECKPOINT_30_AUDIT_PASS_OPEN_GATE_CLASSIFIED
 STAGE20_CONTROLLER=stages/stage20/20-controller.json
 STAGE20_CURRENT_RESULT=stages/stage20/20-30/result.md
+STAGE20_CURRENT_AUDIT=stages/stage20/20-30/audit.md
 STAGE20_CURRENT_DATA=stages/stage20/20-20/counts.csv
 STAGE20_CURRENT_ENUMERATOR=stages/stage20/20-20/enumerate.py
-STAGE20_PRIOR_AUDIT=stages/stage20/20-20/audit.md
-STAGE20_AUDIT_PERSISTENCE=PENDING
+STAGE20_AUDIT_PERSISTENCE=COMMITTED
 STAGE20_NEXT_CHECKPOINT=40
-NEXT_EXPECTED_COMMAND=Stage20-audit
+NEXT_EXPECTED_COMMAND=Stage20-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 ```
 
 ## Current operation
 
-Stage20 checkpoints10 and20 are audited PASS. Checkpoint30 classifies the current population-growth / ratio status without stealing the Stage18->20 transition analysis reserved for Stage26.
+Stage20 checkpoints10 and20 are audited PASS. Checkpoint30 is now audited as an explicit OPEN_GATE rather than a fabricated growth law.
 
-The exact finite census through B=2000 remains computed evidence only. The older `stages/euler-cuboid` track uses the same geometric cutoff convention but its completed layer concerns exactly one face, so it does not provide a Stage20 population theorem.
+The exact finite census through B=2000 remains COMPUTED evidence only. No audited project theorem currently supplies an asymptotic formula for M3(B), a true growth exponent, or an ambient density law under the primitive/canonical R<=B Stage20 population contract.
 
-No audited project theorem currently supplies an asymptotic formula for M3(B), a true growth exponent, or an ambient density law. Therefore Stage20-30 records an explicit OPEN_GATE rather than fitting the seven observed Euler cuboids.
+Accordingly the audited checkpoint30 status is:
 
 ```text
 STAGE_STATUS=OPEN
 CHECKPOINT=30
-EVIDENCE_LEVEL=PROVED
-CHECKPOINT_STATUS=OPEN_GATE_CANDIDATE_PENDING_FRESH_AUDIT
+CHECKPOINT_STATUS=OPEN_GATE_AUDITED_PASS
 OPEN_GATE=STAGE20_POPULATION_GROWTH_LAW_UNRESOLVED
 STAGE18_TO_STAGE20_RATIO=DEFER_STAGE26
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+UNSYNCED_AUDIT_STATE=NONE
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 NEXT_CHECKPOINT=40
 NEXT_STAGE=
-NEXT_EXPECTED_COMMAND=Stage20-audit
+NEXT_EXPECTED_COMMAND=Stage20-main-batch
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
 CODEX_REQUIRED=false
