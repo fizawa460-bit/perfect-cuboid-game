@@ -7,7 +7,8 @@ The mathematics is correct: the matched Stage14 numerator bound and Stage15 deno
 The repair is formal but mandatory: `EVIDENCE_LEVEL=PROVED_WITH_EXACT_FINITE_DIAGNOSTIC` is not in the roadmap enum `PROVED|LITERATURE|COMPUTED|HEURISTIC`. Set `EVIDENCE_LEVEL=PROVED` and keep the already separate `NUM_EVIDENCE_LEVEL=...` for the finite diagnostics. No mathematical claim needs changing.
 
 AUDIT_VERDICT=FAIL
-AUDIT_PERSISTENCE_STATUS=PENDING_CONTROLLER_STATUS_SYNC
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+UNSYNCED_AUDIT_STATE=NONE
 ADVANCE_ALLOWED=false
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
