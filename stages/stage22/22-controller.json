@@ -11,17 +11,17 @@
     "30": "PROVED_AUDITED_PASS",
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
-    "60": "PENDING",
+    "60": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 50,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 60,
+    "CURRENT_CHECKPOINT": 60,
+    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage16",
   "target_stage": "Stage18",
@@ -86,6 +86,24 @@
     "two_sided_order_match": true,
     "finite_data_used_as_proof": false
   },
+  "checkpoint60": {
+    "bulk_causal_localization_proved": true,
+    "polynomial_loss": "B^-1",
+    "polynomial_localization": "source free complementary edge replaced by coupled second Pythagorean face",
+    "log_compensation": "(log B)^4",
+    "log_localization": "source harmonic scale architecture versus target rank-6 anticanonical toric bulk",
+    "target_bulk_structure": "shared-edge double-Pythagorean surface",
+    "third_face_exclusion_is_leading_cause": false,
+    "third_face_exclusion_role": "LOWER_ORDER_SUBTRACTION",
+    "canonicalization_new_cause": false,
+    "primitivity_new_cause": false,
+    "cutoff_new_cause": false,
+    "physical_multiplicity_new_cause": false,
+    "four_independent_log_factors_proved": false,
+    "unique_fine_causal_decomposition_proved": false,
+    "fine_mechanism_open": true,
+    "finite_data_used_as_proof": false
+  },
   "stage70_closeout": {
     "promotion_materialization_required_if_yes": true,
     "yes_classification_alone_is_completion": false
@@ -101,9 +119,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED",
+    "status": "PENDING",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage22-main-batch",
+  "next_expected_command": "Stage22-audit",
   "codeX_required": false
 }
