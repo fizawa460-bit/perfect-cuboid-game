@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage20-20-AUDIT-PASS
+CURRENT_STAGE=Stage20-30-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -11,39 +11,40 @@ STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS
-STAGE20_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
+STAGE20_STATUS=OPEN_CHECKPOINT_30_SUBMITTED
 STAGE20_CONTROLLER=stages/stage20/20-controller.json
-STAGE20_CURRENT_RESULT=stages/stage20/20-20/result.md
+STAGE20_CURRENT_RESULT=stages/stage20/20-30/result.md
 STAGE20_CURRENT_DATA=stages/stage20/20-20/counts.csv
 STAGE20_CURRENT_ENUMERATOR=stages/stage20/20-20/enumerate.py
-STAGE20_CURRENT_AUDIT=stages/stage20/20-20/audit.md
-STAGE20_PRIOR_AUDIT=stages/stage20/20-10/audit.md
-STAGE20_AUDIT_PERSISTENCE=COMMITTED
-STAGE20_NEXT_CHECKPOINT=30
-NEXT_EXPECTED_COMMAND=Stage20-main-batch
+STAGE20_PRIOR_AUDIT=stages/stage20/20-20/audit.md
+STAGE20_AUDIT_PERSISTENCE=PENDING
+STAGE20_NEXT_CHECKPOINT=40
+NEXT_EXPECTED_COMMAND=Stage20-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 ```
 
 ## Current operation
 
-Stage20 checkpoints10 and20 are audited PASS. Checkpoint20 supplies an exact finite baseline for the primitive/canonical Euler-cuboid population under R<=B.
+Stage20 checkpoints10 and20 are audited PASS. Checkpoint30 classifies the current population-growth / ratio status without stealing the Stage18->20 transition analysis reserved for Stage26.
 
-Frozen counts are M3(50)=0, M3(100)=0, M3(200)=0, M3(400)=1, M3(800)=3, M3(1200)=5, M3(1600)=5, M3(2000)=7. Independent recomputation matches the committed table; the first record is (44,117,240) with R^2=73225. The committed enumerator also contains an independent direct small-cutoff set comparison at B=400.
+The exact finite census through B=2000 remains computed evidence only. The older `stages/euler-cuboid` track uses the same geometric cutoff convention but its completed layer concerns exactly one face, so it does not provide a Stage20 population theorem.
 
-These are finite computed facts only. No asymptotic, growth exponent, density law, Stage18-to-20 transition law, or perfect-cuboid conclusion is inferred.
+No audited project theorem currently supplies an asymptotic formula for M3(B), a true growth exponent, or an ambient density law. Therefore Stage20-30 records an explicit OPEN_GATE rather than fitting the seven observed Euler cuboids.
 
 ```text
 STAGE_STATUS=OPEN
-CHECKPOINT=20
-EVIDENCE_LEVEL=COMPUTED
-AUDIT_STATUS=PASS
-AUDIT_PERSISTENCE_STATUS=COMMITTED
-UNSYNCED_AUDIT_STATE=NONE
-ADVANCE_ALLOWED=true
-MERGE_ALLOWED=true
-NEXT_CHECKPOINT=30
+CHECKPOINT=30
+EVIDENCE_LEVEL=PROVED
+CHECKPOINT_STATUS=OPEN_GATE_CANDIDATE_PENDING_FRESH_AUDIT
+OPEN_GATE=STAGE20_POPULATION_GROWTH_LAW_UNRESOLVED
+STAGE18_TO_STAGE20_RATIO=DEFER_STAGE26
+AUDIT_STATUS=PENDING
+AUDIT_PERSISTENCE_STATUS=PENDING
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_CHECKPOINT=40
 NEXT_STAGE=
-NEXT_EXPECTED_COMMAND=Stage20-main-batch
+NEXT_EXPECTED_COMMAND=Stage20-audit
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
 CODEX_REQUIRED=false
