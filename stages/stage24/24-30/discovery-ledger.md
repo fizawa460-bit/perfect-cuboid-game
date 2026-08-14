@@ -6,7 +6,7 @@ SEARCH_STATUS=COMPLETE_FOR_CHECKPOINT30
 
 ## Search targets
 
-The checkpoint30 policy required more than the first quotient bound. The search therefore covered:
+The checkpoint30 policy required more than the first quotient bound. The search covered:
 
 1. Stage18 absolute source theorem and directional asymptotics;
 2. Stage19 whole-family upper theorem and local squareclass zero-density theorem;
@@ -14,7 +14,7 @@ The checkpoint30 policy required more than the first quotient bound. The search 
 4. leading-constant availability;
 5. directional refinements;
 6. independent proof routes for Stage18 -> Stage19 zero density;
-7. checkpoint20 / r202 million-scale finite evidence as diagnostics only.
+7. checkpoint20/r202 million-scale finite evidence as diagnostics only.
 
 ## Source-level findings
 
@@ -39,7 +39,7 @@ Stage15-2b identifies `C_M2` as a positive toric/Tamagawa chamber constant and p
 
 However Stage15-2b explicitly records `M2_ASYMPTOTIC_CONSTANT_EXPLICIT=false`; no closed numerical formula for `C_M2` or the directional constants is frozen. The Stage14 numerator bound also has only an implicit `epsilon`-dependent constant. Therefore checkpoint30 cannot print a rigorous leading constant for the quantitative survivor upper bound.
 
-Finite estimates such as `M2(1m)/(1m (log 1m)^5)` are diagnostic and are not substituted for `C_M2`.
+Finite estimates are diagnostic and are not substituted for `C_M2`.
 
 ### D30-3 directional quantitative refinement
 
@@ -71,17 +71,25 @@ The Stage18 shared-edge toric surface has equations
 
 `u^2=e^2+x^2`, `v^2=e^2+y^2`.
 
-Adjoin the space-diagonal square root
+Adjoin
 
 `w^2=e^2+x^2+y^2`.
 
-Over the geometric function field,
+To prove geometric non-splitting, work on `e=1` and use Pythagorean rational parameters
 
-`e^2+x^2+y^2 = u^2+y^2 = (u+i y)(u-i y)`.
+`x=2t/(1-t^2)`, `u=(1+t^2)/(1-t^2)`, `y=2s/(1-s^2)`.
 
-On a generic component of the divisor `u+i y=0` in the dense torus with `y!=0`, the other factor is nonzero, so the valuation of the radicand is one. Hence the radicand is not a square in the geometric function field. The double cover is therefore geometrically integral and generically degree two.
+Then the radicand is
 
-Its rational image in the Stage18 torus is a type-II thin subset. Stage15-2b already verifies the almost-Fano/equidistribution hypotheses on the same toric resolution and anticanonical height `R`, and invokes Browning-Loughran thin-set zero density. Thus the space-integral Stage19 points satisfy
+`[u^2 s^4 + (4-2u^2)s^2 + u^2] / (1-s^2)^2`.
+
+As a quadratic in `z=s^2`, the numerator has discriminant
+
+`16(1-u^2)=-16x^2`,
+
+which is nonzero generically. Its two `z` roots are distinct and nonzero, hence the numerator has four simple `s` roots and cannot be a square. Therefore the radicand is not a square in the geometric function field. The resulting double cover is geometrically integral and generically degree two.
+
+Its rational image is a type-II thin subset. Stage15-2b already verifies the almost-Fano/equidistribution hypotheses on the same toric resolution and exact anticanonical height `R`, and invokes Browning-Loughran thin-set zero density. Thus
 
 `N2(B)=o(B(log B)^5)`
 
