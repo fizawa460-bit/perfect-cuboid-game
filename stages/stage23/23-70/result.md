@@ -2,7 +2,7 @@
 
 EVIDENCE_LEVEL=PROVED_TRANSITION_PLUS_AUDITED_ATTACK_BOUNDARY
 CHECKPOINT=70
-STATUS=SUBMITTED_FOR_FRESH_AUDIT
+STATUS=PROVED_AUDITED_PASS_CLOSED_PENDING_MERGE
 
 ## 1. Population contract
 
@@ -187,7 +187,7 @@ PERFECT_CUBOID_CONCLUSION=NONE
 
 ## 9. Exit
 
-Stage23 mathematics is not reopened at checkpoint70. Fresh audit must verify the maximal synthesis, three required closeout artifacts/decisions, and that the unresolved lower-bound frontier is stated without overclaim.
+Stage23 mathematics is not reopened at checkpoint70. Fresh audit verified the maximal synthesis, three required closeout artifacts/decisions, and that the unresolved lower-bound frontier is stated without overclaim.
 
 ```text
 UPSTREAM_PREMISE_CHECK=PASS
@@ -195,11 +195,11 @@ DOUBLE_CHARGE_CHECK=PASS
 NEW_COMPUTATION_REQUIRED=false
 NEW_ANALYTIC_INPUT=false
 MATHEMATICS_REOPEN_REQUIRED=false
-NEXT_CHECKPOINT=70
+NEXT_CHECKPOINT=
 NEXT_STAGE=
-NEXT_EXPECTED_COMMAND=Stage23-audit
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+NEXT_EXPECTED_COMMAND=merge PR #966
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 CLOSE_STAGE_AFTER_AUDIT_PASS=true
 CODEX_REQUIRED=false
 ```
