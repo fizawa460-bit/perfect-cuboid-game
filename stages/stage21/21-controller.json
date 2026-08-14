@@ -10,16 +10,16 @@
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
     "40": "OPEN_GATE_AUDITED_PASS",
-    "50": "PENDING",
+    "50": "PROVED_AUDITED_PASS",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 40,
+    "CURRENT_CHECKPOINT": 50,
     "MAIN_STATUS": "COMPLETE",
     "AUDIT_STATUS": "PASS",
     "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 50,
+    "NEXT_CHECKPOINT": 60,
     "NEXT_STAGE": "",
     "MERGE_ALLOWED": true
   },
@@ -27,11 +27,6 @@
   "target_stage": "Stage17",
   "control_stage": "Stage16S",
   "common_cutoff": "R<=B; target d=R exactly",
-  "reuse_preflight": {
-    "status": "PASS",
-    "scope": ["ARSENAL","NUM_INDEX","STAGES","SUPPLEMENTS","ARCHIVE","PRS"],
-    "stronger_source_interface": "E-1e PR #128: M1(B)~3/(4pi^2) B^2 log B"
-  },
   "checkpoint30_claims": {
     "conditional_survival": "N1/M1 ~ (kappa*pi/18)*(log B)^2/B",
     "directionwise_survival": "same leading constant for q=ab,ac,bc",
@@ -45,8 +40,19 @@
     "log_enhancement_mechanism": "arithmetically present but not yet factorized",
     "open_gate": "LOG_SQUARED_ENHANCEMENT_MECHANISM_UNRESOLVED"
   },
+  "checkpoint50_repair": {
+    "previous_issue": "lower bound alone did not imply AR039=o(N1)",
+    "source": "AR-039 registry imported PR #878; stages/stage11/scripts/audit_shared_p_convolution.py",
+    "exact_height": "d=((m^2+n^2)^2+1)/2",
+    "injective": true,
+    "new_upper": "N_AR039(B)=O(B^(1/2)) from m<(2B)^(1/4) and at most m-1 choices of n",
+    "combined_family_count": "N_AR039(B)=Theta(B^(1/2))",
+    "conditional_scale": "Theta(B^(-3/2)*(log B)^(-1))",
+    "negligible_in_N1": true,
+    "open_gate": "LOG_SQUARED_ENHANCEMENT_BULK_MECHANISM_UNRESOLVED"
+  },
   "exploration_policy": "docs/stage21-28-exploration-policy.md",
-  "last_audit": {"checkpoint":40,"verdict":"PASS","record":"stages/stage21/21-40/audit.md","pr":947,"merge_allowed":true},
+  "last_audit": {"checkpoint":50,"verdict":"PASS","record":"stages/stage21/21-50/audit.md","pr":948,"merge_allowed":true},
   "audit_persistence": {"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
   "next_expected_command": "Stage21-main-batch",
   "codeX_required": false
