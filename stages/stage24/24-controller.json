@@ -6,7 +6,7 @@
   "transition": "Stage18 -> Stage19",
   "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
-    "10": "SUBMITTED_FOR_FRESH_AUDIT",
+    "10": "PROVED_AUDITED_PASS",
     "20": "PENDING",
     "30": "PENDING",
     "40": "PENDING",
@@ -16,12 +16,12 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 10,
+    "MAIN_STATUS": "AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 20,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -37,6 +37,8 @@
   "cutoff_adapter_required": false,
   "multiplicity_adapter_required": false,
   "checkpoint10": {
+    "audit": "PASS",
+    "audit_path": "stages/stage24/24-10/audit.md",
     "result_path": "stages/stage24/24-10/result.md",
     "discovery_ledger": "stages/stage24/24-10/discovery-ledger.md",
     "population_contract_frozen": true,
@@ -48,7 +50,8 @@
     "target_positive_power_lower_bound_proved": false,
     "half_power_intrinsic_status": "UNRESOLVED",
     "true_target_exponent_identified": false,
-    "finite_data_used_as_proof": false
+    "finite_data_used_as_proof": false,
+    "stage21_current_audit_status_verified": "PASS"
   },
   "full_exploration_policy": {
     "EXPLORATION_PHASE": "FULL_TRANSITION_RESEARCH",
@@ -116,12 +119,23 @@
     "required": false,
     "reason": "checkpoint10 freezes exact contracts and candidate map only; no exhaustive absence, strongest-new-bound, or new OPEN_GATE claim is asserted"
   },
-  "last_audit": null,
+  "last_audit": {
+    "checkpoint": 10,
+    "verdict": "PASS",
+    "record": "stages/stage24/24-10/audit.md",
+    "audit_commit": "b3b6fe17846570cb95a0d8ffe8c0a8bfcd0cf29b",
+    "pr": 967,
+    "merge_allowed": true,
+    "new_input_required": false,
+    "human_decision_required": false,
+    "codex_audit_required": false,
+    "codex_reason": "NONE"
+  },
   "audit_persistence": {
     "required": true,
-    "status": "PENDING",
+    "status": "COMMITTED",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-audit",
+  "next_expected_command": "Stage24-main-batch",
   "codeX_required": false
 }
