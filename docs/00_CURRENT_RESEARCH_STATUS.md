@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-10-AUDIT-PASS
+CURRENT_STAGE=Stage19-20-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,12 +45,13 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_10_AUDIT_PASS
+STAGE19_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
-STAGE19_CURRENT_RESULT=stages/stage19/19-10/result.md
-STAGE19_CURRENT_AUDIT=stages/stage19/19-10/audit.md
+STAGE19_CURRENT_RESULT=stages/stage19/19-20/result.md
+STAGE19_CURRENT_AUDIT=stages/stage19/19-20/audit.md
+STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
 STAGE19_AUDIT_PERSISTENCE=COMMITTED
-STAGE19_NEXT_CHECKPOINT=20
+STAGE19_NEXT_CHECKPOINT=30
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -260,23 +261,28 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19-10 passed fresh audit. The target is the literal Stage15 numerator population
+Stage19 checkpoints 10 and 20 use the literal Stage15 numerator population
 \[
 \mathcal A_2(B)=\{(a,b,c):0<a<b<c,\ \gcd(a,b,c)=1,\ R\le B,\ I_{ab}+I_{ac}+I_{bc}=2,\ R\in\mathbf Z\},
 \]
-with count \(N_2(B)\).
+with count \(N_2(B)\). Checkpoints 10 and 20 are fresh-audited.
 
-On the target, `d=R`, so `R<=B iff d<=B` exactly. The Stage19 target is therefore exactly Stage15 `A_2(B)`, with no population, cutoff, multiplicity, measure, or quantifier adapter. Relative to Stage18,
-\[
-\text{Stage19}=\text{Stage18}\cap\{R\in\mathbf Z\}.
-\]
+Because Stage19 is literally Stage15 `A_2(B)`, the exact Stage15-3 matched census transfers without any population, cutoff, multiplicity, measure, or quantifier adapter. The frozen Stage19 finite baseline is
 
-The frozen Stage15/Stage14 upper bound `N_2(B) <<_epsilon B^(1/2+epsilon)` and the Stage15 zero-density theorem `N_2(B)/M_2(B)->0` remain provenance only at checkpoint10. They are not self-promoted to later Stage19 checkpoints, and no intrinsic half-power claim is made.
+```text
+B:    1000  2000  5000  10000  20000  50000  100000
+N2:      2     5    15     25     42     62      89
+```
 
-Canonical Stage19-10 records:
+The canonical Stage19 CSV is `stages/stage19/19-20/counts.csv` with SHA-256 `d9535d89dcd84b432150eda798fa42506e8412220abd4e3f425bf8a804448873`.
 
-- `stages/stage19/19-10/result.md`
-- `stages/stage19/19-10/audit.md`
+At `B=100000`, `N_2=89`. The predeclared Stage15-3 survivor-slope gate requires `N_2>=200`, so finite-data exponent interpretation remains forbidden. No asymptotic, sharpness claim, directional survival law, or independence statement is inferred from checkpoint20.
+
+Canonical Stage19-20 records:
+
+- `stages/stage19/19-20/result.md`
+- `stages/stage19/19-20/counts.csv`
+- `stages/stage19/19-20/audit.md`
 - `stages/stage19/19-controller.json`
 
 ```text
@@ -284,7 +290,7 @@ AUDIT_STATUS=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 ADVANCE_ALLOWED=true
 MERGE_ALLOWED=true
-NEXT_CHECKPOINT=20
+NEXT_CHECKPOINT=30
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 CODEX_REQUIRED=false
 ```
