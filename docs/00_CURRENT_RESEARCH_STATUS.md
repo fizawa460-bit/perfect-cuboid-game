@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-50-SUBMITTED
+CURRENT_STAGE=Stage19-50-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,18 +45,19 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_50_SUBMITTED
+STAGE19_STATUS=OPEN_CHECKPOINT_50_AUDIT_PASS_OPEN_GATE_CLASSIFIED
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
 STAGE19_CURRENT_RESULT=stages/stage19/19-50/result.md
-STAGE19_CURRENT_AUDIT=stages/stage19/19-40/audit.md
-STAGE19_PRIOR_AUDIT=stages/stage19/19-30/audit.md
+STAGE19_CURRENT_AUDIT=stages/stage19/19-50/audit.md
+STAGE19_PRIOR_AUDIT=stages/stage19/19-40/audit.md
+STAGE19_EARLIER_AUDIT=stages/stage19/19-30/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
 STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.json
 STAGE19_NUM_REUSE_CHECK=PASS
 STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
-STAGE19_AUDIT_PERSISTENCE=PENDING
+STAGE19_AUDIT_PERSISTENCE=COMMITTED
 STAGE19_NEXT_CHECKPOINT=60
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -266,32 +267,35 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10, 20, 30 and 40 are fresh-audited. Checkpoint50 is now submitted for fresh audit as the lower-bound/construction ledger.
+Stage19 checkpoints 10, 20, 30 and 40 are fresh-audited. Checkpoint50 is now fresh-audited as a valid OPEN_GATE classification for the lower-bound/construction ledger.
 
 The strongest certified upper bound remains
 \[
 N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
-The new numerical-reuse preflight reuses NUM-R01, NUM-R02 and NUM-R03 / AR-040 without launching a new census. The exact B500m census certifies 3495 distinct primitive canonical Stage19 objects. By monotonicity,
+The numerical-reuse preflight reuses NUM-R01, NUM-R02 and NUM-R03 / AR-040 without launching a new census. The exact B500m census certifies 3495 distinct primitive canonical Stage19 objects. By monotonicity,
 \[
 \boxed{N_2(B)\ge3495\qquad(B\ge500{,}000{,}000).}
 \]
-This is a finite constant lower floor only.
+This is a proved finite constant lower floor only.
 
-No audited construction currently proves `N_2(B)->infinity`, an infinite primitive Stage19 family, any positive-power lower bound, or a matching `B^{1/2-o(1)}` lower bound. Scalar multiples cannot supply such a construction because Stage19 removes nonprimitive copies by `gcd(a,b,c)=1`. The missing unbounded/matching lower bound is therefore an explicit open gate, not a nonexistence theorem.
+No audited construction currently proves `N_2(B)->infinity`, an infinite primitive Stage19 family, any positive-power lower bound, or a matching `B^{1/2-o(1)}` lower bound. Scalar multiples cannot supply such a construction because Stage19 removes nonprimitive copies by `gcd(a,b,c)=1`. The missing unbounded/matching lower bound is therefore classified as `OPEN_GATE=UNBOUNDED_OR_MATCHING_LOWER_BOUND_FOR_STAGE19`, not as a nonexistence theorem. This open route must not be re-entered without genuinely new input.
 
-Canonical submission:
+Canonical checkpoint50 records:
 
 - `stages/stage19/19-50/result.md`
+- `stages/stage19/19-50/audit.md`
 - `stages/stage19/19-controller.json`
 
 ```text
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+CHECKPOINT_STATUS=OPEN_GATE_AUDITED_PASS
+OPEN_GATE_CLASSIFIED=true
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 NEXT_CHECKPOINT=60
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
 NUM_REUSE_CHECK=PASS
