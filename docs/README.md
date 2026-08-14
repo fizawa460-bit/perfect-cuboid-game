@@ -6,11 +6,16 @@ Completed stage-specific research and operational history lives with its stage.
 ## Current project entry points
 
 - `00_CURRENT_RESEARCH_STATUS.md` — current research status; Stage15 is closed at the R02 review freeze
-- `stage16-28-population-roadmap.md` — future population/condition-interaction roadmap after Stage15 closure
+- `stage16-28-population-roadmap.md` — population/condition-interaction roadmap; for Stage21-28 it must be read together with the full-exploration normative addendum below
+- `stage21-28-exploration-policy.md` — **normative Stage21-28 research-phase addendum**: formula substitution is only the starting point; require proactive interface upgrades, refinement search, interaction analysis, bounded research sublanes, and maximal rigorous deductions within stage scope
 - `stage16-28-execution-controller-template.md` — reusable StageX main-batch / audit / Codex controller contract for Stage16-28
 - `face-ratio-geometry-research.md` — geometric research overview
 - `cycle-exploration-safety-protocol.md` — reusable cycle safety protocol
 - `self-contained-review-standard.md` — project-wide definition and template for final self-contained mathematical review artifacts
+
+### Stage16-20 versus Stage21-28 phase boundary
+
+Stages16-20 (plus Stage16S) primarily establish stable population baselines and theorem interfaces. Stage21-28 are the full transition/interaction exploration phase. A Stage21-28 worker must not close a stage merely because existing source and target formulas can be divided. The detailed mandatory exploration depth and checkpoint interpretation are defined in `stage21-28-exploration-policy.md`.
 
 ## Review construction standard
 
