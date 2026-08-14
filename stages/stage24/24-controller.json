@@ -8,7 +8,7 @@
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "SUBMITTED_FOR_FRESH_AUDIT",
+    "30": "PROVED_AUDITED_PASS",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
@@ -16,12 +16,12 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 30,
+    "MAIN_STATUS": "AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -91,7 +91,9 @@
     "merge_allowed": true
   },
   "checkpoint30": {
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "PROVED_AUDITED_PASS",
+    "audit": "PASS",
+    "audit_path": "stages/stage24/24-30/audit.md",
     "result_path": "stages/stage24/24-30/result.md",
     "discovery_ledger": "stages/stage24/24-30/discovery-ledger.md",
     "space_thin_cover_proof": "stages/stage24/24-30/space-thin-cover.md",
@@ -111,13 +113,15 @@
     "space_thin_cover_degree": 2,
     "space_thin_image_type_II": true,
     "space_thin_route_effective_power_saving": false,
+    "discovery_audit_required": true,
+    "discovery_audit_verdict": "PASS",
     "true_ratio_exponent_identified": false,
     "true_target_exponent_identified": false,
     "half_power_intrinsic_proved": false,
     "finite_data_used_as_proof": false,
-    "audit_required": true,
-    "advance_allowed": false,
-    "merge_allowed": false
+    "audit_required": false,
+    "advance_allowed": true,
+    "merge_allowed": true
   },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
@@ -183,21 +187,24 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT30_SUBMISSION",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT30_SUBMISSION",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT30_AUDIT_PASS",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT30_AUDIT_PASS",
     "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT30",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": true,
-    "reason": "checkpoint30 asserts a new independent type-II thin-cover zero-density route and directional theorem refinement; fresh audit must verify geometric non-splitting and theorem transfer"
+    "reason": "checkpoint30 asserts a new independent type-II thin-cover zero-density route and directional theorem refinement; fresh audit verified geometric non-splitting, theorem transfer, and strongest-known quantitative scope",
+    "auditor": "FRESH_STAGE24_AUDIT",
+    "verdict": "PASS",
+    "record": "stages/stage24/24-30/audit.md"
   },
   "last_audit": {
-    "checkpoint": 20,
+    "checkpoint": 30,
     "verdict": "PASS",
-    "record": "stages/stage24/24-20/audit.md",
-    "audit_commit": "981d238b3a3e89a07287528779cb73fed20bb129",
-    "pr": 973,
+    "record": "stages/stage24/24-30/audit.md",
+    "audit_commit": "7a8d36a077c0101c9357bdd32bab92b8c649c83c",
+    "pr": 974,
     "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
@@ -206,9 +213,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "PENDING_CHECKPOINT30_FRESH_AUDIT",
+    "status": "COMMITTED_CHECKPOINT30_PASS",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-audit",
+  "next_expected_command": "Stage24-main-batch",
   "codeX_required": false
 }
