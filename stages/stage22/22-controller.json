@@ -9,19 +9,19 @@
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
-    "40": "PENDING",
+    "40": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 40,
+    "CURRENT_CHECKPOINT": 40,
+    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage16",
   "target_stage": "Stage18",
@@ -63,6 +63,17 @@
     "finite_data_used_as_proof": false,
     "literal_subset_interpretation": false
   },
+  "checkpoint40": {
+    "sharp_upper_scale": "(log B)^4/B",
+    "sharpness_proved": true,
+    "net_polynomial_ratio_power": -1,
+    "net_log_ratio_power": 4,
+    "source_mechanism": "one scaled primitive Pythagorean face; harmonic face-scale log; complementary edge free at order B",
+    "target_mechanism": "coupled shared-edge double-Pythagorean toric surface; anticanonical height; Picard rank 6 gives log power 5",
+    "local_factor_product_for_log4_proved": false,
+    "unique_fine_causal_decomposition_proved": false,
+    "finite_data_used_as_proof": false
+  },
   "stage70_closeout": {
     "promotion_materialization_required_if_yes": true,
     "yes_classification_alone_is_completion": false
@@ -78,9 +89,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED",
+    "status": "PENDING",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage22-main-batch",
+  "next_expected_command": "Stage22-audit",
   "codeX_required": false
 }
