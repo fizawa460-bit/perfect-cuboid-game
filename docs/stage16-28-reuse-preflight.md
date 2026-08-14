@@ -95,3 +95,22 @@ Missing repository-wide reuse discovery does not by itself invalidate a theorem 
 ## Stop rule
 
 Repository search is bounded discovery, not infinite archaeology. Once the mandatory search surfaces above have been checked with population/cutoff-aware queries and no stronger compatible result is found, record `STRONGEST_KNOWN_CHECK=PASS` and proceed. Repeating the same searches without new input is not required.
+
+## Search-evidence attachment for Stage21–28
+
+Stage21–28 may not satisfy repository-wide reuse preflight with scope names alone. Each checkpoint-specific pass must attach concrete search evidence:
+
+```text
+DISCOVERY_CHECKPOINT=
+SEARCHED_PATHS=
+SEARCH_TERMS=
+STRUCTURAL_SIGNATURES=
+DEPENDENCY_NEIGHBORS=
+CANDIDATES_FOUND=
+CANDIDATES_ACCEPTED=
+CANDIDATES_REJECTED_WITH_REASON=
+POPULATION_ADAPTERS_PROVED=
+DISCOVERY_LEDGER_STATUS=COMPLETE|INCOMPLETE
+```
+
+When `REUSE_MATCH_STATUS=NO_MATCH`, the rejected-candidate ledger is mandatory. When a candidate is accepted only after an adapter, the exact population/cutoff/multiplicity/measure/quantifier map must be named. An empty candidate result is credible only when searched paths, synonyms, structural signatures, and dependency neighbors are all recorded.

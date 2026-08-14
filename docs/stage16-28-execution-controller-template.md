@@ -348,3 +348,48 @@ This numerical preflight is a specialized subset of the repository-wide reuse
 preflight. It prevents duplicate computation but never upgrades finite evidence
 into a theorem. Missing the numerical preflight blocks a newly proposed
 computation; it does not reopen already audited mathematics.
+
+## Stage21–28 exploration-evidence controller gate
+
+For Stage21–28, checkpoint discovery is cumulative. Before submitting checkpoint `X`, the controller must verify every discovery ledger scheduled at or before `X`. Checkpoints30–60 also require the sublane decision ledger defined in `docs/stage21-28-exploration-policy.md`.
+
+The main handoff must include:
+
+```text
+EXPLORATION_EVIDENCE_COMPLETE=true|false
+DISCOVERY_CHECKPOINTS_COMPLETE=<list>
+MANDATORY_LAYERS_CLASSIFIED=true|false
+LIVE_ROUTE_CANDIDATES=<list or NONE>
+SUBLANES_OPENED=<list or NONE>
+SUBLANES_REJECTED_WITH_REASON=<route: reason or NONE_WITH_REASON>
+DISCOVERY_AUDIT_REQUIRED=true|false
+DISCOVERY_AUDIT_REASON=<reason>
+DISCOVERY_AUDIT_VERDICT=PASS|FAIL|BLOCKED|NOT_REQUIRED
+```
+
+The audit lane must sample the recorded paths, structural signatures, dependency neighbors, accepted candidates, and rejection reasons. It must not accept bare `PASS` markers without a persisted discovery ledger.
+
+If evidence is incomplete, a required discovery audit is absent, or its verdict is not PASS:
+
+```text
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_EXPECTED_COMMAND=StageX-main-batch
+```
+
+This enforcement applies even if the checkpoint's mathematical formula is correct. It protects the Stage21–28 requirement that the first visible formula is a starting point rather than the default stopping point.
+
+### Sublane identifier validation
+
+Before opening or auditing a Stage21–28 research sublane, the controller must validate its identifier against `docs/stage21-28-exploration-policy.md`:
+
+```text
+SUBLANE_NAMING_CHECK=PASS|FAIL
+TASK_ID=Stage<owner>[-u<source>]-r<PSS><branch>
+OWNER_STAGE_MATCH=true|false
+TRIGGER_CHECKPOINT_MATCH=true|false
+ROUTE_SERIAL_UNIQUE=true|false
+UPSTREAM_TARGET_RECORDED=true|false|NOT_APPLICABLE
+```
+
+A failed naming check blocks creation of the sublane artifact but does not block unrelated parent-checkpoint work. Renaming never changes mathematical provenance: the old identifier must remain recorded as an alias if it was already cited or audited.

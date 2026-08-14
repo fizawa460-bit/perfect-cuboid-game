@@ -12,7 +12,7 @@ The intended Stage21-28 objective is to extract as much rigorous information as 
 
 ## Mandatory exploration depth for Stage21-28
 
-For every transition stage, the controller should pursue the following layers when mathematically relevant.
+For every transition stage, the controller **must inspect and classify** the following layers when mathematically relevant. Each layer must end as `FOUND`, `NO_MATCH`, `OPEN_GATE`, or `NOT_APPLICABLE_WITH_REASON`; silent omission is not permitted.
 
 1. **Strongest source/target interfaces.** Search not only the immediately preceding final bundles but also earlier stages, auxiliary tracks, supplements, archives, historical PRs, arsenal entries, and exact adapters for stronger asymptotics, explicit constants, directional laws, error terms, constructions, local laws, or superseding bounds.
 2. **Exact transition law.** Derive the strongest matched source-to-target ratio supported by the interfaces. If a leading constant is recoverable, do not stop at `Theta`. If a directional or chamberwise law is recoverable, test it explicitly.
@@ -146,3 +146,130 @@ UPSTREAM_PREMISE_FAILURE_RETURNS_TO_SOURCE=true
 LOWER_BOUND_REINVESTIGATION_ALLOWED=true
 STAGE70_PREVENTS_CLOSEOUT_EXPLOSION_NOT_STAGE_RESEARCH=true
 ```
+
+## Checkpoint-timed discovery and evidence ledger
+
+Exploration evidence must be produced while the stage is running, not reconstructed only at checkpoint70.
+
+- checkpoint10 creates the initial repository/literature candidate map and transition comparison lattice;
+- checkpoint20 records reusable finite assets, adapters, and missing matched datasets;
+- checkpoint30 refreshes ratio, constant, directional, and exact-identity candidates;
+- checkpoint40 refreshes upper-bound, refinement, local/sieve, and supersession candidates;
+- checkpoint50 refreshes construction, lower-bound, converse, and unbounded-family candidates;
+- checkpoint60 refreshes causal, alternate-path, independence/correlation, and double-charge candidates;
+- checkpoint70 verifies completeness and synthesizes; it does not perform the first discovery pass.
+
+Every discovery pass must persist an auditable ledger:
+
+```text
+DISCOVERY_CHECKPOINT=<10|20|30|40|50|60>
+SEARCHED_PATHS=<paths/scopes>
+SEARCH_TERMS=<direct terms and notation synonyms>
+STRUCTURAL_SIGNATURES=<equations/objects/mechanisms searched>
+DEPENDENCY_NEIGHBORS=<stages, PRs, weapons, cited inputs>
+CANDIDATES_FOUND=<IDs/paths/PRs or NONE>
+CANDIDATES_ACCEPTED=<IDs/paths/PRs or NONE>
+CANDIDATES_REJECTED_WITH_REASON=<candidate: reason>
+POPULATION_ADAPTERS_PROVED=<list or NONE>
+DISCOVERY_LEDGER_STATUS=COMPLETE
+```
+
+A candidate may be rejected for population, cutoff, multiplicity, measure, quantifier, evidence-level, or theorem-scope mismatch, but the reason must be explicit. Search terms alone are insufficient: structural signatures and dependency neighbors are mandatory because historical work may use different notation.
+
+## Sublane decision ledger
+
+At checkpoints30–60 the controller must explicitly decide whether distinct live mechanisms deserve bounded sublanes.
+
+```text
+LIVE_ROUTE_CANDIDATES=<analytic|algebraic|local-sieve|construction|computation|other, with sources>
+SUBLANES_OPENED=<list or NONE>
+SUBLANES_REJECTED=<list or NONE>
+SUBLANE_REJECTION_REASON=<route: reason>
+SUBLANE_BUDGET=<bounded goal and stop condition>
+```
+
+`NONE` is valid only with a reason. A sublane is opened only when it has a distinct mathematical receiver, a bounded deliverable, and an audit point. Rewordings of the same failed route are not separate sublanes.
+
+## Independent discovery-audit trigger
+
+ChatGPT remains the primary researcher. Codex or another independent repository-scale auditor becomes required only when a Stage21–28 submission asserts one or more of:
+
+- `STRONGEST_CERTIFIED_*` or `BEST_*`;
+- `NO_KNOWN_*`, no compatible construction, or no positive lower bound;
+- a new `OPEN_GATE` justified by absence of project input;
+- a genuinely new arithmetic mechanism;
+- rejection of every archive/weapon candidate for a load-bearing checkpoint.
+
+When triggered:
+
+```text
+DISCOVERY_AUDIT_REQUIRED=true
+DISCOVERY_AUDIT_REASON=<trigger>
+DISCOVERY_AUDITOR=Codex|independent-agent
+DISCOVERY_AUDIT_SCOPE=<paths, claims, rejected candidates>
+DISCOVERY_AUDIT_VERDICT=PASS|FAIL|BLOCKED
+```
+
+The independent audit checks search coverage and candidate classification; it does not replace the mathematical audit. If no trigger applies, `DISCOVERY_AUDIT_REQUIRED=false` with a reason is sufficient.
+
+## Exploration enforcement gate
+
+For Stage21–28, a missing or incomplete discovery ledger is a workflow blocker, not a harmless metadata omission.
+
+```text
+EXPLORATION_EVIDENCE_COMPLETE=false
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_EXPECTED_COMMAND=StageX-main-batch
+```
+
+Advancement is restored only when all discovery passes required up to the submitted checkpoint are complete, every mandatory exploration layer is classified, sublane decisions are recorded, and any triggered independent discovery audit has passed.
+
+This gate does not invalidate a correctly proved theorem. It prevents premature stage advancement or claims of exhaustive exploration until repository-wide discovery has actually been evidenced.
+
+## Stage21–28 sublane naming convention
+
+Every bounded additional-research sublane must use a stable identifier:
+
+```text
+Stage<owner>[-u<source>]-r<PSS><branch>
+```
+
+- `owner` is the transition stage that discovered and owns the question, for example `21`.
+- optional `u<source>` identifies an upstream stage being reinvestigated, for example `u16` or `u19`.
+- `P` is the originating checkpoint band: `0` for pre-stage/cross-checkpoint discovery, then `1` through `7` for checkpoints10 through70.
+- `SS` is a two-digit route serial `01`–`99`, allocated within that owner stage and checkpoint band.
+- `branch` is the ordered work item inside that route: `a`, `b`, `c`, and so on.
+
+Examples:
+
+```text
+Stage21-r301a       # Stage21-local route 01, discovered at checkpoint30
+Stage21-u16-r301a  # Stage21-owned reinvestigation of Stage16
+Stage21-u16-r301b  # second work item in the same route
+Stage24-u19-r501a  # Stage24 checkpoint50 route returning to Stage19
+Stage28-r001a      # cross-stage synthesis route discovered before checkpoint10
+```
+
+The route serial is immutable and must not be reused after rejection or closure. A changed wording is not a new route. If multiple upstream stages are affected, use `um` in the identifier and record the full list in `AFFECTED_SOURCE_STAGES`.
+
+Required route metadata:
+
+```text
+TASK_ID=
+SUBLANE_ID=
+OWNER_STAGE=
+RESEARCH_LOCATION=LOCAL|UPSTREAM|MULTI_UPSTREAM
+AFFECTED_SOURCE_STAGE=<stage or NONE>
+AFFECTED_SOURCE_STAGES=<list or NONE>
+TRIGGER_CHECKPOINT=<10|20|30|40|50|60|70|PRE_STAGE>
+ROUTE_SERIAL=<01-99>
+RESEARCH_QUESTION=
+INPUTS=
+EXPECTED_OUTPUT=
+STOP_CONDITION=
+AUDIT_REQUIRED=true
+DOWNSTREAM_REAUDIT_REQUIRED=<stages or NONE>
+```
+
+Ordinary checkpoint work, audit-persistence repair, formatting fixes, controller synchronization, and archive maintenance must not consume a research-sublane identifier.
