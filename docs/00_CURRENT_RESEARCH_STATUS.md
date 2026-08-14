@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage21-70-REPAIR-REQUIRED
+CURRENT_STAGE=Stage21-70-PENDING-REAUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -13,16 +13,18 @@ STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE20_STATUS=CLOSED_R01_AUDIT_PASS
-STAGE21_STATUS=OPEN_CHECKPOINT_70_AUDIT_FAIL_REPAIR_REQUIRED
+STAGE21_STATUS=OPEN_CHECKPOINT_70_REPAIR_SUBMITTED_FOR_FRESH_AUDIT
 STAGE21_CONTROLLER=stages/stage21/21-controller.json
 STAGE21_CURRENT_RESULT=stages/stage21/21-70/result.md
 STAGE21_CURRENT_AUDIT=stages/stage21/21-70/audit.md
-STAGE21_REUSE_PREFLIGHT=PASS
-STAGE21_STRONGER_SOURCE_INTERFACE=E-1e_PR128
-STAGE21_STAGE16S_BASELINE_READY=true
-STAGE21_AUDIT_PERSISTENCE=COMMITTED
+STAGE21_FINAL=stages/stage21/final.md
+STAGE21_MANIFEST=stages/stage21/manifest-r01.md
+STAGE21_ARSENAL=docs/stage21-arsenal.md
+STAGE21_SELF_CONTAINED_BUNDLE_PRESENT=true
+STAGE21_ARSENAL_PROMOTION_PRESENT=true
+STAGE21_AUDIT_PERSISTENCE=PENDING_REAUDIT
 STAGE21_NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage21-main-batch
+NEXT_EXPECTED_COMMAND=Stage21-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE21_28_EXPLORATION_POLICY=docs/stage21-28-exploration-policy.md
 STAGE16_28_REUSE_PREFLIGHT=docs/stage16-28-reuse-preflight.md
@@ -30,47 +32,41 @@ STAGE16_28_REUSE_PREFLIGHT=docs/stage16-28-reuse-preflight.md
 
 ## Current operation
 
-Stage21 checkpoint70 mathematical synthesis is substantively accepted, but the fresh closeout audit failed on bounded artifact-contract issues only.
+Stage21-70 mathematics remains unchanged and substantively accepted by the prior audit. The bounded closeout repair has now materialized every artifact that checkpoint70 declared required.
 
-The certified mathematical content remains unchanged:
+The certified transition remains
 
 \[
 N_1(B)/M_1(B)\sim(\kappa\pi/18)(\log B)^2/B,
 \]
 
-with intrinsic ambient space-diagonal cost of order `B^-1`, positive `(log B)^2` interaction compensation, bulk shared-P/principal-sector localization, and the nonblocking fine-mechanism gate
+with intrinsic ambient space-diagonal cost `B^-1`, positive `(log B)^2` interaction compensation, bulk shared-P/principal-sector localization, and the nonblocking fine-mechanism gate
 
 ```text
 OPEN_GATE=LOG_SQUARED_FINE_POLE_OR_LOCAL_FACTOR_DECOMPOSITION_UNRESOLVED
 ```
 
-Repair requirements are purely closeout-facing:
-
-1. change `EVIDENCE_LEVEL=PROVED_SYNTHESIS` to canonical `EVIDENCE_LEVEL=PROVED`;
-2. create the Stage21 final self-contained bundle under `SELF_CONTAINED_REVIEW_STANDARD_V1` because checkpoint70 explicitly declared `SELF_CONTAINED_BUNDLE_REQUIRED=YES`;
-3. create/update the Stage21 manifest;
-4. complete the declared arsenal promotions with audited compact contracts;
-5. resubmit Stage21-70 for fresh audit.
+Repair completion:
 
 ```text
-STAGE_STATUS=OPEN
-CHECKPOINT=70
-CHECKPOINT_STATUS=FAIL_REPAIR_REQUIRED
-MATHEMATICS_REOPEN_REQUIRED=false
+EVIDENCE_LEVEL=PROVED
 SELF_CONTAINED_BUNDLE_REQUIRED=true
-SELF_CONTAINED_BUNDLE_PRESENT=false
+SELF_CONTAINED_BUNDLE_PRESENT=true
+SELF_CONTAINED_BUNDLE=stages/stage21/final.md
+MANIFEST_PRESENT=true
+MANIFEST=stages/stage21/manifest-r01.md
 ARSENAL_PROMOTION_REQUIRED=true
-ARSENAL_PROMOTION_PRESENT=false
-EVIDENCE_LEVEL_REPAIR=PROVED_SYNTHESIS_TO_PROVED
-OPEN_GATE=LOG_SQUARED_FINE_POLE_OR_LOCAL_FACTOR_DECOMPOSITION_UNRESOLVED
-AUDIT_STATUS=FAIL
-AUDIT_PERSISTENCE_STATUS=COMMITTED
-UNSYNCED_AUDIT_STATE=NONE
+ARSENAL_PROMOTION_PRESENT=true
+ARSENAL_ARTIFACT=docs/stage21-arsenal.md
+ARSENAL_PROMOTIONS=S21-W01,S21-W02
+MATHEMATICS_REOPEN_REQUIRED=false
+AUDIT_STATUS=PENDING_REAUDIT
+AUDIT_PERSISTENCE_STATUS=PENDING_REAUDIT
 ADVANCE_ALLOWED=false
 MERGE_ALLOWED=false
 NEXT_CHECKPOINT=70
 NEXT_STAGE=
-NEXT_EXPECTED_COMMAND=Stage21-main-batch
+NEXT_EXPECTED_COMMAND=Stage21-audit
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
 CODEX_REQUIRED=false
