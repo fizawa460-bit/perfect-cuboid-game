@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage20-20-AUDIT-PASS
+CURRENT_STAGE=Stage20-30-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -11,37 +11,38 @@ STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS
-STAGE20_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
+STAGE20_STATUS=OPEN_CHECKPOINT_30_AUDIT_PASS_OPEN_GATE_CLASSIFIED
 STAGE20_CONTROLLER=stages/stage20/20-controller.json
-STAGE20_CURRENT_RESULT=stages/stage20/20-20/result.md
+STAGE20_CURRENT_RESULT=stages/stage20/20-30/result.md
+STAGE20_CURRENT_AUDIT=stages/stage20/20-30/audit.md
 STAGE20_CURRENT_DATA=stages/stage20/20-20/counts.csv
 STAGE20_CURRENT_ENUMERATOR=stages/stage20/20-20/enumerate.py
-STAGE20_CURRENT_AUDIT=stages/stage20/20-20/audit.md
-STAGE20_PRIOR_AUDIT=stages/stage20/20-10/audit.md
 STAGE20_AUDIT_PERSISTENCE=COMMITTED
-STAGE20_NEXT_CHECKPOINT=30
+STAGE20_NEXT_CHECKPOINT=40
 NEXT_EXPECTED_COMMAND=Stage20-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 ```
 
 ## Current operation
 
-Stage20 checkpoints10 and20 are audited PASS. Checkpoint20 supplies an exact finite baseline for the primitive/canonical Euler-cuboid population under R<=B.
+Stage20 checkpoints10 and20 are audited PASS. Checkpoint30 is now audited as an explicit OPEN_GATE rather than a fabricated growth law.
 
-Frozen counts are M3(50)=0, M3(100)=0, M3(200)=0, M3(400)=1, M3(800)=3, M3(1200)=5, M3(1600)=5, M3(2000)=7. Independent recomputation matches the committed table; the first record is (44,117,240) with R^2=73225. The committed enumerator also contains an independent direct small-cutoff set comparison at B=400.
+The exact finite census through B=2000 remains COMPUTED evidence only. No audited project theorem currently supplies an asymptotic formula for M3(B), a true growth exponent, or an ambient density law under the primitive/canonical R<=B Stage20 population contract.
 
-These are finite computed facts only. No asymptotic, growth exponent, density law, Stage18-to-20 transition law, or perfect-cuboid conclusion is inferred.
+Accordingly the audited checkpoint30 status is:
 
 ```text
 STAGE_STATUS=OPEN
-CHECKPOINT=20
-EVIDENCE_LEVEL=COMPUTED
+CHECKPOINT=30
+CHECKPOINT_STATUS=OPEN_GATE_AUDITED_PASS
+OPEN_GATE=STAGE20_POPULATION_GROWTH_LAW_UNRESOLVED
+STAGE18_TO_STAGE20_RATIO=DEFER_STAGE26
 AUDIT_STATUS=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 UNSYNCED_AUDIT_STATE=NONE
 ADVANCE_ALLOWED=true
 MERGE_ALLOWED=true
-NEXT_CHECKPOINT=30
+NEXT_CHECKPOINT=40
 NEXT_STAGE=
 NEXT_EXPECTED_COMMAND=Stage20-main-batch
 NEW_INPUT_REQUIRED=false
