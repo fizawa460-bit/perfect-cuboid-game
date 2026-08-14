@@ -2,39 +2,38 @@
 
 ```text
 BUNDLE_ID=STAGE18-FINAL-SELF-CONTAINED-20260814-R01
-STATUS=CANDIDATE_PENDING_FRESH_STAGE18_AUDIT
+STATUS=AUDITED_PASS_CLOSED
+CANDIDATE_PROVENANCE=checkpoint70 fresh-audit submission
 STANDARD=SELF_CONTAINED_REVIEW_STANDARD_V1
 STAGE=Stage18
 PR=922
+CONTROLLER=stages/stage18/18-controller.json
+FINAL_BUNDLE=stages/stage18/final.md
+FINAL_AUDIT=stages/stage18/18-70/audit.md
 ```
 
-## Canonical Stage18 artifacts
+Checkpoint status:
 
 ```text
-CONTROLLER=stages/stage18/18-controller.json
-CHECKPOINT10=stages/stage18/18-10/result.md
-CHECKPOINT20=stages/stage18/18-20/result.md
-COUNTS=stages/stage18/18-20/counts.csv
-ENUMERATOR=stages/stage18/18-20/enumerate.py
-CHECKPOINT30=stages/stage18/18-30/result.md
-CHECKPOINT40=stages/stage18/18-40/result.md
-CHECKPOINT50=stages/stage18/18-50/result.md
-CHECKPOINT60=stages/stage18/18-60/result.md
-CHECKPOINT60_AUDIT=stages/stage18/18-60/audit.md
-CHECKPOINT70=stages/stage18/18-70/result.md
-FINAL_BUNDLE=stages/stage18/final.md
+10=PROVED_AUDITED_PASS
+20=COMPUTED_AUDITED_PASS
+30=PROVED_AUDITED_PASS
+40=PROVED_AUDITED_PASS
+50=PROVED_AUDITED_PASS
+60=PROVED_AUDITED_PASS
+70=PROVED_AUDITED_PASS
 ```
 
-## Frozen theorem interface
+Frozen interface:
 
 \[
 M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
 \]
 \[
-\frac{M_2(B)}{U(B)}\sim\frac{36\zeta(3)C_{M_2}}{\pi}\frac{(\log B)^5}{B^2}\to0.
+M_2(B)/U(B)\sim[36\zeta(3)C_{M_2}/\pi](\log B)^5/B^2\to0.
 \]
 
-The causal normal form is
+Causal normal form:
 \[
 s^2+x^2=p^2,\qquad s^2+y^2=q^2,\qquad x^2+y^2\notin\square.
 \]
@@ -45,7 +44,8 @@ ARSENAL_PROMOTION_REQUIRED=NO
 UPSTREAM_INTERFACES_EXACT=true
 STAGE16_TO_18_INCREMENTAL_CAUSE=DEFER_TO_STAGE22
 STAGE18_TO_20_INCREMENTAL_CAUSE=DEFER_TO_STAGE26
-NEXT_STAGE_AFTER_PASS=Stage19
+AUDIT_VERDICT=PASS
+AUDIT_REQUIRED=false
+NEXT_STAGE=Stage19
 CODEX_REQUIRED=false
-AUDIT_REQUIRED=true
 ```
