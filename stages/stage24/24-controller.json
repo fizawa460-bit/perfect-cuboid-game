@@ -11,17 +11,17 @@
     "30": "PROVED_AUDITED_PASS",
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
-    "60": "PENDING",
+    "60": "SUBMITTED_FOR_FRESH_AUDIT",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 50,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
+    "CURRENT_CHECKPOINT": 60,
+    "MAIN_STATUS": "AWAITING_FRESH_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 60,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -214,12 +214,55 @@
     "advance_allowed": true,
     "merge_allowed": true
   },
+  "checkpoint60": {
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "audit": "PENDING",
+    "result_path": "stages/stage24/24-60/result.md",
+    "discovery_ledger": "stages/stage24/24-60/discovery-ledger.md",
+    "interaction_lattice": "stages/stage24/24-60/interaction-lattice.md",
+    "double_charge_audit": "stages/stage24/24-60/double-charge-audit.md",
+    "interaction_formula_audit": "stages/stage24/24-60/interaction_formula_audit.py",
+    "intrinsic_baseline_comparison_complete": true,
+    "alternate_path_comparison_complete": true,
+    "independence_correlation_classification_complete": true,
+    "double_charge_check": "PASS",
+    "ambient_space_baseline": "NSall/U ~ [9*zeta(3)/(8*pi*G)]/B",
+    "one_face_space_interaction_sign": "POSITIVE",
+    "one_face_space_interaction_scale": "(log B)^2",
+    "stage24_survivor_ratio_lower": "N2/M2 >> B^(-1)(log B)^(-9/2)",
+    "stage24_survivor_ratio_upper": "N2/M2 <<_epsilon B^(-1/2+epsilon)(log B)^(-5)",
+    "stage24_class": "THIN_BUT_INFINITE",
+    "stage24_global_interaction_sign": "UNRESOLVED",
+    "stage24_ratio_independence_proved": false,
+    "stage24_ratio_independence_disproved": false,
+    "stage23_ratio_lower_after_stage24_50": "N2/N1 >> B^(-1)(log B)^(-5/2)",
+    "stage23_ratio_upper": "N2/N1 <<_epsilon B^(-1/2+epsilon)(log B)^(-3)",
+    "second_order_interaction_cross_ratio": "I=(N2/M2)/(N1/M1)=(N2/N1)/(M2/M1)",
+    "second_order_interaction_lower": "I >> (log B)^(-13/2)",
+    "second_order_interaction_upper": "I <<_epsilon B^(1/2+epsilon)(log B)^(-7)",
+    "second_order_interaction_sign": "UNRESOLVED",
+    "explicit_formula_stratum_heterogeneity_proved": true,
+    "odd_odd_stage15_formula_space_survival": "ZERO",
+    "mixed_parity_c17_space_survival": "INFINITE",
+    "space_squareclass_is_new_condition": true,
+    "space_squareclass_charged_once_on_stage24": true,
+    "half_power_rate_attributed_to_local_sieve": false,
+    "half_power_rate_attributed_to_thin_cover": false,
+    "half_power_causal_mechanism_identified": false,
+    "true_target_exponent_identified": false,
+    "half_power_intrinsic_proved": false,
+    "finite_data_used_as_proof": false,
+    "num_new_computation_required": false,
+    "audit_required": true,
+    "advance_allowed": false,
+    "merge_allowed": false
+  },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
     "NUM_ASSETS_REUSED": ["NUM-R01", "NUM-R02", "NUM-R03", "24-14num-r201", "24-14num-r202"],
     "NUM_POPULATION_MATCH": "EXACT",
-    "NUM_EVIDENCE_LEVEL": "EXACT_FINITE_ORACLE_PLUS_NEW_THEOREM_CONSTRUCTION",
-    "NUM_NEW_COMPUTATION_JUSTIFIED": "TARGETED_CONSTRUCTION_REGRESSION_ONLY"
+    "NUM_EVIDENCE_LEVEL": "EXACT_FINITE_ORACLE_PLUS_AUDITED_THEOREM_INTERFACES",
+    "NUM_NEW_COMPUTATION_JUSTIFIED": "NOT_REQUIRED_AT_CAUSAL_SYNTHESIS"
   },
   "full_exploration_policy": {
     "EXPLORATION_PHASE": "FULL_TRANSITION_RESEARCH",
@@ -278,17 +321,17 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT50_AUDIT_PASS",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT50_AUDIT_PASS_AND_BACKFLOW",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT60_SUBMISSION",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT60_SUBMISSION_AND_STAGE50_BACKFLOW",
     "UPSTREAM_PREMISE_CHECK": "PASS_WITH_STAGE19_LOWER_SUPERSESSION",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": true,
-    "reason": "checkpoint50 asserts a new infinite primitive Stage19 construction and N2(B)>>sqrt(log B), superseding the historical unboundedness-negative ledger",
+    "reason": "checkpoint60 asserts new interaction brackets, thin-but-infinite classification, arithmetic-stratum heterogeneity, and a complete double-charge map while deliberately leaving the global interaction sign unresolved",
     "auditor": "FRESH_STAGE24_AUDIT",
-    "verdict": "PASS",
-    "record": "stages/stage24/24-50/audit.md"
+    "verdict": "PENDING",
+    "record": "stages/stage24/24-60/audit.md"
   },
   "last_audit": {
     "checkpoint": 50,
@@ -305,9 +348,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED_CHECKPOINT50_PASS_WITH_HISTORY_BACKFLOW",
+    "status": "CHECKPOINT50_PASS_CHECKPOINT60_SUBMITTED",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-main-batch",
+  "next_expected_command": "Stage24-audit",
   "codeX_required": false
 }
