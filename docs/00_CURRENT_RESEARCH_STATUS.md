@@ -94,18 +94,53 @@ These remain reusable historical interfaces. Stage14 data, scripts, literature, 
 Stage15-6 is closed after its audited final closeout.
 
 Its independent causal theorem is
+
 \[
 N_2(B)/M_2(B)\to0,
 \]
-proved from the fixed-prime local Gaussian-squareclass sieve on the same primitive/canonical exactly-two `R<=B` physical measure. Stage15-6 did not prove an internal fixed `delta>0` or `sigma>0`.
+
+proved from the fixed-prime local Gaussian-squareclass sieve on the same primitive/canonical exactly-two `R<=B` physical measure.
+
+Stage15-6 did **not** prove an internal fixed `delta>0` or `sigma>0`. Effective growing-modulus adelic/local sieving and stronger global quantitative mechanisms are external future gates, not unfinished Stage15-6 routes.
+
+Canonical Stage15-6 closeout: `stages/stage15/15-6-final.md`.
+
+## Stage15-7 audit-status provenance
+
+PR #887 merged the Stage15 R01 synthesis bundle. The canonical R01 files still explicitly preserve their pre-audit state:
+
+- `stages/stage15/final.md`: `Status: fresh-audit candidate`;
+- `stages/stage15/manifest-r01.md`: `Status: candidate pending fresh Stage15-7-audit`.
+
+No canonical Stage15-7 audit/closeout record exists in the repository. Therefore the repository does **not** describe Stage15-7 as `CLOSED_R01` and does not invent a retrospective audit record.
+
+This historical status does not keep Stage15 mathematics open. Stage15-8 independently fresh-audited the R02 proof-facing review against the merged R01 synthesis plus immediate canonical mathematical sources, with `AUDIT_VERDICT=PASS` and `INTERNAL_ROUTE_REMAINS=false`.
 
 ## Stage15-8 frozen review closeout
 
-The frozen human-facing review is `review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html`. Stage15-8 passed fresh audit and is closed.
+PR #888 merged the R02 self-containment repair as commit
+
+`b83dd74be283dc58b3ce5c6862d21e105a9fa3f9`.
+
+The frozen human-facing review is:
+
+`review/STAGE15-FINAL-SELF-CONTAINED-20260813-R02.html`
+
+It is byte-identical to `stages/stage15/stage15-final-self-contained.html` and follows `SELF_CONTAINED_REVIEW_STANDARD_V1`.
+
+The fresh Stage15-8 audit returned PASS, no internal route remains, Codex audit was not required, and merge was allowed. Stage15-8 is therefore closed. See:
+
+- `stages/stage15/15-8-manifest-r02.md`
+- `stages/stage15/15-8-closeout.md`
+- `stages/stage15/15-8-controller.json`
 
 ## Stage16 frozen closeout
 
-Stage16 is closed with
+Stage16 checkpoint 70 and the repaired R01 self-contained bundle passed fresh audit. The canonical audit record is:
+
+- `stages/stage16/16-70/audit.md`
+
+The frozen Stage16 population law is
 \[
 M_1(B)\asymp B^2\log B,
 \qquad
@@ -113,20 +148,68 @@ U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2),
 \qquad
 \frac{M_1(B)}{U(B)}\asymp\frac{\log B}{B}\to0.
 \]
+For the same primitive canonical `R<=B` population with at least one integral face,
+\[
+H_1(B)\asymp M_1(B)\asymp B^2\log B.
+\]
+The polynomial exponent `2` and logarithmic power `1` are intrinsic at the proved Theta resolution. No leading asymptotic constant for `M_1(B)` is claimed.
 
 ## Stage16S frozen closeout
 
-Stage16S is closed and `STAGE21_BASELINE_READY=true`. It remains an auxiliary control lane and does not alter the Stage16 to Stage18 population contracts.
+Stage16S checkpoint 70 and its R01 self-contained bundle passed fresh audit. The canonical audit record is `stages/stage16s/16s-70/audit.md`; the controller is CLOSED and `STAGE21_BASELINE_READY=true`. It remains an auxiliary control lane and does not alter the Stage16–18 population contracts.
 
 ## Stage17 frozen closeout
 
-Stage17 is closed with
+Stage17 checkpoint 70 and the repaired R01 self-contained interface bundle passed fresh re-audit. The canonical audit record is:
+
+- `stages/stage17/17-70/audit.md`
+
+The frozen Stage17 population theorem is
 \[
-N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3,
-\qquad
+N_1(B)\sim\frac{\kappa}{24\pi}B(\log B)^3.
+\]
+With the frozen Stage16 source law,
+\[
 \frac{N_1(B)}{M_1(B)}\asymp\frac{(\log B)^2}{B}\to0.
 \]
-Its space-diagonal causal classification remains separated from Stage16S and Stage21.
+No leading constant is claimed for this ratio because Stage16 has no certified leading constant for `M_1(B)`.
+
+If `H_{1,d}(B)` counts the same primitive canonical integral-space-diagonal population with at least one integral face, Stage13 pair-overlap control yields
+\[
+H_{1,d}(B)\sim N_1(B),
+\qquad
+\frac{N_1(B)}{H_{1,d}(B)}\to1.
+\]
+Thus exactly-one is asymptotically dominant among integral-space cuboids having at least one integral face. This does not assume perfect-cuboid nonexistence.
+
+The Stage16-to-Stage17 structural restriction is the second Pythagorean extension
+
+```text
+x^2+y^2=p^2
+p^2+z^2=d^2
+```
+
+with shared face diagonal `p`. This identifies the new arithmetic predicate but does not assert probabilistic independence.
+
+The final bundle explicitly certifies both frozen upstream interfaces under `SELF_CONTAINED_REVIEW_STANDARD_V1`. In particular the Stage16 denominator interface records population, cutoff, multiplicity, measure and quantifier compatibility, and the bundle lock records `UPSTREAM_INTERFACES_EXACT=true`.
+
+Stage16S remains the separate ambient control for deciding intrinsic/independent/correlated/interaction-dependent space-diagonal cost at Stage21. Stage16S is parallel and does not block Stage17 closure.
+
+The prior Stage17-70 BLOCKED audit is retained as historical provenance inside the canonical audit record; the repaired re-audit PASS supersedes it.
+
+```text
+STAGE_STATUS=CLOSED
+AUDIT_VERDICT=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
+NEXT_STAGE=Stage18
+SELF_CONTAINED_BUNDLE_REQUIRED=YES
+SELF_CONTAINED_BUNDLE=stages/stage17/final.md
+ARSENAL_PROMOTION_REQUIRED=NO
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
+```
 
 ## Current operation
 
