@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-60-SUBMITTED
+CURRENT_STAGE=Stage19-60-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,19 +45,19 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_60_SUBMITTED
+STAGE19_STATUS=OPEN_CHECKPOINT_60_AUDIT_PASS
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
 STAGE19_CURRENT_RESULT=stages/stage19/19-60/result.md
-STAGE19_CURRENT_AUDIT=stages/stage19/19-50/audit.md
-STAGE19_PRIOR_AUDIT=stages/stage19/19-40/audit.md
-STAGE19_EARLIER_AUDIT=stages/stage19/19-30/audit.md
+STAGE19_CURRENT_AUDIT=stages/stage19/19-60/audit.md
+STAGE19_PRIOR_AUDIT=stages/stage19/19-50/audit.md
+STAGE19_EARLIER_AUDIT=stages/stage19/19-40/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
 STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.json
 STAGE19_NUM_REUSE_CHECK=PASS
 STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
-STAGE19_AUDIT_PERSISTENCE=PENDING
+STAGE19_AUDIT_PERSISTENCE=COMMITTED
 STAGE19_NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -267,7 +267,7 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10 through 50 are fresh-audited. Checkpoint50 is frozen as `OPEN_GATE_AUDITED_PASS`; its lower-bound route is not reopened at checkpoint60.
+Stage19 checkpoints 10 through 60 are fresh-audited. Checkpoint50 remains frozen as `OPEN_GATE_AUDITED_PASS`; its lower-bound route was not reopened at checkpoint60.
 
 Checkpoint60 identifies the exact new Stage19 arithmetic restriction on the matched Stage18 exactly-two population. In the frozen shared-edge toric coordinates,
 \[
@@ -303,16 +303,17 @@ Stage24 still owns the independence/correlation/interaction classification for i
 Canonical checkpoint60 records:
 
 - `stages/stage19/19-60/result.md`
+- `stages/stage19/19-60/audit.md`
 - `stages/stage19/19-controller.json`
 
 ```text
 EVIDENCE_LEVEL=PROVED
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 NEXT_CHECKPOINT=70
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
 DOUBLE_CHARGE_CHECK=PASS
