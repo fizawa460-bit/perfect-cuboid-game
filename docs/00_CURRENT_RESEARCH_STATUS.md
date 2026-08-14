@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-20-AUDIT-PASS
+CURRENT_STAGE=Stage19-40-SUBMITTED-NUM-REUSE
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,14 +45,17 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
+STAGE19_STATUS=OPEN_CHECKPOINTS_30_40_SUBMITTED_NUM_REUSE
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
-STAGE19_CURRENT_RESULT=stages/stage19/19-20/result.md
+STAGE19_CURRENT_RESULT=stages/stage19/19-40/result.md
 STAGE19_CURRENT_AUDIT=stages/stage19/19-20/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
-STAGE19_AUDIT_PERSISTENCE=COMMITTED
-STAGE19_NEXT_CHECKPOINT=30
-NEXT_EXPECTED_COMMAND=Stage19-main-batch
+STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.json
+STAGE19_NUM_REUSE_CHECK=PASS
+STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
+STAGE19_AUDIT_PERSISTENCE=PENDING
+STAGE19_NEXT_CHECKPOINT=50
+NEXT_EXPECTED_COMMAND=Stage19-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -94,9 +97,10 @@ The top-level `review/` directory is reserved for active rendered review artifac
 docs/stage14-arsenal.md
 docs/stage14-arsenal-index.md
 docs/stage14-arsenal-stage15-map.md
+docs/stage14-num-reuse-index.md
 ```
 
-These remain reusable historical interfaces. Stage14 data, scripts, literature, and archive provenance retain their stable paths.
+These remain reusable historical interfaces. Stage14 data, scripts, literature, archive provenance, and numerical observatory assets retain their stable paths.
 
 ## Stage15-6 closed result
 
@@ -261,36 +265,53 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10 and 20 use the literal Stage15 numerator population
-\[
-\mathcal A_2(B)=\{(a,b,c):0<a<b<c,\ \gcd(a,b,c)=1,\ R\le B,\ I_{ab}+I_{ac}+I_{bc}=2,\ R\in\mathbf Z\},
-\]
-with count \(N_2(B)\). Checkpoints 10 and 20 are fresh-audited.
+Stage19 checkpoints 10 and 20 remain fresh-audited on the literal Stage15 numerator population `A_2(B)`. The checkpoint20 file retains its historical exact census through `B=100000`; it is not rewritten retroactively.
 
-Because Stage19 is literally Stage15 `A_2(B)`, the exact Stage15-3 matched census transfers without any population, cutoff, multiplicity, measure, or quantifier adapter. The frozen Stage19 finite baseline is
+Checkpoints 30 and 40 are resubmitted after the Stage14 numerical observatory became an active reuse interface. The theorem statements are unchanged:
+
+\[
+\frac{N_2(B)}{M_2(B)}\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-5}\to0,
+\qquad
+N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
+\]
+
+The new numerical preflight is
 
 ```text
-B:    1000  2000  5000  10000  20000  50000  100000
-N2:      2     5    15     25     42     62      89
+NUM_REUSE_CHECK=PASS
+NUM_ASSETS_REUSED=NUM-R01,NUM-R02,NUM-R03,AR-040
+NUM_POPULATION_MATCH=ADAPTER_PROVED
+NUM_POPULATION_ADAPTER=select exact-two mask from retained Stage14 at-least-two ledger; d=R
+NUM_EVIDENCE_LEVEL=EXACT_FINITE_CENSUS + EXACT_REGRESSION_ORACLE + PROVED_ALGORITHM_EXACT_REGRESSION
+NUM_NEW_COMPUTATION_JUSTIFIED=NOT_REQUIRED
 ```
 
-The canonical Stage19 CSV is `stages/stage19/19-20/counts.csv` with SHA-256 `d9535d89dcd84b432150eda798fa42506e8412220abd4e3f425bf8a804448873`.
-
-At `B=100000`, `N_2=89`. The predeclared Stage15-3 survivor-slope gate requires `N_2>=200`, so finite-data exponent interpretation remains forbidden. No asymptotic, sharpness claim, directional survival law, or independence statement is inferred from checkpoint20.
-
-Canonical Stage19-20 records:
-
-- `stages/stage19/19-20/result.md`
-- `stages/stage19/19-20/counts.csv`
-- `stages/stage19/19-20/audit.md`
-- `stages/stage19/19-controller.json`
+The exact later-stage diagnostic reaches
 
 ```text
-AUDIT_STATUS=PASS
-AUDIT_PERSISTENCE_STATUS=COMMITTED
-ADVANCE_ALLOWED=true
-MERGE_ALLOWED=true
-NEXT_CHECKPOINT=30
-NEXT_EXPECTED_COMMAND=Stage19-main-batch
+B=250000000  N2=2657
+B=300000000  N2=2866
+B=400000000  N2=3194
+B=500000000  N2=3495
+```
+
+so the old sample-size gate `N_2>=200` is now PASS for current validation. At `B=500m`, `(Na,Nb,Nc)=(1374,1371,750)` and finite `T=0` is retained only as finite evidence.
+
+The square-root-normalized diagnostic `R0=N_2/sqrt(B)` moves from `0.1680434349` at 250m to `0.1563011516` at 500m. The predeclared terminal stability gate still FAILS because the 300m→400m and 400m→500m transitions exceed the 2% all-primary-metrics rule. Thus the new weapon removes the small-sample objection but does not certify `1/2` as sharp or intrinsic.
+
+Canonical submissions:
+
+- `stages/stage19/19-30/result.md`
+- `stages/stage19/19-40/result.md`
+- `stages/stage19/19-controller.json`
+- `docs/stage14-num-reuse-index.md`
+
+```text
+AUDIT_STATUS=PENDING
+AUDIT_PERSISTENCE_STATUS=PENDING
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_CHECKPOINT=50
+NEXT_EXPECTED_COMMAND=Stage19-audit
 CODEX_REQUIRED=false
 ```
