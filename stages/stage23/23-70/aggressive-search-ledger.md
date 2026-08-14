@@ -1,6 +1,6 @@
 # Stage23-70 aggressive-search ledger
 
-STATUS=CANDIDATE_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_CLOSED_PENDING_MERGE
 STAGE=Stage23
 TRANSITION=Stage17 -> Stage19
 PURPOSE=freeze all aggressive upper/lower attacks before closeout
