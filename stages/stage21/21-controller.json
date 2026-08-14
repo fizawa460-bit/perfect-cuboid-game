@@ -11,17 +11,17 @@
     "30": "PROVED_AUDITED_PASS",
     "40": "OPEN_GATE_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
-    "60": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
+    "60": "PROVED_AUDITED_PASS",
     "70": "PENDING"
   },
   "state": {
     "CURRENT_CHECKPOINT": 60,
-    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage16",
   "target_stage": "Stage17",
@@ -60,8 +60,8 @@
     "double_charge_check": "PASS"
   },
   "exploration_policy": "docs/stage21-28-exploration-policy.md",
-  "last_audit": {"checkpoint":50,"verdict":"PASS","record":"stages/stage21/21-50/audit.md","pr":948,"merge_allowed":true},
-  "audit_persistence": {"required":true,"status":"PENDING","unsynced_audit_state":"NONE"},
-  "next_expected_command": "Stage21-audit",
+  "last_audit": {"checkpoint":60,"verdict":"PASS","record":"stages/stage21/21-60/audit.md","pr":949,"merge_allowed":true},
+  "audit_persistence": {"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
+  "next_expected_command": "Stage21-main-batch",
   "codeX_required": false
 }
