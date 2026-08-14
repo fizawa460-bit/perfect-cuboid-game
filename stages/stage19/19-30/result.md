@@ -131,7 +131,7 @@ Stage24 still owns the deeper transition study: whether this cost is intrinsic t
 - numerical regression is not theorem proof.
 
 ```text
-EVIDENCE_LEVEL=PROVED_WITH_EXACT_FINITE_DIAGNOSTIC
+EVIDENCE_LEVEL=PROVED
 SOURCE_POPULATION=Stage18 B_2(B)
 TARGET_POPULATION=Stage19 A_2(B)
 SURVIVAL_RATIO=N_2(B)/M_2(B)
