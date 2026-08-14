@@ -10,16 +10,16 @@
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
     "40": "OPEN_GATE_AUDITED_PASS",
-    "50": "FAIL_REPAIR_REQUIRED",
+    "50": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
     "CURRENT_CHECKPOINT": 50,
-    "MAIN_STATUS": "REPAIR_REQUIRED",
-    "AUDIT_STATUS": "FAIL",
+    "MAIN_STATUS": "REPAIR_COMPLETE_PENDING_REAUDIT",
+    "AUDIT_STATUS": "PENDING_REAUDIT",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 50,
+    "NEXT_CHECKPOINT": 60,
     "NEXT_STAGE": "",
     "MERGE_ALLOWED": false
   },
@@ -41,12 +41,19 @@
     "open_gate": "LOG_SQUARED_ENHANCEMENT_MECHANISM_UNRESOLVED"
   },
   "checkpoint50_repair": {
-    "issue": "AR-039 frozen interface supplies only a lower bound; it does not support N_AR039=o(N1)",
-    "allowed_repair": "import audited upper/asymptotic subset count, or weaken claim to certified lower contribution only"
+    "previous_issue": "lower bound alone did not imply AR039=o(N1)",
+    "source": "AR-039 registry imported PR #878; stages/stage11/scripts/audit_shared_p_convolution.py",
+    "exact_height": "d=((m^2+n^2)^2+1)/2",
+    "injective": true,
+    "new_upper": "N_AR039(B)=O(B^(1/2)) from m<(2B)^(1/4) and at most m-1 choices of n",
+    "combined_family_count": "N_AR039(B)=Theta(B^(1/2))",
+    "conditional_scale": "Theta(B^(-3/2)*(log B)^(-1))",
+    "negligible_in_N1": true,
+    "open_gate": "LOG_SQUARED_ENHANCEMENT_BULK_MECHANISM_UNRESOLVED"
   },
   "exploration_policy": "docs/stage21-28-exploration-policy.md",
   "last_audit": {"checkpoint":50,"verdict":"FAIL","record":"stages/stage21/21-50/audit.md","pr":948,"merge_allowed":false},
-  "audit_persistence": {"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
-  "next_expected_command": "Stage21-main-batch",
+  "audit_persistence": {"required":true,"status":"PENDING_REAUDIT","unsynced_audit_state":"NONE"},
+  "next_expected_command": "Stage21-audit",
   "codeX_required": false
 }
