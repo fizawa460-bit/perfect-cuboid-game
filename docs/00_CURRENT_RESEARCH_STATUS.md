@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage18-50-AUDIT-PASS
+CURRENT_STAGE=Stage18-60-SUBMITTED
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -33,15 +33,15 @@ STAGE17_CURRENT_ENUMERATOR=stages/stage17/17-20/enumerate.py
 STAGE17_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_NEXT_CHECKPOINT=
 STAGE17_NEXT_STAGE=Stage18
-STAGE18_STATUS=OPEN_CHECKPOINTS_30_40_50_AUDIT_PASS
+STAGE18_STATUS=OPEN_CHECKPOINT_60_SUBMITTED
 STAGE18_CONTROLLER=stages/stage18/18-controller.json
-STAGE18_CURRENT_RESULT=stages/stage18/18-50/result.md
+STAGE18_CURRENT_RESULT=stages/stage18/18-60/result.md
 STAGE18_CURRENT_AUDIT=stages/stage18/18-50/audit.md
 STAGE18_CURRENT_DATA=stages/stage18/18-20/counts.csv
 STAGE18_CURRENT_ENUMERATOR=stages/stage18/18-20/enumerate.py
-STAGE18_AUDIT_PERSISTENCE=COMMITTED
-STAGE18_NEXT_CHECKPOINT=60
-NEXT_EXPECTED_COMMAND=Stage18-main-batch
+STAGE18_AUDIT_PERSISTENCE=PENDING
+STAGE18_NEXT_CHECKPOINT=70
+NEXT_EXPECTED_COMMAND=Stage18-audit
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -211,43 +211,37 @@ HUMAN_DECISION_REQUIRED=false
 
 ## Current operation
 
-Stage18 checkpoints 10, 20, 30, 40 and 50 are fresh-audited. Checkpoints 30, 40 and 50 use frozen, population-matched upstream theorems.
+Stage18 checkpoints 10 through 50 are fresh-audited. Checkpoint60 is now submitted for fresh audit.
 
-Stage15 gives
+The exact positive structure of a Stage18 object is two integral Pythagorean faces sharing one edge. After naming the shared edge `s` and the two remaining edges `x,y`, one has
 \[
-M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
+s^2+x^2=p^2,\qquad s^2+y^2=q^2,
 \]
-while Stage16 gives the same-cutoff ambient law
+with the exactly-two mask requiring
 \[
-U(B)=\frac{\pi}{36\zeta(3)}B^3+O(B^2).
+x^2+y^2\notin\square.
 \]
-Therefore Stage18-30 records
-\[
-\frac{M_2(B)}{U(B)}\sim\frac{36\zeta(3)C_{M_2}}{\pi}\frac{(\log B)^5}{B^2}\to0.
-\]
-This is the ambient Stage18 density law. The conditional Stage16 -> Stage18 ratio `M_2/M_1` remains reserved for Stage22.
+Thus the two successful face conditions form a coupled double-Pythagorean locus rather than two independent random-square tests.
 
-The same positive Stage15 asymptotic gives the order-sharp ledgers
+Together with the audited Stage18-30 ambient law,
 \[
-M_2(B)\ll B(\log B)^5,
-\qquad
-M_2(B)\gg B(\log B)^5.
+\frac{M_2(B)}{U(B)}\sim\frac{36\zeta(3)C_{M_2}}{\pi}\frac{(\log B)^5}{B^2},
 \]
-No new order-sharp explicit parametric subfamily is claimed. Stage18-20 finite data are not used as proof.
+checkpoint60 records a net two-power ambient polynomial cost for the complete exactly-two predicate. It does not factor the five logarithms into independent probabilities.
 
-Canonical submissions:
+Canonical ordering, primitivity, `R<=B`, and physical-object counting are common to source and target and are not newly charged causes. Stage18 does not prove that excluding the third integral face is lower order or leaves the leading constant unchanged. The Stage16->18 incremental cause remains Stage22, and the Stage18->20 third-face transition remains Stage26.
 
-- `stages/stage18/18-30/result.md`
-- `stages/stage18/18-40/result.md`
-- `stages/stage18/18-50/result.md`
+Canonical Stage18-60 submission:
+
+- `stages/stage18/18-60/result.md`
 - `stages/stage18/18-controller.json`
 
 ```text
-AUDIT_STATUS=PASS
-AUDIT_PERSISTENCE_STATUS=COMMITTED
-ADVANCE_ALLOWED=true
-MERGE_ALLOWED=true
-NEXT_CHECKPOINT=60
-NEXT_EXPECTED_COMMAND=Stage18-main-batch
+AUDIT_STATUS=PENDING
+AUDIT_PERSISTENCE_STATUS=PENDING
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_CHECKPOINT=70
+NEXT_EXPECTED_COMMAND=Stage18-audit
 CODEX_REQUIRED=false
 ```
