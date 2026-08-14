@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage20-10-AUDIT-PASS
+CURRENT_STAGE=Stage20-20-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -11,40 +11,37 @@ STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS
-STAGE19_FINAL_BUNDLE=stages/stage19/final.md
-STAGE19_FINAL_AUDIT=stages/stage19/19-70/audit.md
-STAGE19_AUDIT_PERSISTENCE=COMMITTED
-STAGE19_NEXT_STAGE=Stage20
-STAGE20_STATUS=OPEN_CHECKPOINT_10_AUDIT_PASS
+STAGE20_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
 STAGE20_CONTROLLER=stages/stage20/20-controller.json
-STAGE20_CURRENT_RESULT=stages/stage20/20-10/result.md
-STAGE20_CURRENT_AUDIT=stages/stage20/20-10/audit.md
+STAGE20_CURRENT_RESULT=stages/stage20/20-20/result.md
+STAGE20_CURRENT_DATA=stages/stage20/20-20/counts.csv
+STAGE20_CURRENT_ENUMERATOR=stages/stage20/20-20/enumerate.py
+STAGE20_CURRENT_AUDIT=stages/stage20/20-20/audit.md
+STAGE20_PRIOR_AUDIT=stages/stage20/20-10/audit.md
 STAGE20_AUDIT_PERSISTENCE=COMMITTED
-STAGE20_NEXT_CHECKPOINT=20
+STAGE20_NEXT_CHECKPOINT=30
 NEXT_EXPECTED_COMMAND=Stage20-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
-STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
-STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
-SELF_CONTAINED_REVIEW_STANDARD=docs/self-contained-review-standard.md
 ```
 
 ## Current operation
 
-Stage19 is closed after checkpoint70 fresh audit PASS and PR #931 merge. Stage20 is open at checkpoint10 and the population contract has passed fresh audit.
+Stage20 checkpoints10 and20 are audited PASS. Checkpoint20 supplies an exact finite baseline for the primitive/canonical Euler-cuboid population under R<=B.
 
-Stage20 counts primitive/canonical Euler cuboids under the common roadmap cutoff: `0<a<b<c`, `gcd(a,b,c)=1`, `R<=B`, and all three face diagonals integral. The space diagonal is not required to be integral. Thus Stage20 is the three-face Euler-cuboid state, not the deferred perfect-cuboid endpoint.
+Frozen counts are M3(50)=0, M3(100)=0, M3(200)=0, M3(400)=1, M3(800)=3, M3(1200)=5, M3(1600)=5, M3(2000)=7. Independent recomputation matches the committed table; the first record is (44,117,240) with R^2=73225. The committed enumerator also contains an independent direct small-cutoff set comparison at B=400.
 
-Checkpoint10 fixes only the population/cutoff/multiplicity contract. Existing Euler-cuboid literature and constructions remain inputs for later checkpoints after adaptation to this contract; no asymptotic population law is inferred at checkpoint10.
+These are finite computed facts only. No asymptotic, growth exponent, density law, Stage18-to-20 transition law, or perfect-cuboid conclusion is inferred.
 
 ```text
 STAGE_STATUS=OPEN
-CHECKPOINT=10
-EVIDENCE_LEVEL=PROVED
+CHECKPOINT=20
+EVIDENCE_LEVEL=COMPUTED
 AUDIT_STATUS=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
+UNSYNCED_AUDIT_STATE=NONE
 ADVANCE_ALLOWED=true
 MERGE_ALLOWED=true
-NEXT_CHECKPOINT=20
+NEXT_CHECKPOINT=30
 NEXT_STAGE=
 NEXT_EXPECTED_COMMAND=Stage20-main-batch
 NEW_INPUT_REQUIRED=false
