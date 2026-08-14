@@ -4,18 +4,10 @@
   "status": "OPEN",
   "parent_class": "transition",
   "transition": "Stage18 -> Stage19",
-  "checkpoint_sequence": [
-    10,
-    20,
-    30,
-    40,
-    50,
-    60,
-    70
-  ],
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
-    "20": "COMPUTED_AUDIT_FAIL_REPAIR_REQUIRED",
+    "20": "COMPUTED_AUDITED_PASS",
     "30": "PENDING",
     "40": "PENDING",
     "50": "PENDING",
@@ -24,12 +16,12 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 20,
-    "MAIN_STATUS": "AUDIT_FAIL_REPAIR_REQUIRED",
-    "AUDIT_STATUS": "FAIL",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 20,
+    "MAIN_STATUS": "AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -62,7 +54,9 @@
     "stage21_current_audit_status_verified": "PASS"
   },
   "checkpoint20": {
-    "status": "COMPUTED_AUDIT_FAIL_REPAIR_REQUIRED",
+    "status": "COMPUTED_AUDITED_PASS",
+    "audit": "PASS",
+    "audit_path": "stages/stage24/24-20/audit.md",
     "result_path": "stages/stage24/24-20/result.md",
     "discovery_ledger": "stages/stage24/24-20/discovery-ledger.md",
     "revalidation_ledger": "stages/stage24/24-20/revalidation.md",
@@ -70,7 +64,7 @@
     "matched_max_B": 1000000,
     "matched_M2_at_max": 13817725,
     "matched_N2_at_max": 255,
-    "matched_ratio_at_max": 1.8454557461521345e-05,
+    "matched_ratio_at_max": 0.000018454557461521343,
     "r201_reused": true,
     "r202_reused": true,
     "r202_merged_pr": 971,
@@ -83,6 +77,8 @@
     "r202_derived_ratio_typo_repaired": true,
     "r202_counts_changed_by_typo_repair": false,
     "r203_required_for_main_correctness": false,
+    "r203_history_backflow_sync": "PASS",
+    "r203_stale_ratio_backflow_found": false,
     "finite_ratio_trend": "STRICTLY_DECREASING_ON_FROZEN_MATCHED_GRID",
     "finite_ratio_slope_100k_to_1m": -0.7819926443966883,
     "old_ratio_slope_1k_to_100k_approx": -0.494,
@@ -92,28 +88,14 @@
     "true_ratio_exponent_identified": false,
     "true_target_exponent_identified": false,
     "finite_data_used_as_proof": false,
-    "audit_required": true,
-    "advance_allowed": false,
-    "merge_allowed": false,
-    "audit": "FAIL",
-    "audit_path": "stages/stage24/24-20/audit.md",
-    "checkpoint20_finite_census_accepted": true,
-    "r202_count_correctness_accepted": true,
-    "r202_ratio_repair_accepted": true,
-    "r203_stale_ratio_backflow_found": true,
-    "repair_scope": "R203_DERIVED_RATIO_DISPLAY_SYNC_ONLY",
     "mathematics_reopen_required": false,
-    "counts_recompute_required": false
+    "counts_recompute_required": false,
+    "advance_allowed": true,
+    "merge_allowed": true
   },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
-    "NUM_ASSETS_REUSED": [
-      "NUM-R01",
-      "NUM-R02",
-      "NUM-R03",
-      "24-14num-r201",
-      "24-14num-r202"
-    ],
+    "NUM_ASSETS_REUSED": ["NUM-R01","NUM-R02","NUM-R03","24-14num-r201","24-14num-r202"],
     "NUM_POPULATION_MATCH": "EXACT",
     "NUM_EVIDENCE_LEVEL": "EXACT_FINITE_MATCHED_CENSUS_WITH_SOURCE_LEVEL_REVALIDATION",
     "NUM_NEW_COMPUTATION_JUSTIFIED": "NOT_REQUIRED_AFTER_MERGED_R202"
@@ -128,27 +110,8 @@
     "UPSTREAM_PREMISE_FAILURE_RETURNS_TO_SOURCE": true,
     "LOWER_BOUND_REINVESTIGATION_ALLOWED": true,
     "DISCOVERY_LEDGER_REQUIRED_EACH_CHECKPOINT_10_TO_60": true,
-    "SEARCH_MODES": [
-      "DIRECT_TERMS",
-      "SYNONYMS_NOTATION",
-      "STRUCTURAL_SIGNATURES",
-      "DEPENDENCY_NEIGHBORS"
-    ],
-    "SEARCH_SCOPE": [
-      "STAGE18",
-      "STAGE19",
-      "STAGE14",
-      "STAGE15",
-      "STAGE16S",
-      "STAGE21",
-      "STAGE22",
-      "STAGE23",
-      "ARSENAL",
-      "NUM_INDEX",
-      "SUPPLEMENTS",
-      "ARCHIVE",
-      "PRS"
-    ],
+    "SEARCH_MODES": ["DIRECT_TERMS","SYNONYMS_NOTATION","STRUCTURAL_SIGNATURES","DEPENDENCY_NEIGHBORS"],
+    "SEARCH_SCOPE": ["STAGE18","STAGE19","STAGE14","STAGE15","STAGE16S","STAGE21","STAGE22","STAGE23","ARSENAL","NUM_INDEX","SUPPLEMENTS","ARCHIVE","PRS"],
     "FINITE_ZERO_HIT_ALONE_CANNOT_CONFIRM_DEAD": true,
     "HISTORY_SUPERSESSION_BACKFLOW_REQUIRED": true
   },
@@ -178,14 +141,8 @@
     "FINITE_EXAMPLES_ARE_NOT_ENOUGH": true
   },
   "checkpoint60_policy": {
-    "INTRINSIC_BASELINE_COMPARISON_REQUIRED": [
-      "Stage16S ambient space cost",
-      "Stage21 one-face space transition when audited"
-    ],
-    "ALTERNATE_PATH_COMPARISON_REQUIRED": [
-      "Stage22 second-face without space",
-      "Stage23 second-face with space"
-    ],
+    "INTRINSIC_BASELINE_COMPARISON_REQUIRED": ["Stage16S ambient space cost","Stage21 one-face space transition when audited"],
+    "ALTERNATE_PATH_COMPARISON_REQUIRED": ["Stage22 second-face without space","Stage23 second-face with space"],
     "INDEPENDENCE_CORRELATION_CLASSIFICATION_REQUIRED": true,
     "DOUBLE_CHARGE_CHECK_REQUIRED": true,
     "SPACE_SQUARECLASS_IS_NEW_CONDITION": true,
@@ -200,8 +157,8 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT20_SUBMISSION",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT20_SUBMISSION",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT20_AUDIT_PASS",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT20_AUDIT_PASS",
     "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT20",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
@@ -211,19 +168,19 @@
   },
   "last_audit": {
     "checkpoint": 20,
-    "verdict": "FAIL",
+    "verdict": "PASS",
     "record": "stages/stage24/24-20/audit.md",
+    "audit_commit": "981d238b3a3e89a07287528779cb73fed20bb129",
     "pr": 973,
-    "merge_allowed": false,
+    "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
     "codex_audit_required": false,
-    "codex_reason": "NONE",
-    "repair_scope": "R203_DERIVED_RATIO_DISPLAY_SYNC_ONLY"
+    "codex_reason": "NONE"
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED_CHECKPOINT20_FAIL",
+    "status": "COMMITTED_CHECKPOINT20_PASS",
     "unsynced_audit_state": "NONE"
   },
   "next_expected_command": "Stage24-main-batch",
