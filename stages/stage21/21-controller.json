@@ -12,12 +12,12 @@
     "40": "OPEN_GATE_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "FAIL_REPAIR_REQUIRED"
+    "70": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT"
   },
   "state": {
     "CURRENT_CHECKPOINT": 70,
-    "MAIN_STATUS": "REPAIR_REQUIRED",
-    "AUDIT_STATUS": "FAIL",
+    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING_REAUDIT",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
@@ -45,10 +45,6 @@
   },
   "checkpoint70_claims": {
     "evidence_level": "PROVED",
-    "intrinsic_polynomial_exponent_identified": true,
-    "intrinsic_space_cost": "B^-1",
-    "interaction_sign": "positive",
-    "interaction_scale": "(log B)^2",
     "self_contained_bundle_required": true,
     "self_contained_bundle_present": true,
     "self_contained_bundle": "stages/stage21/final.md",
@@ -57,23 +53,20 @@
     "arsenal_promotion_required": true,
     "arsenal_promotion_present": true,
     "arsenal_artifact": "docs/stage21-arsenal.md",
-    "arsenal_candidates": ["ambient-control interaction adapter", "one-face to space-diagonal transition law"],
-    "synthesis_stop_rule_satisfied": true,
+    "v1_upstream_import_contracts_complete": true,
+    "AR038_multiplicity_adapter_embedded": true,
+    "AR039_theta_proof_embedded": true,
     "open_gate": "LOG_SQUARED_FINE_POLE_OR_LOCAL_FACTOR_DECOMPOSITION_UNRESOLVED"
   },
   "checkpoint70_repair": {
     "prior_audit": "FAIL_SELF_CONTAINED_BUNDLE_CONTENT",
     "mathematics_reopen_required": false,
-    "evidence_level_repaired": true,
-    "self_contained_bundle_created": true,
-    "manifest_created": true,
-    "arsenal_promotions_materialized": true,
-    "remaining_repair": "embed per-interface frozen contracts and Stage21 internal load-bearing adapter proofs in final.md"
+    "repair_complete": true
   },
   "exploration_policy": "docs/stage21-28-exploration-policy.md",
   "stage70_policy": "docs/stage16-28-stage70-policy.md",
   "last_audit": {"checkpoint":70,"verdict":"FAIL","record":"stages/stage21/21-70/audit.md","pr":950,"merge_allowed":false},
-  "audit_persistence": {"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
-  "next_expected_command": "Stage21-main-batch",
+  "audit_persistence": {"required":true,"status":"PENDING_REAUDIT","unsynced_audit_state":"NONE"},
+  "next_expected_command": "Stage21-audit",
   "codeX_required": false
 }
