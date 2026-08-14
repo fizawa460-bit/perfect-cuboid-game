@@ -1,43 +1,37 @@
 # Stage21-70 fresh audit
 
-AUDIT_VERDICT=FAIL
+AUDIT_VERDICT=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 UNSYNCED_AUDIT_STATE=NONE
-ADVANCE_ALLOWED=false
+ADVANCE_ALLOWED=true
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
-NEXT_CHECKPOINT=70
-NEXT_STAGE=
+NEXT_CHECKPOINT=
+NEXT_STAGE=Stage22
 CODEX_AUDIT_REQUIRED=false
 CODEX_REASON=NONE
-MERGE_ALLOWED=false
+MERGE_ALLOWED=true
 
 ## Re-audit finding
 
-The bounded self-contained-bundle repair is substantively complete. `stages/stage21/final.md` now prints separate frozen-interface contracts for the load-bearing imports, embeds the AR-038 primitive/canonical multiplicity bridge, and embeds the Stage21-50 AR-039 upper-count/injectivity argument giving `N_AR039(B)=Theta(B^(1/2))`. The transition asymptotic, ambient-control comparison, causal localization, arsenal promotions, and nonblocking fine-decomposition OPEN_GATE are accepted. No Stage21 mathematical theorem is reopened.
+The bounded Stage21-70 repair now passes fresh audit.
 
-The remaining failure is one controller-schema field only.
+- The mathematical transition theorem and interaction classification were already accepted and are unchanged.
+- `stages/stage21/final.md` now contains separate V1 frozen-interface contracts for E-1e/Stage16, Stage17, Stage16S, Stage13 R07, and AR-038/Stage11, and embeds the Stage21 load-bearing AR-038 multiplicity adapter and AR-039 `Theta(B^(1/2))` proof.
+- The required self-contained bundle, manifest, and materialized arsenal promotions are present.
+- The nonblocking open gate `LOG_SQUARED_FINE_POLE_OR_LOCAL_FACTOR_DECOMPOSITION_UNRESOLVED` is preserved without weakening the proved transition law.
+- The controller schema is now valid: `parent_class=interaction_synthesis`, one of the common execution-template allowed values.
 
-`stages/stage21/21-controller.json` currently has
-
-```text
-"parent_class": "transition_stage"
-```
-
-but the common execution-template enum is
+Therefore checkpoint 70 satisfies the bounded-synthesis closeout contract and Stage21 may close after merge.
 
 ```text
-population_state | transition | interaction_synthesis
+STAGE_STATUS=CLOSED_AFTER_MERGE
+EVIDENCE_LEVEL=PROVED
+SELF_CONTAINED_BUNDLE_REQUIRED=YES
+SELF_CONTAINED_BUNDLE_PRESENT=YES
+ARSENAL_PROMOTION_REQUIRED=YES
+ARSENAL_PROMOTION_PRESENT=YES
+OPEN_GATE=LOG_SQUARED_FINE_POLE_OR_LOCAL_FACTOR_DECOMPOSITION_UNRESOLVED
+OPEN_GATE_BLOCKS_CLOSEOUT=false
+PARENT_CLASS=interaction_synthesis
 ```
-
-Therefore `transition_stage` is not a legal controller value. For Stage21 the minimal repair is
-
-```text
-"parent_class": "interaction_synthesis"
-```
-
-because Stage21 synthesizes the Stage16 -> Stage17 transition against the Stage16S ambient control. No template widening is needed.
-
-## Bounded repair
-
-Change only `parent_class` from `transition_stage` to `interaction_synthesis`, preserve all mathematics and artifact contracts, then rerun `Stage21-audit`.
