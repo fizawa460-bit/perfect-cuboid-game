@@ -67,3 +67,14 @@ Use this file to locate candidate IDs, then read the full entry in `docs/stage14
 | `EXTERNAL_THEOREM_DEPENDENT` | AR-005, AR-021, AR-037 |
 | `AUDITED_NEGATIVE` | AR-020, AR-022, AR-026, AR-027 |
 | `HEURISTIC_DIAGNOSTIC` | AR-031 |
+
+
+## Numerical observatory index
+
+| Obstruction / search phrase | Candidate IDs | First check |
+|---|---|---|
+| exact finite census / enumerator regression / SHA lock | AR-040; NUM-R01–NUM-R03 | Does the target require integral space diagonal and the same exact face mask? |
+| second-face survival / Stage16 to Stage18 mechanism | AR-041; NUM-R06–NUM-R07 | Are source objects, oriented faces, cutoff and denominator measure matched? |
+| congruence / p=7 / cluster dependence / shell volatility | AR-042; NUM-R08 | Is the statement exact local algebra or only a finite diagnostic? |
+
+Full routing and machine-readable metadata: `docs/stage14-num-reuse-index.md` and `docs/stage14-num-reuse-index.json`.
