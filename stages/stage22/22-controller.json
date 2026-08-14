@@ -7,7 +7,7 @@
   "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
-    "20": "PENDING",
+    "20": "COMPUTED_SUBMITTED_FOR_FRESH_AUDIT",
     "30": "PENDING",
     "40": "PENDING",
     "50": "PENDING",
@@ -15,13 +15,13 @@
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "COMPLETE",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 20,
+    "CURRENT_CHECKPOINT": 20,
+    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage16",
   "target_stage": "Stage18",
@@ -39,6 +39,14 @@
     "known_stronger_source_candidate": "E-1e PR #128 leading M1 asymptotic",
     "target_constant_search_required": true
   },
+  "checkpoint20": {
+    "source_counts": "stages/stage16/16-20/counts.csv",
+    "target_counts": "stages/stage18/18-20/counts.csv",
+    "num_reuse_check": "PASS",
+    "num_population_match": "EXACT",
+    "finite_data_used_as_proof": false,
+    "monotone_decrease_on_shared_thresholds": true
+  },
   "stage70_closeout": {
     "promotion_materialization_required_if_yes": true,
     "yes_classification_alone_is_completion": false
@@ -54,9 +62,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED",
+    "status": "PENDING",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage22-main-batch",
+  "next_expected_command": "Stage22-audit",
   "codeX_required": false
 }
