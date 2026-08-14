@@ -2,7 +2,7 @@
 
 EVIDENCE_LEVEL=PROVED_PARTIAL_LOCALIZATION_PLUS_SOURCE_NEGATIVE_BOUNDARIES
 CHECKPOINT=40
-STATUS=SUBMITTED_FOR_FRESH_AUDIT
+STATUS=REPAIR_SUBMITTED_FOR_FRESH_AUDIT
 
 ## 1. Objective
 
@@ -66,19 +66,15 @@ Hence each such fixed curve contributes at most
 \boxed{O(B^{2/5+o(1)})}.
 \]
 
-In particular, any finite collection of fixed rational curves is strict sub-square-root. If `K(B)` degree-at-least-five fixed rational strata account for a square-root-sized population, then necessarily
+In particular, any genuinely fixed finite collection of fixed rational curves is strict sub-square-root.
+
+No quantitative statement is made for a number of curves that itself grows with `B`. Stage14-4ah supplies the exponent for each fixed curve, but checkpoint40 has not proved a uniform implied constant or uniform `o(1)` across a moving family. Therefore a bound of the form
 
 \[
-K(B)B^{2/5+o(1)}\gtrsim B^{1/2-o(1)},
+N_{\rm curves}(B)\ll K(B)B^{2/5+o(1)}
 \]
 
-so
-
-\[
-\boxed{K(B)\ge B^{1/10-o(1)}}.
-\]
-
-This is a necessary proliferation condition only. It does not prove that such curves exist or that all Stage19 points lie on such a curve decomposition.
+with `K(B)` varying with `B` is not certified, and no `B^{1/10}` proliferation condition is inferred. Proving the required uniform family estimate is part of the unresolved moving-family gate.
 
 ## 4. Principal-density localization
 
@@ -119,7 +115,7 @@ The degree-four fixed-curve void removes the simplest square-root accumulating m
 - how many moving fibers become active;
 - how often an active fiber contains a sufficiently small physical rational point;
 - how the transverse Jacobi/Kummer square-lift incidence disperses over the physical outer measure;
-- how many low-degree strata can proliferate with `B`.
+- whether fixed-curve point bounds admit any uniform summation over the moving family.
 
 No certified theorem controls these strongly enough for a whole-family exponent below `1/2`.
 
@@ -165,13 +161,19 @@ At `100k -> 1m`, the finite effective exponent for `N2` is about `0.457`, below 
 Checkpoint40 does not obtain a strict whole-family power saving. It does obtain a sharper causal boundary:
 
 1. the fixed extremal rational-curve square-root mechanism is rigorously absent;
-2. every fixed-power principal-density deficit layer is already strict sub-square-root;
-3. the local squareclass tensor cannot by itself generate a fixed power even under hypothetical polynomial-window uniformity;
-4. the unresolved half-power obstruction is necessarily collective/moving and concentrated in near-maximal occupancy / first-small-point / transverse-incidence behavior.
+2. every fixed physical rational curve is individually at most `B^(2/5+o(1))`, and every fixed finite collection is strict sub-square-root;
+3. extending that estimate to a `B`-dependent moving family requires a uniform theorem that is not proved;
+4. every fixed-power principal-density deficit layer is already strict sub-square-root;
+5. the local squareclass tensor cannot by itself generate a fixed power even under hypothetical polynomial-window uniformity;
+6. the unresolved half-power obstruction is collective/moving and concentrated in near-maximal occupancy / first-small-point / transverse-incidence behavior.
 
 Thus the inherited half-power theorem remains the strongest certified global bound, but it is **not** promoted to a true exponent or intrinsic law.
 
-## 10. Exit
+## 10. Repair note
+
+The first checkpoint40 submission incorrectly summed the per-fixed-curve `B^(2/5+o(1))` estimate over a `B`-dependent number `K(B)` of curves and inferred a `B^(1/10-o(1))` proliferation requirement. Fresh audit rejected that step because uniform implied constants and uniform `o(1)` across the moving family were not established. This repair removes that inference without changing any accepted fixed-curve, occupancy, local-sieve, Q06, character, or numerical conclusion.
+
+## 11. Exit
 
 ```text
 DISCOVERY_CHECKPOINT=40
@@ -183,7 +185,10 @@ Q06_MOVING_FAMILY_BOUNDARY_RECHECK=COMPLETE
 LOCAL_SIEVE_GROWING_MODULUS_UNIFORMITY_RECHECK=COMPLETE
 SOURCE_LEVEL_ATTACK_OPEN_REQUIRED=SATISFIED
 FIXED_M4_SQRT_MECHANISM_ELIMINATED=true
+FIXED_CURVE_SINGLE_EXPONENT_UPPER=2/5+o(1)
 FIXED_CURVE_FINITE_UNION_SUBSQRT=true
+GROWING_CURVE_FAMILY_UNIFORM_SUMMATION_PROVED=false
+B_ONE_TENTH_PROLIFERATION_CLAIM=false
 NEAR_MAXIMAL_MOVING_FAMILY_GATE_ISOLATED=true
 STRICT_SUB_SQRT_WHOLE_FAMILY_PROVED=false
 CURRENT_WHOLE_FAMILY_UPPER=N2(B)<<_epsilon B^(1/2+epsilon)
