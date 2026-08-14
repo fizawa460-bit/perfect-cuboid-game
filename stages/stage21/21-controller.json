@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "stage": "Stage21",
+  "status": "OPEN",
+  "parent_class": "transition_stage",
+  "transition": "Stage16 -> Stage17 compared against Stage16S",
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_status": {
+    "10": "PROVED_CANDIDATE_PENDING_FRESH_AUDIT",
+    "20": "PENDING",
+    "30": "PENDING",
+    "40": "PENDING",
+    "50": "PENDING",
+    "60": "PENDING",
+    "70": "PENDING"
+  },
+  "state": {
+    "CURRENT_CHECKPOINT": 10,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 20,
+    "NEXT_STAGE": "",
+    "MERGE_ALLOWED": false
+  },
+  "source_stage": "Stage16",
+  "target_stage": "Stage17",
+  "control_stage": "Stage16S",
+  "common_cutoff": "R<=B; target d=R exactly",
+  "reuse_preflight": {
+    "status": "PASS",
+    "scope": ["ARSENAL","NUM_INDEX","STAGES","SUPPLEMENTS","ARCHIVE","PRS"],
+    "direct_term_search": "PASS",
+    "synonym_notation_search": "PASS",
+    "structural_signature_search": "PASS",
+    "dependency_neighbor_search": "PASS",
+    "strongest_known_check": "PASS",
+    "stronger_prior_result_found": true,
+    "stronger_source_interface": "E-1e PR #128: M1(B)~3/(4pi^2) B^2 log B"
+  },
+  "frozen_inputs": {
+    "stage16": "exactly-one source population and common R cutoff",
+    "stage17": "N1(B)~kappa/(24pi) B(log B)^3 and directional I_q interface",
+    "stage16s": "intrinsic ambient space survival ~[9 zeta(3)/(8 pi G)]/B",
+    "e1e": "M1(B)~3/(4pi^2) B^2 log B and directionwise 6I_q/pi^4"
+  },
+  "exploration_policy": "docs/stage21-28-exploration-policy.md",
+  "next_expected_command": "Stage21-audit",
+  "codeX_required": false
+}
