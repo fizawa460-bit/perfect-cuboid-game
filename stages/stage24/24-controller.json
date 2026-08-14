@@ -9,15 +9,15 @@
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
-    "40": "SUBMITTED_FOR_FRESH_AUDIT",
+    "40": "PARTIAL_LOCALIZATION_AUDIT_FAIL_REPAIR_REQUIRED",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
+    "MAIN_STATUS": "AUDIT_FAIL_REPAIR_REQUIRED",
+    "AUDIT_STATUS": "FAIL",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
@@ -124,7 +124,9 @@
     "merge_allowed": true
   },
   "checkpoint40": {
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "PARTIAL_LOCALIZATION_AUDIT_FAIL_REPAIR_REQUIRED",
+    "audit": "FAIL",
+    "audit_path": "stages/stage24/24-40/audit.md",
     "result_path": "stages/stage24/24-40/result.md",
     "discovery_ledger": "stages/stage24/24-40/discovery-ledger.md",
     "fresh_upper_surgeon": "stages/stage24/24-40/fresh-upper-surgeon.md",
@@ -139,8 +141,12 @@
     "fixed_m4_sqrt_mechanism_eliminated": true,
     "fixed_curve_minimum_degree_after_m4_void": 5,
     "fixed_curve_single_exponent_upper": "2/5+o(1)",
+    "fixed_curve_single_exponent_accepted": true,
     "fixed_curve_finite_union_subsqrt": true,
-    "sqrt_saturation_minimum_degree5_curve_proliferation": "B^(1/10-o(1)) necessary if such strata account for saturation",
+    "growing_curve_family_uniform_bound_proved": false,
+    "nonuniform_kb_summation_rejected": true,
+    "sqrt_saturation_minimum_degree5_curve_proliferation": "REJECTED_PENDING_UNIFORM_MOVING_FAMILY_BOUND",
+    "b_one_tenth_proliferation_claim_rejected": true,
     "principal_density_deficit_localization": true,
     "sqrt_saturation_requires_near_maximal_occupancy": true,
     "moving_family_control_proved": false,
@@ -153,6 +159,7 @@
     "half_power_intrinsic_proved": false,
     "true_target_exponent_identified": false,
     "finite_data_used_as_proof": false,
+    "repair_scope": "REMOVE_OR_UNIFORMLY_PROVE_GROWING_CURVE_FAMILY_SUMMATION_ONLY",
     "audit_required": true,
     "advance_allowed": false,
     "merge_allowed": false
@@ -221,35 +228,36 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT40_SUBMISSION",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT40_SUBMISSION",
-    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT40_SUBMISSION",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT40_FAIL_AUDIT",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT40_FAIL_AUDIT",
+    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT40_EXCEPT_NONUNIFORM_FAMILY_SUMMATION",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": true,
-    "reason": "checkpoint40 asserts new fixed-curve and saturation localizations while also claiming no whole-family strict sub-square-root breakthrough; fresh audit must check source completeness, M-degree inference, measure firewalls, and the strongest-bound boundary",
-    "auditor": "PENDING_FRESH_STAGE24_AUDIT",
-    "verdict": "PENDING",
-    "record": ""
+    "reason": "checkpoint40 asserts new fixed-curve and saturation localizations while also claiming no whole-family strict sub-square-root breakthrough; fresh audit found one nonuniform moving-family summation overreach",
+    "auditor": "FRESH_STAGE24_AUDIT",
+    "verdict": "FAIL",
+    "record": "stages/stage24/24-40/audit.md"
   },
   "last_audit": {
-    "checkpoint": 30,
-    "verdict": "PASS",
-    "record": "stages/stage24/24-30/audit.md",
-    "audit_commit": "7a8d36a077c0101c9357bdd32bab92b8c649c83c",
-    "pr": 974,
-    "merge_allowed": true,
+    "checkpoint": 40,
+    "verdict": "FAIL",
+    "record": "stages/stage24/24-40/audit.md",
+    "audit_commit": "1ed0196606648be6d88d79bd840ab46e8e063af0",
+    "pr": 975,
+    "merge_allowed": false,
     "new_input_required": false,
     "human_decision_required": false,
     "codex_audit_required": false,
-    "codex_reason": "NONE"
+    "codex_reason": "NONE",
+    "repair_scope": "REMOVE_OR_UNIFORMLY_PROVE_GROWING_CURVE_FAMILY_SUMMATION_ONLY"
   },
   "audit_persistence": {
     "required": true,
-    "status": "PENDING_CHECKPOINT40_FRESH_AUDIT",
+    "status": "COMMITTED_CHECKPOINT40_FAIL",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-audit",
+  "next_expected_command": "Stage24-main-batch",
   "codeX_required": false
 }
