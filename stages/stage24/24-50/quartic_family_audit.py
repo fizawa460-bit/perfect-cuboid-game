@@ -94,12 +94,16 @@ def main():
     rows = []
     for p, q, z in witnesses:
         e, x, y, d, h1, h2 = family_point(p, q, z)
-        assert 0 < x < y < e
+        assert min(e, x, y) > 0
         assert not is_square(x * x + y * y)
         rows.append((p, q, z, x, y, e, d, h1, h2))
 
+    # First witness lies in the largest-shared-edge physical cone x<y<e.
     assert rows[0][3:7] == (3927, 5952, 6536, 9673)
+    assert rows[0][3] < rows[0][4] < rows[0][5]
+    # Second witness is an independent regression point outside that cone.
     assert rows[1][3:7] == (1544928, 4888503, 4075096, 6549097)
+    assert tuple(sorted(rows[1][3:6])) == (1544928, 4075096, 4888503)
 
     # General elliptic-map identity.  With a=p^4 and b=q^4,
     # 289 z^4=(a+b)^2, so
