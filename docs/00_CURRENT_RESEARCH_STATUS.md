@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-10-SUBMITTED
+CURRENT_STAGE=Stage19-10-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,13 +45,13 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_10_SUBMITTED
+STAGE19_STATUS=OPEN_CHECKPOINT_10_AUDIT_PASS
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
 STAGE19_CURRENT_RESULT=stages/stage19/19-10/result.md
-STAGE19_CURRENT_AUDIT=
-STAGE19_AUDIT_PERSISTENCE=PENDING
+STAGE19_CURRENT_AUDIT=stages/stage19/19-10/audit.md
+STAGE19_AUDIT_PERSISTENCE=COMMITTED
 STAGE19_NEXT_CHECKPOINT=20
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
 STAGE16_28_WRITE_POLICY=docs/stage16-28-github-write-policy.md
@@ -260,7 +260,7 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19-10 has been submitted for fresh audit. The target is the literal Stage15 numerator population
+Stage19-10 passed fresh audit. The target is the literal Stage15 numerator population
 \[
 \mathcal A_2(B)=\{(a,b,c):0<a<b<c,\ \gcd(a,b,c)=1,\ R\le B,\ I_{ab}+I_{ac}+I_{bc}=2,\ R\in\mathbf Z\},
 \]
@@ -271,19 +271,20 @@ On the target, `d=R`, so `R<=B iff d<=B` exactly. The Stage19 target is therefor
 \text{Stage19}=\text{Stage18}\cap\{R\in\mathbf Z\}.
 \]
 
-The frozen Stage15/Stage14 upper bound `N_2(B) <<_epsilon B^(1/2+epsilon)` and the Stage15 zero-density theorem `N_2(B)/M_2(B)->0` are provenance only at checkpoint10. They are not self-promoted to later Stage19 checkpoints, and no intrinsic half-power claim is made.
+The frozen Stage15/Stage14 upper bound `N_2(B) <<_epsilon B^(1/2+epsilon)` and the Stage15 zero-density theorem `N_2(B)/M_2(B)->0` remain provenance only at checkpoint10. They are not self-promoted to later Stage19 checkpoints, and no intrinsic half-power claim is made.
 
 Canonical Stage19-10 records:
 
 - `stages/stage19/19-10/result.md`
+- `stages/stage19/19-10/audit.md`
 - `stages/stage19/19-controller.json`
 
 ```text
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+AUDIT_PERSISTENCE_STATUS=COMMITTED
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 NEXT_CHECKPOINT=20
-NEXT_EXPECTED_COMMAND=Stage19-audit
+NEXT_EXPECTED_COMMAND=Stage19-main-batch
 CODEX_REQUIRED=false
 ```
