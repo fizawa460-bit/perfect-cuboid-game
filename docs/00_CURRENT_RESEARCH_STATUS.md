@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-30-40-AUDIT-FAIL
+CURRENT_STAGE=Stage19-30-40-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,7 +45,7 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINTS_30_40_AUDIT_FAIL_REPAIR_REQUIRED
+STAGE19_STATUS=OPEN_CHECKPOINTS_30_40_AUDIT_PASS
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
 STAGE19_CURRENT_RESULT=stages/stage19/19-40/result.md
 STAGE19_CURRENT_AUDIT=stages/stage19/19-30/audit.md
@@ -55,7 +55,7 @@ STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.js
 STAGE19_NUM_REUSE_CHECK=PASS
 STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
 STAGE19_AUDIT_PERSISTENCE=COMMITTED
-STAGE19_NEXT_CHECKPOINT=30
+STAGE19_NEXT_CHECKPOINT=50
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -266,23 +266,9 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10 and 20 remain fresh-audited on the literal Stage15 numerator population `A_2(B)`.
+Stage19 checkpoints 10 and 20 remain fresh-audited on the literal Stage15 numerator population `A_2(B)`. Checkpoints 30 and 40 have now passed fresh re-audit after the metadata-only evidence-level repair.
 
-Checkpoints 30 and 40 were mathematically valid but failed fresh audit on one machine-readable contract field. Both submitted result files use
-
-```text
-EVIDENCE_LEVEL=PROVED_WITH_EXACT_FINITE_DIAGNOSTIC
-```
-
-while the canonical roadmap enum is exactly
-
-```text
-EVIDENCE_LEVEL=PROVED|LITERATURE|COMPUTED|HEURISTIC
-```
-
-The bounded repair is metadata-only: set `EVIDENCE_LEVEL=PROVED` in both `stages/stage19/19-30/result.md` and `stages/stage19/19-40/result.md`; retain the already separate `NUM_EVIDENCE_LEVEL=EXACT_FINITE_CENSUS + EXACT_REGRESSION_ORACLE + PROVED_ALGORITHM_EXACT_REGRESSION` for numerical evidence. No theorem, bound, adapter, finite count, Stage24 boundary, or nonclaim changes.
-
-The audited mathematics remains:
+The certified mathematics is unchanged:
 
 \[
 \frac{N_2(B)}{M_2(B)}\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-5}\to0,
@@ -290,7 +276,9 @@ The audited mathematics remains:
 N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
 
-The numerical reuse remains valid: exact Stage14-num evidence reaches `B=500000000`, `N2=3495`, `(Na,Nb,Nc)=(1374,1371,750)`, while the predeclared terminal stability gate remains FAIL. Finite `T=0` is finite evidence only.
+The canonical evidence enum is now `EVIDENCE_LEVEL=PROVED` in both result files, while the exact numerical diagnostics remain separately labeled under `NUM_EVIDENCE_LEVEL`. The Stage14-num reuse remains valid: exact finite evidence reaches `B=500000000`, `N2=3495`, `(Na,Nb,Nc)=(1374,1371,750)`, and the predeclared terminal stability gate remains FAIL. Finite `T=0` remains finite evidence only.
+
+The half-power upper bound remains one-sided. No matching lower bound, asymptotic `N_2(B)~C sqrt(B)`, intrinsic/sharp exponent claim, strict sub-square-root theorem, independence claim, or Stage24 interaction conclusion is promoted.
 
 Canonical audits:
 
@@ -298,11 +286,11 @@ Canonical audits:
 - `stages/stage19/19-40/audit.md`
 
 ```text
-AUDIT_STATUS=FAIL
+AUDIT_STATUS=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
-NEXT_CHECKPOINT=30
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
+NEXT_CHECKPOINT=50
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEW_INPUT_REQUIRED=false
 HUMAN_DECISION_REQUIRED=false
