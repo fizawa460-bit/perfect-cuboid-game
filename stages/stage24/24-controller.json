@@ -10,18 +10,18 @@
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
     "40": "PROVED_AUDITED_PASS",
-    "50": "PROVED_BREAKTHROUGH_SUBMITTED_FOR_FRESH_AUDIT",
+    "50": "PROVED_AUDITED_PASS",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
     "CURRENT_CHECKPOINT": 50,
-    "MAIN_STATUS": "AWAITING_FRESH_AUDIT_OF_NEW_LOWER_THEOREM",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 50,
+    "MAIN_STATUS": "AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 60,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -171,8 +171,9 @@
     "merge_allowed": true
   },
   "checkpoint50": {
-    "status": "PROVED_BREAKTHROUGH_SUBMITTED_FOR_FRESH_AUDIT",
-    "audit": "PENDING",
+    "status": "PROVED_AUDITED_PASS",
+    "audit": "PASS",
+    "audit_path": "stages/stage24/24-50/audit.md",
     "result_path": "stages/stage24/24-50/result.md",
     "discovery_ledger": "stages/stage24/24-50/discovery-ledger.md",
     "fresh_lower_surgeon": "stages/stage24/24-50/fresh-lower-surgeon.md",
@@ -196,19 +197,22 @@
     "true_target_exponent_identified": false,
     "half_power_intrinsic_proved": false,
     "old_stage23_r60_01_odd_odd_death_still_valid": true,
-    "old_stage23_r60_01_broader_formula_death_superseded_if_audit_pass": true,
+    "old_stage23_r60_01_broader_formula_death_superseded": true,
+    "revived_variant": "MIXED_PARITY_C17",
     "old_dead_branch_eight_revalidation_triggered": false,
     "old_dead_branch_eight_revalidation_reason": "policy trigger applies only if checkpoint50 result is negative; F50-S1 is positive",
     "history_supersession_backflow_required_after_audit_pass": true,
-    "history_backflow_executed": false,
+    "history_backflow_executed": true,
+    "stage19_supersession_path": "stages/stage19/post-stage24-50-supersession.md",
+    "stage23_r60_supersession_path": "stages/stage23/23-60/post-stage24-50-supersession.md",
     "finite_data_used_as_proof": false,
     "counts_recompute_required": false,
     "targeted_construction_regression_only": true,
     "discovery_audit_required": true,
-    "discovery_audit_verdict": "PENDING",
-    "audit_required": true,
-    "advance_allowed": false,
-    "merge_allowed": false
+    "discovery_audit_verdict": "PASS",
+    "audit_required": false,
+    "advance_allowed": true,
+    "merge_allowed": true
   },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
@@ -274,36 +278,36 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT50_SUBMISSION",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT50_SUBMISSION",
-    "UPSTREAM_PREMISE_CHECK": "MATERIAL_LOWER_BOUND_PREMISE_UPGRADED_PENDING_FRESH_AUDIT",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT50_AUDIT_PASS",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT50_AUDIT_PASS_AND_BACKFLOW",
+    "UPSTREAM_PREMISE_CHECK": "PASS_WITH_STAGE19_LOWER_SUPERSESSION",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": true,
     "reason": "checkpoint50 asserts a new infinite primitive Stage19 construction and N2(B)>>sqrt(log B), superseding the historical unboundedness-negative ledger",
     "auditor": "FRESH_STAGE24_AUDIT",
-    "verdict": "PENDING",
+    "verdict": "PASS",
     "record": "stages/stage24/24-50/audit.md"
   },
   "last_audit": {
-    "checkpoint": 40,
+    "checkpoint": 50,
     "verdict": "PASS",
-    "record": "stages/stage24/24-40/audit.md",
-    "audit_commit": "327658b8b855dff3c79f11a327230f4e5a92813f",
-    "pr": 975,
+    "record": "stages/stage24/24-50/audit.md",
+    "audit_commit": "281efae3628efb3d7aaa51d0fb1448a21fed3939",
+    "pr": 976,
     "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
     "codex_audit_required": false,
     "codex_reason": "NONE",
-    "previous_fail_repair_scope": "REMOVE_OR_UNIFORMLY_PROVE_GROWING_CURVE_FAMILY_SUMMATION_ONLY"
+    "history_backflow_materialized": true
   },
   "audit_persistence": {
     "required": true,
-    "status": "CHECKPOINT50_SUBMITTED_PENDING_FRESH_AUDIT",
+    "status": "COMMITTED_CHECKPOINT50_PASS_WITH_HISTORY_BACKFLOW",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-audit",
+  "next_expected_command": "Stage24-main-batch",
   "codeX_required": false
 }
