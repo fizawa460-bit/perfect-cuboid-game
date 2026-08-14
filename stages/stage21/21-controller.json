@@ -10,18 +10,18 @@
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
     "40": "OPEN_GATE_AUDITED_PASS",
-    "50": "PENDING",
+    "50": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "COMPLETE",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 50,
+    "CURRENT_CHECKPOINT": 50,
+    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 60,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage16",
   "target_stage": "Stage17",
@@ -45,9 +45,19 @@
     "log_enhancement_mechanism": "arithmetically present but not yet factorized",
     "open_gate": "LOG_SQUARED_ENHANCEMENT_MECHANISM_UNRESOLVED"
   },
+  "checkpoint50_claims": {
+    "full_lower_scale": "(log B)^2/B",
+    "explicit_family": "AR-039",
+    "explicit_family_numerator_lower": "sqrt(2)/(120*pi^2)*B^(1/2)-O(B^(1/4)log B)",
+    "explicit_family_conditional_scale": "B^(-3/2)*(log B)^(-1)",
+    "explicit_family_negligible_in_N1": true,
+    "explicit_family_explains_enhancement": false,
+    "bulk_arithmetic_effect_required": true,
+    "open_gate": "LOG_SQUARED_ENHANCEMENT_BULK_MECHANISM_UNRESOLVED"
+  },
   "exploration_policy": "docs/stage21-28-exploration-policy.md",
   "last_audit": {"checkpoint":40,"verdict":"PASS","record":"stages/stage21/21-40/audit.md","pr":947,"merge_allowed":true},
-  "audit_persistence": {"required":true,"status":"COMMITTED","unsynced_audit_state":"NONE"},
-  "next_expected_command": "Stage21-main-batch",
+  "audit_persistence": {"required":true,"status":"PENDING","unsynced_audit_state":"NONE"},
+  "next_expected_command": "Stage21-audit",
   "codeX_required": false
 }
