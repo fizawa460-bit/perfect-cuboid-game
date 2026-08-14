@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "stage": "Stage23",
+  "status": "OPEN",
+  "parent_class": "transition",
+  "transition": "Stage17 -> Stage19",
+  "checkpoint_sequence": [10,20,30,40,50,60,70],
+  "checkpoint_status": {
+    "10": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
+    "20": "PENDING",
+    "30": "PENDING",
+    "40": "PENDING",
+    "50": "PENDING",
+    "60": "PENDING",
+    "70": "PENDING"
+  },
+  "state": {
+    "CURRENT_CHECKPOINT": 10,
+    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 20,
+    "NEXT_STAGE": "",
+    "MERGE_ALLOWED": false
+  },
+  "source_stage": "Stage17",
+  "target_stage": "Stage19",
+  "source_count": "N1(B)",
+  "target_count": "N2(B)",
+  "common_cutoff": "R=sqrt(a^2+b^2+c^2)<=B; on both populations R=d is integral",
+  "source_mask": "exactly one integral face diagonal plus integral space diagonal",
+  "target_mask": "exactly two integral face diagonals plus integral space diagonal",
+  "space_diagonal_required": true,
+  "literal_subset_transition": false,
+  "ratio_semantics": "matched adjacent-stratum population-size ratio N2/N1",
+  "population_contract": {
+    "canonical_order": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "physical_multiplicity": 1,
+    "population_match": true,
+    "cutoff_match": true,
+    "multiplicity_match": true,
+    "comparison_adapter_required": false
+  },
+  "reuse_preflight": {
+    "search_required_before_new_theorem": true,
+    "scope": ["STAGE17","STAGE19","ARSENAL","NUM_INDEX","STAGE21","STAGE22","ARCHIVE","PRS"],
+    "strongest_known_check_required": true,
+    "source_interface": "Stage17: N1(B)~kappa/(24*pi) B(log B)^3",
+    "target_interface": "Stage19: N2(B)<<_epsilon B^(1/2+epsilon); no matching lower bound or true exponent",
+    "target_true_exponent_identified": false,
+    "finite_floor_not_asymptotic": true
+  },
+  "checkpoint10": {
+    "population_contract_frozen": true,
+    "comparison_adapter_required": false,
+    "false_subset_interpretation_blocked": true,
+    "finite_data_used_as_proof": false
+  },
+  "stage70_closeout": {
+    "self_contained_bundle_decision_required": true,
+    "arsenal_promotion_decision_required": true,
+    "promotion_materialization_required_if_yes": true
+  },
+  "audit_persistence": {
+    "required": true,
+    "status": "PENDING",
+    "unsynced_audit_state": "NONE"
+  },
+  "next_expected_command": "Stage23-audit",
+  "codeX_required": false
+}
