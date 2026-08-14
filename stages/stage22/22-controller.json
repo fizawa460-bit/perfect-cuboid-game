@@ -8,7 +8,7 @@
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
+    "30": "PROVED_AUDITED_PASS",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
@@ -16,12 +16,12 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "COMPLETE_PENDING_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage16",
   "target_stage": "Stage18",
@@ -68,19 +68,19 @@
     "yes_classification_alone_is_completion": false
   },
   "last_audit": {
-    "checkpoint": 20,
+    "checkpoint": 30,
     "verdict": "PASS",
-    "record": "stages/stage22/22-20/audit.md",
-    "pr": 952,
+    "record": "stages/stage22/22-30/audit.md",
+    "pr": 953,
     "merge_allowed": true,
     "codex_audit_required": false,
     "codex_reason": "NONE"
   },
   "audit_persistence": {
     "required": true,
-    "status": "PENDING",
+    "status": "COMMITTED",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage22-audit",
+  "next_expected_command": "Stage22-main-batch",
   "codeX_required": false
 }
