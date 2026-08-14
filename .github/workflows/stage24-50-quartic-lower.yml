@@ -1,0 +1,22 @@
+name: Stage24-50 quartic lower-family audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage24/24-50/**'
+      - '.github/workflows/stage24-50-quartic-lower.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run exact quartic family audit
+        run: python stages/stage24/24-50/quartic_family_audit.py
