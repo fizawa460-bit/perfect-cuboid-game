@@ -83,6 +83,23 @@ The true exponent, matching lower bound, asymptotic formula/constant and square-
 
 The repository-wide reuse preflight and strongest-known check are retained as PASS. No new theorem or computation was required by the repair. Stage70 bounded synthesis stop rule is satisfied. Arsenal promotion is audited PASS.
 
+## Persistence verification
+
+The fresh PASS closeout was re-read after writes. The following canonical surfaces agree on the certified state:
+
+```text
+stages/stage20/final.md=STATUS:AUDITED_PASS_CLOSED
+stages/stage20/manifest-r01.md=STATUS:AUDITED_PASS_CLOSED
+stages/stage20/20-controller.json=status:CLOSED,audit_persistence_status:COMMITTED
+stages/stage20/20-70/result.md=STATUS:PROVED_AUDITED_PASS
+stages/stage20/20-70/audit.md=PASS
+records/docs/00_CURRENT_RESEARCH_STATUS.md=not_used
+actual_current_status=docs/00_CURRENT_RESEARCH_STATUS.md:STAGE20_STATUS=CLOSED_R01_AUDIT_PASS
+stage20_arsenal=docs/stage20-arsenal.md:STATUS=AUDITED_PASS
+```
+
+No Stage20 closeout surface retains a current `PENDING_REAUDIT`, `SUBMITTED_FOR_FRESH_AUDIT`, `AUDIT_PERSISTENCE_STATUS=PENDING`, or `MERGE_ALLOWED=false` marker. Historical references to the previous failed audit are explicitly labeled as previous history and do not represent current state.
+
 ```text
 CHECKPOINT_STATUS=PROVED_AUDITED_PASS
 MATHEMATICAL_SYNTHESIS_STATUS=PASS
