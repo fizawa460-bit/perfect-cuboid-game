@@ -1,8 +1,8 @@
-# Stage20-70 — bounded maximal synthesis / intrinsic-status closeout candidate
+# Stage20-70 — bounded maximal synthesis / intrinsic-status closeout
 
 EVIDENCE_LEVEL=PROVED
 CHECKPOINT=70
-STATUS=SUBMITTED_FOR_FRESH_AUDIT
+STATUS=PROVED_AUDITED_PASS
 
 ## Repository-wide reuse preflight
 
@@ -83,7 +83,7 @@ The compatible Stage14-e exact Euler census is retained only as computed evidenc
 
 ## ADDITIONAL_DEDUCTIONS
 
-The current certified Stage20 envelope can be frozen as
+The current certified Stage20 envelope is
 
 \[
 \boxed{
@@ -160,7 +160,7 @@ POPULATION_CONTRACT_CHANGED=NO
 COMPARISON_ADAPTER_REQUIRED=NO
 EVIDENCE_LEVELS_COMPLETE=YES
 DEPENDENCY_LEDGER_COMPLETE=YES
-OPEN_GATE_REENTRY_JUSTIFIED=NOT_APPLICABLE
+OPEN_GATE_REENTRY_JUSTIFIED=NO
 ARSENAL_SUPERSESSION_CHECK=PASS
 DOUBLE_CHARGE_CHECK=PASS
 ```
@@ -169,24 +169,29 @@ DOUBLE_CHARGE_CHECK=PASS
 
 ```text
 SELF_CONTAINED_BUNDLE_REQUIRED=YES
-SELF_CONTAINED_BUNDLE_REASON=Stage20 combines scattered Stage14-e8/e10/e11 interfaces with a new Stage20 lower family and will be reused by Stages26-28; a stable source is safer than reconstructing the claims from chronology.
+SELF_CONTAINED_BUNDLE=stages/stage20/final.md
+SELF_CONTAINED_BUNDLE_AUDIT=PASS
+SELF_CONTAINED_REVIEW_GATE=PASS
 ARSENAL_PROMOTION_REQUIRED=YES
 ARSENAL_CANDIDATES=S20-W01_EXPLICIT_EULER_THIN_COVER_UPPER,S20-W02_PRIMITIVE_SAUNDERSON_LOWER,S20-W03_EULER_LOCAL_BLOCKER_LAW
+ARSENAL_PROMOTION_STATUS=AUDITED_PASS
 ```
 
-The reusable contracts are written in `docs/stage20-arsenal.md` in this closeout candidate.
+The reusable contracts are frozen in `docs/stage20-arsenal.md`.
 
 ## Boundary / nonclaims
 
 Stage20 does not impose an integral space diagonal and says nothing about perfect-cuboid existence or nonexistence. It does not prove `M_3(B)~CB^alpha`, `M_3(B)\asymp B^{1/2}`, a matching lower bound, the endpoint `eta=1/46`, or an independence law for the third-face condition. Stage18-to-Stage20 conditional thinning remains owned by Stage26.
 
 ```text
-AUDIT_STATUS=PENDING
-AUDIT_PERSISTENCE_STATUS=PENDING
+AUDIT_STATUS=PASS
+AUDIT_RECORD=stages/stage20/20-70/audit.md
+AUDIT_PERSISTENCE_STATUS=PENDING_STATUS_SYNC
+UNSYNCED_AUDIT_STATE=final.md,docs/00_CURRENT_RESEARCH_STATUS.md
 ADVANCE_ALLOWED=false
 MERGE_ALLOWED=false
 NEXT_CHECKPOINT=
 NEXT_STAGE=Stage21
-NEXT_EXPECTED_COMMAND=Stage20-audit
+NEXT_EXPECTED_COMMAND=Stage21-main-batch
 CODEX_REQUIRED=false
 ```
