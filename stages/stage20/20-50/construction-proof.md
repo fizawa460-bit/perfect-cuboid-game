@@ -175,4 +175,4 @@ M_3(B) >> B^(1/6).
 ```
 
 ## 6. Boundary
-This construction proves infinitude and a positive-power lower bound only. It does not match the Stage14-e8 upper envelope `M_3(B)=B^(1+o(1))`, identify the true exponent, prove an asymptotic, or impose an integral space diagonal.
+This construction proves infinitude and a positive-power lower bound only. It does not match the Stage14-e8 upper envelope `M_3(B)<<B^(1+o(1))`, identify the true exponent, prove an asymptotic, or impose an integral space diagonal.
