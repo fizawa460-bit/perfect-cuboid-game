@@ -9,19 +9,19 @@
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
-    "40": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
+    "40": "PROVED_AUDITED_PASS",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "AWAITING_FRESH_AUDIT_AFTER_NARROW_REPAIR",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 40,
+    "MAIN_STATUS": "AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -124,10 +124,11 @@
     "merge_allowed": true
   },
   "checkpoint40": {
-    "status": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
-    "audit": "PENDING_REAUDIT",
+    "status": "PROVED_AUDITED_PASS",
+    "audit": "PASS",
+    "audit_path": "stages/stage24/24-40/audit.md",
     "previous_audit": "FAIL",
-    "previous_audit_path": "stages/stage24/24-40/audit.md",
+    "previous_fail_audit_commit": "1ed0196606648be6d88d79bd840ab46e8e063af0",
     "result_path": "stages/stage24/24-40/result.md",
     "discovery_ledger": "stages/stage24/24-40/discovery-ledger.md",
     "fresh_upper_surgeon": "stages/stage24/24-40/fresh-upper-surgeon.md",
@@ -142,16 +143,15 @@
     "fixed_m4_sqrt_mechanism_eliminated": true,
     "fixed_curve_minimum_degree_after_m4_void": 5,
     "fixed_curve_single_exponent_upper": "2/5+o(1)",
-    "fixed_curve_single_exponent_accepted_by_previous_audit": true,
+    "fixed_curve_single_exponent_accepted": true,
     "fixed_curve_finite_union_subsqrt": true,
-    "fixed_curve_finite_union_accepted_by_previous_audit": true,
+    "fixed_curve_finite_union_accepted": true,
     "growing_curve_family_uniform_bound_proved": false,
     "growing_curve_family_sum_claim_present": false,
     "nonuniform_kb_summation_removed": true,
     "b_one_tenth_proliferation_claim_present": false,
-    "b_one_tenth_proliferation_claim_rejected_by_previous_audit": true,
     "principal_density_deficit_localization": true,
-    "principal_density_localization_accepted_by_previous_audit": true,
+    "principal_density_localization_accepted": true,
     "sqrt_saturation_requires_near_maximal_occupancy": true,
     "moving_family_control_proved": false,
     "growing_modulus_uniformity_proved": false,
@@ -164,17 +164,11 @@
     "true_target_exponent_identified": false,
     "finite_data_used_as_proof": false,
     "repair_scope": "NONUNIFORM_KB_SUMMATION_AND_B_ONE_TENTH_INFERENCE_REMOVED_ONLY",
-    "repair_commits": [
-      "c485b19dd12a255cc0e77f60965b1e0ed82ab0d3",
-      "ef832d6832728306545bd596c965991f04c6df8f",
-      "b0404d26ed6646c7f7b660195f2bda02367b01b7",
-      "a0c328cd0014b312fe42c0805d83430ee041dd59"
-    ],
     "counts_recompute_required": false,
     "mathematics_reopen_required": false,
-    "audit_required": true,
-    "advance_allowed": false,
-    "merge_allowed": false
+    "audit_required": false,
+    "advance_allowed": true,
+    "merge_allowed": true
   },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
@@ -240,38 +234,37 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT40_REPAIR_SUBMITTED",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT40_REPAIR_SUBMITTED",
-    "UPSTREAM_PREMISE_CHECK": "PASS_AFTER_REMOVING_NONUNIFORM_FAMILY_SUMMATION",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT40_AUDIT_PASS",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT40_AUDIT_PASS",
+    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT40_AFTER_NARROW_REPAIR",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": true,
-    "reason": "checkpoint40 fresh audit accepted all substantive localizations except a nonuniform growing-curve-family summation; that inference has now been removed and the repaired checkpoint requires fresh re-audit",
+    "reason": "checkpoint40 asserts upper-side structural localizations and a strongest-bound boundary; fresh audit accepted them after removal of the nonuniform growing-curve-family summation",
     "auditor": "FRESH_STAGE24_AUDIT",
-    "verdict": "PENDING_REAUDIT",
-    "previous_verdict": "FAIL",
-    "previous_record": "stages/stage24/24-40/audit.md"
+    "verdict": "PASS",
+    "record": "stages/stage24/24-40/audit.md",
+    "previous_verdict": "FAIL"
   },
   "last_audit": {
     "checkpoint": 40,
-    "verdict": "FAIL",
+    "verdict": "PASS",
     "record": "stages/stage24/24-40/audit.md",
-    "audit_commit": "1ed0196606648be6d88d79bd840ab46e8e063af0",
-    "controller_sync_head": "63c59619c418add1760d082ec2e99acf1093f873",
+    "audit_commit": "327658b8b855dff3c79f11a327230f4e5a92813f",
     "pr": 975,
-    "merge_allowed": false,
+    "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
     "codex_audit_required": false,
     "codex_reason": "NONE",
-    "repair_scope": "REMOVE_OR_UNIFORMLY_PROVE_GROWING_CURVE_FAMILY_SUMMATION_ONLY"
+    "previous_fail_repair_scope": "REMOVE_OR_UNIFORMLY_PROVE_GROWING_CURVE_FAMILY_SUMMATION_ONLY"
   },
   "audit_persistence": {
     "required": true,
-    "status": "CHECKPOINT40_FAIL_RETAINED_REPAIR_SUBMITTED",
+    "status": "COMMITTED_CHECKPOINT40_PASS",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-audit",
+  "next_expected_command": "Stage24-main-batch",
   "codeX_required": false
 }
