@@ -1,6 +1,6 @@
 # Stage20 reusable arsenal
 
-STATUS=SUBMITTED_FOR_FRESH_AUDIT
+STATUS=AUDITED_PASS
 REGISTRY=STAGE20-ARSENAL-R01
 
 These entries are portable interfaces for later Stage16-28 work. They do not replace their canonical proof sources.
@@ -16,7 +16,7 @@ VALID_RANGE=as B->infinity; every fixed eta<1/46
 WHAT_IT_DOES=M3(B)<<_eta B(log B)^(5-eta); concrete safe form M3(B)<<B(log B)^(5-1/50)
 WHAT_IT_DOES_NOT_DO=does not prove endpoint eta=1/46; does not prove a power saving B^(1-delta); does not identify the true exponent or asymptotic constant; does not impose an integral space diagonal
 POTENTIAL_RECEIVERS=Stage26,Stage27,Stage28
-AUDIT_STATUS=SOURCE_AUDITED_STAGE14_E11;STAGE20_PROMOTION_PENDING_FRESH_AUDIT
+AUDIT_STATUS=SOURCE_AUDITED_STAGE14_E11;STAGE20_PROMOTION_AUDITED_PASS
 ```
 
 Canonical provenance: Stage14-e11 / PR #188. Stage14-e10 and e8 remain weaker valid provenance layers.
@@ -32,10 +32,10 @@ VALID_RANGE=all sufficiently large Euclidean cutoff B after canonical sorting
 WHAT_IT_DOES=produces distinct primitive canonical Euler cuboids with R<31m^6 and proves M3(B)>=floor((B/31)^(1/6)/2)-4, hence M3(B)>>B^(1/6)
 WHAT_IT_DOES_NOT_DO=does not match the upper bound; does not prove exponent 1/6 is intrinsic or sharp; does not prove a square-root law; does not impose an integral space diagonal
 POTENTIAL_RECEIVERS=Stage26,Stage27,Stage28,any future Euler-population lower-bound comparison
-AUDIT_STATUS=Stage20-50_PROVED_AUDITED_PASS;STAGE20_PROMOTION_PENDING_FRESH_AUDIT
+AUDIT_STATUS=Stage20-50_PROVED_AUDITED_PASS;STAGE20_PROMOTION_AUDITED_PASS
 ```
 
-Canonical proof: `stages/stage20/20-50/construction-proof.md`.
+Canonical proof: `stages/stage20/20-50/construction-proof.md`; proof-complete transcription also appears in `stages/stage20/final.md`.
 
 ## S20-W03 — Euler local blocker law
 
@@ -48,7 +48,7 @@ VALID_RANGE=p=2 exact physical law; every odd prime p; fixed-prime products; gro
 WHAT_IT_DOES=provides delta_2=2/9 and delta_p=2(p-chi_4(p))/(p^2+6p+1)=2/p+O(p^-2); gives a concrete arithmetic obstruction and sieve dimension two; e11 supplies growing-prime uniformity
 WHAT_IT_DOES_NOT_DO=does not prove independence of primes beyond the certified adelic/sieve statement; does not determine the global Euler exponent; must not be multiplied with K3/divisor losses as independent costs
 POTENTIAL_RECEIVERS=Stage26,Stage27,Stage28
-AUDIT_STATUS=SOURCE_AUDITED_STAGE14_E10_E11;STAGE20_PROMOTION_PENDING_FRESH_AUDIT
+AUDIT_STATUS=SOURCE_AUDITED_STAGE14_E10_E11;STAGE20_PROMOTION_AUDITED_PASS
 ```
 
 ## Routing summary
@@ -62,5 +62,6 @@ AUDIT_STATUS=SOURCE_AUDITED_STAGE14_E10_E11;STAGE20_PROMOTION_PENDING_FRESH_AUDI
 ```text
 ARSENAL_ENTRY_COUNT=3
 ARSENAL_PROMOTION_REQUIRED=YES
-ARSENAL_PROMOTION_STATUS=SUBMITTED_FOR_FRESH_AUDIT
+ARSENAL_PROMOTION_STATUS=AUDITED_PASS
+STAGE20_CLOSEOUT_AUDIT=PASS
 ```
