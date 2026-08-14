@@ -7,7 +7,7 @@
   "checkpoint_sequence": [10,20,30,40,50,60,70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
-    "20": "PENDING",
+    "20": "COMPUTED_PENDING_AUDIT",
     "30": "PENDING",
     "40": "PENDING",
     "50": "PENDING",
@@ -15,13 +15,13 @@
     "70": "PENDING"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
+    "CURRENT_CHECKPOINT": 20,
+    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 20,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -52,6 +52,31 @@
     "true_target_exponent_identified": false,
     "finite_data_used_as_proof": false,
     "stage21_current_audit_status_verified": "PASS"
+  },
+  "checkpoint20": {
+    "audit": "PENDING",
+    "result_path": "stages/stage24/24-20/result.md",
+    "discovery_ledger": "stages/stage24/24-20/discovery-ledger.md",
+    "matched_counts": "stages/stage24/24-20/matched-counts.csv",
+    "replay": "stages/stage24/24-20/replay.py",
+    "source_enumerator_reused": "stages/stage18/18-20/enumerate.py",
+    "target_counts_reused": "stages/stage19/19-20/counts.csv",
+    "matched_thresholds": [1000,2000,5000,10000,20000,50000,100000],
+    "matched_M2": [1838,4812,16710,41666,102522,331731,796698],
+    "matched_N2": [2,5,15,25,42,62,89],
+    "ratio_at_1000": 0.001088139281828074,
+    "ratio_at_100000": 0.000111711087513713,
+    "finite_endpoint_loglog_slope_approx": -0.494,
+    "finite_ratio_trend": "STRONGLY_DECREASING_ON_MATCHED_WINDOW",
+    "half_power_finite_resemblance": "DIAGNOSTIC_ONLY",
+    "true_ratio_exponent_identified": false,
+    "true_target_exponent_identified": false,
+    "b500m_target_endpoint_retained": "N2(500000000)=3495",
+    "b500m_matched_source_census_required": false,
+    "finite_data_used_as_proof": false,
+    "new_stage19_enumerator": false,
+    "bounded_new_computation": "Stage18 enumerator replay only, max B=100000",
+    "discovery_ledger_status": "COMPLETE"
   },
   "full_exploration_policy": {
     "EXPLORATION_PHASE": "FULL_TRANSITION_RESEARCH",
@@ -110,14 +135,14 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_FOR_CHECKPOINT10",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_FOR_CHECKPOINT10",
-    "UPSTREAM_PREMISE_CHECK": "PASS_AT_CHECKPOINT10",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT20",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT20",
+    "UPSTREAM_PREMISE_CHECK": "PASS_THROUGH_CHECKPOINT20",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": false,
-    "reason": "checkpoint10 freezes exact contracts and candidate map only; no exhaustive absence, strongest-new-bound, or new OPEN_GATE claim is asserted"
+    "reason": "checkpoint20 is a bounded finite replay and asserts no exhaustive absence, new OPEN_GATE, or strongest-new theorem"
   },
   "last_audit": {
     "checkpoint": 10,
@@ -136,6 +161,6 @@
     "status": "COMMITTED",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-main-batch",
+  "next_expected_command": "Stage24-audit",
   "codeX_required": false
 }
