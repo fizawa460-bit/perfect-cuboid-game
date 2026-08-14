@@ -3,7 +3,7 @@
 CHECKPOINT=40
 ROLE=FRESH_UPPER_SURGEON_FIRST
 TARGET=STRICT_SUB_SQRT_FOR_N2
-STATUS=EXECUTED_NO_WHOLE_FAMILY_BREAKTHROUGH
+STATUS=REPAIRED_PENDING_FRESH_AUDIT
 
 ## 1. Frozen target and firewall
 
@@ -41,21 +41,13 @@ so any one fixed rational curve contributes at most
 O(B^{2/5+o(1)}).
 \]
 
-Consequently any finite collection of fixed physical rational curves is strict sub-square-root. More generally, if `K(B)` fixed rational strata of degree at least five account for the points up to height `B`, then
+Consequently any genuinely fixed finite collection of fixed physical rational curves is strict sub-square-root.
 
-\[
-N_{\rm curves}(B)\ll K(B)B^{2/5+o(1)}.
-\]
+The first submission went one step too far by summing this estimate over a number of curves `K(B)` varying with `B`. That step is not certified: the fixed-curve theorem does not provide a uniform implied constant or uniform `o(1)` over a moving family. Therefore checkpoint40 makes **no** `K(B)B^(2/5+o(1))` claim and infers **no** `B^(1/10)` proliferation threshold.
 
-Thus square-root saturation through such strata requires
+The correct boundary is that any whole-family use of these fixed-curve exponents now requires a new uniform moving-family theorem. That missing uniformity is part of the live upper obstruction.
 
-\[
-K(B)\ge B^{1/10-o(1)}.
-\]
-
-This is a genuine upper-side localization, but not a whole-family improvement: it converts the obstruction from fixed accumulating curves to proliferation/moving-family control.
-
-Verdict: `PARTIAL_ADVANCE_FIXED_CURVE_SQRT_MECHANISM_ELIMINATED`.
+Verdict: `PARTIAL_ADVANCE_FIXED_CURVE_SQRT_MECHANISM_ELIMINATED_WITH_MOVING_FAMILY_UNIFORMITY_OPEN`.
 
 ## 3. U40-S2 — principal-density deficit localization
 
@@ -122,7 +114,7 @@ A strict sub-square-root result from this branch needs a new uniform/averaged th
 1. frequency of active moving fibers;
 2. first sufficiently small physical rational point in an active fiber;
 3. transverse Jacobi/Kummer square-lift incidence under exact `d` height;
-4. proliferation of low-degree rational strata with the physical masks retained.
+4. uniform bounded-height constants/exponents across a moving low-degree family with all physical masks retained.
 
 No such theorem is certified in the repository.
 
@@ -159,6 +151,8 @@ Verdict: `DIAGNOSTIC_SUPPORT_ONLY`.
 Checkpoint40 does not prove a whole-family strict sub-square-root theorem. It does sharpen the obstruction:
 
 - fixed `M=4` rational-curve accumulation is impossible;
+- each fixed physical rational curve is at most `B^(2/5+o(1))`, and a fixed finite collection is strict sub-square-root;
+- summation over a `B`-dependent moving curve family is not justified without new uniformity;
 - every fixed-power principal-density deficit layer is already strict sub-square-root;
 - the local squareclass tensor is intrinsically logarithmic even under hypothetical polynomial-window uniformity;
 - the remaining square-root obstruction is collective/moving and concentrated in near-maximal occupancy / first-small-point / transverse-incidence behavior.
@@ -174,7 +168,10 @@ FRESH_STAGE19_UPPER_SURGEON_EXECUTED=true
 FRESH_UPPER_CANDIDATES=6
 STRICT_SUB_SQRT_ATTACK_EXECUTED=true
 FIXED_M4_SQRT_MECHANISM_ELIMINATED=true
+FIXED_CURVE_SINGLE_EXPONENT_UPPER=2/5+o(1)
 FIXED_CURVE_FINITE_UNION_SUBSQRT=true
+GROWING_CURVE_FAMILY_UNIFORM_SUMMATION_PROVED=false
+B_ONE_TENTH_PROLIFERATION_CLAIM=false
 NEAR_MAXIMAL_OCCUPANCY_ONLY_SQRT_SATURATION=true
 GROWING_MODULUS_SAME_TENSOR_FIXED_POWER=false
 MOVING_FAMILY_CONTROL_PROVED=false
