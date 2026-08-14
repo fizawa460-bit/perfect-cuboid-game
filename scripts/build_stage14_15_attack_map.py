@@ -245,9 +245,12 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", type=Path, default=Path("."))
     ap.add_argument("--ref", default="HEAD")
+    ap.add_argument("--source-label", default=None, help="Stable commit/ref label recorded in generated metadata")
     ap.add_argument("--out", type=Path, default=Path("docs"))
     args = ap.parse_args()
     entries, coverage, md = build(args.repo.resolve(), args.ref)
+    source_label = args.source_label or args.ref
+    coverage["source_ref"] = source_label
     args.out.mkdir(parents=True, exist_ok=True)
     ledger_dir = args.out / "stage14-15-bound-attack-ledger"
     ledger_dir.mkdir(parents=True, exist_ok=True)
@@ -269,7 +272,7 @@ def main() -> None:
         payload = "".join(lines)
         (ledger_dir / name).write_text(payload, encoding="utf-8")
         manifest_parts.append({"path": f"docs/stage14-15-bound-attack-ledger/{name}", "records": len(lines), "sha256": hashlib.sha256(payload.encode()).hexdigest()})
-    (ledger_dir / "manifest.json").write_text(json.dumps({"schema_version": 1, "total_records": len(entries), "parts": manifest_parts}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    (ledger_dir / "manifest.json").write_text(json.dumps({"schema_version": 1, "source_ref": source_label, "total_records": len(entries), "parts": manifest_parts}, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     (args.out / "stage14-15-bound-coverage.json").write_text(
         json.dumps(coverage, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
