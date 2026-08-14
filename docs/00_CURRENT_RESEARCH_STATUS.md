@@ -12,6 +12,7 @@ STAGE16S_BASELINE_READY_FOR_STAGE21=true
 STAGE16S_CONTROLLER=stages/stage16s/16s-controller.json
 STAGE16S_FINAL_BUNDLE=stages/stage16s/final.md
 STAGE16S_MANIFEST=stages/stage16s/manifest-r01.md
+STAGE16S_FINAL_AUDIT=stages/stage16s/16s-70/audit.md
 STAGE16S_AUDIT_PERSISTENCE=COMMITTED
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
@@ -35,23 +36,38 @@ STAGE20_SELF_CONTAINED_REVIEW_GATE=PASS
 STAGE20_ARSENAL_PROMOTION=AUDITED_PASS
 STAGE20_AUDIT_PERSISTENCE=COMMITTED
 STAGE20_NEXT_STAGE=Stage21
-NEXT_EXPECTED_COMMAND=Stage16S-audit
+NEXT_EXPECTED_COMMAND=Stage21-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_REUSE_PREFLIGHT=docs/stage16-28-reuse-preflight.md
 ```
 
 ## Current operation
 
-Stage16S mathematics and final/manifest closeout are already in audited-pass form. The stale controller state that still reported `BLOCKED` has now been synchronized to `CLOSED / PASS / COMMITTED`, with `stage21_baseline_ready=true`. A fresh Stage16S audit should confirm only this bookkeeping repair; no mathematical theorem, population contract, cutoff, or Stage21 interaction claim has been changed.
+Stage16S synchronization re-audit is complete. The stale controller/status `BLOCKED` state was bookkeeping-only and has been reconciled with the already-audited final bundle, manifest, and canonical Stage16S-70 audit. No Stage16S mathematical theorem, population contract, cutoff, multiplicity convention, or Stage21 interaction claim changed.
 
-Stage20 remains closed and is still the latest numbered population stage. Once the Stage16S synchronization re-audit passes, Stage21 may begin the `16 -> 17` transition against the intrinsic Stage16S baseline.
+The intrinsic Stage16S baseline remains:
+
+\[
+N_S^{all}(B)\sim \frac{B^2}{32G},\qquad
+N_S^0(B)\sim \frac{B^2}{32G},
+\]
+
+and against the Stage16 ambient population,
+
+\[
+\frac{N_S^{all}(B)}{U(B)}\sim \frac{9\zeta(3)}{8\pi G}\frac1B.
+\]
+
+Thus Stage16S is closed, audit persistence is committed, and the intrinsic space-diagonal baseline is ready for the Stage21 `16 -> 17` transition analysis. Stage21 still owns the final independence/correlation/interaction classification.
 
 ```text
-STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS_CANDIDATE_AFTER_SYNC
+STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE16S_BASELINE_READY_FOR_STAGE21=true
-STAGE16S_AUDIT_STATUS=PENDING_REAUDIT
-STAGE16S_AUDIT_PERSISTENCE_STATUS=PENDING
-STAGE16S_ADVANCE_ALLOWED=false
-STAGE16S_MERGE_ALLOWED=false
-NEXT_EXPECTED_COMMAND=Stage16S-audit
+STAGE16S_AUDIT_STATUS=PASS
+STAGE16S_AUDIT_PERSISTENCE_STATUS=COMMITTED
+STAGE16S_UNSYNCED_AUDIT_STATE=NONE
+STAGE16S_ADVANCE_ALLOWED=true
+STAGE16S_MERGE_ALLOWED=true
+NEXT_STAGE=Stage21
+NEXT_EXPECTED_COMMAND=Stage21-main-batch
 ```
