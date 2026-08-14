@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage19-20-AUDIT-PASS
+CURRENT_STAGE=Stage19-30-40-AUDIT-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -45,13 +45,17 @@ STAGE18_FINAL_AUDIT=stages/stage18/18-70/audit.md
 STAGE18_AUDIT_PERSISTENCE=COMMITTED
 STAGE18_NEXT_CHECKPOINT=
 STAGE18_NEXT_STAGE=Stage19
-STAGE19_STATUS=OPEN_CHECKPOINT_20_AUDIT_PASS
+STAGE19_STATUS=OPEN_CHECKPOINTS_30_40_AUDIT_PASS
 STAGE19_CONTROLLER=stages/stage19/19-controller.json
-STAGE19_CURRENT_RESULT=stages/stage19/19-20/result.md
-STAGE19_CURRENT_AUDIT=stages/stage19/19-20/audit.md
+STAGE19_CURRENT_RESULT=stages/stage19/19-40/result.md
+STAGE19_CURRENT_AUDIT=stages/stage19/19-30/audit.md
+STAGE19_SECONDARY_AUDIT=stages/stage19/19-40/audit.md
 STAGE19_CURRENT_DATA=stages/stage19/19-20/counts.csv
+STAGE19_EXTENDED_NUM_SOURCE=stages/stage14/data/14-num-alpha11/b500m_manifest.json
+STAGE19_NUM_REUSE_CHECK=PASS
+STAGE19_NUM_ASSETS=NUM-R01,NUM-R02,NUM-R03,AR-040
 STAGE19_AUDIT_PERSISTENCE=COMMITTED
-STAGE19_NEXT_CHECKPOINT=30
+STAGE19_NEXT_CHECKPOINT=50
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage16-28-population-roadmap.md
 STAGE16_28_EXECUTION_TEMPLATE=docs/stage16-28-execution-controller-template.md
@@ -94,9 +98,10 @@ The top-level `review/` directory is reserved for active rendered review artifac
 docs/stage14-arsenal.md
 docs/stage14-arsenal-index.md
 docs/stage14-arsenal-stage15-map.md
+docs/stage14-num-reuse-index.md
 ```
 
-These remain reusable historical interfaces. Stage14 data, scripts, literature, and archive provenance retain their stable paths.
+These remain reusable historical interfaces. Stage14 data, scripts, literature, archive provenance, and numerical observatory assets retain their stable paths.
 
 ## Stage15-6 closed result
 
@@ -261,36 +266,33 @@ CODEX_REQUIRED=false
 
 ## Current operation
 
-Stage19 checkpoints 10 and 20 use the literal Stage15 numerator population
+Stage19 checkpoints 10 and 20 remain fresh-audited on the literal Stage15 numerator population `A_2(B)`. Checkpoints 30 and 40 have now passed fresh re-audit after the metadata-only evidence-level repair.
+
+The certified mathematics is unchanged:
+
 \[
-\mathcal A_2(B)=\{(a,b,c):0<a<b<c,\ \gcd(a,b,c)=1,\ R\le B,\ I_{ab}+I_{ac}+I_{bc}=2,\ R\in\mathbf Z\},
+\frac{N_2(B)}{M_2(B)}\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-5}\to0,
+\qquad
+N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
-with count \(N_2(B)\). Checkpoints 10 and 20 are fresh-audited.
 
-Because Stage19 is literally Stage15 `A_2(B)`, the exact Stage15-3 matched census transfers without any population, cutoff, multiplicity, measure, or quantifier adapter. The frozen Stage19 finite baseline is
+The canonical evidence enum is now `EVIDENCE_LEVEL=PROVED` in both result files, while the exact numerical diagnostics remain separately labeled under `NUM_EVIDENCE_LEVEL`. The Stage14-num reuse remains valid: exact finite evidence reaches `B=500000000`, `N2=3495`, `(Na,Nb,Nc)=(1374,1371,750)`, and the predeclared terminal stability gate remains FAIL. Finite `T=0` remains finite evidence only.
 
-```text
-B:    1000  2000  5000  10000  20000  50000  100000
-N2:      2     5    15     25     42     62      89
-```
+The half-power upper bound remains one-sided. No matching lower bound, asymptotic `N_2(B)~C sqrt(B)`, intrinsic/sharp exponent claim, strict sub-square-root theorem, independence claim, or Stage24 interaction conclusion is promoted.
 
-The canonical Stage19 CSV is `stages/stage19/19-20/counts.csv` with SHA-256 `d9535d89dcd84b432150eda798fa42506e8412220abd4e3f425bf8a804448873`.
+Canonical audits:
 
-At `B=100000`, `N_2=89`. The predeclared Stage15-3 survivor-slope gate requires `N_2>=200`, so finite-data exponent interpretation remains forbidden. No asymptotic, sharpness claim, directional survival law, or independence statement is inferred from checkpoint20.
-
-Canonical Stage19-20 records:
-
-- `stages/stage19/19-20/result.md`
-- `stages/stage19/19-20/counts.csv`
-- `stages/stage19/19-20/audit.md`
-- `stages/stage19/19-controller.json`
+- `stages/stage19/19-30/audit.md`
+- `stages/stage19/19-40/audit.md`
 
 ```text
 AUDIT_STATUS=PASS
 AUDIT_PERSISTENCE_STATUS=COMMITTED
 ADVANCE_ALLOWED=true
 MERGE_ALLOWED=true
-NEXT_CHECKPOINT=30
+NEXT_CHECKPOINT=50
 NEXT_EXPECTED_COMMAND=Stage19-main-batch
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
 CODEX_REQUIRED=false
 ```
