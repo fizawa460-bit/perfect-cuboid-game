@@ -5,7 +5,7 @@ Completed stage-specific research and operational history lives with its stage.
 
 ## Current project entry points
 
-- `00_CURRENT_RESEARCH_STATUS.md` — current research status; Stage15 is closed at the R02 review freeze
+- `00_CURRENT_RESEARCH_STATUS.md` — current research status; Stage25-reentry phase10 is submitted for fresh audit
 - `stage16-28-population-roadmap.md` — population/condition-interaction roadmap; for Stage21-28 it must be read together with the full-exploration normative addendum below
 - `stage21-28-exploration-policy.md` — **normative Stage21-28 research-phase addendum**: formula substitution is only the starting point; require proactive interface upgrades, refinement search, interaction analysis, bounded research sublanes, and maximal rigorous deductions within stage scope
 - `stage25-reentry-roadmap.md` — post-Stage25, pre-Stage26 reentry campaign: reattack Stages24→23→22→21→20 and propagate audited weapon improvements

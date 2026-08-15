@@ -1,0 +1,283 @@
+{
+  "schema_version": 1,
+  "campaign": "Stage25-reentry",
+  "phase": 10,
+  "task_id": "Stage25-um-r001a",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "purpose": "freeze the strongest audited Stage16-25 interfaces, unresolved gates, and weapon receiver dependencies before Stage24 reentry",
+  "source_priority": [
+    "audited post-Stage25 backflow addendum",
+    "merged hostile-audit record and canonical controller",
+    "stage final or closeout bundle",
+    "historical in-file submission-status marker"
+  ],
+  "merge_evidence": {
+    "stage21_closeout_pr_950": "b9c6e118c279124cdf4e2fc362610351acfea06f",
+    "stage22_closeout_pr_957": "f47064abecc708130de7f0a68ca0505e56dfa25c",
+    "stage23_closeout_pr_966": "ef8d8007931ed63d6ea3c20c835d64b4d4a7c4bf",
+    "stage24_closeout_pr_979": "6b0a139b721df5166439c97df4398b4071840328",
+    "stage25_positive_power_pr_984": "7c2288c402c0fc714740a6cf7d7359db2ccf3eb4",
+    "stage25_closeout_pr_1000": "12e1cb027e3123328702393ebdb3e3687ca0a169",
+    "stage25_reentry_unlock_pr_1001": "549b080aaa614eaf4de8603dc453dc4ce5ec2d19"
+  },
+  "common_contract": {
+    "canonical": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "height": "R=sqrt(a^2+b^2+c^2)",
+    "cutoff": "R<=B",
+    "finite_data_as_asymptotic_proof": false,
+    "adjacent_exact_mask_ratios_are_objectwise_survival": false
+  },
+  "population_interfaces": {
+    "Stage16": {
+      "count": "M1(B)",
+      "population": "exactly one integral face; no space requirement",
+      "strongest_audited_interface": "M1(B)~3/(4*pi^2)*B^2*log(B)",
+      "sources": [
+        "stages/stage21/final.md",
+        "stages/stage22/22-70/self-contained-bundle.md"
+      ],
+      "audit_status": "AUDITED_PASS"
+    },
+    "Stage16S": {
+      "count": "NSall(B)",
+      "population": "integral space diagonal; no face restriction",
+      "strongest_audited_interface": "NSall(B)~B^2/(32*G); NSall(B)/U(B)~9*zeta(3)/(8*pi*G)/B",
+      "sources": ["stages/stage16s/final.md"],
+      "audit_status": "AUDITED_PASS"
+    },
+    "Stage17": {
+      "count": "N1(B)",
+      "population": "exactly one integral face and integral space diagonal",
+      "strongest_audited_interface": "N1(B)~kappa/(24*pi)*B*(log(B))^3",
+      "sources": ["stages/stage17/final.md"],
+      "audit_status": "AUDITED_PASS"
+    },
+    "Stage18": {
+      "count": "M2(B)",
+      "population": "exactly two integral faces; no space requirement",
+      "strongest_audited_interface": "M2(B)~C_M2*B*(log(B))^5; C_M2>0",
+      "sources": ["stages/stage18/final.md"],
+      "audit_status": "AUDITED_PASS"
+    },
+    "Stage19": {
+      "count": "N2(B)",
+      "population": "exactly two integral faces and integral space diagonal",
+      "strongest_audited_interface": "B^(1/4)<<N2(B)<<_epsilon B^(1/2+epsilon)",
+      "directional_lower": "N2,b(B)>>B^(1/4)",
+      "sources": [
+        "stages/stage19/post-stage25-50-supersession.md",
+        "stages/stage25/25-50/audit.md"
+      ],
+      "audit_status": "AUDITED_PASS_POST_STAGE25_SUPERSESSION"
+    },
+    "Stage20": {
+      "count": "M3(B)",
+      "population": "three integral faces; no space requirement",
+      "strongest_audited_interface": "B^(1/6)<<M3(B)<<B*(log(B))^(5-1/50)",
+      "general_upper": "M3(B)<<_eta B*(log(B))^(5-eta) for every fixed eta<1/46",
+      "sources": ["stages/stage20/final.md"],
+      "audit_status": "AUDITED_PASS"
+    }
+  },
+  "transition_interfaces": {
+    "Stage21": {
+      "transition": "Stage16->Stage17 compared with Stage16S",
+      "interface": "N1/M1~(kappa*pi/18)*(log(B))^2/B",
+      "interaction": "positive logarithmic compensation relative to intrinsic B^-1 space cost",
+      "sources": ["stages/stage21/final.md", "stages/stage21/21-70/audit.md"],
+      "audit_status": "AUDITED_PASS_MERGED"
+    },
+    "Stage22": {
+      "transition": "Stage16->Stage18",
+      "interface": "M2/M1~(4*pi^2*C_M2/3)*(log(B))^4/B",
+      "semantics": "adjacent disjoint-stratum population ratio",
+      "sources": [
+        "stages/stage22/22-70/self-contained-bundle.md",
+        "stages/stage22/22-70/audit.md"
+      ],
+      "audit_status": "AUDITED_PASS_MERGED"
+    },
+    "Stage23": {
+      "transition": "Stage17->Stage19",
+      "interface_lower": "N2/N1>>B^(-3/4)*(log(B))^(-3)",
+      "interface_upper": "N2/N1<<_epsilon B^(-1/2+epsilon)*(log(B))^(-3)",
+      "directional_lower": "A_ab,bc(B)>>B^(1/4)",
+      "sources": [
+        "stages/stage23/post-stage25-r01/result.md",
+        "stages/stage25/25-50/audit.md"
+      ],
+      "audit_status": "AUDITED_PASS_POST_STAGE25_SUPERSESSION"
+    },
+    "Stage24": {
+      "transition": "Stage18->Stage19",
+      "interface_lower": "N2/M2>>B^(-3/4)*(log(B))^(-5)",
+      "interface_upper": "N2/M2<<_epsilon B^(-1/2+epsilon)*(log(B))^(-5)",
+      "interaction": "positive divergent relative to Stage16S ambient space cost",
+      "sources": [
+        "stages/stage24/post-stage25-r01/result.md",
+        "stages/stage25/25-50/audit.md"
+      ],
+      "audit_status": "AUDITED_PASS_POST_STAGE25_SUPERSESSION"
+    },
+    "Stage25": {
+      "transition": "Stage16->Stage19",
+      "interface_lower": "N2/M1>>B^(-7/4)*(log(B))^(-1)",
+      "interface_upper": "N2/M1<<_epsilon B^(-3/2+epsilon)*(log(B))^(-1)",
+      "cross_ratio": "I=N2*M1/(M2*N1)>>B^(1/4)*(log(B))^(-7)->infinity",
+      "sources": ["stages/stage25/final.md", "stages/stage25/25-70/audit.md"],
+      "audit_status": "AUDITED_PASS_CLOSED"
+    }
+  },
+  "unresolved_gates": {
+    "G24_TRUE_N2_EXPONENT": {
+      "owner_phase": 20,
+      "status": "OPEN_INTERNAL_REATTACK",
+      "missing": "strict whole-family sub-half upper, exponent above one-quarter lower, or true exponent identification"
+    },
+    "G24_MOVING_FAMILY_UNIFORMITY": {
+      "owner_phase": 20,
+      "status": "OPEN_INTERNAL_REATTACK_WITH_EXTERNAL_BOUNDARY",
+      "missing": "same-measure uniform count over moving curves or effective growing-modulus sieve"
+    },
+    "G23_DIRECTIONAL_SOURCE_ADAPTER": {
+      "owner_phase": 30,
+      "status": "OPEN_INTERNAL_REATTACK",
+      "missing": "adapter between Stage21 order chambers and Stage23 shared-edge channels"
+    },
+    "G22_LOG4_FINE_MECHANISM": {
+      "owner_phase": 40,
+      "status": "OPEN_INTERNAL_REATTACK",
+      "missing": "canonical factorization of the logarithmic compensation without fake independence"
+    },
+    "G21_LOG2_FINE_MECHANISM": {
+      "owner_phase": 50,
+      "status": "OPEN_INTERNAL_REATTACK",
+      "missing": "pole or local-factor allocation for the two logarithms"
+    },
+    "G20_TRUE_M3_GROWTH": {
+      "owner_phase": 60,
+      "status": "OPEN_INTERNAL_REATTACK",
+      "missing": "true exponent, matching lower, asymptotic, constant, and proof-status of the finite square-root signal"
+    },
+    "G25_R503_UNIFORM_BASE_CHANGE": {
+      "owner_phase": "EXTERNAL_FUTURE_GATE",
+      "status": "AUDITED_EXTERNAL_GATE",
+      "reopen_condition": "new uniform varying-fiber/base-change theorem"
+    },
+    "G25_R504_EXCEPTIONAL_PRYM": {
+      "owner_phase": "EXTERNAL_FUTURE_GATE",
+      "status": "AUDITED_EXTERNAL_GATE",
+      "reopen_condition": "new geometric E0-factor or uniform isogeny-degree theorem"
+    },
+    "G25_R505_COMMON_CORE": {
+      "owner_phase": "EXTERNAL_FUTURE_GATE",
+      "status": "AUDITED_EXTERNAL_GATE",
+      "reopen_condition": "new same-measure common-squarefree-core counting theorem"
+    }
+  },
+  "weapon_dependencies": {
+    "phase20": [
+      "S25-W01",
+      "S25-W02",
+      "S25-W03",
+      "S25-W04",
+      "AR-003",
+      "AR-016",
+      "AR-023",
+      "AR-024",
+      "AR-028",
+      "AR-035",
+      "NUM-R01",
+      "NUM-R02",
+      "NUM-R03",
+      "NUM-R05"
+    ],
+    "phase30": [
+      "S25-W01",
+      "S25-W02",
+      "AR-STAGE23-TRANSITION-N1-N2",
+      "AR-029",
+      "AR-036",
+      "AR-038",
+      "NUM-R01",
+      "NUM-R06"
+    ],
+    "phase40": [
+      "AR-STAGE22-TRANSITION-M1-M2",
+      "AR-002",
+      "AR-003",
+      "AR-032",
+      "AR-033",
+      "AR-034",
+      "AR-037",
+      "NUM-R06",
+      "NUM-R07",
+      "NUM-R08"
+    ],
+    "phase50": [
+      "S21-W01",
+      "S21-W02",
+      "AR-038",
+      "AR-039",
+      "Stage16S-final"
+    ],
+    "phase60": [
+      "S20-W01",
+      "S20-W02",
+      "S20-W03",
+      "AR-STAGE22-TRANSITION-M1-M2",
+      "S1415-ATTACK-0216",
+      "S1415-ATTACK-0217",
+      "S1415-ATTACK-0224",
+      "NUM-R01",
+      "NUM-R03",
+      "NUM-R08"
+    ]
+  },
+  "receiver_mutations": {
+    "R10-M01": {
+      "type": "AUDIT_LIFECYCLE_NORMALIZATION_ADAPTER",
+      "mutation": "future phases read this registry before stale historical submission-status strings",
+      "population_match": "EXACT_METADATA_ONLY",
+      "cutoff_match": "EXACT_METADATA_ONLY",
+      "multiplicity_match": "EXACT_METADATA_ONLY",
+      "measure_match": "EXACT_METADATA_ONLY",
+      "quantifier_match": "EXACT_METADATA_ONLY",
+      "theorem_changed": false
+    },
+    "R10-M02": {
+      "type": "POST_STAGE25_BACKFLOW_RECEIVER_BINDING",
+      "mutation": "Stage19, Stage23, and Stage24 receivers are pinned to the audited quarter-power backflow rather than their historical closeout lower bounds",
+      "population_match": "EXACT",
+      "cutoff_match": "EXACT",
+      "multiplicity_match": "EXACT",
+      "measure_match": "EXACT",
+      "quantifier_match": "EXACT",
+      "theorem_changed": false
+    },
+    "R10-M03": {
+      "type": "THIRD_FACE_RECEIVER_SEPARATION",
+      "mutation": "phase60 receives Stage20 Euler weapons on the Stage18 host while retaining the Stage24 space-square condition as a distinct, uncharged predicate",
+      "population_match": "ADAPTER_REQUIRED_IN_PHASE60",
+      "cutoff_match": "EXACT_R_CUTOFF",
+      "multiplicity_match": "ADAPTER_REQUIRED_IN_PHASE60",
+      "measure_match": "ADAPTER_REQUIRED_IN_PHASE60",
+      "quantifier_match": "ADAPTER_REQUIRED_IN_PHASE60",
+      "theorem_changed": false
+    }
+  },
+  "numerical_reuse": {
+    "status": "PASS",
+    "assets": ["NUM-R01", "NUM-R02", "NUM-R03", "NUM-R05", "NUM-R06", "NUM-R07", "NUM-R08"],
+    "new_computation_required_in_phase10": false,
+    "finite_data_promoted": false
+  },
+  "scope_firewall": {
+    "true_N2_exponent_identified": false,
+    "true_M3_exponent_identified": false,
+    "stage26_allowed": false,
+    "perfect_cuboid_existence_proved": false,
+    "perfect_cuboid_nonexistence_proved": false
+  }
+}

@@ -63,6 +63,7 @@ if status == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT":
 elif status in (
     "PHASE10_READY_PENDING_SYNC_REAUDIT",
     "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE",
+    "PHASE10_SUBMITTED_PENDING_FRESH_AUDIT",
 ):
     assert controller["current_phase"] == 10
     assert controller["starts_after"]["closeout_merged"] is True
@@ -100,10 +101,32 @@ elif status in (
         assert sync_audit["status"] == "PENDING_REAUDIT"
         assert controller["next_expected_command"] == "Stage25-audit"
         print("STAGE25_REENTRY_GATE=READY_PENDING_REAUDIT_VALID")
-    else:
+    elif status == "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE":
         assert controller["phases"]["10"]["status"] == "READY"
         assert controller["next_expected_command"] == "Stage25-reentry-main-batch"
         print("STAGE25_REENTRY_GATE=READY_VALID")
+    else:
+        assert controller["phases"]["10"]["status"] == "SUBMITTED_PENDING_AUDIT"
+        submission = controller["phase10_submission"]
+        assert submission["task_id"] == "Stage25-um-r001a"
+        assert submission["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
+        assert submission["audit_status"] == "PENDING"
+        assert submission["advance_allowed"] is False
+        assert submission["merge_allowed"] is False
+        for rel in (
+            submission["result"],
+            submission["discovery_ledger"],
+            submission["weapon_delta"],
+            submission["interface_registry"],
+            submission["backflow_proposals"],
+            submission["verifier"],
+            submission["workflow"],
+        ):
+            assert (ROOT / rel).exists(), rel
+        assert submission["derived_routes_opened"] == []
+        assert submission["queued_propagation_proposals"] == []
+        assert controller["next_expected_command"] == "Stage25-reentry-audit"
+        print("STAGE25_REENTRY_GATE=PHASE10_SUBMITTED_PENDING_AUDIT_VALID")
 else:
     raise AssertionError(f"unexpected reentry status: {status}")
 

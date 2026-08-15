@@ -77,8 +77,8 @@ assert "BACKFLOW_STATUS=PASS_NO_DELTA_AFTER_CHECKPOINT50" in r
 #   1) closeout submission: audit PENDING, not merged, reentry blocked;
 #   2) hostile-audited closeout: audit PASS, not merged, reentry blocked;
 #   3) post-merge synchronization: audit PASS, merged, Stage25 CLOSED,
-#      reentry phase10 is either READY_PENDING_SYNC_AUDIT or READY,
-#      while Stage26 remains blocked.
+#      reentry phase10 is READY_PENDING_SYNC_AUDIT, READY, or submitted for
+#      its fresh phase audit, while Stage26 remains blocked.
 audit_status = c70["audit_status"]
 closeout_merged = bool(c70.get("closeout_merged", False))
 reentry_unlocked = bool(c70.get("stage25_reentry_unlocked", False))
@@ -126,9 +126,14 @@ else:
     assert reentry["status"] in (
         "PHASE10_READY_PENDING_SYNC_REAUDIT",
         "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE",
+        "PHASE10_SUBMITTED_PENDING_FRESH_AUDIT",
     )
     assert reentry["current_phase"] == 10
-    assert reentry["phases"]["10"]["status"] in ("READY_PENDING_SYNC_AUDIT", "READY")
+    assert reentry["phases"]["10"]["status"] in (
+        "READY_PENDING_SYNC_AUDIT",
+        "READY",
+        "SUBMITTED_PENDING_AUDIT",
+    )
     assert reentry["unlock_evidence"]["checkpoint70_audit_verdict"] == "PASS"
     assert reentry["unlock_evidence"]["closeout_pr"] == 1000
     assert reentry["unlock_evidence"]["closeout_merge_commit"] == c70["closeout_merge_commit"]
@@ -143,9 +148,21 @@ else:
         assert reentry["sync_audit"]["fail_reason"] == "STAGE25_70_CLOSEOUT_CI_REGRESSION"
         assert reentry["sync_audit"]["status"] == "PENDING_REAUDIT"
         lifecycle = "POST_MERGE_REENTRY_READY_PENDING_SYNC_REAUDIT"
-    else:
+    elif reentry["status"] == "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE":
         assert reentry["phases"]["10"]["status"] == "READY"
         lifecycle = "POST_MERGE_REENTRY_READY"
+    else:
+        assert reentry["phases"]["10"]["status"] == "SUBMITTED_PENDING_AUDIT"
+        submission = reentry["phase10_submission"]
+        assert submission["task_id"] == "Stage25-um-r001a"
+        assert submission["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
+        assert submission["audit_status"] == "PENDING"
+        assert submission["advance_allowed"] is False
+        assert submission["merge_allowed"] is False
+        assert submission["derived_routes_opened"] == []
+        assert submission["queued_propagation_proposals"] == []
+        assert reentry["next_expected_command"] == "Stage25-reentry-audit"
+        lifecycle = "POST_MERGE_REENTRY_PHASE10_SUBMITTED_PENDING_AUDIT"
 
 print("STAGE25_70_CLOSEOUT_CONTRACT=PASS")
 print("CHECKPOINT60_DEEP_STOP_DEPENDENCY=PASS")
