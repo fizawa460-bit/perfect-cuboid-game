@@ -27,7 +27,6 @@ R507_STATUS=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
 ```
 
 The global envelope remains
-
 \[
 B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
@@ -37,7 +36,6 @@ B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 The previous triage snapshot ended before the exceptional base-change/multisection residual was fully executed. That history has now advanced through hostile-audited PRs #992–#998.
 
 The current R504 chain is:
-
 1. complete Q-degree-two source descent;
 2. complete split reciprocal/commuting-involution analysis;
 3. explicit nonsplit degree-two rank jump;
@@ -85,6 +83,18 @@ STAGE23_BACKFLOW_CURRENT=true
 STAGE24_BACKFLOW_CURRENT=true
 GLOBAL_ENVELOPE_SYNCHRONIZED=true
 INTERACTION_CLASSIFICATION_SYNCHRONIZED=true
+```
+
+## Historical causal-verifier compatibility
+
+The original checkpoint60 causal verifier consumes these historical literals. They remain compatibility markers only; current route status is the audited boundary above.
+
+```text
+R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R503_UNIFORM_VARYING_FIBER_HEIGHT_COUNT=NOT_PROVED
+R504_GENERIC_NONTORSION_SECTION_PROVED=true
+HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
 ```
 
 ## Current checkpoint60 boundary
