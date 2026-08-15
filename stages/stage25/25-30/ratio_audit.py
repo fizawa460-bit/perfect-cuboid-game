@@ -70,7 +70,8 @@ assert ctl['checkpoint_status']['10'] == 'PROVED_AUDITED_PASS'
 assert ctl['checkpoint_status']['20'] == 'COMPUTED_AUDITED_PASS'
 status30 = ctl['checkpoint_status']['30']
 assert status30 in ('REPAIR_SUBMITTED_FOR_FRESH_AUDIT', 'PROVED_AUDITED_PASS')
-assert ctl['state']['CURRENT_CHECKPOINT'] == 30
+current = int(ctl['state']['CURRENT_CHECKPOINT'])
+assert current >= 30
 
 # Historical audited controller provenance must survive checkpoint30 append.
 cp10 = ctl['checkpoint10']
@@ -105,6 +106,7 @@ assert ctl['repair']['controller_checkpoint10_history_restored'] is True
 assert ctl['repair']['controller_checkpoint20_history_restored'] is True
 
 if status30 == 'REPAIR_SUBMITTED_FOR_FRESH_AUDIT':
+    assert current == 30
     assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
     assert ctl['state']['ADVANCE_ALLOWED'] is False
     assert ctl['state']['MERGE_ALLOWED'] is False
@@ -116,21 +118,28 @@ if status30 == 'REPAIR_SUBMITTED_FOR_FRESH_AUDIT':
     assert ctl['discovery_audit']['verdict'] == 'PENDING_REAUDIT'
     assert ctl['last_audit']['verdict'] == 'FAIL'
     assert ctl['repair']['status'] == 'SUBMITTED_FOR_FRESH_AUDIT'
-    assert ctl['next_expected_command'] == 'Stage25-audit'
 else:
-    assert ctl['state']['AUDIT_STATUS'] == 'PASS'
-    assert ctl['state']['ADVANCE_ALLOWED'] is True
-    assert ctl['state']['MERGE_ALLOWED'] is True
-    assert ctl['state']['NEXT_CHECKPOINT'] == 40
     assert cp30['audit'] == 'PASS'
     assert cp30['repair_status'] == 'COMPLETE_AUDITED_PASS'
     assert cp30['advance_allowed'] is True
     assert cp30['merge_allowed'] is True
-    assert ctl['discovery_audit']['verdict'] == 'PASS'
-    assert ctl['last_audit']['checkpoint'] == 30
-    assert ctl['last_audit']['verdict'] == 'PASS'
     assert ctl['repair']['status'] == 'COMPLETE_AUDITED_PASS'
-    assert ctl['next_expected_command'] == 'merge PR #982; then Stage25-main-batch'
+    assert any(x['checkpoint'] == 30 and x['verdict'] == 'PASS' for x in ctl['audit_history'])
+    if current == 30:
+        assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+        assert ctl['state']['ADVANCE_ALLOWED'] is True
+        assert ctl['state']['MERGE_ALLOWED'] is True
+        assert ctl['state']['NEXT_CHECKPOINT'] == 40
+        assert ctl['discovery_audit']['verdict'] == 'PASS'
+        assert ctl['last_audit']['checkpoint'] == 30
+        assert ctl['last_audit']['verdict'] == 'PASS'
+        assert ctl['next_expected_command'] == 'merge PR #982; then Stage25-main-batch'
+    else:
+        # Once Stage25 advances, current state/discovery_audit belong to the later
+        # checkpoint.  Checkpoint30 stays immutable as a historical audited PASS.
+        assert current > 30
+        assert ctl['last_audit']['checkpoint'] >= 30
+        assert ctl['last_audit']['verdict'] == 'PASS'
 
 print('DIRECT_LOWER_SCALE=B^-2(logB)^-1/2:PASS')
 print('DIRECT_UPPER_SCALE=B^-3/2+eps(logB)^-1:PASS')
@@ -139,4 +148,5 @@ print('PATH_B_SCALE_MATCH=PASS')
 print('THREE_WAY_CONSISTENCY=PASS')
 print('DIRECTIONAL_OVERCLAIM_DOWNGRADE=PASS')
 print('CONTROLLER_HISTORY_RESTORE=PASS')
+print(f'CURRENT_CHECKPOINT={current}')
 print('STAGE25_30_RATIO_AUDIT=PASS')
