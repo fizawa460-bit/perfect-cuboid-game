@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage25/25-20/**'
+      - 'stages/stage25/25-10/contract_audit.py'
       - 'stages/stage25/25-controller.json'
       - 'stages/stage16/16-20/counts.csv'
       - 'stages/stage19/19-20/counts.csv'
@@ -19,6 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verify historical checkpoint10 contract
+        run: python stages/stage25/25-10/contract_audit.py
       - name: Replay exact matched grid
         run: python stages/stage25/25-20/replay_matched_grid.py
       - name: Verify checkpoint20 submission contract
