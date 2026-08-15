@@ -109,7 +109,19 @@ so
 \boxed{nT+2S=0.}
 \]
 
-The nonconstant coefficient must therefore be even. Constant non-torsion translations cannot satisfy this equation; they do not contribute to the twist rank.
+To justify the parity conclusion, we also need that `T` is not twice a rational point. This is elementary on `E_0`. If `S=(x,y)` is not 2-torsion, the duplication formula gives
+
+\[
+x([2]S)=\frac{(x^2+4)^2}{4x(x^2-4)}.
+\]
+
+For `[2]S=T=(0,0)` the numerator would have to vanish, forcing `x^2=-4`, impossible over `Q`. If `S` is 2-torsion then `[2]S=O`, not `T`. Hence
+
+\[
+\boxed{T\notin2E_0(\mathbf Q).}
+\]
+
+Therefore `n` cannot be odd in `nT+2S=0`; the nonconstant coefficient is even. For even `n`, the remaining constant `S` is 2-torsion and does not contribute to the free rank.
 
 Thus the nonconstant anti-invariant lattice has rank one and its primitive coefficient is `2`.
 
@@ -171,6 +183,7 @@ This certificate concerns the original base `Q(k)`. It does not claim that finit
 R504_TWIST_COVER_IS_E0=true
 R504_DECK_ACTION=Q->T-Q
 R504_END_Q_E0=Z
+R504_T_NOT_2DIVISIBLE_OVER_Q=true
 R504_ANTI_INVARIANT_COEFFICIENT_PARITY=EVEN
 R504_EXPLICIT_P_COEFFICIENT=2_UP_TO_SIGN_AND_TORSION
 R504_EXPLICIT_P_PRIMITIVE_IN_TWIST_FREE_LATTICE=true
