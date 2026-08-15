@@ -46,7 +46,7 @@ The hostile audit accepted the Rosati quadratic degree form
 \deg_u(x(aP+bR)/H)=8(a^2+b^2).
 \]
 
-The narrow repair then proves the exact physical Kummer image on
+The narrow repair proves the exact physical Kummer image on
 
 \[
 E_H:y^2=x(x-2H)(x+2H)
