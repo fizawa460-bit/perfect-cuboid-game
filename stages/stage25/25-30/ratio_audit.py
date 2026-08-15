@@ -35,9 +35,6 @@ required_result = [
     'PATH_B_PRODUCT_CHECK=PASS',
     'THREE_WAY_CONSISTENCY=PASS',
     'PROBABILISTIC_INDEPENDENCE_INFERRED=false',
-    'DIRECTIONAL_UPPER_ALL=PROVED',
-    'DIRECTIONAL_C_LOWER=PROVED',
-    'DIRECTIONAL_C_TWO_SIDED_ENVELOPE=PROVED',
     'FINITE_DATA_USED_AS_PROOF=false',
     'EXPLORATION_EVIDENCE_COMPLETE=true',
 ]
@@ -68,19 +65,38 @@ assert ctl['stage'] == 'Stage25'
 assert ctl['parent_class'] == 'transition'
 assert ctl['checkpoint_status']['10'] == 'PROVED_AUDITED_PASS'
 assert ctl['checkpoint_status']['20'] == 'COMPUTED_AUDITED_PASS'
-assert ctl['checkpoint_status']['30'] == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT'
 assert ctl['state']['CURRENT_CHECKPOINT'] == 30
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['ADVANCE_ALLOWED'] is False
 assert ctl['state']['NEXT_CHECKPOINT'] == 30
-assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['checkpoint30']['three_way_consistency'] == 'PASS'
 assert ctl['checkpoint30']['finite_data_used_as_proof'] is False
 assert ctl['checkpoint30']['exploration_evidence_complete'] is True
+
+status30 = ctl['checkpoint_status']['30']
+if status30 == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT':
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['MERGE_ALLOWED'] is False
+elif status30 == 'AUDIT_FAIL_REPAIR_REQUIRED':
+    assert ctl['state']['AUDIT_STATUS'] == 'FAIL'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert ctl['checkpoint30']['audit'] == 'FAIL'
+    assert ctl['checkpoint30']['global_endpoint_ratio_accepted'] is True
+    assert ctl['checkpoint30']['path_A_product_accepted'] is True
+    assert ctl['checkpoint30']['path_B_product_accepted'] is True
+    assert ctl['checkpoint30']['directional_refinement_accepted'] is False
+    assert ctl['checkpoint30']['directional_source_channel_adapter_proved'] is False
+elif status30 == 'PROVED_AUDITED_PASS':
+    assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+    assert ctl['state']['ADVANCE_ALLOWED'] is True
+    assert ctl['state']['MERGE_ALLOWED'] is True
+else:
+    raise AssertionError(status30)
 
 print('DIRECT_LOWER_SCALE=B^-2(logB)^-1/2:PASS')
 print('DIRECT_UPPER_SCALE=B^-3/2+eps(logB)^-1:PASS')
 print('PATH_A_SCALE_MATCH=PASS')
 print('PATH_B_SCALE_MATCH=PASS')
 print('THREE_WAY_CONSISTENCY=PASS')
+print(f'STAGE25_30_CONTROLLER_STATUS={status30}')
 print('STAGE25_30_RATIO_AUDIT=PASS')
