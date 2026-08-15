@@ -1,5 +1,13 @@
 #!/usr/bin/env python3
 from math import gcd
+from pathlib import Path
+import json
+
+root = Path(__file__).resolve().parents[3]
+result = (root / 'stages/stage25/25-50/result.md').read_text(encoding='utf-8')
+proof = (root / 'stages/stage25/25-50/r501-parametric-positive-power.md').read_text(encoding='utf-8')
+ledger = (root / 'stages/stage25/25-50/discovery-ledger.md').read_text(encoding='utf-8')
+ctl = json.loads((root / 'stages/stage25/25-controller.json').read_text(encoding='utf-8'))
 
 
 def family(m, n):
@@ -53,8 +61,8 @@ def deriv(a, p):
 p = 5
 Q = [1, 1, 1, 2, 0, 3, 1, 4, 1]
 Qp = deriv(Q, p)
-S = [2, 1, 0, 2, 1, 2, 2]                       # 2u^6+2u^5+u^4+2u^3+u+2
-T = [4, 4, 0, 4, 2, 2, 4, 1]                    # u^7-u^6+2u^5+2u^4-u^3-u-1
+S = [2, 1, 0, 2, 1, 2, 2]
+T = [4, 4, 0, 4, 2, 2, 4, 1]
 bezout = add(mul(S, Q, p), mul(T, Qp, p), p)
 assert bezout == [1], bezout
 assert Q[0] == 1
@@ -77,12 +85,101 @@ for n in range(3, 61):
         g = gcd(gcd(A, B), C)
         assert DAC % g == 0 and DBC % g == 0 and D % g == 0
         seen += 1
-
 assert seen > 200
 
-# Height constant used by the counting proof.
-# If m,n<=T then D <= (1+46+81)T^8 = 128 T^8.
+# Height constant used by the proof.
 assert 1 + 46 + 81 == 128
+
+for marker in [
+    'NEW_LOWER_CANDIDATE=N2(B)>>B^(1/4)',
+    'POSITIVE_POWER_LOWER_BOUND_CANDIDATE=true',
+    'POSITIVE_POWER_EXPONENT_CANDIDATE=1/4',
+    'STAGE25_RATIO_LOWER_CANDIDATE=B^(-7/4)(log B)^(-1)',
+    'STAGE24_RATIO_LOWER_BACKFLOW_CANDIDATE=B^(-3/4)(log B)^(-5)',
+    'STAGE23_RATIO_LOWER_BACKFLOW_CANDIDATE=B^(-3/4)(log B)^(-3)',
+    'AMBIENT_INTERACTION_SIGN_BACKFLOW_CANDIDATE=POSITIVE_DIVERGENT',
+    'CROSS_RATIO_SIGN_BACKFLOW_CANDIDATE=POSITIVE_DIVERGENT',
+    'FINITE_DATA_USED_AS_PROOF=false',
+    'EXPLORATION_EVIDENCE_COMPLETE=true',
+]:
+    assert marker in result, marker
+
+for marker in [
+    'CANDIDATE_LOWER=N2(B)>>B^(1/4)',
+    'THIRD_FACE_EXCEPTION_CURVE_GENUS=7',
+    'PARAMETER_FIBER_BOUND=8',
+    'HEIGHT_DEGREE=8',
+    'PARAMETER_COUNT_DEGREE=2',
+    'FINITE_DATA_USED_AS_PROOF=false',
+]:
+    assert marker in proof, marker
+
+for marker in [
+    'DISCOVERY_CHECKPOINT=Stage25-50',
+    'REPO_REUSE_PREFLIGHT=PASS',
+    'SEARCHED_PATHS=',
+    'CANDIDATES_FOUND=',
+    'CANDIDATES_ACCEPTED=',
+    'CANDIDATES_REJECTED_WITH_REASON=',
+    'POPULATION_ADAPTERS_PROVED=',
+    'SUBLANES_OPENED=Stage25-r501-parametric-positive-power',
+    'FORMULA_SUBSTITUTION_ONLY=false',
+    'FINITE_DATA_USED_AS_PROOF=false',
+    'EXPLORATION_EVIDENCE_COMPLETE=true',
+]:
+    assert marker in ledger, marker
+
+assert ctl['stage'] == 'Stage25'
+assert ctl['parent_class'] == 'transition'
+for cp, status in [('10','PROVED_AUDITED_PASS'),('20','COMPUTED_AUDITED_PASS'),('30','PROVED_AUDITED_PASS'),('40','PROVED_AUDITED_PASS')]:
+    assert ctl['checkpoint_status'][cp] == status
+status50 = ctl['checkpoint_status']['50']
+assert status50 in ('PROVED_SUBMITTED_FOR_FRESH_AUDIT', 'PROVED_AUDITED_PASS')
+current = int(ctl['state']['CURRENT_CHECKPOINT'])
+assert current >= 50
+
+cp50 = ctl['checkpoint50']
+assert cp50['candidate_lower'] == 'N2(B)>>B^(1/4)'
+assert cp50['positive_power_lower_candidate'] is True
+assert cp50['positive_power_exponent_candidate'] == '1/4'
+assert cp50['stage25_ratio_lower_candidate'] == 'N2/M1>>B^(-7/4)(log B)^(-1)'
+assert cp50['third_face_exception_curve_genus'] == 7
+assert cp50['parameter_fiber_bound'] == 8
+assert cp50['family_height_degree'] == 8
+assert cp50['parameter_count_degree'] == 2
+assert cp50['finite_data_used_as_proof'] is False
+assert cp50['exploration_evidence_complete'] is True
+
+# Historical provenance must survive.
+assert ctl['checkpoint10']['previous_audit'] == 'FAIL'
+assert ctl['checkpoint20']['num_r01_manifest_binding'] == 'PASS'
+assert ctl['checkpoint30']['previous_audit'] == 'FAIL'
+assert ctl['checkpoint30']['directional_ratio_refinement_status'] == 'OPEN_GATE_ADAPTER_REQUIRED'
+assert ctl['checkpoint40']['audit'] == 'PASS'
+assert any(x['checkpoint'] == 40 and x['verdict'] == 'PASS' for x in ctl['audit_history'])
+
+if status50 == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT':
+    assert current == 50
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['NEXT_CHECKPOINT'] == 50
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert cp50['audit'] == 'PENDING'
+    assert ctl['discovery_audit']['checkpoint'] == 50
+    assert ctl['discovery_audit']['verdict'] == 'PENDING'
+    assert ctl['next_expected_command'] == 'Stage25-audit'
+else:
+    assert cp50['audit'] == 'PASS'
+    assert cp50['advance_allowed'] is True
+    assert cp50['merge_allowed'] is True
+    assert any(x['checkpoint'] == 50 and x['verdict'] == 'PASS' for x in ctl['audit_history'])
+    if current == 50:
+        assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+        assert ctl['state']['ADVANCE_ALLOWED'] is True
+        assert ctl['state']['NEXT_CHECKPOINT'] == 60
+        assert ctl['state']['MERGE_ALLOWED'] is True
+    else:
+        assert current > 50
 
 print('MESKHISHVILI_HOMOGENEOUS_IDENTITIES_REGRESSION=PASS')
 print(f'ADMISSIBLE_REDUCED_SAMPLE_COUNT={seen}')
@@ -94,4 +191,7 @@ print('HYPERELLIPTIC_DEGREE=16')
 print('HYPERELLIPTIC_GENUS=7')
 print('HEIGHT_CONSTANT_128=PASS')
 print('PARAMETER_FIBER_BOUND_DEGREE=8')
+print(f'CURRENT_CHECKPOINT={current}')
+print('CONTROLLER_HISTORY_PRESERVATION=PASS')
+print('DISCOVERY_EVIDENCE_BLOCK=PASS')
 print('STAGE25_50_PARAMETRIC_FAMILY_AUDIT=PASS')
