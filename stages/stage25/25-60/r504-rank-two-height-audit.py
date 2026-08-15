@@ -77,7 +77,7 @@ def degree_x_over_H(a,b):
     Q=add(mul(a,P),mul(b,R))
     return degree_rf(Q[0]/Hk)
 
-# Basis norms and representative regression points for the general Rosati formula.
+# Basis norms and representative regression points support the Rosati formula.
 assert degree_x_over_H(1,0)==8
 assert degree_x_over_H(0,1)==8
 for a,b in [(1,1),(1,-1),(1,2),(1,-2),(3,0),(3,2)]:
@@ -89,7 +89,7 @@ psi=sp.cancel(-4*t**2/(t**4+1))
 psi_num,psi_den=psi.as_numer_denom()
 assert max(sp.degree(psi_num,t),sp.degree(psi_den,t))==4
 
-# Prior hostile-audited P+2R witness attains norm 5, t-degree 10, box degree 24.
+# Prior hostile-audited P+2R witness remains a valid norm-5 physical class.
 A=u**10+4*u**9-15*u**8-320*u**7-1814*u**6-5976*u**5-14686*u**4-19936*u**3-29883*u**2-14284*u-64099
 B=u**10+16*u**9+93*u**8+464*u**7+1658*u**6+4368*u**5+6346*u**4-2576*u**3-38763*u**2-82272*u-119319
 C=u**16+16*u**15+216*u**14+1904*u**13+11532*u**12+51024*u**11+176584*u**10+498992*u**9+1465974*u**8+4632112*u**7+16670632*u**6+49968720*u**5+132646892*u**4+257203824*u**3+414710328*u**2+414710032*u+297433361
@@ -97,8 +97,9 @@ assert sp.factor(A**4+B**4-H*C**2)==0
 assert max(sp.degree(A,u),sp.degree(B,u))==10
 assert sp.degree(H*C,u)==24
 
-# Parity lattice: a odd, b even.  Norm 1 is only the degenerate +/-P class;
-# the next possible norm is exactly 5, attained by +/-P +/-2R.
+# Conditional enumeration only: IF the physical coset is proved to be a odd / b even,
+# then norm 1 is +/-P and the next norm is 5 at +/-P +/-2R.
+# This script does not prove that mod-2 coset identification.
 allowed=[]
 for a in range(-9,10,2):
     for b in range(-8,9,2):
@@ -116,10 +117,8 @@ print('R504_ROSATI_NORM_P=8')
 print('R504_ROSATI_NORM_R=8')
 print('R504_RANK_TWO_HEIGHT_FORM_REGRESSION=PASS')
 print('R504_PHYSICAL_RECEIVER_X_OVER_H_DEGREE_IN_T=4')
-print('R504_PHYSICAL_COSET_PARITY=a_odd,b_even')
-print('R504_MIN_NONDEGENERATE_NORM=5')
-print('R504_MIN_NONDEGENERATE_T_DEGREE=10')
-print('R504_MIN_NONDEGENERATE_BOX_DEGREE=24')
-print('R504_BEST_FIXED_CLASS_EXACT_FAMILY_GROWTH=Theta(B^(1/12))')
+print('R504_PHYSICAL_COSET_PARITY=UNVERIFIED_AUDIT_BLOCKER')
+print('R504_CONDITIONAL_A_ODD_B_EVEN_MIN_NORM=5')
+print('R504_P_PLUS_2R_PREVIOUS_PHYSICAL_WITNESS=PASS')
 print('R504_RANK_TWO_GROWING_LATTICE_UNIFORM_AGGREGATION_PROVED=false')
 print('GLOBAL_STAGE25_LOWER_CHANGED=false')
