@@ -68,12 +68,9 @@ assert ctl['stage'] == 'Stage25'
 assert ctl['parent_class'] == 'transition'
 assert ctl['checkpoint_status']['10'] == 'PROVED_AUDITED_PASS'
 assert ctl['checkpoint_status']['20'] == 'COMPUTED_AUDITED_PASS'
-assert ctl['checkpoint_status']['30'] == 'REPAIR_SUBMITTED_FOR_FRESH_AUDIT'
+status30 = ctl['checkpoint_status']['30']
+assert status30 in ('REPAIR_SUBMITTED_FOR_FRESH_AUDIT', 'PROVED_AUDITED_PASS')
 assert ctl['state']['CURRENT_CHECKPOINT'] == 30
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['ADVANCE_ALLOWED'] is False
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['state']['NEXT_CHECKPOINT'] == 30
 
 # Historical audited controller provenance must survive checkpoint30 append.
 cp10 = ctl['checkpoint10']
@@ -92,7 +89,6 @@ assert cp20['audit'] == 'PASS'
 
 cp30 = ctl['checkpoint30']
 assert cp30['previous_audit'] == 'FAIL'
-assert cp30['audit'] == 'PENDING_REAUDIT'
 assert cp30['three_way_consistency'] == 'PASS'
 assert cp30['directional_stage23_c_lower'] == 'PROVED_TARGET_ONLY'
 assert cp30['directional_source_channel_adapter_proved'] is False
@@ -103,15 +99,38 @@ assert cp30['directional_overclaim_repaired'] is True
 assert cp30['controller_history_restore_status'] == 'COMPLETE'
 assert cp30['exploration_evidence_complete'] is True
 assert cp30['finite_data_used_as_proof'] is False
-
-assert ctl['discovery_audit']['verdict'] == 'PENDING_REAUDIT'
-assert ctl['last_audit']['checkpoint'] == 30
-assert ctl['last_audit']['verdict'] == 'FAIL'
 assert len(ctl['audit_history']) >= 3
 assert ctl['repair']['directional_ratio_claims_downgraded'] is True
 assert ctl['repair']['controller_checkpoint10_history_restored'] is True
 assert ctl['repair']['controller_checkpoint20_history_restored'] is True
-assert ctl['next_expected_command'] == 'Stage25-audit'
+
+if status30 == 'REPAIR_SUBMITTED_FOR_FRESH_AUDIT':
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert ctl['state']['NEXT_CHECKPOINT'] == 30
+    assert cp30['audit'] == 'PENDING_REAUDIT'
+    assert cp30['repair_status'] == 'SUBMITTED_FOR_FRESH_AUDIT'
+    assert cp30['advance_allowed'] is False
+    assert cp30['merge_allowed'] is False
+    assert ctl['discovery_audit']['verdict'] == 'PENDING_REAUDIT'
+    assert ctl['last_audit']['verdict'] == 'FAIL'
+    assert ctl['repair']['status'] == 'SUBMITTED_FOR_FRESH_AUDIT'
+    assert ctl['next_expected_command'] == 'Stage25-audit'
+else:
+    assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+    assert ctl['state']['ADVANCE_ALLOWED'] is True
+    assert ctl['state']['MERGE_ALLOWED'] is True
+    assert ctl['state']['NEXT_CHECKPOINT'] == 40
+    assert cp30['audit'] == 'PASS'
+    assert cp30['repair_status'] == 'COMPLETE_AUDITED_PASS'
+    assert cp30['advance_allowed'] is True
+    assert cp30['merge_allowed'] is True
+    assert ctl['discovery_audit']['verdict'] == 'PASS'
+    assert ctl['last_audit']['checkpoint'] == 30
+    assert ctl['last_audit']['verdict'] == 'PASS'
+    assert ctl['repair']['status'] == 'COMPLETE_AUDITED_PASS'
+    assert ctl['next_expected_command'] == 'merge PR #982; then Stage25-main-batch'
 
 print('DIRECT_LOWER_SCALE=B^-2(logB)^-1/2:PASS')
 print('DIRECT_UPPER_SCALE=B^-3/2+eps(logB)^-1:PASS')
@@ -120,4 +139,4 @@ print('PATH_B_SCALE_MATCH=PASS')
 print('THREE_WAY_CONSISTENCY=PASS')
 print('DIRECTIONAL_OVERCLAIM_DOWNGRADE=PASS')
 print('CONTROLLER_HISTORY_RESTORE=PASS')
-print('STAGE25_30_REPAIR_SUBMISSION=PASS')
+print('STAGE25_30_RATIO_AUDIT=PASS')
