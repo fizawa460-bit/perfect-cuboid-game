@@ -46,8 +46,6 @@ assert policy["route_ids_recycled"] is False
 assert policy["parent_phase_audit_required_before_recursive_launch"] is True
 assert policy["next_route_serial"] >= 8
 
-# Route serial accounting is lifecycle-aware.  Before any derived route it is 8;
-# once r008 is reserved, the next serial must advance to 9 rather than recycling.
 route_serials = []
 route_re = re.compile(r"-r0(\d{2})[a-z]$")
 for item in controller.get("propagation_queue", []):
@@ -69,7 +67,6 @@ assert controller["safety"]["closed_theorem_means_exploration_exhausted"] is Fal
 assert "Stage25-reentry-main-batch" in roadmap and "Stage25-reentry-audit" in operations
 assert "24 -> 23 -> 22 -> 21 -> 20" in roadmap
 
-# Closeout evidence is invariant for every unlocked/research state.
 status = controller["status"]
 if status == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT":
     assert controller["current_phase"] is None
@@ -111,19 +108,18 @@ else:
         )
         print("STAGE25_REENTRY_GATE=PHASE10_LIFECYCLE_VALID")
     elif controller["current_phase"] == 20:
-        assert status == "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT"
+        assert status in (
+            "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT",
+            "PHASE20_AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW",
+        )
         assert controller["phases"]["10"]["status"] == "AUDITED_PASS_MERGED"
         p10 = controller["phase10_submission"]
         assert p10["audit_status"] == "PASS"
         assert p10["pr"] == 1002
         assert p10["merge_commit"] == "5cb7dc8792faf575c1e21fce8166f094af6d7b14"
-        assert controller["phases"]["20"]["status"] == "SUBMITTED_PENDING_AUDIT"
+
         p20 = controller["phase20_submission"]
         assert p20["task_id"] == "Stage25-u24-r002a"
-        assert p20["status"] == "SUBMITTED_PENDING_AUDIT"
-        assert p20["audit_status"] == "PENDING"
-        assert p20["advance_allowed"] is False
-        assert p20["merge_allowed"] is False
         for rel in (
             p20["result"], p20["discovery_ledger"], p20["weapon_delta"],
             p20["directional_proof"], p20["directional_registry"],
@@ -136,10 +132,32 @@ else:
         queued = controller["propagation_queue"][0]
         assert queued["route_id"] == "Stage25-um-r008a"
         assert queued["parent_task"] == "Stage25-u24-r002a"
-        assert queued["status"] == "QUEUED_UNTIL_PHASE20_AUDIT_PASS"
         assert queued["blocks_next_phase"] is True
-        assert controller["next_expected_command"] == "Stage25-reentry-audit"
-        print("STAGE25_REENTRY_GATE=PHASE20_SUBMITTED_PENDING_AUDIT_VALID")
+
+        if status == "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT":
+            assert controller["phases"]["20"]["status"] == "SUBMITTED_PENDING_AUDIT"
+            assert p20["status"] == "SUBMITTED_PENDING_AUDIT"
+            assert p20["audit_status"] == "PENDING"
+            assert p20["advance_allowed"] is False
+            assert p20["merge_allowed"] is False
+            assert queued["status"] == "QUEUED_UNTIL_PHASE20_AUDIT_PASS"
+            assert controller["next_expected_command"] == "Stage25-reentry-audit"
+            print("STAGE25_REENTRY_GATE=PHASE20_SUBMITTED_PENDING_AUDIT_VALID")
+        else:
+            assert controller["phases"]["20"]["status"] == "AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW"
+            assert p20["status"] == "AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW"
+            assert p20["audit_status"] == "PASS"
+            assert p20["advance_allowed"] is True
+            assert p20["merge_allowed"] is True
+            assert p20["stronger_result_proved"] is True
+            assert p20["new_reusable_weapon_proved"] is True
+            assert p20["audit_record"] == "stages/stage25/25-reentry-20/audit.md"
+            audit20 = (ROOT / p20["audit_record"]).read_text(encoding="utf-8")
+            assert "AUDIT_VERDICT=PASS" in audit20
+            assert queued["status"] == "AUTHORIZED_BY_PHASE20_AUDIT_AWAITING_PARENT_MERGE"
+            assert controller["phases"]["30"]["status"] == "BLOCKED_UNTIL_PHASE20_BACKFLOW"
+            assert controller["next_expected_command"] == "merge PR #1003; then Stage25-reentry-main-batch"
+            print("STAGE25_REENTRY_GATE=PHASE20_AUDITED_PASS_AWAITING_MERGE_VALID")
     else:
         raise AssertionError(f"unsupported current phase lifecycle: {controller['current_phase']}")
 
