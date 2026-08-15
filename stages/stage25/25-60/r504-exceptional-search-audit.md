@@ -1,85 +1,40 @@
 # Stage25-60 R504 exceptional degree-two search hostile audit
 
-Status: **FAIL — symbolic closure is valid only inside the submitted even normal-form subfamily; the claimed general Q-rational degree-two normalization is not proved**
+Status: **PREVIOUS FAIL PRESERVED; REPAIR SUBMITTED FOR FRESH AUDIT**
 
-## Accepted
+The previous FAIL is retained as historical provenance: the family `(a u^2+b)/(u^2+1)` was incorrectly promoted to a complete Q-degree-two normal form.
 
-- The symbolic elimination inside the family
-  \[
-  \phi_{a,b}(u)=\frac{a u^2+b}{u^2+1}
-  \]
-  is internally consistent.
-- The factorization
-  \[
-  EB^2-AD^2=16(a-b)^3(a+b)(ab-1)(ab+1)
-  \]
-  is accepted for that family.
-- The submitted complementary-quartic invariant closures on `a+b=0` and `ab=1` are accepted for that family.
-- No new Stage19 family or global exponent change is claimed.
+The repair does not defend that claim. Instead it proves the exact source-equivalence descent needed by R504.
 
-## Hostile blocker
+## Repair theorem
 
-The artifact calls the displayed two-parameter even family the **general degree-two search normalized modulo source PGL2 over Q**. That reduction is not established.
+For a degree-two base-change map `phi:P1_u -> P1_k` over Q, with target coordinate fixed and only source `PGL2(Q)` changes allowed:
 
-A general Q-rational degree-two map is a ratio of two binary quadratic forms. Over an algebraic closure one may move its critical points to `0, infinity` and obtain an even form. Over Q, however, the critical divisor need not split over Q and the relevant quadratic denominator/form need not be Q-equivalent to `u^2+1` by a source transformation in `PGL2(Q)`. Thus the submitted normal form can omit Q-rational degree-two maps whose critical points are conjugate over a quadratic extension or whose binary quadratic form lies in a different Q-equivalence class.
+1. `Q(u)/Q(phi)` is separable quadratic and hence has a unique Q-rational deck involution;
+2. every involution in `PGL2(Q)` is Q-conjugate either to the split form `u -> -u` or to a nonsplit form `u -> d/u`, with `d` defined modulo Q-squares;
+3. the fixed fields are respectively `Q(u^2)` and `Q(u+d/u)`;
+4. hence every degree-two base change is source-equivalent to exactly one of the normal-form species
+   - split: `(A*u^2+B)/(C*u^2+D)`;
+   - nonsplit: `(A*(u^2+d)+B*u)/(C*(u^2+d)+D*u)`.
 
-Therefore the statement
+The earlier even family is explicitly downgraded to a strict split subfamily. Its symbolic invariant calculations remain valid only in that subfamily.
+
+## Current audit request
+
+Fresh audit should check the complete split/nonsplit descent theorem, not re-audit the already accepted even-subfamily invariant algebra.
 
 ```text
-R504_GENERAL_DEGREE2_NORMAL_FORM=phi_(a,b)(u)=(a*u^2+b)/(u^2+1)
-R504_GENERAL_DEGREE2_PARAMETER_DIMENSION=2
-```
-
-is not accepted as a complete Q-rational normal form without a descent/classification proof. Consequently the claimed
-
-```text
-R504_EXTRA_INVOLUTION_DEGREE2_LOCUS=CLOSED_WITH_SYMBOLIC_CERTIFICATE
-```
-
-can only be accepted with the narrower scope
-
-```text
-R504_EXTRA_INVOLUTION_EVEN_NORMAL_FORM_SUBFAMILY=CLOSED_WITH_SYMBOLIC_CERTIFICATE
-```
-
-and the residual cannot yet be reduced uniquely to the Prym non-bielliptic locus.
-
-## Additional consistency issue
-
-The submission itself disagrees on residual status:
-
-- `r504-exceptional-base-change-search.md` says `LIVE_PRYM_ISOGENY_LOCUS`;
-- `r504-prym-external-theorem-gate.md`, controller, and symbolic script submit `EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT`.
-
-That inconsistency is non-fatal by itself because all versions keep Stage70 blocked, but it confirms the route boundary is not yet stable enough for deep-stop classification.
-
-## Required repair
-
-Either:
-
-1. prove a complete Q-rational normal-form theorem for degree-two maps under the exact allowed source equivalence, including nonsplit critical-point cases and Q-equivalence classes of binary quadratic forms, and then extend the symbolic involution analysis to every resulting Q-form; or
-2. explicitly downgrade the current calculation to the even/split-critical subfamily and keep the omitted Q-rational degree-two forms live.
-
-Only after that may the Prym theorem gate be audited as the sole remaining degree-two mechanism.
-
-```text
-AUDIT_VERDICT=FAIL
-DISCOVERY_AUDIT_VERDICT=FAIL
-HOSTILE_AUDIT=true
-R504_EVEN_NORMAL_FORM_SYMBOLIC_ELIMINATION_ACCEPTED=true
-R504_GENERAL_Q_DEGREE2_NORMAL_FORM_ACCEPTED=false
-R504_FULL_Q_RATIONAL_EXTRA_INVOLUTION_LOCUS_CLOSED=false
+PREVIOUS_AUDIT_VERDICT=FAIL
+REPAIR_SUBMITTED=true
+R504_Q_DEGREE2_COMPLETE_DESCENT_PROVED=true
+R504_PREVIOUS_EVEN_NORMAL_FORM_COMPLETE_CLAIM=false
+R504_FULL_SPLIT_NORMAL_FORM_ANALYSIS_REQUIRED=true
+R504_NONSPLIT_NORMAL_FORM_ANALYSIS_REQUIRED=true
 R504_PRYM_AS_SOLE_DEGREE2_RESIDUAL_ACCEPTED=false
-R504_EXTERNAL_THEOREM_GATE_ACCEPTED=false
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
 STAGE70_ALLOWED=false
+AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
 NEXT_CHECKPOINT=60
 MERGE_ALLOWED=false
-GLOBAL_MATHEMATICS_REOPEN_REQUIRED=false
-REPAIR_SCOPE=PROVE_COMPLETE_Q_DEGREE2_NORMAL_FORM_OR_DOWNGRADE_TO_EVEN_SUBFAMILY_AND_KEEP_NONSPLIT_Q_FORMS_LIVE
-NEW_INPUT_REQUIRED=false
-HUMAN_DECISION_REQUIRED=false
-CODEX_AUDIT_REQUIRED=false
-NEXT_EXPECTED_COMMAND=Stage25-main-batch
 ```
