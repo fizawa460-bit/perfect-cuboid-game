@@ -6,7 +6,7 @@
   "transition": "Stage16 -> Stage19",
   "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
   "checkpoint_status": {
-    "10": "SUBMITTED_FOR_FRESH_AUDIT",
+    "10": "AUDIT_FAIL_REPAIR_REQUIRED",
     "20": "PENDING",
     "30": "PENDING",
     "40": "PENDING",
@@ -16,8 +16,8 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
+    "MAIN_STATUS": "AUDIT_FAIL_REPAIR_REQUIRED",
+    "AUDIT_STATUS": "FAIL",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 10,
     "NEXT_STAGE": "",
@@ -36,7 +36,9 @@
   "cutoff_adapter_required": false,
   "multiplicity_adapter_required": false,
   "checkpoint10": {
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "AUDIT_FAIL_REPAIR_REQUIRED",
+    "audit": "FAIL",
+    "audit_path": "stages/stage25/25-10/audit.md",
     "result_path": "stages/stage25/25-10/result.md",
     "discovery_ledger": "stages/stage25/25-10/discovery-ledger.md",
     "comparison_lattice": "stages/stage25/25-10/comparison-lattice.md",
@@ -62,6 +64,15 @@
     "num_population_match": "ADAPTER_PROVED",
     "num_new_computation_justified": "NOT_REQUIRED_AT_CHECKPOINT10",
     "finite_data_used_as_proof": false,
+    "mathematics_contract_accepted": true,
+    "upstream_interface_check": "PASS",
+    "exploration_evidence_complete": false,
+    "repo_reuse_handoff_complete": false,
+    "discovery_evidence_block_complete": false,
+    "parent_class_normalization_required": true,
+    "counts_recompute_required": false,
+    "mathematics_reopen_required": false,
+    "repair_scope": "REUSE_DISCOVERY_EVIDENCE_AND_CONTROLLER_TAXONOMY_ONLY",
     "audit_required": true,
     "advance_allowed": false,
     "merge_allowed": false
@@ -120,14 +131,34 @@
     "COMPARISON_ADAPTER_REQUIRED": "NO",
     "UPSTREAM_PREMISE_CHECK": "PASS",
     "RETURN_TO_SOURCE_REQUIRED": false,
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT10_SUBMISSION"
+    "EXPLORATION_EVIDENCE_COMPLETE": false,
+    "EVIDENCE_LEVELS_COMPLETE": "NO_CHECKPOINT10_EXPLORATION_EVIDENCE_INCOMPLETE"
   },
   "discovery_audit": {
     "required": true,
     "reason": "checkpoint10 freezes a non-subset combined ratio semantics, two exact audited path factorizations, current post-Stage24 target lower interface, and the Stage25 double-charge firewall",
     "auditor": "FRESH_STAGE25_AUDIT",
-    "verdict": "PENDING"
+    "verdict": "FAIL",
+    "record": "stages/stage25/25-10/audit.md",
+    "fail_reason": "mandatory Stage21-28 repository-reuse handoff and concrete discovery-evidence block are incomplete"
   },
-  "next_expected_command": "Stage25-audit",
+  "last_audit": {
+    "checkpoint": 10,
+    "verdict": "FAIL",
+    "record": "stages/stage25/25-10/audit.md",
+    "audit_commit": "78633e9c646c32287b9dc0e8dd23b791509623e1",
+    "pr": 980,
+    "merge_allowed": false,
+    "new_input_required": false,
+    "human_decision_required": false,
+    "codex_audit_required": false,
+    "codex_reason": "NONE"
+  },
+  "audit_persistence": {
+    "required": true,
+    "status": "COMMITTED_CHECKPOINT10_FAIL",
+    "unsynced_audit_state": "NONE"
+  },
+  "next_expected_command": "Stage25-main-batch",
   "codeX_required": false
 }
