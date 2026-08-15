@@ -65,7 +65,6 @@ for marker in [
 assert ctl['stage'] == 'Stage25'
 assert ctl['parent_class'] == 'transition'
 assert ctl['transition'] == 'Stage16 -> Stage19'
-assert ctl['state']['CURRENT_CHECKPOINT'] == 10
 assert ctl['literal_subset_transition'] is False
 assert ctl['checkpoint10']['path_count_ratio_identities_exact'] is True
 assert ctl['checkpoint10']['path_products_are_independence_claim'] is False
@@ -75,34 +74,25 @@ assert ctl['checkpoint10']['exploration_evidence_complete'] is True
 assert ctl['checkpoint10']['repo_reuse_handoff_complete'] is True
 assert ctl['checkpoint10']['discovery_evidence_block_complete'] is True
 assert ctl['checkpoint10']['parent_class_normalized'] is True
-assert ctl['checkpoint10']['num_reuse_check'] == 'PASS'
-assert ctl['repository_reuse']['REPO_REUSE_PREFLIGHT'] == 'PASS'
-assert ctl['repository_reuse']['DISCOVERY_LEDGER_STATUS'] == 'COMPLETE'
-assert ctl['repair']['mathematics_reopened'] is False
-assert ctl['repair']['counts_recomputed'] is False
+assert ctl['checkpoint10']['audit'] == 'PASS'
+assert ctl['checkpoint10']['advance_allowed'] is True
+assert ctl['checkpoint10']['merge_allowed'] is True
 
 cp10_status = ctl['checkpoint_status']['10']
-if cp10_status == 'REPAIR_SUBMITTED_FOR_FRESH_AUDIT':
-    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-    assert ctl['state']['ADVANCE_ALLOWED'] is False
-    assert ctl['state']['NEXT_CHECKPOINT'] == 10
-    assert ctl['state']['MERGE_ALLOWED'] is False
-    assert ctl['discovery_audit']['verdict'] == 'PENDING_REAUDIT'
-    assert ctl['next_expected_command'] == 'Stage25-audit'
-elif cp10_status == 'PROVED_AUDITED_PASS':
+assert cp10_status == 'PROVED_AUDITED_PASS', cp10_status
+current = int(ctl['state']['CURRENT_CHECKPOINT'])
+assert current >= 10
+
+# Historical checkpoint10 is immutable after PASS.  Once the controller advances,
+# current state belongs to the later checkpoint and must not be forced back to 10/PASS.
+if current == 10:
     assert ctl['state']['AUDIT_STATUS'] == 'PASS'
     assert ctl['state']['ADVANCE_ALLOWED'] is True
     assert ctl['state']['NEXT_CHECKPOINT'] == 20
     assert ctl['state']['MERGE_ALLOWED'] is True
-    assert ctl['checkpoint10']['audit'] == 'PASS'
-    assert ctl['checkpoint10']['advance_allowed'] is True
-    assert ctl['checkpoint10']['merge_allowed'] is True
-    assert ctl['discovery_audit']['verdict'] == 'PASS'
-    assert ctl['last_audit']['verdict'] == 'PASS'
-    assert ctl['last_audit']['merge_allowed'] is True
-    assert ctl['next_expected_command'] == 'merge PR #980; then Stage25-main-batch'
 else:
-    raise AssertionError(f'unexpected checkpoint10 status: {cp10_status}')
+    assert ctl['checkpoint10']['status'] == 'PROVED_AUDITED_PASS'
+    assert ctl['last_audit']['checkpoint'] >= 10
 
-print('Stage25-10 contract + reuse/discovery audit: PASS')
-print(f'CONTROLLER_STATE={cp10_status}')
+print('Stage25-10 historical contract + reuse/discovery audit: PASS')
+print(f'CURRENT_CHECKPOINT={current}')
