@@ -77,17 +77,96 @@ def degree_x_over_H(a,b):
     Q=add(mul(a,P),mul(b,R))
     return degree_rf(Q[0]/Hk)
 
-# Basis norms and representative regression points support the Rosati formula.
+# Basis norms and representative regression points support the hostile-audited Rosati formula.
 assert degree_x_over_H(1,0)==8
 assert degree_x_over_H(0,1)==8
 for a,b in [(1,1),(1,-1),(1,2),(1,-2),(3,0),(3,2)]:
     assert degree_x_over_H(a,b)==8*(a*a+b*b)
 
+# ---------------------------------------------------------------------------
+# Narrow hostile-audit repair: explicit full-2-torsion Kummer characters.
+# E_H: y^2=x(x-2H)(x+2H), delta(Q)=([x],[x-2H],[x+2H]).
+# The factorisations below give the exact squareclasses of P and R.
+# ---------------------------------------------------------------------------
+xP=sp.expand(-4*N**2*M**2)
+xR=sp.expand(4*S**2)
+LP=u**4+4*u**3-2*u**2-12*u+29
+assert sp.factor(xP + 4*(N*M)**2)==0
+assert sp.factor(xP-2*H + 8*LP**2)==0
+assert sp.factor(xP+2*H - 128*(u+1)**2*(u**2+2*u-5)**2)==0
+assert sp.factor(xR - 4*S**2)==0
+assert sp.factor(xR-2*H - 128*(u+1)**2*(u**2+2*u+7)**2)==0
+assert sp.factor(xR+2*H - 8*(u**2+5)**2*(u**2+4*u+9)**2)==0
+
+# Therefore delta(P)=(-1,-2,2), delta(R)=(1,2,2).
+# -1 and 2 are non-square constants in Q, hence also non-square in Q(u).
+kummer_P=(-1,-2,2)
+kummer_R=(1,2,2)
+assert kummer_P != kummer_R
+assert kummer_P[0] == -1 and kummer_R[0] == 1
+assert kummer_P[1] == -2 and kummer_R[1] == 2
+
+# Direct physical-image criterion.  Put w=M^2/z.  Physicality is
+# H=w^2(t^4+1), and the scaled elliptic x-coordinate is -4w^2 t^2.
+t,w=sp.symbols('t w', nonzero=True)
+Hphys=w**2*(t**4+1)
+xphys=-4*w**2*t**2
+assert sp.factor(xphys-2*Hphys + 2*w**2*(t**2+1)**2)==0
+assert sp.factor(xphys+2*Hphys - 2*w**2*(t**2-1)**2)==0
+# Hence every physical image has Kummer class (-1,-2,2)=delta(P).
+
+# Converse reconstruction from the same Kummer class.
+# x=-4r^2, x-2H=-2q^2, x+2H=2s^2 imply
+# q^2-s^2=4r^2, q^2+s^2=2H.  Set
+# t=(q+s)/(2r), w=(q-s)/2; then H=w^2(t^4+1).
+r,q,s=sp.symbols('r q s', nonzero=True)
+trec=(q+s)/(2*r)
+wrec=(q-s)/2
+recon=sp.factor((wrec**2*(trec**4+1)-(q**2+s**2)/2).subs(r**2,(q**2-s**2)/4))
+assert recon==0
+xrec=sp.factor((-4*wrec**2*trec**2 + 4*r**2).subs(r**2,(q**2-s**2)/4))
+assert xrec==0
+
+# Mod-2 parity table inside <P,R>.  By homomorphy of the Kummer map,
+# delta(aP+bR)=delta(P)^a delta(R)^b.  Equality with delta(P) is exactly
+# a odd, b even.  Exhaust the four parity classes mechanically.
+def sqclass_mul(A,B):
+    # Only the constants +/-1,+/-2 matter here; reduce by rational squares.
+    out=[]
+    for x,y in zip(A,B):
+        z=x*y
+        if z in (4,-4):
+            z//=4
+        elif z in (2,-2,1,-1):
+            pass
+        elif z==8:
+            z=2
+        elif z==-8:
+            z=-2
+        out.append(z)
+    return tuple(out)
+
+def class_ab(a,b):
+    # Exponents only matter mod 2.
+    out=(1,1,1)
+    if a%2:
+        out=sqclass_mul(out,kummer_P)
+    if b%2:
+        out=sqclass_mul(out,kummer_R)
+    return out
+
+parity_table={(a,b):class_ab(a,b) for a in (0,1) for b in (0,1)}
+assert parity_table[(1,0)]==kummer_P
+assert parity_table[(0,0)]==(1,1,1)
+assert parity_table[(0,1)]==kummer_R
+assert parity_table[(1,1)]!=kummer_P
+assert [ab for ab,c in parity_table.items() if c==kummer_P]==[(1,0)]
+
 # The physical x/H receiver is degree four in t.
-t=sp.symbols('t')
-psi=sp.cancel(-4*t**2/(t**4+1))
+t2=sp.symbols('t2')
+psi=sp.cancel(-4*t2**2/(t2**4+1))
 psi_num,psi_den=psi.as_numer_denom()
-assert max(sp.degree(psi_num,t),sp.degree(psi_den,t))==4
+assert max(sp.degree(psi_num,t2),sp.degree(psi_den,t2))==4
 
 # Prior hostile-audited P+2R witness remains a valid norm-5 physical class.
 A=u**10+4*u**9-15*u**8-320*u**7-1814*u**6-5976*u**5-14686*u**4-19936*u**3-29883*u**2-14284*u-64099
@@ -97,9 +176,8 @@ assert sp.factor(A**4+B**4-H*C**2)==0
 assert max(sp.degree(A,u),sp.degree(B,u))==10
 assert sp.degree(H*C,u)==24
 
-# Conditional enumeration only: IF the physical coset is proved to be a odd / b even,
-# then norm 1 is +/-P and the next norm is 5 at +/-P +/-2R.
-# This script does not prove that mod-2 coset identification.
+# With the Kummer parity theorem now proved, norm 1 is +/-P and the next
+# physical norm is 5 at +/-P +/-2R.
 allowed=[]
 for a in range(-9,10,2):
     for b in range(-8,9,2):
@@ -116,9 +194,14 @@ print('R504_ROSATI_ORTHOGONALITY_PREMISES=PASS')
 print('R504_ROSATI_NORM_P=8')
 print('R504_ROSATI_NORM_R=8')
 print('R504_RANK_TWO_HEIGHT_FORM_REGRESSION=PASS')
+print('R504_KUMMER_CLASS_P=(-1,-2,2)')
+print('R504_KUMMER_CLASS_R=(1,2,2)')
+print('R504_PHYSICAL_IMAGE_KUMMER_CLASS=(-1,-2,2)')
+print('R504_PHYSICAL_KUMMER_CONVERSE_RECONSTRUCTION=PASS')
+print('R504_PHYSICAL_COSET_PARITY=a_odd,b_even')
+print('R504_RANK_TWO_2DESCENT_CHARACTER_CERTIFICATE=PASS')
 print('R504_PHYSICAL_RECEIVER_X_OVER_H_DEGREE_IN_T=4')
-print('R504_PHYSICAL_COSET_PARITY=UNVERIFIED_AUDIT_BLOCKER')
-print('R504_CONDITIONAL_A_ODD_B_EVEN_MIN_NORM=5')
+print('R504_A_ODD_B_EVEN_MIN_NONDEGENERATE_NORM=5')
 print('R504_P_PLUS_2R_PREVIOUS_PHYSICAL_WITNESS=PASS')
 print('R504_RANK_TWO_GROWING_LATTICE_UNIFORM_AGGREGATION_PROVED=false')
 print('GLOBAL_STAGE25_LOWER_CHANGED=false')
