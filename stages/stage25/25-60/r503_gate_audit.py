@@ -5,9 +5,11 @@ import json
 
 root = Path(__file__).resolve().parents[3]
 result = (root/'stages/stage25/25-60/r503-yoshida-generic-rank-zero-gate.md').read_text(encoding='utf-8')
+summary = (root/'stages/stage25/25-60/r503-result.md').read_text(encoding='utf-8')
 ledger = (root/'stages/stage25/25-60/r503-discovery-ledger.md').read_text(encoding='utf-8')
 triage = (root/'stages/stage25/25-60/deeper-lane-triage.md').read_text(encoding='utf-8')
 continuation = (root/'stages/stage25/25-60/continuation-policy.md').read_text(encoding='utf-8')
+audit = (root/'stages/stage25/25-60/r503-audit.md').read_text(encoding='utf-8')
 iter_ctl = json.loads((root/'stages/stage25/25-60/r503-iteration-controller.json').read_text(encoding='utf-8'))
 main_ctl = json.loads((root/'stages/stage25/25-controller.json').read_text(encoding='utf-8'))
 
@@ -35,12 +37,11 @@ for alpha in samples:
         continue
     assert alpha_from_t(t) == alpha
 
-# Yoshida Corollary 4.7 displayed transformed s-coordinate at s=5/3.
+# Yoshida Corollary 4.7 transformed s-coordinate at s=5/3.
 def sprime_from_alpha(alpha):
     return Fraction(4)*(27*alpha+40)/(27*alpha-640)
 
 def alpha_from_sprime(sp):
-    # sp(27a-640)=4(27a+40)
     return Fraction(160)*(4*sp+1)/(27*(sp-4))
 
 for alpha in samples:
@@ -51,7 +52,7 @@ for alpha in samples:
         continue
     assert alpha_from_sprime(sp) == alpha
 
-# Degree-two edge-ratio map used for physical-height lower transfer.
+# Degree-two edge-ratio map used for physical-height transfer.
 def rho(t):
     return 2*t/(t*t-1)
 for t in [Fraction(2),Fraction(3,2),Fraction(7,4),Fraction(-5,3)]:
@@ -70,9 +71,7 @@ for marker in [
     'R503_UNIFORM_SMALL_POINT_COUNT=OPEN_GATE',
     'NO_EXHAUSTIVE_LITERATURE_NONEXISTENCE_CLAIM=true',
     'FINITE_DATA_USED_AS_PROOF=false',
-    'FRESH_AUDIT_REQUIRED=true',
-]:
-    assert marker in result, marker
+]: assert marker in result, marker
 
 for marker in [
     'DISCOVERY_CHECKPOINT=Stage25-60-R503',
@@ -83,30 +82,7 @@ for marker in [
     'R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED',
     'R503_BASE_CHANGE_MULTISECTION_ROUTE=OPEN_GATE',
     'NO_EXHAUSTIVE_NO_KNOWN_THEOREM_CLAIM=true',
-    'DISCOVERY_AUDIT_REQUIRED=true',
-]:
-    assert marker in ledger, marker
-
-for marker in [
-    'R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS',
-    'R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT',
-    'R503_GENERIC_GEOMETRIC_MW_RANK=0',
-    'R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED',
-    'R504_STATUS=LIVE_STRUCTURAL_NO_EXPONENT_UPGRADE_YET',
-    'CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false',
-    'STAGE70_ALLOWED=false',
-]:
-    assert marker in triage, marker
-
-for marker in [
-    'R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS',
-    'R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT',
-    'R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED',
-    'R504=LIVE_GENERIC_NONTORSION_SECTION_NO_EXPONENT_UPGRADE_YET',
-    'CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false',
-    'STAGE70_ALLOWED=false',
-]:
-    assert marker in continuation, marker
+]: assert marker in ledger, marker
 
 # Main controller's previously audited checkpoint60 state must remain intact.
 assert main_ctl['checkpoint_status']['60']=='PROVED_AUDITED_PASS'
@@ -116,30 +92,55 @@ assert main_ctl['checkpoint60']['r502_route_boundary_certificate']=='CLOSED_NO_U
 assert main_ctl['checkpoint60']['deep_stop_rule_satisfied'] is False
 assert main_ctl['checkpoint60']['stage70_allowed'] is False
 
-# Current iterative R503 overlay is the fresh-audit gate.
+status=iter_ctl['status']
+assert status in ('SUBMITTED_FOR_FRESH_AUDIT','AUDITED_PASS')
 assert iter_ctl['stage']=='Stage25'
 assert iter_ctl['checkpoint']==60
 assert iter_ctl['iteration']=='R503'
 assert iter_ctl['previous_checkpoint60_audit']['verdict']=='PASS'
-assert iter_ctl['status']=='SUBMITTED_FOR_FRESH_AUDIT'
-assert iter_ctl['audit']=='PENDING'
 assert iter_ctl['generic_geometric_mw_rank']==0
 assert iter_ctl['generic_nontorsion_section_exists'] is False
 assert iter_ctl['direct_generic_section_route']=='CLOSED'
 assert iter_ctl['route_status_after_candidate_audit']=='EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE'
 assert iter_ctl['checkpoint60_deep_stop_rule_satisfied'] is False
 assert iter_ctl['stage70_allowed'] is False
-assert iter_ctl['advance_allowed'] is False
-assert iter_ctl['merge_allowed'] is False
 assert iter_ctl['next_checkpoint']==60
-assert iter_ctl['next_expected_command']=='Stage25-audit'
+
+if status == 'SUBMITTED_FOR_FRESH_AUDIT':
+    assert iter_ctl['audit']=='PENDING'
+    assert iter_ctl['advance_allowed'] is False
+    assert iter_ctl['merge_allowed'] is False
+    assert iter_ctl['next_expected_command']=='Stage25-audit'
+    assert 'R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT' in triage
+    assert 'R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT' in continuation
+else:
+    assert iter_ctl['audit']=='PASS'
+    assert iter_ctl['hostile_audit'] is True
+    assert iter_ctl['audit_record']=='stages/stage25/25-60/r503-audit.md'
+    assert iter_ctl['advance_allowed'] is True
+    assert iter_ctl['merge_allowed'] is True
+    assert iter_ctl['next_expected_command']=='merge PR #986; then Stage25-main-batch at checkpoint60'
+    assert 'STATUS=AUDITED_PASS' in summary
+    assert 'AUDIT_VERDICT=PASS' in summary
+    assert 'R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS' in triage
+    assert 'R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS' in continuation
+    for marker in [
+        'AUDIT_VERDICT=PASS',
+        'DISCOVERY_AUDIT_VERDICT=PASS',
+        'R503_GENERIC_GEOMETRIC_MW_RANK_ACCEPTED=0',
+        'R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED',
+        'R503_ROUTE_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE',
+        'CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false',
+        'STAGE70_ALLOWED=false',
+        'MERGE_ALLOWED=true',
+    ]: assert marker in audit, marker
 
 print('R503_EXACT_PYTHAGOREAN_FREY_IDENTIFICATION=PASS')
 print('R503_YOSHIDA_ALPHA_T_MOBIUS_BINDING=PASS')
 print('R503_YOSHIDA_ALPHA_SPRIME_MOBIUS_BINDING=PASS')
 print('R503_PHYSICAL_EDGE_RATIO_BINDING=PASS')
-print('R503_GENERIC_RANK_ZERO_SOURCE_CONTRACT=BOUND_FOR_FRESH_AUDIT')
+print('R503_GENERIC_RANK_ZERO_SOURCE_CONTRACT=PASS')
 print('R503_FIXED_ORBIT_SQRT_LOG_UPPER_CONTRACT=PASS')
 print('R503_MAIN_CONTROLLER_HISTORY_PRESERVED=PASS')
-print('R503_ITERATION_CONTROLLER=PENDING_FRESH_AUDIT')
+print(f'R503_ITERATION_CONTROLLER={status}')
 print('STAGE25_60_R503_GATE_AUDIT=PASS')
