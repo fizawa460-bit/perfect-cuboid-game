@@ -2,7 +2,7 @@
   "schema_version": 1,
   "owner_stage": "Stage25",
   "campaign": "Stage25-reentry",
-  "status": "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE",
+  "status": "PHASE10_READY_PENDING_SYNC_REAUDIT",
   "starts_after": {
     "stage25_checkpoint": 70,
     "audit_verdict": "PASS",
@@ -17,6 +17,13 @@
     "closeout_head": "0df9c6b432af0f8e7bc072a2c8da71638f9890a8",
     "main_stage25_closed": true
   },
+  "sync_audit": {
+    "pr": 1001,
+    "previous_verdict": "FAIL",
+    "fail_reason": "STAGE25_70_CLOSEOUT_CI_REGRESSION",
+    "repair_scope": "STATE_AWARE_STAGE25_70_CLOSEOUT_VERIFIER_ONLY",
+    "status": "PENDING_REAUDIT"
+  },
   "precedes_stage": "Stage26",
   "current_phase": 10,
   "next_phase_after_unlock": 10,
@@ -25,7 +32,7 @@
     "audit": "Stage25-reentry-audit"
   },
   "phases": {
-    "10": {"task_id": "Stage25-um-r001a", "target_stages": [16,17,18,19,20,21,22,23,24,25], "purpose": "synchronize strongest interfaces, gates, and weapons", "status": "READY"},
+    "10": {"task_id": "Stage25-um-r001a", "target_stages": [16,17,18,19,20,21,22,23,24,25], "purpose": "synchronize strongest interfaces, gates, and weapons", "status": "READY_PENDING_SYNC_AUDIT"},
     "20": {"task_id": "Stage25-u24-r002a", "target_stages": [24,19,18], "purpose": "reattack space after exactly two faces", "status": "PENDING"},
     "30": {"task_id": "Stage25-u23-r003a", "target_stages": [23,17,19], "purpose": "reattack the second face under integral space", "status": "PENDING"},
     "40": {"task_id": "Stage25-u22-r004a", "target_stages": [22,16,18], "purpose": "strengthen two-face no-space mechanisms and Stage20-ready receivers", "status": "PENDING"},
@@ -56,5 +63,5 @@
     "closed_theorem_means_exploration_exhausted": false,
     "stage25_current_deep_stop_rule_relaxed": false
   },
-  "next_expected_command": "Stage25-reentry-main-batch"
+  "next_expected_command": "Stage25-audit"
 }
