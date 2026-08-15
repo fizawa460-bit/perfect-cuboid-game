@@ -20,7 +20,7 @@ def family(m, n):
     return A, B, C, DAC, DBC, D
 
 
-# Coefficients of P(t) from t^0,t^2,...,t^16.  Keeping one canonical
+# Coefficients of P(t) from t^0,t^2,...,t^16. Keeping one canonical
 # coefficient vector binds the mod-5 Q certificate to the actual submitted
 # missing-face polynomial rather than to an independently hard-coded copy.
 P_EVEN_COEFFS = [6561, -11664, 25596, -1008, -3290, -112, 316, -16, 1]
@@ -74,7 +74,7 @@ assert bezout == [1], bezout
 assert Q[0] == 1
 
 # Because P'(t)=2t Q'(t^2) mod 5, Q squarefree, Q(0)!=0, and 2!=0 mod 5
-# imply P is squarefree mod 5.  This is the exact logical bridge used in proof.
+# imply P is squarefree mod 5. This is the exact logical bridge used in proof.
 assert 2 % p != 0
 
 # Exact integer regression over many admissible reduced parameters.
@@ -100,15 +100,38 @@ assert seen > 200
 # Height constant used by the proof.
 assert 1 + 46 + 81 == 128
 
-for marker in [
-    'NEW_LOWER_CANDIDATE=N2(B)>>B^(1/4)',
-    'POSITIVE_POWER_LOWER_BOUND_CANDIDATE=true',
-    'POSITIVE_POWER_EXPONENT_CANDIDATE=1/4',
-    'STAGE25_RATIO_LOWER_CANDIDATE=B^(-7/4)(log B)^(-1)',
-    'STAGE24_RATIO_LOWER_BACKFLOW_CANDIDATE=B^(-3/4)(log B)^(-5)',
-    'STAGE23_RATIO_LOWER_BACKFLOW_CANDIDATE=B^(-3/4)(log B)^(-3)',
-    'AMBIENT_INTERACTION_SIGN_BACKFLOW_CANDIDATE=POSITIVE_DIVERGENT',
-    'CROSS_RATIO_SIGN_BACKFLOW_CANDIDATE=POSITIVE_DIVERGENT',
+status50 = ctl['checkpoint_status']['50']
+assert status50 in ('PROVED_SUBMITTED_FOR_FRESH_AUDIT', 'PROVED_AUDITED_PASS')
+
+# Result markers are state-aware: submission uses CANDIDATE markers; audited
+# PASS uses certified markers. The mathematical scale is identical.
+if status50 == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT':
+    result_markers = [
+        'NEW_LOWER_CANDIDATE=N2(B)>>B^(1/4)',
+        'POSITIVE_POWER_LOWER_BOUND_CANDIDATE=true',
+        'POSITIVE_POWER_EXPONENT_CANDIDATE=1/4',
+        'STAGE25_RATIO_LOWER_CANDIDATE=B^(-7/4)(log B)^(-1)',
+        'STAGE24_RATIO_LOWER_BACKFLOW_CANDIDATE=B^(-3/4)(log B)^(-5)',
+        'STAGE23_RATIO_LOWER_BACKFLOW_CANDIDATE=B^(-3/4)(log B)^(-3)',
+        'AMBIENT_INTERACTION_SIGN_BACKFLOW_CANDIDATE=POSITIVE_DIVERGENT',
+        'CROSS_RATIO_SIGN_BACKFLOW_CANDIDATE=POSITIVE_DIVERGENT',
+    ]
+else:
+    result_markers = [
+        'NEW_LOWER=N2(B)>>B^(1/4)',
+        'POSITIVE_POWER_LOWER_BOUND_PROVED=true',
+        'POSITIVE_POWER_EXPONENT=1/4',
+        'STAGE25_RATIO_LOWER=B^(-7/4)(log B)^(-1)',
+        'STAGE24_RATIO_LOWER_BACKFLOW=B^(-3/4)(log B)^(-5)',
+        'STAGE23_RATIO_LOWER_BACKFLOW=B^(-3/4)(log B)^(-3)',
+        'AMBIENT_INTERACTION_SIGN=POSITIVE_DIVERGENT',
+        'CROSS_RATIO_SIGN=POSITIVE_DIVERGENT',
+        'N2_B_DIRECTION_LOWER=N2,b(B)>>B^(1/4)',
+        'A_AB_BC_OVERLAP_LOWER=A_ab,bc(B)>>B^(1/4)',
+        'HISTORY_SUPERSESSION_BACKFLOW_EXECUTED=true',
+    ]
+
+for marker in result_markers + [
     'FINITE_DATA_USED_AS_PROOF=false',
     'EXPLORATION_EVIDENCE_COMPLETE=true',
 ]:
@@ -143,8 +166,6 @@ assert ctl['stage'] == 'Stage25'
 assert ctl['parent_class'] == 'transition'
 for cp, status in [('10','PROVED_AUDITED_PASS'),('20','COMPUTED_AUDITED_PASS'),('30','PROVED_AUDITED_PASS'),('40','PROVED_AUDITED_PASS')]:
     assert ctl['checkpoint_status'][cp] == status
-status50 = ctl['checkpoint_status']['50']
-assert status50 in ('PROVED_SUBMITTED_FOR_FRESH_AUDIT', 'PROVED_AUDITED_PASS')
 current = int(ctl['state']['CURRENT_CHECKPOINT'])
 assert current >= 50
 
@@ -184,6 +205,8 @@ else:
     assert cp50['positive_power_lower_proved'] is True
     assert cp50['positive_power_exponent'] == '1/4'
     assert cp50['directional_b_lower'] == 'N2,b(B)>>B^(1/4)'
+    assert cp50['stage17_overlap_b_lower'] == 'A_ab,bc(B)>>B^(1/4)'
+    assert cp50['history_backflow_executed'] is True
     assert cp50['advance_allowed'] is True
     assert cp50['merge_allowed'] is True
     assert any(x['checkpoint'] == 50 and x['verdict'] == 'PASS' for x in ctl['audit_history'])
