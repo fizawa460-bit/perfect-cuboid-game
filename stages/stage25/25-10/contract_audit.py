@@ -18,15 +18,40 @@ required_result = [
     'PATH_IDENTITIES_FROZEN=true',
     'NUM_REUSE_CHECK=PASS',
     'NUM_ASSETS_REUSED=NUM-R01,NUM-R06,NUM-R07',
+    'REPO_REUSE_PREFLIGHT=PASS',
+    'REUSE_MATCH_STATUS=MIXED',
+    'STRONGEST_KNOWN_CHECK=PASS',
+    'DISCOVERY_CHECKPOINT=Stage25-10',
     'NEXT_EXPECTED_COMMAND=Stage25-audit',
 ]
 for marker in required_result:
     assert marker in result, marker
 
-for marker in [
+required_ledger = [
+    'REPO_REUSE_PREFLIGHT=PASS',
+    'REUSE_SEARCH_SCOPE=ARSENAL,NUM_INDEX,STAGES,SUPPLEMENTS,ARCHIVE,PRS',
+    'REUSED_RESULTS=',
+    'REUSE_MATCH_STATUS=MIXED',
+    'STRONGEST_KNOWN_CHECK=PASS',
+    'STRONGER_PRIOR_RESULT_FOUND=true',
+    'NEW_RESEARCH_JUSTIFIED=NOT_REQUIRED_AT_CHECKPOINT10_CONTRACT_FREEZE',
+    'DISCOVERY_CHECKPOINT=Stage25-10',
+    'SEARCHED_PATHS=',
+    'SEARCH_TERMS=',
+    'STRUCTURAL_SIGNATURES=',
+    'DEPENDENCY_NEIGHBORS=',
+    'CANDIDATES_FOUND=',
+    'CANDIDATES_ACCEPTED=',
+    'CANDIDATES_REJECTED_WITH_REASON=',
+    'POPULATION_ADAPTERS_PROVED=',
+    'DISCOVERY_LEDGER_STATUS=COMPLETE',
+    'S1415-ATTACK-0215',
+    'S1415-ATTACK-0748',
+    'S1415-ATTACK-0817',
     'D25-10-1', 'D25-10-2', 'D25-10-3', 'D25-10-4', 'D25-10-5',
-    'NUM_POPULATION_MATCH=ADAPTER_PROVED'
-]:
+    'NUM_POPULATION_MATCH=ADAPTER_PROVED',
+]
+for marker in required_ledger:
     assert marker in ledger, marker
 
 for marker in [
@@ -39,8 +64,9 @@ for marker in [
     assert marker in lattice, marker
 
 assert ctl['stage'] == 'Stage25'
+assert ctl['parent_class'] == 'transition'
 assert ctl['transition'] == 'Stage16 -> Stage19'
-assert ctl['checkpoint_status']['10'] == 'SUBMITTED_FOR_FRESH_AUDIT'
+assert ctl['checkpoint_status']['10'] == 'REPAIR_SUBMITTED_FOR_FRESH_AUDIT'
 assert ctl['state']['CURRENT_CHECKPOINT'] == 10
 assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
 assert ctl['state']['ADVANCE_ALLOWED'] is False
@@ -48,7 +74,18 @@ assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['literal_subset_transition'] is False
 assert ctl['checkpoint10']['path_count_ratio_identities_exact'] is True
 assert ctl['checkpoint10']['path_products_are_independence_claim'] is False
+assert ctl['checkpoint10']['repo_reuse_preflight'] == 'PASS'
+assert ctl['checkpoint10']['strongest_known_check'] == 'PASS'
+assert ctl['checkpoint10']['exploration_evidence_complete'] is True
+assert ctl['checkpoint10']['repo_reuse_handoff_complete'] is True
+assert ctl['checkpoint10']['discovery_evidence_block_complete'] is True
+assert ctl['checkpoint10']['parent_class_normalized'] is True
 assert ctl['checkpoint10']['num_reuse_check'] == 'PASS'
+assert ctl['repository_reuse']['REPO_REUSE_PREFLIGHT'] == 'PASS'
+assert ctl['repository_reuse']['DISCOVERY_LEDGER_STATUS'] == 'COMPLETE'
+assert ctl['discovery_audit']['verdict'] == 'PENDING_REAUDIT'
+assert ctl['repair']['mathematics_reopened'] is False
+assert ctl['repair']['counts_recomputed'] is False
 assert ctl['next_expected_command'] == 'Stage25-audit'
 
-print('Stage25-10 contract audit: PASS')
+print('Stage25-10 contract + reuse/discovery audit: PASS')
