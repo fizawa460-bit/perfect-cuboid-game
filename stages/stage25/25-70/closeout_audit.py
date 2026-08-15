@@ -40,7 +40,7 @@ for s in (r, f):
 # ratio exponents and causal sign
 assert "B^{-7/4}" in r
 assert "B^{-3/2+\\varepsilon}" in r
-assert "POSITIVE_DIVERGENT" in r
+assert "positive divergent interaction" in r.lower()
 assert "B^{1/4}(\\log B)^{-7}" in r
 
 # route registry boundary
@@ -74,6 +74,7 @@ assert c70["advance_allowed"] is False
 assert c70["merge_allowed"] is False
 assert c70["stage25_reentry_unlocked"] is False
 assert c70["close_stage_after_audit_pass"] is True
+assert c70["parent_controller_sync_required_after_audit_pass"] is True
 assert reentry["status"] == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT"
 assert reentry["starts_after"]["stage25_checkpoint"] == 70
 assert reentry["starts_after"]["audit_verdict"] == "PASS"
