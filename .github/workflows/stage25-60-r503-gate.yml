@@ -1,0 +1,25 @@
+name: Stage25-60 R503 Yoshida gate audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-60/r503-yoshida-generic-rank-zero-gate.md'
+      - 'stages/stage25/25-60/r503-discovery-ledger.md'
+      - 'stages/stage25/25-60/r503-iteration-controller.json'
+      - 'stages/stage25/25-60/r503_gate_audit.py'
+      - 'stages/stage25/25-60/deeper-lane-triage.md'
+      - 'stages/stage25/25-60/continuation-policy.md'
+      - 'stages/stage25/25-controller.json'
+      - '.github/workflows/stage25-60-r503-gate.yml'
+  workflow_dispatch:
+
+jobs:
+  r503-gate-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage25 checkpoint60 R503 gate
+        run: python stages/stage25/25-60/r503_gate_audit.py

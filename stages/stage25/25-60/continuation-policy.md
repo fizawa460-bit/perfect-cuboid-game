@@ -16,7 +16,7 @@ The existing allocation is:
 - `R504` — symmetric-k aggregation / moving elliptic section route;
 - `R505` — common squarefree-core route;
 - `R506` — common-leg + space receiver;
-- `R507` — primitive-height rigidity of R501, opened at checkpoint60.
+- `R507` — primitive-height rigidity of R501.
 
 These IDs MUST NOT be renamed merely because work continues at checkpoint60 or because another audit/PR is opened.
 
@@ -28,8 +28,6 @@ R501_R507_ALLOCATIONS_FROZEN=true
 ```
 
 If a genuinely new mathematically distinct route is created after R507, allocate the next unused route ID (`R508`, then `R509`, ...). A refinement of an existing route keeps its existing ID.
-
-Do **not** create separate `r01/r02/...` research-route names to represent audit rounds. PR numbers and audit-history entries already distinguish successive submissions.
 
 ## Operating rule
 
@@ -49,7 +47,7 @@ Fresh audit is required whenever a checkpoint60 submission does one of the follo
 - proves a stronger global lower or upper exponent;
 - proves a new infinite family or moving-family theorem;
 - changes an interaction sign/classification;
-- closes a previously named OPEN_GATE;
+- closes a previously named OPEN_GATE or changes a route to an external theorem gate;
 - makes a strongest-certified / no-known-route claim;
 - introduces a new external theorem species as load-bearing input.
 
@@ -67,24 +65,42 @@ A negative exploratory submission may be audited and merged if it materially cer
 
 Only then may checkpoint60 set `NEXT_CHECKPOINT=70`.
 
-## Current state at PR #985 after R502 repair submission
+## Audited history through R502
 
-The first hostile checkpoint60 audit was `FAIL` only because R502 had been removed from the live set without an R507-strength certificate. That historical FAIL remains preserved in `audit.md`.
-
-R502 now has the stronger repair: a source-level primitive-gcd, primitive-height, exactly-two, multiplicity and two-sided family-growth certificate proving `N_R502(B)=Theta(B^(1/4))`, submitted for fresh audit.
+PR #985 passed hostile re-audit and was merged. R502 is closed with a full primitive-height/no-upgrade certificate:
 
 ```text
-PR=985
-PREVIOUS_AUDIT=FAIL_R502_ROUTE_BOUNDARY
-AUDIT_STATUS=PENDING_FRESH_REAUDIT
-CHECKPOINT60_CLOSED=false
-STAGE70_ALLOWED=false
-R501=PROVED_B1_4_FAMILY
-R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
-R503=LIVE_HIGH_VALUE_UNIFORM_HEIGHT_GATE
+R501=PROVED_AUDITED_Theta_B_QUARTER
+R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS
+R507=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
+```
+
+Historical checkpoint60 verifier compatibility marker:
+
+```text
+HISTORICAL_R502_SUBMISSION_MARKER=R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+```
+
+The first checkpoint60 FAIL and subsequent PASS remain preserved in the audit history.
+
+## Audited R503 state
+
+R503 passed hostile fresh audit in PR #986.
+
+The Yoshida elliptic surface is exactly the plus-sign Pythagorean/Frey family, whose geometric generic Mordell-Weil rank is zero. Hence the original surface has no non-torsion generic section. Yoshida's explicit fixed-fiber orbit and displayed positive-rank-parameter sequence are both height-sparse (`O(sqrt(log))` in their natural bounded-height variables), so those explicit infinitude constructions do not supply a polynomial population capable of improving the audited `B^(1/4)` Stage19 lower.
+
+R503 is not declared impossible. It is reduced to a precise low-degree-base-change / exceptional-fiber small-point theorem gate.
+
+```text
+R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
+R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED
+R503_BASE_CHANGE_MULTISECTION_ROUTE=OPEN_GATE
+R503_QUANTITATIVE_EXCEPTIONAL_FIBER_ROUTE=OPEN_GATE
 R504=LIVE_GENERIC_NONTORSION_SECTION_NO_EXPONENT_UPGRADE_YET
 R505=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
 R506=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
-R507=PROVED_ACCEPTED_BY_PREVIOUS_HOSTILE_AUDIT
-NEXT_AFTER_R502_REAUDIT_PASS=MERGE_AND_CONTINUE_CHECKPOINT60_UNDER_R503_R506
+CHECKPOINT60_CLOSED=false
+CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
+STAGE70_ALLOWED=false
+NEXT_AFTER_R503_AUDITED_MERGE=CONTINUE_CHECKPOINT60_WITH_R504_R506
 ```
