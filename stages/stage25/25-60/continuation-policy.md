@@ -36,7 +36,7 @@ After each audited checkpoint60 submission:
 1. merge the audited PR if allowed;
 2. continue checkpoint60 when any assigned high-value route remains actionable;
 3. preserve prior checkpoint60 audit records as historical provenance;
-4. continue work under the original route ID (`R503`, `R504`, etc.);
+4. continue work under the original route ID;
 5. do not overwrite or weaken an earlier audited theorem merely because a later route fails;
 6. move to checkpoint70 only after the stop rule below is satisfied.
 
@@ -47,7 +47,7 @@ Fresh audit is required whenever a checkpoint60 submission does one of the follo
 - proves a stronger global lower or upper exponent;
 - proves a new infinite family or moving-family theorem;
 - changes an interaction sign/classification;
-- closes a previously named OPEN_GATE or changes a route to an external theorem gate;
+- closes a previously named OPEN_GATE or changes a route to an external/base-change theorem gate;
 - makes a strongest-certified / no-known-route claim;
 - introduces a new external theorem species as load-bearing input.
 
@@ -65,42 +65,57 @@ A negative exploratory submission may be audited and merged if it materially cer
 
 Only then may checkpoint60 set `NEXT_CHECKPOINT=70`.
 
-## Audited history through R502
+## Audited history through R503
 
-PR #985 passed hostile re-audit and was merged. R502 is closed with a full primitive-height/no-upgrade certificate:
+PR #985 and PR #986 are merged and hostile-audited PASS.
 
 ```text
 R501=PROVED_AUDITED_Theta_B_QUARTER
 R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS
+R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
 R507=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
 ```
 
-Historical checkpoint60 verifier compatibility marker:
+Historical verifier compatibility marker:
 
 ```text
 HISTORICAL_R502_SUBMISSION_MARKER=R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
 ```
 
-The first checkpoint60 FAIL and subsequent PASS remain preserved in the audit history.
+R503 closes only the direct generic-section route; low-degree base changes and exceptional positive-rank fibers remain theorem gates.
 
-## Audited R503 state
+## Current R504 submission
 
-R503 passed hostile fresh audit in PR #986.
+R504 now has a source-level classification of the original `Q(k)` section lattice.
 
-The Yoshida elliptic surface is exactly the plus-sign Pythagorean/Frey family, whose geometric generic Mordell-Weil rank is zero. Hence the original surface has no non-torsion generic section. Yoshida's explicit fixed-fiber orbit and displayed positive-rank-parameter sequence are both height-sparse (`O(sqrt(log))` in their natural bounded-height variables), so those explicit infinitude constructions do not supply a polynomial population capable of improving the audited `B^(1/4)` Stage19 lower.
+The symmetric quartic receiver has Jacobian
 
-R503 is not declared impossible. It is reduced to a precise low-degree-base-change / exceptional-fiber small-point theorem gate.
+\[
+Y^2=X^3-4(k^4+1)^2X,
+\]
+
+a quadratic twist of the constant lemniscatic curve. The twisting cover `s^2=k^4+1` is `Q`-birational to that same constant curve, and anti-invariant descent gives free `Q(k)` rank one. Thus there is no second independent section on the original base.
+
+The first nondegenerate 3P section has degree-20 physical height after homogenization, exact primitive gcd at most `128`, finite genus-15 third-face exceptions, and bounded parameter multiplicity. Its exact family growth is
+
+\[
+N_{R504,3P}(B)=\Theta(B^{1/10}).
+\]
+
+Hence it is a genuine but quantitatively weaker Stage19 family and does not improve the audited global `B^(1/4)` lower.
 
 ```text
-R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
-R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED
-R503_BASE_CHANGE_MULTISECTION_ROUTE=OPEN_GATE
-R503_QUANTITATIVE_EXCEPTIONAL_FIBER_ROUTE=OPEN_GATE
-R504=LIVE_GENERIC_NONTORSION_SECTION_NO_EXPONENT_UPGRADE_YET
+R504=ORIGINAL_SURFACE_SECTION_ROUTE_CLOSED_NO_GLOBAL_UPGRADE_SUBMITTED_FOR_FRESH_AUDIT
+R504_GENERIC_QK_RANK=1
+R504_SECOND_INDEPENDENT_QK_SECTION_EXISTS=false
+R504_3P_EXACT_FAMILY_GROWTH=Theta(B^(1/10))
+R504_3P_PRIMITIVE_GCD_BOUND=128
+R504_LOW_DEGREE_BASE_CHANGE_ROUTE=OPEN_GATE
+R504_MULTI_SECTION_ROUTE=OPEN_GATE
 R505=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
 R506=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
 CHECKPOINT60_CLOSED=false
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
 STAGE70_ALLOWED=false
-NEXT_AFTER_R503_AUDITED_MERGE=CONTINUE_CHECKPOINT60_WITH_R504_R506
+NEXT_AFTER_R504_AUDIT_PASS=MERGE_AND_CONTINUE_CHECKPOINT60_WITH_R505_R506
 ```
