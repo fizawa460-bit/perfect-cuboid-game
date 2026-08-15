@@ -2,13 +2,14 @@
   "stage": "Stage25",
   "checkpoint": 60,
   "iteration": "R504_RESIDUAL_REAUDIT_REPAIR_2",
-  "status": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
-  "audit_status": "PENDING",
+  "status": "AUDITED_PASS_CONTINUE_CHECKPOINT60",
+  "audit_status": "PASS",
   "previous_audit_status": "FAIL",
   "previous_audit_record": "stages/stage25/25-60/r505-r506-audit-recheck.md",
-  "advance_allowed": false,
+  "audit_record": "stages/stage25/25-60/r505-r506-audit-recheck2.md",
+  "advance_allowed": true,
   "next_checkpoint": 60,
-  "merge_allowed": false,
+  "merge_allowed": true,
   "stage70_allowed": false,
   "persistent_route_ids": true,
   "previous_hostile_audit_acceptance": {
@@ -27,7 +28,9 @@
     "safe_kummer_class": "Q_FORM_OR_TWIST_OF_PRODUCT_KUMMER",
     "standard_q_kummer_identification_asserted": false,
     "all_physical_multiples_odd_lemma_materialized": true,
-    "growing_multiple_count_upper_resubmitted": "O(B^(1/9)*sqrt(log B))",
+    "all_physical_multiples_odd_lemma_accepted": true,
+    "growing_multiple_count_upper": "O(B^(1/9)*sqrt(log B))",
+    "growing_multiple_count_upper_accepted": true,
     "exceptional_base_change_residual": "LIVE_EXPLICIT_CURVE_SEARCH",
     "residual_deep_stop_class_asserted": false
   },
@@ -38,9 +41,10 @@
     "degree2_general_gate": "EXTRA_E0_FACTOR_IN_JACOBIAN_OF_C_phi_PLUS_STAGE19_HEIGHT_ADAPTER",
     "growing_multiple_lattes_degree": "n^2",
     "all_physical_multiples_odd_lemma_materialized": true,
-    "submitted_growing_multiple_count_upper": "O(B^(1/9)*sqrt(log B))",
-    "growing_multiple_count_upper_audit_status": "PENDING",
-    "growing_multiple_route": "CLOSED_NO_QUARTER_UPGRADE_WITH_HEIGHT_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT",
+    "all_physical_multiples_odd_lemma_accepted": true,
+    "growing_multiple_count_upper": "O(B^(1/9)*sqrt(log B))",
+    "growing_multiple_count_upper_audit_status": "PASS",
+    "growing_multiple_route": "CLOSED_NO_QUARTER_UPGRADE_WITH_HEIGHT_CERTIFICATE_AUDITED_PASS",
     "exceptional_base_change_residual": "LIVE_EXPLICIT_CURVE_SEARCH",
     "deep_stop_class_accepted": false,
     "global_lower_changed": false
@@ -56,5 +60,5 @@
   "new_input_required": false,
   "human_decision_required": false,
   "codex_audit_required": false,
-  "next_expected_command": "Stage25-audit"
+  "next_expected_command": "merge PR #990; then Stage25-main-batch at checkpoint60"
 }
