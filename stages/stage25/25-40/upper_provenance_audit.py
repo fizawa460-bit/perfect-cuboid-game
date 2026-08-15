@@ -9,7 +9,6 @@ prov = (root / 'stages/stage25/25-40/upper-provenance.md').read_text(encoding='u
 ctl = json.loads((root / 'stages/stage25/25-controller.json').read_text(encoding='utf-8'))
 
 # scale B^b (log B)^l
-
 def mul(x, y):
     return (x[0] + y[0], x[1] + y[1])
 
@@ -83,12 +82,10 @@ assert ctl['parent_class'] == 'transition'
 assert ctl['checkpoint_status']['10'] == 'PROVED_AUDITED_PASS'
 assert ctl['checkpoint_status']['20'] == 'COMPUTED_AUDITED_PASS'
 assert ctl['checkpoint_status']['30'] == 'PROVED_AUDITED_PASS'
-assert ctl['checkpoint_status']['40'] == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT'
-assert ctl['state']['CURRENT_CHECKPOINT'] == 40
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['ADVANCE_ALLOWED'] is False
-assert ctl['state']['NEXT_CHECKPOINT'] == 40
-assert ctl['state']['MERGE_ALLOWED'] is False
+status40 = ctl['checkpoint_status']['40']
+assert status40 in ('PROVED_SUBMITTED_FOR_FRESH_AUDIT', 'PROVED_AUDITED_PASS')
+current = int(ctl['state']['CURRENT_CHECKPOINT'])
+assert current >= 40
 
 cp40 = ctl['checkpoint40']
 assert cp40['upper_provenance_check'] == 'PASS'
@@ -104,7 +101,7 @@ assert cp40['directional_overclaim_reintroduced'] is False
 assert cp40['finite_data_used_as_proof'] is False
 assert cp40['exploration_evidence_complete'] is True
 
-# Historical audit provenance must survive checkpoint40 submission.
+# Historical audit provenance must survive checkpoint40 submission/audit/advancement.
 assert ctl['checkpoint10']['previous_audit'] == 'FAIL'
 assert ctl['checkpoint20']['num_r01_manifest_binding'] == 'PASS'
 assert ctl['checkpoint20']['num_r01_exactly_two_row_check'] == 'PASS'
@@ -113,8 +110,34 @@ assert ctl['checkpoint30']['previous_audit'] == 'FAIL'
 assert ctl['checkpoint30']['directional_ratio_refinement_status'] == 'OPEN_GATE_ADAPTER_REQUIRED'
 assert any(x['checkpoint'] == 30 and x['verdict'] == 'FAIL' for x in ctl['audit_history'])
 assert any(x['checkpoint'] == 30 and x['verdict'] == 'PASS' for x in ctl['audit_history'])
-assert ctl['last_audit']['checkpoint'] == 30
-assert ctl['last_audit']['verdict'] == 'PASS'
+
+if status40 == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT':
+    assert current == 40
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['NEXT_CHECKPOINT'] == 40
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert cp40['audit'] == 'PENDING'
+    assert cp40['advance_allowed'] is False
+    assert cp40['merge_allowed'] is False
+else:
+    assert cp40['audit'] == 'PASS'
+    assert cp40['advance_allowed'] is True
+    assert cp40['merge_allowed'] is True
+    assert any(x['checkpoint'] == 40 and x['verdict'] == 'PASS' for x in ctl['audit_history'])
+    if current == 40:
+        assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+        assert ctl['state']['ADVANCE_ALLOWED'] is True
+        assert ctl['state']['NEXT_CHECKPOINT'] == 50
+        assert ctl['state']['MERGE_ALLOWED'] is True
+        assert ctl['discovery_audit']['checkpoint'] == 40
+        assert ctl['discovery_audit']['verdict'] == 'PASS'
+        assert ctl['last_audit']['checkpoint'] == 40
+        assert ctl['last_audit']['verdict'] == 'PASS'
+        assert ctl['next_expected_command'] == 'merge PR #983; then Stage25-main-batch'
+    else:
+        assert current > 40
+        assert ctl['last_audit']['checkpoint'] >= 40
 
 print('DIRECT_UPPER_SCALE=B^-3/2+eps(logB)^-1:PASS')
 print('PATH_A_UPPER_MATCH=PASS')
@@ -123,4 +146,6 @@ print('THIN_LOCAL_QUALITATIVE_SCALE=o(B^-1(logB)^4):PASS')
 print('FIXED_FINITE_ENDPOINT_SCALE=B^-8/5+o1(logB)^-1:PASS')
 print('NO_FAKE_PRODUCT_SAVING_CHECK=PASS')
 print('CONTROLLER_HISTORY_PRESERVATION=PASS')
+print(f'CURRENT_CHECKPOINT={current}')
+print(f'STAGE25_40_CONTROLLER_STATUS={status40}')
 print('STAGE25_40_UPPER_PROVENANCE_AUDIT=PASS')
