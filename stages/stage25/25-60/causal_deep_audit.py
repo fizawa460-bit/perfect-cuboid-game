@@ -9,14 +9,15 @@ result = (root/'stages/stage25/25-60/result.md').read_text(encoding='utf-8')
 causal = (root/'stages/stage25/25-60/causal-lattice.md').read_text(encoding='utf-8')
 rigid = (root/'stages/stage25/25-60/r507-primitive-height-rigidity.md').read_text(encoding='utf-8')
 triage = (root/'stages/stage25/25-60/deeper-lane-triage.md').read_text(encoding='utf-8')
+r504 = (root/'stages/stage25/25-60/r504-symmetric-k-section.md').read_text(encoding='utf-8')
 ledger = (root/'stages/stage25/25-60/discovery-ledger.md').read_text(encoding='utf-8')
 ctl = json.loads((root/'stages/stage25/25-controller.json').read_text(encoding='utf-8'))
 
 # scale tuples (B exponent, log exponent); epsilon omitted.
 def mul(a,b): return (a[0]+b[0],a[1]+b[1])
 def div(a,b): return (a[0]-b[0],a[1]-b[1])
-F=(-1,4)      # M2/M1
-S=(-1,2)      # N1/M1
+F=(-1,4)
+S=(-1,2)
 Alo=(-.75,-5)
 Ahi=(-.5,-5)
 Tlo=(-.75,-3)
@@ -53,15 +54,38 @@ for n in range(1,180):
         seen += 1
 assert seen > 4000
 
-# R504 exact moving 3P section regression on the symmetric-k quartic.
+# R504: verify the explicit quartic section and that it maps to 3P on E_k.
 def t3z3(k):
     P=k**8-6*k**4-3
     Q=3*k**8+6*k**4-1
     Z=k**16+28*k**12+6*k**8+28*k**4+1
     return Fraction(k*P,Q), Fraction(Z,Q*Q)
-for k in range(2,35):
-    t,z=t3z3(k)
+
+def ec_add(P,Q,A4):
+    # E: y^2=x^3 + A4*x, with A4=-4(k^4+1)^2.
+    if P is None: return Q
+    if Q is None: return P
+    x1,y1=P; x2,y2=Q
+    if x1==x2 and y1==-y2: return None
+    if P!=Q:
+        lam=(y2-y1)/(x2-x1)
+    else:
+        lam=(3*x1*x1+A4)/(2*y1)
+    x3=lam*lam-x1-x2
+    y3=lam*(x1-x3)-y1
+    return x3,y3
+
+for k0 in range(2,24):
+    k=Fraction(k0,1)
+    t,z=t3z3(k0)
     assert t**4 + 1 == (k**4+1)*z*z
+    X=-4*t*t/(z*z)
+    Y=4*t*(t**4-1)/(z**3)
+    A4=-4*(k**4+1)**2
+    P=(-4*k*k,4*k*(k**4-1))
+    P2=ec_add(P,P,A4)
+    P3=ec_add(P2,P,A4)
+    assert P3==(X,Y), (k0,P3,(X,Y))
 
 for marker in [
     'TWO_PATH_CAUSAL_DECOMPOSITION=PASS',
@@ -91,6 +115,13 @@ for marker in [
     'R504_GENERIC_NONTORSION_SECTION_PROVED=true',
     'HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false',
 ]: assert marker in triage, marker
+
+for marker in [
+    'R504_GENERIC_NONTORSION_SECTION_PROVED=true',
+    'R504_SPECIALIZATION_CERTIFICATE=k=2_to_audited_infinite_order_point',
+    'R504_EXPLICIT_3P_SECTION_PROVED=true',
+    'R504_GLOBAL_STAGE19_LOWER_UPGRADE_PROVED=false',
+]: assert marker in r504, marker
 
 for marker in [
     'DISCOVERY_CHECKPOINT=Stage25-60',
@@ -138,6 +169,6 @@ print('CAUSAL_CROSS_RATIO_SCALE=I>>B^1/4(logB)^-7:PASS')
 print('THREE_EXACT_DECOMPOSITIONS=PASS')
 print(f'R501_GCD_GRID_ROWS={seen}')
 print('R501_PRIMITIVE_HEIGHT_RIGIDITY_REGRESSION=PASS')
-print('R504_3P_SECTION_REGRESSION=PASS')
+print('R504_3P_ELLIPTIC_GROUP_REGRESSION=PASS')
 print(f'CONTROLLER_CURRENT_CHECKPOINT={current}')
 print('STAGE25_60_CAUSAL_DEEP_AUDIT=PASS')
