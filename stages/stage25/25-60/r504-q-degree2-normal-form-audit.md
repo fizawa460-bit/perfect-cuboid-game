@@ -1,54 +1,41 @@
 # Stage25-60 R504 Q-degree-2 normal-form/descent audit
 
-STATUS=CORRECTION_REQUIRED
+STATUS=HISTORICAL_FAIL_SUPERSEDED_BY_COMPLETE_SOURCE_DESCENT_PASS
 ROUTE=R504
 CHECKPOINT=60
 
-## Question
+## Historical question
 
-Can every quadratic rational map over `Q` be reduced by `PGL_2(Q)` to
+Can every quadratic rational map over `Q` be reduced by source `PGL_2(Q)` to
 \[
 \phi_{a,b}(u)=\frac{a u^2+b}{u^2+1}?
 \]
 
-## Answer
+No. That family is only a strict split subfamily. The earlier hostile FAIL on PR #992 was correct and remains historical provenance.
 
-No. The claimed form is not a complete `Q`-normal form for arbitrary degree-two rational maps.
+## Superseding repair
 
-Classical quadratic-rational-map moduli theory gives a two-dimensional moduli space, but a `Q`-rational moduli point does not imply that every representative is `Q`-conjugate to this even form. Complete `K`-conjugacy classifications distinguish automorphism-group cases and use different normal forms; for example a generic class with two distinct fixed points can be written as
-\[
-g_{a,b}(z)=\frac{z(z+a)}{bz+1},\qquad ab\ne1,
-\]
-while special automorphism cases require separate forms. The even form `(a u^2+b)/(u^2+1)` has the visible involution `u -> -u` on the source representation and therefore describes a symmetry-adapted subfamily, not all quadratic maps over `Q`.
+The authoritative repair is now:
 
-Primary references checked:
-- Milnor, *Remarks on quadratic rational maps* (1993): moduli and complex normal forms;
-- Manes--Yasufuku, *Explicit descriptions of quadratic maps on P1 defined over a field K* (2010/2011): complete `K`-conjugacy classification with automorphism-group cases;
-- Silverman moduli results: `M_2 ~= A^2`, field of moduli versus field of definition issues handled separately from a single even normal form.
+- `stages/stage25/25-60/r504-q-degree2-complete-descent.md`;
+- hostile re-audit PASS: `stages/stage25/25-60/r504-q-degree2-descent-audit-recheck.md`.
 
-## Consequence for R504
+The exact R504 equivalence is target fixed / source `PGL_2(Q)`. Under that equivalence every degree-two base change has a Q-rational deck involution and falls into one of two source-conjugacy species:
 
-The symbolic computation on
-\[
-\phi_{a,b}(u)=\frac{a u^2+b}{u^2+1}
-\]
-remains valid **for that symmetry-adapted two-parameter subfamily**, including the exact extra-involution locus
-\[
-(a-b)^3(a+b)(ab-1)(ab+1)=0.
-\]
-But it may not be promoted to a classification of all `Q`-degree-two base changes.
+- split: `(A*u^2+B)/(C*u^2+D)`;
+- nonsplit squareclass `d`: `(A*(u^2+d)+B*u)/(C*(u^2+d)+D*u)`.
+
+The old even-family symbolic elimination remains valid only inside its strict split subfamily.
 
 ```text
+PREVIOUS_AUDIT_VERDICT=FAIL
+CURRENT_REAUDIT_VERDICT=PASS
+R504_Q_DEGREE2_COMPLETE_DESCENT_ACCEPTED=true
 R504_Q_DEGREE2_EVEN_NORMAL_FORM_COMPLETE=false
-R504_Q_DEGREE2_EVEN_NORMAL_FORM_SCOPE=SYMMETRY_ADAPTED_SUBFAMILY
-R504_GENERAL_DEGREE2_FULL_CLASSIFICATION_PREVIOUS_CLAIM=WITHDRAWN
-R504_EXTRA_INVOLUTION_SYMBOLIC_RESULT_WITHIN_SUBFAMILY=RETAINED
-R504_Q_DEGREE2_DESCENT_CLASSIFICATION_REQUIRED=true
+R504_Q_DEGREE2_EVEN_NORMAL_FORM_SCOPE=STRICT_SPLIT_SUBFAMILY
+R504_FULL_SPLIT_NORMAL_FORM_ANALYSIS_REQUIRED=true
+R504_NONSPLIT_NORMAL_FORM_ANALYSIS_REQUIRED=true
 R504_PRYM_EXTERNAL_GATE_DEEP_STOP_ALLOWED=false
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
 STAGE70_ALLOWED=false
 ```
-
-## Correct next target
-
-Build a genuinely complete `Q`-degree-two descent by splitting according to `Aut(phi)` / fixed-point Galois structure, using a complete `Q`-conjugacy normal-form theorem. For each normal-form stratum, translate the R504 pullback cover and determine whether it is already represented by the even subfamily or creates a new Prym/isogeny locus. Only after all `Q`-conjugacy strata are covered may the general degree-two route be called classified.
