@@ -88,24 +88,55 @@ for name, body in text.items():
         if marker in body:
             raise SystemExit(f"{name}: forbidden overclaim marker {marker}")
 
-# Submission controller lock.
+# Controller lock: accept either the pre-audit submission state or the
+# post-audit certified state. This keeps the same verifier useful after the
+# fresh audit is durably persisted on the PR branch.
 if controller.get("stage") != "Stage24":
     raise SystemExit("controller stage mismatch")
-if controller.get("checkpoint_status", {}).get("70") != "SUBMITTED_FOR_FRESH_AUDIT":
-    raise SystemExit("controller checkpoint70 not submitted for fresh audit")
-state = controller.get("state", {})
-expected = {
-    "CURRENT_CHECKPOINT": 70,
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": False,
-    "NEXT_CHECKPOINT": 70,
-    "MERGE_ALLOWED": False,
-}
-for key, value in expected.items():
-    if state.get(key) != value:
-        raise SystemExit(f"controller {key}: expected {value!r}, got {state.get(key)!r}")
 
+cp70_status = controller.get("checkpoint_status", {}).get("70")
+state = controller.get("state", {})
 cp70 = controller.get("checkpoint70", {})
+
+if cp70_status == "SUBMITTED_FOR_FRESH_AUDIT":
+    expected = {
+        "CURRENT_CHECKPOINT": 70,
+        "AUDIT_STATUS": "PENDING",
+        "ADVANCE_ALLOWED": False,
+        "NEXT_CHECKPOINT": 70,
+        "MERGE_ALLOWED": False,
+    }
+    for key, value in expected.items():
+        if state.get(key) != value:
+            raise SystemExit(f"submission controller {key}: expected {value!r}, got {state.get(key)!r}")
+    if cp70.get("fresh_hostile_review") != "PENDING":
+        raise SystemExit("submission checkpoint70 fresh_hostile_review is not PENDING")
+elif cp70_status == "PROVED_AUDITED_PASS":
+    expected = {
+        "CURRENT_CHECKPOINT": 70,
+        "MAIN_STATUS": "COMPLETE",
+        "AUDIT_STATUS": "PASS",
+        "ADVANCE_ALLOWED": True,
+        "NEXT_CHECKPOINT": "",
+        "MERGE_ALLOWED": True,
+    }
+    for key, value in expected.items():
+        if state.get(key) != value:
+            raise SystemExit(f"audited controller {key}: expected {value!r}, got {state.get(key)!r}")
+    if controller.get("status") != "CLOSED_PENDING_MERGE":
+        raise SystemExit("audited controller top-level status is not CLOSED_PENDING_MERGE")
+    if cp70.get("audit") != "PASS" or cp70.get("fresh_hostile_review") != "PASS":
+        raise SystemExit("audited checkpoint70 does not record PASS")
+    audit_path = ROOT / cp70.get("audit_path", "")
+    if not audit_path.exists():
+        raise SystemExit(f"audited checkpoint70 missing audit record: {audit_path}")
+    if controller.get("discovery_audit", {}).get("verdict") != "PASS":
+        raise SystemExit("audited discovery_audit verdict is not PASS")
+    if controller.get("audit_persistence", {}).get("unsynced_audit_state") != "NONE":
+        raise SystemExit("audited controller has unsynced audit state")
+else:
+    raise SystemExit(f"unsupported checkpoint70 controller status: {cp70_status!r}")
+
 for key in (
     "self_contained_bundle_materialized",
     "arsenal_promotion_materialized",
@@ -119,3 +150,4 @@ print("STAGE24_70_CLOSEOUT_AUDIT=PASS")
 print("THEOREM_STATUS_SYNC=PASS")
 print("OVERCLAIM_FIREWALL=PASS")
 print("ARTIFACT_CONTRACT=PASS")
+print(f"CONTROLLER_STATE={cp70_status}")
