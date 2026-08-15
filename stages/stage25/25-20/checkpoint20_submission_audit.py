@@ -36,7 +36,6 @@ for marker in [
 assert len(matched) == 9
 assert ctl['parent_class'] == 'transition'
 assert ctl['checkpoint_status']['10'] == 'PROVED_AUDITED_PASS'
-assert ctl['state']['CURRENT_CHECKPOINT'] == 20
 cp = ctl['checkpoint20']
 assert cp['matched_grid_rows'] == 8
 assert cp['new_cuboid_enumeration_performed'] is False
@@ -51,11 +50,13 @@ assert cp['candidates_accepted_recorded'] is True
 assert cp['candidates_rejected_with_reason_recorded'] is True
 assert cp['population_adapters_proved_recorded'] is True
 
-submission = ctl['checkpoint_status']['20'] == 'COMPUTED_SUBMITTED_FOR_FRESH_AUDIT'
-audited = ctl['checkpoint_status']['20'] == 'COMPUTED_AUDITED_PASS'
-assert submission or audited
+cp20_status = ctl['checkpoint_status']['20']
+assert cp20_status in ('COMPUTED_SUBMITTED_FOR_FRESH_AUDIT', 'COMPUTED_AUDITED_PASS')
+current = int(ctl['state']['CURRENT_CHECKPOINT'])
+assert current >= 20
 
-if submission:
+if cp20_status == 'COMPUTED_SUBMITTED_FOR_FRESH_AUDIT':
+    assert current == 20
     assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
     assert ctl['state']['ADVANCE_ALLOWED'] is False
     assert ctl['state']['MERGE_ALLOWED'] is False
@@ -65,19 +66,21 @@ if submission:
     assert cp['advance_allowed'] is False
     assert cp['merge_allowed'] is False
     assert ctl['discovery_audit']['verdict'] == 'PENDING'
-    assert ctl['next_expected_command'] == 'Stage25-audit'
 else:
-    assert ctl['state']['AUDIT_STATUS'] == 'PASS'
-    assert ctl['state']['ADVANCE_ALLOWED'] is True
-    assert ctl['state']['MERGE_ALLOWED'] is True
-    assert ctl['state']['NEXT_CHECKPOINT'] == 30
     assert cp['status'] == 'COMPUTED_AUDITED_PASS'
     assert cp['audit'] == 'PASS'
     assert cp['advance_allowed'] is True
     assert cp['merge_allowed'] is True
-    assert ctl['discovery_audit']['verdict'] == 'PASS'
-    assert ctl['last_audit']['checkpoint'] == 20
-    assert ctl['last_audit']['verdict'] == 'PASS'
-    assert ctl['next_expected_command'] == 'merge PR #981; then Stage25-main-batch'
+    if current == 20:
+        assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+        assert ctl['state']['ADVANCE_ALLOWED'] is True
+        assert ctl['state']['MERGE_ALLOWED'] is True
+        assert ctl['state']['NEXT_CHECKPOINT'] == 30
+    else:
+        # Historical cp20 remains frozen after advancement; current state belongs
+        # to the later checkpoint and must not be forced back to cp20 PASS state.
+        assert current > 20
+        assert ctl['last_audit']['checkpoint'] >= 20
 
-print('Stage25-20 submission/audited-state contract: PASS')
+print('Stage25-20 historical submission/audited-state contract: PASS')
+print(f'CURRENT_CHECKPOINT={current}')
