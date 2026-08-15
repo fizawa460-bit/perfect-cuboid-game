@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "lane": "Stage23-post-Stage24-R01",
+  "parent_stage": "Stage23",
+  "historical_stage_status": "AUDITED_PASS_CLOSED_WITH_LATER_SUPERSESSION",
+  "historical_stage_pass_revoked": false,
+  "transition": "Stage17 -> Stage19",
+  "source_count": "N1(B)",
+  "target_count": "N2(B)",
+  "trigger": {
+    "source_stage": "Stage24",
+    "checkpoint50_audit": "PASS",
+    "checkpoint50_pr": 976,
+    "checkpoint60_audit": "PASS",
+    "checkpoint60_pr": 977,
+    "new_target_lower": "N2(B)>>sqrt(log B)"
+  },
+  "state": {
+    "STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "DISCOVERY_AUDIT_VERDICT": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "MERGE_ALLOWED": false,
+    "NEXT_EXPECTED_COMMAND": "Stage23-audit"
+  },
+  "claims": {
+    "ratio_lower": "N2/N1 >> B^-1 (log B)^(-5/2)",
+    "ratio_upper": "N2/N1 <<_epsilon B^(-1/2+epsilon) (log B)^(-3)",
+    "ratio_limit_zero": true,
+    "target_unboundedness_proved": true,
+    "transition_class": "ZERO_DENSITY_WITH_INFINITE_TARGET",
+    "specific_target_direction_lower": "N2,c(B)>>sqrt(log B)",
+    "specific_overlap_channel": "A_ac,bc",
+    "specific_overlap_lower": "A_ac,bc(B)>>sqrt(log B)",
+    "specific_overlap_upper": "A_ac,bc(B)=o(B(log B)^3)",
+    "arithmetic_stratum_heterogeneity_proved": true,
+    "stage22_stage23_cross_ratio_lower": "(log B)^(-13/2)",
+    "stage22_stage23_cross_ratio_upper": "B^(1/2+epsilon)(log B)^(-7)",
+    "space_precondition_second_face_interaction_sign": "UNRESOLVED",
+    "positive_power_target_lower_bound_proved": false,
+    "matching_half_power_lower_bound_proved": false,
+    "true_target_exponent_identified": false,
+    "half_power_causal_mechanism_identified": false,
+    "perfect_cuboid_conclusion": "NONE"
+  },
+  "artifacts": {
+    "result": "stages/stage23/post-stage24-r01/result.md",
+    "channel_lower_bound": "stages/stage23/post-stage24-r01/channel-lower-bound.md",
+    "discovery_ledger": "stages/stage23/post-stage24-r01/discovery-ledger.md",
+    "formula_audit": "stages/stage23/post-stage24-r01/reinvestigation_audit.py"
+  },
+  "firewalls": {
+    "adjacent_stratum_ratio_not_objectwise_survival": true,
+    "space_not_double_charged": true,
+    "c17_family_not_promoted_to_bulk": true,
+    "finite_data_used_as_proof": false,
+    "historical_files_rewritten_before_audit": false
+  }
+}
