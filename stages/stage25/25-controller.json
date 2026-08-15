@@ -9,19 +9,19 @@
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
     "30": "PROVED_AUDITED_PASS",
-    "40": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
+    "40": "PROVED_AUDITED_PASS",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "CHECKPOINT40_UPPER_PROVENANCE_SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 40,
+    "MAIN_STATUS": "CHECKPOINT40_AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage16",
   "target_stage": "Stage19",
@@ -199,15 +199,15 @@
     "merge_allowed": true
   },
   "checkpoint40": {
-    "status": "PROVED_SUBMITTED_FOR_FRESH_AUDIT",
-    "audit": "PENDING",
+    "status": "PROVED_AUDITED_PASS",
+    "audit": "PASS",
+    "audit_path": "stages/stage25/25-40/audit.md",
     "result_path": "stages/stage25/25-40/result.md",
     "upper_provenance": "stages/stage25/25-40/upper-provenance.md",
     "discovery_ledger": "stages/stage25/25-40/discovery-ledger.md",
     "upper_provenance_audit": "stages/stage25/25-40/upper_provenance_audit.py",
     "workflow": ".github/workflows/stage25-40-upper-provenance.yml",
     "global_endpoint_upper": "N2/M1 <<_epsilon B^(-3/2+epsilon) (log B)^(-1)",
-    "upper_provenance": "Stage24 target half-power divided by Stage21 source asymptotic",
     "upper_provenance_check": "PASS",
     "direct_upper_check": "PASS",
     "path_A_upper_check": "PASS",
@@ -249,8 +249,8 @@
     "finite_data_used_as_proof": false,
     "exploration_evidence_complete": true,
     "audit_required": true,
-    "advance_allowed": false,
-    "merge_allowed": false
+    "advance_allowed": true,
+    "merge_allowed": true
   },
   "checkpoint20_policy": {
     "REUSE_EXISTING_NUM_FIRST": true,
@@ -307,52 +307,28 @@
     "UPSTREAM_PREMISE_CHECK": "PASS_GLOBAL_DIRECTIONAL_ADAPTER_OPEN",
     "RETURN_TO_SOURCE_REQUIRED": false,
     "EXPLORATION_EVIDENCE_COMPLETE": true,
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT40_SUBMITTED_FOR_FRESH_AUDIT"
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT40_AUDITED_PASS"
   },
   "discovery_audit": {
     "required": true,
     "checkpoint": 40,
     "auditor": "FRESH_STAGE25_AUDIT",
-    "verdict": "PENDING",
-    "record": "stages/stage25/25-40/audit.md",
-    "reason": "checkpoint40 upper provenance and discovery evidence require fresh audit"
+    "verdict": "PASS",
+    "record": "stages/stage25/25-40/audit.md"
   },
   "audit_history": [
-    {
-      "checkpoint": 10,
-      "verdict": "PASS",
-      "record": "stages/stage25/25-10/audit.md",
-      "audit_commit": "621ab2e3022100c902132a70b663f06b2ae9e487",
-      "pr": 980
-    },
-    {
-      "checkpoint": 20,
-      "verdict": "PASS",
-      "record": "stages/stage25/25-20/audit.md",
-      "audit_commit": "5cdcaa1b51988cac1c1b2f2ff4a521f9997089c5",
-      "pr": 981
-    },
-    {
-      "checkpoint": 30,
-      "verdict": "FAIL",
-      "record": "stages/stage25/25-30/audit.md",
-      "audit_commit": "174cd32143fb56fc26149f00035b201fd5e9c879",
-      "pr": 982
-    },
-    {
-      "checkpoint": 30,
-      "verdict": "PASS",
-      "record": "stages/stage25/25-30/audit.md",
-      "audit_commit": "6f69efe65f71652888c3c45f8771da18a0836de9",
-      "pr": 982
-    }
+    {"checkpoint": 10, "verdict": "PASS", "record": "stages/stage25/25-10/audit.md", "audit_commit": "621ab2e3022100c902132a70b663f06b2ae9e487", "pr": 980},
+    {"checkpoint": 20, "verdict": "PASS", "record": "stages/stage25/25-20/audit.md", "audit_commit": "5cdcaa1b51988cac1c1b2f2ff4a521f9997089c5", "pr": 981},
+    {"checkpoint": 30, "verdict": "FAIL", "record": "stages/stage25/25-30/audit.md", "audit_commit": "174cd32143fb56fc26149f00035b201fd5e9c879", "pr": 982},
+    {"checkpoint": 30, "verdict": "PASS", "record": "stages/stage25/25-30/audit.md", "audit_commit": "6f69efe65f71652888c3c45f8771da18a0836de9", "pr": 982},
+    {"checkpoint": 40, "verdict": "PASS", "record": "stages/stage25/25-40/audit.md", "audit_commit": "270d70670ac7e985f3033f106c6a78edfc2eb9f4", "pr": 983}
   ],
   "last_audit": {
-    "checkpoint": 30,
+    "checkpoint": 40,
     "verdict": "PASS",
-    "record": "stages/stage25/25-30/audit.md",
-    "audit_commit": "6f69efe65f71652888c3c45f8771da18a0836de9",
-    "pr": 982,
+    "record": "stages/stage25/25-40/audit.md",
+    "audit_commit": "270d70670ac7e985f3033f106c6a78edfc2eb9f4",
+    "pr": 983,
     "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
@@ -372,9 +348,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED_CHECKPOINT30_PASS",
+    "status": "COMMITTED_CHECKPOINT40_PASS",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage25-audit",
+  "next_expected_command": "merge PR #983; then Stage25-main-batch",
   "codeX_required": false
 }
