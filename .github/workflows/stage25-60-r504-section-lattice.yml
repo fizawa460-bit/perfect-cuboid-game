@@ -1,0 +1,24 @@
+name: Stage25-60 R504 section lattice audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-60/r504-section-lattice.md'
+      - 'stages/stage25/25-60/r504-section-lattice-audit.py'
+      - 'stages/stage25/25-60/r504-iteration-controller.json'
+      - 'stages/stage25/25-60/r504-discovery-ledger.md'
+      - 'stages/stage25/25-60/deeper-lane-triage.md'
+      - 'stages/stage25/25-60/continuation-policy.md'
+      - '.github/workflows/stage25-60-r504-section-lattice.yml'
+  workflow_dispatch:
+
+jobs:
+  r504-section-lattice-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage25 checkpoint60 R504 section lattice
+        run: python stages/stage25/25-60/r504-section-lattice-audit.py
