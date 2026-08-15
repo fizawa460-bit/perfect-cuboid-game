@@ -67,13 +67,11 @@ The original moving-section route, growing multiplication graphs, complete Q-deg
 Key retained quantitative results include
 
 \[
-N_{R504,\mathrm{all\ rank1\ multiples}}(B)
-\ll B^{1/9}\sqrt{\log B}=o(B^{1/4}),
+N_{R504,\mathrm{all\ rank1\ multiples}}(B)\ll B^{1/9}\sqrt{\log B}=o(B^{1/4}),
 \]
 
 \[
-N_{R504,\langle P,R\rangle,\mathrm{all\ physical}}(B)
-\ll B^{1/10}\log B=o(B^{1/4}),
+N_{R504,\langle P,R\rangle,\mathrm{all\ physical}}(B)\ll B^{1/10}\log B=o(B^{1/4}),
 \]
 
 and the explicit `P+2R` family
@@ -98,8 +96,6 @@ R505's exact common-squarefree-core receiver and Stage14/15 deep reuse chain are
 
 Checkpoint50 already propagated the only theorem-changing global lower and interaction upgrade to Stage19, Stage23 and Stage24. All later checkpoint60 work records `GLOBAL_STAGE25_LOWER_CHANGED=false`.
 
-Therefore the authoritative backflow remains current:
-
 ```text
 STAGE19_BACKFLOW=stages/stage19/post-stage25-50-supersession.md
 STAGE23_BACKFLOW=stages/stage23/post-stage25-r01/result.md
@@ -121,6 +117,26 @@ MATCHING_HALF_POWER_LOWER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 FINITE_DATA_USED_AS_PROOF=false
+```
+
+## Historical causal-verifier compatibility
+
+The original checkpoint60 causal verifier still checks these audited historical literals. They are compatibility markers only and do not downgrade the synchronized route states above.
+
+```text
+TWO_PATH_CAUSAL_DECOMPOSITION=PASS
+ORDER_OF_CONDITIONS_INTERACTION=POSITIVE_DIVERGENT_SYMMETRIC_CROSS_RATIO
+R501_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R502_GCD_GLOBAL_BOUND=2592
+R502_PARAMETER_FIBER_BOUND=8
+R502_THIRD_FACE_EXCEPTION_CURVE_GENUS=7
+R502_HIDDEN_GCD_EXPONENT_UPGRADE=false
+R502_ROUTE_BOUNDARY_CERTIFICATE=SUBMITTED_FOR_FRESH_AUDIT
+R504_GENERIC_NONTORSION_SECTION_PROVED=true
+ROUTE_ID_IS_PERSISTENT=true
+AUDIT_PASS_DOES_NOT_IMPLY_CHECKPOINT60_CLOSE=true
+EXPLORATION_EVIDENCE_COMPLETE=true
 ```
 
 ## Checkpoint60 continuation state
