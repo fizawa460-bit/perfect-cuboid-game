@@ -91,6 +91,8 @@ as separate research objects.
 | **Stage27** | **16 -> 20** | What is the total thinning from one face to Euler cuboids, and which intermediate condition accounts for which part? |
 | **Stage28** | interaction synthesis | Compare all established transition laws and identify condition independence, dependence, overlap, and the dominant population-killing mechanisms. |
 
+After Stage25 checkpoint70 is audited and merged, `Stage25-reentry` runs before Stage26. It is a bounded weapon-strengthening campaign, not a renumbering of the population map. Its mandatory order is Stage24, Stage23, Stage22, Stage21, then a deep Stage20 reentry; see `docs/stage25-reentry-roadmap.md`. Stage26 remains blocked until the reentry propagation queue is resolved and a Stage20/Stage26-ready interface is audited.
+
 ## Key comparison square
 
 ```text
