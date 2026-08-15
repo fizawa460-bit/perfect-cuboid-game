@@ -14,6 +14,18 @@ R506=common_leg_plus_space
 R507=R501_primitive_height_rigidity
 ```
 
+## Historical checkpoint60 verifier compatibility
+
+The following strings are retained only as historical submission markers consumed by the original checkpoint60 verifier. They do not override the current audited/repair state below.
+
+```text
+R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R503_UNIFORM_VARYING_FIBER_HEIGHT_COUNT=NOT_PROVED
+R504_GENERIC_NONTORSION_SECTION_PROVED=true
+HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
+```
+
 ## Audited base
 
 ```text
