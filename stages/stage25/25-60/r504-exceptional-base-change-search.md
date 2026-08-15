@@ -1,6 +1,6 @@
 # Stage25-60 R504 exceptional base-change search
 
-STATUS=ACTIVE_RESEARCH_SUBMITTED_FOR_FRESH_AUDIT
+STATUS=ACTIVE_RESEARCH
 ROUTE=R504
 CHECKPOINT=60
 
@@ -24,49 +24,136 @@ and a rational base change `k=phi(u)`, put
 \[
 C_\phi:\ y^2=\operatorname{num}(\phi(u)^4+1)\operatorname{den}(\phi(u))^4.
 \]
-The twist-descent already audited for R504 shows that a new independent pullback section can occur only when the anti-invariant part of `J(C_phi)` contains an additional elliptic factor Q-isogenous to
+The audited R504 twist-descent implies that a new independent pullback section requires an additional elliptic factor Q-isogenous to
 \[
-E_0:v^2=u^3-4u.
+E_0:v^2=u^3-4u
 \]
-Thus the residual search is an explicit curve/Jacobian search, not an unspecified rank computation.
+in the anti-invariant part of `J(C_phi)`.
 
-## Degree-two normal form
-
-Up to source and target PGL2 changes, a degree-two rational map has one-dimensional branch data. The useful search invariant is therefore the branch divisor of the pullback of the four roots of `k^4+1`; after removing inherited factors, an exceptional candidate must force an extra genus-one quotient whose Jacobian has `j=1728` and the correct Q-isogeny/twist class.
-
-The previously audited representatives
+The already audited candidates are
 
 ```text
-BC1: phi(u)=u^2
-BC2: phi(u)=(u^2-1)/(2u)
+BC1: phi(u)=u^2 -> CLOSED_NO_RANK_JUMP
+BC2: phi(u)=(u^2-1)/(2u) -> CLOSED_NO_RANK_JUMP
 ```
 
-are the two maximally symmetric branch configurations already materialized in the repository. Their genus-three pullback Jacobians have no additional `E0` factor and hence no rank jump.
+## BC3 — phi_a(u)=(u^2-a)/(2u)
 
-## Fresh exceptional mutations
-
-The following mutations are the next symmetry-forcing degree-two ansatz classes, obtained by moving the two branch values through the dihedral orbit preserving the quartic root set. They are not counted as new route IDs; they remain R504 refinements.
+After clearing the square denominator,
+\[
+C_{3,a}:\ y^2=(u^2-a)^4+16u^4.
+\]
+The involution `u -> a/u` gives the inherited quotient. The complementary quotient is obtained from
+\[
+X=u+a/u,
+\]
+and is
+\[
+Q_{3,a}:\quad Y^2=X^4-8aX^2+16(a^2+1).
+\]
+For a binary quartic `AX^4+BX^3+CX^2+DX+E`, use
+\[
+I=12AE-3BD+C^2,
+\]
+\[
+J=72ACE+9BCD-27AD^2-27B^2E-2C^3.
+\]
+Here
+\[
+I_{3}(a)=64(4a^2+3),
+\]
+\[
+\boxed{J_{3}(a)=-1024a(8a^2+9)}.
+\]
+A residual genus-one quotient has `j=1728` only if `J=0`. Over Q,
+\[
+a(8a^2+9)=0
+\]
+has only `a=0`, which degenerates the degree-two map. Hence no nondegenerate rational BC3 member produces the required extra `j=1728` factor.
 
 ```text
-BC3: phi_a(u)=(u^2-a)/(2u), a in Q* modulo square/PGL2 normalization
-BC4: phi_a(u)=(u^2+a)/(2u), a in Q* modulo square/PGL2 normalization
-BC5: phi_a(u)=a*u^2, a in Q* modulo fourth-power/twist normalization
+R504_BC3_J=-1024*a*(8*a^2+9)
+R504_BC3_NONDEGENERATE_RATIONAL_J_ZERO=false
+R504_BC3_STATUS=CLOSED_NO_EXTRA_J1728_FACTOR
 ```
 
-For BC3/BC4, a genuinely exceptional member must make one of the residual genus-one quotients acquire `j=1728`; equivalently its binary-quartic invariants must satisfy the vanishing condition `J=0`. For BC5, scaling only changes the quartic twist class and cannot create a second independent anti-invariant `E0` copy without the same `J=0` exceptional condition.
+## BC4 — phi_a(u)=(u^2+a)/(2u)
 
-This reduces the live search to solving the explicit coefficient condition `J(a)=0` in each one-parameter ansatz, followed by a Q-isogeny/twist check and then the Stage19 physical-height adapter. A finite scan in `a` is not accepted as proof.
-
-## What is and is not closed
-
-The search has therefore advanced from an unstructured `some exceptional phi` gate to three explicit one-parameter mutation classes and an exact algebraic exceptional condition. It has **not** proved that `J(a)=0` has no rational solution in all classes, and it has not classified arbitrary degree-two `phi`.
+The same computation gives complementary quotient
+\[
+Q_{4,a}:\quad Y^2=X^4+8aX^2+16(a^2+1),
+\]
+with
+\[
+I_{4}(a)=64(4a^2+3),
+\]
+\[
+\boxed{J_{4}(a)=+1024a(8a^2+9)}.
+\]
+Again the only rational zero is the degenerate value `a=0`.
 
 ```text
-R504_BC3_STATUS=LIVE_EXPLICIT_INVARIANT_EQUATION
-R504_BC4_STATUS=LIVE_EXPLICIT_INVARIANT_EQUATION
-R504_BC5_STATUS=LIVE_EXPLICIT_INVARIANT_EQUATION
-R504_EXCEPTIONAL_CONDITION=RESIDUAL_GENUS1_BINARY_QUARTIC_J_INVARIANT_ZERO
-R504_EXCEPTIONAL_BASE_CHANGE_RESIDUAL=LIVE_EXPLICIT_CURVE_SEARCH
+R504_BC4_J=1024*a*(8*a^2+9)
+R504_BC4_NONDEGENERATE_RATIONAL_J_ZERO=false
+R504_BC4_STATUS=CLOSED_NO_EXTRA_J1728_FACTOR
+```
+
+## BC5 — phi_a(u)=a u^2
+
+The pullback cover is
+\[
+C_{5,a}:\quad y^2=a^4u^8+1,
+\qquad a\in\mathbf Q^*.
+\]
+Besides `u -> -u`, it has the rational involution
+\[
+u\mapsto 1/(au).
+\]
+The three genus-one quotient classes are represented by
+\[
+Q_0:\ Y^2=a^4X^4+1,
+\]
+which has `j=1728`, and the two complementary quartics
+\[
+Q_-:\ Y^2=X^4-4aX^2+2a^2,
+\]
+\[
+Q_+:\ Y^2=X^4+4aX^2+2a^2.
+\]
+Their invariants are
+\[
+I_\pm=40a^2,
+\qquad
+J_\pm=\mp448a^3,
+\]
+so for every `a != 0`,
+\[
+\boxed{j(Q_-)=j(Q_+)=8000}.
+\]
+Thus the only `j=1728` factor is the inherited quotient; BC5 cannot create a second `j=1728` factor in this Klein-four decomposition.
+
+```text
+R504_BC5_EXTRA_QUOTIENT_J=8000,8000
+R504_BC5_NONDEGENERATE_EXTRA_J1728_FACTOR=false
+R504_BC5_STATUS=CLOSED_NO_EXTRA_J1728_FACTOR
+```
+
+## Status after BC3-BC5
+
+The three fresh one-parameter symmetry-adapted mutation classes are now symbolically closed:
+
+```text
+R504_BC3_STATUS=CLOSED_NO_EXTRA_J1728_FACTOR
+R504_BC4_STATUS=CLOSED_NO_EXTRA_J1728_FACTOR
+R504_BC5_STATUS=CLOSED_NO_EXTRA_J1728_FACTOR
+```
+
+No finite scan in `a` is used. The closures come from exact invariant formulas.
+
+This still does **not** classify an arbitrary degree-two rational base change. The live problem is now the general branch-parameter family: normalize a general quadratic rational map up to source PGL2, compute the genus-three pullback Jacobian decomposition, and solve exactly for the exceptional branch locus where an additional `E0`-isogeny factor appears.
+
+```text
+R504_EXCEPTIONAL_BASE_CHANGE_RESIDUAL=LIVE_GENERAL_DEGREE2_BRANCH_LOCUS
 R504_ARBITRARY_DEGREE2_CLASSIFICATION_PROVED=false
 R504_NEW_RANK_JUMP_PROVED=false
 R504_NEW_STAGE19_FAMILY_PROVED=false
@@ -77,4 +164,4 @@ STAGE70_ALLOWED=false
 
 ## Next attack
 
-Compute the residual binary-quartic invariant polynomial `J(a)` for BC3, BC4 and BC5 symbolically; factor it over Q; for every rational component satisfying `J(a)=0`, test the resulting genus-one quotient for Q-isogeny to `E0`, then materialize the cuboid height/multiplicity adapter. If all three ansatz classes close, broaden to the general degree-two branch parameter rather than declaring an external gate.
+Pass from BC3/BC4/BC5 to a general degree-two branch parameter. The next target is a normalized one-parameter degree-two family modulo source PGL2, followed by exact binary-quartic/Jacobian invariants and the exceptional `E0`-isogeny locus. Do not declare an external gate before that locus has been attacked.
