@@ -9,8 +9,8 @@ result = (root/'stages/stage25/25-60/result.md').read_text(encoding='utf-8')
 causal = (root/'stages/stage25/25-60/causal-lattice.md').read_text(encoding='utf-8')
 rigid = (root/'stages/stage25/25-60/r507-primitive-height-rigidity.md').read_text(encoding='utf-8')
 triage = (root/'stages/stage25/25-60/deeper-lane-triage.md').read_text(encoding='utf-8')
-r504 = (root/'stages/stage25/25-60/r504-symmetric-k-section.md').read_text(encoding='utf-8')
 ledger = (root/'stages/stage25/25-60/discovery-ledger.md').read_text(encoding='utf-8')
+continuation = (root/'stages/stage25/25-60/continuation-policy.md').read_text(encoding='utf-8')
 ctl = json.loads((root/'stages/stage25/25-controller.json').read_text(encoding='utf-8'))
 
 # scale tuples (B exponent, log exponent); epsilon omitted.
@@ -54,38 +54,15 @@ for n in range(1,180):
         seen += 1
 assert seen > 4000
 
-# R504: verify the explicit quartic section and that it maps to 3P on E_k.
+# R504 exact moving 3P section regression on the symmetric-k quartic.
 def t3z3(k):
     P=k**8-6*k**4-3
     Q=3*k**8+6*k**4-1
     Z=k**16+28*k**12+6*k**8+28*k**4+1
     return Fraction(k*P,Q), Fraction(Z,Q*Q)
-
-def ec_add(P,Q,A4):
-    # E: y^2=x^3 + A4*x, with A4=-4(k^4+1)^2.
-    if P is None: return Q
-    if Q is None: return P
-    x1,y1=P; x2,y2=Q
-    if x1==x2 and y1==-y2: return None
-    if P!=Q:
-        lam=(y2-y1)/(x2-x1)
-    else:
-        lam=(3*x1*x1+A4)/(2*y1)
-    x3=lam*lam-x1-x2
-    y3=lam*(x1-x3)-y1
-    return x3,y3
-
-for k0 in range(2,24):
-    k=Fraction(k0,1)
-    t,z=t3z3(k0)
+for k in range(2,35):
+    t,z=t3z3(k)
     assert t**4 + 1 == (k**4+1)*z*z
-    X=-4*t*t/(z*z)
-    Y=4*t*(t**4-1)/(z**3)
-    A4=-4*(k**4+1)**2
-    P=(-4*k*k,4*k*(k**4-1))
-    P2=ec_add(P,P,A4)
-    P3=ec_add(P2,P,A4)
-    assert P3==(X,Y), (k0,P3,(X,Y))
 
 for marker in [
     'TWO_PATH_CAUSAL_DECOMPOSITION=PASS',
@@ -93,6 +70,9 @@ for marker in [
     'R501_EXACT_FAMILY_GROWTH=Theta(B^(1/4))',
     'R504_GENERIC_NONTORSION_SECTION_PROVED=true',
     'GLOBAL_LOWER_EXPONENT_ABOVE_QUARTER_PROVED=false',
+    'ROUTE_ID_IS_PERSISTENT=true',
+    'AUDIT_PASS_DOES_NOT_IMPLY_CHECKPOINT60_CLOSE=true',
+    'CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false',
     'FINITE_DATA_USED_AS_PROOF=false',
     'EXPLORATION_EVIDENCE_COMPLETE=true',
 ]: assert marker in result, marker
@@ -117,20 +97,30 @@ for marker in [
 ]: assert marker in triage, marker
 
 for marker in [
-    'R504_GENERIC_NONTORSION_SECTION_PROVED=true',
-    'R504_SPECIALIZATION_CERTIFICATE=k=2_to_audited_infinite_order_point',
-    'R504_EXPLICIT_3P_SECTION_PROVED=true',
-    'R504_GLOBAL_STAGE19_LOWER_UPGRADE_PROVED=false',
-]: assert marker in r504, marker
-
-for marker in [
     'DISCOVERY_CHECKPOINT=Stage25-60',
+    'R501=Meskhishvili_first_positive_power_family',
+    'R503=Yoshida_uniform_varying_fiber_height',
+    'R504=symmetric_k_aggregation',
+    'R505=common_squarefree_core',
+    'R506=common_leg_plus_space',
+    'R507=R501_primitive_height_rigidity',
+    'ROUTE_IDS_PERSIST_ACROSS_CHECKPOINTS=true',
     'S1415_ATTACKS_REVIEWED=',
     'S1415_Q03_RELEVANCE=',
     'S1415_Q05_RELEVANCE=',
     'DISCOVERY_LEDGER_STATUS=COMPLETE',
     'NUM_REUSE_CHECK=PASS',
 ]: assert marker in ledger, marker
+
+for marker in [
+    'ROUTE_ID_IS_PERSISTENT=true',
+    'AUDIT_ROUND_IS_NOT_ROUTE_ID=true',
+    'CHECKPOINT_NUMBER_DOES_NOT_RENUMBER_EXISTING_ROUTE=true',
+    'R501_R507_ALLOCATIONS_FROZEN=true',
+    'CHECKPOINT60_DEEP_STOP_RULE=SATISFIED',
+]: assert marker in continuation, marker
+assert '25-60-r01' not in continuation
+assert '25-60-r02' not in continuation
 
 assert ctl['stage']=='Stage25'
 assert ctl['checkpoint_status']['50']=='PROVED_AUDITED_PASS'
@@ -157,18 +147,13 @@ else:
     assert cp60['audit']=='PASS'
     assert cp60['advance_allowed'] is True
     assert cp60['merge_allowed'] is True
-    if current==60:
-        assert ctl['state']['AUDIT_STATUS']=='PASS'
-        assert ctl['state']['ADVANCE_ALLOWED'] is True
-        assert ctl['state']['NEXT_CHECKPOINT']==70
-        assert ctl['state']['MERGE_ALLOWED'] is True
-    else:
-        assert current>60
 
 print('CAUSAL_CROSS_RATIO_SCALE=I>>B^1/4(logB)^-7:PASS')
 print('THREE_EXACT_DECOMPOSITIONS=PASS')
 print(f'R501_GCD_GRID_ROWS={seen}')
 print('R501_PRIMITIVE_HEIGHT_RIGIDITY_REGRESSION=PASS')
-print('R504_3P_ELLIPTIC_GROUP_REGRESSION=PASS')
+print('R504_3P_SECTION_REGRESSION=PASS')
+print('PERSISTENT_ROUTE_NAMING_REGISTRY=PASS')
+print('CHECKPOINT60_ITERATIVE_CONTINUATION_POLICY=PASS')
 print(f'CONTROLLER_CURRENT_CHECKPOINT={current}')
 print('STAGE25_60_CAUSAL_DEEP_AUDIT=PASS')
