@@ -1,6 +1,6 @@
 # Stage25-60 R504 complete Q-degree-2 source descent
 
-STATUS=PROVED_SUBMITTED_FOR_FRESH_AUDIT
+STATUS=PROVED_AUDITED_PASS
 ROUTE=R504
 CHECKPOINT=60
 
@@ -36,7 +36,7 @@ Choose a trace-zero matrix representative
 \[
 M=\begin{pmatrix}p&q\\r&-p\end{pmatrix},\qquad M^2=(p^2+qr)I.
 \]
-Its invariant squareclass
+Since `M` is invertible, `p^2+qr != 0`. Its invariant squareclass
 \[
 \Delta=[p^2+qr]\in \mathbf Q^*/(\mathbf Q^*)^2
 \]
@@ -58,11 +58,7 @@ Therefore every split degree-two map is, after a source `PGL_2(Q)` change,
 \[
 \boxed{\phi(u)=\frac{A u^2+B}{C u^2+D}},\qquad AD-BC\ne0.
 \]
-This is the complete split normal form. The previously used family
-\[
-(au^2+b)/(u^2+1)
-\]
-is only the subfamily `C=D=1` after overall scaling and is **not** all split maps.
+The previously used family `(au^2+b)/(u^2+1)` is only a strict subfamily and is not all split maps.
 
 ### Nonsplit case
 
@@ -84,10 +80,8 @@ Therefore every nonsplit degree-two map is, after source `PGL_2(Q)` change,
 \]
 or, after clearing `u`,
 \[
-\boxed{\phi(u)=\frac{A(u^2+d)+Bu}{C(u^2+d)+Du}},\qquad AD-BC\ne0,
+\boxed{\phi(u)=\frac{A(u^2+d)+Bu}{C(u^2+d)+Du}},\qquad AD-BC\ne0.
 \]
-with `d` a nonsquare squareclass parameter.
-
 Changing `d` by a rational square gives a source-equivalent form by scaling `u`; hence only the squareclass of `d` matters.
 
 ## Completeness proof
@@ -97,16 +91,10 @@ Let `phi` be arbitrary of degree two over Q.
 1. Its unique deck involution `iota` is Q-rational.
 2. Q-conjugate `iota` to the split representative `u->-u` or the nonsplit representative `u->d/u` according to its discriminant squareclass.
 3. In the resulting source coordinate, `Q(phi)` equals the fixed field of that representative.
-4. The displayed invariant `t=u^2` or `t=u+d/u` is a degree-one generator of that fixed rational function field.
-5. Any two generators of `Q(t)` over Q differ by a target Möbius transformation, so with target coordinate fixed the given function `phi` is exactly
-   \[
-   \phi=M(t),\qquad M\in PGL_2(Q),
-   \]
-   yielding the two formulas above.
+4. The displayed invariant `t=u^2` or `t=u+d/u` generates that fixed rational function field.
+5. Any two generators of `Q(t)` over Q differ by a target Möbius transformation, so with target coordinate fixed the given function `phi` is exactly `phi=M(t)` for some `M in PGL_2(Q)`, yielding the two formulas above.
 
-Hence the split+nonsplit list is complete for the **exact R504 source-equivalence problem**.
-
-## Corrected route boundary
+Hence the split+nonsplit list is complete for the exact R504 source-equivalence problem. This certifies completeness of the normal-form species, not uniqueness of the coefficient tuple `(A,B,C,D)` after residual source-centralizer actions.
 
 ```text
 R504_Q_DEGREE2_SOURCE_EQUIVALENCE=TARGET_FIXED_SOURCE_PGL2_Q
@@ -116,13 +104,14 @@ R504_Q_DEGREE2_SPLIT_NORMAL_FORM=(A*u^2+B)/(C*u^2+D)
 R504_Q_DEGREE2_NONSPLIT_NORMAL_FORM=(A*(u^2+d)+B*u)/(C*(u^2+d)+D*u)
 R504_Q_DEGREE2_NONSPLIT_PARAMETER=d_mod_Qsquare
 R504_Q_DEGREE2_COMPLETE_DESCENT_PROVED=true
+R504_Q_DEGREE2_COMPLETE_DESCENT_AUDITED=true
 R504_PREVIOUS_EVEN_NORMAL_FORM_COMPLETE_CLAIM=false
 R504_PREVIOUS_EVEN_NORMAL_FORM_SCOPE=STRICT_SPLIT_SUBFAMILY
 ```
 
 ## What remains
 
-The symbolic closure already obtained for `(a u^2+b)/(u^2+1)` remains valid but covers only a strict split subfamily.
+The symbolic closure already obtained for `(a u^2+b)/(u^2+1)` remains valid only for that strict split subfamily.
 
 The complete R504 degree-two search must now cover:
 
@@ -134,7 +123,9 @@ Therefore Prym cannot yet be declared the sole residual and Stage70 remains bloc
 ```text
 R504_FULL_SPLIT_NORMAL_FORM_ANALYSIS_REQUIRED=true
 R504_NONSPLIT_NORMAL_FORM_ANALYSIS_REQUIRED=true
+R504_FULL_Q_RATIONAL_EXTRA_INVOLUTION_LOCUS_CLOSED=false
 R504_PRYM_AS_SOLE_DEGREE2_RESIDUAL_ACCEPTED=false
+R504_EXTERNAL_THEOREM_GATE_ACCEPTED=false
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
 STAGE70_ALLOWED=false
 ```
