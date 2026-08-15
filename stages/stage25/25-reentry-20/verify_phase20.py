@@ -66,19 +66,40 @@ r502_audit = text("stages/stage25/25-60/audit-recheck.md")
 stage24 = text("stages/stage24/final.md")
 phase10_audit = text("stages/stage25/25-reentry-10/audit.md")
 
-# Authorization and lifecycle.
+# Authorization and lifecycle. The submitted artifacts remain immutable; the
+# controller may be either pending fresh audit or audited PASS awaiting merge.
 assert registry["task_id"] == "Stage25-u24-r002a"
 assert registry["phase"] == 20
 assert registry["authorization"]["phase10_pr"] == 1002
 assert registry["authorization"]["phase10_merge_commit"] == "5cb7dc8792faf575c1e21fce8166f094af6d7b14"
 assert "AUDIT_VERDICT=PASS" in phase10_audit
-assert reentry["status"] == "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT"
 assert reentry["current_phase"] == 20
 assert reentry["phases"]["10"]["status"] == "AUDITED_PASS_MERGED"
-assert reentry["phases"]["20"]["status"] == "SUBMITTED_PENDING_AUDIT"
-assert reentry["phase20_submission"]["audit_status"] == "PENDING"
-assert reentry["next_expected_command"] == "Stage25-reentry-audit"
 assert reentry["stage26_gate"]["stage26_allowed"] is False
+
+lifecycle = reentry["status"]
+assert lifecycle in (
+    "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT",
+    "PHASE20_AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW",
+)
+if lifecycle == "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT":
+    assert reentry["phases"]["20"]["status"] == "SUBMITTED_PENDING_AUDIT"
+    assert reentry["phase20_submission"]["audit_status"] == "PENDING"
+    assert reentry["phase20_submission"]["advance_allowed"] is False
+    assert reentry["phase20_submission"]["merge_allowed"] is False
+    assert reentry["next_expected_command"] == "Stage25-reentry-audit"
+else:
+    p20 = reentry["phase20_submission"]
+    assert reentry["phases"]["20"]["status"] == "AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW"
+    assert p20["audit_status"] == "PASS"
+    assert p20["advance_allowed"] is True
+    assert p20["merge_allowed"] is True
+    assert p20["stronger_result_proved"] is True
+    assert p20["new_reusable_weapon_proved"] is True
+    assert p20["audit_record"] == "stages/stage25/25-reentry-20/audit.md"
+    assert "AUDIT_VERDICT=PASS" in text(p20["audit_record"])
+    assert reentry["phases"]["30"]["status"] == "BLOCKED_UNTIL_PHASE20_BACKFLOW"
+    assert reentry["next_expected_command"] == "merge PR #1003; then Stage25-reentry-main-batch"
 
 # Exact R501 factor identities for the new a-cone.
 t = [Fraction(0), Fraction(1)]
@@ -101,11 +122,9 @@ assert poly_add(A, poly_scale(C, -1)) == poly_scale(poly_mul(poly_mul(t, poly_ad
 # Interval sign certificate.
 x0 = Fraction(9, 2)
 assert poly_eval(Q1, x0) == Fraction(657, 16)
-# Q1' = 4(t-3)(t^2+1), positive for t>9/2.
 q1prime = [Fraction(-12), Fraction(4), Fraction(-12), Fraction(4)]
 q1fact = poly_scale(poly_mul([Fraction(-3), Fraction(1)], poly_add(t2, [Fraction(1)])), 4)
 assert q1prime == q1fact
-# Q2' = 4H; H increases after 9/2 and Q2(5)<0.
 H = [Fraction(3), Fraction(-5), Fraction(-3), Fraction(1)]
 q2prime = [Fraction(12), Fraction(-20), Fraction(-12), Fraction(4)]
 assert q2prime == poly_scale(H, 4)
@@ -143,7 +162,9 @@ assert dirs["c"]["exact_family_growth"] == "Theta(B^(1/4))"
 assert registry["global_surface"]["global_exponent_upgraded"] is False
 assert registry["scope_firewall"]["true_N2_exponent_identified"] is False
 
-# Backflow must remain queued until this parent phase passes audit.
+# The theorem-changing backflow artifact remains a queued proposal; after PASS
+# only the controller authorization changes. The child route is not fabricated
+# as already executed.
 assert backflow["status"] == "QUEUED_PENDING_PARENT_AUDIT"
 assert len(backflow["proposals"]) == 1
 p = backflow["proposals"][0]
@@ -155,7 +176,10 @@ assert backflow["derived_routes_opened"] == []
 assert backflow["queued_derived_routes"] == ["Stage25-um-r008a"]
 assert reentry["derived_route_policy"]["next_route_serial"] == 9
 assert reentry["propagation_queue"][0]["route_id"] == "Stage25-um-r008a"
-assert reentry["propagation_queue"][0]["status"] == "QUEUED_UNTIL_PHASE20_AUDIT_PASS"
+if lifecycle == "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT":
+    assert reentry["propagation_queue"][0]["status"] == "QUEUED_UNTIL_PHASE20_AUDIT_PASS"
+else:
+    assert reentry["propagation_queue"][0]["status"] == "AUTHORIZED_BY_PHASE20_AUDIT_AWAITING_PARENT_MERGE"
 
 # Required theorem/non-theorem boundaries.
 for marker in (
@@ -172,14 +196,12 @@ assert "AR-023/024" in discovery
 assert "S25R-W20-01" in weapons and "S25R-W20-02" in weapons
 assert "NEW_REUSABLE_WEAPON_PROVED=false" in weapons
 
-# Current status must not bypass audit or Stage26.
+# Submission status document remains historical until audited PR merge; audit
+# precedence is carried by the controller/audit record.
 for marker in (
-    "CURRENT_STAGE=Stage25-reentry-20-PENDING-AUDIT",
     "STAGE25_REENTRY_CURRENT_PHASE=20",
-    "STAGE25_REENTRY_PHASE20_STATUS=SUBMITTED_PENDING_AUDIT",
     "STAGE25_REENTRY_QUEUED_ROUTE=Stage25-um-r008a",
     "STAGE26_ALLOWED=false",
-    "NEXT_EXPECTED_COMMAND=Stage25-reentry-audit",
 ):
     assert marker in status_doc, marker
 assert "AUDIT_STATUS=PENDING" in result
@@ -192,4 +214,5 @@ print("STAGE25_REENTRY_PHASE20_R501_R502_SOURCE_BINDING=PASS")
 print("STAGE25_REENTRY_PHASE20_DIRECTIONAL_ADAPTER=PASS")
 print("STAGE25_REENTRY_PHASE20_BACKFLOW_QUEUE=PASS")
 print("STAGE25_REENTRY_PHASE20_SCOPE_FIREWALL=PASS")
+print(f"STAGE25_REENTRY_PHASE20_LIFECYCLE={lifecycle}")
 print("STAGE26_GATE=BLOCKED_VALID")
