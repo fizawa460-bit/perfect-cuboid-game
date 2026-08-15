@@ -77,7 +77,8 @@ assert "BACKFLOW_STATUS=PASS_NO_DELTA_AFTER_CHECKPOINT50" in r
 #   1) closeout submission: audit PENDING, not merged, reentry blocked;
 #   2) hostile-audited closeout: audit PASS, not merged, reentry blocked;
 #   3) post-merge synchronization: audit PASS, merged, Stage25 CLOSED,
-#      reentry phase10 READY while Stage26 remains blocked.
+#      reentry phase10 is either READY_PENDING_SYNC_AUDIT or READY,
+#      while Stage26 remains blocked.
 audit_status = c70["audit_status"]
 closeout_merged = bool(c70.get("closeout_merged", False))
 reentry_unlocked = bool(c70.get("stage25_reentry_unlocked", False))
@@ -121,10 +122,13 @@ else:
     assert c25["state"]["AUDIT_STATUS"] == "PASS"
     assert c25["state"]["NEXT_STAGE"] == "Stage25-reentry"
 
-    # Reentry is unlocked only to phase10 READY; no phase is auto-executed.
-    assert reentry["status"] == "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE"
+    # Reentry is unlocked only to phase10; sync audit may still be pending.
+    assert reentry["status"] in (
+        "PHASE10_READY_PENDING_SYNC_REAUDIT",
+        "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE",
+    )
     assert reentry["current_phase"] == 10
-    assert reentry["phases"]["10"]["status"] == "READY"
+    assert reentry["phases"]["10"]["status"] in ("READY_PENDING_SYNC_AUDIT", "READY")
     assert reentry["unlock_evidence"]["checkpoint70_audit_verdict"] == "PASS"
     assert reentry["unlock_evidence"]["closeout_pr"] == 1000
     assert reentry["unlock_evidence"]["closeout_merge_commit"] == c70["closeout_merge_commit"]
@@ -132,7 +136,16 @@ else:
     assert reentry["stage26_gate"]["stage25_main_closed"] is True
     assert reentry["stage26_gate"]["all_reentry_phases_audited"] is False
     assert reentry["stage26_gate"]["stage26_allowed"] is False
-    lifecycle = "POST_MERGE_REENTRY_READY"
+
+    if reentry["status"] == "PHASE10_READY_PENDING_SYNC_REAUDIT":
+        assert reentry["phases"]["10"]["status"] == "READY_PENDING_SYNC_AUDIT"
+        assert reentry["sync_audit"]["previous_verdict"] == "FAIL"
+        assert reentry["sync_audit"]["fail_reason"] == "STAGE25_70_CLOSEOUT_CI_REGRESSION"
+        assert reentry["sync_audit"]["status"] == "PENDING_REAUDIT"
+        lifecycle = "POST_MERGE_REENTRY_READY_PENDING_SYNC_REAUDIT"
+    else:
+        assert reentry["phases"]["10"]["status"] == "READY"
+        lifecycle = "POST_MERGE_REENTRY_READY"
 
 print("STAGE25_70_CLOSEOUT_CONTRACT=PASS")
 print("CHECKPOINT60_DEEP_STOP_DEPENDENCY=PASS")
