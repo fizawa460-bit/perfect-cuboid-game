@@ -12,23 +12,23 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "PENDING"
+    "70": "SUBMITTED_FOR_FRESH_AUDIT"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 60,
-    "MAIN_STATUS": "AUDITED_PASS",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
+    "CURRENT_CHECKPOINT": 70,
+    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 70,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
   "source_count": "M_2(B)",
   "target_count": "N_2(B)",
   "common_cutoff": "R=sqrt(a^2+b^2+c^2)<=B",
-  "source_contract": "0<a<b<c; gcd(a,b,c)=1; R<=B; exactly two integral face diagonals; no space requirement",
+  "source_contract": "0<a<b<c; gcd=1; R<=B; exactly two integral face diagonals; no space requirement",
   "target_contract": "source contract plus R integral",
   "literal_subset_transition": true,
   "literal_relation": "Stage19 = Stage18 intersect {R integral}",
@@ -46,7 +46,7 @@
     "source_interface": "M2(B)~C_M2 B(log B)^5, C_M2>0",
     "target_upper_interface": "N2(B)<<_epsilon B^(1/2+epsilon)",
     "target_certified_lower_floor": "N2(B)>=3495 for B>=500000000",
-    "target_unboundedness_proved": false,
+    "target_unboundedness_proved_at_checkpoint10": false,
     "target_positive_power_lower_bound_proved": false,
     "half_power_intrinsic_status": "UNRESOLVED",
     "true_target_exponent_identified": false,
@@ -258,12 +258,58 @@
     "advance_allowed": true,
     "merge_allowed": true
   },
+  "checkpoint70": {
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "result_path": "stages/stage24/24-70/result.md",
+    "self_contained_bundle_required": true,
+    "self_contained_bundle_decision": "YES",
+    "self_contained_bundle_materialized": true,
+    "self_contained_bundle_path": "stages/stage24/final.md",
+    "manifest_materialized": true,
+    "manifest_path": "stages/stage24/manifest-r01.md",
+    "arsenal_promotion_required": true,
+    "arsenal_promotion_decision": "YES",
+    "arsenal_promotion_materialized": true,
+    "arsenal_promotion_path": "docs/stage24-arsenal-promotion.md",
+    "aggressive_search_ledger_materialized": true,
+    "aggressive_search_ledger_path": "stages/stage24/24-70/aggressive-search-ledger.md",
+    "closeout_verifier": "stages/stage24/24-70/closeout_audit.py",
+    "closeout_workflow": ".github/workflows/stage24-70-closeout-audit.yml",
+    "bounded_maximal_synthesis": true,
+    "stage24_class": "THIN_BUT_INFINITE",
+    "source_asymptotic": "M2(B)~C_M2 B(log B)^5, C_M2>0",
+    "target_lower": "N2(B)>>sqrt(log B)",
+    "target_upper": "N2(B)<<_epsilon B^(1/2+epsilon)",
+    "survivor_ratio_lower": "N2/M2>>B^(-1)(log B)^(-9/2)",
+    "survivor_ratio_upper": "N2/M2<<_epsilon B^(-1/2+epsilon)(log B)^(-5)",
+    "survivor_ratio_limit_zero": true,
+    "target_unboundedness_proved": true,
+    "directional_c17_lower": "N2,c(B)>>sqrt(log B)",
+    "specific_overlap_lower": "A_ac,bc(B)>>sqrt(log B)",
+    "post_stage23_reinvestigation_consumed": true,
+    "post_stage23_pr": 978,
+    "positive_power_lower_bound_proved": false,
+    "matching_half_power_lower_bound_proved": false,
+    "strict_sub_sqrt_whole_family_upper_proved": false,
+    "true_target_exponent_identified": false,
+    "half_power_intrinsic_proved": false,
+    "half_power_causal_mechanism_identified": false,
+    "stage24_global_interaction_sign": "UNRESOLVED",
+    "second_order_interaction_sign": "UNRESOLVED",
+    "survivor_ratio_leading_constant_available": false,
+    "perfect_cuboid_conclusion": "NONE",
+    "synthesis_stop_rule_satisfied": true,
+    "fresh_hostile_review": "PENDING",
+    "audit_required": true,
+    "advance_allowed": false,
+    "merge_allowed": false
+  },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
     "NUM_ASSETS_REUSED": ["NUM-R01", "NUM-R02", "NUM-R03", "24-14num-r201", "24-14num-r202"],
     "NUM_POPULATION_MATCH": "EXACT",
     "NUM_EVIDENCE_LEVEL": "EXACT_FINITE_ORACLE_PLUS_AUDITED_THEOREM_INTERFACES",
-    "NUM_NEW_COMPUTATION_JUSTIFIED": "NOT_REQUIRED_AT_CAUSAL_SYNTHESIS"
+    "NUM_NEW_COMPUTATION_JUSTIFIED": "NOT_REQUIRED_AT_BOUNDED_CLOSEOUT"
   },
   "full_exploration_policy": {
     "EXPLORATION_PHASE": "FULL_TRANSITION_RESEARCH",
@@ -322,17 +368,17 @@
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT60_AUDIT_PASS",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT60_AUDIT_PASS_AND_STAGE50_BACKFLOW",
-    "UPSTREAM_PREMISE_CHECK": "PASS_WITH_STAGE19_LOWER_SUPERSESSION",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT60_AUDIT_PASS_PLUS_STAGE23_POST24_PASS",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT70_SUBMISSION",
+    "UPSTREAM_PREMISE_CHECK": "PASS_WITH_STAGE19_LOWER_SUPERSESSION_AND_STAGE23_REINVESTIGATION",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
   "discovery_audit": {
     "required": true,
-    "reason": "checkpoint60 asserts new interaction brackets, thin-but-infinite classification, arithmetic-stratum heterogeneity, and a complete double-charge map while deliberately leaving the global interaction sign unresolved",
+    "reason": "checkpoint70 freezes the self-contained Stage24 theorem stack, materializes a reusable arsenal interface, consumes the audited Stage23 post-Stage24 backflow, and closes the bounded synthesis with unresolved exponent/interaction gates explicitly preserved",
     "auditor": "FRESH_STAGE24_AUDIT",
-    "verdict": "PASS",
-    "record": "stages/stage24/24-60/audit.md"
+    "verdict": "PENDING",
+    "record": "stages/stage24/24-70/audit.md"
   },
   "last_audit": {
     "checkpoint": 60,
@@ -348,9 +394,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "COMMITTED_CHECKPOINT60_PASS",
+    "status": "PENDING_CHECKPOINT70_FRESH_AUDIT",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-main-batch",
+  "next_expected_command": "Stage24-audit",
   "codeX_required": false
 }
