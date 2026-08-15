@@ -68,13 +68,21 @@ assert c70["backflow_status"] == "PASS_NO_DELTA_AFTER_CHECKPOINT50"
 assert c70["global_stage25_lower_changed_after_checkpoint50"] is False
 assert "BACKFLOW_STATUS=PASS_NO_DELTA_AFTER_CHECKPOINT50" in r
 
-# submission must not self-audit or unlock reentry
-assert c70["audit_status"] == "PENDING"
-assert c70["advance_allowed"] is False
-assert c70["merge_allowed"] is False
+# audit state may be submission-pending or audited-PASS-awaiting-merge.
+assert c70["audit_status"] in ("PENDING", "PASS")
 assert c70["stage25_reentry_unlocked"] is False
 assert c70["close_stage_after_audit_pass"] is True
 assert c70["parent_controller_sync_required_after_audit_pass"] is True
+if c70["audit_status"] == "PENDING":
+    assert c70["advance_allowed"] is False
+    assert c70["merge_allowed"] is False
+else:
+    assert c70["advance_allowed"] is True
+    assert c70["merge_allowed"] is True
+    assert c70.get("closeout_merged") is False
+    assert "stages/stage25/25-70/audit.md" == c70.get("audit_record")
+
+# reentry remains blocked until audited closeout is actually merged.
 assert reentry["status"] == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT"
 assert reentry["starts_after"]["stage25_checkpoint"] == 70
 assert reentry["starts_after"]["audit_verdict"] == "PASS"
@@ -87,3 +95,4 @@ print("FINAL_THEOREM_STACK_BINDING=PASS")
 print("ROUTE_REGISTRY_BOUNDARY=PASS")
 print("BACKFLOW_NO_DELTA_BINDING=PASS")
 print("REENTRY_BYPASS_FIREWALL=PASS")
+print(f"CHECKPOINT70_AUDIT_STATE={c70['audit_status']}")
