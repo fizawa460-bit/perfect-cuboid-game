@@ -127,16 +127,29 @@ for marker in [
 
 assert iterctl['route']=='R504'
 assert iterctl['checkpoint']==60
-assert iterctl['audit_status']=='PENDING'
-assert iterctl['advance_allowed'] is False
-assert iterctl['next_checkpoint']==60
-assert iterctl['merge_allowed'] is False
-assert iterctl['stage70_allowed'] is False
 assert iterctl['generic_qk_rank']==1
 assert iterctl['three_p_height_degree']==20
 assert iterctl['three_p_primitive_gcd_bound']==128
 assert iterctl['three_p_exception_genus']==15
 assert iterctl['global_stage25_lower_changed'] is False
+assert iterctl['stage70_allowed'] is False
+assert iterctl['next_checkpoint']==60
+
+if iterctl['audit_status']=='PENDING':
+    assert iterctl['status']=='SUBMITTED_FOR_FRESH_AUDIT'
+    assert iterctl['advance_allowed'] is False
+    assert iterctl['merge_allowed'] is False
+elif iterctl['audit_status']=='PASS':
+    assert iterctl['status']=='AUDITED_PASS'
+    assert iterctl['advance_allowed'] is True
+    assert iterctl['merge_allowed'] is True
+    assert iterctl['audit_path']=='stages/stage25/25-60/r504-audit.md'
+    assert iterctl['original_surface_section_route']=='CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS'
+    assert iterctl['base_change_route']=='OPEN_GATE'
+    assert iterctl['multisection_route']=='OPEN_GATE'
+    assert iterctl['growing_multiple_uniform_aggregation']=='OPEN_GATE'
+else:
+    raise AssertionError(iterctl['audit_status'])
 
 print(f'R504_GCD_HEIGHT_GRID_ROWS={rows}')
 print('R504_3P_INTEGER_IDENTITIES=PASS')
@@ -146,5 +159,6 @@ print('R504_Q32_MOD3_SQUAREFREE_CERTIFICATE=PASS')
 print('R504_PHYSICAL_OPEN_CONE_WITNESS=PASS')
 print('R504_TWIST_T_NOT_2DIVISIBLE_CERTIFICATE=PASS')
 print('R504_TWIST_DESCENT_ARTIFACT_CONTRACT=PASS')
+print(f'R504_ITERATION_AUDIT_STATUS={iterctl["audit_status"]}')
 print('R504_SECTION_LATTICE_ARTIFACT_CONTRACT=PASS')
 print('STAGE25_60_R504_AUDIT=PASS')
