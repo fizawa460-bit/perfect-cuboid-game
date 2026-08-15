@@ -1,0 +1,65 @@
+# Stage25-60 R504 full-split Prym generic discovery / reuse ledger
+
+STATUS=AUDITED_PASS
+ROUTE=R504
+CHECKPOINT=60
+AUDIT_RECORD=stages/stage25/25-60/r504-full-split-prym-generic-hostile-audit.md
+
+```text
+REPO_REUSE_PREFLIGHT=PASS
+REUSE_SEARCH_SCOPE=ARSENAL,NUM_INDEX,STAGES,SUPPLEMENTS,ARCHIVE,PRS
+REUSED_RESULTS=R504_COMPLETE_Q_DEGREE2_DESCENT_AUDITED_PASS;R504_FULL_SPLIT_RECIPROCAL_ANALYSIS_AUDITED_PASS;R504_NONSPLIT_RANK_JUMP_AUDITED_PASS;R504_RANK_TWO_FIXED_AND_GROWING_LATTICE_AUDITED_PASS
+REUSE_MATCH_STATUS=FULL_SPLIT_PRYM_RESIDUAL_IS_EXPLICITLY_LEFT_OPEN_BY_PR993_PR996
+STRONGEST_KNOWN_CHECK=PASS
+STRONGER_PRIOR_RESULT_FOUND=false
+NEW_RESEARCH_JUSTIFIED=CONTROLLER_EXPLICITLY_REQUESTS_ATTACK_FULL_SPLIT_NONBIELLIPTIC_PRYM_E0_ISOGENY_RESIDUAL
+POPULATION_ADAPTERS_PROVED=NONE_THIS_ROUND_GENERIC_GEOMETRY_ONLY
+DISCOVERY_AUDIT_VERDICT=PASS
+```
+
+## Discovery block
+
+```text
+DISCOVERY_CHECKPOINT=60
+SEARCHED_PATHS=R504_FULL_SPLIT_NORMAL_FORM;R504_FULL_SPLIT_AUDIT;R504_EXCEPTIONAL_SEARCH_CONTROLLER;PR993;PR995;PR996;STAGE25_60_DISCOVERY_LEDGER
+SEARCH_TERMS=PRYM;E0_ISOGENY;NONBIELLIPTIC;FULL_SPLIT;FROBENIUS;SPECIALIZATION;HOM_JUMP
+STRUCTURAL_SIGNATURES=GENUS3_EVEN_OCTIC;ELLIPTIC_QUOTIENT;DIMENSION2_PRYM;FIXED_E0_TARGET
+DEPENDENCY_NEIGHBORS=FULL_SPLIT_RECIPROCAL_LOCUS;NONSPLIT_EXPLICIT_RANK_JUMP;KNOWN_RANK_TWO_HEIGHT_CLOSURES
+CANDIDATES_FOUND=GENERIC_E0_FACTOR;EXCEPTIONAL_ISOGENY_JUMP_LOCUS;RECIPROCAL_BIELLIPTIC_LOCUS
+CANDIDATES_ACCEPTED=FINITE_FIELD_SPECIALIZATION_CERTIFICATE_EXCLUDING_GENERIC_BASE_FIELD_E0_HOM
+CANDIDATES_REJECTED_WITH_REASON=BLANKET_NO_E0_ISOGENY_OVER_ALL_SPECIALIZATIONS_NOT_PROVED;GEOMETRIC_KBAR_E0_FACTOR_NOT_CLASSIFIED;RECIPROCAL_ONLY_ARGUMENT_ALREADY_KNOWN_INSUFFICIENT
+LIVE_ROUTE_CANDIDATES=EXCEPTIONAL_RATIONAL_PRYM_E0_ISOGENY_JUMP_LOCUS
+SUBLANES_OPEN=1
+SUBLANES_CLOSED=GENERIC_BASE_FIELD_FULL_SPLIT_PRYM_E0_FACTOR
+TARGETED_COMPUTATION_USED=F5_F25_POINT_COUNTS;PRYM_LPOLY_QUOTIENT;E0_FROBENIUS_DIVISIBILITY_TEST
+FINITE_DATA_USED_AS_PROOF=false
+DISCOVERY_LEDGER_STATUS=AUDITED_COMPLETE_FOR_THIS_THEOREM_CHUNK
+```
+
+## Why the finite-field calculation is not finite-data numerology
+
+The point counts are used as an exact specialization obstruction.  A generic nonzero homomorphism over the generic base field from the Prym abelian scheme to the fixed `E0` extends across the regular smooth parameter open and specializes injectively to every good fiber.  The chosen good fiber at `(1,1,1,2)` and `p=5` has Prym Frobenius polynomial `1+2T^2+25T^4`, while `E0` has `1-2T+5T^2`; exact non-divisibility excludes such a generic-base-field homomorphism.  The logical use is therefore a specialization theorem, not inference from a sample distribution.
+
+```text
+R504_FULL_SPLIT_GENERIC_PRYM_E0_FACTOR=false
+R504_FULL_SPLIT_GENERIC_PRYM_E0_HOM_OVER_GENERIC_BASE_FIELD=0
+R504_FULL_SPLIT_GENERIC_PRYM_E0_FACTOR_SCOPE=GENERIC_BASE_FIELD_ONLY
+R504_FULL_SPLIT_GEOMETRIC_E0_FACTOR_OVER_KBAR_CLASSIFIED=false
+R504_FULL_SPLIT_GENERIC_PRYM_E0_FACTOR_PROOF=EXACT_GOOD_SPECIALIZATION_FROBENIUS_OBSTRUCTION
+R504_FULL_SPLIT_EXCEPTIONAL_PRYM_E0_ISOGENY_LOCUS=OPEN
+FINITE_DATA_USED_AS_PROOF=false
+```
+
+## Hostile audit field-of-definition firewall
+
+The audit accepts exactly
+
+```text
+Hom_K(P_eta,E0_K)=0,  K=Q(A,B,C,D).
+```
+
+It does not claim `Hom_Kbar(P_eta,E0)=0`.  A single Frobenius non-divisibility test over `F5` is sufficient for the K-defined/Q-defined factor needed by the rational Stage25 rank-jump route, but it is not promoted to a classification of all geometric factors after algebraic extension of the generic parameter field.
+
+## Boundary after this chunk
+
+The previously live phrase `full-split non-bielliptic Prym / E0-isogeny residual` is now narrowed in the rational/generic-base-field sense.  There is no generic base-field `E0` factor.  Any remaining rational full-split rank jump from the Prym must occur by specialization on an exceptional Hom/isogeny-jump locus.  The isogeny degree is not bounded by this round, so emptiness or finiteness of that exceptional locus is not claimed.
