@@ -1,6 +1,6 @@
 # Stage25-60 deeper-lane triage
 
-STATUS=R504_AUDITED_PASS_R505_R506_LIVE
+STATUS=R505_R506_BOUNDARY_SUBMITTED_FOR_FRESH_AUDIT
 
 The route IDs below are persistent allocations inherited from checkpoint50. They are not audit-round numbers and must not be renamed between audits.
 
@@ -16,9 +16,7 @@ R506=common_leg_plus_space
 R507=R501_primitive_height_rigidity
 ```
 
-## R501 / R502 / R507 — audited quarter-power families and rigidity
-
-R501 and R502 are both audited family-specific `Theta(B^(1/4))` constructions. Their primitive-height loopholes are closed by exact bounded gcd certificates.
+## Historical verifier compatibility and audited base
 
 ```text
 R501_STATUS=PROVED_AUDITED_Theta_B_QUARTER
@@ -26,86 +24,44 @@ R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS
 R507_STATUS=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
 R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
 R502_GCD_GLOBAL_BOUND=2592
-```
-
-Historical checkpoint60 verifier compatibility markers describe the prior submission state only:
-
-```text
 HISTORICAL_R502_SUBMISSION_MARKER=R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
 HISTORICAL_R503_GATE_MARKER=R503_UNIFORM_VARYING_FIBER_HEIGHT_COUNT=NOT_PROVED
 HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
 ```
 
-Neither family-specific `Theta(B^(1/4))` result is a global upper bound for `N2`.
+The global audited Stage19 envelope remains
 
-## R503 — Yoshida varying-fiber height
+\[
+B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
+\]
 
-R503 passed hostile fresh audit and is now a precise theorem gate.
+Neither R501 nor R502 family-specific `Theta(B^(1/4))` is a global upper bound.
 
-The Yoshida surface has generic geometric Mordell-Weil rank zero, so the direct generic-section route is closed. Its displayed fixed-fiber orbit and displayed positive-rank-parameter sequence are each only `O(sqrt(log))` in the relevant bounded-height variable. This does not close base changes or exceptional positive-rank fibers.
+## R503 — audited external/base-change gate
+
+R503 passed hostile audit. The original Yoshida surface has geometric generic rank zero, so its direct generic-section route is closed. The displayed fixed-fiber orbit and displayed positive-rank-parameter sequence are height-sparse. Base change, exceptional positive-rank fibers, and a uniform physical small-point theorem remain future-input gates.
 
 ```text
 R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
-R503_GENERIC_GEOMETRIC_MW_RANK=0
-R503_NONTORSION_GENERIC_SECTION_EXISTS=false
 R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED
-R503_YOSHIDA_FIXED_FIBER_ORBIT_COUNT_UPPER=O(sqrt(log B))
-R503_YOSHIDA_DISPLAYED_S_SEQUENCE_COUNT_UPPER=O(sqrt(log X))
-R503_BASE_CHANGE_MULTISECTION_ROUTE=OPEN_GATE
-R503_QUANTITATIVE_EXCEPTIONAL_FIBER_ROUTE=OPEN_GATE
-R503_UNIFORM_SMALL_POINT_ROUTE=OPEN_GATE
 R503_EXPONENT_UPGRADE_PROVED=false
 ```
 
-See `r503-yoshida-generic-rank-zero-gate.md`, `r503-discovery-ledger.md`, and `r503-audit.md`.
+## R504 — audited original base; residual gate submitted
 
-## R504 — symmetric-k aggregation
-
-R504 has passed hostile fresh audit on the full original-base section lattice.
-
-The quartic receiver
+R504's hostile-audited original-base theorem is
 
 \[
-t^4+1=(k^4+1)z^2
+\operatorname{rank}E_F(\mathbf Q(k))=1,
 \]
 
-has Jacobian
+with no second independent `Q(k)`-section. The first nondegenerate fixed section gives
 
 \[
-E_F:Y^2=X^3-4(k^4+1)^2X.
+N_{R504,3P}(B)=\Theta(B^{1/10}),
 \]
 
-This is the quadratic twist of the constant lemniscatic curve `v^2=u^3-4u` by `k^4+1`. The twisting cover `s^2=k^4+1` is itself `Q`-birational to that same constant elliptic curve. The deck involution becomes `Q -> T-Q`, and the anti-invariant twist descent together with `End_Q(E0)=Z` gives
-
-\[
-\boxed{\operatorname{rank}E_F(Q(k))=1.}
-\]
-
-Thus there is no second independent `Q(k)`-rational section hidden on the original symmetric-k surface.
-
-The first nondegenerate physical section is the accepted 3P section
-
-\[
-t_3(k)=\frac{k(k^8-6k^4-3)}{3k^8+6k^4-1},
-\qquad
-z_3(k)=\frac{k^{16}+28k^{12}+6k^8+28k^4+1}{(3k^8+6k^4-1)^2}.
-\]
-
-For reduced `k=u/v`, its homogenized Stage19 coordinates have degree 20 and exact primitive gcd
-
-\[
-\gcd(E,X,Y)=2^{7[u,v\text{ both odd}]}\le128.
-\]
-
-The missing third-face square condition reduces to a squarefree degree-32 hyperelliptic curve of genus 15, so only finitely many rational parameters are triple-face exceptions. A fixed physical open cone has bounded parameter multiplicity. Hence
-
-\[
-\boxed{N_{R504,3P}(B)=\Theta(B^{1/10}).}
-\]
-
-This is a genuine infinite Stage19 family but is weaker than the audited quarter-power families. The original-base independent-section route is closed as a hidden global-upgrade source.
-
-The hostile audit explicitly does **not** close finite base change, multisections becoming sections after base change, or uniform aggregation over growing multiples.
+so it does not beat the quarter-power lower.
 
 ```text
 R504_STATUS=ORIGINAL_SURFACE_SECTION_ROUTE_CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS
@@ -113,46 +69,112 @@ R504_GENERIC_QK_RANK=1
 R504_SECOND_INDEPENDENT_QK_SECTION_EXISTS=false
 R504_GENERIC_NONTORSION_SECTION_PROVED=true
 R504_3P_EXACT_FAMILY_GROWTH=Theta(B^(1/10))
-R504_3P_PRIMITIVE_GCD_BOUND=128
-R504_3P_THIRD_FACE_EXCEPTION_GENUS=15
 R504_CURRENT_SECTION_BEATS_QUARTER=false
-R504_LOW_DEGREE_BASE_CHANGE_ROUTE=OPEN_GATE
-R504_MULTI_SECTION_ROUTE=OPEN_GATE
-R504_GROWING_MULTIPLE_UNIFORM_AGGREGATION=OPEN_GATE
-R504_FRESH_AUDIT_REQUIRED=false
 ```
 
-See `r504-section-lattice.md`, `r504-twist-descent.md`, `r504-discovery-ledger.md`, `r504-iteration-controller.json`, and `r504-audit.md`.
-
-## R505 — common squarefree core
-
-The exact Stage19 squareclass receiver remains structurally correct, but no independent parameter dimension with polynomial physical-height bound and bounded multiplicity has yet been closed.
+The residual low-degree-base-change / multisection / growing-multiple directions were searched as a bounded continuation. No ready same-measure Stage19 polynomial-count adapter was found. These mechanisms are not claimed impossible; a genuinely new explicit base change or suitable uniform theorem reopens R504.
 
 ```text
-R505_STATUS=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
-R505_RESEARCH_CONTINUES_AFTER_R504_AUDIT=true
+R504_LOW_DEGREE_BASE_CHANGE_EXPLICIT_UPGRADE_FOUND=false
+R504_RESIDUAL_STATUS=EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R504_NEW_EXPLICIT_BASE_CHANGE_REOPENS_ROUTE=true
 ```
 
-## R506 — common-leg plus space
+See `r504-base-change-boundary.md`.
 
-The common-leg divisor construction remains compatible. Successful low-dimensional specializations overlap known C17/R501-type mechanisms; no independent bulk count improving the global exponent has yet been certified.
+## R505 — exact common-core target receiver
+
+For Stage19 toric parameters,
+
+\[
+A=m^2r^2+n^2s^2,\qquad B=m^2s^2+n^2r^2,
+\]
+
+and
+
+\[
+E^2+X^2+Y^2=4AB.
+\]
+
+Hence integral space is exactly
+
+\[
+\operatorname{sf}(A)=\operatorname{sf}(B)
+\iff
+A=kP^2,\ B=kQ^2.
+\]
+
+R505 is therefore the exact target condition, not a construction family by itself.
+
+The Stage15 attack ledger was reused through its moving-genus-one, 2-covering/descent, physical-product-height, fixed-diagonal-fiber, codimension-two congruence, blind-rediscovery, channel-gcd, and physical complementary-divisor reductions. Those attacks repeatedly reduce the whole-family problem to new physical-height uniformity/average input; no new non-equivalent executable lower construction was found in the bounded Stage25 rediscovery.
 
 ```text
-R506_STATUS=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
-R506_RESEARCH_CONTINUES_AFTER_R504_AUDIT=true
+R505_EXACT_TARGET_RECEIVER=true
+R505_RECEIVER_IS_NOT_CONSTRUCTION_BY_ITSELF=true
+R505_STAGE15_INTERNAL_ROUTE_SEARCH_REUSED=true
+R505_STATUS=EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R505_REOPEN_CONDITION=NEW_UNIFORM_PHYSICAL_HEIGHT_THEOREM_OR_NEW_EXPLICIT_PARAMETRIC_FAMILY
 ```
 
-## Current boundary
+See `r505-common-core-gate.md` and `r505-r506-discovery-ledger.md`.
+
+## R506 — common-leg coordinates are R505 coordinates
+
+Set
+
+\[
+u=mr,\quad v=ns,\quad w=ms,\quad z=nr.
+\]
+
+Then
+
+\[
+uv=wz,
+\qquad
+A=u^2+v^2,
+\qquad
+B=w^2+z^2.
+\]
+
+The relation `uv=wz` is rank one and conversely reconstructs the two toric projective ratios. Thus R506 has no independent parameter dimension or target equation: it is R505 written in common-leg coordinates.
 
 ```text
-HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
+R506_RANK_ONE_IDENTITY=uv=wz
+R506_INDEPENDENT_PARAMETER_DIMENSION=false
+R506_SUBSUMED_BY_R505_EXACT_TORIC_RECEIVER=true
+R506_STATUS=CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+```
+
+See `r506-common-leg-subsumption.md`.
+
+## Current checkpoint60 boundary
+
+The proposed route classes, pending fresh hostile audit, are now:
+
+```text
+R501=PROVED_AUDITED
+R502=CLOSED_AUDITED
+R503=EXTERNAL_THEOREM_GATE_AUDITED
+R504_ORIGINAL_BASE=CLOSED_AUDITED
+R504_RESIDUAL=EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R505=EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R506=CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+R507=PROVED_AUDITED
+```
+
+No new global exponent is asserted.
+
+```text
+GLOBAL_STAGE25_LOWER_CHANGED=false
 MATCHING_HALF_POWER_LOWER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
-R503_FRESH_AUDIT_REQUIRED=false
-R504_FRESH_AUDIT_REQUIRED=false
-LIVE_REPO_NATIVE_HIGH_VALUE_ROUTES_AFTER_R504=R505,R506
+FINITE_DATA_USED_AS_PROOF=false
 CHECKPOINT60_SINGLE_SHOT=false
 AUDIT_PASS_DOES_NOT_CLOSE_LIVE_ROUTES=true
+CHECKPOINT60_DEEP_STOP_RULE_CANDIDATE=true
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
+DEEP_STOP_PENDING_HOSTILE_AUDIT=true
 STAGE70_ALLOWED=false
 ```
+
+If the audit accepts the proposed R504-residual/R505/R506 boundary classifications, checkpoint60 has a deep-stop candidate: every currently assigned route is then proved, closed with certificate, or reduced to a genuinely new external/new-parametric input gate. This is not a permanent mathematical-exhaustion claim; new input can reopen a route.
