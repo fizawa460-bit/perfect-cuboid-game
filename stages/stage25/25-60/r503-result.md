@@ -1,6 +1,6 @@
 # Stage25-60 R503 result
 
-STATUS=SUBMITTED_FOR_FRESH_AUDIT
+STATUS=AUDITED_PASS
 ROUTE=R503
 
 The direct Yoshida generic-section route is closed by an exact identification with the plus-sign Pythagorean/Frey family and the geometric generic Mordell-Weil rank-zero theorem.
@@ -12,6 +12,7 @@ The displayed Yoshida construction of infinitely many positive-rank parameters `
 Accordingly R503 is narrowed, not killed:
 
 ```text
+AUDIT_VERDICT=PASS
 R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE
 R503_GENERIC_GEOMETRIC_MW_RANK=0
 R503_GENERIC_NONTORSION_SECTION_EXISTS=false
@@ -24,10 +25,10 @@ R503_UNIFORM_SMALL_POINT_ROUTE=OPEN_GATE
 R503_GLOBAL_EXPONENT_UPGRADE_PROVED=false
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
 STAGE70_ALLOWED=false
-AUDIT_REQUIRED=true
-ADVANCE_ALLOWED=false
+AUDIT_REQUIRED=false
+ADVANCE_ALLOWED=true
 NEXT_CHECKPOINT=60
-MERGE_ALLOWED=false
+MERGE_ALLOWED=true
 ```
 
 The audited global Stage25 envelope remains unchanged:
@@ -36,4 +37,4 @@ The audited global Stage25 envelope remains unchanged:
 B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
 
-If this R503 gate passes fresh audit, checkpoint60 continues under persistent route IDs with R504, R505 and R506.
+Checkpoint60 continues under persistent route IDs with R504, R505 and R506 after this audited PR is merged.
