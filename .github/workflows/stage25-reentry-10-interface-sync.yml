@@ -1,0 +1,27 @@
+name: Stage25 reentry phase10 interface synchronization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-reentry-10/**'
+      - 'stages/stage25/25-reentry-controller.json'
+      - 'stages/stage25/scripts/verify_25_reentry_controller.py'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - 'docs/README.md'
+      - '.github/workflows/stage25-reentry-10-interface-sync.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-phase10:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage25 reentry phase10 synchronization
+        run: python stages/stage25/25-reentry-10/verify_phase10.py
