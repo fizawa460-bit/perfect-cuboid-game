@@ -36,8 +36,6 @@ This round does not introduce a new route ID. It materializes the previously hos
 
 ## Stage14/15 attack-ledger binding retained
 
-The hostile rank-jump audit opened all `review_required=true` source artifacts used here.
-
 - `S1415-ATTACK-0522` / Stage14-t13 — structural genus-three/involution predecessor.
 - `S1415-ATTACK-0544` / Stage14-t15 — V4 elliptic-quotient predecessor and physical square-lift/height warning.
 - `S1415-ATTACK-0583` / Stage14-t43 — retained as an isogeny warning, not a blocker for the materially different nonsplit R504 equation.
@@ -77,27 +75,26 @@ P_MINUS_R=NO_Q(U)_PHYSICAL_LIFT
 P_PLUS_2R=EXPLICIT_Q(U)_PHYSICAL_LIFT
 P_PLUS_2R_T_DEGREE=10
 P_PLUS_2R_PHYSICAL_HEIGHT_DEGREE=24
-P_PLUS_2R_PRIMITIVE_GCD_BOUND=2^241*3^100
+P_PLUS_2R_PRIMITIVE_GCD_BOUND=2^689*3^256
 P_PLUS_2R_THIRD_FACE_EXCEPTION_GENUS=21
 P_PLUS_2R_PARAMETER_MULTIPLICITY=O(1)
 P_PLUS_2R_EXACT_FAMILY_GROWTH=Theta(B^(1/12))
 ```
 
-The primitive-gcd support is confined to `p=2,3` by
+The hostile audit uses the direct edge-resultant certificate
 
 ```text
-Res(N,M)=-2^5*3
-Res(A,B)=2^115*3^49.
+Res(E/2,X)=2^688*3^256
+Res(E/2,Y)=2^656*3^272*7^8.
 ```
 
-For a common edge gcd `g`, choosing `X` or `Y` according to the aligned/crossed low-valuation members gives
+For reduced homogeneous parameters, a common prime dividing all three edges must lie in the intersection of these resultant supports; the denominator-at-infinity case is excluded by the leading coefficients, with the explicit factor `2` in `E` accounting for the one extra dyadic power. Thus the deliberately coarse uniform bound
 
 ```text
-v2(g) <= 2*(5+115)+1 = 241
-v3(g) <= 2*(1+49) = 100.
+gcd(E,X,Y) <= 2^689*3^256
 ```
 
-Thus primitive reduction cannot lower the degree-24 height polynomially.
+is valid and primitive reduction cannot lower the degree-24 height polynomially.
 
 ## Scope boundary after this round
 
