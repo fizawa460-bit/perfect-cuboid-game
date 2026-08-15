@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "stage": "Stage25",
+  "status": "OPEN",
+  "parent_class": "combined_transition",
+  "transition": "Stage16 -> Stage19",
+  "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
+  "checkpoint_status": {
+    "10": "SUBMITTED_FOR_FRESH_AUDIT",
+    "20": "PENDING",
+    "30": "PENDING",
+    "40": "PENDING",
+    "50": "PENDING",
+    "60": "PENDING",
+    "70": "PENDING"
+  },
+  "state": {
+    "CURRENT_CHECKPOINT": 10,
+    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 10,
+    "NEXT_STAGE": "",
+    "MERGE_ALLOWED": false
+  },
+  "source_stage": "Stage16",
+  "target_stage": "Stage19",
+  "source_count": "M1(B)",
+  "target_count": "N2(B)",
+  "common_cutoff": "R=sqrt(a^2+b^2+c^2)<=B; on target d=R exactly",
+  "source_contract": "0<a<b<c; gcd=1; R<=B; exactly one integral face; no space requirement",
+  "target_contract": "0<a<b<c; gcd=1; R<=B; exactly two integral faces; R integral",
+  "literal_subset_transition": false,
+  "ratio_semantics": "matched combined population-size ratio N2/M1, not objectwise survival",
+  "population_adapter_required": false,
+  "cutoff_adapter_required": false,
+  "multiplicity_adapter_required": false,
+  "checkpoint10": {
+    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "result_path": "stages/stage25/25-10/result.md",
+    "discovery_ledger": "stages/stage25/25-10/discovery-ledger.md",
+    "comparison_lattice": "stages/stage25/25-10/comparison-lattice.md",
+    "population_contract_frozen": true,
+    "ratio_semantics_frozen": true,
+    "source_interface": "M1(B)~3/(4*pi^2) B^2 log B",
+    "source_interface_provenance": "audited Stage21 exact source upgrade on literal Stage16 population",
+    "target_lower_interface": "N2(B)>>sqrt(log B)",
+    "target_upper_interface": "N2(B)<<_epsilon B^(1/2+epsilon)",
+    "target_unboundedness_proved": true,
+    "target_positive_power_lower_bound_proved": false,
+    "target_matching_half_power_lower_bound_proved": false,
+    "target_strict_sub_sqrt_upper_proved": false,
+    "true_target_exponent_identified": false,
+    "path_A": "M1 -> M2 -> N2 via Stage22 then Stage24",
+    "path_B": "M1 -> N1 -> N2 via Stage21 then Stage23",
+    "path_count_ratio_identities_exact": true,
+    "path_products_are_independence_claim": false,
+    "interaction_sign_at_entry": "UNRESOLVED",
+    "double_charge_check_required": true,
+    "num_reuse_check": "PASS",
+    "num_assets_reused": ["NUM-R01", "NUM-R06", "NUM-R07"],
+    "num_population_match": "ADAPTER_PROVED",
+    "num_new_computation_justified": "NOT_REQUIRED_AT_CHECKPOINT10",
+    "finite_data_used_as_proof": false,
+    "audit_required": true,
+    "advance_allowed": false,
+    "merge_allowed": false
+  },
+  "checkpoint20_policy": {
+    "REUSE_EXISTING_NUM_FIRST": true,
+    "MATCHED_M1_N2_GRID_REQUIRED": true,
+    "NO_NEW_LARGE_CENSUS_UNLESS_MATCHED_GRID_UNAVAILABLE": true,
+    "FINITE_DATA_ASYMPTOTIC_PROMOTION_FORBIDDEN": true
+  },
+  "checkpoint30_policy": {
+    "DIRECT_ENDPOINT_RATIO_REQUIRED": true,
+    "PATH_A_PRODUCT_CHECK_REQUIRED": true,
+    "PATH_B_PRODUCT_CHECK_REQUIRED": true,
+    "THREE_WAY_CONSISTENCY_REQUIRED": true,
+    "PROBABILISTIC_INDEPENDENCE_INFERENCE_FORBIDDEN": true
+  },
+  "checkpoint40_policy": {
+    "UPPER_BOUND_PROVENANCE_REQUIRED": true,
+    "NO_FAKE_PRODUCT_SAVING_REQUIRED": true,
+    "STAGE24_LOCAL_SIEVE_AND_THIN_COVER_NOT_MULTIPLIED": true,
+    "BOUNDED_NEW_ATTACK_ONLY_IF_STAGE25_SPECIFIC_RECEIVER": true
+  },
+  "checkpoint50_policy": {
+    "C17_LOWER_REUSE_FIRST": true,
+    "STAGE25_SPECIFIC_LOWER_UPGRADE_SEARCH_REQUIRED": true,
+    "POSITIVE_POWER_LOWER_STATUS_MUST_REMAIN_EXPLICIT": true,
+    "FINITE_EXAMPLES_ARE_NOT_ENOUGH": true
+  },
+  "checkpoint60_policy": {
+    "TWO_PATH_CAUSAL_DECOMPOSITION_REQUIRED": true,
+    "DOUBLE_CHARGE_AUDIT_REQUIRED": true,
+    "ORDER_OF_CONDITIONS_INTERACTION_CLASSIFICATION_REQUIRED": true,
+    "STAGE16S_STAGE21_STAGE22_STAGE23_STAGE24_COMPARISON_REQUIRED": true
+  },
+  "stage70_closeout": {
+    "SELF_CONTAINED_BUNDLE_DECISION_REQUIRED": true,
+    "ARSENAL_PROMOTION_DECISION_REQUIRED": true,
+    "PROMOTION_MATERIALIZATION_REQUIRED_IF_YES": true,
+    "AGGRESSIVE_SEARCH_LEDGER_REQUIRED": true
+  },
+  "full_exploration_policy": {
+    "EXPLORATION_PHASE": "FULL_TRANSITION_RESEARCH",
+    "FORMULA_SUBSTITUTION_ONLY": false,
+    "PROACTIVE_REFINEMENT_SEARCH": true,
+    "PROACTIVE_INTERACTION_SEARCH": true,
+    "BOUNDED_NEW_RESEARCH_SUBLANES_ALLOWED": true,
+    "MAXIMIZE_RIGOROUS_DEDUCTIONS_WITHIN_STAGE_SCOPE": true,
+    "UPSTREAM_PREMISE_FAILURE_RETURNS_TO_SOURCE": true,
+    "DISCOVERY_LEDGER_REQUIRED_EACH_CHECKPOINT_10_TO_60": true,
+    "FINITE_ZERO_HIT_ALONE_CANNOT_CONFIRM_DEAD": true,
+    "HISTORY_SUPERSESSION_BACKFLOW_REQUIRED": true
+  },
+  "safety_state": {
+    "POPULATION_CONTRACT_CHANGED": "NO",
+    "COMPARISON_ADAPTER_REQUIRED": "NO",
+    "UPSTREAM_PREMISE_CHECK": "PASS",
+    "RETURN_TO_SOURCE_REQUIRED": false,
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT10_SUBMISSION"
+  },
+  "discovery_audit": {
+    "required": true,
+    "reason": "checkpoint10 freezes a non-subset combined ratio semantics, two exact audited path factorizations, current post-Stage24 target lower interface, and the Stage25 double-charge firewall",
+    "auditor": "FRESH_STAGE25_AUDIT",
+    "verdict": "PENDING"
+  },
+  "next_expected_command": "Stage25-audit",
+  "codeX_required": false
+}
