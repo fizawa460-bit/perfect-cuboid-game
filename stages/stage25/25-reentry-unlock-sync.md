@@ -29,12 +29,12 @@ The synchronization updates:
 
 - `stages/stage25/25-controller.json` to checkpoint70 audited CLOSED while preserving all prior checkpoint history;
 - `stages/stage25/25-70/controller.json` to record the actual closeout merge and satisfied reentry condition;
-- `stages/stage25/25-reentry-controller.json` so phase10 is READY;
-- the existing reentry verifier so it accepts both the historical blocked state and the post-closeout READY state, and cross-checks the checkpoint70 audit/merge evidence.
+- `stages/stage25/25-reentry-controller.json` so phase10 is READY pending sync re-audit;
+- the reentry verifier and checkpoint70 closeout verifier so both understand the post-merge synchronization lifecycle.
 
 ## Fresh audit failure and bounded repair
 
-The first fresh audit of PR #1001 is intentionally preserved as FAIL:
+The first fresh audit of PR #1001 is preserved as FAIL:
 
 ```text
 AUDIT_VERDICT=FAIL
@@ -47,21 +47,27 @@ REENTRY_PHASE10_STATUS=READY_PENDING_SYNC_AUDIT
 STAGE26_ALLOWED=false
 ```
 
-The failure was not mathematical. `Stage25 reentry roadmap contract` succeeded, but `Stage25-70 closeout audit` failed because `stages/stage25/25-70/closeout_audit.py` still required `stage25_reentry_unlocked=false` after the audited closeout had already been merged and the synchronization correctly set it to `true`.
+The failure was not mathematical. `Stage25 reentry roadmap contract` succeeded, but `Stage25-70 closeout audit` failed at the stale assertion
 
-The bounded repair makes the closeout verifier lifecycle-aware. It now validates all three legitimate states:
+`assert c70["stage25_reentry_unlocked"] is False`.
+
+That assertion was correct for submission and pre-merge states but wrong after PR #1000 had been audited PASS and merged.
+
+The bounded repair makes the checkpoint70 verifier lifecycle-aware. It now validates all three legitimate states:
 
 1. closeout submission: `PENDING`, unmerged, reentry blocked;
 2. hostile-audit PASS awaiting merge: `PASS`, unmerged, reentry blocked;
-3. post-merge synchronization: `PASS`, merged, canonical Stage25 `CLOSED`, phase10 `READY`, Stage26 still blocked.
+3. post-merge synchronization: `PASS`, merged, canonical Stage25 `CLOSED`, phase10 `READY_PENDING_SYNC_AUDIT` or `READY`, Stage26 still blocked.
 
-No theorem, route boundary, population contract, or reentry ordering changed.
+The reentry verifier is likewise state-aware for the intermediate `READY_PENDING_SYNC_AUDIT` state so the recorded FAIL cannot be bypassed merely because the closeout merge condition is satisfied.
+
+No theorem, route boundary, population contract, reentry ordering, or Stage26 gate changed.
 
 No reentry research phase is executed here. Per `docs/stage25-reentry-operations.md`, phase10 itself is executed only by:
 
 `Stage25-reentry-main-batch`
 
-Fresh re-audit of this synchronization is required before merge.
+after this synchronization receives fresh audit PASS and is merged.
 
 ```text
 AUDIT_STATUS=PENDING_REAUDIT
