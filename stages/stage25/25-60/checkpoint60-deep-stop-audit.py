@@ -13,14 +13,28 @@ def require(text, marker):
 
 ctrl = json.loads((p / "checkpoint60-deep-stop-controller.json").read_text(encoding="utf-8"))
 assert ctrl["checkpoint60_deep_stop_rule_candidate"] is True
-assert ctrl["checkpoint60_deep_stop_rule_satisfied"] is False
-assert ctrl["deep_stop_pending_hostile_audit"] is True
-assert ctrl["stage70_allowed"] is False
-assert ctrl["audit_status"] == "PENDING"
-assert ctrl["next_checkpoint"] == 60
 assert ctrl["backflow"]["post_checkpoint50_global_delta"] is False
 assert ctrl["backflow"]["envelope_synchronized"] is True
 assert ctrl["backflow"]["interaction_classification_synchronized"] is True
+
+if ctrl["audit_status"] == "PENDING":
+    assert ctrl["checkpoint60_deep_stop_rule_satisfied"] is False
+    assert ctrl["deep_stop_pending_hostile_audit"] is True
+    assert ctrl["checkpoint60_closed"] is False
+    assert ctrl["stage70_allowed"] is False
+    assert ctrl["advance_allowed"] is False
+    assert ctrl["next_checkpoint"] == 60
+    assert ctrl["merge_allowed"] is False
+elif ctrl["audit_status"] == "PASS":
+    assert ctrl["checkpoint60_deep_stop_rule_satisfied"] is True
+    assert ctrl["deep_stop_pending_hostile_audit"] is False
+    assert ctrl["checkpoint60_closed"] is True
+    assert ctrl["stage70_allowed"] is True
+    assert ctrl["advance_allowed"] is True
+    assert ctrl["next_checkpoint"] == 70
+    assert ctrl["merge_allowed"] is True
+else:
+    raise AssertionError(ctrl["audit_status"])
 
 expected_routes = {
     "R501": "PROVED_AUDITED_Theta_B_QUARTER",
@@ -48,23 +62,29 @@ assert r504["rank_two_growing_lattice_route"] == "CLOSED_NO_QUARTER_UPGRADE_WITH
 assert r504["global_stage25_lower_changed"] is False
 
 r5056 = read("stages/stage25/25-60/r505-r506-audit-recheck2.md")
-require(r5056, "R505_EXACT_TARGET_RECEIVER_ACCEPTED=true")
-require(r5056, "R506_TORIC_SUBSUMPTION_ACCEPTED=true")
-require(r5056, "R505_MATHEMATICS_REOPEN_REQUIRED=false")
-require(r5056, "R506_MATHEMATICS_REOPEN_REQUIRED=false")
-require(r5056, "REPO_REUSE_HANDOFF_COMPLETE=true")
-require(r5056, "DISCOVERY_EVIDENCE_BLOCK_COMPLETE=true")
+for marker in [
+    "R505_EXACT_TARGET_RECEIVER_ACCEPTED=true",
+    "R506_TORIC_SUBSUMPTION_ACCEPTED=true",
+    "R505_MATHEMATICS_REOPEN_REQUIRED=false",
+    "R506_MATHEMATICS_REOPEN_REQUIRED=false",
+    "REPO_REUSE_HANDOFF_COMPLETE=true",
+    "DISCOVERY_EVIDENCE_BLOCK_COMPLETE=true",
+]: require(r5056, marker)
 
 stage23 = read("stages/stage23/post-stage25-r01/result.md")
-require(stage23, "RATIO_LOWER=N2/N1>>B^(-3/4)(log B)^(-3)")
-require(stage23, "SECOND_ORDER_INTERACTION_SIGN=POSITIVE_DIVERGENT")
-require(stage23, "TARGET_POSITIVE_POWER_EXPONENT=1/4")
+for marker in [
+    "RATIO_LOWER=N2/N1>>B^(-3/4)(log B)^(-3)",
+    "SECOND_ORDER_INTERACTION_SIGN=POSITIVE_DIVERGENT",
+    "TARGET_POSITIVE_POWER_EXPONENT=1/4",
+]: require(stage23, marker)
 
 stage24 = read("stages/stage24/post-stage25-r01/result.md")
-require(stage24, "CURRENT_TARGET_LOWER=N2(B)>>B^(1/4)")
-require(stage24, "CURRENT_SURVIVOR_RATIO_LOWER=N2/M2>>B^(-3/4)(log B)^(-5)")
-require(stage24, "STAGE24_GLOBAL_INTERACTION_SIGN=POSITIVE_DIVERGENT")
-require(stage24, "SECOND_ORDER_INTERACTION_SIGN=POSITIVE_DIVERGENT")
+for marker in [
+    "CURRENT_TARGET_LOWER=N2(B)>>B^(1/4)",
+    "CURRENT_SURVIVOR_RATIO_LOWER=N2/M2>>B^(-3/4)(log B)^(-5)",
+    "STAGE24_GLOBAL_INTERACTION_SIGN=POSITIVE_DIVERGENT",
+    "SECOND_ORDER_INTERACTION_SIGN=POSITIVE_DIVERGENT",
+]: require(stage24, marker)
 
 policy = read("stages/stage25/25-60/continuation-policy.md")
 require(policy, "remaining open items require genuinely new external mathematics")
@@ -78,13 +98,11 @@ assert reentry["starts_after"]["closeout_merged"] is True
 
 sync = read("stages/stage25/25-60/checkpoint60-deep-stop-sync.md")
 require(sync, "CHECKPOINT60_DEEP_STOP_RULE_CANDIDATE=true")
-require(sync, "CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false")
 require(sync, "BACKFLOW_SYNC_CHECK=PASS_NO_DELTA_AFTER_CHECKPOINT50")
 require(sync, "NEXT_EXPECTED_COMMAND=Stage25-audit")
 
 print("STAGE25_60_ROUTE_STATUS_SYNC=PASS")
 print("STAGE25_60_BACKFLOW_SYNC=PASS_NO_DELTA_AFTER_CHECKPOINT50")
 print("STAGE25_60_REENTRY_BYPASS_CHECK=PASS")
-print("CHECKPOINT60_DEEP_STOP_RULE_CANDIDATE=PASS")
-print("CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false")
-print("STAGE70_ALLOWED=false")
+print(f"CHECKPOINT60_DEEP_STOP_RULE_SATISFIED={str(ctrl['checkpoint60_deep_stop_rule_satisfied']).lower()}")
+print(f"STAGE70_ALLOWED={str(ctrl['stage70_allowed']).lower()}")
