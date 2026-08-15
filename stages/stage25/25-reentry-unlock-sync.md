@@ -1,6 +1,6 @@
 # Stage25 audited closeout → reentry synchronization
 
-STATUS=REPAIRED_AFTER_FRESH_AUDIT_FAIL_PENDING_REAUDIT
+STATUS=AUDITED_PASS_READY_FOR_MERGE
 
 PR #1000 received hostile checkpoint70 audit PASS and was merged as `12e1cb027e3123328702393ebdb3e3687ca0a169`.
 
@@ -12,7 +12,7 @@ CHECKPOINT70_STATUS=PROVED_AUDITED_PASS
 STAGE25_CLASS=THIN_BUT_POSITIVE_POWER_INFINITE
 STAGE25_REENTRY_UNLOCK_CONDITION=SATISFIED
 CURRENT_REENTRY_PHASE=10
-REENTRY_PHASE10_STATUS=READY_PENDING_SYNC_AUDIT
+REENTRY_PHASE10_STATUS=READY
 STAGE26_ALLOWED=false
 ```
 
@@ -25,53 +25,40 @@ Canonical theorem state remains unchanged:
 - exponent `1/4` is not claimed optimal;
 - no perfect-cuboid existence/nonexistence conclusion.
 
-The synchronization updates:
+## Audit history
 
-- `stages/stage25/25-controller.json` to checkpoint70 audited CLOSED while preserving all prior checkpoint history;
-- `stages/stage25/25-70/controller.json` to record the actual closeout merge and satisfied reentry condition;
-- `stages/stage25/25-reentry-controller.json` so phase10 is READY pending sync re-audit;
-- the reentry verifier and checkpoint70 closeout verifier so both understand the post-merge synchronization lifecycle.
-
-## Fresh audit failure and bounded repair
-
-The first fresh audit of PR #1001 is preserved as FAIL:
+The first fresh audit of PR #1001 was FAIL only because the old checkpoint70 closeout verifier asserted that reentry must remain locked even after the audited closeout had merged.
 
 ```text
-AUDIT_VERDICT=FAIL
-FAIL_REASON=STAGE25_70_CLOSEOUT_CI_REGRESSION
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
-STAGE25_STATUS=CLOSED
-CHECKPOINT70_STATUS=PROVED_AUDITED_PASS
-REENTRY_PHASE10_STATUS=READY_PENDING_SYNC_AUDIT
-STAGE26_ALLOWED=false
+PREVIOUS_AUDIT_VERDICT=FAIL
+PREVIOUS_FAIL_REASON=STAGE25_70_CLOSEOUT_CI_REGRESSION
 ```
 
-The failure was not mathematical. `Stage25 reentry roadmap contract` succeeded, but `Stage25-70 closeout audit` failed at the stale assertion
-
-`assert c70["stage25_reentry_unlocked"] is False`.
-
-That assertion was correct for submission and pre-merge states but wrong after PR #1000 had been audited PASS and merged.
-
-The bounded repair makes the checkpoint70 verifier lifecycle-aware. It now validates all three legitimate states:
-
-1. closeout submission: `PENDING`, unmerged, reentry blocked;
-2. hostile-audit PASS awaiting merge: `PASS`, unmerged, reentry blocked;
-3. post-merge synchronization: `PASS`, merged, canonical Stage25 `CLOSED`, phase10 `READY_PENDING_SYNC_AUDIT` or `READY`, Stage26 still blocked.
-
-The reentry verifier is likewise state-aware for the intermediate `READY_PENDING_SYNC_AUDIT` state so the recorded FAIL cannot be bypassed merely because the closeout merge condition is satisfied.
-
-No theorem, route boundary, population contract, reentry ordering, or Stage26 gate changed.
-
-No reentry research phase is executed here. Per `docs/stage25-reentry-operations.md`, phase10 itself is executed only by:
-
-`Stage25-reentry-main-batch`
-
-after this synchronization receives fresh audit PASS and is merged.
+The bounded repair made both the checkpoint70 closeout verifier and the reentry verifier lifecycle-aware. On repaired head `7bb7834374330c328245f8f37d3c48408845da6a`, the dedicated checks both pass:
 
 ```text
-AUDIT_STATUS=PENDING_REAUDIT
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
-NEXT_EXPECTED_COMMAND=Stage25-audit
+STAGE25_70_CLOSEOUT_AUDIT=PASS
+STAGE25_REENTRY_ROADMAP_CONTRACT=PASS
+```
+
+Fresh re-audit therefore accepts the synchronization. No theorem, route boundary, population contract, reentry ordering, or Stage26 gate changed.
+
+No reentry research phase is executed here. Phase10 starts only after this synchronization PR is merged, via `Stage25-reentry-main-batch`.
+
+```text
+AUDIT_VERDICT=PASS
+DISCOVERY_AUDIT_VERDICT=PASS
+AUDIT_STATUS=PASS
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
+STAGE25_STATUS=CLOSED
+CHECKPOINT70_STATUS=PROVED_AUDITED_PASS
+CURRENT_REENTRY_PHASE=10
+REENTRY_PHASE10_STATUS=READY
+STAGE26_ALLOWED=false
+NEW_INPUT_REQUIRED=false
+HUMAN_DECISION_REQUIRED=false
+CODEX_AUDIT_REQUIRED=false
+CODEX_REASON=NONE
+NEXT_EXPECTED_COMMAND=merge PR #1001; then Stage25-reentry-main-batch
 ```
