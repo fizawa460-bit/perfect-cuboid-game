@@ -1,6 +1,6 @@
 # Stage25-60 deeper-lane triage
 
-STATUS=R503_SUBMITTED_FOR_FRESH_AUDIT
+STATUS=R503_AUDITED_PASS_EXTERNAL_OR_BASE_CHANGE_GATE
 
 The route IDs below are persistent allocations inherited from checkpoint50. They are not audit-round numbers and must not be renamed between audits.
 
@@ -18,7 +18,7 @@ R507=R501_primitive_height_rigidity
 
 ## R501 / R502 / R507 — audited quarter-power families and rigidity
 
-R501 and R502 are now both audited family-specific `Theta(B^(1/4))` constructions. Their primitive-height loopholes are closed by exact bounded gcd certificates.
+R501 and R502 are both audited family-specific `Theta(B^(1/4))` constructions. Their primitive-height loopholes are closed by exact bounded gcd certificates.
 
 ```text
 R501_STATUS=PROVED_AUDITED_Theta_B_QUARTER
@@ -28,7 +28,7 @@ R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
 R502_GCD_GLOBAL_BOUND=2592
 ```
 
-Historical checkpoint60 verifier compatibility (describes the prior submission state, not the current R502 state):
+Historical checkpoint60 verifier compatibility markers describe the prior submission state only:
 
 ```text
 HISTORICAL_R502_SUBMISSION_MARKER=R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
@@ -40,7 +40,7 @@ Neither family-specific `Theta(B^(1/4))` result is a global upper bound for `N2`
 
 ## R503 — Yoshida uniform varying-fiber height
 
-R503 has been pushed one level deeper.
+R503 has passed hostile fresh audit.
 
 Yoshida's family
 
@@ -54,7 +54,7 @@ is exactly the plus-sign Pythagorean/Frey family after
 (a,b,c)=(2s,s^2-1,s^2+1).
 \]
 
-Naskręcki's geometric Mordell-Weil calculation gives generic rank zero for this family over `Qbar(s)`. Therefore the original Yoshida surface has no non-torsion generic section.
+The audited geometric Mordell-Weil input gives generic rank zero for this family over `Qbar(s)`. Therefore the original Yoshida surface has no non-torsion generic section.
 
 Yoshida's explicit fixed-fiber infinitude construction starts from `s=5/3` and multiples `[n]P` of one non-torsion point. The source map from `alpha_n=x([n]P)` to the cuboid parameter `t_n` is Möbius, so fixed-curve canonical height gives
 
@@ -72,10 +72,10 @@ Likewise Yoshida's displayed sequence of infinitely many positive-rank `s` is a 
 
 Thus the paper's explicit infinitude mechanism is not a hidden polynomial-height population and cannot itself improve the current global `B^(1/4)` lower.
 
-The route is **not** declared dead. It is reduced to a precise base-change/external theorem gate: a successful continuation must produce a low-degree multisection/base change with controlled physical height, or a quantitative theorem giving polynomially many exceptional positive-rank fibers carrying uniformly small non-torsion points.
+The route is not declared dead. It is reduced to a precise base-change/external theorem gate: a successful continuation must produce a low-degree multisection/base change with controlled physical height, or a quantitative theorem giving polynomially many exceptional positive-rank fibers carrying uniformly small non-torsion points.
 
 ```text
-R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
 R503_GENERIC_GEOMETRIC_MW_RANK=0
 R503_NONTORSION_GENERIC_SECTION_EXISTS=false
 R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED
@@ -87,7 +87,7 @@ R503_UNIFORM_SMALL_POINT_ROUTE=OPEN_GATE
 R503_EXPONENT_UPGRADE_PROVED=false
 ```
 
-See `r503-yoshida-generic-rank-zero-gate.md` and `r503-discovery-ledger.md`.
+See `r503-yoshida-generic-rank-zero-gate.md`, `r503-discovery-ledger.md`, and `r503-audit.md`.
 
 ## R504 — symmetric-k aggregation
 
@@ -138,7 +138,7 @@ R506_RESEARCH_CONTINUES_AFTER_R503_AUDIT=true
 HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
 MATCHING_HALF_POWER_LOWER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
-R503_FRESH_AUDIT_REQUIRED=true
+R503_FRESH_AUDIT_REQUIRED=false
 LIVE_REPO_NATIVE_HIGH_VALUE_ROUTES_AFTER_R503=R504,R505,R506
 CHECKPOINT60_SINGLE_SHOT=false
 AUDIT_PASS_DOES_NOT_CLOSE_LIVE_ROUTES=true
