@@ -1,0 +1,26 @@
+name: Stage25-60 R504 second-section audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-60/r504-second-section-materialization.md'
+      - 'stages/stage25/25-60/r504-second-section-audit.py'
+      - 'stages/stage25/25-60/r504-second-section-discovery-ledger.md'
+      - 'stages/stage25/25-60/r504-second-section-hostile-audit.md'
+      - 'stages/stage25/25-60/r504-rank-jump-discovery-ledger.md'
+      - 'stages/stage25/25-60/r504-exceptional-search-controller.json'
+      - '.github/workflows/stage25-60-r504-second-section.yml'
+  workflow_dispatch:
+
+jobs:
+  r504-second-section-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install symbolic verifier dependency
+        run: python -m pip install sympy
+      - name: Verify explicit second section and physical Stage19 adapter
+        run: python stages/stage25/25-60/r504-second-section-audit.py

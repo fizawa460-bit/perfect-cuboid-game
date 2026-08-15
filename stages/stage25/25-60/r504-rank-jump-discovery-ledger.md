@@ -1,90 +1,114 @@
-# Stage25-60 R504 full-split / nonsplit rank-jump discovery ledger
+# Stage25-60 R504 discovery / reuse ledger
 
-STATUS=AUDITED_COMPLETE
+STATUS=AUDITED_COMPLETE_WITH_SECOND_SECTION_ROUND
 ROUTE=R504
 CHECKPOINT=60
+
+## Persistent reuse handoff
 
 ```text
 REPO_REUSE_PREFLIGHT=PASS
 REUSE_SEARCH_SCOPE=ARSENAL,NUM_INDEX,STAGES,SUPPLEMENTS,ARCHIVE,PRS
-REUSED_RESULTS=R504_HOSTILE_AUDITED_Q_DEGREE2_DESCENT;R504_TWIST_DESCENT;R504_BC1_BC2_NO_RANK_JUMP;R504_GROWING_MULTIPLE_CLOSURE;R504_BC3_BC5_SYMBOLIC_WORK;S1415_ATTACK_0522;S1415_ATTACK_0544;S1415_ATTACK_0583;S1415_ATTACK_0748
+REUSED_RESULTS=R504_HOSTILE_AUDITED_Q_DEGREE2_DESCENT;R504_TWIST_DESCENT;R504_BC1_BC2_NO_RANK_JUMP;R504_GROWING_MULTIPLE_CLOSURE;R504_BC3_BC5_SYMBOLIC_WORK;R504_NONSPLIT_RANK_JUMP_AUDITED_PASS;S1415_ATTACK_0522;S1415_ATTACK_0544;S1415_ATTACK_0583;S1415_ATTACK_0748
 REUSE_MATCH_STATUS=MIXED
 STRONGEST_KNOWN_CHECK=PASS
 STRONGER_PRIOR_RESULT_FOUND=false
-NEW_RESEARCH_JUSTIFIED=FULL_SPLIT_AND_NONSPLIT_ANALYSES_WERE_EXPLICITLY_LEFT_REQUIRED_BY_HOSTILE_AUDIT_AND_THE_NEW_NONSPLIT_EQUATION_IS_NOT_THE_FROZEN_STAGE14_DIRECTION_FAMILY
-POPULATION_ADAPTERS_PROVED=NONE_FOR_NEW_RANK_JUMP;PHYSICAL_STAGE19_ADAPTER_REMAINS_OPEN
+NEW_RESEARCH_JUSTIFIED=THE_PREVIOUS_HOSTILE_AUDIT_EXPLICITLY_REQUIRED_MATERIALIZING_THE_SECOND_SECTION_AND_ITS_PHYSICAL_HEIGHT_PRIMITIVE_EXACTLY_TWO_MULTIPLICITY_ADAPTER
+POPULATION_ADAPTERS_PROVED=R504_P_PLUS_2R_EXACT_STAGE19_FAMILY_THETA_B_1_12
 ```
 
-## Required discovery block
+## Required discovery block — current second-section round
 
 ```text
 DISCOVERY_CHECKPOINT=60
-SEARCHED_PATHS=R504_Q_DEGREE2_DESCENT;R504_TWIST_DESCENT;R504_BASE_CHANGE_BOUNDARY;STAGE14_15_BOUND_ATTACK_LEDGER_PARTS;STAGE14_T13;STAGE14_T15;STAGE14_T43;STAGE15_6BG
-SEARCH_TERMS=FULL_SPLIT;NONSPLIT_SQUARECLASS;GENUS3;V4_QUOTIENT;E0_FACTOR;ISOGENY;TWISTED_KUMMER;RANK_JUMP;PHYSICAL_HEIGHT
-STRUCTURAL_SIGNATURES=TARGET_FIXED_SOURCE_PGL2Q;NONSPLIT_DECK;GENUS3_HYPERELLIPTIC_COVER;V4_ELLIPTIC_QUOTIENTS;E0_ISOGENY_FACTOR
-DEPENDENCY_NEIGHBORS=R504_ORIGINAL_RANK1;R504_Q_DEGREE2_DESCENT;S1415_ATTACK_0522;S1415_ATTACK_0544;S1415_ATTACK_0583;S1415_ATTACK_0748
-CANDIDATES_FOUND=FULL_SPLIT_RECIPROCAL;NONSPLIT_COMMUTING_LIFTS;NONSPLIT_N2_EXPLICIT_E0_QUOTIENT;NON_BIELLIPTIC_PRYM
-CANDIDATES_ACCEPTED=FULL_SPLIT_RECIPROCAL_LOCUS_CLASSIFICATION;NONSPLIT_COMMUTING_LIFT_CLASSIFICATION;EXPLICIT_NONSPLIT_GENERIC_RANK_JUMP
-CANDIDATES_REJECTED_WITH_REASON=FULL_SPLIT_J_NONZERO_DOES_NOT_PROVE_NONISOGENY;STAGE14_T43_OLD_FROZEN_DIRECTION_NONISOGENY_RESULT_NOT_A_BLOCK_FOR_NEW_EXACT_NONSPLIT_EQUATION;STAGE15_6BG_HEIGHT_MEASURE_MISMATCH_BLOCKS_DIRECT_STAGE19_COUNT_PROMOTION
-POPULATION_ADAPTERS_PROVED=NONE_FOR_NEW_RANK_JUMP
+SEARCHED_PATHS=R504_NONSPLIT_RANK_JUMP_HOSTILE_AUDIT;R504_RANK_JUMP_DISCOVERY_LEDGER;R504_SECOND_SECTION_MATERIALIZATION;R504_SECOND_SECTION_VERIFIER;STAGE14_T13;STAGE14_T15;STAGE14_T43;STAGE15_6BG
+SEARCH_TERMS=SECOND_SECTION;PHYSICAL_2_COVER;P_PLUS_R;P_MINUS_R;P_PLUS_2R;PRIMITIVE_GCD;RESULTANT;THIRD_FACE;HEIGHT_DEGREE;PARAMETER_MULTIPLICITY
+STRUCTURAL_SIGNATURES=RANK2_PULLBACK_SURFACE;PHYSICAL_QUARTIC_2_COVER;DEGREE24_STAGE19_FAMILY;BOUNDED_PRIMITIVE_GCD;GENUS21_THIRD_FACE_EXCEPTION
+DEPENDENCY_NEIGHBORS=R504_NONSPLIT_GENERIC_RANK_JUMP;R504_ORIGINAL_RANK1;R504_3P_FAMILY;S1415_ATTACK_0522;S1415_ATTACK_0544;S1415_ATTACK_0583;S1415_ATTACK_0748
+CANDIDATES_FOUND=P_PLUS_R;P_MINUS_R;P_PLUS_2R;RANK_TWO_PHYSICAL_COSET_LATTICE;FULL_SPLIT_PRYM_ISOGENY_RESIDUAL
+CANDIDATES_ACCEPTED=P_PLUS_2R_EXPLICIT_PHYSICAL_STAGE19_FAMILY_THETA_B_1_12
+CANDIDATES_REJECTED_WITH_REASON=P_PLUS_R_NONLIFT_T2_SQUARE_TIMES_1_32;P_MINUS_R_NONLIFT_T2_SQUARE_TIMES_1_128;P_PLUS_2R_DOES_NOT_BEAT_R504_3P_OR_GLOBAL_QUARTER
+POPULATION_ADAPTERS_PROVED=R504_P_PLUS_2R_EXACT_STAGE19_FAMILY_THETA_B_1_12
 DISCOVERY_LEDGER_STATUS=COMPLETE
 ```
 
-## Stage14/15 attack-ledger binding required by the new-mechanism claim
+This round does not introduce a new route ID. It materializes the previously hostile-audited R504 nonsplit rank-jump mechanism. The old attack-ledger binding remains authoritative rather than being re-labeled as a new mechanism.
 
-The hostile audit searched the bound attack ledger and opened every `review_required=true` source used below.
+## Stage14/15 attack-ledger binding retained
 
-- `S1415-ATTACK-0522` / Stage14-t13 — **accepted as structural predecessor**. It proves that an exact degree-eight squarefree branch equation naturally gives a genus-three cover and explicitly points to involutions/quotients as the next attack. It does not contain the present nonsplit map or rank jump.
-- `S1415-ATTACK-0544` / Stage14-t15 — **accepted as structural predecessor and scope warning**. It gives a V4 quotient skeleton with two elliptic factors plus a genus-three factor, while warning that quotient points alone do not satisfy the physical square-lift/height gate. This is why the present generic rank jump is not promoted to a Stage19 count.
-- `S1415-ATTACK-0583` / Stage14-t43 — **rejected as a blocker, retained as an isogeny warning**. Its frozen direction family found no degree-2 isogenous direction pairs and left higher-degree isogenies unclassified. The current R504 map is a materially new explicit nonsplit base-change equation and produces a second quotient Q-isomorphic to E0, so this is a legitimate new mechanism rather than reuse of the old frozen exception set.
-- `S1415-ATTACK-0748` / Stage15-6bg — **rejected as a direct population adapter**. Its Kummer-type support receiver is measured in the physical diagonal height `Y=S` and carries moving rational-denominator issues. It therefore cannot convert the present function-field rank jump into a Stage19 population lower without a new exact height/primitive/multiplicity adapter.
+- `S1415-ATTACK-0522` / Stage14-t13 — structural genus-three/involution predecessor.
+- `S1415-ATTACK-0544` / Stage14-t15 — V4 elliptic-quotient predecessor and physical square-lift/height warning.
+- `S1415-ATTACK-0583` / Stage14-t43 — retained as an isogeny warning, not a blocker for the materially different nonsplit R504 equation.
+- `S1415-ATTACK-0748` / Stage15-6bg — not a direct population adapter because its physical `Y=S` height and moving-denominator measure differ.
 
 ```text
 ATTACK_LEDGER_SEARCH=PASS
 ATTACK_IDS_REVIEWED=S1415-ATTACK-0522,S1415-ATTACK-0544,S1415-ATTACK-0583,S1415-ATTACK-0748
-ATTACK_IDS_ACCEPTED_STRUCTURALLY=S1415-ATTACK-0522,S1415-ATTACK-0544
-ATTACK_IDS_REJECTED_AS_DIRECT_ADAPTER=S1415-ATTACK-0583,S1415-ATTACK-0748
 REVIEW_REQUIRED_SOURCE_READS=PASS
 NEW_MECHANISM_DISCOVERY_AUDIT_EVIDENCE=COMPLETE
 ```
 
-## R504 paths and executed sublanes
+## Current second-section outcome
 
-Searched/reused directly:
-- `stages/stage25/25-60/r504-q-degree2-complete-descent.md`
-- `stages/stage25/25-60/r504-q-degree2-descent-audit-recheck.md`
-- `stages/stage25/25-60/r504-twist-descent.md`
-- `stages/stage25/25-60/r504-base-change-boundary.md`
-- `stages/stage25/25-60/r504-exceptional-base-change-search.md`
+For
 
-At entry:
 ```text
-FULL_SPLIT_GENERAL_RECIPROCAL=LIVE
-NONSPLIT_COMMUTING_LIFTS=LIVE
-NONSPLIT_N2_EXCEPTIONAL_FACTOR=UNTESTED
-NONCOMMUTING_PRYM=LIVE
+N=u^2+4u-3
+M=7-u^2
+H=N^4+M^4=2FG
+F^2+G^2=2S^2
 ```
 
-Executed:
-1. full split reciprocal-lift locus and complementary quartic invariants;
-2. nonsplit commuting-lift classification and square obstructions;
-3. explicit map `phi(u)=(u^2+4u-3)/(7-u^2)`;
-4. second involution `epsilon_2=(5-u)/(u+1)` and quotient quartic `2*(x^4+8*x^3-64*x-64)`;
-5. `I=3072`, `J=0`, Jacobian Q-isomorphic to `E0:y^2=x^3-4x`;
-6. hostile differential-eigenspace check proving independence of the inherited and new elliptic quotient maps.
-
-## Scope boundary
-
-The full split reciprocal/commuting-involution locus is classified. On its checked complementary quotients, `J != 0` rules out Q-isomorphism to the `j=1728` curve `E0`; it does **not** rule out an elliptic curve merely Q-isogenous to `E0`. The split Prym/isogeny residual therefore remains live.
-
-No finite census or numerical rank scan is proof here. No Stage19 exponent upgrade is submitted because the explicit second rational-function section and the physical height/primitive/exactly-two/multiplicity adapter remain absent.
+the polynomial point
 
 ```text
-FINITE_DATA_USED_AS_PROOF=false
-R504_GENERIC_RANK_JUMP_PROVED=true
-R504_EXPLICIT_SECOND_SECTION_MATERIALIZED=false
+R=(4*S^2,4*S*(F^2-G^2))
+```
+
+lies on `E_H`. The current family theorem uses only the exact section and physical-cover calculations; its validity does not require a new standalone proof in this round that `R` generates the second free Mordell-Weil direction. The independent generic rank jump itself remains certified by the preceding hostile audit.
+
+Executed physical-cover outcomes:
+
+```text
+P_PLUS_R=NO_Q(U)_PHYSICAL_LIFT
+P_MINUS_R=NO_Q(U)_PHYSICAL_LIFT
+P_PLUS_2R=EXPLICIT_Q(U)_PHYSICAL_LIFT
+P_PLUS_2R_T_DEGREE=10
+P_PLUS_2R_PHYSICAL_HEIGHT_DEGREE=24
+P_PLUS_2R_PRIMITIVE_GCD_BOUND=2^689*3^256
+P_PLUS_2R_THIRD_FACE_EXCEPTION_GENUS=21
+P_PLUS_2R_PARAMETER_MULTIPLICITY=O(1)
+P_PLUS_2R_EXACT_FAMILY_GROWTH=Theta(B^(1/12))
+```
+
+The hostile audit uses the direct edge-resultant certificate
+
+```text
+Res(E/2,X)=2^688*3^256
+Res(E/2,Y)=2^656*3^272*7^8.
+```
+
+For reduced homogeneous parameters, a common prime dividing all three edges must lie in the intersection of these resultant supports; the denominator-at-infinity case is excluded by the leading coefficients, with the explicit factor `2` in `E` accounting for the one extra dyadic power. Thus the deliberately coarse uniform bound
+
+```text
+gcd(E,X,Y) <= 2^689*3^256
+```
+
+is valid and primitive reduction cannot lower the degree-24 height polynomially.
+
+## Scope boundary after this round
+
+```text
+R504_EXPLICIT_SECOND_SECTION_MATERIALIZED=true
+R504_PHYSICAL_STAGE19_ADAPTER_PROVED=true
+R504_P_PLUS_2R_EXACT_FAMILY_GROWTH=Theta(B^(1/12))
+R504_P_PLUS_2R_BEATS_R504_3P=false
+R504_P_PLUS_2R_BEATS_GLOBAL_QUARTER=false
+R504_RANK_TWO_PHYSICAL_COSET_HEIGHT_CLASSIFICATION_PROVED=false
 R504_FULL_SPLIT_NO_E0_ISOGENY_PROVED=false
 R504_FULL_SPLIT_PRYM_ISOGENY_RESIDUAL=OPEN
-R504_GLOBAL_QUARTER_LOWER_UPGRADE_PROVED=false
 GLOBAL_STAGE25_LOWER_CHANGED=false
+GLOBAL_STAGE25_LOWER=N2(B)>>B^(1/4)
+CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
+STAGE70_ALLOWED=false
 ```
