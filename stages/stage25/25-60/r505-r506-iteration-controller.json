@@ -1,9 +1,10 @@
 {
   "stage": "Stage25",
   "checkpoint": 60,
-  "iteration": "R505_R506_BOUNDARY",
-  "status": "AUDIT_FAIL_REPAIR_REQUIRED",
-  "audit_status": "FAIL",
+  "iteration": "R504_RESIDUAL_R505_R506_BOUNDARY_REPAIR",
+  "status": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
+  "audit_status": "PENDING",
+  "previous_audit_status": "FAIL",
   "audit_record": "stages/stage25/25-60/r505-r506-audit.md",
   "advance_allowed": false,
   "next_checkpoint": 60,
@@ -17,27 +18,48 @@
     "R504_original_base": "CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS",
     "R507": "PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY"
   },
-  "audit_acceptance": {
+  "previous_hostile_audit_acceptance": {
     "r505_exact_target_receiver": true,
     "r506_toric_subsumption": true,
     "r505_stage15_reuse_chain": true,
-    "repo_reuse_handoff_complete": false,
-    "discovery_evidence_block_complete": false,
-    "r504_residual_external_gate": false,
-    "r504_residual_route_boundary_evidence_complete": false
+    "global_mathematics_reopen_required": false,
+    "r505_mathematics_reopen_required": false,
+    "r506_mathematics_reopen_required": false
+  },
+  "repair_handoff": {
+    "repo_reuse_preflight": "PASS",
+    "reuse_handoff_materialized": true,
+    "reused_results_materialized": true,
+    "reuse_match_status": "MIXED",
+    "strongest_known_check": "PASS",
+    "stronger_prior_result_found": false,
+    "new_research_justified_materialized": true,
+    "population_adapters_proved_materialized": true,
+    "discovery_evidence_block_complete_candidate": true
   },
   "r504_residual": {
-    "submitted_status": "EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT",
-    "audit_status": "NOT_ACCEPTED_EVIDENCE_INCOMPLETE",
-    "ready_same_measure_base_change_adapter_found": false,
-    "new_explicit_base_change_reopens_route": true,
-    "low_degree_base_change_route_remains_open": true,
-    "multisection_route_remains_open": true,
-    "growing_multiple_uniform_aggregation_remains_open": true,
+    "original_base_audited": true,
+    "kummer_model": "Km(E0xE0)",
+    "rational_base_change_equivalent_to_rational_multisection": true,
+    "bc0_twist_killing_cover": "CLOSED_NO_QUARTER_UPGRADE",
+    "bc1_map": "k=u^2",
+    "bc1_pullback_mw_rank": 1,
+    "bc1_status": "CLOSED_NO_RANK_JUMP",
+    "bc2_map": "k=(u^2-1)/(2u)",
+    "bc2_pullback_mw_rank": 1,
+    "bc2_status": "CLOSED_NO_RANK_JUMP",
+    "degree2_general_gate": "EXTRA_E0_FACTOR_IN_JACOBIAN_OF_C_phi_PLUS_STAGE19_HEIGHT_ADAPTER",
+    "growing_multiple_lattes_degree": "n^2",
+    "growing_multiple_count_upper": "O(B^(1/9)*sqrt(log B))",
+    "growing_multiple_quarter_upgrade": false,
+    "growing_multiple_status": "CLOSED_NO_QUARTER_UPGRADE_WITH_HEIGHT_CERTIFICATE",
+    "submitted_status": "EXTERNAL_OR_NEW_EXPLICIT_CURVE_GATE_SUBMITTED_FOR_FRESH_AUDIT",
+    "route_boundary_evidence_complete_candidate": true,
+    "new_explicit_base_change_or_multisection_reopens_route": true,
     "global_lower_changed": false
   },
   "r505": {
-    "submitted_status": "EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT",
+    "submitted_status": "EXTERNAL_THEOREM_GATE_PREVIOUS_MATH_ACCEPTED_BOUNDARY_RECHECK_ONLY",
     "exact_target_receiver": true,
     "space_condition": "sf(A)=sf(B) iff A=kP^2,B=kQ^2",
     "receiver_is_construction_by_itself": false,
@@ -47,7 +69,7 @@
     "global_lower_changed": false
   },
   "r506": {
-    "submitted_status": "CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT",
+    "submitted_status": "CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_PREVIOUS_MATH_ACCEPTED",
     "rank_one_identity": "uv=wz",
     "subsumed_by_r505_exact_toric_receiver": true,
     "independent_parameter_dimension": false,
@@ -63,10 +85,10 @@
   "finite_data_used_as_proof": false,
   "deep_stop_rule_candidate": true,
   "deep_stop_rule_satisfied": false,
-  "deep_stop_pending_hostile_audit": false,
-  "repair_scope": "COMPLETE_REUSE_HANDOFF_AND_R504_RESIDUAL_ROUTE_BOUNDARY_EVIDENCE",
+  "deep_stop_pending_hostile_audit": true,
+  "repair_scope": "COMPLETE_REUSE_HANDOFF_PLUS_EXECUTE_R504_BC0_BC1_BC2_AND_GROWING_MULTIPLE_HEIGHT_BOUNDARY",
   "new_input_required": false,
   "human_decision_required": false,
   "codex_audit_required": false,
-  "next_expected_command": "Stage25-main-batch"
+  "next_expected_command": "Stage25-audit"
 }
