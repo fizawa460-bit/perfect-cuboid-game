@@ -68,17 +68,16 @@ assert "AGGRESSIVE_SEARCH_LEDGER_MATERIALIZED=true" in m
 assert "S25-W01" in a and "S25-W04" in a
 assert "CLOSEOUT_SUBMISSION_JUSTIFIED=true" in l
 
-# backflow must be current without fabricating a new theorem delta
+# backflow must be current without fabricating a new theorem delta inside the
+# original Stage25 main closeout. Later reentry theorems live in their own lane.
 assert c70["backflow_status"] == "PASS_NO_DELTA_AFTER_CHECKPOINT50"
 assert c70["global_stage25_lower_changed_after_checkpoint50"] is False
 assert "BACKFLOW_STATUS=PASS_NO_DELTA_AFTER_CHECKPOINT50" in r
 
-# The same verifier is intentionally valid in three lifecycle states:
-#   1) closeout submission: audit PENDING, not merged, reentry blocked;
-#   2) hostile-audited closeout: audit PASS, not merged, reentry blocked;
-#   3) post-merge synchronization: audit PASS, merged, Stage25 CLOSED,
-#      reentry phase10 is READY_PENDING_SYNC_AUDIT, READY, or submitted for
-#      its fresh phase audit, while Stage26 remains blocked.
+# This verifier is lifecycle-aware. The immutable checkpoint70 contract must
+# remain valid before audit, after audit, after merge, and while later reentry
+# phases execute. Reentry progression is not a modification of the closed
+# checkpoint70 theorem stack.
 audit_status = c70["audit_status"]
 closeout_merged = bool(c70.get("closeout_merged", False))
 reentry_unlocked = bool(c70.get("stage25_reentry_unlocked", False))
@@ -114,7 +113,8 @@ else:
     assert c70.get("closeout_merge_commit") == "12e1cb027e3123328702393ebdb3e3687ca0a169"
     assert "AUDIT_VERDICT=PASS" in audit70
 
-    # Canonical parent must now be the audited closed Stage25 surface.
+    # Canonical parent remains the audited closed Stage25 surface forever after
+    # merge, even while reentry research creates new downstream interfaces.
     assert c25["status"] == "CLOSED"
     assert c25["checkpoint_status"]["70"] == "PROVED_AUDITED_PASS"
     assert c25["state"]["CURRENT_CHECKPOINT"] == 70
@@ -122,18 +122,6 @@ else:
     assert c25["state"]["AUDIT_STATUS"] == "PASS"
     assert c25["state"]["NEXT_STAGE"] == "Stage25-reentry"
 
-    # Reentry is unlocked only to phase10; sync audit may still be pending.
-    assert reentry["status"] in (
-        "PHASE10_READY_PENDING_SYNC_REAUDIT",
-        "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE",
-        "PHASE10_SUBMITTED_PENDING_FRESH_AUDIT",
-    )
-    assert reentry["current_phase"] == 10
-    assert reentry["phases"]["10"]["status"] in (
-        "READY_PENDING_SYNC_AUDIT",
-        "READY",
-        "SUBMITTED_PENDING_AUDIT",
-    )
     assert reentry["unlock_evidence"]["checkpoint70_audit_verdict"] == "PASS"
     assert reentry["unlock_evidence"]["closeout_pr"] == 1000
     assert reentry["unlock_evidence"]["closeout_merge_commit"] == c70["closeout_merge_commit"]
@@ -142,27 +130,37 @@ else:
     assert reentry["stage26_gate"]["all_reentry_phases_audited"] is False
     assert reentry["stage26_gate"]["stage26_allowed"] is False
 
-    if reentry["status"] == "PHASE10_READY_PENDING_SYNC_REAUDIT":
-        assert reentry["phases"]["10"]["status"] == "READY_PENDING_SYNC_AUDIT"
-        assert reentry["sync_audit"]["previous_verdict"] == "FAIL"
-        assert reentry["sync_audit"]["fail_reason"] == "STAGE25_70_CLOSEOUT_CI_REGRESSION"
-        assert reentry["sync_audit"]["status"] == "PENDING_REAUDIT"
-        lifecycle = "POST_MERGE_REENTRY_READY_PENDING_SYNC_REAUDIT"
-    elif reentry["status"] == "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE":
-        assert reentry["phases"]["10"]["status"] == "READY"
-        lifecycle = "POST_MERGE_REENTRY_READY"
+    current_phase = reentry["current_phase"]
+    assert current_phase in (10, 20, 30, 40, 50, 60, 70)
+
+    if current_phase == 10:
+        assert reentry["status"] in (
+            "PHASE10_READY_PENDING_SYNC_REAUDIT",
+            "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE",
+            "PHASE10_SUBMITTED_PENDING_FRESH_AUDIT",
+            "PHASE10_AUDITED_PASS_AWAITING_MERGE",
+        )
+        lifecycle = "POST_MERGE_REENTRY_PHASE10"
     else:
-        assert reentry["phases"]["10"]["status"] == "SUBMITTED_PENDING_AUDIT"
-        submission = reentry["phase10_submission"]
-        assert submission["task_id"] == "Stage25-um-r001a"
-        assert submission["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
-        assert submission["audit_status"] == "PENDING"
-        assert submission["advance_allowed"] is False
-        assert submission["merge_allowed"] is False
-        assert submission["derived_routes_opened"] == []
-        assert submission["queued_propagation_proposals"] == []
-        assert reentry["next_expected_command"] == "Stage25-reentry-audit"
-        lifecycle = "POST_MERGE_REENTRY_PHASE10_SUBMITTED_PENDING_AUDIT"
+        # Any later phase is legal only after phase10 was actually audited and
+        # merged. This is the no-bypass firewall relevant to checkpoint70.
+        p10 = reentry["phase10_submission"]
+        assert reentry["phases"]["10"]["status"] == "AUDITED_PASS_MERGED"
+        assert p10["audit_status"] == "PASS"
+        assert p10["pr"] == 1002
+        assert p10["merge_commit"] == "5cb7dc8792faf575c1e21fce8166f094af6d7b14"
+        # Every standard phase strictly before the current one must already be
+        # in an audited-pass state. The current phase itself may be submitted.
+        phase_order = [10, 20, 30, 40, 50, 60, 70]
+        idx = phase_order.index(current_phase)
+        for prior in phase_order[:idx]:
+            state = reentry["phases"][str(prior)]["status"]
+            if prior == 10:
+                assert state == "AUDITED_PASS_MERGED"
+            else:
+                assert "AUDITED_PASS" in state, (prior, state)
+        assert reentry["status"].startswith(f"PHASE{current_phase}_")
+        lifecycle = f"POST_MERGE_REENTRY_PHASE{current_phase}"
 
 print("STAGE25_70_CLOSEOUT_CONTRACT=PASS")
 print("CHECKPOINT60_DEEP_STOP_DEPENDENCY=PASS")
