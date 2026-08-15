@@ -1,127 +1,125 @@
-# Stage25-60 — deeper-lane triage after the audited quarter-power breakthrough
+# Stage25-60 deeper-lane triage
 
-STATUS=COMPLETE_FOR_CHECKPOINT60
-GOAL=TEST_WHETHER_CURRENT_LIVE_LANES_CERTIFY_EXPONENT_ABOVE_1/4
+STATUS=ACTIVE_CHECKPOINT60_CONTINUATION
 
-The entering audited theorem is
+The route IDs below are persistent allocations inherited from checkpoint50. They are not checkpoint60 round numbers and must not be renamed between audits.
 
-\[
-B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
-\]
+## Route registry
 
-Checkpoint60 deliberately reopens every live checkpoint50 lane before causal closeout.
+```text
+R501=Meskhishvili_first_positive_power_family
+R502=Meskhishvili_third_parametrization_fallback
+R503=Yoshida_uniform_varying_fiber_height
+R504=symmetric_k_aggregation
+R505=common_squarefree_core
+R506=common_leg_plus_space
+R507=R501_primitive_height_rigidity
+```
 
 ## R502 — Meskhishvili third parametrization
 
-The third one-parameter NPC parametrization has the same maximal homogeneous degree eight as r501. A reduced rational parameter has two integer height coordinates, so the same direct rational-height mechanism has scale `T^2` parameters at `T^8` raw height and therefore exponent `1/4`.
-
-This can provide an independent same-exponent family after its own exact primitive/mask audit, but a finite union of degree-eight one-parameter families does not raise the polynomial exponent.
+The third displayed NPC parametrization has the same maximal homogeneous degree eight as R501. The same two-dimensional reduced rational parameter count at degree-eight height can reproduce an exponent `1/4`, but without an additional cancellation, new parameter dimension, or smaller physical height it cannot improve the exponent.
 
 ```text
-R502_STATUS=LIVE_SAME_EXPONENT_FALLBACK
-R502_EXPONENT_ABOVE_QUARTER_FROM_DEGREE_COUNT=false
+R502_STATUS=SAME_EXPONENT_FALLBACK
+R502_EXPONENT_UPGRADE_PROVED=false
 ```
 
-## R503 — Yoshida varying elliptic fibers
+## R503 — Yoshida uniform varying-fiber height
 
-Primary source: Takumi Yoshida, *The relationship between face cuboids and elliptic curves*, arXiv:2407.09825, current manuscript dated 2026-03-22.
+This remains the highest-value live lane for an exponent above `1/4`.
 
-The paper supplies a `32:1` map from non-torsion points on the family
+The available elliptic-surface structure supplies infinitely many rational parameters with positive rank and a finite-to-one map into rational face-cuboid similarity classes. What is still missing for the exact Stage19 lower is a uniform varying-fiber rational-point count with physical height control and the primitive/canonical/exactly-two adapter.
 
-\[
-E_{1,s}: y^2=x(x-(2s)^2)(x+(s^2-1)^2)
-\]
+The required theorem species must simultaneously control:
 
-to rational face-cuboid similarity classes and proves infinitely many rational `s` with positive rank. This is a genuine higher-dimensional structural receiver.
+1. the height of the base parameter `s`;
+2. canonical height / coordinate height of a non-torsion point on the fiber `E_s`;
+3. the resulting cuboid space height `d`;
+4. multiplicity of the elliptic-data-to-cuboid map;
+5. exceptional third-face-square fibers/points;
+6. primitive reduction without an unbounded height collapse.
 
-However, the paper does not provide the uniform bounded-height counting theorem required here: we would need a lower bound for the number of pairs `(s,P)` whose resulting exact Stage19 primitive height is `<=B`, uniformly while the elliptic fiber varies. The fixed-fiber construction from multiples of one non-torsion point has quadratic canonical height and exponential coordinate height, so by itself it returns only logarithmic-type counting rather than a polynomial exponent competitive with r501.
+Stage14/15 Q03 and Q05 show that positive rank or local solubility alone is not enough; a uniform small-point/height theorem is the missing load-bearing input.
 
 ```text
-R503_STATUS=OPEN_HIGH_VALUE
-R503_32_TO_1_STRUCTURE=FOUND
+R503_STATUS=LIVE_HIGH_VALUE_EXTERNAL_THEOREM_GATE
 R503_UNIFORM_VARYING_FIBER_HEIGHT_COUNT=NOT_PROVED
-R503_EXPONENT_ABOVE_QUARTER=NOT_CERTIFIED
+R503_POSITIVE_RANK_ALONE_SUFFICIENT=false
+R503_RESEARCH_CONTINUES_AFTER_CURRENT_AUDIT=true
 ```
 
-## R504 — symmetric-k quartic aggregation
+## R504 — symmetric-k aggregation
 
-Stage24 introduced
-
-\[
-e=2kpq,\quad x=k^2p^2-q^2,\quad y=k^2q^2-p^2,
-\]
-with space receiver
+The symmetric receiver
 
 \[
-p^4+q^4=(k^4+1)Z^2.
+p^4+q^4=(k^4+1)Z^2
 \]
 
-Writing `t=q/p`, the genus-one fiber is
+has the rational base point `t=q/p=k`. At `k=2` this is the audited positive-rank C17 member. Specialization proves that the generic section is non-torsion.
+
+An explicit rational section obtained from the third multiple is
 
 \[
-C_k:\quad t^4+1=(k^4+1)z^2.
-\]
-
-There is a rational section `(t,z)=(k,1)`. Under
-
-\[
-X=-4t^2/z^2,\qquad Y=4t(t^4-1)/z^3,
-\]
-this maps to
-
-\[
-E_k:Y^2=X^3-4(k^4+1)^2X,
-\]
-\[
-P(k)=(-4k^2,4k(k^4-1)).
-\]
-
-The specialization `k=2` is the audited infinite-order Stage24 point `(-16,120)`. Therefore the generic section `P(k)` is non-torsion over `Q(k)`; otherwise every good specialization, including `k=2`, would be torsion.
-
-The third multiple yields an explicit nondegenerate rational section:
-
-\[
-t_3=
-\frac{k(k^8-6k^4-3)}{3k^8+6k^4-1},
+t_3(k)=\frac{k(k^8-6k^4-3)}{3k^8+6k^4-1},
 \]
 
 \[
-z_3=
-\frac{k^{16}+28k^{12}+6k^8+28k^4+1}
-{(3k^8+6k^4-1)^2},
+z_3(k)=\frac{k^{16}+28k^{12}+6k^8+28k^4+1}{(3k^8+6k^4-1)^2},
 \]
-which satisfies `t_3^4+1=(k^4+1)z_3^2` identically.
 
-This proves that the symmetric-k surface has a genuine non-torsion moving section, not just the isolated `k=2` fiber. Quantitatively, however, inserting this section into the cuboid formulas produces much higher rational-height degree than r501 (the direct integer-k representative has raw space degree 20). No primitive-height compression or two-dimensional uniform count is proved that beats the audited `1/4` exponent.
+and satisfies identically
+
+\[
+t_3(k)^4+1=(k^4+1)z_3(k)^2.
+\]
+
+This proves a genuine moving non-torsion section, but the presently certified numerator/denominator degrees produce physical height growth too expensive to beat R501's exponent `1/4` with the currently available parameter count.
 
 ```text
-R504_STATUS=STRUCTURAL_PROGRESS_NO_LOWER_UPGRADE
+R504_STATUS=LIVE_STRUCTURAL_NO_EXPONENT_UPGRADE_YET
 R504_GENERIC_NONTORSION_SECTION_PROVED=true
-R504_EXPLICIT_3P_SECTION_PROVED=true
-R504_EXPONENT_ABOVE_QUARTER=NOT_PROVED
+R504_CURRENT_SECTION_BEATS_QUARTER=false
+R504_RESEARCH_CONTINUES_AFTER_CURRENT_AUDIT=true
 ```
 
-## R505/R506 — common-core and common-leg receivers
+## R505 — common squarefree core
 
-Both remain population-compatible receivers, but neither currently closes an injective primitive polynomial-height family with a dimension/degree ratio exceeding `2/8`.
+The exact Stage19 squareclass receiver is structurally correct, but no independent parameter dimension with a polynomial physical-height bound and bounded multiplicity has been closed yet.
 
 ```text
-R505_STATUS=OPEN_NO_QUANTITATIVE_CLOSURE
-R506_STATUS=OPEN_NO_QUANTITATIVE_CLOSURE
+R505_STATUS=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
+R505_RESEARCH_CONTINUES_AFTER_CURRENT_AUDIT=true
 ```
 
-## Search conclusion
+## R506 — common-leg plus space
 
-The r501 family is now proved to have exact internal growth `Theta(B^(1/4))`, so its own gcd cannot hide a stronger exponent. R502 is same-degree. R503 is the highest-value open route but lacks a uniform varying-fiber height count. R504 gains a new generic non-torsion section but its available explicit section has worse height degree. R505/R506 have no closed count.
-
-Thus checkpoint60 finds **new structure but no certified global exponent above `1/4`**.
+The common-leg divisor construction remains a compatible receiver. Its successful low-dimensional specializations overlap known C17/R501-type mechanisms; no independent bulk count improving the global exponent has yet been certified.
 
 ```text
-HIGHER_THAN_ONE_QUARTER_SEARCH=EXECUTED
+R506_STATUS=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
+R506_RESEARCH_CONTINUES_AFTER_CURRENT_AUDIT=true
+```
+
+## R507 — R501 primitive-height rigidity
+
+Checkpoint60 proves the exact bounded primitive gcd and the reverse parameter-height count, closing the possibility that R501 itself secretly grows faster than `B^(1/4)` after primitive reduction.
+
+```text
+R507_STATUS=SUBMITTED_FOR_FRESH_AUDIT
+R501_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R501_HIDDEN_GCD_EXPONENT_UPGRADE=false
+```
+
+## Current boundary
+
+```text
 HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
 MATCHING_HALF_POWER_LOWER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
-BEST_OPEN_LANE=R503_YOSHIDA_UNIFORM_VARYING_FIBER_HEIGHT
-SECOND_OPEN_LANE=R504_SYMMETRIC_K_UNIFORM_AGGREGATION
-SEARCH_STOP_REASON=current remaining upgrades require a genuinely new uniform height/count theorem, not another algebraic substitution inside the audited r501 family
+LIVE_HIGH_VALUE_ROUTES=R503,R504,R505,R506
+CHECKPOINT60_SINGLE_SHOT=false
+AUDIT_PASS_DOES_NOT_CLOSE_LIVE_ROUTES=true
+STAGE70_ALLOWED=false
 ```
