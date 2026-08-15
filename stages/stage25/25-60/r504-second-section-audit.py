@@ -19,9 +19,6 @@ def on_curve(Q):
     x,y=Q
     return sp.factor(y**2-x**3+4*H**2*x)==0
 
-assert on_curve(P)
-assert on_curve(R)
-
 def add(P,Q):
     x1,y1=P; x2,y2=Q
     if sp.factor(x1-x2)==0:
@@ -32,13 +29,13 @@ def add(P,Q):
     y3=sp.factor(-y1+lam*(x1-x3))
     return x3,y3
 
+assert on_curve(P)
+assert on_curve(R)
 PR=add(P,R)
 PmR=add(P,(R[0],-R[1]))
-R2=add(R,R)
-P2R=add(P,R2)
+P2R=add(P,add(R,R))
 
-# The first two combinations checked here do not lie on the physical Q(u)-quartic cover.
-# Their recovered t^2 is a rational square times a nonsquare rational constant.
+# P +/- R do not lift over Q(u): recovered t^2 has nonsquare constants.
 Tplus=u**4+4*u**3+6*u**2+4*u-107
 Tminus=u**4+4*u**3+6*u**2+4*u-11
 rp_plus=sp.factor(8*(u+1)**3*Tplus/((u**2-4*u+13)*(u**2+8*u+25)))
@@ -52,40 +49,38 @@ A=u**10+4*u**9-15*u**8-320*u**7-1814*u**6-5976*u**5-14686*u**4-19936*u**3-29883*
 B=u**10+16*u**9+93*u**8+464*u**7+1658*u**6+4368*u**5+6346*u**4-2576*u**3-38763*u**2-82272*u-119319
 C=u**16+16*u**15+216*u**14+1904*u**13+11532*u**12+51024*u**11+176584*u**10+498992*u**9+1465974*u**8+4632112*u**7+16670632*u**6+49968720*u**5+132646892*u**4+257203824*u**3+414710328*u**2+414710032*u+297433361
 
-assert sp.factor(P2R[0]+4*(A*B/C)**2)==0
 assert sp.factor(A**4+B**4-H*C**2)==0
+qx=-4*A**2*B**2/C**2
+qy=4*A*B*(A**4-B**4)/C**3
+assert sp.factor(P2R[0]-qx)==0
+assert sp.factor(P2R[1]-qy)==0
 
-# Physical Stage19 family, dehomogenized at b=1.
-E=sp.factor(2*N*M*A*B)
-X=sp.factor(N**2*B**2-M**2*A**2)
-Y=sp.factor(N**2*A**2-M**2*B**2)
-D=sp.factor(H*C)
-HX=sp.factor(N**2*B**2+M**2*A**2)
-HY=sp.factor(N**2*A**2+M**2*B**2)
+# Original physical quartic point.
+t=A/B
+z=M**2*C/B**2
+k=N/M
+assert sp.factor(t**4+1-(k**4+1)*z**2)==0
+
+# Physical Stage19 family.
+E=sp.expand(2*N*M*A*B)
+X=sp.expand(N**2*B**2-M**2*A**2)
+Y=sp.expand(N**2*A**2-M**2*B**2)
+D=sp.expand(H*C)
+HX=sp.expand(N**2*B**2+M**2*A**2)
+HY=sp.expand(N**2*A**2+M**2*B**2)
 assert sp.factor(E**2+X**2-HX**2)==0
 assert sp.factor(E**2+Y**2-HY**2)==0
 assert sp.factor(E**2+X**2+Y**2-D**2)==0
-for q in (E,X,Y,D,HX,HY):
-    assert sp.degree(q,u)<=24
-assert max(sp.degree(q,u) for q in (E,X,Y,D))==24
-# At u=0 all physical coordinates are nonzero and have strict absolute ordering;
-# continuity supplies the fixed-sign/order rational interval used by the count.
-vals0=[int(q.subs(u,0)) for q in (E,X,Y,D)]
-assert all(vals0)
-assert abs(vals0[1]) < abs(vals0[0]) < abs(vals0[2]) < abs(vals0[3])
+assert [sp.degree(q,u) for q in (E,X,Y,D)]==[24,23,23,24]
+vals3=[int(q.subs(u,3)) for q in (E,X,Y,D)]
+assert all(v>0 for v in vals3)
+assert vals3[0]<vals3[1]<vals3[2]<vals3[3]
 
-# Resultant support for bounded primitive gcd.
-resNM=abs(int(sp.resultant(N,M,u)))
-resAB=abs(int(sp.resultant(A,B,u)))
-assert sp.factorint(resNM)=={2:5,3:1}
-assert sp.factorint(resAB)=={2:115,3:49}
-# If p divides gcd(E,X,Y), then p divides gcd(N,M) or gcd(A,B).
-# Choosing X or Y according to whether the low-valuation members of the two
-# pairs are aligned or crossed gives
-#   v_p(gcd(E,X,Y)) <= 2(v_p(resNM)+v_p(resAB)) + v_p(2).
-# Hence the explicit coarse uniform bound below is valid.
-assert 2*(5+115)+1 == 241
-assert 2*(1+49) == 100
+# Direct absolute primitive-gcd certificate.
+resEX=abs(int(sp.resultant(sp.expand(E/2),X,u)))
+resEY=abs(int(sp.resultant(sp.expand(E/2),Y,u)))
+assert sp.factorint(resEX)=={2:688,3:256}
+assert sp.factorint(resEY)=={2:656,3:272,7:8}
 
 # Missing third face: square part times a squarefree degree-44 factor.
 missing=sp.factor(X**2+Y**2)
@@ -98,10 +93,11 @@ Q11=sp.Poly(Q44,u,modulus=11)
 assert Q11.degree()==44
 assert sp.gcd(Q11,Q11.diff()).degree()==0
 
-# Nonconstant multiplicity witness.
-r0=sp.Rational(E.subs(u,0),X.subs(u,0))
-r1=sp.Rational(E.subs(u,1),X.subs(u,1))
-assert r0!=r1
+# Bounded multiplicity witness.
+ratio=sp.cancel(E/X)
+num,den=ratio.as_numer_denom()
+assert sp.degree(num,u)<=24 and sp.degree(den,u)<=24
+assert sp.factor(sp.diff(ratio,u))!=0
 
 print('R504_SECOND_POLYNOMIAL_MW_SECTION=PASS')
 print('R504_P_PLUS_R_PHYSICAL_LIFT=false')
@@ -109,7 +105,7 @@ print('R504_P_MINUS_R_PHYSICAL_LIFT=false')
 print('R504_P_PLUS_2R_PHYSICAL_LIFT=PASS')
 print('R504_P_PLUS_2R_QUARTIC_IDENTITY=PASS')
 print('R504_P_PLUS_2R_PHYSICAL_HEIGHT_DEGREE=24')
-print('R504_P_PLUS_2R_PRIMITIVE_GCD_BOUND=2^241*3^100')
+print('R504_P_PLUS_2R_PRIMITIVE_GCD_BOUND=2^689*3^256')
 print('R504_P_PLUS_2R_THIRD_FACE_EXCEPTION_GENUS=21')
 print('R504_P_PLUS_2R_EXACT_FAMILY_GROWTH=Theta(B^(1/12))')
 print('GLOBAL_STAGE25_LOWER_CHANGED=false')
