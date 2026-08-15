@@ -29,7 +29,7 @@ R501_R507_ALLOCATIONS_FROZEN=true
 
 If a genuinely new mathematically distinct route is created after R507, allocate the next unused route ID (`R508`, then `R509`, ...). A refinement of an existing route keeps its existing ID.
 
-Do **not** create names such as `25-60-r01`, `25-60-r02`, etc. to represent audit rounds. PR numbers and audit-history entries already distinguish successive submissions.
+Do **not** create separate `r01/r02/...` research-route names to represent audit rounds. PR numbers and audit-history entries already distinguish successive submissions.
 
 ## Operating rule
 
