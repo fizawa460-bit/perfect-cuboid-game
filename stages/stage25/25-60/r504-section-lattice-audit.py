@@ -6,6 +6,7 @@ import json
 
 root=Path(__file__).resolve().parents[3]
 proof=(root/'stages/stage25/25-60/r504-section-lattice.md').read_text(encoding='utf-8')
+twist=(root/'stages/stage25/25-60/r504-twist-descent.md').read_text(encoding='utf-8')
 iterctl=json.loads((root/'stages/stage25/25-60/r504-iteration-controller.json').read_text(encoding='utf-8'))
 
 # Polynomial helpers, low coefficients first.
@@ -85,7 +86,6 @@ for K in range(2,30):
 u,v=5,2
 A,B,C,E,X,Y,HX,HY,D,g=vals(u,v)
 assert E>0 and X>0 and Y>0
-# On this branch's labeling the strict order is Y<E<X at k=5/2.
 assert Y<E<X
 
 # Missing-face squarefree polynomial Q32 = Q1*Q2*Q3*Q4, low coefficients.
@@ -98,7 +98,6 @@ assert len(Q)-1==32
 assert gcd_poly(Q,deriv(Q,3),3)==[1]
 
 # Nonconstant multiplicity ratio r(k)=E/X has degree <=16.
-# Verify numerator and denominator are not proportional by two exact evaluations.
 def ratio(k):
     A=k**8-6*k**4-3
     B=3*k**8+6*k**4-1
@@ -120,6 +119,17 @@ for marker in [
     'FINITE_DATA_USED_AS_PROOF=false',
 ]: assert marker in proof, marker
 
+for marker in [
+    'R504_TWIST_COVER_IS_E0=true',
+    'R504_DECK_ACTION=Q->T-Q',
+    'R504_END_Q_E0=Z',
+    'R504_ANTI_INVARIANT_COEFFICIENT_PARITY=EVEN',
+    'R504_EXPLICIT_P_COEFFICIENT=2_UP_TO_SIGN_AND_TORSION',
+    'R504_EXPLICIT_P_PRIMITIVE_IN_TWIST_FREE_LATTICE=true',
+    'R504_GENERIC_QK_RANK=1',
+    'R504_BASE_CHANGE_RANK_CLAIM=NOT_MADE',
+]: assert marker in twist, marker
+
 assert iterctl['route']=='R504'
 assert iterctl['checkpoint']==60
 assert iterctl['audit_status']=='PENDING'
@@ -137,7 +147,8 @@ print(f'R504_GCD_HEIGHT_GRID_ROWS={rows}')
 print('R504_3P_INTEGER_IDENTITIES=PASS')
 print('R504_3P_EXACT_GCD_REGRESSION=PASS')
 print('R504_3P_HEIGHT_DEGREE20=PASS')
-print('R504_Q32_MOD3_SQUAREFREE=PASS')
+print('R504_Q32_MOD3_SQUAREFREE_CERTIFICATE=PASS')
 print('R504_PHYSICAL_OPEN_CONE_WITNESS=PASS')
+print('R504_TWIST_DESCENT_ARTIFACT_CONTRACT=PASS')
 print('R504_SECTION_LATTICE_ARTIFACT_CONTRACT=PASS')
 print('STAGE25_60_R504_AUDIT=PASS')
