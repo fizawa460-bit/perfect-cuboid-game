@@ -1,0 +1,22 @@
+name: Stage25-20 matched-grid replay
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-20/**'
+      - 'stages/stage16/16-20/counts.csv'
+      - 'stages/stage19/19-20/counts.csv'
+      - 'stages/stage14/data/14-num-alpha11/b500m_objects.csv.bz2.b64'
+      - '.github/workflows/stage25-20-matched-grid.yml'
+  workflow_dispatch:
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Replay exact matched grid
+        run: python stages/stage25/25-20/replay_matched_grid.py
