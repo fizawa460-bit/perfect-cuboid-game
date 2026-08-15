@@ -68,11 +68,24 @@ assert sp.factor(E**2+X**2+Y**2-D**2)==0
 for q in (E,X,Y,D,HX,HY):
     assert sp.degree(q,u)<=24
 assert max(sp.degree(q,u) for q in (E,X,Y,D))==24
+# At u=0 all physical coordinates are nonzero and have strict absolute ordering;
+# continuity supplies the fixed-sign/order rational interval used by the count.
+vals0=[int(q.subs(u,0)) for q in (E,X,Y,D)]
+assert all(vals0)
+assert abs(vals0[1]) < abs(vals0[0]) < abs(vals0[2]) < abs(vals0[3])
 
 # Resultant support for bounded primitive gcd.
-assert sp.resultant(N,M,u)==-96
+resNM=abs(int(sp.resultant(N,M,u)))
 resAB=abs(int(sp.resultant(A,B,u)))
+assert sp.factorint(resNM)=={2:5,3:1}
 assert sp.factorint(resAB)=={2:115,3:49}
+# If p divides gcd(E,X,Y), then p divides gcd(N,M) or gcd(A,B).
+# Choosing X or Y according to whether the low-valuation members of the two
+# pairs are aligned or crossed gives
+#   v_p(gcd(E,X,Y)) <= 2(v_p(resNM)+v_p(resAB)) + v_p(2).
+# Hence the explicit coarse uniform bound below is valid.
+assert 2*(5+115)+1 == 241
+assert 2*(1+49) == 100
 
 # Missing third face: square part times a squarefree degree-44 factor.
 missing=sp.factor(X**2+Y**2)
@@ -82,6 +95,7 @@ assert sorted((sp.degree(q,u),e) for q,e in fac[1])==[(1,2),(8,1),(12,1),(12,1),
 Q44=sp.prod(q for q,e in fac[1] if e%2==1)
 assert sp.degree(Q44,u)==44
 Q11=sp.Poly(Q44,u,modulus=11)
+assert Q11.degree()==44
 assert sp.gcd(Q11,Q11.diff()).degree()==0
 
 # Nonconstant multiplicity witness.
@@ -95,7 +109,7 @@ print('R504_P_MINUS_R_PHYSICAL_LIFT=false')
 print('R504_P_PLUS_2R_PHYSICAL_LIFT=PASS')
 print('R504_P_PLUS_2R_QUARTIC_IDENTITY=PASS')
 print('R504_P_PLUS_2R_PHYSICAL_HEIGHT_DEGREE=24')
-print('R504_P_PLUS_2R_PRIMITIVE_GCD_BOUND=O(1)')
+print('R504_P_PLUS_2R_PRIMITIVE_GCD_BOUND=2^241*3^100')
 print('R504_P_PLUS_2R_THIRD_FACE_EXCEPTION_GENUS=21')
 print('R504_P_PLUS_2R_EXACT_FAMILY_GROWTH=Theta(B^(1/12))')
 print('GLOBAL_STAGE25_LOWER_CHANGED=false')
