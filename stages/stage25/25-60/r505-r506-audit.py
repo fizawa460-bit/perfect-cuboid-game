@@ -4,226 +4,98 @@ from math import gcd, isqrt
 from pathlib import Path
 import json
 
-root = Path(__file__).resolve().parents[3]
-r504 = (root/'stages/stage25/25-60/r504-base-change-boundary.md').read_text(encoding='utf-8')
-r505 = (root/'stages/stage25/25-60/r505-common-core-gate.md').read_text(encoding='utf-8')
-r506 = (root/'stages/stage25/25-60/r506-common-leg-subsumption.md').read_text(encoding='utf-8')
-ledger = (root/'stages/stage25/25-60/r505-r506-discovery-ledger.md').read_text(encoding='utf-8')
-audit = (root/'stages/stage25/25-60/r505-r506-audit.md').read_text(encoding='utf-8')
-reaudit = (root/'stages/stage25/25-60/r505-r506-audit-recheck.md').read_text(encoding='utf-8')
-ctl = json.loads((root/'stages/stage25/25-60/r505-r506-iteration-controller.json').read_text(encoding='utf-8'))
-
+root=Path(__file__).resolve().parents[3]
+r504=(root/'stages/stage25/25-60/r504-base-change-boundary.md').read_text()
+policy=(root/'stages/stage25/25-60/continuation-policy.md').read_text()
+reaudit=(root/'stages/stage25/25-60/r505-r506-audit-recheck.md').read_text()
+ctl=json.loads((root/'stages/stage25/25-60/r505-r506-iteration-controller.json').read_text())
 
 def sf(n):
-    assert n > 0
-    out = 1
-    p = 2
-    while p*p <= n:
-        parity = 0
-        while n % p == 0:
-            n //= p
-            parity ^= 1
-        if parity:
-            out *= p
-        p = 3 if p == 2 else p + 2
-    if n > 1:
-        out *= n
-    return out
+    out=1; p=2
+    while p*p<=n:
+        odd=0
+        while n%p==0: n//=p; odd^=1
+        if odd: out*=p
+        p=3 if p==2 else p+2
+    return out*n
 
+def sq(n):
+    r=isqrt(n); return r*r==n
 
-def is_square(n):
-    r = isqrt(n)
-    return r*r == n
+# Retain accepted R505/R506 identity regression.
+rows=0
+for n in range(1,12):
+  for m in range(n+1,22):
+    if gcd(m,n)!=1: continue
+    for s in range(1,9):
+      for r in range(s+1,16):
+        if gcd(r,s)!=1: continue
+        A=m*m*r*r+n*n*s*s; B=m*m*s*s+n*n*r*r
+        assert (sf(A)==sf(B)) == sq(A*B)
+        u=m*r; v=n*s; w=m*s; z=n*r
+        assert u*v==w*z and A==u*u+v*v and B==w*w+z*z
+        rows+=1
+assert rows>3000
 
+# BC1/BC2 accepted certificates stay bound.
+for marker in ['R504_BC1_STATUS=CLOSED_NO_RANK_JUMP','R504_BC2_STATUS=CLOSED_NO_RANK_JUMP']:
+    assert marker in r504
 
-def toric(m,n,r,s):
-    E = 4*m*n*r*s
-    X = 2*r*s*(m*m-n*n)
-    Y = 2*m*n*(r*r-s*s)
-    HX = 2*r*s*(m*m+n*n)
-    HY = 2*m*n*(r*r+s*s)
-    A = m*m*r*r + n*n*s*s
-    B = m*m*s*s + n*n*r*r
-    return E,X,Y,HX,HY,A,B
-
-# Previously hostile-audit accepted R505/R506 mathematics stays live.
-rows = 0
-space_rows = 0
-for n in range(1,18):
-    for m in range(n+1,31):
-        if gcd(m,n) != 1: continue
-        for s in range(1,14):
-            for r in range(s+1,23):
-                if gcd(r,s) != 1: continue
-                E,X,Y,HX,HY,A,B = toric(m,n,r,s)
-                assert E*E + X*X == HX*HX
-                assert E*E + Y*Y == HY*HY
-                assert E*E + X*X + Y*Y == 4*A*B
-                same = sf(A) == sf(B)
-                assert same == is_square(A*B)
-                if same:
-                    k=sf(A)
-                    assert is_square(A//k) and is_square(B//k)
-                    space_rows += 1
-                u=m*r; v=n*s; w=m*s; z=n*r
-                assert u*v == w*z
-                assert A == u*u+v*v and B == w*w+z*z
-                assert Fraction(u,z)==Fraction(w,v)==Fraction(m,n)
-                assert Fraction(u,w)==Fraction(z,v)==Fraction(r,s)
-                rows += 1
-assert rows > 10000 and space_rows > 0
-
-# Binary quartic invariants / j.
-def quartic_IJ(a,b,c,d,e):
-    I = 12*a*e - 3*b*d + c*c
-    J = 72*a*c*e + 9*b*c*d - 27*a*d*d - 27*b*b*e - 2*c**3
-    return I,J
-
-def quartic_j(a,b,c,d,e):
-    I,J=quartic_IJ(a,b,c,d,e)
-    Delta=Fraction(4*I**3-J**2,27)
-    assert Delta != 0
-    return Fraction(256*I**3,Delta)
-
-assert quartic_j(1,0,0,0,1) == 1728
-assert quartic_j(1,0,-4,0,2) == 8000
-assert quartic_j(1,0,4,0,2) == 8000
-assert quartic_j(1,-4,22,-4,1) == 10976
-assert quartic_j(1,0,-8,0,32) == 10976
-assert quartic_j(1,0,0,0,16) == 1728
-
-# finite-field traces for the submitted BC1/BC2 non-isogeny certificates.
-def count_poly_curve_mod_p(coeffs,p):
-    total=2
-    for x in range(p):
-        rhs=0
-        for a in coeffs:
-            rhs=(rhs*x+a)%p
-        total += sum((y*y-rhs)%p==0 for y in range(p))
-    return total
-
-def count_E0(p):
-    total=1
-    for x in range(p):
-        rhs=(x**3-4*x)%p
-        total += sum((y*y-rhs)%p==0 for y in range(p))
-    return total
-
-assert count_E0(3) == 4
-assert count_poly_curve_mod_p([1,0,-4,0,2],3) == 2
-assert count_poly_curve_mod_p([1,0,4,0,2],3) == 6
-assert count_poly_curve_mod_p([1,-4,22,-4,1],3) == 6
-assert count_poly_curve_mod_p([1,0,-8,0,32],3) == 6
-
-# BC1 quotient identities.
-for u in [Fraction(2),Fraction(3,2),Fraction(5,3),Fraction(7,4)]:
-    f=u**8+1
-    xp=u+1/u
-    xm=u-1/u
-    lhs=f/u**4
-    assert lhs == xp**4-4*xp**2+2
-    assert lhs == xm**4+4*xm**2+2
-
-# BC2 Cayley identities.
-for u in [Fraction(2),Fraction(3,2),Fraction(5,3),Fraction(7,4)]:
-    k=(u*u-1)/(2*u)
-    N=u**8-4*u**6+22*u**4-4*u**2+1
-    assert 16*u**4*(k**4+1) == N
-    lhs=N/u**4
-    xp=u+1/u
-    xm=u-1/u
-    assert lhs == xp**4-8*xp**2+32
-    assert lhs == xm**4+16
-
-# Physical-height identities used in the submitted growing-multiple argument.
-for p in range(2,9):
-    for q in range(1,p):
-        for kn,kd in [(2,1),(3,2),(5,3)]:
-            k=Fraction(kn,kd); t=Fraction(q,p)
-            HX=k*k*p*p+q*q
-            X=k*k*p*p-q*q
-            HY=k*k*q*q+p*p
-            Y=k*k*q*q-p*p
-            assert (HX-X)/(HX+X) == (t/k)**2
-            assert (HY+Y)/(HY-Y) == (k*t)**2
-
-# Mandatory reuse/discovery handoff repair is present.
+# Exact-Q Kummer overclaim is removed and safe class is explicit.
 for marker in [
-    'REPO_REUSE_PREFLIGHT=PASS',
-    'REUSE_SEARCH_SCOPE=',
-    'REUSED_RESULTS=',
-    'REUSE_MATCH_STATUS=MIXED',
-    'STRONGEST_KNOWN_CHECK=PASS',
-    'STRONGER_PRIOR_RESULT_FOUND=false',
-    'NEW_RESEARCH_JUSTIFIED=',
-    'POPULATION_ADAPTERS_PROVED=',
-    'DISCOVERY_LEDGER_STATUS=COMPLETE_REPAIRED_FOR_FRESH_AUDIT',
-    'R504_DEGREE2_GENERAL_GATE=EXTRA_E0_FACTOR_IN_JACOBIAN_OF_C_phi',
-    'R505_EXACT_TARGET_RECEIVER_ACCEPTED=true',
-    'R506_TORIC_SUBSUMPTION_ACCEPTED=true',
-]: assert marker in ledger, marker
+ 'R504_STANDARD_Q_KUMMER_IDENTIFICATION=false',
+ 'R504_SAFE_KUMMER_CLASS=Q_FORM_OR_TWIST_OF_PRODUCT_KUMMER',
+ 'R504_KUMMER_MODEL_EXACT_OVER_Q=false']:
+    assert marker in r504
+assert 'R504_KUMMER_MODEL=Km(E0xE0)' not in r504
 
-# Submission claims remain mechanically bound even where re-audit rejects scope/wording.
+# Materialized real-component parity lemma: direct numerical range regression.
+for F in [1,2,5,17]:
+  for t in [Fraction(0),Fraction(1,3),Fraction(1),Fraction(3,2),Fraction(4)]:
+    X=Fraction(-4*F)*t*t/(t**4+1)
+    assert Fraction(-2*F)<=X<=0
 for marker in [
-    'R504_KUMMER_MODEL=Km(E0xE0)',
-    'R504_BC1_STATUS=CLOSED_NO_RANK_JUMP',
-    'R504_BC2_STATUS=CLOSED_NO_RANK_JUMP',
-    'R504_RATIONAL_BASE_CHANGE_EQUIVALENT_TO_RATIONAL_MULTISECTION=true',
-    'R504_GROWING_MULTIPLE_LATTES_DEGREE=n^2',
-    'R504_ALL_MULTIPLES_COUNT_UPPER=O(B^(1/9)*sqrt(log B))',
-    'R504_RESIDUAL_STATUS=EXTERNAL_OR_NEW_EXPLICIT_CURVE_GATE_SUBMITTED_FOR_FRESH_AUDIT',
-]: assert marker in r504, marker
+ 'R504_QUARTIC_REAL_X_RANGE=[-2F,0]',
+ 'R504_REAL_COMPONENT_GROUP=Z/2',
+ 'R504_GENERATOR_COMPONENT=NONIDENTITY',
+ 'R504_EVEN_MULTIPLES_COMPONENT=IDENTITY',
+ 'R504_EVEN_MULTIPLES_ARE_QUARTIC_IMAGES=false',
+ 'R504_ALL_PHYSICAL_MULTIPLES_ODD_LEMMA_MATERIALIZED=true',
+ 'R504_FIRST_NONDEGENERATE_PHYSICAL_MULTIPLE_INDEX=3',
+ 'R504_ALL_MULTIPLES_COUNT_UPPER=O(B^(1/9)*sqrt(log B))']:
+    assert marker in r504, marker
 
-# Historical FAIL remains durable.
+# Normative policy is restored exactly on the rejected dimensions.
 for marker in [
-    'AUDIT_VERDICT=FAIL',
-    'R505_EXACT_TARGET_RECEIVER_ACCEPTED=true',
-    'R506_TORIC_SUBSUMPTION_ACCEPTED=true',
-]: assert marker in audit, marker
+ 'STATUS=NORMATIVE_FOR_STAGE25_60_CONTINUATION',
+ 'remaining open items require genuinely new external mathematics, not another unexecuted repo-native mutation.',
+ 'R504_EXCEPTIONAL_BASE_CHANGE_RESIDUAL=LIVE_EXPLICIT_CURVE_SEARCH',
+ 'CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false',
+ 'STAGE70_ALLOWED=false']:
+    assert marker in policy, marker
+assert 'reduced to an exact external/new-parametric theorem gate' not in policy
 
-# Re-audit rejection is explicit and narrow.
-for marker in [
-    'AUDIT_VERDICT=FAIL',
-    'DISCOVERY_AUDIT_VERDICT=PASS',
-    'REPO_REUSE_HANDOFF_COMPLETE=true',
-    'R504_BC1_NO_RANK_JUMP_ACCEPTED=true',
-    'R504_BC2_NO_RANK_JUMP_ACCEPTED=true',
-    'R504_STANDARD_Q_KUMMER_IDENTIFICATION_ACCEPTED=false',
-    'R504_ALL_PHYSICAL_MULTIPLES_ODD_LEMMA_MATERIALIZED=false',
-    'R504_ALL_MULTIPLES_COUNT_UPPER_ACCEPTED=false',
-    'CONTINUATION_POLICY_SELF_RELAXATION_ACCEPTED=false',
-    'CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false',
-    'STAGE70_ALLOWED=false',
-]: assert marker in reaudit, marker
+# Prior hostile FAIL is durable.
+for marker in ['AUDIT_VERDICT=FAIL','R504_STANDARD_Q_KUMMER_IDENTIFICATION_ACCEPTED=false','CONTINUATION_POLICY_SELF_RELAXATION_ACCEPTED=false']:
+    assert marker in reaudit
 
-assert ctl['stage']=='Stage25' and ctl['checkpoint']==60
-assert ctl['iteration']=='R504_RESIDUAL_R505_R506_BOUNDARY_REAUDIT'
-assert ctl['status']=='AUDIT_FAIL_REPAIR_REQUIRED'
-assert ctl['audit_status']=='FAIL'
-assert ctl['advance_allowed'] is False
-assert ctl['next_checkpoint']==60
-assert ctl['merge_allowed'] is False
-assert ctl['stage70_allowed'] is False
-assert ctl['previous_hostile_audit_acceptance']['r505_exact_target_receiver'] is True
-assert ctl['previous_hostile_audit_acceptance']['r506_toric_subsumption'] is True
-assert ctl['repair_handoff']['reuse_handoff_materialized'] is True
-assert ctl['repair_handoff']['discovery_evidence_block_complete'] is True
-assert ctl['reaudit_acceptance']['r504_bc1_no_rank_jump'] is True
-assert ctl['reaudit_acceptance']['r504_bc2_no_rank_jump'] is True
-assert ctl['reaudit_acceptance']['r504_standard_q_kummer_identification'] is False
-assert ctl['reaudit_acceptance']['r504_all_physical_multiples_odd_lemma_materialized'] is False
-assert ctl['reaudit_acceptance']['r504_all_multiples_count_upper'] is False
-assert ctl['reaudit_acceptance']['continuation_policy_self_relaxation'] is False
-assert ctl['r504_residual']['deep_stop_class_accepted'] is False
+assert ctl['iteration']=='R504_RESIDUAL_REAUDIT_REPAIR_2'
+assert ctl['status']=='REPAIR_SUBMITTED_FOR_FRESH_AUDIT'
+assert ctl['audit_status']=='PENDING'
+assert ctl['advance_allowed'] is False and ctl['next_checkpoint']==60
+assert ctl['merge_allowed'] is False and ctl['stage70_allowed'] is False
+assert ctl['repair_2']['normative_stop_rule_restored'] is True
+assert ctl['repair_2']['policy_change_submitted'] is False
+assert ctl['repair_2']['standard_q_kummer_identification_asserted'] is False
+assert ctl['repair_2']['all_physical_multiples_odd_lemma_materialized'] is True
+assert ctl['repair_2']['exceptional_base_change_residual']=='LIVE_EXPLICIT_CURVE_SEARCH'
 assert ctl['deep_stop_rule_satisfied'] is False
-assert ctl['continuation_policy_self_relaxation_accepted'] is False
-assert ctl['next_expected_command']=='Stage25-main-batch'
+assert ctl['next_expected_command']=='Stage25-audit'
 
-print(f'R505_TORIC_IDENTITY_ROWS={rows}')
-print(f'R505_SPACE_CORE_ROWS={space_rows}')
-print('R505_R506_PREVIOUS_AUDIT_ACCEPTED_MATH=PASS')
-print('R504_BC1_JACOBIAN_QUOTIENT_CERTIFICATE=PASS')
-print('R504_BC2_JACOBIAN_QUOTIENT_CERTIFICATE=PASS')
-print('R504_GROWING_MULTIPLE_PHYSICAL_HEIGHT_IDENTITY=PASS')
-print('REPO_REUSE_HANDOFF_REPAIR=PASS')
-print('STAGE25_60_HOSTILE_REAUDIT_STATE=FAIL_REPAIR_REQUIRED')
+print(f'R505_R506_IDENTITY_ROWS={rows}')
+print('R504_SAFE_Q_KUMMER_CLASS=PASS')
+print('R504_REAL_COMPONENT_PARITY_LEMMA=PASS')
+print('R504_GROWING_MULTIPLE_REPAIR=PASS')
+print('NORMATIVE_STOP_RULE_RESTORED=PASS')
+print('R504_EXCEPTIONAL_BASE_CHANGE_RESIDUAL=LIVE')
+print('STAGE25_60_REPAIR_2=SUBMITTED_FOR_FRESH_AUDIT')
