@@ -1,6 +1,6 @@
 # Stage25-60 deeper-lane triage
 
-STATUS=R504_SUBMITTED_FOR_FRESH_AUDIT
+STATUS=R504_AUDITED_PASS_R505_R506_LIVE
 
 The route IDs below are persistent allocations inherited from checkpoint50. They are not audit-round numbers and must not be renamed between audits.
 
@@ -61,7 +61,7 @@ See `r503-yoshida-generic-rank-zero-gate.md`, `r503-discovery-ledger.md`, and `r
 
 ## R504 — symmetric-k aggregation
 
-R504 has now been pushed through the full original-base section lattice.
+R504 has passed hostile fresh audit on the full original-base section lattice.
 
 The quartic receiver
 
@@ -83,7 +83,7 @@ This is the quadratic twist of the constant lemniscatic curve `v^2=u^3-4u` by `k
 
 Thus there is no second independent `Q(k)`-rational section hidden on the original symmetric-k surface.
 
-The first nondegenerate physical section is the already accepted 3P section
+The first nondegenerate physical section is the accepted 3P section
 
 \[
 t_3(k)=\frac{k(k^8-6k^4-3)}{3k^8+6k^4-1},
@@ -103,12 +103,12 @@ The missing third-face square condition reduces to a squarefree degree-32 hypere
 \boxed{N_{R504,3P}(B)=\Theta(B^{1/10}).}
 \]
 
-This is a genuine infinite Stage19 family but is weaker than the audited quarter-power families. Fixed higher multiples increase section degree and do not provide a lighter fixed-section route.
+This is a genuine infinite Stage19 family but is weaker than the audited quarter-power families. The original-base independent-section route is closed as a hidden global-upgrade source.
 
-The original-base section route is therefore submitted for closure **as a global-upgrade route**, not as a claim that every base change is impossible.
+The hostile audit explicitly does **not** close finite base change, multisections becoming sections after base change, or uniform aggregation over growing multiples.
 
 ```text
-R504_STATUS=ORIGINAL_SURFACE_SECTION_ROUTE_CLOSED_NO_GLOBAL_UPGRADE_SUBMITTED_FOR_FRESH_AUDIT
+R504_STATUS=ORIGINAL_SURFACE_SECTION_ROUTE_CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS
 R504_GENERIC_QK_RANK=1
 R504_SECOND_INDEPENDENT_QK_SECTION_EXISTS=false
 R504_GENERIC_NONTORSION_SECTION_PROVED=true
@@ -116,14 +116,13 @@ R504_3P_EXACT_FAMILY_GROWTH=Theta(B^(1/10))
 R504_3P_PRIMITIVE_GCD_BOUND=128
 R504_3P_THIRD_FACE_EXCEPTION_GENUS=15
 R504_CURRENT_SECTION_BEATS_QUARTER=false
-R504_FIXED_HIGHER_MULTIPLE_EXPONENT_UPGRADE=false
 R504_LOW_DEGREE_BASE_CHANGE_ROUTE=OPEN_GATE
 R504_MULTI_SECTION_ROUTE=OPEN_GATE
 R504_GROWING_MULTIPLE_UNIFORM_AGGREGATION=OPEN_GATE
-R504_FRESH_AUDIT_REQUIRED=true
+R504_FRESH_AUDIT_REQUIRED=false
 ```
 
-See `r504-section-lattice.md`, `r504-discovery-ledger.md`, and `r504-iteration-controller.json`.
+See `r504-section-lattice.md`, `r504-twist-descent.md`, `r504-discovery-ledger.md`, `r504-iteration-controller.json`, and `r504-audit.md`.
 
 ## R505 — common squarefree core
 
@@ -150,7 +149,7 @@ HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
 MATCHING_HALF_POWER_LOWER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
 R503_FRESH_AUDIT_REQUIRED=false
-R504_FRESH_AUDIT_REQUIRED=true
+R504_FRESH_AUDIT_REQUIRED=false
 LIVE_REPO_NATIVE_HIGH_VALUE_ROUTES_AFTER_R504=R505,R506
 CHECKPOINT60_SINGLE_SHOT=false
 AUDIT_PASS_DOES_NOT_CLOSE_LIVE_ROUTES=true

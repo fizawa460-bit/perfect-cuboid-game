@@ -6,9 +6,9 @@ import json
 
 root=Path(__file__).resolve().parents[3]
 proof=(root/'stages/stage25/25-60/r504-section-lattice.md').read_text(encoding='utf-8')
+twist=(root/'stages/stage25/25-60/r504-twist-descent.md').read_text(encoding='utf-8')
 iterctl=json.loads((root/'stages/stage25/25-60/r504-iteration-controller.json').read_text(encoding='utf-8'))
 
-# Polynomial helpers, low coefficients first.
 def trim(a):
     a=list(a)
     while len(a)>1 and a[-1]==0: a.pop()
@@ -40,7 +40,6 @@ def conv(a,b):
         for j,y in enumerate(b): c[i+j]+=x*y
     return c
 
-# Exact 3P section and homogeneous family.
 def vals(u,v):
     A=u**8-6*u**4*v**4-3*v**8
     B=3*u**8+6*u**4*v**4-v**8
@@ -71,7 +70,6 @@ for v in range(1,110):
         rows+=1
 assert rows>15000
 
-# Verify t3,z3 identity on exact rationals.
 def t3z3(k):
     A=k**8-6*k**4-3
     B=3*k**8+6*k**4-1
@@ -81,14 +79,11 @@ for K in range(2,30):
     t,z=t3z3(K)
     assert t**4+1==(K**4+1)*z*z
 
-# Physical strict witness at k=5/2; continuity gives a nonempty open cone.
 u,v=5,2
 A,B,C,E,X,Y,HX,HY,D,g=vals(u,v)
 assert E>0 and X>0 and Y>0
-# On this branch's labeling the strict order is Y<E<X at k=5/2.
 assert Y<E<X
 
-# Missing-face squarefree polynomial Q32 = Q1*Q2*Q3*Q4, low coefficients.
 Q1=[1,0,4,-8,14,-8,4,0,1]
 Q2=[1,0,4,8,14,8,4,0,1]
 Q3=[1,4,4,-4,-2,4,4,-4,1]
@@ -97,8 +92,6 @@ Q=conv(conv(Q1,Q2),conv(Q3,Q4))
 assert len(Q)-1==32
 assert gcd_poly(Q,deriv(Q,3),3)==[1]
 
-# Nonconstant multiplicity ratio r(k)=E/X has degree <=16.
-# Verify numerator and denominator are not proportional by two exact evaluations.
 def ratio(k):
     A=k**8-6*k**4-3
     B=3*k**8+6*k**4-1
@@ -120,24 +113,52 @@ for marker in [
     'FINITE_DATA_USED_AS_PROOF=false',
 ]: assert marker in proof, marker
 
+for marker in [
+    'R504_TWIST_COVER_IS_E0=true',
+    'R504_DECK_ACTION=Q->T-Q',
+    'R504_END_Q_E0=Z',
+    'R504_T_NOT_2DIVISIBLE_OVER_Q=true',
+    'R504_ANTI_INVARIANT_COEFFICIENT_PARITY=EVEN',
+    'R504_EXPLICIT_P_COEFFICIENT=2_UP_TO_SIGN_AND_TORSION',
+    'R504_EXPLICIT_P_PRIMITIVE_IN_TWIST_FREE_LATTICE=true',
+    'R504_GENERIC_QK_RANK=1',
+    'R504_BASE_CHANGE_RANK_CLAIM=NOT_MADE',
+]: assert marker in twist, marker
+
 assert iterctl['route']=='R504'
 assert iterctl['checkpoint']==60
-assert iterctl['audit_status']=='PENDING'
-assert iterctl['advance_allowed'] is False
-assert iterctl['next_checkpoint']==60
-assert iterctl['merge_allowed'] is False
-assert iterctl['stage70_allowed'] is False
 assert iterctl['generic_qk_rank']==1
 assert iterctl['three_p_height_degree']==20
 assert iterctl['three_p_primitive_gcd_bound']==128
 assert iterctl['three_p_exception_genus']==15
 assert iterctl['global_stage25_lower_changed'] is False
+assert iterctl['stage70_allowed'] is False
+assert iterctl['next_checkpoint']==60
+
+if iterctl['audit_status']=='PENDING':
+    assert iterctl['status']=='SUBMITTED_FOR_FRESH_AUDIT'
+    assert iterctl['advance_allowed'] is False
+    assert iterctl['merge_allowed'] is False
+elif iterctl['audit_status']=='PASS':
+    assert iterctl['status']=='AUDITED_PASS'
+    assert iterctl['advance_allowed'] is True
+    assert iterctl['merge_allowed'] is True
+    assert iterctl['audit_path']=='stages/stage25/25-60/r504-audit.md'
+    assert iterctl['original_surface_section_route']=='CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS'
+    assert iterctl['base_change_route']=='OPEN_GATE'
+    assert iterctl['multisection_route']=='OPEN_GATE'
+    assert iterctl['growing_multiple_uniform_aggregation']=='OPEN_GATE'
+else:
+    raise AssertionError(iterctl['audit_status'])
 
 print(f'R504_GCD_HEIGHT_GRID_ROWS={rows}')
 print('R504_3P_INTEGER_IDENTITIES=PASS')
 print('R504_3P_EXACT_GCD_REGRESSION=PASS')
 print('R504_3P_HEIGHT_DEGREE20=PASS')
-print('R504_Q32_MOD3_SQUAREFREE=PASS')
+print('R504_Q32_MOD3_SQUAREFREE_CERTIFICATE=PASS')
 print('R504_PHYSICAL_OPEN_CONE_WITNESS=PASS')
+print('R504_TWIST_T_NOT_2DIVISIBLE_CERTIFICATE=PASS')
+print('R504_TWIST_DESCENT_ARTIFACT_CONTRACT=PASS')
+print(f'R504_ITERATION_AUDIT_STATUS={iterctl["audit_status"]}')
 print('R504_SECTION_LATTICE_ARTIFACT_CONTRACT=PASS')
 print('STAGE25_60_R504_AUDIT=PASS')
