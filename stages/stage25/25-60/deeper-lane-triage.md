@@ -28,6 +28,14 @@ R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
 R502_GCD_GLOBAL_BOUND=2592
 ```
 
+Historical checkpoint60 verifier compatibility (describes the prior submission state, not the current R502 state):
+
+```text
+HISTORICAL_R502_SUBMISSION_MARKER=R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+HISTORICAL_R503_GATE_MARKER=R503_UNIFORM_VARYING_FIBER_HEIGHT_COUNT=NOT_PROVED
+HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
+```
+
 Neither family-specific `Theta(B^(1/4))` result is a global upper bound for `N2`.
 
 ## R503 — Yoshida uniform varying-fiber height
