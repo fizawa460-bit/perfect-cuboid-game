@@ -20,11 +20,16 @@ def family(m, n):
     return A, B, C, DAC, DBC, D
 
 
+# Coefficients of P(t) from t^0,t^2,...,t^16.  Keeping one canonical
+# coefficient vector binds the mod-5 Q certificate to the actual submitted
+# missing-face polynomial rather than to an independently hard-coded copy.
+P_EVEN_COEFFS = [6561, -11664, 25596, -1008, -3290, -112, 316, -16, 1]
+
+
 def missing_homogeneous(m, n):
-    return (
-        m**16 - 16*m**14*n**2 + 316*m**12*n**4 - 112*m**10*n**6
-        - 3290*m**8*n**8 - 1008*m**6*n**10 + 25596*m**4*n**12
-        - 11664*m**2*n**14 + 6561*n**16
+    return sum(
+        coeff * m**(2*i) * n**(16 - 2*i)
+        for i, coeff in enumerate(P_EVEN_COEFFS)
     )
 
 
@@ -57,15 +62,20 @@ def deriv(a, p):
     return trim([(i*a[i]) % p for i in range(1, len(a))])
 
 
-# Q(u)=u^8+4u^7+u^6+3u^5+2u^3+u^2+u+1 mod 5.
+# P(t) mod 5 is Q(t^2), with Q derived from the actual P coefficients above.
 p = 5
-Q = [1, 1, 1, 2, 0, 3, 1, 4, 1]
+Q = [c % p for c in P_EVEN_COEFFS]
+assert Q == [1, 1, 1, 2, 0, 3, 1, 4, 1]
 Qp = deriv(Q, p)
 S = [2, 1, 0, 2, 1, 2, 2]
 T = [4, 4, 0, 4, 2, 2, 4, 1]
 bezout = add(mul(S, Q, p), mul(T, Qp, p), p)
 assert bezout == [1], bezout
 assert Q[0] == 1
+
+# Because P'(t)=2t Q'(t^2) mod 5, Q squarefree, Q(0)!=0, and 2!=0 mod 5
+# imply P is squarefree mod 5.  This is the exact logical bridge used in proof.
+assert 2 % p != 0
 
 # Exact integer regression over many admissible reduced parameters.
 seen = 0
@@ -156,6 +166,7 @@ assert ctl['checkpoint20']['num_r01_manifest_binding'] == 'PASS'
 assert ctl['checkpoint30']['previous_audit'] == 'FAIL'
 assert ctl['checkpoint30']['directional_ratio_refinement_status'] == 'OPEN_GATE_ADAPTER_REQUIRED'
 assert ctl['checkpoint40']['audit'] == 'PASS'
+assert ctl['checkpoint40']['upper_provenance'] == 'stages/stage25/25-40/upper-provenance.md'
 assert any(x['checkpoint'] == 40 and x['verdict'] == 'PASS' for x in ctl['audit_history'])
 
 if status50 == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT':
@@ -170,6 +181,9 @@ if status50 == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT':
     assert ctl['next_expected_command'] == 'Stage25-audit'
 else:
     assert cp50['audit'] == 'PASS'
+    assert cp50['positive_power_lower_proved'] is True
+    assert cp50['positive_power_exponent'] == '1/4'
+    assert cp50['directional_b_lower'] == 'N2,b(B)>>B^(1/4)'
     assert cp50['advance_allowed'] is True
     assert cp50['merge_allowed'] is True
     assert any(x['checkpoint'] == 50 and x['verdict'] == 'PASS' for x in ctl['audit_history'])
@@ -186,6 +200,7 @@ print(f'ADMISSIBLE_REDUCED_SAMPLE_COUNT={seen}')
 print('PHYSICAL_CONE_ORDER_B_LT_C_LT_A=PASS')
 print('PRIMITIVE_DIAGONAL_DIVISIBILITY_REGRESSION=PASS')
 print('MISSING_FACE_HYPERELLIPTIC_POLYNOMIAL=PASS')
+print('P_MOD5_TO_Q_T2_BINDING=PASS')
 print('Q_MOD5_BEZOUT_SQUAREFREE_CERTIFICATE=PASS')
 print('HYPERELLIPTIC_DEGREE=16')
 print('HYPERELLIPTIC_GENUS=7')
