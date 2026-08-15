@@ -69,13 +69,13 @@ assert ctl['state']['CURRENT_CHECKPOINT'] == 30
 assert ctl['state']['NEXT_CHECKPOINT'] == 30
 assert ctl['checkpoint30']['three_way_consistency'] == 'PASS'
 assert ctl['checkpoint30']['finite_data_used_as_proof'] is False
-assert ctl['checkpoint30']['exploration_evidence_complete'] is True
 
 status30 = ctl['checkpoint_status']['30']
 if status30 == 'PROVED_SUBMITTED_FOR_FRESH_AUDIT':
     assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
     assert ctl['state']['ADVANCE_ALLOWED'] is False
     assert ctl['state']['MERGE_ALLOWED'] is False
+    assert ctl['checkpoint30']['exploration_evidence_complete'] is True
 elif status30 == 'AUDIT_FAIL_REPAIR_REQUIRED':
     assert ctl['state']['AUDIT_STATUS'] == 'FAIL'
     assert ctl['state']['ADVANCE_ALLOWED'] is False
@@ -86,10 +86,13 @@ elif status30 == 'AUDIT_FAIL_REPAIR_REQUIRED':
     assert ctl['checkpoint30']['path_B_product_accepted'] is True
     assert ctl['checkpoint30']['directional_refinement_accepted'] is False
     assert ctl['checkpoint30']['directional_source_channel_adapter_proved'] is False
+    assert ctl['checkpoint30']['controller_history_preservation_required'] is True
+    assert ctl['checkpoint30']['exploration_evidence_complete'] is False
 elif status30 == 'PROVED_AUDITED_PASS':
     assert ctl['state']['AUDIT_STATUS'] == 'PASS'
     assert ctl['state']['ADVANCE_ALLOWED'] is True
     assert ctl['state']['MERGE_ALLOWED'] is True
+    assert ctl['checkpoint30']['exploration_evidence_complete'] is True
 else:
     raise AssertionError(status30)
 
