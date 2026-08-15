@@ -22,7 +22,7 @@ For the homogenized Meskhishvili first NPC parametrization, on `7/2<t<4` we have
 
 The exact identities preserve two integer face diagonals plus the integer space diagonal. The guaranteed canonical faces are `ab` and `bc`, sharing edge `b`.
 
-The remaining raw face is square only on `w^2=P(t)` with squarefree degree-16 polynomial `P`. The hostile-audit verifier derives its mod-5 `Q` directly from the submitted `P` coefficients, checks the Bezout certificate for `Q,Q'`, and thereby certifies squarefreeness. The smooth projective curve has genus 7, so Faltings leaves only finitely many rational third-face exceptions.
+The remaining raw face is square only on `w^2=P(t)` with squarefree degree-16 `P`. The hostile-audit verifier derives its mod-5 `Q` directly from the submitted `P` coefficients, checks the Bezout certificate for `Q,Q'`, and thereby certifies squarefreeness. The smooth projective curve has genus 7, so Faltings leaves only finitely many rational third-face exceptions.
 
 Reduced parameters occur with count `gg T^2`, space height is `O(T^8)`, and the similarity invariant has fibers of size at most 8. Thus
 
@@ -87,11 +87,11 @@ Backflow records are materialized at:
 Final audited-head CI:
 
 ```text
-Stage25-10 contract audit       run 31865209630  SUCCESS
-Stage25-20 matched-grid replay  run 31865209709  SUCCESS
-Stage25-30 ratio consistency    run 31865209660  SUCCESS
-Stage25-40 upper provenance     run 31865209656  SUCCESS
-Stage25-50 parametric lower     run 31865209648  SUCCESS
+Stage25-10 contract audit       SUCCESS
+Stage25-20 matched-grid replay  SUCCESS
+Stage25-30 ratio consistency    SUCCESS
+Stage25-40 upper provenance     SUCCESS
+Stage25-50 parametric lower     run 31865271324  SUCCESS
 ```
 
 ## Nonclaims preserved
