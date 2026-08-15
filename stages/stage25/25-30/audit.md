@@ -92,9 +92,9 @@ Those deletions do not falsify checkpoint30 mathematics, but they weaken the con
 
 ## CI interpretation
 
-Submission CI run `31856999392` succeeded, but its ratio verifier checks exponent addition and the presence of directional markers; it does not prove the missing chamber-to-shared-edge adapter. CI success therefore does not remove this audit blocker.
+Submission CI run `31856999392` succeeded, but its ratio verifier checked exponent addition and marker presence; it did not prove the missing chamber-to-shared-edge adapter. CI success therefore does not remove this audit blocker.
 
-The verifier has been made audit-state aware during this audit so the accepted global arithmetic remains mechanically checked while checkpoint30 is held at FAIL.
+During this fresh audit, `ratio_audit.py` was made audit-state aware and now preserves the accepted global arithmetic while mechanically recognizing the checkpoint30 FAIL state and the missing directional adapter. The latest verifier-hardening commit is `cb4e6a30eb5137f1c0b1189a7093bdcb948b96b1`.
 
 ```text
 AUDIT_VERDICT=FAIL
