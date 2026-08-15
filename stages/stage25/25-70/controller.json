@@ -1,7 +1,7 @@
 {
   "stage": 25,
   "checkpoint": 70,
-  "status": "CLOSED_AUDITED_MERGED_REENTRY_SYNC_SUBMITTED",
+  "status": "CLOSED_AUDITED_MERGED_REENTRY_SYNC_PENDING_REAUDIT",
   "source_stage": "Stage16",
   "target_stage": "Stage19",
   "stage25_class_candidate": "THIN_BUT_POSITIVE_POWER_INFINITE",
@@ -44,9 +44,12 @@
   "finite_data_used_as_proof": false,
   "parent_controller_sync_policy": "AFTER_AUDIT_PASS_AND_CLOSEOUT_MERGE",
   "parent_controller_sync_required_after_audit_pass": true,
-  "parent_controller_sync_status": "SUBMITTED_IN_REENTRY_UNLOCK_SYNC_PR",
+  "parent_controller_sync_status": "SUBMITTED_IN_REENTRY_UNLOCK_SYNC_PR_PENDING_REAUDIT",
   "stage25_reentry_unlocked": true,
   "stage25_reentry_unlock_condition": "CHECKPOINT70_AUDIT_PASS_AND_CLOSEOUT_MERGED",
+  "sync_audit_status": "PENDING_REAUDIT",
+  "sync_audit_previous_verdict": "FAIL",
+  "sync_audit_fail_reason": "STAGE25_70_CLOSEOUT_CI_REGRESSION",
   "audit_status": "PASS",
   "advance_allowed": true,
   "next_checkpoint": "",
@@ -59,5 +62,5 @@
   "new_input_required": false,
   "human_decision_required": false,
   "codex_audit_required": false,
-  "next_expected_command": "Stage25-reentry-main-batch"
+  "next_expected_command": "Stage25-audit"
 }
