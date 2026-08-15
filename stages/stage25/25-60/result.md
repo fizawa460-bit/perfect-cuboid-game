@@ -1,10 +1,12 @@
-# Stage25 checkpoint60 — causal decomposition and deep-route continuation
+# Stage25 checkpoint60 — causal decomposition, R501/R502 rigidity, and deep-route continuation
 
 CHECKPOINT=60
-STATUS=PROVED_SUBMITTED_FOR_FRESH_AUDIT
+STATUS=REPAIR_SUBMITTED_FOR_FRESH_AUDIT
 DEEP_RESEARCH_MODE=true
+PREVIOUS_AUDIT=FAIL_R502_ROUTE_BOUNDARY
+REPAIR_SCOPE=R502_PRIMITIVE_HEIGHT_MULTIPLICITY_EXACTLY_TWO_NO_UPGRADE_CERTIFICATE
 
-## 1. Entering audited theorem
+## 1. Accepted checkpoint60 core retained unchanged
 
 From checkpoint50:
 
@@ -12,14 +14,12 @@ From checkpoint50:
 B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
 
-The Stage25 endpoint ratio therefore has the audited lower/upper envelope
+The Stage25 endpoint ratio has the audited envelope
 
 \[
 B^{-7/4}(\log B)^{-1}\ll \frac{N_2(B)}{M_1(B)}
 \ll_\varepsilon B^{-3/2+\varepsilon}(\log B)^{-1}.
 \]
-
-## 2. Exact causal cross-ratio
 
 Define
 
@@ -28,98 +28,131 @@ F=\frac{M_2}{M_1},\qquad S=\frac{N_1}{M_1},\qquad
 A=\frac{N_2}{M_2},\qquad T=\frac{N_2}{N_1}.
 \]
 
-Then, whenever denominators are positive,
+Then
 
 \[
-\boxed{I=\frac{A}{S}=\frac{T}{F}=\frac{N_2M_1}{M_2N_1}}.
+\boxed{I=\frac{A}{S}=\frac{T}{F}=\frac{N_2M_1}{M_2N_1}},
+\qquad
+\boxed{\frac{N_2}{M_1}=FSI}.
 \]
 
-Hence the exact corrected product is
-
-\[
-\boxed{\frac{N_2}{M_1}=F\,S\,I}.
-\]
-
-This is an algebraic population-count identity. It is not a stochastic independence factorization and the source/target face strata are not literal subsets.
-
-Using the audited post-checkpoint50 backflow,
-
-\[
-A\gg B^{-3/4}(\log B)^{-5},\qquad
-S\asymp B^{-1}(\log B)^2,
-\]
-
-so
+Using the audited checkpoint50 backflow,
 
 \[
 \boxed{I(B)\gg B^{1/4}(\log B)^{-7}\to\infty}.
 \]
 
-Equivalently the other condition order gives the same result from
+Thus the second-face and space-diagonal requirements have a positive divergent interaction in population-ratio semantics. This is an exact count-ratio correction, not a stochastic-independence claim.
+
+The first hostile checkpoint60 audit explicitly accepted this causal theorem.
+
+## 2. R501 accepted rigidity retained
+
+For R501 reduced parameters in the physical cone,
 
 \[
-T\gg B^{-3/4}(\log B)^{-3},\qquad
-F\asymp B^{-1}(\log B)^4.
+g_{501}=2^{7[m,n\text{ both odd}]}3^{4[3\mid m]}\le10368,
 \]
 
-Thus the second-face and space-diagonal requirements have a rigorously positive divergent interaction in population-ratio semantics.
-
-## 3. Ambient interaction hierarchy
-
-Stage16S gives the ambient integral-space survival scale
-
-\[
-S_0(B)\asymp B^{-1}.
-\]
-
-Stage21 gives the one-face-conditioned interaction multiplier
-
-\[
-J_1(B)=\frac{N_1/M_1}{S_0}\asymp (\log B)^2.
-\]
-
-Stage24 post-Stage25 gives
-
-\[
-J_2(B)=\frac{N_2/M_2}{S_0}
-\gg B^{1/4}(\log B)^{-5}.
-\]
-
-Their quotient is exactly the same cross-ratio:
-
-\[
-\frac{J_2}{J_1}=I.
-\]
-
-Therefore the interaction strengthens from a logarithmic enhancement after one face to a polynomial-over-log enhancement after two faces.
-
-## 4. R501 exact growth rigidity
-
-Checkpoint60 audits the primitive gcd of the R501 homogeneous family. For reduced parameters in the physical cone,
-
-\[
-g=2^{7\,[m,n\text{ both odd}]}3^{4\,[3\mid m]}\le 10368.
-\]
-
-Hence primitive reduction changes height only by a bounded factor and the primitive space height remains degree eight in the parameter height.
-
-The checkpoint50 lower gives
-
-\[
-N_{R501}(B)\gg B^{1/4}.
-\]
-
-Conversely primitive height `<=B` forces the rational parameter height to be `O(B^{1/8})`; there are only `O(B^{1/4})` reduced rational parameter pairs, and the similarity fibers are already bounded. Thus
+and the accepted family-specific theorem is
 
 \[
 \boxed{N_{R501}(B)=\Theta(B^{1/4}).}
 \]
 
-So hidden gcd cancellation cannot upgrade R501 above exponent `1/4`.
+The first hostile checkpoint60 audit accepted this theorem and no part of it is reopened.
 
-## 5. Deeper routes, with persistent assigned names
+## 3. R502 repair — source-level no-upgrade certificate
 
-The route IDs are persistent across checkpoints and audits:
+The previous audit correctly rejected the claim that R502 could be removed from the live set merely because its homogeneous degree is eight. The stronger repair option is now supplied in
+
+`stages/stage25/25-60/r502-primitive-height-no-upgrade.md`.
+
+Using Meskhishvili's third parametrization and `t=m/n`, define
+
+\[
+A=(m^4-n^4)(m^4-81n^4),
+\]
+\[
+B=4mn(m^2-3n^2)(m^4+2m^2n^2+9n^4),
+\]
+\[
+C=16m^2n^2(m^4-9n^4),
+\]
+\[
+D=(m^4-2m^2n^2+9n^4)(m^4+10m^2n^2+9n^4).
+\]
+
+On the fixed cone
+
+\[
+\frac72<\frac mn<4,
+\]
+
+we have
+
+\[
+\boxed{0<A<B<C}.
+\]
+
+The exact primitive gcd is
+
+\[
+\boxed{
+g_{502}=2^{5[m,n\text{ both odd}]}3^{4[3\mid m]}\le2592.
+}
+\]
+
+Therefore primitive space height remains genuinely degree eight:
+
+\[
+\boxed{D/g_{502}\ge m^8/2592}.
+\]
+
+So primitive height `<=B` forces `m,n=O(B^{1/8})`; primitive gcd growth cannot secretly raise the R502 exponent.
+
+The missing-face condition is
+
+\[
+w^2=P_{502}(t),
+\]
+
+where
+
+\[
+P_{502}(t)=t^{16}+16t^{14}-196t^{12}+112t^{10}+5926t^8
++1008t^6-15876t^4+11664t^2+6561.
+\]
+
+The checkpoint60 verifier proves `P_502` squarefree modulo `5`; hence the smooth projective curve has genus `7`. By Faltings only finitely many rational parameters acquire the third face. Thus asymptotically all counted R502 parameters give exactly two integral faces.
+
+On the cone the scale-free invariant
+
+\[
+\frac{C}{D}
+=\frac{16t^2(t^4-9)}{(t^4-2t^2+9)(t^4+10t^2+9)}
+\]
+
+has fibers of size at most `8`, because a fixed invariant value gives a nonzero degree-at-most-eight polynomial equation in `t`.
+
+There are `gg T^2` reduced rational parameters in the cone with `m,n<=T`, while raw height is `O(T^8)` and primitive height is bounded below by a constant multiple of `m^8`. Consequently
+
+\[
+\boxed{N_{R502}(B)=\Theta(B^{1/4}).}
+\]
+
+Thus R502 is independently certified as a genuine same-exponent Stage19 family and **cannot by itself improve the global exponent beyond `1/4`**.
+
+## 4. R504 accepted moving section retained
+
+The generic non-torsion moving section and explicit `3P` section in R504 remain accepted by the previous hostile audit. The presently certified height growth still does not beat exponent `1/4`.
+
+```text
+R504_GENERIC_NONTORSION_SECTION_PROVED=true
+R504_CURRENT_SECTION_BEATS_QUARTER=false
+```
+
+## 5. Persistent route registry and current state
 
 ```text
 R501=Meskhishvili_first_positive_power_family
@@ -131,29 +164,17 @@ R506=common_leg_plus_space
 R507=R501_primitive_height_rigidity
 ```
 
-They are not audit-round labels and must not be renumbered at checkpoint60.
+Current route status after the R502 repair submission:
 
-Current route state:
+- `R501`: `PROVED_THETA_QUARTER`.
+- `R502`: `CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT`; exact family growth `Theta(B^(1/4))`.
+- `R503`: `LIVE_HIGH_VALUE_EXTERNAL_THEOREM_GATE`; uniform varying-fiber height/count remains missing.
+- `R504`: `LIVE_STRUCTURAL_NO_EXPONENT_UPGRADE_YET`; generic non-torsion section proved.
+- `R505`: `LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT`.
+- `R506`: `LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT`.
+- `R507`: `PROVED_R501_PRIMITIVE_HEIGHT_RIGIDITY`.
 
-- `R502`: same homogeneous height degree as R501; fallback/same-exponent route, no immediate global upgrade.
-- `R503`: highest-value live route. The missing input is a uniform height/count theorem over the varying elliptic fibers in the exact Stage19 measure.
-- `R504`: a generic non-torsion moving section is proved (with an explicit `3P` section checked by the elliptic group law), but the currently certified height growth is too expensive to beat exponent `1/4`.
-- `R505`: structurally compatible common-core receiver, but no closed independent dimension/height count yet.
-- `R506`: common-leg + space receiver remains structurally compatible, but no closed independent dimension/height count yet.
-- `R507`: closes the hidden-gcd/primitive-height loophole for R501 and proves exact family growth `Theta(B^(1/4))`.
-
-## 6. Stage14/15 reopen audit
-
-Before describing the remaining wall, checkpoint60 revisits the relevant Stage14/15 deep-review clusters:
-
-- Q03: moving elliptic/Selmer route lacks the required uniform small-point/height theorem;
-- Q05: moving genus-one receiver lacks same-measure global aggregation/uniform height;
-- Q07-Q10: reconstruction/dispersion/Pell routes are exhausted absent a materially new independent equation or average theorem;
-- Q11: fixed-prime local sieve is qualitative and cannot create a lower family or a fixed-power improvement.
-
-R503 matches the old external-uniformity wall but is not discarded: it is retained as the highest-value live external theorem gate. R504 supplies genuinely new moving-section information but not yet a better count.
-
-## 7. Current theorem boundary
+## 6. Current theorem boundary
 
 ```text
 TWO_PATH_CAUSAL_DECOMPOSITION=PASS
@@ -165,6 +186,12 @@ DOUBLE_CHARGE_CHECK=PASS
 R501_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
 R501_GCD_GLOBAL_BOUND=10368
 R501_HIDDEN_GCD_EXPONENT_UPGRADE=false
+R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R502_GCD_GLOBAL_BOUND=2592
+R502_PARAMETER_FIBER_BOUND=8
+R502_THIRD_FACE_EXCEPTION_CURVE_GENUS=7
+R502_HIDDEN_GCD_EXPONENT_UPGRADE=false
+R502_ROUTE_BOUNDARY_CERTIFICATE=SUBMITTED_FOR_FRESH_AUDIT
 R504_GENERIC_NONTORSION_SECTION_PROVED=true
 GLOBAL_LOWER_EXPONENT_ABOVE_QUARTER_PROVED=false
 MATCHING_HALF_POWER_LOWER_PROVED=false
@@ -174,18 +201,19 @@ FINITE_DATA_USED_AS_PROOF=false
 EXPLORATION_EVIDENCE_COMPLETE=true
 ```
 
-## 8. Continuation semantics
+## 7. Continuation semantics
 
-This submission is a fresh-audit gate for the theorem-level checkpoint60 claims above. A PASS certifies these claims but does **not** close checkpoint60 while assigned high-value routes remain actionable.
+A fresh audit is required for the new R502 certificate. A PASS repairs the narrow FAIL finding but still does **not** close checkpoint60 while R503-R506 remain actionable.
 
 ```text
 ROUTE_ID_IS_PERSISTENT=true
 AUDIT_PASS_DOES_NOT_IMPLY_CHECKPOINT60_CLOSE=true
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
 STAGE70_ALLOWED=false
-NEXT_AFTER_AUDITED_MERGE=CONTINUE_CHECKPOINT60_USING_R503_R506_AND_ANY_NEW_R508_PLUS_ROUTE
+NEXT_AFTER_AUDITED_MERGE=CONTINUE_CHECKPOINT60_USING_R503_R506_AND_ANY_GENUINELY_NEW_R508_PLUS_ROUTE
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
 NEXT_CHECKPOINT=60
 MERGE_ALLOWED=false
+NEXT_EXPECTED_COMMAND=Stage25-audit
 ```
