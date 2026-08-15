@@ -1,6 +1,6 @@
 # Stage25-60 deeper-lane triage
 
-STATUS=ACTIVE_CHECKPOINT60_CONTINUATION
+STATUS=R502_REPAIR_SUBMITTED_FOR_FRESH_AUDIT
 
 The route IDs below are persistent allocations inherited from checkpoint50. They are not checkpoint60 round numbers and must not be renamed between audits.
 
@@ -18,12 +18,39 @@ R507=R501_primitive_height_rigidity
 
 ## R502 — Meskhishvili third parametrization
 
-The third displayed NPC parametrization has the same maximal homogeneous degree eight as R501. The same two-dimensional reduced rational parameter count at degree-eight height can reproduce an exponent `1/4`, but without an additional cancellation, new parameter dimension, or smaller physical height it cannot improve the exponent.
+The previous hostile audit correctly rejected the degree-only classification of R502. R502 has now received its own source-level certificate in `r502-primitive-height-no-upgrade.md`.
+
+For reduced parameters in `7/2<t<4`, the homogenized third parametrization has canonical order `0<A<B<C` and exact primitive gcd
+
+\[
+g_{502}=2^{5[m,n\text{ both odd}]}3^{4[3\mid m]}\le2592.
+\]
+
+The primitive space height satisfies
+
+\[
+D/g_{502}\ge m^8/2592,
+\]
+
+so primitive reduction cannot lower degree-eight height by an unbounded factor. The missing-face square condition lies on a squarefree degree-16 hyperelliptic curve of genus seven, giving only finitely many rational third-face exceptions, and the scale-invariant parameter fiber is at most eight.
+
+Hence the family-specific count is
+
+\[
+\boxed{N_{R502}(B)=\Theta(B^{1/4}).}
+\]
 
 ```text
-R502_STATUS=SAME_EXPONENT_FALLBACK
+R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R502_GCD_GLOBAL_BOUND=2592
+R502_PARAMETER_FIBER_BOUND=8
+R502_THIRD_FACE_EXCEPTION_CURVE_GENUS=7
+R502_HIDDEN_GCD_EXPONENT_UPGRADE=false
 R502_EXPONENT_UPGRADE_PROVED=false
 ```
+
+This closes the exact asymmetry identified by the hostile audit if the repair passes fresh review.
 
 ## R503 — Yoshida uniform varying-fiber height
 
@@ -75,7 +102,7 @@ and satisfies identically
 t_3(k)^4+1=(k^4+1)z_3(k)^2.
 \]
 
-This proves a genuine moving non-torsion section, but the presently certified numerator/denominator degrees produce physical height growth too expensive to beat R501's exponent `1/4` with the currently available parameter count.
+This proves a genuine moving non-torsion section, but the presently certified numerator/denominator degrees produce physical height growth too expensive to beat exponent `1/4` with the currently available parameter count.
 
 ```text
 R504_STATUS=LIVE_STRUCTURAL_NO_EXPONENT_UPGRADE_YET
@@ -104,10 +131,10 @@ R506_RESEARCH_CONTINUES_AFTER_CURRENT_AUDIT=true
 
 ## R507 — R501 primitive-height rigidity
 
-Checkpoint60 proves the exact bounded primitive gcd and the reverse parameter-height count, closing the possibility that R501 itself secretly grows faster than `B^(1/4)` after primitive reduction.
+Checkpoint60 proved the exact bounded primitive gcd and reverse parameter-height count for R501. The first hostile checkpoint60 audit explicitly accepted this result.
 
 ```text
-R507_STATUS=SUBMITTED_FOR_FRESH_AUDIT
+R507_STATUS=PROVED_ACCEPTED_BY_PREVIOUS_HOSTILE_AUDIT
 R501_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
 R501_HIDDEN_GCD_EXPONENT_UPGRADE=false
 ```
@@ -119,6 +146,7 @@ HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
 MATCHING_HALF_POWER_LOWER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
 LIVE_HIGH_VALUE_ROUTES=R503,R504,R505,R506
+R502_ROUTE_BOUNDARY_REPAIR=SUBMITTED_FOR_FRESH_AUDIT
 CHECKPOINT60_SINGLE_SHOT=false
 AUDIT_PASS_DOES_NOT_CLOSE_LIVE_ROUTES=true
 STAGE70_ALLOWED=false
