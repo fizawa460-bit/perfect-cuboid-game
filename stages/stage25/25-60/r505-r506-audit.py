@@ -87,7 +87,6 @@ for n in range(1,13):
                 _,_,_,_,_,A,B = toric(m,n,r,s)
                 assert A == u*u + v*v
                 assert B == w*w + z*z
-                # Projective reconstruction ratios.
                 assert Fraction(u,z) == Fraction(m,n)
                 assert Fraction(w,v) == Fraction(m,n)
                 assert Fraction(u,w) == Fraction(r,s)
@@ -96,7 +95,6 @@ for n in range(1,13):
 assert rank_rows > 3000
 
 # Converse on arbitrary positive rational rank-one data generated without toric labels.
-# Choose u,w,z and impose v=w*z/u; then recover the same two projective ratios.
 conv_rows = 0
 for u0 in range(2,19):
     for w0 in range(1,u0+1):
@@ -111,7 +109,7 @@ for u0 in range(2,19):
             conv_rows += 1
 assert conv_rows > 1000
 
-# Artifact contracts.
+# Submission artifact contracts remain mathematically checked even after audit state changes.
 for marker in [
     'R504_ORIGINAL_BASE_STATUS=AUDITED_CLOSED_NO_GLOBAL_UPGRADE',
     'R504_RESIDUAL_STATUS=EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT',
@@ -164,22 +162,53 @@ for marker in [
 assert ctl['stage'] == 'Stage25'
 assert ctl['checkpoint'] == 60
 assert ctl['iteration'] == 'R505_R506_BOUNDARY'
-assert ctl['audit_status'] == 'PENDING'
-assert ctl['advance_allowed'] is False
-assert ctl['next_checkpoint'] == 60
-assert ctl['merge_allowed'] is False
-assert ctl['stage70_allowed'] is False
 assert ctl['persistent_route_ids'] is True
-assert ctl['r504_residual']['status'] == 'EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT'
-assert ctl['r505']['status'] == 'EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT'
-assert ctl['r505']['exact_target_receiver'] is True
-assert ctl['r506']['status'] == 'CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT'
-assert ctl['r506']['subsumed_by_r505_exact_toric_receiver'] is True
 assert ctl['global_stage25_lower_changed'] is False
 assert ctl['deep_stop_rule_candidate'] is True
 assert ctl['deep_stop_rule_satisfied'] is False
-assert ctl['deep_stop_pending_hostile_audit'] is True
 assert ctl['finite_data_used_as_proof'] is False
+
+if ctl['audit_status'] == 'PENDING':
+    assert ctl['status'] == 'SUBMITTED_FOR_FRESH_AUDIT'
+    assert ctl['advance_allowed'] is False
+    assert ctl['next_checkpoint'] == 60
+    assert ctl['merge_allowed'] is False
+    assert ctl['stage70_allowed'] is False
+    assert ctl['r504_residual']['status'] == 'EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT'
+    assert ctl['r505']['status'] == 'EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT'
+    assert ctl['r505']['exact_target_receiver'] is True
+    assert ctl['r506']['status'] == 'CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT'
+    assert ctl['r506']['subsumed_by_r505_exact_toric_receiver'] is True
+    assert ctl['deep_stop_pending_hostile_audit'] is True
+    assert ctl['next_expected_command'] == 'Stage25-audit'
+elif ctl['audit_status'] == 'FAIL':
+    audit = (root/'stages/stage25/25-60/r505-r506-audit.md').read_text(encoding='utf-8')
+    assert ctl['status'] == 'AUDIT_FAIL_REPAIR_REQUIRED'
+    assert ctl['advance_allowed'] is False
+    assert ctl['next_checkpoint'] == 60
+    assert ctl['merge_allowed'] is False
+    assert ctl['stage70_allowed'] is False
+    assert ctl['audit_acceptance']['r505_exact_target_receiver'] is True
+    assert ctl['audit_acceptance']['r506_toric_subsumption'] is True
+    assert ctl['audit_acceptance']['repo_reuse_handoff_complete'] is False
+    assert ctl['audit_acceptance']['discovery_evidence_block_complete'] is False
+    assert ctl['audit_acceptance']['r504_residual_external_gate'] is False
+    assert ctl['r504_residual']['low_degree_base_change_route_remains_open'] is True
+    assert ctl['r504_residual']['multisection_route_remains_open'] is True
+    assert ctl['r504_residual']['growing_multiple_uniform_aggregation_remains_open'] is True
+    assert ctl['next_expected_command'] == 'Stage25-main-batch'
+    for marker in [
+        'AUDIT_VERDICT=FAIL',
+        'R505_EXACT_TARGET_RECEIVER_ACCEPTED=true',
+        'R506_TORIC_SUBSUMPTION_ACCEPTED=true',
+        'REPO_REUSE_HANDOFF_COMPLETE=false',
+        'R504_RESIDUAL_EXTERNAL_GATE_ACCEPTED=false',
+        'CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false',
+        'STAGE70_ALLOWED=false',
+    ]:
+        assert marker in audit, marker
+else:
+    raise AssertionError(f"unsupported audit_status={ctl['audit_status']}")
 
 print(f'R505_TORIC_IDENTITY_ROWS={rows}')
 print(f'R505_SPACE_CORE_ROWS={space_rows}')
@@ -187,7 +216,6 @@ print('R505_SQUAREFREE_CORE_EQUIVALENCE=PASS')
 print(f'R506_RANK_ONE_ROWS={rank_rows}')
 print(f'R506_CONVERSE_PROJECTIVE_ROWS={conv_rows}')
 print('R506_TORIC_SUBSUMPTION=PASS')
-print('R504_RESIDUAL_BOUNDARY_ARTIFACT=PASS')
 print('R505_STAGE15_REUSE_LEDGER=PASS')
-print('CHECKPOINT60_DEEP_STOP_CANDIDATE_PENDING_AUDIT=PASS')
+print(f"R505_R506_CONTROLLER_AUDIT_STATUS={ctl['audit_status']}")
 print('STAGE25_60_R505_R506_AUDIT=PASS')
