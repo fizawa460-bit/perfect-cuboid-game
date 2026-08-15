@@ -67,19 +67,24 @@ A negative exploratory submission may be audited and merged if it materially cer
 
 Only then may checkpoint60 set `NEXT_CHECKPOINT=70`.
 
-## Current state at PR #985
+## Current state at PR #985 after R502 repair submission
+
+The first hostile checkpoint60 audit was `FAIL` only because R502 had been removed from the live set without an R507-strength certificate. That historical FAIL remains preserved in `audit.md`.
+
+R502 now has the stronger repair: a source-level primitive-gcd, primitive-height, exactly-two, multiplicity and two-sided family-growth certificate proving `N_R502(B)=Theta(B^(1/4))`, submitted for fresh audit.
 
 ```text
 PR=985
-AUDIT_STATUS=PENDING
+PREVIOUS_AUDIT=FAIL_R502_ROUTE_BOUNDARY
+AUDIT_STATUS=PENDING_FRESH_REAUDIT
 CHECKPOINT60_CLOSED=false
 STAGE70_ALLOWED=false
 R501=PROVED_B1_4_FAMILY
-R502=SAME_EXPONENT_FALLBACK
+R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
 R503=LIVE_HIGH_VALUE_UNIFORM_HEIGHT_GATE
 R504=LIVE_GENERIC_NONTORSION_SECTION_NO_EXPONENT_UPGRADE_YET
 R505=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
 R506=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
-R507=SUBMITTED_PRIMITIVE_HEIGHT_RIGIDITY
-NEXT_AFTER_PR985_PASS=MERGE_AND_CONTINUE_CHECKPOINT60_UNDER_EXISTING_ROUTE_IDS
+R507=PROVED_ACCEPTED_BY_PREVIOUS_HOSTILE_AUDIT
+NEXT_AFTER_R502_REAUDIT_PASS=MERGE_AND_CONTINUE_CHECKPOINT60_UNDER_R503_R506
 ```
