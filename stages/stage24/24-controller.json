@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage24",
-  "status": "OPEN",
+  "status": "CLOSED_PENDING_MERGE",
   "parent_class": "transition",
   "transition": "Stage18 -> Stage19",
   "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
@@ -12,16 +12,16 @@
     "40": "PROVED_AUDITED_PASS",
     "50": "PROVED_AUDITED_PASS",
     "60": "PROVED_AUDITED_PASS",
-    "70": "SUBMITTED_FOR_FRESH_AUDIT"
+    "70": "PROVED_AUDITED_PASS"
   },
   "state": {
     "CURRENT_CHECKPOINT": 70,
-    "MAIN_STATUS": "SUBMITTED_FOR_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 70,
+    "MAIN_STATUS": "COMPLETE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": "",
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage18",
   "target_stage": "Stage19",
@@ -259,7 +259,9 @@
     "merge_allowed": true
   },
   "checkpoint70": {
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "PROVED_AUDITED_PASS",
+    "audit": "PASS",
+    "audit_path": "stages/stage24/24-70/audit.md",
     "result_path": "stages/stage24/24-70/result.md",
     "self_contained_bundle_required": true,
     "self_contained_bundle_decision": "YES",
@@ -299,10 +301,11 @@
     "survivor_ratio_leading_constant_available": false,
     "perfect_cuboid_conclusion": "NONE",
     "synthesis_stop_rule_satisfied": true,
-    "fresh_hostile_review": "PENDING",
-    "audit_required": true,
-    "advance_allowed": false,
-    "merge_allowed": false
+    "fresh_hostile_review": "PASS",
+    "audit_required": false,
+    "advance_allowed": true,
+    "merge_allowed": true,
+    "close_stage_after_audit_pass": true
   },
   "numerical_reuse": {
     "NUM_REUSE_CHECK": "PASS",
@@ -361,15 +364,25 @@
   },
   "stage70_closeout": {
     "SELF_CONTAINED_BUNDLE_DECISION_REQUIRED": true,
+    "SELF_CONTAINED_BUNDLE_DECISION": "YES",
+    "SELF_CONTAINED_BUNDLE_MATERIALIZED": true,
+    "SELF_CONTAINED_BUNDLE_PATH": "stages/stage24/final.md",
     "ARSENAL_PROMOTION_DECISION_REQUIRED": true,
+    "ARSENAL_PROMOTION_DECISION": "YES",
+    "ARSENAL_PROMOTION_MATERIALIZED": true,
+    "ARSENAL_PROMOTION_PATH": "docs/stage24-arsenal-promotion.md",
     "PROMOTION_MATERIALIZATION_REQUIRED_IF_YES": true,
-    "AGGRESSIVE_SEARCH_LEDGER_REQUIRED": true
+    "AGGRESSIVE_SEARCH_LEDGER_REQUIRED": true,
+    "AGGRESSIVE_SEARCH_LEDGER_MATERIALIZED": true,
+    "AGGRESSIVE_SEARCH_LEDGER_PATH": "stages/stage24/24-70/aggressive-search-ledger.md",
+    "artifact_materialization_status": "COMPLETE",
+    "close_stage_after_audit_pass": true
   },
   "safety_state": {
     "POPULATION_CONTRACT_CHANGED": "NO",
     "COMPARISON_ADAPTER_REQUIRED": "NO",
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT60_AUDIT_PASS_PLUS_STAGE23_POST24_PASS",
-    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT70_SUBMISSION",
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT70_AUDIT_PASS",
+    "DEPENDENCY_LEDGER_COMPLETE": "YES_THROUGH_CHECKPOINT70_AUDIT_PASS",
     "UPSTREAM_PREMISE_CHECK": "PASS_WITH_STAGE19_LOWER_SUPERSESSION_AND_STAGE23_REINVESTIGATION",
     "RETURN_TO_SOURCE_REQUIRED": false
   },
@@ -377,15 +390,15 @@
     "required": true,
     "reason": "checkpoint70 freezes the self-contained Stage24 theorem stack, materializes a reusable arsenal interface, consumes the audited Stage23 post-Stage24 backflow, and closes the bounded synthesis with unresolved exponent/interaction gates explicitly preserved",
     "auditor": "FRESH_STAGE24_AUDIT",
-    "verdict": "PENDING",
+    "verdict": "PASS",
     "record": "stages/stage24/24-70/audit.md"
   },
   "last_audit": {
-    "checkpoint": 60,
+    "checkpoint": 70,
     "verdict": "PASS",
-    "record": "stages/stage24/24-60/audit.md",
-    "audit_commit": "6e41e884457569ccb52fa2d313608ab5e726b5ae",
-    "pr": 977,
+    "record": "stages/stage24/24-70/audit.md",
+    "audit_commit": "2cad019f9b4867c0cdaf81668aed0e1d507712a4",
+    "pr": 979,
     "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
@@ -394,9 +407,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "PENDING_CHECKPOINT70_FRESH_AUDIT",
+    "status": "COMMITTED_CHECKPOINT70_PASS",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage24-audit",
+  "next_expected_command": "merge PR #979",
   "codeX_required": false
 }
