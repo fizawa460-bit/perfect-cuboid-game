@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "campaign": "Stage25-reentry",
+  "origin_task": "Stage25-u24-r002a",
+  "phase": 20,
+  "status": "QUEUED_PENDING_PARENT_AUDIT",
+  "proposals": [
+    {
+      "proposal_id": "P20-01",
+      "origin_task": "Stage25-u24-r002a",
+      "affected_stages": [19, 23, 24],
+      "claim_or_weapon": "all canonical shared-edge Stage19 directions have B^(1/4) lower mass; propagate directional Stage24 survival/interaction and Stage23 pair-overlap lowers",
+      "population_match": "EXACT_OR_ONE_SIDED_INCIDENCE_EMBEDDING",
+      "cutoff_match": "EXACT_R_LE_B",
+      "multiplicity_match": "EXACT_PHYSICAL_FOR_STAGE19_24; ONE_SIDED_SAFE_FOR_STAGE23_RAW_OVERLAPS",
+      "measure_match": "EXACT_DIRECTIONAL_STAGE18_STAGE19_PHYSICAL_MEASURE; RAW_OVERLAP_RECEIVER_FOR_STAGE23",
+      "quantifier_match": "ASYMPTOTIC_B_TO_INFINITY",
+      "novelty_class": "STRENGTHENING",
+      "action": "QUEUE_DERIVED_ROUTE",
+      "audit_required": true,
+      "theorem_changing": true,
+      "derived_route": "Stage25-um-r008a",
+      "derived_route_status": "QUEUED_UNTIL_PHASE20_AUDIT_PASS",
+      "claims": {
+        "Stage19": [
+          "N2,a(B)>>B^(1/4)",
+          "N2,b(B)>>B^(1/4)",
+          "N2,c(B)>>B^(1/4)"
+        ],
+        "Stage24": [
+          "N2,j/M2,j>>_j B^(-3/4)(log B)^(-5) for j=a,b,c",
+          "J2,j>>_j B^(1/4)(log B)^(-5)->infinity for j=a,b,c"
+        ],
+        "Stage23": [
+          "A_ab,ac(B)>>B^(1/4)",
+          "A_ab,bc(B)>>B^(1/4)",
+          "A_ac,bc(B)>>B^(1/4)"
+        ]
+      }
+    }
+  ],
+  "derived_routes_opened": [],
+  "queued_derived_routes": ["Stage25-um-r008a"],
+  "live_derived_routes": [],
+  "phase30_blocked_until_parent_audit_and_backflow_resolution": true,
+  "stage26_allowed": false
+}

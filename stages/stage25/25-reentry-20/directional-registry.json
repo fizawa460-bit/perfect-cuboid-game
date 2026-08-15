@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "campaign": "Stage25-reentry",
+  "phase": 20,
+  "task_id": "Stage25-u24-r002a",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "target_transition": "Stage18->Stage19",
+  "common_contract": {
+    "canonical": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "height": "R=sqrt(a^2+b^2+c^2)",
+    "cutoff": "R<=B",
+    "source_mask": "exactly two integral faces; no space requirement",
+    "target_mask": "exactly two integral faces; integral space diagonal",
+    "literal_subset_transition": true,
+    "finite_data_as_proof": false
+  },
+  "authorization": {
+    "phase10_pr": 1002,
+    "phase10_merge_commit": "5cb7dc8792faf575c1e21fce8166f094af6d7b14",
+    "phase10_audit_verdict": "PASS"
+  },
+  "global_surface": {
+    "M2": "M2(B)~C_M2*B*(log(B))^5; C_M2>0",
+    "N2": "B^(1/4)<<N2(B)<<_epsilon B^(1/2+epsilon)",
+    "survival_lower": "N2/M2>>B^(-3/4)*(log(B))^(-5)",
+    "survival_upper": "N2/M2<<_epsilon B^(-1/2+epsilon)*(log(B))^(-5)",
+    "global_exponent_upgraded": false,
+    "true_N2_exponent_identified": false
+  },
+  "directional_source": {
+    "theorem": "M2,j(B)~C_j*B*(log(B))^5 with C_j>0 for j=a,b,c",
+    "source": "stages/stage24/final.md",
+    "audit_status": "AUDITED_PASS_MERGED"
+  },
+  "directional_families": {
+    "a": {
+      "family": "R501",
+      "cone": "9/2<t<5",
+      "raw_guaranteed_faces": ["A,C", "B,C"],
+      "raw_shared_edge": "C",
+      "canonical_order": "C<min(A,B)",
+      "canonical_shared_edge": "a",
+      "family_height_degree": 8,
+      "parameter_count_degree": 2,
+      "parameter_fiber_bound": 8,
+      "third_face_exception_genus": 7,
+      "lower_candidate": "N2,a(B)>>B^(1/4)",
+      "status": "NEW_CONE_CANDIDATE_PENDING_AUDIT"
+    },
+    "b": {
+      "family": "R501",
+      "cone": "7/2<t<4",
+      "raw_guaranteed_faces": ["A,C", "B,C"],
+      "raw_shared_edge": "C",
+      "canonical_order": "B<C<A",
+      "canonical_shared_edge": "b",
+      "family_height_degree": 8,
+      "parameter_count_degree": 2,
+      "parameter_fiber_bound": 8,
+      "third_face_exception_genus": 7,
+      "lower_candidate": "N2,b(B)>>B^(1/4)",
+      "status": "AUDITED_UPSTREAM_CONSEQUENCE"
+    },
+    "c": {
+      "family": "R502",
+      "cone": "7/2<t<4",
+      "raw_guaranteed_faces": ["A,C", "B,C"],
+      "raw_shared_edge": "C",
+      "canonical_order": "A<B<C",
+      "canonical_shared_edge": "c",
+      "family_height_degree": 8,
+      "parameter_count_degree": 2,
+      "parameter_fiber_bound": 8,
+      "third_face_exception_genus": 7,
+      "exact_family_growth": "Theta(B^(1/4))",
+      "lower_candidate": "N2,c(B)>>B^(1/4)",
+      "status": "AUDITED_UPSTREAM_CONSEQUENCE"
+    }
+  },
+  "directional_candidate": {
+    "theorem": "N2,j(B)>>_j B^(1/4) for j=a,b,c",
+    "survival": "N2,j/M2,j>>_j B^(-3/4)*(log(B))^(-5)",
+    "interaction": "J2,j>>_j B^(1/4)*(log(B))^(-5)->infinity",
+    "whole_family_upper_reused_directionwise": true,
+    "audit_status": "PENDING"
+  },
+  "stage23_overlap_candidate": {
+    "a": "A_ab,ac(B)>>B^(1/4)",
+    "b": "A_ab,bc(B)>>B^(1/4)",
+    "c": "A_ac,bc(B)>>B^(1/4)"
+  },
+  "receiver_mutation": {
+    "id": "R20-M01",
+    "type": "R501_ALTERNATIVE_CANONICAL_CONE",
+    "population_match": "EXACT_STAGE19",
+    "cutoff_match": "EXACT_R_LE_B",
+    "multiplicity_match": "BOUNDED_BY_SCALE_FREE_INVARIANT",
+    "measure_match": "EXACT_PHYSICAL_OBJECT_FAMILY",
+    "quantifier_match": "ASYMPTOTIC_RATIONAL_HEIGHT",
+    "theorem_changing_if_audited": true
+  },
+  "negative_certificates": {
+    "strict_sub_half_upper": "NOT_PROVED",
+    "moving_family_uniformity": "NOT_PROVED",
+    "growing_modulus_uniformity": "NOT_PROVED",
+    "AR023_AR024_measure_transfer": "FORBIDDEN_WITHOUT_ADAPTER",
+    "AR035_growing_modulus_promotion": "FORBIDDEN",
+    "AR028_double_charge": "FORBIDDEN",
+    "R503_R504_R505": "AUDITED_EXTERNAL_GATES"
+  },
+  "backflow": {
+    "theorem_changing": true,
+    "apply_before_audit": false,
+    "derived_route": "Stage25-um-r008a",
+    "affected_stages": [19, 23, 24],
+    "status": "QUEUED_UNTIL_PHASE20_AUDIT_PASS"
+  },
+  "scope_firewall": {
+    "global_N2_exponent_upgraded": false,
+    "true_N2_exponent_identified": false,
+    "perfect_cuboid_existence_proved": false,
+    "perfect_cuboid_nonexistence_proved": false,
+    "stage26_allowed": false
+  }
+}
