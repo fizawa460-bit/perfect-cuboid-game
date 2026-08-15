@@ -75,6 +75,12 @@ R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS
 R507=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
 ```
 
+Historical checkpoint60 verifier compatibility (prior submission marker only):
+
+```text
+HISTORICAL_R502_SUBMISSION_MARKER=R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+```
+
 The first checkpoint60 FAIL and the subsequent PASS remain preserved in the audit history.
 
 ## Current R503 submission
