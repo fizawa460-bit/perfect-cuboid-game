@@ -2,7 +2,7 @@
 
 EVIDENCE_LEVEL=PROVED_INTERFACE_ADAPTER
 CHECKPOINT=10
-STATUS=SUBMITTED_FOR_FRESH_AUDIT
+STATUS=REPAIR_SUBMITTED_FOR_FRESH_AUDIT
 EXPLORATION_PHASE=FULL_TRANSITION_RESEARCH
 FORMULA_SUBSTITUTION_ONLY=false
 
@@ -184,8 +184,6 @@ Checkpoint30 must derive and audit the combined ratio law independently/directly
 
 ## 5. Mechanism map frozen at entry
 
-The two paths currently carry different certified mechanisms.
-
 Path A:
 
 1. Stage22: a second Pythagorean face couples the previously freer complementary edge and costs the sharp scale `(log B)^4/B` in the one-face host;
@@ -220,12 +218,7 @@ Stage24 left the second-order comparison
 
 with sign relative to `1` unresolved. Stage25 must consume that result rather than silently treating the two added conditions as independent.
 
-The combined endpoint ratio may be sharply classifiable even while the internal allocation of cost between the two conditions is not. Stage25 therefore separates:
-
-1. **total combined thinning** `N2/M1`;
-2. **pathwise decomposition** through Stage18 or Stage17;
-3. **interaction sign/order sensitivity** of the two conditions;
-4. **mechanism attribution** and double-charge audit.
+The combined endpoint ratio may be sharply classifiable even while the internal allocation of cost between the two conditions is not. Stage25 therefore separates total combined thinning, pathwise decomposition, interaction sign/order sensitivity, and mechanism attribution.
 
 ## 7. Numerical reuse preflight
 
@@ -245,7 +238,30 @@ NUM_NEW_COMPUTATION_JUSTIFIED=NOT_REQUIRED_AT_CHECKPOINT10
 
 The exact adapter is: `NUM-R01` -> select canonical primitive records with exactly two integral face diagonals, preserving `d=R<=B`, giving the Stage19 target `N2`. `NUM-R06/R07` are not used as direct evidence for `M1`; they are reserved for path/intersection diagnostics at checkpoint20/60.
 
-## 8. Required later-stage exploration
+## 8. Repository-wide reuse / discovery handoff
+
+The checkpoint10 repair executed the normative repository-wide reuse preflight, including the Stage14/15 824-record attack map and curated deep-review queue. The concrete accepted/rejected candidate ledger and exact population adapters are in `25-10/discovery-ledger.md`.
+
+```text
+REPO_REUSE_PREFLIGHT=PASS
+REUSE_SEARCH_SCOPE=ARSENAL,NUM_INDEX,STAGES,SUPPLEMENTS,ARCHIVE,PRS
+REUSED_RESULTS=Stage21-final;Stage22-controller;Stage23-post-Stage24-R01;Stage24-final;Stage19-post-Stage24-50-supersession;NUM-R01/R06/R07;PR#967,#977,#978,#979
+REUSE_MATCH_STATUS=MIXED
+STRONGEST_KNOWN_CHECK=PASS
+STRONGER_PRIOR_RESULT_FOUND=true
+NEW_RESEARCH_JUSTIFIED=NOT_REQUIRED_AT_CHECKPOINT10_CONTRACT_FREEZE
+DISCOVERY_CHECKPOINT=Stage25-10
+SEARCHED_PATHS=RECORDED_IN_DISCOVERY_LEDGER
+CANDIDATES_FOUND=RECORDED_IN_DISCOVERY_LEDGER
+CANDIDATES_ACCEPTED=RECORDED_IN_DISCOVERY_LEDGER
+CANDIDATES_REJECTED_WITH_REASON=RECORDED_IN_DISCOVERY_LEDGER
+POPULATION_ADAPTERS_PROVED=RECORDED_IN_DISCOVERY_LEDGER
+DISCOVERY_LEDGER_STATUS=COMPLETE
+```
+
+The Stage14/15 deep-review queue was used as a negative/supersession filter. In particular, Q05/Q06 remain future uniformity/support gates, Q07-Q10 are exhausted internal routes absent materially new input, and Q11 is qualitative zero density only; none supersedes the current audited Stage24 target interfaces at checkpoint10.
+
+## 9. Required later-stage exploration
 
 ```text
 CP20=BUILD_MATCHED_M1_N2_FINITE_BASELINE_BY_REUSE_FIRST
@@ -258,9 +274,20 @@ CP60=ORDER_OF_CONDITIONS_INTERACTION_CLASSIFICATION_REQUIRED
 CP70=BOUNDED_MAXIMAL_SYNTHESIS
 ```
 
-A later checkpoint may open bounded new research only when it targets a genuinely Stage25-specific missing link. Re-running Stage22/23/24 attacks without a new receiver is not evidence of depth.
+## 10. Repair boundary
 
-## 9. Checkpoint10 exit
+The first checkpoint10 audit accepted the mathematics and failed only the mandatory reuse/discovery evidence and controller taxonomy. This repair therefore does not change any theorem, ratio, count, or endpoint definition.
+
+```text
+PREVIOUS_AUDIT_VERDICT=FAIL
+MATHEMATICS_CONTRACT_ACCEPTED=true
+COUNTS_RECOMPUTE_REQUIRED=false
+MATHEMATICS_REOPEN_REQUIRED=false
+PARENT_CLASS_NORMALIZED_TO=transition
+REPAIR_SCOPE=REUSE_DISCOVERY_EVIDENCE_AND_CONTROLLER_TAXONOMY_ONLY
+```
+
+## 11. Checkpoint10 exit
 
 ```text
 TRANSITION=Stage16->Stage19
@@ -279,8 +306,10 @@ INTERACTION_SIGN_CURRENTLY_UNRESOLVED=true
 DOUBLE_CHARGE_CHECK_REQUIRED=true
 SOURCE_INTERFACE_UPGRADE_CHECK=PASS
 TARGET_INTERFACE_UPGRADE_CHECK=PASS_WITH_STAGE24_50_SUPERSESSION
-STRUCTURAL_SIGNATURE_SEARCH=PASS
-DEPENDENCY_NEIGHBOR_SEARCH=PASS
+REPO_REUSE_PREFLIGHT=PASS
+REUSE_MATCH_STATUS=MIXED
+STRONGEST_KNOWN_CHECK=PASS
+DISCOVERY_CHECKPOINT=Stage25-10
 DISCOVERY_LEDGER_STATUS=COMPLETE
 UPSTREAM_PREMISE_CHECK=PASS
 RETURN_TO_SOURCE_REQUIRED=false
