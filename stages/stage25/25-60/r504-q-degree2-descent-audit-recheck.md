@@ -2,37 +2,18 @@
 
 Status: **PASS FOR DESCENT REPAIR; CHECKPOINT60 CONTINUES**
 
-## Scope
+The previous hostile FAIL remains authoritative history for the overbroad claim that `(a u^2+b)/(u^2+1)` was a complete Q-rational degree-two normal form.
 
-This re-audit reviews the repair to the previous hostile FAIL on PR #992. The previous FAIL remains authoritative history for the overbroad claim that `(a u^2+b)/(u^2+1)` was a complete Q-rational degree-two normal form.
+The repair is audited under the exact R504 equivalence: target coordinate fixed, source reparametrization only by `PGL_2(Q)`.
 
-The current repair changes the equivalence problem to the correct R504 one: target coordinate `k` fixed, source reparametrization only by `PGL_2(Q)`.
+For any degree-two `phi in Q(u)`, `[Q(u):Q(phi)]=2`; characteristic zero gives a separable quadratic, hence Galois, extension. Its unique nontrivial deck automorphism fixes Q and lies in `Aut_Q Q(u)=PGL_2(Q)`.
 
-## Independent verification
+A trace-zero representative `M=[[p,q],[r,-p]]` satisfies `M^2=(p^2+qr)I`; invertibility gives `p^2+qr != 0`. Its squareclass determines the fixed-point type.
 
-Let `phi in Q(u)` have degree two. Then `[Q(u):Q(phi)]=2`. In characteristic zero the extension is separable; every separable quadratic extension is Galois, so it has a unique nontrivial deck automorphism. Because it fixes `Q(phi)` and hence `Q`, it lies in `Aut_Q Q(u)=PGL_2(Q)`.
+- Split: Q-conjugate to `u -> -u`, fixed field `Q(u^2)`, hence normal-form species `(A*u^2+B)/(C*u^2+D)`.
+- Nonsplit squareclass `d`: Q-conjugate to `u -> d/u`, fixed field `Q(u+d/u)`, hence normal-form species `(A*(u^2+d)+B*u)/(C*(u^2+d)+D*u)`.
 
-An involution in `PGL_2(Q)` may be represented by a trace-zero matrix
-
-`M=[[p,q],[r,-p]]`, with `M^2=(p^2+qr) I`.
-
-Since `M` is invertible, `p^2+qr != 0`. The squareclass of `p^2+qr` is the fixed-point discriminant squareclass.
-
-- Split squareclass: the involution has two Q-rational fixed points and is Q-conjugate to `u -> -u`; its fixed field is `Q(u^2)`.
-- Nonsplit squareclass `d`: the involution is Q-conjugate to `u -> d/u`; its fixed field is `Q(u+d/u)`.
-
-Because `Q(phi)` equals the corresponding fixed field, if `t` denotes `u^2` or `u+d/u`, then `Q(phi)=Q(t)`. Two Q-generators of a rational function field differ by a Möbius transformation, so `phi=M_0(t)` with `M_0 in PGL_2(Q)`. This yields exactly the submitted normal-form species
-
-- split: `(A*u^2+B)/(C*u^2+D)`;
-- nonsplit: `(A*(u^2+d)+B*u)/(C*(u^2+d)+D*u)`;
-
-with `AD-BC != 0`, and `d` defined modulo Q-squares.
-
-The word “species” is important: this audit does not assert uniqueness of the coefficient tuple `(A,B,C,D)` after residual source centralizer actions. It certifies completeness of the split/nonsplit source-equivalence classification.
-
-## Verdict on the repair
-
-The previous normalization blocker is repaired.
+Because `Q(phi)` equals the corresponding fixed field, `phi` is a Möbius transform of the displayed invariant generator. This proves completeness of the split/nonsplit source-equivalence species. The audit does not assert uniqueness of the coefficient tuple after residual source-centralizer actions.
 
 ```text
 PREVIOUS_AUDIT_VERDICT=FAIL
@@ -47,9 +28,7 @@ R504_PREVIOUS_EVEN_NORMAL_FORM_COMPLETE_CLAIM=false
 R504_PREVIOUS_EVEN_NORMAL_FORM_SCOPE=STRICT_SPLIT_SUBFAMILY
 ```
 
-## Scope firewall
-
-This PASS does **not** close the degree-two route. The submitted even-family symbolic elimination remains valid only for its strict split subfamily. The complete split family and all nonsplit squareclasses still require analysis.
+This PASS does not close the degree-two route. The full split family and every nonsplit squareclass family still require analysis; Prym is not yet certified as the sole residual.
 
 ```text
 R504_FULL_SPLIT_NORMAL_FORM_ANALYSIS_REQUIRED=true
