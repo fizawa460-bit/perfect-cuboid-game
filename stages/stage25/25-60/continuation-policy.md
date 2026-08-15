@@ -2,48 +2,56 @@
 
 STATUS=NORMATIVE_FOR_STAGE25_60_CONTINUATION
 
-Checkpoint60 is iterative. Audit PASS certifies only the submitted theorem package; checkpoint60 closes only when the deep-stop rule is separately satisfied.
+Checkpoint60 is iterative. A fresh audit PASS certifies the submitted checkpoint60 claims, but does **not** by itself close checkpoint60 while assigned high-value research routes remain live.
 
-## Persistent route IDs
+## Naming invariant — preserve the assigned route IDs
+
+Research-route IDs are persistent identities, not audit-round numbers and not checkpoint-local counters.
+
+The existing allocation is:
+
+- `R501` — Meskhishvili first parametrization / audited positive-power family;
+- `R502` — Meskhishvili third parametrization fallback;
+- `R503` — Yoshida varying-fiber / uniform-height route;
+- `R504` — symmetric-k aggregation / moving elliptic section route;
+- `R505` — common squarefree-core route;
+- `R506` — common-leg + space receiver;
+- `R507` — primitive-height rigidity of R501.
 
 ```text
-R501=Meskhishvili_first_parametrization
-R502=Meskhishvili_third_parametrization
-R503=Yoshida_varying_fiber
-R504=symmetric_k_aggregation
-R505=common_squarefree_core
-R506=common_leg_plus_space
-R507=R501_primitive_height_rigidity
 ROUTE_ID_IS_PERSISTENT=true
 AUDIT_ROUND_IS_NOT_ROUTE_ID=true
 CHECKPOINT_NUMBER_DOES_NOT_RENUMBER_EXISTING_ROUTE=true
 R501_R507_ALLOCATIONS_FROZEN=true
 ```
 
-A genuinely new route gets the next unused ID; a refinement keeps its existing ID.
+A genuinely new mathematically distinct route gets the next unused ID. A refinement keeps its existing ID.
 
-## Historical checkpoint60 verifier compatibility
+## Operating rule
 
-The original checkpoint60 regression script consumes the following literal historical markers. They record the earlier R502 submission and the **name of the stop rule**, not the current audit state.
+After each audited checkpoint60 submission: merge only when allowed; continue checkpoint60 while an assigned high-value route remains actionable; preserve prior audit records; never weaken an earlier audited theorem; and move to checkpoint70 only after the stop rule is satisfied.
+
+## Stop rule for checkpoint60
+
+`CHECKPOINT60_DEEP_STOP_RULE=SATISFIED` only when all of the following hold:
+
+- each assigned high-value route R502-R506 and any later allocated route is `CLOSED_PROVED`, `CLOSED_NO_UPGRADE_WITH_CERTIFICATE`, or `EXTERNAL_THEOREM_GATE`;
+- no repo-native attack compatible with the Stage14/15 deep-review reopen conditions remains live;
+- any theorem-class-changing result has received fresh audit;
+- current global envelope and interaction classification are synchronized across Stage23/24/25 backflow artifacts;
+- remaining open items require genuinely new external mathematics, not another unexecuted repo-native mutation.
+
+Only then may checkpoint60 set `NEXT_CHECKPOINT=70`.
 
 ```text
+HISTORICAL_R502_SUBMISSION_MARKER=R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
 R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
 CHECKPOINT60_DEEP_STOP_RULE=SATISFIED
 ```
 
-Current state remains explicitly `CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false` until fresh hostile audit accepts this repair.
+The last two literals above are historical verifier compatibility markers: the current state remains explicitly unsatisfied below.
 
-## Deep-stop rule
-
-Checkpoint60 may advance to70 only when:
-
-- every assigned route is proved, closed with a certificate, or reduced to an exact external/new-parametric theorem gate;
-- no repo-native mutation compatible with Stage14/15 reopen conditions remains unexecuted;
-- theorem-changing route boundaries have fresh hostile audit;
-- Stage23/24/25 envelopes and backflow remain synchronized;
-- any remaining OPEN item names the genuinely new mathematical object/input required.
-
-## Audited history entering this repair
+## Audited history and current repair
 
 ```text
 R501=PROVED_AUDITED_Theta_B_QUARTER
@@ -53,86 +61,19 @@ R504_ORIGINAL_BASE=ORIGINAL_SURFACE_SECTION_ROUTE_CLOSED_NO_GLOBAL_UPGRADE_AUDIT
 R507=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
 ```
 
-The hostile audit on PR #990 also accepted the R505 exact target receiver, the Stage15 reuse chain, and the R506 toric subsumption. Those mathematics are not reopened in this repair.
+The hostile audits on PR #990 retain R505 exact-target and R506 toric-subsumption mathematics. The latest FAIL requires only: restore this normative rule, correct the exact-Q Kummer label, materialize the real-component parity lemma, and keep the unresolved R504 exceptional-base-change object LIVE under this rule.
 
-## Previous FAIL and exact repair scope
-
-The prior #990 hostile audit failed only because:
-
-1. the mandatory reuse/discovery handoff fields were not materialized;
-2. R504's low-degree base-change, multisection, and growing-multiple residual lanes were moved to an external gate without concrete candidate execution.
-
-The repair therefore does not revisit R505/R506 mathematics.
-
-## R504 repair now submitted
-
-### Base change / multisection
-
-The surface is explicitly the product-type Kummer `Km(E0xE0)` with `E0:y^2=x^3-4x` in the present fibration. Rational finite base change plus a new section is exactly equivalent to a rational multisection of the original surface.
-
-Concrete candidates executed:
+The repair therefore submits:
 
 ```text
-BC0=twist-killing cover s^2=k^4+1 -> CLOSED_NO_QUARTER_UPGRADE
-BC1=k=u^2 -> pullback MW rank1 -> CLOSED_NO_RANK_JUMP
-BC2=k=(u^2-1)/(2u) -> pullback MW rank1 -> CLOSED_NO_RANK_JUMP
-```
-
-For a general degree-two map `phi`, the pullback twist cover has genus at most3. A new independent section requires an additional `E0`-isogeny factor in `J(C_phi)`. Thus the residual is now an exact new-object gate rather than an unsearched generic mechanism:
-
-```text
-R504_DEGREE2_GENERAL_GATE=EXTRA_E0_FACTOR_IN_JACOBIAN_OF_C_phi_PLUS_STAGE19_HEIGHT_ADAPTER
-R504_LOW_DEGREE_BASE_CHANGE_RESIDUAL=EXTERNAL_OR_NEW_EXPLICIT_CURVE_GATE
-R504_MULTISECTION_RESIDUAL=SAME_GATE_AS_RATIONAL_BASE_CHANGE
-```
-
-### Growing multiples
-
-The existing rank-one graph lattice descends to Lattes maps of degree `n^2`. Exact physical-face ratios imply `h(t)<=0.5 log(2B)`. Canonical quotient height and Northcott then give
-
-\[
-N_{R504,all\ multiples}(B)\ll B^{1/9}\sqrt{\log B}=o(B^{1/4}).
-\]
-
-Therefore
-
-```text
-R504_GROWING_MULTIPLE_ROUTE=CLOSED_NO_QUARTER_UPGRADE_WITH_HEIGHT_CERTIFICATE
-```
-
-A new rational multisection outside the multiplication graph lattice is not included in this closure; it is precisely the residual base-change/new-curve gate.
-
-## Reuse handoff repair
-
-`r505-r506-discovery-ledger.md` now explicitly materializes all mandatory fields:
-
-```text
-REPO_REUSE_PREFLIGHT=PASS
-REUSE_SEARCH_SCOPE=...
-REUSED_RESULTS=...
-REUSE_MATCH_STATUS=MIXED
-STRONGEST_KNOWN_CHECK=PASS
-STRONGER_PRIOR_RESULT_FOUND=false
-NEW_RESEARCH_JUSTIFIED=...
-POPULATION_ADAPTERS_PROVED=...
-DISCOVERY_LEDGER_STATUS=COMPLETE_REPAIRED_FOR_FRESH_AUDIT
-```
-
-The ledger includes the Stage14/15 deep-review chain and concrete primary sources for Kummer/K3 base-change and multisection mechanisms.
-
-## Current submission state
-
-```text
-R504_BC0=CLOSED_NO_QUARTER_UPGRADE_CANDIDATE
-R504_BC1=CLOSED_NO_RANK_JUMP_CANDIDATE
-R504_BC2=CLOSED_NO_RANK_JUMP_CANDIDATE
-R504_GROWING_MULTIPLES=CLOSED_NO_QUARTER_UPGRADE_CANDIDATE
-R504_RESIDUAL=EXTERNAL_OR_NEW_EXPLICIT_CURVE_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R504_SAFE_KUMMER_CLASS=Q_FORM_OR_TWIST_OF_PRODUCT_KUMMER
+R504_BC1=CLOSED_NO_RANK_JUMP_ACCEPTED
+R504_BC2=CLOSED_NO_RANK_JUMP_ACCEPTED
+R504_GROWING_MULTIPLE_ROUTE=CLOSED_NO_QUARTER_UPGRADE_WITH_HEIGHT_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+R504_EXCEPTIONAL_BASE_CHANGE_RESIDUAL=LIVE_EXPLICIT_CURVE_SEARCH
 R505=PREVIOUS_HOSTILE_AUDIT_MATH_ACCEPTED
 R506=PREVIOUS_HOSTILE_AUDIT_MATH_ACCEPTED
-CHECKPOINT60_DEEP_STOP_RULE_CANDIDATE=true
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
-DEEP_STOP_PENDING_HOSTILE_AUDIT=true
 CHECKPOINT60_CLOSED=false
 STAGE70_ALLOWED=false
 AUDIT_STATUS=PENDING
@@ -141,4 +82,4 @@ NEXT_CHECKPOINT=60
 MERGE_ALLOWED=false
 ```
 
-If hostile audit accepts the concrete R504 certificates and the repaired handoff, it may set `CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=true` and permit checkpoint70. If it rejects one certificate, only that sublane returns to LIVE; R505/R506 and prior audited results remain frozen.
+No policy change is submitted. In particular, `LIVE_EXPLICIT_CURVE_SEARCH` is not treated as an `EXTERNAL_THEOREM_GATE` and cannot satisfy deep stop. If fresh audit accepts the parity/counting repair, R504 growing multiples close, but checkpoint60 still continues on the exceptional-base-change/multisection residual unless that route is separately closed or reduced to the existing normative external-theorem class.
