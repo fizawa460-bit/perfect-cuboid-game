@@ -42,10 +42,16 @@ assert ctl['full_split_normal_form_analysis_required'] is True
 assert ctl['nonsplit_normal_form_analysis_required'] is True
 assert ctl['prym_as_sole_degree2_residual_accepted'] is False
 assert ctl['stage70_allowed'] is False
-assert ctl['audit_status']=='PENDING'
+assert ctl['audit_status'] in ('PENDING','PASS')
+if ctl['audit_status']=='PASS':
+    assert ctl['complete_q_degree2_descent_audited'] is True
+    assert ctl['advance_allowed'] is True
+    assert ctl['merge_allowed'] is True
+    assert ctl['next_checkpoint']==60
 
 print('R504_EVEN_SUBFAMILY_SYMBOLIC_CERTIFICATE=PASS')
 print('R504_Q_DEGREE2_COMPLETE_SOURCE_DESCENT=PASS')
 print('R504_SPLIT_PLUS_NONSPLIT_STRATA_MATERIALIZED=PASS')
 print('R504_PRYM_AS_SOLE_RESIDUAL=false')
 print('R504_STAGE70_BLOCKED=PASS')
+print(f"R504_AUDIT_STATUS={ctl['audit_status']}")
