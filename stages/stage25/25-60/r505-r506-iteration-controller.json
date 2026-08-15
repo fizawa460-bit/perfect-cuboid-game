@@ -2,8 +2,9 @@
   "stage": "Stage25",
   "checkpoint": 60,
   "iteration": "R505_R506_BOUNDARY",
-  "status": "SUBMITTED_FOR_FRESH_AUDIT",
-  "audit_status": "PENDING",
+  "status": "AUDIT_FAIL_REPAIR_REQUIRED",
+  "audit_status": "FAIL",
+  "audit_record": "stages/stage25/25-60/r505-r506-audit.md",
   "advance_allowed": false,
   "next_checkpoint": 60,
   "merge_allowed": false,
@@ -16,36 +17,56 @@
     "R504_original_base": "CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS",
     "R507": "PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY"
   },
+  "audit_acceptance": {
+    "r505_exact_target_receiver": true,
+    "r506_toric_subsumption": true,
+    "r505_stage15_reuse_chain": true,
+    "repo_reuse_handoff_complete": false,
+    "discovery_evidence_block_complete": false,
+    "r504_residual_external_gate": false,
+    "r504_residual_route_boundary_evidence_complete": false
+  },
   "r504_residual": {
-    "status": "EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT",
+    "submitted_status": "EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT",
+    "audit_status": "NOT_ACCEPTED_EVIDENCE_INCOMPLETE",
     "ready_same_measure_base_change_adapter_found": false,
     "new_explicit_base_change_reopens_route": true,
+    "low_degree_base_change_route_remains_open": true,
+    "multisection_route_remains_open": true,
+    "growing_multiple_uniform_aggregation_remains_open": true,
     "global_lower_changed": false
   },
   "r505": {
-    "status": "EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT",
+    "submitted_status": "EXTERNAL_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT",
     "exact_target_receiver": true,
     "space_condition": "sf(A)=sf(B) iff A=kP^2,B=kQ^2",
     "receiver_is_construction_by_itself": false,
     "stage15_internal_route_search_reused": true,
     "remaining_gate": "WHOLE_FAMILY_PHYSICAL_HEIGHT_UNIFORMITY_OR_GENUINELY_NEW_PARAMETRIC_FAMILY",
+    "mathematics_reopen_required": false,
     "global_lower_changed": false
   },
   "r506": {
-    "status": "CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT",
+    "submitted_status": "CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT",
     "rank_one_identity": "uv=wz",
     "subsumed_by_r505_exact_toric_receiver": true,
     "independent_parameter_dimension": false,
+    "mathematics_reopen_required": false,
     "global_lower_changed": false
   },
   "global_stage25_lower": "N2(B)>>B^(1/4)",
   "global_stage25_upper": "N2(B)<<_epsilon B^(1/2+epsilon)",
   "global_stage25_lower_changed": false,
+  "global_mathematics_reopen_required": false,
   "matching_half_power_lower_proved": false,
   "true_target_exponent_identified": false,
   "finite_data_used_as_proof": false,
   "deep_stop_rule_candidate": true,
   "deep_stop_rule_satisfied": false,
-  "deep_stop_pending_hostile_audit": true,
-  "next_expected_command": "Stage25-audit"
+  "deep_stop_pending_hostile_audit": false,
+  "repair_scope": "COMPLETE_REUSE_HANDOFF_AND_R504_RESIDUAL_ROUTE_BOUNDARY_EVIDENCE",
+  "new_input_required": false,
+  "human_decision_required": false,
+  "codex_audit_required": false,
+  "next_expected_command": "Stage25-main-batch"
 }
