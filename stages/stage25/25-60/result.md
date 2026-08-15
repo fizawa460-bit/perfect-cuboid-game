@@ -1,225 +1,191 @@
-# Stage25-60 — causal decomposition after the positive-power breakthrough
+# Stage25 checkpoint60 — causal decomposition and deep-route continuation
 
-EVIDENCE_LEVEL=PROVED_FROM_AUDITED_INTERFACES_PLUS_NEW_R507
 CHECKPOINT=60
 STATUS=PROVED_SUBMITTED_FOR_FRESH_AUDIT
-STAGE=Stage25
-TRANSITION=Stage16->Stage19
+DEEP_RESEARCH_MODE=true
 
 ## 1. Entering audited theorem
 
-Checkpoint50 established
+From checkpoint50:
 
 \[
-\boxed{B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.}
+B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
 
-Therefore the Stage25 endpoint ratio is currently
+The Stage25 endpoint ratio therefore has the audited lower/upper envelope
 
 \[
-\boxed{
-B^{-7/4}(\log B)^{-1}
-\ll \frac{N_2(B)}{M_1(B)}
+B^{-7/4}(\log B)^{-1}\ll \frac{N_2(B)}{M_1(B)}
 \ll_\varepsilon B^{-3/2+\varepsilon}(\log B)^{-1}.
-}
 \]
 
-Checkpoint60 asks what this means causally, whether the two legal paths agree without double charging, and whether the remaining lower lanes can already improve the exponent `1/4`.
-
-## 2. Exact two-path causal decomposition
-
-Put
-
-\[
-F=M_2/M_1,\quad S=N_1/M_1,\quad A=N_2/M_2,\quad T=N_2/N_1.
-\]
-
-The legal path identities are
-
-\[
-N_2/M_1=F A=S T.
-\]
+## 2. Exact causal cross-ratio
 
 Define
 
 \[
-I=\frac{A}{S}=\frac{T}{F}=\frac{N_2M_1}{M_2N_1}.
+F=\frac{M_2}{M_1},\qquad S=\frac{N_1}{M_1},\qquad
+A=\frac{N_2}{M_2},\qquad T=\frac{N_2}{N_1}.
 \]
 
-Then the formerly-invalid naive product receives an exact interaction correction:
+Then, whenever denominators are positive,
 
 \[
-\boxed{N_2/M_1=F S I.}
+\boxed{I=\frac{A}{S}=\frac{T}{F}=\frac{N_2M_1}{M_2N_1}}.
 \]
 
-Since
+Hence the exact corrected product is
 
 \[
-F\asymp B^{-1}(\log B)^4,\qquad
-S\asymp B^{-1}(\log B)^2,
+\boxed{\frac{N_2}{M_1}=F\,S\,I}.
 \]
 
-and checkpoint50 gives
+This is an algebraic population-count identity. It is not a stochastic independence factorization and the source/target face strata are not literal subsets.
+
+Using the audited post-checkpoint50 backflow,
 
 \[
 A\gg B^{-3/4}(\log B)^{-5},\qquad
-T\gg B^{-3/4}(\log B)^{-3},
+S\asymp B^{-1}(\log B)^2,
 \]
 
-we get
+so
 
 \[
-\boxed{I(B)\gg B^{1/4}(\log B)^{-7}\to\infty.}
+\boxed{I(B)\gg B^{1/4}(\log B)^{-7}\to\infty}.
 \]
 
-The matching inherited upper is
+Equivalently the other condition order gives the same result from
 
 \[
-I(B)\ll_\varepsilon B^{1/2+\varepsilon}(\log B)^{-7}.
+T\gg B^{-3/4}(\log B)^{-3},\qquad
+F\asymp B^{-1}(\log B)^4.
 \]
 
-Thus the second-face and space-diagonal requirements have a rigorously **positive divergent population-ratio interaction**. The combined population is asymptotically much larger than the raw product `F*S`; `I` is the exact correction factor. No stochastic independence claim is made.
+Thus the second-face and space-diagonal requirements have a rigorously positive divergent interaction in population-ratio semantics.
 
-## 3. Ambient-control hierarchy
+## 3. Ambient interaction hierarchy
 
-Stage16S gives the ambient space ratio
+Stage16S gives the ambient integral-space survival scale
 
 \[
-S_0\asymp B^{-1}.
+S_0(B)\asymp B^{-1}.
 \]
 
-Stage21 gives
+Stage21 gives the one-face-conditioned interaction multiplier
 
 \[
-J_1=\frac{S}{S_0}\asymp(\log B)^2.
+J_1(B)=\frac{N_1/M_1}{S_0}\asymp (\log B)^2.
 \]
 
-Stage24 after checkpoint50 gives
+Stage24 post-Stage25 gives
 
 \[
-J_2=\frac{A}{S_0}
-\gg B^{1/4}(\log B)^{-5}\to\infty.
+J_2(B)=\frac{N_2/M_2}{S_0}
+\gg B^{1/4}(\log B)^{-5}.
 \]
 
-Moreover
+Their quotient is exactly the same cross-ratio:
 
 \[
-\boxed{J_2/J_1=I\to\infty.}
+\frac{J_2}{J_1}=I.
 \]
 
-So prior one-face conditioning enhances space integrality only logarithmically, while prior two-face conditioning enhances it by at least a positive polynomial factor divided by logs. The second face changes the interaction class.
+Therefore the interaction strengthens from a logarithmic enhancement after one face to a polynomial-over-log enhancement after two faces.
+
+## 4. R501 exact growth rigidity
+
+Checkpoint60 audits the primitive gcd of the R501 homogeneous family. For reduced parameters in the physical cone,
+
+\[
+g=2^{7\,[m,n\text{ both odd}]}3^{4\,[3\mid m]}\le 10368.
+\]
+
+Hence primitive reduction changes height only by a bounded factor and the primitive space height remains degree eight in the parameter height.
+
+The checkpoint50 lower gives
+
+\[
+N_{R501}(B)\gg B^{1/4}.
+\]
+
+Conversely primitive height `<=B` forces the rational parameter height to be `O(B^{1/8})`; there are only `O(B^{1/4})` reduced rational parameter pairs, and the similarity fibers are already bounded. Thus
+
+\[
+\boxed{N_{R501}(B)=\Theta(B^{1/4}).}
+\]
+
+So hidden gcd cancellation cannot upgrade R501 above exponent `1/4`.
+
+## 5. Deeper routes, with persistent assigned names
+
+The route IDs are persistent across checkpoints and audits:
 
 ```text
-AMBIENT_SPACE_COST=B^-1
-ONE_FACE_SPACE_INTERACTION=POSITIVE_LOG_SQUARED
-TWO_FACE_SPACE_INTERACTION=POSITIVE_DIVERGENT_AT_LEAST_B^1/4_LOG^-5
-SECOND_FACE_INCREMENTAL_INTERACTION=POSITIVE_DIVERGENT
+R501=Meskhishvili_first_positive_power_family
+R502=Meskhishvili_third_parametrization_fallback
+R503=Yoshida_uniform_varying_fiber_height
+R504=symmetric_k_aggregation
+R505=common_squarefree_core
+R506=common_leg_plus_space
+R507=R501_primitive_height_rigidity
 ```
 
-## 4. Order-of-conditions classification
+They are not audit-round labels and must not be renumbered at checkpoint60.
 
-The same cross-ratio appears in both orders:
+Current route state:
 
-\[
-\frac{N_2/M_2}{N_1/M_1}=I
-\]
-compares space integrality after two faces versus after one face, while
+- `R502`: same homogeneous height degree as R501; fallback/same-exponent route, no immediate global upgrade.
+- `R503`: highest-value live route. The missing input is a uniform height/count theorem over the varying elliptic fibers in the exact Stage19 measure.
+- `R504`: a generic non-torsion moving section is proved (with an explicit `3P` section checked by the elliptic group law), but the currently certified height growth is too expensive to beat exponent `1/4`.
+- `R505`: structurally compatible common-core receiver, but no closed independent dimension/height count yet.
+- `R506`: common-leg + space receiver remains structurally compatible, but no closed independent dimension/height count yet.
+- `R507`: closes the hidden-gcd/primitive-height loophole for R501 and proves exact family growth `Theta(B^(1/4))`.
 
-\[
-\frac{N_2/N_1}{M_2/M_1}=I
-\]
-compares the second-face ratio after space integrality versus before space integrality.
+## 6. Stage14/15 reopen audit
 
-Hence the order-of-conditions interaction is **symmetric and positive at the exact population cross-ratio level**. This does not mean the strata are literal nested subsets.
+Before describing the remaining wall, checkpoint60 revisits the relevant Stage14/15 deep-review clusters:
 
-## 5. r501 lane saturation: new theorem
+- Q03: moving elliptic/Selmer route lacks the required uniform small-point/height theorem;
+- Q05: moving genus-one receiver lacks same-measure global aggregation/uniform height;
+- Q07-Q10: reconstruction/dispersion/Pell routes are exhausted absent a materially new independent equation or average theorem;
+- Q11: fixed-prime local sieve is qualitative and cannot create a lower family or a fixed-power improvement.
 
-Checkpoint60 proves an exact primitive gcd theorem for the checkpoint50 parametric family:
+R503 matches the old external-uniformity wall but is not discarded: it is retained as the highest-value live external theorem gate. R504 supplies genuinely new moving-section information but not yet a better count.
 
-\[
-\gcd(A,B,C)=2^{7\epsilon_2}3^{4\epsilon_3}\le10368,
-\]
-where `epsilon_2=1` iff `m,n` are both odd and `epsilon_3=1` iff `3|m`.
-
-Since raw space height
-
-\[
-D=m^8+46m^4n^4+81n^8\ge m^8,
-\]
-primitive height satisfies
-
-\[
-D_{prim}\ge m^8/10368.
-\]
-
-Together with the checkpoint50 lower count, this gives the exact internal family order
-
-\[
-\boxed{N_{r501}(B)=\Theta(B^{1/4}).}
-\]
-
-Thus the audited r501 lane itself is exhausted at exponent `1/4`: hidden gcd cancellation cannot improve it.
-
-## 6. Deeper lower search
-
-All checkpoint50 open lanes were reopened.
-
-- `R502` Meskhishvili third family: same degree-eight mechanism, so no exponent improvement from degree count alone.
-- `R503` Yoshida elliptic surface: remains the highest-value route; the `32:1` structural map and infinitely many positive-rank fibers are known, but no uniform bounded-height count over varying fibers is currently certified.
-- `R504` symmetric-k aggregation: new structural progress. The degenerate section `(t,z)=(k,1)` is generically non-torsion because its `k=2` specialization is the audited infinite-order point. An explicit `3P` rational section is recorded, but its available height degree is worse than r501 and yields no stronger lower theorem.
-- `R505/R506` common-core/common-leg receivers: remain open without a closed dimension/height count.
-
-Therefore
-
-```text
-HIGHER_THAN_ONE_QUARTER_SEARCH=EXECUTED
-HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
-MATCHING_HALF_POWER_LOWER_PROVED=false
-TRUE_TARGET_EXPONENT_IDENTIFIED=false
-BEST_OPEN_ROUTE=R503_YOSHIDA_UNIFORM_VARYING_FIBER_HEIGHT
-```
-
-This is a bounded stop: further progress now requires a genuinely new uniform height/count theorem or another higher-dimensional polynomial-height family.
-
-## 7. Double-charge firewall
-
-The following remain forbidden:
-
-- multiplying `F` and `S` and calling the result `N2/M1` without the interaction correction `I`;
-- multiplying Path A and Path B estimates;
-- reusing Stage21's `(log B)^2` enhancement as an extra factor after it has already entered `S`;
-- multiplying Stage24 thin-cover/local-sieve savings onto the half-power upper;
-- interpreting `I->infinity` as probabilistic dependence or an objectwise conditional probability.
-
-The legal corrected decomposition is exactly
-
-\[
-\boxed{N_2/M_1=(M_2/M_1)(N_1/M_1)I.}
-\]
-
-## 8. Exit / audit decision
-
-Checkpoint60 contains two genuinely new theorem-level statements:
-
-1. the exact positive-divergent corrected-product causal decomposition after the quarter-power backflow;
-2. the r501 primitive-gcd rigidity and exact family growth `Theta(B^(1/4))`.
-
-It also adds the generic non-torsion symmetric-k section as structural progress. For that reason a fresh audit is required before Stage70 closeout.
+## 7. Current theorem boundary
 
 ```text
 TWO_PATH_CAUSAL_DECOMPOSITION=PASS
-DOUBLE_CHARGE_AUDIT=PASS
+CORRECTED_PRODUCT_IDENTITY_CHECK=PASS
 ORDER_OF_CONDITIONS_INTERACTION=POSITIVE_DIVERGENT_SYMMETRIC_CROSS_RATIO
-STAGE16S_STAGE21_STAGE22_STAGE23_STAGE24_COMPARISON=PASS
+INTERACTION_SIGN=POSITIVE_DIVERGENT
+INTERACTION_LOWER=I>>B^(1/4)(log B)^(-7)
+DOUBLE_CHARGE_CHECK=PASS
 R501_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R501_GCD_GLOBAL_BOUND=10368
+R501_HIDDEN_GCD_EXPONENT_UPGRADE=false
 R504_GENERIC_NONTORSION_SECTION_PROVED=true
 GLOBAL_LOWER_EXPONENT_ABOVE_QUARTER_PROVED=false
+MATCHING_HALF_POWER_LOWER_PROVED=false
+TRUE_TARGET_EXPONENT_IDENTIFIED=false
+PERFECT_CUBOID_CONCLUSION=NONE
 FINITE_DATA_USED_AS_PROOF=false
-FORMULA_SUBSTITUTION_ONLY=false
 EXPLORATION_EVIDENCE_COMPLETE=true
+```
+
+## 8. Continuation semantics
+
+This submission is a fresh-audit gate for the theorem-level checkpoint60 claims above. A PASS certifies these claims but does **not** close checkpoint60 while assigned high-value routes remain actionable.
+
+```text
+ROUTE_ID_IS_PERSISTENT=true
+AUDIT_PASS_DOES_NOT_IMPLY_CHECKPOINT60_CLOSE=true
+CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
+STAGE70_ALLOWED=false
+NEXT_AFTER_AUDITED_MERGE=CONTINUE_CHECKPOINT60_USING_R503_R506_AND_ANY_NEW_R508_PLUS_ROUTE
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
 NEXT_CHECKPOINT=60
 MERGE_ALLOWED=false
-NEXT_EXPECTED_COMMAND=Stage25-audit
 ```
