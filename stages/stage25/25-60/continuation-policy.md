@@ -65,14 +65,15 @@ A negative exploratory submission may be audited and merged if it materially cer
 
 Only then may checkpoint60 set `NEXT_CHECKPOINT=70`.
 
-## Audited history through R503
+## Audited history through R504
 
-PR #985 and PR #986 are merged and hostile-audited PASS.
+PR #985, #986, and the R504 hostile audit are PASS for their submitted scopes.
 
 ```text
 R501=PROVED_AUDITED_Theta_B_QUARTER
 R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS
 R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
+R504=ORIGINAL_SURFACE_SECTION_ROUTE_CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS
 R507=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
 ```
 
@@ -84,17 +85,13 @@ HISTORICAL_R502_SUBMISSION_MARKER=R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMIT
 
 R503 closes only the direct generic-section route; low-degree base changes and exceptional positive-rank fibers remain theorem gates.
 
-## Current R504 submission
-
-R504 now has a source-level classification of the original `Q(k)` section lattice.
-
-The symmetric quartic receiver has Jacobian
+R504 now has a hostile-audited source-level classification of the original `Q(k)` section lattice. The symmetric quartic receiver has Jacobian
 
 \[
 Y^2=X^3-4(k^4+1)^2X,
 \]
 
-a quadratic twist of the constant lemniscatic curve. The twisting cover `s^2=k^4+1` is `Q`-birational to that same constant curve, and anti-invariant descent gives free `Q(k)` rank one. Thus there is no second independent section on the original base.
+and anti-invariant descent on the twist cover gives free `Q(k)` rank one. Thus there is no second independent section on the original base.
 
 The first nondegenerate 3P section has degree-20 physical height after homogenization, exact primitive gcd at most `128`, finite genus-15 third-face exceptions, and bounded parameter multiplicity. Its exact family growth is
 
@@ -102,16 +99,18 @@ The first nondegenerate 3P section has degree-20 physical height after homogeniz
 N_{R504,3P}(B)=\Theta(B^{1/10}).
 \]
 
-Hence it is a genuine but quantitatively weaker Stage19 family and does not improve the audited global `B^(1/4)` lower.
+This does not improve the audited global `B^(1/4)` lower.
+
+The audit does not claim rank-one persistence after finite base change. Low-degree base-change, multisection, and growing-multiple aggregation remain open inside R504.
 
 ```text
-R504=ORIGINAL_SURFACE_SECTION_ROUTE_CLOSED_NO_GLOBAL_UPGRADE_SUBMITTED_FOR_FRESH_AUDIT
 R504_GENERIC_QK_RANK=1
 R504_SECOND_INDEPENDENT_QK_SECTION_EXISTS=false
 R504_3P_EXACT_FAMILY_GROWTH=Theta(B^(1/10))
 R504_3P_PRIMITIVE_GCD_BOUND=128
 R504_LOW_DEGREE_BASE_CHANGE_ROUTE=OPEN_GATE
 R504_MULTI_SECTION_ROUTE=OPEN_GATE
+R504_GROWING_MULTIPLE_UNIFORM_AGGREGATION=OPEN_GATE
 R505=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
 R506=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
 CHECKPOINT60_CLOSED=false
