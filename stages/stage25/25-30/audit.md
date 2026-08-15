@@ -72,9 +72,9 @@ This exactly resolves the previous audit blocker without weakening or altering t
 
 ## Controller-history repair — accepted
 
-The checkpoint30 branch now preserves the full audited checkpoint10/20 payload from `main` and appends checkpoint30 rather than replacing older provenance.
+The checkpoint30 branch preserves the full audited checkpoint10/20 payload from `main` and appends checkpoint30 rather than replacing older provenance.
 
-In particular checkpoint20 again retains:
+In particular checkpoint20 retains:
 
 ```text
 replay
@@ -88,21 +88,21 @@ num_r01_exactly_two_row_check=PASS
 committed_matched_grid=PASS
 ```
 
-Checkpoint10 also retains its prior FAIL/repair provenance and frozen population/ratio-contract flags. An explicit `audit_history` records checkpoint10 PASS, checkpoint20 PASS, and the prior checkpoint30 FAIL.
+Checkpoint10 also retains its prior FAIL/repair provenance and frozen population/ratio-contract flags. `audit_history` records checkpoint10 PASS, checkpoint20 PASS, checkpoint30 FAIL, and this checkpoint30 PASS re-audit.
 
-## Discovery and CI
+## Discovery and final audited-head CI
 
 The repaired discovery ledger explicitly records the chamber/shared-edge mismatch and the absence of a proved directional adapter. It no longer claims the rejected directional ratio result.
 
-On repair head `fe14d7bdf738518e918f6344a8eef7793a58acce` the three Stage25 workflows succeeded:
+Repair head `fe14d7bdf738518e918f6344a8eef7793a58acce` first passed all three Stage25 workflows. After audit persistence and controller synchronization, audited head `54fdf02c06d00a1d7de29903b4644fe3c8b9eb79` was verified again:
 
 ```text
-Stage25-10 contract audit        run 31860656907  SUCCESS
-Stage25-20 matched-grid replay   run 31860656962  SUCCESS
-Stage25-30 ratio consistency     run 31860656883  SUCCESS
+Stage25-10 contract audit        run 31861962115  SUCCESS
+Stage25-20 matched-grid replay   run 31861962210  SUCCESS
+Stage25-30 ratio consistency     run 31861962058  SUCCESS
 ```
 
-The checkpoint30 verifier checks the repaired downgrade and controller-history restoration in addition to the global exponent arithmetic.
+The checkpoint30 verifier is audit-state aware and checks the repaired downgrade, controller-history restoration, and accepted global exponent arithmetic.
 
 ```text
 AUDIT_VERDICT=PASS
