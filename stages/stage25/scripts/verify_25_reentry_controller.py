@@ -60,9 +60,11 @@ if status == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT":
     assert controller["phases"]["10"]["status"] == "BLOCKED"
     assert gate["stage25_main_closed"] is False
     print("STAGE25_REENTRY_GATE=BLOCKED_VALID")
-elif status == "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE":
+elif status in (
+    "PHASE10_READY_PENDING_SYNC_REAUDIT",
+    "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE",
+):
     assert controller["current_phase"] == 10
-    assert controller["phases"]["10"]["status"] == "READY"
     assert controller["starts_after"]["closeout_merged"] is True
     assert gate["stage25_main_closed"] is True
     evidence = controller["unlock_evidence"]
@@ -87,8 +89,21 @@ elif status == "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE":
     assert closeout["next_stage"] == "Stage25-reentry"
     assert "AUDIT_VERDICT=PASS" in audit
     assert "STAGE25_CLOSEOUT_ACCEPTED=true" in audit
-    assert controller["next_expected_command"] == "Stage25-reentry-main-batch"
-    print("STAGE25_REENTRY_GATE=READY_VALID")
+
+    if status == "PHASE10_READY_PENDING_SYNC_REAUDIT":
+        assert controller["phases"]["10"]["status"] == "READY_PENDING_SYNC_AUDIT"
+        sync_audit = controller["sync_audit"]
+        assert sync_audit["pr"] == 1001
+        assert sync_audit["previous_verdict"] == "FAIL"
+        assert sync_audit["fail_reason"] == "STAGE25_70_CLOSEOUT_CI_REGRESSION"
+        assert sync_audit["repair_scope"] == "STATE_AWARE_STAGE25_70_CLOSEOUT_VERIFIER_ONLY"
+        assert sync_audit["status"] == "PENDING_REAUDIT"
+        assert controller["next_expected_command"] == "Stage25-audit"
+        print("STAGE25_REENTRY_GATE=READY_PENDING_REAUDIT_VALID")
+    else:
+        assert controller["phases"]["10"]["status"] == "READY"
+        assert controller["next_expected_command"] == "Stage25-reentry-main-batch"
+        print("STAGE25_REENTRY_GATE=READY_VALID")
 else:
     raise AssertionError(f"unexpected reentry status: {status}")
 
