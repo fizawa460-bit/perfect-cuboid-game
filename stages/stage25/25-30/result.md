@@ -2,7 +2,7 @@
 
 EVIDENCE_LEVEL=PROVED_FROM_AUDITED_INTERFACES
 CHECKPOINT=30
-STATUS=PROVED_SUBMITTED_FOR_FRESH_AUDIT
+STATUS=REPAIR_SUBMITTED_FOR_FRESH_AUDIT
 STAGE=Stage25
 TRANSITION=Stage16->Stage19
 
@@ -55,7 +55,7 @@ TARGET_UNBOUNDEDNESS_PROVED=true
 RATIO_LIMIT_ZERO=true
 ```
 
-This does **not** identify a true polynomial exponent. The current theorem envelope only places any hypothetical pure polynomial exponent between the lower-side power `-2` and upper-side power `-3/2` (up to logarithms and epsilon).
+This does **not** identify a true polynomial exponent.
 
 ```text
 TRUE_RATIO_EXPONENT_IDENTIFIED=false
@@ -69,84 +69,54 @@ STRICT_SUB_SQRT_TARGET_UPPER_PROVED=false
 Stage22 gives
 
 \[
-\frac{M_2}{M_1}
-\sim
-\frac{4\pi^2 C_{M_2}}3\frac{(\log B)^4}{B}.
+\frac{M_2}{M_1}\sim \frac{4\pi^2 C_{M_2}}3\frac{(\log B)^4}{B}.
 \]
 
 Stage24 gives
 
 \[
-B^{-1}(\log B)^{-9/2}
-\ll
-\frac{N_2}{M_2}
-\ll_\varepsilon
-B^{-1/2+\varepsilon}(\log B)^{-5}.
+B^{-1}(\log B)^{-9/2}\ll\frac{N_2}{M_2}
+\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-5}.
 \]
 
-Multiplying the two count ratios gives, exactly at the count-identity level,
+At the exact count-identity level,
 
 \[
 \frac{M_2}{M_1}\frac{N_2}{M_2}=\frac{N_2}{M_1}.
 \]
 
-The powers combine as
+The lower and upper scales become respectively
 
 \[
-B^{-1}(\log B)^4\cdot B^{-1}(\log B)^{-9/2}
-=B^{-2}(\log B)^{-1/2},
+B^{-2}(\log B)^{-1/2},
+\qquad
+B^{-3/2+\varepsilon}(\log B)^{-1}.
 \]
 
-and
-
-\[
-B^{-1}(\log B)^4\cdot B^{-1/2+\varepsilon}(\log B)^{-5}
-=B^{-3/2+\varepsilon}(\log B)^{-1}.
-\]
-
-Thus Path A reproduces the direct endpoint envelope exactly in polynomial/logarithmic scale.
+Thus Path A reproduces the direct endpoint envelope.
 
 ## 4. Path B — Stage21 then Stage23
 
 Stage21 gives
 
 \[
-\frac{N_1}{M_1}
-\sim
-\frac{\kappa\pi}{18}\frac{(\log B)^2}{B}.
+\frac{N_1}{M_1}\sim \frac{\kappa\pi}{18}\frac{(\log B)^2}{B}.
 \]
 
 The audited post-Stage24 Stage23 reinvestigation gives
 
 \[
-B^{-1}(\log B)^{-5/2}
-\ll
-\frac{N_2}{N_1}
-\ll_\varepsilon
-B^{-1/2+\varepsilon}(\log B)^{-3}.
+B^{-1}(\log B)^{-5/2}\ll\frac{N_2}{N_1}
+\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-3}.
 \]
 
-Again the exact count identity is
+Again,
 
 \[
-\frac{N_1}{M_1}\frac{N_2}{N_1}=\frac{N_2}{M_1}.
+\frac{N_1}{M_1}\frac{N_2}{N_1}=\frac{N_2}{M_1},
 \]
 
-The powers combine as
-
-\[
-B^{-1}(\log B)^2\cdot B^{-1}(\log B)^{-5/2}
-=B^{-2}(\log B)^{-1/2},
-\]
-
-and
-
-\[
-B^{-1}(\log B)^2\cdot B^{-1/2+\varepsilon}(\log B)^{-3}
-=B^{-3/2+\varepsilon}(\log B)^{-1}.
-\]
-
-Thus Path B also reproduces the direct endpoint envelope exactly in polynomial/logarithmic scale.
+and the same lower and upper endpoint scales result. Thus Path B reproduces the direct endpoint envelope.
 
 ## 5. Three-way consistency theorem
 
@@ -173,58 +143,44 @@ PROBABILISTIC_INDEPENDENCE_INFERRED=false
 DOUBLE_CHARGE_FIREWALL=ACTIVE
 ```
 
-## 6. Directional refinement
+## 6. Directional boundary — repaired after fresh audit
 
-Stage21's audited source theorem gives, for each direction/chamber `j`,
+The first checkpoint30 submission incorrectly used one symbol `j` for two different indexing systems:
 
-\[
-M_{1,j}(B)\sim c_j B^2\log B,
-\qquad c_j>0.
-\]
+- Stage21 `q`: order chambers with leading factors `I_q`;
+- Stage23 `c`: an exactly-two shared-edge / face-mask channel, namely the channel with `ac` and `bc` integral.
 
-Since `N2,j(B)<=N2(B)`, every direction satisfies
+No chamber-to-shared-edge source adapter has been proved. Therefore checkpoint30 **withdraws** the claims
 
 \[
-\boxed{
-\frac{N_{2,j}(B)}{M_{1,j}(B)}
-\ll_{\varepsilon,j}
-B^{-3/2+\varepsilon}(\log B)^{-1}
-\to0
-}.
+N_{2,j}/M_{1,j}\ll_\varepsilon B^{-3/2+\varepsilon}(\log B)^{-1}
 \]
 
-The Stage23 post-Stage24 reinvestigation additionally proves
+for shared-edge directions and the claimed two-sided `c`-channel ratio envelope.
+
+The independently audited Stage23 target-only fact remains valid:
 
 \[
-N_{2,c}(B)\gg\sqrt{\log B}.
+\boxed{N_{2,c}(B)\gg\sqrt{\log B}}.
 \]
 
-Therefore the `c` target direction has the two-sided endpoint envelope
-
-\[
-\boxed{
-B^{-2}(\log B)^{-1/2}
-\ll
-\frac{N_{2,c}(B)}{M_{1,c}(B)}
-\ll_\varepsilon
-B^{-3/2+\varepsilon}(\log B)^{-1}
-}.
-\]
-
-No corresponding positive lower theorem is currently imported here for the `a` or `b` target directions, so checkpoint30 does not invent one.
+But no denominator theorem `M_{1,c}(B)~c_c B^2 log B` is imported or asserted here. Hence no `N2,c/M1,c` ratio theorem follows at checkpoint30.
 
 ```text
-DIRECTIONAL_UPPER_ALL=PROVED
-DIRECTIONAL_C_LOWER=PROVED
-DIRECTIONAL_C_TWO_SIDED_ENVELOPE=PROVED
+DIRECTIONAL_STAGE23_C_LOWER=PROVED_TARGET_ONLY
+DIRECTIONAL_SOURCE_CHANNEL_ADAPTER_PROVED=false
+DIRECTIONAL_UPPER_ALL=NOT_PROVED
+DIRECTIONAL_C_TWO_SIDED_ENVELOPE=NOT_PROVED
+DIRECTIONAL_RATIO_REFINEMENT_STATUS=OPEN_GATE_ADAPTER_REQUIRED
 DIRECTIONAL_A_B_LOWER=OPEN_GATE
+DIRECTIONAL_OVERCLAIM_REPAIRED=true
 ```
+
+This downgrade does not affect the global `N2/M1` theorem or either exact path identity.
 
 ## 7. Constant/refinement boundary
 
 The source leading constant is explicit, but the Stage24 lower constant is implicit and the Stage19/Stage14 upper constant is epsilon-dependent/implicit. Therefore checkpoint30 cannot produce a leading constant for `N2/M1`.
-
-The Stage18 constant `C_M2` and Stage21 constant `kappa` appear on the two intermediate paths, but they do not create an independent endpoint leading constant because the adjacent ratios only have two-sided bounds on the `N2` side.
 
 ```text
 CONSTANT_REFINEMENT_CHECK=NOT_APPLICABLE_WITH_CURRENT_TARGET_BOUNDS
@@ -241,13 +197,20 @@ FINITE_DATA_USED_AS_PROOF=false
 FINITE_POWER_FIT_PROMOTED=false
 ```
 
-## 9. Exit state
+## 9. Repair and exit state
+
+Fresh audit accepted the global endpoint theorem and both exact path products, but rejected the unproved directional ratio adapter and required restoration of checkpoint10/20 controller provenance. This repair chooses the permitted downgrade route; no global mathematics or counts are recomputed.
 
 ```text
+REPAIR_SCOPE=DIRECTIONAL_DOWNGRADE_PLUS_CONTROLLER_HISTORY_RESTORE
+GLOBAL_ENDPOINT_RATIO_REOPENED=false
+COUNTS_RECOMPUTED=false
+CONTROLLER_HISTORY_RESTORE_REQUIRED=true
+CONTROLLER_HISTORY_RESTORE_STATUS=COMPLETE_IN_CONTROLLER
 REPO_REUSE_PREFLIGHT=PASS
 DISCOVERY_CHECKPOINT=Stage25-30
 EXPLORATION_EVIDENCE_COMPLETE=true
-UPSTREAM_PREMISE_CHECK=PASS
+UPSTREAM_PREMISE_CHECK=PASS_GLOBAL_DIRECTIONAL_ADAPTER_OPEN
 RETURN_TO_SOURCE_REQUIRED=false
 SUBLANES_OPENED=NONE
 AUDIT_STATUS=PENDING
