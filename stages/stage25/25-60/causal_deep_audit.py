@@ -125,7 +125,7 @@ assert '25-60-r02' not in continuation
 assert ctl['stage']=='Stage25'
 assert ctl['checkpoint_status']['50']=='PROVED_AUDITED_PASS'
 status60=ctl['checkpoint_status']['60']
-assert status60 in ('PROVED_SUBMITTED_FOR_FRESH_AUDIT','PROVED_AUDITED_PASS')
+assert status60 in ('PROVED_SUBMITTED_FOR_FRESH_AUDIT','PROVED_AUDITED_PASS','AUDIT_FAIL_REPAIR_REQUIRED')
 current=int(ctl['state']['CURRENT_CHECKPOINT'])
 assert current>=60
 cp60=ctl['checkpoint60']
@@ -143,10 +143,23 @@ if status60=='PROVED_SUBMITTED_FOR_FRESH_AUDIT':
     assert ctl['state']['ADVANCE_ALLOWED'] is False
     assert ctl['state']['NEXT_CHECKPOINT']==60
     assert ctl['state']['MERGE_ALLOWED'] is False
-else:
+elif status60=='PROVED_AUDITED_PASS':
     assert cp60['audit']=='PASS'
     assert cp60['advance_allowed'] is True
     assert cp60['merge_allowed'] is True
+else:
+    assert current==60
+    assert ctl['state']['AUDIT_STATUS']=='FAIL'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['NEXT_CHECKPOINT']==60
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert cp60['audit']=='FAIL'
+    assert cp60['core_mathematics_verdict']=='PASS'
+    assert cp60['r502_route_boundary_accepted'] is False
+    assert cp60['r502_prematurely_removed_from_live_set'] is True
+    assert 'R502' in cp60['audit_required_live_routes']
+    assert ctl['discovery_audit']['verdict']=='FAIL'
+    assert ctl['next_expected_command']=='Stage25-main-batch'
 
 print('CAUSAL_CROSS_RATIO_SCALE=I>>B^1/4(logB)^-7:PASS')
 print('THREE_EXACT_DECOMPOSITIONS=PASS')
@@ -156,4 +169,5 @@ print('R504_3P_SECTION_REGRESSION=PASS')
 print('PERSISTENT_ROUTE_NAMING_REGISTRY=PASS')
 print('CHECKPOINT60_ITERATIVE_CONTINUATION_POLICY=PASS')
 print(f'CONTROLLER_CURRENT_CHECKPOINT={current}')
-print('STAGE25_60_CAUSAL_DEEP_AUDIT=PASS')
+print(f'AUDIT_STATE={ctl["state"]["AUDIT_STATUS"]}')
+print('STAGE25_60_CAUSAL_DEEP_REGRESSION=PASS')
