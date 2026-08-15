@@ -10,288 +10,89 @@ This is a hostile audit of the theorem-class-changing checkpoint50 claim
 N_2(B)\gg B^{1/4}.
 \]
 
-The audit does not treat the submission CI or literature provenance as a substitute for the Stage19 population adapter. The following points were independently attacked:
+The audit independently attacked the exact homogeneous identities, physical cone/canonical ordering, primitive reduction, exactly-two preservation, squarefreeness/genus of the missing-face curve, qualitative Faltings use, reduced rational-parameter count, height conversion, bounded similarity multiplicity, and cross-stage backflow.
 
-1. exact homogeneous cuboid identities;
-2. physical cone and canonical ordering;
-3. primitive reduction and preservation of required integer diagonals;
-4. equivalence of the missing primitive face to the raw missing-face square condition;
-5. squarefreeness/genus of the missing-face exception curve;
-6. use of Faltings only for qualitative finiteness;
-7. reduced rational-parameter count;
-8. height conversion;
-9. similarity multiplicity;
-10. cross-stage backflow and interaction-sign consequences.
+## Accepted theorem
 
-## Primary-source provenance check
-
-Meskhishvili's first one-parameter NPC parametrization is correctly transcribed in dehomogenized form:
-
-\[
-a=16t^2(t^4-9),
-\]
-\[
-b=(t^4-10t^2+9)(t^4+2t^2+9),
-\]
-\[
-c=4t(t^2+3)(t^4-10t^2+9),
-\]
-\[
-d_{ac}=4t(t^2+3)(t^4-2t^2+9),
-\]
-\[
-d_{bc}=(t^4-1)(t^4-81),
-\]
-\[
-d_s=t^8+46t^4+81.
-\]
-
-The Stage25 theorem does not import a counting theorem from that source; the primitive/canonical/exactly-two/height argument is repo-native.
-
-```text
-PRIMARY_SOURCE_PROVENANCE_CHECK=PASS
-MESKHISHVILI_FIRST_PARAMETRIZATION_MATCH=PASS
-PRIMARY_LITERATURE_USED_AS_BLACK_BOX_COUNT=false
-```
-
-## Algebraic family audit
-
-For coprime positive `m,n`, the degree-eight homogeneous family satisfies exactly
-
-\[
-A^2+C^2=D_{AC}^2,
-\qquad
-B^2+C^2=D_{BC}^2,
-\qquad
-A^2+B^2+C^2=D^2.
-\]
-
-The fixed cone
-
-\[
-7/2<m/n<4
-\]
-
-indeed gives
-
-\[
-0<B<C<A.
-\]
-
-Hence after primitive reduction by `g=gcd(A,B,C)`, the canonical assignment is
+For the homogenized Meskhishvili first NPC parametrization, on `7/2<t<4` we have `0<B<C<A`. After primitive reduction by `g=gcd(A,B,C)`,
 
 \[
 (a,b,c)=(B/g,C/g,A/g).
 \]
 
-Since `g^2` divides each squared required diagonal and the diagonals are integers, prime-by-prime valuation gives
+The exact identities preserve two integer face diagonals plus the integer space diagonal. The guaranteed canonical faces are `ab` and `bc`, sharing edge `b`.
+
+The remaining raw face is square only on `w^2=P(t)` with squarefree degree-16 polynomial `P`. The hostile-audit verifier derives its mod-5 `Q` directly from the submitted `P` coefficients, checks the Bezout certificate for `Q,Q'`, and thereby certifies squarefreeness. The smooth projective curve has genus 7, so Faltings leaves only finitely many rational third-face exceptions.
+
+Reduced parameters occur with count `gg T^2`, space height is `O(T^8)`, and the similarity invariant has fibers of size at most 8. Thus
 
 \[
-g\mid D_{AC},\quad g\mid D_{BC},\quad g\mid D.
+\boxed{N_2(B)\gg B^{1/4}}.
 \]
 
-Thus primitive reduction preserves the two guaranteed integral faces and integral space diagonal.
-
-The guaranteed canonical faces are
-
-```text
-raw AC -> canonical bc
-raw BC -> canonical ab
-```
-
-so this family lies in the shared-`b` exactly-two channel once the raw `AB` face is excluded.
-
-```text
-HOMOGENEOUS_IDENTITIES_CHECK=PASS
-PHYSICAL_CONE_CHECK=PASS
-CANONICAL_EDGE_MAP=(a,b,c)=(B/g,C/g,A/g)
-GUARANTEED_CANONICAL_FACES=ab,bc
-SHARED_EDGE_CHANNEL=b
-PRIMITIVE_REQUIRED_DIAGONALS_CHECK=PASS
-```
-
-## Missing-face exception audit
-
-The remaining raw face satisfies
+Together with the existing upper,
 
 \[
-A^2+B^2=n^{16}P(m/n),
+\boxed{B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}}.
 \]
 
-where
+For Stage25,
 
 \[
-P(t)=t^{16}-16t^{14}+316t^{12}-112t^{10}-3290t^8
--1008t^6+25596t^4-11664t^2+6561.
+\boxed{N_2/M_1\gg B^{-7/4}(\log B)^{-1}}.
 \]
 
-After primitive reduction, the missing face becomes integral if and only if the raw missing face was integral: if `(A^2+B^2)/g^2` is an integer square, then `A^2+B^2` is the square of `g` times that integer; conversely raw integrality obviously descends because `g` divides both edges and the square root.
+## Backflow accepted
 
-Modulo 5,
+The numerator lower gives
 
 \[
-P(t)=Q(t^2),
+N_2/M_2\gg B^{-3/4}(\log B)^{-5},
+\qquad
+N_2/N_1\gg B^{-3/4}(\log B)^{-3}.
 \]
 
-with
+Hence
 
 \[
-Q(u)=u^8+4u^7+u^6+3u^5+2u^3+u^2+u+1.
+J_2\gg B^{1/4}(\log B)^{-5}\to\infty,
+\qquad
+I\gg B^{1/4}(\log B)^{-7}\to\infty.
 \]
 
-The submitted Bezout certificate proves `gcd(Q,Q')=1` over `F_5`. Since `Q(0)=1` and characteristic 5 is not 2, a common root of `P(t)` and `P'(t)=2tQ'(t^2)` would force either `t=0` with `Q(0)=0`, impossible, or a common root of `Q` and `Q'`, also impossible. Therefore `P` is squarefree mod 5 and hence over `Q`.
+Both previously unresolved interaction signs are now positive/divergent.
 
-The smooth projective curve
-
-\[
-w^2=P(t)
-\]
-
-has degree 16 and genus 7. Faltings is used only in its standard qualitative form: a genus-greater-than-one curve over `Q` has finitely many rational points. Thus only finitely many rational parameters in the lane make the third face rational. No effective threshold is needed for the lower bound.
-
-```text
-MISSING_FACE_PRIMITIVE_EQUIVALENCE=PASS
-P_MOD5_QT2_BINDING_REQUIRED=true
-Q_BEZOUT_CERTIFICATE=PASS
-P_SQUAREFREE=PASS
-THIRD_FACE_EXCEPTION_CURVE_GENUS=7
-FALTINGS_USAGE=QUALITATIVE_FINITE_ONLY
-EXACTLY_TWO_AFTER_FINITE_EXCEPTION_REMOVAL=PASS
-```
-
-## Counting and multiplicity audit
-
-Choose
-
-\[
-m=4n-k,\qquad 1\le k<n/2,\qquad (k,n)=1.
-\]
-
-For `n>2`, reduced residues pair as `k <-> n-k`, so exactly `phi(n)/2` lie below `n/2`. Taking `n<=floor(T/4)` gives `m,n<=T` and therefore
-
-\[
-\gg \sum_{n\le T/4}\varphi(n)\gg T^2
-\]
-
-reduced rational parameters in the physical cone.
-
-The raw space diagonal satisfies
-
-\[
-D=m^8+46m^4n^4+81n^8\le128T^8,
-\]
-
-and primitive reduction only decreases it.
-
-A primitive canonical similarity class determines
-
-\[
-A/D=\frac{16t^2(t^4-9)}{t^8+46t^4+81}.
-\]
-
-For any fixed value this gives a nonzero polynomial equation of degree at most 8 in `t`, so each primitive canonical box has at most eight parameters in the lane.
-
-After removing finitely many third-face exceptions, therefore
-
-\[
-N_2(B)\gg T^2\gg B^{1/4}.
-\]
-
-```text
-REDUCED_PARAMETER_COUNT=T^2
-HEIGHT_DEGREE=8
-PARAMETER_FIBER_BOUND=8
-POSITIVE_POWER_LOWER_BOUND_PROVED=true
-POSITIVE_POWER_LOWER_BOUND=N2(B)>>B^(1/4)
-POSITIVE_POWER_EXPONENT=1/4
-```
-
-## Stage25 endpoint consequence
-
-Using
-
-\[
-M_1(B)\sim \frac{3}{4\pi^2}B^2\log B,
-\]
-
-we accept
-
-\[
-\boxed{
-\frac{N_2(B)}{M_1(B)}\gg B^{-7/4}(\log B)^{-1}.
-}
-\]
-
-Together with the audited upper,
-
-\[
-\boxed{
-B^{-7/4}(\log B)^{-1}
-\ll \frac{N_2(B)}{M_1(B)}
-\ll_\varepsilon B^{-3/2+\varepsilon}(\log B)^{-1}.
-}
-\]
-
-The ratio still tends to zero.
-
-## Cross-stage backflow accepted
-
-The new numerator lower forces the algebraic lower upgrades
-
-\[
-\frac{N_2}{M_2}\gg B^{-3/4}(\log B)^{-5},
-\]
-
-\[
-\frac{N_2}{N_1}\gg B^{-3/4}(\log B)^{-3}.
-\]
-
-Relative to the audited ambient space baseline `S0~B^-1`,
-
-\[
-J_2=(N_2/M_2)/S_0\gg B^{1/4}(\log B)^{-5}\to\infty.
-\]
-
-Relative to `S1=N1/M1~B^-1(log B)^2`,
-
-\[
-I=(N_2/M_2)/(N_1/M_1)\gg B^{1/4}(\log B)^{-7}\to\infty.
-\]
-
-Therefore both previously unresolved interaction signs are now rigorously positive/divergent.
-
-In addition, because the new family has canonical faces `ab,bc`, it proves a new directional target/channel lower
+The family also proves
 
 \[
 \boxed{N_{2,b}(B)\gg B^{1/4}},
-\]
-
-and the corresponding Stage17 raw pair-overlap channel obeys
-
-\[
+\qquad
 \boxed{A_{ab,bc}(B)\gg B^{1/4}}.
 \]
 
-This does **not** prove a Stage25 directional endpoint ratio because checkpoint30's source-channel denominator adapter remains open.
+No Stage25 directional endpoint ratio is inferred because checkpoint30's source-channel denominator adapter remains open.
+
+Backflow records are materialized at:
+
+- `stages/stage19/post-stage25-50-supersession.md`;
+- `stages/stage23/post-stage25-r01/result.md`;
+- `stages/stage24/post-stage25-r01/result.md`.
+
+## Hostile-audit hardening executed
+
+1. The mod-5 verifier is mechanically bound to the submitted missing-face polynomial rather than an independent hard-coded `Q`.
+2. Checkpoint40's exact `upper_provenance` artifact path is restored in the Stage25 controller.
+3. The verifier is audit-state aware and distinguishes pre-audit candidate markers from post-audit certified markers.
+
+Final audited-head CI:
 
 ```text
-STAGE24_RATIO_LOWER_BACKFLOW=N2/M2>>B^(-3/4)(log B)^(-5)
-STAGE23_RATIO_LOWER_BACKFLOW=N2/N1>>B^(-3/4)(log B)^(-3)
-STAGE24_GLOBAL_INTERACTION_SIGN=POSITIVE_DIVERGENT
-SECOND_ORDER_INTERACTION_SIGN=POSITIVE_DIVERGENT
-N2_B_DIRECTION_LOWER=N2,b(B)>>B^(1/4)
-A_AB_BC_OVERLAP_LOWER=A_ab,bc(B)>>B^(1/4)
-STAGE25_DIRECTIONAL_RATIO_PROVED=false
+Stage25-10 contract audit       run 31865209630  SUCCESS
+Stage25-20 matched-grid replay  run 31865209709  SUCCESS
+Stage25-30 ratio consistency    run 31865209660  SUCCESS
+Stage25-40 upper provenance     run 31865209656  SUCCESS
+Stage25-50 parametric lower     run 31865209648  SUCCESS
 ```
-
-## Hostile-audit repairs
-
-Two non-mathematical audit hardenings are required/accepted on the audited head:
-
-1. bind the hard-coded mod-5 polynomial `Q` mechanically to the submitted missing-face polynomial `P`; the original script checked the Bezout identity for `Q` but did not itself verify the `P mod 5 = Q(t^2)` transcription;
-2. restore checkpoint40's exact `upper_provenance` path instead of replacing that durable path with a prose summary.
-
-Neither repair changes the theorem.
 
 ## Nonclaims preserved
 
@@ -305,7 +106,7 @@ PERFECT_CUBOID_CONCLUSION=false
 FINITE_DATA_USED_AS_PROOF=false
 ```
 
-## Verdict
+## Audit footer
 
 ```text
 AUDIT_VERDICT=PASS
@@ -323,6 +124,7 @@ POSITIVE_POWER_LOWER_BOUND_PROVED=true
 POSITIVE_POWER_EXPONENT=1/4
 STAGE25_RATIO_LOWER_ACCEPTED=true
 CROSS_STAGE_BACKFLOW_REQUIRED=true
+CROSS_STAGE_BACKFLOW_EXECUTED=true
 ADVANCE_ALLOWED=true
 NEXT_CHECKPOINT=60
 MERGE_ALLOWED=true
