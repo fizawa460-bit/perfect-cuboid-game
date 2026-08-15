@@ -1,6 +1,6 @@
-# Stage25-60 deeper-lane triage
+# Stage25-60 deeper-lane triage — synchronized after PR #998
 
-STATUS=R504_RESIDUAL_FAIL_REPAIR_SUBMITTED_FOR_FRESH_AUDIT
+STATUS=DEEP_STOP_CANDIDATE_SUBMITTED_FOR_FRESH_AUDIT
 
 Persistent route IDs are unchanged.
 
@@ -14,128 +14,103 @@ R506=common_leg_plus_space
 R507=R501_primitive_height_rigidity
 ```
 
-## Historical checkpoint60 verifier compatibility
-
-The following strings are retained only as historical submission markers consumed by the original checkpoint60 verifier. They do not override the current audited/repair state below.
-
-```text
-R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
-R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
-R503_UNIFORM_VARYING_FIBER_HEIGHT_COUNT=NOT_PROVED
-R504_GENERIC_NONTORSION_SECTION_PROVED=true
-HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
-```
-
-## Audited base
+## Audited route boundary
 
 ```text
 R501_STATUS=PROVED_AUDITED_Theta_B_QUARTER
 R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS
 R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
-R504_ORIGINAL_BASE_STATUS=CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS
+R504_STATUS=EXTERNAL_THEOREM_GATE_AUDITED_PASS_AFTER_REPO_NATIVE_CLOSURES
+R505_STATUS=EXTERNAL_THEOREM_GATE_WITH_PREVIOUS_HOSTILE_MATH_ACCEPTED
+R506_STATUS=CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_AUDITED_ACCEPTED
 R507_STATUS=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
-HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
 ```
 
-Global envelope remains
+The global envelope remains
 
 \[
 B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
 
-## R504 — hostile-FAIL repair
+## R504 final repo-native closure chain
 
-The previous audit accepted the original-base rank-one result but rejected a blanket residual `EXTERNAL_THEOREM_GATE` classification because the three OPEN mechanisms had not been concretely executed.
+The previous triage snapshot ended before the exceptional base-change/multisection residual was fully executed. That history has now advanced through hostile-audited PRs #992–#998.
 
-The repair now does the following.
+The current R504 chain is:
 
-1. identifies the exact product-Kummer model `Km(E0xE0)` with `E0:y^2=x^3-4x`;
-2. proves rational finite base change + new section is equivalent to a rational multisection on the original surface;
-3. executes the twist-killing cover `BC0`;
-4. executes `BC1: k=u^2`, proving the genus-three pullback has quotient `j` values `1728,8000,8000` and no extra `E0` factor;
-5. executes `BC2: k=(u^2-1)/(2u)`, proving quotient `j` values `1728,10976,10976` and again no extra `E0` factor;
-6. closes aggregation over the existing rank-one multiplication graphs using the exact Lattes degree `n^2` and physical height, obtaining
+1. complete Q-degree-two source descent;
+2. complete split reciprocal/commuting-involution analysis;
+3. explicit nonsplit degree-two rank jump;
+4. explicit second polynomial section and physical `P+2R` family `Theta(B^(1/12))`;
+5. exact Kummer 2-descent proving the physical rank-two coset `a odd, b even`;
+6. Rosati height form and minimum nondegenerate physical norm `5`;
+7. growing rank-two aggregate `O(B^(1/10) log B)=o(B^(1/4))`;
+8. generic full-split Prym K-defined `E0` factor excluded by exact good-reduction specialization;
+9. exceptional rational Prym/E0 specialization locus reduced to an unbounded-degree Hecke/Humbert-type isogeny-union problem.
 
-\[
-N_{R504,\mathrm{all\ multiples}}(B)
-\ll B^{1/9}\sqrt{\log B}=o(B^{1/4}).
-\]
-
-The remaining rational-base-change/multisection problem is now the exact new-object gate: find a degree-two (or other low-degree) `phi` for which the twist cover `C_phi` has an additional `E0`-isogeny factor in its Jacobian, and then prove the Stage19 physical-height/exactly-two adapter.
+The last item was hostile-audited PASS in PR #998 as
 
 ```text
-R504_BC0=CLOSED_NO_QUARTER_UPGRADE
-R504_BC1=CLOSED_NO_RANK_JUMP
-R504_BC2=CLOSED_NO_RANK_JUMP
-R504_GROWING_MULTIPLES=CLOSED_NO_QUARTER_UPGRADE_WITH_HEIGHT_CERTIFICATE
-R504_RATIONAL_BASE_CHANGE_EQUIVALENT_TO_RATIONAL_MULTISECTION=true
-R504_DEGREE2_GENERAL_GATE=EXTRA_E0_FACTOR_IN_JACOBIAN_OF_C_phi
-R504_RESIDUAL=EXTERNAL_OR_NEW_EXPLICIT_CURVE_GATE_SUBMITTED_FOR_FRESH_AUDIT
-R504_RESIDUAL_ROUTE_BOUNDARY_EVIDENCE_COMPLETE_CANDIDATE=true
+R504_FULL_SPLIT_PRYM_ROUTE=EXTERNAL_THEOREM_GATE_AUDITED_PASS
+R504_FULL_SPLIT_EXCEPTIONAL_PRYM_E0_ISOGENY_LOCUS=OPEN_EXTERNAL
 ```
 
-See `r504-base-change-boundary.md` and `r505-r506-discovery-ledger.md`.
+No emptiness, finiteness, geometric-`Kbar` nonfactor, or uniform isogeny-degree theorem is claimed.
 
-## R505/R506 — previous hostile-audit acceptance retained
+## R503
 
-The previous audit explicitly accepted both mathematical claims and said they need not be reopened.
+R503's original generic-section route is closed by geometric generic rank zero. The remaining base-change/multisection or quantitative exceptional-fiber/small-point problems are already hostile-audited as an external/base-change theorem gate.
+
+## R505/R506
+
+The earlier hostile audit explicitly accepted the R505 exact target receiver and R506 toric subsumption and stated that neither mathematical claim required reopening. The repair then completed the mandatory Stage14/15 reuse handoff and population-adapter evidence.
 
 ```text
 R505_EXACT_TARGET_RECEIVER_ACCEPTED=true
 R505_STAGE15_REUSE_CHAIN_ACCEPTED=true
-R505_STATUS=EXTERNAL_THEOREM_GATE_PREVIOUS_MATH_ACCEPTED_BOUNDARY_RECHECK_ONLY
+R505_MATHEMATICS_REOPEN_REQUIRED=false
 R506_TORIC_SUBSUMPTION_ACCEPTED=true
-R506_STATUS=CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_PREVIOUS_MATH_ACCEPTED
+R506_MATHEMATICS_REOPEN_REQUIRED=false
 ```
 
-R505 remains the exact common-squarefree-core target receiver
+R505's remaining progress requires a stronger common-core counting/descent theorem beyond the already executed repository chain; it is classified as an external theorem boundary. R506 is closed as a non-independent route.
 
-\[
-\operatorname{sf}(A)=\operatorname{sf}(B)
-\iff A=kP^2,\ B=kQ^2,
-\]
+## Backflow check
 
-and R506 remains its rank-one common-leg coordinate presentation `uv=wz`.
-
-## Reuse/discovery FAIL repair
-
-The mandatory handoff is now materialized rather than implied:
+Checkpoint50 already synchronized the positive-power lower and interaction signs into Stage19, Stage23 and Stage24. No later route changed the global lower/upper envelope or the interaction class.
 
 ```text
-REPO_REUSE_PREFLIGHT=PASS
-REUSED_RESULTS=MATERIALIZED_IN_r505-r506-discovery-ledger.md
-REUSE_MATCH_STATUS=MIXED
-STRONGEST_KNOWN_CHECK=PASS
-STRONGER_PRIOR_RESULT_FOUND=false
-NEW_RESEARCH_JUSTIFIED=MATERIALIZED
-POPULATION_ADAPTERS_PROVED=MATERIALIZED
-REPO_REUSE_HANDOFF_COMPLETE_CANDIDATE=true
-DISCOVERY_EVIDENCE_BLOCK_COMPLETE_CANDIDATE=true
+BACKFLOW_SYNC_CHECK=PASS_NO_DELTA_AFTER_CHECKPOINT50
+STAGE23_BACKFLOW_CURRENT=true
+STAGE24_BACKFLOW_CURRENT=true
+GLOBAL_ENVELOPE_SYNCHRONIZED=true
+INTERACTION_CLASSIFICATION_SYNCHRONIZED=true
 ```
 
 ## Current checkpoint60 boundary
 
+The normative stop-rule clauses are now all satisfied as a submission candidate:
+
 ```text
-R501=PROVED_AUDITED
-R502=CLOSED_AUDITED
-R503=EXTERNAL_THEOREM_GATE_AUDITED
-R504_ORIGINAL_BASE=CLOSED_AUDITED
-R504_BC0=CLOSED_CANDIDATE
-R504_BC1=CLOSED_CANDIDATE
-R504_BC2=CLOSED_CANDIDATE
-R504_GROWING_MULTIPLES=CLOSED_CANDIDATE
-R504_RESIDUAL=EXTERNAL_OR_NEW_EXPLICIT_CURVE_GATE_SUBMITTED_FOR_FRESH_AUDIT
-R505=EXTERNAL_THEOREM_GATE_PREVIOUS_MATH_ACCEPTED
-R506=CLOSED_PREVIOUS_MATH_ACCEPTED
-R507=PROVED_AUDITED
+ALL_HIGH_VALUE_ROUTES_IN_STOP_CLASSES_CANDIDATE=true
+NO_REPO_NATIVE_ATTACK_REMAINING_CANDIDATE=true
+THEOREM_CLASS_CHANGES_FRESH_AUDITED=true
+BACKFLOW_SYNCHRONIZED=true
+REMAINING_OPEN_ITEMS_REQUIRE_EXTERNAL_MATHEMATICS_CANDIDATE=true
+CHECKPOINT60_DEEP_STOP_RULE_CANDIDATE=true
+CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
+DEEP_STOP_PENDING_HOSTILE_AUDIT=true
+CHECKPOINT60_CLOSED=false
+STAGE70_ALLOWED=false
+AUDIT_STATUS=PENDING
+ADVANCE_ALLOWED=false
+NEXT_CHECKPOINT=60
+MERGE_ALLOWED=false
 GLOBAL_STAGE25_LOWER_CHANGED=false
 MATCHING_HALF_POWER_LOWER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
 FINITE_DATA_USED_AS_PROOF=false
-CHECKPOINT60_DEEP_STOP_RULE_CANDIDATE=true
-CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
-DEEP_STOP_PENDING_HOSTILE_AUDIT=true
-STAGE70_ALLOWED=false
+NEXT_EXPECTED_COMMAND=Stage25-audit
 ```
 
-Fresh hostile audit is required because this repair newly closes the growing-multiple lane and supplies concrete route-boundary certificates for the previously open R504 base-change/multisection lane. A PASS may certify deep-stop; a FAIL restores only the rejected residual sublane to live status.
+A fresh hostile audit must decide whether the route classifications and no-delta backflow synchronization are sufficient for the normative deep-stop rule. Only an audited PASS may set `CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=true` and advance `NEXT_CHECKPOINT=70`.
