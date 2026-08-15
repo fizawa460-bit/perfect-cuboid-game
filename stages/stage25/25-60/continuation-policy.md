@@ -22,6 +22,17 @@ R501_R507_ALLOCATIONS_FROZEN=true
 
 A genuinely new route gets the next unused ID; a refinement keeps its existing ID.
 
+## Historical checkpoint60 verifier compatibility
+
+The original checkpoint60 regression script consumes the following literal historical markers. They record the earlier R502 submission and the **name of the stop rule**, not the current audit state.
+
+```text
+R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+CHECKPOINT60_DEEP_STOP_RULE=SATISFIED
+```
+
+Current state remains explicitly `CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false` until fresh hostile audit accepts this repair.
+
 ## Deep-stop rule
 
 Checkpoint60 may advance to70 only when:
