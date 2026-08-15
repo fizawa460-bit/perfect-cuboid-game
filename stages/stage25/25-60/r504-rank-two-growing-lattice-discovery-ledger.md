@@ -1,0 +1,68 @@
+# Stage25-60 R504 rank-two growing-lattice discovery / reuse ledger
+
+STATUS=SUBMITTED_FOR_FRESH_AUDIT
+ROUTE=R504
+CHECKPOINT=60
+PARENT_LEDGER=stages/stage25/25-60/r504-rank-two-height-discovery-ledger.md
+
+```text
+REPO_REUSE_PREFLIGHT=PASS
+REUSE_SEARCH_SCOPE=R504_RANK_TWO_HEIGHT;R504_MOD2_REPAIR;R504_GROWING_MULTIPLE_HEIGHT;R504_SECOND_SECTION;R504_NONSPLIT_RANK_JUMP
+REUSED_RESULTS=PR995_PHYSICAL_COSET_A_ODD_B_EVEN_AUDITED_PASS;PR995_ROSATI_HEIGHT_FORM_AUDITED_PASS;R504_PHYSICAL_FACE_HEIGHT_IDENTITIES;R504_ORIGINAL_GROWING_MULTIPLE_CANONICAL_HEIGHT_METHOD
+REUSE_MATCH_STATUS=STRONG_STRUCTURAL_MATCH_WITH_NEW_RANK_TWO_UNIFORMIZATION
+STRONGEST_KNOWN_CHECK=PASS
+STRONGER_PRIOR_RESULT_FOUND=false
+NEW_RESEARCH_JUSTIFIED=PR995_EXPLICITLY_LEFT_GROWING_RANK_TWO_LATTICE_UNIFORM_AGGREGATION_OPEN
+POPULATION_ADAPTERS_PROVED=UNIFORM_UPPER_ONLY;EXACTLY_TWO_FILTER_ONLY_DECREASES_COUNT
+```
+
+## Discovery block
+
+```text
+DISCOVERY_CHECKPOINT=60
+SEARCHED_PATHS=R504_RANK_TWO_HEIGHT_LATTICE;R504_RANK_TWO_MOD2_REPAIR;R504_BASE_CHANGE_BOUNDARY;R504_SECOND_SECTION_MATERIALIZATION
+SEARCH_TERMS=GROWING_LATTICE;CANONICAL_HEIGHT;SPECIALIZATION;PAIRING;PHYSICAL_HEIGHT;COEFFICIENT_NORM;UNIFORM_AGGREGATION
+STRUCTURAL_SIGNATURES=FIXED_E0_TWIST;THREE_FIXED_SECTION_HEIGHT_ASYMPTOTICS;BILINEAR_PAIRING;PHYSICAL_T_HEIGHT;NORM_TRUNCATION
+DEPENDENCY_NEIGHBORS=PR995_AUDITED_RANK_TWO_COSET;R504_ORIGINAL_3P_THETA_B_1_10;R501_R502_GLOBAL_QUARTER_LOWER
+CANDIDATES_FOUND=CLASS_DEPENDENT_PROJECTIVE_HEIGHT_SUM;UNIFORM_CANONICAL_HEIGHT_PAIRING_SUM
+CANDIDATES_ACCEPTED=UNIFORM_CANONICAL_HEIGHT_PAIRING_SUM
+CANDIDATES_REJECTED_WITH_REASON=CLASS_DEPENDENT_PROJECTIVE_RESULTANT_CONSTANTS_NOT_UNIFORM_ENOUGH_FOR_GROWING_COEFFICIENTS
+LIVE_ROUTE_CANDIDATES=FULL_SPLIT_NONBIELLIPTIC_PRYM_E0_ISOGENY_RESIDUAL;AMBIENT_RANK_GREATER_THAN_KNOWN_SUBLATTICE_IF_NEW_EVIDENCE
+SUBLANES_OPEN=1
+SUBLANES_CLOSED=KNOWN_RANK_TWO_GROWING_COEFFICIENT_AGGREGATION_IF_FRESH_AUDIT_PASSES
+TARGETED_COMPUTATION_USED=FIXED_SECTION_DEGREE_REPLAY;PHYSICAL_RECEIVER_DEGREE;LATTICE_NORM_MINIMUM;COEFFICIENT_DISK_MAJORANT
+FINITE_DATA_USED_AS_PROOF=false
+DISCOVERY_LEDGER_STATUS=COMPLETE_FOR_THIS_THEOREM_CHUNK
+```
+
+## Why this is genuinely uniform
+
+The fixed-class audit gave class-dependent projective height constants, which are insufficient when `(a,b)` grows.  The new argument does not sum those constants.  Instead it uses only three fixed specialized sections `P`, `R`, `P+R` on the fixed twist `E0`:
+
+```text
+hat_h(P_u)=4*h(u)+O(1)
+hat_h(R_u)=4*h(u)+O(1)
+hat_h(P_u+R_u)=8*h(u)+O(1)
+<P_u,R_u>=O(1)
+```
+
+Bilinearity then gives one uniform estimate
+
+```text
+hat_h(aP_u+bR_u)=4*(a^2+b^2)*h(u)+O(a^2+b^2)
+```
+
+with an absolute implied constant.  The physical box gives `hat_h<=log(2B)+O(1)`.  This simultaneously truncates the coefficient disk outside a finite bounded-height base set and gives the per-class count `O(B^(1/(2n)))`, `n=a^2+b^2`.
+
+The hostile-audited parity theorem forces nondegenerate `n>=5`; only `O(log B)` coefficient pairs survive at unbounded base height.  Bounded-height rational bases are finite and each specialized rank-at-most-two subgroup contributes only `O(log B)` distinct points of canonical height `O(log B)`.
+
+Thus the proposed uniform aggregate is
+
+```text
+R504_RANK_TWO_ALL_PHYSICAL_COUNT_UPPER=O(B^(1/10)*log B)
+R504_RANK_TWO_GROWING_LATTICE_QUARTER_UPGRADE=false
+```
+
+## Boundary after this chunk
+
+A PASS closes the known `<P,R>` growing-lattice aggregation as a Stage25 exponent-upgrade route.  It does not classify possible additional Mordell-Weil directions outside `<P,R>` and does not close the full-split non-bielliptic Prym / `E0`-isogeny residual.  That residual remains the next repo-native R504 target.
