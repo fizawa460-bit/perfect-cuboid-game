@@ -1,10 +1,8 @@
 # Stage25-60 deeper-lane triage
 
-STATUS=R504_AUDITED_PASS_R505_R506_LIVE
+STATUS=R504_RESIDUAL_FAIL_REPAIR_SUBMITTED_FOR_FRESH_AUDIT
 
-The route IDs below are persistent allocations inherited from checkpoint50. They are not audit-round numbers and must not be renamed between audits.
-
-## Route registry
+Persistent route IDs are unchanged.
 
 ```text
 R501=Meskhishvili_first_positive_power_family
@@ -16,143 +14,128 @@ R506=common_leg_plus_space
 R507=R501_primitive_height_rigidity
 ```
 
-## R501 / R502 / R507 — audited quarter-power families and rigidity
+## Historical checkpoint60 verifier compatibility
 
-R501 and R502 are both audited family-specific `Theta(B^(1/4))` constructions. Their primitive-height loopholes are closed by exact bounded gcd certificates.
+The following strings are retained only as historical submission markers consumed by the original checkpoint60 verifier. They do not override the current audited/repair state below.
+
+```text
+R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
+R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
+R503_UNIFORM_VARYING_FIBER_HEIGHT_COUNT=NOT_PROVED
+R504_GENERIC_NONTORSION_SECTION_PROVED=true
+HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
+```
+
+## Audited base
 
 ```text
 R501_STATUS=PROVED_AUDITED_Theta_B_QUARTER
 R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS
-R507_STATUS=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
-R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))
-R502_GCD_GLOBAL_BOUND=2592
-```
-
-Historical checkpoint60 verifier compatibility markers describe the prior submission state only:
-
-```text
-HISTORICAL_R502_SUBMISSION_MARKER=R502_STATUS=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
-HISTORICAL_R503_GATE_MARKER=R503_UNIFORM_VARYING_FIBER_HEIGHT_COUNT=NOT_PROVED
-HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
-```
-
-Neither family-specific `Theta(B^(1/4))` result is a global upper bound for `N2`.
-
-## R503 — Yoshida varying-fiber height
-
-R503 passed hostile fresh audit and is now a precise theorem gate.
-
-The Yoshida surface has generic geometric Mordell-Weil rank zero, so the direct generic-section route is closed. Its displayed fixed-fiber orbit and displayed positive-rank-parameter sequence are each only `O(sqrt(log))` in the relevant bounded-height variable. This does not close base changes or exceptional positive-rank fibers.
-
-```text
 R503_STATUS=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
-R503_GENERIC_GEOMETRIC_MW_RANK=0
-R503_NONTORSION_GENERIC_SECTION_EXISTS=false
-R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED
-R503_YOSHIDA_FIXED_FIBER_ORBIT_COUNT_UPPER=O(sqrt(log B))
-R503_YOSHIDA_DISPLAYED_S_SEQUENCE_COUNT_UPPER=O(sqrt(log X))
-R503_BASE_CHANGE_MULTISECTION_ROUTE=OPEN_GATE
-R503_QUANTITATIVE_EXCEPTIONAL_FIBER_ROUTE=OPEN_GATE
-R503_UNIFORM_SMALL_POINT_ROUTE=OPEN_GATE
-R503_EXPONENT_UPGRADE_PROVED=false
-```
-
-See `r503-yoshida-generic-rank-zero-gate.md`, `r503-discovery-ledger.md`, and `r503-audit.md`.
-
-## R504 — symmetric-k aggregation
-
-R504 has passed hostile fresh audit on the full original-base section lattice.
-
-The quartic receiver
-
-\[
-t^4+1=(k^4+1)z^2
-\]
-
-has Jacobian
-
-\[
-E_F:Y^2=X^3-4(k^4+1)^2X.
-\]
-
-This is the quadratic twist of the constant lemniscatic curve `v^2=u^3-4u` by `k^4+1`. The twisting cover `s^2=k^4+1` is itself `Q`-birational to that same constant elliptic curve. The deck involution becomes `Q -> T-Q`, and the anti-invariant twist descent together with `End_Q(E0)=Z` gives
-
-\[
-\boxed{\operatorname{rank}E_F(Q(k))=1.}
-\]
-
-Thus there is no second independent `Q(k)`-rational section hidden on the original symmetric-k surface.
-
-The first nondegenerate physical section is the accepted 3P section
-
-\[
-t_3(k)=\frac{k(k^8-6k^4-3)}{3k^8+6k^4-1},
-\qquad
-z_3(k)=\frac{k^{16}+28k^{12}+6k^8+28k^4+1}{(3k^8+6k^4-1)^2}.
-\]
-
-For reduced `k=u/v`, its homogenized Stage19 coordinates have degree 20 and exact primitive gcd
-
-\[
-\gcd(E,X,Y)=2^{7[u,v\text{ both odd}]}\le128.
-\]
-
-The missing third-face square condition reduces to a squarefree degree-32 hyperelliptic curve of genus 15, so only finitely many rational parameters are triple-face exceptions. A fixed physical open cone has bounded parameter multiplicity. Hence
-
-\[
-\boxed{N_{R504,3P}(B)=\Theta(B^{1/10}).}
-\]
-
-This is a genuine infinite Stage19 family but is weaker than the audited quarter-power families. The original-base independent-section route is closed as a hidden global-upgrade source.
-
-The hostile audit explicitly does **not** close finite base change, multisections becoming sections after base change, or uniform aggregation over growing multiples.
-
-```text
-R504_STATUS=ORIGINAL_SURFACE_SECTION_ROUTE_CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS
-R504_GENERIC_QK_RANK=1
-R504_SECOND_INDEPENDENT_QK_SECTION_EXISTS=false
-R504_GENERIC_NONTORSION_SECTION_PROVED=true
-R504_3P_EXACT_FAMILY_GROWTH=Theta(B^(1/10))
-R504_3P_PRIMITIVE_GCD_BOUND=128
-R504_3P_THIRD_FACE_EXCEPTION_GENUS=15
-R504_CURRENT_SECTION_BEATS_QUARTER=false
-R504_LOW_DEGREE_BASE_CHANGE_ROUTE=OPEN_GATE
-R504_MULTI_SECTION_ROUTE=OPEN_GATE
-R504_GROWING_MULTIPLE_UNIFORM_AGGREGATION=OPEN_GATE
-R504_FRESH_AUDIT_REQUIRED=false
-```
-
-See `r504-section-lattice.md`, `r504-twist-descent.md`, `r504-discovery-ledger.md`, `r504-iteration-controller.json`, and `r504-audit.md`.
-
-## R505 — common squarefree core
-
-The exact Stage19 squareclass receiver remains structurally correct, but no independent parameter dimension with polynomial physical-height bound and bounded multiplicity has yet been closed.
-
-```text
-R505_STATUS=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
-R505_RESEARCH_CONTINUES_AFTER_R504_AUDIT=true
-```
-
-## R506 — common-leg plus space
-
-The common-leg divisor construction remains compatible. Successful low-dimensional specializations overlap known C17/R501-type mechanisms; no independent bulk count improving the global exponent has yet been certified.
-
-```text
-R506_STATUS=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
-R506_RESEARCH_CONTINUES_AFTER_R504_AUDIT=true
-```
-
-## Current boundary
-
-```text
+R504_ORIGINAL_BASE_STATUS=CLOSED_NO_GLOBAL_UPGRADE_AUDITED_PASS
+R507_STATUS=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
 HIGHER_THAN_ONE_QUARTER_LOWER_PROVED=false
+```
+
+Global envelope remains
+
+\[
+B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
+\]
+
+## R504 — hostile-FAIL repair
+
+The previous audit accepted the original-base rank-one result but rejected a blanket residual `EXTERNAL_THEOREM_GATE` classification because the three OPEN mechanisms had not been concretely executed.
+
+The repair now does the following.
+
+1. identifies the exact product-Kummer model `Km(E0xE0)` with `E0:y^2=x^3-4x`;
+2. proves rational finite base change + new section is equivalent to a rational multisection on the original surface;
+3. executes the twist-killing cover `BC0`;
+4. executes `BC1: k=u^2`, proving the genus-three pullback has quotient `j` values `1728,8000,8000` and no extra `E0` factor;
+5. executes `BC2: k=(u^2-1)/(2u)`, proving quotient `j` values `1728,10976,10976` and again no extra `E0` factor;
+6. closes aggregation over the existing rank-one multiplication graphs using the exact Lattes degree `n^2` and physical height, obtaining
+
+\[
+N_{R504,\mathrm{all\ multiples}}(B)
+\ll B^{1/9}\sqrt{\log B}=o(B^{1/4}).
+\]
+
+The remaining rational-base-change/multisection problem is now the exact new-object gate: find a degree-two (or other low-degree) `phi` for which the twist cover `C_phi` has an additional `E0`-isogeny factor in its Jacobian, and then prove the Stage19 physical-height/exactly-two adapter.
+
+```text
+R504_BC0=CLOSED_NO_QUARTER_UPGRADE
+R504_BC1=CLOSED_NO_RANK_JUMP
+R504_BC2=CLOSED_NO_RANK_JUMP
+R504_GROWING_MULTIPLES=CLOSED_NO_QUARTER_UPGRADE_WITH_HEIGHT_CERTIFICATE
+R504_RATIONAL_BASE_CHANGE_EQUIVALENT_TO_RATIONAL_MULTISECTION=true
+R504_DEGREE2_GENERAL_GATE=EXTRA_E0_FACTOR_IN_JACOBIAN_OF_C_phi
+R504_RESIDUAL=EXTERNAL_OR_NEW_EXPLICIT_CURVE_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R504_RESIDUAL_ROUTE_BOUNDARY_EVIDENCE_COMPLETE_CANDIDATE=true
+```
+
+See `r504-base-change-boundary.md` and `r505-r506-discovery-ledger.md`.
+
+## R505/R506 — previous hostile-audit acceptance retained
+
+The previous audit explicitly accepted both mathematical claims and said they need not be reopened.
+
+```text
+R505_EXACT_TARGET_RECEIVER_ACCEPTED=true
+R505_STAGE15_REUSE_CHAIN_ACCEPTED=true
+R505_STATUS=EXTERNAL_THEOREM_GATE_PREVIOUS_MATH_ACCEPTED_BOUNDARY_RECHECK_ONLY
+R506_TORIC_SUBSUMPTION_ACCEPTED=true
+R506_STATUS=CLOSED_NO_INDEPENDENT_ROUTE_WITH_CERTIFICATE_PREVIOUS_MATH_ACCEPTED
+```
+
+R505 remains the exact common-squarefree-core target receiver
+
+\[
+\operatorname{sf}(A)=\operatorname{sf}(B)
+\iff A=kP^2,\ B=kQ^2,
+\]
+
+and R506 remains its rank-one common-leg coordinate presentation `uv=wz`.
+
+## Reuse/discovery FAIL repair
+
+The mandatory handoff is now materialized rather than implied:
+
+```text
+REPO_REUSE_PREFLIGHT=PASS
+REUSED_RESULTS=MATERIALIZED_IN_r505-r506-discovery-ledger.md
+REUSE_MATCH_STATUS=MIXED
+STRONGEST_KNOWN_CHECK=PASS
+STRONGER_PRIOR_RESULT_FOUND=false
+NEW_RESEARCH_JUSTIFIED=MATERIALIZED
+POPULATION_ADAPTERS_PROVED=MATERIALIZED
+REPO_REUSE_HANDOFF_COMPLETE_CANDIDATE=true
+DISCOVERY_EVIDENCE_BLOCK_COMPLETE_CANDIDATE=true
+```
+
+## Current checkpoint60 boundary
+
+```text
+R501=PROVED_AUDITED
+R502=CLOSED_AUDITED
+R503=EXTERNAL_THEOREM_GATE_AUDITED
+R504_ORIGINAL_BASE=CLOSED_AUDITED
+R504_BC0=CLOSED_CANDIDATE
+R504_BC1=CLOSED_CANDIDATE
+R504_BC2=CLOSED_CANDIDATE
+R504_GROWING_MULTIPLES=CLOSED_CANDIDATE
+R504_RESIDUAL=EXTERNAL_OR_NEW_EXPLICIT_CURVE_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R505=EXTERNAL_THEOREM_GATE_PREVIOUS_MATH_ACCEPTED
+R506=CLOSED_PREVIOUS_MATH_ACCEPTED
+R507=PROVED_AUDITED
+GLOBAL_STAGE25_LOWER_CHANGED=false
 MATCHING_HALF_POWER_LOWER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
-R503_FRESH_AUDIT_REQUIRED=false
-R504_FRESH_AUDIT_REQUIRED=false
-LIVE_REPO_NATIVE_HIGH_VALUE_ROUTES_AFTER_R504=R505,R506
-CHECKPOINT60_SINGLE_SHOT=false
-AUDIT_PASS_DOES_NOT_CLOSE_LIVE_ROUTES=true
+FINITE_DATA_USED_AS_PROOF=false
+CHECKPOINT60_DEEP_STOP_RULE_CANDIDATE=true
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
+DEEP_STOP_PENDING_HOSTILE_AUDIT=true
 STAGE70_ALLOWED=false
 ```
+
+Fresh hostile audit is required because this repair newly closes the growing-multiple lane and supplies concrete route-boundary certificates for the previously open R504 base-change/multisection lane. A PASS may certify deep-stop; a FAIL restores only the rejected residual sublane to live status.
