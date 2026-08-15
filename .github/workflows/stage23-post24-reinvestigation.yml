@@ -1,0 +1,19 @@
+name: Stage23 post-Stage24 reinvestigation audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage23/post-stage24-r01/**'
+      - '.github/workflows/stage23-post24-reinvestigation.yml'
+  workflow_dispatch:
+
+jobs:
+  exact-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage23 post-Stage24 algebra and C17 channel map
+        run: python stages/stage23/post-stage24-r01/reinvestigation_audit.py
