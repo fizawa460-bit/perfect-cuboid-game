@@ -4,19 +4,24 @@ import json
 
 root = Path(__file__).resolve().parents[3]
 
+
 def text(rel):
     p = root / rel
     assert p.exists(), f"missing {rel}"
     return p.read_text(encoding="utf-8")
 
+
 def data(rel):
     return json.loads(text(rel))
+
 
 r = text("stages/stage25/25-70/result.md")
 f = text("stages/stage25/final.md")
 m = text("stages/stage25/manifest-r01.md")
 a = text("docs/stage25-arsenal-promotion.md")
 l = text("stages/stage25/25-70/aggressive-search-ledger.md")
+audit70 = text("stages/stage25/25-70/audit.md")
+c25 = data("stages/stage25/25-controller.json")
 c70 = data("stages/stage25/25-70/controller.json")
 c60 = data("stages/stage25/25-60/checkpoint60-deep-stop-controller.json")
 reentry = data("stages/stage25/25-reentry-controller.json")
@@ -68,26 +73,66 @@ assert c70["backflow_status"] == "PASS_NO_DELTA_AFTER_CHECKPOINT50"
 assert c70["global_stage25_lower_changed_after_checkpoint50"] is False
 assert "BACKFLOW_STATUS=PASS_NO_DELTA_AFTER_CHECKPOINT50" in r
 
-# audit state may be submission-pending or audited-PASS-awaiting-merge.
-assert c70["audit_status"] in ("PENDING", "PASS")
-assert c70["stage25_reentry_unlocked"] is False
+# The same verifier is intentionally valid in three lifecycle states:
+#   1) closeout submission: audit PENDING, not merged, reentry blocked;
+#   2) hostile-audited closeout: audit PASS, not merged, reentry blocked;
+#   3) post-merge synchronization: audit PASS, merged, Stage25 CLOSED,
+#      reentry phase10 READY while Stage26 remains blocked.
+audit_status = c70["audit_status"]
+closeout_merged = bool(c70.get("closeout_merged", False))
+reentry_unlocked = bool(c70.get("stage25_reentry_unlocked", False))
+assert audit_status in ("PENDING", "PASS")
 assert c70["close_stage_after_audit_pass"] is True
 assert c70["parent_controller_sync_required_after_audit_pass"] is True
-if c70["audit_status"] == "PENDING":
-    assert c70["advance_allowed"] is False
-    assert c70["merge_allowed"] is False
-else:
-    assert c70["advance_allowed"] is True
-    assert c70["merge_allowed"] is True
-    assert c70.get("closeout_merged") is False
-    assert "stages/stage25/25-70/audit.md" == c70.get("audit_record")
-
-# reentry remains blocked until audited closeout is actually merged.
-assert reentry["status"] == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT"
 assert reentry["starts_after"]["stage25_checkpoint"] == 70
 assert reentry["starts_after"]["audit_verdict"] == "PASS"
 assert reentry["starts_after"]["closeout_merged"] is True
 assert reentry["stage26_gate"]["stage26_allowed"] is False
+
+if audit_status == "PENDING":
+    assert closeout_merged is False
+    assert reentry_unlocked is False
+    assert c70["advance_allowed"] is False
+    assert c70["merge_allowed"] is False
+    assert reentry["status"] == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT"
+    lifecycle = "SUBMISSION_PENDING"
+elif not closeout_merged:
+    assert reentry_unlocked is False
+    assert c70["advance_allowed"] is True
+    assert c70["merge_allowed"] is True
+    assert c70.get("audit_record") == "stages/stage25/25-70/audit.md"
+    assert "AUDIT_VERDICT=PASS" in audit70
+    assert reentry["status"] == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT"
+    lifecycle = "AUDITED_PASS_AWAITING_MERGE"
+else:
+    assert reentry_unlocked is True
+    assert c70["advance_allowed"] is True
+    assert c70["merge_allowed"] is True
+    assert c70.get("audit_record") == "stages/stage25/25-70/audit.md"
+    assert c70.get("closeout_pr") == 1000
+    assert c70.get("closeout_merge_commit") == "12e1cb027e3123328702393ebdb3e3687ca0a169"
+    assert "AUDIT_VERDICT=PASS" in audit70
+
+    # Canonical parent must now be the audited closed Stage25 surface.
+    assert c25["status"] == "CLOSED"
+    assert c25["checkpoint_status"]["70"] == "PROVED_AUDITED_PASS"
+    assert c25["state"]["CURRENT_CHECKPOINT"] == 70
+    assert c25["state"]["MAIN_STATUS"] == "COMPLETE"
+    assert c25["state"]["AUDIT_STATUS"] == "PASS"
+    assert c25["state"]["NEXT_STAGE"] == "Stage25-reentry"
+
+    # Reentry is unlocked only to phase10 READY; no phase is auto-executed.
+    assert reentry["status"] == "PHASE10_READY_AFTER_STAGE25_AUDITED_CLOSEOUT_MERGE"
+    assert reentry["current_phase"] == 10
+    assert reentry["phases"]["10"]["status"] == "READY"
+    assert reentry["unlock_evidence"]["checkpoint70_audit_verdict"] == "PASS"
+    assert reentry["unlock_evidence"]["closeout_pr"] == 1000
+    assert reentry["unlock_evidence"]["closeout_merge_commit"] == c70["closeout_merge_commit"]
+    assert reentry["unlock_evidence"]["main_stage25_closed"] is True
+    assert reentry["stage26_gate"]["stage25_main_closed"] is True
+    assert reentry["stage26_gate"]["all_reentry_phases_audited"] is False
+    assert reentry["stage26_gate"]["stage26_allowed"] is False
+    lifecycle = "POST_MERGE_REENTRY_READY"
 
 print("STAGE25_70_CLOSEOUT_CONTRACT=PASS")
 print("CHECKPOINT60_DEEP_STOP_DEPENDENCY=PASS")
@@ -95,4 +140,5 @@ print("FINAL_THEOREM_STACK_BINDING=PASS")
 print("ROUTE_REGISTRY_BOUNDARY=PASS")
 print("BACKFLOW_NO_DELTA_BINDING=PASS")
 print("REENTRY_BYPASS_FIREWALL=PASS")
-print(f"CHECKPOINT70_AUDIT_STATE={c70['audit_status']}")
+print(f"CHECKPOINT70_AUDIT_STATE={audit_status}")
+print(f"CHECKPOINT70_LIFECYCLE={lifecycle}")
