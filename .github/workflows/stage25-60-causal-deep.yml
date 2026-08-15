@@ -1,0 +1,20 @@
+name: Stage25-60 causal deep audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-60/**'
+      - 'stages/stage25/25-controller.json'
+      - '.github/workflows/stage25-60-causal-deep.yml'
+  workflow_dispatch:
+
+jobs:
+  causal-deep-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage25 checkpoint60 causal and deep-search claims
+        run: python stages/stage25/25-60/causal_deep_audit.py

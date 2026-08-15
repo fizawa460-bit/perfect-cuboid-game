@@ -135,11 +135,15 @@ else:
         assert ctl['last_audit']['verdict'] == 'PASS'
         assert ctl['next_expected_command'] == 'merge PR #982; then Stage25-main-batch'
     else:
-        # Once Stage25 advances, current state/discovery_audit belong to the later
-        # checkpoint.  Checkpoint30 stays immutable as a historical audited PASS.
+        # Once Stage25 advances, current state/discovery_audit/last_audit belong
+        # to the later checkpoint and may legitimately be PENDING or FAIL.
+        # Checkpoint30 is frozen by its own payload and audit_history entry.
         assert current > 30
         assert ctl['last_audit']['checkpoint'] >= 30
-        assert ctl['last_audit']['verdict'] == 'PASS'
+        if ctl['last_audit']['checkpoint'] == 30:
+            assert ctl['last_audit']['verdict'] == 'PASS'
+        else:
+            assert ctl['last_audit']['verdict'] in ('PASS', 'FAIL')
 
 print('DIRECT_LOWER_SCALE=B^-2(logB)^-1/2:PASS')
 print('DIRECT_UPPER_SCALE=B^-3/2+eps(logB)^-1:PASS')
