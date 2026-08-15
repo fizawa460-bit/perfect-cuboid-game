@@ -8,7 +8,7 @@
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS",
     "20": "COMPUTED_AUDITED_PASS",
-    "30": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
+    "30": "PROVED_AUDITED_PASS",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
@@ -16,12 +16,12 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 30,
-    "MAIN_STATUS": "CHECKPOINT30_REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 30,
+    "MAIN_STATUS": "CHECKPOINT30_AUDITED_PASS",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "source_stage": "Stage16",
   "target_stage": "Stage19",
@@ -138,9 +138,9 @@
     "merge_allowed": true
   },
   "checkpoint30": {
-    "status": "REPAIR_SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "PROVED_AUDITED_PASS",
     "previous_audit": "FAIL",
-    "audit": "PENDING_REAUDIT",
+    "audit": "PASS",
     "audit_path": "stages/stage25/25-30/audit.md",
     "result_path": "stages/stage25/25-30/result.md",
     "discovery_ledger": "stages/stage25/25-30/discovery-ledger.md",
@@ -193,10 +193,10 @@
     "counts_recompute_required": false,
     "global_mathematics_reopen_required": false,
     "repair_scope": "DIRECTIONAL_DOWNGRADE_PLUS_CONTROLLER_HISTORY_RESTORE",
-    "repair_status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "repair_status": "COMPLETE_AUDITED_PASS",
     "audit_required": true,
-    "advance_allowed": false,
-    "merge_allowed": false
+    "advance_allowed": true,
+    "merge_allowed": true
   },
   "checkpoint20_policy": {
     "REUSE_EXISTING_NUM_FIRST": true,
@@ -253,13 +253,13 @@
     "UPSTREAM_PREMISE_CHECK": "PASS_GLOBAL_DIRECTIONAL_ADAPTER_OPEN",
     "RETURN_TO_SOURCE_REQUIRED": false,
     "EXPLORATION_EVIDENCE_COMPLETE": true,
-    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT20_AUDITED_PASS;CHECKPOINT30_REPAIR_PENDING_FRESH_AUDIT"
+    "EVIDENCE_LEVELS_COMPLETE": "YES_THROUGH_CHECKPOINT30_AUDITED_PASS"
   },
   "discovery_audit": {
     "required": true,
     "checkpoint": 30,
     "auditor": "FRESH_STAGE25_AUDIT",
-    "verdict": "PENDING_REAUDIT",
+    "verdict": "PASS",
     "record": "stages/stage25/25-30/audit.md",
     "previous_verdict": "FAIL",
     "previous_reason": "Stage21 order-chamber q interface was used as if it were the Stage23 a/b/c shared-edge face channel without a proved adapter"
@@ -285,15 +285,22 @@
       "record": "stages/stage25/25-30/audit.md",
       "audit_commit": "174cd32143fb56fc26149f00035b201fd5e9c879",
       "pr": 982
+    },
+    {
+      "checkpoint": 30,
+      "verdict": "PASS",
+      "record": "stages/stage25/25-30/audit.md",
+      "audit_commit": "6f69efe65f71652888c3c45f8771da18a0836de9",
+      "pr": 982
     }
   ],
   "last_audit": {
     "checkpoint": 30,
-    "verdict": "FAIL",
+    "verdict": "PASS",
     "record": "stages/stage25/25-30/audit.md",
-    "audit_commit": "174cd32143fb56fc26149f00035b201fd5e9c879",
+    "audit_commit": "6f69efe65f71652888c3c45f8771da18a0836de9",
     "pr": 982,
-    "merge_allowed": false,
+    "merge_allowed": true,
     "new_input_required": false,
     "human_decision_required": false,
     "codex_audit_required": false,
@@ -301,7 +308,7 @@
   },
   "repair": {
     "checkpoint": 30,
-    "status": "SUBMITTED_FOR_FRESH_AUDIT",
+    "status": "COMPLETE_AUDITED_PASS",
     "scope": "DIRECTIONAL_DOWNGRADE_PLUS_CONTROLLER_HISTORY_RESTORE",
     "global_mathematics_reopened": false,
     "counts_recomputed": false,
@@ -312,9 +319,9 @@
   },
   "audit_persistence": {
     "required": true,
-    "status": "PREVIOUS_FAIL_COMMITTED_REPAIR_PENDING_REAUDIT",
+    "status": "COMMITTED_CHECKPOINT30_PASS",
     "unsynced_audit_state": "NONE"
   },
-  "next_expected_command": "Stage25-audit",
+  "next_expected_command": "merge PR #982; then Stage25-main-batch",
   "codeX_required": false
 }
