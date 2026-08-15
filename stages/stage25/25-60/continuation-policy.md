@@ -67,7 +67,7 @@ Only then may checkpoint60 set `NEXT_CHECKPOINT=70`.
 
 ## Audited history through R502
 
-PR #985 passed hostile re-audit and was merged. R502 is therefore closed with a full primitive-height/no-upgrade certificate:
+PR #985 passed hostile re-audit and was merged. R502 is closed with a full primitive-height/no-upgrade certificate:
 
 ```text
 R501=PROVED_AUDITED_Theta_B_QUARTER
@@ -75,24 +75,24 @@ R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_AUDITED_PASS
 R507=PROVED_AUDITED_R501_PRIMITIVE_HEIGHT_RIGIDITY
 ```
 
-Historical checkpoint60 verifier compatibility (prior submission marker only):
+Historical checkpoint60 verifier compatibility marker:
 
 ```text
 HISTORICAL_R502_SUBMISSION_MARKER=R502=CLOSED_NO_UPGRADE_WITH_CERTIFICATE_SUBMITTED_FOR_FRESH_AUDIT
 ```
 
-The first checkpoint60 FAIL and the subsequent PASS remain preserved in the audit history.
+The first checkpoint60 FAIL and subsequent PASS remain preserved in the audit history.
 
-## Current R503 submission
+## Audited R503 state
 
-R503 now has a sharper theorem boundary.
+R503 passed hostile fresh audit in PR #986.
 
 The Yoshida elliptic surface is exactly the plus-sign Pythagorean/Frey family, whose geometric generic Mordell-Weil rank is zero. Hence the original surface has no non-torsion generic section. Yoshida's explicit fixed-fiber orbit and displayed positive-rank-parameter sequence are both height-sparse (`O(sqrt(log))` in their natural bounded-height variables), so those explicit infinitude constructions do not supply a polynomial population capable of improving the audited `B^(1/4)` Stage19 lower.
 
 R503 is not declared impossible. It is reduced to a precise low-degree-base-change / exceptional-fiber small-point theorem gate.
 
 ```text
-R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_SUBMITTED_FOR_FRESH_AUDIT
+R503=EXTERNAL_OR_BASE_CHANGE_THEOREM_GATE_AUDITED_PASS
 R503_DIRECT_GENERIC_SECTION_ROUTE=CLOSED
 R503_BASE_CHANGE_MULTISECTION_ROUTE=OPEN_GATE
 R503_QUANTITATIVE_EXCEPTIONAL_FIBER_ROUTE=OPEN_GATE
@@ -102,5 +102,5 @@ R506=LIVE_NO_CLOSED_DIMENSION_HEIGHT_COUNT
 CHECKPOINT60_CLOSED=false
 CHECKPOINT60_DEEP_STOP_RULE_SATISFIED=false
 STAGE70_ALLOWED=false
-NEXT_AFTER_R503_AUDIT_PASS=MERGE_AND_CONTINUE_CHECKPOINT60_WITH_R504_R506
+NEXT_AFTER_R503_AUDITED_MERGE=CONTINUE_CHECKPOINT60_WITH_R504_R506
 ```
