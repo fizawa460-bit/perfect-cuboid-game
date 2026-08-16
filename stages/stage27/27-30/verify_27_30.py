@@ -16,11 +16,12 @@ res = text('stages/stage27/27-30/result.md')
 reg = data('stages/stage27/27-30/receiver-registry.json')
 ctl = data('stages/stage27/27-controller.json')
 a20 = text('stages/stage27/27-20/audit.md')
+a30 = text('stages/stage27/27-30/audit.md')
 s19 = text('stages/stage19/post-stage25-50-supersession.md')
 s23 = text('stages/stage23/post-stage25-r01/result.md')
 s24 = text('stages/stage24/post-stage25-r01/result.md')
 
-# Upstream checkpoint20 is audited and merged.
+# Upstream checkpoint20 remains audited and merged.
 assert 'AUDIT_VERDICT=PASS' in a20
 assert reg['upstream']['checkpoint20_pr'] == 1023
 assert reg['upstream']['checkpoint20_merge_commit'] == 'ecbd182f25dcb010319789855c82477eee7077c7'
@@ -40,7 +41,6 @@ assert 'RATIO_LOWER=N2/N1>>B^(-3/4)(log B)^(-3)' in s23
 assert 'RATIO_UPPER=N2/N1<<_epsilon B^(-1/2+epsilon)(log B)^(-3)' in s23
 assert 'CURRENT_SURVIVOR_RATIO_LOWER=N2/M2>>B^(-3/4)(log B)^(-5)' in s24
 
-# Current exponents recover the frozen receiver powers.
 beta = 1/4
 mu = 1/2
 assert beta - 1 == -3/4
@@ -50,7 +50,6 @@ assert reg['current']['mu_upper'] == '1/2'
 assert reg['generic_lower']['progress_gate'] == 'beta>1/4'
 assert reg['generic_upper']['progress_gate'] == 'mu<1/2'
 
-# Receiver semantics and directional asymmetry are explicit.
 assert reg['population']['literal_subset'] is True
 assert reg['directional']['lower_requires_directional_hypothesis'] is True
 assert reg['directional']['global_lower_implies_all_directional_lower'] is False
@@ -59,7 +58,6 @@ assert reg['directional']['shared_edge_map'] == {
     'a':'A_ab,ac', 'b':'A_ab,bc', 'c':'A_ac,bc'
 }
 
-# Exponent identification is weaker than asymptotic identification.
 ident = reg['exponent_identification']
 assert ident['matched_epsilon_bounds_required'] is True
 assert ident['implies_log_slope_limit'] is True
@@ -88,14 +86,22 @@ for marker in [
 ]:
     assert marker in res, marker
 
-assert ctl['checkpoint_status']['30'] == 'DERIVED_RECEIVER_CALCULUS_SUBMITTED_PENDING_FRESH_AUDIT'
-assert ctl['checkpoint30']['evidence_level'] == 'PROVED_DERIVED_RECEIVER_CALCULUS_CANDIDATE'
+# Historical checkpoint30 mathematics is preserved; lifecycle may be its own
+# submission state or any later state after hostile audit PASS + merge.
+assert 'AUDIT_VERDICT=PASS' in a30
+assert ctl['checkpoint_status']['30'] in (
+    'DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_AWAITING_MERGE',
+    'DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED',
+)
+assert ctl['checkpoint30']['audit_status'] == 'PASS'
+assert ctl['checkpoint30']['pr'] == 1024
+if ctl['checkpoint_status']['30'] == 'DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED':
+    assert ctl['checkpoint30']['merge_commit'] == 'cf0f2a378ca6a3338670063821efb513e0aaeb73'
+    assert ctl['state']['CURRENT_CHECKPOINT'] >= 40
+else:
+    assert ctl['state']['CURRENT_CHECKPOINT'] == 30
+
 assert ctl['checkpoint30']['new_N2_exponent_proved'] is False
-assert ctl['state']['CURRENT_CHECKPOINT'] == 30
-assert ctl['state']['NEXT_CHECKPOINT'] == 40
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['ADVANCE_ALLOWED'] is False
-assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['next_expected_command'] == 'Stage27-audit'
 
 print('STAGE27_30_UPSTREAM_AUDIT_MERGE=PASS')
@@ -103,3 +109,4 @@ print('STAGE27_30_CURRENT_CORRIDOR_RECOVERY=PASS')
 print('STAGE27_30_GENERIC_RECEIVER_CALCULUS=PASS')
 print('STAGE27_30_DIRECTIONAL_PROPAGATION_FIREWALL=PASS')
 print('STAGE27_30_EXPONENT_IDENTIFICATION_CONTRACT=PASS')
+print('STAGE27_30_LIFECYCLE=PASS')
