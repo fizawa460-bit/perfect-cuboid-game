@@ -27,8 +27,8 @@ assert 'N1(B)~kappa/(24*pi) B(log B)^3' in s21
 assert 'C_raw(B)=2 sum_{P<=B} H(P)L_B(P)' in s21
 assert 'full principal multiplicative sector' in s21
 assert 'every nonprincipal effective sector loses at least one pole' in s21
-assert 'N_S^{all}(B)/U(B)' in s16s
-assert 'B^{-1}' in s16s
+assert 'AMBIENT_RATIO=N_S^all(B)/U(B) ~ [9 zeta(3)/(8 pi G)]/B' in s16s
+assert 'INTRINSIC_POLYNOMIAL_SPACE_COST=ONE_POWER_OF_B' in s16s
 assert 'N_1(B)\\sim\\frac{\\kappa}{24\\pi}B(\\log B)^3' in s17
 
 # Arithmetic log-power ledger: target log^3 minus source log^1 = +2.
