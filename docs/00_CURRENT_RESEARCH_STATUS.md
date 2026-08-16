@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-20-AUDITED-PASS-AWAITING-MERGE
+CURRENT_STAGE=Stage26-30-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -39,27 +39,46 @@ STAGE26_ALLOWED=true
 STAGE26_CHECKPOINT10_STATUS=PROVED_AUDITED_PASS_MERGED_PR1014
 STAGE26_DISCOVERY_AUDIT=PASS_BY_CODEX
 STAGE26_MATHEMATICAL_AUDIT=PASS
-STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_AWAITING_MERGE
+STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_MERGED_PR1015
 STAGE26_CHECKPOINT20_EVIDENCE=DERIVED_EXACT_FINITE
+STAGE26_CHECKPOINT30_STATUS=PROVED_SUBMITTED_PENDING_AUDIT
+STAGE26_CHECKPOINT30_EVIDENCE=PROVED_DERIVED_THEOREM_CANDIDATE
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-NEXT_EXPECTED_COMMAND=merge PR #1015; then Stage26-main-batch
+NEXT_EXPECTED_COMMAND=Stage26-audit
 NEXT_RESEARCH_PROGRAM=Stage26
 ```
 
 ## Current operation
 
-Stage25-reentry is fully closed and synchronized. Stage26 checkpoint10 hostile audit PASS is merged as PR #1014 / `03ad11b0df214f95c4c077a3b22d12ffe391d160`. Checkpoint20 matched finite baseline has now passed fresh hostile audit and is awaiting PR #1015 merge.
+Stage25-reentry is fully closed and synchronized. Stage26 checkpoint10 is merged as PR #1014 / `03ad11b0df214f95c4c077a3b22d12ffe391d160`; checkpoint20 hostile audit PASS is merged as PR #1015 / `f1e2d7b718757a85f6b1d2fce25ae442b5c22a87`.
 
-The Stage26 transition contract remains
+Checkpoint30 now promotes the frozen Stage18/Stage20 asymptotic interfaces through the exact Stage26 measure adapters. Under the common primitive/canonical no-space Euclidean cutoff,
 
 \[
-M_2=\text{exactly-two no-space primitive canonical objects},\qquad
-M_3=\text{Euler exactly-three no-space primitive canonical objects},
+M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
 \]
 
-under the common Euclidean cutoff `R<=B`. The exact masks are disjoint, so `M3/M2` is a matched adjacent-stratum size ratio rather than objectwise survival.
+and for every fixed `0<eta<1/46`,
 
-The literal object host and raw-incidence adapters are
+\[
+B^{1/6}\ll M_3(B)\ll_\eta B(\log B)^{5-\eta}.
+\]
+
+Writing
+
+\[
+r(B)=\frac{M_3(B)}{M_2(B)},
+\]
+
+gives the candidate corridor
+
+\[
+B^{-5/6}(\log B)^{-5}\ll r(B)\ll_\eta(\log B)^{-\eta},
+\]
+
+hence `r(B)->0`.
+
+The literal physical-object host and raw-incidence host are
 
 \[
 H_{\ge2}=M_2+M_3,\qquad
@@ -68,47 +87,39 @@ H_{\ge2}=M_2+M_3,\qquad
 
 \[
 P=M_2+3M_3,\qquad
-\Theta=\frac{3M_3}{M_2+3M_3},
+\Theta=\frac{3M_3}{M_2+3M_3}.
 \]
 
-with exact bridge
+Exact algebra gives
 
 \[
-\Theta=\frac{3\Phi}{1+2\Phi},\qquad
-\Phi=\frac{\Theta}{3-2\Theta}.
+\frac{\Phi}{1-\Phi}=r,\qquad
+\frac{\Theta}{1-\Theta}=3r,
 \]
 
-Checkpoint20 joins the already-audited Stage18 and Stage20 finite tables at the common cutoffs
-
-```text
-B=50,100,200,400,800,1200,1600,2000
-```
-
-and materializes exact `M2`, `M3`, `H>=2`, `P`, `Phi`, and `Theta` rows. At `B=2000`, for example,
+and therefore the checkpoint30 theorem candidate is
 
 \[
-M_2=4812,\quad M_3=7,\quad H_{\ge2}=4819,\quad P=4833,
+B^{-5/6}(\log B)^{-5}\ll\Phi(B)\ll_\eta(\log B)^{-\eta}\to0,
 \]
 
 \[
-\Phi=7/4819,\qquad \Theta=7/1611.
+B^{-5/6}(\log B)^{-5}\ll\Theta(B)\ll_\eta(\log B)^{-\eta}\to0,
 \]
 
-Larger known Euler finite counts are not divided by a mismatched Stage18 source. The Stage14-num integral-space census is retained only as a negative-control/regression oracle because its population is not the no-space Stage18 source.
-
-The audited theorem backdrop remains
+with
 
 \[
-M_2(B)\sim C_{M_2}B(\log B)^5,
+\Phi\sim r,\qquad \Theta\sim3r,\qquad \Theta/\Phi\to3.
 \]
 
-and, for every fixed `eta<1/46`,
+Thus, if fresh audit accepts the derivation, the exactly-three Euler stratum has zero relative density inside the literal at-least-two-face physical-object host. This is not inferred from checkpoint20 finite data.
+
+The same candidate implies
 
 \[
-B^{1/6}\ll M_3(B)\ll_\eta B(\log B)^{5-\eta}.
+H_{\ge2}(B)\sim P(B)\sim M_2(B)\sim C_{M_2}B(\log B)^5.
 \]
-
-No exponent, monotonicity, square-root law, independence law, or perfect-cuboid conclusion is inferred from the finite panel.
 
 Stage19 remains frozen at
 
@@ -120,18 +131,22 @@ N2,j(B) >>_j B^(1/4), j=a,b,c
 with its true exponent still open.
 
 ```text
-TASK_ID=Stage26-20
-CHECKPOINT=20
-EVIDENCE_LEVEL=DERIVED_EXACT_FINITE
-CHECKPOINT10_MERGED_PR=1014
-MATCHED_FINITE_PANEL=true
-EXACT_MEASURE_BRIDGE_RECHECKED=true
+TASK_ID=Stage26-30
+CHECKPOINT=30
+EVIDENCE_LEVEL=PROVED_DERIVED_THEOREM_CANDIDATE
+CHECKPOINT20_MERGED_PR=1015
+LITERAL_OBJECT_COMPLETION_RATE=Phi
+RAW_INCIDENCE_COMPLETION_RATE=Theta
+EXACT_ODDS_BRIDGE=true
+PHI_TO_ZERO_PROVED_CANDIDATE=true
+THETA_TO_ZERO_PROVED_CANDIDATE=true
+THETA_OVER_PHI_TO_3_PROVED_CANDIDATE=true
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 TRUE_M3_EXPONENT_IDENTIFIED=false
-AUDIT_STATUS=PASS
-ADVANCE_ALLOWED=true
-NEXT_CHECKPOINT=30
-MERGE_ALLOWED=true
+AUDIT_STATUS=PENDING
+ADVANCE_ALLOWED=false
+NEXT_CHECKPOINT=40
+MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=merge PR #1015; then Stage26-main-batch
+NEXT_EXPECTED_COMMAND=Stage26-audit
 ```
