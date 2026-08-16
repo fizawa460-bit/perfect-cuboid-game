@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-19-r402b-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-19-r402c-f-BATCH-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -25,7 +25,7 @@ STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R402B_PENDING_AUDIT
+STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R402C_F_BATCH_PENDING_AUDIT
 STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
 STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
 STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
@@ -44,14 +44,15 @@ STAGE27_19_R401C_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1035
 STAGE27_19_R401D_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1036
 STAGE27_19_R402_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1037
 STAGE27_19_R402A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1038
-STAGE27_19_R402B_STATUS=FIXED_TAU_FIBER_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_19_R402B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1039
+STAGE27_19_R402C_F_STATUS=MULTI_ROUTE_BATCH_SUBMITTED_PENDING_FRESH_AUDIT
 STAGE27_R501_TAU_PROJECTION_DEGREE=8
 STAGE27_R502_TAU_PROJECTION_DEGREE=8
 STAGE27_R502_DEGREE12_TO_8_POLYNOMIAL_CANCELLATION_ACCEPTED=true
 STAGE27_ONE_PARAMETER_ALGEBRAIC_PROGRESS_GATE=2dx+2dy-g<8
 STAGE27_LOWER_BOUNDED_REENTRY_STOP_ACCEPTED=true
 STAGE27_LOWER_REENTRY_STATUS=BOUNDED_STOP_ACCEPTED
-STAGE27_ACTIVE_UPPER_REENTRY=27-19-r402b
+STAGE27_ACTIVE_UPPER_REENTRY=27-19-r402c-f
 STAGE27_40AF_STATUS=DEFERRED_BY_OPERATOR
 STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true
 STAGE27_CURRENT_N2_LOWER=1/4
@@ -108,6 +109,17 @@ STAGE27_POINTWISE_FIXED_TAU_SUBPOWER_PROVED=true
 STAGE27_POINTWISE_FIXED_TAU_UNIFORM_IN_T=false
 STAGE27_FIBER_ALONE_STRICT_SUBHALF_ROUTE_CLOSED=true
 STAGE27_TAU_UNIFORM_FIBER_SUBPOWER_PROVED=false
+STAGE27_TAU_CORE_SCALE_DERIVED=true
+STAGE27_TAU_CORE_HEIGHT_TRADEOFF_PROVED=true
+STAGE27_TAU_CORE_HEIGHT_BOUND=G_LT_2B2_OVER_H_TAU
+STAGE27_TAU_FULL_ENERGY_IDENTITY_PROVED=true
+STAGE27_TAU_FULL_ENERGY_DIAGONAL_BARRIER_PROVED=true
+STAGE27_TAU_RAW_SECOND_MOMENT_SHORTCUT_CLOSED_AT_HALFWALL=true
+STAGE27_TAU_OFFDIAGONAL_HYBRID_GATE_PROVED=true
+STAGE27_TAU_OFFDIAGONAL_HYBRID_GATE=SIGMA_LT_HALF_AND_SIGMA_PLUS_KAPPA_LT_1
+STAGE27_TAU_HEAVY_FIBER_INTERFACES_PROVED=true
+STAGE27_TAU_DYADIC_BAND_CONTRACT_MATERIALIZED=true
+STAGE27_TAU_DYADIC_BAND_THEOREM_PROVED=false
 STAGE27_TAU_WEIGHTED_SECOND_MOMENT_PROVED=false
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
 STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
@@ -117,59 +129,65 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-Stage27-19-r402a passed hostile audit and PR #1038 merged at
+Stage27-19-r402b passed hostile audit and PR #1039 merged at
 
 ```text
-e94dd7652c1c60cc32617ff00240f67734d39bed
+f70d5313cd3eb148d2fdcb99f5d573bd14e91f5e
 ```
 
-The reduced tau height theorem is accepted, but raw height/cardinality did not prove `sigma<1/2`. Stage27-19-r402b therefore audits fixed-tau physical fibers.
+Per operator direction, the next closely coupled subroutes are batched rather than audited one by one. `Stage27-19-r402c` through `r402f` form one checkpoint40 upper-reentry batch.
 
-For reduced `tau=p/q>0`, the ambient two-face fiber is exactly
+The batch proves the exact reduced-tau core decomposition
 
 ```text
-p*y^2-q*x^2=p+q
-p*n^2*(r^2-s^2)=q*s^2*(m^2+n^2).
+A=s^2(m^2+n^2)=p*g
+D=n^2(r^2-s^2)=q*g
+g=gcd(A,D)
+g < 2B^2/H(tau)
 ```
 
-Adding the Stage19 integral-space condition gives the already-audited smooth genus-one fiber `C_tau`. The physical cutoff yields coarse fiber-coordinate bounds
+and then separates full collision energy into diagonal plus ordered off-diagonal parts,
 
 ```text
-H(z)<3B
-H(u)<5B^(3/2).
+E_tau=N2+C_tau,
+E_tau>=N2.
 ```
 
-Therefore for every fixed rational `t>0`, standard Mordell-Weil/Neron-Tate lattice counting gives a pointwise bound
+This shows that at the current half-power support boundary a raw full-second-moment estimate below half would already contain the desired theorem in its diagonal term; it is not a cheaper shortcut.
+
+The useful refinement is the exact off-diagonal hybrid inequality
 
 ```text
-w_B(t) <<_t (1+log B)^(rank(E_t(Q))/2) = B^(o_t(1)).
+N2 <= S + sqrt(S*C_tau).
 ```
 
-This is not uniform as `t` moves with `B`; rank and height-lattice constants may vary. No theorem upgrades it to `max_t w_B(t)=B^o(1)`. Moreover even a hypothetical uniform subpower max-fiber would only reproduce the inherited half-power bound while the best tau-support upper remains `B^(1/2+epsilon)`. Thus the fiber-alone shortcut is closed at the present support boundary; it can reopen jointly with a strict horizontal support theorem.
-
-The next r402-native object is the exact same-tau collision energy, route `27-19-r402c`.
+Thus if `S<<B^(sigma+o(1))` and `C_tau<<B^(kappa+o(1))`, then
 
 ```text
-TASK_ID=Stage27-19-r402b
+mu <= max(sigma,(sigma+kappa)/2).
+```
+
+A sufficient strict-subhalf gate is `sigma<1/2` and `sigma+kappa<1`. The same inequality is localized to dyadic tau-height bands. Since `H(tau)<2B^2` there are only `O(log B)` bands, and on `T<=H(tau)<2T` the core satisfies `g<<B^2/T`.
+
+No bandwise representation theorem meeting the strict gate is proved. The batch deliberately stops here because the next step is genuinely arithmetic: bound representations of the simultaneous core equations uniformly across dyadic `(H(tau),g)` ranges, or prove an equivalent support/off-diagonal-collision theorem.
+
+```text
+TASK_BATCH=Stage27-19-r402c-f
 CHECKPOINT=40
-ROUTE_KIND=UPPER_REENTRY
-PARENT_R402A_AUDITED_PASS_MERGED=true
-FIXED_TAU_AMBIENT_CONIC_DERIVED=true
-FIXED_TAU_STAGE19_FIBER_GENUS=1
-FIXED_TAU_Z_HEIGHT_BOUND=H(z)<3B
-FIXED_TAU_U_HEIGHT_BOUND=H(u)<5B^(3/2)
-POINTWISE_FIXED_TAU_SUBPOWER_PROVED=true
-POINTWISE_FIXED_TAU_UNIFORM_IN_T=false
-TAU_UNIFORM_FIBER_SUBPOWER_PROVED=false
-FIBER_ALONE_STRICT_SUBHALF_ROUTE_CLOSED=true
-TAU_WEIGHTED_SECOND_MOMENT_PROVED=false
+ROUTE_KIND=UPPER_REENTRY_MULTI_ROUTE_BATCH
+PARENT_R402B_AUDITED_PASS_MERGED=true
+TAU_CORE_HEIGHT_TRADEOFF_PROVED=true
+TAU_FULL_ENERGY_DIAGONAL_BARRIER_PROVED=true
+TAU_OFFDIAGONAL_HYBRID_GATE_PROVED=true
+TAU_DYADIC_BAND_CONTRACT_MATERIALIZED=true
+TAU_DYADIC_BAND_THEOREM_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
-AUDIT_STATUS=PENDING
+AUDIT_STATUS=PENDING_BATCH_FRESH_AUDIT
 ADVANCE_ALLOWED=false
 ADVANCE_TO_CHECKPOINT50=false
 NEXT_CHECKPOINT=40
 MERGE_ALLOWED=false
-NEXT_DERIVED_ROUTE=27-19-r402c
+NEXT_DERIVED_ROUTE_AFTER_AUDIT=27-19-r402g
 NEXT_EXPECTED_COMMAND=Stage27-19-r402-audit
 ```
