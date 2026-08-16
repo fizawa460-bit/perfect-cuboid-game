@@ -1,0 +1,19 @@
+name: Stage25 reentry r009a mask backflow
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-reentry-r009a/**'
+      - 'stages/stage17/post-stage25-r009a.md'
+      - 'stages/stage23/post-stage25-r009a.md'
+      - 'stages/stage25/25-reentry-controller.json'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage25-reentry-r009a-backflow.yml'
+jobs:
+  verify-r009a:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python stages/stage25/25-reentry-r009a/verify_r009a.py
