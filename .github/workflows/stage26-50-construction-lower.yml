@@ -1,0 +1,23 @@
+name: Stage26-50 construction lower ledger
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage26/26-50/**'
+      - 'stages/stage26/26-controller.json'
+      - 'stages/stage26/26-40/**'
+      - 'stages/stage20/final.md'
+      - 'stages/stage25/25-reentry-60/**'
+      - '.github/workflows/stage26-50-construction-lower.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage26-50:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage26 checkpoint50 construction lower ledger
+        run: python stages/stage26/26-50/verify_26_50.py
