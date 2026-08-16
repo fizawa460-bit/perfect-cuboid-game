@@ -60,15 +60,14 @@ elif reg['audit_status'] == 'PASS':
     assert reg['advance_allowed'] is True
     assert reg['merge_allowed'] is True
     assert (ROOT / reg['audit_record']).exists()
-    # Controller may remain in the submitted state until the audited PR is merged;
-    # phase50 must remain blocked in either lifecycle representation.
-    assert r10['audit_status'] in ('PENDING','PASS')
-    if r10['audit_status'] == 'PASS':
-        assert r10['status'] == 'AUDITED_PASS_AWAITING_MERGE'
-        assert ctrl['propagation_queue'][-1]['status'] == 'AUDITED_PASS_AWAITING_MERGE'
-    else:
-        assert r10['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
-        assert ctrl['propagation_queue'][-1]['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+    assert r10['audit_status'] == 'PASS'
+    assert r10['status'] == 'AUDITED_PASS_AWAITING_MERGE'
+    assert r10['advance_allowed'] is True
+    assert r10['merge_allowed'] is True
+    assert ctrl['status'] == 'PHASE40_BACKFLOW_R010A_AUDITED_PASS_AWAITING_MERGE'
+    assert ctrl['phases']['40']['status'] == 'AUDITED_PASS_MERGED_BACKFLOW_AUDITED_PASS_AWAITING_MERGE'
+    assert ctrl['propagation_queue'][-1]['status'] == 'AUDITED_PASS_AWAITING_MERGE'
+    assert ctrl['next_expected_command'] == 'merge PR #1008; then Stage25-reentry-main-batch'
 else:
     raise AssertionError(f"unexpected registry audit state: {reg['audit_status']}")
 
