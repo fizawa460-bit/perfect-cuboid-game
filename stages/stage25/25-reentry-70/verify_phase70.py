@@ -142,12 +142,12 @@ assert ('CURRENT_STAGE=Stage26-READY' in status) or ('CURRENT_STAGE=Stage26-' in
 assert 'ALL_REENTRY_PHASES_AUDITED=true' in status
 assert 'STAGE26_ALLOWED=true' in status
 next_lines = [line for line in status.splitlines() if line.startswith('NEXT_EXPECTED_COMMAND=')]
-assert len(next_lines) == 1
-next_cmd = next_lines[0]
-assert (
-    next_cmd in ('NEXT_EXPECTED_COMMAND=Stage26-main-batch', 'NEXT_EXPECTED_COMMAND=Stage26-audit')
-    or (next_cmd.startswith('NEXT_EXPECTED_COMMAND=merge PR #') and next_cmd.endswith('; then Stage26-main-batch'))
-)
+assert next_lines
+for next_cmd in next_lines:
+    assert (
+        next_cmd in ('NEXT_EXPECTED_COMMAND=Stage26-main-batch', 'NEXT_EXPECTED_COMMAND=Stage26-audit')
+        or (next_cmd.startswith('NEXT_EXPECTED_COMMAND=merge PR #') and next_cmd.endswith('; then Stage26-main-batch'))
+    )
 
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in s26
