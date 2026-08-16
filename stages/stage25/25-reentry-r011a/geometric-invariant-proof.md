@@ -218,16 +218,12 @@ This is a population-size comparison between different adjacent arithmetic strat
 
 ## 3. Meaning of `2+2`
 
-There is now a rigorous additive **geometric-invariant ledger**
+There is now a rigorous additive **geometric-invariant ledger**:
 
 \[
-4=(4-2)=(4-2)+(6-4)?
-\]
-
-with the correct bookkeeping written instead as
-
-\[
-\boxed{b_T-b_E=(b_S-b_E)+(b_T-b_S)=2+2.}
+\boxed{
+b_T-b_E=(b_S-b_E)+(b_T-b_S)=(4-2)+(6-4)=2+2=4.
+}
 \]
 
 Thus `2+2` is valid as a decomposition of the Manin `b`-invariant jump.  It is **not** a product of four independent local events or four independent harmonic sums.
