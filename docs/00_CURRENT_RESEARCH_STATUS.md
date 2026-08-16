@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage25-reentry-50-AUDITED-PASS-AWAITING-MERGE-AND-R011A
+CURRENT_STAGE=Stage25-reentry-r011a-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -12,8 +12,8 @@ STAGE17_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R009A_AUXILIARY_MASK_RECEIVER
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_BACKFLOW
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS_WITH_POST_STAGE25_DIRECTIONAL_SUPERSESSION
 STAGE20_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_RELATIVE_RECEIVER
-STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950_WITH_PHASE50_LOG_POWER_LOCALIZATION
-STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957_WITH_R010A_DIRECTIONAL_RECEIVER_G22_FINE_GATE_OPEN
+STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950_WITH_R011A_GEOMETRIC_RECEIVER_PENDING_AUDIT
+STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957_WITH_R011A_GEOMETRIC_RECEIVER_PENDING_AUDIT
 STAGE23_STATUS=CLOSED_AUDIT_PASS_MERGED_PR966_WITH_R008A_R009A_BACKFLOW
 STAGE24_STATUS=CLOSED_AUDIT_PASS_MERGED_PR979_WITH_DIRECTIONAL_BACKFLOW
 STAGE25_STATUS=CLOSED_R01_AUDIT_PASS
@@ -24,48 +24,58 @@ STAGE25_REENTRY_PHASE30_STATUS=AUDITED_PASS_MERGED
 STAGE25_REENTRY_R009A_STATUS=AUDITED_PASS_MERGED_PR1006
 STAGE25_REENTRY_PHASE40_STATUS=AUDITED_PASS_MERGED
 STAGE25_REENTRY_R010A_STATUS=AUDITED_PASS_MERGED_PR1008
+STAGE25_REENTRY_PHASE50_STATUS=AUDITED_PASS_MERGED_PR1009
 STAGE25_REENTRY_CURRENT_PHASE=50
-STAGE25_REENTRY_PHASE50_TASK=Stage25-u21-r005a
-STAGE25_REENTRY_PHASE50_STATUS=AUDITED_PASS_AWAITING_MERGE_AND_DERIVED_ROUTE
-STAGE25_REENTRY_QUEUED_ROUTE=Stage25-um-r011a
+STAGE25_REENTRY_CURRENT_ROUTE=Stage25-um-r011a
+STAGE25_REENTRY_R011A_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
 STAGE25_REENTRY_PHASE60_ALLOWED=false
 STAGE26_ALLOWED=false
-NEXT_EXPECTED_COMMAND=merge PR #1009; then Stage25-reentry-main-batch
+NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
 NEXT_RESEARCH_PROGRAM=docs/stage25-reentry-roadmap.md
 ```
 
 ## Current operation
 
-Phase50 hostile audit accepts the exact Stage21 interaction law
+Phase50 PR #1009 is hostile-audited and merged as `8765eb73db07da8afb8ad9b1f9a538ff8cd080ee`.  Its wording repair remains binding: the accepted Stage21 result is a net `+2` log-power localization, not an unnamed source-target pole-order subtraction.
 
-`N1/M1~(kappa*pi/18)(log B)^2/B`
-
-against the Stage16S ambient space cost `const/B`. Thus the extra interaction is a net `+2` log-power enhancement.
-
-AR-038 puts the leading target mass in the exact shared-P convolution `2 sum H(P)L_B(P)`, and Stage13 R07 puts that target main term in the full principal multiplicative sector. Therefore the accepted localization is:
+r011a attacks that exact gap by placing the three leading raw incidence geometries in one generalized height-invariant ledger:
 
 ```text
-LOG2_NET_LOG_POWER_SURPLUS=2
-LOG2_LOCALIZED_TO_SHARED_P_PRINCIPAL_BULK=true
-SOURCE_TARGET_COMMON_POLE_LEDGER_PROVED=false
-LOG2_NET_PRINCIPAL_POLE_SURPLUS_PROVED=false
-H_AND_L_ONE_LOG_EACH_PROVED=false
-TWO_INDEPENDENT_LOG_FACTORS_PROVED=false
-INDIVIDUAL_POLE_SLOTS_NAMED=false
-G21_LOG2_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_P_PRINCIPAL_BULK_ALLOCATION
+M1: (a,b)=(2,2) -> B^2(log B)^1
+N1: (a,b)=(1,4) -> B(log B)^3
+M2: (a,b)=(1,6) -> B(log B)^5
 ```
 
-The hostile audit explicitly rejects interpreting `log^3-log^1=2` as a certified source-target pole-order subtraction until both sides are materialized in one common factor-by-factor analytic ledger.
+The new load-bearing calculation is that the nested one-face-plus-space quartic surface is a `Q(i)`-twist of the Stage15 split `4A1` quartic-del-Pezzo surface.  Complex conjugation is induced on Stage15 parameters by `(m:n)<->(n:m)`, pairing the four blown-up corner classes in two pairs while fixing the two ruling classes.  The rational Picard invariant rank is therefore four.
 
-The downstream route `Stage25-um-r011a` is authorized after PR #1009 merges. It compares the certified Stage21 +2 log-power/principal-target localization with the Stage22 +4 rank-6 toric ledger without assuming a `2+2` split, and must establish a common pole ledger before any pole-order subtraction.
+If fresh audit accepts the geometry, the transition mechanisms become
 
 ```text
-G22_LOG4_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM
-AUDIT_STATUS=PASS
-ADVANCE_ALLOWED=true
-MERGE_ALLOWED=true
+STAGE21_DELTA_A=-1
+STAGE21_DELTA_B=+2
+STAGE22_DELTA_A=-1
+STAGE22_DELTA_B=+4
+LOG4_B_JUMP_DECOMPOSITION=(4-2)+(6-4)=2+2
+G21_LOG2_FINE_MECHANISM=CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL_CANDIDATE
+G22_LOG4_FINE_MECHANISM=CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL_CANDIDATE
+```
+
+The independent-factor firewall remains:
+
+```text
+SOURCE_TARGET_COMMON_DIRICHLET_POLE_LEDGER_PROVED=false
+POLE_SURPLUS_CLAIM=false
+H_AND_L_ONE_LOG_EACH_PROVED=false
+FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false
+PERFECT_CUBOID_CONCLUSION=NONE
+```
+
+```text
+ROUTE_ID=Stage25-um-r011a
+AUDIT_STATUS=PENDING
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
 STAGE25_REENTRY_PHASE60_ALLOWED=false
 STAGE26_ALLOWED=false
-PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=merge PR #1009; then Stage25-reentry-main-batch
+NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
 ```
