@@ -71,8 +71,6 @@ for marker in [
 ]:
     assert marker in res, marker
 
-# Checkpoint40 itself is frozen PASS+merged. Any authorized checkpoint40 child
-# route may update the lifecycle suffix without changing the theorem surface.
 assert 'AUDIT_VERDICT=PASS' in a40
 assert ctl['checkpoint40']['audit_status'] == 'PASS'
 assert ctl['checkpoint40']['pr'] == 1025
@@ -83,7 +81,8 @@ assert ctl['state']['NEXT_CHECKPOINT'] == 40
 assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
 assert ctl['state']['ADVANCE_ALLOWED'] is False
 assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage27-audit'
+assert ctl['next_expected_command'].startswith('Stage27')
+assert ctl['next_expected_command'].endswith('-audit')
 assert 'STAGE27_CHECKPOINT40_STATUS=UPPER_ATTACK_AUDITED_PASS_MERGED_PR1025' in status
 assert 'STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false' in status
 

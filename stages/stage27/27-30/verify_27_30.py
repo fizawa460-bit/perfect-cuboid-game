@@ -21,7 +21,6 @@ s19 = text('stages/stage19/post-stage25-50-supersession.md')
 s23 = text('stages/stage23/post-stage25-r01/result.md')
 s24 = text('stages/stage24/post-stage25-r01/result.md')
 
-# Upstream checkpoint20 remains audited and merged.
 assert 'AUDIT_VERDICT=PASS' in a20
 assert reg['upstream']['checkpoint20_pr'] == 1023
 assert reg['upstream']['checkpoint20_merge_commit'] == 'ecbd182f25dcb010319789855c82477eee7077c7'
@@ -31,7 +30,6 @@ assert ctl['checkpoint20']['audit_status'] == 'PASS'
 assert ctl['checkpoint20']['pr'] == 1023
 assert ctl['checkpoint20']['merge_commit'] == 'ecbd182f25dcb010319789855c82477eee7077c7'
 
-# Current theorem surface is unchanged.
 for marker in [
     'N_2(B)\\gg B^{1/4}',
     'N_2(B)\\ll_\\varepsilon B^{1/2+\\varepsilon}',
@@ -86,8 +84,6 @@ for marker in [
 ]:
     assert marker in res, marker
 
-# Historical checkpoint30 mathematics is preserved; lifecycle may be its own
-# submission state or any later state after hostile audit PASS + merge.
 assert 'AUDIT_VERDICT=PASS' in a30
 assert ctl['checkpoint_status']['30'] in (
     'DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_AWAITING_MERGE',
@@ -102,7 +98,8 @@ else:
     assert ctl['state']['CURRENT_CHECKPOINT'] == 30
 
 assert ctl['checkpoint30']['new_N2_exponent_proved'] is False
-assert ctl['next_expected_command'] == 'Stage27-audit'
+assert ctl['next_expected_command'].startswith('Stage27')
+assert ctl['next_expected_command'].endswith('-audit')
 
 print('STAGE27_30_UPSTREAM_AUDIT_MERGE=PASS')
 print('STAGE27_30_CURRENT_CORRIDOR_RECOVERY=PASS')

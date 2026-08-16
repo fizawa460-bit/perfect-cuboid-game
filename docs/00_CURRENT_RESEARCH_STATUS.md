@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-40ae-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-19-r401-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -25,7 +25,7 @@ STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-STAGE27_STATUS=OPEN_CHECKPOINT40_DERIVED_UPPER_ROUTE_PENDING_AUDIT
+STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_LOWER_REENTRY_PENDING_AUDIT
 STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
 STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
 STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
@@ -36,7 +36,8 @@ STAGE27_40AA_STATUS=AUDITED_PASS_MERGED_PR1028
 STAGE27_40AB_STATUS=AUDITED_PASS_MERGED_PR1028
 STAGE27_40AC_STATUS=AUDITED_PASS_MERGED_PR1028
 STAGE27_40AD_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1029
-STAGE27_40AE_STATUS=T_OUTER_U_WEIGHTED_AVERAGING_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_40AE_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1030
+STAGE27_19_R401_STATUS=LOWER_REENTRY_SUBMITTED_PENDING_FRESH_AUDIT
 STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
@@ -49,50 +50,78 @@ STAGE27_MAIN_FIXED_MOMENT_REWEIGHTING_ROUTE_CLOSED=true
 STAGE27_MAIN_SUPPORT_DEFICIT_PROVED=false
 STAGE27_T_FIXED_U_CLASS_AVERAGING_ROUTE_CLOSED=true
 STAGE27_T_OUTER_PHYSICAL_WEIGHTED_AVERAGING_THEOREM_PROVED=false
-STAGE27_OUTER_U_CARDINALITY_ALONE_ROUTE_CLOSED_CANDIDATE=true
+STAGE27_OUTER_U_CARDINALITY_ALONE_ROUTE_CLOSED=true
 STAGE27_OUTER_U_WEIGHTED_EXCEPTIONAL_MASS_BOUND_PROVED=false
 STAGE27_OUTER_U_WEIGHTED_SECOND_MOMENT_PROVED=false
+STAGE27_LOWER_FAMILY_EXPONENT_CALCULUS_PROVED_CANDIDATE=true
+STAGE27_MASTER_SPACE_RECEIVER_DERIVED_CANDIDATE=true
+STAGE27_LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
 STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
-NEXT_EXPECTED_COMMAND=Stage27-audit
+NEXT_EXPECTED_COMMAND=Stage27-19-r401-audit
 NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 ```
 
 ## Current operation
 
-Stage27-40ad passed hostile intermediate audit and PR #1029 was merged at
+Stage27-40ae passed hostile intermediate audit and PR #1030 was merged at
 
 ```text
-89e1ad0203484452994621a7f92b57f0ff3d4214
+2b2bfb0768006e2fe66969726486ac765c589bbc
 ```
 
-Its accepted boundary is that fixed-`U` Gaussian residue/projective-class averaging lives in a `B^o(1)` universe and therefore cannot provide an intermediate fixed-power rescue. The audit explicitly retained checkpoint40 and directed upper exploration toward a genuinely polynomial-size outer physical family carrying the actual packet weights.
+Its accepted upper-side boundary remains unchanged: the outer `(U,V)` support is already charged in the Stage14 complete host, and a strict sub-half crossing would need a theorem in the actual weighted physical fibers. No `mu<1/2` theorem was obtained, so checkpoint40 stays open.
 
-`Stage27-40ae` tests that remaining averaged route against the Stage14 whole-family ledger. Stage14 already charges the primitive `(U,V)` root-line support by `B^(2phi-chi+o(1))`. Therefore the mere existence of polynomially many outer `U` values is not a second saving and cannot be multiplied into the half-power bound again.
-
-A legal averaged crossing now requires a theorem in the actual outer physical measure, for example a fixed-power weighted exceptional-baseline bound
+The operator has now opened the parallel lower reentry `Stage27-19-r401`. It begins from the authoritative Stage19 lower
 
 \[
-\sum_{U\in E}M_U\ll B^{-\delta+o(1)}\sum_U M_U,
+N_2(B)\gg B^{1/4}.
 \]
 
-or an equivalently strong weighted second-moment/BDH statement for the exact frozen Stage14 `U`-fibers. Standard unweighted outer cardinality or generic Cauchy gains are insufficient without a theorem controlling the physical fiber weights.
+The audited R501 and R502 lineages have parameter-count exponent `kappa=2` and primitive physical-height exponent `h=8`; their family growth is individually
+
+\[
+\Theta(B^{1/4}).
+\]
+
+Thus their quarter-power scale is internally saturated, not an artifact of an unbounded primitive gcd. The new lower-family bookkeeping rule is
+
+\[
+N_2(B)\gg B^{\kappa/h-o(1)},
+\qquad
+\boxed{\kappa/h>1/4}
+\]
+
+for genuine lower progress, under the required subpolynomial fiber and physical-filter hypotheses. In the coupled outer-parameter model `count=T^(2+lambda)`, `height=T^(8+q)`, the crossing condition is exactly `4 lambda>q`.
+
+The exact Stage19 toric space condition also reduces, after `x=m/n`, `y=r/s`, to the rational-point receiver
+
+\[
+\boxed{x^2y^2+1=z^2(x^2+y^2)}.
+\]
+
+This equation represents the space-diagonal condition only; any constructive lower theorem must still preserve the full primitive/canonical/exactly-two physical adapter. No dominant parametrization of the master surface and no exponent above `1/4` are claimed.
 
 ```text
-TASK_ID=Stage27-40ae
+TASK_ID=Stage27-19-r401
 CHECKPOINT=40
-ROUTE_KIND=UPPER_ONLY
-ROUTE_LABEL=T_OUTER_U_WEIGHTED_AVERAGING
-OUTER_U_CARDINALITY_ALONE_ROUTE_CLOSED=true
-OUTER_U_DOUBLE_CHARGE_FIREWALL=true
-OUTER_PHYSICAL_WEIGHTED_EXCEPTIONAL_MASS_BOUND_PROVED=false
-OUTER_PHYSICAL_WEIGHTED_SECOND_MOMENT_PROVED=false
+ROUTE_KIND=LOWER_REENTRY
+ROUTE_LABEL=STAGE19_LOWER_FAMILY_ARCHAEOLOGY
+R501_QUARTER_SATURATION_USED=true
+R502_QUARTER_SATURATION_USED=true
+LOWER_FAMILY_EXPONENT_CALCULUS_PROVED=true
+LOWER_PROGRESS_GATE=kappa/h>1/4
+COUPLED_OUTER_PARAMETER_GATE=4*lambda>q
+MASTER_SPACE_RECEIVER_DERIVED=true
+MASTER_SPACE_RECEIVER=x^2*y^2+1=z^2*(x^2+y^2)
+MASTER_SURFACE_DOMINANT_RATIONAL_PARAMETRIZATION_PROVED=false
+LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
-NEW_MU_LT_HALF_PROVED=false
+TRUE_N2_EXPONENT_IDENTIFIED=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
 NEXT_CHECKPOINT=40
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=Stage27-audit
+NEXT_EXPECTED_COMMAND=Stage27-19-r401-audit
 ```

@@ -55,7 +55,8 @@ assert ctl['checkpoint10']['pr'] == 1021
 if ctl['checkpoint_status']['10'] == 'CONTRACT_AUDITED_PASS_MERGED':
     assert ctl['checkpoint10']['merge_commit'] == 'f509bba40197262051aad2f22775583b1571a6f5'
     assert ctl['state']['CURRENT_CHECKPOINT'] >= 20
-    assert ctl['next_expected_command'] == 'Stage27-audit'
+    assert ctl['next_expected_command'].startswith('Stage27')
+    assert ctl['next_expected_command'].endswith('-audit')
 else:
     assert ctl['state']['CURRENT_CHECKPOINT'] == 10
 

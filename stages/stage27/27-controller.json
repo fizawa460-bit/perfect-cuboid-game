@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_DERIVED_ROUTE_40AE_SUBMITTED_PENDING_AUDIT",
+  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_LOWER_REENTRY_R401_PENDING_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -14,7 +14,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_40AA_AD_AUDITED_PASS_MERGED_AND_40AE_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_40AA_AE_AUDITED_PASS_MERGED_AND_27_19_R401_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -171,7 +171,7 @@
       "merge_allowed": true
     },
     "Stage27-40ae": {
-      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "INTERMEDIATE_AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_serial": "ae",
       "route_priority": 5,
@@ -184,6 +184,33 @@
       "outer_physical_weighted_exceptional_mass_bound_proved": false,
       "outer_physical_weighted_second_moment_proved": false,
       "strict_sub_sqrt_upper_proved": false,
+      "audit_status": "PASS",
+      "audit_record": "stages/stage27/27-40ae/audit.md",
+      "pr": 1030,
+      "merge_commit": "2b2bfb0768006e2fe66969726486ac765c589bbc",
+      "advance_to_checkpoint50": false,
+      "continue_upper_exploration": true,
+      "advance_allowed": true,
+      "merge_allowed": true
+    },
+    "Stage27-19-r401": {
+      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_serial": "19-r401",
+      "route_kind": "LOWER_REENTRY",
+      "source_stage": "Stage19",
+      "purpose": "decompose the audited quarter-power lower into parameter-count versus physical-height exponents and derive an exact Stage19 space-condition master receiver",
+      "current_beta": "1/4",
+      "r501_quarter_saturation_used": true,
+      "r502_quarter_saturation_used": true,
+      "lower_family_exponent_calculus_proved": true,
+      "lower_progress_gate": "kappa/h>1/4",
+      "master_space_receiver_derived": true,
+      "master_space_receiver": "x^2*y^2+1=z^2*(x^2+y^2)",
+      "master_surface_dominant_rational_parametrization_proved": false,
+      "moving_core_polynomial_mass_theorem_proved": false,
+      "lower_exponent_above_one_quarter_proved": false,
+      "true_N2_exponent_identified": false,
       "audit_status": "PENDING",
       "advance_allowed": false,
       "merge_allowed": false
@@ -197,7 +224,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "DERIVED_ROUTE_40AE_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "LOWER_REENTRY_STAGE27_19_R401_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
@@ -215,10 +242,12 @@
     "fixed_witness_moment_reweighting_promoted_to_power_saving": false,
     "subpolynomial_class_universe_promoted_to_fixed_power": false,
     "outer_u_cardinality_recharged_as_fixed_power": false,
+    "fixed_finite_quarter_family_union_promoted_to_higher_exponent": false,
+    "master_surface_rational_parametrization_claimed": false,
     "global_lower_promoted_to_all_named_directions": false,
     "independence_product_claimed": false,
     "perfect_cuboid_conclusion": false,
     "audit_pass_auto_merges": false
   },
-  "next_expected_command": "Stage27-audit"
+  "next_expected_command": "Stage27-19-r401-audit"
 }
