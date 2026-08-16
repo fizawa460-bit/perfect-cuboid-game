@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "campaign": "Stage25-reentry",
+  "route_id": "Stage25-um-r008a",
+  "parent_task": "Stage25-u24-r002a",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "source": {
+    "phase": 20,
+    "pr": 1003,
+    "merge_commit": "1d88e8e3254a383620e221df8a1a1039ebeabcd4",
+    "audit_record": "stages/stage25/25-reentry-20/audit.md",
+    "accepted_theorem": "N2,j(B)>>_j B^(1/4) for j=a,b,c"
+  },
+  "receivers": {
+    "Stage19": {
+      "population_match": "EXACT",
+      "cutoff_match": "EXACT_R_LE_B",
+      "multiplicity_match": "EXACT_PHYSICAL",
+      "measure_match": "EXACT_DIRECTIONAL_STAGE19",
+      "quantifier_match": "ASYMPTOTIC_B_TO_INFINITY",
+      "claims": [
+        "N2,a(B)>>B^(1/4)",
+        "N2,b(B)>>B^(1/4)",
+        "N2,c(B)>>B^(1/4)"
+      ]
+    },
+    "Stage23": {
+      "population_match": "ONE_SIDED_INCIDENCE_EMBEDDING",
+      "cutoff_match": "EXACT_R_LE_B",
+      "multiplicity_match": "ONE_SIDED_SAFE",
+      "measure_match": "RAW_STAGE17_PAIR_OVERLAP",
+      "quantifier_match": "ASYMPTOTIC_B_TO_INFINITY",
+      "shared_edge_to_pair": {
+        "a": "ab,ac",
+        "b": "ab,bc",
+        "c": "ac,bc"
+      },
+      "claims": [
+        "A_ab,ac(B)>>B^(1/4)",
+        "A_ab,bc(B)>>B^(1/4)",
+        "A_ac,bc(B)>>B^(1/4)"
+      ]
+    },
+    "Stage24": {
+      "population_match": "EXACT_DIRECTIONAL_STAGE18_TO_STAGE19",
+      "cutoff_match": "EXACT_R_LE_B",
+      "multiplicity_match": "EXACT_PHYSICAL",
+      "measure_match": "EXACT_DIRECTIONAL_M2J_N2J",
+      "quantifier_match": "ASYMPTOTIC_B_TO_INFINITY",
+      "source_denominator": "M2,j(B)~C_j B(log B)^5 with C_j>0",
+      "claims": [
+        "N2,j(B)/M2,j(B)>>_j B^(-3/4)(log B)^(-5) for j=a,b,c",
+        "J2,j(B)>>_j B^(1/4)(log B)^(-5)->infinity for j=a,b,c"
+      ]
+    }
+  },
+  "accounting": {
+    "parent_theorem_reproved": false,
+    "new_global_N2_exponent": false,
+    "double_charge": false,
+    "finite_data_promoted": false,
+    "raw_overlap_reinterpreted_as_survival_probability": false
+  },
+  "gates": {
+    "phase30_allowed_before_r008a_audit_merge": false,
+    "stage26_allowed": false,
+    "true_N2_exponent_identified": false,
+    "strict_sub_sqrt_whole_family_upper": false,
+    "moving_family_uniformity": false
+  }
+}
