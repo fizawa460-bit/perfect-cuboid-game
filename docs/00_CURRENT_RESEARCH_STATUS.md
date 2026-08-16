@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-20-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-30-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -25,13 +25,18 @@ STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-STAGE27_STATUS=OPEN_CHECKPOINT20_SUBMITTED_PENDING_AUDIT
+STAGE27_STATUS=OPEN_CHECKPOINT30_SUBMITTED_PENDING_AUDIT
 STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
 STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
-STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
+STAGE27_CHECKPOINT30_STATUS=DERIVED_RECEIVER_CALCULUS_SUBMITTED_PENDING_FRESH_AUDIT
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
-STAGE27_FINITE_ALPHA_EFF_1M_500M=0.421237360
+STAGE27_FINITE_ALPHA_EFF_1M_500M=0.421237360_DIAGNOSTIC_ONLY
+STAGE27_GLOBAL_LOWER_PROGRESS_GATE=BETA_GT_1_OVER_4
+STAGE27_GLOBAL_UPPER_PROGRESS_GATE=MU_LT_1_OVER_2
+STAGE27_GLOBAL_LOWER_IMPLIES_ALL_DIRECTIONAL_LOWER=false
+STAGE27_GLOBAL_UPPER_IMPLIES_ALL_DIRECTIONAL_UPPER=true
 STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
 STAGE27_MATCHING_HALF_POWER_LOWER_PROVED=false
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
@@ -41,42 +46,64 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-Stage27 checkpoint10 hostile audit passed and PR #1021 merged at
+Stage27 checkpoint20 hostile audit passed and PR #1023 merged at
 
 ```text
-f509bba40197262051aad2f22775583b1571a6f5
+ecbd182f25dcb010319789855c82477eee7077c7
 ```
 
-Checkpoint20 is finite diagnostics only. The theorem surface remains
+Checkpoint30 does not change the theorem exponent interval. It normalizes all legal receiver consequences before the upper/lower attacks:
 
 \[
-\boxed{B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}},
+\boxed{B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}}.
+\]
+
+For a future genuine same-measure lower theorem
+
+\[
+N_2(B)\gg B^\beta,
+\]
+
+Stage18/24 receives
+
+\[
+\frac{N_2(B)}{M_2(B)}\gg B^{\beta-1}(\log B)^{-5},
 \qquad
-\boxed{N_{2,j}(B)\gg_j B^{1/4}}\ (j=a,b,c).
+J_2(B)\gg B^\beta(\log B)^{-5}.
 \]
 
-Exact same-population census data are frozen from Stage19/Stage24 through one million, together with the exact terminal observatory fact
+Stage23 receives
 
 \[
-N_2(500,000,000)=3495.
+\frac{N_2(B)}{N_1(B)}\gg B^{\beta-1}(\log B)^{-3},
+\qquad
+I(B)\gg B^\beta(\log B)^{-7}.
 \]
 
-The broad-window finite effective exponent from one million to five hundred million is
+Thus a genuine global lower improvement means `beta>1/4`.
+
+For a future same-measure upper theorem
 
 \[
-\alpha_{\rm eff}=0.421237360\ldots
+N_2(B)\ll_\varepsilon B^{\mu+\varepsilon},
 \]
 
-and the square-root normalization changes from `0.255000000` to `0.156301152`, while the quarter-power normalization rises from `8.063808033` to `23.372473659`. Directional broad-window effective exponents are approximately `0.424888256`, `0.419684576`, and `0.417519733`.
+the corresponding survival exponent is `mu-1`; a strict whole-family sub-square-root improvement means exactly `mu<1/2`.
 
-These observations prioritize a strict sub-square-root upper attack while keeping the lower-above-quarter lane open. They are not asymptotic evidence and do not alter the proved exponent corridor.
+Directional propagation is intentionally asymmetric: a global lower theorem does not automatically give the same lower in every named shared-edge chamber, while a global upper does bound all three directions because `N2,j<=N2`. Any lower improvement claimed for all Stage23 raw-overlap channels therefore needs directional hypotheses.
+
+Checkpoint20's finite `0.421237360...` slope remains diagnostic only and is not used as `beta`, `mu`, or a true exponent.
 
 ```text
-TASK_ID=Stage27-20
-CHECKPOINT=20
-EVIDENCE_LEVEL=DERIVED_EXACT_FINITE
-EXACT_FINITE_PANEL_MATERIALIZED=true
-BROAD_WINDOW_ALPHA_EFF_1M_TO_500M=0.421237360
+TASK_ID=Stage27-30
+CHECKPOINT=30
+EVIDENCE_LEVEL=PROVED_DERIVED_RECEIVER_CALCULUS_CANDIDATE
+CURRENT_GLOBAL_BETA=1/4
+CURRENT_GLOBAL_MU=1/2
+GLOBAL_LOWER_PROGRESS_GATE=beta>1/4
+GLOBAL_UPPER_PROGRESS_GATE=mu<1/2
+GLOBAL_LOWER_IMPLIES_ALL_DIRECTIONAL_LOWER=false
+GLOBAL_UPPER_IMPLIES_ALL_DIRECTIONAL_UPPER=true
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 NEW_N2_EXPONENT_PROVED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
@@ -84,7 +111,7 @@ STRICT_SUB_SQRT_UPPER_PROVED=false
 LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=30
+NEXT_CHECKPOINT=40
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage27-audit
