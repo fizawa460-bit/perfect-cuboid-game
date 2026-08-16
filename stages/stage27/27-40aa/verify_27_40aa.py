@@ -16,9 +16,9 @@ res = text('stages/stage27/27-40aa/result.md')
 reg = data('stages/stage27/27-40aa/main-crt2-registry.json')
 ctl = data('stages/stage27/27-controller.json')
 r401a_audit = text('stages/stage27/27-r401a/audit.md')
-s4gg = text('stages/stage14/14-4gg/result.md')
-s4gh = text('stages/stage14/14-4gh/result.md')
-s4ghh = text('stages/stage14/14-4ghH/result.md')
+s4gg = text('stages/stage14/archive/tasks/14-4gg/result.md')
+s4gh = text('stages/stage14/archive/tasks/14-4gh/result.md')
+s4ghh = text('stages/stage14/archive/tasks/14-4ghH/result.md')
 status = text('docs/00_CURRENT_RESEARCH_STATUS.md')
 
 # Upstream hostile audit is PASS and the route remains checkpoint40-only.
