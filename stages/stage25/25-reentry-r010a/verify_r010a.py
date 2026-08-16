@@ -33,8 +33,20 @@ for marker in ('G22_LOG4_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTER
     assert marker in res
 assert 'DIRECTIONAL_THIRD_FACE_POSTFILTER_TO_ONE=true' in s18
 assert 'M3_LOWER_ORDER_IN_EACH_M2_DIRECTION=true' in s20
-assert 'LIVE_FINE_MECHANISM_LOCUS=ONE_FACE_VS_SHARED_EDGE_DOUBLE_PYTHAGOREAN_RANK6_TORIC_INTERNAL_COUNTING' in s22
 assert 'DIRECTIONAL_STAGE22_CONSTANTS_SYNCED=true' in s22
+
+# r010a itself stopped at the narrowed OPEN gate. Audited r011a later
+# supersedes only that fine-mechanism status, without changing r010a's
+# directional theorem or pretending independent factors were proved.
+if ctrl['current_phase'] <= 40:
+    assert 'LIVE_FINE_MECHANISM_LOCUS=ONE_FACE_VS_SHARED_EDGE_DOUBLE_PYTHAGOREAN_RANK6_TORIC_INTERNAL_COUNTING' in s22
+else:
+    assert 'G22_LOG4_FINE_MECHANISM=CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL' in s22
+    assert 'FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false' in s22
+    assert 'COMMON_DIRICHLET_POLE_SLOT_LEDGER_PROVED=false' in s22
+    for receiver in (s18,s20,s22):
+        assert 'BACKFLOW_AUDIT_STATUS=PASS' in receiver
+        assert 'BACKFLOW_SYNCHRONIZED=true' in receiver
 
 r10=ctrl['r010a_submission']
 assert r10['route_id']=='Stage25-um-r010a'
@@ -44,7 +56,8 @@ assert ctrl['stage26_gate']['stage26_allowed'] is False
 
 if ctrl['current_phase']==40:
     assert ctrl['phases']['50']['status']=='BLOCKED_UNTIL_R010A_AUDIT_PASS_MERGE'
-    assert ctrl['propagation_queue'][-1]['route_id']=='Stage25-um-r010a'
+    q=[x for x in ctrl['propagation_queue'] if x['route_id']=='Stage25-um-r010a']
+    assert len(q)==1
     if reg['audit_status']=='PENDING':
         assert r10['audit_status']=='PENDING'
         assert r10['advance_allowed'] is False
@@ -71,5 +84,6 @@ else:
 print('STAGE25_REENTRY_R010A_PARENT_AUTHORIZATION=PASS')
 print('STAGE25_REENTRY_R010A_RECEIVER_SYNC=PASS')
 print('STAGE25_REENTRY_R010A_FINE_MECHANISM_BOUNDARY=PASS')
+print('STAGE25_REENTRY_R010A_R011A_SUPERSESSION=PASS')
 print('STAGE25_REENTRY_R010A_LIFECYCLE=PASS')
 print('STAGE26_GATE=BLOCKED_VALID')
