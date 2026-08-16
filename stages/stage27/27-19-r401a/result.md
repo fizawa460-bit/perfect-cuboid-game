@@ -124,13 +124,15 @@ G_\tau(u)=(u^2+\tau+1)
 \Bigl((\tau+2)u^2-4(\tau+1)u+(\tau+1)(\tau+2)\Bigr).
 \]
 
-Direct quartic discriminant calculation gives
+For the homogenized binary quartic branch form, direct invariant calculation gives
 
 \[
-\boxed{\operatorname{Disc}_u(G_\tau)=4096\,\tau^2(\tau+1)^8.}
+\boxed{\Delta_{\rm bin}=4096\,\tau^2(\tau+1)^8.}
 \]
 
-Thus for every physical `tau!=0,-1`, the branch quartic is squarefree. Its smooth projective double cover has genus one.
+This is the ordinary affine polynomial discriminant whenever the `u^4` coefficient is nonzero. At `tau=-2`, that coefficient vanishes and the affine model becomes a cubic; its ordinary cubic discriminant is `1024`, while the homogenized binary-quartic discriminant above remains nonzero because the fourth branch point is the simple point at infinity. Thus the correct projective smoothness certificate is `Delta_bin`, not an affine quartic-discriminant assertion at `tau=-2`.
+
+Hence for every physical `tau!=0,-1`, the projective branch divisor has four distinct points and the smooth double cover has genus one.
 
 The classical binary-quartic invariants may be taken as
 
@@ -139,10 +141,17 @@ I=16(\tau+1)^2(\tau^2+\tau+1),
 \]
 
 \[
-J=64(\tau-1)(\tau+1)^3(\tau+2)(2\tau+1).
+J=64(\tau-1)(\tau+1)^3(\tau+2)(2\tau+1),
 \]
 
-Hence
+with
+
+\[
+\frac{4I^3-J^2}{27}
+=4096\tau^2(\tau+1)^8.
+\]
+
+Also
 
 \[
 \frac{J^2}{I^3}
@@ -154,6 +163,7 @@ Hence
 is nonconstant. The family is genuinely moving; it is not one fixed elliptic curve with harmless coefficient scaling.
 
 ```text
+BINARY_QUARTIC_DISCRIMINANT_PROVED=true
 PHYSICAL_GENERIC_FIBER_SMOOTH=true
 PHYSICAL_GENERIC_FIBER_GENUS=1
 GENUS_ONE_FIBRATION_NONISOTRIVIAL=true
@@ -317,6 +327,7 @@ This route is deliberately narrow.
 STAGE27_19_R401A_ATTACK_EXECUTED=true
 PARENT_R401_AUDITED_PASS_MERGED=true
 MASTER_SPLIT_FACTORIZATION_PROVED=true
+BINARY_QUARTIC_DISCRIMINANT_PROVED=true
 PHYSICAL_GENERIC_FIBER_GENUS=1
 TAU_ADIC_LOCAL_OBSTRUCTION_PROVED=true
 GENERIC_RATIONAL_SECTION_EXISTS=false
