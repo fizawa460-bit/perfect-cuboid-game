@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-60-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage26-70-SYNTHESIS-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -36,72 +36,90 @@ ALL_REENTRY_PHASES_AUDITED=true
 STAGE26_ALLOWED=true
 STAGE26_CHECKPOINT10_STATUS=PROVED_AUDITED_PASS_MERGED_PR1014
 STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_MERGED_PR1015
+STAGE26_CHECKPOINT20_EVIDENCE=DERIVED_EXACT_FINITE
 STAGE26_CHECKPOINT30_STATUS=PROVED_AUDITED_PASS_MERGED_PR1016
+STAGE26_CHECKPOINT30_EVIDENCE=PROVED_DERIVED_THEOREM
 STAGE26_CHECKPOINT40_STATUS=PROVED_AUDITED_PASS_MERGED_PR1017
+STAGE26_CHECKPOINT40_EVIDENCE=PROVED_DERIVED_THEOREM
 STAGE26_CHECKPOINT50_STATUS=PROVED_AUDITED_PASS_MERGED_PR1018
-STAGE26_CHECKPOINT60_STATUS=PROVED_SUBMITTED_PENDING_AUDIT
-STAGE26_CHECKPOINT60_EVIDENCE=PROVED_NEW_THEOREM_CANDIDATE
+STAGE26_CHECKPOINT50_EVIDENCE=PROVED_DERIVED_THEOREM
+STAGE26_CHECKPOINT60_STATUS=PROVED_AUDITED_PASS_MERGED_PR1019
+STAGE26_CHECKPOINT60_EVIDENCE=PROVED_NEW_THEOREM
+STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_SUBMITTED_PENDING_AUDIT
 STAGE26_M3_OLD_LOWER_EXPONENT=1/6
-STAGE26_M3_NEW_LOWER_EXPONENT_CANDIDATE=1/3_MINUS_EPSILON
+STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
+STAGE26_M3_ASYMPTOTIC_PROVED=false
+STAGE26_UPPER_LOWER_MATCH=false
 NEXT_EXPECTED_COMMAND=Stage26-audit
-NEXT_RESEARCH_PROGRAM=Stage26
+NEXT_RESEARCH_PROGRAM=Stage26-CLOSEOUT
 ```
 
 ## Current operation
 
-Stage26 checkpoints10 through50 are hostile-audited PASS and merged. Checkpoint60 removes the artificial one-parameter bottleneck in the Saunderson lower construction.
-
-For every primitive Pythagorean triple
+Stage26 checkpoints10 through60 are hostile-audited PASS and merged. Checkpoint60 PR #1019 is merged at `ade92d46148b8c7af0bd0c9165082ee8f11d0e70` and formally upgrades the Euler-cuboid lower theorem to
 
 \[
-u^2+v^2=w^2,
+\boxed{M_3(B)\gg_\varepsilon B^{1/3-\varepsilon}}
+\qquad(\forall\varepsilon>0).
 \]
 
-the generalized Saunderson formulas
+Checkpoint70 freezes the full Stage26 transition under the common primitive/canonical no-space Euclidean cutoff `R<=B`.
+
+Stage18 supplies
 
 \[
-A=u|4v^2-w^2|,\qquad B=v|4u^2-w^2|,\qquad C=4uvw
+M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
 \]
 
-produce a primitive Euler cuboid. Using Euclidean parameters
+while the Stage26 lower/upper envelope is
 
 \[
-u=r^2-s^2,\quad v=2rs,\quad w=r^2+s^2,
+\boxed{
+B^{1/3-\varepsilon}\ll_\varepsilon M_3(B)
+\ll_\eta B(\log B)^{5-\eta}
+}
 \]
 
-there are `asymp T^2` primitive opposite-parity parameter pairs with `r,s<=T`, while every resulting cuboid satisfies
+for every fixed `epsilon>0` and every fixed `0<eta<1/46`.
+
+The literal physical-object completion is
 
 \[
-R<72T^6.
+\Phi(B)=\frac{M_3(B)}{M_2(B)+M_3(B)},
 \]
 
-The output need not be globally injective. Instead, every input leaves the invariant face diagonal `w^3`; a fixed output has only three face diagonals, and for fixed `w` the number of Pythagorean representations is at most `4 tau(w^2)=B^{o(1)}`. Hence the candidate theorem is
+and the raw shared-edge incidence completion is
 
 \[
-\boxed{M_3(B)\gg_\epsilon B^{1/3-\epsilon}\qquad(\epsilon>0).}
+\Theta(B)=\frac{3M_3(B)}{M_2(B)+3M_3(B)}.
 \]
 
-Equivalently `M3(B)>=B^(1/3-o(1))`. The epsilon-free statement `M3(B)>>B^(1/3)` is not claimed.
-
-Together with
+Audited checkpoints30/40/60 give
 
 \[
-M_2(B)\sim C_{M_2}B(\log B)^5,
+\Phi(B)\to0,\qquad \Theta(B)\to0,\qquad \Theta/\Phi\to3,
 \]
 
-the Stage26 completion lower corridor improves from the old one-parameter scale to
+and for every fixed `epsilon>0`, `0<delta<1/46`,
 
 \[
-\frac{M_3(B)}{M_2(B)},\Phi(B),\Theta(B)
-\gg_\epsilon B^{-2/3-\epsilon}(\log B)^{-5},
+\boxed{
+B^{-2/3-\varepsilon}(\log B)^{-5}
+\ll_\varepsilon \Phi(B),\Theta(B)
+=o((\log B)^{-\delta})
+}.
 \]
 
-up to the exact incidence multiplicity in `Theta`.
+This is a corridor, not a true-scale determination. The epsilon-free `M3(B)>>B^(1/3)` bound, a polynomial upper saving, the true `M3` exponent, and an `M3` asymptotic are all still open.
 
-Checkpoint40 remains the upper side: for every fixed `0<delta<1/46`, the completion observables are `o((log B)^(-delta))`. The true `M3` scale remains open.
+Checkpoint70 materializes:
 
-Stage19 remains frozen at
+- `stages/stage26/26-70/self-contained-bundle.md`;
+- `docs/stage26-arsenal-promotion.md`;
+- a closeout registry and dedicated verifier.
+
+Stage19 remains frozen independently at
 
 ```text
 B^(1/4) << N2(B) <<_epsilon B^(1/2+epsilon)
@@ -111,22 +129,24 @@ N2,j(B) >>_j B^(1/4), j=a,b,c
 with its true exponent open.
 
 ```text
-TASK_ID=Stage26-60
-CHECKPOINT=60
-GENERAL_SAUNDERSON_TWO_PARAMETER_FAMILY=true
-QUADRATIC_PARAMETER_COUNT_CANDIDATE=true
-DIVISOR_FIBER_BOUND_CANDIDATE=true
-M3_LOWER_B_ONE_THIRD_MINUS_EPSILON_CANDIDATE=true
+TASK_ID=Stage26-70
+CHECKPOINT=70
+ALL_PRIOR_CHECKPOINTS_AUDITED_PASS_MERGED=true
+M3_LOWER_B_ONE_THIRD_MINUS_EPSILON_ACCEPTED=true
 M3_LOWER_B_ONE_THIRD_WITHOUT_EPSILON_PROVED=false
-OLD_ONE_SIX_BOTTLENECK_REMOVED_CANDIDATE=true
-UPPER_LOWER_MATCH=false
-M3_ASYMPTOTIC_PROVED=false
+LITERAL_COMPLETION_TO_ZERO=true
+RAW_INCIDENCE_COMPLETION_TO_ZERO=true
+SELF_CONTAINED_BUNDLE_MATERIALIZED=true
+ARSENAL_PROMOTION_MATERIALIZED=true
 TRUE_M3_EXPONENT_IDENTIFIED=false
+M3_ASYMPTOTIC_PROVED=false
+UPPER_LOWER_MATCH=false
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=70
+NEXT_CHECKPOINT=
 MERGE_ALLOWED=false
+CLOSE_STAGE_AFTER_AUDIT_PASS=true
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage26-audit
 ```
