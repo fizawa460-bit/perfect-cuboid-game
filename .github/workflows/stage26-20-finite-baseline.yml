@@ -1,0 +1,23 @@
+name: Stage26-20 finite transition baseline
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage26/**'
+      - 'stages/stage18/18-20/**'
+      - 'stages/stage20/20-20/**'
+      - 'docs/stage14-num-reuse-index.md'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage26-20-finite-baseline.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage26-20:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage26 checkpoint20 finite baseline
+        run: python stages/stage26/26-20/verify_26_20.py
