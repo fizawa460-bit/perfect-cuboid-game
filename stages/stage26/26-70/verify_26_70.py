@@ -20,6 +20,7 @@ arsenal = text('docs/stage26-arsenal-promotion.md')
 reg = data('stages/stage26/26-70/closeout-registry.json')
 ctl = data('stages/stage26/26-controller.json')
 a60 = text('stages/stage26/26-60/audit.md')
+a70 = text('stages/stage26/26-70/audit.md')
 s18 = text('stages/stage18/final.md')
 s20 = text('stages/stage20/final.md')
 
@@ -87,21 +88,36 @@ for marker in [
 ]:
     assert marker in arsenal, marker
 
-# Upstream theorem strings remain available and are not replaced by finite evidence.
 assert 'M_2(B)\\sim C_{M_2}B(\\log B)^5' in s18
 assert 'eta<1/46' in s20
 assert reg['firewalls']['finite_data_used_as_asymptotic_proof'] is False
 assert reg['firewalls']['perfect_cuboid_conclusion'] == 'NONE'
 
-assert ctl['state']['CURRENT_CHECKPOINT'] == 70
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['ADVANCE_ALLOWED'] is False
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['checkpoint_status']['70'] == 'SYNTHESIS_SUBMITTED_PENDING_AUDIT'
-assert ctl['next_expected_command'] == 'Stage26-audit'
+# Lifecycle: the historical submission state and the later audited/merged closeout
+# are both valid. Mathematics above is checked identically in either state.
+if ctl['checkpoint_status']['70'] == 'SYNTHESIS_SUBMITTED_PENDING_AUDIT':
+    assert ctl['state']['CURRENT_CHECKPOINT'] == 70
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert ctl['next_expected_command'] == 'Stage26-audit'
+    lifecycle = 'PENDING_FRESH_AUDIT'
+elif ctl['checkpoint_status']['70'] == 'SYNTHESIS_AUDITED_PASS_MERGED':
+    assert 'AUDIT_VERDICT=PASS' in a70
+    assert ctl['status'] == 'CLOSED_AUDITED_PASS_MERGED'
+    assert ctl['checkpoint70']['audit_status'] == 'PASS'
+    assert ctl['checkpoint70']['pr'] == 1020
+    assert ctl['checkpoint70']['merge_commit'] == '8b0472db36c1113198251a7d9646b8c7bfe80331'
+    assert ctl['state']['CURRENT_CHECKPOINT'] == 70
+    assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    lifecycle = 'AUDITED_PASS_MERGED_CLOSED'
+else:
+    raise AssertionError(ctl['checkpoint_status']['70'])
 
 print('STAGE26_70_UPSTREAM_AUDITS=PASS')
 print('STAGE26_70_FINAL_CORRIDOR=PASS')
 print('STAGE26_70_ARTIFACT_DECISIONS=PASS')
 print('STAGE26_70_FIREWALL=PASS')
-print('STAGE26_70_CLOSEOUT_STATUS=PENDING_FRESH_AUDIT')
+print('STAGE26_70_CLOSEOUT_STATUS=' + lifecycle)
