@@ -35,9 +35,6 @@ assert 'DIRECTIONAL_THIRD_FACE_POSTFILTER_TO_ONE=true' in s18
 assert 'M3_LOWER_ORDER_IN_EACH_M2_DIRECTION=true' in s20
 assert 'DIRECTIONAL_STAGE22_CONSTANTS_SYNCED=true' in s22
 
-# r010a itself stopped at the narrowed OPEN gate. Audited r011a later
-# supersedes only that fine-mechanism status, without changing r010a's
-# directional theorem or pretending independent factors were proved.
 if ctrl['current_phase'] <= 40:
     assert 'LIVE_FINE_MECHANISM_LOCUS=ONE_FACE_VS_SHARED_EDGE_DOUBLE_PYTHAGOREAN_RANK6_TORIC_INTERNAL_COUNTING' in s22
 else:
@@ -52,7 +49,13 @@ r10=ctrl['r010a_submission']
 assert r10['route_id']=='Stage25-um-r010a'
 assert r10['parent_pr']==1007
 assert r10['parent_merge_commit']=='eebe4cd59caef804be76508f3773f2af6c7d47f2'
-assert ctrl['stage26_gate']['stage26_allowed'] is False
+closed=ctrl['status']=='CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY'
+assert ctrl['stage26_gate']['stage26_allowed'] is closed
+if closed:
+    assert ctrl['current_phase']==70
+    assert ctrl['phase70_submission']['audit_status']=='PASS'
+    assert ctrl['phase70_submission']['merge_commit']=='be5f7d8360b3bac2b9060cd88ede596a4fb218dc'
+    assert ctrl['next_expected_command']=='Stage26-main-batch'
 
 if ctrl['current_phase']==40:
     assert ctrl['phases']['50']['status']=='BLOCKED_UNTIL_R010A_AUDIT_PASS_MERGE'
@@ -70,7 +73,6 @@ if ctrl['current_phase']==40:
     else:
         raise AssertionError(f"unexpected registry audit state: {reg['audit_status']}")
 else:
-    # Immutable r010a theorem/receiver audit after its PR has merged and later phases are active.
     assert ctrl['current_phase']>=50
     assert r10['audit_status']=='PASS'
     assert r10['status']=='AUDITED_PASS_MERGED'
@@ -86,4 +88,4 @@ print('STAGE25_REENTRY_R010A_RECEIVER_SYNC=PASS')
 print('STAGE25_REENTRY_R010A_FINE_MECHANISM_BOUNDARY=PASS')
 print('STAGE25_REENTRY_R010A_R011A_SUPERSESSION=PASS')
 print('STAGE25_REENTRY_R010A_LIFECYCLE=PASS')
-print('STAGE26_GATE=BLOCKED_VALID')
+print('STAGE26_GATE=LIFECYCLE_VALID')
