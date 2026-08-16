@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "stage": "Stage27",
+  "checkpoint": 30,
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "population": {
+    "source": "M2: primitive canonical exactly-two-face cuboids, R<=B",
+    "target": "N2: same physical objects plus R integral, R<=B",
+    "literal_subset": true
+  },
+  "upstream": {
+    "checkpoint20_pr": 1023,
+    "checkpoint20_merge_commit": "ecbd182f25dcb010319789855c82477eee7077c7",
+    "checkpoint20_audit": "PASS"
+  },
+  "current": {
+    "beta_lower": "1/4",
+    "mu_upper": "1/2",
+    "N2_lower": "N2(B)>>B^(1/4)",
+    "N2_upper": "N2(B)<<_epsilon B^(1/2+epsilon)",
+    "survival_lower": "N2/M2>>B^(-3/4)(log B)^(-5)",
+    "survival_upper": "N2/M2<<_epsilon B^(-1/2+epsilon)(log B)^(-5)"
+  },
+  "generic_lower": {
+    "hypothesis": "N2(B)>>B^beta",
+    "survival": "N2/M2>>B^(beta-1)(log B)^(-5)",
+    "N2_over_N1": "N2/N1>>B^(beta-1)(log B)^(-3)",
+    "stage23_interaction": "I>>B^beta(log B)^(-7)",
+    "stage24_interaction": "J2>>B^beta(log B)^(-5)",
+    "progress_gate": "beta>1/4"
+  },
+  "generic_upper": {
+    "hypothesis": "N2(B)<<_epsilon B^(mu+epsilon)",
+    "survival": "N2/M2<<_epsilon B^(mu-1+epsilon)(log B)^(-5)",
+    "N2_over_N1": "N2/N1<<_epsilon B^(mu-1+epsilon)(log B)^(-3)",
+    "stage23_interaction": "I<<_epsilon B^(mu+epsilon)(log B)^(-7)",
+    "stage24_interaction": "J2<<_epsilon B^(mu+epsilon)(log B)^(-5)",
+    "progress_gate": "mu<1/2"
+  },
+  "directional": {
+    "lower_requires_directional_hypothesis": true,
+    "global_lower_implies_all_directional_lower": false,
+    "global_upper_implies_all_directional_upper": true,
+    "shared_edge_map": {
+      "a": "A_ab,ac",
+      "b": "A_ab,bc",
+      "c": "A_ac,bc"
+    },
+    "survival_from_beta_j": "N2,j/M2,j>>_j B^(beta_j-1)(log B)^(-5)",
+    "interaction_from_beta_j": "J2,j>>_j B^beta_j(log B)^(-5)"
+  },
+  "exponent_identification": {
+    "matched_epsilon_bounds_required": true,
+    "template": "B^(alpha-epsilon)<<_epsilon N2(B)<<_epsilon B^(alpha+epsilon) for every epsilon>0",
+    "implies_log_slope_limit": true,
+    "implies_asymptotic_constant": false,
+    "implies_log_secondary_factor": false
+  },
+  "firewalls": {
+    "finite_effective_exponent_as_theorem": false,
+    "fixed_prime_zero_density_as_power_saving": false,
+    "global_lower_promoted_to_all_named_directions": false,
+    "new_N2_exponent_proved": false,
+    "true_N2_exponent_identified": false,
+    "perfect_cuboid_conclusion": "NONE"
+  }
+}
