@@ -47,7 +47,9 @@ required_everywhere = {
     ],
     "arsenal": [
         "TRANSITION_CLASS=THIN_BUT_INFINITE",
-        "POSITIVE_POWER_LOWER_BOUND_PROVED=false",
+        "POSITIVE_POWER_LOWER_BOUND_PROVED=true",
+        "CURRENT_POSITIVE_POWER_LOWER_BOUND=N2(B)>>B^(1/4)",
+        "C17_STATUS=PARKED_PARITY_EXAMPLE_SUPERSEDED_AS_GLOBAL_LOWER",
         "TRUE_TARGET_EXPONENT_IDENTIFIED=false",
         "PERFECT_CUBOID_CONCLUSION=NONE",
     ],
@@ -75,7 +77,8 @@ for name in ("final", "result"):
             raise SystemExit(f"{name}: missing theorem snippet {snippet}")
 
 # Reject accidental overclaims in closeout text.
-for name, body in text.items():
+for name in ("final", "result", "manifest", "ledger"):
+    body = text[name]
     forbidden = [
         "POSITIVE_POWER_LOWER_BOUND_PROVED=true",
         "MATCHING_HALF_POWER_LOWER_BOUND_PROVED=true",

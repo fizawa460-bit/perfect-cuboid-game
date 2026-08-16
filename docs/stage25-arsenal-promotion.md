@@ -1,7 +1,7 @@
 # Stage25 arsenal promotion
 
 ```text
-STATUS=AUDITED_PASS_WITH_REENTRY_ADDITIONS_PENDING_PHASE70_AUDIT
+STATUS=AUDITED_PASS_CLOSED_WITH_REENTRY_PHASE70
 SOURCE_STAGE=Stage25
 SOURCE_CAMPAIGN=Stage25-reentry
 PROMOTION_DECISION=YES
@@ -16,10 +16,12 @@ WEAPON_ID=S25-W01
 TYPE=PARAMETRIC_LOWER_FAMILY
 THEOREM=N_R501(B)=Theta(B^(1/4))
 GLOBAL_COROLLARY=N2(B)>>B^(1/4)
+DIRECTIONAL_COROLLARY=N2,j(B)>>_j B^(1/4) for j=a,b,c
 PRIMITIVE_GCD=O(1)
 PARAMETER_MULTIPLICITY=O(1)
 THIRD_FACE_EXCEPTION=FIXED_GENUS_7_FINITE_RATIONAL_SET
 AUDIT_STATUS=PASS
+STATUS=CURRENT
 ```
 
 Reuse contract: primitive canonical Stage19 objects, exactly two integral faces, integral space diagonal, `R<=B`. The theorem is a lower-family construction and must not be reused as a whole-population upper or as proof that `1/4` is the true exponent.
@@ -46,6 +48,7 @@ R501=N_R501(B)=Theta(B^(1/4))
 R502=N_R502(B)=Theta(B^(1/4))
 USE=RULE_OUT_HIDDEN_GCD_EXPONENT_UPGRADE_IN_THESE_FAMILIES
 AUDIT_STATUS=PASS
+STATUS=INTEGRATED_INTO_S25-W01_SUPPORT_CERTIFICATE
 ```
 
 Reuse contract: family-specific. It does not prove a global upper for `N2`.
@@ -62,6 +65,7 @@ GROWING_LATTICE_UPPER=O(B^(1/10)log B)
 GENERIC_FULL_SPLIT_PRYM_E0_HOM_OVER_K=0
 EXCEPTIONAL_PRYM_STATUS=EXTERNAL_THEOREM_GATE
 AUDIT_STATUS=PASS
+STATUS=PARKED_ROUTE_SPECIFIC
 ```
 
 Reuse contract: the `P,R` lattice and generic-base-field Prym statements are exact only in the audited R504 setup. The external exceptional Prym locus is not empty/finiteness-classified.

@@ -1,7 +1,8 @@
 # Stage23 arsenal promotion — one-face-space to two-face-space transition
 
 PROMOTION_ID=AR-STAGE23-TRANSITION-N1-N2
-STATUS=AUDITED_PASS_CLOSED_PENDING_MERGE
+WEAPON_ID=S23-W01
+STATUS=AUDITED_PASS_CLOSED_WITH_STAGE25_SUPERSESSION
 SOURCE_STAGE=Stage23
 SOURCE_CHECKPOINT=70
 
@@ -82,8 +83,10 @@ Use the transition theorem directly only when population, canonicalization, prim
 ## Nonclaims
 
 ```text
-TARGET_UNBOUNDEDNESS_PROVED=false
-POSITIVE_POWER_TARGET_LOWER_BOUND_PROVED=false
+TARGET_UNBOUNDEDNESS_PROVED=true
+POSITIVE_POWER_TARGET_LOWER_BOUND_PROVED=true
+CURRENT_GLOBAL_LOWER=N2(B)>>B^(1/4)
+CURRENT_DIRECTIONAL_LOWER=N2,j(B)>>_j B^(1/4) for j=a,b,c
 MATCHING_HALF_POWER_LOWER_BOUND_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
 HALF_POWER_INTRINSIC_STATUS=UNRESOLVED
@@ -91,7 +94,10 @@ HALF_POWER_OPTIMALITY_CLAIMED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
 
-The exact census `N2(500000000)=3495` gives a constant floor by monotonicity only. Finite growth is not an asymptotic theorem.
+Historically, the exact census `N2(500000000)=3495` gave only a constant floor
+by monotonicity. It remains finite evidence, but the current unboundedness and
+positive-power statements now come from the audited S25-W01 construction, not
+from that census.
 
 ```text
 ARSENAL_PROMOTION_REQUIRED=true
@@ -100,3 +106,23 @@ ARSENAL_PROMOTION_MATERIALIZED=true
 REUSE_CLASS=DIRECT_REUSE_ON_EXACT_STAGE23_CONTRACT
 NEW_STANDALONE_ANALYTIC_THEOREM_PROMOTED=false
 ```
+
+## Stage25 exact-mask upgrade
+
+```text
+WEAPON_ID=S23-W02
+TYPE=EXACT_MASK_FORMULA
+STATUS=ACTIVE
+```
+
+The audited Stage25 reentry truth table adds the reusable identities
+
+\[
+N_{2,a}=A_{ab,ac}-A_3,\quad
+N_{2,b}=A_{ab,bc}-A_3,\quad
+N_{2,c}=A_{ac,bc}-A_3.
+\]
+
+Hence every pairwise directional contrast cancels the common `A3`
+contamination exactly. This is an algebraic mask adapter; it does not assume
+that perfect cuboids exist or do not exist.

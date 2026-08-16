@@ -1,7 +1,8 @@
 # Stage22 arsenal promotion — one-face to two-face transition law
 
 PROMOTION_ID=AR-STAGE22-TRANSITION-M1-M2
-STATUS=CANDIDATE_PENDING_FRESH_AUDIT
+WEAPON_ID=S22-W01
+STATUS=AUDITED_PASS_CLOSED
 SOURCE_STAGE=Stage22
 SOURCE_CHECKPOINT=70
 
@@ -51,6 +52,18 @@ M_2(B)=o(M_1(B)),
 \frac{M_2(B)}{M_1(B)}\asymp\frac{(\log B)^4}{B}.
 \]
 
+The audited Stage25 reentry receiver also gives, for each canonical shared-edge
+direction `j=a,b,c`,
+
+\[
+\frac{M_{2,j}(B)}{M_1(B)}\sim
+\frac{4\pi^2C_j}{3}\frac{(\log B)^4}{B},
+\qquad C_j>0,
+\]
+
+with `C_M2=C_a+C_b+C_c`. Thus the transition is not an artifact of directional
+aggregation.
+
 ## Causal reuse note
 
 At the theorem interface, the source is one scaled primitive Pythagorean face plus a complementary edge free at order `B`, while the target is the shared-edge double-Pythagorean rank-6 anticanonical toric bulk. The transition therefore loses one polynomial power and gains four logarithmic powers.
@@ -77,6 +90,7 @@ No decomposition of `(log B)^4` into four independent local factors is proved. N
 ARSENAL_PROMOTION_REQUIRED=true
 ARSENAL_PROMOTION_MATERIALIZED=true
 REUSE_CLASS=DIRECT_REUSE_ON_EXACT_STAGE22_CONTRACT
-FINE_MECHANISM_OPEN=true
+FINE_MECHANISM_STATUS=CLOSED_AT_GEOMETRIC_MANIN_INVARIANT_LEVEL
+FINE_ARITHMETIC_FACTORIZATION_OPEN=true
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
