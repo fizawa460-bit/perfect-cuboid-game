@@ -1,0 +1,54 @@
+{
+  "task_id": "Stage27-19-r401d",
+  "route_kind": "LOWER_REENTRY",
+  "parent_route": "Stage27-19-r401c",
+  "current_beta": "1/4",
+  "master_receiver": "x^2*y^2+1=z^2*(x^2+y^2)",
+  "universal_toric_height_ledger": {
+    "raw_edges": [
+      "E0=4*P*Q*R*S",
+      "X0=2*R*S*(P^2-Q^2)",
+      "Y0=2*P*Q*(R^2-S^2)"
+    ],
+    "raw_degree": "2*d_x+2*d_y",
+    "common_polynomial_factor_degree": "g",
+    "algebraic_physical_degree": "h_alg=2*d_x+2*d_y-g",
+    "one_parameter_progress_gate": "h_alg<8"
+  },
+  "R501": {
+    "x": "((t-1)*(t+3))/((t-3)*(t+1))",
+    "y": "(t^2+3)/(2*t)",
+    "z": "(t^4+2*t^3+2*t^2-6*t+9)/(t^4-2*t^3+2*t^2+6*t+9)",
+    "tau_projection_degree": 8,
+    "d_x": 2,
+    "d_y": 2,
+    "common_polynomial_factor_degree": 0,
+    "h_alg": 8,
+    "toric_reconstruction": "(E0,X0,Y0)=2*(C1,A1,B1)"
+  },
+  "R502": {
+    "x": "((t^2-3)*(t^2+3))/(8*t^2)",
+    "y": "(t^2+3)/(2*t)",
+    "z": "(t^4-2*t^2+9)/(2*t*(t^2+3))",
+    "tau_projection_degree": 8,
+    "d_x": 4,
+    "d_y": 2,
+    "common_polynomial_factor": "4*m*n*(m^2+3*n^2)",
+    "common_polynomial_factor_degree": 4,
+    "h_alg": 8,
+    "residual_primitive_gcd_bound": 2592,
+    "toric_reconstruction": "(E0,X0,Y0)=G2*(C2,A2,B2)"
+  },
+  "lower_stop_boundary": {
+    "bounded_reentry_stop_candidate": true,
+    "lower_exponent_above_one_quarter_proved": false,
+    "true_N2_exponent_identified": false,
+    "reopen_lower_on": [
+      "new rational curve with effective physical height degree <8",
+      "proved stronger cancellation lowering degree below 8",
+      "polynomially thicker family beating kappa/h=1/4"
+    ],
+    "preferred_post_audit_lane": "UPPER_REENTRY",
+    "next_upper_route": "Stage27-40af"
+  }
+}
