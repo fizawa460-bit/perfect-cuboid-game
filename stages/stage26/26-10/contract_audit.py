@@ -63,28 +63,40 @@ assert ctl["transition"] == "Stage18 -> Stage20"
 assert ctl["literal_subset_transition"] is False
 assert ctl["checkpoint10"]["discovery_audit"] == "PASS_BY_CODEX"
 
-# State-aware lifecycle: submission PENDING and hostile-audited PASS are both valid.
-if ctl["checkpoint10"]["mathematical_audit"] == "PENDING":
+c10 = ctl["checkpoint10"]
+if c10["mathematical_audit"] == "PENDING":
     assert ctl["checkpoint_status"]["10"] == "PROVED_SUBMITTED_PENDING_AUDIT"
+    assert ctl["state"]["CURRENT_CHECKPOINT"] == 10
     assert ctl["state"]["AUDIT_STATUS"] == "PENDING"
     assert ctl["state"]["ADVANCE_ALLOWED"] is False
     assert ctl["state"]["MERGE_ALLOWED"] is False
-    assert ctl["next_expected_command"] == "Stage26-audit"
-elif ctl["checkpoint10"]["mathematical_audit"] == "PASS":
-    assert ctl["checkpoint_status"]["10"] == "PROVED_AUDITED_PASS_AWAITING_MERGE"
-    assert ctl["state"]["AUDIT_STATUS"] == "PASS"
-    assert ctl["state"]["ADVANCE_ALLOWED"] is True
-    assert ctl["state"]["MERGE_ALLOWED"] is True
-    assert ctl["state"]["NEXT_CHECKPOINT"] == 20
-    assert ctl["next_expected_command"] == "merge PR #1014; then Stage26-main-batch"
+elif c10["mathematical_audit"] == "PASS":
     assert (base / "audit.md").exists()
     assert "AUDIT_VERDICT=PASS" in (base / "audit.md").read_text()
+    if ctl["checkpoint_status"]["10"] == "PROVED_AUDITED_PASS_AWAITING_MERGE":
+        assert ctl["state"]["CURRENT_CHECKPOINT"] == 10
+        assert ctl["state"]["AUDIT_STATUS"] == "PASS"
+        assert ctl["state"]["ADVANCE_ALLOWED"] is True
+        assert ctl["state"]["MERGE_ALLOWED"] is True
+        assert ctl["state"]["NEXT_CHECKPOINT"] == 20
+        assert ctl["next_expected_command"] == "merge PR #1014; then Stage26-main-batch"
+    elif ctl["checkpoint_status"]["10"] == "PROVED_AUDITED_PASS_MERGED":
+        assert c10["pr"] == 1014
+        assert c10["merge_commit"] == "03ad11b0df214f95c4c077a3b22d12ffe391d160"
+        assert ctl["state"]["CURRENT_CHECKPOINT"] >= 20
+        assert ctl["checkpoint_status"]["20"] in (
+            "SUBMITTED_PENDING_FRESH_AUDIT",
+            "PROVED_AUDITED_PASS_AWAITING_MERGE",
+            "PROVED_AUDITED_PASS_MERGED",
+        )
+    else:
+        raise AssertionError(ctl["checkpoint_status"]["10"])
 else:
-    raise AssertionError(ctl["checkpoint10"]["mathematical_audit"])
+    raise AssertionError(c10["mathematical_audit"])
 
 bad_math = re.compile(r"M_[23]\\?\(B\\?\)(?:ll|sim)|(?:^|[^\\])(asymp|zeta|pi)(?:\{|\(|\\b)")
 for path in [base / "result.md", base / "comparison-lattice.md", base / "discovery-ledger.md"]:
     assert not bad_math.search(path.read_text()), f"damaged LaTeX in {path}"
 
 print("Stage26-10 contract/reuse/discovery audit: PASS")
-print(f"STAGE26_10_AUDIT_STATUS={ctl['state']['AUDIT_STATUS']}")
+print(f"STAGE26_10_LIFECYCLE={ctl['checkpoint_status']['10']}")

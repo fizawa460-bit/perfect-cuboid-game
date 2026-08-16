@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-10-AUDITED-PASS
+CURRENT_STAGE=Stage26-20-AUDITED-PASS-AWAITING-MERGE
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -36,36 +36,79 @@ BACKFLOW_SYNCHRONIZED=true
 STAGE20_STAGE26_READY_INTERFACE=true
 ALL_REENTRY_PHASES_AUDITED=true
 STAGE26_ALLOWED=true
-STAGE26_CHECKPOINT10_STATUS=PROVED_AUDITED_PASS_AWAITING_MERGE
+STAGE26_CHECKPOINT10_STATUS=PROVED_AUDITED_PASS_MERGED_PR1014
 STAGE26_DISCOVERY_AUDIT=PASS_BY_CODEX
 STAGE26_MATHEMATICAL_AUDIT=PASS
-NEXT_EXPECTED_COMMAND=merge PR #1014; then Stage26-main-batch
+STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_AWAITING_MERGE
+STAGE26_CHECKPOINT20_EVIDENCE=DERIVED_EXACT_FINITE
+STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
+NEXT_EXPECTED_COMMAND=merge PR #1015; then Stage26-main-batch
 NEXT_RESEARCH_PROGRAM=Stage26
 ```
 
 ## Current operation
 
-Stage25-reentry phase70 hostile audit PASS is merged as PR #1012 / `be5f7d8360b3bac2b9060cd88ede596a4fb218dc`. Stage26 checkpoint10 has received a fresh mathematical audit PASS and is awaiting merge.
+Stage25-reentry is fully closed and synchronized. Stage26 checkpoint10 hostile audit PASS is merged as PR #1014 / `03ad11b0df214f95c4c077a3b22d12ffe391d160`. Checkpoint20 matched finite baseline has now passed fresh hostile audit and is awaiting PR #1015 merge.
 
-The bounded Stage25-reentry campaign is complete. All phases 10–70 and internal derived routes `r008a` through `r011a` are hostile-audited PASS and merged; no unresolved repo-native reentry child route remains.
+The Stage26 transition contract remains
 
-The accepted Stage26 entry object is the primitive canonical no-space raw shared-edge pair host under the same Euclidean cutoff. The frozen completion interface is
+\[
+M_2=\text{exactly-two no-space primitive canonical objects},\qquad
+M_3=\text{Euler exactly-three no-space primitive canonical objects},
+\]
+
+under the common Euclidean cutoff `R<=B`. The exact masks are disjoint, so `M3/M2` is a matched adjacent-stratum size ratio rather than objectwise survival.
+
+The literal object host and raw-incidence adapters are
+
+\[
+H_{\ge2}=M_2+M_3,\qquad
+\Phi=\frac{M_3}{M_2+M_3},
+\]
+
+\[
+P=M_2+3M_3,\qquad
+\Theta=\frac{3M_3}{M_2+3M_3},
+\]
+
+with exact bridge
+
+\[
+\Theta=\frac{3\Phi}{1+2\Phi},\qquad
+\Phi=\frac{\Theta}{3-2\Theta}.
+\]
+
+Checkpoint20 joins the already-audited Stage18 and Stage20 finite tables at the common cutoffs
 
 ```text
-P_j=M2,j+M3
-P=M2+3M3
-Theta_j=M3/P_j
-Theta=3M3/P
+B=50,100,200,400,800,1200,1600,2000
 ```
 
-with
+and materializes exact `M2`, `M3`, `H>=2`, `P`, `Phi`, and `Theta` rows. At `B=2000`, for example,
 
-```text
-B^(-5/6)(log B)^(-5) <<_j Theta_j <<_(j,eta) (log B)^(-eta), eta<1/46
-Theta_j/Theta_k -> C_k/C_j
-```
+\[
+M_2=4812,\quad M_3=7,\quad H_{\ge2}=4819,\quad P=4833,
+\]
 
-and the analogous global completion corridor. The true `M3` exponent remains open.
+\[
+\Phi=7/4819,\qquad \Theta=7/1611.
+\]
+
+Larger known Euler finite counts are not divided by a mismatched Stage18 source. The Stage14-num integral-space census is retained only as a negative-control/regression oracle because its population is not the no-space Stage18 source.
+
+The audited theorem backdrop remains
+
+\[
+M_2(B)\sim C_{M_2}B(\log B)^5,
+\]
+
+and, for every fixed `eta<1/46`,
+
+\[
+B^{1/6}\ll M_3(B)\ll_\eta B(\log B)^{5-\eta}.
+\]
+
+No exponent, monotonicity, square-root law, independence law, or perfect-cuboid conclusion is inferred from the finite panel.
 
 Stage19 remains frozen at
 
@@ -74,38 +117,21 @@ B^(1/4) << N2(B) <<_epsilon B^(1/2+epsilon)
 N2,j(B) >>_j B^(1/4), j=a,b,c
 ```
 
-with the true `N2` exponent still open.
-
-The Stage25 arsenal handed to Stage26 includes
+with its true exponent still open.
 
 ```text
-S25-W05=RAW_PAIR_EULER_COMPLETION_ADAPTER
-S25-W06=GEOMETRIC_MANIN_TRANSITION_LEDGER
-```
-
-alongside the existing Stage20 weapons. The geometric Manin ledger closes the Stage21/22 log-mechanism at the geometric invariant level only; independent factorization / common Dirichlet pole-slot refinements remain optional future work.
-
-Residual Q05/Q06/Q11, R504 exceptional Prym, the true `M3` exponent, and the true `N2` exponent are future/external research gates and do not block Stage26 entry.
-
-Stage26 checkpoint10 freezes the Stage18-to-Stage20 contract. Since the exact-two and exact-three masks are disjoint, `M3/M2` is not objectwise survival. The literal host and raw-incidence adapters are
-
-\[
-\Phi=\frac{M_3}{M_2+M_3},\qquad
-\Theta=\frac{3M_3}{M_2+3M_3},\qquad
-\Theta=\frac{3\Phi}{1+2\Phi}.
-\]
-
-Repository-scale discovery is complete for checkpoint10. The hostile mathematical audit accepted the population/cutoff/multiplicity/measure contract and the K3/Manin transfer firewall.
-
-```text
-TASK_ID=Stage26-10
-CHECKPOINT=10
-DISCOVERY_AUDIT_VERDICT=PASS
-MATHEMATICAL_AUDIT_VERDICT=PASS
+TASK_ID=Stage26-20
+CHECKPOINT=20
+EVIDENCE_LEVEL=DERIVED_EXACT_FINITE
+CHECKPOINT10_MERGED_PR=1014
+MATCHED_FINITE_PANEL=true
+EXACT_MEASURE_BRIDGE_RECHECKED=true
+FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
+TRUE_M3_EXPONENT_IDENTIFIED=false
+AUDIT_STATUS=PASS
 ADVANCE_ALLOWED=true
-NEXT_CHECKPOINT=20
+NEXT_CHECKPOINT=30
 MERGE_ALLOWED=true
-STAGE26_ALLOWED=true
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=merge PR #1014; then Stage26-main-batch
+NEXT_EXPECTED_COMMAND=merge PR #1015; then Stage26-main-batch
 ```

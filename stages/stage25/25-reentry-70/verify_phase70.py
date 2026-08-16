@@ -145,6 +145,7 @@ assert any(marker in status for marker in (
     'NEXT_EXPECTED_COMMAND=Stage26-main-batch',
     'NEXT_EXPECTED_COMMAND=Stage26-audit',
     'NEXT_EXPECTED_COMMAND=merge PR #1014; then Stage26-main-batch',
+    'NEXT_EXPECTED_COMMAND=merge PR #1015; then Stage26-main-batch',
 ))
 
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
