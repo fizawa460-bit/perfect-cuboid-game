@@ -52,7 +52,6 @@ for marker in [
 ]:
     assert marker in lattice, marker
 
-# Exact rational check of the object/raw-incidence bridge.
 for r in [Fraction(1, 100), Fraction(1, 3), Fraction(2, 1), Fraction(17, 5)]:
     phi = r / (1 + r)
     theta = 3 * r / (1 + 3 * r)
@@ -63,16 +62,29 @@ assert ctl["stage"] == "Stage26"
 assert ctl["transition"] == "Stage18 -> Stage20"
 assert ctl["literal_subset_transition"] is False
 assert ctl["checkpoint10"]["discovery_audit"] == "PASS_BY_CODEX"
-assert ctl["checkpoint10"]["mathematical_audit"] == "PENDING"
-assert ctl["checkpoint_status"]["10"] == "PROVED_SUBMITTED_PENDING_AUDIT"
-assert ctl["state"]["AUDIT_STATUS"] == "PENDING"
-assert ctl["state"]["ADVANCE_ALLOWED"] is False
-assert ctl["next_expected_command"] == "Stage26-audit"
 
-# Guard the canonical sources against the prior lost-backslash corruption class.
+# State-aware lifecycle: submission PENDING and hostile-audited PASS are both valid.
+if ctl["checkpoint10"]["mathematical_audit"] == "PENDING":
+    assert ctl["checkpoint_status"]["10"] == "PROVED_SUBMITTED_PENDING_AUDIT"
+    assert ctl["state"]["AUDIT_STATUS"] == "PENDING"
+    assert ctl["state"]["ADVANCE_ALLOWED"] is False
+    assert ctl["state"]["MERGE_ALLOWED"] is False
+    assert ctl["next_expected_command"] == "Stage26-audit"
+elif ctl["checkpoint10"]["mathematical_audit"] == "PASS":
+    assert ctl["checkpoint_status"]["10"] == "PROVED_AUDITED_PASS_AWAITING_MERGE"
+    assert ctl["state"]["AUDIT_STATUS"] == "PASS"
+    assert ctl["state"]["ADVANCE_ALLOWED"] is True
+    assert ctl["state"]["MERGE_ALLOWED"] is True
+    assert ctl["state"]["NEXT_CHECKPOINT"] == 20
+    assert ctl["next_expected_command"] == "merge PR #1014; then Stage26-main-batch"
+    assert (base / "audit.md").exists()
+    assert "AUDIT_VERDICT=PASS" in (base / "audit.md").read_text()
+else:
+    raise AssertionError(ctl["checkpoint10"]["mathematical_audit"])
+
 bad_math = re.compile(r"M_[23]\\?\(B\\?\)(?:ll|sim)|(?:^|[^\\])(asymp|zeta|pi)(?:\{|\(|\\b)")
 for path in [base / "result.md", base / "comparison-lattice.md", base / "discovery-ledger.md"]:
     assert not bad_math.search(path.read_text()), f"damaged LaTeX in {path}"
 
 print("Stage26-10 contract/reuse/discovery audit: PASS")
-print("NEXT_EXPECTED_COMMAND=Stage26-audit")
+print(f"STAGE26_10_AUDIT_STATUS={ctl['state']['AUDIT_STATUS']}")
