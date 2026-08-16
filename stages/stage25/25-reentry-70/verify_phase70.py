@@ -4,16 +4,13 @@ import json
 
 ROOT = Path(__file__).resolve().parents[3]
 
-
 def text(rel):
     p = ROOT / rel
     assert p.exists(), rel
     return p.read_text(encoding='utf-8')
 
-
 def data(rel):
     return json.loads(text(rel))
-
 
 res = text('stages/stage25/25-reentry-70/result.md')
 hand = data('stages/stage25/25-reentry-70/handoff-registry.json')
@@ -28,14 +25,12 @@ arsenal = text('docs/stage25-arsenal-promotion.md')
 status = text('docs/00_CURRENT_RESEARCH_STATUS.md')
 deep = text('docs/stage14-15-bound-deep-review-queue.md')
 
-# Phase60 authorization and merge synchronization.
 assert 'AUDIT_VERDICT=PASS' in p60audit
 assert ctrl['phase60_submission']['audit_status'] == 'PASS'
 assert ctrl['phase60_submission']['pr'] == 1011
 assert ctrl['phase60_submission']['merge_commit'] == '119afa00919f67bea8e3ba5515c0f9663aa9f2e2'
 assert ctrl['phase60_submission']['stage20_stage26_ready_interface'] is True
 
-# All pre-phase70 phases and derived routes remain resolved.
 for phase in ('10','20','30','40','50','60'):
     assert 'AUDITED_PASS_MERGED' in ctrl['phases'][phase]['status'], (phase, ctrl['phases'][phase]['status'])
 for key in ('r008a_submission','r009a_submission','r010a_submission','r011a_submission'):
@@ -48,7 +43,6 @@ assert prop['internal_queue']['unresolved_internal_route'] is False
 assert prop['resolution_candidate']['backflow_synchronized'] is True
 assert prop['resolution_candidate']['stage26_handoff_ready'] is True
 
-# Receiver status synchronization: no audited receiver may still claim pending.
 receiver_files = (
     'stages/stage19/post-stage25-50-supersession.md',
     'stages/stage23/post-stage25-r01/result.md',
@@ -69,7 +63,6 @@ for rel in receiver_files:
     assert 'BACKFLOW_SYNCHRONIZED=true' in t, rel
     assert 'PENDING_FRESH_AUDIT' not in t, rel
 
-# Stage19 strongest interface is frozen, not upgraded by closeout.
 s19 = text('stages/stage19/post-stage25-50-supersession.md')
 assert 'CURRENT_LOWER=N2(B)>>B^(1/4)' in s19
 for token in ('N2,a(B)>>B^(1/4)', 'N2,b(B)>>B^(1/4)', 'N2,c(B)>>B^(1/4)'):
@@ -77,7 +70,6 @@ for token in ('N2,a(B)>>B^(1/4)', 'N2,b(B)>>B^(1/4)', 'N2,c(B)>>B^(1/4)'):
 assert 'TRUE_TARGET_EXPONENT_IDENTIFIED=false' in s19
 assert 'GLOBAL_N2_EXPONENT_UPGRADED=false' in s19
 
-# Historical phase70 submission registry remains a pre-audit snapshot.
 interfaces = hand['interfaces']
 assert interfaces['N2']['lower'] == 'N2(B)>>B^(1/4)'
 assert interfaces['N2']['true_exponent_identified'] is False
@@ -93,13 +85,11 @@ for k in ('population_match','cutoff_match','multiplicity_match','measure_match'
     assert r26[k] is True, k
 assert hand['gate_candidate']['derived_route_queue_has_unresolved_internal_route'] is False
 assert hand['gate_candidate']['stage20_stage26_ready_interface'] is True
-# These false values are deliberately historical: they describe the submission before its hostile audit/merge.
 assert hand['gate_candidate']['all_reentry_phases_audited'] is False
 assert hand['gate_candidate']['stage26_allowed'] is False
 assert 'ALL_REENTRY_PHASES_AUDITED=false' in res
 assert 'STAGE26_ALLOWED=false' in res
 
-# Arsenal promotion and scope firewalls.
 assert 'S25-W05' in arsenal
 assert 'S25-W06' in arsenal
 assert 'S25_W05_PROMOTED=true' in weap
@@ -109,12 +99,10 @@ assert 'TRUE_M3_EXPONENT_PROMOTED=false' in arsenal
 assert 'PERFECT_CUBOID_EXISTENCE_PROMOTED=false' in arsenal
 assert 'PERFECT_CUBOID_NONEXISTENCE_PROMOTED=false' in arsenal
 
-# Stage14/15 exhausted-route discipline remains binding.
 for token in ('Q07', 'Q08', 'Q09', 'Q10', 'P3_EXHAUSTED_INTERNAL'):
     assert token in deep
 assert 'P3_REOPEN_WITHOUT_NEW_INPUT' in disc
 
-# Phase70 hostile audit and merge are now the final Stage26 gate evidence.
 assert 'AUDIT_VERDICT=PASS' in p70audit
 assert 'REENTRY_RESEARCH_COMPLETE=true' in p70audit
 assert 'ALL_REENTRY_PHASES_AUDITED=true' in p70audit
@@ -144,16 +132,18 @@ assert ctrl['stage26_gate']['backflow_synchronized'] is True
 assert ctrl['stage26_gate']['stage26_allowed'] is True
 assert ctrl['next_expected_command'] == 'Stage26-main-batch'
 
-# Human-facing handoff is now authoritative for post-merge state.
 assert 'STATUS=AUDITED_PASS_MERGED_STAGE26_ENTRY_AUTHORIZED' in s26
 assert 'STAGE26_ENTRY_INTERFACE_VALID=true' in s26
 assert 'PHASE70_AUDIT_STATUS=PASS' in s26
 assert 'PHASE70_MERGED=true' in s26
 assert 'STAGE26_ALLOWED=true' in s26
-assert 'CURRENT_STAGE=Stage26-READY' in status
+
+# State-aware post-handoff status. Stage26-READY is the historical handoff state;
+# once Stage26 starts, a Stage26-* current-state marker is the expected successor.
+assert ('CURRENT_STAGE=Stage26-READY' in status) or ('CURRENT_STAGE=Stage26-' in status)
 assert 'ALL_REENTRY_PHASES_AUDITED=true' in status
 assert 'STAGE26_ALLOWED=true' in status
-assert 'NEXT_EXPECTED_COMMAND=Stage26-main-batch' in status
+assert ('NEXT_EXPECTED_COMMAND=Stage26-main-batch' in status) or ('NEXT_EXPECTED_COMMAND=Stage26-audit' in status)
 
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in s26
