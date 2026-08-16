@@ -49,6 +49,7 @@ assert reg['firewalls']['true_M3_exponent_identified'] is False
 assert reg['firewalls']['M3_asymptotic_proved'] is False
 assert reg['firewalls']['perfect_cuboid_conclusion'] == 'NONE'
 
+# Finite regression of the exact algebra, primitivity, height, and fiber invariant.
 outputs = {}
 for r in range(2, 35):
     for s in range(1, r):
@@ -107,29 +108,36 @@ for marker in [
 ]:
     assert marker in res, marker
 
-for marker in [
-    'w^3',
-    'r_2(w^2)',
-    'tau(w^2)',
-    'no global injectivity is claimed',
-]:
+for marker in ['w^3','r_2(w^2)','tau(w^2)','no global injectivity is claimed']:
     assert marker in proof, marker
 
 assert ctl['checkpoint_status']['50'] == 'PROVED_AUDITED_PASS_MERGED'
 assert ctl['checkpoint50']['pr'] == 1018
 assert ctl['checkpoint50']['merge_commit'] == '6775851010af3f7edc47a8383d6c30cb98be43c1'
-assert ctl['state']['CURRENT_CHECKPOINT'] == 60
-assert ctl['state']['NEXT_CHECKPOINT'] == 70
 c60 = ctl['checkpoint60']
-assert c60['audit_status'] == 'PENDING'
-assert ctl['checkpoint_status']['60'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['ADVANCE_ALLOWED'] is False
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage26-audit'
+
+if ctl['state']['CURRENT_CHECKPOINT'] == 60:
+    assert ctl['state']['NEXT_CHECKPOINT'] == 70
+    assert c60['audit_status'] == 'PENDING'
+    assert ctl['checkpoint_status']['60'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert ctl['next_expected_command'] == 'Stage26-audit'
+else:
+    assert ctl['state']['CURRENT_CHECKPOINT'] >= 70
+    assert ctl['checkpoint_status']['60'] == 'PROVED_AUDITED_PASS_MERGED'
+    assert c60['audit_status'] == 'PASS'
+    assert c60['pr'] == 1019
+    assert c60['merge_commit'] == 'ade92d46148b8c7af0bd0c9165082ee8f11d0e70'
+    assert c60['M3_lower_B_one_third_minus_epsilon_accepted'] is True
+    assert c60['M3_lower_B_one_third_without_epsilon_proved'] is False
+    a60 = text('stages/stage26/26-60/audit.md')
+    assert 'AUDIT_VERDICT=PASS' in a60
+    assert 'M3_LOWER_B_ONE_THIRD_MINUS_EPSILON_ACCEPTED=true' in a60
 
 print('STAGE26_60_GENERAL_SAUNDERSON_ALGEBRA=PASS')
 print('STAGE26_60_PRIMITIVITY_HEIGHT=PASS')
 print('STAGE26_60_CUBE_DIAGONAL_FIBER=PASS')
-print('STAGE26_60_ONE_THIRD_MINUS_EPSILON_CANDIDATE=PASS')
+print('STAGE26_60_ONE_THIRD_MINUS_EPSILON=PASS')
 print('STAGE26_60_FIREWALL=PASS')
