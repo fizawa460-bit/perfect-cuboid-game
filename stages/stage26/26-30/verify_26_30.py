@@ -68,27 +68,31 @@ for marker in [
 ]:
     assert marker in res, marker
 
-assert ctl['state']['CURRENT_CHECKPOINT'] == 30
 assert ctl['checkpoint_status']['20'] == 'PROVED_AUDITED_PASS_MERGED'
 c30 = ctl['checkpoint30']
 if c30['audit_status'] == 'PENDING':
+    assert ctl['state']['CURRENT_CHECKPOINT'] == 30
     assert ctl['checkpoint_status']['30'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
     assert c30['advance_allowed'] is False
     assert c30['merge_allowed'] is False
     assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
     assert ctl['next_expected_command'] == 'Stage26-audit'
-elif c30['audit_status'] == 'PASS':
-    assert ctl['checkpoint_status']['30'] in ('PROVED_AUDITED_PASS_AWAITING_MERGE','PROVED_AUDITED_PASS_MERGED')
+elif c30['audit_status'] == 'PASS' and c30.get('merge_commit') is None:
+    assert ctl['state']['CURRENT_CHECKPOINT'] == 30
+    assert ctl['checkpoint_status']['30'] == 'PROVED_AUDITED_PASS_AWAITING_MERGE'
     assert c30['advance_allowed'] is True
     assert c30['merge_allowed'] is True
     assert (BASE / 'audit.md').exists()
     assert 'AUDIT_VERDICT=PASS' in (BASE / 'audit.md').read_text(encoding='utf-8')
-    if ctl['checkpoint_status']['30'] == 'PROVED_AUDITED_PASS_AWAITING_MERGE':
-        assert ctl['state']['AUDIT_STATUS'] == 'PASS'
-        assert ctl['state']['ADVANCE_ALLOWED'] is True
-        assert ctl['state']['MERGE_ALLOWED'] is True
-        assert ctl['state']['NEXT_CHECKPOINT'] == 40
-        assert ctl['next_expected_command'] == 'merge PR #1016; then Stage26-main-batch'
+    assert ctl['state']['NEXT_CHECKPOINT'] == 40
+    assert ctl['next_expected_command'] == 'merge PR #1016; then Stage26-main-batch'
+elif c30['audit_status'] == 'PASS' and c30.get('merge_commit'):
+    assert ctl['checkpoint_status']['30'] == 'PROVED_AUDITED_PASS_MERGED'
+    assert c30['pr'] == 1016
+    assert c30['merge_commit'] == 'e5e884e37f62db78a31f09d8927be230f07b0f2f'
+    assert ctl['state']['CURRENT_CHECKPOINT'] >= 40
+    assert (BASE / 'audit.md').exists()
+    assert 'AUDIT_VERDICT=PASS' in (BASE / 'audit.md').read_text(encoding='utf-8')
 else:
     raise AssertionError(c30['audit_status'])
 

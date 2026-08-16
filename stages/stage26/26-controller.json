@@ -12,9 +12,9 @@
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS_MERGED",
     "20": "PROVED_AUDITED_PASS_MERGED",
-    "30": "PROVED_AUDITED_PASS_AWAITING_MERGE",
-    "40": "BLOCKED_UNTIL_CHECKPOINT30_MERGE",
-    "50": "PENDING",
+    "30": "PROVED_AUDITED_PASS_MERGED",
+    "40": "PROVED_AUDITED_PASS_AWAITING_MERGE",
+    "50": "BLOCKED_UNTIL_CHECKPOINT40_MERGE",
     "60": "PENDING",
     "70": "PENDING"
   },
@@ -55,7 +55,7 @@
     "artifacts": ["stages/stage26/26-20/result.md","stages/stage26/26-20/finite-panel.csv","stages/stage26/26-20/finite-registry.json","stages/stage26/26-20/verify_26_20.py",".github/workflows/stage26-20-finite-baseline.yml"]
   },
   "checkpoint30": {
-    "status": "PROVED_AUDITED_PASS_AWAITING_MERGE",
+    "status": "PROVED_AUDITED_PASS_MERGED",
     "evidence_level": "PROVED_DERIVED_THEOREM",
     "adjacent_stratum_ratio_corridor": true,
     "literal_object_completion_corridor": true,
@@ -71,7 +71,29 @@
     "advance_allowed": true,
     "merge_allowed": true,
     "pr": 1016,
+    "merge_commit": "e5e884e37f62db78a31f09d8927be230f07b0f2f",
     "artifacts": ["stages/stage26/26-30/result.md","stages/stage26/26-30/ratio-registry.json","stages/stage26/26-30/verify_26_30.py","stages/stage26/26-30/audit.md",".github/workflows/stage26-30-completion-ratio.yml"]
+  },
+  "checkpoint40": {
+    "status": "PROVED_AUDITED_PASS_AWAITING_MERGE",
+    "evidence_level": "PROVED_DERIVED_THEOREM",
+    "upper_family_imported_exactly": true,
+    "endpoint_free_little_o_candidate": true,
+    "directional_little_o_candidate": true,
+    "endpoint_free_little_o_accepted": true,
+    "directional_little_o_accepted": true,
+    "mechanism_boundary_recorded": true,
+    "mechanism_ledger_accepted": true,
+    "endpoint_1_over_46_proved": false,
+    "exact_log_decay_exponent_proved": false,
+    "fixed_power_saving_in_B_proved": false,
+    "true_M3_exponent_identified": false,
+    "audit_status": "PASS",
+    "audit_record": "stages/stage26/26-40/audit.md",
+    "advance_allowed": true,
+    "merge_allowed": true,
+    "pr": 1017,
+    "artifacts": ["stages/stage26/26-40/result.md","stages/stage26/26-40/upper-registry.json","stages/stage26/26-40/mechanism-ledger.md","stages/stage26/26-40/verify_26_40.py","stages/stage26/26-40/audit.md",".github/workflows/stage26-40-upper-mechanism.yml"]
   },
   "entry_gate": {
     "stage25_reentry_closed": true,
@@ -82,11 +104,11 @@
     "evidence": "stages/stage25/25-reentry-70/stage26-handoff.md"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 30,
+    "CURRENT_CHECKPOINT": 40,
     "MAIN_STATUS": "AUDITED_PASS_AWAITING_MERGE",
     "AUDIT_STATUS": "PASS",
     "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 40,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
@@ -100,5 +122,5 @@
     "perfect_cuboid_conclusion": false,
     "audit_pass_auto_merges": false
   },
-  "next_expected_command": "merge PR #1016; then Stage26-main-batch"
+  "next_expected_command": "merge PR #1017; then Stage26-main-batch"
 }
