@@ -138,15 +138,28 @@ assert 'PHASE70_AUDIT_STATUS=PASS' in s26
 assert 'PHASE70_MERGED=true' in s26
 assert 'STAGE26_ALLOWED=true' in s26
 
-assert ('CURRENT_STAGE=Stage26-READY' in status) or ('CURRENT_STAGE=Stage26-' in status)
+# Historical Stage25 handoff remains valid after Stage26 completion and later stages.
+assert (
+    'CURRENT_STAGE=Stage26-READY' in status
+    or 'CURRENT_STAGE=Stage26-' in status
+    or 'CURRENT_STAGE=Stage27-' in status
+    or 'CURRENT_STAGE=Stage28-' in status
+)
 assert 'ALL_REENTRY_PHASES_AUDITED=true' in status
 assert 'STAGE26_ALLOWED=true' in status
 next_lines = [line for line in status.splitlines() if line.startswith('NEXT_EXPECTED_COMMAND=')]
 assert next_lines
 for next_cmd in next_lines:
     assert (
-        next_cmd in ('NEXT_EXPECTED_COMMAND=Stage26-main-batch', 'NEXT_EXPECTED_COMMAND=Stage26-audit')
-        or (next_cmd.startswith('NEXT_EXPECTED_COMMAND=merge PR #') and next_cmd.endswith('; then Stage26-main-batch'))
+        next_cmd in (
+            'NEXT_EXPECTED_COMMAND=Stage26-main-batch',
+            'NEXT_EXPECTED_COMMAND=Stage26-audit',
+            'NEXT_EXPECTED_COMMAND=Stage27-main-batch',
+            'NEXT_EXPECTED_COMMAND=Stage27-audit',
+            'NEXT_EXPECTED_COMMAND=Stage28-main-batch',
+            'NEXT_EXPECTED_COMMAND=Stage28-audit',
+        )
+        or (next_cmd.startswith('NEXT_EXPECTED_COMMAND=merge PR #') and ('Stage26-main-batch' in next_cmd or 'Stage27-main-batch' in next_cmd or 'Stage28-main-batch' in next_cmd))
     )
 
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
@@ -160,4 +173,4 @@ print('STAGE25_REENTRY_PHASE70_AUDIT_MERGE=PASS')
 print('STAGE25_REENTRY_PHASE70_ARSENAL_PROMOTION=PASS')
 print('STAGE25_REENTRY_PHASE70_P3_REOPEN_FIREWALL=PASS')
 print('STAGE25_REENTRY_RESEARCH_COMPLETE=PASS')
-print('STAGE26_GATE=OPEN')
+print('STAGE26_GATE=OPEN_OR_CONSUMED_BY_LATER_STAGE')
