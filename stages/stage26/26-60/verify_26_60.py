@@ -37,7 +37,6 @@ res = text('stages/stage26/26-60/result.md')
 proof = text('stages/stage26/26-60/general-saunderson-proof.md')
 reg = data('stages/stage26/26-60/lower-registry.json')
 ctl = data('stages/stage26/26-controller.json')
-s20 = text('stages/stage20/final.md')
 a50 = text('stages/stage26/26-50/audit.md')
 
 assert 'AUDIT_VERDICT=PASS' in a50
@@ -50,7 +49,6 @@ assert reg['firewalls']['true_M3_exponent_identified'] is False
 assert reg['firewalls']['M3_asymptotic_proved'] is False
 assert reg['firewalls']['perfect_cuboid_conclusion'] == 'NONE'
 
-# Finite algebra/primitivity/height regression over general Euclidean inputs.
 outputs = {}
 for r in range(2, 35):
     for s in range(1, r):
@@ -74,14 +72,12 @@ for r in range(2, 35):
         key = tuple(sorted((A, B, C)))
         outputs.setdefault(key, []).append((u, v, w))
 
-# Every observed preimage hypotenuse is a cube-root of one of the output face diagonals.
 for edges, preimages in outputs.items():
     x, y, z = edges
     face_diags = [square_root(x*x+y*y), square_root(x*x+z*z), square_root(y*y+z*z)]
     for _, _, w in preimages:
         assert w**3 in face_diags
 
-# Small-range regression for r_2(w^2) <= 4 tau(w^2).
 for w in range(1, 80):
     n = w*w
     reps = 0
@@ -95,7 +91,6 @@ for w in range(1, 80):
             reps += 1 if b == 0 else 2
     assert reps <= 4*tau(n)
 
-# Positive-density primitive/opposite-parity parameter regression.
 for T in (40, 80, 120):
     cnt = sum(1 for r in range(2, T+1) for s in range(1, r)
               if gcd(r, s) == 1 and (r-s) % 2 == 1)
@@ -116,7 +111,7 @@ for marker in [
     'w^3',
     'r_2(w^2)',
     'tau(w^2)',
-    'global one-to-one behavior is unnecessary',
+    'no global injectivity is claimed',
 ]:
     assert marker in proof, marker
 
