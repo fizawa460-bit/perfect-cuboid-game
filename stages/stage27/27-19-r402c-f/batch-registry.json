@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "batch": "Stage27-19-r402c-f",
+  "checkpoint": 40,
+  "route_kind": "UPPER_REENTRY_MULTI_ROUTE_BATCH",
+  "parent": "Stage27-19-r402b",
+  "routes": ["Stage27-19-r402c", "Stage27-19-r402d", "Stage27-19-r402e", "Stage27-19-r402f"],
+  "r402c": {
+    "reduced_tau_core_scale": true,
+    "core_equations": "A=pg,D=qg",
+    "core_height_bound": "g<2B^2/H(tau)",
+    "fixed_power_saving": false
+  },
+  "r402d": {
+    "full_energy_identity": "E_tau=N2+C_tau",
+    "diagonal_barrier": "E_tau>=N2",
+    "raw_second_moment_shortcut_closed_at_halfwall": true
+  },
+  "r402e": {
+    "hybrid_bound": "N2<=S+sqrt(S*C)",
+    "hybrid_exponent": "max(sigma,(sigma+kappa)/2)",
+    "strict_subhalf_gate": "sigma<1/2 and sigma+kappa<1",
+    "heavy_fiber_interfaces": true
+  },
+  "r402f": {
+    "dyadic_tau_height": true,
+    "band_core_bound": "g<<B^2/T",
+    "band_hybrid_bound": "N_T<=S_T+sqrt(S_T*C_T)",
+    "uniform_strict_subhalf_contract": true,
+    "strict_subhalf_theorem_proved": false
+  },
+  "strict_sub_sqrt_upper_proved": false,
+  "new_mu_lt_half_proved": false,
+  "true_N2_exponent_identified": false,
+  "audit_status": "PENDING_BATCH_FRESH_AUDIT",
+  "merge_allowed": false,
+  "next_route_after_audit": "27-19-r402g",
+  "next_route_requires": "DYADIC_CORE_REPRESENTATION_OR_EQUIVALENT_SUPPORT_COLLISION_THEOREM"
+}
