@@ -103,8 +103,7 @@ The natural split coordinates are
 \]
 
 \[
-\boxed{
-u_1(t)=
+\boxed{u_1(t)=
 \frac{t^4-2t^3+2t^2+6t+9}
 {(t-3)(t+1)(t^2-3)}
 }.
@@ -173,8 +172,7 @@ The split coordinates are
 \]
 
 \[
-\boxed{
-u_2(t)=
+\boxed{u_2(t)=
 \frac{(t+3)(t^2+1)(t^2+3)}
 {4t(t-1)(t^2+2t+3)}
 }.
