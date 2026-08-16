@@ -84,16 +84,29 @@ for marker in (
     assert marker in result, marker
 
 assert ctrl['state']['CURRENT_CHECKPOINT'] == 20
-assert ctrl['checkpoint_status']['20'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
-assert ctrl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctrl['state']['ADVANCE_ALLOWED'] is False
-assert ctrl['state']['MERGE_ALLOWED'] is False
 assert ctrl['state']['NEXT_CHECKPOINT'] == 30
-assert ctrl['next_expected_command'] == 'Stage26-audit'
+c20 = ctrl['checkpoint20']
+if c20['audit_status'] == 'PENDING':
+    assert ctrl['checkpoint_status']['20'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+    assert ctrl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctrl['state']['ADVANCE_ALLOWED'] is False
+    assert ctrl['state']['MERGE_ALLOWED'] is False
+    assert ctrl['next_expected_command'] == 'Stage26-audit'
+elif c20['audit_status'] == 'PASS':
+    assert ctrl['checkpoint_status']['20'] == 'PROVED_AUDITED_PASS_AWAITING_MERGE'
+    assert ctrl['state']['AUDIT_STATUS'] == 'PASS'
+    assert ctrl['state']['ADVANCE_ALLOWED'] is True
+    assert ctrl['state']['MERGE_ALLOWED'] is True
+    assert ctrl['checkpoint_status']['30'] == 'BLOCKED_UNTIL_CHECKPOINT20_MERGE'
+    assert ctrl['next_expected_command'] == 'merge PR #1015; then Stage26-main-batch'
+    audit = text('stages/stage26/26-20/audit.md')
+    assert 'AUDIT_VERDICT=PASS' in audit
+else:
+    raise AssertionError(c20['audit_status'])
 
 print('STAGE26_20_SOURCE_CSV_JOIN=PASS')
 print('STAGE26_20_EXACT_MULTIPLICITY_BRIDGE=PASS')
 print('STAGE26_20_FINITE_PANEL=PASS')
 print('STAGE26_20_STAGE14_NUM_FIREWALL=PASS')
 print('STAGE26_20_NO_ASYMPTOTIC_PROMOTION=PASS')
-print('STAGE26_20_LIFECYCLE=PASS')
+print(f"STAGE26_20_LIFECYCLE={ctrl['checkpoint_status']['20']}")
