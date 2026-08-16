@@ -40,7 +40,6 @@ assert reg['firewalls']['independence_claim'] is False
 assert reg['firewalls']['K3_Manin_transfer'] is False
 assert reg['firewalls']['perfect_cuboid_conclusion'] == 'NONE'
 
-# Exact measure/odds algebra for representative positive rational r.
 for r in [Fraction(1,1000), Fraction(1,10), Fraction(1,1), Fraction(7,3)]:
     phi = r/(1+r)
     theta = 3*r/(1+3*r)
@@ -49,7 +48,6 @@ for r in [Fraction(1,1000), Fraction(1,10), Fraction(1,1), Fraction(7,3)]:
     assert theta == 3*phi/(1+2*phi)
     assert phi == theta/(3-2*theta)
 
-# Small-r asymptotic comparison is elementary: ratios tend to 1 and 3.
 for n in [10, 100, 1000, 10000]:
     r = Fraction(1,n)
     phi = r/(1+r)
@@ -67,19 +65,35 @@ for marker in [
     'TRUE_M3_EXPONENT_IDENTIFIED=false',
     'FINITE_PANEL_USED_AS_ASYMPTOTIC_PROOF=false',
     'PERFECT_CUBOID_CONCLUSION=NONE',
-    'NEXT_EXPECTED_COMMAND=Stage26-audit',
 ]:
     assert marker in res, marker
 
 assert ctl['state']['CURRENT_CHECKPOINT'] == 30
 assert ctl['checkpoint_status']['20'] == 'PROVED_AUDITED_PASS_MERGED'
-assert ctl['checkpoint30']['audit_status'] == 'PENDING'
-assert ctl['checkpoint30']['advance_allowed'] is False
-assert ctl['checkpoint30']['merge_allowed'] is False
-assert ctl['state']['NEXT_CHECKPOINT'] == 40
-assert ctl['next_expected_command'] == 'Stage26-audit'
+c30 = ctl['checkpoint30']
+if c30['audit_status'] == 'PENDING':
+    assert ctl['checkpoint_status']['30'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
+    assert c30['advance_allowed'] is False
+    assert c30['merge_allowed'] is False
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['next_expected_command'] == 'Stage26-audit'
+elif c30['audit_status'] == 'PASS':
+    assert ctl['checkpoint_status']['30'] in ('PROVED_AUDITED_PASS_AWAITING_MERGE','PROVED_AUDITED_PASS_MERGED')
+    assert c30['advance_allowed'] is True
+    assert c30['merge_allowed'] is True
+    assert (BASE / 'audit.md').exists()
+    assert 'AUDIT_VERDICT=PASS' in (BASE / 'audit.md').read_text(encoding='utf-8')
+    if ctl['checkpoint_status']['30'] == 'PROVED_AUDITED_PASS_AWAITING_MERGE':
+        assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+        assert ctl['state']['ADVANCE_ALLOWED'] is True
+        assert ctl['state']['MERGE_ALLOWED'] is True
+        assert ctl['state']['NEXT_CHECKPOINT'] == 40
+        assert ctl['next_expected_command'] == 'merge PR #1016; then Stage26-main-batch'
+else:
+    raise AssertionError(c30['audit_status'])
 
 print('STAGE26_30_RATIO_INPUTS=PASS')
 print('STAGE26_30_EXACT_MEASURE_ALGEBRA=PASS')
 print('STAGE26_30_LITERAL_COMPLETION_CORRIDOR=PASS')
 print('STAGE26_30_FIREWALL=PASS')
+print(f"STAGE26_30_AUDIT_STATUS={c30['audit_status']}")
