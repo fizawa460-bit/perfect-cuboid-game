@@ -1,0 +1,28 @@
+name: Stage27-19-r402a tau height support preflight
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r402a-tau-height-support
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r402a/**'
+      - 'stages/stage27/27-19-r402/audit.md'
+      - 'stages/stage27/27-controller.json'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-19-r402a-tau-height-support.yml'
+
+jobs:
+  verify-stage27-19-r402a:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify Stage27-19-r402a tau height/support route
+        run: |
+          python -m json.tool stages/stage27/27-19-r402a/tau-height-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python stages/stage27/27-19-r402a/verify_27_19_r402a.py
+          git diff --check
