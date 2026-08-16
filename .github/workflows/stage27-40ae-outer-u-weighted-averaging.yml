@@ -1,0 +1,21 @@
+name: Stage27-40ae outer-U weighted averaging
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage27/**'
+      - 'stages/stage14/final.md'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-40ae-outer-u-weighted-averaging.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage27-40ae:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-40ae outer-U weighted averaging
+        run: python stages/stage27/27-40ae/verify_27_40ae.py
