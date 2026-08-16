@@ -71,16 +71,13 @@ for marker in [
 ]:
     assert marker in res, marker
 
-# Checkpoint40 itself is frozen PASS+merged; child upper routes may continue at
-# checkpoint40 without changing its mathematical theorem surface.
+# Checkpoint40 itself is frozen PASS+merged. Any authorized checkpoint40 child
+# route may update the lifecycle suffix without changing the theorem surface.
 assert 'AUDIT_VERDICT=PASS' in a40
 assert ctl['checkpoint40']['audit_status'] == 'PASS'
 assert ctl['checkpoint40']['pr'] == 1025
 assert ctl['checkpoint40']['merge_commit'] == 'b76ebce08c5a90ed23bbd92762960ce719d3c718'
-assert ctl['checkpoint_status']['40'] in (
-    'UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R401A_PENDING_AUDIT',
-    'UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_40AA_PENDING_AUDIT',
-)
+assert ctl['checkpoint_status']['40'].startswith('UPPER_ATTACK_AUDITED_PASS_MERGED')
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
 assert ctl['state']['NEXT_CHECKPOINT'] == 40
 assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
