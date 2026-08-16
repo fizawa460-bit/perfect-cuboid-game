@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT30_SUBMITTED_PENDING_AUDIT",
+  "status": "OPEN_CHECKPOINT40_SUBMITTED_PENDING_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -13,9 +13,9 @@
   "checkpoint_status": {
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
-    "30": "DERIVED_RECEIVER_CALCULUS_SUBMITTED_PENDING_FRESH_AUDIT",
-    "40": "BLOCKED_UNTIL_CHECKPOINT30_AUDIT_PASS_MERGE",
-    "50": "BLOCKED",
+    "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
+    "40": "UPPER_ATTACK_SUBMITTED_PENDING_FRESH_AUDIT",
+    "50": "BLOCKED_UNTIL_CHECKPOINT40_AUDIT_PASS_MERGE",
     "60": "BLOCKED",
     "70": "BLOCKED"
   },
@@ -66,19 +66,11 @@
     "pr": 1023,
     "merge_commit": "ecbd182f25dcb010319789855c82477eee7077c7",
     "advance_allowed": true,
-    "merge_allowed": true,
-    "artifacts": [
-      "stages/stage27/27-20/result.md",
-      "stages/stage27/27-20/finite-panel.csv",
-      "stages/stage27/27-20/finite-registry.json",
-      "stages/stage27/27-20/verify_27_20.py",
-      "stages/stage27/27-20/audit.md",
-      ".github/workflows/stage27-20-finite-diagnostics.yml"
-    ]
+    "merge_allowed": true
   },
   "checkpoint30": {
-    "status": "DERIVED_RECEIVER_CALCULUS_SUBMITTED_PENDING_FRESH_AUDIT",
-    "evidence_level": "PROVED_DERIVED_RECEIVER_CALCULUS_CANDIDATE",
+    "status": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
+    "evidence_level": "PROVED_DERIVED_RECEIVER_CALCULUS",
     "current_beta": "1/4",
     "current_mu": "1/2",
     "global_lower_progress_gate": "beta>1/4",
@@ -89,14 +81,35 @@
     "finite_effective_exponent_as_theorem": false,
     "new_N2_exponent_proved": false,
     "true_N2_exponent_identified": false,
+    "audit_status": "PASS",
+    "audit_record": "stages/stage27/27-30/audit.md",
+    "pr": 1024,
+    "merge_commit": "cf0f2a378ca6a3338670063821efb513e0aaeb73",
+    "advance_allowed": true,
+    "merge_allowed": true
+  },
+  "checkpoint40": {
+    "status": "UPPER_ATTACK_SUBMITTED_PENDING_FRESH_AUDIT",
+    "evidence_level": "PROVED_MECHANISM_BOUNDARY_CANDIDATE_PLUS_EXACT_REOPEN_CONTRACT",
+    "current_mu": "1/2",
+    "new_mu_lt_half_proved": false,
+    "strict_sub_sqrt_upper_proved": false,
+    "half_power_horizontal_saturation_identified": true,
+    "vertical_fiber_fixed_power_bottleneck": false,
+    "local_parity_sieve_polynomial_range_fixed_power": false,
+    "mechanism_specific_negative_certificate_candidate": true,
+    "exact_reopen_contracts_materialized": true,
+    "external_same_measure_subhalf_adapter_found": false,
+    "finite_alpha_used_as_proof": false,
+    "true_N2_exponent_identified": false,
     "audit_status": "PENDING",
     "advance_allowed": false,
     "merge_allowed": false,
     "artifacts": [
-      "stages/stage27/27-30/result.md",
-      "stages/stage27/27-30/receiver-registry.json",
-      "stages/stage27/27-30/verify_27_30.py",
-      ".github/workflows/stage27-30-corridor-normalization.yml"
+      "stages/stage27/27-40/result.md",
+      "stages/stage27/27-40/upper-attack-registry.json",
+      "stages/stage27/27-40/verify_27_40.py",
+      ".github/workflows/stage27-40-upper-attack.yml"
     ]
   },
   "entry_gate": {
@@ -107,11 +120,11 @@
     "stage27_selected_by_operator": true
   },
   "state": {
-    "CURRENT_CHECKPOINT": 30,
+    "CURRENT_CHECKPOINT": 40,
     "MAIN_STATUS": "SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 40,
+    "NEXT_CHECKPOINT": 50,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
@@ -121,6 +134,8 @@
     "finite_data_as_asymptotic_proof": false,
     "M3_population_used_as_N2_lower": false,
     "fixed_prime_sieve_promoted_to_power_saving": false,
+    "growing_modulus_same_rho_promoted_to_fixed_power": false,
+    "subpolynomial_fiber_promoted_to_fixed_power": false,
     "global_lower_promoted_to_all_named_directions": false,
     "independence_product_claimed": false,
     "perfect_cuboid_conclusion": false,

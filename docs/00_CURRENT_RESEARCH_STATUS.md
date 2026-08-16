@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-30-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-40-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -25,93 +25,88 @@ STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-STAGE27_STATUS=OPEN_CHECKPOINT30_SUBMITTED_PENDING_AUDIT
+STAGE27_STATUS=OPEN_CHECKPOINT40_SUBMITTED_PENDING_AUDIT
 STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
 STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
 STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
-STAGE27_CHECKPOINT30_STATUS=DERIVED_RECEIVER_CALCULUS_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_CHECKPOINT30_STATUS=DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED_PR1024
+STAGE27_CHECKPOINT40_STATUS=UPPER_ATTACK_SUBMITTED_PENDING_FRESH_AUDIT
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
 STAGE27_FINITE_ALPHA_EFF_1M_500M=0.421237360_DIAGNOSTIC_ONLY
 STAGE27_GLOBAL_LOWER_PROGRESS_GATE=BETA_GT_1_OVER_4
 STAGE27_GLOBAL_UPPER_PROGRESS_GATE=MU_LT_1_OVER_2
-STAGE27_GLOBAL_LOWER_IMPLIES_ALL_DIRECTIONAL_LOWER=false
-STAGE27_GLOBAL_UPPER_IMPLIES_ALL_DIRECTIONAL_UPPER=true
-STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
-STAGE27_MATCHING_HALF_POWER_LOWER_PROVED=false
+STAGE27_HALF_POWER_HORIZONTAL_SATURATION_IDENTIFIED=true
+STAGE27_LOCAL_PARITY_SIEVE_FIXED_POWER_ROUTE_CLOSED=true
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
+STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
 NEXT_EXPECTED_COMMAND=Stage27-audit
 NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 ```
 
 ## Current operation
 
-Stage27 checkpoint20 hostile audit passed and PR #1023 merged at
+Stage27 checkpoint30 hostile audit passed and PR #1024 merged at
 
 ```text
-ecbd182f25dcb010319789855c82477eee7077c7
+cf0f2a378ca6a3338670063821efb513e0aaeb73
 ```
 
-Checkpoint30 does not change the theorem exponent interval. It normalizes all legal receiver consequences before the upper/lower attacks:
+Checkpoint40 attacks the current upper
 
 \[
-\boxed{B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}}.
+\boxed{N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}}
 \]
 
-For a future genuine same-measure lower theorem
+for a strict exponent improvement `mu<1/2`.
+
+The attack re-audits the active Stage14 proof chain
 
 \[
-N_2(B)\gg B^\beta,
+N_2\le E,\qquad E\ll V B^{o(1)},\qquad V\ll B^{1/2+o(1)}.
 \]
 
-Stage18/24 receives
+The vertical elliptic-fiber multiplicity is only `B^o(1)`. The fixed exponent `1/2` is supplied by the horizontal active-vertex complete-host saturation in Stage14 Proposition 3.6. Therefore reducing only divisor or elliptic fiber multiplicity cannot produce a strict fixed-power improvement.
+
+The latest Stage15-6 same-measure squareclass mechanism has exact good-split-prime acceptance
 
 \[
-\frac{N_2(B)}{M_2(B)}\gg B^{\beta-1}(\log B)^{-5},
-\qquad
-J_2(B)\gg B^\beta(\log B)^{-5}.
+1-\rho_p=4/p+O(p^{-2}),
 \]
 
-Stage23 receives
+and hence
 
 \[
-\frac{N_2(B)}{N_1(B)}\gg B^{\beta-1}(\log B)^{-3},
-\qquad
-I(B)\gg B^\beta(\log B)^{-7}.
+\prod_{p\le z,\ p\equiv1\,(4)}\rho_p=(\log z)^{-2+o(1)}.
 \]
 
-Thus a genuine global lower improvement means `beta>1/4`.
+Thus even a hypothetical polynomial prime range `z=B^A` for this same local tensor gives logarithmic, not `B^{-delta}`, thinning. Growing-modulus uniformity remains useful for an effective causal rate, but is not by itself the missing strict-sub-half theorem.
 
-For a future same-measure upper theorem
+Checkpoint40 therefore does not claim a new `mu<1/2`. It freezes the exact high-priority restart contracts:
 
-\[
-N_2(B)\ll_\varepsilon B^{\mu+\varepsilon},
-\]
+1. a fixed-power deficit on every Stage14 half-power saturation cell;
+2. an exact physical Kummer-support theorem `|S(B)|<<_epsilon B^(1/2-delta+epsilon)`;
+3. a moving genus-one global-measure adapter plus a fixed-power deficit;
+4. one of the distinct MAIN/T/S external theorem species with a same-measure fixed-power deficit or chargeable exceptional set.
 
-the corresponding survival exponent is `mu-1`; a strict whole-family sub-square-root improvement means exactly `mu<1/2`.
-
-Directional propagation is intentionally asymmetric: a global lower theorem does not automatically give the same lower in every named shared-edge chamber, while a global upper does bound all three directions because `N2,j<=N2`. Any lower improvement claimed for all Stage23 raw-overlap channels therefore needs directional hypotheses.
-
-Checkpoint20's finite `0.421237360...` slope remains diagnostic only and is not used as `beta`, `mu`, or a true exponent.
+The finite `0.421237360...` effective exponent remains diagnostic only.
 
 ```text
-TASK_ID=Stage27-30
-CHECKPOINT=30
-EVIDENCE_LEVEL=PROVED_DERIVED_RECEIVER_CALCULUS_CANDIDATE
-CURRENT_GLOBAL_BETA=1/4
+TASK_ID=Stage27-40
+CHECKPOINT=40
+EVIDENCE_LEVEL=PROVED_MECHANISM_BOUNDARY_CANDIDATE_PLUS_EXACT_REOPEN_CONTRACT
+UPPER_ATTACK_EXECUTED=true
 CURRENT_GLOBAL_MU=1/2
-GLOBAL_LOWER_PROGRESS_GATE=beta>1/4
-GLOBAL_UPPER_PROGRESS_GATE=mu<1/2
-GLOBAL_LOWER_IMPLIES_ALL_DIRECTIONAL_LOWER=false
-GLOBAL_UPPER_IMPLIES_ALL_DIRECTIONAL_UPPER=true
-FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
-NEW_N2_EXPONENT_PROVED=false
-TRUE_N2_EXPONENT_IDENTIFIED=false
+NEW_MU_LT_HALF_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
-LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
+HALF_POWER_HORIZONTAL_SATURATION_IDENTIFIED=true
+LOCAL_PARITY_SIEVE_FIXED_POWER_ROUTE_CLOSED=true
+EXACT_REOPEN_CONTRACTS_MATERIALIZED=true
+FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
+TRUE_N2_EXPONENT_IDENTIFIED=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=40
+NEXT_CHECKPOINT=50
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage27-audit
