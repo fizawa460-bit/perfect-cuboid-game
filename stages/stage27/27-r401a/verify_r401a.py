@@ -9,6 +9,7 @@ def text(rel):
     return (ROOT / rel).read_text(encoding="utf-8")
 
 result = text("stages/stage27/27-r401a/result.md")
+terminal = text("stages/stage27/27-r401a/terminal-gate-audit.md")
 registry = json.loads(text("stages/stage27/27-r401a/critical-wall-registry.json"))
 controller = json.loads(text("stages/stage27/27-controller.json"))
 stage14 = text("stages/stage14/final.md")
@@ -33,6 +34,8 @@ assert registry["off_wall"]["fixed_power_saving_proved"] is True
 assert registry["critical_wall"]["theta"] == "1/4"
 assert registry["critical_wall"]["phi_interval"] == "[1/8,1/4]"
 assert registry["critical_wall"]["existing_host_minimum_gives_deficit"] is False
+assert registry["critical_wall"]["new_discovery"] is False
+assert registry["terminal_gates"]["post_stage14_internal_crossing_found"] is False
 assert registry["checkpoint_advanced_to_50"] is False
 
 for marker in [
@@ -41,9 +44,25 @@ for marker in [
     "OFF_WALL_FIXED_POWER_SAVING_PROVED=true",
     "ALL_FOUR_COEFFICIENT_FACTORS_BALANCED=true",
     "STRICT_SUB_SQRT_UPPER_PROVED=false",
+    "CRITICAL_WALL_NEW_DISCOVERY=false",
+    "ALL_THREE_STAGE14_TERMINAL_CHAINS_AUDITED=true",
     "NEXT_EXPECTED_COMMAND=Stage27-audit",
 ]:
     assert marker in result, marker
+
+for marker in [
+    "MAIN_INTERNAL_CHAIN_EXHAUSTED=true",
+    "T_INTERNAL_CHAIN_EXHAUSTED=true",
+    "S_INTERNAL_CHAIN_EXHAUSTED=true",
+    "Stage14-X13",
+    "14-4ghH",
+    "14-tH33",
+    "14-s7-164",
+    "arXiv:2606.17487",
+    "arXiv:2602.01820",
+    "NEW_EXACT_TERMINAL_GATE_ADAPTER_FOUND=false",
+]:
+    assert marker in terminal, marker
 
 assert controller["state"]["CURRENT_CHECKPOINT"] == 40
 assert controller["checkpoint_status"]["50"] == "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE"

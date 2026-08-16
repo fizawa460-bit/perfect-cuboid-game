@@ -87,6 +87,8 @@ E_s=\max(2\theta,1-2\theta)=\frac12.
 
 Taking the minimum of existing hosts therefore gives no further gain. A strict global sub-square-root theorem is reduced to a same-measure fixed-power deficit on arbitrarily thin fixed neighborhoods of this wall.
 
+The wall itself was already isolated in Stage14-X13 and then attacked through the later MAIN/T/S chains. It is not claimed as a new Stage27 discovery. The complete supersession trace, post-Stage14 weapon check, and fresh 2026 primary-source radar are recorded in `terminal-gate-audit.md`.
+
 ## Exact next theorem contract
 
 It is sufficient to prove that some fixed \(\gamma,\delta>0\) satisfy
@@ -117,6 +119,11 @@ EXISTING_HOST_MINIMUM_IMPROVES_CRITICAL_WALL=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 NEW_MU_LT_HALF_PROVED=false
 NEXT_ROUTE_RECEIVER=FULLY_BALANCED_WALL_COMMON_CORE_ROOT_LINE_COLUMN_CORRELATION
+CRITICAL_WALL_NEW_DISCOVERY=false
+CRITICAL_WALL_PRIOR_SOURCE=Stage14-X13
+ALL_THREE_STAGE14_TERMINAL_CHAINS_AUDITED=true
+POST_STAGE14_INTERNAL_GATE_CROSSING_FOUND=false
+NEW_EXACT_TERMINAL_GATE_ADAPTER_FOUND=false
 FINITE_DATA_USED_AS_PROOF=false
 PERFECT_CUBOID_CONCLUSION=NONE
 AUDIT_STATUS=PENDING

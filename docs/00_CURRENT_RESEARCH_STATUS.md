@@ -62,6 +62,8 @@ Derived route `Stage27-r401a` keeps checkpoint40 open and localizes the current 
 
 Thus half-power saturation is confined to the fully balanced coefficient wall `theta=1/4`, where `1/8<=phi<=1/4` and all available complete hosts equal `1/2`. Checkpoint50 is deliberately blocked until this derived upper route is audited.
 
+The wall localization was already present in Stage14-X13; Stage27 does not relabel it as new. The complete later MAIN/T/S chains end respectively at a nested K-free quadratic-divisor CRT first moment, a super-Kai individual Gaussian-residue prime-density theorem, and uniform target-class domination for a witness-coupled character family. Stage15/26 supplies no compatible fixed-power crossing, and the fresh 2026 primary-source radar found no exact adapter.
+
 The attack re-audits the active Stage14 proof chain
 
 \[
@@ -104,6 +106,10 @@ STRICT_SUB_SQRT_UPPER_PROVED=false
 HALF_POWER_HORIZONTAL_SATURATION_IDENTIFIED=true
 OFF_WALL_FIXED_POWER_SAVING_PROVED=true
 CRITICAL_WALL=theta=1/4
+CRITICAL_WALL_NEW_DISCOVERY=false
+ALL_THREE_STAGE14_TERMINAL_CHAINS_AUDITED=true
+POST_STAGE14_INTERNAL_GATE_CROSSING_FOUND=false
+NEW_EXACT_TERMINAL_GATE_ADAPTER_FOUND=false
 LOCAL_PARITY_SIEVE_FIXED_POWER_ROUTE_CLOSED=true
 EXACT_REOPEN_CONTRACTS_MATERIALIZED=true
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
