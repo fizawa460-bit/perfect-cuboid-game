@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-40-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-r401a-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -25,12 +25,14 @@ STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-STAGE27_STATUS=OPEN_CHECKPOINT40_SUBMITTED_PENDING_AUDIT
+STAGE27_STATUS=OPEN_CHECKPOINT40_DERIVED_UPPER_ROUTE_PENDING_AUDIT
 STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
 STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
 STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
 STAGE27_CHECKPOINT30_STATUS=DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED_PR1024
-STAGE27_CHECKPOINT40_STATUS=UPPER_ATTACK_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_CHECKPOINT40_STATUS=UPPER_ATTACK_AUDITED_PASS_MERGED_PR1025
+STAGE27_R401A_STATUS=CRITICAL_WALL_LOCALIZATION_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_CHECKPOINT50_BLOCKED_BY_R401A=true
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
 STAGE27_FINITE_ALPHA_EFF_1M_500M=0.421237360_DIAGNOSTIC_ONLY
@@ -46,19 +48,21 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-Stage27 checkpoint30 hostile audit passed and PR #1024 merged at
+Stage27 checkpoint40 hostile audit passed and PR #1025 merged at
 
 ```text
-cf0f2a378ca6a3338670063821efb513e0aaeb73
+b76ebce08c5a90ed23bbd92762960ce719d3c718
 ```
 
-Checkpoint40 attacks the current upper
+Derived route `Stage27-r401a` keeps checkpoint40 open and localizes the current upper attack. For every fixed `0<gamma<1/16`, all Stage14 cells with `|theta-1/4|>=gamma` already satisfy
 
 \[
-\boxed{N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}}
+\boxed{N_{2,\mathrm{off}(\gamma)}(B)\ll B^{1/2-2\gamma+o(1)}}.
 \]
 
-for a strict exponent improvement `mu<1/2`.
+Thus half-power saturation is confined to the fully balanced coefficient wall `theta=1/4`, where `1/8<=phi<=1/4` and all available complete hosts equal `1/2`. Checkpoint50 is deliberately blocked until this derived upper route is audited.
+
+The wall localization was already present in Stage14-X13; Stage27 does not relabel it as new. The complete later MAIN/T/S chains end respectively at a nested K-free quadratic-divisor CRT first moment, a super-Kai individual Gaussian-residue prime-density theorem, and uniform target-class domination for a witness-coupled character family. Stage15/26 supplies no compatible fixed-power crossing, and the fresh 2026 primary-source radar found no exact adapter.
 
 The attack re-audits the active Stage14 proof chain
 
@@ -92,21 +96,27 @@ Checkpoint40 therefore does not claim a new `mu<1/2`. It freezes the exact high-
 The finite `0.421237360...` effective exponent remains diagnostic only.
 
 ```text
-TASK_ID=Stage27-40
+TASK_ID=Stage27-r401a
 CHECKPOINT=40
-EVIDENCE_LEVEL=PROVED_MECHANISM_BOUNDARY_CANDIDATE_PLUS_EXACT_REOPEN_CONTRACT
+EVIDENCE_LEVEL=PROVED_CRITICAL_WALL_LOCALIZATION_CANDIDATE
 UPPER_ATTACK_EXECUTED=true
 CURRENT_GLOBAL_MU=1/2
 NEW_MU_LT_HALF_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 HALF_POWER_HORIZONTAL_SATURATION_IDENTIFIED=true
+OFF_WALL_FIXED_POWER_SAVING_PROVED=true
+CRITICAL_WALL=theta=1/4
+CRITICAL_WALL_NEW_DISCOVERY=false
+ALL_THREE_STAGE14_TERMINAL_CHAINS_AUDITED=true
+POST_STAGE14_INTERNAL_GATE_CROSSING_FOUND=false
+NEW_EXACT_TERMINAL_GATE_ADAPTER_FOUND=false
 LOCAL_PARITY_SIEVE_FIXED_POWER_ROUTE_CLOSED=true
 EXACT_REOPEN_CONTRACTS_MATERIALIZED=true
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=50
+NEXT_CHECKPOINT=40
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage27-audit

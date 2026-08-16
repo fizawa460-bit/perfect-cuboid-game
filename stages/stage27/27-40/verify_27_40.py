@@ -93,17 +93,27 @@ assert reg['verdict']['new_mu_lt_half_proved'] is False
 assert reg['verdict']['finite_alpha_used_as_proof'] is False
 assert reg['verdict']['perfect_cuboid_conclusion'] == 'NONE'
 
-# Lifecycle submission state.
-assert ctl['checkpoint_status']['40'] == 'UPPER_ATTACK_SUBMITTED_PENDING_FRESH_AUDIT'
-assert ctl['checkpoint40']['audit_status'] == 'PENDING'
+# Historical checkpoint40 may be in its original submission state or in the
+# audited/merged state while an authorized checkpoint40 child route is active.
+assert ctl['checkpoint_status']['40'] in (
+    'UPPER_ATTACK_SUBMITTED_PENDING_FRESH_AUDIT',
+    'UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R401A_PENDING_AUDIT',
+)
 assert ctl['checkpoint40']['new_mu_lt_half_proved'] is False
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
-assert ctl['state']['NEXT_CHECKPOINT'] == 50
 assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
 assert ctl['state']['ADVANCE_ALLOWED'] is False
 assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['next_expected_command'] == 'Stage27-audit'
-assert 'CURRENT_STAGE=Stage27-40-SUBMITTED-PENDING-FRESH-AUDIT' in status
+if ctl['checkpoint40']['audit_status'] == 'PASS':
+    assert ctl['checkpoint40']['pr'] == 1025
+    assert ctl['checkpoint40']['merge_commit'] == 'b76ebce08c5a90ed23bbd92762960ce719d3c718'
+    assert ctl['state']['NEXT_CHECKPOINT'] == 40
+    assert ctl['derived_routes']['Stage27-r401a']['audit_status'] == 'PENDING'
+    assert 'CURRENT_STAGE=Stage27-r401a-SUBMITTED-PENDING-FRESH-AUDIT' in status
+else:
+    assert ctl['state']['NEXT_CHECKPOINT'] == 50
+    assert 'CURRENT_STAGE=Stage27-40-SUBMITTED-PENDING-FRESH-AUDIT' in status
 assert 'STAGE27_CHECKPOINT30_STATUS=DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED_PR1024' in status
 assert 'STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false' in status
 
