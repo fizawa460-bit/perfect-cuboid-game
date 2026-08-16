@@ -1,0 +1,22 @@
+name: Stage27-30 N2 corridor normalization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage27/27-30/**'
+      - 'stages/stage27/27-controller.json'
+      - 'stages/stage27/27-20/**'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-30-corridor-normalization.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage27-30:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27 checkpoint30 corridor normalization
+        run: python stages/stage27/27-30/verify_27_30.py
