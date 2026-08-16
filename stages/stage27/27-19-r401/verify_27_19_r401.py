@@ -53,7 +53,7 @@ for lam, q, should_cross in [
     (Fraction(1, 2), Fraction(2, 1), False),
     (Fraction(3, 4), Fraction(2, 1), True),
 ]:
-    crosses = Fraction(2, 1) + lam > Fraction(8, 1) + q >> 2
+    crosses = Fraction(2, 1) + lam > Fraction(1, 4) * (Fraction(8, 1) + q)
     assert crosses == (4 * lam > q)
     assert crosses == should_cross
 
