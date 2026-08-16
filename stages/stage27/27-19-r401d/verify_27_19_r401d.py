@@ -190,6 +190,43 @@ assert reg['lower_stop_boundary']['bounded_reentry_stop_candidate'] is True
 assert reg['lower_stop_boundary']['preferred_post_audit_lane'] == 'UPPER_REENTRY'
 assert reg['lower_stop_boundary']['lower_exponent_above_one_quarter_proved'] is False
 
+
+
+# Canonical lifecycle synchronization after first hostile audit.
+ctl = data('stages/stage27/27-controller.json')
+status = text('docs/00_CURRENT_RESEARCH_STATUS.md')
+self_audit = text('stages/stage27/27-19-r401d/audit.md')
+assert 'MATHEMATICAL_AUDIT=PASS' in self_audit
+assert 'FAIL_REASON=STALE_R401C_PENDING_STATE_AND_MISSING_R401D_CANONICAL_REGISTRATION' in self_audit
+
+pc = ctl['derived_routes']['Stage27-19-r401c']
+pd = ctl['derived_routes']['Stage27-19-r401d']
+assert pc['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
+assert pc['audit_status'] == 'PASS'
+assert pc['pr'] == 1035
+assert pc['merge_commit'] == '4ca03c43f4ff2c858c51ac8959d6e75f077c6de7'
+assert pd['status'] == 'REPAIR_SUBMITTED_PENDING_FRESH_AUDIT'
+assert pd['r501_tau_projection_degree'] == 8
+assert pd['r502_tau_projection_degree'] == 8
+assert pd['r501_toric_degree_ledger'] == 'dx2_dy2_g0_h8'
+assert pd['r502_toric_degree_ledger'] == 'dx4_dy2_g4_h8'
+assert pd['r502_degree12_to_8_polynomial_cancellation_proved'] is True
+assert pd['one_parameter_algebraic_progress_gate'] == '2dx+2dy-g<8'
+assert pd['lower_bounded_reentry_stop_candidate'] is True
+assert pd['previous_audit_verdict'] == 'FAIL'
+assert pd['mathematical_audit_status'] == 'PASS'
+assert pd['audit_status'] == 'PENDING'
+assert pd['advance_to_checkpoint50'] is False
+assert pd['merge_allowed'] is False
+assert ctl['state']['CURRENT_CHECKPOINT'] == 40
+assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+assert ctl['state']['MERGE_ALLOWED'] is False
+assert ctl['next_expected_command'] == 'Stage27-19-r401-audit'
+assert 'CURRENT_STAGE=Stage27-19-r401d-REPAIR-SUBMITTED-PENDING-FRESH-AUDIT' in status
+assert 'STAGE27_19_R401C_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1035' in status
+assert 'STAGE27_19_R401D_STATUS=R501_R502_CALIBRATION_REPAIR_SUBMITTED_PENDING_FRESH_AUDIT' in status
+assert 'STAGE27_NEXT_UPPER_ROUTE=27-40af' in status
+
 print('STAGE27_19_R401D_PARENT_AUDIT=PASS')
 print('STAGE27_19_R401D_R501_EMBEDDING=PASS')
 print('STAGE27_19_R401D_R502_EMBEDDING=PASS')

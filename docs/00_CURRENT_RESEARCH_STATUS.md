@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-19-r401c-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-19-r401d-REPAIR-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -25,7 +25,7 @@ STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_LOWER_REENTRY_R401C_PENDING_AUDIT
+STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_LOWER_REENTRY_R401D_REPAIR_PENDING_AUDIT
 STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
 STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
 STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
@@ -40,7 +40,15 @@ STAGE27_40AE_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1030
 STAGE27_19_R401_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1031
 STAGE27_19_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1032
 STAGE27_19_R401B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1033
-STAGE27_19_R401C_STATUS=AFFINE_LINEAR_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_19_R401C_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1035
+STAGE27_19_R401D_STATUS=R501_R502_CALIBRATION_REPAIR_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_R501_TAU_PROJECTION_DEGREE=8
+STAGE27_R502_TAU_PROJECTION_DEGREE=8
+STAGE27_R502_DEGREE12_TO_8_POLYNOMIAL_CANCELLATION_ACCEPTED=true
+STAGE27_ONE_PARAMETER_ALGEBRAIC_PROGRESS_GATE=2dx+2dy-g<8
+STAGE27_LOWER_BOUNDED_REENTRY_STOP_CANDIDATE=true
+STAGE27_PREFERRED_POST_AUDIT_LANE=UPPER_REENTRY
+STAGE27_NEXT_UPPER_ROUTE=27-40af
 STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
@@ -80,83 +88,41 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-Stage27-19-r401b passed hostile audit and PR #1033 merged at
+Stage27-19-r401c passed hostile audit and PR #1035 merged at
 
 ```text
-dcc04e4d778aaaa31f9abb0d39dd98117c33ddb4
+4ca03c43f4ff2c858c51ac8959d6e75f077c6de7
 ```
 
-The accepted lower-side boundary before this route is:
+Stage27-19-r401d then passed mathematical audit but failed overall only because the canonical lifecycle surfaces had not been synchronized. The mathematical calibration is retained: R501 and R502 both project to the natural `tau`-line with degree eight; R501 has toric ledger `dx2_dy2_g0_h8`, while R502 has `dx4_dy2_g4_h8` via the exact degree-four common factor `4mn(m^2+3n^2)`.
 
-- the natural `tau`-fibration has no rational section;
-- the explicit `u=0` degree-two point is nonphysical;
-- every nondegenerate constant rational `u=c` bisection is genus one;
-- the obvious genus-zero moving line `u=tau+1` is the excluded `z=1` boundary.
-
-`Stage27-19-r401c` classifies the full affine-linear ansatz
-
-\[
-\boxed{u=a\tau+b,\qquad a,b\in\mathbf Q.}
-\]
-
-After setting `S=tau V`, its exact pullback is
-
-\[
-S^2=H_{a,b}(\tau)
-=\tau A_{a,b}(\tau)Q_{a,b}(\tau),
-\]
-
-with a generic degree-six branch polynomial. Its discriminant factors exactly as
-
-\[
-\boxed{
-\operatorname{Disc}_\tau(H_{a,b})
-=1024a^6(a-b)^6(b-1)^6(b^2+1)^2
-(4a^2-4ab-1)F(a,b),
-}
-\]
-
-where
-
-\[
-\begin{aligned}
-F(a,b)={}&16a^4-32a^3b+20a^2b^2-32a^2b+44a^2\\
-&-4ab^3+32ab^2-44ab-b^2+6b-1.
-\end{aligned}
-\]
-
-Thus the generic moving affine-linear pullback is genus two. Each single rational discriminant component reduces only to a genus-one squareclass. Pairwise component analysis shows that the only rational simultaneous moving degeneration is
-
-\[
-(a,b)=(1,1),
-\]
-
-which is exactly `u=tau+1` and therefore has `z=1` identically. Hence no nondegenerate physical genus-zero member survives in the complete affine-linear ansatz.
-
-This closes the affine-linear rational-parametric shortcut only. It does not classify all nonlinear degree-two multisections, does not prove the master surface nonrational, and does not improve the lower exponent above `1/4`.
-
-The preferred next calibration is to embed the audited R501/R502 quarter-power families into the `(tau,u)` fibration before launching a larger quadratic-moving-u search. That should reveal the actual nonlinear multisection degree and physical-height growth already realized by known Stage19 families.
+This repair registers r401d canonically and keeps checkpoint40 open. It does not improve the lower exponent beyond `1/4`, does not identify the true exponent, and does not advance to checkpoint50. The bounded lower-reentry stopping rule remains a candidate pending fresh audit; if accepted, the preferred next lane is upper reentry `27-40af`.
 
 ```text
-TASK_ID=Stage27-19-r401c
+TASK_ID=Stage27-19-r401d
 CHECKPOINT=40
 ROUTE_KIND=LOWER_REENTRY
-ROUTE_LABEL=AFFINE_LINEAR_MOVING_U_CLASSIFICATION
-PARENT_R401B_AUDITED_PASS_MERGED=true
-AFFINE_LINEAR_RECEIVER_DERIVED=true
-AFFINE_LINEAR_GENERIC_GENUS=2
-AFFINE_LINEAR_DISCRIMINANT_FACTORIZATION_PROVED=true
-AFFINE_LINEAR_SINGLE_DEGENERATION_GENUS=1
-ALL_AFFINE_LINEAR_MULTISECTIONS_CLASSIFIED=true
-AFFINE_LINEAR_PHYSICAL_GENUS_ZERO_ROUTE_EXISTS=false
+PARENT_R401C_AUDITED_PASS_MERGED=true
+R501_TAU_EMBEDDING_PROVED=true
+R502_TAU_EMBEDDING_PROVED=true
+R501_TAU_PROJECTION_DEGREE=8
+R502_TAU_PROJECTION_DEGREE=8
+R501_TORIC_DEGREE_LEDGER=dx2_dy2_g0_h8
+R502_TORIC_DEGREE_LEDGER=dx4_dy2_g4_h8
+R502_DEGREE12_TO_8_POLYNOMIAL_CANCELLATION_PROVED=true
+ONE_PARAMETER_ALGEBRAIC_PROGRESS_GATE=2dx+2dy-g<8
+LOWER_BOUNDED_REENTRY_STOP_CANDIDATE=true
 LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
-STRICT_SUB_SQRT_UPPER_PROVED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
+PREVIOUS_AUDIT_VERDICT=FAIL
+MATHEMATICAL_AUDIT=PASS
+PREVIOUS_FAIL_REASON=CANONICAL_LIFECYCLE_SYNC_MISSING
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
+ADVANCE_TO_CHECKPOINT50=false
 NEXT_CHECKPOINT=40
 MERGE_ALLOWED=false
-PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_DERIVED_ROUTE=27-19-r401d
+PREFERRED_POST_AUDIT_LANE=UPPER_REENTRY
+NEXT_UPPER_ROUTE=27-40af
 NEXT_EXPECTED_COMMAND=Stage27-19-r401-audit
 ```

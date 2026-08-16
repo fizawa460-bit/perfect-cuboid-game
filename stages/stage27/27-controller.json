@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_LOWER_REENTRY_R401C_PENDING_AUDIT",
+  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_LOWER_REENTRY_R401D_REPAIR_PENDING_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -9,12 +9,20 @@
   "literal_subset_transition": true,
   "ratio_semantics": "LITERAL_SPACE_AFTER_EXACTLY_TWO_FACES_SURVIVAL",
   "primary_goal": "shrink the current N2 exponent interval and identify the true N2 growth scale if possible",
-  "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
+  "checkpoint_sequence": [
+    10,
+    20,
+    30,
+    40,
+    50,
+    60,
+    70
+  ],
   "checkpoint_status": {
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_40AA_AE_AUDITED_PASS_MERGED_AND_27_19_R401_R401A_R401B_AUDITED_PASS_MERGED_AND_R401C_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_40AA_AE_AUDITED_PASS_MERGED_AND_27_19_R401_R401A_R401B_R401C_AUDITED_PASS_MERGED_AND_R401D_REPAIR_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -44,7 +52,7 @@
     "status": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "evidence_level": "DERIVED_EXACT_FINITE",
     "terminal_N2": 3495,
-    "broad_window_alpha_eff_1m_500m": 0.421237360,
+    "broad_window_alpha_eff_1m_500m": 0.42123736,
     "finite_data_used_as_asymptotic_proof": false,
     "true_N2_exponent_identified": false,
     "audit_status": "PASS",
@@ -276,7 +284,7 @@
       "merge_allowed": true
     },
     "Stage27-19-r401c": {
-      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "INTERMEDIATE_AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_serial": "19-r401c",
       "route_kind": "LOWER_REENTRY",
@@ -292,7 +300,45 @@
       "affine_linear_physical_genus_zero_route_exists": false,
       "lower_exponent_above_one_quarter_proved": false,
       "true_N2_exponent_identified": false,
+      "audit_status": "PASS",
+      "advance_allowed": true,
+      "merge_allowed": true,
+      "audit_record": "stages/stage27/27-19-r401c/audit.md",
+      "pr": 1035,
+      "merge_commit": "4ca03c43f4ff2c858c51ac8959d6e75f077c6de7",
+      "advance_to_checkpoint50": false,
+      "continue_lower_exploration": true
+    },
+    "Stage27-19-r401d": {
+      "status": "REPAIR_SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_serial": "19-r401d",
+      "route_kind": "LOWER_REENTRY",
+      "source_stage": "Stage19",
+      "parent_route": "Stage27-19-r401c",
+      "purpose": "calibrate audited R501/R502 quarter-power families inside the natural tau-fibration and freeze a bounded lower-reentry stopping rule",
+      "r501_tau_embedding_proved": true,
+      "r502_tau_embedding_proved": true,
+      "r501_tau_projection_degree": 8,
+      "r502_tau_projection_degree": 8,
+      "r501_toric_degree_ledger": "dx2_dy2_g0_h8",
+      "r502_toric_degree_ledger": "dx4_dy2_g4_h8",
+      "r502_degree12_to_8_polynomial_cancellation_proved": true,
+      "one_parameter_algebraic_progress_gate": "2dx+2dy-g<8",
+      "lower_bounded_reentry_stop_candidate": true,
+      "reopen_lower_on": "NEW_H_LT_8_RATIONAL_CURVE_OR_STRONGER_CANCELLATION_OR_POLYNOMIALLY_THICKER_FAMILY",
+      "preferred_post_audit_lane": "UPPER_REENTRY",
+      "next_upper_route": "27-40af",
+      "lower_exponent_above_one_quarter_proved": false,
+      "true_N2_exponent_identified": false,
+      "previous_audit_verdict": "FAIL",
+      "mathematical_audit_status": "PASS",
+      "previous_fail_reason": "CANONICAL_LIFECYCLE_SYNC_MISSING",
+      "audit_record": "stages/stage27/27-19-r401d/audit.md",
       "audit_status": "PENDING",
+      "pr": 1036,
+      "advance_to_checkpoint50": false,
+      "continue_lower_exploration": false,
       "advance_allowed": false,
       "merge_allowed": false
     }
@@ -305,7 +351,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "LOWER_REENTRY_STAGE27_19_R401C_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "LOWER_REENTRY_STAGE27_19_R401D_REPAIR_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
@@ -333,7 +379,8 @@
     "global_lower_promoted_to_all_named_directions": false,
     "independence_product_claimed": false,
     "perfect_cuboid_conclusion": false,
-    "audit_pass_auto_merges": false
+    "audit_pass_auto_merges": false,
+    "r401d_calibration_promoted_to_exponent_upgrade": false
   },
   "next_expected_command": "Stage27-19-r401-audit"
 }
