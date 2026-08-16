@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-40ad-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-40ae-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -35,7 +35,8 @@ STAGE27_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1026
 STAGE27_40AA_STATUS=AUDITED_PASS_MERGED_PR1028
 STAGE27_40AB_STATUS=AUDITED_PASS_MERGED_PR1028
 STAGE27_40AC_STATUS=AUDITED_PASS_MERGED_PR1028
-STAGE27_40AD_STATUS=T_SUBPOLY_CLASS_AVERAGING_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_40AD_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1029
+STAGE27_40AE_STATUS=T_OUTER_U_WEIGHTED_AVERAGING_SUBMITTED_PENDING_FRESH_AUDIT
 STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
@@ -46,8 +47,11 @@ STAGE27_HALF_POWER_HORIZONTAL_SATURATION_IDENTIFIED=true
 STAGE27_LOCAL_PARITY_SIEVE_FIXED_POWER_ROUTE_CLOSED=true
 STAGE27_MAIN_FIXED_MOMENT_REWEIGHTING_ROUTE_CLOSED=true
 STAGE27_MAIN_SUPPORT_DEFICIT_PROVED=false
-STAGE27_T_FIXED_U_CLASS_AVERAGING_ROUTE_CLOSED_CANDIDATE=true
+STAGE27_T_FIXED_U_CLASS_AVERAGING_ROUTE_CLOSED=true
 STAGE27_T_OUTER_PHYSICAL_WEIGHTED_AVERAGING_THEOREM_PROVED=false
+STAGE27_OUTER_U_CARDINALITY_ALONE_ROUTE_CLOSED_CANDIDATE=true
+STAGE27_OUTER_U_WEIGHTED_EXCEPTIONAL_MASS_BOUND_PROVED=false
+STAGE27_OUTER_U_WEIGHTED_SECOND_MOMENT_PROVED=false
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
 STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
 NEXT_EXPECTED_COMMAND=Stage27-audit
@@ -56,42 +60,33 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-PR #1028 (`Stage27-40aa` + `27-40ab` + `27-40ac`) passed consolidated hostile audit after the Stage14 archive-path CI repair and was merged at
+Stage27-40ad passed hostile intermediate audit and PR #1029 was merged at
 
 ```text
-b60f35fcea451a53ab3dd193963d3c98066c1924
+89e1ad0203484452994621a7f92b57f0ff3d4214
 ```
 
-Checkpoint40 remains open. Checkpoint50 is not authorized because no fixed `mu<1/2` theorem has been proved.
+Its accepted boundary is that fixed-`U` Gaussian residue/projective-class averaging lives in a `B^o(1)` universe and therefore cannot provide an intermediate fixed-power rescue. The audit explicitly retained checkpoint40 and directed upper exploration toward a genuinely polynomial-size outer physical family carrying the actual packet weights.
 
-`Stage27-40ad` attacks the remaining averaged-theorem ambiguity from 40ab. Stage14-t135/t157 freezes the fixed-U ordinary Gaussian residue universe with
+`Stage27-40ae` tests that remaining averaged route against the Stage14 whole-family ledger. Stage14 already charges the primitive `(U,V)` root-line support by `B^(2phi-chi+o(1))`. Therefore the mere existence of polynomially many outer `U` values is not a second saving and cannot be multiplied into the half-power bound again.
 
-\[
-d=B^{o(1)},\qquad |R_d|\le d^2=B^{o(1)}.
-\]
-
-Therefore every residue/projective class family inside one fixed-U packet has only `B^o(1)` labels. If an averaged theorem supplied a fixed-power exceptional-class fraction
+A legal averaged crossing now requires a theorem in the actual outer physical measure, for example a fixed-power weighted exceptional-baseline bound
 
 \[
-|E_U|\le B^{-\eta+o(1)}|C_U|,
-\qquad \eta>0,
+\sum_{U\in E}M_U\ll B^{-\delta+o(1)}\sum_U M_U,
 \]
 
-then the right side tends to zero and eventually `|E_U|=0`. Such a statement is asymptotically pointwise, not an intermediate averaged substitute for the missing individual-residue theorem.
-
-Likewise, even an optimal target-class collision-energy estimate over `C_U` gains only `|C_U|^{-1}=B^{-o(1)}`, not a fixed power. A future averaged rescue must therefore range over a genuinely polynomial-size **outer physical family** and carry the actual packet weights.
+or an equivalently strong weighted second-moment/BDH statement for the exact frozen Stage14 `U`-fibers. Standard unweighted outer cardinality or generic Cauchy gains are insufficient without a theorem controlling the physical fiber weights.
 
 ```text
-TASK_ID=Stage27-40ad
+TASK_ID=Stage27-40ae
 CHECKPOINT=40
 ROUTE_KIND=UPPER_ONLY
-ROUTE_LABEL=T_SUBPOLY_CLASS_AVERAGING
-T_FIXED_U_CLASS_AVERAGING_ATTACK_EXECUTED=true
-FIXED_U_CLASS_UNIVERSE_SUBPOLYNOMIAL=true
-FIXED_POWER_EXCEPTION_FRACTION_IMPLIES_EVENTUAL_ZERO_EXCEPTIONS=true
-FIXED_U_CLASS_ENERGY_GAIN_FIXED_POWER=false
-T_AVERAGED_ROUTE_REQUIRES_POLYNOMIAL_OUTER_PHYSICAL_FAMILY=true
-OUTER_PHYSICAL_WEIGHTED_AVERAGING_THEOREM_PROVED=false
+ROUTE_LABEL=T_OUTER_U_WEIGHTED_AVERAGING
+OUTER_U_CARDINALITY_ALONE_ROUTE_CLOSED=true
+OUTER_U_DOUBLE_CHARGE_FIREWALL=true
+OUTER_PHYSICAL_WEIGHTED_EXCEPTIONAL_MASS_BOUND_PROVED=false
+OUTER_PHYSICAL_WEIGHTED_SECOND_MOMENT_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 NEW_MU_LT_HALF_PROVED=false
 AUDIT_STATUS=PENDING
