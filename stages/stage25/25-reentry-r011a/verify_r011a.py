@@ -117,10 +117,21 @@ for marker in (
     assert marker in res, marker
 assert ledger['fine_mechanism']['two_plus_two_is_independent_factorization'] is False
 assert ledger['fine_mechanism']['common_dirichlet_pole_slot_ledger_proved'] is False
-assert 'BACKFLOW_AUDIT_STATUS=PENDING' in s21
-assert 'BACKFLOW_AUDIT_STATUS=PENDING' in s22
 
-# Lifecycle-aware r011a gate.  The geometric theorem above remains immutable
+# Receiver lifecycle: initial r011a submission used PENDING labels; phase70
+# normalizes hostile-audited receivers to PASS without changing the theorem.
+if ctrl['current_phase'] <= 50:
+    assert 'BACKFLOW_AUDIT_STATUS=PENDING' in s21
+    assert 'BACKFLOW_AUDIT_STATUS=PENDING' in s22
+else:
+    for receiver in (s21, s22):
+        assert 'BACKFLOW_AUDIT_STATUS=PASS' in receiver
+        assert 'BACKFLOW_SYNCHRONIZED=true' in receiver
+        assert 'PENDING_FRESH_AUDIT' not in receiver
+    assert 'G21_LOG2_FINE_MECHANISM=CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL' in s21
+    assert 'G22_LOG4_FINE_MECHANISM=CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL' in s22
+
+# Lifecycle-aware r011a gate. The geometric theorem above remains immutable
 # after its audit/merge and while phase60+ executes.
 r11 = ctrl['r011a_submission']
 assert r11['route_id'] == 'Stage25-um-r011a'
