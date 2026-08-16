@@ -2,12 +2,12 @@
 
 TASK_ID=Stage25-u23-r003a
 REENTRY_PHASE=30
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW
 PARENT_BACKFLOW=Stage25-um-r008a
 PARENT_BACKFLOW_PR=1004
 PARENT_BACKFLOW_MERGE=11075adf8e30c73e5058790ee6ed6e2a9b6c9e2b
 
-## Main candidate
+## Main theorem
 
 Work in the canonical primitive integral-space host
 
@@ -33,7 +33,7 @@ The three contrast identities are triple-free:
 
 Thus the only obstruction to converting an individual raw pair overlap into its exactly-two receiver is the same common three-face term `A3`. No assumption on existence or nonexistence of perfect cuboids is used.
 
-## Directional Stage23 survival
+## Directional Stage23 adjacent-stratum ratio
 
 Audited phase20 plus audited r008a gives
 
@@ -49,7 +49,9 @@ Therefore, for every shared-edge chamber,
 `B^(-3/4)(log B)^(-3) <<_j N2,j(B)/N1(B)`
 `N2,j(B)/N1(B) <<_epsilon B^(-1/2+epsilon)(log B)^(-3) -> 0`.
 
-Consequently each of the three second-face channels is individually infinite/positive-power but zero-density inside the Stage17 source population.
+Consequently each of the three exactly-two target chambers is individually infinite/positive-power, while its population-size ratio to the Stage17 exactly-one stratum tends to zero.
+
+This is **not** a literal survival probability or a subset density: Stage17 `N1` and Stage19 `N2,j` are disjoint exact face-count strata. The ratio is a matched adjacent-stratum population-size comparison under the same canonical primitive integral-space host and cutoff.
 
 ## Boundary
 
@@ -58,20 +60,25 @@ This does not prove a perfect cuboid exists or does not exist. It does not bound
 A future asymptotic for any two pair overlaps can be compared directionally without controlling `A3`, because the common triple term cancels in pairwise contrasts.
 
 ```text
-EXACT_MASK_RECEIVER_IDENTITIES_PROVED_CANDIDATE=true
+EXACT_MASK_RECEIVER_IDENTITIES_PROVED=true
 COMMON_TRIPLE_CONTAMINATION=A3
 TRIPLE_FREE_PAIR_CONTRASTS=true
 DIRECTIONAL_STAGE23_LOWER=N2,j/N1>>_j B^(-3/4)(log B)^(-3)
 DIRECTIONAL_STAGE23_UPPER=N2,j/N1<<_epsilon B^(-1/2+epsilon)(log B)^(-3)
 DIRECTIONAL_STAGE23_RATIO_LIMIT=0
+DIRECTIONAL_STAGE23_RATIO_SEMANTICS=ADJACENT_STRATUM_POPULATION_SIZE_NOT_LITERAL_SURVIVAL
+LITERAL_N2J_SUBSET_OF_N1=false
 ALL_THREE_TARGET_CHAMBERS_UNBOUNDED=true
 GLOBAL_N2_EXPONENT_UPGRADED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 FINITE_DATA_USED_AS_PROOF=false
-AUDIT_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
+NEXT_REENTRY_PHASE=30
+TARGET_PHASE_AFTER_BACKFLOW=40
+QUEUED_DERIVED_ROUTE=Stage25-um-r009a
 STAGE26_ALLOWED=false
-NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
+NEXT_EXPECTED_COMMAND=merge PR #1005; then Stage25-reentry-main-batch
 ```
