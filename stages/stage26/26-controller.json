@@ -10,7 +10,7 @@
   "ratio_semantics": "MATCHED_ADJACENT_STRATUM_SIZE_RATIO_WITH_LITERAL_AT_LEAST_TWO_HOST_ADAPTER",
   "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
   "checkpoint_status": {
-    "10": "PROVED_SUBMITTED_PENDING_AUDIT",
+    "10": "PROVED_AUDITED_PASS_AWAITING_MERGE",
     "20": "PENDING",
     "30": "PENDING",
     "40": "PENDING",
@@ -19,7 +19,7 @@
     "70": "PENDING"
   },
   "checkpoint10": {
-    "status": "PROVED_SUBMITTED_PENDING_AUDIT",
+    "status": "PROVED_AUDITED_PASS_AWAITING_MERGE",
     "source_target_contract_frozen": true,
     "comparison_lattice_frozen": true,
     "literal_host_adapter_proved": true,
@@ -27,9 +27,10 @@
     "repo_reuse_preflight": "PASS",
     "exploration_evidence_complete": true,
     "discovery_audit": "PASS_BY_CODEX",
-    "mathematical_audit": "PENDING",
-    "advance_allowed": false,
-    "merge_allowed": false,
+    "mathematical_audit": "PASS",
+    "audit_record": "stages/stage26/26-10/audit.md",
+    "advance_allowed": true,
+    "merge_allowed": true,
     "artifacts": [
       "stages/stage26/26-10/result.md",
       "stages/stage26/26-10/comparison-lattice.md",
@@ -46,14 +47,14 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 10,
-    "MAIN_STATUS": "SUBMITTED",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 10,
+    "MAIN_STATUS": "AUDITED_PASS_AWAITING_MERGE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
+    "NEXT_CHECKPOINT": 20,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "safety": {
     "finite_data_as_asymptotic_proof": false,
@@ -63,5 +64,5 @@
     "perfect_cuboid_conclusion": false,
     "audit_pass_auto_merges": false
   },
-  "next_expected_command": "Stage26-audit"
+  "next_expected_command": "merge PR #1014; then Stage26-main-batch"
 }
