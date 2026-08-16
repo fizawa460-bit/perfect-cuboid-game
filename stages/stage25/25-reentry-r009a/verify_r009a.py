@@ -16,7 +16,13 @@ assert ctrl['phase30_submission']['merge_commit']=='daf84757c185df6973936d2970a6
 r9=ctrl['r009a_submission']
 assert r9['route_id']=='Stage25-um-r009a'
 assert r9['audit_status']=='PASS'
-assert ctrl['stage26_gate']['stage26_allowed'] is False
+closed=ctrl['status']=='CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY'
+assert ctrl['stage26_gate']['stage26_allowed'] is closed
+if closed:
+    assert ctrl['current_phase']==70
+    assert ctrl['phase70_submission']['audit_status']=='PASS'
+    assert ctrl['phase70_submission']['merge_commit']=='be5f7d8360b3bac2b9060cd88ede596a4fb218dc'
+    assert ctrl['next_expected_command']=='Stage26-main-batch'
 if ctrl['current_phase']==30:
     assert r9['status']=='AUDITED_PASS_AWAITING_MERGE'
     assert ctrl['phases']['40']['status']=='BLOCKED_UNTIL_R009A_AUDIT_PASS_MERGE'
@@ -33,4 +39,4 @@ assert 'A3_QUARTER_POWER_CONTROL=false' in res
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 print('STAGE25_REENTRY_R009A=PASS')
 print('STAGE25_REENTRY_R009A_LIFECYCLE=PASS')
-print('STAGE26_GATE=BLOCKED_VALID')
+print('STAGE26_GATE=LIFECYCLE_VALID')
