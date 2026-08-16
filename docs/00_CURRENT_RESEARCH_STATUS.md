@@ -20,6 +20,7 @@ STAGE25_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE25_REENTRY_STATUS=CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY
 ALL_REENTRY_PHASES_AUDITED=true
 BACKFLOW_SYNCHRONIZED=true
+STAGE26_ALLOWED=true
 STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
@@ -66,19 +67,7 @@ The broad-window finite effective exponent from one million to five hundred mill
 \alpha_{\rm eff}=0.421237360\ldots
 \]
 
-and the square-root normalization changes from
-
-\[
-N_2(10^6)/\sqrt{10^6}=0.255
-\]
-
-to
-
-\[
-N_2(5\times10^8)/\sqrt{5\times10^8}=0.156301152\ldots.
-\]
-
-The quarter-power normalization rises from `8.063808033` to `23.372473659` over the same endpoints. Directional broad-window effective exponents are approximately `0.424888256`, `0.419684576`, and `0.417519733` for canonical shared edge `a,b,c`.
+and the square-root normalization changes from `0.255000000` to `0.156301152`, while the quarter-power normalization rises from `8.063808033` to `23.372473659`. Directional broad-window effective exponents are approximately `0.424888256`, `0.419684576`, and `0.417519733`.
 
 These observations prioritize a strict sub-square-root upper attack while keeping the lower-above-quarter lane open. They are not asymptotic evidence and do not alter the proved exponent corridor.
 
