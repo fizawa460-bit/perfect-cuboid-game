@@ -83,16 +83,16 @@ for marker in (
 ):
     assert marker in result, marker
 
-assert ctrl['state']['CURRENT_CHECKPOINT'] == 20
-assert ctrl['state']['NEXT_CHECKPOINT'] == 30
 c20 = ctrl['checkpoint20']
 if c20['audit_status'] == 'PENDING':
+    assert ctrl['state']['CURRENT_CHECKPOINT'] == 20
     assert ctrl['checkpoint_status']['20'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
     assert ctrl['state']['AUDIT_STATUS'] == 'PENDING'
     assert ctrl['state']['ADVANCE_ALLOWED'] is False
     assert ctrl['state']['MERGE_ALLOWED'] is False
     assert ctrl['next_expected_command'] == 'Stage26-audit'
-elif c20['audit_status'] == 'PASS':
+elif c20['audit_status'] == 'PASS' and c20.get('merge_commit') is None:
+    assert ctrl['state']['CURRENT_CHECKPOINT'] == 20
     assert ctrl['checkpoint_status']['20'] == 'PROVED_AUDITED_PASS_AWAITING_MERGE'
     assert ctrl['state']['AUDIT_STATUS'] == 'PASS'
     assert ctrl['state']['ADVANCE_ALLOWED'] is True
@@ -101,6 +101,12 @@ elif c20['audit_status'] == 'PASS':
     assert ctrl['next_expected_command'] == 'merge PR #1015; then Stage26-main-batch'
     audit = text('stages/stage26/26-20/audit.md')
     assert 'AUDIT_VERDICT=PASS' in audit
+elif c20['audit_status'] == 'PASS' and c20.get('merge_commit'):
+    assert ctrl['checkpoint_status']['20'] == 'PROVED_AUDITED_PASS_MERGED'
+    assert c20['pr'] == 1015
+    assert c20['merge_commit'] == 'f1e2d7b718757a85f6b1d2fce25ae442b5c22a87'
+    assert ctrl['state']['CURRENT_CHECKPOINT'] >= 30
+    assert text('stages/stage26/26-20/audit.md').find('AUDIT_VERDICT=PASS') >= 0
 else:
     raise AssertionError(c20['audit_status'])
 
