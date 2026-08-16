@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R402_PENDING_AUDIT",
+  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R402A_PENDING_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -22,7 +22,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_DERIVED_ROUTES_THROUGH_R401D_AUDITED_PASS_MERGED_AND_R402_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R402_AUDITED_PASS_MERGED_AND_R402A_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -344,7 +344,7 @@
       "merge_commit": "b37bc86e045175238bf2520518b059574addc52b"
     },
     "Stage27-19-r402": {
-      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "INTERMEDIATE_AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_serial": "19-r402",
       "route_kind": "UPPER_REENTRY",
@@ -370,9 +370,45 @@
       "strict_sub_sqrt_upper_proved": false,
       "new_mu_lt_half_proved": false,
       "true_N2_exponent_identified": false,
+      "audit_status": "PASS",
+      "advance_to_checkpoint50": false,
+      "continue_upper_exploration": true,
+      "advance_allowed": true,
+      "merge_allowed": true,
+      "audit_record": "stages/stage27/27-19-r402/audit.md",
+      "pr": 1037,
+      "audit_commit": "30639268257f7aada044ed44c9897d19dc418322",
+      "merge_commit": "77dc7bc7eb29f4113d59c8255ab4b2148bd52690"
+    },
+    "Stage27-19-r402a": {
+      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_serial": "19-r402a",
+      "route_kind": "UPPER_REENTRY",
+      "source_stage": "Stage19",
+      "parent_route": "Stage27-19-r402",
+      "purpose": "quantify reduced tau height on R<=B and test whether physical-height/cardinality support counting alone gives sigma<1/2",
+      "reduced_slope_pair_height_bound_proved": true,
+      "m2_plus_n2_lt_2B": true,
+      "r2_plus_s2_lt_2B": true,
+      "tau_reduced_height_bound_proved": true,
+      "tau_reduced_height_bound": "H(tau)<2B^2",
+      "tau_rational_height_count_exponent": 4,
+      "tau_ambient_toric_count_exponent": 2,
+      "tau_support_lower_exponent": "1/4",
+      "tau_best_certified_support_upper": "1/2+epsilon",
+      "tau_support_strict_subhalf_proved": false,
+      "tau_support_exponent_identified": false,
+      "height_only_support_route_closed": true,
+      "tau_uniform_fiber_subpower_proved": false,
+      "tau_weighted_second_moment_proved": false,
+      "strict_sub_sqrt_upper_proved": false,
+      "new_mu_lt_half_proved": false,
+      "true_N2_exponent_identified": false,
       "audit_status": "PENDING",
       "advance_to_checkpoint50": false,
       "continue_upper_exploration": true,
+      "next_derived_route": "27-19-r402b",
       "advance_allowed": false,
       "merge_allowed": false
     }
@@ -385,7 +421,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R402_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R402A_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
@@ -417,7 +453,9 @@
     "r401d_calibration_promoted_to_exponent_upgrade": false,
     "tau_cardinality_alone_promoted_to_power_saving": false,
     "known_tau_support_lower_promoted_to_upper_support_bound": false,
-    "tau_fixed_u_class_obstruction_overgeneralized": false
+    "tau_fixed_u_class_obstruction_overgeneralized": false,
+    "tau_height_bound_promoted_to_strict_support_saving": false,
+    "ambient_toric_cardinality_promoted_to_survivor_support_saving": false
   },
   "next_expected_command": "Stage27-19-r402-audit"
 }
