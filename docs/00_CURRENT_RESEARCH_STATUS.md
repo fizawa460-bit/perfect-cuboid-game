@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-40aa-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-40ad-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -32,7 +32,10 @@ STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
 STAGE27_CHECKPOINT30_STATUS=DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED_PR1024
 STAGE27_CHECKPOINT40_STATUS=UPPER_ATTACK_AUDITED_PASS_MERGED_PR1025
 STAGE27_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1026
-STAGE27_40AA_STATUS=MAIN_CRT2_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_40AA_STATUS=AUDITED_PASS_MERGED_PR1028
+STAGE27_40AB_STATUS=AUDITED_PASS_MERGED_PR1028
+STAGE27_40AC_STATUS=AUDITED_PASS_MERGED_PR1028
+STAGE27_40AD_STATUS=T_SUBPOLY_CLASS_AVERAGING_SUBMITTED_PENDING_FRESH_AUDIT
 STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
@@ -41,8 +44,10 @@ STAGE27_GLOBAL_LOWER_PROGRESS_GATE=BETA_GT_1_OVER_4
 STAGE27_GLOBAL_UPPER_PROGRESS_GATE=MU_LT_1_OVER_2
 STAGE27_HALF_POWER_HORIZONTAL_SATURATION_IDENTIFIED=true
 STAGE27_LOCAL_PARITY_SIEVE_FIXED_POWER_ROUTE_CLOSED=true
-STAGE27_MAIN_FIXED_MOMENT_REWEIGHTING_ROUTE_CLOSED_CANDIDATE=true
+STAGE27_MAIN_FIXED_MOMENT_REWEIGHTING_ROUTE_CLOSED=true
 STAGE27_MAIN_SUPPORT_DEFICIT_PROVED=false
+STAGE27_T_FIXED_U_CLASS_AVERAGING_ROUTE_CLOSED_CANDIDATE=true
+STAGE27_T_OUTER_PHYSICAL_WEIGHTED_AVERAGING_THEOREM_PROVED=false
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
 STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
 NEXT_EXPECTED_COMMAND=Stage27-audit
@@ -51,70 +56,47 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-Stage27-r401a hostile intermediate audit passed and PR #1026 merged at
+PR #1028 (`Stage27-40aa` + `27-40ab` + `27-40ac`) passed consolidated hostile audit after the Stage14 archive-path CI repair and was merged at
 
 ```text
-05f460c6df069f9b6da58409bc19378920a5666f
+b60f35fcea451a53ab3dd193963d3c98066c1924
 ```
 
-Per that audit, checkpoint40 remains open and checkpoint50 is not authorized. The operator selected upper-only continuation with alphabetic derived-route numbering, starting at `Stage27-40aa`.
+Checkpoint40 remains open. Checkpoint50 is not authorized because no fixed `mu<1/2` theorem has been proved.
 
-`Stage27-40aa` attacks the highest-ranked MAIN route. Stage14's exact reciprocal witness count satisfies
-
-\[
-0\le N_{\rm rec}(u,v)\le B^{o(1)},
-\qquad
-T_{\rm rec}=\{(u,v):N_{\rm rec}(u,v)>0\}.
-\]
-
-For every fixed integer `r>=1`, with
+`Stage27-40ad` attacks the remaining averaged-theorem ambiguity from 40ab. Stage14-t135/t157 freezes the fixed-U ordinary Gaussian residue universe with
 
 \[
-S_r=\sum N_{\rm rec}(u,v)^r,
+d=B^{o(1)},\qquad |R_d|\le d^2=B^{o(1)}.
 \]
 
-the pointwise bound gives
+Therefore every residue/projective class family inside one fixed-U packet has only `B^o(1)` labels. If an averaged theorem supplied a fixed-power exceptional-class fraction
 
 \[
-\boxed{\#T_{\rm rec}\le S_r\le B^{o(1)}\#T_{\rm rec}}.
+|E_U|\le B^{-\eta+o(1)}|C_U|,
+\qquad \eta>0,
 \]
 
-Thus all fixed witness moments have the same fixed-power exponent as reciprocal support. Passing from the first moment to a second or any other fixed higher moment cannot by itself create a fixed `B^{-delta}` saving.
+then the right side tends to zero and eventually `|E_U|=0`. Such a statement is asymptotically pointwise, not an intermediate averaged substitute for the missing individual-residue theorem.
 
-The surviving MAIN target is therefore the support mass of the simultaneous nested two-level CRT system
-
-\[
-t_p,t_q\mid m^\circ,\qquad f\mid t_pt_q,
-\]
-
-\[
-G_-f^2\equiv-G_+t_pt_q\pmod{2U},
-\qquad
-G_-f^2\equiv G_+t_pt_q\pmod{2V}.
-\]
-
-A strict sub-half theorem would require a genuine same-measure fixed-power deficit in the number of critical-wall base pairs admitting such a witness, uniformly on retained principal cells or via a chargeable exceptional set. `40aa` does not prove that deficit.
-
-If hostile audit accepts this boundary, the next ranked independent upper route is `27-40ab = T-AVG-ADAPTER`; checkpoint50 remains blocked.
+Likewise, even an optimal target-class collision-energy estimate over `C_U` gains only `|C_U|^{-1}=B^{-o(1)}`, not a fixed power. A future averaged rescue must therefore range over a genuinely polynomial-size **outer physical family** and carry the actual packet weights.
 
 ```text
-TASK_ID=Stage27-40aa
+TASK_ID=Stage27-40ad
 CHECKPOINT=40
 ROUTE_KIND=UPPER_ONLY
-ROUTE_LABEL=MAIN_CRT2
-CURRENT_GLOBAL_MU=1/2
+ROUTE_LABEL=T_SUBPOLY_CLASS_AVERAGING
+T_FIXED_U_CLASS_AVERAGING_ATTACK_EXECUTED=true
+FIXED_U_CLASS_UNIVERSE_SUBPOLYNOMIAL=true
+FIXED_POWER_EXCEPTION_FRACTION_IMPLIES_EVENTUAL_ZERO_EXCEPTIONS=true
+FIXED_U_CLASS_ENERGY_GAIN_FIXED_POWER=false
+T_AVERAGED_ROUTE_REQUIRES_POLYNOMIAL_OUTER_PHYSICAL_FAMILY=true
+OUTER_PHYSICAL_WEIGHTED_AVERAGING_THEOREM_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 NEW_MU_LT_HALF_PROVED=false
-FIXED_WITNESS_MOMENT_EXPONENT_EQUIVALENCE_PROVED=true
-MAIN_FIXED_MOMENT_REWEIGHTING_ROUTE_CLOSED=true
-MAIN_SUPPORT_DEFICIT_GATE_OPEN=true
-MAIN_SUPPORT_DEFICIT_PROVED=false
-FINITE_DATA_USED_AS_PROOF=false
-TRUE_N2_EXPONENT_IDENTIFIED=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
 NEXT_CHECKPOINT=40
-NEXT_DERIVED_ROUTE=27-40ab
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage27-audit
