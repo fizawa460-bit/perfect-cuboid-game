@@ -13,11 +13,19 @@ s23=text('stages/stage23/post-stage25-r009a.md')
 assert 'AUDIT_VERDICT=PASS' in audit
 assert ctrl['phase30_submission']['pr']==1005
 assert ctrl['phase30_submission']['merge_commit']=='daf84757c185df6973936d2970a6307ab0bff62b'
-assert ctrl['r009a_submission']['route_id']=='Stage25-um-r009a'
-assert ctrl['r009a_submission']['audit_status']=='PASS'
-assert ctrl['r009a_submission']['status']=='AUDITED_PASS_AWAITING_MERGE'
-assert ctrl['phases']['40']['status']=='BLOCKED_UNTIL_R009A_AUDIT_PASS_MERGE'
+r9=ctrl['r009a_submission']
+assert r9['route_id']=='Stage25-um-r009a'
+assert r9['audit_status']=='PASS'
 assert ctrl['stage26_gate']['stage26_allowed'] is False
+if ctrl['current_phase']==30:
+    assert r9['status']=='AUDITED_PASS_AWAITING_MERGE'
+    assert ctrl['phases']['40']['status']=='BLOCKED_UNTIL_R009A_AUDIT_PASS_MERGE'
+else:
+    assert ctrl['current_phase'] in (40,50,60,70)
+    assert r9['status']=='AUDITED_PASS_MERGED'
+    assert r9['pr']==1006
+    assert r9['merge_commit']=='4eb3349ee8ec02dcabb71bd1be3a48234356606b'
+    assert not any(x['route_id']=='Stage25-um-r009a' and x['blocks_next_phase'] for x in ctrl['propagation_queue'])
 for m in ('N_{2,a}=A_{ab,ac}-A_3','N_{2,b}=A_{ab,bc}-A_3','N_{2,c}=A_{ac,bc}-A_3'):
     assert m in res or m in s17 or m in s23
 assert 'LITERAL_SURVIVAL_INTERPRETATION=false' in res
