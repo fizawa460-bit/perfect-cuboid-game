@@ -66,8 +66,8 @@ r502_audit = text("stages/stage25/25-60/audit-recheck.md")
 stage24 = text("stages/stage24/final.md")
 phase10_audit = text("stages/stage25/25-reentry-10/audit.md")
 
-# Authorization and lifecycle. The submitted artifacts remain immutable; the
-# controller may be either pending fresh audit or audited PASS awaiting merge.
+# Authorization and lifecycle. Phase20 artifacts remain immutable after audit;
+# the controller may subsequently be in the authorized r008a backflow lane.
 assert registry["task_id"] == "Stage25-u24-r002a"
 assert registry["phase"] == 20
 assert registry["authorization"]["phase10_pr"] == 1002
@@ -81,6 +81,8 @@ lifecycle = reentry["status"]
 assert lifecycle in (
     "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT",
     "PHASE20_AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW",
+    "PHASE20_BACKFLOW_SUBMITTED_PENDING_FRESH_AUDIT",
+    "PHASE20_BACKFLOW_AUDITED_PASS_AWAITING_MERGE",
 )
 if lifecycle == "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT":
     assert reentry["phases"]["20"]["status"] == "SUBMITTED_PENDING_AUDIT"
@@ -88,7 +90,7 @@ if lifecycle == "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT":
     assert reentry["phase20_submission"]["advance_allowed"] is False
     assert reentry["phase20_submission"]["merge_allowed"] is False
     assert reentry["next_expected_command"] == "Stage25-reentry-audit"
-else:
+elif lifecycle == "PHASE20_AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW":
     p20 = reentry["phase20_submission"]
     assert reentry["phases"]["20"]["status"] == "AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW"
     assert p20["audit_status"] == "PASS"
@@ -100,6 +102,29 @@ else:
     assert "AUDIT_VERDICT=PASS" in text(p20["audit_record"])
     assert reentry["phases"]["30"]["status"] == "BLOCKED_UNTIL_PHASE20_BACKFLOW"
     assert reentry["next_expected_command"] == "merge PR #1003; then Stage25-reentry-main-batch"
+else:
+    p20 = reentry["phase20_submission"]
+    assert p20["audit_status"] == "PASS"
+    assert p20["stronger_result_proved"] is True
+    assert p20["new_reusable_weapon_proved"] is True
+    assert p20["pr"] == 1003
+    assert p20["merge_commit"] == "1d88e8e3254a383620e221df8a1a1039ebeabcd4"
+    assert reentry["phases"]["20"]["status"] in (
+        "AUDITED_PASS_MERGED_BACKFLOW_PENDING_AUDIT",
+        "AUDITED_PASS_MERGED_BACKFLOW_AUDITED_PASS_AWAITING_MERGE",
+    )
+    r8 = reentry["r008a_submission"]
+    assert r8["route_id"] == "Stage25-um-r008a"
+    assert r8["parent_pr"] == 1003
+    assert r8["parent_merge_commit"] == p20["merge_commit"]
+    assert reentry["phases"]["30"]["status"] == "BLOCKED_UNTIL_R008A_AUDIT_PASS_MERGE"
+    if lifecycle == "PHASE20_BACKFLOW_SUBMITTED_PENDING_FRESH_AUDIT":
+        assert r8["audit_status"] == "PENDING"
+        assert r8["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
+        assert reentry["next_expected_command"] == "Stage25-reentry-audit"
+    else:
+        assert r8["audit_status"] == "PASS"
+        assert r8["status"] == "AUDITED_PASS_AWAITING_MERGE"
 
 # Exact R501 factor identities for the new a-cone.
 t = [Fraction(0), Fraction(1)]
@@ -162,9 +187,7 @@ assert dirs["c"]["exact_family_growth"] == "Theta(B^(1/4))"
 assert registry["global_surface"]["global_exponent_upgraded"] is False
 assert registry["scope_firewall"]["true_N2_exponent_identified"] is False
 
-# The theorem-changing backflow artifact remains a queued proposal; after PASS
-# only the controller authorization changes. The child route is not fabricated
-# as already executed.
+# The original backflow proposal is an immutable parent-submission artifact.
 assert backflow["status"] == "QUEUED_PENDING_PARENT_AUDIT"
 assert len(backflow["proposals"]) == 1
 p = backflow["proposals"][0]
@@ -178,8 +201,13 @@ assert reentry["derived_route_policy"]["next_route_serial"] == 9
 assert reentry["propagation_queue"][0]["route_id"] == "Stage25-um-r008a"
 if lifecycle == "PHASE20_SUBMITTED_PENDING_FRESH_AUDIT":
     assert reentry["propagation_queue"][0]["status"] == "QUEUED_UNTIL_PHASE20_AUDIT_PASS"
-else:
+elif lifecycle == "PHASE20_AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW":
     assert reentry["propagation_queue"][0]["status"] == "AUTHORIZED_BY_PHASE20_AUDIT_AWAITING_PARENT_MERGE"
+else:
+    assert reentry["propagation_queue"][0]["status"] in (
+        "SUBMITTED_PENDING_FRESH_AUDIT",
+        "AUDITED_PASS_AWAITING_MERGE",
+    )
 
 # Required theorem/non-theorem boundaries.
 for marker in (
@@ -196,11 +224,9 @@ assert "AR-023/024" in discovery
 assert "S25R-W20-01" in weapons and "S25R-W20-02" in weapons
 assert "NEW_REUSABLE_WEAPON_PROVED=false" in weapons
 
-# Submission status document remains historical until audited PR merge; audit
-# precedence is carried by the controller/audit record.
 for marker in (
     "STAGE25_REENTRY_CURRENT_PHASE=20",
-    "STAGE25_REENTRY_QUEUED_ROUTE=Stage25-um-r008a",
+    "STAGE25_REENTRY_ROUTE_R008A=Stage25-um-r008a",
     "STAGE26_ALLOWED=false",
 ):
     assert marker in status_doc, marker

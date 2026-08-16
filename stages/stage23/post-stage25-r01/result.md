@@ -1,57 +1,68 @@
-# Stage23 post-Stage25 R01 — positive-power backflow
+# Stage23 post-Stage25 — current positive-power backflow
 
-STATUS=AUDITED_BACKFLOW_FROM_STAGE25_CHECKPOINT50
+STATUS=SUBMITTED_BACKFLOW_R008A_PENDING_FRESH_AUDIT
 HISTORICAL_STAGE23_PASS_REVOKED=false
-SOURCE_STAGE=Stage25
-SOURCE_CHECKPOINT=50
-SOURCE_PR=984
-SOURCE_AUDIT=stages/stage25/25-50/audit.md
+ORIGINAL_SOURCE_STAGE=Stage25
+ORIGINAL_SOURCE_CHECKPOINT=50
+ORIGINAL_SOURCE_PR=984
+LATEST_SOURCE_ROUTE=Stage25-um-r008a
+LATEST_PARENT_TASK=Stage25-u24-r002a
+LATEST_SOURCE_PR=1003
+LATEST_SOURCE_MERGE_COMMIT=1d88e8e3254a383620e221df8a1a1039ebeabcd4
+LATEST_SOURCE_AUDIT=stages/stage25/25-reentry-20/audit.md
 
-Stage25 checkpoint50 upgrades the common Stage19 numerator lower to
+The current global Stage19 target lower remains
 
 \[
-N_2(B)\gg B^{1/4}.
+\boxed{N_2(B)\gg B^{1/4}}.
 \]
 
-With the audited Stage17 law
+Accordingly the global Stage23 ratio interface remains
 
 \[
-N_1(B)\sim \frac{\kappa}{24\pi}B(\log B)^3,
-\]
-
-we obtain
-
-\[
-\boxed{
-\frac{N_2(B)}{N_1(B)}\gg B^{-3/4}(\log B)^{-3}.
-}
-\]
-
-The audited upper remains
-
-\[
+\frac{N_2(B)}{N_1(B)}\gg B^{-3/4}(\log B)^{-3},
+\qquad
 \frac{N_2(B)}{N_1(B)}\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-3}.
 \]
 
-Thus Stage23 remains a zero-density transition with an infinite target, now with a positive-power target lower.
+Stage25-reentry phase20 does not change these global exponents. Its new content is that every canonical shared-edge Stage19 chamber has a quarter-power family, which strengthens all three Stage17 raw pair-overlap receiver channels.
 
-## New shared-b channel
+## All shared-edge pair-overlap channels
 
-The Stage25 family canonicalizes as `(a,b,c)=(B/g,C/g,A/g)` and guarantees faces `ab` and `bc`. Therefore
+For canonical edges `0<a<b<c`, an exactly-two-face object has one shared edge. The exact map is
+
+- shared `a` -> integral faces `ab` and `ac`;
+- shared `b` -> integral faces `ab` and `bc`;
+- shared `c` -> integral faces `ac` and `bc`.
+
+The audited phase20 directional theorem therefore gives the one-sided raw-overlap lower bounds
 
 \[
-\boxed{N_{2,b}(B)\gg B^{1/4}},
+\boxed{A_{ab,ac}(B)\gg B^{1/4}},
 \]
-
-and the corresponding Stage17 raw pair-overlap channel satisfies
 
 \[
-\boxed{A_{ab,bc}(B)\gg B^{1/4}}.
+\boxed{A_{ab,bc}(B)\gg B^{1/4}},
 \]
 
-This is distinct from the earlier C17 shared-`c` channel lower.
+\[
+\boxed{A_{ac,bc}(B)\gg B^{1/4}}.
+\]
 
-## Second-order interaction
+These are raw Stage17 overlap-measure statements. They are not literal objectwise survival probabilities and they do not provide a new directional asymptotic for the Stage17 source denominator.
+
+```text
+A_ab,ac(B)>>B^(1/4)
+A_ab,bc(B)>>B^(1/4)
+A_ac,bc(B)>>B^(1/4)
+ALL_PAIR_OVERLAP_QUARTER_POWER_LOWER_PROVED=true
+RAW_OVERLAP_IS_OBJECTWISE_SURVIVAL=false
+SHARED_A_PAIR=ab,ac
+SHARED_B_PAIR=ab,bc
+SHARED_C_PAIR=ac,bc
+```
+
+## Global second-order interaction
 
 Stage22 gives
 
@@ -59,30 +70,33 @@ Stage22 gives
 M_2/M_1\asymp B^{-1}(\log B)^4.
 \]
 
-Hence the exact cross-ratio
+Hence the exact global cross-ratio
 
 \[
 I=\frac{N_2/N_1}{M_2/M_1}
 \]
 
-obeys
+still obeys
 
 \[
 \boxed{I(B)\gg B^{1/4}(\log B)^{-7}\to\infty}.
 \]
 
-The previously unresolved second-order interaction sign is therefore positive/divergent.
+The global positive/divergent sign remains unchanged; r008a only completes the directional raw-overlap lower surface.
 
 ```text
+CURRENT_TARGET_LOWER=N2(B)>>B^(1/4)
 RATIO_LOWER=N2/N1>>B^(-3/4)(log B)^(-3)
 RATIO_UPPER=N2/N1<<_epsilon B^(-1/2+epsilon)(log B)^(-3)
 TARGET_POSITIVE_POWER_LOWER_PROVED=true
 TARGET_POSITIVE_POWER_EXPONENT=1/4
-N2_B_LOWER=N2,b(B)>>B^(1/4)
-A_AB_BC_LOWER=A_ab,bc(B)>>B^(1/4)
+ALL_PAIR_OVERLAP_QUARTER_POWER_LOWER_PROVED=true
 SECOND_ORDER_INTERACTION_SIGN=POSITIVE_DIVERGENT
 MATCHING_HALF_POWER_LOWER_BOUND_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
+GLOBAL_N2_EXPONENT_UPGRADED=false
+BACKFLOW_ROUTE=Stage25-um-r008a
+BACKFLOW_AUDIT_STATUS=PENDING
 PERFECT_CUBOID_CONCLUSION=NONE
 FINITE_DATA_USED_AS_PROOF=false
 ```

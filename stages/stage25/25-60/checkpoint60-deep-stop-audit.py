@@ -90,11 +90,27 @@ policy = read("stages/stage25/25-60/continuation-policy.md")
 require(policy, "remaining open items require genuinely new external mathematics")
 require(policy, "no repo-native attack compatible with the Stage14/15 deep-review reopen conditions remains live")
 
+# Lifecycle-aware no-bypass check. Checkpoint60 itself remains immutable; later
+# reentry is legal only after checkpoint70 audit/merge and the audited closeout.
 reentry = json.loads(read("stages/stage25/25-reentry-controller.json"))
-assert reentry["status"] == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT"
 assert reentry["starts_after"]["stage25_checkpoint"] == 70
 assert reentry["starts_after"]["audit_verdict"] == "PASS"
 assert reentry["starts_after"]["closeout_merged"] is True
+if reentry["status"] == "BLOCKED_UNTIL_STAGE25_AUDITED_CLOSEOUT":
+    assert reentry["current_phase"] is None
+else:
+    assert reentry["unlock_evidence"]["checkpoint70_audit_verdict"] == "PASS"
+    assert reentry["unlock_evidence"]["closeout_pr"] == 1000
+    assert reentry["unlock_evidence"]["closeout_merge_commit"] == "12e1cb027e3123328702393ebdb3e3687ca0a169"
+    assert reentry["unlock_evidence"]["main_stage25_closed"] is True
+    assert reentry["stage26_gate"]["stage25_main_closed"] is True
+    assert reentry["current_phase"] in (10, 20, 30, 40, 50, 60, 70)
+    if reentry["current_phase"] > 10:
+        p10 = reentry["phase10_submission"]
+        assert reentry["phases"]["10"]["status"] == "AUDITED_PASS_MERGED"
+        assert p10["audit_status"] == "PASS"
+        assert p10["pr"] == 1002
+        assert p10["merge_commit"] == "5cb7dc8792faf575c1e21fce8166f094af6d7b14"
 
 sync = read("stages/stage25/25-60/checkpoint60-deep-stop-sync.md")
 require(sync, "CHECKPOINT60_DEEP_STOP_RULE_CANDIDATE=true")

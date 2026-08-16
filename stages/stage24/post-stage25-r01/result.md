@@ -1,33 +1,25 @@
-# Stage24 post-Stage25 R01 — positive-power lower and interaction-sign backflow
+# Stage24 post-Stage25 — current positive-power and directional interaction backflow
 
-STATUS=AUDITED_BACKFLOW_FROM_STAGE25_CHECKPOINT50
+STATUS=SUBMITTED_BACKFLOW_R008A_PENDING_FRESH_AUDIT
 HISTORICAL_STAGE24_PASS_REVOKED=false
-SOURCE_STAGE=Stage25
-SOURCE_CHECKPOINT=50
-SOURCE_PR=984
-SOURCE_AUDIT=stages/stage25/25-50/audit.md
+ORIGINAL_SOURCE_STAGE=Stage25
+ORIGINAL_SOURCE_CHECKPOINT=50
+ORIGINAL_SOURCE_PR=984
+LATEST_SOURCE_ROUTE=Stage25-um-r008a
+LATEST_PARENT_TASK=Stage25-u24-r002a
+LATEST_SOURCE_PR=1003
+LATEST_SOURCE_MERGE_COMMIT=1d88e8e3254a383620e221df8a1a1039ebeabcd4
+LATEST_SOURCE_AUDIT=stages/stage25/25-reentry-20/audit.md
 
-Stage24's historical closeout remains valid at its audit time. Stage25 checkpoint50 provides a stronger later target lower:
-
-\[
-\boxed{N_2(B)\gg B^{1/4}}.
-\]
-
-Since
+Stage24's historical closeout remains valid at its audit time. The current whole-family surface remains
 
 \[
-M_2(B)\sim C_{M_2}B(\log B)^5,
+\boxed{N_2(B)\gg B^{1/4}},
+\qquad
+\boxed{M_2(B)\sim C_{M_2}B(\log B)^5},
 \]
 
-we now have
-
-\[
-\boxed{
-\frac{N_2(B)}{M_2(B)}\gg B^{-3/4}(\log B)^{-5}.
-}
-\]
-
-Together with the existing upper,
+and therefore
 
 \[
 \boxed{
@@ -39,9 +31,40 @@ B^{-1/2+\varepsilon}(\log B)^{-5}.
 }
 \]
 
-The zero-density conclusion remains unchanged.
+The global zero-density conclusion remains unchanged.
 
-## Ambient interaction sign resolved
+## All directional survival channels
+
+The audited Stage18 directional source theorem is
+
+\[
+M_{2,j}(B)\sim C_j B(\log B)^5,\qquad C_j>0,\qquad j=a,b,c.
+\]
+
+Phase20 of Stage25-reentry proved
+
+\[
+N_{2,j}(B)\gg_j B^{1/4}\qquad(j=a,b,c).
+\]
+
+Hence every canonical shared-edge chamber satisfies
+
+\[
+\boxed{
+\frac{N_{2,j}(B)}{M_{2,j}(B)}
+\gg_j B^{-3/4}(\log B)^{-5}
+\qquad(j=a,b,c).
+}
+\]
+
+This is a literal Stage18->Stage19 directional survival ratio: the source and target use the same directional exactly-two-face physical population, with the target adding only `R in Z`.
+
+```text
+N2,j/M2,j>>_j B^(-3/4)(log B)^(-5) for j=a,b,c
+ALL_DIRECTIONAL_SURVIVAL_LOWER_SYNCED=true
+```
+
+## Directional ambient interaction
 
 The audited Stage16S ambient space-survival baseline is
 
@@ -49,16 +72,27 @@ The audited Stage16S ambient space-survival baseline is
 S_0(B)\asymp B^{-1}.
 \]
 
-Therefore
+For
 
 \[
-J_2(B)=\frac{N_2(B)/M_2(B)}{S_0(B)}
-\gg B^{1/4}(\log B)^{-5}\to\infty.
+J_{2,j}(B)=\frac{N_{2,j}(B)/M_{2,j}(B)}{S_0(B)},
 \]
 
-Thus Stage24's previously unresolved global interaction sign is now rigorously positive/divergent.
+we obtain
 
-## Second-order interaction sign resolved
+\[
+\boxed{J_{2,j}(B)\gg_j B^{1/4}(\log B)^{-5}\to\infty}
+\qquad(j=a,b,c).
+\]
+
+Thus the positive/divergent interaction is now proved in every shared-edge chamber, not only globally.
+
+```text
+J2,j>>_j B^(1/4)(log B)^(-5)->infinity for j=a,b,c
+ALL_DIRECTIONAL_J2_POSITIVE_DIVERGENT=true
+```
+
+## Global second-order interaction
 
 Using
 
@@ -66,14 +100,14 @@ Using
 S_1(B)=N_1(B)/M_1(B)\asymp B^{-1}(\log B)^2,
 \]
 
-we get
+the existing global cross-ratio remains
 
 \[
 I(B)=\frac{N_2/M_2}{N_1/M_1}
 \gg B^{1/4}(\log B)^{-7}\to\infty.
 \]
 
-Thus the Stage22/23 second-order interaction sign is also positive/divergent.
+No directional analogue of this Stage21-conditioned denominator is claimed by r008a.
 
 ```text
 CURRENT_TARGET_LOWER=N2(B)>>B^(1/4)
@@ -81,11 +115,16 @@ CURRENT_SURVIVOR_RATIO_LOWER=N2/M2>>B^(-3/4)(log B)^(-5)
 STAGE24_CLASS=THIN_BUT_POSITIVE_POWER_INFINITE
 STAGE24_GLOBAL_INTERACTION_SIGN=POSITIVE_DIVERGENT
 SECOND_ORDER_INTERACTION_SIGN=POSITIVE_DIVERGENT
+ALL_DIRECTIONAL_SURVIVAL_LOWER_SYNCED=true
+ALL_DIRECTIONAL_J2_POSITIVE_DIVERGENT=true
 ZERO_DENSITY_REMAINS_PROVED=true
 MATCHING_HALF_POWER_LOWER_BOUND_PROVED=false
 STRICT_SUB_SQRT_WHOLE_FAMILY_UPPER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
 HALF_POWER_INTRINSIC_PROVED=false
+GLOBAL_N2_EXPONENT_UPGRADED=false
+BACKFLOW_ROUTE=Stage25-um-r008a
+BACKFLOW_AUDIT_STATUS=PENDING
 PERFECT_CUBOID_CONCLUSION=NONE
 FINITE_DATA_USED_AS_PROOF=false
 ```
