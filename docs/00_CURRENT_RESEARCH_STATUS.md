@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage25-reentry-70-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage26-READY
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -29,21 +29,24 @@ STAGE25_REENTRY_R011A_STATUS=AUDITED_PASS_MERGED_PR1010
 STAGE25_REENTRY_PHASE60_STATUS=AUDITED_PASS_MERGED_PR1011
 STAGE25_REENTRY_CURRENT_PHASE=70
 STAGE25_REENTRY_PHASE70_TASK=Stage25-um-r007a
-STAGE25_REENTRY_PHASE70_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STAGE25_REENTRY_PHASE70_STATUS=AUDITED_PASS_MERGED_PR1012
+STAGE25_REENTRY_STATUS=CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY
 DERIVED_ROUTE_QUEUE_HAS_UNRESOLVED_INTERNAL_ROUTE=false
 BACKFLOW_SYNCHRONIZED=true
 STAGE20_STAGE26_READY_INTERFACE=true
-ALL_REENTRY_PHASES_AUDITED=false
-STAGE26_ALLOWED=false
-NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
-NEXT_RESEARCH_PROGRAM=docs/stage25-reentry-roadmap.md
+ALL_REENTRY_PHASES_AUDITED=true
+STAGE26_ALLOWED=true
+NEXT_EXPECTED_COMMAND=Stage26-main-batch
+NEXT_RESEARCH_PROGRAM=Stage26
 ```
 
 ## Current operation
 
-Phase60 hostile audit PASS is merged as PR #1011 / `119afa00919f67bea8e3ba5515c0f9663aa9f2e2`.
+Stage25-reentry phase70 hostile audit PASS is merged as PR #1012 / `be5f7d8360b3bac2b9060cd88ede596a4fb218dc`.
 
-The accepted Stage26-ready third-face receiver is
+The bounded Stage25-reentry campaign is complete. All phases 10–70 and internal derived routes `r008a` through `r011a` are hostile-audited PASS and merged; no unresolved repo-native reentry child route remains.
+
+The accepted Stage26 entry object is the primitive canonical no-space raw shared-edge pair host under the same Euclidean cutoff. The frozen completion interface is
 
 ```text
 P_j=M2,j+M3
@@ -61,28 +64,37 @@ Theta_j/Theta_k -> C_k/C_j
 
 and the analogous global completion corridor. The true `M3` exponent remains open.
 
-Phase70 now performs final propagation synthesis. All internal derived routes `r008a` through `r011a` are audited PASS and merged; their receiver files plus the phase60 Stage18/20 receivers have been synchronized to audited status. The Stage14/15 P3 route clusters remain closed absent a genuinely new input. External/future gates are deferred rather than mislabeled as unresolved internal work.
+Stage19 remains frozen at
 
-The Stage25 arsenal is frozen for handoff with new audited promotions:
+```text
+B^(1/4) << N2(B) <<_epsilon B^(1/2+epsilon)
+N2,j(B) >>_j B^(1/4), j=a,b,c
+```
+
+with the true `N2` exponent still open.
+
+The Stage25 arsenal handed to Stage26 includes
 
 ```text
 S25-W05=RAW_PAIR_EULER_COMPLETION_ADAPTER
 S25-W06=GEOMETRIC_MANIN_TRANSITION_LEDGER
 ```
 
-Stage26 is still blocked because phase70 itself has not yet received a fresh hostile audit and merge.
+alongside the existing Stage20 weapons. The geometric Manin ledger closes the Stage21/22 log-mechanism at the geometric invariant level only; independent factorization / common Dirichlet pole-slot refinements remain optional future work.
+
+Residual Q05/Q06/Q11, R504 exceptional Prym, the true `M3` exponent, and the true `N2` exponent are future/external research gates and do not block Stage26 entry.
 
 ```text
 TASK_ID=Stage25-um-r007a
-REENTRY_RESEARCH_COMPLETE_CANDIDATE=true
+REENTRY_RESEARCH_COMPLETE=true
 DERIVED_ROUTE_QUEUE_HAS_UNRESOLVED_INTERNAL_ROUTE=false
 BACKFLOW_SYNCHRONIZED=true
 STAGE20_STAGE26_READY_INTERFACE=true
-ALL_REENTRY_PHASES_AUDITED=false
-AUDIT_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
-STAGE26_ALLOWED=false
+ALL_REENTRY_PHASES_AUDITED=true
+AUDIT_STATUS=PASS
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
+STAGE26_ALLOWED=true
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
+NEXT_EXPECTED_COMMAND=Stage26-main-batch
 ```
