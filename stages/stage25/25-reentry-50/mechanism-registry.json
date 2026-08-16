@@ -2,7 +2,7 @@
   "schema_version":1,
   "task_id":"Stage25-u21-r005a",
   "phase":50,
-  "status":"SUBMITTED_PENDING_FRESH_AUDIT",
+  "status":"AUDITED_PASS_AWAITING_MERGE_AND_DERIVED_ROUTE",
   "authorization":{
     "r010a_pr":1008,
     "r010a_merge_commit":"9d2e767697a33195e756af6b366cb6f0548494d3",
@@ -25,8 +25,10 @@
     "target_main_term":"B(log B)^3",
     "principal_sector_carries_main_term":true,
     "every_nonprincipal_effective_sector_loses_at_least_one_pole":true,
-    "net_log_surplus_relative_to_source":2,
-    "interpretation":"NET_PRINCIPAL_POLE_SURPLUS_NOT_INDIVIDUAL_FACTOR_ASSIGNMENT"
+    "net_log_power_surplus_relative_to_source":2,
+    "net_principal_pole_surplus_proved":false,
+    "source_target_common_pole_ledger_proved":false,
+    "interpretation":"NET_LOG_POWER_LOCALIZED_TO_TARGET_PRINCIPAL_SHARED_P_BULK"
   },
   "excluded_leading_causes":[
     "directional_chamber_factors",
@@ -38,21 +40,25 @@
   ],
   "open_gate":{
     "id":"G21_LOG2_FINE_MECHANISM",
-    "status":"OPEN_NARROWED_TO_SHARED_P_PRINCIPAL_POLE_ALLOCATION",
+    "status":"OPEN_NARROWED_TO_SHARED_P_PRINCIPAL_BULK_ALLOCATION",
     "H_one_log_and_L_one_log_proved":false,
     "individual_pole_slots_named":false,
-    "independent_factor_product_proved":false
+    "independent_factor_product_proved":false,
+    "source_target_common_pole_ledger_proved":false
   },
   "g22_bridge":{
     "stage21_net_log_surplus":2,
     "stage22_net_log_surplus":4,
     "two_plus_two_mechanism_proved":false,
-    "next_question":"compare Stage21 shared-P principal pole ledger with Stage22 rank-6 toric boundary/pole ledger without assuming 2+2"
+    "next_question":"compare Stage21 shared-P principal target ledger with Stage22 rank-6 toric boundary/pole ledger without assuming 2+2 and materialize a common pole ledger before pole-order subtraction"
   },
   "scope_firewall":{
     "stage21_asymptotic_changed":false,
     "g21_fine_mechanism_closed":false,
     "g22_fine_mechanism_closed":false,
     "perfect_cuboid_conclusion":"NONE"
-  }
+  },
+  "audit_status":"PASS",
+  "advance_allowed":true,
+  "merge_allowed":true
 }
