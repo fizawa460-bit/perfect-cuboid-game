@@ -1,9 +1,10 @@
 # Stage26-40 — upper-bound ledger and third-face mechanism boundary
 
-EVIDENCE_LEVEL=PROVED_DERIVED_THEOREM_CANDIDATE
+EVIDENCE_LEVEL=PROVED_DERIVED_THEOREM
 CHECKPOINT=40
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=PROVED_AUDITED_PASS_AWAITING_MERGE
 DEPENDS_ON=Stage26-30,Stage20,Stage25-reentry-60
+AUDIT_RECORD=stages/stage26/26-40/audit.md
 
 ## 1. Accepted checkpoint30 input
 
@@ -166,7 +167,7 @@ Two audited upper mechanisms coexist and must not be multiplied:
 
 The first is the stronger current asymptotic upper interface for Stage26. The second records the causal local-obstruction mechanism and independently proves thinning, but its saving is not multiplied into the Huang saving.
 
-## 6. What checkpoint40 actually closes
+## 6. What checkpoint40 closes
 
 Checkpoint40 closes the **current upper-bound ledger** at the resolution supplied by the audited Stage20 theorem:
 
@@ -194,17 +195,18 @@ CHECKPOINT=40
 UPSTREAM_CHECKPOINT30_MERGED_PR=1016
 UPSTREAM_CHECKPOINT30_MERGE_COMMIT=e5e884e37f62db78a31f09d8927be230f07b0f2f
 UPPER_FAMILY_IMPORTED_EXACTLY=true
-ENDPOINT_FREE_LITTLE_O_CANDIDATE=true
-DIRECTIONAL_LITTLE_O_CANDIDATE=true
+ENDPOINT_FREE_LITTLE_O_ACCEPTED=true
+DIRECTIONAL_LITTLE_O_ACCEPTED=true
+MECHANISM_LEDGER_ACCEPTED=true
 LOCAL_BLOCKER_AND_THIN_COVER_SAVINGS_MULTIPLIED=false
 FINITE_DATA_USED_AS_PROOF=false
 TRUE_M3_EXPONENT_IDENTIFIED=false
 K3_MANIN_TRANSFER=false
 INDEPENDENCE_CLAIM=false
 PERFECT_CUBOID_CONCLUSION=NONE
-AUDIT_STATUS=PENDING
-ADVANCE_ALLOWED=false
+AUDIT_STATUS=PASS
+ADVANCE_ALLOWED=true
 NEXT_CHECKPOINT=50
-MERGE_ALLOWED=false
-NEXT_EXPECTED_COMMAND=Stage26-audit
+MERGE_ALLOWED=true
+NEXT_EXPECTED_COMMAND=merge PR #1017; then Stage26-main-batch
 ```
