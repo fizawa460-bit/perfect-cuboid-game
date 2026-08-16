@@ -109,15 +109,12 @@ for tau, u in [(Fraction(3, 2), Fraction(7, 3)), (Fraction(5, 3), Fraction(11, 4
     y2_from_quartic = (u*u+tau+1)*q / (tau*D*D)
     assert y2_from_split == y2_from_quartic
 
-# Ordinary affine polynomial discriminant agrees with the binary-quartic
-# formula away from tau=-2, where the affine degree drops to three.
 for tau in [-5, -3, 1, 2, 3, 7]:
     assert polynomial_disc(quartic_coeffs(tau)) == 4096 * tau*tau * (tau+1)**8
 assert polynomial_disc(quartic_coeffs(-2)) == 1024
 assert polynomial_disc(quartic_coeffs(0)) == 0
 assert polynomial_disc(quartic_coeffs(-1)) == 0
 
-# Binary-quartic invariants retain the simple point at infinity at tau=-2.
 for tau in [-3, -2, 1, 2, 5]:
     a,b,c,d,e = quartic_coeffs(tau)
     I = 12*a*e - 3*b*d + c*c
@@ -166,20 +163,32 @@ assert parent['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert parent['audit_status'] == 'PASS'
 assert parent['pr'] == 1031
 assert parent['merge_commit'] == '05e8768872d69770bc02f42f3324039dab8f5e9b'
-assert child['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+assert child['status'] in ('SUBMITTED_PENDING_FRESH_AUDIT', 'INTERMEDIATE_AUDITED_PASS_MERGED')
 assert child['generic_rational_section_exists'] is False
 assert child['lower_exponent_above_one_quarter_proved'] is False
-assert child['audit_status'] == 'PENDING'
+if child['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED':
+    assert child['audit_status'] == 'PASS'
+    assert child['pr'] == 1032
+    assert child['merge_commit'] == '86b5428d42f7f4c7344bace93b067d580391d7ac'
+else:
+    assert child['audit_status'] == 'PENDING'
+
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
 assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
 assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['next_expected_command'] == 'Stage27-19-r401-audit'
-assert 'CURRENT_STAGE=Stage27-19-r401a-SUBMITTED-PENDING-FRESH-AUDIT' in status
 assert 'STAGE27_19_R401_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1031' in status
-assert 'STAGE27_19_R401A_STATUS=GENUS_ONE_TORSOR_SUBMITTED_PENDING_FRESH_AUDIT' in status
+assert (
+    'CURRENT_STAGE=Stage27-19-r401a-SUBMITTED-PENDING-FRESH-AUDIT' in status
+    or 'CURRENT_STAGE=Stage27-19-r401b-SUBMITTED-PENDING-FRESH-AUDIT' in status
+)
+assert (
+    'STAGE27_19_R401A_STATUS=GENUS_ONE_TORSOR_SUBMITTED_PENDING_FRESH_AUDIT' in status
+    or 'STAGE27_19_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1032' in status
+)
 
 print('STAGE27_19_R401A_SPLIT_FACTOR=PASS')
 print('STAGE27_19_R401A_GENUS_ONE=PASS')
 print('STAGE27_19_R401A_LOCAL_OBSTRUCTION=PASS')
 print('STAGE27_19_R401A_NO_SECTION=PASS')
-print('STAGE27_19_R401A_LIFECYCLE=PASS')
+print('STAGE27_19_R401A_SUCCESSOR_LIFECYCLE=PASS')
