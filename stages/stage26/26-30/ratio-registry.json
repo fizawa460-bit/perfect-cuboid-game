@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "stage": "Stage26",
+  "checkpoint": 30,
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "population": {
+    "source": "M2 primitive canonical exactly-two-face no-space objects under R<=B",
+    "target": "M3 primitive canonical Euler exactly-three-face no-space objects under R<=B",
+    "same_cutoff": true,
+    "same_physical_object_convention": true,
+    "exact_strata_disjoint": true
+  },
+  "ratios": {
+    "adjacent_stratum": "r=M3/M2",
+    "literal_object_completion": "Phi=M3/(M2+M3)",
+    "raw_incidence_completion": "Theta=3M3/(M2+3M3)",
+    "phi_transform": "Phi=r/(1+r)",
+    "theta_transform": "Theta=3r/(1+3r)",
+    "odds_phi": "Phi/(1-Phi)=r",
+    "odds_theta": "Theta/(1-Theta)=3r",
+    "measure_bridge": "Theta=3Phi/(1+2Phi); Phi=Theta/(3-2Theta)"
+  },
+  "inputs": {
+    "M2": "M2(B)~C_M2 B(log B)^5, C_M2>0",
+    "M3_lower": "M3(B)>>B^(1/6)",
+    "M3_upper": "M3(B)<<_eta B(log B)^(5-eta) for fixed 0<eta<1/46",
+    "finite_panel_used_as_proof": false
+  },
+  "candidate_conclusions": {
+    "r_corridor": "B^(-5/6)(log B)^(-5)<<r<<_eta(log B)^(-eta)",
+    "r_to_zero": true,
+    "phi_asymptotic_to_r": true,
+    "theta_asymptotic_to_3r": true,
+    "phi_to_zero": true,
+    "theta_to_zero": true,
+    "theta_over_phi_to_3": true,
+    "H_ge2_asymptotic": "H_ge2~M2~C_M2 B(log B)^5",
+    "P_asymptotic": "P~M2~C_M2 B(log B)^5"
+  },
+  "firewalls": {
+    "true_M3_exponent_identified": false,
+    "M3_asymptotic_claimed": false,
+    "independence_claim": false,
+    "K3_Manin_transfer": false,
+    "finite_data_as_asymptotic_proof": false,
+    "perfect_cuboid_conclusion": "NONE"
+  },
+  "audit_status": "PENDING",
+  "advance_allowed": false,
+  "next_checkpoint": 40,
+  "merge_allowed": false
+}

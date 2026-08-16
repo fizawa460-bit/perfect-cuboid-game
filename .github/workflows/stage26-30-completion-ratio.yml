@@ -1,0 +1,23 @@
+name: Stage26-30 completion ratio theorem
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage26/26-30/**'
+      - 'stages/stage26/26-controller.json'
+      - 'stages/stage26/26-20/**'
+      - 'stages/stage18/final.md'
+      - 'stages/stage20/final.md'
+      - '.github/workflows/stage26-30-completion-ratio.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage26-30:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage26 checkpoint30 completion ratio
+        run: python stages/stage26/26-30/verify_26_30.py
