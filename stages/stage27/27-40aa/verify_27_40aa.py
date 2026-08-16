@@ -21,14 +21,12 @@ s4gh = text('stages/stage14/archive/tasks/14-4gh/result.md')
 s4ghh = text('stages/stage14/archive/tasks/14-4ghH/result.md')
 status = text('docs/00_CURRENT_RESEARCH_STATUS.md')
 
-# Upstream hostile audit is PASS and the route remains checkpoint40-only.
 assert 'AUDIT_VERDICT=PASS' in r401a_audit
 assert 'ADVANCE_TO_CHECKPOINT50=false' in r401a_audit
 assert reg['upstream']['r401a_pr'] == 1026
 assert reg['upstream']['r401a_merge_commit'] == '05f460c6df069f9b6da58409bc19378920a5666f'
 assert reg['upstream']['checkpoint50_authorized'] is False
 
-# Exact Stage14 reciprocal interface is retained, not reparametrized.
 for marker in [
     't_p:=p^circ | m^circ',
     't_q:=q^circ | m^circ',
@@ -51,7 +49,6 @@ for marker in [
 ]:
     assert marker in s4ghh, marker
 
-# Fixed r preserves the B^o(1) exponent loss: r*epsilon_B -> 0.
 for r in [1, 2, 3, 7, 20]:
     vals = [r / n for n in [1000, 10000, 100000]]
     assert vals[-1] < vals[0]
@@ -78,8 +75,6 @@ for marker in [
 ]:
     assert marker in res, marker
 
-# Lifecycle and firewalls. 40aa may be the active submission or an audited,
-# merged parent while later checkpoint40 child routes remain active.
 aa = ctl['derived_routes']['Stage27-40aa']
 assert ctl['derived_routes']['Stage27-r401a']['audit_status'] == 'PASS'
 assert ctl['derived_routes']['Stage27-r401a']['merge_commit'] == '05f460c6df069f9b6da58409bc19378920a5666f'
@@ -98,10 +93,11 @@ assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
 assert ctl['state']['ADVANCE_ALLOWED'] is False
 assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['next_expected_command'] == 'Stage27-audit'
-assert (
-    'CURRENT_STAGE=Stage27-40aa-SUBMITTED-PENDING-FRESH-AUDIT' in status
-    or 'CURRENT_STAGE=Stage27-40ad-SUBMITTED-PENDING-FRESH-AUDIT' in status
-)
+
+# Successor-route aware: once 40aa is audited+merged, any later alphabetic
+# checkpoint40 child may own CURRENT_STAGE without invalidating 40aa.
+assert 'CURRENT_STAGE=Stage27-40' in status
+assert 'SUBMITTED-PENDING-FRESH-AUDIT' in status
 assert (
     'STAGE27_40AA_STATUS=MAIN_CRT2_SUBMITTED_PENDING_FRESH_AUDIT' in status
     or 'STAGE27_40AA_STATUS=AUDITED_PASS_MERGED_PR1028' in status
