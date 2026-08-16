@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-19-r402a-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-19-r402b-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -25,7 +25,7 @@ STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R402A_PENDING_AUDIT
+STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R402B_PENDING_AUDIT
 STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
 STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
 STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
@@ -43,14 +43,15 @@ STAGE27_19_R401B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1033
 STAGE27_19_R401C_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1035
 STAGE27_19_R401D_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1036
 STAGE27_19_R402_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1037
-STAGE27_19_R402A_STATUS=TAU_HEIGHT_SUPPORT_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_19_R402A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1038
+STAGE27_19_R402B_STATUS=FIXED_TAU_FIBER_SUBMITTED_PENDING_FRESH_AUDIT
 STAGE27_R501_TAU_PROJECTION_DEGREE=8
 STAGE27_R502_TAU_PROJECTION_DEGREE=8
 STAGE27_R502_DEGREE12_TO_8_POLYNOMIAL_CANCELLATION_ACCEPTED=true
 STAGE27_ONE_PARAMETER_ALGEBRAIC_PROGRESS_GATE=2dx+2dy-g<8
 STAGE27_LOWER_BOUNDED_REENTRY_STOP_ACCEPTED=true
 STAGE27_LOWER_REENTRY_STATUS=BOUNDED_STOP_ACCEPTED
-STAGE27_ACTIVE_UPPER_REENTRY=27-19-r402a
+STAGE27_ACTIVE_UPPER_REENTRY=27-19-r402b
 STAGE27_40AF_STATUS=DEFERRED_BY_OPERATOR
 STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true
 STAGE27_CURRENT_N2_LOWER=1/4
@@ -99,6 +100,13 @@ STAGE27_TAU_AMBIENT_TORIC_COUNT_EXPONENT=2
 STAGE27_TAU_BEST_CERTIFIED_SUPPORT_UPPER=1/2_PLUS_EPSILON
 STAGE27_HEIGHT_ONLY_SUPPORT_ROUTE_CLOSED=true
 STAGE27_TAU_SUPPORT_STRICT_SUBHALF_PROVED=false
+STAGE27_FIXED_TAU_AMBIENT_CONIC_DERIVED=true
+STAGE27_FIXED_TAU_STAGE19_FIBER_GENUS=1
+STAGE27_FIXED_TAU_Z_HEIGHT_BOUND=H_LT_3B
+STAGE27_FIXED_TAU_U_HEIGHT_BOUND=H_LT_5B_3_OVER_2
+STAGE27_POINTWISE_FIXED_TAU_SUBPOWER_PROVED=true
+STAGE27_POINTWISE_FIXED_TAU_UNIFORM_IN_T=false
+STAGE27_FIBER_ALONE_STRICT_SUBHALF_ROUTE_CLOSED=true
 STAGE27_TAU_UNIFORM_FIBER_SUBPOWER_PROVED=false
 STAGE27_TAU_WEIGHTED_SECOND_MOMENT_PROVED=false
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
@@ -109,45 +117,51 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-Stage27-19-r402 passed hostile audit and PR #1037 merged at
+Stage27-19-r402a passed hostile audit and PR #1038 merged at
 
 ```text
-77dc7bc7eb29f4113d59c8255ab4b2148bd52690
+e94dd7652c1c60cc32617ff00240f67734d39bed
 ```
 
-The accepted tau pushforward has polynomial realized support, but no strict support upper theorem or strict sub-square-root theorem. The next derived route `Stage27-19-r402a` quantifies reduced tau height on the exact physical cutoff.
+The reduced tau height theorem is accepted, but raw height/cardinality did not prove `sigma<1/2`. Stage27-19-r402b therefore audits fixed-tau physical fibers.
 
-For reduced positive toric representatives, the shared-edge face identities and `G<=4rs`, `G<=4mn` imply
+For reduced `tau=p/q>0`, the ambient two-face fiber is exactly
 
 ```text
-m^2+n^2 < 2B
-r^2+s^2 < 2B
-n^2 < B
-s^2 < B
+p*y^2-q*x^2=p+q
+p*n^2*(r^2-s^2)=q*s^2*(m^2+n^2).
 ```
 
-on `R<=B`. Hence for reduced `tau=p/q`,
+Adding the Stage19 integral-space condition gives the already-audited smooth genus-one fiber `C_tau`. The physical cutoff yields coarse fiber-coordinate bounds
 
 ```text
-H(tau)=max(p,q) < 2B^2.
+H(z)<3B
+H(u)<5B^(3/2).
 ```
 
-This height theorem does not yield a useful support saving: rational-height counting gives only `O(B^4)` and direct ambient toric pair counting gives only `O(B^2)`, both weaker than the inherited tautological `#T(B)<=N2(B)<<_eps B^(1/2+eps)`. Thus no `sigma<1/2` is obtained from height/cardinality alone. The audited support corridor is currently `B^(1/4) << #T(B) <<_eps B^(1/2+eps)`.
-
-The height-only support route is closed in this scoped sense. The next candidate after audit is fixed-tau physical fiber counting `27-19-r402b`.
+Therefore for every fixed rational `t>0`, standard Mordell-Weil/Neron-Tate lattice counting gives a pointwise bound
 
 ```text
-TASK_ID=Stage27-19-r402a
+w_B(t) <<_t (1+log B)^(rank(E_t(Q))/2) = B^(o_t(1)).
+```
+
+This is not uniform as `t` moves with `B`; rank and height-lattice constants may vary. No theorem upgrades it to `max_t w_B(t)=B^o(1)`. Moreover even a hypothetical uniform subpower max-fiber would only reproduce the inherited half-power bound while the best tau-support upper remains `B^(1/2+epsilon)`. Thus the fiber-alone shortcut is closed at the present support boundary; it can reopen jointly with a strict horizontal support theorem.
+
+The next r402-native object is the exact same-tau collision energy, route `27-19-r402c`.
+
+```text
+TASK_ID=Stage27-19-r402b
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY
-PARENT_R402_AUDITED_PASS_MERGED=true
-TAU_REDUCED_HEIGHT_BOUND_PROVED=true
-TAU_REDUCED_HEIGHT_BOUND=H(tau)<2B^2
-TAU_SUPPORT_LOWER_EXPONENT=1/4
-TAU_BEST_CERTIFIED_SUPPORT_UPPER=1/2_PLUS_EPSILON
-TAU_SUPPORT_STRICT_SUBHALF_PROVED=false
-HEIGHT_ONLY_SUPPORT_ROUTE_CLOSED=true
+PARENT_R402A_AUDITED_PASS_MERGED=true
+FIXED_TAU_AMBIENT_CONIC_DERIVED=true
+FIXED_TAU_STAGE19_FIBER_GENUS=1
+FIXED_TAU_Z_HEIGHT_BOUND=H(z)<3B
+FIXED_TAU_U_HEIGHT_BOUND=H(u)<5B^(3/2)
+POINTWISE_FIXED_TAU_SUBPOWER_PROVED=true
+POINTWISE_FIXED_TAU_UNIFORM_IN_T=false
 TAU_UNIFORM_FIBER_SUBPOWER_PROVED=false
+FIBER_ALONE_STRICT_SUBHALF_ROUTE_CLOSED=true
 TAU_WEIGHTED_SECOND_MOMENT_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
@@ -156,6 +170,6 @@ ADVANCE_ALLOWED=false
 ADVANCE_TO_CHECKPOINT50=false
 NEXT_CHECKPOINT=40
 MERGE_ALLOWED=false
-NEXT_DERIVED_ROUTE=27-19-r402b
+NEXT_DERIVED_ROUTE=27-19-r402c
 NEXT_EXPECTED_COMMAND=Stage27-19-r402-audit
 ```
