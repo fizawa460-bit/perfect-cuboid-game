@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage25-reentry-r010a-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage25-reentry-50-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -9,11 +9,11 @@ STAGE15_STATUS=CLOSED_R02_REVIEW_FROZEN
 STAGE16_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R009A_AUXILIARY_MASK_RECEIVER
-STAGE18_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_PENDING_BACKFLOW
+STAGE18_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_BACKFLOW
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS_WITH_POST_STAGE25_DIRECTIONAL_SUPERSESSION
-STAGE20_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_PENDING_RELATIVE_RECEIVER
-STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950
-STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957_WITH_R010A_PENDING_DIRECTIONAL_RECEIVER
+STAGE20_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_RELATIVE_RECEIVER
+STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950_PHASE50_REATTACK_ACTIVE
+STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957_WITH_R010A_DIRECTIONAL_RECEIVER_G22_FINE_GATE_OPEN
 STAGE23_STATUS=CLOSED_AUDIT_PASS_MERGED_PR966_WITH_R008A_R009A_BACKFLOW
 STAGE24_STATUS=CLOSED_AUDIT_PASS_MERGED_PR979_WITH_DIRECTIONAL_BACKFLOW
 STAGE25_STATUS=CLOSED_R01_AUDIT_PASS
@@ -22,11 +22,13 @@ STAGE25_REENTRY_PHASE20_STATUS=AUDITED_PASS_MERGED
 STAGE25_REENTRY_R008A_STATUS=AUDITED_PASS_MERGED_PR1004
 STAGE25_REENTRY_PHASE30_STATUS=AUDITED_PASS_MERGED
 STAGE25_REENTRY_R009A_STATUS=AUDITED_PASS_MERGED_PR1006
-STAGE25_REENTRY_PHASE40_STATUS=AUDITED_PASS_MERGED_PR1007
-STAGE25_REENTRY_CURRENT_PHASE=40
-STAGE25_REENTRY_CURRENT_ROUTE=Stage25-um-r010a
-STAGE25_REENTRY_R010A_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
-STAGE25_REENTRY_PHASE50_ALLOWED=false
+STAGE25_REENTRY_PHASE40_STATUS=AUDITED_PASS_MERGED
+STAGE25_REENTRY_R010A_STATUS=AUDITED_PASS_MERGED_PR1008
+STAGE25_REENTRY_CURRENT_PHASE=50
+STAGE25_REENTRY_PHASE50_TASK=Stage25-u21-r005a
+STAGE25_REENTRY_PHASE50_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STAGE25_REENTRY_QUEUED_ROUTE=Stage25-um-r011a
+STAGE25_REENTRY_PHASE60_ALLOWED=false
 STAGE26_ALLOWED=false
 NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
 NEXT_RESEARCH_PROGRAM=docs/stage25-reentry-roadmap.md
@@ -34,46 +36,53 @@ NEXT_RESEARCH_PROGRAM=docs/stage25-reentry-roadmap.md
 
 ## Current operation
 
-Phase40 `Stage25-u22-r004a` is hostile-audited and merged as PR #1007. Its theorem-changing receiver synchronization `Stage25-um-r010a` is now submitted for fresh audit.
+Phase40 and its receiver synchronization r010a are hostile-audited and merged. Phase50 reattacks the Stage16 -> Stage17 one-face space transition in order to resolve as much as possible of the two-log interaction mechanism and feed that mechanism back into the still-open Stage22 four-log gate.
 
-The accepted phase40 theorem gives, for each canonical shared edge `j=a,b,c`,
+The matched laws are
 
-`P_j=M2,j+M3` exactly,
+`M1(B)~3/(4*pi^2) B^2 log B`,
 
-`M2,j(B)~C_j B(log B)^5`, `C_j>0`,
+`N1(B)~kappa/(24*pi) B(log B)^3`,
 
-`M3/M2,j<<_(j,eta)(log B)^(-eta)->0` for every fixed `eta<1/46`,
+`NSall(B)/U(B)~[9*zeta(3)/(8*pi*G)]/B`.
 
-and therefore
+Hence the intrinsic space cost is `B^-1`, while prior one-face conditioning contributes the positive interaction enhancement
 
-`P_j(B)~C_j B(log B)^5`,
+`J1(B)~[4*kappa*pi^2*G/(81*zeta(3))](log B)^2`.
 
-`M2,j/P_j->1`,
+AR-038 gives the exact shared-P assembly
 
-`M2,j/M1~(4*pi^2*C_j/3)(log B)^4/B->0`.
+`C_raw(B)=2 sum_{P<=B} H(P)L_B(P)`,
 
-The r010a receiver propagates these facts to Stage18, Stage20, and Stage22 without changing the frozen global `M2` or `M3` theorems.
+and Stage13 R07 proves the same target bulk is carried by the full principal multiplicative sector while every nonprincipal effective sector loses at least one pole. Consequently phase50 localizes the net `+2` logarithmic enhancement to the principal shared-P bulk.
 
-The fine-mechanism gate remains live but is narrower:
+This is deliberately weaker than an independent-factor decomposition:
+
+```text
+LOG2_NET_PRINCIPAL_POLE_SURPLUS=2
+LOG2_LOCALIZED_TO_SHARED_P_PRINCIPAL_BULK=true
+H_AND_L_ONE_LOG_EACH_PROVED=false
+TWO_INDEPENDENT_LOG_FACTORS_PROVED=false
+INDIVIDUAL_POLE_SLOTS_NAMED=false
+G21_LOG2_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_P_PRINCIPAL_POLE_ALLOCATION
+```
+
+The main downstream payoff is a direct attack on the still-open Stage22 gate:
 
 ```text
 G22_LOG4_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM
-LOG4_DIRECTIONAL_ROBUSTNESS=true
-LOG4_IS_DIRECTIONAL_AVERAGING_ARTIFACT=false
-THIRD_FACE_EXCLUSION_IS_LOG4_CAUSE=false
-COMMON_CANONICAL_PRIMITIVE_CUTOFF_INTERFACE_IS_NEW_LOG4_CAUSE=false
-LIVE_FINE_MECHANISM_LOCUS=ONE_FACE_VS_SHARED_EDGE_DOUBLE_PYTHAGOREAN_RANK6_TORIC_INTERNAL_COUNTING
-FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false
+NEXT_COMPARATIVE_ATTACK=Stage25-um-r011a
+R011A_QUESTION=compare Stage21 +2 principal shared-P pole surplus with Stage22 +4 rank-6 toric boundary/pole ledger without assuming a 2+2 split
 ```
 
-So the next genuine fine-mechanism attack must occur inside the shared-edge/torsor/toric counting architecture rather than by recharging the third-face mask or directional aggregation.
+No `2+2` mechanism is claimed. It is now a precise hypothesis to test rather than a numerical analogy.
 
 ```text
-ROUTE_ID=Stage25-um-r010a
+TASK_ID=Stage25-u21-r005a
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
 MERGE_ALLOWED=false
-STAGE25_REENTRY_PHASE50_ALLOWED=false
+STAGE25_REENTRY_PHASE60_ALLOWED=false
 STAGE26_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
