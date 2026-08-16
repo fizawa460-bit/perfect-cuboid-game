@@ -11,9 +11,9 @@
   "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS_MERGED",
-    "20": "PROVED_AUDITED_PASS_AWAITING_MERGE",
-    "30": "BLOCKED_UNTIL_CHECKPOINT20_MERGE",
-    "40": "PENDING",
+    "20": "PROVED_AUDITED_PASS_MERGED",
+    "30": "PROVED_SUBMITTED_PENDING_AUDIT",
+    "40": "BLOCKED_UNTIL_CHECKPOINT30_AUDIT_MERGE",
     "50": "PENDING",
     "60": "PENDING",
     "70": "PENDING"
@@ -40,7 +40,7 @@
     ]
   },
   "checkpoint20": {
-    "status": "PROVED_AUDITED_PASS_AWAITING_MERGE",
+    "status": "PROVED_AUDITED_PASS_MERGED",
     "evidence_level": "DERIVED_EXACT_FINITE",
     "matched_finite_baseline": true,
     "source_csv_join_exact": true,
@@ -55,12 +55,35 @@
     "advance_allowed": true,
     "merge_allowed": true,
     "pr": 1015,
+    "merge_commit": "f1e2d7b718757a85f6b1d2fce25ae442b5c22a87",
     "artifacts": [
       "stages/stage26/26-20/result.md",
       "stages/stage26/26-20/finite-panel.csv",
       "stages/stage26/26-20/finite-registry.json",
       "stages/stage26/26-20/verify_26_20.py",
       ".github/workflows/stage26-20-finite-baseline.yml"
+    ]
+  },
+  "checkpoint30": {
+    "status": "PROVED_SUBMITTED_PENDING_AUDIT",
+    "evidence_level": "PROVED_DERIVED_THEOREM_CANDIDATE",
+    "adjacent_stratum_ratio_corridor": true,
+    "literal_object_completion_corridor": true,
+    "raw_incidence_completion_corridor": true,
+    "literal_object_completion_to_zero": true,
+    "raw_incidence_completion_to_zero": true,
+    "theta_over_phi_to_three": true,
+    "at_least_two_host_asymptotic": true,
+    "finite_data_as_asymptotic_proof": false,
+    "true_M3_exponent_identified": false,
+    "audit_status": "PENDING",
+    "advance_allowed": false,
+    "merge_allowed": false,
+    "artifacts": [
+      "stages/stage26/26-30/result.md",
+      "stages/stage26/26-30/ratio-registry.json",
+      "stages/stage26/26-30/verify_26_30.py",
+      ".github/workflows/stage26-30-completion-ratio.yml"
     ]
   },
   "entry_gate": {
@@ -72,15 +95,15 @@
     "evidence": "stages/stage25/25-reentry-70/stage26-handoff.md"
   },
   "state": {
-    "CURRENT_CHECKPOINT": 20,
-    "MAIN_STATUS": "AUDITED_PASS_AWAITING_MERGE",
-    "AUDIT_STATUS": "PASS",
-    "ADVANCE_ALLOWED": true,
-    "NEXT_CHECKPOINT": 30,
+    "CURRENT_CHECKPOINT": 30,
+    "MAIN_STATUS": "SUBMITTED_PENDING_FRESH_AUDIT",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": true
+    "MERGE_ALLOWED": false
   },
   "safety": {
     "finite_data_as_asymptotic_proof": false,
@@ -90,5 +113,5 @@
     "perfect_cuboid_conclusion": false,
     "audit_pass_auto_merges": false
   },
-  "next_expected_command": "merge PR #1015; then Stage26-main-batch"
+  "next_expected_command": "Stage26-audit"
 }
