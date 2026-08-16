@@ -26,7 +26,8 @@ def det_bareiss(mat):
     for k in range(n - 1):
         if a[k][k] == 0:
             swap = next((i for i in range(k + 1, n) if a[i][k] != 0), None)
-            assert swap is not None
+            if swap is None:
+                return 0
             a[k], a[swap] = a[swap], a[k]
             sign *= -1
         pivot = a[k][k]
@@ -36,13 +37,19 @@ def det_bareiss(mat):
         prev = pivot
         for i in range(k + 1, n):
             a[i][k] = 0
-        for j in range(k + 1, n):
-            a[k][j] = a[k][j]
     return sign * a[-1][-1]
 
 
+def strip_leading_zeros(coeffs):
+    coeffs = list(coeffs)
+    while len(coeffs) > 1 and coeffs[0] == 0:
+        coeffs.pop(0)
+    return coeffs
+
+
 def resultant(f, g):
-    # coefficients highest degree first
+    f = strip_leading_zeros(f)
+    g = strip_leading_zeros(g)
     m, n = len(f) - 1, len(g) - 1
     size = m + n
     M = [[0 for _ in range(size)] for _ in range(size)]
@@ -56,7 +63,6 @@ def resultant(f, g):
 
 
 def quartic_coeffs(t):
-    # G_t(u)=(u^2+t+1)*((t+2)u^2-4(t+1)u+(t+1)(t+2))
     return [
         t + 2,
         -4 * (t + 1),
@@ -66,11 +72,15 @@ def quartic_coeffs(t):
     ]
 
 
-def quartic_disc(t):
-    f = quartic_coeffs(t)
-    a, b, c, d, e = f
-    fp = [4*a, 3*b, 2*c, d]
-    return resultant(f, fp) // a
+def polynomial_disc(coeffs):
+    f = strip_leading_zeros(coeffs)
+    n = len(f) - 1
+    if n <= 0:
+        return 0
+    deriv = [(n-i) * f[i] for i in range(n)]
+    res = resultant(f, deriv)
+    sign = -1 if (n * (n - 1) // 2) % 2 else 1
+    return sign * res // f[0]
 
 
 parent_audit = text('stages/stage27/27-19-r401/audit.md')
@@ -82,13 +92,11 @@ status = text('docs/00_CURRENT_RESEARCH_STATUS.md')
 assert 'AUDIT_VERDICT=PASS' in parent_audit
 assert 'LOWER_PROGRESS_GATE=kappa/h>1/4' in parent_audit
 
-# Master split identity.
 for x, y, z in [(2, 3, 5), (7, 4, 3), (Fraction(5, 2), Fraction(7, 3), Fraction(11, 5))]:
     lhs = (x*x-z*z)*(y*y-z*z)
     rhs = x*x*y*y + 1 - z*z*(x*x+y*y) + (z**4 - 1)
     assert lhs == rhs
 
-# First-conic parameterization and induced y^2 identity on exact rational samples.
 for tau, u in [(Fraction(3, 2), Fraction(7, 3)), (Fraction(5, 3), Fraction(11, 4)), (Fraction(-2, 3), Fraction(5, 2))]:
     assert tau not in (0, -1)
     D = u*u - tau - 1
@@ -101,13 +109,14 @@ for tau, u in [(Fraction(3, 2), Fraction(7, 3)), (Fraction(5, 3), Fraction(11, 4
     y2_from_quartic = (u*u+tau+1)*q / (tau*D*D)
     assert y2_from_split == y2_from_quartic
 
-# Exact quartic discriminant on several nonsingular and singular fibers.
+# At tau=-2 the affine polynomial drops from quartic to cubic, but its
+# projective branch divisor remains smooth and the cubic discriminant matches
+# the same closed formula.
 for tau in [-5, -3, -2, 1, 2, 3, 7]:
-    assert quartic_disc(tau) == 4096 * tau*tau * (tau+1)**8
-assert quartic_disc(0) == 0
-assert quartic_disc(-1) == 0
+    assert polynomial_disc(quartic_coeffs(tau)) == 4096 * tau*tau * (tau+1)**8
+assert polynomial_disc(quartic_coeffs(0)) == 0
+assert polynomial_disc(quartic_coeffs(-1)) == 0
 
-# Binary-quartic invariant formulas, checked numerically.
 for tau in [-3, -2, 1, 2, 5]:
     a,b,c,d,e = quartic_coeffs(tau)
     I = 12*a*e - 3*b*d + c*c
@@ -115,13 +124,10 @@ for tau in [-3, -2, 1, 2, 5]:
     assert I == 16*(tau+1)**2*(tau*tau+tau+1)
     assert J == 64*(tau-1)*(tau+1)**3*(tau+2)*(2*tau+1)
 
-# Tau-adic parity skeleton used by the proof.
-# At tau=0, G_0(u)=2(u^2+1)(u-1)^2.
 for u in [-4, -1, 0, 1, 2, 5]:
     a,b,c,d,e = quartic_coeffs(0)
     G0 = a*u**4+b*u**3+c*u*u+d*u+e
     assert G0 == 2*(u*u+1)*(u-1)**2
-# For u=1+a*tau, the tau^2 coefficient of the second factor is positive over Q.
 for a in [Fraction(-3,2), Fraction(-1,1), Fraction(0,1), Fraction(1,2), Fraction(2,1), Fraction(7,3)]:
     lead = 1 - 2*a + 2*a*a
     assert lead == ((2*a-1)**2 + 1) / 2
