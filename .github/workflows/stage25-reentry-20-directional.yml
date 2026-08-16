@@ -1,0 +1,20 @@
+name: Stage25 reentry phase20 directional audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-reentry-20/**'
+      - 'stages/stage25/25-reentry-controller.json'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage25-reentry-20-directional.yml'
+
+jobs:
+  verify-directional-quarter-power:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage25 reentry phase20 directional theorem candidate
+        run: python stages/stage25/25-reentry-20/verify_phase20.py
