@@ -109,20 +109,22 @@ for tau, u in [(Fraction(3, 2), Fraction(7, 3)), (Fraction(5, 3), Fraction(11, 4
     y2_from_quartic = (u*u+tau+1)*q / (tau*D*D)
     assert y2_from_split == y2_from_quartic
 
-# At tau=-2 the affine polynomial drops from quartic to cubic, but its
-# projective branch divisor remains smooth and the cubic discriminant matches
-# the same closed formula.
-for tau in [-5, -3, -2, 1, 2, 3, 7]:
+# Ordinary affine polynomial discriminant agrees with the binary-quartic
+# formula away from tau=-2, where the affine degree drops to three.
+for tau in [-5, -3, 1, 2, 3, 7]:
     assert polynomial_disc(quartic_coeffs(tau)) == 4096 * tau*tau * (tau+1)**8
+assert polynomial_disc(quartic_coeffs(-2)) == 1024
 assert polynomial_disc(quartic_coeffs(0)) == 0
 assert polynomial_disc(quartic_coeffs(-1)) == 0
 
+# Binary-quartic invariants retain the simple point at infinity at tau=-2.
 for tau in [-3, -2, 1, 2, 5]:
     a,b,c,d,e = quartic_coeffs(tau)
     I = 12*a*e - 3*b*d + c*c
     J = 72*a*c*e + 9*b*c*d - 27*a*d*d - 27*b*b*e - 2*c*c*c
     assert I == 16*(tau+1)**2*(tau*tau+tau+1)
     assert J == 64*(tau-1)*(tau+1)**3*(tau+2)*(2*tau+1)
+    assert (4*I**3 - J**2) // 27 == 4096 * tau*tau * (tau+1)**8
 
 for u in [-4, -1, 0, 1, 2, 5]:
     a,b,c,d,e = quartic_coeffs(0)
@@ -135,6 +137,7 @@ for a in [Fraction(-3,2), Fraction(-1,1), Fraction(0,1), Fraction(1,2), Fraction
 
 for marker in [
     'MASTER_SPLIT_FACTORIZATION_PROVED=true',
+    'BINARY_QUARTIC_DISCRIMINANT_PROVED=true',
     'PHYSICAL_GENERIC_FIBER_GENUS=1',
     'TAU_ADIC_LOCAL_OBSTRUCTION_PROVED=true',
     'GENERIC_FIBER_QTAU_POINT_EXISTS=false',
@@ -149,6 +152,8 @@ for marker in [
 
 assert reg['generic_fiber']['genus'] == 1
 assert reg['generic_fiber']['smooth_on_physical_chart'] is True
+assert reg['generic_fiber']['binary_quartic_discriminant'] == '4096*tau^2*(tau+1)^8'
+assert reg['generic_fiber']['tau_minus_two_affine_cubic_discriminant'] == 1024
 assert reg['local_obstruction']['Q_tau_rational_point_exists'] is False
 assert reg['local_obstruction']['rational_section_exists'] is False
 assert reg['degree_two_escape']['generic_degree2_closed_point_exhibited'] is True
