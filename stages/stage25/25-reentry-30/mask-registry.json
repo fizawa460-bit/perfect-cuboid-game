@@ -3,7 +3,7 @@
   "campaign": "Stage25-reentry",
   "phase": 30,
   "task_id": "Stage25-u23-r003a",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "status": "AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW",
   "authorization": {
     "phase20_pr": 1003,
     "phase20_merge_commit": "1d88e8e3254a383620e221df8a1a1039ebeabcd4",
@@ -18,24 +18,9 @@
     "cutoff": "d=R<=B"
   },
   "masks": {
-    "a": {
-      "pair_overlap": "A_ab,ac",
-      "exactly_two": "N2,a",
-      "identity": "N2,a=A_ab,ac-A3",
-      "shared_edge": "a"
-    },
-    "b": {
-      "pair_overlap": "A_ab,bc",
-      "exactly_two": "N2,b",
-      "identity": "N2,b=A_ab,bc-A3",
-      "shared_edge": "b"
-    },
-    "c": {
-      "pair_overlap": "A_ac,bc",
-      "exactly_two": "N2,c",
-      "identity": "N2,c=A_ac,bc-A3",
-      "shared_edge": "c"
-    }
+    "a": {"pair_overlap": "A_ab,ac", "exactly_two": "N2,a", "identity": "N2,a=A_ab,ac-A3", "shared_edge": "a"},
+    "b": {"pair_overlap": "A_ab,bc", "exactly_two": "N2,b", "identity": "N2,b=A_ab,bc-A3", "shared_edge": "b"},
+    "c": {"pair_overlap": "A_ac,bc", "exactly_two": "N2,c", "identity": "N2,c=A_ac,bc-A3", "shared_edge": "c"}
   },
   "sum_identity": "N2=A_ab,ac+A_ab,bc+A_ac,bc-3*A3",
   "triple_free_contrasts": [
@@ -44,10 +29,13 @@
     "A_ab,bc-A_ac,bc=N2,b-N2,c"
   ],
   "directional_stage23": {
-    "source": "N1(B)~kappa/(24*pi)*B*(log B)^3",
+    "denominator": "N1(B)~kappa/(24*pi)*B*(log B)^3",
     "lower": "N2,j/N1>>_j B^(-3/4)*(log B)^(-3) for j=a,b,c",
     "upper": "N2,j/N1<<_epsilon B^(-1/2+epsilon)*(log B)^(-3) for j=a,b,c",
     "limit": "0 for each j",
+    "ratio_semantics": "MATCHED_ADJACENT_STRATUM_POPULATION_SIZE_RATIO_NOT_LITERAL_SURVIVAL",
+    "N2j_subset_of_N1": false,
+    "N1_and_N2j_disjoint_exact_face_strata": true,
     "unbounded_target_chambers": true
   },
   "scope_firewall": {
@@ -57,6 +45,7 @@
     "global_N2_exponent_upgraded": false,
     "true_N2_exponent_identified": false,
     "raw_overlap_probability_interpretation": false,
+    "literal_subset_survival_interpretation": false,
     "finite_data_as_proof": false,
     "stage26_allowed": false
   },
@@ -64,6 +53,11 @@
     "theorem_changing": true,
     "derived_route": "Stage25-um-r009a",
     "affected_stages": [17, 23],
-    "status": "QUEUED_UNTIL_PHASE30_AUDIT_PASS"
+    "status": "AUTHORIZED_BY_PHASE30_AUDIT_AWAITING_PARENT_MERGE"
+  },
+  "audit": {
+    "status": "PASS",
+    "record": "stages/stage25/25-reentry-30/audit.md",
+    "pr": 1005
   }
 }
