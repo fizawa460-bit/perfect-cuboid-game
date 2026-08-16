@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-40-AUDITED-PASS-AWAITING-MERGE
+CURRENT_STAGE=Stage26-50-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -37,86 +37,80 @@ STAGE20_STAGE26_READY_INTERFACE=true
 ALL_REENTRY_PHASES_AUDITED=true
 STAGE26_ALLOWED=true
 STAGE26_CHECKPOINT10_STATUS=PROVED_AUDITED_PASS_MERGED_PR1014
-STAGE26_DISCOVERY_AUDIT=PASS_BY_CODEX
-STAGE26_MATHEMATICAL_AUDIT=PASS
 STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_MERGED_PR1015
 STAGE26_CHECKPOINT20_EVIDENCE=DERIVED_EXACT_FINITE
 STAGE26_CHECKPOINT30_STATUS=PROVED_AUDITED_PASS_MERGED_PR1016
 STAGE26_CHECKPOINT30_EVIDENCE=PROVED_DERIVED_THEOREM
-STAGE26_CHECKPOINT40_STATUS=PROVED_AUDITED_PASS_AWAITING_MERGE_PR1017
+STAGE26_CHECKPOINT40_STATUS=PROVED_AUDITED_PASS_MERGED_PR1017
 STAGE26_CHECKPOINT40_EVIDENCE=PROVED_DERIVED_THEOREM
-STAGE26_CHECKPOINT40_AUDIT=PASS
+STAGE26_CHECKPOINT50_STATUS=PROVED_SUBMITTED_PENDING_AUDIT
+STAGE26_CHECKPOINT50_EVIDENCE=PROVED_DERIVED_THEOREM_CANDIDATE
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-NEXT_EXPECTED_COMMAND=merge PR #1017; then Stage26-main-batch
+NEXT_EXPECTED_COMMAND=Stage26-audit
 NEXT_RESEARCH_PROGRAM=Stage26
 ```
 
 ## Current operation
 
-Stage25-reentry is fully closed and synchronized. Stage26 checkpoints10, 20, and 30 are hostile-audited PASS and merged as PRs #1014, #1015, and #1016. Checkpoint40 is hostile-audited PASS and awaits merge as PR #1017.
+Stage26 checkpoints10 through40 are hostile-audited PASS and merged. Checkpoint50 isolates the explicit Saunderson construction floor inside the Euler target.
 
-Checkpoint30 proved, on the common primitive/canonical no-space Euclidean population,
-
-\[
-r(B)=\frac{M_3(B)}{M_2(B)}\to0,
-\]
-
-and the literal completion observables
+For every even integer `m>=10`, the audited Stage20 construction gives a distinct primitive canonical Euler cuboid with
 
 \[
-\Phi(B)=\frac{M_3(B)}{M_2(B)+M_3(B)}\to0,
-\qquad
-\Theta(B)=\frac{3M_3(B)}{M_2(B)+3M_3(B)}\to0.
+R(m)<31m^6.
 \]
 
-Checkpoint40 consumes the full Stage20 upper-family quantifier. For every fixed
+Therefore
 
 \[
-0<\eta<1/46,
+F_S(B)=\max\left(0,\left\lfloor\frac12(B/31)^{1/6}\right\rfloor-4\right)
 \]
 
-Stage20 gives
+is a certified injected subfamily count and
 
 \[
-M_3(B)\ll_\eta B(\log B)^{5-\eta},
+M_3(B)\ge F_S(B).
 \]
 
-while Stage18 gives
+With
 
 \[
-M_2(B)\sim C_{M_2}B(\log B)^5.
+c_S=\frac1{2\,31^{1/6}},
 \]
 
-Therefore, for every fixed
+we have
 
 \[
-0<\delta<1/46,
+F_S(B)=c_SB^{1/6}+O(1).
 \]
 
-choose a fixed `eta` with `delta<eta<1/46`. The audited theorem is
+Combining this explicit numerator with the audited host asymptotics gives the checkpoint50 theorem candidates
 
 \[
-\boxed{\frac{M_3(B)}{M_2(B)}=o((\log B)^{-\delta})},
+\liminf_{B\to\infty}B^{5/6}(\log B)^5\frac{M_3(B)}{M_2(B)}
+\ge\frac{c_S}{C_{M_2}}>0,
 \]
-
-and exact monotone adapters give
 
 \[
-\boxed{\Phi(B)=o((\log B)^{-\delta})},
-\qquad
-\boxed{\Theta(B)=o((\log B)^{-\delta})}.
+\liminf_{B\to\infty}B^{5/6}(\log B)^5\Phi(B)
+\ge\frac{c_S}{C_{M_2}}>0,
 \]
-
-The hostile-audited phase60 directional receiver similarly gives, for each fixed shared-edge chamber `j`,
 
 \[
-\boxed{\Theta_j(B)=o_j((\log B)^{-\delta})}
-\qquad(0<\delta<1/46).
+\liminf_{B\to\infty}B^{5/6}(\log B)^5\Theta(B)
+\ge\frac{3c_S}{C_{M_2}}>0,
 \]
 
-The endpoint `delta=1/46` is not claimed. No exact logarithmic decay exponent, fixed polynomial saving in `B`, or `M3` asymptotic is identified.
+and for every fixed directional chamber `j`,
 
-The mechanism ledger remains the degree-two K3 third-face cover over the split `4A1` quartic-del-Pezzo two-face host. The exact local blocker masses and the separate growing-prime Selberg sieve are retained as causal input, but their saving is **not multiplied** with the explicit Huang thin-cover saving.
+\[
+\liminf_{B\to\infty}B^{5/6}(\log B)^5\Theta_j(B)
+\ge\frac{c_S}{C_j}>0.
+\]
+
+This proves only a constructive floor. It does not identify the true `M3` growth law or say that the lower scale matches the upper side.
+
+Checkpoint40 remains the upper boundary: for every fixed `0<delta<1/46`, the same completion observables are `o((log B)^(-delta))`. The corridor is therefore still wide.
 
 Stage19 remains frozen at
 
@@ -125,25 +119,24 @@ B^(1/4) << N2(B) <<_epsilon B^(1/2+epsilon)
 N2,j(B) >>_j B^(1/4), j=a,b,c
 ```
 
-with the true `N2` exponent still open.
+with the true `N2` exponent open.
 
 ```text
-TASK_ID=Stage26-40
-CHECKPOINT=40
-EVIDENCE_LEVEL=PROVED_DERIVED_THEOREM
-CHECKPOINT30_MERGED_PR=1016
-FOR_EVERY_FIXED_DELTA_LT_1_OVER_46=true
-ENDPOINT_DELTA_1_OVER_46_PROVED=false
-DIRECTIONAL_LITTLE_O_ACCEPTED=true
-LOCAL_BLOCKER_AND_THIN_COVER_SAVINGS_MULTIPLIED=false
-FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
+TASK_ID=Stage26-50
+CHECKPOINT=50
+EXPLICIT_SAUNDERSON_COUNT_CANDIDATE=true
+EXPLICIT_SUBFAMILY_COEFFICIENT_CANDIDATE=true
+PHI_POSITIVE_LIMINF_CANDIDATE=true
+THETA_POSITIVE_LIMINF_CANDIDATE=true
+DIRECTIONAL_THETA_POSITIVE_LIMINF_CANDIDATE=true
+LOWER_SCALE_MATCHING_TRUE_SCALE_PROVED=false
+M3_ASYMPTOTIC_PROVED=false
 TRUE_M3_EXPONENT_IDENTIFIED=false
-K3_MANIN_TRANSFER=false
-INDEPENDENCE_CLAIM=false
-AUDIT_STATUS=PASS
-ADVANCE_ALLOWED=true
-NEXT_CHECKPOINT=50
-MERGE_ALLOWED=true
+FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
+AUDIT_STATUS=PENDING
+ADVANCE_ALLOWED=false
+NEXT_CHECKPOINT=60
+MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=merge PR #1017; then Stage26-main-batch
+NEXT_EXPECTED_COMMAND=Stage26-audit
 ```
