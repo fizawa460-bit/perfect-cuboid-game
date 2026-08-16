@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "route_id": "Stage25-um-r010a",
+  "parent_task": "Stage25-u22-r004a",
+  "parent_pr": 1007,
+  "parent_merge_commit": "eebe4cd59caef804be76508f3773f2af6c7d47f2",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "affected_stages": [18, 20, 22],
+  "population_contract": {
+    "canonical": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "cutoff": "R<=B",
+    "space_diagonal_required": false
+  },
+  "directional_identities": {
+    "a": "P_a=M2,a+M3",
+    "b": "P_b=M2,b+M3",
+    "c": "P_c=M2,c+M3"
+  },
+  "directional_asymptotics": {
+    "M2j": "M2,j(B)~C_j B(log B)^5, C_j>0",
+    "M3_upper": "M3(B)<<_eta B(log B)^(5-eta) for every fixed eta<1/46",
+    "third_face_ratio": "M3/M2,j<<_(j,eta)(log B)^(-eta)->0",
+    "raw_pair": "P_j(B)~C_j B(log B)^5",
+    "postfilter": "M2,j/P_j=1-O_(j,eta)((log B)^(-eta))->1",
+    "stage22_directional": "M2,j/M1~(4*pi^2*C_j/3)(log B)^4/B->0"
+  },
+  "partition": {
+    "identity": "M2=M2,a+M2,b+M2,c",
+    "constant_identity": "C_M2=C_a+C_b+C_c",
+    "directional_share": "M2,j/M2->C_j/C_M2"
+  },
+  "fine_mechanism": {
+    "gate": "G22_LOG4_FINE_MECHANISM",
+    "status": "OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM",
+    "directional_robustness_proved": true,
+    "averaging_artifact_excluded": true,
+    "third_face_postfilter_as_leading_cause_excluded": true,
+    "common_interface_as_new_cause_excluded": true,
+    "four_independent_log_factors_proved": false,
+    "local_probability_product_proved": false,
+    "valuation_factorization_proved": false,
+    "squareclass_factorization_proved": false
+  },
+  "scope_firewall": {
+    "theorem_reproved": false,
+    "global_M2_theorem_upgraded": false,
+    "true_M3_exponent_identified": false,
+    "perfect_cuboid_conclusion": "NONE",
+    "finite_data_used_as_proof": false
+  },
+  "audit_status": "PENDING",
+  "advance_allowed": false,
+  "merge_allowed": false,
+  "next_phase_after_audit_pass_and_merge": 50,
+  "stage26_allowed": false
+}
