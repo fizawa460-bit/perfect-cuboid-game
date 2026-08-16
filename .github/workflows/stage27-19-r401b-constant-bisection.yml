@@ -1,0 +1,23 @@
+name: Stage27-19-r401b constant-u bisection barrier
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage27/**'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-19-r401b-constant-bisection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-stage27-19-r401b:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-19-r401b constant-u bisection barrier
+        run: python stages/stage27/27-19-r401b/verify_27_19_r401b.py
