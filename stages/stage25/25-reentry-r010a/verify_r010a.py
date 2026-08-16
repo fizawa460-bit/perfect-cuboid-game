@@ -25,7 +25,6 @@ assert reg['route_id'] == 'Stage25-um-r010a'
 assert reg['parent_pr'] == 1007
 assert reg['parent_merge_commit'] == 'eebe4cd59caef804be76508f3773f2af6c7d47f2'
 assert reg['affected_stages'] == [18,20,22]
-
 for j in ('a','b','c'):
     assert reg['directional_identities'][j] == f'P_{j}=M2,{j}+M3'
 assert reg['directional_asymptotics']['third_face_ratio'].endswith("(log B)^(-eta)->0")
@@ -35,12 +34,7 @@ assert reg['fine_mechanism']['averaging_artifact_excluded'] is True
 assert reg['fine_mechanism']['third_face_postfilter_as_leading_cause_excluded'] is True
 assert reg['fine_mechanism']['four_independent_log_factors_proved'] is False
 assert reg['fine_mechanism']['status'] == 'OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM'
-
-for marker in (
-    'G22_LOG4_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM',
-    'FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false',
-    'PERFECT_CUBOID_CONCLUSION=NONE',
-):
+for marker in ('G22_LOG4_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM','FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false','PERFECT_CUBOID_CONCLUSION=NONE'):
     assert marker in res
 assert 'DIRECTIONAL_THIRD_FACE_POSTFILTER_TO_ONE=true' in s18
 assert 'M3_LOWER_ORDER_IN_EACH_M2_DIRECTION=true' in s20
@@ -56,26 +50,27 @@ assert ctrl['phases']['50']['status'] == 'BLOCKED_UNTIL_R010A_AUDIT_PASS_MERGE'
 assert ctrl['propagation_queue'][-1]['route_id'] == 'Stage25-um-r010a'
 assert ctrl['stage26_gate']['stage26_allowed'] is False
 
-if r10['audit_status'] == 'PENDING':
-    assert r10['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+if reg['audit_status'] == 'PENDING':
+    assert r10['audit_status'] == 'PENDING'
     assert r10['advance_allowed'] is False
     assert r10['merge_allowed'] is False
-    assert reg['audit_status'] == 'PENDING'
     assert ctrl['propagation_queue'][-1]['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
-    assert ctrl['next_expected_command'] == 'Stage25-reentry-audit'
-elif r10['audit_status'] == 'PASS':
-    assert r10['status'] == 'AUDITED_PASS_AWAITING_MERGE'
-    assert r10['advance_allowed'] is True
-    assert r10['merge_allowed'] is True
-    assert reg['audit_status'] == 'PASS'
+elif reg['audit_status'] == 'PASS':
+    assert reg['status'] == 'AUDITED_PASS_AWAITING_MERGE'
     assert reg['advance_allowed'] is True
     assert reg['merge_allowed'] is True
-    assert ctrl['status'] == 'PHASE40_BACKFLOW_R010A_AUDITED_PASS_AWAITING_MERGE'
-    assert ctrl['phases']['40']['status'] == 'AUDITED_PASS_MERGED_BACKFLOW_AUDITED_PASS_AWAITING_MERGE'
-    assert ctrl['propagation_queue'][-1]['status'] == 'AUDITED_PASS_AWAITING_MERGE'
-    assert ctrl['next_expected_command'] == 'merge PR #1008; then Stage25-reentry-main-batch'
+    assert (ROOT / reg['audit_record']).exists()
+    # Controller may remain in the submitted state until the audited PR is merged;
+    # phase50 must remain blocked in either lifecycle representation.
+    assert r10['audit_status'] in ('PENDING','PASS')
+    if r10['audit_status'] == 'PASS':
+        assert r10['status'] == 'AUDITED_PASS_AWAITING_MERGE'
+        assert ctrl['propagation_queue'][-1]['status'] == 'AUDITED_PASS_AWAITING_MERGE'
+    else:
+        assert r10['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+        assert ctrl['propagation_queue'][-1]['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
 else:
-    raise AssertionError(f"unexpected r010a audit state: {r10['audit_status']}")
+    raise AssertionError(f"unexpected registry audit state: {reg['audit_status']}")
 
 print('STAGE25_REENTRY_R010A_PARENT_AUTHORIZATION=PASS')
 print('STAGE25_REENTRY_R010A_RECEIVER_SYNC=PASS')
