@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "route_id": "Stage25-um-r011a",
+  "parent_task": "Stage25-u21-r005a",
+  "parent_pr": 1009,
+  "parent_merge_commit": "8765eb73db07da8afb8ad9b1f9a538ff8cd080ee",
+  "common_physical_source": "M1",
+  "entries": {
+    "M1": {
+      "population": "primitive canonical exactly-one integral face, no integral-space requirement",
+      "raw_model": "u^2=e^2+x^2 in P3_[e:x:y:u]",
+      "resolution": "F_2",
+      "height_line_bundle": "H=S+2F",
+      "canonical_relation": "K=-2H",
+      "manin_a": 2,
+      "manin_b": 2,
+      "polynomial_exponent": 2,
+      "log_exponent": 1,
+      "proved_asymptotic": "M1(B)~3/(4*pi^2) B^2 log B",
+      "analytic_log_source": "primitive-Pythagorean-hypotenuse harmonic sum sum 1/h",
+      "postfilter_lower_order": true
+    },
+    "N1": {
+      "population": "primitive canonical exactly-one integral face plus integral space diagonal",
+      "raw_model": "p^2=a^2+b^2; d^2=p^2+c^2 in P4_[a:b:c:p:d]",
+      "geometric_split_field": "Q(i)",
+      "twist_to_stage15_model": "[E:X:Y:U:V]=[p:i*b:c:a:d]",
+      "resolution_over_Qi": "Bl_4(P1xP1)",
+      "galois_action": "(m:n)<->(n:m), (r:s) fixed",
+      "picard_invariant_basis": ["F1", "F2", "E00+E10", "E01+E11"],
+      "picard_rank_Q": 4,
+      "height_line_bundle": "-K",
+      "canonical_relation": "K=-H",
+      "manin_a": 1,
+      "manin_b": 4,
+      "polynomial_exponent": 1,
+      "log_exponent": 3,
+      "proved_asymptotic": "N1(B)~kappa/(24*pi) B(log B)^3",
+      "analytic_target_structure": "two rectangle-density logs log x log y plus radial harmonic integration in Stage12 proof",
+      "postfilter_lower_order": true
+    },
+    "M2": {
+      "population": "primitive canonical exactly-two integral faces, no integral-space requirement",
+      "raw_model": "U^2=E^2+X^2; V^2=E^2+Y^2 in P4",
+      "resolution": "Bl_4(P1xP1) at four torus-fixed corners",
+      "split_toric": true,
+      "picard_rank_Q": 6,
+      "height_line_bundle": "-K",
+      "canonical_relation": "K=-H",
+      "manin_a": 1,
+      "manin_b": 6,
+      "polynomial_exponent": 1,
+      "log_exponent": 5,
+      "proved_asymptotic": "M2(B)~C_M2 B(log B)^5",
+      "postfilter_lower_order": true
+    }
+  },
+  "transitions": {
+    "Stage21_M1_to_N1": {
+      "delta_a": -1,
+      "delta_b": 2,
+      "ratio": "N1/M1~(kappa*pi/18)(log B)^2/B"
+    },
+    "Stage22_M1_to_M2": {
+      "delta_a": -1,
+      "delta_b": 4,
+      "ratio": "M2/M1~(4*pi^2*C_M2/3)(log B)^4/B"
+    },
+    "cross_target_N1_to_M2": {
+      "delta_a": 0,
+      "delta_b": 2,
+      "ratio": "M2/N1~(24*pi*C_M2/kappa)(log B)^2",
+      "semantics": "population-size comparison; populations are not nested"
+    }
+  },
+  "fine_mechanism": {
+    "g21_status": "CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL",
+    "g22_status": "CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL",
+    "log4_b_invariant_jump": 4,
+    "log4_additive_b_jump_decomposition": [2, 2],
+    "two_plus_two_is_independent_factorization": false,
+    "four_independent_log_factors_proved": false,
+    "common_dirichlet_pole_slot_ledger_proved": false,
+    "H_one_log_L_one_log_proved": false
+  },
+  "perfect_cuboid_conclusion": "NONE",
+  "audit_status": "PENDING",
+  "advance_allowed": false,
+  "merge_allowed": false
+}
