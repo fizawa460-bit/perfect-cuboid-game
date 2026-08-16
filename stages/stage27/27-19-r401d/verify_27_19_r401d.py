@@ -215,6 +215,7 @@ assert pd['one_parameter_algebraic_progress_gate'] == '2dx+2dy-g<8'
 assert pd['lower_bounded_reentry_stop_candidate'] is True
 assert pd['previous_audit_verdict'] == 'FAIL'
 assert pd['mathematical_audit_status'] == 'PASS'
+assert pd['previous_fail_reason'] == 'STALE_R401C_PENDING_STATE_AND_MISSING_R401D_CANONICAL_REGISTRATION'
 assert pd['audit_status'] == 'PENDING'
 assert pd['advance_to_checkpoint50'] is False
 assert pd['merge_allowed'] is False
@@ -224,6 +225,9 @@ assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['next_expected_command'] == 'Stage27-19-r401-audit'
 assert 'CURRENT_STAGE=Stage27-19-r401d-REPAIR-SUBMITTED-PENDING-FRESH-AUDIT' in status
 assert 'STAGE27_19_R401C_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1035' in status
+assert 'STAGE27_AFFINE_LINEAR_RECEIVER_DERIVED=true' in status
+assert 'STAGE27_AFFINE_LINEAR_DISCRIMINANT_FACTORIZATION_PROVED=true' in status
+assert 'STAGE27_ALL_AFFINE_LINEAR_MULTISECTIONS_CLASSIFIED=true' in status
 assert 'STAGE27_19_R401D_STATUS=R501_R502_CALIBRATION_REPAIR_SUBMITTED_PENDING_FRESH_AUDIT' in status
 assert 'STAGE27_NEXT_UPPER_ROUTE=27-40af' in status
 
