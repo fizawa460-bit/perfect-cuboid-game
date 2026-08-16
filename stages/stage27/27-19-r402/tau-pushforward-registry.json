@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage27-19-r402",
+  "trigger_checkpoint": 40,
+  "route_kind": "UPPER_REENTRY",
+  "source_stage": "Stage19",
+  "current_upper_exponent": "1/2",
+  "tau": {
+    "survivor_definition": "(x^2-z^2)/(z^2-1)",
+    "host_identity": "(x^2+1)/(y^2-1)",
+    "toric_formula": "s^2*(m^2+n^2)/(n^2*(r^2-s^2))",
+    "defined_before_space_filter": true,
+    "positive_physical_chart": true,
+    "homogeneous_rescaling_invariant": true
+  },
+  "collision_receiver": "s1^2*(m1^2+n1^2)*n2^2*(r2^2-s2^2)=s2^2*(m2^2+n2^2)*n1^2*(r1^2-s1^2)",
+  "known_family_calibration": {
+    "R501_tau_projection_degree": 8,
+    "R502_tau_projection_degree": 8,
+    "R501_growth": "Theta(B^(1/4))",
+    "R502_growth": "Theta(B^(1/4))",
+    "global_tau_support_lower": "Omega(B^(1/4))",
+    "tau_support_polynomial_lower_proved": true
+  },
+  "upper_gates": {
+    "support_max_fiber": {
+      "support_bound": "#T(B)<=B^(sigma+o(1))",
+      "fiber_bound": "max_t w_B(t)<=B^(phi+o(1))",
+      "result": "N2(B)<=B^(sigma+phi+o(1))",
+      "strict_subhalf_gate": "sigma+phi<1/2"
+    },
+    "support_second_moment": {
+      "support_bound": "#T(B)<=B^(sigma+o(1))",
+      "energy_bound": "sum_t w_B(t)^2<=B^(eta+o(1))",
+      "result": "N2(B)<=B^((sigma+eta)/2+o(1))",
+      "strict_subhalf_gate": "sigma+eta<1"
+    }
+  },
+  "proved": {
+    "tau_survivor_identity": true,
+    "tau_toric_formula": true,
+    "tau_collision_receiver": true,
+    "tau_polynomial_support_lower": true,
+    "strict_sub_sqrt_upper": false,
+    "tau_support_strict_subhalf": false,
+    "tau_uniform_fiber_subpower": false,
+    "tau_weighted_second_moment": false,
+    "true_N2_exponent_identified": false
+  },
+  "firewalls": {
+    "tau_cardinality_alone_promoted_to_power_saving": false,
+    "fixed_u_subpolynomial_class_obstruction_promoted_to_tau": false,
+    "known_lower_support_promoted_to_upper_support_bound": false,
+    "finite_data_used_as_asymptotic_proof": false,
+    "perfect_cuboid_conclusion": false
+  }
+}

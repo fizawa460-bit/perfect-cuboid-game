@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_LOWER_REENTRY_R401D_REPAIR_PENDING_AUDIT",
+  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R402_PENDING_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -22,7 +22,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_40AA_AE_AUDITED_PASS_MERGED_AND_27_19_R401_R401A_R401B_R401C_AUDITED_PASS_MERGED_AND_R401D_REPAIR_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_DERIVED_ROUTES_THROUGH_R401D_AUDITED_PASS_MERGED_AND_R402_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -310,7 +310,7 @@
       "continue_lower_exploration": true
     },
     "Stage27-19-r401d": {
-      "status": "REPAIR_SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "INTERMEDIATE_AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_serial": "19-r401d",
       "route_kind": "LOWER_REENTRY",
@@ -335,10 +335,44 @@
       "mathematical_audit_status": "PASS",
       "previous_fail_reason": "STALE_R401C_PENDING_STATE_AND_MISSING_R401D_CANONICAL_REGISTRATION",
       "audit_record": "stages/stage27/27-19-r401d/audit.md",
-      "audit_status": "PENDING",
+      "audit_status": "PASS",
       "pr": 1036,
       "advance_to_checkpoint50": false,
       "continue_lower_exploration": false,
+      "advance_allowed": true,
+      "merge_allowed": true,
+      "merge_commit": "b37bc86e045175238bf2520518b059574addc52b"
+    },
+    "Stage27-19-r402": {
+      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_serial": "19-r402",
+      "route_kind": "UPPER_REENTRY",
+      "source_stage": "Stage19",
+      "parent_route": "Stage27-19-r401d",
+      "purpose": "push the natural tau fibration forward as an outer physical label and derive exact support/fiber and collision-energy gates for a strict sub-square-root upper theorem",
+      "tau_survivor_identity_proved": true,
+      "tau_toric_formula_proved": true,
+      "tau_defined_before_space_filter": true,
+      "tau_outer_physical_rational_label": true,
+      "tau_collision_receiver_derived": true,
+      "r501_tau_projection_degree_used": 8,
+      "r502_tau_projection_degree_used": 8,
+      "tau_support_polynomial_lower_proved": true,
+      "tau_support_lower_exponent": "1/4",
+      "fixed_u_subpoly_class_obstruction_automatically_applies_to_tau": false,
+      "tau_cardinality_alone_upper_saving": false,
+      "tau_max_fiber_upper_gate": "sigma+phi<1/2",
+      "tau_second_moment_upper_gate": "sigma+eta<1",
+      "tau_support_strict_subhalf_proved": false,
+      "tau_uniform_fiber_subpower_proved": false,
+      "tau_weighted_second_moment_proved": false,
+      "strict_sub_sqrt_upper_proved": false,
+      "new_mu_lt_half_proved": false,
+      "true_N2_exponent_identified": false,
+      "audit_status": "PENDING",
+      "advance_to_checkpoint50": false,
+      "continue_upper_exploration": true,
       "advance_allowed": false,
       "merge_allowed": false
     }
@@ -351,7 +385,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "LOWER_REENTRY_STAGE27_19_R401D_REPAIR_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R402_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
@@ -380,7 +414,10 @@
     "independence_product_claimed": false,
     "perfect_cuboid_conclusion": false,
     "audit_pass_auto_merges": false,
-    "r401d_calibration_promoted_to_exponent_upgrade": false
+    "r401d_calibration_promoted_to_exponent_upgrade": false,
+    "tau_cardinality_alone_promoted_to_power_saving": false,
+    "known_tau_support_lower_promoted_to_upper_support_bound": false,
+    "tau_fixed_u_class_obstruction_overgeneralized": false
   },
-  "next_expected_command": "Stage27-19-r401-audit"
+  "next_expected_command": "Stage27-19-r402-audit"
 }
