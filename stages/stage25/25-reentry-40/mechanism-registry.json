@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage25-u22-r004a",
+  "phase": 40,
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "authorization": {
+    "phase30_pr": 1005,
+    "phase30_merge_commit": "daf84757c185df6973936d2970a6307ab0bff62b",
+    "r009a_pr": 1006,
+    "r009a_merge_commit": "4eb3349ee8ec02dcabb71bd1be3a48234356606b"
+  },
+  "population": {
+    "canonical": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "cutoff": "R<=B",
+    "space_requirement": "NONE"
+  },
+  "raw_pair_map": {
+    "a": "ab,ac",
+    "b": "ab,bc",
+    "c": "ac,bc"
+  },
+  "exact_identities": {
+    "a": "P_a=M2,a+M3",
+    "b": "P_b=M2,b+M3",
+    "c": "P_c=M2,c+M3",
+    "global": "M2=M2,a+M2,b+M2,c"
+  },
+  "directional_inputs": {
+    "M2j": "M2,j(B)~C_j B(log B)^5; C_j>0",
+    "M3_upper": "M3(B)<<_eta B(log B)^(5-eta) for every fixed eta<1/46",
+    "M1": "M1(B)~3/(4*pi^2) B^2 log B"
+  },
+  "consequences": {
+    "triple_over_directional": "M3/M2,j<<_(j,eta)(log B)^(-eta)->0",
+    "raw_pair_asymptotic": "P_j(B)~C_j B(log B)^5",
+    "postfilter_survival": "M2,j/P_j=1-O_(j,eta)((log B)^(-eta))->1",
+    "directional_stage22_ratio": "M2,j/M1~(4*pi^2*C_j/3)(log B)^4/B->0",
+    "constant_sum": "C_M2=C_a+C_b+C_c",
+    "directional_mass": "M2,j/M2->C_j/C_M2"
+  },
+  "fine_mechanism": {
+    "log4_directional_robustness": true,
+    "log4_averaging_artifact": false,
+    "third_face_exclusion_leading_cause": false,
+    "four_independent_log_factors_proved": false,
+    "gate": "G22_LOG4_FINE_MECHANISM_OPEN"
+  },
+  "backflow": {
+    "candidate_route": "Stage25-um-r010a",
+    "affected_stages": [18,20,22],
+    "status": "QUEUED_UNTIL_PHASE40_AUDIT_PASS"
+  },
+  "scope_firewall": {
+    "true_M3_exponent_identified": false,
+    "global_M2_theorem_changed": false,
+    "finite_data_promoted": false,
+    "perfect_cuboid_conclusion": "NONE",
+    "stage26_allowed": false
+  }
+}
