@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-READY
+CURRENT_STAGE=Stage26-10-AUDITED-PASS
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -36,13 +36,16 @@ BACKFLOW_SYNCHRONIZED=true
 STAGE20_STAGE26_READY_INTERFACE=true
 ALL_REENTRY_PHASES_AUDITED=true
 STAGE26_ALLOWED=true
-NEXT_EXPECTED_COMMAND=Stage26-main-batch
+STAGE26_CHECKPOINT10_STATUS=PROVED_AUDITED_PASS_AWAITING_MERGE
+STAGE26_DISCOVERY_AUDIT=PASS_BY_CODEX
+STAGE26_MATHEMATICAL_AUDIT=PASS
+NEXT_EXPECTED_COMMAND=merge PR #1014; then Stage26-main-batch
 NEXT_RESEARCH_PROGRAM=Stage26
 ```
 
 ## Current operation
 
-Stage25-reentry phase70 hostile audit PASS is merged as PR #1012 / `be5f7d8360b3bac2b9060cd88ede596a4fb218dc`.
+Stage25-reentry phase70 hostile audit PASS is merged as PR #1012 / `be5f7d8360b3bac2b9060cd88ede596a4fb218dc`. Stage26 checkpoint10 has received a fresh mathematical audit PASS and is awaiting merge.
 
 The bounded Stage25-reentry campaign is complete. All phases 10–70 and internal derived routes `r008a` through `r011a` are hostile-audited PASS and merged; no unresolved repo-native reentry child route remains.
 
@@ -84,17 +87,25 @@ alongside the existing Stage20 weapons. The geometric Manin ledger closes the St
 
 Residual Q05/Q06/Q11, R504 exceptional Prym, the true `M3` exponent, and the true `N2` exponent are future/external research gates and do not block Stage26 entry.
 
+Stage26 checkpoint10 freezes the Stage18-to-Stage20 contract. Since the exact-two and exact-three masks are disjoint, `M3/M2` is not objectwise survival. The literal host and raw-incidence adapters are
+
+\[
+\Phi=\frac{M_3}{M_2+M_3},\qquad
+\Theta=\frac{3M_3}{M_2+3M_3},\qquad
+\Theta=\frac{3\Phi}{1+2\Phi}.
+\]
+
+Repository-scale discovery is complete for checkpoint10. The hostile mathematical audit accepted the population/cutoff/multiplicity/measure contract and the K3/Manin transfer firewall.
+
 ```text
-TASK_ID=Stage25-um-r007a
-REENTRY_RESEARCH_COMPLETE=true
-DERIVED_ROUTE_QUEUE_HAS_UNRESOLVED_INTERNAL_ROUTE=false
-BACKFLOW_SYNCHRONIZED=true
-STAGE20_STAGE26_READY_INTERFACE=true
-ALL_REENTRY_PHASES_AUDITED=true
-AUDIT_STATUS=PASS
+TASK_ID=Stage26-10
+CHECKPOINT=10
+DISCOVERY_AUDIT_VERDICT=PASS
+MATHEMATICAL_AUDIT_VERDICT=PASS
 ADVANCE_ALLOWED=true
+NEXT_CHECKPOINT=20
 MERGE_ALLOWED=true
 STAGE26_ALLOWED=true
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=Stage26-main-batch
+NEXT_EXPECTED_COMMAND=merge PR #1014; then Stage26-main-batch
 ```

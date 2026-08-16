@@ -1,0 +1,20 @@
+name: Stage26-10 contract audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage26/**'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - 'docs/README.md'
+      - '.github/workflows/stage26-10-contract-audit.yml'
+
+jobs:
+  contract-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage26 checkpoint10 contract
+        run: python stages/stage26/26-10/contract_audit.py
