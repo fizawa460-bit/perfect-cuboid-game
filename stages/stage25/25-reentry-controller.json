@@ -2,7 +2,7 @@
   "schema_version": 1,
   "owner_stage": "Stage25",
   "campaign": "Stage25-reentry",
-  "status": "PHASE20_AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW",
+  "status": "PHASE20_BACKFLOW_SUBMITTED_PENDING_FRESH_AUDIT",
   "starts_after": {
     "stage25_checkpoint": 70,
     "audit_verdict": "PASS",
@@ -34,8 +34,8 @@
   },
   "phases": {
     "10": {"task_id": "Stage25-um-r001a", "target_stages": [16,17,18,19,20,21,22,23,24,25], "purpose": "synchronize strongest interfaces, gates, and weapons", "status": "AUDITED_PASS_MERGED"},
-    "20": {"task_id": "Stage25-u24-r002a", "target_stages": [24,19,18], "purpose": "reattack space after exactly two faces", "status": "AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW"},
-    "30": {"task_id": "Stage25-u23-r003a", "target_stages": [23,17,19], "purpose": "reattack the second face under integral space", "status": "BLOCKED_UNTIL_PHASE20_BACKFLOW"},
+    "20": {"task_id": "Stage25-u24-r002a", "target_stages": [24,19,18], "purpose": "reattack space after exactly two faces", "status": "AUDITED_PASS_MERGED_BACKFLOW_PENDING_AUDIT"},
+    "30": {"task_id": "Stage25-u23-r003a", "target_stages": [23,17,19], "purpose": "reattack the second face under integral space", "status": "BLOCKED_UNTIL_R008A_AUDIT_PASS_MERGE"},
     "40": {"task_id": "Stage25-u22-r004a", "target_stages": [22,16,18], "purpose": "strengthen two-face no-space mechanisms and Stage20-ready receivers", "status": "PENDING"},
     "50": {"task_id": "Stage25-u21-r005a", "target_stages": [21,16,17], "auxiliary_target": "Stage16S", "purpose": "refine one-face space interaction and shared-P factors", "status": "PENDING"},
     "60": {"task_id": "Stage25-u20-r006a", "target_stages": [20,18], "purpose": "deep Euler baseline reentry and Stage26 preparation", "status": "PENDING"},
@@ -67,7 +67,7 @@
   },
   "phase20_submission": {
     "task_id": "Stage25-u24-r002a",
-    "status": "AUDITED_PASS_AWAITING_MERGE_AND_BACKFLOW",
+    "status": "AUDITED_PASS_MERGED_BACKFLOW_PENDING_AUDIT",
     "result": "stages/stage25/25-reentry-20/result.md",
     "discovery_ledger": "stages/stage25/25-reentry-20/discovery-ledger.md",
     "weapon_delta": "stages/stage25/25-reentry-20/weapon-delta.md",
@@ -86,13 +86,32 @@
     "candidate_theorem": "N2,j(B)>>_j B^(1/4) for j=a,b,c",
     "accepted_theorem": "N2,j(B)>>_j B^(1/4) for j=a,b,c",
     "global_N2_exponent_upgraded": false,
-    "derived_routes_opened": [],
+    "derived_routes_opened": ["Stage25-um-r008a"],
     "queued_derived_routes": ["Stage25-um-r008a"],
     "audit_status": "PASS",
     "advance_allowed": true,
     "merge_allowed": true,
     "pr": 1003,
+    "merge_commit": "1d88e8e3254a383620e221df8a1a1039ebeabcd4",
     "next_phase_after_audit_and_backflow": 30
+  },
+  "r008a_submission": {
+    "route_id": "Stage25-um-r008a",
+    "parent_task": "Stage25-u24-r002a",
+    "parent_pr": 1003,
+    "parent_merge_commit": "1d88e8e3254a383620e221df8a1a1039ebeabcd4",
+    "affected_stages": [19,23,24],
+    "result": "stages/stage25/25-reentry-r008a/result.md",
+    "registry": "stages/stage25/25-reentry-r008a/backflow-registry.json",
+    "verifier": "stages/stage25/25-reentry-r008a/verify_r008a.py",
+    "workflow": ".github/workflows/stage25-reentry-r008a-backflow.yml",
+    "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+    "audit_status": "PENDING",
+    "advance_allowed": false,
+    "merge_allowed": false,
+    "theorem_reproved": false,
+    "theorem_changing_receiver_sync": true,
+    "next_phase_after_audit_pass_and_merge": 30
   },
   "derived_route_policy": {
     "next_route_serial": 9,
@@ -107,9 +126,10 @@
       "parent_task": "Stage25-u24-r002a",
       "affected_stages": [19,23,24],
       "purpose": "propagate all-shared-edge quarter-power lower and directional Stage24/Stage23 consequences after fresh parent audit",
-      "status": "AUTHORIZED_BY_PHASE20_AUDIT_AWAITING_PARENT_MERGE",
+      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
       "audit_required": true,
-      "blocks_next_phase": true
+      "blocks_next_phase": true,
+      "submission_path": "stages/stage25/25-reentry-r008a/result.md"
     }
   ],
   "stage26_gate": {
@@ -127,5 +147,5 @@
     "closed_theorem_means_exploration_exhausted": false,
     "stage25_current_deep_stop_rule_relaxed": false
   },
-  "next_expected_command": "merge PR #1003; then Stage25-reentry-main-batch"
+  "next_expected_command": "Stage25-reentry-audit"
 }
