@@ -1,0 +1,78 @@
+from fractions import Fraction
+from pathlib import Path
+import json
+import re
+
+root = Path(__file__).resolve().parents[3]
+base = root / "stages/stage26/26-10"
+result = (base / "result.md").read_text()
+ledger = (base / "discovery-ledger.md").read_text()
+lattice = (base / "comparison-lattice.md").read_text()
+ctl = json.loads((root / "stages/stage26/26-controller.json").read_text())
+entry = json.loads((root / "stages/stage25/25-reentry-controller.json").read_text())
+
+assert entry["status"] == "CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY"
+assert entry["stage26_gate"]["stage26_allowed"] is True
+assert entry["next_expected_command"] == "Stage26-main-batch"
+
+for marker in [
+    "LITERAL_SUBSET_TRANSITION=false",
+    "RATIO_SEMANTICS=MATCHED_ADJACENT_STRATUM_SIZE_RATIO",
+    "EXACT_MEASURE_BRIDGE=true",
+    "THETA_EQUALS_3PHI_OVER_1PLUS2PHI",
+    "M_2(B)\\sim C_{M_2}B(\\log B)^5",
+    "B^{1/6}\\ll M_3(B)\\ll_\\eta B(\\log B)^{5-\\eta}",
+    "K3_FIREWALL=ACTIVE",
+    "REPO_REUSE_PREFLIGHT=PASS",
+    "DISCOVERY_AUDIT_VERDICT=PASS",
+    "MATHEMATICAL_AUDIT_VERDICT=PENDING",
+    "NEXT_EXPECTED_COMMAND=Stage26-audit",
+]:
+    assert marker in result, marker
+
+for marker in [
+    "ATTACK_MAP_RECORDS_SCANNED=824",
+    "BROAD_STAGE26_CANDIDATE_MATCHES=122",
+    "S1415-ATTACK-0215",
+    "S1415-ATTACK-0225",
+    "S20-W01",
+    "S25-W06",
+    "arXiv:2111.01509",
+    "arXiv:2405.13061",
+    "arXiv:2605.00573",
+    "NO_GLOBAL_LITERATURE_EXHAUSTIVENESS_CLAIM=true",
+]:
+    assert marker in ledger, marker
+
+for marker in [
+    "NOMINAL_ENDPOINTS_DISJOINT=true",
+    "RAW_PAIR_MULTIPLICITY_OF_M3=3",
+    "EXACT_MEASURE_TRANSLATION=true",
+    "SPACE_DIAGONAL_IMPORTED=false",
+]:
+    assert marker in lattice, marker
+
+# Exact rational check of the object/raw-incidence bridge.
+for r in [Fraction(1, 100), Fraction(1, 3), Fraction(2, 1), Fraction(17, 5)]:
+    phi = r / (1 + r)
+    theta = 3 * r / (1 + 3 * r)
+    assert theta == 3 * phi / (1 + 2 * phi)
+    assert phi == theta / (3 - 2 * theta)
+
+assert ctl["stage"] == "Stage26"
+assert ctl["transition"] == "Stage18 -> Stage20"
+assert ctl["literal_subset_transition"] is False
+assert ctl["checkpoint10"]["discovery_audit"] == "PASS_BY_CODEX"
+assert ctl["checkpoint10"]["mathematical_audit"] == "PENDING"
+assert ctl["checkpoint_status"]["10"] == "PROVED_SUBMITTED_PENDING_AUDIT"
+assert ctl["state"]["AUDIT_STATUS"] == "PENDING"
+assert ctl["state"]["ADVANCE_ALLOWED"] is False
+assert ctl["next_expected_command"] == "Stage26-audit"
+
+# Guard the canonical sources against the prior lost-backslash corruption class.
+bad_math = re.compile(r"M_[23]\\?\(B\\?\)(?:ll|sim)|(?:^|[^\\])(asymp|zeta|pi)(?:\{|\(|\\b)")
+for path in [base / "result.md", base / "comparison-lattice.md", base / "discovery-ledger.md"]:
+    assert not bad_math.search(path.read_text()), f"damaged LaTeX in {path}"
+
+print("Stage26-10 contract/reuse/discovery audit: PASS")
+print("NEXT_EXPECTED_COMMAND=Stage26-audit")

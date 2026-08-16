@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-READY
+CURRENT_STAGE=Stage26-10-PENDING-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -36,13 +36,16 @@ BACKFLOW_SYNCHRONIZED=true
 STAGE20_STAGE26_READY_INTERFACE=true
 ALL_REENTRY_PHASES_AUDITED=true
 STAGE26_ALLOWED=true
-NEXT_EXPECTED_COMMAND=Stage26-main-batch
+STAGE26_CHECKPOINT10_STATUS=SUBMITTED_PENDING_AUDIT
+STAGE26_DISCOVERY_AUDIT=PASS_BY_CODEX
+STAGE26_MATHEMATICAL_AUDIT=PENDING
+NEXT_EXPECTED_COMMAND=Stage26-audit
 NEXT_RESEARCH_PROGRAM=Stage26
 ```
 
 ## Current operation
 
-Stage25-reentry phase70 hostile audit PASS is merged as PR #1012 / `be5f7d8360b3bac2b9060cd88ede596a4fb218dc`.
+Stage25-reentry phase70 hostile audit PASS is merged as PR #1012 / `be5f7d8360b3bac2b9060cd88ede596a4fb218dc`. Stage26 checkpoint10 is submitted for a fresh mathematical audit.
 
 The bounded Stage25-reentry campaign is complete. All phases 10–70 and internal derived routes `r008a` through `r011a` are hostile-audited PASS and merged; no unresolved repo-native reentry child route remains.
 
@@ -84,6 +87,16 @@ alongside the existing Stage20 weapons. The geometric Manin ledger closes the St
 
 Residual Q05/Q06/Q11, R504 exceptional Prym, the true `M3` exponent, and the true `N2` exponent are future/external research gates and do not block Stage26 entry.
 
+Stage26 checkpoint10 freezes the Stage18-to-Stage20 contract. Since the exact-two and exact-three masks are disjoint, `M3/M2` is not objectwise survival. The literal host and raw-incidence adapters are
+
+\[
+\Phi=\frac{M_3}{M_2+M_3},\qquad
+\Theta=\frac{3M_3}{M_2+3M_3},\qquad
+\Theta=\frac{3\Phi}{1+2\Phi}.
+\]
+
+Repository-scale discovery is complete for checkpoint10; theorem audit and advancement remain pending.
+
 ```text
 TASK_ID=Stage25-um-r007a
 REENTRY_RESEARCH_COMPLETE=true
@@ -96,5 +109,10 @@ ADVANCE_ALLOWED=true
 MERGE_ALLOWED=true
 STAGE26_ALLOWED=true
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=Stage26-main-batch
+STAGE26_CHECKPOINT10_STATUS=SUBMITTED_PENDING_AUDIT
+DISCOVERY_AUDIT_VERDICT=PASS
+MATHEMATICAL_AUDIT_VERDICT=PENDING
+ADVANCE_ALLOWED=false
+MERGE_ALLOWED=false
+NEXT_EXPECTED_COMMAND=Stage26-audit
 ```

@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "stage": "Stage26",
+  "status": "OPEN",
+  "parent_class": "transition",
+  "transition": "Stage18 -> Stage20",
+  "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
+  "target_population": "M3: primitive canonical exactly-three-face Euler cuboids, no space requirement, R<=B",
+  "literal_subset_transition": false,
+  "ratio_semantics": "MATCHED_ADJACENT_STRATUM_SIZE_RATIO_WITH_LITERAL_AT_LEAST_TWO_HOST_ADAPTER",
+  "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
+  "checkpoint_status": {
+    "10": "PROVED_SUBMITTED_PENDING_AUDIT",
+    "20": "PENDING",
+    "30": "PENDING",
+    "40": "PENDING",
+    "50": "PENDING",
+    "60": "PENDING",
+    "70": "PENDING"
+  },
+  "checkpoint10": {
+    "status": "PROVED_SUBMITTED_PENDING_AUDIT",
+    "source_target_contract_frozen": true,
+    "comparison_lattice_frozen": true,
+    "literal_host_adapter_proved": true,
+    "raw_incidence_adapter_proved": true,
+    "repo_reuse_preflight": "PASS",
+    "exploration_evidence_complete": true,
+    "discovery_audit": "PASS_BY_CODEX",
+    "mathematical_audit": "PENDING",
+    "advance_allowed": false,
+    "merge_allowed": false,
+    "artifacts": [
+      "stages/stage26/26-10/result.md",
+      "stages/stage26/26-10/comparison-lattice.md",
+      "stages/stage26/26-10/discovery-ledger.md"
+    ]
+  },
+  "entry_gate": {
+    "stage25_reentry_closed": true,
+    "all_reentry_phases_audited": true,
+    "unresolved_internal_routes": false,
+    "stage20_stage26_ready_interface": true,
+    "stage26_allowed": true,
+    "evidence": "stages/stage25/25-reentry-70/stage26-handoff.md"
+  },
+  "state": {
+    "CURRENT_CHECKPOINT": 10,
+    "MAIN_STATUS": "SUBMITTED",
+    "AUDIT_STATUS": "PENDING",
+    "ADVANCE_ALLOWED": false,
+    "NEXT_CHECKPOINT": 10,
+    "NEXT_STAGE": "",
+    "NEW_INPUT_REQUIRED": false,
+    "HUMAN_DECISION_REQUIRED": false,
+    "MERGE_ALLOWED": false
+  },
+  "safety": {
+    "finite_data_as_asymptotic_proof": false,
+    "exactly_two_to_exactly_three_called_literal_subset": false,
+    "raw_pair_and_object_counts_conflated": false,
+    "k3_manin_transfer_allowed": false,
+    "perfect_cuboid_conclusion": false,
+    "audit_pass_auto_merges": false
+  },
+  "next_expected_command": "Stage26-audit"
+}
