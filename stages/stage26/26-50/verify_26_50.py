@@ -35,13 +35,10 @@ assert cons['primitive'] is True
 assert cons['canonical_ordering'] is True
 assert cons['injective'] is True
 
-# Exact count of even m in [10,N]. At B=31*N^6, the sufficient
-# height condition admits exactly this parameter range.
 for N in [9, 10, 11, 20, 37, 100, 1001]:
     direct = len([m for m in range(10, N + 1) if m % 2 == 0])
     formula = max(0, N // 2 - 4)
     assert direct == formula
-    # F_S(31*N^6)=N/2+O(1), with a uniformly bounded floor/start error.
     assert abs(formula - N / 2) <= 4.5
 
 for key in [
@@ -77,15 +74,24 @@ for marker in [
 assert ctl['checkpoint_status']['40'] == 'PROVED_AUDITED_PASS_MERGED'
 assert ctl['checkpoint40']['pr'] == 1017
 assert ctl['checkpoint40']['merge_commit'] == '48f08c4ff7e5b9708d12e22878e16102ec6f02a0'
-assert ctl['state']['CURRENT_CHECKPOINT'] == 50
-assert ctl['state']['NEXT_CHECKPOINT'] == 60
 c50 = ctl['checkpoint50']
-assert c50['audit_status'] == 'PENDING'
-assert ctl['checkpoint_status']['50'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['ADVANCE_ALLOWED'] is False
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage26-audit'
+
+if ctl['state']['CURRENT_CHECKPOINT'] == 50:
+    assert c50['audit_status'] == 'PENDING'
+    assert ctl['checkpoint_status']['50'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert ctl['next_expected_command'] == 'Stage26-audit'
+else:
+    assert ctl['state']['CURRENT_CHECKPOINT'] >= 60
+    assert ctl['checkpoint_status']['50'] == 'PROVED_AUDITED_PASS_MERGED'
+    assert c50['audit_status'] == 'PASS'
+    assert c50['pr'] == 1018
+    assert c50['merge_commit'] == '6775851010af3f7edc47a8383d6c30cb98be43c1'
+    audit = text('stages/stage26/26-50/audit.md')
+    assert 'AUDIT_VERDICT=PASS' in audit
+    assert 'EXPLICIT_SAUNDERSON_COUNT_ACCEPTED=true' in audit
 
 print('STAGE26_50_SAUNDERSON_COUNT=PASS')
 print('STAGE26_50_EXPLICIT_SUBFAMILY_COEFFICIENT=PASS')
