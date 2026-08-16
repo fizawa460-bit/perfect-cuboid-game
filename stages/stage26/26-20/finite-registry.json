@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage26-20",
+  "checkpoint": 20,
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "source": {
+    "stage18_counts": "stages/stage18/18-20/counts.csv",
+    "stage18_blob_sha": "47475a7a8e42940654323bd2c70f159625054ea3",
+    "stage20_counts": "stages/stage20/20-20/counts.csv",
+    "stage20_blob_sha": "f827347402c1b0460678219b26e6315d0f497901",
+    "common_cutoffs": [50,100,200,400,800,1200,1600,2000]
+  },
+  "compatibility": {
+    "population_match": true,
+    "cutoff_match": true,
+    "multiplicity_match": true,
+    "space_diagonal_required": false,
+    "finite_join_key": "B"
+  },
+  "exact_adapters": {
+    "H_ge2": "M2+M3",
+    "P_raw": "M2+3M3",
+    "r": "M3/M2",
+    "Phi": "M3/(M2+M3)",
+    "Theta": "3M3/(M2+3M3)",
+    "bridge_theta_from_phi": "Theta=3Phi/(1+2Phi)",
+    "bridge_phi_from_theta": "Phi=Theta/(3-2Theta)"
+  },
+  "rows": [
+    {"B":50,"M2":16,"M3":0,"H_ge2":16,"P_raw":16,"Phi":"0","Theta":"0"},
+    {"B":100,"M2":56,"M3":0,"H_ge2":56,"P_raw":56,"Phi":"0","Theta":"0"},
+    {"B":200,"M2":172,"M3":0,"H_ge2":172,"P_raw":172,"Phi":"0","Theta":"0"},
+    {"B":400,"M2":494,"M3":1,"H_ge2":495,"P_raw":497,"Phi":"1/495","Theta":"3/497"},
+    {"B":800,"M2":1347,"M3":3,"H_ge2":1350,"P_raw":1356,"Phi":"1/450","Theta":"3/452"},
+    {"B":1200,"M2":2350,"M3":5,"H_ge2":2355,"P_raw":2365,"Phi":"1/471","Theta":"3/473"},
+    {"B":1600,"M2":3536,"M3":5,"H_ge2":3541,"P_raw":3551,"Phi":"5/3541","Theta":"15/3551"},
+    {"B":2000,"M2":4812,"M3":7,"H_ge2":4819,"P_raw":4833,"Phi":"7/4819","Theta":"7/1611"}
+  ],
+  "unmatched_extended_M3": {
+    "10000":18,
+    "50000":42,
+    "200000":82,
+    "1000000":219,
+    "transition_ratio_allowed": false,
+    "reason": "no frozen matched Stage18 M2 census at these cutoffs"
+  },
+  "num_reuse": {
+    "check": "PASS",
+    "assets": ["NUM-R01","NUM-R03","NUM-R08"],
+    "stage14_num_population_match": "NO_MATCH_SPACE_DIAGONAL_POPULATION",
+    "stage14_num_role": "NEGATIVE_CONTROL_OR_REGRESSION_ONLY"
+  },
+  "firewall": {
+    "finite_data_as_asymptotic_proof": false,
+    "true_M3_exponent_identified": false,
+    "square_root_law_claimed": false,
+    "monotonic_completion_rate_claimed": false,
+    "independence_product_claimed": false,
+    "perfect_cuboid_conclusion": false
+  }
+}
