@@ -49,6 +49,9 @@ assert prop['resolution_candidate']['stage26_handoff_ready'] is True
 
 # Receiver status synchronization: no audited receiver may still claim PENDING.
 receiver_files = (
+    'stages/stage19/post-stage25-50-supersession.md',
+    'stages/stage23/post-stage25-r01/result.md',
+    'stages/stage24/post-stage25-r01/result.md',
     'stages/stage17/post-stage25-r009a.md',
     'stages/stage23/post-stage25-r009a.md',
     'stages/stage18/post-stage25-r010a.md',
@@ -64,6 +67,14 @@ for rel in receiver_files:
     assert 'BACKFLOW_AUDIT_STATUS=PASS' in t, rel
     assert 'BACKFLOW_SYNCHRONIZED=true' in t, rel
     assert 'PENDING_FRESH_AUDIT' not in t, rel
+
+# Stage19 must retain the strongest current quarter-power interface globally and directionally.
+s19 = text('stages/stage19/post-stage25-50-supersession.md')
+assert 'CURRENT_LOWER=N2(B)>>B^(1/4)' in s19
+for token in ('N2,a(B)>>B^(1/4)', 'N2,b(B)>>B^(1/4)', 'N2,c(B)>>B^(1/4)'):
+    assert token in s19
+assert 'TRUE_TARGET_EXPONENT_IDENTIFIED=false' in s19
+assert 'GLOBAL_N2_EXPONENT_UPGRADED=false' in s19
 
 # Accepted mathematical handoff interfaces.
 interfaces = hand['interfaces']
@@ -134,6 +145,7 @@ assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 print('STAGE25_REENTRY_PHASE70_PRIOR_AUDITS_MERGED=PASS')
 print('STAGE25_REENTRY_PHASE70_PROPAGATION_QUEUE=RESOLVED')
 print('STAGE25_REENTRY_PHASE70_BACKFLOW_SYNCHRONIZED=PASS')
+print('STAGE25_REENTRY_PHASE70_STAGE19_STRONGEST_INTERFACE=PASS')
 print('STAGE25_REENTRY_PHASE70_STAGE26_RECEIVER=READY_CANDIDATE')
 print('STAGE25_REENTRY_PHASE70_ARSENAL_PROMOTION=PASS')
 print('STAGE25_REENTRY_PHASE70_P3_REOPEN_FIREWALL=PASS')
