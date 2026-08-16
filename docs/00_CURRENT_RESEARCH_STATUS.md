@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-50-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage26-60-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -27,8 +27,6 @@ STAGE25_REENTRY_R010A_STATUS=AUDITED_PASS_MERGED_PR1008
 STAGE25_REENTRY_PHASE50_STATUS=AUDITED_PASS_MERGED_PR1009
 STAGE25_REENTRY_R011A_STATUS=AUDITED_PASS_MERGED_PR1010
 STAGE25_REENTRY_PHASE60_STATUS=AUDITED_PASS_MERGED_PR1011
-STAGE25_REENTRY_CURRENT_PHASE=70
-STAGE25_REENTRY_PHASE70_TASK=Stage25-um-r007a
 STAGE25_REENTRY_PHASE70_STATUS=AUDITED_PASS_MERGED_PR1012
 STAGE25_REENTRY_STATUS=CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY
 DERIVED_ROUTE_QUEUE_HAS_UNRESOLVED_INTERNAL_ROUTE=false
@@ -38,13 +36,13 @@ ALL_REENTRY_PHASES_AUDITED=true
 STAGE26_ALLOWED=true
 STAGE26_CHECKPOINT10_STATUS=PROVED_AUDITED_PASS_MERGED_PR1014
 STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_MERGED_PR1015
-STAGE26_CHECKPOINT20_EVIDENCE=DERIVED_EXACT_FINITE
 STAGE26_CHECKPOINT30_STATUS=PROVED_AUDITED_PASS_MERGED_PR1016
-STAGE26_CHECKPOINT30_EVIDENCE=PROVED_DERIVED_THEOREM
 STAGE26_CHECKPOINT40_STATUS=PROVED_AUDITED_PASS_MERGED_PR1017
-STAGE26_CHECKPOINT40_EVIDENCE=PROVED_DERIVED_THEOREM
-STAGE26_CHECKPOINT50_STATUS=PROVED_SUBMITTED_PENDING_AUDIT
-STAGE26_CHECKPOINT50_EVIDENCE=PROVED_DERIVED_THEOREM_CANDIDATE
+STAGE26_CHECKPOINT50_STATUS=PROVED_AUDITED_PASS_MERGED_PR1018
+STAGE26_CHECKPOINT60_STATUS=PROVED_SUBMITTED_PENDING_AUDIT
+STAGE26_CHECKPOINT60_EVIDENCE=PROVED_NEW_THEOREM_CANDIDATE
+STAGE26_M3_OLD_LOWER_EXPONENT=1/6
+STAGE26_M3_NEW_LOWER_EXPONENT_CANDIDATE=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
 NEXT_EXPECTED_COMMAND=Stage26-audit
 NEXT_RESEARCH_PROGRAM=Stage26
@@ -52,65 +50,56 @@ NEXT_RESEARCH_PROGRAM=Stage26
 
 ## Current operation
 
-Stage26 checkpoints10 through40 are hostile-audited PASS and merged. Checkpoint50 isolates the explicit Saunderson construction floor inside the Euler target.
+Stage26 checkpoints10 through50 are hostile-audited PASS and merged. Checkpoint60 removes the artificial one-parameter bottleneck in the Saunderson lower construction.
 
-For every even integer `m>=10`, the audited Stage20 construction gives a distinct primitive canonical Euler cuboid with
-
-\[
-R(m)<31m^6.
-\]
-
-Therefore
+For every primitive Pythagorean triple
 
 \[
-F_S(B)=\max\left(0,\left\lfloor\frac12(B/31)^{1/6}\right\rfloor-4\right)
+u^2+v^2=w^2,
 \]
 
-is a certified injected subfamily count and
+the generalized Saunderson formulas
 
 \[
-M_3(B)\ge F_S(B).
+A=u|4v^2-w^2|,\qquad B=v|4u^2-w^2|,\qquad C=4uvw
 \]
 
-With
+produce a primitive Euler cuboid. Using Euclidean parameters
 
 \[
-c_S=\frac1{2\,31^{1/6}},
+u=r^2-s^2,\quad v=2rs,\quad w=r^2+s^2,
 \]
 
-we have
+there are `asymp T^2` primitive opposite-parity parameter pairs with `r,s<=T`, while every resulting cuboid satisfies
 
 \[
-F_S(B)=c_SB^{1/6}+O(1).
+R<72T^6.
 \]
 
-Combining this explicit numerator with the audited host asymptotics gives the checkpoint50 theorem candidates
+The output need not be globally injective. Instead, every input leaves the invariant face diagonal `w^3`; a fixed output has only three face diagonals, and for fixed `w` the number of Pythagorean representations is at most `4 tau(w^2)=B^{o(1)}`. Hence the candidate theorem is
 
 \[
-\liminf_{B\to\infty}B^{5/6}(\log B)^5\frac{M_3(B)}{M_2(B)}
-\ge\frac{c_S}{C_{M_2}}>0,
+\boxed{M_3(B)\gg_\epsilon B^{1/3-\epsilon}\qquad(\epsilon>0).}
 \]
+
+Equivalently `M3(B)>=B^(1/3-o(1))`. The epsilon-free statement `M3(B)>>B^(1/3)` is not claimed.
+
+Together with
 
 \[
-\liminf_{B\to\infty}B^{5/6}(\log B)^5\Phi(B)
-\ge\frac{c_S}{C_{M_2}}>0,
+M_2(B)\sim C_{M_2}B(\log B)^5,
 \]
+
+the Stage26 completion lower corridor improves from the old one-parameter scale to
 
 \[
-\liminf_{B\to\infty}B^{5/6}(\log B)^5\Theta(B)
-\ge\frac{3c_S}{C_{M_2}}>0,
+\frac{M_3(B)}{M_2(B)},\Phi(B),\Theta(B)
+\gg_\epsilon B^{-2/3-\epsilon}(\log B)^{-5},
 \]
 
-and for every fixed directional chamber `j`,
+up to the exact incidence multiplicity in `Theta`.
 
-\[
-\liminf_{B\to\infty}B^{5/6}(\log B)^5\Theta_j(B)
-\ge\frac{c_S}{C_j}>0.
-\]
-
-This proves only a constructive floor. It does not identify the true `M3` growth law or say that the lower scale matches the upper side.
-
-Checkpoint40 remains the upper boundary: for every fixed `0<delta<1/46`, the same completion observables are `o((log B)^(-delta))`. The corridor is therefore still wide.
+Checkpoint40 remains the upper side: for every fixed `0<delta<1/46`, the completion observables are `o((log B)^(-delta))`. The true `M3` scale remains open.
 
 Stage19 remains frozen at
 
@@ -119,23 +108,24 @@ B^(1/4) << N2(B) <<_epsilon B^(1/2+epsilon)
 N2,j(B) >>_j B^(1/4), j=a,b,c
 ```
 
-with the true `N2` exponent open.
+with its true exponent open.
 
 ```text
-TASK_ID=Stage26-50
-CHECKPOINT=50
-EXPLICIT_SAUNDERSON_COUNT_CANDIDATE=true
-EXPLICIT_SUBFAMILY_COEFFICIENT_CANDIDATE=true
-PHI_POSITIVE_LIMINF_CANDIDATE=true
-THETA_POSITIVE_LIMINF_CANDIDATE=true
-DIRECTIONAL_THETA_POSITIVE_LIMINF_CANDIDATE=true
-LOWER_SCALE_MATCHING_TRUE_SCALE_PROVED=false
+TASK_ID=Stage26-60
+CHECKPOINT=60
+GENERAL_SAUNDERSON_TWO_PARAMETER_FAMILY=true
+QUADRATIC_PARAMETER_COUNT_CANDIDATE=true
+DIVISOR_FIBER_BOUND_CANDIDATE=true
+M3_LOWER_B_ONE_THIRD_MINUS_EPSILON_CANDIDATE=true
+M3_LOWER_B_ONE_THIRD_WITHOUT_EPSILON_PROVED=false
+OLD_ONE_SIX_BOTTLENECK_REMOVED_CANDIDATE=true
+UPPER_LOWER_MATCH=false
 M3_ASYMPTOTIC_PROVED=false
 TRUE_M3_EXPONENT_IDENTIFIED=false
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=60
+NEXT_CHECKPOINT=70
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage26-audit
