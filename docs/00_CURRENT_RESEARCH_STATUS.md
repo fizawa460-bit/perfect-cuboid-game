@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage25-reentry-40-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage25-reentry-r010a-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -9,11 +9,11 @@ STAGE15_STATUS=CLOSED_R02_REVIEW_FROZEN
 STAGE16_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R009A_AUXILIARY_MASK_RECEIVER
-STAGE18_STATUS=CLOSED_R01_AUDIT_PASS
+STAGE18_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_PENDING_BACKFLOW
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS_WITH_POST_STAGE25_DIRECTIONAL_SUPERSESSION
-STAGE20_STATUS=CLOSED_R01_AUDIT_PASS
+STAGE20_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_PENDING_RELATIVE_RECEIVER
 STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950
-STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957
+STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957_WITH_R010A_PENDING_DIRECTIONAL_RECEIVER
 STAGE23_STATUS=CLOSED_AUDIT_PASS_MERGED_PR966_WITH_R008A_R009A_BACKFLOW
 STAGE24_STATUS=CLOSED_AUDIT_PASS_MERGED_PR979_WITH_DIRECTIONAL_BACKFLOW
 STAGE25_STATUS=CLOSED_R01_AUDIT_PASS
@@ -22,11 +22,10 @@ STAGE25_REENTRY_PHASE20_STATUS=AUDITED_PASS_MERGED
 STAGE25_REENTRY_R008A_STATUS=AUDITED_PASS_MERGED_PR1004
 STAGE25_REENTRY_PHASE30_STATUS=AUDITED_PASS_MERGED
 STAGE25_REENTRY_R009A_STATUS=AUDITED_PASS_MERGED_PR1006
+STAGE25_REENTRY_PHASE40_STATUS=AUDITED_PASS_MERGED_PR1007
 STAGE25_REENTRY_CURRENT_PHASE=40
-STAGE25_REENTRY_PHASE40_TASK=Stage25-u22-r004a
-STAGE25_REENTRY_PHASE40_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
-STAGE25_REENTRY_PHASE40_RESULT=stages/stage25/25-reentry-40/result.md
-STAGE25_REENTRY_QUEUED_ROUTE=Stage25-um-r010a
+STAGE25_REENTRY_CURRENT_ROUTE=Stage25-um-r010a
+STAGE25_REENTRY_R010A_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
 STAGE25_REENTRY_PHASE50_ALLOWED=false
 STAGE26_ALLOWED=false
 NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
@@ -35,61 +34,47 @@ NEXT_RESEARCH_PROGRAM=docs/stage25-reentry-roadmap.md
 
 ## Current operation
 
-Phase30 and its receiver backflow r009a are hostile-audited and merged. Phase40 now reattacks the no-space Stage16 -> Stage18 transition and prepares a Stage20 receiver.
+Phase40 `Stage25-u22-r004a` is hostile-audited and merged as PR #1007. Its theorem-changing receiver synchronization `Stage25-um-r010a` is now submitted for fresh audit.
 
-For the three raw pair-incidence chambers `P_j` and directional exactly-two counts `M2,j`, the exact face-mask identities are
+The accepted phase40 theorem gives, for each canonical shared edge `j=a,b,c`,
 
-`P_a=M2,a+M3`,
-`P_b=M2,b+M3`,
-`P_c=M2,c+M3`,
+`P_j=M2,j+M3` exactly,
 
-where `M3` is the complete three-face Euler-cuboid population. Thus all pairwise raw-pair contrasts cancel the same `M3` term.
+`M2,j(B)~C_j B(log B)^5`, `C_j>0`,
 
-The audited directional Stage18 theorem is
+`M3/M2,j<<_(j,eta)(log B)^(-eta)->0` for every fixed `eta<1/46`,
 
-`M2,j(B)~C_j B(log B)^5`, `C_j>0`, `j=a,b,c`,
-
-while Stage20 gives, for every fixed `eta<1/46`,
-
-`M3(B)<<_eta B(log B)^(5-eta)`.
-
-Therefore
-
-`M3/M2,j<<_(j,eta)(log B)^(-eta)->0`,
+and therefore
 
 `P_j(B)~C_j B(log B)^5`,
 
-and the literal third-face nonsquare postfilter obeys
-
-`M2,j/P_j->1`
-
-for every direction separately.
-
-Using Stage22's audited source law
-
-`M1(B)~3/(4*pi^2)B^2 log B`,
-
-phase40 also obtains the candidate directional transition theorem
+`M2,j/P_j->1`,
 
 `M2,j/M1~(4*pi^2*C_j/3)(log B)^4/B->0`.
 
-Hence the Stage22 sharp `(log B)^4/B` scale is directionally robust, not an averaging artifact, and the third-face exclusion is not a leading source of the log power. The current inputs still do not canonically decompose `log^4` into four independent arithmetic factors, so `G22_LOG4_FINE_MECHANISM` remains open.
+The r010a receiver propagates these facts to Stage18, Stage20, and Stage22 without changing the frozen global `M2` or `M3` theorems.
+
+The fine-mechanism gate remains live but is narrower:
 
 ```text
-TASK_ID=Stage25-u22-r004a
-EXACT_NO_SPACE_MASK_IDENTITIES=true
-COMMON_TRIPLE_CONTAMINATION=M3
-DIRECTIONAL_THIRD_FACE_POSTFILTER_SURVIVAL_TO_ONE=true
-DIRECTIONAL_STAGE22_SHARP_SCALE=true
+G22_LOG4_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM
+LOG4_DIRECTIONAL_ROBUSTNESS=true
+LOG4_IS_DIRECTIONAL_AVERAGING_ARTIFACT=false
+THIRD_FACE_EXCLUSION_IS_LOG4_CAUSE=false
+COMMON_CANONICAL_PRIMITIVE_CUTOFF_INTERFACE_IS_NEW_LOG4_CAUSE=false
+LIVE_FINE_MECHANISM_LOCUS=ONE_FACE_VS_SHARED_EDGE_DOUBLE_PYTHAGOREAN_RANK6_TORIC_INTERNAL_COUNTING
 FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false
-FINE_MECHANISM_OPEN=true
-TRUE_M3_EXPONENT_IDENTIFIED=false
+```
+
+So the next genuine fine-mechanism attack must occur inside the shared-edge/torsor/toric counting architecture rather than by recharging the third-face mask or directional aggregation.
+
+```text
+ROUTE_ID=Stage25-um-r010a
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
-QUEUED_DERIVED_ROUTE=Stage25-um-r010a
+MERGE_ALLOWED=false
 STAGE25_REENTRY_PHASE50_ALLOWED=false
 STAGE26_ALLOWED=false
-MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
 ```
