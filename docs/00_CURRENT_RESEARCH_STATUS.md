@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-19-r401b-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-19-r401c-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -25,7 +25,7 @@ STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_LOWER_REENTRY_R401B_PENDING_AUDIT
+STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_LOWER_REENTRY_R401C_PENDING_AUDIT
 STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
 STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
 STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
@@ -39,7 +39,8 @@ STAGE27_40AD_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1029
 STAGE27_40AE_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1030
 STAGE27_19_R401_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1031
 STAGE27_19_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1032
-STAGE27_19_R401B_STATUS=CONSTANT_U_BISECTION_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_19_R401B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1033
+STAGE27_19_R401C_STATUS=AFFINE_LINEAR_SUBMITTED_PENDING_FRESH_AUDIT
 STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
@@ -62,10 +63,14 @@ STAGE27_MASTER_PHYSICAL_FIBERS_GENUS_ONE=true
 STAGE27_TAU_ADIC_NO_SECTION_PROVED=true
 STAGE27_R401A_U0_DEGREE2_POINT_ALGEBRAIC=true
 STAGE27_R401A_U0_DEGREE2_POINT_PHYSICAL=false
-STAGE27_CONSTANT_U_BISECTION_DISCRIMINANT_PROVED_CANDIDATE=true
-STAGE27_CONSTANT_U_NONDEGENERATE_GENUS_ONE_CANDIDATE=true
+STAGE27_CONSTANT_U_BISECTION_DISCRIMINANT_PROVED=true
+STAGE27_CONSTANT_U_NONDEGENERATE_GENUS_ONE=true
 STAGE27_CONSTANT_U_RATIONAL_GENUS_ZERO_PHYSICAL_ROUTE_EXISTS=false
-STAGE27_ALL_AFFINE_LINEAR_MULTISECTIONS_CLASSIFIED=false
+STAGE27_AFFINE_LINEAR_RECEIVER_DERIVED_CANDIDATE=true
+STAGE27_AFFINE_LINEAR_GENERIC_GENUS=2
+STAGE27_AFFINE_LINEAR_DISCRIMINANT_FACTORIZATION_PROVED_CANDIDATE=true
+STAGE27_ALL_AFFINE_LINEAR_MULTISECTIONS_CLASSIFIED_CANDIDATE=true
+STAGE27_AFFINE_LINEAR_PHYSICAL_GENUS_ZERO_ROUTE_EXISTS=false
 STAGE27_LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
 STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
@@ -75,68 +80,75 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-Stage27-19-r401a passed hostile audit and PR #1032 merged at
+Stage27-19-r401b passed hostile audit and PR #1033 merged at
 
 ```text
-86b5428d42f7f4c7344bace93b067d580391d7ac
+dcc04e4d778aaaa31f9abb0d39dd98117c33ddb4
 ```
 
-The accepted parent result is that the natural split-factor `tau`-fibration has smooth nonisotrivial genus-one generic fiber and no `Q(tau)` rational section. r401a also exhibited an algebraic degree-two closed point at `u=0`, but did not claim that it survives the Stage19 physical filter.
+The accepted lower-side boundary before this route is:
 
-`Stage27-19-r401b` performs that missing physical check. Using
+- the natural `tau`-fibration has no rational section;
+- the explicit `u=0` degree-two point is nonphysical;
+- every nondegenerate constant rational `u=c` bisection is genus one;
+- the obvious genus-zero moving line `u=tau+1` is the excluded `z=1` boundary.
 
-\[
-D=u^2-\tau-1,
-\qquad
-z=\frac{\tau+(u-1)^2}{D},
-\]
-
-one gets exactly
+`Stage27-19-r401c` classifies the full affine-linear ansatz
 
 \[
-u=0\Rightarrow (x,z)=(1,-1),
-\qquad
-u=1\Rightarrow (x,z)=(-1,-1).
+\boxed{u=a\tau+b,\qquad a,b\in\mathbf Q.}
 \]
 
-Thus the explicit r401a quadratic point lies on the excluded `z^2=1` boundary and is not a nondegenerate Stage19 family.
-
-For a fixed rational constant `u=c`, after setting `S=tau V` the exact bisection curve is
+After setting `S=tau V`, its exact pullback is
 
 \[
-\boxed{
-S^2=\tau(\tau+c^2+1)
-\bigl(\tau^2+(c-1)(c-3)\tau+2(c-1)^2\bigr).
-}
+S^2=H_{a,b}(\tau)
+=\tau A_{a,b}(\tau)Q_{a,b}(\tau),
 \]
 
-Its quartic discriminant is
+with a generic degree-six branch polynomial. Its discriminant factors exactly as
 
 \[
 \boxed{
-64c^6(c-1)^6(c^2+1)^2(c^2-6c+1).
+\operatorname{Disc}_\tau(H_{a,b})
+=1024a^6(a-b)^6(b-1)^6(b^2+1)^2
+(4a^2-4ab-1)F(a,b),
 }
 \]
 
-For rational `c`, the only degenerations are `c=0,1`; both are the physical boundary above. Therefore every nondegenerate rational constant-`u` bisection is a smooth genus-one curve, not a rationally parametrized escape.
+where
 
-The other immediate genus-zero collapse `u=tau+1` satisfies `z=1` identically, so it is also entirely on the excluded boundary. This does not classify all affine-linear `u=a tau+b`; that moving problem is the proposed next route `27-19-r401c`.
+\[
+\begin{aligned}
+F(a,b)={}&16a^4-32a^3b+20a^2b^2-32a^2b+44a^2\\
+&-4ab^3+32ab^2-44ab-b^2+6b-1.
+\end{aligned}
+\]
 
-No exponent above `1/4`, no classification of all multisections, and no true-exponent theorem are claimed.
+Thus the generic moving affine-linear pullback is genus two. Each single rational discriminant component reduces only to a genus-one squareclass. Pairwise component analysis shows that the only rational simultaneous moving degeneration is
+
+\[
+(a,b)=(1,1),
+\]
+
+which is exactly `u=tau+1` and therefore has `z=1` identically. Hence no nondegenerate physical genus-zero member survives in the complete affine-linear ansatz.
+
+This closes the affine-linear rational-parametric shortcut only. It does not classify all nonlinear degree-two multisections, does not prove the master surface nonrational, and does not improve the lower exponent above `1/4`.
+
+The preferred next calibration is to embed the audited R501/R502 quarter-power families into the `(tau,u)` fibration before launching a larger quadratic-moving-u search. That should reveal the actual nonlinear multisection degree and physical-height growth already realized by known Stage19 families.
 
 ```text
-TASK_ID=Stage27-19-r401b
+TASK_ID=Stage27-19-r401c
 CHECKPOINT=40
 ROUTE_KIND=LOWER_REENTRY
-ROUTE_LABEL=CONSTANT_U_BISECTION_HEIGHT_PREFLIGHT
-PARENT_R401A_AUDITED_PASS_MERGED=true
-R401A_U0_DEGREE2_POINT_ALGEBRAIC=true
-R401A_U0_DEGREE2_POINT_PHYSICAL=false
-CONSTANT_U_BISECTION_DISCRIMINANT_PROVED=true
-CONSTANT_U_NONDEGENERATE_GENUS_ONE=true
-CONSTANT_U_RATIONAL_GENUS_ZERO_PHYSICAL_ROUTE_EXISTS=false
-BOUNDARY_LINE_U_EQ_TAU_PLUS_1_PHYSICAL=false
-ALL_AFFINE_LINEAR_MULTISECTIONS_CLASSIFIED=false
+ROUTE_LABEL=AFFINE_LINEAR_MOVING_U_CLASSIFICATION
+PARENT_R401B_AUDITED_PASS_MERGED=true
+AFFINE_LINEAR_RECEIVER_DERIVED=true
+AFFINE_LINEAR_GENERIC_GENUS=2
+AFFINE_LINEAR_DISCRIMINANT_FACTORIZATION_PROVED=true
+AFFINE_LINEAR_SINGLE_DEGENERATION_GENUS=1
+ALL_AFFINE_LINEAR_MULTISECTIONS_CLASSIFIED=true
+AFFINE_LINEAR_PHYSICAL_GENUS_ZERO_ROUTE_EXISTS=false
 LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
@@ -145,6 +157,6 @@ ADVANCE_ALLOWED=false
 NEXT_CHECKPOINT=40
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_DERIVED_ROUTE=27-19-r401c
+NEXT_DERIVED_ROUTE=27-19-r401d
 NEXT_EXPECTED_COMMAND=Stage27-19-r401-audit
 ```
