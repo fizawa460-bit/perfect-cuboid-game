@@ -58,6 +58,7 @@ STAGE27_LOWER_FAMILY_EXPONENT_CALCULUS_PROVED=true
 STAGE27_MASTER_SPACE_RECEIVER_DERIVED=true
 STAGE27_MASTER_SPLIT_FACTORIZATION_PROVED_CANDIDATE=true
 STAGE27_MASTER_PHYSICAL_FIBERS_GENUS_ONE_CANDIDATE=true
+STAGE27_BINARY_QUARTIC_DISCRIMINANT_PROVED_CANDIDATE=true
 STAGE27_TAU_ADIC_NO_SECTION_CANDIDATE=true
 STAGE27_GENERIC_DEGREE2_CLOSED_POINT_EXHIBITED_CANDIDATE=true
 STAGE27_LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
@@ -102,13 +103,15 @@ After rationally parametrizing the first conic, the second square condition beco
 }
 \]
 
-Its quartic discriminant is
+The homogenized binary-quartic discriminant is
 
 \[
-4096\tau^2(\tau+1)^8,
+4096\tau^2(\tau+1)^8.
 \]
 
-so every physical `tau!=0,-1` fiber is smooth genus one. A `tau`-adic valuation argument over `Q((tau))` gives an odd/even parity contradiction for every affine point, and the infinity squareclass `(tau+2)/tau` also has odd valuation. Thus the generic fiber has no `Q(tau)`-rational point and this natural fibration has no rational section.
+At `tau=-2` the affine equation is cubic, but its cubic discriminant is `1024` and the binary-quartic discriminant remains nonzero because the fourth branch point is the simple point at infinity. Thus every physical `tau!=0,-1` fiber is smooth genus one.
+
+A `tau`-adic valuation argument over `Q((tau))` gives an odd/even parity contradiction for every affine point, and the infinity squareclass `(tau+2)/tau` also has odd valuation. Thus the generic fiber has no `Q(tau)`-rational point and this natural fibration has no rational section.
 
 At `u=0` there is an explicit quadratic point after adjoining `sqrt((tau+2)/tau)`. Therefore the immediate lower-side escape is not a degree-one section but a low-degree multisection/base change. The next exact research gate is to audit degree-two and other low-degree multisections against the physical height and the already accepted `kappa/h>1/4` criterion.
 
@@ -121,6 +124,7 @@ ROUTE_KIND=LOWER_REENTRY
 ROUTE_LABEL=MASTER_SPLIT_GENUS_ONE_TORSOR
 PARENT_R401_AUDITED_PASS_MERGED=true
 MASTER_SPLIT_FACTORIZATION_PROVED=true
+BINARY_QUARTIC_DISCRIMINANT_PROVED=true
 PHYSICAL_GENERIC_FIBER_GENUS=1
 TAU_ADIC_LOCAL_OBSTRUCTION_PROVED=true
 GENERIC_RATIONAL_SECTION_EXISTS=false
