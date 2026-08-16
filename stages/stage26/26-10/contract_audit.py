@@ -63,7 +63,6 @@ assert ctl["transition"] == "Stage18 -> Stage20"
 assert ctl["literal_subset_transition"] is False
 assert ctl["checkpoint10"]["discovery_audit"] == "PASS_BY_CODEX"
 
-# Lifecycle-aware checkpoint10: its mathematics stays immutable after audit and merge.
 c10 = ctl["checkpoint10"]
 if c10["mathematical_audit"] == "PENDING":
     assert ctl["checkpoint_status"]["10"] == "PROVED_SUBMITTED_PENDING_AUDIT"
