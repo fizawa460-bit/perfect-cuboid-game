@@ -1,0 +1,20 @@
+name: Stage27-19-r401d R501 R502 calibration
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r401d/**'
+      - 'stages/stage27/27-19-r401c/**'
+      - '.github/workflows/stage27-19-r401d-r501-r502-calibration.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage27-19-r401d:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-19-r401d calibration
+        run: python stages/stage27/27-19-r401d/verify_27_19_r401d.py
