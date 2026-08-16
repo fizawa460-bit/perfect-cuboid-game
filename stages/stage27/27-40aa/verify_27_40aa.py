@@ -53,7 +53,6 @@ for marker in [
 
 # Fixed r preserves the B^o(1) exponent loss: r*epsilon_B -> 0.
 for r in [1, 2, 3, 7, 20]:
-    # Deterministic proxy: if epsilon_B=1/n, fixed r/n -> 0.
     vals = [r / n for n in [1000, 10000, 100000]]
     assert vals[-1] < vals[0]
     assert vals[-1] < 0.001
@@ -79,13 +78,19 @@ for marker in [
 ]:
     assert marker in res, marker
 
-# Lifecycle and firewalls.
+# Lifecycle and firewalls. 40aa may be the active submission or an audited,
+# merged parent while later checkpoint40 child routes remain active.
 aa = ctl['derived_routes']['Stage27-40aa']
 assert ctl['derived_routes']['Stage27-r401a']['audit_status'] == 'PASS'
 assert ctl['derived_routes']['Stage27-r401a']['merge_commit'] == '05f460c6df069f9b6da58409bc19378920a5666f'
-assert aa['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
-assert aa['audit_status'] == 'PENDING'
+assert aa['status'] in ('SUBMITTED_PENDING_FRESH_AUDIT', 'AUDITED_PASS_MERGED')
 assert aa['strict_sub_sqrt_upper_proved'] is False
+if aa['status'] == 'AUDITED_PASS_MERGED':
+    assert aa['audit_status'] == 'PASS'
+    assert aa['pr'] == 1028
+    assert aa['merge_commit'] == 'b60f35fcea451a53ab3dd193963d3c98066c1924'
+else:
+    assert aa['audit_status'] == 'PENDING'
 assert ctl['checkpoint_status']['50'] == 'BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE'
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
 assert ctl['state']['NEXT_CHECKPOINT'] == 40
@@ -93,12 +98,19 @@ assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
 assert ctl['state']['ADVANCE_ALLOWED'] is False
 assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['next_expected_command'] == 'Stage27-audit'
-assert 'CURRENT_STAGE=Stage27-40aa-SUBMITTED-PENDING-FRESH-AUDIT' in status
-assert 'STAGE27_40AA_STATUS=MAIN_CRT2_SUBMITTED_PENDING_FRESH_AUDIT' in status
+assert (
+    'CURRENT_STAGE=Stage27-40aa-SUBMITTED-PENDING-FRESH-AUDIT' in status
+    or 'CURRENT_STAGE=Stage27-40ad-SUBMITTED-PENDING-FRESH-AUDIT' in status
+)
+assert (
+    'STAGE27_40AA_STATUS=MAIN_CRT2_SUBMITTED_PENDING_FRESH_AUDIT' in status
+    or 'STAGE27_40AA_STATUS=AUDITED_PASS_MERGED_PR1028' in status
+)
 assert 'STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true' in status
 
 print('STAGE27_40AA_UPSTREAM=PASS')
 print('STAGE27_40AA_EXACT_MAIN_INTERFACE=PASS')
 print('STAGE27_40AA_FIXED_MOMENT_EQUIVALENCE=PASS')
 print('STAGE27_40AA_SUPPORT_GATE=PASS')
+print('STAGE27_40AA_CHILD_ROUTE_LIFECYCLE=PASS')
 print('STAGE27_40AA_FIREWALL=PASS')
