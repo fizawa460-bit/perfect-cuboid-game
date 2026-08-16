@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-40-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage26-40-AUDITED-PASS-AWAITING-MERGE
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -43,16 +43,17 @@ STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_MERGED_PR1015
 STAGE26_CHECKPOINT20_EVIDENCE=DERIVED_EXACT_FINITE
 STAGE26_CHECKPOINT30_STATUS=PROVED_AUDITED_PASS_MERGED_PR1016
 STAGE26_CHECKPOINT30_EVIDENCE=PROVED_DERIVED_THEOREM
-STAGE26_CHECKPOINT40_STATUS=PROVED_SUBMITTED_PENDING_AUDIT
-STAGE26_CHECKPOINT40_EVIDENCE=PROVED_DERIVED_THEOREM_CANDIDATE
+STAGE26_CHECKPOINT40_STATUS=PROVED_AUDITED_PASS_AWAITING_MERGE_PR1017
+STAGE26_CHECKPOINT40_EVIDENCE=PROVED_DERIVED_THEOREM
+STAGE26_CHECKPOINT40_AUDIT=PASS
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
-NEXT_EXPECTED_COMMAND=Stage26-audit
+NEXT_EXPECTED_COMMAND=merge PR #1017; then Stage26-main-batch
 NEXT_RESEARCH_PROGRAM=Stage26
 ```
 
 ## Current operation
 
-Stage25-reentry is fully closed and synchronized. Stage26 checkpoints10, 20, and 30 are hostile-audited PASS and merged as PRs #1014, #1015, and #1016. Checkpoint30 merge commit is `e5e884e37f62db78a31f09d8927be230f07b0f2f`.
+Stage25-reentry is fully closed and synchronized. Stage26 checkpoints10, 20, and 30 are hostile-audited PASS and merged as PRs #1014, #1015, and #1016. Checkpoint40 is hostile-audited PASS and awaits merge as PR #1017.
 
 Checkpoint30 proved, on the common primitive/canonical no-space Euclidean population,
 
@@ -68,7 +69,7 @@ and the literal completion observables
 \Theta(B)=\frac{3M_3(B)}{M_2(B)+3M_3(B)}\to0.
 \]
 
-Checkpoint40 now consumes the full Stage20 upper-family quantifier. For every fixed
+Checkpoint40 consumes the full Stage20 upper-family quantifier. For every fixed
 
 \[
 0<\eta<1/46,
@@ -86,13 +87,13 @@ while Stage18 gives
 M_2(B)\sim C_{M_2}B(\log B)^5.
 \]
 
-Therefore, for any fixed
+Therefore, for every fixed
 
 \[
 0<\delta<1/46,
 \]
 
-choose a fixed `eta` with `delta<eta<1/46`. Then the checkpoint40 candidate is
+choose a fixed `eta` with `delta<eta<1/46`. The audited theorem is
 
 \[
 \boxed{\frac{M_3(B)}{M_2(B)}=o((\log B)^{-\delta})},
@@ -129,20 +130,20 @@ with the true `N2` exponent still open.
 ```text
 TASK_ID=Stage26-40
 CHECKPOINT=40
-EVIDENCE_LEVEL=PROVED_DERIVED_THEOREM_CANDIDATE
+EVIDENCE_LEVEL=PROVED_DERIVED_THEOREM
 CHECKPOINT30_MERGED_PR=1016
 FOR_EVERY_FIXED_DELTA_LT_1_OVER_46=true
 ENDPOINT_DELTA_1_OVER_46_PROVED=false
-DIRECTIONAL_LITTLE_O_CANDIDATE=true
+DIRECTIONAL_LITTLE_O_ACCEPTED=true
 LOCAL_BLOCKER_AND_THIN_COVER_SAVINGS_MULTIPLIED=false
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 TRUE_M3_EXPONENT_IDENTIFIED=false
 K3_MANIN_TRANSFER=false
 INDEPENDENCE_CLAIM=false
-AUDIT_STATUS=PENDING
-ADVANCE_ALLOWED=false
+AUDIT_STATUS=PASS
+ADVANCE_ALLOWED=true
 NEXT_CHECKPOINT=50
-MERGE_ALLOWED=false
+MERGE_ALLOWED=true
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=Stage26-audit
+NEXT_EXPECTED_COMMAND=merge PR #1017; then Stage26-main-batch
 ```
