@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage25-reentry-r011a-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage25-reentry-60-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -9,11 +9,11 @@ STAGE15_STATUS=CLOSED_R02_REVIEW_FROZEN
 STAGE16_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE16S_STATUS=CLOSED_R01_AUDIT_PASS
 STAGE17_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R009A_AUXILIARY_MASK_RECEIVER
-STAGE18_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_BACKFLOW
+STAGE18_STATUS=CLOSED_R01_AUDIT_PASS_WITH_PHASE60_COMPLETION_RECEIVER_PENDING_AUDIT
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS_WITH_POST_STAGE25_DIRECTIONAL_SUPERSESSION
-STAGE20_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_RELATIVE_RECEIVER
-STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950_WITH_R011A_GEOMETRIC_RECEIVER_PENDING_AUDIT
-STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957_WITH_R011A_GEOMETRIC_RECEIVER_PENDING_AUDIT
+STAGE20_STATUS=CLOSED_R01_AUDIT_PASS_WITH_PHASE60_COMPLETION_RECEIVER_PENDING_AUDIT
+STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950_WITH_R011A_GEOMETRIC_RECEIVER_AUDITED_PASS_MERGED
+STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957_WITH_R011A_GEOMETRIC_RECEIVER_AUDITED_PASS_MERGED
 STAGE23_STATUS=CLOSED_AUDIT_PASS_MERGED_PR966_WITH_R008A_R009A_BACKFLOW
 STAGE24_STATUS=CLOSED_AUDIT_PASS_MERGED_PR979_WITH_DIRECTIONAL_BACKFLOW
 STAGE25_STATUS=CLOSED_R01_AUDIT_PASS
@@ -25,10 +25,11 @@ STAGE25_REENTRY_R009A_STATUS=AUDITED_PASS_MERGED_PR1006
 STAGE25_REENTRY_PHASE40_STATUS=AUDITED_PASS_MERGED
 STAGE25_REENTRY_R010A_STATUS=AUDITED_PASS_MERGED_PR1008
 STAGE25_REENTRY_PHASE50_STATUS=AUDITED_PASS_MERGED_PR1009
-STAGE25_REENTRY_CURRENT_PHASE=50
-STAGE25_REENTRY_CURRENT_ROUTE=Stage25-um-r011a
-STAGE25_REENTRY_R011A_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
-STAGE25_REENTRY_PHASE60_ALLOWED=false
+STAGE25_REENTRY_R011A_STATUS=AUDITED_PASS_MERGED_PR1010
+STAGE25_REENTRY_CURRENT_PHASE=60
+STAGE25_REENTRY_PHASE60_TASK=Stage25-u20-r006a
+STAGE25_REENTRY_PHASE60_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STAGE25_REENTRY_PHASE70_ALLOWED=false
 STAGE26_ALLOWED=false
 NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
 NEXT_RESEARCH_PROGRAM=docs/stage25-reentry-roadmap.md
@@ -36,46 +37,55 @@ NEXT_RESEARCH_PROGRAM=docs/stage25-reentry-roadmap.md
 
 ## Current operation
 
-Phase50 PR #1009 is hostile-audited and merged as `8765eb73db07da8afb8ad9b1f9a538ff8cd080ee`.  Its wording repair remains binding: the accepted Stage21 result is a net `+2` log-power localization, not an unnamed source-target pole-order subtraction.
-
-r011a attacks that exact gap by placing the three leading raw incidence geometries in one generalized height-invariant ledger:
+r011a hostile audit PASS is merged as PR #1010 / `e64f21621bb1b7062dfd21f186e6ed1bcc191272`. The accepted geometric ledger is
 
 ```text
-M1: (a,b)=(2,2) -> B^2(log B)^1
-N1: (a,b)=(1,4) -> B(log B)^3
-M2: (a,b)=(1,6) -> B(log B)^5
+M1: (a,b)=(2,2)
+N1: (a,b)=(1,4)
+M2: (a,b)=(1,6)
 ```
 
-The new load-bearing calculation is that the nested one-face-plus-space quartic surface is a `Q(i)`-twist of the Stage15 split `4A1` quartic-del-Pezzo surface.  Complex conjugation is induced on Stage15 parameters by `(m:n)<->(n:m)`, pairing the four blown-up corner classes in two pairs while fixing the two ruling classes.  The rational Picard invariant rank is therefore four.
+and closes the Stage21/22 fine mechanism only at the geometric Manin-invariant level. The independent-factor / common-pole-slot firewall remains binding.
 
-If fresh audit accepts the geometry, the transition mechanisms become
+Phase60 now attacks the actual third-face transition on the no-space Euler side. With raw shared-edge pair incidences
 
 ```text
-STAGE21_DELTA_A=-1
-STAGE21_DELTA_B=+2
-STAGE22_DELTA_A=-1
-STAGE22_DELTA_B=+4
-LOG4_B_JUMP_DECOMPOSITION=(4-2)+(6-4)=2+2
-G21_LOG2_FINE_MECHANISM=CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL_CANDIDATE
-G22_LOG4_FINE_MECHANISM=CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL_CANDIDATE
+P_j=M2,j+M3
+P=M2+3M3
 ```
 
-The independent-factor firewall remains:
+define the literal completion proportions
 
 ```text
-SOURCE_TARGET_COMMON_DIRICHLET_POLE_LEDGER_PROVED=false
-POLE_SURPLUS_CLAIM=false
-H_AND_L_ONE_LOG_EACH_PROVED=false
-FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false
-PERFECT_CUBOID_CONCLUSION=NONE
+Theta_j=M3/P_j
+Theta=3M3/P
 ```
 
+Using the audited Stage18 toric denominator and Stage20 S20-W01/W02 inputs gives the candidate two-sided corridor, for every fixed eta<1/46,
+
 ```text
-ROUTE_ID=Stage25-um-r011a
+B^(-5/6)(log B)^(-5) <<_j Theta_j <<_(j,eta) (log B)^(-eta)
+B^(-5/6)(log B)^(-5) << Theta   <<_eta     (log B)^(-eta)
+```
+
+and the exact-numerator cancellation yields the candidate directional theorem
+
+```text
+Theta_j/Theta_k -> C_k/C_j.
+```
+
+This does not identify the true `M3` exponent and does not extend the r011a `(a,b)` ledger through the K3 cover.
+
+```text
+TASK_ID=Stage25-u20-r006a
+RAW_PAIR_COMPLETION_RECEIVER_MATERIALIZED=true
+STAGE20_STAGE26_READY_INTERFACE_CANDIDATE=true
+TRUE_M3_EXPONENT_IDENTIFIED=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
 MERGE_ALLOWED=false
-STAGE25_REENTRY_PHASE60_ALLOWED=false
+STAGE25_REENTRY_PHASE70_ALLOWED=false
 STAGE26_ALLOWED=false
+PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
 ```
