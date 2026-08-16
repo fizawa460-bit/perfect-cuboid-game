@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage27-40aa",
+  "owner_stage": "Stage27",
+  "trigger_checkpoint": 40,
+  "route_kind": "UPPER_ONLY",
+  "route_priority": 1,
+  "route_label": "MAIN_CRT2",
+  "upstream": {
+    "r401a_pr": 1026,
+    "r401a_merge_commit": "05f460c6df069f9b6da58409bc19378920a5666f",
+    "r401a_audit": "PASS",
+    "checkpoint50_authorized": false
+  },
+  "exact_interface": {
+    "moving_divisors": "t_p|m^circ, t_q|m^circ",
+    "nested_divisor": "f|N, N=t_p*t_q",
+    "root_congruence_U": "G_- f^2 == -G_+ N (mod 2U)",
+    "root_congruence_V": "G_- f^2 == G_+ N (mod 2V)",
+    "witness_count": "N_rec(u,v)=#Omega_rec(u,v)",
+    "uniform_witness_upper": "B^o(1)",
+    "support": "T_rec={(u,v):N_rec(u,v)>0}"
+  },
+  "fixed_moment_lemma": {
+    "for_every_fixed_integer_r_ge_1": true,
+    "lower": "#T_rec<=S_r",
+    "upper": "S_r<=B^o(1)#T_rec",
+    "same_fixed_power_exponent": true,
+    "second_moment_intrinsic_saving": false,
+    "fixed_higher_moment_intrinsic_saving": false
+  },
+  "remaining_gate": {
+    "object": "critical-wall support mass of simultaneous nested two-level CRT solvability",
+    "required_form": "#T_rec,wall << B^(kappa-delta+o(1)) uniformly on retained principal wall cells, or chargeable-exception equivalent",
+    "delta_fixed_positive_required": true,
+    "support_deficit_proved": false
+  },
+  "next_ranked_route_after_pass": "27-40ab:T-AVG-ADAPTER",
+  "verdict": {
+    "main_crt2_attack_executed": true,
+    "main_fixed_moment_reweighting_route_closed": true,
+    "strict_sub_sqrt_upper_proved": false,
+    "new_mu_lt_half_proved": false,
+    "finite_data_used_as_proof": false,
+    "independence_product_claimed": false,
+    "true_N2_exponent_identified": false,
+    "perfect_cuboid_conclusion": "NONE"
+  }
+}

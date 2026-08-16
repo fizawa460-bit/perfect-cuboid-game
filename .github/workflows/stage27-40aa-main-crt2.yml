@@ -1,0 +1,23 @@
+name: Stage27-40aa MAIN CRT2 support attack
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage27/**'
+      - 'stages/stage14/14-4gg/result.md'
+      - 'stages/stage14/14-4gh/result.md'
+      - 'stages/stage14/14-4ghH/result.md'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-40aa-main-crt2.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage27-40aa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-40aa MAIN CRT2 attack
+        run: python stages/stage27/27-40aa/verify_27_40aa.py
