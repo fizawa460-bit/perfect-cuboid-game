@@ -1,0 +1,39 @@
+name: Stage27-19-r402b lifecycle sync
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r402b-fixed-tau-fiber
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-19-r402b-fixed-tau-fiber
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Apply canonical lifecycle sync
+        run: python stages/stage27/27-19-r402b/lifecycle_sync.py
+      - name: Verify synchronized state
+        run: |
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python stages/stage27/27-19-r402b/verify_27_19_r402b.py
+          git diff --check
+      - name: Commit synchronized state
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage27/27-controller.json docs/00_CURRENT_RESEARCH_STATUS.md
+          if git diff --cached --quiet; then
+            echo 'No lifecycle changes required.'
+          else
+            git commit -m 'Stage27-19-r402b canonical lifecycle sync [r402b-sync]'
+            git push origin HEAD:agent/stage27-19-r402b-fixed-tau-fiber
+          fi
