@@ -1,7 +1,7 @@
 # Stage24 arsenal promotion — exactly-two ambient to exactly-two + space
 
 PROMOTION_ID=AR-STAGE24-TRANSITION-M2-N2
-STATUS=CANDIDATE_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_CLOSED_WITH_STAGE25_LOWER_SUPERSESSION
 SOURCE_STAGE=Stage24
 SOURCE_CHECKPOINT=70
 
@@ -9,7 +9,8 @@ SOURCE_CHECKPOINT=70
 
 Portable interface for later Stage25/26/27/28 work and any future Stage19 lower-bound analysis. This promotion packages three Stage24-specific outputs that were not available at the historical Stage19 closeout:
 
-1. the current two-sided Stage18 -> Stage19 population interface;
+1. the historical Stage24 two-sided Stage18 -> Stage19 population interface,
+   whose lower side was later strengthened by Stage25;
 2. the mixed-parity C17 infinite primitive construction;
 3. the independent degree-two space-square thin-cover zero-density route.
 
@@ -36,14 +37,14 @@ M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
 \]
 
 \[
-\sqrt{\log B}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
+B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
 
 Therefore
 
 \[
 \boxed{
-B^{-1}(\log B)^{-9/2}
+B^{-3/4}(\log B)^{-5}
 \ll
 N_2(B)/M_2(B)
 \ll_\varepsilon
@@ -119,7 +120,7 @@ Directional consequence on this cone:
 \boxed{N_{2,c}(B)\gg\sqrt{\log B}}.
 \]
 
-The historical odd/odd specialization remains impossible modulo 16. The reusable lesson is that parity strata of the same ambient algebraic formula can have qualitatively different space-lift behavior.
+The historical odd/odd specialization remains impossible modulo 16. The reusable lesson is that parity strata of the same ambient algebraic formula can have qualitatively different space-lift behavior. Its quantitative `sqrt(log B)` lower is superseded by S25-W01, but the construction remains a parked parity-stratum example.
 
 ## Reusable space-square thin-cover route
 
@@ -180,7 +181,8 @@ Later stages may compare this transition against Stage16S/21/22/23, but the foll
 - Stage21 `(log B)^2` enhancement belongs to the one-face host and does not automatically transfer to Stage24;
 - Stage23 already contains space in its source and must not charge space twice;
 - `N2/N1` and `M2/M1` are adjacent-stratum count ratios, not objectwise survival probabilities;
-- the current Stage22/23 cross-ratio sign relative to 1 is unresolved;
+- the Stage25 cross-ratio sign is positive divergent, but it remains a matched
+  population interaction invariant rather than an independent probability;
 - C17 is a lower witness, not evidence for bulk density.
 
 ## Reuse conditions
@@ -190,14 +192,15 @@ Direct reuse requires exact population, canonicalization, primitivity, physical 
 ## Nonclaims
 
 ```text
-POSITIVE_POWER_LOWER_BOUND_PROVED=false
+POSITIVE_POWER_LOWER_BOUND_PROVED=true
+CURRENT_POSITIVE_POWER_LOWER_BOUND=N2(B)>>B^(1/4)
 MATCHING_HALF_POWER_LOWER_BOUND_PROVED=false
 STRICT_SUB_SQRT_WHOLE_FAMILY_UPPER_PROVED=false
 TRUE_TARGET_EXPONENT_IDENTIFIED=false
 HALF_POWER_INTRINSIC_PROVED=false
 HALF_POWER_CAUSAL_MECHANISM_IDENTIFIED=false
-STAGE24_GLOBAL_INTERACTION_SIGN=UNRESOLVED
-SECOND_ORDER_INTERACTION_SIGN=UNRESOLVED
+STAGE24_GLOBAL_INTERACTION_SIGN=POSITIVE_DIVERGENT_BY_STAGE25_BACKFLOW
+SECOND_ORDER_INTERACTION_SIGN=POSITIVE_DIVERGENT_BY_STAGE25_BACKFLOW
 SURVIVOR_RATIO_LEADING_CONSTANT_AVAILABLE=false
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
@@ -207,5 +210,7 @@ ARSENAL_PROMOTION_REQUIRED=true
 ARSENAL_PROMOTION_DECISION=YES
 ARSENAL_PROMOTION_MATERIALIZED=true
 REUSE_CLASS=DIRECT_ON_EXACT_STAGE24_CONTRACT_WITH_EXPLICIT_ADAPTER_REQUIRED_OTHERWISE
-AUDIT_REQUIRED=true
+AUDIT_REQUIRED=false
+C17_STATUS=PARKED_PARITY_EXAMPLE_SUPERSEDED_AS_GLOBAL_LOWER
+SPACE_SQUARE_THIN_COVER_STATUS=PARKED_ALTERNATE_QUALITATIVE_PROOF
 ```

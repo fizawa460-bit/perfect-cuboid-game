@@ -1,10 +1,11 @@
-# Current whole-family ledger after s7-13
+# Historical whole-family ledger after s7-13
 
 ```yaml
 ID: TB-LEDGER-current-whole-family-after-s7-13
 TYPE: LEDGER
-STATUS: CURRENT
-TITLE: Current whole-family exponent 7/8 after full-coordinate common refinement
+STATUS: SUPERSEDED
+SUPERSEDED_BY: AR-006
+TITLE: Historical whole-family exponent 7/8 after full-coordinate common refinement
 SCOPE: BOTH
 SOURCE_STAGE: Stage14-s7-13
 SOURCE_PR: 434
@@ -20,12 +21,12 @@ Merged s7-13 keeps the proved s7-10/4by two-cell theorem and refines a short red
 ## OUTPUT
 
 ```text
-CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8
+HISTORICAL_PHYSICAL_WHOLE_FAMILY_EXPONENT=7/8
 IMPROVEMENT_OVER_13_14=3/56
 CUMULATIVE_POST_LOCAL_SAVING_FROM_41_42=17/168
 CURRENT_REMAINING_GAP_TO_SQRT=3/8
 FULL_COORDINATE_REFINEMENT_ARCHITECTURE_BARRIER=7/8
-SQRT_B_UPPER_BOUND_PROVED=false
+SQRT_B_UPPER_BOUND_PROVED_AT_THIS_STAGE=false
 ```
 
 ## VARIABLE DICTIONARY
@@ -41,13 +42,14 @@ and uses their minimum, not their product. The worst point is `m=3/8`, giving `7
 
 ## USED BY
 
-- Every current Stage14 main/s exponent comparison after merged s7-13.
-- Selecting a genuinely new receiver beyond the full-coordinate refinement barrier.
+- Historical reconstruction of the Stage14 main/s route after merged s7-13.
+- Diagnosing which full-coordinate refinement barrier was later broken by AR-006.
 
 ## DO NOT USE FOR
 
 - Do not multiply fixed-coordinate and two-cell savings; s7-13 explicitly takes the minimum on the common refinement.
-- Do not claim the square-root upper bound.
+- Do not use `7/8` as the current Stage14 whole-family exponent. AR-006 proves
+  `N_2(B) << B^(1/2+o(1))` on the final physical Stage14 population.
 
 ## PROVENANCE NOTES
 

@@ -41,6 +41,8 @@ Current frozen review artifacts:
 
 ## Stage14 reusable interfaces
 
+- `research-arsenal-index.md` — project-wide current weapon router, including Stage17-25 promotions and supersession state
+- `research-arsenal-index.json` — machine-readable project-wide weapon registry
 - `stage14-arsenal.md` — authoritative weapon registry
 - `stage14-arsenal-index.md` — obstruction/search index
 - `stage14-arsenal-stage15-map.md` — historical Stage15 reuse map

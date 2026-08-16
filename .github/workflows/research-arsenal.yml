@@ -1,0 +1,27 @@
+name: Research arsenal registry
+
+on:
+  pull_request:
+    paths:
+      - 'docs/research-arsenal-index.md'
+      - 'docs/research-arsenal-index.json'
+      - 'docs/stage14-arsenal.md'
+      - 'docs/stage14-toolbox/**'
+      - 'docs/stage20-arsenal.md'
+      - 'docs/stage21-arsenal.md'
+      - 'docs/stage22-arsenal-promotion.md'
+      - 'docs/stage23-arsenal-promotion.md'
+      - 'docs/stage24-arsenal-promotion.md'
+      - 'docs/stage25-arsenal-promotion.md'
+      - 'scripts/verify_research_arsenal.py'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/verify_research_arsenal.py
