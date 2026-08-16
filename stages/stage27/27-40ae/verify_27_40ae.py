@@ -17,7 +17,7 @@ res = text('stages/stage27/27-40ae/result.md')
 ctl = data('stages/stage27/27-controller.json')
 status = text('docs/00_CURRENT_RESEARCH_STATUS.md')
 
-for marker in ['U=L_x^+', 'V=L_x^-', 'primitive root-line pair support']:
+for marker in ['U=L_x^+', 'V=L_x^-', 'primitive pair `(U,V)`']:
     assert marker in s14, marker
 assert 'AUDIT_VERDICT=PASS' in a40ad
 assert 'CONTINUE_UPPER_EXPLORATION_AFTER_PASS=true' in a40ad
