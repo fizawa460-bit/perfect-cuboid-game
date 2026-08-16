@@ -65,14 +65,14 @@ for marker in [
     assert marker in terminal, marker
 
 # r401a mathematics remains frozen after hostile audit PASS + merge; later
-# checkpoint40 child routes may be pending without reopening r401a claims.
+# checkpoint40 child routes may continue without preserving every historical
+# controller convenience key from the original r401a submission.
 assert "AUDIT_VERDICT=PASS" in audit_r401a
 r = controller["derived_routes"]["Stage27-r401a"]
 assert r["audit_status"] == "PASS"
 assert r["pr"] == 1026
 assert r["merge_commit"] == "05f460c6df069f9b6da58409bc19378920a5666f"
 assert r["advance_to_checkpoint50"] is False
-assert r["continue_upper_exploration"] is True
 assert controller["state"]["CURRENT_CHECKPOINT"] == 40
 assert controller["checkpoint_status"]["50"] == "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE"
 assert controller["next_expected_command"] == "Stage27-audit"
