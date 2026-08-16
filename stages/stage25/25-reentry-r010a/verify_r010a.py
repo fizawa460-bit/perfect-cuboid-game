@@ -51,16 +51,31 @@ r10 = ctrl['r010a_submission']
 assert r10['route_id'] == 'Stage25-um-r010a'
 assert r10['parent_pr'] == 1007
 assert r10['parent_merge_commit'] == 'eebe4cd59caef804be76508f3773f2af6c7d47f2'
-assert r10['audit_status'] == 'PENDING'
-assert r10['advance_allowed'] is False
-assert r10['merge_allowed'] is False
 assert ctrl['current_phase'] == 40
-assert ctrl['phases']['40']['status'] == 'AUDITED_PASS_MERGED_BACKFLOW_SUBMITTED_PENDING_AUDIT'
 assert ctrl['phases']['50']['status'] == 'BLOCKED_UNTIL_R010A_AUDIT_PASS_MERGE'
 assert ctrl['propagation_queue'][-1]['route_id'] == 'Stage25-um-r010a'
-assert ctrl['propagation_queue'][-1]['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
 assert ctrl['stage26_gate']['stage26_allowed'] is False
-assert ctrl['next_expected_command'] == 'Stage25-reentry-audit'
+
+if r10['audit_status'] == 'PENDING':
+    assert r10['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+    assert r10['advance_allowed'] is False
+    assert r10['merge_allowed'] is False
+    assert reg['audit_status'] == 'PENDING'
+    assert ctrl['propagation_queue'][-1]['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+    assert ctrl['next_expected_command'] == 'Stage25-reentry-audit'
+elif r10['audit_status'] == 'PASS':
+    assert r10['status'] == 'AUDITED_PASS_AWAITING_MERGE'
+    assert r10['advance_allowed'] is True
+    assert r10['merge_allowed'] is True
+    assert reg['audit_status'] == 'PASS'
+    assert reg['advance_allowed'] is True
+    assert reg['merge_allowed'] is True
+    assert ctrl['status'] == 'PHASE40_BACKFLOW_R010A_AUDITED_PASS_AWAITING_MERGE'
+    assert ctrl['phases']['40']['status'] == 'AUDITED_PASS_MERGED_BACKFLOW_AUDITED_PASS_AWAITING_MERGE'
+    assert ctrl['propagation_queue'][-1]['status'] == 'AUDITED_PASS_AWAITING_MERGE'
+    assert ctrl['next_expected_command'] == 'merge PR #1008; then Stage25-reentry-main-batch'
+else:
+    raise AssertionError(f"unexpected r010a audit state: {r10['audit_status']}")
 
 print('STAGE25_REENTRY_R010A_PARENT_AUTHORIZATION=PASS')
 print('STAGE25_REENTRY_R010A_RECEIVER_SYNC=PASS')
