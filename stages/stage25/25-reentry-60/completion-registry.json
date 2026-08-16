@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage25-u20-r006a",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "population": {
+    "M2": "primitive canonical exactly-two-face cuboids; no space-diagonal integrality; R<=B",
+    "M3": "primitive canonical Euler cuboids; no space-diagonal integrality; R<=B",
+    "raw_directional": "P_j=M2,j+M3",
+    "raw_total": "P=M2+3M3"
+  },
+  "completion_rates": {
+    "directional": "Theta_j=M3/P_j",
+    "total": "Theta=3M3/(M2+3M3)",
+    "literal_incidence_probability": true,
+    "object_ratio_M3_over_M2_is_probability": false
+  },
+  "certified_inputs": {
+    "M2_directional": "M2,j~C_j B(log B)^5; C_j>0",
+    "M2_global": "M2~C_M2 B(log B)^5; C_M2=sum_j C_j>0",
+    "M3_lower": "M3>>B^(1/6)",
+    "M3_upper": "M3<<_eta B(log B)^(5-eta) for every fixed eta<1/46",
+    "M3_local_blocker": "delta_2=2/9; delta_p=2(p-chi4(p))/(p^2+6p+1)"
+  },
+  "candidate_conclusions": {
+    "directional_corridor": "B^(-5/6)(log B)^(-5)<<_j Theta_j<<_(j,eta)(log B)^(-eta)",
+    "total_corridor": "B^(-5/6)(log B)^(-5)<<Theta<<_eta(log B)^(-eta)",
+    "object_ratio_corridor": "B^(-5/6)(log B)^(-5)<<M3/M2<<_eta(log B)^(-eta)",
+    "directional_ratio": "Theta_j/Theta_k->C_k/C_j",
+    "true_M3_exponent_identified": false
+  },
+  "compatibility": {
+    "population_match": true,
+    "cutoff_match": true,
+    "multiplicity_match": true,
+    "measure_match": true,
+    "quantifier_match": true,
+    "finite_data_promoted": false
+  },
+  "stage26_receiver": {
+    "host": "split 4A1 quartic del Pezzo shared-edge surface",
+    "host_resolution": "Bl_4(P1xP1)",
+    "target": "degree-2 K3 third-face-square cover",
+    "candidate_ready": true,
+    "accepted_ready": false
+  },
+  "audit_status": "PENDING",
+  "advance_allowed": false,
+  "merge_allowed": false,
+  "stage26_allowed": false,
+  "perfect_cuboid_conclusion": "NONE"
+}
