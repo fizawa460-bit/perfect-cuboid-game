@@ -25,13 +25,12 @@ res = text("stages/stage27/27-19-r401/result.md")
 reg = data("stages/stage27/27-19-r401/lower-family-registry.json")
 ctl = data("stages/stage27/27-controller.json")
 status = text("docs/00_CURRENT_RESEARCH_STATUS.md")
+audit = text("stages/stage27/27-19-r401/audit.md")
 
-# Authoritative current Stage19 lower, not the historical constant floor.
 assert "CURRENT_LOWER=N2(B)>>B^(1/4)" in s19
 assert "UNBOUNDEDNESS_PROVED=true" in s19
 assert "TRUE_TARGET_EXPONENT_IDENTIFIED=false" in s19
 
-# Known audited lower families: exact count/height ledger and saturation.
 assert "HEIGHT_DEGREE=8" in r501
 assert "PARAMETER_COUNT_DEGREE=2" in r501
 assert "R501_EXACT_FAMILY_GROWTH=Theta(B^(1/4))" in r507
@@ -40,12 +39,10 @@ assert "R502_PRIMITIVE_HEIGHT_DEGREE=8" in r502
 assert "R502_EXACT_FAMILY_GROWTH=Theta(B^(1/4))" in r502
 assert "R502_HIDDEN_GCD_EXPONENT_UPGRADE=false" in r502
 
-# Prior common-core audit already identifies the correct stronger-lower species.
 assert "R505_EXACT_TARGET_RECEIVER=true" in r505
 assert "R505_SPACE_CONDITION=sf(A)=sf(B)" in r505
 assert "R505_REMAINING_GATE=WHOLE_FAMILY_PHYSICAL_HEIGHT_UNIFORMITY_OR_GENUINELY_NEW_PARAMETRIC_FAMILY" in r505
 
-# Exact exponent calculus.
 assert Fraction(2, 8) == Fraction(1, 4)
 for lam, q, should_cross in [
     (Fraction(1, 4), Fraction(1, 2), True),
@@ -57,7 +54,6 @@ for lam, q, should_cross in [
     assert crosses == (4 * lam > q)
     assert crosses == should_cross
 
-# Check the normalized toric identities on exact rational samples.
 for m, n, r, s in [(5, 2, 7, 3), (7, 3, 4, 1), (9, 2, 5, 4)]:
     x = Fraction(m, n)
     y = Fraction(r, s)
@@ -87,24 +83,34 @@ assert reg["master_space_receiver"]["condition"] == "x^2*y^2+1=z^2*(x^2+y^2)"
 assert reg["master_space_receiver"]["dominant_rational_parametrization_proved"] is False
 assert reg["lower_exponent_above_one_quarter_proved"] is False
 
-# Lifecycle: 40ae is audited+merged; lower reentry is pending hostile audit.
+# Parent route is now hostile-audited and merged; later Stage27-19-r401*
+# children may own the active pending-audit lifecycle.
+assert 'AUDIT_VERDICT=PASS' in audit
 ae = ctl["derived_routes"]["Stage27-40ae"]
 lr = ctl["derived_routes"]["Stage27-19-r401"]
 assert ae["status"] == "INTERMEDIATE_AUDITED_PASS_MERGED"
 assert ae["audit_status"] == "PASS"
 assert ae["pr"] == 1030
 assert ae["merge_commit"] == "2b2bfb0768006e2fe66969726486ac765c589bbc"
-assert lr["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
+assert lr["status"] in ("SUBMITTED_PENDING_FRESH_AUDIT", "INTERMEDIATE_AUDITED_PASS_MERGED")
 assert lr["route_kind"] == "LOWER_REENTRY"
 assert lr["lower_exponent_above_one_quarter_proved"] is False
-assert lr["audit_status"] == "PENDING"
+if lr["status"] == "INTERMEDIATE_AUDITED_PASS_MERGED":
+    assert lr["audit_status"] == "PASS"
+    assert lr["pr"] == 1031
+    assert lr["merge_commit"] == "05e8768872d69770bc02f42f3324039dab8f5e9b"
+    assert "STAGE27_19_R401_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1031" in status
+else:
+    assert lr["audit_status"] == "PENDING"
+    assert "STAGE27_19_R401_STATUS=LOWER_REENTRY_SUBMITTED_PENDING_FRESH_AUDIT" in status
+
 assert ctl["state"]["CURRENT_CHECKPOINT"] == 40
 assert ctl["state"]["AUDIT_STATUS"] == "PENDING"
 assert ctl["state"]["MERGE_ALLOWED"] is False
 assert ctl["next_expected_command"] == "Stage27-19-r401-audit"
-assert "CURRENT_STAGE=Stage27-19-r401-SUBMITTED-PENDING-FRESH-AUDIT" in status
+assert "CURRENT_STAGE=Stage27-19-r401" in status
+assert "SUBMITTED-PENDING-FRESH-AUDIT" in status
 assert "STAGE27_40AE_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1030" in status
-assert "STAGE27_19_R401_STATUS=LOWER_REENTRY_SUBMITTED_PENDING_FRESH_AUDIT" in status
 
 print("STAGE27_19_R401_CURRENT_LOWER=PASS")
 print("STAGE27_19_R401_QUARTER_SATURATION=PASS")

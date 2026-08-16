@@ -1,0 +1,22 @@
+name: Stage27-19-r401a genus-one torsor barrier
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage27/**'
+      - 'stages/stage25/25-60/r505-common-core-gate.md'
+      - 'stages/stage15/15-6ai/result.md'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-19-r401a-genus-one-torsor.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage27-19-r401a:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-19-r401a genus-one torsor barrier
+        run: python stages/stage27/27-19-r401a/verify_27_19_r401a.py
