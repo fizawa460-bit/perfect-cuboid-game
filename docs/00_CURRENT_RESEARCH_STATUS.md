@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage25-reentry-50-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage25-reentry-50-AUDITED-PASS-AWAITING-MERGE-AND-R011A
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -12,7 +12,7 @@ STAGE17_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R009A_AUXILIARY_MASK_RECEIVER
 STAGE18_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_BACKFLOW
 STAGE19_STATUS=CLOSED_R01_AUDIT_PASS_WITH_POST_STAGE25_DIRECTIONAL_SUPERSESSION
 STAGE20_STATUS=CLOSED_R01_AUDIT_PASS_WITH_R010A_RELATIVE_RECEIVER
-STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950_PHASE50_REATTACK_ACTIVE
+STAGE21_STATUS=CLOSED_AUDIT_PASS_MERGED_PR950_WITH_PHASE50_LOG_POWER_LOCALIZATION
 STAGE22_STATUS=CLOSED_AUDIT_PASS_MERGED_PR957_WITH_R010A_DIRECTIONAL_RECEIVER_G22_FINE_GATE_OPEN
 STAGE23_STATUS=CLOSED_AUDIT_PASS_MERGED_PR966_WITH_R008A_R009A_BACKFLOW
 STAGE24_STATUS=CLOSED_AUDIT_PASS_MERGED_PR979_WITH_DIRECTIONAL_BACKFLOW
@@ -26,64 +26,46 @@ STAGE25_REENTRY_PHASE40_STATUS=AUDITED_PASS_MERGED
 STAGE25_REENTRY_R010A_STATUS=AUDITED_PASS_MERGED_PR1008
 STAGE25_REENTRY_CURRENT_PHASE=50
 STAGE25_REENTRY_PHASE50_TASK=Stage25-u21-r005a
-STAGE25_REENTRY_PHASE50_STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STAGE25_REENTRY_PHASE50_STATUS=AUDITED_PASS_AWAITING_MERGE_AND_DERIVED_ROUTE
 STAGE25_REENTRY_QUEUED_ROUTE=Stage25-um-r011a
 STAGE25_REENTRY_PHASE60_ALLOWED=false
 STAGE26_ALLOWED=false
-NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
+NEXT_EXPECTED_COMMAND=merge PR #1009; then Stage25-reentry-main-batch
 NEXT_RESEARCH_PROGRAM=docs/stage25-reentry-roadmap.md
 ```
 
 ## Current operation
 
-Phase40 and its receiver synchronization r010a are hostile-audited and merged. Phase50 reattacks the Stage16 -> Stage17 one-face space transition in order to resolve as much as possible of the two-log interaction mechanism and feed that mechanism back into the still-open Stage22 four-log gate.
+Phase50 hostile audit accepts the exact Stage21 interaction law
 
-The matched laws are
+`N1/M1~(kappa*pi/18)(log B)^2/B`
 
-`M1(B)~3/(4*pi^2) B^2 log B`,
+against the Stage16S ambient space cost `const/B`. Thus the extra interaction is a net `+2` log-power enhancement.
 
-`N1(B)~kappa/(24*pi) B(log B)^3`,
-
-`NSall(B)/U(B)~[9*zeta(3)/(8*pi*G)]/B`.
-
-Hence the intrinsic space cost is `B^-1`, while prior one-face conditioning contributes the positive interaction enhancement
-
-`J1(B)~[4*kappa*pi^2*G/(81*zeta(3))](log B)^2`.
-
-AR-038 gives the exact shared-P assembly
-
-`C_raw(B)=2 sum_{P<=B} H(P)L_B(P)`,
-
-and Stage13 R07 proves the same target bulk is carried by the full principal multiplicative sector while every nonprincipal effective sector loses at least one pole. Consequently phase50 localizes the net `+2` logarithmic enhancement to the principal shared-P bulk.
-
-This is deliberately weaker than an independent-factor decomposition:
+AR-038 puts the leading target mass in the exact shared-P convolution `2 sum H(P)L_B(P)`, and Stage13 R07 puts that target main term in the full principal multiplicative sector. Therefore the accepted localization is:
 
 ```text
-LOG2_NET_PRINCIPAL_POLE_SURPLUS=2
+LOG2_NET_LOG_POWER_SURPLUS=2
 LOG2_LOCALIZED_TO_SHARED_P_PRINCIPAL_BULK=true
+SOURCE_TARGET_COMMON_POLE_LEDGER_PROVED=false
+LOG2_NET_PRINCIPAL_POLE_SURPLUS_PROVED=false
 H_AND_L_ONE_LOG_EACH_PROVED=false
 TWO_INDEPENDENT_LOG_FACTORS_PROVED=false
 INDIVIDUAL_POLE_SLOTS_NAMED=false
-G21_LOG2_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_P_PRINCIPAL_POLE_ALLOCATION
+G21_LOG2_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_P_PRINCIPAL_BULK_ALLOCATION
 ```
 
-The main downstream payoff is a direct attack on the still-open Stage22 gate:
+The hostile audit explicitly rejects interpreting `log^3-log^1=2` as a certified source-target pole-order subtraction until both sides are materialized in one common factor-by-factor analytic ledger.
+
+The downstream route `Stage25-um-r011a` is authorized after PR #1009 merges. It compares the certified Stage21 +2 log-power/principal-target localization with the Stage22 +4 rank-6 toric ledger without assuming a `2+2` split, and must establish a common pole ledger before any pole-order subtraction.
 
 ```text
 G22_LOG4_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM
-NEXT_COMPARATIVE_ATTACK=Stage25-um-r011a
-R011A_QUESTION=compare Stage21 +2 principal shared-P pole surplus with Stage22 +4 rank-6 toric boundary/pole ledger without assuming a 2+2 split
-```
-
-No `2+2` mechanism is claimed. It is now a precise hypothesis to test rather than a numerical analogy.
-
-```text
-TASK_ID=Stage25-u21-r005a
-AUDIT_STATUS=PENDING
-ADVANCE_ALLOWED=false
-MERGE_ALLOWED=false
+AUDIT_STATUS=PASS
+ADVANCE_ALLOWED=true
+MERGE_ALLOWED=true
 STAGE25_REENTRY_PHASE60_ALLOWED=false
 STAGE26_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=Stage25-reentry-audit
+NEXT_EXPECTED_COMMAND=merge PR #1009; then Stage25-reentry-main-batch
 ```
