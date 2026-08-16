@@ -1,0 +1,18 @@
+name: Stage27-20-r301 upper reentry
+on:
+  push:
+    branches: [agent/stage27-20-r301-upper-reentry]
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r301/**'
+      - 'stages/stage27/27-controller.json'
+      - '.github/workflows/stage27-20-r301-upper-reentry.yml'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python stages/stage27/27-20-r301/verify_27_20_r301.py
