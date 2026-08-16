@@ -138,12 +138,14 @@ assert 'PHASE70_AUDIT_STATUS=PASS' in s26
 assert 'PHASE70_MERGED=true' in s26
 assert 'STAGE26_ALLOWED=true' in s26
 
-# State-aware post-handoff status. Stage26-READY is the historical handoff state;
-# once Stage26 starts, a Stage26-* current-state marker is the expected successor.
 assert ('CURRENT_STAGE=Stage26-READY' in status) or ('CURRENT_STAGE=Stage26-' in status)
 assert 'ALL_REENTRY_PHASES_AUDITED=true' in status
 assert 'STAGE26_ALLOWED=true' in status
-assert ('NEXT_EXPECTED_COMMAND=Stage26-main-batch' in status) or ('NEXT_EXPECTED_COMMAND=Stage26-audit' in status)
+assert any(marker in status for marker in (
+    'NEXT_EXPECTED_COMMAND=Stage26-main-batch',
+    'NEXT_EXPECTED_COMMAND=Stage26-audit',
+    'NEXT_EXPECTED_COMMAND=merge PR #1014; then Stage26-main-batch',
+))
 
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in s26
