@@ -35,7 +35,6 @@ N=(Fraction(1,4),0); M=(Fraction(1),5); S=(Fraction(-1),0)
 surv=(N[0]-M[0],N[1]-M[1]); inter=(surv[0]-S[0],surv[1]-S[1])
 assert surv==(Fraction(-3,4),-5) and inter==(Fraction(1,4),-5)
 assert 'DIRECTIONAL_THEOREM=M2,j(B)~C_j B(log B)^5 for j=a,b,c with C_j>0' in st24f
-
 for marker in ('N2,a(B)>>B^(1/4)','N2,b(B)>>B^(1/4)','N2,c(B)>>B^(1/4)','ALL_DIRECTIONAL_QUARTER_POWER_LOWER_PROVED=true'):
     assert marker in st19,marker
 for marker in ('A_ab,ac(B)>>B^(1/4)','A_ab,bc(B)>>B^(1/4)','A_ac,bc(B)>>B^(1/4)','ALL_PAIR_OVERLAP_QUARTER_POWER_LOWER_PROVED=true'):
@@ -48,11 +47,17 @@ assert reg['accounting']['new_global_N2_exponent'] is False
 assert reg['accounting']['double_charge'] is False
 assert reg['accounting']['finite_data_promoted'] is False
 assert reg['accounting']['raw_overlap_reinterpreted_as_survival_probability'] is False
-assert reg['gates']['stage26_allowed'] is False
+assert reg['gates']['stage26_allowed'] is False  # historical r008a snapshot
 
 r8=ctrl['r008a_submission']
 assert r8['route_id']=='Stage25-um-r008a' and r8['parent_pr']==1003
-assert ctrl['stage26_gate']['stage26_allowed'] is False
+closed=ctrl['status']=='CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY'
+assert ctrl['stage26_gate']['stage26_allowed'] is closed
+if closed:
+    assert ctrl['current_phase']==70
+    assert ctrl['phase70_submission']['audit_status']=='PASS'
+    assert ctrl['phase70_submission']['merge_commit']=='be5f7d8360b3bac2b9060cd88ede596a4fb218dc'
+    assert ctrl['next_expected_command']=='Stage26-main-batch'
 if ctrl['current_phase']==20:
     assert r8['status'] in ('SUBMITTED_PENDING_FRESH_AUDIT','AUDITED_PASS_AWAITING_MERGE')
 else:
@@ -69,4 +74,4 @@ print('STAGE25_REENTRY_R008A_STAGE19_DIRECTIONAL_SYNC=PASS')
 print('STAGE25_REENTRY_R008A_STAGE23_PAIR_OVERLAP_SYNC=PASS')
 print('STAGE25_REENTRY_R008A_STAGE24_DIRECTIONAL_SYNC=PASS')
 print('STAGE25_REENTRY_R008A_POST_MERGE_LIFECYCLE=PASS')
-print('STAGE26_GATE=BLOCKED_VALID')
+print('STAGE26_GATE=LIFECYCLE_VALID')
