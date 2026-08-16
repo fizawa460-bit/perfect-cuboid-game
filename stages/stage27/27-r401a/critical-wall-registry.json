@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage27-r401a",
+  "owner_stage": "Stage27",
+  "trigger_checkpoint": 40,
+  "route_serial": "01",
+  "checkpoint_advanced_to_50": false,
+  "fixed_gamma_range": "0<gamma<1/16",
+  "off_wall": {
+    "region": "abs(theta-1/4)>=gamma",
+    "theta_low_exponent": "1/2-3gamma",
+    "theta_high_exponent": "1/2-2gamma",
+    "uniform_exponent": "1/2-2gamma",
+    "fixed_power_saving_proved": true
+  },
+  "critical_wall": {
+    "theta": "1/4",
+    "phi_interval": "[1/8,1/4]",
+    "chi": "2phi-1/4",
+    "chi_interval": "[0,1/4]",
+    "all_four_coefficient_factors_scale": "B^(1/4+o(1))",
+    "E_k": "1/2",
+    "E_RRF": "1/2",
+    "E_s": "1/2",
+    "existing_host_minimum_gives_deficit": false
+  },
+  "sufficient_next_input": {
+    "region": "abs(theta-1/4)<gamma",
+    "bound": "B^(1/2-delta+epsilon)",
+    "gamma_fixed_positive": true,
+    "delta_fixed_positive": true,
+    "global_resulting_deficit": "min(2gamma,delta)"
+  },
+  "verdict": {
+    "new_mu_lt_half_proved": false,
+    "strict_sub_sqrt_upper_proved": false,
+    "finite_data_used_as_proof": false,
+    "perfect_cuboid_conclusion": "NONE"
+  }
+}

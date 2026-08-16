@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_SUBMITTED_PENDING_AUDIT",
+  "status": "OPEN_CHECKPOINT40_DERIVED_ROUTE_R401A_SUBMITTED_PENDING_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -14,8 +14,8 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_SUBMITTED_PENDING_FRESH_AUDIT",
-    "50": "BLOCKED_UNTIL_CHECKPOINT40_AUDIT_PASS_MERGE",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R401A_PENDING_AUDIT",
+    "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
   },
@@ -89,7 +89,7 @@
     "merge_allowed": true
   },
   "checkpoint40": {
-    "status": "UPPER_ATTACK_SUBMITTED_PENDING_FRESH_AUDIT",
+    "status": "UPPER_ATTACK_AUDITED_PASS_MERGED",
     "evidence_level": "PROVED_MECHANISM_BOUNDARY_CANDIDATE_PLUS_EXACT_REOPEN_CONTRACT",
     "current_mu": "1/2",
     "new_mu_lt_half_proved": false,
@@ -102,15 +102,31 @@
     "external_same_measure_subhalf_adapter_found": false,
     "finite_alpha_used_as_proof": false,
     "true_N2_exponent_identified": false,
-    "audit_status": "PENDING",
-    "advance_allowed": false,
-    "merge_allowed": false,
+    "audit_status": "PASS",
+    "audit_record": "stages/stage27/27-40/audit.md",
+    "pr": 1025,
+    "merge_commit": "b76ebce08c5a90ed23bbd92762960ce719d3c718",
+    "advance_allowed": true,
+    "merge_allowed": true,
     "artifacts": [
       "stages/stage27/27-40/result.md",
       "stages/stage27/27-40/upper-attack-registry.json",
       "stages/stage27/27-40/verify_27_40.py",
       ".github/workflows/stage27-40-upper-attack.yml"
     ]
+  },
+  "derived_routes": {
+    "Stage27-r401a": {
+      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_serial": "01",
+      "purpose": "localize the half-power saturation to the fully balanced theta=1/4 wall before any lower-side checkpoint",
+      "off_wall_fixed_power_saving_proved": true,
+      "strict_sub_sqrt_upper_proved": false,
+      "audit_status": "PENDING",
+      "advance_allowed": false,
+      "merge_allowed": false
+    }
   },
   "entry_gate": {
     "stage26_closed": true,
@@ -121,10 +137,10 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "DERIVED_ROUTE_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
-    "NEXT_CHECKPOINT": 50,
+    "NEXT_CHECKPOINT": 40,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
