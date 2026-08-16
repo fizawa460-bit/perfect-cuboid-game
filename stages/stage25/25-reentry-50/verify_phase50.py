@@ -31,7 +31,6 @@ assert 'AMBIENT_RATIO=N_S^all(B)/U(B) ~ [9 zeta(3)/(8 pi G)]/B' in s16s
 assert 'INTRINSIC_POLYNOMIAL_SPACE_COST=ONE_POWER_OF_B' in s16s
 assert 'N_1(B)\\sim\\frac{\\kappa}{24\\pi}B(\\log B)^3' in s17
 
-# Certified conclusion: +2 is a log-power surplus localized to target principal shared-P bulk.
 p=reg['principal_sector']
 assert p['net_log_power_surplus_relative_to_source']==2
 assert p['principal_sector_carries_main_term'] is True
@@ -43,7 +42,6 @@ assert 'LOG2_LOCALIZED_TO_SHARED_P_PRINCIPAL_BULK=true' in res
 assert 'LOG2_NET_PRINCIPAL_POLE_SURPLUS_PROVED=false' in res
 assert 'SOURCE_TARGET_COMMON_POLE_LEDGER_PROVED=false' in res
 
-# No illicit factorization or pole subtraction.
 g=reg['open_gate']
 assert g['H_one_log_and_L_one_log_proved'] is False
 assert g['individual_pole_slots_named'] is False
@@ -52,7 +50,6 @@ assert g['source_target_common_pole_ledger_proved'] is False
 assert 'H_AND_L_ONE_LOG_EACH_PROVED=false' in res
 assert 'TWO_INDEPENDENT_LOG_FACTORS_PROVED=false' in res
 
-# G22 bridge remains a question at phase50 itself; later r011a may investigate it.
 assert reg['g22_bridge']['stage21_net_log_surplus']==2
 assert reg['g22_bridge']['stage22_net_log_surplus']==4
 assert reg['g22_bridge']['two_plus_two_mechanism_proved'] is False
@@ -61,8 +58,7 @@ assert back['phase60_allowed'] is False
 assert 'G22_FINE_MECHANISM_CLOSED=false' in res
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 
-# Lifecycle: pending submission, audited-pass premerge, and audited+merged derived-route
-# submission are all valid.  The phase50 theorem/firewall above is immutable.
+# Lifecycle-aware: phase50 theorem/firewall remains immutable after r011a and phase60.
 p50=ctrl['phase50_submission']
 if p50['audit_status']=='PENDING':
     assert p50['advance_allowed'] is False
@@ -76,11 +72,12 @@ else:
 
     q=[x for x in ctrl['propagation_queue'] if x['route_id']=='Stage25-um-r011a']
     assert len(q)==1
-    assert ctrl['phases']['60']['status']=='BLOCKED_UNTIL_R011A_AUDIT_PASS_MERGE'
 
     if ctrl['status']=='PHASE50_AUDITED_PASS_AWAITING_MERGE_AND_DERIVED_ROUTE':
+        assert ctrl['phases']['60']['status']=='BLOCKED_UNTIL_R011A_AUDIT_PASS_MERGE'
         assert q[0]['status']=='AUTHORIZED_BY_PHASE50_AUDIT_AWAITING_PARENT_MERGE'
     elif ctrl['status'].startswith('R011A_'):
+        assert ctrl['phases']['60']['status']=='BLOCKED_UNTIL_R011A_AUDIT_PASS_MERGE'
         assert p50['status']=='AUDITED_PASS_MERGED_DERIVED_ROUTE_SUBMITTED'
         assert p50['merge_commit']=='8765eb73db07da8afb8ad9b1f9a538ff8cd080ee'
         r11=ctrl['r011a_submission']
@@ -88,6 +85,13 @@ else:
         assert r11['parent_merge_commit']==p50['merge_commit']
         assert r11['audit_status'] in ('PENDING','PASS')
         assert q[0]['blocks_next_phase'] is True
+    elif ctrl['current_phase'] >= 60 and ctrl['status'].startswith(f"PHASE{ctrl['current_phase']}_"):
+        r11=ctrl['r011a_submission']
+        assert r11['status']=='AUDITED_PASS_MERGED'
+        assert r11['audit_status']=='PASS'
+        assert r11['merge_commit']=='e64f21621bb1b7062dfd21f186e6ed1bcc191272'
+        assert q[0]['status']=='AUDITED_PASS_MERGED'
+        assert q[0]['blocks_next_phase'] is False
     else:
         raise AssertionError(f"unexpected phase50 lifecycle: {ctrl['status']}")
 assert ctrl['stage26_gate']['stage26_allowed'] is False

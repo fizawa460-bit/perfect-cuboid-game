@@ -1,0 +1,24 @@
+name: Stage25 reentry phase60 Euler completion receiver
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-reentry-60/**'
+      - 'stages/stage18/post-stage25-phase60.md'
+      - 'stages/stage20/post-stage25-phase60.md'
+      - 'stages/stage25/25-reentry-controller.json'
+      - 'stages/stage25/scripts/verify_25_reentry_controller.py'
+      - 'stages/stage25/25-70/closeout_audit.py'
+      - '.github/workflows/stage25-reentry-60-euler-completion.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-phase60:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage25 reentry phase60 Euler completion receiver
+        run: python stages/stage25/25-reentry-60/verify_phase60.py
