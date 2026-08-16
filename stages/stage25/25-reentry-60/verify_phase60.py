@@ -3,12 +3,10 @@ from pathlib import Path
 import json
 
 ROOT = Path(__file__).resolve().parents[3]
-
 def text(rel):
     p = ROOT / rel
     assert p.exists(), rel
     return p.read_text(encoding='utf-8')
-
 def data(rel):
     return json.loads(text(rel))
 
@@ -23,6 +21,7 @@ r011audit = text('stages/stage25/25-reentry-r011a/audit.md')
 recv18 = text('stages/stage18/post-stage25-phase60.md')
 recv20 = text('stages/stage20/post-stage25-phase60.md')
 ctrl = data('stages/stage25/25-reentry-controller.json')
+p70audit = text('stages/stage25/25-reentry-70/audit.md')
 
 assert 'AUDIT_VERDICT=PASS' in r011audit
 assert ctrl['r011a_submission']['status'] == 'AUDITED_PASS_MERGED'
@@ -58,15 +57,14 @@ assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 
 assert back['derived_routes_opened'] == []
 assert back['phase70_after_audit_pass_and_merge'] is True
-assert back['stage26_allowed'] is False
+assert back['stage26_allowed'] is False  # historical phase60 submission snapshot
 assert reg['stage26_receiver']['candidate_ready'] is True
 
 p60 = ctrl['phase60_submission']
 assert p60['task_id'] == 'Stage25-u20-r006a'
-assert ctrl['stage26_gate']['stage26_allowed'] is False
 
 if ctrl['current_phase'] == 60:
-    # Submission/audit lifecycle before the phase60 PR is merged.
+    assert ctrl['stage26_gate']['stage26_allowed'] is False
     assert reg['stage26_receiver']['accepted_ready'] is False
     assert reg['audit_status'] in ('PENDING', 'PASS')
     assert back['audit_status'] in ('PENDING', 'PASS')
@@ -78,8 +76,8 @@ if ctrl['current_phase'] == 60:
         assert ctrl['phases']['60']['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
         assert ctrl['phases']['70']['status'] == 'BLOCKED_UNTIL_PHASE60_AUDIT_PASS_MERGE'
         assert ctrl['stage26_gate']['stage20_stage26_ready_interface'] is False
+        assert ctrl['next_expected_command'] == 'Stage25-reentry-audit'
 else:
-    # Immutable phase60 theorem after hostile audit PASS + PR #1011 merge.
     assert ctrl['current_phase'] >= 70
     assert p60['status'] == 'AUDITED_PASS_MERGED'
     assert p60['audit_status'] == 'PASS'
@@ -101,9 +99,20 @@ else:
         assert 'BACKFLOW_AUDIT_STATUS=PASS' in receiver
         assert 'BACKFLOW_SYNCHRONIZED=true' in receiver
     assert ctrl['stage26_gate']['stage20_stage26_ready_interface'] is True
-    assert ctrl['phases']['70']['status'] in ('SUBMITTED_PENDING_FRESH_AUDIT','AUDITED_PASS_AWAITING_MERGE')
 
-assert ctrl['next_expected_command'] == 'Stage25-reentry-audit'
+    if ctrl['status'] == 'CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY':
+        assert 'AUDIT_VERDICT=PASS' in p70audit
+        assert 'STAGE26_ALLOWED_AFTER_MERGE=true' in p70audit
+        assert ctrl['phases']['70']['status'] == 'AUDITED_PASS_MERGED'
+        assert ctrl['phase70_submission']['audit_status'] == 'PASS'
+        assert ctrl['phase70_submission']['merge_commit'] == 'be5f7d8360b3bac2b9060cd88ede596a4fb218dc'
+        assert ctrl['stage26_gate']['all_reentry_phases_audited'] is True
+        assert ctrl['stage26_gate']['stage26_allowed'] is True
+        assert ctrl['next_expected_command'] == 'Stage26-main-batch'
+    else:
+        assert ctrl['phases']['70']['status'] in ('SUBMITTED_PENDING_FRESH_AUDIT','AUDITED_PASS_AWAITING_MERGE')
+        assert ctrl['stage26_gate']['stage26_allowed'] is False
+        assert ctrl['next_expected_command'] == 'Stage25-reentry-audit'
 
 print('STAGE25_REENTRY_PHASE60_AUTHORIZATION=PASS')
 print('STAGE25_REENTRY_PHASE60_RAW_PAIR_MEASURE=PASS')
@@ -111,4 +120,4 @@ print('STAGE25_REENTRY_PHASE60_COMPLETION_CORRIDOR=PASS')
 print('STAGE25_REENTRY_PHASE60_DIRECTIONAL_RATIO=PASS')
 print('STAGE25_REENTRY_PHASE60_STAGE26_RECEIVER=PASS')
 print('STAGE25_REENTRY_PHASE60_LIFECYCLE=PASS')
-print('STAGE26_GATE=BLOCKED_VALID')
+print('STAGE26_GATE=LIFECYCLE_VALID')

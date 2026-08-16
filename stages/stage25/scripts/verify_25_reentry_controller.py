@@ -25,6 +25,8 @@ parent = data("stages/stage25/25-controller.json")
 closeout = data("stages/stage25/25-70/controller.json")
 roadmap = text("docs/stage25-reentry-roadmap.md")
 operations = text("docs/stage25-reentry-operations.md")
+p70audit = text("stages/stage25/25-reentry-70/audit.md")
+handoff = text("stages/stage25/25-reentry-70/stage26-handoff.md")
 
 # Immutable unlock contract.
 assert controller["starts_after"]["stage25_checkpoint"] == 70
@@ -62,16 +64,9 @@ policy = controller["derived_route_policy"]
 assert policy["maximum_simultaneous_active_routes"] == 3
 assert policy["route_ids_recycled"] is False
 assert policy["parent_phase_audit_required_before_recursive_launch"] is True
-route_re = re.compile(r"-r0(\d{2})[a-z]$")
-serials = []
-for item in controller.get("propagation_queue", []):
-    m = route_re.search(item["route_id"])
-    assert m, item["route_id"]
-    serials.append(int(m.group(1)))
-assert serials == [8, 9, 10, 11]
 assert policy["next_route_serial"] == 12
 
-# Every pre-phase70 phase/derived route must be hostile-audited and merged.
+# Every phase and internal derived route is audited and merged in the closed state.
 checks = [
     ("phase10_submission", 1002, "5cb7dc8792faf575c1e21fce8166f094af6d7b14"),
     ("phase20_submission", 1003, "1d88e8e3254a383620e221df8a1a1039ebeabcd4"),
@@ -99,7 +94,6 @@ assert controller["r011a_submission"]["geometric_manin_invariant_ledger_proved"]
 assert controller["r011a_submission"]["common_dirichlet_pole_slot_ledger_proved"] is False
 assert controller["r011a_submission"]["independent_factorization_proved"] is False
 
-# Propagation queue is fully resolved before the handoff audit.
 queue = controller["propagation_queue"]
 assert [x["route_id"] for x in queue] == [
     "Stage25-um-r008a", "Stage25-um-r009a", "Stage25-um-r010a", "Stage25-um-r011a"
@@ -109,46 +103,46 @@ for item in queue:
     assert item["audit_required"] is True
     assert item["blocks_next_phase"] is False
 
-# Phase70 package and Stage26 gate.
+# Final phase70 closeout.
 assert controller["current_phase"] == 70
+assert controller["status"] == "CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY"
+assert controller["phases"]["70"]["status"] == "AUDITED_PASS_MERGED"
 p70 = controller["phase70_submission"]
 assert p70["task_id"] == "Stage25-um-r007a"
 for rel in (
     p70["result"], p70["handoff_registry"], p70["propagation_resolution"],
     p70["discovery_ledger"], p70["weapon_delta"], p70["stage26_handoff"],
-    p70["verifier"], p70["workflow"],
+    p70["verifier"], p70["workflow"], p70["audit_record"],
 ):
     assert (ROOT / rel).exists(), rel
+assert p70["status"] == "AUDITED_PASS_MERGED"
+assert p70["audit_status"] == "PASS"
+assert p70["advance_allowed"] is True
+assert p70["merge_allowed"] is True
+assert p70["reentry_research_complete"] is True
 assert p70["derived_route_queue_has_unresolved_internal_route"] is False
 assert p70["stage20_stage26_ready_interface"] is True
 assert p70["backflow_synchronized"] is True
-assert p70["stage26_allowed"] is False
+assert p70["stage26_allowed"] is True
+assert p70["pr"] == 1012
+assert p70["merge_commit"] == "be5f7d8360b3bac2b9060cd88ede596a4fb218dc"
+assert "AUDIT_VERDICT=PASS" in p70audit
+assert "ALL_REENTRY_PHASES_AUDITED=true" in p70audit
+assert "STAGE26_ALLOWED_AFTER_MERGE=true" in p70audit
 
-status = controller["status"]
+# Stage26 gate is now open only after the accepted phase70 merge.
 gate = controller["stage26_gate"]
 assert gate["stage25_main_closed"] is True
+assert gate["all_reentry_phases_audited"] is True
 assert gate["unresolved_internal_routes"] is False
 assert gate["stage20_stage26_ready_interface"] is True
 assert gate["backflow_synchronized"] is True
-assert gate["stage26_allowed"] is False
-
-if status == "PHASE70_SUBMITTED_PENDING_FRESH_AUDIT":
-    assert controller["phases"]["70"]["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
-    assert p70["audit_status"] == "PENDING"
-    assert p70["advance_allowed"] is False
-    assert p70["merge_allowed"] is False
-    assert gate["all_reentry_phases_audited"] is False
-    assert controller["next_expected_command"] == "Stage25-reentry-audit"
-elif status == "PHASE70_AUDITED_PASS_AWAITING_MERGE":
-    assert controller["phases"]["70"]["status"] == "AUDITED_PASS_AWAITING_MERGE"
-    assert p70["audit_status"] == "PASS"
-    assert p70["advance_allowed"] is True
-    assert p70["merge_allowed"] is True
-    assert gate["all_reentry_phases_audited"] is True
-    # Stage26 remains false on the unmerged PR branch; merge is the final gate.
-    assert gate["stage26_allowed"] is False
-else:
-    raise AssertionError(f"unexpected phase70 lifecycle: {status}")
+assert gate["stage26_allowed"] is True
+assert "STAGE26_ENTRY_INTERFACE_VALID=true" in handoff
+assert "PHASE70_AUDIT_STATUS=PASS" in handoff
+assert "PHASE70_MERGED=true" in handoff
+assert "STAGE26_ALLOWED=true" in handoff
+assert controller["next_expected_command"] == "Stage26-main-batch"
 
 assert controller["safety"]["finite_data_as_asymptotic_proof"] is False
 assert controller["safety"]["audit_pass_auto_merges"] is False
@@ -156,8 +150,9 @@ assert controller["safety"]["stage25_current_deep_stop_rule_relaxed"] is False
 
 print("STAGE25_REENTRY_CONTROLLER=PASS")
 print("STAGE25_REENTRY_PHASE_ORDER=PASS")
-print("STAGE25_REENTRY_ALL_PRIOR_AUDITS_MERGED=PASS")
+print("STAGE25_REENTRY_ALL_PHASES_AUDITED_MERGED=PASS")
 print("STAGE25_DERIVED_PROPAGATION_QUEUE=RESOLVED")
 print("STAGE20_STAGE26_READY_INTERFACE=PASS")
 print("STAGE25_REENTRY_BACKFLOW_SYNCHRONIZED=PASS")
-print("STAGE26_GATE=BLOCKED_PENDING_PHASE70_AUDIT_MERGE")
+print("STAGE25_REENTRY_RESEARCH_COMPLETE=PASS")
+print("STAGE26_GATE=OPEN")

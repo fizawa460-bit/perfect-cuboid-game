@@ -4,24 +4,19 @@ import json
 
 ROOT=Path(__file__).resolve().parents[3]
 def text(rel):
-    p=ROOT/rel
-    assert p.exists(), rel
-    return p.read_text(encoding='utf-8')
+    p=ROOT/rel; assert p.exists(),rel; return p.read_text(encoding='utf-8')
 def data(rel): return json.loads(text(rel))
 
 res=text('stages/stage25/25-reentry-50/result.md')
 reg=data('stages/stage25/25-reentry-50/mechanism-registry.json')
 back=data('stages/stage25/25-reentry-50/backflow-proposals.json')
-s21=text('stages/stage21/final.md')
-s16s=text('stages/stage16s/final.md')
-s17=text('stages/stage17/final.md')
+s21=text('stages/stage21/final.md'); s16s=text('stages/stage16s/final.md'); s17=text('stages/stage17/final.md')
 r010=text('stages/stage25/25-reentry-r010a/audit.md')
 ctrl=data('stages/stage25/25-reentry-controller.json')
 
 assert 'AUDIT_VERDICT=PASS' in r010
 assert reg['authorization']['r010a_pr']==1008
 assert reg['authorization']['r010a_merge_commit']=='9d2e767697a33195e756af6b366cb6f0548494d3'
-
 assert 'M1(B)~3/(4*pi^2) B^2 log B' in s21
 assert 'N1(B)~kappa/(24*pi) B(log B)^3' in s21
 assert 'C_raw(B)=2 sum_{P<=B} H(P)L_B(P)' in s21
@@ -49,7 +44,6 @@ assert g['independent_factor_product_proved'] is False
 assert g['source_target_common_pole_ledger_proved'] is False
 assert 'H_AND_L_ONE_LOG_EACH_PROVED=false' in res
 assert 'TWO_INDEPENDENT_LOG_FACTORS_PROVED=false' in res
-
 assert reg['g22_bridge']['stage21_net_log_surplus']==2
 assert reg['g22_bridge']['stage22_net_log_surplus']==4
 assert reg['g22_bridge']['two_plus_two_mechanism_proved'] is False
@@ -58,21 +52,15 @@ assert back['phase60_allowed'] is False
 assert 'G22_FINE_MECHANISM_CLOSED=false' in res
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 
-# Lifecycle-aware: phase50 theorem/firewall remains immutable after r011a and phase60.
 p50=ctrl['phase50_submission']
 if p50['audit_status']=='PENDING':
-    assert p50['advance_allowed'] is False
-    assert p50['merge_allowed'] is False
+    assert p50['advance_allowed'] is False and p50['merge_allowed'] is False
     assert ctrl['phases']['60']['status']=='BLOCKED_UNTIL_PHASE50_DERIVED_ROUTE'
 else:
     assert p50['audit_status']=='PASS'
-    assert p50['advance_allowed'] is True
-    assert p50['merge_allowed'] is True
+    assert p50['advance_allowed'] is True and p50['merge_allowed'] is True
     assert p50['pr']==1009
-
-    q=[x for x in ctrl['propagation_queue'] if x['route_id']=='Stage25-um-r011a']
-    assert len(q)==1
-
+    q=[x for x in ctrl['propagation_queue'] if x['route_id']=='Stage25-um-r011a']; assert len(q)==1
     if ctrl['status']=='PHASE50_AUDITED_PASS_AWAITING_MERGE_AND_DERIVED_ROUTE':
         assert ctrl['phases']['60']['status']=='BLOCKED_UNTIL_R011A_AUDIT_PASS_MERGE'
         assert q[0]['status']=='AUTHORIZED_BY_PHASE50_AUDIT_AWAITING_PARENT_MERGE'
@@ -81,20 +69,23 @@ else:
         assert p50['status']=='AUDITED_PASS_MERGED_DERIVED_ROUTE_SUBMITTED'
         assert p50['merge_commit']=='8765eb73db07da8afb8ad9b1f9a538ff8cd080ee'
         r11=ctrl['r011a_submission']
-        assert r11['parent_pr']==1009
-        assert r11['parent_merge_commit']==p50['merge_commit']
+        assert r11['parent_pr']==1009 and r11['parent_merge_commit']==p50['merge_commit']
         assert r11['audit_status'] in ('PENDING','PASS')
         assert q[0]['blocks_next_phase'] is True
-    elif ctrl['current_phase'] >= 60 and ctrl['status'].startswith(f"PHASE{ctrl['current_phase']}_"):
+    elif ctrl['current_phase']>=60 and (ctrl['status'].startswith(f"PHASE{ctrl['current_phase']}_") or ctrl['status']=='CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY'):
         r11=ctrl['r011a_submission']
-        assert r11['status']=='AUDITED_PASS_MERGED'
-        assert r11['audit_status']=='PASS'
+        assert r11['status']=='AUDITED_PASS_MERGED' and r11['audit_status']=='PASS'
         assert r11['merge_commit']=='e64f21621bb1b7062dfd21f186e6ed1bcc191272'
-        assert q[0]['status']=='AUDITED_PASS_MERGED'
-        assert q[0]['blocks_next_phase'] is False
+        assert q[0]['status']=='AUDITED_PASS_MERGED' and q[0]['blocks_next_phase'] is False
     else:
         raise AssertionError(f"unexpected phase50 lifecycle: {ctrl['status']}")
-assert ctrl['stage26_gate']['stage26_allowed'] is False
+closed=ctrl['status']=='CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY'
+assert ctrl['stage26_gate']['stage26_allowed'] is closed
+if closed:
+    assert ctrl['current_phase']==70
+    assert ctrl['phase70_submission']['audit_status']=='PASS'
+    assert ctrl['phase70_submission']['merge_commit']=='be5f7d8360b3bac2b9060cd88ede596a4fb218dc'
+    assert ctrl['next_expected_command']=='Stage26-main-batch'
 
 print('STAGE25_REENTRY_PHASE50_SOURCE_TARGET_CONTROL=PASS')
 print('STAGE25_REENTRY_PHASE50_SHARED_P_LOCALIZATION=PASS')
@@ -102,4 +93,4 @@ print('STAGE25_REENTRY_PHASE50_LOG_POWER_SURPLUS=PASS')
 print('STAGE25_REENTRY_PHASE50_POLE_OVERCLAIM_FIREWALL=PASS')
 print('STAGE25_REENTRY_PHASE50_G22_BRIDGE=PASS')
 print('STAGE25_REENTRY_PHASE50_R011A_LIFECYCLE=PASS')
-print('STAGE26_GATE=BLOCKED_VALID')
+print('STAGE26_GATE=LIFECYCLE_VALID')

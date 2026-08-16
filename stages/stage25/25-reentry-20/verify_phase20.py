@@ -45,7 +45,6 @@ assert reg['authorization']['phase10_pr']==1002
 assert reg['authorization']['phase10_merge_commit']=='5cb7dc8792faf575c1e21fce8166f094af6d7b14'
 assert 'AUDIT_VERDICT=PASS' in a10 and 'AUDIT_VERDICT=PASS' in a20
 
-# Exact R501 a-cone algebra remains independently machine-checked.
 t=[Fraction(0),Fraction(1)]; t2=pw(t,2); t4=pw(t,4)
 A=scale(mul(t2,add(t4,[Fraction(-9)])),16)
 f=add(t4,add(scale(t2,-10),[Fraction(9)])); g=add(t4,add(scale(t2,2),[Fraction(9)]))
@@ -80,7 +79,14 @@ assert p20['new_reusable_weapon_proved'] is True
 assert p20['accepted_theorem']=='N2,j(B)>>_j B^(1/4) for j=a,b,c'
 assert p20['pr']==1003 and p20['merge_commit']=='1d88e8e3254a383620e221df8a1a1039ebeabcd4'
 assert ctrl['phases']['10']['status']=='AUDITED_PASS_MERGED'
-assert ctrl['stage26_gate']['stage26_allowed'] is False
+
+closed = ctrl['status']=='CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY'
+assert ctrl['stage26_gate']['stage26_allowed'] is closed
+if closed:
+    assert ctrl['current_phase']==70
+    assert ctrl['phase70_submission']['audit_status']=='PASS'
+    assert ctrl['phase70_submission']['merge_commit']=='be5f7d8360b3bac2b9060cd88ede596a4fb218dc'
+    assert ctrl['next_expected_command']=='Stage26-main-batch'
 
 if ctrl['current_phase']==20:
     assert ctrl['status'].startswith('PHASE20_')
@@ -99,4 +105,4 @@ print('STAGE25_REENTRY_PHASE20_R501_A_CONE_ALGEBRA=PASS')
 print('STAGE25_REENTRY_PHASE20_R501_R502_SOURCE_BINDING=PASS')
 print('STAGE25_REENTRY_PHASE20_DIRECTIONAL_ADAPTER=PASS')
 print('STAGE25_REENTRY_PHASE20_POST_PHASE_LIFECYCLE=PASS')
-print('STAGE26_GATE=BLOCKED_VALID')
+print('STAGE26_GATE=LIFECYCLE_VALID')

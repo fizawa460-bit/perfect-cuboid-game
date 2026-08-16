@@ -17,12 +17,10 @@ stage24=text("stages/stage24/final.md")
 stage20=text("stages/stage20/final.md")
 r009audit=text("stages/stage25/25-reentry-r009a/audit.md")
 
-# Immutable mathematical authorization.
 assert "AUDIT_VERDICT=PASS" in r009audit
 assert registry["authorization"]["r009a_pr"]==1006
 assert registry["authorization"]["r009a_merge_commit"]=="4eb3349ee8ec02dcabb71bd1be3a48234356606b"
 
-# Exact truth table.
 for ia in (0,1):
     for ib in (0,1):
         for ic in (0,1):
@@ -36,7 +34,6 @@ for ia in (0,1):
             assert pb==m2b+triple
             assert pc==m2c+triple
 
-# Frozen asymptotic interfaces.
 assert "SOURCE_ASYMPTOTIC=M1(B) ~ 3/(4*pi^2) B^2 log B" in stage22
 assert "DIRECTIONAL_THEOREM=M2,j(B)~C_j B(log B)^5 for j=a,b,c with C_j>0" in stage24
 assert "M_3(B)\\ll_\\eta B(\\log B)^{5-\\eta}" in stage20
@@ -58,12 +55,18 @@ for marker in (
     "FINITE_DATA_USED_AS_PROOF=false",
 ): assert marker in result, marker
 
-# Immutable submission proposal plus lifecycle-aware controller checks.
 assert backflow["status"]=="QUEUED_PENDING_PARENT_AUDIT"
 assert backflow["queued_derived_routes"]==["Stage25-um-r010a"]
 assert backflow["proposals"][0]["affected_stages"]==[18,20,22]
 assert controller["phases"]["40"]["task_id"]=="Stage25-u22-r004a"
-assert controller["stage26_gate"]["stage26_allowed"] is False
+
+closed = controller['status']=='CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY'
+assert controller['stage26_gate']['stage26_allowed'] is closed
+if closed:
+    assert controller['current_phase']==70
+    assert controller['phase70_submission']['audit_status']=='PASS'
+    assert controller['phase70_submission']['merge_commit']=='be5f7d8360b3bac2b9060cd88ede596a4fb218dc'
+    assert controller['next_expected_command']=='Stage26-main-batch'
 
 if controller["current_phase"]==40:
     if controller["status"]=="PHASE40_SUBMITTED_PENDING_FRESH_AUDIT":
@@ -76,7 +79,6 @@ if controller["current_phase"]==40:
     else:
         assert controller["status"].startswith("PHASE40_")
 else:
-    # Post-phase40 lifecycle: the theorem remains immutable and both parent and backflow must be audited+merged.
     assert controller["current_phase"]>=50
     p40=controller["phase40_submission"]
     assert p40["audit_status"]=="PASS"
@@ -100,4 +102,4 @@ print("STAGE25_REENTRY_PHASE40_DIRECTIONAL_ASYMPTOTICS=PASS")
 print("STAGE25_REENTRY_PHASE40_STAGE20_RECEIVER=PASS")
 print("STAGE25_REENTRY_PHASE40_FINE_MECHANISM_FIREWALL=PASS")
 print("STAGE25_REENTRY_PHASE40_LIFECYCLE=PASS")
-print("STAGE26_GATE=BLOCKED_VALID")
+print("STAGE26_GATE=LIFECYCLE_VALID")

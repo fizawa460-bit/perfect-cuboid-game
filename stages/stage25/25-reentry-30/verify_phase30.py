@@ -59,7 +59,14 @@ for marker in ('N2,a = A_ab,ac - A3','N2,b = A_ab,bc - A3','N2,c = A_ac,bc - A3'
 assert 'D30-03' in disc and 'A3' in disc and 'S25R-W30-02' in weap
 assert back['queued_derived_routes']==['Stage25-um-r009a']
 assert ctrl['phases']['20']['status']=='AUDITED_PASS_MERGED_BACKFLOW_AUDITED_PASS_MERGED'
-assert ctrl['stage26_gate']['stage26_allowed'] is False
+
+closed = ctrl['status']=='CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY'
+assert ctrl['stage26_gate']['stage26_allowed'] is closed
+if closed:
+    assert ctrl['current_phase']==70
+    assert ctrl['phase70_submission']['audit_status']=='PASS'
+    assert ctrl['phase70_submission']['merge_commit']=='be5f7d8360b3bac2b9060cd88ede596a4fb218dc'
+    assert ctrl['next_expected_command']=='Stage26-main-batch'
 
 status=ctrl['status']; current=ctrl['current_phase']
 if current==30:
@@ -86,4 +93,4 @@ print('STAGE25_REENTRY_PHASE30_SOURCE_BINDING=PASS')
 print('STAGE25_REENTRY_PHASE30_ADJACENT_STRATUM_SEMANTICS=PASS')
 print('STAGE25_REENTRY_PHASE30_DIRECTIONAL_NORMALIZATION=PASS')
 print('STAGE25_REENTRY_PHASE30_BACKFLOW_QUEUE=PASS')
-print('STAGE26_GATE=BLOCKED_VALID')
+print('STAGE26_GATE=LIFECYCLE_VALID')
