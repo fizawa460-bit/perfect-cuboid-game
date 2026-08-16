@@ -1,13 +1,15 @@
 # Stage23 post-Stage25-r009a — exact mask and directional adjacent-stratum receiver
 
-STATUS=SUBMITTED_BACKFLOW_R009A_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_SYNCED_BY_STAGE25_REENTRY_70
 HISTORICAL_STAGE23_PASS_REVOKED=false
 SOURCE_ROUTE=Stage25-um-r009a
 PARENT_TASK=Stage25-u23-r003a
 PARENT_PR=1005
 PARENT_MERGE_COMMIT=daf84757c185df6973936d2970a6307ab0bff62b
+BACKFLOW_PR=1006
+BACKFLOW_MERGE_COMMIT=4eb3349ee8ec02dcabb71bd1be3a48234356606b
 
-For canonical `0<a<b<c`, define directional exactly-two counts by shared edge. The accepted phase30 truth table gives
+For canonical `0<a<b<c`, define directional exactly-two counts by shared edge. The audited phase30/r009a truth table gives
 
 \[
 \boxed{N_{2,a}=A_{ab,ac}-A_3},\qquad
@@ -54,5 +56,6 @@ GLOBAL_N2_EXPONENT_UPGRADED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 BACKFLOW_ROUTE=Stage25-um-r009a
-BACKFLOW_AUDIT_STATUS=PENDING
+BACKFLOW_AUDIT_STATUS=PASS
+BACKFLOW_SYNCHRONIZED=true
 ```

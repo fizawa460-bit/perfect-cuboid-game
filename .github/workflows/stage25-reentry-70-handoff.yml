@@ -1,0 +1,34 @@
+name: Stage25 reentry phase70 handoff audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-reentry-70/**'
+      - 'stages/stage17/post-stage25-r009a.md'
+      - 'stages/stage18/post-stage25-r010a.md'
+      - 'stages/stage18/post-stage25-phase60.md'
+      - 'stages/stage19/post-stage25-50-supersession.md'
+      - 'stages/stage20/post-stage25-r010a.md'
+      - 'stages/stage20/post-stage25-phase60.md'
+      - 'stages/stage21/post-stage25-r011a.md'
+      - 'stages/stage22/post-stage25-r010a.md'
+      - 'stages/stage22/post-stage25-r011a.md'
+      - 'stages/stage23/post-stage25-r01/result.md'
+      - 'stages/stage23/post-stage25-r009a.md'
+      - 'stages/stage24/post-stage25-r01/result.md'
+      - 'stages/stage25/25-reentry-controller.json'
+      - 'docs/stage25-arsenal-promotion.md'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage25-reentry-70-handoff.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-phase70:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage25 reentry phase70 handoff
+        run: python stages/stage25/25-reentry-70/verify_phase70.py

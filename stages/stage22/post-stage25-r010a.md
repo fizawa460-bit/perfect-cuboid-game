@@ -1,11 +1,13 @@
 # Stage22 post-Stage25-r010a — directional transition receiver
 
-STATUS=SUBMITTED_BACKFLOW_R010A_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_SYNCED_BY_STAGE25_REENTRY_70
 HISTORICAL_STAGE22_PASS_REVOKED=false
 SOURCE_ROUTE=Stage25-um-r010a
 PARENT_TASK=Stage25-u22-r004a
 PARENT_PR=1007
 PARENT_MERGE_COMMIT=eebe4cd59caef804be76508f3773f2af6c7d47f2
+BACKFLOW_PR=1008
+BACKFLOW_MERGE_COMMIT=9d2e767697a33195e756af6b366cb6f0548494d3
 
 Stage22's frozen global transition remains
 
@@ -14,7 +16,7 @@ Stage22's frozen global transition remains
 \frac{4\pi^2C_{M_2}}3\frac{(\log B)^4}{B}.
 \]
 
-The phase40 receiver strengthens this directionally. For every shared edge `j=a,b,c`,
+The audited phase40/r010a receiver strengthens this directionally. For every shared edge `j=a,b,c`,
 
 \[
 \boxed{\frac{M_{2,j}(B)}{M_1(B)}\sim
@@ -32,30 +34,26 @@ C_{M_2}=C_a+C_b+C_c,
 
 Thus the four-log compensation is present independently of directional aggregation. Combining the exact raw-pair decomposition with the Stage20 log-saving upper also shows the third-face nonsquare postfilter is lower order in every directional chamber.
 
-## Current fine-mechanism gate
+## Current fine-mechanism status
 
-`G22_LOG4_FINE_MECHANISM` remains open, but its live locus is narrowed:
+At r010a this mechanism was still open. Audited r011a subsequently closes it at the geometric Manin-invariant level:
 
-```text
-LOG4_DIRECTIONAL_ROBUSTNESS=true
-LOG4_IS_DIRECTIONAL_AVERAGING_ARTIFACT=false
-THIRD_FACE_EXCLUSION_IS_LOG4_CAUSE=false
-COMMON_CANONICAL_PRIMITIVE_CUTOFF_INTERFACE_IS_NEW_LOG4_CAUSE=false
-LIVE_FINE_MECHANISM_LOCUS=ONE_FACE_VS_SHARED_EDGE_DOUBLE_PYTHAGOREAN_RANK6_TORIC_INTERNAL_COUNTING
-FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false
-LOCAL_PROBABILITY_PRODUCT_PROVED=false
-VALUATION_FACTORIZATION_PROVED=false
-SQUARECLASS_FACTORIZATION_PROVED=false
-G22_LOG4_FINE_MECHANISM=OPEN_NARROWED_TO_SHARED_EDGE_TORIC_INTERNAL_MECHANISM
-```
+\[
+M_1:(a,b)=(2,2),\qquad N_1:(a,b)=(1,4),\qquad M_2:(a,b)=(1,6),
+\]
 
-This is the correct receiver for any later attempt to explain the four logarithms without double charging or fake independence.
+so the Stage22 logarithmic enhancement is the rational `b`-invariant jump `6-2=4`, with additive geometric decomposition `(4-2)+(6-4)=2+2`.
+
+The finer arithmetic factorization remains open: no four independent probabilities, named Dirichlet pole slots, valuation factors, or squareclass factors are proved.
 
 ```text
 FROZEN_GLOBAL_STAGE22_THEOREM_CHANGED=false
 DIRECTIONAL_STAGE22_CONSTANTS_SYNCED=true
-FINE_MECHANISM_CLOSED=false
+G22_LOG4_FINE_MECHANISM=CLOSED_AT_GEOMETRIC_INVARIANT_LEVEL
+FOUR_INDEPENDENT_LOG_FACTORS_PROVED=false
+COMMON_DIRICHLET_POLE_SLOT_LEDGER_PROVED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 BACKFLOW_ROUTE=Stage25-um-r010a
-BACKFLOW_AUDIT_STATUS=PENDING
+BACKFLOW_AUDIT_STATUS=PASS
+BACKFLOW_SYNCHRONIZED=true
 ```

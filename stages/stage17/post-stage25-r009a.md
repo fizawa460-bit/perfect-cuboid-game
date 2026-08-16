@@ -1,11 +1,13 @@
 # Stage17 post-Stage25-r009a receiver synchronization
 
-STATUS=SUBMITTED_BACKFLOW_R009A_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_SYNCED_BY_STAGE25_REENTRY_70
 HISTORICAL_STAGE17_PASS_REVOKED=false
 SOURCE_ROUTE=Stage25-um-r009a
 PARENT_TASK=Stage25-u23-r003a
 PARENT_PR=1005
 PARENT_MERGE_COMMIT=daf84757c185df6973936d2970a6307ab0bff62b
+BACKFLOW_PR=1006
+BACKFLOW_MERGE_COMMIT=4eb3349ee8ec02dcabb71bd1be3a48234356606b
 
 Stage17's frozen theorem remains unchanged:
 
@@ -13,7 +15,7 @@ Stage17's frozen theorem remains unchanged:
 N_1(B)\sim \frac{\kappa}{24\pi}B(\log B)^3.
 \]
 
-The phase30 truth-table receiver adds the exact auxiliary bridge, in the same primitive canonical integral-space host,
+The audited phase30/r009a truth-table receiver adds the exact auxiliary bridge, in the same primitive canonical integral-space host,
 
 \[
 N_{2,a}=A_{ab,ac}-A_3,\quad
@@ -31,5 +33,6 @@ EXACT_MASK_AUXILIARY_RECEIVER=true
 LITERAL_N2J_SUBSET_OF_N1=false
 PERFECT_CUBOID_CONCLUSION=NONE
 BACKFLOW_ROUTE=Stage25-um-r009a
-BACKFLOW_AUDIT_STATUS=PENDING
+BACKFLOW_AUDIT_STATUS=PASS
+BACKFLOW_SYNCHRONIZED=true
 ```

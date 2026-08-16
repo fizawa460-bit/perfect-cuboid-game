@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage25-um-r007a",
+  "phase": 70,
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "parent_phase": {
+    "task_id": "Stage25-u20-r006a",
+    "pr": 1011,
+    "merge_commit": "119afa00919f67bea8e3ba5515c0f9663aa9f2e2",
+    "audit_status": "PASS"
+  },
+  "campaign": {
+    "stage25_main_closed": true,
+    "phase10_audited_merged": true,
+    "phase20_audited_merged": true,
+    "phase30_audited_merged": true,
+    "phase40_audited_merged": true,
+    "phase50_audited_merged": true,
+    "phase60_audited_merged": true,
+    "r008a_audited_merged": true,
+    "r009a_audited_merged": true,
+    "r010a_audited_merged": true,
+    "r011a_audited_merged": true,
+    "phase70_audit_pending": true
+  },
+  "interfaces": {
+    "M1": {
+      "law": "M1(B)~3/(4*pi^2) B^2 log B",
+      "manin_a": 2,
+      "manin_b": 2
+    },
+    "N1": {
+      "law": "N1(B)~kappa/(24*pi) B(log B)^3",
+      "ratio_to_M1": "N1/M1~(kappa*pi/18)(log B)^2/B",
+      "manin_a": 1,
+      "manin_b": 4
+    },
+    "M2": {
+      "law": "M2(B)~C_M2 B(log B)^5",
+      "directional": "M2,j(B)~C_j B(log B)^5 for j=a,b,c",
+      "constant_partition": "C_M2=C_a+C_b+C_c",
+      "ratio_to_M1": "M2/M1~(4*pi^2*C_M2/3)(log B)^4/B",
+      "manin_a": 1,
+      "manin_b": 6
+    },
+    "N2": {
+      "lower": "N2(B)>>B^(1/4)",
+      "upper": "N2(B)<<_epsilon B^(1/2+epsilon)",
+      "directional_lower": "N2,j(B)>>_j B^(1/4) for j=a,b,c",
+      "true_exponent_identified": false
+    },
+    "N2_mask": {
+      "a": "N2,a=A_ab,ac-A3",
+      "b": "N2,b=A_ab,bc-A3",
+      "c": "N2,c=A_ac,bc-A3",
+      "pair_contrasts_cancel_A3": true
+    },
+    "M3": {
+      "lower": "M3(B)>>B^(1/6)",
+      "upper": "M3(B)<<_eta B(log B)^(5-eta) for every fixed eta<1/46",
+      "true_exponent_identified": false
+    },
+    "raw_pair_completion": {
+      "directional_identity": "P_j=M2,j+M3",
+      "global_identity": "P=M2+3M3",
+      "directional_rate": "Theta_j=M3/P_j",
+      "global_rate": "Theta=3M3/P",
+      "directional_corridor": "B^(-5/6)(log B)^(-5)<<_j Theta_j<<_(j,eta)(log B)^(-eta)",
+      "global_corridor": "B^(-5/6)(log B)^(-5)<<Theta<<_eta(log B)^(-eta)",
+      "eta_range": "every fixed eta<1/46",
+      "directional_ratio": "Theta_j/Theta_k->C_k/C_j",
+      "literal_same_measure_probability": true
+    }
+  },
+  "weapons": [
+    "S20-W01_EXPLICIT_EULER_THIN_COVER_UPPER",
+    "S20-W02_PRIMITIVE_SAUNDERSON_LOWER",
+    "S20-W03_EULER_LOCAL_BLOCKER_LAW",
+    "S25-W01_POSITIVE_POWER_STAGE19_FAMILY",
+    "S25-W02_CAUSAL_CROSS_RATIO",
+    "S25-W03_PRIMITIVE_HEIGHT_RIGIDITY",
+    "S25-W04_R504_KUMMER_HEIGHT_TOOLKIT",
+    "S25-W05_RAW_PAIR_EULER_COMPLETION_ADAPTER",
+    "S25-W06_GEOMETRIC_MANIN_TRANSITION_LEDGER"
+  ],
+  "stage26_receiver": {
+    "population": "primitive canonical no-space shared-edge raw two-face incidences under Euclidean R<=B",
+    "target": "third-face square completion / primitive canonical Euler bricks",
+    "raw_host": "split 4A1 quartic-del-Pezzo shared-edge two-face surface",
+    "cover": "degree-2 K3 third-face cover",
+    "measure_adapter": "S25-W05",
+    "primary_goal": "sharpen M3 and Theta completion corridor and attack the true M3 exponent",
+    "population_match": true,
+    "cutoff_match": true,
+    "multiplicity_match": true,
+    "measure_match": true,
+    "quantifier_match": true,
+    "ready_interface": true
+  },
+  "deferred_gates": [
+    {
+      "id": "G26_TRUE_M3_EXPONENT",
+      "class": "STAGE26_PRIMARY",
+      "blocks_stage26_entry": false
+    },
+    {
+      "id": "G_N2_TRUE_EXPONENT",
+      "class": "STAGE27_28",
+      "blocks_stage26_entry": false
+    },
+    {
+      "id": "Q05_MOVING_GENUS_ONE_UNIFORMITY",
+      "class": "EXTERNAL_FUTURE_GATE",
+      "blocks_stage26_entry": false
+    },
+    {
+      "id": "Q06_KUMMER_SUPPORT_COUNT",
+      "class": "EXTERNAL_FUTURE_GATE",
+      "blocks_stage26_entry": false
+    },
+    {
+      "id": "Q11_EFFECTIVE_GROWING_MODULUS",
+      "class": "EXTERNAL_FUTURE_GATE",
+      "blocks_stage26_entry": false
+    },
+    {
+      "id": "R504_EXCEPTIONAL_PRYM_LOCUS",
+      "class": "EXTERNAL_THEOREM_GATE",
+      "blocks_stage26_entry": false
+    },
+    {
+      "id": "COMMON_DIRICHLET_POLE_SLOT_FACTORIZATION",
+      "class": "OPTIONAL_ANALYTIC_REFINEMENT",
+      "blocks_stage26_entry": false
+    }
+  ],
+  "gate_candidate": {
+    "derived_route_queue_has_unresolved_internal_route": false,
+    "stage20_stage26_ready_interface": true,
+    "backflow_synchronized_candidate": true,
+    "all_reentry_phases_audited": false,
+    "stage26_allowed": false,
+    "reason_stage26_still_blocked": "phase70 fresh hostile audit and merge are still required"
+  },
+  "safety": {
+    "finite_data_promoted_to_theorem": false,
+    "independence_overclaim": false,
+    "perfect_cuboid_conclusion": "NONE"
+  }
+}

@@ -1,6 +1,6 @@
 # Stage24 post-Stage25 — current positive-power and directional interaction backflow
 
-STATUS=SUBMITTED_BACKFLOW_R008A_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_SYNCED_BY_STAGE25_REENTRY_70
 HISTORICAL_STAGE24_PASS_REVOKED=false
 ORIGINAL_SOURCE_STAGE=Stage25
 ORIGINAL_SOURCE_CHECKPOINT=50
@@ -9,6 +9,8 @@ LATEST_SOURCE_ROUTE=Stage25-um-r008a
 LATEST_PARENT_TASK=Stage25-u24-r002a
 LATEST_SOURCE_PR=1003
 LATEST_SOURCE_MERGE_COMMIT=1d88e8e3254a383620e221df8a1a1039ebeabcd4
+BACKFLOW_PR=1004
+BACKFLOW_MERGE_COMMIT=11075adf8e30c73e5058790ee6ed6e2a9b6c9e2b
 LATEST_SOURCE_AUDIT=stages/stage25/25-reentry-20/audit.md
 
 Stage24's historical closeout remains valid at its audit time. The current whole-family surface remains
@@ -41,7 +43,7 @@ The audited Stage18 directional source theorem is
 M_{2,j}(B)\sim C_j B(\log B)^5,\qquad C_j>0,\qquad j=a,b,c.
 \]
 
-Phase20 of Stage25-reentry proved
+The audited Stage25-reentry phase20/r008a theorem is
 
 \[
 N_{2,j}(B)\gg_j B^{1/4}\qquad(j=a,b,c).
@@ -85,7 +87,7 @@ we obtain
 \qquad(j=a,b,c).
 \]
 
-Thus the positive/divergent interaction is now proved in every shared-edge chamber, not only globally.
+Thus the positive/divergent interaction is proved in every shared-edge chamber, not only globally.
 
 ```text
 J2,j>>_j B^(1/4)(log B)^(-5)->infinity for j=a,b,c
@@ -124,7 +126,8 @@ TRUE_TARGET_EXPONENT_IDENTIFIED=false
 HALF_POWER_INTRINSIC_PROVED=false
 GLOBAL_N2_EXPONENT_UPGRADED=false
 BACKFLOW_ROUTE=Stage25-um-r008a
-BACKFLOW_AUDIT_STATUS=PENDING
+BACKFLOW_AUDIT_STATUS=PASS
+BACKFLOW_SYNCHRONIZED=true
 PERFECT_CUBOID_CONCLUSION=NONE
 FINITE_DATA_USED_AS_PROOF=false
 ```

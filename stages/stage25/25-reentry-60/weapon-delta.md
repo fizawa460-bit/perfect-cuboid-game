@@ -1,22 +1,25 @@
 # Stage25-reentry-60 weapon delta
 
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_SYNCED_BY_STAGE25_REENTRY_70
 TASK_ID=Stage25-u20-r006a
+SOURCE_PR=1011
+SOURCE_MERGE_COMMIT=119afa00919f67bea8e3ba5515c0f9663aa9f2e2
 
-## Candidate weapon S25-W05 — raw-pair Euler completion adapter
+## S25-W05 — raw-pair Euler completion adapter
 
 ```text
 WEAPON_ID=S25-W05
 NAME=RAW_PAIR_EULER_COMPLETION_ADAPTER
-TYPE=exact_adapter+theorem_candidate
+TYPE=exact_adapter+theorem_interface
 SOURCE=Stage25-reentry-60
 HOST=primitive canonical no-space shared-edge raw pair incidences under R<=B
 EXACT_IDENTITIES=P_j=M2,j+M3; P=M2+3M3
 DIRECTIONAL_RATE=Theta_j=M3/P_j
 TOTAL_RATE=Theta=3M3/P
+AUDIT_STATUS=PASS
 ```
 
-If fresh audit passes, the adapter carries the audited Stage18/20 bounds into the literal completion measure:
+The audited adapter carries the Stage18/20 bounds into the literal completion measure:
 
 \[
 B^{-5/6}(\log B)^{-5}\ll_j\Theta_j
@@ -50,10 +53,10 @@ The adapter solves a recurring bookkeeping problem: `M3/M2` compares disjoint ob
 No savings are multiplied as independent factors.
 
 ```text
-NEW_REUSABLE_WEAPON_CANDIDATE=true
-NEW_REUSABLE_WEAPON_PROVED=false
+NEW_REUSABLE_WEAPON_PROVED=true
 WEAPON_ID=S25-W05
 PRIMARY_RECEIVER=Stage26
 SECONDARY_RECEIVERS=Stage27,Stage28
-AUDIT_STATUS=PENDING
+TRUE_M3_EXPONENT_IDENTIFIED=false
+PERFECT_CUBOID_CONCLUSION=NONE
 ```
