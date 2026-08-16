@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage26",
-  "status": "OPEN_CLOSEOUT_PENDING_AUDIT",
+  "status": "CLOSED_AUDITED_PASS_MERGED",
   "parent_class": "transition",
   "transition": "Stage18 -> Stage20",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -16,7 +16,7 @@
     "40": "PROVED_AUDITED_PASS_MERGED",
     "50": "PROVED_AUDITED_PASS_MERGED",
     "60": "PROVED_AUDITED_PASS_MERGED",
-    "70": "SYNTHESIS_SUBMITTED_PENDING_AUDIT"
+    "70": "SYNTHESIS_AUDITED_PASS_MERGED"
   },
   "checkpoint10": {
     "status": "PROVED_AUDITED_PASS_MERGED",
@@ -135,8 +135,8 @@
     "merge_commit": "ade92d46148b8c7af0bd0c9165082ee8f11d0e70"
   },
   "checkpoint70": {
-    "status": "SYNTHESIS_SUBMITTED_PENDING_AUDIT",
-    "evidence_level": "PROVED_SYNTHESIS_CANDIDATE",
+    "status": "SYNTHESIS_AUDITED_PASS_MERGED",
+    "evidence_level": "PROVED_SYNTHESIS",
     "all_prior_checkpoints_audited_pass_merged": true,
     "final_completion_corridor_materialized": true,
     "self_contained_bundle_required": true,
@@ -146,10 +146,13 @@
     "true_M3_exponent_identified": false,
     "M3_asymptotic_proved": false,
     "upper_lower_match": false,
-    "audit_status": "PENDING",
-    "advance_allowed": false,
-    "merge_allowed": false,
+    "audit_status": "PASS",
+    "audit_record": "stages/stage26/26-70/audit.md",
+    "advance_allowed": true,
+    "merge_allowed": true,
     "close_stage_after_audit_pass": true,
+    "pr": 1020,
+    "merge_commit": "8b0472db36c1113198251a7d9646b8c7bfe80331",
     "artifacts": [
       "stages/stage26/26-70/result.md",
       "stages/stage26/26-70/self-contained-bundle.md",
@@ -169,14 +172,15 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 70,
-    "MAIN_STATUS": "SYNTHESIS_SUBMITTED_PENDING_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
+    "MAIN_STATUS": "CLOSED_AUDITED_PASS_MERGED",
+    "AUDIT_STATUS": "PASS",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": null,
-    "NEXT_STAGE": "",
+    "NEXT_STAGE": "Stage27",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": false,
+    "NEXT_STAGE_AUTHORIZATION_SOURCE": "OPERATOR_COMMAND_STAGE27_MAIN_BATCH"
   },
   "safety": {
     "finite_data_as_asymptotic_proof": false,
@@ -186,5 +190,5 @@
     "perfect_cuboid_conclusion": false,
     "audit_pass_auto_merges": false
   },
-  "next_expected_command": "Stage26-audit"
+  "next_expected_command": "Stage27-main-batch"
 }

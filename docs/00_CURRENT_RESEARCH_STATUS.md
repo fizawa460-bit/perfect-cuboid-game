@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-70-SYNTHESIS-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-10-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -34,6 +34,7 @@ BACKFLOW_SYNCHRONIZED=true
 STAGE20_STAGE26_READY_INTERFACE=true
 ALL_REENTRY_PHASES_AUDITED=true
 STAGE26_ALLOWED=true
+STAGE26_STATUS=CLOSED_AUDITED_PASS_MERGED
 STAGE26_CHECKPOINT10_STATUS=PROVED_AUDITED_PASS_MERGED_PR1014
 STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_MERGED_PR1015
 STAGE26_CHECKPOINT20_EVIDENCE=DERIVED_EXACT_FINITE
@@ -45,108 +46,94 @@ STAGE26_CHECKPOINT50_STATUS=PROVED_AUDITED_PASS_MERGED_PR1018
 STAGE26_CHECKPOINT50_EVIDENCE=PROVED_DERIVED_THEOREM
 STAGE26_CHECKPOINT60_STATUS=PROVED_AUDITED_PASS_MERGED_PR1019
 STAGE26_CHECKPOINT60_EVIDENCE=PROVED_NEW_THEOREM
-STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_SUBMITTED_PENDING_AUDIT
+STAGE26_CHECKPOINT70_STATUS=SYNTHESIS_AUDITED_PASS_MERGED_PR1020
 STAGE26_M3_OLD_LOWER_EXPONENT=1/6
 STAGE26_M3_CURRENT_LOWER_EXPONENT=1/3_MINUS_EPSILON
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
 STAGE26_M3_ASYMPTOTIC_PROVED=false
 STAGE26_UPPER_LOWER_MATCH=false
-NEXT_EXPECTED_COMMAND=Stage26-audit
-NEXT_RESEARCH_PROGRAM=Stage26-CLOSEOUT
+STAGE27_STATUS=OPEN_CHECKPOINT10_SUBMITTED_PENDING_AUDIT
+STAGE27_PROGRAM=TRUE_N2_EXPONENT_ATTACK
+STAGE27_CHECKPOINT10_STATUS=CONTRACT_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_CURRENT_N2_LOWER=1/4
+STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
+STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
+STAGE27_MATCHING_HALF_POWER_LOWER_PROVED=false
+STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
+NEXT_EXPECTED_COMMAND=Stage27-audit
+NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 ```
 
 ## Current operation
 
-Stage26 checkpoints10 through60 are hostile-audited PASS and merged. Checkpoint60 PR #1019 is merged at `ade92d46148b8c7af0bd0c9165082ee8f11d0e70` and formally upgrades the Euler-cuboid lower theorem to
-
-\[
-\boxed{M_3(B)\gg_\varepsilon B^{1/3-\varepsilon}}
-\qquad(\forall\varepsilon>0).
-\]
-
-Checkpoint70 freezes the full Stage26 transition under the common primitive/canonical no-space Euclidean cutoff `R<=B`.
-
-Stage18 supplies
-
-\[
-M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
-\]
-
-while the Stage26 lower/upper envelope is
-
-\[
-\boxed{
-B^{1/3-\varepsilon}\ll_\varepsilon M_3(B)
-\ll_\eta B(\log B)^{5-\eta}
-}
-\]
-
-for every fixed `epsilon>0` and every fixed `0<eta<1/46`.
-
-The literal physical-object completion is
-
-\[
-\Phi(B)=\frac{M_3(B)}{M_2(B)+M_3(B)},
-\]
-
-and the raw shared-edge incidence completion is
-
-\[
-\Theta(B)=\frac{3M_3(B)}{M_2(B)+3M_3(B)}.
-\]
-
-Audited checkpoints30/40/60 give
-
-\[
-\Phi(B)\to0,\qquad \Theta(B)\to0,\qquad \Theta/\Phi\to3,
-\]
-
-and for every fixed `epsilon>0`, `0<delta<1/46`,
-
-\[
-\boxed{
-B^{-2/3-\varepsilon}(\log B)^{-5}
-\ll_\varepsilon \Phi(B),\Theta(B)
-=o((\log B)^{-\delta})
-}.
-\]
-
-This is a corridor, not a true-scale determination. The epsilon-free `M3(B)>>B^(1/3)` bound, a polynomial upper saving, the true `M3` exponent, and an `M3` asymptotic are all still open.
-
-Checkpoint70 materializes:
-
-- `stages/stage26/26-70/self-contained-bundle.md`;
-- `docs/stage26-arsenal-promotion.md`;
-- a closeout registry and dedicated verifier.
-
-Stage19 remains frozen independently at
+Stage26 checkpoint70 hostile audit passed and PR #1020 merged at
 
 ```text
-B^(1/4) << N2(B) <<_epsilon B^(1/2+epsilon)
-N2,j(B) >>_j B^(1/4), j=a,b,c
+8b0472db36c1113198251a7d9646b8c7bfe80331
 ```
 
-with its true exponent open.
+so Stage26 is lifecycle-closed. The operator then selected Stage27 with `Stage27-main-batch`. This is a workflow choice, not a mathematical consequence of Stage26.
+
+Stage27 attacks the true growth scale of the primitive canonical exactly-two-face integral-space population
+
+\[
+N_2(B).
+\]
+
+The synchronized current theorem surface is
+
+\[
+\boxed{B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}},
+\]
+
+with
+
+\[
+\boxed{N_{2,j}(B)\gg_j B^{1/4}},\qquad j=a,b,c.
+\]
+
+Together with
+
+\[
+M_2(B)\sim C_{M_2}B(\log B)^5,
+\]
+
+the literal Stage18->Stage19 survival corridor is
+
+\[
+B^{-3/4}(\log B)^{-5}
+\ll
+\frac{N_2(B)}{M_2(B)}
+\ll_\varepsilon
+B^{-1/2+\varepsilon}(\log B)^{-5}.
+\]
+
+Checkpoint10 does not improve this corridor. It freezes the exact population/cutoff/multiplicity contract and opens three legal lanes:
+
+- lower-family attack beyond quarter power;
+- strict sub-square-root upper attack;
+- finite effective-exponent diagnostics for route selection only.
+
+Stage26's generalized Saunderson theorem belongs to the exactly-three-face `M3` population and is not transferred into `N2`. Its fiber-control pattern may be reused only after a new Stage19-compatible invariant is proved.
 
 ```text
-TASK_ID=Stage26-70
-CHECKPOINT=70
-ALL_PRIOR_CHECKPOINTS_AUDITED_PASS_MERGED=true
-M3_LOWER_B_ONE_THIRD_MINUS_EPSILON_ACCEPTED=true
-M3_LOWER_B_ONE_THIRD_WITHOUT_EPSILON_PROVED=false
-LITERAL_COMPLETION_TO_ZERO=true
-RAW_INCIDENCE_COMPLETION_TO_ZERO=true
-SELF_CONTAINED_BUNDLE_MATERIALIZED=true
-ARSENAL_PROMOTION_MATERIALIZED=true
-TRUE_M3_EXPONENT_IDENTIFIED=false
-M3_ASYMPTOTIC_PROVED=false
-UPPER_LOWER_MATCH=false
+TASK_ID=Stage27-10
+CHECKPOINT=10
+POPULATION_MATCH=true
+CUTOFF_MATCH=true
+MULTIPLICITY_MATCH=true
+LITERAL_SUBSET_TRANSITION=true
+CURRENT_N2_LOWER=N2(B)>>B^(1/4)
+CURRENT_N2_UPPER=N2(B)<<_epsilon B^(1/2+epsilon)
+ALL_DIRECTIONAL_QUARTER_POWER_LOWER=true
+NEW_N2_EXPONENT_PROVED=false
+TRUE_N2_EXPONENT_IDENTIFIED=false
+STAGE26_M3_LOWER_TRANSFERRED_TO_N2=false
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=
+NEXT_CHECKPOINT=20
 MERGE_ALLOWED=false
-CLOSE_STAGE_AFTER_AUDIT_PASS=true
 PERFECT_CUBOID_CONCLUSION=NONE
-NEXT_EXPECTED_COMMAND=Stage26-audit
+NEXT_EXPECTED_COMMAND=Stage27-audit
 ```
