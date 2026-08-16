@@ -25,7 +25,8 @@ def det_bareiss(mat):
     for k in range(n - 1):
         if a[k][k] == 0:
             swap = next((i for i in range(k + 1, n) if a[i][k] != 0), None)
-            assert swap is not None
+            if swap is None:
+                return 0
             a[k], a[swap] = a[swap], a[k]
             sign *= -1
         pivot = a[k][k]
