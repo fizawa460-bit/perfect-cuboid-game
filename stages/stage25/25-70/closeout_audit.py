@@ -159,8 +159,29 @@ else:
                 assert state == "AUDITED_PASS_MERGED"
             else:
                 assert "AUDITED_PASS" in state, (prior, state)
-        assert reentry["status"].startswith(f"PHASE{current_phase}_")
-        lifecycle = f"POST_MERGE_REENTRY_PHASE{current_phase}"
+
+        if reentry["status"].startswith(f"PHASE{current_phase}_"):
+            lifecycle = f"POST_MERGE_REENTRY_PHASE{current_phase}"
+        elif current_phase == 50 and reentry["status"].startswith("R011A_"):
+            # r011a is a derived route authorized only after phase50 audit and
+            # merge.  Its submission must not bypass phase60 or Stage26.
+            p50 = reentry["phase50_submission"]
+            assert p50["audit_status"] == "PASS"
+            assert p50["pr"] == 1009
+            assert p50["merge_commit"] == "8765eb73db07da8afb8ad9b1f9a538ff8cd080ee"
+            assert reentry["phases"]["50"]["status"] == "AUDITED_PASS_MERGED_DERIVED_ROUTE_SUBMITTED"
+            r11 = reentry["r011a_submission"]
+            assert r11["route_id"] == "Stage25-um-r011a"
+            assert r11["parent_pr"] == 1009
+            assert r11["parent_merge_commit"] == p50["merge_commit"]
+            assert r11["audit_status"] in ("PENDING", "PASS")
+            assert reentry["phases"]["60"]["status"] == "BLOCKED_UNTIL_R011A_AUDIT_PASS_MERGE"
+            assert reentry["stage26_gate"]["stage26_allowed"] is False
+            lifecycle = "POST_MERGE_REENTRY_R011A"
+        else:
+            raise AssertionError(
+                f"unexpected post-closeout reentry lifecycle: phase={current_phase}, status={reentry['status']}"
+            )
 
 print("STAGE25_70_CLOSEOUT_CONTRACT=PASS")
 print("CHECKPOINT60_DEEP_STOP_DEPENDENCY=PASS")
