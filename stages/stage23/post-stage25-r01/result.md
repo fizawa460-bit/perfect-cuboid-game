@@ -11,7 +11,13 @@ LATEST_SOURCE_PR=1003
 LATEST_SOURCE_MERGE_COMMIT=1d88e8e3254a383620e221df8a1a1039ebeabcd4
 LATEST_SOURCE_AUDIT=stages/stage25/25-reentry-20/audit.md
 
-The global Stage23 ratio interface remains
+The current global Stage19 target lower remains
+
+\[
+\boxed{N_2(B)\gg B^{1/4}}.
+\]
+
+Accordingly the global Stage23 ratio interface remains
 
 \[
 \frac{N_2(B)}{N_1(B)}\gg B^{-3/4}(\log B)^{-3},
@@ -79,6 +85,7 @@ still obeys
 The global positive/divergent sign remains unchanged; r008a only completes the directional raw-overlap lower surface.
 
 ```text
+CURRENT_TARGET_LOWER=N2(B)>>B^(1/4)
 RATIO_LOWER=N2/N1>>B^(-3/4)(log B)^(-3)
 RATIO_UPPER=N2/N1<<_epsilon B^(-1/2+epsilon)(log B)^(-3)
 TARGET_POSITIVE_POWER_LOWER_PROVED=true
