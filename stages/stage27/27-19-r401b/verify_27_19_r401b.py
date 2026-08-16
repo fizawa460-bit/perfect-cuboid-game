@@ -40,7 +40,6 @@ def det_bareiss(mat):
 
 
 def resultant(f, g):
-    # coefficient lists, highest degree first
     m, n = len(f) - 1, len(g) - 1
     size = m + n
     M = [[0 for _ in range(size)] for _ in range(size)]
@@ -54,7 +53,6 @@ def resultant(f, g):
 
 
 def H_coeffs(c):
-    # H=t*(t+A)*(t^2+B*t+C), monic quartic
     A = c*c + 1
     B = (c - 1) * (c - 3)
     C = 2 * (c - 1) * (c - 1)
@@ -78,28 +76,25 @@ assert 'AUDIT_VERDICT=PASS' in parent_audit
 assert 'GENERIC_DEGREE2_CLOSED_POINT_EXHIBITED=true' in parent_audit
 assert 'LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false' in parent_audit
 
-# Exact discriminant certificate. Both sides are polynomials in c of degree <=18.
-# Equality at >18 distinct integer values certifies the identity.
 for c in range(-12, 13):
     got = quartic_disc(c)
     want = 64*c**6*(c-1)**6*(c*c+1)**2*(c*c-6*c+1)
     assert got == want, (c, got, want)
 
-# The only rational roots of the discriminant are c=0,1.
-# c^2+1 has no real/rational root; c^2-6c+1 has nonsquare discriminant 32.
 assert isqrt(32)**2 != 32
 assert quartic_disc(0) == 0
 assert quartic_disc(1) == 0
 for c in [-9,-3,-1,2,3,4,7,11]:
     assert quartic_disc(c) != 0
 
-# Reconstruction checks for the degenerate constant-u points.
+
 def reconstruct(tau, u):
     D = u*u - tau - 1
     assert D != 0
     z = (tau + (u-1)*(u-1)) / D
     x = (2*tau*u - tau - u*u + 2*u - 1) / D
     return x, z, D
+
 
 for tau in [Fraction(-5,2), Fraction(-3,2), Fraction(1,2), Fraction(2), Fraction(7,3)]:
     if tau != -1:
@@ -109,7 +104,6 @@ for tau in [Fraction(-5,2), Fraction(-3,2), Fraction(1,2), Fraction(2), Fraction
         x,z,_ = reconstruct(tau, Fraction(1))
         assert x == -1 and z == -1
 
-# The obvious moving genus-zero line u=tau+1 has z=1 identically.
 for tau in [Fraction(-5,2), Fraction(-3,2), Fraction(1,2), Fraction(2), Fraction(7,3)]:
     u = tau + 1
     D = u*u - tau - 1
@@ -117,7 +111,6 @@ for tau in [Fraction(-5,2), Fraction(-3,2), Fraction(1,2), Fraction(2), Fraction
         continue
     x,z,_ = reconstruct(tau, u)
     assert z == 1
-    # tau*G_tau(u)=tau^3*(tau+1)^2*(tau+2)
     G = (u*u+tau+1)*((tau+2)*u*u-4*(tau+1)*u+(tau+1)*(tau+2))
     assert tau*G == tau**3*(tau+1)**2*(tau+2)
 
@@ -146,25 +139,30 @@ assert reg['firewalls']['lower_exponent_above_one_quarter_proved'] is False
 
 pa = ctl['derived_routes']['Stage27-19-r401a']
 pb = ctl['derived_routes']['Stage27-19-r401b']
+pc = ctl['derived_routes']['Stage27-19-r401c']
 assert pa['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert pa['audit_status'] == 'PASS'
 assert pa['pr'] == 1032
 assert pa['merge_commit'] == '86b5428d42f7f4c7344bace93b067d580391d7ac'
-assert pb['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+assert pb['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
+assert pb['audit_status'] == 'PASS'
+assert pb['pr'] == 1033
+assert pb['merge_commit'] == 'dcc04e4d778aaaa31f9abb0d39dd98117c33ddb4'
 assert pb['r401a_u0_degree2_point_physical'] is False
 assert pb['constant_u_nondegenerate_genus_one'] is True
-assert pb['lower_exponent_above_one_quarter_proved'] is False
-assert pb['audit_status'] == 'PENDING'
+assert pc['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+assert pc['all_affine_linear_multisections_classified'] is True
+assert pc['audit_status'] == 'PENDING'
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
 assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
 assert ctl['state']['MERGE_ALLOWED'] is False
 assert ctl['next_expected_command'] == 'Stage27-19-r401-audit'
-assert 'CURRENT_STAGE=Stage27-19-r401b-SUBMITTED-PENDING-FRESH-AUDIT' in status
-assert 'STAGE27_19_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1032' in status
-assert 'STAGE27_19_R401B_STATUS=CONSTANT_U_BISECTION_SUBMITTED_PENDING_FRESH_AUDIT' in status
+assert 'CURRENT_STAGE=Stage27-19-r401c-SUBMITTED-PENDING-FRESH-AUDIT' in status
+assert 'STAGE27_19_R401B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1033' in status
+assert 'STAGE27_19_R401C_STATUS=AFFINE_LINEAR_SUBMITTED_PENDING_FRESH_AUDIT' in status
 
 print('STAGE27_19_R401B_PARENT_SYNC=PASS')
 print('STAGE27_19_R401B_DISCRIMINANT=PASS')
 print('STAGE27_19_R401B_PHYSICAL_DEGENERACY=PASS')
 print('STAGE27_19_R401B_CONSTANT_U_GENUS=PASS')
-print('STAGE27_19_R401B_LIFECYCLE=PASS')
+print('STAGE27_19_R401B_SUCCESSOR_LIFECYCLE=PASS')
