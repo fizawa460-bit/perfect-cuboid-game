@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "stage": "Stage26",
+  "checkpoint": 70,
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "upstream": {
+    "checkpoint60_pr": 1019,
+    "checkpoint60_merge_commit": "ade92d46148b8c7af0bd0c9165082ee8f11d0e70",
+    "checkpoint60_audit": "PASS"
+  },
+  "contract": {
+    "primitive": true,
+    "canonical": true,
+    "space_requirement": false,
+    "cutoff": "R<=B",
+    "M2_M3_literal_subset": false,
+    "literal_host": "H_ge2=M2+M3",
+    "raw_incidence_host": "P=M2+3M3"
+  },
+  "final_stack": {
+    "M2_asymptotic": "M2~C_M2*B*(log B)^5; C_M2>0",
+    "M3_lower": "for every epsilon>0, M3>>_epsilon B^(1/3-epsilon)",
+    "M3_upper": "for every fixed 0<eta<1/46, M3<<_eta B*(log B)^(5-eta)",
+    "Phi_to_zero": true,
+    "Theta_to_zero": true,
+    "Theta_over_Phi_to_three": true,
+    "completion_upper": "for every fixed 0<delta<1/46, Phi,Theta=o((log B)^(-delta))",
+    "completion_lower": "for every epsilon>0, Phi,Theta have scale at least B^(-2/3-epsilon)*(log B)^(-5), with observable-specific constants"
+  },
+  "artifacts": {
+    "self_contained_bundle_required": true,
+    "self_contained_bundle_materialized": true,
+    "self_contained_bundle_path": "stages/stage26/26-70/self-contained-bundle.md",
+    "arsenal_promotion_required": true,
+    "arsenal_promotion_materialized": true,
+    "arsenal_promotion_path": "docs/stage26-arsenal-promotion.md"
+  },
+  "open_frontier": {
+    "epsilon_free_one_third_lower_proved": false,
+    "true_M3_exponent_identified": false,
+    "M3_asymptotic_proved": false,
+    "upper_lower_match": false,
+    "endpoint_delta_1_over_46_proved": false,
+    "fixed_power_saving_upper_proved": false
+  },
+  "firewalls": {
+    "finite_data_used_as_asymptotic_proof": false,
+    "raw_incidence_and_object_counts_conflated": false,
+    "K3_Manin_transfer": false,
+    "independence_claim": false,
+    "perfect_cuboid_conclusion": "NONE"
+  },
+  "audit_status": "PENDING",
+  "advance_allowed": false,
+  "merge_allowed": false,
+  "close_stage_after_audit_pass": true,
+  "next_expected_command": "Stage26-audit"
+}
