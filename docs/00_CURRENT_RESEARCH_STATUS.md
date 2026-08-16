@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage27-r401a-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage27-40aa-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -31,8 +31,9 @@ STAGE27_CHECKPOINT10_STATUS=CONTRACT_AUDITED_PASS_MERGED_PR1021
 STAGE27_CHECKPOINT20_STATUS=DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED_PR1023
 STAGE27_CHECKPOINT30_STATUS=DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED_PR1024
 STAGE27_CHECKPOINT40_STATUS=UPPER_ATTACK_AUDITED_PASS_MERGED_PR1025
-STAGE27_R401A_STATUS=CRITICAL_WALL_LOCALIZATION_SUBMITTED_PENDING_FRESH_AUDIT
-STAGE27_CHECKPOINT50_BLOCKED_BY_R401A=true
+STAGE27_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1026
+STAGE27_40AA_STATUS=MAIN_CRT2_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_CHECKPOINT50_BLOCKED_BY_ACTIVE_UPPER_ROUTE=true
 STAGE27_CURRENT_N2_LOWER=1/4
 STAGE27_CURRENT_N2_UPPER=1/2_PLUS_EPSILON
 STAGE27_FINITE_ALPHA_EFF_1M_500M=0.421237360_DIAGNOSTIC_ONLY
@@ -40,6 +41,8 @@ STAGE27_GLOBAL_LOWER_PROGRESS_GATE=BETA_GT_1_OVER_4
 STAGE27_GLOBAL_UPPER_PROGRESS_GATE=MU_LT_1_OVER_2
 STAGE27_HALF_POWER_HORIZONTAL_SATURATION_IDENTIFIED=true
 STAGE27_LOCAL_PARITY_SIEVE_FIXED_POWER_ROUTE_CLOSED=true
+STAGE27_MAIN_FIXED_MOMENT_REWEIGHTING_ROUTE_CLOSED_CANDIDATE=true
+STAGE27_MAIN_SUPPORT_DEFICIT_PROVED=false
 STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false
 STAGE27_TRUE_N2_EXPONENT_IDENTIFIED=false
 NEXT_EXPECTED_COMMAND=Stage27-audit
@@ -48,75 +51,70 @@ NEXT_RESEARCH_PROGRAM=Stage27-TRUE-N2-EXPONENT-ATTACK
 
 ## Current operation
 
-Stage27 checkpoint40 hostile audit passed and PR #1025 merged at
+Stage27-r401a hostile intermediate audit passed and PR #1026 merged at
 
 ```text
-b76ebce08c5a90ed23bbd92762960ce719d3c718
+05f460c6df069f9b6da58409bc19378920a5666f
 ```
 
-Derived route `Stage27-r401a` keeps checkpoint40 open and localizes the current upper attack. For every fixed `0<gamma<1/16`, all Stage14 cells with `|theta-1/4|>=gamma` already satisfy
+Per that audit, checkpoint40 remains open and checkpoint50 is not authorized. The operator selected upper-only continuation with alphabetic derived-route numbering, starting at `Stage27-40aa`.
+
+`Stage27-40aa` attacks the highest-ranked MAIN route. Stage14's exact reciprocal witness count satisfies
 
 \[
-\boxed{N_{2,\mathrm{off}(\gamma)}(B)\ll B^{1/2-2\gamma+o(1)}}.
+0\le N_{\rm rec}(u,v)\le B^{o(1)},
+\qquad
+T_{\rm rec}=\{(u,v):N_{\rm rec}(u,v)>0\}.
 \]
 
-Thus half-power saturation is confined to the fully balanced coefficient wall `theta=1/4`, where `1/8<=phi<=1/4` and all available complete hosts equal `1/2`. Checkpoint50 is deliberately blocked until this derived upper route is audited.
-
-The wall localization was already present in Stage14-X13; Stage27 does not relabel it as new. The complete later MAIN/T/S chains end respectively at a nested K-free quadratic-divisor CRT first moment, a super-Kai individual Gaussian-residue prime-density theorem, and uniform target-class domination for a witness-coupled character family. Stage15/26 supplies no compatible fixed-power crossing, and the fresh 2026 primary-source radar found no exact adapter.
-
-The attack re-audits the active Stage14 proof chain
+For every fixed integer `r>=1`, with
 
 \[
-N_2\le E,\qquad E\ll V B^{o(1)},\qquad V\ll B^{1/2+o(1)}.
+S_r=\sum N_{\rm rec}(u,v)^r,
 \]
 
-The vertical elliptic-fiber multiplicity is only `B^o(1)`. The fixed exponent `1/2` is supplied by the horizontal active-vertex complete-host saturation in Stage14 Proposition 3.6. Therefore reducing only divisor or elliptic fiber multiplicity cannot produce a strict fixed-power improvement.
-
-The latest Stage15-6 same-measure squareclass mechanism has exact good-split-prime acceptance
+the pointwise bound gives
 
 \[
-1-\rho_p=4/p+O(p^{-2}),
+\boxed{\#T_{\rm rec}\le S_r\le B^{o(1)}\#T_{\rm rec}}.
 \]
 
-and hence
+Thus all fixed witness moments have the same fixed-power exponent as reciprocal support. Passing from the first moment to a second or any other fixed higher moment cannot by itself create a fixed `B^{-delta}` saving.
+
+The surviving MAIN target is therefore the support mass of the simultaneous nested two-level CRT system
 
 \[
-\prod_{p\le z,\ p\equiv1\,(4)}\rho_p=(\log z)^{-2+o(1)}.
+t_p,t_q\mid m^\circ,\qquad f\mid t_pt_q,
 \]
 
-Thus even a hypothetical polynomial prime range `z=B^A` for this same local tensor gives logarithmic, not `B^{-delta}`, thinning. Growing-modulus uniformity remains useful for an effective causal rate, but is not by itself the missing strict-sub-half theorem.
+\[
+G_-f^2\equiv-G_+t_pt_q\pmod{2U},
+\qquad
+G_-f^2\equiv G_+t_pt_q\pmod{2V}.
+\]
 
-Checkpoint40 therefore does not claim a new `mu<1/2`. It freezes the exact high-priority restart contracts:
+A strict sub-half theorem would require a genuine same-measure fixed-power deficit in the number of critical-wall base pairs admitting such a witness, uniformly on retained principal cells or via a chargeable exceptional set. `40aa` does not prove that deficit.
 
-1. a fixed-power deficit on every Stage14 half-power saturation cell;
-2. an exact physical Kummer-support theorem `|S(B)|<<_epsilon B^(1/2-delta+epsilon)`;
-3. a moving genus-one global-measure adapter plus a fixed-power deficit;
-4. one of the distinct MAIN/T/S external theorem species with a same-measure fixed-power deficit or chargeable exceptional set.
-
-The finite `0.421237360...` effective exponent remains diagnostic only.
+If hostile audit accepts this boundary, the next ranked independent upper route is `27-40ab = T-AVG-ADAPTER`; checkpoint50 remains blocked.
 
 ```text
-TASK_ID=Stage27-r401a
+TASK_ID=Stage27-40aa
 CHECKPOINT=40
-EVIDENCE_LEVEL=PROVED_CRITICAL_WALL_LOCALIZATION_CANDIDATE
-UPPER_ATTACK_EXECUTED=true
+ROUTE_KIND=UPPER_ONLY
+ROUTE_LABEL=MAIN_CRT2
 CURRENT_GLOBAL_MU=1/2
-NEW_MU_LT_HALF_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
-HALF_POWER_HORIZONTAL_SATURATION_IDENTIFIED=true
-OFF_WALL_FIXED_POWER_SAVING_PROVED=true
-CRITICAL_WALL=theta=1/4
-CRITICAL_WALL_NEW_DISCOVERY=false
-ALL_THREE_STAGE14_TERMINAL_CHAINS_AUDITED=true
-POST_STAGE14_INTERNAL_GATE_CROSSING_FOUND=false
-NEW_EXACT_TERMINAL_GATE_ADAPTER_FOUND=false
-LOCAL_PARITY_SIEVE_FIXED_POWER_ROUTE_CLOSED=true
-EXACT_REOPEN_CONTRACTS_MATERIALIZED=true
-FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
+NEW_MU_LT_HALF_PROVED=false
+FIXED_WITNESS_MOMENT_EXPONENT_EQUIVALENCE_PROVED=true
+MAIN_FIXED_MOMENT_REWEIGHTING_ROUTE_CLOSED=true
+MAIN_SUPPORT_DEFICIT_GATE_OPEN=true
+MAIN_SUPPORT_DEFICIT_PROVED=false
+FINITE_DATA_USED_AS_PROOF=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
 NEXT_CHECKPOINT=40
+NEXT_DERIVED_ROUTE=27-40ab
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage27-audit

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_DERIVED_ROUTE_R401A_SUBMITTED_PENDING_AUDIT",
+  "status": "OPEN_CHECKPOINT40_DERIVED_ROUTE_40AA_SUBMITTED_PENDING_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -14,7 +14,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R401A_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_40AA_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -117,7 +117,7 @@
   },
   "derived_routes": {
     "Stage27-r401a": {
-      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "INTERMEDIATE_AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_serial": "01",
       "purpose": "localize the half-power saturation to the fully balanced theta=1/4 wall before any lower-side checkpoint",
@@ -128,9 +128,30 @@
       "post_stage14_internal_gate_crossing_found": false,
       "fresh_2026_exact_adapter_found": false,
       "strict_sub_sqrt_upper_proved": false,
+      "audit_status": "PASS",
+      "audit_record": "stages/stage27/27-r401a/audit.md",
+      "pr": 1026,
+      "merge_commit": "05f460c6df069f9b6da58409bc19378920a5666f",
+      "advance_to_checkpoint50": false,
+      "continue_upper_exploration": true,
+      "advance_allowed": true,
+      "merge_allowed": true
+    },
+    "Stage27-40aa": {
+      "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_serial": "aa",
+      "route_priority": 1,
+      "purpose": "attack MAIN nested two-level CRT first moment and determine whether fixed witness moments or support arithmetic can yield a strict sub-half deficit",
+      "fixed_witness_moment_exponent_equivalence_proved": true,
+      "main_fixed_moment_reweighting_route_closed": true,
+      "main_support_deficit_gate_open": true,
+      "main_support_deficit_proved": false,
+      "strict_sub_sqrt_upper_proved": false,
       "audit_status": "PENDING",
       "advance_allowed": false,
-      "merge_allowed": false
+      "merge_allowed": false,
+      "next_ranked_route_after_pass": "Stage27-40ab:T-AVG-ADAPTER"
     }
   },
   "entry_gate": {
@@ -142,7 +163,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "DERIVED_ROUTE_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "DERIVED_ROUTE_40AA_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
@@ -157,6 +178,7 @@
     "fixed_prime_sieve_promoted_to_power_saving": false,
     "growing_modulus_same_rho_promoted_to_fixed_power": false,
     "subpolynomial_fiber_promoted_to_fixed_power": false,
+    "fixed_witness_moment_reweighting_promoted_to_power_saving": false,
     "global_lower_promoted_to_all_named_directions": false,
     "independence_product_claimed": false,
     "perfect_cuboid_conclusion": false,

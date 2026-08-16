@@ -14,6 +14,7 @@ registry = json.loads(text("stages/stage27/27-r401a/critical-wall-registry.json"
 controller = json.loads(text("stages/stage27/27-controller.json"))
 stage14 = text("stages/stage14/final.md")
 audit40 = text("stages/stage27/27-40/audit.md")
+audit_r401a = text("stages/stage27/27-r401a/audit.md")
 
 assert "AUDIT_VERDICT=PASS" in audit40
 assert "CHECKPOINT40_STATUS=UPPER_ATTACK_AUDITED_PASS_AWAITING_MERGE" in audit40
@@ -25,7 +26,6 @@ for marker in [
 ]:
     assert marker in stage14, marker
 
-# Exact affine optimization on both sides of the critical wall.
 for gamma in [Fraction(1, 100), Fraction(1, 32), Fraction(1, 20)]:
     assert 3 * (Fraction(1, 4) - gamma) - Fraction(1, 4) == Fraction(1, 2) - 3 * gamma
     assert 1 - 2 * (Fraction(1, 4) + gamma) == Fraction(1, 2) - 2 * gamma
@@ -64,12 +64,21 @@ for marker in [
 ]:
     assert marker in terminal, marker
 
+# r401a mathematics remains frozen after hostile audit PASS + merge; later
+# checkpoint40 child routes may be pending without reopening r401a claims.
+assert "AUDIT_VERDICT=PASS" in audit_r401a
+r = controller["derived_routes"]["Stage27-r401a"]
+assert r["audit_status"] == "PASS"
+assert r["pr"] == 1026
+assert r["merge_commit"] == "05f460c6df069f9b6da58409bc19378920a5666f"
+assert r["advance_to_checkpoint50"] is False
+assert r["continue_upper_exploration"] is True
 assert controller["state"]["CURRENT_CHECKPOINT"] == 40
 assert controller["checkpoint_status"]["50"] == "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE"
-assert controller["derived_routes"]["Stage27-r401a"]["audit_status"] == "PENDING"
 assert controller["next_expected_command"] == "Stage27-audit"
 
 print("STAGE27_R401A_UPSTREAM_AUDIT_MERGE=PASS")
 print("STAGE27_R401A_OFF_WALL_FIXED_POWER=PASS")
 print("STAGE27_R401A_CRITICAL_WALL_LOCALIZATION=PASS")
 print("STAGE27_R401A_NO_THEOREM_INFLATION=PASS")
+print("STAGE27_R401A_POSTMERGE_LIFECYCLE=PASS")
