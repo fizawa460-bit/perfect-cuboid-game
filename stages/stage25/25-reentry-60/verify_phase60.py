@@ -22,19 +22,16 @@ r010 = text('stages/stage25/25-reentry-r010a/result.md')
 r011audit = text('stages/stage25/25-reentry-r011a/audit.md')
 ctrl = data('stages/stage25/25-reentry-controller.json')
 
-# Authorization: r011a hostile audit passed and merged before phase60 launch.
 assert 'AUDIT_VERDICT=PASS' in r011audit
 assert ctrl['r011a_submission']['status'] == 'AUDITED_PASS_MERGED'
 assert ctrl['r011a_submission']['audit_status'] == 'PASS'
 assert ctrl['r011a_submission']['merge_commit'] == 'e64f21621bb1b7062dfd21f186e6ed1bcc191272'
 
-# Frozen source theorems.
 assert 'M_2(B)\\sim C_{M_2}B(\\log B)^5' in s18
 assert 'B^{1/6}\\ll M_3(B)' in s20
 assert 'eta<1/46' in s20
-assert 'P_j=M2,j+M3' in r010
+assert ('P_j=M_{2,j}+M_3' in r010 or 'P_j=M2,j+M3' in r010)
 
-# Exact incidence measure and no M3/M2 probability confusion.
 assert reg['population']['raw_directional'] == 'P_j=M2,j+M3'
 assert reg['population']['raw_total'] == 'P=M2+3M3'
 assert reg['completion_rates']['literal_incidence_probability'] is True
@@ -42,7 +39,6 @@ assert reg['completion_rates']['object_ratio_M3_over_M2_is_probability'] is Fals
 assert 'Theta_j=M3/P_j' in reg['completion_rates']['directional']
 assert 'Theta=3M3/(M2+3M3)' in reg['completion_rates']['total']
 
-# Candidate theorem statements.
 cc = reg['candidate_conclusions']
 assert 'B^(-5/6)(log B)^(-5)' in cc['directional_corridor']
 assert '(log B)^(-eta)' in cc['directional_corridor']
@@ -52,21 +48,18 @@ assert 'Theta_j(B)}{\\Theta_k(B)' in res
 assert 'C_k}{C_j' in res
 assert 'B^{-5/6}(\\log B)^{-5}' in proof
 
-# Compatibility and firewall.
 for k in ('population_match','cutoff_match','multiplicity_match','measure_match','quantifier_match'):
     assert reg['compatibility'][k] is True
 assert reg['compatibility']['finite_data_promoted'] is False
 assert 'The K3 cover is not assigned a fake `(a,b)` difference' in proof
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 
-# Backflow and Stage26 gate.
 assert back['derived_routes_opened'] == []
 assert back['phase70_after_audit_pass_and_merge'] is True
 assert back['stage26_allowed'] is False
 assert reg['stage26_receiver']['candidate_ready'] is True
 assert reg['stage26_receiver']['accepted_ready'] is False
 
-# Lifecycle.
 assert ctrl['current_phase'] == 60
 assert ctrl['status'] == 'PHASE60_SUBMITTED_PENDING_FRESH_AUDIT'
 p60 = ctrl['phase60_submission']
