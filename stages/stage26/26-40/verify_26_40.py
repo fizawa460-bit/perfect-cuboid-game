@@ -49,14 +49,12 @@ for key in [
     assert reg['firewalls'][key] is False, key
 assert reg['firewalls']['perfect_cuboid_conclusion'] == 'NONE'
 
-# Exact completion transforms are monotone upper adapters.
 for r in [Fraction(1,1000), Fraction(1,10), Fraction(1,1), Fraction(7,3)]:
     phi = r/(1+r)
     theta = 3*r/(1+3*r)
     assert 0 <= phi <= r
     assert 0 <= theta <= 3*r
 
-# Quantifier witness: every rational delta below 1/46 admits fixed eta strictly between.
 for delta in [Fraction(1,100), Fraction(1,50), Fraction(2,100), Fraction(1,47)]:
     assert delta < Fraction(1,46)
     eta = (delta + Fraction(1,46))/2
@@ -64,14 +62,11 @@ for delta in [Fraction(1,100), Fraction(1,50), Fraction(2,100), Fraction(1,47)]:
     assert eta - delta > 0
 
 for marker in [
-    'ENDPOINT_FREE_LITTLE_O_CANDIDATE=true',
-    'DIRECTIONAL_LITTLE_O_CANDIDATE=true',
     'LOCAL_BLOCKER_AND_THIN_COVER_SAVINGS_MULTIPLIED=false',
     'TRUE_M3_EXPONENT_IDENTIFIED=false',
     'K3_MANIN_TRANSFER=false',
     'INDEPENDENCE_CLAIM=false',
     'PERFECT_CUBOID_CONCLUSION=NONE',
-    'NEXT_EXPECTED_COMMAND=Stage26-audit',
 ]:
     assert marker in res, marker
 
@@ -85,18 +80,43 @@ for marker in [
 assert ctl['checkpoint_status']['30'] == 'PROVED_AUDITED_PASS_MERGED'
 assert ctl['checkpoint30']['merge_commit'] == 'e5e884e37f62db78a31f09d8927be230f07b0f2f'
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
-assert ctl['checkpoint_status']['40'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
-assert ctl['checkpoint40']['audit_status'] == 'PENDING'
-assert ctl['checkpoint40']['advance_allowed'] is False
-assert ctl['checkpoint40']['merge_allowed'] is False
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['ADVANCE_ALLOWED'] is False
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['state']['NEXT_CHECKPOINT'] == 50
-assert ctl['next_expected_command'] == 'Stage26-audit'
+c40 = ctl['checkpoint40']
+
+if c40['audit_status'] == 'PENDING':
+    assert ctl['checkpoint_status']['40'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
+    assert reg['audit_status'] == 'PENDING'
+    assert 'ENDPOINT_FREE_LITTLE_O_CANDIDATE=true' in res
+    assert 'DIRECTIONAL_LITTLE_O_CANDIDATE=true' in res
+    assert c40['advance_allowed'] is False
+    assert c40['merge_allowed'] is False
+    assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
+    assert ctl['state']['ADVANCE_ALLOWED'] is False
+    assert ctl['state']['MERGE_ALLOWED'] is False
+    assert ctl['next_expected_command'] == 'Stage26-audit'
+elif c40['audit_status'] == 'PASS':
+    assert ctl['checkpoint_status']['40'] in ('PROVED_AUDITED_PASS_AWAITING_MERGE','PROVED_AUDITED_PASS_MERGED')
+    assert reg['audit_status'] == 'PASS'
+    assert (BASE / 'audit.md').exists()
+    assert 'AUDIT_VERDICT=PASS' in (BASE / 'audit.md').read_text(encoding='utf-8')
+    assert 'ENDPOINT_FREE_LITTLE_O_ACCEPTED=true' in res
+    assert 'DIRECTIONAL_LITTLE_O_ACCEPTED=true' in res
+    assert c40['advance_allowed'] is True
+    assert c40['merge_allowed'] is True
+    if ctl['checkpoint_status']['40'] == 'PROVED_AUDITED_PASS_AWAITING_MERGE':
+        assert ctl['state']['AUDIT_STATUS'] == 'PASS'
+        assert ctl['state']['ADVANCE_ALLOWED'] is True
+        assert ctl['state']['MERGE_ALLOWED'] is True
+        assert ctl['state']['NEXT_CHECKPOINT'] == 50
+        assert ctl['next_expected_command'] == 'merge PR #1017; then Stage26-main-batch'
+    else:
+        assert c40.get('pr') == 1017
+        assert c40.get('merge_commit')
+        assert ctl['state']['CURRENT_CHECKPOINT'] >= 50
+else:
+    raise AssertionError(c40['audit_status'])
 
 print('STAGE26_40_UPPER_INPUTS=PASS')
 print('STAGE26_40_ENDPOINT_FREE_LITTLE_O=PASS')
 print('STAGE26_40_DIRECTIONAL_RECEIVER=PASS')
 print('STAGE26_40_MECHANISM_FIREWALL=PASS')
-print('STAGE26_40_AUDIT_STATUS=PENDING')
+print(f"STAGE26_40_AUDIT_STATUS={c40['audit_status']}")
