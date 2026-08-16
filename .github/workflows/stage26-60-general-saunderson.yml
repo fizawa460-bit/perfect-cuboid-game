@@ -1,0 +1,22 @@
+name: Stage26-60 generalized Saunderson lower
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage26/26-60/**'
+      - 'stages/stage26/26-controller.json'
+      - 'stages/stage26/26-50/**'
+      - 'stages/stage20/final.md'
+      - '.github/workflows/stage26-60-general-saunderson.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage26-60:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage26 checkpoint60 generalized Saunderson lower
+        run: python stages/stage26/26-60/verify_26_60.py
