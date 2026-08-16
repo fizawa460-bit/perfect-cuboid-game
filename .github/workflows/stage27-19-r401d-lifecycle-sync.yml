@@ -28,7 +28,8 @@ jobs:
           from pathlib import Path
           p = Path('stages/stage27/27-19-r401d/verify_27_19_r401d.py')
           s = p.read_text(encoding='utf-8')
-          s = s.replace("assert 'FAIL_REASON=CANONICAL_LIFECYCLE_SYNC_MISSING' in self_audit", "assert 'CANONICAL_LIFECYCLE_SYNC_MISSING' in self_audit")
+          s = s.replace("assert 'FAIL_REASON=CANONICAL_LIFECYCLE_SYNC_MISSING' in self_audit", "assert 'FAIL_REASON=STALE_R401C_PENDING_STATE_AND_MISSING_R401D_CANONICAL_REGISTRATION' in self_audit")
+          s = s.replace("assert 'CANONICAL_LIFECYCLE_SYNC_MISSING' in self_audit", "assert 'FAIL_REASON=STALE_R401C_PENDING_STATE_AND_MISSING_R401D_CANONICAL_REGISTRATION' in self_audit")
           p.write_text(s, encoding='utf-8')
           PY
       - name: Verify sync helper output
