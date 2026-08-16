@@ -1,0 +1,22 @@
+name: Stage25 reentry phase50 shared-P audit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage25/25-reentry-50/**'
+      - 'stages/stage25/25-reentry-r010a/**'
+      - 'stages/stage21/**'
+      - 'stages/stage17/**'
+      - 'stages/stage16s/**'
+      - '.github/workflows/stage25-reentry-50-shared-p.yml'
+
+jobs:
+  verify-phase50-shared-p:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage25 reentry phase50 shared-P mechanism candidate
+        run: python stages/stage25/25-reentry-50/verify_phase50.py
