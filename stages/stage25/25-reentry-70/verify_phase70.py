@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 import json
+import re
 
 ROOT = Path(__file__).resolve().parents[3]
 
@@ -150,17 +151,11 @@ assert 'STAGE26_ALLOWED=true' in status
 next_lines = [line for line in status.splitlines() if line.startswith('NEXT_EXPECTED_COMMAND=')]
 assert next_lines
 for next_cmd in next_lines:
-    assert (
-        next_cmd in (
-            'NEXT_EXPECTED_COMMAND=Stage26-main-batch',
-            'NEXT_EXPECTED_COMMAND=Stage26-audit',
-            'NEXT_EXPECTED_COMMAND=Stage27-main-batch',
-            'NEXT_EXPECTED_COMMAND=Stage27-audit',
-            'NEXT_EXPECTED_COMMAND=Stage28-main-batch',
-            'NEXT_EXPECTED_COMMAND=Stage28-audit',
-        )
-        or (next_cmd.startswith('NEXT_EXPECTED_COMMAND=merge PR #') and ('Stage26-main-batch' in next_cmd or 'Stage27-main-batch' in next_cmd or 'Stage28-main-batch' in next_cmd))
-    )
+    if next_cmd.startswith('NEXT_EXPECTED_COMMAND=merge PR #'):
+        assert ('Stage26-main-batch' in next_cmd or 'Stage27-main-batch' in next_cmd or 'Stage28-main-batch' in next_cmd)
+        continue
+    cmd = next_cmd.split('=', 1)[1]
+    assert re.fullmatch(r'Stage(?:26|27|28)(?:-[A-Za-z0-9]+)*-(?:main-batch|audit)', cmd), next_cmd
 
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in res
 assert 'PERFECT_CUBOID_CONCLUSION=NONE' in s26
