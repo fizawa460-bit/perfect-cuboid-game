@@ -11,8 +11,8 @@
   "checkpoint_sequence": [10, 20, 30, 40, 50, 60, 70],
   "checkpoint_status": {
     "10": "PROVED_AUDITED_PASS_MERGED",
-    "20": "SUBMITTED_PENDING_FRESH_AUDIT",
-    "30": "BLOCKED_UNTIL_CHECKPOINT20_AUDIT_PASS_MERGE",
+    "20": "PROVED_AUDITED_PASS_AWAITING_MERGE",
+    "30": "BLOCKED_UNTIL_CHECKPOINT20_MERGE",
     "40": "PENDING",
     "50": "PENDING",
     "60": "PENDING",
@@ -40,7 +40,7 @@
     ]
   },
   "checkpoint20": {
-    "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+    "status": "PROVED_AUDITED_PASS_AWAITING_MERGE",
     "evidence_level": "DERIVED_EXACT_FINITE",
     "matched_finite_baseline": true,
     "source_csv_join_exact": true,
@@ -50,9 +50,11 @@
     "stage14_num_space_population_substituted": false,
     "finite_data_as_asymptotic_proof": false,
     "true_M3_exponent_identified": false,
-    "audit_status": "PENDING",
-    "advance_allowed": false,
-    "merge_allowed": false,
+    "audit_status": "PASS",
+    "audit_record": "stages/stage26/26-20/audit.md",
+    "advance_allowed": true,
+    "merge_allowed": true,
+    "pr": 1015,
     "artifacts": [
       "stages/stage26/26-20/result.md",
       "stages/stage26/26-20/finite-panel.csv",
@@ -71,14 +73,14 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 20,
-    "MAIN_STATUS": "SUBMITTED_PENDING_FRESH_AUDIT",
-    "AUDIT_STATUS": "PENDING",
-    "ADVANCE_ALLOWED": false,
+    "MAIN_STATUS": "AUDITED_PASS_AWAITING_MERGE",
+    "AUDIT_STATUS": "PASS",
+    "ADVANCE_ALLOWED": true,
     "NEXT_CHECKPOINT": 30,
     "NEXT_STAGE": "",
     "NEW_INPUT_REQUIRED": false,
     "HUMAN_DECISION_REQUIRED": false,
-    "MERGE_ALLOWED": false
+    "MERGE_ALLOWED": true
   },
   "safety": {
     "finite_data_as_asymptotic_proof": false,
@@ -88,5 +90,5 @@
     "perfect_cuboid_conclusion": false,
     "audit_pass_auto_merges": false
   },
-  "next_expected_command": "Stage26-audit"
+  "next_expected_command": "merge PR #1015; then Stage26-main-batch"
 }
