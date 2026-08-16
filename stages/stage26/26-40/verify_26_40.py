@@ -79,10 +79,10 @@ for marker in [
 
 assert ctl['checkpoint_status']['30'] == 'PROVED_AUDITED_PASS_MERGED'
 assert ctl['checkpoint30']['merge_commit'] == 'e5e884e37f62db78a31f09d8927be230f07b0f2f'
-assert ctl['state']['CURRENT_CHECKPOINT'] == 40
 c40 = ctl['checkpoint40']
 
 if c40['audit_status'] == 'PENDING':
+    assert ctl['state']['CURRENT_CHECKPOINT'] == 40
     assert ctl['checkpoint_status']['40'] == 'PROVED_SUBMITTED_PENDING_AUDIT'
     assert reg['audit_status'] == 'PENDING'
     assert 'ENDPOINT_FREE_LITTLE_O_CANDIDATE=true' in res
@@ -103,6 +103,7 @@ elif c40['audit_status'] == 'PASS':
     assert c40['advance_allowed'] is True
     assert c40['merge_allowed'] is True
     if ctl['checkpoint_status']['40'] == 'PROVED_AUDITED_PASS_AWAITING_MERGE':
+        assert ctl['state']['CURRENT_CHECKPOINT'] == 40
         assert ctl['state']['AUDIT_STATUS'] == 'PASS'
         assert ctl['state']['ADVANCE_ALLOWED'] is True
         assert ctl['state']['MERGE_ALLOWED'] is True
@@ -110,7 +111,7 @@ elif c40['audit_status'] == 'PASS':
         assert ctl['next_expected_command'] == 'merge PR #1017; then Stage26-main-batch'
     else:
         assert c40.get('pr') == 1017
-        assert c40.get('merge_commit')
+        assert c40.get('merge_commit') == '48f08c4ff7e5b9708d12e22878e16102ec6f02a0'
         assert ctl['state']['CURRENT_CHECKPOINT'] >= 50
 else:
     raise AssertionError(c40['audit_status'])
