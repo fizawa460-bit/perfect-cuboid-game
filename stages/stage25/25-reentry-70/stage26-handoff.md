@@ -1,12 +1,15 @@
-# Stage26 handoff candidate from Stage25-reentry
+# Stage26 handoff from Stage25-reentry
 
-STATUS=SUBMITTED_PENDING_PHASE70_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED_STAGE26_ENTRY_AUTHORIZED
 SOURCE_TASK=Stage25-um-r007a
 SOURCE_PHASE=70
+SOURCE_PR=1012
+SOURCE_MERGE_COMMIT=be5f7d8360b3bac2b9060cd88ede596a4fb218dc
+SOURCE_AUDIT=stages/stage25/25-reentry-70/audit.md
 
 ## Entry object
 
-Stage26 should start from the primitive canonical no-space exactly-two / raw-pair host under the same Euclidean cutoff
+Stage26 starts from the primitive canonical no-space exactly-two / raw-pair host under the same Euclidean cutoff
 
 \[
 R=\sqrt{a^2+b^2+c^2}\le B,
@@ -53,7 +56,7 @@ Also
 \Theta_j/\Theta_k\to C_k/C_j.
 \]
 
-Thus the completion rates tend to zero but are quantitatively bounded below by a positive power family through the current Saunderson construction.
+Thus the completion rates tend to zero but are quantitatively bounded below by a positive-power family through the current Saunderson construction.
 
 ## Incoming geometry
 
@@ -98,7 +101,7 @@ Stage26 should attack, in order of value:
 - Do not reopen Q07–Q10 without a genuinely new independent equation, height monotonicity, or same-measure spectral theorem.
 
 ```text
-STAGE26_ENTRY_INTERFACE_VALID_CANDIDATE=true
+STAGE26_ENTRY_INTERFACE_VALID=true
 POPULATION_MATCH=true
 CUTOFF_MATCH=true
 MULTIPLICITY_MATCH=true
@@ -106,6 +109,8 @@ MEASURE_MATCH=true
 QUANTIFIER_MATCH=true
 TRUE_M3_EXPONENT_IDENTIFIED=false
 PERFECT_CUBOID_CONCLUSION=NONE
-PHASE70_AUDIT_REQUIRED=true
-STAGE26_ALLOWED=false
+PHASE70_AUDIT_STATUS=PASS
+PHASE70_MERGED=true
+STAGE26_ALLOWED=true
+NEXT_EXPECTED_COMMAND=Stage26-main-batch
 ```
