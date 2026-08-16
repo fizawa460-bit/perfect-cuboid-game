@@ -153,10 +153,55 @@ else:
     assert r8["audit_status"] == "PASS"
     assert r8["merge_commit"]
     assert not any(x["route_id"] == "Stage25-um-r008a" and x["blocks_next_phase"] for x in controller["propagation_queue"])
-    assert status.startswith(f"PHASE{current}_")
+
+    if status.startswith(f"PHASE{current}_"):
+        pass
+    elif current == 50 and status.startswith("R011A_"):
+        # Legal derived-route lifecycle after phase50 audit+merge.  This branch
+        # must preserve all previous gates and may not authorize phase60 early.
+        p50 = controller["phase50_submission"]
+        assert p50["task_id"] == "Stage25-u21-r005a"
+        assert p50["audit_status"] == "PASS"
+        assert p50["pr"] == 1009
+        assert p50["merge_commit"] == "8765eb73db07da8afb8ad9b1f9a538ff8cd080ee"
+        assert controller["phases"]["50"]["status"] == "AUDITED_PASS_MERGED_DERIVED_ROUTE_SUBMITTED"
+
+        r11 = controller["r011a_submission"]
+        assert r11["route_id"] == "Stage25-um-r011a"
+        assert r11["parent_task"] == "Stage25-u21-r005a"
+        assert r11["parent_pr"] == 1009
+        assert r11["parent_merge_commit"] == p50["merge_commit"]
+        for rel in (
+            r11["result"], r11["proof"], r11["analytic_ledger"],
+            r11["discovery_ledger"], r11["weapon_delta"],
+            r11["verifier"], r11["workflow"],
+        ):
+            assert (ROOT / rel).exists(), rel
+        assert r11["common_dirichlet_pole_slot_ledger_proved"] is False
+        assert r11["independent_factorization_proved"] is False
+
+        queued = [x for x in controller["propagation_queue"] if x["route_id"] == "Stage25-um-r011a"]
+        assert len(queued) == 1
+        assert queued[0]["blocks_next_phase"] is True
+        assert controller["phases"]["60"]["status"] == "BLOCKED_UNTIL_R011A_AUDIT_PASS_MERGE"
+        assert controller["next_expected_command"] == "Stage25-reentry-audit"
+
+        if status == "R011A_SUBMITTED_PENDING_FRESH_AUDIT":
+            assert r11["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
+            assert r11["audit_status"] == "PENDING"
+            assert r11["advance_allowed"] is False
+            assert r11["merge_allowed"] is False
+            assert queued[0]["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
+        else:
+            # Future audit promotion may use another R011A_* state, but it must
+            # carry an explicit PASS rather than bypassing this branch.
+            assert r11["audit_status"] == "PASS"
+    else:
+        raise AssertionError(f"unexpected later-phase lifecycle: phase={current}, status={status}")
 
 print("STAGE25_REENTRY_CONTROLLER=PASS")
 print("STAGE25_REENTRY_PHASE_ORDER=PASS")
 print("STAGE25_REENTRY_R008A_NO_BYPASS=PASS")
+print("STAGE25_REENTRY_R011A_NO_BYPASS=PASS")
 print("STAGE25_DERIVED_PROPAGATION_QUEUE=PASS")
 print("STAGE26_GATE_INITIAL_BLOCK=PASS")
