@@ -1,0 +1,22 @@
+name: Stage27-19-r401c affine-linear multisection classification
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r401c/**'
+      - 'stages/stage27/27-19-r401b/**'
+      - 'stages/stage27/27-controller.json'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-19-r401c-affine-linear-multisection.yml'
+  workflow_dispatch:
+
+jobs:
+  verify-stage27-19-r401c:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-19-r401c affine-linear classification
+        run: python stages/stage27/27-19-r401c/verify_27_19_r401c.py
