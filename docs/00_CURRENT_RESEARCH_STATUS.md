@@ -1,7 +1,7 @@
 # CURRENT RESEARCH STATUS
 
 ```text
-CURRENT_STAGE=Stage26-30-SUBMITTED-PENDING-FRESH-AUDIT
+CURRENT_STAGE=Stage26-40-SUBMITTED-PENDING-FRESH-AUDIT
 STAGE12_STATUS=FROZEN_R09
 STAGE13_STATUS=CLOSED_R07
 STAGE14_STATUS=CLOSED_R06
@@ -41,8 +41,10 @@ STAGE26_DISCOVERY_AUDIT=PASS_BY_CODEX
 STAGE26_MATHEMATICAL_AUDIT=PASS
 STAGE26_CHECKPOINT20_STATUS=PROVED_AUDITED_PASS_MERGED_PR1015
 STAGE26_CHECKPOINT20_EVIDENCE=DERIVED_EXACT_FINITE
-STAGE26_CHECKPOINT30_STATUS=PROVED_SUBMITTED_PENDING_AUDIT
-STAGE26_CHECKPOINT30_EVIDENCE=PROVED_DERIVED_THEOREM_CANDIDATE
+STAGE26_CHECKPOINT30_STATUS=PROVED_AUDITED_PASS_MERGED_PR1016
+STAGE26_CHECKPOINT30_EVIDENCE=PROVED_DERIVED_THEOREM
+STAGE26_CHECKPOINT40_STATUS=PROVED_SUBMITTED_PENDING_AUDIT
+STAGE26_CHECKPOINT40_EVIDENCE=PROVED_DERIVED_THEOREM_CANDIDATE
 STAGE26_TRUE_M3_EXPONENT_IDENTIFIED=false
 NEXT_EXPECTED_COMMAND=Stage26-audit
 NEXT_RESEARCH_PROGRAM=Stage26
@@ -50,76 +52,70 @@ NEXT_RESEARCH_PROGRAM=Stage26
 
 ## Current operation
 
-Stage25-reentry is fully closed and synchronized. Stage26 checkpoint10 is merged as PR #1014 / `03ad11b0df214f95c4c077a3b22d12ffe391d160`; checkpoint20 hostile audit PASS is merged as PR #1015 / `f1e2d7b718757a85f6b1d2fce25ae442b5c22a87`.
+Stage25-reentry is fully closed and synchronized. Stage26 checkpoints10, 20, and 30 are hostile-audited PASS and merged as PRs #1014, #1015, and #1016. Checkpoint30 merge commit is `e5e884e37f62db78a31f09d8927be230f07b0f2f`.
 
-Checkpoint30 now promotes the frozen Stage18/Stage20 asymptotic interfaces through the exact Stage26 measure adapters. Under the common primitive/canonical no-space Euclidean cutoff,
-
-\[
-M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
-\]
-
-and for every fixed `0<eta<1/46`,
+Checkpoint30 proved, on the common primitive/canonical no-space Euclidean population,
 
 \[
-B^{1/6}\ll M_3(B)\ll_\eta B(\log B)^{5-\eta}.
+r(B)=\frac{M_3(B)}{M_2(B)}\to0,
 \]
 
-Writing
+and the literal completion observables
 
 \[
-r(B)=\frac{M_3(B)}{M_2(B)},
+\Phi(B)=\frac{M_3(B)}{M_2(B)+M_3(B)}\to0,
+\qquad
+\Theta(B)=\frac{3M_3(B)}{M_2(B)+3M_3(B)}\to0.
 \]
 
-gives the candidate corridor
+Checkpoint40 now consumes the full Stage20 upper-family quantifier. For every fixed
 
 \[
-B^{-5/6}(\log B)^{-5}\ll r(B)\ll_\eta(\log B)^{-\eta},
+0<\eta<1/46,
 \]
 
-hence `r(B)->0`.
-
-The literal physical-object host and raw-incidence host are
+Stage20 gives
 
 \[
-H_{\ge2}=M_2+M_3,\qquad
-\Phi=\frac{M_3}{M_2+M_3},
+M_3(B)\ll_\eta B(\log B)^{5-\eta},
 \]
+
+while Stage18 gives
 
 \[
-P=M_2+3M_3,\qquad
-\Theta=\frac{3M_3}{M_2+3M_3}.
+M_2(B)\sim C_{M_2}B(\log B)^5.
 \]
 
-Exact algebra gives
+Therefore, for any fixed
 
 \[
-\frac{\Phi}{1-\Phi}=r,\qquad
-\frac{\Theta}{1-\Theta}=3r,
+0<\delta<1/46,
 \]
 
-and therefore the checkpoint30 theorem candidate is
+choose a fixed `eta` with `delta<eta<1/46`. Then the checkpoint40 candidate is
 
 \[
-B^{-5/6}(\log B)^{-5}\ll\Phi(B)\ll_\eta(\log B)^{-\eta}\to0,
+\boxed{\frac{M_3(B)}{M_2(B)}=o((\log B)^{-\delta})},
 \]
+
+and exact monotone adapters give
 
 \[
-B^{-5/6}(\log B)^{-5}\ll\Theta(B)\ll_\eta(\log B)^{-\eta}\to0,
+\boxed{\Phi(B)=o((\log B)^{-\delta})},
+\qquad
+\boxed{\Theta(B)=o((\log B)^{-\delta})}.
 \]
 
-with
+The hostile-audited phase60 directional receiver similarly gives, for each fixed shared-edge chamber `j`,
 
 \[
-\Phi\sim r,\qquad \Theta\sim3r,\qquad \Theta/\Phi\to3.
+\boxed{\Theta_j(B)=o_j((\log B)^{-\delta})}
+\qquad(0<\delta<1/46).
 \]
 
-Thus, if fresh audit accepts the derivation, the exactly-three Euler stratum has zero relative density inside the literal at-least-two-face physical-object host. This is not inferred from checkpoint20 finite data.
+The endpoint `delta=1/46` is not claimed. No exact logarithmic decay exponent, fixed polynomial saving in `B`, or `M3` asymptotic is identified.
 
-The same candidate implies
-
-\[
-H_{\ge2}(B)\sim P(B)\sim M_2(B)\sim C_{M_2}B(\log B)^5.
-\]
+The mechanism ledger remains the degree-two K3 third-face cover over the split `4A1` quartic-del-Pezzo two-face host. The exact local blocker masses and the separate growing-prime Selberg sieve are retained as causal input, but their saving is **not multiplied** with the explicit Huang thin-cover saving.
 
 Stage19 remains frozen at
 
@@ -128,24 +124,24 @@ B^(1/4) << N2(B) <<_epsilon B^(1/2+epsilon)
 N2,j(B) >>_j B^(1/4), j=a,b,c
 ```
 
-with its true exponent still open.
+with the true `N2` exponent still open.
 
 ```text
-TASK_ID=Stage26-30
-CHECKPOINT=30
+TASK_ID=Stage26-40
+CHECKPOINT=40
 EVIDENCE_LEVEL=PROVED_DERIVED_THEOREM_CANDIDATE
-CHECKPOINT20_MERGED_PR=1015
-LITERAL_OBJECT_COMPLETION_RATE=Phi
-RAW_INCIDENCE_COMPLETION_RATE=Theta
-EXACT_ODDS_BRIDGE=true
-PHI_TO_ZERO_PROVED_CANDIDATE=true
-THETA_TO_ZERO_PROVED_CANDIDATE=true
-THETA_OVER_PHI_TO_3_PROVED_CANDIDATE=true
+CHECKPOINT30_MERGED_PR=1016
+FOR_EVERY_FIXED_DELTA_LT_1_OVER_46=true
+ENDPOINT_DELTA_1_OVER_46_PROVED=false
+DIRECTIONAL_LITTLE_O_CANDIDATE=true
+LOCAL_BLOCKER_AND_THIN_COVER_SAVINGS_MULTIPLIED=false
 FINITE_DATA_USED_AS_ASYMPTOTIC_PROOF=false
 TRUE_M3_EXPONENT_IDENTIFIED=false
+K3_MANIN_TRANSFER=false
+INDEPENDENCE_CLAIM=false
 AUDIT_STATUS=PENDING
 ADVANCE_ALLOWED=false
-NEXT_CHECKPOINT=40
+NEXT_CHECKPOINT=50
 MERGE_ALLOWED=false
 PERFECT_CUBOID_CONCLUSION=NONE
 NEXT_EXPECTED_COMMAND=Stage26-audit
