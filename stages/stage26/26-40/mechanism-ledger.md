@@ -66,7 +66,8 @@ Therefore the same endpoint-free little-o statement holds in every fixed shared-
 - any transfer of the toric Manin `(a,b)` ledger through the K3 cover.
 
 ```text
-MECHANISM_LEDGER_STATUS=CANDIDATE_PENDING_FRESH_AUDIT
+MECHANISM_LEDGER_STATUS=AUDITED_PASS_AWAITING_MERGE
+AUDIT_RECORD=stages/stage26/26-40/audit.md
 ENDPOINT_EXCLUDED=true
 THIN_COVER_AND_LOCAL_SIEVE_MULTIPLIED=false
 TRUE_M3_EXPONENT_IDENTIFIED=false
