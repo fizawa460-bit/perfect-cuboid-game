@@ -1,0 +1,39 @@
+name: Temporary StructureRadar Stage16-25 census 03 report
+on:
+  push:
+    branches: [structureradar/stage16-25-03]
+permissions:
+  contents: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Materialize current 60-source report
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          q=json.loads(Path('docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t['task_id']=='SR-CENSUS-STAGE16_25_CURRENT-01' and t['status']=='READY')
+          wanted=set(task['source_ids']); rows=[]
+          for p in sorted(Path('docs/structure-radar/source-manifest').glob('part-*.json')):
+              for s in json.loads(p.read_text())['sources']:
+                  if s['source_id'] not in wanted: continue
+                  path=Path(s['path']); text=path.read_text(errors='replace') if path.exists() else ''
+                  lines=[x.strip() for x in text.splitlines() if x.strip()]
+                  rows.append({**s,'excerpt':' | '.join(lines[:16])[:2600]})
+          assert len(rows)==60, len(rows)
+          Path('docs/structure-radar/stage16-25-current-03-report.json').write_text(json.dumps(rows,indent=2,ensure_ascii=False)+'\n')
+          PY
+      - name: Commit report and self-clean
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/tmp-structureradar-stage16-25-03-report.yml
+          git add docs/structure-radar/stage16-25-current-03-report.json
+          git commit -m 'StructureRadar: materialize Stage16-25 census 03 report'
+          git push
