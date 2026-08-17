@@ -1,0 +1,30 @@
+name: Stage27-19-r5ah exact primitive scale
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5ah-exact-gamma
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r5af/audit-final.md'
+      - 'stages/stage27/27-19-r5af/route-contract.json'
+      - 'stages/stage27/27-19-r5ah/**'
+      - 'stages/stage27/27-19-r5ai/**'
+      - 'stages/stage27/27-controller.json'
+      - '.github/workflows/stage27-19-r5ah-exact-gamma.yml'
+
+jobs:
+  verify-stage27-19-r5ah-r5ai:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify exact primitive-scale batch
+        run: |
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5af/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5ah/route-contract.json >/dev/null
+          python stages/stage27/27-19-r5ah/verify_27_19_r5ah_r5ai.py
+          git diff --check
