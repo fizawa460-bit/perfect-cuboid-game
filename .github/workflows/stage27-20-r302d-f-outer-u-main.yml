@@ -1,0 +1,39 @@
+name: Stage27-20-r302d-f outer-U MAIN weighted adapter
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r302d-f-outer-u-main-adapter
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r302a-c/**'
+      - 'stages/stage27/27-20-r302d/**'
+      - 'stages/stage27/27-20-r302e/**'
+      - 'stages/stage27/27-20-r302f/**'
+      - 'stages/stage27/27-20-r302d-f/**'
+      - '.github/workflows/stage27-20-r302d-f-outer-u-main.yml'
+
+jobs:
+  verify-stage27-20-r302d-f:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify absorbed r302a-c lifecycle
+        run: python stages/stage27/27-20-r302a-c/verify_27_20_r302a_c.py
+      - name: Verify Stage27-20-r302d-f
+        run: python stages/stage27/27-20-r302d-f/verify_27_20_r302d_f.py
+      - name: Validate batch JSON
+        run: |
+          python -m json.tool stages/stage27/27-20-r302a-c/batch-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302a-c/controller-sync-delta.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302d-f/batch-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302d-f/controller-sync-delta.json >/dev/null
+      - name: Diff hygiene
+        run: |
+          git fetch origin main
+          git diff --check origin/main...HEAD
