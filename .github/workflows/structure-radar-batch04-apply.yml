@@ -1,0 +1,46 @@
+name: StructureRadar batch04 apply
+
+on:
+  push:
+    branches:
+      - structureradar/stage16-25-04
+    paths:
+      - .github/workflows/structure-radar-batch04-apply.yml
+      - scripts/structure_radar_batch04_apply.py
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structureradar/stage16-25-04
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply StructureRadar semantic batch
+        run: python scripts/structure_radar_batch04_apply.py
+      - name: Refresh and verify StructureRadar
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+      - name: Remove temporary helpers
+        run: |
+          rm -f scripts/structure_radar_batch04_apply.py
+          rm -f .github/workflows/structure-radar-batch04-apply.yml
+      - name: Commit batch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --check --cached
+          if git diff --cached --quiet; then
+            echo 'No changes to commit'
+            exit 1
+          fi
+          git commit -m 'StructureRadar: census Stage16-25 current batch 04'
+          git push origin HEAD:structureradar/stage16-25-04
