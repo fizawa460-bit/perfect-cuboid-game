@@ -1,6 +1,6 @@
 # Stage27-20-r301q — explicit two-to-one elliptic receiver gives uniform polynomial height transfer
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301p

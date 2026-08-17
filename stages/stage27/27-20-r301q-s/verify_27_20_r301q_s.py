@@ -44,11 +44,11 @@ assert "STRICT_SUB_SQRT_UPPER_PROVED=false" in s
 assert "NEXT_DERIVED_ROUTE=27-20-r301t" in s
 
 # batch lifecycle
-assert reg["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-assert reg["audit_status"] == "PENDING"
-assert reg["merge_allowed"] is False
-assert reg["advance_allowed"] is False
-assert reg["fresh_reaudit_required"] is True
+assert reg["status"] == "AUDITED_PASS_MERGED"
+assert reg["audit_status"] == "PASS"
+assert reg["merge_allowed"] is True
+assert reg["advance_allowed"] is True
+assert reg["fresh_reaudit_required"] is False
 assert reg["numbering_contract"]["after_r301z"] == "Stage27-20-r302-main-batch"
 assert reg["numbering_contract"]["r301aa_forbidden"] is True
 
@@ -57,10 +57,10 @@ assert ctl["checkpoint_status"]["50"] == "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED
 for route in ("Stage27-20-r301q", "Stage27-20-r301r", "Stage27-20-r301s"):
     assert route in ctl["derived_routes"], route
     ent = ctl["derived_routes"][route]
-    assert ent["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-    assert ent["audit_status"] == "PENDING"
-    assert ent["merge_allowed"] is False
-    assert ent["advance_allowed"] is False
+    assert ent["status"] == "AUDITED_PASS_MERGED"
+    assert ent["audit_status"] == "PASS"
+    assert ent["merge_allowed"] is True
+    assert ent["advance_allowed"] is True
 
 assert ctl["derived_routes"]["Stage27-20-r301s"]["next_derived_route"] == "27-20-r301t"
 assert ctl["stage20_r301_numbering_contract"]["after_r301z"] == "Stage27-20-r302-main-batch"
