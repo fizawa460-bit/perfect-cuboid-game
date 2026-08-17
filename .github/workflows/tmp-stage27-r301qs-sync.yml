@@ -1,3 +1,4 @@
+# retry after semantic verifier hardening
 name: TEMP Stage27 r301q-s lifecycle sync
 
 on:
@@ -33,7 +34,6 @@ jobs:
           root = Path('stages/stage27')
           merge = '8a03c8865b229a991222454ebd1bd61795c5e1b6'
 
-          # Materialize the already-merged post-repair n-p lifecycle.
           for suffix in 'nop':
               p = root / f'27-20-r301{suffix}' / 'result.md'
               s = p.read_text()
@@ -59,7 +59,6 @@ jobs:
           audit = root / '27-20-r301n-p' / 'audit.md'
           audit.write_text(f'''# Stage27-20-r301n-p — post-repair hostile-audit closeout\n\nAUDIT_VERDICT=PASS\nMATHEMATICAL_AUDIT=PASS\nMATHEMATICAL_DOCUMENT_AUDIT=PASS_AFTER_PRODUCT_NOTATION_REPAIR\nCI_AUDIT=PASS\nINTEGRATION_AUDIT=PASS\n\nAUDIT_PR=1047\nPR_MERGED=true\nPR_MERGE_COMMIT={merge}\n\nR301N_MATHEMATICS=PASS\nR301O_MATHEMATICS=PASS\nR301P_MATHEMATICS=PASS\nPRODUCT_NOTATION_REPAIR=PASS\n\nSTRICT_SUB_SQRT_UPPER_PROVED=false\nNEW_MU_LT_HALF_PROVED=false\nTRUE_N2_EXPONENT_IDENTIFIED=false\n\nAUDIT_CLOSE_STAGE=false\nADVANCE_TO_CHECKPOINT50=false\nCURRENT_CHECKPOINT=40\nNEXT_CHECKPOINT=40\nMERGE_ALLOWED=true\nNEXT_DERIVED_ROUTE=27-20-r301q\n\nThis closeout materializes the accepted post-repair lifecycle of merged PR #1047. It changes lifecycle only and does not strengthen n-p theorem claims.\n''')
 
-          # Old n-p verifier must verify the final lifecycle, not freeze PENDING forever.
           vp = root / '27-20-r301n-p' / 'verify_27_20_r301n_p.py'
           s = vp.read_text()
           s = s.replace('assert reg["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"', 'assert reg["status"] == "AUDITED_PASS_MERGED"')
@@ -75,7 +74,6 @@ jobs:
           cp = root / '27-controller.json'
           ctl = json.loads(cp.read_text())
           dr = ctl['derived_routes']
-
           for suffix in 'nop':
               ent = dr[f'Stage27-20-r301{suffix}']
               ent.update({
@@ -91,64 +89,43 @@ jobs:
               })
 
           dr['Stage27-20-r301q'] = {
-              'trigger_checkpoint': 40,
-              'route_kind': 'UPPER_REENTRY_PREFLIGHT',
-              'source_stage': 'Stage20',
-              'parent_route': 'Stage27-20-r301p',
-              'batch_audit_group': 'Stage27-20-r301q-s',
-              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
-              'audit_status': 'PENDING',
-              'merge_allowed': False,
-              'advance_allowed': False,
+              'trigger_checkpoint': 40, 'route_kind': 'UPPER_REENTRY_PREFLIGHT', 'source_stage': 'Stage20',
+              'parent_route': 'Stage27-20-r301p', 'batch_audit_group': 'Stage27-20-r301q-s',
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT', 'audit_status': 'PENDING',
+              'merge_allowed': False, 'advance_allowed': False,
               'result_path': 'stages/stage27/27-20-r301q/result.md',
               'explicit_delta_independent_elliptic_receiver_proved': True,
               'receiver_map_degree_at_most_two': True,
               'physical_image_height_polynomial_uniform': True,
               'uniform_covering_height_transfer_proved': True,
-              'strict_sub_sqrt_upper_proved': False,
-              'next_derived_route': '27-20-r301r',
+              'strict_sub_sqrt_upper_proved': False, 'next_derived_route': '27-20-r301r'
           }
           dr['Stage27-20-r301r'] = {
-              'trigger_checkpoint': 40,
-              'route_kind': 'UPPER_REENTRY_PREFLIGHT',
-              'source_stage': 'Stage20',
-              'parent_route': 'Stage27-20-r301q',
-              'batch_audit_group': 'Stage27-20-r301q-s',
-              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
-              'audit_status': 'PENDING',
-              'merge_allowed': False,
-              'advance_allowed': False,
+              'trigger_checkpoint': 40, 'route_kind': 'UPPER_REENTRY_PREFLIGHT', 'source_stage': 'Stage20',
+              'parent_route': 'Stage27-20-r301q', 'batch_audit_group': 'Stage27-20-r301q-s',
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT', 'audit_status': 'PENDING',
+              'merge_allowed': False, 'advance_allowed': False,
               'result_path': 'stages/stage27/27-20-r301r/result.md',
               'naccarato_uniform_point_count_applied': True,
               'uniform_moving_q1_delta_fiber_subpower_proved': True,
               'uniform_fixed_x_aggregate_subpower_proved': True,
               'fixed_x_aggregate_fiber_exponent': 0,
-              'strict_sub_sqrt_upper_proved': False,
-              'next_derived_route': '27-20-r301s',
+              'strict_sub_sqrt_upper_proved': False, 'next_derived_route': '27-20-r301s'
           }
           dr['Stage27-20-r301s'] = {
-              'trigger_checkpoint': 40,
-              'route_kind': 'UPPER_REENTRY_PREFLIGHT',
-              'source_stage': 'Stage20',
-              'parent_route': 'Stage27-20-r301r',
-              'batch_audit_group': 'Stage27-20-r301q-s',
-              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
-              'audit_status': 'PENDING',
-              'merge_allowed': False,
-              'advance_allowed': False,
+              'trigger_checkpoint': 40, 'route_kind': 'UPPER_REENTRY_PREFLIGHT', 'source_stage': 'Stage20',
+              'parent_route': 'Stage27-20-r301r', 'batch_audit_group': 'Stage27-20-r301q-s',
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT', 'audit_status': 'PENDING',
+              'merge_allowed': False, 'advance_allowed': False,
               'result_path': 'stages/stage27/27-20-r301s/result.md',
               'N2_q1_support_exponent_equivalence_proved': True,
               'N2_j_support_exponent_equivalence_proved': True,
               'independent_q1_support_deficit_proved': False,
-              'strict_sub_sqrt_upper_proved': False,
-              'next_derived_route': '27-20-r301t',
+              'strict_sub_sqrt_upper_proved': False, 'next_derived_route': '27-20-r301t'
           }
-
           ctl['stage20_r301_numbering_contract'] = {
-              'current_serial': 'r301',
-              'last_letter': 'z',
-              'after_r301z': 'Stage27-20-r302-main-batch',
-              'r301aa_forbidden': True,
+              'current_serial': 'r301', 'last_letter': 'z',
+              'after_r301z': 'Stage27-20-r302-main-batch', 'r301aa_forbidden': True
           }
           cp.write_text(json.dumps(ctl, indent=2) + '\n')
           PY
