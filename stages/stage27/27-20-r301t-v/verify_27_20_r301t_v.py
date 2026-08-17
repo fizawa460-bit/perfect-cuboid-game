@@ -27,9 +27,11 @@ for name in ('Stage27-20-r301t','Stage27-20-r301u','Stage27-20-r301v'):
     assert e['status']=='BATCH_SUBMITTED_PENDING_FRESH_AUDIT' and e['audit_status']=='PENDING'
     assert e['merge_allowed'] is False and e['advance_allowed'] is False
 assert ctl['derived_routes']['Stage27-20-r301v']['next_derived_route']=='27-20-r301w'
+assert ctl['derived_routes']['Stage27-19-r5af-r5ag']['status']=='BATCH_SUBMITTED_PENDING_FRESH_AUDIT'
 assert ctl['checkpoint_status']['50']=='BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE'
 assert ctl['state']['CURRENT_CHECKPOINT']==40 and ctl['state']['NEXT_CHECKPOINT']==40
-assert ctl['state']['MAIN_STATUS']=='UPPER_REENTRY_STAGE27_19_R402C_F_BATCH_SUBMITTED_PENDING_FRESH_AUDIT'
+assert ctl['state']['MAIN_STATUS']=='UPPER_REENTRY_STAGE27_19_R5AF_R5AG_SUBMITTED_PENDING_FRESH_AUDIT'
+assert ctl['state']['AUDIT_STATUS']=='PENDING' and ctl['state']['ADVANCE_ALLOWED'] is False
 assert ctl['stage20_r301_numbering_contract']['after_r301z']=='Stage27-20-r302-main-batch'
 assert ctl['stage20_r301_numbering_contract']['r301aa_forbidden'] is True
 print('Stage27-20-r301t-v verifier: PASS')
