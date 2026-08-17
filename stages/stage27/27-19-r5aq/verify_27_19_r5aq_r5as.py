@@ -69,6 +69,7 @@ for marker in [
     "PHYSICAL_WEIGHTED_FIXED_KAPPA_SIEVE_PROVED=true",
     "FIXED_KAPPA_WEIGHTED_BOUND=(X*k)^eps*(X/k+sqrt(X))",
     "STAGE19_FIXED_KAPPA_WEIGHTED_BOUND=B^eps*(X/k+sqrt(X))",
+    "STAGE19_KAPPA_SCALE_BOUND=kappa<=2B",
     "KAPPA_SUBPOWER_FACTOR_UNIFORMLY_ABSORBED_INTO_X_EPS=false",
 ]:
     assert marker in texts["aq"]
