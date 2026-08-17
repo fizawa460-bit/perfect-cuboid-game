@@ -1,0 +1,20 @@
+name: Stage27-20-r301a-c cover batch
+on:
+  push:
+    branches: [agent/stage27-20-r301a-c-cover-batch]
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r301a/**'
+      - 'stages/stage27/27-20-r301b/**'
+      - 'stages/stage27/27-20-r301c/**'
+      - 'stages/stage27/27-20-r301a-c/**'
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: python stages/stage27/27-20-r301a-c/verify_27_20_r301a_c.py
+      - run: git diff --check
