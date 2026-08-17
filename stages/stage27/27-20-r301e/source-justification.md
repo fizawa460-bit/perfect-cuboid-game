@@ -4,7 +4,9 @@ AUDIT_REPAIR_TARGET=R301E_SELBERG_TRANSFER_CHECK
 PREVIOUS_AUDIT_VERDICT=FAIL_PENDING_SOURCE_JUSTIFICATION
 SOURCE_JUSTIFICATION_REPAIRED=true
 HUANG_SOURCE_LEVEL_CHECK_COMPLETED=true
-FRESH_REAUDIT_REQUIRED=true
+FINAL_SOURCE_AUDIT=PASS
+FRESH_REAUDIT_REQUIRED=false
+AUDIT_RECORD=stages/stage27/27-20-r301d-f/audit.md
 
 ## 1. What Stage14-e11 actually sieves
 
@@ -40,7 +42,7 @@ Thus the e11 remainder/CRT mechanism is already attached to the ambient toric ho
 
 ### 1.1 Source-level check against Huang v3
 
-The remaining audit question was checked directly against Zhizhong Huang, *Equidistribution of rational points and the geometric sieve for toric varieties*, arXiv:2111.01509v3, Section 3.3.
+The audit question was checked directly against Zhizhong Huang, *Equidistribution of rational points and the geometric sieve for toric varieties*, arXiv:2111.01509v3, Section 3.3.
 
 The source-level structure is generic in the local subsets:
 
@@ -138,5 +140,6 @@ SPACE_DIAGONAL_GROWING_PRIME_SIEVE_TRANSFER_PROVED=true
 HOST_SIEVE_BOUND_BEATS_CURRENT_HALF_POWER=false
 SIEVE_FACTOR_MULTIPLIED_WITH_HALF_POWER=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
-FRESH_REAUDIT_REQUIRED=true
+FINAL_SOURCE_AUDIT=PASS
+FRESH_REAUDIT_REQUIRED=false
 ```
