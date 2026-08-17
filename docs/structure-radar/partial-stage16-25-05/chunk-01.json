@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "batch": "SR-PARTIAL-STAGE16_25_CURRENT-05",
+  "chunk": 1,
+  "chunks_total": 6,
+  "source_count": 10,
+  "source_ids": [
+    "SRC-611624D20689",
+    "SRC-46DCC6875E5D",
+    "SRC-2EF9A08E6B9D",
+    "SRC-128CBC83ADA0",
+    "SRC-27E0AF5B055D",
+    "SRC-9E905EE29B44",
+    "SRC-0E98133DEA6B",
+    "SRC-4E1FE882D3EE",
+    "SRC-10F9681952B6",
+    "SRC-FB98880B847D"
+  ],
+  "decisions": [
+    {
+      "source_id": "SRC-611624D20689",
+      "path": "stages/stage25/25-20/result.md",
+      "decision": "NO_DISTINCT_STRUCTURE",
+      "reason": "Exact small-window matched M1/N2 replay is useful regression evidence, but it is a finite diagnostic panel rather than a reusable theorem structure; retain for provenance of the final Stage25 endpoint card if needed."
+    },
+    {
+      "source_id": "SRC-46DCC6875E5D",
+      "path": "stages/stage25/25-30/audit.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Audit evidence for the checkpoint30 endpoint theorem; authoritative mathematics is carried by the repaired result."
+    },
+    {
+      "source_id": "SRC-2EF9A08E6B9D",
+      "path": "stages/stage25/25-30/discovery-ledger.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Discovery support for the same checkpoint30 endpoint/path-consistency structure."
+    },
+    {
+      "source_id": "SRC-128CBC83ADA0",
+      "path": "stages/stage25/25-30/result.md",
+      "decision": "CANDIDATE_STRUCTURE_HOLD_FOR_LATER_SUPERSESSION",
+      "candidate_key": "STAGE25_ENDPOINT_RATIO_EXACT_PATH_CANCELLATION",
+      "reason": "Defines the matched M1-to-N2 endpoint ratio, exact Path A/Path B count cancellation, and no-independence firewall. Its lower envelope is later strengthened by Stage25-50, so normalize only after the later sources in this 60-source slice are read."
+    },
+    {
+      "source_id": "SRC-27E0AF5B055D",
+      "path": "stages/stage25/25-40/audit.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Audit evidence for the repaired checkpoint40 provenance/firewall result."
+    },
+    {
+      "source_id": "SRC-9E905EE29B44",
+      "path": "stages/stage25/25-40/discovery-ledger.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Supporting search ledger for the same upper-provenance/no-fake-product boundary."
+    },
+    {
+      "source_id": "SRC-0E98133DEA6B",
+      "path": "stages/stage25/25-40/result.md",
+      "decision": "STRUCTURE_SUPPORT",
+      "candidate_key": "STAGE25_ENDPOINT_RATIO_EXACT_PATH_CANCELLATION",
+      "also_updates": ["SR-STR-155"],
+      "reason": "Supplies the quantitative endpoint upper, exact legal cancellation routes, forbidden fake products, and the localized fixed-finite-curve consequence derived from SR-STR-155. No separate global fixed-curve card is warranted."
+    },
+    {
+      "source_id": "SRC-4E1FE882D3EE",
+      "path": "stages/stage25/25-40/upper-provenance.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Detailed provenance companion to checkpoint40; normalize through the result-level endpoint/firewall structure."
+    },
+    {
+      "source_id": "SRC-10F9681952B6",
+      "path": "stages/stage25/25-50/audit.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Audit wrapper at the entry to the Stage25-50 lower breakthrough; later authoritative theorem sources should carry provenance."
+    },
+    {
+      "source_id": "SRC-FB98880B847D",
+      "path": "stages/stage25/25-50/discovery-ledger.md",
+      "decision": "DUPLICATE_SOURCE",
+      "maps_to": ["SR-STR-008"],
+      "reason": "Records the B^(1/4) lower as a candidate before audit. The current Radar already carries the audited quarter-power lower in SR-STR-008, so this pre-audit discovery ledger should not create a second card."
+    }
+  ],
+  "candidate_structures": [
+    {
+      "candidate_key": "STAGE25_ENDPOINT_RATIO_EXACT_PATH_CANCELLATION",
+      "provisional_name": "Stage16-to-Stage19 endpoint ratio envelope with exact path cancellation",
+      "status": "HOLD_UNTIL_LATER_STAGE25_SOURCES_READ",
+      "core": "N2/M1 equals (M2/M1)(N2/M2) equals (N1/M1)(N2/N1) by exact count cancellation, not probabilistic independence. Checkpoint40 supplies the quantitative upper B^(-3/2+epsilon)(log B)^(-1) and a no-fake-product firewall. The lower side must be superseded after the audited B^(1/4) Stage25-50 theorem is encountered."
+    }
+  ],
+  "existing_card_updates_pending": [
+    {
+      "structure_id": "SR-STR-155",
+      "source_id": "SRC-0E98133DEA6B",
+      "locator": "fixed finite curve endpoint refinement and moving-family quantifier firewall"
+    }
+  ],
+  "summary": {
+    "new_cards_committed": 0,
+    "candidate_cards_held": 1,
+    "existing_card_updates_pending": 1,
+    "duplicate_or_no_distinct_sources": 7,
+    "next_chunk_source_id": "SRC-3F43DA1C29F9"
+  }
+}
