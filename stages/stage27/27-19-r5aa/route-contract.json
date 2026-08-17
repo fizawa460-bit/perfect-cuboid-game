@@ -1,0 +1,56 @@
+{
+  "schema_version": 2,
+  "task_id": "Stage27-19-r5aa",
+  "batch_id": "Stage27-19-r5",
+  "source_stage": "Stage19",
+  "trigger_checkpoint": 40,
+  "route_kind": "UPPER_REENTRY_PARALLEL",
+  "parent_route": "Stage27-19-r402c-f",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "parallel_lane": true,
+  "pre_r5ad_fresh_audit": {
+    "verdict": "PASS",
+    "audited_head": "5ee1fb60316306cfbeb15e4b6ad514fb84ba5441",
+    "record": "stages/stage27/27-19-r5aa/audit-r01.md"
+  },
+  "batch_routes": [
+    "27-19-r5aa",
+    "27-19-r5ab",
+    "27-19-r5ac",
+    "27-19-r5ad",
+    "27-19-r5ae"
+  ],
+  "purpose": "normalize tau/core multiplicity, expose the exact Stage19 squareclass receiver, obtain a uniform moving-tau core ceiling, and isolate the remaining power-saving obstruction",
+  "proved": {
+    "tau_core_gcd_square_factorization": true,
+    "fixed_tau_g_core_multiplicity_uniform_subpower": true,
+    "joint_tau_g_support_reduction": true,
+    "same_core_collision_subpower_overhead": true,
+    "normalized_space_squareclass_receiver": true,
+    "diagonal_two_quadrics_receiver": true,
+    "core_quartic_square_receiver": true,
+    "three_norm_support_restrictions": true,
+    "p_sum_two_squares": true,
+    "g_sum_two_squares": true,
+    "p_plus_q_sum_two_squares": true,
+    "kappa_odd_split_prime_support": true,
+    "uniform_moving_tau_distinct_core_power_bound": true,
+    "uniform_moving_tau_fiber_power_bound": true,
+    "norm_support_only_power_saving_barrier": true
+  },
+  "not_proved": {
+    "fixed_power_support_saving_from_norm_restrictions": true,
+    "uniform_moving_diagonal_quadrics_subpower_count": true,
+    "joint_support_strict_subhalf": true,
+    "tau_uniform_fiber_subpower": true,
+    "strict_sub_sqrt_upper": true,
+    "new_mu_lt_half": true,
+    "true_N2_exponent_identified": true
+  },
+  "uniform_moving_tau_core_bound": "D_B(tau) <<_epsilon B^epsilon*(B/sqrt(H(tau)) + sqrt(B))",
+  "next_arithmetic_target": "UNIFORM_INCIDENCE_COUNT_ON_MOVING_DIAGONAL_TWO_QUADRICS_WITH_PHYSICAL_HEIGHTS",
+  "next_derived_route": "27-19-r5af",
+  "batch_stop_reason": "NEXT_STEP_REQUIRES_GENUINE_MOVING_DIAGONAL_INCIDENCE_THEOREM",
+  "cody_useful_for_next_route": true,
+  "controller_sync_policy": "DEFER_GLOBAL_CONTROLLER_MUTATION_DURING_PARALLEL_SUBMISSION_TO_MINIMIZE_CROSS_LANE_CONFLICT; FRESH_AUDIT_MUST_REGISTER_CANONICAL_LIFECYCLE_STATE"
+}

@@ -1,0 +1,29 @@
+name: Stage27-19-r5 upper-reentry batch
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5aa-core-factor
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r5aa/**'
+      - 'stages/stage27/27-19-r5ab/**'
+      - 'stages/stage27/27-19-r5ac/**'
+      - 'stages/stage27/27-19-r5ad/**'
+      - 'stages/stage27/27-19-r5ae/**'
+      - '.github/workflows/stage27-19-r5aa-core-factor.yml'
+
+jobs:
+  verify-stage27-19-r5:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify Stage27-19-r5 batch
+        run: |
+          python -m json.tool stages/stage27/27-19-r5aa/route-contract.json >/dev/null
+          python stages/stage27/27-19-r5aa/verify_27_19_r5aa.py
+          python stages/stage27/27-19-r5ad/verify_27_19_r5ad_r5ae.py
+          git diff --check
