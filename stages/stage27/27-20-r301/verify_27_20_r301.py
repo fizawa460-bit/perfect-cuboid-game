@@ -12,7 +12,13 @@ required=[
 for x in required: assert x in r, x
 ctl=json.loads((ROOT/'stages/stage27/27-controller.json').read_text())
 route=ctl['derived_routes']['Stage27-20-r301']
-assert route['status']=='PARALLEL_PREFLIGHT_SUBMITTED_PENDING_FRESH_AUDIT'
+# Parent r301 has already passed hostile audit and was merged via PR #1041.
+# Successor batches must verify the current lifecycle rather than freezing the
+# historical pre-audit state that existed when this verifier was first written.
+assert route['status']=='PARALLEL_PREFLIGHT_AUDITED_PASS_MERGED'
+assert route['audit_status']=='PASS'
+assert route['merge_allowed'] is True
+assert route['advance_allowed'] is True
 assert route['route_kind']=='UPPER_REENTRY_PREFLIGHT'
 assert route['trigger_checkpoint']==30
 assert route['source_stage']=='Stage20'
