@@ -14,6 +14,7 @@ Completed stage-specific research and operational history lives with its stage.
 - `stage25-reentry-operations.md` — ChatGPT-first main/audit command contract and Stage26 handoff gates for the reentry campaign
 - `stage14-15-bound-attack-map.md` — AI-readable entry point to the complete Stage14/15 upper/lower attack ledger, method/signature coverage, failed-route evidence, and targeted-review queue
 - `stage14-15-bound-deep-review-queue.md` — curated chronological clusters that distinguish active, reusable, external-gate, exhausted, and population-mismatched Stage14/15 routes
+- `structure-radar/README.md` — ChatGPT-first repository-wide structure census, search-term generation, literature search, and weapon-classification controller; Stage14/15 is bootstrap input, not the scope boundary
 - `stage16-28-execution-controller-template.md` — reusable StageX main-batch / audit / Codex controller contract for Stage16-28
 - `face-ratio-geometry-research.md` — geometric research overview
 - `cycle-exploration-safety-protocol.md` — reusable cycle safety protocol
