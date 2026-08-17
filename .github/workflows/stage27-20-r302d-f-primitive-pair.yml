@@ -1,0 +1,37 @@
+name: Stage27-20-r302d-f primitive-pair occupancy audit
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r302d-f-primitive-pair-occupancy
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r302d/**'
+      - 'stages/stage27/27-20-r302e/**'
+      - 'stages/stage27/27-20-r302f/**'
+      - 'stages/stage27/27-20-r302d-f/**'
+      - 'stages/stage27/27-20-r302a-c/audit.md'
+      - 'stages/stage27/27-20-r302a-c/batch-registry.json'
+      - '.github/workflows/stage27-20-r302d-f-primitive-pair.yml'
+
+jobs:
+  verify-stage27-20-r302d-f:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-20-r302d-f
+        run: python stages/stage27/27-20-r302d-f/verify_27_20_r302d_f.py
+      - name: Validate JSON
+        run: |
+          python -m json.tool stages/stage27/27-20-r302d-f/batch-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302d-f/controller-sync-delta.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302a-c/batch-registry.json >/dev/null
+      - name: Diff hygiene
+        run: |
+          git fetch origin main
+          git diff --check origin/main...HEAD
