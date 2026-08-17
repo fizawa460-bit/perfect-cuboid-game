@@ -1,0 +1,98 @@
+name: TEMP Stage27 r301q-s closeout sync
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301q-s-closeout
+    paths:
+      - '.github/workflows/tmp-stage27-r301qs-closeout.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-20-r301q-s-closeout
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize q-s audit pass lifecycle
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          root = Path('stages/stage27')
+          merge = 'a976fc0a43da50afceb9c20e48469856c48f6436'
+
+          for suffix in 'qrs':
+              p = root / f'27-20-r301{suffix}' / 'result.md'
+              s = p.read_text()
+              s = s.replace('STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT', 'STATUS=AUDITED_PASS_MERGED', 1)
+              p.write_text(s)
+
+          rp = root / '27-20-r301q-s' / 'batch-registry.json'
+          reg = json.loads(rp.read_text())
+          reg.update({
+              'status': 'AUDITED_PASS_MERGED',
+              'audit_status': 'PASS',
+              'merge_allowed': True,
+              'advance_allowed': True,
+              'fresh_reaudit_required': False,
+              'final_audit_verdict': 'PASS',
+              'merged': True,
+              'pr': 1049,
+              'merge_commit': merge,
+          })
+          rp.write_text(json.dumps(reg, indent=2) + '\n')
+
+          audit = root / '27-20-r301q-s' / 'audit.md'
+          audit.write_text(f'''# Stage27-20-r301q-s — post-merge hostile-audit closeout\n\nAUDIT_VERDICT=PASS\nMATHEMATICAL_AUDIT=PASS\nSOURCE_AUDIT=PASS\nCI_AUDIT=PASS\nINTEGRATION_AUDIT=PASS_AFTER_CLOSEOUT\n\nAUDIT_PR=1049\nPR_MERGED=true\nPR_MERGE_COMMIT={merge}\n\nR301Q_MATHEMATICS=PASS\nR301R_MATHEMATICS=PASS\nR301S_MATHEMATICS=PASS\n\nUNIFORM_MOVING_Q1_DELTA_FIBER_SUBPOWER_PROVED=true\nUNIFORM_FIXED_X_AGGREGATE_SUBPOWER_PROVED=true\nFIXED_X_AGGREGATE_FIBER_EXPONENT=0\nN2_Q1_SUPPORT_EXPONENT_EQUIVALENCE_PROVED=true\nN2_J_SUPPORT_EXPONENT_EQUIVALENCE_PROVED=true\n\nSTRICT_SUB_SQRT_UPPER_PROVED=false\nNEW_MU_LT_HALF_PROVED=false\nTRUE_N2_EXPONENT_IDENTIFIED=false\n\nAUDIT_CLOSE_STAGE=false\nADVANCE_TO_CHECKPOINT50=false\nCURRENT_CHECKPOINT=40\nNEXT_CHECKPOINT=40\nMERGE_ALLOWED=true\nNEXT_DERIVED_ROUTE=27-20-r301t\n\nThis closeout materializes the accepted hostile-audit PASS for merged PR #1049. It changes lifecycle only and does not strengthen the q-s mathematical theorem surface.\n''')
+
+          vp = root / '27-20-r301q-s' / 'verify_27_20_r301q_s.py'
+          s = vp.read_text()
+          s = s.replace('assert reg["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"', 'assert reg["status"] == "AUDITED_PASS_MERGED"')
+          s = s.replace('assert reg["audit_status"] == "PENDING"', 'assert reg["audit_status"] == "PASS"')
+          s = s.replace('assert reg["merge_allowed"] is False', 'assert reg["merge_allowed"] is True')
+          s = s.replace('assert reg["advance_allowed"] is False', 'assert reg["advance_allowed"] is True')
+          s = s.replace('assert reg["fresh_reaudit_required"] is True', 'assert reg["fresh_reaudit_required"] is False')
+          s = s.replace('assert ent["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"', 'assert ent["status"] == "AUDITED_PASS_MERGED"')
+          s = s.replace('assert ent["audit_status"] == "PENDING"', 'assert ent["audit_status"] == "PASS"')
+          s = s.replace('assert ent["merge_allowed"] is False', 'assert ent["merge_allowed"] is True')
+          s = s.replace('assert ent["advance_allowed"] is False', 'assert ent["advance_allowed"] is True')
+          vp.write_text(s)
+
+          cp = root / '27-controller.json'
+          ctl = json.loads(cp.read_text())
+          dr = ctl['derived_routes']
+          for suffix in 'qrs':
+              ent = dr[f'Stage27-20-r301{suffix}']
+              ent.update({
+                  'status': 'AUDITED_PASS_MERGED',
+                  'audit_status': 'PASS',
+                  'merge_allowed': True,
+                  'advance_allowed': True,
+                  'fresh_reaudit_required': False,
+                  'merged': True,
+                  'pr': 1049,
+                  'merge_commit': merge,
+                  'audit_record': 'stages/stage27/27-20-r301q-s/audit.md',
+              })
+          cp.write_text(json.dumps(ctl, indent=2) + '\n')
+          PY
+
+          python stages/stage27/27-20-r301q-s/verify_27_20_r301q_s.py
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r301q-s/batch-registry.json >/dev/null
+          git add stages/stage27
+          git diff --check --cached
+          git commit -m 'Close out Stage27 r301q-s audit lifecycle'
+          git push origin HEAD:agent/stage27-20-r301q-s-closeout
