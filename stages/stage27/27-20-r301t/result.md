@@ -1,6 +1,6 @@
 # Stage27-20-r301t — occupied q1 support embeds into Stage14 active-face support by an exact Möbius adapter
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301s
@@ -43,7 +43,7 @@ This is deliberately only an injection. Stage14 `V(B)` also contains the other e
 The Stage14 complete packet decomposition can therefore be restricted to occupied `q1` support with at most its audited `B^o(1)` cell/decorative multiplicity. This reproduces the half-power ceiling but does not improve it by itself.
 
 ```text
-STAGE27_20_R301T_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301T_STATUS=AUDITED_PASS_MERGED
 Q1_TO_STAGE14_FACE_MOBIUS_ADAPTER_PROVED=true
 Q1_TO_ACTIVE_FACE_SUPPORT_INJECTION_PROVED=true
 Q1_EQUALS_ALL_STAGE14_ACTIVE_VERTICES_CLAIMED=false

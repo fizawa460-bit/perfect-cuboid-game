@@ -1,6 +1,6 @@
 # Stage27-20-r301v — exact critical-support wall and remaining receiver
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301u
@@ -30,7 +30,7 @@ for some fixed `delta>0`, together with a compatible wall-neighborhood statement
 Legal next weapons are critical-wall-specific: weighted local obstruction, occupied-slope collision/energy deficit, or a thin-projection theorem on the exact critical receiver.
 
 ```text
-STAGE27_20_R301V_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301V_STATUS=AUDITED_PASS_MERGED
 CRITICAL_SUPPORT_SEGMENT_IDENTIFIED=true
 CRITICAL_THETA=1/4
 CRITICAL_PHI_RANGE=[1/8,1/4]

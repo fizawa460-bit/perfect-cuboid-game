@@ -1,6 +1,6 @@
 # Stage27-20-r301u — fixed-distance off-wall occupied support is strictly sub-half
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301t
@@ -47,7 +47,7 @@ The same exponent bound holds for the corresponding occupied `j` support because
 For every fixed `eta>0` this is a genuine fixed-power saving below `1/2`, but it is capped by the proportional `7/16` branch once `eta>1/32`. This is not a global strict sub-square-root theorem: it excludes only cells a fixed distance from `theta=1/4`; a shrinking wall neighborhood remains.
 
 ```text
-STAGE27_20_R301U_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301U_STATUS=AUDITED_PASS_MERGED
 OFF_WALL_FIXED_DISTANCE_SUPPORT_SAVING_PROVED=true
 OFF_WALL_NONPROPORTIONAL_BOUND=B^(1/2-2eta+o(1))
 OFF_WALL_PROPORTIONAL_BOUND=B^(7/16+o(1))
