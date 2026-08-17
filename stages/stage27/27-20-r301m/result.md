@@ -1,6 +1,6 @@
 # Stage27-20-r301m — moduli support is exponent-equivalent to q1 support
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301l
@@ -96,7 +96,7 @@ Counting rational `j` merely by this height is vastly weaker than the present ha
 The next useful input must exploit arithmetic of the twist family — for example a genuinely uniform/averaged descent, rank, conductor, or off-diagonal theorem — rather than the moduli map by itself.
 
 ```text
-STAGE27_20_R301M_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301M_STATUS=AUDITED_PASS_MERGED
 PHYSICAL_Q1_TO_J_MULTIPLICITY_LE_2=true
 Q1_AND_J_SUPPORT_EXPONENTS_EQUAL=true
 SQUARECLASS_MULTIPLICITY_PER_J_SUBPOWER=true

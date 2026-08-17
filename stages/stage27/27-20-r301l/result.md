@@ -1,6 +1,6 @@
 # Stage27-20-r301l — twist-prime support is hosted by the moduli degeneration divisor
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301k
@@ -58,7 +58,7 @@ However, this stage does **not** identify a minimal Weierstrass model.  It there
 The prime `2` is also left separate; the statement above is deliberately odd-prime only.
 
 ```text
-STAGE27_20_R301L_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301L_STATUS=AUDITED_PASS_MERGED
 ODD_TWIST_PRIMES_SPLIT_GAUSSIAN=true
 ODD_TWIST_PRIME_SUPPORT_SUBSET_X4_MINUS_1=true
 ODD_TWIST_PRIME_SUPPORT_SUBSET_DEGENERATION_SUPPORT=true
