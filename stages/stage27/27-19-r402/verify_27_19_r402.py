@@ -97,7 +97,7 @@ assert pd['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert pd['audit_status'] == 'PASS'
 assert pd['pr'] == 1036
 assert pd['merge_commit'] == 'b37bc86e045175238bf2520518b059574addc52b'
-assert p2['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+assert p2['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert p2['trigger_checkpoint'] == 40
 assert p2['route_kind'] == 'UPPER_REENTRY'
 assert p2['tau_defined_before_space_filter'] is True
@@ -106,18 +106,12 @@ assert p2['tau_support_lower_exponent'] == '1/4'
 assert p2['tau_max_fiber_upper_gate'] == 'sigma+phi<1/2'
 assert p2['tau_second_moment_upper_gate'] == 'sigma+eta<1'
 assert p2['strict_sub_sqrt_upper_proved'] is False
-assert p2['audit_status'] == 'PENDING'
-assert p2['merge_allowed'] is False
+assert p2['audit_status'] == 'PASS'
+assert p2['pr'] == 1037
+assert p2['merge_commit'] == '77dc7bc7eb29f4113d59c8255ab4b2148bd52690'
+assert p2['merge_allowed'] is True
+# Historical theorem regression: global active-route pointers are mutable.
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage27-19-r402-audit'
-assert 'CURRENT_STAGE=Stage27-19-r402-SUBMITTED-PENDING-FRESH-AUDIT' in status
-assert 'STAGE27_19_R401D_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1036' in status
-assert 'STAGE27_19_R402_STATUS=TAU_PUSHFORWARD_UPPER_SUBMITTED_PENDING_FRESH_AUDIT' in status
-assert 'STAGE27_TAU_DEFINED_BEFORE_SPACE_FILTER=true' in status
-assert 'STAGE27_TAU_SUPPORT_POLYNOMIAL_LOWER_PROVED=true' in status
-assert 'NEXT_EXPECTED_COMMAND=Stage27-19-r402-audit' in status
 
 print('STAGE27_19_R402_TAU_IDENTITY=PASS')
 print('STAGE27_19_R402_TORIC_FORMULA=PASS')

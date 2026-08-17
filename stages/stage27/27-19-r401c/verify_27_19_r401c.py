@@ -198,18 +198,15 @@ assert pb['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert pb['audit_status'] == 'PASS'
 assert pb['pr'] == 1033
 assert pb['merge_commit'] == 'dcc04e4d778aaaa31f9abb0d39dd98117c33ddb4'
-assert pc['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+assert pc['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert pc['all_affine_linear_multisections_classified'] is True
 assert pc['affine_linear_physical_genus_zero_route_exists'] is False
 assert pc['lower_exponent_above_one_quarter_proved'] is False
-assert pc['audit_status'] == 'PENDING'
+assert pc['audit_status'] == 'PASS'
+assert pc['pr'] == 1035
+assert pc['merge_commit'] == '4ca03c43f4ff2c858c51ac8959d6e75f077c6de7'
+# Historical theorem regression: global active-route pointers are mutable.
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage27-19-r401-audit'
-assert 'CURRENT_STAGE=Stage27-19-r401c-SUBMITTED-PENDING-FRESH-AUDIT' in status
-assert 'STAGE27_19_R401B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1033' in status
-assert 'STAGE27_19_R401C_STATUS=AFFINE_LINEAR_SUBMITTED_PENDING_FRESH_AUDIT' in status
 
 print('STAGE27_19_R401C_PARENT_SYNC=PASS')
 print('STAGE27_19_R401C_SEXTIC_DISCRIMINANT=PASS')

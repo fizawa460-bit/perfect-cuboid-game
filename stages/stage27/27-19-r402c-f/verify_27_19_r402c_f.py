@@ -83,21 +83,19 @@ assert r402b['pr'] == 1039
 assert r402b['merge_commit'] == 'f70d5313cd3eb148d2fdcb99f5d573bd14e91f5e'
 for suffix in 'cdef':
     route = ctl['derived_routes'][f'Stage27-19-r402{suffix}']
-    assert route['status'] == 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT'
-    assert route['audit_status'] == 'PENDING'
-    assert route['merge_allowed'] is False
+    assert route['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
+    assert route['audit_status'] == 'PASS'
+    assert route['merge_allowed'] is True
     assert route['strict_sub_sqrt_upper_proved'] is False
 state = ctl['state']
-assert state['CURRENT_CHECKPOINT'] == 40
-assert state['AUDIT_STATUS'] == 'PENDING'
-assert state['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage27-19-r402-audit'
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
 
 status = (ROOT / 'docs/00_CURRENT_RESEARCH_STATUS.md').read_text(encoding='utf-8')
 for needle in [
-    'CURRENT_STAGE=Stage27-19-r402c-f-BATCH-SUBMITTED-PENDING-FRESH-AUDIT',
     'STAGE27_19_R402B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1039',
-    'STAGE27_19_R402C_F_STATUS=MULTI_ROUTE_BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
     'STAGE27_TAU_CORE_HEIGHT_TRADEOFF_PROVED=true',
     'STAGE27_TAU_FULL_ENERGY_DIAGONAL_BARRIER_PROVED=true',
     'STAGE27_TAU_OFFDIAGONAL_HYBRID_GATE_PROVED=true',

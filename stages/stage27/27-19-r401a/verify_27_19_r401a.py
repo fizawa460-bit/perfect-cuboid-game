@@ -173,20 +173,12 @@ if child['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED':
 else:
     assert child['audit_status'] == 'PENDING'
 
+# Historical theorem regression: global active-route pointers are mutable.
 assert ctl['state']['CURRENT_CHECKPOINT'] == 40
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage27-19-r401-audit'
-assert 'STAGE27_19_R401_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1031' in status
-assert (
-    'CURRENT_STAGE=Stage27-19-r401a-SUBMITTED-PENDING-FRESH-AUDIT' in status
-    or 'CURRENT_STAGE=Stage27-19-r401b-SUBMITTED-PENDING-FRESH-AUDIT' in status
-    or 'CURRENT_STAGE=Stage27-19-r401c-SUBMITTED-PENDING-FRESH-AUDIT' in status
-)
-assert (
-    'STAGE27_19_R401A_STATUS=GENUS_ONE_TORSOR_SUBMITTED_PENDING_FRESH_AUDIT' in status
-    or 'STAGE27_19_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1032' in status
-)
+assert child['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
+assert child['audit_status'] == 'PASS'
+assert child['pr'] == 1032
+assert child['merge_commit'] == '86b5428d42f7f4c7344bace93b067d580391d7ac'
 
 print('STAGE27_19_R401A_SPLIT_FACTOR=PASS')
 print('STAGE27_19_R401A_GENUS_ONE=PASS')
