@@ -16,7 +16,19 @@ T(X;k)\ll_\varepsilon (Xk)^\varepsilon
 \left(\frac Xk+\sqrt X\right).
 \]
 
-In the Stage19 application, \(X\le B\) and \(k=\kappa\le B\), so after renaming \(\varepsilon\),
+In the Stage19 application, \(X\le B\) and the exact r5ah scale relation
+
+\[
+R=(h/\varepsilon)\kappa L
+\]
+
+with \(h,L\ge1\) and \(\varepsilon\le2\) gives
+
+\[
+\boxed{k=\kappa\le2B}.
+\]
+
+Hence, after renaming \(\varepsilon\),
 
 \[
 T(X;k)\ll_\varepsilon B^\varepsilon
@@ -92,6 +104,7 @@ The next theorem must avoid paying one full factor of the number of candidate mo
 No fixed-power outer-support theorem is proved here.
 
 ```text
+STAGE19_KAPPA_BOUND=kappa<=2B
 PHYSICAL_WEIGHTED_DYADIC_MODULUS_SUM_BOUND=B^eps*(X+K*sqrt(X))
 GENERAL_DYADIC_PREFATOR=(X*K)^eps
 MODULUS_ENTROPY_CANCELS_ONE_OVER_K_SAVING=true
