@@ -1,0 +1,120 @@
+name: TEMP Stage27 r301g-j controller sync
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301g-j-squareclass-fiber-batch
+    paths:
+      - '.github/workflows/tmp-stage27-r301g-j-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-20-r301g-j-squareclass-fiber-batch
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Register r301g-j without mutating parent audit verdict
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('stages/stage27/27-controller.json')
+          ctl = json.loads(path.read_text())
+          dr = ctl['derived_routes']
+
+          common = {
+              'trigger_checkpoint': 40,
+              'route_kind': 'UPPER_REENTRY_PREFLIGHT',
+              'source_stage': 'Stage20',
+              'audit_status': 'PENDING',
+              'batch_audit_group': 'Stage27-20-r301g-j',
+              'advance_to_checkpoint50': False,
+              'advance_allowed': False,
+              'merge_allowed': False,
+              'strict_sub_sqrt_upper_proved': False,
+              'new_mu_lt_half_proved': False,
+              'true_N2_exponent_identified': False,
+          }
+
+          dr['Stage27-20-r301g'] = {
+              **common,
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+              'route_serial': '20-r301g',
+              'parent_route': 'Stage27-20-r301f',
+              'purpose': 'clear the r301f squareclass receiver to integral forms and localize the common squarefree kernel into exact cross-gcd channels',
+              'integral_F_G_receiver_proved': True,
+              'common_squareclass_equals_sqfree_gcd_kernel': True,
+              'odd_common_prime_one_mod_four': True,
+              'odd_common_prime_cross_gcd_localization_proved': True,
+              'global_squareclass_fixed_power_support_bound_proved': False,
+              'next_derived_route': '27-20-r301h',
+          }
+          dr['Stage27-20-r301h'] = {
+              **common,
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+              'route_serial': '20-r301h',
+              'parent_route': 'Stage27-20-r301g',
+              'purpose': 'collapse common squareclass support to subpolynomial size after fixing either physical torus coordinate',
+              'delta_odd_divides_rad_a4_minus_b4': True,
+              'physical_q_height_le_2B': True,
+              'fixed_q1_squareclass_support_subpolynomial': True,
+              'fixed_q2_squareclass_support_subpolynomial': True,
+              'global_q1_support_deficit_proved': False,
+              'next_derived_route': '27-20-r301i',
+          }
+          dr['Stage27-20-r301i'] = {
+              **common,
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+              'route_serial': '20-r301i',
+              'parent_route': 'Stage27-20-r301h',
+              'purpose': 'identify each fixed (q1,delta) space-diagonal fiber as an explicit smooth genus-one curve and isolate the moving-fiber uniformity gap',
+              'fixed_q1_delta_physical_fiber_genus': 1,
+              'fixed_q1_delta_quartic_model_proved': True,
+              'quartic_branch_discriminant': '4096*delta^6*x^8*(x^4-1)^2',
+              'moving_q1_family_nonisotrivial': True,
+              'pointwise_fixed_fiber_subpower_proved': True,
+              'uniform_moving_fiber_subpower_proved': False,
+              'pointwise_to_uniform_promotion_forbidden': True,
+              'next_derived_route': '27-20-r301j',
+          }
+          dr['Stage27-20-r301j'] = {
+              **common,
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+              'route_serial': '20-r301j',
+              'parent_route': 'Stage27-20-r301i',
+              'purpose': 'derive the exact squareclass support-times-genus-one-fiber progress gate at the current half-power wall',
+              'squareclass_index_fixed_power_cost_zero_after_fixed_q1': True,
+              'max_fiber_progress_gate': 'sigma+phi<1/2',
+              'second_moment_progress_gate': 'sigma+eta<1',
+              'pointwise_fixed_fiber_bound_used_as_uniform': False,
+              'tautological_q1_support_used_as_independent_bound': False,
+              'full_second_moment_diagonal_ignored': False,
+              'stop_reason': 'UNIFORM_OR_AVERAGED_MOVING_GENUS_ONE_FIBER_PLUS_INDEPENDENT_SUPPORT_THEOREM_REQUIRED',
+              'next_derived_route': '27-20-r301k',
+              'next_expected_command': 'Stage27-20-r301-audit',
+          }
+
+          # Keep the active global checkpoint40 / Stage19 lane unchanged.
+          assert ctl['state']['CURRENT_CHECKPOINT'] == 40
+          assert ctl['state']['NEXT_CHECKPOINT'] == 40
+          path.write_text(json.dumps(ctl, indent=2) + '\n')
+          PY
+      - name: Commit controller sync
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage27/27-controller.json
+          if git diff --cached --quiet; then
+            echo 'No controller changes required'
+          else
+            git commit -m 'Stage27-20-r301g-j sync controller'
+            git push origin HEAD:agent/stage27-20-r301g-j-squareclass-fiber-batch
+          fi
