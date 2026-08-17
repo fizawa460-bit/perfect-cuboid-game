@@ -24,6 +24,8 @@ jobs:
       - name: Merge latest main preserving r301g-j controller entries
         run: |
           set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           cp stages/stage27/27-controller.json /tmp/r301gj-head-controller.json
           git fetch origin main
           set +e
@@ -45,7 +47,6 @@ jobs:
           for key in ['Stage27-20-r301g','Stage27-20-r301h','Stage27-20-r301i','Stage27-20-r301j']:
               assert key in old['derived_routes'], key
               current['derived_routes'][key]=old['derived_routes'][key]
-          # Preserve the audited r301d-f closeout from latest main.
           for key in ['Stage27-20-r301d','Stage27-20-r301e','Stage27-20-r301f']:
               r=current['derived_routes'][key]
               assert r['status']=='AUDITED_PASS_MERGED', (key,r['status'])
@@ -57,7 +58,5 @@ jobs:
           PY
           git add stages/stage27/27-controller.json
           git diff --check --cached
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m 'Merge latest main into Stage27-20-r301g-j'
           git push origin HEAD:agent/stage27-20-r301g-j-squareclass-fiber-batch
