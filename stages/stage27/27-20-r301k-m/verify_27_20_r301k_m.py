@@ -58,19 +58,19 @@ require(m, "MODULI_SECOND_MOMENT_PROGRESS_GATE=sigma+eta<1")
 require(m, "HEIGHT_ONLY_MODULI_SUPPORT_ROUTE_CLOSED=true")
 require(m, "MODULI_REPARAMETRIZATION_FIXED_POWER_SAVING_PROVED=false")
 
-assert reg["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-assert reg["audit_status"] == "PENDING"
-assert reg["merge_allowed"] is False
-assert reg["fresh_reaudit_required"] is True
+assert reg["status"] == "AUDITED_PASS_MERGED"
+assert reg["audit_status"] == "PASS"
+assert reg["merge_allowed"] is True
+assert reg["fresh_reaudit_required"] is False
 assert reg["next_derived_route"] == "27-20-r301n"
 
 for suffix in "klm":
     key = f"Stage27-20-r301{suffix}"
     route = ctl["derived_routes"][key]
-    assert route["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-    assert route["audit_status"] == "PENDING"
-    assert route["merge_allowed"] is False
-    assert route["advance_allowed"] is False
+    assert route["status"] == "AUDITED_PASS_MERGED"
+    assert route["audit_status"] == "PASS"
+    assert route["merge_allowed"] is True
+    assert route["advance_allowed"] is True
 
 assert ctl["state"]["CURRENT_CHECKPOINT"] == 40
 assert ctl["state"]["NEXT_CHECKPOINT"] == 40

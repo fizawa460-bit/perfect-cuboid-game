@@ -1,0 +1,40 @@
+name: Stage27-20-r301n-p common Jacobian descent batch
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301n-p-common-jacobian
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r301k-m/**'
+      - 'stages/stage27/27-20-r301k/**'
+      - 'stages/stage27/27-20-r301l/**'
+      - 'stages/stage27/27-20-r301m/**'
+      - 'stages/stage27/27-20-r301n-p/**'
+      - 'stages/stage27/27-20-r301n/**'
+      - 'stages/stage27/27-20-r301o/**'
+      - 'stages/stage27/27-20-r301p/**'
+      - 'stages/stage27/27-controller.json'
+      - '.github/workflows/stage27-20-r301n-p-common-jacobian.yml'
+
+jobs:
+  verify-stage27-20-r301n-p:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-20-r301n-p
+        run: python stages/stage27/27-20-r301n-p/verify_27_20_r301n_p.py
+      - name: Validate controller and registries
+        run: |
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r301k-m/batch-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r301n-p/batch-registry.json >/dev/null
+      - name: Diff hygiene
+        run: |
+          git diff --check origin/main...HEAD
+          test ! -e .github/workflows/tmp-stage27-r301np-sync.yml

@@ -1,6 +1,6 @@
 # Stage27-20-r301k — explicit moduli map and geometric twist split
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301j
@@ -83,7 +83,7 @@ This is a bounded-to-one reparametrization, not a new support saving.
 No rank bound, conductor formula, or uniform rational-point theorem follows merely from the explicit moduli map.
 
 ```text
-STAGE27_20_R301K_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301K_STATUS=AUDITED_PASS_MERGED
 J_INVARIANT_FORMULA_PROVED=true
 J_INVARIANT=256*(x^8-x^4+1)^3/(x^8*(x^4-1)^2)
 J_DEPENDS_ONLY_ON_X=true
