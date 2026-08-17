@@ -1,0 +1,39 @@
+name: Stage27-20-r302g-i MAIN occupancy audit
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r302g-i-main-occupancy
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r302d-f/**'
+      - 'stages/stage27/27-20-r302g/**'
+      - 'stages/stage27/27-20-r302h/**'
+      - 'stages/stage27/27-20-r302i/**'
+      - 'stages/stage27/27-20-r302g-i/**'
+      - '.github/workflows/stage27-20-r302g-i-main-occupancy.yml'
+
+jobs:
+  verify-stage27-20-r302g-i:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify merged r302d-f predecessor
+        run: python stages/stage27/27-20-r302d-f/verify_27_20_r302d_f.py
+      - name: Verify Stage27-20-r302g-i
+        run: python stages/stage27/27-20-r302g-i/verify_27_20_r302g_i.py
+      - name: Validate JSON
+        run: |
+          python -m json.tool stages/stage27/27-20-r302d-f/batch-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302d-f/controller-sync-delta.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302g-i/batch-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302g-i/controller-sync-delta.json >/dev/null
+      - name: Diff hygiene
+        run: |
+          git fetch origin main
+          git diff --check origin/main...HEAD
