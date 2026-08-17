@@ -8,11 +8,15 @@ assert 'Q1_TO_STAGE14_FACE_MOBIUS_ADAPTER_PROVED=true' in t
 assert 'Q1_TO_ACTIVE_FACE_SUPPORT_INJECTION_PROVED=true' in t
 assert 'Q1_EQUALS_ALL_STAGE14_ACTIVE_VERTICES_CLAIMED=false' in t
 assert 'OFF_WALL_FIXED_DISTANCE_SUPPORT_SAVING_PROVED=true' in u
-assert 'OFF_WALL_Q1_BOUND=B^(1/2-2eta+o(1))' in u
+assert 'OFF_WALL_NONPROPORTIONAL_BOUND=B^(1/2-2eta+o(1))' in u
+assert 'OFF_WALL_PROPORTIONAL_BOUND=B^(7/16+o(1))' in u
+assert 'OFF_WALL_Q1_BOUND=B^(1/2-min(2eta,1/16)+o(1))' in u
+assert 'OFF_WALL_J_BOUND=B^(1/2-min(2eta,1/16)+o(1))' in u
 assert 'CRITICAL_THETA=1/4' in u
 assert 'CRITICAL_PHI_RANGE=[1/8,1/4]' in v
 assert 'CRITICAL_CHI_FORMULA=2phi-1/4' in v
-assert 'CRITICAL_E_K=1/2' in v and 'CRITICAL_E_RRF=1/2' in v
+assert 'CRITICAL_E_K_UPPER_BOUND=1/2' in v and 'CRITICAL_E_RRF_UPPER_BOUND=1/2' in v
+assert 'CRITICAL_ACTUAL_SATURATION_PROVED=false' in v
 assert 'CRITICAL_Q1_SUPPORT_FIXED_POWER_DEFICIT_PROVED=false' in v
 assert 'NEXT_DERIVED_ROUTE=27-20-r301w' in v
 assert qs['status']=='AUDITED_PASS_MERGED' and qs['audit_status']=='PASS' and qs['advance_allowed'] is True
