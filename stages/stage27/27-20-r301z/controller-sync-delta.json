@@ -2,19 +2,16 @@
   "delta_id": "Stage27-20-r301z-controller-sync",
   "base_main_commit": "20f088e4fe97893a5a6e1b0202fb34a4c9db1119",
   "global_controller_rewritten": false,
-  "reason": "Stage19 owns mutable global checkpoint40 lifecycle fields concurrently; this Stage20 branch records only the exact Stage20 delta to avoid clobbering that lane.",
+  "reason": "Stage19 owns mutable global checkpoint40 lifecycle fields concurrently; this Stage20 closeout records only the exact Stage20 delta to avoid clobbering that lane.",
   "preserve_global_status_from_base": true,
-  "preserve_live_parallel_lane": {
-    "route": "Stage27-19-r5aj-r5ak",
-    "status_from_base_controller": "PENDING_FRESH_AUDIT"
-  },
   "consume_closeout": {
-    "batch": "Stage27-20-r301w-y",
+    "batch": "Stage27-20-r301z",
     "audit_status": "PASS",
     "status": "AUDITED_PASS_MERGED",
-    "audit_record": "stages/stage27/27-20-r301w-y/audit.md",
-    "pr": 1058,
-    "merge_commit": "2ba3bc1b0bce3bbd4610b93d4cdef1124a0cbe8e"
+    "audit_record": "stages/stage27/27-20-r301z/audit.md",
+    "pr": 1062,
+    "audit_commit": "60edf5a7cb02cbfc1905fd61874a8f1e716d43f0",
+    "merge_commit": "96e99d8e4232ad06da748ad4e37b8c43f16e944b"
   },
   "intended_stage20_delta": {
     "Stage27-20-r301t": "AUDITED_PASS_MERGED",
@@ -23,7 +20,7 @@
     "Stage27-20-r301w": "AUDITED_PASS_MERGED",
     "Stage27-20-r301x": "AUDITED_PASS_MERGED",
     "Stage27-20-r301y": "AUDITED_PASS_MERGED",
-    "Stage27-20-r301z": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
+    "Stage27-20-r301z": "AUDITED_PASS_MERGED"
   },
   "checkpoint": 40,
   "advance_to_checkpoint50": false,
@@ -31,5 +28,7 @@
   "new_mu_lt_half_proved": false,
   "true_N2_exponent_identified": false,
   "next_batch_after_audit": "Stage27-20-r302-main-batch",
+  "advance_allowed": true,
+  "fresh_reaudit_required": false,
   "r301aa_forbidden": true
 }
