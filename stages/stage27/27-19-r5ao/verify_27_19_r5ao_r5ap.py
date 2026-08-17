@@ -105,6 +105,30 @@ assert old["final_audit"]["pr"] == 1061
 assert old["final_audit"]["merge_commit"] == "366548fbc2d41536cd0d0e285784e932ec27bad7"
 assert (ROOT / "stages/stage27/27-19-r5am/audit-final.md").exists()
 
+controller = json.loads((ROOT / "stages/stage27/27-controller.json").read_text())
+hist = controller["derived_routes"]["Stage27-19-r5am-r5an"]
+cur = controller["derived_routes"]["Stage27-19-r5ao-r5ap"]
+assert hist["status"] == "AUDITED_PASS_MERGED"
+assert hist["audit_status"] == "PASS"
+assert hist["pr"] == 1061
+assert hist["merge_commit"] == "366548fbc2d41536cd0d0e285784e932ec27bad7"
+assert cur["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
+assert cur["audit_status"] == "PENDING"
+assert cur["strict_sub_sqrt_upper_proved"] is False
+assert controller["state"]["CURRENT_CHECKPOINT"] == 40
+assert controller["state"]["MAIN_STATUS"] == "UPPER_REENTRY_STAGE27_19_R5AO_R5AP_SUBMITTED_PENDING_FRESH_AUDIT"
+assert controller["state"]["MERGE_ALLOWED"] is False
+assert controller["next_expected_command"] == "Stage27-19-r5-audit"
+
+status_doc = (ROOT / "docs/00_CURRENT_RESEARCH_STATUS.md").read_text()
+for marker in [
+    "CURRENT_STAGE=Stage27-19-r5ao-r5ap-BATCH-SUBMITTED-PENDING-FRESH-AUDIT",
+    "STAGE27_19_R5AM_R5AN_STATUS=AUDITED_PASS_MERGED_PR1061",
+    "STAGE27_19_R5AO_R5AP_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+    "STAGE27_ACTIVE_UPPER_REENTRY=27-19-r5ao-r5ap",
+]:
+    assert marker in status_doc
+
 r5ao = (ROOT / "stages/stage27/27-19-r5ao/result.md").read_text()
 r5ap = (ROOT / "stages/stage27/27-19-r5ap/result.md").read_text()
 for marker in [
