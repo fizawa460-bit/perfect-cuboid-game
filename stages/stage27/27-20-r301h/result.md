@@ -1,6 +1,6 @@
 # Stage27-20-r301h — fixed-coordinate squareclass support collapse
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301g
@@ -111,7 +111,7 @@ This does not by itself bound the number of possible first coordinates `q_1`, no
 The next legal question is the geometry and arithmetic of the fixed `(q_1,delta)` fiber.
 
 ```text
-STAGE27_20_R301H_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301H_STATUS=AUDITED_PASS_MERGED
 DELTA_ODD_DIVIDES_RAD_A4_MINUS_B4=true
 DELTA_ODD_DIVIDES_RAD_C4_MINUS_E4=true
 PHYSICAL_Q_HEIGHT_LE_2B=true

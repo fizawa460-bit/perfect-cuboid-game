@@ -1,6 +1,6 @@
 # Stage27-20-r301g — integral squareclass kernel and common-gcd localization
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301f
@@ -155,7 +155,7 @@ In particular every odd prime of `delta` is `1 mod 4`.  The prime `2` is retaine
 This route proves an exact localization of the common squareclass.  It does **not** yet prove that the global set of squareclasses up to physical height `B` has fixed-power sparsity, because the cross-gcd values move with the torus point.
 
 ```text
-STAGE27_20_R301G_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301G_STATUS=AUDITED_PASS_MERGED
 INTEGRAL_F_G_RECEIVER_PROVED=true
 COMMON_SQUARECLASS_EQUALS_SQFREE_GCD_KERNEL=true
 COMMON_PRIME_AVOIDS_ABCE=true

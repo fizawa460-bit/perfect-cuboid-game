@@ -1,6 +1,6 @@
 # Stage27-20-r301i — fixed `(q1,delta)` fiber is a nonisotrivial genus-one curve
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301h
@@ -155,7 +155,7 @@ This is deliberately **pointwise only**.  The rank, generators, height-compariso
 The fixed-fiber genus-one structure is a new exact receiver, but pointwise Mordell--Weil bounds cannot be summed over moving fibers without a uniform or averaged theorem.
 
 ```text
-STAGE27_20_R301I_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301I_STATUS=AUDITED_PASS_MERGED
 FIXED_Q1_DELTA_COMPLETE_INTERSECTION_TWO_QUADRICS=true
 FIXED_Q1_DELTA_PHYSICAL_FIBER_GENUS=1
 FIXED_Q1_DELTA_QUARTIC_MODEL_PROVED=true
