@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage27-19-r5aa",
+  "source_stage": "Stage19",
+  "trigger_checkpoint": 40,
+  "route_kind": "UPPER_REENTRY_PARALLEL",
+  "parent_route": "Stage27-19-r402c-f",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "parallel_lane": true,
+  "purpose": "resolve fixed-(tau,g) representation multiplicity and reduce the r402f dyadic arithmetic restart to realized joint tau/core support",
+  "proved": {
+    "tau_core_gcd_square_factorization": true,
+    "fixed_tau_g_core_multiplicity_uniform_subpower": true,
+    "joint_tau_g_support_reduction": true,
+    "same_core_collision_subpower_overhead": true
+  },
+  "not_proved": {
+    "joint_support_strict_subhalf": true,
+    "tau_uniform_fiber_subpower": true,
+    "strict_sub_sqrt_upper": true,
+    "new_mu_lt_half": true,
+    "true_N2_exponent_identified": true
+  },
+  "next_arithmetic_target": "UNIFORM_DYADIC_JOINT_SUPPORT_OR_DISTINCT_G_PER_TAU_BOUND",
+  "next_derived_route": "27-19-r5ab",
+  "controller_sync_policy": "DEFER_GLOBAL_CONTROLLER_MUTATION_DURING_PARALLEL_SUBMISSION_TO_MINIMIZE_CROSS_LANE_CONFLICT; FRESH_AUDIT_MUST_REGISTER_CANONICAL_LIFECYCLE_STATE"
+}
