@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AM_R5AN_PENDING_FRESH_AUDIT",
+  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AO_R5AP_PENDING_FRESH_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -22,7 +22,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R5AJ_R5AK_AUDITED_PASS_MERGED_AND_R5AL_AUDITED_PASS_MERGED_CLOSED_AND_R5AM_R5AN_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R5AJ_R5AK_AUDITED_PASS_MERGED_AND_R5AL_AUDITED_PASS_MERGED_CLOSED_AND_R5AM_R5AN_AUDITED_PASS_MERGED_AND_R5AO_R5AP_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -1302,7 +1302,7 @@
       "next_derived_route": "27-19-r5am"
     },
     "Stage27-19-r5am-r5an": {
-      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_kind": "UPPER_REENTRY_PARALLEL",
       "source_stage": "Stage19",
@@ -1327,12 +1327,48 @@
       "strict_sub_sqrt_upper_proved": false,
       "new_mu_lt_half_proved": false,
       "true_N2_exponent_identified": false,
+      "audit_status": "PASS",
+      "advance_to_checkpoint50": false,
+      "advance_allowed": true,
+      "merge_allowed": true,
+      "next_derived_route": "27-19-r5ao",
+      "next_target": "DYADIC_KAPPA_SPLIT_COMBINING_LARGE_MODULUS_SLOPE_SIEVE_WITH_SMALL_KAPPA_PELL_COMPRESSION",
+      "audit_record": "stages/stage27/27-19-r5am/audit-final.md",
+      "pr": 1061,
+      "merge_commit": "366548fbc2d41536cd0d0e285784e932ec27bad7",
+      "kappa_unit_pair_universe": "phi(kappa)^2=kappa^(2-o(1))"
+    },
+    "Stage27-19-r5ao-r5ap": {
+      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_kind": "UPPER_REENTRY_PARALLEL",
+      "source_stage": "Stage19",
+      "parent_route": "Stage27-19-r5am-r5an",
+      "batch_routes": [
+        "27-19-r5ao",
+        "27-19-r5ap"
+      ],
+      "purpose": "dyadic kappa raw slope sieve plus composition barrier locating the physical weighted counting interface",
+      "result_paths": [
+        "stages/stage27/27-19-r5ao/result.md",
+        "stages/stage27/27-19-r5ap/result.md"
+      ],
+      "route_contract": "stages/stage27/27-19-r5ao/route-contract.json",
+      "dyadic_kappa_raw_slope_sieve_proved": true,
+      "dyadic_raw_bound": "H^eps*(H^4/K+H^3)",
+      "stage19_raw_specialization": "B^eps*(B^2/K+B^(3/2))",
+      "raw_slope_sieve_composition_barrier_proved": true,
+      "physical_weighted_kappa_sieve_proved": false,
+      "small_kappa_outer_support_fixed_power_bound_proved": false,
+      "strict_sub_sqrt_upper_proved": false,
+      "new_mu_lt_half_proved": false,
+      "true_N2_exponent_identified": false,
       "audit_status": "PENDING",
       "advance_to_checkpoint50": false,
       "advance_allowed": false,
       "merge_allowed": false,
-      "next_derived_route": "27-19-r5ao",
-      "next_target": "DYADIC_KAPPA_SPLIT_COMBINING_LARGE_MODULUS_SLOPE_SIEVE_WITH_SMALL_KAPPA_PELL_COMPRESSION"
+      "next_derived_route": "27-19-r5aq",
+      "next_target": "PHYSICAL_WEIGHTED_KAPPA_SIEVE_OR_SMALL_KAPPA_OUTER_SUPPORT_COUNT"
     }
   },
   "entry_gate": {
@@ -1343,7 +1379,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R5AM_R5AN_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R5AO_R5AP_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
