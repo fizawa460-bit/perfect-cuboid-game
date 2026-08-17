@@ -1,0 +1,143 @@
+name: Temporary StructureRadar apply Stage16-25 census 03
+on:
+  push:
+    branches: [structureradar/stage16-25-03]
+permissions:
+  contents: write
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Normalize current 60-source slice
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          radar=Path('docs/structure-radar')
+          rows=json.loads((radar/'stage16-25-current-03-report.json').read_text())
+          assert len(rows)==60
+          byid={r['source_id']:r for r in rows}
+          progress=json.loads((radar/'progress.json').read_text())
+          registry=json.loads((radar/'structure-registry.json').read_text())
+          cards={c['structure_id']:c for c in registry['structures']}
+          batch='SR-BATCH-STAGE16_25_CURRENT-03-R01'
+          def prov(sid, locator):
+              r=byid[sid]
+              return {'source_id':sid,'path':r['path'],'locator':locator,'fingerprint':r['fingerprint']}
+          new=[
+            {
+              'structure_id':'SR-STR-148',
+              'canonical_math_name':'One-face conditioning logarithmically enhances space-diagonal survival over the ambient space baseline',
+              'exact_equations_or_object':'Stage21 proves N1/M1~(kappa*pi/18)(log B)^2/B while N_S^all/U~[9 zeta(3)/(8 pi G)]/B, hence (N1/M1)/(N_S^all/U)~[4 kappa pi^2 G/(81 zeta(3))](log B)^2 -> infinity. The intrinsic polynomial space cost remains B^-1; the enhancement is localized to the shared-P multiplicative principal bulk, with fine pole/local-factor allocation unresolved.',
+              'search_terms_primary':['one-face conditioning space diagonal logarithmic enhancement','conditional versus ambient space-diagonal survival log squared'],
+              'search_terms_aliases':['Stage21 ambient-control interaction','shared-P principal-sector log2 enhancement'],
+              'theorem_species':['interaction asymptotic','ambient-control comparison','causal localization'],
+              'repo_provenance':[prov('SRC-AA36BD7DE17F','certified transition, ambient control, and causal synthesis'),prov('SRC-DF6DC24B435C','audited leading interaction comparison')],
+              'target_populations':['matched Stage16 exactly-one-face source, Stage17 one-face-plus-space target, and Stage16S ambient space control'],
+              'potential_weapon_types':['INTERACTION_ADAPTER','ASYMPTOTIC','CAUSAL_DECOMPOSITION'],
+              'applicability_gaps':['The two net logarithms are not canonically assigned to independent pole slots or local factors; the result is not an objectwise independence probability.'],
+              'existing_radar_overlap':['SR-STR-004','SR-STR-142'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            },
+            {
+              'structure_id':'SR-STR-149',
+              'canonical_math_name':'Geometric b-invariant explanation of the Stage22 log-four second-face enhancement',
+              'exact_equations_or_object':'Under the matched height invariant, M1 has (a,b)=(2,2), N1 has (1,4), and M2 has (1,6). Thus the Stage22 logarithmic exponent jump is b(M2)-b(M1)=6-2=4, with decomposition (6-2)=(4-2)+(6-4)=2+2 through the Stage21 target. This is a geometric invariant decomposition, not four independent probabilities or Dirichlet poles.',
+              'search_terms_primary':['Stage22 b-invariant log four jump','Picard rank log exponent M1 N1 M2 2 4 6'],
+              'search_terms_aliases':['second-face log4 geometric mechanism','Stage22 2+2 b-jump decomposition'],
+              'theorem_species':['geometric height invariant','logarithmic exponent decomposition','transition mechanism'],
+              'repo_provenance':[prov('SRC-530F986F4B46','audited post-Stage25 r011a geometric receiver')],
+              'target_populations':['matched Stage16 M1, Stage21 N1, and Stage18 M2 transition populations'],
+              'potential_weapon_types':['GEOMETRIC_INVARIANT','CAUSAL_DECOMPOSITION','HEIGHT_ADAPTER'],
+              'applicability_gaps':['No four-factor independence law or common Dirichlet pole-slot decomposition is proved; third-face exclusion and directional averaging are not the cause of log4.'],
+              'existing_radar_overlap':['SR-STR-005','SR-STR-148'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            },
+            {
+              'structure_id':'SR-STR-150',
+              'canonical_math_name':'Global mod-8 exclusion of the consecutive-parameter AR-039 Stage19 slice',
+              'exact_equations_or_object':'The selected Stage17-originating slice requires w^2=(t^2+1)(t^2+2t+2). With s=2t+1 and W=4w this is the genus-one quartic W^2=s^4+6s^2+25. For every integer t the product is 2 mod 8, while squares mod 8 are 0,1,4; therefore this entire integral parameter slice has zero Stage19 hits.',
+              'search_terms_primary':['AR-039 consecutive parameter mod 8 obstruction','genus one quartic s4 6s2 25 integer square obstruction'],
+              'search_terms_aliases':['Stage23 Q03 slice exclusion','consecutive Pythagorean parameter torsor obstruction'],
+              'theorem_species':['congruence obstruction','genus-one torsor','slice exclusion'],
+              'repo_provenance':[prov('SRC-3DC30F260176','Q03 corrected genus-one slice and global integer obstruction'),prov('SRC-0981FF833D2D','fresh re-audit of Q03/Q06 execution')],
+              'target_populations':['the consecutive-parameter AR-039 subfamily tested for Stage19 second-face-plus-space completion'],
+              'potential_weapon_types':['LOCAL_OBSTRUCTION','SLICE_EXCLUSION','GENUS_ONE_REDUCTION'],
+              'applicability_gaps':['This kills only the selected one-parameter slice; it proves no global Stage19 upper improvement and supplies no positive-power lower family.'],
+              'existing_radar_overlap':['SR-STR-006','SR-STR-008'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            },
+            {
+              'structure_id':'SR-STR-151',
+              'canonical_math_name':'Exact-height Kummer-to-Jacobi receiver with moving-transverse-family dispersion gate',
+              'exact_equations_or_object':'The Stage23 Q06 source chain identifies physical height exactly as H_M=d on the two-face Kummer surface, gives bounded oriented-object multiplicity, and sharpens the fixed-squareclass (4,4) receiver Z^2=kappa P_U(x,y) to the Jacobi square lift y^2=(t^2+s)(1+s t^2). A single fixed physical rational curve has height exponent at most 1/2, but no uniform count for the moving transverse Jacobi/Kummer family is proved, so the global half-power Stage19 ceiling is not improved.',
+              'search_terms_primary':['Kummer Jacobi moving family dispersion physical height d','transverse Jacobi square lift incidence Stage19'],
+              'search_terms_aliases':['Stage23 Q06 exact-height receiver','SharedUTransverseJacobiSquareLiftIncidence'],
+              'theorem_species':['receiver map','height identity','incidence gate','moving-family point count'],
+              'repo_provenance':[prov('SRC-7A24A8808F0B','Q06 source-level exact height, receiver quotient, and moving-family boundary'),prov('SRC-3DC30F260176','Q06 missing global receiver-height-count interface')],
+              'target_populations':['Stage19 primitive canonical two-face-plus-space population under physical cutoff d<=B'],
+              'potential_weapon_types':['THIN_COVER','HEIGHT_ADAPTER','EXTERNAL_GATE','DISPERSION'],
+              'applicability_gaps':['Moving-fiber count control and transverse dispersion are unproved; the fixed-curve exponent <=1/2 cannot be summed over a moving family to beat the global half-power bound.'],
+              'existing_radar_overlap':['SR-STR-003','SR-STR-008','SR-STR-150'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            }
+          ]
+          for c in new:
+              if c['structure_id'] not in cards:
+                  registry['structures'].append(c); cards[c['structure_id']]=c
+          # Current-stage provenance on existing normalized transition cards.
+          updates={
+            'SR-STR-004':[('SRC-AA36BD7DE17F','Stage21 closeout transition interface')],
+            'SR-STR-005':[('SRC-618642FCD210','Stage22 closeout transition theorem')],
+            'SR-STR-006':[('SRC-AF236B8AD23A','Stage23 zero-density transition upper synthesis')]
+          }
+          for cid,items in updates.items():
+              for sid,loc in items:
+                  p=prov(sid,loc)
+                  if not any(x.get('source_id')==sid and x.get('locator')==loc for x in cards[cid]['repo_provenance']):
+                      cards[cid]['repo_provenance'].append(p)
+          reviews=progress.setdefault('source_reviews',{})
+          carriers=0
+          for r in rows:
+              sid,path=r['source_id'],r['path']; ids=[]
+              # stage21 theorem-bearing source/result interfaces
+              if path in {'stages/stage21/21-10/result.md','stages/stage21/21-30/result.md','stages/stage21/21-40/result.md','stages/stage21/21-60/result.md','stages/stage21/21-70/result.md','stages/stage21/final.md','stages/stage21/post-stage25-r011a.md'}:
+                  ids=['SR-STR-004']
+                  if path in {'stages/stage21/21-30/result.md','stages/stage21/21-60/result.md','stages/stage21/21-70/result.md'}: ids.append('SR-STR-148')
+              # stage22 transition carriers
+              elif path in {'stages/stage22/22-10/result.md','stages/stage22/22-30/result.md','stages/stage22/22-40/result.md','stages/stage22/22-50/result.md','stages/stage22/22-60/result.md','stages/stage22/22-70/result.md','stages/stage22/22-70/self-contained-bundle.md','stages/stage22/post-stage25-r010a.md'}:
+                  ids=['SR-STR-005']
+              elif path=='stages/stage22/post-stage25-r011a.md': ids=['SR-STR-005','SR-STR-149']
+              # stage23 zero-density / attack carriers
+              elif path in {'stages/stage23/23-10/result.md','stages/stage23/23-30/result.md','stages/stage23/23-60/result.md'}:
+                  ids=['SR-STR-006']
+              elif path in {'stages/stage23/23-30/new-slice-attack.md','stages/stage23/23-40/deep-execution-q03-q06.md'}:
+                  ids=['SR-STR-150']
+                  if path.endswith('deep-execution-q03-q06.md'): ids.append('SR-STR-151')
+              elif path=='stages/stage23/23-40/q06-source-execution.md': ids=['SR-STR-151']
+              if ids:
+                  reviews[sid]={'fingerprint':r['fingerprint'],'status':'STRUCTURES_RECORDED','batch_id':batch,'structure_ids':ids}; carriers+=1
+              else:
+                  reviews[sid]={'fingerprint':r['fingerprint'],'status':'DUPLICATE_SOURCE','batch_id':batch}
+          registry['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          batches=progress.setdefault('audit_batches',[]); batches[:]=[b for b in batches if b.get('batch_id')!=batch]
+          batches.append({'batch_id':batch,'task_id':'SR-CENSUS-STAGE16_25_CURRENT-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[r['source_id'] for r in rows],'sources_reviewed':60,'structures_added':4,'structures_updated':3,'structures_deduped':60-carriers,'structure_carrier_sources':carriers,'searches_completed':0,'arsenal_decisions':0,'audit_required':True})
+          (radar/'progress.json').write_text(json.dumps(progress,indent=2,ensure_ascii=False)+'\n')
+          (radar/'structure-registry.json').write_text(json.dumps(registry,indent=2,ensure_ascii=False)+'\n')
+          for p in [radar/'stage16-25-current-03-report.json',radar/'stage16-25-current-03-compact.txt']:
+              if p.exists(): p.unlink()
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+      - name: Commit and self-clean
+        run: |
+          git config user.name 'github-actions[bot]'; git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/tmp-structureradar-apply-stage16-25-03.yml
+          git add -A docs/structure-radar
+          git diff --check --cached
+          git commit -m 'StructureRadar: census Stage16-25 current batch 03'
+          git push
