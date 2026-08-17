@@ -123,10 +123,22 @@ For one fixed coefficient cell \((\delta,c_0,c_s,c_n)\),
 X=\frac{B}{\delta c_0c_sc_n}\le B.
 \]
 
-Also the existing Stage19 scale theorem gives \(k=\kappa\le R\le B\). Therefore, after renaming \(\varepsilon\),
+Also the exact r5ah scale theorem gives
 
 \[
-(Xk)^\varepsilon\le B^{2\varepsilon}=B^{\varepsilon'}.
+R=\frac{h}{\varepsilon}\,\kappa L
+\]
+
+with positive integers \(h,L\) and \(\varepsilon\in\{1,2\}\). Hence
+
+\[
+k=\kappa\le \varepsilon R\le 2B.
+\]
+
+Therefore, after renaming \(\varepsilon\),
+
+\[
+(Xk)^\varepsilon\ll B^{2\varepsilon}=B^{\varepsilon'}.
 \]
 
 Hence the fixed-kappa Stage19 survivor host is bounded by
@@ -148,6 +160,7 @@ PHYSICAL_WEIGHTED_FIXED_KAPPA_SIEVE_PROVED=true
 HYPERBOLIC_PAIR_LEMMA_PROVED=true
 FIXED_KAPPA_WEIGHTED_BOUND=(X*k)^eps*(X/k+sqrt(X))
 STAGE19_FIXED_KAPPA_WEIGHTED_BOUND=B^eps*(X/k+sqrt(X))
+STAGE19_KAPPA_SCALE_BOUND=kappa<=2B
 KAPPA_SUBPOWER_FACTOR_UNIFORMLY_ABSORBED_INTO_X_EPS=false
 PHYSICAL_CELL_X=B/(delta*C)
 RESIDUAL_S1_S3_USED_IN_COUNT=false
