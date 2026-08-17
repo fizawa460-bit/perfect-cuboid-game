@@ -96,7 +96,7 @@ Again \((a,b)=1\) and \((\kappa,\nu)=1\), so
 
 ## 4. Primitive consequence and residue-line receiver
 
-If a prime \(\ell\mid\kappa\) divided \(m\), then the first divisibility would force \(\ell\mid n\), contradicting \((m,n)=1\).  Likewise the second divisibility and \((r,s)=1\) show that \(\ell\nmid rs\).  Thus
+If a prime \(\ell\mid\kappa\) divided \(m\), then the first divisibility would force \(\ell\mid n\), contradicting \((m,n)=1\). Likewise the second divisibility and \((r,s)=1\) show that \(\ell\nmid rs\). Thus
 
 \[
 \boxed{(\kappa,mnrs)=1.}
@@ -110,7 +110,7 @@ For every prime \(\ell\mid\kappa\), therefore,
 (rs^{-1})^2\equiv-1\pmod\ell.
 \]
 
-The r5 squareclass analysis already gives that \(\kappa\) is odd; the second congruence also forces every \(\ell\mid\kappa\) to admit a square root of \(-1\), hence \(\ell\equiv1\pmod4\).  Therefore each prime factor confines the two occupied slopes to at most four paired residue lines:
+The r5 squareclass analysis already gives that \(\kappa\) is odd; the second congruence also forces every \(\ell\mid\kappa\) to admit a square root of \(-1\), hence \(\ell\equiv1\pmod4\). Therefore each prime factor confines the two occupied slopes to at most four paired residue lines:
 
 \[
 \boxed{
@@ -124,11 +124,25 @@ By CRT, modulo squarefree \(\kappa\) the survivor lies in at most
 4^{\omega(\kappa)}=\kappa^{o(1)}
 \]
 
-paired slope classes out of \(\asymp\kappa^2\) unit slope pairs.  This is a genuine growing-modulus local receiver attached to the actual survivor-dependent \(\kappa\).
+paired slope classes. Because \((\kappa,mnrs)=1\), both slope ratios are units modulo \(\kappa\), so the ambient ordered unit-slope-pair universe has exactly
+
+\[
+\boxed{\varphi(\kappa)^2}
+\]
+
+pairs. Uniformly in squarefree \(\kappa\), the standard lower bound for Euler's totient gives
+
+\[
+\varphi(\kappa)=\kappa^{1-o(1)},
+\qquad
+\boxed{\varphi(\kappa)^2=\kappa^{2-o(1)}}.
+\]
+
+Thus the local receiver occupies only \(\kappa^{o(1)}\) classes inside a \(\kappa^{2-o(1)}\) unit-pair universe. The fixed-power density gap therefore survives without the false uniform assertion \(\varphi(\kappa)^2\asymp\kappa^2\). This is a genuine growing-modulus local receiver attached to the actual survivor-dependent \(\kappa\).
 
 ## 5. Barrier at small kappa
 
-This receiver alone is not a global fixed-power theorem.  There is an explicit exactly-two Stage19 survivor
+This receiver alone is not a global fixed-power theorem. There is an explicit exactly-two Stage19 survivor
 
 \[
 (m,n,r,s)=(7,4,5,3),\qquad R=1073,
@@ -140,7 +154,7 @@ with
 \kappa=1.
 \]
 
-Hence no argument may assume that every survivor carries a growing \(\kappa\).  A useful next step must split the population dyadically in \(\kappa\): exploit the residue-line density when \(\kappa\) is large, and combine r5am Pell compression plus the exact diagonal relation
+Hence no argument may assume that every survivor carries a growing \(\kappa\). A useful next step must split the population dyadically in \(\kappa\): exploit the residue-line density when \(\kappa\) is large, and combine r5am Pell compression plus the exact diagonal relation
 
 \[
 R=(h/\varepsilon)\kappa L
@@ -154,6 +168,8 @@ KAPPA_DIVIDES_R2_PLUS_S2_PROVED=true
 KAPPA_COPRIME_TO_MNRS_PROVED=true
 KAPPA_PAIRED_SLOPE_RESIDUE_RECEIVER_PROVED=true
 KAPPA_MODULUS_CLASS_COUNT=4^omega(kappa)=kappa^o(1)
+KAPPA_UNIT_SLOPE_PAIR_UNIVERSE=phi(kappa)^2=kappa^(2-o(1))
+KAPPA_ASYMP_KAPPA2_UNIT_PAIR_CLAIM_USED=false
 KAPPA_EQ_1_STAGE19_WITNESS_RETAINED=true
 GLOBAL_GROWING_KAPPA_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
