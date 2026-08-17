@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -35,5 +37,6 @@ jobs:
           python -m json.tool stages/stage27/27-20-r301k-m/batch-registry.json >/dev/null
       - name: Diff hygiene
         run: |
-          git diff --check HEAD^
+          git fetch origin main
+          git diff --check origin/main..HEAD
           test ! -e .github/workflows/tmp-stage27-r301km-sync.yml
