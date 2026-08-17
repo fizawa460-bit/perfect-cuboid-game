@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AJ_R5AK_PENDING_FRESH_AUDIT",
+  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AM_R5AN_PENDING_FRESH_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -22,7 +22,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R402C_F_AUDITED_PASS_MERGED_AND_R5_AUDITED_PASS_MERGED_CLOSED_AND_R5AF_R5AG_AUDITED_PASS_MERGED_AND_R5AH_R5AI_AUDITED_PASS_MERGED_AND_R5AJ_R5AK_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R5AJ_R5AK_AUDITED_PASS_MERGED_AND_R5AL_AUDITED_PASS_MERGED_CLOSED_AND_R5AM_R5AN_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -1233,7 +1233,7 @@
       "merge_commit": "38dd56bc3fdcc6830f39340f00bb7bcfc4ad66f9"
     },
     "Stage27-19-r5aj-r5ak": {
-      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_kind": "UPPER_REENTRY_PARALLEL",
       "source_stage": "Stage19",
@@ -1258,16 +1258,19 @@
       "strict_sub_sqrt_upper_proved": false,
       "new_mu_lt_half_proved": false,
       "true_N2_exponent_identified": false,
-      "audit_status": "PENDING",
+      "audit_status": "PASS",
       "advance_to_checkpoint50": false,
       "continue_upper_exploration": true,
-      "advance_allowed": false,
-      "merge_allowed": false,
+      "advance_allowed": true,
+      "merge_allowed": true,
       "next_derived_route": "27-19-r5al",
-      "next_target": "UNIFORM_SMALL_L_INCIDENCE_COUNT_USING_RESIDUAL_QUADRATIC_SYSTEM_AND_EDGE_BUDGET"
+      "next_target": "UNIFORM_SMALL_L_INCIDENCE_COUNT_USING_RESIDUAL_QUADRATIC_SYSTEM_AND_EDGE_BUDGET",
+      "audit_record": "stages/stage27/27-19-r5aj/audit-final.md",
+      "pr": 1056,
+      "merge_commit": "80b8017a246e3519dd5e699ecea4ce944824d02f"
     },
     "Stage27-19-r5al": {
-      "status": "PROPOSED_INCONCLUSIVE_PENDING_FRESH_AUDIT",
+      "status": "AUDITED_PASS_MERGED_CLOSED",
       "trigger_checkpoint": 40,
       "route_kind": "UPPER_REENTRY_PROPOSAL",
       "source_stage": "Stage19",
@@ -1287,11 +1290,49 @@
       "true_N2_exponent_identified": false,
       "exponent_promotion_proposed": false,
       "verdict": "INCONCLUSIVE",
-      "fresh_audit_required": true,
+      "fresh_audit_required": false,
+      "advance_to_checkpoint50": false,
+      "advance_allowed": true,
+      "merge_allowed": true,
+      "next_target": "GOOD_PRIME_RICH_SQUARE_SIEVE_PLUS_BAD_PRIME_RICH_GCD_DETERMINANT_STRATIFICATION",
+      "audit_status": "PASS",
+      "audit_record": "stages/stage27/27-19-r5al/audit-final.md",
+      "pr": 1059,
+      "merge_commit": "ed26c2b0b127223e777a668f4f9f79ab31cf5367",
+      "next_derived_route": "27-19-r5am"
+    },
+    "Stage27-19-r5am-r5an": {
+      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_kind": "UPPER_REENTRY_PARALLEL",
+      "source_stage": "Stage19",
+      "parent_route": "Stage27-19-r5al",
+      "batch_routes": [
+        "27-19-r5am",
+        "27-19-r5an"
+      ],
+      "purpose": "uniform Pell compression of one completion direction plus the kappa growing-modulus paired-slope receiver",
+      "result_paths": [
+        "stages/stage27/27-19-r5am/result.md",
+        "stages/stage27/27-19-r5an/result.md"
+      ],
+      "route_contract": "stages/stage27/27-19-r5am/route-contract.json",
+      "uniform_pell_count_lemma_proved": true,
+      "eight_outer_variable_completion_subpower_proved": true,
+      "kappa_divides_m2_minus_n2_proved": true,
+      "kappa_divides_r2_plus_s2_proved": true,
+      "kappa_coprime_to_mnrs_proved": true,
+      "kappa_paired_slope_residue_receiver_proved": true,
+      "global_growing_kappa_proved": false,
+      "strict_sub_sqrt_upper_proved": false,
+      "new_mu_lt_half_proved": false,
+      "true_N2_exponent_identified": false,
+      "audit_status": "PENDING",
       "advance_to_checkpoint50": false,
       "advance_allowed": false,
       "merge_allowed": false,
-      "next_target": "GOOD_PRIME_RICH_SQUARE_SIEVE_PLUS_BAD_PRIME_RICH_GCD_DETERMINANT_STRATIFICATION"
+      "next_derived_route": "27-19-r5ao",
+      "next_target": "DYADIC_KAPPA_SPLIT_COMBINING_LARGE_MODULUS_SLOPE_SIEVE_WITH_SMALL_KAPPA_PELL_COMPRESSION"
     }
   },
   "entry_gate": {
@@ -1302,7 +1343,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R5AH_R5AI_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R5AM_R5AN_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
