@@ -1,0 +1,54 @@
+name: Temporary StructureRadar batch05 report
+on:
+  push:
+    branches: [structureradar/batch05]
+permissions:
+  contents: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Close curated task and build next-task report
+        run: |
+          python - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+          radar=Path('docs/structure-radar')
+          p=json.loads((radar/'progress.json').read_text())
+          decisions={
+            'SRC-2A69967FBFFE':'docs/stage14-15-bound-attack-map.md',
+            'SRC-A2C1E3D8F69F':'docs/stage14-15-bound-deep-review-queue.json',
+            'SRC-8B5C98D05C03':'docs/stage14-15-bound-deep-review-queue.md',
+          }
+          for sid,path in decisions.items():
+            p.setdefault('source_reviews',{})[sid]={
+              'fingerprint':hashlib.sha256(Path(path).read_bytes()).hexdigest(),
+              'status':'DUPLICATE_SOURCE','batch_id':'SR-BATCH-STAGE14_15_CURATED-01-R01'}
+          p.setdefault('audit_batches',[]).append({
+            'batch_id':'SR-BATCH-STAGE14_15_CURATED-01-R01','task_id':'SR-CENSUS-STAGE14_15_CURATED-01',
+            'status':'NO_NEW_STRUCTURE','source_ids':list(decisions),'sources_reviewed':3,
+            'structures_added':0,'structures_updated':0,'structures_deduped':3,'searches_completed':0,'arsenal_decisions':0,'audit_required':False})
+          (radar/'progress.json').write_text(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
+          import subprocess
+          subprocess.run(['python','scripts/structure_radar.py','refresh'],check=True)
+          q=json.loads((radar/'exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY')
+          manifest=json.loads((radar/'source-manifest.json').read_text())
+          sm={s['source_id']:s for s in manifest['sources']}
+          rows=[]
+          for sid in task.get('source_ids',[]):
+            s=sm[sid]; path=s['path']; text=Path(path).read_text(errors='replace') if Path(path).is_file() else ''
+            rows.append({'source_id':sid,'path':path,'stage':s.get('stage'),'kind':s.get('kind'),'evidence_role':s.get('evidence_role'),'excerpt':text[:2200]})
+          Path('.tmp-structure-radar-task.json').write_text(json.dumps({'task':task,'sources':rows},indent=2,ensure_ascii=False)+'\n')
+          subprocess.run(['python','scripts/structure_radar.py','verify'],check=True)
+          PY
+      - name: Commit report
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/structure-radar .tmp-structure-radar-task.json
+          git commit -m 'StructureRadar: close curated census and stage next report'
+          git push
