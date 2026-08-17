@@ -1,0 +1,37 @@
+name: Stage27-19-r5ao-r5ap dyadic kappa sieve
+
+on:
+  push:
+    paths:
+      - 'stages/stage27/27-19-r5ao/**'
+      - 'stages/stage27/27-19-r5ap/**'
+      - 'stages/stage27/27-19-r5am/route-contract.json'
+      - 'stages/stage27/27-19-r5am/audit-final.md'
+      - '.github/workflows/stage27-19-r5ao-r5ap-dyadic-kappa.yml'
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r5ao/**'
+      - 'stages/stage27/27-19-r5ap/**'
+      - 'stages/stage27/27-19-r5am/route-contract.json'
+      - 'stages/stage27/27-19-r5am/audit-final.md'
+      - '.github/workflows/stage27-19-r5ao-r5ap-dyadic-kappa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-stage27-19-r5ao-r5ap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify dyadic kappa sieve and composition barrier
+        run: python stages/stage27/27-19-r5ao/verify_27_19_r5ao_r5ap.py
+      - name: Validate JSON contracts
+        run: |
+          python -m json.tool stages/stage27/27-19-r5ao/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5am/route-contract.json >/dev/null
+      - name: Diff check
+        run: git diff --check HEAD^
