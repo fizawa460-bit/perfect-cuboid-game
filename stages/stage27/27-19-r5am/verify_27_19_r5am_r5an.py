@@ -161,9 +161,13 @@ for marker in [
     "KAPPA_DIVIDES_M2_MINUS_N2_PROVED=true",
     "KAPPA_DIVIDES_R2_PLUS_S2_PROVED=true",
     "KAPPA_COPRIME_TO_MNRS_PROVED=true",
+    "KAPPA_UNIT_SLOPE_PAIR_UNIVERSE=phi(kappa)^2=kappa^(2-o(1))",
+    "KAPPA_ASYMP_KAPPA2_UNIT_PAIR_CLAIM_USED=false",
     "KAPPA_EQ_1_STAGE19_WITNESS_RETAINED=true",
     "STRICT_SUB_SQRT_UPPER_PROVED=false",
 ]:
     assert marker in r5an
+assert "paired slope classes out of \\asymp\\kappa^2 unit slope pairs" not in r5an
+assert "\\varphi(\\kappa)^2=\\kappa^{2-o(1)}" in r5an
 
 print(f"Stage27-19-r5am-r5an verification PASS; space squareclass tuples checked={space_checked}")
