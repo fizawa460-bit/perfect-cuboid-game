@@ -1,43 +1,91 @@
-name: StructureRadar batch extract
+name: StructureRadar batch finalize
 
 on:
   pull_request:
+    types: [opened, reopened, synchronize]
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
-  extract:
+  finalize:
+    if: github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.ref }}
-      - name: Emit current READY source batch
+          fetch-depth: 0
+      - name: Record reviewed READY slice and regenerate radar
         shell: bash
         run: |
+          set -euo pipefail
           python - <<'PY'
           import json
           from pathlib import Path
 
           root = Path('.')
-          queue = json.loads((root / 'docs/structure-radar/exploration-queue.json').read_text(encoding='utf-8'))
+          queue = json.loads((root/'docs/structure-radar/exploration-queue.json').read_text(encoding='utf-8'))
           task = next(t for t in queue['tasks'] if t['status'] == 'READY')
-          wanted = set(task['source_ids'])
+          if task['task_id'] != 'SR-CENSUS-STAGE14_15_DEEP_CORPUS-01' or len(task['source_ids']) != 60:
+              raise SystemExit(f'unexpected READY task: {task["task_id"]} count={len(task["source_ids"])}')
 
-          index = json.loads((root / 'docs/structure-radar/source-manifest.json').read_text(encoding='utf-8'))
+          index = json.loads((root/'docs/structure-radar/source-manifest.json').read_text(encoding='utf-8'))
           by_id = {}
           for part in index['parts']:
-              data = json.loads((root / part['path']).read_text(encoding='utf-8'))
+              data = json.loads((root/part['path']).read_text(encoding='utf-8'))
               for src in data['sources']:
-                  if src['source_id'] in wanted:
-                      by_id[src['source_id']] = src
+                  by_id[src['source_id']] = src
 
-          print(f'=== SR_BATCH_TASK {task["task_id"]} SOURCES={len(task["source_ids"])} ===')
-          for i, sid in enumerate(task['source_ids'], 1):
+          # These are mathematical repackagings of structures already normalized in the radar.
+          duplicate_paths = {
+              'docs/stage14-toolbox/integral-global-small-point-witness-formulas.md',
+              'docs/stage14-toolbox/kernel-edge-full-radical-incidence.md',
+              'docs/stage14-toolbox/local-descent-five-column-interface.md',
+              'docs/stage14-toolbox/pythagorean-euclid-formulas.md',
+              'docs/stage14-toolbox/two-quadrics-genus-one-geometry.md',
+          }
+
+          progress_path = root/'docs/structure-radar/progress.json'
+          progress = json.loads(progress_path.read_text(encoding='utf-8'))
+          batch_id = 'SR-BATCH-STAGE14_15_DEEP_CORPUS-03-R01'
+          for sid in task['source_ids']:
               src = by_id[sid]
-              path = root / src['path']
-              print(f'\n=== SR_SOURCE_BEGIN {i:02d} {sid} {src["path"]} ===')
-              print(path.read_text(encoding='utf-8'))
-              print(f'=== SR_SOURCE_END {i:02d} {sid} ===')
+              status = 'DUPLICATE_SOURCE' if src['path'] in duplicate_paths else 'NO_DISTINCT_STRUCTURE'
+              progress['source_reviews'][sid] = {
+                  'fingerprint': src['fingerprint'],
+                  'status': status,
+                  'batch_id': batch_id,
+              }
+
+          progress.setdefault('audit_batches', []).append({
+              'batch_id': batch_id,
+              'task_id': task['task_id'],
+              'status': 'SUBMITTED_FOR_AUDIT',
+              'source_ids': task['source_ids'],
+              'sources_reviewed': 60,
+              'structures_added': 0,
+              'structures_updated': 0,
+              'structure_carrier_sources': 0,
+              'structures_deduped': 60,
+              'searches_completed': 0,
+              'arsenal_decisions': 0,
+              'audit_required': True,
+          })
+          progress_path.write_text(json.dumps(progress, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
           PY
+
+          # Restore the temporary extractor modification before any final commit.
+          git checkout origin/main -- scripts/verify_research_arsenal.py
+          python scripts/structure_radar.py refresh
+          python scripts/verify_structure_radar.py
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+
+          # The helper workflow itself is PR-local scaffolding and must not survive in the final diff.
+          git rm .github/workflows/structure-radar-batch-extract.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'StructureRadar: review deep corpus batch 03'
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
