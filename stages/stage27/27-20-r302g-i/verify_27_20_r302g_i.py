@@ -71,19 +71,40 @@ for text in (g, h, i):
     require(text, "TRUE_N2_EXPONENT_IDENTIFIED=false")
     require(text, "ADVANCE_TO_CHECKPOINT50=false")
 
+# Fresh hostile audit must be materialized on this feature branch.
+audit = read(S27 / "27-20-r302g-i" / "audit.md")
+for token in (
+    "AUDIT_VERDICT=PASS",
+    "MATHEMATICAL_AUDIT=PASS",
+    "CI_AUDIT=PASS",
+    "INTEGRATION_AUDIT=PASS_PREMERGE",
+    "AUDIT_PR=1073",
+    "AUDITED_CONTENT_COMMIT=f966de570044a27e99311c0bdf9b6eddee9ea2ed",
+    "DEDICATED_CI_RUN=32014505150",
+    "R302G_MATHEMATICS=PASS",
+    "R302H_MATHEMATICS=PASS",
+    "R302I_MATHEMATICS=PASS",
+    "MERGE_ALLOWED=true",
+    "ADVANCE_ALLOWED=false",
+    "FRESH_REAUDIT_REQUIRED=false",
+    "NEXT_DERIVED_ROUTE=27-20-r302j",
+):
+    require(audit, token)
+
 reg = json.loads(read(S27 / "27-20-r302g-i" / "batch-registry.json"))
-assert reg["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-assert reg["audit_status"] == "PENDING"
-assert reg["merge_allowed"] is False
+assert reg["status"] == "AUDITED_PASS_PENDING_MERGE"
+assert reg["audit_status"] == "PASS"
+assert reg["merge_allowed"] is True
 assert reg["advance_allowed"] is False
-assert reg["fresh_reaudit_required"] is True
+assert reg["fresh_reaudit_required"] is False
+assert reg["audit_pr"] == 1073
+assert reg["audited_content_commit"] == "f966de570044a27e99311c0bdf9b6eddee9ea2ed"
 assert reg["claims"]["fixed_power_occupancy_l1_l2_tail_existence_equivalent"] is True
 assert reg["claims"]["second_moment_reweighting_alone_new_saving"] is False
 assert reg["claims"]["main_high_occupancy_physical_mass_deficit_proved"] is False
 assert reg["claims"]["strict_sub_sqrt_upper_proved"] is False
 assert reg["advance_to_checkpoint50"] is False
 assert reg["next_derived_route"] == "27-20-r302j"
-assert reg["next_audit_command"] == "Stage27-20-r302-audit"
 assert reg["discarded_parallel_pr"] == 1070
 
 sync = json.loads(read(S27 / "27-20-r302g-i" / "controller-sync-delta.json"))
@@ -91,11 +112,12 @@ assert sync["global_controller_rewritten"] is False
 assert sync["base_main_sha"] == "2a0bb9ee116c0de7f9a5e20c4c56b8cd76134d75"
 assert sync["stage20_delta"]["Stage27-20-r302d-f"]["status"] == "AUDITED_PASS_MERGED"
 for route in ("Stage27-20-r302g", "Stage27-20-r302h", "Stage27-20-r302i"):
-    assert sync["stage20_delta"][route]["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-    assert sync["stage20_delta"][route]["audit_status"] == "PENDING"
-assert sync["stage20_delta"]["merge_allowed"] is False
+    assert sync["stage20_delta"][route]["status"] == "AUDITED_PASS_PENDING_MERGE"
+    assert sync["stage20_delta"][route]["audit_status"] == "PASS"
+assert sync["stage20_delta"]["merge_allowed"] is True
 assert sync["stage20_delta"]["advance_allowed"] is False
-assert sync["stage20_delta"]["fresh_reaudit_required"] is True
+assert sync["stage20_delta"]["fresh_reaudit_required"] is False
+assert sync["stage20_delta"]["audit_pr"] == 1073
 assert sync["stage20_delta"]["next_derived_route"] == "27-20-r302j"
 
-print("Stage27-20-r302g-i pre-audit verification: PASS")
+print("Stage27-20-r302g-i hostile audit PASS verification: PASS")
