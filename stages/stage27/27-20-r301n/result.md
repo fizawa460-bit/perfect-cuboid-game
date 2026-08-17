@@ -1,6 +1,6 @@
 # Stage27-20-r301n — the fixed-q1 delta family has one common Jacobian
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301m
@@ -133,7 +133,7 @@ This is a real compression of the arithmetic obstruction: the moving squareclass
 This route does **not** prove that rational-point heights on all soluble `C_{x,delta}` are uniformly comparable with the Neron--Tate height on `E_x`. It therefore does not by itself promote the old pointwise fiber bound to a moving uniform estimate.
 
 ```text
-STAGE27_20_R301N_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301N_STATUS=AUDITED_PASS_MERGED
 DETERMINANT_PENCIL_DELTA_SQUARE_FACTOR_PROVED=true
 COMMON_JACOBIAN_INDEPENDENT_OF_DELTA_PROVED=true
 COMMON_JACOBIAN_FULL_RATIONAL_2_TORSION=true

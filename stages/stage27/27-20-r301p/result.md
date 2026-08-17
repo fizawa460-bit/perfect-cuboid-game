@@ -1,6 +1,6 @@
 # Stage27-20-r301p — full-2-torsion descent gives a uniform subpolynomial Selmer universe
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301o
@@ -165,7 +165,7 @@ The next genuinely useful theorem would have to provide at least one of:
 4. an independent strict support deficit for occupied `x`.
 
 ```text
-STAGE27_20_R301P_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301P_STATUS=AUDITED_PASS_MERGED
 COMMON_JACOBIAN_FULL_2_DESCENT_AVAILABLE=true
 SELMER_BAD_PRIME_SUPPORT=2*a*b*(a^4-b^4)
 SELMER_2_INJECTS_INTO_S_UNIT_SQUARECLASSES_SQUARED=true

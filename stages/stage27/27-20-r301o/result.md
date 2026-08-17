@@ -1,6 +1,6 @@
 # Stage27-20-r301o — soluble delta fibers share one Mordell--Weil group
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301n
@@ -101,7 +101,7 @@ so strict progress still requires
 The structural gain is that `phi` may now be attacked using one elliptic curve `E_x` per `x`, rather than a separate rank problem for every squareclass.
 
 ```text
-STAGE27_20_R301O_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301O_STATUS=AUDITED_PASS_MERGED
 SOLUBLE_DELTA_FIBERS_SHARE_ONE_MORDELL_WEIL_GROUP=true
 RANK_VARIATION_IN_DELTA_ELIMINATED=true
 DELTA_INTERPRETED_AS_COVERING_DESCENT_DATA=true
