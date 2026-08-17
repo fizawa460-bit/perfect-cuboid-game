@@ -1,0 +1,42 @@
+name: Temporary Stage25 frozen status marker
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5aj-residual-chart
+    paths:
+      - '.github/workflows/tmp-stage25-status-marker.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-19-r5aj-residual-chart
+      - name: Insert canonical Stage25 phase10 marker
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('docs/00_CURRENT_RESEARCH_STATUS.md')
+          s=p.read_text()
+          marker='STAGE25_REENTRY_PHASE10_STATUS=AUDITED_PASS_MERGED\n'
+          anchor='STAGE25_REENTRY_STATUS=CLOSED_AUDITED_PASS_MERGED_STAGE26_HANDOFF_READY\n'
+          assert anchor in s
+          if marker not in s:
+              s=s.replace(anchor, anchor+marker, 1)
+          p.write_text(s)
+          PY
+          python stages/stage25/25-reentry-10/verify_phase10.py
+          git diff --check
+      - name: Commit marker and remove temporary workflow
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/00_CURRENT_RESEARCH_STATUS.md
+          git rm .github/workflows/tmp-stage25-status-marker.yml
+          git commit -m 'Stage25: restore phase10 frozen status marker'
+          git push origin HEAD:agent/stage27-19-r5aj-residual-chart
