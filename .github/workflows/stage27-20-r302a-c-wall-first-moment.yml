@@ -1,0 +1,36 @@
+name: Stage27-20-r302a-c wall first-moment receiver audit
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r302a-c-wall-first-moment
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r302a/**'
+      - 'stages/stage27/27-20-r302b/**'
+      - 'stages/stage27/27-20-r302c/**'
+      - 'stages/stage27/27-20-r302a-c/**'
+      - '.github/workflows/stage27-20-r302a-c-wall-first-moment.yml'
+
+jobs:
+  verify-stage27-20-r302a-c:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-20-r302a-c
+        run: python stages/stage27/27-20-r302a-c/verify_27_20_r302a_c.py
+      - name: Verify audited r301z parent
+        run: python stages/stage27/27-20-r301z/verify_27_20_r301z.py
+      - name: Validate batch JSON
+        run: |
+          python -m json.tool stages/stage27/27-20-r302a-c/batch-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r302a-c/controller-sync-delta.json >/dev/null
+      - name: Diff hygiene
+        run: |
+          git fetch origin main
+          git diff --check origin/main...HEAD
