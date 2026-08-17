@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "batch_id": "Stage27-20-r301w-y",
+  "base_main_commit": "0d4f889159a5de3a83d242ea1968855cb680a8e3",
+  "base_controller_blob": "dadbafd5280fdcc17ed38491d9f40e6d55037dfb",
+  "purpose": "canonical Stage20 lane delta while the global controller is concurrently owned by the live Stage19 audit lane",
+  "consume_closeout": {
+    "batch": "Stage27-20-r301t-v",
+    "audit_status": "PASS",
+    "status": "AUDITED_PASS_MERGED",
+    "pr": 1052,
+    "merge_commit": "1d6524bf98138aaf76b038eb50fda02f9f4e5ee0",
+    "audit_record": "stages/stage27/27-20-r301t-v/audit.md"
+  },
+  "preserve_live_stage19": {
+    "route": "Stage27-19-r5aj-r5ak",
+    "status_at_base": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+    "next_derived_route": "27-19-r5al",
+    "do_not_overwrite_global_state": true,
+    "do_not_overwrite_next_expected_command": true
+  },
+  "stage20_route_updates": {
+    "Stage27-20-r301t": "AUDITED_PASS_MERGED",
+    "Stage27-20-r301u": "AUDITED_PASS_MERGED",
+    "Stage27-20-r301v": "AUDITED_PASS_MERGED",
+    "Stage27-20-r301w": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+    "Stage27-20-r301x": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+    "Stage27-20-r301y": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
+  },
+  "stage20_next_derived_route": "27-20-r301z",
+  "stage20_numbering_contract": {
+    "after_r301z": "Stage27-20-r302-main-batch",
+    "r301aa_forbidden": true
+  },
+  "global_controller_directly_rewritten_in_this_parallel_batch": false,
+  "reason": "avoid replacing mutable Stage19-owned global lifecycle fields from a parallel Stage20 branch; apply this exact delta at the next controller-owning closeout/rebase"
+}
