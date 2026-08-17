@@ -177,6 +177,7 @@ for marker in [
     'LOWER_BOUNDED_REENTRY_STOP_CANDIDATE=true',
     'PREFERRED_POST_AUDIT_LANE=UPPER_REENTRY',
     'NEXT_UPPER_ROUTE=27-40af',
+    'NEXT_EXPECTED_COMMAND=Stage27-19-r401-audit',
 ]:
     assert marker in res, marker
 
@@ -204,7 +205,7 @@ assert pc['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert pc['audit_status'] == 'PASS'
 assert pc['pr'] == 1035
 assert pc['merge_commit'] == '4ca03c43f4ff2c858c51ac8959d6e75f077c6de7'
-assert pd['status'] == 'REPAIR_SUBMITTED_PENDING_FRESH_AUDIT'
+assert pd['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert pd['r501_tau_projection_degree'] == 8
 assert pd['r502_tau_projection_degree'] == 8
 assert pd['r501_toric_degree_ledger'] == 'dx2_dy2_g0_h8'
@@ -216,19 +217,12 @@ assert pd['previous_audit_verdict'] == 'FAIL'
 assert pd['mathematical_audit_status'] == 'PASS'
 assert pd['previous_fail_reason'] == 'STALE_R401C_PENDING_STATE_AND_MISSING_R401D_CANONICAL_REGISTRATION'
 assert pd['audit_status'] == 'PASS'
+assert pd['pr'] == 1036
+assert pd['merge_commit'] == 'b37bc86e045175238bf2520518b059574addc52b'
 assert pd['advance_to_checkpoint50'] is False
 assert pd['merge_allowed'] is True
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-assert 'STAGE27_19_R401C_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1035' in status
-assert 'STAGE27_AFFINE_LINEAR_RECEIVER_DERIVED=true' in status
-assert 'STAGE27_AFFINE_LINEAR_DISCRIMINANT_FACTORIZATION_PROVED=true' in status
-assert 'STAGE27_ALL_AFFINE_LINEAR_MULTISECTIONS_CLASSIFIED=true' in status
-assert 'STAGE27_19_R401D_STATUS=R501_R502_CALIBRATION_REPAIR_SUBMITTED_PENDING_FRESH_AUDIT' in status
-assert 'STAGE27_NEXT_UPPER_ROUTE=27-40af' in status
+# Historical theorem regression: global active-route pointers are mutable.
+assert ctl['state']['CURRENT_CHECKPOINT'] == 40
 
 print('STAGE27_19_R401D_PARENT_AUDIT=PASS')
 print('STAGE27_19_R401D_R501_EMBEDDING=PASS')

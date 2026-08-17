@@ -143,6 +143,7 @@ for marker in [
     'GENERIC_DEGREE2_CLOSED_POINT_EXHIBITED=true',
     'LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false',
     'NEXT_DERIVED_ROUTE=27-19-r401b',
+    'NEXT_EXPECTED_COMMAND=Stage27-19-r401-audit',
 ]:
     assert marker in res, marker
 
@@ -170,17 +171,14 @@ if child['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED':
     assert child['pr'] == 1032
     assert child['merge_commit'] == '86b5428d42f7f4c7344bace93b067d580391d7ac'
 else:
-    assert child['audit_status'] == 'PASS'
+    assert child['audit_status'] == 'PENDING'
 
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-assert 'STAGE27_19_R401_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1031' in status
-# Historical verifier: live current-stage assertion intentionally omitted.
-assert (
-    or 'STAGE27_19_R401A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1032' in status
-)
+# Historical theorem regression: global active-route pointers are mutable.
+assert ctl['state']['CURRENT_CHECKPOINT'] == 40
+assert child['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
+assert child['audit_status'] == 'PASS'
+assert child['pr'] == 1032
+assert child['merge_commit'] == '86b5428d42f7f4c7344bace93b067d580391d7ac'
 
 print('STAGE27_19_R401A_SPLIT_FACTOR=PASS')
 print('STAGE27_19_R401A_GENUS_ONE=PASS')

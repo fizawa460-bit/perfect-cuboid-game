@@ -137,7 +137,9 @@ assert R == 1073
 
 contract = json.loads((ROOT / "stages/stage27/27-19-r5ah/route-contract.json").read_text())
 assert contract["task_id"] == "Stage27-19-r5ah"
-assert contract["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
+assert contract["status"] == "CLOSED_AUDITED_PASS_MERGED"
+assert contract["final_audit"]["pr"] == 1054
+assert contract["final_audit"]["merge_commit"] == "38dd56bc3fdcc6830f39340f00bb7bcfc4ad66f9"
 assert contract["proved"]["exact_primitive_scale_factorization"] is True
 assert contract["proved"]["exact_physical_diagonal_integer_product"] is True
 assert contract["not_proved"]["strict_sub_sqrt_upper"] is True
@@ -154,7 +156,9 @@ assert controller["state"]["ADVANCE_ALLOWED"] is False
 assert controller["state"]["NEXT_CHECKPOINT"] == 40
 assert controller["derived_routes"]["Stage27-19-r5af-r5ag"]["audit_status"] == "PASS"
 assert controller["derived_routes"]["Stage27-19-r5af-r5ag"]["merge_commit"] == "e7e11fd67d147d4f7c78b153e330c6bb6ed0e1a9"
-assert controller["derived_routes"]["Stage27-19-r5ah-r5ai"]["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
+assert controller["derived_routes"]["Stage27-19-r5ah-r5ai"]["status"] == "AUDITED_PASS_MERGED"
+assert controller["derived_routes"]["Stage27-19-r5ah-r5ai"]["audit_status"] == "PASS"
+assert controller["derived_routes"]["Stage27-19-r5ah-r5ai"]["merge_commit"] == "38dd56bc3fdcc6830f39340f00bb7bcfc4ad66f9"
 
 r5ah = (ROOT / "stages/stage27/27-19-r5ah/result.md").read_text()
 r5ai = (ROOT / "stages/stage27/27-19-r5ai/result.md").read_text()

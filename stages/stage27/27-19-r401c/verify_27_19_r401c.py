@@ -180,6 +180,7 @@ for marker in [
     'AFFINE_LINEAR_PHYSICAL_GENUS_ZERO_ROUTE_EXISTS=false',
     'LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false',
     'NEXT_DERIVED_ROUTE=27-19-r401d',
+    'NEXT_EXPECTED_COMMAND=Stage27-19-r401-audit',
 ]:
     assert marker in res, marker
 
@@ -202,13 +203,10 @@ assert pc['all_affine_linear_multisections_classified'] is True
 assert pc['affine_linear_physical_genus_zero_route_exists'] is False
 assert pc['lower_exponent_above_one_quarter_proved'] is False
 assert pc['audit_status'] == 'PASS'
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-assert 'STAGE27_19_R401B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1033' in status
-assert 'STAGE27_19_R401C_STATUS=AFFINE_LINEAR_SUBMITTED_PENDING_FRESH_AUDIT' in status
+assert pc['pr'] == 1035
+assert pc['merge_commit'] == '4ca03c43f4ff2c858c51ac8959d6e75f077c6de7'
+# Historical theorem regression: global active-route pointers are mutable.
+assert ctl['state']['CURRENT_CHECKPOINT'] == 40
 
 print('STAGE27_19_R401C_PARENT_SYNC=PASS')
 print('STAGE27_19_R401C_SEXTIC_DISCRIMINANT=PASS')

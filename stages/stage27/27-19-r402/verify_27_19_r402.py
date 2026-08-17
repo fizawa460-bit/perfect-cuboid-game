@@ -26,6 +26,7 @@ for marker in [
     'TAU_SECOND_MOMENT_UPPER_GATE=sigma+eta<1',
     'STRICT_SUB_SQRT_UPPER_PROVED=false',
     'ADVANCE_TO_CHECKPOINT50=false',
+    'NEXT_EXPECTED_COMMAND=Stage27-19-r402-audit',
 ]:
     assert marker in res, marker
 
@@ -106,16 +107,11 @@ assert p2['tau_max_fiber_upper_gate'] == 'sigma+phi<1/2'
 assert p2['tau_second_moment_upper_gate'] == 'sigma+eta<1'
 assert p2['strict_sub_sqrt_upper_proved'] is False
 assert p2['audit_status'] == 'PASS'
+assert p2['pr'] == 1037
+assert p2['merge_commit'] == '77dc7bc7eb29f4113d59c8255ab4b2148bd52690'
 assert p2['merge_allowed'] is True
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-# Historical verifier: live global lifecycle assertion intentionally omitted.
-assert 'STAGE27_19_R401D_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1036' in status
-assert 'STAGE27_19_R402_STATUS=TAU_PUSHFORWARD_UPPER_SUBMITTED_PENDING_FRESH_AUDIT' in status
-assert 'STAGE27_TAU_DEFINED_BEFORE_SPACE_FILTER=true' in status
-assert 'STAGE27_TAU_SUPPORT_POLYNOMIAL_LOWER_PROVED=true' in status
+# Historical theorem regression: global active-route pointers are mutable.
+assert ctl['state']['CURRENT_CHECKPOINT'] == 40
 
 print('STAGE27_19_R402_TAU_IDENTITY=PASS')
 print('STAGE27_19_R402_TORIC_FORMULA=PASS')
