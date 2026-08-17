@@ -1,0 +1,39 @@
+name: Stage27-19-r5at-r5av fixed-R compression
+
+on:
+  push:
+    paths:
+      - 'stages/stage27/27-19-r5at/**'
+      - 'stages/stage27/27-19-r5au/**'
+      - 'stages/stage27/27-19-r5av/**'
+      - 'stages/stage27/27-19-r5aq/**'
+      - 'stages/stage27/27-controller.json'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-19-r5at-r5av-fixed-R.yml'
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r5at/**'
+      - 'stages/stage27/27-19-r5au/**'
+      - 'stages/stage27/27-19-r5av/**'
+      - 'stages/stage27/27-19-r5aq/**'
+      - 'stages/stage27/27-controller.json'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-19-r5at-r5av-fixed-R.yml'
+
+jobs:
+  verify-stage27-19-r5at-r5av:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify fixed-R compression and boundary barrier
+        run: python stages/stage27/27-19-r5at/verify_27_19_r5at_r5av.py
+      - name: Validate JSON contracts
+        run: |
+          python -m json.tool stages/stage27/27-19-r5at/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5aq/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+      - name: Diff check
+        run: git diff --check HEAD^
