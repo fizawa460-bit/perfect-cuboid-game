@@ -86,18 +86,18 @@ require(p, "UNIFORM_RANK_BOUND=O(log B/log log B)")
 require(p, "UNIFORM_POINT_COUNT_SUBPOWER_FROM_RANK_PROVED=false")
 require(p, "UNIFORM_REGULATOR_LOWER_BOUND_PROVED=false")
 
-assert reg["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-assert reg["audit_status"] == "PENDING"
-assert reg["merge_allowed"] is False
-assert reg["fresh_reaudit_required"] is True
+assert reg["status"] == "AUDITED_PASS_MERGED"
+assert reg["audit_status"] == "PASS"
+assert reg["merge_allowed"] is True
+assert reg["fresh_reaudit_required"] is False
 assert reg["next_derived_route"] == "27-20-r301q"
 
 for suffix in "nop":
     route = ctl["derived_routes"][f"Stage27-20-r301{suffix}"]
-    assert route["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-    assert route["audit_status"] == "PENDING"
-    assert route["merge_allowed"] is False
-    assert route["advance_allowed"] is False
+    assert route["status"] == "AUDITED_PASS_MERGED"
+    assert route["audit_status"] == "PASS"
+    assert route["merge_allowed"] is True
+    assert route["advance_allowed"] is True
 
 assert ctl["state"]["CURRENT_CHECKPOINT"] == 40
 assert ctl["state"]["NEXT_CHECKPOINT"] == 40
