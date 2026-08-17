@@ -1,0 +1,33 @@
+name: Stage27-20-r301z wall-slab receiver audit
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301z-wall-slab-receiver
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r301z/**'
+      - '.github/workflows/stage27-20-r301z-wall-slab.yml'
+
+jobs:
+  verify-stage27-20-r301z:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-20-r301z
+        run: python stages/stage27/27-20-r301z/verify_27_20_r301z.py
+      - name: Validate batch JSON
+        run: |
+          python -m json.tool stages/stage27/27-20-r301z/batch-registry.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r301z/controller-sync-delta.json >/dev/null
+      - name: Verify parent Stage27-20-r301 contract
+        run: python stages/stage27/27-20-r301/verify_27_20_r301.py
+      - name: Diff hygiene
+        run: |
+          git fetch origin main
+          git diff --check origin/main...HEAD
