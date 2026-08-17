@@ -1,0 +1,334 @@
+name: StructureRadar batch05 finalize
+
+on:
+  push:
+    branches:
+      - structureradar/stage16-25-05
+    paths:
+      - .github/workflows/structure-radar-batch05-finalize.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structureradar/stage16-25-05
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Normalize reviewed slice
+        shell: bash
+        run: |
+          python - <<'PY'
+          from __future__ import annotations
+          import json
+          from pathlib import Path
+
+          root = Path('.')
+          radar = root / 'docs' / 'structure-radar'
+          partial = radar / 'partial-stage16-25-05'
+          registry_path = radar / 'structure-registry.json'
+          progress_path = radar / 'progress.json'
+          batch_id = 'SR-BATCH-STAGE16_25_CURRENT-05-R01'
+          task_id = 'SR-CENSUS-STAGE16_25_CURRENT-01'
+
+          def load(path):
+              return json.loads(Path(path).read_text(encoding='utf-8'))
+          def dump(path, obj):
+              Path(path).write_text(json.dumps(obj, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+
+          # Build current source map from manifest shards.
+          source_map = {}
+          for part in sorted((radar / 'source-manifest').glob('part-*.json')):
+              data = load(part)
+              for src in data.get('sources', []):
+                  source_map[src['source_id']] = src
+
+          chunks = [load(partial / f'chunk-{i:02d}.json') for i in range(1, 7)]
+          source_ids = [sid for chunk in chunks for sid in chunk['source_ids']]
+          assert len(source_ids) == 60 and len(set(source_ids)) == 60, (len(source_ids), len(set(source_ids)))
+          missing = [sid for sid in source_ids if sid not in source_map]
+          assert not missing, missing
+
+          # Formal carrier map after six-chunk normalization and arsenal deduplication.
+          carrier = {
+              # Stage25 endpoint / quarter-power support.
+              'SRC-128CBC83ADA0': ['SR-STR-018'],
+              'SRC-0E98133DEA6B': ['SR-STR-018', 'SR-STR-155'],
+              'SRC-1D0F810B4406': ['SR-STR-008'],
+              'SRC-EBD1A9441B76': ['SR-STR-008', 'SR-STR-018'],
+              'SRC-9C5C1BC06C15': ['SR-STR-008'],
+              'SRC-B356C33E8590': ['SR-STR-018'],
+              'SRC-83170523FBD4': ['SR-STR-008'],
+              # R503 Yoshida gate.
+              'SRC-AA10832FB714': ['SR-STR-156'],
+              'SRC-6F5D7DD6097D': ['SR-STR-156'],
+              'SRC-CB6FB65DF23C': ['SR-STR-156'],
+              # R504 toolkit existing card.
+              'SRC-2A5ED9F2B0F5': ['SR-STR-015'],
+              'SRC-30772A3F4333': ['SR-STR-015', 'SR-STR-157'],
+              'SRC-527AA6E131E6': ['SR-STR-015'],
+              'SRC-ABDB195AB40A': ['SR-STR-015'],
+              'SRC-F959B11B5453': ['SR-STR-015'],
+              'SRC-155C43A57E80': ['SR-STR-015'],
+              'SRC-AB4DAC7F0278': ['SR-STR-015'],
+              'SRC-1CDBFE538D62': ['SR-STR-015'],
+              'SRC-52C12BE90F7F': ['SR-STR-015'],
+              'SRC-1909A13FAA81': ['SR-STR-015'],
+              'SRC-6CBC4D2360E8': ['SR-STR-015'],
+              'SRC-56F5603834CC': ['SR-STR-015'],
+              'SRC-F4875C0C94A9': ['SR-STR-015'],
+              # Complete degree-two descent + split/nonsplit commuting loci.
+              'SRC-6CF778667DE4': ['SR-STR-157'],
+              'SRC-2DBC7601D65F': ['SR-STR-157'],
+              'SRC-14E46CA3EABA': ['SR-STR-157'],
+              'SRC-061BAAE22030': ['SR-STR-157'],
+              'SRC-60216A80856F': ['SR-STR-157'],
+              # Explicit nonsplit rank jump.
+              'SRC-0CADA6DF1FBA': ['SR-STR-158'],
+              'SRC-26828551CA8E': ['SR-STR-158'],
+          }
+
+          locator = {
+              'SRC-128CBC83ADA0': 'checkpoint30 exact endpoint/path-cancellation identity',
+              'SRC-0E98133DEA6B': 'checkpoint40 endpoint upper and fixed-finite-curve firewall',
+              'SRC-1D0F810B4406': 'R501 explicit degree-eight quarter-power family',
+              'SRC-EBD1A9441B76': 'audited checkpoint50 quarter-power lower and interaction sign',
+              'SRC-9C5C1BC06C15': 'R502 hostile re-audit primitive-height rigidity',
+              'SRC-B356C33E8590': 'checkpoint60 causal-lattice matched cross-ratio',
+              'SRC-83170523FBD4': 'R502 primitive-height no-upgrade certificate',
+              'SRC-AA10832FB714': 'R503 hostile audit',
+              'SRC-6F5D7DD6097D': 'R503 closeout result',
+              'SRC-CB6FB65DF23C': 'Yoshida generic-rank-zero and height-sparsity theorem carrier',
+              'SRC-2A5ED9F2B0F5': 'R504 original-base rank-one and 3P height family audit',
+              'SRC-30772A3F4333': 'R504 degree-two base-change boundary',
+              'SRC-527AA6E131E6': 'R504 full-split exceptional Prym discovery carrier',
+              'SRC-ABDB195AB40A': 'R504 exceptional Prym external-gate hostile audit',
+              'SRC-F959B11B5453': 'R504 exceptional Prym external-gate theorem carrier',
+              'SRC-155C43A57E80': 'R504 generic Prym Hom_K=0 hostile audit',
+              'SRC-AB4DAC7F0278': 'R504 generic Prym specialization/Frobenius obstruction',
+              'SRC-1CDBFE538D62': 'R504 second-section physical P+2R materialization ledger',
+              'SRC-52C12BE90F7F': 'R504 growing-lattice reuse ledger',
+              'SRC-1909A13FAA81': 'R504 growing rank-two lattice hostile audit',
+              'SRC-6CBC4D2360E8': 'R504 growing rank-two lattice theorem',
+              'SRC-56F5603834CC': 'R504 physical Kummer coset and fixed-class height re-audit',
+              'SRC-F4875C0C94A9': 'R504 rank-two height discovery ledger',
+              'SRC-6CF778667DE4': 'R504 repaired Q-degree-two split/nonsplit classification audit',
+              'SRC-2DBC7601D65F': 'R504 full-split reciprocal commuting-involution locus',
+              'SRC-14E46CA3EABA': 'R504 nonsplit commuting-involution lift classification',
+              'SRC-061BAAE22030': 'R504 complete Q-degree-two source descent',
+              'SRC-60216A80856F': 'R504 complete source descent hostile re-audit',
+              'SRC-0CADA6DF1FBA': 'R504 explicit nonsplit rank-jump hostile audit',
+              'SRC-26828551CA8E': 'R504 explicit nonsplit rank-jump theorem carrier',
+          }
+
+          registry = load(registry_path)
+          cards = registry['structures']
+          by_id = {card['structure_id']: card for card in cards}
+          assert 'SR-STR-155' in by_id and 'SR-STR-156' not in by_id
+
+          # Expand the existing route-specific Stage25 R504 toolkit rather than fragmenting W04.
+          r504 = by_id['SR-STR-015']
+          r504['exact_equations_or_object'] = (
+              'In audited R504, rank E_F(Q(k))=1 with primitive generator P and the original 3P family has '
+              'Theta(B^(1/10)); after the explicit nonsplit degree-two rank jump, the known physical rank-two '
+              'lattice has image P+2E_H(Q(u)), intersection aP+bR with a odd and b even, minimum nondegenerate '
+              'norm 5, P+2R growth Theta(B^(1/12)), and total known-lattice upper O(B^(1/10) log B). '
+              'For the complete full-split family Hom_K(P_eta,E0_K)=0 generically, while the rational exceptional '
+              'Prym/E0 isogeny locus is an unbounded-complexity external theorem gate and is not proved empty or finite.'
+          )
+          r504['applicability_gaps'] = [
+              'All statements are specific to the audited R504 setup and known <P,R> sublattice.',
+              'The generic Hom statement is over K=Q(A,B,C,D), not over Kbar.',
+              'The exceptional Prym locus is not proved empty, finite, or bounded in isogeny degree.',
+              'Neither the 1/10 nor 1/12 R504 family beats the project-current global N2(B)>>B^(1/4) lower.'
+          ]
+          if 'R504 rank-two/Prym toolkit' not in r504.get('existing_radar_overlap', []):
+              r504.setdefault('existing_radar_overlap', []).append('R504 rank-two/Prym toolkit')
+
+          # R501/R502 rigidity is officially integrated into S25-W01 support, not a duplicate standalone weapon.
+          r8 = by_id['SR-STR-008']
+          if 'S25-W03' not in r8.get('existing_radar_overlap', []):
+              r8.setdefault('existing_radar_overlap', []).append('S25-W03')
+
+          # New normalized cards.
+          cards.extend([
+              {
+                  'structure_id': 'SR-STR-156',
+                  'canonical_math_name': 'Yoshida face-cuboid generic-rank-zero and explicit-orbit height-sparsity gate',
+                  'exact_equations_or_object': (
+                      'For E_{1,s}: y^2=x(x-(2s)^2)(x+(s^2-1)^2), with (a,b,c)=(2s,s^2-1,s^2+1), '
+                      'the geometric generic Mordell-Weil rank is 0. Yoshida\'s displayed fixed-fiber orbit at s=5/3 '
+                      'has h(t_n)=Theta(n^2), hence contributes only O(sqrt(log B)) indices below physical height B; '
+                      'the displayed positive-rank s-sequence likewise has O(sqrt(log X)) parameters of height <=X.'
+                  ),
+                  'search_terms_primary': [
+                      'Yoshida face cuboid elliptic surface generic rank zero',
+                      'Pythagorean Frey family Mordell-Weil rank zero',
+                      'positive rank specialization height sparsity'
+                  ],
+                  'search_terms_aliases': ['R503 Yoshida gate', 'fixed-fiber elliptic orbit sparsity'],
+                  'theorem_species': ['generic Mordell-Weil rank obstruction', 'elliptic height sparsity', 'base-change gate'],
+                  'repo_provenance': [],
+                  'target_populations': ['Stage25 R503 primitive canonical exactly-two-face plus integral-space route'],
+                  'potential_weapon_types': ['NO_GO_FIREWALL', 'HEIGHT_TOOLKIT', 'EXTERNAL_GATE'],
+                  'applicability_gaps': [
+                      'Does not imply positive-rank specializations are finite or globally sparse.',
+                      'Does not rule out low-degree base changes, multisections, or a quantitative exceptional-fiber theorem.',
+                      'The O(sqrt(log B)) bound applies only to Yoshida\'s displayed fixed-fiber orbit.'
+                  ],
+                  'existing_radar_overlap': ['R503'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT'
+              },
+              {
+                  'structure_id': 'SR-STR-157',
+                  'canonical_math_name': 'Complete rational degree-two base-change descent with split/nonsplit commuting-lift loci',
+                  'exact_equations_or_object': (
+                      'For target-fixed degree-two phi in Q(u), the unique deck involution is Q-rational. Up to source PGL2(Q), '
+                      'split maps are (A u^2+B)/(C u^2+D); nonsplit squareclass d maps are '
+                      '(A(u^2+d)+Bu)/(C(u^2+d)+Du). In the split stratum the reciprocal commuting-lift locus factors '
+                      '(AB-CD)(AB+CD)(AD+BC)=0. In the nonsplit stratum genuine commuting Q-lifts occur on '
+                      'BD=4dAC and D^2-B^2+4d(A^2-C^2)=0; the third candidate B^2+D^2=4d(A^2+C^2) has lift discriminant -Delta^2 and no nondegenerate Q-involutive lift.'
+                  ),
+                  'search_terms_primary': [
+                      'degree two rational function deck involution PGL2 split nonsplit',
+                      'quadratic base change involution squareclass',
+                      'commuting involution elliptic quotient genus three'
+                  ],
+                  'search_terms_aliases': ['R504 degree-two descent', 'split nonsplit source normal form'],
+                  'theorem_species': ['rational-function normal form', 'Galois descent', 'involution classification'],
+                  'repo_provenance': [],
+                  'target_populations': ['R504 rational degree-two base changes'],
+                  'potential_weapon_types': ['NORMAL_FORM', 'DESCENT', 'ELLIPTIC_FIBRATION'],
+                  'applicability_gaps': [
+                      'Classification is target-coordinate fixed and modulo source PGL2(Q), not dynamical conjugacy.',
+                      'The commuting-lift loci do not classify every possible noncommuting or Prym elliptic factor.',
+                      'The earlier (a u^2+b)/(u^2+1) complete-normal-form claim is explicitly superseded.'
+                  ],
+                  'existing_radar_overlap': ['R504'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT'
+              },
+              {
+                  'structure_id': 'SR-STR-158',
+                  'canonical_math_name': 'Explicit nonsplit degree-two R504 rank-jump construction',
+                  'exact_equations_or_object': (
+                      'For phi(u)=(u^2+4u-3)/(7-u^2), with nonsplit squareclass -6 and deck delta=-(u+7)/(u+1), '
+                      'the second involution epsilon=(5-u)/(u+1) gives quotient V^2=2(x^4+8x^3-64x-64) with '
+                      'I=3072,J=0 and Jacobian Q-isomorphic to E0:y^2=x^3-4x. The inherited and new E0 quotient '
+                      'differential lines are independent, so rank E_phi(Q(u))>=2.'
+                  ),
+                  'search_terms_primary': [
+                      'elliptic surface rank jump quadratic base change',
+                      'genus three two elliptic quotients E0',
+                      'nonsplit base change Mordell-Weil rank jump'
+                  ],
+                  'search_terms_aliases': ['R504 nonsplit rank jump'],
+                  'theorem_species': ['explicit base change', 'Mordell-Weil rank jump', 'V4 elliptic quotient'],
+                  'repo_provenance': [],
+                  'target_populations': ['R504 pulled-back elliptic surface'],
+                  'potential_weapon_types': ['CONSTRUCTION', 'ELLIPTIC_FIBRATION', 'BASE_CHANGE'],
+                  'applicability_gaps': [
+                      'The rank jump alone is not a Stage19 population lower bound.',
+                      'Physical-height, primitive, exactly-two and multiplicity adapters are separate; later R504 toolkit materializes one P+2R family only.'
+                  ],
+                  'existing_radar_overlap': ['R504', 'SR-STR-015'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT'
+              }
+          ])
+          by_id = {card['structure_id']: card for card in cards}
+
+          # Add exact current provenance to every carrier card, deduplicated by source id + locator.
+          for sid, structure_ids in carrier.items():
+              src = source_map[sid]
+              for structure_id in structure_ids:
+                  card = by_id[structure_id]
+                  entry = {
+                      'source_id': sid,
+                      'path': src['path'],
+                      'locator': locator.get(sid, 'normalized Stage16-25 current census carrier'),
+                      'fingerprint': src['fingerprint'],
+                  }
+                  prov = card.setdefault('repo_provenance', [])
+                  if not any(p.get('source_id') == sid and p.get('locator') == entry['locator'] for p in prov):
+                      prov.append(entry)
+
+          registry['status'] = 'BATCH_SUBMITTED_FOR_AUDIT'
+          dump(registry_path, registry)
+
+          # Formal source reviews.
+          progress = load(progress_path)
+          reviews = progress.setdefault('source_reviews', {})
+          for sid in source_ids:
+              src = source_map[sid]
+              sids = carrier.get(sid, [])
+              if sids:
+                  reviews[sid] = {
+                      'fingerprint': src['fingerprint'],
+                      'status': 'STRUCTURES_RECORDED',
+                      'batch_id': batch_id,
+                      'structure_ids': sids,
+                  }
+              else:
+                  # Preserve explicit NO_DISTINCT decisions; all other non-carriers are duplicate/support/lifecycle evidence.
+                  decision = None
+                  for chunk in chunks:
+                      for item in chunk.get('decisions', []):
+                          if item['source_id'] == sid:
+                              decision = item.get('decision')
+                              break
+                      if decision is not None:
+                          break
+                  status = 'NO_DISTINCT_STRUCTURE' if decision in {'NO_DISTINCT_STRUCTURE'} else 'DUPLICATE_SOURCE'
+                  reviews[sid] = {
+                      'fingerprint': src['fingerprint'],
+                      'status': status,
+                      'batch_id': batch_id,
+                  }
+
+          batches = progress.setdefault('audit_batches', [])
+          batches = [b for b in batches if b.get('batch_id') != batch_id]
+          carrier_sources = sum(1 for sid in source_ids if carrier.get(sid))
+          batches.append({
+              'batch_id': batch_id,
+              'task_id': task_id,
+              'status': 'SUBMITTED_FOR_AUDIT',
+              'source_ids': source_ids,
+              'sources_reviewed': 60,
+              'structures_added': 3,
+              'structures_updated': 4,
+              'structure_carrier_sources': carrier_sources,
+              'structures_deduped': 60 - carrier_sources,
+              'searches_completed': 0,
+              'arsenal_decisions': 0,
+              'audit_required': True,
+          })
+          progress['audit_batches'] = batches
+          dump(progress_path, progress)
+
+          # Partial ledgers were only a split-processing aid; remove before final handoff.
+          import shutil
+          shutil.rmtree(partial)
+          PY
+
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+
+          rm -f .github/workflows/structure-radar-batch05-finalize.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "StructureRadar finalize Stage16-25 current batch 05"
+          git push origin HEAD:structureradar/stage16-25-05
