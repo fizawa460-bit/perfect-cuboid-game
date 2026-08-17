@@ -1,0 +1,25 @@
+name: Stage27-19-r5af exact physical height
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5af-exact-height
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r5af/**'
+      - 'stages/stage27/27-19-r5ag/**'
+      - '.github/workflows/stage27-19-r5af-exact-height.yml'
+
+jobs:
+  verify-stage27-19-r5af-r5ag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify Stage27-19-r5af-r5ag
+        run: |
+          python -m json.tool stages/stage27/27-19-r5af/route-contract.json >/dev/null
+          python stages/stage27/27-19-r5af/verify_27_19_r5af_r5ag.py
+          git diff --check
