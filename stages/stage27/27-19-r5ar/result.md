@@ -9,10 +9,17 @@ PARENT_ROUTE=Stage27-19-r5aq
 STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
 ```
 
-r5aq proves, for one fixed admissible modulus \(k\) and one fixed coefficient cell,
+The repaired r5aq theorem gives, for one fixed admissible modulus \(k\) and one fixed coefficient cell,
 
 \[
-T(X;k)\ll_\varepsilon X^\varepsilon
+T(X;k)\ll_\varepsilon (Xk)^\varepsilon
+\left(\frac Xk+\sqrt X\right).
+\]
+
+In the Stage19 application, \(X\le B\) and \(k=\kappa\le B\), so after renaming \(\varepsilon\),
+
+\[
+T(X;k)\ll_\varepsilon B^\varepsilon
 \left(\frac Xk+\sqrt X\right).
 \]
 
@@ -20,11 +27,11 @@ This route tests whether summing this physically weighted estimate over a dyadic
 
 ## 1. Naive dyadic modulus sum
 
-For \(K\le k<2K\), summing the fixed-modulus theorem gives
+For \(K\le k<2K\), summing the Stage19 fixed-modulus theorem gives
 
 \[
 \sum_{k\sim K}T(X;k)
-\ll_\varepsilon X^\varepsilon
+\ll_\varepsilon B^\varepsilon
 \left(
 \sum_{k\sim K}\frac Xk
 +K\sqrt X
@@ -36,18 +43,16 @@ Since \(\sum_{k\sim K}1/k\ll1\),
 \[
 \boxed{
 \sum_{k\sim K}T(X;k)
-\ll_\varepsilon X^\varepsilon
+\ll_\varepsilon B^\varepsilon
 \left(X+K\sqrt X\right).
 }
 \]
 
+Equivalently, before Stage19 specialization one may retain the harmless dyadic prefactor \((XK)^\varepsilon\).
+
 The first term has lost the fixed-\(k\) \(1/k\) gain: the \(K\) possible moduli exactly consume it at dyadic scale. The second boundary term is no better.
 
-The unrestricted four-variable hyperbolic population itself is only \(X^{1+o(1)}\), so after taking the minimum with the ambient count the dyadic result is simply
-
-\[
-\boxed{X^{1+o(1)}}.
-\]
+The unrestricted four-variable hyperbolic population itself is only \(X^{1+o(1)}\), so after taking the minimum with the ambient count the dyadic result still gives no fixed-power density saving.
 
 Thus physical weighting alone does not produce a growing-\(K\) density gain after the modulus is allowed to vary.
 
@@ -87,7 +92,8 @@ The next theorem must avoid paying one full factor of the number of candidate mo
 No fixed-power outer-support theorem is proved here.
 
 ```text
-PHYSICAL_WEIGHTED_DYADIC_MODULUS_SUM_BOUND=X^eps*(X+K*sqrt(X))
+PHYSICAL_WEIGHTED_DYADIC_MODULUS_SUM_BOUND=B^eps*(X+K*sqrt(X))
+GENERAL_DYADIC_PREFATOR=(X*K)^eps
 MODULUS_ENTROPY_CANCELS_ONE_OVER_K_SAVING=true
 DYADIC_WEIGHTED_KAPPA_FIXED_POWER_SAVING_PROVED=false
 SELF_GENERATED_KAPPA_IDENTITY_PROVED=true
