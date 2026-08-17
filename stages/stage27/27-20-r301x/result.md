@@ -1,6 +1,6 @@
 # Stage27-20-r301x — the natural q1/q0 slope collision energy is purely diagonal
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301w
@@ -73,7 +73,7 @@ No such new coarser invariant with an audited fixed-power collision theorem is p
 The natural q1/q0 collision lane is closed exactly, not heuristically. A future energy attack remains legal only after a new non-injective arithmetic projection or independent bilinear collision relation is supplied.
 
 ```text
-STAGE27_20_R301X_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301X_STATUS=AUDITED_PASS_MERGED
 Q1_Q0_MOBIUS_BIJECTION_RETAINED=true
 NATURAL_Q0_COLLISION_MULTIPLICITY_LE_1=true
 NATURAL_Q0_COLLISION_ENERGY_EQUALS_SUPPORT=true

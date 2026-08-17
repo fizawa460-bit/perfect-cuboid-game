@@ -1,6 +1,6 @@
 # Stage27-20-r301w — the frozen Stage14 local-root ledger is not an independent critical-support sieve
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301v
@@ -49,7 +49,7 @@ A fixed finite collection of congruence exclusions, a relabeling of the existing
 This closes the naive `weighted local obstruction = reuse Stage14 local factors` route. It does not close genuinely new growing-prime local statistics on the occupied critical support.
 
 ```text
-STAGE27_20_R301W_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301W_STATUS=AUDITED_PASS_MERGED
 CRITICAL_SEGMENT_RETAINED=true
 CRITICAL_LOCAL_LEDGER_ALREADY_CHARGED=true
 STAGE14_LOCAL_LEDGER_INDEPENDENT_SUPPORT_SAVING=false

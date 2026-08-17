@@ -1,6 +1,6 @@
 # Stage27-20-r301y — existing q1 projections are exponent-neutral on critical support
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301x
@@ -71,7 +71,7 @@ The three legal internal-looking weapons named at r301v have now been separated 
 Therefore `r301z` should be reserved for a receiver-synthesis step: identify or derive one genuinely new critical-support theorem satisfying one of the surviving contracts, rather than another reparametrization of the same half-power host.
 
 ```text
-STAGE27_20_R301Y_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301Y_STATUS=AUDITED_PASS_MERGED
 Q1_TO_Q0_PROJECTION_BIRATIONAL=true
 Q1_TO_Q0_SUPPORT_CARDINALITY_PRESERVED=true
 Q1_TO_J_PHYSICAL_MULTIPLICITY_BOUNDED=true
