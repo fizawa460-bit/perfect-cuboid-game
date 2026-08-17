@@ -66,3 +66,23 @@ require("STATUS=PARKED_ROUTE_SPECIFIC" in stage25, "S25-W04 parked status missin
 print("RESEARCH_ARSENAL_INDEX=PASS")
 print("ACTIVE_WEAPONS=" + str(sum(weapon["status"] == "ACTIVE" for weapon in weapons)))
 print("PARKED_WEAPONS=" + str(sum(weapon["status"] == "PARKED" for weapon in weapons)))
+
+# Temporary PR-only StructureRadar READY-batch extractor. Restore before handoff.
+queue = json.loads((ROOT / "docs/structure-radar/exploration-queue.json").read_text(encoding="utf-8"))
+task = next(t for t in queue["tasks"] if t["status"] == "READY")
+wanted = set(task["source_ids"])
+manifest_index = json.loads((ROOT / "docs/structure-radar/source-manifest.json").read_text(encoding="utf-8"))
+by_source = {}
+for part in manifest_index["parts"]:
+    part_data = json.loads((ROOT / part["path"]).read_text(encoding="utf-8"))
+    for src in part_data["sources"]:
+        if src["source_id"] in wanted:
+            by_source[src["source_id"]] = src
+print(f"SR_BATCH_BEGIN task={task['task_id']} count={len(task['source_ids'])}")
+for i, sid in enumerate(task["source_ids"], 1):
+    src = by_source[sid]
+    text = (ROOT / src["path"]).read_text(encoding="utf-8")
+    print(f"SR_SOURCE_BEGIN {i:02d} {sid} {src['path']}")
+    print(text)
+    print(f"SR_SOURCE_END {i:02d} {sid}")
+print("SR_BATCH_END")
