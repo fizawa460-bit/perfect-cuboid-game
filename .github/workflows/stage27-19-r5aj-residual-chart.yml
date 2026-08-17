@@ -1,0 +1,35 @@
+name: Stage27-19-r5aj residual physical chart
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5aj-residual-chart
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r5aj/**'
+      - 'stages/stage27/27-19-r5ak/**'
+      - 'stages/stage27/27-19-r5ah/route-contract.json'
+      - 'stages/stage27/27-19-r5ah/audit-final.md'
+      - 'stages/stage27/27-controller.json'
+      - 'stages/stage27/27-19-r401*/verify_*.py'
+      - 'stages/stage27/27-19-r402*/verify_*.py'
+      - '.github/workflows/stage27-19-r5aj-residual-chart.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-stage27-19-r5aj-r5ak:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify Stage27-19-r5aj-r5ak residual chart
+        run: |
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5ah/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5aj/route-contract.json >/dev/null
+          python stages/stage27/27-19-r5aj/verify_27_19_r5aj_r5ak.py
+          git diff --check
