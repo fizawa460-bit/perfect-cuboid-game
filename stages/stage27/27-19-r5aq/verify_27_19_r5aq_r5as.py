@@ -76,12 +76,14 @@ for marker in [
 assert "FIXED_KAPPA_WEIGHTED_BOUND=X^eps*(X/k+sqrt(X))" not in texts["aq"]
 
 for marker in [
+    "STAGE19_KAPPA_BOUND=kappa<=2B",
     "PHYSICAL_WEIGHTED_DYADIC_MODULUS_SUM_BOUND=B^eps*(X+K*sqrt(X))",
     "GENERAL_DYADIC_PREFATOR=(X*K)^eps",
     "MODULUS_ENTROPY_CANCELS_ONE_OVER_K_SAVING=true",
     "SELF_GENERATED_KAPPA_IDENTITY_PROVED=true",
 ]:
     assert marker in texts["ar"]
+assert "k=\\kappa\\le B" not in texts["ar"]
 assert "PHYSICAL_WEIGHTED_DYADIC_MODULUS_SUM_BOUND=X^eps*(X+K*sqrt(X))" not in texts["ar"]
 
 for marker in [
