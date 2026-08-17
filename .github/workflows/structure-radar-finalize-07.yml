@@ -1,0 +1,182 @@
+name: StructureRadar finalize batch 07
+
+on:
+  push:
+    branches:
+      - structureradar/stage16-25-07
+    paths:
+      - .github/workflows/structure-radar-finalize-07.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structureradar/stage16-25-07
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Normalize batch
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          ROOT = Path('.')
+          RADAR = ROOT / 'docs' / 'structure-radar'
+          PROGRESS = RADAR / 'progress.json'
+          REGISTRY = RADAR / 'structure-registry.json'
+          PARTIAL = RADAR / 'partial-stage16-25-07'
+          BATCH_ID = 'SR-BATCH-STAGE16_25_CURRENT-07-R01'
+          TASK_ID = 'SR-CENSUS-STAGE16_25_CURRENT-01'
+
+          def load(path):
+              return json.loads(path.read_text(encoding='utf-8'))
+
+          def dump(path, data):
+              path.write_text(json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False) + '\n', encoding='utf-8')
+
+          progress = load(PROGRESS)
+          registry = load(REGISTRY)
+
+          source_map = {}
+          for path in sorted((RADAR / 'source-manifest').glob('part-*.json')):
+              for src in load(path).get('sources', []):
+                  source_map[src['source_id']] = src
+
+          chunks = [load(PARTIAL / name) for name in ['chunk-01.json', 'chunk-02.json']]
+          source_ids = [sid for chunk in chunks for sid in chunk['source_ids']]
+          if len(source_ids) != 27 or len(set(source_ids)) != 27:
+              raise SystemExit(f'expected 27 unique source ids, got {len(source_ids)} / {len(set(source_ids))}')
+
+          decisions = {}
+          for chunk in chunks:
+              for item in chunk['decisions']:
+                  if item['source_id'] in decisions:
+                      raise SystemExit('duplicate decision: ' + item['source_id'])
+                  decisions[item['source_id']] = item
+          if set(decisions) != set(source_ids):
+              raise SystemExit('decision/source mismatch')
+
+          cards = registry['structures']
+          by_id = {c['structure_id']: c for c in cards}
+          if len(cards) != 160:
+              raise SystemExit(f'expected 160 pre-batch cards, got {len(cards)}')
+
+          def structure_ids_for(decision):
+              return list(decision.get('existing_structure_ids', []))
+
+          # Attach each classified carrier to the normalized card(s) it supports.
+          for sid in source_ids:
+              decision = decisions[sid]
+              ids = structure_ids_for(decision)
+              if not ids:
+                  continue
+              src = source_map.get(sid)
+              if src is None:
+                  raise SystemExit('source missing from manifest: ' + sid)
+              for structure_id in ids:
+                  card = by_id.get(structure_id)
+                  if card is None:
+                      raise SystemExit('unknown structure id: ' + structure_id)
+                  if not any(p.get('source_id') == sid for p in card['repo_provenance']):
+                      card['repo_provenance'].append({
+                          'source_id': sid,
+                          'path': src['path'],
+                          'locator': 'normalized Stage16-25 current census batch 07 carrier',
+                          'fingerprint': src['fingerprint'],
+                      })
+
+          # r011a closes the Stage21 log2 fine mechanism at the same geometric Manin-invariant level
+          # already used by SR-STR-149 for Stage22. Strengthen SR-STR-148 without inventing pole/factor independence.
+          c148 = by_id['SR-STR-148']
+          extra148 = ' The hostile-audited geometric ledger gives M1:(a,b)=(2,2) on the F_2 resolution and N1:(a,b)=(1,4) on the Q(i)-twisted 4A1 quartic-del-Pezzo resolution, so the Stage21 transition has (Delta a,Delta b)=(-1,+2). This explains the B^-1(log B)^2 scale at the Manin-invariant level; it does not identify independent local factors or common Dirichlet pole slots.'
+          if 'M1:(a,b)=(2,2)' not in c148['exact_equations_or_object']:
+              c148['exact_equations_or_object'] += extra148
+
+          # Normalize source reviews.
+          reviews = progress['source_reviews']
+          carrier_count = 0
+          updated_ids = set()
+          for sid in source_ids:
+              src = source_map[sid]
+              decision = decisions[sid]
+              ids = structure_ids_for(decision)
+              if ids:
+                  carrier_count += 1
+                  updated_ids.update(ids)
+                  review = {
+                      'fingerprint': src['fingerprint'],
+                      'status': 'STRUCTURES_RECORDED',
+                      'batch_id': BATCH_ID,
+                      'structure_ids': ids,
+                  }
+              else:
+                  status = 'NO_DISTINCT_STRUCTURE' if decision.get('decision') == 'NO_DISTINCT_STRUCTURE' else 'DUPLICATE_SOURCE'
+                  review = {
+                      'fingerprint': src['fingerprint'],
+                      'status': status,
+                      'batch_id': BATCH_ID,
+                  }
+              reviews[sid] = review
+
+          expected_updated = {'SR-STR-007','SR-STR-008','SR-STR-010','SR-STR-015','SR-STR-018','SR-STR-148','SR-STR-149','SR-STR-156','SR-STR-157','SR-STR-158','SR-STR-159','SR-STR-160'}
+          if updated_ids != expected_updated:
+              raise SystemExit(f'updated-card set mismatch: {sorted(updated_ids)}')
+          if carrier_count != 18:
+              raise SystemExit(f'expected 18 carrier sources, got {carrier_count}')
+
+          audit_batches = progress.setdefault('audit_batches', [])
+          if any(b.get('batch_id') == BATCH_ID for b in audit_batches):
+              raise SystemExit('batch already exists: ' + BATCH_ID)
+          audit_batches.append({
+              'batch_id': BATCH_ID,
+              'task_id': TASK_ID,
+              'status': 'SUBMITTED_FOR_AUDIT',
+              'source_ids': source_ids,
+              'sources_reviewed': 27,
+              'structures_added': 0,
+              'structures_updated': len(updated_ids),
+              'structure_carrier_sources': carrier_count,
+              'structures_deduped': 27 - carrier_count,
+              'searches_completed': 0,
+              'arsenal_decisions': 0,
+              'audit_required': True,
+          })
+
+          registry['status'] = 'BATCH_SUBMITTED_FOR_AUDIT'
+          dump(PROGRESS, progress)
+          dump(REGISTRY, registry)
+          print('carrier_count=', carrier_count)
+          print('new_card_count=', 0)
+          print('updated_card_count=', len(updated_ids))
+          PY
+
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+
+      - name: Remove temporary ledgers and helper
+        shell: bash
+        run: |
+          rm -rf docs/structure-radar/partial-stage16-25-07
+          rm -f .github/workflows/structure-radar-finalize-07.yml
+          git diff --check
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+
+      - name: Commit canonical handoff
+        shell: bash
+        run: |
+          git config user.name 'fizawa460-bit'
+          git config user.email 'fizawa460@gmail.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'StructureRadar: census Stage16-25 current batch 07'
+          git push origin HEAD:structureradar/stage16-25-07
