@@ -1,10 +1,13 @@
 # Stage27-20-r301z — fixed-width wall-slab receiver is the exact remaining upper gate
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_RECEIVER_SYNTHESIS
 PARENT_ROUTE=Stage27-20-r301w-y
 SOURCE_STAGE=Stage20
+AUDIT_PR=1062
+AUDIT_COMMIT=60edf5a7cb02cbfc1905fd61874a8f1e716d43f0
+MERGE_COMMIT=96e99d8e4232ad06da748ad4e37b8c43f16e944b
 
 ## 1. What the audited r301 package already proves
 
@@ -117,7 +120,7 @@ No new support exponent is proved in this route. Checkpoint 40 remains open and 
 The next serial is **not** `r301aa`. Per the frozen numbering contract, continuation switches to `Stage27-20-r302-main-batch`, whose first task is to attack `(R301Z-WALL)` with a genuinely new theorem/receiver rather than another r301 reparametrization.
 
 ```text
-STAGE27_20_R301Z_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R301Z_STATUS=AUDITED_PASS_MERGED
 FIXED_WIDTH_WALL_SLAB_RECEIVER_DERIVED=true
 WALL_SLAB_THETA_CONDITION=abs(theta-1/4)<eta0
 WALL_SLAB_NONPROPORTIONAL_ONLY=true
@@ -133,6 +136,10 @@ NEW_MU_LT_HALF_PROVED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
 CURRENT_CHECKPOINT=40
 ADVANCE_TO_CHECKPOINT50=false
+AUDIT_STATUS=PASS
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+FRESH_REAUDIT_REQUIRED=false
 NEXT_BATCH=Stage27-20-r302-main-batch
 R301AA_FORBIDDEN=true
 STOP_REASON=UNIFORM_FIXED_WIDTH_WALL_SLAB_SUPPORT_DEFICIT_THEOREM_REQUIRED
