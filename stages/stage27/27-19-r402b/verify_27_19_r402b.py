@@ -62,7 +62,7 @@ assert r402a['pr'] == 1038
 assert r402a['merge_commit'] == 'e94dd7652c1c60cc32617ff00240f67734d39bed'
 
 r402b = ctl['derived_routes']['Stage27-19-r402b']
-assert r402b['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+assert r402b['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert r402b['route_kind'] == 'UPPER_REENTRY'
 assert r402b['parent_route'] == 'Stage27-19-r402a'
 assert r402b['fixed_tau_ambient_conic_derived'] is True
@@ -71,27 +71,25 @@ assert r402b['pointwise_fixed_tau_subpower_proved'] is True
 assert r402b['tau_uniform_fiber_subpower_proved'] is False
 assert r402b['fiber_alone_strict_subhalf_route_closed'] is True
 assert r402b['strict_sub_sqrt_upper_proved'] is False
-assert r402b['audit_status'] == 'PENDING'
-assert r402b['merge_allowed'] is False
+assert r402b['audit_status'] == 'PASS'
+assert r402b['merge_allowed'] is True
 assert r402b['next_derived_route'] == '27-19-r402c'
 
 state = ctl['state']
-assert state['CURRENT_CHECKPOINT'] == 40
-assert state['AUDIT_STATUS'] == 'PENDING'
-assert state['ADVANCE_ALLOWED'] is False
-assert state['NEXT_CHECKPOINT'] == 40
-assert state['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage27-19-r402-audit'
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
 
 status = (ROOT / 'docs/00_CURRENT_RESEARCH_STATUS.md').read_text()
 for marker in [
     'STAGE27_19_R402A_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1038',
-    'STAGE27_19_R402B_STATUS=FIXED_TAU_FIBER_SUBMITTED_PENDING_FRESH_AUDIT',
     'STAGE27_POINTWISE_FIXED_TAU_SUBPOWER_PROVED=true',
     'STAGE27_TAU_UNIFORM_FIBER_SUBPOWER_PROVED=false',
     'STAGE27_FIBER_ALONE_STRICT_SUBHALF_ROUTE_CLOSED=true',
     'STAGE27_STRICT_SUB_SQRT_UPPER_PROVED=false',
-    'NEXT_EXPECTED_COMMAND=Stage27-19-r402-audit',
 ]:
     assert marker in status, marker
 
