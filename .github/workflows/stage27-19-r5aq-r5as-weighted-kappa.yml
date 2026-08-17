@@ -1,0 +1,41 @@
+name: Stage27-19-r5aq-r5as weighted kappa
+
+on:
+  push:
+    paths:
+      - 'stages/stage27/27-19-r5aq/**'
+      - 'stages/stage27/27-19-r5ar/**'
+      - 'stages/stage27/27-19-r5as/**'
+      - 'stages/stage27/27-19-r5ao/route-contract.json'
+      - 'stages/stage27/27-19-r5ao/audit-final.md'
+      - '.github/workflows/stage27-19-r5aq-r5as-weighted-kappa.yml'
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r5aq/**'
+      - 'stages/stage27/27-19-r5ar/**'
+      - 'stages/stage27/27-19-r5as/**'
+      - 'stages/stage27/27-19-r5ao/route-contract.json'
+      - 'stages/stage27/27-19-r5ao/audit-final.md'
+      - '.github/workflows/stage27-19-r5aq-r5as-weighted-kappa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-stage27-19-r5aq-r5as:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify weighted kappa and double Pell batch
+        run: python stages/stage27/27-19-r5aq/verify_27_19_r5aq_r5as.py
+      - name: Validate JSON contracts
+        run: |
+          python -m json.tool stages/stage27/27-19-r5aq/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5ao/route-contract.json >/dev/null
+      - name: Diff check
+        run: git diff --check HEAD^
