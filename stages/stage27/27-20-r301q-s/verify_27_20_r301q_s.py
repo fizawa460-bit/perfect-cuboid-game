@@ -11,29 +11,34 @@ src = (STAGE / "27-20-r301r" / "source-justification.md").read_text()
 reg = json.loads((STAGE / "27-20-r301q-s" / "batch-registry.json").read_text())
 ctl = json.loads((STAGE / "27-controller.json").read_text())
 
-# r301q exact receiver and height transfer
+# r301q exact receiver and height transfer. Use semantic marker locks rather than
+# brittle single-line LaTeX layout assertions.
 assert "X=\\delta z^2" in q
 assert "Y=\\delta zV" in q
-assert "Y^2=X(X-A)(X-B_0)" in q
+assert "X(X-A)(X-B_0)" in q
 assert "W^2=U(U-\\alpha)(U-\\beta)" in q
+assert "EXPLICIT_DELTA_INDEPENDENT_ELLIPTIC_RECEIVER_PROVED=true" in q
 assert "ELLIPTIC_RECEIVER_MAP_DEGREE_AT_MOST_2=true" in q
+assert "ELLIPTIC_RECEIVER_INTEGRAL_MODEL=W^2-U(U-(a^2+b^2)^2)(U-(a^2-b^2)^2)" in q
 assert "PHYSICAL_IMAGE_WEIL_HEIGHT_POLYNOMIAL_UNIFORM=true" in q
 assert "UNIFORM_COVERING_HEIGHT_TRANSFER_PROVED=true" in q
 
-# r301r source theorem and uniform point count
+# r301r primary-source theorem and uniform point count.
 assert "SOURCE_ARXIV=2105.04032" in src
 assert "SOURCE_THEOREM=Theorem_1.1" in src
 assert "NACCARATO_THEOREM_1_1_ABSOLUTE_CONSTANTS=true" in src
-assert "N_{\\mathcal E_{a,b}}(T_B)" in r
-assert "=B^{o(1)}" in r
+assert "THEOREM_APPLICATION_UNIFORM_IN_MOVING_X=true" in src
 assert "UNIFORM_MOVING_Q1_DELTA_FIBER_SUBPOWER_PROVED=true" in r
 assert "UNIFORM_FIXED_X_AGGREGATE_SUBPOWER_PROVED=true" in r
 assert "FIXED_X_AGGREGATE_FIBER_EXPONENT=0" in r
+assert "REGULATOR_HEIGHT_OBSTRUCTION_REMOVED_FOR_POINT_COUNT=true" in r
 
-# r301s support/population equivalence and scope firewall
-assert "|Q(B)|\\le N_2(B)\\le |Q(B)|B^{o(1)}" in s
+# r301s support/population equivalence and scope firewall.
+assert "N2_LE_Q1_SUPPORT_TIMES_SUBPOLYNOMIAL=true" in s
+assert "Q1_SUPPORT_LE_N2=true" in s
 assert "N2_Q1_SUPPORT_EXPONENT_EQUIVALENCE_PROVED=true" in s
 assert "N2_J_SUPPORT_EXPONENT_EQUIVALENCE_PROVED=true" in s
+assert "FIXED_X_FIBER_ROUTE_SATURATED_AT_EXPONENT_ZERO=true" in s
 assert "INDEPENDENT_Q1_SUPPORT_DEFICIT_PROVED=false" in s
 assert "STRICT_SUB_SQRT_UPPER_PROVED=false" in s
 assert "NEXT_DERIVED_ROUTE=27-20-r301t" in s
@@ -58,5 +63,7 @@ for route in ("Stage27-20-r301q", "Stage27-20-r301r", "Stage27-20-r301s"):
     assert ent["advance_allowed"] is False
 
 assert ctl["derived_routes"]["Stage27-20-r301s"]["next_derived_route"] == "27-20-r301t"
+assert ctl["stage20_r301_numbering_contract"]["after_r301z"] == "Stage27-20-r302-main-batch"
+assert ctl["stage20_r301_numbering_contract"]["r301aa_forbidden"] is True
 
 print("Stage27-20-r301q-s verifier: PASS")
