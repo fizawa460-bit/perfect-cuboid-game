@@ -1,0 +1,344 @@
+name: TEMP Stage27 r301t-v sync
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301t-v-critical-support
+    paths:
+      - '.github/workflows/tmp-stage27-r301tv-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-20-r301t-v-critical-support
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Write Stage27 r301t-v batch
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          root=Path('stages/stage27')
+          t=root/'27-20-r301t'; u=root/'27-20-r301u'; v=root/'27-20-r301v'; b=root/'27-20-r301t-v'
+          for p in (t,u,v,b): p.mkdir(parents=True,exist_ok=True)
+
+          t.joinpath('result.md').write_text(r'''# Stage27-20-r301t — occupied q1 support embeds into Stage14 active-face support by an exact Möbius adapter
+
+STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+CHECKPOINT=40
+ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
+PARENT_ROUTE=Stage27-20-r301s
+SOURCE_STAGE=Stage20
+
+## 1. Exact coordinate adapter
+
+For a primitive oriented Stage14 face write
+
+\[
+F=(S,X,H),\qquad S^2+X^2=H^2,
+\]
+
+and use the frozen rational-circle coordinate
+
+\[
+q_0=u/v\in(0,1),\qquad
+(S,X,H)=\delta^{-1}(v^2-u^2,2uv,v^2+u^2),\quad \delta\in\{1,2\}.
+\]
+
+The Stage20/27 torus coordinate attached to the same oriented face is
+
+\[
+q_1=\frac{H+X}{S}.
+\]
+
+Substitution gives the exact Möbius relation
+
+\[
+\boxed{q_1=\frac{v+u}{v-u}=\frac{1+q_0}{1-q_0}},
+\qquad
+\boxed{q_0=\frac{q_1-1}{q_1+1}}.
+\]
+
+Thus positive physical `q1>1` and Stage14 `q0 in (0,1)` determine each other uniquely. The primitive oriented face is uniquely reconstructed from reduced `u/v`, with the usual parity factor `delta` fixed by primitiveness.
+
+## 2. Support injection
+
+Let `Q(B)` be the occupied first-coordinate support from r301s. Every physical Stage27 survivor contributing an occupied `q1` contains the corresponding oriented primitive integral face, hence that face is an active Stage14 vertex in the raw two-face graph at the same space-diagonal cutoff.
+
+Therefore the Möbius adapter gives an injection
+
+\[
+\boxed{Q(B)\hookrightarrow V(B)}
+\]
+
+into Stage14 active-face vertices, after the frozen first-face orientation. If one forgets the first-face orientation and compares with the undirected active-vertex set, only an absolute face-swap multiplicity is introduced. No fixed power is lost.
+
+This is intentionally only an injection. Stage14 `V(B)` also contains the other endpoint of each raw two-face edge and vertices coming from triple objects, so equality `|Q(B)|=V(B)` is not asserted.
+
+## 3. Consequence
+
+The Stage14 packet decomposition may be pulled back to occupied `q1` values with at most the already-audited `B^o(1)` cell/decorative multiplicity. Hence any complete packetwise upper bound for active vertices is a legal upper bound for the corresponding occupied `q1` support.
+
+This does not itself beat the half-power wall: Stage14 only proves `V(B)<<B^(1/2+o(1))`, which reproduces the current exponent.
+
+```text
+STAGE27_20_R301T_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+Q1_TO_STAGE14_FACE_MOBIUS_ADAPTER_PROVED=true
+Q1_TO_ACTIVE_FACE_SUPPORT_INJECTION_PROVED=true
+Q1_EQUALS_ALL_STAGE14_ACTIVE_VERTICES_CLAIMED=false
+FIXED_POWER_LOSS_IN_ADAPTER=false
+STRICT_SUB_SQRT_UPPER_PROVED=false
+NEXT_DERIVED_ROUTE=27-20-r301u
+```
+''')
+
+          u.joinpath('result.md').write_text(r'''# Stage27-20-r301u — all fixed-distance off-wall q1 support is strictly sub-half
+
+STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+CHECKPOINT=40
+ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
+PARENT_ROUTE=Stage27-20-r301t
+SOURCE_STAGE=Stage20
+
+## 1. Import only the audited Stage14 complete-host bounds
+
+Stage14 Proposition 3.6 partitions every active face into `B^o(1)` balanced cells. On the nonproportional branch the two complete bounds used at the final wall are
+
+\[
+E_k\le 3\theta-\frac14\qquad(\theta\le1/4),
+\]
+
+and
+
+\[
+E_{\rm RRF}\le1-2\theta\qquad(\theta\ge1/4),
+\]
+
+while the proportional branch is bounded by `7/16`.
+
+By r301t, occupied first-coordinate support injects into this same active-face measure. No Stage14 saving is multiplied into a separately charged Stage27 count; we simply restrict the already complete active-face host to the occupied support subset.
+
+## 2. Quantitative off-wall saving
+
+Fix any constant `eta>0`. For cells with
+
+\[
+\theta\le\frac14-\eta,
+\]
+
+one has
+
+\[
+E_k\le\frac12-3\eta.
+\]
+
+For cells with
+
+\[
+\theta\ge\frac14+\eta,
+\]
+
+one has
+
+\[
+E_{\rm RRF}\le\frac12-2\eta.
+\]
+
+The proportional branch is already at most `7/16`. Consequently the occupied q1 support carried by cells satisfying
+
+\[
+|\theta-1/4|\ge\eta
+\]
+
+obeys the uniform fixed-distance bound
+
+\[
+\boxed{|Q_{\rm off,eta}(B)|\ll B^{1/2-2\eta+o(1)}}.
+\]
+
+The same conclusion holds for occupied `j` support because r301m gives bounded physical multiplicity between `q1` and `j`.
+
+## 3. Firewall
+
+This is not a global strict sub-square-root theorem. A shrinking neighborhood of `theta=1/4`, and in particular the exact critical wall, is not covered by a fixed `eta`. The theorem only localizes every possible half-power saturation to that wall.
+
+```text
+STAGE27_20_R301U_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+OFF_WALL_FIXED_DISTANCE_SUPPORT_SAVING_PROVED=true
+OFF_WALL_Q1_BOUND=B^(1/2-2eta+o(1))
+OFF_WALL_J_BOUND=B^(1/2-2eta+o(1))
+CRITICAL_THETA=1/4
+GLOBAL_Q1_SUPPORT_DEFICIT_PROVED=false
+STRICT_SUB_SQRT_UPPER_PROVED=false
+NEXT_DERIVED_ROUTE=27-20-r301v
+```
+''')
+
+          v.joinpath('result.md').write_text(r'''# Stage27-20-r301v — exact critical-support wall and the remaining receiver
+
+STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+CHECKPOINT=40
+ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
+PARENT_ROUTE=Stage27-20-r301u
+SOURCE_STAGE=Stage20
+
+## 1. Critical segment
+
+On the Stage14 balanced feasible domain, set
+
+\[
+\theta=\frac14.
+\]
+
+The constraints give
+
+\[
+\frac18\le\phi\le\frac14,
+\qquad
+\chi=2\theta+2\phi-\frac34=2\phi-\frac14\in[0,1/4].
+\]
+
+For every nonproportional cell on this segment, both final complete-host exponents saturate:
+
+\[
+\boxed{E_k=3\theta-1/4=1/2},
+\qquad
+\boxed{E_{\rm RRF}=1-2\theta=1/2}.
+\]
+
+The proportional branch remains below the wall (`<=7/16`), so the only surviving fixed-power obstruction is the nonproportional critical segment
+
+\[
+\boxed{\theta=1/4,\quad 1/8\le\phi\le1/4,\quad \chi=2\phi-1/4}.
+\]
+
+## 2. Stage27 receiver after r301s
+
+R301s proves
+
+\[
+N_2(B)\le |Q(B)|B^{o(1)},
+\]
+
+and r301u proves a fixed-power saving for every fixed-distance off-wall part of `Q(B)`. Therefore, within this architecture, a global strict sub-half theorem now reduces to a target-specific support theorem on the critical packets.
+
+A sufficient receiver is: prove some fixed `delta>0` such that the number of occupied first-face slopes represented by the nonproportional critical packets is
+
+\[
+\boxed{|Q_{\rm crit}(B)|\ll B^{1/2-\delta+o(1)}}.
+\]
+
+Then the off-wall decomposition plus r301s would imply
+
+\[
+N_2(B)\ll B^{1/2-\delta'+o(1)}
+\]
+
+for some fixed `delta'>0` after choosing a fixed wall neighborhood compatible with the critical theorem.
+
+## 3. What existing weapons do not provide
+
+The following do not by themselves prove the critical support deficit:
+
+- the uniform fixed-x elliptic fiber bound `B^o(1)` from r301r; that fiber exponent is already zero;
+- the fixed-x squareclass count `B^o(1)` from r301h;
+- height-only counting of rational `q1` values;
+- Stage14 off-wall complete-host savings, which are equal to `1/2` at `theta=1/4`;
+- multiplying the Stage20 host sieve with the half-power theorem on a different charged ledger.
+
+The next legal attacks are therefore critical-wall-specific: a new local obstruction with weighted mass, a collision/energy deficit for occupied slopes, or a thin-projection theorem on the exact critical packet receiver.
+
+```text
+STAGE27_20_R301V_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+CRITICAL_SUPPORT_SEGMENT_IDENTIFIED=true
+CRITICAL_THETA=1/4
+CRITICAL_PHI_RANGE=[1/8,1/4]
+CRITICAL_CHI_FORMULA=2phi-1/4
+CRITICAL_E_K=1/2
+CRITICAL_E_RRF=1/2
+FIXED_X_FIBER_EXPONENT_ALREADY_ZERO=true
+CRITICAL_Q1_SUPPORT_FIXED_POWER_DEFICIT_PROVED=false
+STRICT_SUB_SQRT_UPPER_PROVED=false
+NEW_MU_LT_HALF_PROVED=false
+TRUE_N2_EXPONENT_IDENTIFIED=false
+NEXT_DERIVED_ROUTE=27-20-r301w
+```
+''')
+
+          reg={
+            'batch_id':'Stage27-20-r301t-v','checkpoint':40,'route_kind':'UPPER_REENTRY_PREFLIGHT','source_stage':'Stage20',
+            'parent_route':'Stage27-20-r301s','routes':['Stage27-20-r301t','Stage27-20-r301u','Stage27-20-r301v'],
+            'status':'BATCH_SUBMITTED_PENDING_FRESH_AUDIT','audit_status':'PENDING','merge_allowed':False,'advance_allowed':False,
+            'fresh_reaudit_required':True,
+            'claims':{'q1_to_stage14_face_mobius_adapter_proved':True,'q1_to_active_face_support_injection_proved':True,
+              'off_wall_fixed_distance_support_saving_proved':True,'critical_support_segment_identified':True,
+              'critical_q1_support_fixed_power_deficit_proved':False,'strict_sub_sqrt_upper_proved':False,
+              'new_mu_lt_half_proved':False,'true_N2_exponent_identified':False},
+            'next_derived_route':'27-20-r301w',
+            'numbering_contract':{'after_r301z':'Stage27-20-r302-main-batch','r301aa_forbidden':True},
+            'stop_reason':'CRITICAL_WALL_OCCUPIED_Q1_SUPPORT_DEFICIT_THEOREM_REQUIRED'}
+          b.joinpath('batch-registry.json').write_text(json.dumps(reg,indent=2)+'\n')
+
+          verifier=r'''from pathlib import Path
+import json
+ROOT=Path(__file__).resolve().parents[3]
+S=ROOT/'stages'/'stage27'
+t=(S/'27-20-r301t'/'result.md').read_text(); u=(S/'27-20-r301u'/'result.md').read_text(); v=(S/'27-20-r301v'/'result.md').read_text()
+reg=json.loads((S/'27-20-r301t-v'/'batch-registry.json').read_text()); qs=json.loads((S/'27-20-r301q-s'/'batch-registry.json').read_text()); ctl=json.loads((S/'27-controller.json').read_text())
+assert 'q_1=\\frac{v+u}{v-u}=\\frac{1+q_0}{1-q_0}' in t
+assert 'q_0=\\frac{q_1-1}{q_1+1}' in t
+assert 'Q1_TO_ACTIVE_FACE_SUPPORT_INJECTION_PROVED=true' in t
+assert 'Q1_EQUALS_ALL_STAGE14_ACTIVE_VERTICES_CLAIMED=false' in t
+assert 'E_k\\le\\frac12-3\\eta' in u
+assert 'E_{\\rm RRF}\\le\\frac12-2\\eta' in u
+assert 'OFF_WALL_FIXED_DISTANCE_SUPPORT_SAVING_PROVED=true' in u
+assert 'CRITICAL_THETA=1/4' in u
+assert 'CRITICAL_PHI_RANGE=[1/8,1/4]' in v
+assert 'CRITICAL_CHI_FORMULA=2phi-1/4' in v
+assert 'CRITICAL_E_K=1/2' in v and 'CRITICAL_E_RRF=1/2' in v
+assert 'CRITICAL_Q1_SUPPORT_FIXED_POWER_DEFICIT_PROVED=false' in v
+assert 'NEXT_DERIVED_ROUTE=27-20-r301w' in v
+assert qs['status']=='AUDITED_PASS_MERGED' and qs['audit_status']=='PASS' and qs['advance_allowed'] is True
+assert reg['status']=='BATCH_SUBMITTED_PENDING_FRESH_AUDIT' and reg['audit_status']=='PENDING'
+assert reg['merge_allowed'] is False and reg['advance_allowed'] is False and reg['fresh_reaudit_required'] is True
+assert reg['numbering_contract']['after_r301z']=='Stage27-20-r302-main-batch' and reg['numbering_contract']['r301aa_forbidden'] is True
+for rname in ('Stage27-20-r301t','Stage27-20-r301u','Stage27-20-r301v'):
+    ent=ctl['derived_routes'][rname]
+    assert ent['status']=='BATCH_SUBMITTED_PENDING_FRESH_AUDIT' and ent['audit_status']=='PENDING'
+    assert ent['merge_allowed'] is False and ent['advance_allowed'] is False
+assert ctl['derived_routes']['Stage27-20-r301v']['next_derived_route']=='27-20-r301w'
+assert ctl['checkpoint_status']['50']=='BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE'
+assert ctl['state']['CURRENT_CHECKPOINT']==40 and ctl['state']['NEXT_CHECKPOINT']==40
+assert ctl['state']['MAIN_STATUS']=='UPPER_REENTRY_STAGE27_19_R402C_F_BATCH_SUBMITTED_PENDING_FRESH_AUDIT'
+assert ctl['stage20_r301_numbering_contract']['after_r301z']=='Stage27-20-r302-main-batch' and ctl['stage20_r301_numbering_contract']['r301aa_forbidden'] is True
+print('Stage27-20-r301t-v verifier: PASS')
+'''
+          b.joinpath('verify_27_20_r301t_v.py').write_text(verifier)
+
+          ctlp=root/'27-controller.json'; ctl=json.loads(ctlp.read_text()); dr=ctl['derived_routes']
+          dr['Stage27-20-r301t']={'trigger_checkpoint':40,'route_kind':'UPPER_REENTRY_PREFLIGHT','source_stage':'Stage20','parent_route':'Stage27-20-r301s','batch_audit_group':'Stage27-20-r301t-v','status':'BATCH_SUBMITTED_PENDING_FRESH_AUDIT','audit_status':'PENDING','merge_allowed':False,'advance_allowed':False,'result_path':'stages/stage27/27-20-r301t/result.md','q1_to_stage14_face_mobius_adapter_proved':True,'q1_to_active_face_support_injection_proved':True,'q1_equals_all_stage14_active_vertices_claimed':False,'strict_sub_sqrt_upper_proved':False,'next_derived_route':'27-20-r301u'}
+          dr['Stage27-20-r301u']={'trigger_checkpoint':40,'route_kind':'UPPER_REENTRY_PREFLIGHT','source_stage':'Stage20','parent_route':'Stage27-20-r301t','batch_audit_group':'Stage27-20-r301t-v','status':'BATCH_SUBMITTED_PENDING_FRESH_AUDIT','audit_status':'PENDING','merge_allowed':False,'advance_allowed':False,'result_path':'stages/stage27/27-20-r301u/result.md','off_wall_fixed_distance_support_saving_proved':True,'critical_theta':'1/4','global_q1_support_deficit_proved':False,'strict_sub_sqrt_upper_proved':False,'next_derived_route':'27-20-r301v'}
+          dr['Stage27-20-r301v']={'trigger_checkpoint':40,'route_kind':'UPPER_REENTRY_PREFLIGHT','source_stage':'Stage20','parent_route':'Stage27-20-r301u','batch_audit_group':'Stage27-20-r301t-v','status':'BATCH_SUBMITTED_PENDING_FRESH_AUDIT','audit_status':'PENDING','merge_allowed':False,'advance_allowed':False,'result_path':'stages/stage27/27-20-r301v/result.md','critical_support_segment_identified':True,'critical_theta':'1/4','critical_phi_range':'[1/8,1/4]','critical_chi_formula':'2phi-1/4','critical_q1_support_fixed_power_deficit_proved':False,'strict_sub_sqrt_upper_proved':False,'new_mu_lt_half_proved':False,'true_N2_exponent_identified':False,'next_derived_route':'27-20-r301w'}
+          ctlp.write_text(json.dumps(ctl,indent=2)+'\n')
+
+          Path('.github/workflows/stage27-20-r301t-v-critical-support.yml').write_text('''name: Stage27-20-r301t-v critical support batch\n\non:\n  push:\n    branches:\n      - agent/stage27-20-r301t-v-critical-support\n  pull_request:\n    paths:\n      - 'stages/stage27/27-20-r301t/**'\n      - 'stages/stage27/27-20-r301u/**'\n      - 'stages/stage27/27-20-r301v/**'\n      - 'stages/stage27/27-20-r301t-v/**'\n      - 'stages/stage27/27-controller.json'\n      - '.github/workflows/stage27-20-r301t-v-critical-support.yml'\n\njobs:\n  verify-stage27-20-r301t-v:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4\n        with:\n          fetch-depth: 0\n      - uses: actions/setup-python@v5\n        with:\n          python-version: '3.12'\n      - name: Verify Stage27-20-r301t-v\n        run: python stages/stage27/27-20-r301t-v/verify_27_20_r301t_v.py\n      - name: Validate controller and registry JSON\n        run: |\n          python -m json.tool stages/stage27/27-controller.json >/dev/null\n          python -m json.tool stages/stage27/27-20-r301t-v/batch-registry.json >/dev/null\n      - name: Diff hygiene\n        run: |\n          git fetch origin main\n          git diff --check origin/main...HEAD\n''')
+          PY
+          python stages/stage27/27-20-r301t-v/verify_27_20_r301t_v.py
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r301t-v/batch-registry.json >/dev/null
+          git add stages/stage27 .github/workflows/stage27-20-r301t-v-critical-support.yml
+          git diff --check --cached
+          git commit -m 'Stage27-20-r301t-v critical support batch'
+          git push origin HEAD:agent/stage27-20-r301t-v-critical-support
