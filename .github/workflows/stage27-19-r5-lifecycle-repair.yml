@@ -1,0 +1,41 @@
+name: Stage27-19-r5 lifecycle repair
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5-lifecycle-repair
+
+permissions:
+  contents: write
+
+jobs:
+  sync-r5-lifecycle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Apply lifecycle synchronization
+        run: |
+          python stages/stage27/27-19-r5aa/_sync_final_lifecycle.py
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5aa/route-contract.json >/dev/null
+          python stages/stage27/27-19-r5aa/verify_27_19_r5aa.py
+          python stages/stage27/27-19-r5ad/verify_27_19_r5ad_r5ae.py
+          git diff --check
+      - name: Commit generated lifecycle repair
+        run: |
+          rm -f stages/stage27/27-19-r5aa/_sync_final_lifecycle.py
+          rm -f .github/workflows/stage27-19-r5-lifecycle-repair.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stages/stage27/27-controller.json \
+                  stages/stage27/27-19-r5aa/route-contract.json \
+                  stages/stage27/27-19-r5aa/audit-final.md \
+                  stages/stage27/27-19-r5aa/_sync_final_lifecycle.py \
+                  .github/workflows/stage27-19-r5-lifecycle-repair.yml
+          git commit -m "Register Stage27-19-r5 final lifecycle audit"
+          git push origin HEAD:agent/stage27-19-r5-lifecycle-repair
