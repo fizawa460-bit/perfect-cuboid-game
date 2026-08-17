@@ -35,7 +35,7 @@ The audited quartic
 
 \[
 \delta V^2=
-(\delta z^2-(x^2+1)^2)
+(\delta z^2-(x^2+1)^2)\cdot
 (\delta z^2-(x^2-1)^2)
 \]
 

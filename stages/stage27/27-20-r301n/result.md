@@ -22,8 +22,8 @@ For the pencil `lambda Q1 + mu Q2`, the determinant is
 \[
 \boxed{
 \det(\lambda Q_1+\mu Q_2)
-=\delta^2\lambda\mu
-(\lambda+\mu x^2)(\lambda x^2+\mu).
+=\delta^2\lambda\mu\cdot
+(\lambda+\mu x^2)\cdot(\lambda x^2+\mu).
 }
 \]
 
