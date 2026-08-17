@@ -11,7 +11,6 @@ def pair_count(Y: int, k: int, a: int) -> int:
     return sum(1 for u in range(1, Y + 1) for v in range(1, Y // u + 1) if (u - a * v) % k == 0)
 
 
-# Hyperbolic pair lemma: finite regression against a generous absolute constant.
 for Y in [16, 32, 64, 128]:
     for k in [1, 3, 5, 7, 11, 13]:
         for a in range(1, k + 1):
@@ -21,9 +20,6 @@ for Y in [16, 32, 64, 128]:
             rhs = 8 * (Y * math.log(2 * Y) / k + math.sqrt(Y) + 1)
             assert lhs <= rhs
 
-# Residual congruence rewrite: if k is coprime to the physical variables,
-# m = c0*cs*mu, n = delta*cn*nu turns m = sign*n mod k
-# into a unit relation mu = A*nu mod k, and similarly for rho,sigma.
 for k in [5, 13, 17]:
     delta, c0, cs, cn = 2, 3, 7, 1
     if math.gcd(k, delta * c0 * cs * cn) != 1:
@@ -51,25 +47,29 @@ assert old["status"] == "CLOSED_AUDITED_PASS_MERGED"
 assert old["final_audit"]["pr"] == 1066
 assert old["final_audit"]["merge_commit"] == "f95b259ffcc0c7ab75e9eb8ecaae2c27ceaa6b3a"
 
+controller = json.loads((ROOT / "stages/stage27/27-controller.json").read_text())
+assert controller["state"]["CURRENT_CHECKPOINT"] == 40
+assert controller["state"]["MAIN_STATUS"] == "UPPER_REENTRY_STAGE27_19_R5AQ_R5AS_SUBMITTED_PENDING_FRESH_AUDIT"
+assert controller["state"]["AUDIT_STATUS"] == "PENDING"
+assert controller["state"]["MERGE_ALLOWED"] is False
+assert controller["next_expected_command"] == "Stage27-19-r5-audit"
+
+status = (ROOT / "docs/00_CURRENT_RESEARCH_STATUS.md").read_text()
+assert "CURRENT_STAGE=Stage27-19-r5aq-r5as-BATCH-SUBMITTED-PENDING-FRESH-AUDIT" in status
+assert "STAGE27_19_R5AO_R5AP_STATUS=AUDITED_PASS_MERGED_PR1066" in status
+assert "STAGE27_19_R5AQ_R5AS_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT" in status
+assert "STAGE27_ACTIVE_UPPER_REENTRY=27-19-r5aq-r5as" in status
+
 texts = {
     "aq": (ROOT / "stages/stage27/27-19-r5aq/result.md").read_text(),
     "ar": (ROOT / "stages/stage27/27-19-r5ar/result.md").read_text(),
     "as": (ROOT / "stages/stage27/27-19-r5as/result.md").read_text(),
 }
-for marker in [
-    "PHYSICAL_WEIGHTED_FIXED_KAPPA_SIEVE_PROVED=true",
-    "FIXED_KAPPA_WEIGHTED_BOUND=X^eps*(X/k+sqrt(X))",
-]:
+for marker in ["PHYSICAL_WEIGHTED_FIXED_KAPPA_SIEVE_PROVED=true", "FIXED_KAPPA_WEIGHTED_BOUND=X^eps*(X/k+sqrt(X))"]:
     assert marker in texts["aq"]
-for marker in [
-    "MODULUS_ENTROPY_CANCELS_ONE_OVER_K_SAVING=true",
-    "SELF_GENERATED_KAPPA_IDENTITY_PROVED=true",
-]:
+for marker in ["MODULUS_ENTROPY_CANCELS_ONE_OVER_K_SAVING=true", "SELF_GENERATED_KAPPA_IDENTITY_PROVED=true"]:
     assert marker in texts["ar"]
-for marker in [
-    "DOUBLE_PELL_COMPRESSION_PROVED=true",
-    "SMALL_KAPPA_PER_SEVEN_OUTER_CELL_BOUND=K*B^o(1)",
-]:
+for marker in ["DOUBLE_PELL_COMPRESSION_PROVED=true", "SMALL_KAPPA_PER_SEVEN_OUTER_CELL_BOUND=K*B^o(1)"]:
     assert marker in texts["as"]
 
 print("Stage27-19-r5aq-r5as verification PASS")
