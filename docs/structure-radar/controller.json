@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "controller": "STRUCTURE-RADAR-CONTROLLER-R01",
+  "status": "READY",
+  "primary_operator": "ChatGPT",
+  "commands": {
+    "main": "StructureRadar-main-batch",
+    "audit": "StructureRadar-audit"
+  },
+  "scope": {
+    "all_merged_stages_and_future": true,
+    "latest_stage_discovered": "Stage27",
+    "stage14_15_fixed_boundary": false,
+    "stage14_15_bootstrap_priority": true,
+    "central_and_stage_arsenals_always_scanned": true
+  },
+  "corpus": {
+    "fingerprint": "24ff8d6db133eccf4a69abcbecf3347b5b0fddcc4982fff52e2505903c6071cf",
+    "source_count": 2497,
+    "review_states": {
+      "NEW": 2497
+    },
+    "arsenal_backflow_gaps": [
+      "docs/stage26-arsenal-promotion.md"
+    ]
+  },
+  "queue": {
+    "task_count": 47,
+    "source_census_task_count": 47,
+    "current_task": "SR-CENSUS-CURRENT_ARSENALS-01",
+    "current_phase": "SOURCE_CENSUS"
+  },
+  "initial_execution_estimate": {
+    "recommended_source_tasks_per_main_invocation": "3-6",
+    "estimated_main_invocations_min": 8,
+    "estimated_main_invocations_max": 16,
+    "estimate_is_guarantee": false,
+    "material_new_cards_may_add_audit_or_search_rounds": true
+  },
+  "registry": {
+    "structure_count": 0,
+    "unresolved_search_count": 0,
+    "pending_arsenal_decision_count": 0,
+    "stale_provenance_task_count": 0
+  },
+  "codex_delegation": {
+    "routine_research_delegated": false,
+    "allowed_reasons": [
+      "EXTRACTOR_OR_VERIFIER_FAILURE",
+      "MANIFEST_OR_PROGRESS_INCONSISTENCY",
+      "LARGE_DETERMINISTIC_REINDEX",
+      "PROVENANCE_MAPPING_CONFLICT",
+      "CI_OR_WORKFLOW_FAILURE"
+    ]
+  },
+  "close_conditions": {
+    "all_current_sources_reviewed": false,
+    "all_searches_resolved": true,
+    "all_arsenal_decisions_resolved": true,
+    "all_card_provenance_current": true,
+    "arsenal_backflow_clear": false,
+    "final_independent_audit_required": true,
+    "campaign_close_allowed_before_final_audit": false
+  },
+  "next_expected_command": "StructureRadar-main-batch",
+  "pull_request_policy": {
+    "main_batches_use_draft_pr": true,
+    "main_lane_may_self_award_mathematical_audit_pass": false,
+    "audit_pass_closes_only_submitted_batch": true
+  }
+}
