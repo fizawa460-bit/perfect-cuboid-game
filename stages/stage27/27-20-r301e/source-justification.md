@@ -3,6 +3,7 @@
 AUDIT_REPAIR_TARGET=R301E_SELBERG_TRANSFER_CHECK
 PREVIOUS_AUDIT_VERDICT=FAIL_PENDING_SOURCE_JUSTIFICATION
 SOURCE_JUSTIFICATION_REPAIRED=true
+HUANG_SOURCE_LEVEL_CHECK_COMPLETED=true
 FRESH_REAUDIT_REQUIRED=true
 
 ## 1. What Stage14-e11 actually sieves
@@ -36,6 +37,32 @@ Choosing `N=(log B)^(1/100)` gives
 \]
 
 Thus the e11 remainder/CRT mechanism is already attached to the ambient toric host plus the concrete residue subsets `B_p`; it is not a remainder theorem for the downstream third-face predicate.
+
+### 1.1 Source-level check against Huang v3
+
+The remaining audit question was checked directly against Zhizhong Huang, *Equidistribution of rational points and the geometric sieve for toric varieties*, arXiv:2111.01509v3, Section 3.3.
+
+The source-level structure is generic in the local subsets:
+
+1. Before Theorem 3.11, Huang fixes **an arbitrary collection** `(Omega_v)_{v notin S}` of non-empty open-closed subsets of the fixed integral model `V(O_v)`.
+2. Theorem 3.11 assumes only the ambient effective-equidistribution condition `(EE)`, a uniform covering-exponent bound
+   `L(Omega_v x product_{v' != v} V(O_v')) <= (#F_v)^n0`,
+   and the ambient Brauer condition.  Its conclusion is explicitly uniform in `B`, `N`, **and the family `(Omega_v)`**.
+3. In the proof, the multiplicative Selberg weight is defined from the local measures of `Omega_v^c`; the remainder estimate is obtained from Proposition 3.9 / condition `(EE)` and the same covering-exponent bound.  No downstream completion predicate occurs in the remainder term.
+4. Corollary 3.13 passes from finitely truncated local conditions to the full family by the elementary set inclusion between the fully sifted adelic set and its finite truncation.
+
+Therefore the source theorem does **not** require a third-face-specific CRT or remainder lemma once the actual local subsets `B_p` are fixed and verified to have the required uniform congruence level.  Stage14-e11 already verified exactly this for its `B_p`: they are mod-`p` subsets on the common toric integral model, hence `n0=1`.
+
+For Stage27 we do not replace those subsets by new same-mass subsets.  Stage27-20-r301d proves that the **same actual `B_p`** are forbidden for integral space-diagonal completions.  Consequently the Huang/Stage14 remainder theorem is being applied to the same ambient sifted set, not transferred between two predicate-specific remainder problems.
+
+```text
+HUANG_THEOREM_3_11_ARBITRARY_OPEN_CLOSED_FAMILY=true
+HUANG_THEOREM_3_11_UNIFORM_IN_LOCAL_FAMILY=true
+HUANG_REMAINDER_USES_EE_AND_COVERING_EXPONENT=true
+HUANG_REMAINDER_USES_THIRD_FACE_PREDICATE=false
+HUANG_COROLLARY_3_13_FULL_FAMILY_BY_SET_INCLUSION=true
+R301E_FINAL_SOURCE_OBJECTION_RESOLVED=true
+```
 
 ## 2. Why the Stage27 space-diagonal population is inside the same sifted set
 
