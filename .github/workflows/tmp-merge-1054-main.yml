@@ -1,0 +1,43 @@
+name: Temporary merge main into PR 1054
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5ah-exact-gamma
+
+permissions:
+  contents: write
+
+jobs:
+  merge-main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-19-r5ah-exact-gamma
+          fetch-depth: 0
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      - name: Merge live main preserving both Stage27 lanes
+        run: |
+          git fetch origin main
+          cp stages/stage27/27-controller.json /tmp/controller-r5ah.json
+          set +e
+          git merge --no-ff --no-commit origin/main
+          rc=$?
+          set -e
+          if [ $rc -ne 0 ]; then
+            git checkout --theirs stages/stage27/27-controller.json
+          fi
+          python scripts/tmp_merge_1054_main.py
+          git add stages/stage27/27-controller.json
+          git add -A
+          git diff --check --cached
+          git commit -m "Merge live main into Stage27-19-r5ah without losing parallel controller state"
+      - name: Self-clean temporary helper
+        run: |
+          git rm scripts/tmp_merge_1054_main.py .github/workflows/tmp-merge-1054-main.yml
+          git commit -m "Remove temporary PR 1054 merge helper"
+          git push origin HEAD:agent/stage27-19-r5ah-exact-gamma
