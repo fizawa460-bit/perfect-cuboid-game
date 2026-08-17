@@ -1,0 +1,35 @@
+name: Stage27-20-r301t-v critical support batch
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301t-v-critical-support
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r301t/**'
+      - 'stages/stage27/27-20-r301u/**'
+      - 'stages/stage27/27-20-r301v/**'
+      - 'stages/stage27/27-20-r301t-v/**'
+      - 'stages/stage27/27-controller.json'
+      - '.github/workflows/stage27-20-r301t-v-critical-support.yml'
+
+jobs:
+  verify-stage27-20-r301t-v:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-20-r301t-v
+        run: python stages/stage27/27-20-r301t-v/verify_27_20_r301t_v.py
+      - name: Validate controller and registry JSON
+        run: |
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r301t-v/batch-registry.json >/dev/null
+      - name: Diff hygiene
+        run: |
+          git fetch origin main
+          git diff --check origin/main...HEAD
