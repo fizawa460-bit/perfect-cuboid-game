@@ -1,0 +1,34 @@
+name: Stage27-20-r301q-s uniform fiber batch
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301q-s-uniform-fiber
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r301q/**'
+      - 'stages/stage27/27-20-r301r/**'
+      - 'stages/stage27/27-20-r301s/**'
+      - 'stages/stage27/27-20-r301q-s/**'
+      - 'stages/stage27/27-controller.json'
+      - '.github/workflows/stage27-20-r301q-s-uniform-fiber.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-stage27-20-r301q-s:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage27-20-r301q-s
+        run: python stages/stage27/27-20-r301q-s/verify_27_20_r301q_s.py
+      - name: Validate controller and registry JSON
+        run: |
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r301q-s/batch-registry.json >/dev/null
+      - name: Diff hygiene
+        run: git diff --check origin/${{ github.base_ref || 'main' }}...HEAD
