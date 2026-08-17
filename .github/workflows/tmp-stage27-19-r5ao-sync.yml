@@ -1,0 +1,103 @@
+name: Temporary Stage27-19-r5ao lifecycle sync
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5ao-dyadic-kappa-split
+    paths:
+      - '.github/workflows/tmp-stage27-19-r5ao-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-19-r5ao-dyadic-kappa-split
+          fetch-depth: 2
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Synchronize Stage19 lifecycle and active route
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          cp = Path('stages/stage27/27-controller.json')
+          c = json.loads(cp.read_text())
+          c['status'] = 'OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AO_R5AP_PENDING_FRESH_AUDIT'
+          c['checkpoint_status']['40'] = 'UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R5AJ_R5AK_AUDITED_PASS_MERGED_AND_R5AL_AUDITED_PASS_MERGED_CLOSED_AND_R5AM_R5AN_AUDITED_PASS_MERGED_AND_R5AO_R5AP_PENDING_AUDIT'
+
+          old = c['derived_routes']['Stage27-19-r5am-r5an']
+          old.update({
+              'status': 'AUDITED_PASS_MERGED',
+              'audit_status': 'PASS',
+              'advance_allowed': True,
+              'merge_allowed': True,
+              'audit_record': 'stages/stage27/27-19-r5am/audit-final.md',
+              'pr': 1061,
+              'merge_commit': '366548fbc2d41536cd0d0e285784e932ec27bad7',
+              'kappa_unit_pair_universe': 'phi(kappa)^2=kappa^(2-o(1))',
+              'next_derived_route': '27-19-r5ao',
+          })
+
+          c['derived_routes']['Stage27-19-r5ao-r5ap'] = {
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+              'trigger_checkpoint': 40,
+              'route_kind': 'UPPER_REENTRY_PARALLEL',
+              'source_stage': 'Stage19',
+              'parent_route': 'Stage27-19-r5am-r5an',
+              'batch_routes': ['27-19-r5ao', '27-19-r5ap'],
+              'purpose': 'dyadic kappa raw slope sieve plus composition barrier locating the physical weighted counting interface',
+              'result_paths': ['stages/stage27/27-19-r5ao/result.md', 'stages/stage27/27-19-r5ap/result.md'],
+              'route_contract': 'stages/stage27/27-19-r5ao/route-contract.json',
+              'dyadic_kappa_raw_slope_sieve_proved': True,
+              'dyadic_raw_bound': 'H^eps*(H^4/K+H^3)',
+              'stage19_raw_specialization': 'B^eps*(B^2/K+B^(3/2))',
+              'raw_slope_sieve_composition_barrier_proved': True,
+              'physical_weighted_kappa_sieve_proved': False,
+              'small_kappa_outer_support_fixed_power_bound_proved': False,
+              'strict_sub_sqrt_upper_proved': False,
+              'new_mu_lt_half_proved': False,
+              'true_N2_exponent_identified': False,
+              'audit_status': 'PENDING',
+              'advance_to_checkpoint50': False,
+              'advance_allowed': False,
+              'merge_allowed': False,
+              'next_derived_route': '27-19-r5aq',
+              'next_target': 'PHYSICAL_WEIGHTED_KAPPA_SIEVE_OR_SMALL_KAPPA_OUTER_SUPPORT_COUNT',
+          }
+
+          c['state'].update({
+              'CURRENT_CHECKPOINT': 40,
+              'MAIN_STATUS': 'UPPER_REENTRY_STAGE27_19_R5AO_R5AP_SUBMITTED_PENDING_FRESH_AUDIT',
+              'AUDIT_STATUS': 'PENDING',
+              'ADVANCE_ALLOWED': False,
+              'NEXT_CHECKPOINT': 40,
+              'MERGE_ALLOWED': False,
+          })
+          c['next_expected_command'] = 'Stage27-19-r5-audit'
+          cp.write_text(json.dumps(c, indent=2) + '\n')
+
+          dp = Path('docs/00_CURRENT_RESEARCH_STATUS.md')
+          d = dp.read_text()
+          d = d.replace('CURRENT_STAGE=Stage27-19-r5am-r5an-BATCH-SUBMITTED-PENDING-FRESH-AUDIT', 'CURRENT_STAGE=Stage27-19-r5ao-r5ap-BATCH-SUBMITTED-PENDING-FRESH-AUDIT')
+          d = d.replace('STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AM_R5AN_PENDING_FRESH_AUDIT', 'STAGE27_STATUS=OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AO_R5AP_PENDING_FRESH_AUDIT')
+          d = d.replace('STAGE27_19_R5AM_R5AN_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT', 'STAGE27_19_R5AM_R5AN_STATUS=AUDITED_PASS_MERGED_PR1061\nSTAGE27_19_R5AO_R5AP_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT')
+          d = d.replace('STAGE27_ACTIVE_UPPER_REENTRY=27-19-r5am-r5an', 'STAGE27_ACTIVE_UPPER_REENTRY=27-19-r5ao-r5ap')
+          dp.write_text(d)
+          PY
+          python stages/stage27/27-19-r5ao/verify_27_19_r5ao_r5ap.py
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+      - name: Commit synchronization and self-clean
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/tmp-stage27-19-r5ao-sync.yml
+          git add stages/stage27/27-controller.json docs/00_CURRENT_RESEARCH_STATUS.md
+          git commit -m 'Stage27-19-r5ao: synchronize lifecycle and controller'
+          git push origin HEAD:agent/stage27-19-r5ao-dyadic-kappa-split
