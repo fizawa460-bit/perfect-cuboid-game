@@ -1,0 +1,34 @@
+name: Stage27-19-r5al-r5an Pell and kappa receiver
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5am-pell-compression
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r5al/**'
+      - 'stages/stage27/27-19-r5am/**'
+      - 'stages/stage27/27-19-r5an/**'
+      - 'stages/stage27/27-19-r5aj/route-contract.json'
+      - 'stages/stage27/27-controller.json'
+      - 'docs/00_CURRENT_RESEARCH_STATUS.md'
+      - '.github/workflows/stage27-19-r5al-r5an-pell-kappa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify-stage27-19-r5al-r5an:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Verify r5al completion rigidity and r5am-r5an receivers
+        run: |
+          python -m json.tool stages/stage27/27-19-r5al/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5am/route-contract.json >/dev/null
+          python stages/stage27/27-19-r5al/verify_27_19_r5al.py
+          python stages/stage27/27-19-r5am/verify_27_19_r5am_r5an.py
+          git diff --check
