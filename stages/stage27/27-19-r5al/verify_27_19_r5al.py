@@ -32,7 +32,6 @@ def unique_completion(a, b, delta, c0, cs, cn, mu, nu, sigma):
     if cp * cp != cp2_num or cp % c0:
         return None
     cp //= c0
-
     q2 = b * c0 * c0 * mu * mu + a * delta * delta * sigma * sigma
     den2 = kappa * cn * cn
     if q2 % den2:
@@ -40,7 +39,6 @@ def unique_completion(a, b, delta, c0, cs, cn, mu, nu, sigma):
     wp = math.isqrt(q2 // den2)
     if wp * wp != q2 // den2:
         return None
-
     rho2_num = kappa * cs * cs * wp * wp + b * delta * delta * nu * nu
     rho2_den = a * c0 * c0
     if rho2_num % rho2_den:
@@ -51,13 +49,11 @@ def unique_completion(a, b, delta, c0, cs, cn, mu, nu, sigma):
     return kappa, cp, wp, rho
 
 
-# The actual r5ak L=1 witness must be reconstructed uniquely.
 got = unique_completion(17, 13, 2, 3, 7, 1, 1, 8, 1)
 assert got == (185, 1, 1, 9), got
 
-# Randomly generated valid equation data reconstruct to the same completion.
 rng = random.Random(2719)
-checked = 1  # The exact r5ak witness above is one verified completion.
+checked = 1
 for _ in range(5000):
     vals = [rng.randint(1, 15) for _ in range(9)]
     a, b, delta, c0, cs, cn, mu, nu, sigma = vals
@@ -72,17 +68,18 @@ for _ in range(5000):
     assert a * c0**2 * rho**2 - b * delta**2 * nu**2 == kappa * cs**2 * wp**2
     assert squarefree_kernel(kappa) == kappa
     checked += 1
-
 assert checked > 0
 
-contract = json.loads(
-    (ROOT / "stages/stage27/27-19-r5al/route-contract.json").read_text(encoding="utf-8")
-)
+contract = json.loads((ROOT / "stages/stage27/27-19-r5al/route-contract.json").read_text(encoding="utf-8"))
 assert contract["task_id"] == "Stage27-19-r5al"
+assert contract["status"] in {"PROPOSED_INCONCLUSIVE_PENDING_FRESH_AUDIT", "CLOSED_AUDITED_PASS_MERGED"}
 assert contract["verdict"] == "INCONCLUSIVE"
 assert contract["proved"]["residual_completion_rigidity"] is True
 assert contract["not_proved"]["strict_sub_sqrt_upper"] is True
 assert contract["exponent_promotion_proposed"] is False
+if contract["status"] == "CLOSED_AUDITED_PASS_MERGED":
+    assert contract["final_audit"]["pr"] == 1059
+    assert contract["final_audit"]["merge_commit"] == "ed26c2b0b127223e777a668f4f9f79ab31cf5367"
 
 result = (ROOT / "stages/stage27/27-19-r5al/result.md").read_text(encoding="utf-8")
 for marker in [
@@ -95,11 +92,9 @@ for marker in [
 ]:
     assert marker in result
 
-controller = json.loads(
-    (ROOT / "stages/stage27/27-controller.json").read_text(encoding="utf-8")
-)
+controller = json.loads((ROOT / "stages/stage27/27-controller.json").read_text(encoding="utf-8"))
 route = controller["derived_routes"]["Stage27-19-r5al"]
-assert route["status"] == "PROPOSED_INCONCLUSIVE_PENDING_FRESH_AUDIT"
+assert route["status"] in {"PROPOSED_INCONCLUSIVE_PENDING_FRESH_AUDIT", "AUDITED_PASS_MERGED_CLOSED"}
 assert route["strict_sub_sqrt_upper_proved"] is False
 assert route["exponent_promotion_proposed"] is False
 
