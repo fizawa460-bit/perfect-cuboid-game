@@ -32,11 +32,11 @@ def sf(n: int) -> int:
 
 checked = 0
 survivor_squareclass_checked = 0
-for m in range(2, 42):
+for m in range(2, 46):
     for n in range(1, m):
         if math.gcd(m, n) != 1:
             continue
-        for r in range(2, 42):
+        for r in range(2, 46):
             for s in range(1, r):
                 if math.gcd(r, s) != 1:
                     continue
