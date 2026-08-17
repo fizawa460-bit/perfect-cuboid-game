@@ -1,0 +1,241 @@
+name: StructureRadar finalize batch 06
+
+on:
+  push:
+    branches:
+      - structureradar/stage16-25-06
+    paths:
+      - .github/workflows/structure-radar-finalize-06.yml
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structureradar/stage16-25-06
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Normalize batch
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          ROOT = Path('.')
+          RADAR = ROOT / 'docs' / 'structure-radar'
+          PROGRESS = RADAR / 'progress.json'
+          REGISTRY = RADAR / 'structure-registry.json'
+          PARTIAL = RADAR / 'partial-stage16-25-06'
+          BATCH_ID = 'SR-BATCH-STAGE16_25_CURRENT-06-R01'
+          TASK_ID = 'SR-CENSUS-STAGE16_25_CURRENT-01'
+
+          def load(path):
+              return json.loads(path.read_text(encoding='utf-8'))
+
+          def dump(path, data):
+              path.write_text(json.dumps(data, indent=2, ensure_ascii=False, sort_keys=False) + '\n', encoding='utf-8')
+
+          progress = load(PROGRESS)
+          registry = load(REGISTRY)
+
+          # Build current source metadata from tracked manifest parts.
+          source_map = {}
+          for path in sorted((RADAR / 'source-manifest').glob('part-*.json')):
+              for src in load(path).get('sources', []):
+                  source_map[src['source_id']] = src
+
+          chunks = [load(PARTIAL / name) for name in ['chunk-01.json', 'chunk-02.json', 'chunk-03.json', 'chunk-04.json']]
+          source_ids = [sid for chunk in chunks for sid in chunk['source_ids']]
+          if len(source_ids) != 60 or len(set(source_ids)) != 60:
+              raise SystemExit(f'expected 60 unique source ids, got {len(source_ids)} / {len(set(source_ids))}')
+          decisions = {}
+          for chunk in chunks:
+              for item in chunk['decisions']:
+                  if item['source_id'] in decisions:
+                      raise SystemExit('duplicate decision: ' + item['source_id'])
+                  decisions[item['source_id']] = item
+          if set(decisions) != set(source_ids):
+              raise SystemExit('decision/source mismatch')
+
+          cards = registry['structures']
+          by_id = {c['structure_id']: c for c in cards}
+          if len(cards) != 158:
+              raise SystemExit(f'expected 158 pre-batch cards, got {len(cards)}')
+
+          candidate_map = {
+              'R505_COMMON_SQUAREFREE_CORE_RECEIVER_GATE': 'SR-STR-159',
+              'ALL_SHARED_EDGE_DIRECTIONAL_QUARTER_POWER': 'SR-STR-160',
+              'EXACT_STAGE19_MASK_RECEIVER_AND_TRIPLE_FREE_CONTRASTS': 'SR-STR-007',
+              'RAW_PAIR_EULER_COMPLETION_RECEIVER': 'SR-STR-010',
+          }
+
+          # Add only genuinely distinct cards. The mask and completion candidates are absorbed by existing cards 007/010.
+          new_cards = [
+              {
+                  'structure_id': 'SR-STR-159',
+                  'canonical_math_name': 'R505 common-squarefree-core Stage19 receiver with R506 rank-one coordinate subsumption',
+                  'exact_equations_or_object': 'For A=m^2 r^2+n^2 s^2 and B=m^2 s^2+n^2 r^2, Stage19 space integrality is exactly AB square, equivalently sf(A)=sf(B), equivalently A=kP^2 and B=kQ^2 for one positive squarefree k. The common-leg coordinates u=mr,v=ns,w=ms,z=nr satisfy uv=wz and A=u^2+v^2, B=w^2+z^2, so R506 is the same rank-one toric receiver rather than an independent parameter dimension. Fixed finite core/cell elliptic slices alone do not supply a polynomial lower; the remaining R505 progress gate is a genuinely stronger whole-family physical-height theorem or a new explicit family, not an impossibility statement.',
+                  'search_terms_primary': ['common squarefree core Stage19 receiver', 'moving squarefree core Euler cuboid counting'],
+                  'search_terms_aliases': ['R505 common core', 'R506 common leg rank one subsumption'],
+                  'theorem_species': ['exact Diophantine receiver normal form', 'route subsumption', 'external theorem gate'],
+                  'repo_provenance': [],
+                  'target_populations': ['N2(B) primitive canonical exactly-two faces plus integral space diagonal'],
+                  'potential_weapon_types': ['NORMAL_FORM', 'ROUTE_SUBSUMPTION', 'EXTERNAL_GATE'],
+                  'applicability_gaps': ['The common-core receiver is not itself a construction or counting theorem.', 'The external gate is reopenable by genuinely new whole-family uniformity or a new explicit parametric family.'],
+                  'existing_radar_overlap': ['R505', 'R506', 'Stage15 moving-core attack chain'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+              {
+                  'structure_id': 'SR-STR-160',
+                  'canonical_math_name': 'All-shared-edge directional quarter-power Stage19 lower',
+                  'exact_equations_or_object': 'For each canonical shared edge j in {a,b,c}, N2,j(B) >>_j B^(1/4). R501 on 9/2<t<5 supplies canonical shared edge a, the audited R501 cone supplies b, and R502 supplies c. Hence N2,j/M2,j >>_j B^(-3/4)(log B)^(-5) and the matched Stage24 interaction J2,j >>_j B^(1/4)(log B)^(-5) -> infinity in every direction; also N2,j/N1 has the adjacent-stratum corridor B^(-3/4)(log B)^(-3) <<_j N2,j/N1 <<_epsilon B^(-1/2+epsilon)(log B)^(-3).',
+                  'search_terms_primary': ['directional quarter power exactly two face cuboids', 'shared edge Stage19 quarter power lower'],
+                  'search_terms_aliases': ['all three shared-edge chambers', 'directional N2 lower'],
+                  'theorem_species': ['directional parametric lower bound', 'population interaction refinement'],
+                  'repo_provenance': [],
+                  'target_populations': ['N2,a(B)', 'N2,b(B)', 'N2,c(B)', 'directional Stage24 and Stage23 ratios'],
+                  'potential_weapon_types': ['LOWER_BOUND', 'DIRECTIONAL_REFINEMENT', 'POPULATION_TRANSITION'],
+                  'applicability_gaps': ['Does not improve the global N2(B) exponent above 1/4.', 'N2,j/N1 is a matched adjacent-stratum population-size ratio, not literal subset survival.', 'No strict whole-family sub-half upper or true exponent is proved.'],
+                  'existing_radar_overlap': ['SR-STR-008', 'SR-STR-007', 'S25R-W20-01', 'S25R-W20-02'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+          ]
+          for card in new_cards:
+              if card['structure_id'] in by_id:
+                  raise SystemExit('new card id already exists: ' + card['structure_id'])
+              cards.append(card)
+              by_id[card['structure_id']] = card
+
+          def structure_ids_for(decision):
+              ids = list(decision.get('existing_structure_ids', []))
+              keys = []
+              if decision.get('candidate_key'):
+                  keys.append(decision['candidate_key'])
+              keys.extend(decision.get('candidate_keys', []))
+              keys.extend(decision.get('candidate_support', []))
+              for key in keys:
+                  mapped = candidate_map.get(key)
+                  if mapped and mapped not in ids:
+                      ids.append(mapped)
+              return ids
+
+          # Provenance mapping: every carrier source is attached to each normalized card it supports.
+          for sid in source_ids:
+              decision = decisions[sid]
+              ids = structure_ids_for(decision)
+              if not ids:
+                  continue
+              src = source_map.get(sid)
+              if src is None:
+                  raise SystemExit('source missing from manifest: ' + sid)
+              for structure_id in ids:
+                  card = by_id.get(structure_id)
+                  if card is None:
+                      raise SystemExit('unknown structure id: ' + structure_id)
+                  if not any(p.get('source_id') == sid for p in card['repo_provenance']):
+                      card['repo_provenance'].append({
+                          'source_id': sid,
+                          'path': src['path'],
+                          'locator': 'normalized Stage16-25 current census batch 06 carrier',
+                          'fingerprint': src['fingerprint'],
+                      })
+
+          # Strengthen existing card text only where the new audited sources add a materially reusable quantitative clause.
+          c10 = by_id['SR-STR-010']
+          extra10 = ' For every fixed eta<1/46, B^(-5/6)(log B)^(-5) << Theta_j,Theta <<_eta (log B)^(-eta), so the literal same-measure completion proportions tend to zero; moreover Theta_j/Theta_k -> C_k/C_j. The adjacent-stratum object ratio M3/M2 is not a conditional probability.'
+          if 'Theta_j/Theta_k' not in c10['exact_equations_or_object']:
+              c10['exact_equations_or_object'] += extra10
+
+          c15 = by_id['SR-STR-015']
+          extra15 = ' On the original rank-one multiplication graph, every nondegenerate physical multiple is odd with n>=3 and the audited aggregate satisfies O(B^(1/9) sqrt(log B))=o(B^(1/4)); this does not cover genuinely new base changes or multisections.'
+          if 'B^(1/9)' not in c15['exact_equations_or_object']:
+              c15['exact_equations_or_object'] += extra15
+
+          c149 = by_id['SR-STR-149']
+          extra149 = ' Directionally, M2,j/M1~(4*pi^2*C_j/3)(log B)^4/B for j=a,b,c and the raw-pair third-face nonsquare postfilter satisfies M2,j/P_j->1; this proves robustness of the log-four scale but no four-factor independence law.'
+          if 'M2,j/M1' not in c149['exact_equations_or_object']:
+              c149['exact_equations_or_object'] += extra149
+
+          # Normalize all 60 source reviews from the current manifest fingerprints.
+          reviews = progress['source_reviews']
+          carrier_count = 0
+          for sid in source_ids:
+              src = source_map[sid]
+              decision = decisions[sid]
+              ids = structure_ids_for(decision)
+              if ids:
+                  carrier_count += 1
+                  review = {
+                      'fingerprint': src['fingerprint'],
+                      'status': 'STRUCTURES_RECORDED',
+                      'batch_id': BATCH_ID,
+                      'structure_ids': ids,
+                  }
+              else:
+                  status = 'NO_DISTINCT_STRUCTURE' if decision.get('decision') == 'NO_DISTINCT_STRUCTURE' else 'DUPLICATE_SOURCE'
+                  review = {
+                      'fingerprint': src['fingerprint'],
+                      'status': status,
+                      'batch_id': BATCH_ID,
+                  }
+              reviews[sid] = review
+
+          audit_batches = progress.setdefault('audit_batches', [])
+          if any(b.get('batch_id') == BATCH_ID for b in audit_batches):
+              raise SystemExit('batch already exists: ' + BATCH_ID)
+          audit_batches.append({
+              'batch_id': BATCH_ID,
+              'task_id': TASK_ID,
+              'status': 'SUBMITTED_FOR_AUDIT',
+              'source_ids': source_ids,
+              'sources_reviewed': 60,
+              'structures_added': 2,
+              'structures_updated': 7,
+              'structure_carrier_sources': carrier_count,
+              'structures_deduped': 60 - carrier_count,
+              'searches_completed': 0,
+              'arsenal_decisions': 0,
+              'audit_required': True,
+          })
+
+          registry['status'] = 'BATCH_SUBMITTED_FOR_AUDIT'
+          dump(PROGRESS, progress)
+          dump(REGISTRY, registry)
+          print('carrier_count=', carrier_count)
+          print('new_card_count=', 2)
+          print('updated_card_count=', 7)
+          PY
+
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+
+      - name: Remove temporary ledgers and helper
+        shell: bash
+        run: |
+          rm -rf docs/structure-radar/partial-stage16-25-06
+          rm -f .github/workflows/structure-radar-finalize-06.yml
+          git diff --check
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+
+      - name: Commit canonical handoff
+        shell: bash
+        run: |
+          git config user.name 'fizawa460-bit'
+          git config user.email 'fizawa460@gmail.com'
+          git add -A
+          git diff --cached --check
+          git commit -m 'StructureRadar: census Stage16-25 current batch 06'
+          git push origin HEAD:structureradar/stage16-25-06
