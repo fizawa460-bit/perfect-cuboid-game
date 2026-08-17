@@ -37,7 +37,6 @@ jobs:
               for src in data['sources']:
                   by_id[src['source_id']] = src
 
-          # These are mathematical repackagings of structures already normalized in the radar.
           duplicate_paths = {
               'docs/stage14-toolbox/integral-global-small-point-witness-formulas.md',
               'docs/stage14-toolbox/kernel-edge-full-radical-incidence.md',
@@ -49,6 +48,9 @@ jobs:
           progress_path = root/'docs/structure-radar/progress.json'
           progress = json.loads(progress_path.read_text(encoding='utf-8'))
           batch_id = 'SR-BATCH-STAGE14_15_DEEP_CORPUS-03-R01'
+          if any(b.get('batch_id') == batch_id for b in progress.get('audit_batches', [])):
+              raise SystemExit(f'batch already recorded: {batch_id}')
+
           for sid in task['source_ids']:
               src = by_id[sid]
               status = 'DUPLICATE_SOURCE' if src['path'] in duplicate_paths else 'NO_DISTINCT_STRUCTURE'
@@ -75,14 +77,13 @@ jobs:
           progress_path.write_text(json.dumps(progress, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
           PY
 
-          # Restore the temporary extractor modification before any final commit.
+          # Restore all PR-local extraction scaffolding before producing the formal batch diff.
           git checkout origin/main -- scripts/verify_research_arsenal.py
           python scripts/structure_radar.py refresh
-          python scripts/verify_structure_radar.py
           python scripts/structure_radar.py verify
           python scripts/verify_research_arsenal.py
+          git diff --check
 
-          # The helper workflow itself is PR-local scaffolding and must not survive in the final diff.
           git rm .github/workflows/structure-radar-batch-extract.yml
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
