@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "batch": "SR-PARTIAL-STAGE16_25_CURRENT-05",
+  "chunk": 2,
+  "chunks_total": 6,
+  "source_count": 10,
+  "source_ids": [
+    "SRC-3F43DA1C29F9",
+    "SRC-1D0F810B4406",
+    "SRC-EBD1A9441B76",
+    "SRC-9C5C1BC06C15",
+    "SRC-E8282B5E5C5B",
+    "SRC-B356C33E8590",
+    "SRC-36CC9D154FAA",
+    "SRC-DF41E434AC43",
+    "SRC-F4BC8E0CBB03",
+    "SRC-EFB5E2F7D2E1"
+  ],
+  "decisions": [
+    {
+      "source_id": "SRC-3F43DA1C29F9",
+      "path": "stages/stage25/25-50/literature-recheck.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Literature provenance and route triage for the checkpoint50 lower search; no external paper is used as a black-box Stage19 counting theorem. The reusable mathematics is carried by the audited repo-native R501 proof/result."
+    },
+    {
+      "source_id": "SRC-1D0F810B4406",
+      "path": "stages/stage25/25-50/r501-parametric-positive-power.md",
+      "decision": "CANDIDATE_NEW_STRUCTURE",
+      "candidate_key": "R501_DEGREE8_PARAMETRIC_EXACTLY_TWO_SPACE_FAMILY",
+      "reason": "Explicit homogeneous degree-eight Meskhishvili-first family gives two face squares and the space square on 7/2<m/n<4; third-face exceptions lie on a squarefree genus-seven hyperelliptic curve, rational-height parameter count is quadratic, and similarity fibers are at most eight. Checkpoint60 audit later strengthens this to family-specific Theta(B^(1/4)) via bounded primitive gcd. Distinct mechanism from the theorem-only global N2 card SR-STR-008; hold until the primitive-height carrier appears in this 60-source slice."
+    },
+    {
+      "source_id": "SRC-EBD1A9441B76",
+      "path": "stages/stage25/25-50/result.md",
+      "decision": "STRUCTURE_CARRIER_CANDIDATE",
+      "existing_structure_ids": ["SR-STR-008", "SR-STR-018"],
+      "candidate_keys": ["R501_DEGREE8_PARAMETRIC_EXACTLY_TWO_SPACE_FAMILY"],
+      "reason": "Audited checkpoint50 closes N2(B)>>B^(1/4), updates the endpoint lower and cross-stage interaction sign, and yields the b-channel lower. Global quarter-power content already belongs to SR-STR-008 and cross-ratio content to SR-STR-018; the explicit parametric mechanism remains a held standalone candidate."
+    },
+    {
+      "source_id": "SRC-9C5C1BC06C15",
+      "path": "stages/stage25/25-60/audit-recheck.md",
+      "decision": "CANDIDATE_NEW_STRUCTURE",
+      "candidate_key": "R502_THIRD_PARAMETRIZATION_QUARTER_POWER_NO_UPGRADE",
+      "reason": "Hostile re-audit certifies the Meskhishvili-third family with exact primitive gcd g502<=2592, genus-seven third-face exception curve, parameter multiplicity <=8, and family-specific N_R502(B)=Theta(B^(1/4)). This is a reusable no-hidden-gcd-upgrade theorem, but the source-level R502 carrier occurs later in the slice, so formal card creation is deferred."
+    },
+    {
+      "source_id": "SRC-E8282B5E5C5B",
+      "path": "stages/stage25/25-60/audit.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Superseded hostile-audit state. It accepts the causal cross-ratio, R501 primitive-height rigidity and R504 generic non-torsion section, but its only FAIL finding (R502 route closure) is repaired by audit-recheck. Retain as audit provenance, not a separate mathematical card."
+    },
+    {
+      "source_id": "SRC-B356C33E8590",
+      "path": "stages/stage25/25-60/causal-lattice.md",
+      "decision": "EXISTING_STRUCTURE",
+      "structure_ids": ["SR-STR-018"],
+      "reason": "Exact corrected-product cross-ratio I=(N2/M2)/(N1/M1)=N2*M1/(M2*N1), with I>>B^(1/4)(log B)^(-7)->infinity, is already normalized as SR-STR-018. Add this source as direct provenance at finalization; do not create another interaction card."
+    },
+    {
+      "source_id": "SRC-36CC9D154FAA",
+      "path": "stages/stage25/25-60/checkpoint60-deep-stop-controller.json",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Machine-readable deep-stop lifecycle/route state; no independent theorem structure."
+    },
+    {
+      "source_id": "SRC-DF41E434AC43",
+      "path": "stages/stage25/25-60/checkpoint60-deep-stop-discovery-ledger.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Reuse and route-exhaustion ledger. It records that later checkpoint60 routes produce no global Stage25 theorem delta and terminate at audited external gates; no standalone mathematical structure beyond their carrier artifacts."
+    },
+    {
+      "source_id": "SRC-F4BC8E0CBB03",
+      "path": "stages/stage25/25-60/checkpoint60-deep-stop-hostile-audit.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Audit evidence for the deep-stop rule: repo-native routes exhausted, remaining residuals are external theorem gates, and GLOBAL_STAGE25_LOWER_CHANGED=false. No new theorem card."
+    },
+    {
+      "source_id": "SRC-EFB5E2F7D2E1",
+      "path": "stages/stage25/25-60/checkpoint60-deep-stop-sync.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Synchronization/lifecycle artifact for the same checkpoint60 deep-stop state; no distinct mathematical content."
+    }
+  ],
+  "held_candidate_cards": [
+    {
+      "candidate_key": "R501_DEGREE8_PARAMETRIC_EXACTLY_TWO_SPACE_FAMILY",
+      "status": "HELD_FOR_LATER_CARRIER",
+      "provisional_math": "Meskhishvili-first homogeneous degree-eight two-face-plus-space family; fixed physical cone; genus-7 third-face filter; bounded similarity multiplicity; later audit certifies primitive-gcd boundedness and family-specific Theta(B^(1/4))."
+    },
+    {
+      "candidate_key": "R502_THIRD_PARAMETRIZATION_QUARTER_POWER_NO_UPGRADE",
+      "status": "HELD_FOR_LATER_CARRIER",
+      "provisional_math": "Meskhishvili-third family with g502<=2592, genus-7 third-face filter, multiplicity<=8, and family-specific Theta(B^(1/4)); closes hidden primitive-height upgrade route."
+    }
+  ],
+  "existing_structure_provenance_candidates": [
+    {
+      "structure_id": "SR-STR-008",
+      "source_ids": ["SRC-EBD1A9441B76"]
+    },
+    {
+      "structure_id": "SR-STR-018",
+      "source_ids": ["SRC-EBD1A9441B76", "SRC-B356C33E8590"]
+    }
+  ],
+  "formal_registry_mutation": false,
+  "formal_progress_mutation": false,
+  "pr_created": false,
+  "next_source_id": "SRC-2F81EB1FEF3D"
+}
