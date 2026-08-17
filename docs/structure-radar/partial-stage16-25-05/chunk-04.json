@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "batch": "SR-PARTIAL-STAGE16_25_CURRENT-05",
+  "chunk": 4,
+  "chunks_total": 6,
+  "source_count": 10,
+  "source_ids": [
+    "SRC-A8E6D64E803D",
+    "SRC-CB6FB65DF23C",
+    "SRC-2A5ED9F2B0F5",
+    "SRC-30772A3F4333",
+    "SRC-DD679F8D180F",
+    "SRC-9E949D2E1D92",
+    "SRC-6CF778667DE4",
+    "SRC-0600C99E6A68",
+    "SRC-2DBC7601D65F",
+    "SRC-527AA6E131E6"
+  ],
+  "decisions": [
+    {
+      "source_id": "SRC-A8E6D64E803D",
+      "path": "stages/stage25/25-60/r503-source-revalidation.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Primary-source revalidation supporting the already-held R503 generic-rank-zero and fixed-orbit sparsity candidates; no separate reusable structure."
+    },
+    {
+      "source_id": "SRC-CB6FB65DF23C",
+      "path": "stages/stage25/25-60/r503-yoshida-generic-rank-zero-gate.md",
+      "decision": "STRUCTURE_CARRIER_CANDIDATE",
+      "candidate_keys": ["R503_YOSHIDA_GENERIC_RANK_ZERO_GATE", "R503_FIXED_ORBIT_HEIGHT_SPARSITY"],
+      "reason": "Exact Yoshida/Frey identification plus geometric generic MW rank zero closes the direct section route; the explicit fixed-fiber and displayed positive-rank sequences have only O(sqrt(log B)) / O(sqrt(log X)) height growth. Base-change, exceptional-fiber and uniform-small-point routes remain open gates."
+    },
+    {
+      "source_id": "SRC-2A5ED9F2B0F5",
+      "path": "stages/stage25/25-60/r504-audit.md",
+      "decision": "CANDIDATE_NEW_STRUCTURE",
+      "candidate_key": "R504_ORIGINAL_BASE_RANK1_AND_3P_HEIGHT_FAMILY",
+      "reason": "Hostile-audited twist descent proves rank E_F(Q(k))=1 with primitive free generator P; the first nondegenerate 3P family has gcd <=128, physical height degree 20, genus-15 third-face exceptions, bounded multiplicity and exact family growth Theta(B^(1/10)). Family-specific and weaker than the global quarter-power lower."
+    },
+    {
+      "source_id": "SRC-30772A3F4333",
+      "path": "stages/stage25/25-60/r504-base-change-boundary.md",
+      "decision": "STRUCTURE_CARRIER_CANDIDATE",
+      "candidate_keys": ["R504_Q_DEGREE2_SPLIT_NONSPLIT_DESCENT"],
+      "existing_structure_ids": ["SR-STR-015"],
+      "reason": "Records the rational base-change/multisection equivalence, correct Q-form/twisted-Kummer boundary, closed BC1/BC2 tests and growing-multiple Lattes upper. The exceptional Prym locus belongs to existing SR-STR-015; the portable Q-degree-two descent is held separately pending the complete normal-form carrier."
+    },
+    {
+      "source_id": "SRC-DD679F8D180F",
+      "path": "stages/stage25/25-60/r504-discovery-ledger.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Discovery/reuse evidence for R504; theorem content is carried by audited route artifacts."
+    },
+    {
+      "source_id": "SRC-9E949D2E1D92",
+      "path": "stages/stage25/25-60/r504-exceptional-base-change-search.md",
+      "decision": "DUPLICATE_SOURCE",
+      "reason": "Search-stage precursor whose incomplete even-family normal form was explicitly repaired; do not promote the superseded completeness claim."
+    },
+    {
+      "source_id": "SRC-6CF778667DE4",
+      "path": "stages/stage25/25-60/r504-exceptional-search-audit.md",
+      "decision": "CANDIDATE_NEW_STRUCTURE",
+      "candidate_key": "R504_Q_DEGREE2_SPLIT_NONSPLIT_DESCENT",
+      "reason": "Repairs the earlier false completeness claim and proves every Q-degree-two map up to source PGL2(Q) conjugacy is split u->-u or nonsplit u->d/u, with fixed fields Q(u^2) and Q(u+d/u) and corresponding rational normal forms."
+    },
+    {
+      "source_id": "SRC-0600C99E6A68",
+      "path": "stages/stage25/25-60/r504-exceptional-search-controller.json",
+      "decision": "NO_DISTINCT_STRUCTURE",
+      "reason": "Machine route/controller state only."
+    },
+    {
+      "source_id": "SRC-2DBC7601D65F",
+      "path": "stages/stage25/25-60/r504-full-split-normal-form.md",
+      "decision": "CANDIDATE_NEW_STRUCTURE",
+      "candidate_key": "R504_FULL_SPLIT_RECIPROCAL_LOCUS",
+      "reason": "On the complete split form (Au^2+B)/(Cu^2+D), the reciprocal-lift condition factors exactly as (AB-CD)(AB+CD)(AD+BC)=0; S1 and S3 have Q-rational lifts, S2 does not, and the complementary genus-one quotients have nonzero J on the nondegenerate rational loci. This closes only the reciprocal/commuting-involution mechanism, not all Prym factors."
+    },
+    {
+      "source_id": "SRC-527AA6E131E6",
+      "path": "stages/stage25/25-60/r504-full-split-prym-external-gate-discovery-ledger.md",
+      "decision": "EXISTING_STRUCTURE_PROVENANCE",
+      "existing_structure_ids": ["SR-STR-015"],
+      "reason": "Reduces the remaining full-split exceptional E0-factor problem to an unbounded-degree Hecke/Humbert-type isogeny-union external theorem gate; finite-field hits are diagnostic only. This is the detailed carrier for the existing R504 exceptional Prym gate card."
+    }
+  ],
+  "candidate_state_after_chunk": {
+    "held_new_structure_candidates": [
+      "R501_DEGREE8_PARAMETRIC_EXACTLY_TWO_SPACE_FAMILY",
+      "DEGREE8_NPC_PRIMITIVE_HEIGHT_RIGIDITY_R501_R502",
+      "R503_YOSHIDA_GENERIC_RANK_ZERO_GATE",
+      "R503_FIXED_ORBIT_HEIGHT_SPARSITY",
+      "R504_ORIGINAL_BASE_RANK1_AND_3P_HEIGHT_FAMILY",
+      "R504_Q_DEGREE2_SPLIT_NONSPLIT_DESCENT",
+      "R504_FULL_SPLIT_RECIPROCAL_LOCUS"
+    ],
+    "existing_structure_provenance_candidates": ["SR-STR-008", "SR-STR-015", "SR-STR-018", "SR-STR-155"],
+    "formal_registry_changes_deferred_until_chunk_06": true
+  },
+  "next_source_id": "SRC-ABDB195AB40A"
+}
