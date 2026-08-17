@@ -1,12 +1,12 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "task_id": "Stage27-19-r5af",
   "batch_id": "Stage27-19-r5",
   "source_stage": "Stage19",
   "trigger_checkpoint": 40,
   "route_kind": "UPPER_REENTRY_PARALLEL",
   "parent_route": "Stage27-19-r5ae",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "status": "CLOSED_AUDITED_PASS_MERGED",
   "parallel_lane": true,
   "batch_routes": [
     "27-19-r5af",
@@ -36,9 +36,27 @@
   "stress_label": "1/4",
   "stress_exact_physical_growth": "R_asymp_v^6",
   "exact_height_identity": "Gamma^2*R^2=4*delta^2*h^2*J*(p+q)",
-  "next_arithmetic_target": "UNIFORM_EXACT_HEIGHT_INCIDENCE_COUNT_OR_BARRIER_WITH_GAMMA_RETAINED",
+  "final_audit": {
+    "verdict": "PASS",
+    "mathematical_audit": "PASS",
+    "ci_audit": "PASS",
+    "lifecycle_audit": "PASS_AFTER_REPAIR_REGISTRATION",
+    "previous_fail_reason": "POST_R5AF_R5AG_FRESH_AUDIT_NOT_REGISTERED_IN_REPO",
+    "record": "stages/stage27/27-19-r5af/audit-final.md",
+    "pr": 1051,
+    "merge_commit": "e7e11fd67d147d4f7c78b153e330c6bb6ed0e1a9",
+    "audited_routes": [
+      "27-19-r5af",
+      "27-19-r5ag"
+    ],
+    "checkpoint": 40,
+    "advance_to_checkpoint50": false
+  },
+  "lifecycle_closed": true,
+  "controller_sync_policy": "SATISFIED_IN_R5AH_MAIN_BATCH",
+  "controller_sync_complete": true,
+  "next_arithmetic_target": "EXACT_PRIMITIVE_SCALE_FACTORIZATION_AND_CROSS_GCD_CANCELLATION_COUNT",
   "next_derived_route": "27-19-r5ah",
   "batch_stop_reason": "NEXT_STEP_REQUIRES_A_NEW_UNIFORM_COUNTING_INPUT_ON_THE_EXACT_PHYSICAL_HEIGHT_RECEIVER",
-  "cody_useful_for_next_route": true,
-  "controller_sync_policy": "DEFER_GLOBAL_CONTROLLER_MUTATION_DURING_PARALLEL_SUBMISSION; FRESH_AUDIT_REQUIRED_BEFORE_EXPONENT_PROMOTION_OR_MERGE"
+  "cody_useful_for_next_route": true
 }

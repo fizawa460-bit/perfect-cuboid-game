@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AF_R5AG_PENDING_FRESH_AUDIT",
+  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AH_R5AI_PENDING_FRESH_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -22,7 +22,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R402C_F_AUDITED_PASS_MERGED_AND_R5_AUDITED_PASS_MERGED_CLOSED_AND_R5AF_R5AG_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R402C_F_AUDITED_PASS_MERGED_AND_R5_AUDITED_PASS_MERGED_CLOSED_AND_R5AF_R5AG_AUDITED_PASS_MERGED_AND_R5AH_R5AI_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -1114,7 +1114,7 @@
       "next_derived_route": "27-19-r5af"
     },
     "Stage27-19-r5af-r5ag": {
-      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_serial": "19-r5af-r5ag",
       "route_kind": "UPPER_REENTRY_PARALLEL",
@@ -1124,15 +1124,21 @@
         "27-19-r5af",
         "27-19-r5ag"
       ],
-      "audit_status": "PENDING",
+      "audit_status": "PASS",
       "pr": 1051,
       "advance_to_checkpoint50": false,
-      "advance_allowed": false,
-      "merge_allowed": false,
+      "advance_allowed": true,
+      "merge_allowed": true,
       "strict_sub_sqrt_upper_proved": false,
       "new_mu_lt_half_proved": false,
       "true_N2_exponent_identified": false,
-      "next_derived_route": "27-19-r5ah"
+      "next_derived_route": "27-19-r5ah",
+      "mathematical_audit": "PASS",
+      "ci_audit": "PASS",
+      "lifecycle_audit": "PASS_AFTER_REPAIR_REGISTRATION",
+      "previous_fail_reason": "POST_R5AF_R5AG_FRESH_AUDIT_NOT_REGISTERED_IN_REPO",
+      "audit_record": "stages/stage27/27-19-r5af/audit-final.md",
+      "merge_commit": "e7e11fd67d147d4f7c78b153e330c6bb6ed0e1a9"
     },
     "Stage27-20-r301t": {
       "trigger_checkpoint": 40,
@@ -1188,6 +1194,39 @@
       "new_mu_lt_half_proved": false,
       "true_N2_exponent_identified": false,
       "next_derived_route": "27-20-r301w"
+    },
+    "Stage27-19-r5ah-r5ai": {
+      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_serial": "19-r5ah-r5ai",
+      "route_kind": "UPPER_REENTRY_PARALLEL",
+      "source_stage": "Stage19",
+      "parent_route": "Stage27-19-r5af-r5ag",
+      "batch_routes": [
+        "27-19-r5ah",
+        "27-19-r5ai"
+      ],
+      "audit_status": "PENDING",
+      "result_path": "stages/stage27/27-19-r5ah/result.md",
+      "route_contract": "stages/stage27/27-19-r5ah/route-contract.json",
+      "exact_primitive_scale_factorization_proved": true,
+      "exact_primitive_scale": "Gamma=2*delta*epsilon*C",
+      "cross_gcd_product": "C=gcd(m,r)*gcd(m,s0)*gcd(r,n0)",
+      "exact_physical_diagonal_integer_product_proved": true,
+      "exact_physical_diagonal_product": "R=(h/epsilon)*kappa*w_prime*c_prime",
+      "h_kappa_bound_proved": true,
+      "h_kappa_bound": "h*kappa<=epsilon*B<=2B",
+      "hidden_gamma_branch_closed": true,
+      "threshold_cancellation_dichotomy_proved": true,
+      "small_h_kappa_population_fixed_power_bound_proved": false,
+      "large_cross_gcd_cancellation_sparse_proved": false,
+      "strict_sub_sqrt_upper_proved": false,
+      "new_mu_lt_half_proved": false,
+      "true_N2_exponent_identified": false,
+      "advance_to_checkpoint50": false,
+      "advance_allowed": false,
+      "merge_allowed": false,
+      "next_derived_route": "27-19-r5aj"
     }
   },
   "entry_gate": {
@@ -1198,7 +1237,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R5AF_R5AG_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R5AH_R5AI_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
