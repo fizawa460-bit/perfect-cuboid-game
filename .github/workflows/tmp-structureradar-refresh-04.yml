@@ -1,0 +1,33 @@
+name: Temporary StructureRadar refresh 04
+
+on:
+  push:
+    branches:
+      - structureradar/recent-stage26-plus-04
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Refresh current merged corpus
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+      - name: Commit refreshed state and self-clean
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/tmp-structureradar-refresh-04.yml
+          git add docs/structure-radar
+          git diff --check --cached
+          git commit -m "StructureRadar: refresh current corpus before batch 4"
+          git push
