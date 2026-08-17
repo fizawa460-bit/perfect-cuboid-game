@@ -1,13 +1,18 @@
 # Stage27-20-r301e — growing-prime blocker sieve on the space-diagonal target
 
-STATUS=REPAIR_SUBMITTED_PENDING_FRESH_REAUDIT
+STATUS=AUDITED_PASS_MERGED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_PREFLIGHT
 PARENT_ROUTE=Stage27-20-r301d
 PREVIOUS_AUDIT_VERDICT=FAIL_PENDING_SOURCE_JUSTIFICATION
+FINAL_AUDIT_VERDICT=PASS
 SOURCE_JUSTIFICATION=stages/stage27/27-20-r301e/source-justification.md
 SOURCE_JUSTIFICATION_REPAIRED=true
-FRESH_REAUDIT_REQUIRED=true
+FRESH_REAUDIT_REQUIRED=false
+AUDIT_STATUS=PASS
+AUDIT_RECORD=stages/stage27/27-20-r301d-f/audit.md
+PR=1043
+MERGE_COMMIT=11bab78346d6535ba17fb268b42c89defff9a7eb
 
 ## 1. Larger completion population
 
@@ -90,23 +95,24 @@ N_2(B)
 
 No predicate-specific Stage27 CRT/remainder theorem is needed, because the e11 theorem already bounds the larger ambient sifted set containing `P_sp(B)`.
 
-## 4. This is valid if the source justification survives re-audit, but it is not a Stage27 exponent improvement
+## 4. Audited scope and non-improvement
 
-Stage27 already has
+The source-level justification has now passed hostile audit.  This theorem is valid, but Stage27 already has
 
 \[
 N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}.
 \]
 
-For any fixed `epsilon<1/2`, this polynomial half-power theorem is asymptotically stronger than the host-sieve bound above. Therefore even after re-audit, the sieve theorem does not lower the current Stage27 upper exponent.
+For any fixed `epsilon<1/2`, this polynomial half-power theorem is asymptotically stronger than the host-sieve bound above. Therefore the sieve theorem does not lower the current Stage27 upper exponent.
 
 It is also illegal to multiply the host-sieve factor by the existing half-power theorem without a new theorem showing the blocker sieve acts uniformly inside the specific half-power receiver used by Stage14/Stage27.
 
 ## 5. Boundary
 
 ```text
-STAGE27_20_R301E_STATUS=REPAIR_SUBMITTED_PENDING_FRESH_REAUDIT
+STAGE27_20_R301E_STATUS=AUDITED_PASS_MERGED
 PREVIOUS_AUDIT_VERDICT=FAIL_PENDING_SOURCE_JUSTIFICATION
+FINAL_AUDIT_VERDICT=PASS
 R301E_SOURCE_JUSTIFICATION=REPAIRED_BY_IDENTICAL_BAD_SUBSET_AND_SET_INCLUSION
 SAME_BAD_SUBSET_B_P_ON_COMMON_HOST=true
 EQUAL_MASS_ALONE_USED=false
@@ -118,6 +124,6 @@ N2_HOST_SIEVE_BOUND_PROVED=true
 HOST_SIEVE_BOUND_BEATS_CURRENT_HALF_POWER=false
 SIEVE_FACTOR_MULTIPLIED_WITH_HALF_POWER=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
-FRESH_REAUDIT_REQUIRED=true
+FRESH_REAUDIT_REQUIRED=false
 NEXT_DERIVED_ROUTE=27-20-r301f
 ```
