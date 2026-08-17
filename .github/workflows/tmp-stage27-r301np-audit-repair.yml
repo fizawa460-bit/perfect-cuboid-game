@@ -1,0 +1,53 @@
+name: TEMP Stage27 r301n-p audit repair
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301n-p-common-jacobian
+    paths:
+      - '.github/workflows/tmp-stage27-r301np-audit-repair.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-20-r301n-p-common-jacobian
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply audit transcription repair
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python - <<'PY'
+          from pathlib import Path
+
+          n = Path('stages/stage27/27-20-r301n/result.md')
+          s = n.read_text()
+          old = '=\\delta^2\\lambda\\mu\n(\\lambda+\\mu x^2)(\\lambda x^2+\\mu).'
+          new = '=\\delta^2\\lambda\\mu\\cdot\n(\\lambda+\\mu x^2)\\cdot(\\lambda x^2+\\mu).'
+          assert old in s, 'r301n determinant product not found'
+          n.write_text(s.replace(old, new, 1))
+
+          o = Path('stages/stage27/27-20-r301o/result.md')
+          s = o.read_text()
+          old = '(\\delta z^2-(x^2+1)^2)\n(\\delta z^2-(x^2-1)^2)'
+          new = '(\\delta z^2-(x^2+1)^2)\\cdot\n(\\delta z^2-(x^2-1)^2)'
+          assert old in s, 'r301o quartic product not found'
+          o.write_text(s.replace(old, new, 1))
+
+          repair = Path('stages/stage27/27-20-r301n-p/audit-repair.md')
+          repair.write_text('''# Stage27-20-r301n-p audit repair\n\nPREVIOUS_AUDIT_VERDICT=FAIL\nMATHEMATICAL_CORE_AUDIT=PASS\nMATHEMATICAL_DOCUMENT_AUDIT=FAIL\nFAIL_REASON=TWO_CENTRAL_PRODUCT_FORMULAS_TRANSCRIBED_OR_RENDERED_AMBIGUOUSLY\n\nThe exact audited GitHub source at `c9d004b0f18c5515e7249caf050a03296569d7bc` already contains juxtaposed products in both central formulas. To remove all ambiguity and satisfy the hostile-audit repair request, this repair makes multiplication explicit with `\\cdot` in both locations and changes no mathematics.\n\nREPAIR_1=R301N_DETERMINANT_PRODUCT_MADE_EXPLICIT_WITH_CDOT\nREPAIR_2=R301O_QUARTIC_PRODUCT_MADE_EXPLICIT_WITH_CDOT\nMATHEMATICAL_CORE_CHANGED=false\nREPAIR_SUBMITTED=true\nFRESH_REAUDIT_REQUIRED=true\nMERGE_ALLOWED=false\nADVANCE_ALLOWED=false\nCURRENT_CHECKPOINT=40\nNEXT_CHECKPOINT=40\nNEXT_AFTER_REPAIR=Stage27-20-r301-audit\nNEXT_DERIVED_ROUTE_AFTER_PASS=27-20-r301q\nSTRICT_SUB_SQRT_UPPER_PROVED=false\nNEW_MU_LT_HALF_PROVED=false\nTRUE_N2_EXPONENT_IDENTIFIED=false\n''')
+          PY
+
+          python stages/stage27/27-20-r301n-p/verify_27_20_r301n_p.py
+          git add stages/stage27/27-20-r301n/result.md stages/stage27/27-20-r301o/result.md stages/stage27/27-20-r301n-p/audit-repair.md
+          git diff --check --cached
+          git commit -m 'Repair Stage27 r301n-p product notation for reaudit'
+          git push origin HEAD:agent/stage27-20-r301n-p-common-jacobian
