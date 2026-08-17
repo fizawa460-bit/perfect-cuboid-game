@@ -7,21 +7,37 @@
   "parent_route": "Stage27-19-r402c-f",
   "status": "SUBMITTED_PENDING_FRESH_AUDIT",
   "parallel_lane": true,
-  "purpose": "resolve fixed-(tau,g) representation multiplicity and reduce the r402f dyadic arithmetic restart to realized joint tau/core support",
+  "batch_routes": [
+    "27-19-r5aa",
+    "27-19-r5ab",
+    "27-19-r5ac"
+  ],
+  "purpose": "resolve fixed-(tau,g) representation multiplicity, expose the normalized Stage19 squareclass receiver, and extract exact norm-support restrictions before the next theorem-level uniform counting step",
   "proved": {
     "tau_core_gcd_square_factorization": true,
     "fixed_tau_g_core_multiplicity_uniform_subpower": true,
     "joint_tau_g_support_reduction": true,
-    "same_core_collision_subpower_overhead": true
+    "same_core_collision_subpower_overhead": true,
+    "normalized_space_squareclass_receiver": true,
+    "diagonal_two_quadrics_receiver": true,
+    "core_quartic_square_receiver": true,
+    "three_norm_support_restrictions": true,
+    "p_sum_two_squares": true,
+    "g_sum_two_squares": true,
+    "p_plus_q_sum_two_squares": true,
+    "kappa_odd_split_prime_support": true
   },
   "not_proved": {
+    "fixed_power_support_saving_from_norm_restrictions": true,
+    "uniform_moving_diagonal_quadrics_count": true,
     "joint_support_strict_subhalf": true,
     "tau_uniform_fiber_subpower": true,
     "strict_sub_sqrt_upper": true,
     "new_mu_lt_half": true,
     "true_N2_exponent_identified": true
   },
-  "next_arithmetic_target": "UNIFORM_DYADIC_JOINT_SUPPORT_OR_DISTINCT_G_PER_TAU_BOUND",
-  "next_derived_route": "27-19-r5ab",
+  "next_arithmetic_target": "UNIFORM_COUNT_ON_MOVING_DIAGONAL_TWO_QUADRICS_OR_FIXED_POWER_SQUARE_SIEVE_ON_REALIZED_P_Q_G_SUPPORT",
+  "next_derived_route": "27-19-r5ad",
+  "batch_stop_reason": "NEXT_STEP_REQUIRES_FRESH_THEOREM_LEVEL_UNIFORM_COUNTING_INPUT",
   "controller_sync_policy": "DEFER_GLOBAL_CONTROLLER_MUTATION_DURING_PARALLEL_SUBMISSION_TO_MINIMIZE_CROSS_LANE_CONFLICT; FRESH_AUDIT_MUST_REGISTER_CANONICAL_LIFECYCLE_STATE"
 }
