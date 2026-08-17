@@ -1,0 +1,40 @@
+name: Stage27-19-r5ah bootstrap sync
+
+on:
+  push:
+    branches:
+      - agent/stage27-19-r5ah-exact-gamma
+    paths:
+      - 'tools/tmp_stage27_r5ah_sync.py'
+      - '.github/workflows/stage27-19-r5ah-bootstrap.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync-controller:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-19-r5ah-exact-gamma
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Synchronize lifecycle and controller
+        run: |
+          python tools/tmp_stage27_r5ah_sync.py
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5af/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5ah/route-contract.json >/dev/null
+          python stages/stage27/27-19-r5ah/verify_27_19_r5ah_r5ai.py
+          git diff --check
+      - name: Commit synchronized state and self-clean
+        run: |
+          rm tools/tmp_stage27_r5ah_sync.py
+          rm .github/workflows/stage27-19-r5ah-bootstrap.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add stages/stage27/27-controller.json tools/tmp_stage27_r5ah_sync.py .github/workflows/stage27-19-r5ah-bootstrap.yml
+          git commit -m 'Stage27-19-r5ah: sync controller and close r5af-r5ag lifecycle'
+          git push origin HEAD:agent/stage27-19-r5ah-exact-gamma
