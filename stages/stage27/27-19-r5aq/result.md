@@ -48,7 +48,13 @@ Hence every coefficient and residual variable occurring above is a unit modulo \
 \rho\equiv D\sigma\pmod k,
 \]
 
-for units \(A,D\pmod k\). There are at most \(4^{\omega(k)}=k^{o(1)}\) paired choices.
+for units \(A,D\pmod k\). There are at most
+
+\[
+4^{\omega(k)}\ll_\varepsilon k^\varepsilon
+\]
+
+paired choices. This factor is retained explicitly below; it is **not** absorbed into \(X^\varepsilon\) without a relation between \(k\) and \(X\).
 
 ## 1. Hyperbolic pair lemma
 
@@ -82,7 +88,7 @@ Let \(T(X;k)\) count positive \((\mu,\nu,\rho,\sigma)\) with
 \mu\nu\rho\sigma\le X
 \]
 
-and the two r5an residue relations modulo fixed admissible \(k\). Dyadically decompose the two pair-products \(\mu\nu\) and \(\rho\sigma\). There are only \(X^{o(1)}\) dyadic cells. On a cell with pair-product scales \(U,V\) and \(UV\ll X\), the pair lemma gives
+and the two r5an residue relations modulo fixed admissible \(k\). Dyadically decompose the two pair-products \(\mu\nu\) and \(\rho\sigma\). There are only \(X^{o(1)}\) dyadic cells. On a cell with pair-product scales \(U,V\) and \(UV\ll X\), the pair lemma gives, for each fixed paired root choice,
 
 \[
 \ll X^{o(1)}
@@ -96,14 +102,16 @@ Using \(UV\ll X\) and
 U\sqrt V\le X,\qquad V\sqrt U\le X,
 \]
 
-we obtain, after absorbing logarithms and the \(4^{\omega(k)}\) residue choices,
+and then restoring the at most \(4^{\omega(k)}\ll_\varepsilon k^\varepsilon\) paired root choices, we obtain uniformly in \(X,k\)
 
 \[
 \boxed{
-T(X;k)\ll_\varepsilon X^\varepsilon
+T(X;k)\ll_\varepsilon (Xk)^\varepsilon
 \left(\frac Xk+\sqrt X\right).
 }
 \]
+
+The important repair is that the subpower root multiplicity is carried by \((Xk)^\varepsilon\), not silently absorbed into \(X^\varepsilon\).
 
 Thus the kappa congruence saving survives after the exact physical product budget is imposed, for each fixed modulus.
 
@@ -112,10 +120,16 @@ Thus the kappa congruence saving survives after the exact physical product budge
 For one fixed coefficient cell \((\delta,c_0,c_s,c_n)\),
 
 \[
-X=\frac{B}{\delta c_0c_sc_n},
+X=\frac{B}{\delta c_0c_sc_n}\le B.
 \]
 
-so the fixed-kappa survivor host is bounded by
+Also the existing Stage19 scale theorem gives \(k=\kappa\le R\le B\). Therefore, after renaming \(\varepsilon\),
+
+\[
+(Xk)^\varepsilon\le B^{2\varepsilon}=B^{\varepsilon'}.
+\]
+
+Hence the fixed-kappa Stage19 survivor host is bounded by
 
 \[
 \boxed{
@@ -132,7 +146,9 @@ This is a physical-weighted local sieve theorem. It still ignores the stronger r
 ```text
 PHYSICAL_WEIGHTED_FIXED_KAPPA_SIEVE_PROVED=true
 HYPERBOLIC_PAIR_LEMMA_PROVED=true
-FIXED_KAPPA_WEIGHTED_BOUND=X^eps*(X/k+sqrt(X))
+FIXED_KAPPA_WEIGHTED_BOUND=(X*k)^eps*(X/k+sqrt(X))
+STAGE19_FIXED_KAPPA_WEIGHTED_BOUND=B^eps*(X/k+sqrt(X))
+KAPPA_SUBPOWER_FACTOR_UNIFORMLY_ABSORBED_INTO_X_EPS=false
 PHYSICAL_CELL_X=B/(delta*C)
 RESIDUAL_S1_S3_USED_IN_COUNT=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
