@@ -78,8 +78,9 @@ def verify_stress_family() -> None:
     checked = 0
     exact_two_checked = 0
     space_fail_checked = 0
+    combined_congruence_checked = 0
 
-    for v in range(2, 34, 2):
+    for v in range(2, 132, 2):
         for u in range(6 * v + 1, 7 * v):
             if u % 2 == 0 or gcd(u, v) != 1 or u % 5 == 0:
                 continue
@@ -115,20 +116,29 @@ def verify_stress_family() -> None:
             )
             checked += 1
 
-            if u % 11 == 1 and v % 11 == 4:
+            is_exact_two_congruence = u % 11 == 1 and v % 11 == 4
+            is_space_fail_congruence = v % 3 == 0 and u % 3 != 0
+
+            if is_exact_two_congruence:
                 assert F(u, v) % 11 == 8
                 assert not is_square(z["X"] * z["X"] + z["Y"] * z["Y"])
                 exact_two_checked += 1
 
-            if v % 3 == 0 and u % 3 != 0:
+            if is_space_fail_congruence:
                 assert z["J"] % 3 == 1
                 assert (5 * z["J"]) % 3 == 2
                 assert not is_square(5 * z["J"])
                 space_fail_checked += 1
 
-    assert checked > 100
+            if is_exact_two_congruence and is_space_fail_congruence:
+                assert not is_square(z["X"] * z["X"] + z["Y"] * z["Y"])
+                assert not is_square(5 * z["J"])
+                combined_congruence_checked += 1
+
+    assert checked > 1000
     assert exact_two_checked > 0
     assert space_fail_checked > 0
+    assert combined_congruence_checked > 0
 
     assert F(1, 4) % 11 == 8
     assert 8 not in {x * x % 11 for x in range(11)}
