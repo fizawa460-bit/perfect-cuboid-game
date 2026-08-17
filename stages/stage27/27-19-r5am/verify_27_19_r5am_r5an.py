@@ -149,9 +149,21 @@ assert contract["not_proved"]["strict_sub_sqrt_upper"] is True
 
 r5am = (ROOT / "stages/stage27/27-19-r5am/result.md").read_text()
 r5an = (ROOT / "stages/stage27/27-19-r5an/result.md").read_text()
-for marker in ["UNIFORM_PELL_COUNT_LEMMA_PROVED=true", "R5AL_NINE_VARIABLE_UNIQUENESS_STRENGTHENED=true", "STRICT_SUB_SQRT_UPPER_PROVED=false"]:
+for marker in [
+    "UNIFORM_PELL_COUNT_LEMMA_PROVED=true",
+    "UNIFORM_PELL_PROOF_MAXIMAL_ORDER_REPAIRED=true",
+    "NONMAXIMAL_ORDER_CONDUCTOR_ARGUMENT_USED=false",
+    "R5AL_NINE_VARIABLE_UNIQUENESS_STRENGTHENED=true",
+    "STRICT_SUB_SQRT_UPPER_PROVED=false",
+]:
     assert marker in r5am
-for marker in ["KAPPA_DIVIDES_M2_MINUS_N2_PROVED=true", "KAPPA_DIVIDES_R2_PLUS_S2_PROVED=true", "KAPPA_COPRIME_TO_MNRS_PROVED=true", "KAPPA_EQ_1_STAGE19_WITNESS_RETAINED=true", "STRICT_SUB_SQRT_UPPER_PROVED=false"]:
+for marker in [
+    "KAPPA_DIVIDES_M2_MINUS_N2_PROVED=true",
+    "KAPPA_DIVIDES_R2_PLUS_S2_PROVED=true",
+    "KAPPA_COPRIME_TO_MNRS_PROVED=true",
+    "KAPPA_EQ_1_STAGE19_WITNESS_RETAINED=true",
+    "STRICT_SUB_SQRT_UPPER_PROVED=false",
+]:
     assert marker in r5an
 
 print(f"Stage27-19-r5am-r5an verification PASS; space squareclass tuples checked={space_checked}")
