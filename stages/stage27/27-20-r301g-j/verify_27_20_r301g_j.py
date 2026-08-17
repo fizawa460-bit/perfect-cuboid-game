@@ -154,6 +154,8 @@ assert N <= classes * max_fiber
 assert N * N <= classes * energy
 assert energy >= N
 
+# This verifier now runs after the hostile audit and merge closeout of r301g-j.
+# Do not freeze the historical pre-audit PENDING lifecycle here.
 reg = json.loads((ROOT / "stages/stage27/27-20-r301g-j/batch-registry.json").read_text())
 assert reg["routes"] == [
     "Stage27-20-r301g",
@@ -161,14 +163,20 @@ assert reg["routes"] == [
     "Stage27-20-r301i",
     "Stage27-20-r301j",
 ]
-assert reg["audit_status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
-assert reg["merge_allowed"] is False
+assert reg["status"] == "AUDITED_PASS_MERGED"
+assert reg["audit_status"] == "PASS"
+assert reg["merge_allowed"] is True
+assert reg["advance_allowed"] is True
+assert reg["fresh_reaudit_required"] is False
+assert reg["final_audit_verdict"] == "PASS"
+assert reg["merged"] is True
+assert reg["merge_commit"] == "d53f4a4bb74e86c9e0ea38a0e12124c9b3bab30c"
 assert reg["claims"]["fixed_q1_squareclass_support_subpolynomial"] is True
 assert reg["claims"]["fixed_q1_delta_fiber_genus"] == 1
 assert reg["claims"]["uniform_moving_fiber_subpower"] is False
 assert reg["claims"]["strict_sub_sqrt_upper_proved"] is False
 
-# Controller checks are intentionally narrow: the batch must be registered while checkpoint40 stays active.
+# Controller checks are intentionally narrow: g-j are final-audited/merged while checkpoint40 stays active.
 ctl = json.loads((ROOT / "stages/stage27/27-controller.json").read_text())
 for key in [
     "Stage27-20-r301g",
@@ -178,8 +186,13 @@ for key in [
 ]:
     assert key in ctl["derived_routes"], key
     route = ctl["derived_routes"][key]
-    assert route["audit_status"] == "PENDING"
-    assert route["merge_allowed"] is False
+    assert route["status"] == "AUDITED_PASS_MERGED"
+    assert route["audit_status"] == "PASS"
+    assert route["merge_allowed"] is True
+    assert route["advance_allowed"] is True
+    assert route["audit_verdict"] == "PASS"
+    assert route["merged"] is True
+    assert route["merge_commit"] == "d53f4a4bb74e86c9e0ea38a0e12124c9b3bab30c"
     assert route["strict_sub_sqrt_upper_proved"] is False
 assert ctl["state"]["CURRENT_CHECKPOINT"] == 40
 assert ctl["state"]["NEXT_CHECKPOINT"] == 40
