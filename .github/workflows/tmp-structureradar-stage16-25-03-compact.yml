@@ -1,0 +1,37 @@
+name: Temporary StructureRadar Stage16-25 census 03 compact
+on:
+  push:
+    branches: [structureradar/stage16-25-03]
+permissions:
+  contents: write
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compact report
+        run: |
+          python - <<'PY'
+          import json,re
+          from pathlib import Path
+          rows=json.loads(Path('docs/structure-radar/stage16-25-current-03-report.json').read_text())
+          out=[]
+          for r in rows:
+              p=Path(r['path']); text=p.read_text(errors='replace') if p.exists() else ''
+              sig=[]
+              for line in text.splitlines():
+                  s=line.strip()
+                  if not s: continue
+                  if s.startswith('#') or any(k in s for k in ['\\boxed','\\sim','\\ll','\\gg','STATUS=','EVIDENCE_LEVEL=','INTERACTION','TRANSITION','ASYMPTOTIC','ZERO_DENSITY','LOWER','UPPER','RATIO','CONSTANT']):
+                      sig.append(re.sub(r'\s+',' ',s))
+                  if len(sig)>=10: break
+              out.append(f"{r['source_id']}\t{r['path']}\t{r['kind']}\t"+' | '.join(sig)[:1800])
+          Path('docs/structure-radar/stage16-25-current-03-compact.txt').write_text('\n'.join(out)+'\n')
+          PY
+      - name: Commit and self-clean
+        run: |
+          git config user.name 'github-actions[bot]'; git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm .github/workflows/tmp-structureradar-stage16-25-03-compact.yml
+          git add docs/structure-radar/stage16-25-current-03-compact.txt
+          git commit -m 'StructureRadar: compact Stage16-25 census 03'
+          git push
