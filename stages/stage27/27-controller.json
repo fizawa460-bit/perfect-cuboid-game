@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage27",
-  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AH_R5AI_PENDING_FRESH_AUDIT",
+  "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AJ_R5AK_PENDING_FRESH_AUDIT",
   "parent_class": "true-target-exponent-reattack",
   "transition": "Stage18 -> Stage19",
   "source_population": "M2: primitive canonical exactly-two-face cuboids, no space requirement, R<=B",
@@ -22,7 +22,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R402C_F_AUDITED_PASS_MERGED_AND_R5_AUDITED_PASS_MERGED_CLOSED_AND_R5AF_R5AG_AUDITED_PASS_MERGED_AND_R5AH_R5AI_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R402C_F_AUDITED_PASS_MERGED_AND_R5_AUDITED_PASS_MERGED_CLOSED_AND_R5AF_R5AG_AUDITED_PASS_MERGED_AND_R5AH_R5AI_AUDITED_PASS_MERGED_AND_R5AJ_R5AK_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -1196,7 +1196,7 @@
       "next_derived_route": "27-20-r301w"
     },
     "Stage27-19-r5ah-r5ai": {
-      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_serial": "19-r5ah-r5ai",
       "route_kind": "UPPER_REENTRY_PARALLEL",
@@ -1206,7 +1206,7 @@
         "27-19-r5ah",
         "27-19-r5ai"
       ],
-      "audit_status": "PENDING",
+      "audit_status": "PASS",
       "result_path": "stages/stage27/27-19-r5ah/result.md",
       "route_contract": "stages/stage27/27-19-r5ah/route-contract.json",
       "exact_primitive_scale_factorization_proved": true,
@@ -1224,9 +1224,47 @@
       "new_mu_lt_half_proved": false,
       "true_N2_exponent_identified": false,
       "advance_to_checkpoint50": false,
+      "advance_allowed": true,
+      "merge_allowed": true,
+      "next_derived_route": "27-19-r5aj",
+      "lifecycle_status": "PASS_AFTER_SUCCESSOR_REGISTRATION",
+      "audit_record": "stages/stage27/27-19-r5ah/audit-final.md",
+      "pr": 1054,
+      "merge_commit": "38dd56bc3fdcc6830f39340f00bb7bcfc4ad66f9"
+    },
+    "Stage27-19-r5aj-r5ak": {
+      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_kind": "UPPER_REENTRY_PARALLEL",
+      "source_stage": "Stage19",
+      "parent_route": "Stage27-19-r5ai",
+      "batch_routes": [
+        "27-19-r5aj",
+        "27-19-r5ak"
+      ],
+      "purpose": "retain the exact cross-gcd cancellation in physical coordinates and reduce the small residual-factor population to a coupled quadratic squareclass incidence system",
+      "cross_gcd_residual_chart_proved": true,
+      "physical_coordinate_residual_formulas_proved": true,
+      "integral_face_diagonal_residual_formulas_proved": true,
+      "exact_edge_budget_proved": true,
+      "exact_edge_budget": "delta*C*mu*rho*nu*sigma<=(epsilon/2)*B<=B",
+      "residual_squareclass_system_proved": true,
+      "actual_stage19_L_eq_1_witness_proved": true,
+      "actual_stage19_L_eq_1_witness": "(21,16,27,14), R=7585",
+      "unconditional_pointwise_L_gt_1_closed": true,
+      "height_dependent_L_lower_bound_disproved": false,
+      "large_C_population_fixed_power_sparse_proved": false,
+      "small_L_survivor_count_fixed_power_bound_proved": false,
+      "strict_sub_sqrt_upper_proved": false,
+      "new_mu_lt_half_proved": false,
+      "true_N2_exponent_identified": false,
+      "audit_status": "PENDING",
+      "advance_to_checkpoint50": false,
+      "continue_upper_exploration": true,
       "advance_allowed": false,
       "merge_allowed": false,
-      "next_derived_route": "27-19-r5aj"
+      "next_derived_route": "27-19-r5al",
+      "next_target": "UNIFORM_SMALL_L_INCIDENCE_COUNT_USING_RESIDUAL_QUADRATIC_SYSTEM_AND_EDGE_BUDGET"
     }
   },
   "entry_gate": {

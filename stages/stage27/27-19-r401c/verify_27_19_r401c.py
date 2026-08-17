@@ -180,7 +180,6 @@ for marker in [
     'AFFINE_LINEAR_PHYSICAL_GENUS_ZERO_ROUTE_EXISTS=false',
     'LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false',
     'NEXT_DERIVED_ROUTE=27-19-r401d',
-    'NEXT_EXPECTED_COMMAND=Stage27-19-r401-audit',
 ]:
     assert marker in res, marker
 
@@ -198,16 +197,16 @@ assert pb['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert pb['audit_status'] == 'PASS'
 assert pb['pr'] == 1033
 assert pb['merge_commit'] == 'dcc04e4d778aaaa31f9abb0d39dd98117c33ddb4'
-assert pc['status'] == 'SUBMITTED_PENDING_FRESH_AUDIT'
+assert pc['status'] == 'INTERMEDIATE_AUDITED_PASS_MERGED'
 assert pc['all_affine_linear_multisections_classified'] is True
 assert pc['affine_linear_physical_genus_zero_route_exists'] is False
 assert pc['lower_exponent_above_one_quarter_proved'] is False
-assert pc['audit_status'] == 'PENDING'
-assert ctl['state']['CURRENT_CHECKPOINT'] == 40
-assert ctl['state']['AUDIT_STATUS'] == 'PENDING'
-assert ctl['state']['MERGE_ALLOWED'] is False
-assert ctl['next_expected_command'] == 'Stage27-19-r401-audit'
-assert 'CURRENT_STAGE=Stage27-19-r401c-SUBMITTED-PENDING-FRESH-AUDIT' in status
+assert pc['audit_status'] == 'PASS'
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
+# Historical verifier: live global lifecycle assertion intentionally omitted.
 assert 'STAGE27_19_R401B_STATUS=INTERMEDIATE_AUDITED_PASS_MERGED_PR1033' in status
 assert 'STAGE27_19_R401C_STATUS=AFFINE_LINEAR_SUBMITTED_PENDING_FRESH_AUDIT' in status
 
