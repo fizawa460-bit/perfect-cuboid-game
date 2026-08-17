@@ -1,0 +1,163 @@
+name: TEMP Stage27 r301q-s lifecycle sync
+
+on:
+  push:
+    branches:
+      - agent/stage27-20-r301q-s-uniform-fiber
+    paths:
+      - '.github/workflows/tmp-stage27-r301qs-sync.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/stage27-20-r301q-s-uniform-fiber
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize n-p closeout and register q-s
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          python - <<'PY'
+          from pathlib import Path
+          import json
+
+          root = Path('stages/stage27')
+          merge = '8a03c8865b229a991222454ebd1bd61795c5e1b6'
+
+          # Materialize the already-merged post-repair n-p lifecycle.
+          for suffix in 'nop':
+              p = root / f'27-20-r301{suffix}' / 'result.md'
+              s = p.read_text()
+              s = s.replace('STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT', 'STATUS=AUDITED_PASS_MERGED', 1)
+              s = s.replace(f'STAGE27_20_R301{suffix.upper()}_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+                            f'STAGE27_20_R301{suffix.upper()}_STATUS=AUDITED_PASS_MERGED', 1)
+              p.write_text(s)
+
+          rp = root / '27-20-r301n-p' / 'batch-registry.json'
+          reg = json.loads(rp.read_text())
+          reg.update({
+              'status': 'AUDITED_PASS_MERGED',
+              'audit_status': 'PASS',
+              'merge_allowed': True,
+              'advance_allowed': True,
+              'fresh_reaudit_required': False,
+              'final_audit_verdict': 'PASS',
+              'merged': True,
+              'merge_commit': merge,
+          })
+          rp.write_text(json.dumps(reg, indent=2) + '\n')
+
+          audit = root / '27-20-r301n-p' / 'audit.md'
+          audit.write_text(f'''# Stage27-20-r301n-p — post-repair hostile-audit closeout\n\nAUDIT_VERDICT=PASS\nMATHEMATICAL_AUDIT=PASS\nMATHEMATICAL_DOCUMENT_AUDIT=PASS_AFTER_PRODUCT_NOTATION_REPAIR\nCI_AUDIT=PASS\nINTEGRATION_AUDIT=PASS\n\nAUDIT_PR=1047\nPR_MERGED=true\nPR_MERGE_COMMIT={merge}\n\nR301N_MATHEMATICS=PASS\nR301O_MATHEMATICS=PASS\nR301P_MATHEMATICS=PASS\nPRODUCT_NOTATION_REPAIR=PASS\n\nSTRICT_SUB_SQRT_UPPER_PROVED=false\nNEW_MU_LT_HALF_PROVED=false\nTRUE_N2_EXPONENT_IDENTIFIED=false\n\nAUDIT_CLOSE_STAGE=false\nADVANCE_TO_CHECKPOINT50=false\nCURRENT_CHECKPOINT=40\nNEXT_CHECKPOINT=40\nMERGE_ALLOWED=true\nNEXT_DERIVED_ROUTE=27-20-r301q\n\nThis closeout materializes the accepted post-repair lifecycle of merged PR #1047. It changes lifecycle only and does not strengthen n-p theorem claims.\n''')
+
+          # Old n-p verifier must verify the final lifecycle, not freeze PENDING forever.
+          vp = root / '27-20-r301n-p' / 'verify_27_20_r301n_p.py'
+          s = vp.read_text()
+          s = s.replace('assert reg["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"', 'assert reg["status"] == "AUDITED_PASS_MERGED"')
+          s = s.replace('assert reg["audit_status"] == "PENDING"', 'assert reg["audit_status"] == "PASS"')
+          s = s.replace('assert reg["merge_allowed"] is False', 'assert reg["merge_allowed"] is True')
+          s = s.replace('assert reg["fresh_reaudit_required"] is True', 'assert reg["fresh_reaudit_required"] is False')
+          s = s.replace('assert route["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"', 'assert route["status"] == "AUDITED_PASS_MERGED"')
+          s = s.replace('assert route["audit_status"] == "PENDING"', 'assert route["audit_status"] == "PASS"')
+          s = s.replace('assert route["merge_allowed"] is False', 'assert route["merge_allowed"] is True')
+          s = s.replace('assert route["advance_allowed"] is False', 'assert route["advance_allowed"] is True')
+          vp.write_text(s)
+
+          cp = root / '27-controller.json'
+          ctl = json.loads(cp.read_text())
+          dr = ctl['derived_routes']
+
+          for suffix in 'nop':
+              ent = dr[f'Stage27-20-r301{suffix}']
+              ent.update({
+                  'status': 'AUDITED_PASS_MERGED',
+                  'audit_status': 'PASS',
+                  'merge_allowed': True,
+                  'advance_allowed': True,
+                  'fresh_reaudit_required': False,
+                  'merged': True,
+                  'pr': 1047,
+                  'merge_commit': merge,
+                  'audit_record': 'stages/stage27/27-20-r301n-p/audit.md',
+              })
+
+          dr['Stage27-20-r301q'] = {
+              'trigger_checkpoint': 40,
+              'route_kind': 'UPPER_REENTRY_PREFLIGHT',
+              'source_stage': 'Stage20',
+              'parent_route': 'Stage27-20-r301p',
+              'batch_audit_group': 'Stage27-20-r301q-s',
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+              'audit_status': 'PENDING',
+              'merge_allowed': False,
+              'advance_allowed': False,
+              'result_path': 'stages/stage27/27-20-r301q/result.md',
+              'explicit_delta_independent_elliptic_receiver_proved': True,
+              'receiver_map_degree_at_most_two': True,
+              'physical_image_height_polynomial_uniform': True,
+              'uniform_covering_height_transfer_proved': True,
+              'strict_sub_sqrt_upper_proved': False,
+              'next_derived_route': '27-20-r301r',
+          }
+          dr['Stage27-20-r301r'] = {
+              'trigger_checkpoint': 40,
+              'route_kind': 'UPPER_REENTRY_PREFLIGHT',
+              'source_stage': 'Stage20',
+              'parent_route': 'Stage27-20-r301q',
+              'batch_audit_group': 'Stage27-20-r301q-s',
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+              'audit_status': 'PENDING',
+              'merge_allowed': False,
+              'advance_allowed': False,
+              'result_path': 'stages/stage27/27-20-r301r/result.md',
+              'naccarato_uniform_point_count_applied': True,
+              'uniform_moving_q1_delta_fiber_subpower_proved': True,
+              'uniform_fixed_x_aggregate_subpower_proved': True,
+              'fixed_x_aggregate_fiber_exponent': 0,
+              'strict_sub_sqrt_upper_proved': False,
+              'next_derived_route': '27-20-r301s',
+          }
+          dr['Stage27-20-r301s'] = {
+              'trigger_checkpoint': 40,
+              'route_kind': 'UPPER_REENTRY_PREFLIGHT',
+              'source_stage': 'Stage20',
+              'parent_route': 'Stage27-20-r301r',
+              'batch_audit_group': 'Stage27-20-r301q-s',
+              'status': 'BATCH_SUBMITTED_PENDING_FRESH_AUDIT',
+              'audit_status': 'PENDING',
+              'merge_allowed': False,
+              'advance_allowed': False,
+              'result_path': 'stages/stage27/27-20-r301s/result.md',
+              'N2_q1_support_exponent_equivalence_proved': True,
+              'N2_j_support_exponent_equivalence_proved': True,
+              'independent_q1_support_deficit_proved': False,
+              'strict_sub_sqrt_upper_proved': False,
+              'next_derived_route': '27-20-r301t',
+          }
+
+          ctl['stage20_r301_numbering_contract'] = {
+              'current_serial': 'r301',
+              'last_letter': 'z',
+              'after_r301z': 'Stage27-20-r302-main-batch',
+              'r301aa_forbidden': True,
+          }
+          cp.write_text(json.dumps(ctl, indent=2) + '\n')
+          PY
+
+          python stages/stage27/27-20-r301n-p/verify_27_20_r301n_p.py
+          python stages/stage27/27-20-r301q-s/verify_27_20_r301q_s.py
+          python -m json.tool stages/stage27/27-controller.json >/dev/null
+          python -m json.tool stages/stage27/27-20-r301n-p/batch-registry.json >/dev/null
+          git add stages/stage27
+          git diff --check --cached
+          git commit -m 'Sync Stage27 r301n-p closeout and register r301q-s'
+          git push origin HEAD:agent/stage27-20-r301q-s-uniform-fiber
