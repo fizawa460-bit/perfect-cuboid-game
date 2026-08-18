@@ -1,0 +1,84 @@
+name: StructureRadar batch25 analyzer push
+on:
+  push:
+    branches: ['agent/sr-b25-analyzer-base']
+permissions:
+  contents: read
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Analyze batch25 candidates
+        run: |
+          python - <<'PY'
+          import json, math, re
+          from pathlib import Path
+          from collections import Counter
+          q=json.loads(Path('docs/structure-radar/exploration-queue.json').read_text()); ids=q['tasks'][0]['source_ids'][:60]; assert len(ids)==60
+          mf={}
+          for p in Path('docs/structure-radar/source-manifest').glob('part-*.json'):
+            for s in json.loads(p.read_text()).get('sources',[]): mf[s['source_id']]=s
+          reg=json.loads(Path('docs/structure-radar/structure-registry.json').read_text()); raw=reg.get('structures') or reg.get('cards') or reg.get('registry')
+          if isinstance(raw,dict):
+            cards=[]
+            for k,v in raw.items():
+              if isinstance(v,dict): d=dict(v); d.setdefault('structure_id',k); cards.append(d)
+          else: cards=raw
+          stop=set('the and for from with into this that stage result report summary source structure audit frozen boundary current reviewed new true false main fixed open closed data json proof theorem lemma claim repo provenance'.split())
+          def tok(s): return [x for x in re.findall(r'[a-z][a-z0-9_+-]{2,}',s.lower()) if x not in stop]
+          def flat(x,skip=False):
+            if isinstance(x,dict):
+              z=[]
+              for k,v in x.items():
+                if skip and k in {'repo_provenance','provenance','source_ids'}: continue
+                z+=[str(k)]+flat(v,skip)
+              return z
+            if isinstance(x,list):
+              z=[]
+              for v in x:z+=flat(v,skip)
+              return z
+            return [str(x)] if isinstance(x,(str,int,float,bool)) else []
+          rows=[]; df=Counter()
+          for c in cards:
+            cid=c.get('structure_id') or c.get('id') or c.get('card_id'); title=c.get('title') or c.get('name') or c.get('label') or ''
+            tt=set(tok(' '.join(flat(c,True)))); rows.append((cid,title,tt))
+            for t in tt:df[t]+=1
+          N=len(rows); idf={t:math.log((N+1)/(n+1))+1 for t,n in df.items()}
+          keys=('summary','conclusion','status','claim','theorem','result','boundary','open','receiver','verdict','obstruction','saving','power','route','target','statement')
+          def sig(obj,text):
+            out=[]
+            if isinstance(obj,dict):
+              def walk(x):
+                if len(out)>=10:return
+                if isinstance(x,dict):
+                  for k,v in x.items():
+                    if any(z in str(k).lower() for z in keys) and isinstance(v,(str,int,float,bool)):out.append(f'{k}={v}')
+                    walk(v)
+                elif isinstance(x,list):
+                  for v in x[:15]:walk(v)
+              walk(obj)
+            else:
+              for ln in text.splitlines():
+                if ln.startswith('#') or any(z in ln.lower() for z in keys):out.append(ln.strip())
+                if len(out)>=10:break
+            return ' | '.join(out)[:900]
+          print('BATCH25_ANALYZER',len(ids),'cards',N)
+          for i,sid in enumerate(ids,1):
+            m=mf[sid]; p=Path(m['path']); text=p.read_text(errors='replace'); obj=None
+            if p.suffix=='.json':
+              try:obj=json.loads(text)
+              except:pass
+            body=' '.join(flat(obj)) if obj is not None else text
+            st=Counter(tok((m['path']+' ')*3+body)); cand=[]
+            for cid,title,ct in rows:
+              common=set(st)&ct; score=sum(idf.get(t,1)*(1+.15*min(st[t],3)) for t in common)/math.sqrt(max(1,len(ct)))
+              if score:cand.append((score,cid,title,sorted(common,key=lambda t:-idf.get(t,1))[:8]))
+            cand.sort(reverse=True)
+            print('---'); print(f'{i:02d} {sid} {m["path"]}'); print('SIGNALS',sig(obj,text))
+            for sc,cid,title,cm in cand[:5]:print(f'CAND {cid} {sc:.3f} {title!r} :: {",".join(cm)}')
+          PY
