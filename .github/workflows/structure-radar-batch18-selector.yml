@@ -1,0 +1,59 @@
+name: StructureRadar batch18 selector
+on:
+  push:
+    branches: [structure-radar-deep-corpus-batch-18]
+    paths: ['.github/structure-radar-batch18-trigger.txt']
+permissions:
+  contents: write
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract exact READY slice
+        shell: python
+        run: |
+          import json, pathlib, re
+          ids = '''SRC-7E916FE85F20 SRC-314E0A1266DA SRC-70C75B7EBE5A SRC-6A2BB7E963B3 SRC-8E8437F416CB SRC-76690A486012 SRC-8C98A3704A84 SRC-876B84E2D5C5 SRC-A37DE6EA2F86 SRC-2EDA77329EE6 SRC-4767EB3A84DF SRC-2B463A1BB863 SRC-ED5A5DE03AEF SRC-EC35B7CFA6F0 SRC-E2A394288622 SRC-3495AE9717AB SRC-B50D678E7FC7 SRC-44BDDA1A1D01 SRC-76B9AFE751AB SRC-6DFE1601587B SRC-F215E4C841FF SRC-D9A949442BB6 SRC-26B599010B68 SRC-4F4B78252856 SRC-071F30EEEB2E SRC-A53FBD59C9A9 SRC-4F0CED67D8E9 SRC-06A5F22C6EFA SRC-1C2AEB6BFB57 SRC-7AB0050991A5 SRC-8FCFF1615848 SRC-1C623028F65A SRC-5163D1D2D89B SRC-CBF949FC9E83 SRC-070C112DC6CF SRC-7563890AE42B SRC-E6A3774BB958 SRC-0042A96111DD SRC-EFFF0155F1A5 SRC-248F3AD93FCA SRC-4BA3A706E7C4 SRC-3B012BF961D7 SRC-40319F0D4BD8 SRC-F41E0D06CA5C SRC-9F9F9094A419 SRC-71F42AB92B54 SRC-284B764CCEC1 SRC-E1C2971A93E1 SRC-25CA57FF2162 SRC-7DD4ECABA53A SRC-FD739DC179D9 SRC-8ED2D43E17BC SRC-136B4DD61802 SRC-6DA1F7275C26 SRC-A090321110DF SRC-CA34D885C22B SRC-6ADC0FA07A0E SRC-BA79D5DE51D4 SRC-5EE33DD471CC SRC-819A4D04FFA9'''.split()
+          entries={}
+          for p in sorted(pathlib.Path('docs/structure-radar/source-manifest').glob('part-*.json')):
+              data=json.loads(p.read_text())
+              arr=data.get('sources', data if isinstance(data,list) else [])
+              for e in arr:
+                  if e.get('source_id') in ids: entries[e['source_id']]=e
+          assert set(entries)==set(ids), (len(entries), sorted(set(ids)-set(entries)))
+          out=[]; lines=[]
+          rx=re.compile(r'(PROVED|BOUND|BARRIER|TARGET|RECEIVER|STATUS|CURRENT|NEXT|false|true|sqrt|power|sieve|fiber|support|moment|height|divisor|gcd|rank|elliptic|quartic|character|Gaussian|prime|cofactor|Pythagorean|collision|Selmer|Prym|Jacobian)',re.I)
+          for n,sid in enumerate(ids,1):
+              e=entries[sid]; path=e.get('path',''); txt=''
+              pp=pathlib.Path(path)
+              if pp.is_file():
+                  try: txt=pp.read_text(errors='replace')
+                  except: pass
+              title=''
+              for ln in txt.splitlines():
+                  if ln.startswith('# '): title=ln[2:].strip(); break
+              key=[]
+              for ln in txt.splitlines():
+                  z=ln.strip()
+                  if z and rx.search(z):
+                      key.append(z[:700])
+                      if len(key)>=28: break
+              excerpt='\n'.join(txt.splitlines()[:110])[:15000]
+              rec={k:e.get(k) for k in ['source_id','path','fingerprint','stage','kind','evidence_role']}
+              rec.update(n=n,title=title,key_lines=key,excerpt=excerpt)
+              out.append(rec); lines.append(f'{n:02d}\t{sid}\t{path}\t{title}')
+          pathlib.Path('.github/structure-radar-batch18-index.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          pathlib.Path('.github/structure-radar-batch18-summary.txt').write_text('\n'.join(lines)+'\n')
+      - name: Commit selector output
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .github/structure-radar-batch18-index.json .github/structure-radar-batch18-summary.txt
+          git commit -m 'StructureRadar batch18 source index' || exit 0
+          git push
