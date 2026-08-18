@@ -1,0 +1,89 @@
+name: StructureRadar postmerge audit batch24
+
+on:
+  pull_request:
+    branches:
+      - structure-radar-postmerge-audit-b24-base
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    if: github.head_ref == 'structure-radar-postmerge-audit-b24-runner'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Independent post-merge batch24 audit
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          batch_id='SR-BATCH-STAGE14_15_DEEP_CORPUS-24-R01'
+          expected_union={
+            'SR-STR-052','SR-STR-090','SR-STR-091','SR-STR-162','SR-STR-163',
+            'SR-STR-164','SR-STR-165','SR-STR-169','SR-STR-194','SR-STR-200',
+            'SR-STR-209','SR-STR-219','SR-STR-222','SR-STR-223','SR-STR-225'
+          }
+          controller=json.loads(Path('docs/structure-radar/controller.json').read_text())
+          assert controller['status']=='READY'
+          assert controller['corpus']['review_states']=={'CURRENT_REVIEWED':2022,'NEW':534}
+          assert controller['registry']['structure_count']==225
+
+          progress=json.loads(Path('docs/structure-radar/progress.json').read_text())
+          batch=next(b for b in progress['audit_batches'] if b['batch_id']==batch_id)
+          assert batch['task_id']=='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          assert batch['status']=='SUBMITTED_FOR_AUDIT'
+          assert len(batch['source_ids'])==60 == batch['sources_reviewed']
+          assert len(set(batch['source_ids']))==60
+          assert batch['structures_added']==0
+          assert batch['structures_updated']==15
+          assert batch['structure_carrier_sources']==60
+          assert batch['structures_deduped']==0
+          assert batch['duplicate_source']==0
+          assert batch['no_distinct_structure']==0
+
+          union=set()
+          mappings={}
+          for sid in batch['source_ids']:
+              r=progress['source_reviews'][sid]
+              assert r['batch_id']==batch_id
+              assert r['status']=='STRUCTURES_RECORDED'
+              assert r['structure_ids']
+              mappings[sid]=set(r['structure_ids'])
+              union.update(r['structure_ids'])
+          assert union==expected_union, (sorted(union), sorted(expected_union))
+
+          manifests=[]
+          for p in sorted(Path('docs/structure-radar/source-manifest').glob('part-*.json')):
+              manifests.extend(json.loads(p.read_text())['sources'])
+          by_source={s['source_id']:s for s in manifests}
+          for sid in batch['source_ids']:
+              assert by_source[sid]['review_state']=='CURRENT_REVIEWED'
+              assert by_source[sid]['fingerprint']==progress['source_reviews'][sid]['fingerprint']
+
+          registry=json.loads(Path('docs/structure-radar/structure-registry.json').read_text())
+          by_card={c['structure_id']:c for c in registry['structures']}
+          for sid, cards in mappings.items():
+              for cid in cards:
+                  prov={p['source_id']:p for p in by_card[cid]['repo_provenance']}
+                  assert sid in prov, (sid,cid)
+                  assert prov[sid]['fingerprint']==progress['source_reviews'][sid]['fingerprint']
+
+          queue=json.loads(Path('docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in queue['tasks'] if t['task_id']=='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01')
+          assert task['status']=='READY'
+          assert task['source_ids'][0]=='SRC-46BF6932C6C9'
+          print('POSTMERGE_BATCH24_AUDIT_ASSERTIONS=PASS')
+          PY
+          python scripts/structure_radar.py refresh
+          git diff --exit-code -- docs/structure-radar
+          python scripts/structure_radar.py verify
+          git diff --check
