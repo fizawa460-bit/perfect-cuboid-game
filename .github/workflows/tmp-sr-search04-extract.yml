@@ -15,9 +15,10 @@ jobs:
         with:
           python-version: '3.12'
       - run: python .tmp/sr-search04-extract.py
+      - run: python .tmp/sr-search04-script-snippet.py
       - run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add .tmp/sr-search04-cards.json
-          git diff --cached --quiet || git commit -m 'tmp: extract search04 cards'
+          git add .tmp/sr-search04-cards.json .tmp/sr-search04-script-snippet.txt
+          git diff --cached --quiet || git commit -m 'tmp: extract search04 data'
           git push origin HEAD:agent/sr-search04-analysis
