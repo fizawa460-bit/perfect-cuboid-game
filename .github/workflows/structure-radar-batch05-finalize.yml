@@ -1,0 +1,207 @@
+name: StructureRadar batch05 one-shot finalizer
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-05
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Record batch 05 review and normalized structures
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          BATCH = "SR-BATCH-STAGE14_15_DEEP_CORPUS-05-R01"
+          TASK = "SR-CENSUS-STAGE14_15_DEEP_CORPUS-01"
+          expected = [
+            "SRC-C452F5C5ECB4","SRC-5EB9CB5CAA93","SRC-40CBA01BB519","SRC-2F0B8EA90DBD","SRC-AD8BDBFCA461","SRC-4AF2A33ECABB","SRC-0D2F15D06C8A","SRC-96DDF6EE7CD5","SRC-F774A9FC0D4C","SRC-683CEFA5A25B","SRC-8823BC3FCC6E","SRC-BE12F097D603","SRC-9016CC8B8A0B","SRC-83C37DA5FD49","SRC-C029708BEEAA","SRC-17B948F7BA23","SRC-17AF79E16AA1","SRC-327C1CBC9ADB","SRC-3C992B32D1B8","SRC-91D2993FDD3F","SRC-5EFB34B30D5B","SRC-4D642B8C4B00","SRC-3EDF8CE45706","SRC-705C72AC064C","SRC-5DEC55564077","SRC-754A9886D991","SRC-6C086090C4BF","SRC-D592BDE25931","SRC-5CD6BE667786","SRC-7C5318D8ECCB","SRC-5AB3E3AE31BF","SRC-3C39FF0592AC","SRC-070E914E22D4","SRC-1C842C460DCB","SRC-B5D902056BF9","SRC-278F09F7EF87","SRC-0E4E1F789B63","SRC-50BE1995C839","SRC-025B1E368C75","SRC-81CC3C8054B4","SRC-C07D4C6EC738","SRC-40EC6622CFE9","SRC-CDD0C503CD12","SRC-06BA3C36DFA8","SRC-9D7F8078A0D5","SRC-E186207D95CF","SRC-515E11569074","SRC-DBC3FA827E23","SRC-378A39EE1B10","SRC-73BA1ED2CC68","SRC-08119F78C05D","SRC-CD7BE61A094C","SRC-04F83644D82D","SRC-728D08678B51","SRC-319159641DAB","SRC-ACDE4038B8C4","SRC-20AF63706766","SRC-D3BCC232A025","SRC-83C0724C6279","SRC-1105593E0CB4"
+          ]
+
+          queue_path = Path("docs/structure-radar/exploration-queue.json")
+          progress_path = Path("docs/structure-radar/progress.json")
+          registry_path = Path("docs/structure-radar/structure-registry.json")
+          queue = json.loads(queue_path.read_text())
+          progress = json.loads(progress_path.read_text())
+          registry = json.loads(registry_path.read_text())
+
+          ready = [t for t in queue["tasks"] if t.get("status") == "READY"]
+          assert ready and ready[0]["task_id"] == TASK, ready[:1]
+          assert ready[0]["source_ids"] == expected, "READY slice changed"
+
+          sources = {}
+          for p in sorted(Path("docs/structure-radar/source-manifest").glob("part-*.json")):
+              part = json.loads(p.read_text())
+              for s in part["sources"]:
+                  sources[s["source_id"]] = s
+          assert all(sid in sources for sid in expected)
+
+          carrier_map = {
+            "SRC-5EFB34B30D5B":["SR-STR-191"],
+            "SRC-4D642B8C4B00":["SR-STR-191"],
+            "SRC-3EDF8CE45706":["SR-STR-191"],
+            "SRC-705C72AC064C":["SR-STR-191"],
+            "SRC-3C39FF0592AC":["SR-STR-192"],
+            "SRC-070E914E22D4":["SR-STR-192"],
+            "SRC-1C842C460DCB":["SR-STR-193"],
+            "SRC-B5D902056BF9":["SR-STR-193"],
+            "SRC-728D08678B51":["SR-STR-195"],
+            "SRC-319159641DAB":["SR-STR-195"],
+            "SRC-ACDE4038B8C4":["SR-STR-186"],
+            "SRC-83C0724C6279":["SR-STR-194"],
+            "SRC-1105593E0CB4":["SR-STR-186"],
+          }
+          no_distinct = set(expected[:18]) | {
+            "SRC-E186207D95CF","SRC-DBC3FA827E23","SRC-20AF63706766","SRC-D3BCC232A025"
+          }
+          assert len(carrier_map) == 13
+          assert len(no_distinct) == 22
+          assert not (set(carrier_map) & no_distinct)
+
+          for sid in expected:
+              rec = {"fingerprint": sources[sid]["fingerprint"], "batch_id": BATCH}
+              if sid in carrier_map:
+                  rec["status"] = "STRUCTURES_RECORDED"
+                  rec["structure_ids"] = carrier_map[sid]
+              elif sid in no_distinct:
+                  rec["status"] = "NO_DISTINCT_STRUCTURE"
+              else:
+                  rec["status"] = "DUPLICATE_SOURCE"
+              progress["source_reviews"][sid] = rec
+
+          def prov(sid, locator):
+              s = sources[sid]
+              return {"source_id":sid,"path":s["path"],"locator":locator,"fingerprint":s["fingerprint"]}
+
+          existing_ids = {x["structure_id"] for x in registry["structures"]}
+          assert "SR-STR-190" in existing_ids and "SR-STR-191" not in existing_ids
+
+          new_cards = [
+            {
+              "structure_id":"SR-STR-191",
+              "canonical_math_name":"Non-independent weighted local-Sha-height retainer chain",
+              "exact_equations_or_object":"On one nonnegative weighted family A_Q>=S_Q>=R_Q>=H_Q,C, the exact local, global/Sha and first-small-point retainers combine without independence: H_Q,C <= rho_ht*rho_glob*rho_loc*A_Q + rho_ht*rho_glob*E_loc + rho_ht*E_glob + E_ht. The middle complement is the Sha trap R_Q=S_Q-T_Q and the final complement is H_Q,C=R_Q-U_Q,C.",
+              "search_terms_primary":["weighted Selmer Sha rank small point retainer","non-independent error propagation elliptic family"],
+              "search_terms_aliases":["three-gate weighted retainer chain","local global height deterministic transfer"],
+              "theorem_species":["weighted counting identity","Selmer-Sha decomposition","error-budget transfer"],
+              "repo_provenance":[
+                prov("SRC-5EFB34B30D5B","conditional three-retainer transfer"),
+                prov("SRC-4D642B8C4B00","Sha-trap weighted identity"),
+                prov("SRC-3EDF8CE45706","weighted first-small-point complement"),
+                prov("SRC-705C72AC064C","end-to-end deterministic synthesis")
+              ],
+              "target_populations":["Stage14 moving Pythagorean elliptic base family and analogous nested arithmetic gates"],
+              "potential_weapon_types":["MEASURE_ADAPTER","WEIGHTED_RETAINER","ERROR_BUDGET"],
+              "applicability_gaps":["The identity supplies no positive saving exponent by itself.","The physical count is only transferred after an unweighted or dominating instantiation of the common family."],
+              "existing_radar_overlap":["SR-STR-162","SR-STR-178"],
+              "search_status":"NOT_SEARCHED","arsenal_decision":"PENDING","card_status":"SUBMITTED_FOR_AUDIT"
+            },
+            {
+              "structure_id":"SR-STR-192",
+              "canonical_math_name":"K4 reciprocity 2-core peeling and three-regime graph escape",
+              "exact_equations_or_object":"The six reciprocal Jacobi edges on m,n,m-n,m+n form K4. Leaf peeling closes every empty 2-core monomial (38 of 64 edge subsets); the remaining 26 have cores C3 (16), C4 (3), diamond (6), or K4 (1). A three-regime escape with eta=1/100 closes every nonempty core, with conservative regular-box saving M^(-1/200+epsilon).",
+              "search_terms_primary":["K4 reciprocity graph 2-core quadratic character","Jacobi product conductor graph peeling"],
+              "search_terms_aliases":["K4 two-core escape","reciprocity graph leaf peeling"],
+              "theorem_species":["graph decomposition","quadratic large sieve","product-conductor escape"],
+              "repo_provenance":[prov("SRC-3C39FF0592AC","exact K4 2-core classification"),prov("SRC-070E914E22D4","three-case graph escape and delta_K4")],
+              "target_populations":["Stage14 four-linear Euclid reciprocal Fourier monomials"],
+              "potential_weapon_types":["GRAPH_REDUCTION","LARGE_SIEVE","LOCAL_CHARACTER_BOUND"],
+              "applicability_gaps":["The graph theorem does not by itself close the state-split norm column or the complete local indicator.","The 1/200 exponent is a conservative assembly value, not an optimized final family exponent."],
+              "existing_radar_overlap":["SR-STR-161"],
+              "search_status":"NOT_SEARCHED","arsenal_decision":"PENDING","card_status":"SUBMITTED_FOR_AUDIT"
+            },
+            {
+              "structure_id":"SR-STR-193",
+              "canonical_math_name":"E-column Walsh collapse and root-sawtooth spacing closure",
+              "exact_equations_or_object":"For e=ker_odd(m^2+n^2), the full odd norm-column indicator collapses exactly to I_E(d1;e)=2^(-omega(e))*sum_{v|e}(d1/v). After the other reciprocal edges are contracted, the final signed-root linear-E sawtooth kernel is controlled by positive-definite forms X^2+Y^2, 2X^2+/-2XY+Y^2; divisor spacing yields E_rec(M)<<M^(2-1/200+epsilon).",
+              "search_terms_primary":["Walsh divisor expansion norm column Jacobi","root sawtooth spacing positive definite binary quadratic form"],
+              "search_terms_aliases":["E-column Walsh collapse","linear norm signed-root closure"],
+              "theorem_species":["Walsh expansion","finite Fourier analysis","spacing estimate"],
+              "repo_provenance":[prov("SRC-1C842C460DCB","E-column Walsh collapse and scalar transition kernel"),prov("SRC-B5D902056BF9","root-spacing closure and reciprocal saving")],
+              "target_populations":["Stage14 complete local 2-descent character polynomial on regular Euclid boxes"],
+              "potential_weapon_types":["LOCAL_DESCENT","FOURIER_COLLAPSE","SPACING_BOUND"],
+              "applicability_gaps":["This controls the nonconstant reciprocal contribution; a nonnegative full local count requires the complete-system majorant.","The displayed 1/200 saving was later quantitatively optimized elsewhere."],
+              "existing_radar_overlap":["SR-STR-161","SR-STR-178"],
+              "search_status":"NOT_SEARCHED","arsenal_decision":"PENDING","card_status":"SUBMITTED_FOR_AUDIT"
+            },
+            {
+              "structure_id":"SR-STR-194",
+              "canonical_math_name":"Shared-squareclass four-cell thin-packet switch",
+              "exact_equations_or_object":"For squarefree coprime pairs ab=cd=xi, set alpha=gcd(a,c), beta=gcd(a,d), gamma=gcd(b,c), delta=gcd(b,d). Then a=alpha beta, b=gamma delta, c=alpha gamma, d=beta delta with four pairwise-coprime cells and xi=alpha beta gamma delta. Holding three cells fixed turns the same-kernel condition into a genuine nonsquare quartic in the fourth cell; a one-variable square sieve closes the hard thin packet without dropping the shared xi label.",
+              "search_terms_primary":["shared squareclass four gcd cells square sieve","thin packet common squarefree label quartic"],
+              "search_terms_aliases":["four-cell shared-xi switch","gcd-cell thin-packet sieve"],
+              "theorem_species":["squarefree factorization","square sieve","thin-packet switching"],
+              "repo_provenance":[prov("SRC-83C0724C6279","shared-xi four-cell decomposition and one-cell sieve")],
+              "target_populations":["Stage14 product-square fixed-quartic collision packets"],
+              "potential_weapon_types":["SQUARE_SIEVE","FACTOR_CELL_DECOMPOSITION","ENDPOINT_SWITCH"],
+              "applicability_gaps":["The cell polynomial must remain nonsquare on the physical open chamber.","The historical 18/19 whole-family exponent is superseded and is not part of this normalized mechanism card."],
+              "existing_radar_overlap":["SR-STR-186"],
+              "search_status":"NOT_SEARCHED","arsenal_decision":"PENDING","card_status":"SUBMITTED_FOR_AUDIT"
+            },
+            {
+              "structure_id":"SR-STR-195",
+              "canonical_math_name":"Squarefree j=1728 twist compression of the joint physical squareclasses",
+              "exact_equations_or_object":"For reduced 0<P<Q define xi=ker(PQ), k=ker(Q^2-P^2), with gcd(xi,k)=1. Two physical reduced coordinates share (k,xi), hence lie on k y^2=1-xi^2 z^4 with squarefree n=k xi=ker(PQ(Q-P)(Q+P)); its Jacobian is E_n:Y^2=X^3+4n^2X. The two physical points have non-torsion difference, so the receiver is a moving squarefree j=1728 twist rather than a torsion-pair artifact.",
+              "search_terms_primary":["j 1728 squarefree quartic twist physical squareclass","binary quartic kernel elliptic twist non torsion pair"],
+              "search_terms_aliases":["joint squareclass twist compression","universal quartic j1728 receiver"],
+              "theorem_species":["quartic-to-elliptic transformation","squareclass compression","torsion exclusion"],
+              "repo_provenance":[prov("SRC-728D08678B51","joint labels and j=1728 twist"),prov("SRC-319159641DAB","universal quartic kernel receiver")],
+              "target_populations":["Stage14 joint reduced-coordinate physical pair receiver"],
+              "potential_weapon_types":["ELLIPTIC_TWIST","SQUARECLASS_RECEIVER","HEIGHT_COUNTING"],
+              "applicability_gaps":["Equality of the total quartic kernel is only a necessary majorant, not a converse physical criterion.","A moving-twist family count still requires a uniform arithmetic theorem."],
+              "existing_radar_overlap":["SR-STR-162","SR-STR-180"],
+              "search_status":"NOT_SEARCHED","arsenal_decision":"PENDING","card_status":"SUBMITTED_FOR_AUDIT"
+            }
+          ]
+          registry["structures"].extend(new_cards)
+
+          # Strengthen the existing balanced inert-prime square-sieve card with the later optimized packet inequality.
+          sr186 = next(x for x in registry["structures"] if x["structure_id"] == "SR-STR-186")
+          sr186["exact_equations_or_object"] = "For the fixed quartic F(P,Q)=PQ(Q-P)(Q+P), inert primes p=3 mod 4 have exact complete trace cancellation. On a product-square packet with square-part box volume M=XYZW and H=min(X,Y,Z,W), the proved square-sieve inequality is optimized at auxiliary prime scale L=H^(4/5), giving N_packet << M H^(-4/5) B^o(1). Thin packets switch to the exact shared-squareclass four-cell decomposition rather than being discarded."
+          for sid,loc in [("SRC-ACDE4038B8C4","inert Fourier completion and thick-packet square sieve"),("SRC-1105593E0CB4","optimized L=H^(4/5) packet bound")]:
+              if not any(p["source_id"] == sid for p in sr186["repo_provenance"]):
+                  sr186["repo_provenance"].append(prov(sid,loc))
+          sr186["applicability_gaps"] = [
+            "The fixed quartic and product-square packet normalization must be retained.",
+            "Thin packets require the shared-squareclass four-cell switch; they are not automatically sparse.",
+            "A packet saving must still be summed in the original physical measure."
+          ]
+          if "SR-STR-194" not in sr186["existing_radar_overlap"]:
+              sr186["existing_radar_overlap"].append("SR-STR-194")
+          sr186["card_status"] = "SUBMITTED_FOR_AUDIT"
+
+          progress["audit_batches"].append({
+            "batch_id":BATCH,"task_id":TASK,"status":"SUBMITTED_FOR_AUDIT",
+            "source_ids":expected,"sources_reviewed":60,"structures_added":5,"structures_updated":1,
+            "structure_carrier_sources":13,"structures_deduped":47,
+            "searches_completed":0,"arsenal_decisions":0,"audit_required":True
+          })
+
+          progress_path.write_text(json.dumps(progress,indent=2)+"\n")
+          registry_path.write_text(json.dumps(registry,indent=2)+"\n")
+          PY
+
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git diff --check
+
+          rm -f .github/workflows/structure-radar-batch05-finalize.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'StructureRadar: review deep corpus batch 05'
+          git push origin HEAD:structure-radar-deep-corpus-batch-05
