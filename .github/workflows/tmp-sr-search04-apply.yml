@@ -1,0 +1,51 @@
+name: tmp sr search04 apply
+on:
+  push:
+    branches: [agent/sr-search04-apply]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-search04-apply
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply 8-card search batch
+        run: python .tmp/sr-search04-apply.py
+      - name: Refresh
+        run: python scripts/structure_radar.py refresh
+      - name: Verify
+        run: python scripts/structure_radar.py verify
+      - name: Assertions
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          c=json.loads(Path('docs/structure-radar/controller.json').read_text())
+          q=json.loads(Path('docs/structure-radar/exploration-queue.json').read_text())
+          p=json.loads(Path('docs/structure-radar/progress.json').read_text())
+          assert c['registry']['unresolved_search_count']==177,c['registry']
+          assert c['registry']['pending_arsenal_decision_count']==196,c['registry']
+          assert c['queue']['task_count']==23,c['queue']
+          assert q['tasks'][0]['structure_ids']==['SR-STR-031','SR-STR-032','SR-STR-033','SR-STR-036','SR-STR-037','SR-STR-038','SR-STR-039','SR-STR-040'],q['tasks'][0]
+          b=p['audit_batches'][-1]
+          assert b['batch_id']=='SR-BATCH-LITERATURE_SEARCH-04-R01'
+          assert b['searches_completed']==8 and b['arsenal_decisions']==6
+          s=Path('scripts/structure_radar.py').read_text()
+          assert 'chunks(searchable, 8)' in s and 'chunks(searchable, 6)' not in s
+          print('CONTROLLER',c['status'],c['registry'],c['queue'])
+          print('NEXT',q['tasks'][0])
+          PY
+          git diff --check
+      - name: Commit validated official state
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/structure-radar/controller.json docs/structure-radar/exploration-queue.json docs/structure-radar/progress.json docs/structure-radar/structure-registry.json docs/structure-radar/literature/SR-SEARCH-04.md scripts/structure_radar.py
+          git diff --cached --quiet || git commit -m 'tmp: validate StructureRadar search04 state'
+          git push origin HEAD:agent/sr-search04-apply
