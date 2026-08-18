@@ -22,7 +22,7 @@
     "10": "CONTRACT_AUDITED_PASS_MERGED",
     "20": "DERIVED_EXACT_FINITE_AUDITED_PASS_MERGED",
     "30": "DERIVED_RECEIVER_CALCULUS_AUDITED_PASS_MERGED",
-    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R5AO_R5AP_AUDITED_PASS_MERGED_AND_R5AQ_R5AS_PENDING_AUDIT",
+    "40": "UPPER_ATTACK_AUDITED_PASS_MERGED_WITH_R5AQ_R5AS_AUDITED_PASS_MERGED_AND_R5AT_R5AV_PENDING_AUDIT",
     "50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
     "60": "BLOCKED",
     "70": "BLOCKED"
@@ -1374,7 +1374,7 @@
       "merge_commit": "f95b259ffcc0c7ab75e9eb8ecaae2c27ceaa6b3a"
     },
     "Stage27-19-r5aq-r5as": {
-      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "status": "AUDITED_PASS_MERGED",
       "trigger_checkpoint": 40,
       "route_kind": "UPPER_REENTRY_PARALLEL",
       "source_stage": "Stage19",
@@ -1392,12 +1392,49 @@
       "strict_sub_sqrt_upper_proved": false,
       "new_mu_lt_half_proved": false,
       "true_N2_exponent_identified": false,
+      "audit_status": "PASS",
+      "advance_to_checkpoint50": false,
+      "advance_allowed": true,
+      "merge_allowed": true,
+      "next_derived_route": "27-19-r5at",
+      "next_target": "SEVEN_OUTER_CELL_SUPPORT_COUNT_OR_SELF_GENERATED_KAPPA_AVERAGE",
+      "fresh_audit_required": false,
+      "audit_record": "stages/stage27/27-19-r5aq/audit-final.md",
+      "pr": 1068,
+      "merge_commit": "fbae8c1bde526a82bbcfc11eed8f86ac5dda5351"
+    },
+    "Stage27-19-r5at-r5av": {
+      "status": "BATCH_SUBMITTED_PENDING_FRESH_AUDIT",
+      "trigger_checkpoint": 40,
+      "route_kind": "UPPER_REENTRY_PARALLEL",
+      "source_stage": "Stage19",
+      "parent_route": "Stage27-19-r5aq-r5as",
+      "batch_routes": [
+        "27-19-r5at",
+        "27-19-r5au",
+        "27-19-r5av"
+      ],
+      "purpose": "collapse kappa entropy at fixed physical diagonal and isolate the hyperbolic boundary after coefficient-cell summation",
+      "result_paths": [
+        "stages/stage27/27-19-r5at/result.md",
+        "stages/stage27/27-19-r5au/result.md",
+        "stages/stage27/27-19-r5av/result.md"
+      ],
+      "route_contract": "stages/stage27/27-19-r5at/route-contract.json",
+      "fixed_R_kappa_entropy_collapse_proved": true,
+      "fixed_seven_outer_plus_R_subpower_completion_proved": true,
+      "fixed_R_dyadic_weighted_host_proved": true,
+      "hyperbolic_boundary_accumulation_barrier_proved": true,
+      "strict_sub_sqrt_upper_proved": false,
+      "new_mu_lt_half_proved": false,
+      "true_N2_exponent_identified": false,
       "audit_status": "PENDING",
       "advance_to_checkpoint50": false,
       "advance_allowed": false,
       "merge_allowed": false,
-      "next_derived_route": "27-19-r5at",
-      "next_target": "SEVEN_OUTER_CELL_SUPPORT_COUNT_OR_SELF_GENERATED_KAPPA_AVERAGE"
+      "fresh_audit_required": true,
+      "next_derived_route": "27-19-r5aw",
+      "next_target": "BOUNDARY_FACTORIZATION_OR_FIXED_R_OUTER_SUPPORT_COUNT"
     }
   },
   "entry_gate": {
@@ -1408,7 +1445,7 @@
   },
   "state": {
     "CURRENT_CHECKPOINT": 40,
-    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R5AQ_R5AS_SUBMITTED_PENDING_FRESH_AUDIT",
+    "MAIN_STATUS": "UPPER_REENTRY_STAGE27_19_R5AT_R5AV_SUBMITTED_PENDING_FRESH_AUDIT",
     "AUDIT_STATUS": "PENDING",
     "ADVANCE_ALLOWED": false,
     "NEXT_CHECKPOINT": 40,
