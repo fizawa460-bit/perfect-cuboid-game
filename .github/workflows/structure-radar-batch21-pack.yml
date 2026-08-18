@@ -1,0 +1,72 @@
+name: StructureRadar batch21 review pack
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-21
+
+permissions:
+  contents: write
+
+jobs:
+  build-pack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-21
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Build compact review pack for READY slice
+        run: |
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+
+          root = Path('.')
+          queue = json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
+          task = next(t for t in queue['tasks'] if t['status'] == 'READY')
+          ids = task['source_ids'][:60]
+          source_map = {}
+          for part in sorted((root/'docs/structure-radar/source-manifest').glob('part-*.json')):
+              data = json.loads(part.read_text())
+              for s in data['sources']:
+                  if s['source_id'] in ids:
+                      source_map[s['source_id']] = s
+
+          rx = re.compile(r'(?i)(status|verdict|proved|proof|theorem|lemma|proposition|corollary|identity|reduc|receiver|target|obstruction|saving|exponent|current_physical|strict_subsqrt|next|applicable|bound|density|sieve|gauss|hecke|kummer|pell|rayleigh|collision|dispersion|squareclass|projective|prime|gcd|fiber|curve|rank|torsion|height|uniform|open|closed)')
+          out = [f'# StructureRadar batch21 review pack', '', f'TASK={task["task_id"]}', f'SOURCE_COUNT={len(ids)}', '']
+          for i, sid in enumerate(ids, 1):
+              s = source_map[sid]
+              p = root/s['path']
+              text = p.read_text(errors='replace') if p.exists() else ''
+              lines = text.splitlines()
+              title = next((ln.strip() for ln in lines if ln.strip().startswith('#')), '(no heading)')
+              selected=[]
+              # opening context
+              for ln in lines[:35]:
+                  st=ln.strip()
+                  if st and st not in selected:
+                      selected.append(st)
+              # theorem/boundary signals
+              for ln in lines:
+                  st=ln.strip()
+                  if st and rx.search(st) and st not in selected:
+                      selected.append(st)
+                  if len(selected) >= 95:
+                      break
+              out += [f'## {i:02d} {sid}', f'PATH={s["path"]}', f'FINGERPRINT={s["fingerprint"]}', f'TITLE={title}', '```text']
+              out += selected
+              out += ['```', '']
+          path = root/'docs/structure-radar/.batch21-review-pack.md'
+          path.write_text('\n'.join(out)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/structure-radar/.batch21-review-pack.md
+          if ! git diff --cached --quiet; then
+            git commit -m "Build StructureRadar batch21 review pack"
+            git push origin HEAD:structure-radar-deep-corpus-batch-21
+          fi
