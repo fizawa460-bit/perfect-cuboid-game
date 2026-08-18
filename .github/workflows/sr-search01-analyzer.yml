@@ -1,0 +1,49 @@
+name: StructureRadar SR-SEARCH-01 analyzer
+on:
+  push:
+    branches: [agent/sr-search01-analysis]
+permissions:
+  contents: write
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract search cards and ledger schema
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib,collections,re
+          root=pathlib.Path('.')
+          reg=json.loads((root/'docs/structure-radar/structure-registry.json').read_text())
+          ids={f'SR-STR-{i:03d}' for i in range(1,7)}
+          cards=[c for c in reg['structures'] if c['structure_id'] in ids]
+          assert len(cards)==6
+          searched=[c for c in reg['structures'] if c.get('search_status') not in {'NOT_SEARCHED','NEEDS_REFRESH'}]
+          prog=json.loads((root/'docs/structure-radar/progress.json').read_text())
+          # find likely literature/arsenal files and exact SR-STR mentions
+          candidates=[]
+          for p in root.rglob('*'):
+              if not p.is_file() or any(x in p.parts for x in ['.git','node_modules']): continue
+              sp=str(p).lower()
+              if any(k in sp for k in ['arsenal','literature','radar','q-research','research-ledger']):
+                  try:
+                      text=p.read_text(errors='ignore')
+                  except: continue
+                  candidates.append({'path':str(p),'size':len(text),'sr_hits':sorted(set(re.findall(r'SR-STR-\d+',text)))[:30],'preview':' | '.join(x.strip() for x in text.splitlines() if x.strip())[:700]})
+          out={
+            'cards':cards,
+            'searched_examples':searched[:12],
+            'searched_count':len(searched),
+            'progress_keys':list(prog.keys()),
+            'audit_batch_examples':prog.get('audit_batches',[])[-3:],
+            'progress_searchish':{k:v for k,v in prog.items() if 'search' in k.lower() or 'liter' in k.lower() or 'arsenal' in k.lower()},
+            'candidate_files':sorted(candidates,key=lambda x:(-len(x['sr_hits']),x['path']))[:80]
+          }
+          p=root/'.tmp/sr-search01-analysis.json'; p.parent.mkdir(exist_ok=True); p.write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-search01-analysis.json
+          git commit -m 'Temp: record SR-SEARCH-01 analysis'
+          git push origin HEAD:agent/sr-search01-analysis
