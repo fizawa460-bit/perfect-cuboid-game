@@ -2,6 +2,8 @@ name: StructureRadar normalized lifecycle repair validation
 on:
   push:
     branches: [agent/sr-registry-phase-analysis]
+  pull_request:
+    branches: [main]
 permissions:
   contents: write
 jobs:
@@ -9,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-registry-phase-analysis
       - name: Apply normalized lifecycle repair
         shell: bash
         run: |
