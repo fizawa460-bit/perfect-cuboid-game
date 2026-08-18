@@ -49,26 +49,23 @@ jobs:
           reviews=progress.get('source_reviews',{})
           lines=[]
           for i,r in enumerate(report['sources'],1):
-              if r['producer_structure_ids']: continue
-              prod=r['producer'] or ''
+              pmap=r.get('producer_structure_ids',r.get('producer_lineage',[]))
+              if pmap: continue
+              prod=r.get('producer') or ''
               exact=[]; broad=[]
               for s in sources:
                   if s['source_id']==r['source_id']: continue
                   rev=reviews.get(s['source_id'])
                   if not rev: continue
-                  path=s['path']
-                  ids=rev.get('structure_ids',[])
+                  path=s['path']; ids=rev.get('structure_ids',[])
                   if not ids: continue
-                  if f'/{prod}/' in path:
-                      exact.append((s['source_id'],path,ids,rev.get('status')))
-                  elif prod and prod in path:
-                      broad.append((s['source_id'],path,ids,rev.get('status')))
+                  if f'/{prod}/' in path: exact.append((s['source_id'],path,ids))
+                  elif prod and prod in path: broad.append((s['source_id'],path,ids))
               reg=[]
               for c in registry.get('structures',[]):
                   hits=[p.get('path','') for p in c.get('repo_provenance',[]) if prod and prod in p.get('path','')]
                   if hits: reg.append((c['structure_id'],hits[:3]))
-              def fmt(xs):
-                  return ' || '.join(f"{a}:{','.join(c)}:{b}" for a,b,c,*_ in xs[:8]) if xs else '-'
+              def fmt(xs): return ' || '.join(f"{a}:{','.join(c)}:{b}" for a,b,c in xs[:8]) if xs else '-'
               regfmt=' || '.join(f"{cid}:{'|'.join(paths)}" for cid,paths in reg[:8]) if reg else '-'
               lines.append(f"{i:02d}\t{r['source_id']}\t{prod}\tEXACT={fmt(exact)}\tBROAD={fmt(broad)}\tREG={regfmt}\t{r['path']}")
           Path('docs/structure-radar/.batch23-unresolved.tsv').write_text('\n'.join(lines)+'\n')
