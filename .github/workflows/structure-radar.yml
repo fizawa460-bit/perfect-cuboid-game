@@ -24,56 +24,31 @@ jobs:
       - name: Verify repository-wide StructureRadar corpus and queue
         run: python scripts/structure_radar.py verify
 
-  batch23-unresolved:
+  batch23-card-index:
     if: github.base_ref == 'structure-radar-deep-corpus-batch-23' && github.head_ref == 'structure-radar-batch23-analysis-runner'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           ref: structure-radar-deep-corpus-batch-23
-          fetch-depth: 0
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Cross-reference unresolved producers
+      - name: Build compact card index
         run: |
           python - <<'PY'
           import json
           from pathlib import Path
-          progress=json.loads(Path('docs/structure-radar/progress.json').read_text())
-          registry=json.loads(Path('docs/structure-radar/structure-registry.json').read_text())
-          report=json.loads(Path('docs/structure-radar/.batch23-analysis.json').read_text())
-          sources=[]
-          for p in sorted(Path('docs/structure-radar/source-manifest').glob('part-*.json')):
-              sources += json.loads(p.read_text()).get('sources',[])
-          reviews=progress.get('source_reviews',{})
+          reg=json.loads(Path('docs/structure-radar/structure-registry.json').read_text())
           lines=[]
-          for i,r in enumerate(report['sources'],1):
-              pmap=r.get('producer_structure_ids',r.get('producer_lineage',[]))
-              if pmap: continue
-              prod=r.get('producer') or ''
-              exact=[]; broad=[]
-              for s in sources:
-                  if s['source_id']==r['source_id']: continue
-                  rev=reviews.get(s['source_id'])
-                  if not rev: continue
-                  path=s['path']; ids=rev.get('structure_ids',[])
-                  if not ids: continue
-                  if f'/{prod}/' in path: exact.append((s['source_id'],path,ids))
-                  elif prod and prod in path: broad.append((s['source_id'],path,ids))
-              reg=[]
-              for c in registry.get('structures',[]):
-                  hits=[p.get('path','') for p in c.get('repo_provenance',[]) if prod and prod in p.get('path','')]
-                  if hits: reg.append((c['structure_id'],hits[:3]))
-              def fmt(xs): return ' || '.join(f"{a}:{','.join(c)}:{b}" for a,b,c in xs[:8]) if xs else '-'
-              regfmt=' || '.join(f"{cid}:{'|'.join(paths)}" for cid,paths in reg[:8]) if reg else '-'
-              lines.append(f"{i:02d}\t{r['source_id']}\t{prod}\tEXACT={fmt(exact)}\tBROAD={fmt(broad)}\tREG={regfmt}\t{r['path']}")
-          Path('docs/structure-radar/.batch23-unresolved.tsv').write_text('\n'.join(lines)+'\n')
+          for c in reg.get('structures',[]):
+              cid=c.get('structure_id','')
+              title=c.get('title') or c.get('name') or c.get('canonical_name') or ''
+              status=c.get('status','')
+              desc=c.get('summary') or c.get('description') or c.get('statement') or ''
+              if isinstance(desc,(dict,list)): desc=json.dumps(desc,ensure_ascii=False)
+              lines.append(f"{cid}\t{title}\t{status}\t{' '.join(str(desc).split())[:500]}")
+          Path('docs/structure-radar/.batch23-card-index.tsv').write_text('\n'.join(lines)+'\n')
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/structure-radar/.batch23-unresolved.tsv
-          if ! git diff --cached --quiet; then
-            git commit -m "Cross-reference StructureRadar batch23 unresolved producers"
-            git push origin HEAD:structure-radar-deep-corpus-batch-23
-          fi
+          git add docs/structure-radar/.batch23-card-index.tsv
+          git commit -m "Index StructureRadar cards for batch23"
+          git push origin HEAD:structure-radar-deep-corpus-batch-23
