@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 jobs:
-  select:
+  finalize:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,46 +15,85 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Extract exact READY slice
+      - name: Normalize batch17
         shell: python
         run: |
-          import json, pathlib, re
-          ids = '''SRC-BE0B747AD352 SRC-CA67ADC8611A SRC-D386FBA73FDB SRC-4AD563D6499A SRC-0CDA03AD6196 SRC-0F4DC9A1EF3B SRC-4C3C3F3BB666 SRC-FBED47ACCDEC SRC-A7880AEF5B36 SRC-19D1C3D588D7 SRC-A09738F0657D SRC-2E70CDFB1CFA SRC-7F7C869D330C SRC-84DB174DC7A8 SRC-8DDEF0969313 SRC-0518A8A6D9D4 SRC-1547249B5AFF SRC-9DD84CB3D366 SRC-A445C6C42239 SRC-8D5BCAD70B25 SRC-C21D7FBBFD31 SRC-2E8D5D346C21 SRC-61E374977241 SRC-AC57401B0C45 SRC-8A777C0EC02D SRC-3CB0CCE6928A SRC-939C18F89F5C SRC-83C47B842C52 SRC-2B6169293574 SRC-4F438A26A99C SRC-942605C4333A SRC-5FD6A9146060 SRC-F593741E0D42 SRC-EC2629C2186D SRC-318FF5ECE0E3 SRC-B2978C722038 SRC-DCC1215E886D SRC-F30917B4BF13 SRC-5FE4382DA5BD SRC-13FF22C0E724 SRC-ADE11F10F32E SRC-92DE14BD709C SRC-CAF736B0E9ED SRC-38E956166DC0 SRC-E88D393B913E SRC-C90500AB33FB SRC-6BC689C798F1 SRC-F2F7291B92EB SRC-52504B6B2216 SRC-39701F9D1E06 SRC-0B3FF9785992 SRC-E6B6997E2794 SRC-3C264E281925 SRC-37E0A2EE3D85 SRC-F6E3A8136807 SRC-064FFAFD9378 SRC-75ABF425B2DD SRC-05A496190768 SRC-1D0C837EA267 SRC-1CF992BBEC52'''.split()
-          entries={}
-          for p in sorted(pathlib.Path('docs/structure-radar/source-manifest').glob('part-*.json')):
-              data=json.loads(p.read_text())
-              arr=data.get('sources', data if isinstance(data,list) else [])
-              for e in arr:
-                  if e.get('source_id') in ids: entries[e['source_id']]=e
-          assert set(entries)==set(ids), (len(entries), sorted(set(ids)-set(entries)))
-          out=[]; lines=[]
-          keys_rx=re.compile(r'(PROVED|BOUND|BARRIER|TARGET|RECEIVER|STATUS|CURRENT|NEXT|false|true|sqrt|power|Pell|sieve|fiber|support|moment|height|divisor|gcd|rank|elliptic|quartic|character)',re.I)
-          for n,sid in enumerate(ids,1):
-              e=entries[sid]; path=e.get('path',''); txt=''
-              pp=pathlib.Path(path)
-              if pp.is_file():
-                  try: txt=pp.read_text(errors='replace')
-                  except: pass
-              title=''
-              for ln in txt.splitlines():
-                  if ln.startswith('# '): title=ln[2:].strip(); break
-              key=[]
-              for ln in txt.splitlines():
-                  z=ln.strip()
-                  if z and keys_rx.search(z):
-                      key.append(z[:700])
-                      if len(key)>=24: break
-              excerpt='\n'.join(txt.splitlines()[:90])[:12000]
-              rec={k:e.get(k) for k in ['source_id','path','fingerprint','stage','kind','evidence_role']}
-              rec.update(n=n,title=title,key_lines=key,excerpt=excerpt)
-              out.append(rec)
-              lines.append(f'{n:02d}\t{sid}\t{path}\t{title}')
-          pathlib.Path('.github/structure-radar-batch17-index.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
-          pathlib.Path('.github/structure-radar-batch17-summary.txt').write_text('\n'.join(lines)+'\n')
-      - name: Commit selector output
+          import json, pathlib
+          BATCH='SR-BATCH-STAGE14_15_DEEP_CORPUS-17-R01'
+          TASK='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          idx=json.loads(pathlib.Path('.github/structure-radar-batch17-index.json').read_text())
+          assert len(idx)==60
+          by={x['source_id']:x for x in idx}
+          ids=[x['source_id'] for x in idx]
+          mapping={}
+          for x in idx:
+              n=x['n']; sid=x['source_id']
+              if n in [1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,30,31,32,34,35,36,37,38,39,40,41,42,43,44,46,47,48,49,50,51,52,53,54]:
+                  mapping[sid]=['SR-STR-222']
+              elif n in [8,20,33,45]:
+                  mapping[sid]=['SR-STR-223']
+              elif n in [55,56,57]:
+                  mapping[sid]=['SR-STR-163']
+              elif n==58:
+                  mapping[sid]=['SR-STR-163','SR-STR-223']
+              elif n==60:
+                  mapping[sid]=['SR-STR-032']
+              elif n==59:
+                  mapping[sid]=[]
+              else:
+                  raise AssertionError(n)
+          assert sum(bool(v) for v in mapping.values())==59
+          pp=pathlib.Path('docs/structure-radar/progress.json')
+          progress=json.loads(pp.read_text())
+          reviews=progress.setdefault('source_reviews',{})
+          for sid in ids:
+              e=by[sid]
+              if mapping[sid]:
+                  reviews[sid]={'fingerprint':e['fingerprint'],'batch_id':BATCH,'status':'STRUCTURES_RECORDED','structure_ids':mapping[sid]}
+              else:
+                  reviews[sid]={'fingerprint':e['fingerprint'],'batch_id':BATCH,'status':'NO_DISTINCT_STRUCTURE'}
+          batches=progress.setdefault('batches',[])
+          batches=[b for b in batches if b.get('batch_id')!=BATCH]
+          batches.append({'batch_id':BATCH,'task_id':TASK,'status':'SUBMITTED_FOR_AUDIT','source_ids':ids,'sources_reviewed':60,'structures_added':0,'structures_updated':4,'structure_carrier_sources':59,'structures_deduped':1,'searches_completed':0,'arsenal_decisions':0,'audit_required':True,'duplicate_source':0,'no_distinct_structure':1})
+          progress['batches']=batches
+          pp.write_text(json.dumps(progress,indent=2,ensure_ascii=False)+'\n')
+          rp=pathlib.Path('docs/structure-radar/structure-registry.json')
+          reg=json.loads(rp.read_text())
+          cards={c['structure_id']:c for c in reg['structures']}
+          assert max(int(k.rsplit('-',1)[1]) for k in cards)==224
+          for cid in ['SR-STR-032','SR-STR-163','SR-STR-222','SR-STR-223']:
+              assert cid in cards
+          for sid,sids in mapping.items():
+              e=by[sid]
+              for cid in sids:
+                  c=cards[cid]
+                  prov=c.setdefault('repo_provenance',[])
+                  if not any(p.get('source_id')==sid and p.get('fingerprint')==e['fingerprint'] for p in prov):
+                      prov.append({'source_id':sid,'path':e['path'],'locator':'normalized Stage14 deep-corpus batch17 carrier','fingerprint':e['fingerprint']})
+                  c['card_status']='SUBMITTED_FOR_AUDIT'
+          refinements={
+            'SR-STR-032':' Stage14-t2 further gives a quantitative Pythagorean-chain envelope on the moving triple correction, with the strongest frozen global boundary T(B)=o(B(log B)^3); this is not a square-root or strict sub-square-root theorem and moving-base summation remains the obstruction.',
+            'SR-STR-163':' In the Stage14 triple gate, the remaining x-square lift is a ramified quadratic cover of the x-level elliptic fiber product with reduced branch divisor over x=0 and x=infinity, so it is not an ordinary unramified E[2]-torsor. The selected ramified branch character is locally surjective; local obstruction counting alone cannot supply the required saving, leaving a moving physical-height Fourier/second-moment problem.',
+            'SR-STR-222':' The earlier fixed-U cofactor-core stage has the exact charged-once identity T_Omega=M_Omega+D_Omega. Ordinary projective equidistribution only preserves the exponent of M_Omega; a fixed-power gain requires either a fixed-power weighted physical cofactor-core density deficit or selected classes with principal-scale near-total negative discrepancy. The norm/orientation fibers and exceptional multiplier/D4 symmetry pieces are subpolynomial or nonphysical and cannot be recharged as new savings; after their discharge the chain reduces to the fixed projective/Gaussian residue occupancy receivers already recorded here.',
+            'SR-STR-223':' Conditioning on an actual raw physical point converts the reflected-square compatibility gate into a genus-three discriminant-square cover with a degree-two elliptic quotient; the physical triple lift still requires the quotient coordinate itself to be a rational square together with the second factor-square condition, recovering the higher-genus moving fiber-product gate. Finite collision ledgers are diagnostics only and do not prove the required moving-family power saving.'
+          }
+          for cid,extra in refinements.items():
+              c=cards[cid]
+              if extra.strip() not in c.get('exact_equations_or_object',''):
+                  c['exact_equations_or_object']=c.get('exact_equations_or_object','').rstrip()+extra
+          reg['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          rp.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+      - name: Refresh and verify
         run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/structure_radar.py verify-research-arsenal
+          git diff --check
+      - name: Remove temporary helpers and commit
+        run: |
+          git rm -f .github/structure-radar-batch17-trigger.txt .github/structure-radar-batch17-finalize-trigger.txt .github/structure-radar-batch17-index.json .github/structure-radar-batch17-summary.txt .github/workflows/structure-radar-batch17-selector.yml .github/workflows/structure-radar-batch17-finalizer.yml
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add .github/structure-radar-batch17-index.json .github/structure-radar-batch17-summary.txt
-          git commit -m 'StructureRadar batch17 source index' || exit 0
+          git add docs/structure-radar
+          git commit -m 'StructureRadar: census Stage14-15 deep corpus batch 17'
           git push
