@@ -1,0 +1,25 @@
+name: StructureRadar batch35 schema
+on:
+  push:
+    branches: [agent/sr-b35-analysis]
+permissions:
+  contents: write
+jobs:
+  schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract card schema examples
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          reg=json.loads(pathlib.Path('docs/structure-radar/structure-registry.json').read_text())
+          out=[c for c in reg['structures'] if c['structure_id'] in {'SR-STR-141','SR-STR-227'}]
+          pathlib.Path('.tmp/sr-b35-schema.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b35-schema.json
+          git commit -m 'Temp: record batch35 card schema examples' || true
+          git push origin HEAD:agent/sr-b35-analysis
