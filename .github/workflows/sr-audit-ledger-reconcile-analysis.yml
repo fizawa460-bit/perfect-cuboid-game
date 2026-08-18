@@ -1,0 +1,75 @@
+name: StructureRadar audit ledger reconciliation analysis
+on:
+  push:
+    branches: [agent/sr-registry-phase-analysis]
+permissions:
+  contents: write
+  pull-requests: read
+  issues: read
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Reconcile recorded audit verdicts
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,subprocess,re,pathlib,os
+          repo=os.environ['GITHUB_REPOSITORY']
+          def gh(path):
+              return json.loads(subprocess.check_output(['gh','api',path],text=True))
+          pulls=[]
+          page=1
+          while True:
+              x=gh(f'/repos/{repo}/pulls?state=closed&per_page=100&page={page}')
+              if not x: break
+              pulls += x
+              if len(x)<100: break
+              page+=1
+          prog=json.loads(pathlib.Path('docs/structure-radar/progress.json').read_text())
+          batches=[b['batch_id'] for b in prog.get('audit_batches',[]) if b.get('status')=='SUBMITTED_FOR_AUDIT']
+          evidence={}
+          srprs=[]
+          for pr in pulls:
+              title=pr.get('title') or ''; body=pr.get('body') or ''
+              if 'StructureRadar' not in title and 'StructureRadar' not in body and 'SR-BATCH-' not in body:
+                  continue
+              num=pr['number']
+              comments=gh(f'/repos/{repo}/issues/{num}/comments?per_page=100')
+              reviews=gh(f'/repos/{repo}/pulls/{num}/reviews?per_page=100')
+              text='\n'.join([title,body]+[(c.get('body') or '') for c in comments]+[(r.get('body') or '') for r in reviews])
+              verdicts=re.findall(r'AUDIT_VERDICT\s*=\s*(PASS|FAIL|BLOCKED)',text)
+              ids=set(re.findall(r'SR-BATCH-[A-Z0-9_]+(?:-[A-Z0-9_]+)*-?\d*-?R\d+|SR-BATCH-[A-Za-z0-9_\-]+',text))
+              # exact known batch ids win over regex looseness
+              known=[bid for bid in batches if bid in text]
+              rec={'pr':num,'merged':bool(pr.get('merged_at')),'head':pr.get('head',{}).get('sha'),'verdicts':verdicts,'known_batches':known}
+              srprs.append(rec)
+              if 'PASS' in verdicts:
+                  for bid in known:
+                      evidence.setdefault(bid,[]).append(rec)
+          pass_batches=sorted(evidence)
+          missing=sorted(set(batches)-set(pass_batches))
+          ambiguous=[]
+          for bid,recs in evidence.items():
+              if any('FAIL' in r['verdicts'] or 'BLOCKED' in r['verdicts'] for r in recs):
+                  ambiguous.append(bid)
+          out={
+            'submitted_batch_count':len(batches),
+            'pass_evidence_batch_count':len(pass_batches),
+            'missing_pass_evidence':missing,
+            'ambiguous_verdict_batches':sorted(ambiguous),
+            'pass_evidence':evidence,
+            'structure_radar_pr_count':len(srprs),
+            'structure_radar_prs':srprs
+          }
+          p=pathlib.Path('.tmp/sr-audit-ledger-reconcile.json'); p.parent.mkdir(exist_ok=True); p.write_text(json.dumps(out,indent=2))
+          print(json.dumps({k:v for k,v in out.items() if k not in {'pass_evidence','structure_radar_prs'}},indent=2))
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-audit-ledger-reconcile.json
+          git commit -m 'Temp: record audit ledger reconciliation analysis' || true
+          git push origin HEAD:agent/sr-registry-phase-analysis
