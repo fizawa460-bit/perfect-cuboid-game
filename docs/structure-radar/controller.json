@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "controller": "STRUCTURE-RADAR-CONTROLLER-R01",
-  "status": "READY",
+  "status": "WAITING_FOR_REGISTRY_WORK",
   "primary_operator": "ChatGPT",
   "commands": {
     "main": "StructureRadar-main-batch",
@@ -18,30 +18,29 @@
     "fingerprint": "6e2f3b039e1bb7b70322a5348765b41e97d31b9356dfb269e26567d774a46625",
     "source_count": 2556,
     "review_states": {
-      "CURRENT_REVIEWED": 2539,
-      "NEW": 17
+      "CURRENT_REVIEWED": 2556
     },
     "arsenal_backflow_gaps": [
       "docs/stage26-arsenal-promotion.md"
     ]
   },
   "queue": {
-    "task_count": 1,
-    "source_census_task_count": 1,
-    "current_task": "SR-CENSUS-OTHER_ARCHIVE_AND_CONTEXT-01",
-    "current_phase": "SOURCE_CENSUS"
+    "task_count": 0,
+    "source_census_task_count": 0,
+    "current_task": null,
+    "current_phase": null
   },
   "initial_execution_estimate": {
     "recommended_source_tasks_per_main_invocation": "3-6",
-    "estimated_main_invocations_min": 1,
-    "estimated_main_invocations_max": 1,
+    "estimated_main_invocations_min": 0,
+    "estimated_main_invocations_max": 0,
     "estimate_is_guarantee": false,
     "material_new_cards_may_add_audit_or_search_rounds": true
   },
   "registry": {
-    "structure_count": 227,
-    "unresolved_search_count": 202,
-    "pending_arsenal_decision_count": 216,
+    "structure_count": 228,
+    "unresolved_search_count": 203,
+    "pending_arsenal_decision_count": 217,
     "stale_provenance_task_count": 0
   },
   "codex_delegation": {
@@ -55,7 +54,7 @@
     ]
   },
   "close_conditions": {
-    "all_current_sources_reviewed": false,
+    "all_current_sources_reviewed": true,
     "all_searches_resolved": false,
     "all_arsenal_decisions_resolved": false,
     "all_card_provenance_current": true,
