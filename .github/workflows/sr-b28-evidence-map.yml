@@ -1,0 +1,53 @@
+name: StructureRadar batch28 exact evidence mapper
+
+on:
+  push:
+    branches:
+      - agent/sr-b28-analyzer
+
+permissions:
+  contents: write
+
+jobs:
+  map:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact substage map
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,re,pathlib
+          root=pathlib.Path('.')
+          out=root/'.tmp/sr-b28-evidence-map.tsv'
+          if out.exists(): raise SystemExit(0)
+          q=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          src={}
+          path_to_sid={}
+          for p in (root/'docs/structure-radar/source-manifest').glob('part-*.json'):
+              for s in json.loads(p.read_text())['sources']:
+                  src[s['source_id']]=s; path_to_sid[s['path']]=s['source_id']
+          prog=json.loads((root/'docs/structure-radar/progress.json').read_text())['source_reviews']
+          rows=[]
+          for sid in task['source_ids']:
+              s=src[sid]; m=re.search(r'stage15_6([a-z]{2})_',s['path'])
+              if not m: continue
+              sub=m.group(1); rp=f'stages/stage15/15-6{sub}/result.md'; rsid=path_to_sid.get(rp)
+              rv=prog.get(rsid,{}) if rsid else {}
+              rows.append((sid,s['path'],sub,rsid or '',rp,rv.get('status',''),','.join(rv.get('structure_ids',[]))))
+          out.parent.mkdir(parents=True,exist_ok=True)
+          with out.open('w') as f:
+              f.write('evidence_sid\tevidence_path\tsubstage\tresult_sid\tresult_path\tresult_status\tresult_cards\n')
+              for r in rows: f.write('\t'.join(r)+'\n')
+          PY
+      - name: Commit output
+        shell: bash
+        run: |
+          test -f .tmp/sr-b28-evidence-map.tsv || exit 0
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b28-evidence-map.tsv
+          git diff --cached --quiet && exit 0
+          git commit -m 'Temp: batch28 exact evidence map'
+          git push origin HEAD:agent/sr-b28-analyzer
