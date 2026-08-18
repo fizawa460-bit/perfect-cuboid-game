@@ -333,7 +333,7 @@ def build_queue(manifest: dict[str, Any], registry: dict[str, Any]) -> dict[str,
         if card.get("card_status") in {"NORMALIZED", "AUDITED"}
         and card.get("search_status") in {"NOT_SEARCHED", "NEEDS_REFRESH"}
     ]
-    for index, batch in enumerate(chunks(searchable, 6), start=1):
+    for index, batch in enumerate(chunks(searchable, 8), start=1):
         tasks.append(
             {
                 "task_id": f"SR-SEARCH-{index:02d}",
