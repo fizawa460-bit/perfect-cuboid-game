@@ -1,0 +1,41 @@
+name: StructureRadar batch30 card grep
+
+on:
+  push:
+    branches:
+      - agent/sr-b30-analyzer
+
+permissions:
+  contents: write
+
+jobs:
+  grep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find Stage12/13 theorem cards
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,re,pathlib
+          r=pathlib.Path('.')
+          out=r/'.tmp/sr-b30-cardgrep.tsv'
+          if out.exists(): raise SystemExit(0)
+          reg=json.loads((r/'docs/structure-radar/structure-registry.json').read_text())['structures']
+          pats=['c_prim','primitive oriented','log b)^3','log b)³','one-face','one face','selberg','mobius','möbius','kappa','eta','face-ratio','ratio analysis','stage13','gaussian quotient','reciprocal divisor']
+          with out.open('w') as f:
+              f.write('id\tname\tobject\n')
+              for c in reg:
+                  text=(c.get('canonical_math_name','')+' '+c.get('exact_equations_or_object','')+' '+' '.join(c.get('search_terms_primary',[]))+' '+' '.join(c.get('search_terms_aliases',[]))).lower()
+                  if any(p in text for p in pats):
+                      f.write(c['structure_id']+'\t'+c.get('canonical_math_name','').replace('\t',' ')+'\t'+c.get('exact_equations_or_object','').replace('\t',' ').replace('\n',' ')[:500]+'\n')
+          PY
+      - name: Commit grep output
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b30-cardgrep.tsv
+          git diff --cached --quiet && exit 0
+          git commit -m 'Temp: batch30 card grep'
+          git push origin HEAD:agent/sr-b30-analyzer
