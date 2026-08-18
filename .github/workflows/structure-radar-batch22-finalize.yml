@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - structure-radar-deep-corpus-batch-22
-    paths:
-      - docs/structure-radar/.batch22-finalize-trigger
 
 permissions:
   contents: write
@@ -176,7 +174,7 @@ jobs:
           assert ready['task_id']=='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
           assert ready['source_ids'][0]=='SRC-737BE4A23BE5'
           c=json.loads((r/'controller.json').read_text())
-          assert c['next_expected_command']=='StructureRadar-audit'
+          assert c['next_expected_command']=='StructureRadar-main-batch'
           PY
           git diff --check
 
@@ -187,6 +185,7 @@ jobs:
             .github/workflows/structure-radar-batch22-lineage.yml \
             .github/workflows/structure-radar-batch22-origin.yml \
             .github/workflows/structure-radar-batch22-cardpeek.yml \
+            .github/workflows/structure-radar-batch22-fixfinal.yml \
             .github/workflows/structure-radar-batch22-finalize.yml \
             docs/structure-radar/.batch22-review-trigger \
             docs/structure-radar/.batch22-anchors-trigger \
@@ -194,6 +193,7 @@ jobs:
             docs/structure-radar/.batch22-lineage-trigger \
             docs/structure-radar/.batch22-origin-trigger \
             docs/structure-radar/.batch22-cardpeek-trigger \
+            docs/structure-radar/.batch22-fixfinal-trigger \
             docs/structure-radar/.batch22-finalize-trigger \
             docs/structure-radar/.batch22-boundary-pack.json \
             docs/structure-radar/.batch22-candidates.json \
