@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - agent/sr-b27-analyzer
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -61,18 +64,15 @@ jobs:
               for c,ctext,ct,prov in card_data:
                   score=0
                   hits=[]
-                  # weighted token overlap
                   for term in top_terms:
                       if term in ct:
                           w=min(st[term],4)*min(ct[term],3)
                           score += w
                           if w>=2 and len(hits)<12: hits.append(term)
-                  # exact search phrases appearing in source
                   for phrase in c.get('search_terms_primary',[]):
                       ph=str(phrase).lower().strip()
                       if len(ph)>=8 and ph in low:
                           score += 20; hits.append('phrase:'+ph[:80])
-                  # same Stage15 lane provenance gets a small prior
                   if s['path'].startswith('stages/stage15/15-6') and any(x.startswith('stages/stage15/15-6') for x in prov):
                       score += 4
                   if s['path'].startswith('stages/stage15/15-') and any(x.startswith('stages/stage15/') for x in prov):
@@ -80,7 +80,6 @@ jobs:
                   if score:
                       cands.append({'card':c['structure_id'],'name':c['canonical_math_name'],'score':score,'hits':hits[:12]})
               cands.sort(key=lambda x:(-x['score'],x['card']))
-              # compact excerpt: headings + first nonempty lines
               lines=[ln.strip() for ln in text.splitlines() if ln.strip()]
               excerpt='\n'.join(lines[:28])[:4500]
               rows.append({'source_id':sid,'path':s['path'],'kind':s['kind'],'top_terms':top_terms[:24],'excerpt':excerpt,'candidates':cands[:10]})
