@@ -24,7 +24,7 @@ jobs:
       - name: Verify repository-wide StructureRadar corpus and queue
         run: python scripts/structure_radar.py verify
 
-  batch23-analysis:
+  batch23-unresolved:
     if: github.base_ref == 'structure-radar-deep-corpus-batch-23' && github.head_ref == 'structure-radar-batch23-analysis-runner'
     runs-on: ubuntu-latest
     steps:
@@ -35,69 +35,48 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Build batch23 lineage report
+      - name: Cross-reference unresolved producers
         run: |
           python - <<'PY'
-          import json, re
+          import json
           from pathlib import Path
-
           progress=json.loads(Path('docs/structure-radar/progress.json').read_text())
           registry=json.loads(Path('docs/structure-radar/structure-registry.json').read_text())
+          report=json.loads(Path('docs/structure-radar/.batch23-analysis.json').read_text())
           sources=[]
           for p in sorted(Path('docs/structure-radar/source-manifest').glob('part-*.json')):
               sources += json.loads(p.read_text()).get('sources',[])
           reviews=progress.get('source_reviews',{})
-          id_by_path={s['path']:s['source_id'] for s in sources}
-          new=[s for s in sources if s.get('queue_group')=='STAGE14_15_DEEP_CORPUS' and s.get('review_state') in ('NEW','CHANGED','UNRESOLVED')]
-          new.sort(key=lambda s:(s.get('priority',99),s['path']))
-          batch=new[:60]
-
-          def stage_mapping(stage):
-              out=[]
-              for p in (f'stages/stage14/archive/tasks/{stage}/result.md',f'stages/stage14/tasks/{stage}/result.md'):
-                  sid=id_by_path.get(p)
-                  if sid: out += reviews.get(sid,{}).get('structure_ids',[])
-              return sorted(set(out))
-
-          report=[]
-          for s in batch:
-              path=s['path']; p=Path(path)
-              txt=p.read_text(errors='replace') if p.exists() else ''
-              m=re.search(r'/data/(14-[^/]+)/',path); producer=m.group(1) if m else None
-              producer_map=stage_mapping(producer) if producer else []
-              refs=sorted(set(re.findall(r'\b14-(?:[A-Za-z]+[A-Za-z0-9-]*|\d+[A-Za-z][A-Za-z0-9-]*)\b',txt)))
-              refmaps={r:stage_mapping(r) for r in refs if stage_mapping(r)}
-              registry_hits=[]
-              if producer:
-                  needle=f'/tasks/{producer}/result.md'
-                  for card in registry.get('structures',[]):
-                      if any(needle in prov.get('path','') for prov in card.get('repo_provenance',[])):
-                          registry_hits.append(card.get('structure_id'))
-              boundary=[]
-              for line in txt.splitlines():
-                  z=line.strip()
-                  if ('=' in z or ':' in z) and any(k in z.upper() for k in ['PROVED','STATUS','VERDICT','COMPLETE','BOUND','EXPONENT','SAVING','EMPTY','NEXT_RECOMMENDED','REMAINING_RECEIVER']):
-                      if len(z)<260: boundary.append(z)
-              report.append({'source_id':s['source_id'],'path':path,'fingerprint':s['fingerprint'],'producer':producer,
-                  'producer_structure_ids':producer_map,'registry_producer_hits':sorted(set(registry_hits)),
-                  'referenced_stage_structure_ids':refmaps,'boundary_lines':boundary[:35],'preview':' '.join(txt[:1800].split())})
-          out={'batch_size':len(batch),'remaining_before':len(new),'next_after_batch':new[60] if len(new)>60 else None,'sources':report}
-          Path('docs/structure-radar/.batch23-analysis.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
           lines=[]
-          for i,r in enumerate(report,1):
-              ref_union=sorted({x for xs in r['referenced_stage_structure_ids'].values() for x in xs})
-              flags=[]
-              for b in r['boundary_lines']:
-                  bu=b.upper()
-                  if any(k in bu for k in ('NO_DISTINCT','NEW_WHOLE_FAMILY_POWER_SAVING_PROVED','ADDITIONAL_WHOLE_FAMILY_POWER_SAVING','PROVED\": FALSE','EMPTY\": TRUE')):
-                      flags.append(b.replace('\t',' '))
-              lines.append(f"{i:02d}\t{r['source_id']}\t{r['producer']}\tP={','.join(r['producer_structure_ids']) or '-'}\tR={','.join(r['registry_producer_hits']) or '-'}\tREF={','.join(ref_union) or '-'}\t{r['path']}\t{' ; '.join(flags[:3])}")
-          Path('docs/structure-radar/.batch23-compact.tsv').write_text('\n'.join(lines)+'\n')
+          for i,r in enumerate(report['sources'],1):
+              if r['producer_structure_ids']: continue
+              prod=r['producer'] or ''
+              exact=[]; broad=[]
+              for s in sources:
+                  if s['source_id']==r['source_id']: continue
+                  rev=reviews.get(s['source_id'])
+                  if not rev: continue
+                  path=s['path']
+                  ids=rev.get('structure_ids',[])
+                  if not ids: continue
+                  if f'/{prod}/' in path:
+                      exact.append((s['source_id'],path,ids,rev.get('status')))
+                  elif prod and prod in path:
+                      broad.append((s['source_id'],path,ids,rev.get('status')))
+              reg=[]
+              for c in registry.get('structures',[]):
+                  hits=[p.get('path','') for p in c.get('repo_provenance',[]) if prod and prod in p.get('path','')]
+                  if hits: reg.append((c['structure_id'],hits[:3]))
+              def fmt(xs):
+                  return ' || '.join(f"{a}:{','.join(c)}:{b}" for a,b,c,*_ in xs[:8]) if xs else '-'
+              regfmt=' || '.join(f"{cid}:{'|'.join(paths)}" for cid,paths in reg[:8]) if reg else '-'
+              lines.append(f"{i:02d}\t{r['source_id']}\t{prod}\tEXACT={fmt(exact)}\tBROAD={fmt(broad)}\tREG={regfmt}\t{r['path']}")
+          Path('docs/structure-radar/.batch23-unresolved.tsv').write_text('\n'.join(lines)+'\n')
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/structure-radar/.batch23-analysis.json docs/structure-radar/.batch23-compact.tsv
+          git add docs/structure-radar/.batch23-unresolved.tsv
           if ! git diff --cached --quiet; then
-            git commit -m "Refresh StructureRadar batch23 lineage report"
+            git commit -m "Cross-reference StructureRadar batch23 unresolved producers"
             git push origin HEAD:structure-radar-deep-corpus-batch-23
           fi
