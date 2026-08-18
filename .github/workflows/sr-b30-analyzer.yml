@@ -1,0 +1,82 @@
+name: StructureRadar batch30 analyzer
+
+on:
+  push:
+    branches:
+      - agent/sr-b30-analyzer
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build history source summary
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,re,pathlib,math,collections
+          root=pathlib.Path('.')
+          out=root/'.tmp/sr-b30-summary.tsv'
+          if out.exists(): raise SystemExit(0)
+          q=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          assert task['task_id']=='SR-CENSUS-STAGE02_13_HISTORY-01'
+          ids=task['source_ids']; assert len(ids)==60
+          src={}
+          for p in (root/'docs/structure-radar/source-manifest').glob('part-*.json'):
+              for s in json.loads(p.read_text())['sources']: src[s['source_id']]=s
+          reg=json.loads((root/'docs/structure-radar/structure-registry.json').read_text())['structures']
+          stop=set('the and for with from this that into under over only does not are is be a an of to in on by or as at if then than true false stage result audit proof theorem bound upper lower'.split())
+          def toks(x):
+              return [w for w in re.findall(r'[a-z0-9_]+',x.lower()) if len(w)>2 and w not in stop]
+          card_docs=[]
+          df=collections.Counter()
+          for c in reg:
+              text=' '.join([c.get('canonical_math_name',''),c.get('exact_equations_or_object',''),' '.join(c.get('search_terms_primary',[])),' '.join(c.get('search_terms_aliases',[])),' '.join(c.get('theorem_species',[]))])
+              tt=toks(text); ss=set(tt)
+              card_docs.append((c['structure_id'],c.get('canonical_math_name',''),tt,ss))
+              for w in ss: df[w]+=1
+          N=len(card_docs)
+          rows=[]
+          for sid in ids:
+              s=src[sid]; path=s['path']; fp=root/path
+              try: text=fp.read_text(errors='ignore')
+              except: text=''
+              lines=[re.sub(r'\s+',' ',ln.strip()) for ln in text.splitlines() if ln.strip()]
+              preview=' | '.join(lines[:8])[:900]
+              tt=toks(path+' '+text[:12000]); cnt=collections.Counter(tt); sset=set(tt)
+              scores=[]
+              for cid,name,ct,cset in card_docs:
+                  ov=sset & cset
+                  score=sum((1+math.log1p(cnt[w]))*math.log((N+1)/(1+df[w])) for w in ov)
+                  # strong boost for exact Stage/substage/path tokens already in card provenance
+                  cobj=next(c for c in reg if c['structure_id']==cid)
+                  prov=' '.join(x.get('path','') for x in cobj.get('repo_provenance',[]))
+                  parts=[x for x in re.findall(r'(?:stage)?\d+[a-z0-9_-]*',path.lower()) if len(x)>2]
+                  for x in parts:
+                      if x in prov.lower(): score+=8
+                  scores.append((score,cid,name))
+              scores.sort(reverse=True)
+              top='; '.join(f'{cid}:{score:.1f}:{name[:80]}' for score,cid,name in scores[:8])
+              flags=[]
+              low=text.lower()
+              for key in ['proved','unproved','open','blocked','fail','pass','asymptotic','conjecture','numerical','finite','conditional','nonexistence','existence']:
+                  if key in low: flags.append(key)
+              rows.append((sid,path,s.get('stage','') or '',s.get('kind',''),s.get('evidence_role',''),','.join(flags),preview,top))
+          out.parent.mkdir(parents=True,exist_ok=True)
+          with out.open('w') as f:
+              f.write('sid\tpath\tstage\tkind\trole\tflags\tpreview\ttop_candidates\n')
+              for r in rows: f.write('\t'.join(str(x).replace('\t',' ') for x in r)+'\n')
+          PY
+      - name: Commit analyzer output
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b30-summary.tsv
+          git diff --cached --quiet && exit 0
+          git commit -m 'Temp: batch30 history analyzer output'
+          git push origin HEAD:agent/sr-b30-analyzer
