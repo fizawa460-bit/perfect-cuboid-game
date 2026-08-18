@@ -1,0 +1,97 @@
+name: StructureRadar batch27 calibrated proposer
+
+on:
+  push:
+    branches:
+      - agent/sr-b27-analyzer
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  propose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Calibrate on batch26 and propose batch27 map
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,re,pathlib,collections,itertools
+          root=pathlib.Path('.')
+          out=root/'.tmp/sr-b27-proposal.json'
+          if out.exists(): raise SystemExit(0)
+          progress=json.loads((root/'docs/structure-radar/progress.json').read_text())
+          queue=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
+          reg=json.loads((root/'docs/structure-radar/structure-registry.json').read_text())['structures']
+          source_map={}
+          for p in (root/'docs/structure-radar/source-manifest').glob('part-*.json'):
+              for s in json.loads(p.read_text())['sources']: source_map[s['source_id']]=s
+          stop=set('the and for with from into this that stage result true false current fixed moving exact only does not are was were has have had can could should would through under over all each one two three four five six seven eight nine zero main batch proof theorem bound bounds source card audit json markdown data stages stage14 stage15'.split())
+          def toks(x):
+              return [z for z in re.findall(r'[a-z][a-z0-9_+-]{2,}',x.lower()) if z not in stop and not z.startswith('src') and not z.startswith('str')]
+          cards=[]
+          for c in reg:
+              fs=[]
+              for k in ['canonical_math_name','exact_equations_or_object','search_terms_primary','search_terms_aliases','theorem_species','target_populations','potential_weapon_types','applicability_gaps']:
+                  v=c.get(k,[]); fs += [str(x) for x in v] if isinstance(v,list) else [str(v)]
+              ct=collections.Counter(toks(' '.join(fs)))
+              prov=[p.get('path','') for p in c.get('repo_provenance',[])]
+              cards.append((c,ct,prov))
+          def score_source(sid):
+              s=source_map[sid]; p=root/s['path']; text=p.read_text(errors='replace') if p.exists() else ''; low=text.lower(); st=collections.Counter(toks(s['path']+' '+text)); top=[k for k,v in st.most_common(30)]
+              arr=[]
+              for c,ct,prov in cards:
+                  score=0
+                  for term in top:
+                      if term in ct: score += min(st[term],4)*min(ct[term],3)
+                  for phrase in c.get('search_terms_primary',[]):
+                      ph=str(phrase).lower().strip()
+                      if len(ph)>=8 and ph in low: score += 20
+                  if s['path'].startswith('stages/stage15/15-6') and any(x.startswith('stages/stage15/15-6') for x in prov): score += 4
+                  if s['path'].startswith('stages/stage15/15-') and any(x.startswith('stages/stage15/') for x in prov): score += 2
+                  if score: arr.append((c['structure_id'],score))
+              arr.sort(key=lambda x:(-x[1],x[0])); return arr
+          b26=next(x for x in progress['audit_batches'] if x['batch_id']=='SR-BATCH-STAGE14_15_DEEP_CORPUS-26-R01')
+          actual={sid:set(progress['source_reviews'][sid].get('structure_ids',[])) for sid in b26['source_ids']}
+          scored26={sid:score_source(sid) for sid in b26['source_ids']}
+          rules=[]
+          for ratio in [0.45,0.55,0.65,0.75,0.85,0.95]:
+            for amin in [4,6,8,10,12,15,18,22]:
+              for cap in [1,2,3,4,5]:
+                tp=fp=fn=0
+                for sid,arr in scored26.items():
+                  if not arr: pred=set()
+                  else:
+                    top=arr[0][1]; pred={c for c,s in arr[:cap] if s>=amin and s>=top*ratio}
+                  a=actual[sid]; tp+=len(pred&a); fp+=len(pred-a); fn+=len(a-pred)
+                prec=tp/(tp+fp) if tp+fp else 1; rec=tp/(tp+fn) if tp+fn else 1
+                beta=.65; f=(1+beta*beta)*prec*rec/(beta*beta*prec+rec) if prec+rec else 0
+                rules.append((f,prec,rec,ratio,amin,cap,tp,fp,fn))
+          rules.sort(reverse=True)
+          best=rules[0]
+          _,prec,rec,ratio,amin,cap,tp,fp,fn=best
+          task=next(t for t in queue['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          rows=[]
+          for sid in task['source_ids']:
+              arr=score_source(sid)
+              if arr:
+                  top=arr[0][1]; pred=[c for c,s in arr[:cap] if s>=amin and s>=top*ratio]
+              else: pred=[]
+              rows.append({'source_id':sid,'path':source_map[sid]['path'],'predicted_structure_ids':pred,'top_candidates':[{'card':c,'score':s} for c,s in arr[:8]]})
+          payload={'calibration':{'precision':prec,'recall':rec,'ratio':ratio,'absolute_min':amin,'cap':cap,'tp':tp,'fp':fp,'fn':fn,'top_rules':[{'f':x[0],'precision':x[1],'recall':x[2],'ratio':x[3],'absolute_min':x[4],'cap':x[5]} for x in rules[:10]]},'task_id':task['task_id'],'rows':rows}
+          out.parent.mkdir(parents=True,exist_ok=True); out.write_text(json.dumps(payload,indent=2)+'\n')
+          PY
+      - name: Commit proposal
+        shell: bash
+        run: |
+          test -f .tmp/sr-b27-proposal.json || exit 0
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b27-proposal.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'Temp: calibrated batch27 proposal'
+          git push
