@@ -1,0 +1,239 @@
+name: StructureRadar batch 07 finalizer
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-07
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply normalized batch 07 review
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          BATCH='SR-BATCH-STAGE14_15_DEEP_CORPUS-07-R01'
+          TASK='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          sel_path=Path('.github/structure-radar-batch-07-selection.json')
+          sel=json.loads(sel_path.read_text(encoding='utf-8'))
+          sources=sel['sources']
+          assert len(sources)==60
+          result_sources=[s for s in sources if s.get('kind')=='RESULT']
+          assert len(result_sources)==38, len(result_sources)
+
+          progress_path=Path('docs/structure-radar/progress.json')
+          registry_path=Path('docs/structure-radar/structure-registry.json')
+          progress=json.loads(progress_path.read_text(encoding='utf-8'))
+          registry=json.loads(registry_path.read_text(encoding='utf-8'))
+          cards=registry['structures']
+          card_by_id={c['structure_id']:c for c in cards}
+          assert 'SR-STR-202' in card_by_id and 'SR-STR-203' not in card_by_id
+
+          def stage_key(path):
+              return Path(path).parent.name
+
+          stage_to_card={
+              '14-4dc':'SR-STR-200',
+              '14-4dd':'SR-STR-202',
+              '14-4de':'SR-STR-203','14-4df':'SR-STR-203',
+              '14-4dg':'SR-STR-204','14-4dh':'SR-STR-204','14-4di':'SR-STR-204','14-4diH':'SR-STR-204',
+              '14-4dj':'SR-STR-205','14-4dk':'SR-STR-205','14-4dl':'SR-STR-205','14-4dm':'SR-STR-205','14-4dn':'SR-STR-205','14-4do':'SR-STR-205',
+              '14-4dp':'SR-STR-206','14-4dq':'SR-STR-206','14-4dr':'SR-STR-206','14-4ds':'SR-STR-206','14-4dt':'SR-STR-206','14-4du':'SR-STR-206','14-4dv':'SR-STR-206','14-4dw':'SR-STR-206','14-4dx':'SR-STR-206','14-4dy':'SR-STR-206',
+              '14-4dz':'SR-STR-207','14-4ea':'SR-STR-207',
+              '14-4eb':'SR-STR-208','14-4ec':'SR-STR-208','14-4ed':'SR-STR-208','14-4ee':'SR-STR-208','14-4ef':'SR-STR-208',
+              '14-4eg':'SR-STR-209','14-4eh':'SR-STR-209','14-4ei':'SR-STR-209','14-4ej':'SR-STR-209','14-4ek':'SR-STR-209',
+              '14-4el':'SR-STR-210','14-4em':'SR-STR-210',
+          }
+          result_stage_keys=[stage_key(s['path']) for s in result_sources]
+          missing=[k for k in result_stage_keys if k not in stage_to_card]
+          assert not missing, missing
+
+          def prov(src, locator=None):
+              return {
+                  'source_id': src['source_id'],
+                  'path': src['path'],
+                  'locator': locator or stage_key(src['path'])+' normalized result',
+                  'fingerprint': src['fingerprint'],
+              }
+
+          # Strengthen existing cards with the direct continuation results.
+          for sid, stage in [('SR-STR-200','14-4dc'),('SR-STR-202','14-4dd')]:
+              card=card_by_id[sid]
+              src=next(s for s in result_sources if stage_key(s['path'])==stage)
+              if not any(p.get('source_id')==src['source_id'] for p in card.get('repo_provenance',[])):
+                  card.setdefault('repo_provenance',[]).append(prov(src))
+
+          specs=[
+            {
+              'structure_id':'SR-STR-203',
+              'canonical_math_name':'Mixed fourth-root cross-coprimality and six-block norm-packet reconstruction',
+              'exact_equations_or_object':'On the square-root saturation packet, full-residual plus/minus cross gcds are only B^o(1), so the mixed fourth-root congruence is an alternative charged-once root coordinate rather than an independent saving. After the s7-47 refinement the physical data split into six fixed-power-separated atomic norm blocks; fixing the six-block packet reconstructs the balanced physical square pair with B^o(1) multiplicity, leaving only a genuine density/correlation problem.',
+              'search_terms_primary':['mixed fourth root cross coprimality six norm blocks','pairwise separated Gaussian norm packet physical reconstruction'],
+              'search_terms_aliases':['six-block square reconstruction','mixed-root charged-once compression'],
+              'theorem_species':['arithmetic compression','finite-fiber reconstruction','correlation reduction'],
+              'target_populations':['Stage14 theta-quarter square-root saturation packets'],
+              'potential_weapon_types':['NORMAL_FORM','CORRELATION','DENSITY'],
+              'applicability_gaps':['The mixed fourth-root line, common-core line and signed-residual support are alternative complete counts of the same equality mass and cannot be multiplied.','The reduction proves no strict sub-square-root whole-family exponent by itself.'],
+              'existing_radar_overlap':['SR-STR-198','SR-STR-202'],
+            },
+            {
+              'structure_id':'SR-STR-204',
+              'canonical_math_name':'Primitive product-norm centering and same-root Ramanujan full-conductor synchronization',
+              'exact_equations_or_object':'The six-block packet admits a rotated primitive quarter-scale pair with exact product and norm identities. Centering isolates the physical principal density. The third Pythagorean projection uses the same Gaussian root label, and Ramanujan conductor stratification is the same arithmetic event as the X15 root line, so no second 1/d spacing factor is legal. Fixed-power conductor loss is saving; square-root saturation is forced to the full-conductor endpoint, where the absolute nonzero Ramanujan contribution remains at exponent 1/2.',
+              'search_terms_primary':['same root Ramanujan conductor Gaussian primitive pair','full conductor endpoint physical principal density'],
+              'search_terms_aliases':['Ramanujan root-line synchronization','rotated product norm centering'],
+              'theorem_species':['Ramanujan expansion','primitive root-line spacing','charged-once conductor decomposition'],
+              'target_populations':['Stage14 primitive quarter-pair full-conductor packets'],
+              'potential_weapon_types':['FOURIER','RAMANUJAN','CORRELATION'],
+              'applicability_gaps':['The third projection and conductor root line are synchronized, not independent local-density savings.','The full-conductor H audit found no off-the-shelf theorem giving fixed-power principal-density loss.'],
+              'existing_radar_overlap':['SR-STR-200'],
+            },
+            {
+              'structure_id':'SR-STR-205',
+              'canonical_math_name':'Principal-density covariance localization and zero-mode conditional-uplift reduction',
+              'exact_equations_or_object':'After full-conductor localization, square-root saturation is pushed into near-maximal physical cell occupancy. Interior variance and pairwise-correlation coefficients isolate the obstruction: any fixed-power pairwise deficit is already strict sub-square-root, while the surviving zero-mode term is an exact conditional-mean contrast/positive uplift. Successive reductions preserve the full masks and show that disjoint-prime allocation or Bernoulli near-determinism heuristics are not automatic savings.',
+              'search_terms_primary':['physical principal density covariance zero mode conditional uplift','pairwise correlation coefficient square root saturation'],
+              'search_terms_aliases':['positive conditional uplift obstruction','near maximal cell covariance'],
+              'theorem_species':['variance decomposition','conditional expectation identity','correlation localization'],
+              'target_populations':['Stage14 near-maximal principal physical cells'],
+              'potential_weapon_types':['CORRELATION','PROBABILISTIC_DECOMPOSITION','DENSITY'],
+              'applicability_gaps':['A centered covariance identity alone does not remove the positive principal zero mode.','Heuristic independence of prime allocations is not a proved fixed-power density loss.'],
+              'existing_radar_overlap':['SR-STR-169'],
+            },
+            {
+              'structure_id':'SR-STR-206',
+              'canonical_math_name':'Single-prime two-square influence and primitive projective-slope transport chain',
+              'exact_equations_or_object':'The nonmultiplicative physical selector is reduced from orientation influence to a single arithmetic mask, then to one split-prime action on two square/norm conditions. After freezing the state, only B^o(1) mover-prime candidates remain; fixed prime plus state is reconstructed with O(1) fiber from a primitive divisor pair. Norm-ratio and Archimedean masks then transport to a primitive projective slope, with no independent polynomial scale left after primitive reduction.',
+              'search_terms_primary':['single prime two square influence primitive divisor pair','projective slope mask transport Gaussian norm ratio'],
+              'search_terms_aliases':['mover prime candidate support','primitive slope physical mask'],
+              'theorem_species':['influence decomposition','finite candidate reduction','projective normalization'],
+              'target_populations':['Stage14 frozen physical mover states'],
+              'potential_weapon_types':['SIEVE','PROJECTIVE_REDUCTION','CORRELATION'],
+              'applicability_gaps':['A finite candidate set for each frozen state does not itself imply global sparsity.','Orientation Hecke factorization does not automatically extend to the full physical selector.'],
+              'existing_radar_overlap':['SR-STR-168','SR-STR-169'],
+            },
+            {
+              'structure_id':'SR-STR-207',
+              'canonical_math_name':'Nested primitive-slope acceptance and canonical two-factor density receiver',
+              'exact_equations_or_object':'Primitive-slope physical acceptance factors through nested events: full acceptance is contained in allocation acceptance, which is contained in the balanced host. The resulting three-level conditional-density chain is exact but superseded by a canonical two-factor receiver separating charged canonical allocation from reciprocal-completion density. These conditional factors describe the same physical packet and are not independent multiplicative savings.',
+              'search_terms_primary':['nested primitive slope acceptance canonical allocation density','canonical two factor reciprocal conditional density'],
+              'search_terms_aliases':['three level acceptance chain','allocation reciprocal receiver'],
+              'theorem_species':['conditional density factorization','canonical allocation reduction'],
+              'target_populations':['Stage14 primitive-slope accepted physical packets'],
+              'potential_weapon_types':['DENSITY','CONDITIONAL_PROBABILITY','NORMAL_FORM'],
+              'applicability_gaps':['Conditional probabilities require a proved deficit on the charged physical measure; formal factorization alone is exponent-neutral.'],
+              'existing_radar_overlap':['SR-STR-169'],
+            },
+            {
+              'structure_id':'SR-STR-208',
+              'canonical_math_name':'Canonical three-divisor allocation and opposite-reciprocal Gaussian norm root selector',
+              'exact_equations_or_object':'After canonical allocation, the first reciprocal equation is a reconstruction tautology. The remaining selector freezes a B^o(1)-sized allocation type with minus divisors on A and B and a plus divisor on A^2+B^2; the opposite reciprocal becomes primitive Gaussian norm divisibility on the same pair. Minus and plus one-sided ledgers are each exponent-neutral and dependent, so the genuine receiver is their correlated integer/Gaussian divisor-root density, not a product of marginal savings.',
+              'search_terms_primary':['canonical three divisor incidence A B A2+B2','opposite reciprocal Gaussian norm divisibility root selector'],
+              'search_terms_aliases':['integer Gaussian allocation correlation','second reciprocal root density'],
+              'theorem_species':['divisor incidence','Gaussian root selector','correlated arithmetic density'],
+              'target_populations':['Stage14 low-core canonical allocation branch'],
+              'potential_weapon_types':['DIVISOR_SUM','GAUSSIAN_ARITHMETIC','CORRELATION'],
+              'applicability_gaps':['The reciprocal root line uses the same good common core and does not create an independent growing modulus.','Separate minus and plus density estimates cannot be multiplied without a correlation theorem.'],
+              'existing_radar_overlap':['SR-STR-169','SR-STR-170'],
+            },
+            {
+              'structure_id':'SR-STR-209',
+              'canonical_math_name':'Common-core centered root discrepancy and variable-modulus character/projective-collision dichotomy',
+              'exact_equations_or_object':'Stratifying the exact common core C0=B^(kappa+o(1)) separates a low-core allocation branch from a polynomial-core branch. The root indicator has an exact principal-plus-centered decomposition; polynomial-core saturation forces positive centered excess. That centered root discrepancy has an exact multiplicative-character expansion with an L2 coefficient identity, and large fixed-C discrepancy forces projective collision energy. The obstruction then splits into concentrated projective collisions or a diffuse exact-modulus norm-divisor graph.',
+              'search_terms_primary':['centered root discrepancy variable modulus character energy','projective collision diffuse norm divisor graph common core'],
+              'search_terms_aliases':['polynomial common core discrepancy','character energy collision dichotomy'],
+              'theorem_species':['character expansion','energy identity','concentration dichotomy'],
+              'target_populations':['Stage14 polynomial common-core saturation branch'],
+              'potential_weapon_types':['CHARACTER_SUM','ENERGY','DISPERSION'],
+              'applicability_gaps':['The principal root mass is not itself a saving on the accepted physical subset; saturation can move into centered excess.','Collision energy must distinguish proportional/diagonal pairs from genuine movers before determinant spacing is charged.'],
+              'existing_radar_overlap':['SR-STR-169'],
+            },
+            {
+              'structure_id':'SR-STR-210',
+              'canonical_math_name':'Heavy primitive-ray versus genuine determinant-mover dichotomy with quotient-scale stratification',
+              'exact_equations_or_object':'After the projective-collision reduction, diagonal collisions cannot support concentrated saturation. The surviving concentrated branch is either a heavy primitive ray or a genuine nonzero determinant mover, while the diffuse exact-modulus branch remains separate. For genuine movers write the nonzero determinant as C*q; super-determinant moduli are empty, near-maximal mover moduli have only a B^o(1) q-dictionary, and separated moduli retain a polynomial q-range.',
+              'search_terms_primary':['heavy primitive ray determinant mover quotient scale','projective collision determinant quotient C q'],
+              'search_terms_aliases':['heavy ray or genuine mover','mover modulus q stratification'],
+              'theorem_species':['projective collision dichotomy','determinant spacing','scale stratification'],
+              'target_populations':['Stage14 concentrated projective-collision mover branch'],
+              'potential_weapon_types':['DETERMINANT_METHOD','INCIDENCE','DISPERSION'],
+              'applicability_gaps':['A global primitive-ray multiplicity bound is not proved.','The separated-modulus polynomial q range still needs a genuine mover-collision theorem; the heavy-ray branch is unchanged.'],
+              'existing_radar_overlap':['SR-STR-169'],
+            },
+          ]
+
+          for spec in specs:
+              sid=spec['structure_id']
+              stages=[s for s in result_sources if stage_to_card[stage_key(s['path'])]==sid]
+              assert stages, sid
+              card={
+                  **spec,
+                  'repo_provenance':[prov(s) for s in stages],
+                  'search_status':'NOT_SEARCHED',
+                  'arsenal_decision':'PENDING',
+                  'card_status':'SUBMITTED_FOR_AUDIT',
+              }
+              cards.append(card)
+
+          reviews=progress.setdefault('source_reviews',{})
+          for src in sources:
+              entry={
+                  'fingerprint':src['fingerprint'],
+                  'batch_id':BATCH,
+              }
+              if src.get('kind')=='RESULT':
+                  entry['status']='STRUCTURES_RECORDED'
+                  entry['structure_ids']=[stage_to_card[stage_key(src['path'])]]
+              else:
+                  entry['status']='NO_DISTINCT_STRUCTURE'
+              reviews[src['source_id']]=entry
+
+          audit_batches=progress.setdefault('audit_batches',[])
+          assert not any(b.get('batch_id')==BATCH for b in audit_batches)
+          audit_batches.append({
+              'batch_id':BATCH,
+              'task_id':TASK,
+              'status':'SUBMITTED_FOR_AUDIT',
+              'source_ids':[s['source_id'] for s in sources],
+              'sources_reviewed':60,
+              'structures_added':8,
+              'structures_updated':2,
+              'structure_carrier_sources':38,
+              'structures_deduped':22,
+              'searches_completed':0,
+              'arsenal_decisions':0,
+              'audit_required':True,
+              'duplicate_source':0,
+              'no_distinct_structure':22,
+          })
+          registry['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          progress_path.write_text(json.dumps(progress,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          registry_path.write_text(json.dumps(registry,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
+          PY
+
+          rm -f .github/structure-radar-batch-07-selection.json
+          rm -f .github/structure-radar-batch-07-bundle.txt
+          rm -f .github/workflows/structure-radar-batch-07-finalize.yml
+          rm -f .github/structure-radar-batch-07-finalize-trigger.txt
+
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git diff --check
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A docs/structure-radar .github/structure-radar-batch-07-selection.json .github/structure-radar-batch-07-bundle.txt .github/workflows/structure-radar-batch-07-finalize.yml .github/structure-radar-batch-07-finalize-trigger.txt
+          git commit -m 'StructureRadar: review deep corpus batch 07'
+          git push origin HEAD:structure-radar-deep-corpus-batch-07
