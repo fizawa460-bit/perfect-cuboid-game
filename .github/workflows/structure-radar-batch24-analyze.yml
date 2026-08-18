@@ -25,66 +25,51 @@ jobs:
           python - <<'PY'
           import json, re
           from pathlib import Path
-
           progress=json.loads(Path('docs/structure-radar/progress.json').read_text())
           registry=json.loads(Path('docs/structure-radar/structure-registry.json').read_text())
           reviews=progress.get('source_reviews',{})
           sources=[]
           for p in sorted(Path('docs/structure-radar/source-manifest').glob('part-*.json')):
               sources += json.loads(p.read_text()).get('sources',[])
-          candidates=[s for s in sources if s.get('queue_group')=='STAGE14_15_DEEP_CORPUS' and s.get('review_state')!='CURRENT_REVIEWED']
-          batch=candidates[:60]
-          assert len(batch)==60
-          assert batch[0]['source_id']=='SRC-5E11E240975B', batch[0]
-
+          batch=[s for s in sources if s.get('queue_group')=='STAGE14_15_DEEP_CORPUS' and s.get('review_state')!='CURRENT_REVIEWED'][:60]
+          assert len(batch)==60 and batch[0]['source_id']=='SRC-5E11E240975B'
           def producer(path):
               m=re.search(r'stages/stage14/(?:data|tasks|archive/tasks)/([^/]+)/',path)
               return m.group(1) if m else ''
-
           def hint_for(path):
               p=Path(path)
               if not p.exists(): return ''
               try:
                   if p.suffix=='.json':
-                      x=json.loads(p.read_text())
-                      parts=[]
-                      for k in ('stage','classification','track','status','decision','theorem_input','boundary','metadata'):
+                      x=json.loads(p.read_text()); parts=[]
+                      for k in ('stage','classification','track','status','decision','metadata'):
                           if k in x:
                               v=x[k]
                               if isinstance(v,(dict,list)): v=json.dumps(v,ensure_ascii=False,separators=(',',':'))
                               parts.append(f'{k}={v}')
-                      return ' | '.join(parts)[:2200]
-                  text=p.read_text(errors='ignore')
-                  lines=[ln.strip() for ln in text.splitlines() if ln.strip()]
+                      return ' | '.join(parts)[:500]
+                  lines=[ln.strip() for ln in p.read_text(errors='ignore').splitlines() if ln.strip()]
                   keep=[ln for ln in lines if ln.startswith('#') or any(w in ln.upper() for w in ('THEOREM','BOUND','RESULT','DECISION','STATUS','COMPLETE','NEXT'))]
-                  return ' | '.join((keep or lines)[:14])[:2200]
-              except Exception as e:
-                  return f'parse_error={e}'
-
-          out=[]
-          for s in batch:
-              prod=producer(s['path'])
-              exact=[]
+                  return ' | '.join((keep or lines)[:6])[:500]
+              except Exception as e: return f'parse_error={e}'
+          out=[]; compact=[]
+          for i,s in enumerate(batch,1):
+              prod=producer(s['path']); exact=[]; reg=[]
               for old in sources:
                   if old['source_id']==s['source_id']: continue
                   rev=reviews.get(old['source_id'])
-                  if not rev or not rev.get('structure_ids'): continue
-                  if prod and f'/{prod}/' in old['path']:
+                  if rev and rev.get('structure_ids') and prod and f'/{prod}/' in old['path']:
                       exact.extend(rev['structure_ids'])
-              reg=[]
               for c in registry.get('structures',[]):
-                  for pv in c.get('repo_provenance',[]):
-                      if prod and f'/{prod}/' in pv.get('path',''):
-                          reg.append(c['structure_id']); break
-              out.append({
-                  'source_id':s['source_id'], 'path':s['path'], 'fingerprint':s['fingerprint'],
-                  'producer':prod, 'exact_reviewed_ids':sorted(set(exact)),
-                  'registry_ids':sorted(set(reg)), 'hint':hint_for(s['path'])
-              })
+                  if any(prod and f'/{prod}/' in pv.get('path','') for pv in c.get('repo_provenance',[])):
+                      reg.append(c['structure_id'])
+              exact=sorted(set(exact)); reg=sorted(set(reg)); hint=hint_for(s['path'])
+              out.append({'source_id':s['source_id'],'path':s['path'],'fingerprint':s['fingerprint'],'producer':prod,'exact_reviewed_ids':exact,'registry_ids':reg,'hint':hint})
+              compact.append(f"{i:02d}\t{s['source_id']}\t{prod}\t{','.join(exact) or '-'}\t{','.join(reg) or '-'}\t{s['path']}\t{hint}")
           Path('docs/structure-radar/.batch24-analysis.json').write_text(json.dumps({'sources':out},indent=2,ensure_ascii=False)+'\n')
+          Path('docs/structure-radar/.batch24-compact.tsv').write_text('\n'.join(compact)+'\n')
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/structure-radar/.batch24-analysis.json
-          git commit -m "Analyze StructureRadar batch24 lineage"
-          git push origin HEAD:structure-radar-deep-corpus-batch-24
+          git add docs/structure-radar/.batch24-analysis.json docs/structure-radar/.batch24-compact.tsv
+          if ! git diff --cached --quiet; then git commit -m "Refresh StructureRadar batch24 lineage analysis"; git push origin HEAD:structure-radar-deep-corpus-batch-24; fi
