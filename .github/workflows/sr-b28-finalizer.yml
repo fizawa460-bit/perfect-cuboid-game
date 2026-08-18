@@ -1,0 +1,179 @@
+name: StructureRadar batch28 finalizer
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-28
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Apply batch28 census
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('.')
+          batch_id='SR-BATCH-STAGE14_15_DEEP_CORPUS-28-R01'
+          task_id='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          M={
+          'SRC-D9EE2064D457':['SR-STR-145','SR-STR-187','SR-STR-222'],
+          'SRC-0D2F4CCF0395':None,
+          'SRC-7855F3D49DF0':['SR-STR-039','SR-STR-143','SR-STR-145','SR-STR-187'],
+          'SRC-A52AB4C334D3':['SR-STR-001','SR-STR-039','SR-STR-143','SR-STR-145','SR-STR-187','SR-STR-216'],
+          'SRC-705BD2A82D40':['SR-STR-039','SR-STR-143','SR-STR-145','SR-STR-187','SR-STR-216'],
+          'SRC-F1D100323E8F':None,
+          'SRC-EC952FBE4811':None,
+          'SRC-7F42D9B5C4BB':None,
+          'SRC-40E89F52E403':None,
+          'SRC-7CE38CB1702B':['SR-STR-001','SR-STR-039','SR-STR-144'],
+          'SRC-31A1D88CF251':['SR-STR-001','SR-STR-144','SR-STR-154'],
+          'SRC-DA354D5270C6':['SR-STR-005','SR-STR-153'],
+          'SRC-780D1050C53F':['SR-STR-145','SR-STR-154'],
+          'SRC-F08FA7723004':['SR-STR-145','SR-STR-053','SR-STR-200'],
+          'SRC-2C23CA685018':['SR-STR-039','SR-STR-216'],
+          'SRC-A4829212BBEA':['SR-STR-145','SR-STR-053','SR-STR-200'],
+          'SRC-A38C0C13D57F':['SR-STR-200'],
+          'SRC-5C2565F6EF1B':['SR-STR-200','SR-STR-164'],
+          'SRC-7C95B296D6A1':['SR-STR-164'],
+          'SRC-1BCB3D0B2D5A':['SR-STR-164','SR-STR-133'],
+          'SRC-2A70B6AEC891':['SR-STR-169','SR-STR-164'],
+          'SRC-D913CDC6DEFE':['SR-STR-169'],
+          'SRC-ED55E66295B5':['SR-STR-200','SR-STR-169'],
+          'SRC-426184B2A49F':['SR-STR-175','SR-STR-162','SR-STR-163'],
+          'SRC-FC0A68529FF6':['SR-STR-164','SR-STR-151'],
+          'SRC-1B12333253F5':['SR-STR-164'],
+          'SRC-166CB64BB67B':['SR-STR-200','SR-STR-186'],
+          'SRC-EF309109F527':['SR-STR-200','SR-STR-195','SR-STR-162'],
+          'SRC-173D3CF48330':['SR-STR-195','SR-STR-219'],
+          'SRC-C480F7EC2F65':['SR-STR-219'],
+          'SRC-26257E7C8EB7':['SR-STR-219','SR-STR-169'],
+          'SRC-FF92EAD90123':['SR-STR-169','SR-STR-133'],
+          'SRC-B3208CAD7798':['SR-STR-195'],
+          'SRC-3CE0CB4BB8FC':['SR-STR-162'],
+          'SRC-4E8253929E00':['SR-STR-162','SR-STR-133'],
+          'SRC-1D328770B4F8':['SR-STR-162'],
+          'SRC-1876A6E078B2':['SR-STR-163','SR-STR-162'],
+          'SRC-1DAFF98816D2':['SR-STR-162','SR-STR-195'],
+          'SRC-6B27E1B6D746':['SR-STR-162'],
+          'SRC-39E4B7F4AAD4':['SR-STR-162','SR-STR-163','SR-STR-175'],
+          'SRC-DC313C7C2B5F':['SR-STR-162'],
+          'SRC-E581754BE686':None,
+          'SRC-118806284D2F':['SR-STR-163','SR-STR-164'],
+          'SRC-818298C27A2C':['SR-STR-169','SR-STR-162'],
+          'SRC-2B78371ACBB4':['SR-STR-164','SR-STR-151'],
+          'SRC-7349D77C5077':['SR-STR-151','SR-STR-164'],
+          'SRC-CD86D8D7D96B':['SR-STR-163'],
+          'SRC-9FD97D9F6A33':['SR-STR-151','SR-STR-164','SR-STR-133'],
+          'SRC-71E79461379C':['SR-STR-133'],
+          'SRC-4446445FABD9':['SR-STR-053','SR-STR-200','SR-STR-164'],
+          'SRC-7BD9DF9108C8':None,
+          'SRC-7C8388ABA1EE':['SR-STR-200','SR-STR-133'],
+          'SRC-30B11739EF10':['SR-STR-200'],
+          'SRC-E4E0CDA2F505':['SR-STR-102','SR-STR-200'],
+          'SRC-2873B5102F04':['SR-STR-102'],
+          'SRC-9746BE61EE63':['SR-STR-102','SR-STR-133'],
+          'SRC-D2DE655FF6AB':['SR-STR-102'],
+          'SRC-4FDD77111076':['SR-STR-102'],
+          'SRC-0C1C87027EC2':['SR-STR-102','SR-STR-133'],
+          'SRC-9815A5E0756D':['SR-STR-179','SR-STR-017']
+          }
+          qpath=root/'docs/structure-radar/exploration-queue.json'
+          q=json.loads(qpath.read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          ids=task['source_ids']
+          assert len(ids)==60, len(ids)
+          assert set(ids)==set(M), (len(set(ids)-set(M)),len(set(M)-set(ids)))
+          assert task['task_id']==task_id
+          source_map={}; part_for={}
+          part_docs={}
+          for p in sorted((root/'docs/structure-radar/source-manifest').glob('part-*.json')):
+              d=json.loads(p.read_text()); part_docs[p]=d
+              for s in d['sources']:
+                  source_map[s['source_id']]=s; part_for[s['source_id']]=p
+          prog_path=root/'docs/structure-radar/progress.json'
+          prog=json.loads(prog_path.read_text())
+          assert not any(b.get('batch_id')==batch_id for b in prog['audit_batches'])
+          reg_path=root/'docs/structure-radar/structure-registry.json'
+          reg=json.loads(reg_path.read_text())
+          cards={c['structure_id']:c for c in reg['structures']}
+          for sid in ids:
+              s=source_map[sid]
+              assert s['review_state']=='NEW', (sid,s['review_state'])
+              assert sid not in prog['source_reviews'], sid
+              cids=M[sid]
+              if cids is None:
+                  prog['source_reviews'][sid]={'fingerprint':s['fingerprint'],'status':'NO_DISTINCT_STRUCTURE','batch_id':batch_id}
+              else:
+                  assert len(cids)==len(set(cids))
+                  for cid in cids: assert cid in cards, cid
+                  prog['source_reviews'][sid]={'fingerprint':s['fingerprint'],'status':'STRUCTURES_RECORDED','batch_id':batch_id,'structure_ids':cids}
+                  for cid in cids:
+                      c=cards[cid]
+                      pv=c.setdefault('repo_provenance',[])
+                      if not any(x.get('source_id')==sid for x in pv):
+                          pv.append({'source_id':sid,'path':s['path'],'locator':'normalized Stage14-15 deep-corpus batch28 carrier','fingerprint':s['fingerprint']})
+              s['review_state']='CURRENT_REVIEWED'
+          union=sorted({cid for sid in ids if M[sid] for cid in M[sid]})
+          assert len(union)==26, union
+          carrier=sum(M[sid] is not None for sid in ids)
+          nodist=sum(M[sid] is None for sid in ids)
+          assert (carrier,nodist)==(53,7)
+          prog['audit_batches'].append({
+              'batch_id':batch_id,'task_id':task_id,'status':'SUBMITTED_FOR_AUDIT','source_ids':ids,
+              'sources_reviewed':60,'structures_added':0,'structures_updated':26,
+              'structure_carrier_sources':53,'structures_deduped':7,'searches_completed':0,
+              'arsenal_decisions':0,'audit_required':True,'duplicate_source':0,'no_distinct_structure':7})
+          prog_path.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+          reg_path.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          for p,d in part_docs.items():
+              if any(s['source_id'] in M for s in d['sources']):
+                  p.write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\n')
+          PY
+      - name: Refresh and verify
+        shell: bash
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+      - name: Assert batch28 accounting
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          c=json.loads((r/'docs/structure-radar/controller.json').read_text())
+          assert c['corpus']['review_states']=={'CURRENT_REVIEWED':2262,'NEW':294}, c['corpus']['review_states']
+          assert c['registry']['structure_count']==225
+          p=json.loads((r/'docs/structure-radar/progress.json').read_text())
+          b=next(x for x in p['audit_batches'] if x['batch_id']=='SR-BATCH-STAGE14_15_DEEP_CORPUS-28-R01')
+          assert b['sources_reviewed']==60 and b['structures_updated']==26
+          assert b['structure_carrier_sources']==53 and b['no_distinct_structure']==7 and b['duplicate_source']==0
+          reviews=[v for v in p['source_reviews'].values() if v.get('batch_id')==b['batch_id']]
+          assert len(reviews)==60
+          assert sum(v['status']=='STRUCTURES_RECORDED' for v in reviews)==53
+          assert sum(v['status']=='NO_DISTINCT_STRUCTURE' for v in reviews)==7
+          union=sorted({x for v in reviews for x in v.get('structure_ids',[])})
+          assert len(union)==26, union
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text())
+          ready=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          assert ready['source_ids'][0]=='SRC-931EAC39437C', ready['source_ids'][0]
+          print('BATCH28_OK',len(reviews),len(union),ready['source_ids'][0])
+          PY
+      - name: Commit final net diff
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm .github/workflows/sr-b28-finalizer.yml
+          git add docs/structure-radar
+          git status --short
+          git commit -m 'StructureRadar: census Stage14-15 deep corpus batch 28'
+          git push origin HEAD:structure-radar-deep-corpus-batch-28
