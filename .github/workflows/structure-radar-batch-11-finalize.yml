@@ -1,0 +1,143 @@
+name: StructureRadar batch11 finalizer
+on:
+  push:
+    branches: [structure-radar-deep-corpus-batch-11]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    if: contains(github.event.head_commit.message, 'trigger batch11 finalizer')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-11
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Normalize batch11 and verify
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('.')
+          batch_id='SR-BATCH-STAGE14_15_DEEP_CORPUS-11-R01'
+          task_id='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          sel=json.loads((root/'.github/structure-radar-batch-11-selection.json').read_text())
+          sources=sel['sources']
+          assert len(sources)==60
+          src={s['source_id']:s for s in sources}
+          regp=root/'docs/structure-radar/structure-registry.json'
+          progp=root/'docs/structure-radar/progress.json'
+          reg=json.loads(regp.read_text())
+          prog=json.loads(progp.read_text())
+          cards={c['structure_id']:c for c in reg['structures']}
+          assert 'SR-STR-216' in cards and 'SR-STR-217' not in cards
+
+          def prov(sid, locator):
+              s=src[sid]
+              return {'source_id':sid,'path':s['path'],'locator':locator,'fingerprint':s['fingerprint']}
+          def addprov(cid, sid, locator):
+              c=cards[cid]
+              if not any(x.get('source_id')==sid for x in c.get('repo_provenance',[])):
+                  c.setdefault('repo_provenance',[]).append(prov(sid,locator))
+              c['card_status']='SUBMITTED_FOR_AUDIT'
+
+          addprov('SR-STR-114','SRC-4A0406E14315','exact full-2-torsion descent interface and finite Selmer/rank boundary')
+          addprov('SR-STR-114','SRC-E06FD058F102','Pythagorean-base local Selmer support architecture and fixed-prime sieve boundary')
+          addprov('SR-STR-162','SRC-BFD0D15BC8A7','physical logarithmic canonical-height window and genuine first-small-point gate')
+          addprov('SR-STR-162','SRC-452D22794A3C','family-level small-point activation theorem boundary')
+          addprov('SR-STR-162','SRC-F8CE4EFD376D','Euclid-parameter full-2-descent sieve target with physical small-point window')
+          addprov('SR-STR-178','SRC-710AE2DEA13F','five moving Euclid factors and odd-prime reciprocity matrix skeleton')
+          addprov('SR-STR-178','SRC-14D4D37396ED','supported-prime local Hilbert rows and prime-2 branch routing')
+          addprov('SR-STR-178','SRC-417B89D387CD','unselected odd rows and Q2 64-state finite-state reduction')
+          addprov('SR-STR-178','SRC-96049452E026','exact Q2 Hilbert pairing table and 64-state encoding')
+          addprov('SR-STR-183','SRC-25B1844F7B9C','exact Q2 covering-state classification: 8 soluble states of 64')
+          addprov('SR-STR-161','SRC-1B82662AA0C5','centered global character-sum candidate and exact local mean subtraction')
+          addprov('SR-STR-161','SRC-45B4029DC126','reciprocal off-diagonal reduction and first separable dyadic bilinear bound')
+          addprov('SR-STR-161','SRC-55D1FC6E2569','Euclid-incidence rank-one bulk and discrepancy decomposition')
+          addprov('SR-STR-161','SRC-8B082A06C761','sparse projective-collision L2 reduction and unresolved medium/state-split regime')
+          addprov('SR-STR-192','SRC-45B4029DC126','six genuine reciprocal edges after whole-kernel E-column collapse')
+          addprov('SR-STR-210','SRC-8B082A06C761','linear/norm projective collisions divide determinant or antideterminant; sparse regime closes')
+
+          new_id='SR-STR-217'
+          new_card={
+            'structure_id':new_id,
+            'canonical_math_name':'Collective fixed-degree stratum proliferation reverse-count budget',
+            'exact_equations_or_object':'If every fixed physical rational stratum of M-degree d contributes at most B^(2/d+o(1)) while a target active population V(B) has square-root scale B^(1/2), then any explanation by a growing degree-d family necessarily requires N_d(B) >= B^(1/2-2/d-o(1)). In particular d=8 requires B^(1/4-o(1)), d=12 requires B^(1/3-o(1)), and d=16 requires B^(3/8-o(1)). This is a necessary capacity budget, not an existence theorem for such strata or a proof of the square-root law.',
+            'search_terms_primary':['fixed degree rational strata collective proliferation reverse count','moving family count exponent budget B one half'],
+            'search_terms_aliases':['collective activation reverse-count boundary','degree-d stratum capacity budget'],
+            'theorem_species':['height counting','reverse-count necessity','moving-family capacity bound'],
+            'repo_provenance':[prov('SRC-1B478A93FEE4','collective activation reverse-count formula after fixed M-degree-four closure')],
+            'target_populations':['Stage14 active Pythagorean-base small-point strata under the physical height'],
+            'potential_weapon_types':['HEIGHT_COUNTING','MOVING_FAMILY_GATE','CAPACITY_BOUND'],
+            'applicability_gaps':['The B^(2/d+o(1)) bound is per fixed stratum and does not provide uniform constants for a moving family.','No higher-degree strata are constructed and no B^(1/2) asymptotic is proved.','Finite fingerprint dispersion is supporting evidence only, not a theorem of geometric proliferation.'],
+            'existing_radar_overlap':['SR-STR-155','SR-STR-162'],
+            'search_status':'NOT_SEARCHED',
+            'arsenal_decision':'PENDING',
+            'card_status':'SUBMITTED_FOR_AUDIT'
+          }
+          reg['structures'].append(new_card); cards[new_id]=new_card
+
+          carriers={
+            'SRC-4A0406E14315':['SR-STR-114'],
+            'SRC-E06FD058F102':['SR-STR-114'],
+            'SRC-BFD0D15BC8A7':['SR-STR-162'],
+            'SRC-1B478A93FEE4':['SR-STR-217'],
+            'SRC-452D22794A3C':['SR-STR-162'],
+            'SRC-F8CE4EFD376D':['SR-STR-162'],
+            'SRC-710AE2DEA13F':['SR-STR-178'],
+            'SRC-14D4D37396ED':['SR-STR-178'],
+            'SRC-417B89D387CD':['SR-STR-178'],
+            'SRC-96049452E026':['SR-STR-178'],
+            'SRC-25B1844F7B9C':['SR-STR-183'],
+            'SRC-1B82662AA0C5':['SR-STR-161'],
+            'SRC-45B4029DC126':['SR-STR-161','SR-STR-192'],
+            'SRC-55D1FC6E2569':['SR-STR-161'],
+            'SRC-8B082A06C761':['SR-STR-161','SR-STR-210'],
+          }
+          reviews=prog.setdefault('source_reviews',{})
+          for s in sources:
+              sid=s['source_id']
+              rec={'fingerprint':s['fingerprint'],'batch_id':batch_id}
+              if sid in carriers:
+                  rec['status']='STRUCTURES_RECORDED'; rec['structure_ids']=carriers[sid]
+              else:
+                  rec['status']='NO_DISTINCT_STRUCTURE'
+              reviews[sid]=rec
+
+          batches=prog.setdefault('audit_batches',[])
+          batches[:]=[b for b in batches if b.get('batch_id')!=batch_id]
+          batches.append({
+            'batch_id':batch_id,
+            'task_id':task_id,
+            'status':'SUBMITTED_FOR_AUDIT',
+            'source_ids':[s['source_id'] for s in sources],
+            'sources_reviewed':60,
+            'structures_added':1,
+            'structures_updated':7,
+            'structure_carrier_sources':15,
+            'structures_deduped':45,
+            'searches_completed':0,
+            'arsenal_decisions':0,
+            'audit_required':True,
+            'duplicate_source':0,
+            'no_distinct_structure':45
+          })
+          reg['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          regp.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          progp.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm -f .github/structure-radar-batch-11-trigger.txt || true
+          git rm -f .github/structure-radar-batch-11-selection.json .github/structure-radar-batch-11-index-*.json || true
+          git rm -f .github/workflows/structure-radar-batch-11-select.yml .github/workflows/structure-radar-batch-11-finalize.yml || true
+          git add docs/structure-radar
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git commit -m 'StructureRadar: review deep corpus batch 11'
+          git push origin HEAD:structure-radar-deep-corpus-batch-11
