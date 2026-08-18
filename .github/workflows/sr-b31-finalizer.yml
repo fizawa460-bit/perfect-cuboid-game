@@ -1,0 +1,191 @@
+name: StructureRadar history batch31 finalizer
+on:
+  push:
+    branches: [structure-radar-history-batch-31]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Apply batch31 census
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          root=pathlib.Path('.')
+          batch_id='SR-BATCH-STAGE02_13_HISTORY-31-R01'
+          task_id='SR-CENSUS-STAGE02_13_HISTORY-01'
+          M={
+          'SRC-5D407CD0A39E':['SR-STR-226'],
+          'SRC-8E3D4EACD55B':['SR-STR-032','SR-STR-226'],
+          'SRC-2C93C02DE22E':None,
+          'SRC-AF10F010572E':None,
+          'SRC-2345EA6B6F71':['SR-STR-226'],
+          'SRC-471795D6D21E':['SR-STR-226'],
+          'SRC-997B8B77F3A6':None,
+          'SRC-C915B41D4554':None,
+          'SRC-C1B7118CBC59':None,
+          'SRC-C3539FF8A82C':['SR-STR-013','SR-STR-226'],
+          'SRC-B38D1E95F09D':['SR-STR-226'],
+          'SRC-83190F47F4E1':None,
+          'SRC-056BA3A8A081':['SR-STR-027','SR-STR-031','SR-STR-226'],
+          'SRC-521FB44BFBD0':['SR-STR-027','SR-STR-028','SR-STR-226'],
+          'SRC-FFD95FC85027':['SR-STR-027','SR-STR-028','SR-STR-031','SR-STR-226'],
+          'SRC-E25DAB0085E5':['SR-STR-226'],
+          'SRC-286CCF512A06':['SR-STR-027','SR-STR-028','SR-STR-226'],
+          'SRC-3DC6304F6E8F':['SR-STR-028','SR-STR-226'],
+          'SRC-7F462AEF26FB':['SR-STR-028','SR-STR-226'],
+          'SRC-824E104BC437':['SR-STR-027','SR-STR-226'],
+          'SRC-8C8C58569889':['SR-STR-226'],
+          'SRC-5085337771F6':['SR-STR-013','SR-STR-032','SR-STR-226'],
+          'SRC-085616537847':['SR-STR-031','SR-STR-226'],
+          'SRC-D90B9B439097':['SR-STR-027','SR-STR-031','SR-STR-226'],
+          'SRC-22F95BFD34CA':['SR-STR-028','SR-STR-226'],
+          'SRC-F5DBB7BD60D5':['SR-STR-028','SR-STR-226'],
+          'SRC-C24ED6A0CED2':['SR-STR-028','SR-STR-031','SR-STR-226'],
+          'SRC-B395984E4C20':['SR-STR-027','SR-STR-031','SR-STR-226'],
+          'SRC-0992BB6B8575':['SR-STR-027','SR-STR-031','SR-STR-226'],
+          'SRC-B526E58BFAE8':None,
+          'SRC-024B26CBA773':None,
+          'SRC-1626960A877A':['SR-STR-226'],
+          'SRC-76C47BF188C5':['SR-STR-226'],
+          'SRC-A5BE4E93FE95':['SR-STR-226'],
+          'SRC-803D6D336CDF':['SR-STR-226'],
+          'SRC-58C07849E8E3':['SR-STR-226'],
+          'SRC-3FC7FD3D84AD':None,
+          'SRC-DE0BF77E5CE1':['SR-STR-226'],
+          'SRC-FA913FA027AB':['SR-STR-226'],
+          'SRC-B452D28F3598':None,
+          'SRC-B588783E5751':None,
+          'SRC-59C88844E6CC':None,
+          'SRC-103F12267503':None,
+          'SRC-E24D88717D6D':None,
+          'SRC-BA60ADB95AE8':['SR-STR-001','SR-STR-227'],
+          'SRC-B6F805F22740':['SR-STR-041','SR-STR-227'],
+          'SRC-E8113AD8DF3F':None,
+          'SRC-7C5D33D45F84':None,
+          'SRC-7BBCCA1CEDC6':['SR-STR-030','SR-STR-227'],
+          'SRC-3F726245081A':['SR-STR-029','SR-STR-030','SR-STR-227'],
+          'SRC-51614AEA6349':['SR-STR-041','SR-STR-226','SR-STR-227'],
+          'SRC-FA158F7B7232':['SR-STR-030','SR-STR-041','SR-STR-226','SR-STR-227'],
+          'SRC-31503F0EAE62':None,
+          'SRC-DE9B8953CBE7':['SR-STR-027','SR-STR-030','SR-STR-031','SR-STR-227'],
+          'SRC-C233DF1526F8':['SR-STR-029','SR-STR-227'],
+          'SRC-7756229F10F2':['SR-STR-029','SR-STR-030','SR-STR-041','SR-STR-226','SR-STR-227'],
+          'SRC-15D21B2E51E9':None,
+          'SRC-AB1AF310B5A0':['SR-STR-027','SR-STR-028','SR-STR-031','SR-STR-227'],
+          'SRC-150D7FE62AE6':['SR-STR-029','SR-STR-227'],
+          'SRC-70073A2909C8':['SR-STR-027','SR-STR-028','SR-STR-029','SR-STR-030','SR-STR-031','SR-STR-041','SR-STR-226','SR-STR-227']
+          }
+          qpath=root/'docs/structure-radar/exploration-queue.json'
+          q=json.loads(qpath.read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          ids=task['source_ids']
+          assert task['task_id']==task_id, task['task_id']
+          assert len(ids)==60 and ids==list(M.keys()), (len(ids),ids[:2],list(M)[:2])
+          source_map={}; part_docs={}
+          for p in sorted((root/'docs/structure-radar/source-manifest').glob('part-*.json')):
+              d=json.loads(p.read_text()); part_docs[p]=d
+              for s in d['sources']: source_map[s['source_id']]=s
+          prog_path=root/'docs/structure-radar/progress.json'
+          prog=json.loads(prog_path.read_text())
+          assert not any(b.get('batch_id')==batch_id for b in prog['audit_batches'])
+          reg_path=root/'docs/structure-radar/structure-registry.json'
+          reg=json.loads(reg_path.read_text())
+          cards={c['structure_id']:c for c in reg['structures']}
+          expected_union=['SR-STR-001','SR-STR-013','SR-STR-027','SR-STR-028','SR-STR-029','SR-STR-030','SR-STR-031','SR-STR-032','SR-STR-041','SR-STR-226','SR-STR-227']
+          assert all(cid in cards for cid in expected_union)
+          locator={
+            'SR-STR-001':'Stage13 historical canonical-population definition carrier',
+            'SR-STR-013':'Stage12 primitive-first Mobius proof lineage',
+            'SR-STR-027':'Stage12/13 weighted coprime rectangle and cross-correction lineage',
+            'SR-STR-028':'Stage12/13 core-wing-shallow boundary proof lineage',
+            'SR-STR-029':'Stage13 fixed-prime overlap ordered-limit proof lineage',
+            'SR-STR-030':'Stage13 ordered-chamber Gelfand-Leray directional lineage',
+            'SR-STR-031':'Stage12/13 finite-order Selberg-Delange proof lineage',
+            'SR-STR-032':'Stage12 shared-hypotenuse/raw convolution lineage',
+            'SR-STR-041':'Stage13 oriented-record to canonical projection lineage',
+            'SR-STR-226':'Stage12 historical proof-chain carrier; frozen R09 theorem scope only',
+            'SR-STR-227':'Stage13 historical proof/repair carrier; closed R07 theorem scope only'
+          }
+          for sid in ids:
+              s=source_map[sid]
+              assert s['review_state']=='NEW', (sid,s['review_state'])
+              assert sid not in prog['source_reviews'], sid
+              cids=M[sid]
+              if cids is None:
+                  prog['source_reviews'][sid]={'fingerprint':s['fingerprint'],'status':'NO_DISTINCT_STRUCTURE','batch_id':batch_id}
+              else:
+                  assert len(cids)==len(set(cids))
+                  prog['source_reviews'][sid]={'fingerprint':s['fingerprint'],'status':'STRUCTURES_RECORDED','batch_id':batch_id,'structure_ids':cids}
+                  for cid in cids:
+                      pv=cards[cid].setdefault('repo_provenance',[])
+                      if not any(x.get('source_id')==sid for x in pv):
+                          pv.append({'source_id':sid,'path':s['path'],'locator':locator[cid],'fingerprint':s['fingerprint']})
+              s['review_state']='CURRENT_REVIEWED'
+          union=sorted({cid for sid in ids if M[sid] for cid in M[sid]})
+          assert union==sorted(expected_union), union
+          carrier=sum(M[sid] is not None for sid in ids); nodist=60-carrier
+          assert (carrier,nodist)==(42,18)
+          prog['audit_batches'].append({
+            'batch_id':batch_id,'task_id':task_id,'status':'SUBMITTED_FOR_AUDIT','source_ids':ids,
+            'sources_reviewed':60,'structures_added':0,'structures_updated':11,
+            'structure_carrier_sources':42,'structures_deduped':18,'searches_completed':0,
+            'arsenal_decisions':0,'audit_required':True,'duplicate_source':0,'no_distinct_structure':18})
+          prog_path.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+          reg_path.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          for p,d in part_docs.items():
+              if any(s['source_id'] in M for s in d['sources']):
+                  p.write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\n')
+          PY
+      - name: Refresh and verify
+        shell: bash
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+      - name: Assert batch31 accounting
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          c=json.loads((r/'docs/structure-radar/controller.json').read_text())
+          assert c['corpus']['review_states']=={'CURRENT_REVIEWED':2390,'NEW':166}, c['corpus']['review_states']
+          assert c['registry']['structure_count']==227, c['registry']['structure_count']
+          p=json.loads((r/'docs/structure-radar/progress.json').read_text())
+          b=next(x for x in p['audit_batches'] if x['batch_id']=='SR-BATCH-STAGE02_13_HISTORY-31-R01')
+          assert b['sources_reviewed']==60 and b['structures_added']==0 and b['structures_updated']==11
+          assert b['structure_carrier_sources']==42 and b['no_distinct_structure']==18 and b['duplicate_source']==0
+          rv=[v for v in p['source_reviews'].values() if v.get('batch_id')==b['batch_id']]
+          assert len(rv)==60 and sum(v['status']=='STRUCTURES_RECORDED' for v in rv)==42 and sum(v['status']=='NO_DISTINCT_STRUCTURE' for v in rv)==18
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text())
+          ready=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          assert ready['source_ids'][0]=='SRC-29353DDF7796', ready['source_ids'][0]
+          print('BATCH31_OK',len(rv),c['corpus']['review_states'],ready['task_id'],ready['source_ids'][0])
+          PY
+      - name: Commit official ledger only
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm -f --ignore-unmatch \
+            .github/workflows/sr-b31-analyzer.yml \
+            .github/workflows/sr-b31-compact.yml \
+            .github/workflows/sr-card-index.yml \
+            .github/workflows/sr-b31-finalizer.yml
+          git rm -f --ignore-unmatch \
+            .tmp/sr-b31-summary.tsv \
+            .tmp/sr-b31-compact.tsv \
+            .tmp/sr-card-index.tsv \
+            .tmp/sr-b31-trigger.txt \
+            .tmp/sr-b31-compact-trigger.txt \
+            .tmp/sr-card-index-trigger.txt
+          git add docs/structure-radar
+          git status --short
+          git commit -m 'StructureRadar: census Stage02-13 history batch 31'
+          git push origin HEAD:structure-radar-history-batch-31
