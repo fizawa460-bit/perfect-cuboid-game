@@ -1,0 +1,271 @@
+name: StructureRadar SR-SEARCH batch02 validator
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-search02-apply
+      - name: Apply literature search batch 02
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          r = pathlib.Path('.')
+          ids = [f'SR-STR-{i:03d}' for i in range(7,13)]
+          batch = 'SR-BATCH-LITERATURE_SEARCH-02-R01'
+          task = 'SR-SEARCH-01'
+          ledger = 'docs/structure-radar/literature/SR-SEARCH-02.md'
+          rp = r/'docs/structure-radar/structure-registry.json'
+          reg = json.loads(rp.read_text())
+          cards = {c['structure_id']: c for c in reg['structures']}
+          pp = r/'docs/structure-radar/progress.json'
+          prog = json.loads(pp.read_text())
+          existing = next((x for x in prog['audit_batches'] if x.get('batch_id') == batch), None)
+          desired = {
+              'SR-STR-007':'ACTIVE',
+              'SR-STR-008':'ACTIVE',
+              'SR-STR-009':'ACTIVE',
+              'SR-STR-010':'ACTIVE',
+              'SR-STR-011':'ACTIVE',
+              'SR-STR-012':'EXTERNAL_GATE',
+          }
+          if existing is None:
+              for cid in ids:
+                  c = cards[cid]
+                  assert c['search_status'] == 'NOT_SEARCHED', (cid,c['search_status'])
+                  if cid != 'SR-STR-012':
+                      assert c['arsenal_decision'] == 'PENDING', (cid,c['arsenal_decision'])
+                  else:
+                      assert c['arsenal_decision'] == 'EXTERNAL_GATE', c['arsenal_decision']
+                  assert c['card_status'] == 'NORMALIZED', (cid,c['card_status'])
+                  c['search_status'] = 'SEARCHED'
+                  c['arsenal_decision'] = desired[cid]
+                  c['search_ledger'] = ledger
+              rp.write_text(json.dumps(reg, indent=2, ensure_ascii=False)+'\n')
+              prog['audit_batches'].append({
+                  'batch_id': batch,
+                  'task_id': task,
+                  'status': 'SUBMITTED_FOR_AUDIT',
+                  'source_ids': [],
+                  'sources_reviewed': 0,
+                  'structures_added': 0,
+                  'structures_updated': 6,
+                  'structure_carrier_sources': 0,
+                  'structures_deduped': 0,
+                  'searches_completed': 6,
+                  'arsenal_decisions': 5,
+                  'audit_required': True,
+                  'duplicate_source': 0,
+                  'no_distinct_structure': 0
+              })
+              pp.write_text(json.dumps(prog, indent=2, ensure_ascii=False)+'\n')
+              lp = r/ledger
+              lp.parent.mkdir(parents=True, exist_ok=True)
+              lp.write_text(r'''# StructureRadar literature ledger — search batch 02
+
+SEARCH_TASK=SR-SEARCH-01
+BATCH_ID=SR-BATCH-LITERATURE_SEARCH-02-R01
+SEARCH_DATE=2026-08-19
+STRUCTURES=SR-STR-007,SR-STR-008,SR-STR-009,SR-STR-010,SR-STR-011,SR-STR-012
+EVIDENCE_POLICY=primary sources for external theorem claims; repo arsenal checked first
+NOVELTY_BY_SEARCH_ABSENCE=false
+
+This batch evaluates the next six normalized cards after the audited/merged first
+literature batch. `ACTIVE` means the existing audited repo weapon remains reusable
+on its exact population/height/multiplicity contract. `EXTERNAL_GATE` means the
+external theorem exists but a receiver must still prove the stated repo-native
+model/height adapter before reuse.
+
+## SR-STR-007 — Directional exactly-two face-mask identities
+
+Repo identity:
+`N2,a=A_ab,ac-A3`, `N2,b=A_ab,bc-A3`, `N2,c=A_ac,bc-A3`.
+Therefore directional contrasts cancel the common `A3` term exactly.
+
+Existing weapon: `S23-W02` (`ACTIVE`). This is finite inclusion/exclusion on the
+repo incidence masks, not a literature-dependent analytic theorem. External cuboid
+papers use several incompatible meanings of “face cuboid” and do not improve this
+exact mask bookkeeping.
+
+Transfer verdict: `REPO_EXACT_IDENTITY; NO_EXTERNAL_UPGRADE_NEEDED`.
+Smallest transfer test: reproduce the three exactly-two truth-table rows and check
+that the receiver uses the same directional incidence measure rather than a
+matched-population probability.
+Arsenal decision: `ACTIVE`.
+
+## SR-STR-008 — Thin but infinite space-diagonal cover of the exactly-two-face host
+
+Repo theorem:
+`B^(1/4) << N2(B) <<_epsilon B^(1/2+epsilon)`, hence `N2/M2 -> 0` while
+`N2 -> infinity`; the true `N2` exponent is unresolved.
+
+Existing weapons: `S24-W-THIN-COVER`, `S25-W01`, `S25-W03`, together with the
+Stage14 half-power upper interface. The lower and upper are different mechanisms
+and are not multiplied.
+
+Primary-source check: Takumi Yoshida, *The relationship between face cuboids and
+elliptic curves*, arXiv:2407.09825 (2024), constructs a 32:1 surjection from
+elliptic-curve data to equivalence classes of rational face cuboids and proves
+infinitely many such classes. Yoshida's population is rational, modulo scaling,
+and has two rational face diagonals plus a rational space diagonal. It does not
+state the repo primitive-canonical integer Euclidean-height `B^(1/4)` lower or
+`B^(1/2+epsilon)` whole-family upper.
+
+Primary-source context: Browning--Loughran, *Sieving rational points on varieties*,
+arXiv:1705.01999, develops thin-set/rational-point sieve bounds on suitable
+varieties, but it does not supply this cuboid-height corridor without the repo's
+explicit model, height and mask adapters.
+
+Transfer verdict: `ADJACENT_INFINITUDE + GENERAL_THIN_SET_METHOD; NO_STRONGER_DIRECT_HEIGHT_COLLISION`.
+Smallest transfer test: match the exact two-face+space population, primitive/canonical
+projection and Euclidean height, then prove finite multiplicity before importing a
+quantitative point-count theorem.
+Arsenal decision: `ACTIVE` (existing repo corridor retained).
+
+## SR-STR-009 — Euler-completion proportion on the unmarked at-least-two-face host
+
+Repo object:
+`H_ge2=M2+M3`, `Phi=M3/(M2+M3)`, with `Phi -> 0`.
+Existing exact weapon: `S26-W02 Phi`.
+
+The primary literature located for Euler bricks (including parametric/generator
+work) does not state this same-measure primitive-canonical Euclidean-height
+completion ratio. General toric Manin/equidistribution results govern the two-face
+ambient side only after the repo-specific toric and height identification; they
+do not independently count the Euler-brick numerator under this exact height.
+
+Transfer verdict: `REPO_MEASURE_ADAPTER + EXISTING_AUDITED_COUNTING_INPUTS; NO_DIRECT_EXTERNAL_RATIO`.
+Smallest transfer test: verify the unmarked host counts every Euler brick once and
+keep it distinct from raw pair incidence `P=M2+3M3` and from the adjacent-stratum
+ratio `M3/M2`.
+Arsenal decision: `ACTIVE`.
+
+## SR-STR-010 — Multiplicity-three Euler-completion proportion on raw face-pair incidences
+
+Repo object:
+`P_j=M2,j+M3`, `P=M2+3M3`, `Theta_j=M3/P_j`,
+`Theta=3M3/(M2+3M3)`. The literal same-measure completion proportions tend to
+zero; the directional ratio is governed by the existing directional constants.
+
+Existing weapons: `S25-W05` and `S26-W02 Theta`. The factor three is exact incidence
+multiplicity, not a probabilistic independence factor. Current `S26-W02` also
+records the strengthened total completion corridor; the card's directional
+interface is retained rather than overwritten by a weaker historical statement.
+
+No primary source found states the exact raw-incidence cuboid measure together with
+the repo primitive/canonical Euclidean-height corridor. General toric/thin-set
+papers require the same model/height/multiplicity adapters as above.
+
+Transfer verdict: `REPO_EXACT_MULTIPLICITY_ADAPTER; NO_DIRECT_EXTERNAL_RAW_INCIDENCE_COLLISION`.
+Smallest transfer test: check that each Euler brick contributes three raw face-pair
+incidences and that each directional `P_j` receives it once before comparing rates.
+Arsenal decision: `ACTIVE`.
+
+## SR-STR-011 — Balanced Cayley-Gaussian packet normal form
+
+Repo object: every active Stage14 face is covered by finitely decorated
+Cayley/Gaussian strips after gcd, sign, 2-primary and dyadic localization.
+Existing weapon: `AR-007`.
+
+Classical Euclid/Gaussian parametrizations explain individual primitive
+Pythagorean faces, but the balanced strip, common-core bookkeeping, decorations,
+physical masks and Stage14 height ranges form a repo-specific normal form. The
+focused primary-source search found no theorem with this exact packet measure and
+all decorations that would replace `AR-007` wholesale.
+
+Transfer verdict: `CLASSICAL_ALGEBRAIC_CONTEXT + REPO_SPECIFIC_NORMAL_FORM`.
+Smallest transfer test: reproduce the exact map from a physical Stage14 object to
+one retained strip and back, preserving gcd, signs, 2-primary data, dyadic ranges,
+cutoff and face/space masks.
+Arsenal decision: `ACTIVE`.
+
+## SR-STR-012 — Uniform elliptic finite-fiber degree bridge
+
+Repo object: for
+`E_t: Y^2=X(X-1)(X+t^2)`, with rational 2-torsion and polynomial model/point
+height control, a uniform bounded-height theorem yields `deg_B(F)=B^o(1)`.
+Existing interface: `AR-005`.
+
+Primary theorem: Marta Dujella, *Uniform Bounds for the Number of Rational Points
+of Bounded Height on Certain Elliptic Curves*, arXiv:2312.03655 (2023), Theorem
+1.1. For an elliptic curve over a fixed number field with a rational point of
+exact prime order `ell`, the number of rational points of exponential height at
+most `B` is bounded uniformly by `exp(C log B / log log B)` once `B` is at least
+`exp(max(h(E),e))`; for `ell=2` this applies over `Q`. This is `B^o(1)`.
+
+Supporting predecessor: Francesco Naccarato, *Counting rational points on elliptic
+curves with a rational 2-torsion point*, arXiv:2105.04032 (2021), proves the same
+quality `exp(O(log B/log log B))` over `Q` with one nontrivial rational 2-torsion
+point.
+
+Variable dictionary: repo `E_t/Q` has rational 2-torsion; theorem height `B_thm`
+must dominate the exponential Weil height of the relevant elliptic point and the
+curve-height threshold. The repo therefore still needs a uniform polynomial
+comparison from physical cutoff `B_phys` to both point height and `h(E_t)` for
+each active fiber. Only after that adapter does
+`exp(O(log B_thm/log log B_thm))=B_phys^o(1)` hold uniformly.
+
+Transfer verdict: `EXTERNAL_THEOREM_FOUND; EXACT_MODEL_AND_HEIGHT_ADAPTER_REQUIRED`.
+Smallest transfer test: for every active face, verify nonsingularity, rational
+2-torsion, a fixed-degree Weierstrass change, `h(E_t)=O(log B_phys)`, and relevant
+point exponential height `<=B_phys^C` with absolute `C`.
+Stable sources: arXiv:2312.03655; arXiv:2105.04032.
+Arsenal decision: `EXTERNAL_GATE` retained; the theorem is real, but receivers may
+not skip the uniform model/height adapter.
+
+## Batch decision
+
+SEARCHES_COMPLETED=6
+ARSENAL_DECISIONS_RESOLVED_FROM_PENDING=5
+EXISTING_ACTIVE_WEAPONS_CONFIRMED=5
+EXTERNAL_GATES_CONFIRMED=1
+NEW_EXTERNAL_ACTIVE_WEAPONS=0
+DIRECT_STRONGER_SAME_POPULATION_HEIGHT_COLLISIONS=0
+NOVELTY_BY_SEARCH_ABSENCE=false
+PERFECT_CUBOID_EXISTENCE_PROMOTED=false
+PERFECT_CUBOID_NONEXISTENCE_PROMOTED=false
+''')
+          else:
+              for cid in ids:
+                  assert cards[cid]['search_status'] == 'SEARCHED'
+                  assert cards[cid]['arsenal_decision'] == desired[cid]
+                  assert cards[cid].get('search_ledger') == ledger
+          PY
+      - name: Refresh verify and assert
+        shell: bash
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+          python - <<'PY'
+          import json, pathlib
+          r=pathlib.Path('.')
+          reg=json.loads((r/'docs/structure-radar/structure-registry.json').read_text())
+          cards={c['structure_id']:c for c in reg['structures']}
+          ids=[f'SR-STR-{i:03d}' for i in range(7,13)]
+          assert all(cards[x]['search_status']=='SEARCHED' for x in ids)
+          assert [cards[x]['arsenal_decision'] for x in ids]==['ACTIVE','ACTIVE','ACTIVE','ACTIVE','ACTIVE','EXTERNAL_GATE']
+          c=json.loads((r/'docs/structure-radar/controller.json').read_text())
+          assert c['registry']['unresolved_search_count']==191,c['registry']
+          assert c['registry']['pending_arsenal_decision_count']==206,c['registry']
+          assert c['queue']['task_count']==32,c['queue']
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text())
+          ready=next(t for t in q['tasks'] if t['status']=='READY')
+          assert ready['phase']=='LITERATURE_SEARCH',ready
+          assert ready['structure_ids']==['SR-STR-013','SR-STR-015','SR-STR-017','SR-STR-018','SR-STR-019','SR-STR-020'],ready
+          print('SR_SEARCH02_VALIDATED',ready['task_id'],ready['structure_ids'])
+          PY
+      - name: Commit validated official blobs
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/structure-radar
+          git commit -m 'Temp: validate StructureRadar literature search batch 02' || true
+          git push origin HEAD:agent/sr-search02-apply
