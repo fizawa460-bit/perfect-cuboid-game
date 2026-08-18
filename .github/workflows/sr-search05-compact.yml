@@ -1,0 +1,37 @@
+name: SR search05 compact
+on:
+  push:
+    branches: [agent/sr-search05-analysis]
+permissions:
+  contents: write
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-search05-analysis
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compact target cards
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          ids={'SR-STR-031','SR-STR-032','SR-STR-033','SR-STR-036','SR-STR-037','SR-STR-038','SR-STR-039','SR-STR-040'}
+          reg=json.load(open('docs/structure-radar/structure-registry.json'))
+          keys=['structure_id','canonical_math_name','exact_equations_or_object','target_populations','potential_weapon_types','applicability_gaps','existing_radar_overlap','search_status','arsenal_decision','card_status']
+          cards=[]
+          for c in reg['structures']:
+            if c.get('structure_id') in ids:
+              cards.append({k:c.get(k) for k in keys})
+          pathlib.Path('.tmp').mkdir(exist_ok=True)
+          pathlib.Path('.tmp/sr-search05-compact.json').write_text(json.dumps(cards,indent=2,ensure_ascii=False)+'\n')
+          PY
+      - name: Commit compact extraction
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-search05-compact.json
+          git commit -m 'temp: compact search05 targets' || exit 0
+          git push origin HEAD:agent/sr-search05-analysis
