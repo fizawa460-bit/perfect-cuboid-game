@@ -43,7 +43,6 @@ jobs:
                   z=ln.strip()
                   if re.match(r'^[A-Z][A-Z0-9_]*(?:=|:)', z):
                       flags.append(z)
-              # retain the last 28 unique boundary/status-like fields, plus receiver lines
               seen=set(); compact=[]
               for z in reversed(flags):
                   if z not in seen:
@@ -53,9 +52,11 @@ jobs:
               idx.append({'n':n,'source_id':s['source_id'],'path':s['path'],'kind':s['kind'],'title':title,'boundary_fields':compact})
           (root/'.github/structure-radar-batch-09-bundle.txt').write_text('\n'.join(parts))
           (root/'.github/structure-radar-batch-09-index.json').write_text(json.dumps(idx,indent=2)+'\n')
+          for j in range(6):
+              (root/f'.github/structure-radar-batch-09-index-{j+1}.json').write_text(json.dumps(idx[j*10:(j+1)*10],indent=2)+'\n')
           PY
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add .github/structure-radar-batch-09-selection.json .github/structure-radar-batch-09-bundle.txt .github/structure-radar-batch-09-index.json
+          git add .github/structure-radar-batch-09-selection.json .github/structure-radar-batch-09-bundle.txt .github/structure-radar-batch-09-index*.json
           git commit -m 'StructureRadar: materialize batch09 source bundle' || exit 0
           git push origin HEAD:structure-radar-deep-corpus-batch-09
