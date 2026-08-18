@@ -1,0 +1,54 @@
+name: StructureRadar batch 07 select
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-07
+permissions:
+  contents: write
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Select next 60 unreviewed sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          progress = json.loads(Path('docs/structure-radar/progress.json').read_text(encoding='utf-8'))
+          reviewed = set(progress.get('source_reviews', {}))
+          sources = []
+          for part_path in sorted(Path('docs/structure-radar/source-manifest').glob('part-*.json')):
+              part = json.loads(part_path.read_text(encoding='utf-8'))
+              for src in part.get('sources', []):
+                  if src.get('queue_group') == 'STAGE14_15_DEEP_CORPUS' and src.get('source_id') not in reviewed:
+                      sources.append(src)
+          selected = sources[:60]
+          assert len(selected) == 60, len(selected)
+          assert selected[0]['path'] == 'stages/stage14/archive/tasks/14-4dc/result.md', selected[0]['path']
+          out = {
+              'batch_id': 'SR-BATCH-STAGE14_15_DEEP_CORPUS-07-R01',
+              'task_id': 'SR-CENSUS-STAGE14_15_DEEP_CORPUS-01',
+              'source_count': len(selected),
+              'sources': selected,
+          }
+          Path('.github/structure-radar-batch-07-selection.json').write_text(
+              json.dumps(out, indent=2, ensure_ascii=False) + '\n', encoding='utf-8'
+          )
+          print('\n'.join(f"{s['source_id']}\t{s['path']}" for s in selected))
+          PY
+          rm -f .github/workflows/structure-radar-batch-07-select.yml
+          rm -f .github/structure-radar-batch-07-select-trigger.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A .github/structure-radar-batch-07-selection.json .github/workflows/structure-radar-batch-07-select.yml .github/structure-radar-batch-07-select-trigger.txt
+          git commit -m 'StructureRadar: select deep corpus batch 07'
+          git push origin HEAD:structure-radar-deep-corpus-batch-07
