@@ -1,0 +1,23 @@
+name: tmp sr search04 extract
+on:
+  push:
+    branches: [agent/sr-search04-analysis]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-search04-analysis
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python .tmp/sr-search04-extract.py
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-search04-cards.json
+          git diff --cached --quiet || git commit -m 'tmp: extract search04 cards'
+          git push origin HEAD:agent/sr-search04-analysis
