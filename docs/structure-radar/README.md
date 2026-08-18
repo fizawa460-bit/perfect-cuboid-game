@@ -43,6 +43,12 @@ files return to the queue while unchanged reviewed sources remain reviewed.
 machine-readable shards under `source-manifest/` so the full corpus remains easy
 to diff and transport.
 
+`work-delegation-policy.json` and `codex-delegation-policy.json` are static
+operator policies and are deliberately not mathematical census sources.  Every
+main batch and audit must evaluate both after refreshing the generated
+controller.  Neither policy auto-invokes another product mode; each only requires
+ChatGPT to report whether the handoff would materially improve the current task.
+
 ## Structure card contract
 
 `structure-registry.json` is the mathematical registry.  Each non-draft card must
@@ -87,7 +93,8 @@ transfer test.
 On each invocation ChatGPT must:
 
 1. run or conceptually reproduce `structure_radar.py refresh` on current merged
-   main and read `controller.json`;
+   main, read `controller.json`, `work-delegation-policy.json`, and
+   `codex-delegation-policy.json`;
 2. consume the current `READY` source-census or structure-search work unit;
 3. normalize new structures and merge genuine duplicates without erasing their
    provenance;
@@ -95,8 +102,20 @@ On each invocation ChatGPT must:
 5. check the existing q-ledger and research arsenal before opening web research;
 6. search primary literature when the queue phase requires it, then test exact
    perfect-cuboid applicability;
-7. update `progress.json`, `structure-registry.json`, and any arsenal proposal;
-8. refresh again and submit a Draft PR with the batch state.
+7. independently evaluate the Codex and Work delegation policies;
+8. recommend Codex only for repository-mechanical execution, deterministic
+   large-scale repair/reindex, provenance repair, or CI/workflow debugging; if
+   recommended, emit a ready-to-paste `CODEX_REQUEST` with exact paths, failing
+   invariant/task, expected edits, checks, and stop conditions;
+9. recommend Work only when broader external-document discovery or long
+   multi-source synthesis would materially improve coverage; if recommended,
+   emit a ready-to-paste `WORK_REQUEST` naming exact structure IDs or the
+   barrier/receiver, search objective, exclusions, and evidence expected back;
+10. do not auto-invoke Codex or Work and do not block normal repo work merely
+    because the operator declines a recommendation, unless a genuine mechanical
+    blocker makes the requested repository action impossible;
+11. update `progress.json`, `structure-registry.json`, and any arsenal proposal;
+12. refresh again and submit a Draft PR with the batch state.
 
 A single invocation may consume several small work units, but it must not mark
 unread sources reviewed.  Source census, normalization, literature search, and
@@ -118,11 +137,24 @@ STRUCTURES_DEDUPED=
 SEARCHES_COMPLETED=
 ARSENAL_DECISIONS=
 ARSENAL_BACKFLOW_GAPS=
-CODEX_REQUIRED=true|false
+CODEX_DELEGATION_RECOMMENDED=true|false
 CODEX_REASON=
+CODEX_TARGET=
+CODEX_REQUEST=
+WORK_DELEGATION_RECOMMENDED=true|false
+WORK_REASON=
+WORK_TARGET=
+WORK_REQUEST=
 AUDIT_REQUIRED=true|false
 NEXT_EXPECTED_COMMAND=StructureRadar-audit|StructureRadar-main-batch|human-input
 ```
+
+The legacy semantic meaning of `CODEX_REQUIRED` is preserved as the Codex
+recommendation condition, but new handoffs should report the explicit advisory
+field `CODEX_DELEGATION_RECOMMENDED`.  A recommendation is not an automatic
+invocation.  The operator may decline Codex and request best-effort ChatGPT
+continuation unless the stated mechanical blocker makes the requested repository
+action impossible.
 
 ## `StructureRadar-audit`
 
@@ -131,6 +163,12 @@ provenance accuracy, deduplication, search-term quality, literature citations,
 population/height compatibility, and over-promotion.  A PASS certifies the
 submitted batch; it does not claim globally exhaustive literature coverage and
 does not close the campaign while another queue item is ready.
+
+The audit also independently evaluates both delegation flags.  It may add, clear,
+or rewrite either recommendation if the audited batch exposes a repository-
+mechanical problem or an external-literature/cross-domain-search gap.  A Codex or
+Work recommendation is advisory and does not turn a mathematically valid batch
+into FAIL merely because the recommendation has not been executed.
 
 Minimum audit output:
 
@@ -142,15 +180,21 @@ STRUCTURE_NORMALIZATION_AUDIT=PASS|FAIL
 LITERATURE_APPLICABILITY_AUDIT=PASS|FAIL|NOT_APPLICABLE
 ARSENAL_PROMOTION_AUDIT=PASS|FAIL|NOT_APPLICABLE
 CAMPAIGN_CLOSE_ALLOWED=true|false
-CODEX_REQUIRED=true|false
+CODEX_DELEGATION_RECOMMENDED=true|false
 CODEX_REASON=
+CODEX_TARGET=
+CODEX_REQUEST=
+WORK_DELEGATION_RECOMMENDED=true|false
+WORK_REASON=
+WORK_TARGET=
+WORK_REQUEST=
 NEXT_EXPECTED_COMMAND=StructureRadar-main-batch|StructureRadar-audit|human-input
 ```
 
 ## Codex boundary
 
-Routine source reading, mathematical normalization, literature search, transfer
-analysis, and arsenal judgment remain ChatGPT work.  Delegate to Codex only for:
+Codex is for repository-mechanical execution, not for replacing StructureRadar's
+mathematical judgment.  Recommend a Codex handoff only for:
 
 - extractor or verifier failure;
 - manifest/progress inconsistency;
@@ -158,7 +202,62 @@ analysis, and arsenal judgment remain ChatGPT work.  Delegate to Codex only for:
 - conflicting provenance mappings that need repository-wide mechanical repair;
 - CI/workflow failure.
 
-Codex output never self-certifies a mathematical or literature claim.
+Do not recommend Codex merely because a source batch is large, because routine
+source reading is tedious, or because mathematical normalization, literature
+search, transfer analysis, or arsenal judgment is difficult.  Those remain
+ChatGPT work.
+
+When Codex is recommended, the handoff must be concrete enough to paste directly
+into Codex.  It must identify exact repository paths, the failing invariant or
+mechanical objective, edits expected, verification commands/checks, and explicit
+stop conditions.  Codex output never self-certifies a mathematical or literature
+claim; ChatGPT must review any mathematical meaning introduced by repository
+changes.
+
+Codex is a recommendation boundary, not an automatic call, and the operator may
+decline it.
+
+Canonical static policy: `docs/structure-radar/codex-delegation-policy.json`.
+
+## Work boundary
+
+Work is for breadth, not for replacing StructureRadar's mathematical judgment.
+Recommend a Work handoff only when one of the following is materially useful:
+
+- broad external-literature discovery beyond a focused primary-source check;
+- an unknown theorem, technique, or literature name must be identified;
+- alternative terminology is needed because the repo vocabulary may hide prior
+  art;
+- a cross-domain weapon search may expose methods outside the current number-
+  theory vocabulary;
+- prior-art comparison requires synthesis across many external documents;
+- the repo arsenal appears exhausted for a precise receiver and a wider external
+  search is the next rational move.
+
+Do not recommend Work merely because a source batch is large, because routine
+census/dedup/normalization is tedious, or because a normal batch audit is due.
+Those remain ChatGPT work under the existing bounded batch discipline.
+
+When Work is recommended, the handoff must be concrete enough to paste directly
+into Work.  It must identify the exact StructureRadar card IDs or mathematical
+barrier/receiver, say what external evidence to seek, list important exclusions,
+and specify what theorem statement, hypotheses, quantitative loss, citation, and
+variable mapping must be returned.
+
+Work results are leads, not self-certifying evidence.  ChatGPT must re-check the
+returned theorem against exact repo variables, hypotheses, population/height,
+quantitative loss, and receiver applicability before an `ACTIVE` arsenal
+promotion.
+
+Canonical static policy: `docs/structure-radar/work-delegation-policy.json`.
+
+## Delegation interaction
+
+Codex and Work recommendations are independent.  A batch may recommend neither,
+one, or both.  Neither is automatically executed, and declining one does not
+change the other recommendation.  StructureRadar remains operable under ChatGPT
+unless the requested repository action is genuinely impossible without resolving
+a reported mechanical blocker.
 
 ## Stop and close conditions
 
