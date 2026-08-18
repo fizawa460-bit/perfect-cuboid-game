@@ -1,0 +1,79 @@
+name: StructureRadar batch25 ledger repair
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-25
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-25
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Repair batch25 audit ledger
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          path = Path('docs/structure-radar/progress.json')
+          data = json.loads(path.read_text(encoding='utf-8'))
+          batch_id = 'SR-BATCH-STAGE14_15_DEEP_CORPUS-25-R01'
+          task_id = 'SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          batches = data.setdefault('audit_batches', [])
+          if any(b.get('batch_id') == batch_id for b in batches):
+              raise SystemExit(f'{batch_id} already exists')
+
+          source_ids = [
+              sid for sid, review in data['source_reviews'].items()
+              if review.get('batch_id') == batch_id
+          ]
+          if len(source_ids) != 60:
+              raise SystemExit(f'expected 60 batch25 source reviews, found {len(source_ids)}')
+
+          record = {
+              'batch_id': batch_id,
+              'task_id': task_id,
+              'status': 'SUBMITTED_FOR_AUDIT',
+              'source_ids': source_ids,
+              'sources_reviewed': 60,
+              'structures_added': 0,
+              'structures_updated': 21,
+              'structure_carrier_sources': 53,
+              'structures_deduped': 7,
+              'searches_completed': 0,
+              'arsenal_decisions': 0,
+              'audit_required': True,
+              'duplicate_source': 0,
+              'no_distinct_structure': 7,
+          }
+          batches.append(record)
+          path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+          print('BATCH25_LEDGER_REPAIRED=PASS')
+          print('SOURCE_COUNT=' + str(len(source_ids)))
+          PY
+      - name: Refresh and verify StructureRadar
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+      - name: Remove temporary repair workflow
+        run: rm .github/workflows/sr-b25-ledger-repair.yml
+      - name: Commit repair
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git diff --cached --quiet && { echo 'no changes'; exit 1; }
+          git commit -m 'StructureRadar: repair batch25 audit ledger'
+          git push origin HEAD:structure-radar-deep-corpus-batch-25
