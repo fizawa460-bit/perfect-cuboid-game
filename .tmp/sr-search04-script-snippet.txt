@@ -1,0 +1,114 @@
+### around line 336
+328:         )
+329: 
+330:     searchable = [
+331:         card
+332:         for card in registry.get("structures", [])
+333:         if card.get("card_status") in {"NORMALIZED", "AUDITED"}
+334:         and card.get("search_status") in {"NOT_SEARCHED", "NEEDS_REFRESH"}
+335:     ]
+336:     for index, batch in enumerate(chunks(searchable, 6), start=1):
+337:         tasks.append(
+338:             {
+339:                 "task_id": f"SR-SEARCH-{index:02d}",
+340:                 "phase": "LITERATURE_SEARCH",
+341:                 "group": "NORMALIZED_STRUCTURE_SEARCH",
+342:                 "status": "PENDING",
+343:                 "structure_ids": [item["structure_id"] for item in batch],
+344:                 "required_output": "primary-source literature ledger and exact perfect-cuboid transfer decision",
+345:             }
+346:         )
+347: 
+348:     if tasks:
+
+### around line 466
+458:             "arsenal_backflow_gaps": manifest["arsenal_backflow_gaps"],
+459:         },
+460:         "queue": {
+461:             "task_count": len(queue["tasks"]),
+462:             "source_census_task_count": source_task_count,
+463:             "current_task": ready["task_id"] if ready else None,
+464:             "current_phase": ready["phase"] if ready else None,
+465:         },
+466:         "initial_execution_estimate": {
+467:             "recommended_source_tasks_per_main_invocation": "3-6",
+468:             "estimated_main_invocations_min": (source_task_count + 5) // 6,
+469:             "estimated_main_invocations_max": (source_task_count + 2) // 3,
+470:             "estimate_is_guarantee": False,
+471:             "material_new_cards_may_add_audit_or_search_rounds": True,
+472:         },
+473:         "registry": {
+474:             "structure_count": len(cards),
+475:             "unresolved_search_count": unresolved_search,
+476:             "pending_arsenal_decision_count": unresolved_decisions,
+477:             "stale_provenance_task_count": stale_cards,
+478:         },
+
+### around line 467
+459:         },
+460:         "queue": {
+461:             "task_count": len(queue["tasks"]),
+462:             "source_census_task_count": source_task_count,
+463:             "current_task": ready["task_id"] if ready else None,
+464:             "current_phase": ready["phase"] if ready else None,
+465:         },
+466:         "initial_execution_estimate": {
+467:             "recommended_source_tasks_per_main_invocation": "3-6",
+468:             "estimated_main_invocations_min": (source_task_count + 5) // 6,
+469:             "estimated_main_invocations_max": (source_task_count + 2) // 3,
+470:             "estimate_is_guarantee": False,
+471:             "material_new_cards_may_add_audit_or_search_rounds": True,
+472:         },
+473:         "registry": {
+474:             "structure_count": len(cards),
+475:             "unresolved_search_count": unresolved_search,
+476:             "pending_arsenal_decision_count": unresolved_decisions,
+477:             "stale_provenance_task_count": stale_cards,
+478:         },
+479:         "codex_delegation": {
+
+### around line 468
+460:         "queue": {
+461:             "task_count": len(queue["tasks"]),
+462:             "source_census_task_count": source_task_count,
+463:             "current_task": ready["task_id"] if ready else None,
+464:             "current_phase": ready["phase"] if ready else None,
+465:         },
+466:         "initial_execution_estimate": {
+467:             "recommended_source_tasks_per_main_invocation": "3-6",
+468:             "estimated_main_invocations_min": (source_task_count + 5) // 6,
+469:             "estimated_main_invocations_max": (source_task_count + 2) // 3,
+470:             "estimate_is_guarantee": False,
+471:             "material_new_cards_may_add_audit_or_search_rounds": True,
+472:         },
+473:         "registry": {
+474:             "structure_count": len(cards),
+475:             "unresolved_search_count": unresolved_search,
+476:             "pending_arsenal_decision_count": unresolved_decisions,
+477:             "stale_provenance_task_count": stale_cards,
+478:         },
+479:         "codex_delegation": {
+480:             "routine_research_delegated": False,
+
+### around line 469
+461:             "task_count": len(queue["tasks"]),
+462:             "source_census_task_count": source_task_count,
+463:             "current_task": ready["task_id"] if ready else None,
+464:             "current_phase": ready["phase"] if ready else None,
+465:         },
+466:         "initial_execution_estimate": {
+467:             "recommended_source_tasks_per_main_invocation": "3-6",
+468:             "estimated_main_invocations_min": (source_task_count + 5) // 6,
+469:             "estimated_main_invocations_max": (source_task_count + 2) // 3,
+470:             "estimate_is_guarantee": False,
+471:             "material_new_cards_may_add_audit_or_search_rounds": True,
+472:         },
+473:         "registry": {
+474:             "structure_count": len(cards),
+475:             "unresolved_search_count": unresolved_search,
+476:             "pending_arsenal_decision_count": unresolved_decisions,
+477:             "stale_provenance_task_count": stale_cards,
+478:         },
+479:         "codex_delegation": {
+480:             "routine_research_delegated": False,
+481:             "allowed_reasons": [
