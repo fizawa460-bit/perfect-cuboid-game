@@ -1,0 +1,38 @@
+name: StructureRadar batch22 candidate detail
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-22
+permissions:
+  contents: write
+jobs:
+  detail:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Build candidate detail
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=Path('docs/structure-radar')
+          rows=json.loads((r/'.batch22-candidates.json').read_text())['sources']
+          lines=['# idx | source | top5 id:name(score)']
+          for i,x in enumerate(rows,1):
+              top=' ; '.join(f"{v['id']}:{v['name']}({v['score']})" for v in x['top_cards'][:5])
+              lines.append(f"{i:02d} | {x['source_id']} | {top}")
+          (r/'.batch22-candidate-detail.txt').write_text('\n'.join(lines)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/structure-radar/.batch22-candidate-detail.txt
+          if ! git diff --cached --quiet; then
+            git commit -m "Build StructureRadar batch22 candidate detail"
+            git push origin HEAD:structure-radar-deep-corpus-batch-22
+          fi
