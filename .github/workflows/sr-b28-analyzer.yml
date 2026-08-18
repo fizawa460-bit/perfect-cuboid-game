@@ -1,0 +1,94 @@
+name: StructureRadar batch28 analyzer
+
+on:
+  push:
+    branches:
+      - agent/sr-b28-analyzer
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Build batch28 analysis
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, re, pathlib, collections
+          root=pathlib.Path('.')
+          out_json=root/'.tmp/sr-b28-analysis.json'
+          out_tsv=root/'.tmp/sr-b28-summary.tsv'
+          if out_json.exists() and out_tsv.exists():
+              raise SystemExit(0)
+          queue=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in queue['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          ids=task['source_ids']
+          source_map={}
+          for p in sorted((root/'docs/structure-radar/source-manifest').glob('part-*.json')):
+              for s in json.loads(p.read_text())['sources']:
+                  source_map[s['source_id']]=s
+          reg=json.loads((root/'docs/structure-radar/structure-registry.json').read_text())['structures']
+          stop=set('the and for with from into this that stage result true false current fixed moving exact only does not are was were has have had can could should would through under over all each one two three four five six seven eight nine zero main batch proof theorem bound bounds source card audit json markdown md data stages stage14 stage15'.split())
+          def toks(x):
+              return [z for z in re.findall(r'[a-z][a-z0-9_+-]{2,}',x.lower()) if z not in stop and not z.startswith('src') and not z.startswith('str')]
+          cards=[]
+          for c in reg:
+              fields=[]
+              for k in ['canonical_math_name','exact_equations_or_object','search_terms_primary','search_terms_aliases','theorem_species','target_populations','potential_weapon_types','applicability_gaps']:
+                  v=c.get(k,[])
+                  fields += [str(x) for x in v] if isinstance(v,list) else [str(v)]
+              ct=collections.Counter(toks(' '.join(fields)))
+              prov=[p.get('path','') for p in c.get('repo_provenance',[])]
+              cards.append((c,ct,prov))
+          rows=[]
+          for sid in ids:
+              s=source_map[sid]; p=root/s['path']
+              text=p.read_text(errors='replace') if p.exists() else ''
+              low=text.lower(); st=collections.Counter(toks(s['path']+' '+text)); top=[k for k,v in st.most_common(32)]
+              cands=[]
+              for c,ct,prov in cards:
+                  score=0; hits=[]
+                  for term in top:
+                      if term in ct:
+                          w=min(st[term],4)*min(ct[term],3); score+=w
+                          if w>=2 and len(hits)<10: hits.append(term)
+                  for phrase in c.get('search_terms_primary',[]):
+                      ph=str(phrase).lower().strip()
+                      if len(ph)>=8 and ph in low:
+                          score+=20; hits.append('phrase:'+ph[:70])
+                  if s['path'].startswith('stages/stage15/15-6') and any(x.startswith('stages/stage15/15-6') for x in prov): score+=4
+                  if score: cands.append({'card':c['structure_id'],'name':c['canonical_math_name'],'score':score,'hits':hits[:10]})
+              cands.sort(key=lambda x:(-x['score'],x['card']))
+              lines=[ln.strip() for ln in text.splitlines() if ln.strip()]
+              heading=next((ln for ln in lines if ln.startswith('#')), lines[0] if lines else '')
+              flags=[]
+              for ln in lines:
+                  u=ln.upper()
+                  if any(x in u for x in ['AUDIT_VERDICT=','PROVED=FALSE','PROVED=TRUE','APPLICABLE=FALSE','APPLICABLE=TRUE','EXIT=','NEW_GATE','BLOCK','NEGATIVE','PASS']):
+                      flags.append(ln)
+                  if len(flags)>=5: break
+              rows.append({'source_id':sid,'path':s['path'],'fingerprint':s['fingerprint'],'kind':s['kind'],'heading':heading,'flags':flags,'candidates':cands[:8]})
+          out_json.parent.mkdir(parents=True,exist_ok=True)
+          out_json.write_text(json.dumps({'task_id':task['task_id'],'source_count':len(rows),'rows':rows},indent=2,ensure_ascii=False)+'\n')
+          with out_tsv.open('w') as f:
+              f.write('source_id\tpath\theading\tflags\ttop_candidates\n')
+              for r in rows:
+                  cs=', '.join(f"{x['card']}:{x['score']}" for x in r['candidates'][:5])
+                  fl=' | '.join(x.replace('\t',' ') for x in r['flags'])
+                  f.write(f"{r['source_id']}\t{r['path']}\t{r['heading']}\t{fl}\t{cs}\n")
+          PY
+      - name: Commit outputs
+        shell: bash
+        run: |
+          test -f .tmp/sr-b28-analysis.json || exit 0
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b28-analysis.json .tmp/sr-b28-summary.tsv
+          git diff --cached --quiet && exit 0
+          git commit -m 'Temp: batch28 analyzer output'
+          git push origin HEAD:agent/sr-b28-analyzer
