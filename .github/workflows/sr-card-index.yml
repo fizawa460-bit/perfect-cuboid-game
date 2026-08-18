@@ -1,0 +1,27 @@
+name: StructureRadar card index
+on:
+  push:
+    branches: [structure-radar-history-batch-31]
+permissions:
+  contents: write
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          r=json.loads(pathlib.Path('docs/structure-radar/structure-registry.json').read_text())
+          lines=['id\tname\tobject']
+          for c in r['structures']:
+              obj=c.get('exact_equations_or_object','').replace('\t',' ').replace('\n',' ')
+              lines.append(f"{c['structure_id']}\t{c.get('canonical_math_name','')}\t{obj}")
+          pathlib.Path('.tmp/sr-card-index.tsv').write_text('\n'.join(lines)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-card-index.tsv
+          git commit -m 'Temp: record StructureRadar card index' || true
+          git push origin HEAD:structure-radar-history-batch-31
