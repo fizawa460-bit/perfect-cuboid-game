@@ -1,0 +1,105 @@
+name: SR search03 validator
+on:
+  push:
+    branches: [agent/sr-search03-apply]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply literature search batch 03
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          ids=['SR-STR-013','SR-STR-015','SR-STR-017','SR-STR-018','SR-STR-019','SR-STR-020']
+          desired={'SR-STR-013':'PARKED','SR-STR-015':'EXTERNAL_GATE','SR-STR-017':'ACTIVE','SR-STR-018':'ACTIVE','SR-STR-019':'EXTERNAL_GATE','SR-STR-020':'PARKED'}
+          batch='SR-BATCH-LITERATURE_SEARCH-03-R01'; task='SR-SEARCH-01'; ledger='docs/structure-radar/literature/SR-SEARCH-03.md'
+          rp=r/'docs/structure-radar/structure-registry.json'; reg=json.loads(rp.read_text()); cards={c['structure_id']:c for c in reg['structures']}
+          pp=r/'docs/structure-radar/progress.json'; prog=json.loads(pp.read_text())
+          assert not any(x.get('batch_id')==batch for x in prog['audit_batches'])
+          pre={'SR-STR-013':'PENDING','SR-STR-015':'EXTERNAL_GATE','SR-STR-017':'PENDING','SR-STR-018':'PENDING','SR-STR-019':'EXTERNAL_GATE','SR-STR-020':'PENDING'}
+          for cid in ids:
+            c=cards[cid]
+            assert c['search_status']=='NOT_SEARCHED',(cid,c['search_status'])
+            assert c['arsenal_decision']==pre[cid],(cid,c['arsenal_decision'])
+            assert c['card_status']=='NORMALIZED',(cid,c['card_status'])
+            c['search_status']='SEARCHED'; c['arsenal_decision']=desired[cid]; c['search_ledger']=ledger
+          rp.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          prog['audit_batches'].append({'batch_id':batch,'task_id':task,'status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':6,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':6,'arsenal_decisions':4,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0})
+          pp.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+          lp=r/ledger; lp.parent.mkdir(parents=True,exist_ok=True)
+          lp.write_text(r'''# StructureRadar literature ledger — search batch 03
+
+SEARCH_TASK=SR-SEARCH-01
+BATCH_ID=SR-BATCH-LITERATURE_SEARCH-03-R01
+SEARCH_DATE=2026-08-19
+STRUCTURES=SR-STR-013,SR-STR-015,SR-STR-017,SR-STR-018,SR-STR-019,SR-STR-020
+EVIDENCE_POLICY=repo arsenal first; primary sources only for external theorem claims
+NOVELTY_BY_SEARCH_ABSENCE=false
+
+## SR-STR-013 — Primitive-first Möbius reindexing
+The repo identity inserts common-scale Möbius inversion before truncation. `AR-032` is PROVED_CANONICAL but classified BACKGROUND_REUSABLE / REUSE_AFTER_EXACT_ADAPTER. No external theorem is needed to certify the exact finite reindexing; reuse still requires a unique common scale and homogeneous cutoff. Decision: `PARKED`, not a new ACTIVE receiver weapon.
+
+## SR-STR-015 — R504 exceptional Prym locus gate
+The audited R504 generic statement is only `Hom_K(P_eta,E0_K)=0`; the rational exceptional Prym/E0-isogeny locus is not proved empty, finite, or bounded in isogeny degree. Primary literature on genus-two split Jacobians describes fixed-degree elliptic-subcover loci `L_n` as algebraic subvarieties/Humbert loci, including T. Shaska's survey `arXiv:1209.3187` and the 2026 degree formulas `arXiv:2608.16426`. These do not give a uniform finiteness theorem for the intersection of the specific R504 family with the union over unbounded isogeny degree. Decision: `EXTERNAL_GATE` retained. A useful external result must bound or classify the R504 exceptional rational locus uniformly in isogeny degree and then provide the physical height transfer.
+
+## SR-STR-017 — Euler third-face local blocker law and dimension-two sieve
+Repo local law: `delta_2=2/9` and `delta_p=2(p-chi_4(p))/(p^2+6p+1)=2/p+O(p^-2)`. Existing audited `S20-W03` / `S26-W03` already use the exact local blocker plus a separate growing-prime Selberg-sieve interface. Focused literature on quadratic-congruence root distribution (e.g. H. T. Ngo, `arXiv:2107.13301`) is method-adjacent, not a stronger same-population theorem. The local-sieve saving must not be multiplied with the K3 thin-cover saving. Decision: `ACTIVE`.
+
+## SR-STR-018 — Matched face-space population cross-ratio invariant
+Repo identity: `I=(N2/M2)/(N1/M1)=N2*M1/(M2*N1)` on four matched primitive/canonical populations, with audited lower `I >> B^(1/4)(log B)^(-7)`. Existing `S25-W02` is the exact population-interaction invariant. This is algebraic cancellation of matched population ratios, not a stochastic independence factor, so generic probability or correlation literature is not an upgrade. Decision: `ACTIVE`.
+
+## SR-STR-019 — Nested divisor-root first-moment receiver
+The missing theorem is an every-principal-cell first moment with nested divisors `t_p|m°`, `t_q|m°`, `f|t_pt_q` and two simultaneous moving quadratic root congruences. Primary literature found on quadratic-root equidistribution (Ngo, `arXiv:2107.13301`) treats a materially simpler root problem; recent divisor-in-AP work such as Grimmelt--Merikoski `arXiv:2508.17979` gives averaging/equidistribution results and does not furnish the required pointwise every-cell nested receiver. This matches `AR-020`'s audited negative boundary. Decision: `EXTERNAL_GATE` retained; averaged-modulus or one-divisor theorems are not promoted.
+
+## SR-STR-020 — Safe-range fixed-residue Gaussian-prime sector occupancy
+This is the certified safe-range local theorem, not the super-Kai gate. Wataru Kai, `Notes on Mitsui's Prime Number Theorem with Siegel zeros`, `arXiv:2209.11816`, Theorem 3.1.1 / Corollary 4.2.1 framework, counts prime elements in a specified ordinary residue class and thin cone while retaining the possible Siegel term, with ideal norm in a pseudopolynomial envelope `N(q)<exp(sqrt(log X)/O_K(1))`. For `K=Q(i)`, a fixed strict D4 sector and fixed-power radial headroom fit the local AR-021 contract after the exact modulus/scale check; long intervals are obtained by cumulative subtraction only when the main term dominates the two endpoint errors. Existing `AR-021` is EXTERNAL_THEOREM_DEPENDENT but status CONSUMED after closing the safe fixed-U mechanism. Decision: `PARKED`; do not reactivate it as a whole-family weapon and do not extrapolate to `AR-022` super-Kai range.
+
+## Batch decision
+SEARCHES_COMPLETED=6
+ARSENAL_DECISIONS_RESOLVED_FROM_PENDING=4
+ACTIVE=2
+PARKED=2
+EXTERNAL_GATE_RETAINED=2
+NEW_EXTERNAL_ACTIVE_WEAPONS=0
+PERFECT_CUBOID_EXISTENCE_PROMOTED=false
+PERFECT_CUBOID_NONEXISTENCE_PROMOTED=false
+NOVELTY_BY_SEARCH_ABSENCE=false
+
+## Wider-search note
+`SR-STR-015` and `SR-STR-019` remain genuine unknown-theorem gates. A broad external-document search could materially improve coverage, especially alternative Prym/Humbert terminology for 015 and nested-divisor/moving-root first-moment terminology for 019. Any returned lead remains subject to exact population, quantifier and height/measure transfer audit.
+''')
+          PY
+      - name: Refresh verify and assert
+        shell: bash
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          reg=json.loads((r/'docs/structure-radar/structure-registry.json').read_text()); cards={c['structure_id']:c for c in reg['structures']}
+          ids=['SR-STR-013','SR-STR-015','SR-STR-017','SR-STR-018','SR-STR-019','SR-STR-020']
+          assert all(cards[x]['search_status']=='SEARCHED' for x in ids)
+          assert [cards[x]['arsenal_decision'] for x in ids]==['PARKED','EXTERNAL_GATE','ACTIVE','ACTIVE','EXTERNAL_GATE','PARKED']
+          c=json.loads((r/'docs/structure-radar/controller.json').read_text())
+          assert c['registry']['unresolved_search_count']==185,c['registry']
+          assert c['registry']['pending_arsenal_decision_count']==202,c['registry']
+          assert c['queue']['task_count']==31,c['queue']
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text()); ready=next(t for t in q['tasks'] if t['status']=='READY')
+          assert ready['structure_ids']==['SR-STR-021','SR-STR-022','SR-STR-023','SR-STR-024','SR-STR-027','SR-STR-028'],ready
+          print('SR_SEARCH03_VALIDATED',ready['task_id'],ready['structure_ids'])
+          PY
+      - name: Commit validated official blobs
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/structure-radar
+          git commit -m 'Temp: validate StructureRadar literature search batch 03' || true
+          git push origin HEAD:agent/sr-search03-apply
