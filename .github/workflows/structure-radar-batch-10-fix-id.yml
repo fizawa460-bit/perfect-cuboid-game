@@ -1,0 +1,66 @@
+name: StructureRadar batch10 ID correction
+on:
+  push:
+    branches: [structure-radar-deep-corpus-batch-10]
+permissions:
+  contents: write
+jobs:
+  fix:
+    if: contains(github.event.head_commit.message, 'trigger batch10 id fix')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-10
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Fix e6 structure ID and verify
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('.')
+          regp=root/'docs/structure-radar/structure-registry.json'
+          progp=root/'docs/structure-radar/progress.json'
+          reg=json.loads(regp.read_text())
+          prog=json.loads(progp.read_text())
+          ids={c['structure_id'] for c in reg['structures']}
+          assert 'SR-STR-214' in ids
+          new_id='SR-STR-216'
+          assert new_id not in ids
+          sid='SRC-920BD51D9E14'
+          fp='0acc73bffd7a341db6b47b7107acdaa610ec87acc2a9c40379390c96dd3c7192'
+          card={
+            'structure_id':new_id,
+            'canonical_math_name':'Explicit Peyre-Tamagawa constant for the primitive exactly-two two-face ambient height',
+            'exact_equations_or_object':'For Y=Bl_4(P^1 x P^1) with the physical anticanonical height D_R, the exactly-two chamber counts satisfy E_q(B) ~ Lambda_E M_q B(log B)^5 and E_2(B) ~ C_E B(log B)^5, where Lambda_E=(1/81920) prod_{p>=3}(1-1/p)^6(1+6/p+1/p^2), C_E=Lambda_E(M_a+M_b+M_c), alpha(Y)=1/2880, beta(Y)=1, and the physical bad-prime factor is tau_2=9/64. The third-face-square degree-two thin subset has zero leading density, so raw and exactly-two leading constants agree.',
+            'search_terms_primary':['Peyre Tamagawa constant four-corner toric blowup','two-face Pythagorean ambient Euler product constant'],
+            'search_terms_aliases':['Stage14-e explicit ambient constant','physical p=2 toric height correction'],
+            'theorem_species':['Peyre constant','toric Manin asymptotic','adelic local density','Euler product'],
+            'repo_provenance':[{'source_id':sid,'path':'stages/stage14/archive/tasks/14-e6/result.md','locator':'explicit effective-cone volume, local densities, and assembled ambient leading constant','fingerprint':fp}],
+            'target_populations':['Stage14-e primitive exactly-two two-face ambient population E_2(B) and directional E_q(B)'],
+            'potential_weapon_types':['EXACT_CONSTANT','TORIC_HEIGHT','LOCAL_DENSITY','ADELIC_PRODUCT'],
+            'applicability_gaps':['The constant is for the no-integral-space-diagonal ambient/two-face population, not the main N2 space-diagonal-filtered count.','The p=2 factor is specific to the physical projective metric and cannot be replaced by the good-prime point-count factor.','The general toric Manin/equidistribution and thin-set zero-density inputs remain external theorem inputs.'],
+            'existing_radar_overlap':['SR-STR-005','SR-STR-149','SR-STR-010'],
+            'search_status':'SEARCHED',
+            'arsenal_decision':'PENDING',
+            'card_status':'SUBMITTED_FOR_AUDIT'
+          }
+          reg['structures'].append(card)
+          review=prog['source_reviews'][sid]
+          assert review['batch_id']=='SR-BATCH-STAGE14_15_DEEP_CORPUS-10-R01'
+          review['status']='STRUCTURES_RECORDED'
+          review['structure_ids']=[new_id]
+          regp.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          progp.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm -f .github/structure-radar-batch-10-id-fix-trigger.txt || true
+          git add docs/structure-radar
+          git commit -m 'StructureRadar: fix batch10 e6 card ID'
+          git push origin HEAD:structure-radar-deep-corpus-batch-10
