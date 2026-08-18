@@ -1,0 +1,52 @@
+name: StructureRadar batch27 compact analyzer
+
+on:
+  push:
+    branches:
+      - agent/sr-b27-analyzer
+
+permissions:
+  contents: write
+
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build compact summary
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib, re
+          root=pathlib.Path('.')
+          src=root/'.tmp/sr-b27-analysis.json'
+          out=root/'.tmp/sr-b27-compact.tsv'
+          if not src.exists() or out.exists():
+              raise SystemExit(0)
+          d=json.loads(src.read_text())
+          lines=['source_id\tpath\theading\tflags\ttop_candidates']
+          for r in d['rows']:
+              ex=r.get('excerpt','')
+              xs=[x.strip() for x in ex.splitlines() if x.strip()]
+              heading=xs[0] if xs else ''
+              flags=[]
+              for x in xs:
+                  u=x.upper()
+                  if any(k in u for k in ['AUDIT_VERDICT','EXIT=','PROVED=','APPLICABLE=','NEW_GATE','BLOCK','SUCCESS','FAIL','QUALITATIVE','POWER_SAVING']):
+                      flags.append(x)
+                  if len(flags)>=4: break
+              cands=', '.join(f"{c['card']}:{c['score']}" for c in r.get('candidates',[])[:5])
+              clean=lambda s:s.replace('\t',' ').replace('\n',' ')[:420]
+              lines.append('\t'.join([r['source_id'],r['path'],clean(heading),clean(' | '.join(flags)),clean(cands)]))
+          out.write_text('\n'.join(lines)+'\n')
+          PY
+      - name: Commit compact output
+        shell: bash
+        run: |
+          test -f .tmp/sr-b27-compact.tsv || exit 0
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b27-compact.tsv
+          git diff --cached --quiet && exit 0
+          git commit -m 'Temp: batch27 compact analyzer output'
+          git push
