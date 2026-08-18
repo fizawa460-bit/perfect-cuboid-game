@@ -1,0 +1,86 @@
+name: StructureRadar batch34 temporary finalizer
+on:
+  push:
+    branches: [agent/sr-b34-analysis]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply batch34 no-distinct census and verify
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          batch='SR-BATCH-STAGE02_13_HISTORY-34-R01'
+          task_id='SR-CENSUS-STAGE02_13_HISTORY-01'
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text())
+          t=next(x for x in q['tasks'] if x['status']=='READY' and x['phase']=='SOURCE_CENSUS')
+          assert t['task_id']==task_id and len(t['source_ids'])==29
+          ids=t['source_ids']
+          sm={}; parts={}
+          for p in sorted((r/'docs/structure-radar/source-manifest').glob('part-*.json')):
+              d=json.loads(p.read_text()); parts[p]=d
+              for s in d['sources']: sm[s['source_id']]=s
+          prog_path=r/'docs/structure-radar/progress.json'
+          prog=json.loads(prog_path.read_text())
+          assert not any(b.get('batch_id')==batch for b in prog['audit_batches'])
+          for sid in ids:
+              s=sm[sid]
+              assert s['review_state']=='NEW'
+              assert sid not in prog['source_reviews']
+              prog['source_reviews'][sid]={
+                'fingerprint':s['fingerprint'],
+                'status':'NO_DISTINCT_STRUCTURE',
+                'batch_id':batch
+              }
+              s['review_state']='CURRENT_REVIEWED'
+          prog['audit_batches'].append({
+            'batch_id':batch,
+            'task_id':task_id,
+            'status':'SUBMITTED_FOR_AUDIT',
+            'source_ids':ids,
+            'sources_reviewed':29,
+            'structures_added':0,
+            'structures_updated':0,
+            'structure_carrier_sources':0,
+            'structures_deduped':29,
+            'searches_completed':0,
+            'arsenal_decisions':0,
+            'audit_required':True,
+            'duplicate_source':0,
+            'no_distinct_structure':29
+          })
+          prog_path.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+          for p,d in parts.items():
+              if any(s['source_id'] in ids for s in d['sources']):
+                  p.write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          c=json.loads((r/'docs/structure-radar/controller.json').read_text())
+          assert c['corpus']['review_states']=={'CURRENT_REVIEWED':2539,'NEW':17}, c['corpus']['review_states']
+          assert c['registry']['structure_count']==227
+          p=json.loads((r/'docs/structure-radar/progress.json').read_text())
+          b=next(x for x in p['audit_batches'] if x['batch_id']=='SR-BATCH-STAGE02_13_HISTORY-34-R01')
+          assert b['sources_reviewed']==29 and b['structure_carrier_sources']==0 and b['no_distinct_structure']==29
+          rv=[v for v in p['source_reviews'].values() if v.get('batch_id')==b['batch_id']]
+          assert len(rv)==29 and all(v['status']=='NO_DISTINCT_STRUCTURE' for v in rv)
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text())
+          ready=next(x for x in q['tasks'] if x['status']=='READY' and x['phase']=='SOURCE_CENSUS')
+          assert ready['task_id']=='SR-CENSUS-OTHER_ARCHIVE_AND_CONTEXT-01'
+          assert len(ready['source_ids'])==17 and ready['source_ids'][0]=='SRC-8EC9A00BFD09'
+          print('BATCH34_OK')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/structure-radar
+          git commit -m 'Temp: compute StructureRadar batch34 official outputs'
+          git push origin HEAD:agent/sr-b34-analysis
