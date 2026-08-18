@@ -1,0 +1,39 @@
+name: StructureRadar batch 07 bundle
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-07
+permissions:
+  contents: write
+jobs:
+  bundle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Bundle selected source contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          sel = json.loads(Path('.github/structure-radar-batch-07-selection.json').read_text(encoding='utf-8'))
+          out = []
+          for i, src in enumerate(sel['sources'], 1):
+              p = Path(src['path'])
+              text = p.read_text(encoding='utf-8', errors='replace') if p.exists() else '[MISSING]'
+              out.append(f"===== SOURCE {i:02d}/60 =====\nSOURCE_ID={src['source_id']}\nPATH={src['path']}\nKIND={src.get('kind')}\nEVIDENCE_ROLE={src.get('evidence_role')}\n----- CONTENT -----\n{text}\n===== END SOURCE {i:02d} =====\n")
+          Path('.github/structure-radar-batch-07-bundle.txt').write_text('\n'.join(out), encoding='utf-8')
+          PY
+          rm -f .github/workflows/structure-radar-batch-07-bundle.yml
+          rm -f .github/structure-radar-batch-07-bundle-trigger.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A .github/structure-radar-batch-07-bundle.txt .github/workflows/structure-radar-batch-07-bundle.yml .github/structure-radar-batch-07-bundle-trigger.txt
+          git commit -m 'StructureRadar: bundle deep corpus batch 07 sources'
+          git push origin HEAD:structure-radar-deep-corpus-batch-07
