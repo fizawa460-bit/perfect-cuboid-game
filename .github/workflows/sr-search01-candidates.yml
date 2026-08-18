@@ -1,0 +1,42 @@
+name: StructureRadar SR-SEARCH-01 repo candidates
+on:
+  push:
+    branches: [agent/sr-search01-analysis]
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract relevant repo files
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib,re
+          r=pathlib.Path('.')
+          terms=['saunderson','k3','manin','literature','research arsenal','q-research','space-diagonal','zero-density','euler brick']
+          rows=[]
+          for p in r.rglob('*'):
+              if not p.is_file() or any(x in p.parts for x in ['.git','node_modules','.tmp']): continue
+              sp=str(p).lower()
+              if not any(k in sp for k in ['arsenal','literature','radar','research','stage20','stage21','stage22','stage23','stage25','stage26']): continue
+              try: t=p.read_text(errors='ignore')
+              except: continue
+              low=t.lower(); hits=[x for x in terms if x in low]
+              if not hits: continue
+              snippets=[]
+              for line in t.splitlines():
+                  if any(x in line.lower() for x in hits):
+                      snippets.append(line.strip())
+                      if len(snippets)>=4: break
+              rows.append((str(p),','.join(hits),' | '.join(snippets)[:900]))
+          rows=sorted(rows,key=lambda x:(-len(x[1].split(',')),x[0]))[:120]
+          out=['path\thits\tsnippets']+['\t'.join(x) for x in rows]
+          (r/'.tmp/sr-search01-candidates.tsv').write_text('\n'.join(out)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-search01-candidates.tsv
+          git commit -m 'Temp: record SR-SEARCH-01 repo candidates' || true
+          git push origin HEAD:agent/sr-search01-analysis
