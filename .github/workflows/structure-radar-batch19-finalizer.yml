@@ -1,0 +1,185 @@
+name: StructureRadar batch19 finalizer
+on:
+  push:
+    branches: [structure-radar-deep-corpus-batch-19]
+    paths: ['.github/structure-radar-batch19-finalize-trigger.txt']
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Normalize batch19 into StructureRadar ledger
+        shell: python
+        run: |
+          import json, pathlib
+          BATCH='SR-BATCH-STAGE14_15_DEEP_CORPUS-19-R01'
+          TASK='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          idx=json.loads(pathlib.Path('.github/structure-radar-batch19-index.json').read_text())
+          byid={x['source_id']:x for x in idx}
+          q=json.loads(pathlib.Path('docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t['task_id']==TASK and t.get('status')=='READY')
+          ids=task['source_ids'][:60]
+          assert len(ids)==60 and ids==[x['source_id'] for x in idx]
+          mapping={
+            'SRC-9D2ECE4142C6':['SR-STR-194','SR-STR-200','SR-STR-222'],
+            'SRC-9129C4D898B6':['SR-STR-090','SR-STR-091','SR-STR-200','SR-STR-222'],
+            'SRC-82EB6BD097C2':['SR-STR-090','SR-STR-222'],
+            'SRC-EBFBD7226DE5':['SR-STR-090','SR-STR-222'],
+            'SRC-E992726E1E46':['SR-STR-222'],
+            'SRC-E7BF5BEF0040':['SR-STR-222'],
+            'SRC-3E093856C385':['SR-STR-222'],
+            'SRC-15D4FE5D312D':['SR-STR-091','SR-STR-200','SR-STR-222'],
+            'SRC-771716011878':['SR-STR-222'],
+            'SRC-34BA929475C7':['SR-STR-165','SR-STR-222'],
+            'SRC-25CFCC9A50FA':['SR-STR-165','SR-STR-222'],
+            'SRC-4DF3E72F9BE9':['SR-STR-194','SR-STR-200','SR-STR-222'],
+            'SRC-A0B947E94493':['SR-STR-165','SR-STR-222'],
+            'SRC-C0312732E42B':['SR-STR-165','SR-STR-209','SR-STR-222'],
+            'SRC-135AF054A67C':['SR-STR-162','SR-STR-163','SR-STR-223'],
+            'SRC-549169E0C77A':['SR-STR-165','SR-STR-166','SR-STR-222'],
+            'SRC-FAD00C310460':['SR-STR-165','SR-STR-166','SR-STR-222'],
+            'SRC-7215039293A0':['SR-STR-166','SR-STR-169','SR-STR-222'],
+            'SRC-258D94E6D67D':['SR-STR-166','SR-STR-169','SR-STR-222'],
+            'SRC-C75D1BEE9B56':['SR-STR-166','SR-STR-222'],
+            'SRC-23C92CCA42C9':['SR-STR-166','SR-STR-222'],
+            'SRC-BD567D2A6F8F':['SR-STR-166','SR-STR-169','SR-STR-222'],
+            'SRC-11DEFA99DAF1':['SR-STR-222'],
+            'SRC-A5B9307B989C':['SR-STR-222'],
+            'SRC-F020DBE32C0D':['SR-STR-200','SR-STR-222'],
+            'SRC-7895FCAC0502':['SR-STR-200','SR-STR-222'],
+            'SRC-1276224C2FDF':['SR-STR-222'],
+            'SRC-E295282632C7':['SR-STR-165','SR-STR-200','SR-STR-222'],
+            'SRC-070A593A20A1':['SR-STR-222'],
+            'SRC-3B53758FA76B':['SR-STR-222'],
+            'SRC-FC29789EA93E':['SR-STR-161','SR-STR-163','SR-STR-223'],
+            'SRC-2FBE528FBDE9':['SR-STR-165','SR-STR-222'],
+            'SRC-A30531A097A0':['SR-STR-165','SR-STR-222'],
+            'SRC-C8271A424A1C':['SR-STR-205','SR-STR-206','SR-STR-222'],
+            'SRC-4EFD63E8F47F':['SR-STR-205','SR-STR-222'],
+            'SRC-9E5B1B2DBFE4':['SR-STR-205','SR-STR-222'],
+            'SRC-53FF34F69312':['SR-STR-205','SR-STR-222'],
+            'SRC-07D5D686327E':['SR-STR-205','SR-STR-222'],
+            'SRC-0250754563F3':['SR-STR-205','SR-STR-222'],
+            'SRC-D5FCB3F9E42D':['SR-STR-205','SR-STR-206','SR-STR-222'],
+            'SRC-E5A01EC0A736':['SR-STR-206','SR-STR-222'],
+            'SRC-900A052B33F8':['SR-STR-206','SR-STR-222'],
+            'SRC-EC72520F36FB':['SR-STR-206','SR-STR-222'],
+            'SRC-16AAF2DBFE05':['SR-STR-206','SR-STR-222'],
+            'SRC-1860A8686A17':['SR-STR-206','SR-STR-222'],
+            'SRC-A9A16CE7998F':['SR-STR-206','SR-STR-222'],
+            'SRC-091859F62F07':['SR-STR-206','SR-STR-222'],
+            'SRC-6DD9E1D914B2':['SR-STR-165'],
+            'SRC-68AE43C01602':['SR-STR-164','SR-STR-190'],
+            'SRC-D967BAE141B0':['SR-STR-164','SR-STR-169'],
+            'SRC-640A80ED692B':['SR-STR-165','SR-STR-169'],
+            'SRC-91B3F4166768':['SR-STR-165','SR-STR-190'],
+            'SRC-5E6CF6147566':['SR-STR-165','SR-STR-190','SR-STR-225'],
+            'SRC-5B1F34C97D82':['SR-STR-165','SR-STR-190','SR-STR-225'],
+            'SRC-38616DFC9893':['SR-STR-225'],
+            'SRC-7BE4E97EB5ED':['SR-STR-165','SR-STR-225'],
+          }
+          no_distinct={'SRC-368ABD7BD070','SRC-51FF77972F2A','SRC-97CF45174B1D','SRC-B92BB9604EA8'}
+          assert set(mapping)|no_distinct==set(ids)
+          assert not (set(mapping)&no_distinct)
+          progress_p=pathlib.Path('docs/structure-radar/progress.json')
+          reg_p=pathlib.Path('docs/structure-radar/structure-registry.json')
+          progress=json.loads(progress_p.read_text())
+          reg=json.loads(reg_p.read_text())
+          reviews=progress['source_reviews']
+          for sid in ids:
+              e=byid[sid]
+              rec={'fingerprint':e['fingerprint'],'batch_id':BATCH}
+              if sid in no_distinct:
+                  rec['status']='NO_DISTINCT_STRUCTURE'
+              else:
+                  rec['status']='STRUCTURES_RECORDED'; rec['structure_ids']=mapping[sid]
+              reviews[sid]=rec
+          batches=progress.setdefault('batches',[])
+          batches=[b for b in batches if b.get('batch_id')!=BATCH]
+          batches.append({
+              'batch_id':BATCH,'task_id':TASK,'status':'SUBMITTED_FOR_AUDIT','source_ids':ids,
+              'sources_reviewed':60,'structures_added':0,'structures_updated':18,
+              'structure_carrier_sources':56,'structures_deduped':4,
+              'searches_completed':0,'arsenal_decisions':0,'audit_required':True,
+              'duplicate_source':0,'no_distinct_structure':4
+          })
+          progress['batches']=batches
+          cards={c['structure_id']:c for c in reg['structures']}
+          updated=sorted({x for v in mapping.values() for x in v})
+          expected=['SR-STR-090','SR-STR-091','SR-STR-161','SR-STR-162','SR-STR-163','SR-STR-164','SR-STR-165','SR-STR-166','SR-STR-169','SR-STR-190','SR-STR-194','SR-STR-200','SR-STR-205','SR-STR-206','SR-STR-209','SR-STR-222','SR-STR-223','SR-STR-225']
+          assert updated==expected, (updated,expected)
+          for sid,sids in mapping.items():
+              e=byid[sid]
+              prov={'source_id':sid,'path':e['path'],'locator':'normalized Stage14 deep-corpus batch19 carrier','fingerprint':e['fingerprint']}
+              for cid in sids:
+                  c=cards[cid]
+                  rp=c.setdefault('repo_provenance',[])
+                  if not any(x.get('source_id')==sid and x.get('fingerprint')==e['fingerprint'] for x in rp): rp.append(prov.copy())
+                  c['card_status']='SUBMITTED_FOR_AUDIT'
+          general='Batch19 preserves CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2 and STRICT_SUBSQRT_POWER_SAVING_PROVED=false. Historical t-route milestones such as 5/8, 19/34 and 23/44 are provenance only, not current whole-family theorems; no perfect-cuboid nonexistence claim is imported.'
+          for cid in expected:
+              gaps=cards[cid].setdefault('applicability_gaps',[])
+              if general not in gaps: gaps.append(general)
+          special={
+            'SR-STR-090':'The t72/t73 real-quadratic norm/Pell fiber is B^o(1) only after the norm/tag data are fixed; this does not control the moving canonical-largest-prime norm-value average.',
+            'SR-STR-091':'The clean squareclass/tag projective root line is a charged-once congruence normal form; CRT/root multiplicity alone is exponent-neutral.',
+            'SR-STR-161':'The t9 joint Euclid-base/reflected sparse-residue target requires a same-family selector theorem; marginal or arbitrarily separated character bounds are not a substitute.',
+            'SR-STR-162':'The t8 reflected moving-prime restriction is a routing boundary for the moving first-small-point pipeline, not a family-level power-saving theorem.',
+            'SR-STR-163':'The reflected 2-descent and fixed snapshot H-targets are structural/adapter inputs; local gates and cover rewrites do not prove the moving triple bound.',
+            'SR-STR-164':'One-sided fixed-direction squareclass collision fibers may be elliptic/subpolynomial while the two-sided off-fiber principal collision remains a Kummer-type incidence.',
+            'SR-STR-165':'Complete finite-field cancellation, Gaussian primary/ray-class normalization, quadratic-Hecke transfer and sparse many-conductor large-sieve interfaces do not automatically control the sparse physical selector.',
+            'SR-STR-166':'Projective Gauss dualization and affine frequency matching may expose an inverse-fraction/Kloosterman graph, but any imported bilinear bound must preserve the fixed-U physical selector and exact conductor range.',
+            'SR-STR-169':'Correlation-only fixed-U reductions remain same-measure physical selector problems; complete projective traces or conductor-energy bounds cannot be multiplied with separately conditioned savings.',
+            'SR-STR-190':'Diagonal subtraction, principal squareclass coherence and nonprincipal dispersion are distinct terms; collapsing state pairs to fourth-energy coefficients before physical cancellation is circular.',
+            'SR-STR-194':'The t71/t78 squareclass four-cell decompositions are deterministic reallocations of one shared squareclass and are not independent multiplicative savings.',
+            'SR-STR-200':'The t71-t87 Cayley/squareclass/root-line moduli are successive charged-once normal forms. Common-support, squareclass and selector root lines must not be double-charged.',
+            'SR-STR-205':'The t91-t95 orientation-cube centering, antipodal quotient and Bernoulli variance dichotomy localize square-root saturation to exponent-zero intermediate occupancy; they do not by themselves give a fixed-power deficit.',
+            'SR-STR-206':'The t96-t99 influential generic orientation bit is localized to one explicit elementary physical boundary class, but a large influence or boundary pigeonhole is not itself a fixed-power saving.',
+            'SR-STR-209':'The t79 active-support and t71-t78 common-support refinements are receiver localizations; small common support or near-full character support can still saturate without a new correlation theorem.',
+            'SR-STR-222':'The t71-t90 fixed-U chain successively compresses squareclass tags, Cayley root lines, projective characters, canonical LPF/cofactor data and the one-dimensional Q variable. These are correlated normal forms of the same physical packet, not separate density gains.',
+            'SR-STR-223':'The t8/t9 reflected local sieve is a moving-base joint small-point gate; it does not prove T(B)=o(sqrt(B)) or perfect-cuboid nonexistence.',
+            'SR-STR-225':'The tH15-tH17 receiver keeps the signed physical selector and exact mass-vector/Rayleigh quantifier. Stronger arbitrary-support operator or polar/Schatten bounds are neither proved nor required.'
+          }
+          for cid,note in special.items():
+              gaps=cards[cid].setdefault('applicability_gaps',[])
+              if note not in gaps: gaps.append(note)
+          append_obj={
+            'SR-STR-222':' Batch19 extends this same fixed-U receiver through squareclass-tagged Cayley root lines, projective Gauss/frequency compression, canonical LPF/cofactor finite-fiber reduction and a canonical one-dimensional Q variable; the downstream orientation cube remains a selector-correlation problem.',
+            'SR-STR-205':' A second realization in t91-t95 uses the generic Gaussian orientation hypercube: conjugation gives an antipodal quotient, and occupancy variance shows that any unsaved square-root-saturating packet must remain in an exponent-zero intermediate-occupancy regime.',
+            'SR-STR-206':' In t96-t99 the antipodal orientation quotient localizes a non-negligible influence to one generic split-prime bit; Gaussian conjugation makes its symmetric difference explicit and reduces it to one sign, fixed-divisor, or endpoint-residue boundary class.',
+            'SR-STR-165':' Batch19 adds the tH1 Gaussian primary/ray-class convention and the t77-t90/tH13-tH16 projective-character, many-conductor and reciprocity interfaces, all under the same sparse-selector firewall.',
+            'SR-STR-166':' Batch19 t80-t83 realizes the inverse-fraction branch by projective Gauss dualization, affine frequency matching and a short nonzero determinant-quotient switch before any Kloosterman-fraction import.',
+            'SR-STR-190':' Batch19 tH10/tH14 supplies the corresponding squareclass autocorrelation and selector-sensitive two-auxiliary diagonal/off-diagonal bookkeeping without using unresolved fourth energy as coefficient input.',
+            'SR-STR-223':' Batch19 t8/t9 adds the reflected 2-descent moving-prime support and the Euclid-parameter joint sparse-residue family target as another exact moving-family compatibility gate.'
+          }
+          for cid,txt in append_obj.items():
+              if txt.strip() not in cards[cid].get('exact_equations_or_object',''):
+                  cards[cid]['exact_equations_or_object']=cards[cid].get('exact_equations_or_object','').rstrip()+txt
+          reg['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          progress_p.write_text(json.dumps(progress,indent=2,ensure_ascii=False)+'\n')
+          reg_p.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+      - name: Refresh and verify StructureRadar
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git diff --check
+      - name: Remove temporary batch19 helpers
+        run: |
+          git rm -f .github/workflows/structure-radar-batch19-selector.yml .github/workflows/structure-radar-batch19-finalizer.yml .github/structure-radar-batch19-trigger.txt .github/structure-radar-batch19-finalize-trigger.txt .github/structure-radar-batch19-index.json .github/structure-radar-batch19-summary.txt .github/structure-radar-batch19-registry.tsv
+      - name: Commit normalized batch19
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/structure-radar
+          git add -u .github
+          git diff --cached --check
+          git commit -m 'StructureRadar census Stage14-15 deep corpus batch 19'
+          git push
