@@ -1,0 +1,59 @@
+name: StructureRadar batch22 anchor matcher
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-22
+
+permissions:
+  contents: write
+
+jobs:
+  anchors:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Match exact object and provenance anchors
+        run: |
+          python - <<'PY'
+          import json,re
+          from pathlib import Path
+          root=Path('.'); radar=root/'docs/structure-radar'
+          q=json.loads((radar/'exploration-queue.json').read_text()); task=next(t for t in q['tasks'] if t['status']=='READY'); ids=task['source_ids'][:60]
+          sm={}
+          for p in sorted((radar/'source-manifest').glob('part-*.json')):
+              for s in json.loads(p.read_text())['sources']:
+                  if s['source_id'] in ids: sm[s['source_id']]=s
+          cards=json.loads((radar/'structure-registry.json').read_text())['structures']
+          out=['# idx | source | exact canonical | exact terms | referenced provenance cards']
+          for i,sid in enumerate(ids,1):
+              txt=(root/sm[sid]['path']).read_text(errors='replace'); low=txt.lower()
+              canon=[]; terms=[]; prov=[]
+              refs=set(re.findall(r'(?i)\b(?:Stage14[-/][A-Za-z0-9_-]+|14-[A-Za-z0-9_-]+)\b',txt))
+              refs_low={x.lower().replace('stage14-','14-').replace('stage14/','14-') for x in refs}
+              for c in cards:
+                  cid=c['structure_id']; name=c.get('canonical_math_name','')
+                  if name and len(name)>=12 and name.lower() in low: canon.append(cid)
+                  hit=[]
+                  for t in c.get('search_terms_primary',[])+c.get('search_terms_aliases',[]):
+                      if isinstance(t,str) and len(t)>=14 and t.lower() in low: hit.append(t)
+                  if hit: terms.append(cid)
+                  for p in c.get('repo_provenance',[]):
+                      path=(p.get('path') or '').lower()
+                      if any(r in path for r in refs_low): prov.append(cid); break
+              def uniq(xs): return list(dict.fromkeys(xs))
+              out.append(f'{i:02d} | {sid} | {",".join(uniq(canon)) or "-"} | {",".join(uniq(terms)) or "-"} | {",".join(uniq(prov)) or "-"}')
+          (radar/'.batch22-anchors.txt').write_text('\n'.join(out)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/structure-radar/.batch22-anchors.txt
+          if ! git diff --cached --quiet; then
+            git commit -m "Build StructureRadar batch22 anchor map"
+            git push origin HEAD:structure-radar-deep-corpus-batch-22
+          fi
