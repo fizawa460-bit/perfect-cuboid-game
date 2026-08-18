@@ -1,0 +1,30 @@
+name: StructureRadar batch35 registry grep
+on:
+  push:
+    branches: [agent/sr-b35-analysis]
+permissions:
+  contents: write
+jobs:
+  grep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Find related structures
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          reg=json.loads(pathlib.Path('docs/structure-radar/structure-registry.json').read_text())
+          terms=['tau(n^2)','pythagorean partner','fixed-edge','fixed edge','b^2 log b','directional chamber','exactly-one-face ambient','space diagonal unrestricted']
+          hits=[]
+          for c in reg['structures']:
+              blob=(c.get('canonical_math_name','')+' '+c.get('exact_equations_or_object','')).lower()
+              ts=[t for t in terms if t in blob]
+              if ts: hits.append({'structure_id':c['structure_id'],'name':c.get('canonical_math_name'),'equation':c.get('exact_equations_or_object'),'terms':ts})
+          pathlib.Path('.tmp/sr-b35-grep.json').write_text(json.dumps(hits,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b35-grep.json
+          git commit -m 'Temp: grep related batch35 structures' || true
+          git push origin HEAD:agent/sr-b35-analysis
