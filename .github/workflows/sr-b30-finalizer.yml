@@ -1,0 +1,215 @@
+name: StructureRadar history batch30 finalizer
+
+on:
+  push:
+    branches:
+      - structure-radar-history-batch-30
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Apply batch30 census
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('.')
+          batch_id='SR-BATCH-STAGE02_13_HISTORY-30-R01'
+          task_id='SR-CENSUS-STAGE02_13_HISTORY-01'
+          M={
+          'SRC-BF09C8BEAE3D':None,
+          'SRC-7C1470298987':None,
+          'SRC-67E3760449EB':None,
+          'SRC-E0FCF27286D5':None,
+          'SRC-506BBA15DEC2':['SR-STR-226','SR-STR-031','SR-STR-032'],
+          'SRC-4D55091C3753':['SR-STR-226'],
+          'SRC-43B202788DC8':None,
+          'SRC-99A6201E04B1':None,
+          'SRC-1FC4EE10022E':None,
+          'SRC-5AF47D4B840C':['SR-STR-227','SR-STR-226','SR-STR-041','SR-STR-152'],
+          'SRC-D6AC0B3B11B9':['SR-STR-227'],
+          'SRC-5C184D934DA1':None,
+          'SRC-402DCABCDE9F':['SR-STR-154'],
+          'SRC-8D574AE4EE9D':['SR-STR-151','SR-STR-155','SR-STR-154'],
+          'SRC-7A9C7FB97017':['SR-STR-151','SR-STR-155','SR-STR-154'],
+          'SRC-7FED276095BC':['SR-STR-111','SR-STR-113'],
+          'SRC-71D79945F189':['SR-STR-111','SR-STR-113'],
+          'SRC-6B09EF34312D':['SR-STR-111','SR-STR-113'],
+          'SRC-981937031913':['SR-STR-111','SR-STR-113'],
+          'SRC-F60ED545F569':['SR-STR-111','SR-STR-113'],
+          'SRC-6AD2C34282FB':['SR-STR-068','SR-STR-111'],
+          'SRC-E2705C302CA6':['SR-STR-068','SR-STR-111'],
+          'SRC-38034ED4EE23':['SR-STR-111','SR-STR-116'],
+          'SRC-C23AF38A9114':None,
+          'SRC-87CFB0F83F45':None,
+          'SRC-5907E78C3E75':['SR-STR-033'],
+          'SRC-90B50FAB1456':['SR-STR-032','SR-STR-033'],
+          'SRC-EA1F4CF84417':None,
+          'SRC-3832AB40204C':['SR-STR-032','SR-STR-226'],
+          'SRC-34673609A28E':['SR-STR-032','SR-STR-226'],
+          'SRC-7C37EC35394A':None,
+          'SRC-C0BBF7965361':None,
+          'SRC-F862D39ACDBC':['SR-STR-226'],
+          'SRC-340C394FDF50':['SR-STR-226'],
+          'SRC-8EA6ED4AAF43':None,
+          'SRC-D5BD149F3FC9':None,
+          'SRC-7C024C9B1071':None,
+          'SRC-1917E70AEDBD':['SR-STR-013','SR-STR-226'],
+          'SRC-97F5FF513AD7':['SR-STR-031','SR-STR-226'],
+          'SRC-21E8F38A5E3D':None,
+          'SRC-036919750297':['SR-STR-031','SR-STR-226'],
+          'SRC-4126D9D3F2BA':['SR-STR-226'],
+          'SRC-2CC9A12AEF77':['SR-STR-226'],
+          'SRC-E39FB18A3707':['SR-STR-031','SR-STR-226'],
+          'SRC-65DB591A4D6E':['SR-STR-032'],
+          'SRC-1D52921B7E60':['SR-STR-013','SR-STR-032','SR-STR-226'],
+          'SRC-D1115D2A76A4':['SR-STR-013'],
+          'SRC-0B551BC28E27':['SR-STR-031','SR-STR-226'],
+          'SRC-C76B70C21A76':None,
+          'SRC-E35DDB618631':None,
+          'SRC-5734043C488C':['SR-STR-226'],
+          'SRC-7522A92BE1DD':['SR-STR-226'],
+          'SRC-16E07847B918':['SR-STR-226'],
+          'SRC-043B68A18127':['SR-STR-226'],
+          'SRC-259AFAC084CB':['SR-STR-226'],
+          'SRC-C0ECFA1DE2CE':['SR-STR-226'],
+          'SRC-F8BDFF1C677B':['SR-STR-226'],
+          'SRC-50281E4D77D6':['SR-STR-226'],
+          'SRC-21CC43F7E730':['SR-STR-032','SR-STR-226'],
+          'SRC-9B4587F16DF0':None
+          }
+          qpath=root/'docs/structure-radar/exploration-queue.json'
+          q=json.loads(qpath.read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          ids=task['source_ids']
+          assert task['task_id']==task_id, task['task_id']
+          assert len(ids)==60 and set(ids)==set(M), (len(ids),len(set(ids)-set(M)),len(set(M)-set(ids)))
+          source_map={}; part_docs={}
+          for p in sorted((root/'docs/structure-radar/source-manifest').glob('part-*.json')):
+              d=json.loads(p.read_text()); part_docs[p]=d
+              for s in d['sources']: source_map[s['source_id']]=s
+          prog_path=root/'docs/structure-radar/progress.json'
+          prog=json.loads(prog_path.read_text())
+          assert not any(b.get('batch_id')==batch_id for b in prog['audit_batches'])
+          reg_path=root/'docs/structure-radar/structure-registry.json'
+          reg=json.loads(reg_path.read_text())
+          cards={c['structure_id']:c for c in reg['structures']}
+          assert 'SR-STR-226' not in cards and 'SR-STR-227' not in cards
+          max_id=max(int(c['structure_id'].split('-')[-1]) for c in reg['structures'])
+          assert max_id==225, max_id
+          new_cards=[
+            {
+              'structure_id':'SR-STR-226',
+              'canonical_math_name':'Primitive oriented integral-space one-face incidence asymptotic',
+              'exact_equations_or_object':'For the frozen Stage12 primitive oriented incidence count under d<=B, C_prim(B) ~ [kappa/(12*pi)] B(log B)^3 = [eta/(12*pi^2)] B(log B)^3 with eta=pi*kappa. The count is oriented/distinguished-face data and is not itself the primitive canonical exactly-one count. The retained theorem-level external input is finite-order Selberg-Delange; historical conditional and failed intermediate routes do not strengthen the final R09 statement.',
+              'search_terms_primary':['primitive oriented one-face incidence asymptotic B log cubed','Stage12 C_prim kappa B log^3'],
+              'search_terms_aliases':['Stage12-N1-2 primitive oriented asymptotic','C_prim B'],
+              'theorem_species':['asymptotic counting','oriented incidence count','Selberg-Delange application'],
+              'repo_provenance':[],
+              'target_populations':['primitive oriented integral-space cuboid face-incidence records under d<=B'],
+              'potential_weapon_types':['ASYMPTOTIC_BASELINE','COUNTING_INPUT'],
+              'applicability_gaps':['A factor-two orientation projection and lower-order multi-face overlap control are required before identifying this with the primitive canonical exactly-one population.','Superseded R02-R08 and conditional intermediate reports are provenance only; R09/final controls the theorem statement.','No perfect-cuboid existence or nonexistence statement follows.'],
+              'existing_radar_overlap':['SR-STR-013','SR-STR-031','SR-STR-032','SR-STR-041'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            },
+            {
+              'structure_id':'SR-STR-227',
+              'canonical_math_name':'Canonical exactly-one directional chamber asymptotic and non-2:1:1 limit law',
+              'exact_equations_or_object':'For primitive canonical integral-space cuboids 0<a<b<c with exactly one integral face and d<=B, N_q(B) ~ [kappa I_q/(3*pi^3)] B(log B)^3 for q in {ab,ac,bc}, where on R={0<x<y<z in S^2}, I_ab=int_R dω/sqrt(x^2+y^2), I_ac=int_R dω/sqrt(x^2+z^2), I_bc=int_R dω/sqrt(y^2+z^2), and I_ab+I_ac+I_bc=pi^2/8. Hence N1(B)~[kappa/(24*pi)]B(log B)^3 and N_vec/N1 -> (8/pi^2)(I_ab,I_ac,I_bc)=(0.5347369332...,0.2453591778...,0.2199038889...), so the finite near-2:1:1 pattern is not the limiting law.',
+              'search_terms_primary':['canonical exactly one face directional asymptotic chamber integral','one-face cuboid limiting direction ratio 2.4316847502'],
+              'search_terms_aliases':['Stage13 main structural theorem','archimedean chamber one-face density'],
+              'theorem_species':['directional asymptotic counting','archimedean chamber density','limiting proportion law'],
+              'repo_provenance':[],
+              'target_populations':['primitive canonical integral-space exactly-one-face cuboids under d<=B'],
+              'potential_weapon_types':['ASYMPTOTIC_BASELINE','DIRECTIONAL_DENSITY','ARCHIMEDEAN_ADAPTER'],
+              'applicability_gaps':['No monotone or explicit secondary convergence rate is proved.','The theorem uses the Stage12 arithmetic population scale plus Stage13 projection and lower-order overlap control; the chamber vector alone is not a standalone integer-point asymptotic.','No perfect-cuboid existence or nonexistence statement follows.'],
+              'existing_radar_overlap':['SR-STR-004','SR-STR-041','SR-STR-148','SR-STR-152','SR-STR-226'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            }
+          ]
+          reg['structures'].extend(new_cards)
+          cards={c['structure_id']:c for c in reg['structures']}
+          for sid in ids:
+              s=source_map[sid]
+              assert s['review_state']=='NEW', (sid,s['review_state'])
+              assert sid not in prog['source_reviews'], sid
+              cids=M[sid]
+              if cids is None:
+                  prog['source_reviews'][sid]={'fingerprint':s['fingerprint'],'status':'NO_DISTINCT_STRUCTURE','batch_id':batch_id}
+              else:
+                  assert len(cids)==len(set(cids))
+                  for cid in cids: assert cid in cards, cid
+                  prog['source_reviews'][sid]={'fingerprint':s['fingerprint'],'status':'STRUCTURES_RECORDED','batch_id':batch_id,'structure_ids':cids}
+                  for cid in cids:
+                      pv=cards[cid].setdefault('repo_provenance',[])
+                      if not any(x.get('source_id')==sid for x in pv):
+                          if cid=='SR-STR-226': loc='Stage12 primitive-oriented B(log B)^3 asymptotic lineage; historical status preserved'
+                          elif cid=='SR-STR-227': loc='Stage13 canonical exactly-one directional asymptotic and chamber limit law'
+                          else: loc='Stage02-13 historical provenance carrier; no theorem strengthening'
+                          pv.append({'source_id':sid,'path':s['path'],'locator':loc,'fingerprint':s['fingerprint']})
+              s['review_state']='CURRENT_REVIEWED'
+          union=sorted({cid for sid in ids if M[sid] for cid in M[sid]})
+          assert union==sorted(['SR-STR-013','SR-STR-031','SR-STR-032','SR-STR-033','SR-STR-041','SR-STR-068','SR-STR-111','SR-STR-113','SR-STR-116','SR-STR-151','SR-STR-152','SR-STR-154','SR-STR-155','SR-STR-226','SR-STR-227']), union
+          carrier=sum(M[sid] is not None for sid in ids); nodist=60-carrier
+          assert (carrier,nodist)==(40,20)
+          prog['audit_batches'].append({
+            'batch_id':batch_id,'task_id':task_id,'status':'SUBMITTED_FOR_AUDIT','source_ids':ids,
+            'sources_reviewed':60,'structures_added':2,'structures_updated':13,
+            'structure_carrier_sources':40,'structures_deduped':20,'searches_completed':0,
+            'arsenal_decisions':0,'audit_required':True,'duplicate_source':0,'no_distinct_structure':20})
+          prog_path.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+          reg_path.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          for p,d in part_docs.items():
+              if any(s['source_id'] in M for s in d['sources']):
+                  p.write_text(json.dumps(d,indent=2,ensure_ascii=False)+'\n')
+          PY
+      - name: Refresh and verify
+        shell: bash
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+      - name: Assert batch30 accounting
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          c=json.loads((r/'docs/structure-radar/controller.json').read_text())
+          assert c['corpus']['review_states']=={'CURRENT_REVIEWED':2330,'NEW':226}, c['corpus']['review_states']
+          assert c['registry']['structure_count']==227, c['registry']['structure_count']
+          p=json.loads((r/'docs/structure-radar/progress.json').read_text())
+          b=next(x for x in p['audit_batches'] if x['batch_id']=='SR-BATCH-STAGE02_13_HISTORY-30-R01')
+          assert b['sources_reviewed']==60 and b['structures_added']==2 and b['structures_updated']==13
+          assert b['structure_carrier_sources']==40 and b['no_distinct_structure']==20 and b['duplicate_source']==0
+          reviews=[v for v in p['source_reviews'].values() if v.get('batch_id')==b['batch_id']]
+          assert len(reviews)==60
+          assert sum(v['status']=='STRUCTURES_RECORDED' for v in reviews)==40
+          assert sum(v['status']=='NO_DISTINCT_STRUCTURE' for v in reviews)==20
+          reg=json.loads((r/'docs/structure-radar/structure-registry.json').read_text())
+          rc={x['structure_id']:x for x in reg['structures']}
+          assert 'C_prim(B)' in rc['SR-STR-226']['exact_equations_or_object']
+          assert 'N_q(B)' in rc['SR-STR-227']['exact_equations_or_object']
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text())
+          ready=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          assert ready['task_id']=='SR-CENSUS-STAGE02_13_HISTORY-02', ready['task_id']
+          assert ready['source_ids'][0]=='SRC-5D407CD0A39E', ready['source_ids'][0]
+          print('BATCH30_OK',len(reviews),c['registry']['structure_count'],ready['source_ids'][0])
+          PY
+      - name: Commit final net diff
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm .github/workflows/sr-b30-finalizer.yml
+          git add docs/structure-radar
+          git status --short
+          git commit -m 'StructureRadar: census Stage02-13 history batch 30'
+          git push origin HEAD:structure-radar-history-batch-30
