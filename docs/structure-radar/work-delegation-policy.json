@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "policy": "STRUCTURE-RADAR-WORK-DELEGATION-R01",
+  "mode": "RECOMMENDATION_ONLY",
+  "operator_may_decline": true,
+  "automatic_invocation": false,
+  "evaluate_on": [
+    "StructureRadar-main-batch",
+    "StructureRadar-audit"
+  ],
+  "routine_repo_census_delegated": false,
+  "routine_card_normalization_delegated": false,
+  "routine_audit_delegated": false,
+  "recommended_reasons": [
+    "EXTERNAL_LITERATURE_BREADTH_SEARCH",
+    "UNKNOWN_THEOREM_OR_TECHNIQUE_SEARCH",
+    "ALTERNATIVE_TERMINOLOGY_SEARCH",
+    "CROSS_DOMAIN_WEAPON_SEARCH",
+    "PRIOR_ART_COMPARISON",
+    "REPO_ARSENAL_EXHAUSTED_FOR_RECEIVER"
+  ],
+  "do_not_recommend_merely_because": [
+    "SOURCE_BATCH_IS_LARGE",
+    "ROUTINE_SOURCE_CENSUS",
+    "ROUTINE_DEDUPLICATION",
+    "ROUTINE_CARD_NORMALIZATION",
+    "ROUTINE_BATCH_AUDIT",
+    "ROUTINE_REPOSITORY_WRITE"
+  ],
+  "decision_rule": "Recommend Work only when broader external-document discovery or long multi-source synthesis is materially likely to improve coverage beyond the current ChatGPT batch. Keep repo-native classification, normalization, audit, and mathematical receiver judgment with ChatGPT.",
+  "handoff_contract": {
+    "required_fields": [
+      "WORK_DELEGATION_RECOMMENDED",
+      "WORK_REASON",
+      "WORK_TARGET",
+      "WORK_REQUEST"
+    ],
+    "work_request_rule": "When recommended, emit a ready-to-paste Work request naming the exact structure IDs or barrier/receiver, the external search objective, exclusions, and the evidence expected back. When not recommended, WORK_REQUEST must be empty.",
+    "work_result_rule": "Work results are leads, not self-certifying evidence. ChatGPT must map returned theorems to exact repo variables, hypotheses, quantitative losses, provenance, and receiver applicability before any ACTIVE arsenal promotion."
+  },
+  "codex_interaction": {
+    "codex_policy_unchanged": true,
+    "work_and_codex_are_independent_recommendations": true,
+    "operator_may_decline_codex": true,
+    "note": "Codex remains for repository-mechanical failures or large deterministic repair/reindex work; Work is for external literature breadth and long document synthesis. Neither recommendation auto-invokes another product mode."
+  }
+}
