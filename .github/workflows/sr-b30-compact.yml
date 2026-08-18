@@ -1,0 +1,43 @@
+name: StructureRadar batch30 compact analyzer
+
+on:
+  push:
+    branches:
+      - agent/sr-b30-analyzer
+
+permissions:
+  contents: write
+
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compact analyzer output
+        shell: bash
+        run: |
+          python - <<'PY'
+          import pathlib
+          src=pathlib.Path('.tmp/sr-b30-summary.tsv')
+          out=pathlib.Path('.tmp/sr-b30-compact.tsv')
+          if not src.exists() or out.exists(): raise SystemExit(0)
+          lines=src.read_text().splitlines()
+          with out.open('w') as f:
+              f.write('sid\tpath\tkind\trole\ttop3\n')
+              for ln in lines[1:]:
+                  p=ln.split('\t')
+                  top=[]
+                  for item in p[7].split('; ')[:3]:
+                      z=item.split(':',2)
+                      if len(z)>=2: top.append(z[0]+':'+z[1])
+                  f.write('\t'.join([p[0],p[1],p[3],p[4],','.join(top)])+'\n')
+          PY
+      - name: Commit compact output
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b30-compact.tsv
+          git diff --cached --quiet && exit 0
+          git commit -m 'Temp: compact batch30 analyzer output'
+          git push origin HEAD:agent/sr-b30-analyzer
