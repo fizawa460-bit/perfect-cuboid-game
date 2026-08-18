@@ -1,0 +1,32 @@
+name: SR search03 extractor
+on:
+  push:
+    branches: [agent/sr-search03-analysis]
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract six cards
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          reg=json.loads((r/'docs/structure-radar/structure-registry.json').read_text())
+          wanted={'SR-STR-013','SR-STR-015','SR-STR-017','SR-STR-018','SR-STR-019','SR-STR-020'}
+          out=[]
+          for c in reg['structures']:
+            if c['structure_id'] in wanted:
+              keep={k:c.get(k) for k in ['structure_id','canonical_math_name','exact_equations_or_object','search_terms_primary','search_terms_aliases','theorem_species','target_populations','potential_weapon_types','applicability_gaps','existing_radar_overlap','search_status','arsenal_decision','card_status','repo_provenance']}
+              out.append(keep)
+          assert len(out)==6
+          p=r/'.tmp/sr-search03-cards.json'; p.parent.mkdir(exist_ok=True); p.write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-search03-cards.json
+          git commit -m 'Temp: extract SR search03 cards' || true
+          git push origin HEAD:agent/sr-search03-analysis
