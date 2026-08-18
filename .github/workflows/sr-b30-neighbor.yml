@@ -1,0 +1,76 @@
+name: StructureRadar batch30 reviewed-source neighbor mapper
+
+on:
+  push:
+    branches:
+      - agent/sr-b30-analyzer
+
+permissions:
+  contents: write
+
+jobs:
+  map:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Map to reviewed source neighbors
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,re,pathlib,collections,math
+          root=pathlib.Path('.')
+          out=root/'.tmp/sr-b30-neighbors.tsv'
+          if out.exists(): raise SystemExit(0)
+          q=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          ids=task['source_ids']; newset=set(ids)
+          src={}
+          for p in (root/'docs/structure-radar/source-manifest').glob('part-*.json'):
+              for s in json.loads(p.read_text())['sources']: src[s['source_id']]=s
+          prog=json.loads((root/'docs/structure-radar/progress.json').read_text())['source_reviews']
+          stop=set('the and for with from this that into under over only does not are is be a an of to in on by or as at if then than true false stage result audit proof theorem bound upper lower report data final readme'.split())
+          def toks(path):
+              try: text=(root/path).read_text(errors='ignore')[:30000]
+              except: text=''
+              ws=[w for w in re.findall(r'[a-z0-9_]+',(path+' '+text).lower()) if len(w)>3 and w not in stop]
+              return set(ws),text
+          reviewed=[]
+          for sid,rv in prog.items():
+              if sid in newset or rv.get('status')!='STRUCTURES_RECORDED' or sid not in src: continue
+              s=src[sid]
+              ss,text=toks(s['path'])
+              reviewed.append((sid,s['path'],set(rv.get('structure_ids',[])),ss))
+          rows=[]
+          for sid in ids:
+              s=src[sid]; ss,text=toks(s['path']); stage=s.get('stage') or ''
+              vals=[]
+              for osid,opath,cards,os in reviewed:
+                  inter=len(ss&os); union=len(ss|os)
+                  if not inter: continue
+                  jac=inter/max(1,union)
+                  contain=inter/max(1,min(len(ss),len(os)))
+                  score=100*jac+30*contain
+                  if stage and f'stages/{stage.lower()}/' in opath.lower(): score+=8
+                  # same stem/revision family boost
+                  a=re.sub(r'r\d+','r#',s['path'].lower())
+                  b=re.sub(r'r\d+','r#',opath.lower())
+                  if a.split('/')[-1]==b.split('/')[-1]: score+=15
+                  if s['path'].split('/')[-1]==opath.split('/')[-1]: score+=20
+                  vals.append((score,osid,opath,','.join(sorted(cards))))
+              vals.sort(reverse=True)
+              top='; '.join(f'{score:.1f}|{osid}|{opath}|{cards}' for score,osid,opath,cards in vals[:5])
+              rows.append((sid,s['path'],top))
+          out.parent.mkdir(parents=True,exist_ok=True)
+          with out.open('w') as f:
+              f.write('sid\tpath\ttop_reviewed_neighbors\n')
+              for r in rows: f.write('\t'.join(r)+'\n')
+          PY
+      - name: Commit neighbor output
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b30-neighbors.tsv
+          git diff --cached --quiet && exit 0
+          git commit -m 'Temp: batch30 reviewed-source neighbors'
+          git push origin HEAD:agent/sr-b30-analyzer
