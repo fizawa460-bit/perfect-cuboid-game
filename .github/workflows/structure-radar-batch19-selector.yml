@@ -1,0 +1,69 @@
+name: StructureRadar batch19 selector
+on:
+  push:
+    branches: [structure-radar-deep-corpus-batch-19]
+    paths: ['.github/structure-radar-batch19-trigger.txt']
+permissions:
+  contents: write
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract READY slice and registry digest
+        shell: python
+        run: |
+          import json, pathlib, re
+          q=json.loads(pathlib.Path('docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t.get('status')=='READY')
+          ids=task['source_ids'][:60]
+          assert len(ids)==60, len(ids)
+          entries={}
+          for p in sorted(pathlib.Path('docs/structure-radar/source-manifest').glob('part-*.json')):
+              data=json.loads(p.read_text())
+              arr=data.get('sources', data if isinstance(data,list) else [])
+              for e in arr:
+                  if e.get('source_id') in ids: entries[e['source_id']]=e
+          assert set(entries)==set(ids), (len(entries), sorted(set(ids)-set(entries)))
+          rx=re.compile(r'(PROVED|BOUND|BARRIER|TARGET|RECEIVER|STATUS|CURRENT|NEXT|false|true|sqrt|power|sieve|fiber|support|moment|height|divisor|gcd|rank|elliptic|quartic|character|Gaussian|prime|cofactor|Pythagorean|collision|Selmer|Prym|Jacobian|Kummer|Cayley|squareclass|energy|large sieve|dispersion)',re.I)
+          out=[]; lines=[]
+          for n,sid in enumerate(ids,1):
+              e=entries[sid]; path=e.get('path',''); txt=''
+              pp=pathlib.Path(path)
+              if pp.is_file():
+                  try: txt=pp.read_text(errors='replace')
+                  except: pass
+              title=''
+              for ln in txt.splitlines():
+                  if ln.startswith('# '): title=ln[2:].strip(); break
+              key=[]
+              for ln in txt.splitlines():
+                  z=ln.strip()
+                  if z and rx.search(z):
+                      key.append(z[:700])
+                      if len(key)>=30: break
+              excerpt='\n'.join(txt.splitlines()[:120])[:18000]
+              rec={k:e.get(k) for k in ['source_id','path','fingerprint','stage','kind','evidence_role']}
+              rec.update(n=n,title=title,key_lines=key,excerpt=excerpt)
+              out.append(rec); lines.append(f'{n:02d}\t{sid}\t{path}\t{title}')
+          pathlib.Path('.github/structure-radar-batch19-index.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          pathlib.Path('.github/structure-radar-batch19-summary.txt').write_text('\n'.join(lines)+'\n')
+          reg=json.loads(pathlib.Path('docs/structure-radar/structure-registry.json').read_text())
+          rlines=[]
+          for c in reg['structures']:
+              obj=' '.join(c.get('exact_equations_or_object','').split())[:850]
+              aliases='; '.join(c.get('search_terms_aliases',[]))[:250]
+              rlines.append(f"{c['structure_id']}\t{c.get('canonical_math_name','')}\t{obj}\t{aliases}")
+          pathlib.Path('.github/structure-radar-batch19-registry.tsv').write_text('\n'.join(rlines)+'\n')
+      - name: Commit selector output
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .github/structure-radar-batch19-index.json .github/structure-radar-batch19-summary.txt .github/structure-radar-batch19-registry.tsv
+          git commit -m 'StructureRadar batch19 source index' || exit 0
+          git push
