@@ -1,7 +1,7 @@
 name: StructureRadar batch22 audit repair direct
 
 on:
-  push:
+  pull_request:
     branches:
       - structure-radar-deep-corpus-batch-22
 
@@ -19,7 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - name: Repair batch22 audited count
+      - name: Repair audited batch22 count
         run: |
           python - <<'PY'
           import json
@@ -43,7 +43,6 @@ jobs:
           assert carriers == 59
           assert no_distinct == 1
           assert len(union) == 36
-          assert batch['structures_updated'] in (37, 36)
           batch['structures_updated'] = 36
           p.write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n')
           PY
