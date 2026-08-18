@@ -1,13 +1,12 @@
 name: SR search05 pr applicator
 on:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize]
+  push:
+    branches: [agent/sr-search05-prapply]
 permissions:
   contents: write
 jobs:
   apply:
-    if: github.head_ref == 'agent/sr-search05-prapply'
+    if: github.ref == 'refs/heads/agent/sr-search05-prapply'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
