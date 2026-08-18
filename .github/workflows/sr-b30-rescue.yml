@@ -15,23 +15,22 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 1
-      - name: Run finalizer blocks with captured diagnostics
+      - name: Run finalizer with corrected queue assertion
         shell: bash
         run: |
           set +e
           rm -f .tmp/sr-b30-rescue.log
           mkdir -p .tmp
           python - <<'PY' > .tmp/sr-b30-rescue.log 2>&1
-          import pathlib,re,textwrap,subprocess,sys
-          p=pathlib.Path('.github/workflows/sr-b30-finalizer.yml')
-          text=p.read_text()
+          import pathlib,re,textwrap,subprocess,sys,json
+          root=pathlib.Path('.')
+          text=(root/'.github/workflows/sr-b30-finalizer.yml').read_text()
           blocks=re.findall(r"python - <<'PY'\n(.*?)\n\s+PY",text,re.S)
           print('BLOCK_COUNT',len(blocks))
-          if len(blocks)<2:
-              raise SystemExit('could not extract finalizer python blocks')
-          code1=textwrap.dedent(blocks[0])
+          if len(blocks)<1:
+              raise SystemExit('could not extract finalizer apply block')
           print('RUN APPLY BLOCK')
-          exec(compile(code1,'<batch30-apply>','exec'),{})
+          exec(compile(textwrap.dedent(blocks[0]),'<batch30-apply>','exec'),{})
           print('APPLY OK')
           for cmd in [
               ['python','scripts/structure_radar.py','refresh'],
@@ -42,10 +41,26 @@ jobs:
               print(r.stdout); print(r.stderr,file=sys.stderr)
               if r.returncode: raise SystemExit(f'command failed {cmd}: {r.returncode}')
           print('REFRESH VERIFY DIFFCHECK OK')
-          code2=textwrap.dedent(blocks[1])
-          print('RUN ASSERT BLOCK')
-          exec(compile(code2,'<batch30-assert>','exec'),{})
-          print('ASSERT OK')
+          c=json.loads((root/'docs/structure-radar/controller.json').read_text())
+          assert c['corpus']['review_states']=={'CURRENT_REVIEWED':2330,'NEW':226}, c['corpus']['review_states']
+          assert c['registry']['structure_count']==227, c['registry']['structure_count']
+          p=json.loads((root/'docs/structure-radar/progress.json').read_text())
+          b=next(x for x in p['audit_batches'] if x['batch_id']=='SR-BATCH-STAGE02_13_HISTORY-30-R01')
+          assert b['sources_reviewed']==60 and b['structures_added']==2 and b['structures_updated']==13, b
+          assert b['structure_carrier_sources']==40 and b['no_distinct_structure']==20 and b['duplicate_source']==0, b
+          reviews=[v for v in p['source_reviews'].values() if v.get('batch_id')==b['batch_id']]
+          assert len(reviews)==60
+          assert sum(v['status']=='STRUCTURES_RECORDED' for v in reviews)==40
+          assert sum(v['status']=='NO_DISTINCT_STRUCTURE' for v in reviews)==20
+          reg=json.loads((root/'docs/structure-radar/structure-registry.json').read_text())
+          rc={x['structure_id']:x for x in reg['structures']}
+          assert 'C_prim(B)' in rc['SR-STR-226']['exact_equations_or_object']
+          assert 'N_q(B)' in rc['SR-STR-227']['exact_equations_or_object']
+          q=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
+          ready=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
+          print('NEXT_READY',ready['task_id'],ready['source_ids'][0])
+          assert ready['source_ids'][0]=='SRC-5D407CD0A39E', ready['source_ids'][0]
+          print('BATCH30_OK',len(reviews),c['registry']['structure_count'],ready['task_id'],ready['source_ids'][0])
           PY
           rc=$?
           cat .tmp/sr-b30-rescue.log
