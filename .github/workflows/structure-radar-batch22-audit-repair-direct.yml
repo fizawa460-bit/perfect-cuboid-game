@@ -1,0 +1,94 @@
+name: StructureRadar batch23 registered analysis
+
+on:
+  pull_request:
+    branches:
+      - structure-radar-deep-corpus-batch-23
+
+permissions:
+  contents: write
+
+jobs:
+  analyze:
+    if: github.head_ref == 'structure-radar-batch23-analysis-runner'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-23
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Build batch23 review report
+        run: |
+          python - <<'PY'
+          import json, re
+          from pathlib import Path
+          progress=json.loads(Path('docs/structure-radar/progress.json').read_text())
+          registry=json.loads(Path('docs/structure-radar/structure-registry.json').read_text())
+          sources=[]
+          for p in sorted(Path('docs/structure-radar/source-manifest').glob('part-*.json')):
+              sources += json.loads(p.read_text()).get('sources',[])
+          reviews=progress.get('source_reviews',{})
+          id_by_path={s['path']:s['source_id'] for s in sources}
+          new=[s for s in sources if s.get('queue_group')=='STAGE14_15_DEEP_CORPUS' and s.get('review_state') in ('NEW','CHANGED','UNRESOLVED')]
+          new.sort(key=lambda s:(s.get('priority',99),s['path']))
+          batch=new[:60]
+          structs=registry.get('structures') or registry.get('cards') or []
+          if isinstance(structs,dict): structs=list(structs.values())
+          def flat(x):
+              if isinstance(x,dict): return ' '.join(flat(v) for v in x.values())
+              if isinstance(x,list): return ' '.join(flat(v) for v in x)
+              return str(x)
+          stop={'stage14','stage15','result','summary','audit','json','data','stage','true','false','null'}
+          def toks(t): return {x.lower() for x in re.findall(r'[A-Za-z][A-Za-z0-9_-]{2,}',t) if x.lower() not in stop}
+          ctexts=[]
+          for c in structs:
+              cid=c.get('structure_id') or c.get('id') or c.get('card_id')
+              if cid: ctexts.append((cid,toks(flat(c))))
+          out=[]
+          for s in batch:
+              p=Path(s['path']); txt=p.read_text(errors='replace') if p.exists() else ''
+              explicit=sorted(set(re.findall(r'SR-STR-\d{3}',txt)))
+              m=re.search(r'/data/(14-[^/]+)/',s['path']); producer=m.group(1) if m else None
+              lineage=[]
+              if producer:
+                  for cp in (f'stages/stage14/tasks/{producer}/result.md',f'stages/stage14/archive/tasks/{producer}/result.md'):
+                      sid=id_by_path.get(cp)
+                      if sid and sid in reviews: lineage += reviews[sid].get('structure_ids',[])
+              refs=sorted(set(re.findall(r'\b14-[A-Za-z0-9][A-Za-z0-9_-]*\b',txt)))[:40]
+              refl=[]
+              for r in refs:
+                  for cp in (f'stages/stage14/tasks/{r}/result.md',f'stages/stage14/archive/tasks/{r}/result.md'):
+                      sid=id_by_path.get(cp)
+                      if sid and sid in reviews: refl += reviews[sid].get('structure_ids',[])
+              qt=toks(s['path']+' '+txt[:16000]); scores=[]
+              for cid,tt in ctexts:
+                  ov=qt&tt
+                  if ov:
+                      score=len(ov)+3*(cid in explicit)+2*(cid in lineage)+1*(cid in refl)
+                      scores.append((score,cid,sorted(ov)[:10]))
+              scores.sort(reverse=True)
+              keys=[]; flags={}
+              try: parsed=json.loads(txt)
+              except Exception: parsed=None
+              if isinstance(parsed,dict):
+                  keys=list(parsed)[:40]
+                  for k,v in parsed.items():
+                      if isinstance(v,(bool,int,float,str)) and any(z in k.lower() for z in ('proved','status','verdict','gate','saving','power','bound','exponent','result','decision')):
+                          flags[k]=v
+              out.append({'source_id':s['source_id'],'path':s['path'],'producer':producer,'explicit_cards':explicit,
+                          'producer_lineage':sorted(set(lineage)),'referenced_stages':refs,
+                          'referenced_stage_lineage':sorted(set(refl)),
+                          'top_candidates':[{'score':a,'card':b,'terms':c} for a,b,c in scores[:12]],
+                          'json_keys':keys,'flags':flags,'preview':' '.join(txt[:1600].split())})
+          report={'batch_size':len(batch),'remaining_before':len(new),'next_after_batch':new[60]['source_id'] if len(new)>60 else None,
+                  'next_after_path':new[60]['path'] if len(new)>60 else None,'sources':out}
+          Path('docs/structure-radar/.batch23-analysis.json').write_text(json.dumps(report,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/structure-radar/.batch23-analysis.json
+          git commit -m "Build StructureRadar batch23 analysis report"
+          git push origin HEAD:structure-radar-deep-corpus-batch-23
