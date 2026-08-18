@@ -75,11 +75,22 @@ for R in [12, 20, 36]:
 
 contract = json.loads((ROOT / "stages/stage27/27-19-r5at/route-contract.json").read_text())
 assert contract["task_id"] == "Stage27-19-r5at"
-assert contract["status"] == "BATCH_SUBMITTED_PENDING_FRESH_AUDIT"
+assert contract["status"] == "AUDITED_PASS_PENDING_MERGE"
 assert contract["proved"]["fixed_R_kappa_entropy_collapse"] is True
 assert contract["proved"]["fixed_R_dyadic_weighted_host"] is True
 assert contract["proved"]["hyperbolic_boundary_accumulation_barrier"] is True
 assert contract["not_proved"]["strict_sub_sqrt_upper"] is True
+assert contract["audit_status"] == "PASS"
+assert contract["audit_pr"] == 1072
+assert contract["audited_content_commit"] == "34c24f3a61176f652a0f35b84d9c74c351879270"
+assert contract["dedicated_ci_run"] == 32013624871
+assert contract["dedicated_ci_conclusion"] == "success"
+assert contract["fresh_audit_required"] is False
+assert contract["merge_allowed"] is True
+assert contract["advance_allowed"] is False
+assert contract["advance_to_checkpoint50"] is False
+assert contract["next_derived_route"] == "27-19-r5aw"
+assert contract["next_target"] == "BOUNDARY_FACTORIZATION_OR_FIXED_R_OUTER_SUPPORT_COUNT"
 
 old = json.loads((ROOT / "stages/stage27/27-19-r5aq/route-contract.json").read_text())
 assert old["status"] in {"BATCH_SUBMITTED_PENDING_FRESH_AUDIT", "CLOSED_AUDITED_PASS_MERGED"}
@@ -110,4 +121,19 @@ for marker in [
 ]:
     assert marker in texts["av"]
 
-print("Stage27-19-r5at-r5av verification PASS")
+audit = (ROOT / "stages/stage27/27-19-r5at/audit.md").read_text()
+for marker in [
+    "AUDIT_VERDICT=PASS",
+    "MATHEMATICAL_AUDIT=PASS",
+    "CI_AUDIT=PASS",
+    "AUDIT_PR=1072",
+    "AUDITED_CONTENT_COMMIT=34c24f3a61176f652a0f35b84d9c74c351879270",
+    "DEDICATED_CI_RUN=32013624871",
+    "HYPERBOLIC_BOUNDARY_IS_CURRENT_PRIMARY_BARRIER=true",
+    "ADVANCE_ALLOWED=false",
+    "FRESH_REAUDIT_REQUIRED=false",
+    "NEXT_DERIVED_ROUTE=27-19-r5aw",
+]:
+    assert marker in audit
+
+print("Stage27-19-r5at-r5av audited pre-merge verification: PASS")
