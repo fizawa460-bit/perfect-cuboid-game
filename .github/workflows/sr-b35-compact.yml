@@ -1,0 +1,30 @@
+name: StructureRadar batch35 compact
+on:
+  push:
+    branches: [agent/sr-b35-analysis]
+permissions:
+  contents: write
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compact source list
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,pathlib,re
+          rows=list(csv.DictReader(open('.tmp/sr-b35-summary.tsv'),delimiter='\t'))
+          out=['sid\tpath\tkind\tpreview\ttop_ids']
+          for r in rows:
+              ids=[]
+              for x in re.findall(r'SR-STR-\d+',r['top_cards']):
+                  if x not in ids: ids.append(x)
+              out.append('\t'.join([r['sid'],r['path'],r['kind'],r['preview'][:420],','.join(ids[:5])]))
+          pathlib.Path('.tmp/sr-b35-compact.tsv').write_text('\n'.join(out)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b35-compact.tsv
+          git commit -m 'Temp: compact batch35 source summary' || true
+          git push origin HEAD:agent/sr-b35-analysis
