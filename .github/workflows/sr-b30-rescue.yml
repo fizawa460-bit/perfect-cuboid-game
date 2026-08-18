@@ -1,0 +1,68 @@
+name: StructureRadar batch30 rescue finalizer
+
+on:
+  push:
+    branches:
+      - structure-radar-history-batch-30
+
+permissions:
+  contents: write
+
+jobs:
+  rescue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - name: Run finalizer blocks with captured diagnostics
+        shell: bash
+        run: |
+          set +e
+          rm -f .tmp/sr-b30-rescue.log
+          mkdir -p .tmp
+          python - <<'PY' > .tmp/sr-b30-rescue.log 2>&1
+          import pathlib,re,textwrap,subprocess,sys
+          p=pathlib.Path('.github/workflows/sr-b30-finalizer.yml')
+          text=p.read_text()
+          blocks=re.findall(r"python - <<'PY'\n(.*?)\n\s+PY",text,re.S)
+          print('BLOCK_COUNT',len(blocks))
+          if len(blocks)<2:
+              raise SystemExit('could not extract finalizer python blocks')
+          code1=textwrap.dedent(blocks[0])
+          print('RUN APPLY BLOCK')
+          exec(compile(code1,'<batch30-apply>','exec'),{})
+          print('APPLY OK')
+          for cmd in [
+              ['python','scripts/structure_radar.py','refresh'],
+              ['python','scripts/structure_radar.py','verify'],
+              ['git','diff','--check']]:
+              print('RUN',cmd)
+              r=subprocess.run(cmd,text=True,capture_output=True)
+              print(r.stdout); print(r.stderr,file=sys.stderr)
+              if r.returncode: raise SystemExit(f'command failed {cmd}: {r.returncode}')
+          print('REFRESH VERIFY DIFFCHECK OK')
+          code2=textwrap.dedent(blocks[1])
+          print('RUN ASSERT BLOCK')
+          exec(compile(code2,'<batch30-assert>','exec'),{})
+          print('ASSERT OK')
+          PY
+          rc=$?
+          cat .tmp/sr-b30-rescue.log
+          if [ "$rc" -ne 0 ]; then
+            git config user.name github-actions[bot]
+            git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+            git add .tmp/sr-b30-rescue.log
+            git commit -m 'Temp: capture batch30 finalizer failure' || true
+            git push origin HEAD:structure-radar-history-batch-30 || true
+            exit "$rc"
+          fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          rm -f .tmp/sr-b30-rescue.log .tmp/sr-b30-diag-ran.txt .tmp/sr-b30-openpr-trigger.txt .tmp/sr-b30-trigger.txt
+          git rm -f .github/workflows/sr-b30-finalizer.yml .github/workflows/sr-b30-diagnostic.yml .github/workflows/sr-b30-rescue.yml
+          git add docs/structure-radar
+          git add -u .tmp || true
+          git status --short
+          git commit -m 'StructureRadar: census Stage02-13 history batch 30'
+          git push origin HEAD:structure-radar-history-batch-30
