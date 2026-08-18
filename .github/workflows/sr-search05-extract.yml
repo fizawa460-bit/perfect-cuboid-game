@@ -1,0 +1,50 @@
+name: SR search05 extract
+on:
+  push:
+    branches: [agent/sr-search05-analysis]
+permissions:
+  contents: write
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-search05-analysis
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract target cards and arsenal overlaps
+        run: |
+          python - <<'PY'
+          import json, pathlib, re
+          ids = {'SR-STR-031','SR-STR-032','SR-STR-033','SR-STR-036','SR-STR-037','SR-STR-038','SR-STR-039','SR-STR-040'}
+          reg=json.load(open('docs/structure-radar/structure-registry.json'))
+          cards=[c for c in reg['structures'] if c.get('structure_id') in ids]
+          out={'cards':cards}
+          pathlib.Path('.tmp').mkdir(exist_ok=True)
+          pathlib.Path('.tmp/sr-search05-targets.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          # Gather matching AR entries from human arsenal if present.
+          overlaps=[]
+          for c in cards:
+              overlaps += [x for x in c.get('existing_radar_overlap',[]) if isinstance(x,str) and x.startswith('AR-')]
+          overlaps=sorted(set(overlaps))
+          arsenal_path=pathlib.Path('docs/stage14-arsenal.md')
+          if not arsenal_path.exists():
+              cand=list(pathlib.Path('docs').glob('*arsenal*.md'))
+              arsenal_path=cand[0] if cand else None
+          txt=''
+          if arsenal_path and arsenal_path.exists():
+              src=arsenal_path.read_text()
+              for ar in overlaps:
+                  m=re.search(rf'(?ms)^### {re.escape(ar)}\b.*?(?=^### AR-|\Z)',src)
+                  if m: txt += m.group(0).rstrip()+'\n\n'
+          pathlib.Path('.tmp/sr-search05-arsenal.md').write_text('OVERLAPS='+','.join(overlaps)+'\nARSENAL_PATH='+str(arsenal_path)+'\n\n'+txt)
+          PY
+      - name: Commit extraction
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-search05-targets.json .tmp/sr-search05-arsenal.md
+          git commit -m 'temp: extract search05 targets' || exit 0
+          git push origin HEAD:agent/sr-search05-analysis
