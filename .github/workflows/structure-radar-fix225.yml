@@ -1,0 +1,52 @@
+name: StructureRadar fix SR-STR-225
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-20
+    paths:
+      - '.github/workflows/structure-radar-fix225.yml'
+      - 'docs/structure-radar/.fix225-trigger'
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-20
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Repair SR-STR-225 semantic boundary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('docs/structure-radar/structure-registry.json')
+          s=p.read_text()
+          old=("Stage14-tH17/r2 repairs the earlier ambient signed-receiver formulation by proving the actual-physical mass/vector inequality with the required internal r-Hölder/Schur penalty. The legal target is the signed physical rectangle/Rayleigh receiver after the exact physical masks; arbitrary-support operator norm or polar/Schatten substitution is a stronger and lossier statement, not an available replacement.")
+          new=("Stage14-tH17/r2 repairs the earlier ambient formulation by identifying the exact physical mass-vector Rayleigh target and proving the matched-block projection / TT* identities. The PhysicalMassVectorKummerRayleighBound itself remains unproved and is the minimal remaining obstruction. The legal target is the signed physical rectangle/Rayleigh receiver after the exact physical masks; arbitrary-support operator norm or polar/Schatten substitution is a stronger and lossier statement, not an available replacement.")
+          n=s.count(old)
+          if n != 1:
+              raise SystemExit(f'expected one SR-STR-225 over-promotion sentence, found {n}')
+          p.write_text(s.replace(old,new))
+          PY
+          python scripts/structure_radar.py verify
+          git diff --check
+      - name: Commit repaired registry and remove helper
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git rm -f .github/workflows/structure-radar-fix225.yml
+          rm -f docs/structure-radar/.fix225-trigger
+          git add docs/structure-radar/structure-registry.json
+          git commit -m 'StructureRadar repair SR-STR-225 audit wording'
+          git push origin HEAD:structure-radar-deep-corpus-batch-20
