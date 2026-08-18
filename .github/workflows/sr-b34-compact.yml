@@ -1,0 +1,36 @@
+name: StructureRadar batch34 compact classifier
+on:
+  push:
+    branches: [agent/sr-b34-analysis]
+permissions:
+  contents: write
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compact batch34 analysis
+        shell: bash
+        run: |
+          python - <<'PY'
+          import csv,pathlib,re
+          p=pathlib.Path('.tmp/sr-b34-summary.tsv')
+          rows=list(csv.DictReader(p.open(),delimiter='\t'))
+          out=['sid\tpath\tstatus\ttop_ids\tneighbor_ids']
+          keys=['final','closed','complete','proved','unconditional','conditional','pending','candidate','fail','failed','repair','repaired','superseded','historical','no asymptotic','finite','audit','manifest','review','no theorem','no new theorem','theorem_changed=false','bookkeeping','roadmap','pass']
+          for r in rows:
+              txt=r['preview'].lower(); status=[k.replace(' ','_') for k in keys if k in txt]
+              top=[]
+              for x in re.findall(r'SR-STR-\d+',r['top_cards']):
+                  if x not in top: top.append(x)
+              nei=[]
+              for x in re.findall(r'SR-STR-\d+',r['neighbors']):
+                  if x not in nei: nei.append(x)
+              out.append('\t'.join([r['sid'],r['path'],','.join(status),','.join(top[:5]),','.join(nei[:8])]))
+          pathlib.Path('.tmp/sr-b34-compact.tsv').write_text('\n'.join(out)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b34-compact.tsv
+          git commit -m 'Temp: compact batch34 analysis' || true
+          git push origin HEAD:agent/sr-b34-analysis
