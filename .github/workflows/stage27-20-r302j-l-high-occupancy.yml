@@ -1,0 +1,27 @@
+name: Stage27-20-r302j-l high occupancy correlation audit
+on:
+  push:
+    branches: [agent/stage27-20-r302j-l-high-occupancy-correlation]
+  pull_request:
+    paths:
+      - 'stages/stage27/27-20-r302j/**'
+      - 'stages/stage27/27-20-r302k/**'
+      - 'stages/stage27/27-20-r302l/**'
+      - 'stages/stage27/27-20-r302j-l/**'
+      - '.github/workflows/stage27-20-r302j-l-high-occupancy.yml'
+jobs:
+  verify-stage27-20-r302j-l:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Verify Stage27-20-r302j-l
+        run: python stages/stage27/27-20-r302j-l/verify_27_20_r302j_l.py
+      - name: Validate JSON
+        run: python -m json.tool stages/stage27/27-20-r302j-l/batch-registry.json >/dev/null
+      - name: Diff hygiene
+        run: |
+          git fetch origin main
+          git diff --check origin/main...HEAD
