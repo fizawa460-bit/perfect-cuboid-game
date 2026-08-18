@@ -1,0 +1,52 @@
+name: StructureRadar batch25 exact provenance output
+on:
+  push:
+    branches: ['agent/sr-b25-analyzer-base']
+    paths: ['.github/workflows/sr-b25-exact-provenance-output.yml']
+permissions:
+  contents: write
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: agent/sr-b25-analyzer-base}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: |
+          python - <<'PY'
+          import json,re
+          from pathlib import Path
+          q=json.loads(Path('docs/structure-radar/exploration-queue.json').read_text()); ids=q['tasks'][0]['source_ids'][:60]
+          mf={}
+          for p in Path('docs/structure-radar/source-manifest').glob('part-*.json'):
+            for s in json.loads(p.read_text()).get('sources',[]):mf[s['source_id']]=s
+          cards=json.loads(Path('docs/structure-radar/structure-registry.json').read_text())['structures']
+          def keys(path):
+            out=[]
+            # data/14-t80, data/tH17, data/sH71, stage15/15-2a
+            for x in re.findall(r'(?:^|/)(14-t\d+)(?:/|$)',path,re.I): out.append(x.lower())
+            for x in re.findall(r'(?:^|/)(tH\d+)(?:/|$)',path,re.I): out.append(('14-'+x).lower())
+            for x in re.findall(r'(?:^|/)(sH\d+)(?:/|$)',path,re.I): out.append(('14-'+x).lower())
+            for x in re.findall(r'(?:^|/)(15-[0-9]+[a-zA-Z0-9-]*)(?:/|$)',path): out.append(x.lower())
+            return out
+          ans=[]
+          for sid in ids:
+            path=mf[sid]['path']; ks=keys(path); matched=[]
+            for c in cards:
+              hit=[]
+              for pr in c.get('repo_provenance',[]):
+                pp=pr.get('path','').lower()
+                for k in ks:
+                  # exact archive task segment /14-th17/ etc or current /14-t80/
+                  if f'/{k}/' in pp or f'/tasks/{k}/' in pp:
+                    hit.append(pp)
+              if hit: matched.append({'card':c['structure_id'],'name':c['canonical_math_name'],'paths':sorted(set(hit))[:6]})
+            ans.append({'source_id':sid,'path':path,'keys':ks,'exact_cards':matched})
+          Path('docs/.sr-b25-exact.json').write_text(json.dumps(ans,indent=2)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/.sr-b25-exact.json
+          git commit -m 'Record temporary batch25 exact provenance map'
+          git push origin HEAD:agent/sr-b25-analyzer-base
