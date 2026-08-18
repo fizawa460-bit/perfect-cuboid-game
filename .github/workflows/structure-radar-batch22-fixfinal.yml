@@ -1,0 +1,32 @@
+name: StructureRadar batch22 finalizer assertion fix
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-22
+permissions:
+  contents: write
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-22
+      - name: Correct post-refresh controller assertion
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('.github/workflows/structure-radar-batch22-finalize.yml')
+          s=p.read_text()
+          old="assert c['next_expected_command']=='StructureRadar-audit'"
+          new="assert c['next_expected_command']=='StructureRadar-main-batch'"
+          assert old in s or new in s
+          p.write_text(s.replace(old,new))
+          PY
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .github/workflows/structure-radar-batch22-finalize.yml
+          if ! git diff --cached --quiet; then
+            git commit -m "Fix StructureRadar batch22 post-refresh assertion"
+            git push origin HEAD:structure-radar-deep-corpus-batch-22
+          fi
