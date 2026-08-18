@@ -1,15 +1,15 @@
-name: StructureRadar batch08 selector
+name: StructureRadar batch08 finalizer
 on:
   push:
     branches: [structure-radar-deep-corpus-batch-08]
   pull_request:
     branches: [main]
-    types: [opened, synchronize]
+    types: [synchronize]
 permissions:
   contents: write
 jobs:
-  select:
-    if: github.event_name == 'push' || github.head_ref == 'structure-radar-deep-corpus-batch-08'
+  finalize:
+    if: github.actor != 'github-actions[bot]' && (github.event_name == 'push' || github.head_ref == 'structure-radar-deep-corpus-batch-08')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,29 +18,168 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Materialize next 60-source bundle
+      - name: Apply normalized batch08 census
         run: |
           python - <<'PY'
-          import json, pathlib
+          import json, pathlib, re
           root=pathlib.Path('.')
-          q=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
-          t=next(x for x in q['tasks'] if x['status']=='READY')
-          ids=t['source_ids']
-          src={}
-          for p in sorted((root/'docs/structure-radar/source-manifest').glob('part-*.json')):
-              for s in json.loads(p.read_text())['sources']:
-                  src[s['source_id']]=s
-          selected=[src[i] for i in ids]
-          out={'batch_id':'SR-BATCH-STAGE14_15_DEEP_CORPUS-08-R01','task_id':t['task_id'],'source_count':len(selected),'sources':selected}
-          (root/'.github/structure-radar-batch-08-selection.json').write_text(json.dumps(out,indent=2)+'\n')
-          parts=[]
-          for n,s in enumerate(selected,1):
-              p=root/s['path']
-              parts += [f'===== SOURCE {n:02d}/60 =====',f"SOURCE_ID={s['source_id']}",f"PATH={s['path']}",f"KIND={s['kind']}",f"EVIDENCE_ROLE={s['evidence_role']}",'----- CONTENT -----',p.read_text(errors='replace'),'===== END SOURCE =====','']
-          (root/'.github/structure-radar-batch-08-bundle.txt').write_text('\n'.join(parts))
+          batch='SR-BATCH-STAGE14_15_DEEP_CORPUS-08-R01'
+          sel=json.loads((root/'.github/structure-radar-batch-08-selection.json').read_text())
+          assert sel['source_count']==60 and sel['batch_id']==batch
+          selected=sel['sources']
+          by_path={s['path']:s for s in selected}
+          progress_path=root/'docs/structure-radar/progress.json'
+          registry_path=root/'docs/structure-radar/structure-registry.json'
+          progress=json.loads(progress_path.read_text())
+          registry=json.loads(registry_path.read_text())
+          cards={c['structure_id']:c for c in registry['structures']}
+          assert all(f'SR-STR-{i:03d}' not in cards for i in range(211,216))
+
+          def stage_code(path):
+              m=re.search(r'/14-([^/]+)/result\.md$',path)
+              return m.group(1) if m else None
+          def prov(s, locator='archived Stage14 normalized result'):
+              return {'source_id':s['source_id'],'path':s['path'],'locator':locator,'fingerprint':s['fingerprint']}
+          def add_prov(card_id,codes,locator):
+              card=cards[card_id]
+              have={(p['source_id'],p.get('fingerprint')) for p in card.get('repo_provenance',[])}
+              for s in selected:
+                  if stage_code(s['path']) in codes and (s['source_id'],s['fingerprint']) not in have:
+                      card.setdefault('repo_provenance',[]).append(prov(s,locator))
+
+          update210={'4en','4eo'}
+          diffuse={'4ep','4er','4es','4et','4eu'}
+          heavy={'4eq','4ev','4ew','4ex','4ey','4ez','4fa','4fb','4fc','4fd','4fe','4ff'}
+          update170={'4fg','4fh','4fi','4fj','4fk','4fl','4fm'}
+          unitary={'4fn','4fo','4fp','4fq','4fr','4fs','4ft','4fu','4fv'}
+          rectangle={'4fw','4fx','4fy','4fz','4ga','4gb','4gc','4gd','4ge'}
+          kfree={'4gf','4gg','4gh','4ghH'}
+          update167={'AM','AM1'}
+          work={'Work-bdX16','Work-beX17','Work-bfX18'}
+          all_result_codes=update210|diffuse|heavy|update170|unitary|rectangle|kfree|update167|work
+          actual_result_codes={stage_code(s['path']) for s in selected if s['kind']=='RESULT'}
+          assert actual_result_codes==all_result_codes,(sorted(actual_result_codes-all_result_codes),sorted(all_result_codes-actual_result_codes))
+
+          add_prov('SR-STR-210',update210,'near-maximal mover affine-line closure and separated-q theorem gate')
+          add_prov('SR-STR-170',update170,'radial squareclass divisor-window and complementary-dilation reduction')
+          add_prov('SR-STR-167',update167,'Azevedo-Moreira physical-selector transfer and prime-power orientation audit')
+
+          def provenance_for(codes, locator):
+              return [prov(s,locator) for s in selected if stage_code(s['path']) in codes]
+          new_cards=[
+            {
+              'structure_id':'SR-STR-211',
+              'canonical_math_name':'Diffuse common-core Gaussian norm-factor correlation and bilinear theorem gate',
+              'exact_equations_or_object':'On the diffuse polynomial common-core branch, accepted primitive Gaussian norms satisfy N=X^2+Y^2=C*m with only B^o(1) divisor, primitive-representation and reverse-physical fibers. Splitting the complementary quotient m closes the subpolynomial branch directly; the polynomial branch factors in Z[i] and leaves a genuinely weighted Gaussian-factor bilinear correlation at the exact correlated core C. No independent second-modulus saving is available, so a strict deficit requires a mask-preserving bilinear/dispersion theorem adapter.',
+              'search_terms_primary':['Gaussian norm factor correlation common core','Gaussian integer bilinear divisor correlation'],
+              'search_terms_aliases':['diffuse polynomial quotient branch','norm-factor bilinear H gate'],
+              'theorem_species':['Gaussian integer factorization','bilinear correlation','dispersion theorem gate'],
+              'repo_provenance':provenance_for(diffuse,'diffuse norm-factor to Gaussian bilinear correlation chain'),
+              'target_populations':['diffuse polynomial common-core square-root saturation packets'],
+              'potential_weapon_types':['CORRELATION','DISPERSION','LARGE_SIEVE'],
+              'applicability_gaps':['The subpolynomial complementary quotient is closed, but the polynomial Gaussian-factor branch still needs a uniform physical-weight adapter.','A modulus average unrelated to the exact correlated C cannot be imported.'],
+              'existing_radar_overlap':['SR-STR-169','SR-STR-210'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            },
+            {
+              'structure_id':'SR-STR-212',
+              'canonical_math_name':'Heavy primitive-ray radial squareclass capacity and agreement-overlap compression',
+              'exact_equations_or_object':'For a concentrated heavy primitive ray, fixed radial data have B^o(1) reverse physical fiber. The radial scale injects into a fixed-squarefree-kernel square-value problem; its squareclass reconstructs the xi-agreement product and forces a large agreement/kernel overlap G. Freezing G collapses the primitive agreement-pair freedom and bounds atomic radial multiplicity by B^(1/4-phi+o(1)), forcing any heavy survivor to occupy polynomially many normalized radial values rather than hide in endpoint or inner reconstruction entropy.',
+              'search_terms_primary':['heavy primitive ray radial squareclass incidence','agreement kernel overlap radial capacity'],
+              'search_terms_aliases':['fixed kernel square value heavy ray','short radial capacity'],
+              'theorem_species':['reverse-fiber bound','squareclass reconstruction','capacity bound'],
+              'repo_provenance':provenance_for(heavy,'heavy-ray radial/squareclass/agreement-capacity chain'),
+              'target_populations':['concentrated heavy primitive-ray square-root packets'],
+              'potential_weapon_types':['INCIDENCE','SQUARECLASS','CAPACITY_BOUND'],
+              'applicability_gaps':['Generic density of squares cannot be charged because the moving value is a structured physical product.','The capacity bound localizes heavy mass but does not by itself close the surviving radial-support branch.'],
+              'existing_radar_overlap':['SR-STR-210','SR-STR-170'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            },
+            {
+              'structure_id':'SR-STR-213',
+              'canonical_math_name':'Complementary-dilation bare unitary shadow versus conditional physical-completion deficit',
+              'exact_equations_or_object':'After primitive-ratio and complementary-dilation stratification, the weighted physical incidence can be outerized to a bare unitary-divisor shadow plus a conditional canonical reverse-completion Boolean. Fixed E splits into an endpoint one-dimensional completion branch or a two-sided unitary shadow; the unitary restriction is pointwise dominated by the corresponding ordinary divisor shadow at zero upper-bound cost. Thus survival is governed by a support-versus-completion-deficit budget, not by treating the inner multiplicity as fresh density.',
+              'search_terms_primary':['unitary divisor shadow conditional completion deficit','complementary dilation divisor interval physical support'],
+              'search_terms_aliases':['bare physical shadow','fixed E completion ledger'],
+              'theorem_species':['divisor-shadow domination','support-completion decomposition','conditional incidence'],
+              'repo_provenance':provenance_for(unitary,'complementary-dilation unitary-shadow/completion chain'),
+              'target_populations':['fixed and polynomial complementary-dilation heavy radial packets'],
+              'potential_weapon_types':['DIVISOR_INTERVAL','INCIDENCE','CONDITIONAL_COMPLETION'],
+              'applicability_gaps':['Removing the unitary restriction is legal for an upper bound but supplies no fixed-power saving.','Ford-type divisor interval estimates still require the exact physical measure and moving-window adapter.'],
+              'existing_radar_overlap':['SR-STR-170'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            },
+            {
+              'structure_id':'SR-STR-214',
+              'canonical_math_name':'Rectangular product capacity exhaustion and reciprocal CRT completion pullback',
+              'exact_equations_or_object':'The fixed-E moving ordinary-divisor window straightens to a rectangular product set. Pair capacity is controlled by the rectangle size, multiplication has only divisor-many fibers, and the coprime/unitary restriction causes no fixed-power loss, so bare arithmetic capacity is exhausted. Pulling completion back to the primitive pair shows that the remaining Boolean is exactly reciprocal divisor/CRT solvability followed by the residual post-column mask; the total completion deficit splits into reciprocal-solvability and post-mask deficits without an extra product-capacity saving.',
+              'search_terms_primary':['rectangular product set divisor capacity reciprocal CRT','primitive pair completion Boolean CRT solvability'],
+              'search_terms_aliases':['rectangular multiplication fiber','completion deficit split'],
+              'theorem_species':['multiplicative energy','divisor-fiber bound','CRT solvability'],
+              'repo_provenance':provenance_for(rectangle,'rectangular capacity to reciprocal CRT completion chain'),
+              'target_populations':['fixed complementary-dilation two-sided heavy packets'],
+              'potential_weapon_types':['MULTIPLICATIVE_ENERGY','CRT','COMPLETION_DEFICIT'],
+              'applicability_gaps':['The principal rectangular support can remain full exponent, so multiplication/coprimality alone cannot yield the required deficit.','Reciprocal solvability and post-mask acceptance must be measured on the same charged physical pair population.'],
+              'existing_radar_overlap':['SR-STR-170','SR-STR-213'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            },
+            {
+              'structure_id':'SR-STR-215',
+              'canonical_math_name':'Seeded/seedless K-free reciprocal divisor-allocation CRT first-moment gate',
+              'exact_equations_or_object':'Explicit homogeneous reciprocal seeds show that reciprocal solvability can have full exponent. Away from that diagonal seed, witnesses normalize to a K-free moving divisor-allocation system retaining two exact CRT congruences. Bounded witness multiplicity makes support at B-power scale equivalent to a single first moment, exposing the theorem species UniformPrimitiveRectangleNestedKFreeQuadraticDivisorRootFirstMoment. The frozen H audit finds no direct off-the-shelf theorem or complete mask-preserving transfer, so this remains an external gate rather than a proved saving.',
+              'search_terms_primary':['K-free divisor allocation two CRT first moment','quadratic divisor root first moment primitive rectangle'],
+              'search_terms_aliases':['seedless reciprocal witness normal form','nested K-free CRT theorem gate'],
+              'theorem_species':['first-moment divisor incidence','CRT correlation','external theorem gate'],
+              'repo_provenance':provenance_for(kfree,'K-free reciprocal first-moment theorem interface and H audit'),
+              'target_populations':['fixed-E reciprocal completion support after seeded/seedless split'],
+              'potential_weapon_types':['DIVISOR_SUM','CRT','FIRST_MOMENT','EXTERNAL_GATE'],
+              'applicability_gaps':['The seeded packet is full exponent and must be separated rather than treated as generic sparsity.','No direct theorem currently retains the nested K-free divisor allocation, both CRT congruences and the full primitive physical rectangle uniformly.'],
+              'existing_radar_overlap':['SR-STR-167','SR-STR-170','SR-STR-214'],
+              'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+            }
+          ]
+          registry['structures'].extend(new_cards)
+          registry['status']='BATCH_SUBMITTED_FOR_AUDIT'
+
+          code_to_sid={}
+          for x in update210: code_to_sid[x]='SR-STR-210'
+          for x in diffuse: code_to_sid[x]='SR-STR-211'
+          for x in heavy: code_to_sid[x]='SR-STR-212'
+          for x in update170: code_to_sid[x]='SR-STR-170'
+          for x in unitary: code_to_sid[x]='SR-STR-213'
+          for x in rectangle: code_to_sid[x]='SR-STR-214'
+          for x in kfree: code_to_sid[x]='SR-STR-215'
+          for x in update167: code_to_sid[x]='SR-STR-167'
+
+          carrier=0; nodist=0
+          for s in selected:
+              code=stage_code(s['path'])
+              if s['kind']=='RESULT' and code not in work:
+                  sid=code_to_sid[code]
+                  progress['source_reviews'][s['source_id']]={'fingerprint':s['fingerprint'],'batch_id':batch,'status':'STRUCTURES_RECORDED','structure_ids':[sid]}
+                  carrier+=1
+              else:
+                  progress['source_reviews'][s['source_id']]={'fingerprint':s['fingerprint'],'batch_id':batch,'status':'NO_DISTINCT_STRUCTURE'}
+                  nodist+=1
+          assert carrier==50 and nodist==10,(carrier,nodist)
+          progress['audit_batches'].append({
+              'batch_id':batch,'task_id':sel['task_id'],'status':'SUBMITTED_FOR_AUDIT',
+              'source_ids':[s['source_id'] for s in selected],
+              'sources_reviewed':60,'structures_added':5,'structures_updated':3,
+              'structure_carrier_sources':50,'structures_deduped':10,
+              'searches_completed':0,'arsenal_decisions':0,'audit_required':True,
+              'duplicate_source':0,'no_distinct_structure':10
+          })
+          registry_path.write_text(json.dumps(registry,indent=2,ensure_ascii=False)+'\n')
+          progress_path.write_text(json.dumps(progress,indent=2,ensure_ascii=False)+'\n')
           PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git diff --check
+          rm -f .github/structure-radar-batch-08-selection.json .github/structure-radar-batch-08-bundle.txt .github/structure-radar-batch-08-trigger.txt .github/workflows/structure-radar-batch-08-select.yml
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add .github/structure-radar-batch-08-selection.json .github/structure-radar-batch-08-bundle.txt
-          git commit -m 'StructureRadar: materialize batch08 source bundle' || exit 0
+          git add -A
+          git commit -m 'StructureRadar: review deep corpus batch 08'
           git push origin HEAD:structure-radar-deep-corpus-batch-08
