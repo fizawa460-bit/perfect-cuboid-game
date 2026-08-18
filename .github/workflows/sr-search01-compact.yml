@@ -1,0 +1,38 @@
+name: StructureRadar SR-SEARCH-01 compact extractor
+on:
+  push:
+    branches: [agent/sr-search01-analysis]
+permissions:
+  contents: write
+jobs:
+  compact:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract compact data
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib,collections
+          r=pathlib.Path('.')
+          reg=json.loads((r/'docs/structure-radar/structure-registry.json').read_text())
+          lines=[]
+          for i in range(1,7):
+              cid=f'SR-STR-{i:03d}'
+              c=next(x for x in reg['structures'] if x['structure_id']==cid)
+              lines += [f'## {cid}',f'name: {c.get("canonical_math_name")}',f'object: {c.get("exact_equations_or_object")}',f'primary: {c.get("search_terms_primary")}',f'aliases: {c.get("search_terms_aliases")}',f'species: {c.get("theorem_species")}',f'targets: {c.get("target_populations")}',f'weapons: {c.get("potential_weapon_types")}',f'gaps: {c.get("applicability_gaps")}',f'overlap: {c.get("existing_radar_overlap")}',f'search_status: {c.get("search_status")}',f'arsenal_decision: {c.get("arsenal_decision")}',f'keys: {list(c.keys())}','']
+          searched=[c for c in reg['structures'] if c.get('search_status') not in {'NOT_SEARCHED','NEEDS_REFRESH'}]
+          lines += ['# SEARCHED EXAMPLES',f'count: {len(searched)}']
+          for c in searched[:8]:
+              lines += [f'## {c["structure_id"]}',f'search_status: {c.get("search_status")}',f'arsenal_decision: {c.get("arsenal_decision")}',f'keys: {list(c.keys())}',f'literature: {c.get("literature")}',f'search_ledger: {c.get("search_ledger")}',f'external_literature: {c.get("external_literature")}',f'applicability_gaps: {c.get("applicability_gaps")}']
+          prog=json.loads((r/'docs/structure-radar/progress.json').read_text())
+          lines += ['# PROGRESS',f'keys: {list(prog.keys())}']
+          for k,v in prog.items():
+              if 'search' in k.lower() or 'arsenal' in k.lower() or 'liter' in k.lower(): lines.append(f'{k}: {v}')
+          (r/'.tmp/sr-search01-compact.md').write_text('\n'.join(lines)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-search01-compact.md
+          git commit -m 'Temp: compact SR-SEARCH-01 extraction' || true
+          git push origin HEAD:agent/sr-search01-analysis
