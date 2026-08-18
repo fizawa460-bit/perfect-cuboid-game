@@ -1,0 +1,73 @@
+name: StructureRadar normalized lifecycle repair validation
+on:
+  push:
+    branches: [agent/sr-registry-phase-analysis]
+permissions:
+  contents: write
+jobs:
+  repair:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply normalized lifecycle repair
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          root=pathlib.Path('.')
+          rp=root/'docs/structure-radar/structure-registry.json'
+          reg=json.loads(rp.read_text())
+          cards=reg['structures']
+          before={}
+          for c in cards: before[c.get('card_status')]=before.get(c.get('card_status'),0)+1
+          changed=0
+          for c in cards:
+              if c.get('card_status')=='SUBMITTED_FOR_AUDIT':
+                  c['card_status']='NORMALIZED'
+                  changed+=1
+          assert changed==228, (changed,before)
+          rp.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+
+          readme=root/'docs/structure-radar/README.md'
+          text=readme.read_text()
+          needle='''A PASS certifies the\nsubmitted batch; it does not claim globally exhaustive literature coverage and\ndoes not close the campaign while another queue item is ready.\n'''
+          insert='''A PASS certifies the\nsubmitted batch; it does not claim globally exhaustive literature coverage and\ndoes not close the campaign while another queue item is ready.\n\nCard lifecycle is separate from the audit verdict. `SUBMITTED_FOR_AUDIT` is a\ntransient state for an open batch. After the batch has passed independent audit\nand its normalized card content is canonical/merged, the persistent registry\nstate must not remain `SUBMITTED_FOR_AUDIT`: use `AUDITED` when an explicit\nrepo-native card-level audit record is materialized, otherwise use `NORMALIZED`.\nBoth states are eligible for later structure-search work. The audit/main handoff\nmust repair any stale transient status before declaring the registry ready for\nsearch; this is lifecycle bookkeeping only and must not invent a new audit PASS.\n'''
+          assert needle in text
+          text=text.replace(needle,insert,1)
+          readme.write_text(text)
+          PY
+      - name: Refresh and verify
+        shell: bash
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+      - name: Assert search queue unlocked
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib,collections
+          r=pathlib.Path('.')
+          c=json.loads((r/'docs/structure-radar/controller.json').read_text())
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text())
+          reg=json.loads((r/'docs/structure-radar/structure-registry.json').read_text())
+          cs=collections.Counter(x.get('card_status') for x in reg['structures'])
+          assert cs=={'NORMALIZED':228}, cs
+          assert c['corpus']['review_states']=={'CURRENT_REVIEWED':2556}, c['corpus']['review_states']
+          assert c['registry']['structure_count']==228
+          assert c['registry']['unresolved_search_count']==203
+          searches=[t for t in q['tasks'] if t['phase']=='STRUCTURE_SEARCH']
+          assert len(searches)==34, len(searches)
+          assert q['tasks'][0]['task_id']=='SR-SEARCH-001', q['tasks'][0]
+          assert q['tasks'][0]['structure_ids']==['SR-STR-001','SR-STR-002','SR-STR-003','SR-STR-004','SR-STR-005','SR-STR-006'], q['tasks'][0]['structure_ids']
+          assert c['status']=='READY', c['status']
+          print('LIFECYCLE_REPAIR_OK',cs,'search_tasks',len(searches),'first',searches[0]['structure_ids'])
+          PY
+      - name: Commit validation result
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/structure-radar
+          git commit -m 'Temp: validate normalized lifecycle repair and search queue' || true
+          git push origin HEAD:agent/sr-registry-phase-analysis
