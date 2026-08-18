@@ -6,25 +6,26 @@ on:
 permissions:
   contents: write
 jobs:
-  summarize:
+  digest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Compress registry
+      - name: Build source signal digest
         shell: python
         run: |
-          import json, pathlib
-          reg=json.loads(pathlib.Path('docs/structure-radar/structure-registry.json').read_text())
-          lines=[]
-          for c in reg['structures']:
-              obj=' '.join(c.get('exact_equations_or_object','').split())[:700]
-              aliases='; '.join(c.get('search_terms_aliases',[]))[:220]
-              lines.append(f"{c['structure_id']}\t{c.get('canonical_math_name','')}\t{obj}\t{aliases}")
-          pathlib.Path('.github/structure-radar-batch18-registry.tsv').write_text('\n'.join(lines)+'\n')
-      - name: Commit registry summary
+          import json, pathlib, re
+          idx=json.loads(pathlib.Path('.github/structure-radar-batch18-index.json').read_text())
+          rx=re.compile(r'(CURRENT_|STRICT_|PROVED|BOUND|BARRIER|RECEIVER|TARGET|PREFERRED|NEXT|NOGO|NO_GO|SAVING|SUBSQRT|T_O_SQRT|POWER|RANK|KUMMER|SELBER|SIEVE|DISPERSION|HEECKE|HECKE|FRIEDLANDER|HUMBERT|ELLIPTIC|CAYLEY|SELECTOR|COLLISION)',re.I)
+          out=[]
+          for x in idx:
+              out.append(f"=== {x['n']:02d} {x['source_id']} {x['title']} ===")
+              keep=[z for z in x.get('key_lines',[]) if rx.search(z)]
+              for z in keep[:18]: out.append(z)
+          pathlib.Path('.github/structure-radar-batch18-digest.txt').write_text('\n'.join(out)+'\n')
+      - name: Commit digest
         run: |
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add .github/structure-radar-batch18-registry.tsv
-          git commit -m 'StructureRadar batch18 registry summary' || exit 0
+          git add .github/structure-radar-batch18-digest.txt
+          git commit -m 'StructureRadar batch18 source digest' || exit 0
           git push
