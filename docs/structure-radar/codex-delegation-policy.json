@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "policy": "STRUCTURE-RADAR-CODEX-DELEGATION-R01",
+  "mode": "RECOMMENDATION_ONLY",
+  "operator_may_decline": true,
+  "automatic_invocation": false,
+  "evaluate_on": [
+    "StructureRadar-main-batch",
+    "StructureRadar-audit"
+  ],
+  "routine_research_delegated": false,
+  "recommended_reasons": [
+    "EXTRACTOR_OR_VERIFIER_FAILURE",
+    "MANIFEST_OR_PROGRESS_INCONSISTENCY",
+    "LARGE_DETERMINISTIC_REINDEX",
+    "PROVENANCE_MAPPING_CONFLICT",
+    "CI_OR_WORKFLOW_FAILURE"
+  ],
+  "do_not_recommend_merely_because": [
+    "SOURCE_BATCH_IS_LARGE",
+    "ROUTINE_SOURCE_READING",
+    "ROUTINE_MATHEMATICAL_NORMALIZATION",
+    "ROUTINE_LITERATURE_SEARCH",
+    "ROUTINE_TRANSFER_ANALYSIS",
+    "ROUTINE_ARSENAL_JUDGMENT"
+  ],
+  "decision_rule": "Recommend Codex only when repository-mechanical execution, deterministic large-scale repair, or CI/workflow debugging is materially better suited to a coding agent. Keep mathematical classification, literature judgment, transfer analysis, and arsenal decisions with ChatGPT.",
+  "handoff_contract": {
+    "required_fields": [
+      "CODEX_DELEGATION_RECOMMENDED",
+      "CODEX_REASON",
+      "CODEX_TARGET",
+      "CODEX_REQUEST"
+    ],
+    "codex_request_rule": "When recommended, emit a ready-to-paste Codex request naming the exact repository paths, failing invariant or mechanical task, expected edits, checks, and stop conditions. When not recommended, CODEX_REQUEST must be empty.",
+    "codex_result_rule": "Codex output never self-certifies mathematical or literature claims. ChatGPT must review any mathematical meaning introduced by repository changes before accepting them into StructureRadar."
+  },
+  "work_interaction": {
+    "work_policy_separate": true,
+    "work_and_codex_are_independent_recommendations": true,
+    "note": "Codex is for repository-mechanical work; Work is for external literature breadth and long document synthesis. Either or both may be declined by the operator without changing the other recommendation."
+  }
+}
