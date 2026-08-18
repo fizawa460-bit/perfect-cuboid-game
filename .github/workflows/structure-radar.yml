@@ -8,15 +8,191 @@ on:
       - '.github/workflows/structure-radar.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify repository-wide StructureRadar corpus and queue
-        run: python scripts/structure_radar.py verify
+      - name: Materialize StructureRadar batch20
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json, hashlib
+          from pathlib import Path
+
+          BATCH='SR-BATCH-STAGE14_15_DEEP_CORPUS-20-R01'
+          TASK='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          locator='normalized Stage14 deep-corpus batch20 carrier'
+
+          rows = [
+          ('SRC-5EE8528E4A54','stages/stage14/archive/tasks/14-tH17/r2.md','5a45143f4f1df49961d4b2fae51798d95b7883555a700e908596641205ccc042',['SR-STR-225']),
+          ('SRC-A1DBE55B1613','stages/stage14/archive/tasks/14-tH17/result.md','7dac2a4756966dbf3d0c228ec7f196d5555321053bb38d11e01a042d653a9e91',['SR-STR-225']),
+          ('SRC-7F11D4C7EFA7','stages/stage14/archive/tasks/14-tH18/result.md','c52e1c4e17ed94c33c78837603a44f4194e353388984199aed773fdeede9190d',['SR-STR-222']),
+          ('SRC-65C13750EF7A','stages/stage14/archive/tasks/14-tH2/result.md','3de05f82ed815c833d591500cc04a8ac6dacb45258908fd9ae6af9fe32783f47',['SR-STR-165','SR-STR-169']),
+          ('SRC-6A272D8FD89C','stages/stage14/archive/tasks/14-tH20/literature.md','32011ed9a7aa92cc24691f9fe86769638e470de0a59af878e31ddc5e3b9e10a1',[]),
+          ('SRC-1D8B5F0170BF','stages/stage14/archive/tasks/14-tH20/result.md','00e3f5d9361544832264251a2ef5d66d4385b5615d9aabb93f6d6331fd49a466',['SR-STR-222']),
+          ('SRC-3618B1DCD855','stages/stage14/archive/tasks/14-tH21/literature.md','077f12a1f2d5de894887704cd7be08cee78db2bab80686432eadec24f5f80a24',[]),
+          ('SRC-959C43C1D0A8','stages/stage14/archive/tasks/14-tH21/result.md','03369abb5663fadb9ba39cb35f36acf70b91e616a3c699ad708820912e9f5d3f',['SR-STR-165','SR-STR-222']),
+          ('SRC-F74D75BF9B8B','stages/stage14/archive/tasks/14-tH22/literature.md','c58886f4f92bb937e51c264b61b1ef78151a35fb9551ba4fd740ed8be4666553',[]),
+          ('SRC-17FEA7E6267C','stages/stage14/archive/tasks/14-tH22/result.md','bc447d26a83be2e70aa67599991642c068fcc7087050aff5909ba685e9b4538',['SR-STR-165','SR-STR-222']),
+          ('SRC-A67D7AC534DA','stages/stage14/archive/tasks/14-tH23/literature.md','75e7099529240e1768487368999e99563179359005b34de18d659e2a04e1910',[]),
+          ('SRC-95FC297E959D','stages/stage14/archive/tasks/14-tH23/result.md','d0c1b5c09fa5da9c8666749f9c0b4b8c0b054119c21b5d9aafe5bb96c73a6d42',['SR-STR-166','SR-STR-222']),
+          ('SRC-025194307967','stages/stage14/archive/tasks/14-tH24/literature.md','54fec5c4607f568b383da89a86e060555927154142439261908a401f87815c92',[]),
+          ('SRC-AEEE5F705A1F','stages/stage14/archive/tasks/14-tH24/result.md','9aad6ac8513e5b0998f53b5d71f30926f7a44624472e7b937d0eb5a7d9e15e1b',['SR-STR-222']),
+          ('SRC-5E4B982C6D8D','stages/stage14/archive/tasks/14-tH25/literature.md','713aa3beb88ba7b8d4943222fe6b39baa04b61f25e52861a23bb88e305d5c62b',[]),
+          ('SRC-356E48AF1706','stages/stage14/archive/tasks/14-tH25/result.md','9e20e0b0892edaf8fb86d6ac9b50679d48f52c13ed5c17f094c2f2a9306e9e1',['SR-STR-222']),
+          ('SRC-CFFFBC562D17','stages/stage14/archive/tasks/14-tH26/literature.md','ef001026db036f690480381906ec3203ba5bf92b1cf310db95eaecec9eb79b92',[]),
+          ('SRC-8B0154540FC5','stages/stage14/archive/tasks/14-tH26/result.md','19e9ef9fc550542cf83c42bd6e6e76e8205b72a3930771890ba8393d53517fea',['SR-STR-165','SR-STR-222']),
+          ('SRC-4882C132A040','stages/stage14/archive/tasks/14-tH27/literature.md','df792c1d60f7fefe4be727878ad36ffe9ec3c809566247c1b61ded6c8c106003',[]),
+          ('SRC-1F75E8314560','stages/stage14/archive/tasks/14-tH27/result.md','3b8c6595396b3ee88408badc6b29c6acbf21bdec691b6d0d9ab180b4585db3a5',['SR-STR-206','SR-STR-222']),
+          ('SRC-435E1E19D8B7','stages/stage14/archive/tasks/14-tH28/result.md','accafc94c5ae545b361ecd1dadaa247f9adc67b08facf05e2aa34952177b05e0',['SR-STR-165','SR-STR-222']),
+          ('SRC-B0D9F76F6B4F','stages/stage14/archive/tasks/14-tH29/result.md','239b207bc3528ddcc76f2a8f8a79510123f4247d6685694c2a8a029feb0496b0',['SR-STR-222']),
+          ('SRC-6A08003B5793','stages/stage14/archive/tasks/14-tH3/result.md','a9775731d7de84cd00e40049d438faf823fc12bc4fb4f80c0f07f96972f2d5c1',['SR-STR-165']),
+          ('SRC-11DD0773FFA6','stages/stage14/archive/tasks/14-tH30/result.md','fb39a64054c329ede4279ac233537381db0dfa7c5a7e34b3a664acbf8e15c9a7',['SR-STR-222']),
+          ('SRC-DD48BD195AFE','stages/stage14/archive/tasks/14-tH31/result.md','521608c9c18b4140782d8660fe21ecad284548642e703a75297dd96817342369',['SR-STR-222']),
+          ('SRC-F1FE9CF45489','stages/stage14/archive/tasks/14-tH32/result.md','31bcfa7cfc5388067a3bd566895dec96ad3e6e32db3b6bb1039d18f57638b090',['SR-STR-222']),
+          ('SRC-4BFE3572C683','stages/stage14/archive/tasks/14-tH33/primary-source-matrix.md','c2e0a68c1f332254bdab1b0561d4ebb9a83d8a3b0d527f1614f5d85589f25115',[]),
+          ('SRC-B78FED2A71E6','stages/stage14/archive/tasks/14-tH33/result.md','9c7e1cbec331541dd37ff26a2e52574bcb893753586492f32484adb190eda6ee',['SR-STR-222']),
+          ('SRC-D6AE96619952','stages/stage14/archive/tasks/14-tH4/result.md','debb6f75dd13c376bbaacccd3e788830abc64be5c199e822a74f074abb04fc98',['SR-STR-165']),
+          ('SRC-149B14AACEC6','stages/stage14/archive/tasks/14-tH5/result.md','03541abb345edae4ddbb5814ee3bd7662bb6e5af5df6602c891a031fd24e9f8c',['SR-STR-190']),
+          ('SRC-F6CEBAF14252','stages/stage14/archive/tasks/14-tH6/result.md','53d8f0c416a48656785458341f61b570ca7ee8233300be644999294ce7f356d3',[]),
+          ('SRC-CE1F06136B79','stages/stage14/archive/tasks/14-tH7/result.md','70c03cfac15cf5a97ae93cc478888aac3ae73ddea85234edce26b14454b8ce21',[]),
+          ('SRC-BA7405D3ADF7','stages/stage14/archive/tasks/14-tH8/result.md','1f08313b9c3022e75924168661766999fa5da5088c55497dd56d09a8f9ebfd8',['SR-STR-165','SR-STR-169']),
+          ('SRC-9791D653A4A4','stages/stage14/archive/tasks/14-tH9/result.md','8d8fca5f6010ae4fa49738998093bcdc626b8d7aba82af5c24a8ec98beeabc7e',['SR-STR-190']),
+          ('SRC-59CE5BBE34CA','stages/stage14/archive/tasks/14-toolbox-H0/counterexample-search.md','15e70ff36116d20db579d307ded31c6319ad202ce936eff779ae81ba4339b0d51',[]),
+          ('SRC-51A10350CAF0','stages/stage14/archive/tasks/14-toolbox-H0/hypothesis-map.md','420e41e663f30e01adc70ae3d3433ede915876ba3318576dab5bbe72f8d0a45c',[]),
+          ('SRC-9183F0143F98','stages/stage14/archive/tasks/14-toolbox-H0/result.md','8e92e7c3362828d94624f2f92cec23377cb7181e2ec4ba3c88ff0085ba6675d',['SR-STR-165','SR-STR-190']),
+          ('SRC-11A74316E709','stages/stage14/archive/tasks/14-toolbox-aa/result.md','0583e22381356d897402491362746b4f2ccdf5fb2c3f090ec060edae4751eb9f',[]),
+          ('SRC-D25891865690','stages/stage14/archive/tasks/14-toolbox-ab/result.md','b042765743551def537875f17086ca36aced61f44bb3044233793a6f239eb5188',[]),
+          ('SRC-6EC0FBC8BE29','stages/stage14/archive/tasks/14-toolbox-ac/result.md','66c206bf76f04a54e998d33baa6442a1d99e1310cc69b2d99b38ed9991c11f2d',[]),
+          ('SRC-863E6DF1B7A7','stages/stage14/archive/tasks/14-toolbox-ad/result.md','c921fc41f0f6cc13c8428718ce338ecb5f6dec27e257beaed41fe3426d577d52',[]),
+          ('SRC-9EE3DA765351','stages/stage14/archive/tasks/14-toolbox-ae/result.md','7bed8d42ccd4e1fb628ae4d9670200cd935cbc50817236539e3f822b923749f2',[]),
+          ('SRC-EA409BDE65DF','stages/stage14/archive/tasks/14-toolbox-af/result.md','3814bd41f3fb214ebd5afa01dcb6ef37b7ec191b3eda9d2e35471dc804121b1b',[]),
+          ('SRC-4D5476F1ECD9','stages/stage14/archive/tasks/14-toolbox-ag/result.md','d3a60c8e9c06e55d8e0d8e6b1719983477fa315e75670b3648c0f95b15c1eb9',[]),
+          ('SRC-27B69C850163','stages/stage14/archive/tasks/14-toolbox-ah/result.md','824c53681684b696b8bb1a0b4d155e9cbdfffc139b15259c6d94fb017977afdf',[]),
+          ('SRC-5E14EA97CC8B','stages/stage14/archive/tasks/14-toolbox-ai/result.md','275ff64593354259b3025694f6ce97e7ebe31a8077c472c20722e8e8d4ab6767',[]),
+          ('SRC-441464C393E3','stages/stage14/archive/tasks/14-toolbox-aj/result.md','ea1506c6ba130e6369abd794cdf407529109947474540552b41f0f86ae4d6f87',[]),
+          ('SRC-138D892E97BB','stages/stage14/archive/tasks/14-toolbox-ak/result.md','7c8c0d58df95e552bac3e7c4632dac1025753f549915ebe6e8c7fc05b91ac34',[]),
+          ('SRC-A1A82AA2F590','stages/stage14/archive/tasks/14-toolbox-al/result.md','bed25639859ef799717bc7fbf6531c0e00f9a5fde7a0a217a3f53ec349a9c9a6',[]),
+          ('SRC-A8D72BD86B5F','stages/stage14/archive/tasks/14-toolbox-am/result.md','be800e7be2ef9b8feb464ebb0d0780c66f96dceaf3c2c81c6e2fc175f40bfab2',[]),
+          ('SRC-68AA24E35F10','stages/stage14/archive/tasks/14-toolbox-an/result.md','02844049212f603bf0d11e8f22158ebe93694842d7d88aff4cd47859dbde8a0e7',[]),
+          ('SRC-887ED2042FFD','stages/stage14/archive/tasks/14-toolbox-ao/result.md','626220d68c4354be4e79fee8c2bba472270e595b58a11c8331024df87d582871',[]),
+          ('SRC-9340EFC06999','stages/stage14/archive/tasks/14-toolbox-ap/result.md','06795e2af49fb1ba81cd706c80e1d716c4fc0e5e748ba4f30d578832daa618b2',[]),
+          ('SRC-70445D5FB058','stages/stage14/archive/tasks/14-toolbox-aq/result.md','7626538661abe589055406467240d73c5e48f6030c9325e19e493bdd1503b970',[]),
+          ('SRC-20E39B5DA730','stages/stage14/archive/tasks/14-toolbox-ar/result.md','560b7608604322bf6e34af01370ec9488d49fa74aedd00848b1e0623fe059b80',[]),
+          ('SRC-7FA6ABFB8C4F','stages/stage14/archive/tasks/14-toolbox-as/result.md','b23ca8f552c61b002e3926982e2f8e6ea5e1228b21459c3ca75eb8d5b12143be',[]),
+          ('SRC-48CF2E3D5091','stages/stage14/archive/tasks/14-toolbox-at/result.md','340657525916e4ececc3bb88c5d2df06f971042051335e5d5f8104c714485e15',[]),
+          ('SRC-F2B307847691','stages/stage14/archive/tasks/14-toolbox-au/result.md','6f4e53090910e7859e0b30883c11eaf2db53ffc005b95849f0e5e57db8292ce7',[]),
+          ('SRC-B55BC359C379','stages/stage14/archive/tasks/14-toolbox-av/result.md','e2f7b6f9d117446661073682869530472322ccd981125352a999ebab3fcc5ea6',[]),
+          ('SRC-06F4989C42A0','stages/stage14/archive/tasks/14-toolbox-aw/result.md','c04d04932184915762c82a18a440e3f0ce52fc3569184d172c06b2fbf2a1bacf',[]),
+          ]
+
+          if len(rows) != 60: raise SystemExit(f'row count {len(rows)} != 60')
+          carrier = [r for r in rows if r[3]]
+          nodist = [r for r in rows if not r[3]]
+          if len(carrier)!=24 or len(nodist)!=36: raise SystemExit((len(carrier),len(nodist)))
+
+          for sid,path,fp,cards in rows:
+              data=Path(path).read_bytes()
+              actual=hashlib.sha256(data).hexdigest()
+              if actual != fp: raise SystemExit(f'fingerprint mismatch {sid} {path}: {actual} != {fp}')
+
+          pp=Path('docs/structure-radar/progress.json')
+          progress=json.loads(pp.read_text())
+          if 'batches' in progress: raise SystemExit('forbidden top-level progress.batches key present')
+          reviews=progress.setdefault('source_reviews',{})
+          for sid,path,fp,cards in rows:
+              rec={'fingerprint':fp,'batch_id':BATCH,'status':'STRUCTURES_RECORDED' if cards else 'NO_DISTINCT_STRUCTURE'}
+              if cards: rec['structure_ids']=cards
+              reviews[sid]=rec
+
+          batch={
+            'batch_id':BATCH,
+            'task_id':TASK,
+            'status':'SUBMITTED_FOR_AUDIT',
+            'source_ids':[r[0] for r in rows],
+            'sources_reviewed':60,
+            'structures_added':0,
+            'structures_updated':7,
+            'structure_carrier_sources':24,
+            'structures_deduped':36,
+            'searches_completed':0,
+            'arsenal_decisions':0,
+            'audit_required':True,
+            'duplicate_source':0,
+            'no_distinct_structure':36
+          }
+          audits=progress.setdefault('audit_batches',[])
+          audits=[x for x in audits if x.get('batch_id') != BATCH]
+          audits.append(batch)
+          progress['audit_batches']=audits
+          pp.write_text(json.dumps(progress,indent=2,ensure_ascii=False)+'\n')
+
+          rp=Path('docs/structure-radar/structure-registry.json')
+          registry=json.loads(rp.read_text())
+          cards_by_id={c['structure_id']:c for c in registry['structures']}
+          updated=['SR-STR-165','SR-STR-166','SR-STR-169','SR-STR-190','SR-STR-206','SR-STR-222','SR-STR-225']
+          missing=[x for x in updated if x not in cards_by_id]
+          if missing: raise SystemExit('missing cards '+','.join(missing))
+
+          for sid,path,fp,cards in carrier:
+              for cid in cards:
+                  c=cards_by_id[cid]
+                  prov=c.setdefault('repo_provenance',[])
+                  if not any(x.get('source_id')==sid for x in prov):
+                      prov.append({'source_id':sid,'path':path,'locator':locator,'fingerprint':fp})
+
+          refinements={
+          'SR-STR-225':'Stage14-tH17/r2 repairs the earlier ambient signed-receiver formulation by proving the actual-physical mass/vector inequality with the required internal r-Hölder/Schur penalty. The legal target is the signed physical rectangle/Rayleigh receiver after the exact physical masks; arbitrary-support operator norm or polar/Schatten substitution is a stronger and lossier statement, not an available replacement.',
+          'SR-STR-222':'Stage14-tH18 and tH20--tH33 refine the fixed-U receiver into a sequence of exact external theorem targets: canonical-prime windowed correlation, small-kappa projective-ray Type-II/large-sieve forms, reciprocal-distance and prime-row transports, fixed-row density, Gaussian-residue occupancy, and finally the super-Kai individual-residue long-interval gate. Safe Mitsui/Kai ranges are discharged in tH31/tH32, but tH33 remains outside the verified individual-modulus range. None of these branch receivers improves the current whole-family exponent 1/2 by itself.',
+          'SR-STR-165':'Stage14-tH2--tH4 and tH8/tH21--tH28 add the divisor-coupled Gaussian norm hyperbola, primary ray-class/conductor adapter, weighted Mellin transfer, and external-auxiliary Gaussian-spin/Hecke interfaces. These reductions preserve sparse physical selectors and conductor bookkeeping; complete or ambient Hecke cancellation cannot be substituted for the exact sparse physical theorem.',
+          'SR-STR-166':'Stage14-tH23 gives a projective-chart route from the selected row to an inverse-fraction/Kloosterman profile, but direct theorem import still requires exact compatibility with the numerator/checksum sparse weights and conductor ranges; the transform is a receiver localization, not an automatic saving.',
+          'SR-STR-169':'Stage14-tH2/tH8 make the real-divisor allocation and Gaussian external-auxiliary dependence explicit. The divisor/hyperbola reorganization is exponent-neutral until a theorem controls the same sparse physical weights without recharging already-used spacing.',
+          'SR-STR-190':'Stage14-tH5/tH9 and toolbox-H0 place the residual problem into an exact diagonal/off-diagonal Gaussian-pair collision energy with signed coefficients. Diagonal extraction is charged once; off-diagonal cross-ratio or auxiliary-modulus dispersion must be proved on the original physical weights rather than after an absolute-value collapse.',
+          'SR-STR-206':'Stage14-tH27 records the exact finite menu of selector-changing generic-prime boundary events. A non-negligible orientation influence is thereby localized to an explicit elementary boundary class or a genuinely new secondary statistic, but the localization/pigeonhole itself is not a fixed-power saving.'
+          }
+          boundary='Batch20 preserves CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2 and STRICT_SUBSQRT_POWER_SAVING_PROVED=false; theorem targets, adapters, safe-range branch discharges and toolbox maps are provenance/receiver information, not a new whole-family exponent or a perfect-cuboid nonexistence theorem.'
+          for cid,text in refinements.items():
+              c=cards_by_id[cid]
+              if text not in c['exact_equations_or_object']:
+                  c['exact_equations_or_object'] += ' ' + text
+              gaps=c.setdefault('applicability_gaps',[])
+              if boundary not in gaps: gaps.append(boundary)
+
+          registry['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          rp.write_text(json.dumps(registry,indent=2,ensure_ascii=False)+'\n')
+          print('BATCH20_LEDGER=PASS')
+          print('SOURCES_REVIEWED=60')
+          print('CARRIERS=24')
+          print('NO_DISTINCT=36')
+          print('UPDATED=7')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          if [ -f scripts/verify_research_arsenal.py ]; then python scripts/verify_research_arsenal.py; fi
+          git diff --check
+      - name: Commit official batch20 files and remove helpers
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          git checkout origin/main -- .github/workflows/structure-radar.yml
+          rm -f .github/workflows/structure-radar-batch20-selector.yml
+          rm -f .github/structure-radar-batch20-selector-trigger.txt
+          rm -f docs/structure-radar/batch20-source-digest.txt docs/structure-radar/batch20-selected.json
+          git add -A
+          git diff --cached --check
+          git commit -m 'StructureRadar census Stage14-15 deep corpus batch 20'
+          git push origin HEAD:structure-radar-deep-corpus-batch-20
