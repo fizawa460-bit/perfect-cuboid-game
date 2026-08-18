@@ -1,0 +1,39 @@
+name: StructureRadar SR-SEARCH02 push validator
+on:
+  push:
+    branches: [agent/sr-search02-apply]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-search02-apply
+      - name: Apply batch
+        run: python .tmp/sr-search02_apply.py
+      - name: Refresh verify assert
+        shell: bash
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+          python - <<'PY'
+          import json,pathlib
+          r=pathlib.Path('.')
+          reg=json.loads((r/'docs/structure-radar/structure-registry.json').read_text()); cards={c['structure_id']:c for c in reg['structures']}; ids=[f'SR-STR-{i:03d}' for i in range(7,13)]
+          assert all(cards[x]['search_status']=='SEARCHED' for x in ids)
+          assert [cards[x]['arsenal_decision'] for x in ids]==['ACTIVE','ACTIVE','ACTIVE','ACTIVE','ACTIVE','EXTERNAL_GATE']
+          c=json.loads((r/'docs/structure-radar/controller.json').read_text()); assert c['registry']['unresolved_search_count']==191,c['registry']; assert c['registry']['pending_arsenal_decision_count']==206,c['registry']; assert c['queue']['task_count']==32,c['queue']
+          q=json.loads((r/'docs/structure-radar/exploration-queue.json').read_text()); ready=next(t for t in q['tasks'] if t['status']=='READY'); assert ready['structure_ids']==['SR-STR-013','SR-STR-015','SR-STR-017','SR-STR-018','SR-STR-019','SR-STR-020'],ready
+          print('SR_SEARCH02_VALIDATED')
+          PY
+      - name: Commit official blobs
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/structure-radar
+          git commit -m 'Temp: validate StructureRadar literature search batch 02' || true
+          git push origin HEAD:agent/sr-search02-apply
