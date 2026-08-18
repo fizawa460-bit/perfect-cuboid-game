@@ -1,0 +1,136 @@
+name: StructureRadar batch25 analyzer
+
+on:
+  pull_request:
+    paths:
+      - 'docs/.sr-b25-trigger'
+
+permissions:
+  contents: read
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Analyze batch25 source/card candidates
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, math, re
+          from pathlib import Path
+          from collections import Counter
+
+          ROOT = Path('.')
+          q = json.loads(Path('docs/structure-radar/exploration-queue.json').read_text())
+          task = q['tasks'][0]
+          ids = task['source_ids'][:60]
+          assert len(ids) == 60, len(ids)
+
+          manifest = {}
+          for p in sorted(Path('docs/structure-radar/source-manifest').glob('part-*.json')):
+              data = json.loads(p.read_text())
+              for s in data.get('sources', []):
+                  manifest[s['source_id']] = s
+          missing = [x for x in ids if x not in manifest]
+          assert not missing, missing
+
+          reg = json.loads(Path('docs/structure-radar/structure-registry.json').read_text())
+          raw = reg.get('structures') or reg.get('cards') or reg.get('registry')
+          if isinstance(raw, dict):
+              cards = []
+              for k,v in raw.items():
+                  if isinstance(v, dict):
+                      d = dict(v); d.setdefault('structure_id', k); cards.append(d)
+          elif isinstance(raw, list):
+              cards = raw
+          else:
+              raise SystemExit(f'unknown registry schema keys={list(reg)}')
+
+          STOP = set('the a an and or of to in for on with from by is are was were be been being this that these those as at it its into not no yes if then than where when which who how can may must should would could will all any each one two three fixed main stage result report summary data json md source structure repo provenance current reviewed new audit frozen boundary theorem proof lemma claim status open closed true false use using used via under over between within without'.split())
+          def toks(s):
+              xs = re.findall(r'[a-zA-Z][a-zA-Z0-9_+-]{2,}', s.lower())
+              return [x for x in xs if x not in STOP and not x.startswith('src-') and not x.startswith('sr-str-')]
+          def flatten(obj, skip_prov=False):
+              out=[]
+              if isinstance(obj, dict):
+                  for k,v in obj.items():
+                      if skip_prov and k in {'repo_provenance','provenance','source_ids'}:
+                          continue
+                      out.append(str(k))
+                      out.extend(flatten(v, skip_prov))
+              elif isinstance(obj, list):
+                  for v in obj: out.extend(flatten(v, skip_prov))
+              elif isinstance(obj, (str,int,float,bool)):
+                  out.append(str(obj))
+              return out
+
+          card_rows=[]
+          df=Counter()
+          for c in cards:
+              cid = c.get('structure_id') or c.get('id') or c.get('card_id')
+              title = c.get('title') or c.get('name') or c.get('label') or ''
+              text=' '.join(flatten(c, True))
+              tt=set(toks(text))
+              for t in tt: df[t]+=1
+              card_rows.append((cid,title,tt,c))
+          N=max(1,len(card_rows))
+          idf={t: math.log((N+1)/(n+1))+1 for t,n in df.items()}
+
+          signal_keys = ('summary','conclusion','status','claim','theorem','lemma','result','boundary','open','receiver','verdict','obstruction','saving','power','route','target','statement')
+          def source_signals(path, obj, rawtext):
+              sig=[]
+              if isinstance(obj, dict):
+                  def walk(x, prefix=''):
+                      if len(sig)>=12: return
+                      if isinstance(x, dict):
+                          for k,v in x.items():
+                              kk=str(k).lower()
+                              if any(z in kk for z in signal_keys) and isinstance(v,(str,int,float,bool)):
+                                  sig.append(f'{k}={v}')
+                              walk(v, prefix+'/'+str(k))
+                      elif isinstance(x,list):
+                          for v in x[:20]: walk(v,prefix)
+                  walk(obj)
+              else:
+                  for ln in rawtext.splitlines():
+                      low=ln.lower()
+                      if ln.startswith('#') or any(z in low for z in signal_keys):
+                          sig.append(ln.strip())
+                          if len(sig)>=12: break
+              return ' | '.join(sig)[:1200]
+
+          print(f'BATCH25_ANALYZER task={task["task_id"]} sources={len(ids)} cards={len(card_rows)}')
+          union=set()
+          for i,sid in enumerate(ids,1):
+              m=manifest[sid]; path=m['path']; p=Path(path)
+              rawtext=p.read_text(errors='replace')
+              obj=None
+              if p.suffix.lower()=='.json':
+                  try: obj=json.loads(rawtext)
+                  except Exception: pass
+              body=' '.join(flatten(obj, False)) if obj is not None else rawtext
+              # Path/name terms are highly diagnostic in this corpus.
+              st=Counter(toks(path.replace('/',' ')+' '+path.replace('/',' ')+' '+body))
+              scores=[]
+              for cid,title,ct,c in card_rows:
+                  common=set(st)&ct
+                  score=sum(idf.get(t,1.0)*(1+min(st[t],3)*0.15) for t in common)
+                  denom=math.sqrt(max(1,len(ct)))
+                  score=score/denom
+                  if score>0: scores.append((score,cid,title,sorted(common, key=lambda t:-idf.get(t,1))[:8]))
+              scores.sort(reverse=True)
+              top=scores[:6]
+              if top and top[0][0] >= 0.75: union.add(top[0][1])
+              print('---')
+              print(f'{i:02d} {sid} {path}')
+              print('SIGNALS '+source_signals(path,obj,rawtext).replace('\n',' '))
+              for sc,cid,title,common in top:
+                  print(f'CAND {cid} score={sc:.3f} title={title!r} common={",".join(common)}')
+          print('---')
+          print('HEURISTIC_TOP1_UNION '+','.join(sorted(x for x in union if x)))
+          PY
