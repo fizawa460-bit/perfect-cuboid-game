@@ -1,0 +1,139 @@
+name: StructureRadar batch15 finalize
+on:
+  push:
+    branches: [structure-radar-deep-corpus-batch-15]
+    paths:
+      - '.github/structure-radar-batch-15-finalize-trigger.txt'
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-15
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Normalize batch15 and verify
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('.')
+          batch='SR-BATCH-STAGE14_15_DEEP_CORPUS-15-R01'
+          task='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          items=json.loads((root/'.github/structure-radar-batch-15-summary.json').read_text())
+          assert len(items)==60
+          # 1-based source index -> normalized structure IDs.
+          mp={}
+          for n in range(1,8): mp[n]=['SR-STR-170']
+          mp[8]=['SR-STR-171']
+          for n in range(9,13): mp[n]=['SR-STR-213']
+          for n in (13,14): mp[n]=['SR-STR-166']
+          for n in (15,16): mp[n]=['SR-STR-168']
+          for n in (17,18): mp[n]=['SR-STR-204','SR-STR-205']
+          for n in (19,20): mp[n]=['SR-STR-208','SR-STR-209']
+          for n in range(21,31): mp[n]=['SR-STR-222']
+          for n in range(31,38): mp[n]=['SR-STR-222','SR-STR-020','SR-STR-021']
+          mp[38]=['SR-STR-222','SR-STR-021']
+          mp[39]=['SR-STR-222','SR-STR-020','SR-STR-021']
+          mp[40]=['SR-STR-222','SR-STR-021']
+          for n in (41,42,43): mp[n]=['SR-STR-223']
+          for n in range(44,57): mp[n]=['SR-STR-222']
+          mp[57]=['SR-STR-223']
+          for n in range(58,61): mp[n]=['SR-STR-222']
+          assert set(mp)==set(range(1,61))
+
+          progress_path=root/'docs/structure-radar/progress.json'
+          prog=json.loads(progress_path.read_text())
+          reviews=prog['source_reviews']
+          for x in items:
+              reviews[x['source_id']]={
+                  'fingerprint':x['fingerprint'],'batch_id':batch,
+                  'status':'STRUCTURES_RECORDED','structure_ids':mp[x['n']]
+              }
+          prog['audit_batches']=[b for b in prog.get('audit_batches',[]) if b.get('batch_id')!=batch]
+          prog['audit_batches'].append({
+              'batch_id':batch,'task_id':task,'status':'SUBMITTED_FOR_AUDIT',
+              'source_ids':[x['source_id'] for x in items],
+              'sources_reviewed':60,'structures_added':2,'structures_updated':11,
+              'structure_carrier_sources':60,'structures_deduped':0,
+              'searches_completed':0,'arsenal_decisions':0,'audit_required':True,
+              'duplicate_source':0,'no_distinct_structure':0
+          })
+          progress_path.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+
+          reg_path=root/'docs/structure-radar/structure-registry.json'
+          reg=json.loads(reg_path.read_text())
+          reg['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          cards={c['structure_id']:c for c in reg['structures']}
+          assert 'SR-STR-222' not in cards and 'SR-STR-223' not in cards
+          assert max(int(k.rsplit('-',1)[1]) for k in cards)==221
+
+          byn={x['n']:x for x in items}
+          card222={
+            'structure_id':'SR-STR-222',
+            'canonical_math_name':'Fixed-U canonical-LPF projective Gaussian residue receiver chain',
+            'exact_equations_or_object':'For one frozen outer U, the canonical-LPF cofactor Q=ell*delta0 is reduced from an elementary mover boundary to an exact principal/centered boundary incidence. The generic prime-action image is B^o(1) and can be frozen at zero power cost; fixed-Q Gaussian fibers have only exponent-zero principal density, so any fixed-power deficit must live in outer-Q support. Split-prime orientations then project to primitive norm-form support; after cofactor-ray reduction the selected projective prime class lifts to fixed Gaussian residue classes, with an exact principal-mass plus centered-discrepancy decomposition. Safe Kai/Mitsui modulus ranges may be discharged by the audited fixed-residue theorem, whereas super-Kai individual-modulus occupancy remains an external gate.',
+            'search_terms_primary':['canonical LPF fixed U Gaussian residue prime occupancy','projective Gaussian prime class selected residue centered discrepancy'],
+            'search_terms_aliases':['fixed-U cofactor projective class chain','canonical-LPF outer-Q support'],
+            'theorem_species':['fixed-residue Gaussian-prime occupancy','selected projective class correlation','principal-centered discrepancy','weighted exceptional-class transfer'],
+            'repo_provenance':[],
+            'target_populations':['Stage14 fixed-U T-route physical packets'],
+            'potential_weapon_types':['GAUSSIAN_PRIME_PROGRESSIONS','DISPERSION','WEIGHTED_EXCEPTIONAL_SET'],
+            'applicability_gaps':['The fixed-U physical measure is not automatically the MAIN wall measure; a same-measure adapter is still required.','Safe Kai/Mitsui occupancy does not cover super-Kai individual moduli or shrinking intervals outside the audited theorem range.','The current physical whole-family exponent remains 1/2; no strict sub-square-root power saving is proved by this receiver chain.'],
+            'existing_radar_overlap':['SR-STR-020','SR-STR-021','SR-STR-129','SR-STR-135','SR-STR-165','SR-STR-168','SR-STR-169','SR-STR-209'],
+            'search_status':'SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+          }
+          card223={
+            'structure_id':'SR-STR-223',
+            'canonical_math_name':'Moving genus-five triple gate and compatible paired-small-point interface',
+            'exact_equations_or_object':'The Stage14 triple correction has a fixed-base genus-5 curve model, but the physical problem is a moving-base bounded-height family. A finite zero census is not nonexistence. The reflected local character-sieve exceptional residues mark failure of an easy local-solubility proof and can serve as error control; they are not a necessary sparse congruence satisfied by every triple. The theorem-scale obstruction is instead simultaneous compatible activation of the paired small points/lifts in the moving fiber-product family, requiring a uniform physical-height moving-family theorem rather than a fixed-fiber point bound.',
+            'search_terms_primary':['moving genus 5 rational points bounded height family','paired small point activation moving fiber product Pythagorean'],
+            'search_terms_aliases':['Stage14 triple gate','moving triple small-point compatibility'],
+            'theorem_species':['moving-family rational-point count','first-small-point height','descent/fiber-product compatibility'],
+            'repo_provenance':[],
+            'target_populations':['Stage14 triple-completion correction T(B)'],
+            'potential_weapon_types':['MOVING_CURVE_COUNT','DESCENT','SMALL_POINT_HEIGHT','SIEVE_ERROR_CONTROL'],
+            'applicability_gaps':['Fixed-fiber genus or height bounds do not give a frequency theorem across the moving physical base family.','Finite absence of triple objects through a cutoff does not imply asymptotic nonexistence.','The reflected local exceptional set is an error regime, not the main thinning condition.','No theorem here proves T(B)=o(B^(1/2)) or improves the current whole-family exponent 1/2.'],
+            'existing_radar_overlap':['SR-STR-162','SR-STR-163','SR-STR-167'],
+            'search_status':'SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+          }
+          reg['structures'].extend([card222,card223])
+          cards['SR-STR-222']=card222; cards['SR-STR-223']=card223
+
+          existing_used=set()
+          for x in items:
+              for cid in mp[x['n']]:
+                  c=cards[cid]
+                  prov=c.setdefault('repo_provenance',[])
+                  if not any(p.get('source_id')==x['source_id'] for p in prov):
+                      prov.append({'source_id':x['source_id'],'path':x['path'],'locator':x['title'] or 'batch15 normalized Stage14 source','fingerprint':x['fingerprint']})
+                  c['card_status']='SUBMITTED_FOR_AUDIT'
+                  if cid not in ('SR-STR-222','SR-STR-223'): existing_used.add(cid)
+          assert existing_used=={'SR-STR-020','SR-STR-021','SR-STR-166','SR-STR-168','SR-STR-170','SR-STR-171','SR-STR-204','SR-STR-205','SR-STR-208','SR-STR-209','SR-STR-213'}
+          guard='Batch15 preserves CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2 and STRICT_SUBSQRT_POWER_SAVING_PROVED=false; theorem-window and receiver refinements are provenance, not a new whole-family exponent.'
+          for cid in existing_used:
+              gaps=cards[cid].setdefault('applicability_gaps',[])
+              if guard not in gaps: gaps.append(guard)
+          reg_path.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git diff --check
+          rm -f .github/structure-radar-batch-15-summary.json \
+                .github/structure-radar-batch-15-summary.txt \
+                .github/structure-radar-batch-15-trigger.txt \
+                .github/structure-radar-batch-15-registry-index.txt \
+                .github/structure-radar-batch-15-registry-trigger.txt \
+                .github/structure-radar-batch-15-finalize-trigger.txt \
+                .github/workflows/structure-radar-batch-15-select.yml \
+                .github/workflows/structure-radar-batch-15-registry-index.yml \
+                .github/workflows/structure-radar-batch-15-finalize.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'StructureRadar batch15 normalize Stage14 s and t corpus' || exit 0
+          git push
