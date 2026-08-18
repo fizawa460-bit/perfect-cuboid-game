@@ -6,94 +6,39 @@ on:
 permissions:
   contents: write
 jobs:
-  finalize:
+  debug:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Normalize batch17
+      - name: Inspect schemas
         shell: python
         run: |
-          import json, pathlib
-          BATCH='SR-BATCH-STAGE14_15_DEEP_CORPUS-17-R01'
-          TASK='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
-          idx=json.loads(pathlib.Path('.github/structure-radar-batch17-index.json').read_text())
-          assert len(idx)==60
-          by={x['source_id']:x for x in idx}
-          ids=[x['source_id'] for x in idx]
-          mapping={}
-          for x in idx:
-              n=x['n']; sid=x['source_id']
-              if n in [1,2,3,4,5,6,7,9,10,11,12,13,14,15,16,17,18,19,21,22,23,24,25,26,27,28,29,30,31,32,34,35,36,37,38,39,40,41,42,43,44,46,47,48,49,50,51,52,53,54]:
-                  mapping[sid]=['SR-STR-222']
-              elif n in [8,20,33,45]:
-                  mapping[sid]=['SR-STR-223']
-              elif n in [55,56,57]:
-                  mapping[sid]=['SR-STR-163']
-              elif n==58:
-                  mapping[sid]=['SR-STR-163','SR-STR-223']
-              elif n==60:
-                  mapping[sid]=['SR-STR-032']
-              elif n==59:
-                  mapping[sid]=[]
-              else:
-                  raise AssertionError(n)
-          assert sum(bool(v) for v in mapping.values())==59
-          pp=pathlib.Path('docs/structure-radar/progress.json')
-          progress=json.loads(pp.read_text())
-          reviews=progress.setdefault('source_reviews',{})
-          for sid in ids:
-              e=by[sid]
-              if mapping[sid]:
-                  reviews[sid]={'fingerprint':e['fingerprint'],'batch_id':BATCH,'status':'STRUCTURES_RECORDED','structure_ids':mapping[sid]}
-              else:
-                  reviews[sid]={'fingerprint':e['fingerprint'],'batch_id':BATCH,'status':'NO_DISTINCT_STRUCTURE'}
-          batches=progress.setdefault('batches',[])
-          batches=[b for b in batches if b.get('batch_id')!=BATCH]
-          batches.append({'batch_id':BATCH,'task_id':TASK,'status':'SUBMITTED_FOR_AUDIT','source_ids':ids,'sources_reviewed':60,'structures_added':0,'structures_updated':4,'structure_carrier_sources':59,'structures_deduped':1,'searches_completed':0,'arsenal_decisions':0,'audit_required':True,'duplicate_source':0,'no_distinct_structure':1})
-          progress['batches']=batches
-          pp.write_text(json.dumps(progress,indent=2,ensure_ascii=False)+'\n')
-          rp=pathlib.Path('docs/structure-radar/structure-registry.json')
-          reg=json.loads(rp.read_text())
-          cards={c['structure_id']:c for c in reg['structures']}
-          assert max(int(k.rsplit('-',1)[1]) for k in cards)==224
-          for cid in ['SR-STR-032','SR-STR-163','SR-STR-222','SR-STR-223']:
-              assert cid in cards
-          for sid,sids in mapping.items():
-              e=by[sid]
-              for cid in sids:
-                  c=cards[cid]
-                  prov=c.setdefault('repo_provenance',[])
-                  if not any(p.get('source_id')==sid and p.get('fingerprint')==e['fingerprint'] for p in prov):
-                      prov.append({'source_id':sid,'path':e['path'],'locator':'normalized Stage14 deep-corpus batch17 carrier','fingerprint':e['fingerprint']})
-                  c['card_status']='SUBMITTED_FOR_AUDIT'
-          refinements={
-            'SR-STR-032':' Stage14-t2 further gives a quantitative Pythagorean-chain envelope on the moving triple correction, with the strongest frozen global boundary T(B)=o(B(log B)^3); this is not a square-root or strict sub-square-root theorem and moving-base summation remains the obstruction.',
-            'SR-STR-163':' In the Stage14 triple gate, the remaining x-square lift is a ramified quadratic cover of the x-level elliptic fiber product with reduced branch divisor over x=0 and x=infinity, so it is not an ordinary unramified E[2]-torsor. The selected ramified branch character is locally surjective; local obstruction counting alone cannot supply the required saving, leaving a moving physical-height Fourier/second-moment problem.',
-            'SR-STR-222':' The earlier fixed-U cofactor-core stage has the exact charged-once identity T_Omega=M_Omega+D_Omega. Ordinary projective equidistribution only preserves the exponent of M_Omega; a fixed-power gain requires either a fixed-power weighted physical cofactor-core density deficit or selected classes with principal-scale near-total negative discrepancy. The norm/orientation fibers and exceptional multiplier/D4 symmetry pieces are subpolynomial or nonphysical and cannot be recharged as new savings; after their discharge the chain reduces to the fixed projective/Gaussian residue occupancy receivers already recorded here.',
-            'SR-STR-223':' Conditioning on an actual raw physical point converts the reflected-square compatibility gate into a genus-three discriminant-square cover with a degree-two elliptic quotient; the physical triple lift still requires the quotient coordinate itself to be a rational square together with the second factor-square condition, recovering the higher-genus moving fiber-product gate. Finite collision ledgers are diagnostics only and do not prove the required moving-family power saving.'
-          }
-          for cid,extra in refinements.items():
-              c=cards[cid]
-              if extra.strip() not in c.get('exact_equations_or_object',''):
-                  c['exact_equations_or_object']=c.get('exact_equations_or_object','').rstrip()+extra
-          reg['status']='BATCH_SUBMITTED_FOR_AUDIT'
-          rp.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
-      - name: Refresh and verify
+          import json, pathlib, traceback
+          report={}
+          try:
+              idx=json.loads(pathlib.Path('.github/structure-radar-batch17-index.json').read_text())
+              progress=json.loads(pathlib.Path('docs/structure-radar/progress.json').read_text())
+              reg=json.loads(pathlib.Path('docs/structure-radar/structure-registry.json').read_text())
+              report['index_len']=len(idx)
+              report['index_ns']=[x.get('n') for x in idx]
+              report['progress_keys']=list(progress.keys())
+              report['batches_type']=type(progress.get('batches')).__name__
+              report['batches_len']=len(progress.get('batches',[])) if isinstance(progress.get('batches'),list) else None
+              report['registry_keys']=list(reg.keys())
+              report['structure_count']=len(reg.get('structures',[]))
+              ids=[c.get('structure_id') for c in reg.get('structures',[]) if c.get('structure_id','').startswith('SR-STR-')]
+              report['max_structure_id']=max(ids,key=lambda x:int(x.rsplit('-',1)[1])) if ids else None
+              report['target_cards']={cid:any(c.get('structure_id')==cid for c in reg.get('structures',[])) for cid in ['SR-STR-032','SR-STR-163','SR-STR-222','SR-STR-223']}
+          except Exception:
+              report['traceback']=traceback.format_exc()
+          pathlib.Path('.github/structure-radar-batch17-debug.json').write_text(json.dumps(report,indent=2)+'\n')
+      - name: Commit debug
         run: |
-          python scripts/structure_radar.py refresh
-          python scripts/structure_radar.py verify
-          python scripts/structure_radar.py verify-research-arsenal
-          git diff --check
-      - name: Remove temporary helpers and commit
-        run: |
-          git rm -f .github/structure-radar-batch17-trigger.txt .github/structure-radar-batch17-finalize-trigger.txt .github/structure-radar-batch17-index.json .github/structure-radar-batch17-summary.txt .github/workflows/structure-radar-batch17-selector.yml .github/workflows/structure-radar-batch17-finalizer.yml
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add docs/structure-radar
-          git commit -m 'StructureRadar: census Stage14-15 deep corpus batch 17'
+          git add .github/structure-radar-batch17-debug.json
+          git commit -m 'StructureRadar batch17 debug schema' || exit 0
           git push
