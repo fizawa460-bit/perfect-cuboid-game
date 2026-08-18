@@ -52,11 +52,15 @@ jobs:
               idx.append({'n':n,'source_id':s['source_id'],'path':s['path'],'kind':s['kind'],'title':title,'boundary_fields':compact})
           (root/'.github/structure-radar-batch-09-bundle.txt').write_text('\n'.join(parts))
           (root/'.github/structure-radar-batch-09-index.json').write_text(json.dumps(idx,indent=2)+'\n')
-          for j in range(6):
-              (root/f'.github/structure-radar-batch-09-index-{j+1}.json').write_text(json.dumps(idx[j*10:(j+1)*10],indent=2)+'\n')
+          for j in range(12):
+              (root/f'.github/structure-radar-batch-09-index-{j+1:02d}.json').write_text(json.dumps(idx[j*5:(j+1)*5],indent=2)+'\n')
+          reg=json.loads((root/'docs/structure-radar/structure-registry.json').read_text())['structures']
+          tail=[x for x in reg if int(x['structure_id'].split('-')[-1])>=160]
+          for j in range((len(tail)+9)//10):
+              (root/f'.github/structure-radar-batch-09-regtail-{j+1:02d}.json').write_text(json.dumps(tail[j*10:(j+1)*10],indent=2)+'\n')
           PY
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add .github/structure-radar-batch-09-selection.json .github/structure-radar-batch-09-bundle.txt .github/structure-radar-batch-09-index*.json
+          git add .github/structure-radar-batch-09-selection.json .github/structure-radar-batch-09-bundle.txt .github/structure-radar-batch-09-index*.json .github/structure-radar-batch-09-regtail-*.json
           git commit -m 'StructureRadar: materialize batch09 source bundle' || exit 0
           git push origin HEAD:structure-radar-deep-corpus-batch-09
