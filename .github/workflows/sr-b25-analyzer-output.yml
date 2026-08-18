@@ -1,0 +1,63 @@
+name: StructureRadar batch25 provenance analyzer output
+on:
+  push:
+    branches: ['agent/sr-b25-analyzer-base']
+    paths: ['.github/workflows/sr-b25-analyzer-output.yml']
+permissions:
+  contents: write
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-b25-analyzer-base
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build reverse provenance map
+        run: |
+          python - <<'PY'
+          import json,re
+          from pathlib import Path
+          q=json.loads(Path('docs/structure-radar/exploration-queue.json').read_text())
+          ids=q['tasks'][0]['source_ids'][:60]
+          mf={}
+          for p in Path('docs/structure-radar/source-manifest').glob('part-*.json'):
+            for s in json.loads(p.read_text()).get('sources',[]): mf[s['source_id']]=s
+          reg=json.loads(Path('docs/structure-radar/structure-registry.json').read_text())['structures']
+          out=[]
+          for sid in ids:
+            m=mf[sid]; path=m['path']
+            # Stage labels such as 14-t80, tH17, 15-2a.
+            labels=[]
+            for pat in [r'14-(?:tH|sH|t|s|q|Work-[^/]+)[A-Za-z0-9-]*',r'tH\d+(?:-R\d+)?',r'15-[0-9]+[a-zA-Z0-9-]*']:
+              labels += re.findall(pat,path,re.I)
+            base=Path(path).stem.lower()
+            scored=[]
+            for c in reg:
+              hits=[]; score=0
+              prov=c.get('repo_provenance',[])
+              hay=(c.get('canonical_math_name','')+' '+c.get('exact_equations_or_object','')+' '+' '.join(c.get('search_terms_primary',[]))+' '+' '.join(c.get('search_terms_aliases',[]))).lower()
+              for lab in labels:
+                l=lab.lower()
+                if l in hay: score+=8; hits.append('text:'+l)
+                for pr in prov:
+                  pp=pr.get('path','').lower()
+                  if l in pp: score+=12; hits.append('prov:'+pp)
+              # filename token overlap, excluding generic terms
+              toks=[x for x in re.findall(r'[a-z]{4,}',base) if x not in {'frozen','summary','boundary','audit','result','stage','data'}]
+              overlap=[x for x in toks if x in hay]
+              score += 2*len(overlap)
+              if overlap:hits.append('terms:'+','.join(overlap[:6]))
+              if score: scored.append({'card':c['structure_id'],'name':c['canonical_math_name'],'score':score,'hits':hits[:8]})
+            scored.sort(key=lambda x:(-x['score'],x['card']))
+            out.append({'source_id':sid,'path':path,'labels':labels,'candidates':scored[:8]})
+          Path('docs/.sr-b25-analysis.json').write_text(json.dumps(out,indent=2)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/.sr-b25-analysis.json
+          git commit -m 'Record temporary batch25 provenance analysis'
+          git push origin HEAD:agent/sr-b25-analyzer-base
