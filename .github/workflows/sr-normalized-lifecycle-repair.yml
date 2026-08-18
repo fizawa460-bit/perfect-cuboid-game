@@ -60,9 +60,9 @@ jobs:
           assert c['corpus']['review_states']=={'CURRENT_REVIEWED':2556}, c['corpus']['review_states']
           assert c['registry']['structure_count']==228
           assert c['registry']['unresolved_search_count']==203
-          searches=[t for t in q['tasks'] if t['phase']=='STRUCTURE_SEARCH']
+          searches=[t for t in q['tasks'] if t['phase']=='LITERATURE_SEARCH']
           assert len(searches)==34, len(searches)
-          assert q['tasks'][0]['task_id']=='SR-SEARCH-001', q['tasks'][0]
+          assert q['tasks'][0]['task_id']=='SR-SEARCH-01', q['tasks'][0]
           assert q['tasks'][0]['structure_ids']==['SR-STR-001','SR-STR-002','SR-STR-003','SR-STR-004','SR-STR-005','SR-STR-006'], q['tasks'][0]['structure_ids']
           assert c['status']=='READY', c['status']
           print('LIFECYCLE_REPAIR_OK',cs,'search_tasks',len(searches),'first',searches[0]['structure_ids'])
