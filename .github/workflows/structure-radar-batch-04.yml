@@ -1,0 +1,106 @@
+name: StructureRadar batch 04 one-shot
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-04
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-04
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Apply StructureRadar batch review
+        shell: bash
+        run: |
+          python - <<'PY'
+          import glob
+          import json
+          from pathlib import Path
+
+          task_id = "SR-CENSUS-STAGE14_15_DEEP_CORPUS-01"
+          batch_id = "SR-BATCH-STAGE14_15_DEEP_CORPUS-04-R01"
+          duplicate_ids = {
+              "SRC-D0E57AFF0463",
+              "SRC-D0FA07941524",
+              "SRC-760EDEAE2CE2",
+              "SRC-D98DB15B78B9",
+              "SRC-BC15A391D0CE",
+              "SRC-FF89655A87A9",
+              "SRC-72B03C68A880",
+              "SRC-87FB305B4EB1",
+              "SRC-FD01997F7617",
+              "SRC-848A4F2A8FC6",
+              "SRC-BBC83B655866",
+              "SRC-F53BC4677175",
+              "SRC-F6F828491E61",
+              "SRC-C6925D311189",
+          }
+
+          queue_path = Path("docs/structure-radar/exploration-queue.json")
+          progress_path = Path("docs/structure-radar/progress.json")
+          queue = json.loads(queue_path.read_text(encoding="utf-8"))
+          ready = [t for t in queue["tasks"] if t.get("status") == "READY"]
+          assert len(ready) == 1, ready
+          task = ready[0]
+          assert task["task_id"] == task_id, task["task_id"]
+          source_ids = task["source_ids"]
+          assert len(source_ids) == 60, len(source_ids)
+          assert duplicate_ids.issubset(set(source_ids))
+
+          sources = {}
+          for manifest_path in glob.glob("docs/structure-radar/source-manifest/part-*.json"):
+              part = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
+              for source in part["sources"]:
+                  sources[source["source_id"]] = source
+          missing = [sid for sid in source_ids if sid not in sources]
+          assert not missing, missing
+
+          progress = json.loads(progress_path.read_text(encoding="utf-8"))
+          assert batch_id not in {b["batch_id"] for b in progress.get("audit_batches", [])}
+          for sid in source_ids:
+              progress["source_reviews"][sid] = {
+                  "fingerprint": sources[sid]["fingerprint"],
+                  "status": "DUPLICATE_SOURCE" if sid in duplicate_ids else "NO_DISTINCT_STRUCTURE",
+                  "batch_id": batch_id,
+              }
+
+          progress["audit_batches"].append({
+              "batch_id": batch_id,
+              "task_id": task_id,
+              "status": "SUBMITTED_FOR_AUDIT",
+              "source_ids": source_ids,
+              "sources_reviewed": 60,
+              "structures_added": 0,
+              "structures_updated": 0,
+              "structure_carrier_sources": 0,
+              "structures_deduped": 60,
+              "searches_completed": 0,
+              "arsenal_decisions": 0,
+              "audit_required": True,
+          })
+          progress_path.write_text(json.dumps(progress, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+          PY
+
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git diff --check
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/structure-radar-batch-04.yml
+          git add docs/structure-radar
+          git diff --cached --check
+          git commit -m "StructureRadar: review deep corpus batch 04"
+          git push origin HEAD:structure-radar-deep-corpus-batch-04
