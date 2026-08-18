@@ -164,6 +164,15 @@ population/height compatibility, and over-promotion.  A PASS certifies the
 submitted batch; it does not claim globally exhaustive literature coverage and
 does not close the campaign while another queue item is ready.
 
+Card lifecycle is separate from the audit verdict. `SUBMITTED_FOR_AUDIT` is a
+transient state for an open batch. After the batch has passed independent audit
+and its normalized card content is canonical/merged, the persistent registry
+state must not remain `SUBMITTED_FOR_AUDIT`: use `AUDITED` when an explicit
+repo-native card-level audit record is materialized, otherwise use `NORMALIZED`.
+Both states are eligible for later structure-search work. The audit/main handoff
+must repair any stale transient status before declaring the registry ready for
+search; this is lifecycle bookkeeping only and must not invent a new audit PASS.
+
 The audit also independently evaluates both delegation flags.  It may add, clear,
 or rewrite either recommendation if the audited batch exposes a repository-
 mechanical problem or an external-literature/cross-domain-search gap.  A Codex or
