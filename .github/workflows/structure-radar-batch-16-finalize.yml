@@ -1,0 +1,121 @@
+name: StructureRadar batch16 finalize
+on:
+  push:
+    branches: [structure-radar-recent-stage26-plus-batch-16]
+    paths:
+      - '.github/structure-radar-batch-16-finalize-trigger.txt'
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-recent-stage26-plus-batch-16
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Normalize batch16 and verify
+        run: |
+          python - <<'PY'
+          import json, pathlib, re
+          root=pathlib.Path('.')
+          batch='SR-BATCH-RECENT_STAGE26_PLUS-05-R01'
+          task='SR-CENSUS-RECENT_STAGE26_PLUS-01'
+          items=json.loads((root/'.github/structure-radar-batch-16-summary.json').read_text())
+          assert len(items)==13
+          mp={
+            4:['SR-STR-085','SR-STR-095','SR-STR-096','SR-STR-224'],
+            6:['SR-STR-094','SR-STR-095','SR-STR-224'],
+            7:['SR-STR-094','SR-STR-095','SR-STR-224'],
+            10:['SR-STR-130','SR-STR-134','SR-STR-139'],
+            11:['SR-STR-139','SR-STR-140'],
+            12:['SR-STR-140']
+          }
+          no_dist=set(range(1,14))-set(mp)
+          assert no_dist=={1,2,3,5,8,9,13}
+          progress_path=root/'docs/structure-radar/progress.json'
+          prog=json.loads(progress_path.read_text())
+          reviews=prog['source_reviews']
+          for x in items:
+            n=x['n']; sid=x['source_id']
+            rec={'fingerprint':x['fingerprint'],'batch_id':batch}
+            if n in no_dist:
+              rec['status']='NO_DISTINCT_STRUCTURE'
+            else:
+              rec['status']='STRUCTURES_RECORDED'; rec['structure_ids']=mp[n]
+            reviews[sid]=rec
+          prog['audit_batches']=[b for b in prog.get('audit_batches',[]) if b.get('batch_id')!=batch]
+          prog['audit_batches'].append({
+            'batch_id':batch,'task_id':task,'status':'SUBMITTED_FOR_AUDIT',
+            'source_ids':[x['source_id'] for x in items],
+            'sources_reviewed':13,'structures_added':1,'structures_updated':8,
+            'structure_carrier_sources':6,'structures_deduped':7,
+            'searches_completed':0,'arsenal_decisions':0,'audit_required':True,
+            'duplicate_source':0,'no_distinct_structure':7
+          })
+          progress_path.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+
+          reg_path=root/'docs/structure-radar/structure-registry.json'
+          reg=json.loads(reg_path.read_text())
+          reg['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          cards={c['structure_id']:c for c in reg['structures']}
+          nums=[int(re.search(r'(\d+)$',c['structure_id']).group(1)) for c in reg['structures']]
+          assert max(nums)==223 and 'SR-STR-224' not in cards
+          byn={x['n']:x for x in items}
+          new={
+            'structure_id':'SR-STR-224',
+            'canonical_math_name':'Fixed-R coefficient-cell accumulation and hyperbolic boundary barrier',
+            'exact_equations_or_object':'After fixing the physical diagonal R, the identity kappa|R makes admissible squarefree kernels divisor-many and removes the prior varying-modulus K entropy. With X_R=R/(delta*C), the physical-weighted dyadic host satisfies T_R <<_epsilon R^epsilon(X_R/K+sqrt(X_R)); summing coefficient cells t=delta*c0*cs*cn with d_4(t) gives T_R^(all cells)(kappa~K) <<_epsilon R^epsilon(R/K+R). The 1/K main-term gain survives, but the hyperbolic square-root boundary accumulates to R^(1+o(1)), so the current obstruction is boundary factorization or a fixed-power count of actual fixed-R outer support.',
+            'search_terms_primary':['fixed R hyperbolic boundary arithmetic counting','coefficient cell divisor sum physical diagonal support'],
+            'search_terms_aliases':['fixed-R kappa entropy collapse','hyperbolic square-root boundary accumulation'],
+            'theorem_species':['fixed-parameter sieve refinement','hyperbolic boundary barrier','outer-support counting gate'],
+            'repo_provenance':[],
+            'target_populations':['Stage27 Stage19 upper-reentry packets for primitive canonical exactly-two-face cuboids with integral space diagonal R<=B'],
+            'potential_weapon_types':['UPPER_BOUND','BARRIER','RECEIVER'],
+            'applicability_gaps':['The kappa-entropy removal is only after conditioning on the physical diagonal R.','The accumulated square-root boundary contributes R^(1+o(1)); no strict sub-square-root global upper bound, new mu<1/2, or true N2 exponent is proved.','Summing fixed-R fibers over R requires an actual fixed-power outer-support theorem or a boundary-saving theorem.'],
+            'existing_radar_overlap':['SR-STR-085','SR-STR-094','SR-STR-095','SR-STR-096'],
+            'search_status':'NOT_SEARCHED','arsenal_decision':'PENDING','card_status':'SUBMITTED_FOR_AUDIT'
+          }
+          for n in (4,6,7):
+            x=byn[n]
+            new['repo_provenance'].append({'source_id':x['source_id'],'path':x['path'],'locator':x['title'] or 'Stage27 fixed-R refinement','fingerprint':x['fingerprint']})
+          reg['structures'].append(new); cards['SR-STR-224']=new
+          used=set()
+          for x in items:
+            if x['n'] not in mp: continue
+            for cid in mp[x['n']]:
+              used.add(cid); c=cards[cid]
+              prov=c.setdefault('repo_provenance',[])
+              if not any(p.get('source_id')==x['source_id'] and p.get('fingerprint')==x['fingerprint'] for p in prov):
+                prov.append({'source_id':x['source_id'],'path':x['path'],'locator':x['title'] or 'batch16 normalized current Stage27 source','fingerprint':x['fingerprint']})
+          expected={'SR-STR-085','SR-STR-094','SR-STR-095','SR-STR-096','SR-STR-130','SR-STR-134','SR-STR-139','SR-STR-140','SR-STR-224'}
+          assert used==expected
+          note19='Stage27-19 r5at-r5av: fixing the physical diagonal gives kappa|R and removes the varying-modulus entropy, but the coefficient-cell sum leaves an R^(1+o(1)) hyperbolic boundary; no strict sub-square-root global conclusion follows.'
+          for cid in ['SR-STR-085','SR-STR-094','SR-STR-095','SR-STR-096']:
+            gaps=cards[cid].setdefault('applicability_gaps',[])
+            if note19 not in gaps: gaps.append(note19)
+            cards[cid]['card_status']='SUBMITTED_FOR_AUDIT'
+          note20='Stage27-20 r302j-l: subpower divisor-fiber multiplicity does not imply a high-occupancy tail deficit. The missing theorem is a fixed-power correlation/exceptional-mass deficit in the same MAIN physical-host measure; no positive alpha,beta are proved.'
+          for cid in ['SR-STR-130','SR-STR-134','SR-STR-139','SR-STR-140']:
+            gaps=cards[cid].setdefault('applicability_gaps',[])
+            if note20 not in gaps: gaps.append(note20)
+            cards[cid]['card_status']='SUBMITTED_FOR_AUDIT'
+          reg_path.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git diff --check
+          rm -f .github/structure-radar-batch-16-summary.json \
+                .github/structure-radar-batch-16-summary.txt \
+                .github/structure-radar-batch-16-trigger.txt \
+                .github/structure-radar-batch-16-finalize-trigger.txt \
+                .github/workflows/structure-radar-batch-16-select.yml \
+                .github/workflows/structure-radar-batch-16-finalize.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'StructureRadar batch16 normalize latest Stage27 corpus' || exit 0
+          git push
