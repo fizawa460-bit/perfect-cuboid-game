@@ -1,0 +1,191 @@
+name: SR search05 finalize
+on:
+  push:
+    branches: [agent/sr-search05-analysis]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/sr-search05-analysis
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply batch05 decisions
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          targets={
+            'SR-STR-031':'ACTIVE',
+            'SR-STR-032':'PARKED',
+            'SR-STR-033':'PARKED',
+            'SR-STR-036':'PARKED',
+            'SR-STR-037':'ACTIVE',
+            'SR-STR-038':'ACTIVE',
+            'SR-STR-039':'ACTIVE',
+            'SR-STR-040':'ACTIVE',
+          }
+          ledger='docs/structure-radar/literature/SR-SEARCH-05.md'
+          p=pathlib.Path('docs/structure-radar/structure-registry.json')
+          reg=json.loads(p.read_text())
+          seen=[]
+          for c in reg['structures']:
+            sid=c.get('structure_id')
+            if sid in targets:
+              assert c.get('search_status') in {'NOT_SEARCHED','NEEDS_REFRESH'}, (sid,c.get('search_status'))
+              assert c.get('arsenal_decision')=='PENDING', (sid,c.get('arsenal_decision'))
+              c['search_status']='SEARCHED'
+              c['arsenal_decision']=targets[sid]
+              c['search_ledger']=ledger
+              seen.append(sid)
+          assert set(seen)==set(targets), (seen,targets)
+          p.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+
+          pp=pathlib.Path('docs/structure-radar/progress.json')
+          prog=json.loads(pp.read_text())
+          batch={
+            'batch_id':'SR-BATCH-LITERATURE_SEARCH-05-R01',
+            'task_id':'SR-SEARCH-01',
+            'status':'SUBMITTED_FOR_AUDIT',
+            'source_ids':[],
+            'sources_reviewed':0,
+            'structures_added':0,
+            'structures_updated':8,
+            'structure_carrier_sources':0,
+            'structures_deduped':0,
+            'searches_completed':8,
+            'arsenal_decisions':8,
+            'audit_required':True,
+            'duplicate_source':0,
+            'no_distinct_structure':0,
+          }
+          assert not any(x.get('batch_id')==batch['batch_id'] for x in prog.get('audit_batches',[]))
+          prog.setdefault('audit_batches',[]).append(batch)
+          pp.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+
+          text='''# StructureRadar literature ledger — search batch 05
+
+SEARCH_TASK=SR-SEARCH-01
+BATCH_ID=SR-BATCH-LITERATURE_SEARCH-05-R01
+SEARCH_DATE=2026-08-19
+STRUCTURES=SR-STR-031,SR-STR-032,SR-STR-033,SR-STR-036,SR-STR-037,SR-STR-038,SR-STR-039,SR-STR-040
+SEARCH_BATCH_SIZE=8
+EVIDENCE_POLICY=primary sources for external theorem claims; audited repo arsenal checked first
+NOVELTY_BY_SEARCH_ABSENCE=false
+
+## Primary-source ledger
+
+- Régis de la Bretèche and Gérald Tenenbaum, *Remarks on the Selberg--Delange method*, Acta Arith. 200 (2021), 349--369, arXiv:2010.12929. It treats multiplicative Dirichlet series of the form `zeta(s)^rho G(s)` and sharp asymptotics under explicit analytic/derivative hypotheses. It supports the theorem species behind AR-037 but does not remove receiver-specific factorization, analytic-region, vertical-growth, coefficient-majorant, or conductor-uniformity checks.
+- Amnon Yekutieli, *Pythagorean Triples, Complex Numbers, Abelian Groups and Prime Numbers*, arXiv:2101.12166. It gives normalized Pythagorean triples, their rational-unit-circle description, enumeration at fixed hypotenuse, and an effective construction. It is relevant background for SR-STR-032/036, but it does not prove the repo's two-role shared-hypotenuse convolution, primitive cuboid projection, or moving-base triple correction.
+- Ruslan Sharipov, *A note on a perfect Euler cuboid*, arXiv:1104.1716. It reduces the perfect Euler cuboid problem to a degree-12 Diophantine equation; it is adjacent cuboid literature, not an exactly-one lower-family theorem and not the Stage14 exactly-two half-power upper theorem.
+- John Ramsden and Ruslan Sharipov, *On two algebraic parametrizations for rational solutions of the cuboid equations*, arXiv:1208.2587. It studies rational perfect-cuboid factor equations and parametrizations; it does not replace the population/cutoff-specific Stage14 identities or bounds below.
+
+## SR-STR-031 — Finite-order Selberg--Delange theorem contract
+
+Repo overlap `AR-037` is `ACTIVE_REUSABLE` and already locks the external theorem interface. de la Bretèche--Tenenbaum confirms the relevant `zeta(s)^rho G(s)` theorem species, but every application still has to prove its own factorization, regularity/growth, coefficient majorant and declared uniformity. No uncontrolled conductor or parameter-dependent expansion depth is promoted.
+
+DECISION=ACTIVE
+NEW_EXTERNAL_WEAPON=false
+
+## SR-STR-032 — Exact shared-hypotenuse representation convolution
+
+Repo overlap `AR-038` is a proved exact raw-chain identity, but its reuse class is `REUSE_AFTER_EXACT_ADAPTER` and its status is `BACKGROUND_REUSABLE`. Yekutieli supports the fixed-hypotenuse Pythagorean representation background; it does not turn `H(p)L_B(p)` into a primitive unique-object count and does not solve the moving-base triple correction. Keep gcd/order/multiple-face corrections outside the raw product.
+
+DECISION=PARKED
+NEW_EXTERNAL_WEAPON=false
+
+## SR-STR-033 — Mod-7 two-parameter exactly-one-face family
+
+Repo overlap `AR-039` is a proved constructive subfamily with `N1(B) >> B^(1/2)`, useful as a regression family and lower-bound witness. The checked cuboid parametrization literature addresses perfect/Euler cuboid equations rather than this exact mod-14/mod-7 primitive exactly-one family. This remains a lower subfamily only and supplies neither a full `N1` asymptotic nor an `N2` comparison.
+
+DECISION=PARKED
+NEW_EXTERNAL_WEAPON=false
+
+## SR-STR-036 — Primitive Euclid face decomposition
+
+Repo overlap `AR-002` is the exact distinguished-leg, scale-times-primitive Euclid decomposition. Yekutieli gives modern primary-source background for normalized Pythagorean triples, but no external upgrade is needed. Orientation, parity and the common scale remain explicit, and face primitivity is not silently promoted to global cuboid primitivity.
+
+DECISION=PARKED
+NEW_EXTERNAL_WEAPON=false
+
+## SR-STR-037 — Exact two-face gluing with multiplicity one
+
+Repo overlap `AR-003` is `ACTIVE` and `DIRECT_REUSE`: with the exact shared physical leg, primitive oriented face data, canonical ordering and global primitivity, the minimal glued triple has multiplicity one. No external theorem is needed; adjacent cuboid parametrization papers do not strengthen this object-level reconstruction.
+
+DECISION=ACTIVE
+NEW_EXTERNAL_WEAPON=false
+
+## SR-STR-038 — Raw-pair face-incidence graph identity
+
+Repo overlap `AR-004` is an active exact Stage14 identity: `E(B)=N2(B)+3T(B)=1/2 sum_F deg_B(F)`. The raw-pair measure and triple multiplicity three are part of the theorem. The later `9T(B)^2 <= Q_edge(B)` correction is an exact collision-measure statement, not a collision saving. No transfer to ambient Stage15 `B2` is made without rebuilding the graph and degree model.
+
+DECISION=ACTIVE
+NEW_EXTERNAL_WEAPON=false
+
+## SR-STR-039 — Stage14 integral-space exactly-two half-power upper theorem
+
+Repo overlap `AR-006` is the current proved Stage14 whole-family theorem `N2(B) << B^(1/2+o(1))` for the primitive canonical integral-space exactly-two population. Targeted primary-literature checking found adjacent perfect/Euler cuboid parametrization and reduction papers, but no source checked here supplies a stronger theorem with this exact population and cutoff. This search absence is not treated as novelty. No ambient `M2` bound, lower bound, strict sub-square-root saving, or perfect-cuboid conclusion is inferred.
+
+DECISION=ACTIVE
+NEW_EXTERNAL_WEAPON=false
+
+## SR-STR-040 — Consumed/superseded asset recharge discipline
+
+Repo overlap `AR-028` is an active proof-accounting firewall, not an external theorem receiver. Each support/core/fiber is charged once; a superseded theorem may leave exact reusable lemmas, while consumed support cannot be recharged. Quantifier order and original measure remain attached to every reused asset.
+
+DECISION=ACTIVE
+NEW_EXTERNAL_WEAPON=false
+
+## Batch verdict
+
+ACTIVE=SR-STR-031,SR-STR-037,SR-STR-038,SR-STR-039,SR-STR-040
+PARKED=SR-STR-032,SR-STR-033,SR-STR-036
+EXTERNAL_GATE=none
+NEW_EXTERNAL_ACTIVE_WEAPONS=0
+SEARCHES_COMPLETED=8
+ARSENAL_DECISIONS_RESOLVED=8
+
+Firewalls:
+- literature search absence never certifies novelty or optimality;
+- Selberg--Delange uniformity remains receiver-specific;
+- representation convolution is raw incidence measure, not primitive-object multiplicity;
+- lower subfamily is not a full asymptotic;
+- face primitivity is not cuboid primitivity;
+- Stage14 identities and the half-power theorem keep their exact physical population/cutoff;
+- no perfect-cuboid existence/nonexistence claim.
+'''
+          pathlib.Path(ledger).write_text(text)
+          PY
+      - name: Refresh and verify
+        run: |
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+          python - <<'PY'
+          import json
+          ctl=json.load(open('docs/structure-radar/controller.json'))
+          q=json.load(open('docs/structure-radar/exploration-queue.json'))
+          p=json.load(open('docs/structure-radar/progress.json'))
+          assert ctl['registry']['structure_count']==228, ctl['registry']
+          assert ctl['registry']['unresolved_search_count']==169, ctl['registry']
+          assert ctl['registry']['pending_arsenal_decision_count']==188, ctl['registry']
+          assert ctl['queue']['task_count']==22, ctl['queue']
+          assert q['tasks'][0]['status']=='READY'
+          assert q['tasks'][0]['structure_ids']==['SR-STR-041','SR-STR-042','SR-STR-043','SR-STR-044','SR-STR-045','SR-STR-046','SR-STR-047','SR-STR-048'], q['tasks'][0]
+          b=p['audit_batches'][-1]
+          assert b['batch_id']=='SR-BATCH-LITERATURE_SEARCH-05-R01'
+          assert b['searches_completed']==8 and b['arsenal_decisions']==8
+          open('.tmp/sr-search05-validation.txt','w').write('PASS\n'+json.dumps({'controller':ctl,'next_task':q['tasks'][0],'batch':b},indent=2)+'\n')
+          PY
+      - name: Clean temporary analysis files and commit official result
+        run: |
+          rm -rf .tmp
+          rm -f .github/workflows/sr-search05-extract.yml .github/workflows/sr-search05-compact.yml .github/workflows/sr-search05-finalize.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m 'StructureRadar: literature search batch 05'
+          git push origin HEAD:agent/sr-search05-analysis
