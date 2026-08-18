@@ -1,0 +1,212 @@
+name: StructureRadar batch22 finalizer
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-22
+    paths:
+      - docs/structure-radar/.batch22-finalize-trigger
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-22
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Finalize batch22 ledger and registry provenance
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root=Path('.')
+          radar=root/'docs/structure-radar'
+          q=json.loads((radar/'exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY')
+          ids=task['source_ids'][:60]
+          assert task['task_id']=='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          assert len(ids)==60
+          assert ids[0]=='SRC-B17EA4CAB19A' and ids[-1]=='SRC-41CD367FBC48'
+
+          map_lists = [
+            ['SR-STR-155'],
+            ['SR-STR-162'],
+            ['SR-STR-192'],
+            ['SR-STR-209','SR-STR-218'],
+            ['SR-STR-191'],
+            ['SR-STR-178'],
+            ['SR-STR-191'],
+            ['SR-STR-182','SR-STR-189'],
+            ['SR-STR-203'],
+            ['SR-STR-081'],
+            ['SR-STR-200','SR-STR-201','SR-STR-202'],
+            ['SR-STR-205'],
+            ['SR-STR-177'],
+            ['SR-STR-219'],
+            ['SR-STR-175'],
+            ['SR-STR-204','SR-STR-205'],
+            ['SR-STR-155','SR-STR-223'],
+            ['SR-STR-183','SR-STR-191'],
+            ['SR-STR-198','SR-STR-199'],
+            ['SR-STR-182','SR-STR-189'],
+            ['SR-STR-204'],
+            ['SR-STR-038'],
+            ['SR-STR-162'],
+            ['SR-STR-199'],
+            ['SR-STR-193'],
+            ['SR-STR-201','SR-STR-202'],
+            ['SR-STR-203','SR-STR-204'],
+            ['SR-STR-202'],
+            ['SR-STR-196'],
+            ['SR-STR-186','SR-STR-194'],
+            ['SR-STR-155'],
+            ['SR-STR-155'],
+            ['SR-STR-199'],
+            ['SR-STR-199','SR-STR-200'],
+            ['SR-STR-191'],
+            ['SR-STR-165','SR-STR-209'],
+            ['SR-STR-223'],
+            ['SR-STR-202'],
+            ['SR-STR-196','SR-STR-220','SR-STR-221'],
+            ['SR-STR-195'],
+            ['SR-STR-186','SR-STR-188'],
+            ['SR-STR-200'],
+            ['SR-STR-200','SR-STR-201'],
+            ['SR-STR-175'],
+            ['SR-STR-200'],
+            ['SR-STR-198','SR-STR-199'],
+            ['SR-STR-196','SR-STR-197'],
+            ['SR-STR-205'],
+            ['SR-STR-167'],
+            ['SR-STR-165','SR-STR-167'],
+            [],
+            ['SR-STR-198'],
+            ['SR-STR-200','SR-STR-201','SR-STR-202'],
+            ['SR-STR-050','SR-STR-202'],
+            ['SR-STR-201','SR-STR-202'],
+            ['SR-STR-201','SR-STR-202'],
+            ['SR-STR-204','SR-STR-205'],
+            ['SR-STR-203','SR-STR-204'],
+            ['SR-STR-198','SR-STR-225'],
+            ['SR-STR-198','SR-STR-199'],
+          ]
+          assert len(map_lists)==60
+          mapping=dict(zip(ids,map_lists))
+          assert sum(bool(v) for v in mapping.values())==59
+          updated=sorted({x for v in mapping.values() for x in v})
+          assert len(updated)==37
+
+          source_map={}
+          for part in sorted((radar/'source-manifest').glob('part-*.json')):
+              for s in json.loads(part.read_text())['sources']:
+                  if s['source_id'] in mapping:
+                      source_map[s['source_id']]=s
+          assert set(source_map)==set(ids)
+
+          progress=json.loads((radar/'progress.json').read_text())
+          reviews=progress['source_reviews']
+          batch_id='SR-BATCH-STAGE14_15_DEEP_CORPUS-22-R01'
+          for sid in ids:
+              s=source_map[sid]
+              ms=mapping[sid]
+              item={
+                  'fingerprint':s['fingerprint'],
+                  'status':'STRUCTURES_RECORDED' if ms else 'NO_DISTINCT_STRUCTURE',
+                  'batch_id':batch_id,
+              }
+              if ms:
+                  item['structure_ids']=ms
+              reviews[sid]=item
+          audit_batches=[b for b in progress.setdefault('audit_batches',[]) if b.get('batch_id')!=batch_id]
+          audit_batches.append({
+              'batch_id':batch_id,
+              'task_id':task['task_id'],
+              'status':'SUBMITTED_FOR_AUDIT',
+              'source_ids':ids,
+              'sources_reviewed':60,
+              'structures_added':0,
+              'structures_updated':len(updated),
+              'structure_carrier_sources':59,
+              'structures_deduped':1,
+              'searches_completed':0,
+              'arsenal_decisions':0,
+              'audit_required':True,
+              'duplicate_source':0,
+              'no_distinct_structure':1,
+          })
+          progress['audit_batches']=audit_batches
+          (radar/'progress.json').write_text(json.dumps(progress,indent=2,ensure_ascii=False)+'\n')
+
+          registry=json.loads((radar/'structure-registry.json').read_text())
+          cards={c['structure_id']:c for c in registry['structures']}
+          assert set(updated) <= set(cards)
+          for sid in ids:
+              s=source_map[sid]
+              for cid in mapping[sid]:
+                  prov=cards[cid].setdefault('repo_provenance',[])
+                  if not any(p.get('source_id')==sid for p in prov):
+                      prov.append({
+                          'source_id':sid,
+                          'path':s['path'],
+                          'locator':'normalized Stage14 deep-corpus batch22 carrier',
+                          'fingerprint':s['fingerprint'],
+                      })
+          (radar/'structure-registry.json').write_text(json.dumps(registry,indent=2,ensure_ascii=False)+'\n')
+          PY
+
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          r=Path('docs/structure-radar')
+          m=json.loads((r/'source-manifest.json').read_text())
+          assert m['counts_by_review_state']['CURRENT_REVIEWED']==1902
+          assert m['counts_by_review_state']['NEW']==654
+          q=json.loads((r/'exploration-queue.json').read_text())
+          ready=next(t for t in q['tasks'] if t['status']=='READY')
+          assert ready['task_id']=='SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+          assert ready['source_ids'][0]=='SRC-737BE4A23BE5'
+          c=json.loads((r/'controller.json').read_text())
+          assert c['next_expected_command']=='StructureRadar-audit'
+          PY
+          git diff --check
+
+          rm -f \
+            .github/workflows/structure-radar-batch22-review.yml \
+            .github/workflows/structure-radar-batch22-anchors.yml \
+            .github/workflows/structure-radar-batch22-detail.yml \
+            .github/workflows/structure-radar-batch22-lineage.yml \
+            .github/workflows/structure-radar-batch22-origin.yml \
+            .github/workflows/structure-radar-batch22-cardpeek.yml \
+            .github/workflows/structure-radar-batch22-finalize.yml \
+            docs/structure-radar/.batch22-review-trigger \
+            docs/structure-radar/.batch22-anchors-trigger \
+            docs/structure-radar/.batch22-detail-trigger \
+            docs/structure-radar/.batch22-lineage-trigger \
+            docs/structure-radar/.batch22-origin-trigger \
+            docs/structure-radar/.batch22-cardpeek-trigger \
+            docs/structure-radar/.batch22-finalize-trigger \
+            docs/structure-radar/.batch22-boundary-pack.json \
+            docs/structure-radar/.batch22-candidates.json \
+            docs/structure-radar/.batch22-one-line.txt \
+            docs/structure-radar/.batch22-anchors.txt \
+            docs/structure-radar/.batch22-candidate-detail.txt \
+            docs/structure-radar/.batch22-lineage.txt \
+            docs/structure-radar/.batch22-origin.txt \
+            docs/structure-radar/.batch22-cardpeek.json
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "StructureRadar census Stage14-15 deep corpus batch 22"
+          git push origin HEAD:structure-radar-deep-corpus-batch-22
