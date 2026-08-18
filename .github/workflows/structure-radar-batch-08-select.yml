@@ -2,14 +2,19 @@ name: StructureRadar batch08 selector
 on:
   push:
     branches: [structure-radar-deep-corpus-batch-08]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize]
 permissions:
   contents: write
 jobs:
   select:
-    if: github.actor != 'github-actions[bot]'
+    if: github.event_name == 'push' || github.head_ref == 'structure-radar-deep-corpus-batch-08'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-08
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -27,8 +32,7 @@ jobs:
                   src[s['source_id']]=s
           selected=[src[i] for i in ids]
           out={'batch_id':'SR-BATCH-STAGE14_15_DEEP_CORPUS-08-R01','task_id':t['task_id'],'source_count':len(selected),'sources':selected}
-          sel=root/'.github/structure-radar-batch-08-selection.json'
-          sel.write_text(json.dumps(out,indent=2)+'\n')
+          (root/'.github/structure-radar-batch-08-selection.json').write_text(json.dumps(out,indent=2)+'\n')
           parts=[]
           for n,s in enumerate(selected,1):
               p=root/s['path']
@@ -39,4 +43,4 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add .github/structure-radar-batch-08-selection.json .github/structure-radar-batch-08-bundle.txt
           git commit -m 'StructureRadar: materialize batch08 source bundle' || exit 0
-          git push
+          git push origin HEAD:structure-radar-deep-corpus-batch-08
