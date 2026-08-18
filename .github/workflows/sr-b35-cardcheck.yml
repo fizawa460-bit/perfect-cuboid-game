@@ -1,0 +1,29 @@
+name: StructureRadar batch35 card check
+on:
+  push:
+    branches: [agent/sr-b35-analysis]
+permissions:
+  contents: write
+jobs:
+  cards:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Extract relevant card definitions
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          ids={'SR-STR-001','SR-STR-038','SR-STR-039','SR-STR-041','SR-STR-055','SR-STR-133','SR-STR-141','SR-STR-142','SR-STR-143','SR-STR-144','SR-STR-146','SR-STR-147','SR-STR-148','SR-STR-227'}
+          reg=json.loads(pathlib.Path('docs/structure-radar/structure-registry.json').read_text())
+          out=[]
+          for c in reg['structures']:
+              if c['structure_id'] in ids:
+                  out.append({k:c.get(k) for k in ['structure_id','canonical_math_name','target_population','exact_equations_or_object','theorem_species','status','applicability_gap','search_status','arsenal_decision']})
+          pathlib.Path('.tmp/sr-b35-cards.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .tmp/sr-b35-cards.json
+          git commit -m 'Temp: record batch35 card definitions' || true
+          git push origin HEAD:agent/sr-b35-analysis
