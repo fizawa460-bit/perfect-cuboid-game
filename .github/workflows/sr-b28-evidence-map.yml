@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - agent/sr-b28-analyzer
+  pull_request:
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -23,8 +26,7 @@ jobs:
           if out.exists(): raise SystemExit(0)
           q=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
           task=next(t for t in q['tasks'] if t['status']=='READY' and t['phase']=='SOURCE_CENSUS')
-          src={}
-          path_to_sid={}
+          src={}; path_to_sid={}
           for p in (root/'docs/structure-radar/source-manifest').glob('part-*.json'):
               for s in json.loads(p.read_text())['sources']:
                   src[s['source_id']]=s; path_to_sid[s['path']]=s['source_id']
