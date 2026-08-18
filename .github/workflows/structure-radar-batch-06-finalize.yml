@@ -1,0 +1,321 @@
+name: StructureRadar batch 06 finalizer
+
+on:
+  push:
+    branches:
+      - structure-radar-deep-corpus-batch-06
+
+permissions:
+  contents: write
+
+jobs:
+  finalize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: structure-radar-deep-corpus-batch-06
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply StructureRadar batch 06
+        shell: bash
+        run: |
+          python - <<'PY'
+          import copy
+          import json
+          from pathlib import Path
+
+          ROOT = Path('.')
+          RADAR = ROOT / 'docs' / 'structure-radar'
+          BATCH = 'SR-BATCH-STAGE14_15_DEEP_CORPUS-06-R01'
+          TASK = 'SR-CENSUS-STAGE14_15_DEEP_CORPUS-01'
+
+          def load(path):
+              return json.loads(Path(path).read_text(encoding='utf-8'))
+
+          def dump(path, data):
+              Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+
+          manifest = load(RADAR / 'source-manifest.json')
+          queue = load(RADAR / 'exploration-queue.json')
+          progress = load(RADAR / 'progress.json')
+          registry = load(RADAR / 'structure-registry.json')
+
+          task = next(t for t in queue['tasks'] if t['task_id'] == TASK)
+          assert task['status'] == 'READY', task
+          source_ids = list(task['source_ids'][:60])
+          assert len(source_ids) == 60
+
+          source_map = {s['source_id']: s for s in manifest['sources']}
+          current = [source_map[sid] for sid in source_ids]
+          paths = {s['path'] for s in current}
+
+          card_paths = {
+              'SR-STR-188': ['stages/stage14/archive/tasks/14-4by/result.md'],
+              'SR-STR-196': [
+                  'stages/stage14/archive/tasks/14-4bz/result.md',
+                  'stages/stage14/archive/tasks/14-4ca/result.md',
+                  'stages/stage14/archive/tasks/14-4cb/result.md',
+                  'stages/stage14/archive/tasks/14-4cc/result.md',
+              ],
+              'SR-STR-197': [
+                  'stages/stage14/archive/tasks/14-4cd/result.md',
+                  'stages/stage14/archive/tasks/14-4ce/result.md',
+              ],
+              'SR-STR-198': [
+                  'stages/stage14/archive/tasks/14-4cf/result.md',
+                  'stages/stage14/archive/tasks/14-4cg/result.md',
+                  'stages/stage14/archive/tasks/14-4ch/result.md',
+                  'stages/stage14/archive/tasks/14-4ci/result.md',
+                  'stages/stage14/archive/tasks/14-4cj/result.md',
+              ],
+              'SR-STR-199': [
+                  'stages/stage14/archive/tasks/14-4ck/result.md',
+                  'stages/stage14/archive/tasks/14-4cl/result.md',
+                  'stages/stage14/archive/tasks/14-4cm/result.md',
+                  'stages/stage14/archive/tasks/14-4cn/result.md',
+                  'stages/stage14/archive/tasks/14-4co/result.md',
+              ],
+              'SR-STR-200': [
+                  'stages/stage14/archive/tasks/14-4cp/result.md',
+                  'stages/stage14/archive/tasks/14-4cq/result.md',
+                  'stages/stage14/archive/tasks/14-4cr/result.md',
+                  'stages/stage14/archive/tasks/14-4cs/result.md',
+              ],
+              'SR-STR-201': [
+                  'stages/stage14/archive/tasks/14-4ct/result.md',
+                  'stages/stage14/archive/tasks/14-4cu/result.md',
+                  'stages/stage14/archive/tasks/14-4cv/result.md',
+                  'stages/stage14/archive/tasks/14-4cw/result.md',
+                  'stages/stage14/archive/tasks/14-4cx/result.md',
+              ],
+              'SR-STR-202': [
+                  'stages/stage14/archive/tasks/14-4cy/result.md',
+                  'stages/stage14/archive/tasks/14-4cz/result.md',
+                  'stages/stage14/archive/tasks/14-4da/result.md',
+                  'stages/stage14/archive/tasks/14-4db/result.md',
+              ],
+          }
+
+          expected_carriers = {p for ps in card_paths.values() for p in ps}
+          assert expected_carriers <= paths, sorted(expected_carriers - paths)
+          assert 'stages/stage14/archive/tasks/14-4dc/result.md' not in paths
+          assert sum(1 for s in current if s['path'].endswith('/result.md')) == 30
+
+          path_to_card = {}
+          for card_id, ps in card_paths.items():
+              for p in ps:
+                  assert p not in path_to_card
+                  path_to_card[p] = card_id
+
+          for source in current:
+              review = {
+                  'fingerprint': source['fingerprint'],
+                  'batch_id': BATCH,
+              }
+              card_id = path_to_card.get(source['path'])
+              if card_id:
+                  review['status'] = 'STRUCTURES_RECORDED'
+                  review['structure_ids'] = [card_id]
+              else:
+                  review['status'] = 'NO_DISTINCT_STRUCTURE'
+              progress['source_reviews'][source['source_id']] = review
+
+          by_path = {s['path']: s for s in manifest['sources']}
+          def provenance(path, locator):
+              s = by_path[path]
+              return {
+                  'source_id': s['source_id'],
+                  'path': path,
+                  'locator': locator,
+                  'fingerprint': s['fingerprint'],
+              }
+
+          cards = registry['structures']
+          by_id = {c['structure_id']: c for c in cards}
+          assert all(f'SR-STR-{i:03d}' not in by_id for i in range(196, 203))
+
+          # Strengthen the existing adjacent-two-cell transform card with the archived mainline proof.
+          c188 = by_id['SR-STR-188']
+          p188 = provenance(
+              'stages/stage14/archive/tasks/14-4by/result.md',
+              'uniform adjacent two-cell mixed Fourier transform and inert-prime square-sieve consequence',
+          )
+          if not any(p.get('source_id') == p188['source_id'] for p in c188['repo_provenance']):
+              c188['repo_provenance'].append(p188)
+          extra188 = ' The archived mainline proof also records the adjacent two-cell square-sieve consequence N_2cell(R,S) << (R S)^(2/3) B^o(1) on the physical packet.'
+          if 'N_2cell(R,S)' not in c188['exact_equations_or_object']:
+              c188['exact_equations_or_object'] += extra188
+          c188['card_status'] = 'SUBMITTED_FOR_AUDIT'
+
+          def provs(paths, locator):
+              return [provenance(p, locator) for p in paths]
+
+          new_cards = [
+              {
+                  'structure_id': 'SR-STR-196',
+                  'canonical_math_name': 'Quantifier-safe shared-label min envelope and transverse difference-kernel localization',
+                  'exact_equations_or_object': 'For reduced P/Q write P=a x^2, Q=b y^2 and xi=ab=ker(PQ). Dyadic shell/support bounds and adjacent-two-cell square-sieve bounds are alternative complete counts of the same charged-once block and must be combined by min, not multiplied. The four-cell xi algebra can saturate the critical xi shell, so the transverse label k=ker(Q^2-P^2), with gcd(k,xi)=1, supplies the next independent localization variable and its own shell support bound.',
+                  'search_terms_primary': ['shared squareclass shell min envelope', 'transverse difference kernel dyadic localization'],
+                  'search_terms_aliases': ['quantifier-safe min receiver', 'xi saturation transverse k shell'],
+                  'theorem_species': ['dyadic optimization', 'quantifier firewall', 'squareclass support localization'],
+                  'repo_provenance': provs(card_paths['SR-STR-196'], 'shared-label shell/min optimization and transverse-k localization chain'),
+                  'target_populations': ['Stage14 reduced-coordinate same-squareclass collision packets'],
+                  'potential_weapon_types': ['DYADIC_MINIMAX', 'SQUARECLASS_SUPPORT', 'TRANSVERSE_KERNEL'],
+                  'applicability_gaps': ['The two bounds are not independent probabilities and may not be multiplied.', 'Historical whole-family exponents from this chain are superseded by later bounds; the reusable object is the quantifier-safe localization mechanism.'],
+                  'existing_radar_overlap': ['SR-STR-186', 'SR-STR-194'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+              {
+                  'structure_id': 'SR-STR-197',
+                  'canonical_math_name': 'Four-root rank-one difference-kernel lattice and dual-switch residue lock',
+                  'exact_equations_or_object': 'With Q-P=g k_- r^2 and Q+P=g k_+ s^2, primitive reduced roots give a rank-one congruence lattice k_+ == lambda k_- (mod x^2 y^2). At the critical same-(xi,k) off-diagonal endpoint, positive-power parts must switch in both the xi and k four-cell allocations. Every odd switching prime is 1 mod 4 and obeys the exact primewise residue lock (k/p)=+1 on xi-switch support and (xi/p)=+1 on k-switch support.',
+                  'search_terms_primary': ['difference kernel rank one congruence lattice', 'dual switch primewise quadratic residue lock'],
+                  'search_terms_aliases': ['four-root endpoint lattice', 'xi k dual switch'],
+                  'theorem_species': ['congruence lattice', 'squareclass collision', 'primewise residue constraint'],
+                  'repo_provenance': provs(card_paths['SR-STR-197'], 'critical four-root lattice and dual-switch residue endpoint'),
+                  'target_populations': ['Stage14 critical reduced-coordinate same-(xi,k) collision packets'],
+                  'potential_weapon_types': ['LATTICE_SPACING', 'LOCAL_RESIDUE_LOCK', 'ENDPOINT_LOCALIZATION'],
+                  'applicability_gaps': ['The primewise residue locks are exact support conditions, not independent half-density savings.', 'A second spacing charge is illegal when the modulus is reconstructed from the same physical roots.'],
+                  'existing_radar_overlap': ['SR-STR-194', 'SR-STR-195'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+              {
+                  'structure_id': 'SR-STR-198',
+                  'canonical_math_name': 'Balanced Gaussian square-divisor common-core compression with CRT line rigidity',
+                  'exact_equations_or_object': 'Balanced xi/k switch cells beta,gamma,S,T lift from c^2|A^2+B^2 to exact Gaussian square divisors lambda_c^2|Z_c. The four residual norms collapse pairwise to q_beta=q_gamma=C u and q_S=q_T=C v with u v<=B^(1/4+o(1)). Fixed eight cells plus (C,u,v) have B^o(1) physical lifts. The primitive z direction lies in the full k CRT lattice and has dual order k^2, while the xi short span is forced to rank one by Plucker-minor modulus-versus-height rigidity, giving a unique physical root vector in a fixed oriented xi packet.',
+                  'search_terms_primary': ['Gaussian square divisor common core residual compression', 'CRT dual saturation Plucker rank one rigidity'],
+                  'search_terms_aliases': ['balanced four-host Gaussian descent', 'common-core residual eight-cell compression'],
+                  'theorem_species': ['Gaussian factorization', 'common-core compression', 'lattice duality', 'Plucker rigidity'],
+                  'repo_provenance': provs(card_paths['SR-STR-198'], 'Gaussian switch descent, common-core residual collapse, and CRT rank-one lift chain'),
+                  'target_populations': ['Stage14 balanced same-(xi,k) endpoint collision packets'],
+                  'potential_weapon_types': ['GAUSSIAN_DESCENT', 'COMMON_CORE', 'CRT_DUALITY', 'RANK_RIGIDITY'],
+                  'applicability_gaps': ['Fixed-host divisor multiplicity cannot be summed over moving hosts without preserving the common-core incidence.', 'The residual triple alone does not determine the eight cells; cell data remain part of the reconstruction certificate.'],
+                  'existing_radar_overlap': ['SR-STR-175', 'SR-STR-197'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+              {
+                  'structure_id': 'SR-STR-199',
+                  'canonical_math_name': 'Split-quartic agreement allocation and reciprocal Edwards-Cayley reduction',
+                  'exact_equations_or_object': 'After eliminating switch products, the balanced cell fiber reduces to four agreement cells satisfying a scaled equal-value equation for F(a,b)=a b (b-a)(b+a). Off the physically impossible proportional branch, good primes admit a 4x4 allocation across the four split factors and reciprocal fourth-difference sign allocations. The quadratic cyclotomic branches are physically empty. Primitive allocation ratios yield the exact (2,2) form (u^2-1)(v^2-1)=lambda u v, singular only at lambda in {0,+/-4}; physical lambda=4 is the Cayley component uv-u-v-1=0 and carries exact gcd-square/squareclass locks. The generic genus-one formulation is a structural receiver, not by itself the sharp counting theorem.',
+                  'search_terms_primary': ['split quartic equal value prime allocation', 'reciprocal Edwards Cayley singular smooth reduction'],
+                  'search_terms_aliases': ['four agreement cell quartic energy', 'reciprocal cyclotomic signed allocation'],
+                  'theorem_species': ['multiplicative energy', 'prime allocation', 'genus-one normal form', 'singular branch classification'],
+                  'repo_provenance': provs(card_paths['SR-STR-199'], 'split-quartic agreement, reciprocal allocation, and Edwards/Cayley reduction chain'),
+                  'target_populations': ['Stage14 balanced common-core agreement-cell fibers'],
+                  'potential_weapon_types': ['QUARTIC_ENERGY', 'PRIME_ALLOCATION', 'CAYLEY_REDUCTION', 'GENUS_ONE_GATE'],
+                  'applicability_gaps': ['A fixed-value divisor bound does not control the moving equal-value problem.', 'The completed generic genus-one audit did not certify the required uniform physical-family saving; original reciprocal divisibility remains essential.'],
+                  'existing_radar_overlap': ['SR-STR-198'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+              {
+                  'structure_id': 'SR-STR-200',
+                  'canonical_math_name': 'Primitive common-core Gaussian root-line spacing and dual Cayley orientation compression',
+                  'exact_equations_or_object': 'After peeling only fixed bad coefficient support, a common core C0 dividing a normalized sum of two squares imposes U == rho V (mod C0), rho^2=-1, with only B^o(1) CRT root lines. Distinct primitive points on one line have nonzero determinant divisible by C0, giving the charged-once spacing bound 1+O(UV/C0). The second common-core occurrence yields a Cayley divisor lock and a coprime split into same/opposite Gaussian relative orientations. Alternative complete counts of the same packet are combined by taking their minimum; the quotient common gcd is exactly the physical root-product common gcd at odd primes.',
+                  'search_terms_primary': ['primitive Gaussian root line determinant spacing common core', 'dual Cayley common core orientation split'],
+                  'search_terms_aliases': ['common-core slope spacing', 'same opposite Gaussian orientation Cayley split'],
+                  'theorem_species': ['primitive lattice spacing', 'Gaussian root line', 'Cayley divisor allocation', 'quantifier-safe minimax'],
+                  'repo_provenance': provs(card_paths['SR-STR-200'], 'common-core primitive root-line, dual-Cayley, orientation, and gcd-identification chain'),
+                  'target_populations': ['Stage14 common-core balanced endpoint primitive-pair packets'],
+                  'potential_weapon_types': ['PRIMITIVE_SPACING', 'COMMON_CORE', 'GAUSSIAN_ORIENTATION', 'MIN_ENVELOPE'],
+                  'applicability_gaps': ['Self-generated quadratic-value moduli cannot be charged as a second determinant modulus.', 'Historical 3/4, 2/3 and 5/8 envelopes are superseded; the reusable content is the legal common-core spacing/orientation mechanism.'],
+                  'existing_radar_overlap': ['SR-STR-198', 'SR-STR-199'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+              {
+                  'structure_id': 'SR-STR-201',
+                  'canonical_math_name': 'Residual-host Gaussian-core lift and joint-core row-column reconstruction',
+                  'exact_equations_or_object': 'For the residual xi Gaussian host W=g Pi_C T, the good common-core part has a canonical oriented Gaussian divisor Pi_C while the excess coordinate-gcd square is absorbed by the small residual norm. Intersecting Cayley and residual good cores gives one joint modulus J with a 2x2 row/column sign partition. Column cofactors reconstruct endpoint roots and the Cayley numerator M; the row CRT reconstructs N=abcd. Prime-support feedback collapses the Cayley-only annulus, forces the entire lost core into cross-root support, and makes the lost core divide the column cofactor product. These are alternative charged-once reconstruction counts, not multiplicative savings.',
+                  'search_terms_primary': ['residual Gaussian common core canonical divisor', 'joint core row column CRT reconstruction lost core'],
+                  'search_terms_aliases': ['nested Cayley residual core', 'row-column twin cofactor reconstruction'],
+                  'theorem_species': ['Gaussian divisor lift', 'CRT reconstruction', 'nested core decomposition', 'lost-core support'],
+                  'repo_provenance': provs(card_paths['SR-STR-201'], 'residual-host Gaussian lift and joint-core row/column reconstruction chain'),
+                  'target_populations': ['Stage14 post-common-core balanced endpoint packets'],
+                  'potential_weapon_types': ['GAUSSIAN_LIFT', 'ROW_COLUMN_CRT', 'LOST_CORE', 'RECONSTRUCTION'],
+                  'applicability_gaps': ['The row and column are two views of the same joint modulus and may not be multiplied as independent spacing.', 'Historical intermediate exponents are not current global cards.'],
+                  'existing_radar_overlap': ['SR-STR-198', 'SR-STR-200'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+              {
+                  'structure_id': 'SR-STR-202',
+                  'canonical_math_name': 'Root-gcd square transfer and globally odd-primitive square-root saturation',
+                  'exact_equations_or_object': 'Cross-root and same-side root gcd cells inject square divisors into both the endpoint column and Cayley row. After the lost-core peel, K^2*(H^2/D0) divides the reduced column product. Reversing the quantifier order and choosing the cross-root gcd H before D0 makes D0|H^2 divisor-many and yields a complete stratum count 1/2-kappa-s. Thus every fixed-power cross-root or same-side root-gcd stratum is strictly sub-square-root; any square-root saturation sequence has H=K=B^o(1), C/J=C_Cayley/J=B^o(1), and all four odd cross-state root-gcd cells subpolynomial.',
+                  'search_terms_primary': ['root gcd square transfer lost core square root saturation', 'globally odd primitive common core single column'],
+                  'search_terms_aliases': ['cross-root-first lost-core enumeration', 'same-side gcd square row column transfer'],
+                  'theorem_species': ['gcd stratification', 'square-divisor transfer', 'quantifier-order optimization', 'saturation rigidity'],
+                  'repo_provenance': provs(card_paths['SR-STR-202'], 'cross/same-side root-gcd square transfer and square-root saturation refinement chain'),
+                  'target_populations': ['Stage14 square-root-saturating common-core single-column packets'],
+                  'potential_weapon_types': ['GCD_PEEL', 'SQUARE_DIVISOR', 'SATURATION_RIGIDITY', 'QUANTIFIER_REORDERING'],
+                  'applicability_gaps': ['This refines the equality geometry of an existing square-root upper bound; it does not prove a uniform fixed delta below square root.', 'Endpoint-small factors remain B^o(1) decorations and cannot be promoted to independent savings.'],
+                  'existing_radar_overlap': ['SR-STR-201', 'SR-STR-200'],
+                  'search_status': 'NOT_SEARCHED',
+                  'arsenal_decision': 'PENDING',
+                  'card_status': 'SUBMITTED_FOR_AUDIT',
+              },
+          ]
+
+          cards.extend(new_cards)
+          registry['status'] = 'BATCH_SUBMITTED_FOR_AUDIT'
+
+          # Append a batch-history record using the existing history list as schema guide when available.
+          history_key = None
+          for key, value in progress.items():
+              if isinstance(value, list) and any(isinstance(x, dict) and x.get('batch_id') == 'SR-BATCH-STAGE14_15_DEEP_CORPUS-05-R01' for x in value):
+                  history_key = key
+                  break
+          if history_key:
+              hist = progress[history_key]
+              prev = next(x for x in reversed(hist) if isinstance(x, dict) and x.get('batch_id') == 'SR-BATCH-STAGE14_15_DEEP_CORPUS-05-R01')
+              entry = copy.deepcopy(prev)
+              entry.update({
+                  'batch_id': BATCH,
+                  'task_id': TASK,
+                  'status': 'SUBMITTED_FOR_AUDIT',
+                  'source_ids': source_ids,
+                  'sources_reviewed': 60,
+                  'structures_added': 7,
+                  'structures_updated': 1,
+                  'structure_carrier_sources': 30,
+                  'duplicate_source': 0,
+                  'no_distinct_structure': 30,
+                  'searches_completed': 0,
+                  'arsenal_decisions': 0,
+                  'audit_required': True,
+              })
+              hist.append(entry)
+
+          dump(RADAR / 'progress.json', progress)
+          dump(RADAR / 'structure-registry.json', registry)
+          print('BATCH_ID', BATCH)
+          print('SOURCES_REVIEWED', len(source_ids))
+          print('STRUCTURES_ADDED', len(new_cards))
+          print('STRUCTURES_UPDATED', 1)
+          print('STRUCTURE_CARRIER_SOURCES', len(expected_carriers))
+          print('NO_DISTINCT_STRUCTURE', len(source_ids) - len(expected_carriers))
+          PY
+
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python scripts/verify_research_arsenal.py
+          git diff --check
+
+          rm .github/workflows/structure-radar-batch-06-finalize.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A docs/structure-radar .github/workflows/structure-radar-batch-06-finalize.yml
+          git commit -m 'StructureRadar: review deep corpus batch 06'
+          git push origin HEAD:structure-radar-deep-corpus-batch-06
