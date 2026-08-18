@@ -1,0 +1,58 @@
+name: StructureRadar batch12 index
+on:
+  push:
+    branches: [structure-radar-deep-corpus-batch-12]
+permissions:
+  contents: write
+jobs:
+  index:
+    if: contains(github.event.head_commit.message, 'trigger batch12 index')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-deep-corpus-batch-12
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build compact 60-source review index
+        run: |
+          python - <<'PY'
+          import json, pathlib, re
+          root=pathlib.Path('.')
+          q=json.loads((root/'docs/structure-radar/exploration-queue.json').read_text())
+          task=next(t for t in q['tasks'] if t['status']=='READY' and t['group']=='STAGE14_15_DEEP_CORPUS')
+          ids=task['source_ids']
+          assert len(ids)==60, len(ids)
+          manifest={}
+          for p in sorted((root/'docs/structure-radar/source-manifest').glob('part-*.json')):
+            d=json.loads(p.read_text())
+            for s in d['sources']:
+              manifest[s['source_id']]=s
+          rows=[]
+          assign=re.compile(r'^[A-Z][A-Z0-9_]*(?:\[[^\]]+\])?\s*=')
+          for n,sid in enumerate(ids,1):
+            s=manifest[sid]
+            path=s['path']
+            text=(root/path).read_text(errors='replace')
+            lines=[x.rstrip() for x in text.splitlines()]
+            title=next((x.lstrip('# ').strip() for x in lines if x.strip().startswith('#')), '')
+            key=[]
+            for x in lines:
+              y=x.strip().strip('`')
+              if assign.match(y) or any(k in y for k in ['PROVED=', 'THEOREM_', 'CURRENT_', 'STRICT_', 'NEXT=', 'BOUNDARY=', 'GATE=', 'DECISION=', 'EXPONENT=', 'ASYMPTOTIC=', 'COMPLETE_']):
+                if y and y not in key:
+                  key.append(y)
+              if len(key)>=45: break
+            excerpt='\n'.join(x for x in lines[:80] if x.strip())[:2400]
+            rows.append({'n':n,'source_id':sid,'path':path,'kind':s['kind'],'fingerprint':s['fingerprint'],'title':title,'key_lines':key,'excerpt':excerpt})
+          for i in range(0,60,10):
+            out=root/f'.github/structure-radar-batch-12-index-{i//10+1:02d}.json'
+            out.write_text(json.dumps(rows[i:i+10],indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add .github/structure-radar-batch-12-index-*.json
+          git commit -m 'StructureRadar: materialize batch12 review index'
+          git push origin HEAD:structure-radar-deep-corpus-batch-12
