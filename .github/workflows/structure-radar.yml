@@ -40,15 +40,14 @@ jobs:
           lines=[]
           for c in reg.get('structures',[]):
               cid=c.get('structure_id','')
-              title=c.get('title') or c.get('name') or c.get('canonical_name') or ''
-              status=c.get('status','')
-              desc=c.get('summary') or c.get('description') or c.get('statement') or ''
-              if isinstance(desc,(dict,list)): desc=json.dumps(desc,ensure_ascii=False)
-              lines.append(f"{cid}\t{title}\t{status}\t{' '.join(str(desc).split())[:500]}")
+              title=c.get('canonical_math_name','')
+              obj=' '.join(str(c.get('exact_equations_or_object','')).split())
+              terms='; '.join(c.get('search_terms_primary',[])[:3])
+              lines.append(f"{cid}\t{title}\t{terms}\t{obj[:500]}")
           Path('docs/structure-radar/.batch23-card-index.tsv').write_text('\n'.join(lines)+'\n')
           PY
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/structure-radar/.batch23-card-index.tsv
-          git commit -m "Index StructureRadar cards for batch23"
+          git commit -m "Repair StructureRadar batch23 card index"
           git push origin HEAD:structure-radar-deep-corpus-batch-23
