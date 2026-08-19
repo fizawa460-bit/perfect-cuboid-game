@@ -1,0 +1,39 @@
+{
+  "stage": "A1-5",
+  "base_main": "686583c9a67f6383af3b7dad088a2abcf629081f",
+  "source_receiver": "A1-4 first-two-cover square condition",
+  "variables": {
+    "coprime_pair": "gcd(a,b)=1",
+    "A": "a^8-8*a^4*b^4+b^8",
+    "B": "16*a^3*b^3*(a^2-b^2)",
+    "d": "a^2-b^2"
+  },
+  "proved": {
+    "exact_common_divisor": "gcd(|A|,|B|)=gcd(|a^2-b^2|,6)",
+    "common_divisor_values": [1, 2, 3, 6],
+    "normalized_odd_leg": "A/g is odd",
+    "normalized_even_leg": "B/g is even",
+    "primitive_pythagorean_parametrization": [
+      "|A|/g=M^2-N^2",
+      "|B|/g=2*M*N",
+      "C/g=M^2+N^2",
+      "gcd(M,N)=1",
+      "M,N opposite parity"
+    ],
+    "product_receiver": "M*N=(8/g)*|a^3*b^3*(a^2-b^2)|",
+    "pairwise_coprime_source_factors": ["a", "b", "a^2-b^2"],
+    "q_ge_5_allocation": "every q>=5 is allocated wholly to exactly one of M,N; q|a or q|b contributes exponent divisible by 3",
+    "a1_4_local_sieve_consequence": "805 | M*N"
+  },
+  "not_proved": {
+    "complete_family_closure": true,
+    "universal_reverse_map": true,
+    "new_arbitrary_perfect_cuboid_constraint": true,
+    "perfect_cuboid_existence": true,
+    "perfect_cuboid_nonexistence": true
+  },
+  "next_receiver": "factor M-N and M+N against the cube-exponent allocation in M*N; require a genuine descent, finite cover reduction, or new local obstruction, otherwise pause",
+  "substantive_progress": true,
+  "audit_required": true,
+  "next_expected_command": "StageA1-audit"
+}
