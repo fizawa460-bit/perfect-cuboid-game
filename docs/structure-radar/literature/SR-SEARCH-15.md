@@ -6,6 +6,7 @@ SEARCH_DATE=2026-08-19
 STRUCTURES=SR-STR-124,SR-STR-125,SR-STR-126,SR-STR-127,SR-STR-128,SR-STR-129,SR-STR-130,SR-STR-131,SR-STR-132,SR-STR-133
 SEARCH_BATCH_SIZE=10
 NOVELTY_BY_SEARCH_ABSENCE=false
+VALIDATION_TRIGGER=exact-head-controller
 
 ## Primary-source literature checked
 - Bonolis–Browning, *Uniform bounds for rational points on hyperelliptic fibrations* (arXiv:2007.14182): uniform bounded-height counting on a fibration via a square-sieve. Relevant only as adjacent fiberwise-counting literature; its parameter space, weights, and fibers do not equal the Stage27 MAIN wall host.
