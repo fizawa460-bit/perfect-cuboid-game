@@ -1,0 +1,57 @@
+name: StructureRadar gate32 materialize
+on:
+  pull_request:
+    types: [opened, synchronize]
+permissions:
+  contents: write
+jobs:
+  materialize:
+    if: github.head_ref == 'structure-radar-external-gate-32'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Append gate32 progress and self-clean
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p = Path('docs/structure-radar/progress.json')
+          data = json.loads(p.read_text())
+          batch_id = 'SR-BATCH-EXTERNAL_GATE_CLOSURE-32-R01'
+          batches = data['audit_batches']
+          if not any(x.get('batch_id') == batch_id for x in batches):
+              batches.append({
+                  'batch_id': batch_id,
+                  'phase': 'EXTERNAL_GATE_CLOSURE',
+                  'status': 'SUBMITTED_FOR_AUDIT',
+                  'structure_ids': ['SR-STR-174'],
+                  'gates_attacked': 1,
+                  'gates_closed': 0,
+                  'external_gate_count_before': 13,
+                  'external_gate_count_after': 13,
+                  'deep_attack': True,
+                  'old_every_cell_gate_superseded_as_restart_point': True,
+                  'q17_nonnegative_witness_normal_form_reused': True,
+                  'main_weighted_exceptional_mass_adapter_proved': False,
+                  'first_missing_lemma': 'MAINWallWeightedQ17GoodWitnessJointIncidenceExceptionalMassAdapter',
+                  'stage27_receiver': 'UniformWallSlabMAINArithmeticHostCorrelationPowerDeficit',
+                  'audit_required': True
+              })
+          p.write_text(json.dumps(data, indent=2) + '\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git rm .github/workflows/structure-radar-gate32-materialize.yml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/structure-radar/progress.json docs/structure-radar/controller.json docs/structure-radar/exploration-queue.json docs/structure-radar/structure-registry.json docs/structure-radar/source-manifest.json || true
+          if ! git diff --cached --quiet; then
+            git commit -m 'StructureRadar: materialize gate32 progress'
+            git push
+          fi
