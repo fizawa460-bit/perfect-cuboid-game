@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "stage": "StageA1",
+  "title": "Anchored Hilbert Cube reconnaissance",
+  "mode": "SEPARATE_EXPERIMENTAL_LINE",
+  "base_main": "c9792e82dacfa28d31433595aef4820df6a64e83",
+  "status": "RECONNAISSANCE_ACTIVE",
+  "completed": [
+    "A1-1"
+  ],
+  "submitted_for_audit": [
+    "A1-2"
+  ],
+  "next": "A1-3",
+  "go_no_go_checkpoint": "AFTER_A1-3",
+  "hard_stop_condition": "If A1-1 through A1-3 only exclude special published Hilbert-cube families and produce neither a reverse-map/coverage mechanism nor a new necessary condition for an arbitrary anchored cube, set STAGE_A1_STATUS=RECONNAISSANCE_NEGATIVE and stop.",
+  "substantive_progress_requires_one_of": [
+    "new proved identity or rational-point statement",
+    "removal of a genuine anchor-boundary component",
+    "strictly enlarged proved coverage of anchored cubes",
+    "new necessary condition for arbitrary anchored cubes",
+    "exact adapter to an already-proved theorem"
+  ],
+  "firewalls": [
+    "No family-specific exclusion implies perfect-cuboid nonexistence.",
+    "No published Hilbert-cube parametrization is assumed universal without proof.",
+    "Stage27 and StructureRadar receivers remain unchanged.",
+    "Numerical evidence is diagnostic unless converted to a proof.",
+    "No endless refinement after the A1-3 go/no-go checkpoint."
+  ],
+  "recommended_commands": {
+    "main": "StageA1-main-batch",
+    "audit": "StageA1-audit"
+  },
+  "audit_required": true,
+  "merge_allowed": false,
+  "next_expected_command": "StageA1-audit"
+}
