@@ -8,15 +8,153 @@ on:
       - '.github/workflows/structure-radar.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: '${{ github.head_ref }}'
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Materialize Arsenal25 terminal tail on its temporary branch
+        if: github.head_ref == 'structure-radar-arsenal-25-finalizer'
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          ids=['SR-STR-169','SR-STR-170','SR-STR-171','SR-STR-172','SR-STR-173','SR-STR-174','SR-STR-216','SR-STR-222','SR-STR-223']
+          decisions={
+            'SR-STR-169':'EXTERNAL_GATE',
+            'SR-STR-170':'EXTERNAL_GATE',
+            'SR-STR-171':'EXTERNAL_GATE',
+            'SR-STR-172':'ACTIVE',
+            'SR-STR-173':'ACTIVE',
+            'SR-STR-174':'EXTERNAL_GATE',
+            'SR-STR-216':'ACTIVE',
+            'SR-STR-222':'EXTERNAL_GATE',
+            'SR-STR-223':'EXTERNAL_GATE',
+          }
+          rp='docs/structure-radar/structure-registry.json'
+          r=json.load(open(rp)); cards=[]
+          for c in r['structures']:
+            if c['structure_id'] in ids:
+              assert c['arsenal_decision']=='PENDING', (c['structure_id'],c['arsenal_decision'])
+              cards.append(c)
+              c['arsenal_decision']=decisions[c['structure_id']]
+          assert [c['structure_id'] for c in cards]==ids, [c['structure_id'] for c in cards]
+          open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
+
+          ledger=pathlib.Path('docs/structure-radar/arsenal/SR-ARSENAL-25.md')
+          ledger.parent.mkdir(parents=True,exist_ok=True)
+          ledger.write_text('''# StructureRadar Arsenal classification — batch 25 terminal tail
+
+BATCH_ID=SR-BATCH-ARSENAL_DECISION-25-R01
+TASK_ID=SR-REGISTRY-ARSENAL-02
+STRUCTURES=SR-STR-169,SR-STR-170,SR-STR-171,SR-STR-172,SR-STR-173,SR-STR-174,SR-STR-216,SR-STR-222,SR-STR-223
+ARSENAL_DECISIONS=9
+TERMINAL_TAIL=true
+ACTIVE=3
+PARKED=0
+EXTERNAL_GATE=6
+REJECTED=0
+NOVELTY_BY_SEARCH_ABSENCE=false
+CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
+STRICT_SUBSQRT_POWER_SAVING_PROVED=false
+AUDIT_REQUIRED=true
+NEXT_EXPECTED_COMMAND=StructureRadar-audit
+
+## Decisions
+
+### SR-STR-169 — EXTERNAL_GATE
+The correlation-only canonical-divisor/projective-mover suite identifies three plausible external architectures, but every branch still needs an exact Stage14 weight/modulus adapter and the live obstruction is the same-measure signed physical-selector correlation. Complete traces, Mellin reassembly, hyperbola rearrangement, or conductor energy are not an independent density saving. The falsifiable gate is a theorem controlling the original sparse physical weights on the charged measure without reusing already-paid spacing.
+
+### SR-STR-170 — EXTERNAL_GATE
+Ford-style divisor-in-an-interval geometry is only an ambient model for the reciprocal squareclass divisor window. A usable theorem must preserve the admissible squareclass restriction, the reciprocal partner window, and dominate the charged physical n-measure with only subpolynomial distortion. Unrestricted integer density cannot be transferred to the correlated physical subfamily.
+
+### SR-STR-171 — EXTERNAL_GATE
+The localized unitary-divisor shadow remains conditional on a unitary-to-ordinary bounded-distortion adapter and a theorem-compatible transported window. Ordinary divisor support does not automatically control u||m, and shadow savings cannot be charged again after conditioning on the canonical/reverse completion masks. The missing adapter is therefore explicit and falsifiable.
+
+### SR-STR-172 — ACTIVE
+The Xu-Zhou-type rectangular arithmetic-progression product-set lower bound is a reusable direct negative certificate on its exact fixed-E ambient rectangle: multiplication collisions lose at most polylogarithmic factors and do not create a fixed B-power saving. It is ACTIVE only for the ambient rectangular receiver; no transfer to a sparse physical accepted subset or nonrectangular branch is claimed.
+
+### SR-STR-173 — ACTIVE
+The reciprocal-CRT through second-reverse hierarchy is a reusable support-normalization and firewall. It records the exact nonnegative witness moments, the filtered ternary-product and reciprocal-factor extensions, and the rule that support must be proved on the same charged scalar or (E,m) measure. It does not itself assert every-cell support; rather, it supplies the canonical moment-to-support receiver and prevents illegal scalarization or multiplicity-as-density arguments.
+
+### SR-STR-174 — EXTERNAL_GATE
+The q17-good / filtered-tau3 residual is an indicator-correlation problem on the deterministic pushforward measure. The missing theorem must lower-bound the intersection on every principal cell with both filters and the original scalar or (E,m) measure intact, or provide an exceptional-set charge strong enough to recover that statement. Ambient AP equidistribution without this adapter is insufficient.
+
+### SR-STR-216 — ACTIVE
+The explicit Peyre-Tamagawa constant is reusable for its exact primitive exactly-two no-space-diagonal ambient height receiver. The physical p=2 factor and directional chamber weights are part of the stated contract, and the degree-two third-face thin subset has zero leading density in that ambient asymptotic. This is not promoted to the N2 space-diagonal-filtered population; toric Manin/equidistribution and thin-set inputs remain the external theorem inputs already attached to the card.
+
+### SR-STR-222 — EXTERNAL_GATE
+The fixed-U canonical-LPF Gaussian-residue chain has discharged the safe Kai/Mitsui ranges and compressed the packet to a precise super-Kai individual-modulus receiver, but the joint canonical-generator ordinary residue plus fixed angular sector theorem is still missing. Thorner-Zaman gives an individual ray-class/Chebotarev partial upgrade at the finite-conductor level, not the full sector-plus-ordinary-residue statement. The narrowed gate is RayClassToCanonicalSectorOrdinaryResidueAdapter, or an equivalent individual finite-ray-character times angular-Hecke-character asymptotic.
+
+### SR-STR-223 — EXTERNAL_GATE
+The fixed-base Humbert-Edge genus-five geometry and elliptic quotient decomposition are structural inputs, not the needed moving-family theorem. The physical triple receiver requires simultaneous compatible small-point/lift activation across a moving bounded-height fiber-product family. Finite zero censuses, fixed-fiber height bounds, local exceptional residues, and rank/torsion diagnostics do not prove a family-level sub-square-root saving.
+
+## Firewalls
+- `ACTIVE` means reusable only on the exact stated receiver and hypothesis set.
+- `EXTERNAL_GATE` names a precise missing theorem or adapter; search/proof absence is not novelty.
+- Ambient product-set and toric-height results are not silently transferred to the space-diagonal-filtered or same-measure physical populations.
+- Correlated normal forms, local multiplicity bounds, and alternative upper bounds are not multiplied as independent savings.
+- `CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2` remains unchanged and `STRICT_SUBSQRT_POWER_SAVING_PROVED=false`.
+- No perfect-cuboid existence or nonexistence claim is made.
+
+## Delegation
+CODEX_DELEGATION_RECOMMENDED=false
+CODEX_REASON=routine terminal Arsenal classification has no repository-mechanical blocker
+WORK_DELEGATION_RECOMMENDED=false
+WORK_REASON=all nine cards are already searched and have precise transfer boundaries; this classification step does not require a new broad external-literature sweep
+''')
+
+          pp='docs/structure-radar/progress.json'; p=json.load(open(pp)); bid='SR-BATCH-ARSENAL_DECISION-25-R01'
+          assert not any(x.get('batch_id')==bid for x in p['audit_batches'])
+          p['audit_batches'].append({
+            'batch_id':bid,
+            'task_id':'SR-REGISTRY-ARSENAL-02',
+            'status':'SUBMITTED_FOR_AUDIT',
+            'source_ids':[],
+            'sources_reviewed':0,
+            'structures_added':0,
+            'structures_updated':9,
+            'structure_carrier_sources':0,
+            'structures_deduped':0,
+            'searches_completed':0,
+            'arsenal_decisions':9,
+            'audit_required':True,
+            'duplicate_source':0,
+            'no_distinct_structure':0
+          })
+          open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python - <<'PY'
+          import json
+          c=json.load(open('docs/structure-radar/controller.json'))
+          assert c['registry']['unresolved_search_count']==0, c['registry']
+          assert c['registry']['pending_arsenal_decision_count']==0, c['registry']
+          assert c['queue']['task_count']==0, c['queue']
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          pending=[x['structure_id'] for x in r['structures'] if x.get('arsenal_decision')=='PENDING']
+          assert pending==[], pending
+          print('CONTROLLER_STATUS',c['status'])
+          print('ARSENAL_BACKFLOW_GAPS',c['corpus'].get('arsenal_backflow_gaps'))
+          print('CLOSE_CONDITIONS',c['close_conditions'])
+          PY
+          git fetch origin main
+          git checkout origin/main -- .github/workflows/structure-radar.yml
+          rm -f .github/workflows/structure-radar-arsenal25-finalize.yml
+          rm -f docs/structure-radar/TEMP-arsenal25-trigger.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit -m 'StructureRadar: classify final pending Arsenal tail'
+          git push
       - name: Verify repository-wide StructureRadar corpus and queue
         run: python scripts/structure_radar.py verify
