@@ -6,6 +6,7 @@ SEARCH_DATE=2026-08-19
 STRUCTURES=SR-STR-155,SR-STR-156,SR-STR-157,SR-STR-158,SR-STR-159,SR-STR-160,SR-STR-175,SR-STR-176,SR-STR-177,SR-STR-178
 SEARCH_BATCH_SIZE=10
 NOVELTY_BY_SEARCH_ABSENCE=false
+VALIDATION_RETRIGGER=exact-head controller after self-clean
 
 ## Primary-source literature checked
 - Takumi Yoshida, *The relationship between face cuboids and elliptic curves* (arXiv:2407.09825). The paper defines the exact family E_{1,s}: y^2=x(x-(2s)^2)(x+(s^2-1)^2), proves the face-cuboid correspondence, records the rank-one fiber s=5/3, and proves infinitely many positive-rank specializations. It does not by itself prove the repo geometric generic-rank-zero statement or a global quantitative exceptional-fiber bound.
