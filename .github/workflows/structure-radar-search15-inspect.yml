@@ -1,0 +1,21 @@
+name: StructureRadar search15 inspect
+on: pull_request
+permissions: {contents: write}
+jobs:
+  inspect:
+    if: github.head_ref == 'structure-radar-search-15-inspect'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}'}
+      - run: |
+          python - <<'PY'
+          import json,pathlib
+          ids=[f'SR-STR-{i:03d}' for i in range(124,134)]
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          cards=[c for c in r['structures'] if c['structure_id'] in ids]
+          keep=['structure_id','canonical_math_name','exact_equations_or_object','search_terms_primary','theorem_species','target_populations','potential_weapon_types','applicability_gaps','search_status','arsenal_decision','card_status']
+          pathlib.Path('docs/structure-radar/TEMP-search15-cards.json').write_text(json.dumps([{k:c.get(k) for k in keep} for c in cards],indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name github-actions; git config user.email github-actions@github.com
+          git add docs/structure-radar/TEMP-search15-cards.json && git commit -m 'TEMP: extract StructureRadar batch15 cards' && git push
