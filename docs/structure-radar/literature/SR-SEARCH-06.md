@@ -6,6 +6,7 @@ SEARCH_DATE=2026-08-19
 STRUCTURES=SR-STR-041,SR-STR-042,SR-STR-043,SR-STR-044,SR-STR-045,SR-STR-046,SR-STR-047,SR-STR-048
 SEARCH_BATCH_SIZE=8
 EVIDENCE_POLICY=primary sources for external theorem claims; repo arsenal checked first
+EXTERNAL_RESULT_ROLE=context_only_unless_exact_population_height_and_quantifier_adapter_matches
 NOVELTY_BY_SEARCH_ABSENCE=false
 
 ## SR-STR-041 — Oriented-record to canonical face-incidence projection
