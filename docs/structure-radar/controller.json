@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "controller": "STRUCTURE-RADAR-CONTROLLER-R01",
-  "status": "WAITING_FOR_REGISTRY_WORK",
+  "status": "AUDIT_REQUIRED",
   "primary_operator": "ChatGPT",
   "commands": {
     "main": "StructureRadar-main-batch",
@@ -15,14 +15,12 @@
     "central_and_stage_arsenals_always_scanned": true
   },
   "corpus": {
-    "fingerprint": "6e2f3b039e1bb7b70322a5348765b41e97d31b9356dfb269e26567d774a46625",
+    "fingerprint": "937a4303232691693ac14a8b5d4b647df29924ccd17f6d8b402f411427b58492",
     "source_count": 2556,
     "review_states": {
       "CURRENT_REVIEWED": 2556
     },
-    "arsenal_backflow_gaps": [
-      "docs/stage26-arsenal-promotion.md"
-    ]
+    "arsenal_backflow_gaps": []
   },
   "queue": {
     "task_count": 0,
@@ -58,11 +56,11 @@
     "all_searches_resolved": true,
     "all_arsenal_decisions_resolved": true,
     "all_card_provenance_current": true,
-    "arsenal_backflow_clear": false,
+    "arsenal_backflow_clear": true,
     "final_independent_audit_required": true,
-    "campaign_close_allowed_before_final_audit": false
+    "campaign_close_allowed_before_final_audit": true
   },
-  "next_expected_command": "StructureRadar-main-batch",
+  "next_expected_command": "StructureRadar-audit",
   "pull_request_policy": {
     "main_batches_use_draft_pr": true,
     "main_lane_may_self_award_mathematical_audit_pass": false,

@@ -3,7 +3,7 @@
 ```text
 REGISTRY=RESEARCH-ARSENAL-R01
 STATUS=CURRENT
-SCOPE=merged reusable weapons through Stage25 reentry
+SCOPE=merged reusable weapons through Stage26 promotion
 ```
 
 This is the project-wide router. It does not replace canonical proof sources.
@@ -16,8 +16,8 @@ for provenance and must not be selected as the current strongest statement.
 | ID | Type | Reusable output | Canonical package |
 |---|---|---|---|
 | AR-006 | BOUND | `N_2(B) << B^(1/2+o(1))` | `stage14-arsenal.md` |
-| S20-W01 | BOUND | Euler upper `M_3(B) <<_eta B(log B)^(5-eta)` | `stage20-arsenal.md` |
-| S20-W02 | CONSTRUCTION | primitive Saunderson `M_3(B) >> B^(1/6)` | `stage20-arsenal.md` |
+| S26-W01 | BOUND | generalized Saunderson `M_3(B) >>_epsilon B^(1/3-epsilon)` | `stage26-arsenal-promotion.md` |
+| S26-W03 | BOUND_INTERFACE | Euler upper `M_3(B) <<_eta B(log B)^(5-eta)` with audited nonmultiplicative K3/sieve interface | `stage26-arsenal-promotion.md` |
 | S20-W03 | OBSTRUCTION | Euler local blocker law and sieve dimension two | `stage20-arsenal.md` |
 | S21-W01 | METHOD | ambient-control interaction classification | `stage21-arsenal.md` |
 | S21-W02 | THEOREM | `N_1/M_1 ~ (kappa*pi/18)(log B)^2/B` | `stage21-arsenal.md` |
@@ -28,6 +28,7 @@ for provenance and must not be selected as the current strongest statement.
 | S25-W02 | INVARIANT | exact face/space cross-ratio and positive-divergent sign | `stage25-arsenal-promotion.md` |
 | S25-W05 | ADAPTER | exact raw-pair completion proportions and corridor | `stage25-arsenal-promotion.md` |
 | S25-W06 | LEDGER | Manin `(a,b)` transitions `(2,2)->(1,4)->(1,6)` | `stage25-arsenal-promotion.md` |
+| S26-W02 | ADAPTER | literal completion corridor: `Phi,Theta->0`, `Theta/Phi->3`, with explicit lower/upper rate window | `stage26-arsenal-promotion.md` |
 
 ## Parked weapons
 
@@ -47,6 +48,8 @@ and the Stage14-toolbox Stage15 cards.
 
 | Old selector | Current replacement |
 |---|---|
+| S20-W02 primitive Saunderson `B^(1/6)` lower | S26-W01 generalized two-parameter `B^(1/3-epsilon)` lower |
+| S20-W01 Euler upper package | S26-W03 same upper with audited K3/local-sieve/thin-cover interface |
 | Stage14 s7-13 whole-family exponent `7/8` | AR-006 half-power upper |
 | Stage24 `N_2(B) >> sqrt(log B)` global lower | S25-W01 quarter-power lower |
 | Stage24 ratio lower `B^-1(log B)^(-9/2)` | `B^-3/4(log B)^(-5)` from S25-W01 and Stage18 |
