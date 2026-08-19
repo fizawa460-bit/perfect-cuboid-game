@@ -64,7 +64,9 @@ def main():
                 y = isqrt(n)
                 quartic_points.append((Fraction(a, b), Fraction(y, b * b)))
 
-    cover_bound = 500
+    # Exact exhaustive search for the first two reconstruction covers.
+    # Sign of x is irrelevant because only x^2 occurs, so use a,b>0.
+    cover_bound = 5000
     cover_examined = 0
     cover_survivors = []
     for b in range(1, cover_bound + 1):
@@ -76,6 +78,8 @@ def main():
             if is_square(n):
                 cover_survivors.append(Fraction(a, b))
 
+    # Affine finite-field sieve. For a rational x=a/b, b=0 mod p is the
+    # projective point at infinity; otherwise reduction is an affine x in F_p.
     local_sieve_primes = []
     for p in primes_below(500):
         if p == 2:
@@ -92,15 +96,16 @@ def main():
     ]
     assert quartic_examined == 1216767
     assert quartic_points == expected_quartic
-    assert cover_examined == 152230
+    assert cover_examined == 15200914
     assert cover_survivors == []
     assert local_sieve_primes == [3, 5, 7, 23]
 
     print("quartic_examined=", quartic_examined)
     print("quartic_positive_y_representatives=", quartic_points)
+    print("first_two_cover_bound=", cover_bound)
     print("first_two_cover_examined=", cover_examined)
     print("first_two_cover_survivors=", cover_survivors)
-    print("local_sieve_primes_below_500=", local_sieve_primes)
+    print("affine_local_sieve_primes_below_500=", local_sieve_primes)
     print("A1-4 bounded search: PASS")
 
 
