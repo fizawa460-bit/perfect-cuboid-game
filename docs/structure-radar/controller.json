@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "controller": "STRUCTURE-RADAR-CONTROLLER-R01",
-  "status": "READY",
+  "status": "WAITING_FOR_REGISTRY_WORK",
   "primary_operator": "ChatGPT",
   "commands": {
     "main": "StructureRadar-main-batch",
@@ -25,10 +25,10 @@
     ]
   },
   "queue": {
-    "task_count": 1,
+    "task_count": 0,
     "source_census_task_count": 0,
-    "current_task": "SR-SEARCH-01",
-    "current_phase": "LITERATURE_SEARCH"
+    "current_task": null,
+    "current_phase": null
   },
   "initial_execution_estimate": {
     "recommended_source_tasks_per_main_invocation": "3-6",
@@ -39,8 +39,8 @@
   },
   "registry": {
     "structure_count": 228,
-    "unresolved_search_count": 7,
-    "pending_arsenal_decision_count": 26,
+    "unresolved_search_count": 0,
+    "pending_arsenal_decision_count": 19,
     "stale_provenance_task_count": 0
   },
   "codex_delegation": {
@@ -55,7 +55,7 @@
   },
   "close_conditions": {
     "all_current_sources_reviewed": true,
-    "all_searches_resolved": false,
+    "all_searches_resolved": true,
     "all_arsenal_decisions_resolved": false,
     "all_card_provenance_current": true,
     "arsenal_backflow_clear": false,
