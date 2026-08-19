@@ -1,4 +1,4 @@
-# StructureRadar parallel batch 36B — SR-STR-170 square-divisor witness-event reduction
+# StructureRadar parallel batch 36B — SR-STR-170 square-divisor witness multiplicity
 
 BATCH_ID=SR-BATCH-PARALLEL-36B-170-R01
 PHASE=EXTERNAL_GATE_CLOSURE
@@ -19,7 +19,7 @@ with the cofactor/canonical masks retained in the witness variable `a`.
 
 ## 1. Witness multiplicity is only subpolynomial
 
-On the physical packet the masks are indicators (or bounded nonnegative weights after the existing normalization), so take `0<=A(M,a)<=1`. For fixed `M`, any contributing witness satisfies `J a^2 | M`. Hence
+For fixed `M`, every contributing witness satisfies `J a^2 | M`. Hence
 
 ```text
 #{a : J a^2 | M} <= #{a : a^2 | M}.
@@ -31,42 +31,51 @@ If `M=prod p^{v_p(M)}`, the number of square-divisor roots is exactly
 prod_p (floor(v_p(M)/2)+1) <= tau(M).
 ```
 
-On the existing polynomial-height range, `tau(M)=B^o(1)`. Therefore pointwise
+On the existing polynomial-height range, `tau(M)=B^o(1)`. Therefore for the exact Boolean-mask branch `A(M,a) in {0,1}` we have pointwise
 
 ```text
-1_{physical square-divisor witness exists}
+1_{exists a in I_A : Ja^2|M and A(M,a)=1}
  <= sum_{a in I_A} 1_{Ja^2|M} A(M,a)
- <= B^o(1) 1_{physical square-divisor witness exists}
+ <= B^o(1) 1_{exists a in I_A : Ja^2|M and A(M,a)=1}.
 ```
 
-for Boolean physical masks, with the same upper multiplicity statement for bounded nonnegative weights.
+Thus, when the retained witness masks are Boolean indicators, the lane35B first moment and the exact witness event differ by only `B^o(1)` multiplicity.
 
-Thus the lane35B witness first moment does not introduce a hidden polynomial union-bound loss. Up to `B^o(1)`, the unresolved mass is the exact same-measure physical square-divisor witness event itself.
-
-## 2. New restart point
-
-The remaining target can therefore be narrowed from a dilation first moment to
+For a merely bounded nonnegative normalized weight `0<=A(M,a)<=1`, only the upper multiplicity statement is automatic:
 
 ```text
-FIRST_MISSING_LEMMA=PhysicalSquareDivisorWitnessEventSameMeasureDeficit
+sum_{a in I_A} 1_{Ja^2|M} A(M,a)
+ <= B^o(1) 1_{exists a in I_A : Ja^2|M and A(M,a)>0}.
 ```
 
-A sufficient form is:
+The reverse event-to-weight inequality is not asserted without a uniform positive lower bound on active weights. Hence the weighted first moment remains the canonical target on any genuinely weighted packet.
 
-> Uniformly on every retained packet, prove that the exact physical event
-> `exists a in I_A : J a^2 | M` together with its witness-dependent cofactor/canonical masks carries at most `B^{-delta+o(1)}` of the original charged packet mass, for some fixed `delta>0`, with the actual physical window, endpoint headroom and quantifier order retained.
+## 2. Repaired restart point
 
-The first-moment formulation and the event formulation differ only by `B^o(1)` witness multiplicity on the current height range. No ambient ordinary-divisor theorem is imported and no independence is assumed.
+The audit therefore records a two-form same-measure target:
+
+```text
+FIRST_MISSING_LEMMA=PhysicalSquareDivisorWitnessEventOrWeightedMassSameMeasureDeficit
+```
+
+A sufficient form is either:
+
+1. on Boolean-mask packets, prove a fixed-power deficit for the exact event `exists a in I_A : J a^2|M and A(M,a)=1`; or
+2. on genuinely weighted packets, prove the same fixed-power deficit directly for the audited witness first moment `sum_a 1_{Ja^2|M}A(M,a)`.
+
+In both cases the actual physical window, endpoint headroom, witness-dependent cofactor/canonical masks and quantifier order must be retained. No ambient ordinary-divisor theorem is imported and no independence is assumed.
 
 ## 3. Firewalls
 
 ```text
 WEIGHTED_SQUARE_DILATE_UNFOLDING_REUSED=true
 SQUARE_DIVISOR_WITNESS_MULTIPLICITY_SUBPOLYNOMIAL=PROVED
+BOOLEAN_WITNESS_EVENT_EQUIVALENCE_UP_TO_SUBPOLYNOMIAL=PROVED
+BOUNDED_WEIGHT_EVENT_EQUIVALENCE_PROVED=false
 WITNESS_MASKS_RETAINED=true
 UNION_BOUND_FIXED_POWER_LOSS=false
-PHYSICAL_SQUARE_DIVISOR_EVENT_DEFICIT_PROVED=false
-FIRST_MISSING_LEMMA=PhysicalSquareDivisorWitnessEventSameMeasureDeficit
+PHYSICAL_SQUARE_DIVISOR_DEFICIT_PROVED=false
+FIRST_MISSING_LEMMA=PhysicalSquareDivisorWitnessEventOrWeightedMassSameMeasureDeficit
 SR_STR_170_STATUS=EXTERNAL_GATE
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
