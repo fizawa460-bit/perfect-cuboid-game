@@ -82,4 +82,4 @@ Fisher--Sills supplies explicit covering and height machinery, Dujella supplies 
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2; no strict sub-square-root theorem or perfect-cuboid existence/nonexistence claim is made.
 
 ## Repair validation
-The independent audit's source-coverage defect is repaired by the primary-source checks above. Exact-head StructureRadar controller run #240 completed successfully after the literature repair; the verify job passed repository-wide StructureRadar corpus and queue verification. Re-audit is required before merge.
+The independent audit's source-coverage defect is repaired by the primary-source checks above. Exact-head StructureRadar controller validation is required on the final repaired head before re-audit.
