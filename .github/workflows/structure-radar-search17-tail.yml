@@ -1,0 +1,26 @@
+name: StructureRadar search17 tail
+on: pull_request
+permissions: {contents: write}
+jobs:
+  tail:
+    if: github.head_ref == 'structure-radar-search-17-inspect'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - run: |
+          python - <<'PY'
+          import json,pathlib
+          ids=[f'SR-STR-{i:03d}' for i in range(144,154)]
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          out=[]
+          for c in r['structures']:
+            if c['structure_id'] in ids:
+              out += [f"## {c['structure_id']} — {c['canonical_math_name']}",c['exact_equations_or_object'],'SEARCH: '+' | '.join(c.get('search_terms_primary',[])),'TYPES: '+' | '.join(c.get('theorem_species',[])),'GAPS: '+' | '.join(c.get('applicability_gaps',[])),'']
+          pathlib.Path('docs/structure-radar/TEMP-search17-summary.md').write_text('\n'.join(out))
+          PY
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/structure-radar/TEMP-search17-summary.md
+          git commit -m 'TEMP: summarize StructureRadar search17 cards'
+          git push
