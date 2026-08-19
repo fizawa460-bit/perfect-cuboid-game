@@ -1,0 +1,73 @@
+name: StructureRadar b40 anti-loop terminal
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.head_ref == 'structure-radar-parallel-40-antiloop-terminal'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Append anti-loop terminal checkpoint and self-clean
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('docs/structure-radar/progress.json')
+          data=json.loads(p.read_text())
+          bid='SR-BATCH-PARALLEL-40-ANTI-LOOP-R01'
+          rows=data['audit_batches']
+          if not any(x.get('batch_id')==bid for x in rows):
+              rows.append({
+                  'batch_id': bid,
+                  'phase': 'EXTERNAL_GATE_CLOSURE',
+                  'status': 'SUBMITTED_FOR_AUDIT',
+                  'mode': 'ONE_PR_FOUR_LANE_ANTI_LOOP_PRECHECK',
+                  'anti_loop_policy': 'docs/structure-radar/anti-loop-policy.json',
+                  'structure_ids': ['SR-STR-162','SR-STR-223','SR-STR-222','SR-STR-021'],
+                  'parallel_lane_count': 4,
+                  'single_pr_for_all_lanes': True,
+                  'gates_closed': 0,
+                  'external_gate_count_before': 13,
+                  'external_gate_count_after': 13,
+                  'sr_str_162_anti_loop_state': 'THEOREM_GATE_PAUSED',
+                  'sr_str_162_frozen_endpoint': 'ThinPythagoreanFirstSmallPointFrequencyPowerSaving',
+                  'sr_str_223_anti_loop_state': 'THEOREM_GATE_PAUSED',
+                  'sr_str_223_frozen_endpoint': 'MovingCompatibleSmallPointFiberProductFamilyControl',
+                  'sr_str_222_anti_loop_state': 'THEOREM_GATE_PAUSED',
+                  'sr_str_222_frozen_endpoint': 'RayClassToCanonicalSectorOrdinaryResidueAdapter',
+                  'sr_str_222_routed_for_further_work_to': 'SR-STR-021',
+                  'sr_str_222_closed_by_021': False,
+                  'sr_str_021_anti_loop_state': 'WORK_ONLY',
+                  'sr_str_021_frozen_endpoint': 'ExceptionalZeroRepelledLogFreeZeroDensityForGaussianAngularRayCharacters',
+                  'duplicate_supersession_check_performed': True,
+                  'substantive_routing_progress': ['SR-STR-222 -> SR-STR-021 joint-character route'],
+                  'overall_normal_chatgpt_deepening_pause_recommended': True,
+                  'auto_rotate_to_unrelated_external_gates': False,
+                  'primary_work_target': 'SR-STR-169 / MAINWallPrimitiveInverseFrequencySameMeasureLargeSieveQuadraticFormDeficit',
+                  'secondary_work_target': 'SR-STR-024 / UniformFilteredQuotientCharacterVoronoiFunctionalEquationAdapter',
+                  'tertiary_work_target': 'SR-STR-021 / ExceptionalZeroRepelledLogFreeZeroDensityForGaussianAngularRayCharacters',
+                  'audit_required': True
+              })
+          p.write_text(json.dumps(data, indent=2)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          rm .github/workflows/structure-radar-b40-antiloop-terminal.yml
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git add docs/structure-radar/progress.json .github/workflows/structure-radar-b40-antiloop-terminal.yml
+          git commit -m 'StructureRadar: materialize anti-loop batch 40' || true
+          git push origin HEAD:${{ github.head_ref }}
