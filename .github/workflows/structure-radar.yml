@@ -5,6 +5,7 @@ on:
     paths:
       - 'docs/structure-radar/**'
       - 'scripts/structure_radar.py'
+      - 'scripts/structure_radar_overlay.py'
       - '.github/workflows/structure-radar.yml'
   workflow_dispatch:
 
@@ -18,5 +19,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Apply StructureRadar literature-search state overlay
+        run: python scripts/structure_radar_overlay.py apply
       - name: Verify repository-wide StructureRadar corpus and queue
         run: python scripts/structure_radar.py verify
