@@ -53,3 +53,5 @@ AUDIT_REQUIRED=true
 MERGE_ALLOWED=false
 NEXT_EXPECTED_COMMAND=StructureRadar-audit
 ```
+
+VALIDATION_RETRIGGER=exact-head-controller-after-self-clean
