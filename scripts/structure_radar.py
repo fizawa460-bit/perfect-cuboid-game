@@ -417,9 +417,33 @@ def validate_progress(progress: dict[str, Any]) -> None:
             die(f"invalid progress status: {source_id}")
         if not re.fullmatch(r"[0-9a-f]{64}", review.get("fingerprint", "")):
             die(f"invalid progress fingerprint: {source_id}")
+    closeout = progress.get("campaign_closeout")
+    if closeout is not None:
+        required = {
+            "campaign_id",
+            "status",
+            "corpus_fingerprint",
+            "final_audit_pr",
+            "final_audit_head",
+            "final_audit_merge_commit",
+            "final_audit_verdict",
+            "closed_at",
+            "next_phase",
+            "reopen_on_corpus_change",
+        }
+        missing = sorted(required - set(closeout))
+        if missing:
+            die("campaign closeout missing: " + ", ".join(missing))
+        if closeout["status"] != "CLOSED" or closeout["final_audit_verdict"] != "PASS":
+            die("invalid campaign closeout status")
+        if not re.fullmatch(r"[0-9a-f]{64}", closeout["corpus_fingerprint"]):
+            die("invalid campaign closeout fingerprint")
+        for key in ("final_audit_head", "final_audit_merge_commit"):
+            if not re.fullmatch(r"[0-9a-f]{40}", closeout[key]):
+                die(f"invalid campaign closeout {key}")
 
 
-def build_controller(manifest: dict[str, Any], queue: dict[str, Any], registry: dict[str, Any]) -> dict[str, Any]:
+def build_controller(manifest: dict[str, Any], queue: dict[str, Any], registry: dict[str, Any], progress: dict[str, Any]) -> dict[str, Any]:
     ready = next((task for task in queue["tasks"] if task["status"] == "READY"), None)
     cards = registry.get("structures", [])
     unresolved_search = sum(card.get("search_status") in {"NOT_SEARCHED", "SEARCH_IN_PROGRESS", "NEEDS_REFRESH"} for card in cards)
@@ -435,10 +459,17 @@ def build_controller(manifest: dict[str, Any], queue: dict[str, Any], registry: 
         and not manifest["arsenal_backflow_gaps"]
         and bool(registry.get("structures"))
     )
+    closeout = progress.get("campaign_closeout") or {}
+    campaign_closed = (
+        campaign_close
+        and closeout.get("status") == "CLOSED"
+        and closeout.get("final_audit_verdict") == "PASS"
+        and closeout.get("corpus_fingerprint") == manifest["corpus_fingerprint"]
+    )
     return {
         "schema_version": 1,
         "controller": "STRUCTURE-RADAR-CONTROLLER-R01",
-        "status": "READY" if ready else ("AUDIT_REQUIRED" if campaign_close else "WAITING_FOR_REGISTRY_WORK"),
+        "status": "CLOSED" if campaign_closed else ("READY" if ready else ("AUDIT_REQUIRED" if campaign_close else "WAITING_FOR_REGISTRY_WORK")),
         "primary_operator": "ChatGPT",
         "commands": {
             "main": "StructureRadar-main-batch",
@@ -492,10 +523,17 @@ def build_controller(manifest: dict[str, Any], queue: dict[str, Any], registry: 
             "all_arsenal_decisions_resolved": unresolved_decisions == 0,
             "all_card_provenance_current": stale_cards == 0,
             "arsenal_backflow_clear": not manifest["arsenal_backflow_gaps"],
-            "final_independent_audit_required": True,
-            "campaign_close_allowed_before_final_audit": campaign_close,
+            "final_independent_audit_required": not campaign_closed,
+            "final_independent_audit_completed": campaign_closed,
+            "campaign_close_allowed_before_final_audit": campaign_close and not campaign_closed,
+            "campaign_closed": campaign_closed,
         },
-        "next_expected_command": "StructureRadar-main-batch" if ready else "StructureRadar-audit" if campaign_close else "StructureRadar-main-batch",
+        "post_close": {
+            "phase": "EXTERNAL_GATE_CLOSURE" if campaign_closed else None,
+            "initial_campaign_closed": campaign_closed,
+            "reopen_on_corpus_change": True,
+        },
+        "next_expected_command": "StructureRadar-main-batch" if campaign_closed or ready else "StructureRadar-audit" if campaign_close else "StructureRadar-main-batch",
         "pull_request_policy": {
             "main_batches_use_draft_pr": True,
             "main_lane_may_self_award_mathematical_audit_pass": False,
@@ -511,7 +549,7 @@ def generated_documents() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any
     manifest = build_manifest(progress)
     validate_registry(registry, manifest)
     queue = build_queue(manifest, registry)
-    controller = build_controller(manifest, queue, registry)
+    controller = build_controller(manifest, queue, registry, progress)
     return manifest, queue, controller
 
 
