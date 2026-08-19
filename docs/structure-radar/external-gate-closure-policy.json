@@ -4,6 +4,7 @@
   "phase": "EXTERNAL_GATE_CLOSURE",
   "applies_to_command": "StructureRadar-main-batch",
   "effective_when_initial_campaign_closed": true,
+  "anti_loop_policy": "docs/structure-radar/anti-loop-policy.json",
   "rules": {
     "triage_all_remaining_gates_before_repeated_deep_attacks": true,
     "triage_is_lightweight_not_full_research": true,
@@ -13,7 +14,10 @@
     "deep_attack_only_genuinely_new_missing_theorem_or_adapter_gates_one_at_a_time": true,
     "prioritize_stage27_19_and_stage27_20_relevance": true,
     "do_not_wait_for_all_external_gates_before_resuming_stage27_19_or_stage27_20": true,
-    "work_is_fallback_only_after_a_precise_missing_lemma_resists_normal_chatgpt": true
+    "work_is_fallback_only_after_a_precise_missing_lemma_resists_normal_chatgpt": true,
+    "stop_when_anti_loop_policy_detects_stagnation": true,
+    "do_not_continue_by_missing_lemma_renaming_alone": true,
+    "rotate_to_next_non_stalled_priority_gate_after_stop": true
   },
   "triage_classes": [
     {
@@ -59,7 +63,8 @@
     "allowed_for": [
       "repo reconciliation",
       "pure registry repair",
-      "independent low-risk adapter confirmations"
+      "independent low-risk adapter confirmations",
+      "one-PR four-lane independent checkpointing and rotation"
     ],
     "one_gate_deep_attack_preferred_for": [
       "new theorem proof",
@@ -73,6 +78,7 @@
     "A gate closes only on its exact receiver and hypotheses.",
     "Do not promote a fixed-fiber, average-modulus, ambient-population, or different-measure result to a stronger physical receiver without an exact adapter.",
     "Do not claim STRICT_SUBSQRT_POWER_SAVING_PROVED unless the Stage27 whole-family proof gate explicitly closes.",
-    "Do not claim perfect-cuboid existence or nonexistence from local gate closure."
+    "Do not claim perfect-cuboid existence or nonexistence from local gate closure.",
+    "Stopping or pausing a stalled lane is routing only and never counts as a theorem or saving."
   ]
 }

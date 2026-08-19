@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "policy": "STRUCTURE-RADAR-ANTI-LOOP-R01",
+  "phase": "EXTERNAL_GATE_CLOSURE",
+  "applies_to_command": "StructureRadar-main-batch",
+  "purpose": "Stop normal deepening when a lane has reached a genuine theorem/adapter endpoint or is only being renamed/repackaged, then rotate to the next highest-value non-stalled gate.",
+  "substantive_progress_any_of": [
+    "a new identity or lemma is actually proved",
+    "a receiver is strictly weakened and the implication to the prior receiver is proved",
+    "a concrete hypothesis/range/measure obstruction is eliminated",
+    "a published theorem is verified to apply on the exact receiver",
+    "the gate status changes on exact audited evidence"
+  ],
+  "does_not_reset_stall_counter": [
+    "renaming a missing lemma without a proved implication",
+    "equivalent repackaging of the same theorem gate",
+    "repeating a broad literature search already covered by merged work",
+    "introducing a stronger sufficient condition when the weaker receiver remains open",
+    "moving the same cross-measure or quantifier-order gap to a new label"
+  ],
+  "stop_rules": {
+    "theorem_gate_rule": "Once exact algebraic/measure normalization is exhausted and the next step is an actual external theorem or same-measure power estimate, freeze the current FIRST_MISSING_LEMMA. Do not keep subdividing it unless a new proof/source removes a concrete obstruction.",
+    "consecutive_nonprogress_limit": 2,
+    "repeated_work_handoff_limit": 2,
+    "work_only_after_limit": true,
+    "no_new_evidence_no_reopen": true,
+    "rotate_after_stop": true,
+    "overall_pause_when_all_stage27_relevant_lanes_stalled": true
+  },
+  "lane_states": [
+    "ACTIVE_DEEPENING",
+    "THEOREM_GATE_PAUSED",
+    "STALLED_NORMAL_CHATGPT",
+    "WORK_ONLY",
+    "REOPENED_BY_NEW_EVIDENCE"
+  ],
+  "reopen_triggers": [
+    "new merged repo lemma that changes the exact receiver",
+    "new primary-source theorem with exact receiver/range match",
+    "focused Work result that discharges or strictly narrows the frozen missing lemma",
+    "explicit operator override"
+  ],
+  "rotation_priority": [
+    "direct Stage27-19/Stage27-20 relevance",
+    "non-stalled supporting gate with deepest merged prior work",
+    "cheap repo reconciliation",
+    "other non-stalled external gate"
+  ],
+  "firewalls": [
+    "Stopping a lane does not close its EXTERNAL_GATE.",
+    "A paused or stalled lane cannot be counted as a saving.",
+    "No fixed-U, average-modulus, ambient-population, or different-measure result is promoted without an exact adapter.",
+    "CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2 unless the actual Stage27 whole-family theorem closes.",
+    "No perfect-cuboid existence/nonexistence conclusion follows from a stop or rotation decision."
+  ]
+}
