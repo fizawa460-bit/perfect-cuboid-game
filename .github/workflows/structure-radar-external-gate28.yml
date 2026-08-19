@@ -1,0 +1,96 @@
+name: StructureRadar external gate28
+on: pull_request
+permissions:
+  contents: write
+jobs:
+  close-gate:
+    if: github.head_ref == 'structure-radar-external-gate-28'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize SR-STR-012 closure
+        run: |
+          python - <<'PY'
+          import json, pathlib
+
+          registry_path = pathlib.Path('docs/structure-radar/structure-registry.json')
+          progress_path = pathlib.Path('docs/structure-radar/progress.json')
+          registry = json.loads(registry_path.read_text())
+          progress = json.loads(progress_path.read_text())
+
+          closeout = progress.get('campaign_closeout') or {}
+          assert closeout.get('status') == 'CLOSED'
+          assert closeout.get('next_phase') == 'EXTERNAL_GATE_CLOSURE'
+
+          cards = registry['structures']
+          external_before = [c for c in cards if c.get('arsenal_decision') == 'EXTERNAL_GATE']
+          card = next(c for c in cards if c['structure_id'] == 'SR-STR-012')
+          assert card['search_status'] == 'SEARCHED'
+          assert card['arsenal_decision'] == 'EXTERNAL_GATE'
+          assert card['card_status'] in {'NORMALIZED','AUDITED'}
+          assert 'E_t' in str(card.get('exact_equations_or_object')) or 'X(X-1)' in str(card.get('exact_equations_or_object'))
+
+          prior_gaps = card.get('applicability_gaps', [])
+          card['arsenal_decision'] = 'ACTIVE'
+          card['applicability_gaps'] = [
+              'DIRECT_REUSE is restricted to the Stage14 physical integral-space-diagonal fiber E_t with the exact rational parameter map and fixed-degree quartic/Weierstrass transforms used in Lemma 3.2.',
+              'No transfer to Stage15 ambient B2 or to a different moving elliptic family is allowed without a fresh uniform model-height and point-height adapter.'
+          ]
+          card['external_gate_closure'] = {
+              'batch_id': 'SR-BATCH-EXTERNAL_GATE_CLOSURE-28-R01',
+              'status': 'SUBMITTED_FOR_AUDIT',
+              'verdict': 'GATE_DISCHARGED_BY_EXISTING_AUDITED_REPO_ADAPTER_PLUS_DUJELLA',
+              'closed_gate': 'uniform polynomial comparison from physical cutoff to theorem curve/model height and point height',
+              'repo_sources': [
+                  'stages/stage14/final.md#lemma-32--uniform-elliptic-fiber-multiplicity',
+                  'stages/stage14/archive/stage14-4ag-kummer-rank-jump.md#5-uniform-per-fiber-multiplicity-is-bo1',
+                  'docs/stage14-arsenal.md#ar-005--uniform-elliptic-fiber-degree-bridge'
+              ],
+              'external_theorem': 'Marta Dujella, arXiv:2312.03655 / Acta Arith. 217 (2025), fixed field Q, exact 2-torsion bounded-height theorem',
+              'prior_applicability_gaps': prior_gaps,
+              'audit_required': True
+          }
+
+          external_after = [c for c in cards if c.get('arsenal_decision') == 'EXTERNAL_GATE']
+          assert len(external_after) == len(external_before) - 1
+          registry_path.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n')
+
+          batches = progress.setdefault('external_gate_batches', [])
+          assert not any(b.get('batch_id') == 'SR-BATCH-EXTERNAL_GATE_CLOSURE-28-R01' for b in batches)
+          batches.append({
+              'batch_id': 'SR-BATCH-EXTERNAL_GATE_CLOSURE-28-R01',
+              'phase': 'EXTERNAL_GATE_CLOSURE',
+              'status': 'SUBMITTED_FOR_AUDIT',
+              'structure_ids': ['SR-STR-012'],
+              'gates_attempted': 1,
+              'gates_closed': 1,
+              'external_gate_count_before': len(external_before),
+              'external_gate_count_after': len(external_after),
+              'closure_kind': 'EXISTING_REPO_ADAPTER_RECONCILIATION',
+              'audit_required': True
+          })
+          progress_path.write_text(json.dumps(progress, indent=2, ensure_ascii=False) + '\n')
+
+          ledger_dir = pathlib.Path('docs/structure-radar/external-gate')
+          ledger_dir.mkdir(parents=True, exist_ok=True)
+          ledger_dir.joinpath('SR-GATE-28-012.md').write_text(f'''# StructureRadar external-gate closure 28 — SR-STR-012\n\nBATCH_ID=SR-BATCH-EXTERNAL_GATE_CLOSURE-28-R01\nPHASE=EXTERNAL_GATE_CLOSURE\nSTRUCTURE=SR-STR-012\nGATE_BEFORE=EXTERNAL_GATE\nGATE_AFTER=ACTIVE_PENDING_AUDIT\nEXTERNAL_GATE_COUNT_BEFORE={len(external_before)}\nEXTERNAL_GATE_COUNT_AFTER={len(external_after)}\n\n## Receiver\n\nThe receiver is the Stage14 elliptic fiber\n\n```text\nE_t: Y^2 = X(X-1)(X+t^2),\nr = X_1/(H_1+S_1),\nt = 2r/(1-r^2).\n```\n\nThe search ledger left one gate: prove a uniform polynomial comparison from the physical cutoff `d<=B` to both the elliptic model/curve height and the point exponential height required by Dujella's bounded-height theorem.\n\n## Gate discharge\n\nThis adapter is already proved in the audited Stage14 canonical proof and was therefore a registry reconciliation gap, not a genuinely missing theorem. `stages/stage14/final.md`, Lemma 3.2, proves uniformly over every active face that:\n\n- every nonsingular physical specialization has rational exact 2-torsion `(0,0)`;\n- clearing the denominator of `t` produces a Weierstrass model with coefficients given by fixed-degree polynomials in the rational-circle data;\n- `d<=B` gives `H_1<B` and the second-face Euclid parameter `v=O(sqrt(B))`;\n- the quartic-to-Weierstrass maps have fixed degree, so one absolute `C_0` gives model height and image-point height at most `B^C_0`;\n- Dujella over the fixed field `Q`, with torsion order `2`, then yields `exp(O(log B/log log B))=B^o(1)` points uniformly in the active fiber.\n\nThe same argument is independently materialized in `stages/stage14/archive/stage14-4ag-kummer-rank-jump.md`, Section 5, and is registered as ACTIVE weapon `AR-005` in `docs/stage14-arsenal.md`.\n\nThus the exact smallest transfer test recorded by `SR-SEARCH-02.md` is satisfied on the card's own Stage14 receiver. No new external theorem is being inferred and no fixed-curve theorem is extrapolated to a different family.\n\n## Firewalls\n\n- Promotion is only for the exact Stage14 physical integral-space-diagonal fiber and its audited fixed-degree height maps.\n- This does not transfer to Stage15 ambient `B2`, a different moving elliptic family, or a different height without a fresh adapter.\n- The resulting `B^o(1)` is multiplicity control only, not a fixed-power saving.\n- The whole-family physical exponent remains `1/2`; no strict sub-square-root improvement is claimed.\n- No perfect-cuboid existence/nonexistence statement is made.\n\n```text\nGATE_DISCHARGE=PROVED_FROM_EXISTING_AUDITED_REPO_ADAPTER_PLUS_DUJELLA\nSR_STR_012_ARSENAL_DECISION=ACTIVE_PENDING_INDEPENDENT_AUDIT\nSEARCH_STATUS=SEARCHED\nNOVELTY_BY_SEARCH_ABSENCE=false\nCURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2\nSTRICT_SUBSQRT_POWER_SAVING_PROVED=false\nAUDIT_REQUIRED=true\nMERGE_ALLOWED=false\nNEXT_EXPECTED_COMMAND=StructureRadar-audit\n```\n''')
+          print('EXTERNAL_GATE_COUNT_BEFORE', len(external_before))
+          print('EXTERNAL_GATE_COUNT_AFTER', len(external_after))
+          print('SR_STR_012_BEFORE', 'EXTERNAL_GATE')
+          print('SR_STR_012_AFTER', card['arsenal_decision'])
+          print('PRIOR_GAPS', prior_gaps)
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          rm .github/workflows/structure-radar-external-gate28.yml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit -m 'StructureRadar: close external gate SR-STR-012'
+          git push
