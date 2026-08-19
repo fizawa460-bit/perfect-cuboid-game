@@ -1,0 +1,25 @@
+name: StructureRadar search18 inspect
+on: pull_request
+permissions: {contents: write}
+jobs:
+  inspect:
+    if: github.head_ref == 'structure-radar-search-18-inspect'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}'}
+      - run: |
+          python - <<'PY'
+          import json,pathlib
+          ids=['SR-STR-155','SR-STR-156','SR-STR-157','SR-STR-158','SR-STR-159','SR-STR-160','SR-STR-175','SR-STR-176','SR-STR-177','SR-STR-178']
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          cards=[c for c in r['structures'] if c['structure_id'] in ids]
+          assert [c['structure_id'] for c in cards]==ids
+          lines=[]
+          for c in cards:
+            lines += [f"## {c['structure_id']} — {c['canonical_math_name']}",c['exact_equations_or_object'],'SEARCH: '+' | '.join(c.get('search_terms_primary',[])),'TYPES: '+' | '.join(c.get('theorem_species',[])),'GAPS: '+' | '.join(c.get('applicability_gaps',[])),'']
+          pathlib.Path('docs/structure-radar/TEMP-search18-summary.md').write_text('\n'.join(lines))
+          PY
+          git config user.name github-actions; git config user.email github-actions@github.com
+          git add docs/structure-radar/TEMP-search18-summary.md
+          git commit -m 'TEMP: extract StructureRadar search18 cards' && git push
