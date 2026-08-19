@@ -1,0 +1,35 @@
+name: StructureRadar pending inspect
+on: pull_request
+permissions: {contents: write}
+jobs:
+  inspect:
+    if: github.head_ref == 'structure-radar-registry-24-inspect'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}'}
+      - run: |
+          python - <<'PY'
+          import json, pathlib
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          cards=[c for c in r['structures'] if c.get('arsenal_decision')=='PENDING']
+          out=[]
+          for c in cards:
+            out += [f"## {c['structure_id']} — {c['canonical_math_name']}",
+                    f"SEARCH_STATUS: {c.get('search_status')}",
+                    f"CARD_STATUS: {c.get('card_status')}",
+                    f"SEARCH_LEDGER: {c.get('search_ledger','')}",
+                    'OBJECT: '+c.get('exact_equations_or_object',''),
+                    'THEOREM_SPECIES: '+', '.join(c.get('theorem_species',[])),
+                    'WEAPONS: '+', '.join(c.get('potential_weapon_types',[])),
+                    'GAPS: '+' | '.join(c.get('applicability_gaps',[])),
+                    'TARGETS: '+', '.join(c.get('target_populations',[])),
+                    '']
+          out.insert(0, f"PENDING_COUNT={len(cards)}\n")
+          pathlib.Path('docs/structure-radar/TEMP-pending-arsenal.md').write_text('\n'.join(out))
+          PY
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/structure-radar/TEMP-pending-arsenal.md
+          git commit -m 'TEMP: inspect pending arsenal decisions'
+          git push
