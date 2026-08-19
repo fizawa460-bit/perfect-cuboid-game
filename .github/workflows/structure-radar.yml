@@ -8,15 +8,101 @@ on:
       - '.github/workflows/structure-radar.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: agent/sr-search05-prapply
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify repository-wide StructureRadar corpus and queue
-        run: python scripts/structure_radar.py verify
+      - name: Apply and verify literature search batch 05
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          targets={'SR-STR-031':'ACTIVE','SR-STR-032':'PARKED','SR-STR-033':'PARKED','SR-STR-036':'PARKED','SR-STR-037':'ACTIVE','SR-STR-038':'ACTIVE','SR-STR-039':'ACTIVE','SR-STR-040':'ACTIVE'}
+          ledger='docs/structure-radar/literature/SR-SEARCH-05.md'
+          rp=pathlib.Path('docs/structure-radar/structure-registry.json'); reg=json.loads(rp.read_text())
+          seen=set()
+          for c in reg['structures']:
+            sid=c.get('structure_id')
+            if sid not in targets: continue
+            seen.add(sid)
+            if c.get('search_status') in {'NOT_SEARCHED','NEEDS_REFRESH'}:
+              assert c.get('arsenal_decision')=='PENDING', (sid,c.get('arsenal_decision'))
+              c['search_status']='SEARCHED'; c['arsenal_decision']=targets[sid]; c['search_ledger']=ledger
+            else:
+              assert c.get('search_status')=='SEARCHED' and c.get('arsenal_decision')==targets[sid] and c.get('search_ledger')==ledger
+          assert seen==set(targets)
+          rp.write_text(json.dumps(reg,indent=2,ensure_ascii=False)+'\n')
+          pp=pathlib.Path('docs/structure-radar/progress.json'); prog=json.loads(pp.read_text())
+          bid='SR-BATCH-LITERATURE_SEARCH-05-R01'
+          if not any(x.get('batch_id')==bid for x in prog.get('audit_batches',[])):
+            prog.setdefault('audit_batches',[]).append({'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':8,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':8,'arsenal_decisions':8,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0})
+          pp.write_text(json.dumps(prog,indent=2,ensure_ascii=False)+'\n')
+          pathlib.Path(ledger).write_text('''# StructureRadar literature ledger — search batch 05
+
+SEARCH_TASK=SR-SEARCH-01
+BATCH_ID=SR-BATCH-LITERATURE_SEARCH-05-R01
+SEARCH_DATE=2026-08-19
+STRUCTURES=SR-STR-031,SR-STR-032,SR-STR-033,SR-STR-036,SR-STR-037,SR-STR-038,SR-STR-039,SR-STR-040
+SEARCH_BATCH_SIZE=8
+EVIDENCE_POLICY=primary sources for external theorem claims; audited repo arsenal checked first
+NOVELTY_BY_SEARCH_ABSENCE=false
+
+## Primary sources checked
+- de la Bretèche--Tenenbaum, *Remarks on the Selberg--Delange method*, Acta Arith. 200 (2021), arXiv:2010.12929: theorem-species support only; receiver-specific factorization, regularity, vertical growth, coefficient majorant and uniformity remain mandatory.
+- Yekutieli, *Pythagorean Triples, Complex Numbers, Abelian Groups and Prime Numbers*, arXiv:2101.12166: normalized triples/fixed-hypotenuse enumeration; background only.
+- Sharipov, *A note on a perfect Euler cuboid*, arXiv:1104.1716: adjacent cuboid reduction only.
+- Ramsden--Sharipov, *On two algebraic parametrizations for rational solutions of the cuboid equations*, arXiv:1208.2587: adjacent rational cuboid parametrization only.
+
+## Decisions
+- `SR-STR-031` / `AR-037`: `ACTIVE`; finite-order Selberg--Delange contract, with no uncontrolled conductor or varying expansion-depth promotion.
+- `SR-STR-032` / `AR-038`: `PARKED`; raw shared-hypotenuse convolution is not primitive-object multiplicity and moving-base triple correction remains.
+- `SR-STR-033` / `AR-039`: `PARKED`; proved mod-7 exactly-one lower subfamily only, not a full `N1` asymptotic or `N2` comparison.
+- `SR-STR-036` / `AR-002`: `PARKED`; exact Euclid background, with orientation/parity/scale explicit and face primitivity distinct from cuboid primitivity.
+- `SR-STR-037` / `AR-003`: `ACTIVE`; exact two-face gluing/multiplicity-one reconstruction under original primitive/canonical hypotheses.
+- `SR-STR-038` / `AR-004`: `ACTIVE`; `E(B)=N2(B)+3T(B)=1/2 sum_F deg_B(F)`, preserving raw-pair measure/triple multiplicity/original cutoff; `9T(B)^2 <= Q_edge(B)` is collision measure, not saving.
+- `SR-STR-039` / `AR-006`: `ACTIVE`; `N2(B) << B^(1/2+o(1))` only for the Stage14 primitive canonical integral-space exactly-two population; no ambient `M2`, lower, strict sub-half-power, or perfect-cuboid conclusion.
+- `SR-STR-040` / `AR-028`: `ACTIVE`; no-double-charge/recharge proof-accounting firewall preserving original measure and quantifier order.
+
+ACTIVE=SR-STR-031,SR-STR-037,SR-STR-038,SR-STR-039,SR-STR-040
+PARKED=SR-STR-032,SR-STR-033,SR-STR-036
+EXTERNAL_GATE=none
+NEW_EXTERNAL_ACTIVE_WEAPONS=0
+SEARCHES_COMPLETED=8
+ARSENAL_DECISIONS_RESOLVED=8
+
+Firewalls: search absence is not novelty; Selberg--Delange uniformity is receiver-specific; raw representation weight is not primitive-object multiplicity; lower subfamily is not a full asymptotic; face primitivity is not cuboid primitivity; Stage14 population/cutoff is preserved; no perfect-cuboid existence/nonexistence claim.
+''')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          git diff --check
+          python - <<'PY'
+          import json
+          c=json.load(open('docs/structure-radar/controller.json')); q=json.load(open('docs/structure-radar/exploration-queue.json')); p=json.load(open('docs/structure-radar/progress.json'))
+          assert c['registry']['structure_count']==228
+          assert c['registry']['unresolved_search_count']==169
+          assert c['registry']['pending_arsenal_decision_count']==188
+          assert c['queue']['task_count']==22
+          assert q['tasks'][0]['status']=='READY'
+          assert q['tasks'][0]['structure_ids']==['SR-STR-041','SR-STR-042','SR-STR-043','SR-STR-044','SR-STR-045','SR-STR-046','SR-STR-047','SR-STR-048']
+          b=p['audit_batches'][-1]
+          assert b['batch_id']=='SR-BATCH-LITERATURE_SEARCH-05-R01' and b['searches_completed']==8 and b['arsenal_decisions']==8
+          PY
+      - name: Self-clean and push official materialization
+        run: |
+          rm -f .github/workflows/sr-search05-prapply.yml .sr-search05-main-kick scripts/argparse.py docs/structure-radar/.search05-trigger
+          git checkout origin/main -- .github/workflows/structure-radar.yml
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A
+          git commit -m 'StructureRadar: materialize literature search batch 05'
+          git push origin HEAD:agent/sr-search05-prapply
