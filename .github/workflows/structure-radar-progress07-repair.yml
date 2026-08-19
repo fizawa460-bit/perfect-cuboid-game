@@ -19,8 +19,8 @@ jobs:
           p='docs/structure-radar/progress.json'
           d=json.load(open(p))
           bid='SR-BATCH-LITERATURE_SEARCH-07-R01'
-          assert not any(x.get('batch_id')==bid for x in d['batches'])
-          d['batches'].append({
+          assert not any(x.get('batch_id')==bid for x in d['audit_batches'])
+          d['audit_batches'].append({
             'batch_id':bid,
             'task_id':'SR-SEARCH-01',
             'status':'SUBMITTED_FOR_AUDIT',
