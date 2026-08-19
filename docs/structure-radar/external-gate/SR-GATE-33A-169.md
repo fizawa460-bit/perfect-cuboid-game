@@ -46,16 +46,17 @@ No estimate or change of measure has occurred here.
 
 ## 2. The inverse-frequency phase is already present in the complete Gauss kernel
 
-On the odd part of `q`, whenever `(2a,q)=1`, completing the square gives
+Write `q = 2^nu q_odd` with `q_odd` odd. On the odd local factor, whenever `(2a,q_odd)=1`, completing the square gives
 
 ```text
-G_q(a,b)
- = G_q(a,0) e_q(-b^2 * inverse(4a) mod q).
+G_{q_odd}(a,b)
+ = G_{q_odd}(a,0)
+   e_{q_odd}(-b^2 * inverse(4a) mod q_odd).
 ```
 
-Thus the complete quadratic kernel produces an inverse-`a` phase exactly. This is the projective/Kloosterman-fraction geometry that batch30 was trying to reach.
+Thus the complete quadratic kernel on the coprime odd local factor produces an inverse-`a` phase exactly. This is the projective/Kloosterman-fraction geometry that batch30 was trying to reach.
 
-For general composite/even `q`, Chinese remainder factorization separates the odd and 2-primary local Gauss factors. Non-coprime `(a,q)>1` strata are not discarded; they must be retained and controlled separately. The present reduction therefore proves only the algebraic emergence of inverse-frequency geometry, not a power saving.
+For the full composite/even `q`, Chinese remainder factorization separates the odd and 2-primary local Gauss factors. Frequencies for which `(a,q_odd)>1`, together with the 2-primary local factor, are not discarded; they must be retained and controlled separately. The present reduction therefore proves only the algebraic emergence of inverse-frequency geometry on the coprime odd pieces, not a power saving for the full MAIN sum.
 
 ## 3. What is still missing
 
@@ -69,7 +70,7 @@ FIRST_MISSING_LEMMA=MAINWallPhysicalResidueFourierCompletionNormAndBadGCDControl
 
 A sufficient form is:
 
-> On every retained Stage27 MAIN wall block, for the exact residue coefficient `W(f)` arising from the centered/two-copy `H_phys^MAIN` survivor weight, prove an `L1/L2` Fourier bound strong enough that the completed Gauss kernels may be decomposed into `B^o(1)` inverse-frequency bilinear/trilinear pieces, while preserving all physical masks, correlated `q=2UV/gcd(U,V)`, nested common-parent weights, quantifier order, and one uniform positive power. Control the 2-primary and `(a,q)>1` strata in the same measure rather than deleting them.
+> On every retained Stage27 MAIN wall block, for the exact residue coefficient `W(f)` arising from the centered/two-copy `H_phys^MAIN` survivor weight, prove an `L1/L2` Fourier bound strong enough that the completed Gauss kernels may be decomposed into `B^o(1)` inverse-frequency bilinear/trilinear pieces, while preserving all physical masks, correlated `q=2UV/gcd(U,V)`, nested common-parent weights, quantifier order, and one uniform positive power. Control the 2-primary and non-coprime odd-frequency strata in the same measure rather than deleting them.
 
 Once this is available, Dong--Robles--Zeindler remains the first published bilinear Kloosterman-fraction theorem to test on the coprime odd pieces. Wright remains secondary if an actual modulus average and the required coefficient factorization emerge. No applicability claim is made before this physical Fourier bridge is proved.
 
