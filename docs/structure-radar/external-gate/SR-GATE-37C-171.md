@@ -13,20 +13,20 @@ This lane resumes from audited/merged 36C. The localized ordinary-divisor witnes
 
 ## 1. Exact bounded-weight reduction to dyadic Boolean threshold masks
 
-For any integer `J>=1`, pointwise
+Let `K>=1` denote the dyadic threshold depth. Pointwise,
 
 ```text
 A(m,d)
- <= sum_{j=0}^{J-1} 2^{-j} 1_{A(m,d)>2^{-j-1}} + 2^{-J}.
+ <= sum_{j=0}^{K-1} 2^{-j} 1_{A(m,d)>2^{-j-1}} + 2^{-K}.
 ```
 
 Insert this into the audited localized divisor first moment:
 
 ```text
 sum_m mu(m) sum_{d in I} 1_{d|m} A(m,d)
- <= sum_{j=0}^{J-1} 2^{-j}
+ <= sum_{j=0}^{K-1} 2^{-j}
       sum_m mu(m) N_j(m)
-    + 2^{-J} sum_m mu(m) N_all(m),
+    + 2^{-K} sum_m mu(m) N_all(m),
 ```
 
 where `N_j(m)` counts divisors `d in I` satisfying both `d|m` and the Boolean threshold mask `A(m,d)>2^{-j-1}`.
@@ -37,7 +37,7 @@ By 36C,
 N_j(m), N_all(m) <= tau(m)=B^o(1).
 ```
 
-Choose `J=ceil(C log_2 B)` for fixed large `C`. Then the residual tail is
+Choose `K=ceil(C log_2 B)` for fixed large `C`. Then the residual tail is
 
 ```text
 <= B^{-C+o(1)} H_packet,
@@ -53,7 +53,7 @@ Therefore a uniform same-measure fixed-power theorem for these Boolean threshold
 FIRST_MISSING_LEMMA=PhysicalLocalizedDivisorDyadicThresholdEventSameMeasureDeficit
 ```
 
-A sufficient form is: uniformly over every retained packet and every dyadic threshold `t=2^{-j-1}`, prove a fixed-power deficit for
+A sufficient form is: uniformly over every retained packet and every dyadic threshold `t=2^{-j-1}` with `0<=j<K`, prove a fixed-power deficit for
 
 ```text
 exists d in I : d|m and A(m,d)>t,
@@ -69,6 +69,7 @@ This lane and SR-STR-170 remain two upper shadows of charged support and may not
 UNITARY_TO_ORDINARY_UPPER_SHADOW_REUSED=true
 DIVISOR_WITNESS_MULTIPLICITY_SUBPOLYNOMIAL_REUSED=true
 BOUNDED_WEIGHT_DYADIC_THRESHOLD_REDUCTION=PROVED
+DYADIC_DEPTH_SYMBOL_SEPARATED=true
 THRESHOLD_LEVEL_COUNT_SUBPOLYNOMIAL=true
 WEIGHT_TAIL_FIXED_POWER_NEGLIGIBLE=true
 UNITARY_TO_ORDINARY_LOWER_EQUIVALENCE_PROVED=false
