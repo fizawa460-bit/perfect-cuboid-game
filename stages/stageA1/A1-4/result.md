@@ -2,13 +2,13 @@
 
 ## Scope
 
-This is the single bounded A1-4 attempt authorized by the audited A1-3 checkpoint. It works only with the corrected equation-(6) anchor tower
+This is the bounded A1-4 attempt originally authorized by the audited A1-3 checkpoint. It works only with the corrected equation-(6) anchor tower
 
 ```text
 E: Y^2 = z^4 - 20 z^2 + 256 z - 412,
 ```
 
-followed by the exact reconstruction conditions from A1-3. It does not rotate to another Hilbert-cube family and does not claim that equation (6) covers all perfect cuboids.
+followed by the exact reconstruction conditions from A1-3. It does not claim that equation (6) covers all perfect cuboids.
 
 ## 1. The genus-1 quotient is not the bottleneck
 
@@ -212,18 +212,21 @@ It does **not** establish:
 - a new necessary condition for an arbitrary perfect cuboid;
 - existence or nonexistence of a perfect cuboid.
 
-## 7. Anti-loop verdict
+## 7. Audit routing verdict
 
-The audited A1-3 contract allowed exactly one bounded A1-4 attempt and required StageA1 to stop unless that attempt produced at least one of:
+The submitted draft applied the earlier A1-3 rule literally and set `RECONNAISSANCE_NEGATIVE` after this bounded attempt. The independent audit accepts the mathematical results above but repairs that routing decision because the operator subsequently overrode the one-attempt stop: StageA1 may continue while it is producing substantive new mathematics.
 
-- a nondegenerate anchored rational point;
-- a complete family-specific rational-point closure;
-- a new coverage/reverse-map theorem;
-- a new necessary condition for arbitrary anchored cubes.
+A1-4 itself qualifies as substantive progress. It proves positive rank of the quotient, combines two reconstruction covers into one exact structured curve condition, verifies a large exact finite range, and extracts a new family-specific local divisibility filter. These are not mere renamings of the A1-3 receiver.
 
-None occurred. Increasing the exact finite search from height `500` to `5000` still produced no survivor, but finite search absence is not a rational-point theorem. Continuing with A1-4a/A1-4b or unrelated Hilbert-cube families would therefore violate the anti-loop contract.
+Continuation is therefore allowed under a progress-based anti-loop rule:
 
-The main-lane verdict remains
+- a new proved identity, curve/cover reduction, rational-point statement, local obstruction, coverage result, or exact theorem adapter counts as progress;
+- merely increasing a finite search bound without a changed receiver does not by itself count;
+- equivalent repackaging or renaming of the same unresolved condition does not count;
+- if successive batches stop producing concrete mathematical narrowing, StageA1 pauses;
+- if the route reaches an external theorem wall better suited to Work, freeze that exact wall rather than manufacturing subdivisions.
+
+The audited status is
 
 ```text
 A1_4_STATUS=BOUNDED_ATTEMPT_COMPLETE
@@ -236,9 +239,9 @@ A1_4_COMPLETE_FAMILY_CLOSURE=false
 A1_4_NEW_ARBITRARY_CUBE_CONSTRAINT=false
 A1_4_PERFECT_CUBOID_FOUND=false
 A1_4_PERFECT_CUBOID_NONEXISTENCE_PROVED=false
-STAGE_A1_STATUS=RECONNAISSANCE_NEGATIVE
-STAGE_A1_STOP_AFTER_AUDIT=true
-UNRELATED_FAMILY_ROTATION_ALLOWED=false
-AUDIT_REQUIRED=true
-NEXT_EXPECTED_COMMAND=StageA1-audit
+STAGE_A1_STATUS=RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE
+STAGE_A1_STOP_AFTER_AUDIT=false
+AUDIT_VERDICT=PASS_WITH_ROUTING_REPAIR
+REPAIR_REQUIRED=false
+NEXT_EXPECTED_COMMAND=StageA1-main-batch
 ```
