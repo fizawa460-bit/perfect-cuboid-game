@@ -1,23 +1,4 @@
-import json
-from pathlib import Path
-ids=[f'SR-STR-{i:03d}' for i in range(84,94)]
-ledger='docs/structure-radar/literature/SR-SEARCH-11.md'
-rp='docs/structure-radar/structure-registry.json'
-r=json.load(open(rp))
-seen=[]
-for c in r['structures']:
-    if c['structure_id'] in ids:
-        assert c['search_status'] in {'NOT_SEARCHED','NEEDS_REFRESH'}
-        assert c['arsenal_decision']=='PENDING'
-        c['search_status']='SEARCHED'; c['arsenal_decision']='ACTIVE'; c['search_ledger']=ledger; seen.append(c['structure_id'])
-assert seen==ids
-open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
-pp='docs/structure-radar/progress.json'
-p=json.load(open(pp)); bid='SR-BATCH-LITERATURE_SEARCH-11-R01'
-assert not any(x.get('batch_id')==bid for x in p['audit_batches'])
-p['audit_batches'].append({'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':10,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':10,'arsenal_decisions':10,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0})
-open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
-Path(ledger).write_text('''# StructureRadar literature ledger — search batch 11
+# StructureRadar literature ledger — search batch 11
 
 SEARCH_TASK=SR-SEARCH-01
 BATCH_ID=SR-BATCH-LITERATURE_SEARCH-11-R01
@@ -71,4 +52,3 @@ Retain the composition barrier as proof accounting: an early raw-slope saving ca
 - Raw slope savings cannot be double-charged after later physical fibers.
 - CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2; no strict sub-square-root whole-family theorem is claimed.
 - No perfect-cuboid existence or nonexistence claim is made.
-''')
