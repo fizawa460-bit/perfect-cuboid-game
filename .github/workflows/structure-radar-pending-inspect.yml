@@ -12,7 +12,7 @@ jobs:
           python - <<'PY'
           import json, pathlib
           r=json.load(open('docs/structure-radar/structure-registry.json'))
-          cards=[c for c in r['structures'] if c.get('arsenal_decision')=='PENDING']
+          cards=[c for c in r['structures'] if c.get('arsenal_decision')=='PENDING'][:10]
           out=[]
           for c in cards:
             out += [f"## {c['structure_id']} — {c['canonical_math_name']}",
@@ -20,16 +20,18 @@ jobs:
                     f"CARD_STATUS: {c.get('card_status')}",
                     f"SEARCH_LEDGER: {c.get('search_ledger','')}",
                     'OBJECT: '+c.get('exact_equations_or_object',''),
+                    'SEARCH_PRIMARY: '+' | '.join(c.get('search_terms_primary',[])),
+                    'SEARCH_ALIASES: '+' | '.join(c.get('search_terms_aliases',[])),
                     'THEOREM_SPECIES: '+', '.join(c.get('theorem_species',[])),
                     'WEAPONS: '+', '.join(c.get('potential_weapon_types',[])),
                     'GAPS: '+' | '.join(c.get('applicability_gaps',[])),
                     'TARGETS: '+', '.join(c.get('target_populations',[])),
+                    'PROVENANCE: '+json.dumps(c.get('repo_provenance',[]),ensure_ascii=False),
                     '']
-          out.insert(0, f"PENDING_COUNT={len(cards)}\n")
-          pathlib.Path('docs/structure-radar/TEMP-pending-arsenal.md').write_text('\n'.join(out))
+          pathlib.Path('docs/structure-radar/TEMP-pending-arsenal-detail.md').write_text('\n'.join(out))
           PY
           git config user.name github-actions
           git config user.email github-actions@github.com
-          git add docs/structure-radar/TEMP-pending-arsenal.md
-          git commit -m 'TEMP: inspect pending arsenal decisions'
+          git add docs/structure-radar/TEMP-pending-arsenal-detail.md
+          git commit -m 'TEMP: inspect pending arsenal detail'
           git push
