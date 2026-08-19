@@ -97,35 +97,10 @@ Firewalls: search absence is not novelty; Selberg--Delange uniformity is receive
           b=p['audit_batches'][-1]
           assert b['batch_id']=='SR-BATCH-LITERATURE_SEARCH-05-R01' and b['searches_completed']==8 and b['arsenal_decisions']==8
           PY
-      - name: Self-clean and push official materialization
+      - name: Push materialized official state to temporary head
         run: |
-          rm -f .github/workflows/sr-search05-prapply.yml .sr-search05-main-kick scripts/argparse.py
-          cat > .github/workflows/structure-radar.yml <<'YAML'
-          name: StructureRadar controller
-
-          on:
-            pull_request:
-              paths:
-                - 'docs/structure-radar/**'
-                - 'scripts/structure_radar.py'
-                - '.github/workflows/structure-radar.yml'
-            workflow_dispatch:
-
-          jobs:
-            verify:
-              runs-on: ubuntu-latest
-              steps:
-                - uses: actions/checkout@v4
-                  with:
-                    fetch-depth: 0
-                - uses: actions/setup-python@v5
-                  with:
-                    python-version: '3.12'
-                - name: Verify repository-wide StructureRadar corpus and queue
-                  run: python scripts/structure_radar.py verify
-          YAML
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-          git add -A
+          git add docs/structure-radar/controller.json docs/structure-radar/exploration-queue.json docs/structure-radar/progress.json docs/structure-radar/structure-registry.json docs/structure-radar/literature/SR-SEARCH-05.md
           git commit -m 'StructureRadar: materialize literature search batch 05'
           git push origin HEAD:agent/sr-search05-prapply
