@@ -7,6 +7,7 @@ STRUCTURES=SR-STR-065,SR-STR-066,SR-STR-067,SR-STR-068,SR-STR-069,SR-STR-070,SR-
 SEARCH_BATCH_SIZE=8
 EVIDENCE_POLICY=repo exact receiver first; external primary literature is adjacent unless population, height and quantifiers match
 NOVELTY_BY_SEARCH_ABSENCE=false
+VALIDATION_RETRIGGER=exact-head controller after self-clean
 
 ## SR-STR-065 — Support-energy upper exponent gate
 The Cauchy--Schwarz implication #T<=B^sigma and sum w^2<=B^eta => N2<=B^((sigma+eta)/2+o(1)) is retained as an elementary repo gate. The full energy includes the diagonal N2 term, so no ambient energy estimate may be double-charged to obtain a strict saving. Transfer verdict: `REPO_EXACT_ENERGY_GATE`. Arsenal decision: `ACTIVE`.
