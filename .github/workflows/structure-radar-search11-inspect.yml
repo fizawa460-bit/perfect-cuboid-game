@@ -12,18 +12,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
-      - name: Materialize exact next 10 cards
+      - name: Materialize compact final cards
         run: |
           python - <<'PY'
           import json, pathlib
-          ids=[f'SR-STR-{i:03d}' for i in range(84,94)]
+          ids=['SR-STR-091','SR-STR-092','SR-STR-093']
           r=json.load(open('docs/structure-radar/structure-registry.json'))
-          cards=[c for c in r['structures'] if c['structure_id'] in ids]
-          assert [c['structure_id'] for c in cards]==ids, [c['structure_id'] for c in cards]
-          pathlib.Path('docs/structure-radar/TEMP-search11-cards.json').write_text(json.dumps(cards,indent=2,ensure_ascii=False)+'\n')
+          out=[]
+          for c in r['structures']:
+            if c['structure_id'] in ids:
+              out.append({k:c.get(k) for k in ['structure_id','canonical_math_name','exact_equations_or_object','search_terms_primary','theorem_species','target_populations','potential_weapon_types','applicability_gaps','existing_radar_overlap','search_status','arsenal_decision','card_status']})
+          assert [c['structure_id'] for c in out]==ids
+          pathlib.Path('docs/structure-radar/TEMP-search11-final-cards.json').write_text(json.dumps(out,indent=2,ensure_ascii=False)+'\n')
           PY
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add docs/structure-radar/TEMP-search11-cards.json
-          git commit -m 'TEMP: materialize StructureRadar search11 cards'
+          git add docs/structure-radar/TEMP-search11-final-cards.json
+          git commit -m 'TEMP: materialize compact StructureRadar search11 tail cards'
           git push origin HEAD:${{ github.head_ref }}
