@@ -1,17 +1,4 @@
-import json
-from pathlib import Path
-ids=['SR-STR-169','SR-STR-170','SR-STR-171','SR-STR-172','SR-STR-173','SR-STR-174','SR-STR-216','SR-STR-222','SR-STR-223']
-decisions={'SR-STR-169':'EXTERNAL_GATE','SR-STR-170':'EXTERNAL_GATE','SR-STR-171':'EXTERNAL_GATE','SR-STR-172':'ACTIVE','SR-STR-173':'ACTIVE','SR-STR-174':'EXTERNAL_GATE','SR-STR-216':'ACTIVE','SR-STR-222':'EXTERNAL_GATE','SR-STR-223':'EXTERNAL_GATE'}
-rp='docs/structure-radar/structure-registry.json'
-r=json.load(open(rp)); seen=[]
-for c in r['structures']:
-    if c['structure_id'] in ids:
-        assert c['arsenal_decision']=='PENDING',(c['structure_id'],c['arsenal_decision'])
-        seen.append(c['structure_id']); c['arsenal_decision']=decisions[c['structure_id']]
-assert seen==ids,seen
-open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
-ledger=Path('docs/structure-radar/arsenal/SR-ARSENAL-25.md'); ledger.parent.mkdir(parents=True,exist_ok=True)
-ledger.write_text('''# StructureRadar Arsenal classification — batch 25 terminal tail
+# StructureRadar Arsenal classification — batch 25 terminal tail
 
 BATCH_ID=SR-BATCH-ARSENAL_DECISION-25-R01
 TASK_ID=SR-REGISTRY-ARSENAL-02
@@ -70,8 +57,3 @@ CODEX_DELEGATION_RECOMMENDED=false
 CODEX_REASON=routine terminal Arsenal classification has no repository-mechanical blocker
 WORK_DELEGATION_RECOMMENDED=false
 WORK_REASON=all nine cards are already searched with precise transfer boundaries; no new broad external-literature sweep is needed for classification
-''')
-pp='docs/structure-radar/progress.json'; p=json.load(open(pp)); bid='SR-BATCH-ARSENAL_DECISION-25-R01'
-assert not any(x.get('batch_id')==bid for x in p['audit_batches'])
-p['audit_batches'].append({'batch_id':bid,'task_id':'SR-REGISTRY-ARSENAL-02','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':9,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':0,'arsenal_decisions':9,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0})
-open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
