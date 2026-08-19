@@ -1,0 +1,72 @@
+name: StructureRadar b36 integration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: github.head_ref == 'structure-radar-parallel-36-integration'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Append batch36 integration and self-clean
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('docs/structure-radar/progress.json')
+          data=json.loads(p.read_text())
+          bid='SR-BATCH-PARALLEL-INTEGRATION-36-R01'
+          rows=data['audit_batches']
+          if not any(x.get('batch_id')==bid for x in rows):
+              rows.append({
+                  'batch_id': bid,
+                  'phase': 'EXTERNAL_GATE_CLOSURE',
+                  'status': 'SUBMITTED_FOR_AUDIT',
+                  'structure_ids': ['SR-STR-169','SR-STR-170','SR-STR-171','SR-STR-168'],
+                  'parallel_integration': True,
+                  'parallel_lane_count': 4,
+                  'parallel_lane_prs': [1216,1217,1218,1219],
+                  'parallel_audits_pass': 4,
+                  'parallel_audit_repairs': 3,
+                  'progress_entries_deferred_by_lanes': 4,
+                  'progress_integration_completed': True,
+                  'gates_closed': 0,
+                  'external_gate_count_before': 13,
+                  'external_gate_count_after': 13,
+                  'next_parallel_pr_policy': 'ONE_PR_FOUR_LANES',
+                  'sr_str_169_audited_head': 'f369458daa59435a505ca15a7131541124c93464',
+                  'sr_str_169_merge_commit': '96bbf2c1384086ec063743c6d0f156fb7320b7a4',
+                  'sr_str_169_first_missing_lemma': 'MAINWallPrimitiveInverseFrequencyTTStarGramRowDeficit',
+                  'sr_str_170_audited_head': '89099506d9b3474ee397509dbbe898718fa1c8f1',
+                  'sr_str_170_merge_commit': 'a7fa0874fac120c74f8c37ea267e314a153a668f',
+                  'sr_str_170_first_missing_lemma': 'PhysicalSquareDivisorWitnessEventOrWeightedMassSameMeasureDeficit',
+                  'sr_str_171_audited_head': '198a9613dde6dc610bdd37810dbf058362bdbe5f',
+                  'sr_str_171_merge_commit': '4fc6f70d3be0dd43afff41cd11b37e69139b9d77',
+                  'sr_str_171_first_missing_lemma': 'PhysicalLocalizedDivisorWitnessEventOrWeightedMassSameMeasureDeficit',
+                  'sr_str_168_audited_head': '4b0baa24c2affc1287ef94a13f9cd28e6dfff9fd',
+                  'sr_str_168_merge_commit': 'ad3577547b1d98e1bba0677532860c6b66007a5b',
+                  'sr_str_168_first_missing_lemma': 'SameMeasurePhysicalMobiusLayeredOrientationRangeMaskedGaussianToTwistedDivisorAdapter',
+                  'audit_required': True
+              })
+          p.write_text(json.dumps(data, indent=2)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          rm .github/workflows/structure-radar-b36-integration.yml
+          git config user.name 'github-actions'
+          git config user.email 'github-actions@github.com'
+          git add docs/structure-radar/progress.json .github/workflows/structure-radar-b36-integration.yml
+          git commit -m 'StructureRadar: materialize parallel integration 36' || true
+          git push origin HEAD:${{ github.head_ref }}
