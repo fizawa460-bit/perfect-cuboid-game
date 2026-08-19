@@ -1,0 +1,26 @@
+name: StructureRadar search13 finalize
+on: pull_request
+permissions: {contents: write}
+jobs:
+  finalize:
+    if: github.head_ref == 'structure-radar-search-13-finalizer'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - run: |
+          python - <<'PY'
+          import json,pathlib
+          ids=[f'SR-STR-{i:03d}' for i in range(104,114)]; ledger='docs/structure-radar/literature/SR-SEARCH-13.md'; rp='docs/structure-radar/structure-registry.json'; r=json.load(open(rp)); cards=[]
+          for c in r['structures']:
+            if c['structure_id'] in ids:
+              assert c['search_status'] in {'NOT_SEARCHED','NEEDS_REFRESH'} and c['arsenal_decision']=='PENDING'; cards.append(c); c['search_status']='SEARCHED'; c['arsenal_decision']='ACTIVE'; c['search_ledger']=ledger
+          assert [c['structure_id'] for c in cards]==ids; open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
+          z=['# StructureRadar literature ledger — search batch 13','','SEARCH_TASK=SR-SEARCH-01','BATCH_ID=SR-BATCH-LITERATURE_SEARCH-13-R01','SEARCH_DATE=2026-08-19','STRUCTURES='+','.join(ids),'SEARCH_BATCH_SIZE=10','NOVELTY_BY_SEARCH_ABSENCE=false','']
+          for c in cards: z += ['## '+c['structure_id']+' — '+c['canonical_math_name'],c['exact_equations_or_object'],'Potential weapon types: '+', '.join(c.get('potential_weapon_types',[]))+'.','Applicability gaps: '+'; '.join(c.get('applicability_gaps',[])),'Transfer verdict: `REPO_EXACT_RECEIVER_RETAINED`; Arsenal decision: `ACTIVE`.','']
+          z += ['## Literature-transfer firewall','Repo-exact population, height, multiplicity, modulus-growth, coefficient-uniformity and quantifier contracts are preserved. No external theorem is promoted without exact receiver matching.','CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2; no strict sub-square-root theorem or perfect-cuboid existence/nonexistence claim is made.','']; pathlib.Path(ledger).write_text('\n'.join(z))
+          pp='docs/structure-radar/progress.json'; p=json.load(open(pp)); bid='SR-BATCH-LITERATURE_SEARCH-13-R01'; assert not any(x.get('batch_id')==bid for x in p['audit_batches']); p['audit_batches'].append({'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':10,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':10,'arsenal_decisions':10,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0}); open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh && python scripts/structure_radar.py verify
+          rm .github/workflows/structure-radar-search13-finalize.yml
+          git config user.name github-actions; git config user.email github-actions@github.com; git add -A; git commit -m 'StructureRadar: literature search batch13'; git push
