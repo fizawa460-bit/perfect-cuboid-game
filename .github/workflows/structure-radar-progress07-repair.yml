@@ -1,0 +1,48 @@
+name: StructureRadar batch07 progress repair
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  repair:
+    if: github.head_ref == 'structure-radar-search-07-progress-repair'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Add canonical batch07 progress record
+        run: |
+          python - <<'PY'
+          import json
+          p='docs/structure-radar/progress.json'
+          d=json.load(open(p))
+          bid='SR-BATCH-LITERATURE_SEARCH-07-R01'
+          assert not any(x.get('batch_id')==bid for x in d['batches'])
+          d['batches'].append({
+            'batch_id':bid,
+            'task_id':'SR-SEARCH-01',
+            'status':'SUBMITTED_FOR_AUDIT',
+            'source_ids':[],
+            'sources_reviewed':0,
+            'structures_added':0,
+            'structures_updated':8,
+            'structure_carrier_sources':0,
+            'structures_deduped':0,
+            'searches_completed':8,
+            'arsenal_decisions':8,
+            'audit_required':True,
+            'duplicate_source':0,
+            'no_distinct_structure':0
+          })
+          open(p,'w').write(json.dumps(d,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          rm .github/workflows/structure-radar-progress07-repair.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'StructureRadar: repair batch07 progress accounting'
+          git push origin HEAD:${{ github.head_ref }}
