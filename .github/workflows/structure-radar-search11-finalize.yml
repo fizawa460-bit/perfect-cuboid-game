@@ -1,3 +1,4 @@
+# trigger search11 finalizer
 name: StructureRadar search11 finalize
 on:
   pull_request:
@@ -35,19 +36,12 @@ jobs:
               seen.append(c['structure_id'])
           assert seen==ids, seen
           open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
-
           pp='docs/structure-radar/progress.json'
           p=json.load(open(pp))
           bid='SR-BATCH-LITERATURE_SEARCH-11-R01'
           assert not any(x.get('batch_id')==bid for x in p['audit_batches'])
-          p['audit_batches'].append({
-            'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT',
-            'source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':10,
-            'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':10,
-            'arsenal_decisions':10,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0
-          })
+          p['audit_batches'].append({'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':10,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':10,'arsenal_decisions':10,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0})
           open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
-
           text='''# StructureRadar literature ledger — search batch 11
 
 SEARCH_TASK=SR-SEARCH-01
