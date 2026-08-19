@@ -1,0 +1,72 @@
+name: StructureRadar search06 finalizer
+on:
+  pull_request:
+    branches: [main]
+    paths: ['.github/workflows/structure-radar-search06-finalizer.yml']
+permissions:
+  contents: write
+jobs:
+  finalize:
+    if: github.head_ref == 'structure-radar-search-06-finalizer'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - name: Apply StructureRadar batch06
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          ids=[f'SR-STR-{i:03d}' for i in range(41,49)]
+          rp=pathlib.Path('docs/structure-radar/structure-registry.json')
+          r=json.loads(rp.read_text())
+          hit=[]
+          for c in r['structures']:
+              if c['structure_id'] in ids:
+                  assert c['search_status']=='NOT_SEARCHED'
+                  assert c['arsenal_decision']=='PENDING'
+                  c['search_status']='SEARCHED'
+                  c['arsenal_decision']='ACTIVE'
+                  c['search_ledger']='docs/structure-radar/literature/SR-SEARCH-06.md'
+                  hit.append(c['structure_id'])
+          assert hit==ids, hit
+          r['status']='BATCH_SUBMITTED_FOR_AUDIT'
+          rp.write_text(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
+
+          pp=pathlib.Path('docs/structure-radar/progress.json')
+          p=json.loads(pp.read_text())
+          batches=None
+          for v in p.values():
+              if isinstance(v,list) and v and isinstance(v[-1],dict) and 'batch_id' in v[-1]:
+                  batches=v; break
+          assert batches is not None
+          batches.append({'batch_id':'SR-BATCH-LITERATURE_SEARCH-06-R01','task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':8,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':8,'arsenal_decisions':8,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0})
+          pp.write_text(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python - <<'PY'
+          import json
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          q=json.load(open('docs/structure-radar/exploration-queue.json'))
+          unresolved=sum(c.get('search_status')=='NOT_SEARCHED' for c in r['structures'])
+          pending=sum(c.get('arsenal_decision')=='PENDING' for c in r['structures'])
+          ready=[t for t in q['tasks'] if t.get('status')=='READY']
+          print('UNRESOLVED_SEARCH=',unresolved)
+          print('PENDING_ARSENAL_DECISION=',pending)
+          print('QUEUE_TASKS=',len(q['tasks']))
+          print('NEXT_READY=',ready[0]['structure_ids'])
+          assert unresolved==161
+          assert pending==180
+          assert len(q['tasks'])==21
+          assert ready[0]['structure_ids']==[f'SR-STR-{i:03d}' for i in range(49,57)]
+          PY
+      - name: Commit and self-clean
+        run: |
+          git rm .github/workflows/structure-radar-search06-finalizer.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/structure-radar/structure-registry.json docs/structure-radar/progress.json docs/structure-radar/exploration-queue.json docs/structure-radar/controller.json
+          git commit -m 'StructureRadar: literature search batch 06'
+          git push origin HEAD:${{ github.head_ref }}
