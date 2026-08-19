@@ -80,3 +80,6 @@ Transfer verdict: `PRIMARY_LITERATURE_SUPPORTS_DESCENT_INTERPRETATION_NO_MOVING_
 Repo-exact population, height, multiplicity, modulus-growth, coefficient-uniformity and quantifier contracts are preserved. No external theorem is promoted without exact receiver matching.
 Fisher--Sills supplies explicit covering and height machinery, Dujella supplies a uniform bounded-height theorem under rational prime-torsion hypotheses, and quadratic-twist Selmer literature describes fixed-curve twist families; none gives the missing uniform moving-q1 Stage19 counting theorem.
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2; no strict sub-square-root theorem or perfect-cuboid existence/nonexistence claim is made.
+
+## Repair validation
+The independent audit's source-coverage defect is repaired by the primary-source checks above. Exact-head StructureRadar controller run #240 completed successfully after the literature repair; the verify job passed repository-wide StructureRadar corpus and queue verification. Re-audit is required before merge.
