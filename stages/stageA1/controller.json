@@ -3,7 +3,7 @@
   "stage": "StageA1",
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
-  "base_main": "df303ac1e8ab8c94fdc5ab982dbdc2eeeff5c704",
+  "base_main": "686583c9a67f6383af3b7dad088a2abcf629081f",
   "status": "RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE",
   "completed": [
     "A1-1",
@@ -11,9 +11,11 @@
     "A1-3",
     "A1-4_BOUNDED_ATTEMPT"
   ],
-  "submitted_for_audit": [],
-  "next": "A1-5_OR_NEXT_SUBSTANTIVE_REDUCTION",
-  "go_no_go_checkpoint": "A1-4_AUDITED_CONTINUE_WHILE_SUBSTANTIVE_PROGRESS",
+  "submitted_for_audit": [
+    "A1-5_PRIMITIVE_PYTHAGOREAN_DESCENT_WITH_MOD5_BRANCH_ELIMINATION"
+  ],
+  "next": "A1-6_TARGETED_TWO_BRANCH_DESCENT_IF_AUDIT_PASSES",
+  "go_no_go_checkpoint": "A1-5_AUDIT_BOUNDARY",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_4_quartic": "Y^2=z^4-20*z^2+256*z-412",
@@ -24,11 +26,25 @@
   "a1_4_height5000_survivors": 0,
   "a1_4_local_sieve_primes": [3, 5, 7, 23],
   "a1_4_local_sieve_projective_survivors": "0,+/-1,infinity",
-  "a1_4_complete_family_closure": false,
-  "a1_4_new_arbitrary_cube_constraint": false,
-  "a1_4_perfect_cuboid_found": false,
-  "a1_4_perfect_cuboid_nonexistence_proved": false,
-  "operator_override": "Continue digging while substantive new mathematics is produced. The prior one-bounded-attempt stop is superseded. Stop only when successive work merely renames/repackages the same unresolved point, when no concrete new reduction remains, or when an external theorem wall is deliberately frozen for Work.",
+  "a1_5_receiver": {
+    "A": "a^8-8*a^4*b^4+b^8",
+    "B": "16*a^3*b^3*(a^2-b^2)",
+    "g": "gcd(a^2-b^2,6)",
+    "primitive_triple": "|A|/g=M^2-N^2, |B|/g=2MN, gcd(M,N)=1, opposite parity",
+    "product": "MN=(8/g)|a^3b^3(a^2-b^2)|",
+    "local_sieve_consequence": "805|MN",
+    "q_1_mod_4_filter": "q|ab => (g/q)=+1; q|(a^2-b^2) => ((6/g)/q)=+1",
+    "mod5_branch_elimination": "g=2 and g=3 impossible",
+    "allowed_g": [1, 6],
+    "survivor_dichotomy": "6|ab OR gcd(ab,6)=1; equivalently 2|ab iff 3|ab",
+    "branch_E_MN_divisor": 1391040,
+    "branch_O_MN_divisor": 25760,
+    "coprime_RS_receiver": "R=M-N, S=M+N, gcd(R,S)=1, RS=|A|/g, S^2-R^2=(32/g)|a^3b^3(a^2-b^2)|"
+  },
+  "a1_5_substantive_progress": true,
+  "a1_5_new_arbitrary_cube_constraint": false,
+  "operator_override": "Continue digging while substantive new mathematics is produced. Stop only when successive work merely renames/repackages the same unresolved point, when no concrete new reduction remains, or when an external theorem wall is deliberately frozen for Work.",
+  "next_attack_if_audit_passes": "Work only with the two surviving branches g=1 and g=6 and the coprime odd factorization R*S=|A|/g coupled to S^2-R^2=(32/g)|a^3b^3(a^2-b^2)|. Continue only if this yields a genuine descent, finite cover reduction, rational-point statement, or new local obstruction; merely restating the same square curve or increasing finite search bounds is not progress.",
   "substantive_progress_requires_one_of": [
     "new proved identity or rational-point statement",
     "new exact curve/cover/reduction or local obstruction",
@@ -42,8 +58,8 @@
     "Equation (6) is not universal; A1-3 proves only a one-dimensional anchor boundary inside a full anchored algebraic variety with components of dimension at least two.",
     "Positive rank of the genus-1 quotient does not imply a surviving point through the reconstruction covers.",
     "The height-5000 search is finite evidence only, not a rational-point theorem.",
-    "For the local sieve, affine survivors are 0,+/-1 and the projective point infinity must also be allowed; the resulting rational condition is p|a*b*(a^2-b^2).",
-    "The local sieve p=3,5,7,23 is family-specific and does not obstruct arbitrary perfect cuboids.",
+    "The A1-5 primitive-Pythagorean descent and mod-5 branch elimination are family-specific and do not apply to arbitrary perfect cuboids.",
+    "The local sieve p=3,5,7,23 is family-specific.",
     "Stage27 and StructureRadar receivers remain unchanged.",
     "Do not count renamed equations, equivalent repackaging, or repeated finite searches without a changed mathematical receiver as substantive progress."
   ],
@@ -51,8 +67,8 @@
     "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
-  "audit_required": false,
+  "audit_required": true,
   "merge_allowed": false,
   "stop_after_audit": false,
-  "next_expected_command": "StageA1-main-batch"
+  "next_expected_command": "StageA1-audit"
 }

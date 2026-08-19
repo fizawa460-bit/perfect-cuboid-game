@@ -1,0 +1,58 @@
+{
+  "stage": "A1-5",
+  "base_main": "686583c9a67f6383af3b7dad088a2abcf629081f",
+  "source_receiver": "A1-4 first-two-cover square condition",
+  "variables": {
+    "coprime_pair": "gcd(a,b)=1",
+    "A": "a^8-8*a^4*b^4+b^8",
+    "B": "16*a^3*b^3*(a^2-b^2)",
+    "d": "a^2-b^2"
+  },
+  "proved": {
+    "exact_common_divisor": "gcd(|A|,|B|)=gcd(|a^2-b^2|,6)",
+    "common_divisor_values_before_mod5": [1, 2, 3, 6],
+    "normalized_odd_leg": "A/g is odd",
+    "normalized_even_leg": "B/g is even",
+    "primitive_pythagorean_parametrization": [
+      "|A|/g=M^2-N^2",
+      "|B|/g=2*M*N",
+      "C/g=M^2+N^2",
+      "gcd(M,N)=1",
+      "M,N opposite parity"
+    ],
+    "product_receiver": "M*N=(8/g)*|a^3*b^3*(a^2-b^2)|",
+    "pairwise_coprime_source_factors": ["a", "b", "a^2-b^2"],
+    "q_ge_5_allocation": "every q>=5 is allocated wholly to exactly one of M,N; q|a or q|b contributes exponent divisible by 3",
+    "a1_4_local_sieve_consequence": "805 | M*N",
+    "q_1_mod_4_source_filter": {
+      "q_divides_ab": "Legendre(g/q)=+1",
+      "q_divides_a2_minus_b2": "Legendre((6/g)/q)=+1"
+    },
+    "mod5_branch_elimination": "A1-4 gives 5|a*b*(a^2-b^2); the q=5 source filters exclude g=2 and g=3",
+    "allowed_common_divisors_after_mod5": [1, 6],
+    "survivor_dichotomy": [
+      "g=1: a,b opposite parity and 6|a*b",
+      "g=6: a,b both odd and gcd(a*b,6)=1"
+    ],
+    "compact_dichotomy": "2|a*b iff 3|a*b",
+    "branch_E_MN_divisor": 1391040,
+    "branch_O_MN_divisor": 25760,
+    "coprime_RS_receiver": [
+      "R=M-N, S=M+N",
+      "R,S positive odd and gcd(R,S)=1",
+      "R*S=|A|/g",
+      "S^2-R^2=(32/g)*|a^3*b^3*(a^2-b^2)|"
+    ]
+  },
+  "not_proved": {
+    "complete_family_closure": true,
+    "universal_reverse_map": true,
+    "new_arbitrary_perfect_cuboid_constraint": true,
+    "perfect_cuboid_existence": true,
+    "perfect_cuboid_nonexistence": true
+  },
+  "next_receiver": "two-branch g=1 or g=6 coprime odd factorization R*S=|A|/g coupled to S^2-R^2=(32/g)|a^3b^3(a^2-b^2)|; require a genuine descent, finite cover reduction, rational-point statement, or new local obstruction, otherwise pause",
+  "substantive_progress": true,
+  "audit_required": true,
+  "next_expected_command": "StageA1-audit"
+}
