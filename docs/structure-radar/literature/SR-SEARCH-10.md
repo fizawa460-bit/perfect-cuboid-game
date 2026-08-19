@@ -8,6 +8,7 @@ SEARCH_BATCH_SIZE=10
 EVIDENCE_POLICY=repo exact receiver first; external primary literature is adjacent unless target population, height, multiplicity and quantifiers match
 NOVELTY_BY_SEARCH_ABSENCE=false
 VALIDATION_RETRIGGER=exact-head controller after self-clean
+CADENCE_POLICY=literature-search queue generator chunks searchable cards by 10
 
 ## SR-STR-073 — Space-filtered fixed-tau genus-one fiber
 The fixed-tau physical survivor after reinstating the space-square equation is retained as the exact repo genus-one receiver. Generic genus-one fibration theory does not itself give a uniform Stage19 point count. Transfer verdict: `REPO_EXACT_GENUS_ONE_RECEIVER`. Arsenal decision: `ACTIVE`.
