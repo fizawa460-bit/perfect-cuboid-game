@@ -6,6 +6,7 @@ SEARCH_DATE=2026-08-19
 STRUCTURES=SR-STR-144,SR-STR-145,SR-STR-146,SR-STR-147,SR-STR-148,SR-STR-149,SR-STR-150,SR-STR-151,SR-STR-152,SR-STR-153
 SEARCH_BATCH_SIZE=10
 NOVELTY_BY_SEARCH_ABSENCE=false
+VALIDATION_RETRIGGER=exact-head controller after self-clean
 
 ## Primary-source literature checked
 - Djamel Himane, *Primitive Euler brick generator* (arXiv:2405.13061). Gives an explicit primitive Euler-brick generating construction building on a Saunderson-type parametrization. It is constructive evidence adjacent to SR-STR-146, not a counting theorem for the primitive canonical population under the repo radius height.
