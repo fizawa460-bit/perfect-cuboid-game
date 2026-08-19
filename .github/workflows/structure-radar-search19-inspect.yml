@@ -1,0 +1,27 @@
+name: StructureRadar search19 inspect
+on: pull_request
+permissions: {contents: write}
+jobs:
+  inspect:
+    if: github.head_ref == 'structure-radar-search-19-inspect'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - run: |
+          python - <<'PY'
+          import json, pathlib
+          ids=[f'SR-STR-{i:03d}' for i in range(179,189)]
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          cards=[c for c in r['structures'] if c['structure_id'] in ids]
+          assert [c['structure_id'] for c in cards]==ids
+          z=[]
+          for c in cards:
+              z += [f"## {c['structure_id']} — {c['canonical_math_name']}", c['exact_equations_or_object'], 'SEARCH: '+' | '.join(c.get('search_terms_primary',[])+c.get('search_terms_aliases',[])), 'TYPES: '+' | '.join(c.get('theorem_species',[])), 'WEAPONS: '+', '.join(c.get('potential_weapon_types',[])), 'GAPS: '+' | '.join(c.get('applicability_gaps',[])), 'TARGETS: '+' | '.join(c.get('target_populations',[])), '']
+          pathlib.Path('docs/structure-radar/TEMP-search19-summary.md').write_text('\n'.join(z))
+          PY
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/structure-radar/TEMP-search19-summary.md
+          git commit -m 'TEMP: extract StructureRadar search19 cards'
+          git push
