@@ -8,6 +8,7 @@ SEARCH_BATCH_SIZE=8
 EVIDENCE_POLICY=repo exact receiver first; external primary literature is adjacent unless population/height/quantifiers match
 NOVELTY_BY_SEARCH_ABSENCE=false
 VALIDATION_RETRIGGER=exact-head controller after self-clean
+LINKAGE_REPAIR=registry search_ledger backlinks added for SR-STR-057..064 after independent audit
 
 ## SR-STR-057 — Toric master space-diagonal receiver on the two-face host
 Retain the exact Stage19 rational-point receiver. Generic fibred-surface literature does not impose positivity, primitivity, exact-two-face, physical height R<=B or canonical multiplicity. Transfer verdict: `REPO_EXACT_RECEIVER`. Arsenal decision: `ACTIVE`.
