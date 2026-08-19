@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "controller": "STRUCTURE-RADAR-CONTROLLER-R01",
-  "status": "AUDIT_REQUIRED",
+  "status": "CLOSED",
   "primary_operator": "ChatGPT",
   "commands": {
     "main": "StructureRadar-main-batch",
@@ -57,10 +57,17 @@
     "all_arsenal_decisions_resolved": true,
     "all_card_provenance_current": true,
     "arsenal_backflow_clear": true,
-    "final_independent_audit_required": true,
-    "campaign_close_allowed_before_final_audit": true
+    "final_independent_audit_required": false,
+    "final_independent_audit_completed": true,
+    "campaign_close_allowed_before_final_audit": false,
+    "campaign_closed": true
   },
-  "next_expected_command": "StructureRadar-audit",
+  "post_close": {
+    "phase": "EXTERNAL_GATE_CLOSURE",
+    "initial_campaign_closed": true,
+    "reopen_on_corpus_change": true
+  },
+  "next_expected_command": "StructureRadar-main-batch",
   "pull_request_policy": {
     "main_batches_use_draft_pr": true,
     "main_lane_may_self_award_mathematical_audit_pass": false,
