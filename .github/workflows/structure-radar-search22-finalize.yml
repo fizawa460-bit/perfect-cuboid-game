@@ -1,0 +1,72 @@
+name: StructureRadar search22 finalize
+on: pull_request
+permissions: {contents: write}
+jobs:
+  finalize:
+    if: github.head_ref == 'structure-radar-search-22-finalizer'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - run: |
+          python - <<'PY'
+          import json,pathlib
+          ids=['SR-STR-209','SR-STR-210','SR-STR-211','SR-STR-212','SR-STR-213','SR-STR-214','SR-STR-215','SR-STR-217','SR-STR-218','SR-STR-219']
+          ledger='docs/structure-radar/literature/SR-SEARCH-22.md'
+          rp='docs/structure-radar/structure-registry.json'; r=json.load(open(rp)); cards=[]
+          for c in r['structures']:
+            if c['structure_id'] in ids:
+              assert c['search_status'] in {'NOT_SEARCHED','NEEDS_REFRESH'} and c['arsenal_decision']=='PENDING'
+              cards.append(c); c['search_status']='SEARCHED'; c['arsenal_decision']='ACTIVE'; c['search_ledger']=ledger
+          assert [c['structure_id'] for c in cards]==ids
+          open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
+          z=['# StructureRadar literature ledger — search batch 22','','SEARCH_TASK=SR-SEARCH-01','BATCH_ID=SR-BATCH-LITERATURE_SEARCH-22-R01','SEARCH_DATE=2026-08-19','STRUCTURES='+','.join(ids),'SEARCH_BATCH_SIZE=10','NOVELTY_BY_SEARCH_ABSENCE=false','',
+          '## Primary-source literature checked',
+          '- D. R. Heath-Brown and J.-L. Colliot-Thélène, *The density of rational points in curves and surfaces*, Annals of Mathematics 155 (2002), 553–598; arXiv:math/0405392. Uniform fixed-degree bounded-height point counts are adjacent to SR-STR-210/217, but they do not provide the repo heavy-ray/determinant collision theorem or uniform summation over a growing physical stratum family.',
+          '- D. R. Heath-Brown, *Small solutions of quadratic congruences, and character sums with binary quadratic forms*, Mathematika 62 (2016), 551–571; arXiv:1411.4816. This gives small-solution and character-sum technology adjacent to SR-STR-209/210, not the repo centered common-core discrepancy, projective-collision decomposition, or heavy primitive-ray multiplicity bound.',
+          '- Stephan Baier and Arpit Bansal, *Large sieve with sparse sets of moduli for Z[i]*, arXiv:1811.07300. This supplies Gaussian-integer large-sieve technology adjacent to SR-STR-211, but its averaging framework does not identify or preserve the exact correlated moving common core C and physical weights.',
+          '- Kevin Ford, *The distribution of integers with a divisor in a given interval*, arXiv:math/0401223. Uniform divisor-in-interval estimates are the natural external context for SR-STR-213, but the repo moving physical window and conditional reverse-completion Boolean still require a measure adapter.',
+          '- R. de la Bretèche and T. D. Browning, *Sums of arithmetic functions over values of binary forms*, arXiv:math/0604119. Their uniform upper-bound framework for arithmetic functions on binary-form values is adjacent to the first-moment species in SR-STR-215, but it does not retain the nested K-free divisor allocation, both exact CRT congruences, and primitive physical rectangle simultaneously.',
+          '- Zev Klagsbrun, *Selmer Ranks of Quadratic Twists of Elliptic Curves with Partial Rational Two-Torsion*, arXiv:1201.5408. Twist-family Selmer-rank results are adjacent to the j=1728/rational-2-torsion moving-family receiver in SR-STR-219, but they do not count the repo active physical directions or provide the required first-nonboundary-point sparsity theorem.','',
+          '## Search outcome',
+          '- SR-STR-209: exact principal-plus-centered common-core decomposition and projective collision gate remain repo-specific. Generic quadratic-character technology does not by itself turn centered excess into a same-measure physical deficit.',
+          '- SR-STR-210: determinant-method and small-solution technology are adjacent to genuine mover collisions, but the heavy primitive-ray branch and separated-q branch still require receiver-specific multiplicity/control.',
+          '- SR-STR-211: Gaussian large-sieve literature is adjacent only; an average over unrelated Gaussian moduli cannot replace the exact correlated common core C with the original physical mask.',
+          '- SR-STR-212: the radial squareclass capacity/overlap mechanism is retained as repo exact localization. It forces polynomially many radial values in a heavy survivor but does not close that support branch.',
+          '- SR-STR-213: Ford gives the correct divisor-in-moving-interval theorem species, but the physical measure and conditional reverse-completion adapter remain missing.',
+          '- SR-STR-214: rectangular product capacity is exhausted at full exponent; the reciprocal-solvability and post-mask deficits must be measured on the same charged pair population and cannot gain an extra multiplication saving.',
+          '- SR-STR-215: de la Bretèche–Browning is adjacent first-moment/binary-form technology only. No checked source retains the nested K-free divisor allocation, both CRT congruences and the full primitive rectangle uniformly, so the exact external gate remains open.',
+          '- SR-STR-217: fixed-degree rational-point bounds support only the per-fixed-stratum capacity heuristic/input; they do not justify summing over a growing family of strata with uniform constants.',
+          '- SR-STR-218: the fixed-tuple projective-lattice estimate and cross-tuple quantifier firewall remain repo exact; local L2/Fourier normalization cannot erase the number of moving modulus tuples.',
+          '- SR-STR-219: twist/Selmer literature is adjacent, but fixed-direction B^o(1) fiber compression does not imply power sparsity of active directions; a family-level specialization/first-nonboundary-point theorem is still required.','']
+          verdicts={
+          'SR-STR-209':'`ADJACENT_CHARACTER_DISPERSION_WITH_PHYSICAL_COLLISION_GATE` — centered common-core excess still needs a same-measure physical collision theorem.',
+          'SR-STR-210':'`ADJACENT_DETERMINANT_METHOD_WITH_HEAVY_RAY_GATE` — genuine movers are compatible with determinant technology, but heavy-ray multiplicity and separated-q control remain open.',
+          'SR-STR-211':'`ADJACENT_GAUSSIAN_LARGE_SIEVE_WITH_CORRELATED_CORE_GATE` — large-sieve averaging cannot replace the exact moving common-core correlation.',
+          'SR-STR-212':'`REPO_HEAVY_RAY_CAPACITY_LOCALIZATION` — heavy mass is localized to polynomially many radial values without a global fixed-power saving.',
+          'SR-STR-213':'`ADJACENT_DIVISOR_INTERVAL_WITH_PHYSICAL_COMPLETION_GATE` — Ford-type interval counts still need the moving-window/conditional-completion measure adapter.',
+          'SR-STR-214':'`REPO_RECTANGULAR_CAPACITY_COMPLETION_PULLBACK` — multiplication capacity is exhausted; only reciprocal-solvability and post-mask deficits remain.',
+          'SR-STR-215':'`EXTERNAL_GATE_NESTED_KFREE_CRT_FIRST_MOMENT` — no checked theorem preserves all nested K-free, dual-CRT and primitive-rectangle quantifiers.',
+          'SR-STR-217':'`ADJACENT_FIXED_DEGREE_POINT_COUNT_WITH_MOVING_STRATUM_GATE` — per-fixed-stratum point counts do not provide moving-family uniformity.',
+          'SR-STR-218':'`REPO_FIXED_TUPLE_LATTICE_QUANTIFIER_FIREWALL` — fixed-tuple geometry is valid while cross-tuple cardinality remains explicit.',
+          'SR-STR-219':'`ADJACENT_TWIST_SELMER_WITH_ACTIVE_DIRECTION_GATE` — fixed-direction compression and twist arithmetic do not bound the number of active directions.'}
+          for c in cards:
+            z += ['## '+c['structure_id']+' — '+c['canonical_math_name'],c['exact_equations_or_object'],'Potential weapon types: '+', '.join(c.get('potential_weapon_types',[]))+'.','Applicability gaps: '+'; '.join(c.get('applicability_gaps',[])),'Transfer verdict: '+verdicts[c['structure_id']],'Arsenal decision: `ACTIVE`.','']
+          z += ['## Firewalls','- Search absence is not a novelty claim.','- Principal/centered root mass, heavy-ray and genuine-mover branches remain distinct until a same-measure theorem closes them.','- Gaussian large-sieve averages cannot be substituted for the exact correlated common core C.','- Ford/divisor and binary-form first-moment estimates require the exact moving physical window, primitive rectangle and CRT masks before transfer.','- Per-fixed-stratum rational-point bounds are not summed over a growing family without uniform constants and a stratum-count budget.','- Fixed-direction elliptic fiber compression does not imply sparsity of active directions.','- CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2; STRICT_SUBSQRT_POWER_SAVING_PROVED=false.','- No perfect-cuboid existence or nonexistence claim is made.','']
+          pathlib.Path(ledger).write_text('\n'.join(z))
+          pp='docs/structure-radar/progress.json'; p=json.load(open(pp)); bid='SR-BATCH-LITERATURE_SEARCH-22-R01'; assert not any(x.get('batch_id')==bid for x in p['audit_batches'])
+          p['audit_batches'].append({'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':6,'structures_added':0,'structures_updated':10,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':10,'arsenal_decisions':10,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0})
+          open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python - <<'PY'
+          import json
+          q=json.load(open('docs/structure-radar/exploration-queue.json')); ready=next(t for t in q['tasks'] if t['status']=='READY')
+          assert ready['structure_ids']==['SR-STR-220','SR-STR-221','SR-STR-224','SR-STR-225','SR-STR-226','SR-STR-227','SR-STR-228'], ready
+          c=json.load(open('docs/structure-radar/controller.json')); assert c['registry']['unresolved_search_count']==7 and c['registry']['pending_arsenal_decision_count']==26; assert c['queue']['task_count']==1
+          PY
+          rm .github/workflows/structure-radar-search22-finalize.yml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A && git commit -m 'StructureRadar: literature search batch22' && git push
