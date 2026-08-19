@@ -1,43 +1,4 @@
-#!/usr/bin/env python3
-import json
-import subprocess
-import sys
-from pathlib import Path
-
-IDS = [
-    'SR-STR-076','SR-STR-154','SR-STR-161','SR-STR-162','SR-STR-163',
-    'SR-STR-164','SR-STR-165','SR-STR-166','SR-STR-167','SR-STR-168'
-]
-DECISIONS = {
-    'SR-STR-076':'PARKED',
-    'SR-STR-154':'PARKED',
-    'SR-STR-161':'ACTIVE',
-    'SR-STR-162':'EXTERNAL_GATE',
-    'SR-STR-163':'ACTIVE',
-    'SR-STR-164':'ACTIVE',
-    'SR-STR-165':'ACTIVE',
-    'SR-STR-166':'ACTIVE',
-    'SR-STR-167':'EXTERNAL_GATE',
-    'SR-STR-168':'EXTERNAL_GATE',
-}
-ROOT = Path(__file__).resolve().parents[1]
-RADAR = ROOT / 'docs' / 'structure-radar'
-
-registry_path = RADAR / 'structure-registry.json'
-registry = json.loads(registry_path.read_text(encoding='utf-8'))
-seen = []
-for card in registry['structures']:
-    sid = card['structure_id']
-    if sid in IDS:
-        assert card['arsenal_decision'] == 'PENDING', (sid, card['arsenal_decision'])
-        card['arsenal_decision'] = DECISIONS[sid]
-        seen.append(sid)
-assert seen == IDS, seen
-registry_path.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
-
-ledger_path = RADAR / 'arsenal' / 'SR-ARSENAL-24.md'
-ledger_path.parent.mkdir(parents=True, exist_ok=True)
-ledger_path.write_text('''# StructureRadar Arsenal classification — batch 24
+# StructureRadar Arsenal classification — batch 24
 
 BATCH_ID=SR-BATCH-ARSENAL_DECISION-24-R01
 TASK_ID=SR-REGISTRY-ARSENAL-01
@@ -96,43 +57,3 @@ CODEX_DELEGATION_RECOMMENDED=false
 CODEX_REASON=routine Arsenal classification has no repository-mechanical blocker
 WORK_DELEGATION_RECOMMENDED=false
 WORK_REASON=this batch resolves already-searched registry decisions; no new broad external-literature sweep is required
-''', encoding='utf-8')
-
-progress_path = RADAR / 'progress.json'
-progress = json.loads(progress_path.read_text(encoding='utf-8'))
-batch_id = 'SR-BATCH-ARSENAL_DECISION-24-R01'
-assert not any(row.get('batch_id') == batch_id for row in progress['audit_batches'])
-progress['audit_batches'].append({
-    'batch_id': batch_id,
-    'task_id': 'SR-REGISTRY-ARSENAL-01',
-    'status': 'SUBMITTED_FOR_AUDIT',
-    'source_ids': [],
-    'sources_reviewed': 0,
-    'structures_added': 0,
-    'structures_updated': 10,
-    'structure_carrier_sources': 0,
-    'structures_deduped': 0,
-    'searches_completed': 0,
-    'arsenal_decisions': 10,
-    'audit_required': True,
-    'duplicate_source': 0,
-    'no_distinct_structure': 0,
-})
-progress_path.write_text(json.dumps(progress, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
-
-subprocess.run([sys.executable, str(ROOT / 'scripts' / 'structure_radar.py'), 'refresh'], cwd=ROOT, check=True)
-subprocess.run([sys.executable, str(ROOT / 'scripts' / 'structure_radar.py'), 'verify'], cwd=ROOT, check=True)
-
-controller = json.loads((RADAR / 'controller.json').read_text(encoding='utf-8'))
-queue = json.loads((RADAR / 'exploration-queue.json').read_text(encoding='utf-8'))
-registry = json.loads(registry_path.read_text(encoding='utf-8'))
-assert controller['registry']['unresolved_search_count'] == 0, controller['registry']
-assert controller['registry']['pending_arsenal_decision_count'] == 9, controller['registry']
-assert controller['queue']['task_count'] == 0, controller['queue']
-assert controller['status'] == 'WAITING_FOR_REGISTRY_WORK', controller['status']
-assert queue['tasks'] == [], queue
-pending = [c['structure_id'] for c in registry['structures'] if c.get('arsenal_decision') == 'PENDING']
-expected = ['SR-STR-169','SR-STR-170','SR-STR-171','SR-STR-172','SR-STR-173','SR-STR-174','SR-STR-216','SR-STR-222','SR-STR-223']
-assert pending == expected, pending
-print('ARSENAL24_MATERIALIZED=PASS')
-print('NEXT_PENDING=' + ','.join(pending))

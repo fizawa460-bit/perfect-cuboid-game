@@ -5,12 +5,8 @@ on:
     paths:
       - 'docs/structure-radar/**'
       - 'scripts/structure_radar.py'
-      - 'scripts/sr_arsenal24_materialize.py'
       - '.github/workflows/structure-radar.yml'
   workflow_dispatch:
-
-permissions:
-  contents: write
 
 jobs:
   verify:
@@ -18,22 +14,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Materialize Arsenal24 on its temporary branch
-        if: github.head_ref == 'structure-radar-arsenal-24-finalizer'
-        run: |
-          python scripts/sr_arsenal24_materialize.py
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git fetch origin main
-          git checkout origin/main -- .github/workflows/structure-radar.yml
-          git rm scripts/sr_arsenal24_materialize.py
-          git add docs/structure-radar/controller.json docs/structure-radar/exploration-queue.json docs/structure-radar/progress.json docs/structure-radar/structure-registry.json docs/structure-radar/arsenal/SR-ARSENAL-24.md .github/workflows/structure-radar.yml
-          git diff --cached --quiet || git commit -m 'StructureRadar: classify pending Arsenal decisions batch24'
-          git push origin HEAD:${{ github.head_ref }}
       - name: Verify repository-wide StructureRadar corpus and queue
         run: python scripts/structure_radar.py verify
