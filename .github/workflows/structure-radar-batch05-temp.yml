@@ -1,0 +1,30 @@
+name: StructureRadar batch05 temporary generator
+
+on:
+  push:
+    branches:
+      - structure-radar-search-05
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    if: ${{ !contains(github.event.head_commit.message, '[batch05-generated]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Execute batch mutation and verify
+        run: python scripts/structure_radar_batch05_tmp.py
+      - name: Remove temporary generator artifacts
+        run: git rm scripts/structure_radar_batch05_tmp.py .github/workflows/structure-radar-batch05-temp.yml
+      - name: Commit generated StructureRadar state
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add docs/structure-radar
+          git diff --cached --check
+          git commit -m 'StructureRadar: execute literature batch 05 [batch05-generated]'
+          git push origin HEAD:structure-radar-search-05
