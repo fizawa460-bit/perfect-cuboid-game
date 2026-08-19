@@ -1,0 +1,33 @@
+name: StructureRadar search23 inspect
+on: pull_request
+permissions: {contents: write}
+jobs:
+  inspect:
+    if: github.head_ref == 'structure-radar-search-23-inspect'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - run: |
+          python - <<'PY'
+          import json, pathlib
+          ids=['SR-STR-220','SR-STR-221','SR-STR-224','SR-STR-225','SR-STR-226','SR-STR-227','SR-STR-228']
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          z=[]
+          for c in r['structures']:
+            if c['structure_id'] in ids:
+              z += ['## '+c['structure_id']+' — '+c['canonical_math_name'],
+                    c.get('exact_equations_or_object',''),
+                    'SEARCH: '+str(c.get('search_status','')),
+                    'ARSENAL: '+str(c.get('arsenal_decision','')),
+                    'CARD: '+str(c.get('card_status','')),
+                    'WEAPONS: '+', '.join(c.get('potential_weapon_types',[])),
+                    'GAPS: '+' | '.join(c.get('applicability_gaps',[])),
+                    'TARGETS: '+', '.join(c.get('known_theorem_targets',[])),'']
+          pathlib.Path('docs/structure-radar/TEMP-search23-summary.md').write_text('\n'.join(z)+'\n')
+          PY
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/structure-radar/TEMP-search23-summary.md
+          git commit -m 'TEMP: inspect StructureRadar search23 cards'
+          git push
