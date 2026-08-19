@@ -1,0 +1,125 @@
+name: StructureRadar search11 finalize
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  finalize:
+    if: github.head_ref == 'structure-radar-search-11-finalizer'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Apply literature batch11
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          ids=[f'SR-STR-{i:03d}' for i in range(84,94)]
+          ledger='docs/structure-radar/literature/SR-SEARCH-11.md'
+          rp='docs/structure-radar/structure-registry.json'
+          r=json.load(open(rp))
+          seen=[]
+          for c in r['structures']:
+            if c['structure_id'] in ids:
+              assert c['search_status'] in {'NOT_SEARCHED','NEEDS_REFRESH'}
+              assert c['arsenal_decision']=='PENDING'
+              c['search_status']='SEARCHED'
+              c['arsenal_decision']='ACTIVE'
+              c['search_ledger']=ledger
+              seen.append(c['structure_id'])
+          assert seen==ids, seen
+          open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
+
+          pp='docs/structure-radar/progress.json'
+          p=json.load(open(pp))
+          bid='SR-BATCH-LITERATURE_SEARCH-11-R01'
+          assert not any(x.get('batch_id')==bid for x in p['audit_batches'])
+          p['audit_batches'].append({
+            'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT',
+            'source_ids':[],'sources_reviewed':0,'structures_added':0,'structures_updated':10,
+            'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':10,
+            'arsenal_decisions':10,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0
+          })
+          open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
+
+          text='''# StructureRadar literature ledger — search batch 11
+
+SEARCH_TASK=SR-SEARCH-01
+BATCH_ID=SR-BATCH-LITERATURE_SEARCH-11-R01
+SEARCH_DATE=2026-08-19
+STRUCTURES=SR-STR-084,SR-STR-085,SR-STR-086,SR-STR-087,SR-STR-088,SR-STR-089,SR-STR-090,SR-STR-091,SR-STR-092,SR-STR-093
+SEARCH_BATCH_SIZE=10
+EVIDENCE_POLICY=repo exact receiver first; external primary literature is adjacent unless target population, height, multiplicity, modulus growth and quantifiers match
+NOVELTY_BY_SEARCH_ABSENCE=false
+
+## SR-STR-084 — Exact normalized physical-height identity with primitive scale retained
+The identity Gamma^2 R^2=4 delta^2 h^2 J(p+q) is retained as the exact repo height adapter with primitive scale Gamma present. The derived asymmetric core-height consequences do not themselves improve the exponent. Transfer verdict: `REPO_EXACT_HEIGHT_IDENTITY`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-085 — Cross-gcd primitive-scale factorization and physical diagonal product
+The three cross-gcd channels and Gamma=2 delta epsilon C together with R=(h/epsilon) kappa w' c' and h*kappa<=epsilon B are retained as the exact repo normalization. Fixing R collapses kappa entropy through kappa|R but still leaves a hyperbolic boundary of size R^(1+o(1)); no strict sub-square-root conclusion follows. Transfer verdict: `REPO_EXACT_GCD_FACTORIZATION_AND_HEIGHT_ADAPTER`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-086 — Residual-height versus cross-gcd threshold dichotomy
+The small-h*kappa / large-cross-gcd split is retained as a theorem interface only. Neither branch presently has a uniform fixed-power saving in the primitive canonical physical population. Transfer verdict: `REPO_THRESHOLD_DICHOTOMY`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-087 — Cross-gcd residual physical-coordinate chart
+The residual edge and face-diagonal formulas plus the exact physical-edge budget are retained as a repo coordinate normal form. Large cross-gcd cancellation is not promoted to sparsity. Transfer verdict: `REPO_EXACT_RESIDUAL_COORDINATE_CHART`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-088 — Residual squareclass incidence system and small-L witness
+The coupled squareclass incidence receiver is retained together with the actual Stage19 L=1 witness. This witness blocks any unconditional pointwise L>1 theorem; only a height-dependent lower bound or a small-L population estimate could recover the route. Transfer verdict: `REPO_SQUARECLASS_RECEIVER_WITH_COUNTERMODEL`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-089 — Residual completion rigidity at fixed outer cell
+At fixed outer residual data the completion multiplicity is at most one. This is a useful reconstruction adapter, but the moving outer-cell support remains the counting bottleneck. Transfer verdict: `REPO_EXACT_COMPLETION_RIGIDITY`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-090 — Uniform Pell compression of the residual completion fiber
+The maximal-order Pell compression is retained as the repo mechanism yielding subpower completion multiplicity without assuming a uniform Mordell-Weil rank. Classical Pell theory explains logarithmic orbit growth for fixed discriminant, while recent bounded-region Pell work remains adjacent because the Stage19 discriminant and coefficient package move with the outer cell. No external theorem is promoted beyond the repo's exact uniform contract. Transfer verdict: `REPO_UNIFORM_PELL_COMPRESSION_WITH_ADJACENT_PELL_LITERATURE`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-091 — Squarefree-kernel paired-slope residue receiver
+The conditions kappa | (m^2-n^2), kappa | (r^2+s^2), gcd(kappa,mnrs)=1 and the paired slope residues are retained as the exact growing-modulus sieve receiver. Generic geometric/square-sieve literature is adjacent only: it does not supply the missing lower growth of kappa, and kappa=1 witnesses remain. CRT/root multiplicity is exponent-neutral. Transfer verdict: `REPO_GROWING_MODULUS_SIEVE_RECEIVER`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-092 — Dyadic kappa raw-slope sieve
+The dyadic raw slope-sieve and divisor switch are retained as an early-pipeline upper-bound tool. Its apparent saving cannot be interpreted as a physical Stage19 saving before later fiber multiplicities and the physical budget are charged. Transfer verdict: `REPO_RAW_SLOPE_SIEVE`. Arsenal decision: `ACTIVE`.
+
+## SR-STR-093 — Raw-slope sieve composition barrier
+The composition barrier is retained as proof accounting: later physical fibers erase the raw-slope saving if the sieve is applied before weighting by the physical budget. This blocks only the early-sieve composition and leaves a physical-weighted kappa sieve open. Transfer verdict: `REPO_NO_DOUBLE_CHARGE_FIREWALL`. Arsenal decision: `ACTIVE`.
+
+## External literature checked
+- Kun Yi Ong and Eddie Shahril Bin Ismail, *Integer solutions of Pell equation in bounded regions* (arXiv:2509.17882): adjacent bounded-region Pell enumeration; not transferred to the moving Stage19 coefficient package.
+- Manjul Bhargava, *The geometric sieve and the density of squarefree values of invariant polynomials* (arXiv:1402.0031): adjacent geometric-sieve framework; not an exact paired-slope/growing-kappa theorem for the physical receiver.
+- Stephan Baier and Vijay M. Patankar, *Applications of the square sieve to a conjecture of Lang and Trotter for a pair of elliptic curves over the rationals* (arXiv:1710.02125): adjacent square-sieve methodology; target population and congruence contract do not match Stage19.
+
+## Firewalls
+- `NOVELTY_BY_SEARCH_ABSENCE=false`.
+- Exact height and gcd normal forms are adapters, not population savings.
+- The L=1 witness forbids an unconditional pointwise residual-height lower bound.
+- Fixed-outer-cell rigidity does not count moving outer cells.
+- Pell compression may control completion multiplicity but does not count outer-cell support.
+- Generic geometric/square sieves do not provide the missing kappa-growth theorem.
+- Raw slope savings cannot be double-charged after later physical fibers are introduced.
+- CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2; no strict sub-square-root whole-family theorem is claimed.
+- No perfect-cuboid existence or nonexistence claim is made.
+'''
+          pathlib.Path(ledger).write_text(text)
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python - <<'PY'
+          import json
+          q=json.load(open('docs/structure-radar/exploration-queue.json'))
+          ready=next(t for t in q['tasks'] if t['status']=='READY')
+          assert ready['structure_ids']==[f'SR-STR-{i:03d}' for i in range(94,104)], ready
+          c=json.load(open('docs/structure-radar/controller.json'))
+          assert c['registry']['unresolved_search_count']==117, c['registry']
+          assert c['registry']['pending_arsenal_decision_count']==136, c['registry']
+          PY
+          rm .github/workflows/structure-radar-search11-finalize.yml
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'StructureRadar: literature search batch11'
+          git push origin HEAD:${{ github.head_ref }}
