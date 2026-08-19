@@ -1,0 +1,41 @@
+name: StructureRadar arsenal25 inspect
+on: pull_request
+permissions: {contents: write}
+jobs:
+  inspect:
+    if: github.head_ref == 'structure-radar-registry-25-inspect'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}'}
+      - run: |
+          python - <<'PY'
+          import json, pathlib
+          ids=['SR-STR-169','SR-STR-170','SR-STR-171','SR-STR-172','SR-STR-173','SR-STR-174','SR-STR-216','SR-STR-222','SR-STR-223']
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          cards=[c for c in r['structures'] if c.get('structure_id') in ids]
+          assert [c['structure_id'] for c in cards]==ids, [c['structure_id'] for c in cards]
+          out=[]
+          for c in cards:
+            out += [f"## {c['structure_id']} — {c['canonical_math_name']}",
+                    f"SEARCH_STATUS: {c.get('search_status')}",
+                    f"ARSENAL_DECISION: {c.get('arsenal_decision')}",
+                    f"CARD_STATUS: {c.get('card_status')}",
+                    f"SEARCH_LEDGER: {c.get('search_ledger','')}",
+                    'OBJECT: '+c.get('exact_equations_or_object',''),
+                    'SEARCH_PRIMARY: '+' | '.join(c.get('search_terms_primary',[])),
+                    'SEARCH_ALIASES: '+' | '.join(c.get('search_terms_aliases',[])),
+                    'THEOREM_SPECIES: '+', '.join(c.get('theorem_species',[])),
+                    'WEAPONS: '+', '.join(c.get('potential_weapon_types',[])),
+                    'GAPS: '+' | '.join(c.get('applicability_gaps',[])),
+                    'TARGETS: '+', '.join(c.get('target_populations',[])),
+                    'OVERLAP: '+', '.join(c.get('existing_radar_overlap',[])),
+                    'PROVENANCE: '+json.dumps(c.get('repo_provenance',[]),ensure_ascii=False),
+                    '']
+          pathlib.Path('docs/structure-radar/TEMP-arsenal25-detail.md').write_text('\n'.join(out))
+          PY
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/structure-radar/TEMP-arsenal25-detail.md
+          git commit -m 'TEMP: inspect final pending Arsenal tail'
+          git push
