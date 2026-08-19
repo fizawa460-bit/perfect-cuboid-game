@@ -1,0 +1,29 @@
+name: StructureRadar search08 inspect
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  inspect:
+    if: github.head_ref == 'structure-radar-search-08-inspect2'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+      - name: Materialize cards
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          ids={f'SR-STR-{i:03d}' for i in range(57,65)}
+          d=json.load(open('docs/structure-radar/structure-registry.json'))
+          cards=[x for x in d['structures'] if x['structure_id'] in ids]
+          assert len(cards)==8
+          pathlib.Path('docs/structure-radar/TEMP-search08-cards.json').write_text(json.dumps(cards,indent=2,ensure_ascii=False)+'\n')
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/structure-radar/TEMP-search08-cards.json
+          git commit -m 'TEMP: materialize StructureRadar search08 cards'
+          git push origin HEAD:${{ github.head_ref }}
