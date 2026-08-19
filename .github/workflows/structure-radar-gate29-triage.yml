@@ -1,0 +1,43 @@
+name: StructureRadar gate29 triage
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: write
+jobs:
+  triage:
+    if: github.head_ref == 'structure-radar-external-gate-triage-29'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: structure-radar-external-gate-triage-29
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Dump remaining external gates
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          p=pathlib.Path('docs/structure-radar/structure-registry.json')
+          reg=json.loads(p.read_text())
+          cards=[c for c in reg['structures'] if c.get('arsenal_decision')=='EXTERNAL_GATE']
+          out=['# TEMP StructureRadar gate29 triage','',f'EXTERNAL_GATE_COUNT={len(cards)}','']
+          for c in cards:
+              sid=c.get('structure_id')
+              out.append(f'## {sid} — {c.get("title","")}')
+              for k in ['stage','category','object','exact_equations_or_object','claim_or_pattern','current_best','search_ledger','applicability_gaps','provenance','source_refs','arsenal_notes','status_reason']:
+                  v=c.get(k)
+                  if v not in (None, '', [], {}):
+                      s=json.dumps(v,ensure_ascii=False) if not isinstance(v,str) else v
+                      if len(s)>4000: s=s[:4000]+'…'
+                      out.append(f'- {k}: {s}')
+              out.append('')
+          pathlib.Path('docs/structure-radar/TEMP-gate29-triage.md').write_text('\n'.join(out)+'\n')
+          PY
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add docs/structure-radar/TEMP-gate29-triage.md
+          git commit -m 'StructureRadar: temp gate29 triage summary'
+          git push
