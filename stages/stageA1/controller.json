@@ -4,16 +4,17 @@
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
   "base_main": "497df581c4b7599ab1f05bb6a7f7578b4fef4ffa",
-  "status": "RECONNAISSANCE_ACTIVE_LIMITED_A1_4_PENDING_AUDIT",
+  "status": "RECONNAISSANCE_ACTIVE_LIMITED_A1_4",
   "completed": [
     "A1-1",
-    "A1-2"
-  ],
-  "submitted_for_audit": [
+    "A1-2",
     "A1-3"
   ],
+  "submitted_for_audit": [],
   "next": "A1-4_BOUNDED_ONLY",
-  "go_no_go_checkpoint": "A1-3_LIMITED_GO_AFTER_AUDIT_REPAIR",
+  "go_no_go_checkpoint": "A1-3_AUDITED_LIMITED_GO",
+  "a1_3_audit_verdict": "PASS_WITH_REPAIR",
+  "a1_3_audited_head_before_final_controller_commit": "80285047da7069ecca797b0a2dba196d58c2b212",
   "a1_3_verdict": "GO_LIMITED_A1_4",
   "a1_3_source_coefficient_corrected": true,
   "a1_3_general_coverage_proved": false,
@@ -42,7 +43,7 @@
     "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
-  "audit_required": true,
-  "merge_allowed": false,
-  "next_expected_command": "StageA1-audit"
+  "audit_required": false,
+  "merge_allowed": true,
+  "next_expected_command": "StageA1-main-batch"
 }
