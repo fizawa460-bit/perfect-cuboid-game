@@ -70,16 +70,16 @@ The endpoint is frozen until new theorem/proof evidence appears.
 
 No gate is closed by this checkpoint. All four remain `EXTERNAL_GATE`, and the external-gate count remains `13 -> 13`.
 
-The next non-stalled Stage27-relevant lane set is frozen as:
+The next Stage27-relevant rotation candidates, not yet classified under this new anti-loop policy, are:
 
 1. `SR-STR-167` — deepest merged endpoint `MAINWallPhysicalSelectorCanonicalCorrelationDecompositionAdapter`;
 2. `SR-STR-174` — deepest merged endpoint `MAINWallWeightedQ17GoodWitnessJointIncidenceExceptionalMassAdapter`;
 3. `SR-STR-019` — deepest merged generalized-CRT/nested-divisor endpoint `IndividualCellCommonParentNestedDivisorBilinearIncidenceEstimate`, with the Stage27 aggregate exceptional-mass weakening to be checked before imposing every-cell strength;
 4. `SR-STR-024` — deepest merged endpoint `UniformFilteredQuotientCharacterVoronoiFunctionalEquationAdapter`.
 
-These are chosen because they are the highest-value non-stalled supporting routes for Stage27-20 after the current direct lanes reached theorem endpoints. The next main batch must resume from these exact merged endpoints and must not redo broad literature searches.
+These are rotation candidates because they are the highest-value Stage27-20 supporting routes not yet assigned an anti-loop state. This does **not** certify that they still admit normal ChatGPT deepening: each already has a deep merged theorem/adapter endpoint. The next main batch must begin by applying the anti-loop rule to each exact endpoint. Only a lane for which a concrete new identity, strict receiver weakening, repo reconciliation, or exact theorem/range match is available may continue deepening. Otherwise it must be paused/frozen immediately. Broad literature searches must not be repeated.
 
-If this rotated set also reaches theorem endpoints without a new proof/source match, the anti-loop policy requires another stop/rotation decision rather than indefinite relabeling. If all Stage27-relevant lanes become paused/stalled and no reopen trigger exists, StructureRadar must return an overall pause recommendation instead of generating further exploratory PRs.
+If this rotated set is also classified at theorem endpoints without a new proof/source match, the anti-loop policy requires another stop/rotation decision rather than indefinite relabeling. If all Stage27-relevant lanes become paused/stalled and no reopen trigger exists, StructureRadar must return an overall pause recommendation instead of generating further exploratory PRs.
 
 ## Firewalls
 
@@ -92,6 +92,8 @@ SR_STR_170_THEOREM_GATE_PAUSED=true
 SR_STR_171_THEOREM_GATE_PAUSED=true
 SR_STR_168_THEOREM_GATE_PAUSED=true
 NEXT_ROTATION=SR-STR-167,SR-STR-174,SR-STR-019,SR-STR-024
+NEXT_ROTATION_ANTI_LOOP_PRECHECK_REQUIRED=true
+NEXT_ROTATION_CERTIFIED_NON_STALLED=false
 GATES_CLOSED=0
 EXTERNAL_GATE_COUNT=13
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
