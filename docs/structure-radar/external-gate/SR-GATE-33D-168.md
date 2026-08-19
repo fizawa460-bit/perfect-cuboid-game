@@ -42,21 +42,21 @@ a | N(z1),
 b | N(z2).
 ```
 
-Hence there is an integer `m>=0` such that
+On the retained physical norm-ratio branch the Gaussian variables are nonzero, so both norms are positive. Hence there is an integer `m>=1` such that
 
 ```text
 N(z1) = a m,
 N(z2) = b m.
 ```
 
-Conversely any pair satisfying these two equations satisfies the original norm-ratio collision. Thus, after peeling `g`, the norm-ratio equation is exactly a common-norm-quotient incidence.
+Conversely any pair satisfying these two equations satisfies the original norm-ratio collision. Thus, after peeling `g`, the norm-ratio equation is exactly a positive common-norm-quotient incidence.
 
 ## 2. Collision energy becomes a common-quotient representation correlation
 
 Ignoring no physical masks, one may regroup a weighted collision sum by `(g,a,b,m)`:
 
 ```text
-sum_{g,a,b: (a,b)=1} sum_m
+sum_{g,a,b: (a,b)=1} sum_{m>=1}
     W(g,a,b,m; physical data)
     R_phys(a m; packet_1)
     R_phys(b m; packet_2),
@@ -66,7 +66,7 @@ where `R_phys(n;packet)` denotes the number/weight of Gaussian representations o
 
 This is only a change of variables. It does not assert factorization of `W`, independence of the two representation weights, or a power saving.
 
-The standard pointwise representation bound `r_2(n) <= 4 tau(n)` shows that unconstrained representation multiplicity is `B^o(1)` on polynomial-size integers, but that controls only multiplicity at fixed `(a,b,m)`. It does not make the *support in m* fixed-power sparse and therefore cannot close the Stage27 receiver by itself.
+The standard pointwise representation bound `r_2(n) <= 4 tau(n)` for positive integers shows that unconstrained representation multiplicity is `B^o(1)` on polynomial-size integers, but that controls only multiplicity at fixed `(a,b,m)`. It does not make the *support in m* fixed-power sparse and therefore cannot close the Stage27 receiver by itself.
 
 ## 3. Consequence for the old polynomial-family wording
 
