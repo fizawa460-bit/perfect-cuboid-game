@@ -32,7 +32,7 @@ jobs:
           for c in r['structures']:
             if c['structure_id'] in ids:
               if c['search_status']=='NOT_SEARCHED':
-                c['search_status']='SEARCHED'; c['arsenal_decision']='ACTIVE'; c['card_status']='ACTIVE'
+                c['search_status']='SEARCHED'; c['arsenal_decision']='ACTIVE'
               found.append(c['structure_id'])
           assert sorted(found)==ids
           open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
