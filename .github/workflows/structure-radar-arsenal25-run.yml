@@ -1,0 +1,41 @@
+name: StructureRadar arsenal25 run
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+permissions:
+  contents: write
+jobs:
+  run:
+    if: github.head_ref == 'structure-radar-arsenal-25-finalizer'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: '${{ github.head_ref }}'
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: |
+          python scripts/temp_structure_radar_arsenal25.py
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python - <<'PY'
+          import json
+          c=json.load(open('docs/structure-radar/controller.json'))
+          assert c['registry']['unresolved_search_count']==0
+          assert c['registry']['pending_arsenal_decision_count']==0
+          assert c['queue']['task_count']==0
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
+          assert not [x for x in r['structures'] if x.get('arsenal_decision')=='PENDING']
+          print('STATUS',c['status'])
+          print('BACKFLOW',c['corpus'].get('arsenal_backflow_gaps'))
+          print('CLOSE',c['close_conditions'])
+          PY
+          git checkout origin/main -- .github/workflows/structure-radar.yml
+          rm -f .github/workflows/structure-radar-arsenal25-finalize.yml .github/workflows/structure-radar-arsenal25-run.yml docs/structure-radar/TEMP-arsenal25-trigger.txt scripts/temp_structure_radar_arsenal25.py
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A
+          git commit -m 'StructureRadar: classify final pending Arsenal tail'
+          git push
