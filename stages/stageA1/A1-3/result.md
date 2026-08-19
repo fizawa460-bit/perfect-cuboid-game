@@ -6,9 +6,13 @@ This task takes the two-parameter projective Hilbert-cube family displayed as eq
 
 This is **not** assumed to parametrize every Hilbert cube. Coverage is audited separately below.
 
+## Audit correction of the source coefficient
+
+The first draft accidentally copied the coefficient `-18 c^4 d^4` from the preceding `(P,Q)` formula into equation (6). The actual equation-(6) anchor factor has coefficient **`-8 c^4 d^4`**. All downstream curve equations in this file use the corrected source coefficient.
+
 ## 1. Exact anchor polynomial from equation (6)
 
-The paper gives
+Up to the common projective scaling used in equation (6), the source gives
 
 ```text
 a0 = (c^2+d^2)^2 F(c,d,G,H)^2,
@@ -18,29 +22,29 @@ where
 
 ```text
 F = -4 c^2 d^4 (c^2-d^2) G^4
-    + (c^8-18 c^4 d^4+d^8) G^3 H
+    + (c^8-8 c^4 d^4+d^8) G^3 H
     + 8 c^2 d^2 (c^2-d^2)(2 c^2+d^2) G^2 H^2
-    - (c^8-18 c^4 d^4+d^8) G H^3
+    - (c^8-8 c^4 d^4+d^8) G H^3
     - 4 c^2 d^4 (c^2-d^2) H^4.
 ```
 
-Over `Q`, `c^2+d^2=0` forces `c=d=0`, which is not a projective parameter pair. Hence every rational anchored member of this family satisfies exactly
+Over `Q`, `c^2+d^2=0` forces `c=d=0`, which is not a projective parameter pair. Hence every rational anchored member of this family satisfies
 
 ```text
 F(c,d,G,H)=0.
 ```
 
-For a nondegenerate cube we in particular exclude the obvious parameter walls
+For a nondegenerate cube we exclude the parameter walls
 
 ```text
 c d G H (c^2-d^2)(G^2-H^2)=0,
 ```
 
-because the displayed equation-(6) increments contain these factors and/or the construction denominators become invalid. Any eventual rational point must also be checked against every remaining zero factor of `a1,a2,a3` and against positivity/order after applying the paper's finite symmetry group.
+because equation (6) then forces at least one displayed increment to vanish or the construction normalization becomes invalid. Any eventual point must also be checked against all remaining zero factors of `a1,a2,a3` and against positivity after the paper's finite symmetry action.
 
 ## 2. Projective normalization and reciprocal reduction
 
-Equation (6) is homogeneous of degree 20 in `(c,d)` and degree 8 in `(G,H)`. Therefore, away from `dH=0`, write
+Equation (6) is bihomogeneous of degree 20 in `(c,d)` and degree 8 in `(G,H)`. Away from the already-degenerate walls `dH=0`, put
 
 ```text
 x = c/d,
@@ -49,191 +53,202 @@ k = x^2,
 u = r - 1/r.
 ```
 
-After dividing the anchor equation by `d^8 H^4`, the exact equation is
+After division by `d^8 H^4`, the corrected anchor equation is
 
 ```text
 -4 x^2(x^2-1)(r^4+1)
-+ (x^8-18x^4+1)(r^3-r)
++ (x^8-8x^4+1)(r^3-r)
 + 8 x^2(x^2-1)(2x^2+1)r^2 = 0.
 ```
 
-Dividing by `r^2` and using
+Divide by `r^2` and use
 
 ```text
-r^2+r^(-2) = u^2+2
+r^2+r^(-2)=u^2+2.
 ```
 
-gives the quadratic equation
+The constant terms cancel exactly, leaving
 
 ```text
-4 k(k-1) u^2
-- (k^4-18k^2+1) u
-- 16 k^2(k-1) = 0.                    (A1.3.1)
+4 k(k-1)u^2
+- (k^4-8k^2+1)u
+- 16k^2(k-1)=0.                       (A1.3.1)
 ```
 
-Thus the quartic equation in `r` has been reduced, without approximation, to a quadratic equation in the reciprocal invariant `u=r-1/r`.
+Thus the quartic equation in `r` reduces exactly to a quadratic in the reciprocal invariant `u=r-1/r`.
 
-## 3. First square condition: genus-3 hyperelliptic quotient
+## 3. First square condition: genus-3 reciprocal curve
 
-Let
+Set
 
 ```text
-A(k) = k^4-18k^2+1.
+A(k)=k^4-8k^2+1.
 ```
 
 The discriminant of (A1.3.1) is
 
 ```text
-D(k) = A(k)^2 + 256 k^3(k-1)^2
-     = (k^4-8k^3+30k^2-8k+1)
-       (k^4+8k^3-2k^2+8k+1).          (A1.3.2)
-```
-
-Hence a rational nondegenerate boundary point maps to a rational point on
-
-```text
-C : v^2 = D(k).
-```
-
-The two quartic factors in (A1.3.2) are coprime and squarefree over `Q` (their resultant is `2^24`; their discriminants are respectively `1769472` and `-1638400`). Thus `D` is squarefree of degree 8 and the smooth hyperelliptic model `C` has genus 3.
-
-The obvious points `k=0` and `k=1` come from excluded/degenerate parameter walls (`c=0` or `c^2=d^2`).
-
-## 4. Second reciprocal quotient: an elliptic quartic
-
-Both quartic factors in `D(k)` are reciprocal. For `k != 0`, put
-
-```text
-z = k + 1/k,
-Y = v/k^2.
-```
-
-Then
-
-```text
-(k^4-8k^3+30k^2-8k+1)/k^2 = z^2-8z+28,
-(k^4+8k^3-2k^2+8k+1)/k^2  = z^2+8z-4.
+D(k)=A(k)^2+256k^3(k-1)^2
+    =k^8-16k^6+256k^5-446k^4+256k^3-16k^2+1.   (A1.3.2)
 ```
 
 Therefore every rational nondegenerate boundary point maps to
 
 ```text
-E : Y^2 = (z^2-8z+28)(z^2+8z-4)
-          = z^4-40z^2+256z-112.       (A1.3.3)
+C: v^2=D(k).
 ```
 
-The quartic on the right has discriminant
+The polynomial `D` is reciprocal of degree 8. Its discriminant is
 
 ```text
--15 * 2^32 != 0,
+-2^58 * 3^2 * 5^4 * 13 * 19^3 != 0,
 ```
 
-so (A1.3.3) is a nonsingular genus-1 curve. It has the rational points
+so it is squarefree. Hence the smooth hyperelliptic model `C` has genus 3.
+
+The points arising from `k=0` or `k=1` lie on excluded parameter walls (`c=0` or `c^2=d^2`).
+
+## 4. Reciprocal quotient: a genus-1 quartic
+
+For `k != 0`, put
 
 ```text
-(z,Y)=(2,+/-16),
+z=k+1/k,
+Y=v/k^2.
 ```
 
-but these correspond to `k=1`, hence to the already-excluded wall `c^2=d^2`.
+Since
 
-This genus-1 quotient is the principal new structural output of A1-3.
+```text
+D(k)/k^4
+=(k^4+k^-4)-16(k^2+k^-2)+256(k+k^-1)-446,
+```
+
+and
+
+```text
+k^2+k^-2=z^2-2,
+k^4+k^-4=z^4-4z^2+2,
+```
+
+we obtain the quotient
+
+```text
+E: Y^2=z^4-20z^2+256z-412.             (A1.3.3)
+```
+
+The quartic discriminant is
+
+```text
+-2^27 * 5^2 * 19 != 0,
+```
+
+so (A1.3.3) is a nonsingular genus-1 curve. It has the obvious rational points
+
+```text
+(z,Y)=(2,+/-6),
+```
+
+which correspond to `k=1` and hence to the excluded wall `c^2=d^2`.
+
+This corrected genus-1 quotient is the principal family-specific structural output of A1-3.
 
 ## 5. Exact reconstruction tower
 
-A rational point of `E` is only a **necessary** condition. To reconstruct a genuine rational point of the original anchor boundary one must pass all of the following exact square-cover conditions.
+A rational point on `E` is only a necessary condition. To reconstruct a genuine rational point of the original anchor boundary one must pass all of the following.
 
 1. Recover `k` from
 
    ```text
-   k + 1/k = z.
+   k+1/k=z.
    ```
 
-   Thus `z^2-4` must be a rational square.
+   Hence `z^2-4` must be a rational square.
 
 2. Recover `x=c/d` from `k=x^2`; hence `k` itself must be a rational square.
 
-3. Put `v=k^2 Y` and recover `u` from
+3. Put `v=k^2Y` and recover `u` from
 
    ```text
-   u = (A(k) +/- v)/(8 k(k-1)).
+   u=(A(k)+/-v)/(8k(k-1)).
    ```
 
 4. Recover `r=G/H` from `u=r-1/r`; hence `u^2+4` must be a rational square and
 
    ```text
-   r = (u +/- sqrt(u^2+4))/2.
+   r=(u+/-sqrt(u^2+4))/2.
    ```
 
-5. Check all excluded equation-(6) factors and require the resulting `a1,a2,a3` to be nonzero and, after allowed symmetries, positive.
+5. Check every excluded equation-(6) factor and require the resulting `a1,a2,a3` to be nonzero and, after allowed symmetries, positive.
 
-If all five steps hold, equation (6) supplies a rational anchored Hilbert cube. Since `a0=0`, the three increments are rational squares and all four remaining subset sums are rational squares. Clearing denominators by a common square then produces an integer perfect cuboid. Thus a single nondegenerate rational point surviving this tower would be a genuine positive solution of the perfect-cuboid problem.
-
-No such point is claimed here.
+If all five steps hold, equation (6) gives a rational anchored Hilbert cube. Clearing denominators by a common square then yields an integer perfect cuboid. Thus one nondegenerate rational point surviving the tower would solve the existence problem. No such point is claimed here.
 
 ## 6. Coverage audit: equation (6) is not a universal reverse map
 
-The source family has two projective parameter ratios:
+The source family has two projective parameter ratios
 
 ```text
 [c:d] in P^1,
 [G:H] in P^1.
 ```
 
-Because every `ai` in (6) is bihomogeneous (degree 20 in `(c,d)`, degree 8 in `(G,H)`), the projective image `[a0:a1:a2:a3]` has dimension at most 2. The anchor equation `a0=0` cuts its nontrivial parameter image to dimension at most 1.
+Its projective image `[a0:a1:a2:a3]` therefore has dimension at most 2, and the nontrivial anchor equation `a0=0` cuts the parameter space to dimension at most 1.
 
-By contrast, write the eight square roots of a general 3-dimensional Hilbert cube as
-
-```text
-p^2 = a0,
-q^2 = a0+a1,
-r^2 = a0+a2,
-s^2 = a0+a1+a2,
-P^2 = a0+a3,
-Q^2 = a0+a1+a3,
-R^2 = a0+a2+a3,
-S^2 = a0+a1+a2+a3.
-```
-
-After eliminating the four `ai`, the projective root variety in `P^7` is cut out by four quadrics, for example
+For comparison, write the eight square roots of a general dimension-3 Hilbert cube as
 
 ```text
-q^2+r^2 = p^2+s^2,
-q^2+P^2 = p^2+Q^2,
-r^2+P^2 = p^2+R^2,
-s^2+P^2 = p^2+S^2.
+p^2=a0,
+q^2=a0+a1,
+r^2=a0+a2,
+s^2=a0+a1+a2,
+P^2=a0+a3,
+Q^2=a0+a1+a3,
+R^2=a0+a2+a3,
+S^2=a0+a1+a2+a3.
 ```
 
-On the anchored hyperplane `p=0`, this becomes a variety in `P^6` cut out by four equations. Every irreducible component therefore has dimension at least 2 (codimension at most 4). Passing from square roots to the `ai` only has finite sign ambiguity generically, so this is the relevant algebraic-moduli dimension.
+After eliminating the `ai`, the projective root variety in `P^7` is cut out by four quadrics, for example
 
-Consequently the one-dimensional anchor boundary coming from equation (6) cannot algebraically dominate the full anchored-cube variety. There is no justified reverse map from an arbitrary perfect cuboid to this published family.
+```text
+q^2+r^2=p^2+s^2,
+q^2+P^2=p^2+Q^2,
+r^2+P^2=p^2+R^2,
+s^2+P^2=p^2+S^2.
+```
 
-This does **not** rule out the possibility that all positive integral anchored points happen to lie on a lower-dimensional locus; proving such concentration would itself require a new theorem and is not supplied by the source.
+On the anchor hyperplane `p=0`, this is a subvariety of `P^6` cut out by four equations. Hence every irreducible component has dimension at least 2. Generically the passage from square roots to the increments has only finite sign ambiguity.
 
-## 7. A1-3 go/no-go verdict
+Consequently a one-dimensional equation-(6) anchor boundary cannot algebraically dominate the full anchored-cube variety. No reverse map from an arbitrary perfect cuboid to this published family is proved.
 
-A1-3 does **not** produce general coverage and does not produce a new necessary condition for every perfect cuboid.
+This does not rule out the logically separate possibility that all positive integral anchored points lie on a smaller locus; proving such concentration would require a new theorem not supplied here.
 
-However, it does produce a genuinely new, exact and much smaller rational-point target:
+## 7. A1-3 go/no-go verdict after audit repair
+
+A1-3 does **not** establish general coverage and does not derive a new necessary condition for every perfect cuboid.
+
+It does, however, leave an unresolved exact boundary problem rather than merely excluding another specialization:
 
 ```text
 published equation-(6) anchor boundary
-    -> genus-3 reciprocal curve C
-    -> genus-1 quartic E
-    -> three explicit square-cover tests
+    -> corrected genus-3 reciprocal curve C
+    -> corrected genus-1 quartic E
+    -> three square-cover tests
     -> original nondegenerate boundary.
 ```
 
-This is more than another family-specific discriminant exclusion: the full published two-parameter family has been reduced to a concrete elliptic quotient plus explicit reconstruction conditions. Therefore the reconnaissance receives a **limited GO** to A1-4, solely to determine whether this exact boundary tower has any nondegenerate rational points.
+Because a surviving rational point would directly construct a perfect cuboid, the hard-stop rule is interpreted narrowly enough to permit **one bounded A1-4 rational-point closure attempt on this exact corrected tower**. This is not an expansion to new families and is not evidence of general coverage.
 
-Anti-loop limit for A1-4:
+A1-4 anti-loop limit:
 
-- do not broaden to unrelated Hilbert-cube literature;
-- do not introduce a new parametrized family unless it strictly enlarges coverage;
-- first determine a Weierstrass model/rank-or-descent information for (A1.3.3), then impose the three square-cover conditions;
-- if A1-4 cannot close the rational points after a bounded direct attempt, or if it only proves a family-specific exclusion, StageA1 terminates rather than spawning a refinement chain.
+- work only on the corrected quartic `Y^2=z^4-20z^2+256z-412` and its exact square-cover tower;
+- do not rotate to unrelated Hilbert-cube families or literature;
+- first obtain a Weierstrass model and bounded rank/descent information, then impose `z^2-4`, `k`, and `u^2+4` square conditions;
+- if that bounded direct attempt does not produce a nondegenerate rational point or a complete family-specific rational-point closure, terminate StageA1;
+- no family-specific nonexistence statement may be promoted to arbitrary perfect cuboids without a new coverage theorem.
 
 ```text
-A1_3_STATUS=COMPLETE_GENERAL_PUBLISHED_BOUNDARY_REDUCTION
+A1_3_STATUS=COMPLETE_WITH_AUDIT_REPAIR
+A1_3_SOURCE_COEFFICIENT_CORRECTED=true
 A1_3_ANCHOR_FACTOR=F(c,d,G,H)
 A1_3_RECIPROCAL_QUADRATIC_PROVED=true
 A1_3_GENUS3_QUOTIENT_PROVED=true
@@ -244,7 +259,7 @@ A1_3_ARBITRARY_CUBE_NEW_INVARIANT=false
 A1_3_PERFECT_CUBOID_FOUND=false
 A1_3_PERFECT_CUBOID_NONEXISTENCE_PROVED=false
 A1_3_VERDICT=GO_LIMITED_A1_4
-NEXT=A1-4
+NEXT=A1-4_BOUNDED_ONLY
 AUDIT_REQUIRED=true
 NEXT_EXPECTED_COMMAND=StageA1-audit
 ```
