@@ -1,0 +1,48 @@
+{
+  "stage": "A1-3",
+  "source": {
+    "paper": "Bremner-Elsholtz-Ulas, There are infinitely many Hilbert cubes of dimension 3 in the set of squares",
+    "arxiv": "2604.05459v1",
+    "locator": "Section 4.1, equation (6)"
+  },
+  "audit_repair": {
+    "source_coefficient_error": "initial draft used -18*c^4*d^4; equation (6) has -8*c^4*d^4",
+    "recomputed_downstream_curves": true
+  },
+  "normalization": {
+    "x": "c/d",
+    "r": "G/H",
+    "k": "x^2",
+    "u": "r-1/r"
+  },
+  "reciprocal_quadratic": "4*k*(k-1)*u^2-(k^4-8*k^2+1)*u-16*k^2*(k-1)=0",
+  "genus3_curve": "v^2=k^8-16*k^6+256*k^5-446*k^4+256*k^3-16*k^2+1",
+  "genus3_polynomial_discriminant": "-2^58*3^2*5^4*13*19^3",
+  "elliptic_quotient_substitution": {
+    "z": "k+1/k",
+    "Y": "v/k^2"
+  },
+  "elliptic_quartic": "Y^2=z^4-20*z^2+256*z-412",
+  "elliptic_quartic_discriminant": "-2^27*5^2*19",
+  "obvious_degenerate_points": [
+    "(z,Y)=(2,6)",
+    "(z,Y)=(2,-6)"
+  ],
+  "reconstruction_square_tests": [
+    "z^2-4 is a rational square",
+    "k is a rational square",
+    "u^2+4 is a rational square"
+  ],
+  "coverage": {
+    "equation6_projective_parameter_dimension_at_most": 2,
+    "equation6_anchor_boundary_dimension_at_most": 1,
+    "full_anchored_root_variety_component_dimension_at_least": 2,
+    "universal_reverse_map_proved": false
+  },
+  "verdict": "GO_LIMITED_A1_4",
+  "a1_4_scope": "one bounded rational-point closure attempt on the corrected equation-(6) anchor tower only",
+  "perfect_cuboid_found": false,
+  "perfect_cuboid_nonexistence_proved": false,
+  "audit_required": true,
+  "next_expected_command": "StageA1-audit"
+}

@@ -3,17 +3,26 @@
   "stage": "StageA1",
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
-  "base_main": "c9792e82dacfa28d31433595aef4820df6a64e83",
-  "status": "RECONNAISSANCE_ACTIVE",
+  "base_main": "497df581c4b7599ab1f05bb6a7f7578b4fef4ffa",
+  "status": "RECONNAISSANCE_ACTIVE_LIMITED_A1_4",
   "completed": [
-    "A1-1"
+    "A1-1",
+    "A1-2",
+    "A1-3"
   ],
-  "submitted_for_audit": [
-    "A1-2"
-  ],
-  "next": "A1-3",
-  "go_no_go_checkpoint": "AFTER_A1-3",
-  "hard_stop_condition": "If A1-1 through A1-3 only exclude special published Hilbert-cube families and produce neither a reverse-map/coverage mechanism nor a new necessary condition for an arbitrary anchored cube, set STAGE_A1_STATUS=RECONNAISSANCE_NEGATIVE and stop.",
+  "submitted_for_audit": [],
+  "next": "A1-4_BOUNDED_ONLY",
+  "go_no_go_checkpoint": "A1-3_AUDITED_LIMITED_GO",
+  "a1_3_audit_verdict": "PASS_WITH_REPAIR",
+  "a1_3_audited_head_before_final_controller_commit": "80285047da7069ecca797b0a2dba196d58c2b212",
+  "a1_3_verdict": "GO_LIMITED_A1_4",
+  "a1_3_source_coefficient_corrected": true,
+  "a1_3_general_coverage_proved": false,
+  "a1_3_new_arbitrary_cube_invariant": false,
+  "a1_3_new_exact_boundary_reduction": true,
+  "a1_3_genus1_quotient": "Y^2=z^4-20*z^2+256*z-412",
+  "a1_4_scope": "One bounded rational-point closure attempt for the corrected equation-(6) anchor tower only: Weierstrass/descent information for Y^2=z^4-20*z^2+256*z-412, then z^2-4 square, k square, and u^2+4 square reconstruction tests.",
+  "hard_stop_condition": "After this single bounded A1-4 attempt, terminate StageA1 unless it produces a nondegenerate rational anchored point, a complete rational-point closure of the exact equation-(6) boundary, a new reverse-map/coverage theorem, or a new necessary condition for arbitrary anchored cubes. Do not rotate to unrelated Hilbert-cube families merely to continue the side line.",
   "substantive_progress_requires_one_of": [
     "new proved identity or rational-point statement",
     "removal of a genuine anchor-boundary component",
@@ -23,16 +32,18 @@
   ],
   "firewalls": [
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
-    "No published Hilbert-cube parametrization is assumed universal without proof.",
+    "Equation (6) is not universal; A1-3 proves only a one-dimensional anchor boundary inside a full anchored algebraic variety with components of dimension at least two.",
+    "A rational point on the corrected genus-1 quotient is necessary but not sufficient; every reconstruction square-cover and nondegeneracy condition must pass.",
+    "The initial -18 coefficient was an audit error and is replaced everywhere in A1-3 by the equation-(6) coefficient -8.",
     "Stage27 and StructureRadar receivers remain unchanged.",
     "Numerical evidence is diagnostic unless converted to a proof.",
-    "No endless refinement after the A1-3 go/no-go checkpoint."
+    "No unrelated literature rotation or endless refinement after the bounded A1-4 attempt."
   ],
   "recommended_commands": {
     "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
-  "audit_required": true,
-  "merge_allowed": false,
-  "next_expected_command": "StageA1-audit"
+  "audit_required": false,
+  "merge_allowed": true,
+  "next_expected_command": "StageA1-main-batch"
 }
