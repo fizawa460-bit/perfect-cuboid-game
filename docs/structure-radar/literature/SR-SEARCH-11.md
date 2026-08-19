@@ -7,6 +7,7 @@ STRUCTURES=SR-STR-084,SR-STR-085,SR-STR-086,SR-STR-087,SR-STR-088,SR-STR-089,SR-
 SEARCH_BATCH_SIZE=10
 EVIDENCE_POLICY=repo exact receiver first; external primary literature is adjacent unless target population, height, multiplicity, modulus growth and quantifiers match
 NOVELTY_BY_SEARCH_ABSENCE=false
+VALIDATION_RETRIGGER=exact-head controller after self-clean
 
 ## SR-STR-084 — Exact normalized physical-height identity with primitive scale retained
 Retain Gamma^2 R^2=4 delta^2 h^2 J(p+q) as the exact repo height adapter with primitive scale Gamma. The asymmetric core-height consequences alone do not improve the exponent. Transfer verdict: `REPO_EXACT_HEIGHT_IDENTITY`. Arsenal decision: `ACTIVE`.
