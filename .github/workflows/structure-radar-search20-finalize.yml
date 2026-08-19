@@ -1,0 +1,71 @@
+name: StructureRadar search20 finalize
+on: pull_request
+permissions: {contents: write}
+jobs:
+  finalize:
+    if: github.head_ref == 'structure-radar-search-20-finalizer'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
+      - run: |
+          python - <<'PY'
+          import json,pathlib
+          ids=[f'SR-STR-{i:03d}' for i in range(189,199)]
+          ledger='docs/structure-radar/literature/SR-SEARCH-20.md'
+          rp='docs/structure-radar/structure-registry.json'; r=json.load(open(rp)); cards=[]
+          for c in r['structures']:
+            if c['structure_id'] in ids:
+              assert c['search_status'] in {'NOT_SEARCHED','NEEDS_REFRESH'} and c['arsenal_decision']=='PENDING'
+              cards.append(c); c['search_status']='SEARCHED'; c['arsenal_decision']='ACTIVE'; c['search_ledger']=ledger
+          assert [c['structure_id'] for c in cards]==ids
+          open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
+          z=['# StructureRadar literature ledger — search batch 20','','SEARCH_TASK=SR-SEARCH-01','BATCH_ID=SR-BATCH-LITERATURE_SEARCH-20-R01','SEARCH_DATE=2026-08-19','STRUCTURES='+','.join(ids),'SEARCH_BATCH_SIZE=10','NOVELTY_BY_SEARCH_ABSENCE=false','',
+          '## Primary-source literature checked',
+          '- D. R. Heath-Brown, *A mean value estimate for real character sums*, Acta Arithmetica 72 (1995), 235–275, DOI 10.4064/aa-72-3-235-275. This is the direct quadratic-large-sieve carrier adjacent to the K4 reciprocal-character regime of SR-STR-192; the repo graph 2-core classification, conductor routing and assembled 1/200 saving remain separate.',
+          '- D. R. Heath-Brown, *Small solutions of quadratic congruences, and character sums with binary quadratic forms*, Mathematika 62 (2016), 551–571, DOI 10.1112/S0025579315000364. It gives small-solution/character-sum technology for quadratic congruences and is adjacent to SR-STR-197; it does not supply the exact dual-switch residue locks or justify a second spacing charge.',
+          '- D. R. Heath-Brown, *The square sieve and consecutive square-free numbers*, Math. Ann. 266 (1984), 251–259. Reused as the general square-sieve carrier for the thin-packet one-variable dispatch in SR-STR-194; the four-cell shared-xi factorization and nonsquare-on-open-chamber check are repo-specific.',
+          '- Tom Fisher, *Higher descents on an elliptic curve with a rational 2-torsion point*, arXiv:1509.03234. General rational-2-torsion descent is adjacent to the j=1728 moving twist receiver SR-STR-195, but does not provide the repo physical pair criterion or a uniform moving-twist count.',
+          '- Étienne Fouvry, Emmanuel Kowalski, Philippe Michel, *Algebraic trace functions over the primes*, arXiv:1211.6043. This is adjacent modern bilinear/trace-function cancellation context for SR-STR-190, not a theorem for the repo signed centered collision norm with all physical masks retained.','',
+          '## Search outcome',
+          '- SR-STR-189: retain the repo radical-rich / long-coordinate / small-D trichotomy. General radical and incidence tools do not replace the separate small-D packet theorem or identify generic D with compact D_T.',
+          '- SR-STR-190: retain the exact signed centered identity and one-time diagonal subtraction. Generic dispersion/trace-function literature does not permit absolute-value collapse or removal of the shared physical modulus structure.',
+          '- SR-STR-191: the local/Sha/height retainer chain is an exact nested-measure identity; Selmer/Sha literature does not by itself create a positive exponent or the physical-family instantiation.',
+          '- SR-STR-192: Heath-Brown supplies the quadratic-large-sieve engine. The K4 2-core census, three-regime escape, conductor graph and conservative 1/200 assembly are repo-specific.',
+          '- SR-STR-193: exact Walsh collapse and final root-sawtooth spacing remain repo-specific finite-Fourier/spacing adapters; no external theorem was promoted to the complete local indicator.',
+          '- SR-STR-194: Heath-Brown square sieve carries the one-variable sieve species, but the shared-xi four-cell decomposition, endpoint switch and nonsquare physical chamber check remain repo exact.',
+          '- SR-STR-195: rational-2-torsion/j=1728 descent literature is adjacent only. Equality of the quartic kernel remains a necessary physical majorant, and the moving squarefree twist family still needs a uniform arithmetic count.',
+          '- SR-STR-196: min-envelope and transverse-kernel localization are quantifier firewalls; alternative complete counts are combined by min and never multiplied as independent probabilities.',
+          '- SR-STR-197: Heath-Brown 2016 is adjacent quadratic-congruence technology. The rank-one root lattice and primewise xi/k residue locks remain exact repo support conditions, not half-density savings.',
+          '- SR-STR-198: Gaussian square-divisor/common-core compression and Plucker rank rigidity remain repo-exact endpoint machinery. Standard Gaussian-integer divisor theory does not furnish the moving-host physical lift bound by itself.','']
+          verdicts={
+          'SR-STR-189':'`REPO_EXACT_TRICHOTOMY` — long-coordinate incidence, radical-poor support and small-D are separate branches; no packet-existence saving is inferred.',
+          'SR-STR-190':'`REPO_EXACT_CENTERED_DISPERSION_INTERFACE` — signed diagonal subtraction is charged once and all physical masks remain inside the norm.',
+          'SR-STR-191':'`REPO_NESTED_WEIGHTED_RETAINER` — exact error propagation without independence; no exponent is generated by the identity alone.',
+          'SR-STR-192':'`DIRECT_QUADRATIC_LARGE_SIEVE_ENGINE_WITH_GRAPH_ADAPTER` — Heath-Brown carries the large-sieve engine, not the repo K4-core assembly.',
+          'SR-STR-193':'`REPO_EXACT_WALSH_SPACING_CLOSURE` — finite-Fourier collapse and positive-definite spacing control only the recorded reciprocal contribution.',
+          'SR-STR-194':'`DIRECT_SQUARE_SIEVE_ENGINE_WITH_SHARED_LABEL_FIREWALL` — square sieve is external; four-cell xi allocation and physical nonsquare check are repo-specific.',
+          'SR-STR-195':'`ADJACENT_J1728_DESCENT_WITH_MOVING_TWIST_GATE` — the elliptic-twist species is standard but no uniform physical moving-family count is supplied.',
+          'SR-STR-196':'`REPO_QUANTIFIER_SAFE_MIN_ENVELOPE` — same-block bounds combine by min, while transverse k is the next independent localization label.',
+          'SR-STR-197':'`ADJACENT_QUADRATIC_CONGRUENCE_WITH_RESIDUE_LOCK_FIREWALL` — exact residue locks are support conditions and cannot be charged as independent density savings.',
+          'SR-STR-198':'`REPO_GAUSSIAN_COMMON_CORE_RIGIDITY` — moving-host incidence, cell reconstruction and rank-one rigidity remain part of the certificate.'}
+          for c in cards:
+            z += ['## '+c['structure_id']+' — '+c['canonical_math_name'],c['exact_equations_or_object'],'Potential weapon types: '+', '.join(c.get('potential_weapon_types',[]))+'.','Applicability gaps: '+'; '.join(c.get('applicability_gaps',[])),'Transfer verdict: '+verdicts[c['structure_id']],'Arsenal decision: `ACTIVE`.','']
+          z += ['## Firewalls','- Search absence is not a novelty claim.','- Exact diagonal subtraction, principal squareclass coherence and nonprincipal dispersion are distinct and are not collapsed before physical cancellation.','- Alternative complete bounds on one charged block combine by minimum, not multiplication.','- Quadratic-large-sieve/square-sieve engines do not transfer repo graph, cell, height, packet-measure or endpoint quantifiers automatically.','- Primewise residue locks and automatic square/gcd reallocations are support conditions, not independent density savings.','- Moving j=1728 twists and moving Gaussian hosts still require uniform physical-height/family control.','- CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2; STRICT_SUBSQRT_POWER_SAVING_PROVED=false.','- No perfect-cuboid existence or nonexistence claim is made.','']
+          pathlib.Path(ledger).write_text('\n'.join(z))
+          pp='docs/structure-radar/progress.json'; p=json.load(open(pp)); bid='SR-BATCH-LITERATURE_SEARCH-20-R01'; assert not any(x.get('batch_id')==bid for x in p['audit_batches'])
+          p['audit_batches'].append({'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':5,'structures_added':0,'structures_updated':10,'structure_carrier_sources':3,'structures_deduped':0,'searches_completed':10,'arsenal_decisions':10,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0})
+          open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
+          PY
+          python scripts/structure_radar.py refresh
+          python scripts/structure_radar.py verify
+          python - <<'PY'
+          import json
+          q=json.load(open('docs/structure-radar/exploration-queue.json')); ready=next(t for t in q['tasks'] if t['status']=='READY')
+          assert ready['structure_ids']==[f'SR-STR-{i:03d}' for i in range(199,209)], ready
+          c=json.load(open('docs/structure-radar/controller.json')); assert c['registry']['unresolved_search_count']==27 and c['registry']['pending_arsenal_decision_count']==46; assert c['queue']['task_count']==3
+          PY
+          rm .github/workflows/structure-radar-search20-finalize.yml
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add -A && git commit -m 'StructureRadar: literature search batch20' && git push
