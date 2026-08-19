@@ -1,4 +1,4 @@
-# StructureRadar parallel batch 35D — SR-STR-168 twisted-divisor expansion
+# StructureRadar parallel batch 35D — SR-STR-168 twisted-divisor ambient expansion with physical adapter firewall
 
 BATCH_ID=SR-BATCH-PARALLEL-35D-168-R01
 PHASE=EXTERNAL_GATE_CLOSURE
@@ -18,64 +18,66 @@ N(z2)=b m,
 m>=1,
 ```
 
-on the retained physical Gaussian branch. Fixed-`m` representation multiplicity was bounded only by `B^o(1)` and was not charged as a density saving.
+on the retained physical Gaussian branch. The actual object is the restricted physical representation weight `R_phys(n;packet)`, not automatically the full ambient two-square representation number `r_2(n)`.
 
-## 1. Exact arithmetic expansion of the Gaussian multiplicity
+## 1. Exact ambient arithmetic identity
 
-For positive integers `n`, the ordered signed two-square representation number satisfies
+For positive integers `n`, the ordered signed ambient two-square representation number satisfies
 
 ```text
 r_2(n) = 4 sum_{d|n} chi_4(d),
 ```
 
-where `chi_4` is the primitive real character modulo 4. Therefore the common-quotient multiplicity has the exact expansion
+where `chi_4` is the primitive real character modulo 4. Hence the ambient product has the exact expansion
 
 ```text
 r_2(a m) r_2(b m)
  = 16 sum_{d1|a m} sum_{d2|b m} chi_4(d1) chi_4(d2).
 ```
 
-Consequently any same-measure common-`m` correlation of the form
+Consequently an **ambient** common-`m` correlation of the form
 
 ```text
 sum_m w(m) r_2(a m) r_2(b m)
 ```
 
-becomes exactly
+can be rewritten exactly as
 
 ```text
 16 sum_{d1,d2} chi_4(d1)chi_4(d2)
-   sum_{m: d1|a m, d2|b m} w(m),
+   sum_{m: d1|a m, d2|b m} w(m).
 ```
 
-with the original nonnegative/signed physical weight `w(m)` retained. No ambient representation-density statement is used.
+Because `(a,b)=1`, the divisibility constraints can then be reduced deterministically to constraints on the same common quotient `m` after removing portions already supplied by `a` and `b`.
 
-Because `(a,b)=1`, the conditions `d1|a m` and `d2|b m` may further be reduced by removing the portions already dividing `a` and `b`; the remaining divisibility constraints are imposed on the same common quotient `m`. This is deterministic divisor algebra, not a saving.
+This identity is useful arithmetic normalization, but it is **not** yet an exact expansion of the Stage14/MAIN physical object `R_phys(a m;packet_1)R_phys(b m;packet_2)`. The physical primitive/orientation/range/charged-once masks live on Gaussian representations themselves and cannot be replaced by ambient `r_2` merely by moving them into a scalar weight `w(m)`.
 
-## 2. Smaller restart point
+## 2. Correct smaller restart point
 
-The old gate `SameMeasurePhysicalCommonNormQuotientCorrelationDeficit` bundled Gaussian representation theory with the physical weighted correlation. The Gaussian representation layer is now fully converted to a mod-4 twisted divisor convolution.
+The audit therefore does not accept the stronger statement that the physical Gaussian representation layer has already been fully converted to a mod-4 divisor convolution.
 
-The surviving theorem target is
+What has been exposed is the ambient target architecture. The first missing bridge is now
 
 ```text
-FIRST_MISSING_LEMMA=SameMeasurePhysicalTwistedDivisorConvolutionCorrelationDeficit
+FIRST_MISSING_LEMMA=SameMeasurePhysicalRestrictedGaussianToTwistedDivisorConvolutionAdapter
 ```
 
 A sufficient form is:
 
-> Uniformly in the retained coprime parameters `(a,b)`, prove a fixed positive-power deficit for the exact `H_phys^MAIN`-derived common-quotient weight against the two mod-4 twisted divisor constraints obtained above, preserving all masks and quantifier order. Equivalent spectral/dispersion/divisor-correlation formulations are admissible only if their coefficient norms are controlled by the same physical measure.
+> Uniformly in the retained coprime parameters `(a,b)`, express the exact restricted physical representation correlation in the common quotient `m` as a `B^o(1)`-complexity combination of mod-4 twisted divisor-convolution terms, or another equivalent spectral/divisor form, with coefficient `L1/L2` norms controlled by the original physical energy and with all primitive/orientation/range/charged-once masks and quantifier order preserved. Only after this exact same-measure adapter is proved may a fixed-power twisted-divisor correlation theorem be charged.
 
-This target is narrower than a generic Gaussian norm-family theorem: the Gaussian geometry has been reduced to explicit `chi_4` divisor convolution on the single common scalar `m`.
+After that adapter, the next analytic target would be a same-measure fixed-power deficit for the resulting twisted divisor correlations. The ambient `r_2` identity alone supplies no density saving and no license to discard physical representation masks.
 
 ## 3. Firewalls
 
 ```text
 COMMON_NORM_QUOTIENT_PARAMETERIZATION_REUSED=true
-R2_CHI4_DIVISOR_EXPANSION=PROVED
+AMBIENT_R2_CHI4_DIVISOR_EXPANSION=PROVED
+PHYSICAL_RPHYS_TO_AMBIENT_R2_REPLACEMENT_PROVED=false
+PHYSICAL_RESTRICTED_TO_TWISTED_DIVISOR_ADAPTER_PROVED=false
 GAUSSIAN_MULTIPLICITY_AS_POWER_SAVING_FORBIDDEN=true
 TWISTED_DIVISOR_CORRELATION_DEFICIT_PROVED=false
-FIRST_MISSING_LEMMA=SameMeasurePhysicalTwistedDivisorConvolutionCorrelationDeficit
+FIRST_MISSING_LEMMA=SameMeasurePhysicalRestrictedGaussianToTwistedDivisorConvolutionAdapter
 SR_STR_168_STATUS=EXTERNAL_GATE
 CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT=1/2
 STRICT_SUBSQRT_POWER_SAVING_PROVED=false
