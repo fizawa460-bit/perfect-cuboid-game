@@ -1,4 +1,4 @@
-# trigger
+# diagnose
 name: StructureRadar search14 finalize
 on: pull_request
 permissions: {contents: write}
@@ -11,26 +11,11 @@ jobs:
         with: {ref: '${{ github.head_ref }}', fetch-depth: 0}
       - run: |
           python - <<'PY'
-          import json,pathlib
-          ids=[f'SR-STR-{i:03d}' for i in range(114,124)]; ledger='docs/structure-radar/literature/SR-SEARCH-14.md'; rp='docs/structure-radar/structure-registry.json'; r=json.load(open(rp)); cards=[]
+          import json
+          ids=[f'SR-STR-{i:03d}' for i in range(114,124)]
+          r=json.load(open('docs/structure-radar/structure-registry.json'))
           for c in r['structures']:
             if c['structure_id'] in ids:
-              assert c['search_status'] in {'NOT_SEARCHED','NEEDS_REFRESH'} and c['arsenal_decision']=='PENDING'; cards.append(c); c['search_status']='SEARCHED'; c['arsenal_decision']='ACTIVE'; c['search_ledger']=ledger
-          assert [c['structure_id'] for c in cards]==ids; open(rp,'w').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
-          z=['# StructureRadar literature ledger — search batch 14','','SEARCH_TASK=SR-SEARCH-01','BATCH_ID=SR-BATCH-LITERATURE_SEARCH-14-R01','SEARCH_DATE=2026-08-19','STRUCTURES='+','.join(ids),'SEARCH_BATCH_SIZE=10','NOVELTY_BY_SEARCH_ABSENCE=false','']
-          z += ['## Primary-source literature checked','- Tom Fisher, *Higher descents on an elliptic curve with a rational 2-torsion point* (arXiv:1509.03234): explicit higher-descent machinery for rational 2-torsion, including full rational 2-torsion; supports descent architecture, not the Stage19 physical support exponent by itself.','- Francesco Naccarato, *Counting rational points on elliptic curves with a rational 2-torsion point* (arXiv:2105.04032): bounded-height point counts over Q under rational 2-torsion; applicable only after matching the precise target height and fixed-field/torsion hypotheses.','- Marta Dujella, *Uniform Bounds for the Number of Rational Points of Bounded Height on Certain Elliptic Curves* (arXiv:2312.03655): uniform subpower bounded-height count over a fixed number field when a rational point of exact prime order is present; full rational 2-torsion would satisfy the torsion condition on each exact target model, but height transfer and family normalization still must be charged explicitly.','- Fisher–Sills, *Local solubility and height bounds for coverings of elliptic curves* (arXiv:1103.4944): explicit covering maps and height relations for 2/3/4-coverings; adjacent to SR-STR-115, with no automatic global support saving.','']
-          verdicts={'SR-STR-114':'`ADJACENT_DESCENT_SUPPORT_ONLY` — descent literature supports the finite bad-prime/Selmer architecture, but the claimed subpolynomial physical Selmer universe still depends on the repo cutoff/discriminant support calculation.','SR-STR-115':'`HEIGHT_TRANSFER_ADAPTER_SUPPORTED` — covering-map/height literature supports polynomial height comparison in principle; retain the repo explicit degree-two map as the exact receiver.','SR-STR-116':'`CONDITIONAL_EXTERNAL_COUNTING_GATE` — Dujella/Naccarato provide strong bounded-height counts under rational 2-torsion hypotheses, but use requires exact verification that the integral moving targets preserve the required torsion and that repo physical height maps to the theorem height with uniform polynomial constants.'}
-          for c in cards:
-            v=verdicts.get(c['structure_id'],'`REPO_EXACT_RECEIVER_RETAINED` — no external theorem is promoted beyond the repo population/measure/quantifier contract.')
-            z += ['## '+c['structure_id']+' — '+c['canonical_math_name'],c['exact_equations_or_object'],'Potential weapon types: '+', '.join(c.get('potential_weapon_types',[]))+'.','Applicability gaps: '+'; '.join(c.get('applicability_gaps',[])),'Transfer verdict: '+v,'Arsenal decision: `ACTIVE`.','']
-          z += ['## Firewalls','- SR-STR-114 descent support is not itself a global power-saving theorem.','- SR-STR-115 height transfer must be matched to the exact physical cutoff before invoking any external point count.','- SR-STR-116 is not treated as an automatic moving-family theorem; torsion, field, model, and height hypotheses remain explicit gates.','- SR-STR-117..123 are repo support reductions/barriers and are not promoted from generic external literature.','- CURRENT_PHYSICAL_WHOLE_FAMILY_EXPONENT remains 1/2; no strict sub-square-root whole-family theorem is claimed.','- No perfect-cuboid existence or nonexistence claim is made.','']; pathlib.Path(ledger).write_text('\n'.join(z))
-          pp='docs/structure-radar/progress.json'; p=json.load(open(pp)); bid='SR-BATCH-LITERATURE_SEARCH-14-R01'; assert not any(x.get('batch_id')==bid for x in p['audit_batches']); p['audit_batches'].append({'batch_id':bid,'task_id':'SR-SEARCH-01','status':'SUBMITTED_FOR_AUDIT','source_ids':[],'sources_reviewed':4,'structures_added':0,'structures_updated':10,'structure_carrier_sources':0,'structures_deduped':0,'searches_completed':10,'arsenal_decisions':10,'audit_required':True,'duplicate_source':0,'no_distinct_structure':0}); open(pp,'w').write(json.dumps(p,indent=2,ensure_ascii=False)+'\n')
+              print(c['structure_id'],c.get('search_status'),c.get('arsenal_decision'),c.get('search_ledger'))
+          raise SystemExit(1)
           PY
-          python scripts/structure_radar.py refresh && python scripts/structure_radar.py verify
-          python - <<'PY'
-          import json
-          q=json.load(open('docs/structure-radar/exploration-queue.json')); ready=next(t for t in q['tasks'] if t['status']=='READY'); assert ready['structure_ids']==[f'SR-STR-{i:03d}' for i in range(124,134)], ready
-          c=json.load(open('docs/structure-radar/controller.json')); assert c['registry']['unresolved_search_count']==87 and c['registry']['pending_arsenal_decision_count']==106, c['registry']
-          PY
-          rm .github/workflows/structure-radar-search14-finalize.yml
-          git config user.name github-actions; git config user.email github-actions@github.com; git add -A; git commit -m 'StructureRadar: literature search batch14'; git push
