@@ -27,9 +27,18 @@ jobs:
           from pathlib import Path
           p = Path('docs/structure-radar/progress.json')
           data = json.loads(p.read_text())
+          prior = 'SR-BATCH-EXTERNAL_GATE_CLOSURE-32-R01'
+          containers = []
+          for key, value in data.items():
+              if isinstance(value, list) and any(isinstance(x, dict) and x.get('batch_id') == prior for x in value):
+                  containers.append((key, value))
+          if len(containers) != 1:
+              raise RuntimeError(f'expected exactly one batch-history list containing {prior}, got {[k for k,_ in containers]}')
+          key, history = containers[0]
+          print(f'Using progress batch-history key: {key}')
           bid = 'SR-BATCH-PARALLEL-INTEGRATION-33-R01'
-          if not any(x.get('batch_id') == bid for x in data['batches']):
-              data['batches'].append({
+          if not any(isinstance(x, dict) and x.get('batch_id') == bid for x in history):
+              history.append({
                   'batch_id': bid,
                   'phase': 'EXTERNAL_GATE_CLOSURE',
                   'status': 'SUBMITTED_FOR_AUDIT',
