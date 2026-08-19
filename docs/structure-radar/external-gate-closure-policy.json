@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "policy": "STRUCTURE-RADAR-EXTERNAL-GATE-CLOSURE-R01",
+  "phase": "EXTERNAL_GATE_CLOSURE",
+  "applies_to_command": "StructureRadar-main-batch",
+  "effective_when_initial_campaign_closed": true,
+  "rules": {
+    "triage_all_remaining_gates_before_repeated_deep_attacks": true,
+    "triage_is_lightweight_not_full_research": true,
+    "resume_from_deepest_merged_prior_work": true,
+    "do_not_repeat_broad_search_when_a_matching_deep_closure_or_followup_exists": true,
+    "batch_simple_repo_reconciliation_gates_when_compatible": true,
+    "deep_attack_only_genuinely_new_missing_theorem_or_adapter_gates_one_at_a_time": true,
+    "prioritize_stage27_19_and_stage27_20_relevance": true,
+    "do_not_wait_for_all_external_gates_before_resuming_stage27_19_or_stage27_20": true,
+    "work_is_fallback_only_after_a_precise_missing_lemma_resists_normal_chatgpt": true
+  },
+  "triage_classes": [
+    {
+      "class": "REPO_RECONCILIATION",
+      "action": "Check whether the exact gate is already discharged by audited merged repo material; batch multiple compatible closures when safe."
+    },
+    {
+      "class": "PRIOR_DEEP_CLOSURE",
+      "action": "Locate matching merged deep-closure/follow-up records and restart from their deepest FIRST_MISSING_LEMMA or SMALLEST_NEXT_PROOF_TARGET; do not redo the earlier literature sweep."
+    },
+    {
+      "class": "GENUINE_NEW_GATE",
+      "action": "Attack the precise missing theorem or adapter directly. Use focused external search only when needed; use broad Work discovery only as fallback."
+    }
+  ],
+  "priority_order": [
+    "Direct relevance to Stage27-19 or Stage27-20 current barriers",
+    "Cheap repo reconciliation closures",
+    "Merged prior deep-closure work already narrowed to a precise missing lemma",
+    "Reusable gates with multiple downstream receivers",
+    "Other genuine new gates"
+  ],
+  "prior_work_rule": {
+    "search_paths": [
+      "docs/structure-radar/external-search/",
+      "docs/structure-radar/external-gate/"
+    ],
+    "match_by": "SR-STR-ID",
+    "known_merged_examples": [
+      "PR #1188: SR-STR-015, SR-STR-019, SR-STR-021, SR-STR-024 deep closure",
+      "PR #1192: SR-STR-015 almost-Belyi follow-up"
+    ],
+    "restart_contract": "Use the deepest merged result as the baseline. Preserve corrections, firewalls, proved reductions, and exact missing-lemma names."
+  },
+  "stage27_rule": {
+    "stage27_19_target": "Prefer gates that can improve or replace the current Stage27-19 fixed-R / moving-family / same-measure barrier chain.",
+    "stage27_20_target": "Prefer gates that can improve or replace the current Stage27-20 critical-wall same-MAIN-measure correlation/exceptional-mass barrier.",
+    "resume_early": true,
+    "all_gates_must_close_first": false
+  },
+  "batching": {
+    "multiple_gate_batch_allowed": true,
+    "allowed_for": [
+      "repo reconciliation",
+      "pure registry repair",
+      "independent low-risk adapter confirmations"
+    ],
+    "one_gate_deep_attack_preferred_for": [
+      "new theorem proof",
+      "new analytic uniformity",
+      "new algebraic classification",
+      "new moving-family or same-measure estimate"
+    ]
+  },
+  "firewalls": [
+    "EXTERNAL_GATE does not mean the perfect-cuboid existence/nonexistence problem is one lemma away.",
+    "A gate closes only on its exact receiver and hypotheses.",
+    "Do not promote a fixed-fiber, average-modulus, ambient-population, or different-measure result to a stronger physical receiver without an exact adapter.",
+    "Do not claim STRICT_SUBSQRT_POWER_SAVING_PROVED unless the Stage27 whole-family proof gate explicitly closes.",
+    "Do not claim perfect-cuboid existence or nonexistence from local gate closure."
+  ]
+}
