@@ -3,8 +3,8 @@
   "stage": "StageA2",
   "title": "Published minus18 equation-(6) anchor line",
   "mode": "SEPARATE_RESTART_FROM_PUBLISHED_SOURCE",
-  "base_main": "231eff9bbf0a1c45f60f0ec04057f00ec8777f6b",
-  "status": "RECONNAISSANCE_ACTIVE",
+  "base_main": "9a3d32598acc8f288fb562254da84d5f59eda9e8",
+  "status": "A2_5_FAMILY_CLOSURE_AUDITED_READY_FOR_CLOSEOUT",
   "upstream_handoff": {
     "from_stage": "StageA1",
     "closure_status": "CLOSED_INVALID_UPSTREAM_SOURCE_CORRECTION",
@@ -16,16 +16,20 @@
   },
   "completed": [
     "A2-3_PUBLISHED_MINUS18_RESTART",
-    "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS"
+    "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS",
+    "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE"
   ],
   "submitted_for_audit": [],
-  "go_no_go_checkpoint": "A2-4_AUDIT_PASSED_WITH_ELEMENTARY_STRENGTHENING",
+  "go_no_go_checkpoint": "A2-5_COMPLETE_FAMILY_EXCLUSION_AUDIT_PASSED",
   "a2_3_audit_verdict": "PASS",
   "a2_3_audit_submitted_head": "c44a35c99015e476a486d6f61af6f681a4215b29",
   "a2_3_audit_record": "stages/stageA2/A2-3/audit.md",
   "a2_4_audit_verdict": "PASS_WITH_ELEMENTARY_STRENGTHENING_AND_LANDMARK_REPAIR",
   "a2_4_audit_submitted_head": "de59f9bedd396afabef097270b856dcb13e9a6aa",
   "a2_4_audit_record": "stages/stageA2/A2-4/audit.md",
+  "a2_5_audit_verdict": "PASS_WITH_CONTROLLER_HISTORY_REPAIR",
+  "a2_5_audit_submitted_head": "0565532d19e7e436b180b7286c1365326d3bec4b",
+  "a2_5_audit_record": "stages/stageA2/A2-5/audit.md",
   "source_lock": {
     "paper": "Bremner-Elsholtz-Ulas, There are infinitely many Hilbert cubes of dimension 3 in the set of squares",
     "arxiv": "2604.05459v1",
@@ -87,8 +91,38 @@
     "first_reconstruction_t_cover": "-(2*t+1)*(t^2-2*t-2) is a rational square",
     "complete_E18_rational_point_closure": false
   },
-  "next": "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE",
-  "next_attack": "Determine rational points on Cplus and Cminus compatible with the first reconstruction t-cover, using fresh exact Jacobian/2-descent/Mordell-Weil information for these published-minus18 covers only. Treat t=infinity on Cplus as the excluded z=2/k=1 wall. Do not import StageA1 -8 arithmetic.",
+  "a2_5_receiver": {
+    "task": "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE",
+    "Qplus": "y^2=m^4+6*m^3+23*m^2+22*m+29",
+    "Qminus": "y^2=m^4+6*m^3-37*m^2+42*m-11",
+    "binary_quartic_invariants_each": {
+      "I": 481,
+      "J": 9758
+    },
+    "common_jacobian": "Y^2=X^3-12987*X-263466",
+    "common_jacobian_factorization": "(X+102)(X+21)(X-123)",
+    "lmfdb_label": "15.a5",
+    "jacobian_rank": 0,
+    "jacobian_torsion": "Z/2Z x Z/4Z",
+    "jacobian_rational_point_count": 8,
+    "explicit_lmfdb_isomorphism": "X=36*x+15, Y=108*(2*y+x+1) from y^2+x*y+y=x^3+x^2-10*x-10",
+    "external_mw_sources": [
+      "LMFDB 15.a5",
+      "Leprévost-Pohst-Schöpp, Acta Arith. 127 (2007), DOI 10.4064/aa127-3-1, proof of Theorem 2.5 pp.4-5"
+    ],
+    "lps_group_notation_used_for_structure": false,
+    "Qplus_complete_points": "m=-7/2 with y=+/-45/4; m=+/-1 with y=+/-9,+/-5 respectively; two quartic infinities",
+    "Qminus_complete_points": "m=1/2 with y=+/-5/4; m=1 with y=+/-1; m=3 with y=+/-5; two quartic infinities",
+    "Cplus_t_values": ["-1", "infinity"],
+    "Cminus_t_values": ["1", "-1/2"],
+    "all_E18_images": "projective infinity or z=2 -> k=1 excluded c^2=d^2 wall",
+    "complete_E18_nondegenerate_rational_point_closure": true,
+    "published_equation6_anchor_nondegenerate_points": 0,
+    "family_specific_exclusion_complete": true,
+    "general_coverage_proved": false
+  },
+  "next": "A2_CLOSE_PUBLISHED_MINUS18_FAMILY_EXCLUSION",
+  "next_attack": "Record the audited StageA2 lifecycle closeout for the published equation-(6) -18 anchor family. Preserve the family-specific firewall; do not promote this exclusion to arbitrary perfect cuboids.",
   "do_not_import": [
     "StageA1 A1-3 through A1-14 quartic/Jacobian/rank/MW-sieve conclusions",
     "the auxiliary -8 quartic Y^2=z^4-20*z^2+256*z-412",
@@ -99,9 +133,9 @@
     "The published equation-(6) anchor coefficient is -18 and is source-locked.",
     "A1-3 through A1-14 are historical auxiliary-minus8 computations only.",
     "Equation (6) is not proved universal for anchored Hilbert cubes or perfect cuboids.",
+    "A2-5 excludes only the nondegenerate anchor boundary of this published equation-(6) family.",
     "No family-specific A2 exclusion may be promoted to arbitrary perfect cuboids without a reverse-map/coverage theorem.",
-    "The A2-4 two-cover split gives necessary family-specific conditions, not a complete rational-point closure.",
-    "A rational point on the quotient/two-cover receiver still must pass z^2-4, k-square, u^2+4, and all source-factor checks.",
+    "Perfect-cuboid existence is not established and arbitrary-perfect-cuboid nonexistence is not established.",
     "Stage27 and StructureRadar receivers remain unchanged."
   ],
   "recommended_commands": {
@@ -109,6 +143,7 @@
     "main": "StageA2-main-batch"
   },
   "audit_required": false,
+  "audit_external_mw_datum_required": false,
   "audit_persistence_status": "COMMITTED",
   "merge_allowed": true,
   "stop_after_audit": false,
