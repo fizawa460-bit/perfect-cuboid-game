@@ -3,7 +3,7 @@
   "stage": "StageA1",
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
-  "base_main": "ffb718eb2cb15cb91e36360dca41f703624d2e52",
+  "base_main": "949e201993ad9008d12117087bd67b91c51a24d8",
   "status": "RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE",
   "completed": [
     "A1-1",
@@ -17,11 +17,12 @@
     "A1-10_G0_EXACT_FINITE_SQUARECLASS_DESCENT",
     "A1-11_EXACT_ELLIPTIC_ADAPTER_FIREWALL_WITH_AUDIT_ROUTING_REPAIR",
     "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE",
-    "A1-13_DELTA1_P7_PRIME_POWER_REFINEMENT"
+    "A1-13_DELTA1_P7_PRIME_POWER_REFINEMENT",
+    "A1-14_DELTA1_P7_SECOND_DEPTH_REFINEMENT"
   ],
   "submitted_for_audit": [],
-  "next": "A1-14_DELTA1_DEEPER_7ADIC_OR_DENOMINATOR_RECURRENCE",
-  "go_no_go_checkpoint": "A1-13_AUDIT_PASSED",
+  "next": "A1-15_DELTA1_THIRD_7ADIC_OR_DENOMINATOR_RECURRENCE",
+  "go_no_go_checkpoint": "A1-14_AUDIT_PASSED",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_5_audit_verdict": "PASS",
@@ -33,6 +34,7 @@
   "a1_11_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_12_audit_verdict": "PASS",
   "a1_13_audit_verdict": "PASS_WITH_CONTROLLER_REPAIR",
+  "a1_14_audit_verdict": "PASS",
   "a1_8_receiver": {
     "elliptic_quotient": "E: Y^2=Q(z)",
     "G0": "W0^2=(z^2-4)Q(z)",
@@ -100,10 +102,34 @@
     "strict_receiver_narrowing": true,
     "complete_delta1_closure": false
   },
+  "a1_14_receiver": {
+    "task": "A1-14_DELTA1_P7_SECOND_DEPTH_REFINEMENT",
+    "prime": 7,
+    "formal_parameter": "tau=-x/y",
+    "v7_tau_63P": 2,
+    "tau_63P_over_49_mod7": 2,
+    "v7_tau_441P": 3,
+    "allowed_k_center_0": [0,1,2,4],
+    "allowed_k_center_1": [0,3,5,6],
+    "allowed_k_center_2": [0,3,5,6],
+    "allowed_k_center_minus1": [0,1,2,4],
+    "allowed_mod_441": [0,1,2,62,63,125,126,190,191,251,252,316,317,379,380,440],
+    "allowed_mod_441_count": 16,
+    "allowed_mod_441_interpretation": "safe necessary sieve; k=0 depth-3 classes retained conservatively",
+    "previous_modulus": 3416490,
+    "global_modulus": 23915430,
+    "a1_13_survivors": 256,
+    "pretest_lifts": 1792,
+    "surviving_multiplier_classes": 1024,
+    "density_multiplier_vs_a1_13": "4/7",
+    "surviving_class_sha256": "ca2472c7077bac47b0cced38211ea26aa20223dd65e7f2c548d78cca93117251",
+    "strict_receiver_narrowing": true,
+    "complete_delta1_closure": false
+  },
   "integration_category_candidate": "NEW_FAMILY_EXCLUSION",
-  "closure_deferred_reason": "A1-13 deepens the active p=7 MW residue condition from mod 7 to mod 49/formal-group depth, strengthening n mod 9 to n mod 63 and cutting the global exact multiplier set from 384 to 256 classes. Deeper p-adic or recurrence refinement remains concrete.",
-  "next_attack_if_audit_passes": "Target a genuine deeper 7-adic lift of the four retained mod-63 classes, an elliptic-divisibility/denominator recurrence, or a certified full MW-sieve/elliptic-Chabauty adapter. Do not merely append unrelated good primes.",
-  "operator_override": "Continue while the true delta=1 receiver is strictly narrowed by exact mathematics. Freeze if a further batch only restates the same 256-class wall or adds unrelated finite-prime scans without structural refinement.",
+  "closure_deferred_reason": "A1-14 deepens the same p=7 formal-group sieve from the mod-63 centers to mod 441. Each retained center keeps four of seven second-depth lifts, reducing the normalized global candidate density by 4/7. Third-depth or recurrence refinement remains concrete.",
+  "next_attack_if_audit_passes": "Target a genuine third 7-adic depth, a denominator/elliptic-divisibility recurrence, a stronger exact cover, or certified full MW-sieve/elliptic-Chabauty. Do not merely restate the mod-441 receiver or append unrelated good primes.",
+  "operator_override": "Continue while the true delta=1 receiver is strictly narrowed by exact mathematics. Freeze if successive work only repackages the same mod-441 wall without a new structural restriction.",
   "do_not_repeat": [
     "larger finite height searches on the first-two-cover receiver",
     "another scan of the saturated A1-6 prime mechanism",
@@ -112,10 +138,11 @@
     "classifying non-delta1 quotient twists as if they were first-two-cover branches",
     "importing Mordell-Weil rank from a same-j curve without an exact Q-isomorphism",
     "merely appending many unrelated good primes without structural refinement",
-    "restating n mod 63 in {0,1,2,-1} without a deeper consequence"
+    "restating n mod 63 in {0,1,2,-1} without a deeper consequence",
+    "restating the A1-14 mod-441 classes without a deeper consequence"
   ],
   "reopen_or_continue_if": [
-    "deeper 7-adic refinement of the retained mod-63 multiplier classes",
+    "third-depth 7-adic refinement of the retained mod-441 multiplier classes",
     "new exact denominator or elliptic-divisibility recurrence restriction",
     "stronger simultaneous local obstruction on z+2 and z-2",
     "further exact covering-curve descent",
@@ -128,7 +155,7 @@
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
     "Equation (6) is not universal; no StageA1 condition is promoted to arbitrary perfect cuboids.",
     "Nontrivial delta quotient branches are not distinct perfect-cuboid paths because a C-point already forces delta=1.",
-    "The A1-13 7-adic sieve is a necessary-condition refinement and is not a complete global rational-point computation.",
+    "The A1-14 7-adic sieve is a necessary-condition refinement and is not a complete global rational-point computation.",
     "Stage27 and StructureRadar receivers remain unchanged."
   ],
   "recommended_commands": {
@@ -137,7 +164,7 @@
   },
   "audit_required": false,
   "audit_persistence_status": "COMMITTED",
-  "audit_record": "stages/stageA1/A1-13/audit.md",
+  "audit_record": "stages/stageA1/A1-14/audit.md",
   "merge_allowed": true,
   "stop_after_audit": false,
   "next_expected_command": "StageA1-main-batch"
