@@ -85,4 +85,4 @@ so these map to the same excluded `k=1` wall (`z=2`, `Y=+/-16`) already known fr
 
 This omission does not change the finite two-cover descent or any exclusion. The machine-readable report/controller and verifier are repaired to record it.
 
-No StageA2-specific workflow run exists on the exact submitted head, so CI is recorded as not configured rather than inferred from unrelated workflows.
+No StageA2-specific workflow run exists on the exact submitted head or the audited repaired branch head, so CI is recorded as not configured rather than inferred from unrelated workflows.
