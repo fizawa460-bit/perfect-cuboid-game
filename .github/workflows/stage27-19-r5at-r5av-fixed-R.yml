@@ -6,6 +6,7 @@ on:
       - 'stages/stage27/27-19-r5at/**'
       - 'stages/stage27/27-19-r5au/**'
       - 'stages/stage27/27-19-r5av/**'
+      - 'stages/stage27/27-19-r5aw/**'
       - 'stages/stage27/27-19-r5aq/**'
       - 'stages/stage27/27-controller.json'
       - 'docs/00_CURRENT_RESEARCH_STATUS.md'
@@ -15,6 +16,7 @@ on:
       - 'stages/stage27/27-19-r5at/**'
       - 'stages/stage27/27-19-r5au/**'
       - 'stages/stage27/27-19-r5av/**'
+      - 'stages/stage27/27-19-r5aw/**'
       - 'stages/stage27/27-19-r5aq/**'
       - 'stages/stage27/27-controller.json'
       - 'docs/00_CURRENT_RESEARCH_STATUS.md'
@@ -32,10 +34,14 @@ jobs:
           python-version: '3.12'
       - name: Verify fixed-R compression and boundary barrier
         run: python stages/stage27/27-19-r5at/verify_27_19_r5at_r5av.py
+      - name: Verify r5aw fixed-R physical fiber and exact factorization
+        run: python stages/stage27/27-19-r5aw/verify_27_19_r5aw.py
       - name: Validate JSON contracts
         run: |
           python -m json.tool stages/stage27/27-19-r5at/route-contract.json >/dev/null
           python -m json.tool stages/stage27/27-19-r5aq/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5aw/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5aw/controller-sync-delta.json >/dev/null
           python -m json.tool stages/stage27/27-controller.json >/dev/null
       - name: Diff check
         run: git diff --check origin/main...HEAD

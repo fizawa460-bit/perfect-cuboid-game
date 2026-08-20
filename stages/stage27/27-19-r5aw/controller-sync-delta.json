@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage27-19-r5aw",
+  "batch_id": "Stage27-19-r5",
+  "base_main": "4045fc9a613e7c9582b586e8151bce5a371d3942",
+  "base_stage27_controller_blob": "1544da9d411b8ab730ab1bb747296e5b466b156c",
+  "reason_for_delta_file": "The monolithic Stage27 controller contains unrelated Stage27-19 and Stage27-20 history. It is stale for PR1072 lifecycle state, and a full replacement from a partial connector view risks dropping unrelated audited ledger fields. This sidecar records the exact reconciliation required at audit without rewriting unrelated controller history.",
+  "observed_stale_controller_state": {
+    "status": "OPEN_CHECKPOINT40_WITH_STAGE19_UPPER_REENTRY_R5AQ_R5AS_PENDING_FRESH_AUDIT",
+    "checkpoint40_mentions": "R5AT_R5AV_PENDING_AUDIT"
+  },
+  "required_reconciliation": {
+    "r5at_r5av_status": "AUDITED_PASS_MERGED",
+    "audit_pr": 1072,
+    "audit_status": "PASS",
+    "audited_content_commit": "34c24f3a61176f652a0f35b84d9c74c351879270",
+    "audited_lifecycle_head": "02a56737ff56046d1c60523663b2d70c9a7b9d1f",
+    "merge_commit": "a38d6e782718ed01bb813c477f3f021afbf3d47d",
+    "structure_radar_operator_freeze": "LIFTED",
+    "freeze_release_record": "docs/structure-radar/PAUSE_AND_RETURN_STAGE27_2026-08-20.md",
+    "current_checkpoint": 40,
+    "checkpoint50_advance_allowed": false,
+    "active_submitted_route": "Stage27-19-r5aw",
+    "active_route_status": "SUBMITTED_PENDING_FRESH_AUDIT",
+    "current_mu": "1/2",
+    "strict_sub_sqrt_upper_proved": false,
+    "true_N2_exponent_identified": false
+  },
+  "r5aw_new_ledger": {
+    "fixed_R_physical_N2_fiber_subpower": true,
+    "fixed_R_physical_N2_bound": "3*r2(R^2)^2<=48*tau(R^2)^2=R^o(1)",
+    "fixed_R_fiber_alone_global_progress": false,
+    "exact_difference_factor_split": true,
+    "exact_gaussian_norm_factor_split": true,
+    "factorized_boundary_K_power_proved": false,
+    "advance_to_checkpoint50": false,
+    "audit_required": true,
+    "merge_allowed": false
+  },
+  "audit_instruction": "Audit must preserve all unrelated Stage27 controller history. It may apply this delta to the monolithic controller only after refetching the exact current full file; otherwise keep this sidecar as the authoritative pending reconciliation record.",
+  "next_expected_command": "Stage27-19-r5-audit"
+}
