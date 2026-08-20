@@ -4,7 +4,7 @@
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
   "base_main": "e9a2649e387279256cd7255f048e6d4190a0035a",
-  "status": "FREEZE_CANDIDATE_SUBMITTED_FOR_AUDIT",
+  "status": "FROZEN_EXACT_DELTA1_MW_SIEVE_WALL",
   "completed": [
     "A1-1",
     "A1-2",
@@ -14,49 +14,44 @@
     "A1-6_LOCAL_SIEVE_COMPLETENESS_AND_SATURATION",
     "A1-8_GLOBAL_QUOTIENT_JACOBIAN_DESCENT",
     "A1-9_FINITE_ELLIPTIC_TWIST_DESCENT_WITH_GPLUS_DELTA19_ELIMINATION",
-    "A1-10_G0_EXACT_FINITE_SQUARECLASS_DESCENT"
+    "A1-10_G0_EXACT_FINITE_SQUARECLASS_DESCENT",
+    "A1-11_EXACT_ELLIPTIC_ADAPTER_FIREWALL_WITH_AUDIT_ROUTING_REPAIR"
   ],
-  "submitted_for_audit": [
-    "A1-11_EXACT_ELLIPTIC_ADAPTER_FIREWALL_AND_FREEZE_CANDIDATE"
-  ],
-  "next": "A1-11_AUDIT_AND_FREEZE_DECISION",
-  "go_no_go_checkpoint": "A1-11_EXACT_FINITE_ELLIPTIC_WALL",
+  "submitted_for_audit": [],
+  "go_no_go_checkpoint": "A1-11_AUDITED_TRUE_DELTA1_WALL",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_5_audit_verdict": "PASS",
   "a1_6_audit_verdict": "PASS",
   "a1_7_closure_audit_verdict": "FAIL_THEN_REPAIRED_TO_DEFERRED",
   "a1_8_audit_verdict": "PASS_WITH_SCOPE_CLARIFICATION",
-  "a1_9_audit_verdict": "PASS",
-  "a1_10_audit_verdict": "PASS_WITH_SCOPE_CLARIFICATION",
+  "a1_9_audit_verdict": "PASS_MATH_WITH_LATER_RELEVANCE_CLARIFICATION",
+  "a1_10_audit_verdict": "PASS_MATH_WITH_LATER_RELEVANCE_CLARIFICATION",
+  "a1_11_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_8_receiver": {
     "elliptic_quotient": "E: Y^2=Q(z)",
     "G0": "W0^2=(z^2-4)Q(z)",
     "Gplus": "Wplus^2=(z+2)Q(z)",
     "Gminus": "Wminus^2=(z-2)Q(z)",
-    "jacobian_isogeny": "Jac(C) ~_Q E x Jac(G0) x Jac(Gplus) x Jac(Gminus)"
+    "jacobian_isogeny": "Jac(C) ~_Q E x Jac(G0) x Jac(Gplus) x Jac(Gminus)",
+    "exact_reconstruction": "C-point iff E-point has z+2 and z-2 both rational squares on the nondegenerate affine chart"
   },
-  "a1_9_receiver": {
-    "Gminus_squareclasses": [1, -1, 3, -3],
-    "Gplus_squareclasses": [1, -1, 13, -13, 19, -19, 247, -247],
-    "elliptic_twist_family": "E_delta: W^2=X^3+delta^2*7668X+delta^3*489456",
-    "Gminus_all_four_rank1_torsion_trivial": true,
-    "Gplus_delta19_eliminated": true,
-    "Gplus_delta_minus19_rank": 1
+  "squareclass_relevance_firewall": {
+    "first_two_cover_relevant_delta": 1,
+    "reason": "Every C-point already satisfies Q(z)=Y^2, hence the signed squareclass of Q(z) is +1.",
+    "nontrivial_delta_branches": "quotient-side rational-point branches only; do not describe them as distinct perfect-cuboid paths"
   },
-  "a1_10_receiver": {
-    "G0_exact_finite_descent": true,
-    "G0_squareclasses": [1, -1, 3, -3, 13, -13, 19, -19, 39, -39, 57, -57, 247, -247, 741, -741],
-    "exact_receiver": "Q(z)=delta*v^2 and z^2-4=delta*u^2",
-    "G0_delta19_eliminated": true,
-    "remaining_branch_count_upper_bound": 15,
-    "new_unclassified_squareclasses": [13, -13, 39, -39, 57, -57, 247, -247, 741, -741]
+  "a1_11_q2_obstruction": {
+    "H": "a^4-20*a^2*b^2+256*a*b^3-412*b^4",
+    "primitive_H_mod32_values": [1, 4, 17],
+    "odd_delta_necessary_condition": "delta == 1 mod 8",
+    "Gminus_q2_survivors": [1],
+    "Gplus_q2_survivors": [1, -247],
+    "G0_q2_survivors": [1, -39, 57, -247],
+    "original_a1_11_ten_q2_empty": [13, -13, 39, -57, 247, 741, -741],
+    "original_a1_11_ten_q2_survivors": [-39, 57, -247]
   },
-  "a1_11_receiver": {
-    "target_twists": [13, -13, 39, -39, 57, -57, 247, -247, 741, -741],
-    "target_model": "E_delta: W^2=X^3+7668*delta^2*X+489456*delta^3",
-    "target_c4": "-368064*delta^2",
-    "target_c6": "-422889984*delta^3",
+  "a1_11_same_j_firewall": {
     "exact_q_isomorphism_adapter_test": "c4_target/c4_candidate=u^4 and c6_target/c6_candidate=u^6 for the same rational u",
     "same_j_is_not_exact_adapter": true,
     "false_same_j_adapters_rejected": [
@@ -65,45 +60,51 @@
       "32490.s1 as E_57",
       "259920.fm1 as E_-57",
       "288990.bg1 as E_-39"
-    ],
-    "new_rank_zero_elimination": false,
-    "remaining_exact_twists_unclassified": 10,
-    "exact_computational_wall_reached": true
+    ]
+  },
+  "true_remaining_receiver": {
+    "delta": 1,
+    "equations": "Q(z)=v^2, z+2=s^2, z-2=t^2",
+    "elliptic_model": "E_1: W^2=X^3+7668X+489456",
+    "lmfdb_label": "6080.r1",
+    "minimal_model": "y^2=x^3+x^2+95x+703",
+    "rank": 1,
+    "torsion": "trivial",
+    "generator": "(3,32)",
+    "wall": "certified MW-sieve / elliptic-Chabauty or equivalent exact descent imposing both square-coordinate conditions"
   },
   "integration_category_candidate": "NEW_FAMILY_EXCLUSION",
-  "proposed_stage_status": "FROZEN_EXACT_FINITE_ELLIPTIC_WALL",
-  "freeze_reason": "A1-8 through A1-10 produced strict global reductions to finitely many exact elliptic receivers. A1-11 shows that same-j LMFDB rows cannot be used as rank adapters without exact Q-isomorphism, and the remaining ten exact twists require certified minimalization/rank/Selmer/MW-sieve computation unavailable in the present execution path. Returning to larger height searches or the saturated local route would not be substantive progress.",
-  "operator_override": "Continue only if substantive new mathematics or a certified exact computational adapter becomes available.",
+  "freeze_reason": "After relevance repair the only first-two-cover squareclass is delta=1. Its exact rank-one elliptic model is known, but closing the two additional square-coordinate conditions requires a certified MW-sieve/elliptic-Chabauty or equivalent computation unavailable in the present execution path. Nontrivial delta quotient branches are not the StageA1 bottleneck.",
+  "operator_override": "Continue only if substantive new mathematics or a certified exact computation on the delta=1 square-coordinate receiver becomes available.",
   "do_not_repeat": [
     "larger finite height searches on the first-two-cover receiver",
     "another scan of the saturated A1-6 prime mechanism",
     "lifting only p=5,7,23 after p-adic saturation",
     "renaming the genus-7 or R,S equations without strict reduction",
-    "recomputing frozen squareclass sets without a new global consequence",
+    "classifying non-delta1 quotient twists as if they were first-two-cover branches",
     "importing Mordell-Weil rank from a same-j curve without an exact Q-isomorphism"
   ],
   "reopen_or_continue_if": [
-    "certified Sage/Magma/PARI/mwrank output for an exact A1-11 E_delta model",
-    "exact LMFDB/Cremona label plus explicit Q-isomorphism for a target twist",
-    "certified MW-sieve or elliptic-Chabauty closure of a square-coordinate branch",
-    "exact global rational-point theorem for a remaining finite receiver",
+    "certified Sage/Magma/PARI/mwrank computation on exact delta=1 model",
+    "certified MW-sieve or elliptic-Chabauty closure of the delta=1 square-coordinate receiver",
+    "new exact descent or global rational-point theorem for Q(z)=v^2 with z+2 and z-2 squares",
     "proved coverage/reverse-map theorem for arbitrary anchored cubes",
     "exact adapter into another proved receiver"
   ],
   "firewalls": [
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
     "Equation (6) is not universal; no StageA1 condition is promoted to arbitrary perfect cuboids.",
-    "A1-11 does not assign ranks to the ten remaining exact target twists.",
+    "Nontrivial delta quotient branches are not distinct perfect-cuboid paths because a C-point already forces delta=1.",
     "Same j-invariant is insufficient to identify a quadratic twist over Q.",
-    "The audited A1-9 delta=+19 elimination remains valid because that adapter had an explicit Q-isomorphism.",
+    "The audited A1-9 delta=+19 torsor exclusion remains mathematically valid but is quotient-side rather than a distinct C-lift elimination.",
     "Stage27 and StructureRadar receivers remain unchanged."
   ],
   "recommended_commands": {
     "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
-  "audit_required": true,
+  "audit_required": false,
   "merge_allowed": false,
   "stop_after_audit": true,
-  "next_expected_command": "StageA1-audit"
+  "next_expected_command": "NONE_UNTIL_REOPEN_TRIGGER"
 }
