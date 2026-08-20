@@ -1,0 +1,36 @@
+name: Stage27-19-r6b-r6e route verdict
+
+on:
+  push:
+    paths:
+      - 'stages/stage27/27-19-r6b/**'
+      - 'stages/stage27/27-19-r6c/**'
+      - 'stages/stage27/27-19-r6d/**'
+      - 'stages/stage27/27-19-r6e/**'
+      - '.github/workflows/stage27-19-r6b-r6e.yml'
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r6b/**'
+      - 'stages/stage27/27-19-r6c/**'
+      - 'stages/stage27/27-19-r6d/**'
+      - 'stages/stage27/27-19-r6e/**'
+      - '.github/workflows/stage27-19-r6b-r6e.yml'
+
+jobs:
+  verify-stage27-19-r6b-r6e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify r6b-r6e exact identities
+        run: python stages/stage27/27-19-r6e/verify_27_19_r6b_r6e.py
+      - name: Validate route JSON
+        run: |
+          python -m json.tool stages/stage27/27-19-r6e/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r6e/controller-sync-delta.json >/dev/null
+      - name: Diff check
+        run: git diff --check origin/main...HEAD
