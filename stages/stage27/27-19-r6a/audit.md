@@ -18,6 +18,9 @@ NEW_MU_LT_HALF_PROVED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
 SUBMITTED_HEAD_STAGE27_19_R6A_CI=PASS
 SUBMITTED_HEAD_STAGE27_19_R6A_CI_RUN=32347513983
+AUDIT_PROMOTION_HEAD=4a35a6e6ec39c053bc58f2f6414fadb732367e8b
+AUDIT_PROMOTION_HEAD_CI=PASS
+AUDIT_PROMOTION_HEAD_CI_RUN=32348362558
 NEXT_DERIVED_ROUTE_AFTER_MERGE=27-19-r6b
 NEXT_TARGET=OCCUPIED_R_SQUARECLASS_COLLISION_SIEVE_WITH_PHYSICAL_MASKS
 ```
@@ -134,11 +137,13 @@ CONTROLLER_SYNC_DELTA_APPLY_AFTER_MERGE=true
 
 ## CI
 
-On the exact submitted head, dedicated workflow `Stage27-19-r6a occupied-R support` run `32347513983` completed successfully. Its verifier, route-JSON validation, and diff check all passed.
+The exact submitted head passed dedicated workflow `Stage27-19-r6a occupied-R support` run `32347513983`. After audit lifecycle promotion, head `4a35a6e6ec39c053bc58f2f6414fadb732367e8b` also passed the same dedicated workflow in run `32348362558`; verifier, route-JSON validation, and diff check all succeeded.
 
 ```text
 SUBMITTED_HEAD_STAGE27_19_R6A_CI=PASS
 SUBMITTED_HEAD_STAGE27_19_R6A_CI_RUN=32347513983
+AUDIT_PROMOTION_HEAD_CI=PASS
+AUDIT_PROMOTION_HEAD_CI_RUN=32348362558
 ```
 
 No fixed-power support deficit has been proved. In particular this audit does not advance checkpoint 50 and does not identify a new `mu<1/2` or the true Stage19 exponent.
