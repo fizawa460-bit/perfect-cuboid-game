@@ -4,7 +4,6 @@
 AUDIT_VERDICT=PASS_WITH_ELEMENTARY_STRENGTHENING_AND_LANDMARK_REPAIR
 AUDITED_TASK=STAGEA2-A2-4-R01
 AUDITED_SUBMISSION_HEAD=de59f9bedd396afabef097270b856dcb13e9a6aa
-AUDIT_PERSISTENCE_HEAD=33f283eb170a139633f955d32390f011ec07f6f7
 BASE_MAIN_AUDIT=PASS
 BASE_MAIN=231eff9bbf0a1c45f60f0ec04057f00ec8777f6b
 BASE_MAIN_IS_A2_3_MERGE=PASS
@@ -86,4 +85,4 @@ so these map to the same excluded `k=1` wall (`z=2`, `Y=+/-16`) already known fr
 
 This omission does not change the finite two-cover descent or any exclusion. The machine-readable report/controller and verifier are repaired to record it.
 
-No StageA2-specific workflow run exists on the exact submitted head or the audited repaired branch head, so CI is recorded as not configured rather than inferred from unrelated workflows.
+No StageA2-specific workflow run exists on the exact submitted head or the final audited repaired branch head, so CI is recorded as not configured rather than inferred from unrelated workflows.
