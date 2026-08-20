@@ -16,13 +16,12 @@
     "A1-9_FINITE_ELLIPTIC_TWIST_DESCENT_WITH_GPLUS_DELTA19_ELIMINATION",
     "A1-10_G0_EXACT_FINITE_SQUARECLASS_DESCENT",
     "A1-11_EXACT_ELLIPTIC_ADAPTER_FIREWALL_WITH_AUDIT_ROUTING_REPAIR",
-    "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE"
-  ],
-  "submitted_for_audit": [
+    "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE",
     "A1-13_DELTA1_P7_PRIME_POWER_REFINEMENT"
   ],
-  "next": "A1-14_DELTA1_DEEPER_7ADIC_OR_DENOMINATOR_RECURRENCE_IF_AUDIT_PASSES",
-  "go_no_go_checkpoint": "A1-13_AUDIT_BOUNDARY",
+  "submitted_for_audit": [],
+  "next": "A1-14_DELTA1_DEEPER_7ADIC_OR_DENOMINATOR_RECURRENCE",
+  "go_no_go_checkpoint": "A1-13_AUDIT_PASSED",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_5_audit_verdict": "PASS",
@@ -33,20 +32,33 @@
   "a1_10_audit_verdict": "PASS_MATH_WITH_LATER_RELEVANCE_CLARIFICATION",
   "a1_11_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_12_audit_verdict": "PASS",
+  "a1_13_audit_verdict": "PASS_WITH_CONTROLLER_REPAIR",
   "a1_8_receiver": {
     "elliptic_quotient": "E: Y^2=Q(z)",
     "G0": "W0^2=(z^2-4)Q(z)",
     "Gplus": "Wplus^2=(z+2)Q(z)",
     "Gminus": "Wminus^2=(z-2)Q(z)",
+    "jacobian_isogeny": "Jac(C) ~_Q E x Jac(G0) x Jac(Gplus) x Jac(Gminus)",
     "exact_reconstruction": "C-point iff E-point has z+2 and z-2 both rational squares on the nondegenerate affine chart"
   },
   "squareclass_relevance_firewall": {
     "first_two_cover_relevant_delta": 1,
-    "reason": "Every C-point already satisfies Q(z)=Y^2, hence the signed squareclass of Q(z) is +1."
+    "reason": "Every C-point already satisfies Q(z)=Y^2, hence the signed squareclass of Q(z) is +1.",
+    "nontrivial_delta_branches": "quotient-side rational-point branches only; do not describe them as distinct perfect-cuboid paths"
+  },
+  "a1_11_q2_obstruction": {
+    "H": "a^4-20*a^2*b^2+256*a*b^3-412*b^4",
+    "primitive_H_mod32_values": [1, 4, 17],
+    "odd_delta_necessary_condition": "delta == 1 mod 8"
+  },
+  "a1_11_same_j_firewall": {
+    "exact_q_isomorphism_adapter_test": "c4_target/c4_candidate=u^4 and c6_target/c6_candidate=u^6 for the same rational u",
+    "same_j_is_not_exact_adapter": true
   },
   "true_remaining_receiver": {
     "delta": 1,
     "equations": "Q(z)=v^2, z+2=s^2, z-2=t^2",
+    "elliptic_model": "E_1: W^2=X^3+7668X+489456",
     "lmfdb_label": "6080.r1",
     "minimal_model": "y^2=x^3+x^2+95x+703",
     "rank": 1,
@@ -54,13 +66,20 @@
     "generator": "(3,32)"
   },
   "a1_12_receiver": {
-    "explicit_birational_map": "z=-(y+32)/(x-3), v=2*x+4-z^2",
+    "task": "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE",
+    "explicit_birational_map": {
+      "to_quartic": "z=-(y+32)/(x-3), v=2*x+4-z^2",
+      "from_quartic": "x=(v+z^2-4)/2, y=-z*(x-3)-32"
+    },
     "multiplier_involution": "n -> 1-n",
     "good_sieve_primes": [7, 23, 37, 257, 263, 863],
     "generator_orders": [9, 29, 10, 22, 34, 21],
+    "allowed_pattern_each_prime": "0,1,2,-1 modulo the corresponding generator order",
     "combined_modulus": 3416490,
     "surviving_multiplier_classes": 384,
-    "surviving_class_sha256": "63652cb8e25860ba40dba7ba5f99023a9a611525f7b2bd2465a79b95c268e874"
+    "surviving_class_sha256": "63652cb8e25860ba40dba7ba5f99023a9a611525f7b2bd2465a79b95c268e874",
+    "strict_receiver_narrowing": true,
+    "complete_delta1_closure": false
   },
   "a1_13_receiver": {
     "task": "A1-13_DELTA1_P7_PRIME_POWER_REFINEMENT",
@@ -88,8 +107,10 @@
   "do_not_repeat": [
     "larger finite height searches on the first-two-cover receiver",
     "another scan of the saturated A1-6 prime mechanism",
+    "lifting only p=5,7,23 after p-adic saturation",
+    "renaming the genus-7 or R,S equations without strict reduction",
     "classifying non-delta1 quotient twists as if they were first-two-cover branches",
-    "importing rank from a same-j curve without an exact Q-isomorphism",
+    "importing Mordell-Weil rank from a same-j curve without an exact Q-isomorphism",
     "merely appending many unrelated good primes without structural refinement",
     "restating n mod 63 in {0,1,2,-1} without a deeper consequence"
   ],
@@ -100,7 +121,8 @@
     "further exact covering-curve descent",
     "certified MW-sieve or elliptic-Chabauty closure of the delta=1 receiver",
     "new exact global rational-point theorem for the delta=1 receiver",
-    "proved coverage/reverse-map theorem for arbitrary anchored cubes"
+    "proved coverage/reverse-map theorem for arbitrary anchored cubes",
+    "exact adapter into another proved receiver"
   ],
   "firewalls": [
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
@@ -113,8 +135,10 @@
     "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
-  "audit_required": true,
-  "merge_allowed": false,
+  "audit_required": false,
+  "audit_persistence_status": "COMMITTED",
+  "audit_record": "stages/stageA1/A1-13/audit.md",
+  "merge_allowed": true,
   "stop_after_audit": false,
-  "next_expected_command": "StageA1-audit"
+  "next_expected_command": "StageA1-main-batch"
 }
