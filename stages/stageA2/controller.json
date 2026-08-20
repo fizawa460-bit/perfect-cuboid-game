@@ -4,7 +4,7 @@
   "title": "Published minus18 equation-(6) anchor line",
   "mode": "SEPARATE_RESTART_FROM_PUBLISHED_SOURCE",
   "base_main": "d031c6a7fd2d8f3fcdc6a5667bf6f6cbba75ea6e",
-  "status": "A2_3_SUBMITTED_FOR_AUDIT",
+  "status": "RECONNAISSANCE_ACTIVE",
   "upstream_handoff": {
     "from_stage": "StageA1",
     "closure_status": "CLOSED_INVALID_UPSTREAM_SOURCE_CORRECTION",
@@ -14,17 +14,21 @@
     "a1_minus8_arithmetic_preserved_as_history": true,
     "a1_minus8_results_apply_to_published_equation6": false
   },
-  "completed": [],
-  "submitted_for_audit": [
+  "completed": [
     "A2-3_PUBLISHED_MINUS18_RESTART"
   ],
-  "go_no_go_checkpoint": "A2-3_PUBLISHED_SOURCE_RECONSTRUCTION_AUDIT",
+  "submitted_for_audit": [],
+  "go_no_go_checkpoint": "A2-3_AUDIT_PASSED",
+  "a2_3_audit_verdict": "PASS",
+  "a2_3_audit_submitted_head": "c44a35c99015e476a486d6f61af6f681a4215b29",
+  "a2_3_audit_record": "stages/stageA2/A2-3/audit.md",
   "source_lock": {
     "paper": "Bremner-Elsholtz-Ulas, There are infinitely many Hilbert cubes of dimension 3 in the set of squares",
     "arxiv": "2604.05459v1",
     "locator": "PDF p.13 equation (6)",
     "equation6_anchor_coefficient": -18,
     "source_pdf_check": "PASS",
+    "preceding_PQ_minus18_check": "PASS",
     "sanity_parameter": "(c,d,G,H)=(3,1,7,1)",
     "sanity_published_minus18_square_count": 8,
     "sanity_minus8_negative_control_square_count": 1
@@ -35,8 +39,10 @@
     "normalized_variables": "x=c/d, r=G/H, k=x^2, u=r-1/r",
     "reciprocal_quadratic": "4*k*(k-1)*u^2-(k^4-18*k^2+1)*u-16*k^2*(k-1)=0",
     "genus3_curve": "v^2=k^8-36*k^6+256*k^5-186*k^4+256*k^3-36*k^2+1",
+    "genus3_factorization": "(k^4-8*k^3+30*k^2-8*k+1)*(k^4+8*k^3-2*k^2+8*k+1)",
     "genus3_discriminant": "-2^80*3^3*5^2",
     "genus1_quotient": "Y^2=z^4-40*z^2+256*z-112",
+    "genus1_factorization": "(z^2-8*z+28)*(z^2+8*z-4)",
     "genus1_discriminant": "-2^32*3*5",
     "quotient_variable": "z=k+1/k",
     "reconstruction_square_covers": [
@@ -48,8 +54,8 @@
     "general_coverage_proved": false,
     "complete_family_closure": false
   },
-  "next": "A2-4_PUBLISHED_MINUS18_QUARTIC_AND_EXACT_COVERS_IF_AUDIT_PASSES",
-  "next_attack_if_audit_passes": "Analyze only the correct E18 quartic and its exact reconstruction covers; obtain a fresh Jacobian/Weierstrass adapter and rational-point/descent information without importing StageA1 -8 arithmetic.",
+  "next": "A2-4_PUBLISHED_MINUS18_QUARTIC_AND_EXACT_COVERS",
+  "next_attack": "Exploit the fresh exact factorization Q18=(z^2-8z+28)(z^2+8z-4) first, then obtain a fresh Jacobian/Weierstrass adapter and exact cover/rational-point information without importing StageA1 -8 arithmetic.",
   "do_not_import": [
     "StageA1 A1-3 through A1-14 quartic/Jacobian/rank/MW-sieve conclusions",
     "the auxiliary -8 quartic Y^2=z^4-20*z^2+256*z-412",
@@ -66,10 +72,11 @@
   ],
   "recommended_commands": {
     "audit": "StageA2-audit",
-    "main_after_audit": "StageA2-main-batch"
+    "main": "StageA2-main-batch"
   },
-  "audit_required": true,
-  "merge_allowed": false,
+  "audit_required": false,
+  "audit_persistence_status": "COMMITTED",
+  "merge_allowed": true,
   "stop_after_audit": false,
-  "next_expected_command": "StageA2-audit"
+  "next_expected_command": "StageA2-main-batch"
 }
