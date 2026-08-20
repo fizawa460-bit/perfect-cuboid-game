@@ -4,7 +4,7 @@
   "title": "Published minus18 equation-(6) anchor line",
   "mode": "SEPARATE_RESTART_FROM_PUBLISHED_SOURCE",
   "base_main": "ef12c541146440cf03a260faf1b6cfe52532314a",
-  "status": "A2_CLOSEOUT_SUBMITTED_FOR_AUDIT",
+  "status": "CLOSED_PUBLISHED_MINUS18_FAMILY_EXCLUSION",
   "upstream_handoff": {
     "from_stage": "StageA1",
     "closure_status": "CLOSED_INVALID_UPSTREAM_SOURCE_CORRECTION",
@@ -17,12 +17,11 @@
   "completed": [
     "A2-3_PUBLISHED_MINUS18_RESTART",
     "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS",
-    "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE"
-  ],
-  "submitted_for_audit": [
+    "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE",
     "A2_CLOSE_PUBLISHED_MINUS18_FAMILY_EXCLUSION"
   ],
-  "go_no_go_checkpoint": "A2_CLOSEOUT_AUDIT_BOUNDARY",
+  "submitted_for_audit": [],
+  "go_no_go_checkpoint": "A2_CLOSEOUT_AUDIT_PASSED",
   "a2_3_audit_verdict": "PASS",
   "a2_3_audit_submitted_head": "c44a35c99015e476a486d6f61af6f681a4215b29",
   "a2_3_audit_record": "stages/stageA2/A2-3/audit.md",
@@ -32,6 +31,9 @@
   "a2_5_audit_verdict": "PASS_WITH_CONTROLLER_HISTORY_REPAIR",
   "a2_5_audit_submitted_head": "0565532d19e7e436b180b7286c1365326d3bec4b",
   "a2_5_audit_record": "stages/stageA2/A2-5/audit.md",
+  "a2_close_audit_verdict": "PASS",
+  "a2_close_audit_submitted_head": "7ae0311a234adf6205a984d867d2ecc0436311e3",
+  "a2_close_audit_record": "stages/stageA2/A2-CLOSE/audit.md",
   "source_lock": {
     "paper": "Bremner-Elsholtz-Ulas, There are infinitely many Hilbert cubes of dimension 3 in the set of squares",
     "arxiv": "2604.05459v1",
@@ -127,14 +129,16 @@
     "task": "A2_CLOSE_PUBLISHED_MINUS18_FAMILY_EXCLUSION",
     "record": "stages/stageA2/A2-CLOSE/result.md",
     "report": "stages/stageA2/A2-CLOSE/report.json",
+    "audit_record": "stages/stageA2/A2-CLOSE/audit.md",
+    "audit_verdict": "PASS",
     "published_equation6_anchor_nondegenerate_points": 0,
     "family_specific_exclusion_complete": true,
     "general_coverage_proved": false,
     "perfect_cuboid_found": false,
     "arbitrary_perfect_cuboid_nonexistence_proved": false
   },
-  "next": "CLOSE_IF_AUDIT_PASSES",
-  "next_attack": "Audit only the lifecycle closeout and scope firewall. No new arithmetic is required unless the closeout record disagrees with the already-audited A2-3/A2-4/A2-5 chain.",
+  "next": "TERMINAL_CLOSED",
+  "next_attack": "StageA2 is closed. Do not continue this family line unless explicitly reopened; preserve the family-specific firewall.",
   "do_not_import": [
     "StageA1 A1-3 through A1-14 quartic/Jacobian/rank/MW-sieve conclusions",
     "the auxiliary -8 quartic Y^2=z^4-20*z^2+256*z-412",
@@ -154,10 +158,10 @@
     "audit": "StageA2-audit",
     "main": "StageA2-main-batch"
   },
-  "audit_required": true,
+  "audit_required": false,
   "audit_external_mw_datum_required": false,
-  "audit_persistence_status": "PENDING_CLOSEOUT_AUDIT",
-  "merge_allowed": false,
+  "audit_persistence_status": "COMMITTED",
+  "merge_allowed": true,
   "stop_after_audit": true,
-  "next_expected_command": "StageA2-audit"
+  "next_expected_command": "merge_this_PR_to_finalize_StageA2"
 }
