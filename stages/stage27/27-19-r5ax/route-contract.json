@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage27-19-r5ax",
+  "batch_id": "Stage27-19-r5",
+  "source_stage": "Stage19",
+  "trigger_checkpoint": 40,
+  "route_kind": "UPPER_REENTRY_PARALLEL",
+  "parent_route": "Stage27-19-r5aw",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "base_main": "02ec86536ce6a1674be4f185631848eedfd9956f",
+  "purpose": "substitute the audited exact kappa factor packets into the r5au boundary, test whether factorization alone yields a fixed negative K power, identify the global occupied-diagonal support target, and freeze the lane under the anti-loop rule if no new quantitative saving appears",
+  "inputs": {
+    "r5aw_audit_pr": 1246,
+    "r5aw_audit_status": "PASS_WITH_CI_LIFECYCLE_REPAIR",
+    "r5aw_merge_commit": "02ec86536ce6a1674be4f185631848eedfd9956f",
+    "fixed_R_physical_fiber_bound": "N2_R<=48*tau(R^2)^2=R^o(1)",
+    "fixed_R_weighted_host": "T_R<<R^eps*(X_R/K+sqrt(X_R)); X_R=R/(delta*C)",
+    "existing_structure_radar_receiver": "SR-STR-224"
+  },
+  "proved": {
+    "difference_packet_boundary_identity": true,
+    "difference_packet_identity": "4*delta*C*mu*nu=kappa_plus^2*B^2-kappa_minus^2*A^2",
+    "gaussian_packet_boundary_identity": true,
+    "gaussian_packet_identity": "delta*C*rho*sigma=(a*u-b*v)*(a*v+b*u); a^2+b^2=kappa",
+    "gaussian_linear_map_determinant": "kappa",
+    "factor_packet_exact_reparametrization": true,
+    "allocation_entropy": "K^o(1)",
+    "factorization_alone_does_not_prove_boundary_K_power": true,
+    "occupied_R_support_exponent_equivalence": true,
+    "occupied_R_support_relation": "S2(B)<=N2(B)<=B^o(1)*S2(B)",
+    "anti_loop_freeze_triggered": true
+  },
+  "not_proved": {
+    "sqrt_boundary_modulus_saving": true,
+    "factorized_boundary_K_power": true,
+    "occupied_R_support_fixed_power_deficit": true,
+    "global_R_averaged_fixed_power_saving": true,
+    "strict_sub_sqrt_upper": true,
+    "new_mu_lt_half": true,
+    "true_N2_exponent_identified": true
+  },
+  "difference_packet": {
+    "definitions": "kappa_-=gcd(kappa,abs(m-n)); kappa_+=kappa/kappa_-; m-n=kappa_-*A; m+n=kappa_+*B",
+    "reconstruction": "m=(kappa_-*A+kappa_+*B)/2; n=(kappa_+*B-kappa_-*A)/2",
+    "physical_pair_product": "4*delta*C*mu*nu=kappa_+^2*B^2-kappa_-^2*A^2",
+    "boundary_region": "0<kappa_+^2*B^2-kappa_-^2*A^2<=4*delta*C*U"
+  },
+  "gaussian_packet": {
+    "definitions": "lambda=a+i*b; a^2+b^2=kappa; eta=u+i*v; r+i*s=lambda*eta",
+    "reconstruction": "r=a*u-b*v; s=a*v+b*u",
+    "physical_pair_product": "delta*C*rho*sigma=(a*u-b*v)*(a*v+b*u)",
+    "boundary_region": "0<(a*u-b*v)*(a*v+b*u)<=delta*C*V",
+    "determinant": "kappa"
+  },
+  "witness": {
+    "slope_tuple": [21, 16, 27, 14],
+    "delta": 2,
+    "c0": 3,
+    "cs": 7,
+    "cn": 1,
+    "C": 21,
+    "residual_tuple": [1, 8, 9, 1],
+    "kappa": 185,
+    "kappa_minus": 5,
+    "kappa_plus": 37,
+    "A": 1,
+    "B": 1,
+    "gaussian_lambda": [11, -8],
+    "gaussian_eta": [1, 2],
+    "difference_identity_value": 1344,
+    "gaussian_product_value": 378
+  },
+  "global_redirect": {
+    "occupied_support_name": "S2(B)",
+    "definition": "#{R<=B:N2_R>0}",
+    "same_polynomial_exponent_as_N2": true,
+    "reason": "each occupied R contributes at least one object and at most B^o(1) objects by the uniform r5aw fiber bound",
+    "local_fiber_compression_recharge_allowed": false
+  },
+  "anti_loop": {
+    "r5_upper_factor_packet_lane_frozen": true,
+    "new_structure_radar_gate_created": false,
+    "generic_literature_search_restarted": false,
+    "existing_receiver_reused": "SR-STR-224",
+    "reopen_conditions": [
+      "same-measure fixed-R boundary K^{-eta} theorem on the exact physical packet",
+      "fixed-power deficit for occupied physical space-diagonal support S2(B)"
+    ]
+  },
+  "advance_to_checkpoint50": false,
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "fresh_audit_required": true,
+  "audit_status": "PENDING",
+  "next_derived_route": "NONE_R5_UPPER_LANE_FROZEN",
+  "next_target": "NONE_UNTIL_REOPEN_CONDITION",
+  "next_expected_command": "Stage27-19-r5-audit"
+}
