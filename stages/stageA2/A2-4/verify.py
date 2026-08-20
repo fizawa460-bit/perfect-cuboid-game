@@ -41,7 +41,8 @@ for a in range(-25, 26):
         F2 = a*a + 8*a*b - 4*b*b
         assert gcd(F1, b) == 1
         assert gcd(F2, b) == 1
-        assert gcd(abs(F1), abs(F2)) & ~255 == 0  # gcd divides 2^8
+        g = gcd(abs(F1), abs(F2))
+        assert 256 % g == 0
 
 # Projective mod-5 obstruction for delta=2 in the first split.
 sq5 = {0, 1, 4}
@@ -86,8 +87,8 @@ for a in range(-25, 26):
         A = a*a - 5*a*b - 5*b*b
         B = a*a - a*b - b*b
         assert gcd(A, b) == 1
-        assert gcd(abs(A), abs(B)) <= 4
-        assert 4 % gcd(abs(A), abs(B)) == 0
+        g = gcd(abs(A), abs(B))
+        assert 4 % g == 0
 
 # Projective mod-5 obstruction for delta=+2 and -2 in the second split.
 # At infinity b=0, A=B=a^2; both +/-2 are nonsquares mod 5.
