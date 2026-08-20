@@ -4,7 +4,7 @@
   "title": "Published minus18 equation-(6) anchor line",
   "mode": "SEPARATE_RESTART_FROM_PUBLISHED_SOURCE",
   "base_main": "9a3d32598acc8f288fb562254da84d5f59eda9e8",
-  "status": "A2_5_FAMILY_CLOSURE_SUBMITTED_FOR_AUDIT",
+  "status": "A2_5_FAMILY_CLOSURE_AUDITED_READY_FOR_CLOSEOUT",
   "upstream_handoff": {
     "from_stage": "StageA1",
     "closure_status": "CLOSED_INVALID_UPSTREAM_SOURCE_CORRECTION",
@@ -16,18 +16,20 @@
   },
   "completed": [
     "A2-3_PUBLISHED_MINUS18_RESTART",
-    "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS"
-  ],
-  "submitted_for_audit": [
+    "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS",
     "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE"
   ],
-  "go_no_go_checkpoint": "A2-5_COMPLETE_FAMILY_EXCLUSION_AUDIT",
+  "submitted_for_audit": [],
+  "go_no_go_checkpoint": "A2-5_COMPLETE_FAMILY_EXCLUSION_AUDIT_PASSED",
   "a2_3_audit_verdict": "PASS",
   "a2_3_audit_submitted_head": "c44a35c99015e476a486d6f61af6f681a4215b29",
   "a2_3_audit_record": "stages/stageA2/A2-3/audit.md",
   "a2_4_audit_verdict": "PASS_WITH_ELEMENTARY_STRENGTHENING_AND_LANDMARK_REPAIR",
   "a2_4_audit_submitted_head": "de59f9bedd396afabef097270b856dcb13e9a6aa",
   "a2_4_audit_record": "stages/stageA2/A2-4/audit.md",
+  "a2_5_audit_verdict": "PASS_WITH_CONTROLLER_HISTORY_REPAIR",
+  "a2_5_audit_submitted_head": "0565532d19e7e436b180b7286c1365326d3bec4b",
+  "a2_5_audit_record": "stages/stageA2/A2-5/audit.md",
   "source_lock": {
     "paper": "Bremner-Elsholtz-Ulas, There are infinitely many Hilbert cubes of dimension 3 in the set of squares",
     "arxiv": "2604.05459v1",
@@ -45,21 +47,37 @@
     "normalized_variables": "x=c/d, r=G/H, k=x^2, u=r-1/r",
     "reciprocal_quadratic": "4*k*(k-1)*u^2-(k^4-18*k^2+1)*u-16*k^2*(k-1)=0",
     "genus3_curve": "v^2=k^8-36*k^6+256*k^5-186*k^4+256*k^3-36*k^2+1",
+    "genus3_factorization": "(k^4-8*k^3+30*k^2-8*k+1)*(k^4+8*k^3-2*k^2+8*k+1)",
+    "genus3_discriminant": "-2^80*3^3*5^2",
     "genus1_quotient": "Y^2=z^4-40*z^2+256*z-112",
+    "genus1_factorization": "(z^2-8*z+28)*(z^2+8*z-4)",
+    "genus1_discriminant": "-2^32*3*5",
     "quotient_variable": "z=k+1/k",
+    "reconstruction_square_covers": [
+      "z^2-4 must be a rational square to recover k",
+      "k must be a rational square to recover c/d",
+      "u^2+4 must be a rational square to recover G/H"
+    ],
+    "excluded_wall": "k=1 gives (z,Y)=(2,+/-16) and c^2=d^2",
     "general_coverage_proved": false,
     "complete_family_closure": false
   },
   "a2_4_receiver": {
     "task": "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS",
     "quartic_factorization": "Q18=(z^2-8*z+28)*(z^2+8*z-4)",
+    "first_gcd_bound": "gcd(F1,F2)|2^8",
+    "first_v2_pattern": [0, 2, 4],
     "first_exact_squareclasses": [1],
+    "first_delta_2_Q5": "EMPTY_BUT_REDUNDANT",
     "forced_split": "U^2=z^2-8*z+28, V^2=z^2+8*z-4",
     "t_parameterization": {
       "z": "(2*t^2-8*t-6)/(t^2-1)",
       "U": "-4*(t^2+t+1)/(t^2-1)"
     },
+    "second_factor_product": "(t^2-5*t-5)*(t^2-t-1) is a rational square",
+    "second_gcd": "1 for primitive (a,b)",
     "second_exact_squareclasses": [1, -1],
+    "second_plusminus_2_Q5": "EMPTY_BUT_REDUNDANT",
     "surviving_two_covers": [
       "Cplus: R^2=t^2-5*t-5, S^2=t^2-t-1",
       "Cminus: R^2=-(t^2-5*t-5), S^2=-(t^2-t-1)"
@@ -87,10 +105,12 @@
     "jacobian_rank": 0,
     "jacobian_torsion": "Z/2Z x Z/4Z",
     "jacobian_rational_point_count": 8,
+    "explicit_lmfdb_isomorphism": "X=36*x+15, Y=108*(2*y+x+1) from y^2+x*y+y=x^3+x^2-10*x-10",
     "external_mw_sources": [
       "LMFDB 15.a5",
       "Leprévost-Pohst-Schöpp, Acta Arith. 127 (2007), DOI 10.4064/aa127-3-1, proof of Theorem 2.5 pp.4-5"
     ],
+    "lps_group_notation_used_for_structure": false,
     "Qplus_complete_points": "m=-7/2 with y=+/-45/4; m=+/-1 with y=+/-9,+/-5 respectively; two quartic infinities",
     "Qminus_complete_points": "m=1/2 with y=+/-5/4; m=1 with y=+/-1; m=3 with y=+/-5; two quartic infinities",
     "Cplus_t_values": ["-1", "infinity"],
@@ -101,8 +121,8 @@
     "family_specific_exclusion_complete": true,
     "general_coverage_proved": false
   },
-  "next": "A2_CLOSE_PUBLISHED_MINUS18_FAMILY_EXCLUSION_IF_AUDIT_PASSES",
-  "next_attack": "Audit the common Jacobian identification and external Mordell-Weil datum. If rank 0 and torsion order 8 are certified, close StageA2 as a complete exclusion of the published equation-(6) anchor boundary. Do not promote this family-specific exclusion to arbitrary perfect cuboids.",
+  "next": "A2_CLOSE_PUBLISHED_MINUS18_FAMILY_EXCLUSION",
+  "next_attack": "Record the audited StageA2 lifecycle closeout for the published equation-(6) -18 anchor family. Preserve the family-specific firewall; do not promote this exclusion to arbitrary perfect cuboids.",
   "do_not_import": [
     "StageA1 A1-3 through A1-14 quartic/Jacobian/rank/MW-sieve conclusions",
     "the auxiliary -8 quartic Y^2=z^4-20*z^2+256*z-412",
@@ -113,18 +133,19 @@
     "The published equation-(6) anchor coefficient is -18 and is source-locked.",
     "A1-3 through A1-14 are historical auxiliary-minus8 computations only.",
     "Equation (6) is not proved universal for anchored Hilbert cubes or perfect cuboids.",
-    "A2-5, if audited, excludes only the nondegenerate anchor boundary of this published equation-(6) family.",
+    "A2-5 excludes only the nondegenerate anchor boundary of this published equation-(6) family.",
     "No family-specific A2 exclusion may be promoted to arbitrary perfect cuboids without a reverse-map/coverage theorem.",
     "Perfect-cuboid existence is not established and arbitrary-perfect-cuboid nonexistence is not established.",
     "Stage27 and StructureRadar receivers remain unchanged."
   ],
   "recommended_commands": {
     "audit": "StageA2-audit",
-    "main_after_audit_only_if_controller_reopens": "StageA2-main-batch"
+    "main": "StageA2-main-batch"
   },
-  "audit_required": true,
-  "audit_external_mw_datum_required": true,
-  "merge_allowed": false,
+  "audit_required": false,
+  "audit_external_mw_datum_required": false,
+  "audit_persistence_status": "COMMITTED",
+  "merge_allowed": true,
   "stop_after_audit": false,
-  "next_expected_command": "StageA2-audit"
+  "next_expected_command": "StageA2-main-batch"
 }
