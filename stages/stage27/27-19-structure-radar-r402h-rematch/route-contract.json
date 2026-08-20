@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "task": "Stage27-19-StructureRadar-r402h-rematch",
+  "base_main": "9fbb1bd3ca6796016aaac287a6f62371d80ff1c4",
+  "checkpoint": 40,
+  "current_mu": "1/2",
+  "receiver": "same-physical-measure fixed-power support/energy theorem for A=s^2(m^2+n^2), D=n^2(r^2-s^2) on dyadic reduced-direction bands",
+  "classification": {
+    "direct_green_fixed_power": [],
+    "green_structural": ["SR-STR-173", "SR-STR-166-router"],
+    "amber_strong": ["SR-STR-166", "SR-STR-169", "SR-STR-161"],
+    "amber_weak": ["SR-STR-165", "SR-STR-167"],
+    "red_current": ["SR-STR-164", "SR-STR-168", "SR-STR-170", "SR-STR-171", "SR-STR-172", "SR-STR-174", "SR-STR-216", "SR-STR-222", "SR-STR-223", "SR-STR-224", "SR-STR-225"]
+  },
+  "receiver_change_reopen": {
+    "card": "SR-STR-169",
+    "reason": "r6d removed polynomial fixed-(p,q,g) representation multiplicity, so the prior Stage14 sparse-weight applicability failure must be re-tested on the new r402h pushforward rather than inherited automatically"
+  },
+  "next_adapter_tests": [
+    {
+      "priority": 1,
+      "route": "Stage27-19-r7a",
+      "card": "SR-STR-166",
+      "target": "R402H_CHARGED_ONCE_ELIMINANT_AND_DETERMINANT_NOVELTY"
+    },
+    {
+      "priority": 2,
+      "card": "SR-STR-169",
+      "target": "R402H_CORRELATION_ADAPTER_WITH_SUBPOWER_PUSHFORWARD_WEIGHTS"
+    },
+    {
+      "priority": 3,
+      "card": "SR-STR-161",
+      "target": "R402H_ONE_VARIABLE_SEPARATION_OR_L2_COVARIANCE_REDUCTION"
+    }
+  ],
+  "broad_external_search_required_before_r7a": false,
+  "strict_sub_sqrt_upper_proved": false,
+  "new_mu_lt_half_proved": false,
+  "advance_to_checkpoint50": false,
+  "audit_required": true,
+  "merge_allowed": false,
+  "next_expected_command": "Stage27-19-StructureRadar-rematch-audit"
+}
