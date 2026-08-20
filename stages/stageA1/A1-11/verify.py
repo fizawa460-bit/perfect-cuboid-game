@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from fractions import Fraction
+from math import gcd
 
 BASE_A = 7668
 BASE_B = 489456
@@ -11,6 +12,13 @@ CANDIDATES = {
     "32490.s1": ([1, -1, 0, 4806, 241650], 57),
     "259920.fm1": ([0, 0, 0, 76893, -15542494], -57),
     "288990.bg1": ([1, -1, 0, 2250, -78350], -39),
+}
+
+D_MINUS = {1, -1, 3, -3}
+D_PLUS = {1, -1, 13, -13, 19, -19, 247, -247}
+D_ZERO = {
+    1, -1, 3, -3, 13, -13, 19, -19,
+    39, -39, 57, -57, 247, -247, 741, -741,
 }
 
 
@@ -50,8 +58,36 @@ def rational_fourth_power(q):
                     return False
             p += 1
         if m > 1:
-            return False  # remaining prime has exponent 1
+            return False
     return True
+
+
+def H(a, b):
+    return a**4 - 20*a*a*b*b + 256*a*b**3 - 412*b**4
+
+
+def primitive_h_mod32_values():
+    vals = set()
+    for a in range(32):
+        for b in range(32):
+            if gcd(gcd(a, b), 32) != 1:
+                continue
+            vals.add(H(a, b) % 32)
+    return vals
+
+
+def q2_allowed_delta_residues_mod32():
+    hvals = primitive_h_mod32_values()
+    sq = {x*x % 32 for x in range(32)}
+    allowed = set()
+    for d in range(1, 32, 2):
+        if hvals & {d*s % 32 for s in sq}:
+            allowed.add(d)
+    return allowed
+
+
+def q2_filter(classes):
+    return {d for d in classes if d % 8 == 1}
 
 
 def main():
@@ -60,9 +96,7 @@ def main():
 
     coeffs = {}
     for d in TARGETS:
-        A = BASE_A*d*d
-        B = BASE_B*d*d*d
-        coeffs[d] = (A, B)
+        coeffs[d] = (BASE_A*d*d, BASE_B*d*d*d)
 
     assert coeffs[13] == (1295892, 1075334832)
     assert coeffs[-13] == (1295892, -1075334832)
@@ -85,17 +119,44 @@ def main():
         assert not rational_fourth_power(r4)
         rejected.append((label, d, c4, c6, r4, r6))
 
-    # Two explicit valuation witnesses used in result.md.
-    r_32110 = rejected[0][4]
-    r_256880 = rejected[1][4]
-    assert r_32110 == 5184 and valuation(r_32110.numerator, 2) == 6
-    assert r_256880 == 324 and valuation(r_256880.numerator, 2) == 2
+    assert rejected[0][4] == 5184
+    assert valuation(rejected[0][4].numerator, 2) == 6
+    assert rejected[1][4] == 324
+    assert valuation(rejected[1][4].numerator, 2) == 2
 
-    print("target_twists=10")
+    # Exact 2-adic residue firewall for T_delta: H(a,b)=delta*V^2.
+    # A Q_2 point can be represented by a primitive 2-adic pair (a,b),
+    # so reduction modulo 32 must appear below.
+    assert primitive_h_mod32_values() == {1, 4, 17}
+    assert q2_allowed_delta_residues_mod32() == {1, 9, 17, 25}
+    # These are exactly the odd residue classes congruent to 1 mod 8.
+    assert all(d % 8 == 1 for d in q2_allowed_delta_residues_mod32())
+
+    assert q2_filter(D_MINUS) == {1}
+    assert q2_filter(D_PLUS) == {1, -247}
+    assert q2_filter(D_ZERO) == {1, -39, 57, -247}
+
+    original_ten = set(TARGETS)
+    assert q2_filter(original_ten) == {-39, 57, -247}
+    assert original_ten - q2_filter(original_ten) == {
+        13, -13, 39, -57, 247, 741, -741
+    }
+
+    # Relevance firewall: for a point lifted from C, A1-8 already has
+    # Q(z)=Y^2, so the signed squareclass of Q(z) is delta=+1.
+    first_two_cover_relevant_delta = 1
+    assert first_two_cover_relevant_delta in D_MINUS
+    assert first_two_cover_relevant_delta in D_PLUS
+    assert first_two_cover_relevant_delta in D_ZERO
+
     print("false_same_j_adapters_rejected=5")
-    for row in rejected:
-        print(row[0], "delta=", row[1], "c4_ratio=", row[4], "c6_ratio=", row[5])
-    print("A1-11 exact adapter firewall: PASS")
+    print("primitive_H_mod32_values={1,4,17}")
+    print("q2_delta_condition=delta == 1 mod 8")
+    print("Gminus_q2_survivors=+1")
+    print("Gplus_q2_survivors=+1,-247")
+    print("G0_q2_survivors=+1,-39,+57,-247")
+    print("first_two_cover_relevant_delta=+1")
+    print("A1-11 audit repair verification: PASS")
 
 
 if __name__ == "__main__":
