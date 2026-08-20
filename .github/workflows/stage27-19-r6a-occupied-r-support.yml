@@ -1,0 +1,35 @@
+name: Stage27-19-r6a occupied-R support
+
+on:
+  push:
+    paths:
+      - 'stages/stage27/27-19-r6a/**'
+      - 'stages/stage27/27-19-r5ax/audit.md'
+      - 'stages/stage27/27-19-r5ax/route-contract.json'
+      - '.github/workflows/stage27-19-r6a-occupied-r-support.yml'
+  pull_request:
+    paths:
+      - 'stages/stage27/27-19-r6a/**'
+      - 'stages/stage27/27-19-r5ax/audit.md'
+      - 'stages/stage27/27-19-r5ax/route-contract.json'
+      - '.github/workflows/stage27-19-r6a-occupied-r-support.yml'
+
+jobs:
+  verify-stage27-19-r6a:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify occupied-R squareclass receiver
+        run: python stages/stage27/27-19-r6a/verify_27_19_r6a.py
+      - name: Validate route JSON
+        run: |
+          python -m json.tool stages/stage27/27-19-r5ax/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r6a/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r6a/controller-sync-delta.json >/dev/null
+      - name: Diff check
+        run: git diff --check origin/main...HEAD

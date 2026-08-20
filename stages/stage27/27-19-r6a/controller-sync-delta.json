@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "base_main": "f5c40a048bb6a56e689ed2dc37358ffed16db99f",
+  "reason": "the monolithic Stage27 controller also carries concurrent Stage27-20 history; apply this audited delta to a fresh full-controller read after merge rather than replacing unrelated state",
+  "audit_status": "PASS",
+  "audited_pr": 1249,
+  "audited_submission_head": "10c85b46290f078cfe1bb55f3bf4459e0b3311bb",
+  "apply_after_merge": true,
+  "mutations": {
+    "stage27_status": "OPEN_CHECKPOINT40_WITH_STAGE19_OCCUPIED_R_SUPPORT_R6A_AUDITED_PASS_PENDING_MERGE",
+    "checkpoint40_note": "r5 upper factor-packet lane audited PASS and frozen; occupied-R support r6a is audited PASS and is the active Stage19 upper redirect",
+    "checkpoint50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
+    "derived_route_updates": {
+      "Stage27-19-r5ax": {
+        "status": "AUDITED_PASS_MERGED_FROZEN",
+        "audit_status": "PASS",
+        "audit_record": "stages/stage27/27-19-r5ax/audit.md",
+        "audited_submission_head": "ee02f2fa42a8977201e4e0602da1d5aaa18ce703",
+        "exact_head_ci_run": 32345595970,
+        "merge_commit": "f5c40a048bb6a56e689ed2dc37358ffed16db99f",
+        "advance_to_checkpoint50": false,
+        "r5_upper_factor_packet_lane_frozen": true
+      },
+      "Stage27-19-r6a": {
+        "status": "AUDITED_PASS_PENDING_MERGE",
+        "route_kind": "OCCUPIED_R_SUPPORT_REENTRY",
+        "parent_route": "Stage27-19-r5ax",
+        "occupied_R_gaussian_pair_receiver_proved": true,
+        "PQ_identity": "(AB-xy)(AB+xy)=(eR)^2",
+        "squarefree_kernel_collision_proved": true,
+        "two_gaussian_representations_distinct_by_stage19_canonical_order": true,
+        "two_representation_condition_positive_density_no_go": true,
+        "occupied_R_support_fixed_power_deficit_proved": false,
+        "strict_sub_sqrt_upper_proved": false,
+        "new_mu_lt_half_proved": false,
+        "true_N2_exponent_identified": false,
+        "advance_to_checkpoint50": false,
+        "audit_status": "PASS",
+        "audit_record": "stages/stage27/27-19-r6a/audit.md",
+        "audited_submission_head": "10c85b46290f078cfe1bb55f3bf4459e0b3311bb",
+        "submitted_head_ci_run": 32347513983,
+        "merge_allowed": true,
+        "advance_allowed": false
+      }
+    },
+    "active_stage19_upper_route": "Stage27-19-r6a",
+    "next_after_r6a_if_merged": "Stage27-19-r6b_OCCUPIED_R_SQUARECLASS_COLLISION_SIEVE_WITH_PHYSICAL_MASKS"
+  }
+}

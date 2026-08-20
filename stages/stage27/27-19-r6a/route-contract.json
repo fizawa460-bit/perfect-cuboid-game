@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage27-19-r6a",
+  "batch_id": "Stage27-19-r6",
+  "source_stage": "Stage19",
+  "trigger_checkpoint": 40,
+  "route_kind": "OCCUPIED_R_SUPPORT_REENTRY",
+  "parent_route": "Stage27-19-r5ax",
+  "status": "AUDITED_PASS_PENDING_MERGE",
+  "base_main": "f5c40a048bb6a56e689ed2dc37358ffed16db99f",
+  "purpose": "replace the frozen fixed-R fiber lane by an exact occupied-space-diagonal support receiver and isolate the squareclass collision that must be counted across R",
+  "inputs": {
+    "r5ax_audit_status": "PASS",
+    "r5ax_audited_head": "ee02f2fa42a8977201e4e0602da1d5aaa18ce703",
+    "r5ax_merge_commit": "f5c40a048bb6a56e689ed2dc37358ffed16db99f",
+    "r5ax_exact_head_ci_run": 32345595970,
+    "support_relation": "S2(B)<=N2(B)<=B^o(1)*S2(B)"
+  },
+  "proved": {
+    "occupied_R_gaussian_pair_receiver": true,
+    "norm_equations": "A^2+y^2=B^2+x^2=R^2",
+    "P_definition": "P=A*B-x*y",
+    "Q_definition": "Q=A*B+x*y",
+    "PQ_identity": "P*Q=(e*R)^2",
+    "P_positive_on_physical_survivor": true,
+    "squarefree_kernel_collision": "sqf(P)=sqf(Q)",
+    "collision_parameterization": "P=d*u^2; Q=d*v^2; AB=d*(u^2+v^2)/2; xy=d*(v^2-u^2)/2; eR=d*u*v",
+    "converse_reconstruction_with_original_masks": true,
+    "fixed_R_candidate_pair_count_subpower": true,
+    "two_representation_condition_positive_density_host": true,
+    "two_gaussian_representations_distinct_by_stage19_canonical_order": true
+  },
+  "not_proved": {
+    "occupied_R_support_fixed_power_deficit": true,
+    "squareclass_collision_fixed_power_sieve": true,
+    "strict_sub_sqrt_upper": true,
+    "new_mu_lt_half": true,
+    "true_N2_exponent_identified": true
+  },
+  "witness": {
+    "R": 1073,
+    "e": 840,
+    "x": 448,
+    "y": 495,
+    "A": 952,
+    "B": 975,
+    "P": 706440,
+    "Q": 1149960,
+    "common_squarefree_kernel": 210,
+    "u": 58,
+    "v": 74
+  },
+  "representation_multiplicity_no_go": {
+    "host": "R=25*m",
+    "representations": ["R^2=(24m)^2+(7m)^2", "R^2=(20m)^2+(15m)^2"],
+    "host_size": ">=floor(B/25)",
+    "fixed_power_deficit_from_two_representations_alone": false
+  },
+  "anti_loop": {
+    "r5_factor_packet_lane_reopened": false,
+    "new_structure_radar_gate_created": false,
+    "generic_literature_search_restarted": false,
+    "new_counting_dimension": "occupied physical space diagonals R"
+  },
+  "audit": {
+    "audit_status": "PASS",
+    "audit_record": "stages/stage27/27-19-r6a/audit.md",
+    "audited_pr": 1249,
+    "audited_submission_head": "10c85b46290f078cfe1bb55f3bf4459e0b3311bb",
+    "submitted_head_ci": "PASS",
+    "submitted_head_ci_run": 32347513983,
+    "audit_record_head_before_ci_pin": "af0439589f7251bb4d47f948e4694f3ab23665c4",
+    "audit_record_head_ci": "PASS",
+    "audit_record_head_ci_run": 32348485132,
+    "repair_required": false,
+    "audit_repair_performed": false,
+    "controller_sync_delta_audited": true,
+    "monolithic_controller_wholesale_replacement_performed": false
+  },
+  "advance_to_checkpoint50": false,
+  "merge_allowed": true,
+  "advance_allowed": false,
+  "fresh_audit_required": false,
+  "audit_status": "PASS",
+  "next_derived_route": "27-19-r6b",
+  "next_target": "OCCUPIED_R_SQUARECLASS_COLLISION_SIEVE_WITH_PHYSICAL_MASKS",
+  "next_expected_command": "Stage27-19-r6-main-batch"
+}
