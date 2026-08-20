@@ -75,7 +75,7 @@ for R in [12, 20, 36]:
 
 contract = json.loads((ROOT / "stages/stage27/27-19-r5at/route-contract.json").read_text())
 assert contract["task_id"] == "Stage27-19-r5at"
-assert contract["status"] == "AUDITED_PASS_PENDING_MERGE"
+assert contract["status"] in {"AUDITED_PASS_PENDING_MERGE", "AUDITED_PASS_MERGED"}
 assert contract["proved"]["fixed_R_kappa_entropy_collapse"] is True
 assert contract["proved"]["fixed_R_dyadic_weighted_host"] is True
 assert contract["proved"]["hyperbolic_boundary_accumulation_barrier"] is True
@@ -87,10 +87,24 @@ assert contract["dedicated_ci_run"] == 32013624871
 assert contract["dedicated_ci_conclusion"] == "success"
 assert contract["fresh_audit_required"] is False
 assert contract["merge_allowed"] is True
-assert contract["advance_allowed"] is False
 assert contract["advance_to_checkpoint50"] is False
 assert contract["next_derived_route"] == "27-19-r5aw"
 assert contract["next_target"] == "BOUNDARY_FACTORIZATION_OR_FIXED_R_OUTER_SUPPORT_COUNT"
+
+# Lifecycle is successor-aware: after PR #1072 merges, the same mathematical
+# verifier must accept the finalized route instead of freezing the pre-merge
+# status forever.
+if contract["status"] == "AUDITED_PASS_MERGED":
+    assert contract["advance_allowed"] is True
+    assert contract["audited_lifecycle_head"] == "02a56737ff56046d1c60523663b2d70c9a7b9d1f"
+    assert contract["merge_commit"] == "a38d6e782718ed01bb813c477f3f021afbf3d47d"
+    assert contract["lifecycle_ci_run"] == 32094707293
+    assert contract["lifecycle_ci_conclusion"] == "success"
+    assert contract["operator_freeze_status"] == "LIFTED_BY_STRUCTURE_RADAR_PAUSED_RETURN_TO_STAGE27"
+    assert contract["operator_freeze_release_record"] == "docs/structure-radar/PAUSE_AND_RETURN_STAGE27_2026-08-20.md"
+    assert contract["stop_reason"] is None
+else:
+    assert contract["advance_allowed"] is False
 
 old = json.loads((ROOT / "stages/stage27/27-19-r5aq/route-contract.json").read_text())
 assert old["status"] in {"BATCH_SUBMITTED_PENDING_FRESH_AUDIT", "CLOSED_AUDITED_PASS_MERGED"}
@@ -136,4 +150,4 @@ for marker in [
 ]:
     assert marker in audit
 
-print("Stage27-19-r5at-r5av audited pre-merge verification: PASS")
+print("Stage27-19-r5at-r5av successor-aware audited verification: PASS")
