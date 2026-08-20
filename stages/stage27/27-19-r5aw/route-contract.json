@@ -6,7 +6,7 @@
   "trigger_checkpoint": 40,
   "route_kind": "UPPER_REENTRY_PARALLEL",
   "parent_route": "Stage27-19-r5at-r5av",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "status": "AUDITED_PASS_PENDING_MERGE",
   "base_main": "4045fc9a613e7c9582b586e8151bce5a371d3942",
   "purpose": "resolve the actual fixed-R physical fiber size, prevent illegal global recharging of that local sparsity, and replace the two kappa root congruences by exact integer/Gaussian factor packets before the next boundary-count test",
   "lifecycle_reconciliation": {
@@ -66,13 +66,30 @@
     "reason": "SR-STR-224 already records the adjacent Ford-type search and the exact physical transfer gap",
     "next_action_is_concrete_count_test": true
   },
+  "audit": {
+    "verdict": "PASS_WITH_CI_LIFECYCLE_REPAIR",
+    "audited_submission_head": "8cc2cd381160a2f58bb06fad7c0cb27972b14f6d",
+    "record": "stages/stage27/27-19-r5aw/audit.md",
+    "mathematical_audit": "PASS",
+    "fixed_R_fiber_audit": "PASS",
+    "difference_factorization_audit": "PASS",
+    "gaussian_factorization_audit": "PASS",
+    "witness_audit": "PASS",
+    "no_global_recharge_audit": "PASS",
+    "lifecycle_reconciliation_audit": "PASS",
+    "structure_radar_pause_audit": "PASS",
+    "submitted_head_ci": "FAIL_LIFECYCLE_DEBT_ONLY",
+    "submitted_head_ci_run": 32343958038,
+    "repair": "make inherited r5at-r5av verifier successor-aware and include r5aw verifier/JSON contracts in fixed-R workflow",
+    "repair_required": false
+  },
   "next_derived_route": "27-19-r5ax",
   "next_batch": "Stage27-19-r5-main-batch",
   "next_target": "APPLY_EXACT_FACTOR_PACKET_TO_R5AU_BOUNDARY_AND_TEST_K_POWER_OR_FREEZE",
-  "fresh_audit_required": true,
+  "fresh_audit_required": false,
   "advance_to_checkpoint50": false,
-  "merge_allowed": false,
+  "merge_allowed": true,
   "advance_allowed": false,
-  "audit_status": "PENDING",
-  "next_expected_command": "Stage27-19-r5-audit"
+  "audit_status": "PASS",
+  "next_expected_command": "MERGE_PR_1246_THEN_STAGE27_19_R5_MAIN_BATCH"
 }
