@@ -148,6 +148,15 @@ Every `StageX-main-batch` in Stage16-29 and Stage16S must run the bounded reposi
 
 Audit verdicts are durable repository state. A canonical audit PASS must be persisted to the relevant audit record/controller/status surfaces before it is reported as authoritative. Repository write mechanics are governed by `docs/stage16-29-github-write-policy.md` and must not change mathematical claims or audit semantics.
 
+In addition, every `StageX-audit` must publish its final audit verdict directly on the audited pull request's main Conversation surface. The PR must visibly record at least the audit verdict, whether repair is required, `MERGE_ALLOWED`, advancement status / next checkpoint, and `NEXT_EXPECTED_COMMAND`. Submission-time PR text such as `AUDIT_REQUIRED=true`, `ADVANCE_ALLOWED=false`, or `MERGE_ALLOWED=false` describes the pre-audit state and must not be left as the only visible status after the audit has completed. A PR comment containing the authoritative post-audit state is sufficient; the original PR description need not be rewritten solely to replace historical submission-state fields.
+
+```text
+AUDIT_RESULT_MUST_BE_PUBLISHED_TO_PR_MAIN_CONVERSATION=true
+AUDIT_PR_MINIMUM_FIELDS=AUDIT_VERDICT,REPAIR_REQUIRED,MERGE_ALLOWED,ADVANCE_STATUS,NEXT_EXPECTED_COMMAND
+SUBMISSION_STATE_FIELDS_REMAIN_HISTORICAL=true
+PR_DESCRIPTION_REWRITE_REQUIRED=false
+```
+
 StageX-70 follows `docs/stage16-29-stage70-policy.md`: synthesize aggressively from certified inputs, but stop before work requiring a substantially new theorem, large computation, literature program, or off-stage branch. The deep-exploration rule above applies before such a stop is accepted: the stage should first exhaust a reasonable bounded set of materially distinct repo-native attacks and sharpen any surviving external gate to research-request-ready form.
 
 ## Stage20 literature reuse rule
