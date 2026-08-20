@@ -1,6 +1,6 @@
 # Stage27-20-r302bc — exact one-moment frontier after repairing the full additive-frequency recombination
 
-STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_THEOREM_GATE_PAUSED_PENDING_MERGE
 CHECKPOINT=40
 ROUTE_KIND=UPPER_REENTRY_MAIN_HIGH_OCCUPANCY
 PARENT_ROUTE=Stage27-20-r302bb
@@ -14,15 +14,9 @@ For every retained MAIN packet define
 q = 2UV/gcd(U,V),
 C = G_- + lambda_h N,
 
-s_q(C)
- = product_{p^k||q}
-   p^{min(floor(k/2),floor(v_p(C)/2))},
-
+s_q(C) = product_{p^k||q} p^{min(floor(k/2),floor(v_p(C)/2))},
 W(f) = exact physical residue coefficient,
-
-Lambda(W)
- = [sum_f |W(f)|^4]
-   / [sum_f |W(f)|^2]^2
+Lambda(W) = [sum_f |W(f)|^4] / [sum_f |W(f)|^2]^2
 ```
 
 with the normalized statistic set to zero if the denominator vanishes.
@@ -33,8 +27,7 @@ The current entire sufficient fixed-power theorem is
 Z(W,C)=s_q(C)^3 Lambda(W),
 
 sum_packet H_phys^MAIN(packet) Z(W,C)
- <= B^{-gamma+o(1)}
-    sum_packet H_phys^MAIN(packet)
+ <= B^{-gamma+o(1)} sum_packet H_phys^MAIN(packet)
 ```
 
 for one fixed `gamma>0`, uniformly on the retained fixed-width wall and frozen masks.
@@ -51,32 +44,28 @@ R302ay proves that this one weighted theorem yields a positive occupancy deficit
 Equivalently, r302az-bb split the same theorem exactly into
 
 ```text
-ZERO MODE:
-  tau(C,q)=s_q(C)^3/q,
-
+ZERO MODE: tau(C,q)=s_q(C)^3/q,
 NONZERO ENERGY:
-  Y(W,C)
-   = [s_q(C)^3/q]
-     sum_{h!=0}
-       |widehat{|W|^2}(h)|^2
-       / [sum_f |W(f)|^2]^2.
+Y(W,C)=[s_q(C)^3/q] sum_{h!=0}|widehat{|W|^2}(h)|^2/[sum_f|W(f)|^2]^2.
 ```
 
 The zero mode is a generalized-CRT/gcd-degeneracy problem. The nonzero term is a positive same-measure residue-energy correlation problem. No cancellation is claimed between them.
 
+## Audit freeze verdict
+
+The exact algebraic and measure normalization is now exhausted. The remaining input is an actual same-`H_phys^MAIN` fixed-power moment theorem. Under `docs/structure-radar/anti-loop-policy.json`, theorem-gate subdivision must stop here unless genuinely new evidence discharges or strictly narrows this receiver. Therefore the previously submitted `FREEZE_FOR_STRUCTURE_RADAR=false` / `r302bd` continuation is withdrawn by audit.
+
+This is a route freeze, not a mathematical closure. The missing theorem remains open and cannot be counted as a saving. Checkpoint remains 40 and `mu=1/2` remains unchanged.
+
 ## StructureRadar / Arsenal import verdict
 
-- SR-STR-019: its audited generalized-CRT merge is consumed in the exact definition of `C mod q`; its stronger every-cell incidence theorem is not required for this aggregate route.
-- SR-STR-169: its audited finite Fourier/Gauss and same-`H_phys^MAIN` architecture is consumed, but the generic all-coefficient/signed inverse-frequency fixed-power theorem is no longer mandatory for this sufficient route.
-- SR-STR-173: its ACTIVE moment-to-support / same-charged-measure firewall is directly relevant to the new positive moment theorem, but it does not currently prove the exact `s_q(C)^3 Lambda(W)` weighted deficit.
-- AR-012: reverse-reciprocal multiplicity remains an optional peak-control adapter only; it is not a density saving and is not required in the fourth-moment route.
-
-Thus the new frontier is not another renamed Kloosterman gate. It is a concrete nonnegative fourth-moment theorem for the original physical residue coefficient with an explicit singular quadratic-root weight.
-
-No repository theorem currently discharges it. Further subdivision without new information on `tau` or `Y`, an exact SR-STR-173 moment identification, or a direct proof of the weighted `Z` theorem would be a loop.
+- SR-STR-019: generalized-CRT merge only; stronger every-cell incidence is not claimed.
+- SR-STR-169: finite Fourier/Gauss and same-`H_phys^MAIN` architecture is consumed; the generic all-coefficient theorem is not mandatory on this alternative route.
+- SR-STR-173: ACTIVE moment-to-support / same-charged-measure firewall is directly relevant, but does not prove the exact weighted deficit.
+- AR-012: optional peak-control adapter only; not a density saving.
 
 ```text
-STAGE27_20_R302BC_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+STAGE27_20_R302BC_STATUS=AUDITED_PASS_THEOREM_GATE_PAUSED_PENDING_MERGE
 R302V_AN_QUANTIFIER_REPAIR_COMPLETE=true
 FULL_ADDITIVE_FREQUENCY_RECOMBINATION_COMPLETE=true
 ROOT_PROJECTOR_NORMAL_FORM_PROVED=true
@@ -92,12 +81,14 @@ WALL_SLAB_AGGREGATE_DEFICIT_THEOREM_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 NEW_MU_LT_HALF_PROVED=false
 TRUE_N2_EXPONENT_IDENTIFIED=false
-FREEZE_FOR_STRUCTURE_RADAR=false
+FREEZE_FOR_STRUCTURE_RADAR=true
+FREEZE_REASON=EXACT_NORMALIZATION_EXHAUSTED_NEXT_STEP_IS_SAME_MEASURE_FIXED_POWER_THEOREM
 CURRENT_CHECKPOINT=40
 NEXT_CHECKPOINT=40
 ADVANCE_TO_CHECKPOINT50=false
-NEXT_DERIVED_ROUTE=27-20-r302bd
-NEXT_TARGET=PROVE_WEIGHTED_Z_OR_ONE_OF_ITS_EXACT_ZERO_NONZERO_COMPONENTS_WITH_NEW_SAME_MEASURE_INFORMATION
-NEXT_BATCH=Stage27-20-r302-main-batch
-AUDIT_REQUIRED=true
+NEXT_DERIVED_ROUTE=NONE_THEOREM_GATE_PAUSED
+NEXT_TARGET=MAINWallSingularityWeightedResidueFourthMomentCollisionDeficit
+NEXT_BATCH=NONE_UNTIL_NEW_EVIDENCE
+AUDIT_REQUIRED=false
+MERGE_ALLOWED=true
 ```
