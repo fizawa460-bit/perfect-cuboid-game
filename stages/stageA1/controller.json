@@ -3,7 +3,7 @@
   "stage": "StageA1",
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
-  "base_main": "460cc84f14d6c8d3a88b99422807ba4658669064",
+  "base_main": "ffb718eb2cb15cb91e36360dca41f703624d2e52",
   "status": "RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE",
   "completed": [
     "A1-1",
@@ -15,13 +15,13 @@
     "A1-8_GLOBAL_QUOTIENT_JACOBIAN_DESCENT",
     "A1-9_FINITE_ELLIPTIC_TWIST_DESCENT_WITH_GPLUS_DELTA19_ELIMINATION",
     "A1-10_G0_EXACT_FINITE_SQUARECLASS_DESCENT",
-    "A1-11_EXACT_ELLIPTIC_ADAPTER_FIREWALL_WITH_AUDIT_ROUTING_REPAIR"
+    "A1-11_EXACT_ELLIPTIC_ADAPTER_FIREWALL_WITH_AUDIT_ROUTING_REPAIR",
+    "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE",
+    "A1-13_DELTA1_P7_PRIME_POWER_REFINEMENT"
   ],
-  "submitted_for_audit": [
-    "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE"
-  ],
-  "next": "A1-13_DELTA1_PRIME_POWER_OR_RECURRENCE_REFINEMENT_IF_AUDIT_PASSES",
-  "go_no_go_checkpoint": "A1-12_AUDIT_BOUNDARY",
+  "submitted_for_audit": [],
+  "next": "A1-14_DELTA1_DEEPER_7ADIC_OR_DENOMINATOR_RECURRENCE",
+  "go_no_go_checkpoint": "A1-13_AUDIT_PASSED",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_5_audit_verdict": "PASS",
@@ -31,6 +31,8 @@
   "a1_9_audit_verdict": "PASS_MATH_WITH_LATER_RELEVANCE_CLARIFICATION",
   "a1_10_audit_verdict": "PASS_MATH_WITH_LATER_RELEVANCE_CLARIFICATION",
   "a1_11_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
+  "a1_12_audit_verdict": "PASS",
+  "a1_13_audit_verdict": "PASS_WITH_CONTROLLER_REPAIR",
   "a1_8_receiver": {
     "elliptic_quotient": "E: Y^2=Q(z)",
     "G0": "W0^2=(z^2-4)Q(z)",
@@ -79,10 +81,29 @@
     "strict_receiver_narrowing": true,
     "complete_delta1_closure": false
   },
+  "a1_13_receiver": {
+    "task": "A1-13_DELTA1_P7_PRIME_POWER_REFINEMENT",
+    "prime": 7,
+    "formal_parameter": "t=-x/y",
+    "v7_t_9P": 1,
+    "t_9P_over_7_mod_7": 2,
+    "v7_t_63P": 2,
+    "generator_order_mod_7": 9,
+    "generator_order_mod_49": 63,
+    "old_allowed_mod_9": [0, 1, 2, 8],
+    "new_allowed_mod_63": [0, 1, 2, 62],
+    "valuation_mechanism": "simple poles of z at O,P and simple zeros of z-2 at 2P,-P force odd valuation on every non-depth-2 first-order lift",
+    "combined_modulus": 3416490,
+    "a1_12_survivors": 384,
+    "surviving_multiplier_classes": 256,
+    "surviving_class_sha256": "f08de28f142bf79dd88bbee5725e87c4dd0692091d0e85a645275dc1bfca6fc0",
+    "strict_receiver_narrowing": true,
+    "complete_delta1_closure": false
+  },
   "integration_category_candidate": "NEW_FAMILY_EXCLUSION",
-  "closure_deferred_reason": "A1-12 converts the exact delta=1 rank-one wall into an executable elementary Mordell-Weil residue sieve and cuts the multiplier set to 384 classes modulo 3416490. Prime-power/recurrence refinement or a certified full MW sieve remains concrete.",
-  "next_attack_if_audit_passes": "Target prime-power/p-adic refinement of the retained pole classes, elliptic-divisibility/denominator recurrences, or a certified full MW-sieve/elliptic-Chabauty adapter on the exact delta=1 receiver. Do not return to non-delta1 quotient twists or larger x-height searches.",
-  "operator_override": "Continue while the true delta=1 receiver is strictly narrowed by exact mathematics. Freeze again if successive work merely appends unrelated good primes or repackages the same 384-class wall without a structural refinement.",
+  "closure_deferred_reason": "A1-13 deepens the active p=7 MW residue condition from mod 7 to mod 49/formal-group depth, strengthening n mod 9 to n mod 63 and cutting the global exact multiplier set from 384 to 256 classes. Deeper p-adic or recurrence refinement remains concrete.",
+  "next_attack_if_audit_passes": "Target a genuine deeper 7-adic lift of the four retained mod-63 classes, an elliptic-divisibility/denominator recurrence, or a certified full MW-sieve/elliptic-Chabauty adapter. Do not merely append unrelated good primes.",
+  "operator_override": "Continue while the true delta=1 receiver is strictly narrowed by exact mathematics. Freeze if a further batch only restates the same 256-class wall or adds unrelated finite-prime scans without structural refinement.",
   "do_not_repeat": [
     "larger finite height searches on the first-two-cover receiver",
     "another scan of the saturated A1-6 prime mechanism",
@@ -90,10 +111,11 @@
     "renaming the genus-7 or R,S equations without strict reduction",
     "classifying non-delta1 quotient twists as if they were first-two-cover branches",
     "importing Mordell-Weil rank from a same-j curve without an exact Q-isomorphism",
-    "merely appending many unrelated good primes without structural refinement"
+    "merely appending many unrelated good primes without structural refinement",
+    "restating n mod 63 in {0,1,2,-1} without a deeper consequence"
   ],
   "reopen_or_continue_if": [
-    "prime-power or p-adic refinement of the A1-12 multiplier classes",
+    "deeper 7-adic refinement of the retained mod-63 multiplier classes",
     "new exact denominator or elliptic-divisibility recurrence restriction",
     "stronger simultaneous local obstruction on z+2 and z-2",
     "further exact covering-curve descent",
@@ -106,15 +128,17 @@
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
     "Equation (6) is not universal; no StageA1 condition is promoted to arbitrary perfect cuboids.",
     "Nontrivial delta quotient branches are not distinct perfect-cuboid paths because a C-point already forces delta=1.",
-    "The A1-12 finite-field sieve is a necessary-condition sieve and is not a complete global rational-point computation.",
+    "The A1-13 7-adic sieve is a necessary-condition refinement and is not a complete global rational-point computation.",
     "Stage27 and StructureRadar receivers remain unchanged."
   ],
   "recommended_commands": {
     "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
-  "audit_required": true,
-  "merge_allowed": false,
+  "audit_required": false,
+  "audit_persistence_status": "COMMITTED",
+  "audit_record": "stages/stageA1/A1-13/audit.md",
+  "merge_allowed": true,
   "stop_after_audit": false,
-  "next_expected_command": "StageA1-audit"
+  "next_expected_command": "StageA1-main-batch"
 }
