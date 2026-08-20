@@ -1,4 +1,4 @@
-name: Stage27-19-r5at-r5av fixed-R compression
+name: Stage27-19-r5at-r5ax fixed-R compression
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
       - 'stages/stage27/27-19-r5au/**'
       - 'stages/stage27/27-19-r5av/**'
       - 'stages/stage27/27-19-r5aw/**'
+      - 'stages/stage27/27-19-r5ax/**'
       - 'stages/stage27/27-19-r5aq/**'
       - 'stages/stage27/27-controller.json'
       - 'docs/00_CURRENT_RESEARCH_STATUS.md'
@@ -17,13 +18,14 @@ on:
       - 'stages/stage27/27-19-r5au/**'
       - 'stages/stage27/27-19-r5av/**'
       - 'stages/stage27/27-19-r5aw/**'
+      - 'stages/stage27/27-19-r5ax/**'
       - 'stages/stage27/27-19-r5aq/**'
       - 'stages/stage27/27-controller.json'
       - 'docs/00_CURRENT_RESEARCH_STATUS.md'
       - '.github/workflows/stage27-19-r5at-r5av-fixed-R.yml'
 
 jobs:
-  verify-stage27-19-r5at-r5av:
+  verify-stage27-19-r5at-r5ax:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,12 +38,16 @@ jobs:
         run: python stages/stage27/27-19-r5at/verify_27_19_r5at_r5av.py
       - name: Verify r5aw fixed-R physical fiber and exact factorization
         run: python stages/stage27/27-19-r5aw/verify_27_19_r5aw.py
+      - name: Verify r5ax exact packet boundary test and freeze contract
+        run: python stages/stage27/27-19-r5ax/verify_27_19_r5ax.py
       - name: Validate JSON contracts
         run: |
           python -m json.tool stages/stage27/27-19-r5at/route-contract.json >/dev/null
           python -m json.tool stages/stage27/27-19-r5aq/route-contract.json >/dev/null
           python -m json.tool stages/stage27/27-19-r5aw/route-contract.json >/dev/null
           python -m json.tool stages/stage27/27-19-r5aw/controller-sync-delta.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5ax/route-contract.json >/dev/null
+          python -m json.tool stages/stage27/27-19-r5ax/controller-sync-delta.json >/dev/null
           python -m json.tool stages/stage27/27-controller.json >/dev/null
       - name: Diff check
         run: git diff --check origin/main...HEAD
