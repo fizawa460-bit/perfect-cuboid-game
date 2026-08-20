@@ -1,6 +1,6 @@
-# Stage16-28 Main / Audit / Codex Execution Template
+# Stage16-29 Main / Audit / Codex Execution Template
 
-Status: **common operating template for Stage16-28**.
+Status: **common operating template for Stage16-29**.
 
 This document generalizes the Stage15 operating pattern into a reusable research
 controller. The intended human interface is deliberately small: provide the parent
@@ -24,7 +24,7 @@ main/audit pair remains the canonical interface.
 
 ## Parent-stage contract
 
-Each Stage16-28 parent must declare at least:
+Each Stage16-29 parent must declare at least:
 
 ```text
 PARENT_STAGE=StageX
@@ -37,7 +37,7 @@ CHECKPOINT_SEQUENCE=10,20,30,40,50,60,70
 ```
 
 The common checkpoint meanings come from
-`docs/stage16-28-population-roadmap.md` and must not be silently redefined by an
+`docs/stage16-29-population-roadmap.md` and must not be silently redefined by an
 individual controller.
 
 ## Controller state
@@ -66,7 +66,7 @@ The main batch is the research/build lane. On each invocation it should:
 1. read the parent-stage contract and current controller state;
 2. discover which checkpoint outputs are already certified and which are pending;
 3. run the repository-wide reuse preflight in
-   `docs/stage16-28-reuse-preflight.md`, including arsenal, numerical index,
+   `docs/stage16-29-reuse-preflight.md`, including arsenal, numerical index,
    stage/supplement/archive files, and historical PR discovery, before opening
    new work;
 4. reuse verified literature, earlier stages, and compatible prior results before
@@ -103,7 +103,7 @@ PASS for a nontrivial mathematical result.
 ## Repository-wide reuse preflight
 
 The normative discovery contract is
-`docs/stage16-28-reuse-preflight.md`.
+`docs/stage16-29-reuse-preflight.md`.
 
 Before submitting a checkpoint, the main lane must emit:
 
