@@ -3,7 +3,7 @@
 ```text
 TASK_ID=Stage27-60a
 CHECKPOINT=60
-PARENT_ROADMAP=docs/stage16-28-population-roadmap.md
+PARENT_ROADMAP=docs/stage16-29-population-roadmap.md
 CURRENT_STAGE27_SCOPE=Stage18 -> Stage19 reentry refinement
 ROUTE_KIND=CAUSAL_DECOMPOSITION
 STATUS=SUBMITTED_PENDING_FRESH_AUDIT
