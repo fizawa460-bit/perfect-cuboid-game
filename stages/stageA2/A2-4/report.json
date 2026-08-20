@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "stage": "StageA2",
+  "task": "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS",
+  "base_main": "231eff9bbf0a1c45f60f0ec04057f00ec8777f6b",
+  "source_lock_coefficient": -18,
+  "quartic": "Y^2=z^4-40*z^2+256*z-112",
+  "factorization": "(z^2-8*z+28)*(z^2+8*z-4)",
+  "first_split": {
+    "binary_factors": [
+      "a^2-8*a*b+28*b^2",
+      "a^2+8*a*b-4*b^2"
+    ],
+    "gcd_support": "divides 2^8",
+    "v2_pattern_for_primitive_ab": [0, 2, 4],
+    "exact_positive_squareclasses": [1],
+    "delta_2_Q5": "EMPTY_BUT_REDUNDANT",
+    "rational_consequence": "z^2-8*z+28 and z^2+8*z-4 are both rational squares"
+  },
+  "first_conic_parameterization": {
+    "base_point": "(z,U)=(2,4)",
+    "z": "(2*t^2-8*t-6)/(t^2-1)",
+    "U": "-4*(t^2+t+1)/(t^2-1)",
+    "second_factor": "16*(t^2-5*t-5)*(t^2-t-1)/(t^2-1)^2",
+    "quartic_infinity_parameters": [1, -1],
+    "excluded_wall_parameters": [
+      "t=-1/2 -> z=2,U=4",
+      "t=infinity on Cplus -> z=2,U=-4"
+    ]
+  },
+  "second_split": {
+    "factors": ["t^2-5*t-5", "t^2-t-1"],
+    "gcd_support": "divides 4; primitiveness makes both factors odd, hence gcd=1",
+    "exact_signed_squareclasses": [1, -1],
+    "delta_plusminus_2_Q5": "EMPTY_BUT_REDUNDANT",
+    "surviving_branches": [
+      "Cplus: R^2=t^2-5*t-5, S^2=t^2-t-1",
+      "Cminus: R^2=-(t^2-5*t-5), S^2=-(t^2-t-1)"
+    ]
+  },
+  "first_reconstruction_cover": {
+    "identity": "z^2-4=-16*(2*t+1)*(t^2-2*t-2)/(t^2-1)^2",
+    "necessary_condition": "-(2*t+1)*(t^2-2*t-2) is a rational square"
+  },
+  "known_trivial_or_projective_points": [
+    "Cplus t=-1 -> quartic infinity",
+    "Cminus t=1 -> quartic infinity",
+    "Cminus t=-1/2 -> z=2 excluded wall",
+    "Cplus t=infinity -> z=2 excluded wall"
+  ],
+  "audit_verdict": "PASS_WITH_ELEMENTARY_STRENGTHENING_AND_LANDMARK_REPAIR",
+  "audit_record": "stages/stageA2/A2-4/audit.md",
+  "audit_repair_performed": true,
+  "complete_E18_rational_point_closure": false,
+  "general_coverage_proved": false,
+  "perfect_cuboid_found": false,
+  "perfect_cuboid_nonexistence_proved": false,
+  "a1_minus8_results_imported": false,
+  "next_target_if_audit_passes": "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE",
+  "audit_required": false,
+  "merge_allowed": true,
+  "next_expected_command": "StageA2-main-batch"
+}
