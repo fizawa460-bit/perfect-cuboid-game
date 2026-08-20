@@ -94,3 +94,7 @@ AUDIT_REQUIRED=true
 NEXT_EXPECTED_COMMAND=Stage27-60-audit
 POST_AUDIT_NEXT_ROUTE=Stage27-70-main-batch
 ```
+
+`ADVANCE_TO_CHECKPOINT70=false` is a pre-audit lifecycle flag only.  A fresh PASS
+audit may set advancement to checkpoint70 without requiring the open mathematical
+gates above to be solved; those gates are legitimate roadmap `OPEN_GATE` results.
