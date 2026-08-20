@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "stage": "StageA2",
+  "title": "Published minus18 equation-(6) anchor line",
+  "mode": "SEPARATE_RESTART_FROM_PUBLISHED_SOURCE",
+  "base_main": "d031c6a7fd2d8f3fcdc6a5667bf6f6cbba75ea6e",
+  "status": "A2_3_SUBMITTED_FOR_AUDIT",
+  "upstream_handoff": {
+    "from_stage": "StageA1",
+    "closure_status": "CLOSED_INVALID_UPSTREAM_SOURCE_CORRECTION",
+    "closure_pr": 1239,
+    "invalid_stageA1_range": "A1-3 through A1-14",
+    "reason": "StageA1 changed the published equation-(6) coefficient -18 to -8; StageA2 restarts from the published -18 source.",
+    "a1_minus8_arithmetic_preserved_as_history": true,
+    "a1_minus8_results_apply_to_published_equation6": false
+  },
+  "completed": [],
+  "submitted_for_audit": [
+    "A2-3_PUBLISHED_MINUS18_RESTART"
+  ],
+  "go_no_go_checkpoint": "A2-3_PUBLISHED_SOURCE_RECONSTRUCTION_AUDIT",
+  "source_lock": {
+    "paper": "Bremner-Elsholtz-Ulas, There are infinitely many Hilbert cubes of dimension 3 in the set of squares",
+    "arxiv": "2604.05459v1",
+    "locator": "PDF p.13 equation (6)",
+    "equation6_anchor_coefficient": -18,
+    "source_pdf_check": "PASS",
+    "sanity_parameter": "(c,d,G,H)=(3,1,7,1)",
+    "sanity_published_minus18_square_count": 8,
+    "sanity_minus8_negative_control_square_count": 1
+  },
+  "a2_3_receiver": {
+    "task": "A2-3_PUBLISHED_MINUS18_RESTART",
+    "anchor_factor": "F18(c,d,G,H)=0 from published equation (6)",
+    "normalized_variables": "x=c/d, r=G/H, k=x^2, u=r-1/r",
+    "reciprocal_quadratic": "4*k*(k-1)*u^2-(k^4-18*k^2+1)*u-16*k^2*(k-1)=0",
+    "genus3_curve": "v^2=k^8-36*k^6+256*k^5-186*k^4+256*k^3-36*k^2+1",
+    "genus3_discriminant": "-2^80*3^3*5^2",
+    "genus1_quotient": "Y^2=z^4-40*z^2+256*z-112",
+    "genus1_discriminant": "-2^32*3*5",
+    "quotient_variable": "z=k+1/k",
+    "reconstruction_square_covers": [
+      "z^2-4 must be a rational square to recover k",
+      "k must be a rational square to recover c/d",
+      "u^2+4 must be a rational square to recover G/H"
+    ],
+    "excluded_wall": "k=1 gives (z,Y)=(2,+/-16) and c^2=d^2",
+    "general_coverage_proved": false,
+    "complete_family_closure": false
+  },
+  "next": "A2-4_PUBLISHED_MINUS18_QUARTIC_AND_EXACT_COVERS_IF_AUDIT_PASSES",
+  "next_attack_if_audit_passes": "Analyze only the correct E18 quartic and its exact reconstruction covers; obtain a fresh Jacobian/Weierstrass adapter and rational-point/descent information without importing StageA1 -8 arithmetic.",
+  "do_not_import": [
+    "StageA1 A1-3 through A1-14 quartic/Jacobian/rank/MW-sieve conclusions",
+    "the auxiliary -8 quartic Y^2=z^4-20*z^2+256*z-412",
+    "the A1-12 384-class multiplier result",
+    "the A1-13/A1-14 7-adic refinements"
+  ],
+  "firewalls": [
+    "The published equation-(6) anchor coefficient is -18 and is source-locked.",
+    "A1-3 through A1-14 are historical auxiliary-minus8 computations only.",
+    "Equation (6) is not proved universal for anchored Hilbert cubes or perfect cuboids.",
+    "No family-specific A2 exclusion may be promoted to arbitrary perfect cuboids without a reverse-map/coverage theorem.",
+    "A rational point on the quotient quartic is only a necessary condition until all three reconstruction square covers and source-factor checks pass.",
+    "Stage27 and StructureRadar receivers remain unchanged."
+  ],
+  "recommended_commands": {
+    "audit": "StageA2-audit",
+    "main_after_audit": "StageA2-main-batch"
+  },
+  "audit_required": true,
+  "merge_allowed": false,
+  "stop_after_audit": false,
+  "next_expected_command": "StageA2-audit"
+}
