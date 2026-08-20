@@ -3,72 +3,99 @@
   "stage": "StageA1",
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
-  "base_main": "686583c9a67f6383af3b7dad088a2abcf629081f",
-  "status": "RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE",
+  "base_main": "16080980648c7dea620da23610caeb67118f55bb",
+  "status": "INTEGRATION_VERDICT_SUBMITTED_FOR_AUDIT",
   "completed": [
     "A1-1",
     "A1-2",
     "A1-3",
-    "A1-4_BOUNDED_ATTEMPT"
-  ],
-  "submitted_for_audit": [
+    "A1-4_BOUNDED_ATTEMPT",
     "A1-5_PRIMITIVE_PYTHAGOREAN_DESCENT_WITH_MOD5_BRANCH_ELIMINATION"
   ],
-  "next": "A1-6_TARGETED_TWO_BRANCH_DESCENT_IF_AUDIT_PASSES",
-  "go_no_go_checkpoint": "A1-5_AUDIT_BOUNDARY",
+  "submitted_for_audit": [
+    "A1-6_LOCAL_SIEVE_COMPLETENESS_AND_SATURATION",
+    "A1-7_PROPOSED_INTEGRATION_VERDICT_NEW_FAMILY_EXCLUSION"
+  ],
+  "next": "AUDIT_A1_6_A1_7",
+  "go_no_go_checkpoint": "A1-7_INTEGRATION_AUDIT",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
+  "a1_5_audit_verdict": "PASS",
   "a1_4_quartic": "Y^2=z^4-20*z^2+256*z-412",
   "a1_4_jacobian_scaled_integral_model": "W^2=X^3+7668X+489456",
   "a1_4_positive_rank_witness": "P=(30,864), 4P=(12369/100,1824903/1000)",
   "a1_4_first_two_cover_identity": "b^16*D((a/b)^2)=(a^8-8a^4b^4+b^8)^2+(16a^3b^3(a^2-b^2))^2",
   "a1_4_height5000_pairs_examined": 15200914,
   "a1_4_height5000_survivors": 0,
-  "a1_4_local_sieve_primes": [3, 5, 7, 23],
-  "a1_4_local_sieve_projective_survivors": "0,+/-1,infinity",
+  "a1_4_local_sieve_primes": [
+    3,
+    5,
+    7,
+    23
+  ],
   "a1_5_receiver": {
     "A": "a^8-8*a^4*b^4+b^8",
     "B": "16*a^3*b^3*(a^2-b^2)",
     "g": "gcd(a^2-b^2,6)",
     "primitive_triple": "|A|/g=M^2-N^2, |B|/g=2MN, gcd(M,N)=1, opposite parity",
     "product": "MN=(8/g)|a^3b^3(a^2-b^2)|",
-    "local_sieve_consequence": "805|MN",
-    "q_1_mod_4_filter": "q|ab => (g/q)=+1; q|(a^2-b^2) => ((6/g)/q)=+1",
-    "mod5_branch_elimination": "g=2 and g=3 impossible",
-    "allowed_g": [1, 6],
+    "allowed_g": [
+      1,
+      6
+    ],
     "survivor_dichotomy": "6|ab OR gcd(ab,6)=1; equivalently 2|ab iff 3|ab",
     "branch_E_MN_divisor": 1391040,
     "branch_O_MN_divisor": 25760,
     "coprime_RS_receiver": "R=M-N, S=M+N, gcd(R,S)=1, RS=|A|/g, S^2-R^2=(32/g)|a^3b^3(a^2-b^2)|"
   },
-  "a1_5_substantive_progress": true,
-  "a1_5_new_arbitrary_cube_constraint": false,
-  "operator_override": "Continue digging while substantive new mathematics is produced. Stop only when successive work merely renames/repackages the same unresolved point, when no concrete new reduction remains, or when an external theorem wall is deliberately frozen for Work.",
-  "next_attack_if_audit_passes": "Work only with the two surviving branches g=1 and g=6 and the coprime odd factorization R*S=|A|/g coupled to S^2-R^2=(32/g)|a^3b^3(a^2-b^2)|. Continue only if this yields a genuine descent, finite cover reduction, rational-point statement, or new local obstruction; merely restating the same square curve or increasing finite search bounds is not progress.",
-  "substantive_progress_requires_one_of": [
-    "new proved identity or rational-point statement",
-    "new exact curve/cover/reduction or local obstruction",
-    "removal or strict narrowing of a genuine boundary component",
-    "strictly enlarged proved coverage of anchored cubes",
-    "new necessary condition for arbitrary anchored cubes",
-    "exact adapter to an already-proved theorem"
+  "a1_6_receiver": {
+    "curve": "y^2=x^16-16*x^12+256*x^10-446*x^8+256*x^6-16*x^4+1",
+    "genus": 7,
+    "discriminant": "2^132*3^4*5^8*13^2*19^6",
+    "trivial_reduction_only_primes_complete": [
+      3,
+      5,
+      7,
+      23
+    ],
+    "nonvacuous_fixed_divisibility_primes": [
+      5,
+      7,
+      23
+    ],
+    "p_adic_saturation_primes": [
+      5,
+      7,
+      23
+    ],
+    "everywhere_locally_soluble_nondegenerate": true,
+    "global_rational_point_problem_closed": false
+  },
+  "a1_6_substantive_progress": true,
+  "a1_6_new_arbitrary_cube_constraint": false,
+  "proposed_integration_verdict": "NEW_FAMILY_EXCLUSION",
+  "external_wall": "global rational points on the everywhere-locally-soluble first-two-cover/reconstruction-cover tower for the corrected equation-(6) anchor family",
+  "operator_override": "Continue digging while substantive new mathematics is produced. Stop when no concrete new reduction remains or when an exact external theorem/computational wall is frozen.",
+  "reopen_only_if": [
+    "exact global rational-point theorem or computation for the relevant cover",
+    "new Jacobian/cover decomposition materially lowering the global problem",
+    "proved coverage/reverse-map theorem for arbitrary anchored cubes",
+    "exact adapter into another proved receiver"
   ],
   "firewalls": [
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
-    "Equation (6) is not universal; A1-3 proves only a one-dimensional anchor boundary inside a full anchored algebraic variety with components of dimension at least two.",
+    "Equation (6) is not universal; no A1-5/A1-6 condition is promoted to arbitrary perfect cuboids.",
     "Positive rank of the genus-1 quotient does not imply a surviving point through the reconstruction covers.",
-    "The height-5000 search is finite evidence only, not a rational-point theorem.",
-    "The A1-5 primitive-Pythagorean descent and mod-5 branch elimination are family-specific and do not apply to arbitrary perfect cuboids.",
-    "The local sieve p=3,5,7,23 is family-specific.",
-    "Stage27 and StructureRadar receivers remain unchanged.",
-    "Do not count renamed equations, equivalent repackaging, or repeated finite searches without a changed mathematical receiver as substantive progress."
+    "The height-5000 search is finite evidence only.",
+    "The p=3,5,7,23 list is complete only for the specific trivial-reduction divisibility mechanism on the first-two-cover curve.",
+    "Everywhere local solubility does not imply a rational point.",
+    "Stage27 and StructureRadar receivers remain unchanged."
   ],
   "recommended_commands": {
-    "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
   "audit_required": true,
   "merge_allowed": false,
-  "stop_after_audit": false,
+  "stop_after_audit": true,
   "next_expected_command": "StageA1-audit"
 }
