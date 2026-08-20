@@ -1,79 +1,86 @@
-# StageA1 A1-7 — proposed integration verdict
+# StageA1 A1-7 — integration verdict audit
 
-## Proposed verdict
+## Submitted category
 
 ```text
 PROPOSED_STAGE_A1_VERDICT=NEW_FAMILY_EXCLUSION
 ```
 
-This verdict is submitted together with A1-6 and is not final until independent audit passes.
+That category remains a reasonable **eventual integration label** because A1-2 rigorously excludes anchored nondegenerate members of the displayed Theorem 1.5 and Theorem 1.6 Hilbert-cube families. It is not, however, sufficient by itself to justify closing the entire StageA1 line at this checkpoint.
 
-## Why this category fits
+## Independent audit split
 
-StageA1 has produced rigorous family-specific mathematics:
+A1-6 passes. It proves that the elementary local/congruence route on the first-two-cover curve is saturated in the precise scope stated there:
 
-- A1-2 excludes anchored nondegenerate members of the displayed Theorem 1.5 and Theorem 1.6 Hilbert-cube families;
-- A1-3 gives the corrected equation-(6) anchor boundary and proves that this parametrization is not a universal reverse map for arbitrary anchored cubes;
-- A1-4 identifies a positive-rank genus-1 quotient, the exact first-two-cover receiver, a height-5000 zero-survivor computation, and the fixed-prime divisibility sieve;
-- A1-5 converts that receiver to a primitive Pythagorean descent and eliminates the `g=2,3` branches, leaving only `g=1,6`;
-- A1-6 proves that the A1-4 trivial-reduction prime list is complete, that its nonvacuous primes are p-adically saturated, and that the nondegenerate first-two-cover curve is everywhere locally soluble.
+- genus 7 and the discriminant factorization are correct;
+- Hasse-Weil reduces the specific trivial-reduction-prime mechanism to primes below 211;
+- the complete list for that mechanism is `{3,5,7,23}`;
+- the `p=3` condition is automatic for coprime `(a,b)`;
+- the nonvacuous primes `5,7,23` give no further obstruction merely by lifting the same divisibility condition to higher powers;
+- the nondegenerate first-two-cover curve has points over every completion of `Q`.
 
-The correct integration category is therefore `NEW_FAMILY_EXCLUSION`, not `RECONNAISSANCE_NEGATIVE`: StageA1 did rigorously exclude explicit published dimension-3 Hilbert-cube families at the anchor and derived additional exact arithmetic structure on the larger equation-(6) boundary.
+Thus repeating the same prime scan, the same `p^k` lift, or a larger finite height search does not count as substantive progress.
 
-## Why the stronger categories do not fit
+## Closure audit
 
-### Not `NEW_GENERAL_CONSTRAINT`
-
-No StageA1 statement has been proved necessary for every perfect cuboid. The dimension argument in A1-3 explicitly blocks that promotion: equation (6) is not a proved universal parametrization of the full anchored-cube variety.
-
-### Not `NEW_STAGE27_WEAPON`
-
-No exact adapter currently maps the family-specific A1-5/A1-6 receiver into a Stage27 receiver for arbitrary perfect cuboids. Stage27 and StructureRadar remain unchanged.
-
-### Not a perfect-cuboid existence/nonexistence result
-
-The general equation-(6) boundary is not globally closed. The first-two-cover curve is everywhere locally soluble, so the remaining obstruction is genuinely global.
-
-## Frozen external wall
-
-If audit accepts A1-6, the productive elementary/local reconnaissance has reached a natural endpoint. The unresolved wall is:
-
-```text
-GLOBAL_WALL = rational points on the everywhere-locally-soluble
-              first-two-cover / reconstruction-cover tower for the
-              corrected equation-(6) anchor family.
-```
-
-A future reopening should require one of:
-
-- a theorem or exact computational method that determines the relevant rational points;
-- a new Jacobian/cover decomposition that materially lowers the global problem;
-- a proved coverage/reverse-map theorem connecting this family to arbitrary anchored cubes;
-- an exact adapter into another already-proved receiver.
-
-Merely increasing the rational search bound, scanning more primes of the already-completed trivial-reduction type, or rewriting the same `g=1,6` descent is not a reopening condition.
-
-## Proposed transition after audit
-
-If the independent audit passes without a substantive repair:
+The submitted transition
 
 ```text
 STAGE_A1_STATUS=CLOSED_NEW_FAMILY_EXCLUSION
 STOP_AFTER_AUDIT=true
-NEXT_EXPECTED_COMMAND=NONE
 ```
 
-If audit finds that A1-6's completeness or local-solubility claim fails, this integration verdict must be withdrawn and repaired before closure.
+is **premature** under the operator's progress-based continuation rule.
+
+The reason is not a failure of A1-6. The reason is that A1-5 already produced a strictly narrower two-branch arithmetic receiver that has not yet received the targeted global attack it explicitly proposed. Every hypothetical survivor lies in `g=1` or `g=6`, and with
+
+```text
+R=M-N,
+S=M+N,
+```
+
+one has positive odd coprime integers satisfying
+
+```text
+RS = |A|/g,
+S^2-R^2 = (32/g)|a^3 b^3(a^2-b^2)|,
+```
+
+with the branch-specific divisibility and cube-exponent allocation recorded in A1-5.
+
+A1-6 exhausts the elementary **local** route, but it does not test whether this `R,S` receiver yields a further global descent, finite cover decomposition, Jacobian/cover reduction, or exact rational-point statement. Therefore the condition "no concrete new reduction remains" has not yet been established.
+
+## Audited routing
+
+```text
+A1_6_AUDIT=PASS
+A1_7_INTEGRATION_CATEGORY_CANDIDATE=NEW_FAMILY_EXCLUSION
+A1_7_CLOSURE_AUDIT=FAIL_THEN_REPAIRED_TO_DEFERRED
+STAGE_A1_STATUS=RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE
+STOP_AFTER_AUDIT=false
+NEXT_TARGET=A1-8_TARGETED_GLOBAL_TWO_BRANCH_DESCENT
+NEXT_EXPECTED_COMMAND=StageA1-main-batch
+```
+
+The next batch must **not** return to larger finite searches or another scan of the same local mechanism. It should attack the audited `g=1/6`, coprime-`R,S` receiver globally. Suitable substantive outcomes include:
+
+- a genuine descent or strict factorization obstruction;
+- a finite family of lower-genus covers;
+- a Jacobian/quotient decomposition that materially lowers the rational-point problem;
+- a rigorous rational-point restriction;
+- an exact theorem/computational-algebra adapter.
+
+If that targeted global attempt produces no new mathematics and only repackages the same genus-7/reconstruction-cover wall, then freezing the exact wall and integrating StageA1 as `NEW_FAMILY_EXCLUSION` is appropriate.
 
 ## Firewalls
 
 ```text
-A1_7_PROPOSED_VERDICT=NEW_FAMILY_EXCLUSION
 NEW_GENERAL_CONSTRAINT=false
 NEW_STAGE27_WEAPON=false
 EQUATION6_GLOBAL_EXCLUSION=false
 PERFECT_CUBOID_FOUND=false
 PERFECT_CUBOID_NONEXISTENCE_PROVED=false
 STAGE27_STRUCTURE_RADAR_CHANGED=false
-AUDIT_REQUIRED=true
 ```
+
+Equation (6) is still not proved universal. All A1-5/A1-6 arithmetic remains family-specific. Everywhere local solubility does not imply a rational point.
