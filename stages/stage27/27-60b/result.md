@@ -82,10 +82,11 @@ GLOBAL_SUPPORT_ENERGY_THEOREM_PROVED=false
 HALF_POWER_CAUSAL_MECHANISM_IDENTIFIED=false
 ```
 
-## 4. What the Stage27 lower reentry learned
+## 4. What the Stage27 lower reentry actually learned
 
-The quarter-power lower bound is supplied by explicit Stage19-compatible
-construction families.  r8--r10 tested whether it could be improved by:
+The quarter-power lower bound is already part of the synchronized Stage27 entry
+surface.  The r8--r10 campaign did not create that original theorem; it tested
+whether the existing `1/4` construction floor could be improved by:
 
 - lower physical height / stronger polynomial cross-cancellation;
 - a thicker moving family with source-count exponent `rho` satisfying
@@ -98,11 +99,13 @@ so the hoped-for thick two-parameter family is not obtained.  The Peschmann rout
 currently supplies no moving section/multisection on which the square-lift is
 identically satisfied.  No denser Stage19 family was proved.
 
-Therefore the lower mechanism is constructive and genuine, but there is no proof
-that exponent `1/4` is intrinsic.
+Therefore the existing lower mechanism is constructive and genuine, while the
+reentry establishes only that no stronger repo-native construction was certified.
+There is no proof that exponent `1/4` is intrinsic.
 
 ```text
 QUARTER_POWER_CONSTRUCTION_PROVED=true
+R8_R10_CREATED_ORIGINAL_QUARTER_POWER_THEOREM=false
 LOWER_EXPONENT_ABOVE_ONE_QUARTER_PROVED=false
 QUARTER_POWER_INTRINSIC_PROVED=false
 THICK_SAUNDERSON_SPACE_LIFT_PROVED=false
