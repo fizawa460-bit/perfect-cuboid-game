@@ -6,7 +6,7 @@
   "trigger_checkpoint": 40,
   "route_kind": "UPPER_REENTRY_PARALLEL",
   "parent_route": "Stage27-19-r5at-r5av",
-  "status": "AUDITED_PASS_PENDING_MERGE",
+  "status": "AUDITED_PASS_MERGED",
   "base_main": "4045fc9a613e7c9582b586e8151bce5a371d3942",
   "purpose": "resolve the actual fixed-R physical fiber size, prevent illegal global recharging of that local sparsity, and replace the two kappa root congruences by exact integer/Gaussian factor packets before the next boundary-count test",
   "lifecycle_reconciliation": {
@@ -68,7 +68,9 @@
   },
   "audit": {
     "verdict": "PASS_WITH_CI_LIFECYCLE_REPAIR",
+    "audit_pr": 1246,
     "audited_submission_head": "8cc2cd381160a2f58bb06fad7c0cb27972b14f6d",
+    "final_head": "85efb6ce434e144dfc65ea87c1cd1d22bbc66a9d",
     "record": "stages/stage27/27-19-r5aw/audit.md",
     "mathematical_audit": "PASS",
     "fixed_R_fiber_audit": "PASS",
@@ -80,8 +82,15 @@
     "structure_radar_pause_audit": "PASS",
     "submitted_head_ci": "FAIL_LIFECYCLE_DEBT_ONLY",
     "submitted_head_ci_run": 32343958038,
+    "exact_head_ci": "PASS",
+    "exact_head_ci_run": 32344748064,
     "repair": "make inherited r5at-r5av verifier successor-aware and include r5aw verifier/JSON contracts in fixed-R workflow",
     "repair_required": false
+  },
+  "merge": {
+    "merged": true,
+    "merge_commit": "02ec86536ce6a1674be4f185631848eedfd9956f",
+    "merged_at": "2026-08-20T07:37:40Z"
   },
   "next_derived_route": "27-19-r5ax",
   "next_batch": "Stage27-19-r5-main-batch",
@@ -89,7 +98,7 @@
   "fresh_audit_required": false,
   "advance_to_checkpoint50": false,
   "merge_allowed": true,
-  "advance_allowed": false,
+  "advance_allowed": true,
   "audit_status": "PASS",
-  "next_expected_command": "MERGE_PR_1246_THEN_STAGE27_19_R5_MAIN_BATCH"
+  "next_expected_command": "Stage27-19-r5-main-batch"
 }
