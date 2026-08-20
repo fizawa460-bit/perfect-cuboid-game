@@ -1,4 +1,4 @@
-# Stage27-20-r302o — freeze the next non-frozen continuation receiver
+# Stage27-20-r302o — repaired diagonal-plus-remainder continuation receiver
 
 STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
 CHECKPOINT=40
@@ -6,33 +6,54 @@ ROUTE_KIND=UPPER_REENTRY_MAIN_HIGH_OCCUPANCY
 PARENT_ROUTE=Stage27-20-r302n
 SOURCE_STAGE=Stage20
 
-The continuation policy is now explicit: unresolved external theorems do not freeze the Stage27-20 reduction chain. They block promotion to checkpoint50, but the checkpoint40 route may continue whenever the missing theorem can be made strictly more precise without claiming a saving that has not been proved.
+The continuation policy remains unchanged: unresolved external theorems do not freeze the checkpoint40 reduction chain, but they do block promotion to checkpoint50.
 
-R302m reduces the r302l high-occupancy theorem to a same-measure large-sieve quadratic-form deficit. R302n then shows that a legal proof must account for the positive Gram diagonal as well as the nontrivial spectrum. The next honest receiver is therefore the following two-part theorem.
+R302m requires the same-`H_phys^MAIN` full quadratic-form deficit for every coefficient vector. The repaired r302n shows, by the basis-vector test `c=e_b`, that a fixed-power Gram-diagonal deficit is a necessary consequence of that theorem. Therefore the previous `exact baseline subtraction + nontrivial subspace gap` escape is deleted unless a separate adapter first proves that the original all-`c` receiver has been replaced by a genuinely smaller coefficient space. No such adapter is currently proved.
 
-`MAINWallPrimitiveInverseFrequencyDiagonalBaselineAndSpectralGapTheorem`:
+The next honest sufficient receiver is:
 
-Uniformly over every retained MAIN wall packet and gcd stratum, on the exact already-charged `H_phys^MAIN` measure,
+`MAINWallPrimitiveInverseFrequencyDiagonalAndRemainderOperatorDeficitTheorem`.
 
-1. identify the exact Gram-diagonal scale relative to `E_packet` and prove either a fixed-power diagonal deficit or an exact baseline subtraction/orthogonal decomposition that leaves no full-size positive diagonal obstruction; and
-2. on the resulting nontrivial subspace, prove a uniform fixed `delta>0` operator gap
+Uniformly over every retained MAIN wall packet and gcd stratum, on the exact already-charged `H_phys^MAIN` measure, write
 
 ```text
-Q_d^nt(c) <= B^{-2delta+o(1)} E_packet ||c||_2^2,
+G_d = D_d + R_d,
+D_d = diag(G_d),
+R_d = G_d-D_d.
 ```
 
-with only `B^{o(1)}` packet loss and with the correlated modulus, common-parent divisor weights, gcd-descent factor, primitive/chamber/parity masks, physical masks and quantifier order unchanged.
+Prove fixed `delta_1,delta_2>0` such that
 
-A theorem on a different averaging measure, an average over unrelated moduli, a pure off-diagonal estimate with an uncontrolled diagonal, or an exponent-neutral decomposition is insufficient unless accompanied by an exact same-measure transfer preserving one fixed positive power.
+```text
+sup_b G_d(b,b)
+ <= B^{-2delta_1+o(1)} E_packet,
 
-If this theorem is proved, the imported r302m operator reduction discharges the same-measure MAIN arithmetic-host correlation gate; r302l then supplies the high-occupancy wall deficit, and the previously audited transfer gives a positive upper saving. Until then, checkpoint50 remains blocked.
+||R_d||op
+ <= B^{-2delta_2+o(1)} E_packet.
+```
+
+The correlated modulus, common-parent divisor weights, gcd-descent factor, primitive/chamber/parity masks, physical masks, and quantifier order must remain unchanged, and packet summation may lose only `B^{o(1)}`.
+
+Then
+
+```text
+||G_d||op
+ <= B^{-2 min(delta_1,delta_2)+o(1)} E_packet,
+```
+
+so the r302m full quadratic-form receiver follows rigorously. This theorem is only a sufficient decomposition; a direct full operator estimate remains admissible.
+
+A different-measure theorem, a pure off-diagonal cancellation estimate with an uncontrolled diagonal, or a spectral theorem after subtracting an unproved baseline does not discharge r302m.
 
 STAGE27_20_R302O_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
+AUDIT_REPAIR_APPLIED=true
 ADVANCEMENT_POLICY=CONTINUE_THROUGH_EXTERNAL_GATE_REDUCTIONS
 FREEZE_FOR_STRUCTURE_RADAR=false
-NEXT_THEOREM=MAINWallPrimitiveInverseFrequencyDiagonalBaselineAndSpectralGapTheorem
-DIAGONAL_BASELINE_IDENTIFIED=false
-NONTRIVIAL_SPECTRAL_GAP_PROVED=false
+NEXT_THEOREM=MAINWallPrimitiveInverseFrequencyDiagonalAndRemainderOperatorDeficitTheorem
+BASIS_VECTOR_DIAGONAL_NECESSITY_PROVED=true
+BASELINE_SUBTRACTION_ADAPTER_PROVED=false
+DIAGONAL_DEFICIT_PROVED=false
+OFFDIAGONAL_REMAINDER_OPERATOR_DEFICIT_PROVED=false
 MAIN_ARITHMETIC_HOST_CORRELATION_POWER_DEFICIT_PROVED=false
 WALL_SLAB_AGGREGATE_DEFICIT_THEOREM_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
