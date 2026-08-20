@@ -72,4 +72,4 @@ and
 
 This does not invalidate A2-3. It is a useful fresh structural input for A2-4 and should be analyzed before importing any generic elliptic-curve machinery.
 
-No StageA2-specific pull-request workflow run exists on the submitted exact head, so CI is recorded as not configured rather than inferred from unrelated workflows.
+No StageA2-specific pull-request workflow run exists on the submitted head or the audited post-audit branch head, so CI is recorded as not configured rather than inferred from unrelated workflows.
