@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "task": "Stage27-19-route-arbitration",
+  "base_main": "d0e061d07c193a00725e1e0b9c8cf2a546d1be7d",
+  "checkpoint": 40,
+  "current_mu": "1/2",
+  "current_lower_exponent": "1/4",
+  "upper": {
+    "status": "THEOREM_GATE_PAUSED",
+    "wall": "COUPLED_FORM_REALIZED_AD_SUPPORT_THEOREM",
+    "forms": ["A=s^2(m^2+n^2)", "D=n^2(r^2-s^2)"],
+    "sufficient_target": "uniform dyadic #P_T(B) << B^(1/2-delta+o(1))",
+    "acceptable_inputs": ["same-measure determinant/incidence theorem", "new nonduplicate sieve theorem", "weighted second moment strong enough for r402f"]
+  },
+  "lower": {
+    "status": "CONSTRUCTION_GATE_PAUSED",
+    "wall": "NEW_H_LT_8_CURVE_OR_STRONGER_CANCELLATION_OR_THICK_FAMILY",
+    "height_gate": "2*d_x+2*d_y-g < 8"
+  },
+  "policy": {
+    "preferred_reopen": "UPPER_IF_NEW_THEOREM_INPUT_EXISTS",
+    "fallback_reopen": "LOWER_IF_NEW_CONSTRUCTION_INPUT_EXISTS",
+    "mechanical_subroute_without_new_input": false,
+    "advance_to_checkpoint50": false
+  },
+  "fresh_audit_required": true,
+  "audit_status": "PENDING",
+  "merge_allowed": false,
+  "next_expected_command": "Stage27-19-route-audit"
+}
