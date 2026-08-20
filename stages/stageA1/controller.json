@@ -3,7 +3,7 @@
   "stage": "StageA1",
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
-  "base_main": "61525946db23b991e78e025e633f978e7fac96be",
+  "base_main": "460cc84f14d6c8d3a88b99422807ba4658669064",
   "status": "RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE",
   "completed": [
     "A1-1",
@@ -17,9 +17,11 @@
     "A1-10_G0_EXACT_FINITE_SQUARECLASS_DESCENT",
     "A1-11_EXACT_ELLIPTIC_ADAPTER_FIREWALL_WITH_AUDIT_ROUTING_REPAIR"
   ],
-  "submitted_for_audit": [],
-  "next": "A1-12_DELTA1_EXACT_DESCENT_OR_MW_SIEVE_ADAPTER",
-  "go_no_go_checkpoint": "A1-12_DELTA1_TARGETED_CONTINUATION",
+  "submitted_for_audit": [
+    "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE"
+  ],
+  "next": "A1-13_DELTA1_PRIME_POWER_OR_RECURRENCE_REFINEMENT_IF_AUDIT_PASSES",
+  "go_no_go_checkpoint": "A1-12_AUDIT_BOUNDARY",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_5_audit_verdict": "PASS",
@@ -45,23 +47,11 @@
   "a1_11_q2_obstruction": {
     "H": "a^4-20*a^2*b^2+256*a*b^3-412*b^4",
     "primitive_H_mod32_values": [1, 4, 17],
-    "odd_delta_necessary_condition": "delta == 1 mod 8",
-    "Gminus_q2_survivors": [1],
-    "Gplus_q2_survivors": [1, -247],
-    "G0_q2_survivors": [1, -39, 57, -247],
-    "original_a1_11_ten_q2_empty": [13, -13, 39, -57, 247, 741, -741],
-    "original_a1_11_ten_q2_survivors": [-39, 57, -247]
+    "odd_delta_necessary_condition": "delta == 1 mod 8"
   },
   "a1_11_same_j_firewall": {
     "exact_q_isomorphism_adapter_test": "c4_target/c4_candidate=u^4 and c6_target/c6_candidate=u^6 for the same rational u",
-    "same_j_is_not_exact_adapter": true,
-    "false_same_j_adapters_rejected": [
-      "32110.x1 as E_13",
-      "256880.cx1 as E_-13",
-      "32490.s1 as E_57",
-      "259920.fm1 as E_-57",
-      "288990.bg1 as E_-39"
-    ]
+    "same_j_is_not_exact_adapter": true
   },
   "true_remaining_receiver": {
     "delta": 1,
@@ -71,40 +61,44 @@
     "minimal_model": "y^2=x^3+x^2+95x+703",
     "rank": 1,
     "torsion": "trivial",
-    "generator": "(3,32)",
-    "wall": "certified MW-sieve / elliptic-Chabauty or equivalent exact descent imposing both square-coordinate conditions"
+    "generator": "(3,32)"
+  },
+  "a1_12_receiver": {
+    "task": "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE",
+    "explicit_birational_map": {
+      "to_quartic": "z=-(y+32)/(x-3), v=2*x+4-z^2",
+      "from_quartic": "x=(v+z^2-4)/2, y=-z*(x-3)-32"
+    },
+    "multiplier_involution": "n -> 1-n",
+    "good_sieve_primes": [7, 23, 37, 257, 263, 863],
+    "generator_orders": [9, 29, 10, 22, 34, 21],
+    "allowed_pattern_each_prime": "0,1,2,-1 modulo the corresponding generator order",
+    "combined_modulus": 3416490,
+    "surviving_multiplier_classes": 384,
+    "surviving_class_sha256": "63652cb8e25860ba40dba7ba5f99023a9a611525f7b2bd2465a79b95c268e874",
+    "strict_receiver_narrowing": true,
+    "complete_delta1_closure": false
   },
   "integration_category_candidate": "NEW_FAMILY_EXCLUSION",
-  "previous_freeze_wall": "A1-11 audit identified the exact delta=1 rank-one square-coordinate MW-sieve wall, but operator override keeps StageA1 active for further exact elementary descent, recurrence/congruence analysis, or a certified external adapter before freezing again.",
-  "operator_override": "Continue digging while substantive new mathematics is produced. A1-12 targets only the true delta=1 receiver. Freeze only when successive work merely repackages the same unresolved MW-sieve wall and no new exact descent, congruence restriction, recurrence restriction, or certified adapter is obtained.",
-  "a1_12_target": {
-    "task": "A1-12_DELTA1_EXACT_DESCENT_OR_MW_SIEVE_ADAPTER",
-    "receiver": "Q(z)=v^2, z+2=s^2, z-2=t^2",
-    "allowed_attacks": [
-      "derive exact restrictions from the rank-one generator and multiples",
-      "denominator or elliptic-divisibility recurrence restrictions",
-      "new congruence or local conditions specific to the simultaneous delta=1 receiver",
-      "further exact covering-curve descent",
-      "certified MW-sieve or elliptic-Chabauty adapter"
-    ],
-    "stop_if": "no strict new receiver narrowing or certified adapter; do not rename the same wall or merely raise a finite search bound"
-  },
+  "closure_deferred_reason": "A1-12 converts the exact delta=1 rank-one wall into an executable elementary Mordell-Weil residue sieve and cuts the multiplier set to 384 classes modulo 3416490. Prime-power/recurrence refinement or a certified full MW sieve remains concrete.",
+  "next_attack_if_audit_passes": "Target prime-power/p-adic refinement of the retained pole classes, elliptic-divisibility/denominator recurrences, or a certified full MW-sieve/elliptic-Chabauty adapter on the exact delta=1 receiver. Do not return to non-delta1 quotient twists or larger x-height searches.",
+  "operator_override": "Continue while the true delta=1 receiver is strictly narrowed by exact mathematics. Freeze again if successive work merely appends unrelated good primes or repackages the same 384-class wall without a structural refinement.",
   "do_not_repeat": [
     "larger finite height searches on the first-two-cover receiver",
     "another scan of the saturated A1-6 prime mechanism",
     "lifting only p=5,7,23 after p-adic saturation",
     "renaming the genus-7 or R,S equations without strict reduction",
     "classifying non-delta1 quotient twists as if they were first-two-cover branches",
-    "importing Mordell-Weil rank from a same-j curve without an exact Q-isomorphism"
+    "importing Mordell-Weil rank from a same-j curve without an exact Q-isomorphism",
+    "merely appending many unrelated good primes without structural refinement"
   ],
   "reopen_or_continue_if": [
-    "new exact restriction on multiples of the delta=1 generator",
-    "new exact denominator or recurrence restriction on the delta=1 receiver",
-    "new simultaneous local/congruence obstruction specific to z+2 and z-2 squares",
+    "prime-power or p-adic refinement of the A1-12 multiplier classes",
+    "new exact denominator or elliptic-divisibility recurrence restriction",
+    "stronger simultaneous local obstruction on z+2 and z-2",
     "further exact covering-curve descent",
-    "certified Sage/Magma/PARI/mwrank computation on exact delta=1 model",
-    "certified MW-sieve or elliptic-Chabauty closure of the delta=1 square-coordinate receiver",
-    "new exact global rational-point theorem for Q(z)=v^2 with z+2 and z-2 squares",
+    "certified MW-sieve or elliptic-Chabauty closure of the delta=1 receiver",
+    "new exact global rational-point theorem for the delta=1 receiver",
     "proved coverage/reverse-map theorem for arbitrary anchored cubes",
     "exact adapter into another proved receiver"
   ],
@@ -112,16 +106,15 @@
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
     "Equation (6) is not universal; no StageA1 condition is promoted to arbitrary perfect cuboids.",
     "Nontrivial delta quotient branches are not distinct perfect-cuboid paths because a C-point already forces delta=1.",
-    "Same j-invariant is insufficient to identify a quadratic twist over Q.",
-    "The audited A1-9 delta=+19 torsor exclusion remains mathematically valid but is quotient-side rather than a distinct C-lift elimination.",
+    "The A1-12 finite-field sieve is a necessary-condition sieve and is not a complete global rational-point computation.",
     "Stage27 and StructureRadar receivers remain unchanged."
   ],
   "recommended_commands": {
     "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
-  "audit_required": false,
+  "audit_required": true,
   "merge_allowed": false,
   "stop_after_audit": false,
-  "next_expected_command": "StageA1-main-batch"
+  "next_expected_command": "StageA1-audit"
 }
