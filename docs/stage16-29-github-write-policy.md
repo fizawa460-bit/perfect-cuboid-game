@@ -1,7 +1,7 @@
-# Stage16-28 repository write reliability policy
+# Stage16-29 repository write reliability policy
 
-This file is a normative addendum to `docs/stage16-28-execution-controller-template.md`.
-It applies to repository writes performed by Stage16-28 workflows.
+This file is a normative addendum to `docs/stage16-29-execution-controller-template.md`.
+It applies to repository writes performed by Stage16-29 workflows.
 
 Repository mechanics are operational only. They must not change mathematical
 claims, evidence levels, audit semantics, merge gates, or population contracts.
@@ -27,7 +27,7 @@ GITHUB_WRITE_POLICY=prefer_high_level_file_mutations_and_verify_after_fallback
 ```
 
 ```text
-POLICY_SCOPE=Stage16-28
+POLICY_SCOPE=Stage16-29
 PREFER_HIGH_LEVEL_FILE_MUTATIONS=true
 KEEP_COMMIT_MESSAGES_COMPACT=true
 MATHEMATICAL_CONTENT_PRESERVED=true
