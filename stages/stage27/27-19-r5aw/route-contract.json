@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "task_id": "Stage27-19-r5aw",
+  "batch_id": "Stage27-19-r5",
+  "source_stage": "Stage19",
+  "trigger_checkpoint": 40,
+  "route_kind": "UPPER_REENTRY_PARALLEL",
+  "parent_route": "Stage27-19-r5at-r5av",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "base_main": "4045fc9a613e7c9582b586e8151bce5a371d3942",
+  "purpose": "resolve the actual fixed-R physical fiber size, prevent illegal global recharging of that local sparsity, and replace the two kappa root congruences by exact integer/Gaussian factor packets before the next boundary-count test",
+  "lifecycle_reconciliation": {
+    "r5at_r5av_audit_pr": 1072,
+    "audit_status": "PASS",
+    "audited_content_commit": "34c24f3a61176f652a0f35b84d9c74c351879270",
+    "audited_lifecycle_head": "02a56737ff56046d1c60523663b2d70c9a7b9d1f",
+    "merge_commit": "a38d6e782718ed01bb813c477f3f021afbf3d47d",
+    "structure_radar_freeze_lifted": true,
+    "freeze_release_record": "docs/structure-radar/PAUSE_AND_RETURN_STAGE27_2026-08-20.md"
+  },
+  "proved": {
+    "fixed_R_physical_N2_fiber_subpower": true,
+    "fixed_R_physical_N2_bound": "N2_R<=3*r2(R^2)^2<=48*tau(R^2)^2=R^o(1)",
+    "fixed_R_fiber_alone_global_no_go": true,
+    "naive_sum_over_R_bound": "B^(1+o(1))",
+    "exact_difference_factor_split": true,
+    "exact_gaussian_norm_factor_split": true,
+    "kappa_allocation_entropy_at_fixed_R_subpower": true,
+    "structure_radar_SR_STR_224_reused": true
+  },
+  "not_proved": {
+    "fixed_R_outer_parameter_support_subpower": true,
+    "occupied_R_support_fixed_power_deficit": true,
+    "sqrt_boundary_modulus_saving": true,
+    "factorized_boundary_K_power": true,
+    "global_R_averaged_fixed_power_saving": true,
+    "strict_sub_sqrt_upper": true,
+    "new_mu_lt_half": true,
+    "true_N2_exponent_identified": true
+  },
+  "difference_factorization": {
+    "definition": "kappa_-=gcd(kappa,abs(m-n)); kappa_+=kappa/kappa_-",
+    "properties": "gcd(kappa_-,kappa_+)=1; kappa_-|(m-n); kappa_+|(m+n)",
+    "reconstruction": "m=(kappa_-*A+kappa_+*B)/2; n=(kappa_+*B-kappa_-*A)/2",
+    "allocation_count": "<=2^omega(kappa)=kappa^o(1)"
+  },
+  "gaussian_factorization": {
+    "identity": "r+i*s=lambda*eta",
+    "norm_lambda": "kappa",
+    "norm_eta": "(r^2+s^2)/kappa",
+    "allocation_count": "<=4*2^omega(kappa)=kappa^o(1)"
+  },
+  "witness": {
+    "slope_tuple": [21, 16, 27, 14],
+    "kappa": 185,
+    "R": 7585,
+    "kappa_minus": 5,
+    "kappa_plus": 37,
+    "gaussian_lambda": "11-8i",
+    "gaussian_eta": "1+2i",
+    "physical_edges": [6048, 1665, 4264],
+    "integral_face_diagonals": [6273, 7400]
+  },
+  "anti_loop": {
+    "generic_divisor_window_research_restarted": false,
+    "reason": "SR-STR-224 already records the adjacent Ford-type search and the exact physical transfer gap",
+    "next_action_is_concrete_count_test": true
+  },
+  "next_derived_route": "27-19-r5ax",
+  "next_batch": "Stage27-19-r5-main-batch",
+  "next_target": "APPLY_EXACT_FACTOR_PACKET_TO_R5AU_BOUNDARY_AND_TEST_K_POWER_OR_FREEZE",
+  "fresh_audit_required": true,
+  "advance_to_checkpoint50": false,
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "audit_status": "PENDING",
+  "next_expected_command": "Stage27-19-r5-audit"
+}
