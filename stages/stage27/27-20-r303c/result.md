@@ -1,6 +1,6 @@
 # Stage27-20-r303c — T weighted adapter theorem gate
 
-STATUS=SUBMITTED_PENDING_AUDIT
+STATUS=AUDITED_PASS_THEOREM_GATE_PAUSED
 CHECKPOINT=40
 ROUTE_KIND=UPPER_T_WEIGHTED_ADAPTER_RECEIVER
 PARENT_ROUTE=Stage27-20-r303b
@@ -33,11 +33,17 @@ TExactGaussianPrimeExceptionalClassPowerSaving
 
 with both quantified on the same target family.
 
+The fresh hostile audit accepts the reduction and freezes automatic continuation here under the StructureRadar theorem-gate anti-loop policy: neither missing input is proved in this batch, so creating r303d without genuinely new evidence would only rename/subdivide the same gate.
+
 R302_REMAINS_FROZEN=true
-T_ROUTE_OPEN=true
+T_ROUTE_OPEN=false
+T_ROUTE_STATE=THEOREM_GATE_PAUSED
 WEIGHTED_AVERAGE_CROSSING_REDUCED=true
 FIRST_MISSING_INTERNAL_LEMMA=TPhysicalTargetClassPushforwardCollisionDeficit
 FIRST_MISSING_EXTERNAL_INPUT=TExactGaussianPrimeExceptionalClassPowerSaving
+AUTOMATIC_R303D=false
+MERGE_ALLOWED=true
 STRICT_SUB_SQRT_UPPER_PROVED=false
 ADVANCE_TO_CHECKPOINT50=false
-NEXT_DERIVED_ROUTE=27-20-r303d
+NEXT_DERIVED_ROUTE=NONE_THEOREM_GATE_PAUSED
+NEXT_BATCH=NONE_UNTIL_NEW_EVIDENCE
