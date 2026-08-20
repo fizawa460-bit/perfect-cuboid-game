@@ -3,8 +3,8 @@
   "stage": "StageA2",
   "title": "Published minus18 equation-(6) anchor line",
   "mode": "SEPARATE_RESTART_FROM_PUBLISHED_SOURCE",
-  "base_main": "9a3d32598acc8f288fb562254da84d5f59eda9e8",
-  "status": "A2_5_FAMILY_CLOSURE_AUDITED_READY_FOR_CLOSEOUT",
+  "base_main": "ef12c541146440cf03a260faf1b6cfe52532314a",
+  "status": "A2_CLOSEOUT_SUBMITTED_FOR_AUDIT",
   "upstream_handoff": {
     "from_stage": "StageA1",
     "closure_status": "CLOSED_INVALID_UPSTREAM_SOURCE_CORRECTION",
@@ -19,8 +19,10 @@
     "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS",
     "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE"
   ],
-  "submitted_for_audit": [],
-  "go_no_go_checkpoint": "A2-5_COMPLETE_FAMILY_EXCLUSION_AUDIT_PASSED",
+  "submitted_for_audit": [
+    "A2_CLOSE_PUBLISHED_MINUS18_FAMILY_EXCLUSION"
+  ],
+  "go_no_go_checkpoint": "A2_CLOSEOUT_AUDIT_BOUNDARY",
   "a2_3_audit_verdict": "PASS",
   "a2_3_audit_submitted_head": "c44a35c99015e476a486d6f61af6f681a4215b29",
   "a2_3_audit_record": "stages/stageA2/A2-3/audit.md",
@@ -43,41 +45,17 @@
   },
   "a2_3_receiver": {
     "task": "A2-3_PUBLISHED_MINUS18_RESTART",
-    "anchor_factor": "F18(c,d,G,H)=0 from published equation (6)",
-    "normalized_variables": "x=c/d, r=G/H, k=x^2, u=r-1/r",
     "reciprocal_quadratic": "4*k*(k-1)*u^2-(k^4-18*k^2+1)*u-16*k^2*(k-1)=0",
     "genus3_curve": "v^2=k^8-36*k^6+256*k^5-186*k^4+256*k^3-36*k^2+1",
-    "genus3_factorization": "(k^4-8*k^3+30*k^2-8*k+1)*(k^4+8*k^3-2*k^2+8*k+1)",
-    "genus3_discriminant": "-2^80*3^3*5^2",
     "genus1_quotient": "Y^2=z^4-40*z^2+256*z-112",
-    "genus1_factorization": "(z^2-8*z+28)*(z^2+8*z-4)",
-    "genus1_discriminant": "-2^32*3*5",
-    "quotient_variable": "z=k+1/k",
-    "reconstruction_square_covers": [
-      "z^2-4 must be a rational square to recover k",
-      "k must be a rational square to recover c/d",
-      "u^2+4 must be a rational square to recover G/H"
-    ],
-    "excluded_wall": "k=1 gives (z,Y)=(2,+/-16) and c^2=d^2",
-    "general_coverage_proved": false,
-    "complete_family_closure": false
+    "reconstruction_square_covers": ["z^2-4", "k", "u^2+4"],
+    "general_coverage_proved": false
   },
   "a2_4_receiver": {
     "task": "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS",
     "quartic_factorization": "Q18=(z^2-8*z+28)*(z^2+8*z-4)",
-    "first_gcd_bound": "gcd(F1,F2)|2^8",
-    "first_v2_pattern": [0, 2, 4],
     "first_exact_squareclasses": [1],
-    "first_delta_2_Q5": "EMPTY_BUT_REDUNDANT",
-    "forced_split": "U^2=z^2-8*z+28, V^2=z^2+8*z-4",
-    "t_parameterization": {
-      "z": "(2*t^2-8*t-6)/(t^2-1)",
-      "U": "-4*(t^2+t+1)/(t^2-1)"
-    },
-    "second_factor_product": "(t^2-5*t-5)*(t^2-t-1) is a rational square",
-    "second_gcd": "1 for primitive (a,b)",
     "second_exact_squareclasses": [1, -1],
-    "second_plusminus_2_Q5": "EMPTY_BUT_REDUNDANT",
     "surviving_two_covers": [
       "Cplus: R^2=t^2-5*t-5, S^2=t^2-t-1",
       "Cminus: R^2=-(t^2-5*t-5), S^2=-(t^2-t-1)"
@@ -87,42 +65,34 @@
       "Cminus t=1 -> quartic infinity",
       "Cminus t=-1/2 -> z=2 excluded wall",
       "Cplus t=infinity -> z=2 excluded wall"
-    ],
-    "first_reconstruction_t_cover": "-(2*t+1)*(t^2-2*t-2) is a rational square",
-    "complete_E18_rational_point_closure": false
+    ]
   },
   "a2_5_receiver": {
     "task": "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE",
     "Qplus": "y^2=m^4+6*m^3+23*m^2+22*m+29",
     "Qminus": "y^2=m^4+6*m^3-37*m^2+42*m-11",
-    "binary_quartic_invariants_each": {
-      "I": 481,
-      "J": 9758
-    },
+    "binary_quartic_invariants_each": {"I": 481, "J": 9758},
     "common_jacobian": "Y^2=X^3-12987*X-263466",
-    "common_jacobian_factorization": "(X+102)(X+21)(X-123)",
     "lmfdb_label": "15.a5",
     "jacobian_rank": 0,
     "jacobian_torsion": "Z/2Z x Z/4Z",
     "jacobian_rational_point_count": 8,
     "explicit_lmfdb_isomorphism": "X=36*x+15, Y=108*(2*y+x+1) from y^2+x*y+y=x^3+x^2-10*x-10",
-    "external_mw_sources": [
-      "LMFDB 15.a5",
-      "Leprévost-Pohst-Schöpp, Acta Arith. 127 (2007), DOI 10.4064/aa127-3-1, proof of Theorem 2.5 pp.4-5"
-    ],
-    "lps_group_notation_used_for_structure": false,
-    "Qplus_complete_points": "m=-7/2 with y=+/-45/4; m=+/-1 with y=+/-9,+/-5 respectively; two quartic infinities",
-    "Qminus_complete_points": "m=1/2 with y=+/-5/4; m=1 with y=+/-1; m=3 with y=+/-5; two quartic infinities",
-    "Cplus_t_values": ["-1", "infinity"],
-    "Cminus_t_values": ["1", "-1/2"],
-    "all_E18_images": "projective infinity or z=2 -> k=1 excluded c^2=d^2 wall",
     "complete_E18_nondegenerate_rational_point_closure": true,
     "published_equation6_anchor_nondegenerate_points": 0,
     "family_specific_exclusion_complete": true,
     "general_coverage_proved": false
   },
-  "next": "A2_CLOSE_PUBLISHED_MINUS18_FAMILY_EXCLUSION",
-  "next_attack": "Record the audited StageA2 lifecycle closeout for the published equation-(6) -18 anchor family. Preserve the family-specific firewall; do not promote this exclusion to arbitrary perfect cuboids.",
+  "closeout": {
+    "task": "A2_CLOSE_PUBLISHED_MINUS18_FAMILY_EXCLUSION",
+    "record": "stages/stageA2/A2-CLOSE/result.md",
+    "report": "stages/stageA2/A2-CLOSE/report.json",
+    "published_equation6_anchor_nondegenerate_points": 0,
+    "family_specific_exclusion_complete": true,
+    "general_coverage_proved": false,
+    "perfect_cuboid_found": false,
+    "arbitrary_perfect_cuboid_nonexistence_proved": false
+  },
   "do_not_import": [
     "StageA1 A1-3 through A1-14 quartic/Jacobian/rank/MW-sieve conclusions",
     "the auxiliary -8 quartic Y^2=z^4-20*z^2+256*z-412",
@@ -133,19 +103,15 @@
     "The published equation-(6) anchor coefficient is -18 and is source-locked.",
     "A1-3 through A1-14 are historical auxiliary-minus8 computations only.",
     "Equation (6) is not proved universal for anchored Hilbert cubes or perfect cuboids.",
-    "A2-5 excludes only the nondegenerate anchor boundary of this published equation-(6) family.",
+    "StageA2 excludes only the nondegenerate anchor boundary of this published equation-(6) family.",
     "No family-specific A2 exclusion may be promoted to arbitrary perfect cuboids without a reverse-map/coverage theorem.",
     "Perfect-cuboid existence is not established and arbitrary-perfect-cuboid nonexistence is not established.",
     "Stage27 and StructureRadar receivers remain unchanged."
   ],
-  "recommended_commands": {
-    "audit": "StageA2-audit",
-    "main": "StageA2-main-batch"
-  },
-  "audit_required": false,
+  "next": "CLOSE_IF_AUDIT_PASSES",
+  "audit_required": true,
   "audit_external_mw_datum_required": false,
-  "audit_persistence_status": "COMMITTED",
-  "merge_allowed": true,
-  "stop_after_audit": false,
-  "next_expected_command": "StageA2-main-batch"
+  "merge_allowed": false,
+  "stop_after_audit": true,
+  "next_expected_command": "StageA2-audit"
 }
