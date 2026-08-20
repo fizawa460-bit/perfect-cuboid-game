@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "stage": "StageA1",
+  "task": "A1-12_DELTA1_EXPLICIT_MAP_AND_ELEMENTARY_MW_SIEVE",
+  "base_main": "460cc84f14d6c8d3a88b99422807ba4658669064",
+  "mode": "SEPARATE_EXPERIMENTAL_LINE",
+  "true_receiver": "Q(z)=v^2, z+2=s^2, z-2=t^2",
+  "minimal_elliptic_curve": "y^2=x^3+x^2+95x+703",
+  "lmfdb_label": "6080.r1",
+  "rank": 1,
+  "torsion": "trivial",
+  "generator": "P=(3,32)",
+  "explicit_map": {
+    "to_quartic": "z=-(y+32)/(x-3), v=2*x+4-z^2",
+    "from_quartic": "x=(v+z^2-4)/2, y=-z*(x-3)-32",
+    "hyperelliptic_involution_on_multipliers": "n -> 1-n"
+  },
+  "minimal_model_discriminant": "-249036800=-2^19*5^2*19",
+  "mw_residue_sieve": [
+    {"p": 7, "generator_order": 9, "allowed": [0, 1, 2, 8]},
+    {"p": 23, "generator_order": 29, "allowed": [0, 1, 2, 28]},
+    {"p": 37, "generator_order": 10, "allowed": [0, 1, 2, 9]},
+    {"p": 257, "generator_order": 22, "allowed": [0, 1, 2, 21]},
+    {"p": 263, "generator_order": 34, "allowed": [0, 1, 2, 33]},
+    {"p": 863, "generator_order": 21, "allowed": [0, 1, 2, 20]}
+  ],
+  "combined_modulus": 3416490,
+  "surviving_multiplier_classes": 384,
+  "surviving_density": "384/3416490",
+  "surviving_class_sha256": "63652cb8e25860ba40dba7ba5f99023a9a611525f7b2bd2465a79b95c268e874",
+  "strict_receiver_narrowing": true,
+  "complete_delta1_closure": false,
+  "new_arbitrary_cube_constraint": false,
+  "perfect_cuboid_found": false,
+  "perfect_cuboid_nonexistence_proved": false,
+  "next_target_if_audit_passes": "A1-13_DELTA1_PRIME_POWER_OR_RECURRENCE_REFINEMENT",
+  "audit_required": true,
+  "merge_allowed": false,
+  "next_expected_command": "StageA1-audit"
+}
