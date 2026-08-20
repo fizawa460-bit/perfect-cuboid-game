@@ -38,11 +38,9 @@ def f2(z):
     return z**2 + 8*z - 4
 
 
-# Exact quotient factorization.
 for z in [Fraction(-7, 3), Fraction(0), Fraction(2), Fraction(11, 5)]:
     assert q18(z) == f1(z) * f2(z)
 
-# Binary gcd identities and the strengthened 2-adic parity split.
 seen_v2 = set()
 for a in range(-25, 26):
     for b in range(1, 26):
@@ -59,8 +57,6 @@ for a in range(-25, 26):
         seen_v2.add(vv)
 assert seen_v2 == {(0, 0), (2, 2), (4, 4)}
 
-# Projective mod-5 obstruction for delta=2 in the submitted first split.
-# This remains correct, although the parity audit above already proves delta=2 cannot occur.
 sq5 = {0, 1, 4}
 assert all(((a*a - 2*r*r) % 5 != 0) for a in range(1, 5) for r in range(5))
 first_delta2_affine = []
@@ -71,7 +67,7 @@ for a in range(5):
         first_delta2_affine.append(a)
 assert first_delta2_affine == []
 
-# Rational parameterization of U^2=f1(z) through (2,4).
+
 def z_of_t(t):
     return (2*t*t - 8*t - 6) / (t*t - 1)
 
@@ -89,20 +85,15 @@ for t in [Fraction(-3), Fraction(-1, 2), Fraction(0), Fraction(2), Fraction(7, 3
     recon = -Fraction(16) * (2*t + 1) * (t*t - 2*t - 2) / (t*t - 1)**2
     assert z*z - 4 == recon
 
-# Excluded wall t=-1/2 maps to z=2,U=4.
 assert z_of_t(Fraction(-1, 2)) == 2
 assert u_of_t(Fraction(-1, 2)) == 4
 
-# Projective t=infinity is also an excluded Cplus wall point.
-# Homogenize with t=T/W. At W=0, Cplus has R^2=T^2 and S^2=T^2,
-# while the conic map has z=2 and U=-4.
 T, W = 1, 0
 assert T*T - 5*T*W - 5*W*W == 1
 assert T*T - T*W - W*W == 1
 assert Fraction(2*T*T - 8*T*W - 6*W*W, T*T - W*W) == 2
 assert Fraction(-4*(T*T + T*W + W*W), T*T - W*W) == -4
 
-# Second binary gcd identity, strengthened to gcd=1 by parity.
 for a in range(-25, 26):
     for b in range(1, 26):
         if gcd(a, b) != 1:
@@ -115,8 +106,6 @@ for a in range(-25, 26):
         assert A % 2 != 0 and B % 2 != 0
         assert g == 1
 
-# Projective mod-5 obstruction for delta=+2 and -2 in the submitted second split.
-# Again correct but redundant after the gcd/parity strengthening.
 for delta in (2, -2):
     dinv = pow(delta % 5, -1, 5)
     assert dinv not in sq5
@@ -128,7 +117,6 @@ for delta in (2, -2):
             affine.append(a)
     assert affine == []
 
-# Known surviving branch points / routing landmarks.
 t = Fraction(-1)
 assert t*t - 5*t - 5 == 1
 assert t*t - t - 1 == 1
