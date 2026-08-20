@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "base_main": "e27bc3134d8f1c8ce385ce614e5e9f9bc1437ecb",
+  "reason": "preserve concurrent Stage27-20 state; apply only these Stage27-19 route mutations to a fresh full-controller read after audit/merge",
+  "apply_after_audit_pass_and_merge": true,
+  "mutations": {
+    "stage27_status": "OPEN_CHECKPOINT40_WITH_STAGE19_R6_VERDICT_AND_R402G_REDIRECT",
+    "checkpoint40_note": "r6 occupied-R squareclass lane is duplicate of Stage15 and split-prime support is logarithmic-only; fixed-(p,q,g) multiplicity is now subpower, supplying new input for r402g",
+    "checkpoint50": "BLOCKED_BY_ACTIVE_CHECKPOINT40_DERIVED_ROUTE",
+    "derived_route_updates": {
+      "Stage27-19-r6a": {
+        "status": "AUDITED_PASS_MERGED",
+        "audit_status": "PASS",
+        "audit_record": "stages/stage27/27-19-r6a/audit.md",
+        "merge_commit": "e27bc3134d8f1c8ce385ce614e5e9f9bc1437ecb"
+      },
+      "Stage27-19-r6b": {
+        "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+        "collision_equals_stage15_squareclass_predicate": true,
+        "second_squareclass_sieve_charge_allowed": false
+      },
+      "Stage27-19-r6c": {
+        "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+        "primitive_occupied_R_odd": true,
+        "primitive_occupied_R_all_prime_divisors_1mod4": true,
+        "split_prime_support_fixed_power_deficit": false
+      },
+      "Stage27-19-r6d": {
+        "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+        "fixed_pqg_representation_bound": "4*tau(pg)^2",
+        "fixed_pqg_multiplicity_subpower": true,
+        "tau_fiber_exponent_equals_realized_g_support_exponent": true,
+        "r402f_representation_multiplicity_gate_discharged": true
+      },
+      "Stage27-19-r6e": {
+        "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+        "r6_standalone_fixed_power_viability": "NO_GO",
+        "r6_lane_freeze_after_audit_pass": true,
+        "lower_r401d_reopen_input_produced": false,
+        "alternate_upper_has_new_input": true,
+        "selected_next_route": "Stage27-19-r402g",
+        "selected_next_target": "TAU_REALIZED_CORE_SUPPORT_ENERGY_WITH_FIXED_CORE_MULTIPLICITY_REMOVED"
+      }
+    },
+    "active_stage19_upper_route_after_audit_merge": "Stage27-19-r402g",
+    "next_expected_command": "Stage27-19-r6-audit"
+  }
+}
