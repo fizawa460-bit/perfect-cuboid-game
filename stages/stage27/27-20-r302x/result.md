@@ -24,20 +24,16 @@ G_d(b,b')
    dH_phys^MAIN(x).
 ```
 
-The odd primitive Gauss factor makes the phase difference explicit. Writing `q'=q/d` and `m=q'_odd`, the odd component of the phase ratio is
+The odd primitive Gauss factor makes the phase difference explicit. Write
 
 ```text
-e_m(-inverse(4a') * (b'^2-b''^2)),
-```
-
-where `b'=b/d`, `b''=b'/d` is not intended; to avoid notation collision, write instead
-
-```text
+q'=q/d,
+m=q'_odd,
 u=b/d,
 v=b'/d.
 ```
 
-Then the odd primitive phase ratio is exactly
+Then the odd component of the primitive phase ratio is exactly
 
 ```text
 e_m(-inverse(4a') * (u^2-v^2)).
