@@ -15,15 +15,17 @@
     "a1_minus8_results_apply_to_published_equation6": false
   },
   "completed": [
-    "A2-3_PUBLISHED_MINUS18_RESTART"
-  ],
-  "submitted_for_audit": [
+    "A2-3_PUBLISHED_MINUS18_RESTART",
     "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS"
   ],
-  "go_no_go_checkpoint": "A2-4_EXACT_FACTOR_COVER_AUDIT_BOUNDARY",
+  "submitted_for_audit": [],
+  "go_no_go_checkpoint": "A2-4_AUDIT_PASSED_WITH_ELEMENTARY_STRENGTHENING",
   "a2_3_audit_verdict": "PASS",
   "a2_3_audit_submitted_head": "c44a35c99015e476a486d6f61af6f681a4215b29",
   "a2_3_audit_record": "stages/stageA2/A2-3/audit.md",
+  "a2_4_audit_verdict": "PASS_WITH_ELEMENTARY_STRENGTHENING_AND_LANDMARK_REPAIR",
+  "a2_4_audit_submitted_head": "de59f9bedd396afabef097270b856dcb13e9a6aa",
+  "a2_4_audit_record": "stages/stageA2/A2-4/audit.md",
   "source_lock": {
     "paper": "Bremner-Elsholtz-Ulas, There are infinitely many Hilbert cubes of dimension 3 in the set of squares",
     "arxiv": "2604.05459v1",
@@ -59,16 +61,19 @@
   "a2_4_receiver": {
     "task": "A2-4_PUBLISHED_MINUS18_EXACT_FACTOR_COVERS",
     "quartic_factorization": "Q18=(z^2-8*z+28)*(z^2+8*z-4)",
-    "first_squareclasses": [1, 2],
-    "first_delta_2_Q5": "EMPTY",
+    "first_gcd_bound": "gcd(F1,F2)|2^8",
+    "first_v2_pattern": [0, 2, 4],
+    "first_exact_squareclasses": [1],
+    "first_delta_2_Q5": "EMPTY_BUT_REDUNDANT",
     "forced_split": "U^2=z^2-8*z+28, V^2=z^2+8*z-4",
     "t_parameterization": {
       "z": "(2*t^2-8*t-6)/(t^2-1)",
       "U": "-4*(t^2+t+1)/(t^2-1)"
     },
     "second_factor_product": "(t^2-5*t-5)*(t^2-t-1) is a rational square",
-    "second_squareclasses": [1, -1, 2, -2],
-    "second_plusminus_2_Q5": "EMPTY",
+    "second_gcd": "1 for primitive (a,b)",
+    "second_exact_squareclasses": [1, -1],
+    "second_plusminus_2_Q5": "EMPTY_BUT_REDUNDANT",
     "surviving_two_covers": [
       "Cplus: R^2=t^2-5*t-5, S^2=t^2-t-1",
       "Cminus: R^2=-(t^2-5*t-5), S^2=-(t^2-t-1)"
@@ -76,13 +81,14 @@
     "known_projective_or_wall_points": [
       "Cplus t=-1 -> quartic infinity",
       "Cminus t=1 -> quartic infinity",
-      "Cminus t=-1/2 -> z=2 excluded wall"
+      "Cminus t=-1/2 -> z=2 excluded wall",
+      "Cplus t=infinity -> z=2 excluded wall"
     ],
     "first_reconstruction_t_cover": "-(2*t+1)*(t^2-2*t-2) is a rational square",
     "complete_E18_rational_point_closure": false
   },
-  "next": "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE_IF_AUDIT_PASSES",
-  "next_attack": "Determine rational points on Cplus and Cminus compatible with the first reconstruction t-cover, using fresh exact Jacobian/2-descent/Mordell-Weil information for these published-minus18 covers only. Do not import StageA1 -8 arithmetic.",
+  "next": "A2-5_PUBLISHED_MINUS18_TWO_COVER_RATIONAL_POINT_CLOSURE",
+  "next_attack": "Determine rational points on Cplus and Cminus compatible with the first reconstruction t-cover, using fresh exact Jacobian/2-descent/Mordell-Weil information for these published-minus18 covers only. Treat t=infinity on Cplus as the excluded z=2/k=1 wall. Do not import StageA1 -8 arithmetic.",
   "do_not_import": [
     "StageA1 A1-3 through A1-14 quartic/Jacobian/rank/MW-sieve conclusions",
     "the auxiliary -8 quartic Y^2=z^4-20*z^2+256*z-412",
@@ -102,9 +108,9 @@
     "audit": "StageA2-audit",
     "main": "StageA2-main-batch"
   },
-  "audit_required": true,
-  "audit_persistence_status": "PENDING",
-  "merge_allowed": false,
+  "audit_required": false,
+  "audit_persistence_status": "COMMITTED",
+  "merge_allowed": true,
   "stop_after_audit": false,
-  "next_expected_command": "StageA2-audit"
+  "next_expected_command": "StageA2-main-batch"
 }
