@@ -106,6 +106,31 @@ Every Stage16-29 parent stage uses the standard StageX checkpoints:
 
 Every checkpoint must keep `PROVED`, `LITERATURE`, `COMPUTED`, and `HEURISTIC` evidence separate. An audited `OPEN_GATE` is a legitimate endpoint when the missing input is precisely identified. Re-running the same route without a genuinely new theorem, dataset, reusable weapon, or literature input is not progress.
 
+## Deep-exploration rule before OPEN_GATE / closeout
+
+An unresolved checkpoint must not be converted immediately into `OPEN_GATE` or stage closeout merely because the first attempted route fails. Before declaring that genuinely new external input is required, the stage must perform a bounded but aggressive internal exploration of materially distinct routes that are reasonably available from the current repository state.
+
+This exploration should include, when relevant:
+
+- alternate exact identities, eliminations, factorizations, parameterizations, fibrations, covers, and height normalizations;
+- arithmetic, geometric, analytic, sieve, incidence/determinant, correlation/moment, local-global, and construction viewpoints that are genuinely distinct rather than renamed copies of the same gate;
+- repository-wide Arsenal / StructureRadar / prior-stage / supplement / archive rematches against the exact current receiver and physical measure;
+- upper and lower routes separately, including attempts to change the obstruction rather than only sharpen the same estimate;
+- bounded targeted computation when it can distinguish routes or expose a structural lead, without promoting finite evidence to an asymptotic theorem.
+
+The AI/controller is expected to choose and pursue promising unexplored routes proactively. Operator intervention is not required merely to authorize another mathematically distinct internal attack. Conversely, blind repetition, cosmetic renaming, or repeatedly re-running a theorem gate with no new structural input remains forbidden.
+
+A stage may freeze an unresolved research lane only after the remaining obstruction has been narrowed enough that the missing input can be stated as a concrete theorem/construction/adapter receiver with explicit population, measure, quantifiers, parameter ranges, and required strength. For literature-dependent gates, the preferred stopping point is strong enough to write a detailed external-research request specifying what theorem species must be found, what existing near-misses are insufficient, and exactly what would discharge the receiver. Reaching that "research-request-ready" state is sufficient; actually conducting an unbounded new literature program inside the stage is not required.
+
+```text
+UNRESOLVED_FIRST_ROUTE_FAILED => CONTINUE_MATERIALLY_DISTINCT_INTERNAL_EXPLORATION
+AI_PROACTIVE_ROUTE_SELECTION_REQUIRED=true
+RENAMED_OR_DUPLICATE_ROUTE_COUNTS_AS_PROGRESS=false
+OPEN_GATE_REQUIRES_PRECISE_RECEIVER=true
+LITERATURE_GATE_TARGET=RESEARCH_REQUEST_READY
+UNBOUNDED_EXTERNAL_RESEARCH_REQUIRED_BEFORE_CLOSE=false
+```
+
 ## Stage16S population contract and role
 
 Stage16S studies primitive/canonical positive cuboids under the same compatible size and symmetry conventions used by the Stage16-29 roadmap, with
@@ -123,7 +148,7 @@ Every `StageX-main-batch` in Stage16-29 and Stage16S must run the bounded reposi
 
 Audit verdicts are durable repository state. A canonical audit PASS must be persisted to the relevant audit record/controller/status surfaces before it is reported as authoritative. Repository write mechanics are governed by `docs/stage16-29-github-write-policy.md` and must not change mathematical claims or audit semantics.
 
-StageX-70 follows `docs/stage16-29-stage70-policy.md`: synthesize aggressively from certified inputs, but stop before work requiring a substantially new theorem, large computation, literature program, or off-stage branch.
+StageX-70 follows `docs/stage16-29-stage70-policy.md`: synthesize aggressively from certified inputs, but stop before work requiring a substantially new theorem, large computation, literature program, or off-stage branch. The deep-exploration rule above applies before such a stop is accepted: the stage should first exhaust a reasonable bounded set of materially distinct repo-native attacks and sharpen any surviving external gate to research-request-ready form.
 
 ## Stage20 literature reuse rule
 
