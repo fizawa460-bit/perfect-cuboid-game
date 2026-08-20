@@ -6,7 +6,7 @@
   "trigger_checkpoint": 40,
   "route_kind": "OCCUPIED_R_SUPPORT_REENTRY",
   "parent_route": "Stage27-19-r5ax",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "status": "AUDITED_PASS_PENDING_MERGE",
   "base_main": "f5c40a048bb6a56e689ed2dc37358ffed16db99f",
   "purpose": "replace the frozen fixed-R fiber lane by an exact occupied-space-diagonal support receiver and isolate the squareclass collision that must be counted across R",
   "inputs": {
@@ -27,7 +27,8 @@
     "collision_parameterization": "P=d*u^2; Q=d*v^2; AB=d*(u^2+v^2)/2; xy=d*(v^2-u^2)/2; eR=d*u*v",
     "converse_reconstruction_with_original_masks": true,
     "fixed_R_candidate_pair_count_subpower": true,
-    "two_representation_condition_positive_density_host": true
+    "two_representation_condition_positive_density_host": true,
+    "two_gaussian_representations_distinct_by_stage19_canonical_order": true
   },
   "not_proved": {
     "occupied_R_support_fixed_power_deficit": true,
@@ -61,12 +62,24 @@
     "generic_literature_search_restarted": false,
     "new_counting_dimension": "occupied physical space diagonals R"
   },
+  "audit": {
+    "audit_status": "PASS",
+    "audit_record": "stages/stage27/27-19-r6a/audit.md",
+    "audited_pr": 1249,
+    "audited_submission_head": "10c85b46290f078cfe1bb55f3bf4459e0b3311bb",
+    "submitted_head_ci": "PASS",
+    "submitted_head_ci_run": 32347513983,
+    "repair_required": false,
+    "audit_repair_performed": false,
+    "controller_sync_delta_audited": true,
+    "monolithic_controller_wholesale_replacement_performed": false
+  },
   "advance_to_checkpoint50": false,
-  "merge_allowed": false,
+  "merge_allowed": true,
   "advance_allowed": false,
-  "fresh_audit_required": true,
-  "audit_status": "PENDING",
+  "fresh_audit_required": false,
+  "audit_status": "PASS",
   "next_derived_route": "27-19-r6b",
   "next_target": "OCCUPIED_R_SQUARECLASS_COLLISION_SIEVE_WITH_PHYSICAL_MASKS",
-  "next_expected_command": "Stage27-19-r5-audit_OR_STAGE27-19-r6-audit"
+  "next_expected_command": "Stage27-19-r6-main-batch"
 }
