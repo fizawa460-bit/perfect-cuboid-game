@@ -32,7 +32,7 @@ For Stage20 third-face completion,
 \beta_p=1-\frac{2(p-\chi_4(p))}{p^2+6p+1}.
 \]
 
-Hence
+Hence, outside the fixed bad-prime set:
 
 ### Split primes `p=1 mod4`
 
@@ -85,41 +85,44 @@ C_{\rm abs}:=
 \frac{\alpha_p/\beta_p}{(1-\chi_4(p)/p)^2}
 \]
 
-converges absolutely to a positive finite constant after absorbing the fixed bad-prime set.
+converges absolutely to a positive finite constant.
 
-Using the canonical Euler product
+Let `S_bad` denote the fixed finite odd-prime set excluded by the common good-reduction/local-law interface.  Since
 
 \[
 L(1,\chi_4)=\prod_p(1-\chi_4(p)/p)^{-1}=\pi/4,
 \]
 
-the relative good-prime product has the conditionally convergent normalization
+the good-prime relative product has the conditionally convergent normalization
 
 \[
 \boxed{
 C_{\rm rel}
-=L(1,\chi_4)^{-2}C_{\rm abs}
-=\frac{16}{\pi^2}C_{\rm abs}
-\in(0,\infty).
+=C_{\rm bad}\,L(1,\chi_4)^{-2}C_{\rm abs}
+=C_{\rm bad}\frac{16}{\pi^2}C_{\rm abs}
+\in(0,\infty),
 }
 \]
+
+where the explicit finite nonzero factor `C_bad` only corrects the omitted fixed bad primes.  If the frozen exact formulas are valid for every odd prime, then `C_bad=1`.
 
 Thus the Stage19/Stage20 local comparison has not merely equal sieve dimension: after removing the quadratic-character first-order oscillation, it has a genuine finite Euler-product constant.
 
 ## 3. Finite diagnostic only
 
-A direct prime truncation through `p<=10^6` gives
+Using the displayed exact formulas for all odd primes in the diagnostic and truncating at `p<=10^6` gives
 
 ```text
 RAW_PRODUCT_prod(alpha_p/beta_p) ~= 2.11225405
 ABSOLUTELY_NORMALIZED_Cabs_TRUNCATED ~= 1.30295010
-RECONSTRUCTED_Crel_FROM_TRUNCATED_Cabs ~= 2.11226314
+RECONSTRUCTED_Crel_WITH_Cbad_1 ~= 2.11226314
 ```
 
-The small difference between the two displayed `Crel` diagnostics is only the finite truncation of the Dirichlet Euler product.  No numerical value of the limiting constant is certified here.
+The small difference between the two displayed relative-product diagnostics is only finite truncation of the Dirichlet Euler product.  No limiting numerical constant and no value of `C_bad` are certified by this computation.
 
 ```text
 FINITE_TRUNCATION_AS_THEOREM=false
+C_BAD_PROVED_EQUAL_1=false
 C_REL_GREATER_THAN_1_PROVED=false
 ```
 
