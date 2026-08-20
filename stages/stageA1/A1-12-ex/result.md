@@ -1,161 +1,115 @@
-# StageA1 A1-12-ex — independent certification of the 384-class exclusion
+# StageA1 A1-12-ex — second independent verification
 
-## Purpose
+## Verdict
 
-This is a **separate verification line**. It does not advance A1-13 and does not modify the StageA1 controller.
+`AUDIT_VERDICT=FAIL_SOURCE_COEFFICIENT_MISMATCH`
 
-The only question here is:
+The A1-12 finite-field/Mordell–Weil computation is internally reproducible, but its attachment to the published Bremner–Elsholtz–Ulas equation-(6) family is not valid as currently recorded.
 
-> Is it really proved that, inside the corrected Bremner–Elsholtz–Ulas equation-(6) family, any nondegenerate perfect-cuboid candidate must have its elliptic multiplier `n` in the A1-12 set of 384 residue classes modulo `3416490`?
+## 1. Published equation (6) uses -18, not -8
 
-A1-12-ex rederives the implication by a route that is deliberately more direct than the A1-8/A1-12 presentation and independently recomputes the finite-field sieve and the final residue set.
+The arXiv source `2604.05459v1`, equation (6), has in the `a0` square factor
 
-## The family-specific theorem being certified
+```text
+c^8 - 18 c^4 d^4 + d^8.
+```
 
-Let a nondegenerate rational anchored member of equation (6) survive all conditions necessary to be a perfect-cuboid candidate. Put
+The current StageA1 A1-3 chain instead replaced this by
+
+```text
+c^8 - 8 c^4 d^4 + d^8,
+```
+
+and all A1-4 through A1-13 reciprocal/quartic computations descend from that replacement.
+
+This is not a harmless transcription choice. `verify_source_equation6.py` substitutes the exact nondegenerate parameter point
+
+```text
+(c,d,G,H)=(3,1,7,1)
+```
+
+into the published polynomial formulas. With coefficient `18`, all eight Hilbert-cube subset sums are exact integer squares. Replacing only the source coefficient by `8` leaves `a0` square but makes the other seven required subset sums nonsquares. Thus the `-8` replacement is not the published equation-(6) family.
+
+## 2. Correct reciprocal curve from the published -18 coefficient
+
+With
 
 ```text
 x=c/d,
 k=x^2,
-z=k+1/k.
+r=G/H,
+u=r-1/r,
 ```
 
-Then, necessarily,
+the published anchor equation gives
 
 ```text
-z+2=(x+1/x)^2,
-z-2=(x-1/x)^2.
+4 k(k-1)u^2
+- (k^4-18k^2+1)u
+- 16k^2(k-1)=0.
 ```
 
-Thus the two square-coordinate conditions used by A1-12 are not heuristic filters: they are exact necessary conditions for every nondegenerate equation-(6) candidate.
-
-The corrected anchor discriminant from A1-3 gives a rational point on
+Its discriminant is
 
 ```text
-Q(z)=v^2,
-Q(z)=z^4-20z^2+256z-412.
+D18(k)
+ = k^8-36k^6+256k^5-186k^4+256k^3-36k^2+1.
 ```
 
-The quartic is birational to
+For `z=k+1/k`, the reciprocal quotient is therefore
 
 ```text
-E: y^2=x^3+x^2+95x+703
+Y^2 = z^4 - 40z^2 + 256z - 112.
 ```
 
-by
+This is not the A1-3/A1-12 quartic
 
 ```text
-z=-(y+32)/(x-3),
-v=2x+4-z^2,
+Y^2 = z^4 - 20z^2 + 256z - 412.
 ```
 
-with inverse
+Hence the curve `6080.r1`, its multiplier `n`, and the 384 residue classes computed in A1-12 are not presently attached to the actual published equation-(6) anchor boundary.
+
+## 3. What remains correct inside A1-12
+
+The following computations were independently reproduced again and are internally correct for the A1-12 quartic/model:
+
+- the birational map between `z^4-20z^2+256z-412` and `6080.r1`;
+- official LMFDB data: minimal model `[0,1,0,95,703]`, rank 1, trivial torsion, generator `(3,32)`;
+- all six finite-field orders and allowed classes;
+- direct scan of all `3,416,490` residues;
+- exactly `384` survivors;
+- SHA-256 `63652cb8e25860ba40dba7ba5f99023a9a611525f7b2bd2465a79b95c268e874`.
+
+The official LMFDB reliability statement for elliptic curves over `Q` makes the rank-one Mordell–Weil data rigorous at conductor 6080, so Sage execution is extra redundancy rather than the missing logical step.
+
+But these facts now certify only the arithmetic of the **A1-12 auxiliary/wrong-source quartic**. They do not establish
 
 ```text
-x=(v+z^2-4)/2,
-y=-z(x-3)-32.
+published equation-(6) candidate
+  => n lies in the 384 A1-12 residue classes.
 ```
 
-Official LMFDB data for `6080.r1` records rank `1`, trivial torsion, and Mordell–Weil generator `(3,32)`. Therefore
+## 4. Required upstream repair
+
+Before any further StageA1 conclusion is promoted, the chain must be rederived from the published `-18` coefficient. At minimum this invalidates the source attachment of A1-3 through A1-13 and requires a new exact descent beginning from
 
 ```text
-E(Q)=Z P,  P=(3,32),
+Y^2=z^4-40z^2+256z-112.
 ```
 
-so every rational quartic point is represented by an integer multiplier `n` (with the two points at infinity handled by the birational exceptional chart).
+A1-12/A1-13 should not be cited as restrictions on the published equation-(6) family until that rederivation is complete.
 
-For each selected good prime `p`, reduction modulo `p` is a group homomorphism. If `nP` has finite `z`-reduction and both rational numbers `z+2` and `z-2` are squares over `Q`, their reductions are quadratic residues or zero in `F_p`. If the reduction is a pole of the `z` map, the corresponding residue class is retained rather than discarded. Hence no genuine rational survivor is lost through denominator/pole handling.
-
-Independent finite-field recomputation gives
+This does not prove or disprove a perfect cuboid. It is a source-attachment failure in the StageA1 side line.
 
 ```text
-p     ord(P mod p)     necessary n classes
-7          9           {0,1,2,-1}
-23        29           {0,1,2,-1}
-37        10           {0,1,2,-1}
-257       22           {0,1,2,-1}
-263       34           {0,1,2,-1}
-863       21           {0,1,2,-1}
-```
-
-Therefore every equation-(6) candidate satisfies all six congruence restrictions simultaneously.
-
-Let
-
-```text
-M=lcm(9,29,10,22,34,21)=3416490.
-```
-
-A1-12-ex does **not** trust the CRT-merging implementation from A1-12 for the final count. It independently scans every residue
-
-```text
-0 <= n < 3416490
-```
-
-and keeps exactly those satisfying all six displayed congruence tests. The result is exactly
-
-```text
-384
-```
-
-residue classes, with sorted-list SHA-256
-
-```text
-63652cb8e25860ba40dba7ba5f99023a9a611525f7b2bd2465a79b95c268e874.
-```
-
-Thus the exact certified implication is:
-
-```text
-nondegenerate equation-(6) perfect-cuboid candidate
-    => n mod 3416490 lies in S_A1_12
-    => |S_A1_12|=384.
-```
-
-Equivalently:
-
-> **Inside this specific equation-(6) family, every multiplier class outside the 384-class set is rigorously excluded from producing a perfect cuboid.**
-
-This is an all-integers congruence statement, not a bounded-height search.
-
-## What still depends on an external certified Mordell–Weil computation
-
-The finite-field sieve and the 384-class count are elementary and independently reproducible. The global step saying that **every** rational quartic point is `nP` uses the completeness of the Mordell–Weil description
-
-```text
-E(Q)=Z(3,32).
-```
-
-A1-12-ex therefore treats this as the single most important external dependency and checks it in two ways:
-
-1. official LMFDB `6080.r1`: rank `1`, trivial torsion, generator `(3,32)`;
-2. a separate Sage/eclib computation with database lookup disabled and proof mode enabled, requiring a proved rank and proved generators.
-
-The Sage verification must report that the generator set is certain. If that certified computation fails, A1-12-ex does **not** promote the 384 theorem beyond the LMFDB-backed status.
-
-## Scope firewall
-
-This theorem is still **family-specific**. A1-3 proved that equation (6) is not known to be a universal reverse parametrization of arbitrary perfect cuboids. Therefore A1-12-ex does not claim
-
-```text
-arbitrary perfect cuboid => one of these 384 n-classes.
-```
-
-It certifies only
-
-```text
-equation-(6) candidate => one of these 384 n-classes.
-```
-
-No perfect-cuboid existence or nonexistence conclusion is made.
-
-```text
-A1_12_EX_TARGET=INDEPENDENT_384_CLASS_CERTIFICATION
-A1_12_EX_CONTROLLER_CHANGED=false
-A1_12_EX_FAMILY_SPECIFIC_ONLY=true
-A1_12_EX_FULL_RESIDUE_SCAN_SIZE=3416490
-A1_12_EX_SURVIVING_CLASSES=384
-A1_12_EX_SHA256=63652cb8e25860ba40dba7ba5f99023a9a611525f7b2bd2465a79b95c268e874
-A1_12_EX_GLOBAL_MW_DEPENDENCY=E(Q)=Z(3,32)
-A1_12_EX_ARBITRARY_CUBOID_COVERAGE_PROVED=false
+A1_12_EX_SECOND_CHECK=COMPLETE
+A1_12_EX_SOURCE_PDF_COEFFICIENT=-18
+A1_12_EX_PROJECT_CHAIN_COEFFICIENT=-8
+A1_12_EX_SOURCE_ATTACHMENT_AUDIT=FAIL
+A1_12_384_ARITHMETIC_INTERNAL_AUDIT=PASS
+A1_12_384_APPLIES_TO_PUBLISHED_EQUATION6=NOT_PROVED_AND_CURRENT_DERIVATION_INVALID
+CORRECT_PUBLISHED_RECIPROCAL_QUARTIC=Y^2=z^4-40z^2+256z-112
+PERFECT_CUBOID_FOUND=false
+PERFECT_CUBOID_NONEXISTENCE_PROVED=false
 ```
