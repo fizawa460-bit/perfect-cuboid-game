@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "stage": "StageA2",
+  "task": "A2-3_PUBLISHED_MINUS18_RESTART",
+  "base_main": "d031c6a7fd2d8f3fcdc6a5667bf6f6cbba75ea6e",
+  "mode": "SEPARATE_RESTART_FROM_PUBLISHED_SOURCE",
+  "source": {
+    "title": "There are infinitely many Hilbert cubes of dimension 3 in the set of squares",
+    "authors": ["Andrew Bremner", "Christian Elsholtz", "Maciej Ulas"],
+    "arxiv": "2604.05459v1",
+    "locator": "PDF p.13 equation (6)",
+    "published_anchor_coefficient": -18,
+    "source_pdf_check": "PASS"
+  },
+  "sanity_point": {
+    "parameters": [3, 1, 7, 1],
+    "nondegenerate": true,
+    "equation6_tuple": [243180321177600, 1521303552000000, 1362949057806336, 403778845016064],
+    "subset_square_roots": [15594240, 25435392, 40076544, 44832000, 42005760, 46564608, 55923456, 59424000],
+    "published_minus18_square_count": 8,
+    "minus8_negative_control_square_count": 1
+  },
+  "anchor": {
+    "normalized_variables": "x=c/d, r=G/H, k=x^2, u=r-1/r",
+    "reciprocal_quadratic": "4*k*(k-1)*u^2-(k^4-18*k^2+1)*u-16*k^2*(k-1)=0",
+    "D18": "k^8-36*k^6+256*k^5-186*k^4+256*k^3-36*k^2+1",
+    "D18_discriminant": "-2^80*3^3*5^2",
+    "genus": 3
+  },
+  "quotient": {
+    "variables": "z=k+1/k, Y=v/k^2",
+    "quartic": "Y^2=z^4-40*z^2+256*z-112",
+    "quartic_discriminant": "-2^32*3*5",
+    "genus": 1,
+    "excluded_wall_point": "z=2, Y=+/-16 corresponds to k=1"
+  },
+  "reconstruction_square_covers": 3,
+  "general_coverage_proved": false,
+  "new_arbitrary_cube_constraint": false,
+  "perfect_cuboid_found": false,
+  "perfect_cuboid_nonexistence_proved": false,
+  "a1_minus8_results_imported": false,
+  "a1_minus8_quarantined": true,
+  "next_target_if_audit_passes": "A2-4_PUBLISHED_MINUS18_QUARTIC_AND_EXACT_COVERS",
+  "audit_required": true,
+  "merge_allowed": false,
+  "next_expected_command": "StageA2-audit"
+}
