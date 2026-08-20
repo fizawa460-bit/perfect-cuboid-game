@@ -71,6 +71,12 @@ This closeout is intentionally narrow.
 - Stage27 and StructureRadar receivers are unchanged.
 - StageA1 `-8` results remain historical auxiliary-curve computations only.
 
+## Closeout audit
+
+The independent closeout audit found no new mathematical issue. The PR base is the merged A2-5 commit, the complete A2-3/A2-4/A2-5 audit ledger is preserved, and the terminal statement does not exceed the proved family-specific scope.
+
+Audit record: `stages/stageA2/A2-CLOSE/audit.md`.
+
 ## Final StageA2 statement
 
 ```text
@@ -79,12 +85,15 @@ SOURCE_COEFFICIENT=-18
 A2_3_AUDIT=PASS
 A2_4_AUDIT=PASS_WITH_ELEMENTARY_STRENGTHENING_AND_LANDMARK_REPAIR
 A2_5_AUDIT=PASS_WITH_CONTROLLER_HISTORY_REPAIR
+A2_CLOSE_AUDIT=PASS
 PUBLISHED_EQUATION6_ANCHOR_NONDEGENERATE_POINTS=0
 FAMILY_SPECIFIC_EXCLUSION_COMPLETE=true
 GENERAL_COVERAGE_PROVED=false
 PERFECT_CUBOID_FOUND=false
 ARBITRARY_PERFECT_CUBOID_NONEXISTENCE_PROVED=false
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-NEXT_EXPECTED_COMMAND=StageA2-audit
+EXACT_HEAD_STAGEA2_CI=NOT_CONFIGURED
+AUDIT_REQUIRED=false
+MERGE_ALLOWED=true
+STOP_AFTER_AUDIT=true
+NEXT_EXPECTED_COMMAND=merge_this_PR_to_finalize_StageA2
 ```
