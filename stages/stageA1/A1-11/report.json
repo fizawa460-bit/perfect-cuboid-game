@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "stage": "StageA1",
+  "task": "A1-11_EXACT_ELLIPTIC_ADAPTER_FIREWALL_AND_FREEZE_CANDIDATE",
+  "base_main": "e9a2649e387279256cd7255f048e6d4190a0035a",
+  "audit_verdict": "PASS_WITH_ROUTING_REPAIR",
+  "same_j_firewall": true,
+  "false_adapters_rejected": [
+    "32110.x1 as E_13",
+    "256880.cx1 as E_-13",
+    "32490.s1 as E_57",
+    "259920.fm1 as E_-57",
+    "288990.bg1 as E_-39"
+  ],
+  "routing_repair": {
+    "first_two_cover_relevant_delta": 1,
+    "reason": "A1-8 already gives Q(z)=Y^2 on every C-point, so only squareclass delta=+1 can lift from the first-two-cover curve",
+    "nontrivial_delta_classes_are": "quotient-side rational-point branches only"
+  },
+  "q2_obstruction": {
+    "homogeneous_H": "a^4-20*a^2*b^2+256*a*b^3-412*b^4",
+    "primitive_H_mod32_values": [1, 4, 17],
+    "necessary_condition_for_odd_delta": "delta == 1 mod 8",
+    "Gminus_survivors": [1],
+    "Gplus_survivors": [1, -247],
+    "G0_survivors": [1, -39, 57, -247],
+    "original_ten_q2_empty": [13, -13, 39, -57, 247, 741, -741],
+    "original_ten_q2_survivors": [-39, 57, -247]
+  },
+  "true_remaining_receiver": "Q(z)=v^2, z+2=s^2, z-2=t^2 on the audited rank-one delta=1 elliptic quotient",
+  "delta1_lmfdb": "6080.r1",
+  "delta1_rank": 1,
+  "delta1_torsion": "trivial",
+  "delta1_generator": "(3,32) on y^2=x^3+x^2+95x+703",
+  "true_computational_wall": "certified MW-sieve / elliptic-Chabauty or equivalent exact descent for the two square-coordinate conditions on delta=1",
+  "stage_status": "FROZEN_EXACT_DELTA1_MW_SIEVE_WALL",
+  "stop_after_audit": true,
+  "family_specific_only": true,
+  "new_arbitrary_cube_constraint": false,
+  "new_stage27_weapon": false,
+  "perfect_cuboid_found": false,
+  "perfect_cuboid_nonexistence_proved": false,
+  "audit_required": false,
+  "next_expected_command": "NONE_UNTIL_REOPEN_TRIGGER"
+}
