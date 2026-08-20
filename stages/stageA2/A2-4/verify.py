@@ -16,6 +16,16 @@ def is_square_frac(q):
     return is_square_int(q.numerator) and is_square_int(q.denominator)
 
 
+def v2(n):
+    n = abs(n)
+    assert n != 0
+    out = 0
+    while n % 2 == 0:
+        out += 1
+        n //= 2
+    return out
+
+
 def q18(z):
     return z**4 - 40*z**2 + 256*z - 112
 
@@ -32,7 +42,8 @@ def f2(z):
 for z in [Fraction(-7, 3), Fraction(0), Fraction(2), Fraction(11, 5)]:
     assert q18(z) == f1(z) * f2(z)
 
-# Binary gcd identities used in the first squareclass split.
+# Binary gcd identities and the strengthened 2-adic parity split.
+seen_v2 = set()
 for a in range(-25, 26):
     for b in range(1, 26):
         if gcd(a, b) != 1:
@@ -43,17 +54,20 @@ for a in range(-25, 26):
         assert gcd(F2, b) == 1
         g = gcd(abs(F1), abs(F2))
         assert 256 % g == 0
+        vv = (v2(F1), v2(F2))
+        assert vv in {(0, 0), (2, 2), (4, 4)}
+        seen_v2.add(vv)
+assert seen_v2 == {(0, 0), (2, 2), (4, 4)}
 
-# Projective mod-5 obstruction for delta=2 in the first split.
+# Projective mod-5 obstruction for delta=2 in the submitted first split.
+# This remains correct, although the parity audit above already proves delta=2 cannot occur.
 sq5 = {0, 1, 4}
-# Infinity B=0: A^2=2R^2 has no nonzero projective solution.
 assert all(((a*a - 2*r*r) % 5 != 0) for a in range(1, 5) for r in range(5))
-# Affine B=1: no simultaneous pair.
 first_delta2_affine = []
 for a in range(5):
     F1 = (a*a - 8*a + 28) % 5
     F2 = (a*a + 8*a - 4) % 5
-    if (F1 * 3) % 5 in sq5 and (F2 * 3) % 5 in sq5:  # divide by 2 mod 5
+    if (F1 * 3) % 5 in sq5 and (F2 * 3) % 5 in sq5:
         first_delta2_affine.append(a)
 assert first_delta2_affine == []
 
@@ -79,7 +93,16 @@ for t in [Fraction(-3), Fraction(-1, 2), Fraction(0), Fraction(2), Fraction(7, 3
 assert z_of_t(Fraction(-1, 2)) == 2
 assert u_of_t(Fraction(-1, 2)) == 4
 
-# Second binary gcd identity.
+# Projective t=infinity is also an excluded Cplus wall point.
+# Homogenize with t=T/W. At W=0, Cplus has R^2=T^2 and S^2=T^2,
+# while the conic map has z=2 and U=-4.
+T, W = 1, 0
+assert T*T - 5*T*W - 5*W*W == 1
+assert T*T - T*W - W*W == 1
+assert Fraction(2*T*T - 8*T*W - 6*W*W, T*T - W*W) == 2
+assert Fraction(-4*(T*T + T*W + W*W), T*T - W*W) == -4
+
+# Second binary gcd identity, strengthened to gcd=1 by parity.
 for a in range(-25, 26):
     for b in range(1, 26):
         if gcd(a, b) != 1:
@@ -89,9 +112,11 @@ for a in range(-25, 26):
         assert gcd(A, b) == 1
         g = gcd(abs(A), abs(B))
         assert 4 % g == 0
+        assert A % 2 != 0 and B % 2 != 0
+        assert g == 1
 
-# Projective mod-5 obstruction for delta=+2 and -2 in the second split.
-# At infinity b=0, A=B=a^2; both +/-2 are nonsquares mod 5.
+# Projective mod-5 obstruction for delta=+2 and -2 in the submitted second split.
+# Again correct but redundant after the gcd/parity strengthening.
 for delta in (2, -2):
     dinv = pow(delta % 5, -1, 5)
     assert dinv not in sq5
@@ -104,15 +129,14 @@ for delta in (2, -2):
     assert affine == []
 
 # Known surviving branch points / routing landmarks.
-# Cplus t=-1 is a projective quartic-infinity landmark.
 t = Fraction(-1)
 assert t*t - 5*t - 5 == 1
 assert t*t - t - 1 == 1
-# Cminus t=1 is the other quartic-infinity landmark.
+
 t = Fraction(1)
 assert -(t*t - 5*t - 5) == 9
 assert -(t*t - t - 1) == 1
-# Cminus t=-1/2 is the excluded affine wall z=2.
+
 t = Fraction(-1, 2)
 assert -(t*t - 5*t - 5) == Fraction(9, 4)
 assert -(t*t - t - 1) == Fraction(1, 4)
@@ -120,10 +144,11 @@ assert is_square_frac(-(t*t - 5*t - 5))
 assert is_square_frac(-(t*t - t - 1))
 
 print("A2-4 Q18 factorization: PASS")
-print("A2-4 first squareclass support {1,2}: PASS")
-print("A2-4 first delta=2 Q5 obstruction: PASS")
+print("A2-4 first exact squareclass delta=1 by parity: PASS")
+print("A2-4 first delta=2 Q5 obstruction: PASS_REDUNDANT")
 print("A2-4 conic t-parameter identities: PASS")
-print("A2-4 second squareclass support {+1,-1,+2,-2}: PASS")
-print("A2-4 second +/-2 Q5 obstruction: PASS")
+print("A2-4 second exact squareclasses {+1,-1} by gcd/parity: PASS")
+print("A2-4 second +/-2 Q5 obstruction: PASS_REDUNDANT")
+print("A2-4 t=infinity excluded-wall landmark: PASS")
 print("A2-4 first reconstruction t-cover identity: PASS")
 print("A2-4 exact factor-cover descent: PASS")
