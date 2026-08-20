@@ -6,8 +6,9 @@
   "trigger_checkpoint": 40,
   "route_kind": "UPPER_REENTRY_PARALLEL",
   "parent_route": "Stage27-19-r5aw",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "status": "AUDITED_PASS_MERGED_FROZEN",
   "base_main": "02ec86536ce6a1674be4f185631848eedfd9956f",
+  "merge_commit": "f5c40a048bb6a56e689ed2dc37358ffed16db99f",
   "purpose": "substitute the audited exact kappa factor packets into the r5au boundary, test whether factorization alone yields a fixed negative K power, identify the global occupied-diagonal support target, and freeze the lane under the anti-loop rule if no new quantitative saving appears",
   "inputs": {
     "r5aw_audit_pr": 1246,
@@ -23,7 +24,7 @@
     "gaussian_packet_boundary_identity": true,
     "gaussian_packet_identity": "delta*C*rho*sigma=(a*u-b*v)*(a*v+b*u); a^2+b^2=kappa",
     "gaussian_linear_map_determinant": "kappa",
-    "factor_packet_exact_reparametrization": true,
+    "factor_packet_exact_reparametrization_with_all_parity_divisibility_physical_masks_retained": true,
     "allocation_entropy": "K^o(1)",
     "factorization_alone_does_not_prove_boundary_K_power": true,
     "occupied_R_support_exponent_equivalence": true,
@@ -87,12 +88,20 @@
       "fixed-power deficit for occupied physical space-diagonal support S2(B)"
     ]
   },
+  "audit": {
+    "verdict": "PASS",
+    "audited_submission_head": "ee02f2fa42a8977201e4e0602da1d5aaa18ce703",
+    "exact_head_ci_run": 32345595970,
+    "exact_head_ci_conclusion": "success",
+    "nonblocking_note": "exact reparametrization means the set with parity, divisibility, and physical masks retained; it is not a bijection with the naked quadratic strip",
+    "record": "stages/stage27/27-19-r5ax/audit.md"
+  },
   "advance_to_checkpoint50": false,
-  "merge_allowed": false,
+  "merge_allowed": true,
   "advance_allowed": false,
-  "fresh_audit_required": true,
-  "audit_status": "PENDING",
-  "next_derived_route": "NONE_R5_UPPER_LANE_FROZEN",
-  "next_target": "NONE_UNTIL_REOPEN_CONDITION",
-  "next_expected_command": "Stage27-19-r5-audit"
+  "fresh_audit_required": false,
+  "audit_status": "PASS",
+  "next_derived_route": "Stage27-19-r6a",
+  "next_target": "OCCUPIED_R_SUPPORT_SQUARECLASS_COLLISION_RECEIVER",
+  "next_expected_command": "Stage27-19-r5-main-batch_ROUTE_TO_R6A"
 }
