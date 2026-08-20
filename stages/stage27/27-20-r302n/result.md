@@ -1,4 +1,4 @@
-# Stage27-20-r302n — isolate diagonal versus genuine two-frequency burden
+# Stage27-20-r302n — repair the diagonal requirement in the same-measure Gram receiver
 
 STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
 CHECKPOINT=40
@@ -6,45 +6,67 @@ ROUTE_KIND=UPPER_REENTRY_MAIN_HIGH_OCCUPANCY
 PARENT_ROUTE=Stage27-20-r302m
 SOURCE_STAGE=Stage20
 
-R302m imports the exact same-`H_phys^MAIN` quadratic-form receiver for the completed primitive inverse-frequency operator. The next reduction is to identify which part of that positive semidefinite quadratic form can carry the required fixed-power deficit.
-
-For one retained MAIN packet and gcd stratum `d`, write the Gram form as
+R302m imports the exact same-`H_phys^MAIN` full quadratic-form receiver
 
 ```text
 Q_d(c)=sum_{b,b'} c_b conj(c_{b'}) G_d(b,b')
-      =sum_b |c_b|^2 G_d(b,b)
-       +sum_{b!=b'} c_b conj(c_{b'})G_d(b,b').
+      <= B^{-2delta+o(1)} E_packet ||c||_2^2
 ```
 
-Because `G_d=T_d^*T_d` is positive semidefinite, the diagonal cannot be cancelled away by an optimistic off-diagonal estimate. Therefore any theorem proving
+uniformly for every coefficient vector `c` supported on the retained gcd stratum `d|b`.
+
+The previous r302n formulation allowed a false escape through an unspecified baseline subtraction. That branch is removed. Because the receiver holds for every `c`, one may test the basis vector `c=e_b`. Then
 
 ```text
-Q_d(c) <= B^{-2delta+o(1)} E_packet ||c||_2^2
+Q_d(e_b)=G_d(b,b),
 ```
 
-must either:
-
-1. place the diagonal itself below the target envelope uniformly on the retained physical packets; or
-2. renormalize `E_packet` so that the diagonal is already part of the admissible baseline and then prove a strict spectral deficit for the nontrivial modes relative to that exact baseline.
-
-A proof that only shows cancellation for `b!=b'` while leaving a diagonal of full `E_packet` size does not yield the required operator saving. Conversely, an absolute Schur row bound remains unnecessary if a spectral inequality controls the full positive quadratic form.
-
-Thus the live burden splits into two exact subreceivers on the same charged measure:
+so every successful proof of the r302m theorem necessarily satisfies
 
 ```text
-MAINWallPrimitiveInverseFrequencyDiagonalEnergyDeficitOrBaselineIdentification
-MAINWallPrimitiveInverseFrequencyNontrivialSpectralGap
+sup_b G_d(b,b)
+ <= B^{-2delta+o(1)} E_packet.
 ```
 
-The first must decide whether the Gram diagonal is genuinely smaller than the host energy or merely the normalization baseline. The second must supply the uniform positive-power gap for the remaining spectrum without changing modulus family, common-parent weights, masks, or quantifier order.
+This is the correct reason the Gram diagonal cannot be ignored. Positive semidefiniteness alone does not forbid cancellation between diagonal and off-diagonal terms for a particular vector; the obstruction is the uniform quantifier over all coefficient vectors, which includes every `e_b`.
 
-No diagonal saving or spectral gap is proved here.
+A clean sufficient two-part receiver is obtained by writing
+
+```text
+D_d = diag(G_d),
+R_d = G_d-D_d.
+```
+
+It is enough to prove fixed `delta_1,delta_2>0`, uniformly on every retained MAIN packet and gcd stratum, such that
+
+```text
+||D_d||op = sup_b G_d(b,b)
+ <= B^{-2delta_1+o(1)} E_packet,
+
+||R_d||op
+ <= B^{-2delta_2+o(1)} E_packet.
+```
+
+Then the triangle inequality gives
+
+```text
+||G_d||op
+ <= ||D_d||op + ||R_d||op
+ <= B^{-2 min(delta_1,delta_2)+o(1)} E_packet,
+```
+
+with the harmless factor 2 absorbed into `B^{o(1)}`. Hence this simultaneous diagonal/remainder theorem rigorously discharges the full r302m quadratic-form receiver.
+
+No claim is made that this decomposition is necessary as a proof strategy; a direct same-measure full quadratic-form estimate may still prove r302m without separately estimating `R_d`. What is necessary is the basis-vector diagonal consequence above.
 
 STAGE27_20_R302N_STATUS=BATCH_SUBMITTED_PENDING_FRESH_AUDIT
-GRAM_DIAGONAL_CANNOT_BE_IGNORED=true
-OFFDIAGONAL_CANCELLATION_ALONE_SUFFICIENT=false
+AUDIT_REPAIR_APPLIED=true
+UNIFORM_ALL_C_QUANTIFIER_RETAINED=true
+BASIS_VECTOR_DIAGONAL_NECESSITY_PROVED=true
+PSD_NO_CANCELLATION_REASON_WITHDRAWN=true
+BASELINE_SUBTRACTION_ESCAPE_REMOVED=true
 DIAGONAL_DEFICIT_PROVED=false
-NONTRIVIAL_SPECTRAL_GAP_PROVED=false
+OFFDIAGONAL_REMAINDER_OPERATOR_DEFICIT_PROVED=false
 SAME_MEASURE_QUADRATIC_FORM_DEFICIT_PROVED=false
 STRICT_SUB_SQRT_UPPER_PROVED=false
 NEW_MU_LT_HALF_PROVED=false
