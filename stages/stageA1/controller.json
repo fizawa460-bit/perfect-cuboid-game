@@ -3,7 +3,7 @@
   "stage": "StageA1",
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
-  "base_main": "16080980648c7dea620da23610caeb67118f55bb",
+  "base_main": "35bee884a1a08bb8227e3db97b11283080bde49c",
   "status": "RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE",
   "completed": [
     "A1-1",
@@ -13,9 +13,11 @@
     "A1-5_PRIMITIVE_PYTHAGOREAN_DESCENT_WITH_MOD5_BRANCH_ELIMINATION",
     "A1-6_LOCAL_SIEVE_COMPLETENESS_AND_SATURATION"
   ],
-  "submitted_for_audit": [],
-  "next": "A1-8_TARGETED_GLOBAL_TWO_BRANCH_DESCENT",
-  "go_no_go_checkpoint": "A1-7_CLOSURE_DEFERRED_BY_AUDIT",
+  "submitted_for_audit": [
+    "A1-8_GLOBAL_QUOTIENT_JACOBIAN_DESCENT"
+  ],
+  "next": "A1-9_TARGETED_GENUS2_RATIONAL_POINT_OR_JACOBIAN_COMPUTATION_IF_AUDIT_PASSES",
+  "go_no_go_checkpoint": "A1-8_AUDIT_BOUNDARY",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_5_audit_verdict": "PASS",
@@ -24,7 +26,7 @@
   "a1_4_quartic": "Y^2=z^4-20*z^2+256*z-412",
   "a1_4_jacobian_scaled_integral_model": "W^2=X^3+7668X+489456",
   "a1_4_positive_rank_witness": "P=(30,864), 4P=(12369/100,1824903/1000)",
-  "a1_4_first_two_cover_identity": "b^16*D((a/b)^2)=(a^8-8a^4b^4+b^8)^2+(16a^3b^3(a^2-b^2))^2",
+  "a1_4_first_two_cover_identity": "b^16*D((a/b)^2)=(a^8-8*a^4*b^4+b^8)^2+(16*a^3*b^3*(a^2-b^2))^2",
   "a1_4_height5000_pairs_examined": 15200914,
   "a1_4_height5000_survivors": 0,
   "a1_4_local_sieve_primes": [3, 5, 7, 23],
@@ -51,9 +53,23 @@
     "global_rational_point_problem_closed": false,
     "local_congruence_route_saturated": true
   },
+  "a1_8_receiver": {
+    "elliptic_quotient": "E: Y^2=Q(z), Q=z^4-20*z^2+256*z-412",
+    "G0": "W0^2=(z^2-4)Q(z)",
+    "Gplus": "Wplus^2=(z+2)Q(z)",
+    "Gminus": "Wminus^2=(z-2)Q(z)",
+    "all_genus2_smooth": true,
+    "reconstruction": "C(Q) nondegenerate iff an E(Q) point has z+2 and z-2 both rational squares",
+    "jacobian_isogeny": "Jac(C) ~_Q E x Jac(G0) x Jac(Gplus) x Jac(Gminus)",
+    "differential_matrix_determinant": 8,
+    "sign_correct_prime_to_leg_allocation": true,
+    "q7_branch_sign_signature": "g=1: A>0->N,A<0->M; g=6: A>0->M,A<0->N"
+  },
+  "a1_8_substantive_progress": true,
+  "a1_8_new_arbitrary_cube_constraint": false,
   "integration_category_candidate": "NEW_FAMILY_EXCLUSION",
-  "closure_deferred_reason": "A1-6 saturates the elementary local/congruence route, but the audited A1-5 g=1/6 coprime R,S receiver has not yet received its targeted global descent/cover/Jacobian attack. Under the operator override, closure is premature while this concrete unexplored reduction remains.",
-  "next_attack": "Attack only the two surviving g=1 and g=6 branches and the coprime odd factorization R*S=|A|/g coupled to S^2-R^2=(32/g)|a^3b^3(a^2-b^2)|. Seek a genuine global descent, finite lower-genus cover family, Jacobian/quotient decomposition, rational-point restriction, or exact theorem/computational-algebra adapter.",
+  "closure_deferred_reason": "A1-8 materially lowers the unresolved global genus-7 wall to one elliptic factor and three explicit genus-2 Jacobians, so one targeted certified genus-2 rational-point/Jacobian computation remains justified before closure or freeze.",
+  "next_attack_if_audit_passes": "Target G0, Gplus, and Gminus only. Seek rigorous rational-point sets, Jacobian ranks/Selmer data plus Chabauty/MW-sieve applicability, or an exact computational-algebra adapter. Do not return to larger height searches or the saturated local-prime route.",
   "operator_override": "Continue digging while substantive new mathematics is produced. Stop when successive work only repackages the same unresolved point, or when a targeted global attempt reaches an exact external theorem/computational wall with no concrete reduction left.",
   "do_not_repeat": [
     "larger finite height searches on the same first-two-cover receiver",
@@ -62,17 +78,17 @@
     "renaming the same genus-7 or R,S equations without a strict reduction"
   ],
   "reopen_or_continue_if": [
-    "new exact global descent or factorization obstruction",
-    "finite lower-genus cover decomposition",
-    "new Jacobian or quotient decomposition materially lowering the rational-point problem",
-    "rigorous rational-point restriction",
+    "certified rational-point restriction on one or more A1-8 genus-2 factors",
+    "certified Jacobian rank/Selmer computation enabling Chabauty or an MW sieve",
+    "further exact quotient/isogeny decomposition materially lowering a genus-2 factor",
     "exact global rational-point theorem or computation for the relevant cover",
     "proved coverage/reverse-map theorem for arbitrary anchored cubes",
     "exact adapter into another proved receiver"
   ],
   "firewalls": [
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
-    "Equation (6) is not universal; no A1-5/A1-6 condition is promoted to arbitrary perfect cuboids.",
+    "Equation (6) is not universal; no A1-5/A1-6/A1-8 condition is promoted to arbitrary perfect cuboids.",
+    "The A1-8 Jacobian isogeny does not by itself determine C(Q).",
     "Positive rank of the genus-1 quotient does not imply a surviving point through the reconstruction covers.",
     "The height-5000 search is finite evidence only.",
     "The p=3,5,7,23 list is complete only for the specific trivial-reduction divisibility mechanism on the first-two-cover curve.",
@@ -83,8 +99,8 @@
     "main": "StageA1-main-batch",
     "audit": "StageA1-audit"
   },
-  "audit_required": false,
+  "audit_required": true,
   "merge_allowed": false,
   "stop_after_audit": false,
-  "next_expected_command": "StageA1-main-batch"
+  "next_expected_command": "StageA1-audit"
 }
