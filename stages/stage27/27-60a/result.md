@@ -1,95 +1,76 @@
-# Stage27-60a — roadmap causal decomposition: transition ledger
+# Stage27-60a — Stage18 -> Stage19 causal decomposition contract
 
 ```text
 TASK_ID=Stage27-60a
 CHECKPOINT=60
 PARENT_ROADMAP=docs/stage16-28-population-roadmap.md
-ROADMAP_TRANSITION=Stage16 -> Stage20
+CURRENT_STAGE27_SCOPE=Stage18 -> Stage19 reentry refinement
 ROUTE_KIND=CAUSAL_DECOMPOSITION
 STATUS=SUBMITTED_PENDING_FRESH_AUDIT
 ```
 
-The Stage16-28 roadmap defines Stage27 as the total transition from exactly one
-integral face diagonal to Euler cuboids:
+For the present Stage27 campaign, retain the already-frozen Stage18 -> Stage19
+population contract rather than reinterpreting Stage27 as a new Stage16 -> Stage20
+counting problem.
 
-```text
-Stage16: M1 = exactly one integral face diagonal
-Stage18: M2 = exactly two integral face diagonals
-Stage20: M3 = exactly three integral face diagonals
-```
-
-All three use the common primitive/canonical physical cutoff `R<=B`.  No integral
-space diagonal is part of the Stage27 source or target contract.
-
-The audited adjacent population laws available to Stage27 are
+Source:
 
 \[
-M_1(B)\sim \frac{3}{4\pi^2}B^2\log B,
-\qquad
-M_2(B)\sim C_{M_2}B(\log B)^5,
+M_2(B)=\#\{\text{primitive canonical exactly-two-face cuboids},\ R\le B\}.
 \]
 
-and the current Stage20/26 Euler-cuboid envelope
+Target:
 
 \[
-B^{1/3-\varepsilon}\ll_\varepsilon M_3(B)
-\ll_\eta B(\log B)^{5-\eta}
-\qquad (0<\eta<1/46).
+N_2(B)=\#\{\text{the same physical objects with integral space diagonal}\}.
 \]
 
-Hence the total Stage27 population-size ratio factors algebraically as
+Thus this is a literal subset transition under the same physical measure and cutoff:
 
 \[
-\boxed{\frac{M_3}{M_1}
-=\frac{M_2}{M_1}\frac{M_3}{M_2}}.
+N_2(B)=M_2(B)\cap\{R\in\mathbf Z\}.
 \]
 
-This identity is only a decomposition of matched population sizes.  The strata
-`M1`, `M2`, and `M3` are disjoint exact-face populations, so it must not be called
-an objectwise survival chain or a proof that the two arithmetic mechanisms are
-independent.
-
-Stage22 gives the first factor sharply:
+The current certified theorem surface after the Stage27 r5--r10 campaign is
 
 \[
-\boxed{\frac{M_2}{M_1}
-\sim \frac{4\pi^2C_{M_2}}3\frac{(\log B)^4}{B}}.
+M_2(B)\sim C_{M_2}B(\log B)^5,\qquad C_{M_2}>0,
 \]
-
-Stage26 gives for the second factor
 
 \[
-\frac{M_3}{M_2}\to0,
+\boxed{B^{1/4}\ll N_2(B)\ll_\varepsilon B^{1/2+\varepsilon}}.
 \]
 
-with the certified corridor, for fixed `epsilon>0` and `0<delta<1/46`,
+Hence the current survivor corridor is
 
 \[
-B^{-2/3-\varepsilon}(\log B)^{-5}
-\ll_\varepsilon \frac{M_3}{M_2}
-=o((\log B)^{-\delta}).
+B^{-3/4}(\log B)^{-5}
+\ll \frac{N_2(B)}{M_2(B)}
+\ll_\varepsilon B^{-1/2+\varepsilon}(\log B)^{-5}.
 \]
 
-Therefore Stage27 already has a rigorous two-step causal ledger:
+The ratio tends to zero, but the true target exponent and the true polynomial cost
+of the added space-diagonal condition remain unknown.
 
-```text
-FIRST_ADDED_CONDITION=second integral face diagonal
-FIRST_STEP_POLYNOMIAL_LOSS=B^-1
-FIRST_STEP_LOG_COMPENSATION=(log B)^4
-SECOND_ADDED_CONDITION=third integral face diagonal
-SECOND_STEP_ZERO_DENSITY=true
-SECOND_STEP_TRUE_POLYNOMIAL_COST=UNKNOWN
-```
+Checkpoint60 is therefore not an exponent-fitting exercise.  Its roadmap role is
+to decompose **why** the Stage18 population thins when the integral-space condition
+is added, and to separate:
 
-The next checkpoint60 task is to identify which arithmetic structures pay these
-losses and to firewall common interfaces, space-diagonal effects, and repeated
-versions of the same restriction from being charged twice.
+1. the genuinely new space-square restriction;
+2. equivalent reformulations of that same restriction;
+3. auxiliary local/geometric mechanisms proving rarity;
+4. quantitative mechanisms responsible for the current upper bound;
+5. constructive mechanisms responsible for the current lower bound;
+6. restrictions already charged earlier and therefore unavailable for a second
+   power saving.
 
 ```text
 ROADMAP_CHECKPOINT60_ROLE=CAUSAL_DECOMPOSITION
-TOTAL_RATIO_FACTOR_LEDGER_PROVED=true
-LITERAL_SUBSET_CHAIN=false
-MECHANISM_INDEPENDENCE_FROM_RATIO_IDENTITY=false
-SPACE_DIAGONAL_PART_OF_STAGE27_TARGET=false
+SOURCE_POPULATION=M2
+TARGET_POPULATION=N2
+ADDED_CONDITION=integral space diagonal
+CURRENT_N2_LOWER_EXPONENT=1/4
+CURRENT_N2_UPPER_EXPONENT=1/2_PLUS_EPSILON
+TRUE_N2_EXPONENT_IDENTIFIED=false
 NEXT_DERIVED_ROUTE=27-60b
 ```
