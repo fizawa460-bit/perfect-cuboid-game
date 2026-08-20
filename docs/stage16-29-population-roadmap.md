@@ -1,10 +1,15 @@
 # Stage16-29 Population / Condition-Interaction Roadmap
 
-Status: **canonical numbering overlay extending the Stage16-28 roadmap through Stage29**.
+Status: **canonical roadmap for Stage16-29**.
 
-This document supersedes `docs/stage16-28-population-roadmap.md` for stage numbering from Stage27 onward. All population contracts, checkpoint rules, audit-persistence rules, reuse-preflight rules, Stage16S rules, Stage20 literature-reuse rules, Stage19 carry-over cautions, Stage70 policy references, and operational safety invariants from the Stage16-28 roadmap remain in force unless explicitly overridden here.
+This document is the authoritative roadmap for the Stage16-29 population program. It incorporates the Stage27 numbering correction: Stage27 is the repository-defined `Stage18 -> Stage19` strict reattack, Stage28 is the `Stage19 -> Stage20` bridge comparison, and Stage29 is the interaction synthesis formerly assigned to Stage28.
 
-The purpose of this overlay is narrow: Stage27 has in repository reality become the `Stage18 -> Stage19` strict reattack. Therefore the next comparison `Stage19 -> Stage20` is assigned to Stage28, and the former Stage28 interaction-synthesis role moves to Stage29.
+The common operational dependencies are:
+
+- `docs/stage16-29-execution-controller-template.md`
+- `docs/stage16-29-github-write-policy.md`
+- `docs/stage16-29-reuse-preflight.md`
+- `docs/stage16-29-stage70-policy.md`
 
 ## Canonical population states
 
@@ -43,7 +48,7 @@ Stages through Stage26 retain their already established contracts. The numbering
 Stage18 -> Stage19
 ```
 
-The Stage27 work tree may contain historically named `27-20-*` checkpoint or derived-route artifacts. Those names are provenance inside Stage27 and are **not** evidence that the stage-level population transition is `Stage19 -> Stage20`. Do not bulk-move or renumber those historical artifacts solely because of this roadmap correction.
+The Stage27 work tree may contain historically named `27-20-*` checkpoint or derived-route artifacts. Those names are provenance inside Stage27 and are not evidence that the stage-level population transition is `Stage19 -> Stage20`. Do not bulk-move or renumber those historical artifacts solely because of this roadmap correction.
 
 ### Stage28 contract
 
@@ -57,21 +62,10 @@ COMPARISON         = Stage19 -> Stage20
 
 Because Stage19 includes integral space diagonal while Stage20 is the Euler-cuboid population without a space-diagonal requirement, Stage28 must not silently describe the comparison as literal subset thinning. Checkpoint 10 must freeze the exact comparison semantics and any host/intersection adapter before ratios or exponent differences are interpreted causally.
 
-Stage28 uses the ordinary checkpoint sequence:
+Stage28 uses the ordinary checkpoint sequence and canonical commands:
 
 ```text
-Stage28-10
-Stage28-20
-Stage28-30
-Stage28-40
-Stage28-50
-Stage28-60
-Stage28-70
-```
-
-with canonical commands:
-
-```text
+Stage28-10,20,30,40,50,60,70
 Stage28-main-batch
 Stage28-audit
 ```
@@ -98,21 +92,9 @@ Stage29-main-batch
 Stage29-audit
 ```
 
-## Renumbering compatibility rules
-
-For documents or prompts that predate this correction:
-
-```text
-legacy "Stage27 = 16 -> 20"          -> obsolete; use the Stage27 controller (18 -> 19)
-legacy "Stage28 = interaction synthesis" -> Stage29
-legacy roadmap range "Stage16-28"   -> Stage16-29 when referring to the full current roadmap
-```
-
-These semantic substitutions do **not** rename stable supporting policy filenames such as `docs/stage16-28-stage70-policy.md` or `docs/stage16-28-reuse-preflight.md`. Those filenames remain valid dependencies until a separate repository-wide rename is deliberately performed.
-
 ## Common completion gates
 
-Stage28 and Stage29 inherit the standard StageX checkpoints from the Stage16-28 roadmap:
+Every Stage16-29 parent stage uses the standard StageX checkpoints:
 
 - `10`: population/comparison contract;
 - `20`: finite-data baseline;
@@ -124,10 +106,37 @@ Stage28 and Stage29 inherit the standard StageX checkpoints from the Stage16-28 
 
 Every checkpoint must keep `PROVED`, `LITERATURE`, `COMPUTED`, and `HEURISTIC` evidence separate. An audited `OPEN_GATE` is a legitimate endpoint when the missing input is precisely identified. Re-running the same route without a genuinely new theorem, dataset, reusable weapon, or literature input is not progress.
 
+## Stage16S population contract and role
+
+Stage16S studies primitive/canonical positive cuboids under the same compatible size and symmetry conventions used by the Stage16-29 roadmap, with
+
+```text
+SPACE_AT_LEAST = integer space diagonal, no face-diagonal restriction
+SPACE_ONLY     = integer space diagonal and zero integer face diagonals
+```
+
+It is an auxiliary parallel baseline, not a renumbering or mandatory serial stage. It exists to separate the intrinsic cost of space-diagonal integrality from interaction costs after face conditions have already been imposed.
+
+## Repository-wide reuse and audit safety
+
+Every `StageX-main-batch` in Stage16-29 and Stage16S must run the bounded repository-wide preflight defined in `docs/stage16-29-reuse-preflight.md` before opening new theorem, construction, computation, or literature work. Numerical work must also inspect `docs/stage14-num-reuse-index.md` when applicable.
+
+Audit verdicts are durable repository state. A canonical audit PASS must be persisted to the relevant audit record/controller/status surfaces before it is reported as authoritative. Repository write mechanics are governed by `docs/stage16-29-github-write-policy.md` and must not change mathematical claims or audit semantics.
+
+StageX-70 follows `docs/stage16-29-stage70-policy.md`: synthesize aggressively from certified inputs, but stop before work requiring a substantially new theorem, large computation, literature program, or off-stage branch.
+
+## Stage20 literature reuse rule
+
+Stage20 may begin with more pre-filled material than earlier population stages because Euler cuboids have a large existing literature and strong prior repository results. Inherited constructions and estimates must still be adapted to the common cutoff and population contract; an infinite family is not automatically a matched asymptotic lower bound.
+
+## Stage19 carry-over
+
+Stage19 must preserve the distinction between the certified upper bound for the two-face + space-diagonal population, the independent Stage15 causal zero-density mechanism, and the still-open questions of a matching lower bound and true growth exponent. No later stage may silently treat the half-power upper exponent as a known asymptotic law.
+
 ## Endpoint remains deferred
 
 The perfect-cuboid population — three integral face diagonals plus an integral space diagonal — remains outside the Stage16-29 numbering. Stage29 synthesizes the population map and identifies the residual obstruction; it does not assume existence or nonexistence of the endpoint.
 
-## Migration note
+## Migration rule
 
-`docs/stage16-28-population-roadmap.md` remains as the detailed legacy roadmap and policy source for pre-correction material. For any conflict in stage numbering from Stage27 onward, this Stage16-29 document is authoritative. Historical stage artifacts are retained unchanged for audit provenance.
+The legacy full-roadmap label `Stage16-28` is obsolete for current operational scope and is replaced by `Stage16-29`. Historical stage/checkpoint identifiers that contain `28` for genuine provenance are not renamed merely because the roadmap range expanded.

@@ -1,6 +1,6 @@
 # StageX-70 synthesis policy
 
-This file is a normative addendum to `docs/stage16-28-population-roadmap.md`.
+This file is a normative addendum to `docs/stage16-29-population-roadmap.md`.
 
 StageX-70 should perform a final bounded synthesis of the certified results from StageX-10 through StageX-60. It should derive additional consequences that follow from existing inputs, compare causal explanations, record useful lower-stage reinterpretations, identify evidence-backed refinement candidates, and separate proved, computed, heuristic, and open claims.
 

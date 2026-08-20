@@ -1,6 +1,6 @@
-# Stage16-28 Repository-Wide Reuse Preflight
+# Stage16-29 Repository-Wide Reuse Preflight
 
-Status: **normative preflight for every Stage16-28 main checkpoint**.
+Status: **normative preflight for every Stage16-29 main checkpoint**.
 
 ## Purpose
 
