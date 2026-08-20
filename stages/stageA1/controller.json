@@ -3,7 +3,7 @@
   "stage": "StageA1",
   "title": "Anchored Hilbert Cube reconnaissance",
   "mode": "SEPARATE_EXPERIMENTAL_LINE",
-  "base_main": "35bee884a1a08bb8227e3db97b11283080bde49c",
+  "base_main": "66feba064b60cedf588490302899ddf2172757e3",
   "status": "RECONNAISSANCE_ACTIVE_OPERATOR_OVERRIDE",
   "completed": [
     "A1-1",
@@ -11,18 +11,20 @@
     "A1-3",
     "A1-4_BOUNDED_ATTEMPT",
     "A1-5_PRIMITIVE_PYTHAGOREAN_DESCENT_WITH_MOD5_BRANCH_ELIMINATION",
-    "A1-6_LOCAL_SIEVE_COMPLETENESS_AND_SATURATION"
-  ],
-  "submitted_for_audit": [
+    "A1-6_LOCAL_SIEVE_COMPLETENESS_AND_SATURATION",
     "A1-8_GLOBAL_QUOTIENT_JACOBIAN_DESCENT"
   ],
-  "next": "A1-9_TARGETED_GENUS2_RATIONAL_POINT_OR_JACOBIAN_COMPUTATION_IF_AUDIT_PASSES",
-  "go_no_go_checkpoint": "A1-8_AUDIT_BOUNDARY",
+  "submitted_for_audit": [
+    "A1-9_FINITE_ELLIPTIC_TWIST_DESCENT_WITH_GPLUS_DELTA19_ELIMINATION"
+  ],
+  "next": "A1-10_REMAINING_GPLUS_TWISTS_OR_GMINUS_MW_SIEVE_IF_AUDIT_PASSES",
+  "go_no_go_checkpoint": "A1-9_AUDIT_BOUNDARY",
   "a1_3_audit_verdict": "PASS_WITH_REPAIR",
   "a1_4_audit_verdict": "PASS_WITH_ROUTING_REPAIR",
   "a1_5_audit_verdict": "PASS",
   "a1_6_audit_verdict": "PASS",
   "a1_7_closure_audit_verdict": "FAIL_THEN_REPAIRED_TO_DEFERRED",
+  "a1_8_audit_verdict": "PASS_WITH_SCOPE_CLARIFICATION",
   "a1_4_quartic": "Y^2=z^4-20*z^2+256*z-412",
   "a1_4_jacobian_scaled_integral_model": "W^2=X^3+7668X+489456",
   "a1_4_positive_rank_witness": "P=(30,864), 4P=(12369/100,1824903/1000)",
@@ -65,33 +67,52 @@
     "sign_correct_prime_to_leg_allocation": true,
     "q7_branch_sign_signature": "g=1: A>0->N,A<0->M; g=6: A>0->M,A<0->N"
   },
-  "a1_8_substantive_progress": true,
-  "a1_8_new_arbitrary_cube_constraint": false,
+  "a1_9_receiver": {
+    "homogeneous_quartic": "H(a,b)=a^4-20*a^2*b^2+256*a*b^3-412*b^4",
+    "square_denominator_lemma": true,
+    "Gminus_squareclasses": [1, -1, 3, -3],
+    "Gplus_squareclasses": [1, -1, 13, -13, 19, -19, 247, -247],
+    "elliptic_twist_family": "E_delta: W^2=X^3+delta^2*7668X+delta^3*489456",
+    "Gminus_rank1_labels": ["6080.r1", "6080.i1", "54720.bl1", "54720.ba1"],
+    "Gminus_all_four_rank1_torsion_trivial": true,
+    "Gplus_delta19_label": "115520.cf1",
+    "Gplus_delta19_rank": 0,
+    "Gplus_delta19_torsion": "trivial",
+    "Gplus_delta19_eliminated": true,
+    "Gplus_delta_minus19_label": "115520.bc1",
+    "Gplus_delta_minus19_rank": 1,
+    "external_adapter": "LMFDB exact curve labels plus explicit Q-isomorphisms; audit must recheck rank/torsion and model transforms"
+  },
+  "a1_9_substantive_progress": true,
+  "a1_9_new_arbitrary_cube_constraint": false,
   "integration_category_candidate": "NEW_FAMILY_EXCLUSION",
-  "closure_deferred_reason": "A1-8 materially lowers the unresolved global genus-7 wall to one elliptic factor and three explicit genus-2 Jacobians, so one targeted certified genus-2 rational-point/Jacobian computation remains justified before closure or freeze.",
-  "next_attack_if_audit_passes": "Target G0, Gplus, and Gminus only. Seek rigorous rational-point sets, Jacobian ranks/Selmer data plus Chabauty/MW-sieve applicability, or an exact computational-algebra adapter. Do not return to larger height searches or the saturated local-prime route.",
+  "closure_deferred_reason": "A1-9 strictly lowers Gplus and Gminus to finite elliptic-twist receivers and removes the delta=+19 Gplus component. A targeted certified pass on the remaining twists or a Mordell-Weil sieve remains concrete.",
+  "next_attack_if_audit_passes": "Target only the remaining Gplus twists or the four Gminus rank-one elliptic square-coordinate receivers with certified rank/Selmer/Mordell-Weil-sieve or elliptic-Chabauty computations. G0 may be descended only if it yields a strict finite receiver. Do not return to larger height searches or the saturated local-prime route.",
   "operator_override": "Continue digging while substantive new mathematics is produced. Stop when successive work only repackages the same unresolved point, or when a targeted global attempt reaches an exact external theorem/computational wall with no concrete reduction left.",
   "do_not_repeat": [
     "larger finite height searches on the same first-two-cover receiver",
     "another scan for primes of the already-complete trivial-reduction type",
     "lifting only p=5,7,23 to higher powers after the proved p-adic saturation",
-    "renaming the same genus-7 or R,S equations without a strict reduction"
+    "renaming the same genus-7 or R,S equations without a strict reduction",
+    "recomputing the already-frozen A1-9 squareclass sets without a new global consequence"
   ],
   "reopen_or_continue_if": [
-    "certified rational-point restriction on one or more A1-8 genus-2 factors",
+    "certified elimination or rational-point restriction on another A1-9 elliptic twist",
     "certified Jacobian rank/Selmer computation enabling Chabauty or an MW sieve",
-    "further exact quotient/isogeny decomposition materially lowering a genus-2 factor",
+    "exact MW-sieve or elliptic-Chabauty closure of one or more Gminus rank-one branches",
+    "strict finite squareclass descent for G0",
     "exact global rational-point theorem or computation for the relevant cover",
     "proved coverage/reverse-map theorem for arbitrary anchored cubes",
     "exact adapter into another proved receiver"
   ],
   "firewalls": [
     "No family-specific exclusion implies perfect-cuboid nonexistence.",
-    "Equation (6) is not universal; no A1-5/A1-6/A1-8 condition is promoted to arbitrary perfect cuboids.",
+    "Equation (6) is not universal; no A1-5/A1-6/A1-8/A1-9 condition is promoted to arbitrary perfect cuboids.",
     "The A1-8 Jacobian isogeny does not by itself determine C(Q).",
-    "Positive rank of the genus-1 quotient does not imply a surviving point through the reconstruction covers.",
+    "A1-9 rank and torsion data are external LMFDB inputs and must be independently audited together with the explicit model transformations.",
+    "Eliminating the Gplus delta=+19 torsor does not eliminate Gplus or the full first-two-cover curve.",
+    "Positive rank of an elliptic twist does not imply a surviving point satisfying the extra square-coordinate condition.",
     "The height-5000 search is finite evidence only.",
-    "The p=3,5,7,23 list is complete only for the specific trivial-reduction divisibility mechanism on the first-two-cover curve.",
     "Everywhere local solubility does not imply a rational point.",
     "Stage27 and StructureRadar receivers remain unchanged."
   ],
