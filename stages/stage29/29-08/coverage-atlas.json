@@ -1,0 +1,104 @@
+{
+  "schema": "STAGE29_08_COVERAGE_ATLAS_R01_PENDING_AUDIT",
+  "purpose": "classify parametrized families and fibrations by exact endpoint-hub location and coverage strength",
+  "firewalls": {
+    "family_closure_implies_endpoint_closure": false,
+    "finite_database_implies_global_coverage": false,
+    "geometric_fibration_implies_rational_section_coverage": false,
+    "marginal_family_is_full_endpoint_family": false,
+    "same_newform_implies_same_geometric_K3": false,
+    "peschmann_global_coverage_certified": false
+  },
+  "entries": [
+    {
+      "id": "PESCH-EUCLID-PAIR",
+      "kind": "two-parameter rational chart",
+      "host": "T2bar / Stage28 two-face host",
+      "image_dimension": 2,
+      "exact_map": "(a,b,m,n) -> [U1U2:V1U2:U1V2:W1U2:U1W2]",
+      "residual_conditions": ["f_face", "f_sp"],
+      "crosswalk": "EXACT_TO_JOINT_V4_PENDING_AUDIT",
+      "coverage": "GLOBAL_EULER_COVERAGE_NOT_CERTIFIED_DUE_SOURCE_SCOPE_CONFLICT",
+      "receiver": "R29-PESCH-COV"
+    },
+    {
+      "id": "PESCH-GENUS3",
+      "kind": "one-parameter family of genus-3 curves after fixing one Euclid ratio",
+      "host": "slice/cover inside Peschmann joint-V4 chart",
+      "image_dimension": 1,
+      "endpoint_direction": "perfect endpoint implies nondegenerate rational point on appropriate C_A",
+      "converse": "SPECIALIZATION_REQUIRES_EXTRA_VERIFICATION",
+      "coverage": "NECESSARY_SLICE_FAMILY_NOT_GLOBAL_PARAMETRIZATION"
+    },
+    {
+      "id": "PESCH-MW-FIBRATION",
+      "kind": "elliptic fibration over (m,n)",
+      "host": "Stage20 Euler/third-face K3 marginal",
+      "fiber": "H_mn genus-one quartic / E_mn Weierstrass model",
+      "lift_test": "tau(P) positive rational square",
+      "coverage": "MASTER_HIT_SUBCLASS_ONLY_UNTIL_R29-PESCH-COV",
+      "receiver": "R29-PESCH2"
+    },
+    {
+      "id": "PESCH-1072",
+      "kind": "finite family theorem",
+      "host": "Peschmann master-tuple fibers",
+      "coverage": "1072_EXPLICIT_FIBERS_ONLY",
+      "endpoint_exclusion": "RIGOROUS_ON_LISTED_FIBERS_ONLY"
+    },
+    {
+      "id": "PESCH-E1",
+      "kind": "empirical blocker conjecture",
+      "host": "Master-Hits",
+      "coverage": "FINITE_FULLY_FACTORIZED_DATABASE_ONLY",
+      "theorem": false,
+      "receiver": "R29-PESCH-E1"
+    },
+    {
+      "id": "SAUNDERSON",
+      "kind": "rational curve family",
+      "host": "Stage20 X_face Euler K3",
+      "image_dimension": 1,
+      "physical_degree": 6,
+      "endpoint_lift": "nonsplit genus-3 curve, endpoint canonical degree 12",
+      "coverage": "THIN_FAMILY_ONLY"
+    },
+    {
+      "id": "STAGEA2_MINUS18",
+      "kind": "family-specific elliptic/descent closure",
+      "host": "specific equation-(6) -18 family",
+      "coverage": "ONE_SPECIFIC_FAMILY_ONLY",
+      "method_transfer": true,
+      "global_endpoint_closure": false
+    },
+    {
+      "id": "TESTA_STOLL_LOW_DEGREE",
+      "kind": "classification theorem rather than parametrization",
+      "host": "full endpoint surface",
+      "coverage": "ALL_INTEGRAL_CURVES_OF_CANONICAL_DEGREE_LE_6",
+      "positive_physical_family_result": "NONE_AT_DEGREE_LE_6",
+      "isolated_points_covered": false,
+      "higher_degree_curves_covered": false
+    },
+    {
+      "id": "TESTA_STOLL_GENUS5_28",
+      "kind": "full endpoint fibrations",
+      "host": "full endpoint surface",
+      "fiber_genus": 5,
+      "generic_endpoint_degree": 8,
+      "coverage": "GEOMETRIC_SURFACE_FIBRATION_ATLAS",
+      "rational_section_coverage": false
+    },
+    {
+      "id": "TESTA_STOLL_EULER_K3_15",
+      "kind": "elliptic fibrations",
+      "host": "K_c = Stage20 X_face pending audit of R29-K1",
+      "fibration_count": 15,
+      "coverage": "MARGINAL_K3_GEOMETRIC_FIBRATION_ATLAS",
+      "full_endpoint_coverage": false,
+      "receivers": ["R29-K1", "R29-FIB1", "R29-FIB2"]
+    }
+  ],
+  "downstream_owner": "J12-PARAMETRIC",
+  "attack_credit_at_29_08": false
+}
