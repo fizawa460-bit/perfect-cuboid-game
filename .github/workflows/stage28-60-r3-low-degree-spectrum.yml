@@ -1,0 +1,59 @@
+name: Stage28-60-r3 low-degree K3 spectrum
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage28-60-r3-low-degree-spectrum.yml'
+      - 'stages/stage28/28-60-r3/**'
+      - 'stages/stage14/scripts/14-4/shimada_stage14_identify.py'
+      - 'stages/stage14/scripts/14-4/shimada_stage14_refine.py'
+  workflow_dispatch:
+
+jobs:
+  low-degree-spectrum:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install exact lattice enumerator
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq --no-install-recommends pari-gp
+      - name: Download official Shimada level-4 data
+        run: |
+          set -euxo pipefail
+          curl --fail --location --retry 3 \
+            'https://home.hiroshima-u.ac.jp/ichiro-shimada/preprints/X0X3/PreprintX0X3/compdata/compdata.zip' \
+            -o /tmp/shimada.zip
+          unzip -q /tmp/shimada.zip -d /tmp/shimada
+      - name: Identify Stage14 physical classes
+        run: |
+          python stages/stage14/scripts/14-4/shimada_stage14_identify.py \
+            /tmp/shimada --out /tmp/identify.json > /tmp/identify.log
+      - name: Refine physical labeling
+        run: |
+          python stages/stage14/scripts/14-4/shimada_stage14_refine.py \
+            /tmp/shimada /tmp/identify.json --out /tmp/refine.json
+      - name: Probe anti-invariant norms and low-degree obstruction
+        run: |
+          python stages/stage28/28-60-r3/anti_invariant_norm_probe.py \
+            /tmp/shimada /tmp/refine.json --out /tmp/low-degree-spectrum.json
+      - name: Assert degree-five obstruction
+        run: |
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/low-degree-spectrum.json'))
+          assert d['status']=='PASS'
+          assert d['anti_invariant_rank']==6
+          assert d['anti_invariant_positive_form_determinant']==256
+          assert d['every_anti_invariant_norm_divisible_by_4'] is True
+          assert d['degree_cases']['5']['required_anti_invariant_positive_norms']==[14,18]
+          assert d['degree_cases']['5']['excluded_by_norm_mod_4'] is True
+          assert d['degree_cases']['6']['required_anti_invariant_positive_norms']==[16,20,24]
+          print('STAGE28_60_R3_M5_NORM_OBSTRUCTION=PASS')
+          print('M6_REMAINS_FINE_COSET_GATE=true')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage28-60-r3-low-degree-spectrum
+          path: |
+            /tmp/identify.json
+            /tmp/refine.json
+            /tmp/low-degree-spectrum.json
