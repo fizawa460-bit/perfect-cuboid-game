@@ -1,10 +1,10 @@
-# Stage29 GAP_SCAN_A / ROADMAP_REVIEW_A — submission
+# Stage29 GAP_SCAN_A / ROADMAP_REVIEW_A — audited
 
 ```text
 STAGE=Stage29
 ITEM=GAP_SCAN_A_ROADMAP_REVIEW_A
 MODE=POST_29_03_04_05_THIRD_PASS
-AUDIT_REQUIRED=true
+AUDIT_VERDICT=PASS_AFTER_BOUNDED_REPAIR
 ```
 
 ## 1. Inputs re-read
@@ -32,9 +32,9 @@ PESCHMANN_INDEPENDENCE_RESOLVED=false
 R29-PESCH1=OPEN_EXACT_CROSSWALK
 ```
 
-This is already explicitly routed to 29-08. If the exact crosswalk fails, independence must be reassessed and the 29-02h* namespace may reopen. Therefore Peschmann is not an unowned gap and does not force a roadmap rewrite now.
+This is already routed to 29-08. If the exact crosswalk fails, independence must be reassessed and the 29-02h* namespace may reopen. Therefore Peschmann is not an unowned gap and does not force a roadmap rewrite now.
 
-The broad-screen retained candidates `R29-QWEB-CLIFFORD`, `R29-TERA1`, `R29-PI1-OPEN`, and `R29-NF-PHYS2` were recovered by the 29-05 audit and now have explicit owners. They are not silently upgraded to foundations.
+The broad-screen retained candidates `R29-QWEB-CLIFFORD`, `R29-TERA1`, `R29-PI1-OPEN`, and `R29-NF-PHYS2` were recovered by the 29-05 audit and have explicit owners. They are not silently upgraded to foundations.
 
 ```text
 NEW_CERTIFIED_INDEPENDENT_FOUNDATION_FOUND=false
@@ -109,7 +109,7 @@ then GAP_SCAN_B
 then 29-10/11/12 attack portfolios
 ```
 
-There is no need to move 29-07 before 29-06. The 29-06 endpoint-hub graph is explicitly allowed to contain open/unproved edges, provided every edge records field, direction, map type and rational-point functoriality. 29-07 then resolves or rejects the specific KUM3A/KUM3B/KUM4B bridge edges.
+There is no need to move 29-07 before 29-06. The 29-06 endpoint-hub graph may contain explicitly open edges, provided every edge records field, direction, map type, proof status and rational-point functoriality. 29-07 then resolves or rejects the specific KUM3A/KUM3B/KUM4B bridge edges.
 
 Likewise 29-08 and 29-09 are correctly placed before the attack portfolios because they provide coverage and local infrastructure rather than earning attack credit by themselves.
 
@@ -118,13 +118,32 @@ LOCAL_REORDER_REQUIRED=false
 MATERIAL_REVISION_REQUIRED=false
 ```
 
-## 6. Mandatory scope refinements for the surviving roadmap
+## 6. Bounded audit repair — do not reactivate NF1QISO
 
-The roadmap sequence is unchanged, but the following audited refinements must govern execution:
+The submission listed `R29-NF1QISO` as a required 29-06 non-Fano receiver. That contradicts the audited 29-05 disposition:
+
+```text
+R29-NF1QISO=DORMANT_OPEN_NOT_NEEDED
+```
+
+The abstract Q-isomorphism to the standard non-Fano `M_2` is not needed for the current endpoint program; the proved Q(i)-geometric identification plus explicit Q-twist description already supplies the valid adapter. Gap Scan must not turn a deliberately dormant receiver back into mandatory work.
+
+Corrected 29-06 scope:
+
+```text
+29_06_NONFANO_ACTIVE_SYNTHESIS=[R29-NF3,R29-NF4,R29-NF5,R29-NF6,R29-NF7]
+R29-NF1QISO=LEDGER_ONLY_DORMANT_OPEN_NOT_NEEDED
+REACTIVATE_NF1QISO_ONLY_IF_NEW_ARITHMETIC_NEED_APPEARS=true
+```
+
+This is a bounded routing repair, not a roadmap reorder or material rewrite.
+
+## 7. Mandatory scope refinements for the surviving roadmap
 
 ### 29-06
 
-- include the non-Fano/Hirzebruch structural receivers `R29-NF1QISO`, `R29-NF3`, `R29-NF4`, `R29-NF5`, `R29-NF6`, `R29-NF7` under `S06-GLOBAL-SYNTHESIS`;
+- synthesize `R29-NF3`, `R29-NF4`, `R29-NF5`, `R29-NF6`, `R29-NF7` under `S06-GLOBAL-SYNTHESIS`;
+- retain `R29-NF1QISO` in the ledger only, dormant unless a new arithmetic dependency makes it necessary;
 - do not turn Q(i)-geometric identification into Q-isomorphism;
 - do not treat L-function identities as geometric morphisms without a map;
 - do not count synthesis as attack-route success.
@@ -149,12 +168,14 @@ The roadmap sequence is unchanged, but the following audited refinements must go
 
 Retain the audited 11-route ownership registry; no premature single-route selection.
 
-## 7. Formal scan verdict
+## 8. Formal scan verdict
 
 ```text
 GAP_SCAN_A_RESULT=NONE_FOUND
 NONE_FOUND_SCOPE=NO_NEW_UNROUTED_MATERIAL_GAP_AFTER_AUDITED_29_03_04_05
 ROADMAP_REVIEW_A=STILL_VALID
+AUDIT_VERDICT=PASS_AFTER_BOUNDED_REPAIR
+BOUNDED_REPAIR=NF1QISO_DORMANT_RECEIVER_ANTI_LOOP
 ROADMAP_REWRITE_REQUIRED=false
 MATERIALITY_CERTIFICATE_PRESENT=false
 TARGETED_BACKFLOW_REQUIRED_NOW=false
@@ -164,16 +185,18 @@ ATTACK_ROUTE_COUNT=11
 POST_REPAIR_UNCOVERED_RECEIVER_COUNT=0
 ```
 
-`NONE_FOUND` does not mean all mathematical gaps are solved. It means every currently known material gap is either discharged, superseded, explicitly routed, or conditionally watched; no new gap discovered by this third pass forces a new foundation, old-stage backflow, or roadmap reorder now.
+`NONE_FOUND` does not mean all mathematical gaps are solved or that literature is exhausted. It means every currently known material gap in this scoped third pass is either discharged, superseded, explicitly routed, dormant by audited decision, or conditionally watched; no new gap forces a new foundation, old-stage backflow, or roadmap reorder now.
 
-## 8. Routing
+## 9. Routing
 
 ```text
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
+AUDIT_REQUIRED=false
+CHECKPOINT_GAP_SCAN_A_AUDIT=PASS
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
 NEXT_ITEM=29-06_GLOBAL_FOUNDATION_SYNTHESIS
-NEXT_EXPECTED_COMMAND=Stage29-audit
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
