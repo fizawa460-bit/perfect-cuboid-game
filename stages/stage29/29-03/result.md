@@ -4,87 +4,88 @@
 TASK_ID=Stage29-03
 ROLE=FOUNDATION_BACKFLOW_DECISION_AND_BRIDGE_QUEUE_LOCK
 ROADMAP_REVISION=R2_POST_29_02_FOUNDATION_SCREEN_AUDITED
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_PENDING_MERGE
+AUDIT_VERDICT=PASS_AFTER_BOUNDED_REPAIR
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
 
-## 1. Decision
+## 1. Audited decision
 
-No Stage16–28 stage is reopened at this checkpoint.
+No Stage16–28 addendum is required **now**.
 
 ```text
 TARGETED_BACKFLOW_REQUIRED_NOW=false
+ACTIVE_BACKFLOW_QUEUE_SIZE=0
+CONDITIONAL_BACKFLOW_WATCHLIST=[R29-KUM4]
+BACKFLOW_CANDIDATES_PROVED_EMPTY=false
 STAGE16_28_SEQUENTIAL_RERUN=false
 OLD_FROZEN_GATE_REPLAY=false
-BACKFLOW_QUEUE_SIZE=0
 ```
 
-This is not a claim that the Stage16–20 population program has already been identified with successive levels of the degree-64 sign/Kummer cover. That bridge remains unproved. The decision is only about **execution location**: the new receivers can be tested more cleanly inside Stage29 against the already-audited earlier-stage outputs, without changing those earlier certified results.
+The load-bearing repair is the distinction between an **active backflow execution queue** and a **conditional backflow candidate**. Stage29-02ha had already recorded `R29-KUM4=NEW_TARGETED_BACKFLOW_RECEIVER_NOT_EXECUTED`; roadmap R2 subsequently tightened the trigger so that an old stage is reopened only if its certified contract itself must be extended or corrected. Both facts are preserved.
 
-The audited Stage29-02b joint-V4 result already states `OLD_STAGE_REENTRY_REQUIRED=false` and `KEEP_STAGE29_NATIVE=true`; Stage29-02ha created the sign-tower bridge receivers but did not prove population transfer. R2 then explicitly assigned the population-host work to 29-04, the sign-tower/joint-V4 bridge to 29-07, and parametrization crosswalks to 29-08.
+The current execution decision is therefore: test the bridge receivers inside Stage29 first, using the old audited outputs as inputs. Create a narrow old-stage addendum only if 29-04/07 later proves that an old certified contract must change for downstream use.
 
-## 2. Priority receiver decisions
+## 2. Audited receiver routing
 
 ### R29-KUM3A
 
 ```text
 RECEIVER=R29-KUM3A
 MEANING=TwoFaceSignSubcoverToStage28ToricYBirationalAdapter
-DECISION=STAGE29_INTERNAL_ADAPTER_ONLY
+DECISION=STAGE29_INTERNAL_FIRST
 EXECUTION_OWNER=29-07_SIGN_TOWER_JOINT_V4_AND_POPULATION_BRIDGE
-SOURCE_STAGE=Stage28
-OLD_STAGE_ADDENDUM_REQUIRED=false
+ACTIVE_OLD_STAGE_ADDENDUM_REQUIRED_NOW=false
 ```
 
-Reason: Stage28 already supplies the audited common toric host `Y=Bl_4(P1xP1)` and the two marginal K3 covers. The missing statement is an exact comparison from the F7 sign-subcover language to that existing host. Proving that comparison does not require reopening Stage28 unless it later exposes an actual error or missing certified statement in Stage28 itself.
+Stage28 already supplies the audited common two-face host and marginal K3 covers. KUM3A is a new comparison map from F7 into that existing infrastructure; proving such a map does not by itself alter Stage28's certified theorem contract.
 
 ### R29-KUM3B
 
 ```text
 RECEIVER=R29-KUM3B
 MEANING=JointV4AsResidualTwoSquareRootsOfFullSignTower
-DECISION=STAGE29_INTERNAL_ADAPTER_ONLY
+DECISION=STAGE29_INTERNAL_FIRST
 EXECUTION_OWNER=29-07_SIGN_TOWER_JOINT_V4_AND_POPULATION_BRIDGE
 DEPENDENCY=R29-KUM3A
-OLD_STAGE_ADDENDUM_REQUIRED=false
+ACTIVE_OLD_STAGE_ADDENDUM_REQUIRED_NOW=false
 ```
 
-Reason: the joint V4 endpoint model is already audited as an exact dense-open/function-field endpoint model over the Stage28 two-face host. What remains is the exact embedding/quotient relationship with F7. This is a Stage29-to-Stage29 bridge.
+The joint V4 endpoint model is already audited Stage29 infrastructure. The missing claim is its exact relation to F7. Matching deck-group ranks or square-root counts is not accepted as proof.
 
 ### R29-KUM4
 
 ```text
 RECEIVER=R29-KUM4
 MEANING=Stage16To20PopulationMaskAsSignSubcoverLattice
-DECISION=STAGE29_INTERNAL_ADAPTER_ONLY
+DECISION=STAGE29_INTERNAL_FIRST_WITH_CONDITIONAL_BACKFLOW_WATCH
 PRECONDITION_OWNER=29-04_POPULATION_HOST_PREDICATE_AND_CONDITION_COST_MATRIX
 GEOMETRIC_OWNER=29-07_SIGN_TOWER_JOINT_V4_AND_POPULATION_BRIDGE
-OLD_STAGE_ADDENDUM_REQUIRED=false_NOW
+ACTIVE_OLD_STAGE_ADDENDUM_REQUIRED_NOW=false
+CONDITIONAL_BACKFLOW_CANDIDATE=true
 ```
 
-Reason: R2 audit explicitly forbids treating exact strata as automatically nested survival steps. Before any sign-tower interpretation, Stage29 must rebuild the counting comparisons using a named common host, exact predicate masks, physical height, primitive normalization, canonical ordering, and multiplicity. That is new synthesis work, not repair of the old population theorems.
-
-Allowed later escalation:
-
-```text
-IF_29_04_OR_29_07_FINDS_OLD_CERTIFIED_STATEMENT_NEEDS_CHANGE=true
-THEN_TARGETED_ADDENDUM_MAY_BE_CREATED=true
-GLOBAL_REOPEN=false
-```
+Before any sign-tower population identification, Stage29 must prove a named common host, exact predicate masks, physical-height compatibility, primitive normalization, canonical ordering, and multiplicity. If that analysis shows that an old certified Stage16–20 contract must be extended or corrected, a targeted addendum is then allowed. Global reopening remains forbidden.
 
 ### R29-PESCH1
 
 ```text
 RECEIVER=R29-PESCH1
 MEANING=EuclidPairToStage28TwoFaceHostAndJointV4ExactCrosswalk
-DECISION=STAGE29_INTERNAL_ADAPTER_ONLY
+DECISION=STAGE29_INTERNAL_FIRST
 EXECUTION_OWNER=29-08_PARAMETRIZATION_FIBRATION_AND_COVERAGE_ATLAS
 PESCHMANN_PROVEN_F2_ADAPTER=false
 PESCHMANN_INDEPENDENCE_RESOLVED=false
-OLD_STAGE_ADDENDUM_REQUIRED=false
 ```
 
-Reason: the 29-02hd audit specifically rejected the earlier informal inference that the matching condition pattern alone proves an F2 adapter. The exact rational map remains open. Until that map is constructed, no Stage16–20 population, height, primitivity, or coverage statement transfers.
+The exact crosswalk remains open. A successful crosswalk may classify Peschmann as an adapter. A failed crosswalk does **not** automatically make the route RED or redundant; it triggers an independence reassessment because 29-02hd explicitly left independence unresolved.
+
+```text
+PESCH1_CROSSWALK_SUCCESS_ACTION=ADAPTER_CLASSIFICATION
+PESCH1_CROSSWALK_FAILURE_ACTION=INDEPENDENCE_REASSESSMENT_REQUIRED
+AUTO_RED_ON_CROSSWALK_FAILURE=false
+29_02H_NAMESPACE_REOPENABLE_IF_NEW_INDEPENDENT_FOUNDATION_CERTIFIED=true
+```
 
 ## 3. Locked immediate queue
 
@@ -97,17 +98,11 @@ THEN=29-07_SIGN_TOWER_JOINT_V4_AND_POPULATION_BRIDGE
 THEN=29-08_PARAMETRIZATION_FIBRATION_AND_COVERAGE_ATLAS
 ```
 
-The ordering matters:
-
-1. 29-04 first decides what the population predicates actually mean on common hosts;
-2. 29-05 deduplicates mechanisms and assigns canonical route ownership;
-3. only then may GAP_SCAN_A decide whether a real targeted backflow has become necessary;
-4. 29-07 attempts KUM3A/B and the geometric part of KUM4;
-5. 29-08 attempts the exact Peschmann crosswalk.
+The ordering survives audit. 29-04 must precede any KUM4 population interpretation; 29-05 deduplicates and assigns route ownership before later attack portfolios; GAP_SCAN_A may then decide whether a real targeted backflow has become necessary.
 
 ## 4. Backflow trigger contract
 
-A future Stage16–28 addendum may be created only if all of the following are present:
+A future Stage16–28 addendum requires all of:
 
 ```text
 NEW_EXACT_RECEIVER=true
@@ -118,9 +113,9 @@ REIMPORT_CONTRACT_DEFINED=true
 GLOBAL_STAGE_REOPEN=false
 ```
 
-Merely proving that an old population predicate has a new geometric interpretation is not enough to reopen the old stage. A targeted addendum is justified only if the old stage's certified contract itself must be extended or corrected for downstream use.
+A new geometric interpretation alone is not enough.
 
-## 5. Population/sign-tower firewall retained
+## 5. Population/sign-tower firewall
 
 ```text
 FULL_ENDPOINT_IS_DEGREE64_SIGN_KUMMER_COVER=true
@@ -136,28 +131,32 @@ M3_over_M2_is_objectwise_survival=false
 M3_over_N2_is_survival_probability=false
 ```
 
-Thus the intuitive picture "all candidates split by successive square predicates and the perfect endpoint is the all-YES branch" remains a useful logical picture, but Stage29 has not yet proved that the audited Stage16–20 counting strata coincide one-for-one with literal floors of the F7 degree-64 cover.
+No Stage16–20 population theorem is reinterpreted by analogy at 29-03.
 
-## 6. No route pruning here
+## 6. No route pruning
 
-29-03 is not an attack stage and does not rank endpoint routes. Campedelli, Beauville, modular, Brauer, K3, local, and full-surface routes remain live subject to later 29-05 ownership/deduplication and 29-10/11/12 attack portfolios.
+29-03 is an execution-location checkpoint, not an endpoint attack stage. Campedelli, Beauville, modular, Brauer, K3, local, joint-V4, Peschmann, and full-surface routes remain live subject to later exact deduplication and ownership.
 
 ```text
 PREMATURE_SINGLE_ROUTE_SELECTION=false
-MULTI_ROUTE_ATTACK_ALLOWED=true
 ROUTE_PRUNING_AT_29_03=false
 ```
 
-## 7. Submission state
+## 7. Final audited state
 
 ```text
-CHECKPOINT29_03_SUBMISSION=READY_FOR_FRESH_AUDIT
-AUDIT_REQUIRED=true
-AUDIT_VERDICT=PENDING
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
-PROPOSED_NEXT_ITEM_AFTER_PASS=29-04_POPULATION_HOST_PREDICATE_AND_CONDITION_COST_MATRIX
-NEXT_EXPECTED_COMMAND=Stage29-audit
+CHECKPOINT29_03_AUDIT=PASS
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+BOUNDED_REPAIR=ACTIVE_VS_CONDITIONAL_BACKFLOW_SEMANTICS_PLUS_INTERNAL_FIRST_WORDING_PLUS_PESCHMANN_FAILURE_REASSESSMENT
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+TARGETED_BACKFLOW_REQUIRED_NOW=false
+ACTIVE_BACKFLOW_QUEUE_SIZE=0
+CONDITIONAL_BACKFLOW_WATCHLIST=[R29-KUM4]
+NEXT_ITEM=29-04_POPULATION_HOST_PREDICATE_AND_CONDITION_COST_MATRIX
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
