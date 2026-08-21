@@ -48,7 +48,7 @@ Stages through Stage26 retain their already established contracts. The numbering
 Stage18 -> Stage19
 ```
 
-The Stage27 work tree may contain historically named `27-20-*` checkpoint or derived-route artifacts. Those names are provenance inside Stage27 and are not evidence that the stage-level population transition is `Stage19 -> Stage20`.
+The Stage27 work tree may contain historically named `27-20-*` checkpoint or derived-route artifacts. Those names are provenance inside Stage27 and are not evidence that the stage-level population transition is `Stage19 -> Stage20`. Do not bulk-move or renumber those historical artifacts solely because later roadmap language changes.
 
 ### Stage28 closeout
 
@@ -129,9 +129,9 @@ This exploration should include, when relevant:
 - upper and lower routes separately, including attempts to change the obstruction rather than only sharpen the same estimate;
 - bounded targeted computation when it can distinguish routes or expose a structural lead, without promoting finite evidence to an asymptotic theorem.
 
-The AI/controller is expected to choose and pursue promising unexplored routes proactively. Blind repetition, cosmetic renaming, or repeatedly re-running a theorem gate with no new structural input remains forbidden.
+The AI/controller is expected to choose and pursue promising unexplored routes proactively. Operator intervention is not required merely to authorize another mathematically distinct internal attack. Blind repetition, cosmetic renaming, or repeatedly re-running a theorem gate with no new structural input remains forbidden.
 
-A research lane may freeze only after the remaining obstruction has been narrowed enough that the missing input can be stated as a concrete theorem/construction/adapter receiver with explicit population, measure, quantifiers, parameter ranges, and required strength.
+A research lane may freeze only after the remaining obstruction has been narrowed enough that the missing input can be stated as a concrete theorem/construction/adapter receiver with explicit population, measure, quantifiers, parameter ranges, and required strength. For literature-dependent gates, the preferred stopping point is a research-request-ready specification; an unbounded new literature program is not required before closeout.
 
 ```text
 UNRESOLVED_FIRST_ROUTE_FAILED => CONTINUE_MATERIALLY_DISTINCT_INTERNAL_EXPLORATION
@@ -151,7 +151,7 @@ SPACE_AT_LEAST = integer space diagonal, no face-diagonal restriction
 SPACE_ONLY     = integer space diagonal and zero integer face diagonals
 ```
 
-It is an auxiliary parallel baseline, not a renumbering or mandatory serial stage.
+It is an auxiliary parallel baseline, not a renumbering or mandatory serial stage. It exists to separate the intrinsic cost of space-diagonal integrality from interaction costs after face conditions have already been imposed.
 
 ## Repository-wide reuse and audit safety
 
@@ -169,6 +169,22 @@ PR_DESCRIPTION_REWRITE_REQUIRED=true
 COMMENT_ONLY_AUDIT_STATUS_SUFFICIENT=false
 ```
 
+### Stage16-28 Stage70 policy remains active
+
+For Stage16-28, `StageX-70` continues to follow `docs/stage16-29-stage70-policy.md`: synthesize aggressively from certified inputs, but stop before work requiring a substantially new theorem, large computation, literature program, or off-stage branch. The deep-exploration rule applies before such a stop is accepted. Stage29 is the explicit exception because it uses its own incremental roadmap and has no inherited Stage29-70 checkpoint.
+
+## Stage20 literature reuse rule
+
+Stage20 may begin with more pre-filled material than earlier population stages because Euler cuboids have a large existing literature and strong prior repository results. Inherited constructions and estimates must still be adapted to the common cutoff and population contract; an infinite family is not automatically a matched asymptotic lower bound. This historical contract remains a downstream firewall when Stage29 reuses Stage20 material.
+
+## Stage19 carry-over
+
+Stage19 must preserve the distinction between the certified upper bound for the two-face + space-diagonal population, the independent Stage15 causal zero-density mechanism, and the still-open questions of a matching lower bound and true growth exponent. No later stage may silently treat the half-power upper exponent as a known asymptotic law. Stage29 inherits this firewall unchanged.
+
 ## Endpoint remains deferred
 
-The perfect-cuboid population — three integral face diagonals plus an integral space diagonal — remains outside the Stage16-29 population numbering. Stage29 may develop the direct global/joint endpoint geometry and exact endpoint receivers, but it does not assume existence or nonexistence and does not promote rarity heuristics into an endpoint theorem.
+The perfect-cuboid population — three integral face diagonals plus an integral space diagonal — remains outside the Stage16-29 population numbering. Stage29 may develop the direct global/joint endpoint geometry and exact endpoint receivers, but it does not assume existence or nonexistence and does not promote rarity heuristics or bounded finite zero counts into an endpoint theorem.
+
+## Migration / provenance rule
+
+The legacy full-roadmap label `Stage16-28` is obsolete for current operational scope and is replaced by `Stage16-29`. Historical stage/checkpoint identifiers remain provenance and are not renamed merely because the roadmap range or Stage29 operating model changed.
