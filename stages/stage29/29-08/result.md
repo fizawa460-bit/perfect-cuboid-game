@@ -1,204 +1,175 @@
-# Stage29-08 — parametrization, fibration and coverage atlas
+# Stage29-08 — audited parametrization, fibration and coverage atlas
 
 ```text
 STAGE=Stage29
 ITEM=29-08_PARAMETRIZATION_FIBRATION_AND_COVERAGE_ATLAS
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_PENDING_MERGE
+AUDIT_VERDICT=PASS_AFTER_MATERIAL_POSITIVE_REPAIR
 ATTACK_CREDIT=false
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
 
-## 1. Main result
+## 1. Exact Peschmann crosswalk — discharged
 
-29-08 now separates three questions that had been conflated in earlier screens:
-
-```text
-A. exact coordinate crosswalk to the audited endpoint hub
-B. geometric/fibration location of a family
-C. global arithmetic coverage of all endpoint candidates
-```
-
-A route may pass A and B while failing or leaving C open.
-
-## 2. Peschmann exact crosswalk closes the independence question
-
-For the Euclid triples
+For
 
 ```text
 (U1,V1,W1)=(a^2-b^2,2ab,a^2+b^2)
 (U2,V2,W2)=(m^2-n^2,2mn,m^2+n^2)
 ```
 
-Peschmann uses
+and
 
 ```text
-e=U1U2, x=V1U2, y=U1V2.
+e=U1U2, x=V1U2, y=U1V2,
+t1=x/e=V1/U1, t2=y/e=V2/U2,
 ```
 
-The two automatic faces are exactly the Stage29-07 two-face model. With
+direct algebra gives
 
 ```text
-t1=x/e=V1/U1,
-t2=y/e=V2/U2,
+Master/e^2=t1^2+t2^2=f_face
+H-total/e^2=1+t1^2+t2^2=f_sp.
 ```
 
-one has identically
-
-```text
-Master/e^2  = t1^2+t2^2       = f_face
-H-total/e^2 = 1+t1^2+t2^2     = f_sp.
-```
-
-Therefore Peschmann's two residual square conditions are literally the same two roots of the audited joint V4 cover.
-
-Proposed disposition:
+Thus Peschmann is an exact chart of the audited two-face / residual joint-V4 architecture, not a ninth endpoint foundation.
 
 ```text
 R29-PESCH1=DISCHARGED
 PESCHMANN_PROVEN_F2_ADAPTER=true
 PESCHMANN_INDEPENDENCE_RESOLVED=true
 PESCHMANN_INDEPENDENT_FOUNDATION=false
-PESCHMANN_ROUTE=J12-PARAMETRIC
-H_NAMESPACE_REOPEN_REQUIRED_BY_PESCHMANN=false
 ```
 
-This does not make Peschmann redundant: the genus-3 and elliptic quotient/fibration machinery supplies a strong chart and attack language on the existing joint-V4 architecture.
+## 2. Material positive repair — global coverage is proved
 
-## 3. Coverage is still not certified
+The submission left global Euler-brick coverage open because `arXiv:2604.28072` and `arXiv:2605.00573` make contradictory scope statements. Fresh audit independently re-derived Theorem 2.4 of `2604.28072` and accepts its proof.
 
-The current 2026 Peschmann source sequence is not internally safe to compress into a global coverage theorem without reconciliation.
-
-- `arXiv:2604.28072` states in its abstract that every primitive Euler brick arises from the standard `(a,b,m,n)` parametrization up to scaling.
-- the later `arXiv:2605.00573` explicitly says it does not claim the converse that every primitive body cuboid arises from a Master-Hit.
-
-Stage29 therefore does not choose the stronger statement by convenience.
+For a primitive Euler brick `(X,Y,Z)` with unique odd edge `X`, set
 
 ```text
-PESCHMANN_GLOBAL_EULER_BRICK_COVERAGE_CERTIFIED=false
-R29-PESCH-COV=OPEN_SOURCE_SCOPE_RECONCILIATION_AND_GLOBAL_COVERAGE_ADAPTER
+d=gcd(X,Y), e=gcd(X,Z).
 ```
 
-The finite 1,072-fiber theorem and million-brick computations remain finite-family results only.
-
-## 4. New May-2026 Peschmann fibration imported without creating a new foundation
-
-`arXiv:2605.00573` gives an elliptic fibration of the Master-Hit equation over `(m,n)`:
+The two primitive Pythagorean faces uniquely give
 
 ```text
-H_mn: s^2=V2^2*t^4+(4U2^2-2V2^2)*t^2+V2^2,
+X/d=U1, Y/d=V1,
+X/e=U2, Z/e=V2.
 ```
 
-plus a Weierstrass curve `E_mn` and a rational square-value test `tau(P)=t^2`.
-
-Since `H_mn` is exactly the Master/third-face equation under the crosswalk above, this fibration lies on the Stage20 Euler K3 marginal. It is routed under the existing `J12-PARAMETRIC` attack route.
+Primitivity gives `gcd(d,e)=1`; hence with `g=gcd(U1,U2)`,
 
 ```text
-R29-PESCH2=OPEN_BOUNDED_FIBRATION_CLASS_AND_POLARIZATION_MATCH
+d=U2/g, e=U1/g,
+(X,Y,Z)=(U1U2/g, V1U2/g, U1V2/g).
 ```
 
-The same paper's exponent-one blocker remains conjectural despite large finite verification:
+The third-face condition gives
 
 ```text
-R29-PESCH-E1=AMBER_CONJECTURAL
+Master=g^2*(Y^2+Z^2)=square.
+```
+
+So every primitive Euler brick is exactly the gcd-normalized representative of a Master-Hit. Space-squarehood is invariant under the same scaling. Therefore every primitive perfect-cuboid candidate is also covered.
+
+```text
+PESCHMANN_GLOBAL_EULER_BRICK_COVERAGE_CERTIFIED=true
+PESCHMANN_GLOBAL_ENDPOINT_COVERAGE_VIA_MASTER_HITS=true
+R29-PESCH-COV=DISCHARGED_BY_INDEPENDENT_PROOF_AUDIT
+PESCHMANN_SOURCE_CONTRADICTION_PRESENT=true
+```
+
+The later disclaimer is recorded as a source contradiction; it does not overturn the independently checked theorem.
+
+## 3. Exponent-one blocker becomes a global endpoint receiver
+
+The May-2026 exponent-one blocker remains Conjecture 4.1 and is only finitely verified. But the coverage dependency is gone. If it is proved for every Master-Hit, then every globally covered endpoint candidate has nonsquare space norm.
+
+```text
+R29-PESCH-E1=AMBER_CONJECTURAL_GLOBAL_ENDPOINT_BLOCKER
+PESCH_E1_IF_PROVED_IMPLIES_PERFECT_CUBOID_NONEXISTENCE=true
+PESCH_E1_CURRENTLY_PROVED=false
 FINITE_VERIFICATION_IS_NOT_THEOREM=true
 ```
 
-## 5. Stage20 / Testa--Stoll Euler K3 bridge sharpens
+This is a strengthened attack receiver, not a present nonexistence theorem.
 
-After the exact 29-07 sign tower, quotienting the full endpoint by the space-diagonal sign leaves
+## 4. May Mordell-Weil fibration
+
+`H_mn` is exactly the Master/third-face marginal quartic. Its Weierstrass lift criterion is
 
 ```text
-[e:x:y:p:q:z] in P5
+P in E_mn(Q) \ ({O} union T_tau)
+tau(P) in Q_{>0}^square
 ```
 
-with exactly the three face equations. This is both:
+followed by the reduced Euclid positivity/parity/coprimality checks. The total `(m,n)` fibration is a globally covering Euler-marginal atlas by the reduction theorem, but any bounded Mordell-Weil enumeration remains finite.
 
-- the Testa--Stoll Euler K3 normal quotient `Kbar_c`, and
-- the Stage20 third-face completion of the two-face host.
+```text
+PESCH_TOTAL_FIBRATION_GLOBAL_MARGINAL_COVERAGE=true
+BOUNDED_MW_ENUMERATION_GLOBAL_COVERAGE=false
+R29-PESCH2=OPEN_BOUNDED_FIBRATION_CLASS_AND_POLARIZATION_MATCH
+```
 
-The minimal resolutions therefore agree as the same Euler K3 model, and
+## 5. Stage20 / Testa--Stoll Euler K3 adapter — discharged
+
+Quotienting the endpoint by the space-diagonal sign forgets `d` and leaves exactly the three face equations in `P5`, i.e. both the Testa--Stoll normal Euler K3 `Kbar_c` and the Stage20 third-face completion. Their minimal resolutions agree over `Q`.
+
+The physical polarization is the same `P5` hyperplane system:
 
 ```text
 M_face=pi_face^*(-K_Y)
+M_face^2=8
+h0(M_face)=6
+sections=[e:x:y:p:q:z].
 ```
 
-is the pullback of the `P5` hyperplane class under the six physical sections.
-
-Proposed disposition:
-
 ```text
-R29-K1=DISCHARGED_PENDING_AUDIT
+R29-K1=DISCHARGED
+STAGE20_X_FACE_EQUALS_TESTA_STOLL_K_C_AT_NORMAL_AND_RESOLUTION_LEVEL=true
+PHYSICAL_POLARIZATION_MATCH=true
 ```
 
-This is an equation-level bridge, not an inference from matching `h32`.
+## 6. Fibration field firewall
 
-The 15 published elliptic fibrations on the Euler K3 are therefore legitimate Stage20 marginal fibration candidates, but their fiber classes and residual space-square arithmetic remain open:
+The Testa--Stoll counts are retained as geometric counts:
 
 ```text
-R29-FIB1=OPEN
-R29-FIB2=OPEN
+ENDPOINT_GENUS5_FIBRATION_COUNT=28_GEOMETRIC
+EULER_K3_ELLIPTIC_FIBRATION_COUNT=15_GEOMETRIC
 ```
 
-## 6. Atlas classification
-
-The machine-readable atlas `coverage-atlas.json` records at least:
+but not every individual fibration is certified over `Q`. Rank-4 rulings require splitting fields; the first endpoint pair is explicitly over `Q(i)`. Downstream arithmetic must therefore record the field of definition per fibration.
 
 ```text
-Peschmann Euclid-pair chart        -> exact two-face/joint-V4 chart; coverage open
-Peschmann genus-3 family           -> necessary curve-level slices; converse specialization guarded
-Peschmann MW elliptic fibration    -> Stage20 Euler marginal
-Peschmann 1072-fiber theorem       -> finite fibers only
-Peschmann exponent-one blocker     -> conjectural, finite verified
-Saunderson                         -> thin Stage20 curve; endpoint lift genus 3 / degree 12
-StageA2 -18                        -> one family only
-Testa-Stoll degree<=6 curves       -> complete low-degree curve classification, not point coverage
-28 endpoint genus-5 fibrations     -> geometric full-surface fibration atlas
-15 Euler-K3 elliptic fibrations    -> marginal K3 atlas, endpoint residual square still required
+ALL_28_FIBRATIONS_Q_DEFINED_CERTIFIED=false
+ALL_15_FIBRATIONS_Q_DEFINED_CERTIFIED=false
+R29-FIB1=OPEN_PHYSICAL_CLASS_PLUS_FIELD_OF_DEFINITION_LEDGER
+R29-FIB2=OPEN_ARITHMETIC_SPECIALIZATION_AND_RESIDUAL_SPACE_LIFT
 ```
 
-## 7. Coverage hierarchy frozen for downstream work
+Geometric fibration coverage is not rational-section or rational-point coverage.
 
-29-12 must distinguish:
+## 7. Other family scopes
 
-```text
-GLOBAL_ENDPOINT_COVERAGE
-GLOBAL_MARGINAL_COVERAGE
-GEOMETRIC_FIBRATION_COVERAGE
-PARAMETRIC_CHART_COVERAGE
-THIN_FAMILY_ONLY
-FINITE_FIBER_ONLY
-EMPIRICAL_DATABASE_ONLY
-```
+Saunderson remains a thin Stage20 curve; StageA2 remains one specific family; the low-degree endpoint theorem classifies curves only in its stated degree range. The 1,072 Peschmann exclusions and larger databases remain finite computations.
 
-Only the first category can support a direct endpoint-wide conclusion without a separate coverage theorem.
+## 8. Routing
 
-## 8. Route ownership / roadmap
-
-No twelfth attack route is created. New Peschmann receivers are owned by `J12-PARAMETRIC`.
-
-Proposed receiver updates:
+No new attack route is created. `J12-PARAMETRIC` is materially strengthened because global Master-Hit coverage is now certified, but the existing R2 order remains valid.
 
 ```text
-R29-PESCH1=DISCHARGED
-R29-PESCH-COV=OPEN -> J12-PARAMETRIC
-R29-PESCH2=OPEN_BOUNDED -> J12-PARAMETRIC
-R29-PESCH-E1=AMBER_CONJECTURAL -> J12-PARAMETRIC
-R29-K1=DISCHARGED_PENDING_AUDIT
-R29-FIB1=OPEN -> J12-PARAMETRIC
-R29-FIB2=OPEN -> J12-PARAMETRIC
-```
-
-No Stage16--28 backflow is required.
-
-```text
+ATTACK_ROUTE_COUNT_RETAINED=11
 TARGETED_BACKFLOW_REQUIRED=false
 ACTIVE_BACKFLOW_QUEUE_SIZE=0
 ROADMAP_REWRITE_REQUIRED=false
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
+AUDIT_REQUIRED=false
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
 NEXT_ITEM=29-09_FULL_ENDPOINT_LOCAL_ARITHMETIC
-NEXT_EXPECTED_COMMAND=Stage29-audit
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
