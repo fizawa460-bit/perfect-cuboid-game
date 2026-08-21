@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "ledger": "STAGE29_NUMERICAL_MAINLINE_R01",
+  "source_track": "Stage29-num1",
+  "source_pr": 1289,
+  "source_status": "MERGED_MAIN",
+  "source_result": "stages/stage29/num1/result.md",
+  "source_manifest": "stages/stage29/num1/data/m3_census_manifest.json",
+  "contract": {
+    "population": "primitive canonical Euler cuboids with all three integral face diagonals and no space-diagonal requirement",
+    "cutoff": "R^2=a^2+b^2+c^2<=B^2",
+    "primitive": "gcd(a,b,c)=1",
+    "exact_integer_arithmetic": true
+  },
+  "checkpoints": [
+    {"B": 1000000, "M3": 219, "P": 0, "N2": 5},
+    {"B": 5000000, "M3": 480, "P": 0, "N2": 8},
+    {"B": 10000000, "M3": 656, "P": 0, "N2": 10},
+    {"B": 50000000, "M3": 1298, "P": 0, "N2": 15},
+    {"B": 100000000, "M3": 1757, "P": 0, "N2": 17},
+    {"B": 200000000, "M3": 2339, "P": 0, "N2": 18},
+    {"B": 500000000, "M3": 3331, "P": 0, "N2": 27}
+  ],
+  "regression": {
+    "10000": 18,
+    "50000": 42,
+    "200000": 82,
+    "1000000": 219
+  },
+  "validation": {
+    "oeis_records_exactly_crosschecked": 3556,
+    "ci_run": 32444158502,
+    "artifact": 9433468039
+  },
+  "finite_endpoint": {
+    "P_zero_through_B": 500000000,
+    "global_zero_theorem": false,
+    "perfect_cuboid_nonexistence_claim": false
+  },
+  "reuse": {
+    "stage29_08_parametrization_coverage": true,
+    "endpoint_regression_negative_control": true,
+    "finite_matched_cutoff_diagnostics": true,
+    "infer_asymptotic_exponent": false,
+    "infer_eventual_M3_N2_ordering": false
+  }
+}
