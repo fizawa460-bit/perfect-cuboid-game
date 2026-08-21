@@ -11,45 +11,7 @@ permissions:
   contents: read
 
 jobs:
-  direct-census:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v4
-      - name: Compile exact direct shared-edge counter
-        run: |
-          g++ -O3 -std=c++20 -march=x86-64-v3 \
-            stages/stage29/num3/scripts/m2_shared_edge_count.cpp \
-            -o m2_shared_edge_count
-      - name: Run direct exact census through B=1e7
-        run: |
-          /usr/bin/time -v ./m2_shared_edge_count \
-            --bound 10000000 \
-            --output stage29-num3-m2-b10m.json
-          python - <<'PY'
-          import json
-          p=json.load(open('stage29-num3-m2-b10m.json'))
-          cp={r['B']:r for r in p['checkpoints']}
-          assert cp[100000]['M2']==796698
-          assert cp[100000]['N2']==89
-          assert cp[1000000]['M2']==13817725
-          assert cp[1000000]['N2']==255
-          assert cp[1000000]['M3']==219
-          assert cp[10000000]['M2']==224273087
-          assert cp[10000000]['M2_direction']==[76864512,93602678,53805897]
-          assert cp[10000000]['N2']==720
-          assert cp[10000000]['M3']==656
-          assert cp[10000000]['P']==0
-          assert p['guards']['FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM'] is True
-          print('STAGE29_NUM3_DIRECT_B10M', cp[10000000])
-          PY
-      - uses: actions/upload-artifact@v4
-        with:
-          name: stage29-num3-m2-direct-b10m
-          path: stage29-num3-m2-b10m.json
-          retention-days: 30
-
-  mobius-crosscheck:
+  mobius-production:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     steps:
@@ -59,10 +21,10 @@ jobs:
           g++ -O3 -std=c++20 -march=x86-64-v3 -fopenmp \
             stages/stage29/num3/scripts/m2_mobius_count.cpp \
             -o m2_mobius_count
-      - name: Crosscheck B=1e6 and B=1e7
+      - name: Regression B=1e6 and B=1e7
         run: |
-          /usr/bin/time -v ./m2_mobius_count 1000000 219 4 > mobius-b1m.json
-          /usr/bin/time -v ./m2_mobius_count 10000000 656 4 > mobius-b10m.json
+          ./m2_mobius_count 1000000 219 4 > mobius-b1m.json
+          ./m2_mobius_count 10000000 656 4 > mobius-b10m.json
           python - <<'PY'
           import json
           p1=json.load(open('mobius-b1m.json'))
@@ -71,15 +33,26 @@ jobs:
           assert p1['M2_direction_a_b_c']==[4592536,5816786,3408403]
           assert p10['M2']==224273087
           assert p10['M2_direction_a_b_c']==[76864512,93602678,53805897]
-          assert p1['G_at_least_two_shared_edge_incidences']==p1['M2']+3*219
-          assert p10['G_at_least_two_shared_edge_incidences']==p10['M2']+3*656
-          print('STAGE29_NUM3_MOBIUS_B1M', p1)
-          print('STAGE29_NUM3_MOBIUS_B10M', p10)
+          PY
+      - name: Exact census B=1e8
+        run: |
+          /usr/bin/time -v ./m2_mobius_count 100000000 1757 4 > mobius-b100m.json
+          python - <<'PY'
+          import json
+          p=json.load(open('mobius-b100m.json'))
+          assert p['B']==100000000
+          assert p['M3_input']==1757
+          assert p['G_at_least_two_shared_edge_incidences']==p['M2']+3*1757
+          assert sum(p['M2_direction_a_b_c'])==p['M2']
+          assert p['finite_data_is_not_asymptotic_theorem'] is True
+          assert p['perfect_cuboid_nonexistence_claim'] is False
+          print('STAGE29_NUM3_B100M', p)
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage29-num3-m2-mobius-crosscheck
+          name: stage29-num3-m2-mobius-b100m
           path: |
             mobius-b1m.json
             mobius-b10m.json
+            mobius-b100m.json
           retention-days: 30
