@@ -1,57 +1,62 @@
-# Peschmann 2026 crosswalk — candidate adapter, not independent foundation
+# Peschmann 2026 crosswalk — high-value unresolved adapter candidate
 
-SOURCE=arXiv:2604.09328
-STATUS=RESEARCH_INPUT_REQUIRES_EXACT_ADAPTER_AUDIT
+SOURCES=`arXiv:2604.09328`, `arXiv:2604.28072`
+STATUS=AUDITED_RESEARCH_INPUT_EXACT_STAGE29_CROSSWALK_OPEN
 
-## What the preprint does
+## What the 2026 route actually supplies
 
-The preprint chooses two Euclidean/Pythagorean parameter pairs and constructs edges for which two face-diagonal conditions are automatic. The perfect-cuboid condition then becomes simultaneous squareness of the two remaining quantities: the third face diagonal and the space diagonal. It further reorganizes those quartic conditions into a one-parameter genus-3 hyperelliptic family with elliptic quotients.
+The companion papers use two Euclidean/Pythagorean parameter pairs so that two face-diagonal conditions are automatic. The remaining perfect-cuboid conditions are simultaneous squareness of the third face diagonal and the space diagonal, reorganized through a genus-3 family with elliptic quotients.
 
-## Existing Stage29 crosswalk
+The later paper `arXiv:2604.28072` additionally gives:
 
-Stage28/29 already has an audited common two-face host with two residual square completions:
+- a structural classification placing primitive Euler bricks in the standard `(a,b,m,n)` parametrization up to scaling;
+- a torsion/rank-zero exclusion criterion on the elliptic quotients;
+- an unconditional exclusion on 1,072 explicit master-tuple fibers with `max(m,n)<=100`.
 
-```text
-base = common two-face toric host Y
-residual square #1 = third-face completion
-residual square #2 = space-diagonal completion
-joint endpoint = V4 / bidouble cover tracking both
-```
+These are source-level research inputs only. They are not imported as Stage29 certified global or population results here.
 
-The Peschmann construction has the same condition pattern:
+## Relation to the audited Stage28/29 host
 
-```text
-two Pythagorean faces built in
-+ third-face square
-+ space-diagonal square
-```
-
-Therefore the correct pre-audit routing is
+Stage28/29 already has the condition architecture
 
 ```text
-PESCHMANN_2026_RELATION_TO_F2=LIKELY_EXPLICIT_CHART_OR_FIBRATION
-INDEPENDENT_FOUNDATION=false_PENDING_EXACT_CROSSWALK
-HIGH_VALUE_ADAPTER_CANDIDATE=true
+common two-face host
++ third-face square completion
++ space-diagonal square completion
+= joint V4 endpoint cover.
 ```
 
-## What must be proved before importing it
+Peschmann has the same residual two-square pattern. That makes an F2 crosswalk highly plausible, but pattern equality is not an exact rational-map proof.
 
-A future adapter should establish, with exact rational maps and exceptional loci:
-1. the birational map from the Euclid-pair parameter space to the canonical Stage28 two-face host;
-2. which Peschmann quartic is the Stage20 third-face square root and which is the Stage19/28 space square root;
-3. the physical height/canonical-order/primitivity firewall;
-4. whether the genus-3 curves are fibers/slices of the joint V4 cover or a further quotient;
-5. exact coverage and exceptional/degenerate loci.
+Therefore the adversarial audit records
 
-## Firewall
+```text
+PESCHMANN_PROVEN_F2_ADAPTER=false
+PESCHMANN_INDEPENDENCE_RESOLVED=false
+PESCHMANN_NEW_FOUNDATION_PROMOTED=false
+PESCHMANN_ROUTING=HIGH_VALUE_GLOBAL_PARAMETRIZATION_FIBRATION_CANDIDATE
+```
 
-No Peschmann computation or descent result is imported into the certified Stage16–20 population theorems here.
+The broad-screen stop does **not** mean Peschmann was proved non-independent. It means no ninth independent foundation was certified by this pass.
+
+## Receiver
+
+```text
+R29-PESCH1 = EuclidPairToStage28TwoFaceHostAndJointV4ExactCrosswalk
+```
+
+A future discharge must establish exact rational maps, exceptional loci, which quartic is which residual square completion, the genus-3 fiber/quotient relation, and coverage.
+
+## Population / finite-family firewall
+
+The 1,072-fiber exclusion is finite-family arithmetic in Peschmann coordinates. It does not automatically imply anything about Stage16–20 cutoff populations, heights, primitivity, canonical ordering, or asymptotic density.
 
 ```text
 BACKFLOW_TO_STAGE16_28=false
 POPULATION_TRANSFER=false
 HEIGHT_TRANSFER=false
 PRIMITIVITY_TRANSFER=false
+CANONICAL_ORDER_TRANSFER=false
 ASYMPTOTIC_TRANSFER=false
 GLOBAL_ENDPOINT_CONCLUSION=false
 ```
