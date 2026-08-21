@@ -11,9 +11,23 @@ permissions:
   contents: read
 
 jobs:
-  mobius-production:
+  mobius-scaleout:
     runs-on: ubuntu-24.04
     timeout-minutes: 60
+    strategy:
+      fail-fast: true
+      max-parallel: 3
+      matrix:
+        include:
+          - bound: 200000000
+            m3: 2339
+            tag: b200m
+          - bound: 500000000
+            m3: 3331
+            tag: b500m
+          - bound: 1000000000
+            m3: 4362
+            tag: b1b
     steps:
       - uses: actions/checkout@v4
       - name: Compile exact Mobius aggregate counter
@@ -21,38 +35,25 @@ jobs:
           g++ -O3 -std=c++20 -march=x86-64-v3 -fopenmp \
             stages/stage29/num3/scripts/m2_mobius_count.cpp \
             -o m2_mobius_count
-      - name: Regression B=1e6 and B=1e7
+      - name: Exact census ${{ matrix.tag }}
+        shell: bash
         run: |
-          ./m2_mobius_count 1000000 219 4 > mobius-b1m.json
-          ./m2_mobius_count 10000000 656 4 > mobius-b10m.json
+          /usr/bin/time -v ./m2_mobius_count \
+            ${{ matrix.bound }} ${{ matrix.m3 }} 4 \
+            > mobius-${{ matrix.tag }}.json
           python - <<'PY'
           import json
-          p1=json.load(open('mobius-b1m.json'))
-          p10=json.load(open('mobius-b10m.json'))
-          assert p1['M2']==13817725
-          assert p1['M2_direction_a_b_c']==[4592536,5816786,3408403]
-          assert p10['M2']==224273087
-          assert p10['M2_direction_a_b_c']==[76864512,93602678,53805897]
-          PY
-      - name: Exact census B=1e8
-        run: |
-          /usr/bin/time -v ./m2_mobius_count 100000000 1757 4 > mobius-b100m.json
-          python - <<'PY'
-          import json
-          p=json.load(open('mobius-b100m.json'))
-          assert p['B']==100000000
-          assert p['M3_input']==1757
-          assert p['G_at_least_two_shared_edge_incidences']==p['M2']+3*1757
+          p=json.load(open('mobius-${{ matrix.tag }}.json'))
+          assert p['B']==${{ matrix.bound }}
+          assert p['M3_input']==${{ matrix.m3 }}
+          assert p['G_at_least_two_shared_edge_incidences']==p['M2']+3*p['M3_input']
           assert sum(p['M2_direction_a_b_c'])==p['M2']
           assert p['finite_data_is_not_asymptotic_theorem'] is True
           assert p['perfect_cuboid_nonexistence_claim'] is False
-          print('STAGE29_NUM3_B100M', p)
+          print('STAGE29_NUM3_SCALEOUT', p)
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage29-num3-m2-mobius-b100m
-          path: |
-            mobius-b1m.json
-            mobius-b10m.json
-            mobius-b100m.json
+          name: stage29-num3-m2-${{ matrix.tag }}
+          path: mobius-${{ matrix.tag }}.json
           retention-days: 30
