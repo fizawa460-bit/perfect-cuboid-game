@@ -1,0 +1,53 @@
+{
+  "schema_version": 2,
+  "task": "Stage29-02a",
+  "role": "GLOBAL_ENDPOINT_SURFACE_LITERATURE_LOCK",
+  "parent": "Stage29-02",
+  "primary_source": {
+    "authors": ["Damiano Testa", "Michael Stoll"],
+    "title": "Curves on the surface of cuboids",
+    "doi": "10.1090/mcom/4238",
+    "arxiv": "1009.0388"
+  },
+  "exact_endpoint_model_match": true,
+  "load_bearing_results": [
+    "geometrically_integral_complete_intersection_2_2_2_2_in_P6",
+    "48_A1_singularities",
+    "minimal_desingularization_general_type_canonical_model",
+    "K_squared_16",
+    "geometric_Picard_rank_64",
+    "automorphism_group_order_1536",
+    "complete_integral_curve_classification_degree_at_most_6",
+    "no_integral_degree_6_curves",
+    "28_genus5_fibrations_on_full_endpoint_surface",
+    "15_elliptic_fibrations_on_Euler_K3_quotient"
+  ],
+  "derived_stage29_adapters": {
+    "positive_nondegenerate_endpoint_curve_degree_le_6_absent": true,
+    "first_possible_canonical_curve_degree_for_physical_family_at_least_8": true,
+    "stage20_to_TestaStoll_Kc_adapter": "R29-K1",
+    "full_surface_fibration_receiver": "R29-FIB1",
+    "Euler_K3_fibration_receiver": "R29-FIB2"
+  },
+  "firewalls": {
+    "general_type_implies_finite_rational_points": false,
+    "degree6_curve_absence_implies_no_perfect_cuboid": false,
+    "stage20_M_degree_equals_endpoint_projective_degree": false,
+    "TestaStoll_Kc_equals_stage20_Xface_globally_without_adapter": false,
+    "fibration_implies_counting_exponent": false,
+    "family_specific_closure_promoted_to_global": false
+  },
+  "repo_reuse_preflight": "PASS_NO_DIRECT_PRIOR_COPY_FOUND",
+  "old_stage_reentry_required": false,
+  "keep_stage29_native": true,
+  "audit_record": "stages/stage29/29-02a/audit.md",
+  "source_lock": "stages/stage29/29-02a/source-lock.md",
+  "audited_submission_head": "82595de724e6f1d8e980b9190945cedd454e700b",
+  "audit_required": false,
+  "audit_status": "PASS",
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "status": "AUDITED_PASS_PENDING_PARENT_MERGE_RETARGET",
+  "next_expected_command": "Stage29-audit"
+}
