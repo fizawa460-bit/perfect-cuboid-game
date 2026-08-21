@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "stage": "Stage28",
-  "status": "OPEN_CHECKPOINT40_R2_POSTMERGE_DEEPENING_PENDING_AUDIT",
+  "status": "OPEN_CHECKPOINT40_R2_AUDIT_FAIL_REPAIR_REQUIRED",
   "parent_class": "bridge_comparison",
   "canonical_roadmap": "docs/stage16-29-population-roadmap.md",
   "comparison": "Stage19 -> Stage20",
@@ -19,8 +19,8 @@
     "10": "AUDITED_PASS_MERGED",
     "20": "AUDITED_PASS_MERGED",
     "30": "AUDITED_PASS_MERGED",
-    "40": "R2_POSTMERGE_DEEPENING_PENDING_AUDIT",
-    "50": "BLOCKED_UNTIL_40_R2_AUDIT_AND_MERGE",
+    "40": "R2_AUDIT_FAIL_REPAIR_REQUIRED",
+    "50": "BLOCKED_UNTIL_40_R2_REPAIR_REAUDIT_AND_MERGE",
     "60": "BLOCKED",
     "70": "BLOCKED"
   },
@@ -85,7 +85,8 @@
     "open_gate_required_strength": "strict_bridge_upper_improvement_or_asymptotic_ordering",
     "endpoint_count_forbidden": true,
     "research_request_ready": true,
-    "maximal_bounded_exploration_claimed_pending_audit": true
+    "maximal_bounded_exploration_audit": "PASS_CONDITIONAL_ON_U10_FACTORISATION_REPAIR",
+    "audit_blocker": "U10 displayed F_sp/4 factorisation uses plus between conjugate-pair products; exact identity requires product of all four factors"
   },
   "firewalls": {
     "ordering_from_lower_bounds_forbidden": true,
@@ -99,32 +100,11 @@
     "double_charge_check_required_at_checkpoint60": true,
     "deep_exploration_rule_required_before_open_gate": true
   },
-  "checkpoint10": {
-    "status": "AUDITED_PASS_MERGED",
-    "result": "stages/stage28/28-10/result.md",
-    "audit_record": "stages/stage28/28-10/audit.md",
-    "audit_status": "PASS",
-    "pr": 1274,
-    "merge_commit": "895c6b74c47523f77f865cf4a0f533519e98b386"
-  },
-  "checkpoint20": {
-    "status": "AUDITED_PASS_MERGED",
-    "result": "stages/stage28/28-20/result.md",
-    "audit_record": "stages/stage28/28-20-30/audit.md",
-    "audit_status": "PASS",
-    "pr": 1275,
-    "merge_commit": "88a5dd401d91468f5be63017237b86942a57b685"
-  },
-  "checkpoint30": {
-    "status": "AUDITED_PASS_MERGED",
-    "result": "stages/stage28/28-30/result.md",
-    "audit_record": "stages/stage28/28-20-30/audit.md",
-    "audit_status": "PASS",
-    "pr": 1275,
-    "merge_commit": "88a5dd401d91468f5be63017237b86942a57b685"
-  },
+  "checkpoint10": {"status":"AUDITED_PASS_MERGED","result":"stages/stage28/28-10/result.md","audit_record":"stages/stage28/28-10/audit.md","audit_status":"PASS","pr":1274,"merge_commit":"895c6b74c47523f77f865cf4a0f533519e98b386"},
+  "checkpoint20": {"status":"AUDITED_PASS_MERGED","result":"stages/stage28/28-20/result.md","audit_record":"stages/stage28/28-20-30/audit.md","audit_status":"PASS","pr":1275,"merge_commit":"88a5dd401d91468f5be63017237b86942a57b685"},
+  "checkpoint30": {"status":"AUDITED_PASS_MERGED","result":"stages/stage28/28-30/result.md","audit_record":"stages/stage28/28-20-30/audit.md","audit_status":"PASS","pr":1275,"merge_commit":"88a5dd401d91468f5be63017237b86942a57b685"},
   "checkpoint40": {
-    "status": "AUDITED_PASS_MERGED_WITH_POSTMERGE_R2_PENDING_AUDIT",
+    "status": "AUDITED_PASS_MERGED_WITH_POSTMERGE_R2_REPAIR_REQUIRED",
     "result": "stages/stage28/28-40/result.md",
     "audit_record": "stages/stage28/28-40/audit.md",
     "audit_status": "PASS",
@@ -138,21 +118,23 @@
     "r2_relative_local_euler_product": "stages/stage28/28-40-r2/relative-local-euler-product.md",
     "r2_huang_explicit_space_thin_cover": "stages/stage28/28-40-r2/huang-explicit-space-thin-cover.md",
     "r2_cover_squareclass_separation": "stages/stage28/28-40-r2/cover-squareclass-separation.md",
-    "r2_audit_status": "PENDING",
+    "r2_audit_record": "stages/stage28/28-40-r2/audit.md",
+    "r2_audited_submission_head": "c59a9e7028b70599eba3cdacad193940e06e58fa",
+    "r2_audit_status": "FAIL_REPAIR_REQUIRED",
     "advance_allowed": false,
     "merge_allowed": false,
     "next_checkpoint_after_r2_pass": 50
   },
   "current_checkpoint": 40,
-  "main_status": "CHECKPOINT40_R2_SUBMITTED_PENDING_FRESH_AUDIT",
-  "audit_status": "PENDING_R2_FRESH_AUDIT",
+  "main_status": "CHECKPOINT40_R2_AUDIT_FAIL_REPAIR_REQUIRED",
+  "audit_status": "FAIL_REPAIR_REQUIRED",
   "advance_allowed": false,
   "merge_allowed": false,
   "next_checkpoint": 40,
   "next_checkpoint_after_pass": 50,
   "next_expected_command": "Stage28-audit",
   "next_stage": "Stage29",
-  "new_input_required": true,
+  "new_input_required": false,
   "human_decision_required": false,
   "codex_required": false
 }
