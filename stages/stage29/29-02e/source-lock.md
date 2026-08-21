@@ -3,7 +3,7 @@
 ```text
 TASK=Stage29-02e
 ROLE=ENDPOINT_LFUNCTION_PLUS_COORDINATE_K3_MODULAR_REMATCH
-STATUS=SUBMISSION_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_AFTER_SCOPE_REPAIR
 ```
 
 ## Primary source A — endpoint L-function
@@ -32,19 +32,21 @@ L(s,L_ell)
    * L(s,chi_2)^3.
 ```
 
-Here `h8,h16,h32` are the unique rational-coefficient weight-3 newforms at levels 8,16,32, and `chi_d` is the quadratic character of `Q(sqrt(d))`.
+Here `h8,h16,h32` are the rational-coefficient weight-3 CM newforms used by the paper at levels 8,16,32, and `chi_d` is the quadratic character of `Q(sqrt(d))`.
 
-Theorem 4.4 gives the semisimplified l-adic decomposition
+Theorem 4.4 gives, after scalar extension to `Qbar_l`, the semisimple l-adic decomposition
 
 ```text
-H2(Sbar)
+H2(Sbar) tensor Qbar_l
  = V_h16^3
    + V_h32
    + (chi_2 tensor V_h32)^3
-   + L_ell(-1),
+   + (L_ell(-1) tensor Qbar_l),
 
 chi_2 tensor V_h32 ~= V_h8.
 ```
+
+The same theorem identifies `h16` as CM by `Q(i)` and `h32` as CM by `Q(sqrt(-2))`.
 
 Lemma 2.1 gives
 
@@ -54,7 +56,7 @@ H2(Sbar) pure weight 2,
 H3(Sbar)=0.
 ```
 
-Theorem 1.1 also gives the geometric Picard rank `64` and the field-of-definition distribution
+Theorem 1.1 / Corollary 4.5 also give geometric Picard rank `64` and a generating set of irreducible divisors with fields of definition
 
 ```text
 34 over Q,
@@ -63,9 +65,21 @@ Theorem 1.1 also gives the geometric Picard rank `64` and the field-of-definitio
 3 strictly over Q(sqrt(2)).
 ```
 
+This `34/26/1/3` statement is recorded only as a field-of-definition statement for the chosen generators, not as a claim that every Picard class has a unique minimal field in that partition.
+
 ## Primary source B — coordinate sign K3 quotients
 
 Damiano Testa; Michael Stoll, `Curves on the surface of cuboids` / author-PDF title `The surface parametrizing cuboids`, Mathematics of Computation, DOI `10.1090/mcom/4238`; open preprint arXiv `1009.0388`.
+
+The source proves for the endpoint canonical model and its resolution
+
+```text
+omega_Sbar ~= O_Sbar(1),
+pg(S)=7,
+q(S)=0,
+h11(S)=64,
+rho(S)=64.
+```
 
 Section 6 studies the seven coordinate-sign K3 quotients
 
@@ -75,7 +89,7 @@ K_b1,K_b2,K_b3,
 K_c.
 ```
 
-The three `K_aj` are Q-isomorphic, the three `K_bj` are Q-isomorphic, and `K_a` is isomorphic to `K_c` after a field extension stated in the source. The quotient `K_c` obtained by forgetting the long diagonal is the Euler-brick K3.
+The three `K_aj` are Q-isomorphic, the three `K_bj` are Q-isomorphic, and `K_a` is isomorphic to `K_c` over `Q(i)`. The quotient `K_c` obtained by forgetting the long diagonal is the Euler-brick K3.
 
 For `K_c`, Testa--Stoll prove that the minimal desingularization has geometric Picard rank `20`; their public verification source constructs the rank-20 Picard lattice and proves generation by the known curves.
 
@@ -114,14 +128,19 @@ K_a1 (forget a1):
 
 Thus the finite-field calculation is performed on the literal coordinate-sign quotients, not on unrelated K3 models.
 
+## Audit promotion
+
+Fresh audit no longer uses finite-prime equality as the proof of the global modular labels. The seven coordinate sign quotients split the seven canonical `H20` coordinate eigenspaces and exhaust the rank-14 transcendental part. Combined with the `3+1+3` quotient orbits and Horie--Yamauchi's `3+1+3` modular decomposition this gives the global semisimple assignments in `global-k3-eigenspace-adapter.md`.
+
 ## Firewalls
 
 ```text
 ENDPOINT_LFUNCTION_COMPUTED=true
 ENDPOINT_RATIONAL_POINT_SET_COMPUTED=false
 FINITE_PRIME_TRACE_MATCH_IMPLIES_GLOBAL_GALOIS_ISOMORPHISM=false
-K3_MODULAR_IDENTIFICATION_REQUIRES_FRESH_AUDIT=true
+GLOBAL_K3_MODULAR_IDENTIFICATION_AUDITED=true
 GOOD_PRIME_TRACE_IS_NOT_PHYSICAL_HEIGHT_COUNT=true
+FULL_CROSS_LFUNCTION_COMPLETE=false
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
