@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "stage": "Stage28",
+  "checkpoint": 70,
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "comparison": "Stage19 -> Stage20",
+  "source_population": "N2: primitive canonical exactly-two-face cuboids with integral space diagonal, R<=B",
+  "target_population": "M3: primitive canonical exactly-three-face Euler cuboids, no space requirement, R<=B",
+  "literal_subset_transition": false,
+  "common_host": "H_ge2=M2+M3",
+  "primary_bridge_ratio": "M3/N2=Phi20/Sigma19",
+  "known_results": {
+    "N2_lower": "N2(B)>>B^(1/4)",
+    "N2_upper": "N2(B)<<_epsilon B^(1/2+epsilon)",
+    "M3_lower": "liminf M3(B)/B^(1/3)>=27/(40*pi^2)>0",
+    "M3_upper": "M3(B)<<_eta B(log B)^(5-eta), fixed 0<eta<1/46",
+    "ratio_lower": "M3/N2>>_epsilon B^(-1/6-epsilon)",
+    "ratio_upper": "M3/N2=o(B^(3/4)(log B)^(5-delta)), fixed 0<delta<1/46",
+    "source_target_ordering_identified": false
+  },
+  "interaction": {
+    "J28": "I_face/I_sp",
+    "K28": "(log B)^2*J28",
+    "bridge_equivalence": "M3/N2~(24*pi*C_M2/kappa)*K28",
+    "raw_critical_scale": "(log B)^(-2)",
+    "ordering_threshold_K28": "kappa/(24*pi*C_M2)",
+    "ordering_threshold_J28": "kappa/(24*pi*C_M2)*(log B)^(-2)"
+  },
+  "causal": {
+    "common_base": "Y=Bl_4(P1xP1)",
+    "space_branch_profile": "4x_genus0",
+    "third_face_branch_profile": "2x_genus1",
+    "same_cover_degree": 2,
+    "same_total_branch_class": "-2K_Y",
+    "source_physical_polarization": "M_sp=pi_sp^*(-K_Y)",
+    "target_physical_polarization": "M_face=pi_face^*(-K_Y)",
+    "source_M_squared": 8,
+    "target_M_squared": 8,
+    "stage19_M4_absent": true,
+    "stage19_odd_M_degrees_absent": true,
+    "stage19_M6_absence_proved": false,
+    "stage20_saunderson_M_degree": 6,
+    "fixed_curve_differential_resolves_global_ordering": false
+  },
+  "reuse": {
+    "repo_reuse_preflight": "PASS",
+    "discovery_ledger": "stages/stage28/28-70/discovery-ledger.md",
+    "strongest_known_check": "PASS",
+    "stronger_prior_result_found": false,
+    "num_reuse_check": "PASS",
+    "new_computation_required": false
+  },
+  "artifacts": {
+    "result": "stages/stage28/28-70/result.md",
+    "self_contained_bundle": "stages/stage28/28-70/self-contained-bundle.md",
+    "discovery_ledger": "stages/stage28/28-70/discovery-ledger.md",
+    "arsenal_promotion": "docs/stage28-arsenal-promotion.md",
+    "verifier": "stages/stage28/28-70/verify_28_70.py",
+    "workflow": ".github/workflows/stage28-70-closeout.yml"
+  },
+  "arsenal_candidates": ["S28-W01", "S28-W02", "S28-W03", "S28-W04"],
+  "open_gates": {
+    "primary": "MovingComplementOrBranchSensitiveInteractionThresholdTheorem",
+    "primary_target": "J28 relative to (log B)^(-2) under physical R<=B",
+    "finite_optional": "PhysicalLowDegreeRootSpectrumM6",
+    "construction_future": "UniformMovingEllipticFibreSquareLiftHeightCount"
+  },
+  "synthesis": {
+    "known_results_frozen": true,
+    "additional_deductions_recorded": true,
+    "causal_synthesis_recorded": true,
+    "lower_stage_reinterpretations_recorded": true,
+    "refinement_candidates_recorded": true,
+    "new_heuristics_recorded": true,
+    "open_gates_recorded": true,
+    "next_stage_questions_recorded": true,
+    "synthesis_stop_reason_recorded": true,
+    "synthesis_stop_rule_satisfied": true
+  },
+  "firewalls": {
+    "finite_data_as_asymptotic_proof": false,
+    "construction_family_ratio_as_population_ratio": false,
+    "fixed_curve_spectrum_as_global_ordering": false,
+    "branch_profile_as_power_saving": false,
+    "perfect_cuboid_conclusion": "NONE"
+  },
+  "audit_required": true,
+  "audit_status": "PENDING",
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "close_stage_after_audit_pass": true,
+  "next_stage_after_audit_pass": "Stage29",
+  "next_expected_command": "Stage28-audit"
+}
