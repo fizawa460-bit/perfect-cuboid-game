@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "stage": "Stage29-03",
+  "role": "FOUNDATION_BACKFLOW_DECISION_AND_BRIDGE_QUEUE_LOCK",
+  "roadmap_revision": "R2_POST_29_02_FOUNDATION_SCREEN_AUDITED",
+  "targeted_backflow_required_now": false,
+  "backflow_queue_size": 0,
+  "priority_receivers": [
+    {
+      "receiver": "R29-KUM3A",
+      "meaning": "TwoFaceSignSubcoverToStage28ToricYBirationalAdapter",
+      "decision": "STAGE29_INTERNAL_ADAPTER_ONLY",
+      "execution_owner": "29-07",
+      "dependencies": [],
+      "source_inputs": ["Stage28", "Stage29-02ha"],
+      "old_stage_addendum_required": false
+    },
+    {
+      "receiver": "R29-KUM3B",
+      "meaning": "JointV4AsResidualTwoSquareRootsOfFullSignTower",
+      "decision": "STAGE29_INTERNAL_ADAPTER_ONLY",
+      "execution_owner": "29-07",
+      "dependencies": ["R29-KUM3A"],
+      "source_inputs": ["Stage29-02b", "Stage29-02ha"],
+      "old_stage_addendum_required": false
+    },
+    {
+      "receiver": "R29-KUM4",
+      "meaning": "Stage16To20PopulationMaskAsSignSubcoverLattice",
+      "decision": "STAGE29_INTERNAL_ADAPTER_ONLY",
+      "execution_owner": "29-07",
+      "precondition_owner": "29-04",
+      "dependencies": ["29-04 common-host/predicate-mask ledger"],
+      "source_inputs": ["Stage16", "Stage17", "Stage18", "Stage19", "Stage20", "Stage29-02ha", "Stage29 roadmap R2 audit"],
+      "old_stage_addendum_required": false,
+      "later_targeted_addendum_allowed_if_old_certified_contract_requires_extension_or_correction": true
+    },
+    {
+      "receiver": "R29-PESCH1",
+      "meaning": "EuclidPairToStage28TwoFaceHostAndJointV4ExactCrosswalk",
+      "decision": "STAGE29_INTERNAL_ADAPTER_ONLY",
+      "execution_owner": "29-08",
+      "dependencies": [],
+      "source_inputs": ["Stage29-02hd", "Stage28", "Stage29-02b"],
+      "peschmann_proven_F2_adapter": false,
+      "peschmann_independence_resolved": false,
+      "old_stage_addendum_required": false
+    }
+  ],
+  "immediate_queue": [
+    "29-04_POPULATION_HOST_PREDICATE_AND_CONDITION_COST_MATRIX",
+    "29-05_DEPENDENCY_EQUIVALENCE_ROUTE_OWNERSHIP_AND_DOUBLE_CHARGE_LEDGER",
+    "GAP_SCAN_A_ROADMAP_REVIEW_A",
+    "29-06_GLOBAL_FOUNDATION_SYNTHESIS",
+    "29-07_SIGN_TOWER_JOINT_V4_AND_POPULATION_BRIDGE",
+    "29-08_PARAMETRIZATION_FIBRATION_AND_COVERAGE_ATLAS"
+  ],
+  "firewalls": {
+    "stage16_20_as_literal_sign_tower_levels_proved": false,
+    "population_transfer_automatic": false,
+    "height_transfer_automatic": false,
+    "primitivity_transfer_automatic": false,
+    "canonical_order_transfer_automatic": false,
+    "multiplicity_transfer_automatic": false,
+    "asymptotic_transfer_automatic": false,
+    "M3_over_M2_objectwise_survival": false,
+    "M3_over_N2_survival_probability": false
+  },
+  "audit_required": true,
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "proposed_next_item_after_pass": "29-04_POPULATION_HOST_PREDICATE_AND_CONDITION_COST_MATRIX"
+}
