@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE29_08_COVERAGE_ATLAS_R01_PENDING_AUDIT",
+  "schema": "STAGE29_08_COVERAGE_ATLAS_R02_AUDITED",
   "purpose": "classify parametrized families and fibrations by exact endpoint-hub location and coverage strength",
   "firewalls": {
     "family_closure_implies_endpoint_closure": false,
@@ -7,36 +7,41 @@
     "geometric_fibration_implies_rational_section_coverage": false,
     "marginal_family_is_full_endpoint_family": false,
     "same_newform_implies_same_geometric_K3": false,
-    "peschmann_global_coverage_certified": false
+    "peschmann_global_coverage_certified": true,
+    "peschmann_coverage_source_contradiction_present": true,
+    "all_28_endpoint_fibrations_Q_defined_certified": false,
+    "all_15_euler_k3_fibrations_Q_defined_certified": false
   },
   "entries": [
     {
       "id": "PESCH-EUCLID-PAIR",
-      "kind": "two-parameter rational chart",
+      "kind": "two-Euclid-pair global marginal chart after gcd normalization",
       "host": "T2bar / Stage28 two-face host",
       "image_dimension": 2,
       "exact_map": "(a,b,m,n) -> [U1U2:V1U2:U1V2:W1U2:U1W2]",
+      "primitive_normalization": "divide edges by g=gcd(U1,U2)",
       "residual_conditions": ["f_face", "f_sp"],
-      "crosswalk": "EXACT_TO_JOINT_V4_PENDING_AUDIT",
-      "coverage": "GLOBAL_EULER_COVERAGE_NOT_CERTIFIED_DUE_SOURCE_SCOPE_CONFLICT",
-      "receiver": "R29-PESCH-COV"
+      "crosswalk": "EXACT_TO_JOINT_V4_AUDITED",
+      "coverage": "GLOBAL_PRIMITIVE_EULER_BRICK_AND_ENDPOINT_CANDIDATE_COVERAGE_AUDITED",
+      "coverage_proof": "arXiv:2604.28072 Theorem 2.4 independently re-derived",
+      "receiver": "R29-PESCH-COV_DISCHARGED"
     },
     {
       "id": "PESCH-GENUS3",
       "kind": "one-parameter family of genus-3 curves after fixing one Euclid ratio",
-      "host": "slice/cover inside Peschmann joint-V4 chart",
+      "host": "slice/cover inside globally covering Peschmann joint-V4 chart",
       "image_dimension": 1,
       "endpoint_direction": "perfect endpoint implies nondegenerate rational point on appropriate C_A",
       "converse": "SPECIALIZATION_REQUIRES_EXTRA_VERIFICATION",
-      "coverage": "NECESSARY_SLICE_FAMILY_NOT_GLOBAL_PARAMETRIZATION"
+      "coverage": "SLICE_FAMILY_INSIDE_GLOBAL_PARAMETRIC_ATLAS_NOT_ONE_CURVE_COVERAGE"
     },
     {
       "id": "PESCH-MW-FIBRATION",
       "kind": "elliptic fibration over (m,n)",
       "host": "Stage20 Euler/third-face K3 marginal",
       "fiber": "H_mn genus-one quartic / E_mn Weierstrass model",
-      "lift_test": "tau(P) positive rational square",
-      "coverage": "MASTER_HIT_SUBCLASS_ONLY_UNTIL_R29-PESCH-COV",
+      "lift_test": "P outside {O} union T_tau, tau(P) positive rational square, then reduced Euclid admissibility checks",
+      "coverage": "TOTAL_FIBRATION_GLOBAL_EULER_MARGINAL_COVERAGE; BOUNDED_MW_ENUMERATION_NOT_EXHAUSTIVE",
       "receiver": "R29-PESCH2"
     },
     {
@@ -48,10 +53,12 @@
     },
     {
       "id": "PESCH-E1",
-      "kind": "empirical blocker conjecture",
-      "host": "Master-Hits",
-      "coverage": "FINITE_FULLY_FACTORIZED_DATABASE_ONLY",
+      "kind": "global blocker conjecture after audited Master-Hit coverage",
+      "host": "all Master-Hits",
+      "coverage": "GLOBAL_ENDPOINT_IF_CONJECTURE_PROVED",
       "theorem": false,
+      "finite_verification_only": true,
+      "if_proved_implication": "PERFECT_CUBOID_NONEXISTENCE",
       "receiver": "R29-PESCH-E1"
     },
     {
@@ -86,17 +93,23 @@
       "host": "full endpoint surface",
       "fiber_genus": 5,
       "generic_endpoint_degree": 8,
+      "fibration_count": 28,
+      "count_scope": "GEOMETRIC",
+      "all_Q_defined_certified": false,
+      "field_note": "rank-4 rulings require splitting fields; first pair explicitly Q(i)",
       "coverage": "GEOMETRIC_SURFACE_FIBRATION_ATLAS",
       "rational_section_coverage": false
     },
     {
       "id": "TESTA_STOLL_EULER_K3_15",
       "kind": "elliptic fibrations",
-      "host": "K_c = Stage20 X_face pending audit of R29-K1",
+      "host": "K_c = Stage20 X_face audited by R29-K1",
       "fibration_count": 15,
+      "count_scope": "GEOMETRIC",
+      "all_Q_defined_certified": false,
       "coverage": "MARGINAL_K3_GEOMETRIC_FIBRATION_ATLAS",
       "full_endpoint_coverage": false,
-      "receivers": ["R29-K1", "R29-FIB1", "R29-FIB2"]
+      "receivers": ["R29-FIB1", "R29-FIB2"]
     }
   ],
   "downstream_owner": "J12-PARAMETRIC",
