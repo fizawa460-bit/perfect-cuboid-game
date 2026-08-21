@@ -1,0 +1,87 @@
+{
+  "schema_version": 2,
+  "stage": "Stage29-03",
+  "role": "FOUNDATION_BACKFLOW_DECISION_AND_BRIDGE_QUEUE_LOCK",
+  "roadmap_revision": "R2_POST_29_02_FOUNDATION_SCREEN_AUDITED",
+  "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+  "targeted_backflow_required_now": false,
+  "active_backflow_queue_size": 0,
+  "conditional_backflow_watchlist": ["R29-KUM4"],
+  "backflow_candidates_proved_empty": false,
+  "priority_receivers": [
+    {
+      "receiver": "R29-KUM3A",
+      "meaning": "TwoFaceSignSubcoverToStage28ToricYBirationalAdapter",
+      "decision": "STAGE29_INTERNAL_FIRST",
+      "execution_owner": "29-07",
+      "dependencies": [],
+      "source_inputs": ["Stage28", "Stage29-02ha"],
+      "active_old_stage_addendum_required_now": false,
+      "later_targeted_addendum_allowed_if_old_certified_contract_requires_extension_or_correction": true
+    },
+    {
+      "receiver": "R29-KUM3B",
+      "meaning": "JointV4AsResidualTwoSquareRootsOfFullSignTower",
+      "decision": "STAGE29_INTERNAL_FIRST",
+      "execution_owner": "29-07",
+      "dependencies": ["R29-KUM3A"],
+      "source_inputs": ["Stage29-02b", "Stage29-02ha"],
+      "active_old_stage_addendum_required_now": false,
+      "rank_or_square_root_count_match_is_not_proof": true
+    },
+    {
+      "receiver": "R29-KUM4",
+      "meaning": "Stage16To20PopulationMaskAsSignSubcoverLattice",
+      "decision": "STAGE29_INTERNAL_FIRST_WITH_CONDITIONAL_BACKFLOW_WATCH",
+      "execution_owner": "29-07",
+      "precondition_owner": "29-04",
+      "dependencies": ["29-04 common-host/predicate-mask ledger"],
+      "source_inputs": ["Stage16", "Stage17", "Stage18", "Stage19", "Stage20", "Stage29-02ha", "Stage29 roadmap R2 audit"],
+      "active_old_stage_addendum_required_now": false,
+      "conditional_backflow_candidate": true,
+      "conditional_backflow_trigger": "29-04 or 29-07 proves an old certified contract requires extension or correction",
+      "later_targeted_addendum_allowed_if_old_certified_contract_requires_extension_or_correction": true
+    },
+    {
+      "receiver": "R29-PESCH1",
+      "meaning": "EuclidPairToStage28TwoFaceHostAndJointV4ExactCrosswalk",
+      "decision": "STAGE29_INTERNAL_FIRST",
+      "execution_owner": "29-08",
+      "dependencies": [],
+      "source_inputs": ["Stage29-02hd", "Stage28", "Stage29-02b"],
+      "peschmann_proven_F2_adapter": false,
+      "peschmann_independence_resolved": false,
+      "active_old_stage_addendum_required_now": false,
+      "crosswalk_success_action": "ADAPTER_CLASSIFICATION",
+      "crosswalk_failure_action": "INDEPENDENCE_REASSESSMENT_REQUIRED",
+      "auto_red_on_crosswalk_failure": false,
+      "29_02h_namespace_reopenable_if_new_independent_foundation_certified": true
+    }
+  ],
+  "immediate_queue": [
+    "29-04_POPULATION_HOST_PREDICATE_AND_CONDITION_COST_MATRIX",
+    "29-05_DEPENDENCY_EQUIVALENCE_ROUTE_OWNERSHIP_AND_DOUBLE_CHARGE_LEDGER",
+    "GAP_SCAN_A_ROADMAP_REVIEW_A",
+    "29-06_GLOBAL_FOUNDATION_SYNTHESIS",
+    "29-07_SIGN_TOWER_JOINT_V4_AND_POPULATION_BRIDGE",
+    "29-08_PARAMETRIZATION_FIBRATION_AND_COVERAGE_ATLAS"
+  ],
+  "firewalls": {
+    "stage16_20_as_literal_sign_tower_levels_proved": false,
+    "population_transfer_automatic": false,
+    "height_transfer_automatic": false,
+    "primitivity_transfer_automatic": false,
+    "canonical_order_transfer_automatic": false,
+    "multiplicity_transfer_automatic": false,
+    "asymptotic_transfer_automatic": false,
+    "N2_over_M2_literal_finite_survival": true,
+    "M3_over_M2_objectwise_survival": false,
+    "M3_over_N2_survival_probability": false
+  },
+  "audit_required": false,
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item_after_pass": "29-04_POPULATION_HOST_PREDICATE_AND_CONDITION_COST_MATRIX",
+  "next_expected_command": "Stage29-main-batch"
+}
