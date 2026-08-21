@@ -7,6 +7,7 @@ on:
       - 'stages/stage28/28-60-r3/**'
       - 'stages/stage14/scripts/14-4/shimada_stage14_identify.py'
       - 'stages/stage14/scripts/14-4/shimada_stage14_refine.py'
+      - 'stages/stage14/scripts/14-4/shimada_stage14_equiv.py'
   workflow_dispatch:
 
 jobs:
@@ -31,16 +32,22 @@ jobs:
         run: |
           python stages/stage14/scripts/14-4/shimada_stage14_refine.py \
             /tmp/shimada /tmp/identify.json --out /tmp/refine.json
+      - name: Prove surviving labelings equivalent under AutX0f
+        run: |
+          python stages/stage14/scripts/14-4/shimada_stage14_equiv.py \
+            /tmp/shimada /tmp/refine.json --out /tmp/equiv.json
       - name: Probe anti-invariant norms and low-degree obstruction
         run: |
           python stages/stage28/28-60-r3/anti_invariant_norm_probe.py \
-            /tmp/shimada /tmp/refine.json --out /tmp/low-degree-spectrum.json
+            /tmp/shimada /tmp/refine.json /tmp/equiv.json \
+            --out /tmp/low-degree-spectrum.json
       - name: Assert degree-five obstruction
         run: |
           python - <<'PY'
           import json
           d=json.load(open('/tmp/low-degree-spectrum.json'))
           assert d['status']=='PASS'
+          assert d['physical_labelings_equivalent_under_AutX0f'] is True
           assert d['anti_invariant_rank']==6
           assert d['anti_invariant_positive_form_determinant']==256
           assert d['every_anti_invariant_norm_divisible_by_4'] is True
@@ -56,4 +63,5 @@ jobs:
           path: |
             /tmp/identify.json
             /tmp/refine.json
+            /tmp/equiv.json
             /tmp/low-degree-spectrum.json
