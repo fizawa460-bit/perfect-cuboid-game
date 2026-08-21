@@ -1,16 +1,24 @@
-# Two `S4`-orbits of Campedelli quotient kernels
+# Geometric and arithmetic orbit classification of Campedelli kernels
 
-The exact kernel enumeration produces ten rank-3 subgroups of the six-dimensional sign deck group. The audited arrangement automorphism group `Aut_P2(D) ~= S4` acts on this ten-element set with orbit sizes
+The exact kernel enumeration produces ten rank-3 subgroups of the six-dimensional sign deck group.
+
+## Geometric / Q(i) classification
+
+The audited arrangement automorphism group
+
+```text
+Aut_P2(D) ~= S4, order 24
+```
+
+acts on the ten kernels with orbit sizes
 
 ```text
 8 + 2.
 ```
 
-This is stronger than merely counting 1680 admissible labelings: target `GL(3,F2)` has already been divided out, so each of the ten objects is a distinct kernel subgroup.
+All 24 arrangement projectivities lift to the full sign cover over `Q(i)` by the audited Stage29-02ha squareclass calculation. Therefore `8+2` is a valid geometric / `Q(i)` orbit classification.
 
-## Orbit I — size 8
-
-Representative branch labels:
+Representative of the geometric size-8 orbit:
 
 ```text
 A1 001
@@ -22,7 +30,7 @@ B1 111
 C  101
 ```
 
-An upstairs `F2^7` kernel basis is
+with upstairs `F2^7` kernel basis
 
 ```text
 1000110
@@ -31,17 +39,7 @@ An upstairs `F2^7` kernel basis is
 0001111
 ```
 
-Modulo the all-ones projective relation this is rank three in `Gamma`.
-
-Orbit stabilizer order under the 24-element arrangement group:
-
-```text
-24/8 = 3.
-```
-
-## Orbit II — size 2
-
-Representative branch labels:
+Representative of the geometric size-2 orbit:
 
 ```text
 A1 001
@@ -53,7 +51,7 @@ B1 011
 C  111
 ```
 
-An upstairs kernel basis is
+with upstairs kernel basis
 
 ```text
 1000101
@@ -62,24 +60,33 @@ An upstairs kernel basis is
 0001110
 ```
 
-Modulo the all-ones relation this is rank three in `Gamma`.
+Each upstairs kernel has rank four and contains the all-ones projective-sign relation; modulo that relation it is rank three in `Gamma`.
 
-Orbit stabilizer order:
+## Q-arithmetic classification: the S4 collapse is not valid
 
-```text
-24/2 = 12.
-```
-
-## Interpretation
-
-The size-2 orbit has substantially more arrangement symmetry than the generic size-8 orbit. This may make it the better first arithmetic target, but no rational-point advantage is asserted merely from the larger stabilizer.
-
-Fresh audit should verify:
+Fresh adversarial audit applies the already-audited Stage29-02ha field-of-definition split. Only the coordinate-permutation subgroup
 
 ```text
-R29-CAMP0A = exact 10-kernel count
-R29-CAMP0B = exact 8+2 S4 orbit decomposition
-R29-CAMP0C = Q-lift status of the orbit symmetries
+S3 <= S4, order 6
 ```
 
-If the size-2 representative admits an especially simple Q-model or involution quotient, route it first into `R29-CAMP2/3`.
+lifts to the full sign cover over `Q`; the remaining arrangement symmetries require `Q(i)`.
+
+Re-running the ten-kernel action under this certified Q-defined subgroup gives
+
+```text
+Q-symmetry orbit sizes = 6 + 2 + 2.
+```
+
+More precisely, the geometric size-8 orbit splits into Q-symmetry orbits of sizes `6+2`, while the geometric size-2 orbit remains size `2`.
+
+Therefore the submission phrase “two quotient types matter first arithmetically” was too aggressive. The audited arithmetic route must keep **three certified Q-symmetry representatives** unless a separate Q-isomorphism theorem identifies more of them.
+
+```text
+R29-CAMP0A=DISCHARGED_EXACT_10_KERNEL_COUNT
+R29-CAMP0B=DISCHARGED_GEOMETRIC_QI_ORBITS_8_PLUS_2
+R29-CAMP0C=DISCHARGED_CERTIFIED_Q_SYMMETRY_ORBITS_6_PLUS_2_PLUS_2
+EXACT_Q_ISOMORPHISM_CLASS_COUNT_PROVED=false
+```
+
+The last firewall is intentional: a Q-isomorphism between two quotient surfaces need not a priori lift to the full endpoint surface, so `6+2+2` is certified as the orbit decomposition under the known Q-defined endpoint symmetry, not promoted to an abstract classification of all Q-isomorphism classes.
