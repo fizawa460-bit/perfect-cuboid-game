@@ -3,43 +3,30 @@
 ```text
 SCRIPT=stages/stage29/29-02hb/campedelli_kernel_check.py
 ARITHMETIC=EXACT_F2
-STATUS=PASS_ALL_ASSERTIONS
+STATUS=PASS_ALL_ASSERTIONS_AFTER_ADVERSARIAL_AUDIT
 ```
 
-Output:
+Audited output:
 
 ```text
 raw_admissible_labelings=1680
 GL3_F2_order=168
 distinct_rank3_kernels=10
-arrangement_aut_order=24
-kernel_orbit_sizes=8,2
+geometric_arrangement_aut_order=24
+geometric_Qi_kernel_orbit_sizes=8,2
+certified_Q_liftable_base_aut_order=6
+certified_Q_kernel_orbit_sizes=6,2,2
+exact_Q_isomorphism_class_count_not_claimed=true
 ```
 
-The ten kernels are labelings modulo target `GL(3,F2)`, so they are distinct rank-3 subgroups of the six-dimensional sign deck group rather than merely different names for the same quotient map.
+The ten kernels are labelings modulo target `GL(3,F2)`, hence ten distinct rank-3 subgroups of the six-dimensional sign deck group. The checker also verifies for every admissible labeling that the three inertia labels at every triple point are linearly independent; equivalently the kernel meets the local triple inertia trivially.
 
-Representative of the size-8 orbit:
+Each kernel is represented upstairs in `F2^7` by a rank-four nullspace containing the all-ones projective-sign relation; quotienting by that relation gives rank three in `Gamma`.
+
+The original `8+2` count remains exact, but only as a geometric / `Q(i)` statement. Stage29-02ha already proves that the full arrangement `S4` lifts over `Q(i)` while only its coordinate-permutation `S3` subgroup lifts over `Q`. Under that certified Q-defined subgroup, the ten kernels split as
 
 ```text
-A1:001 A2:010 A3:011 B3:100 B2:110 B1:111 C:101
-upstairs kernel basis in F2^7:
-1000110
-0100011
-0010101
-0001111
+6 + 2 + 2.
 ```
 
-Representative of the size-2 orbit:
-
-```text
-A1:001 A2:010 A3:100 B3:101 B2:110 B1:011 C:111
-upstairs kernel basis in F2^7:
-1000101
-0100111
-0010011
-0001110
-```
-
-Each upstairs kernel has dimension four and contains the all-ones projective-sign relation; modulo that relation it gives a rank-3 subgroup `H <= Gamma`.
-
-The arrangement-incidence automorphism group is independently audited in Stage29-02ha as `S4` of order 24. Its action on these ten kernels has exactly two orbits, of sizes eight and two.
+Thus no arithmetic reduction from ten kernels to two representatives is allowed. Three Q-symmetry representatives are certified sufficient; whether some of those are nevertheless Q-isomorphic by maps not lifting to the endpoint is left open.
