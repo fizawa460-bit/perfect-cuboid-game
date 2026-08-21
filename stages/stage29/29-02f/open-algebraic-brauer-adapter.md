@@ -1,4 +1,4 @@
-# Stage29-02f — open algebraic Brauer grading adapter
+# Stage29-02f — open algebraic Brauer adapter
 
 This note is the bounded audit repair for the algebraic Brauer calculation on the nonproper physical open.
 
@@ -8,51 +8,98 @@ Let
 U = S \ D
 ```
 
-with `S/Q` smooth proper and `D` the audited 72-component geometric boundary.  Over `Qbar`, use the two-term extended-Picard model
+with `S/Q` smooth proper and `D` the audited 72-component geometric boundary.
+
+## Standard extended Picard convention
+
+Borovoi--van Hamel's extended Picard complex `UPic(U_Qbar)` is represented, using the smooth compactification `S`, by
 
 ```text
 C_D = [ Div_D(S_Qbar) -> Pic(S_Qbar) ]
 ```
 
-with the degree convention
+with
 
 ```text
-Div_D in degree -1,
-Pic(S_Qbar) in degree 0.
+Div_D in degree 0,
+Pic(S_Qbar) in degree 1.
 ```
 
-The divisor/unit/Picard exact sequence
+Equivalently this is the compactification model arising from the distinguished triangle
 
 ```text
-0 -> Qbar^* -> O(U_Qbar)^* -> Div_D(S_Qbar)
-  -> Pic(S_Qbar) -> Pic(U_Qbar) -> 0
+UPic(U_Qbar) -> Div_D(S_Qbar) -> Pic(S_Qbar) -> UPic(U_Qbar)[1].
 ```
 
-identifies this complex, up to the standard constants removal, with the extended Picard complex controlling
+The divisor/unit/Picard exact sequence is
 
 ```text
-Br_a(U)=Br_1(U)/im Br(Q).
+0 -> Qbar^*
+  -> O(U_Qbar)^*
+  -> Div_D(S_Qbar)
+  -> Pic(S_Qbar)
+  -> Pic(U_Qbar)
+  -> 0.
 ```
 
-For the cuboid surface, both `Div_D` and `Pic(S_Qbar)` and the differential between them have Galois action factoring through
+For a number field, `H^3(Q,G_m)=0`, and the algebraic Brauer quotient is controlled by
 
 ```text
-G = Gal(Q(i,sqrt(2))/Q) ~= V4.
+Br_a(U)=Br_1(U)/im Br(Q)
+      ~= H^2(Q,UPic(U_Qbar)).
 ```
 
-With the above grading, the relevant `H^1` hypercohomology contains only positive finite-group cohomology of the lattice cohomology modules; there is no spurious free `H^0(coker)` contribution.  Positive-degree cohomology of the finite group `G` is annihilated by `|G|=4`.  Hence
+## Why the finite-V4 shortcut is insufficient
+
+For the cuboid surface, the actions on `Div_D`, `Pic(S_Qbar)`, and their differential factor through
 
 ```text
-Br_a(U)[odd] = 0.
+G=Gal(Q(i,sqrt(2))/Q) ~= V4.
 ```
 
-Equivalently, every new algebraic Brauer class on the physical open beyond constants is 2-primary.
-
-This does not compute the 2-primary group itself.  The exact integral boundary image, saturation, unit kernel, quotient, and `V4` cohomology remain the finite receivers
+This makes the finite `V4` lattice calculation valuable, but it does **not** imply that `Br_a(U)` is 2-primary.  The kernel
 
 ```text
-R29-BR0A
-R29-BR0B.
+U_D = ker(Div_D -> Pic(S_Qbar))
+    = O(U_Qbar)^*/Qbar^*
 ```
 
-It also does not address geometric/open-boundary transcendental classes with nonzero residues; those remain in `R29-BR0G`.
+is a free unit lattice.  Even when the finite quotient acts trivially on such a lattice, absolute Galois `H^2` can contain character/residue torsion of odd order.  Thus inflation from `Gal(Qbar/K)` cannot be discarded merely because the visible lattice action factors through `V4`.
+
+Consequently the submission-time claim
+
+```text
+OPEN_ALGEBRAIC_NEW_ODD_PRIMARY=ABSENT_CANDIDATE
+```
+
+is **not promoted**.  The corrected state is
+
+```text
+OPEN_ALGEBRAIC_ODD_PRIMARY_CLOSED=false.
+```
+
+## Correct residual receiver
+
+The existing finite extraction remains useful:
+
+```text
+R29-BR0A=BoundaryDivisorPicardSublatticeRankSaturationAndUnitKernel.
+```
+
+The cohomology receiver must be arithmetic, not only finite-quotient:
+
+```text
+R29-BR0B
+ = BoundaryExtendedPicardAbsoluteGaloisHypercohomology
+ = compute H^2(Q,UPic(U_Qbar)),
+   including the unit-kernel inflation/character terms,
+   with the V4 calculation retained as its finite-quotient subproblem.
+```
+
+This is separate from geometric nonextendable boundary classes in
+
+```text
+R29-BR0G=BoundaryGerstenResidueAndIntersectionComplexFor72Components.
+```
+
+The proper-surface odd-primary transcendental Brauer kill in `odd-primary-proper-brauer.md` is unaffected by this correction.
