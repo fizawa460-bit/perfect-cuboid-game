@@ -1,7 +1,7 @@
 {
-  "schema_version": 8,
+  "schema_version": 9,
   "stage": "Stage29",
-  "status": "29_02G_AUDITED_PASS_PENDING_MERGE_BACKFLOW_DECISION_NEXT",
+  "status": "29_02G_AUDITED_PASS_PENDING_MERGE_EXTENSION_ROUTE_OPEN",
   "parent_class": "new_foundation_screening_interaction_synthesis_endpoint_routing",
   "canonical_stage_roadmap": "stages/stage29/roadmap.md",
   "extension_roadmap_addendum": "stages/stage29/29-02-work-import/roadmap-addendum.md",
@@ -146,7 +146,7 @@
     "audit_verdict": "PASS"
   },
   "29_02": {
-    "status": "AUDITED_PASS_MERGED_WITH_SUFFIX_EXTENSIONS_COMPLETE_PENDING_29_03",
+    "status": "AUDITED_PASS_MERGED_WITH_SUFFIX_EXTENSIONS_ACTIVE",
     "parent_pr": 1286,
     "parent_merged": true,
     "audit_verdict": "PASS",
@@ -244,8 +244,9 @@
     },
     "child_02g": {
       "pr": 1301,
-      "status": "AUDITED_PASS_PENDING_MERGE",
-      "merged": false,
+      "status": "AUDITED_PASS_MERGED",
+      "merged": true,
+      "merge_commit": "e53b91bf319e99a57261d2cd7f760cd0f030f8b7",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
       "audit_record": "stages/stage29/29-02g/audit.md",
       "kind": "MODULI_M4_8_Q_DESCENT",
@@ -263,18 +264,21 @@
     },
     "active_suffix_queue": [],
     "ha_namespace_remains_open": true,
+    "stage29_02_extension_namespace_open": true,
+    "auto_advance_to_29_03": false,
     "residual_computation_receivers": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
     "residual_beauville_receivers": ["R29-BEAU1B", "R29-BEAU1C", "R29-BEAU2A", "R29-BEAU2", "R29-BEAU3"],
     "residual_lfunction_receivers": ["R29-L2-ALG", "R29-L2-BAD"],
     "residual_brauer_receivers": ["R29-BR0A", "R29-BR0B", "R29-BR0G", "R29-BR2A", "R29-BR2B"],
     "residual_modular_receivers": ["R29-MOD1C", "R29-MOD1D", "R29-MOD2B"],
-    "next_item": "29-03"
+    "next_item": "UNSET_PENDING_USER_DIRECTION"
   },
   "audit_required": false,
   "audit_status": "PASS",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item_after_pass": "29-03",
-  "next_expected_command": "Stage29-main-batch"
+  "auto_advance_to_29_03": false,
+  "next_item_after_pass": "UNSET_PENDING_USER_DIRECTION",
+  "next_expected_command": "USER_DIRECTED_STAGE29_COMMAND"
 }
