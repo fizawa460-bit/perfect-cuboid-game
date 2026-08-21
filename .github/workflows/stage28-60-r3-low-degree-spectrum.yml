@@ -41,7 +41,7 @@ jobs:
           python stages/stage28/28-60-r3/anti_invariant_norm_probe.py \
             /tmp/shimada /tmp/refine.json /tmp/equiv.json \
             --out /tmp/low-degree-spectrum.json
-      - name: Assert degree-five obstruction
+      - name: Assert odd-degree obstruction and print M6 diagnostic
         run: |
           python - <<'PY'
           import json
@@ -51,11 +51,15 @@ jobs:
           assert d['anti_invariant_rank']==6
           assert d['anti_invariant_positive_form_determinant']==256
           assert d['every_anti_invariant_norm_divisible_by_4'] is True
-          assert d['degree_cases']['5']['required_anti_invariant_positive_norms']==[14,18]
-          assert d['degree_cases']['5']['excluded_by_norm_mod_4'] is True
-          assert d['degree_cases']['6']['required_anti_invariant_positive_norms']==[16,20,24]
-          print('STAGE28_60_R3_M5_NORM_OBSTRUCTION=PASS')
-          print('M6_REMAINS_FINE_COSET_GATE=true')
+          assert d['odd_degree_required_residue_mod4']==2
+          assert d['all_odd_physical_M_degrees_excluded_subject_to_branch_firewall'] is True
+          assert d['M_degree_5_excluded_subject_to_branch_firewall'] is True
+          assert d['M_degree_6_excluded_by_mod4'] is False
+          print('STAGE28_60_R3_ODD_M_DEGREE_OBSTRUCTION=PASS')
+          print('STAGE28_60_R3_M5_OBSTRUCTION=PASS')
+          print('L40_M_DEGREE_HISTOGRAM=',d['distinguished_L40_diagnostic']['M_degree_histogram'])
+          print('L40_M6_INDICES=',d['distinguished_L40_diagnostic']['M_degree_6_indices_1based'])
+          print('M6_REMAINS_COMPLETE_CLASSIFICATION_GATE=true')
           PY
       - uses: actions/upload-artifact@v4
         with:
