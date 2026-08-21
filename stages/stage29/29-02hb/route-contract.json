@@ -1,45 +1,71 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "stage": "Stage29-02hb",
   "kind": "CAMPEDELLI_QUOTIENT_FOUNDATION",
-  "status": "SUBMISSION_READY_AUDIT_REQUIRED",
+  "status": "AUDITED_PASS_AFTER_BOUNDED_REPAIR",
   "novelty_in_repo": "HIGH_VALUE_NEW_QUOTIENT_FOUNDATION",
   "literature_novelty_claim": false,
   "full_endpoint_coverage_upstream": true,
+  "same_global_map_audit": "PASS",
+  "canonical_model_finite_degree64": true,
+  "resolution_to_P2_finite_degree64": false,
   "exact_kernel_enumeration": {
     "raw_admissible_labelings": 1680,
     "target_GL3_F2_order": 168,
     "distinct_rank3_kernels": 10,
-    "arrangement_aut_group": "S4",
-    "arrangement_aut_order": 24,
-    "kernel_orbit_sizes": [8, 2]
+    "geometric_Qi_arrangement_aut_group": "S4",
+    "geometric_Qi_arrangement_aut_order": 24,
+    "geometric_Qi_kernel_orbit_sizes": [8, 2],
+    "certified_Q_liftable_base_group": "S3",
+    "certified_Q_liftable_base_order": 6,
+    "certified_Q_kernel_orbit_sizes": [6, 2, 2],
+    "exact_Q_isomorphism_class_count_proved": false
   },
-  "pass_candidates": {
-    "R29-CAMP0": "ExactCampedelliQuotientKernelClassification",
-    "R29-CAMP1": "ResolvedFreeActionAndUniversalCoverAdapter"
+  "claims": {
+    "R29-CAMP0": "DISCHARGED",
+    "R29-CAMP0A": "DISCHARGED_EXACT_10_KERNELS",
+    "R29-CAMP0B": "DISCHARGED_GEOMETRIC_QI_8_PLUS_2",
+    "R29-CAMP0C": "DISCHARGED_CERTIFIED_Q_6_PLUS_2_PLUS_2",
+    "R29-CAMP1": "DISCHARGED",
+    "resolved_degree8_etale_action": "PASS",
+    "geometric_universal_cover": "PASS",
+    "campedelli_K2": 2,
+    "campedelli_pg": 0,
+    "campedelli_q": 0,
+    "geometric_fundamental_group": "(Z/2)^3"
   },
   "open_receivers": {
-    "R29-CAMP2": "ArithmeticHTorsorDescentForTheTwoS4QuotientTypes",
-    "R29-CAMP3": "SevenCampedelliInvolutionQuotientsRationalVsEnriquesLedger",
+    "R29-CAMP2": "ArithmeticHTorsorDescentForThreeCertifiedQSymmetryRepresentatives",
+    "R29-CAMP3": "SevenCampedelliInvolutionQuotientsWithQFormAndRationalVsEnriquesLedger",
     "R29-CAMP4": "CampedelliBrauerAndTwoPrimaryDescentCompatibilityWith29_02f"
   },
-  "campedelli_invariants_expected_after_audit": {
-    "K2": 2,
-    "pg": 0,
-    "q": 0,
-    "fundamental_group": "(Z/2)^3"
+  "q_form_firewall": {
+    "each_kernel_and_quotient_Q_defined": true,
+    "literature_standard_Q_model_identified": false,
+    "external_arithmetic_transfers_without_Q_form_adapter": false
   },
   "rational_point_transfer": "ONE_WAY_ENDPOINT_TO_QUOTIENT",
   "quotient_Q_point_nonexistence_would_kill_endpoint": true,
   "quotient_Q_point_existence_implies_endpoint_Q_point": false,
+  "population_firewall": {
+    "stage16_20_population_transfer": false,
+    "physical_height_transfer": false,
+    "primitivity_transfer": false,
+    "canonical_order_transfer": false,
+    "asymptotic_transfer": false
+  },
   "old_gate_replay": false,
   "backflow_to_stage16_28": false,
-  "audit_required": true,
-  "merge_allowed": false,
-  "advance_allowed": false,
+  "audit_required": false,
+  "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+  "bounded_repair": "Q_QI_ORBIT_SPLIT_PLUS_CANONICAL_RESOLUTION_SCOPE_PLUS_QFORM_FIREWALL",
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "auto_advance_to_29_03": false,
   "stage29_02_mining_stop_condition_satisfied": false,
   "next_item_after_pass": "29-02hc",
-  "next_expected_command": "Stage29-audit",
+  "next_expected_command": "Stage29-main-batch",
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false
 }
