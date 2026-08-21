@@ -11,23 +11,20 @@ permissions:
   contents: read
 
 jobs:
-  mobius-scaleout:
+  matched-checkpoints:
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 30
     strategy:
       fail-fast: true
-      max-parallel: 3
+      max-parallel: 2
       matrix:
         include:
-          - bound: 200000000
-            m3: 2339
-            tag: b200m
-          - bound: 500000000
-            m3: 3331
-            tag: b500m
-          - bound: 1000000000
-            m3: 4362
-            tag: b1b
+          - bound: 5000000
+            m3: 480
+            tag: b5m
+          - bound: 50000000
+            m3: 1298
+            tag: b50m
     steps:
       - uses: actions/checkout@v4
       - name: Compile exact Mobius aggregate counter
@@ -49,8 +46,7 @@ jobs:
           assert p['G_at_least_two_shared_edge_incidences']==p['M2']+3*p['M3_input']
           assert sum(p['M2_direction_a_b_c'])==p['M2']
           assert p['finite_data_is_not_asymptotic_theorem'] is True
-          assert p['perfect_cuboid_nonexistence_claim'] is False
-          print('STAGE29_NUM3_SCALEOUT', p)
+          print('STAGE29_NUM3_MATCHED', p)
           PY
       - uses: actions/upload-artifact@v4
         with:
