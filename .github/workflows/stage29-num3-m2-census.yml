@@ -21,24 +21,27 @@ jobs:
           g++ -O3 -std=c++20 -march=x86-64-v3 \
             stages/stage29/num3/scripts/m2_shared_edge_count.cpp \
             -o m2_shared_edge_count
-      - name: Run exact census through B=1e6
+      - name: Run exact census through B=1e7
         run: |
           /usr/bin/time -v ./m2_shared_edge_count \
-            --bound 1000000 \
-            --output stage29-num3-m2-b1m.json
+            --bound 10000000 \
+            --output stage29-num3-m2-b10m.json
           python - <<'PY'
           import json
-          p=json.load(open('stage29-num3-m2-b1m.json'))
+          p=json.load(open('stage29-num3-m2-b10m.json'))
           cp={r['B']:r for r in p['checkpoints']}
           assert cp[100000]['M2']==796698
           assert cp[100000]['N2']==89
+          assert cp[1000000]['M2']==13817725
+          assert cp[1000000]['N2']==255
           assert cp[1000000]['M3']==219
-          assert cp[1000000]['P']==0
+          assert cp[10000000]['M3']==656
+          assert cp[10000000]['P']==0
           assert p['guards']['FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM'] is True
-          print('STAGE29_NUM3_B1M', cp[1000000])
+          print('STAGE29_NUM3_B10M', cp[10000000])
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage29-num3-m2-b1m
-          path: stage29-num3-m2-b1m.json
+          name: stage29-num3-m2-b10m
+          path: stage29-num3-m2-b10m.json
           retention-days: 30
