@@ -3,7 +3,7 @@
 ```text
 TASK=Stage29-02d
 ROLE=BEAUVILLE_IRREGULAR_COVER_Q_DESCENT
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS
 ```
 
 ## Primary geometric source
@@ -56,7 +56,7 @@ v^2=x^2+z^2,
 w^2=x^2+y^2.
 ```
 
-Remark 2 gives the etale `(Z/2)^2` tower
+**Remark 1** gives the etale `(Z/2)^2` tower
 
 ```text
 C x C' -> X -> D x D'
@@ -74,7 +74,7 @@ the Bolza curve.
 
 ## Primary geometric CM decomposition source
 
-Arnaud Beauville, *Some surfaces with maximal Picard number*, J. École polytechnique Math. 1 (2014), 101–116, DOI 10.5802/jep.5, Proposition 8.
+Arnaud Beauville, *Some surfaces with maximal Picard number*, J. École polytechnique Math. 1 (2014), 101–116, DOI 10.5802/jep.5, Proposition 8 and its proof.
 
 For the same `C0`, Proposition 8 proves geometrically
 
@@ -120,10 +120,15 @@ E2^0: Y^2=X^3-5X^2-5X+1,
 
 with CM by `Q(sqrt(-2))` (Lemma 4.1 and surrounding discussion).
 
+## Audit locator repair
+
+The submission referred to Beauville's tower as `Remark 2`. In arXiv:1303.1910 the relevant tower/Albanese statement is **Remark 1**. This is a locator-only repair; no mathematical statement changes.
+
 ## Scope firewall
 
 ```text
 BEAUVILLE_GEOMETRIC_COVER_LOCKED=true
+BEAUVILLE_TOWER_LOCATOR=REMARK_1
 STANDARD_CUBOID_Q_FORM_IDENTICAL_WITHOUT_DESCENT=false
 BOLZA_JACOBIAN_GEOMETRIC_CM_SQUARE=true
 BOLZA_MODEL_Q_ISOGENOUS_TO_Q_ELLIPTIC_SQUARE=false
