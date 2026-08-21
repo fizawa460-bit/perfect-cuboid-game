@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Consistency verifier for Stage28 checkpoint70 closeout candidate."""
+"""Consistency verifier for the audited Stage28 checkpoint70 closeout state."""
 
 from __future__ import annotations
 
@@ -21,22 +21,37 @@ def require(text: str, needle: str, label: str) -> None:
 def main() -> None:
     result = read("stages/stage28/28-70/result.md")
     bundle = read("stages/stage28/28-70/self-contained-bundle.md")
+    final = read("stages/stage28/final.md")
+    audit = read("stages/stage28/28-70/audit.md")
     discovery = read("stages/stage28/28-70/discovery-ledger.md")
     arsenal = read("docs/stage28-arsenal-promotion.md")
     registry = json.loads(read("stages/stage28/28-70/closeout-registry.json"))
     controller = json.loads(read("stages/stage28/28-controller.json"))
 
+    # Submission synthesis remains immutable provenance.
     require(result, "SYNTHESIS_STOP_RULE_SATISFIED=YES", "result")
     require(result, "SOURCE_TARGET_ASYMPTOTIC_ORDERING_IDENTIFIED=false", "result")
     require(result, "PERFECT_CUBOID_CONCLUSION=NONE", "result")
     require(result, "ORDERING_THRESHOLD=K_28 compared with kappa/(24*pi*C_M2)", "result")
-    require(result, "NEXT_EXPECTED_COMMAND=Stage28-audit", "result")
 
     require(bundle, "SYNTHESIS_STOP_RULE_SATISFIED=YES", "bundle")
     require(bundle, "Stage19 physical M4 rational curve: absent", "bundle")
     require(bundle, "Stage20 Saunderson physical M-degree: 6", "bundle")
     require(bundle, "Stage19 M6 absence: not proved", "bundle")
     require(bundle, "PERFECT_CUBOID_CONCLUSION=NONE", "bundle")
+
+    # Post-audit authoritative final surface.
+    require(final, "CHECKPOINT70_AUDIT=PASS", "final")
+    require(final, "Stage19 every odd physical M-degree = absent", "final")
+    require(final, "Stage20 Saunderson physical M-degree = 6", "final")
+    require(final, "Stage19 physical M6 absence          = not proved", "final")
+    require(final, "SYNTHESIS_STOP_RULE_SATISFIED=YES", "final")
+    require(final, "STAGE29_OPEN_PR_REQUIRES_STAGE28_FINAL_REFRESH=true", "final")
+    require(final, "PERFECT_CUBOID_CONCLUSION=NONE", "final")
+
+    require(audit, "AUDIT_VERDICT=PASS", "audit")
+    require(audit, "MECHANICAL_CLOSEOUT_REPAIR=ADD stages/stage28/final.md", "audit")
+    require(audit, "OPEN_GATE_RESEARCH_REQUEST_READY_AUDIT=PASS", "audit")
 
     require(discovery, "DISCOVERY_LEDGER_STATUS=COMPLETE", "discovery")
     require(discovery, "REPO_REUSE_PREFLIGHT=PASS", "discovery")
@@ -46,32 +61,38 @@ def main() -> None:
 
     for weapon in ("S28-W01", "S28-W02", "S28-W03", "S28-W04"):
         require(arsenal, weapon, "arsenal")
+    require(arsenal, "PROMOTION_AUDIT=PASS", "arsenal")
 
     assert registry["stage"] == "Stage28"
     assert registry["checkpoint"] == 70
-    assert registry["status"] == "SUBMITTED_PENDING_FRESH_AUDIT"
+    assert registry["status"] == "AUDITED_PASS_PENDING_MERGE"
     assert registry["interaction"]["ordering_threshold_K28"] == "kappa/(24*pi*C_M2)"
     assert registry["known_results"]["source_target_ordering_identified"] is False
     assert registry["synthesis"]["synthesis_stop_rule_satisfied"] is True
     assert registry["firewalls"]["perfect_cuboid_conclusion"] == "NONE"
-    assert registry["audit_status"] == "PENDING"
-    assert registry["merge_allowed"] is False
-    assert registry["advance_allowed"] is False
-    assert registry["next_expected_command"] == "Stage28-audit"
+    assert registry["artifacts"]["final"] == "stages/stage28/final.md"
+    assert registry["audit_status"] == "PASS"
+    assert registry["merge_allowed"] is True
+    assert registry["advance_allowed"] is True
+    assert registry["stage29_refresh_required"] is True
+    assert registry["next_expected_command"] == "Stage29-audit"
 
     assert controller["stage"] == "Stage28"
     assert controller["current_checkpoint"] == 70
     assert controller["checkpoint_status"]["60"] == "R3_AUDITED_PASS_MERGED"
-    assert controller["checkpoint_status"]["70"] == "SYNTHESIS_SUBMITTED_PENDING_FRESH_AUDIT"
+    assert controller["checkpoint_status"]["70"] == "AUDITED_PASS_PENDING_MERGE"
     assert controller["checkpoint70"]["synthesis_stop_rule_satisfied"] is True
     assert controller["checkpoint70"]["source_target_asymptotic_ordering_identified"] is False
-    assert controller["checkpoint70"]["audit_status"] == "PENDING"
-    assert controller["audit_status"] == "PENDING"
-    assert controller["advance_allowed"] is False
-    assert controller["merge_allowed"] is False
-    assert controller["next_expected_command"] == "Stage28-audit"
+    assert controller["checkpoint70"]["final"] == "stages/stage28/final.md"
+    assert controller["checkpoint70"]["audit_status"] == "PASS"
+    assert controller["checkpoint70"]["merge_allowed"] is True
+    assert controller["checkpoint70"]["stage29_refresh_required"] is True
+    assert controller["audit_status"] == "PASS"
+    assert controller["advance_allowed"] is True
+    assert controller["merge_allowed"] is True
+    assert controller["next_expected_command"] == "Stage29-audit"
 
-    print("Stage28-70 closeout consistency: PASS")
+    print("Stage28-70 audited closeout consistency: PASS")
 
 
 if __name__ == "__main__":
