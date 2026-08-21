@@ -1,9 +1,10 @@
 {
-  "schema_version": 2,
+  "schema_version": 3,
   "stage": "Stage29",
-  "status": "29_02_AUDITED_PASS_PENDING_MERGE",
+  "status": "29_02_EXTENSION_AUDITED_SUFFIX_QUEUE_ACTIVE",
   "parent_class": "new_foundation_screening_interaction_synthesis_endpoint_routing",
   "canonical_stage_roadmap": "stages/stage29/roadmap.md",
+  "extension_roadmap_addendum": "stages/stage29/29-02-work-import/roadmap-addendum.md",
   "numbering_mode": "INCREMENTAL_01_02_03",
   "legacy_10_70_sequence_used": false,
   "endpoint_population": "perfect cuboid = three integral faces + integral space diagonal",
@@ -11,7 +12,7 @@
   "current_item": "29-02",
   "planned_sequence": [
     "29-01_GLOBAL_CERTIFIED_MAP_LOCK",
-    "29-02_NEW_FOUNDATION_SCREENING",
+    "29-02_NEW_FOUNDATION_SCREENING_AND_AUDITED_SUFFIX_EXTENSIONS",
     "29-03_FOUNDATION_BACKFLOW_DECISION",
     "GAP_SCAN_A",
     "29-04_CONDITION_COST_AND_MECHANISM_MATRIX",
@@ -55,7 +56,9 @@
     "targeted_backflow_requires_new_receiver": true,
     "backflow_to_original_stage_addendum_or_reentry": true,
     "old_frozen_gate_replay_without_new_input": false,
-    "backflow_result_reimported_once": true
+    "backflow_result_reimported_once": true,
+    "current_work_import_backflow_to_stage16_28": false,
+    "29_03_waits_for_relevant_29_02_suffixes": true
   },
   "reuse_policy": {
     "arsenal_structure_radar_preflight_standing": true,
@@ -120,7 +123,9 @@
     "audit_verdict": "PASS"
   },
   "29_02": {
-    "status": "AUDITED_PASS_PENDING_MERGE",
+    "status": "AUDITED_PASS_MERGED_WITH_SUFFIX_EXTENSIONS_ACTIVE",
+    "parent_pr": 1286,
+    "parent_merged": true,
     "result": "stages/stage29/29-02/result.md",
     "joint_cover_note": "stages/stage29/29-02/joint-cover-screening.md",
     "field_of_definition_adapter": "stages/stage29/29-02/field-of-definition-adapter.md",
@@ -129,49 +134,60 @@
     "reuse_preflight": "stages/stage29/29-02/reuse-preflight.md",
     "split_plan": "stages/stage29/29-02/split-plan.md",
     "audit_record": "stages/stage29/29-02/audit.md",
-    "audited_submission_head": "4635653be2d0944a1d5bfa4dfa998db4b5ea3d70",
     "audit_verdict": "PASS",
     "bounded_repair": "separate Q(Y) arithmetic lift semantics from Qbar(Y) geometric branch analysis",
-    "F1_new_foundation": true,
-    "F1_kind": "GLOBAL_ENDPOINT_COMPLETE_INTERSECTION_PLUS_FACE_DIAGONAL_MULTIQUADRATIC_MODEL",
-    "F2_new_foundation": true,
-    "F2_kind": "JOINT_V4_COVER_PLUS_CROSS_QUOTIENT",
+    "strongest_new_foundation": "JOINT_V4_COVER_PLUS_CROSS_QUOTIENT",
     "F2_arithmetic_field": "Q(Y)",
     "F2_geometric_field": "Qbar(Y)",
-    "F2_cross_field": "Q(Y)(sqrt((t1^2+t2^2)*(1+t1^2+t2^2)))",
-    "F2_cross_branch_profile": "4x_genus0 + 2x_genus1; class -4K_Y geometrically at screening level",
-    "F2_general_type_proved": false,
-    "F3_new_foundation": true,
-    "F3_kind": "COVERAGE_ADAPTER_LAYER",
-    "F4_new_foundation": true,
-    "F4_kind": "JOINT_LOCAL_CORRELATION_AS_CROSS_QUOTIENT_TRACE",
-    "F5_new_foundation": true,
-    "F5_kind": "MODULAR_X8_PRODUCT_QUOTIENT",
-    "F6_new_foundation": true,
-    "F6_kind": "ENDPOINT_L_FUNCTION_AND_GALOIS_PICARD_MODULE",
     "old_gate_replay": false,
     "backflow_recommended_at_screening": false,
-    "no_foundation_backflow_required_candidate": true,
-    "receivers": [
-      "R29-G1 GlobalEndpointSurfaceToToricJointCoverAdapter",
-      "R29-J1 JointV4CoverNormalizationSingularityAndCanonicalModel",
-      "R29-J2 CrossQuotientBranchAndHeightModel",
-      "R29-C1 ParametrizationCoverageAtlasWithGenericDegreeAndHeight",
-      "R29-L1 CrossCharacterJointLocalCorrelationTheorem"
-    ],
-    "child_pr_1287_audited_by_parent": false,
-    "child_pr_1288_audited_by_parent": false,
-    "child_results_promoted_by_parent": false,
     "perfect_cuboid_conclusion": "NONE",
-    "merge_allowed": true,
-    "advance_allowed": true,
-    "next_item": "29-02_SUFFIX_AUDITS_THEN_29-03"
+    "child_02a": {
+      "pr": 1287,
+      "audit_verdict": "PASS",
+      "merged": true,
+      "kind": "FULL_ENDPOINT_SURFACE_GEOMETRY_LOW_DEGREE_FILTERS"
+    },
+    "child_02b": {
+      "pr": 1288,
+      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "merged": true,
+      "kind": "JOINT_V4_ENDPOINT_CANONICAL_DEGREE_ADAPTER"
+    },
+    "work_import": {
+      "pr": 1292,
+      "status": "AUDITED_PASS_PENDING_MERGE",
+      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "audit_record": "stages/stage29/29-02-work-import/audit.md",
+      "audited_submission_head": "d548795f95b9c008098f07b2c86cb46ba7439a65",
+      "result": "stages/stage29/29-02-work-import/result.md",
+      "route_contract": "stages/stage29/29-02-work-import/route-contract.json",
+      "roadmap_addendum": "stages/stage29/29-02-work-import/roadmap-addendum.md",
+      "W29_A": "PASS_EXACT_HIGH_VALUE",
+      "W29_A_bound": "d<=176+16g for bijective normalization",
+      "29_02c_LG1": "SATISFIED_BY_PR1292_AUDIT",
+      "W29_B": "PASS_STRUCTURAL_HIGH_VALUE_Q_DESCENT_OPEN",
+      "W29_C": "PASS_PROMISING_EXACT_Q_DESCENT_RECEIVER",
+      "W29_D": "PASS_AFTER_SCOPE_REPAIR",
+      "proper_surface_algebraic_brauer_nonconstant": false,
+      "physical_open_algebraic_brauer_closed": false,
+      "Reed_detailed_critique_audited": false,
+      "backflow_to_stage16_28": false
+    },
+    "active_suffix_queue": [
+      "29-02c-LG2_PICARD_176_192_FINITE_ENUMERATION",
+      "29-02d_BEAUVILLE_IRREGULAR_COVER_Q_DESCENT",
+      "29-02e_EXISTING_V4_CHARACTER_NEWFORM_ROUTE",
+      "29-02f_PHYSICAL_OPEN_BOUNDARY_AND_TRANSCENDENTAL_BRAUER_AUDIT",
+      "29-02g_MODULI_M4_8_Q_DESCENT"
+    ],
+    "next_item": "29-02c-LG2"
   },
   "audit_required": false,
   "audit_status": "PASS",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item_after_pass": "29-02_SUFFIX_AUDITS_THEN_29-03",
-  "next_expected_command": "Stage29-audit"
+  "next_item_after_pass": "29-02c-LG2",
+  "next_expected_command": "Stage29-main-batch"
 }

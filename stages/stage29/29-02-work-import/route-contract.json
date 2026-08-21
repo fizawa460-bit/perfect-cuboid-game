@@ -1,0 +1,100 @@
+{
+  "schema_version": 2,
+  "task": "Stage29-02-work-import",
+  "role": "INDEPENDENT_EXTERNAL_RESEARCH_INTAKE",
+  "status": "AUDITED_PASS_AFTER_BOUNDED_REPAIR",
+  "source_report": "perfect_cuboid_stage29_foundations_report.md",
+  "source_date": "2026-08-21",
+  "self_certifying": false,
+  "audit_record": "stages/stage29/29-02-work-import/audit.md",
+  "audited_submission_head": "d548795f95b9c008098f07b2c86cb46ba7439a65",
+  "routes": [
+    {
+      "id": "W29-A",
+      "name": "FINITE_UNIBRANCH_LOW_GENUS_DEGREE_LOCK",
+      "audit_verdict": "PASS_EXACT_HIGH_VALUE",
+      "primary_source": "Freitag--Salvati Manni, Theorem 3.1",
+      "audited_bound": "d <= 176 + 16g under bijective normalization",
+      "lg1_status": "SATISFIED_BY_PR1292_AUDIT",
+      "active_suffixes": ["29-02c-LG2"],
+      "finite_ranges": {"genus_0_even_degree_max": 176, "genus_1_even_degree_max": 192},
+      "firewalls": [
+        "bijective normalization/unibranch required",
+        "multibranch-at-node cases remain open",
+        "lattice class effectivity and physical admissibility require proof",
+        "isolated rational points are not excluded"
+      ]
+    },
+    {
+      "id": "W29-B",
+      "name": "BEAUVILLE_IRREGULAR_COVER_DESCENT",
+      "audit_verdict": "PASS_STRUCTURAL_HIGH_VALUE",
+      "primary_source": "Beauville, Proposition 1 and cuboid specialization remarks",
+      "active_suffixes": ["29-02d"],
+      "structural_package": {"q": 4, "pg": 7, "K2": 32, "canonical_map_degree": 2},
+      "receivers": [
+        "R29-BEAU1 PhysicalOpenBeauvilleDoubleCoverQDescentAndTwistLedger",
+        "R29-BEAU2 LocallySolubleBeauvilleTwistsToAlbaneseTorsors"
+      ],
+      "firewalls": [
+        "not the Stage29 joint V4 cover over Bl_4(P1xP1)",
+        "Q-descent and twist ledger not solved",
+        "Q-points may lift only on twists",
+        "Albanese dimension four does not make Chabauty automatic"
+      ]
+    },
+    {
+      "id": "W29-D",
+      "name": "BOUNDARY_PLUS_TRANSCENDENTAL_BRAUER_AUDIT",
+      "audit_verdict": "PASS_AFTER_SCOPE_REPAIR",
+      "primary_sources": ["Testa--Stoll Theorem 10", "Horie--Yamauchi arXiv:2512.22520v3"],
+      "active_suffixes": ["29-02f"],
+      "proper_surface_algebraic_brauer_nonconstant": false,
+      "physical_open_algebraic_brauer_closed": false,
+      "receivers": [
+        "R29-BR0 PhysicalOpenBoundaryBrauerResidueAudit",
+        "R29-BR1 TranscendentalBrauerIntegralLatticeOddPrimeAudit",
+        "R29-BR2 TranscendentalBrauerPrime2AndEvaluationAudit"
+      ],
+      "firewalls": [
+        "Theorem 10 computes Br_1 of the proper smooth surface, not automatically the physical open",
+        "boundary removal may create algebraic Brauer residue classes",
+        "rational l-adic/L-function data do not determine integral Brauer torsion",
+        "nonzero Brauer group need not obstruct the physical adelic locus"
+      ]
+    },
+    {
+      "id": "W29-C",
+      "name": "MODULI_M4_8_Q_DESCENT",
+      "audit_verdict": "PASS_PROMISING_RECEIVER",
+      "primary_sources": ["Freitag--Salvati Manni M(4,8)", "Testa--Stoll Section 4", "Fisher 8-congruence surfaces"],
+      "active_suffixes": ["29-02g"],
+      "receiver": "R29-MOD1 ConjugateSelf8CongruenceWithLevel4QDescent",
+      "firewalls": [
+        "ordinary 8-congruence is not an endpoint obstruction",
+        "bare modularity/Hecke data do not control individual rational points",
+        "Q(i)-model must be descended to Q with cusps/stabilizers tracked"
+      ]
+    }
+  ],
+  "existing_receiver_not_new": "29-02e V4 character/newform/cross-quotient L-function adapter",
+  "recent_nonexistence_screen": {
+    "global_nonexistence_theorem_accepted": false,
+    "Yelle_v2": "CONFIRMED_NOT_A_DEFINITIVE_GLOBAL_PROOF",
+    "Peschmann_1072_fibers": "CONFIRMED_FINITE_FAMILY_NOT_GLOBAL_COVERAGE",
+    "Reed_detailed_critique": "NOT_FRESHLY_SOURCE_LOCKED_PROVENANCE_ONLY"
+  },
+  "active_suffix_queue": ["29-02c-LG2", "29-02d", "29-02e", "29-02f", "29-02g"],
+  "backflow_to_stage16_28": false,
+  "keep_stage29_native": true,
+  "29_03_waits_for_relevant_suffixes": true,
+  "audit_required": false,
+  "audit_status": "PASS_AFTER_BOUNDED_REPAIR",
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false,
+  "next_item": "29-02c-LG2",
+  "next_expected_command": "Stage29-main-batch"
+}
