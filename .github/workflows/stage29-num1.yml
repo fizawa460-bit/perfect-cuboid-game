@@ -38,10 +38,11 @@ jobs:
           import json
           p='/tmp/m3_1e9.json'
           x=json.load(open(p))
+          assert x['algorithm'] == 'stage29-num1-odd-edge-divisor-v2'
           assert x['B'] == 1000000000
+          assert x['M3'] == 4362
           assert x['perfect_cuboid_hits'] == 0
-          assert x['M3'] >= 3331
-          print(f'PRODUCTION_OK B={x["B"]} M3={x["M3"]} P={x["perfect_cuboid_hits"]} runtime_sec={x["runtime_sec"]}')
+          print(f'PRODUCTION_LOCK_OK B={x["B"]} M3={x["M3"]} P={x["perfect_cuboid_hits"]} runtime_sec={x["runtime_sec"]}')
           PY
       - name: Upload exact cross-check manifest
         uses: actions/upload-artifact@v4
