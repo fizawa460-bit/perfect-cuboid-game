@@ -1,13 +1,13 @@
-# Stage29-02g — exact Q-moduli adapter
+# Stage29-02g — audited exact Q-moduli adapter
 
 ```text
 ROLE=EXACT_CONJUGATE_SELF_8_TORSION_LEVEL4_ADAPTER
-STATUS=PASS_CANDIDATE_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_ON_NONCUSP_FINE_MODULI_LOCUS
 ```
 
-Let `K=Q(i)` and let `sigma` be complex conjugation.
+Let `K=Q(i)` and let `sigma` be the nontrivial automorphism of `K/Q`.
 
-Testa--Stoll Section 4 gives the exact arithmetic interpretation of a rational point of the endpoint surface:
+Testa--Stoll Section 4 gives the exact arithmetic interpretation of a Q-rational endpoint point on the noncuspidal modular locus:
 
 ```text
 P in Sbar(Q)
@@ -19,41 +19,42 @@ psi(P1)=P1^sigma,
 psi(P2)=-P2^sigma.
 ```
 
-The level structures on `X(8)` are symplectic, so the induced 8-torsion correspondence is the symplectic congruence inherited from the diagonal quotient.
+The `X(8)` level structures are symplectic, so the induced 8-torsion correspondence is symplectic. The minus sign is load-bearing: if the level-4 basis has Weil pairing `i`, conjugation changes it to `-i`, and the sign on `P2^sigma` restores the symplectic pairing convention.
 
-The signs in the level-4 condition are not cosmetic. If the basis is normalized so that the Weil pairing of `(P1,P2)` is `i`, conjugation sends that value to `-i`; changing `P2^sigma` to `-P2^sigma` restores the pairing. Thus the displayed sign pattern is exactly compatible with the symplectic level structure.
-
-This yields the exact Stage29 modular receiver
+Thus
 
 ```text
 R29-MOD1=ConjugateSelf8CongruenceWithLevel4QDescent
+R29-MOD1A=ExactConjugateSelfLevel4ModuliAdapter
+R29_MOD1A=DISCHARGED_GENERIC_MODULI_LOCUS
 ```
 
-and splits it into bounded subreceivers
+The source statement is exact for the modular datum, but cusp and extra-automorphism/stabilizer loci are intentionally kept separate in
 
 ```text
-R29-MOD1A=ExactConjugateSelfLevel4ModuliAdapter
-R29-MOD1B=EightTorsionConjugationDefectStratification
-R29-MOD1C=ArithmeticAnalysisOfTheFourDefectOrbits
-R29-MOD1D=CuspStabilizerAndPhysicalOpenRemoval
+R29-MOD1D=CuspStabilizerAndPhysicalOpenRemoval.
 ```
 
-`R29-MOD1A` is the structural statement recorded here. The arithmetic point analysis is not solved.
+The remaining defect receiver is interpreted with the audit repair from `torsion-descent-defect.md`:
+
+```text
+R29-MOD1B=AbstractK8ConjugacyClassification
+R29-MOD1C=TwistedSigmaDescentActionAndArithmeticAnalysisOfK8Classes
+```
 
 ## Important non-equivalences
-
-The following implications are forbidden:
 
 ```text
 ordinary 8-congruence => endpoint point                 FALSE
 E[8] ~= E^sigma[8] without level4 signs => endpoint    NOT PROVED
 psi^sigma psi = 1 => E descends to Q                    FALSE IN GENERAL
+four abstract K8 classes => four arithmetic strata      NOT YET PROVED
 ```
 
-The last firewall matters because `psi` is an isomorphism of 8-torsion group schemes/Galois modules, not an isomorphism of elliptic curves.
+`psi` is an isomorphism of 8-torsion group schemes/Galois modules, not an elliptic-curve isomorphism `E -> E^sigma`.
 
 ```text
-R29_MOD1A=PASS_CANDIDATE
 ELLIPTIC_CURVE_Q_DESCENT_INFERRED=false
 ENDPOINT_RATIONAL_POINT_DECIDED=false
+PERFECT_CUBOID_CONCLUSION=NONE
 ```
