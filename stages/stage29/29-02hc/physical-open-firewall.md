@@ -1,46 +1,63 @@
-# Physical-open / arrangement-open firewall
-
-## Two different algebraic opens
+# Physical-open / arrangement-open firewall — audited
 
 Let
 
 ```text
-D_all = {x y z (x+y)(x+z)(y+z)(x+y+z)=0}.
-```
-
-The non-Fano arrangement complement is
-
-```text
+D_all={x y z (x+y)(x+z)(y+z)(x+y+z)=0},
 B_arr=P2\D_all.
 ```
 
-Its inverse image in the endpoint resolution is the unbranched congruence-cover open.
+The inverse image of `B_arr` is the unbranched projective congruence-cover open.
 
-Stage29-02f's physical algebraic open is instead defined by the nonzero side condition
+Stage29-02f's physical algebraic open instead imposes the nonzero-side condition
 
 ```text
 a1*a2*a3 != 0.
 ```
 
-Over `Qbar`, this does not delete every face-diagonal-zero or space-diagonal-zero divisor, so these two opens are not equal as algebraic varieties.
-
-## Rational-point containment
-
-For a rational nondegenerate box, if a rational face diagonal vanished then a sum of two rational squares would be zero, forcing the corresponding sides to vanish. Similarly a rational space diagonal cannot vanish for nonzero rational sides. Hence
+Over `Qbar`, face- or space-diagonal-zero divisors can remain in this physical algebraic open, so
 
 ```text
-U_phys(Q) subset U_arr(Q)
+U_phys != U_arr
 ```
 
-for the actual endpoint candidate locus (indeed equality on the nondegenerate rational endpoint locus after the redundant diagonal-nonzero conditions are added).
+as algebraic varieties.
 
-Thus proving `U_arr(Q)=empty` would be a valid endpoint obstruction. But a Brauer group or boundary computation on `U_arr` cannot simply be substituted for the Stage29-02f computation on `U_phys` without an open-immersion/residue adapter.
-
-## Receivers
+For rational nondegenerate sides, however, a rational sum of two or three squares cannot be zero unless the relevant sides vanish.  Therefore every genuine rational endpoint point lies in the arrangement open:
 
 ```text
-R29-NF-PHYS1 = ArrangementOpenToPhysicalRationalLocusContainment
-R29-NF-PHYS2 = ArrangementBoundaryResiduesToPhysicalBoundaryResidues
+U_phys(Q) subset U_arr(Q).
 ```
 
-The first is elementary candidate-level arithmetic; the second remains open and is potentially useful for `R29-BR0G/R29-BR2A/B`.
+Thus `U_arr(Q)=empty` would be a valid endpoint obstruction.  No converse/open equality is used.
+
+The inclusion does **not** transfer the Stage16–20 population contracts or Stage29-02f Brauer calculation.  In particular no automatic adapter is available for
+
+```text
+M1,N1,M2,N2,M3,
+R<=B,
+gcd/primitivity,
+canonical ordering,
+face multiplicities,
+asymptotic density,
+Brauer residues.
+```
+
+```text
+PHYSICAL_OPEN_EQUALS_ARRANGEMENT_OPEN=false
+PHYSICAL_Q_POINTS_LIE_IN_ARRANGEMENT_OPEN=true
+STAGE16_20_POPULATION_TRANSFER=false
+HEIGHT_TRANSFER=false
+PRIMITIVITY_TRANSFER=false
+CANONICAL_ORDER_TRANSFER=false
+ASYMPTOTIC_TRANSFER=false
+BRAUER_TRANSFER_AUTOMATIC=false
+BACKFLOW_TO_STAGE16_28=false
+```
+
+Receivers:
+
+```text
+R29-NF-PHYS1 = ArrangementOpenToPhysicalRationalLocusContainment   DISCHARGED
+R29-NF-PHYS2 = ArrangementBoundaryResiduesToPhysicalBoundaryResidues OPEN
+```
