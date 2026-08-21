@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "stage": "Stage29",
+  "status": "29_01_SUBMITTED_PENDING_AUDIT",
+  "parent_class": "interaction_synthesis_and_endpoint_routing",
+  "canonical_stage_roadmap": "stages/stage29/roadmap.md",
+  "numbering_mode": "INCREMENTAL_01_02_03",
+  "legacy_10_70_sequence_used": false,
+  "endpoint_population": "perfect cuboid = three integral faces + integral space diagonal",
+  "endpoint_count_deferred": true,
+  "current_item": "29-01",
+  "planned_sequence": [
+    "29-01_GLOBAL_CERTIFIED_MAP_LOCK",
+    "29-02_CONDITION_COST_MATRIX",
+    "29-03_DEPENDENCY_AND_DOUBLE_CHARGE_LEDGER",
+    "GAP_SCAN_A",
+    "29-04_ENDPOINT_ENTRANCE_A",
+    "29-05_ENDPOINT_ENTRANCE_B",
+    "29-06_ENTRANCE_COMPARISON_AND_ROUTING",
+    "GAP_SCAN_B",
+    "29-07_A2_METHOD_TRANSFER_PREFLIGHT",
+    "29-08_NATURAL_SLICE_COVER_DESCENT_TEST",
+    "GAP_SCAN_C",
+    "29-09_ENDPOINT_ARSENAL_REMATCH",
+    "29-10_RESIDUAL_RECEIVER_COMPRESSION",
+    "GAP_SCAN_FINAL",
+    "29-11_PERFECT_CUBOID_HANDOFF",
+    "29-close"
+  ],
+  "gap_scan_policy": {
+    "mandatory_at_named_points": true,
+    "may_return_none": true,
+    "allowed_results": [
+      "NONE_FOUND",
+      "FOUND_INTERNAL_ANALYSIS_REQUIRED",
+      "FOUND_EXTERNAL_INPUT_REQUIRED",
+      "FOUND_PENDING_UPSTREAM_CERTIFICATION"
+    ],
+    "cosmetic_subdivision_forbidden": true,
+    "interstitial_suffixes_allowed": true
+  },
+  "certified_population_surface": {
+    "M1": "~ 3/(4*pi^2) B^2 log B",
+    "N1": "~ kappa/(24*pi) B(log B)^3",
+    "M2": "~ C_M2 B(log B)^5, C_M2>0",
+    "N2_lower": ">> B^(1/4)",
+    "N2_upper": "<<_epsilon B^(1/2+epsilon)",
+    "true_N2_exponent_identified": false,
+    "M3_lower": ">> B^(1/3)",
+    "M3_upper": "<<_eta B(log B)^(5-eta), 0<eta<1/46",
+    "true_M3_exponent_identified": false
+  },
+  "stage28_frontier": {
+    "certified_through": "merged/audited PR #1281",
+    "pending_candidate_pr": 1282,
+    "pending_candidate_used_as_proved": false,
+    "refresh_required_before_29_06": true
+  },
+  "stageA2": {
+    "family_specific_exclusion_generalized": false,
+    "method_transfer_allowed": true,
+    "coverage_claim_requires_proof": true
+  },
+  "29_01": {
+    "global_certified_map_locked": true,
+    "endpoint_entrances_frozen": [
+      "A=Stage19 plus third face",
+      "B=Stage20 plus space diagonal"
+    ],
+    "gap_scan": "FOUND_PENDING_UPSTREAM_CERTIFICATION",
+    "gap_blocks_29_02": false,
+    "gap_blocks_final_entrance_selection": true,
+    "missing_analysis_before_29_02": "NONE"
+  },
+  "audit_required": true,
+  "audit_status": "PENDING",
+  "merge_allowed": false,
+  "next_item_after_pass": "29-02",
+  "next_expected_command": "Stage29-audit"
+}
