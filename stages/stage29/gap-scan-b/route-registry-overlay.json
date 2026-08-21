@@ -1,11 +1,12 @@
 {
-  "schema": "STAGE29_ROUTE_REGISTRY_GAP_SCAN_B_PREAUDIT_OVERLAY_V1",
+  "schema": "STAGE29_ROUTE_REGISTRY_GAP_SCAN_B_AUDITED_OVERLAY_V2",
   "base_registry": "stages/stage29/29-05/route-registry.json",
   "imported_overlays": [
     "stages/stage29/29-08/route-registry-audited.json",
     "stages/stage29/29-09/route-contract.json"
   ],
-  "status": "SUBMISSION_PENDING_FRESH_GAP_SCAN_B_AUDIT",
+  "audit_record": "stages/stage29/gap-scan-b/audit.md",
+  "status": "AUDITED_PASS_AFTER_BOUNDED_REPAIR",
   "attack_route_count": 11,
   "route_count_change": 0,
   "attack_routes": {
@@ -14,18 +15,18 @@
     "G10-K3-SIGN": {"owner":"29-10","status":"LIVE"},
     "Q11-CAMPEDELLI": {"owner":"29-11","status":"LIVE"},
     "Q11-BEAUVILLE": {"owner":"29-11","status":"LIVE"},
-    "Q11-MODULAR": {"owner":"29-11","status":"LIVE"},
-    "Q11-BRAUER": {"owner":"29-11","status":"LIVE"},
+    "Q11-MODULAR": {"owner":"29-11","status":"LIVE_WITH_R29_KUM5_ACTION_ADAPTER"},
+    "Q11-BRAUER": {"owner":"29-11","status":"LIVE_WITH_OPTIONAL_R29_NF7_ADAPTER"},
     "J12-JOINT-V4": {"owner":"29-12","status":"LIVE_WITH_EXACT_29_07_BRIDGE_AND_OPEN_R29_X1"},
     "J12-LOCAL-SQUARECLASS": {"owner":"29-12","status":"LIVE_WITH_EXACT_ODD_LOCAL_DATA_AND_OPEN_Q2_GLOBAL_TRANSFER"},
     "J12-PARAMETRIC": {"owner":"29-12","status":"LIVE_GLOBAL_COVERAGE_CERTIFIED_WITH_AMBER_E1_BLOCKER"},
     "J12-POP-INTERACTION": {"owner":"29-12","status":"LIVE"}
   },
   "pre_attack": {
-    "S06-GLOBAL-SYNTHESIS": "COMPLETED_AUDITED",
+    "S06-GLOBAL-SYNTHESIS": "COMPLETED_AUDITED_WITH_DORMANT_INTERNAL_REMAINDERS_AND_EXECUTION_TRANSFERS",
     "I07-KUMMER-BRIDGE": "COMPLETED_AUDITED_WITH_DORMANT_G1B_EXCEPTIONAL_REMAINDER",
     "I08-COVERAGE-ATLAS": "COMPLETED_AUDITED",
-    "I09-LOCAL-INFRA": "COMPLETED_AUDITED_ODD_PRIMES_WITH_Q2_AND_GLOBAL_TRANSFER_DOWNSTREAM"
+    "I09-LOCAL-INFRA": "COMPLETED_AUDITED_ODD_PRIMES_WITH_ALL_P2_REMAINDER_EXECUTION_OWNED_DOWNSTREAM"
   },
   "new_or_sharpened_receiver_ownership": {
     "R29-PESCH1": {"owner":"I08-COVERAGE-ATLAS","status":"DISCHARGED"},
@@ -35,10 +36,19 @@
     "R29-PESCH-E1": {"owner":"J12-PARAMETRIC","status":"AMBER_CONJECTURAL_GLOBAL_ENDPOINT_BLOCKER"},
     "R29-FIB1": {"owner":"J12-PARAMETRIC","status":"OPEN"},
     "R29-FIB2": {"owner":"J12-PARAMETRIC","status":"OPEN"},
-    "R29-KUM-LOC1": {"owner":"I09-LOCAL-INFRA","status":"PARTIAL_DISCHARGE_ODD_PRIMES_EXACT_BAD_PRIME_2_SEPARATE"},
-    "R29-KUM-LOC2": {"owner":"I09-LOCAL-INFRA","status":"PARTIAL_DISCHARGE_ODD_PRIMES_AND_INFINITY_DONE_P2_OPEN"},
-    "R29-KUM-LOC2-2": {"owner":"J12-LOCAL-SQUARECLASS","status":"OPEN_BOUNDED"},
+    "R29-KUM-LOC1": {"ledger_owner":"I09-LOCAL-INFRA","status":"PARTIAL_DISCHARGE_ODD_PRIMES_EXACT_P2_REMAINDER_SUBSUMED_BY_R29_KUM_LOC2_2","p2_execution_owner":"J12-LOCAL-SQUARECLASS"},
+    "R29-KUM-LOC2": {"ledger_owner":"I09-LOCAL-INFRA","status":"PARTIAL_DISCHARGE_ODD_PRIMES_AND_INFINITY_DONE_P2_OPEN","p2_execution_owner":"J12-LOCAL-SQUARECLASS"},
+    "R29-KUM-LOC2-2": {"owner":"J12-LOCAL-SQUARECLASS","status":"OPEN_BOUNDED","scope":"full two-adic seven-form state/density problem, including the p=2 degeneration remainder of LOC1"},
     "R29-KUM-LOC3": {"owner":"J12-LOCAL-SQUARECLASS","status":"AMBER_GLOBAL_ADAPTER_REQUIRED"}
+  },
+  "s06_execution_repair": {
+    "reason": "29-06 explicitly left KUM5 and NF3..NF7 open, so a completed S06 cannot remain their only live execution destination",
+    "R29-KUM5": {"historical_ledger_owner":"S06-GLOBAL-SYNTHESIS","execution_owner":"Q11-MODULAR","status":"OPEN_ACTION_LEVEL_S4_Q_DESCENT_ADAPTER"},
+    "R29-NF3": {"ledger_owner":"S06-GLOBAL-SYNTHESIS","status":"DORMANT_INTERNAL_NOT_REQUIRED_FOR_CURRENT_ATTACK_ENTRY","reactivate_only_if":"a live attack route names the projective characteristic-variety adapter as a dependency"},
+    "R29-NF4": {"ledger_owner":"S06-GLOBAL-SYNTHESIS","status":"DORMANT_INTERNAL_NOT_REQUIRED_FOR_CURRENT_ATTACK_ENTRY","reactivate_only_if":"a live attack route needs the rho quotient/Q-twist adapter"},
+    "R29-NF5": {"ledger_owner":"S06-GLOBAL-SYNTHESIS","status":"DORMANT_INTERNAL_NOT_REQUIRED_FOR_CURRENT_ATTACK_ENTRY","reactivate_only_if":"a live attack route needs the intermediate-subcover topology ledger"},
+    "R29-NF6": {"ledger_owner":"S06-GLOBAL-SYNTHESIS","status":"DORMANT_INTERNAL_NOT_REQUIRED_FOR_CURRENT_ATTACK_ENTRY","reactivate_only_if":"a live attack route needs the Campedelli/non-Fano character-lattice adapter"},
+    "R29-NF7": {"historical_ledger_owner":"S06-GLOBAL-SYNTHESIS","execution_owner":"Q11-BRAUER","status":"OPEN_OPTIONAL_TWO_PRIMARY_BOUNDARY_RESONANCE_ADAPTER","firewall":"ownership does not imply a Brauer obstruction"}
   },
   "retained_open_details": {
     "R29-X1": {"owner":"J12-JOINT-V4","status":"OPEN_BOUNDED_GLOBAL_ADE_ENUMERATION"},
@@ -48,13 +58,16 @@
   "cross_route_credit_firewalls": {
     "K3_vs_PARAMETRIC":"K3 quotient geometry and genuinely K3-specific theorem adapters belong to G10-K3-SIGN; Master-Hit/Peschmann coverage and fibration crosswalk credit belong to J12-PARAMETRIC; the same fact cannot be credited twice",
     "JOINT_V4":"J12-JOINT-V4 earns new credit only from genuinely joint/cross-character information not reducible to one marginal",
-    "LOCAL":"29-09 exact odd-prime infrastructure is consumed, not replayed; Stage19/20 marginal blocker laws are not independent endpoint factors",
+    "LOCAL":"29-09 exact odd-prime infrastructure is consumed, not replayed; Stage19/20 marginal blocker laws are not independent endpoint factors; p=2 work belongs to J12-LOCAL-SQUARECLASS",
     "POPULATION":"cover degree, route count and local 1/64 density are not population survival factors",
     "FINITE":"finite verification of R29-PESCH-E1 or endpoint search is not a global theorem"
   },
   "completeness": {
     "new_attack_route_created": false,
-    "post_overlay_unowned_active_receiver_count": 0,
+    "submission_completed_owner_open_receiver_defect": true,
+    "submission_loc1_p2_execution_link_missing": true,
+    "post_audit_unowned_active_receiver_count": 0,
+    "duplicate_primary_execution_owner_count": 0,
     "targeted_backflow_required_now": false,
     "active_backflow_queue": [],
     "conditional_backflow_watchlist": [],
