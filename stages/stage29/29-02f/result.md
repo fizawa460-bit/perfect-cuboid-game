@@ -1,6 +1,6 @@
 # Stage29-02f — physical-open boundary and Brauer reduction
 
-Status: **AUDITED PASS after bounded repair**.  Detailed proof/audit: `audit.md`; grading repair: `open-algebraic-brauer-adapter.md`.
+Status: **AUDITED PASS after bounded repair**.  Authoritative audit: `audit.md`; open algebraic correction: `open-algebraic-brauer-adapter.md`.
 
 ## Audited physical open
 
@@ -27,36 +27,50 @@ The geometric boundary `D=S\U` has exactly
 72 components total.
 ```
 
-For `G=Gal(Q(i,sqrt(2))/Q) ~= V4`, its divisor permutation lattice is
+For `G=Gal(Q(i,sqrt(2))/Q) ~= V4`, the visible boundary permutation lattice is
 
 ```text
 Div_D ~= Z^48 direct_sum (Z[G/H_i])^12.
 ```
 
-## Audited algebraic Brauer reduction on U
+## Open algebraic Brauer: corrected arithmetic target
 
-The nonproper calculation uses the extended Picard complex
-
-```text
-C_D=[Div_D(S_Qbar) -> Pic(S_Qbar)],
-Div_D in degree -1,
-Pic in degree 0.
-```
-
-After constants are removed, this controls `Br_a(U)=Br_1(U)/im Br(Q)`.  All Galois action and the differential factor through the order-four group `V4`, so positive hypercohomology is 2-primary.  Hence
+For the nonproper open, the compactification model of the extended Picard complex is
 
 ```text
-OPEN_ALGEBRAIC_NEW_ODD_PRIMARY=ABSENT_AUDITED.
+UPic(U_Qbar) ~= [Div_D(S_Qbar) -> Pic(S_Qbar)],
+Div_D in degree 0,
+Pic in degree 1.
 ```
 
-The exact 2-primary algebraic group remains the finite lattice/cohomology work
+Over `Q`, the algebraic Brauer quotient is controlled by
 
 ```text
-R29-BR0A
-R29-BR0B.
+Br_a(U) ~= H^2(Q,UPic(U_Qbar)).
 ```
 
-## Audited proper odd-primary transcendental Brauer reduction
+Although the visible lattice action factors through `V4`, this does **not** by itself force the full absolute-Galois group above to be 2-primary: the unit lattice
+
+```text
+ker(Div_D -> Pic(S_Qbar))
+```
+
+can contribute inflation/character terms.  Therefore
+
+```text
+OPEN_ALGEBRAIC_ODD_PRIMARY_CLOSED=false.
+```
+
+The live algebraic receivers are
+
+```text
+R29-BR0A=BoundaryDivisorPicardSublatticeRankSaturationAndUnitKernel
+R29-BR0B=BoundaryExtendedPicardAbsoluteGaloisHypercohomology
+```
+
+with finite `V4` cohomology retained as a subcomputation of `R29-BR0B`.
+
+## Proper odd-primary transcendental Brauer: discharged
 
 For the smooth proper cuboid surface,
 
@@ -66,7 +80,7 @@ rho=64,
 disc Pic(S_Qbar)=-2^28.
 ```
 
-At every odd `ell`, the Picard and transcendental lattices therefore split over `Z_ell`, and the Kummer quotient is the reduction of the rank-14 transcendental module.
+At every odd `ell`, the Picard and transcendental lattices split over `Z_ell`, and the Kummer quotient is represented by the reduction of the rank-14 transcendental module.
 
 The audited Stage29-02e semisimple characteristic polynomial is the package
 
@@ -87,7 +101,7 @@ The exact committed witness gives
 gcd_p D_p=128.
 ```
 
-Fresh audit independently recomputed this value; after deleting `p=ell` for every tested odd `ell`, the gcd is still `128`.  Consequently every odd `ell` has an admissible Frobenius witness with no eigenvalue `1` on the twisted transcendental quotient, so
+Fresh audit independently recomputed this value; after deleting `p=ell` for each tested odd `ell`, the gcd remains `128`.  Hence every odd `ell` has an admissible Frobenius witness with no eigenvalue `1` on the twisted transcendental quotient, so
 
 ```text
 Br(S_Qbar)[ell]^{G_Q}=0 for every odd ell.
@@ -102,17 +116,17 @@ PROPER_NONCONSTANT_BRAUER_ODD_PRIMARY=ABSENT_AUDITED.
 
 ## What remains open on the physical open
 
-The proper calculation does not kill classes on `U` that have nonzero boundary residues.  Any remaining odd-primary class must be genuinely boundary-residue sourced.  The live receivers are
+The proper result does not determine classes on `U` that fail to extend across the boundary.  The live receivers are
 
 ```text
 R29-BR0A=BoundaryDivisorPicardSublatticeRankSaturationAndUnitKernel
-R29-BR0B=BoundaryPicardComplexV4Cohomology
+R29-BR0B=BoundaryExtendedPicardAbsoluteGaloisHypercohomology
 R29-BR0G=BoundaryGerstenResidueAndIntersectionComplexFor72Components
 R29-BR2A=PhysicalOpenTwoPrimaryBrauerIntegralLattice
 R29-BR2B=PhysicalOpenTwoPrimaryEvaluationMapsOnQvPoints
 ```
 
-No Brauer--Manin obstruction is claimed until local evaluation maps are computed.
+`R29-BR0B` retains possible algebraic odd-primary unit/character terms.  `R29-BR0G` retains genuinely nonextendable boundary-residue classes.  No Brauer--Manin obstruction is claimed until the relevant group and local evaluation maps are computed.
 
 ## Routing
 
@@ -121,6 +135,11 @@ OLD_GATE_REPLAY=false
 BACKFLOW_TO_STAGE16_28=false
 AUDIT_REQUIRED=false
 AUDIT_VERDICT=PASS
+CHECKPOINT29_02F_AUDIT=PASS
+BOUNDED_REPAIR=OPEN_EXTENDED_PICARD_ABSOLUTE_GALOIS_SCOPE_PLUS_ODD_ELL_INTEGRAL_ADAPTER
+OPEN_ALGEBRAIC_ODD_PRIMARY_CLOSED=false
+PROPER_ODD_TRANSCENDENTAL_BRAUER=ABSENT
+R29_BR1_PROPER_ODD=DISCHARGED
 REPAIR_REQUIRED=false
 MERGE_ALLOWED=true
 ADVANCE_ALLOWED=true
