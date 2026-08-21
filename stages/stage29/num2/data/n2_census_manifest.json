@@ -1,0 +1,78 @@
+{
+  "track": "Stage29-num2",
+  "status": "exact canonical N2 finite census checkpointed through B=1000000000",
+  "contract": {
+    "population": "primitive canonical cuboids with exactly two integral face diagonals and integral space diagonal",
+    "canonical": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "cutoff": "R=d<=B with d^2=a^2+b^2+c^2",
+    "space_diagonal_required": true,
+    "triple_face_records_excluded_from_N2_and_tracked_as_T": true,
+    "integer_arithmetic": true
+  },
+  "guards": {
+    "NUM_REUSE_PREFLIGHT": "PASS",
+    "FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM": true,
+    "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false,
+    "N2_TRUE_EXPONENT_INFERRED": false
+  },
+  "reuse": {
+    "assets": ["NUM-R01", "NUM-R02", "NUM-R03"],
+    "engine": "stages/stage14/scripts/14-num-alpha8/segmented_production_census.py",
+    "frozen_base_manifest": "stages/stage14/data/14-num-alpha11/b500m_manifest.json",
+    "frozen_base_objects": "stages/stage14/data/14-num-alpha11/b500m_objects.csv.bz2.b64",
+    "frozen_base_B": 500000000,
+    "frozen_base_N2": 3495,
+    "frozen_base_T": 0
+  },
+  "extension": {
+    "algorithm_version": "stage29-num2-reuse-alpha8-diagonal-shard-v1",
+    "wrapper_source": "stages/stage29/num2/scripts/n2_extend_1e9.py",
+    "wrapper_git_blob_sha": "6522b01fea7d241c5064cf9e82c41ba4c9c0f184",
+    "shell": "500000000<d<=1000000000",
+    "shard_width": 25000000,
+    "shard_count": 20,
+    "new_shell_N2": 1071,
+    "shard_runtime_sec_min": 201.607682487,
+    "shard_runtime_sec_max": 303.09271221,
+    "shard_runtime_sec_sum": 5723.762952624
+  },
+  "regressions": {
+    "B=200000000": {"N2": 2457, "T": 0},
+    "B=500000000": {"N2": 3495, "T": 0}
+  },
+  "checkpoints": [
+    {"B": 1000000, "N2": 255, "T": 0, "directional": {"a": 98, "b": 101, "c": 56}},
+    {"B": 5000000, "N2": 531, "T": 0, "directional": {"a": 207, "b": 211, "c": 113}},
+    {"B": 10000000, "N2": 720, "T": 0, "directional": {"a": 293, "b": 286, "c": 141}},
+    {"B": 50000000, "N2": 1428, "T": 0, "directional": {"a": 552, "b": 573, "c": 303}},
+    {"B": 100000000, "N2": 1875, "T": 0, "directional": {"a": 729, "b": 758, "c": 388}},
+    {"B": 200000000, "N2": 2457, "T": 0, "directional": {"a": 957, "b": 967, "c": 533}},
+    {"B": 500000000, "N2": 3495, "T": 0, "directional": {"a": 1374, "b": 1371, "c": 750}},
+    {"B": 600000000, "N2": 3767, "T": 0, "directional": {"a": 1489, "b": 1491, "c": 787}},
+    {"B": 700000000, "N2": 3991, "T": 0, "directional": {"a": 1576, "b": 1579, "c": 836}},
+    {"B": 800000000, "N2": 4192, "T": 0, "directional": {"a": 1657, "b": 1652, "c": 883}},
+    {"B": 900000000, "N2": 4379, "T": 0, "directional": {"a": 1731, "b": 1720, "c": 928}},
+    {"B": 1000000000, "N2": 4566, "T": 0, "directional": {"a": 1810, "b": 1798, "c": 958}}
+  ],
+  "endpoint": {
+    "B": 1000000000,
+    "N2": 4566,
+    "T": 0,
+    "object_key_sha256": "2b3297e9709053312cf14e3e82db52ee5bcab21be24f3c04349512a9a9d7657b",
+    "object_key_mask_sha256": "52597e854e44af14682462436a31d843fcd64ef8a604e51e87caa20b570b6bc0"
+  },
+  "ci": {
+    "run_id": 32446975833,
+    "artifact_id": 9434485432,
+    "artifact_name": "stage29-num2-n2-1e9-exact-census",
+    "artifact_zip_sha256": "d3c546dda768aa25e71215eb7dcd422fe30e037162c856a25c0b329d38d7fcf0",
+    "artifact_rows": 4566
+  },
+  "interpretation_guards": [
+    "N2 checkpoints are exact finite counts only",
+    "T(B)=0 is finite evidence only",
+    "no asymptotic exponent is inferred",
+    "no global perfect-cuboid nonexistence claim is made"
+  ]
+}
