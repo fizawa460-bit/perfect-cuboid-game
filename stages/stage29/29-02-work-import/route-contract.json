@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "task": "Stage29-02-work-import",
+  "role": "INDEPENDENT_EXTERNAL_RESEARCH_INTAKE",
+  "status": "SUBMITTED_PENDING_FRESH_STAGE29_AUDIT",
+  "source_report": "perfect_cuboid_stage29_foundations_report.md",
+  "source_date": "2026-08-21",
+  "self_certifying": false,
+  "routes": [
+    {
+      "id": "W29-A",
+      "name": "FINITE_UNIBRANCH_LOW_GENUS_DEGREE_LOCK",
+      "verdict": "HIGH_VALUE",
+      "primary_source": "Freitag--Salvati Manni, Theorem 3.1",
+      "candidate_bound": "d <= 176 + 16g under bijective normalization",
+      "proposed_suffixes": ["29-02c-LG1", "29-02c-LG2"],
+      "firewalls": [
+        "bijective normalization required",
+        "multibranch-at-node cases remain open",
+        "effectivity requires proof",
+        "isolated rational points are not excluded"
+      ]
+    },
+    {
+      "id": "W29-B",
+      "name": "BEAUVILLE_IRREGULAR_COVER_DESCENT",
+      "verdict": "HIGH_VALUE",
+      "primary_source": "Beauville, Proposition 1 and Remark 1",
+      "proposed_suffixes": ["29-02d"],
+      "receivers": [
+        "PhysicalOpenBeauvilleDoubleCoverQDescentAndTwistLedger",
+        "LocallySolubleBeauvilleTwistsToAlbaneseTorsors"
+      ],
+      "firewalls": [
+        "not the Stage29 joint V4 cover",
+        "Q-points may lift only on quadratic twists",
+        "Albanese dimension four does not make Chabauty automatic"
+      ]
+    },
+    {
+      "id": "W29-D",
+      "name": "TRANSCENDENTAL_BRAUER_AUDIT",
+      "verdict": "PROMISING",
+      "primary_sources": ["Testa--Stoll Theorem 10", "Horie--Yamauchi arXiv:2512.22520v3"],
+      "proposed_suffixes": ["29-02f"],
+      "receivers": [
+        "TranscendentalBrauerIntegralLatticeOddPrimeAudit",
+        "TranscendentalBrauerPrime2AndEvaluationAudit"
+      ],
+      "firewalls": [
+        "algebraic Brauer route is red if Theorem 10 audits",
+        "rational l-adic/L-function data do not determine integral Brauer torsion",
+        "nonzero Brauer group need not obstruct the physical adelic locus"
+      ]
+    },
+    {
+      "id": "W29-C",
+      "name": "MODULI_M4_8_Q_DESCENT",
+      "verdict": "PROMISING",
+      "primary_sources": ["Freitag--Salvati Manni Theorems 2.4, 6.1--6.3", "Testa--Stoll Section 4", "Fisher 8-congruence surfaces"],
+      "proposed_suffixes": ["29-02g"],
+      "receiver": "ConjugateSelf8CongruenceWithLevel4QDescent",
+      "firewalls": [
+        "ordinary 8-congruence is abundant",
+        "bare modularity/Hecke data do not control individual rational points",
+        "Q(i)-model must be descended to Q with cusps/stabilizers tracked"
+      ]
+    }
+  ],
+  "existing_receiver_not_new": "29-02e V4 character/newform/cross-quotient L-function adapter",
+  "recent_nonexistence_claims_accepted": false,
+  "backflow_to_stage16_28": false,
+  "keep_stage29_native": true,
+  "audit_required": true,
+  "merge_allowed": false,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false,
+  "next_expected_command": "Stage29-audit"
+}
