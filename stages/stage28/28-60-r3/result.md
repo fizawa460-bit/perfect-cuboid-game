@@ -37,7 +37,7 @@ Together with the audited M4 void, every fixed physical Stage19 rational curve h
 \boxed{O(B^{1/3})}.
 \]
 
-Exact-head GitHub Actions run `32437537363` concludes success and reproduces the physical Shimada labeling equivalence, anti-invariant rank `6`, determinant `256`, and norm congruence. Fresh mathematical audit remains required.
+The latest exact diagnostic workflow `Stage28-60-r3 low-degree K3 spectrum`, run `32438047573`, concludes success and reproduces the physical Shimada labeling equivalence, anti-invariant rank `6`, determinant `256`, norm congruence, and distinguished-root height diagnostic. Fresh mathematical audit remains required.
 
 On the Stage20 side, the audited generalized Saunderson parametrization is a generically injective homogeneous degree-six rational family under the physical coordinate height, with `R asymp r^6` on the audited cone. It supplies a fixed rational target curve with
 
@@ -49,9 +49,21 @@ points on that sector.
 
 Thus the fixed-rational-curve spectra now meet at the same polynomial `1/3` scale at worst: the former possible Stage19 degree-five / `2/5` channel is closed.
 
+## Distinguished-root M6 diagnostic
+
+The same exact Shimada run evaluates the physical M-degree of all 40 distinguished `(-2)`-curves:
+
+```text
+M-degree 0 : 16
+M-degree 2 : 24
+M-degree 6 : 0
+```
+
+So no M6 witness occurs in the classical distinguished 40-root configuration. This is a negative diagnostic only: `L40` is not the complete root spectrum and does not prove the M6 stratum empty.
+
 ## Why this still does not resolve the bridge
 
-The source may possess physical M-degree-six rational curves. More importantly, Stage14-4al proves that the source's possible square-root-scale behavior is a moving-fibre activation / first-small-point problem after the degree-four fixed-curve mechanism was eliminated. Fixed-curve spectra therefore cannot be promoted to whole-population ordering without a complement theorem.
+The source may possess physical M-degree-six rational curves outside `L40`, including non-distinguished root classes or singular rational members of positive-self-intersection classes. More importantly, Stage14-4al proves that the source's possible square-root-scale behavior is a moving-fibre activation / first-small-point problem after the degree-four fixed-curve mechanism was eliminated. Fixed-curve spectra therefore cannot be promoted to whole-population ordering without a complement theorem.
 
 The audited r2 equivalence remains the direct bridge:
 
@@ -73,10 +85,10 @@ The former M5/M6 finite receiver has been reduced to a single genuinely new fini
 ```text
 FINITE_RECEIVER=PhysicalLowDegreeRootSpectrumM6
 INPUT=existing Shimada Stage14 lattice + physical M/deck/chamber/Q-descent data
-OUTPUT=classify all Stage19 physical rational curves M.C=6, including split and invariant mechanisms
+OUTPUT=classify all Stage19 physical rational curves M.C=6, including split/invariant mechanisms, non-distinguished roots, and singular rational members
 ```
 
-This is no longer a routine consequence of the M4 calculation: degree six permits both even-degree geometric mechanisms and the mod-four norm obstruction alone does not decide it.
+This is no longer a routine consequence of the M4 calculation: degree six permits even-degree mechanisms and the mod-four norm obstruction alone does not decide it. The L40 diagnostic confirms that no immediate distinguished-root witness settles the question.
 
 Even a successful M6 spectrum classification remains only an intermediate causal certificate. The true global receiver is
 
@@ -92,9 +104,9 @@ RESEARCH_REQUEST_READY=true
 
 ## Bounded-stop verdict candidate
 
-Checkpoint60 parent/r2/r3 has now explored exact interaction algebra, local densities, growing-prime sieve, degree-two/K3 geometry, branch decomposition, construction efficiency, interaction curvature, McKinnon accumulating curves, quasi-polarized low-degree curves, exact Stage14 M4 lattice exclusion, and the new odd-degree anti-invariant congruence.
+Checkpoint60 parent/r2/r3 has now explored exact interaction algebra, local densities, growing-prime sieve, degree-two/K3 geometry, branch decomposition, construction efficiency, interaction curvature, McKinnon accumulating curves, quasi-polarized low-degree curves, exact Stage14 M4 lattice exclusion, the new all-odd-degree anti-invariant congruence, and the exact distinguished-root M6 diagnostic.
 
-Further routine rearrangement of current repo theorems cannot cross the critical threshold. The only remaining repo-native low-degree task is a genuinely new complete M6 lattice/chamber/descent classification; the global unresolved lane needs a substantially new moving-complement theorem.
+Further routine rearrangement of current repo theorems cannot cross the critical threshold. The only remaining repo-native low-degree task is a genuinely new complete M6 lattice/linear-system/chamber/descent classification; the global unresolved lane needs a substantially new moving-complement theorem.
 
 ```text
 CHECKPOINT60_R3_COMPLETE_AS_SUBMISSION=true
@@ -105,8 +117,10 @@ STAGE19_PHYSICAL_M5_FIXED_CURVE=ABSENT_CANDIDATE
 STAGE19_PHYSICAL_ODD_FIXED_CURVE_DEGREES=ABSENT_CANDIDATE
 STAGE19_FINITE_FIXED_CURVE_EXPONENT_MAX_CANDIDATE=1/3
 STAGE20_SAUNDERSON_FIXED_CURVE_EXPONENT=1/3
-R3_MATERIALLY_DISTINCT_ROUTES=6
-LOW_DEGREE_EXACT_HEAD_CI=PASS_RUN_32437537363
+DISTINGUISHED_L40_M6_COUNT=0
+DISTINGUISHED_L40_IS_COMPLETE_ROOT_SPECTRUM=false
+R3_MATERIALLY_DISTINCT_ROUTES=7
+LOW_DEGREE_EXACT_HEAD_CI=PASS_RUN_32438047573
 SOURCE_TARGET_ORDERING_IDENTIFIED=false
 MAXIMAL_BOUNDED_EXPLORATION_CANDIDATE=true
 OPEN_GATE_RESEARCH_REQUEST_READY=true
