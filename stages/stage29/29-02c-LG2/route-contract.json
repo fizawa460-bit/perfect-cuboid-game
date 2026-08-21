@@ -1,6 +1,6 @@
 {
   "task_id": "Stage29-02c-LG2",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "status": "AUDITED_PASS_RESIDUAL_COMPUTATION_OPEN",
   "role": "UNIBRANCH_LOW_GENUS_FINITE_PICARD_REDUCTION",
   "inputs": {
     "fsm_bound_audited_pr": 1292,
@@ -14,8 +14,12 @@
     "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
     "file": "Cuboids/cuboids.magma",
     "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
-    "picard_rank": 64,
-    "degree6_lift_kernel_rank": 44
+    "source_lock_audit": "PASS",
+    "known_curve_lattice_rank": 64,
+    "full_picard_group_certified_by_testa_stoll_theorem": true,
+    "code_alone_proves_full_picard_group": false,
+    "degree6_lift_kernel_rank": 44,
+    "close_vector_volume_exponent": 22
   },
   "exact_reduction": {
     "r": "gcd(d,16)",
@@ -25,10 +29,12 @@
     "orthogonality": "H.y=0",
     "genus0_norm_bound": "-y^2 <= m^2*(d^2/16+d+2)",
     "genus1_norm_bound": "-y^2 <= m^2*(d^2/16+d)",
-    "finite_for_each_degree": true
+    "picard_divisibility_reconstruction": "C=(y+nH)/m",
+    "finite_for_each_degree": true,
+    "finite_total_176_192_window": true
   },
   "verdicts": {
-    "finite_picard_reduction": "PASS_CANDIDATE",
+    "finite_picard_reduction": "PASS_AUDITED",
     "full_176_192_enumeration_completed": false,
     "naive_closevectors_tractability_established": false,
     "effectivity_certified": false,
@@ -42,10 +48,15 @@
     "R29-LG2-EFF EffectiveCurveCertificationForSurvivingNumericalPicardClasses",
     "R29-LG2-MB MultibranchAtNodeLowGenusCarrierLedgerOutsideFreitagSalvatiManniTheorem3_1"
   ],
-  "audit_required": true,
-  "merge_allowed": false,
+  "audit_record": "stages/stage29/29-02c-LG2/audit.md",
+  "audit_required": false,
+  "audit_status": "PASS_AFTER_BOUNDED_REPAIR",
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
   "advance_other_suffixes_after_pass": true,
   "next_item_after_pass": "29-02d",
+  "next_expected_command": "Stage29-main-batch",
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false
 }
