@@ -1,8 +1,8 @@
 # Stage29-02f — boundary/Picard complex
 
-## Exact complex
+## Exact compactification model
 
-Let `D=S\U` be the 72-component boundary from `physical-open-boundary.md`.  Over `Qbar`, projectivity of `S` gives the standard exact sequence
+Let `D=S\U` be the 72-component boundary.  Over `Qbar` the divisor/unit/Picard exact sequence is
 
 ```text
 0 -> Qbar^*
@@ -13,49 +13,50 @@ Let `D=S\U` be the 72-component boundary from `physical-open-boundary.md`.  Over
   -> 0.
 ```
 
-The load-bearing finite object is therefore the two-term lattice complex
+The compactification model of the extended Picard complex is
 
 ```text
-C_D = [ Div_D(S_Qbar) -> Pic(S_Qbar) ],
-Div_D in degree -1,
-Pic(S_Qbar) in degree 0.
+UPic(U_Qbar) ~= [Div_D(S_Qbar) -> Pic(S_Qbar)],
+Div_D in degree 0,
+Pic(S_Qbar) in degree 1.
 ```
 
-This degree convention is load-bearing.  After constants are removed, `C_D` is the extended-Picard model controlling the relative algebraic Brauer group `Br_a(U)=Br_1(U)/im Br(Q)`.  In particular, the relevant `H^1` is positive Galois hypercohomology; one must not place the complex in degrees `0,1`, which would introduce a spurious invariant free-cokernel term.
-
-It simultaneously remembers
-
-1. principal relations among boundary divisors / nonconstant units on `U`;
-2. the boundary sublattice in the rank-64 Picard group;
-3. the quotient `Pic(U_Qbar)`;
-4. the Galois action needed for the algebraic Brauer group of the nonproper open.
-
-This avoids the invalid shortcut
+For a number field, the algebraic Brauer quotient is
 
 ```text
-Br_1(U)/Br(Q) ?= H^1(Q,Pic(U_Qbar))
+Br_a(U)=Br_1(U)/im Br(Q)
+      ~= H^2(Q,UPic(U_Qbar)).
 ```
 
-without first accounting for nonconstant units.
+This complex remembers the unit lattice, the boundary image in Picard, `Pic(U_Qbar)`, and their Galois actions.
 
-## Finite Galois reduction
+## V4 input is finite but not the whole arithmetic cohomology
 
-Testa--Stoll explicitly realize the Picard Galois action over
+Testa--Stoll realize the visible lattice action over
 
 ```text
 K=Q(i,sqrt(2)),
 G=Gal(K/Q) ~= V4.
 ```
 
-All boundary components are also defined over `K`, and their permutation action is explicit.  The differential `Div_D -> Pic(S_Qbar)` is Galois equivariant.  Thus the relative algebraic calculation is a finite `G`-hypercohomology problem for `C_D`.
+All boundary components are defined over `K`, and the differential is Galois equivariant.  Hence finite `V4` cohomology is an explicit subproblem.
 
-Since `G` has order four, positive-degree finite-group cohomology of the lattice cohomology modules is annihilated by four.  Consequently any new algebraic Brauer contribution created by deleting `D`, after constants are removed and the above grading is used, is 2-primary.  Therefore
+However it is **not** valid to replace absolute Galois `H^2(Q,UPic)` by finite `V4` hypercohomology solely because the lattice action factors through `V4`.  The unit lattice
 
 ```text
-Br_a(U)[odd]=0.
+K_D=ker(Div_D -> Pic(S_Qbar))
+   =O(U_Qbar)^*/Qbar^*
 ```
 
-This does **not** compute the exact 2-primary group.  The following integral data must be extracted from the known Picard lattice:
+can contribute inflation/character terms through the absolute Galois group of `K`; such terms need not be 2-primary.  Therefore
+
+```text
+OPEN_ALGEBRAIC_ODD_PRIMARY_CLOSED=false.
+```
+
+The finite `V4` calculation remains useful, but it cannot by itself prove `Br_a(U)[odd]=0`.
+
+## Exact integral input still required
 
 ```text
 B = image(Div_D -> Pic(S_Qbar))
@@ -66,31 +67,18 @@ Q_D = coker(Div_D -> Pic(S_Qbar)) = Pic(U_Qbar)
 G-actions on K_D, B, Q_D
 ```
 
-## Existing executable input
-
-Michael Stoll's public verification file already constructs
-
-```text
-Pic
-PicL
-pmPic
-ccPic      # complex conjugation
-ctPic      # sqrt(2) conjugation
-C1s        # first 24 are the rational side-boundary conics
-pts        # the 48 exceptional curves
-```
-
-at the immutable source lock used by 29-02c-LG2.  Therefore `R29-BR0A/B` requires no new geometric enumeration: it is an extraction/cohomology computation on already certified matrices.
-
-A probe script is included as `boundary_module_probe.m`; it identifies the exact subgroup generators and checks Galois stability before any cohomology calculation is attempted.
+Michael Stoll's verification source already constructs the Picard lattice, the first 24 rational side-boundary conics, all 48 exceptional curves, and the two generators of the `V4` action.  `boundary_module_probe.m` therefore remains a valid extraction preflight.
 
 ## Residual receivers
 
 ```text
 R29-BR0A=BoundaryDivisorPicardSublatticeRankSaturationAndUnitKernel
-R29-BR0B=BoundaryPicardComplexV4Cohomology
+
+R29-BR0B=BoundaryExtendedPicardAbsoluteGaloisHypercohomology
+         including unit-kernel inflation/character terms,
+         with finite V4 cohomology as a subcomputation.
 ```
 
-Sufficient output for `R29-BR0B` is an explicit finite abelian 2-primary group for the relative algebraic part together with maps back to divisor residues.  A zero answer is allowed; nonzero output must not be promoted to an obstruction until local evaluation is computed.
+A zero odd-primary answer is allowed, but it must come from this full arithmetic calculation, not from the order of `V4` alone.  Any nonzero class must still be separated from geometric boundary-residue classes and cannot be promoted to a Brauer--Manin obstruction before local evaluation.
 
-See also `open-algebraic-brauer-adapter.md` for the audit repair statement.
+See `open-algebraic-brauer-adapter.md` for the audit correction.
