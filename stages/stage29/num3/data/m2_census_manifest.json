@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "track": "Stage29-num3",
+  "population": "M2",
+  "algorithm": "stage29-num3-shared-edge-mobius-v1",
+  "contract": {
+    "canonical": "0<a<b<c",
+    "primitive": "gcd(a,b,c)=1",
+    "cutoff": "a^2+b^2+c^2<=B^2",
+    "integral_face_diagonals": 2,
+    "face_multiplicity": "exactly_two",
+    "space_diagonal_required": false,
+    "exact_integer_arithmetic": true
+  },
+  "identity": {
+    "shared_edge_incidence": "G=M2+3*M3",
+    "recovery": "M2=G-3*M3",
+    "primitivity": "1_gcd(e,x,y)=1 = sum_{d|e,d|x,d|y} mu(d)"
+  },
+  "checkpoints": [
+    {"B": 1000000, "M2": 13817725, "M2_direction": [4592536, 5816786, 3408403], "M3_input": 219},
+    {"B": 5000000, "M2": 97499562, "M2_direction": [33135250, 40788738, 23575574], "M3_input": 480},
+    {"B": 10000000, "M2": 224273087, "M2_direction": [76864512, 93602678, 53805897], "M3_input": 656},
+    {"B": 50000000, "M2": 1525891974, "M2_direction": [532039538, 633780237, 360072199], "M3_input": 1298},
+    {"B": 100000000, "M2": 3462162225, "M2_direction": [1215113122, 1435434486, 811614617], "M3_input": 1757},
+    {"B": 200000000, "M2": 7827445549, "M2_direction": [2764094851, 3239873832, 1823476866], "M3_input": 2339},
+    {"B": 500000000, "M2": 22894939276, "M2_direction": [8145730486, 9457081553, 5292127237], "M3_input": 3331},
+    {"B": 1000000000, "M2": 51379127865, "M2_direction": [18376842946, 21192298114, 11809986805], "M3_input": 4362}
+  ],
+  "independent_regression": {
+    "method": "direct Euclid-triple plus explicit pair loop and explicit gcd",
+    "B1m": {
+      "run": 32447838198,
+      "artifact": 9434675731,
+      "artifact_sha256": "6da61a04b73e8823d81d57ce0e10e633a9f3093308323fb4e9ff3c9e303e61b4",
+      "match_total_and_direction": true
+    },
+    "B10m": {
+      "run": 32447945537,
+      "artifact": 9434716391,
+      "artifact_sha256": "efdef04459d559ca010f15f0f86f340400c76567ca547895a2ca606d2de648d3",
+      "match_total_and_direction": true
+    },
+    "mobius_crosscheck_run": 32448163579,
+    "mobius_crosscheck_artifact": 9434775818,
+    "mobius_crosscheck_artifact_sha256": "c216df7ab4e07027a9b6c6eacc755ed5825e91956dac24fff969cf0909d84c8a"
+  },
+  "production": {
+    "B5m": {"run": 32449142616, "artifact": 9435051527, "artifact_sha256": "cee035b03880c12c1ef1282bbb6aee7dde5809123f78f3bb72bb0cb3102d451c"},
+    "B50m": {"run": 32449142616, "artifact": 9435058936, "artifact_sha256": "02107f651b5a6e2c415cb827aeeec9d72b4ff29ab2741dd5b127f10b63d57d7e"},
+    "B100m": {"run": 32448268597, "artifact": 9434805744, "artifact_sha256": "23ca9e24f465c417c8ec3334cb8183954ffe8632e67daf1f403d1ecdeee4fd00"},
+    "B200m": {"run": 32448381018, "artifact": 9434885777, "artifact_sha256": "1619b2bbc0e50eab0ca8036ebcdab752f048e8165b03548174eeeea6f98b535e"},
+    "B500m": {"run": 32448381018, "artifact": 9434938636, "artifact_sha256": "f058510162a3366bb2da23ff500bc714bfb6210f60087d51e93bb949e07cf58b"},
+    "B1b": {"run": 32448381018, "artifact": 9435024844, "artifact_sha256": "cde592d9514154add331a31fcf0cf260141b32eb5f627be75c5c8fb878185d35", "runtime_seconds": 611.863, "peak_rss_kb": 982432, "threads": 4}
+  },
+  "audit": {
+    "record": "stages/stage29/num3/audit.md",
+    "status": "PASS",
+    "additional_adversarial_review_required": false
+  },
+  "guards": {
+    "FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM": true,
+    "M2_ASYMPTOTIC_INFERRED_FROM_CENSUS": false,
+    "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
+    "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
+  }
+}

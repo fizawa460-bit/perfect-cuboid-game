@@ -1,7 +1,15 @@
 {
-  "schema_version": 3,
-  "ledger": "STAGE29_NUMERICAL_MAINLINE_R03",
+  "schema_version": 4,
+  "ledger": "STAGE29_NUMERICAL_MAINLINE_R04",
   "source_tracks": {
+    "M2": {
+      "track": "Stage29-num3",
+      "source_prs": [1296],
+      "result": "stages/stage29/num3/result.md",
+      "manifest": "stages/stage29/num3/data/m2_census_manifest.json",
+      "audit": "stages/stage29/num3/audit.md",
+      "population": "primitive canonical cuboids with exactly two integral face diagonals and no space-diagonal requirement"
+    },
     "M3": {
       "track": "Stage29-num1",
       "source_prs": [1289, 1291],
@@ -11,6 +19,7 @@
     },
     "N2": {
       "track": "Stage29-num2",
+      "source_prs": [1294],
       "result": "stages/stage29/num2/result.md",
       "manifest": "stages/stage29/num2/data/n2_census_manifest.json",
       "population": "primitive canonical cuboids with exactly two integral face diagonals and integral space diagonal"
@@ -20,17 +29,18 @@
     "cutoff": "R^2=a^2+b^2+c^2<=B^2",
     "canonical": "0<a<b<c",
     "primitive": "gcd(a,b,c)=1",
-    "exact_integer_arithmetic": true
+    "exact_integer_arithmetic": true,
+    "common_max_cutoff_B": 1000000000
   },
   "matched_checkpoints": [
-    {"B": 1000000, "M3": 219, "N2": 255, "P": 0, "M3_over_N2_finite": 0.8588235294117647},
-    {"B": 5000000, "M3": 480, "N2": 531, "P": 0, "M3_over_N2_finite": 0.903954802259887},
-    {"B": 10000000, "M3": 656, "N2": 720, "P": 0, "M3_over_N2_finite": 0.9111111111111111},
-    {"B": 50000000, "M3": 1298, "N2": 1428, "P": 0, "M3_over_N2_finite": 0.9089635854341737},
-    {"B": 100000000, "M3": 1757, "N2": 1875, "P": 0, "M3_over_N2_finite": 0.9370666666666667},
-    {"B": 200000000, "M3": 2339, "N2": 2457, "P": 0, "M3_over_N2_finite": 0.951973951973952},
-    {"B": 500000000, "M3": 3331, "N2": 3495, "P": 0, "M3_over_N2_finite": 0.9530758226037196},
-    {"B": 1000000000, "M3": 4362, "N2": 4566, "P": 0, "M3_over_N2_finite": 0.9553219448094612}
+    {"B": 1000000, "M2": 13817725, "N2": 255, "M3": 219, "P": 0, "N2_over_M2_finite": 1.8454557461521345e-5, "M3_over_M2_finite": 1.5849208172835978e-5, "M3_over_N2_finite": 0.8588235294117647},
+    {"B": 5000000, "M2": 97499562, "N2": 531, "M3": 480, "P": 0, "N2_over_M2_finite": 5.446178312062571e-6, "M3_over_M2_finite": 4.9230990391526065e-6, "M3_over_N2_finite": 0.903954802259887},
+    {"B": 10000000, "M2": 224273087, "N2": 720, "M3": 656, "P": 0, "N2_over_M2_finite": 3.210371826736393e-6, "M3_over_M2_finite": 2.9250054421376026e-6, "M3_over_N2_finite": 0.9111111111111111},
+    {"B": 50000000, "M2": 1525891974, "N2": 1428, "M3": 1298, "P": 0, "N2_over_M2_finite": 9.358460653388298e-7, "M3_over_M2_finite": 8.506499949648467e-7, "M3_over_N2_finite": 0.9089635854341737},
+    {"B": 100000000, "M2": 3462162225, "N2": 1875, "M3": 1757, "P": 0, "N2_over_M2_finite": 5.415690768216386e-7, "M3_over_M2_finite": 5.074863295869968e-7, "M3_over_N2_finite": 0.9370666666666667},
+    {"B": 200000000, "M2": 7827445549, "N2": 2457, "M3": 2339, "P": 0, "N2_over_M2_finite": 3.138955083902047e-7, "M3_over_M2_finite": 2.98820347629096e-7, "M3_over_N2_finite": 0.951973951973952},
+    {"B": 500000000, "M2": 22894939276, "N2": 3495, "M3": 3331, "P": 0, "N2_over_M2_finite": 1.526538226578173e-7, "M3_over_M2_finite": 1.4549066760320154e-7, "M3_over_N2_finite": 0.9530758226037196},
+    {"B": 1000000000, "M2": 51379127865, "N2": 4566, "M3": 4362, "P": 0, "N2_over_M2_finite": 8.886877200401853e-8, "M3_over_M2_finite": 8.489828810370757e-8, "M3_over_N2_finite": 0.9553219448094612}
   ],
   "N2_extension_checkpoints": [
     {"B": 600000000, "N2": 3767, "T": 0},
@@ -40,8 +50,15 @@
     {"B": 1000000000, "N2": 4566, "T": 0}
   ],
   "validation": {
+    "M2_method_audit": "PASS",
+    "M2_direct_regression_B1m": true,
+    "M2_direct_regression_B10m": true,
+    "M2_production_1e9_run": 32448381018,
+    "M2_production_1e9_artifact": 9435024844,
+    "M2_production_1e9_artifact_sha256": "cde592d9514154add331a31fcf0cf260141b32eb5f627be75c5c8fb878185d35",
+    "M2_production_manifest": "stages/stage29/num3/data/m2_census_manifest.json",
     "M3_oeis_crosscheck_through_B": 500000000,
-    "M3_production_1e9_ci_run": 32445467962,
+    "M3_production_1e9_ci_run": 32446320974,
     "N2_frozen_B500m_regression": 3495,
     "N2_frozen_B200m_regression": 2457,
     "N2_production_1e9_ci_run": 32446975833,
@@ -50,20 +67,29 @@
   },
   "finite_endpoint": {
     "P_zero_through_B": 1000000000,
+    "confirmed_from_M3_side": true,
+    "confirmed_from_N2_side": true,
     "global_zero_theorem": false,
     "perfect_cuboid_nonexistence_claim": false
   },
   "comparison_diagnostics": {
-    "N2_status": "CANONICAL_RECOMPUTE_COMPLETE_THROUGH_1E9",
+    "N2_over_M2_relation": "literal finite survival fraction under matched primitive/canonical physical measure",
+    "M3_over_M2_relation": "adjacent-stratum matched-cutoff ratio, not objectwise survival",
+    "M3_over_N2_relation": "different populations; matched-cutoff diagnostic only",
     "prior_provisional_N2_series_retracted": true,
-    "canonical_reference": "stages/stage19/final.md",
-    "M3_N2_population_relation": "different populations; matched-cutoff ratios are finite diagnostics only, not survival probabilities",
     "infer_eventual_M3_N2_ordering": false,
     "infer_asymptotic_exponent": false
   },
   "reuse": {
+    "stage29_04_condition_cost_diagnostics": true,
     "stage29_08_parametrization_coverage": true,
     "endpoint_regression_negative_control": true,
-    "finite_matched_cutoff_diagnostics": true
+    "finite_matched_cutoff_diagnostics": true,
+    "finite_literal_N2_over_M2_survival": true
+  },
+  "guards": {
+    "FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM": true,
+    "P_GLOBAL_ZERO_THEOREM": false,
+    "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
   }
 }
