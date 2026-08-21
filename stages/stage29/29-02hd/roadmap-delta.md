@@ -1,44 +1,37 @@
-# Stage29 roadmap delta proposed by 29-02hd
+# Stage29 roadmap delta after audited 29-02hd
 
-APPLY_ONLY_AFTER_FRESH_AUDIT_PASS=true
+## Transition
 
-## Proposed transition
-
-If the broad independent-foundation screen survives fresh audit, close the current foundation-mining loop and move to
+After merge of the audited broad screen, move to
 
 ```text
 29-03 FOUNDATION_BACKFLOW_DECISION
 ```
 
-Reason:
-- `29-02ha` produced the genuinely new F7 full seven-line sign/Kummer foundation;
-- `29-02hb` produced the high-value Campedelli quotient layer F8;
-- `29-02hc` connected F7 to the non-Fano/Hirzebruch theorem ecosystem but was correctly downgraded from an independent foundation to a recognition adapter;
-- the present broad screen tested several further independent ecosystems and found useful adapters, but each currently routes back into F1/F2/F5/F6/F7/F8 or into another unresolved problem.
+The reason is deliberately practical: the current broad pass produced no **certified ninth independent foundation**. It did produce unresolved high-value adapters and theorem ecosystems, especially Peschmann, but those need not keep the foundation-mining loop open indefinitely.
 
 ## Stop semantics
 
-The stop is practical, not absolute.
-
 ```text
+STAGE29_02_MINING_STOP_CONDITION_SATISFIED=true
+STOP_SCOPE=NO_CERTIFIED_NINTH_FOUNDATION_IN_THIS_BROAD_PASS
+UNRESOLVED_ADAPTER_OR_INDEPENDENCE_CANDIDATES_EXIST=true
+PESCHMANN_INDEPENDENCE_RESOLVED=false
 NO_MORE_FOUNDATIONS_EXIST_CLAIM=false
 LITERATURE_EXHAUSTIVENESS_CLAIM=false
 H_NAMESPACE_REOPENABLE=true
+AUTO_ADVANCE_TO_29_03=false
 ```
 
-A later genuinely new theorem/model/obstruction may reopen `29-02h*` as an addendum without invalidating the 29-03 transition.
+Thus a later genuinely independent theorem/model/obstruction may reopen `29-02h*` without invalidating this routing decision.
 
-## Retained adapter queue
-
-Do not discard:
+## Retained queue for 29-03 decision
 
 ```text
 R29-PESCH1
-R29-QWEB0
-R29-QWEB1
 R29-QWEB-CLIFFORD
 R29-TERA1
 R29-PI1-OPEN
 ```
 
-29-03 must decide whether any of these, or the audited ha/hb receivers, deserve targeted backflow. No automatic Stage16–28 rerun is authorized.
+`R29-QWEB0` and `R29-QWEB1` are discharged by the exact dual-web calculation. No automatic Stage16–28 rerun is authorized; 29-03 decides targeted backflow only.
