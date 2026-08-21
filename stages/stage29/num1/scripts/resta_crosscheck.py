@@ -27,6 +27,7 @@ URLS = {
 CHECKPOINTS = [10_000, 50_000, 200_000, 1_000_000, 5_000_000, 10_000_000,
                50_000_000, 100_000_000, 200_000_000, 500_000_000]
 REGRESSION = {10_000: 18, 50_000: 42, 200_000: 82, 1_000_000: 219}
+USER_AGENT = "perfect-cuboid-game Stage29-num1 exact finite cross-check/1.0"
 
 
 def is_square(n: int) -> bool:
@@ -35,7 +36,11 @@ def is_square(n: int) -> bool:
 
 
 def fetch_bfile(url: str) -> tuple[dict[int, int], str]:
-    with urllib.request.urlopen(url, timeout=30) as response:
+    request = urllib.request.Request(
+        url,
+        headers={"User-Agent": USER_AGENT, "Accept": "text/plain"},
+    )
+    with urllib.request.urlopen(request, timeout=30) as response:
         raw = response.read()
     values: dict[int, int] = {}
     for line in raw.decode("utf-8").splitlines():
