@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "stage": "Stage29",
-  "status": "29_02_SUBMITTED_PENDING_AUDIT",
+  "status": "29_02_AUDITED_PASS_PENDING_MERGE",
   "parent_class": "new_foundation_screening_interaction_synthesis_endpoint_routing",
   "canonical_stage_roadmap": "stages/stage29/roadmap.md",
   "numbering_mode": "INCREMENTAL_01_02_03",
@@ -36,11 +36,14 @@
   "new_foundation_screening": {
     "required": true,
     "completed_submission": true,
+    "audit_status": "PASS",
     "lenses": {
       "F1": "global perfect-cuboid algebraic geometry",
       "F2": "joint space-completion x third-face-completion cover/fiber product",
       "F3": "parametrization coverage atlas",
-      "F4": "joint local arithmetic and completion correlation"
+      "F4": "joint local arithmetic and completion correlation",
+      "F5": "modular X(8) product quotient / Weil-restriction endpoint model",
+      "F6": "endpoint L-function and arithmetic cohomology"
     },
     "strongest_new_foundation": "JOINT_V4_COVER_PLUS_CROSS_QUOTIENT",
     "purpose": "find a genuinely different foundation/coordinate system, not replay old frozen gates"
@@ -117,20 +120,35 @@
     "audit_verdict": "PASS"
   },
   "29_02": {
+    "status": "AUDITED_PASS_PENDING_MERGE",
     "result": "stages/stage29/29-02/result.md",
     "joint_cover_note": "stages/stage29/29-02/joint-cover-screening.md",
+    "field_of_definition_adapter": "stages/stage29/29-02/field-of-definition-adapter.md",
     "coverage_atlas_seed": "stages/stage29/29-02/coverage-atlas-seed.md",
+    "additional_lenses": "stages/stage29/29-02/additional-lenses.md",
+    "reuse_preflight": "stages/stage29/29-02/reuse-preflight.md",
+    "split_plan": "stages/stage29/29-02/split-plan.md",
+    "audit_record": "stages/stage29/29-02/audit.md",
+    "audited_submission_head": "4635653be2d0944a1d5bfa4dfa998db4b5ea3d70",
+    "audit_verdict": "PASS",
+    "bounded_repair": "separate Q(Y) arithmetic lift semantics from Qbar(Y) geometric branch analysis",
     "F1_new_foundation": true,
     "F1_kind": "GLOBAL_ENDPOINT_COMPLETE_INTERSECTION_PLUS_FACE_DIAGONAL_MULTIQUADRATIC_MODEL",
     "F2_new_foundation": true,
     "F2_kind": "JOINT_V4_COVER_PLUS_CROSS_QUOTIENT",
-    "F2_cross_field": "K(sqrt((t1^2+t2^2)*(1+t1^2+t2^2)))",
-    "F2_cross_branch_profile": "4x_genus0 + 2x_genus1; class -4K_Y at screening level",
+    "F2_arithmetic_field": "Q(Y)",
+    "F2_geometric_field": "Qbar(Y)",
+    "F2_cross_field": "Q(Y)(sqrt((t1^2+t2^2)*(1+t1^2+t2^2)))",
+    "F2_cross_branch_profile": "4x_genus0 + 2x_genus1; class -4K_Y geometrically at screening level",
     "F2_general_type_proved": false,
     "F3_new_foundation": true,
     "F3_kind": "COVERAGE_ADAPTER_LAYER",
     "F4_new_foundation": true,
     "F4_kind": "JOINT_LOCAL_CORRELATION_AS_CROSS_QUOTIENT_TRACE",
+    "F5_new_foundation": true,
+    "F5_kind": "MODULAR_X8_PRODUCT_QUOTIENT",
+    "F6_new_foundation": true,
+    "F6_kind": "ENDPOINT_L_FUNCTION_AND_GALOIS_PICARD_MODULE",
     "old_gate_replay": false,
     "backflow_recommended_at_screening": false,
     "no_foundation_backflow_required_candidate": true,
@@ -141,13 +159,19 @@
       "R29-C1 ParametrizationCoverageAtlasWithGenericDegreeAndHeight",
       "R29-L1 CrossCharacterJointLocalCorrelationTheorem"
     ],
-    "perfect_cuboid_conclusion": "NONE"
+    "child_pr_1287_audited_by_parent": false,
+    "child_pr_1288_audited_by_parent": false,
+    "child_results_promoted_by_parent": false,
+    "perfect_cuboid_conclusion": "NONE",
+    "merge_allowed": true,
+    "advance_allowed": true,
+    "next_item": "29-02_SUFFIX_AUDITS_THEN_29-03"
   },
-  "audit_required": true,
-  "audit_status": "PENDING",
+  "audit_required": false,
+  "audit_status": "PASS",
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "next_item_after_pass": "29-03",
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item_after_pass": "29-02_SUFFIX_AUDITS_THEN_29-03",
   "next_expected_command": "Stage29-audit"
 }
