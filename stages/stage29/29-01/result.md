@@ -3,7 +3,7 @@
 ```text
 TASK_ID=Stage29-01
 ROLE=GLOBAL_CERTIFIED_MAP_LOCK_AND_RESEARCH_CONTRACT
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_AFTER_REPAIR
 NUMBERING=INCREMENTAL
 PERFECT_CUBOID_ENDPOINT_OPENED=false
 ```
@@ -77,7 +77,14 @@ Define symbolically
 
 `P(B)=# {primitive canonical cuboids under R<=B with all three face diagonals integral and R integral}`.
 
-No Stage16–29 theorem currently gives an asymptotic, positive lower bound, zero count, or nonexistence theorem for `P(B)`. Stage29-01 makes no endpoint count claim.
+The Stage14 numerical reuse oracle `NUM-R01` gives the exact bounded fact
+
+```text
+P(B)=0 for B<=500000000
+EVIDENCE=EXACT_FINITE_CENSUS
+```
+
+under the matching primitive/canonical integral-space cutoff and exact face-mask contract. This is finite exhaustive evidence only. It is **not** a global zero theorem and does not imply perfect-cuboid nonexistence. No Stage16–29 theorem currently gives an asymptotic, positive lower bound, or global nonexistence theorem for `P(B)`.
 
 ## 3. Stage28 final closeout imported at 29-01
 
@@ -175,6 +182,8 @@ COVERAGE_CLAIM_REQUIRES_PROOF=true
 
 Arsenal, StructureRadar, Stage14–28 promotions, A2 methods and prior attack ledgers are standing preflight inputs throughout Stage29. They are not consulted only once at the end. A concentrated exact-receiver rematch is still scheduled later after the endpoint model has been sharpened.
 
+Numerical endpoint work must also inspect `docs/stage14-num-reuse-index.md`; its Stage29 route permits exact finite regression/negative-control reuse only under a matching population adapter.
+
 ## 9. 29-01 gap scan and next step
 
 The certified Stage16–28 map is now complete through Stage28 closeout and is sufficient to begin Stage29. No additional old-stage analysis is required **before** the new-foundation screening. Whether targeted backflow is useful is intentionally deferred to 29-02/29-03, where the new lenses are tested.
@@ -189,10 +198,15 @@ NEXT=Stage29-02_NEW_FOUNDATION_SCREENING
 Stage29-02 is therefore not another upper/lower-bound checkpoint. It is the cross-stage search for genuinely new foundations that could change how the perfect-cuboid endpoint is attacked.
 
 ```text
+AUDIT_VERDICT=PASS
+AUDIT_RECORD=stages/stage29/29-01/audit.md
+AUDIT_REPAIR=FINITE_ENDPOINT_LEDGER+LEGACY_ROADMAP_SAFETY_PRESERVATION+NUM_STAGE29_ROUTING
+REPAIR_REQUIRED=false
 NEW_PERFECT_CUBOID_CLAIM=false
 NEW_N2_EXPONENT=false
 NEW_M3_EXPONENT=false
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-NEXT_EXPECTED_COMMAND=Stage29-audit
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+NEXT_ITEM=Stage29-02_NEW_FOUNDATION_SCREENING
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 ```
