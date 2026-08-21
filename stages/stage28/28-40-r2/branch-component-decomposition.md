@@ -2,8 +2,9 @@
 
 ```text
 ROUTE=U10_BRANCH_COMPONENT_PROFILE
-STATUS=DERIVED_PENDING_FRESH_AUDIT
+STATUS=REPAIRED_PENDING_FRESH_REAUDIT
 BASE_HOST=Y=Bl_4(P1xP1)
+AUDIT_REPAIR=replace_false_sum_of_pair_products_by_exact_four_factor_product
 ```
 
 The merged PR #1042 proved only the coarse equality
@@ -119,7 +120,7 @@ Use
 4u_1^2v_1^2+(u_1^2-v_1^2)^2=(u_1^2+v_1^2)^2.
 \]
 
-A direct product identity gives
+The fresh hostile audit correctly identified that the original submission head wrote a false `+` between the two conjugate-pair products.  The exact identity is the product of all four factors:
 
 \[
 \boxed{
@@ -128,6 +129,24 @@ F_{\rm sp}/4=
 (u_1v_2-iu_2v_1)(u_1v_2+iu_2v_1).
 }
 \]
+
+Multiplying the conjugate pairs first gives
+
+\[
+(u_1^2u_2^2+v_1^2v_2^2)
+(u_1^2v_2^2+u_2^2v_1^2),
+\]
+
+and direct expansion gives exactly
+
+\[
+4u_1^2v_1^2u_2^2v_2^2
++(u_1^2-v_1^2)^2u_2^2v_2^2
++(u_2^2-v_2^2)^2u_1^2v_1^2
+=F_{\rm sp}/4.
+\]
+
+Thus the repaired factorization is an exact polynomial identity, not merely an equality of divisor classes.
 
 Each factor is a rank-two bilinear form and hence an irreducible `(1,1)` curve over `C`.
 
@@ -152,6 +171,8 @@ SPACE_BRANCH_GEOMETRIC_COMPONENTS=4
 SPACE_COMPONENT_BIDEGREE=1_1
 SPACE_COMPONENT_GENUS_MULTISET={0,0,0,0}
 TOTAL_SPACE_BRANCH_CLASS=-2K_Y
+U10_FACTORISATION_REPAIRED=true
+U10_FACTORISATION_EXPANSION_CHECK=PASS_EXACT
 ```
 
 ## 4. New comparison consequence
