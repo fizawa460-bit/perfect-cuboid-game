@@ -1,13 +1,14 @@
-# Stage28 arsenal promotion candidates
+# Stage28 arsenal promotion
 
 ```text
-REGISTRY=STAGE28-ARSENAL-CANDIDATE-R01
-STATUS=CHECKPOINT70_CANDIDATE_PENDING_FRESH_AUDIT
+REGISTRY=STAGE28-ARSENAL-R01
+STATUS=AUDITED_ACTIVE_PENDING_PR_MERGE
 SOURCE_STAGE=Stage28
 SOURCE_CHECKPOINT=70
+AUDIT_VERDICT=PASS
 ```
 
-These cards are proposed for downstream Stage29 reuse. They are not globally ACTIVE until the Stage28 checkpoint70 audit passes.
+These cards passed the Stage28 checkpoint70 audit and are approved for downstream Stage29 reuse after the closeout PR is merged.
 
 ## S28-W01 — common-host bridge adapter
 
@@ -62,7 +63,7 @@ M_3/N_2\sim \frac{24\pi C_{M_2}}{\kappa}\mathcal K_{28}.
 }
 \]
 
-Hence the raw critical scale is `J_28~(log B)^(-2)`, and the exact equality threshold is
+Hence the raw critical scale is `J_28~(log B)^(-2)`, and the equality threshold is
 
 \[
 \boxed{
@@ -144,7 +145,8 @@ OPTIONAL_FINITE_RECEIVER=PhysicalLowDegreeRootSpectrumM6
 - Do not use the deferred perfect-cuboid endpoint to discharge any Stage28 receiver.
 
 ```text
-ARSENAL_CANDIDATES=S28-W01,S28-W02,S28-W03,S28-W04
-PROMOTION_ACTIVE_ONLY_AFTER_AUDIT_PASS=true
+ARSENAL_WEAPONS=S28-W01,S28-W02,S28-W03,S28-W04
+PROMOTION_AUDIT=PASS
+PROMOTION_ACTIVE_AFTER_MERGE=true
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
