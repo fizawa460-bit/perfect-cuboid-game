@@ -1,0 +1,38 @@
+name: Stage29 num1 M3 census
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage29/num1/**'
+      - '.github/workflows/stage29-num1.yml'
+  workflow_dispatch:
+
+jobs:
+  regression-and-resta-crosscheck:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact M3 enumerator
+        run: |
+          g++ -O3 -std=c++20 -fopenmp stages/stage29/num1/scripts/m3_census.cpp -o /tmp/m3_census
+      - name: Required matched-count regression
+        run: |
+          python3 - <<'PY'
+          import json, subprocess
+          expected = {10000:18, 50000:42, 200000:82, 1000000:219}
+          for B, want in expected.items():
+              out = subprocess.check_output(['/tmp/m3_census', str(B), '2'], text=True)
+              got = json.loads(out)
+              assert got['M3'] == want, (B, got['M3'], want)
+              assert got['perfect_cuboid_hits'] == 0, (B, got['perfect_cuboid_hits'])
+              print(f'REGRESSION_OK B={B} M3={want} P=0 runtime_sec={got["runtime_sec"]}')
+          PY
+      - name: Independent exhaustive Resta/OEIS cross-check through 5e8
+        run: |
+          python3 stages/stage29/num1/scripts/resta_crosscheck.py --output /tmp/resta_crosscheck.json
+      - name: Upload exact cross-check manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage29-num1-resta-crosscheck
+          path: /tmp/resta_crosscheck.json
