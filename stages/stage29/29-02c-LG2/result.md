@@ -3,7 +3,7 @@
 ```text
 TASK_ID=Stage29-02c-LG2
 ROLE=UNIBRANCH_LOW_GENUS_FINITE_PICARD_REDUCTION
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS
 PARENT_INPUT=PR1292_AUDITED_W29_A
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
@@ -109,7 +109,7 @@ blob=0422b69847f2afb97cb7b3ed02ebef91279f61b1
 The script constructs:
 
 - the 48 singular points and known low-degree curves;
-- the full rank-64 Picard lattice and intersection matrix;
+- the known-curve rank-64 intersection lattice and `PicL` model; the already-audited Testa--Stoll theorem identifies this with the full geometric Picard group;
 - the canonical hyperplane class `HinPicL`;
 - automorphism and Galois actions;
 - negative-definite orthogonal lattices;
@@ -123,7 +123,7 @@ The degree-6 code also defines `liftcands_pr`, whose lift kernel has rank 44 and
 const * bound^(44/2) = const * bound^22.
 ```
 
-Thus the published machinery is a real implementation template, not merely a paper sketch.
+Thus the published machinery is a real implementation template, not merely a paper sketch. The audit record `audit.md` separates what is established by the code from the theorem that certifies fullness of the Picard lattice.
 
 ## Computational feasibility verdict
 
@@ -175,24 +175,34 @@ R29-LG2-MB=
 
 A complete positive-dimensional carrier exclusion needs all applicable effective classes removed and `R29-LG2-MB` handled separately. Even then isolated rational points are not excluded.
 
+## Fresh audit result
+
+The finite-lattice reduction, norm bounds, divisibility reconstruction, upstream code lock, rank-44 lift kernel, `bound^22` feasibility warning, effectivity firewall, and multibranch firewall received a fresh audit and pass. The only mathematical-precision repair was to distinguish the Magma construction of the known rank-64 lattice from the Testa--Stoll theorem that proves it is the full geometric Picard group. A stale controller field recording merged PR #1292 as pending merge was also synchronized.
+
 ## Stage routing verdict
 
-This suffix upgrades W29-A from a literature theorem to an exact finite computational receiver, but does **not** close the 176/192 enumeration.
+This suffix upgrades W29-A from a literature theorem to an exact finite computational receiver, but does **not** close the 176/192 enumeration. The residual computation remains live while the independent foundation queue advances to 29-02d.
 
 ```text
 LOW_GENUS_GLOBAL_DEGREE_BOUND=PASS_REUSED_PR1292
-FINITE_PICARD_REDUCTION=PASS_CANDIDATE
-UPSTREAM_EXACT_LATTICE_IMPLEMENTATION=LOCKED
+FINITE_PICARD_REDUCTION=PASS_AUDITED
+UPSTREAM_EXACT_LATTICE_IMPLEMENTATION=LOCKED_AUDITED
 FULL_D176_D192_ENUMERATION_COMPLETED=false
 NAIVE_RUNTIME_TRACTABILITY_ESTABLISHED=false
+EFFECTIVITY_CERTIFIED=false
+MULTIBRANCH_CASES_COVERED=false
 NEW_RESIDUAL_RECEIVER=R29-LG2
 OLD_GATE_REPLAY=false
 BACKFLOW_TO_STAGE16_28=false
 KEEP_STAGE29_NATIVE=true
 ADVANCE_OTHER_FOUNDATION_SUFFIXES_AFTER_AUDIT=true
 NEXT_ITEM_AFTER_PASS=29-02d
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
