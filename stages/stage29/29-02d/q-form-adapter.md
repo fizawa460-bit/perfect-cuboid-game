@@ -1,7 +1,7 @@
 # Stage29-02d — explicit Q-form adapter for the Beauville canonical double cover
 
 ```text
-STATUS=DERIVED_CANDIDATE_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS
 BASE_FIELD_Q=true
 SPLITTING_FIELD=Q(i)
 ```
@@ -114,18 +114,28 @@ whose base change to `Q(i)` is Beauville's canonical double cover.
 
 This resolves the first field-of-definition obstruction at the level of the cover itself.
 
-## 4. What is and is not proved
+## 4. Deck involution also descends
 
-Accepted as a candidate for fresh audit:
+The canonical deck involution `i_X` is induced by the diagonal action of the nontrivial class in `Gamma_+/Gamma`; factor exchange commutes with every diagonal action on `C0 x C0`. Hence
+
+```text
+tau_X o i_X = i_X o tau_X.
+```
+
+Therefore the twist/descent above carries the deck involution with it. On the descended smooth free locus, the deck group is the constant Q-group `Z/2`, not merely a geometric involution after base change. This is the precise input needed for the rational fiber classes in `H^1(Q,Z/2)` used by `lift-twist-ledger.md`.
+
+## 5. Audited verdict and retained receivers
 
 ```text
 R29-BEAU1A=BeauvilleCanonicalDoubleCoverStandardCuboidQFormAdapter
-Q_FORM_COVER_EXISTS=PASS_CANDIDATE
+Q_FORM_COVER_EXISTS=PASS_AUDITED
 DESCENT_COCYCLE=Y_Z_SWAP
 COCYCLE_LIFT=FACTOR_SWAP_ON_C0xC0
+DECK_INVOLUTION_DESCENDS=true
+DESCENDED_DECK_GROUP=CONSTANT_Z_OVER_2
 ```
 
-Not yet supplied here:
+Not supplied here:
 
 - an explicit projective equation for `X_cub/Q` independent of descent notation;
 - an explicit rational function whose squareclass represents the generic double cover;
