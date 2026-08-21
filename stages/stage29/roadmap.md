@@ -6,6 +6,8 @@ ROLE=NEW_FOUNDATION_SCREENING_PLUS_INTERACTION_SYNTHESIS_PLUS_ENDPOINT_ROUTING
 NUMBERING=INCREMENTAL_01_02_03...
 LEGACY_10_70_SEQUENCE_USED=false
 PERFECT_CUBOID_ENDPOINT_ITSELF_DEFERRED=true
+STAGE28_FINAL_STATUS=CLOSED_AUDITED_PASS_MERGED
+STAGE28_FINAL_PR=1284
 ```
 
 Stage29 is not a new population stage. It first asks whether Stage16–28 missed any materially different foundation or coordinate system that could move the project closer to the perfect-cuboid endpoint. Only after that screening does it synthesize the existing population/interaction results and select the best direct endpoint attack.
@@ -56,7 +58,7 @@ Additional materially different lenses discovered from Arsenal, StructureRadar, 
 
 ### 29-01 — GLOBAL_CERTIFIED_MAP_LOCK
 
-Freeze the current certified Stage16–28 population/transition map under common physical conventions. Separate proved facts, open theorem intervals, and deferred endpoint claims. Materialize Stage29 operating rules.
+Freeze the final certified Stage16–28 population/transition map under common physical conventions. Separate proved facts, open theorem intervals, and deferred endpoint claims. Import the closed/audited/merged Stage28 checkpoint70 surface and materialize Stage29 operating rules.
 
 ### 29-02 — NEW_FOUNDATION_SCREENING
 
@@ -187,4 +189,9 @@ A gap may create work only when it is mathematically distinct and necessary for 
 
 ## Stage28 synchronization
 
-Before endpoint routing, Stage29 must refresh the Stage28 frontier and import any newly audited/merged Stage28 result that materially affects the common geometry or Stage19/Stage20 comparison. This is a one-time delta import, not a rerun of Stage29-01.
+Stage28 is closed/audited/merged through checkpoint70 / PR #1284 and has been imported into Stage29-01. No pending Stage28 synchronization remains at Stage29 entry.
+
+```text
+STAGE28_FINAL_IMPORTED=true
+STAGE28_REFRESH_PENDING=false
+```
