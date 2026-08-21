@@ -61,6 +61,23 @@ jobs:
           print('L40_M6_INDICES=',d['distinguished_L40_diagnostic']['M_degree_6_indices_1based'])
           print('M6_REMAINS_COMPLETE_CLASSIFICATION_GATE=true')
           PY
+      - name: Verify Saunderson physical M-degree-six algebra
+        run: |
+          python stages/stage28/28-60-r3/saunderson_physical_degree6_probe.py \
+            --out /tmp/saunderson-physical-degree6.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/saunderson-physical-degree6.json'))
+          assert d['status']=='PASS'
+          assert d['all_six_coordinate_forms_homogeneous_degree']==6
+          assert d['edge_map_ABC_common_factor_degree']==0
+          assert d['edge_map_basepoint_free_on_P1'] is True
+          assert d['euler_brick_three_face_square_identities'] is True
+          assert d['parameterization_generically_birational'] is True
+          assert d['pullback_edge_O1_degree']==6
+          assert d['physical_M_degree_given_split_B_adapter']==6
+          print('STAGE28_60_R3_SAUNDERSON_PHYSICAL_M_DEGREE6=PASS')
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: stage28-60-r3-low-degree-spectrum
@@ -69,3 +86,4 @@ jobs:
             /tmp/refine.json
             /tmp/equiv.json
             /tmp/low-degree-spectrum.json
+            /tmp/saunderson-physical-degree6.json
