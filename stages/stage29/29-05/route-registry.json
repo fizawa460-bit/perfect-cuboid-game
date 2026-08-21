@@ -1,23 +1,36 @@
 {
-  "schema": "STAGE29_05_ROUTE_REGISTRY_V1",
-  "purpose": "unique primary ownership and exact deduplication before multi-route attack",
+  "schema": "STAGE29_05_ROUTE_REGISTRY_V2_AUDITED",
+  "purpose": "unique primary execution ownership and exact deduplication before multi-route attack",
+  "semantics": {
+    "attack_route_count": 11,
+    "pre_attack_infrastructure_count": 3,
+    "pre_attack_synthesis_count": 1,
+    "route_count_is_independent_foundation_count": false,
+    "route_count_is_independent_probability_count": false,
+    "umbrella_ownership_proves_redundancy": false,
+    "umbrella_ownership_resolves_independence": false,
+    "gap_scan_may_promote_materially_new_route": true
+  },
   "attack_routes": [
-    {"route_id":"G10-FULL-ENDPOINT","owner":"29-10","status":"LIVE","scope":"full endpoint surface and F7 direct curve/fibration geometry"},
+    {"route_id":"G10-FULL-ENDPOINT","owner":"29-10","status":"LIVE","scope":"full endpoint surface/F7 direct geometry, curves/fibrations, and full/open endpoint theorem adapters"},
     {"route_id":"G10-LOWGENUS-PICARD","owner":"29-10","status":"LIVE","scope":"low-genus bounds, finite Picard reduction, effectivity and multibranch"},
-    {"route_id":"G10-K3-SIGN","owner":"29-10","status":"LIVE","scope":"seven sign/K3 quotient directions and exact K3 theorem adapters"},
+    {"route_id":"G10-K3-SIGN","owner":"29-10","status":"LIVE","scope":"seven sign/K3 quotient directions and exact K3 theorem/correspondence adapters"},
     {"route_id":"Q11-CAMPEDELLI","owner":"29-11","status":"LIVE","scope":"Q-defined Campedelli quotient obstruction and torsor descent"},
     {"route_id":"Q11-BEAUVILLE","owner":"29-11","status":"LIVE","scope":"Beauville cover, Q twist/descent and Albanese"},
     {"route_id":"Q11-MODULAR","owner":"29-11","status":"LIVE","scope":"twisted/conjugate-self M(4,8)/X(8) modular route"},
-    {"route_id":"Q11-BRAUER","owner":"29-11","status":"LIVE","scope":"proper/open Brauer obstruction receivers"},
-    {"route_id":"J12-JOINT-V4","owner":"29-12","status":"LIVE_CONDITIONAL_ON_29_07","scope":"joint V4 and cross quotient arithmetic"},
-    {"route_id":"J12-LOCAL-SQUARECLASS","owner":"29-12","status":"LIVE_CONDITIONAL_ON_29_09","scope":"full seven-linear-form local/global squareclass attack"},
+    {"route_id":"Q11-BRAUER","owner":"29-11","status":"LIVE","scope":"proper/open Brauer obstruction plus boundary/Clifford theorem adapters; ownership does not certify an obstruction"},
+    {"route_id":"J12-JOINT-V4","owner":"29-12","status":"LIVE_CONDITIONAL_ON_29_07","scope":"joint V4 and cross quotient arithmetic; new credit requires joint/cross information"},
+    {"route_id":"J12-LOCAL-SQUARECLASS","owner":"29-12","status":"LIVE_CONDITIONAL_ON_29_09","scope":"full seven-linear-form local/global squareclass attack; single-predicate local laws are not new credit"},
     {"route_id":"J12-PARAMETRIC","owner":"29-12","status":"LIVE_WITH_COVERAGE_FIREWALL","scope":"exact adapted parametrized and fibration families"},
-    {"route_id":"J12-POP-INTERACTION","owner":"29-12","status":"LIVE","scope":"common-host population and moving/branch interaction"}
+    {"route_id":"J12-POP-INTERACTION","owner":"29-12","status":"LIVE","scope":"common-host population and moving/branch interaction; existing marginal costs are not new credit"}
   ],
   "infrastructure": [
     {"route_id":"I07-KUMMER-BRIDGE","owner":"29-07","status":"PRE_ATTACK_INFRASTRUCTURE"},
     {"route_id":"I08-COVERAGE-ATLAS","owner":"29-08","status":"PRE_ATTACK_INFRASTRUCTURE"},
     {"route_id":"I09-LOCAL-INFRA","owner":"29-09","status":"PRE_ATTACK_INFRASTRUCTURE"}
+  ],
+  "synthesis": [
+    {"route_id":"S06-GLOBAL-SYNTHESIS","owner":"29-06","status":"PRE_ATTACK_SYNTHESIS","scope":"cross-foundation identity/adapter normalization; not attack-route success"}
   ],
   "receiver_ownership": {
     "R29-KUM3A":"I07-KUMMER-BRIDGE",
@@ -49,20 +62,67 @@
     "R29-BR2B":"Q11-BRAUER",
     "R29-L2-ALG":"J12-JOINT-V4",
     "R29-L2-BAD":"J12-JOINT-V4",
-    "R29-KUM5":"29-06_GLOBAL_FOUNDATION_SYNTHESIS"
+    "R29-KUM5":"S06-GLOBAL-SYNTHESIS",
+    "R29-NF1QISO":"S06-GLOBAL-SYNTHESIS",
+    "R29-NF3":"S06-GLOBAL-SYNTHESIS",
+    "R29-NF4":"S06-GLOBAL-SYNTHESIS",
+    "R29-NF5":"S06-GLOBAL-SYNTHESIS",
+    "R29-NF6":"S06-GLOBAL-SYNTHESIS",
+    "R29-NF7":"S06-GLOBAL-SYNTHESIS",
+    "R29-NF-PHYS2":"Q11-BRAUER",
+    "R29-QWEB-CLIFFORD":"Q11-BRAUER",
+    "R29-TERA1":"G10-K3-SIGN",
+    "R29-PI1-OPEN":"G10-FULL-ENDPOINT"
+  },
+  "receiver_dispositions": {
+    "R29-KUM4":{"status":"SUPERSEDED","by":["R29-KUM4A","R29-KUM4B"],"note":"29-04 split: pointwise crosswalk discharged, population/subcover count adapter remains open"},
+    "R29-KUM4A":{"status":"DISCHARGED","owner":"I07-KUMMER-BRIDGE","note":"pointwise physical-to-F7 coordinate squareclass crosswalk"},
+    "R29-NF1QISO":{"status":"DORMANT_OPEN_NOT_NEEDED","owner":"S06-GLOBAL-SYNTHESIS","note":"abstract Q-surface isomorphism to standard non-Fano M2; cover-over-P2 Q-identification remains false"},
+    "R29-NF3":{"status":"OPEN_UMBRELLA","owner":"S06-GLOBAL-SYNTHESIS","children":["R29-NF3A","R29-NF3B","R29-NF3C","R29-NF3D"],"note":"projective characteristic-variety/character support adapters"},
+    "R29-NF4":{"status":"OPEN_INTERNAL_ADAPTER","owner":"S06-GLOBAL-SYNTHESIS","note":"distinguished rho order-2 character to explicit cuboid intermediate double cover with Q twist"},
+    "R29-NF5":{"status":"OPEN_INTERNAL_ADAPTER","owner":"S06-GLOBAL-SYNTHESIS","note":"finite abelian cover topology to Campedelli/K3 subcovers"},
+    "R29-NF6":{"status":"OPEN_INTERNAL_ADAPTER","owner":"S06-GLOBAL-SYNTHESIS","note":"Campedelli kernels inside non-Fano congruence character lattice"},
+    "R29-NF7":{"status":"OPEN_INTERNAL_ADAPTER","owner":"S06-GLOBAL-SYNTHESIS","secondary_candidate":"Q11-BRAUER","note":"two-primary physical boundary versus non-Fano mod-2 resonance; no Brauer implication yet"},
+    "R29-NF8":{"status":"SUPERSEDED_BY_KUM4_SPLIT","by":["R29-KUM4A","R29-KUM4B"],"note":"original population-mask versus arrangement-subcover character-support receiver is now resolved pointwise and retained only as the KUM4B counting adapter"},
+    "R29-NF-PHYS2":{"status":"OPEN_ADAPTER","owner":"Q11-BRAUER","note":"arrangement-boundary residues to physical-boundary residues; not an obstruction by itself"},
+    "R29-QWEB-CLIFFORD":{"status":"AMBER_NEW_THEOREM_REQUIRED","owner":"Q11-BRAUER","note":"rank-7 Clifford/isotropy theorem receiver; ownership does not assert nontrivial Clifford class excludes endpoint points"},
+    "R29-TERA1":{"status":"AMBER_SPECIALIZATION_ADAPTER","owner":"G10-K3-SIGN","note":"Terasoma four-quadric/K3 correspondence requires 48-node specialization/resolution adapter"},
+    "R29-PI1-OPEN":{"status":"AMBER_EFFECTIVE_ARITHMETIC_ADAPTER","owner":"G10-FULL-ENDPOINT","note":"open endpoint fundamental-group/unipotent arithmetic adapter; no effective cuboid-open Chabauty-Kim theorem certified"}
+  },
+  "legacy_aliases": {
+    "R29-L2":{"status":"SUPERSEDED","by":["R29-L2-NT","R29-L2-ALG","R29-L2-BAD"],"note":"non-Tate part discharged globally; algebraic and bad-prime parts remain under J12-JOINT-V4"},
+    "R29-KUM4":{"status":"SUPERSEDED","by":["R29-KUM4A","R29-KUM4B"]},
+    "R29-NF3":{"status":"UMBRELLA","children":["R29-NF3A","R29-NF3B","R29-NF3C","R29-NF3D"]}
   },
   "merged_descriptions": [
-    {"item":"non-Fano/Hirzebruch N=2 recognition","merged_into":"F7 seven-line sign/Kummer geometry","reason":"same cover over Q(i) with explicit constant-sign Q twist; named-theory adapter, not independent endpoint route"},
-    {"item":"seven K3 newform character decomposition as mere structure count","merged_into":"G10-K3-SIGN","reason":"cohomological description attached to same K3 quotient geometry; new theorems may still count separately"}
+    {"item":"non-Fano/Hirzebruch N=2 recognition","merged_into":"F7 seven-line sign/Kummer geometry","reason":"same geometric cover over Q(i) with explicit constant-sign Q twist; named-theory adapter, not independent endpoint route"},
+    {"item":"seven K3 newform character decomposition as mere structure count","merged_into":"G10-K3-SIGN","reason":"cohomological description attached to the same K3 quotient geometry; new arithmetic theorems may still count as progress"},
+    {"item":"R29-NF8 population-mask/arrangement-character receiver","merged_into":"R29-KUM4A/R29-KUM4B","reason":"29-04 proved the pointwise mask-to-F7 squareclass crosswalk and isolated the remaining population/subcover counting adapter"}
   ],
+  "cross_route_credit_firewalls": {
+    "K3_SIGN_vs_JOINT_V4":"individual marginal K3 facts are credited to G10-K3-SIGN; J12-JOINT-V4 earns separate credit only for genuinely joint/cross-character information not reducible to one marginal",
+    "LOCAL_SQUARECLASS":"J12-LOCAL-SQUARECLASS earns separate credit only for new simultaneous/joint endpoint local information; Stage19/20 single-predicate local laws cannot be re-credited",
+    "POP_INTERACTION":"J12-POP-INTERACTION earns separate credit only for new interaction/ordering/moving-complement control; existing marginal costs and Stage28 normalizers cannot be re-credited",
+    "BRAUER_TOOLS":"NF-PHYS2 and QWEB-CLIFFORD are owned by Q11-BRAUER as adapters/tools only; ownership does not certify a Brauer or isotropy obstruction",
+    "S06":"29-06 cross-foundation synthesis is not attack-route success"
+  },
   "hard_firewalls": {
-    "F7_universal_organizer_assumed": false,
-    "physical_boolean_masks_are_sign_sheets": false,
-    "pointwise_physical_F7_squareclass_crosswalk": true,
-    "full_population_subcover_count_adapter": false,
-    "same_predicate_different_coordinates_is_independent_saving": false,
-    "family_closure_implies_endpoint_closure": false,
-    "Q_i_result_transfers_to_Q_automatically": false,
-    "finite_P_zero_is_global_nonexistence": false
+    "F7_universal_organizer_assumed":false,
+    "physical_boolean_masks_are_sign_sheets":false,
+    "pointwise_physical_F7_squareclass_crosswalk":true,
+    "full_population_subcover_count_adapter":false,
+    "same_predicate_different_coordinates_is_independent_saving":false,
+    "family_closure_implies_endpoint_closure":false,
+    "Q_i_result_transfers_to_Q_automatically":false,
+    "finite_P_zero_is_global_nonexistence":false,
+    "peschmann_crosswalk_failure_auto_red":false,
+    "receiver_owner_assignment_is_equivalence_claim":false
+  },
+  "completeness_audit": {
+    "canonical_controller_residual_or_retained_ids_checked":39,
+    "submission_owned_ids":30,
+    "submission_uncovered_ids":["R29-KUM4","R29-NF1QISO","R29-NF3","R29-NF4","R29-NF5","R29-NF6","R29-NF7","R29-NF8","R29-NF-PHYS2","R29-QWEB-CLIFFORD","R29-TERA1","R29-PI1-OPEN"],
+    "post_repair_uncovered_ids":[],
+    "status":"PASS_AFTER_MATERIAL_REPAIR"
   }
 }
