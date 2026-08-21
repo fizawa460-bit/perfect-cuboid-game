@@ -1,146 +1,193 @@
-# Stage29-02hb — Campedelli quotient foundation
-
-## Status
+# Stage29-02hb — audited Campedelli quotient foundation
 
 ```text
-STATUS=SUBMISSION_READY_AUDIT_REQUIRED
+STATUS=AUDITED_PASS_AFTER_BOUNDED_REPAIR
 NOVELTY_IN_REPO=HIGH_VALUE_NEW_QUOTIENT_FOUNDATION
 LITERATURE_NOVELTY_CLAIM=false
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## Main result
+## 1. Exact global quotient
 
-Stage29-02ha identifies the resolved perfect-cuboid surface `S~` as the degree-64 sign/Kummer cover of `P^2` attached to the seven lines
+Keep the endpoint canonical model and resolution separate:
 
 ```text
-A1: x=0
-A2: y=0
-A3: z=0
-B3: x+y=0
-B2: x+z=0
-B1: y+z=0
-C : x+y+z=0.
+Sbar = canonical cuboid surface with 48 A1 nodes
+S    = minimal resolution
 ```
 
-Its geometric sign deck group is
+The finite degree-64 seven-line sign cover is `Sbar -> P2`. For every admissible rank-3 kernel `H <= Gamma=(Z/2)^6`, define
 
 ```text
-Gamma = F2^7 / <(1,1,1,1,1,1,1)> ~= (Z/2)^6.
+Cbar_H := Sbar/H.
 ```
 
-This stage finds exact rank-3 subgroups `H <= Gamma` for which the quotient
+Then the original finite morphism factors globally as
 
 ```text
-S~ -> S~/H
+Sbar --/H--> Cbar_H --degree 8--> P2.
 ```
 
-is the degree-8 universal-cover presentation of a classical Campedelli surface.
+The second map has deck group `Gamma/H=(Z/2)^3` and the branch inertia on the same seven lines is the image of the original sign inertia. When the seven images are the seven nonzero group elements and every triple has nonzero sum, this is exactly a Campedelli line arrangement after algebraic closure.
 
-Equivalently, choose a quotient map
+This is the same quotient map globally, not an analogy between two generic function fields.
 
 ```text
-q: Gamma -> F2^3
+SAME_GLOBAL_MAP_AUDIT=PASS
 ```
 
-such that the seven branch inertia classes map bijectively to the seven nonzero elements of `F2^3`. At every triple point of the seven-line arrangement we additionally require the three labels to sum nontrivially. This is exactly the Campedelli-arrangement branch condition from the source literature.
+## 2. Exact finite kernel classification
 
-## Exact finite classification
-
-A dependency-free exact `F2` checker enumerates all admissible labelings.
+The exact checker gives
 
 ```text
-raw admissible labelings                   = 1680
-GL(3,F2) relabelings                       = 168
-rank-3 kernels H in Gamma                  = 10
-Aut_P2(D)                                  = S4, order 24
-S4-orbits on the 10 kernels                = 2
-orbit sizes                                = 8 + 2
+raw admissible labelings = 1680
+GL(3,F2)                 = 168
+distinct kernels H       = 10
 ```
 
-Thus the full sign surface has exactly ten Campedelli quotient kernels of this type, and only two geometric kernel types modulo the audited arrangement symmetry.
+All ten satisfy the local stabilizer-injectivity condition.
+
+The field-of-definition distinction is load-bearing:
 
 ```text
-R29-CAMP0=ExactCampedelliQuotientKernelClassification
-STATUS=PASS_CANDIDATE
+geometric / Q(i) S4 orbits = 8 + 2
+certified Q S3 orbits       = 6 + 2 + 2.
 ```
 
-## Why the quotient is the right surface class
-
-For every admissible kernel, local inertia injects into `Gamma/H` at every branch stratum:
-
-- one branch line: its nonzero label survives;
-- a double point: two distinct nonzero labels are independent over `F2`;
-- a triple point: the Campedelli condition makes the three labels independent.
-
-Hence `H` has trivial intersection with every local inertia subgroup. On the minimal resolutions this gives a free degree-8 action candidate. The quotient has
+Therefore the original “two arithmetic quotient types” compression is rejected. Three Q-symmetry representatives are certified sufficient for the next arithmetic pass. The exact number of abstract Q-isomorphism classes is not claimed.
 
 ```text
-K^2 = 16/8 = 2,
-chi(O) = 8/8 = 1,
+R29-CAMP0=DISCHARGED
+R29-CAMP0A=DISCHARGED_EXACT_10_KERNELS
+R29-CAMP0B=DISCHARGED_GEOMETRIC_QI_8_PLUS_2
+R29-CAMP0C=DISCHARGED_CERTIFIED_Q_6_PLUS_2_PLUS_2
 ```
 
-and the source theorem identifies the corresponding `(Z/2)^3` seven-line cover with the canonical model of a classical Campedelli surface. Mendes Lopes--Pardini--Reid prove that an etale degree-8 cover of a Campedelli surface is a complete intersection of four quadrics in `P^6` and is its universal cover.
+## 3. Resolution-level degree-8 etale cover
 
-The exact freeness-on-resolution adapter is deliberately left for fresh audit rather than self-certified.
+For each admissible kernel, `H` meets every sign-cover point stabilizer trivially. Hence
 
 ```text
-R29-CAMP1=ResolvedFreeActionAndUniversalCoverAdapter
-STATUS=PASS_CANDIDATE
+Sbar -> Cbar_H
 ```
 
-## Arithmetic routing
+is finite etale everywhere, including at the rational-double-point locus.
 
-Every admissible `H` is a subgroup of the rational coordinate-sign deck group, so the quotient construction is defined over `Q` at the group-action level.
-
-A rational perfect-cuboid point maps to a rational point on every such quotient. Therefore
+`Cbar_H` has exactly six `A1` singularities, one above each triple branch point. Minimal resolution commutes with this etale local base change, so
 
 ```text
-C_H(Q)=empty for any one audited quotient H
-=> perfect-cuboid rational locus empty.
+S -> C_H
 ```
 
-The converse is false without descent: a rational point on `C_H` need not lift to `S~(Q)`. Its lifting class is an `H`-torsor.
+is genuinely finite etale of degree eight.
 
-This creates a genuinely new arithmetic compression route:
+Thus the quotient is not merely a free-action candidate after resolution.
 
 ```text
-R29-CAMP2 = ArithmeticHTorsorDescentForTheTwoS4QuotientTypes
-R29-CAMP3 = SevenCampedelliInvolutionQuotientsRationalVsEnriquesLedger
-R29-CAMP4 = CampedelliBrauerAndTwoPrimaryDescentCompatibilityWith29_02f
+R29-CAMP1=DISCHARGED
+RESOLUTION_ETALE_AUDIT=PASS
 ```
 
-No rational-point obstruction is claimed here.
+## 4. Campedelli invariants and universal cover
 
-## Relation to earlier Stage29 foundations
-
-This is not another K3 quotient. It compresses the full `K^2=16, pg=7` endpoint surface by a free order-8 sign subgroup to a `K^2=2, pg=q=0` Campedelli surface.
-
-So the new view is
+The quotient is a classical Campedelli surface geometrically. Independently, every nontrivial character of `(Z/2)^3` sees four branch lines, giving building bundle `O_P2(2)` and
 
 ```text
-full endpoint S~
-  -- / H, |H|=8 --> classical Campedelli surface
-  -- bicanonical --> P^2 with the same seven-line branch arrangement.
+(beta_H)_*O = O + O(-2)^7.
 ```
 
-It complements rather than duplicates:
-
-- `29-02ha`: full 64-sheet sign/Kummer cover;
-- `29-02e`: seven rank-two K3 motives;
-- `29-02f`: physical-open Brauer route;
-- `29-02g`: modular level-4 / 8-congruence route.
-
-## Routing
-
-The mining stop condition remains unsatisfied because `02hb` is a second post-`g` HIGH_VALUE foundation.
+Hence
 
 ```text
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
+pg=0
+q=0
+chi=1
+K^2=2.
+```
+
+The six A1 resolutions are crepant.
+
+Now, and only now, the Mendes Lopes--Pardini--Reid theorem applies to the established degree-8 etale cover. After base change to `C`, `S` is the universal cover and
+
+```text
+pi1(C_H)=(Z/2)^3.
+```
+
+## 5. Q-form firewall
+
+Every kernel `H` is Q-defined because it lies in the constant rational coordinate-sign group, so `C_H=S/H` is a Q-surface and the quotient map is Q-defined.
+
+The literature classifies the geometric Campedelli object. It does not identify the particular cuboid quotient with an arbitrarily chosen standard Campedelli Q-model. A Q-form/twist adapter is required before importing external arithmetic statements about a specific Q-model.
+
+Likewise the geometric `S4` symmetry cannot be used as Q arithmetic symmetry; the exact repair is the `6+2+2` certified Q decomposition above.
+
+## 6. Exact one-way rational-point compression
+
+On the physical endpoint open all seven branch forms are nonzero, so the quotient is etale there. Therefore for every admissible kernel
+
+```text
+perfect-cuboid Q-point -> C_H(Q).
+```
+
+Consequently
+
+```text
+C_H(Q)=empty
+```
+
+for any one audited quotient would exclude physical endpoint rational points.
+
+The converse is false without `H`-torsor descent. The corrected receiver is
+
+```text
+R29-CAMP2=ArithmeticHTorsorDescentForThreeCertifiedQSymmetryRepresentatives.
+```
+
+Additional receivers:
+
+```text
+R29-CAMP3=SevenCampedelliInvolutionQuotientsWithQFormAndRationalVsEnriquesLedger
+R29-CAMP4=CampedelliBrauerAndTwoPrimaryDescentCompatibilityWith29_02f
+```
+
+## 7. Population-stage firewall
+
+This is a pointwise endpoint quotient only. It does not transfer Stage16--20 counting populations, physical height, primitivity, canonical ordering, or asymptotic density.
+
+```text
+STAGE16_20_POPULATION_TRANSFER=false
+HEIGHT_TRANSFER=false
+PRIMITIVITY_TRANSFER=false
+ASYMPTOTIC_TRANSFER=false
+BACKFLOW_TO_STAGE16_28=false
+```
+
+## Final state
+
+```text
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+CHECKPOINT29_02HB_AUDIT=PASS
+BOUNDED_REPAIR=Q_QI_ORBIT_SPLIT_PLUS_CANONICAL_RESOLUTION_SCOPE_PLUS_QFORM_FIREWALL
+SAME_GLOBAL_MAP_AUDIT=PASS
+GENERIC_TO_GLOBAL_AUDIT=PASS_AFTER_SCOPE_REPAIR
+Q_QI_FIELD_SCOPE_AUDIT=PASS_AFTER_MATERIAL_REPAIR
+RESOLUTION_ETALE_AUDIT=PASS
+POPULATION_FIREWALL_AUDIT=PASS
+R29_CAMP0=DISCHARGED
+R29_CAMP1=DISCHARGED
+GEOMETRIC_QI_KERNEL_ORBITS=8+2
+CERTIFIED_Q_KERNEL_ORBITS=6+2+2
+EXACT_Q_ISOMORPHISM_CLASS_COUNT_PROVED=false
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+AUTO_ADVANCE_TO_29_03=false
 STAGE29_02_MINING_STOP_CONDITION_SATISFIED=false
-NEXT_ITEM_AFTER_PASS=29-02hc
-NEXT_EXPECTED_COMMAND=Stage29-audit
+NEXT_ITEM=29-02hc
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
+PERFECT_CUBOID_EXISTENCE_CLAIM=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
