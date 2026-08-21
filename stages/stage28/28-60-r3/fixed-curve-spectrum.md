@@ -1,202 +1,125 @@
 # Stage28-60-r3 — fixed rational-curve spectrum comparison
 
 ```text
-ROUTE=R21_FIXED_CURVE_SPECTRUM_COMPARISON_PLUS_R26_ODD_DEGREE_OBSTRUCTION
+ROUTE=R21_FIXED_CURVE_SPECTRUM_PLUS_R26_ODD_DEGREE_PLUS_R28_COMMON_POLARIZATION_M6
 CHECKPOINT=60
 STATUS=SUBMITTED_PENDING_FRESH_AUDIT
 ```
 
-Checkpoint60-r2 reduced the direct bridge to the interaction-curvature threshold
+## Stage19 source spectrum
+
+Stage14-4ah fixes the physical space-cover quasi-polarization
 
 \[
-J_{28}=I_{face}/I_{sp}\quad\text{versus}\quad (\log B)^{-2}.
+M_{sp}=\pi_{sp}^*(-K_Y),\qquad M_{sp}^2=8,
 \]
 
-r3 asks whether the two completion covers already differ at the level of low-degree physical rational curves under the common quasi-polarization.
+and proves every physical rational curve has `M_sp.C>=4`. Stage14-4ak proves the complete physical `M_sp.C=4` stratum empty.
 
-## 1. Stage19 space cover: degree four is absent
-
-The audited Stage14-4ah/4ai/4ak chain identifies
+The r3 exact anti-invariant-lattice reconstruction gives every anti-invariant norm divisible by four. For an odd-degree physical split curve `C`, with `x=C-delta(C)`, one has
 
 \[
-M=\pi^*(-K_Y),\qquad M^2=8,
+-x^2\equiv2(M_{sp}\cdot C)\pmod4,
 \]
 
-and proves that every physical rational curve has `M.C>=4`. Stage14-4ak then closes the complete physical `M.C=4` stratum by the exact Shimada anti-invariant-lattice parity-coset computation:
+which contradicts the lattice norm law. Subject to fresh audit, every odd physical source M-degree is therefore absent; in particular M5 is impossible. Thus the candidate source fixed-curve floor is degree six.
+
+The 40 distinguished Shimada roots have M-degree histogram `0:16, 2:24`; no M6 root occurs there, but this is not a complete M6 classification.
+
+## Same physical polarization normalization on the Stage20 cover
+
+The common two-face toric base is
+
+\[
+Y=Bl_4(P^1\times P^1),\qquad L=-K_Y,
+\]
+
+and Stage14-e3 fixes the physical edge-coordinate map `phi:Y->P2` with
+
+\[
+\phi^*O_{P^2}(1)=L.
+\]
+
+The Stage19 space completion and Stage20 third-face completion are distinct degree-two K3 covers of the same `Y`. Their physical quasi-polarizations are
+
+\[
+M_{sp}=\pi_{sp}^*L,\qquad M_{face}=\pi_{face}^*L,
+\]
+
+so both have square `8` and both measure curve degree against the same physical edge-coordinate line bundle. This is the exact Stage28 meaning of “same physical polarization”; it does not identify the two K3 surfaces.
+
+## Stage20 Saunderson curve has physical M-degree six
+
+For `[r:s] in P1`, set
+
+\[
+u=r^2-s^2,\quad v=2rs,\quad w=r^2+s^2,
+\]
+\[
+A=u(4v^2-w^2),\quad B=v(4u^2-w^2),\quad C=4uvw,
+\]
+\[
+D=w^3,\quad E=u(4v^2+w^2),\quad F=v(4u^2+w^2).
+\]
+
+All six forms are homogeneous degree six. The edge forms `A,B,C` have no common nonconstant factor, so the physical edge map pulls `O_{P2}(1)` back to `O_{P1}(6)`.
+
+The full Saunderson map is generically birational because
+
+\[
+E-A=2uw^2,\qquad F-B=2vw^2,
+\]
+
+and on a dense open set
+
+\[
+\frac{s}{r}=\frac{F-B}{2D+E-A}.
+\]
+
+Therefore for its Stage20 image curve `C_S`,
+
+\[
+\boxed{M_{face}\cdot C_S=6}.
+\]
+
+On the audited positive-density physical cone, `R\asymp r^6`, so this curve contributes `Theta(B^(1/3))`. This agrees with the rational fixed-curve height exponent `2/(M.C)=1/3`.
+
+Exact split artifacts:
 
 ```text
-PHYSICAL_Q_RATIONAL_M4_BISECTION_EXISTS=false
-FIXED_CURVE_SQRTB_MECHANISM_REJECTED=true
+split-a-source-polarization-lock.md
+split-b-target-polarization-adapter.md
+split-c-saunderson-mdegree6-certificate.md
+saunderson_physical_degree6_probe.py
 ```
 
-Thus there is no physical Q-rational fixed curve of M-degree four.
-
-## 2. New r3 theorem candidate: every physical odd M-degree is impossible
-
-Let `delta` be the physical deck involution. The audited Stage28-50-r2 branch firewall proves that the branch divisor has no point on the positive physical real torus. Hence an irreducible physical curve `C` of odd degree
-
-\[
-m=M\cdot C
-\]
-
-cannot be a connected degree-two pullback from the base: such a curve would have even `M`-degree. Therefore it must occur in a split pair
-
-\[
-C+\delta C=\pi^*D
-\]
-
-with `pi|_C` birational onto `D`.
-
-Put
-
-\[
-x=C-\delta C.
-\]
-
-Then `delta(x)=-x`, so `x` lies in the deck anti-invariant lattice. Since
-
-\[
-D^2=(C+\delta C)^2/2=C^2+C\cdot\delta C,
-\]
-
-one gets
-
-\[
-x^2=2C^2-2C\cdot\delta C=4C^2-2D^2.
-\]
-
-The K3 Neron--Severi lattice is even, hence `4C^2` is divisible by `8`. On the base, with `L=-K_Y` and `L.D=m`, adjunction gives
-
-\[
-2p_a(D)-2=D^2+K_Y\cdot D=D^2-m,
-\]
-
-so
-
-\[
-D^2\equiv m\pmod2.
-\]
-
-Consequently
-
-\[
-\boxed{-x^2\equiv 2m\pmod4.}
-\]
-
-The exact Stage14-4ak Shimada embedding was reconstructed in r3 CI. The positive form on the rank-six anti-invariant lattice has Gram matrix
-
-\[
-Q=\begin{pmatrix}
-4&0&-2&2&-4&-2\\
-0&4&-2&2&0&-2\\
--2&-2&4&-2&0&0\\
-2&2&-2&4&-2&0\\
--4&0&0&-2&8&4\\
--2&-2&0&0&4&8
-\end{pmatrix},
-\qquad \det Q=256.
-\]
-
-Every diagonal entry is divisible by four and every off-diagonal entry is even. Therefore
-
-\[
-\boxed{q(v)=v^TQv\equiv0\pmod4\quad\text{for every }v\in\mathbf Z^6.}
-\]
-
-For odd `m`, however, the split-curve identity requires `-x^2 congruent 2 (mod 4)`, a contradiction. Hence
-
-\[
-\boxed{\text{there is no physical Stage19 fixed rational curve of odd }M\text{-degree}.}
-\]
-
-In particular,
-
-\[
-\boxed{M\cdot C=5\text{ is impossible}.}
-\]
-
-This argument does not assume that `C` or its image is smooth; singular rational curves are covered because only lattice parity and adjunction parity are used.
-
-Exact-head GitHub Actions independently reconstructed the two equivalent physical Shimada labelings, the rank-six anti-invariant lattice, determinant `256`, and the norm divisibility. Run `32437537363` concluded success with
+## Spectrum verdict
 
 ```text
-STAGE28_60_R3_M5_NORM_OBSTRUCTION=PASS
-ODD_PHYSICAL_M_DEGREE_OBSTRUCTION=PASS_CANDIDATE_FROM_EXACT_LATTICE
-```
-
-The fresh Stage28 audit must still validate the mathematical promotion.
-
-## 3. Consequence for fixed-curve counting
-
-Combining the audited M4 void with the new odd-degree obstruction, every physical Stage19 fixed rational curve has
-
-\[
-\boxed{M\cdot C\ge6.}
-\]
-
-For a fixed rational curve of M-degree `m`, the pulled-back height on its normalization has degree `m`, so its bounded-height polynomial exponent is at most `2/m`. Thus any finite union of fixed physical Stage19 rational curves contributes at most
-
-\[
-\boxed{O(B^{1/3})}
-\]
-
-at the polynomial-exponent level.
-
-This remains a fixed-curve statement only. Stage14-4al shows that the observed source signal, if asymptotic, may arise from a collective moving-fibre/rank-jump/first-small-point mechanism rather than from finitely many fixed curves.
-
-## 4. Stage20 third-face cover: degree-six rational family present
-
-The audited generalized Saunderson map is homogeneous of degree six in the coprime Euclid parameters `(r,s)`:
-
-```text
-u=r^2-s^2
-v=2rs
-w=r^2+s^2
-A=u(4v^2-w^2)
-B=v(4u^2-w^2)
-C=4uvw
-```
-
-(up to harmless signs/absolute values on the physical chamber). The three edge coordinates have no common nonconstant polynomial factor. On the audited injective cone `1/8<=s/r<=4/5`,
-
-\[
-r^6\le w^3\le R\le8r^6,
-\]
-
-so this fixed rational target curve contributes
-
-\[
-\boxed{\Theta(B^{1/3})}
-\]
-
-on a positive-density rational parameter sector.
-
-## 5. What the sharpened spectrum comparison proves
-
-The previous possible `2/5` source fixed-curve contribution is now eliminated. At the fixed-curve polynomial-exponent level the two sides have reached the same critical scale:
-
-```text
-STAGE19_FIXED_M4_CURVE=ABSENT
+STAGE19_FIXED_M4_CURVE=ABSENT_AUDITED
 STAGE19_FIXED_ODD_M_DEGREE_CURVES=ABSENT_CANDIDATE
 STAGE19_FIXED_M5_CURVE=ABSENT_CANDIDATE
+STAGE19_FIXED_M6_CURVE_ABSENCE_PROVED=false
 STAGE19_FINITE_FIXED_CURVE_EXPONENT_MAX_CANDIDATE=1/3
-STAGE20_FIXED_DEGREE6_SAUNDERSON_CURVE=PRESENT
+STAGE20_SAUNDERSON_PHYSICAL_M_DEGREE=6_CANDIDATE
+STAGE20_FIXED_M6_RATIONAL_CURVE=PRESENT_CANDIDATE
 STAGE20_FIXED_CURVE_EXPONENT_AT_LEAST=1/3
 ```
 
-This still does **not** order `M3` and `N2`. Stage19 may possess physical M-degree-six rational curves, and its whole population may be dominated by the moving/collective mechanism rather than any finite fixed-curve spectrum.
+Thus Stage20 definitely reaches the degree-six slot at r3 submission level, while Stage19 has been cleared only below six. The finite spectra are asymmetric through degree five, but a strict degree-six separation is not yet proved.
 
-The remaining finite spectrum question is therefore only
+The remaining finite receiver is
 
 ```text
 NEXT_FIXED_CURVE_FINITE_RECEIVER=PhysicalLowDegreeRootSpectrumM6
 ```
 
-and the global complement theorem remains mandatory.
+and the global moving/collective complement theorem is still mandatory. No fixed-curve statement alone resolves `I_face/I_sp` relative to `(log B)^(-2)` or orders `M3` against `N2`.
 
 ```text
+COMMON_PHYSICAL_POLARIZATION_ADAPTER=PASS_CANDIDATE
+SAUNDERSON_PHYSICAL_M6_CERTIFICATE=PASS_CANDIDATE
 FIXED_CURVE_SPECTRUM_IS_A_REAL_CAUSAL_DIFFERENTIAL=true
-ODD_DEGREE_ANTI_INVARIANT_CONGRUENCE_IS_NEW_R3_INPUT=true
 FIXED_CURVE_SPECTRUM_ALONE_RESOLVES_J28_THRESHOLD=false
 GLOBAL_COMPLEMENT_RECEIVER_STILL_REQUIRED=true
 ENDPOINT_COUNT_USED=false
