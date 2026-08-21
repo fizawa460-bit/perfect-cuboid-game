@@ -1,240 +1,212 @@
-# Stage29-02hc — non-Fano / Hirzebruch-cover foundation
+# Stage29-02hc — audited non-Fano / Hirzebruch recognition adapter
 
 ## Verdict
 
-`HIGH_VALUE_NEW_NAMED_GLOBAL_FOUNDATION` — audit required.
-
-The audited Stage29-02ha seven-line sign cover is not merely analogous to a standard arrangement construction. After an explicit `PGL_3(Q)` coordinate change, its branch divisor is the classical **non-Fano arrangement**. The full endpoint canonical cover is therefore the `N=2` branched congruence/Kummer cover of that arrangement, and its minimal resolution is the classical **Hirzebruch covering surface `M_2(NF)`**.
-
-No literature-novelty claim is made. The new repo content is the exact cuboid-to-non-Fano adapter and the identification of the endpoint with the named Hirzebruch surface package.
-
-## 1. Exact Q-projective identification of the seven lines
-
-Write the Stage29-02ha base coordinates as `[x:y:z]=[a1^2:a2^2:a3^2]`. The branch divisor is
-
 ```text
-D_cub : x y z (x+y)(x+z)(y+z)(x+y+z)=0.
+AUDIT_VERDICT=PASS_AFTER_MATERIAL_REPAIR
+NOVELTY_IN_REPO=HIGH_VALUE_NAMED_RECOGNITION_ADAPTER_ON_F7
+INDEPENDENT_FOUNDATION=false
+NEW_THEOREM_ECOSYSTEM=true
+LITERATURE_NOVELTY_CLAIM=false
 ```
 
-The rational projective change
+The submission correctly recognized the seven-line branch arrangement as the classical non-Fano arrangement and correctly imported the geometric Hirzebruch `N=2` package.  A load-bearing arithmetic claim did **not** survive: branch-arrangement `PGL3(Q)` equivalence does not identify the standard non-Fano Kummer Q-form with the cuboid Q-form.
+
+## 1. Same map / branch arrangement
+
+The explicit rational base change
 
 ```text
-x = X,
-y = -Y,
-z = Z-X
+x=X, y=-Y, z=Z-X
 ```
 
-sends these seven factors, up to nonzero scalar multiples and permutation, to
+sends
 
 ```text
-X,
-Y,
-Z,
-X-Y,
-X-Z,
-Y-Z,
-X+Y-Z.
+x y z (x+y)(x+z)(y+z)(x+y+z)
 ```
 
-Hence
+to Suciu's standard non-Fano seven-line divisor up to line scalars and permutation.  Thus
 
 ```text
-D_cub  ~=_Q  D_NF,
-Q_NF = XYZ(X-Y)(X-Z)(Y-Z)(X+Y-Z).
+D_cub ~=_Q D_nonFano
+R29-NF0=DISCHARGED.
 ```
 
-Suciu Example 10.5 uses exactly this defining polynomial for the non-Fano arrangement. Schenck–Tohaneanu Example 1.7 identifies the non-Fano arrangement as the unique configuration of seven projective lines with six triple points; this independently matches the audited `t3=6,t2=3` incidence ledger.
+This is an exact global branch-arrangement statement, not an incidence-only match.
+
+## 2. Material Q-form repair
+
+The displayed transformation has line-multiplier squareclasses
 
 ```text
-R29-NF0 = CuboidSevenLineArrangementToNonFanoPGL3QAdapter
-STATUS = PASS_CANDIDATE
++,-,-,+,+,-,-
 ```
 
-## 2. The 64-sheet endpoint is the N=2 congruence/Kummer cover
-
-For a projective arrangement of `n=7` lines, the complement has
+and hence the six Kummer ratios acquire the constant twist
 
 ```text
-H1(P2\D,Z) ~= Z^(n-1) = Z^6.
+-,+,+,-,-,+.
 ```
 
-Hirzebruch's/Suciu's level-`N` branched congruence cover has deck group
+Fresh exact enumeration of **all 24** `PGL3(Q)` equivalences between the two seven-line arrangements gives
 
 ```text
-(Z/N)^(n-1).
+PGL3_Q_EQUIVALENCES_TOTAL=24
+STANDARD_NF_Q_COVER_LIFTABLE_EQUIVALENCES=0
+QI_COVER_LIFTABLE_EQUIVALENCES=24.
 ```
 
-At `N=2` this is
+Therefore the submitted claims
 
 ```text
-(Z/2)^6,
-degree = 2^6 = 64,
+Sbar_cub ~=_Q Xbar_2(NF_standard)
+S_cub    ~=_Q M_2(NF_standard)
 ```
 
-exactly the audited Stage29-02ha sign deck group and degree. On the arrangement complement, the cuboid cover adjoins square roots of the seven branch forms modulo the single global projective sign relation, so it is the canonical mod-2 congruence cover itself, not a selected subcover.
+are rejected as cover-over-`P2` Q-identifications.
 
-Let `Xbar_2(NF)` denote the normal branched congruence cover and `M_2(NF)` its minimal desingularization. Then the proposed exact identification is
+The audited replacement is
 
 ```text
-Sbar_cub ~=_Q Xbar_2(NF),
-S_cub    ~=_Q M_2(NF).
+Sbar_cub x Q(i) ~= Xbar_2(NF_standard) x Q(i),
+S_cub    x Q(i) ~= M_2(NF_standard)    x Q(i),
 ```
 
-The first line is an equality of the normal sign/Kummer constructions after the displayed `PGL3(Q)` base change; the second is the uniqueness of minimal resolution of the resulting A1 surface singularities.
+and over `Q` the cuboid cover is an explicit constant-sign twist of the standard non-Fano mod-2 Kummer cover.
 
 ```text
-R29-NF1 = EndpointEqualsNonFanoHirzebruchM2
-STATUS = PASS_CANDIDATE
+STANDARD_NF_Q_COVER_IDENTIFICATION=false
+QI_GEOMETRIC_HIRZEBRUCH_IDENTIFICATION=true
+CUBOID_Q_FORM_IS_EXPLICIT_CONSTANT_SIGN_TWIST=true
+ABSTRACT_Q_SURFACE_ISOMORPHISM_TO_STANDARD_M2_PROVED=false
+R29-NF1G=DISCHARGED
+R29-NF1Q=DISCHARGED_AS_TWIST_DESCRIPTION
 ```
 
-## 3. Independent recovery of the cuboid invariants from arrangement theory
+The last firewall leaves open a hypothetical unrelated abstract Q-isomorphism; it is not needed for the route.
 
-For non-Fano:
+## 3. Generic to global / singularities / resolution
 
-```text
-n=7,
-s=9,
-m2=3,
-m3=6,
-b2=15.
-```
+Over `Q(i)` the two normal covers are the normalization of `P2` in the same Kummer extension, so the identification is global.  Suciu/Hirzebruch's projective `N=2` construction has deck `(Z/2)^6`, degree 64.  A triple branch point has eight points above it; for `N=2,r=3` these are A1 singularities.  Six triples therefore give exactly 48 A1 nodes, while ordinary double intersections give no additional normal-surface singularities.  Minimal resolutions consequently agree over `Q(i)`.
 
-Hirzebruch's Chern-number formula, quoted as Suciu Theorem 6.3, gives for this arrangement
-
-```text
-c1^2(M_N) = N^4(10N^2 - 32N + 25),
-c2(M_N)   = N^4( 4N^2 - 16N + 21).
-```
-
-At `N=2`:
-
-```text
-c1^2 = 16,
-c2    = 80.
-```
-
-Suciu Example 10.5 gives
-
-```text
-b1(M_N)=9(N-1)(N-2),
-```
-
-hence
-
-```text
-b1(M_2)=0,
-q=0.
-```
-
-Noether then gives
-
-```text
-chi(O)=(16+80)/12=8,
-pg=chi-1+q=7.
-```
-
-These independently recover the audited cuboid values
+The compact invariant package independently recovers
 
 ```text
 K^2=16,
-pg=7,
+c2=80,
+b1=0,
 q=0,
-c2=80.
+chi(O)=8,
+pg=7.
 ```
-
-At each non-Fano triple point (`r=3`) the `N=2` branched congruence cover has
 
 ```text
-2^(6-3)=8
+R29-NF2=DISCHARGED_GEOMETRIC_COMPACT_INVARIANT_AND_NODE_RECOVERY
+GENERIC_TO_GLOBAL_AUDIT=PASS_AFTER_FIELD_SCOPE_REPAIR
+RESOLUTION_AUDIT=PASS_GEOMETRIC_OVER_QI
 ```
 
-points above it. With six triple points this gives `6*8=48`, recovering the full node count again from the general Hirzebruch-cover construction.
+## 4. Central versus projective congruence cover
+
+A second real scope defect was found.  Suciu's formula
 
 ```text
-R29-NF2 = HirzebruchInvariantAndNodeRecovery
-STATUS = PASS_CANDIDATE
+b1(X_N)=9N^2-3 (N even),
+        =9N^2-2 (N odd)
 ```
 
-## 4. Characteristic-variety package now becomes available
-
-Suciu computes the characteristic varieties of the non-Fano arrangement explicitly:
+is for the **central-arrangement** unbranched congruence cover.  The endpoint arrangement-open cover is the projective degree-64 cover.  Since
 
 ```text
-V1 = six local components + three non-local braid components,
-V2 = {1,rho},
-rho=(1,-1,-1,1,-1,-1,1),
+G_central ~= G_projective x Z,
 ```
 
-with a special order-2 character `rho`. The congruence-cover Betti numbers exhibit parity:
+the extra `C*` factor contributes one to `b1`:
 
 ```text
-b1(X_N)=9N^2-3  (N even),
-        =9N^2-2  (N odd).
+CENTRAL_OPEN_B1_N2=33
+PROJECTIVE_ENDPOINT_OPEN_B1_N2=32.
 ```
 
-The compact Hirzebruch surfaces satisfy
+The compact formula `b1(M_2)=0` is unchanged.
+
+The characteristic-variety ledger is therefore restricted to the product-one projective character torus before use.  The distinguished
 
 ```text
-b1(M_N)=9(N-1)(N-2).
+rho=(1,-1,-1,1,-1,-1,1)
 ```
 
-Thus the cuboid endpoint sits at the most 2-primary member `N=2` of a named arrangement-cover tower whose topology is controlled by torsion characters and characteristic varieties.
-
-This opens a genuinely different toolbox:
-
-- arrangement-complement fundamental groups;
-- Alexander matrices;
-- characteristic/resonance varieties;
-- Sakuma/Hironaka formulas for finite abelian covers;
-- explicit mod-2 resonance and the distinguished character `rho`.
-
-No arithmetic obstruction is imported merely from these complex-topological facts.
+has product one and genuinely descends to a projective order-two character.
 
 ```text
-R29-NF3 = NonFanoCharacteristicVarietyToEndpointDeckCharacterLedger
-R29-NF4 = DistinguishedOrder2CharacterToCuboidIntermediateDoubleCover
-R29-NF5 = ArrangementFiniteAbelianCoverTopologyToCampedelliAndK3Quotients
+CENTRAL_OPEN_DATA_IMPORTED_AS_ENDPOINT=false
+R29-NF3=OPEN_DOWNSTREAM_PROJECTIVE_CHARACTER_RESTRICTION
+R29-NF4=OPEN_DOWNSTREAM_RHO_QUOTIENT_WITH_Q_TWIST
+R29-NF5=OPEN_DOWNSTREAM_INTERMEDIATE_SUBCOVER_LEDGER
 ```
 
-## 5. Physical/rational-point firewall
+## 5. Physical and population firewall
 
-The full arrangement complement removes all seven branch lines. The physical algebraic open from Stage29-02f deletes only the side-zero divisors (plus exceptional boundary on the resolution). Over `Q`, however, a nondegenerate rational cuboid cannot have a face diagonal or space diagonal equal to zero, so every physical rational endpoint point lies over the full seven-line complement.
+The arrangement open and Stage29-02f physical algebraic open are not equal over `Qbar`.  For a nondegenerate rational endpoint, however, no rational face or space diagonal can vanish, so every physical rational endpoint point lies in the arrangement-open locus.
 
-Therefore the arrangement-complement cover may be used as a **necessary-locus** for rational endpoint points, but its complex boundary and Brauer theory are not automatically equal to those of the Stage29-02f physical open.
+This gives only a necessary-locus pointwise adapter.  Nothing below is transferred automatically:
+
+```text
+M1,N1,M2,N2,M3,
+R<=B,
+primitivity,
+canonical ordering,
+face multiplicities,
+asymptotic density.
+```
 
 ```text
 PHYSICAL_OPEN_EQUALS_ARRANGEMENT_OPEN=false
 PHYSICAL_Q_POINTS_LIE_IN_ARRANGEMENT_OPEN=true
 BRAUER_TRANSFER_AUTOMATIC=false
+STAGE16_20_POPULATION_TRANSFER=false
+HEIGHT_TRANSFER=false
+PRIMITIVITY_TRANSFER=false
+CANONICAL_ORDER_TRANSFER=false
+ASYMPTOTIC_TRANSFER=false
+BACKFLOW_TO_STAGE16_28=false
 ```
 
-## 6. Relation to earlier Stage29 foundations
+## 6. Novelty and routing repair
 
-This is not a renamed `ha` claim. `ha` supplied the raw seven-line sign cover. `hc` identifies that object with a named classical global construction carrying a pre-existing theorem package.
+`29-02hc` is valuable, but it is not a third independent geometric foundation.  It is the **named classical recognition and theorem-package adapter for the existing F7 / 29-02ha sign-cover foundation**.  This distinction matters after the delayed recognition of the already-known 64-sheet ecosystem.
 
-It also reframes `hb`: the ten Campedelli quotients are rank-3 quotients of the `N=2` Hirzebruch deck group. The seven K3 quotients and the joint-V4 layers likewise become finite abelian quotients/subcovers of one standard congruence cover.
-
-Promising new bridges:
+The non-Fano characteristic-variety, Hirzebruch-cover and arrangement-group tools are real new toolbox imports.  Continuing `NF3/NF4/NF5/NF7/NF8` alone, however, does not earn a new `hd` suffix under the Stage29 suffix policy.
 
 ```text
-R29-NF6 = CampedelliKernelsInsideNonFanoCongruenceCharacterLattice
-R29-NF7 = Stage29_02fTwoPrimaryBoundaryVsNonFanoMod2Resonance
-R29-NF8 = Stage16To20PopulationMasksVsArrangementSubcoverCharacterSupport
-```
-
-`R29-NF7` and `R29-NF8` are receivers only; no Brauer or population theorem is claimed.
-
-## Routing
-
-```text
-NOVELTY_IN_REPO=HIGH_VALUE_NEW_NAMED_GLOBAL_FOUNDATION
-LITERATURE_NOVELTY_CLAIM=false
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
+HC_INTERNAL_RECEIVER_CONTINUATION_DOES_NOT_EARN_HD=true
+NEXT_ITEM=29-02hd_BROAD_INDEPENDENT_SCREEN_ONLY
+AUTO_ADVANCE_TO_29_03=false
 STAGE29_02_MINING_STOP_CONDITION_SATISFIED=false
-NEXT_ITEM_AFTER_PASS=29-02hd
-NEXT_EXPECTED_COMMAND=Stage29-audit
+```
+
+A future `29-02hd` is justified only if a broad screen finds another materially distinct foundation/adapter; otherwise the route should stop suffix mining and move according to the Stage29 controller/user direction.
+
+## Final audit state
+
+```text
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+CHECKPOINT29_02HC_AUDIT=PASS
+BOUNDED_REPAIR=Q_FORM_TWIST_PLUS_CENTRAL_PROJECTIVE_SCOPE_PLUS_NOVELTY_ROUTING
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+INDEPENDENT_FOUNDATION=false
+NEW_THEOREM_ECOSYSTEM=true
+STANDARD_NF_Q_COVER_IDENTIFICATION=false
+QI_GEOMETRIC_HIRZEBRUCH_IDENTIFICATION=true
+CUBOID_Q_FORM_IS_EXPLICIT_CONSTANT_SIGN_TWIST=true
+PROJECTIVE_OPEN_B1_N2=32
+POPULATION_SAVING_PROVED=false
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+NEXT_ITEM=29-02hd_BROAD_INDEPENDENT_SCREEN_ONLY
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 ```
