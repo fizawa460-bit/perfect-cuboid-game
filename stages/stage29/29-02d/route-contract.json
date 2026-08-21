@@ -1,26 +1,30 @@
 {
   "task": "Stage29-02d",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "status": "AUDITED_PASS_AFTER_BOUNDED_REPAIR",
   "route": "BEAUVILLE_IRREGULAR_COVER_Q_DESCENT",
   "new_foundation": true,
   "old_gate_replay": false,
   "backflow_to_stage16_28": false,
   "source_locks": {
-    "beauville_tale_two_surfaces": "PASS_STRUCTURAL_UPSTREAM",
-    "beauville_picmax_prop8": "PASS_GEOMETRIC_CM_INPUT",
-    "fite_sutherland_bolza_twists": "PASS_ARITHMETIC_TWIST_INPUT"
+    "beauville_tale_two_surfaces": "PASS_AUDITED_REMARK_1_LOCATOR_REPAIR",
+    "beauville_picmax_prop8": "PASS_AUDITED_GEOMETRIC_CM_INPUT",
+    "fite_sutherland_bolza_twists": "PASS_AUDITED_ARITHMETIC_TWIST_INPUT"
   },
   "q_form_adapter": {
     "splitting_field": "Q(i)",
     "base_cocycle": "swap_Y_Z",
     "cover_cocycle_lift": "factor_swap_on_C0xC0",
-    "standard_cuboid_q_cover_exists": "PASS_CANDIDATE",
-    "receiver": "R29-BEAU1A"
+    "standard_cuboid_q_cover_exists": "PASS_AUDITED",
+    "deck_involution_descends": true,
+    "descended_deck_group": "constant_Z_over_2",
+    "receiver": "R29-BEAU1A",
+    "receiver_status": "DISCHARGED_BY_PR1297_AUDIT"
   },
   "rational_lift": {
     "physical_open_cover_degree": 2,
     "physical_open_cover_etale": true,
     "fiber_class_group": "H1(Q,Z/2)=Q*/Q*^2",
+    "fiber_torsor_class_audited": true,
     "every_endpoint_lifts_untwisted": false,
     "finite_twist_set_proved": false,
     "receivers": ["R29-BEAU1B", "R29-BEAU1C"]
@@ -30,6 +34,7 @@
     "curve_name": "Bolza",
     "geometric_endomorphism_algebra": "M2(Q(sqrt(-2)))",
     "swap_twist_base_target": "Res_{Q(i)/Q}(J_D,Q(i))",
+    "swap_weil_restriction_target_audited": true,
     "v4_kernel_swap_equivariance_audited": false,
     "receiver_kernel": "R29-BEAU2A",
     "receiver_torsor": "R29-BEAU2",
@@ -38,12 +43,19 @@
   "firewalls": {
     "geometric_cm_implies_q_split": false,
     "albanese_implies_finiteness": false,
+    "finite_twist_set_proved": false,
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   },
-  "audit_required": true,
-  "merge_allowed": false,
-  "advance_allowed": false,
+  "bounded_repairs": [
+    "Beauville etale tower locator Remark 2 -> Remark 1",
+    "explicitly certify deck involution descent and constant Z/2 deck group"
+  ],
+  "audit_required": false,
+  "audit_verdict": "PASS",
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
   "next_item_after_pass": "29-02e",
-  "next_expected_command": "Stage29-audit"
+  "next_expected_command": "Stage29-main-batch"
 }
