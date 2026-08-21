@@ -2,7 +2,7 @@
 
 Status: **canonical roadmap for Stage16-29**.
 
-This document is the authoritative roadmap for the Stage16-29 population program. Stage27 is the repository-defined `Stage18 -> Stage19` strict reattack, Stage28 is the `Stage19 -> Stage20` bridge comparison, and Stage29 is the cross-stage synthesis / new-foundation screening / endpoint-routing stage.
+This document is the authoritative roadmap for the Stage16-29 population program. Stage27 is the repository-defined `Stage18 -> Stage19` strict reattack, Stage28 is the `Stage19 -> Stage20` bridge comparison, and Stage29 is the new-foundation screening / interaction synthesis / perfect-cuboid endpoint-routing stage.
 
 The common operational dependencies are:
 
@@ -36,9 +36,9 @@ Stages through Stage26 retain their already established contracts. The numbering
 | **Stage24** | **18 -> 19** | original two-face-to-two-face-plus-space comparison |
 | **Stage25** | **16 -> 19** | combined thinning and double-charge analysis |
 | **Stage26** | **18 -> 20** | two-face to Euler comparison |
-| **Stage27** | **18 -> 19** | strict research reattack/closure of the two-face-to-space-survivor transition |
-| **Stage28** | **19 -> 20** | matched Stage19/Stage20 bridge comparison under common cutoff/canonicalization |
-| **Stage29** | **cross-stage synthesis** | screen for genuinely new foundations, synthesize condition interaction, and route the direct perfect-cuboid endpoint attack |
+| **Stage27** | **18 -> 19** | strict research reattack/closure of the two-face-to-space-survivor transition; repository controller contract governs |
+| **Stage28** | **19 -> 20** | matched Stage19/Stage20 bridge comparison under common cutoff/canonicalization; closed/audited/merged |
+| **Stage29** | **new-foundation screening + interaction synthesis** | search for materially new foundations, then route the best direct perfect-cuboid endpoint attack |
 
 ### Stage27 authority
 
@@ -48,11 +48,11 @@ Stages through Stage26 retain their already established contracts. The numbering
 Stage18 -> Stage19
 ```
 
-Historical Stage27 paths containing `27-20-*` are provenance inside Stage27 and are not evidence that the stage-level transition is Stage19 -> Stage20. Do not bulk-renumber historical artifacts.
+The Stage27 work tree may contain historically named `27-20-*` checkpoint or derived-route artifacts. Those names are provenance inside Stage27 and are not evidence that the stage-level population transition is `Stage19 -> Stage20`.
 
-### Stage28 contract
+### Stage28 closeout
 
-Stage28 compares
+Stage28 studied the relationship between the already established Stage19 and Stage20 populations under matched conventions:
 
 ```text
 SOURCE_POPULATION = Stage19 population
@@ -60,112 +60,78 @@ TARGET_POPULATION = Stage20 population
 COMPARISON         = Stage19 -> Stage20
 ```
 
-Stage19 and Stage20 are not a literal subset transition: Stage19 has exactly two integral faces plus integral space diagonal, while Stage20 has exactly three integral faces and no space requirement. Ratios must therefore preserve matched-population/common-host semantics and must not be interpreted automatically as objectwise survival probabilities.
-
-Stage28 keeps the ordinary checkpoint sequence:
+Stage28 is now:
 
 ```text
-Stage28-10,20,30,40,50,60,70
-Stage28-main-batch
-Stage28-audit
+STATUS=CLOSED_AUDITED_PASS_MERGED
+FINAL_PR=1284
+SOURCE_TARGET_ASYMPTOTIC_ORDERING_IDENTIFIED=false
+NEXT_STAGE=Stage29
 ```
 
-It must preserve the distinction between certified bounds and true asymptotic exponents.
+Its final bridge-curvature interface, common-polarization K3 comparison, fixed-curve spectrum findings, residual moving-complement receiver, and closeout arsenal promotion are certified Stage29 inputs. Stage29 does not reopen Stage28 merely because its final asymptotic ordering remains unresolved.
 
-### Stage29 contract — exception to the old checkpoint template
+### Stage29 contract
 
-Stage29 is deliberately different from the Stage16-28 population/transition stages. It does **not** use the fixed 10/20/30/40/50/60/70 template. Its execution authority is:
-
-`stages/stage29/roadmap.md`.
-
-Stage29 uses ordinary incremental numbering:
+Stage29 is different from the earlier population stages. It does **not** use the inherited `10,20,...,70` checkpoint sequence. Its authoritative roadmap is:
 
 ```text
-Stage29-01, Stage29-02, Stage29-03, ...
-Stage29-main-batch
-Stage29-audit
+stages/stage29/roadmap.md
 ```
 
-Its job is not merely to restate upper/lower bounds. Before endpoint routing it must ask whether Stage16-28 missed any materially different foundation or coordinate system that could change the problem.
+with ordinary incremental items `29-01, 29-02, 29-03, ...`.
 
-The required early new-foundation lenses include:
+Stage29 first performs broad **new-foundation screening** across Stage16-28, testing whether a materially different global model, joint cover, parametrization-coverage viewpoint, joint local invariant, or other coordinate system changes the endpoint receiver. It then synthesizes the existing condition interactions and compares direct perfect-cuboid endpoint routes.
 
-1. **global perfect-cuboid geometry** — study the simultaneous endpoint equations as one global algebraic object and relate it to the Stage18/19/20 toric/K3 models;
-2. **joint completion cover / fiber product** — study the simultaneous space-completion and third-face-completion covers over the common base rather than only their separate marginals;
-3. **parametrization coverage atlas** — treat the major parametrizations/families as maps into the common physical or endpoint geometry and record their actual image dimension, degree/fiber, height distortion, and coverage;
-4. **joint local arithmetic** — study the two endpoint completion predicates simultaneously at finite primes, including exact intersection densities/correlation and any new local-global receiver.
+The initial required lenses are:
 
-These are examples of **new foundations**, not licenses to replay old frozen gates.
+1. global perfect-cuboid algebraic geometry;
+2. joint space-completion × third-face-completion cover/fiber product;
+3. parametrization coverage atlas;
+4. joint local arithmetic / completion correlation.
 
-### Stage29 targeted-backflow rule
-
-Stage29 first screens Stage16-28 broadly. If that screening reveals that a genuinely new foundation is load-bearing, work may return to the relevant original stage as a narrow addendum/reentry. There is no requirement to create `29-16`, `29-17`, ... or to rerun every stage sequentially.
-
-A Stage16-28 backflow is allowed only when Stage29 supplies a materially new receiver, for example:
-
-- a new exact equation/model;
-- a changed receiver;
-- a new zero-loss adapter;
-- a new invariant/quotient/fibration;
-- a theorem species genuinely unavailable when the old route was frozen.
-
-After audit, the result is imported back into Stage29 once.
+A targeted return to an earlier stage is allowed only when this screening creates a genuinely new receiver, model, adapter, invariant, or theorem species. Stage29 does not rerun Stage16 through Stage28 sequentially and does not replay old frozen gates without new input.
 
 ```text
-BROAD_SCREEN_IN_STAGE29=true
-SEQUENTIAL_STAGE16_TO_STAGE28_RERUN=false
+STAGE29_NUMBERING=INCREMENTAL_01_02_03
+STAGE29_BROAD_SCREEN_FIRST=true
 TARGETED_BACKFLOW_IF_NEW_FOUNDATION=true
+SEQUENTIAL_STAGE16_TO_STAGE28_RERUN=false
 OLD_FROZEN_GATE_REPLAY_WITHOUT_NEW_INPUT=false
-BACKFLOW_RESULT_REIMPORTED_ONCE=true
+ARSENAL_STRUCTURE_RADAR_PREFLIGHT_STANDING=true
 ```
 
-### Stage29 primary outputs
+Stage29 compares three endpoint descriptions:
 
-Stage29 should ultimately produce:
+```text
+A = Stage19 + third face
+B = Stage20 + space diagonal
+C = direct global/joint endpoint model
+```
 
-1. a common-cutoff certified population/transition ledger;
-2. a dependency/overlap ledger preventing double charge;
-3. a verdict on whether new foundations were found and whether targeted backflow was necessary;
-4. a global endpoint geometry model and/or joint-cover model;
-5. a parametrization coverage atlas and joint-local arithmetic ledger where useful;
-6. comparison of three endpoint descriptions:
-   - Stage19 + third face;
-   - Stage20 + space diagonal;
-   - direct global/joint endpoint model;
-7. a strongest-certified upper/lower/mechanism ledger with true-exponent status explicit;
-8. a small set of precise residual receivers for a later direct perfect-cuboid attack stage.
+The purpose is not to infer existence/nonexistence from rarity, but to identify the strongest exact model and the smallest residual theorem/construction/adapter receivers for a later direct perfect-cuboid attack stage.
 
-## Common completion gates for Stage16-28
+## Completion / evidence rules
 
-Stages16-28 use the standard StageX checkpoints when their own controller does not state otherwise:
+Stages16-28 retain their historical checkpoint contracts. Stage29 follows its own incremental roadmap.
 
-- `10`: population/comparison contract;
-- `20`: finite-data baseline;
-- `30`: ratio/thinning/comparison law;
-- `40`: strongest certified upper-bound ledger;
-- `50`: strongest certified lower-bound/construction ledger;
-- `60`: causal decomposition and double-charge check;
-- `70`: bounded maximal synthesis, intrinsic-status classification, artifact/arsenal decision, and closeout synchronization.
-
-**Stage29 is explicitly exempt from this fixed sequence.**
-
-Every stage must keep `PROVED`, `LITERATURE`, `COMPUTED`, and `HEURISTIC` evidence separate. An audited `OPEN_GATE` is a legitimate endpoint when the missing input is precisely identified. Re-running the same route without a genuinely new theorem, dataset, reusable weapon, model, or adapter is not progress.
+Every research item must keep `PROVED`, `LITERATURE`, `COMPUTED`, and `HEURISTIC` evidence separate. An audited `OPEN_GATE` is legitimate when the missing input is precisely identified. Re-running the same route without a genuinely new theorem, dataset, reusable weapon, model, adapter, or literature input is not progress.
 
 ## Deep-exploration rule before OPEN_GATE / closeout
 
-An unresolved route must not be converted immediately into `OPEN_GATE` or closeout merely because the first attack fails. Before declaring that genuinely new external input is required, perform bounded but aggressive exploration of materially distinct repo-native routes when reasonable.
+An unresolved item must not be converted immediately into `OPEN_GATE` or closeout merely because the first attempted route fails. Before declaring that genuinely new external input is required, the stage must perform a bounded but aggressive internal exploration of materially distinct routes reasonably available from the current repository state.
 
-Relevant viewpoints include:
+This exploration should include, when relevant:
 
-- alternate exact identities, eliminations, factorizations, parameterizations, fibrations, covers, quotient geometries, and height normalizations;
-- arithmetic, geometric, analytic, sieve, incidence/determinant, correlation/moment, local-global, rational-point, and construction viewpoints that are genuinely distinct rather than renamed copies of the same gate;
-- repository-wide Arsenal / StructureRadar / prior-stage / supplement / archive rematches against the exact receiver and physical measure;
+- alternate exact identities, eliminations, factorizations, parameterizations, fibrations, covers, and height normalizations;
+- arithmetic, geometric, analytic, sieve, incidence/determinant, correlation/moment, local-global, and construction viewpoints that are genuinely distinct rather than renamed copies of the same gate;
+- repository-wide Arsenal / StructureRadar / prior-stage / supplement / archive rematches against the exact current receiver and physical measure;
 - upper and lower routes separately, including attempts to change the obstruction rather than only sharpen the same estimate;
 - bounded targeted computation when it can distinguish routes or expose a structural lead, without promoting finite evidence to an asymptotic theorem.
 
-The AI/controller should choose promising unexplored routes proactively. Blind repetition, cosmetic renaming, or repeatedly re-running a theorem gate with no new structural input is forbidden.
+The AI/controller is expected to choose and pursue promising unexplored routes proactively. Blind repetition, cosmetic renaming, or repeatedly re-running a theorem gate with no new structural input remains forbidden.
 
-A stage may freeze an unresolved lane only after the obstruction is narrow enough to state a concrete theorem/construction/adapter receiver with explicit population, measure, quantifiers, parameter ranges, and required strength. For literature-dependent gates, a research-request-ready receiver is sufficient; unbounded external research is not required before closeout.
+A research lane may freeze only after the remaining obstruction has been narrowed enough that the missing input can be stated as a concrete theorem/construction/adapter receiver with explicit population, measure, quantifiers, parameter ranges, and required strength.
 
 ```text
 UNRESOLVED_FIRST_ROUTE_FAILED => CONTINUE_MATERIALLY_DISTINCT_INTERNAL_EXPLORATION
@@ -178,24 +144,22 @@ UNBOUNDED_EXTERNAL_RESEARCH_REQUIRED_BEFORE_CLOSE=false
 
 ## Stage16S population contract and role
 
-Stage16S studies primitive/canonical positive cuboids under compatible size and symmetry conventions with
+Stage16S studies primitive/canonical positive cuboids under the same compatible size and symmetry conventions used by the Stage16-29 roadmap, with
 
 ```text
 SPACE_AT_LEAST = integer space diagonal, no face-diagonal restriction
 SPACE_ONLY     = integer space diagonal and zero integer face diagonals
 ```
 
-It is an auxiliary parallel baseline, not a mandatory serial stage. Its role is to separate the intrinsic cost of space-diagonal integrality from interaction costs after face conditions are imposed.
+It is an auxiliary parallel baseline, not a renumbering or mandatory serial stage.
 
 ## Repository-wide reuse and audit safety
 
-Every `StageX-main-batch` in Stage16-29 and Stage16S must run the bounded repository-wide preflight defined in `docs/stage16-29-reuse-preflight.md` before opening new theorem, construction, computation, or literature work. Numerical work must also inspect `docs/stage14-num-reuse-index.md` when applicable.
-
-For Stage29 this preflight is **standing** throughout the stage. The later concentrated endpoint-Arsenal rematch supplements rather than replaces the standing reuse check.
+Every Stage16-29 research item must run the bounded repository-wide preflight defined in `docs/stage16-29-reuse-preflight.md` before opening new theorem, construction, computation, or literature work. Numerical work must also inspect `docs/stage14-num-reuse-index.md` when applicable.
 
 Audit verdicts are durable repository state. A canonical audit PASS must be persisted to the relevant audit record/controller/status surfaces before it is reported as authoritative. Repository write mechanics are governed by `docs/stage16-29-github-write-policy.md` and must not change mathematical claims or audit semantics.
 
-Every `StageX-audit` must update the audited pull request's main PR description/body so that the authoritative post-audit state is visible without relying only on Conversation comments. The body must record at least the audit verdict, repair status, `MERGE_ALLOWED`, advancement status / next item, and `NEXT_EXPECTED_COMMAND`.
+Every StageX-audit must update the audited pull request's main PR description/body so that the authoritative post-audit state is visible at the top-level PR surface.
 
 ```text
 AUDIT_RESULT_MUST_BE_PUBLISHED_TO_PR_BODY=true
@@ -205,20 +169,6 @@ PR_DESCRIPTION_REWRITE_REQUIRED=true
 COMMENT_ONLY_AUDIT_STATUS_SUFFICIENT=false
 ```
 
-For Stage16-28, StageX-70 follows `docs/stage16-29-stage70-policy.md`. Stage29 instead follows its own incremental roadmap and final gap scan before closeout.
-
-## Stage20 literature reuse rule
-
-Stage20 may begin with more pre-filled material than earlier population stages because Euler cuboids have substantial literature and strong prior repository results. Inherited constructions and estimates must still be adapted to the common cutoff and population contract; an infinite family is not automatically a matched asymptotic lower bound.
-
-## Stage19 carry-over
-
-Stage19 must preserve the distinction between the certified upper bound for the two-face + space-diagonal population, the independent causal zero-density mechanism, and the still-open questions of a matching lower bound and true growth exponent. No later stage may silently treat the half-power upper exponent as a known asymptotic law.
-
 ## Endpoint remains deferred
 
-The perfect-cuboid population — three integral face diagonals plus an integral space diagonal — remains outside the Stage16-29 population numbering. Stage29 may study its exact global/joint geometry and local arithmetic for routing purposes, but it must not assume existence or nonexistence and need not produce an endpoint count theorem.
-
-## Migration rule
-
-The legacy full-roadmap label `Stage16-28` is obsolete for current operational scope and is replaced by `Stage16-29`. Historical stage/checkpoint identifiers remain unchanged when they represent genuine provenance.
+The perfect-cuboid population — three integral face diagonals plus an integral space diagonal — remains outside the Stage16-29 population numbering. Stage29 may develop the direct global/joint endpoint geometry and exact endpoint receivers, but it does not assume existence or nonexistence and does not promote rarity heuristics into an endpoint theorem.
