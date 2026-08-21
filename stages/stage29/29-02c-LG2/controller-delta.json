@@ -1,22 +1,26 @@
 {
   "task_id": "Stage29-02c-LG2",
-  "submission_status": "PENDING_FRESH_AUDIT",
-  "controller_write_policy": "DO_NOT_SELF_AWARD_AUDIT_PASS",
-  "if_audit_passes": {
-    "record": {
-      "finite_picard_reduction": "PASS",
-      "full_176_192_enumeration_completed": false,
-      "residual_receiver": "R29-LG2",
-      "multibranch_receiver": "R29-LG2-MB"
-    },
+  "submission_status": "AUDITED_PASS_APPLIED",
+  "controller_write_policy": "AUDIT_APPLIED_TO_CANONICAL_CONTROLLER",
+  "audit": {
+    "verdict": "PASS_AFTER_BOUNDED_REPAIR",
+    "audit_record": "stages/stage29/29-02c-LG2/audit.md",
+    "finite_picard_reduction": "PASS",
+    "full_176_192_enumeration_completed": false,
+    "effectivity_certified": false,
+    "residual_receiver": "R29-LG2",
+    "effectivity_receiver": "R29-LG2-EFF",
+    "multibranch_receiver": "R29-LG2-MB",
+    "upstream_source_attribution_repaired": true
+  },
+  "applied_transition": {
     "remove_from_active_suffix_head": "29-02c-LG2_PICARD_176_192_FINITE_ENUMERATION",
+    "retain_as_residual_computation": true,
     "next_item": "29-02d_BEAUVILLE_IRREGULAR_COVER_Q_DESCENT",
     "next_expected_command": "Stage29-main-batch"
   },
-  "before_audit": {
-    "audit_required": true,
-    "merge_allowed": false,
-    "advance_allowed": false,
-    "next_expected_command": "Stage29-audit"
-  }
+  "audit_required": false,
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true
 }
