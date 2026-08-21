@@ -1,7 +1,7 @@
 # Stage29-02d — rational lift / quadratic-twist ledger
 
 ```text
-STATUS=DERIVED_CANDIDATE_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS
 ```
 
 Let
@@ -10,7 +10,7 @@ Let
 q_cub:X_cub -> S_cub
 ```
 
-be the Q-form of the Beauville canonical double cover from `q-form-adapter.md`.
+be the audited Q-form of the Beauville canonical double cover from `q-form-adapter.md`.
 
 ## Physical open
 
@@ -22,11 +22,13 @@ q_U:X_U -> U_phys
 
 is a finite etale double cover over Q.
 
+The audit also checks that the factor-swap descent cocycle commutes with the canonical deck involution, so the descended free cover has constant deck group `Z/2` over Q.
+
 The physical endpoint question is **not** equivalent to asking whether `X_U(Q)` is nonempty.
 
 ## Fiber class
 
-For every `P in U_phys(Q)`, the fiber `q_U^{-1}(P)` is a degree-two etale Q-scheme, hence a `Z/2`-torsor. It determines a class
+For every `P in U_phys(Q)`, the fiber `q_U^{-1}(P)` is a degree-two etale Q-scheme with its descended `Z/2` action, hence a `Z/2`-torsor. It determines a class
 
 ```text
 delta(P) in H^1(Q,Z/2) ~= Q^*/Q^{*2}.
@@ -86,6 +88,8 @@ Desired output of `R29-BEAU1C`:
 - proof or disproof of any finite-support reduction.
 
 ```text
+FIBER_TORSOR_CLASS_AUDIT=PASS
+DESCENDED_DECK_GROUP=CONSTANT_Z_OVER_2
 FINITE_TWIST_SET_PROVED=false
 UNTWISTED_LIFT_SUFFICES=false
 PERFECT_CUBOID_CONCLUSION=NONE
