@@ -1,7 +1,7 @@
 {
-  "schema_version": 4,
+  "schema_version": 5,
   "stage": "Stage29",
-  "status": "29_02_EXTENSION_AUDITED_SUFFIX_QUEUE_ACTIVE",
+  "status": "29_02D_AUDITED_PASS_PENDING_MERGE_SUFFIX_QUEUE_ACTIVE",
   "parent_class": "new_foundation_screening_interaction_synthesis_endpoint_routing",
   "canonical_stage_roadmap": "stages/stage29/roadmap.md",
   "extension_roadmap_addendum": "stages/stage29/29-02-work-import/roadmap-addendum.md",
@@ -178,7 +178,9 @@
     },
     "child_02c_LG2": {
       "pr": 1293,
-      "status": "AUDITED_PASS_PENDING_MERGE",
+      "status": "AUDITED_PASS_MERGED",
+      "merged": true,
+      "merge_commit": "8adb7deb9daf80282974bbee7a2b497ecf5bf9a2",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
       "audit_record": "stages/stage29/29-02c-LG2/audit.md",
       "kind": "UNIBRANCH_LOW_GENUS_FINITE_PICARD_REDUCTION",
@@ -190,8 +192,24 @@
       "residual_receivers": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
       "advance_other_suffixes": true
     },
+    "child_02d": {
+      "pr": 1297,
+      "status": "AUDITED_PASS_PENDING_MERGE",
+      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "audit_record": "stages/stage29/29-02d/audit.md",
+      "kind": "BEAUVILLE_IRREGULAR_COVER_Q_DESCENT",
+      "q_form_cover_adapter": "PASS_AUDITED",
+      "q_form_cocycle": "swap_Y_Z",
+      "q_form_cocycle_lift": "factor_swap",
+      "deck_involution_descends": true,
+      "fiber_torsor_class_audited": true,
+      "finite_twist_set_proved": false,
+      "v4_kernel_swap_equivariance_audited": false,
+      "albanese_uniform_control_proved": false,
+      "residual_receivers": ["R29-BEAU1B", "R29-BEAU1C", "R29-BEAU2A", "R29-BEAU2", "R29-BEAU3"],
+      "advance_other_suffixes": true
+    },
     "active_suffix_queue": [
-      "29-02d_BEAUVILLE_IRREGULAR_COVER_Q_DESCENT",
       "29-02e_EXISTING_V4_CHARACTER_NEWFORM_ROUTE",
       "29-02f_PHYSICAL_OPEN_BOUNDARY_AND_TRANSCENDENTAL_BRAUER_AUDIT",
       "29-02g_MODULI_M4_8_Q_DESCENT"
@@ -201,13 +219,20 @@
       "R29-LG2-EFF",
       "R29-LG2-MB"
     ],
-    "next_item": "29-02d"
+    "residual_beauville_receivers": [
+      "R29-BEAU1B",
+      "R29-BEAU1C",
+      "R29-BEAU2A",
+      "R29-BEAU2",
+      "R29-BEAU3"
+    ],
+    "next_item": "29-02e"
   },
   "audit_required": false,
   "audit_status": "PASS",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item_after_pass": "29-02d",
+  "next_item_after_pass": "29-02e",
   "next_expected_command": "Stage29-main-batch"
 }
