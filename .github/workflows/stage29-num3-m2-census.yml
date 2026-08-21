@@ -1,0 +1,110 @@
+name: Stage29 num3 exact M2 census
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage29/num3/**'
+      - '.github/workflows/stage29-num3-m2-census.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  matched-checkpoints:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        include:
+          - bound: 5000000
+            m3: 480
+            tag: b5m
+          - bound: 50000000
+            m3: 1298
+            tag: b50m
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile exact Mobius aggregate counter
+        run: |
+          g++ -O3 -std=c++20 -march=x86-64-v3 -fopenmp \
+            stages/stage29/num3/scripts/m2_mobius_count.cpp \
+            -o m2_mobius_count
+      - name: Exact census ${{ matrix.tag }}
+        shell: bash
+        run: |
+          /usr/bin/time -v ./m2_mobius_count \
+            ${{ matrix.bound }} ${{ matrix.m3 }} 4 \
+            > mobius-${{ matrix.tag }}.json
+          python - <<'PY'
+          import json
+          p=json.load(open('mobius-${{ matrix.tag }}.json'))
+          assert p['B']==${{ matrix.bound }}
+          assert p['M3_input']==${{ matrix.m3 }}
+          assert p['G_at_least_two_shared_edge_incidences']==p['M2']+3*p['M3_input']
+          assert sum(p['M2_direction_a_b_c'])==p['M2']
+          assert p['finite_data_is_not_asymptotic_theorem'] is True
+          print('STAGE29_NUM3_MATCHED', p)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage29-num3-m2-${{ matrix.tag }}
+          path: mobius-${{ matrix.tag }}.json
+          retention-days: 30
+
+  independent-direct-regression:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: true
+      max-parallel: 2
+      matrix:
+        include:
+          - bound: 1000000
+            m3: 219
+            tag: b1m
+          - bound: 10000000
+            m3: 656
+            tag: b10m
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile independent direct and Mobius counters
+        run: |
+          g++ -O3 -std=c++20 -march=x86-64-v3 \
+            stages/stage29/num3/scripts/m2_shared_edge_count.cpp \
+            -o m2_shared_edge_count
+          g++ -O3 -std=c++20 -march=x86-64-v3 -fopenmp \
+            stages/stage29/num3/scripts/m2_mobius_count.cpp \
+            -o m2_mobius_count
+      - name: Exact independent regression ${{ matrix.tag }}
+        shell: bash
+        run: |
+          /usr/bin/time -v ./m2_shared_edge_count \
+            --bound ${{ matrix.bound }} \
+            --output direct-${{ matrix.tag }}.json
+          /usr/bin/time -v ./m2_mobius_count \
+            ${{ matrix.bound }} ${{ matrix.m3 }} 4 \
+            > mobius-${{ matrix.tag }}.json
+          python - <<'PY'
+          import json
+          direct=json.load(open('direct-${{ matrix.tag }}.json'))
+          mobius=json.load(open('mobius-${{ matrix.tag }}.json'))
+          cp=direct['checkpoints'][-1]
+          assert cp['B']==${{ matrix.bound }}
+          assert cp['M3']==${{ matrix.m3 }}
+          assert mobius['B']==${{ matrix.bound }}
+          assert mobius['M3_input']==${{ matrix.m3 }}
+          assert cp['M2']==mobius['M2'], (cp['M2'], mobius['M2'])
+          assert cp['M2_direction']==mobius['M2_direction_a_b_c'], (cp['M2_direction'], mobius['M2_direction_a_b_c'])
+          assert mobius['G_at_least_two_shared_edge_incidences']==mobius['M2']+3*mobius['M3_input']
+          print('STAGE29_NUM3_DIRECT_MATCH', {'B': cp['B'], 'M2': cp['M2'], 'M3': cp['M3'], 'direction': cp['M2_direction']})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage29-num3-direct-regression-${{ matrix.tag }}
+          path: |
+            direct-${{ matrix.tag }}.json
+            mobius-${{ matrix.tag }}.json
+          retention-days: 30
