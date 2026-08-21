@@ -5,9 +5,11 @@ TASK_ID=Stage28-40-r2
 CHECKPOINT=40
 PARENT_ROADMAP=docs/stage16-29-population-roadmap.md
 COMPARISON=Stage19 -> Stage20
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=REPAIRED_PENDING_FRESH_REAUDIT
 PRIOR_CHECKPOINT40_PR=1276
 PRIOR_CHECKPOINT40_MERGE=deddf8c0917fc30f46d6701ef790e6872186c61b
+PRIOR_R2_AUDIT=FAIL_REPAIR_REQUIRED_ON_HEAD_c59a9e7028b70599eba3cdacad193940e06e58fa
+REPAIR_RECORD=stages/stage28/28-40-r2/repair.md
 ```
 
 ## 1. Strongest numerical bridge upper is unchanged
@@ -45,15 +47,17 @@ versus
 \boxed{D_{\rm face}=E_1+E_2,\quad g(E_j)=1.}
 \]
 
-Thus the total-class equality conceals a real global difference:
+The U10 proof has been repaired after hostile audit: the Stage19 branch factorization is now explicitly the product of all four bilinear factors, and direct expansion recovers exactly `F_sp/4`.  The old false `+` display is not used on the repaired head.
 
 ```text
 SPACE_BRANCH_PROFILE=4x_rational_1_1
 THIRD_FACE_BRANCH_PROFILE=2x_genus1_anticanonical
 BASE_AUTOMORPHISM_IDENTIFICATION=false
+U10_FACTORISATION_REPAIRED=true
+U10_EXACT_EXPANSION_CHECK=PASS
 ```
 
-Moreover the two radicands represent different squareclasses in `Qbar(Y)^*/Qbar(Y)^{*2}`, so the two quadratic covers are not the same extension over the fixed base and are not base-preservingly birational.
+Moreover the two radicands represent different squareclasses in `Qbar(Y)^*/Qbar(Y)^{*2}`, so the two quadratic covers are not the same extension over the fixed base and are not base-preservingly birational.  U13 was reread after the U10 repair and requires no claim change.
 
 ## 3. New theorem: exact local quotient has only finite Euler-product bias
 
@@ -156,17 +160,18 @@ RESEARCH_REQUEST_READY=true
 
 Acceptable future theorem species include a physical-height rational-lift comparison sensitive to branch-component arithmetic, a cover-specific dispersion theorem, or a marginal energy theorem that avoids inserting the perfect-cuboid joint count.
 
-## 8. Stop reason
+## 8. Stop reason and audit state
 
-U1-U14 now cover the materially distinct repo-native checkpoint40 lanes that are presently available.  Further internal repetitions of local density, total-class K3 geometry, fixed-curve counting, generic thin-cover sieving, or frozen Stage27 endpoint attacks would be duplicate work.
+U1-U14 cover the materially distinct repo-native checkpoint40 lanes presently available.  The hostile audit agreed conditionally with the maximal-bounded-exploration and research-request-ready claims, but failed the old head only because U10 displayed the wrong algebraic operation.  That display has now been repaired without changing the mathematical claims.
 
-Therefore r2 stops for fresh audit rather than manufacturing a numerical improvement.
+The repaired head does not self-award audit PASS.
 
 ```text
 MATERIALLY_DISTINCT_ROUTES_TOTAL=14
-CHECKPOINT40_MAXIMAL_BOUNDED_EXPLORATION=true
+CHECKPOINT40_MAXIMAL_BOUNDED_EXPLORATION_CLAIM=SUBMITTED_FOR_REAUDIT
+U10_REPAIR_COMPLETED=true
 AUDIT_REQUIRED=true
-AUDIT_STATUS=PENDING
+AUDIT_STATUS=PENDING_FRESH_REAUDIT_AFTER_REPAIR
 MERGE_ALLOWED=false
 ADVANCE_ALLOWED=false
 NEXT_CHECKPOINT_AFTER_PASS=50
