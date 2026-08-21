@@ -1,83 +1,75 @@
-# Stage29-02hd — source lock for broad independent-foundation screen
+# Stage29-02hd — audited source lock for broad independent-foundation screen
 
-STATUS=SUBMISSION_CANDIDATE_REQUIRES_FRESH_AUDIT
-PURPOSE=broad screen only; do not promote internal continuations of F1–F8 to a new foundation
+STATUS=PASS_AFTER_BOUNDED_SCOPE_REPAIR
+PURPOSE=broad routing screen; do not promote internal continuations or merely renamed coordinates to a new foundation
 
-## Primary / scholarly sources checked
+## Peschmann 2026 — quartic / genus-3 / finite-fiber package
 
-### Peschmann 2026 — quartic / genus-3 reduction
+René Peschmann, *Quartic reductions and elliptic obstructions for perfect Euler bricks*, `arXiv:2604.09328`.
 
-René Peschmann, *Quartic reductions and elliptic obstructions for perfect Euler bricks*, arXiv:2604.09328 (2026).
+Audited source use:
+- Euclid-pair formulation with two Pythagorean faces built in;
+- residual third-face and space-diagonal square conditions;
+- genus-3 family with elliptic quotients.
 
-Primary source: https://arxiv.org/abs/2604.09328
+Companion: René Peschmann, *A torsion-intersection proof of perfect-cuboid nonexistence on 1,072 explicit master-tuple fibers*, `arXiv:2604.28072` (2026-04-30).
 
-Load-bearing source claims used here:
-- an exact Euclid-pair formulation of the perfect-cuboid problem;
-- two face-diagonal conditions are built into the parametrization;
-- the remaining third-face and space-diagonal conditions become a pair of quartic square conditions;
-- the pair is reorganized through genus-3 curves with elliptic quotients;
-- no unconditional global solution/nonexistence theorem is claimed.
+Audited source use:
+- structural classification of primitive Euler bricks in the standard `(a,b,m,n)` parametrization up to scaling;
+- torsion/rank-zero exclusion criterion;
+- unconditional exclusion on 1,072 explicit master-tuple fibers with `max(m,n)<=100`.
 
-Freshness / status firewall: this is a 2026 arXiv preprint. It is treated as research input, not as a certified repo theorem until a separate exact adapter and fresh audit are completed.
+Firewall: neither paper is imported into Stage16–20 population theorems. The exact rational crosswalk to the Stage28 F2 host remains open.
 
-### Terasoma 1988 — complete intersections of quadrics
+## Terasoma 1988 — complete intersections of quadrics
 
-Tomohide Terasoma, *Complete intersections of hypersurfaces — the Fermat case and the quadric case*, Japan. J. Math. 14 (1988), 309–384. DOI: 10.4099/math1924.14.309.
+Tomohide Terasoma, *Complete intersections of hypersurfaces — the Fermat case and the quadric case*, Japan. J. Math. 14 (1988), 309–384, DOI `10.4099/math1924.14.309`.
 
-Primary journal record: https://www.jstage.jst.go.jp/article/math1924/14/2/14_2_309/
+Audited use: four-quadric/K3 correspondence ecosystem. The 48-node cuboid specialization still requires a specialization/resolution adapter before arithmetic import.
 
-Load-bearing source claims used here:
-- a general theory of special diagonal complete intersections of quadrics;
-- in the four-quadric P6 case, algebraic correspondences to K3 surfaces arising from associated hyperplane data;
-- the result belongs to the complete-intersection/K3 correspondence ecosystem.
+## Enriquez–Jarossay–Saettone–Svoray — fundamental groups
 
-Firewall: applying the smooth/general statements verbatim to the 48-node cuboid specialization requires a specialization/resolution adapter. Stage29-02hd does not self-certify such an adapter.
+Benjamin Enriquez, David Jarossay, Francesco Maria Saettone, Yotam Svoray, *The fundamental group of surfaces parametrizing cuboids*, `arXiv:2310.12710v3`, revised 2026-07-06.
 
-### Jarossay–Saettone–Svoray 2023 — fundamental groups
+Audited source use:
+- cuboid surface and minimal resolution simply connected;
+- face-cuboid surface and resolution simply connected;
+- two open face-cuboid loci have `pi1 ~= F3 semidirect Z^2`;
+- Malcev completions reduce to the free pro-unipotent group on three generators.
 
-David Jarossay, Francesco Maria Saettone, Yotam Svoray, *On the fundamental groups of surfaces parametrizing cuboids*, arXiv:2310.12710 (2023).
+Firewall: do not claim higher-dimensional Chabauty–Kim theory is globally unavailable. Only `CUBOID_OPEN_EFFECTIVE_CHABAUTY_KIM_ADAPTER_AVAILABLE=false` is retained.
 
-Primary source: https://arxiv.org/abs/2310.12710
-
-Load-bearing source claims used here:
-- the complex cuboid surface and its minimal resolution are simply connected;
-- the face-cuboid surface and its resolution are simply connected;
-- selected open subsets of the face-cuboid surface have explicit nontrivial fundamental groups;
-- the authors explicitly motivate future arithmetic use through Chabauty–Kim / unipotent fundamental-group ideas, while noting that a fully developed surface analogue is not available.
-
-Firewall: this gives a theorem ecosystem and future route, not a present endpoint rational-point obstruction.
-
-### Adler–van Moerbeke 1987/88 — four quadrics / Abelian surfaces
+## Adler–van Moerbeke 1987/88 — four quadrics / Abelian surfaces
 
 Mark Adler, Pierre van Moerbeke, *The Intersection of Four Quadrics in P6, Abelian Surfaces and their Moduli*, Math. Ann. 279 (1987/88), 25–86.
 
-Record: https://eudml.org/doc/164307
+Use: screen the special rank-4-curve trigger. The exact cuboid web has no positive-dimensional rank-<=4 locus, so this particular trigger is red.
 
-Use here: a screen against the possibility that the cuboid's four-quadric web falls into the special rank-4-curve configurations that compactify to Abelian surfaces.
+## Auel–Bernardara–Bolognesi 2014 — Clifford technology
 
-Firewall: the exact cuboid diagonal web has no positive-dimensional rank-<=4 locus (see committed exact checker), so this Abelian-surface route is not promoted.
+Asher Auel, Marcello Bernardara, Michele Bolognesi, *Fibrations in complete intersections of quadrics, Clifford algebras, derived categories, and rationality problems*, J. Math. Pures Appl. 102 (2014), 249–291, `arXiv:1109.6938`.
 
-### Auel–Bernardara–Bolognesi 2014 — Clifford / quadric-fibration technology
+Firewall: context-specific low-rank quadric-fibration section/Brauer criteria are not transplanted to the generic rank-7 cuboid web without a new theorem.
 
-Asher Auel, Marcello Bernardara, Michele Bolognesi, *Fibrations in complete intersections of quadrics, Clifford algebras, derived categories, and rationality problems*, J. Math. Pures Appl. 102 (2014), 249–291. DOI: 10.1016/j.matpur.2013.11.009. arXiv:1109.6938.
+## Super-4 / square-difference route
 
-Use here: screen the dual web of cuboid quadrics for a direct section/Brauer obstruction.
+R. van Luijk, *On Perfect Cuboids* (Utrecht thesis, 2000), plus the classical four-square/pairwise-square-difference ecosystem.
 
-Firewall: the cuboid web consists of rank-7 quadratic forms generically. The standard quadric-surface rank-4 equivalence 'Brauer class trivial iff rational section' is not transferable to this rank-7 family without a separate reduction theorem. No such endpoint adapter is claimed here.
+Verdict: necessary projection to another unresolved rational-point problem, not a stronger current endpoint foundation.
 
-### Super-4 / square-difference route
+## Bremner 2018 — perfect K-rational cuboids
 
-R. van Luijk, *On Perfect Cuboids* (Utrecht thesis, 2000), and the later MathOverflow discussion *Sequences of Squares with all square differences* (2011; accepted answer by Noam Elkies).
+Andrew Bremner, *On perfect K-rational cuboids*, Bull. Aust. Math. Soc. 97 (2018), 26–32, DOI `10.1017/S0004972717000697`.
 
-Use here:
-- a perfect cuboid gives a four-square / pairwise-square-difference configuration;
-- the Super-4 variety is itself a difficult general-type rational-point problem.
+Audited source use:
+- infinitely many cubic fields admit perfect K-rational cuboids;
+- for every degree `n>=2`, some number field of degree n admits one.
 
-Firewall: this is a necessary projection to another open problem, not a presently stronger endpoint foundation.
+Routing: valuable arithmetic field-extension context, but it neither constructs a perfect Q-rational cuboid nor supplies a Q-rational obstruction. It is therefore screened as `RED_FOR_Q_ENDPOINT_FOUNDATION`, not omitted from the broad pass.
 
-## Already-covered ecosystems excluded from earning 29-02hd
+## Already represented ecosystems
 
-The screen also rechecked current/recent cuboid literature and explicitly excludes as already represented:
+Rechecked and excluded from earning a new independent suffix merely by renaming:
 - Testa–Stoll full surface / curves -> F1 / 29-02a;
 - Beauville/Schoen irregular cover -> 29-02d;
 - Freitag–Salvati Manni / X(8) modular model -> F5 / 29-02g;
@@ -85,5 +77,8 @@ The screen also rechecked current/recent cuboid literature and explicitly exclud
 - non-Fano/Hirzebruch recognition -> F7 adapter / 29-02hc;
 - Campedelli quotient layer -> F8 / 29-02hb.
 
+```text
+SOURCE_LOCK_AUDIT=PASS_AFTER_SCOPE_REPAIR
 LITERATURE_EXHAUSTIVENESS_CLAIM=false
 NO_MORE_FOUNDATIONS_EXIST_CLAIM=false
+```
