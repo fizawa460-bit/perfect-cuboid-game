@@ -118,13 +118,22 @@ NO_MORE_FOUNDATIONS_EXIST_CLAIM=false
 H_NAMESPACE_REOPENABLE=true
 ```
 
+## Controller-preservation closeout
+
+A final audit-diff check caught an unrelated metadata regression in `stages/stage29/controller.json`: the first audit rewrite had compressed previously audited fields in `work_import`, `child_02f`, `child_02g`, and `child_02ha`. Those fields have now been restored exactly while retaining only the intended 02hc merge synchronization and 02hd routing additions.
+
+```text
+CONTROLLER_METADATA_PRESERVATION_AUDIT=PASS
+UNRELATED_PRIOR_AUDIT_METADATA_DELETED=false
+```
+
 ## Final state
 
 ```text
 AUDIT_REQUIRED=false
 AUDIT_VERDICT=PASS
 CHECKPOINT29_02HD_AUDIT=PASS
-BOUNDED_REPAIR=PESCHMANN_SCOPE_PLUS_SOURCE_FRESHNESS_PLUS_BROAD_SCREEN_COVERAGE_PLUS_STOP_SEMANTICS
+BOUNDED_REPAIR=PESCHMANN_SCOPE_PLUS_SOURCE_FRESHNESS_PLUS_BROAD_SCREEN_COVERAGE_PLUS_STOP_SEMANTICS_PLUS_CONTROLLER_PRESERVATION
 REPAIR_REQUIRED=false
 MERGE_ALLOWED=true
 ADVANCE_ALLOWED=true
