@@ -79,23 +79,31 @@ Define symbolically
 
 No Stage16–29 theorem currently gives an asymptotic, positive lower bound, zero count, or nonexistence theorem for `P(B)`. Stage29-01 makes no endpoint count claim.
 
-## 3. Stage28 frontier imported at 29-01
+## 3. Stage28 final closeout imported at 29-01
 
-Stage28 PR #1282 has now received fresh audit PASS and is merged. Thus Stage29 may use the following as certified input:
+Stage28 is now fully closed, audited PASS, and merged through checkpoint70 / PR #1284. Stage29 therefore starts from the final Stage28 theorem surface, not a provisional frontier.
 
-- the common toric base / common physical-polarization normalization for the Stage19 space and Stage20 third-face K3 covers;
-- Stage19 physical degree-4 fixed curves absent;
-- all odd physical source M-degrees absent, hence M5 absent;
-- Stage20 Saunderson curve has physical M-degree 6 and yields the certified `B^(1/3)` construction scale;
+Certified Stage28 conclusions used here are:
+
+- Stage19/Stage20 are compared through the matched common host, not as a literal subset transition;
+- `M3/N2` remains asymptotically unordered;
+- `K_28=(log B)^2*(I_face/I_sp)` and `M3/N2~(24*pi*C_M2/kappa)K_28` remain the exact bridge-curvature interface;
+- the common toric base / common physical-polarization normalization for the Stage19 space and Stage20 third-face K3 covers is certified;
+- Stage19 physical degree-4 fixed curves are absent;
+- all odd physical source M-degrees are absent, hence M5 is absent;
+- Stage20 has a Saunderson physical M-degree-6 curve and the certified `B^(1/3)` construction scale;
 - Stage19 physical M6 presence/absence remains open;
-- fixed-curve geometry still does not resolve the full `M3/N2` ordering because the moving complement remains uncontrolled.
-
-The global bridge receiver remains branch/moving-family sensitive; Stage19/Stage20 asymptotic ordering is not identified.
+- fixed-curve geometry does not resolve the full bridge because the moving complement remains uncontrolled;
+- the primary Stage28 residual gate is `MovingComplementOrBranchSensitiveInteractionThresholdTheorem`;
+- the optional finite receiver is `PhysicalLowDegreeRootSpectrumM6`;
+- the construction-side future gate is `UniformMovingEllipticFibreSquareLiftHeightCount`.
 
 ```text
-STAGE28_CERTIFIED_FRONTIER=PR_1282_AUDITED_PASS_MERGED
+STAGE28_STATUS=CLOSED_AUDITED_PASS_MERGED
+STAGE28_FINAL_PR=1284
+STAGE28_FINAL_IMPORTED=true
 SOURCE_TARGET_ORDERING_IDENTIFIED=false
-STAGE28_REFRESH_REQUIRED_BEFORE_FINAL_ROUTING=true
+STAGE28_REFRESH_REQUIRED_BEFORE_FINAL_ROUTING=false
 ```
 
 ## 4. Endpoint descriptions to be compared
@@ -169,7 +177,7 @@ Arsenal, StructureRadar, Stage14–28 promotions, A2 methods and prior attack le
 
 ## 9. 29-01 gap scan and next step
 
-The certified Stage16–28 map is sufficient to begin Stage29. No additional old-stage analysis is required **before** the new-foundation screening. Whether targeted backflow is useful is intentionally deferred to 29-02/29-03, where the new lenses are tested.
+The certified Stage16–28 map is now complete through Stage28 closeout and is sufficient to begin Stage29. No additional old-stage analysis is required **before** the new-foundation screening. Whether targeted backflow is useful is intentionally deferred to 29-02/29-03, where the new lenses are tested.
 
 ```text
 GAP_SCAN_29_01=NONE_FOUND
