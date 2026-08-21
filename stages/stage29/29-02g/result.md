@@ -113,13 +113,9 @@ No defect class is globally eliminated yet, no finite set of elliptic curves `E/
 
 02g materially sharpens the already accepted modular foundation `F5`; it is not a genuinely independent new foundation. Therefore it does not consume the `29-02ha` namespace.
 
-PR #1300 / 29-02f is already merged. 02g itself creates no automatic Stage16--28 reentry. The correct next checkpoint is
+PR #1300 / 29-02f is already merged. 02g itself creates no automatic Stage16--28 reentry.
 
-```text
-29-03 FOUNDATION_BACKFLOW_DECISION
-```
-
-which decides whether any of the new Stage29 foundations justify targeted old-stage reentry.
+This audit does **not** choose `29-03` or any other next Stage29 item. The `29-02` extension namespace remains open; the next route is explicitly left unset pending user direction.
 
 ```text
 AUDIT_REQUIRED=false
@@ -138,8 +134,10 @@ BACKFLOW_TO_STAGE16_28=false
 REPAIR_REQUIRED=false
 MERGE_ALLOWED=true
 ADVANCE_ALLOWED=true
-NEXT_ITEM=29-03
-NEXT_EXPECTED_COMMAND=Stage29-main-batch
+AUTO_ADVANCE_TO_29_03=false
+STAGE29_02_EXTENSION_NAMESPACE_OPEN=true
+NEXT_ITEM=UNSET_PENDING_USER_DIRECTION
+NEXT_EXPECTED_COMMAND=USER_DIRECTED_STAGE29_COMMAND
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
