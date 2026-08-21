@@ -65,13 +65,13 @@ one gets
 x^2=2C^2-2C\cdot\delta C=4C^2-2D^2.
 \]
 
-The K3 Neron--Severi lattice is even, hence `4C^2` is divisible by `8`. On the base, adjunction gives
+The K3 Neron--Severi lattice is even, hence `4C^2` is divisible by `8`. On the base, with `L=-K_Y` and `L.D=m`, adjunction gives
 
 \[
-D^2-K_Y\cdot(-D)=D^2-m=2p_a(D)-2,
+2p_a(D)-2=D^2+K_Y\cdot D=D^2-m,
 \]
 
-or simply
+so
 
 \[
 D^2\equiv m\pmod2.
