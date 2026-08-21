@@ -1,0 +1,84 @@
+name: Stage29 num2 canonical N2 census 1e9
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage29/num2/**'
+      - '.github/workflows/stage29-num2-n2-1e9.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scan:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    strategy:
+      fail-fast: true
+      max-parallel: 20
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Scan exact N2 diagonal shell shard
+        shell: bash
+        run: |
+          SHARD=${{ matrix.shard }}
+          WIDTH=25000000
+          LO=$((500000001 + SHARD * WIDTH))
+          HI=$((500000000 + (SHARD + 1) * WIDTH))
+          python stages/stage29/num2/scripts/n2_extend_1e9.py scan \
+            --lo "$LO" \
+            --hi "$HI" \
+            --segment-size 250000 \
+            --output "shard-${SHARD}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage29-num2-shard-${{ matrix.shard }}
+          path: shard-${{ matrix.shard }}.json
+          retention-days: 7
+
+  aggregate:
+    needs: scan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage29-num2-shard-*
+          path: shards
+          merge-multiple: true
+      - name: Aggregate with frozen B500m base and regress Stage14 locks
+        shell: bash
+        run: |
+          python stages/stage29/num2/scripts/n2_extend_1e9.py aggregate \
+            --input-dir shards \
+            --bound 1000000000 \
+            --output stage29-num2-n2-1e9-report.json \
+            --object-source stage29-num2-n2-1e9-objects.csv.bz2.b64
+          python - <<'PY'
+          import json
+          x=json.load(open('stage29-num2-n2-1e9-report.json'))
+          cp={r['B']:r for r in x['checkpoints']}
+          assert cp[200000000]['N2']==2457
+          assert cp[500000000]['N2']==3495
+          assert x['endpoint']['T']==0
+          assert x['guards']['FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM'] is True
+          assert x['guards']['PERFECT_CUBOID_NONEXISTENCE_CLAIM'] is False
+          print('STAGE29_NUM2_OK', x['endpoint'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage29-num2-n2-1e9-exact-census
+          path: |
+            stage29-num2-n2-1e9-report.json
+            stage29-num2-n2-1e9-objects.csv.bz2.b64
+          retention-days: 30
