@@ -130,7 +130,9 @@ R29-MOD1C=TwistedSigmaDescentActionAndArithmeticAnalysisOfK8Classes
 
 ## Routing
 
-This suffix sharpens the already accepted F5 modular foundation and does not constitute a new independent `ha`-grade foundation. No Stage16--28 reentry follows directly from 02g; the next planned item `29-03` is exactly the checkpoint that decides whether any targeted backflow is justified.
+This suffix sharpens the already accepted F5 modular foundation and does not constitute a new independent `ha`-grade foundation. No Stage16--28 reentry follows directly from 02g.
+
+The audit does **not** choose the next Stage29 item. In particular, it does not automatically advance to `29-03`. The `29-02` extension namespace remains open, and routing after this PASS is left for explicit user direction.
 
 PR #1300 / Stage29-02f is already merged and the controller is synchronized during this audit.
 
@@ -151,8 +153,10 @@ BACKFLOW_TO_STAGE16_28=false
 REPAIR_REQUIRED=false
 MERGE_ALLOWED=true
 ADVANCE_ALLOWED=true
-NEXT_ITEM=29-03
-NEXT_EXPECTED_COMMAND=Stage29-main-batch
+AUTO_ADVANCE_TO_29_03=false
+STAGE29_02_EXTENSION_NAMESPACE_OPEN=true
+NEXT_ITEM=UNSET_PENDING_USER_DIRECTION
+NEXT_EXPECTED_COMMAND=USER_DIRECTED_STAGE29_COMMAND
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
