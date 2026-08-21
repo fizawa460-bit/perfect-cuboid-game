@@ -1,8 +1,9 @@
-# Stage29-02e — endpoint L-function, coordinate-K3 modular traces, and cross quotient
+# Stage29-02e — audited endpoint L-function / coordinate-K3 modular rematch
 
 ```text
 TASK=Stage29-02e
-STATUS=SUBMISSION_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_PENDING_MERGE
+AUDIT_VERDICT=PASS_AFTER_BOUNDED_REPAIR
 OLD_GATE_REPLAY=false
 BACKFLOW_TO_STAGE16_28=false
 PERFECT_CUBOID_CONCLUSION=NONE
@@ -10,79 +11,110 @@ PERFECT_CUBOID_CONCLUSION=NONE
 
 ## Executive result
 
-This suffix completes the previously unfinished Stage29-02e package and sharpens it with a reproducible exact finite-field calculation.
-
-The endpoint L-function is already explicitly known from Horie--Yamauchi. The missing project adapter was to identify which modular summand belongs to which natural K3 quotient used by Stage19/20.
-
-The exact regression at 14 odd primes gives the unique clean assignment
+Horie--Yamauchi give the endpoint non-Tate representation
 
 ```text
-K_b orbit -> h16,
-K_c       -> h32,
-K_a orbit -> h8.
+T(endpoint) = 3*h16 + h32 + 3*h8.
 ```
 
-This matches both multiplicity patterns
+Testa--Stoll give the seven coordinate-sign K3 quotient orbits
 
 ```text
-coordinate K3s:  3 K_b + 1 K_c + 3 K_a
-endpoint forms:  3 h16 + 1 h32 + 3 h8.
+3*K_b + 1*K_c + 3*K_a.
 ```
 
-The assignment is submitted as `PASS_CANDIDATE`, not self-certified as a global l-adic theorem.
+Fresh audit proves globally, without using finite-prime coincidence as the proof, that the seven coordinate K3 transcendental pieces are the seven canonical coordinate eigenspaces and exhaust the rank-14 endpoint transcendental representation. Hence
+
+```text
+K_b -> h16,
+K_c -> h32,
+K_a -> h8.
+```
+
+Using the already-audited Stage29-02b geometric bridge,
+
+```text
+Stage19 space-completion K3 -> h16,
+Stage20 Euler/third-face K3 -> h32.
+```
+
+The V4 cross quotient therefore has global semisimple non-Tate package
+
+```text
+T(X_cross) = 2*h16 + 3*h8.
+```
+
+The complete algebraic Tate/resolution/bad-prime L-function is not claimed.
 
 ## A. Endpoint source lock
 
-Horie--Yamauchi arXiv:2512.22520v3 prove
+Horie--Yamauchi arXiv `2512.22520v3`, Theorem 4.4 / Corollary 4.6, give after scalar extension to `Qbar_l`
 
 ```text
-H2_nonT(Sbar)
- = 3 V_h16 + V_h32 + 3 V_h8
+H2(Sbar)
+ = 3*V_h16 + V_h32 + 3*V_h8 + L_ell(-1),
 ```
 
-with explicit Tate/Dirichlet algebraic summands. Consequently, for good odd `p`,
+where `h16` has CM by `Q(i)`, `h32` has CM by `Q(sqrt(-2))`, and
 
 ```text
-T_Sbar(p)
- = 3 a_p(h16) + a_p(h32) + 3 a_p(h8)
-   + p*(10+2 chi_-1(p)+chi_-2(p)+3 chi_2(p)),
-
-#Sbar(F_p)=1+p^2+T_Sbar(p).
+V_h8 ~= chi_2 tensor V_h32.
 ```
 
-This is an exact endpoint finite-field oracle, not a rational-point theorem over Q.
+The source lock was repaired only to state the scalar-extension field precisely and to describe `34/26/1/3` as the fields of definition of a chosen Picard generating set.
 
-## B. Exact quotient models
+## B. Global coordinate-eigenspace proof
 
-Three representative coordinate quotients are counted directly:
+Testa--Stoll prove
 
 ```text
-K_c  = forget long diagonal c      = Euler-brick / Stage20 orbit,
-K_b1 = forget a face diagonal b1   = Stage19 space-completion orbit,
-K_a1 = forget a side coordinate a1 = third coordinate-sign orbit.
+omega_Sbar ~= O_Sbar(1),
+pg=7,
+h11=64,
+rho=64.
 ```
 
-The models are exact eliminations of the four endpoint quadrics. No family parametrization or heuristic sampling is used.
+For the sign change of one canonical coordinate, the defining quadrics are invariant while the ambient determinant is `-1`. In the residue realization of `H0(K)`, the invariant line is exactly the line spanned by the changed coordinate.
 
-## C. Reproducible exact computation
-
-`k3_trace_check.py` uses only exact arithmetic modulo `p` and no external package. It:
-
-1. enumerates projective points of each three-quadric singular model;
-2. detects rational singularities by exact Jacobian rank mod `p`;
-3. adds `p` for each rational A1 exceptional curve to obtain the smooth K3 point count;
-4. computes `T=#K(F_p)-1-p^2`;
-5. compares against the candidate newform plus algebraic-character trace.
-
-The checked primes are
+Thus the seven coordinate K3 quotients pull back the seven distinct canonical `H20` coordinate lines. Since
 
 ```text
-3,5,7,11,13,17,19,23,29,31,37,41,43,47.
+rank T(S)=78-64=14
 ```
 
-All assertions pass exactly.
+and there is no transcendental `(1,1)` part, every coordinate K3 has rank-two transcendental part and the seven pieces form a direct sum equal to `T(S)`.
 
-The resulting formulas are
+The orbit multiplicities `3+1+3` then compare globally with Horie--Yamauchi's irreducible modular multiplicities `3+1+3`. The unique orbit forces
+
+```text
+K_c -> h32.
+```
+
+Since `K_a ~= K_c` over `Q(i)`, and `h8 ~= chi_-1 tensor h32` using the `chi_-2` CM self-twist of `h32`,
+
+```text
+K_a -> h8,
+```
+
+leaving
+
+```text
+K_b -> h16.
+```
+
+Full details are in `global-k3-eigenspace-adapter.md`.
+
+## C. Exact finite-field regression
+
+The committed dependency-free checker counts the literal quotient models at
+
+```text
+p=3,5,7,11,13,17,19,23,29,31,37,41,43,47.
+```
+
+Fresh audit additionally checked the local quadratic tangent form at every rational Jacobian-rank-defect point. Every such point is an A1 node, so replacing it by the exceptional conic changes the point count by exactly `p`.
+
+The exact checked formulas remain
 
 ```text
 K_b:
@@ -96,70 +128,44 @@ K_a:
          +p*(13+4 chi_-1(p)+2 chi_2(p)+chi_-2(p)).
 ```
 
-## D. Stage19 / Stage20 arithmetic labels
+These 14-prime identities are retained as an exact regression oracle. They are no longer load-bearing for the global non-Tate identification, and the displayed algebraic character formulas are not promoted beyond the checked primes for `K_a`/`K_b` without a global Picard-character ledger.
 
-Using the already-merged Stage29-02b geometric adapter:
+## D. V4 cross quotient
 
-```text
-Stage19 space K3 = K_b orbit,
-Stage20 Euler K3 = K_c.
-```
-
-Therefore the candidate modular labels are
+The audited V4 identity has three nontrivial character quotients
 
 ```text
-Stage19 -> h16,
-Stage20 -> h32.
+X_sp,
+X_face,
+X_cross
 ```
 
-This converts the earlier geometric comparison into an explicit Frobenius/modular comparison.
-
-## E. Cross quotient
-
-The exact V4 finite-field identity is
+over rational `Y`. Since `Y` has no transcendental H2,
 
 ```text
-#X_joint=#X_face+#X_sp+#X_cross-2#Y.
+T(endpoint)=T(X_sp)+T(X_face)+T(X_cross).
 ```
 
-Since rational `Y` contributes no non-Tate part, the candidate global semisimple non-Tate subtraction is
+Substituting the audited labels gives
 
 ```text
-H2_nonT(X_cross)
- = (3 h16 + h32 + 3 h8) - h16 - h32
- = 2 h16 + 3 h8.
+T(X_cross)
+ = (3*h16+h32+3*h8)-h16-h32
+ = 2*h16+3*h8.
 ```
 
-Its dimension is `10`, exactly matching the independent Stage29-02b prediction `pg_cross=5`, for which `2 pg=10`.
+Its dimension is `10`, matching the independent `pg_cross=5` computation.
 
-This is a strong consistency check and reduces `R29-L2` to the audit status of the K3/newform identification plus a separate algebraic/boundary/bad-prime ledger.
-
-## F. What remains open
-
-The following are deliberately not promoted:
-
-```text
-GLOBAL_LADIC_KB_EQUALS_H16_PROVED=false
-GLOBAL_LADIC_KC_EQUALS_H32_SELF_CERTIFIED=false
-GLOBAL_LADIC_KA_EQUALS_H8_PROVED=false
-FULL_CROSS_LFUNCTION_WITH_BAD_PRIMES=false
-CROSS_ALGEBRAIC_TATE_LEDGER_COMPLETE=false
-RATIONAL_POINT_SET_COMPUTED=false
-PHYSICAL_HEIGHT_COUNT_OBTAINED=false
-```
-
-Fresh audit should decide whether the quotient geometry, CM structure and exact traces already discharge `R29-L3`, or whether a short formal representation-identification lemma remains.
-
-## G. Receivers after submission
+## E. Receiver state
 
 ```text
 R29-L3
  = CoordinateSignK3QuotientFrobeniusModuleIdentification
- = PASS_CANDIDATE_BY_EXACT_TRACE_REGRESSION
+ = DISCHARGED_GLOBAL_EIGENSPACE_ORBIT_ARGUMENT
 
 R29-L2-NT
  = V4CrossQuotientNonTateModularDecomposition
- = PASS_CANDIDATE_CONDITIONAL_ON_R29-L3
+ = DISCHARGED_GLOBAL_V4_SUBTRACTION
 
 R29-L2-ALG
  = CompatibleResolutionBoundaryAndAlgebraicTateCharacterLedger
@@ -170,10 +176,12 @@ R29-L2-BAD
  = OPEN_BOUNDED
 ```
 
-No new Stage16--28 reentry is justified by this suffix. The arithmetic data are Stage29-native and are intended for later 29-09 joint-local arithmetic / endpoint routing.
+No rational-point theorem, physical-height count, or perfect-cuboid existence/nonexistence conclusion follows from this L-function decomposition.
 
-## Files
+## Audit artifacts
 
+- `audit.md`
+- `global-k3-eigenspace-adapter.md`
 - `source-lock.md`
 - `frobenius-trace-oracle.md`
 - `k3-modular-identification.md`
@@ -184,11 +192,15 @@ No new Stage16--28 reentry is justified by this suffix. The arithmetic data are 
 - `controller-delta.json`
 
 ```text
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
-NEXT_ITEM_AFTER_PASS=29-02f
-NEXT_EXPECTED_COMMAND=Stage29-audit
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+CHECKPOINT29_02E_AUDIT=PASS
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+NEXT_ITEM=29-02f
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
+FULL_CROSS_LFUNCTION_COMPLETE=false
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
