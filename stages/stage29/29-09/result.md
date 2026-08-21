@@ -3,11 +3,13 @@
 ```text
 STAGE=Stage29
 ITEM=29-09_FULL_ENDPOINT_LOCAL_ARITHMETIC
-STATUS=SUBMISSION_PENDING_AUDIT
+STATUS=AUDITED_PASS_AFTER_BOUNDED_REPAIR
 ROLE=PRE_ATTACK_LOCAL_INFRASTRUCTURE
 ATTACK_CREDIT=false
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
+
+Fresh adversarial audit is recorded in `stages/stage29/29-09/audit.md`. The submitted mathematics survives; the bounded repair is controller-state synchronization via `controller-audit-state.json` after merged #1314.
 
 ## 1. Exact odd-prime seven-form local law
 
@@ -25,7 +27,7 @@ With
 \epsilon=\chi_p(-1),\qquad \eta=\chi_p(2),
 \]
 
-and `a_E(p)` the trace of `E:y^2=x^3-x`, exact branch character sums give
+and `a_E(p)` the trace of `E:y^2=x^3-x`, the audited exact branch counts are
 
 \[
 A_1=
@@ -40,13 +42,15 @@ A_2=\frac34(1+\epsilon)(1+\eta),
 A_3=\frac32(3+\epsilon).
 \]
 
+No extra intersection appears at `p=3`; only `p=2` is exceptional.
+
 Using the audited Stage29-02e endpoint Frobenius package and the exact fiber identity
 
 \[
 \#\bar S(F_p)=64A_0+32A_1+16A_2+8A_3,
 \]
 
-one obtains
+one obtains identically
 
 \[
 \boxed{
@@ -58,32 +62,31 @@ one obtains
 \end{aligned}}
 \]
 
-Hence on the nonbranch finite-field host
+Hence
 
 \[
 \frac{A_0(p)}{(p-3)^2}=\frac1{64}+O(1/p).
 \]
 
-This is exact local geometry, not a heuristic independence factor.
-
 ```text
-R29-KUM-LOC1-ODD=DISCHARGED_CANDIDATE_EXACT
+R29-KUM-LOC1-ODD=DISCHARGED_EXACT
 R29-KUM-LOC1=PARTIAL_DISCHARGE_ODD_PRIMES_EXACT_BAD_PRIME_2_SEPARATE
+ODD_PRIME_BRANCH_INCIDENCE_AUDIT=PASS
 ```
 
 ## 2. Exact odd-prime branch valuation ledger
 
-Conditional on an eligible reduction cylinder, the continuation probabilities for `Q_p` squareclass lifting are
+Conditional on an eligible reduction cylinder,
 
 \[
-\boxed{q_0=1},
+q_0=1,
 \qquad
-\boxed{q_1=\frac1{2(p+1)}},
+q_1=\frac1{2(p+1)},
 \qquad
-\boxed{q_2=\frac1{4(p+1)^2}}.
+q_2=\frac1{4(p+1)^2}.
 \]
 
-At a triple point the local branches are `r,s,r+s`, so the third condition is correlated. Exact p-adic summation gives
+At every triple point the vanishing branches are literally `r,s,r+s`; the third condition is correlated. Exact p-adic summation gives
 
 \[
 \boxed{
@@ -93,9 +96,9 @@ q_3(p)=
 }
 \]
 
-In particular `q3 != q1^3`; this is genuinely joint endpoint information rather than a replay of one marginal blocker.
+Thus `q3 != q1^3` is certified genuinely joint endpoint information.
 
-Every `F_p` projective cylinder has normalized Haar mass `1/(p^2+p+1)`, so the exact full odd-prime local density is
+Every `F_p` projective cylinder has normalized mass `1/(p^2+p+1)`, so the exact odd-prime local density is
 
 \[
 \boxed{
@@ -104,55 +107,40 @@ Every `F_p` projective cylinder has normalized Haar mass `1/(p^2+p+1)`, so the e
 }
 \]
 
-Thus
-
-\[
-\Delta_p=\frac1{64}+O(1/p).
-\]
+and `Delta_p=1/64+O(1/p)`.
 
 ```text
-R29-KUM-LOC2-ODD=DISCHARGED_CANDIDATE_EXACT
+R29-KUM-LOC2-ODD=DISCHARGED_EXACT
 JOINT_TRIPLE_BRANCH_CORRELATION_EXACT=true
 INDEPENDENT_BRANCH_PRODUCT_ASSUMED=false
 ```
 
 ## 3. Real and 2-adic places
 
-On the physical real chamber `x,y,z>0`, all seven branch forms are positive, so there is no real squareclass obstruction.
+On the physical chamber `x,y,z>0`, all seven forms are positive, so there is no real squareclass obstruction.
 
-The prime `2` is genuinely exceptional: the seven-line arrangement degenerates modulo 2 and odd-prime Legendre-symbol formulas do not transfer. There is no blanket `Q_2` obstruction: for the Euler brick `(44,117,240)`, all face sums are squares and
+The prime `2` remains separate. The Euler brick `(44,117,240)` proves only local nonemptiness: its three face sums are squares and
 
 \[
 44^2+117^2+240^2=73225\equiv1\pmod8,
 \]
 
-so the space sum is a square in `Q_2`. Exact normalized `Q_2` density remains a bounded state-automaton receiver.
+so the space sum is a square in `Q_2`. This is not a rational perfect cuboid and supplies no exact `Q_2` density.
 
 ```text
-R29-KUM-LOC2-INFINITY=DISCHARGED
+R29-KUM-LOC2-INFINITY=DISCHARGED_NO_POSITIVE_CHAMBER_OBSTRUCTION
 R29-KUM-LOC2-2=OPEN_BOUNDED_TWO_ADIC_STATE_AUTOMATON
 R29-KUM-LOC2=PARTIAL_DISCHARGE_ODD_PRIMES_AND_INFINITY_DONE_P2_OPEN
 ```
 
-## 4. Comparison with Stage19/20 blocker laws
+## 4. Stage19/20 double-charge firewall
 
-Stage19's matched two-face host has the split-prime space-diagonal deficiency
+Stage19 and Stage20 local laws live on already-selected two-face hosts. The present law lives on the full seven-line `P^2(Q_p)` base. They are different measures and are not multiplied or re-credited.
 
-\[
-1-\rho_p=4/p+O(p^{-2}),
-\]
-
-while Stage20's matched two-face toric host has third-face blocker mass
-
-\[
-2/p+O(p^{-2}).
-\]
-
-The present leading `1/64` law lives instead on the full `P^2` seven-line base. These are different hosts/measures and are not independent probabilities. No Stage19 or Stage20 saving is re-credited or multiplied into the endpoint law.
-
-A global use of the seven-form local conditions requires a new adapter from rational points on the `P^2` base to primitive canonical physical cuboids with `R<=B`, including height distortion, multiplicity and uniform equidistribution/large-sieve control.
+A global use still requires control of physical height, primitivity, canonical ordering, multiplicity, and uniform equidistribution/large-sieve transfer.
 
 ```text
+DOUBLE_CHARGE_FIREWALL=PASS
 R29-KUM-LOC3=AMBER_PHYSICAL_HEIGHT_MEASURE_GLOBAL_ADAPTER
 STAGE19_LOCAL_SAVING_RECREDITED=false
 STAGE20_LOCAL_SAVING_RECREDITED=false
@@ -161,31 +149,43 @@ LOCAL_EULER_PRODUCT_GLOBAL_BOUND_CLAIM=false
 
 ## 5. Exact computation checkpoint
 
-`local_density_check.py` enumerates `P^2(F_p)` exactly, computes `A_0..A_3`, computes `a_E(p)` directly, verifies the closed branch formulas, reconstructs `#Sbar(F_p)` from exact fiber sizes, and evaluates the rational `Delta_p`. The default regression covers every odd prime below 100; a compact table through 47 is committed in `local-check-output.md`.
+`local_density_check.py` exactly enumerates `P^2(F_p)` and verifies the branch formulas below 100. Fresh audit independently repeated the branch enumeration through every odd prime below 200 and independently re-derived the `q3` recurrence and the Stage29-02e Frobenius substitution.
 
 ```text
-EXACT_REGRESSION=PASS_INTERNAL
+EXACT_REGRESSION=PASS_AUDITED
 FLOATING_ARITHMETIC_USED=false
 FINITE_REGRESSION_IS_NOT_GLOBAL_THEOREM=true
 ```
 
-## 6. Routing and stop rule
+## 6. Controller / CI bounded repair
 
-This item remains infrastructure. It does not create a twelfth attack route. The new joint data are handed to the existing `J12-LOCAL-SQUARECLASS` owner, while the two open adapters are explicit rather than silently assumed.
+PR #1314 is merged at `b89bb92bf6bdb57b84262d39ed7005ea13d9403c`. Because 29-08 used an authoritative controller overlay, the aggregate `controller.json` still shows the older 29-07 snapshot. `controller-audit-state.json` now explicitly synchronizes merged 29-08 and audited 29-09 without rewriting historical metadata.
+
+The red `Stage29-01 audit lock` remains a stale historical-state check: its verifier literally requires `controller["status"] == "29_01_AUDITED_PASS"` and the original `P_finite_zero_through_B == 500000000`. It is not a 29-09 content failure.
 
 ```text
+CI_RED_CLASSIFICATION=STALE_STAGE29_01_LOCK_FALSE_POSITIVE
+CI_CONTENT_BLOCKER=false
+```
+
+## 7. Final audit state
+
+```text
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS_AFTER_BOUNDED_REPAIR
+CHECKPOINT29_09_AUDIT=PASS
+BOUNDED_REPAIR=CONTROLLER_OVERLAY_SYNC_29_08_MERGED_PLUS_29_09_AUDIT_STATE
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
 ATTACK_ROUTE_COUNT_RETAINED=11
 ROUTE_COUNT_CHANGE=0
 TARGETED_BACKFLOW_REQUIRED=false
 ROADMAP_REWRITE_REQUIRED=false
 R29-KUM-LOC2-2=OPEN_BOUNDED
 R29-KUM-LOC3=AMBER_GLOBAL_ADAPTER_REQUIRED
-AUDIT_REQUIRED=true
-REPAIR_REQUIRED=false
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
-NEXT_ITEM_AFTER_AUDIT_PASS=GAP_SCAN_B_ROADMAP_REVIEW_B
-NEXT_EXPECTED_COMMAND_AFTER_MERGE=Stage29-main-batch
+NEXT_ITEM=GAP_SCAN_B_ROADMAP_REVIEW_B
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
