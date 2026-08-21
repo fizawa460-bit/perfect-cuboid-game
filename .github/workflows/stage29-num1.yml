@@ -10,7 +10,7 @@ on:
 jobs:
   regression-and-resta-crosscheck:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - name: Build exact M3 enumerator
@@ -31,8 +31,25 @@ jobs:
       - name: Independent exhaustive Resta/OEIS cross-check through 5e8
         run: |
           python3 stages/stage29/num1/scripts/resta_crosscheck.py --output /tmp/resta_crosscheck.json
+      - name: Exact production census at 1e9
+        run: |
+          /tmp/m3_census 1000000000 4 | tee /tmp/m3_1e9.json
+          python3 - <<'PY'
+          import json
+          p='/tmp/m3_1e9.json'
+          x=json.load(open(p))
+          assert x['B'] == 1000000000
+          assert x['perfect_cuboid_hits'] == 0
+          assert x['M3'] >= 3331
+          print(f'PRODUCTION_OK B={x["B"]} M3={x["M3"]} P={x["perfect_cuboid_hits"]} runtime_sec={x["runtime_sec"]}')
+          PY
       - name: Upload exact cross-check manifest
         uses: actions/upload-artifact@v4
         with:
           name: stage29-num1-resta-crosscheck
           path: /tmp/resta_crosscheck.json
+      - name: Upload exact 1e9 census
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage29-num1-m3-1e9
+          path: /tmp/m3_1e9.json
