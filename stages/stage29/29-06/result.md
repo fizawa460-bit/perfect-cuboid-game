@@ -1,140 +1,109 @@
-# Stage29-06 — global foundation synthesis / endpoint-hub graph
+# Stage29-06 — audited global foundation synthesis / endpoint-hub graph
 
 ```text
 STAGE=Stage29
 ITEM=29-06_GLOBAL_FOUNDATION_SYNTHESIS
 MODE=PRE_ATTACK_SYNTHESIS
-ROADMAP_REVISION=R2_POST_29_02_FOUNDATION_SCREEN_AUDITED
+AUDIT_VERDICT=PASS_AFTER_MATERIAL_REPAIR
 SYNTHESIS_ATTACK_CREDIT=false
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
 
-## 1. Purpose
+## 1. Audit verdict
 
-The audited Stage29 foundation screen produced several exact models and theorem ecosystems around the same endpoint. 29-06 does not choose a winner and does not force them into one quotient tower. It freezes a field-aware, direction-aware endpoint-hub graph so later stages can attack several routes without silently reversing maps, confusing a cohomological decomposition with a morphism, or transferring `Q(i)` statements to `Q`.
+The endpoint-hub strategy survives, but the submitted machine-readable graph did **not** pass as written. It collapsed canonical/normal quotient models with their minimal resolutions in three places. That changes whether displayed maps are finite and is therefore a material graph defect, not cosmetic notation.
 
-Canonical machine-readable graph:
-
-```text
-stages/stage29/29-06/endpoint-hub-graph.json
-```
-
-## 2. Central endpoint node
-
-The central geometric endpoint remains the canonical cuboid surface
+The repaired graph is `endpoint-hub-graph.json`, schema `STAGE29_06_ENDPOINT_HUB_GRAPH_R02_AUDITED`.
 
 ```text
-Sbar = complete intersection (2,2,2,2) in P6 over Q
-48 A1 nodes
-minimal resolution S: K^2=16, pg=7, q=0, geometric Picard rank 64
+CANONICAL_RESOLUTION_SCOPE_AUDIT=PASS_AFTER_MATERIAL_REPAIR
+F7_UNIVERSAL_ORGANIZER_ASSUMED=false
+ENDPOINT_HUB_GRAPH_MATERIALIZED=true
 ```
 
-The positive physical rational-box locus is the smooth open
+## 2. Central endpoint and F7 presentation
+
+The central endpoint remains
 
 ```text
-U_phys = Sbar intersect D_+(a1*a2*a3).
+Sbar = (2,2,2,2) complete intersection in P6 over Q
+S    = minimal resolution of Sbar
 ```
 
-This central node has several genuinely different outgoing/incoming structures.
+with 48 A1 nodes and resolved invariants `K^2=16, pg=7, q=0`.
 
-## 3. Exact geometric morphisms already certified
-
-### 3.1 F7 sign/Kummer presentation
-
-The same canonical endpoint has the exact global map
+The exact finite global F7 map is
 
 ```text
 Sbar -> P2
-[x:y:z]=[a1^2:a2^2:a3^2]
+[a1:a2:a3:...] -> [a1^2:a2^2:a3^2]
+degree=64
+deck=(Z/2)^6
+branch=xyz(x+y)(x+z)(y+z)(x+y+z)=0.
 ```
 
-of generic degree `64` with deck group `(Z/2)^6`, branched on
+`S -> P2` is **not** substituted for this finite map: the resolution contracts exceptional curves through `S -> Sbar` first.
+
+The four physical face/space predicates remain the audited pointwise squareclass tests on this same F7 presentation (`R29-KUM4A`), while the population/subcover count adapter `R29-KUM4B` stays open.
+
+## 3. Material repair A — Campedelli canonical model versus resolution
+
+The submitted prose already had the correct distinction, but the R01 graph node `CAMPEDELLI_H` mixed it back together. The exact global finite factorization is
 
 ```text
-xyz(x+y)(x+z)(y+z)(x+y+z)=0.
+Sbar --degree 8 etale--> Cbar_H --degree 8--> P2,
 ```
 
-This is full endpoint coverage, not a thin parametrized family.
+where `Cbar_H=Sbar/H` is normal and has six A1 singularities.
 
-The F7 presentation is therefore an exact presentation of `Sbar`, not a second independent physical endpoint surface.
-
-### 3.2 Campedelli quotients
-
-For each of the ten audited admissible rank-three kernels `H`,
+Separately, after minimal resolutions,
 
 ```text
-Sbar -> Cbar_H -> P2
- degree 8    degree 8
+S --degree 8 etale--> C_H
+|                     |
+v                     v
+Sbar ---------------> Cbar_H
 ```
 
-is a Q-defined global quotient factorization. After minimal resolution,
+is the audited resolution-level finite etale quotient. The composite `C_H -> Cbar_H -> P2` is not called a finite degree-8 cover because the six exceptional curves are contracted.
+
+The repaired graph therefore has distinct nodes
 
 ```text
-S -> C_H
+CAMPEDELLI_BAR_H
+CAMPEDELLI_H
 ```
 
-is finite etale of degree eight. The certified Q-symmetry orbit decomposition is `6+2+2`; this is not a theorem that there are exactly three Q-isomorphism classes.
+and distinct canonical/resolved edges.
 
-Endpoint Q-points push forward to every `C_H(Q)`. Converse lifting is an `H`-torsor problem.
-
-### 3.3 Beauville cover
-
-The arrow is load-bearingly in the opposite direction:
+The arithmetic orbit firewall is unchanged:
 
 ```text
-X_cub -> Sbar
+GEOMETRIC_Qi_KERNEL_ORBITS=8+2
+CERTIFIED_Q_S3_KERNEL_ORBITS=6+2+2
+EXACT_Q_ISOMORPHISM_CLASS_COUNT_PROVED=false
 ```
 
-with degree two after the audited Q-descent. On the physical smooth open it is finite etale with constant deck group `Z/2`.
+## 4. Material repair B — coordinate-sign K3 quotient versus K3 resolution
 
-An endpoint Q-point need not lift to the untwisted `X_cub`; it determines a quadratic torsor/twist class. No finite twist set is proved.
+For a coordinate sign involution, the finite degree-two quotient of `Sbar` is a **normal degree-32 six-line cover**. Its minimal resolution is the K3 surface.
 
-Therefore Beauville is not rewritten as an F7 quotient merely to make a single hierarchy.
-
-## 4. Joint V4 / Stage28 hub
-
-The Stage28 common base is
+The R01 graph incorrectly drew
 
 ```text
-Y=Bl_4(P1xP1),  L=-K_Y, L^2=4.
+Sbar --degree 2 finite--> smooth K3
 ```
 
-The simultaneous completion field is exactly
+directly. The repaired graph splits each orbit into
 
 ```text
-K(Y)(sqrt(f_face),sqrt(f_sp)),
-f_face=t1^2+t2^2,
-f_sp=1+t1^2+t2^2.
+Sbar -> Kbar_a, Kbar_b, Kbar_c     finite normal quotients
+K_a  -> Kbar_a                     minimal crepant resolution
+K_b  -> Kbar_b
+K_c  -> Kbar_c
 ```
 
-This gives the dense-open V4 diamond
-
-```text
-                 X_joint
-              /     |     \
-           X_sp   X_face  X_cross
-              \     |     /
-                    Y
-```
-
-with three quadratic character quotients. The endpoint and `X_joint` have the same function field. The full boundary/canonical-model identification is retained explicitly as an open adapter rather than silently promoted:
-
-```text
-R29-G1b = JointCoverBoundaryContractionAndExceptionalCurveLedger
-R29-X1  = CrossQuotientCompleteADESingularityAndMinimalModelAudit
-```
-
-Thus 29-06 records the edge as exact on function fields/dense opens, with global boundary status visible. 29-07 owns the exact bridge refinements.
-
-## 5. Seven coordinate-sign K3 quotients
-
-The endpoint has seven exact degree-two coordinate-sign quotients, in Q-symmetry orbits
-
-```text
-3*K_a + 3*K_b + 1*K_c.
-```
-
-Their audited transcendental labels are
+with Q-orbit multiplicities `3+3+1` and non-Tate labels
 
 ```text
 K_a -> h8
@@ -142,46 +111,34 @@ K_b -> h16
 K_c -> h32.
 ```
 
-The Stage19 and Stage20 marginal K3s have audited non-Tate modules
+The Stage19/20 marginal K3 module matches remain only cohomological/module matches:
 
 ```text
 X_sp   -> h16
 X_face -> h32
 ```
 
-and the V4 cross quotient has
+and do **not** prove geometric isomorphism to `K_b` or `K_c`.
+
+## 5. Material repair C — standard non-Fano normal cover versus Hirzebruch resolution
+
+The R01 graph also used one node `NONFANO_M2` for both the standard normal Kummer cover and its resolution. That is repaired into
 
 ```text
-X_cross -> 2*h16+3*h8.
+P2_NONFANO
+NONFANO_BAR = standard normal N=2 Kummer cover
+NONFANO_M2  = its minimal resolution.
 ```
 
-These module matches are **not** promoted to geometric isomorphisms between the Stage28 marginal K3s and particular coordinate-sign K3 quotients. Cohomological equality is a separate edge species.
-
-## 6. Modular model and the S4 coincidence
-
-Over `K=Q(i)`, the endpoint has the exact modular presentation
+The exact field statements are now represented separately:
 
 ```text
-Sbar_K ~= (X(8) x X(8))/Delta G0,
-G0 ~= (Z/2)^3.
+P2_F7 ~=_Q P2_NONFANO as branch arrangements
+Sbar x Q(i) ~= NONFANO_BAR x Q(i)
+S    x Q(i) ~= NONFANO_M2  x Q(i)
 ```
 
-Forgetting the retained level-4 data gives only a generic moduli quotient of degree `24`, with residual group `S4`, to a target birational to Fisher's ordinary `Z(8,1)` surface.
-
-The bare ordinary 8-congruence obstruction is already RED. Useful endpoint arithmetic must retain the conjugate-self level-4 datum.
-
-The seven-line arrangement also has geometric base automorphism group `S4`, but the graph does not identify these two `S4` actions merely because the abstract groups agree:
-
-```text
-R29-KUM5 = ArrangementS4VsModularResidualS4ActionAndQDescentCocycle
-STATUS=OPEN
-```
-
-No action-level or Q-descent identification is claimed in 29-06.
-
-## 7. Non-Fano / Hirzebruch recognition
-
-The cuboid seven-line divisor is PGL3(Q)-equivalent to the classical non-Fano arrangement. The cover arithmetic is subtler:
+Over Q there is an explicit constant-sign twist relation, **not** a Q-isomorphism of the standard covers.
 
 ```text
 STANDARD_NONFANO_Q_COVER_IDENTIFICATION=false
@@ -189,98 +146,81 @@ QI_GEOMETRIC_HIRZEBRUCH_IDENTIFICATION=true
 CUBOID_Q_FORM_IS_EXPLICIT_CONSTANT_SIGN_TWIST=true
 ```
 
-All 24 rational projective arrangement equivalences fail to lift to the standard cover over Q and lift over `Q(i)`.
+`R29-NF1QISO` remains ledger-only dormant and is not reactivated.
 
-Therefore the hub records:
+## 6. Beauville, modular and V4 arrows survive
 
-- exact Q branch-arrangement recognition;
-- exact Q(i) cover/resolution identification;
-- an explicit Q twist relation;
-- no automatic Q-rational-point transfer through the Q(i) isomorphism.
-
-Per the audited GAP_SCAN_A anti-loop repair,
+The Beauville direction remains
 
 ```text
-R29-NF1QISO=LEDGER_ONLY_DORMANT_OPEN_NOT_NEEDED
+X_cub -> Sbar
+degree=2 over Q.
 ```
 
-and is not reactivated.
+On the physical smooth open it is finite etale with constant deck group `Z/2`; an endpoint Q-point determines a quadratic twist class and need not lift to the untwisted cover. No finite twist set is proved.
 
-The active synthesis receivers remain
+The modular presentation remains exact after base change to `Q(i)`:
 
 ```text
-R29-NF3
-R29-NF4
-R29-NF5
-R29-NF6
-R29-NF7
+Sbar_Q(i) ~= (X(8)xX(8))/Delta G0,
+G0=(Z/2)^3.
 ```
 
-as explicitly OPEN internal adapters attached to the graph. None is promoted to a twelfth attack route.
+The subsequent forgetting map has generic degree `24` and residual `S4` only at the audited generic/moduli level. It is not promoted to an everywhere finite compactified morphism. Ordinary unrestricted symplectic 8-congruence remains RED.
 
-## 8. L-function / character node is not a geometric node
+The arrangement `S4` and modular residual `S4` remain unrelated at action level until `R29-KUM5` is solved.
 
-The endpoint non-Tate representation is
+For the joint V4 model,
 
 ```text
-T(S)=3*h16+h32+3*h8.
+K_endpoint = Q(Y)(sqrt(f_face),sqrt(f_sp))
 ```
 
-This is represented in the hub by a cohomological node and typed edges from the endpoint/K3 objects. It is not a surface, quotient, cover, or rational-point map.
-
-Likewise the V4 identity
+is exact on function fields/dense opens. The global boundary/canonical-model and cross minimal-model ledgers remain open as
 
 ```text
-T(S)=T(X_sp)+T(X_face)+T(X_cross)
-```
-
-and the finite-field V4 point-count identity are structural/cohomological decompositions. They cannot be used as three independent rational-point probabilities.
-
-## 9. Brauer/open-boundary relation
-
-The physical open has 72 geometric boundary components on the resolution. The proper odd-primary nonconstant Brauer contribution is audited absent, but the physical open still has live extended-Picard, Gersten-residue and two-primary evaluation receivers.
-
-These attach to `U_phys` as arithmetic tools, not as extra geometric endpoint models. In particular:
-
-```text
-NONFANO_MOD2_RESONANCE_IMPLIES_BRAUER_OBSTRUCTION=false
-CLIFFORD_RECEIVER_IMPLIES_ENDPOINT_OBSTRUCTION=false
-```
-
-Any later Brauer obstruction must compute the relevant group and local evaluation maps.
-
-## 10. Relation taxonomy locked
-
-29-06 freezes the following relation classes as distinct:
-
-```text
-FINITE_COVER_OR_QUOTIENT
-CREPANT_RESOLUTION
-BIRATIONAL_OR_FUNCTION_FIELD_IDENTIFICATION
-MODEL_ALIAS
-BASE_CHANGE_ISOMORPHISM
-Q_TWIST_RELATION
-GENERIC_MODULI_QUOTIENT
-COHOMOLOGICAL_DECOMPOSITION_OR_MODULE_MATCH
-OPEN_INTERNAL_ADAPTER
-```
-
-A downstream argument may compose arrows only when field, direction and rational-point semantics are compatible.
-
-## 11. Exact unresolved edge queue after synthesis
-
-The graph intentionally retains unresolved edges. Primary next-stage bridge queue:
-
-```text
-29-07:
-R29-KUM3A
-R29-KUM3B
-R29-KUM4B
 R29-G1b
-R29-X1
+R29-X1.
 ```
 
-Synthesis-owned open adapters retained without replay:
+No generic-to-global promotion was added in 29-06.
+
+## 7. Cohomology is not a rational-point map
+
+The endpoint non-Tate representation
+
+```text
+3*h16 + h32 + 3*h8
+```
+
+and the V4/K3 decompositions are kept as cohomological edges only. They are not quotient maps, rational-point implications, or independent probability factors.
+
+Likewise `R29-QWEB-CLIFFORD`, Brauer, characteristic-variety and resonance data remain theorem/adaptor tools; no obstruction is certified merely by attaching them to the hub.
+
+## 8. Physical-open and population firewall
+
+The algebraic physical open is
+
+```text
+U = Sbar intersect D_+(a1*a2*a3),
+```
+
+which is smooth and identified with its inverse image on `S`. It is the nonzero-side algebraic locus relevant to rational boxes. Canonical ordering, primitive normalization, physical height and counting multiplicity are **not** encoded by an open immersion in the hub.
+
+```text
+PROJECTIVE_Q_POINT_IS_CANONICAL_PRIMITIVE_POPULATION_OBJECT=false
+HEIGHT_TRANSFER_AUTOMATIC=false
+PRIMITIVITY_TRANSFER_AUTOMATIC=false
+CANONICAL_ORDER_TRANSFER_AUTOMATIC=false
+MULTIPLICITY_TRANSFER_AUTOMATIC=false
+ASYMPTOTIC_TRANSFER_AUTOMATIC=false
+```
+
+Thus the hub does not turn the exact Q-point formulations into Stage16--20 population equalities.
+
+## 9. Open synthesis / next bridge queue
+
+Synthesis-owned open adapters remain
 
 ```text
 R29-KUM5
@@ -291,34 +231,49 @@ R29-NF6
 R29-NF7
 ```
 
-`R29-NF1QISO` remains dormant ledger-only.
-
-## 12. No route compression / no endpoint theorem
-
-The hub does not imply that all foundations are independent, nor that one is universal. It also does not create a rational point or obstruction.
+with
 
 ```text
-ENDPOINT_HUB_GRAPH_MATERIALIZED=true
-F7_UNIVERSAL_ORGANIZER_ASSUMED=false
-PREMATURE_SINGLE_ROUTE_SELECTION=false
-ATTACK_ROUTE_COUNT_RETAINED=11
-SYNTHESIS_ATTACK_CREDIT=false
+R29-NF1QISO=LEDGER_ONLY_DORMANT_OPEN_NOT_NEEDED.
+```
+
+The 29-07 primary bridge queue remains
+
+```text
+R29-KUM3A
+R29-KUM3B
+R29-KUM4B
+R29-G1b
+R29-X1
+```
+
+and KUM4A replay is forbidden.
+
+No Stage16--28 contract was changed by the repaired graph, so
+
+```text
 TARGETED_BACKFLOW_REQUIRED_NOW=false
 ACTIVE_BACKFLOW_QUEUE_SIZE=0
 CONDITIONAL_BACKFLOW_WATCHLIST=[R29-KUM4B]
-ROADMAP_REWRITE_REQUIRED=false
-PERFECT_CUBOID_EXISTENCE_CLAIM=false
-PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## 13. Routing
+remains correct.
 
-The canonical controller is intentionally not edited by the main-lane submission. The audit may synchronize it only after checking every graph edge against the audited source records.
+## 10. Final state
 
 ```text
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+CHECKPOINT29_06_AUDIT=PASS
+BOUNDED_REPAIR=CANONICAL_RESOLUTION_NODE_SPLIT_FOR_CAMPEDELLI_K3_NONFANO_PLUS_PHYSICAL_POPULATION_FIREWALL
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+ATTACK_ROUTE_COUNT_RETAINED=11
+SYNTHESIS_ATTACK_CREDIT=false
+ROADMAP_REWRITE_REQUIRED=false
 NEXT_ITEM=29-07_SIGN_TOWER_JOINT_V4_AND_POPULATION_BRIDGE
-NEXT_EXPECTED_COMMAND=Stage29-audit
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
+PERFECT_CUBOID_EXISTENCE_CLAIM=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
