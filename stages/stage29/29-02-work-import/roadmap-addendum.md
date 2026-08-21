@@ -59,6 +59,30 @@ R29-BR2=TranscendentalBrauerPrime2AndEvaluationAudit
 
 Study the exact Q-descended `M(4,8)` conjugate-self-8-congruence condition with level-4 data. Ordinary 8-congruence, bare `X(8)xX(8)` modularity, or Hecke data alone are explicitly insufficient.
 
+## Expandable 29-02 suffix namespace
+
+The current `29-02a` through `29-02g` labels are frozen for the routes already assigned. Stage29-02 is intentionally open-ended because its job is to discover materially different foundations, and further discoveries are expected to remain possible after `29-02g`.
+
+All **newly discovered** Stage29-02 foundations after the current queue must use the `h*` extension namespace:
+
+```text
+29-02ha
+29-02hb
+29-02hc
+29-02hd
+...
+```
+
+Do not rename or shift existing `29-02a`--`29-02g`. A new `29-02h*` item is allowed only when it adds a genuinely distinct exact model, theorem, adapter, arithmetic/geometric invariant, coverage theorem, or local-global obstruction. Cosmetic subdivision or replay of an old frozen receiver does not earn a suffix.
+
+The namespace is open-ended, but Stage29-02 does **not** require proof that no further foundation exists before advancing. `29-03` may begin once the currently material/high-value suffixes have been audited and the marginal value of further screening has dropped sufficiently; later genuinely new foundations may still enter as `29-02h*` addenda.
+
+Machine-readable policy:
+
+```text
+stages/stage29/29-02-suffix-numbering.json
+```
+
 ## Routing rule
 
 These suffixes are materially different theorem/geometric hosts and may continue inside Stage29. Their existence by itself does not require an earlier-stage addendum. `29-03 FOUNDATION_BACKFLOW_DECISION` should be taken only after the relevant suffix results are audited and can be judged for actual backflow value.
