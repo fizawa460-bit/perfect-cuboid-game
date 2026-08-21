@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Consistency verifier for the audited Stage28 checkpoint70 closeout state."""
+"""Consistency verifier for the audited and merged Stage28 checkpoint70 closeout state."""
 
 from __future__ import annotations
 
@@ -65,34 +65,40 @@ def main() -> None:
 
     assert registry["stage"] == "Stage28"
     assert registry["checkpoint"] == 70
-    assert registry["status"] == "AUDITED_PASS_PENDING_MERGE"
+    assert registry["status"] == "CLOSED_AUDITED_PASS_MERGED"
     assert registry["interaction"]["ordering_threshold_K28"] == "kappa/(24*pi*C_M2)"
     assert registry["known_results"]["source_target_ordering_identified"] is False
     assert registry["synthesis"]["synthesis_stop_rule_satisfied"] is True
     assert registry["firewalls"]["perfect_cuboid_conclusion"] == "NONE"
     assert registry["artifacts"]["final"] == "stages/stage28/final.md"
     assert registry["audit_status"] == "PASS"
-    assert registry["merge_allowed"] is True
-    assert registry["advance_allowed"] is True
+    assert registry["closeout_pr"] == 1284
+    assert registry["closeout_merge_commit"] == "a4b57ef8f776390a33faf6efe0766d676df33088"
+    assert registry["close_stage_completed"] is True
+    assert registry["merge_allowed"] is False
+    assert registry["advance_allowed"] is False
     assert registry["stage29_refresh_required"] is True
     assert registry["next_expected_command"] == "Stage29-audit"
 
     assert controller["stage"] == "Stage28"
+    assert controller["status"] == "CLOSED_AUDITED_PASS_MERGED"
     assert controller["current_checkpoint"] == 70
     assert controller["checkpoint_status"]["60"] == "R3_AUDITED_PASS_MERGED"
-    assert controller["checkpoint_status"]["70"] == "AUDITED_PASS_PENDING_MERGE"
+    assert controller["checkpoint_status"]["70"] == "AUDITED_PASS_MERGED"
     assert controller["checkpoint70"]["synthesis_stop_rule_satisfied"] is True
     assert controller["checkpoint70"]["source_target_asymptotic_ordering_identified"] is False
     assert controller["checkpoint70"]["final"] == "stages/stage28/final.md"
     assert controller["checkpoint70"]["audit_status"] == "PASS"
-    assert controller["checkpoint70"]["merge_allowed"] is True
+    assert controller["checkpoint70"]["pr"] == 1284
+    assert controller["checkpoint70"]["merge_commit"] == "a4b57ef8f776390a33faf6efe0766d676df33088"
     assert controller["checkpoint70"]["stage29_refresh_required"] is True
     assert controller["audit_status"] == "PASS"
-    assert controller["advance_allowed"] is True
-    assert controller["merge_allowed"] is True
+    assert controller["main_status"] == "CLOSED_AUDITED_PASS_MERGED"
+    assert controller["advance_allowed"] is False
+    assert controller["merge_allowed"] is False
     assert controller["next_expected_command"] == "Stage29-audit"
 
-    print("Stage28-70 audited closeout consistency: PASS")
+    print("Stage28-70 audited merged closeout consistency: PASS")
 
 
 if __name__ == "__main__":
