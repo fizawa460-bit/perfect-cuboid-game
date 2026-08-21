@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "stage": "Stage29",
-  "status": "29_01_SUBMITTED_PENDING_AUDIT",
+  "status": "29_01_AUDITED_PASS",
   "parent_class": "new_foundation_screening_interaction_synthesis_endpoint_routing",
   "canonical_stage_roadmap": "stages/stage29/roadmap.md",
   "numbering_mode": "INCREMENTAL_01_02_03",
@@ -55,6 +55,9 @@
   },
   "reuse_policy": {
     "arsenal_structure_radar_preflight_standing": true,
+    "stage14_num_reuse_index_required_for_numerical_endpoint_work": true,
+    "stage29_num_assets": ["NUM-R01","NUM-R02","NUM-R03"],
+    "stage29_num_use": "exact finite endpoint regression/negative-control only under exact population adapter",
     "not_only_late_rematch": true,
     "concentrated_endpoint_rematch_item": "29-15"
   },
@@ -80,7 +83,11 @@
     "true_N2_exponent_identified": false,
     "M3_lower": ">> B^(1/3)",
     "M3_upper": "<<_eta B(log B)^(5-eta), 0<eta<1/46",
-    "true_M3_exponent_identified": false
+    "true_M3_exponent_identified": false,
+    "P_finite_zero_through_B": 500000000,
+    "P_finite_zero_evidence": "EXACT_FINITE_CENSUS_NUM_R01",
+    "P_global_zero_theorem": false,
+    "perfect_cuboid_nonexistence_claim": false
   },
   "stage28_frontier": {
     "status": "CLOSED_AUDITED_PASS_MERGED",
@@ -111,13 +118,20 @@
     ],
     "new_foundation_screening_added_to_roadmap": true,
     "targeted_backflow_policy_added": true,
+    "finite_endpoint_census_imported": true,
+    "legacy_stage16_28_safety_rules_preserved": true,
+    "stage29_num_reuse_route_added": true,
     "gap_scan": "NONE_FOUND",
     "gap_blocks_29_02": false,
-    "missing_analysis_before_29_02": "NONE"
+    "missing_analysis_before_29_02": "NONE",
+    "audit_record": "stages/stage29/29-01/audit.md",
+    "audit_verdict": "PASS"
   },
-  "audit_required": true,
-  "audit_status": "PENDING",
-  "merge_allowed": false,
+  "audit_required": false,
+  "audit_status": "PASS",
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
   "next_item_after_pass": "29-02",
-  "next_expected_command": "Stage29-audit"
+  "next_expected_command": "Stage29-main-batch"
 }
