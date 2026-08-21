@@ -1,15 +1,19 @@
 {
   "task": "Stage29-02d",
-  "apply_only_after_fresh_audit_pass": true,
-  "proposed_status": "29_02D_AUDITED_PASS_BEAUVILLE_Q_DESCENT_RETAINED",
-  "proposed_updates": {
+  "audit_applied": true,
+  "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+  "status": "29_02D_AUDITED_PASS_BEAUVILLE_Q_DESCENT_RETAINED",
+  "updates": {
     "29_02d": {
       "kind": "BEAUVILLE_IRREGULAR_COVER_Q_DESCENT",
-      "q_form_cover_adapter": "PASS",
+      "q_form_cover_adapter": "PASS_AUDITED",
       "q_form_cocycle": "swap_Y_Z",
       "q_form_cocycle_lift": "factor_swap",
+      "deck_involution_descends": true,
+      "descended_deck_group": "constant_Z_over_2",
       "finite_twist_set_proved": false,
       "albanese_uniform_control_proved": false,
+      "v4_kernel_swap_equivariance_audited": false,
       "residual_receivers": [
         "R29-BEAU1B",
         "R29-BEAU1C",
@@ -18,8 +22,11 @@
         "R29-BEAU3"
       ]
     },
-    "next_item": "29-02e"
+    "next_item": "29-02e",
+    "next_expected_command": "Stage29-main-batch"
   },
-  "do_not_apply_before_audit": true,
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
   "perfect_cuboid_conclusion": "NONE"
 }
