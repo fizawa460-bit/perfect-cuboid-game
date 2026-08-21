@@ -1,89 +1,141 @@
-# Arithmetic routing for the Campedelli quotients
+# Audited arithmetic routing for the Campedelli quotients
 
-## 1. One-way rational-point transfer
+## 1. One-way rational-point transfer is exact
 
-Every coordinate sign involution is defined over `Q`, and each enumerated kernel `H` is a subgroup of that rational deck group. Hence the quotient map is defined over `Q`.
-
-On the physical open this gives
+Every coordinate sign involution is defined over `Q`, and every enumerated kernel `H` is a subgroup of that constant rational deck group. The quotient maps
 
 ```text
-U(Q) -> C_H(Q)
+Sbar -> Cbar_H
+S    -> C_H
 ```
 
-for each of the ten admissible kernels.
+are therefore Q-defined.
 
-Therefore a proof that **one** audited Campedelli quotient has no rational points on the corresponding image open would imply that the perfect-cuboid rational locus is empty.
+On the physical endpoint open the action is free and the resolutions are irrelevant, so
 
-This is a strict one-way implication. A rational Campedelli point need not lift to a rational point upstairs.
+```text
+U_endpoint(Q) -> C_H(Q)
+```
 
-## 2. Lift obstruction
+for every admissible kernel. Consequently
 
-For an etale degree-8 quotient with
+```text
+C_H(Q)=empty
+```
+
+for **one** audited quotient is sufficient to exclude physical endpoint rational points.
+
+The converse is false: a rational quotient point need not lift rationally upstairs.
+
+## 2. The submission's two-type arithmetic collapse is rejected
+
+Geometrically, and over `Q(i)`, the ten kernels form two `S4` orbits of sizes
+
+```text
+8 + 2.
+```
+
+That is not the Q-arithmetic classification. Stage29-02ha already proves that only the coordinate-permutation subgroup
+
+```text
+S3 <= S4
+```
+
+lifts to the full sign cover over `Q`. The exact kernel checker gives the induced certified Q-symmetry decomposition
+
+```text
+6 + 2 + 2.
+```
+
+Thus arithmetic work may be reduced from ten kernels to **three certified Q-symmetry representatives**, not two.
+
+The count of abstract Q-isomorphism classes of the quotient surfaces is not proved: in principle two quotients in different endpoint-symmetry orbits could be Q-isomorphic by a map that does not lift to the endpoint. The route therefore records only the reduction actually certified.
+
+```text
+GEOMETRIC_QI_KERNEL_TYPES=2
+CERTIFIED_Q_SYMMETRY_TYPES=3
+EXACT_Q_ISOMORPHISM_CLASS_COUNT_PROVED=false
+```
+
+## 3. H-torsor lifting
+
+For the etale degree-8 quotient
 
 ```text
 H ~= (Z/2)^3,
 ```
 
-the geometric fiber above a rational quotient point is an `H`-torsor. Its arithmetic lifting class lies in
+the geometric fiber above a rational quotient point is an `H`-torsor, with class in
 
 ```text
 H^1(Q,H).
 ```
 
-Without local restrictions this set is not finite. Any claim of a finite twist list therefore requires a separate ramification/Selmer argument.
+Without ramification conditions this set is infinite. A finite twist list requires a separate Selmer/ramification argument.
 
-Receiver:
+Corrected receiver:
 
 ```text
-R29-CAMP2=ArithmeticHTorsorDescentForTheTwoS4QuotientTypes
+R29-CAMP2=ArithmeticHTorsorDescentForThreeCertifiedQSymmetryRepresentatives
 ```
 
 Required payload:
 
-1. exact Q-model for one representative in each `8+2` orbit;
-2. physical-open image and deleted boundary;
-3. ramification set for the H-torsor classes;
-4. local solubility filters;
-5. finite Selmer-style twist set if provable;
-6. exact lift criterion back to the full sign cover.
+1. explicit Q-model for one representative in each certified `6+2+2` orbit;
+2. exact physical-open image and deleted boundary;
+3. Q-form/twist ledger relative to literature models;
+4. ramification set for the H-torsor classes;
+5. local solubility filters;
+6. finite Selmer-style twist set if provable;
+7. exact lift criterion back to the full sign cover.
 
-## 3. Involution descent below Campedelli
+## 4. Involution quotients: geometric classification is not Q-rationality
 
-A classical Campedelli surface has seven nontrivial deck involutions. The literature studies the resulting quotient surfaces and their rational/Enriques behavior.
+A classical Campedelli surface has seven nontrivial deck involutions, all Q-defined for these quotient Q-forms because `Gamma/H` is a constant `(Z/2)^3` group.
 
-This creates a second bounded tower:
+The literature gives geometric possibilities for the desingularized involution quotients, including rational and Enriques cases. Those words are geometric/birational unless a field is explicitly specified. In particular,
 
 ```text
-perfect-cuboid surface
-  -> Campedelli quotient C_H
-     -> seven order-2 quotients
-        -> rational / Enriques-type models.
+geometrically rational != Q-rational
+geometric Enriques classification != explicit Q-model
 ```
+
+without additional descent.
 
 Receiver:
 
 ```text
-R29-CAMP3=SevenCampedelliInvolutionQuotientsRationalVsEnriquesLedger
+R29-CAMP3=SevenCampedelliInvolutionQuotientsWithQFormAndRationalVsEnriquesLedger
 ```
 
-The goal is not to claim that a rational quotient automatically solves the rational-point problem. The goal is to replace a `pg=7, K^2=16` endpoint by a small set of `pg=0, K^2=2` and then lower-complexity quotient models where explicit descent may be available.
+No rational parametrization or rational-point implication is imported from the geometric classification.
 
-## 4. Brauer compatibility
+## 5. Brauer compatibility
 
-For classical Campedelli surfaces `pg=q=0` and the Picard group has 2-primary torsion associated with the `(Z/2)^3` fundamental group. This makes their Brauer theory qualitatively different from the full endpoint's rank-14 transcendental package.
-
-Stage29-02f already eliminated odd-primary proper transcendental Brauer on the full endpoint. The Campedelli route therefore naturally asks whether the remaining obstruction can be transported into a finite 2-primary quotient computation.
-
-Receiver:
+For the Campedelli quotient, `pg=q=0`, `K^2=2`, and geometric fundamental group `(Z/2)^3`. This makes a 2-primary descent/Brauer analysis natural, but nothing from the endpoint Brauer computation automatically pushes down or pulls back as a complete obstruction.
 
 ```text
 R29-CAMP4=CampedelliBrauerAndTwoPrimaryDescentCompatibilityWith29_02f
+BRAUER_MANIN_OBSTRUCTION_PROVED=false
 ```
 
-No Brauer--Manin obstruction is claimed at this stage.
+## 6. Population-stage firewall
 
-## 5. Why only two quotient types matter first
+The Campedelli quotient is useful for endpoint rational-point existence because it is a Q-defined pointwise quotient. It does **not** identify the earlier population stages or preserve their counting contracts.
 
-The ten exact kernels fall into two orbits under the audited `S4=Aut_P2(D)` arrangement symmetry, of sizes eight and two. For first-pass arithmetic it is therefore sufficient to build one Q-model per orbit, while separately checking whether the geometric symmetry connecting kernels is Q-liftable in the required quotient category.
+No statement is made that
 
-This last Q-lift issue is part of fresh audit and `R29-CAMP2`; the orbit count alone is not used to collapse arithmetic classes without proof.
+```text
+M1, N1, M2, N2, M3
+```
+
+are counts on Campedelli quotients, nor that `R<=B`, primitivity, canonical ordering, or exact-face multiplicity descends without distortion.
+
+```text
+STAGE16_20_POPULATION_CORRESPONDENCE_CLAIM=false
+POPULATION_ASYMPTOTIC_TRANSFER=false
+HEIGHT_TRANSFER=false
+PRIMITIVITY_TRANSFER=false
+OLD_GATE_REPLAY=false
+BACKFLOW_TO_STAGE16_28=false
+```
