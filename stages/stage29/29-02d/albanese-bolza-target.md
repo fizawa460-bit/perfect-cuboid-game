@@ -1,12 +1,12 @@
 # Stage29-02d — Albanese / Bolza arithmetic target
 
 ```text
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_WITH_KERNEL_EQUIVARIANCE_RECEIVER_RETAINED
 ```
 
 ## 1. Geometric tower
 
-For the cuboid specialization `C=C'=C0`, Beauville's Remark 2 gives
+For the cuboid specialization `C=C'=C0`, Beauville's **Remark 1** gives
 
 ```text
 C0 x C0 -> X_B -> D x D,
@@ -42,7 +42,7 @@ and the corresponding swap-twist of `J_D x J_D` is
 Res_{Q(i)/Q}(J_D,Q(i)).
 ```
 
-For the V4 isogeny `A_B -> J_D x J_D`, the exact equivariance of the kernel under the swap cocycle should be checked before promoting the twisted isogeny over Q. This is retained as a bounded receiver rather than assumed.
+For the V4 isogeny `A_B -> J_D x J_D`, the exact equivariance of the kernel under the swap cocycle must be checked before promoting the twisted isogeny over Q. This is retained as a bounded receiver rather than assumed.
 
 ```text
 R29-BEAU2A=SwapEquivarianceOfBeauvilleV4AlbaneseIsogenyKernel
@@ -52,13 +52,13 @@ If it passes, the descended/twisted Albanese fourfold is Q-isogenous to the abov
 
 ## 3. The Bolza Jacobian is arithmetically special
 
-Beauville 2014 Proposition 8 identifies geometrically
+Beauville 2014 Proposition 8 and its proof identify geometrically
 
 ```text
 End(J_D) tensor Q = M_2(Q(sqrt(-2))),
 ```
 
-so `J_D` is geometrically a square of a CM elliptic curve.
+so `J_D` is geometrically isogenous to a square of a CM elliptic curve.
 
 But the arithmetic field matters. Fite--Sutherland 2014 Section 4 explicitly records that the Bolza model
 
@@ -115,9 +115,16 @@ It must answer:
 4. Can the Albanese image of `X^delta(Q)` be reduced to explicit Mordell-Weil/Selmer data?
 5. Is the resulting control uniform in the physical height, rather than family-specific?
 
-## Firewalls
+## Audit verdict / firewalls
+
+The source claims and swap-descent target are accepted. The exact V4-kernel equivariance is deliberately not promoted without a separate proof.
 
 ```text
+BEAUVILLE_TOWER_SOURCE_AUDIT=PASS_REMARK_1
+SWAP_WEIL_RESTRICTION_TARGET_AUDIT=PASS
+V4_KERNEL_SWAP_EQUIVARIANCE_AUDITED=false
+BOLZA_CM_STRUCTURE_AUDIT=PASS
+FITE_SUTHERLAND_Q_TWIST_FIREWALL_AUDIT=PASS
 GEOMETRIC_CM_DECOMPOSITION_IMPLIES_Q_SPLITTING=false
 ALBANESE_MAP_IMPLIES_RATIONAL_POINT_FINITE=false
 FINITE_NUMBER_OF_TWISTS_PROVED=false
