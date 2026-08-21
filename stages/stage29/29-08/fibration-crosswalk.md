@@ -1,8 +1,8 @@
-# Stage29-08 — fibration and marginal-family crosswalk
+# Stage29-08 — audited fibration and marginal-family crosswalk
 
-## 1. Stage20 Euler K3 = long-diagonal sign quotient after the 29-07 bridge
+## 1. Stage20 Euler K3 = long-diagonal sign quotient
 
-The full endpoint coordinates may be written
+The full endpoint coordinates are
 
 ```text
 [e:x:y:p:q:z:d]
@@ -17,15 +17,15 @@ x^2+y^2=z^2
 e^2+x^2+y^2=d^2.
 ```
 
-Quotienting by the sign of `d` forgets only the space-root coordinate and leaves the normal Euler-brick model in `P5`:
+Quotienting by the sign of `d` forgets only the space-root coordinate and leaves
 
 ```text
-Kbar_c={e^2+x^2=p^2, e^2+y^2=q^2, x^2+y^2=z^2}.
+Kbar_c={e^2+x^2=p^2, e^2+y^2=q^2, x^2+y^2=z^2} subset P5.
 ```
 
-By Stage29-07, the same model is obtained from the Stage28 two-face resolution `Y` by adjoining the third-face root. Its smooth minimal resolution is therefore the Stage20 third-face/Euler K3 `X_face`.
+This is simultaneously the Testa--Stoll normal Euler-brick K3 quotient and the Stage20 third-face completion of the Stage28 two-face host. Their minimal resolutions agree over `Q`.
 
-The physical line bundle also matches exactly. On the double cover `pi_face:X_face->Y`,
+On `pi_face:X_face->Y`,
 
 ```text
 M_face=pi_face^*(-K_Y),
@@ -33,80 +33,81 @@ M_face^2=8,
 h0(M_face)=6,
 ```
 
-and the six physical sections are `[e:x:y:p:q:z]`. Thus `M_face` is the pullback of the `P5` hyperplane class on the Euler K3 normal model.
-
-Proposed strengthened adapter:
+and the six physical sections `[e:x:y:p:q:z]` are exactly the `P5` hyperplane system.
 
 ```text
-R29-K1=DISCHARGED_PENDING_AUDIT
-STAGE20_X_FACE_EQUALS_TESTA_STOLL_K_C_AT_NORMAL_FUNCTION_FIELD_AND_MINIMAL_RESOLUTION_LEVEL=true
+R29-K1=DISCHARGED
+STAGE20_X_FACE_EQUALS_TESTA_STOLL_K_C_AT_NORMAL_AND_MINIMAL_RESOLUTION_LEVEL=true
 PHYSICAL_M_FACE_EQUALS_EULER_P5_HYPERPLANE_PULLBACK=true
 ```
 
-This is an equation-level and resolution-level adapter; it is not inferred merely from the shared modular form `h32`.
+This is equation/resolution/polarization level, not an inference from the shared `h32` newform.
 
-## 2. Stage19 space K3 as the complementary coordinate-sign quotient
+## 2. Stage19 complementary K_b label
 
-Similarly, forgetting the third-face root `z` leaves
+Forgetting the third-face root `z` instead leaves the two automatic faces plus the space equation, exactly the Stage19 space-completion double cover of `Y`. With the physical face-label choice this is the coordinate-sign `K_b/h16` type.
 
 ```text
-[e:x:y:p:q:d]
+STAGE19_X_SP_TO_PHYSICALLY_LABELED_COORDINATE_SIGN_K_B=EXACT_MODEL_ADAPTER
+ARBITRARY_K_B_ORBIT_MEMBER_EQUALITY_CLAIM=false
 ```
 
-with the two automatic faces plus the space equation. This is the Stage19 space-completion double cover of `Y`. Therefore the corresponding coordinate-sign K3 orbit is the `K_b/h16` type.
+## 3. Testa--Stoll K_c elliptic fibrations
+
+The geometric count `3+2*6=15` elliptic fibrations on `K_c` is retained. This count is geometric. Rank-4 quadrics give two rulings only over a splitting field, so Stage29 does not certify all 15 individual fibrations as `Q`-defined without a field ledger.
 
 ```text
-STAGE19_X_SP_TO_COORDINATE_SIGN_K_B=EXACT_MODEL_ADAPTER_PENDING_AUDIT
-```
-
-No equality between arbitrary members of the three-element `K_b` orbit is claimed without the physical face-label choice.
-
-## 3. Published K3 elliptic fibrations
-
-Testa--Stoll's Euler K3 quotient carries 15 elliptic fibrations. With `R29-K1`, they become legitimate Stage20 marginal fibration candidates under the same physical `M_face` polarization.
-
-Still open:
-
-```text
-R29-FIB1=FifteenEulerK3FibrationFiberClassesInPhysicalMfacePicardLedger
+EULER_K3_ELLIPTIC_FIBRATION_COUNT=15_GEOMETRIC
+ALL_15_FIBRATIONS_Q_DEFINED_CERTIFIED=false
+R29-FIB1=FifteenEulerK3FibrationPhysicalClassAndFieldOfDefinitionLedger
 R29-FIB2=ArithmeticRankSpecializationAndEndpointResidualSpaceSquareLiftPerFibration
 ```
 
-A fibration on `X_face` is not by itself a perfect-cuboid family: the residual space square condition must still be imposed through the joint V4 cover.
+A marginal elliptic fibration is not by itself a perfect-cuboid family; the residual space condition remains.
 
 ## 4. Peschmann Master-Hit elliptic fibration
 
-The May 2026 Peschmann fibration
+The May 2026 fibration
 
 ```text
 H_mn -> E_mn
 ```
 
-lives on the same Euler-brick marginal because `H_mn` is exactly the Master/third-face square equation at fixed second Euclid pair. It is therefore a concrete elliptic-fibration chart on `X_face`.
+is the same Master/third-face equation at fixed `(m,n)`. By the independently audited global reduction theorem, the **total** `(m,n)` fibration is a globally covering Euler-brick marginal chart after gcd normalization.
 
-Whether it is birationally one of the 15 published Testa--Stoll fibrations, a base change of one, or a different elliptic pencil is not certified here.
+The Weierstrass lifting criterion is only for
 
 ```text
-R29-PESCH2=OPEN_BOUNDED_EXACT_FIBRATION_CLASS_MATCH
+P in E_mn(Q) \ ({O} union T_tau),
+tau(P) in Q_{>0}^square,
+```
+
+followed by reduced Euclid positivity/parity/coprimality checks. A bounded Mordell-Weil enumeration remains non-exhaustive.
+
+Whether this fibration is one of the 15 Testa--Stoll pencils, a base change, or another elliptic pencil is still open.
+
+```text
+PESCH_TOTAL_FIBRATION_GLOBAL_MARGINAL_COVERAGE=true
+BOUNDED_MW_ENUMERATION_GLOBAL_COVERAGE=false
+R29-PESCH2=OPEN_BOUNDED_EXACT_FIBRATION_CLASS_AND_POLARIZATION_MATCH
 ```
 
 ## 5. Full endpoint genus-5 fibrations
 
-The full endpoint surface has 28 published genus-5 fibrations with generic canonical degree 8. They are full-surface geometric fibrations, unlike the marginal elliptic fibrations above.
-
-They provide a surface-covering fibration atlas geometrically, but do not give global arithmetic coverage by rational sections/multisections and do not exclude isolated rational points.
+Testa--Stoll obtain six fibrations from the six rank-3 quadrics and two from each of eleven rank-4 quadrics, for a geometric total `6+2*11=28`. Rank-4 rulings require a splitting field; the first pair is explicitly defined over `Q(i)`.
 
 ```text
-FULL_ENDPOINT_28_GENUS5_FIBRATIONS=GEOMETRIC_ATLAS
+FULL_ENDPOINT_GENUS5_FIBRATION_COUNT=28_GEOMETRIC
+ALL_28_FIBRATIONS_Q_DEFINED_CERTIFIED=false
 RATIONAL_SECTION_COVERAGE_PROVED=false
 RATIONAL_POINT_EXCLUSION_PROVED=false
 ```
 
+The 28-fibration statement is a geometric surface atlas, not arithmetic coverage by rational sections or multisections.
+
 ## 6. Saunderson and StageA2
 
-The audited Saunderson Euler-brick curve is a one-dimensional curve on `X_face` of physical `M_face` degree 6. Its lift to the endpoint is nonsplit and gives the already-audited genus-3 curve of endpoint canonical degree 12. Therefore it is a thin marginal family, not endpoint coverage.
-
-StageA2 closes one specific `-18` family by family-specific elliptic/descent arguments. It remains a method example and a thin-family closure only; its family-specific result is not generalized into endpoint coverage.
+The Saunderson Euler-brick curve remains a one-dimensional curve on `X_face` of physical `M_face` degree 6; its endpoint lift is the audited nonsplit genus-3 curve of canonical degree 12. StageA2 remains one specific `-18` family.
 
 ```text
 SAUNDERSON_GLOBAL_COVERAGE=false
