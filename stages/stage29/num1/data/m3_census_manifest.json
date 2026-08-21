@@ -1,9 +1,10 @@
 {
   "track": "Stage29-num1",
-  "status": "exact finite census checkpointed through B=500000000",
+  "status": "exact finite census checkpointed through B=1000000000",
   "contract": {
     "population": "primitive canonical Euler cuboids with exactly three integral face diagonals; no space-diagonal integrality requirement",
-    "canonical": "a<=b<=c",
+    "canonical": "0<a<b<c after physical edge sorting",
+    "enumerator_internal_coordinate": "the C++ variable a denotes the unique odd edge; the two even partners are sorted, so each physical permutation class is counted exactly once",
     "primitive": "gcd(a,b,c)=1",
     "cutoff": "R^2=a^2+b^2+c^2 <= B^2",
     "integer_arithmetic": true
@@ -14,16 +15,28 @@
     "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
   },
   "primary_enumerator": {
-    "algorithm_version": "stage29-num1-odd-edge-divisor-v1",
+    "algorithm_version": "stage29-num1-odd-edge-divisor-v2",
     "source": "stages/stage29/num1/scripts/m3_census.cpp",
-    "source_git_blob_sha": "ce64df5be6c6abf3cf5356113dbfad5827f2b848",
-    "base_commit": "e28416153648c2123aed6903acba0d237b4966fc",
+    "source_git_blob_sha": "e3332ae876046bcbf330a01d403d79e2a260a762",
+    "range_max_B": 1000000000,
+    "extension_base_commit": "c6fff43a1fefe47f2683ef7eb4dbe7f1332e6d51",
+    "previous_version": {
+      "algorithm_version": "stage29-num1-odd-edge-divisor-v1",
+      "source_git_blob_sha": "ce64df5be6c6abf3cf5356113dbfad5827f2b848",
+      "range_max_B": 500000000
+    },
     "completeness_route": "unique odd edge; all Pythagorean even partners from proper divisors d<a of a^2; exact third-face square test",
-    "required_regression_ci": {
-      "B=10000": {"M3": 18, "P": 0, "runtime_sec": 0.000748419},
-      "B=50000": {"M3": 42, "P": 0, "runtime_sec": 0.00430013},
-      "B=200000": {"M3": 82, "P": 0, "runtime_sec": 0.0156148},
-      "B=1000000": {"M3": 219, "P": 0, "runtime_sec": 0.0678108}
+    "integer_safety_at_1e9": {
+      "a_squared_max": 1000000000000000000,
+      "uint64_safe": true,
+      "sqrt_B_lt": 31623,
+      "uint16_spf_safe": true
+    },
+    "required_regression_ci_run_32445467962": {
+      "B=10000": {"M3": 18, "P": 0, "runtime_sec": 0.000679481},
+      "B=50000": {"M3": 42, "P": 0, "runtime_sec": 0.0057296},
+      "B=200000": {"M3": 82, "P": 0, "runtime_sec": 0.0145385},
+      "B=1000000": {"M3": 219, "P": 0, "runtime_sec": 0.0643998}
     },
     "pre_pr_engineering_runs": {
       "B=5000000": {"M3": 480, "P": 0, "runtime_sec": 0.871118},
@@ -35,45 +48,77 @@
   },
   "independent_exhaustive_table_crosscheck": {
     "algorithm_version": "OEIS-Resta-aligned-table-exact-filter-v1",
+    "through_B": 500000000,
     "record_count": 3556,
-    "runtime_sec_all_checkpoints": 0.4940665740000014,
-    "ci_run_id": 32444158502,
-    "artifact_id": 9433468039,
-    "artifact_zip_sha256": "07c86b650a7ee688e8d4450f4a80178e7cd1431953593e01b4484bebc5bb4348",
+    "original_ci_run_id": 32444158502,
+    "original_artifact_id": 9433468039,
+    "original_artifact_zip_sha256": "07c86b650a7ee688e8d4450f4a80178e7cd1431953593e01b4484bebc5bb4348",
+    "extension_rerun": {
+      "ci_run_id": 32445467962,
+      "artifact_id": 9433939649,
+      "artifact_zip_sha256": "b433ba4db934ff002e3845b4628d46c374494e7db026dd72ea04f81e8a968275",
+      "runtime_sec": 5.471599710000007,
+      "passed": true
+    },
     "sources": {
-      "A031173": {
-        "url": "https://oeis.org/A031173/b031173.txt",
-        "sha256": "c667868f058d635b5156998bd748aafc1c03245764baa285fbe669adebb1a18b"
-      },
-      "A031174": {
-        "url": "https://oeis.org/A031174/b031174.txt",
-        "sha256": "9d7cb2415d0c07cf1c1148913b1c5a124242344200a21811959e9a2466586650"
-      },
-      "A031175": {
-        "url": "https://oeis.org/A031175/b031175.txt",
-        "sha256": "990832f168e3a3c9b1f09e15ef1b827d99ffee179121e2ed5d0b34ad817de190"
-      }
+      "A031173": {"url": "https://oeis.org/A031173/b031173.txt", "sha256": "c667868f058d635b5156998bd748aafc1c03245764baa285fbe669adebb1a18b"},
+      "A031174": {"url": "https://oeis.org/A031174/b031174.txt", "sha256": "9d7cb2415d0c07cf1c1148913b1c5a124242344200a21811959e9a2466586650"},
+      "A031175": {"url": "https://oeis.org/A031175/b031175.txt", "sha256": "990832f168e3a3c9b1f09e15ef1b827d99ffee179121e2ed5d0b34ad817de190"}
     },
     "validation": "all 3556 records canonicalized, gcd=1 checked, all three face diagonals exact-square checked, R cutoff applied with integers",
     "perfect_cuboid_hit_count": 0
+  },
+  "production_extension_1e9": {
+    "raw_record": "stages/stage29/num1/data/m3_1e9_run.json",
+    "ci_run_id": 32445467962,
+    "artifact_id": 9433940026,
+    "artifact_name": "stage29-num1-m3-1e9",
+    "artifact_zip_sha256": "70273cda89d28d2701bf1da77ece739dbfdff36a79a800f895a09f9e726a040a",
+    "B": 1000000000,
+    "M3": 4362,
+    "increment_from_500m": 1031,
+    "P": 0,
+    "tested_pairs": 27325274840,
+    "candidate_even_edges": 1488873445,
+    "odd_edges_with_two_candidates": 165306456,
+    "sieve_sec": 3.84271,
+    "runtime_sec": 130.952,
+    "threads": 4
   },
   "checkpoints": [
     {"B": 10000, "M3": 18, "increment": 18, "P": 0},
     {"B": 50000, "M3": 42, "increment": 24, "P": 0},
     {"B": 200000, "M3": 82, "increment": 40, "P": 0},
-    {"B": 1000000, "M3": 219, "increment": 137, "P": 0, "N2": 5, "M3_over_N2_finite_diagnostic": 43.8},
-    {"B": 5000000, "M3": 480, "increment": 261, "P": 0, "N2": 8, "M3_over_N2_finite_diagnostic": 60.0},
-    {"B": 10000000, "M3": 656, "increment": 176, "P": 0, "N2": 10, "M3_over_N2_finite_diagnostic": 65.6},
-    {"B": 50000000, "M3": 1298, "increment": 642, "P": 0, "N2": 15, "M3_over_N2_finite_diagnostic": 86.53333333333333},
-    {"B": 100000000, "M3": 1757, "increment": 459, "P": 0, "N2": 17, "M3_over_N2_finite_diagnostic": 103.3529411764706},
-    {"B": 200000000, "M3": 2339, "increment": 582, "P": 0, "N2": 18, "M3_over_N2_finite_diagnostic": 129.94444444444446},
-    {"B": 500000000, "M3": 3331, "increment": 992, "P": 0, "N2": 27, "M3_over_N2_finite_diagnostic": 123.37037037037037}
+    {"B": 1000000, "M3": 219, "increment": 137, "P": 0},
+    {"B": 5000000, "M3": 480, "increment": 261, "P": 0},
+    {"B": 10000000, "M3": 656, "increment": 176, "P": 0},
+    {"B": 50000000, "M3": 1298, "increment": 642, "P": 0},
+    {"B": 100000000, "M3": 1757, "increment": 459, "P": 0},
+    {"B": 200000000, "M3": 2339, "increment": 582, "P": 0},
+    {"B": 500000000, "M3": 3331, "increment": 992, "P": 0},
+    {"B": 1000000000, "M3": 4362, "increment": 1031, "P": 0}
   ],
+  "diagnostic_correction": {
+    "provisional_N2_series_retracted": true,
+    "retracted_series": [
+      {"B": 1000000, "N2": 5},
+      {"B": 5000000, "N2": 8},
+      {"B": 10000000, "N2": 10},
+      {"B": 50000000, "N2": 15},
+      {"B": 100000000, "N2": 17},
+      {"B": 200000000, "N2": 18},
+      {"B": 500000000, "N2": 27}
+    ],
+    "reason": "the provisional series does not match the canonical frozen Stage19 N2 population; Stage19 final records N2(500000000)=3495",
+    "canonical_reference": "stages/stage19/final.md",
+    "M3_counts_affected": false,
+    "replacement": "dedicated matched-cutoff N2 recomputation/import"
+  },
   "interpretation_guards": [
-    "M3/N2 is finite diagnostic only",
     "P(B)=0 is finite evidence only",
     "no asymptotic exponent is inferred from these checkpoints",
-    "no global perfect-cuboid nonexistence claim is made"
+    "no global perfect-cuboid nonexistence claim is made",
+    "N2 comparison is deferred until a canonical matched-cutoff panel is re-established"
   ],
   "reuse_targets": ["Stage29-08 parametrization coverage", "later Stage29 endpoint diagnostics"]
 }

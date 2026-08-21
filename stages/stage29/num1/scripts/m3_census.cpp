@@ -32,7 +32,7 @@ using u64 = std::uint64_t;
 using u128 = __uint128_t;
 
 namespace {
-constexpr const char* kAlgorithmVersion = "stage29-num1-odd-edge-divisor-v1";
+constexpr const char* kAlgorithmVersion = "stage29-num1-odd-edge-divisor-v2";
 bool square_mod_4096[4096];
 
 bool is_square(u64 n) {
@@ -83,8 +83,8 @@ int main(int argc, char** argv) {
         return 2;
     }
     const u64 B = std::stoull(argv[1]);
-    if (B < 3 || B > 500000000ULL) {
-        std::cerr << "MAX_B must satisfy 3 <= B <= 500000000\n";
+    if (B < 3 || B > 1000000000ULL) {
+        std::cerr << "MAX_B must satisfy 3 <= B <= 1000000000\n";
         return 2;
     }
 
@@ -105,7 +105,7 @@ int main(int argc, char** argv) {
     const auto started = std::chrono::steady_clock::now();
 
     // Odd-only SPF.  For any composite n<=B its smallest prime factor is
-    // <=sqrt(B)<=22361 at B<=5e8, so uint16_t is sufficient.
+    // <=sqrt(B)<=31623 at B<=1e9, so uint16_t is sufficient.
     std::vector<std::uint16_t> spf(static_cast<std::size_t>(B / 2 + 1), 0);
     const u64 limit = static_cast<u64>(std::sqrt(static_cast<long double>(B)));
     for (u64 p = 3; p <= limit; p += 2) {

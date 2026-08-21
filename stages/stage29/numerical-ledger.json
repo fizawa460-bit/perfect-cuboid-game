@@ -1,9 +1,8 @@
 {
-  "schema_version": 1,
-  "ledger": "STAGE29_NUMERICAL_MAINLINE_R01",
+  "schema_version": 2,
+  "ledger": "STAGE29_NUMERICAL_MAINLINE_R02",
   "source_track": "Stage29-num1",
-  "source_pr": 1289,
-  "source_status": "MERGED_MAIN",
+  "source_prs": [1289, 1291],
   "source_result": "stages/stage29/num1/result.md",
   "source_manifest": "stages/stage29/num1/data/m3_census_manifest.json",
   "contract": {
@@ -13,13 +12,14 @@
     "exact_integer_arithmetic": true
   },
   "checkpoints": [
-    {"B": 1000000, "M3": 219, "P": 0, "N2": 5},
-    {"B": 5000000, "M3": 480, "P": 0, "N2": 8},
-    {"B": 10000000, "M3": 656, "P": 0, "N2": 10},
-    {"B": 50000000, "M3": 1298, "P": 0, "N2": 15},
-    {"B": 100000000, "M3": 1757, "P": 0, "N2": 17},
-    {"B": 200000000, "M3": 2339, "P": 0, "N2": 18},
-    {"B": 500000000, "M3": 3331, "P": 0, "N2": 27}
+    {"B": 1000000, "M3": 219, "P": 0},
+    {"B": 5000000, "M3": 480, "P": 0},
+    {"B": 10000000, "M3": 656, "P": 0},
+    {"B": 50000000, "M3": 1298, "P": 0},
+    {"B": 100000000, "M3": 1757, "P": 0},
+    {"B": 200000000, "M3": 2339, "P": 0},
+    {"B": 500000000, "M3": 3331, "P": 0},
+    {"B": 1000000000, "M3": 4362, "P": 0}
   ],
   "regression": {
     "10000": 18,
@@ -28,14 +28,23 @@
     "1000000": 219
   },
   "validation": {
+    "oeis_crosscheck_through_B": 500000000,
     "oeis_records_exactly_crosschecked": 3556,
-    "ci_run": 32444158502,
-    "artifact": 9433468039
+    "original_crosscheck_ci_run": 32444158502,
+    "production_1e9_ci_run": 32445467962,
+    "production_1e9_artifact": 9433940026,
+    "production_1e9_artifact_sha256": "70273cda89d28d2701bf1da77ece739dbfdff36a79a800f895a09f9e726a040a"
   },
   "finite_endpoint": {
-    "P_zero_through_B": 500000000,
+    "P_zero_through_B": 1000000000,
     "global_zero_theorem": false,
     "perfect_cuboid_nonexistence_claim": false
+  },
+  "comparison_diagnostics": {
+    "N2_status": "WITHDRAWN_PENDING_CANONICAL_RECOMPUTE",
+    "reason": "prior provisional N2 series conflicts with frozen Stage19 N2 population; Stage19 records N2(500000000)=3495",
+    "canonical_reference": "stages/stage19/final.md",
+    "M3_counts_affected": false
   },
   "reuse": {
     "stage29_08_parametrization_coverage": true,
