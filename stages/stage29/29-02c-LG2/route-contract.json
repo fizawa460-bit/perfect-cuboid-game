@@ -1,0 +1,51 @@
+{
+  "task_id": "Stage29-02c-LG2",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "role": "UNIBRANCH_LOW_GENUS_FINITE_PICARD_REDUCTION",
+  "inputs": {
+    "fsm_bound_audited_pr": 1292,
+    "genus0_degree_max": 176,
+    "genus1_degree_max": 192,
+    "degrees_even": true,
+    "canonical_square": 16
+  },
+  "upstream_verification": {
+    "repository": "MichaelStollBayreuth/Verification",
+    "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "file": "Cuboids/cuboids.magma",
+    "blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "picard_rank": 64,
+    "degree6_lift_kernel_rank": 44
+  },
+  "exact_reduction": {
+    "r": "gcd(d,16)",
+    "m": "16/r",
+    "n": "d/r",
+    "orthogonal_class": "y=m*C-n*H",
+    "orthogonality": "H.y=0",
+    "genus0_norm_bound": "-y^2 <= m^2*(d^2/16+d+2)",
+    "genus1_norm_bound": "-y^2 <= m^2*(d^2/16+d)",
+    "finite_for_each_degree": true
+  },
+  "verdicts": {
+    "finite_picard_reduction": "PASS_CANDIDATE",
+    "full_176_192_enumeration_completed": false,
+    "naive_closevectors_tractability_established": false,
+    "effectivity_certified": false,
+    "multibranch_cases_covered": false,
+    "isolated_rational_points_excluded": false,
+    "old_gate_replay": false,
+    "backflow_to_stage16_28": false
+  },
+  "receivers": [
+    "R29-LG2 SymmetryReducedCompletePicardClassEnumerationForUnibranchGenus0DegreeLE176AndGenus1DegreeLE192",
+    "R29-LG2-EFF EffectiveCurveCertificationForSurvivingNumericalPicardClasses",
+    "R29-LG2-MB MultibranchAtNodeLowGenusCarrierLedgerOutsideFreitagSalvatiManniTheorem3_1"
+  ],
+  "audit_required": true,
+  "merge_allowed": false,
+  "advance_other_suffixes_after_pass": true,
+  "next_item_after_pass": "29-02d",
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
