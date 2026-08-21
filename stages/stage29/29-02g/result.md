@@ -1,17 +1,17 @@
-# Stage29-02g — modular `M(4,8)` / exact Q-descent synthesis
+# Stage29-02g — audited modular `M(4,8)` / Q-descent synthesis
 
 ```text
 STAGE=29-02g
 KIND=MODULI_M4_8_Q_DESCENT
-STATUS=SUBMITTED_FOR_FRESH_AUDIT
+STATUS=AUDITED_PASS_AFTER_BOUNDED_REPAIR
 PERFECT_CUBOID_CONCLUSION=NONE
 ```
 
 ## Executive result
 
-The endpoint modular route is now sharply separated from ordinary 8-congruence.
+The endpoint modular route is now cleanly separated from ordinary 8-congruence.
 
-For `K=Q(i)`, the endpoint surface has the exact presentation
+For `K=Q(i)`, Testa--Stoll give
 
 ```text
 Sbar_K ~= (X(8) x X(8))/Delta G0,
@@ -19,118 +19,127 @@ G0 ~= (Z/2)^3,
 PSL2(Z/8)/G0 ~= PSL2(Z/4) ~= S4.
 ```
 
-A Q-rational endpoint point gives an elliptic curve `E/K`, a level-4 basis `(P1,P2)`, and a symplectic 8-torsion isomorphism
+On the noncuspidal modular locus, a Q-rational endpoint point gives
 
 ```text
-psi:E[8] -> E^sigma[8]
-psi(P1)=P1^sigma
+E/K,
+(P1,P2) basis of E[4],
+psi:E[8] -> E^sigma[8],
+psi(P1)=P1^sigma,
 psi(P2)=-P2^sigma.
 ```
 
-This is the exact arithmetic receiver. Bare 8-congruence is insufficient.
+This exact conjugate-self level-4 datum is strictly stronger than ordinary symplectic 8-congruence.
+
+```text
+R29_MOD1A=DISCHARGED_GENERIC_MODULI_LOCUS
+```
 
 ## 1. Ordinary 8-congruence route is RED
 
-Fisher's ordinary symplectic 8-congruence surface `Z(8,1)` is rational over Q and carries infinitely many non-isogenous rational pairs. Therefore an endpoint argument cannot be based on the rarity of ordinary 8-congruence.
+Fisher's `Z(8,1)` is the ordinary symplectic 8-congruence surface up to simultaneous quadratic twist. It is rational over Q and Corollary 1.3 gives infinitely many non-isogenous rational pairs.
 
 ```text
-NAIVE_ORDINARY_8_CONGRUENCE_OBSTRUCTION=RED
+NAIVE_ORDINARY_8_CONGRUENCE_OBSTRUCTION=RED_AUDITED
 ```
 
-## 2. Exact level-4 cover
+Any useful endpoint obstruction must use the retained level-4/Q-conjugation information, not bare 8-congruence.
 
-Forgetting the retained level-4 structure enlarges the diagonal quotient group from `G0` to `PSL2(Z/8)`. Thus, generically away from cusps/stabilizers,
+## 2. Generic level-4 quotient
+
+At the function-field/moduli level, forgetting the retained level-4 data enlarges the diagonal quotient group from `G0` to `PSL2(Z/8)`. Therefore the generic quotient has
 
 ```text
-Sbar_K -> Z(8,1)_K
+GENERIC_DEGREE=[PSL2(Z/8):G0]=192/8=24
+GENERIC_RESIDUAL_GROUP=S4.
 ```
 
-is a degree-24 cover with residual group `S4`.
+The quotient target is birational to Fisher's ordinary `Z(8,1)` surface.
 
 ```text
-R29-MOD2=EndpointAsLevel4S4CoverOfOrdinarySymplectic8CongruenceSurface
-STATUS=PASS_CANDIDATE
+R29_MOD2=DISCHARGED_GENERIC_BIRATIONAL_QUOTIENT
 ```
 
-This explains why the ordinary congruence surface can be rational while the endpoint surface is of general type: the endpoint lives on the much more restrictive level-4-retaining cover.
-
-## 3. Finite conjugation-defect stratification
-
-For a compatible `psi`, define
+Audit scope repair: this is not promoted to an everywhere finite morphism between arbitrary chosen compactifications. Cusps, ramification and extra stabilizers remain
 
 ```text
-kappa=psi^sigma o psi.
+R29-MOD2B=BranchCuspAndStabilizerLedgerForGenericDegree24Quotient.
 ```
 
-The exact level-4 sign condition forces `kappa` to fix `E[4]` pointwise. Symplecticity places it in
+## 3. Finite conjugation-defect compression
+
+Define
 
 ```text
-K8=ker(SL2(Z/8)->SL2(Z/4)) ~= (Z/2)^3.
+kappa=psi^sigma o psi:E[8]->E[8].
 ```
 
-Hence the discrete defect has only eight elements. Under compatible basis change the eight elements fall into four conjugacy types, with orbit sizes
+The exact level-4 sign condition forces `kappa` to fix `E[4]` pointwise. Symplecticity gives
+
+```text
+kappa in K8=ker(SL2(Z/8)->SL2(Z/4)) ~= (Z/2)^3.
+```
+
+Thus every possible defect lies in an eight-element group. Under ordinary symplectic conjugation, the eight elements split into four classes of sizes
 
 ```text
 1,3,3,1.
 ```
 
-The exact dependency-free checker `defect_orbits.py` reproduces this split.
+The exact checker `defect_orbits.py` reproduces this classification.
 
 ```text
-R29-MOD1B=EightTorsionConjugationDefectStratification
-STATUS=PASS_CANDIDATE
+R29_MOD1B=DISCHARGED_AS_ABSTRACT_K8_CONJUGACY_CLASSIFICATION
 ```
 
-This is a finite stratification of one descent datum; it is not a finite enumeration of endpoint points.
-
-## 4. Residual exact receivers
-
-The modular route is compressed to
+Audit scope repair: these four ordinary conjugacy classes are **not yet certified as the exact four arithmetic strata of Q-rational endpoint data**. The retained asymmetric level-4 sign operator and sigma-twisted descent action must still be incorporated.
 
 ```text
-R29-MOD1A  ExactConjugateSelfLevel4ModuliAdapter
-R29-MOD1B  EightTorsionConjugationDefectStratification
-R29-MOD1C  ArithmeticAnalysisOfTheFourDefectOrbits
+ARITHMETIC_DEFECT_STRATA_EXACTLY_FOUR_PROVED=false
+R29-MOD1C=TwistedSigmaDescentActionAndArithmeticAnalysisOfK8Classes
+```
+
+## 4. Remaining exact receivers
+
+```text
+R29-MOD1C  TwistedSigmaDescentActionAndArithmeticAnalysisOfK8Classes
 R29-MOD1D  CuspStabilizerAndPhysicalOpenRemoval
-R29-MOD2    EndpointAsLevel4S4CoverOfOrdinarySymplectic8CongruenceSurface
-R29-MOD2B   BranchAndStabilizerLedgerForTheDegree24ForgetfulCover
+R29-MOD2B  BranchCuspAndStabilizerLedgerForGenericDegree24Quotient
 ```
 
-The first two and the generic degree-24 structure are submitted as PASS candidates. The arithmetic exclusion/survival of the four defect types and special-locus bookkeeping remain open.
+No defect class is globally eliminated yet, no finite set of elliptic curves `E/Q(i)` is obtained, and no endpoint point is constructed or excluded.
 
-Potential future inputs for `R29-MOD1C` include local mod-8 Galois-image restrictions over `Q(i)`, explicit equations for `X_E(8,1)`, and compatibility with the physical open. None is assumed here to cover all endpoint points.
+## 5. Namespace / routing
 
-## 5. What has not been proved
+02g materially sharpens the already accepted modular foundation `F5`; it is not a genuinely independent new foundation. Therefore it does not consume the `29-02ha` namespace.
 
-- no defect type is eliminated globally;
-- no finite set of elliptic curves `E/Q(i)` is obtained;
-- no endpoint rational point is constructed;
-- no endpoint rational point is excluded;
-- `kappa=1` does not imply that `E` descends to Q;
-- cusps and extra-automorphism stabilizers are not yet fully removed;
-- the degree-24 statement is generic, not a claim of an everywhere-etale cover.
-
-## 6. Relation to the 29-02 extension namespace
-
-This suffix materially strengthens the already accepted modular foundation `F5`; it does not expose a genuinely independent new foundation. Therefore it does **not** earn `29-02ha` merely by subdivision.
-
-After a fresh audit PASS, the intended mainline move is
+PR #1300 / 29-02f is already merged. 02g itself creates no automatic Stage16--28 reentry. The correct next checkpoint is
 
 ```text
 29-03 FOUNDATION_BACKFLOW_DECISION
 ```
 
-while the `29-02ha, hb, ...` namespace remains available later if a materially new theorem/model/adapter/invariant/obstruction is discovered.
+which decides whether any of the new Stage29 foundations justify targeted old-stage reentry.
 
 ```text
-NEW_HA_GRADE_FOUNDATION_FOUND_IN_02G=false
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+CHECKPOINT29_02G_AUDIT=PASS
+BOUNDED_REPAIR=GENERIC_BIRATIONAL_DEGREE24_SCOPE_PLUS_TWISTED_DEFECT_ORBIT_SCOPE
+R29_MOD1A=DISCHARGED_GENERIC_MODULI_LOCUS
+R29_MOD1B=DISCHARGED_ABSTRACT_K8_CONJUGACY
+R29_MOD2=DISCHARGED_GENERIC_BIRATIONAL_QUOTIENT
+ORDINARY_8_CONGRUENCE_OBSTRUCTION=RED
+GENERIC_DEGREE24=PASS
+ARITHMETIC_DEFECT_STRATA_EXACTLY_FOUR_PROVED=false
+NEW_HA_GRADE_FOUNDATION_FOUND=false
 OLD_GATE_REPLAY=false
 BACKFLOW_TO_STAGE16_28=false
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
-NEXT_ITEM_AFTER_PASS=29-03
-NEXT_EXPECTED_COMMAND=Stage29-audit
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+NEXT_ITEM=29-03
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
