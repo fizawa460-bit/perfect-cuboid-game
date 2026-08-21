@@ -1,0 +1,44 @@
+name: Stage29 num3 exact M2 census
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage29/num3/**'
+      - '.github/workflows/stage29-num3-m2-census.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  census:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile exact shared-edge counter
+        run: |
+          g++ -O3 -std=c++20 -march=x86-64-v3 \
+            stages/stage29/num3/scripts/m2_shared_edge_count.cpp \
+            -o m2_shared_edge_count
+      - name: Run exact census through B=1e6
+        run: |
+          /usr/bin/time -v ./m2_shared_edge_count \
+            --bound 1000000 \
+            --output stage29-num3-m2-b1m.json
+          python - <<'PY'
+          import json
+          p=json.load(open('stage29-num3-m2-b1m.json'))
+          cp={r['B']:r for r in p['checkpoints']}
+          assert cp[100000]['M2']==796698
+          assert cp[100000]['N2']==89
+          assert cp[1000000]['M3']==219
+          assert cp[1000000]['P']==0
+          assert p['guards']['FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM'] is True
+          print('STAGE29_NUM3_B1M', cp[1000000])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage29-num3-m2-b1m
+          path: stage29-num3-m2-b1m.json
+          retention-days: 30
