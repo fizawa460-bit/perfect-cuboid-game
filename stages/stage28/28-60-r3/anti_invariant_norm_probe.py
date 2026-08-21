@@ -78,7 +78,7 @@ def gps(M):
 def split_image_d2_values(m: int) -> list[int]:
     """Possible D^2 for a split rational curve of M-degree m.
 
-    On Y, L=-K_Y has L^2=4.  For a rational normalization of D,
+    On Y, L=-K_Y has L^2=4. For a rational normalization of D,
         D^2 = m + 2 p_a(D) - 2,
     and Hodge gives 4 D^2 <= m^2.
     """
@@ -97,6 +97,7 @@ def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument('root', type=Path)
     ap.add_argument('refine', type=Path)
+    ap.add_argument('equiv', type=Path)
     ap.add_argument('--out', type=Path, required=True)
     args = ap.parse_args()
 
@@ -110,9 +111,13 @@ def main() -> None:
     inv = parse_list(bor, 'iotasigmaz')
 
     refine = json.loads(args.refine.read_text())
+    equiv = json.loads(args.equiv.read_text())
+    assert equiv['equivalent'] is True
     passed = [x for x in refine['candidates'] if x['pass']]
-    if len(passed) != 1:
-        raise RuntimeError(f'expected one physical labeling, got {len(passed)}')
+    if len(passed) != 2:
+        raise RuntimeError(f'expected two equivalent physical labelings, got {len(passed)}')
+    # Stage14-4ak proves the two survivors are AutX0f-equivalent.  One
+    # representative therefore gives the intrinsic anti-invariant lattice.
     p = passed[0]
     deck_index = p['deck_candidates'][0]['index']
     deck = mm(inv, Ts[deck_index])
@@ -157,13 +162,16 @@ def main() -> None:
             'excluded_by_norm_mod_4': all(n % 4 != 0 for n in anti_norms),
         }
 
-    # Degree five must be split (odd M-degree), and the physical branch has no
-    # positive real locus.  The lattice congruence therefore kills all cases.
+    # Degree five is odd, so away from the branch it cannot be a connected
+    # two-to-one pullback.  The physical branch has no positive-real locus by
+    # the audited Stage28-50-r2 firewall, hence the split cases are exhaustive.
     assert degree_cases['5']['excluded_by_norm_mod_4']
     assert degree_cases['6']['all_required_norms_divisible_by_4']
 
     out = {
         'status': 'PASS',
+        'physical_labelings_before_equivalence': len(passed),
+        'physical_labelings_equivalent_under_AutX0f': True,
         'anti_invariant_rank': rank,
         'anti_invariant_positive_form_determinant': detq,
         'positive_gram_matrix': qrows,
