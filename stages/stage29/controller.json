@@ -1,5 +1,5 @@
 {
-  "schema_version": 3,
+  "schema_version": 4,
   "stage": "Stage29",
   "status": "29_02_EXTENSION_AUDITED_SUFFIX_QUEUE_ACTIVE",
   "parent_class": "new_foundation_screening_interaction_synthesis_endpoint_routing",
@@ -156,7 +156,9 @@
     },
     "work_import": {
       "pr": 1292,
-      "status": "AUDITED_PASS_PENDING_MERGE",
+      "status": "AUDITED_PASS_MERGED",
+      "merged": true,
+      "merge_commit": "a809d79eaf523954c6dca63a337098e604d0dc2c",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
       "audit_record": "stages/stage29/29-02-work-import/audit.md",
       "audited_submission_head": "d548795f95b9c008098f07b2c86cb46ba7439a65",
@@ -174,20 +176,38 @@
       "Reed_detailed_critique_audited": false,
       "backflow_to_stage16_28": false
     },
+    "child_02c_LG2": {
+      "pr": 1293,
+      "status": "AUDITED_PASS_PENDING_MERGE",
+      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "audit_record": "stages/stage29/29-02c-LG2/audit.md",
+      "kind": "UNIBRANCH_LOW_GENUS_FINITE_PICARD_REDUCTION",
+      "finite_picard_reduction": true,
+      "full_176_192_enumeration_completed": false,
+      "effectivity_certified": false,
+      "multibranch_cases_covered": false,
+      "upstream_source_lock": "PASS",
+      "residual_receivers": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
+      "advance_other_suffixes": true
+    },
     "active_suffix_queue": [
-      "29-02c-LG2_PICARD_176_192_FINITE_ENUMERATION",
       "29-02d_BEAUVILLE_IRREGULAR_COVER_Q_DESCENT",
       "29-02e_EXISTING_V4_CHARACTER_NEWFORM_ROUTE",
       "29-02f_PHYSICAL_OPEN_BOUNDARY_AND_TRANSCENDENTAL_BRAUER_AUDIT",
       "29-02g_MODULI_M4_8_Q_DESCENT"
     ],
-    "next_item": "29-02c-LG2"
+    "residual_computation_receivers": [
+      "R29-LG2",
+      "R29-LG2-EFF",
+      "R29-LG2-MB"
+    ],
+    "next_item": "29-02d"
   },
   "audit_required": false,
   "audit_status": "PASS",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item_after_pass": "29-02c-LG2",
+  "next_item_after_pass": "29-02d",
   "next_expected_command": "Stage29-main-batch"
 }
