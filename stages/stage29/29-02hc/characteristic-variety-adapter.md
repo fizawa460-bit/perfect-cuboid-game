@@ -1,10 +1,10 @@
-# Non-Fano characteristic-variety adapter
+# Non-Fano characteristic-variety adapter — audited scope
 
-The identification with the non-Fano arrangement opens a topological finite-cover package that was not available in the cuboid coordinates alone.
+The non-Fano recognition imports a useful arrangement-topology package, but the central/projective convention must be kept explicit.
 
-## Published non-Fano data
+## Published central-arrangement data
 
-Suciu Example 10.5 records
+Suciu Example 10.5 records, in the seven-meridian character coordinates,
 
 ```text
 V1 = C125 ∪ C136 ∪ C246 ∪ C345 ∪ C237 ∪ C567 ∪ Pi1 ∪ Pi2 ∪ Pi3,
@@ -12,55 +12,67 @@ Pi1=C(25|36|47),
 Pi2=C(17|26|35),
 Pi3=C(14|23|56),
 V2={1,rho},
-rho=(1,-1,-1,1,-1,-1,1)
+rho=(1,-1,-1,1,-1,-1,1).
 ```
 
-over characteristic zero, with special mod-2 resonance behavior.
-
-The same source records
+It also records for the **central-arrangement** unbranched congruence cover `X_N`
 
 ```text
 b1(X_N)=9N^2-3  if N even,
-        =9N^2-2  if N odd,
-
-b1(M_N)=9(N-1)(N-2).
+        =9N^2-2  if N odd.
 ```
 
-Here `X_N` is the unbranched congruence cover of the arrangement complement and `M_N` the compact Hirzebruch covering surface.
-
-## Endpoint at N=2
-
-The endpoint deck group is the full elementary 2-abelian congruence group. Therefore its character group is exactly the set of order-dividing-two characters of the projective arrangement complement.
-
-The isolated character `rho` and the nine components of `V1` give an exact finite character-support ledger for the open 64-sheet cover. This is qualitatively different from the K3/newform decomposition of 29-02e: it concerns the topology of the **arrangement complement cover** and the behavior of deck characters before compactification.
-
-At `N=2`, compactification/resolution kills irregularity completely:
+The central arrangement group splits as
 
 ```text
-b1(M_2)=0,
+G_central ~= G_projective x Z.
 ```
 
-while the unbranched congruence cover has nontrivial first homology. This makes the branch/boundary attachment itself load-bearing.
-
-## New receivers
+Consequently the endpoint's unbranched degree-64 cover of the **projective** complement is not this central `X_N`; the central cover has the extra `C*` factor.  At `N=2`,
 
 ```text
-R29-NF3A = ExactOrder2CharacterSupportLedgerForEndpointArrangementOpen
-R29-NF3B = IdentifyRhoAsExplicitCuboidSignCharacter
-R29-NF3C = BoundaryAttachmentMapKillingOpenH1AtN2
-R29-NF3D = CompareCharacterSubspacesWithSevenK3AndTenCampedelliQuotients
+CENTRAL_OPEN_B1=33
+PROJECTIVE_ENDPOINT_OPEN_B1=32.
 ```
 
-Potential relevance:
-
-- `R29-NF3C` may organize the Stage29-02f boundary complex from the opposite, topological side.
-- `R29-NF3D` may select which intermediate quotients carry exceptional local-system cohomology, reducing blind quotient searches.
-
-## Firewall
-
-Characteristic varieties and Betti numbers are complex-topological invariants. They do **not** by themselves imply absence of `Q`-points, Brauer-Manin obstruction, height saving, or population decay.
+The compact Hirzebruch surface formula is unaffected:
 
 ```text
+b1(M_N)=9(N-1)(N-2),
+b1(M_2)=0.
+```
+
+## Character restriction to the projective endpoint
+
+The projective character torus is the product-one subtorus of the seven central meridian coordinates.  Therefore every component/character imported into the endpoint ledger must first be restricted to that subtorus.
+
+The distinguished character
+
+```text
+rho=(1,-1,-1,1,-1,-1,1)
+```
+
+has product `1`, so it does descend to a genuine order-two projective character.  This makes `rho` a valid downstream endpoint receiver.  The nine positive-dimensional components are not blindly copied as nine endpoint components; their product-one intersections are the correct objects.
+
+## Q-form firewall
+
+Characteristic varieties are complex-topological invariants of the arrangement complement.  They survive the constant-sign Q-twist only geometrically; an arithmetic identification of a particular intermediate quotient over `Q` requires the twist character to be carried through explicitly.
+
+## Receivers
+
+```text
+R29-NF3A = ProjectiveProductOneRestrictionOfNonFanoOrder2CharacterSupport
+R29-NF3B = IdentifyRhoAsExplicitCuboidProjectiveSignCharacterWithQTwist
+R29-NF3C = BoundaryAttachmentMapKillingProjectiveOpenH1_32AtN2
+R29-NF3D = CompareProjectiveCharacterSubspacesWithK3AndCampedelliSubcovers
+```
+
+No rational-point, Brauer, height, or population conclusion follows from these topological statements alone.
+
+```text
+CENTRAL_OPEN_B1_IMPORTED_AS_ENDPOINT=false
+PROJECTIVE_OPEN_B1_N2=32
+RHO_DESCENDS_TO_PROJECTIVE_CHARACTER=true
 RATIONAL_POINT_OBSTRUCTION_PROVED=false
 BRAUER_OBSTRUCTION_PROVED=false
 POPULATION_SAVING_PROVED=false
