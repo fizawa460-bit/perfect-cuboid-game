@@ -1,7 +1,7 @@
 {
-  "schema_version": 7,
+  "schema_version": 8,
   "stage": "Stage29",
-  "status": "29_02F_AUDITED_PASS_PENDING_MERGE_SUFFIX_QUEUE_ACTIVE",
+  "status": "29_02G_AUDITED_PASS_PENDING_MERGE_BACKFLOW_DECISION_NEXT",
   "parent_class": "new_foundation_screening_interaction_synthesis_endpoint_routing",
   "canonical_stage_roadmap": "stages/stage29/roadmap.md",
   "extension_roadmap_addendum": "stages/stage29/29-02-work-import/roadmap-addendum.md",
@@ -146,36 +146,27 @@
     "audit_verdict": "PASS"
   },
   "29_02": {
-    "status": "AUDITED_PASS_MERGED_WITH_SUFFIX_EXTENSIONS_ACTIVE",
+    "status": "AUDITED_PASS_MERGED_WITH_SUFFIX_EXTENSIONS_COMPLETE_PENDING_29_03",
     "parent_pr": 1286,
     "parent_merged": true,
-    "result": "stages/stage29/29-02/result.md",
-    "joint_cover_note": "stages/stage29/29-02/joint-cover-screening.md",
-    "field_of_definition_adapter": "stages/stage29/29-02/field-of-definition-adapter.md",
-    "coverage_atlas_seed": "stages/stage29/29-02/coverage-atlas-seed.md",
-    "additional_lenses": "stages/stage29/29-02/additional-lenses.md",
-    "reuse_preflight": "stages/stage29/29-02/reuse-preflight.md",
-    "split_plan": "stages/stage29/29-02/split-plan.md",
-    "audit_record": "stages/stage29/29-02/audit.md",
     "audit_verdict": "PASS",
-    "bounded_repair": "separate Q(Y) arithmetic lift semantics from Qbar(Y) geometric branch analysis",
     "strongest_new_foundation": "JOINT_V4_COVER_PLUS_CROSS_QUOTIENT",
-    "F2_arithmetic_field": "Q(Y)",
-    "F2_geometric_field": "Qbar(Y)",
     "old_gate_replay": false,
-    "backflow_recommended_at_screening": false,
     "perfect_cuboid_conclusion": "NONE",
     "child_02a": {
       "pr": 1287,
-      "audit_verdict": "PASS",
+      "status": "AUDITED_PASS_MERGED",
       "merged": true,
+      "audit_verdict": "PASS",
       "kind": "FULL_ENDPOINT_SURFACE_GEOMETRY_LOW_DEGREE_FILTERS"
     },
     "child_02b": {
       "pr": 1288,
-      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "status": "AUDITED_PASS_MERGED",
       "merged": true,
-      "kind": "JOINT_V4_ENDPOINT_CANONICAL_DEGREE_ADAPTER"
+      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "kind": "JOINT_V4_ENDPOINT_CANONICAL_DEGREE_ADAPTER",
+      "residual_receivers": ["R29-G1b", "R29-X1", "R29-L2"]
     },
     "work_import": {
       "pr": 1292,
@@ -183,14 +174,8 @@
       "merged": true,
       "merge_commit": "a809d79eaf523954c6dca63a337098e604d0dc2c",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
-      "audit_record": "stages/stage29/29-02-work-import/audit.md",
-      "audited_submission_head": "d548795f95b9c008098f07b2c86cb46ba7439a65",
-      "result": "stages/stage29/29-02-work-import/result.md",
-      "route_contract": "stages/stage29/29-02-work-import/route-contract.json",
-      "roadmap_addendum": "stages/stage29/29-02-work-import/roadmap-addendum.md",
-      "W29_A": "PASS_EXACT_HIGH_VALUE",
-      "W29_A_bound": "d<=176+16g for bijective normalization",
       "29_02c_LG1": "SATISFIED_BY_PR1292_AUDIT",
+      "W29_A": "PASS_EXACT_HIGH_VALUE",
       "W29_B": "PASS_STRUCTURAL_HIGH_VALUE_Q_DESCENT_OPEN",
       "W29_C": "PASS_PROMISING_EXACT_Q_DESCENT_RECEIVER",
       "W29_D": "PASS_AFTER_SCOPE_REPAIR",
@@ -205,15 +190,12 @@
       "merged": true,
       "merge_commit": "8adb7deb9daf80282974bbee7a2b497ecf5bf9a2",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
-      "audit_record": "stages/stage29/29-02c-LG2/audit.md",
       "kind": "UNIBRANCH_LOW_GENUS_FINITE_PICARD_REDUCTION",
       "finite_picard_reduction": true,
       "full_176_192_enumeration_completed": false,
       "effectivity_certified": false,
       "multibranch_cases_covered": false,
-      "upstream_source_lock": "PASS",
-      "residual_receivers": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
-      "advance_other_suffixes": true
+      "residual_receivers": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"]
     },
     "child_02d": {
       "pr": 1297,
@@ -221,18 +203,11 @@
       "merged": true,
       "merge_commit": "fd8955e9ca5c736ba5c0e2f0b50beb3e26c0291d",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
-      "audit_record": "stages/stage29/29-02d/audit.md",
       "kind": "BEAUVILLE_IRREGULAR_COVER_Q_DESCENT",
       "q_form_cover_adapter": "PASS_AUDITED",
-      "q_form_cocycle": "swap_Y_Z",
-      "q_form_cocycle_lift": "factor_swap",
       "deck_involution_descends": true,
-      "fiber_torsor_class_audited": true,
       "finite_twist_set_proved": false,
-      "v4_kernel_swap_equivariance_audited": false,
-      "albanese_uniform_control_proved": false,
-      "residual_receivers": ["R29-BEAU1B", "R29-BEAU1C", "R29-BEAU2A", "R29-BEAU2", "R29-BEAU3"],
-      "advance_other_suffixes": true
+      "residual_receivers": ["R29-BEAU1B", "R29-BEAU1C", "R29-BEAU2A", "R29-BEAU2", "R29-BEAU3"]
     },
     "child_02e": {
       "pr": 1298,
@@ -240,9 +215,7 @@
       "merged": true,
       "merge_commit": "adbf407c57f21a01eaf625bc53a92bb01e940058",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
-      "audit_record": "stages/stage29/29-02e/audit.md",
       "kind": "V4_CHARACTER_NEWFORM_CROSS_QUOTIENT_ROUTE",
-      "global_k3_eigenspace_adapter": "stages/stage29/29-02e/global-k3-eigenspace-adapter.md",
       "K_b_to_h16": "PASS_GLOBAL",
       "K_c_to_h32": "PASS_GLOBAL",
       "K_a_to_h8": "PASS_GLOBAL",
@@ -252,69 +225,56 @@
       "R29_L3": "DISCHARGED",
       "R29_L2_NT": "DISCHARGED",
       "full_cross_lfunction_complete": false,
-      "residual_receivers": ["R29-L2-ALG", "R29-L2-BAD"],
-      "advance_other_suffixes": true
+      "residual_receivers": ["R29-L2-ALG", "R29-L2-BAD"]
     },
     "child_02f": {
       "pr": 1300,
-      "status": "AUDITED_PASS_PENDING_MERGE",
-      "merged": false,
+      "status": "AUDITED_PASS_MERGED",
+      "merged": true,
+      "merge_commit": "42c789c454f37531245a97015ad50769b567b097",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
-      "audit_record": "stages/stage29/29-02f/audit.md",
       "kind": "PHYSICAL_OPEN_BOUNDARY_AND_TRANSCENDENTAL_BRAUER_AUDIT",
       "physical_open": "a1*a2*a3!=0",
       "boundary_components": 72,
-      "extended_picard_grading": "Div_D[0]->Pic[1]",
       "algebraic_brauer_target": "H^2(Q,UPic(U_Qbar))",
       "open_algebraic_odd_primary_closed": false,
       "proper_odd_transcendental_brauer": "ABSENT_AUDITED",
       "R29_BR1_PROPER_ODD": "DISCHARGED",
-      "open_boundary_residue_odd_primary_closed": false,
-      "two_primary_brauer_closed": false,
-      "brauer_manin_obstruction_proved": false,
-      "receiver_semantics": {
-        "R29-BR0A": "BoundaryDivisorPicardSublatticeRankSaturationAndUnitKernel",
-        "R29-BR0B": "BoundaryExtendedPicardAbsoluteGaloisHypercohomology",
-        "R29-BR0G": "BoundaryGerstenResidueAndIntersectionComplexFor72Components",
-        "R29-BR2A": "PhysicalOpenTwoPrimaryBrauerIntegralLattice",
-        "R29-BR2B": "PhysicalOpenTwoPrimaryEvaluationMapsOnQvPoints"
-      },
-      "residual_receivers": ["R29-BR0A", "R29-BR0B", "R29-BR0G", "R29-BR2A", "R29-BR2B"],
-      "advance_other_suffixes": true
+      "residual_receivers": ["R29-BR0A", "R29-BR0B", "R29-BR0G", "R29-BR2A", "R29-BR2B"]
     },
-    "active_suffix_queue": [
-      "29-02g_MODULI_M4_8_Q_DESCENT"
-    ],
-    "residual_computation_receivers": [
-      "R29-LG2",
-      "R29-LG2-EFF",
-      "R29-LG2-MB"
-    ],
-    "residual_beauville_receivers": [
-      "R29-BEAU1B",
-      "R29-BEAU1C",
-      "R29-BEAU2A",
-      "R29-BEAU2",
-      "R29-BEAU3"
-    ],
-    "residual_lfunction_receivers": [
-      "R29-L2-ALG",
-      "R29-L2-BAD"
-    ],
-    "residual_brauer_receivers": [
-      "R29-BR0A",
-      "R29-BR0B",
-      "R29-BR0G",
-      "R29-BR2A",
-      "R29-BR2B"
-    ],
-    "next_item": "29-02g"
+    "child_02g": {
+      "pr": 1301,
+      "status": "AUDITED_PASS_PENDING_MERGE",
+      "merged": false,
+      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "audit_record": "stages/stage29/29-02g/audit.md",
+      "kind": "MODULI_M4_8_Q_DESCENT",
+      "R29_MOD1A": "DISCHARGED_GENERIC_MODULI_LOCUS",
+      "R29_MOD1B": "DISCHARGED_ABSTRACT_K8_CONJUGACY_CLASSIFICATION",
+      "R29_MOD2": "DISCHARGED_GENERIC_BIRATIONAL_QUOTIENT",
+      "ordinary_8_congruence_obstruction": "RED_AUDITED",
+      "generic_forgetful_cover_degree": 24,
+      "generic_residual_group": "S4",
+      "torsion_defect_group": "(Z/2)^3",
+      "abstract_torsion_defect_conjugacy_orbit_sizes": [1, 3, 3, 1],
+      "arithmetic_defect_strata_exactly_four_proved": false,
+      "new_ha_grade_foundation_found": false,
+      "residual_receivers": ["R29-MOD1C", "R29-MOD1D", "R29-MOD2B"]
+    },
+    "active_suffix_queue": [],
+    "ha_namespace_remains_open": true,
+    "residual_computation_receivers": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
+    "residual_beauville_receivers": ["R29-BEAU1B", "R29-BEAU1C", "R29-BEAU2A", "R29-BEAU2", "R29-BEAU3"],
+    "residual_lfunction_receivers": ["R29-L2-ALG", "R29-L2-BAD"],
+    "residual_brauer_receivers": ["R29-BR0A", "R29-BR0B", "R29-BR0G", "R29-BR2A", "R29-BR2B"],
+    "residual_modular_receivers": ["R29-MOD1C", "R29-MOD1D", "R29-MOD2B"],
+    "next_item": "29-03"
   },
   "audit_required": false,
   "audit_status": "PASS",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item_after_pass": "29-02g",
+  "next_item_after_pass": "29-03",
   "next_expected_command": "Stage29-main-batch"
 }
