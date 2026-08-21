@@ -8,7 +8,7 @@ AUDIT_VERDICT=PASS_AFTER_MATERIAL_REPAIR
 
 ## Scope
 
-Fresh audit attacked the common physical host, exact Stage16–20 population masks, literal versus nonliteral survival ratios, theorem provenance, derived condition costs, the physical-Boolean versus F7 sign/Kummer relation, backflow semantics, and controller preservation.
+Fresh audit attacked the common physical host, exact Stage16–20 population masks, literal versus nonliteral survival ratios, theorem provenance, derived condition costs, the physical-Boolean versus F7 sign/Kummer relation, backflow semantics, controller preservation, and current-head CI classification.
 
 ## 1. Common physical host — PASS
 
@@ -151,7 +151,7 @@ z/x=(c/a)^2          always Q-square
 (x+y+z)/x Q-square   iff S.
 ```
 
-An integer is a square in `Q` iff it is an integer square, so there is no rational-versus-integral gap here.
+A nonnegative integer is a square in `Q` iff it is an integer square, so there is no rational-versus-integral gap here.
 
 Therefore the same F7 morphism gives an exact pointwise squareclass crosswalk:
 
@@ -221,7 +221,32 @@ OLD_STAGE_CONTRACT_REPAIR_PROVED_NECESSARY=false
 
 A later targeted addendum remains allowed only if 29-07 proves that a frozen old-stage contract itself must be extended or corrected.
 
-## 8. Routing
+## 8. Controller preservation — PASS
+
+The canonical controller is synchronized at schema 16. PR #1308 is synchronized as merged at commit
+
+```text
+cbd02a38a173165228ebd9d062101535e9896115.
+```
+
+Fresh PR diff inspection confirms that no unrelated 29-02 audit metadata is deleted or rewritten. The controller changes are limited to current Stage29 state, the audited 29-04 record, the KUM4A/KUM4B refinement, backflow-watch refinement, and #1308 merge synchronization.
+
+## 9. Current-head CI — nonblocking stale lock
+
+The current-head workflow `Stage29-01 audit lock` is red. Fresh job logs show the failure is exactly
+
+```text
+assert controller["status"] == "29_01_AUDITED_PASS"
+```
+
+inside `stages/stage29/29-01/verify_29_01.py`, while the controller is intentionally at Stage29-04. The workflow does not test or reject the 29-04 population/Kummer content.
+
+```text
+CI_RED_CLASSIFICATION=STALE_STAGE29_01_LOCK_FALSE_POSITIVE
+CI_CONTENT_BLOCKER=false
+```
+
+## 10. Routing
 
 29-04 now supplies both the exact host/mask vocabulary and the pointwise squareclass identity needed for dependency deduplication. The next stage remains 29-05.
 
@@ -234,6 +259,7 @@ REPAIR_REQUIRED=false
 MERGE_ALLOWED=true
 ADVANCE_ALLOWED=true
 TARGETED_BACKFLOW_REQUIRED_NOW=false
+CI_RED_CLASSIFICATION=STALE_STAGE29_01_LOCK_FALSE_POSITIVE
 NEXT_ITEM=29-05_DEPENDENCY_EQUIVALENCE_ROUTE_OWNERSHIP_AND_DOUBLE_CHARGE_LEDGER
 NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
