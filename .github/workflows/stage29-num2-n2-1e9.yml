@@ -56,7 +56,7 @@ jobs:
           pattern: stage29-num2-shard-*
           path: shards
           merge-multiple: true
-      - name: Aggregate with frozen B500m base and regress Stage14 locks
+      - name: Aggregate with frozen B500m base and lock exact endpoint
         shell: bash
         run: |
           python stages/stage29/num2/scripts/n2_extend_1e9.py aggregate \
@@ -68,9 +68,22 @@ jobs:
           import json
           x=json.load(open('stage29-num2-n2-1e9-report.json'))
           cp={r['B']:r for r in x['checkpoints']}
+          assert cp[1000000]['N2']==255
+          assert cp[5000000]['N2']==531
+          assert cp[10000000]['N2']==720
+          assert cp[50000000]['N2']==1428
+          assert cp[100000000]['N2']==1875
           assert cp[200000000]['N2']==2457
           assert cp[500000000]['N2']==3495
+          assert cp[600000000]['N2']==3767
+          assert cp[700000000]['N2']==3991
+          assert cp[800000000]['N2']==4192
+          assert cp[900000000]['N2']==4379
+          assert cp[1000000000]['N2']==4566
+          assert x['endpoint']['N2']==4566
           assert x['endpoint']['T']==0
+          assert x['endpoint']['object_key_sha256']=='2b3297e9709053312cf14e3e82db52ee5bcab21be24f3c04349512a9a9d7657b'
+          assert x['endpoint']['object_key_mask_sha256']=='52597e854e44af14682462436a31d843fcd64ef8a604e51e87caa20b570b6bc0'
           assert x['guards']['FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM'] is True
           assert x['guards']['PERFECT_CUBOID_NONEXISTENCE_CLAIM'] is False
           print('STAGE29_NUM2_OK', x['endpoint'])
