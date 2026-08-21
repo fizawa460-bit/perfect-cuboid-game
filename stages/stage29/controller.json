@@ -1,7 +1,7 @@
 {
-  "schema_version": 6,
+  "schema_version": 7,
   "stage": "Stage29",
-  "status": "29_02E_AUDITED_PASS_PENDING_MERGE_SUFFIX_QUEUE_ACTIVE",
+  "status": "29_02F_AUDITED_PASS_PENDING_MERGE_SUFFIX_QUEUE_ACTIVE",
   "parent_class": "new_foundation_screening_interaction_synthesis_endpoint_routing",
   "canonical_stage_roadmap": "stages/stage29/roadmap.md",
   "extension_roadmap_addendum": "stages/stage29/29-02-work-import/roadmap-addendum.md",
@@ -236,8 +236,9 @@
     },
     "child_02e": {
       "pr": 1298,
-      "status": "AUDITED_PASS_PENDING_MERGE",
-      "merged": false,
+      "status": "AUDITED_PASS_MERGED",
+      "merged": true,
+      "merge_commit": "adbf407c57f21a01eaf625bc53a92bb01e940058",
       "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
       "audit_record": "stages/stage29/29-02e/audit.md",
       "kind": "V4_CHARACTER_NEWFORM_CROSS_QUOTIENT_ROUTE",
@@ -254,8 +255,34 @@
       "residual_receivers": ["R29-L2-ALG", "R29-L2-BAD"],
       "advance_other_suffixes": true
     },
+    "child_02f": {
+      "pr": 1300,
+      "status": "AUDITED_PASS_PENDING_MERGE",
+      "merged": false,
+      "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+      "audit_record": "stages/stage29/29-02f/audit.md",
+      "kind": "PHYSICAL_OPEN_BOUNDARY_AND_TRANSCENDENTAL_BRAUER_AUDIT",
+      "physical_open": "a1*a2*a3!=0",
+      "boundary_components": 72,
+      "extended_picard_grading": "Div_D[0]->Pic[1]",
+      "algebraic_brauer_target": "H^2(Q,UPic(U_Qbar))",
+      "open_algebraic_odd_primary_closed": false,
+      "proper_odd_transcendental_brauer": "ABSENT_AUDITED",
+      "R29_BR1_PROPER_ODD": "DISCHARGED",
+      "open_boundary_residue_odd_primary_closed": false,
+      "two_primary_brauer_closed": false,
+      "brauer_manin_obstruction_proved": false,
+      "receiver_semantics": {
+        "R29-BR0A": "BoundaryDivisorPicardSublatticeRankSaturationAndUnitKernel",
+        "R29-BR0B": "BoundaryExtendedPicardAbsoluteGaloisHypercohomology",
+        "R29-BR0G": "BoundaryGerstenResidueAndIntersectionComplexFor72Components",
+        "R29-BR2A": "PhysicalOpenTwoPrimaryBrauerIntegralLattice",
+        "R29-BR2B": "PhysicalOpenTwoPrimaryEvaluationMapsOnQvPoints"
+      },
+      "residual_receivers": ["R29-BR0A", "R29-BR0B", "R29-BR0G", "R29-BR2A", "R29-BR2B"],
+      "advance_other_suffixes": true
+    },
     "active_suffix_queue": [
-      "29-02f_PHYSICAL_OPEN_BOUNDARY_AND_TRANSCENDENTAL_BRAUER_AUDIT",
       "29-02g_MODULI_M4_8_Q_DESCENT"
     ],
     "residual_computation_receivers": [
@@ -274,13 +301,20 @@
       "R29-L2-ALG",
       "R29-L2-BAD"
     ],
-    "next_item": "29-02f"
+    "residual_brauer_receivers": [
+      "R29-BR0A",
+      "R29-BR0B",
+      "R29-BR0G",
+      "R29-BR2A",
+      "R29-BR2B"
+    ],
+    "next_item": "29-02g"
   },
   "audit_required": false,
   "audit_status": "PASS",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item_after_pass": "29-02f",
+  "next_item_after_pass": "29-02g",
   "next_expected_command": "Stage29-main-batch"
 }

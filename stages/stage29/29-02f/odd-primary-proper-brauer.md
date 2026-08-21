@@ -1,0 +1,117 @@
+# Stage29-02f — proper-surface odd-primary transcendental Brauer witness
+
+```text
+SCOPE=smooth proper cuboid surface S/Q
+NOT_YET_SCOPE=nonproper physical open U
+STATUS=AUDITED_PASS
+```
+
+## Integral odd-prime adapter
+
+Testa--Stoll determine
+
+```text
+rank Pic(S_Qbar)=64,
+disc Pic(S_Qbar)=-2^28.
+```
+
+The smooth surface has `b2=78`, so the transcendental rank is 14.  The Neron--Severi lattice is primitive in integral `H^2`; moreover, because its discriminant is a pure power of two, for every odd prime `ell` the cup-product pairing makes
+
+```text
+H^2(Sbar,Z_ell) = NS(Sbar) tensor Z_ell  direct_sum  T_ell
+```
+
+with no odd discriminant defect.  Thus the Kummer quotient modulo `ell` is represented by `T_ell/ell`.
+
+The Stage29-02e audited global decomposition of the semisimple transcendental representation is
+
+```text
+3*h16 + h32 + 3*h8.
+```
+
+Each `hN` is a weight-3 two-dimensional representation.  At a good prime `p`, its `H^2` Frobenius polynomial is
+
+```text
+X^2-a_p X+p^2.
+```
+
+After Tate twist `(1)`, and for `p != ell`, eigenvalue `1 mod ell` implies
+
+```text
+2p-a_p == 0 mod ell.
+```
+
+For the full 14-dimensional package, a global invariant modulo `ell` would therefore force
+
+```text
+ell | D_p
+```
+
+for every good `p != ell`, where
+
+```text
+D_p=(2p-a_p(h16))^3*(2p-a_p(h32))*(2p-a_p(h8))^3.
+```
+
+This determinant statement only uses the characteristic polynomial of Frobenius on the full integral rank-14 quotient; it does not require an integral direct-sum splitting of the three newform lattices.
+
+## Exact witness values
+
+The coefficients extracted from the audited 29-02e trace formulas are
+
+```text
+p :   3   5   7   11  13  17  19  23  29  31  37  41  43  47
+h16:  0  -6   0    0  10 -30   0   0  42   0 -70  18   0   0
+h32:  2   0   0  -14   0   2  34   0   0   0   0 -46 -14   0
+h8 : -2   0   0   14   0   2 -34   0   0   0   0 -46  14   0
+```
+
+The exact integer checker proves
+
+```text
+gcd_p(2p-a_p(h16)) = 2
+gcd_p(2p-a_p(h32)) = 2
+gcd_p(2p-a_p(h8))  = 2
+
+gcd_p D_p = 128.
+```
+
+Fresh audit independently recomputed the determinant gcd.  For every odd `ell` occurring in the test-prime set, deleting the forbidden row `p=ell` leaves gcd exactly `128`; for an odd `ell` not in the set, all rows are allowed.  Thus no odd `ell` can divide `D_p` for every admissible witness prime.
+
+## Brauer consequence
+
+At odd `ell`, Kummer gives
+
+```text
+0 -> Pic(Sbar)/ell -> H^2(Sbar,mu_ell) -> Br(Sbar)[ell] -> 0.
+```
+
+The odd-prime orthogonal splitting above identifies the last quotient with the reduction of the integral rank-14 transcendental module.  A `G_Q`-invariant Brauer `ell`-torsion class would be fixed by every good Frobenius, contradicting the determinant witness.
+
+Therefore
+
+```text
+Br(S_Qbar)[ell]^{G_Q}=0 for every odd ell.
+```
+
+Since
+
+```text
+Br(S)/Br_1(S) -> Br(S_Qbar)^{G_Q}
+```
+
+is injective and Testa--Stoll Theorem 10 gives `Br_1(S)/Br(Q)=0`, every nonconstant Brauer class on the **proper** surface `S` is 2-primary.  Absence of invariant `ell`-torsion also eliminates higher odd `ell`-power invariant classes, since any nonzero class of `ell`-power order has a nonzero invariant multiple of order `ell`.
+
+```text
+R29-BR1-PROPER-ODD=DISCHARGED
+PROPER_NONCONSTANT_BRAUER_ODD_PRIMARY=ABSENT
+```
+
+## Firewall for U
+
+This does not kill odd-primary classes on `U=S\D` that fail to extend across `D`.  Such classes are precisely why the boundary Gersten/residue receiver is retained.  The correct narrowed statement is:
+
+```text
+odd-primary proper-source Brauer = absent;
+odd-primary physical-open Brauer, if any = boundary-residue source only.
+```
