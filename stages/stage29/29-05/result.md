@@ -1,17 +1,19 @@
-# Stage29-05 — dependency, equivalence, route ownership, and double-charge ledger
+# Stage29-05 — audited dependency, equivalence, route ownership, and double-charge ledger
 
 ```text
 TASK=29-05_DEPENDENCY_EQUIVALENCE_ROUTE_OWNERSHIP_AND_DOUBLE_CHARGE_LEDGER
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_PENDING_MERGE
+AUDIT_VERDICT=PASS_AFTER_MATERIAL_REPAIR
 INPUT_29_04=PR1309_AUDITED_PASS_MERGED
 PREMATURE_SINGLE_ROUTE_SELECTION=false
 MULTI_ROUTE_ATTACK_ALLOWED=true
 UNIQUE_PRIMARY_OWNER_REQUIRED=true
+PERFECT_CUBOID_CONCLUSION=NONE
 ```
 
 ## 1. Purpose
 
-Stage29 now has many descriptions of the endpoint: the full four-quadric surface, the degree-64 F7 sign/Kummer presentation, seven K3 quotients, joint V4 and cross quotient, Campedelli quotients, Beauville's irregular cover, modular 8-congruence, local squareclass systems, and parametrized families. 29-05 does **not** choose one winner. It prevents the same mathematical condition or map from being counted as several independent attacks and gives every live receiver one primary execution owner.
+Stage29 now has many descriptions of the endpoint: the full four-quadric surface, the degree-64 F7 sign/Kummer presentation, seven K3 quotients, joint V4 and cross quotient, Campedelli quotients, Beauville's irregular cover, modular 8-congruence, local squareclass systems, arrangement/non-Fano tools, and parametrized families. 29-05 does **not** choose one winner. It prevents the same mathematical condition or already-owned theorem from being counted as several independent attacks and gives each current receiver an explicit primary execution owner, supersession, or dormant/umbrella disposition.
 
 ## 2. Load-bearing input from 29-04
 
@@ -35,170 +37,266 @@ R29-KUM4B=OPEN
 BOOLEAN_16_EQUALS_SIGN_64=false
 ```
 
-This exact pointwise identity is now a deduplication rule: a physical face/space predicate and its corresponding F7 coordinate-squareclass triviality test are one predicate, not two independent savings.
+This exact pointwise identity is a deduplication rule: a physical face/space predicate and its corresponding F7 coordinate-squareclass triviality test are one predicate, not two independent savings. It does not identify the global theorem packages, varieties, local sieve laws, or counting measures.
 
-## 3. Canonical route registry
+## 3. Material audit repair: receiver completeness
 
-The canonical live attack families are:
+The submission claimed that every active named receiver had exactly one primary owner. Fresh comparison with the canonical controller disproved that claim.
 
-```text
-G10-FULL-ENDPOINT       owner=29-10  full surface / F7 direct curve-fibration geometry
-G10-LOWGENUS-PICARD     owner=29-10  Testa-Stoll + finite Picard low-genus reduction/effectivity/multibranch
-G10-K3-SIGN             owner=29-10  seven sign/K3 quotient directions and exact K3 theorem adapters
-Q11-CAMPEDELLI          owner=29-11  Q-defined Campedelli quotient obstruction/descent
-Q11-BEAUVILLE           owner=29-11  Beauville cover, twist/descent, Albanese
-Q11-MODULAR             owner=29-11  M(4,8)/X(8) modular descent and residual S4
-Q11-BRAUER              owner=29-11  proper/open Brauer obstruction receivers
-J12-JOINT-V4            owner=29-12  joint completion/cross quotient arithmetic after 29-07 bridge
-J12-LOCAL-SQUARECLASS   owner=29-12  seven-linear-form/local valuation attack using 29-09 infrastructure
-J12-PARAMETRIC          owner=29-12  exact adapted parametrized/fibration families, no coverage promotion
-J12-POP-INTERACTION     owner=29-12  common-host population/branch/moving-complement interaction route
-```
-
-Pre-attack infrastructure has separate owners but is not counted as an attack route:
+The controller carried 39 residual/retained receiver IDs. The submitted registry owned 30 IDs and left the following 12 without an explicit owner or supersession disposition:
 
 ```text
-I07-KUMMER-BRIDGE       owner=29-07
-I08-COVERAGE-ATLAS      owner=29-08
-I09-LOCAL-INFRA         owner=29-09
+R29-KUM4
+R29-NF1QISO
+R29-NF3
+R29-NF4
+R29-NF5
+R29-NF6
+R29-NF7
+R29-NF8
+R29-NF-PHYS2
+R29-QWEB-CLIFFORD
+R29-TERA1
+R29-PI1-OPEN
 ```
 
-## 4. Receiver ownership lock
+This was a material defect because receiver completeness is the central purpose of 29-05.
+
+The audited repair is recorded in `route-registry.json` V2. After repair:
 
 ```text
-R29-KUM3A       -> I07-KUMMER-BRIDGE
-R29-KUM3B       -> I07-KUMMER-BRIDGE ; depends_on=KUM3A
-R29-KUM4B       -> I07-KUMMER-BRIDGE ; 29-04 pointwise precondition already satisfied
-R29-G1b         -> I07-KUMMER-BRIDGE
-R29-X1          -> I07-KUMMER-BRIDGE
-
-R29-PESCH1      -> I08-COVERAGE-ATLAS ; independence unresolved until exact crosswalk
-
-R29-KUM-LOC1    -> I09-LOCAL-INFRA
-R29-KUM-LOC2    -> I09-LOCAL-INFRA
-
-R29-LG2         -> G10-LOWGENUS-PICARD
-R29-LG2-EFF     -> G10-LOWGENUS-PICARD
-R29-LG2-MB      -> G10-LOWGENUS-PICARD
-
-R29-CAMP2       -> Q11-CAMPEDELLI
-R29-CAMP3       -> Q11-CAMPEDELLI
-R29-CAMP4       -> Q11-CAMPEDELLI
-
-R29-BEAU1B      -> Q11-BEAUVILLE
-R29-BEAU1C      -> Q11-BEAUVILLE
-R29-BEAU2A      -> Q11-BEAUVILLE
-R29-BEAU2       -> Q11-BEAUVILLE
-R29-BEAU3       -> Q11-BEAUVILLE
-
-R29-MOD1C       -> Q11-MODULAR
-R29-MOD1D       -> Q11-MODULAR
-R29-MOD2B       -> Q11-MODULAR
-
-R29-BR0A        -> Q11-BRAUER
-R29-BR0B        -> Q11-BRAUER
-R29-BR0G        -> Q11-BRAUER
-R29-BR2A        -> Q11-BRAUER
-R29-BR2B        -> Q11-BRAUER
-
-R29-L2-ALG      -> J12-JOINT-V4
-R29-L2-BAD      -> J12-JOINT-V4
+CANONICAL_CONTROLLER_RESIDUAL_OR_RETAINED_IDS_CHECKED=39
+SUBMISSION_OWNED_IDS=30
+POST_REPAIR_UNCOVERED_IDS=0
+RECEIVER_COMPLETENESS=PASS_AFTER_MATERIAL_REPAIR
 ```
 
-`R29-KUM5` is cross-route synthesis between F7 arrangement symmetry and modular residual `S4`; primary owner is `29-06 GLOBAL_FOUNDATION_SYNTHESIS`, not a new attack route. Any later arithmetic residue is re-routed once after 29-06.
+## 4. Canonical attack-route registry
 
-## 5. Exact equivalence / non-equivalence ledger
-
-### 5.1 MERGED as descriptions/adapters
+The attack portfolio remains 11 routes:
 
 ```text
-F7 seven-line cover <-> non-Fano/Hirzebruch N=2 recognition over Q(i)
+29-10:
+  G10-FULL-ENDPOINT
+  G10-LOWGENUS-PICARD
+  G10-K3-SIGN
+
+29-11:
+  Q11-CAMPEDELLI
+  Q11-BEAUVILLE
+  Q11-MODULAR
+  Q11-BRAUER
+
+29-12:
+  J12-JOINT-V4
+  J12-LOCAL-SQUARECLASS
+  J12-PARAMETRIC
+  J12-POP-INTERACTION
 ```
 
-This is one geometric object with a named classical-theory adapter and explicit Q twist. It is not two independent endpoint foundations and cannot be credited twice.
+Pre-attack infrastructure remains:
 
-The Horie-Yamauchi newform decomposition and the seven K3 quotient decomposition are attached arithmetic/cohomological descriptions of the K3 geometry. A theorem derived from one may still be new progress, but the existence of both descriptions is not two independent rarity mechanisms.
+```text
+I07-KUMMER-BRIDGE   owner=29-07
+I08-COVERAGE-ATLAS  owner=29-08
+I09-LOCAL-INFRA     owner=29-09
+```
 
-### 5.2 Same physical predicate, different coordinates
+and cross-foundation identity/adapter normalization has the explicit non-attack synthesis owner
+
+```text
+S06-GLOBAL-SYNTHESIS owner=29-06.
+```
+
+The number `11` is an execution-portfolio count only:
+
+```text
+ROUTE_COUNT_IS_INDEPENDENT_FOUNDATION_COUNT=false
+ROUTE_COUNT_IS_INDEPENDENT_PROBABILITY_COUNT=false
+UMBRELLA_OWNERSHIP_PROVES_REDUNDANCY=false
+UMBRELLA_OWNERSHIP_RESOLVES_INDEPENDENCE=false
+```
+
+If a currently amber/umbrella receiver later produces a materially distinct exact arithmetic model, a Gap Scan may promote or split a route.
+
+## 5. Repaired ownership for omitted receivers
+
+### 5.1 Historical KUM4
+
+```text
+R29-KUM4 -> SUPERSEDED_BY [R29-KUM4A,R29-KUM4B]
+R29-KUM4A -> DISCHARGED pointwise
+R29-KUM4B -> I07-KUMMER-BRIDGE, OPEN count adapter
+```
+
+The historical unsplit name is no longer a separate live task.
+
+### 5.2 Non-Fano/Hirzebruch internal receivers
+
+The audited 02hc result classified this as a named theorem ecosystem on F7, not an independent foundation. Therefore the structural crosswalks are assigned to `S06-GLOBAL-SYNTHESIS`, not promoted into new attack routes:
+
+```text
+R29-NF1QISO -> S06-GLOBAL-SYNTHESIS
+  status=DORMANT_OPEN_NOT_NEEDED
+
+R29-NF3 -> S06-GLOBAL-SYNTHESIS
+  umbrella children=NF3A/NF3B/NF3C/NF3D
+
+R29-NF4 -> S06-GLOBAL-SYNTHESIS
+  rho order-2 character / Q-twisted intermediate double cover
+
+R29-NF5 -> S06-GLOBAL-SYNTHESIS
+  finite-abelian-cover topology versus Campedelli/K3 subcovers
+
+R29-NF6 -> S06-GLOBAL-SYNTHESIS
+  Campedelli kernels in non-Fano congruence character lattice
+
+R29-NF7 -> S06-GLOBAL-SYNTHESIS
+  two-primary boundary versus mod-2 resonance
+  secondary arithmetic candidate=Q11-BRAUER
+```
+
+`R29-NF7` ownership does not imply a Brauer relation; that implication remains unproved.
+
+### 5.3 Exact dedup of NF8
+
+The original definition of
+
+```text
+R29-NF8 = Stage16To20PopulationMasksVsArrangementSubcoverCharacterSupport
+```
+
+is now superseded by the finer 29-04 split:
+
+```text
+R29-NF8 -> R29-KUM4A + R29-KUM4B.
+```
+
+The pointwise mask/character crosswalk is exactly KUM4A and is discharged. The remaining population/subcover counting problem is exactly KUM4B. NF8 is therefore not a twelfth copy of the same work.
+
+### 5.4 Boundary / Clifford / Terasoma / fundamental-group candidates
+
+```text
+R29-NF-PHYS2 -> Q11-BRAUER
+  status=OPEN_ADAPTER
+  boundary-residue transfer is not a Brauer obstruction by itself
+
+R29-QWEB-CLIFFORD -> Q11-BRAUER
+  status=AMBER_NEW_THEOREM_REQUIRED
+  no rank-7 Clifford/isotropy obstruction is assumed
+
+R29-TERA1 -> G10-K3-SIGN
+  status=AMBER_SPECIALIZATION_ADAPTER
+  48-node specialization/resolution remains open
+
+R29-PI1-OPEN -> G10-FULL-ENDPOINT
+  status=AMBER_EFFECTIVE_ARITHMETIC_ADAPTER
+  no effective cuboid-open Chabauty-Kim theorem is certified
+```
+
+These are umbrella ownership decisions only. They do not prove the candidates redundant or non-independent.
+
+## 6. Existing receiver ownership retained
+
+The submission assignments for KUM3A/B, KUM4B, G1b, X1, PESCH1, KUM-LOC1/2, LG2/EFF/MB, Campedelli, Beauville, modular, Brauer, and L2-ALG/BAD survive audit. `R29-KUM5` remains owned by `S06-GLOBAL-SYNTHESIS` because it is the exact F7-arrangement-S4 versus modular-residual-S4 crosswalk, not a new attack route by itself.
+
+The legacy umbrella
+
+```text
+R29-L2
+```
+
+is explicitly superseded by
+
+```text
+R29-L2-NT   DISCHARGED
+R29-L2-ALG  OPEN -> J12-JOINT-V4
+R29-L2-BAD  OPEN -> J12-JOINT-V4.
+```
+
+## 7. Exact equivalence / non-equivalence ledger
+
+### 7.1 Named recognition merged only at the audited field scope
+
+```text
+F7 seven-line cover <-> standard non-Fano/Hirzebruch N=2 cover over Q(i)
+```
+
+is one geometric object with an explicit constant-sign Q twist. It is not two independent endpoint foundations. The standard non-Fano Q-cover is **not** identified with the cuboid Q-form.
+
+### 7.2 Same physical predicate, different formulas
 
 ```text
 Stage19 space-square predicate
 = physical S on the exact-two host
-= its audited Gaussian-norm/squareclass normal form on that chart
-= the corresponding F7 coordinate-squareclass triviality test on the physical locus.
+= audited Gaussian-norm/squareclass normal form on that chart
+= corresponding F7 coordinate-squareclass triviality test on the physical locus.
 ```
 
-Likewise the Stage20 third-face completion predicate is the missing face-square predicate on the two-face host and its F7 coordinate-squareclass test. Local blocker laws, squareclass formulas, and cover equations are tools for the same predicate unless an independent theorem proves an additional restriction.
-
-Therefore:
+Likewise the Stage20 missing-face completion and its F7 coordinate test enforce the same physical face predicate. Local blocker laws and K3 equations are tools attached to that predicate, not extra independent survival factors.
 
 ```text
 NO_MULTIPLY_STAGE19_SQUARECLASS_SAVING_BY_F7_SQUARECLASS_SAVING=true
 NO_MULTIPLY_STAGE20_LOCAL_BLOCKER_BY_SAME_FACE_PREDICATE_AGAIN=true
 ```
 
-### 5.3 Distinct dependent attack routes retained
+### 7.3 Distinct dependent arithmetic routes retained
 
-Campedelli quotients depend geometrically on F7 but are retained because a Q-point-free quotient would give a different endpoint obstruction by Q-defined pushforward. Converse lifting still needs torsor/descent analysis.
+Campedelli remains distinct because every audited quotient is Q-defined and endpoint Q-points push forward to quotient Q-points. Beauville remains distinct because the audited map direction is a degree-two cover `X_cub -> S_endpoint` and its twist/descent problem is not an F7 quotient. Modular and Brauer routes remain separate under their audited Q/Q(i) and obstruction firewalls.
 
-Beauville is retained separately because the audited direction is a degree-two cover `X_cub -> S_endpoint`; it is not an F7 quotient. Modular is retained separately because its generic birational/forgetful route and Q(i)/Q descent problem are different. Brauer is retained as obstruction technology rather than being declared equivalent to any quotient route.
+## 8. Cross-route double-charge firewalls
 
-### 5.4 Joint V4 scope
+### K3 versus joint V4
 
-The joint V4 model is an endpoint presentation over the Stage28 two-face base, not a new population beyond the endpoint. Its marginal K3 covers and cross quotient are correlated pieces of one V4 character decomposition. The identity
-
-```text
-#X_joint = #X_face + #X_sp + #X_cross - 2#Y
-```
-
-must not be interpreted as three independent probabilistic savings.
-
-### 5.5 Parametrized families
-
-Saunderson, A2, Meskhishvili-style, and Peschmann-style families remain family/image data until exact coverage is proved. Closing a family or a slice does not close the endpoint and is not an independent global rarity factor.
-
-## 6. Double-charge rules for later attack stages
-
-Every future claimed saving/obstruction must record:
+The three V4 characters are correlated structural pieces, not three independent probabilities.
 
 ```text
-ROUTE_ID
-PREDICATE_OR_GEOMETRIC_MAP
-HOST
-FIELD_OF_DEFINITION
-THEOREM_SPECIES
-IS_NEW_RESTRICTION=true/false
-DUPLICATE_OF_OR_NONE
-CAN_COMBINE_WITH_OTHER_SAVING=true/false_with_reason
+INDIVIDUAL_K3_MARGINAL_FACTS_PRIMARY_OWNER=G10-K3-SIGN
+J12_JOINT_V4_SEPARATE_CREDIT_REQUIRES=GENUINELY_JOINT_OR_CROSS_CHARACTER_INFORMATION
 ```
 
-The default is `CAN_COMBINE=false` when two arguments enforce the same physical predicate through different coordinates.
+J12 may reuse a K3 theorem as input but may not credit the same marginal theorem again as joint progress.
 
-No product of local density, thin-cover saving, K3 geometry, squareclass parity, or population ratio may be formed merely because all are numerically small.
+### Local squareclass
 
-## 7. Current route statuses
+`J12-LOCAL-SQUARECLASS` may reuse Stage19/20 local laws and F7 squareclass coordinates. Separate credit requires a new simultaneous/joint endpoint local restriction or correlation, not a re-statement of one old predicate.
 
-29-05 is a registry stage, not a pruning stage. No live route is made RED merely for depending on another model.
+### Population interaction
+
+`J12-POP-INTERACTION` may reuse the 29-04 cost matrix and Stage28 `K_28` normalization. Separate credit requires new relative-rate, ordering, interaction, or moving-complement control; known marginal smallness cannot be credited again.
+
+## 9. Parametric coverage firewall
+
+Saunderson, A2, Meskhishvili-style, and Peschmann-style families remain family/image data until exact coverage is proved. Closing a family or slice does not close the endpoint.
 
 ```text
-G10-FULL-ENDPOINT=LIVE
-G10-LOWGENUS-PICARD=LIVE
-G10-K3-SIGN=LIVE
-Q11-CAMPEDELLI=LIVE
-Q11-BEAUVILLE=LIVE
-Q11-MODULAR=LIVE
-Q11-BRAUER=LIVE
-J12-JOINT-V4=LIVE_CONDITIONAL_ON_29_07
-J12-LOCAL-SQUARECLASS=LIVE_CONDITIONAL_ON_29_09
-J12-PARAMETRIC=LIVE_WITH_COVERAGE_FIREWALL
-J12-POP-INTERACTION=LIVE
+PESCHMANN_PROVEN_F2_ADAPTER=false
+PESCHMANN_INDEPENDENCE_RESOLVED=false
+PESCHMANN_CROSSWALK_FAILURE_AUTO_RED=false
 ```
 
-The non-Fano/Hirzebruch adapter is `MERGED_WITH_F7_AS_DESCRIPTION`, not a separate route. Ordinary unconstrained symplectic 8-congruence remains RED as already audited; the twisted/conjugate-self modular route remains live.
+If the 29-08 crosswalk fails, independence is reassessed rather than declaring the route redundant.
 
-## 8. Backflow / roadmap verdict
+## 10. Combination gate
 
-No old-stage contract repair is forced by this deduplication.
+Before multiplying two savings or combining two obstructions, record all of:
+
+```text
+SAME_HOST=true
+SAME_PHYSICAL_MEASURE=true
+DISTINCT_RESTRICTIONS_PROVED=true
+DEPENDENCE_HANDLED=true
+HEIGHT_COMPATIBLE=true
+MULTIPLICITY_COMPATIBLE=true
+FIELD_COMPATIBLE=true
+QUANTIFIERS_COMPATIBLE=true
+```
+
+If any field is not proved, combination is not certified.
+
+## 11. Backflow / roadmap verdict
+
+No frozen Stage16–28 contract repair is forced by this receiver cleanup.
 
 ```text
 TARGETED_BACKFLOW_REQUIRED_NOW=false
@@ -208,16 +306,20 @@ ROADMAP_MATERIALITY_CERTIFICATE=false
 ROADMAP_REWRITE_REQUIRED=false
 ```
 
-29-05 supplies the route registry needed for `GAP_SCAN_A / ROADMAP_REVIEW_A` after fresh audit.
+The 11-route portfolio survives as an execution taxonomy after receiver-completeness repair. `GAP_SCAN_A / ROADMAP_REVIEW_A` remains the correct next item.
 
-## 9. Exit
+## 12. Exit
 
 ```text
-AUDIT_REQUIRED=true
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
+CHECKPOINT29_05_AUDIT=PASS
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS
+BOUNDED_REPAIR=RECEIVER_COMPLETENESS_PLUS_LEGACY_SUPERSESSION_PLUS_CROSS_ROUTE_CREDIT_FIREWALLS
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
 NEXT_ITEM=GAP_SCAN_A_ROADMAP_REVIEW_A
-NEXT_EXPECTED_COMMAND=Stage29-audit
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
