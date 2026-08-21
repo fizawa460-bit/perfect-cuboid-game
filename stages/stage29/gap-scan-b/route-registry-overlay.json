@@ -1,0 +1,63 @@
+{
+  "schema": "STAGE29_ROUTE_REGISTRY_GAP_SCAN_B_PREAUDIT_OVERLAY_V1",
+  "base_registry": "stages/stage29/29-05/route-registry.json",
+  "imported_overlays": [
+    "stages/stage29/29-08/route-registry-audited.json",
+    "stages/stage29/29-09/route-contract.json"
+  ],
+  "status": "SUBMISSION_PENDING_FRESH_GAP_SCAN_B_AUDIT",
+  "attack_route_count": 11,
+  "route_count_change": 0,
+  "attack_routes": {
+    "G10-FULL-ENDPOINT": {"owner":"29-10","status":"LIVE"},
+    "G10-LOWGENUS-PICARD": {"owner":"29-10","status":"LIVE"},
+    "G10-K3-SIGN": {"owner":"29-10","status":"LIVE"},
+    "Q11-CAMPEDELLI": {"owner":"29-11","status":"LIVE"},
+    "Q11-BEAUVILLE": {"owner":"29-11","status":"LIVE"},
+    "Q11-MODULAR": {"owner":"29-11","status":"LIVE"},
+    "Q11-BRAUER": {"owner":"29-11","status":"LIVE"},
+    "J12-JOINT-V4": {"owner":"29-12","status":"LIVE_WITH_EXACT_29_07_BRIDGE_AND_OPEN_R29_X1"},
+    "J12-LOCAL-SQUARECLASS": {"owner":"29-12","status":"LIVE_WITH_EXACT_ODD_LOCAL_DATA_AND_OPEN_Q2_GLOBAL_TRANSFER"},
+    "J12-PARAMETRIC": {"owner":"29-12","status":"LIVE_GLOBAL_COVERAGE_CERTIFIED_WITH_AMBER_E1_BLOCKER"},
+    "J12-POP-INTERACTION": {"owner":"29-12","status":"LIVE"}
+  },
+  "pre_attack": {
+    "S06-GLOBAL-SYNTHESIS": "COMPLETED_AUDITED",
+    "I07-KUMMER-BRIDGE": "COMPLETED_AUDITED_WITH_DORMANT_G1B_EXCEPTIONAL_REMAINDER",
+    "I08-COVERAGE-ATLAS": "COMPLETED_AUDITED",
+    "I09-LOCAL-INFRA": "COMPLETED_AUDITED_ODD_PRIMES_WITH_Q2_AND_GLOBAL_TRANSFER_DOWNSTREAM"
+  },
+  "new_or_sharpened_receiver_ownership": {
+    "R29-PESCH1": {"owner":"I08-COVERAGE-ATLAS","status":"DISCHARGED"},
+    "R29-PESCH-COV": {"owner":"I08-COVERAGE-ATLAS","status":"DISCHARGED"},
+    "R29-K1": {"owner":"I08-COVERAGE-ATLAS","status":"DISCHARGED"},
+    "R29-PESCH2": {"owner":"J12-PARAMETRIC","status":"OPEN_BOUNDED"},
+    "R29-PESCH-E1": {"owner":"J12-PARAMETRIC","status":"AMBER_CONJECTURAL_GLOBAL_ENDPOINT_BLOCKER"},
+    "R29-FIB1": {"owner":"J12-PARAMETRIC","status":"OPEN"},
+    "R29-FIB2": {"owner":"J12-PARAMETRIC","status":"OPEN"},
+    "R29-KUM-LOC1": {"owner":"I09-LOCAL-INFRA","status":"PARTIAL_DISCHARGE_ODD_PRIMES_EXACT_BAD_PRIME_2_SEPARATE"},
+    "R29-KUM-LOC2": {"owner":"I09-LOCAL-INFRA","status":"PARTIAL_DISCHARGE_ODD_PRIMES_AND_INFINITY_DONE_P2_OPEN"},
+    "R29-KUM-LOC2-2": {"owner":"J12-LOCAL-SQUARECLASS","status":"OPEN_BOUNDED"},
+    "R29-KUM-LOC3": {"owner":"J12-LOCAL-SQUARECLASS","status":"AMBER_GLOBAL_ADAPTER_REQUIRED"}
+  },
+  "retained_open_details": {
+    "R29-X1": {"owner":"J12-JOINT-V4","status":"OPEN_BOUNDED_GLOBAL_ADE_ENUMERATION"},
+    "R29-G1b-EXC": {"owner":"I07-KUMMER-BRIDGE","status":"DORMANT_BOUNDED_NOT_REQUIRED_FOR_CURRENT_BRIDGE"},
+    "R29-NF1QISO": {"owner":"S06-GLOBAL-SYNTHESIS","status":"DORMANT_OPEN_NOT_NEEDED"}
+  },
+  "cross_route_credit_firewalls": {
+    "K3_vs_PARAMETRIC":"K3 quotient geometry and genuinely K3-specific theorem adapters belong to G10-K3-SIGN; Master-Hit/Peschmann coverage and fibration crosswalk credit belong to J12-PARAMETRIC; the same fact cannot be credited twice",
+    "JOINT_V4":"J12-JOINT-V4 earns new credit only from genuinely joint/cross-character information not reducible to one marginal",
+    "LOCAL":"29-09 exact odd-prime infrastructure is consumed, not replayed; Stage19/20 marginal blocker laws are not independent endpoint factors",
+    "POPULATION":"cover degree, route count and local 1/64 density are not population survival factors",
+    "FINITE":"finite verification of R29-PESCH-E1 or endpoint search is not a global theorem"
+  },
+  "completeness": {
+    "new_attack_route_created": false,
+    "post_overlay_unowned_active_receiver_count": 0,
+    "targeted_backflow_required_now": false,
+    "active_backflow_queue": [],
+    "conditional_backflow_watchlist": [],
+    "roadmap_rewrite_required": false
+  }
+}
