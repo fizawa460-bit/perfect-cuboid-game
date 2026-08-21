@@ -1,0 +1,29 @@
+name: Stage28-70 closeout
+
+on:
+  push:
+    paths:
+      - 'stages/stage28/28-70/**'
+      - 'stages/stage28/28-controller.json'
+      - 'docs/stage28-arsenal-promotion.md'
+      - '.github/workflows/stage28-70-closeout.yml'
+  pull_request:
+    paths:
+      - 'stages/stage28/28-70/**'
+      - 'stages/stage28/28-controller.json'
+      - 'docs/stage28-arsenal-promotion.md'
+      - '.github/workflows/stage28-70-closeout.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify Stage28 checkpoint70 closeout consistency
+        run: python stages/stage28/28-70/verify_28_70.py
