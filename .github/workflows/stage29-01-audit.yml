@@ -1,0 +1,32 @@
+name: Stage29-01 audit lock
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage29/**'
+      - 'stages/stage28/28-controller.json'
+      - 'docs/stage16-29-population-roadmap.md'
+      - 'docs/stage14-num-reuse-index.md'
+      - 'docs/stage14-num-reuse-index.json'
+      - '.github/workflows/stage29-01-audit.yml'
+  push:
+    paths:
+      - 'stages/stage29/**'
+      - 'docs/stage16-29-population-roadmap.md'
+      - 'docs/stage14-num-reuse-index.md'
+      - 'docs/stage14-num-reuse-index.json'
+      - '.github/workflows/stage29-01-audit.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify audited Stage29-01 state
+        run: python stages/stage29/29-01/verify_29_01.py
