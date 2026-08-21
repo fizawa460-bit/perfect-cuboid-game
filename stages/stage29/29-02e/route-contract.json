@@ -1,29 +1,39 @@
 {
   "task": "Stage29-02e",
   "role": "V4_CHARACTER_NEWFORM_CROSS_QUOTIENT_ROUTE",
-  "status": "SUBMISSION_PENDING_FRESH_AUDIT",
+  "status": "AUDITED_PASS_PENDING_MERGE",
+  "audit": {
+    "verdict": "PASS_AFTER_BOUNDED_REPAIR",
+    "record": "stages/stage29/29-02e/audit.md",
+    "global_adapter": "stages/stage29/29-02e/global-k3-eigenspace-adapter.md",
+    "bounded_repair": "GLOBAL_EIGENSPACE_PROOF_PLUS_SOURCE_SCOPE_AND_A1_LOCAL_CHECK"
+  },
   "source_lock": {
     "endpoint_lfunction": "Horie-Yamauchi arXiv:2512.22520v3",
     "coordinate_k3_geometry": "Testa-Stoll cuboid surface Section 6",
-    "verification_code": "MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd:Cuboids/cuboids.magma"
+    "verification_code": "MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd:Cuboids/cuboids.magma",
+    "audit_status": "PASS_AFTER_SCOPE_REPAIR"
   },
   "exact_finite_prime_regression": {
     "script": "stages/stage29/29-02e/k3_trace_check.py",
     "primes": [3,5,7,11,13,17,19,23,29,31,37,41,43,47],
     "all_assertions_pass": true,
-    "arithmetic": "exact_mod_p"
+    "rational_node_A1_local_audit": true,
+    "arithmetic": "exact_mod_p",
+    "load_bearing_for_global_identification": false
   },
-  "candidate_identifications": {
+  "global_identifications": {
     "K_b": "h16",
     "K_c": "h32",
     "K_a": "h8",
     "Stage19_space_K3": "h16",
     "Stage20_Euler_K3": "h32",
-    "cross_nonTate": "2*h16 + 3*h8"
+    "cross_nonTate": "2*h16 + 3*h8",
+    "proof": "SEVEN_CANONICAL_COORDINATE_EIGENSPACES_PLUS_3_1_3_ORBIT_MULTIPLICITIES"
   },
   "receivers": {
-    "R29-L3": "PASS_CANDIDATE_BY_EXACT_TRACE_REGRESSION",
-    "R29-L2-NT": "PASS_CANDIDATE_CONDITIONAL_ON_R29-L3",
+    "R29-L3": "DISCHARGED_GLOBAL_EIGENSPACE_ORBIT_ARGUMENT",
+    "R29-L2-NT": "DISCHARGED_GLOBAL_V4_SUBTRACTION",
     "R29-L2-ALG": "OPEN_BOUNDED",
     "R29-L2-BAD": "OPEN_BOUNDED"
   },
@@ -36,9 +46,10 @@
     "old_gate_replay": false,
     "backflow_to_stage16_28": false
   },
-  "audit_required": true,
-  "merge_allowed": false,
-  "advance_allowed": false,
+  "audit_required": false,
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
   "next_item_after_pass": "29-02f",
-  "next_expected_command": "Stage29-audit"
+  "next_expected_command": "Stage29-main-batch"
 }
