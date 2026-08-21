@@ -1,17 +1,18 @@
 {
-  "proposal_only": true,
-  "audit_applied": false,
-  "expected_schema_version_increment_after_audit": 1,
-  "proposed_status_after_audit_if_pass": "29_07_AUDITED_PASS_PENDING_MERGE_READY_FOR_29_08",
+  "proposal_only": false,
+  "audit_applied": true,
+  "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+  "audited_status": "29_07_AUDITED_PASS_PENDING_MERGE_READY_FOR_29_08",
   "current_item": "29-07",
   "29_07": {
     "role": "SIGN_TOWER_JOINT_V4_AND_POPULATION_BRIDGE",
     "submission_branch": "stage29-07-sign-tower-joint-v4-population-bridge",
-    "R29_KUM3A": "PROPOSED_DISCHARGED_GLOBAL_NORMAL_SUBCOVER_PLUS_STAGE28_RESOLUTION_ADAPTER",
-    "R29_KUM3B": "PROPOSED_DISCHARGED_EXACT_RESIDUAL_TWO_ROOT_V4",
+    "audit_record": "stages/stage29/29-07/audit.md",
+    "R29_KUM3A": "DISCHARGED_GLOBAL_NORMAL_SUBCOVER_PLUS_EXACT_STAGE28_RESOLUTION_ADAPTER",
+    "R29_KUM3B": "DISCHARGED_EXACT_RESIDUAL_TWO_ROOT_V4",
     "R29_KUM4A": "DISCHARGED_BY_29_04_NO_REPLAY",
-    "R29_KUM4B": "PROPOSED_DISCHARGED_EXACT_PHYSICAL_POPULATION_TO_SELECTED_SUBCOVER_INCIDENCE_ADAPTER",
-    "R29_KUM4": "PROPOSED_FULL_DISCHARGE_AFTER_A_B_SPLIT",
+    "R29_KUM4B": "DISCHARGED_EXACT_PHYSICAL_POPULATION_TO_SELECTED_SUBCOVER_INCIDENCE_ADAPTER",
+    "R29_KUM4": "DISCHARGED_AFTER_A_B_SPLIT",
     "two_face_floor_degree_to_F7_P2": 16,
     "residual_joint_degree": 4,
     "full_F7_degree": 64,
@@ -19,6 +20,7 @@
     "two_face_singularity_count": 4,
     "two_face_singularity_type": "A1",
     "stage28_resolution": "Y=Bl_4(P1xP1)",
+    "stage28_resolution_crosscheck": "EXACT_ANTICANONICAL_PYTHAGOREAN_MAP_WITH_FOUR_BASEPOINTS",
     "tower_degrees": [4,8,16,32,64],
     "population_incidence_formulas": {
       "I1": "M1+2*M2+3*M3",
@@ -31,25 +33,40 @@
     "two_face_v4_cells": ["M2-N2","N2","3*(M3-P)","3*P"],
     "full_population_subcover_count_adapter": true,
     "height_power_loss": 0,
+    "primitivity_adapter": "EXACT",
+    "canonical_order_adapter": "EXACT",
     "cover_degree_is_physical_multiplicity": false,
-    "R29_G1b": "PROPOSED_DISCHARGED_FOR_GLOBAL_NORMAL_MODEL_AND_PHYSICAL_OPEN_WITH_OPTIONAL_EXPLICIT_EXCEPTIONAL_TABLE",
-    "R29_X1": "OPEN_BOUNDED_PROPOSED_TRANSFER_TO_J12-JOINT-V4",
+    "R29_G1b_CORE": "DISCHARGED_GLOBAL_NORMAL_MODEL_AND_PHYSICAL_OPEN",
+    "R29_G1b": "PARTIAL_DISCHARGE_CORE_DONE",
+    "R29_G1b_EXC": "DORMANT_BOUNDED_NOT_REQUIRED_FOR_CURRENT_BRIDGE",
+    "full_exceptional_curve_ledger_complete": false,
+    "R29_X1": "OPEN_BOUNDED_TRANSFER_TO_J12-JOINT-V4",
+    "X1_transfer_earns_attack_credit": false,
     "targeted_backflow_required_now": false,
     "active_backflow_queue_size": 0,
     "conditional_backflow_watchlist_after_pass": [],
     "roadmap_rewrite_required": false,
     "new_population_asymptotic": false,
     "perfect_cuboid_existence_claim": false,
-    "perfect_cuboid_nonexistence_claim": false
+    "perfect_cuboid_nonexistence_claim": false,
+    "repair_required": false,
+    "merge_allowed": true,
+    "advance_allowed": true
   },
-  "route_registry_proposed_changes_after_pass": {
+  "route_registry_audited_changes_after_pass": {
+    "I07-KUMMER-BRIDGE": "COMPLETED_AUDITED_WITH_DORMANT_G1B_EXCEPTIONAL_REMAINDER",
     "R29-KUM3A": "DISCHARGED_REMOVE_FROM_ACTIVE_I07",
     "R29-KUM3B": "DISCHARGED_REMOVE_FROM_ACTIVE_I07",
     "R29-KUM4B": "DISCHARGED_REMOVE_FROM_ACTIVE_I07",
-    "R29-G1b": "DISCHARGED_OR_OPTIONAL_BOUNDED_PER_AUDIT",
-    "R29-X1": "TRANSFER_PRIMARY_OWNER_TO_J12-JOINT-V4"
+    "R29-G1b": "PARTIAL_DISCHARGE_CORE_DONE_DORMANT_REMAINDER",
+    "R29-X1": "TRANSFER_PRIMARY_OWNER_TO_J12-JOINT-V4",
+    "J12-JOINT-V4": "LIVE_29_07_PRECONDITION_SATISFIED"
+  },
+  "merged_input_sync": {
+    "pr": 1312,
+    "merge_commit": "c8c715e3f57a1774ef2ec79a80e3e3185e25a8e1"
   },
   "next_item_after_pass": "29-08_PARAMETRIZATION_FIBRATION_AND_COVERAGE_ATLAS",
-  "next_expected_command": "Stage29-audit",
-  "preservation_rule": "Do not edit canonical controller before fresh audit. Audit may synchronize merged #1312 and add only verified 29-07 state while preserving unrelated earlier audited metadata."
+  "next_expected_command": "Stage29-main-batch",
+  "preservation_rule": "Canonical controller and route registry may change only for merged #1312 synchronization and audited 29-07 state; preserve unrelated earlier audit metadata."
 }
