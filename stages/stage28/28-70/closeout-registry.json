@@ -2,7 +2,7 @@
   "schema_version": 1,
   "stage": "Stage28",
   "checkpoint": 70,
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "status": "AUDITED_PASS_PENDING_MERGE",
   "comparison": "Stage19 -> Stage20",
   "source_population": "N2: primitive canonical exactly-two-face cuboids with integral space diagonal, R<=B",
   "target_population": "M3: primitive canonical exactly-three-face Euler cuboids, no space requirement, R<=B",
@@ -53,12 +53,15 @@
   "artifacts": {
     "result": "stages/stage28/28-70/result.md",
     "self_contained_bundle": "stages/stage28/28-70/self-contained-bundle.md",
+    "final": "stages/stage28/final.md",
+    "audit": "stages/stage28/28-70/audit.md",
     "discovery_ledger": "stages/stage28/28-70/discovery-ledger.md",
     "arsenal_promotion": "docs/stage28-arsenal-promotion.md",
     "verifier": "stages/stage28/28-70/verify_28_70.py",
     "workflow": ".github/workflows/stage28-70-closeout.yml"
   },
   "arsenal_candidates": ["S28-W01", "S28-W02", "S28-W03", "S28-W04"],
+  "arsenal_promotion_audit": "PASS",
   "open_gates": {
     "primary": "MovingComplementOrBranchSensitiveInteractionThresholdTheorem",
     "primary_target": "J28 relative to (log B)^(-2) under physical R<=B",
@@ -75,7 +78,8 @@
     "open_gates_recorded": true,
     "next_stage_questions_recorded": true,
     "synthesis_stop_reason_recorded": true,
-    "synthesis_stop_rule_satisfied": true
+    "synthesis_stop_rule_satisfied": true,
+    "synthesis_stop_rule_audit": "PASS"
   },
   "firewalls": {
     "finite_data_as_asymptotic_proof": false,
@@ -84,11 +88,17 @@
     "branch_profile_as_power_saving": false,
     "perfect_cuboid_conclusion": "NONE"
   },
-  "audit_required": true,
-  "audit_status": "PENDING",
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "close_stage_after_audit_pass": true,
-  "next_stage_after_audit_pass": "Stage29",
-  "next_expected_command": "Stage28-audit"
+  "audit_required": false,
+  "audit_status": "PASS",
+  "audit_verdict": "PASS",
+  "repair_required": false,
+  "mechanical_final_md_materialization": true,
+  "mathematical_claims_changed_by_repair": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "close_stage_after_merge": true,
+  "next_stage_after_merge": "Stage29",
+  "stage29_open_pr": 1283,
+  "stage29_refresh_required": true,
+  "next_expected_command": "Stage29-audit"
 }
