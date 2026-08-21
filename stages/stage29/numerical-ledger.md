@@ -1,115 +1,101 @@
 # Stage29 numerical ledger
 
 ```text
-LEDGER=STAGE29_NUMERICAL_MAINLINE_R02
-SOURCE_TRACK=Stage29-num1
-SOURCE_PRS=1289,1291
+LEDGER=STAGE29_NUMERICAL_MAINLINE_R03
+SOURCE_TRACKS=Stage29-num1,Stage29-num2
 ROLE=FINITE_EXACT_EVIDENCE_ONLY
 FINITE_DATA_IS_NOT_ASYMPTOTIC_THEOREM=true
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-This is the Stage29 mainline entry point for audited/merged numerical side-track results. It does not replace the proof spine and it does not promote finite computation to an asymptotic theorem.
+This is the Stage29 mainline entry point for exact numerical side-track results. It does not replace the proof spine and finite computations are not promoted to asymptotic theorems.
 
-## Imported population contract
+## Population contracts
 
-`M3(B)` counts primitive canonical Euler cuboids under the exact physical Euclidean cutoff
-
-```text
-R^2=a^2+b^2+c^2 <= B^2,
-gcd(a,b,c)=1,
-all three face diagonals integral,
-no space-diagonal integrality requirement.
-```
-
-The source track is `stages/stage29/num1/`. Its production enumerator is a complete odd-edge/divisor enumeration with exact integer arithmetic, not a selected known-family generator.
-
-## Exact checkpoints
-
-| B | M3(B) | increment from previous checkpoint | P(B) |
-|---:|---:|---:|---:|
-| 1,000,000 | 219 | 137 from 2e5 | 0 |
-| 5,000,000 | 480 | 261 | 0 |
-| 10,000,000 | 656 | 176 | 0 |
-| 50,000,000 | 1,298 | 642 | 0 |
-| 100,000,000 | 1,757 | 459 | 0 |
-| 200,000,000 | 2,339 | 582 | 0 |
-| 500,000,000 | 3,331 | 992 | 0 |
-| 1,000,000,000 | **4,362** | **1,031** | **0** |
-
-Locked regression points remain
+`M3(B)` counts primitive canonical Euler cuboids with all three integral face diagonals and no space-diagonal requirement. `N2(B)` counts primitive canonical cuboids with exactly two integral face diagonals and an integral space diagonal. Both use the same physical cutoff
 
 ```text
-M3(10^4)=18
-M3(5*10^4)=42
-M3(2*10^5)=82
-M3(10^6)=219
+0<a<b<c
+gcd(a,b,c)=1
+R^2=a^2+b^2+c^2<=B^2
 ```
+
+On `N2`, `R=d` is integral, so `R<=B` and `d<=B` are identical. These are different populations; neither is used as a survival denominator for the other.
+
+## Matched exact checkpoints
+
+| B | M3(B) | N2(B) | P(B) | finite M3/N2 |
+|---:|---:|---:|---:|---:|
+| 1,000,000 | 219 | 255 | 0 | 0.8588 |
+| 5,000,000 | 480 | 531 | 0 | 0.9040 |
+| 10,000,000 | 656 | 720 | 0 | 0.9111 |
+| 50,000,000 | 1,298 | 1,428 | 0 | 0.9090 |
+| 100,000,000 | 1,757 | 1,875 | 0 | 0.9371 |
+| 200,000,000 | 2,339 | 2,457 | 0 | 0.9520 |
+| 500,000,000 | 3,331 | 3,495 | 0 | 0.9531 |
+| 1,000,000,000 | **4,362** | **4,566** | **0** | **0.9553** |
+
+The ratio column is a matched-cutoff finite diagnostic only. The populations are structurally different, so it is not a conditional survival probability and no eventual ordering or exponent is inferred.
+
+## N2 extension checkpoints
+
+The canonical Stage19 N2 series has now been independently restored and extended:
+
+| B | N2(B) | T(B) |
+|---:|---:|---:|
+| 500,000,000 | 3,495 | 0 |
+| 600,000,000 | 3,767 | 0 |
+| 700,000,000 | 3,991 | 0 |
+| 800,000,000 | 4,192 | 0 |
+| 900,000,000 | 4,379 | 0 |
+| 1,000,000,000 | **4,566** | **0** |
+
+Here `T` denotes triple-face records with integral space diagonal, i.e. perfect-cuboid hits. The new 500m→1b shell contributes exactly 1,071 N2 objects.
 
 ## Validation
 
-Through `B=500,000,000`, the side track independently validated all 3556 aligned F. Helenius / Giovanni Resta OEIS records from A031173/A031174/A031175 using exact integer face-diagonal, gcd, and Euclidean-cutoff checks.
+M3 uses the complete odd-edge/divisor enumerator. Its exact B1b production run records `M3=4362`, `P=0`.
 
-The `B=1,000,000,000` extension is a direct complete-enumerator run:
-
-```text
-CI_RUN=32445467962
-ALGORITHM=stage29-num1-odd-edge-divisor-v2
-M3_1E9=4362
-P_1E9=0
-RUNTIME_SEC=130.952
-THREADS=4
-PRODUCTION_ARTIFACT=9433940026
-PRODUCTION_ARTIFACT_SHA256=70273cda89d28d2701bf1da77ece739dbfdff36a79a800f895a09f9e726a040a
-PRIMARY_MANIFEST=stages/stage29/num1/data/m3_census_manifest.json
-RAW_1E9_RECORD=stages/stage29/num1/data/m3_1e9_run.json
-```
-
-## N2 comparison correction
-
-The R01 ledger contained a provisional `N2` comparison series `5,8,10,15,17,18,27`. The `10^9` extension rechecked this against the frozen Stage19 interface and found that it is not the canonical Stage19 `N2` population: Stage19 records `N2(500,000,000)=3495` for primitive canonical exactly-two-face cuboids with integral space diagonal.
-
-The provisional N2 fields and all derived `M3/N2` ratios are therefore withdrawn. **No M3 count changes.** A canonical matched-cutoff N2 panel is deferred to the dedicated two-face-plus-space-diagonal numerical run.
+N2 reuses the validated Stage14 alpha diagonal-first engine. The frozen B500m object source is revalidated by its CSV/BZ2/base64 SHA locks and complete summary before scanning only `500m<d<=1b` in twenty disjoint 25m shards. The run re-locks
 
 ```text
-N2_PROVISIONAL_SERIES_RETRACTED=true
-M3_COUNTS_AFFECTED=false
-N2_RECOMPUTE_DEFERRED=true
+N2(200m)=2457
+N2(500m)=3495
 ```
+
+and returns
+
+```text
+N2(1b)=4566
+(Na,Nb,Nc)=(1810,1798,958)
+T(1b)=0
+N2_CI_RUN=32446975833
+N2_ARTIFACT=9434485432
+N2_ARTIFACT_SHA256=d3c546dda768aa25e71215eb7dcd422fe30e037162c856a25c0b329d38d7fcf0
+N2_MANIFEST=stages/stage29/num2/data/n2_census_manifest.json
+```
+
+The earlier provisional series labeled N2 (`5,8,10,15,17,18,27`) remains retracted as a population mismatch and is superseded by this canonical exact panel.
 
 ## Endpoint finite ledger
 
-No Euler cuboid in the exact finite census through `R<=1,000,000,000` has integral space diagonal. Therefore
+Both complete finite computations agree that there is no perfect-cuboid hit through the common physical cutoff `R<=1,000,000,000`:
 
 ```text
 P(B)=0 for B<=1000000000
 ```
 
-is retained as exact finite exhaustive evidence under the matching primitive/canonical physical contract.
+This is exact finite evidence only, not a global nonexistence theorem.
 
-This statement is bounded. It is not a theorem that `P(B)=0` for all `B`, and it must never be used as a perfect-cuboid nonexistence proof.
+## Reuse policy
 
-## Mainline reuse policy
-
-The imported census is approved as a finite-data input for:
-
-- Stage29 parametrization coverage checks (`29-08` and relevant suffixes);
-- endpoint-family regression and negative-control tests;
-- exact testing of maps/coverage claims against the known finite Euler population;
-- later Stage29 numerical suffixes that preserve the same population/cutoff adapter.
-
-It is not approved for:
-
-- fitting or asserting the true asymptotic exponent of `M3`;
-- extrapolating `P(B)=0` beyond the verified cutoff;
-- multiplying finite trends into analytic/geometric savings;
-- any `M3/N2` diagnostic until the canonical N2 panel is re-established.
+The M3 and N2 panels are approved for Stage29 parametrization-coverage checks, endpoint regression/negative controls, and matched-cutoff finite diagnostics. They are not approved for fitting true asymptotic exponents, asserting eventual M3/N2 ordering, extrapolating `P(B)=0`, or multiplying finite trends into proof-level savings.
 
 ```text
-STAGE29_NUM1_MAINLINE_IMPORTED=true
 M3_1E9=4362
+N2_1E9=4566
 P_FINITE_ZERO_THROUGH_B=1000000000
-FINITE_M3_ASYMPTOTIC_CLAIM=false
+N2_CANONICAL_RECOMPUTE_COMPLETE=true
+FINITE_M3_N2_ASYMPTOTIC_CLAIM=false
 P_GLOBAL_ZERO_THEOREM=false
-NEXT_NUM_REUSE_TARGET=29-08_AND_ENDPOINT_DIAGNOSTICS
 ```

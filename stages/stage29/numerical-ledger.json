@@ -1,39 +1,52 @@
 {
-  "schema_version": 2,
-  "ledger": "STAGE29_NUMERICAL_MAINLINE_R02",
-  "source_track": "Stage29-num1",
-  "source_prs": [1289, 1291],
-  "source_result": "stages/stage29/num1/result.md",
-  "source_manifest": "stages/stage29/num1/data/m3_census_manifest.json",
-  "contract": {
-    "population": "primitive canonical Euler cuboids with all three integral face diagonals and no space-diagonal requirement",
+  "schema_version": 3,
+  "ledger": "STAGE29_NUMERICAL_MAINLINE_R03",
+  "source_tracks": {
+    "M3": {
+      "track": "Stage29-num1",
+      "source_prs": [1289, 1291],
+      "result": "stages/stage29/num1/result.md",
+      "manifest": "stages/stage29/num1/data/m3_census_manifest.json",
+      "population": "primitive canonical Euler cuboids with all three integral face diagonals and no space-diagonal requirement"
+    },
+    "N2": {
+      "track": "Stage29-num2",
+      "result": "stages/stage29/num2/result.md",
+      "manifest": "stages/stage29/num2/data/n2_census_manifest.json",
+      "population": "primitive canonical cuboids with exactly two integral face diagonals and integral space diagonal"
+    }
+  },
+  "shared_contract": {
     "cutoff": "R^2=a^2+b^2+c^2<=B^2",
+    "canonical": "0<a<b<c",
     "primitive": "gcd(a,b,c)=1",
     "exact_integer_arithmetic": true
   },
-  "checkpoints": [
-    {"B": 1000000, "M3": 219, "P": 0},
-    {"B": 5000000, "M3": 480, "P": 0},
-    {"B": 10000000, "M3": 656, "P": 0},
-    {"B": 50000000, "M3": 1298, "P": 0},
-    {"B": 100000000, "M3": 1757, "P": 0},
-    {"B": 200000000, "M3": 2339, "P": 0},
-    {"B": 500000000, "M3": 3331, "P": 0},
-    {"B": 1000000000, "M3": 4362, "P": 0}
+  "matched_checkpoints": [
+    {"B": 1000000, "M3": 219, "N2": 255, "P": 0, "M3_over_N2_finite": 0.8588235294117647},
+    {"B": 5000000, "M3": 480, "N2": 531, "P": 0, "M3_over_N2_finite": 0.903954802259887},
+    {"B": 10000000, "M3": 656, "N2": 720, "P": 0, "M3_over_N2_finite": 0.9111111111111111},
+    {"B": 50000000, "M3": 1298, "N2": 1428, "P": 0, "M3_over_N2_finite": 0.9089635854341737},
+    {"B": 100000000, "M3": 1757, "N2": 1875, "P": 0, "M3_over_N2_finite": 0.9370666666666667},
+    {"B": 200000000, "M3": 2339, "N2": 2457, "P": 0, "M3_over_N2_finite": 0.951973951973952},
+    {"B": 500000000, "M3": 3331, "N2": 3495, "P": 0, "M3_over_N2_finite": 0.9530758226037196},
+    {"B": 1000000000, "M3": 4362, "N2": 4566, "P": 0, "M3_over_N2_finite": 0.9553219448094612}
   ],
-  "regression": {
-    "10000": 18,
-    "50000": 42,
-    "200000": 82,
-    "1000000": 219
-  },
+  "N2_extension_checkpoints": [
+    {"B": 600000000, "N2": 3767, "T": 0},
+    {"B": 700000000, "N2": 3991, "T": 0},
+    {"B": 800000000, "N2": 4192, "T": 0},
+    {"B": 900000000, "N2": 4379, "T": 0},
+    {"B": 1000000000, "N2": 4566, "T": 0}
+  ],
   "validation": {
-    "oeis_crosscheck_through_B": 500000000,
-    "oeis_records_exactly_crosschecked": 3556,
-    "original_crosscheck_ci_run": 32444158502,
-    "production_1e9_ci_run": 32445467962,
-    "production_1e9_artifact": 9433940026,
-    "production_1e9_artifact_sha256": "70273cda89d28d2701bf1da77ece739dbfdff36a79a800f895a09f9e726a040a"
+    "M3_oeis_crosscheck_through_B": 500000000,
+    "M3_production_1e9_ci_run": 32445467962,
+    "N2_frozen_B500m_regression": 3495,
+    "N2_frozen_B200m_regression": 2457,
+    "N2_production_1e9_ci_run": 32446975833,
+    "N2_production_1e9_artifact": 9434485432,
+    "N2_production_1e9_artifact_sha256": "d3c546dda768aa25e71215eb7dcd422fe30e037162c856a25c0b329d38d7fcf0"
   },
   "finite_endpoint": {
     "P_zero_through_B": 1000000000,
@@ -41,16 +54,16 @@
     "perfect_cuboid_nonexistence_claim": false
   },
   "comparison_diagnostics": {
-    "N2_status": "WITHDRAWN_PENDING_CANONICAL_RECOMPUTE",
-    "reason": "prior provisional N2 series conflicts with frozen Stage19 N2 population; Stage19 records N2(500000000)=3495",
+    "N2_status": "CANONICAL_RECOMPUTE_COMPLETE_THROUGH_1E9",
+    "prior_provisional_N2_series_retracted": true,
     "canonical_reference": "stages/stage19/final.md",
-    "M3_counts_affected": false
+    "M3_N2_population_relation": "different populations; matched-cutoff ratios are finite diagnostics only, not survival probabilities",
+    "infer_eventual_M3_N2_ordering": false,
+    "infer_asymptotic_exponent": false
   },
   "reuse": {
     "stage29_08_parametrization_coverage": true,
     "endpoint_regression_negative_control": true,
-    "finite_matched_cutoff_diagnostics": true,
-    "infer_asymptotic_exponent": false,
-    "infer_eventual_M3_N2_ordering": false
+    "finite_matched_cutoff_diagnostics": true
   }
 }
