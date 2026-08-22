@@ -1,155 +1,88 @@
-# Stage30 Codex handoff contract
+# Stage30 Codex handoff contract — amended
 
-This file defines how Stage30 delegates finite implementation/computation work to Codex without adding a third user-facing Stage30 command.
+Authoritative ownership amendment: `stages/stage30/ownership-amendment-2026-08-22.md`.
+
+## Active policy
+
+Task A / 30-02C has already been executed and audited. From 30-04 onward there is exactly one active Codex-owned unit:
+
+```text
+30-06C = exact exhaustive verification of the frozen Q(i)/Q Galois cocycle / semilinear compatibility
+```
+
+All other remaining Stage30 work is owned by ChatGPT/main-batch:
+
+```text
+30-04 finite Q(i)-level equivariant search
+30-05 common geometric/moduli anchor
+30-06 mathematical cocycle derivation
+30-06P generation of the sole future Codex prompt
+30-07 eight K8 defect transport/classification
+30-08 physical endpoint adapter
+30-09 final certificates and independent checker
+30-10 hostile audit
+```
+
+Historical Task-A files remain valid provenance. Any historical Task-B/Task-D wording in older roadmap revisions is inactive.
 
 ## Command surface
 
-The only Stage30 commands are:
+Only:
 
 ```text
 Stage30-main-batch
 Stage30-audit
 ```
 
-When `Stage30-main-batch` reaches a Codex-owned unit, it must create the exact handoff prompt and set the controller to a waiting state. The user then gives that prompt to Codex. When Codex work is present in the repository, the next `Stage30-main-batch` or `Stage30-audit` continues from the repository state.
+No third command is introduced.
 
-## Prompt requirements
+## Sole future Codex handoff — 30-06C
 
-Every Codex prompt must be complete enough to run without reconstructing Stage30 from chat history. It must include:
+Stage30-06 must first derive and freeze the mathematical data. Codex is not allowed to invent the cocycle definition, change objects, or replace the concrete adapter with an abstract `S4 ~= S4` statement.
 
-1. repository and exact Stage30 target;
-2. exact prerequisite source files to read;
-3. explicit statement that all prior results are authoritative only within their audited scope;
-4. exact input labels/generator conventions/manifests from the preceding audited substage;
-5. required outputs and filenames;
-6. exact integer/finite arithmetic requirements;
-7. reproducibility and deterministic ordering requirements;
-8. independent checker requirement;
-9. prohibited shortcuts;
-10. scope/firewall statements;
-11. final machine-readable status block.
+At 30-06P, `Stage30-main-batch` creates a copy/paste-ready prompt under `stages/stage30/handoffs/`. The prompt must contain:
 
-## General Codex prohibitions
+1. exact source files and audited prerequisite certificates;
+2. exact surviving Q(i)-level adapter candidates;
+3. exact Gal(Q(i)/Q) action;
+4. exact semilinear/cocycle equations to verify;
+5. deterministic labels and generator conventions;
+6. exact finite arithmetic only;
+7. exhaustive checks for every candidate/object;
+8. deterministic machine-readable output;
+9. a standalone verifier;
+10. scope firewalls and no endpoint-existence claim.
 
-Codex must not:
-
-- replace a concrete action by the statement `S4 is isomorphic to S4`;
-- silently relabel objects without an explicit bijection table;
-- infer Q-defined data from a Q(i)-defined object without a checked descent step;
-- infer an arithmetic impossibility from orbit membership alone;
-- promote a generic moduli map to an everywhere finite compactified map;
-- treat ordinary 8-congruence as an endpoint rarity theorem;
-- use floating-point arithmetic for finite group/action/cocycle certification;
-- grant theorem credit to an external source without stable locator and exact hypothesis match;
-- rewrite audited Stage29 claims merely to simplify implementation.
-
-## Audit ordering firewall
-
-The Q(i)-equivariant identification and the Q(i)/Q descent calculation are distinct stages.
+Required 30-06C output includes at least:
 
 ```text
-Task B / 30-04C:
-  Q(i)-level finite equivariant-map search only.
-  K8 elements and retained level-4 data may be carried as frozen labels.
-  No Q-descent/arithmetic-defect compatibility credit is allowed.
-
-30-06:
-  ChatGPT derives the exact Gal(Q(i)/Q) semilinear/cocycle relation.
-
-Task C / 30-06C:
-  Codex verifies that exact cocycle relation.
-
-30-07:
-  only after 30-06C audit, classify/transport all eight K8 defects.
-```
-
-This firewall prevents Task B from using a descent-compatibility notion whose mathematical definition is only supplied later.
-
-## Codex Task A — action extraction
-
-Prompt generated at Stage30-02P.
-
-Minimum required deliverables:
-
-```text
-stages/stage30/work/action-input-manifest.json
-stages/stage30/work/arrangement-action.json
-stages/stage30/work/modular-action.json
-stages/stage30/work/orbit-stabilizer.json
-stages/stage30/work/verify_actions.py
-stages/stage30/work/codex-A-result.md
-```
-
-The verifier must check group relations, order, faithfulness where claimed, object coverage, orbit partitions, stabilizers, and manifest-label consistency.
-
-## Codex Task B — Q(i)-equivariant identification
-
-Prompt generated at Stage30-04P only after Task A has passed Stage30-03 audit.
-
-Minimum deliverables:
-
-```text
-stages/stage30/work/equivariant-candidates.json
-stages/stage30/work/marked-compatibility.json
-stages/stage30/work/rejected-candidates.json
-stages/stage30/work/verify_equivariant_candidates.py
-stages/stage30/work/codex-B-result.md
-```
-
-The search must be exhaustive over the finite candidate space specified by the audited input manifest. Every survivor must have an explicit witness; every rejected candidate must have a deterministic failing condition. The search may enforce the frozen Q(i)-level marked structure and carry K8/level-4 identifiers as labels, but it must not certify Q-descent, sigma-cocycle compatibility, arithmetic equivalence of defects, or defect elimination. Those belong to Stage30-06/06C/07.
-
-## Codex Task C — Galois cocycle + eight defects
-
-Prompt generated at Stage30-06P only after ChatGPT has fixed the exact mathematical cocycle relation.
-
-Minimum deliverables:
-
-```text
-stages/stage30/work/galois-cocycle.json
-stages/stage30/work/defect-classification.json
-stages/stage30/work/verify_cocycle_and_defects.py
-stages/stage30/work/codex-C-result.md
-```
-
-Execution is logically split even if one prompt/package is reused:
-
-- `30-06C` verifies the exact complex-conjugation action and cocycle/semilinear compatibility for every surviving Q(i)-level adapter;
-- `30-07` then transports and classifies all 8 `K8` elements exactly once using only adapters that passed 30-06C.
-
-The eight-defect output must record ordinary conjugacy class, concrete S4 action data, sigma image, adapter image, descent status, and arithmetic-equivalence status. A classification is not an elimination theorem.
-
-## Codex Task D — final certificate
-
-Prompt generated at Stage30-09P.
-
-Minimum final surface:
-
-```text
-stages/stage30/certificates/input-manifest.json
-stages/stage30/certificates/action-tables.json
-stages/stage30/certificates/equivariant-map.json
-stages/stage30/certificates/galois-cocycle.json
-stages/stage30/certificates/defect-classification.json
-stages/stage30/certificates/verify_stage30.py
-```
-
-The final verifier should be independent in structure from the construction scripts wherever practical. It must fail closed on missing labels, duplicate objects, unmapped marked objects, relation failure, cocycle failure, or field-of-definition ambiguity.
-
-## Result status
-
-Every Codex result must end with a block of the form
-
-```text
-CODEX_TASK=<A|B|C|D>
-INPUT_SOURCE_LOCK_COMPLETE=true|false
-EXACT_ARITHMETIC_ONLY=true|false
-OBJECT_COVERAGE_COMPLETE=true|false
+GALOIS_ACTION_CHECK=PASS|FAIL
+COCYCLE_IDENTITY_CHECK=PASS|FAIL
+SEMILINEAR_COMPATIBILITY_CHECK=PASS|FAIL
+CANDIDATE_ADAPTER_COUNT=<int>
+CHECKED_CANDIDATE_COUNT=<int>
+UNRESOLVED_ASSUMPTION_COUNT=<int>
 CHECKER_PRESENT=true|false
 CHECKER_PASS=true|false
-UNRESOLVED_ASSUMPTION_COUNT=<integer>
 NEW_THEOREM_ASSUMED=false
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-A `CHECKER_PASS=true` result is still unverified external computational input until Stage30 audit consumes it.
+Codex output receives no automatic mathematical credit. Stage30 audit must consume it before 30-07 may rely on it.
+
+## General prohibitions
+
+Codex must not:
+
+- substitute abstract group isomorphism for the concrete action adapter;
+- silently relabel objects;
+- infer Q-defined data from Q(i)-defined data without the frozen descent equation;
+- infer defect impossibility from orbit membership;
+- promote generic moduli degree 24 to an everywhere finite compactified map;
+- use floating-point arithmetic for finite certification;
+- rewrite audited Stage29 facts for implementation convenience.
+
+## Delegation expansion firewall
+
+No other future Stage30 unit may be delegated to Codex automatically. If 30-07 or 30-09 unexpectedly becomes materially large, the leaf must first be explicitly reclassified and the ownership plan re-audited.

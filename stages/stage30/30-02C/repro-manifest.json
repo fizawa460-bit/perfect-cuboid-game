@@ -1,0 +1,45 @@
+{
+  "schema": "STAGE30_TASK_A_REPRO_MANIFEST_V1",
+  "task": "A",
+  "base_main_sha": "3797fe1ad321ba85b57684823c09969caed3efaa",
+  "runtime": {
+    "language": "Python 3",
+    "dependencies": ["Python standard library"],
+    "exact_arithmetic": ["integers", "fractions.Fraction", "modular arithmetic"],
+    "floating_point_used": false
+  },
+  "commands": {
+    "construct": "python stages/stage30/30-02C/build_actions.py",
+    "verify": "python stages/stage30/30-02C/verify_actions.py"
+  },
+  "input_blobs": {
+    "stages/stage30/30-01/input-manifest.json": "a5b5b1dca70752b2df3faef86e9fbc19e814f64f",
+    "stages/stage30/30-01/source-lock.md": "4209afb303ad5a5aa3f0e524431efd0e04f0aa16",
+    "stages/stage29/29-02ha/arrangement_check.py": "1f056af7311292944444ddfe87371171d8386adc",
+    "stages/stage29/29-02ha/arrangement-check-output.md": "39a527efa4920c9354ea99af90ecd259b5940394",
+    "stages/stage29/29-02g/result.md": "4357c7698bd16e1f356243029c7ce52271d6c517",
+    "stages/stage29/29-02g/exact-q-moduli-adapter.md": "facd6a799868ad135d6f19cb588b14d237d337e5",
+    "stages/stage29/29-02g/torsion-descent-defect.md": "e79c7573eaa08d5e0975937453cd153731ead239",
+    "stages/stage29/29-02g/defect_orbits.py": "af52b7054d38d3c1b9aa44293a748307548f8b15",
+    "stages/stage29/29-15/bounded-execution.md": "d839065f8087dcd49eec6f13bd01b09f65daea0b",
+    "stages/stage29/29-15/verify_bounded_execution.py": "b1c2473545675cff25b66416f3b1ce748b55b6a4"
+  },
+  "artifact_sha256": {
+    "build_actions.py": "3b40e45285a1c6bd9077e38984882d01521f98629e2678cf5d643c1b9729bab3",
+    "verify_actions.py": "29abcac38aa5f1ca24bf2f3e3b635a437907339cc9f42fda2b7b129cec5822ee",
+    "action-tables.json": "f4f079ab3b640a8a25be8cc0408b21663c23282ade955006c1ab0096eadc6031",
+    "orbit-stabilizer.json": "e403adb6a1ee8c0f9d0e81181714831b49b1e8df318f0e35dbf1ed2a74951a97"
+  },
+  "determinism": {
+    "projective_matrix_representative": "lexicographically least row-major tuple among M and -M modulo 4",
+    "group_element_ids": "sorted canonical representatives",
+    "subgroup_ids": "sorted member-id tuples",
+    "json": "sort_keys=true, indent=2, UTF-8"
+  },
+  "scope": {
+    "finite_action_tables_only": true,
+    "qi_equivariant_adapter_claimed": false,
+    "q_descent_claimed": false,
+    "defect_elimination_claimed": false
+  }
+}
