@@ -1,4 +1,4 @@
-# Stage29-15 — ENDPOINT_ARSENAL_REMATCH
+# Stage29-15 — ENDPOINT_ARSENAL_REMATCH + mandatory OPEN-receiver execution triage
 
 ```text
 STAGE=Stage29
@@ -9,7 +9,8 @@ ATTACK_ROUTE_COUNT_RETAINED=11
 GREEN_ROUTE_COUNT=1
 AMBER_ROUTE_COUNT=10
 NEW_DECISIVE_GLOBAL_THEOREM_FOUND=false
-NEW_OPEN_RECEIVER_DISCHARGED_COUNT=0
+NEW_OPEN_RECEIVER_DISCHARGED_COUNT=2
+NEW_EXACT_NONAPPLICABILITY_CERTIFICATE_COUNT=1
 P_OVER_M3_SCALE_KNOWN=false
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
@@ -17,223 +18,243 @@ PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 
 ## 1. Purpose
 
-This item performs the roadmap-required rematch of the Stage14 Arsenal, StructureRadar corpus, and a fresh 2025–2026 literature sweep against the exact endpoint receivers that survived 29-10 through 29-14.
+29-15 is not only a literature/Arsenal rematch. It now contains a mandatory anti-hollow-AMBER pass over every current named OPEN residual receiver and the literal terminal frontier.
 
-The classification vocabulary is:
-
-```text
-APPLICABLE_NOW
-APPLICABLE_AFTER_EXACT_ADAPTER
-ALREADY_CONSUMED
-REDUNDANT
-NONAPPLICABLE
-```
-
-A theorem species receives `APPLICABLE_NOW` only when its stated hypotheses already match the exact Stage29 receiver, including field, map direction, physical height/measure where relevant, and rational-point versus counting semantics.
-
-## 2. Whole endpoint / general-type route
-
-The strongest certified whole-endpoint input remains the Stage14 consequence
+Every such receiver is forced into exactly one execution class:
 
 ```text
-P(B) <<_epsilon B^(1/2+epsilon).
+1 EXECUTE_NOW_BOUNDED
+2 CURRENT_TOOL_LIMIT_EXECUTED
+3 NEW_THEOREM_REQUIRED
+4 DORMANT_NONDECISIVE
 ```
 
-It is `ALREADY_CONSUMED` and gives sparsity rather than emptiness.
+Class 1 is transient. If a receiver is genuinely finite/bounded, tractable from current exact data, and endpoint-decisive or route-enabling, it must be executed **inside 29-15**. It may not be handed to 29-16 as `OPEN_BOUNDED`.
 
-### Surface Chabauty: exact nonapplicability to the endpoint surface
+A finite task whose completion has no current endpoint-decision or route-enabling consequence is class 4, with a concrete reactivation trigger. A theoretically finite task already reduced to an infeasible current implementation/model/CAS wall is class 2 and must name that exact wall. Class 3 is reserved for genuinely uniform/infinite/global theorem input.
 
-Caro–Pasten's surface Chabauty–Coleman theorem, and the 2025 Balakrishnan–Caro refinement, require a hyperbolic surface embedded in an abelian variety whose relevant Mordell–Weil rank is at most one (the refinement treats the special surface W_2 inside a genus-3 Jacobian).
-
-The resolved cuboid endpoint has
+The authoritative submitted ledger is
 
 ```text
-q(S)=h^1(O_S)=0.
+stages/stage29/29-15/open-receiver-triage.json
 ```
 
-Hence `Alb(S)` is zero-dimensional. Every morphism from the smooth projective `S` to an abelian variety factors through `Alb(S)`, so there is no nonconstant morphism, much less an embedding, of `S` into an abelian variety. Therefore this theorem species is not merely missing a rank calculation:
+and the class-1 execution proofs are in
 
 ```text
-R29-ARS-SURFACE-CHABAUTY=NONAPPLICABLE_TO_FULL_ENDPOINT_BY_ALBANESE_ZERO
+stages/stage29/29-15/bounded-execution.md
+stages/stage29/29-15/verify_bounded_execution.py.
 ```
 
-This does not rule out Chabauty on curves, covers, or other positive-irregularity auxiliary varieties.
-
-The existing `R29-PI1-OPEN` nonabelian/higher-dimensional Kim receiver remains open; no current cuboid-specific effective Kim function was found.
-
-## 3. Low-genus / slice arithmetic
-
-The following theorem species remain genuinely useful after a concrete Q-defined curve receiver is produced:
+Submitted classification:
 
 ```text
-rank-zero elliptic quotient enumeration
-classical Chabauty-Coleman
-elliptic curve Chabauty
-Mordell-Weil sieve
-quadratic/bielliptic quadratic Chabauty
+RECEIVER_OR_TERMINAL_FRONTIER_COUNT=44
+CLASS1_IDENTIFIED=2
+CLASS1_EXECUTED=2
+CLASS1_PENDING=0
+CLASS2_CURRENT_TOOL_LIMIT_EXECUTED=16
+CLASS3_NEW_THEOREM_REQUIRED=9
+CLASS4_DORMANT_NONDECISIVE=17
+VAGUE_AMBER_WITHOUT_EXECUTION_CLASS=0
 ```
 
-A 2025 rank-zero-quotient treatment explicitly formulates the elementary principle that a genus >=2 curve mapping over Q to a genus-one curve with rank-zero Jacobian has its Q-points obtained from finitely many fibers of the quotient. This is the same method species already realized in 29-13 for Saunderson, so it is not new attack credit.
+## 2. New bounded execution A — Beauville V4 kernel
 
-For the unresolved Testa–Stoll genus-5 endpoint fibrations, these methods are
+Stage29-02d left
 
 ```text
-APPLICABLE_AFTER_EXACT_ADAPTER
+R29-BEAU2A=SwapEquivarianceOfBeauvilleV4AlbaneseIsogenyKernel
 ```
 
-not `APPLICABLE_NOW`, because Stage29 still lacks a per-fibration Q-definition ledger, exact Jacobian/rank/Selmer data for the relevant physical fibers, and a global theorem saying finitely many fibers or sections cover all endpoint Q-points.
+as `OPEN_BOUNDED`.
 
-The degree-<=6 curve classification and the finite Picard reduction are `ALREADY_CONSUMED`. The residual receivers remain
+For the cuboid Beauville tower
 
 ```text
-R29-LG2
-R29-LG2-EFF
-R29-LG2-MB.
+C0 x C0 -> X_B=(C0 x C0)/Delta(Gamma) -> D x D,
+Gamma ~= (Z/2)^2,
 ```
 
-Even their completion would classify positive-dimensional low-genus carriers, not isolated surface points.
-
-## 4. K3 / coordinate-sign quotients
-
-The seven Q-defined coordinate-sign quotient maps remain globally valid in the pushforward direction. K3 arithmetic theorems found in the refresh are mostly family-specific Brauer computations, density constructions, or potential-density results; none gives a theorem that the relevant cuboid K3 quotient has no Q-points.
-
-The 2024/2025 Tawfik–Newton transcendental Brauer results are for explicit singular Kummer surfaces `Kum(E x E')` with CM hypotheses and do not automatically identify or compute the cuboid quotient Brauer classes. They are
+the deck group of the second map is
 
 ```text
-APPLICABLE_AFTER_EXACT_ADAPTER
+(Gamma x Gamma)/Delta(Gamma) ~= Gamma,
+[(g,h)] -> g h^{-1}.
 ```
 
-only if a specific coordinate-sign K3 is placed in their exact Kummer/CM model and the physical image locus is tracked.
+Factor exchange sends this class to its inverse. Since every element of `Gamma` has order dividing two, inversion is the identity. Hence factor exchange acts trivially on the V4 deck group. By Albanese functoriality, the induced V4 isogeny kernel is swap-stable.
 
-Recent K3 rational-point work supplies examples with many or Zariski-dense rational points and reinforces the existing firewall that K3 structure by itself is not an emptiness theorem.
-
-Thus
+Therefore the Q(i)/Q swap descent preserves the kernel and the expected Weil-restriction target is legitimate:
 
 ```text
-G10-K3-SIGN=AMBER
+R29-BEAU2A=DISCHARGED_SWAP_EQUIVARIANT_V4_KERNEL
+BEAUVILLE_V4_KERNEL_SWAP_STABLE=true
+BEAUVILLE_V4_DECK_ACTION_UNDER_SWAP=TRIVIAL
+DESCENDED_ALBANESE_Q_ISOGENY_TARGET=Res_{Q(i)/Q}(J_D,Q(i))
 ```
 
-is unchanged.
+This closes an adapter, not the infinite twist problem. `R29-BEAU2` and `R29-BEAU3` remain theorem-level.
 
-## 5. Campedelli / involution route
+## 3. New bounded execution B — exact p=2 local density
 
-The Calabri–Mendes Lopes–Pardini / Mendes Lopes–Pardini–Reid involution and quotient classification is already consumed in 29-11. The fresh literature sweep found later work using those classifications for Chow/Bloch questions, not a new arithmetic theorem forcing Q-point emptiness on the exact cuboid Campedelli forms.
+Stage29-09/12 left
 
 ```text
-R29-CAMP3-GEOM=ALREADY_CONSUMED
-R29-CAMP3=APPLICABLE_AFTER_EXACT_ADAPTER
+R29-KUM-LOC2-2=OPEN_BOUNDED_TWO_ADIC_STATE_AUTOMATON
 ```
 
-The missing component remains the exact Q-form / involution assignment and arithmetic use of the resulting quotient, not another geometric rational-or-Enriques dichotomy.
-
-## 6. Beauville / twist descent
-
-The exact Q-defined Beauville double cover and its infinite quadratic-twist decomposition are already consumed.
-
-Fresh twist literature includes strong statistical results such as Browning–Chan's theorem that almost all quadratic twists of a fixed elliptic curve have no integral points under stated hypotheses (with a conditional component in the partial-2-torsion case). This does not give what the cuboid Beauville route needs:
+for the seven forms
 
 ```text
-all relevant twists, rational rather than integral points,
-a finite physically allowed twist set,
-or a uniform Selmer/rank-zero closure.
+x,y,z,x+y,x+z,y+z,x+y+z.
 ```
 
-Hence it is `NONAPPLICABLE` as a direct closure theorem and does not change
+The exact state reduction is finite.
+
+`P^2(F_2)` has seven equal primitive parity cylinders. Any pattern with two or three of `x,y,z` odd fails the common-squareclass condition because the sum of two odd same-squareclass units has odd 2-adic valuation. Exactly the three cylinders with a unique odd coordinate survive.
+
+In one surviving chart, scale the odd coordinate to one and let `X,Z in 2Z_2` be the other two ratios. Simultaneous squarehood of `X` and `1+X` occurs exactly for
 
 ```text
-Q11-BEAUVILLE=AMBER_EXACT_Q_COVER_INFINITE_TWIST_FAMILY_NO_UNIFORM_SELMER_CLOSURE.
+v2(X)=2a, a>=2,
+odd-unit(X)=1 mod 8,
 ```
 
-StructureRadar's generalized-Jacobian/Prym/2-descent interface (`SR-STR-163`) remains `APPLICABLE_AFTER_EXACT_ADAPTER` on an individual twist or curve once the exact covering packet is materialized.
-
-## 7. Modular / 8-congruence route
-
-The modular `X(8)` / 8-congruence ecosystem is already structurally consumed. Existing twist-of-X(8) constructions demonstrate that rational points on 8-congruence twists can occur and provide explicit families; they do not uniformly eliminate the sigma-twisted arithmetic classes relevant to the endpoint.
-
-No fresh theorem was found that discharges
+with conditional state mass
 
 ```text
-R29-KUM5=OPEN_ACTION_LEVEL_S4_Q_DESCENT_ADAPTER
+w_a=2^(-2a-2),
+sum_{a>=2} w_a=1/48.
 ```
 
-or turns the finite ordinary defect-class compression into arithmetic class elimination.
+The same holds for `Z`. The correlated condition `X+Z` is a square exactly when the half-valuations differ by at least two. Equal half-valuations and adjacent half-valuations contribute respectively
 
 ```text
-Q11-MODULAR=AMBER
+1/3840
+1/7680.
 ```
 
-is unchanged.
-
-## 8. Brauer / open physical locus
-
-29-11 already certifies the proper algebraic Brauer group as trivial modulo `Br(Q)` and eliminates nonconstant proper odd-primary contribution at the audited level.
-
-Fresh K3/transcendental Brauer papers show that odd transcendental Brauer classes can matter on special Kummer K3 surfaces, but they do not supply an endpoint-open two-primary class or an obstruction for the cuboid physical open.
-
-The outstanding receiver is still the boundary-sensitive open-surface computation:
+Thus the success mass inside one surviving parity cylinder is
 
 ```text
-UPic / Gersten / two-primary physical-open Brauer data.
+1/2304 - 1/3840 - 1/7680 = 1/23040.
 ```
 
-General Brauer–Manin formalism is therefore `APPLICABLE_AFTER_EXACT_ADAPTER`; no class has been found whose evaluation makes the cuboid adelic set empty.
-
-## 9. Local squareclass / sieve / thin-set route
-
-StructureRadar cards `SR-STR-161,164,165,166,169,170,171,173,174` and Stage14 counting weapons remain valuable only under their exact measures/adapters.
-
-For the full endpoint local route, 29-09/12 already has exact odd-prime squareclass data and a positive Q2 lift cylinder. The missing step `R29-KUM-LOC3` is a physical-height/measure transfer. Ambient large sieve, thin-set, toric equidistribution, and Gaussian-Hecke results do not automatically preserve the selected endpoint measure.
-
-Thus these theorem species are classified as either `ALREADY_CONSUMED` for existing sparsity results or `APPLICABLE_AFTER_EXACT_ADAPTER` for `R29-KUM-LOC3`; none is promoted to an endpoint-emptiness theorem.
-
-## 10. Parametric / fibration route
-
-The global Master-Hit coverage theorem is `ALREADY_CONSUMED` and remains the strongest exact global parametrization result.
-
-The decisive exponent-one statement remains
+Multiplying by the three of seven surviving projective parity cylinders yields
 
 ```text
-R29-PESCH-E1=AMBER_CONJECTURAL_GLOBAL_ENDPOINT_BLOCKER.
+Delta_2=(3/7)*(1/23040)=1/53760.
 ```
 
-No theorem converting the current finite verifications into the global exponent-one statement was found.
-
-StructureRadar `SR-STR-162` and `SR-STR-223` remain especially close theorem species for moving elliptic/genus-five fibers, but both were already classified as family-level external gates. 29-08/14 did not supply the missing uniform small-point/rank/lift theorem or all-Q-defined fiber ledger.
-
-The individual curve tools above are useful, but fiber-by-fiber Chabauty does not become a uniform proof over an infinite parameter base without a separate theorem.
-
-## 11. Population interaction
-
-The population route remains the sole GREEN route:
+Hence
 
 ```text
-J12-POP-INTERACTION=GREEN_RELATIVE_ENDPOINT_DENSITY_THEOREM_NO_EMPTINESS.
+R29-KUM-LOC2-2=DISCHARGED_EXACT_TWO_ADIC_STATE_DENSITY
+DELTA_2=1/53760
+TWO_ADIC_LOCAL_OBSTRUCTION_EMPTY=false
 ```
 
-Stage14/StructureRadar counting machinery is already consumed in its proof and in the endpoint upper theorem. No rematched counting theorem currently controls
+This is local infrastructure only. `R29-KUM-LOC3` remains a class-3 global physical-height/measure transfer receiver.
+
+## 4. Whole endpoint theorem rematch
+
+The strongest certified whole-endpoint counting input remains the already-consumed Stage14 consequence
+
+```text
+P(B)<<_epsilon B^(1/2+epsilon).
+```
+
+It is sparsity, not emptiness.
+
+A fresh high-level near-match is surface Chabauty. It is structurally inapplicable to the **full endpoint surface**: the smooth resolution has
+
+```text
+q(S)=h^1(S,O_S)=0,
+Alb(S)=0.
+```
+
+Every morphism from a smooth projective variety to an abelian variety factors through its Albanese, so `S` cannot embed positively dimensionally in an abelian variety. Therefore the abelian-embedding hypothesis used by the Caro--Pasten surface Chabauty--Coleman method and the Balakrishnan--Caro refinement is unavailable:
+
+```text
+R29-ARS-SURFACE-CHABAUTY=NONAPPLICABLE_TO_FULL_ENDPOINT_BY_ALBANESE_ZERO.
+```
+
+This does not apply to auxiliary irregular covers or curve-level Chabauty.
+
+`R29-PI1-OPEN` remains class 3: no effective cuboid-open higher-dimensional/nonabelian Chabauty-Kim theorem is certified.
+
+## 5. Low-genus and fibration arithmetic
+
+Rank-zero quotient enumeration, classical/elliptic Chabauty, Mordell--Weil sieve and quadratic Chabauty remain valid tools once a concrete Q-defined curve and reconstruction map exist.
+
+They are not uniform infinite-family theorems. The exact finite Picard program `R29-LG2/LG2-EFF/LG2-MB` has already been pushed to a mathematically finite rank-44 lattice search, but the Stage29-02c-LG2 feasibility audit records `bound^22` close-vector growth and no symmetry-reduced effectivity-aware production enumerator. These are class 2, not a fresh class-1 job silently deferred.
+
+`R29-FIB1` is class 4: a finite field-of-definition ledger by itself does not cover or exclude endpoint rational points. `R29-FIB2` is class 3 because a uniform moving-family arithmetic/specialization theorem is still required.
+
+## 6. K3, Campedelli, modular and Brauer routes
+
+No current K3 Brauer theorem directly supplies an obstruction on the exact cuboid K3 physical-image locus. Explicit CM/Kummer Brauer tools remain adapter-ready, but potential-density/density results are nondecisive for emptiness.
+
+The Campedelli geometric rational/Enriques dichotomy is already consumed. `R29-CAMP3` is class 4 until a concrete Q-arithmetic theorem makes the finite type assignment consequential. `R29-CAMP2` is class 3 because its H-torsor classes are infinite without a uniform ramification/Selmer support theorem.
+
+The modular route already computes the eight K8 defect elements and ordinary `1,3,3,1` conjugacy split. `R29-MOD1C` and `R29-KUM5` are class 2: the exact remaining wall is the arithmetic sigma/action-cocycle model, not an unattempted generic S4 calculation. Cusp/boundary ledgers `MOD1D/MOD2B` are class 4 until an arithmetic defect class survives and needs them.
+
+For the physical-open Brauer route, 29-02f already isolated the exact `UPic/Gersten/two-primary` targets and explained why finite V4 data alone do not close absolute-Galois hypercohomology. The individual finite/model computations are class 2 with explicit missing matrices/modules in the triage ledger. `R29-QWEB-CLIFFORD` remains class 3 because its missing input is genuinely a new applicable isotropy/Clifford theorem.
+
+## 7. Local, parametric and population routes
+
+Odd-prime local density and the new exact p=2 density are now complete local inputs, but they do not multiply into a global endpoint theorem without `R29-KUM-LOC3`; that receiver is class 3.
+
+Master-Hit global Euler-brick coverage is already consumed. The universal exponent-one blocker remains conjectural:
+
+```text
+R29-PESCH-E1=NEW_THEOREM_REQUIRED.
+```
+
+Bounded Peschmann/fibration identification and finite MW searches are class 4 unless a theorem makes a finite computation exhaustive.
+
+The 29-13 external inputs are also forced through the rule:
+
+- Paper C: finite windows were actually audited; the all-multiples continuation cannot be obtained by extending a window, so `CURRENT_TOOL_LIMIT_EXECUTED` with the primitive-divisor theorem boundary recorded.
+- Paper D: height structure is currently endpoint-nondecisive, so `DORMANT_NONDECISIVE`.
+- Paper E: a real certification attempt was made in 29-13; the source lacks the rigorous integrality-preserving map/completeness certificate needed to turn its elliptic integral-point count into the claimed quartic closure, so it is class 2 rather than vague AMBER.
+
+The sole GREEN parent route remains
+
+```text
+J12-POP-INTERACTION=GREEN.
+```
+
+No existing bound controls the literal endpoint survival
 
 ```text
 P(B)/M3(B).
 ```
 
-The Saunderson closure additionally proves an explicit `B^(1/3)` lower population inside `M3-P`, but this still does not determine `P/M3`.
+That terminal frontier is class 3. Density zero inside larger hosts is not a P/M3 theorem and is not emptiness.
 
-## 12. 29-15 rematch verdict
+## 8. 29-15 submission verdict
 
-The arsenal is useful primarily in three ways:
-
-1. it prevents repeating already-consumed counting/descent work;
-2. it supplies concrete curve-level methods as soon as an exact low-dimensional receiver appears;
-3. it removes attractive but structurally impossible whole-endpoint routes, most notably abelian surface Chabauty on `S` because `q(S)=0`.
-
-It does not presently supply a theorem that closes any of the ten AMBER primary attack routes.
+The Arsenal rematch found no new decisive whole-endpoint theorem, but the mandatory bounded-execution rule materially improves the submission:
 
 ```text
 ARSENAL_REMATCH_COMPLETE=true
+OPEN_RECEIVER_TRIAGE_COMPLETE=true
+RECEIVER_OR_TERMINAL_FRONTIER_COUNT=44
+CLASS1_IDENTIFIED_COUNT=2
+CLASS1_EXECUTED_COUNT=2
+CLASS1_PENDING_COUNT=0
+CLASS2_CURRENT_TOOL_LIMIT_EXECUTED_COUNT=16
+CLASS3_NEW_THEOREM_REQUIRED_COUNT=9
+CLASS4_DORMANT_NONDECISIVE_COUNT=17
+VAGUE_AMBER_WITHOUT_EXECUTION_CLASS_COUNT=0
+
 NEW_DECISIVE_GLOBAL_THEOREM_FOUND=false
-NEW_OPEN_RECEIVER_DISCHARGED_COUNT=0
+NEW_OPEN_RECEIVER_DISCHARGED_COUNT=2
 NEW_EXACT_NONAPPLICABILITY_CERTIFICATE_COUNT=1
 NEW_EXACT_NONAPPLICABILITY_CERTIFICATE=FULL_ENDPOINT_SURFACE_CHABAUTY_BY_ALBANESE_ZERO
+
 ATTACK_ROUTE_COUNT=11
 GREEN_ROUTE_COUNT=1
 AMBER_ROUTE_COUNT=10
@@ -248,3 +269,5 @@ NEXT_EXPECTED_COMMAND=Stage29-audit
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
+
+29-16 is therefore allowed to receive only classes 2, 3 and 4. If the 29-15 audit discovers any further receiver that should be class 1, it must be executed and audited on this same PR before advancement.
