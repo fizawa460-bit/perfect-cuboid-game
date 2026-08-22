@@ -9,18 +9,18 @@ ATTACK_ROUTE_COUNT_RETAINED=11
 GREEN_ROUTE_COUNT=1
 AMBER_ROUTE_COUNT=10
 NEW_DECISIVE_GLOBAL_THEOREM_FOUND=false
-NEW_OPEN_RECEIVER_DISCHARGED_COUNT=2
+NEW_OPEN_RECEIVER_DISCHARGED_COUNT=4
 NEW_EXACT_NONAPPLICABILITY_CERTIFICATE_COUNT=1
 P_OVER_M3_SCALE_KNOWN=false
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## 1. Purpose
+## 1. Purpose and mandatory anti-hollow-AMBER rule
 
-29-15 is not only a literature/Arsenal rematch. It now contains a mandatory anti-hollow-AMBER pass over every current named OPEN residual receiver and the literal terminal frontier.
+29-15 rematches the Stage14 Arsenal, StructureRadar corpus, Stage14--28 tools, A2 method species, the 29-02 theorem ecosystems, and current literature against the exact endpoint receivers surviving 29-10 through 29-14.
 
-Every such receiver is forced into exactly one execution class:
+Every current OPEN residual receiver and the literal terminal frontier is also forced into exactly one execution class:
 
 ```text
 1 EXECUTE_NOW_BOUNDED
@@ -29,229 +29,234 @@ Every such receiver is forced into exactly one execution class:
 4 DORMANT_NONDECISIVE
 ```
 
-Class 1 is transient. If a receiver is genuinely finite/bounded, tractable from current exact data, and endpoint-decisive or route-enabling, it must be executed **inside 29-15**. It may not be handed to 29-16 as `OPEN_BOUNDED`.
+Class 1 is transient. A finite/bounded receiver that is tractable with current exact data and is endpoint-decisive or route-enabling must be executed **inside 29-15**; it may not be handed to 29-16.
 
-A finite task whose completion has no current endpoint-decision or route-enabling consequence is class 4, with a concrete reactivation trigger. A theoretically finite task already reduced to an infeasible current implementation/model/CAS wall is class 2 and must name that exact wall. Class 3 is reserved for genuinely uniform/infinite/global theorem input.
-
-The authoritative submitted ledger is
-
-```text
-stages/stage29/29-15/open-receiver-triage.json
-```
-
-and the class-1 execution proofs are in
-
-```text
-stages/stage29/29-15/bounded-execution.md
-stages/stage29/29-15/verify_bounded_execution.py.
-```
-
-Submitted classification:
+The authoritative submitted ledger is `open-receiver-triage.json`; class-1 proofs and exact checks are in `bounded-execution.md` and `verify_bounded_execution.py`.
 
 ```text
 RECEIVER_OR_TERMINAL_FRONTIER_COUNT=44
-CLASS1_IDENTIFIED=2
-CLASS1_EXECUTED=2
-CLASS1_PENDING=0
-CLASS2_CURRENT_TOOL_LIMIT_EXECUTED=16
-CLASS3_NEW_THEOREM_REQUIRED=9
-CLASS4_DORMANT_NONDECISIVE=17
-VAGUE_AMBER_WITHOUT_EXECUTION_CLASS=0
+CLASS1_IDENTIFIED_COUNT=4
+CLASS1_EXECUTED_COUNT=4
+CLASS1_PENDING_COUNT=0
+CLASS2_COUNT=14
+CLASS3_COUNT=10
+CLASS4_COUNT=16
+VAGUE_AMBER_WITHOUT_EXECUTION_CLASS_COUNT=0
 ```
 
-## 2. New bounded execution A — Beauville V4 kernel
+## 2. Class-1 execution A — Beauville V4 kernel
 
-Stage29-02d left
+Stage29-02d left `R29-BEAU2A=SwapEquivarianceOfBeauvilleV4AlbaneseIsogenyKernel` as `OPEN_BOUNDED`.
+
+For `Gamma=(Z/2)^2`, the deck group of
 
 ```text
-R29-BEAU2A=SwapEquivarianceOfBeauvilleV4AlbaneseIsogenyKernel
+(C0 x C0)/Delta(Gamma) -> (C0/Gamma) x (C0/Gamma)
 ```
 
-as `OPEN_BOUNDED`.
-
-For the cuboid Beauville tower
-
-```text
-C0 x C0 -> X_B=(C0 x C0)/Delta(Gamma) -> D x D,
-Gamma ~= (Z/2)^2,
-```
-
-the deck group of the second map is
-
-```text
-(Gamma x Gamma)/Delta(Gamma) ~= Gamma,
-[(g,h)] -> g h^{-1}.
-```
-
-Factor exchange sends this class to its inverse. Since every element of `Gamma` has order dividing two, inversion is the identity. Hence factor exchange acts trivially on the V4 deck group. By Albanese functoriality, the induced V4 isogeny kernel is swap-stable.
-
-Therefore the Q(i)/Q swap descent preserves the kernel and the expected Weil-restriction target is legitimate:
+is `(Gamma x Gamma)/Delta(Gamma) ~= Gamma`. Factor exchange acts by inversion; since `Gamma` has exponent two, inversion is trivial. Albanese functoriality therefore preserves the corresponding V4 isogeny kernel under the Q(i)/Q swap descent.
 
 ```text
 R29-BEAU2A=DISCHARGED_SWAP_EQUIVARIANT_V4_KERNEL
-BEAUVILLE_V4_KERNEL_SWAP_STABLE=true
-BEAUVILLE_V4_DECK_ACTION_UNDER_SWAP=TRIVIAL
-DESCENDED_ALBANESE_Q_ISOGENY_TARGET=Res_{Q(i)/Q}(J_D,Q(i))
 ```
 
-This closes an adapter, not the infinite twist problem. `R29-BEAU2` and `R29-BEAU3` remain theorem-level.
+This is an adapter closure only. The infinite physical twist problem remains.
 
-## 3. New bounded execution B — exact p=2 local density
+## 3. Class-1 execution B — exact p=2 local density
 
-Stage29-09/12 left
+For the seven forms
 
 ```text
-R29-KUM-LOC2-2=OPEN_BOUNDED_TWO_ADIC_STATE_AUTOMATON
+x,y,z,x+y,x+z,y+z,x+y+z
 ```
 
-for the seven forms
-
-```text
-x,y,z,x+y,x+z,y+z,x+y+z.
-```
-
-The exact state reduction is finite.
-
-`P^2(F_2)` has seven equal primitive parity cylinders. Any pattern with two or three of `x,y,z` odd fails the common-squareclass condition because the sum of two odd same-squareclass units has odd 2-adic valuation. Exactly the three cylinders with a unique odd coordinate survive.
-
-In one surviving chart, scale the odd coordinate to one and let `X,Z in 2Z_2` be the other two ratios. Simultaneous squarehood of `X` and `1+X` occurs exactly for
+only the three mod-2 projective cylinders with a unique odd coordinate can satisfy the common Q2-squareclass condition. In one surviving chart, the two even affine ratios have states
 
 ```text
 v2(X)=2a, a>=2,
 odd-unit(X)=1 mod 8,
-```
-
-with conditional state mass
-
-```text
 w_a=2^(-2a-2),
-sum_{a>=2} w_a=1/48.
+sum w_a=1/48.
 ```
 
-The same holds for `Z`. The correlated condition `X+Z` is a square exactly when the half-valuations differ by at least two. Equal half-valuations and adjacent half-valuations contribute respectively
+The correlated `X+Z` condition fails exactly for equal or adjacent half-valuations. Thus
 
 ```text
-1/3840
-1/7680.
+one-cylinder success
+ = (1/48)^2 - 1/3840 - 1/7680
+ = 1/23040,
 ```
 
-Thus the success mass inside one surviving parity cylinder is
-
-```text
-1/2304 - 1/3840 - 1/7680 = 1/23040.
-```
-
-Multiplying by the three of seven surviving projective parity cylinders yields
+and
 
 ```text
 Delta_2=(3/7)*(1/23040)=1/53760.
 ```
 
-Hence
+Therefore
 
 ```text
 R29-KUM-LOC2-2=DISCHARGED_EXACT_TWO_ADIC_STATE_DENSITY
-DELTA_2=1/53760
-TWO_ADIC_LOCAL_OBSTRUCTION_EMPTY=false
+DELTA_2=1/53760.
 ```
 
-This is local infrastructure only. `R29-KUM-LOC3` remains a class-3 global physical-height/measure transfer receiver.
+Together with the already-audited odd-prime and real-place work, the local-place arithmetic is complete as infrastructure. The global physical-height/measure transfer `R29-KUM-LOC3` remains theorem-level.
 
-## 4. Whole endpoint theorem rematch
+## 4. Class-1 execution C — exact sigma action on the modular K8 defect
 
-The strongest certified whole-endpoint counting input remains the already-consumed Stage14 consequence
+29-02g proved
+
+```text
+K8=ker(SL2(Z/8)->SL2(Z/4))={I+4A : A in sl2(F2)},
+|K8|=8,
+```
+
+and the ordinary unmarked conjugacy orbit sizes `1,3,3,1`, but left `R29-MOD1C` for the sigma-twisted retained-level-4 action.
+
+The retained sign datum is `D=diag(1,-1) mod 4`. Every mod-8 lift `M` of it is congruent to `I` modulo 2, so for every `I+4A in K8`
+
+```text
+M(I+4A)M^-1 = I+4A mod 8.
+```
+
+Hence sigma transport acts trivially on K8. Because K8 is abelian, sigma-twisted conjugacy on the marked datum is equality.
+
+```text
+R29-MOD1C=DISCHARGED_TRIVIAL_SIGMA_ACTION_ON_K8
+MARKED_ARITHMETIC_DEFECT_CLASS_COUNT=8
+ORDINARY_UNMARKED_CONJUGACY_CLASS_COUNT=4.
+```
+
+No defect class is eliminated. The result sharpens the modular route to eight exact marked defect cases.
+
+## 5. Class-1 execution D — physical modular noncusp/stabilizer removal
+
+The Testa--Stoll `X(8)` model is
+
+```text
+u^2=xy,
+v^2=x^2-y^2,
+w^2=x^2+y^2.
+```
+
+Its 24 cusps lie over `0,infinity,+/-1,+/-i`, equivalently on `uvw=0`. `G0~=(Z/2)^3` acts by sign changes of `u,v,w` and is free off that locus.
+
+In the cuboid diagonal quotient,
+
+```text
+U=u1*u2=2*b1,
+V=v1*v2=2*b2,
+W=w1*w2=2*b3.
+```
+
+A physical endpoint has `b1*b2*b3!=0`; hence both X(8) factors are noncuspidal and no nontrivial G0 stabilizer survives.
+
+```text
+R29-MOD1D=DISCHARGED_PHYSICAL_OPEN_NONCUSP_STABILIZER_FREE.
+```
+
+`R29-MOD2B` remains dormant unless a future arithmetic theorem needs compactified boundary extension.
+
+## 6. Whole endpoint theorem rematch
+
+The strongest certified whole-endpoint count remains the already-consumed Stage14 consequence
 
 ```text
 P(B)<<_epsilon B^(1/2+epsilon).
 ```
 
-It is sparsity, not emptiness.
-
-A fresh high-level near-match is surface Chabauty. It is structurally inapplicable to the **full endpoint surface**: the smooth resolution has
-
-```text
-q(S)=h^1(S,O_S)=0,
-Alb(S)=0.
-```
-
-Every morphism from a smooth projective variety to an abelian variety factors through its Albanese, so `S` cannot embed positively dimensionally in an abelian variety. Therefore the abelian-embedding hypothesis used by the Caro--Pasten surface Chabauty--Coleman method and the Balakrishnan--Caro refinement is unavailable:
+The resolved endpoint surface has `q(S)=0`, hence `Alb(S)=0`. Every morphism from smooth projective `S` to an abelian variety factors through its Albanese, so the full endpoint surface cannot satisfy the abelian-embedding hypothesis of the Caro--Pasten surface Chabauty--Coleman method or the Balakrishnan--Caro refinement.
 
 ```text
 R29-ARS-SURFACE-CHABAUTY=NONAPPLICABLE_TO_FULL_ENDPOINT_BY_ALBANESE_ZERO.
 ```
 
-This does not apply to auxiliary irregular covers or curve-level Chabauty.
+This does not rule out Chabauty on curves or irregular auxiliary covers. `R29-PI1-OPEN` remains class 3: no effective cuboid-open nonabelian/Chabauty--Kim theorem is certified.
 
-`R29-PI1-OPEN` remains class 3: no effective cuboid-open higher-dimensional/nonabelian Chabauty-Kim theorem is certified.
+## 7. Low-genus, quotient and Brauer receivers after triage
 
-## 5. Low-genus and fibration arithmetic
+Rank-zero quotient enumeration, classical/elliptic/quadratic Chabauty and Mordell--Weil sieves remain useful after a concrete Q-defined curve and reconstruction map exist. The full `d<=176/192` Picard program is mathematically finite, but the 29-02c-LG2 feasibility audit records rank-44 close-vector growth and no symmetry-reduced effectivity-aware production enumerator. Thus `R29-LG2/LG2-EFF/LG2-MB` are class 2, not theorem gates.
 
-Rank-zero quotient enumeration, classical/elliptic Chabauty, Mordell--Weil sieve and quadratic Chabauty remain valid tools once a concrete Q-defined curve and reconstruction map exist.
+Campedelli: `R29-CAMP2` is class 3 because its H-torsor problem is infinite without a uniform finite ramification/Selmer theorem; `R29-CAMP3` is class 4 because the remaining finite Q-form/type ledger alone has no current endpoint consequence; `R29-CAMP4` is class 2 finite model work.
 
-They are not uniform infinite-family theorems. The exact finite Picard program `R29-LG2/LG2-EFF/LG2-MB` has already been pushed to a mathematically finite rank-44 lattice search, but the Stage29-02c-LG2 feasibility audit records `bound^22` close-vector growth and no symmetry-reduced effectivity-aware production enumerator. These are class 2, not a fresh class-1 job silently deferred.
+Beauville gains the new `BEAU2A` closure, but `BEAU2/3` remain class 3 and `BEAU1B/1C` remain class 2 explicit function-field/divisor work.
 
-`R29-FIB1` is class 4: a finite field-of-definition ledger by itself does not cover or exclude endpoint rational points. `R29-FIB2` is class 3 because a uniform moving-family arithmetic/specialization theorem is still required.
+Modular: `MOD1C` and `MOD1D` are now discharged. The parent remains AMBER because none of the eight marked defects is eliminated and `R29-KUM5`, the action/cocycle-level identification between arrangement and modular S4 structures, remains class 2. Abstract `S4 ~= S4` is still forbidden as an adapter.
 
-## 6. K3, Campedelli, modular and Brauer routes
+Brauer: proper algebraic and proper odd-primary work remains consumed. BR0A/B/G, BR2A/B and NF-PHYS2 remain class 2 because the exact 72-boundary-to-Picard/UPic/Gersten/two-primary matrices and classes are not yet materialized. `R29-QWEB-CLIFFORD` is class 3.
 
-No current K3 Brauer theorem directly supplies an obstruction on the exact cuboid K3 physical-image locus. Explicit CM/Kummer Brauer tools remain adapter-ready, but potential-density/density results are nondecisive for emptiness.
+## 8. Local, parametric and population frontiers
 
-The Campedelli geometric rational/Enriques dichotomy is already consumed. `R29-CAMP3` is class 4 until a concrete Q-arithmetic theorem makes the finite type assignment consequential. `R29-CAMP2` is class 3 because its H-torsor classes are infinite without a uniform ramification/Selmer support theorem.
-
-The modular route already computes the eight K8 defect elements and ordinary `1,3,3,1` conjugacy split. `R29-MOD1C` and `R29-KUM5` are class 2: the exact remaining wall is the arithmetic sigma/action-cocycle model, not an unattempted generic S4 calculation. Cusp/boundary ledgers `MOD1D/MOD2B` are class 4 until an arithmetic defect class survives and needs them.
-
-For the physical-open Brauer route, 29-02f already isolated the exact `UPic/Gersten/two-primary` targets and explained why finite V4 data alone do not close absolute-Galois hypercohomology. The individual finite/model computations are class 2 with explicit missing matrices/modules in the triage ledger. `R29-QWEB-CLIFFORD` remains class 3 because its missing input is genuinely a new applicable isotropy/Clifford theorem.
-
-## 7. Local, parametric and population routes
-
-Odd-prime local density and the new exact p=2 density are now complete local inputs, but they do not multiply into a global endpoint theorem without `R29-KUM-LOC3`; that receiver is class 3.
-
-Master-Hit global Euler-brick coverage is already consumed. The universal exponent-one blocker remains conjectural:
+The local route now has exact odd-prime laws, the real-place result and exact `Delta_2=1/53760`. Its load-bearing remainder is
 
 ```text
-R29-PESCH-E1=NEW_THEOREM_REQUIRED.
+R29-KUM-LOC3=class 3 NEW_THEOREM_REQUIRED,
 ```
 
-Bounded Peschmann/fibration identification and finite MW searches are class 4 unless a theorem makes a finite computation exhaustive.
+namely a same-physical-measure height/primitivity/canonical/multiplicity local-to-global transfer. StructureRadar large-sieve/Hecke tools do not supply this automatically.
 
-The 29-13 external inputs are also forced through the rule:
-
-- Paper C: finite windows were actually audited; the all-multiples continuation cannot be obtained by extending a window, so `CURRENT_TOOL_LIMIT_EXECUTED` with the primitive-divisor theorem boundary recorded.
-- Paper D: height structure is currently endpoint-nondecisive, so `DORMANT_NONDECISIVE`.
-- Paper E: a real certification attempt was made in 29-13; the source lacks the rigorous integrality-preserving map/completeness certificate needed to turn its elliptic integral-point count into the claimed quartic closure, so it is class 2 rather than vague AMBER.
-
-The sole GREEN parent route remains
+Master-Hit global coverage remains consumed. The universal exponent-one blocker is still conjectural:
 
 ```text
-J12-POP-INTERACTION=GREEN.
+R29-PESCH-E1=class 3 NEW_THEOREM_REQUIRED.
 ```
 
-No existing bound controls the literal endpoint survival
+The 29-13 external Paper-C finite windows are already executed; the unresolved all-multiples continuation explicitly requires a new effective odd-multiplicity primitive-divisor theorem. Therefore the corrected classification is
 
 ```text
-P(B)/M3(B).
+R29-EXT-CHANG-C=class 3 NEW_THEOREM_REQUIRED,
 ```
 
-That terminal frontier is class 3. Density zero inside larger hosts is not a P/M3 theorem and is not emptiness.
+not class 2. Paper D is class 4 nondecisive. Paper E remains class 2 because a real certification attempt reached the explicit integrality-map/completeness-certificate wall.
 
-## 8. 29-15 submission verdict
+The population route remains the sole GREEN parent. Existing larger-host density/survival results and the Saunderson `M3-P` lower population do not control the literal endpoint survival
 
-The Arsenal rematch found no new decisive whole-endpoint theorem, but the mandatory bounded-execution rule materially improves the submission:
+```text
+P(B)/M3(B),
+```
+
+which remains class 3 and globally unknown.
+
+## 9. Dormancy discipline
+
+Finite but currently nondecisive bookkeeping is explicitly class 4 rather than silently AMBER. Reactivation triggers are recorded for
+
+```text
+R29-G1b-EXC
+R29-X1
+R29-CAMP3
+R29-MOD2B
+R29-NF7
+R29-L2-ALG
+R29-L2-BAD
+R29-PESCH2
+R29-FIB1
+R29-TERA1
+R29-NF1QISO
+R29-NF3..NF6
+R29-EXT-CHANG-D.
+```
+
+Thus 29-16 receives no pending class-1 task.
+
+## 10. 29-15 submission verdict
+
+The Arsenal rematch found no new decisive whole-endpoint theorem, but the four-class rule exposed four bounded receivers that earlier OPEN/AMBER wording could have carried forward. All four have now been executed and discharged inside 29-15.
 
 ```text
 ARSENAL_REMATCH_COMPLETE=true
 OPEN_RECEIVER_TRIAGE_COMPLETE=true
 RECEIVER_OR_TERMINAL_FRONTIER_COUNT=44
-CLASS1_IDENTIFIED_COUNT=2
-CLASS1_EXECUTED_COUNT=2
+CLASS1_IDENTIFIED_COUNT=4
+CLASS1_EXECUTED_COUNT=4
 CLASS1_PENDING_COUNT=0
-CLASS2_CURRENT_TOOL_LIMIT_EXECUTED_COUNT=16
-CLASS3_NEW_THEOREM_REQUIRED_COUNT=9
-CLASS4_DORMANT_NONDECISIVE_COUNT=17
+CLASS2_COUNT=14
+CLASS3_COUNT=10
+CLASS4_COUNT=16
 VAGUE_AMBER_WITHOUT_EXECUTION_CLASS_COUNT=0
 
 NEW_DECISIVE_GLOBAL_THEOREM_FOUND=false
-NEW_OPEN_RECEIVER_DISCHARGED_COUNT=2
+NEW_OPEN_RECEIVER_DISCHARGED_COUNT=4
 NEW_EXACT_NONAPPLICABILITY_CERTIFICATE_COUNT=1
 NEW_EXACT_NONAPPLICABILITY_CERTIFICATE=FULL_ENDPOINT_SURFACE_CHABAUTY_BY_ALBANESE_ZERO
 
@@ -270,4 +275,4 @@ PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-29-16 is therefore allowed to receive only classes 2, 3 and 4. If the 29-15 audit discovers any further receiver that should be class 1, it must be executed and audited on this same PR before advancement.
+If the 29-15 audit finds any additional receiver that should be class 1, it must be executed and re-audited on this same PR before advancement.
