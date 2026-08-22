@@ -1,0 +1,94 @@
+{
+  "schema": "STAGE30_01_MODULAR_S4_INPUT_MANIFEST_V1",
+  "base_main_sha": "a039cabd0cb17fa8e958a752bd40185eacb4b6ac",
+  "kernel": "K16-C2-MODULAR-S4-ACTION",
+  "receiver": "R29-KUM5",
+  "parent_route": "Q11-MODULAR",
+  "fields": {
+    "base": "Q",
+    "quadratic": "Q(i)",
+    "galois_generator": "sigma"
+  },
+  "arrangement": {
+    "line_labels": ["A1","A2","A3","B3","B2","B1","C"],
+    "line_forms": {
+      "A1": [1,0,0], "A2": [0,1,0], "A3": [0,0,1],
+      "B3": [1,1,0], "B2": [1,0,1], "B1": [0,1,1], "C": [1,1,1]
+    },
+    "omega4": ["A1","A2","A3","C"],
+    "omega3": ["B1","B2","B3"],
+    "group_order": 24,
+    "group_name": "Aut_P2(D)",
+    "generator_labels": ["s_arr","t_arr"],
+    "generators_as_permutations": {
+      "s_arr": {"A1":"A2","A2":"A1","A3":"A3","C":"C","B1":"B2","B2":"B1","B3":"B3"},
+      "t_arr": {"A1":"A2","A2":"A3","A3":"C","C":"A1","B1":"B3","B3":"B1","B2":"B2"}
+    },
+    "generator_dual_matrices": {
+      "s_arr": [[0,1,0],[1,0,0],[0,0,1]],
+      "t_arr": [[0,0,1],[-1,0,1],[0,-1,1]]
+    },
+    "q_liftable_subgroup_order": 6,
+    "qi_liftable_group_order": 24,
+    "q_orbit_sizes": [3,3,1],
+    "qi_orbit_sizes": [4,3]
+  },
+  "modular": {
+    "group_name": "PSL2(Z/4)",
+    "group_order_expected": 24,
+    "generator_representatives_mod4": {
+      "S_mod": [[0,-1],[1,0]],
+      "T_mod": [[1,1],[0,1]]
+    },
+    "normal_subgroup_definition": "V_mod=ker(PSL2(Z/4)->PSL2(F2))",
+    "omega3_definition": "V_mod minus identity, conjugation action",
+    "omega4_definition": "order-6 complements H to V_mod in G_mod, conjugation action",
+    "expected_sizes_to_certify": {"V_mod":4,"omega3":3,"omega4":4},
+    "generic_forgetting_degree": 24,
+    "compactification_finite_claim": false
+  },
+  "marked_descent_data": {
+    "level4_sign_matrix": [[1,0],[0,-1]],
+    "level4_sign_matrix_role": "FROZEN_SEMILINEAR_LABEL_NOT_G_MOD_ELEMENT",
+    "K8_definition": "ker(SL2(Z/8)->SL2(Z/4))",
+    "K8_order": 8,
+    "kappa_definition": "psi^sigma o psi",
+    "sigma_action_on_K8": "TRIVIAL_AUDITED",
+    "marked_arithmetic_defect_class_count": 8,
+    "task_A_Q_descent_credit_allowed": false
+  },
+  "reuse": [
+    "stages/stage29/29-02ha/arrangement_check.py",
+    "stages/stage29/29-02g/defect_orbits.py",
+    "stages/stage29/29-15/verify_bounded_execution.py"
+  ],
+  "source_blobs": {
+    "29-02ha/source-lock.md": "a6f2c371d730bcf75cb87ddaec1986f36effc13c",
+    "29-02ha/arrangement-check-output.md": "39a527efa4920c9354ea99af90ecd259b5940394",
+    "29-02ha/arrangement_check.py": "1f056af7311292944444ddfe87371171d8386adc",
+    "29-02g/exact-q-moduli-adapter.md": "facd6a799868ad135d6f19cb588b14d237d337e5",
+    "29-02g/torsion-descent-defect.md": "e79c7573eaa08d5e0975937453cd153731ead239",
+    "29-02g/result.md": "4357c7698bd16e1f356243029c7ce52271d6c517",
+    "29-11/audit.md": "a501a879934e69a5e413f1585cdc867017d76a48",
+    "29-15/bounded-execution.md": "d839065f8087dcd49eec6f13bd01b09f65daea0b",
+    "29-15/verify_bounded_execution.py": "b1c2473545675cff25b66416f3b1ce748b55b6a4",
+    "29-15/post-work-audit.md": "6ee23eaa295c231a59a9c9ccfe322922ce8036e7",
+    "29-16/active-kernel-ledger.json": "5d6d4c7709b57064aea5dc0ece672c5170c39550",
+    "29-17/final-handoff.json": "c1b86f5216a897e31378b0121a6c9fe8da0ba63d"
+  },
+  "close_flags": {
+    "arrangement_action_objects_frozen": true,
+    "modular_action_objects_frozen": true,
+    "generator_conventions_frozen": true,
+    "marked_data_frozen": true,
+    "base_field_ledger_frozen": true,
+    "arsenal_targeted_rematch_complete": true
+  },
+  "claims": {
+    "abstract_S4_match_is_adapter": false,
+    "QI_equivariance_verified": false,
+    "Q_galois_cocycle_verified": false,
+    "perfect_cuboid_existence": false,
+    "perfect_cuboid_nonexistence": false
+  }
+}
