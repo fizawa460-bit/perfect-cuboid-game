@@ -1,9 +1,9 @@
 {
-  "schema": "STAGE29_GAP_SCAN_C_REVIEW_MATRIX_V1_SUBMITTED",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "schema": "STAGE29_GAP_SCAN_C_REVIEW_MATRIX_V2_AUDITED",
+  "status": "AUDITED_PASS_AFTER_MATERIAL_POSITIVE_REPAIR",
   "base_main_sha": "49e54165ad6fe0e3ddb2080a1391ab24dec36420",
-  "gap_scan_result": "NONE_FOUND",
-  "none_found_scope": "NO_NEW_UNROUTED_MATERIAL_FOUNDATION_BACKFLOW_OR_EXTERNAL_INPUT_AFTER_29_10_11_12",
+  "gap_scan_result": "FOUND_EXTERNAL_INPUT_REQUIRED",
+  "finding_scope": "RECENT_SELF_HOSTED_2026_FAMILY_CLOSURE_AND_METHOD_CANDIDATES_REQUIRE_INDEPENDENT_29_13_SOURCE_AUDIT",
   "roadmap_review": "STILL_VALID",
   "attack_route_count": 11,
   "route_colors": {
@@ -19,20 +19,44 @@
     "J12-PARAMETRIC": "AMBER",
     "J12-POP-INTERACTION": "GREEN"
   },
-  "color_counts": {"green":1,"amber":10,"red":0,"merged":0},
+  "color_counts": {"green": 1, "amber": 10, "red": 0, "merged": 0},
   "material_positive_result_retained": {
     "route": "J12-POP-INTERACTION",
     "endpoint_consequence": "space survival tends to zero on I2 and H_ge2 with exact power corridors; endpoint density tends to zero inside H_ge2",
     "endpoint_emptiness": false,
     "P_over_M3_known": false
   },
+  "external_input_audit": {
+    "ledger": "stages/stage29/gap-scan-c/external-input-2026-family-closures.md",
+    "certified_theorem_count_now": 0,
+    "pending_audit_items": [
+      "R29-EXT-CHANG-A",
+      "R29-EXT-CHANG-B",
+      "R29-EXT-CHANG-C",
+      "R29-EXT-CHANG-D",
+      "R29-EXT-CHANG-E"
+    ],
+    "primary_execution_owner": "29-13_A2_METHOD_TRANSFER_ACROSS_SURVIVING_ROUTES",
+    "new_primary_route": false,
+    "paper_C_global_closure": false,
+    "bulk_external_repo_import": false
+  },
   "roadmap_materiality_tests": {
-    "new_independent_foundation": false,
+    "new_independent_foundation_certified_now": false,
     "new_required_targeted_backflow": false,
-    "new_external_input_required": false,
+    "new_external_input_required": true,
     "route_count_change_required": false,
     "route_pruning_forced": false,
-    "future_item_order_invalidated": false
+    "future_item_order_invalidated": false,
+    "existing_29_13_can_absorb_external_screen": true
   },
+  "ownership": {
+    "post_audit_unowned_active_receiver_count": 0,
+    "duplicate_primary_execution_owner_count": 0,
+    "gap_scan_b_execution_transfers_preserved": true
+  },
+  "P_over_M3_scale_known": false,
+  "targeted_backflow_required_now": false,
+  "roadmap_rewrite_required": false,
   "next_item_after_audit_pass": "29-13_A2_METHOD_TRANSFER_ACROSS_SURVIVING_ROUTES"
 }
