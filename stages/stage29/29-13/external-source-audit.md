@@ -1,136 +1,142 @@
 # Stage29-13 external source audit — 2026 family/method inputs
 
-## Provenance lock
-
-Primary external repository:
-
 ```text
-https://github.com/weiqi-kids/perfect-cuboid-problem
+STATUS=AUDITED_AFTER_FRESH_ADVERSARIAL_RECONSTRUCTION
+PRIMARY_EXTERNAL_REPOSITORY=https://github.com/weiqi-kids/perfect-cuboid-problem
+SOURCE_SET_AUTHOR=Lightman Chang
+SELF_HOSTED_SOURCE_SET=true
+AUTOMATIC_THEOREM_IMPORT=false
 ```
 
-Source set author: Lightman Chang. These sources are self-hosted 2026 preprints and are not accepted merely by citation. 29-13 uses exact source text plus independent algebra/database checks.
+The 2026 sources below are self-hosted preprints. Stage29 accepts a claim only after the load-bearing algebra/arithmetic/reconstruction chain is independently checked.
 
 ## Paper A — Saunderson
 
-Source files:
+Primary source: `paper-a/paper.tex` (source-set blob recorded in the submission ledger).
+
+Load-bearing chain independently checked:
 
 ```text
-paper-a/paper.tex
-blob sha 6a4106f553094e88e557d614b2d0b2a6ff668c71
-paper-a/paper.pdf
-blob sha 048664ee165a168c0a8cfd9854a7b0ab836f406d
+Sa(u,v,w)=(u(4v^2-w^2),v(4u^2-w^2),4uvw)
+u^2+v^2=w^2
+
+a^2+b^2+c^2=w^2(w^4+16u^2v^2)
 ```
 
-Load-bearing source locations in `paper.tex`:
+With `u=p^2-q^2`, `v=2pq`, `w=p^2+q^2`, `t=p/q`:
 
-- Lemma `lem:body`: `a^2+b^2+c^2=w^2(w^4+16u^2v^2)`;
-- Lemma `lem:octic`: exact degree-eight curve after `(u,v,w)=(p^2-q^2,2pq,p^2+q^2)`;
-- Lemma `lem:palindrome`: `W=t+1/t` reduction;
-- Lemma `lem:lift`: exact converse rational-lift condition `W^2-4=T0^2`;
-- Proposition `prop:C0`: every nondegenerate perfect Saunderson brick gives a nonzero finite rational `T0` on `C0`;
-- Propositions `prop:jac`, `prop:C0pts`: Jacobian `80a1`, rank zero, four rational points;
-- Theorem `thm:main`: family exclusion and degeneracy reconstruction.
+```text
+T^2=t^8+68t^6-122t^4+68t^2+1.
+```
 
-Independent checks performed for 29-13:
+The rational lift omitted by the mere palindromic quotient is retained:
 
-1. symbolic expansion of the body-diagonal identity gives exact zero;
-2. substitution `p=tq` gives exactly
-   `t^8+68t^6-122t^4+68t^2+1`;
-3. the palindrome and lift substitutions give exactly
-   `C0: S^2=T0^4+72T0^2+16`;
-4. LMFDB Cremona `80a1` / LMFDB `80.a2` records conductor 80, rank 0, torsion `Z/2 x Z/2`, simplified model `y^2=x^3-7x+6`;
-5. `C0` visibly has the four points `(0,±4), infinity_±`; rank-zero Jacobian cardinality four makes this list complete;
-6. `T0=0` and `T0=infinity` reconstruct only vanishing-edge Pythagorean parameters.
+```text
+W=t+1/t,
+T0=t-1/t,
+W^2-4=T0^2,
+C0: S^2=T0^4+72T0^2+16.
+```
 
-Verdict:
+The Jacobian was independently reconstructed. Scaling `T0=2z`, `S=4y` gives `y^2=z^4+18z^2+1`, whose Jacobian is `Y^2=X(X-16)(X-20)`. The rational change `X=4(x+3)`, `Y=8y` yields exactly
+
+```text
+y^2=x^3-7x+6,
+```
+
+Cremona `80a1` / LMFDB `80.a2`. Current database data agree with rank `0`, torsion `(Z/2)^2`. Since `C0` has a rational point, it is a trivial genus-one torsor and has four rational points, exactly `(0,+/-4)` and the two rational points at infinity. Reconstruction sends them only to `t=+/-1,0,infinity`, hence vanishing-edge inputs.
 
 ```text
 R29-EXT-CHANG-A=DISCHARGED_INDEPENDENTLY_RECONSTRUCTED
+SAUNDERSON_FAMILY_EXCLUSION_COMPLETE=true
 ```
 
-Source-quality caveat retained: the introduction incorrectly calls `(240,252,275)` the smallest Euler brick. This historical error is not load-bearing for the proof.
+Source-quality warning: the introduction incorrectly calls `(240,252,275)` the smallest Euler brick. This statement is non-load-bearing.
 
-## Paper B — Case B p=1
+## Paper B — explicit B(q) family
 
-Source file:
+Primary source: `paper-b/paper.tex`.
+
+For
 
 ```text
-paper-b/paper.tex
-blob sha e461b01da3642c4e9fd470d352b58198d00c31e0
+B(q)=(4q,q^2-4,2(q^2-1)), q in Z_{>0},
 ```
 
-Load-bearing source locations:
-
-- Definition `def:caseB`;
-- Lemma `lem:faces`;
-- Lemma `lem:pell`;
-- Lemma `lem:lucas`;
-- Theorem `thm:main`.
-
-Independent checks performed for 29-13:
-
-1. exact expansion verifies the four polynomial identities in Lemma `lem:faces`;
-2. the space condition reduces exactly to `g^2-5Y^2=20`, `Y=q^2`;
-3. `5|g`, hence `Y^2-5h^2=-4` after `g=5h`;
-4. the classical negative-Pell parametrization gives `Y=L_{2n-1}`;
-5. classical Lucas-square results of Cohn imply the only square Lucas values in this sequence are `1` and `4`;
-6. these give `q=1,2`, both degenerate.
-
-Verdict:
+direct expansion verifies
 
 ```text
-R29-EXT-CHANG-B=DISCHARGED_PELL_LUCAS_FAMILY_EXCLUSION
+a^2+b^2=(q^2+4)^2,
+a^2+c^2=(2(q^2+1))^2,
+b^2+c^2=5q^4-16q^2+20,
+a^2+b^2+c^2=5q^4+20.
 ```
 
-Source-quality caveat retained: an introductory sentence says the three face conditions hold identically; the formal Lemma correctly shows only two are automatic. The exclusion proof needs only the necessary space condition, so the error does not enter the theorem.
+Only two face conditions are automatic; a stronger introductory sentence in the source is false. The necessary space condition gives, with `Y=q^2`,
 
-The paper's genus-five Jacobian decomposition is outside the load-bearing closure proof and is not imported in 29-13.
+```text
+g^2-5Y^2=20
+5|g
+g=5h
+Y^2-5h^2=-4.
+```
+
+The positive solutions are `Y=L_(2n-1)`, `h=F_(2n-1)`. Cohn's square-Lucas theorem leaves only `Y=1,4`; therefore `q=1,2`, both degenerate/nonpositive.
+
+The family closure is certified. The external name “Case B at p=1” is retained only as a source label: no repository adapter was found proving that this explicit family exhausts a globally defined two-adic stratum of all candidates.
+
+```text
+R29-EXT-CHANG-B=DISCHARGED_PELL_LUCAS_EXPLICIT_BQ_FAMILY_EXCLUSION
+GLOBAL_TWO_ADIC_STRATUM_ADAPTER_CERTIFIED=false
+```
+
+The paper's genus-five Jacobian decomposition is unnecessary for this closure and is not imported.
 
 ## Paper C — rank-positive fibers
 
-The source and its public explanatory page explicitly restrict the proved computation to finite coefficient windows and state that the all-multiples extension is conjectural. 29-13 therefore preserves:
+Direct source inspection confirms that the actual theorem is finite-window only:
+
+```text
+rank one: 1<=n<=200 with torsion translates
+rank two: |a|,|b|<=12.
+```
+
+The all-multiples extension is explicitly not proved; the source identifies the missing input as effective primitive-divisor control for the Face-3 numerator with odd multiplicity.
 
 ```text
 R29-EXT-CHANG-C=FINITE_WINDOW_COMPUTATIONAL_INPUT_ONLY
 GLOBAL_FIBER_CLOSURE_CERTIFIED=false
 ```
 
-No finite computation is promoted to a universal rank-positive-fiber theorem.
-
 ## Paper D — Szpiro/height
 
-The source explicitly does not claim PCP closure and records the absence of the uniform canonical-height lower bound needed for an elementary global closure. 29-13 retains it only as possible later Arsenal input:
+Direct source inspection confirms a structural theorem package about the family `E_q`: minimal models, conductor/discriminant, multiplicative reduction, Szpiro behavior and the `Q(sqrt(2))` factorization. It explicitly makes no perfect-cuboid closure claim and records the absence of the uniform Szpiro-free canonical-height lower bound that would be needed for a simple global orbit closure.
 
 ```text
 R29-EXT-CHANG-D=AMBER_HEIGHT_STRUCTURE_INPUT_NOT_ENDPOINT_DECISIVE
 ```
 
-## Paper E — Sophie--Germain prime subfamily
+It remains eligible for a later Arsenal rematch.
 
-Source file:
+## Paper E — Sophie--Germain prime subfamily claim
 
-```text
-paper-e/paper.tex
-blob sha 1ff42f5a657ab9edafcfd6060f015a19e4322a83
-```
+Primary source: `paper-e/paper.tex`; scripts under `paper-e/scripts/`.
 
-The source identifies
+The elliptic data are consistent with current databases:
 
 ```text
 Eanom: y^2=x^3-275x+1750
-Cremona 800a3 / LMFDB 800.d2.
+Cremona 800a3 / LMFDB 800.d2
+rank=1
+torsion=Z/2
+elliptic integral-point count=7.
 ```
 
-Independent LMFDB data agree with rank `1`, torsion `Z/2`, and an integral-point count of `7` for the elliptic curve.
+However, the committed proof does not certify the claimed prime-family closure. The file `paper-e/scripts/04_height_completeness.gp` explicitly says its height-difference constant is sampled and that a fully rigorous constant/completeness certificate requires Cremona--Prickett--Siksek / Magma/Sage `IntegralPoints`-type machinery not supplied in the workflow. `03_integral_points.gp` performs bounded Mordell--Weil and `ellratpoints` searches, not a complete Baker/elliptic-logarithm enumeration.
 
-However the theorem proof itself states:
+No hidden Magma/Sage certificate was found in the committed script tree. The workflow also identifies the quartic Jacobian via `ellfromeqn` but does not give the required load-bearing explicit birational map proving the relevant quartic-integral -> elliptic-integral implication and complete pullback/reconstruction.
 
-- the height-difference bound `mu<=2.93` is sampled rather than proved;
-- a rigorous `IntegralPoints` certificate would require Magma/Sage or an elliptic-logarithm implementation not run in the reported workflow;
-- the text nevertheless *takes* the seven points as complete;
-- the proof does not provide, in the load-bearing step, a source-locked explicit integrality-preserving map proving that every integral quartic point maps into exactly the integral points being enumerated on `Eanom`.
-
-Thus the external theorem is not certified as written. LMFDB's elliptic integral-point count is valuable evidence but does not by itself supply the missing quartic integrality/reconstruction adapter.
+Therefore the source's statement “we take the seven points as complete” is not accepted as a proof.
 
 ```text
 R29-EXT-CHANG-E=NOT_CERTIFIED_MISSING_RIGOROUS_INTEGRAL_POINT_TRANSFER_AND_COMPLETENESS_CERTIFICATE
@@ -145,12 +151,32 @@ Repair contract:
 4. exact pullback and cuboid reconstruction ledger.
 ```
 
-## External import summary
+## Population interaction discovered by audit
+
+The audited Stage28-50-r2 lower theorem counts an injective primitive/canonical positive-density cone inside the same Saunderson family and proves
+
+```text
+liminf M3(B)/B^(1/3) >= 27/(40*pi^2).
+```
+
+Because Paper A's exclusion has now been independently certified pointwise on every nondegenerate Saunderson member, the entire counted cone lies in `M3-P`. Hence Stage29-13 also certifies
+
+```text
+R29-POP-SAUND-NONENDPOINT=DISCHARGED_EXPLICIT_NONENDPOINT_M3_LOWER
+liminf (M3(B)-P(B))/B^(1/3) >= 27/(40*pi^2).
+```
+
+This does not imply `P/M3->0` and requires no Stage28 backflow.
+
+## Final external import summary
 
 ```text
 CERTIFIED_EXTERNAL_FAMILY_CLOSURES=2
   A Saunderson
-  B Case-B p=1
+  B explicit B(q) family
+
+A2_STYLE_SUCCESSFUL_TRANSFER_COUNT=1
+  A Saunderson
 
 FINITE_ONLY=1
   C
