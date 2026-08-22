@@ -1,0 +1,112 @@
+{
+  "schema": "STAGE29_16_ROUTE_PORTFOLIO_V1_SUBMITTED",
+  "attack_route_count_retained": 11,
+  "route_colors": {"green": 1, "amber": 10, "red": 0, "merged": 0},
+  "independent_execution_owner_route_count": 9,
+  "merged_support_route_count": 2,
+  "merged_support_routes": ["G10-K3-SIGN", "J12-JOINT-V4"],
+  "routes": [
+    {
+      "route": "G10-FULL-ENDPOINT",
+      "color": "AMBER",
+      "portfolio_disposition": "ACTIVE_INDEPENDENT",
+      "kernels": ["K16-C3-ENDPOINT-EFFECTIVE-RATIONAL-POINT"],
+      "best_current_result": "P(B)<<_epsilon B^(1/2+epsilon)",
+      "decision_note": "needs a theorem that actually classifies or empties the physical endpoint rational points; another sparsity bound is not enough"
+    },
+    {
+      "route": "G10-LOWGENUS-PICARD",
+      "color": "AMBER",
+      "portfolio_disposition": "ACTIVE_SUPPORT_ONLY",
+      "kernels": ["K16-C2-LOWGENUS-PICARD-PRODUCTION"],
+      "decision_note": "finite computation remains meaningful but cannot decide endpoint emptiness without a rational-point coverage theorem"
+    },
+    {
+      "route": "G10-K3-SIGN",
+      "color": "AMBER",
+      "portfolio_disposition": "MERGED_SUPPORT_EXECUTION_OWNER_Q11_BRAUER",
+      "kernels": ["K16-C2-BRAUER-EXPLICIT-CHAIN"],
+      "unique_active_kernel": false,
+      "decision_note": "the current live K3 task is the K_c two-primary Brauer presentation/lift adapter; quotient rational points already exist, so K3 emptiness is not a standalone route"
+    },
+    {
+      "route": "Q11-CAMPEDELLI",
+      "color": "AMBER",
+      "portfolio_disposition": "ACTIVE_INDEPENDENT_WITH_SHARED_BRAUER_SUPPORT",
+      "kernels": ["K16-C3-CAMPEDELLI-UNIFORM-TORSOR", "K16-C2-BRAUER-EXPLICIT-CHAIN"],
+      "shared_child": "R29-CAMP4",
+      "decision_note": "a Q-point obstruction on any audited Q-defined Campedelli quotient would push back to endpoint emptiness"
+    },
+    {
+      "route": "Q11-BEAUVILLE",
+      "color": "AMBER",
+      "portfolio_disposition": "ACTIVE_INDEPENDENT_COMPRESSED_TO_ONE_STEP_DESCENT",
+      "kernels": ["K16-C3-BEAUVILLE-ONE-STEP-DESCENT"],
+      "merged_subroute": "iterated/second descent",
+      "decision_note": "Cao--Demarche--Xu and Cao compress the obstruction species; the one-step open twist/etale-Brauer computation remains genuinely open"
+    },
+    {
+      "route": "Q11-MODULAR",
+      "color": "AMBER",
+      "portfolio_disposition": "ACTIVE_SUPPORT_ONLY",
+      "kernels": ["K16-C2-MODULAR-S4-ACTION"],
+      "decision_note": "MOD1C/MOD1D are closed; the remaining action/cocycle adapter maps the eight marked defects but does not itself eliminate them"
+    },
+    {
+      "route": "Q11-BRAUER",
+      "color": "AMBER",
+      "portfolio_disposition": "ACTIVE_INDEPENDENT_PRIMARY_COMPUTATION_OWNER",
+      "kernels": ["K16-C2-BRAUER-EXPLICIT-CHAIN", "K16-C3-QWEB-CLIFFORD-OBSTRUCTION"],
+      "decision_note": "proper algebraic and proper odd-primary mechanisms are exhausted; the only live explicit arithmetic is physical-open/two-primary plus the independent Clifford-theorem possibility"
+    },
+    {
+      "route": "J12-JOINT-V4",
+      "color": "AMBER",
+      "portfolio_disposition": "MERGED_SUPPORT_NO_UNIQUE_ACTIVE_KERNEL",
+      "kernels": ["K16-C3-TERMINAL-P-OVER-M3"],
+      "unique_active_kernel": false,
+      "reactivate_unique_route_if": "a genuinely joint third-face/space theorem appears that is not equivalent to the existing local-transfer or terminal population frontier",
+      "decision_note": "the exact V4 cell model remains useful structure, but its bounded ADE child is dormant and no separate actionable residual survives"
+    },
+    {
+      "route": "J12-LOCAL-SQUARECLASS",
+      "color": "AMBER",
+      "portfolio_disposition": "ACTIVE_INDEPENDENT",
+      "kernels": ["K16-C3-M3-LOCAL-TO-GLOBAL"],
+      "best_current_result": "odd-prime laws plus real place plus Delta_2=1/53760 are explicit",
+      "decision_note": "the only load-bearing missing step is transfer to the exact primitive canonical M3 physical measure"
+    },
+    {
+      "route": "J12-PARAMETRIC",
+      "color": "AMBER",
+      "portfolio_disposition": "ACTIVE_INDEPENDENT_MULTI_KERNEL",
+      "kernels": [
+        "K16-C3-PESCH-EXPONENT-ONE",
+        "K16-C3-MOVING-FIBER-ARITHMETIC",
+        "K16-C3-EXT-C-PRIMITIVE-DIVISOR",
+        "K16-C2-EXT-E-INTEGRAL-CERTIFICATION"
+      ],
+      "primary_kernel": "K16-C3-PESCH-EXPONENT-ONE",
+      "decision_note": "PESCH-E1 is the only currently named narrow conjectural statement with audited global Master-Hit coverage and direct nonexistence implication; the other kernels are alternate moving-family or thin-family work"
+    },
+    {
+      "route": "J12-POP-INTERACTION",
+      "color": "GREEN",
+      "portfolio_disposition": "GREEN_THEOREMS_COMPLETE_WITH_TERMINAL_SCALE_FRONTIER",
+      "kernels": ["K16-C3-TERMINAL-P-OVER-M3"],
+      "decision_note": "GREEN credits exact incidence/nested-host survival theorems; P/M3 remains unknown and even P/M3->0 would not prove nonexistence"
+    }
+  ],
+  "portfolio_summary": {
+    "legacy_route_labels_retained": 11,
+    "independent_execution_owner_routes": 9,
+    "routes_with_no_unique_active_kernel": 2,
+    "active_execution_kernels": 13,
+    "class2_execution_kernels": 4,
+    "class3_theorem_kernels": 9,
+    "parent_color_change": false,
+    "new_attack_route_created": false
+  },
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false
+}
