@@ -1,16 +1,20 @@
 {
-  "schema": "STAGE30_MODULAR_S4_CONTROLLER_V1",
+  "schema": "STAGE30_MODULAR_S4_CONTROLLER_V2_AUDITED",
   "stage": "30",
   "kernel": "K16-C2-MODULAR-S4-ACTION",
   "source_receiver": "R29-KUM5",
   "parent_route": "Q11-MODULAR",
-  "status": "ROADMAP_SUBMISSION_PENDING_AUDIT",
+  "status": "ROADMAP_AUDITED_PASS_AFTER_BOUNDED_ORDERING_REPAIR",
   "current_item": "30-01_SOURCE_LOCK_AND_ACTION_OBJECT_FREEZE",
   "user_commands": [
     "Stage30-main-batch",
     "Stage30-audit"
   ],
   "third_user_command_required": false,
+  "roadmap_substage_count": 15,
+  "chatgpt_owned_unit_count": 10,
+  "codex_owned_unit_count": 5,
+  "codex_prompt_generation_stage_count": 4,
   "codex_handoff_policy": {
     "enabled": true,
     "prompt_generated_by": "Stage30-main-batch",
@@ -79,13 +83,20 @@
     "30-07",
     "30-09C"
   ],
+  "audit_scope_overrides": {
+    "30-04P_30-04C": "QI_LEVEL_EQUIVARIANT_IDENTIFICATION_ONLY; K8 elements and retained level-4 data may be carried as frozen labels, but no Q-descent/arithmetic compatibility credit is allowed before 30-06 derives the semilinear cocycle",
+    "30-06C": "EXACT_GALOIS_COCYCLE_AND_SEMILINEAR_COMPATIBILITY_VERIFICATION",
+    "30-07": "EXHAUSTIVE_EIGHT_K8_DEFECT_TRANSPORT_AND_CLASSIFICATION_USING_AUDITED_30-06C_OUTPUT"
+  },
   "recursive_classification_required": true,
   "hidden_class1_carry_forward_allowed": false,
   "final_target": "R29-KUM5_DISCHARGED_OR_STRICTLY_SMALLER_RESIDUAL_LEAF_CLASSIFIED",
-  "audit_required": true,
-  "audit_verdict": "PENDING",
-  "merge_allowed": false,
-  "advance_allowed": false,
+  "audit_required": false,
+  "audit_verdict": "PASS_AFTER_BOUNDED_ORDERING_REPAIR",
+  "repair_required": false,
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "30-01_SOURCE_LOCK_AND_ACTION_OBJECT_FREEZE",
   "next_expected_command_after_roadmap_merge": "Stage30-main-batch",
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false
