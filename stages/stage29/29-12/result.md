@@ -1,150 +1,217 @@
-# Stage29-12 — joint, local, parametric, and population-interaction attack portfolio
+# Stage29-12 — joint, local, parametric, and population-interaction attack portfolio — audited
 
 ```text
 STAGE=Stage29
 ITEM=29-12_JOINT_LOCAL_PARAMETRIC_AND_INTERACTION_ATTACK_PORTFOLIO
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_AFTER_MATERIAL_POSITIVE_REPAIR
 ATTACK_ROUTE_COUNT_RETAINED=11
 NEW_ATTACK_ROUTE_CREATED=false
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## 1. Scope
+## 1. Audit verdict
 
-This stage attacks the four 29-12 owners without replaying their infrastructure:
-
-```text
-J12-JOINT-V4
-J12-LOCAL-SQUARECLASS
-J12-PARAMETRIC
-J12-POP-INTERACTION
-```
-
-Audited 29-07 exact V4/population bridges, 29-08 global Master-Hit coverage, 29-09 odd-prime local arithmetic, Gap Scan B's Stage14 endpoint theorem, and the 29-10/11 route firewalls are inputs only. Previously proved facts receive no duplicate attack credit.
-
-## 2. J12-POP-INTERACTION — new exact relative endpoint-density theorem
-
-The key interaction missed before Gap Scan B is stronger when expressed in the 29-07 incidence language.
-
-Stage29-07 defines selected two-face incidences
+The submitted route colors survive fresh audit:
 
 ```text
-I2   = M2 + 3*M3,
-I2^S = N2 + 3*P.
+J12-JOINT-V4          = AMBER
+J12-LOCAL-SQUARECLASS = AMBER
+J12-PARAMETRIC        = AMBER
+J12-POP-INTERACTION   = GREEN
 ```
 
-Stage14's raw two-face graph is the same primitive/canonical, integral-space selected-pair incidence object on the endpoint-compatible cutoff. Its exact identity is
+The GREEN route is strengthened materially. The original two relative-density claims are correct, but the same certified inputs also close a larger exact incidence/nested-host survival ladder.
+
+## 2. Exact object/cutoff identification behind the GREEN route
+
+Stage14's raw unordered two-face incidence graph and Stage29's selected-two-face incidence are the same object on the integral-space locus.
+
+Stage14:
 
 ```text
-E(B)=N2(B)+3P(B),
+E(B)=N2(B)+3T(B).
 ```
 
-so under the audited Stage29 dictionary
+Gap Scan B proves object-for-object
 
 ```text
-E(B)=I2^S(B).
+T(B)=P(B),
+R=d on the endpoint,
 ```
 
-The frozen Stage14 proof chain gives, for every epsilon>0,
+under the same primitive canonical convention `0<a<b<c`, `gcd(a,b,c)=1` and the same physical cutoff.
+
+Stage29-07 proves
+
+```text
+I2^S=N2+3P.
+```
+
+The coefficient `3` is selected unordered two-face incidence multiplicity for a triple-face object, not V4 sheet multiplicity. Hence
+
+```text
+Stage14 E(B)=Stage29 I2^S(B)
+```
+
+exactly.
+
+The frozen Stage14 proof therefore gives, for every `epsilon>0`,
 
 ```text
 I2^S(B) <<_epsilon B^(1/2+epsilon).
 ```
 
-Meanwhile Stage29-04 gives
+No hidden exact-two filter, ordered-pair factor, primitive rescaling, canonical permutation factor, or height loss appears.
+
+## 3. Material positive repair — exact incidence survival ladder
+
+Stage29-07 gives
 
 ```text
-M2(B) ~ C_M2 * B*(log B)^5,  C_M2>0,
-M3(B)=o(M2(B)),
+I1   = M1+2M2+3M3,
+I1^S = N1+2N2+3P,
+I2   = M2+3M3,
+I2^S = N2+3P,
+I3   = M3,
+I3^S = P.
 ```
 
-hence
+Stage29-04 gives
 
 ```text
-I2(B)=M2(B)+3M3(B) ~ C_M2*B*(log B)^5.
+M1 ~ (3/(4*pi^2))*B^2*log B,
+N1 ~ (kappa/(24*pi))*B*(log B)^3,
+M2 ~ C_M2*B*(log B)^5,  C_M2>0,
+M2=o(M1),
+M3=o(M2),
+B^(1/4) << N2 <<_epsilon B^(1/2+epsilon).
 ```
 
-Therefore for every epsilon>0,
+Gap Scan B gives
+
+```text
+P <<_epsilon B^(1/2+epsilon).
+```
+
+Choose any fixed `epsilon<1/2` when comparing with `N1`. Then `N2,P=o(N1)` and therefore
 
 \[
 \boxed{
+\frac{I_1^S(B)}{I_1(B)}
+\sim
+\frac{\kappa\pi}{18}\frac{(\log B)^2}{B}.
+}
+\]
+
+For selected two-face incidences, the Stage14 upper and the certified `N2` lower give the full corridor
+
+\[
+\boxed{
+B^{-3/4}(\log B)^{-5}
+\ll
 \frac{I_2^S(B)}{I_2(B)}
 \ll_\epsilon
 B^{-1/2+\epsilon}(\log B)^{-5}.
 }
 \]
 
-In particular, for every fixed `0<epsilon<1/2`,
+Hence `I2^S/I2 -> 0`.
+
+The final selected-three-face incidence remains
 
 ```text
-I2^S(B)/I2(B) -> 0.
+I3^S/I3=P/M3,
 ```
 
-This is a literal selected-two-face incidence survival theorem: among all canonical primitive two-face incidences, the integral-space subincidences have polynomially vanishing relative density.
-
-The same inputs give a genuine endpoint-density theorem on the legal nested host
+whose global scale is still unknown.
 
 ```text
-H_ge2 = M2 disjoint_union M3.
+R29-POP-I1S=DISCHARGED_EXACT_ONE_FACE_INCIDENCE_SPACE_SURVIVAL_ASYMPTOTIC
+R29-POP-I2S=DISCHARGED_SELECTED_TWO_FACE_SPACE_SURVIVAL_CORRIDOR
+P_OVER_M3_SCALE_KNOWN=false
 ```
 
-Since `H_ge2(B)~M2(B)` and `P subset H_ge2`,
+## 4. Material positive repair — legal nested-host survival ladder
+
+The exact Stage29 hosts are
+
+```text
+H_ge1=M1 disjoint_union M2 disjoint_union M3,
+H_ge2=M2 disjoint_union M3,
+H_ge3=M3,
+```
+
+with space intersections
+
+```text
+S cap H_ge1=N1 disjoint_union N2 disjoint_union P,
+S cap H_ge2=N2 disjoint_union P,
+S cap H_ge3=P.
+```
+
+Because `M2,M3=o(M1)` and `N2,P=o(N1)`, the first literal nested survival ratio has the exact asymptotic
 
 \[
 \boxed{
-\frac{P(B)}{H_{\ge2}(B)}
+\frac{N_1+N_2+P}{M_1+M_2+M_3}
+\sim
+\frac{\kappa\pi}{18}\frac{(\log B)^2}{B}.
+}
+\]
+
+For the at-least-two-face host, the lower bound comes from `N2` and the upper from `N2+P`:
+
+\[
+\boxed{
+B^{-3/4}(\log B)^{-5}
+\ll
+\frac{N_2+P}{M_2+M_3}
 \ll_\epsilon
 B^{-1/2+\epsilon}(\log B)^{-5}.
 }
 \]
 
-Thus
+Thus the space-diagonal condition has density zero on the full legal `H_ge2` host.
+
+The endpoint itself satisfies the stronger-subset upper bound
+
+\[
+\boxed{
+\frac{P(B)}{M_2(B)+M_3(B)}
+\ll_\epsilon
+B^{-1/2+\epsilon}(\log B)^{-5}.
+}
+\]
+
+But the last literal survival step is still
 
 ```text
-P(B)/H_ge2(B) -> 0.
+(S cap H_ge3)/H_ge3=P/M3,
 ```
 
-Secondary whole-host consequences are
+and remains globally unknown.
 
 ```text
-P/H_ge1 <<_epsilon B^(-3/2+epsilon)/(log B),
-P/U       <<_epsilon B^(-5/2+epsilon).
-```
-
-These are relative-density theorems, not emptiness theorems.
-
-The important firewall is unchanged:
-
-```text
-P/M3 is the literal final space-survival ratio after all three faces,
-P/M3 global scale remains UNKNOWN.
-```
-
-The new theorem does not determine the conditional final step `P/M3`, does not order `P` against `N2`, and does not turn density zero into nonexistence.
-
-Proposed receiver state:
-
-```text
-R29-POP-I2S=DISCHARGED_SELECTED_TWO_FACE_SPACE_SURVIVAL_UPPER
+R29-POP-H1S=DISCHARGED_SPACE_SURVIVAL_ASYMPTOTIC_ON_H_GE1
+R29-POP-H2S=DISCHARGED_SPACE_SURVIVAL_CORRIDOR_ON_H_GE2
 R29-POP-H2=DISCHARGED_ENDPOINT_DENSITY_ZERO_IN_H_GE2
-J12-POP-INTERACTION=GREEN_RELATIVE_ENDPOINT_DENSITY_THEOREM_NO_EMPTINESS
 ```
 
-The GREEN proposal is attack credit only for the new normalized theorem produced by combining the already-certified Stage14 endpoint/incidence bound with the exact Stage29 host/incidence dictionary. Stage14's bound itself is not re-credited.
+These are density/survival theorems, not emptiness or nonexistence theorems.
 
-## 3. J12-JOINT-V4 — exact joint geometry remains nondecisive
+## 5. J12-JOINT-V4 — AMBER
 
-The residual V4 cells on the selected two-face floor remain exactly
+The exact residual cells remain
 
 ```text
 third NO,  space NO  : M2-N2
 third NO,  space YES : N2
 third YES, space NO  : 3*(M3-P)
-third YES, space YES : 3*P.
+third YES, space YES : 3P.
 ```
 
-The new `I2^S/I2` theorem controls the whole `space YES` column, but it does not identify a genuinely joint third-face/space correlation law. In particular neither
+The new whole-column and nested-host bounds do not determine a genuinely joint final conditional. In particular neither
 
 ```text
 P/M3
@@ -158,128 +225,94 @@ nor
 
 has a nontrivial certified asymptotic scale.
 
-The cross quotient still has a valid normal-cover/cohomological package and
-
-```text
-R29-X1=OPEN_BOUNDED_GLOBAL_ADE_ENUMERATION.
-```
-
-Completing X1 would improve the global geometric ledger but currently has no theorem that makes the physical endpoint image empty. Marginal K3 results remain owned by G10-K3-SIGN and are not re-credited here.
+`R29-X1` remains `OPEN_BOUNDED_GLOBAL_ADE_ENUMERATION`; closing the ADE ledger alone would not exclude endpoint rational points.
 
 ```text
 J12-JOINT-V4=AMBER_EXACT_JOINT_MODEL_NO_JOINT_ENDPOINT_OBSTRUCTION
 ```
 
-## 4. J12-LOCAL-SQUARECLASS — odd primes exact, p=2 locally positive, global transfer open
+## 6. J12-LOCAL-SQUARECLASS — AMBER with p=2 child discharged
 
-29-09 already proved the exact odd-prime law
+29-09's exact odd-prime laws are consumed without new credit. No physical-height/equidistribution transfer closing `R29-KUM-LOC3` was found downstream.
 
-```text
-Delta_p=1/64+O(1/p)
-```
-
-with the exact correlated triple-branch term `q3`; this is consumed, not replayed.
-
-At `p=2`, the known Euler brick `(44,117,240)` gives the base point
+At
 
 ```text
-x=44^2,
-y=117^2,
-z=240^2.
+[x:y:z]=[44^2:117^2:240^2]
 ```
 
-All seven values
+the seven F7 branch values are exactly
 
 ```text
-x,y,z,x+y,x+z,y+z,x+y+z
+1936, 13689, 57600, 15625, 59536, 71289, 73225.
 ```
 
-are nonzero Q2-squares: the first six are the three edge squares and three face-diagonal squares, while
+The first six are rational squares. The last satisfies
 
 ```text
-x+y+z=73225
+73225 == 1 (mod 8),
 ```
 
-is an odd 2-adic square because `73225 == 1 (mod 8)`.
+so it is a nonzero square in `Q2`. Since `Q2^{*2}` is open and all seven forms are nonzero, the simultaneous all-square locus contains a nonempty Q2-open projective neighbourhood and hence has positive Haar measure.
 
-Because `Q2^{*2}` is an open subgroup of `Q2^*` and all seven linear forms are nonzero at this point, there is a Q2-open projective neighbourhood on which all seven squareclasses stay trivial. Hence the full endpoint lift locus in `P2(Q2)` has nonempty interior and positive Haar measure.
-
-This yields only the bounded qualitative child
+Therefore
 
 ```text
 R29-KUM-LOC2-2A=DISCHARGED_POSITIVE_Q2_LIFT_CYLINDER
-```
-
-while the parent remains
-
-```text
-R29-KUM-LOC2-2=OPEN_EXACT_TWO_ADIC_STATE_DENSITY,
-R29-KUM-LOC3=AMBER_PHYSICAL_HEIGHT_MEASURE_GLOBAL_ADAPTER.
-```
-
-Thus `p=2` cannot currently supply a local emptiness obstruction, and the exact odd-prime densities still cannot be multiplied into a global Euler product without the height/primitivity/canonical/equidistribution adapter.
-
-```text
+R29-KUM-LOC2-2=OPEN_EXACT_TWO_ADIC_STATE_DENSITY
+R29-KUM-LOC3=AMBER_PHYSICAL_HEIGHT_MEASURE_GLOBAL_ADAPTER
 J12-LOCAL-SQUARECLASS=AMBER_EXACT_LOCAL_DATA_NO_GLOBAL_TRANSFER
 ```
 
-## 5. J12-PARAMETRIC — global coverage is real, decisive blocker remains conjectural
+Positive local measure is not an exact Q2 density and not a global rational-point theorem.
 
-29-08 already certifies that every primitive Euler brick, hence every perfect-cuboid candidate, is represented after gcd normalization by a Master-Hit. This is true global endpoint coverage and is consumed here without duplicate credit.
+## 7. J12-PARAMETRIC — AMBER
 
-The strongest endpoint-wide parametric receiver remains
+29-08's independently audited proof that every primitive Euler brick is represented after gcd normalization by a Master-Hit remains the global coverage input and is not re-credited.
 
-```text
-R29-PESCH-E1=AMBER_CONJECTURAL_GLOBAL_ENDPOINT_BLOCKER.
-```
-
-If the exponent-one assertion were proved for every Master-Hit, it would exclude every perfect cuboid. It is not proved; finite verification cannot be promoted.
-
-The total `(m,n)` Mordell-Weil fibration is globally covering on the Euler marginal, but bounded Mordell-Weil enumeration is not exhaustive and the remaining fibration field/arithmetic-specialization receivers stay open:
+Fresh current-source review of `arXiv:2605.00573v1` confirms that the universal exponent-one assertion is still explicitly `Conjecture 4.1`, finitely verified on the database, with its proof left open.
 
 ```text
-R29-PESCH2=OPEN_BOUNDED,
-R29-FIB1=OPEN,
-R29-FIB2=OPEN.
+R29-PESCH-E1=AMBER_CONJECTURAL_GLOBAL_ENDPOINT_BLOCKER
+PESCH_E1_IF_PROVED_IMPLIES_PERFECT_CUBOID_NONEXISTENCE=true
+PESCH_E1_CURRENTLY_PROVED=false
 ```
 
-No physical-height-uniform parameter theorem converts the Stage14 endpoint bound into a sharper Master-Hit parameter-count theorem without a multiplicity/height adapter.
+Bounded Mordell-Weil enumeration remains non-exhaustive and the parameter-height/multiplicity adapters remain open.
 
 ```text
 J12-PARAMETRIC=AMBER_GLOBAL_COVERAGE_WITH_CONJECTURAL_DECISIVE_BLOCKER
 ```
 
-## 6. Portfolio classification
-
-Submitted classification:
+## 8. Final portfolio classification
 
 ```text
-J12-JOINT-V4        = AMBER
+J12-JOINT-V4          = AMBER
 J12-LOCAL-SQUARECLASS = AMBER
-J12-PARAMETRIC      = AMBER
-J12-POP-INTERACTION = GREEN
+J12-PARAMETRIC        = AMBER
+J12-POP-INTERACTION   = GREEN
 
 GREEN_ROUTE_COUNT_29_12=1
 AMBER_ROUTE_COUNT_29_12=3
 ATTACK_ROUTE_COUNT_RETAINED=11
 ```
 
-The GREEN route is not a solution claim. It records a new certified relative endpoint-density theorem on a legal nested host / exact selected incidence measure.
+The GREEN credit is for the new certified normalized incidence/nested-host survival theorems. It does not re-credit the Stage14 upper bound itself.
 
-## 7. Handoff
-
-No Stage16--28 theorem requires reopening: the Stage14 input was already repaired by Gap Scan B and is only being consumed through the exact Stage29 incidence dictionary.
+## 9. Handoff
 
 ```text
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS_AFTER_MATERIAL_POSITIVE_REPAIR
+MATERIAL_POSITIVE_REPAIR=NESTED_HOST_AND_INCIDENCE_SPACE_SURVIVAL_LADDER_PLUS_Q2_POSITIVE_CYLINDER_CERTIFICATION
+REPAIR_REQUIRED=false
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
 TARGETED_BACKFLOW_REQUIRED=false
 ACTIVE_BACKFLOW_QUEUE_SIZE=0
 ROADMAP_REWRITE_REQUIRED=false
-AUDIT_REQUIRED=true
-AUDIT_VERDICT=PENDING
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
-NEXT_ITEM_AFTER_AUDIT_PASS=GAP_SCAN_C_ROADMAP_REVIEW_C
-NEXT_EXPECTED_COMMAND=Stage29-audit
+NEXT_ITEM=GAP_SCAN_C_ROADMAP_REVIEW_C
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
