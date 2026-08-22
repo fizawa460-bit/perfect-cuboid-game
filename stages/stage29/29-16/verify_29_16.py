@@ -13,6 +13,7 @@ def main():
     inactive = load("inactive-inventory.json")
     routes = load("route-portfolio.json")
     controller = load("controller-delta.json")
+    audit = load("audit-state.json")
 
     assert ledger["source_receiver_or_terminal_frontier_count"] == 46
     assert ledger["source_class_counts"] == {"1": 6, "2": 13, "3": 11, "4": 16}
@@ -63,6 +64,15 @@ def main():
     assert len(routes["routes"]) == 11
     assert len({r["route"] for r in routes["routes"]}) == 11
 
+    assert audit["audit_verdict"] == "PASS_AFTER_BOUNDED_SEMANTIC_REPAIR"
+    assert audit["active_source_entry_unmapped_count"] == 0
+    assert audit["active_source_entry_duplicate_mapping_count"] == 0
+    assert audit["mixed_execution_class_kernel_count"] == 0
+    assert audit["hidden_class1_pending_count"] == 0
+    assert audit["dormant_reactivation_trigger_missing_count"] == 0
+    assert audit["brauer_kernel"]["internal_dependency_shape"] == "DAG_NOT_LINEAR_CHAIN"
+    assert audit["route_portfolio"]["independence_scope"] == "CURRENT_SCHEDULING_OWNERSHIP_ONLY_NOT_MATHEMATICAL_OR_STATISTICAL_INDEPENDENCE"
+
     c = controller["stage29_16"]
     assert c["source_receiver_or_terminal_frontier_count"] == 46
     assert c["active_source_entry_count"] == 24
@@ -71,17 +81,20 @@ def main():
     assert c["attack_route_count"] == 11
     assert c["green_route_count"] == 1
     assert c["amber_route_count"] == 10
-    assert c["audit_required"] is True
-    assert c["merge_allowed"] is False
-    assert c["advance_allowed"] is False
+    assert c["audit_required"] is False
+    assert c["audit_verdict"] == "PASS_AFTER_BOUNDED_SEMANTIC_REPAIR"
+    assert c["merge_allowed"] is True
+    assert c["advance_allowed"] is True
+    assert c["hidden_class1_pending_count"] == 0
     assert c["P_over_M3_scale_known"] is False
     assert c["perfect_cuboid_existence_claim"] is False
     assert c["perfect_cuboid_nonexistence_claim"] is False
 
-    print("Stage29-16 compression verifier: PASS")
+    print("Stage29-16 audited compression verifier: PASS")
     print("46 = 6 closed + 13 class2 + 11 class3 + 16 dormant")
     print("24 active entries -> 13 kernels = 4 class2 + 9 class3")
-    print("11 historical routes -> 9 independent execution-owner routes + 2 merged-support routes")
+    print("11 historical routes -> 9 scheduling owners + 2 merged-support routes")
+    print("Brauer internal dependency shape = DAG, not strict linear chain")
 
 
 if __name__ == "__main__":
