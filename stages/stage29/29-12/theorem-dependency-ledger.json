@@ -1,21 +1,56 @@
 {
-  "schema": "STAGE29_12_THEOREM_DEPENDENCY_LEDGER_V1_SUBMITTED",
+  "schema": "STAGE29_12_THEOREM_DEPENDENCY_LEDGER_V2_AUDITED",
   "entries": {
-    "R29-POP-I2S": {
-      "status": "PROPOSED_DISCHARGED_PENDING_AUDIT",
+    "R29-POP-I1S": {
+      "status": "DISCHARGED_EXACT_ONE_FACE_INCIDENCE_SPACE_SURVIVAL_ASYMPTOTIC",
       "owner": "J12-POP-INTERACTION",
       "inputs": [
-        "Stage14: E=N2+3T and E<<_epsilon B^(1/2+epsilon)",
-        "Gap Scan B: T=P under identical endpoint cutoff",
-        "Stage29-07: I2^S=N2+3P; I2=M2+3M3",
-        "Stage29-04: M2~C_M2 B(log B)^5; M3=o(M2)"
+        "Stage29-07: I1=M1+2M2+3M3 and I1^S=N1+2N2+3P",
+        "Stage29-04: M1~3/(4*pi^2) B^2 log B, N1~kappa/(24*pi) B(log B)^3, M2=o(M1), M3=o(M2), N2<<_epsilon B^(1/2+epsilon)",
+        "Gap Scan B: P<<_epsilon B^(1/2+epsilon)"
       ],
-      "output": "I2^S/I2 <<_epsilon B^(-1/2+epsilon)(log B)^(-5)",
-      "endpoint_consequence": "selected-two-face space-positive incidence density tends to zero",
+      "output": "I1^S/I1 ~ (kappa*pi/18)*(log B)^2/B",
+      "endpoint_consequence": "space-positive selected-one-face incidence survival has an exact vanishing asymptotic",
+      "nonexistence": false
+    },
+    "R29-POP-I2S": {
+      "status": "DISCHARGED_SELECTED_TWO_FACE_SPACE_SURVIVAL_CORRIDOR",
+      "owner": "J12-POP-INTERACTION",
+      "inputs": [
+        "Stage14/Gap Scan B: E=N2+3P=I2^S and E<<_epsilon B^(1/2+epsilon)",
+        "Stage29-07: I2^S=N2+3P and I2=M2+3M3",
+        "Stage29-04: M2~C_M2 B(log B)^5, M3=o(M2), and N2>>B^(1/4)"
+      ],
+      "output": "B^(-3/4)(log B)^(-5) << I2^S/I2 <<_epsilon B^(-1/2+epsilon)(log B)^(-5)",
+      "endpoint_consequence": "selected-two-face space-positive incidence density tends to zero with a certified lower and upper corridor",
+      "nonexistence": false
+    },
+    "R29-POP-H1S": {
+      "status": "DISCHARGED_SPACE_SURVIVAL_ASYMPTOTIC_ON_H_GE1",
+      "owner": "J12-POP-INTERACTION",
+      "inputs": [
+        "Stage29-04: H_ge1=M1 disjoint_union M2 disjoint_union M3 and S cap H_ge1=N1 disjoint_union N2 disjoint_union P",
+        "M1 and N1 asymptotics from Stage29-04",
+        "N2,P=o(N1) from Stage14/Gap Scan B upper bounds"
+      ],
+      "output": "(N1+N2+P)/(M1+M2+M3) ~ (kappa*pi/18)*(log B)^2/B",
+      "endpoint_consequence": "literal space-diagonal survival on the legal at-least-one-face host has an exact asymptotic",
+      "nonexistence": false
+    },
+    "R29-POP-H2S": {
+      "status": "DISCHARGED_SPACE_SURVIVAL_CORRIDOR_ON_H_GE2",
+      "owner": "J12-POP-INTERACTION",
+      "inputs": [
+        "Stage29-04: H_ge2=M2 disjoint_union M3 and S cap H_ge2=N2 disjoint_union P",
+        "M2~C_M2 B(log B)^5 and M3=o(M2)",
+        "B^(1/4)<<N2 and N2,P<<_epsilon B^(1/2+epsilon)"
+      ],
+      "output": "B^(-3/4)(log B)^(-5) << (N2+P)/(M2+M3) <<_epsilon B^(-1/2+epsilon)(log B)^(-5)",
+      "endpoint_consequence": "literal space-diagonal survival on the legal at-least-two-face host tends to zero with the same certified corridor as the exact-two stratum",
       "nonexistence": false
     },
     "R29-POP-H2": {
-      "status": "PROPOSED_DISCHARGED_PENDING_AUDIT",
+      "status": "DISCHARGED_ENDPOINT_DENSITY_ZERO_IN_H_GE2",
       "owner": "J12-POP-INTERACTION",
       "inputs": [
         "Gap Scan B: P<<_epsilon B^(1/2+epsilon)",
@@ -26,34 +61,39 @@
       "nonexistence": false
     },
     "R29-KUM-LOC2-2A": {
-      "status": "PROPOSED_DISCHARGED_PENDING_AUDIT",
+      "status": "DISCHARGED_POSITIVE_Q2_LIFT_CYLINDER",
       "owner": "J12-LOCAL-SQUARECLASS",
       "inputs": [
-        "29-09 Q2 point from Euler brick (44,117,240)",
-        "Q2 square subgroup openness",
-        "nonvanishing of all seven linear forms at the displayed point"
+        "Q2 base point [44^2:117^2:240^2]",
+        "seven values 1936,13689,57600,15625,59536,71289,73225",
+        "73225 congruent 1 mod 8 and Q2 square-unit criterion",
+        "Q2 square subgroup openness and nonvanishing of all seven forms"
       ],
       "output": "full seven-form Q2 lift locus has nonempty interior and positive Haar measure",
       "endpoint_consequence": "p=2 is not a local emptiness obstruction",
       "parent_exact_density_receiver_closed": false
     },
-    "R29-X1": {
-      "status": "OPEN_BOUNDED",
-      "owner": "J12-JOINT-V4",
-      "output_missing": "complete global ADE/minimal-model enumeration",
-      "endpoint_decisive_if_closed": false
+    "R29-KUM-LOC2-2": {
+      "status": "OPEN_EXACT_TWO_ADIC_STATE_DENSITY",
+      "owner": "J12-LOCAL-SQUARECLASS"
     },
     "R29-KUM-LOC3": {
-      "status": "AMBER",
+      "status": "AMBER_PHYSICAL_HEIGHT_MEASURE_GLOBAL_ADAPTER",
       "owner": "J12-LOCAL-SQUARECLASS",
       "output_missing": "physical height/primitivity/canonical/multiplicity equidistribution or large-sieve transfer",
       "endpoint_decisive_if_closed": "unknown; local product must be rigorously translated"
     },
+    "R29-X1": {
+      "status": "OPEN_BOUNDED_GLOBAL_ADE_ENUMERATION",
+      "owner": "J12-JOINT-V4",
+      "endpoint_decisive_if_closed": false
+    },
     "R29-PESCH-E1": {
       "status": "AMBER_CONJECTURAL_GLOBAL_ENDPOINT_BLOCKER",
       "owner": "J12-PARAMETRIC",
-      "coverage_dependency": "DISCHARGED_BY_29_08",
+      "coverage_dependency": "DISCHARGED_BY_29_08_INDEPENDENT_PROOF",
       "assertion_proved": false,
+      "current_arxiv_status": "arXiv:2605.00573v1 still states Conjecture 4.1 as open and reports finite verification",
       "if_proved": "perfect-cuboid nonexistence"
     }
   },
@@ -61,6 +101,11 @@
     "ratio": "P/M3",
     "literal_survival": true,
     "global_scale": "UNKNOWN",
-    "not_implied_by": ["P/H_ge2->0","I2^S/I2->0","finite P=0 through 1e9"]
+    "not_implied_by": [
+      "P/H_ge2->0",
+      "(N2+P)/H_ge2->0",
+      "I2^S/I2->0",
+      "finite P=0 through 1e9"
+    ]
   }
 }
