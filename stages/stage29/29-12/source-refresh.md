@@ -1,30 +1,70 @@
-# Stage29-12 source / provenance refresh
+# Stage29-12 source / provenance refresh — audited
 
 ```text
-STATUS=SUBMISSION_PROVENANCE_LOCK
+STATUS=AUDITED_SOURCE_AND_PROVENANCE_LOCK
 NEW_EXTERNAL_FOUNDATION_CLAIM=false
 ```
 
-29-12 is primarily a theorem-interaction stage. Its new proposed theorem is obtained by composing already-audited repository results rather than by importing a new literature theorem.
+29-12 is primarily a theorem-interaction stage. Its positive results are obtained by composing already-audited repository theorems on exact common hosts; no new literature theorem is needed for the GREEN result.
 
 ## Load-bearing repository provenance
 
 - `stages/stage14/final.md` and `stages/stage14/addenda/stage14-endpoint-corollary.md`:
   `E=N2+3T`, `E<<V B^o(1)`, `V<<B^(1/2+o(1))`, and the audited endpoint corollary.
-- `stages/stage29/29-04/result.md`:
-  exact common host, `H_ge2=M2 disjoint_union M3`, `M2~C_M2 B(log B)^5`, `M3=o(M2)`.
-- `stages/stage29/29-07/result.md`:
-  exact selected-predicate incidence dictionary `I2=M2+3M3`, `I2^S=N2+3P`, residual V4 cells, exact physical height/primitivity/order adapter.
-- `stages/stage29/29-08/result.md`:
-  exact Peschmann crosswalk and audited global Master-Hit coverage; exponent-one receiver remains conjectural.
-- `stages/stage29/29-09/result.md`:
-  exact odd-prime local density and correlated `q3`; p=2 exact density and global physical-measure transfer remain open.
 - `stages/stage29/gap-scan-b/stage14-endpoint-theorem-ledger.json`:
-  exact `P=T` endpoint dictionary and certified `P<<_epsilon B^(1/2+epsilon)`.
+  exact `P=T`, same primitive/canonical convention, and `R=d` on the endpoint.
+- `stages/stage29/29-04/result.md`:
+  exact common host and nested hosts; `M1`, `N1`, `M2` asymptotics; `M3=o(M2)`; `B^(1/4)<<N2<<_epsilon B^(1/2+epsilon)`.
+- `stages/stage29/29-07/audit.md`:
+  exact incidence dictionary
+  `I1=M1+2M2+3M3`, `I1^S=N1+2N2+3P`,
+  `I2=M2+3M3`, `I2^S=N2+3P`,
+  plus exact primitive/canonical/Euclidean-height multiplicity control.
+- `stages/stage29/29-08/audit.md`:
+  independently certified global Master-Hit coverage and exact Stage20/K_c adapter.
+- `stages/stage29/29-09/audit.md`:
+  exact odd-prime local density and correlated `q3`; exact p=2 density and global physical-measure transfer remain open.
+
+## Fresh audit: current Peschmann status
+
+Current arXiv metadata still lists only `arXiv:2605.00573v1` from 2026-05-01. The full HTML text explicitly calls the universal blocker assertion `Conjecture 4.1`, says it is verified on the finite fully-factored database, and states that its proof is left open. Therefore
+
+```text
+R29-PESCH-E1=AMBER_CONJECTURAL_GLOBAL_ENDPOINT_BLOCKER
+PESCH_E1_PROVED=false
+```
+
+The later paper still contains the known scope disclaimer saying it does not claim every primitive body cuboid arises from a Master-Hit. That source-level contradiction with `arXiv:2604.28072` remains recorded. It does not undo Stage29-08's independent proof of global primitive Euler-brick coverage.
 
 ## Two-adic qualitative child
 
-The proposed `R29-KUM-LOC2-2A` uses no new external theorem beyond standard Q2 squareclass topology. For `(44,117,240)`, all seven F7 branch values at `[44^2:117^2:240^2]` are nonzero Q2-squares. Since the square subgroup of `Q2^*` is open, their simultaneous square condition persists on a sufficiently small Q2-open neighbourhood. This proves positive local measure qualitatively, not its exact value.
+At the audited point
+
+```text
+[x:y:z]=[44^2:117^2:240^2]
+```
+
+the seven F7 linear-form values are exactly
+
+```text
+1936, 13689, 57600, 15625, 59536, 71289, 73225.
+```
+
+The first six are ordinary rational squares. The last is odd and
+
+```text
+73225 == 1 (mod 8),
+```
+
+hence is a square in `Q2^*`. All seven values are nonzero. Since `Q2^{*2}` is an open subgroup and the seven linear forms are continuous, the simultaneous all-square locus contains a nonempty Q2-open projective neighbourhood and therefore has positive Haar measure.
+
+This proves only
+
+```text
+R29-KUM-LOC2-2A=DISCHARGED_POSITIVE_Q2_LIFT_CYLINDER
+```
+
+not the exact Q2 density/state automaton.
 
 ## Anti-overclaim lock
 
@@ -34,4 +74,5 @@ EXACT_Q2_DENSITY_PROVED=false
 GLOBAL_EULER_PRODUCT_BOUND_PROVED=false
 PESCH_E1_PROVED=false
 P_OVER_M3_SCALE_PROVED=false
+DENSITY_ZERO_IS_EMPTINESS=false
 ```
