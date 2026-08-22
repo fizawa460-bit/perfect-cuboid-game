@@ -1,0 +1,85 @@
+{
+  "schema": "STAGE29_14_SLICE_COVERAGE_V1_SUBMITTED",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "base_main_sha": "2433ad54322fa9a3f71b9bbcccf9a581ebe87f2a",
+  "entries": [
+    {
+      "id": "F7-BRANCH",
+      "slice_or_quotient": "preimage of xyz(x+y)(x+z)(y+z)(x+y+z)=0",
+      "q_form_and_field": "Q",
+      "endpoint_map_direction": "Sbar -> P2",
+      "slice_closed": true,
+      "closure": "no physical Q endpoint image lies on the branch divisor",
+      "coverage_statement_proved": "physical endpoint image lies in P2(Q)\\D",
+      "global_coverage_proved": false,
+      "what_remains_outside": "all possible physical endpoint points"
+    },
+    {
+      "id": "S3-PERM-FIX",
+      "slice_or_quotient": "x=y union x=z union y=z",
+      "q_form_and_field": "Q",
+      "endpoint_map_direction": "fixed lines in F7 base; pull back to endpoint",
+      "slice_closed": true,
+      "closure": "x=y forces a face-square ratio 2, impossible over Q; cyclically likewise",
+      "coverage_statement_proved": "no physical endpoint Q point has repeated squared side coordinate",
+      "global_coverage_proved": false,
+      "what_remains_outside": "all unequal-side endpoint candidates"
+    },
+    {
+      "id": "TESTA-STOLL-DLE6",
+      "slice_or_quotient": "all integral endpoint curves of canonical degree <=6",
+      "q_form_and_field": "geometric classification with audited Q/Galois data",
+      "endpoint_map_direction": "curves embedded in full endpoint surface",
+      "slice_closed": true,
+      "closure": "complete classification; no positive nondegenerate physical family",
+      "coverage_statement_proved": "all degree<=6 integral curve carriers classified",
+      "global_coverage_proved": false,
+      "what_remains_outside": "isolated points; curves degree>=8; multibranch/node cases outside auxiliary hypotheses"
+    },
+    {
+      "id": "SAUNDERSON-LIFT",
+      "slice_or_quotient": "Saunderson endpoint lift",
+      "q_form_and_field": "Q",
+      "endpoint_map_direction": "thin Stage20 family -> endpoint lift",
+      "slice_closed": true,
+      "closure": "29-13 independently reconstructed rank-zero genus-one closure",
+      "coverage_statement_proved": "one thin infinite family only",
+      "global_coverage_proved": false,
+      "what_remains_outside": "all non-Saunderson Euler bricks"
+    },
+    {
+      "id": "STAGEA2-MINUS18",
+      "slice_or_quotient": "published equation-(6) -18 family",
+      "q_form_and_field": "Q",
+      "endpoint_map_direction": "source-locked family -> endpoint candidate",
+      "slice_closed": true,
+      "closure": "StageA2 family-specific two-cover closure",
+      "coverage_statement_proved": "one source-locked family only",
+      "global_coverage_proved": false,
+      "what_remains_outside": "arbitrary endpoint candidates without a reverse coverage map"
+    },
+    {
+      "id": "EXPLICIT-BQ",
+      "slice_or_quotient": "B(q)=(4q,q^2-4,2(q^2-1))",
+      "q_form_and_field": "Q",
+      "endpoint_map_direction": "explicit integer family -> endpoint candidate",
+      "slice_closed": true,
+      "closure": "29-13 Pell/Lucas exclusion",
+      "coverage_statement_proved": "one explicit infinite family",
+      "global_coverage_proved": false,
+      "what_remains_outside": "all candidates outside B(q)"
+    }
+  ],
+  "combined_closed_slice_union": {
+    "finite_union_of_positive_codimension_loci": true,
+    "geometrically_proper_in_irreducible_endpoint_surface": true,
+    "global_endpoint_q_point_coverage_proved": false,
+    "coverage_fraction_assigned": false
+  },
+  "firewalls": {
+    "proper_geometric_subset_implies_rational_points_outside": false,
+    "empty_endpoint_would_make_q_point_coverage_vacuous": true,
+    "family_closure_implies_global_nonexistence": false,
+    "coverage_fraction_without_measure_theorem": false
+  }
+}
