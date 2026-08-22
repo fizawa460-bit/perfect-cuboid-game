@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE29_11_THEOREM_DEPENDENCY_LEDGER_V1",
+  "schema": "STAGE29_11_THEOREM_DEPENDENCY_LEDGER_V2_AUDITED",
   "base_main": "7dc1b894c804db92a49ba92e9022ea1fde3c0fed",
   "dependencies": {
     "Q11-CAMPEDELLI": {
@@ -7,10 +7,13 @@
         "29-02hb exact ten kernels",
         "29-02hb global finite quotient and resolution-level degree-8 etale cover",
         "29-02hb Q-defined kernel maps and 6+2+2 certified Q S3 orbits",
-        "29-06 canonical-versus-resolution node split"
+        "29-06 canonical-versus-resolution node split",
+        "Calabri-Mendes Lopes-Pardini: every nontrivial involution of a classical Campedelli surface is composed with the bicanonical map; the quotient is geometrically rational or birational to an Enriques surface"
       ],
-      "new_submission_claim": "geometric involution quotient rational/Enriques dichotomy can be split from still-open Q-form arithmetic",
-      "open": ["R29-CAMP2","R29-CAMP3 Q-form/exact assignment","R29-CAMP4"]
+      "R29-CAMP3-GEOM": "DISCHARGED_GEOMETRIC_RATIONAL_OR_ENRIQUES_DICHOTOMY",
+      "R29-CAMP3": "PARTIAL_GEOMETRIC_DONE_Q_FORM_AND_EXACT_INVOLUTION_ASSIGNMENT_OPEN",
+      "open": ["R29-CAMP2","R29-CAMP3 Q-form/exact assignment","R29-CAMP4"],
+      "firewall": "geometric rationality/Enriques type does not imply Q-rationality, Q-point emptiness, or an exact Q-form assignment"
     },
     "Q11-BEAUVILLE": {
       "certified": [
@@ -20,7 +23,8 @@
         "swap-twisted Weil-restriction Albanese target",
         "Bolza Jacobian geometric CM structure with Q-splitting firewall"
       ],
-      "open": ["R29-BEAU1B","R29-BEAU1C","R29-BEAU2A","R29-BEAU2","R29-BEAU3"]
+      "open": ["R29-BEAU1B","R29-BEAU1C","R29-BEAU2A","R29-BEAU2","R29-BEAU3"],
+      "current_source_locator_note": "current Beauville PDF places the etale V4 tower in Remark 2; the historical 29-02d audit recorded Remark 1; mathematical content unchanged"
     },
     "Q11-MODULAR": {
       "certified": [
@@ -31,16 +35,18 @@
         "ordinary 8-congruence obstruction RED",
         "29-06 Q(i)/Q and compactification scope firewalls"
       ],
-      "open": ["R29-MOD1C","R29-MOD1D","R29-MOD2B","R29-KUM5"]
+      "open": ["R29-MOD1C","R29-MOD1D","R29-MOD2B","R29-KUM5"],
+      "R29-KUM5": "OPEN_ACTION_LEVEL_S4_Q_DESCENT_ADAPTER"
     },
     "Q11-BRAUER": {
       "certified": [
-        "29-02f Br_1(S)/Br(Q)=0",
+        "Testa-Stoll Theorem 10: Br_1(S)/im Br(Q)=0 on the smooth proper surface",
         "29-02f proper odd-primary transcendental Brauer absent",
         "29-02f 72-component physical boundary",
         "29-02f UPic open target"
       ],
-      "open": ["R29-BR0A","R29-BR0B","R29-BR0G","R29-BR2A","R29-BR2B","R29-NF-PHYS2","R29-QWEB-CLIFFORD","R29-NF7"]
+      "open": ["R29-BR0A","R29-BR0B","R29-BR0G","R29-BR2A","R29-BR2B","R29-NF-PHYS2","R29-QWEB-CLIFFORD","R29-NF7"],
+      "firewall": "proper algebraic and proper odd-primary closure do not compute the open boundary Brauer group or its local evaluations"
     }
   },
   "double_charge": {
@@ -50,5 +56,13 @@
     "29_12_parametric_claimed_here": false,
     "Campedelli_Brauer_overlap_primary_owner": "Q11-BRAUER for Brauer computation; Q11-CAMPEDELLI for quotient/torsor geometry",
     "modular_arrangement_overlap_primary_owner": "Q11-MODULAR for R29-KUM5"
+  },
+  "audit_result": {
+    "Q11-CAMPEDELLI": "AMBER",
+    "Q11-BEAUVILLE": "AMBER",
+    "Q11-MODULAR": "AMBER",
+    "Q11-BRAUER": "AMBER",
+    "attack_route_count": 11,
+    "perfect_cuboid_conclusion": "NONE"
   }
 }
