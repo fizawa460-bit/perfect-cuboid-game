@@ -1,8 +1,8 @@
 # Stage30-09 — final certificate and independent checker
 
-Status: `SUBMITTED_PENDING_STAGE30_FINAL_HOSTILE_AUDIT`.
+Status: `AUDITED_FINAL_PASS_STAGE30_CLOSED`.
 
-This unit consolidates the audited Stage30 modular-action work into one immutable-input reproducibility surface. It does not reopen mathematical search and does not pre-grant Stage30 closure.
+This unit consolidates the audited Stage30 modular-action work into one immutable-input reproducibility surface. Stage30-10 hostile audit has now accepted that surface and closed Stage30.
 
 ## Materialized Stage30-08 audit
 
@@ -12,16 +12,14 @@ PR #1335 received hostile-audit verdict
 PASS_R29_KUM5_NONOBSTRUCTIVE_ADAPTER_CLOSURE
 ```
 
-before merge, but its submitted controller still contained `PENDING` state. Stage30-09 materializes that already-completed audit in:
+and Stage30-09 materializes that already-completed audit in:
 
 - `stages/stage30/30-08/audit.md`
 - `stages/stage30/30-08/audit-state.json`
 
-No second audit or new theorem credit is introduced.
+No second mathematical credit is introduced.
 
 ## Final reproducibility surface
-
-Stage30-09 provides the roadmap-required surface:
 
 ```text
 input-manifest.json
@@ -33,41 +31,11 @@ final-certificate.json
 verify_stage30.py
 ```
 
-The JSON files are compact final certificates/reference wrappers around immutable audited source artifacts. The final checker does not invoke any earlier Stage30 verifier.
+The manifest pins immutable mathematical artifacts by Git blob SHA and deliberately does not pin mutable `controller.json`.
 
-`input-manifest.json` pins immutable mathematical artifacts by Git blob SHA. Mutable `controller.json` is deliberately not pinned, preventing legitimate later state transitions from invalidating the mathematical certificate.
+The final checker independently reconstructs the finite `SL2(Z/4)`/`PSL2(Z/4)` objects, `V_mod`, all eight `K8` endpoint sign images, Hamming multiplicities `1,3,3,1`, eight singleton marked Q-descent classes, zero eliminations, physical-open scope, and route/firewall state. The all-24 semilinear computation is bound to the separately audited Stage30-06C exhaustive certificate rather than silently re-proved here.
 
-## Independent reconstruction performed by `verify_stage30.py`
-
-The checker independently:
-
-1. verifies all immutable Git-blob pins;
-2. reconstructs `SL2(Z/4)` and `PSL2(Z/4)` from matrices, checking orders `48` and `24`;
-3. compares the reconstructed 24 modular matrices with the frozen Task-A table;
-4. reconstructs `V_mod` as the mod-2 identity kernel and requires exactly `g04,g06,g12,g14`;
-5. checks the common-model branch projection has kernel order 4 and image `S3` of order 6;
-6. binds the source-derived `c_sigma=delta_a3` specification to the audited all-24 semilinear certificate and checks all 24 certificate rows are PASS plus the 576 multiplication certificate;
-7. regenerates all eight `K8` elements from `A in sl2(F2)`, re-derives `kappa=I+4A mod 8` and `phi(A)=(a+b,a+c,a)`, and checks every endpoint sign image;
-8. recomputes the Hamming-weight multiplicities `1,3,3,1`, eight singleton marked Q-descent classes, and zero eliminations;
-9. checks physical-open noncusp/stabilizer-free scope and the materialized Stage30-08 hostile audit;
-10. checks route/firewall state.
-
-Expected terminal output includes:
-
-```text
-STAGE30_FINAL_CERTIFICATE=PASS
-PSL2_Z4_ORDER=24
-V_MOD_ORDER=4
-SEMI_LINEAR_24_OF_24=PASS
-K8_DEFECT_ROWS=8
-MARKED_Q_DESCENT_CLASSES=8
-DEFECT_ELIMINATION_COUNT=0
-R29_KUM5=DISCHARGED_NONOBSTRUCTIVE
-K16_C2_MODULAR_S4_ACTION=CLOSED_PENDING_STAGE30_FINAL_AUDIT
-Q11_MODULAR=AMBER
-```
-
-## Submitted final mathematical state
+## Final mathematical state
 
 ```text
 R29_KUM5=DISCHARGED_ACTION_COCYCLE_ADAPTER_ZERO_DEFECT_ELIMINATION
@@ -80,7 +48,7 @@ ROUTE_COLOR_CHANGED=false
 PHYSICAL_ENDPOINT_EXCLUSION_PROVED=false
 ```
 
-Prospective research-OS delta after final Stage30 audit:
+Post-Stage30 research OS:
 
 ```text
 ACTIVE_KERNEL_COUNT=12
@@ -90,17 +58,20 @@ CLASS3_KERNEL_COUNT=9
 
 Historical Stage29 handoff artifacts remain unchanged.
 
-## Final gate
-
-Stage30-09 does **not** close Stage30 itself. The final unit is Stage30-10 hostile audit.
+## Final close
 
 ```text
-AUDIT_REQUIRED=true
-AUDIT_VERDICT=PENDING_STAGE30_FINAL_AUDIT
-MERGE_ALLOWED=false
+AUDIT_VERDICT=PASS_STAGE30_CLOSED_NONOBSTRUCTIVE_MODULAR_KERNEL
+STAGE30_CLOSED=true
+AUDIT_REQUIRED=false
+MERGE_ALLOWED=true
 ADVANCE_ALLOWED=false
-NEXT_ITEM=30-10_FINAL_HOSTILE_AUDIT_AND_CLOSE
-NEXT_EXPECTED_COMMAND=Stage30-audit
+AUTOMATIC_NEXT_STAGE=NONE
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
+
+Authoritative final audit records:
+
+- `stages/stage30/30-10/audit.md`
+- `stages/stage30/30-10/audit-state.json`
