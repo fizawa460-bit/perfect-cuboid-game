@@ -1,0 +1,81 @@
+{
+  "schema": "STAGE31_EXT_E_CONTROLLER_V1_ROADMAP_SUBMITTED",
+  "stage": "31",
+  "kernel": "K16-C2-EXT-E-INTEGRAL-CERTIFICATION",
+  "source_receiver": "R29-EXT-CHANG-E",
+  "parent_route": "J12-PARAMETRIC",
+  "status": "ROADMAP_SUBMISSION_PENDING_AUDIT",
+  "execution_dependency": "STAGE30_FINAL_AUDIT_PASS_AND_FINAL_PR_MERGED",
+  "execution_dependency_satisfied": false,
+  "user_commands": [
+    "Stage31-main-batch",
+    "Stage31-audit"
+  ],
+  "primary_strategy": "ONE_SHOT_XL_THEN_SPLIT_ONLY_ON_EXACT_WALL",
+  "current_item": "31-00_ROADMAP_AND_SOURCE_LOCK_PENDING_AUDIT",
+  "primary_execution_unit": "31-01-XL_FULL_CLOSURE_ATTEMPT",
+  "fallback_units_inactive_until_needed": [
+    "31-02_BIRATIONAL_MAP_AND_INTEGRALITY_TRANSFER",
+    "31-03_MW_BASIS_AND_COMPLETE_INTEGRALPOINTS",
+    "31-04_PULLBACK_AND_CUBOID_RECONSTRUCTION",
+    "31-05_FINAL_CERTIFICATE_REPAIR"
+  ],
+  "final_audit_unit": "31-06_FINAL_HOSTILE_AUDIT_AND_CLOSE",
+  "source_lock": {
+    "internal": [
+      "stages/stage29/29-13/external-source-audit.md",
+      "stages/stage29/29-13/theorem-dependency-ledger.json",
+      "stages/stage29/29-15/open-receiver-triage.json",
+      "stages/stage29/29-16/active-kernel-ledger.json"
+    ],
+    "external_repository": "weiqi-kids/perfect-cuboid-problem",
+    "external_commit": "bd3018b896c8ac15b56cadc382af1477dca9e97a",
+    "paper_tex_blob": "1ff42f5a657ab9edafcfd6060f015a19e4322a83",
+    "script_03_blob": "80a113d42641e474de01c1cbe1b15c06a9744892",
+    "script_04_blob": "ba372d9c0a4f6fad2884ad192f5f64f85244396a"
+  },
+  "frozen_models": {
+    "quartic": "20*Z^2=Y^4+8*Y^3+18*Y^2-8*Y+1",
+    "elliptic": "y^2=x^3-275*x+1750",
+    "cremona": "800a3",
+    "lmfdb": "800.d2",
+    "rank": 1,
+    "torsion": "Z/2"
+  },
+  "stage29_exact_wall": "explicit integrality-preserving quartic-to-elliptic birational maps plus a source-locked complete IntegralPoints/elliptic-logarithm certificate",
+  "repair_contract": [
+    "EXPLICIT_BIRATIONAL_MAPS",
+    "RIGOROUS_INTEGRAL_OR_S_INTEGRAL_TRANSFER",
+    "COMPLETE_PROOF_CAPABLE_INTEGRAL_POINT_CERTIFICATE",
+    "EXHAUSTIVE_PULLBACK_AND_CUBOID_RECONSTRUCTION"
+  ],
+  "one_shot_direct_close_requires": [
+    "BIRATIONAL_MAP_EXPLICIT_AND_INVERTIBLE_ON_STATED_OPEN",
+    "EXCEPTIONAL_LOCUS_COMPLETE",
+    "INTEGRALITY_TRANSFER_PROVED",
+    "MW_BASIS_COMPLETE_AND_SATURATED",
+    "INTEGRAL_POINT_ALGORITHM_SOURCE_LOCKED",
+    "INTEGRAL_POINT_COMPLETENESS_CERTIFIED",
+    "QUARTIC_PULLBACK_EXHAUSTIVE",
+    "CUBOID_RECONSTRUCTION_EXHAUSTIVE",
+    "HIDDEN_CLASS1_PENDING_COUNT_ZERO"
+  ],
+  "fallback_activation_rule": "activate only the first precise unresolved Class2/tool/CAS leaf exposed by 31-01-XL; timeout or task size alone is not sufficient",
+  "class3_rule": "missing installed CAS or unavailable IntegralPoints executable is Class2/tool infrastructure, not Class3; Class3 requires a genuinely new mathematical theorem after finite work is exhausted",
+  "permitted_final_outcomes": [
+    "CLOSED_CERTIFIED",
+    "SOURCE_CLAIM_FALSE",
+    "SMALLER_CLASS2",
+    "CLASS3_EXPOSED"
+  ],
+  "thin_family_only": true,
+  "endpoint_decisive_alone": false,
+  "route_color_change_authorized": false,
+  "perfect_cuboid_existence_claim": false,
+  "perfect_cuboid_nonexistence_claim": false,
+  "audit_required": true,
+  "audit_verdict": "PENDING",
+  "merge_allowed": false,
+  "advance_allowed": false,
+  "next_expected_command": "Stage31-audit"
+}
