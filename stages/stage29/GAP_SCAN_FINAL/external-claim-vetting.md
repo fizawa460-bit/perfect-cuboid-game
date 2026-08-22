@@ -1,22 +1,14 @@
-# Stage29 GAP_SCAN_FINAL — external claimed-proof quarantine
+# Stage29 GAP_SCAN_FINAL — external claimed-proof quarantine — audited addendum
 
 Search cutoff: 2026-08-22.
 
-This file is deliberately separated from theorem credit. A public claim of a complete proof does not alter Stage29 unless the exact argument is source-locked and survives universal-coverage/admissibility audit.
+This file is deliberately separated from theorem credit. A public claim, title, abstract, or index entry does not alter Stage29 unless the exact argument is source-locked and survives universal-coverage/admissibility audit.
 
 ## EXT-CLAIM-TAHA-EPB-2026
 
-Source family: Taha Muhammad, *Euler Perfect Box* and *Euler Perfect Box 2nd Way*, Cambridge Open Engage working-paper versions through May 2026.
+Source family: Taha Muhammad, *Euler Perfect Box* and *Euler Perfect Box 2nd Way*, Cambridge Open Engage working-paper versions through May 2026. Primary public locator: DOI `10.33774/coe-2024-47ld9-v4` for *Euler Perfect Box* Version 4.
 
-Publicly displayed argument pattern:
-
-- write ordered edges in forms such as `b=a+r`, `c=a+k`;
-- compare the expression for `g^2=a^2+b^2+c^2` with a selected complete-square decomposition;
-- infer that because the selected internal terms are unequal, `g^2` cannot be a square.
-
-The displayed implication is invalid. A sum being a square does not require equality with the particular internal decomposition selected by the proof. Showing that one proposed identity between intermediate terms fails does not exclude every square representation of the total integer.
-
-The paper's case labels by edge ordering do not repair this algebraic non sequitur.
+The displayed Case-A implication is invalid: showing that `g^2` is unequal to one selected complete square does not show that `g^2` is not a square. The current Cambridge page contains a public scholarly comment dated 2026-07-16 giving the explicit counterexample `(a,b,c,g)=(3,4,12,13)` to that inference. The separate 2nd-Way paper does not supply a universal endpoint reduction repairing this defect.
 
 ```text
 EXT_CLAIM_TAHA_EPB_2026=REJECTED_DISPLAYED_ARGUMENT_NONSEQUITUR
@@ -28,7 +20,7 @@ This is a rejection of the displayed proof argument, not a statement about the a
 
 ## EXT-CLAIM-SHLYGIN-2026
 
-Public index: Maximus Shlygin, *Euler Brick (Perfect Cuboid) - Complete Proof*, Synapse entry dated 18 March 2026, pointing to a Zenodo DOI.
+Public index: Maximus Shlygin, *Euler Brick (Perfect Cuboid) - Complete Proof*, Synapse entry dated 18 March 2026. The index points to a purported Zenodo DOI `10.5281/zenodo.19049680`.
 
 The accessible abstract claims a local algebraic-differential route:
 
@@ -49,7 +41,7 @@ The abstract alone is not sufficient to audit the load-bearing implications, in 
 4. why the branch eliminations do not merely constrain a chosen local model while leaving endpoint points outside it;
 5. compatibility with the known nonempty geometric endpoint surface over algebraic closures.
 
-The full primary manuscript was not source-locked by this scan. Therefore the correct Stage29 disposition is quarantine, not rejection-by-absence and not theorem credit.
+The final audit searched the exact title and DOI but did not source-lock a primary full manuscript from Zenodo. Therefore the disposition remains quarantine, not rejection-by-absence and not theorem credit.
 
 ```text
 EXT_CLAIM_SHLYGIN_2026=QUARANTINED_PRIMARY_FULL_TEXT_SOURCELOCK_PENDING
@@ -57,17 +49,43 @@ ROUTE_CREDIT=false
 NEW_ACTIVE_RECEIVER_CREATED=false
 ```
 
-Fresh audit should attempt primary full-text acquisition if available. If source-locked, the audit must test the five points above before changing any Stage29 state.
+If a primary full manuscript later becomes available, reopen only for hostile verification of the five load-bearing implications above.
 
-## Firewall
+## EXT-YELLE-2026
 
-Neither claim changes:
+Fresh audit found Stéphane Yelle, *An Elementary Obstruction to the Existence of a Perfect Cuboid*, arXiv `2602.00239`, current HTML generated 2026-02-09.
+
+The arXiv abstract wording can sound like a global obstruction, so the full current text was checked rather than relying on the abstract. The current manuscript explicitly states in the introduction that its purpose is **not** to claim a definitive impossibility result, and the conclusion explicitly states that the analysis does **not** resolve existence of a perfect cuboid. Its proved/argued scope is a triangular-remainder analysis of selected rigid/flexible cyclic-gluing strategies, with a symmetric-closure lemma and exploratory divisibility/descent mechanism.
+
+Accordingly this is not a competing global nonexistence proof and it creates no new Stage29 receiver. Any triangular-remainder structural ideas are already within the broad parametric/local architecture and do not discharge `PESCH-E1`, the full endpoint rational-point kernel, or any other Class-3 kernel.
+
+```text
+EXT_YELLE_2026=CURRENT_VERSION_EXPLICITLY_SCOPED_NOT_GLOBAL_RESOLUTION
+PRIMARY_FULL_TEXT_SOURCELOCKED=true
+ROUTE_CREDIT=false
+NEW_ACTIVE_RECEIVER_CREATED=false
+```
+
+## Audited firewall
+
+The three fresh public items therefore classify as:
+
+```text
+FRESH_EXTERNAL_ITEM_COUNT=3
+REJECTED_DISPLAYED_PROOF_COUNT=1
+SOURCELOCK_PENDING_COUNT=1
+SCOPED_NOT_GLOBAL_RESOLUTION_COUNT=1
+NEW_THEOREM_CREDIT_COUNT=0
+NEW_ACTIVE_RECEIVER_COUNT=0
+```
+
+They do not change:
 
 ```text
 FINAL_ACTIVE_KERNEL_COUNT=13
 GREEN_ROUTE_COUNT=1
 AMBER_ROUTE_COUNT=10
 P_OVER_M3_SCALE_KNOWN=false
+PERFECT_CUBOID_EXISTENCE_CLAIM=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
-
-and neither is counted as a published endpoint theorem in the Stage29 final gap surface.
