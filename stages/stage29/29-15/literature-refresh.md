@@ -56,6 +56,8 @@ Verdict: no new receiver discharge; `R29-CAMP3` remains adapter-gated.
 - Strong statistical twist theorem, with a stated conditional component for partial 2-torsion.
 - Stage29 verdict: `NONAPPLICABLE` as a direct Beauville closure. The endpoint requires every physically relevant twist to be controlled at rational-point level, or a finite twist reduction; “almost all” integral-point emptiness does not supply that.
 
+Audit repair: the already-audited Beauville product coordinates do supply an explicit generic Q-squareclass function for the cuboid Q-form; this is executed in `beauville-squareclass-execution.md`. Thus `R29-BEAU1B` is no longer a literature/adapter gate. The remaining Beauville obstruction is uniform control of the point-dependent twist classes.
+
 ## F. Modular / congruence curves
 
 Existing `X(8)` twist constructions, including Chen's families of mod-8-congruent elliptic curves, remain structural evidence that relevant twists can carry rational points. Fresh searching found no 2025–2026 uniform theorem eliminating the sigma-twisted arithmetic defect classes in `Q11-MODULAR`, and no source discharging `R29-KUM5`.
@@ -70,7 +72,19 @@ The refreshed literature does not change the already-audited boundary:
 
 `R29-KUM-LOC3` therefore remains an exact physical-height/measure adapter gate.
 
-## H. Refresh conclusion
+## H. Fresh claimed nonexistence source
+
+The audit additionally located the 2026 self-published repository `AEjonanonymous/Non-existence-of-Perfect-Cuboids`, which advertises a Lean-verified proof of nonexistence. Direct inspection of `No Perfect Cuboids.lean` shows that the formal theorems are conditional: the modular lemma assumes specific square residues modulo 8, and the final theorem assumes a separately defined condition `u in {0,1,-1}`. The file does not derive either restriction from an arbitrary perfect cuboid.
+
+Accordingly the Lean kernel checks the conditional implications but not a universal endpoint reduction.
+
+```text
+R29-EXT-REED-2026=REJECTED_AS_GLOBAL_PROOF_MISSING_UNIVERSAL_ENDPOINT_REDUCTION
+```
+
+Detailed scope record: `external-claim-vetting.md`.
+
+## I. Refresh conclusion
 
 ```text
 FRESH_GLOBAL_ENDPOINT_CLOSURE_FOUND=false
@@ -80,5 +94,6 @@ FRESH_CUBOID_K3_BRAUER_OBSTRUCTION_FOUND=false
 FRESH_UNIFORM_BEAUVILLE_TWIST_CLOSURE_FOUND=false
 FRESH_MODULAR_DEFECT_CLASS_ELIMINATION_FOUND=false
 FRESH_PESCH_E1_THEOREM_FOUND=false
+FRESH_CLAIMED_GLOBAL_PROOF_REJECTED_AFTER_SCOPE_CHECK=true
 SEARCH_ABSENCE_IS_NOVELTY_CLAIM=false
 ```
