@@ -50,11 +50,14 @@ The cuboid canonical model is not smooth: it has 48 A1 nodes. No source located 
 
 Independently, Stage29-02e already proves the endpoint-specific seven coordinate-K3 transcendental decomposition globally by exact quotient/eigenspace arguments. Therefore the missing Terasoma specialization is not required merely to recover that cohomological decomposition.
 
+The audit narrows the demotion claim: this does not prove that every cycle-level or future Chow-theoretic consequence of a valid singular specialization would be redundant. It only says that the cohomological target motivating the current rational-point attack receiver is already supplied, with no current endpoint rational-point consequence gained by replaying the smooth correspondence.
+
 Verdict:
 
 ```text
 R29-TERA1_SPECIALIZATION_DISCHARGED=false
-TERASOMA_GENERIC_OUTPUT_ALREADY_DOMINATED_FOR_CURRENT_COHOMOLOGY_TARGET=true
+TERASOMA_COHOMOLOGY_TARGET_ALREADY_SUPPLIED_BY_29_02E=true
+TERASOMA_CYCLE_LEVEL_FUTURE_VALUE_NOT_RULED_OUT=true
 ```
 
 ## Cuboid fundamental groups / higher-dimensional Chabauty--Kim
@@ -63,7 +66,7 @@ Current cuboid source:
 
 ```text
 Benjamin Enriquez, David Jarossay, Francesco Maria Saettone, Yotam Svoray
-On the Fundamental Groups of Surfaces Parametrizing Cuboids
+The fundamental group of surfaces parametrizing cuboids
 arXiv:2310.12710v3
 version date: 2026-07-06
 ```
