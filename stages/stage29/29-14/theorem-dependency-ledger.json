@@ -1,6 +1,7 @@
 {
-  "schema": "STAGE29_14_THEOREM_DEPENDENCY_V1_SUBMITTED",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "schema": "STAGE29_14_THEOREM_DEPENDENCY_V2_AUDITED",
+  "status": "AUDITED_PASS_AFTER_BOUNDED_POSITIVE_REPAIR",
+  "audit_record": "stages/stage29/29-14/audit.md",
   "new_or_newly_formalized_results": {
     "R29-SLICE-BRANCH": {
       "statement": "physical endpoint Q-image avoids all seven F7 branch lines",
@@ -9,24 +10,29 @@
       "global_nonexistence": false
     },
     "R29-SLICE-S3FIX": {
-      "statement": "no physical endpoint Q-point lies over x=y, x=z, or y=z",
-      "dependencies": ["29-06 F7 coordinates", "2 is not a square in Q"],
-      "attack_consequence": "Q-liftable coordinate-permutation stabilizer is trivial on physical endpoint points",
+      "statement": "Q-liftable coordinate-permutation S3 stabilizer is trivial on physical endpoint Q-points",
+      "dependencies": ["29-06 F7 coordinates", "2 is not a square in Q", "a projective Q-fixed 3-cycle has scalar lambda in Q with lambda^3=1, hence lambda=1"],
+      "attack_consequence": "no physical endpoint Q-point lies on a nontrivial Q-liftable S3 fixed locus",
       "global_nonexistence": false
     },
     "R29-SLICE-LD6": {
       "statement": "all degree<=6 integral curve carriers are classified and no positive nondegenerate physical family occurs",
-      "dependencies": ["29-02c-LG2 source lock", "29-08 audited coverage atlas", "Testa-Stoll low-degree classification"],
+      "dependencies": ["29-02c-LG2 source lock", "29-08 audited coverage atlas", "Testa-Stoll complete low-degree classification", "MichaelStollBayreuth/Verification immutable cuboids.magma computation"],
+      "degree6_integral_curves_exist": false,
+      "finite_explicit_classification": true,
       "new_credit": false
     },
     "R29-COV-CLOSED-SLICES": {
-      "statement": "the finite union of currently certified closed slice families is a proper geometric subset of the irreducible endpoint surface",
-      "dependencies": ["endpoint is an irreducible surface", "each listed closed family is positive codimension", "finite union dimension bound"],
+      "statement": "the finite union of currently certified closed slice families/classes is a proper geometric subset of the irreducible endpoint surface",
+      "dependencies": ["endpoint is an irreducible surface", "each listed closed family/class is positive codimension", "Testa-Stoll low-degree class is finite", "finite union dimension bound"],
       "rational_point_coverage_consequence": "NONE_WITHOUT_EXCEPTIONAL_LOCUS_THEOREM"
     },
     "R29-COV-K3-PUSH": {
-      "statement": "every endpoint Q-point pushes to each Q-defined coordinate-sign quotient",
-      "dependencies": ["29-06 exact coordinate-sign quotient maps"],
+      "statement": "every physical endpoint Q-point pushes to the smooth locus of each Q-defined coordinate-sign normal quotient and hence to a Q-point on its minimal K3 resolution",
+      "dependencies": ["29-06 exact coordinate-sign quotient maps", "physical endpoint avoids coordinate-sign fixed loci", "physical endpoint avoids F7 ramification arrangement", "minimal resolution is an isomorphism over the normal quotient smooth locus"],
+      "normal_quotient_pushforward": true,
+      "smooth_locus_pushforward": true,
+      "minimal_k3_resolution_pushforward": true,
       "converse_lift": false,
       "quotient_emptiness": false
     }
@@ -52,6 +58,8 @@
   "frontier": {
     "P_over_M3_scale_known": false,
     "global_endpoint_nonexistence": false,
-    "attack_route_count": 11
+    "attack_route_count": 11,
+    "green_route_count": 1,
+    "amber_route_count": 10
   }
 }
