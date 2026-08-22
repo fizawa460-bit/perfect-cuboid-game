@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE29_11_QUOTIENT_DESCENT_MODULAR_ATTACK_V1_SUBMITTED",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "schema": "STAGE29_11_QUOTIENT_DESCENT_MODULAR_ATTACK_V2_AUDITED",
+  "status": "AUDITED_PASS_AFTER_BOUNDED_REPAIR",
   "attack_route_count": 11,
   "route_count_change": 0,
   "routes": {
@@ -10,8 +10,8 @@
       "endpoint_decisive_condition": "C_H(Q)=empty for any one audited Q-defined quotient",
       "receiver_updates": {
         "R29-CAMP2": "OPEN_H_TORSOR_DESCENT",
-        "R29-CAMP3-GEOM": "PROPOSED_DISCHARGE_GEOMETRIC_RATIONAL_OR_ENRIQUES_DICHOTOMY",
-        "R29-CAMP3": "PROPOSED_PARTIAL_GEOMETRIC_DONE_Q_FORM_ASSIGNMENT_OPEN",
+        "R29-CAMP3-GEOM": "DISCHARGED_GEOMETRIC_RATIONAL_OR_ENRIQUES_DICHOTOMY",
+        "R29-CAMP3": "PARTIAL_GEOMETRIC_DONE_Q_FORM_AND_EXACT_INVOLUTION_ASSIGNMENT_OPEN",
         "R29-CAMP4": "OPEN"
       }
     },
@@ -24,7 +24,8 @@
         "R29-BEAU2": "OPEN",
         "R29-BEAU3": "OPEN"
       },
-      "finite_twist_set_proved": false
+      "finite_twist_set_proved": false,
+      "current_beauville_tower_locator": "Remark 2 in current PDF; historical repo audit recorded Remark 1"
     },
     "Q11-MODULAR": {
       "status": "AMBER_FINITE_DEFECT_COMPRESSION_NO_ARITHMETIC_CLASS_ELIMINATION",
@@ -73,12 +74,13 @@
     "Brauer_owner_assignment_is_obstruction": false
   },
   "routing": {
-    "audit_required": true,
-    "merge_allowed": false,
-    "advance_allowed": false,
+    "audit_required": false,
+    "audit_verdict": "PASS_AFTER_BOUNDED_REPAIR",
+    "merge_allowed": true,
+    "advance_allowed": true,
     "targeted_backflow_required": false,
     "roadmap_rewrite_required": false,
-    "next_item_after_audit_pass": "29-12_JOINT_LOCAL_PARAMETRIC_AND_INTERACTION_ATTACK_PORTFOLIO",
-    "next_expected_command": "Stage29-audit"
+    "next_item": "29-12_JOINT_LOCAL_PARAMETRIC_AND_INTERACTION_ATTACK_PORTFOLIO",
+    "next_expected_command": "Stage29-main-batch"
   }
 }
