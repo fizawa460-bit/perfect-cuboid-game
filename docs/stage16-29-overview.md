@@ -1,19 +1,14 @@
-# Stage16-29 research overview — what was done, what closed, what remains
+# Stage16-29 research overview — final closed-program state
 
-Status: **Stage16-28 closed program + Stage29 current through audited 29-14**.
+Status: **Stage16-29 research program CLOSED; perfect-cuboid problem OPEN.**
 
-This is the short-form research-state document for the Stage16-29 perfect-cuboid program. It is intentionally different from the canonical roadmap: the roadmap says **what to do**; this file says **what was actually learned, what is closed at its stated scope, and what is still open**.
+This is the canonical human-readable overview of the completed Stage16-29 program. It answers three questions only: **what was done, what is closed at its stated scope, and what remains if research is restarted.** Detailed proof, audit and numerical provenance stays under `stages/`.
 
-For operating details, read this file first, then descend into:
+For reusable tools use [`arsenal/README.md`](arsenal/README.md). For the final Stage29 handoff use [`../stages/stage29/29-17/result.md`](../stages/stage29/29-17/result.md).
 
-- [Stage16-29 canonical roadmap](stage16-29-population-roadmap.md)
-- [Stage29 roadmap](../stages/stage29/roadmap.md)
-- [Stage29 route registry](../stages/stage29/29-05/route-registry.json)
-- [Stage29 numerical ledger](../stages/stage29/numerical-ledger.md)
+## 1. Population ladder and strongest certified state
 
-## 1. One-screen current state
-
-All numbered populations use the same physical convention unless explicitly stated:
+Common physical convention:
 
 ```text
 0 < a < b < c
@@ -21,27 +16,23 @@ gcd(a,b,c)=1
 R=sqrt(a^2+b^2+c^2) <= B
 ```
 
-Define:
-
-- `M1`: exactly one integral face diagonal, no space requirement;
-- `N1`: exactly one integral face diagonal + integral space diagonal;
-- `M2`: exactly two integral face diagonals, no space requirement;
-- `N2`: exactly two integral face diagonals + integral space diagonal;
-- `M3`: all three face diagonals integral = primitive canonical Euler cuboids, no space requirement;
+- `M1`: exactly one integral face diagonal, no space condition.
+- `N1`: exactly one integral face diagonal + integral space diagonal.
+- `M2`: exactly two integral face diagonals, no space condition.
+- `N2`: exactly two integral face diagonals + integral space diagonal.
+- `M3`: all three face diagonals integral = primitive canonical Euler cuboids.
 - `P`: all three face diagonals + integral space diagonal = perfect-cuboid endpoint.
 
-The strongest certified population surface entering/inside Stage29 is:
-
-| Population | Strongest certified global result | Current status |
+| Population | Strongest certified global statement | Final status |
 |---|---|---|
 | `M1(B)` | `~ 3/(4*pi^2) B^2 log B` | asymptotic scale closed |
 | `N1(B)` | `~ kappa/(24*pi) B(log B)^3`, `kappa>0` | asymptotic scale closed |
 | `M2(B)` | `~ C_M2 B(log B)^5`, `C_M2>0` | asymptotic scale closed |
-| `N2(B)` | `B^(1/4) << N2(B) <<_eps B^(1/2+eps)` | infinite and zero-density; true exponent open |
-| `M3(B)` | `liminf M3(B)/B^(1/3) >= 27/(40*pi^2)` and `M3(B) <<_eta B(log B)^(5-eta)` for every fixed `eta<1/46` | infinite; true exponent/asymptotic open |
-| `P(B)` | `P(B) <<_eps B^(1/2+eps)`; exact census `P(B)=0` for `B<=10^9` | existence/nonexistence and true scale open |
+| `N2(B)` | `B^(1/4) << N2(B) <<_eps B^(1/2+eps)` | infinite, zero-density in `M2`; true exponent open |
+| `M3(B)` | `liminf M3(B)/B^(1/3) >= 27/(40*pi^2)` and `M3(B) <<_eta B(log B)^(5-eta)` for fixed `eta<1/46` | infinite; true exponent/asymptotic open |
+| `P(B)` | `P(B) <<_eps B^(1/2+eps)`; exact census zero through `B=10^9` | existence/nonexistence and `P/M3` open |
 
-The main literal-survival ratios are now:
+Main literal-survival facts:
 
 ```text
 N1/M1 ~ (kappa*pi/18) (log B)^2/B -> 0
@@ -56,109 +47,52 @@ M3/(M2+M3) -> 0
 P/M3 = UNKNOWN
 ```
 
-The final population frontier is therefore not whether earlier conditions are rare — that is already proved — but:
+The earlier strata are therefore quantitatively thin. That does **not** imply endpoint emptiness.
 
-```text
-FINAL_LITERAL_SURVIVAL = P(B)/M3(B)
-GLOBAL_SCALE           = UNKNOWN
-PERFECT_CUBOID_EMPTY   = NOT PROVED
-PERFECT_CUBOID_EXISTS  = NOT PROVED
-```
+## 2. What each Stage contributed
 
-## 2. What each Stage did
+| Stage | Role | Durable result |
+|---|---|---|
+| **16** | `M1` baseline | one-face population `~ B^2 log B`; primitive/canonical physical contract frozen |
+| **17** | `N1` baseline | exact `B(log B)^3` asymptotic; space condition zero-density after one face |
+| **18** | `M2` baseline | exact `B(log B)^5` asymptotic |
+| **19** | `N2` baseline | half-power upper, Gaussian/squareclass form, local zero-density mechanism |
+| **20** | `M3` baseline | Euler K3 completion model, local blocker, log-saving upper |
+| **21** | `16 -> 17` | intrinsic space cost `B^-1` with positive `(log B)^2` interaction after one face |
+| **22** | `16 -> 18` | `M2/M1 ~ const*(log B)^4/B` |
+| **23** | `17 -> 19` | second-face acquisition remains zero-density on already-space-integral host; no double charge |
+| **24** | literal `18 -> 19` | `N2/M2 ->0` while `N2 -> infinity`; geometric/local/global mechanisms separated |
+| **25** | combined `16 -> 19` | primitive `N2` lower families of order `B^(1/4)`; positive divergent face/space interaction |
+| **26** | `18 -> 20` | Euler completion share tends to zero; two-parameter Saunderson raises lower scale to one-third |
+| **27** | strict `N2` exponent reattack | current repo-native routes compressed; true exponent remains between quarter and half in power scale |
+| **28** | `19` vs `20` bridge | common toric base/common physical polarization K3 comparison; branch and low-degree curve-spectrum differential isolated |
+| **29** | direct endpoint synthesis | endpoint geometry, quotient/cover architecture, route portfolio, family exclusions, local/parametric/Brauer/modular attacks, final receiver compression |
 
-| Stage | Main object / comparison | What it established | What remained |
-|---|---|---|---|
-| **16** | `M1`: exactly one integral face | one-face population has order `B^2 log B`; common primitive/canonical `R<=B` population contract frozen | no endpoint question |
-| **17** | `N1`: one face + space | exact asymptotic `N1 ~ kappa/(24*pi) B(log B)^3`; space condition is zero-density inside `M1` | none at this stratum's scale |
-| **18** | `M2`: exactly two faces | exact asymptotic `M2 ~ C_M2 B(log B)^5`; zero density in the ambient 3D primitive population | constant structure can still be refined, but scale is closed |
-| **19** | `N2`: two faces + space | half-power upper, exact squareclass/Gaussian-norm formulation, independent local zero-density mechanism | true exponent and lower scale were initially open; later Stages25/27 upgrade lower to `B^(1/4)` |
-| **20** | `M3`: Euler cuboids | K3 completion model, local blocker law and global log-saving upper | original lower was weak; Stages26/28 upgrade it to exact one-third-scale liminf; true exponent still open |
-| **21** | `16 -> 17` | exact space cost after one face: intrinsic polynomial cost `B^-1` with positive `(log B)^2` interaction enhancement versus ambient space integrality | fine decomposition of the two logarithms not canonical |
-| **22** | `16 -> 18` | `M2/M1 ~ const*(log B)^4/B`; isolates second-face polynomial loss and logarithmic compensation | no unique factor-by-factor decomposition of `log^4` |
-| **23** | `17 -> 19` | second-face condition remains zero-density when space integrality is already present; no double charging of the space condition | true `N2` exponent remained open |
-| **24** | literal `18 -> 19` | proved `N2/M2 ->0` and `N2 -> infinity`; separated thin-cover, local-squareclass and quantitative-upper mechanisms | true exponent, strict sub-sqrt upper, and interaction sign were not yet closed |
-| **25** | `16 -> 19` combined thinning | constructed primitive `N2` families of order `B^(1/4)`; proved positive divergent interaction between second-face and space conditions | no lower exponent above `1/4`; no sub-sqrt whole-family upper |
-| **26** | `18 -> 20` | proved Euler completion probability tends to zero; restored full two-parameter Saunderson input and raised `M3` lower to `B^(1/3-o(1))` | `M3` true exponent/asymptotic and fixed-power upper remain open |
-| **27** | strict `18 -> 19` reattack | aggressively exhausted current repo-native upper/lower routes; retained `1/4 <= exponent <= 1/2`; localized the missing input to same-measure support/correlation/uniformity or a denser construction | true `N2` exponent remains open |
-| **28** | matched `19 -> 20` bridge | put the Stage19 space-completion K3 and Stage20 third-face K3 over the same toric base and same physical polarization; identified branch/fixed-curve differences; normalized the interaction threshold | no eventual ordering of `M3` vs `N2`; moving-complement interaction theorem remains open |
-| **29** | direct endpoint foundation/route synthesis | global endpoint geometry, sign/Kummer and quotient architecture, exact population adapters, local/parametric/quotient attacks, thin-family closures, natural-slice coverage tests, exact finite endpoint census | 10 endpoint routes remain AMBER; endpoint existence/nonexistence and `P/M3` remain open |
+## 3. Main condition-interaction picture
 
-Primary source bundles:
+The conditions do not behave as independent random filters.
 
-- [Stage16 final](../stages/stage16/final.md)
-- [Stage17 final](../stages/stage17/final.md)
-- [Stage18 final](../stages/stage18/final.md)
-- [Stage19 final](../stages/stage19/final.md)
-- [Stage20 final](../stages/stage20/final.md)
-- [Stage21 final](../stages/stage21/final.md)
-- [Stage22 closeout](../stages/stage22/22-70/result.md)
-- [Stage23 closeout](../stages/stage23/23-70/result.md)
-- [Stage24 closeout](../stages/stage24/24-70/result.md)
-- [Stage25 closeout](../stages/stage25/25-70/result.md)
-- [Stage26 closeout](../stages/stage26/26-70/result.md)
-- [Stage27 final](../stages/stage27/final.md)
-- [Stage28 final](../stages/stage28/final.md)
+- One face -> space: polynomial cost `B^-1`, enhanced by `(log B)^2`.
+- One face -> two faces: polynomial cost `B^-1`, compensated by `(log B)^4`.
+- Two faces -> space: zero-density but infinite; two-face conditioning positively enhances space survival relative to ambient and one-face baselines.
+- Two faces -> Euler: Euler share in the legal at-least-two-face host tends to zero.
+- Stage19 vs Stage20: they are different degree-two K3 completions of the same two-face geometry, not a literal subset pair.
 
-## 3. The important condition-interaction picture
-
-The program began as a population ladder, but the main mathematical lesson is that the conditions are **not independent filters**.
-
-### One face -> space
-
-```text
-N1/M1 ~ (kappa*pi/18)*(log B)^2/B.
-```
-
-The underlying space-diagonal polynomial cost is `B^-1`, but one-face conditioning enhances survival by `(log B)^2`.
-
-### One face -> two faces
-
-```text
-M2/M1 ~ const*(log B)^4/B.
-```
-
-The second Pythagorean face removes one polynomial degree of freedom but brings a large logarithmic compensation from the coupled toric/shared-edge structure.
-
-### Two faces -> space
-
-```text
-B^(-3/4)(log B)^(-5)
-  << N2/M2
-  <<_eps B^(-1/2+eps)(log B)^(-5).
-```
-
-This is a literal subset transition. It is zero-density but infinite. Stage25/27 show that two-face conditioning **positively enhances** space survival relative to the ambient and one-face-conditioned baselines.
-
-### Two faces -> three faces
-
-The literal host is `H_ge2=M2 disjoint_union M3`. The Euler share tends to zero:
-
-```text
-M3/(M2+M3) -> 0.
-```
-
-The true `M3` exponent remains unknown despite the one-third lower construction and log-saving upper.
-
-### Stage19 vs Stage20
-
-Stage28 compares two different completions of the same two-face geometry rather than treating them as nested populations.
-
-Both are degree-two K3 covers of
+Stage28 put both K3s over
 
 ```text
 Y = Bl_4(P1 x P1),  L=-K_Y,
 M_sp^2=M_face^2=8.
 ```
 
-The first certified geometric differential is:
+with the first certified geometric differential
 
 ```text
 Stage19 space cover      : 4 genus-0 branch components
 Stage20 third-face cover : 2 genus-1 branch components
 ```
 
-and the low-degree physical spectrum contains:
+and the fixed-curve spectrum distinction
 
 ```text
 Stage19 physical M-degree 4 rational curves : absent
@@ -166,61 +100,57 @@ Stage20 Saunderson physical M-degree         : 6
 Stage19 physical M-degree 6 absence          : not proved
 ```
 
-This is structural separation, not a theorem ordering the whole populations.
+These are causal/geometric differences, not a proof ordering the full populations.
 
-## 4. What Stage29 added beyond population counting
+## 4. Stage29 endpoint synthesis
 
-Stage29 changed the project from a sequential population study into a direct endpoint research map.
-
-### Global endpoint architecture
-
-The endpoint is organized simultaneously through:
+Stage29 organized the endpoint simultaneously through:
 
 - the full four-quadric cuboid surface;
-- the joint residual `V4` completion over the two-face base;
+- the residual joint `V4` completion over the two-face base;
 - the degree-64 seven-line sign/Kummer cover of `P2` with deck group `(Z/2)^6`;
-- seven coordinate-sign K3 quotient directions;
+- seven coordinate-sign K3 quotients;
 - Campedelli quotient compression;
-- the Beauville irregular double cover;
-- modular / `M(4,8)` / `X(8)` descriptions with field-of-definition firewalls;
+- the Beauville irregular cover;
+- modular `M(4,8)` / `X(8)` descriptions with field-of-definition firewalls;
 - endpoint L-function / K3-character decomposition;
-- non-Fano/Hirzebruch recognition over `Q(i)` with an explicit `Q` twist.
+- parametric/Master-Hit coverage and local squareclass views.
 
-The broad 29-02 screen did **not** certify a ninth independent foundation; this is not a literature-exhaustiveness theorem.
+Durable Stage29 closures include exact crosswalks between these models, the physical population/subcover incidence dictionary, Stage20/Testa-Stoll K3 identification, global Master-Hit coverage of primitive Euler bricks/endpoints, endpoint avoidance of the F7 branch lines and Q-liftable permutation fixed loci, and complete degree-`<=6` integral curve-carrier classification in the audited scope.
 
-### Exact adapters that are now closed
-
-Stage29 proved or audited, among other things:
-
-- exact crosswalk between the full sign cover and the Stage19/20 residual completions;
-- exact physical population-mask / selected-subcover incidence dictionary;
-- exact Stage20/Testa-Stoll Euler K3 identification with physical polarization match;
-- exact Master-Hit global coverage of every primitive Euler brick / endpoint candidate;
-- global coordinate-K3 transcendental character decomposition;
-- global endpoint pushforward to the smooth loci and minimal resolutions of the Q-defined sign-K3 quotients;
-- physical endpoint avoidance of all F7 branch lines;
-- no physical endpoint point on the Q-liftable coordinate-permutation fixed loci;
-- complete degree-`<=6` endpoint curve-carrier classification with no positive nondegenerate physical family;
-- exact one-face and selected-two-face space-survival theorems on legal nested hosts.
-
-### Thin families now closed
-
-Stage29-13 independently closed:
-
-- the full nondegenerate Saunderson Euler-brick family against perfect completion;
-- the explicit `B(q)=(4q,q^2-4,2(q^2-1))` family by Pell/Lucas arithmetic.
-
-Together with the audited Saunderson lower construction this gives an explicit positive lower theorem for non-endpoint Euler cuboids:
+Stage29-13 also discharged the nondegenerate Saunderson family and the explicit
 
 ```text
-liminf (M3(B)-P(B))/B^(1/3) >= 27/(40*pi^2) > 0.
+B(q)=(4q,q^2-4,2(q^2-1))
 ```
 
-This still does **not** imply `P/M3 -> 0`.
+family against perfect completion. Consequently
 
-## 5. Current Stage29 route portfolio
+```text
+liminf (M3(B)-P(B))/B^(1/3) >= 27/(40*pi^2) > 0,
+```
 
-The current authoritative attack portfolio contains 11 primary routes.
+but this does **not** imply `P/M3 -> 0`.
+
+## 5. Final Stage29 close state
+
+Stage29 closed at `29-17` as an endpoint-synthesis phase. The perfect-cuboid problem did not close.
+
+Final triage:
+
+```text
+SOURCE_FRONTIER_COUNT=46
+CLOSED_CLASS1_COUNT=6
+ACTIVE_CLASS2_COUNT=13
+ACTIVE_CLASS3_COUNT=11
+DORMANT_CLASS4_COUNT=16
+FINAL_ACTIVE_KERNEL_COUNT=13
+FINAL_CLASS2_KERNEL_COUNT=4
+FINAL_CLASS3_KERNEL_COUNT=9
+HIDDEN_CLASS1_PENDING_COUNT=0
+```
+
+The historical 11-route surface is frozen as provenance:
 
 ```text
 G10-FULL-ENDPOINT       = AMBER
@@ -236,26 +166,38 @@ J12-PARAMETRIC          = AMBER
 J12-POP-INTERACTION     = GREEN
 ```
 
-`GREEN` here means a route produced new certified theorem-level progress. It does **not** mean the perfect-cuboid endpoint is solved. `J12-POP-INTERACTION` is GREEN because exact incidence/nested-host survival theorems were proved; its final `P/M3` step is still open.
+`GREEN` records theorem-level progress, not endpoint resolution.
 
-The main unresolved endpoint-decisive gaps are:
+### Final Class-2 computational/model kernels
 
-- full endpoint: no effective theorem making the physical endpoint open empty;
-- low-genus/Picard: `R29-LG2`, `R29-LG2-EFF`, `R29-LG2-MB` remain open, and curve-carrier closure still lacks a point-coverage theorem;
-- K3: exact quotients exist, but no standalone rational-point obstruction closes the endpoint;
-- Campedelli: no audited quotient with `C_H(Q)=empty`;
-- Beauville: no finite physical twist set / uniform Selmer closure;
-- modular: twisted arithmetic defect/action and cusp adapters remain open;
-- Brauer: proper algebraic and odd-primary pieces are largely closed negatively, but the physical-open boundary/two-primary problem remains;
-- joint V4: the final joint ratios including `P/M3` remain unknown;
-- local squareclass: exact local data exist, but the physical-height global transfer is missing;
-- parametric: Master-Hit has global candidate coverage, but the universal exponent-one blocker remains conjectural.
+```text
+K16-C2-LOWGENUS-PICARD-PRODUCTION
+K16-C2-MODULAR-S4-ACTION
+K16-C2-BRAUER-EXPLICIT-CHAIN
+K16-C2-EXT-E-INTEGRAL-CERTIFICATION
+```
 
-See [Stage29-10](../stages/stage29/29-10/result.md), [29-11](../stages/stage29/29-11/result.md), [29-12](../stages/stage29/29-12/result.md), [29-13 audit](../stages/stage29/29-13/audit.md), and [29-14 audit](../stages/stage29/29-14/audit.md).
+### Final Class-3 theorem kernels
 
-## 6. Exact finite evidence — useful but not a theorem of nonexistence
+```text
+K16-C3-ENDPOINT-EFFECTIVE-RATIONAL-POINT
+K16-C3-CAMPEDELLI-UNIFORM-TORSOR
+K16-C3-BEAUVILLE-ONE-STEP-DESCENT
+K16-C3-QWEB-CLIFFORD-OBSTRUCTION
+K16-C3-M3-LOCAL-TO-GLOBAL
+K16-C3-PESCH-EXPONENT-ONE
+K16-C3-MOVING-FIBER-ARITHMETIC
+K16-C3-EXT-C-PRIMITIVE-DIVISOR
+K16-C3-TERMINAL-P-OVER-M3
+```
 
-The matched Stage29 exact census reaches `B=10^9`:
+`K16-C3-PESCH-EXPONENT-ONE` is conjectural. If the exact receiver `R29-PESCH-E1` were proved, the audited dependency chain would imply perfect-cuboid nonexistence; that theorem is **not currently proved**.
+
+Future work should start from these 13 kernels rather than replay Stage29's 46-entry triage.
+
+## 6. Exact finite evidence
+
+The exact matched Stage29 census reaches `B=10^9`:
 
 ```text
 M2(10^9) = 51,379,127,865
@@ -264,88 +206,52 @@ M3(10^9) = 4,362
 P(10^9)  = 0
 ```
 
-Thus no primitive canonical perfect cuboid occurs under the physical cutoff `R<=10^9` in the audited exact census.
-
 Firewall:
 
 ```text
 P(B)=0 for B<=10^9  !=  P(B)=0 for all B.
 ```
 
-No finite trend is used to identify a true exponent, eventual ordering, or global endpoint theorem.
+Finite data are regression/evidence only; no true exponent, eventual ordering, or global nonexistence theorem is inferred from them.
 
-## 7. What is genuinely closed now
+## 7. What is closed and should not be casually reopened
 
-At the level stated in the corresponding theorem contracts, the following can be treated as stable inputs rather than repeatedly reopened:
+At their exact audited scopes, treat these as stable inputs:
 
-1. the common primitive/canonical physical cutoff and multiplicity conventions;
-2. the `M1`, `N1`, and `M2` asymptotic scales;
-3. `N2` is infinite and zero-density inside `M2`, with certified exponent corridor `[1/4,1/2]` in the power sense;
-4. `M3` is infinite and zero-density inside the legal at-least-two-face host, with an explicit one-third lower construction and log-saving upper;
-5. the major Stage16-28 condition-interaction identities and no-double-charge firewalls;
-6. the Stage19/Stage20 common-base K3 bridge and physical polarization comparison;
-7. Stage29 endpoint/sign/K3/Campedelli/Beauville/modular structural maps already explicitly audited;
+1. primitive/canonical physical population and cutoff conventions;
+2. `M1`, `N1`, `M2` asymptotic scales;
+3. `N2` infinitude + zero density + quarter/half exponent corridor;
+4. `M3` infinitude + explicit one-third liminf lower + log-saving upper;
+5. Stage16-28 interaction/no-double-charge interfaces;
+6. Stage19/20 common-base K3 bridge and physical polarization;
+7. explicitly audited Stage29 endpoint/sign/K3/Campedelli/Beauville/modular structural maps;
 8. Master-Hit global Euler/endpoint-candidate coverage;
 9. Saunderson and explicit `B(q)` endpoint exclusions;
-10. degree-`<=6` endpoint carrier classification and the natural branch/permutation-fixed slice exclusions;
-11. exact finite census through `R<=10^9`.
+10. degree-`<=6` carrier classification in its stated scope;
+11. exact finite census through `R<=10^9`;
+12. Stage29 final triage into 13 active kernels plus 16 dormant Class-4 receivers.
 
-“Closed” above means **closed at that scope**. None of these items is a proof of global perfect-cuboid nonexistence.
+“Closed” means closed at the theorem/adapter/family scope stated in the source. It does not mean the perfect-cuboid problem is solved.
 
-## 8. What remains before Stage29 closeout
-
-The planned remaining Stage29 sequence is:
-
-```text
-29-15  ENDPOINT_ARSENAL_REMATCH
-29-16  RESIDUAL_RECEIVER_COMPRESSION_AND_ROUTE_PORTFOLIO
-GAP_SCAN_FINAL / ROADMAP_REVIEW_FINAL
-29-17  PERFECT_CUBOID_ATTACK_HANDOFF
-29-close
-```
-
-Before final closeout, every surviving OPEN receiver should be classified into one of four dispositions:
+## 8. Final frontier
 
 ```text
-1. EXECUTE_NOW
-   finite/bounded work that can still be completed with current tools;
-
-2. CURRENT_METHOD_EXHAUSTED
-   materially distinct repo-native attacks were already carried out and the exact missing theorem is known;
-
-3. NEW_THEOREM_REQUIRED
-   a genuinely stronger external mathematical input is needed;
-
-4. DORMANT_NONDECISIVE
-   technically open, but closing it would not materially move the endpoint attack at present.
+Stage16-29 research program             : CLOSED
+Perfect cuboid existence/nonexistence   : OPEN
+P(B)/M3(B)                              : OPEN
+true N2 exponent                        : OPEN
+true M3 exponent/asymptotic             : OPEN
+historical endpoint route portfolio     : 1 GREEN / 10 AMBER
+active restart kernels                  : 13
+hidden immediately executable Class-1  : 0
+finite exact endpoint search            : zero hits through R<=10^9
 ```
 
-Particular still-executable/bounded candidates that must not be silently hidden under `AMBER` include the residual low-genus Picard/effectivity/multibranch work and other explicitly `OPEN_BOUNDED` ledgers recorded in the Stage29 registry.
+Authoritative final handoff:
 
-## 9. Final research interpretation
+- [`Stage29-17 result`](../stages/stage29/29-17/result.md)
+- [`Stage29-17 final-handoff.json`](../stages/stage29/29-17/final-handoff.json)
+- [`Stage29-17 audit`](../stages/stage29/29-17/audit.md)
+- [`Stage29 numerical ledger`](../stages/stage29/numerical-ledger.md)
 
-Stage16-29 has **not solved the perfect-cuboid problem**. What it has done is much more precise than “searched and found nothing”:
-
-```text
-1. fixed one physical population language;
-2. measured the major lower strata and their interactions;
-3. proved strong rarity/zero-density statements without confusing them with emptiness;
-4. constructed explicit infinite survivor families and sharp lower corridors where possible;
-5. identified the common K3/cover geometry behind competing completion conditions;
-6. built a global endpoint map with exact quotient/field/coverage firewalls;
-7. eliminated several thin families and low-degree carriers;
-8. reduced the remaining endpoint problem to a finite portfolio of explicit theorem/adapter receivers.
-```
-
-The clean final frontier is:
-
-```text
-Perfect cuboid existence/nonexistence : OPEN
-P(B)/M3(B)                            : OPEN
-true N2 exponent                      : OPEN
-true M3 exponent/asymptotic           : OPEN
-11-route endpoint portfolio           : 1 GREEN / 10 AMBER
-finite exact endpoint search          : zero hits through R<=10^9
-```
-
-That is the state Stage29-15/16 should compress and hand off, rather than reopening the already-audited Stage16-28 program.
+This file, not an archived CURRENT/status/roadmap document, is the canonical high-level state of the completed Stage16-29 program.
