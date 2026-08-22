@@ -12,14 +12,11 @@ from itertools import product
 COORDS = ("a1","a2","a3","b1","b2","b3","c")
 N = len(COORDS)
 
-# A monomial projective transformation is represented output-wise by
-# (i_exponent mod 4, source_coordinate_index).
 def unit_mul(a,b): return (a+b) % 4
 def unit_inv(a): return (-a) % 4
 def unit_conj(a): return (-a) % 4
 
 def compose(A,B):
-    # A o B
     out=[]
     for ua,ka in A:
         ub,kb=B[ka]
@@ -30,12 +27,10 @@ def identity(): return tuple((0,j) for j in range(N))
 
 def inverse(A):
     out=[None]*N
-    for j,(u,k) in enumerate(A):
-        out[k]=(unit_inv(u),j)
+    for j,(u,k) in enumerate(A): out[k]=(unit_inv(u),j)
     return tuple(out)
 
-def conjugate_coeffs(A):
-    return tuple((unit_conj(u),k) for u,k in A)
+def conjugate_coeffs(A): return tuple((unit_conj(u),k) for u,k in A)
 
 def projectively_equal(A,B):
     shift=None
@@ -57,48 +52,33 @@ def diag_sign(negated):
 
 # Source-derived diagonal quotient lifts.
 # On one X(8) factor, a compatible lift of the Stage30-05 S gauge is
-# x' = (-x+y)/sqrt(2), y'=(x+y)/sqrt(2), u'=i v, v'=i u, w'=w.
-# Applying it diagonally to X(8)xX(8) cancels sqrt(2) and gives S_HAT below.
+# x'=(-x+y)/sqrt(2), y'=(x+y)/sqrt(2), u'=i v, v'=i u, w'=w.
+# Applying it diagonally to X(8)xX(8) cancels sqrt(2).
 S_HAT = (
-    (2,1), # a1 -> -a2
-    (2,0), # a2 -> -a1
-    (2,2), # a3 -> -a3
-    (2,4), # b1 -> -b2
-    (2,3), # b2 -> -b1
-    (0,5), # b3 -> b3
-    (0,6), # c -> c
+    (2,1), (2,0), (2,2), (2,4), (2,3), (0,5), (0,6)
 )
-# A compatible lift of the Stage30-05 T gauge on one X(8) factor is
-# x'=i x, y'=y, u'=zeta_8 u, v'=i w, w'=i v.
-# Diagonal products remove zeta_8 and give the Q(i)-defined T_HAT below.
+# For T use x'=i x, y'=y, u'=zeta_8 u, v'=i w, w'=i v.
+# Diagonal products remove zeta_8 and give the Q(i)-defined action below.
 T_HAT = (
-    (2,6), # a1 -> -c
-    (1,1), # a2 -> i*a2
-    (1,2), # a3 -> i*a3
-    (1,3), # b1 -> i*b1
-    (2,5), # b2 -> -b3
-    (2,4), # b3 -> -b2
-    (2,0), # c -> -a1
+    (2,6), (1,1), (1,2), (1,3), (2,5), (2,4), (2,0)
 )
 C_SIGMA = diag_sign(["a3"])
 
-# Exact preservation of the defining cuboid quadrics, encoded at the level of
-# squared coordinates. Each transformed equation is one of the listed exact
-# combinations of q1,q2,q3,q4.
-# q1=a1^2+a2^2-b3^2; q2=a1^2+a3^2-b2^2;
-# q3=a2^2+a3^2-b1^2; q4=a1^2+a2^2+a3^2-c^2.
+# Squaring a coefficient i^u gives sign (-1)^u.
 def square_action(A):
-    # output square variable -> (sign +/-1, input square index)
-    return tuple((1 if u % 2 == 0 and u % 4 == 0 else -1, k) for u,k in A)
-
-# Hand-derived exact equation transports; assertions below also protect against
-# accidental generator edits.
+    return tuple((1 if u % 2 == 0 else -1, k) for u,k in A)
 assert square_action(S_HAT) == (
     (1,1),(1,0),(1,2),(1,4),(1,3),(1,5),(1,6)
 )
 assert square_action(T_HAT) == (
     (1,6),(-1,1),(-1,2),(-1,3),(1,5),(1,4),(1,0)
 )
+
+# Exact cuboid-equation transport for the source-derived generators:
+# S: (q1,q2,q3,q4) -> (q1,q3,q2,q4)
+# T: (q1,q2,q3,q4) -> (q2-q4,q1-q4,-q3,-q4)
+# where q1=a1^2+a2^2-b3^2, q2=a1^2+a3^2-b2^2,
+# q3=a2^2+a3^2-b1^2, q4=a1^2+a2^2+a3^2-c^2.
 
 assert projectively_equal(power(S_HAT,2),identity())
 assert projectively_equal(power(T_HAT,4),identity())
@@ -111,11 +91,8 @@ assert projectively_equal(T2,diag_sign(["a2","a3","b1"]))
 assert projectively_equal(S_T2_SINV,diag_sign(["a1","a3","b2"]))
 assert projectively_equal(V14,diag_sign(["a1","a2","b1","b2"]))
 
-# Quadratic descent cocycle.
 assert projectively_equal(power(C_SIGMA,2),identity())
 assert projectively_equal(conjugate_coeffs(C_SIGMA),C_SIGMA)
-
-# Generator semilinear identities.
 assert projectively_equal(
     conjugate_coeffs(S_HAT),
     compose(compose(C_SIGMA,S_HAT),inverse(C_SIGMA)),
@@ -125,7 +102,6 @@ assert projectively_equal(
     compose(compose(C_SIGMA,inverse(T_HAT)),inverse(C_SIGMA)),
 )
 
-# Concrete PSL2(Z/4) ledger and D4-semilinear automorphism.
 def mm(A,B):
     return tuple(tuple(sum(A[i][k]*B[k][j] for k in range(2))%4
                        for j in range(2)) for i in range(2))
@@ -152,7 +128,6 @@ def theta(i): return idx[canon(mm(mm(D,G[i]),Di))]
 assert theta(S)==S
 Tinv=next(j for j in range(24) if mul[T][j]==E and mul[j][T]==E)
 assert theta(T)==Tinv
-
 V=sorted(idx[g] for g in G
          if tuple(tuple(x%2 for x in row) for row in g)==((1,0),(0,1)))
 assert V==[4,6,12,14]
