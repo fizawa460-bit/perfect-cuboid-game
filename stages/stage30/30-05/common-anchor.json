@@ -1,0 +1,64 @@
+{
+  "schema": "STAGE30_05_COMMON_QI_ANCHOR_V1",
+  "stage": "30-05",
+  "kernel": "K16-C2-MODULAR-S4-ACTION",
+  "receiver": "R29-KUM5",
+  "field": "Q(i)",
+  "common_model": {
+    "source": "Testa--Stoll Section 4",
+    "surface": "Sbar_Q(i) ~= (X(8) x X(8))/Delta G0",
+    "G0_order": 8,
+    "quotient_relation": "XY=TZ",
+    "cuboid_coordinates": {
+      "U": "2*b1",
+      "V": "2*b2",
+      "W": "2*b3",
+      "X": "a1+c",
+      "Y": "-a1+c",
+      "T": "a2+i*a3",
+      "Z": "a2-i*a3"
+    }
+  },
+  "chosen_X4_gauge": {
+    "S": "[x:y] -> [-x+y:x+y]",
+    "T": "[x:y] -> [i*x:y]",
+    "gauge_canonical_claim": false
+  },
+  "branch_squareclass_action": {
+    "S_mod": {
+      "arrangement_id": "a06",
+      "permutation": "(A1 A2)(B1 B2)"
+    },
+    "T_mod": {
+      "arrangement_id": "a21",
+      "permutation": "(A1 C)(B2 B3)"
+    },
+    "kernel_order": 4,
+    "kernel_ids": ["g04", "g06", "g12", "g14"],
+    "kernel_equals_V_mod": true,
+    "image_order": 6,
+    "image_ids": ["a00", "a05", "a06", "a11", "a19", "a21"],
+    "image_is_S3": true,
+    "image_equals_audited_Q_liftable_S3": false
+  },
+  "stage30_04_reinterpretation": {
+    "abstract_equivariant_candidate_count": 24,
+    "candidate_set_valid_as_finite_relabellings": true,
+    "candidate_set_has_source_geometric_adapter_credit": false,
+    "reason": "common-model action has V4 kernel on branch squareclasses and S3 image, rather than a faithful S4-to-S4 action"
+  },
+  "reclassification": {
+    "L30-QI-FINITE-EQUIVARIANT-SEARCH": "CLASS1_DISCHARGED_STAGE30_04",
+    "L30-COMMON-GEOMETRIC-OR-MODULI-ANCHOR": "CLASS1_SUBMITTED_EXACT_COMMON_MODEL_AND_ACTION_PROJECTION",
+    "L30-V4-SIGN-DECK-GALOIS-LIFT": "CLASS2_STAGE30_06"
+  },
+  "firewalls": {
+    "full_modular_S4_equals_arrangement_S4": false,
+    "q_galois_cocycle_verified": false,
+    "v4_sign_deck_lift_verified": false,
+    "defect_elimination_count": 0,
+    "r29_kum5_discharged": false,
+    "perfect_cuboid_existence_claim": false,
+    "perfect_cuboid_nonexistence_claim": false
+  }
+}
