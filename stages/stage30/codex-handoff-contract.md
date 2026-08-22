@@ -11,11 +11,11 @@ Stage30-main-batch
 Stage30-audit
 ```
 
-When `Stage30-main-batch` reaches a Codex-owned unit, it must create the exact handoff prompt and set the controller to a waiting state.  The user then gives that prompt to Codex.  When Codex work is present in the repository, the next `Stage30-main-batch` or `Stage30-audit` continues from the repository state.
+When `Stage30-main-batch` reaches a Codex-owned unit, it must create the exact handoff prompt and set the controller to a waiting state. The user then gives that prompt to Codex. When Codex work is present in the repository, the next `Stage30-main-batch` or `Stage30-audit` continues from the repository state.
 
 ## Prompt requirements
 
-Every Codex prompt must be complete enough to run without reconstructing Stage30 from chat history.  It must include:
+Every Codex prompt must be complete enough to run without reconstructing Stage30 from chat history. It must include:
 
 1. repository and exact Stage30 target;
 2. exact prerequisite source files to read;
@@ -43,6 +43,28 @@ Codex must not:
 - grant theorem credit to an external source without stable locator and exact hypothesis match;
 - rewrite audited Stage29 claims merely to simplify implementation.
 
+## Audit ordering firewall
+
+The Q(i)-equivariant identification and the Q(i)/Q descent calculation are distinct stages.
+
+```text
+Task B / 30-04C:
+  Q(i)-level finite equivariant-map search only.
+  K8 elements and retained level-4 data may be carried as frozen labels.
+  No Q-descent/arithmetic-defect compatibility credit is allowed.
+
+30-06:
+  ChatGPT derives the exact Gal(Q(i)/Q) semilinear/cocycle relation.
+
+Task C / 30-06C:
+  Codex verifies that exact cocycle relation.
+
+30-07:
+  only after 30-06C audit, classify/transport all eight K8 defects.
+```
+
+This firewall prevents Task B from using a descent-compatibility notion whose mathematical definition is only supplied later.
+
 ## Codex Task A — action extraction
 
 Prompt generated at Stage30-02P.
@@ -60,7 +82,7 @@ stages/stage30/work/codex-A-result.md
 
 The verifier must check group relations, order, faithfulness where claimed, object coverage, orbit partitions, stabilizers, and manifest-label consistency.
 
-## Codex Task B — equivariant identification
+## Codex Task B — Q(i)-equivariant identification
 
 Prompt generated at Stage30-04P only after Task A has passed Stage30-03 audit.
 
@@ -74,7 +96,7 @@ stages/stage30/work/verify_equivariant_candidates.py
 stages/stage30/work/codex-B-result.md
 ```
 
-The search must be exhaustive over the finite candidate space specified by the audited input manifest.  Every survivor must have an explicit witness; every rejected candidate must have a deterministic failing condition.
+The search must be exhaustive over the finite candidate space specified by the audited input manifest. Every survivor must have an explicit witness; every rejected candidate must have a deterministic failing condition. The search may enforce the frozen Q(i)-level marked structure and carry K8/level-4 identifiers as labels, but it must not certify Q-descent, sigma-cocycle compatibility, arithmetic equivalence of defects, or defect elimination. Those belong to Stage30-06/06C/07.
 
 ## Codex Task C — Galois cocycle + eight defects
 
@@ -89,7 +111,12 @@ stages/stage30/work/verify_cocycle_and_defects.py
 stages/stage30/work/codex-C-result.md
 ```
 
-The eight-defect output must cover all 8 `K8` elements exactly once and record their ordinary conjugacy class, concrete S4 action data, sigma image, adapter image, descent status, and arithmetic-equivalence status.  A classification is not an elimination theorem.
+Execution is logically split even if one prompt/package is reused:
+
+- `30-06C` verifies the exact complex-conjugation action and cocycle/semilinear compatibility for every surviving Q(i)-level adapter;
+- `30-07` then transports and classifies all 8 `K8` elements exactly once using only adapters that passed 30-06C.
+
+The eight-defect output must record ordinary conjugacy class, concrete S4 action data, sigma image, adapter image, descent status, and arithmetic-equivalence status. A classification is not an elimination theorem.
 
 ## Codex Task D — final certificate
 
@@ -106,7 +133,7 @@ stages/stage30/certificates/defect-classification.json
 stages/stage30/certificates/verify_stage30.py
 ```
 
-The final verifier should be independent in structure from the construction scripts wherever practical.  It must fail closed on missing labels, duplicate objects, unmapped marked objects, relation failure, cocycle failure, or field-of-definition ambiguity.
+The final verifier should be independent in structure from the construction scripts wherever practical. It must fail closed on missing labels, duplicate objects, unmapped marked objects, relation failure, cocycle failure, or field-of-definition ambiguity.
 
 ## Result status
 
