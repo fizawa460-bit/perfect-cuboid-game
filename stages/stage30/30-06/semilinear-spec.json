@@ -1,0 +1,89 @@
+{
+  "schema": "STAGE30_06_SEMILINEAR_COCYCLE_SPEC_V2_SOURCE_DERIVED_LIFTS",
+  "stage": "30-06",
+  "field": "Q(i)",
+  "galois_generator": "sigma",
+  "residual_group": {
+    "name": "PSL2(Z/4)",
+    "order": 24,
+    "S_mod": [[0, 3], [1, 0]],
+    "T_mod": [[1, 1], [0, 1]],
+    "D4": [[1, 0], [0, 3]],
+    "theta_definition": "theta(g)=D4*g*D4^-1 in PSL2(Z/4)",
+    "theta_on_generators": {"S_mod": "S_mod", "T_mod": "T_mod^-1"},
+    "V_mod_ids": ["g04", "g06", "g12", "g14"],
+    "theta_fixes_V_mod_pointwise": true
+  },
+  "endpoint_coordinate_order": ["a1", "a2", "a3", "b1", "b2", "b3", "c"],
+  "source_action_bridge": {
+    "source_model": "Testa--Stoll X(8): u^2=2xy, v^2=x^2-y^2, w^2=x^2+y^2",
+    "S_X8_lift": "x'=(-x+y)/sqrt(2), y'=(x+y)/sqrt(2), u'=i*v, v'=i*u, w'=w",
+    "T_X8_lift": "x'=i*x, y'=y, u'=zeta8*u, v'=i*w, w'=i*v",
+    "diagonal_quotient_descends_to_Qi": true,
+    "submitted_pre_audit_section_was_sign_deck_twisted": true,
+    "pre_audit_twists": {"S": ["b1", "b2"], "T": ["b2", "b3"]},
+    "v4_restriction_changed_by_repair": false
+  },
+  "projective_generators": {
+    "S_hat": {
+      "a1": "-a2", "a2": "-a1", "a3": "-a3",
+      "b1": "-b2", "b2": "-b1", "b3": "b3", "c": "c"
+    },
+    "T_hat": {
+      "a1": "-c", "a2": "i*a2", "a3": "i*a3", "b1": "i*b1",
+      "b2": "-b3", "b3": "-b2", "c": "-a1"
+    },
+    "relations_in_PGL7": {"S_hat_order": 2, "T_hat_order": 4, "S_hat_times_T_hat_order": 3},
+    "source_derived_diagonal_modular_action": true
+  },
+  "v4_sign_deck_lift": {
+    "g04": [],
+    "g12": ["a2", "a3", "b1"],
+    "g06": ["a1", "a3", "b2"],
+    "g14": ["a1", "a2", "b1", "b2"],
+    "interpretation": "listed coordinates are negated; omitted coordinates fixed; projective sign-deck classes",
+    "unchanged_by_source_action_repair": true
+  },
+  "common_model_descent_cocycle": {
+    "c_sigma": "delta_a3",
+    "negated_coordinates": ["a3"],
+    "q_defined": true,
+    "order": 2,
+    "cocycle_identity": "c_sigma*sigma(c_sigma)=1",
+    "source_formula": "Phi^sigma=delta_a3 o Phi; factor swap descends to delta_a3"
+  },
+  "semilinear_identity": {
+    "formula": "sigma(alpha_hat(g))=c_sigma*alpha_hat(theta(g))*c_sigma^-1",
+    "domain": "all 24 elements of PSL2(Z/4)",
+    "equality_scope": "PGL7(Q(i))",
+    "generator_checks": {
+      "S_mod": "sigma(S_hat)=c_sigma*S_hat*c_sigma^-1",
+      "T_mod": "sigma(T_hat)=c_sigma*T_hat^-1*c_sigma^-1"
+    }
+  },
+  "object_separation": {
+    "common_model_c_sigma_equals_K8_kappa": false,
+    "V_mod_equals_K8": false,
+    "K8_order": 8,
+    "K8_sigma_action_audited_trivial": true,
+    "K8_defect_elimination_count": 0
+  },
+  "verification_policy": {
+    "codex_unit": "30-06C",
+    "codex_may_redefine_cocycle": false,
+    "codex_may_change_frozen_objects": false,
+    "codex_must_verify_all_24_residual_elements": true,
+    "codex_must_verify_source_derived_generators": true,
+    "codex_must_use_exact_arithmetic": true,
+    "codex_result_requires_stage30_audit_before_credit": true
+  },
+  "claims": {
+    "v4_sign_deck_lift_derived": true,
+    "q_galois_cocycle_derived": true,
+    "source_action_bridge_repaired": true,
+    "q_galois_cocycle_exhaustively_verified": false,
+    "r29_kum5_discharged": false,
+    "perfect_cuboid_existence": false,
+    "perfect_cuboid_nonexistence": false
+  }
+}
