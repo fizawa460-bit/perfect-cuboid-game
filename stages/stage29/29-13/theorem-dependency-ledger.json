@@ -1,0 +1,90 @@
+{
+  "schema": "STAGE29_13_THEOREM_DEPENDENCY_LEDGER_V2_AUDITED",
+  "status": "AUDITED_PASS_AFTER_MATERIAL_POSITIVE_REPAIR",
+  "entries": {
+    "SAUNDERSON_CLOSURE": {
+      "receiver": "R29-EXT-CHANG-A",
+      "status": "DISCHARGED_INDEPENDENTLY_RECONSTRUCTED",
+      "dependencies": [
+        "Saunderson family exact formula",
+        "Pythagorean parametrization u=p^2-q^2, v=2pq, w=p^2+q^2",
+        "body diagonal identity a^2+b^2+c^2=w^2(w^4+16u^2v^2)",
+        "palindromic quotient W=t+1/t",
+        "rational lift condition W^2-4=(t-1/t)^2",
+        "C0: S^2=T0^4+72T0^2+16",
+        "Jac(C0) exactly Q-isomorphic to Cremona 80a1 / LMFDB 80.a2 with rank 0 and torsion (Z/2)^2",
+        "degenerate-boundary reconstruction"
+      ],
+      "conclusion": "NO_NONDEGENERATE_PERFECT_CUBOID_IN_SAUNDERSON_FAMILY",
+      "coverage": "THIN_FAMILY_ONLY",
+      "endpoint_nonexistence": false
+    },
+    "CASE_B_P1_EXPLICIT_FAMILY_CLOSURE": {
+      "receiver": "R29-EXT-CHANG-B",
+      "status": "DISCHARGED_PELL_LUCAS_EXPLICIT_BQ_FAMILY_EXCLUSION",
+      "dependencies": [
+        "B(q)=(4q,q^2-4,2(q^2-1)) exact formulas",
+        "necessary space equation g^2-5q^4=20",
+        "negative Pell reduction Y^2-5h^2=-4 with Y=q^2",
+        "odd-index Lucas parametrization",
+        "Cohn square-Lucas theorem",
+        "degenerate q=1,2 reconstruction"
+      ],
+      "conclusion": "NO_NONDEGENERATE_PERFECT_CUBOID_IN_EXPLICIT_BQ_FAMILY",
+      "external_name": "Case B at p=1",
+      "global_two_adic_stratum_adapter_certified": false,
+      "coverage": "EXPLICIT_ONE_PARAMETER_FAMILY_ONLY",
+      "endpoint_nonexistence": false
+    },
+    "SAUNDERSON_NONENDPOINT_POPULATION": {
+      "receiver": "R29-POP-SAUND-NONENDPOINT",
+      "status": "DISCHARGED_EXPLICIT_NONENDPOINT_M3_LOWER",
+      "dependencies": [
+        "Stage28-50-r2 audited injective primitive/canonical Saunderson cone",
+        "Stage28-50-r2 R<=8r^6 and cone density 27/(20*pi^2)",
+        "R29-EXT-CHANG-A pointwise exclusion of all nondegenerate Saunderson perfect cuboids"
+      ],
+      "output": "liminf_(B->infinity) (M3(B)-P(B))/B^(1/3) >= 27/(40*pi^2)",
+      "P_over_M3_scale_known": false,
+      "targeted_backflow_required": false
+    },
+    "PAPER_C": {
+      "receiver": "R29-EXT-CHANG-C",
+      "status": "FINITE_WINDOW_COMPUTATIONAL_INPUT_ONLY",
+      "certified_scope": "FINITE_WINDOWS_ONLY",
+      "global_theorem_missing": "EFFECTIVE_ODD_MULTIPLICITY_PRIMITIVE_DIVISOR_THEOREM"
+    },
+    "PAPER_D": {
+      "receiver": "R29-EXT-CHANG-D",
+      "status": "AMBER_HEIGHT_STRUCTURE_INPUT_NOT_ENDPOINT_DECISIVE",
+      "certified_stage29_use": "STRUCTURAL_HEIGHT_INPUT_ONLY",
+      "endpoint_decisive": false
+    },
+    "PAPER_E": {
+      "receiver": "R29-EXT-CHANG-E",
+      "status": "NOT_CERTIFIED_MISSING_RIGOROUS_INTEGRAL_POINT_TRANSFER_AND_COMPLETENESS_CERTIFICATE",
+      "verified_inputs": [
+        "Eanom y^2=x^3-275x+1750",
+        "rank 1",
+        "torsion Z/2",
+        "external database reports elliptic integral-point count 7"
+      ],
+      "missing_load_bearing_steps": [
+        "explicit integrality-preserving quartic-to-elliptic map",
+        "rigorous complete integral-point certificate used by the proof",
+        "audited pullback and cuboid reconstruction"
+      ],
+      "source_script_admission": "paper-e/scripts/04_height_completeness.gp explicitly says the height-difference constant is sampled and a fully certified bound requires CPS/Magma/Sage-style IntegralPoints machinery not supplied",
+      "global_prime_subfamily_closure_certified": false
+    }
+  },
+  "firewalls": {
+    "stageA2_family_conclusion_generalized": false,
+    "thin_family_closure_implies_endpoint_empty": false,
+    "explicit_Bq_family_equals_complete_two_adic_stratum": false,
+    "finite_window_implies_global_fiber_closure": false,
+    "elliptic_integral_points_automatically_close_quartic": false,
+    "M3_minus_P_lower_implies_P_over_M3_zero": false,
+    "self_hosted_theorem_accepted_without_reconstruction": false
+  }
+}

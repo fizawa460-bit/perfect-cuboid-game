@@ -1,0 +1,110 @@
+{
+  "schema": "STAGE29_13_A2_METHOD_TRANSFER_V2_AUDITED",
+  "status": "AUDITED_PASS_AFTER_MATERIAL_POSITIVE_REPAIR",
+  "stageA2": {
+    "family_specific_conclusion_generalized": false,
+    "method_species_transferable": true,
+    "method_species": [
+      "source_locked_low_dimensional_receiver",
+      "exact_algebraic_or_squareclass_reduction",
+      "explicit_cover_or_lift_condition",
+      "complete_genus_one_or_equivalent_arithmetic_closure",
+      "reconstruction_and_boundary_audit"
+    ]
+  },
+  "external_candidates": {
+    "R29-EXT-CHANG-A": {
+      "status": "DISCHARGED_INDEPENDENTLY_RECONSTRUCTED",
+      "family": "Saunderson Euler-brick family",
+      "consumer": "J12-PARAMETRIC",
+      "secondary_consumer": "J12-POP-INTERACTION",
+      "a2_style_transfer": true,
+      "decisive_curve": "S^2=T0^4+72*T0^2+16",
+      "jacobian": "Cremona 80a1 / LMFDB 80.a2",
+      "rank": 0,
+      "torsion": "Z/2 x Z/2",
+      "family_perfect_cuboid_points": 0,
+      "global_endpoint_coverage": false
+    },
+    "R29-EXT-CHANG-B": {
+      "status": "DISCHARGED_PELL_LUCAS_EXPLICIT_BQ_FAMILY_EXCLUSION",
+      "family": "B(q)=(4q,q^2-4,2(q^2-1)), q positive integer",
+      "external_name": "Case B at p=1",
+      "consumer": "J12-PARAMETRIC",
+      "a2_style_transfer": false,
+      "decisive_mechanism": "g^2-5q^4=20 -> negative Pell -> odd Lucas -> Cohn square-Lucas theorem",
+      "family_perfect_cuboid_points": 0,
+      "global_two_adic_stratum_adapter_certified": false,
+      "global_endpoint_coverage": false
+    },
+    "R29-EXT-CHANG-C": {
+      "status": "FINITE_WINDOW_COMPUTATIONAL_INPUT_ONLY",
+      "consumer": "J12-PARAMETRIC",
+      "global_fiber_closure_certified": false,
+      "missing_theorem": "effective odd-multiplicity primitive-divisor control for Face-3 numerator"
+    },
+    "R29-EXT-CHANG-D": {
+      "status": "AMBER_HEIGHT_STRUCTURE_INPUT_NOT_ENDPOINT_DECISIVE",
+      "consumer": "J12-PARAMETRIC",
+      "secondary_consumer": "G10-FULL-ENDPOINT",
+      "a2_style_transfer": false
+    },
+    "R29-EXT-CHANG-E": {
+      "status": "NOT_CERTIFIED_MISSING_RIGOROUS_INTEGRAL_POINT_TRANSFER_AND_COMPLETENESS_CERTIFICATE",
+      "consumer": "J12-PARAMETRIC",
+      "jacobian": "Cremona 800a3 / LMFDB 800.d2",
+      "lmfdb_rank": 1,
+      "lmfdb_integral_point_count": 7,
+      "global_prime_subfamily_closure_certified": false,
+      "repair_requires": [
+        "explicit birational map",
+        "proved integral-point transfer",
+        "complete IntegralPoints or elliptic-logarithm certificate",
+        "reconstruction audit"
+      ]
+    }
+  },
+  "new_population_interaction": {
+    "receiver": "R29-POP-SAUND-NONENDPOINT",
+    "status": "DISCHARGED_EXPLICIT_NONENDPOINT_M3_LOWER",
+    "inputs": [
+      "Stage28-50-r2 audited Saunderson injective-cone lower count",
+      "R29-EXT-CHANG-A full nondegenerate Saunderson endpoint exclusion"
+    ],
+    "theorem": "liminf_(B->infinity) (M3(B)-P(B))/B^(1/3) >= 27/(40*pi^2)",
+    "P_over_M3_zero_implied": false,
+    "backflow_required": false
+  },
+  "route_transfer_screen": {
+    "G10-FULL-ENDPOINT": "NO_CURRENT_A2_COMPATIBLE_ONE_DIMENSIONAL_RECEIVER",
+    "G10-LOWGENUS-PICARD": "NO_POINT_COVERAGE_ADAPTER",
+    "G10-K3-SIGN": "NO_COMPLETE_ENDPOINT_CARRIER",
+    "Q11-CAMPEDELLI": "NO_COMPLETE_Q_ARITHMETIC_CURVE_RECEIVER",
+    "Q11-BEAUVILLE": "INFINITE_TWIST_FAMILY_NOT_FINITE_COVER_COLLECTION",
+    "Q11-MODULAR": "ARITHMETIC_DEFECT_ACTION_OPEN",
+    "Q11-BRAUER": "NOT_A_CURVE_CLOSURE_RECEIVER",
+    "J12-JOINT-V4": "FINAL_JOINT_CONDITIONAL_OPEN",
+    "J12-LOCAL-SQUARECLASS": "LOCAL_TO_GLOBAL_ADAPTER_OPEN",
+    "J12-PARAMETRIC": "POSITIVE_TRANSFER_SAUNDERSON_PLUS_EXPLICIT_BQ_FAMILY_CLOSURES",
+    "J12-POP-INTERACTION": "ALREADY_GREEN; GAINS_SAUNDERSON_NONENDPOINT_M3_LOWER_CHILD"
+  },
+  "portfolio": {
+    "certified_new_family_closure_count": 2,
+    "a2_style_successful_transfer_count": 1,
+    "attack_route_count": 11,
+    "route_count_change": 0,
+    "green_route_count": 1,
+    "amber_route_count": 10,
+    "P_over_M3_scale_known": false
+  },
+  "routing": {
+    "audit_required": false,
+    "audit_verdict": "PASS_AFTER_MATERIAL_POSITIVE_REPAIR",
+    "merge_allowed": true,
+    "advance_allowed": true,
+    "targeted_backflow_required": false,
+    "roadmap_rewrite_required": false,
+    "next_item": "29-14_NATURAL_SLICE_QUOTIENT_AND_COVERAGE_TEST",
+    "next_expected_command": "Stage29-main-batch"
+  }
+}
