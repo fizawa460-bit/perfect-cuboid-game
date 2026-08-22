@@ -1,0 +1,70 @@
+{
+  "schema": "STAGE29_GAP_SCAN_B_STAGE14_ENDPOINT_THEOREM_LEDGER_V1_AUDITED",
+  "verdict": "VALID_MISSED_COROLLARY",
+  "source": "stages/stage14/final.md",
+  "targeted_addendum": "stages/stage14/addenda/stage14-endpoint-corollary.md",
+  "stage14_population": {
+    "primitive": true,
+    "canonical_order": "0<a<b<c",
+    "space_diagonal_integral": true,
+    "cutoff": "d<=B",
+    "triple_count": "T(B)=N_3(B)"
+  },
+  "raw_incidence_chain": [
+    {
+      "statement": "E(B)=N_2(B)+3T(B)",
+      "source_locator": "Stage14 Lemma 3.1",
+      "scope": "whole physical raw-pair graph",
+      "triple_multiplicity": 3
+    },
+    {
+      "statement": "E(B)<=V(B)*max_F(deg_B(F))/2 and max_F(deg_B(F))=B^o(1)",
+      "source_locator": "Stage14 Lemma 3.2",
+      "scope": "same graph E(B), uniform in every active vertex"
+    },
+    {
+      "statement": "V(B)<<B^(1/2+o(1))",
+      "source_locator": "Stage14 Proposition 3.6",
+      "scope": "exhaustive whole physical active-face measure"
+    }
+  ],
+  "filter_audit": {
+    "proposition_3_3_complete_host": true,
+    "lemmas_3_4_3_5_post_reconstruction_masks_only_delete": true,
+    "exactly_two_filter_applied_before_E_or_V_bound": false,
+    "triple_face_objects_removed_from_complete_host": false,
+    "hidden_measure_change_found": false
+  },
+  "stage14_corollary": {
+    "inequality": "3T(B)<=E(B)<<B^(1/2+o(1))",
+    "epsilon_form": "for every epsilon>0, T(B)<<_epsilon B^(1/2+epsilon)",
+    "existence_claim": false,
+    "nonexistence_claim": false
+  },
+  "stage29_dictionary": {
+    "host": "U(B)={0<a<b<c,gcd=1,R=sqrt(a^2+b^2+c^2)<=B}",
+    "endpoint": "P=E3 intersect S",
+    "endpoint_cutoff_identity": "R=d on S",
+    "count_identity": "P(B)=T(B) for every real B>=1",
+    "imported_theorem": "for every epsilon>0, P(B)=T(B)<<_epsilon B^(1/2+epsilon)"
+  },
+  "existing_ledger_audit": {
+    "AR_004": "records E=N2+3T but not endpoint upper corollary",
+    "AR_005": "records E<<VB^o(1) but not endpoint upper corollary",
+    "AR_006": "advertises only N2 square-root theorem; endpoint upper corollary absent",
+    "AR_038": "records separate raw convolution with N3 multiplicity but not endpoint upper corollary",
+    "Stage28": "no certified global P upper exponent recorded",
+    "Stage29_04": "theorem surface omitted global P upper bound; finite P=0 evidence only",
+    "Stage29_07": "exact population/cutoff adapter present; endpoint upper theorem not imported"
+  },
+  "routing": {
+    "gap_scan_result": "FOUND_TARGETED_BACKFLOW_REQUIRED",
+    "targeted_backflow_target": "Stage14",
+    "targeted_backflow_executed": true,
+    "targeted_backflow_required_now": false,
+    "primary_consumer": "G10-FULL-ENDPOINT",
+    "attack_credit_at_gap_scan": false,
+    "new_attack_route": false,
+    "roadmap_rewrite_required": false
+  }
+}
