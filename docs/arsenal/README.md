@@ -4,6 +4,8 @@ Status: **CURRENT ROUTER AFTER STAGE29 CLOSE**.
 
 This is the compact entry point for reusable mathematical weapons. The weapon files themselves intentionally keep their long-standing paths in `docs/` so historical Stage links do not break. Historical progress/status documents are archived separately.
 
+For the large historical corpora, use [`deep-source-index.md`](deep-source-index.md) instead of browsing Stage14 or StructureRadar blindly. It routes by task to the exact Arsenal, Toolbox, numerical, literature, external-gate, failed-route and promotion sources.
+
 ## Current strongest selectors
 
 Use a selector only after population, cutoff, canonicalization, multiplicity, measure and quantifier matching.
@@ -11,7 +13,7 @@ Use a selector only after population, cutoff, canonicalization, multiplicity, me
 | Role | Current reusable source |
 |---|---|
 | `N2` whole-family upper | `AR-006`: `N2(B) << B^(1/2+o(1))` in [`../stage14-arsenal.md`](../stage14-arsenal.md) |
-| `N2` lower construction | `S25-W01`: global/directional `N2,j(B) >> B^(1/4)` in [`../stage25-arsenal-promotion.md`](../stage25-arsenal-promotion.md) |
+| `N2` lower construction | `S25-W01`: global/directional `N2,j(B) >>_j B^(1/4)` in [`../stage25-arsenal-promotion.md`](../stage25-arsenal-promotion.md) |
 | `M3` lower | Stage28 final exact `liminf M3(B)/B^(1/3) >= 27/(40*pi^2)` |
 | `M3` upper | `S26-W03`: `M3(B) <<_eta B(log B)^(5-eta)` for fixed `eta<1/46` |
 | Stage19/20 common-host bridge | `S28-W01` |
@@ -37,7 +39,7 @@ Machine-readable routing summary: [`index.json`](index.json).
 - [`../stage26-arsenal-promotion.md`](../stage26-arsenal-promotion.md)
 - [`../stage28-arsenal-promotion.md`](../stage28-arsenal-promotion.md)
 
-The Stage14/15 bound-attack ledger/map/coverage/queues are also retained as Arsenal provenance because they are useful for duplication and failed-route checks.
+The Stage14/15 bound-attack ledger/map/coverage/queues are also retained as Arsenal provenance because they are useful for duplication and failed-route checks. Use [`deep-source-index.md`](deep-source-index.md) for the recommended lookup order.
 
 ## Stage29 endpoint frontier
 
