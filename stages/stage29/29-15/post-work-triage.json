@@ -1,30 +1,30 @@
 {
-  "schema": "STAGE29_15_POST_WORK_TRIAGE_V1_PENDING_REAUDIT",
-  "supersedes_audit_state_until_reaudited": true,
-  "previous_receiver_or_terminal_frontier_count": 44,
-  "new_receiver_or_terminal_frontier_count": 46,
-  "previous_class_counts": {"1": 5, "2": 12, "3": 11, "4": 16},
-  "new_class_counts": {"1": 6, "2": 13, "3": 11, "4": 16},
+  "schema": "STAGE29_15_POST_WORK_TRIAGE_V2_AUDITED",
+  "authoritative_audit_state": "stages/stage29/29-15/audit-state.json",
+  "post_work_audit": "stages/stage29/29-15/post-work-audit.md",
+  "receiver_or_terminal_frontier_count": 46,
+  "class_counts": {"1": 6, "2": 13, "3": 11, "4": 16},
   "class1": {"identified": 6, "executed": 6, "pending": 0},
   "added_receivers": [
     {
       "id": "R29-BR-LINE9",
       "parent": "Q11-BRAUER",
       "class": "1",
-      "final_status": "EXECUTED_FINITE_INCIDENCE_PRECURSOR_PENDING_SOURCE_THEOREM_REAUDIT",
+      "final_status": "DISCHARGED_SOURCE_CERTIFIED_GEOMETRIC_ARRANGEMENT_COMPLEMENT_BR2",
       "execution_record": "stages/stage29/29-15/brauer-line9-execution.md",
       "checker": "stages/stage29/29-15/verify_brauer_line9.py",
-      "result": "six triple points, three double points, connected incidence graph V=16 E=24 b1=9",
-      "firewall": "does not identify Br(U)/Br(Q), does not perform Galois descent or local evaluation"
+      "result": "Br(P2_Qbar-D)[2] ~= (Z/2)^9; Ford incidence b1=9",
+      "firewall": "does not identify Br(U)/Br(Q), does not perform endpoint-cover Galois descent or local evaluation"
     },
     {
       "id": "R29-K3-RULED2",
       "parent": "Q11-BRAUER/G10-K3-SIGN",
       "class": "2",
-      "final_status": "CURRENT_TOOL_LIMIT_EXECUTED_NEW_FINITE_THEOREM_ADAPTER",
-      "reason": "Creutz-Viray gives a finite geometric Br[2] presentation once a valid ruled-double-cover model with simple branch singularities is materialized",
-      "exact_limit": "explicit ruled-model transformation for K_c plus branch flatness/simple-singularity verification and source-locked symbolic/CAS presentation; Bl_4(P1xP1) is not silently a P1-bundle",
-      "promote_to_class1_if": "renewed audit constructs the required ruled model from existing K_c equations with bounded current tools"
+      "final_status": "CURRENT_TOOL_LIMIT_EXECUTED_AFTER_RULED_MODEL_AND_BR2_DIMENSION_DISCHARGE",
+      "execution_record": "stages/stage29/29-15/k3-ruled2-audit-execution.md",
+      "executed_core": "explicit P1xP1 (4,4) ruled double-cover model; reduced flat simple branch; dim_F2 Br(Kc_Qbar)[2]=2",
+      "exact_limit": "Creutz-Viray Lc,E and x-alpha relation matrix, explicit surviving symbol basis, and Q(i)/Q Galois action",
+      "new_theorem_required": false
     }
   ],
   "merged_subroutes": [
@@ -33,35 +33,37 @@
       "status": "MERGED_NOT_INDEPENDENT_RECEIVER",
       "into": "ONE_STEP_DESCENT_ETALE_BRAUER",
       "theorem_input": "Cao 2020 plus Cao-Demarche-Xu 2019",
-      "consequence": "do not maintain a second/iterated descent attack as an independent route"
+      "consequence": "one-step descent equals etale-Brauer in the audited physical-open scope; iteration is not stronger"
     }
   ],
   "existing_receiver_refinements": [
     {
       "id": "R29-BEAU1C/R29-BEAU2/R29-BEAU3",
-      "refinement": "ordinary descent equals etale-Brauer and iterating descent gives no stronger obstruction; the remaining issue is computation/uniform control of the one-step open twist set"
+      "refinement": "descent/etale-Brauer species compressed; remaining issue is actual one-step computation/uniform open-twist support"
     },
     {
       "id": "R29-BR0G/R29-BR2A",
-      "refinement": "Ford line-arrangement precursor supplies a nine-cycle finite geometric symbol input before multiquadratic-cover and 72-boundary residue transfer"
+      "refinement": "source-certified geometric arrangement complement contributes a nine-dimensional F2 Brauer precursor before endpoint-cover residue/Galois transfer"
     },
     {
       "id": "R29-FIB2",
-      "refinement": "Dimitrov-Gao-Habegger turns uniform point-count control into a moving Mordell-Weil-rank receiver but supplies no rank bound itself"
+      "refinement": "Dimitrov-Gao-Habegger is absorbed after rank input; it supplies no moving-family rank theorem"
     },
     {
       "id": "R29-KUM-LOC3/TERMINAL-P-OVER-M3",
-      "refinement": "Browning-Loughran/Huang/ambient geometric sieve remains rejected for the exact conditional M3 physical measure"
+      "refinement": "Browning-Loughran/Huang ambient geometric sieve remains rejected for the exact conditional M3 physical measure"
     }
   ],
   "parent_route_counts": {"attack": 11, "green": 1, "amber": 10},
   "P_over_M3_scale_known": false,
   "new_decisive_global_theorem_found": false,
-  "audit_required": true,
-  "audit_verdict": "PENDING_POST_WORK_REAUDIT",
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "next_expected_command": "Stage29-audit",
+  "vague_amber_without_execution_class_count": 0,
+  "audit_required": false,
+  "audit_verdict": "PASS_AFTER_REPAIR",
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "29-16_RESIDUAL_RECEIVER_COMPRESSION_AND_ROUTE_PORTFOLIO",
+  "next_expected_command": "Stage29-main-batch",
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false
 }
