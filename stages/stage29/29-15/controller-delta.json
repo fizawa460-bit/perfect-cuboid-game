@@ -1,32 +1,37 @@
 {
-  "proposal_only": true,
-  "audit_applied": false,
+  "proposal_only": false,
+  "audit_applied": true,
   "base_main_sha": "469996b93fe93650423fb2b4d629f67b1a2998b9",
   "current_item": "29-15_ENDPOINT_ARSENAL_REMATCH",
   "stage29_15": {
-    "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+    "status": "AUDITED_PASS_AFTER_MATERIAL_POSITIVE_REPAIR",
+    "audit_state": "stages/stage29/29-15/audit-state.json",
     "arsenal_rematch_complete": true,
     "open_receiver_triage_complete": true,
     "receiver_or_terminal_frontier_count": 44,
     "execution_classes": {
-      "1_execute_now_bounded": {"identified":4,"executed":4,"pending":0},
-      "2_current_tool_limit_executed": 14,
-      "3_new_theorem_required": 10,
+      "1_execute_now_bounded": {"identified":5,"executed":5,"pending":0},
+      "2_current_tool_limit_executed": 12,
+      "3_new_theorem_required": 11,
       "4_dormant_nondecisive": 16
     },
     "class1_pending_must_be_zero_for_audit_pass": true,
     "vague_amber_without_execution_class_count": 0,
     "new_decisive_global_theorem_found": false,
-    "new_open_receiver_discharged_count": 4,
+    "new_open_receiver_discharged_count": 5,
     "new_receiver_discharges": [
       "R29-BEAU2A=DISCHARGED_SWAP_EQUIVARIANT_V4_KERNEL",
       "R29-KUM-LOC2-2=DISCHARGED_EXACT_TWO_ADIC_STATE_DENSITY_DELTA_2_1_OVER_53760",
       "R29-MOD1C=DISCHARGED_TRIVIAL_SIGMA_ACTION_ON_K8_MARKED_CLASS_COUNT_8",
-      "R29-MOD1D=DISCHARGED_PHYSICAL_OPEN_NONCUSP_STABILIZER_FREE"
+      "R29-MOD1D=DISCHARGED_PHYSICAL_OPEN_NONCUSP_STABILIZER_FREE",
+      "R29-BEAU1B=DISCHARGED_EXPLICIT_Q_SQUARECLASS_FUNCTION_AND_CODIM1_PARITY"
     ],
-    "classification_repair": "R29-EXT-CHANG-C promoted from class2 to class3 because the residual all-multiples statement explicitly needs a new effective primitive-divisor theorem",
-    "new_exact_nonapplicability_certificate_count": 1,
-    "new_exact_nonapplicability_certificate": "FULL_ENDPOINT_SURFACE_CHABAUTY_BY_ALBANESE_ZERO",
+    "R29_BEAU1C": "NEW_THEOREM_REQUIRED_AFTER_EXACT_POINTWISE_RAMIFICATION_FORMULA",
+    "new_exact_nonapplicability_certificate_count": 2,
+    "new_exact_nonapplicability_certificates": [
+      "FULL_ENDPOINT_SURFACE_CHABAUTY_BY_ALBANESE_ZERO",
+      "REED_2026_CLAIMED_GLOBAL_PROOF_MISSING_UNIVERSAL_ENDPOINT_REDUCTION"
+    ],
     "attack_route_count": 11,
     "green_route_count": 1,
     "amber_route_count": 10,
@@ -34,12 +39,15 @@
     "targeted_backflow_required": false,
     "active_backflow_queue_size": 0,
     "roadmap_rewrite_required": false,
-    "audit_required": true,
-    "merge_allowed": false,
-    "advance_allowed": false,
+    "audit_required": false,
+    "audit_verdict": "PASS_AFTER_MATERIAL_POSITIVE_REPAIR",
+    "material_positive_repair": "ADDITIONAL_BEAU1B_CLASS1_EXECUTION_PLUS_BEAU1C_RECLASSIFICATION_PLUS_EXTERNAL_CLAIM_VETTING",
+    "repair_required": false,
+    "merge_allowed": true,
+    "advance_allowed": true,
     "29_16_allowed_input_classes": ["2_CURRENT_TOOL_LIMIT_EXECUTED","3_NEW_THEOREM_REQUIRED","4_DORMANT_NONDECISIVE"],
     "next_item_after_audit_pass": "29-16_RESIDUAL_RECEIVER_COMPRESSION_AND_ROUTE_PORTFOLIO",
-    "next_expected_command": "Stage29-audit",
+    "next_expected_command": "Stage29-main-batch",
     "perfect_cuboid_existence_claim": false,
     "perfect_cuboid_nonexistence_claim": false
   }
