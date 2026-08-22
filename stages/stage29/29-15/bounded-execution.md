@@ -64,10 +64,10 @@ DESCENDED_ALBANESE_Q_ISOGENY_TARGET=Res_{Q(i)/Q}(J_D,Q(i))
 
 This is an adapter closure only. It does **not** prove a finite physical twist set, uniform Selmer closure, or endpoint nonexistence. `R29-BEAU2` and `R29-BEAU3` remain live theorem-level arithmetic receivers.
 
-Primary repo provenance:
+Primary provenance:
 - `stages/stage29/29-02d/q-form-adapter.md`
 - `stages/stage29/29-02d/albanese-bolza-target.md`
-- Beauville, *A tale of two surfaces*, Remark 1, as source-locked in Stage29-02d.
+- Beauville, *A tale of two surfaces*, current tower/Albanese statement (current PDF Remark 2; the repository preserves the earlier locator history explicitly).
 
 ## 2. R29-KUM-LOC2-2 — executed and discharged
 
@@ -165,24 +165,135 @@ The audited point `[44^2:117^2:240^2]` is consistent with the formula: relative 
 
 This is **local infrastructure only**. It does not provide a global Euler product, physical-height equidistribution, primitivity/canonical transfer, or endpoint nonexistence. The global receiver `R29-KUM-LOC3` remains open.
 
-## 3. Verification
+## 3. R29-MOD1C — promoted from class 2, executed, and discharged
 
-`verify_bounded_execution.py` independently checks the finite V4 swap action and the exact rational geometric-series arithmetic producing
+Prior audited state:
 
 ```text
-conditional_pair_mass=1/23040
-Delta_2=1/53760.
+K8=ker(SL2(Z/8)->SL2(Z/4)) ~= (Z/2)^3,
+|K8|=8,
+ordinary full-symplectic conjugacy orbit sizes=1,3,3,1,
+R29-MOD1C=OPEN_TWISTED_SIGMA_ACTION.
 ```
 
-## 4. Class-1 exit condition
+The earlier bounded stop was too conservative. The exact Stage29-02g level-4 condition already supplies enough data to compute the sigma action.
 
-After the two executions above:
+Write
 
 ```text
-CLASS1_IDENTIFIED_COUNT=2
-CLASS1_EXECUTED_COUNT=2
+K8={I+4A mod 8 : A in sl2(F2)}.
+```
+
+Relative to the retained level-4 marking, the conjugate-self correspondence has sign matrix
+
+```text
+D=diag(1,-1) mod 4.
+```
+
+Any lift `M mod 8` of this correspondence satisfies
+
+```text
+M mod 2 = I.
+```
+
+For every `k=I+4A in K8`, conjugation modulo 8 depends only on `M mod 2`:
+
+```text
+M k M^{-1}
+ = I + 4 (M A M^{-1})
+ = I + 4A                     mod 8.
+```
+
+Hence the sigma transport action on `K8` is **trivial**. Also `K8` is abelian, so twisted conjugacy
+
+```text
+k ~ g^{-1} k sigma(g)
+```
+
+is equality for the marked level-4 datum. Therefore the exact arithmetic defect decomposition has eight singleton classes, not the four ordinary conjugacy classes obtained only after forgetting the retained marking.
+
+```text
+R29-MOD1C=DISCHARGED_TRIVIAL_SIGMA_ACTION_ON_K8
+SIGMA_ACTION_ON_K8=TRIVIAL
+MARKED_ARITHMETIC_DEFECT_CLASS_COUNT=8
+ORDINARY_UNMARKED_CONJUGACY_CLASS_COUNT=4
+ORDINARY_1_3_3_1_EQUALS_ARITHMETIC_STRATA=false
+```
+
+This does not eliminate any defect element. It removes the ambiguity about the arithmetic action and sharpens the modular route to eight explicit marked defect cases. `R29-KUM5` remains open because identifying the modular residual `S4` with the F7/arrangement `S4` at action/cocycle level is a different problem.
+
+## 4. R29-MOD1D — promoted from class 4, executed, and discharged
+
+Prior audited state:
+
+```text
+R29-MOD1D=CuspStabilizerAndPhysicalOpenRemoval.
+```
+
+Testa--Stoll's genus-5 `X(8)` model is
+
+```text
+u^2=xy,
+v^2=x^2-y^2,
+w^2=x^2+y^2.
+```
+
+The six branch values on the base P1 are
+
+```text
+0, infinity, +1, -1, +i, -i.
+```
+
+Their preimages are exactly the 24 cusps of `X(8)`; equivalently the cusp locus is `uvw=0`. The kernel `G0~=(Z/2)^3` acts by independent sign changes of `u,v,w`. Off `uvw=0`, no nontrivial sign change has a fixed point, so the action is free on the noncuspidal locus.
+
+In the exact diagonal quotient model used for the cuboid surface, the invariant products satisfy
+
+```text
+U=u1*u2=2*b1,
+V=v1*v2=2*b2,
+W=w1*w2=2*b3.
+```
+
+A physical endpoint has positive nonzero face diagonals, hence
+
+```text
+b1*b2*b3 != 0.
+```
+
+Therefore `U,V,W` are all nonzero, forcing `u1u2v1v2w1w2 != 0`. Both `X(8)` factors are noncuspidal and the diagonal `G0` action is stabilizer-free on every physical endpoint preimage.
+
+Thus the generic noncusp modular datum of Stage29-02g already covers the full physical endpoint open:
+
+```text
+R29-MOD1D=DISCHARGED_PHYSICAL_OPEN_NONCUSP_STABILIZER_FREE
+PHYSICAL_ENDPOINT_INTERSECTS_MODULAR_CUSP_LOCUS=false
+PHYSICAL_ENDPOINT_MODULAR_G0_STABILIZER_TRIVIAL=true
+```
+
+This does not make the generic degree-24 compactification an everywhere finite map; `R29-MOD2B` remains dormant unless a future arithmetic argument actually needs boundary extension.
+
+## 5. Verification
+
+`verify_bounded_execution.py` independently checks:
+
+```text
+R29-BEAU2A: V4 swap action
+R29-KUM-LOC2-2: conditional_pair_mass=1/23040 and Delta_2=1/53760
+R29-MOD1C: |K8|=8 and every lift of diag(1,-1) mod 4 centralizes K8
+R29-MOD1D: no nontrivial sign stabilizer survives when u*v*w != 0
+```
+
+The modular finite check enumerates all 8 elements of `K8` and all invertible mod-8 lifts of the retained level-4 sign matrix satisfying the specified reduction; every such lift centralizes `K8`.
+
+## 6. Class-1 exit condition
+
+After the four executions above:
+
+```text
+CLASS1_IDENTIFIED_COUNT=4
+CLASS1_EXECUTED_COUNT=4
 CLASS1_PENDING_COUNT=0
-NEW_RECEIVERS_DISCHARGED_BY_29_15_BOUNDED_EXECUTION=2
+NEW_RECEIVERS_DISCHARGED_BY_29_15_BOUNDED_EXECUTION=4
 ```
 
 Any audit discovery of another class-1 receiver must trigger execution on this same PR before 29-15 may pass.
