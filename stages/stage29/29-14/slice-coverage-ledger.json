@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE29_14_SLICE_COVERAGE_V1_SUBMITTED",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "schema": "STAGE29_14_SLICE_COVERAGE_V2_AUDITED",
+  "status": "AUDITED_PASS_AFTER_BOUNDED_POSITIVE_REPAIR",
   "base_main_sha": "2433ad54322fa9a3f71b9bbcccf9a581ebe87f2a",
   "entries": [
     {
@@ -20,8 +20,8 @@
       "q_form_and_field": "Q",
       "endpoint_map_direction": "fixed lines in F7 base; pull back to endpoint",
       "slice_closed": true,
-      "closure": "x=y forces a face-square ratio 2, impossible over Q; cyclically likewise",
-      "coverage_statement_proved": "no physical endpoint Q point has repeated squared side coordinate",
+      "closure": "x=y forces a face-square ratio 2, impossible over Q; cyclically likewise; a projective Q-fixed 3-cycle forces x=y=z",
+      "coverage_statement_proved": "Q-liftable S3 stabilizer is trivial on physical endpoint Q-points",
       "global_coverage_proved": false,
       "what_remains_outside": "all unequal-side endpoint candidates"
     },
@@ -31,9 +31,12 @@
       "q_form_and_field": "geometric classification with audited Q/Galois data",
       "endpoint_map_direction": "curves embedded in full endpoint surface",
       "slice_closed": true,
-      "closure": "complete classification; no positive nondegenerate physical family",
+      "closure": "complete finite classification; no positive nondegenerate physical family; degree-6 integral curves absent",
       "coverage_statement_proved": "all degree<=6 integral curve carriers classified",
       "global_coverage_proved": false,
+      "explicit_finite_classification_source": true,
+      "verification_repo": "MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd:Cuboids/cuboids.magma",
+      "degree6_integral_curves_exist": false,
       "what_remains_outside": "isolated points; curves degree>=8; multibranch/node cases outside auxiliary hypotheses"
     },
     {
