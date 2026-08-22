@@ -1,0 +1,68 @@
+{
+  "schema": "STAGE29_13_THEOREM_DEPENDENCY_LEDGER_V1_SUBMITTED",
+  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "entries": {
+    "SAUNDERSON_CLOSURE": {
+      "receiver": "R29-EXT-CHANG-A",
+      "dependencies": [
+        "Saunderson family exact formula",
+        "Pythagorean parametrization u=p^2-q^2, v=2pq, w=p^2+q^2",
+        "body diagonal identity a^2+b^2+c^2=w^2(w^4+16u^2v^2)",
+        "palindromic quotient W=t+1/t",
+        "rational lift condition W^2-4=(t-1/t)^2",
+        "C0: S^2=T0^4+72T0^2+16",
+        "Jac(C0) is Cremona 80a1 with rank 0 and torsion (Z/2)^2",
+        "degenerate-boundary reconstruction"
+      ],
+      "conclusion": "NO_NONDEGENERATE_PERFECT_CUBOID_IN_SAUNDERSON_FAMILY",
+      "coverage": "THIN_FAMILY_ONLY",
+      "endpoint_nonexistence": false
+    },
+    "CASE_B_P1_CLOSURE": {
+      "receiver": "R29-EXT-CHANG-B",
+      "dependencies": [
+        "B(q)=(4q,q^2-4,2(q^2-1)) exact formulas",
+        "necessary space equation g^2-5q^4=20",
+        "negative Pell reduction Y^2-5h^2=-4 with Y=q^2",
+        "odd-index Lucas parametrization",
+        "Cohn square-Lucas theorem",
+        "degenerate q=1,2 reconstruction"
+      ],
+      "conclusion": "NO_NONDEGENERATE_PERFECT_CUBOID_IN_CASE_B_P_EQUALS_1",
+      "coverage": "ONE_PARAMETER_STRATUM_ONLY",
+      "endpoint_nonexistence": false
+    },
+    "PAPER_C": {
+      "receiver": "R29-EXT-CHANG-C",
+      "certified_scope": "FINITE_WINDOWS_ONLY",
+      "global_theorem_missing": "EFFECTIVE_ODD_MULTIPLICITY_PRIMITIVE_DIVISOR_THEOREM"
+    },
+    "PAPER_D": {
+      "receiver": "R29-EXT-CHANG-D",
+      "certified_stage29_use": "STRUCTURAL_HEIGHT_INPUT_ONLY",
+      "endpoint_decisive": false
+    },
+    "PAPER_E": {
+      "receiver": "R29-EXT-CHANG-E",
+      "verified_inputs": [
+        "Eanom y^2=x^3-275x+1750",
+        "rank 1",
+        "torsion Z/2",
+        "elliptic integral-point count 7"
+      ],
+      "missing_load_bearing_steps": [
+        "explicit integrality-preserving quartic-to-elliptic map",
+        "rigorous complete integral-point certificate used by the proof",
+        "audited pullback and cuboid reconstruction"
+      ],
+      "global_prime_subfamily_closure_certified": false
+    }
+  },
+  "firewalls": {
+    "stageA2_family_conclusion_generalized": false,
+    "thin_family_closure_implies_endpoint_empty": false,
+    "finite_window_implies_global_fiber_closure": false,
+    "lmfdb_elliptic_integral_points_automatically_close_quartic": false,
+    "self_hosted_theorem_accepted_without_reconstruction": false
+  }
+}
