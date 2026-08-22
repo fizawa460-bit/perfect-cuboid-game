@@ -39,7 +39,16 @@ def sc(gs):
         H=N
 subs={sc(gs) for r in (1,2) for gs in combinations(range(24),r)}
 Hs=sorted([H for H in subs if len(H)==6 and set(H)&set(V)=={e}],key=lambda H:tuple(sorted(H)))
-assert len(Hs)==4;hi={H:i for i,H in enumerate(Hs)}
+assert len(Hs)==4
+# Lock the reconstructed v/h label ordering to the audited Stage30-02C convention.
+assert V==[4,6,12,14] and O3==[6,12,14]
+assert [tuple(sorted(H)) for H in Hs]==[
+    (0,4,9,15,18,21),
+    (0,4,10,13,19,20),
+    (1,4,10,15,17,23),
+    (3,4,11,13,18,23),
+]
+hi={H:i for i,H in enumerate(Hs)}
 def cj(g,h):return mul[mul[g][h]][iv[g]]
 def a3(g):return {f"v{i}":f"v{O3.index(cj(g,h))}" for i,h in enumerate(O3)}
 def a4(g):
@@ -73,9 +82,22 @@ assert fresh==stored and len(fresh)==C["candidate_count"]==24
 counts={h:sum(c["C_image"]==h for c in C["candidates"]) for h in M4}
 assert counts==C["candidate_count_by_C_image"]=={"h0":6,"h1":6,"h2":6,"h3":6}
 assert C["canonical_generator_matched_candidate"]=="qicand-22"
+canonical=next(c for c in C["candidates"] if c["candidate_id"]=="qicand-22")
+assert canonical["omega4_image"]==["h3","h2","h0","h1"]
+assert canonical["omega3_image"]==["v0","v1","v2"]
+f={**dict(zip(A4,canonical["omega4_image"])),**dict(zip(A3,canonical["omega3_image"]))}
+assert tr(sA,f,M7)==sM and tr(tA,f,M7)==tM
+assert C["canonical_generator_match"]=={
+    "omega3_image":["v0","v1","v2"],
+    "omega4_image":["h3","h2","h0","h1"],
+    "s_arr_to":"S_mod",
+    "t_arr_to":"T_mod",
+}
 assert C["source_geometric_anchor_proved"] is False and C["q_descent_credit"] is False
 assert C["firewalls"]["defect_elimination_count"]==0
 print("EXHAUSTIVE_4x3_BIJECTION_SEARCH=PASS")
 print("SURVIVING_EQUIVARIANT_IDENTIFICATION_COUNT=24")
 print("C_IMAGE_MULTIPLICITIES=h0:6,h1:6,h2:6,h3:6")
+print("TASK_A_LABEL_CONVENTION_MATCH=PASS")
+print("CANONICAL_GENERATOR_MATCH=PASS")
 print("SOURCE_GEOMETRIC_ANCHOR_PROVED=false")
