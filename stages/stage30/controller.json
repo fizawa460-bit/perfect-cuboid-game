@@ -1,12 +1,12 @@
 {
-  "schema": "STAGE30_MODULAR_S4_CONTROLLER_V3_EXECUTION",
+  "schema": "STAGE30_MODULAR_S4_CONTROLLER_V4_AUDITED_30_01",
   "stage": "30",
   "kernel": "K16-C2-MODULAR-S4-ACTION",
   "source_receiver": "R29-KUM5",
   "parent_route": "Q11-MODULAR",
-  "status": "MAIN_BATCH_30_01_30_02P_SUBMITTED_PENDING_AUDIT",
+  "status": "30_01_AUDITED_PASS_AFTER_BOUNDED_SCOPE_REPAIR_WAITING_CODEX_A",
   "current_item": "30-02C_CODEX_TASK_A_EXECUTION",
-  "completed_units_in_submission": ["30-01", "30-02P"],
+  "completed_units": ["30-01", "30-02P"],
   "user_commands": ["Stage30-main-batch", "Stage30-audit"],
   "third_user_command_required": false,
   "roadmap_substage_count": 15,
@@ -23,7 +23,6 @@
   "waiting_external_codex_result": "A",
   "codex_prompt_ready": true,
   "codex_prompt_path": "stages/stage30/handoffs/codex-task-A-s4-action-extraction.md",
-  "codex_execution_before_current_submission_audit_recommended": false,
   "mandatory_stage29_sources": [
     "stages/stage29/29-02g",
     "stages/stage29/29-02ha",
@@ -37,36 +36,38 @@
     "scope": "TARGETED_ONLY",
     "full_replay_forbidden_without_new_trigger": true,
     "rematch_completed_in_30_01": true,
-    "exact_shortcut_found": false,
-    "search_terms": ["S4","modular","M(4,8)","Q(i)","Kummer","K8","descent","cocycle","Galois action","marked orbit"]
+    "exact_shortcut_found": false
   },
   "substage_order": ["30-01","30-02P","30-02C","30-03","30-04P","30-04C","30-05","30-06","30-06P","30-06C","30-07","30-08","30-09P","30-09C","30-10"],
   "chatgpt_owned": ["30-01","30-02P","30-03","30-04P","30-05","30-06","30-06P","30-08","30-09P","30-10"],
   "codex_owned": ["30-02C","30-04C","30-06C","30-07","30-09C"],
   "audit_scope_overrides": {
+    "30-02C": "FINITE_GROUP_ACTION_TABLES_ONLY; omega_mod_3/omega_mod_4 are intrinsic reduction-kernel action sets, not yet the source-geometric cuboid/modular adapter",
     "30-04P_30-04C": "QI_LEVEL_EQUIVARIANT_IDENTIFICATION_ONLY; K8 elements and retained level-4 data may be carried as frozen labels, but no Q-descent/arithmetic compatibility credit is allowed before 30-06 derives the semilinear cocycle",
+    "30-05": "MUST_SUPPLY_COMMON_GEOMETRIC_OR_MODULI_ANCHOR; finite S4 equivariance alone cannot discharge R29-KUM5",
     "30-06C": "EXACT_GALOIS_COCYCLE_AND_SEMILINEAR_COMPATIBILITY_VERIFICATION",
     "30-07": "EXHAUSTIVE_EIGHT_K8_DEFECT_TRANSPORT_AND_CLASSIFICATION_USING_AUDITED_30-06C_OUTPUT"
   },
-  "thirty01_close_flags": {
+  "thirty01_audited_flags": {
     "arrangement_action_objects_frozen": true,
     "modular_action_objects_frozen": true,
     "generator_conventions_frozen": true,
     "marked_data_frozen": true,
     "base_field_ledger_frozen": true,
     "arsenal_targeted_rematch_complete": true,
-    "hidden_class1_pending_undelegated_count": 0
+    "hidden_class1_pending_undelegated_count": 0,
+    "omega_mod_source_geometric_adapter_proved": false
   },
   "recursive_classification_required": true,
   "hidden_class1_carry_forward_allowed": false,
   "final_target": "R29-KUM5_DISCHARGED_OR_STRICTLY_SMALLER_RESIDUAL_LEAF_CLASSIFIED",
-  "audit_required": true,
-  "audit_verdict": "PENDING",
+  "audit_required": false,
+  "audit_verdict": "PASS_AFTER_BOUNDED_SCOPE_REPAIR",
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "next_item_after_audit_pass": "RUN_CODEX_TASK_A_FROM_STAGES_STAGE30_HANDOFFS_THEN_STAGE30_MAIN_BATCH",
-  "next_expected_command": "Stage30-audit",
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "30-02C_CODEX_TASK_A_EXECUTION",
+  "next_expected_action": "RUN_CODEX_TASK_A_THEN_STAGE30_MAIN_BATCH",
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false
 }
