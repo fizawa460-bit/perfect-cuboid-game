@@ -1,6 +1,6 @@
 {
-  "schema": "STAGE29_13_A2_METHOD_TRANSFER_V1_SUBMITTED",
-  "status": "SUBMITTED_PENDING_FRESH_AUDIT",
+  "schema": "STAGE29_13_A2_METHOD_TRANSFER_V2_AUDITED",
+  "status": "AUDITED_PASS_AFTER_MATERIAL_POSITIVE_REPAIR",
   "stageA2": {
     "family_specific_conclusion_generalized": false,
     "method_species_transferable": true,
@@ -17,20 +17,24 @@
       "status": "DISCHARGED_INDEPENDENTLY_RECONSTRUCTED",
       "family": "Saunderson Euler-brick family",
       "consumer": "J12-PARAMETRIC",
+      "secondary_consumer": "J12-POP-INTERACTION",
       "a2_style_transfer": true,
       "decisive_curve": "S^2=T0^4+72*T0^2+16",
-      "jacobian": "80a1",
+      "jacobian": "Cremona 80a1 / LMFDB 80.a2",
       "rank": 0,
+      "torsion": "Z/2 x Z/2",
       "family_perfect_cuboid_points": 0,
       "global_endpoint_coverage": false
     },
     "R29-EXT-CHANG-B": {
-      "status": "DISCHARGED_PELL_LUCAS_FAMILY_EXCLUSION",
-      "family": "Case B at p=1",
+      "status": "DISCHARGED_PELL_LUCAS_EXPLICIT_BQ_FAMILY_EXCLUSION",
+      "family": "B(q)=(4q,q^2-4,2(q^2-1)), q positive integer",
+      "external_name": "Case B at p=1",
       "consumer": "J12-PARAMETRIC",
       "a2_style_transfer": false,
       "decisive_mechanism": "g^2-5q^4=20 -> negative Pell -> odd Lucas -> Cohn square-Lucas theorem",
       "family_perfect_cuboid_points": 0,
+      "global_two_adic_stratum_adapter_certified": false,
       "global_endpoint_coverage": false
     },
     "R29-EXT-CHANG-C": {
@@ -48,7 +52,7 @@
     "R29-EXT-CHANG-E": {
       "status": "NOT_CERTIFIED_MISSING_RIGOROUS_INTEGRAL_POINT_TRANSFER_AND_COMPLETENESS_CERTIFICATE",
       "consumer": "J12-PARAMETRIC",
-      "jacobian": "800a3",
+      "jacobian": "Cremona 800a3 / LMFDB 800.d2",
       "lmfdb_rank": 1,
       "lmfdb_integral_point_count": 7,
       "global_prime_subfamily_closure_certified": false,
@@ -60,6 +64,17 @@
       ]
     }
   },
+  "new_population_interaction": {
+    "receiver": "R29-POP-SAUND-NONENDPOINT",
+    "status": "DISCHARGED_EXPLICIT_NONENDPOINT_M3_LOWER",
+    "inputs": [
+      "Stage28-50-r2 audited Saunderson injective-cone lower count",
+      "R29-EXT-CHANG-A full nondegenerate Saunderson endpoint exclusion"
+    ],
+    "theorem": "liminf_(B->infinity) (M3(B)-P(B))/B^(1/3) >= 27/(40*pi^2)",
+    "P_over_M3_zero_implied": false,
+    "backflow_required": false
+  },
   "route_transfer_screen": {
     "G10-FULL-ENDPOINT": "NO_CURRENT_A2_COMPATIBLE_ONE_DIMENSIONAL_RECEIVER",
     "G10-LOWGENUS-PICARD": "NO_POINT_COVERAGE_ADAPTER",
@@ -70,8 +85,8 @@
     "Q11-BRAUER": "NOT_A_CURVE_CLOSURE_RECEIVER",
     "J12-JOINT-V4": "FINAL_JOINT_CONDITIONAL_OPEN",
     "J12-LOCAL-SQUARECLASS": "LOCAL_TO_GLOBAL_ADAPTER_OPEN",
-    "J12-PARAMETRIC": "POSITIVE_TRANSFER_SAUNDERSON_PLUS_CASEB_P1_CHILD_CLOSURE",
-    "J12-POP-INTERACTION": "ALREADY_GREEN_COUNTING_ROUTE_NO_A2_CURVE_RECEIVER"
+    "J12-PARAMETRIC": "POSITIVE_TRANSFER_SAUNDERSON_PLUS_EXPLICIT_BQ_FAMILY_CLOSURES",
+    "J12-POP-INTERACTION": "ALREADY_GREEN; GAINS_SAUNDERSON_NONENDPOINT_M3_LOWER_CHILD"
   },
   "portfolio": {
     "certified_new_family_closure_count": 2,
@@ -83,12 +98,13 @@
     "P_over_M3_scale_known": false
   },
   "routing": {
-    "audit_required": true,
-    "merge_allowed": false,
-    "advance_allowed": false,
+    "audit_required": false,
+    "audit_verdict": "PASS_AFTER_MATERIAL_POSITIVE_REPAIR",
+    "merge_allowed": true,
+    "advance_allowed": true,
     "targeted_backflow_required": false,
     "roadmap_rewrite_required": false,
-    "next_item_after_audit_pass": "29-14_NATURAL_SLICE_QUOTIENT_AND_COVERAGE_TEST",
-    "next_expected_command": "Stage29-audit"
+    "next_item": "29-14_NATURAL_SLICE_QUOTIENT_AND_COVERAGE_TEST",
+    "next_expected_command": "Stage29-main-batch"
   }
 }
