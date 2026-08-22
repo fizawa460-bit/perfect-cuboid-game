@@ -1,13 +1,26 @@
 {
-  "schema": "STAGE30_MODULAR_S4_CONTROLLER_V13_30_06_AUDITED_SOURCE_ACTION_REPAIRED",
+  "schema": "STAGE30_MODULAR_S4_CONTROLLER_V14_30_06C_AUDITED",
   "stage": "30",
   "kernel": "K16-C2-MODULAR-S4-ACTION",
   "source_receiver": "R29-KUM5",
   "parent_route": "Q11-MODULAR",
-  "status": "30_06_AUDITED_READY_WAITING_EXTERNAL_CODEX_30_06C",
-  "current_item": "30-06C_EXTERNAL_CODEX_SEMILINEAR_VERIFICATION",
-  "completed_units": ["30-01", "30-02P", "30-02C", "30-03", "30-04", "30-05", "30-06", "30-06P"],
-  "user_commands": ["Stage30-main-batch", "Stage30-audit"],
+  "status": "30_06C_AUDITED_READY_30_07",
+  "current_item": "30-07_CHATGPT_EIGHT_K8_DEFECT_TRANSPORT_CLASSIFICATION",
+  "completed_units": [
+    "30-01",
+    "30-02P",
+    "30-02C",
+    "30-03",
+    "30-04",
+    "30-05",
+    "30-06",
+    "30-06P",
+    "30-06C"
+  ],
+  "user_commands": [
+    "Stage30-main-batch",
+    "Stage30-audit"
+  ],
   "third_user_command_required": false,
   "ownership_amendment": "stages/stage30/ownership-amendment-2026-08-22.md",
   "ownership_amendment_reaudit": "stages/stage30/30-03/reaudit-ownership-amendment.md",
@@ -17,30 +30,45 @@
     "stages/stage30/codex-handoff-contract.md"
   ],
   "original_roadmap_ownership_paragraphs_historical_where_conflicting": true,
-  "active_substage_order": ["30-06C", "30-07", "30-08", "30-09", "30-10"],
-  "future_main_batch_owned": ["30-07", "30-08", "30-09"],
-  "future_audit_owned": ["30-10"],
-  "future_chatgpt_owned": ["30-07", "30-08", "30-09", "30-10"],
-  "future_codex_owned": ["30-06C"],
-  "future_codex_owned_unit_count": 1,
-  "future_codex_prompt_generation_stages": ["30-06P"],
-  "future_codex_prompt_generation_count": 1,
+  "active_substage_order": [
+    "30-07",
+    "30-08",
+    "30-09",
+    "30-10"
+  ],
+  "future_main_batch_owned": [
+    "30-07",
+    "30-08",
+    "30-09"
+  ],
+  "future_audit_owned": [
+    "30-10"
+  ],
+  "future_chatgpt_owned": [
+    "30-07",
+    "30-08",
+    "30-09",
+    "30-10"
+  ],
+  "future_codex_owned": [],
+  "future_codex_owned_unit_count": 0,
+  "future_codex_prompt_generation_stages": [],
+  "future_codex_prompt_generation_count": 0,
   "inactive_historical_codex_tasks": [
     "30-02C_TASK_A_COMPLETED_AND_AUDITED",
     "30-04C_TASK_B_CANCELLED_BY_OWNERSHIP_AMENDMENT",
+    "30-06C_TASK_C_COMPLETED_AND_AUDITED",
     "30-07_CODEX_OWNERSHIP_CANCELLED_BY_OWNERSHIP_AMENDMENT",
     "30-09C_TASK_D_CANCELLED_BY_OWNERSHIP_AMENDMENT"
   ],
   "codex_handoff_policy": {
-    "enabled": true,
-    "active_only_for": "30-06C",
-    "prompt_generated_at": "30-06P",
-    "prompt_file": "stages/stage30/handoffs/codex-task-C-30-06C-semilinear-verification.md",
-    "prompt_created": true,
-    "prompt_audit_approved": true,
+    "enabled": false,
+    "active_only_for": null,
+    "last_completed_unit": "30-06C",
+    "last_prompt_file": "stages/stage30/handoffs/codex-task-C-30-06C-semilinear-verification.md",
+    "last_prompt_audit_approved": true,
     "source_action_repair_incorporated": true,
-    "pause_state": "WAITING_EXTERNAL_CODEX_RESULT_C",
-    "codex_output_requires_audit_before_credit": true,
+    "codex_output_audited": true,
     "no_automatic_extra_codex_delegation": true
   },
   "task_a_audited_state": {
@@ -66,7 +94,12 @@
     "common_function_field_anchor_verified": true,
     "hauptmodul_gauge_bridge_repaired": true,
     "modular_to_branch_kernel_order": 4,
-    "modular_to_branch_kernel_ids": ["g04", "g06", "g12", "g14"],
+    "modular_to_branch_kernel_ids": [
+      "g04",
+      "g06",
+      "g12",
+      "g14"
+    ],
     "modular_to_branch_kernel_equals_v_mod": true,
     "modular_to_branch_image_order": 6,
     "stage30_04_candidate_geometric_adapter_credit": false,
@@ -80,7 +113,6 @@
     "audit_verdict": "PASS_AFTER_BOUNDED_SOURCE_ACTION_LIFT_REPAIR",
     "source_action_repair": "stages/stage30/30-06/source-action-lift-audit-repair.md",
     "source_derived_diagonal_modular_lifts": true,
-    "pre_audit_section_was_sign_deck_twisted": true,
     "common_model_coordinate_cocycle": "delta_a3",
     "coordinate_cocycle_is_k8_defect": false,
     "theta_definition": "D4_CONJUGATION_ON_PSL2_Z4",
@@ -90,23 +122,65 @@
     "v4_sign_deck_lift_derived": true,
     "v4_sign_deck_patterns": {
       "g04": [],
-      "g12": ["a2", "a3", "b1"],
-      "g06": ["a1", "a3", "b2"],
-      "g14": ["a1", "a2", "b1", "b2"]
+      "g12": [
+        "a2",
+        "a3",
+        "b1"
+      ],
+      "g06": [
+        "a1",
+        "a3",
+        "b2"
+      ],
+      "g14": [
+        "a1",
+        "a2",
+        "b1",
+        "b2"
+      ]
     },
     "semilinear_identity": "sigma(alpha_hat(g))=c_sigma*alpha_hat(theta(g))*c_sigma^-1",
     "generator_level_exact_check": "PASS_AUDIT_REPAIRED_SOURCE_DERIVED_LIFTS",
-    "all24_semilinear_verification": "PENDING_CODEX_30_06C",
-    "codex_prompt_audit_approved": true,
+    "all24_semilinear_verification": "VERIFIED_BY_AUDITED_30_06C",
     "k8_defect_classification_executed": false,
     "defect_elimination_count": 0,
     "new_class3_theorem_gate": null
+  },
+  "thirty06c_audited_state": {
+    "audit_record": "stages/stage30/30-06C/audit.md",
+    "audit_state": "stages/stage30/30-06C/audit-state.json",
+    "audit_verdict": "PASS_AFTER_BOUNDED_REPRO_STATE_PIN_REPAIR",
+    "external_result_pr": 1333,
+    "source_derived_diagonal_lifts_verified": true,
+    "modular_group_order": 24,
+    "endpoint_projective_group_order": 24,
+    "modular_id_coverage_complete": true,
+    "multiplication_pair_count_verified": 576,
+    "theta_all24_verified": true,
+    "theta_fixes_v_mod_pointwise": true,
+    "v4_sign_deck_intersection_verified": true,
+    "v4_sign_deck_intersection_ids": [
+      "g04",
+      "g06",
+      "g12",
+      "g14"
+    ],
+    "c_sigma": "delta_a3",
+    "c_sigma_cocycle_verified": true,
+    "semilinear_all24_verified": true,
+    "failed_element_count": 0,
+    "exact_arithmetic_only": true,
+    "checker_fail_closed": true,
+    "manifest_state_pin_repair": "CONTROLLER_HASH_UPDATED_TO_AUDITED_STATE",
+    "k8_defect_classification_executed": false,
+    "defect_elimination_count": 0,
+    "r29_kum5_discharged": false
   },
   "audit_scope_overrides": {
     "30-04": "FINITE_ACTION_RELABELINGS_ONLY",
     "30-05": "COMMON_MODEL_AND_GAUGE_INVARIANT_BRANCH_PROJECTION_VERIFIED",
     "30-06": "SOURCE_DERIVED_DIAGONAL_MODULAR_LIFTS_PLUS_V4_SIGN_DECK_LIFT_AND_GAL_QI_Q_COCYCLE_DERIVED",
-    "30-06C": "SOLE_FUTURE_CODEX_UNIT; independently reconstruct source-derived lifts and exhaustively verify all 24 semilinear identities; no 30-07 defect work",
+    "30-06C": "AUDITED_EXHAUSTIVE_ALL24_SOURCE_DERIVED_SEMILINEAR_CERTIFICATE; no K8 defect classification or elimination credit",
     "30-07": "CHATGPT_EXHAUSTIVE_EIGHT_K8_DEFECT_TRANSPORT_USING_AUDITED_30_06C_OUTPUT",
     "30-09": "CHATGPT_FINAL_CERTIFICATE_AND_INDEPENDENT_CHECKER"
   },
@@ -115,17 +189,19 @@
   "hidden_class1_pending_count": 0,
   "final_target": "R29-KUM5_DISCHARGED_OR_STRICTLY_SMALLER_RESIDUAL_LEAF_CLASSIFIED",
   "r29_kum5_discharged": false,
-  "waiting_external_codex_result": true,
-  "waiting_external_codex_result_id": "C",
+  "waiting_external_codex_result": false,
+  "waiting_external_codex_result_id": null,
   "q_galois_cocycle_derived": true,
-  "q_galois_cocycle_exhaustively_verified": false,
+  "q_galois_cocycle_exhaustively_verified": true,
+  "k8_defect_classification_executed": false,
+  "defect_elimination_count": 0,
   "audit_required": false,
-  "audit_verdict": "PASS_AFTER_BOUNDED_SOURCE_ACTION_LIFT_REPAIR",
+  "audit_verdict": "PASS_AFTER_BOUNDED_REPRO_STATE_PIN_REPAIR",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item": "30-06C_EXTERNAL_CODEX_SEMILINEAR_VERIFICATION",
-  "next_expected_command": "EXTERNAL_CODEX_TASK_C_THEN_STAGE30_MAIN_BATCH",
+  "next_item": "30-07_CHATGPT_EIGHT_K8_DEFECT_TRANSPORT_CLASSIFICATION",
+  "next_expected_command": "Stage30-main-batch",
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false
 }
