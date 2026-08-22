@@ -3,7 +3,7 @@
 ```text
 STAGE=Stage29
 ITEM=29-10_GLOBAL_AND_K3_ATTACK_PORTFOLIO
-STATUS=SUBMITTED_PENDING_FRESH_AUDIT
+STATUS=AUDITED_PASS_AFTER_BOUNDED_REPAIR
 PRIMARY_MECHANISMS=FULL_ENDPOINT_DIRECT|LOWGENUS_PICARD|K3_SIGN_QUOTIENTS
 ATTACK_ROUTE_COUNT_RETAINED=11
 NEW_ATTACK_ROUTE_CREATED=false
@@ -140,11 +140,12 @@ Terasoma's 1988 four-quadric correspondence is valuable for smooth/normal-crossi
 
 More importantly for the current endpoint attack, the cohomological output that motivated `R29-TERA1` is already supplied more directly by the exact cuboid-specific coordinate-K3 quotient and eigenspace argument of 29-02e. Proving the missing Terasoma specialization merely to reproduce that decomposition would not produce a new rational-point implication.
 
-Accordingly this stage does **not** falsely mark the specialization theorem discharged. It demotes its execution priority:
+The fresh audit accepts demotion of current execution priority but narrows its scope. It does not certify that every future cycle/Chow-level consequence of a valid singular specialization would be redundant:
 
 ```text
-R29-TERA1=DORMANT_DOMINATED_FOR_CURRENT_RATIONAL_POINT_ATTACK
+R29-TERA1=DORMANT_FOR_CURRENT_RATIONAL_POINT_ATTACK_COHOMOLOGY_OUTPUT_ALREADY_SUPPLIED
 TERASOMA_SINGULAR_SPECIALIZATION_PROVED=false
+TERASOMA_CYCLE_LEVEL_FUTURE_VALUE_NOT_RULED_OUT=true
 TERASOMA_REPLAY_EARNS_ATTACK_CREDIT=false
 ```
 
@@ -159,7 +160,7 @@ K3_CROSS_COMPATIBILITY_PRIMARY_OWNER=J12-JOINT-V4
 
 ## 5. Attack classification
 
-No 29-10 route is promoted to GREEN on the present theorem surface.
+Fresh adversarial audit confirms that no 29-10 route is GREEN on the present theorem surface.
 
 ```text
 G10-FULL-ENDPOINT      = AMBER
@@ -175,19 +176,21 @@ The most important positive input is the certified global endpoint upper bound i
 
 ## 6. Downstream handoff
 
-29-10 does not alter the 11-route count and does not reorder 29-11/12.
+29-10 does not alter the 11-route count and does not reorder 29-11/12. The audit record is `stages/stage29/29-10/audit.md`.
 
 ```text
+AUDIT_REQUIRED=false
+AUDIT_VERDICT=PASS_AFTER_BOUNDED_REPAIR
+BOUNDED_REPAIR=TERASOMA_DISPOSITION_SCOPE_PLUS_CURRENT_ARXIV_TITLE
+REPAIR_REQUIRED=false
 ATTACK_ROUTE_COUNT_RETAINED=11
 TARGETED_BACKFLOW_REQUIRED=false
 ACTIVE_BACKFLOW_QUEUE_SIZE=0
 ROADMAP_REWRITE_REQUIRED=false
-AUDIT_REQUIRED=true
-AUDIT_VERDICT=PENDING
-MERGE_ALLOWED=false
-ADVANCE_ALLOWED=false
-NEXT_ITEM_AFTER_AUDIT_PASS=29-11_QUOTIENT_DESCENT_AND_MODULAR_ATTACK_PORTFOLIO
-NEXT_EXPECTED_COMMAND=Stage29-audit
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+NEXT_ITEM=29-11_QUOTIENT_DESCENT_AND_MODULAR_ATTACK_PORTFOLIO
+NEXT_EXPECTED_COMMAND=Stage29-main-batch
 PERFECT_CUBOID_EXISTENCE_CLAIM=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
