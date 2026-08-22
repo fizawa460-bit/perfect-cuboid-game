@@ -1,44 +1,81 @@
-# Stage29-11 source refresh
+# Stage29-11 source refresh — audited
 
 ```text
-STATUS=SUBMISSION_SOURCE_REFRESH
+STATUS=AUDITED_SOURCE_REFRESH
 CURRENT_WEB_REFRESH_ATTEMPTED=true
-CURRENT_WEB_REFRESH_AVAILABLE=false_SERVICE_ERROR
-REPO_AUDITED_SOURCE_LOCKS_USED=true
+CURRENT_WEB_REFRESH_AVAILABLE=true
 ```
-
-The live-web refresh attempted during this batch returned a service error, so no unverified fresh web claim is promoted. The submission uses the already audited primary-source locks in the repository and marks any new source-level interpretation for fresh audit.
 
 ## Campedelli
 
-- A. Calabri, M. Mendes Lopes, R. Pardini, *Involutions on numerical Campedelli surfaces*, Tohoku Math. J. 60 (2008), 1--22, DOI `10.2748/tmj/1206734404`.
-- Existing repo source lock: `stages/stage29/29-02hb/source-lock.md`, especially Section 5 / Example 1 and the geometric rational/Enriques involution-quotient terminology.
-- M. Mendes Lopes, R. Pardini, M. Reid, *Campedelli surfaces with fundamental group of order 8*, Geom. Dedicata 139 (2009), 49--55, arXiv:0805.0006.
+Primary source checked directly:
 
-29-11 proposes only a **geometric** partial discharge for `R29-CAMP3`. Audit must verify the exact involution theorem locator and must not promote geometric rationality to Q-rationality.
+```text
+A. Calabri, M. Mendes Lopes, R. Pardini
+Involutions on numerical Campedelli surfaces
+Tohoku Math. J. 60 (2008), 1--22
+DOI 10.2748/tmj/1206734404
+```
+
+For a classical Campedelli surface, the paper states that all involutions are composed with the bicanonical map. Its general analysis then gives the geometric quotient dichotomy: rational or birational to an Enriques surface. Since the classical deck group is `(Z/2)^3`, this covers all seven nontrivial involutions.
+
+This certifies only the geometric/birational child receiver:
+
+```text
+R29-CAMP3-GEOM=DISCHARGED_GEOMETRIC_RATIONAL_OR_ENRIQUES_DICHOTOMY
+```
+
+It does not determine the exact rational-versus-Enriques assignment for the cuboid inherited Q-forms, and it does not descend a geometric rational parametrization to Q. Hence
+
+```text
+R29-CAMP3=PARTIAL_GEOMETRIC_DONE_Q_FORM_AND_EXACT_INVOLUTION_ASSIGNMENT_OPEN
+```
+
+The exact ten-kernel and `8+2` geometric / `6+2+2` certified-Q orbit data remain the audited repo computation; no exact Q-isomorphism-class count is inferred.
 
 ## Beauville
 
-- A. Beauville, *A tale of two surfaces* (the source used by audited 29-02d for the irregular degree-two cover, etale V4 tower and Albanese structure).
-- Repo source files: `29-02d/q-form-adapter.md`, `lift-twist-ledger.md`, `albanese-bolza-target.md`, `source-lock.md`.
-- Fite--Sutherland arithmetic field-of-definition firewall for the Bolza Jacobian remains load-bearing.
+Primary source retained:
 
-There is a locator discrepancy in surviving source descriptions of Beauville's etale tower (`Remark 1` versus another surfaced version/description using `Remark 2`). The mathematical tower was already audited, but 29-11 fresh audit should reconcile the exact edition/remark locator rather than silently rewriting history.
+```text
+A. Beauville, A tale of two surfaces
+```
 
-Recent genus-two 2-Selmer/Cassels--Tate algorithms are relevant as computational tools for individual Beauville-induced twists. No uniform theorem over the infinite physical twist family is imported.
+The current surfaced PDF places the etale `(Z/2)^2` tower and Albanese pullback discussion in **Remark 2**. The historical Stage29-02d audit recorded **Remark 1**. This is treated as a source-version/locator provenance repair only; the tower itself was already independently audited in-repo and its mathematical content is unchanged.
+
+The exact Q-form degree-two cover, constant `Z/2` deck group, and pointwise twist decomposition remain certified. No theorem found in this refresh forces the physical twist classes into a finite subset of `Q*/Q*^2`, and no individual genus-two Selmer algorithm supplies uniform closure over the whole physical family.
 
 ## Modular
 
-- Testa--Stoll, cuboid surface paper, Section 4: modular presentation using `X(8)`, kernel `G0`, quotient residual `PSL2(Z/4) ~= S4`, and the Q-rational conjugate-self level datum.
-- 29-02g exact repo adapters remain authoritative for the current arithmetic scope.
-- Fisher's ordinary symplectic 8-congruence surface remains a firewall: ordinary 8-congruence is abundant and is not an endpoint obstruction.
+The Stage29-02g audit remains authoritative:
 
-The abstract coincidence between the arrangement `S4` and modular residual `S4` is not promoted to `R29-KUM5` closure without an action/cocycle calculation.
+```text
+K8=ker(SL2(Z/8)->SL2(Z/4)), |K8|=8,
+ordinary symplectic conjugacy class sizes = 1,3,3,1.
+```
+
+The current refresh found no already-completed sigma-twisted retained level-4 action identifying those four abstract classes with the exact arithmetic endpoint strata. `R29-MOD1C` therefore stays open.
+
+Likewise, the arrangement `S4` and generic modular residual `S4` are not identified at action/cocycle level. Thus
+
+```text
+R29-KUM5=OPEN_ACTION_LEVEL_S4_Q_DESCENT_ADAPTER.
+```
 
 ## Brauer
 
-- Testa--Stoll Theorem 10 remains the proper algebraic Brauer input.
-- 29-02f's Frobenius/integral audit remains the proper odd-primary transcendental input.
-- The physical-open boundary/UPic/Gersten/two-primary problem remains separate.
+The current Testa--Stoll cuboid PDF was checked directly. Its **Theorem 10** states that the algebraic part of the Brauer group of the smooth proper cuboid surface is exactly the image of `Br(Q)`. Thus the repo's theorem locator is current and correct.
 
-No new Brauer--Manin obstruction is claimed in this source refresh.
+The Stage29-02f proper odd-primary transcendental exclusion remains separately derived and audited. Neither result computes the physical-open extended Picard/Gersten boundary problem or the two-primary local evaluation maps.
+
+No source found in this refresh supplies an open Brauer--Manin obstruction for the physical endpoint open.
+
+## Source-refresh verdict
+
+```text
+NEW_FOUNDATION_FOUND=false
+NEW_ATTACK_ROUTE_CREATED=false
+GREEN_ROUTE_CREATED=false
+ROADMAP_REWRITE_REQUIRED=false
+BOUNDED_SOURCE_REPAIR=BEAUVILLE_CURRENT_REMARK_2_LOCATOR_PROVENANCE
+```
