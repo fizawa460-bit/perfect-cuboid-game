@@ -1,9 +1,22 @@
 # Stage32-05 — exact fixed-weight MITM quotient closure
 
-Stage32-05 now promotes the successful feasibility probe into a full exact bounded-parent solver for two Stage32-04 residual parents:
+Stage32-05 promotes the successful feasibility probe into a full exact bounded-parent solver for the Stage32-04 d=6,g=1 residual parents.
 
-- `d6-g1-e2-a39`
-- `d6-g1-e10-a15`
+The first exact production pair is already closed:
+
+- `d6-g1-e2-a39`: 0 exceptional candidates after the exact quotient join;
+- `d6-g1-e10-a15`: 672 exceptional candidates, all exact QF_NIA UNSAT with proof hashes, 0 survivors.
+
+The current expansion targets the remaining six parents in parallel:
+
+- `d6-g1-e4-a33`
+- `d6-g1-e6-a26`
+- `d6-g1-e6-a27`
+- `d6-g1-e8-a20`
+- `d6-g1-e8-a21`
+- `d6-g1-e10-a14`
+
+The first remaining-six run discovers and records their exact candidate counts. If all six close, those counts are locked into the workflow and reproduced in a second run before hostile-audit credit is requested.
 
 It still carries **no receiver credit** and **no Stage29 theorem discharge**. Any bounded-parent closure remains `audit_status=PENDING` until an independent hostile audit/recomputation accepts the new reducer and the residual QF_NIA checks.
 
@@ -19,14 +32,6 @@ It still carries **no receiver credit** and **no Stage29 theorem discharge**. An
 8. Materialize every exceptional assignment surviving the exact quotient join. No sampling is used in this stage.
 9. Pass every surviving assignment to the same exact denominator-8 intersection-coordinate QF_NIA conditions, now with only 16 selected-normal variables free. Enforce all 140 cap inequalities, lattice-image congruences, degree/mass identities, and exact adjunction quadratic inequality. `SAT` is recorded; `UNKNOWN` receives no credit; only `UNSAT` closes a candidate.
 10. With `--proof`, persist a compressed Z3 proof and SHA256 for every UNSAT residual candidate.
-
-Local pre-CI regression of the exact reducer gives:
-
-- `d6-g1-e2-a39`: 0 exceptional candidates after the exact quotient join;
-- `d6-g1-e10-a15`: 672 exceptional candidates passed to the 16-variable exact QF_NIA backend;
-- q-tail reachable residue count: 16384.
-
-These are regression expectations only until CI independently reproduces them.
 
 ## Firewalls
 
