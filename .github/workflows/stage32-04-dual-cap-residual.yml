@@ -12,9 +12,22 @@ permissions:
   actions: read
 
 jobs:
-  exact-dual-cap-residual:
+  residual-parent:
+    name: residual-${{ matrix.label }}
     runs-on: ubuntu-latest
     timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { label: d6-g1-e2-a39, e: 2, a: 39, resume_run9: true }
+          - { label: d6-g1-e4-a33, e: 4, a: 33, resume_run9: false }
+          - { label: d6-g1-e6-a26, e: 6, a: 26, resume_run9: false }
+          - { label: d6-g1-e6-a27, e: 6, a: 27, resume_run9: false }
+          - { label: d6-g1-e8-a20, e: 8, a: 20, resume_run9: false }
+          - { label: d6-g1-e8-a21, e: 8, a: 21, resume_run9: false }
+          - { label: d6-g1-e10-a14, e: 10, a: 14, resume_run9: false }
+          - { label: d6-g1-e10-a15, e: 10, a: 15, resume_run9: false }
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -22,17 +35,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
-      - name: Install pinned backend
+      - name: Install pinned exact backends
         run: pip install -r stages/stage32/32-04/requirements.txt
-      - name: Compile Stage32-04
+      - name: Compile exact backends
         run: >-
           python -m py_compile
+          stages/stage32/32-03/affine_lattice.py
           stages/stage32/32-04/cap_certificate.py
           stages/stage32/32-04/derive_intersection_caps.py
           stages/stage32/32-04/verify_intersection_caps.py
           stages/stage32/32-04/run_intersection_coord_budget.py
           stages/stage32/32-04/run_coord_z3_partition.py
-          stages/stage32/32-04/run_coord_partition_residual_batch.py
       - name: Download source-locked PR1343 artifact
         run: >-
           gh run download 32624596141
@@ -41,41 +54,157 @@ jobs:
           --dir "$RUNNER_TEMP/stage32-prefix"
       - name: Derive and exactly verify all 140 dual caps
         run: |
-          mkdir -p "$RUNNER_TEMP/stage32-cap"
+          mkdir -p "$RUNNER_TEMP/stage32-parent/evidence"
           python stages/stage32/32-04/derive_intersection_caps.py \
             --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
-            --output "$RUNNER_TEMP/stage32-cap/intersection-cap-certificates.json"
+            --output "$RUNNER_TEMP/stage32-parent/intersection-cap-certificates.json"
           python stages/stage32/32-04/verify_intersection_caps.py \
             --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
-            --certificate "$RUNNER_TEMP/stage32-cap/intersection-cap-certificates.json" \
-            --output "$RUNNER_TEMP/stage32-cap/cap-verification.json"
-      - name: Replay residual parents with coordinate partition fallback
+            --certificate "$RUNNER_TEMP/stage32-parent/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/stage32-parent/cap-verification.json"
+      - name: Resume e2/a39 from run 9 partial evidence
+        if: ${{ matrix.resume_run9 }}
         run: |
-          mkdir -p "$RUNNER_TEMP/stage32-cap/evidence"
-          python stages/stage32/32-04/run_coord_partition_residual_batch.py \
-            --artifact-dir "$RUNNER_TEMP/stage32-prefix" \
-            --output-dir "$RUNNER_TEMP/stage32-cap/evidence" \
-            --cap-certificate "$RUNNER_TEMP/stage32-cap/intersection-cap-certificates.json" \
-            --direct-workers 4 --direct-timeout 120 \
-            --leaf-workers 4 --leaf-timeout 30 --proof
-      - name: Upload proof-bearing coordinate-partition evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: stage32-04-coordinate-partition-evidence
-          path: ${{ runner.temp }}/stage32-cap
-          if-no-files-found: error
-      - name: Enforce bounded target closure
+          mkdir -p "$RUNNER_TEMP/run9"
+          gh run download 32644079754 \
+            --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-04-coordinate-partition-evidence \
+            --dir "$RUNNER_TEMP/run9"
+          cp -a "$RUNNER_TEMP/run9/evidence/${{ matrix.label }}"* \
+            "$RUNNER_TEMP/stage32-parent/evidence/"
+      - name: Exact deterministic partition with affine terminal fallback
+        run: |
+          python stages/stage32/32-04/run_coord_z3_partition.py \
+            --cap-certificate "$RUNNER_TEMP/stage32-parent/intersection-cap-certificates.json" \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output-dir "$RUNNER_TEMP/stage32-parent/evidence" \
+            --degree 6 --genus 1 \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --workers 4 --timeout 15 --proof
+      - name: Enforce exact parent closure
         run: |
           python - <<'PY'
           import json, os, pathlib
-          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-cap/evidence/coord-partition-residual-manifest.json'
+          label = '${{ matrix.label }}'
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-parent/evidence' / f'partition-{label}.json'
           data = json.loads(p.read_text())
-          assert data['all_28_residual_parents_exactly_closed'] is True
-          assert data['combined_exactly_closed_parent_count'] == 28
-          assert data['unresolved'] == []
-          assert data['low_degree_prefix_complete'] is False
-          assert data['full_d176_d192_numerical_orbit_census'] is False
-          assert data['receiver_credit'] is False
-          print('PASS_STAGE32_04_COORD_PARTITION_28_RESIDUAL_PARENT_CLOSURE')
+          assert data['all_complete'] is True
+          assert data['exact_survivor_count'] == 0
+          assert data['floating_point_feasibility_credit'] is False
+          print(f'PASS_STAGE32_04_PARENT_{label}_EXACT_ZERO')
           PY
+      - name: Upload parent evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-04-parent-${{ matrix.label }}
+          path: ${{ runner.temp }}/stage32-parent
+          if-no-files-found: error
+
+  summarize:
+    name: summarize-28-residual-closure
+    needs: residual-parent
+    if: ${{ success() }}
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-04-parent-*
+          path: ${{ runner.temp }}/matrix
+          merge-multiple: true
+      - name: Download run 5 exact coordinate evidence
+        run: >-
+          gh run download 32643244667
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-04-intersection-coordinate-residual-evidence
+          --dir "$RUNNER_TEMP/run5"
+      - name: Recompute combined 28-parent closure manifest
+        run: |
+          mkdir -p "$RUNNER_TEMP/summary"
+          python - <<'PY'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path.cwd()
+          temp = pathlib.Path(os.environ['RUNNER_TEMP'])
+          local = json.loads((root/'stages/stage32/32-02/local-evidence.json').read_text())
+          audited = {
+              row['label'] for row in local['formerly_unresolved_residuals']
+              if row['disposition'].startswith('CLOSED_') and row['exact_survivor_count'] == 0
+          }
+          assert len(audited) == 14
+          affine = json.loads((root/'stages/stage32/32-03/certificates/closure-evidence.json').read_text())
+          assert affine['all_44_e4_a32_terminal_cells_exactly_closed'] is True
+          assert affine['unknown_count'] == 0 and affine['exact_survivor_count'] == 0
+          audited.add('d6-g1-e4-a32')
+          assert len(audited) == 15
+
+          run5 = json.loads((temp/'run5/coord-evidence/coord-residual-manifest.json').read_text())
+          run5_closed = {
+              row['label'] for row in run5['entries']
+              if row.get('complete') and row.get('exact_survivor_count') == 0
+          }
+          assert len(run5_closed) == 5
+          assert len(audited | run5_closed) == 20
+
+          targets = {
+              'd6-g1-e2-a39','d6-g1-e4-a33','d6-g1-e6-a26','d6-g1-e6-a27',
+              'd6-g1-e8-a20','d6-g1-e8-a21','d6-g1-e10-a14','d6-g1-e10-a15'
+          }
+          matrix_closed = set()
+          manifests = []
+          for p in sorted((temp/'matrix').glob('evidence/partition-d6-g1-e*-a*.json')):
+              data = json.loads(p.read_text())
+              label = f"d{data['degree']}-g{data['genus']}-e{data['exceptional_mass']}-a{data['curve_group_mass']}"
+              assert data['all_complete'] is True
+              assert data['exact_survivor_count'] == 0
+              matrix_closed.add(label)
+              manifests.append({
+                  'label': label,
+                  'file_sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
+                  'deterministic_result_sha256': data['deterministic_result_sha256'],
+                  'wall_seconds': data['wall_seconds'],
+              })
+          assert matrix_closed == targets
+          combined = audited | run5_closed | matrix_closed
+          assert len(combined) == 28
+
+          summary = {
+              'schema': 'STAGE32_04_COMBINED_28_RESIDUAL_CLOSURE_V1',
+              'source_pr1343_run': 32624596141,
+              'audited_predecessor_closed_parent_count': 15,
+              'stage32_02_local_evidence_sha256': local['canonical_sha256_without_this_field'],
+              'stage32_03_affine_closure_sha256': affine['canonical_sha256_without_this_field'],
+              'run5_coordinate_evidence_run': 32643244667,
+              'run5_coordinate_evidence_artifact_sha256': '6f356132852994daf158b943f393c96fa362dc37563f77dda31b0a4ba78e5791',
+              'run5_closed_parent_count': len(run5_closed),
+              'run9_resume_evidence_run': 32644079754,
+              'run9_resume_evidence_artifact_sha256': '45206e2e65b4ec0f0bd10762b7f039523a7338aba7b18cdd6ae9b8450ca539a9',
+              'matrix_closed_parent_count': len(matrix_closed),
+              'matrix_manifests': manifests,
+              'combined_exactly_closed_parent_count': len(combined),
+              'all_28_residual_parents_exactly_closed': combined == audited | run5_closed | targets,
+              'combined_closed_labels': sorted(combined),
+              'low_degree_prefix_complete': False,
+              'full_d176_d192_numerical_orbit_census': False,
+              'receiver_credit': False,
+              'r29_lg2': 'NOT_DISCHARGED',
+              'r29_lg2_eff': 'NOT_DISCHARGED',
+              'r29_lg2_mb': 'NOT_DISCHARGED',
+              'g10_lowgenus_picard': 'AMBER',
+          }
+          raw = json.dumps(summary, sort_keys=True, separators=(',', ':')).encode()
+          summary['canonical_sha256_without_this_field'] = hashlib.sha256(raw).hexdigest()
+          out = temp/'summary/stage32-04-combined-28-residual-closure.json'
+          out.write_text(json.dumps(summary, indent=2, sort_keys=True)+'\n')
+          print('PASS_STAGE32_04_COMBINED_28_RESIDUAL_PARENT_CLOSURE')
+          print(json.dumps(summary, sort_keys=True))
+          PY
+      - name: Upload combined closure summary
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-04-combined-28-residual-closure
+          path: ${{ runner.temp }}/summary
+          if-no-files-found: error
