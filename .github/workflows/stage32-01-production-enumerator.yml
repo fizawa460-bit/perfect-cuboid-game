@@ -15,9 +15,13 @@ permissions:
   actions: read
 
 jobs:
-  refine-degree6-residuals:
+  refine-degree6-residual:
+    strategy:
+      fail-fast: false
+      matrix:
+        exceptional_mass: [0, 2, 4, 6, 8, 10, 12]
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -40,28 +44,58 @@ jobs:
       - name: Install immutable and resumable inputs
         run: |
           cp /tmp/stage32-first-level/picard-core.json stages/stage32/32-01/picard-core.json
-          cp /tmp/stage32-first-level/numeric-magma-slice-*.txt stages/stage32/32-01/ 2>/dev/null || true
-          cp /tmp/stage32-first-level/numeric-magma-strata-*.json stages/stage32/32-01/ 2>/dev/null || true
           cp /tmp/stage32-second-level/numeric-magma-curvegroup-batch-*.json stages/stage32/32-01/ 2>/dev/null || true
-      - name: Adaptively finish all d6 genus1 calculator-timeout strata
+      - name: Adaptively finish one d6 genus1 calculator-timeout stratum
         working-directory: stages/stage32/32-01
-        run: |
-          for e in 0 2 4 6 8 10 12; do
-            python run_numeric_magma_curvegroup_adaptive.py 6 1 "$e" 12
-          done
-      - name: Verify exact low-degree production prefix
-        working-directory: stages/stage32/32-01
-        run: python verify_low_degree_numeric.py
-      - name: Upload continuation checkpoint
+        run: python run_numeric_magma_curvegroup_adaptive.py 6 1 ${{ matrix.exceptional_mass }} 8
+      - name: Upload exact stratum continuation checkpoint
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-01-degree6-adaptive-refinement
+          name: stage32-01-d6g1-e${{ matrix.exceptional_mass }}
+          path: stages/stage32/32-01/numeric-magma-curvegroup-adaptive-d6-g1-e${{ matrix.exceptional_mass }}.json
+          if-no-files-found: warn
+
+  verify-low-degree-prefix:
+    needs: refine-degree6-residual
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Download exact first-level checkpoint
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-01-sharded-low-degree-batch
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 32623143985
+          path: /tmp/stage32-first-level
+      - name: Download all adaptive d6 strata from this run
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-01-d6g1-e*
+          merge-multiple: true
+          path: /tmp/stage32-adaptive
+      - name: Install complete low-degree checkpoint set
+        run: |
+          cp /tmp/stage32-first-level/picard-core.json stages/stage32/32-01/picard-core.json
+          cp /tmp/stage32-first-level/numeric-magma-slice-*.txt stages/stage32/32-01/ 2>/dev/null || true
+          cp /tmp/stage32-first-level/numeric-magma-strata-*.json stages/stage32/32-01/ 2>/dev/null || true
+          cp /tmp/stage32-adaptive/numeric-magma-curvegroup-adaptive-*.json stages/stage32/32-01/ 2>/dev/null || true
+      - name: Verify exact low-degree production prefix
+        working-directory: stages/stage32/32-01
+        run: python verify_low_degree_numeric.py
+      - name: Upload verified aggregate checkpoint
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-01-low-degree-verified-prefix
           path: |
             stages/stage32/32-01/picard-core.json
             stages/stage32/32-01/numeric-magma-slice-*.txt
             stages/stage32/32-01/numeric-magma-strata-*.json
-            stages/stage32/32-01/numeric-magma-curvegroup-batch-*.json
             stages/stage32/32-01/numeric-magma-curvegroup-adaptive-*.json
             stages/stage32/32-01/numeric-low-degree-summary.json
           if-no-files-found: warn
