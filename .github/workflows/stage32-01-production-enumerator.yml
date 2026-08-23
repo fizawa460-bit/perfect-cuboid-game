@@ -5,6 +5,7 @@ on:
     paths:
       - 'stages/stage32/32-01/run_normaliz_slice_enum.py'
       - 'stages/stage32/32-01/run_numeric_magma_slice.py'
+      - 'stages/stage32/32-01/run_numeric_magma_strata.py'
       - 'stages/stage32/32-01/run_sparse_picard_export.py'
       - 'stages/stage32/32-01/verify_graded_slice_plan.py'
       - '.github/workflows/stage32-01-production-enumerator.yml'
@@ -63,4 +64,28 @@ jobs:
           path: |
             stages/stage32/32-01/picard-core.json
             stages/stage32/32-01/numeric-magma-slice-*.txt
+          if-no-files-found: warn
+
+  exceptional-mass-strata-pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact source-locked Picard core
+        working-directory: stages/stage32/32-01
+        run: python run_sparse_picard_export.py
+      - name: Enumerate all degree-4 genus-1 exceptional-mass strata
+        working-directory: stages/stage32/32-01
+        run: python run_numeric_magma_strata.py
+      - name: Upload sharded degree-4 transcript
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-01-degree4-strata
+          path: |
+            stages/stage32/32-01/picard-core.json
+            stages/stage32/32-01/numeric-magma-strata-d4-g1.json
           if-no-files-found: warn
