@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V2_ROADMAP_AUDITED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V3_32_01_PREFLIGHT_AUDITED",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "children": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
   "parent_route": "G10-LOWGENUS-PICARD",
   "execution_class": 2,
-  "status": "ROADMAP_AUDITED_READY_32_01",
+  "status": "32_01_PREFLIGHT_AUDITED_EXACT_POLYHEDRAL_CLASS2_WALL",
   "base_main_sha": "e1e44bfe04b3194c6d1732c9c099642b49741444",
   "stage31_dependency": {
     "required": true,
@@ -18,24 +18,35 @@
   "roadmap_audit": {
     "audit_record": "stages/stage32/32-00/audit.md",
     "audit_state": "stages/stage32/32-00/audit-state.json",
-    "audit_verdict": "PASS_AFTER_BOUNDED_RECEIVER_SEMANTICS_REPAIR",
-    "source_lock_verified": true,
-    "unibranch_window_scope_verified": true,
-    "multibranch_firewall_verified": true,
-    "upstream_rank44_bound22_verified": true
+    "audit_verdict": "PASS_AFTER_BOUNDED_RECEIVER_SEMANTICS_REPAIR"
+  },
+  "preflight_audit": {
+    "audit_record": "stages/stage32/32-01/audit.md",
+    "audit_state": "stages/stage32/32-01/audit-state.json",
+    "audit_verdict": "PASS_PREFLIGHT_ONLY_EXACT_CLASS2_POLYHEDRAL_WALL_EXPOSED",
+    "workflow_run": 32610810714,
+    "preflight_steps_passed": true,
+    "window_row_count": 183,
+    "picard_rank": 64,
+    "hperp_rank": 63,
+    "known_filter_count": 140,
+    "sparse_picard_core_export_verified": true,
+    "polyhedral_pilot_cancelled_without_result": true
   },
   "user_commands": ["Stage32-main-batch", "Stage32-audit"],
   "execution_strategy": "LARGE_CHECKPOINTED_UNITS_WITH_AUTOMATIC_MAIN_BATCH_CONTINUATION",
   "one_monolithic_raw_search_forbidden": true,
   "main_batch_may_continue_across_units": true,
-  "current_item": "32-01_PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
+  "current_item": "32-01-POLYTAIL-REDUCTION-AND-GRADED-ENUMERATOR",
   "units": [
     {
       "id": "32-01",
       "size": "XL",
       "name": "PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
       "target": "R29-LG2_NUMERICAL_COMPONENT",
-      "status": "READY",
+      "status": "IN_PROGRESS_PREFLIGHT_VERIFIED_POLYTAIL_WALL_EXPOSED",
+      "preflight_complete": true,
+      "numerical_census_complete": false,
       "close_semantics": "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS completes only the numerical component; R29-LG2 itself remains open until 32-02 effectivity disposition is complete"
     },
     {
@@ -68,21 +79,10 @@
     }
   ],
   "source_lock": {
-    "internal": [
-      "stages/stage29/29-02c-LG2/result.md",
-      "stages/stage29/29-02c-LG2/audit.md",
-      "stages/stage29/29-02c-LG2/finite-search-contract.md",
-      "stages/stage29/29-02c-LG2/computational-feasibility.md",
-      "stages/stage29/29-02c-LG2/upstream-code-lock.md",
-      "stages/stage29/29-15/open-receiver-triage.json",
-      "stages/stage29/29-16/active-kernel-ledger.json",
-      "stages/stage31/controller.json"
-    ],
     "upstream_repository": "MichaelStollBayreuth/Verification",
     "upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
     "upstream_file": "Cuboids/cuboids.magma",
-    "upstream_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
-    "upstream_license": "GPL-3.0"
+    "upstream_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
   },
   "frozen_geometry": {
     "picard_rank": 64,
@@ -95,34 +95,24 @@
     "naive_lift_volume_exponent": 22
   },
   "exact_wall": "symmetry-reduced effectivity-aware multibranch Picard-lattice enumeration to the audited d<=176/192 bounds",
-  "completion_consequence": "complete bounded low-genus carrier census only",
-  "direct_close_requirements": [
-    "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS",
-    "UNKNOWN_EFFECTIVITY_SURVIVOR_COUNT_ZERO",
-    "MULTIBRANCH_LOW_GENUS_LEDGER_COMPLETE",
-    "REPRODUCIBLE_CHECKPOINT_MANIFEST_COMPLETE",
-    "INDEPENDENT_VERIFIER_PASS",
-    "HIDDEN_CLASS1_PENDING_COUNT_ZERO"
-  ],
+  "current_smaller_class2_leaf": {
+    "id": "L32-01-POLYTAIL",
+    "classification": 2,
+    "statement": "certify or avoid the 64-variable 140-halfspace homogeneous tail-cone computation using exact symmetry/redundancy/quotient reductions, then construct resumable bounded graded enumeration",
+    "workflow_observation": "PyNormaliz 2.24 tail-cone pilot cancelled after about 12.5 minutes with no mathematical result"
+  },
   "receiver_semantics_override": {
     "R29_LG2_NUMERICAL_COMPONENT_COMPLETE_AFTER_32_01": true,
     "R29_LG2_DISCHARGED_AFTER_32_01": false,
     "R29_LG2_DISCHARGE_requires_32_02": true,
     "R29_LG2_EFF_DISCHARGE_requires_32_02": true
   },
-  "checkpoint_policy": "32-01 must checkpoint at least by genus, degree, and symmetry/intersection stratum; completed strata must be resumable and immutable",
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2_NUMERICAL_COMPONENT_COMPLETE": false,
+  "R29_LG2": "NOT_DISCHARGED",
+  "R29_LG2_EFF": "NOT_DISCHARGED",
+  "R29_LG2_MB": "NOT_DISCHARGED",
   "class3_rule": "runtime, memory, missing CAS, or unimplemented pruning are Class2/tool walls; Class3 requires a precise genuinely new theorem after finite algebra/computation is exhausted",
-  "permitted_kernel_outcomes": [
-    "CLOSED_CERTIFIED_BOUNDED_LOWGENUS_CENSUS",
-    "SMALLER_CLASS2_RESIDUAL",
-    "CLASS3_EXPOSED"
-  ],
-  "prospective_clean_close_frontier": {
-    "active_kernel_count": 10,
-    "class2_kernel_count": 1,
-    "class3_kernel_count": 9,
-    "sole_class2_kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN"
-  },
   "thin_or_carrier_scope_only": true,
   "endpoint_decisive_alone": false,
   "isolated_rational_points_excluded": false,
@@ -132,10 +122,10 @@
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
   "audit_required": false,
-  "audit_verdict": "PASS_AFTER_BOUNDED_RECEIVER_SEMANTICS_REPAIR",
+  "audit_verdict": "PASS_PREFLIGHT_ONLY_EXACT_CLASS2_POLYHEDRAL_WALL_EXPOSED",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item": "32-01_PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
+  "next_item": "32-01-POLYTAIL-REDUCTION-AND-GRADED-ENUMERATOR",
   "next_expected_command": "Stage32-main-batch"
 }
