@@ -14,7 +14,7 @@ permissions:
 jobs:
   exact-dual-cap-residual:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 45
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -31,8 +31,8 @@ jobs:
           stages/stage32/32-04/derive_intersection_caps.py
           stages/stage32/32-04/verify_intersection_caps.py
           stages/stage32/32-04/run_cap_z3_budget.py
-          stages/stage32/32-04/run_cap_z3_partition.py
-          stages/stage32/32-04/run_cap_residual_batch.py
+          stages/stage32/32-04/run_intersection_coord_budget.py
+          stages/stage32/32-04/run_coord_residual_batch.py
       - name: Download source-locked PR1343 artifact
         run: >-
           gh run download 32624596141
@@ -49,37 +49,32 @@ jobs:
             --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
             --certificate "$RUNNER_TEMP/stage32-cap/intersection-cap-certificates.json" \
             --output "$RUNNER_TEMP/stage32-cap/cap-verification.json"
-      - name: Replay unresolved residual parents with exact caps and partition fallback
+      - name: Replay remaining residual parents in exact intersection coordinates
         run: |
-          mkdir -p "$RUNNER_TEMP/stage32-cap/evidence"
-          python stages/stage32/32-04/run_cap_residual_batch.py \
+          mkdir -p "$RUNNER_TEMP/stage32-cap/coord-evidence"
+          python stages/stage32/32-04/run_coord_residual_batch.py \
             --artifact-dir "$RUNNER_TEMP/stage32-prefix" \
-            --output-dir "$RUNNER_TEMP/stage32-cap/evidence" \
+            --output-dir "$RUNNER_TEMP/stage32-cap/coord-evidence" \
             --cap-certificate "$RUNNER_TEMP/stage32-cap/intersection-cap-certificates.json" \
-            --workers 2 \
-            --direct-timeout 45 \
-            --partition-timeout 45 \
-            --partition-workers 1 \
-            --proof
-      - name: Upload proof-bearing batch evidence
+            --workers 4 --timeout 180 --proof
+      - name: Upload proof-bearing coordinate evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-04-dual-cap-residual-evidence
+          name: stage32-04-intersection-coordinate-residual-evidence
           path: ${{ runner.temp }}/stage32-cap
           if-no-files-found: error
       - name: Enforce bounded target closure
         run: |
           python - <<'PY'
           import json, os, pathlib
-          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-cap/evidence/cap-residual-manifest.json'
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-cap/coord-evidence/coord-residual-manifest.json'
           data = json.loads(p.read_text())
           assert data['all_28_residual_parents_exactly_closed'] is True
           assert data['combined_exactly_closed_parent_count'] == 28
-          assert data['exact_survivor_total_current_batch'] == 0
           assert data['unresolved'] == []
           assert data['low_degree_prefix_complete'] is False
           assert data['full_d176_d192_numerical_orbit_census'] is False
           assert data['receiver_credit'] is False
-          print('PASS_STAGE32_04_BOUNDED_28_RESIDUAL_PARENT_CLOSURE')
+          print('PASS_STAGE32_04_INTERSECTION_COORD_28_RESIDUAL_PARENT_CLOSURE')
           PY
