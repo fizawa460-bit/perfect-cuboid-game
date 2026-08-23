@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage32/32-01/run_normaliz_slice_enum.py'
+      - 'stages/stage32/32-01/run_numeric_magma_slice.py'
       - 'stages/stage32/32-01/run_sparse_picard_export.py'
       - 'stages/stage32/32-01/verify_graded_slice_plan.py'
       - '.github/workflows/stage32-01-production-enumerator.yml'
@@ -38,4 +39,28 @@ jobs:
             stages/stage32/32-01/picard-core.json
             stages/stage32/32-01/normaliz-slice-enum.json
             stages/stage32/32-01/magma-core-export-part*.txt
+          if-no-files-found: warn
+
+  numeric-magma-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact source-locked Picard core
+        working-directory: stages/stage32/32-01
+        run: python run_sparse_picard_export.py
+      - name: Enumerate degree-2 bounded coset in numeric Magma
+        working-directory: stages/stage32/32-01
+        run: python run_numeric_magma_slice.py
+      - name: Upload Magma regression transcript
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-01-numeric-magma-regression
+          path: |
+            stages/stage32/32-01/picard-core.json
+            stages/stage32/32-01/numeric-magma-slice-*.txt
           if-no-files-found: warn
