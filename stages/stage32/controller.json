@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V5_USER_ADVANCE_OVERRIDE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V6_POLYTAIL_AUDITED",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "children": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
   "parent_route": "G10-LOWGENUS-PICARD",
   "execution_class": 2,
-  "status": "32_01_GRADED_SLICE_ENUMERATOR_ACTIVE_BY_USER_OVERRIDE",
+  "status": "32_01_GRADED_SLICE_ENUMERATOR_ACTIVE_AFTER_POLYTAIL_AUDIT_PASS",
   "preflight_audit": {
     "audit_record": "stages/stage32/32-01/audit.md",
     "audit_verdict": "PASS_PREFLIGHT_ONLY_EXACT_CLASS2_POLYHEDRAL_WALL_EXPOSED",
@@ -16,22 +16,20 @@
     "known_filter_count": 140,
     "sparse_picard_core_export_verified": true
   },
-  "polytail_submission": {
+  "polytail_audit": {
     "pr": 1341,
     "merged": true,
+    "review_comment_id": 5001772059,
+    "audit_verdict": "PASS_POLYTAIL_EXACT_POSITIVE_DUAL_CERTIFICATE",
     "identity": "19*(H.x)=sum_92_curve(D.x)+5*sum_48_exceptional(E.x)",
     "basis_gram_determinant": -268435456,
-    "tail_H0_zero_submitted": true,
-    "fixed_positive_degree_slices_bounded_submitted": true,
+    "tail_H0_zero": true,
+    "fixed_positive_degree_slices_bounded": true,
     "ci_workflow_run": 32614857845,
     "ci_success": true,
-    "formal_polytail_audit_performed": false
-  },
-  "advance_override": {
-    "authorized_by_user": true,
-    "reason": "User explicitly instructed controller change and continuation without separate Stage32-audit turn.",
-    "scope": "advance execution only; no retroactive audit credit granted",
-    "audit_credit_granted": false
+    "L32_01_POLYTAIL": "CLOSED_AUDITED",
+    "merge_allowed": true,
+    "advance_allowed_after_merge": true
   },
   "current_item": "32-01-GRADED-SLICE-INTEGER-ORBIT-ENUMERATOR",
   "current_smaller_class2_leaf": {
@@ -43,13 +41,24 @@
       "exceptional": "0<=E.x<=floor(19*d/5)"
     }
   },
+  "graded_slice_checkpoint": {
+    "pr": 1342,
+    "workflow_run": 32622023001,
+    "workflow_success": true,
+    "row_count": 183,
+    "stratum_count": 65249,
+    "manifest_sha256": "8bc1515f11b5bfef9f1f0eb825107599c982d39ede28517da4b089fc818cb5d7",
+    "artifact_id": 9488622008,
+    "status": "CHECKPOINT_LAYER_IMPLEMENTED_NOT_FULL_CLASS_ENUMERATION"
+  },
   "units": [
     {
       "id": "32-01",
       "name": "PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
       "status": "IN_PROGRESS_GRADED_SLICE_ENUMERATOR_ACTIVE",
       "preflight_complete": true,
-      "polytail_reduction_submitted_and_merged": true,
+      "polytail_reduction_audited_complete": true,
+      "graded_slice_checkpoint_layer_complete": true,
       "numerical_census_complete": false
     },
     {"id": "32-02", "name": "RIGOROUS_EFFECTIVITY_CERTIFICATION", "status": "BLOCKED_BY_32_01"},
@@ -74,7 +83,7 @@
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
   "audit_required": false,
-  "audit_verdict": "USER_ADVANCE_OVERRIDE_NO_AUDIT_CREDIT",
+  "audit_verdict": "PASS_POLYTAIL_EXACT_POSITIVE_DUAL_CERTIFICATE",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
