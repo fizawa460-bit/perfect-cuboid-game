@@ -1,4 +1,4 @@
-name: Stage32-06 d4g0 exact aggregate closure
+name: Stage32-06 d4g0 exact aggregate count-lock
 
 on:
   pull_request:
@@ -19,81 +19,31 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - label: e0-a30
-            e: 0
-            a: 30
-          - label: e1-a27
-            e: 1
-            a: 27
-          - label: e2-a23
-            e: 2
-            a: 23
-          - label: e2-a24
-            e: 2
-            a: 24
-          - label: e3-a20
-            e: 3
-            a: 20
-          - label: e3-a21
-            e: 3
-            a: 21
-          - label: e4-a16
-            e: 4
-            a: 16
-          - label: e4-a17
-            e: 4
-            a: 17
-          - label: e4-a18
-            e: 4
-            a: 18
-          - label: e5-a13
-            e: 5
-            a: 13
-          - label: e5-a14
-            e: 5
-            a: 14
-          - label: e5-a15
-            e: 5
-            a: 15
-          - label: e6-a10
-            e: 6
-            a: 10
-          - label: e6-a11
-            e: 6
-            a: 11
-          - label: e6-a12
-            e: 6
-            a: 12
-          - label: e7-a7
-            e: 7
-            a: 7
-          - label: e7-a8
-            e: 7
-            a: 8
-          - label: e7-a9
-            e: 7
-            a: 9
-          - label: e8-a4
-            e: 8
-            a: 4
-          - label: e8-a5
-            e: 8
-            a: 5
-          - label: e8-a6
-            e: 8
-            a: 6
-          - label: e9-a1
-            e: 9
-            a: 1
-          - label: e9-a2
-            e: 9
-            a: 2
-          - label: e9-a3
-            e: 9
-            a: 3
-          - label: e10-a0
-            e: 10
-            a: 0
+          - {label: e0-a30, e: 0, a: 30, expected_count: 1, expected_mode: QTAIL_6PLUS6_FALLBACK}
+          - {label: e1-a27, e: 1, a: 27, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e2-a23, e: 2, a: 23, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e2-a24, e: 2, a: 24, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e3-a20, e: 3, a: 20, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e3-a21, e: 3, a: 21, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e4-a16, e: 4, a: 16, expected_count: 2, expected_mode: PRIMARY_QF_NIA}
+          - {label: e4-a17, e: 4, a: 17, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e4-a18, e: 4, a: 18, expected_count: 10, expected_mode: PRIMARY_QF_NIA}
+          - {label: e5-a13, e: 5, a: 13, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e5-a14, e: 5, a: 14, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e5-a15, e: 5, a: 15, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e6-a10, e: 6, a: 10, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e6-a11, e: 6, a: 11, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e6-a12, e: 6, a: 12, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e7-a7, e: 7, a: 7, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e7-a8, e: 7, a: 8, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e7-a9, e: 7, a: 9, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e8-a4, e: 8, a: 4, expected_count: 68, expected_mode: PRIMARY_QF_NIA}
+          - {label: e8-a5, e: 8, a: 5, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e8-a6, e: 8, a: 6, expected_count: 175, expected_mode: PRIMARY_QF_NIA}
+          - {label: e9-a1, e: 9, a: 1, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e9-a2, e: 9, a: 2, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e9-a3, e: 9, a: 3, expected_count: 0, expected_mode: PRIMARY_QF_NIA}
+          - {label: e10-a0, e: 10, a: 0, expected_count: 128, expected_mode: PRIMARY_QF_NIA}
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -141,18 +91,23 @@ jobs:
             --primary-manifest "$RUNNER_TEMP/stage32-06/${{ matrix.label }}/exact/manifest.json" \
             --candidates "$RUNNER_TEMP/stage32-06/${{ matrix.label }}/exact/candidates.json" \
             --output "$RUNNER_TEMP/stage32-06/${{ matrix.label }}/fallback-manifest.json"
-      - name: Enforce exact bounded-parent closure and firewalls
+      - name: Enforce exact closure, locked count/mode, and firewalls
         env:
           LABEL: ${{ matrix.label }}
+          EXPECTED_COUNT: ${{ matrix.expected_count }}
+          EXPECTED_MODE: ${{ matrix.expected_mode }}
         run: |
           python - <<'PY'
           import json, os, pathlib
           root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-06' / os.environ['LABEL']
           d = json.loads((root / 'exact' / 'manifest.json').read_text())
+          expected_count = int(os.environ['EXPECTED_COUNT'])
+          expected_mode = os.environ['EXPECTED_MODE']
           assert d['schema'] == 'STAGE32_EXACT_MITM_DEGREE4_CLOSURE_V1'
           assert d['parameters']['degree'] == 4 and d['parameters']['genus'] == 0
           assert d['parameters']['normal_cap'] == 2 and d['parameters']['exceptional_cap'] == 1
           assert d['join_certificate']['qtail_quotient_role'] == 'NECESSARY_OVERRELAXATION_ONLY'
+          assert d['candidate_count'] == expected_count
           assert d['survivor_count'] == 0
           assert d['theorem_credit'] is False and d['receiver_credit'] is False
           assert d['low_degree_prefix_complete'] is False
@@ -171,6 +126,7 @@ jobs:
               assert f['schema'] == 'STAGE32_D4_QTAIL_MITM_FALLBACK_V1'
               assert f['parent_exactly_closed'] is True
               assert f['survivor_count'] == 0
+              assert f['primary_unknown_count'] > 0
               assert f['theorem_credit'] is False and f['receiver_credit'] is False
               assert f['low_degree_prefix_complete'] is False
               assert f['full_d176_d192_numerical_orbit_census'] is False
@@ -182,6 +138,7 @@ jobs:
               assert all(row['result'] == 'unsat_exhaustive_qtail_mitm' for row in f['fallback_rows'])
               assert all('fallback_certificate_sha256' in row for row in f['fallback_rows'])
               mode = 'QTAIL_6PLUS6_FALLBACK'
+          assert mode == expected_mode
           print(json.dumps({'label': os.environ['LABEL'], 'candidate_count': d['candidate_count'], 'mode': mode, 'survivors': 0}))
           PY
       - name: Upload exact parent evidence
@@ -193,7 +150,7 @@ jobs:
           if-no-files-found: error
 
   d4g0-summary:
-    name: d4g0-25-parent-summary
+    name: d4g0-25-parent-count-lock-summary
     needs: d4g0-full
     if: always()
     runs-on: ubuntu-latest
@@ -202,10 +159,25 @@ jobs:
         with:
           pattern: stage32-06-d4g0-*
           path: ${{ runner.temp }}/all
-      - name: Build and enforce 25-parent summary
+      - name: Build and enforce locked 25-parent summary
         run: |
           python - <<'PY'
           import json, pathlib
+          locked = {
+              'e0-a30': (1, 'QTAIL_6PLUS6_FALLBACK'), 'e1-a27': (0, 'PRIMARY_QF_NIA'),
+              'e2-a23': (0, 'PRIMARY_QF_NIA'), 'e2-a24': (0, 'PRIMARY_QF_NIA'),
+              'e3-a20': (0, 'PRIMARY_QF_NIA'), 'e3-a21': (0, 'PRIMARY_QF_NIA'),
+              'e4-a16': (2, 'PRIMARY_QF_NIA'), 'e4-a17': (0, 'PRIMARY_QF_NIA'),
+              'e4-a18': (10, 'PRIMARY_QF_NIA'), 'e5-a13': (0, 'PRIMARY_QF_NIA'),
+              'e5-a14': (0, 'PRIMARY_QF_NIA'), 'e5-a15': (0, 'PRIMARY_QF_NIA'),
+              'e6-a10': (0, 'PRIMARY_QF_NIA'), 'e6-a11': (0, 'PRIMARY_QF_NIA'),
+              'e6-a12': (0, 'PRIMARY_QF_NIA'), 'e7-a7': (0, 'PRIMARY_QF_NIA'),
+              'e7-a8': (0, 'PRIMARY_QF_NIA'), 'e7-a9': (0, 'PRIMARY_QF_NIA'),
+              'e8-a4': (68, 'PRIMARY_QF_NIA'), 'e8-a5': (0, 'PRIMARY_QF_NIA'),
+              'e8-a6': (175, 'PRIMARY_QF_NIA'), 'e9-a1': (0, 'PRIMARY_QF_NIA'),
+              'e9-a2': (0, 'PRIMARY_QF_NIA'), 'e9-a3': (0, 'PRIMARY_QF_NIA'),
+              'e10-a0': (128, 'PRIMARY_QF_NIA'),
+          }
           root = pathlib.Path('${{ runner.temp }}') / 'all'
           rows = []
           for art in sorted(root.glob('stage32-06-d4g0-*')):
@@ -216,9 +188,7 @@ jobs:
               d = json.loads(p.read_text())
               fallback = art / 'fallback-manifest.json'
               if d.get('parent_exactly_closed'):
-                  closed = True
-                  mode = 'PRIMARY_QF_NIA'
-                  unknown = 0
+                  closed, mode, unknown = True, 'PRIMARY_QF_NIA', 0
               elif fallback.exists():
                   f = json.loads(fallback.read_text())
                   closed = bool(f.get('parent_exactly_closed'))
@@ -228,40 +198,39 @@ jobs:
                   closed = False
                   mode = 'UNRESOLVED'
                   unknown = sum(r.get('solver_result') == 'unknown' for r in d.get('solver_rows', []))
-              rows.append({
-                  'label': label,
-                  'candidate_count': int(d.get('candidate_count', -1)),
-                  'closed': closed,
-                  'mode': mode,
-                  'primary_unknown_count': unknown,
+              row = {
+                  'label': label, 'candidate_count': int(d.get('candidate_count', -1)),
+                  'closed': closed, 'mode': mode, 'primary_unknown_count': unknown,
                   'survivor_count': int(d.get('survivor_count', -1)),
-              })
+              }
+              rows.append(row)
+              assert label in locked
+              assert (row['candidate_count'], row['mode']) == locked[label]
           summary = {
-              'schema': 'STAGE32_D4G0_25_PARENT_DISCOVERY_SUMMARY_V1',
+              'schema': 'STAGE32_D4G0_25_PARENT_COUNT_LOCK_SUMMARY_V1',
               'parent_count': len(rows),
               'closed_parent_count': sum(r['closed'] for r in rows),
               'total_candidate_count': sum(max(0, r['candidate_count']) for r in rows),
               'fallback_parent_count': sum(r['mode'] == 'QTAIL_6PLUS6_FALLBACK' for r in rows),
               'rows': rows,
-              'theorem_credit': False,
-              'receiver_credit': False,
+              'theorem_credit': False, 'receiver_credit': False,
               'low_degree_prefix_complete': False,
               'full_d176_d192_numerical_orbit_census': False,
-              'R29_LG2': 'NOT_DISCHARGED',
-              'R29_LG2_EFF': 'NOT_DISCHARGED',
-              'R29_LG2_MB': 'NOT_DISCHARGED',
-              'G10_LOWGENUS_PICARD': 'AMBER',
+              'R29_LG2': 'NOT_DISCHARGED', 'R29_LG2_EFF': 'NOT_DISCHARGED',
+              'R29_LG2_MB': 'NOT_DISCHARGED', 'G10_LOWGENUS_PICARD': 'AMBER',
           }
-          out = pathlib.Path('${{ runner.temp }}') / 'stage32-06-d4g0-summary.json'
+          out = pathlib.Path('${{ runner.temp }}') / 'stage32-06-d4g0-count-lock-summary.json'
           out.write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
           print(json.dumps(summary, sort_keys=True))
           assert summary['parent_count'] == 25
           assert summary['closed_parent_count'] == 25
+          assert summary['total_candidate_count'] == 384
+          assert summary['fallback_parent_count'] == 1
           assert all(r['survivor_count'] == 0 for r in rows)
           PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: stage32-06-d4g0-summary
-          path: ${{ runner.temp }}/stage32-06-d4g0-summary.json
+          name: stage32-06-d4g0-count-lock-summary
+          path: ${{ runner.temp }}/stage32-06-d4g0-count-lock-summary.json
           if-no-files-found: error
