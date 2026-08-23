@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE31_EXT_E_CONTROLLER_V4_31_01_XL_SUBMITTED",
+  "schema": "STAGE31_EXT_E_CONTROLLER_V5_FINAL_AUDITED_CLOSED",
   "stage": "31",
   "kernel": "K16-C2-EXT-E-INTEGRAL-CERTIFICATION",
   "source_receiver": "R29-EXT-CHANG-E",
   "parent_route": "J12-PARAMETRIC",
-  "status": "31_01_XL_FULL_CLOSURE_SUBMITTED_PENDING_FINAL_AUDIT",
+  "status": "STAGE31_CLOSED_DIRECT_QUARTIC_CERTIFICATION",
   "execution_dependency": "STAGE30_FINAL_AUDIT_PASS_AND_FINAL_PR_MERGED",
   "execution_dependency_satisfied": true,
   "stage30_close_evidence": {
@@ -20,11 +20,17 @@
     "paper_e_completeness_gap_real": true,
     "one_shot_xl_strategy_accepted": true
   },
+  "final_audit": {
+    "audit_record": "stages/stage31/31-06/audit.md",
+    "audit_state": "stages/stage31/31-06/audit-state.json",
+    "audit_verdict": "PASS_STAGE31_CLOSED_DIRECT_QUARTIC_CERTIFICATION",
+    "audited_pr": 1338
+  },
   "user_commands": ["Stage31-main-batch", "Stage31-audit"],
   "primary_strategy": "ONE_SHOT_XL_THEN_SPLIT_ONLY_ON_EXACT_WALL",
-  "current_item": "31-06_FINAL_HOSTILE_AUDIT_AND_CLOSE",
+  "current_item": "STAGE31_CLOSED",
   "primary_execution_unit": "31-01-XL_FULL_CLOSURE_ATTEMPT",
-  "primary_execution_status": "SUBMITTED_ONE_SHOT_SUCCESS",
+  "primary_execution_status": "AUDITED_ONE_SHOT_SUCCESS",
   "fallback_units_activated": [],
   "fallback_units_inactive": [
     "31-02_BIRATIONAL_MAP_AND_INTEGRALITY_TRANSFER",
@@ -58,14 +64,16 @@
   "stage29_exact_wall": "explicit integrality-preserving quartic-to-elliptic birational maps plus a source-locked complete IntegralPoints/elliptic-logarithm certificate",
   "repair_contract_resolution": {
     "EXPLICIT_BIRATIONAL_MAPS": "VERIFIED_EXACT_FORMULAS_AND_EXCEPTIONAL_EXTENSION",
-    "RIGOROUS_INTEGRAL_OR_S_INTEGRAL_TRANSFER": "VERIFIED_BY_DIRECT_SCALED_QUARTIC_U_EQUALS_10Z; C_TO_E_INTEGRALITY_NOT_ASSUMED",
+    "RIGOROUS_INTEGRAL_OR_S_INTEGRAL_TRANSFER": "BYPASSED_BY_DIRECT_COMPLETE_QUARTIC_ENUMERATION; C_TO_E_INTEGRALITY_NOT_PROVED_OR_NEEDED",
+    "DIRECT_SCALED_QUARTIC_INTEGRAL_EQUIVALENCE": "VERIFIED_U_EQUALS_10Z",
     "COMPLETE_PROOF_CAPABLE_INTEGRAL_POINT_CERTIFICATE": "VERIFIED_DIRECT_MAGMA_INTEGRALQUARTICPOINTS_V2_29_9",
     "EXHAUSTIVE_PULLBACK_AND_CUBOID_RECONSTRUCTION": "VERIFIED_COMPLETE_6_POINT_LEDGER"
   },
   "one_shot_close_conditions": {
     "BIRATIONAL_MAP_EXPLICIT_AND_INVERTIBLE_ON_STATED_OPEN": true,
     "EXCEPTIONAL_LOCUS_COMPLETE": true,
-    "INTEGRALITY_TRANSFER_PROVED": true,
+    "C_TO_E_INTEGRALITY_TRANSFER_PROVED": false,
+    "DIRECT_QUARTIC_BYPASS_CERTIFIED": true,
     "MW_BASIS_COMPLETE_AND_SATURATED": true,
     "INTEGRAL_POINT_ALGORITHM_SOURCE_LOCKED": true,
     "INTEGRAL_POINT_COMPLETENESS_CERTIFIED": true,
@@ -75,25 +83,32 @@
   },
   "magma_execution": {
     "version": "2.29-9",
-    "workflow_run": 32607148918,
-    "workflow_job": 97113828969,
+    "submitted_workflow_run": 32607148918,
+    "submitted_workflow_job": 97113828969,
     "artifact_id": 9484415535,
     "artifact_sha256": "32c6f9ab32b60faa29b7a8cf7cfc3133115ea19ece422facf51ff255089f8a17",
+    "current_head_workflow_run": 32607402781,
+    "current_head_workflow_job": 97114534759,
+    "current_head_ci_success": true,
     "runtime_error_seen": false,
     "complete_C_integral_point_count": 6,
     "mw_rank_proved": true,
     "mw_full_group_proved": true
   },
-  "submitted_mathematical_state": {
+  "audited_mathematical_state": {
     "QUARTIC_ELLIPTIC_BIRATIONAL_MAP": "VERIFIED",
-    "DIRECT_QUARTIC_INTEGRALITY_TRANSFER": "VERIFIED",
-    "INTEGRAL_POINT_COMPLETENESS": "CERTIFIED",
+    "C_TO_E_INTEGRALITY_TRANSFER": "NOT_PROVED_NOT_NEEDED",
+    "DIRECT_SCALED_QUARTIC_INTEGRAL_EQUIVALENCE": "VERIFIED",
+    "INTEGRAL_POINT_COMPLETENESS": "CERTIFIED_DIRECT_QUARTIC",
     "QUARTIC_INTEGRAL_POINTS": [[-1,-1],[-1,1],[1,-1],[1,1],[11,-37],[11,37]],
-    "PRIME_SOPHIE_GERMAIN_SUBFAMILY_EXCLUSION": "VERIFIED_SUBMITTED",
-    "R29_EXT_CHANG_E": "PROPOSED_DISCHARGED_INTEGRAL_CERTIFICATION",
-    "K16_C2_EXT_E_INTEGRAL_CERTIFICATION": "PROPOSED_CLOSED",
+    "PRIME_SOPHIE_GERMAIN_SUBFAMILY_EXCLUSION": "VERIFIED",
+    "R29_EXT_CHANG_E": "DISCHARGED_DIRECT_QUARTIC_CERTIFICATION",
+    "K16_C2_EXT_E_INTEGRAL_CERTIFICATION": "CLOSED",
     "J12_PARAMETRIC": "AMBER",
-    "ROUTE_COLOR_CHANGED": false
+    "ROUTE_COLOR_CHANGED": false,
+    "POST_STAGE31_ACTIVE_KERNEL_COUNT": 11,
+    "POST_STAGE31_CLASS2_KERNEL_COUNT": 2,
+    "POST_STAGE31_CLASS3_KERNEL_COUNT": 9
   },
   "permitted_final_outcomes": ["CLOSED_CERTIFIED", "SOURCE_CLAIM_FALSE", "SMALLER_CLASS2", "CLASS3_EXPOSED"],
   "thin_family_only": true,
@@ -101,12 +116,13 @@
   "route_color_change_authorized": false,
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
-  "stage31_closed": false,
-  "audit_required": true,
-  "audit_verdict": "PENDING_STAGE31_FINAL_AUDIT",
+  "stage31_closed": true,
+  "audit_required": false,
+  "audit_verdict": "PASS_STAGE31_CLOSED_DIRECT_QUARTIC_CERTIFICATION",
   "repair_required": false,
-  "merge_allowed": false,
+  "merge_allowed": true,
   "advance_allowed": false,
-  "next_item": "31-06_FINAL_HOSTILE_AUDIT_AND_CLOSE",
-  "next_expected_command": "Stage31-audit"
+  "automatic_next_stage": null,
+  "next_item": null,
+  "next_expected_command": null
 }
