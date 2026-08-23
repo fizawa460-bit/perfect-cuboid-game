@@ -1,0 +1,141 @@
+name: Stage32-06 d4-g0 run3 summary lock
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-06-d4g0-summary-lock.yml'
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  summary-lock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOURCE_RUN: '32671601345'
+      SOURCE_HEAD: '3d587f9bfc592917eec2c57dbbe811ea26943cb9'
+    steps:
+      - name: Download locked run3 artifacts separately
+        run: |
+          mkdir -p evidence
+          mapfile -t names < <(gh api \
+            repos/fizawa460-bit/perfect-cuboid-game/actions/runs/$SOURCE_RUN/artifacts \
+            --paginate --jq '.artifacts[].name' | sort)
+          test "${#names[@]}" -eq 26
+          for name in "${names[@]}"; do
+            case "$name" in
+              stage32-06-d4g0-parent-*) ;;
+              *) echo "unexpected artifact: $name"; exit 1 ;;
+            esac
+            mkdir -p "evidence/$name"
+            gh run download "$SOURCE_RUN" \
+              --repo fizawa460-bit/perfect-cuboid-game \
+              --name "$name" \
+              --dir "evidence/$name"
+          done
+      - name: Recompute exact row summary from locked manifests
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, pathlib
+          root = pathlib.Path('evidence')
+          invdir = root / 'stage32-06-d4g0-parent-inventory'
+          inventory = json.loads((invdir / 'd4g0-parent-inventory.json').read_text())
+          assert inventory['schema'] == 'STAGE32_D4G0_EXACT_CAP_PARENT_INVENTORY_V2'
+          assert inventory['all_budget_parent_count'] == 632
+          assert inventory['aggregate_feasible_parent_count'] == 25
+          assert inventory['aggregate_infeasible_parent_count'] == 607
+          assert inventory['cap_certificate_sha256'] == '75224aee543dcd4a56e814503765d1e1e69514b237fb900688243546ea6b4d03'
+
+          parent_dirs = sorted(p for p in root.glob('stage32-06-d4g0-parent-*') if p.name != 'stage32-06-d4g0-parent-inventory')
+          assert len(parent_dirs) == 25
+          rows = []
+          for p in parent_dirs:
+            manifest = json.loads((p / 'manifest.json').read_text())
+            assert manifest['schema'] == 'STAGE32_D4G0_EXACT_MITM_PARENT_V1'
+            assert manifest['parameters']['degree'] == 4
+            assert manifest['parameters']['genus'] == 0
+            assert manifest['parameters']['normal_cap'] == 2
+            assert manifest['parameters']['exceptional_cap'] == 1
+            assert manifest['qtail_full_subgroup_used_as_relaxation_only'] is True
+            assert manifest['complete'] is True
+            assert manifest['parent_exactly_closed'] is True
+            assert manifest['survivor_count'] == 0
+            assert all(r['solver_result'] == 'unsat' for r in manifest['solver_rows'])
+            assert manifest['theorem_credit'] is False
+            assert manifest['audit_status'] == 'PENDING'
+            assert manifest['receiver_credit'] is False
+            assert manifest['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+            assert manifest['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+            assert manifest['R29_LG2'] == 'NOT_DISCHARGED'
+            assert manifest['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+            assert manifest['R29_LG2_MB'] == 'NOT_DISCHARGED'
+            assert manifest['G10_LOWGENUS_PICARD'] == 'AMBER'
+            e = manifest['parameters']['exceptional_mass']
+            a = manifest['parameters']['curve_group_mass']
+            rows.append({
+              'label': f'd4-g0-e{e}-a{a}',
+              'e': e,
+              'a': a,
+              'candidate_count': manifest['candidate_count'],
+              'candidate_list_sha256': manifest['candidate_list_sha256'],
+              'deterministic_core_sha256': manifest['deterministic_core_sha256'],
+              'survivor_count': manifest['survivor_count'],
+              'proof_count': sum('proof_sha256' in r for r in manifest['solver_rows']),
+            })
+          rows.sort(key=lambda r:(r['e'],r['a']))
+          expected_pairs = [(0,30),(1,27),(2,23),(2,24),(3,20),(3,21),(4,16),(4,17),(4,18),
+                            (5,13),(5,14),(5,15),(6,10),(6,11),(6,12),(7,7),(7,8),(7,9),
+                            (8,4),(8,5),(8,6),(9,1),(9,2),(9,3),(10,0)]
+          assert [(r['e'],r['a']) for r in rows] == expected_pairs
+          candidates = sum(r['candidate_count'] for r in rows)
+          proofs = sum(r['proof_count'] for r in rows)
+          survivors = sum(r['survivor_count'] for r in rows)
+          assert proofs == candidates
+          assert survivors == 0
+          payload = {
+            'schema': 'STAGE32_D4G0_EXACT_ROW_SUMMARY_LOCK_V1',
+            'source_run': int(os.environ['SOURCE_RUN']),
+            'source_head_sha': os.environ['SOURCE_HEAD'],
+            'degree': 4,
+            'genus': 0,
+            'budget_parent_count': 632,
+            'aggregate_feasible_parent_count': 25,
+            'aggregate_infeasible_parent_count': 607,
+            'exact_parent_count': 25,
+            'total_relaxed_mitm_candidate_count': candidates,
+            'proof_count': proofs,
+            'exact_survivor_count': survivors,
+            'all_target_parents_exact_complete': True,
+            'preorbit_exact_row_complete': True,
+            'numerical_orbit_row_complete': True,
+            'orbit_deduplication_required': False,
+            'parent_rows': rows,
+            'theorem_credit': False,
+            'audit_status': 'PENDING',
+            'receiver_credit': False,
+            'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS': False,
+            'R29_LG2_NUMERICAL_COMPONENT_COMPLETE': False,
+            'R29_LG2': 'NOT_DISCHARGED',
+            'R29_LG2_EFF': 'NOT_DISCHARGED',
+            'R29_LG2_MB': 'NOT_DISCHARGED',
+            'G10_LOWGENUS_PICARD': 'AMBER',
+          }
+          core = json.dumps(payload, sort_keys=True, separators=(',',':')).encode()
+          payload['canonical_sha256_without_this_field'] = hashlib.sha256(core).hexdigest()
+          pathlib.Path('d4g0-row-summary-lock.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
+          print(json.dumps({
+            'exact_parents': 25,
+            'candidates': candidates,
+            'proofs': proofs,
+            'survivors': survivors,
+            'sha256': payload['canonical_sha256_without_this_field'],
+          }, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-06-d4g0-row-summary-lock
+          path: d4g0-row-summary-lock.json
+          if-no-files-found: error
