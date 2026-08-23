@@ -3,8 +3,6 @@ name: Stage32-01 production enumerator
 on:
   pull_request:
     paths:
-      - 'stages/stage32/32-01/run_numeric_magma_slice.py'
-      - 'stages/stage32/32-01/run_numeric_magma_strata.py'
       - 'stages/stage32/32-01/run_numeric_magma_refine.py'
       - 'stages/stage32/32-01/verify_graded_slice_plan.py'
       - '.github/workflows/stage32-01-production-enumerator.yml'
@@ -15,41 +13,34 @@ permissions:
   actions: read
 
 jobs:
-  sharded-low-degree-batch:
+  refine-degree6-residuals:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Download audited source-locked Picard core artifact
+      - name: Download exact first-level checkpoint
         uses: actions/download-artifact@v4
         with:
-          name: stage32-01-polytail-reduction
+          name: stage32-01-sharded-low-degree-batch
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          run-id: 32614857845
-          path: /tmp/stage32-polytail
-      - name: Install audited Picard core
-        run: cp /tmp/stage32-polytail/picard-core.json stages/stage32/32-01/picard-core.json
-      - name: Degree-2 genus-0 bounded-coset regression
-        working-directory: stages/stage32/32-01
-        run: python run_numeric_magma_slice.py
-      - name: Degree-4 genus-1 all exceptional-mass strata
-        working-directory: stages/stage32/32-01
-        run: python run_numeric_magma_strata.py 4 1
-      - name: Degree-6 genus-1 first-level exceptional-mass strata
-        continue-on-error: true
-        working-directory: stages/stage32/32-01
-        run: python run_numeric_magma_strata.py 6 1
+          run-id: 32623143985
+          path: /tmp/stage32-first-level
+      - name: Install checkpoint inputs
+        run: |
+          cp /tmp/stage32-first-level/picard-core.json stages/stage32/32-01/picard-core.json
+          cp /tmp/stage32-first-level/numeric-magma-slice-*.txt stages/stage32/32-01/ 2>/dev/null || true
+          cp /tmp/stage32-first-level/numeric-magma-strata-*.json stages/stage32/32-01/ 2>/dev/null || true
       - name: Refine degree-6 genus-1 e=0 by first exceptional coordinate
         working-directory: stages/stage32/32-01
         run: python run_numeric_magma_refine.py 6 1 0
-      - name: Upload exact sharded transcripts
+      - name: Upload continuation checkpoint
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-01-sharded-low-degree-batch
+          name: stage32-01-degree6-refinement
           path: |
             stages/stage32/32-01/picard-core.json
             stages/stage32/32-01/numeric-magma-slice-*.txt
