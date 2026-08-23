@@ -26,7 +26,7 @@ def git_blob_sha(data: bytes) -> str:
 
 
 def fetch_bytes(url: str, timeout: int = 60) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage32/1.2"})
+    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage32/1.3"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         if resp.status != 200:
             raise RuntimeError(f"HTTP {resp.status} from {url}")
@@ -38,17 +38,17 @@ actual_blob = git_blob_sha(upstream)
 if actual_blob != UPSTREAM_BLOB:
     raise SystemExit(f"upstream blob mismatch: expected {UPSTREAM_BLOB}, got {actual_blob}")
 text = upstream.decode("utf-8")
-for marker in (SKIP_START, SKIP_END, END_MARKER):
-    if text.count(marker) != 1:
-        raise SystemExit(f"pinned upstream marker is not unique: {marker}")
+try:
+    i_skip_start = text.index(SKIP_START)
+    i_skip_end = text.index(SKIP_END, i_skip_start + len(SKIP_START))
+    i_end = text.index(END_MARKER, i_skip_end + len(SKIP_END))
+except ValueError as exc:
+    raise SystemExit(f"pinned upstream marker missing or out of order: {exc}")
 
-# Execute only code that is load-bearing for the Stage32 numerical lattice:
-# surface/nodes/known low-genus curves, exact 140x140 intersection pairing,
-# Picard quotient/basis and hyperplane class.  The unrelated genus-3 curve
-# construction and the later Aut/Galois/Brauer/K3 blocks are source-locked but
-# intentionally not executed inside the online calculator's ~60s gateway.
-head = text.split(SKIP_START, 1)[0]
-pairing_and_pic = text.split(SKIP_END, 1)[1].split(END_MARKER, 1)[0]
+# Execute only code load-bearing for the Stage32 numerical lattice.  We skip
+# the unrelated genus-3 constructions and stop before Aut/Galois/Brauer/K3.
+head = text[:i_skip_start]
+pairing_and_pic = text[i_skip_end + len(SKIP_END):i_end]
 core = head + "\n// Stage32 resumes at the frozen intersection-pairing block.\n" + pairing_and_pic
 
 hperp_setup = r'''
@@ -70,7 +70,7 @@ req = urllib.request.Request(
         "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "text/html, application/xml, application/xhtml+xml",
         "Referer": MAGMA_REFERER,
-        "User-Agent": "perfect-cuboid-stage32/1.2",
+        "User-Agent": "perfect-cuboid-stage32/1.3",
     },
     method="POST",
 )
@@ -110,6 +110,9 @@ payload = {
     "upstream_url": UPSTREAM_URL,
     "upstream_git_blob_sha1": actual_blob,
     "executed_core": {
+        "skip_start_offset": i_skip_start,
+        "resume_offset": i_skip_end + len(SKIP_END),
+        "stop_offset": i_end,
         "skipped_between": [SKIP_START, SKIP_END],
         "stopped_before": END_MARKER,
     },
