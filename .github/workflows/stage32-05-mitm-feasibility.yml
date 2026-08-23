@@ -22,21 +22,27 @@ jobs:
           - label: d6-g1-e4-a33
             e: 4
             a: 33
+            expected_candidates: 0
           - label: d6-g1-e6-a26
             e: 6
             a: 26
+            expected_candidates: 12
           - label: d6-g1-e6-a27
             e: 6
             a: 27
+            expected_candidates: 16
           - label: d6-g1-e8-a20
             e: 8
             a: 20
+            expected_candidates: 48
           - label: d6-g1-e8-a21
             e: 8
             a: 21
+            expected_candidates: 96
           - label: d6-g1-e10-a14
             e: 10
             a: 14
+            expected_candidates: 632
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -76,19 +82,21 @@ jobs:
             --genus 1 \
             --candidate-timeout 5 \
             --proof
-      - name: Enforce exact bounded-parent closure and firewalls
+      - name: Enforce exact bounded-parent closure, locked count, and firewalls
         env:
           LABEL: ${{ matrix.label }}
+          EXPECTED_CANDIDATES: ${{ matrix.expected_candidates }}
         run: |
           python - <<'PY'
           import json, os, pathlib
           p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-05' / os.environ['LABEL'] / 'exact' / 'manifest.json'
           data = json.loads(p.read_text())
+          expected = int(os.environ['EXPECTED_CANDIDATES'])
           assert data['schema'] == 'STAGE32_EXACT_MITM_QUOTIENT_CLOSURE_V1'
           assert data['cap_verification']['certificate_canonical_sha256'] == '75224aee543dcd4a56e814503765d1e1e69514b237fb900688243546ea6b4d03'
           assert data['quotient_certificate']['qtail_reachable_residue_count'] == 16384
           assert data['quotient_certificate']['qtail_subgroup_size_from_hnf_index'] == 16384
-          assert isinstance(data['candidate_count'], int) and data['candidate_count'] >= 0
+          assert data['candidate_count'] == expected
           assert data['survivor_count'] == 0
           assert data['parent_exactly_closed'] is True
           assert data['bounded_parent_exact_closure_claim'] is True
@@ -104,7 +112,7 @@ jobs:
           assert len(data['solver_rows']) == data['candidate_count']
           assert all(row['solver_result'] == 'unsat' for row in data['solver_rows'])
           assert all('proof_sha256' in row for row in data['solver_rows'])
-          print('PASS_STAGE32_05_REMAINING_PARENT_CLOSURE_PENDING_COUNT_LOCK')
+          print('PASS_STAGE32_05_REMAINING_PARENT_COUNT_LOCK_REPRODUCTION')
           print(json.dumps({'label': os.environ['LABEL'], 'candidate_count': data['candidate_count'], 'survivor_count': data['survivor_count']}))
           PY
       - name: Upload exact MITM evidence
