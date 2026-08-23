@@ -5,6 +5,7 @@ on:
     paths:
       - 'stages/stage32/32-01/run_numeric_magma_slice.py'
       - 'stages/stage32/32-01/run_numeric_magma_strata.py'
+      - 'stages/stage32/32-01/run_numeric_magma_refine.py'
       - 'stages/stage32/32-01/verify_graded_slice_plan.py'
       - '.github/workflows/stage32-01-production-enumerator.yml'
   workflow_dispatch:
@@ -37,12 +38,13 @@ jobs:
       - name: Degree-4 genus-1 all exceptional-mass strata
         working-directory: stages/stage32/32-01
         run: python run_numeric_magma_strata.py 4 1
-      - name: Degree-6 genus-1 all exceptional-mass strata
+      - name: Degree-6 genus-1 first-level exceptional-mass strata
+        continue-on-error: true
         working-directory: stages/stage32/32-01
         run: python run_numeric_magma_strata.py 6 1
-      - name: Degree-6 genus-0 all exceptional-mass strata
+      - name: Refine degree-6 genus-1 e=0 by first exceptional coordinate
         working-directory: stages/stage32/32-01
-        run: python run_numeric_magma_strata.py 6 0
+        run: python run_numeric_magma_refine.py 6 1 0
       - name: Upload exact sharded transcripts
         if: always()
         uses: actions/upload-artifact@v4
@@ -52,4 +54,5 @@ jobs:
             stages/stage32/32-01/picard-core.json
             stages/stage32/32-01/numeric-magma-slice-*.txt
             stages/stage32/32-01/numeric-magma-strata-*.json
+            stages/stage32/32-01/numeric-magma-refine-*.json
           if-no-files-found: warn
