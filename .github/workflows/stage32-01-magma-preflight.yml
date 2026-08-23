@@ -27,7 +27,7 @@ jobs:
       - name: Verify all 183 genus-degree rows
         working-directory: stages/stage32/32-01
         run: python verify_preflight.py
-      - name: Upload exact preflight transcript
+      - name: Upload exact preflight transcript and Picard core
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -35,4 +35,5 @@ jobs:
           path: |
             stages/stage32/32-01/magma-preflight-response.json
             stages/stage32/32-01/magma-preflight-stdout.txt
+            stages/stage32/32-01/picard-core.json
           if-no-files-found: warn
