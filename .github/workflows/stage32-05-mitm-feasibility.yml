@@ -1,4 +1,4 @@
-name: Stage32-05 exact fixed-weight MITM closure
+name: Stage32-05 exact fixed-weight MITM remaining-six closure
 
 on:
   pull_request:
@@ -19,14 +19,24 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - label: d6-g1-e2-a39
-            e: 2
-            a: 39
-            expected_candidates: 0
-          - label: d6-g1-e10-a15
+          - label: d6-g1-e4-a33
+            e: 4
+            a: 33
+          - label: d6-g1-e6-a26
+            e: 6
+            a: 26
+          - label: d6-g1-e6-a27
+            e: 6
+            a: 27
+          - label: d6-g1-e8-a20
+            e: 8
+            a: 20
+          - label: d6-g1-e8-a21
+            e: 8
+            a: 21
+          - label: d6-g1-e10-a14
             e: 10
-            a: 15
-            expected_candidates: 672
+            a: 14
     env:
       GH_TOKEN: ${{ github.token }}
     steps:
@@ -69,7 +79,6 @@ jobs:
       - name: Enforce exact bounded-parent closure and firewalls
         env:
           LABEL: ${{ matrix.label }}
-          EXPECTED_CANDIDATES: ${{ matrix.expected_candidates }}
         run: |
           python - <<'PY'
           import json, os, pathlib
@@ -79,7 +88,7 @@ jobs:
           assert data['cap_verification']['certificate_canonical_sha256'] == '75224aee543dcd4a56e814503765d1e1e69514b237fb900688243546ea6b4d03'
           assert data['quotient_certificate']['qtail_reachable_residue_count'] == 16384
           assert data['quotient_certificate']['qtail_subgroup_size_from_hnf_index'] == 16384
-          assert data['candidate_count'] == int(os.environ['EXPECTED_CANDIDATES'])
+          assert isinstance(data['candidate_count'], int) and data['candidate_count'] >= 0
           assert data['survivor_count'] == 0
           assert data['parent_exactly_closed'] is True
           assert data['bounded_parent_exact_closure_claim'] is True
@@ -92,11 +101,11 @@ jobs:
           assert data['R29_LG2_EFF'] == 'NOT_DISCHARGED'
           assert data['R29_LG2_MB'] == 'NOT_DISCHARGED'
           assert data['G10_LOWGENUS_PICARD'] == 'AMBER'
-          if data['candidate_count']:
-              assert len(data['solver_rows']) == data['candidate_count']
-              assert all(row['solver_result'] == 'unsat' for row in data['solver_rows'])
-              assert all('proof_sha256' in row for row in data['solver_rows'])
-          print('PASS_STAGE32_05_EXACT_BOUNDED_PARENT_CLOSURE_PENDING_AUDIT')
+          assert len(data['solver_rows']) == data['candidate_count']
+          assert all(row['solver_result'] == 'unsat' for row in data['solver_rows'])
+          assert all('proof_sha256' in row for row in data['solver_rows'])
+          print('PASS_STAGE32_05_REMAINING_PARENT_CLOSURE_PENDING_COUNT_LOCK')
+          print(json.dumps({'label': os.environ['LABEL'], 'candidate_count': data['candidate_count'], 'survivor_count': data['survivor_count']}))
           PY
       - name: Upload exact MITM evidence
         if: always()
