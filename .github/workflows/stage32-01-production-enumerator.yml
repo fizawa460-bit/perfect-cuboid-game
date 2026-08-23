@@ -3,8 +3,7 @@ name: Stage32-01 production enumerator
 on:
   pull_request:
     paths:
-      - 'stages/stage32/32-01/run_numeric_magma_refine.py'
-      - 'stages/stage32/32-01/run_numeric_magma_curvegroup_refine.py'
+      - 'stages/stage32/32-01/run_numeric_magma_curvegroup_batch.py'
       - 'stages/stage32/32-01/verify_graded_slice_plan.py'
       - '.github/workflows/stage32-01-production-enumerator.yml'
   workflow_dispatch:
@@ -16,7 +15,7 @@ permissions:
 jobs:
   refine-degree6-residuals:
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,9 +33,9 @@ jobs:
           cp /tmp/stage32-first-level/picard-core.json stages/stage32/32-01/picard-core.json
           cp /tmp/stage32-first-level/numeric-magma-slice-*.txt stages/stage32/32-01/ 2>/dev/null || true
           cp /tmp/stage32-first-level/numeric-magma-strata-*.json stages/stage32/32-01/ 2>/dev/null || true
-      - name: Refine heavy degree-6 genus-1 e=0 by nonexceptional half-mass
+      - name: Batch all d6 g1 e0 curve-group subshards in one Magma request
         working-directory: stages/stage32/32-01
-        run: python run_numeric_magma_curvegroup_refine.py 6 1 0
+        run: python run_numeric_magma_curvegroup_batch.py 6 1 0
       - name: Upload continuation checkpoint
         if: always()
         uses: actions/upload-artifact@v4
@@ -46,6 +45,5 @@ jobs:
             stages/stage32/32-01/picard-core.json
             stages/stage32/32-01/numeric-magma-slice-*.txt
             stages/stage32/32-01/numeric-magma-strata-*.json
-            stages/stage32/32-01/numeric-magma-refine-*.json
-            stages/stage32/32-01/numeric-magma-curvegroup-*.json
+            stages/stage32/32-01/numeric-magma-curvegroup-batch-*.json
           if-no-files-found: warn
