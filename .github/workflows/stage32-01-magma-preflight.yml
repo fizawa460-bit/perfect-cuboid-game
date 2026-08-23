@@ -7,9 +7,7 @@ on:
       - 'stages/stage32/32-01/run_magma_preflight.py'
       - 'stages/stage32/32-01/verify_preflight.py'
       - 'stages/stage32/32-01/run_sparse_picard_export.py'
-      - 'stages/stage32/32-01/run_normaliz_polyhedral_pilot.py'
-      - 'stages/stage32/32-01/run_polyhedral_pilot.py'
-      - 'stages/stage32/32-01/polyhedral_pilot_after_upstream.m'
+      - 'stages/stage32/32-01/verify_polytail_reduction.py'
       - '.github/workflows/stage32-01-magma-preflight.yml'
   workflow_dispatch:
 
@@ -19,7 +17,7 @@ permissions:
 jobs:
   stage32-01-preflight:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -34,16 +32,14 @@ jobs:
       - name: Export exact Picard core in bounded chunks
         working-directory: stages/stage32/32-01
         run: python run_sparse_picard_export.py
-      - name: Install pinned PyNormaliz
-        run: python -m pip install --disable-pip-version-check PyNormaliz==2.24
-      - name: Test exact known-curve tail cone
+      - name: Verify exact positive polytail reduction
         working-directory: stages/stage32/32-01
-        run: python run_normaliz_polyhedral_pilot.py
+        run: python verify_polytail_reduction.py
       - name: Upload Stage32-01 exact transcripts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-01-production-preflight
+          name: stage32-01-polytail-reduction
           path: |
             stages/stage32/32-01/magma-preflight-response.json
             stages/stage32/32-01/magma-preflight-stdout.txt
@@ -51,5 +47,5 @@ jobs:
             stages/stage32/32-01/magma-core-export-part*.txt
             stages/stage32/32-01/magma-core-export-part*-http-error.txt
             stages/stage32/32-01/picard-core.json
-            stages/stage32/32-01/normaliz-polyhedral-pilot.json
+            stages/stage32/32-01/polytail-reduction-certificate.json
           if-no-files-found: warn
