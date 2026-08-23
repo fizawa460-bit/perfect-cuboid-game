@@ -1,0 +1,92 @@
+name: Stage32-07 d8 low-mass materialized closure
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-07/run_d8_materialized_lowmass.py'
+      - '.github/workflows/stage32-07-d8-lowmass-materialized.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  e2-materialized:
+    name: d8g0-e2-a54-materialized
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile bounded-multiplicity backends
+        run: >-
+          python -m py_compile
+          stages/stage32/32-07/run_d8_bounded_signature_cells.py
+          stages/stage32/32-07/run_d8_materialized_lowmass.py
+      - name: Download source-locked Stage32 Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Re-derive and exactly verify all 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-07/e2-a54"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output "$RUNNER_TEMP/stage32-07/e2-a54/intersection-cap-certificates.json"
+      - name: Materialize all 40 quotient-surviving exceptional assignments and solve 16-normal residuals
+        run: |
+          python stages/stage32/32-07/run_d8_materialized_lowmass.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/stage32-07/e2-a54/intersection-cap-certificates.json" \
+            --output-dir "$RUNNER_TEMP/stage32-07/e2-a54/materialized" \
+            --genus 0 \
+            --exceptional-mass 2 \
+            --curve-group-mass 54 \
+            --assignment-timeout 5 \
+            --max-materialized 40 \
+            --proof
+      - name: Enforce complete materialization and exact closure or explicit wall
+        run: |
+          python - <<'PY'
+          import json, pathlib, os
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-07/e2-a54/materialized/manifest.json'
+          d = json.loads(p.read_text())
+          assert d['schema'] == 'STAGE32_D8_LOWMASS_MATERIALIZED_CLOSURE_V1'
+          assert d['signature_inventory']['signature_cell_count'] == 4
+          assert d['signature_inventory']['exceptional_assignment_count_after_qtail_quotient'] == 40
+          assert d['materialization']['materialized_assignment_count'] == 40
+          assert d['materialization']['complete_against_signature_inventory'] is True
+          assert d['materialization']['duplicate_assignment_count'] == 0
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_MB'] == 'NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD'] == 'AMBER'
+          if d['parent_exactly_closed']:
+              assert d['solver_row_count'] == 40
+              assert d['survivor_count'] == 0
+              assert all(r['solver_result'] == 'unsat' for r in d['solver_rows'])
+              assert all('proof_sha256' in r for r in d['solver_rows'])
+              print('EXACT_E2_A54_CLOSED')
+          else:
+              unresolved = [r for r in d['solver_rows'] if r['solver_result'] != 'unsat']
+              assert unresolved
+              print('EXPLICIT_MATERIALIZED_WALL', json.dumps(unresolved[0], sort_keys=True))
+          PY
+      - name: Upload exact materialized evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-07-d8g0-e2-a54-materialized
+          path: ${{ runner.temp }}/stage32-07/e2-a54
+          if-no-files-found: error
