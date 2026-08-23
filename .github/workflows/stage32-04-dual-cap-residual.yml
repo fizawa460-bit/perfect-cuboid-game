@@ -1,0 +1,79 @@
+name: Stage32-04 exact dual caps and residual replay
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-04/**'
+      - '.github/workflows/stage32-04-dual-cap-residual.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exact-dual-cap-residual:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned backend
+        run: pip install -r stages/stage32/32-04/requirements.txt
+      - name: Compile Stage32-04
+        run: >-
+          python -m py_compile
+          stages/stage32/32-04/cap_certificate.py
+          stages/stage32/32-04/derive_intersection_caps.py
+          stages/stage32/32-04/verify_intersection_caps.py
+          stages/stage32/32-04/run_cap_z3_budget.py
+          stages/stage32/32-04/run_cap_residual_batch.py
+      - name: Download source-locked PR1343 artifact
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Derive and exactly verify all 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-cap"
+          python stages/stage32/32-04/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output "$RUNNER_TEMP/stage32-cap/intersection-cap-certificates.json"
+          python stages/stage32/32-04/verify_intersection_caps.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --certificate "$RUNNER_TEMP/stage32-cap/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/stage32-cap/cap-verification.json"
+      - name: Replay all 28 residual singletons with exact caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-cap/evidence"
+          python stages/stage32/32-04/run_cap_residual_batch.py \
+            --artifact-dir "$RUNNER_TEMP/stage32-prefix" \
+            --output-dir "$RUNNER_TEMP/stage32-cap/evidence" \
+            --cap-certificate "$RUNNER_TEMP/stage32-cap/intersection-cap-certificates.json" \
+            --workers 4 --timeout 180 --proof
+      - name: Upload proof-bearing batch evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-04-dual-cap-residual-evidence
+          path: ${{ runner.temp }}/stage32-cap
+          if-no-files-found: error
+      - name: Enforce bounded target closure
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-cap/evidence/cap-residual-manifest.json'
+          data = json.loads(p.read_text())
+          assert data['all_28_residuals_exactly_closed'] is True
+          assert data['exact_survivor_total'] == 0
+          assert data['unresolved'] == []
+          assert data['low_degree_prefix_complete'] is False
+          assert data['full_d176_d192_numerical_orbit_census'] is False
+          assert data['receiver_credit'] is False
+          print('PASS_STAGE32_04_BOUNDED_28_RESIDUAL_CLOSURE')
+          PY
