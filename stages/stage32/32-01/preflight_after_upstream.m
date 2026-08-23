@@ -1,21 +1,20 @@
-// Stage32-01 preflight. This file is concatenated AFTER the pinned
-// MichaelStollBayreuth/Verification Cuboids/cuboids.magma source.
-// It must never be used without the exact upstream blob locked by Stage32.
+// Stage32-01 Picard preflight. This file is concatenated after an exact
+// source-locked subset of the pinned Cuboids/cuboids.magma computation.
 
 printf "STAGE32_PREFLIGHT_BEGIN\n";
 
 assert Dimension(PicL) eq 64;
 assert (HinPicL, HinPicL) eq 16;
 assert Dimension(LHp) eq 63;
-assert #AutS eq 1536;
 assert #pts eq 48;
 assert Rank(pmPic) eq 64;
+assert bdim eq #gensinPicL;
 
 printf "STAGE32_INVARIANT|PICARD_RANK|%o\n", Dimension(PicL);
 printf "STAGE32_INVARIANT|H2|%o\n", (HinPicL, HinPicL);
 printf "STAGE32_INVARIANT|HPERP_RANK|%o\n", Dimension(LHp);
-printf "STAGE32_INVARIANT|AUT_ORDER|%o\n", #AutS;
 printf "STAGE32_INVARIANT|NODE_COUNT|%o\n", #pts;
+printf "STAGE32_INVARIANT|KNOWN_FILTER_COUNT|%o\n", bdim;
 printf "STAGE32_INVARIANT|HPERP_DETERMINANT|%o\n", Determinant(LHp);
 
 function Stage32Data(d, genus)
@@ -35,16 +34,11 @@ function Stage32Data(d, genus)
   return r, m, n, base, B;
 end function;
 
-// Lock the general coset formula against the two low-degree templates
-// explicitly visible in the upstream code.
 r2,m2,n2,b2,B2 := Stage32Data(2,0);
 r4,m4,n4,b4,B4 := Stage32Data(4,1);
 assert r2 eq 2 and m2 eq 8 and n2 eq 1;
 assert r4 eq 4 and m4 eq 4 and n4 eq 1;
-// For C0=one conic at d=2 and C0=two conics at d=4, both y0 are 8*C_conic-H.
 assert b2 eq b4;
-// General genus-window bounds are 272 for (g=0,d=2) and 80 for (g=1,d=4),
-// matching the exact self-intersection slices used in the published low-degree code.
 assert B2 eq 272;
 assert B4 eq 80;
 printf "STAGE32_REGRESSION|D2_BASE_D4_BASE_EQUAL|true\n";
@@ -64,11 +58,6 @@ for genus in [0,1] do
 end for;
 assert row_count eq 183;
 printf "STAGE32_INVARIANT|WINDOW_ROW_COUNT|%o\n", row_count;
-
-// The current production blocker is deliberately tested here. Magma's
-// CloseVectorsProcess accepts only a lattice, centre and norm interval; the
-// Stage32 roadmap requires known-curve/node half-space constraints to prune
-// BEFORE high-dimensional enumeration. This preflight does not start a raw
-// 63-dimensional CloseVectorsProcess.
+printf "STAGE32_AUT_PHASE_EXECUTED|false\n";
 printf "STAGE32_RAW_63D_CVP_STARTED|false\n";
 printf "STAGE32_PREFLIGHT_END\n";
