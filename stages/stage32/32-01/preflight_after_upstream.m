@@ -58,18 +58,6 @@ for genus in [0,1] do
 end for;
 assert row_count eq 183;
 printf "STAGE32_INVARIANT|WINDOW_ROW_COUNT|%o\n", row_count;
-
-// Export an exact machine-readable core so later Stage32 search experiments do
-// not have to spend the online-Magma gateway budget recomputing intersections.
-printf "STAGE32_CORE_H|%o\n", Eltseq(HinPicL);
-for j in [1..64] do
-  printf "STAGE32_CORE_PMPIC|%o|%o\n", j, Eltseq(pmPic[j]);
-end for;
-for j in [1..bdim] do
-  printf "STAGE32_CORE_KNOWN|%o|%o\n", j, Eltseq(gensinPicL[j]);
-end for;
-printf "STAGE32_CORE_EXPORT_COMPLETE|true\n";
-
 printf "STAGE32_AUT_PHASE_EXECUTED|false\n";
 printf "STAGE32_RAW_63D_CVP_STARTED|false\n";
 printf "STAGE32_PREFLIGHT_END\n";
