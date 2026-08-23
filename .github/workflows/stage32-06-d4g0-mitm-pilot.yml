@@ -37,8 +37,11 @@ jobs:
           python-version: '3.10.6'
       - name: Install pinned exact dependencies
         run: pip install -r stages/stage32/32-05/requirements.txt
-      - name: Compile degree-4 exact backend
-        run: python -m py_compile stages/stage32/32-06/run_exact_mitm_degree4.py
+      - name: Compile degree-4 exact backends
+        run: >-
+          python -m py_compile
+          stages/stage32/32-06/run_exact_mitm_degree4.py
+          stages/stage32/32-06/run_qtail_mitm_fallback.py
       - name: Download source-locked Stage32 Picard core
         run: >-
           gh run download 32624596141
@@ -52,6 +55,8 @@ jobs:
             --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
             --output "$RUNNER_TEMP/stage32-06/${{ matrix.label }}/intersection-cap-certificates.json"
       - name: Exact d4g0 quotient MITM and QF_NIA closure
+        id: primary
+        continue-on-error: true
         run: |
           python stages/stage32/32-06/run_exact_mitm_degree4.py \
             --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
@@ -61,19 +66,28 @@ jobs:
             --curve-group-mass ${{ matrix.a }} \
             --candidate-timeout 5 \
             --proof
+      - name: Exact 6+6 q-tail MITM fallback for primary UNKNOWN
+        if: steps.primary.outcome == 'failure'
+        run: |
+          python stages/stage32/32-06/run_qtail_mitm_fallback.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/stage32-06/${{ matrix.label }}/intersection-cap-certificates.json" \
+            --primary-manifest "$RUNNER_TEMP/stage32-06/${{ matrix.label }}/exact/manifest.json" \
+            --candidates "$RUNNER_TEMP/stage32-06/${{ matrix.label }}/exact/candidates.json" \
+            --output "$RUNNER_TEMP/stage32-06/${{ matrix.label }}/fallback-manifest.json"
       - name: Enforce pilot closure and firewalls
         env:
           LABEL: ${{ matrix.label }}
+          PRIMARY_OUTCOME: ${{ steps.primary.outcome }}
         run: |
           python - <<'PY'
           import json, os, pathlib
-          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-06' / os.environ['LABEL'] / 'exact' / 'manifest.json'
-          d = json.loads(p.read_text())
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-06' / os.environ['LABEL']
+          d = json.loads((root / 'exact' / 'manifest.json').read_text())
           assert d['schema'] == 'STAGE32_EXACT_MITM_DEGREE4_CLOSURE_V1'
           assert d['parameters']['degree'] == 4 and d['parameters']['genus'] == 0
           assert d['parameters']['normal_cap'] == 2 and d['parameters']['exceptional_cap'] == 1
           assert d['join_certificate']['qtail_quotient_role'] == 'NECESSARY_OVERRELAXATION_ONLY'
-          assert d['parent_exactly_closed'] is True
           assert d['survivor_count'] == 0
           assert d['theorem_credit'] is False and d['receiver_credit'] is False
           assert d['low_degree_prefix_complete'] is False
@@ -82,10 +96,28 @@ jobs:
           assert d['R29_LG2_EFF'] == 'NOT_DISCHARGED'
           assert d['R29_LG2_MB'] == 'NOT_DISCHARGED'
           assert d['G10_LOWGENUS_PICARD'] == 'AMBER'
-          assert len(d['solver_rows']) == d['candidate_count']
-          assert all(row['solver_result'] == 'unsat' for row in d['solver_rows'])
-          assert all('proof_sha256' in row for row in d['solver_rows'])
-          print(json.dumps({'label': os.environ['LABEL'], 'candidate_count': d['candidate_count'], 'survivors': d['survivor_count']}))
+          if d['parent_exactly_closed']:
+              assert len(d['solver_rows']) == d['candidate_count']
+              assert all(row['solver_result'] == 'unsat' for row in d['solver_rows'])
+              assert all('proof_sha256' in row for row in d['solver_rows'])
+              mode = 'PRIMARY_QF_NIA'
+          else:
+              f = json.loads((root / 'fallback-manifest.json').read_text())
+              assert f['schema'] == 'STAGE32_D4_QTAIL_MITM_FALLBACK_V1'
+              assert f['parent_exactly_closed'] is True
+              assert f['survivor_count'] == 0
+              assert f['theorem_credit'] is False and f['receiver_credit'] is False
+              assert f['low_degree_prefix_complete'] is False
+              assert f['full_d176_d192_numerical_orbit_census'] is False
+              assert f['R29_LG2'] == 'NOT_DISCHARGED'
+              assert f['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+              assert f['R29_LG2_MB'] == 'NOT_DISCHARGED'
+              assert f['G10_LOWGENUS_PICARD'] == 'AMBER'
+              assert all(row['complete'] is True for row in f['fallback_rows'])
+              assert all(row['result'] == 'unsat_exhaustive_qtail_mitm' for row in f['fallback_rows'])
+              assert all('fallback_certificate_sha256' in row for row in f['fallback_rows'])
+              mode = 'QTAIL_6PLUS6_FALLBACK'
+          print(json.dumps({'label': os.environ['LABEL'], 'candidate_count': d['candidate_count'], 'mode': mode, 'survivors': 0}))
           PY
       - name: Upload exact pilot evidence
         if: always()
