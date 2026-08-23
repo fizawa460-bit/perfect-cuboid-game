@@ -1,0 +1,85 @@
+name: Stage32-07 d8 e2/a54 exact Aut orbit dedup
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-07/export_aut_action_locked.py'
+      - 'stages/stage32/32-07/orbit_dedup_e2a54.py'
+      - '.github/workflows/stage32-07-d8-e2-orbit.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  orbit-dedup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile exact orbit tools
+        run: python -m py_compile stages/stage32/32-07/export_aut_action_locked.py stages/stage32/32-07/orbit_dedup_e2a54.py
+      - name: Export Aut(S) Picard generators from locked upstream source
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-07-orbit"
+          python stages/stage32/32-07/export_aut_action_locked.py \
+            --output "$RUNNER_TEMP/stage32-07-orbit/aut-action.json"
+      - name: Download source-locked Stage32 Picard core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Download exact d8 e2/a54 numerical parent summary
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh run download 32673831999
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-07-d8g0-e2-a54-exact-summary
+          --dir "$RUNNER_TEMP/stage32-07-parent"
+      - name: Exact full-Aut orbit canonicalization of all 160 numerical survivors
+        run: |
+          python stages/stage32/32-07/orbit_dedup_e2a54.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --action "$RUNNER_TEMP/stage32-07-orbit/aut-action.json" \
+            --parent-summary "$RUNNER_TEMP/stage32-07-parent/stage32-07-d8-e2-a54-summary.json" \
+            --output "$RUNNER_TEMP/stage32-07-orbit/orbit-dedup.json"
+      - name: Enforce orbit evidence and firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-07-orbit/orbit-dedup.json'
+          d = json.loads(p.read_text())
+          assert d['schema'] == 'STAGE32_D8_E2_A54_AUT_ORBIT_DEDUP_V1'
+          assert d['input_numerical_survivor_count'] == 160
+          assert 0 < d['aut_orbit_count_intersecting_parent'] <= 160
+          assert d['parent_orbit_dedup_complete'] is True
+          assert d['aut_action']['magma_reported_group_order'] == 1536
+          assert d['aut_action']['independently_recomputed_permutation_group_order'] == 1536
+          assert d['aut_action']['all_generators_preserve_gram'] is True
+          assert d['aut_action']['all_generators_fix_hyperplane'] is True
+          assert d['aut_action']['all_generators_permute_140_known_classes'] is True
+          assert d['full_d8g0_row_complete'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_MB'] == 'NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD'] == 'AMBER'
+          print(json.dumps({'orbit_count': d['aut_orbit_count_intersecting_parent'], 'canonical_sha256': d['canonical_sha256_without_this_field']}, sort_keys=True))
+          PY
+      - name: Upload exact Aut orbit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-07-d8g0-e2-a54-aut-orbits
+          path: ${{ runner.temp }}/stage32-07-orbit
+          if-no-files-found: error
