@@ -10,7 +10,6 @@ CODE = (ROOT / "magma_quartic_certificate.m").read_text(encoding="utf-8")
 URL = "https://magma.maths.usyd.edu.au/xml/calculator.xml"
 REFERER = "https://magma.maths.usyd.edu.au/calc/"
 
-# This is the official free-calculator protocol used by Sage's magma_free interface.
 data = urllib.parse.urlencode({"input": "SetColumns(0);\n" + CODE}).encode("utf-8")
 req = urllib.request.Request(
     URL,
@@ -38,6 +37,9 @@ stdout = "\n".join(lines)
 if stdout and not stdout.endswith("\n"):
     stdout += "\n"
 
+completion = "STAGE31_MAGMA_QUARTIC_CERTIFICATE_END" in stdout
+runtime_error = any(marker in stdout for marker in ("Runtime error", "Internal error", "User error", "Assertion failed"))
+success = http_status == 200 and completion and not runtime_error
 payload = {
     "protocol": "official-magma-xml-calculator",
     "endpoint": URL,
@@ -45,17 +47,20 @@ payload = {
     "response_headers": response_headers,
     "stdout": stdout,
     "raw_xml": raw,
-    "success": "STAGE31_MAGMA_QUARTIC_CERTIFICATE_END" in stdout,
+    "completion_marker_seen": completion,
+    "runtime_error_seen": runtime_error,
+    "success": success,
 }
 (ROOT / "magma-response.json").write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 (ROOT / "magma-stdout.txt").write_text(stdout, encoding="utf-8")
 
 print(json.dumps({
-    "success": payload["success"],
+    "success": success,
     "protocol": payload["protocol"],
-    "http_status": payload["http_status"],
+    "http_status": http_status,
+    "runtime_error_seen": runtime_error,
 }, sort_keys=True))
 print(stdout)
 
-if not payload["success"]:
-    raise SystemExit("Magma completion marker missing")
+if not success:
+    raise SystemExit("Magma certificate did not finish cleanly")
