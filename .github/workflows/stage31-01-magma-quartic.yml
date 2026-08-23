@@ -1,0 +1,33 @@
+name: Stage31-01 Magma quartic certificate
+
+on:
+  push:
+    branches:
+      - stage31-01-xl-full-closure
+  pull_request:
+    paths:
+      - 'stages/stage31/31-01/**'
+      - '.github/workflows/stage31-01-magma-quartic.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  magma-quartic-certificate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run independent exact verifier
+        run: python3 stages/stage31/31-01/verify_stage31.py
+      - name: Call public Magma calculator
+        run: python3 stages/stage31/31-01/run_magma_online.py
+      - name: Upload certificate output
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage31-01-magma-certificate
+          path: |
+            stages/stage31/31-01/magma-response.json
+            stages/stage31/31-01/magma-stdout.txt
+          if-no-files-found: warn

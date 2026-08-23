@@ -1,0 +1,51 @@
+{
+  "schema": "STAGE31_01_RECONSTRUCTION_LEDGER_V1",
+  "family_hypotheses": "odd coprime p<q, p prime, Paper-E Case-B Sophie-Germain Cases I/II",
+  "quartic_points": [[-1,-1],[-1,1],[1,-1],[1,1],[11,-37],[11,37]],
+  "branch_rules": {
+    "Case_I": {"quartic_coordinate":"Y=-p","q":"(p^2-2p-1)/2"},
+    "Case_II": {"quartic_coordinate":"Y=p","q":"(p^2+2p-1)/2"}
+  },
+  "classification": [
+    {
+      "Y": -1,
+      "Z_values": [-1,1],
+      "possible_branch": "Case_I",
+      "p": 1,
+      "prime": false,
+      "status": "REJECT_NONPRIME_DEGENERATE_PARAMETER"
+    },
+    {
+      "Y": 1,
+      "Z_values": [-1,1],
+      "possible_branch": "Case_II",
+      "p": 1,
+      "prime": false,
+      "status": "REJECT_NONPRIME_DEGENERATE_PARAMETER"
+    },
+    {
+      "Y": 11,
+      "Z_values": [-37,37],
+      "possible_branch": "Case_II",
+      "p": 11,
+      "prime": true,
+      "q": 71,
+      "gcd_p_q": 1,
+      "both_odd": true,
+      "p_less_than_q": true,
+      "edges": {"a":3124,"b":4557,"c":9840},
+      "square_tests": {
+        "a2_plus_b2": {"value":30525625,"root":5525,"is_square":true},
+        "a2_plus_c2": {"value":106584976,"root":10324,"is_square":true},
+        "b2_plus_c2": {"value":117591849,"floor_sqrt":10843,"floor_square":117570649,"next_square":117592336,"is_square":false},
+        "space": {"value":127351225,"root":11285,"is_square":true}
+      },
+      "status": "NONDEGENERATE_NEAR_CUBOID_REJECT_THIRD_FACE"
+    }
+  ],
+  "case_I_prime_survivor_count": 0,
+  "case_II_prime_survivor_before_third_face": 1,
+  "perfect_cuboid_survivor_count": 0,
+  "prime_sophie_germain_subfamily_excluded": true,
+  "coverage": "THIN_PRIME_SUBFAMILY_ONLY"
+}
