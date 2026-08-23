@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V4_POLYTAIL_SUBMITTED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V5_USER_ADVANCE_OVERRIDE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "children": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
   "parent_route": "G10-LOWGENUS-PICARD",
   "execution_class": 2,
-  "status": "32_01_POLYTAIL_EXACT_REDUCTION_SUBMITTED_FOR_AUDIT",
+  "status": "32_01_GRADED_SLICE_ENUMERATOR_ACTIVE_BY_USER_OVERRIDE",
   "preflight_audit": {
     "audit_record": "stages/stage32/32-01/audit.md",
     "audit_verdict": "PASS_PREFLIGHT_ONLY_EXACT_CLASS2_POLYHEDRAL_WALL_EXPOSED",
@@ -16,22 +16,25 @@
     "known_filter_count": 140,
     "sparse_picard_core_export_verified": true
   },
-  "current_item": "32-01-POLYTAIL-REDUCTION",
-  "current_smaller_class2_leaf": {
-    "id": "L32-01-POLYTAIL",
-    "classification": 2,
-    "submitted_status": "CLOSED_EXACT_POSITIVE_DUAL_CERTIFICATE_PENDING_AUDIT",
-    "certificate": "stages/stage32/32-01/verify_polytail_reduction.py",
-    "record": "stages/stage32/32-01/polytail-reduction.md",
-    "result": "stages/stage32/32-01/polytail-result.md",
+  "polytail_submission": {
+    "pr": 1341,
+    "merged": true,
     "identity": "19*(H.x)=sum_92_curve(D.x)+5*sum_48_exceptional(E.x)",
     "basis_gram_determinant": -268435456,
     "tail_H0_zero_submitted": true,
     "fixed_positive_degree_slices_bounded_submitted": true,
-    "normaliz_tail_cone_required": false,
-    "raw_rank63_cvp_required": false
+    "ci_workflow_run": 32614857845,
+    "ci_success": true,
+    "formal_polytail_audit_performed": false
   },
-  "next_residual_after_audit_pass": {
+  "advance_override": {
+    "authorized_by_user": true,
+    "reason": "User explicitly instructed controller change and continuation without separate Stage32-audit turn.",
+    "scope": "advance execution only; no retroactive audit credit granted",
+    "audit_credit_granted": false
+  },
+  "current_item": "32-01-GRADED-SLICE-INTEGER-ORBIT-ENUMERATOR",
+  "current_smaller_class2_leaf": {
     "id": "L32-01-GRADED-SLICE-ENUMERATOR",
     "classification": 2,
     "statement": "construct the exact resumable graded integer/orbit enumerator in the certified bounded fixed-degree slices, applying Picard congruence, adjunction/norm, incidence, known-class subtraction and automorphism deduplication before expensive enumeration",
@@ -44,8 +47,9 @@
     {
       "id": "32-01",
       "name": "PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
-      "status": "IN_PROGRESS_POLYTAIL_REDUCTION_AT_AUDIT_GATE",
+      "status": "IN_PROGRESS_GRADED_SLICE_ENUMERATOR_ACTIVE",
       "preflight_complete": true,
+      "polytail_reduction_submitted_and_merged": true,
       "numerical_census_complete": false
     },
     {"id": "32-02", "name": "RIGOROUS_EFFECTIVITY_CERTIFICATION", "status": "BLOCKED_BY_32_01"},
@@ -69,11 +73,11 @@
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
-  "audit_required": true,
-  "audit_verdict": "PENDING_POLYTAIL_REDUCTION_AUDIT",
+  "audit_required": false,
+  "audit_verdict": "USER_ADVANCE_OVERRIDE_NO_AUDIT_CREDIT",
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "next_item_after_audit_pass": "32-01-GRADED-SLICE-INTEGER-ORBIT-ENUMERATOR",
-  "next_expected_command": "Stage32-audit"
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "32-01-GRADED-SLICE-INTEGER-ORBIT-ENUMERATOR",
+  "next_expected_command": "Stage32-main-batch"
 }
