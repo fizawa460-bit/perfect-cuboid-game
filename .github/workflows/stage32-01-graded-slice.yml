@@ -1,0 +1,32 @@
+name: Stage32-01 graded slice planner
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-01/graded_slice_plan.py'
+      - 'stages/stage32/32-01/verify_graded_slice_plan.py'
+      - '.github/workflows/stage32-01-graded-slice.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  graded-slice-plan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build exact immutable strata manifest
+        working-directory: stages/stage32/32-01
+        run: python graded_slice_plan.py
+      - name: Verify graded slice manifest
+        working-directory: stages/stage32/32-01
+        run: python verify_graded_slice_plan.py
+      - name: Upload checkpoint manifest
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-01-graded-slice-manifest
+          path: stages/stage32/32-01/graded-slice-manifest.json
