@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import concurrent.futures, json, pathlib, time, urllib.parse, urllib.request, xml.etree.ElementTree as ET
+import concurrent.futures, json, pathlib, sys, time, urllib.parse, urllib.request, xml.etree.ElementTree as ET
 ROOT=pathlib.Path(__file__).resolve().parent
 CORE=json.loads((ROOT/'picard-core.json').read_text())
 MAGMA_URL='https://magma.maths.usyd.edu.au/xml/calculator.xml'; REFERER='https://magma.maths.usyd.edu.au/calc/'
@@ -14,13 +14,6 @@ ef=[sum(I[k][j] for k in range(92,140)) for j in range(64)]
 
 def one(d,g,e):
     lower=-d-2+2*g
-    code=f'''
-SetColumns(0);
-G:={mm(G)}; Pic:=RSpace(Integers(),64,G); H:=Pic!{vv(H)}; I:={mm(I)};
-Z64:=RSpace(Integers(),64); Z2:=RSpace(Integers(),2);
-phi:=hom<Z64 -> Z2 | [Z2![{','.join('0' for _ in range(0))}] ]>;
-'''
-    # Build map text separately to avoid Magma parser ambiguity.
     imgs=', '.join(f'Z2![{hf[j]},{ef[j]}]' for j in range(64))
     code=f'''
 SetColumns(0);
@@ -42,7 +35,8 @@ else
     L:=LatticeWithGram(Q); clv:=CloseVectors(L,center,radius); raw:=#clv;
     for cv in clv do
       z:=KM!Eltseq(cv[1]); C:=C0+inc(z);
-      if (C,H) eq {d} and &+[I[k,j]*C[j] : k in [93..140], j in [1..64]] eq {e}
+      exmass:=&+[&+[I[k,j]*C[j] : j in [1..64]] : k in [93..140]];
+      if (C,H) eq {d} and exmass eq {e}
          and (C,C) ge {lower}
          and forall{{k : k in [1..140] | &+[I[k,j]*C[j] : j in [1..64]] ge 0}} then
         kept +:= 1;
@@ -53,7 +47,7 @@ else
 end if;
 printf "STAGE32_STRATUM_END\\n";
 '''
-    data=urllib.parse.urlencode({'input':code}).encode(); req=urllib.request.Request(MAGMA_URL,data=data,headers={'Content-Type':'application/x-www-form-urlencoded','Referer':REFERER,'User-Agent':'perfect-cuboid-stage32/1.5'},method='POST')
+    data=urllib.parse.urlencode({'input':code}).encode(); req=urllib.request.Request(MAGMA_URL,data=data,headers={'Content-Type':'application/x-www-form-urlencoded','Referer':REFERER,'User-Agent':'perfect-cuboid-stage32/1.6'},method='POST')
     t0=time.time()
     try:
       with urllib.request.urlopen(req,timeout=72) as resp: rawxml=resp.read().decode('utf-8','replace')
@@ -69,8 +63,12 @@ def run(d=4,g=1):
       futs={ex.submit(one,d,g,e):e for e in range(cap+1)}
       for f in concurrent.futures.as_completed(futs):
         r=f.result(); results.append(r); print(json.dumps(r,sort_keys=True),flush=True)
-    results.sort(key=lambda r:r['e']); payload={'schema':'STAGE32_NUMERIC_MAGMA_STRATA_V1','degree':d,'genus':g,'stratum_count':cap+1,'all_completed':all(r['ok'] for r in results),'results':results}
+    results.sort(key=lambda r:r['e']); payload={'schema':'STAGE32_NUMERIC_MAGMA_STRATA_V2','degree':d,'genus':g,'stratum_count':cap+1,'all_completed':all(r['ok'] for r in results),'results':results}
     (ROOT/f'numeric-magma-strata-d{d}-g{g}.json').write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n')
     print(json.dumps({'degree':d,'genus':g,'all_completed':payload['all_completed'],'completed':sum(r['ok'] for r in results),'strata':cap+1},sort_keys=True))
     if not payload['all_completed']: raise SystemExit('one or more exact strata did not complete')
-if __name__=='__main__': run()
+if __name__=='__main__':
+    d=int(sys.argv[1]) if len(sys.argv)>1 else 4
+    g=int(sys.argv[2]) if len(sys.argv)>2 else 1
+    if d<=0 or d%2 or g not in (0,1): raise SystemExit('usage: even_degree genus(0|1)')
+    run(d,g)
