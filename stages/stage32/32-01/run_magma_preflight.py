@@ -13,7 +13,9 @@ UPSTREAM_URL = (
     "51233ed5ef2bf228fac9416c66db9adc0ebcaadd/Cuboids/cuboids.magma"
 )
 UPSTREAM_BLOB = "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
-CUT_MARKER = "// Set up complex conjugation."
+SKIP_START = "// Genus 3 hyperelliptic curves of degree 8"
+SKIP_END = "// Set up the intersection pairing"
+END_MARKER = "// The automorphism group (see Proposition 4)"
 MAGMA_URL = "https://magma.maths.usyd.edu.au/xml/calculator.xml"
 MAGMA_REFERER = "https://magma.maths.usyd.edu.au/calc/"
 
@@ -24,10 +26,7 @@ def git_blob_sha(data: bytes) -> str:
 
 
 def fetch_bytes(url: str, timeout: int = 60) -> bytes:
-    req = urllib.request.Request(
-        url,
-        headers={"User-Agent": "perfect-cuboid-stage32/1.1"},
-    )
+    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage32/1.2"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         if resp.status != 200:
             raise RuntimeError(f"HTTP {resp.status} from {url}")
@@ -37,19 +36,23 @@ def fetch_bytes(url: str, timeout: int = 60) -> bytes:
 upstream = fetch_bytes(UPSTREAM_URL)
 actual_blob = git_blob_sha(upstream)
 if actual_blob != UPSTREAM_BLOB:
-    raise SystemExit(
-        f"upstream blob mismatch: expected {UPSTREAM_BLOB}, got {actual_blob}"
-    )
-upstream_text = upstream.decode("utf-8")
-if upstream_text.count(CUT_MARKER) != 1:
-    raise SystemExit("pinned upstream prefix marker is not unique")
-prefix = upstream_text.split(CUT_MARKER, 1)[0]
+    raise SystemExit(f"upstream blob mismatch: expected {UPSTREAM_BLOB}, got {actual_blob}")
+text = upstream.decode("utf-8")
+for marker in (SKIP_START, SKIP_END, END_MARKER):
+    if text.count(marker) != 1:
+        raise SystemExit(f"pinned upstream marker is not unique: {marker}")
 
-# The frozen upstream defines Hperp immediately after a Galois/Brauer block that
-# is irrelevant to 32-01. Recreate those exact setup objects here so the
-# official calculator does not spend its HTTP budget on unrelated work.
+# Execute only code that is load-bearing for the Stage32 numerical lattice:
+# surface/nodes/known low-genus curves, exact 140x140 intersection pairing,
+# Picard quotient/basis and hyperplane class.  The unrelated genus-3 curve
+# construction and the later Aut/Galois/Brauer/K3 blocks are source-locked but
+# intentionally not executed inside the online calculator's ~60s gateway.
+head = text.split(SKIP_START, 1)[0]
+pairing_and_pic = text.split(SKIP_END, 1)[1].split(END_MARKER, 1)[0]
+core = head + "\n// Stage32 resumes at the frozen intersection-pairing block.\n" + pairing_and_pic
+
 hperp_setup = r'''
-// Stage32 exact reconstruction of the frozen upstream H^perp setup.
+// Exact reconstruction of the frozen upstream H^perp setup.
 Hperp := Kernel(Transpose(Matrix([HinPic])*pmPic));
 pospmHperp := -BasisMatrix(Hperp)*pmPic*Transpose(BasisMatrix(Hperp));
 LHp := LatticeWithGram(pospmHperp);
@@ -57,7 +60,7 @@ HperpMod := RSpace(Integers(), 63);
 HperptoPic := hom<HperpMod -> Pic | Basis(Hperp)>;
 '''
 preflight = (ROOT / "preflight_after_upstream.m").read_text(encoding="utf-8")
-code = "SetColumns(0);\nquick := true;\n" + prefix + hperp_setup + "\n" + preflight
+code = "SetColumns(0);\nquick := true;\n" + core + hperp_setup + "\n" + preflight
 
 data = urllib.parse.urlencode({"input": code}).encode("utf-8")
 req = urllib.request.Request(
@@ -67,7 +70,7 @@ req = urllib.request.Request(
         "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "text/html, application/xml, application/xhtml+xml",
         "Referer": MAGMA_REFERER,
-        "User-Agent": "perfect-cuboid-stage32/1.1",
+        "User-Agent": "perfect-cuboid-stage32/1.2",
     },
     method="POST",
 )
@@ -106,7 +109,10 @@ payload = {
     "response_headers": response_headers,
     "upstream_url": UPSTREAM_URL,
     "upstream_git_blob_sha1": actual_blob,
-    "upstream_cut_marker": CUT_MARKER,
+    "executed_core": {
+        "skipped_between": [SKIP_START, SKIP_END],
+        "stopped_before": END_MARKER,
+    },
     "stdout": stdout,
     "raw_xml": raw,
     "completion_marker_seen": completion,
@@ -118,20 +124,14 @@ payload = {
 )
 (ROOT / "magma-preflight-stdout.txt").write_text(stdout, encoding="utf-8")
 
-print(
-    json.dumps(
-        {
-            "success": success,
-            "protocol": payload["protocol"],
-            "http_status": http_status,
-            "runtime_error_seen": runtime_error,
-            "upstream_git_blob_sha1": actual_blob,
-            "upstream_cut_marker": CUT_MARKER,
-        },
-        sort_keys=True,
-    )
-)
+print(json.dumps({
+    "success": success,
+    "protocol": payload["protocol"],
+    "http_status": http_status,
+    "runtime_error_seen": runtime_error,
+    "upstream_git_blob_sha1": actual_blob,
+    "stopped_before": END_MARKER,
+}, sort_keys=True))
 print(stdout)
-
 if not success:
     raise SystemExit("Stage32 Magma preflight did not finish cleanly")
