@@ -1,0 +1,283 @@
+name: Stage32-07 d6g0 exact reducer discovery
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-07/**'
+      - '.github/workflows/stage32-07-d6g0-reducer.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  d6g0-reducer:
+    name: d6g0-${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      max-parallel: 20
+      matrix:
+        include:
+          - label: e0-a45
+            e: 0
+            a: 45
+          - label: e1-a42
+            e: 1
+            a: 42
+          - label: e2-a38
+            e: 2
+            a: 38
+          - label: e2-a39
+            e: 2
+            a: 39
+          - label: e3-a35
+            e: 3
+            a: 35
+          - label: e3-a36
+            e: 3
+            a: 36
+          - label: e4-a31
+            e: 4
+            a: 31
+          - label: e4-a32
+            e: 4
+            a: 32
+          - label: e4-a33
+            e: 4
+            a: 33
+          - label: e5-a28
+            e: 5
+            a: 28
+          - label: e5-a29
+            e: 5
+            a: 29
+          - label: e5-a30
+            e: 5
+            a: 30
+          - label: e6-a24
+            e: 6
+            a: 24
+          - label: e6-a25
+            e: 6
+            a: 25
+          - label: e6-a26
+            e: 6
+            a: 26
+          - label: e6-a27
+            e: 6
+            a: 27
+          - label: e7-a21
+            e: 7
+            a: 21
+          - label: e7-a22
+            e: 7
+            a: 22
+          - label: e7-a23
+            e: 7
+            a: 23
+          - label: e7-a24
+            e: 7
+            a: 24
+          - label: e8-a18
+            e: 8
+            a: 18
+          - label: e8-a19
+            e: 8
+            a: 19
+          - label: e8-a20
+            e: 8
+            a: 20
+          - label: e8-a21
+            e: 8
+            a: 21
+          - label: e9-a15
+            e: 9
+            a: 15
+          - label: e9-a16
+            e: 9
+            a: 16
+          - label: e9-a17
+            e: 9
+            a: 17
+          - label: e9-a18
+            e: 9
+            a: 18
+          - label: e10-a12
+            e: 10
+            a: 12
+          - label: e10-a13
+            e: 10
+            a: 13
+          - label: e10-a14
+            e: 10
+            a: 14
+          - label: e10-a15
+            e: 10
+            a: 15
+          - label: e11-a9
+            e: 11
+            a: 9
+          - label: e11-a10
+            e: 11
+            a: 10
+          - label: e11-a11
+            e: 11
+            a: 11
+          - label: e11-a12
+            e: 11
+            a: 12
+          - label: e12-a6
+            e: 12
+            a: 6
+          - label: e12-a7
+            e: 12
+            a: 7
+          - label: e12-a8
+            e: 12
+            a: 8
+          - label: e12-a9
+            e: 12
+            a: 9
+          - label: e13-a3
+            e: 13
+            a: 3
+          - label: e13-a4
+            e: 13
+            a: 4
+          - label: e13-a5
+            e: 13
+            a: 5
+          - label: e13-a6
+            e: 13
+            a: 6
+          - label: e14-a0
+            e: 14
+            a: 0
+          - label: e14-a1
+            e: 14
+            a: 1
+          - label: e14-a2
+            e: 14
+            a: 2
+          - label: e14-a3
+            e: 14
+            a: 3
+          - label: e15-a0
+            e: 15
+            a: 0
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile exact reducer
+        run: python -m py_compile stages/stage32/32-05/run_exact_mitm_closure.py stages/stage32/32-05/derive_intersection_caps.py
+      - name: Download source-locked Stage32 Picard core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Re-derive and exactly verify all 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-07/${{ matrix.label }}"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output "$RUNNER_TEMP/stage32-07/${{ matrix.label }}/intersection-cap-certificates.json"
+      - name: Exhaustive exact MITM reducer only
+        run: |
+          python stages/stage32/32-05/run_exact_mitm_closure.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/stage32-07/${{ matrix.label }}/intersection-cap-certificates.json" \
+            --output-dir "$RUNNER_TEMP/stage32-07/${{ matrix.label }}/exact" \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --genus 0 \
+            --reducer-only
+      - name: Enforce reducer manifest and firewalls
+        env:
+          LABEL: ${{ matrix.label }}
+          EXPECTED_E: ${{ matrix.e }}
+          EXPECTED_A: ${{ matrix.a }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-07' / os.environ['LABEL'] / 'exact' / 'manifest.json'
+          d = json.loads(p.read_text())
+          assert d['schema'] == 'STAGE32_EXACT_MITM_QUOTIENT_CLOSURE_V1'
+          assert d['parameters']['degree'] == 6
+          assert d['parameters']['genus'] == 0
+          assert d['parameters']['exceptional_mass'] == int(os.environ['EXPECTED_E'])
+          assert d['parameters']['curve_group_mass'] == int(os.environ['EXPECTED_A'])
+          assert d['reducer_only'] is True
+          assert d['theorem_credit'] is False
+          assert d['receiver_credit'] is False
+          assert d['full_d176_d192_numerical_orbit_census'] is False
+          assert d['R29_LG2'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_MB'] == 'NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD'] == 'AMBER'
+          print(json.dumps({'label': os.environ['LABEL'], 'candidate_count': d['candidate_count'], 'zero_candidate_exact_closure': bool(d['parent_exactly_closed'])}))
+          PY
+      - name: Upload reducer evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-07-d6g0-${{ matrix.label }}
+          path: ${{ runner.temp }}/stage32-07/${{ matrix.label }}
+          if-no-files-found: error
+
+  d6g0-summary:
+    name: d6g0-49-parent-reducer-summary
+    needs: d6g0-reducer
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-07-d6g0-*
+          path: ${{ runner.temp }}/all
+      - name: Build exact reducer summary
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root = pathlib.Path('${{ runner.temp }}') / 'all'
+          rows=[]
+          for art in sorted(root.glob('stage32-07-d6g0-*')):
+              p=art/'exact'/'manifest.json'
+              if not p.exists():
+                  continue
+              d=json.loads(p.read_text())
+              rows.append({'label': art.name.removeprefix('stage32-07-d6g0-'), 'candidate_count': int(d['candidate_count']), 'zero_candidate_exact_closure': bool(d['parent_exactly_closed'])})
+          summary={
+              'schema':'STAGE32_D6G0_49_PARENT_REDUCER_SUMMARY_V1',
+              'parent_count':len(rows),
+              'total_candidate_count':sum(r['candidate_count'] for r in rows),
+              'max_candidate_count':max((r['candidate_count'] for r in rows), default=-1),
+              'zero_candidate_parent_count':sum(r['candidate_count']==0 for r in rows),
+              'rows':rows,
+              'theorem_credit':False,
+              'receiver_credit':False,
+              'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,
+              'R29_LG2':'NOT_DISCHARGED',
+              'R29_LG2_EFF':'NOT_DISCHARGED',
+              'R29_LG2_MB':'NOT_DISCHARGED',
+              'G10_LOWGENUS_PICARD':'AMBER',
+          }
+          assert summary['parent_count']==49, summary
+          out=pathlib.Path('${{ runner.temp }}')/'stage32-07-d6g0-reducer-summary.json'
+          out.write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(summary,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage32-07-d6g0-reducer-summary
+          path: ${{ runner.temp }}/stage32-07-d6g0-reducer-summary.json
+          if-no-files-found: error
