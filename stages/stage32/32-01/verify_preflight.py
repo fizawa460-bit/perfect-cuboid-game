@@ -37,12 +37,13 @@ required = {
     "STAGE32_INVARIANT|PICARD_RANK|64",
     "STAGE32_INVARIANT|H2|16",
     "STAGE32_INVARIANT|HPERP_RANK|63",
-    "STAGE32_INVARIANT|AUT_ORDER|1536",
     "STAGE32_INVARIANT|NODE_COUNT|48",
+    "STAGE32_INVARIANT|KNOWN_FILTER_COUNT|140",
     "STAGE32_INVARIANT|WINDOW_ROW_COUNT|183",
     "STAGE32_REGRESSION|D2_BASE_D4_BASE_EQUAL|true",
     "STAGE32_REGRESSION|G0_D2_BOUND|272",
     "STAGE32_REGRESSION|G1_D4_BOUND|80",
+    "STAGE32_AUT_PHASE_EXECUTED|false",
     "STAGE32_RAW_63D_CVP_STARTED|false",
     "STAGE32_PREFLIGHT_END",
 }
@@ -66,8 +67,6 @@ for line in lines:
         raise SystemExit(f"unexpected row: {key}")
     if actual != expected[key]:
         raise SystemExit(f"row mismatch {key}: expected {expected[key]}, got {actual}")
-    # Base norm is an independent Magma-computed lattice datum. It must parse
-    # as a nonnegative integer, but no precomputed value is smuggled in here.
     if int(base_norm_s) < 0:
         raise SystemExit(f"negative positive-definite base norm for {key}")
     seen[key] = actual
@@ -85,8 +84,10 @@ if response.get("success") is not True:
 
 print(json.dumps({
     "stage": "32-01",
-    "preflight_verified": True,
+    "picard_preflight_verified": True,
     "window_row_count": len(seen),
+    "known_filter_count": 140,
+    "aut_phase_executed": False,
     "raw_63d_cvp_started": False,
     "upstream_blob": EXPECTED_BLOB,
 }, sort_keys=True))
