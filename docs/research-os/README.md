@@ -8,6 +8,7 @@ Stage29 is closed. Its concrete mathematical frontier remains under `stages/stag
 
 - [`policies/cycle-exploration-safety-protocol.md`](policies/cycle-exploration-safety-protocol.md) — prevents premature narrowing, silent route deletion and Arsenal anchoring; includes blind rediscovery / exhaustive-view audit triggers.
 - [`policies/self-contained-review-standard.md`](policies/self-contained-review-standard.md) — standard for self-contained final mathematical review artifacts.
+- [`policies/codex-task-scope-stop-policy.md`](policies/codex-task-scope-stop-policy.md) — mandatory scope/stop rules for Codex work requests: fixed finish line, explicit non-goals, blocker behavior, token/compute conservation, and a reusable bounded-prompt template.
 
 ## Stage29-derived restart pattern
 
