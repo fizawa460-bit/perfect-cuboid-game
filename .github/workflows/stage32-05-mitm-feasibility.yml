@@ -1,0 +1,81 @@
+name: Stage32-05 fixed-weight MITM feasibility
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-05/**'
+      - '.github/workflows/stage32-05-mitm-feasibility.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  mitm-feasibility:
+    name: mitm-${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: d6-g1-e2-a39
+            e: 2
+            a: 39
+          - label: d6-g1-e10-a15
+            e: 10
+            a: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned benchmark dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile benchmark
+        run: python -m py_compile stages/stage32/32-05/benchmark_fixed_weight_mitm.py
+      - name: Download source-locked Stage32 Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Run performance-only MITM feasibility probe
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-05"
+          python stages/stage32/32-05/benchmark_fixed_weight_mitm.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output "$RUNNER_TEMP/stage32-05/${{ matrix.label }}.json" \
+            --degree 6 --genus 1 \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --sample-limit 5000 --seed 3205
+      - name: Enforce benchmark firewalls and transform invariants
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          label = os.environ['LABEL']
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-05' / f'{label}.json'
+          data = json.loads(p.read_text())
+          assert data['theorem_credit'] is False
+          assert data['receiver_credit'] is False
+          assert data['unsat_claim'] is False
+          assert data['low_degree_prefix_complete'] is False
+          assert data['full_d176_d192_numerical_orbit_census'] is False
+          cert = data['transform_certificate']
+          assert abs(cert['selected_matrix_determinant']) == 274877906944
+          assert cert['inverse_denominator'] == 8
+          assert cert['snf_invariant_counts'] == {'1': 40, '2': 14, '4': 6, '8': 4}
+          print('PASS_STAGE32_05_PERFORMANCE_ONLY_FIREWALLS')
+          PY
+        env:
+          LABEL: ${{ matrix.label }}
+      - name: Upload benchmark evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-05-mitm-${{ matrix.label }}
+          path: ${{ runner.temp }}/stage32-05
+          if-no-files-found: error
