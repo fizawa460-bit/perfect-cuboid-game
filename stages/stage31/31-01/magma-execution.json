@@ -1,0 +1,44 @@
+{
+  "schema": "STAGE31_01_MAGMA_EXECUTION_V1",
+  "status": "SUCCESS_NO_RUNTIME_ERROR",
+  "workflow": {
+    "run_id": 32607148918,
+    "job_id": 97113828969,
+    "head_sha": "4c78587d10f0fd58fc3208585ac383c32952d297",
+    "artifact_id": 9484415535,
+    "artifact_name": "stage31-01-magma-certificate",
+    "artifact_sha256": "32c6f9ab32b60faa29b7a8cf7cfc3133115ea19ece422facf51ff255089f8a17",
+    "artifact_created_at": "2026-08-23T00:10:14Z"
+  },
+  "calculator": {
+    "protocol": "official-magma-xml-calculator",
+    "endpoint": "https://magma.maths.usyd.edu.au/xml/calculator.xml",
+    "http_status": 200,
+    "magma_version": "2.29-9",
+    "reported_seed": 633699112,
+    "reported_time_seconds": 0.420,
+    "reported_memory": "85.16MB",
+    "runtime_error_seen": false,
+    "completion_marker_seen": true
+  },
+  "quartic": {
+    "equation": "U^2=5*Y^4+40*Y^3+90*Y^2-40*Y+5",
+    "base_point": [1, 10],
+    "integral_representatives": [[-1,10],[1,-10],[11,370]],
+    "signed_integral_points": [[-1,-10],[-1,10],[1,-10],[1,10],[11,-370],[11,370]],
+    "C_anom_integral_points": [[-1,-1],[-1,1],[1,-1],[1,1],[11,-37],[11,37]]
+  },
+  "elliptic": {
+    "equation": "y^2=x^3-275*x+1750",
+    "mw_abstract_group": "Z/2 + Z",
+    "rank_proved": true,
+    "full_group_proved": true,
+    "magma_generators": [[10,0],[9,2]],
+    "torsion_group": "Z/2",
+    "integral_point_representatives": [[-15,-50],[9,2],[10,0],[46,294]],
+    "signed_integral_point_count": 7
+  },
+  "raw_stdout": "stages/stage31/31-01/magma-stdout.txt",
+  "script": "stages/stage31/31-01/magma_quartic_certificate.m",
+  "runner": "stages/stage31/31-01/run_magma_online.py"
+}
