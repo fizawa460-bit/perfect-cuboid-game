@@ -1,0 +1,38 @@
+name: Stage32-01 Magma preflight
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-01/preflight_after_upstream.m'
+      - 'stages/stage32/32-01/run_magma_preflight.py'
+      - 'stages/stage32/32-01/verify_preflight.py'
+      - '.github/workflows/stage32-01-magma-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  magma-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run pinned Stage32 Magma preflight
+        working-directory: stages/stage32/32-01
+        run: python run_magma_preflight.py
+      - name: Verify all 183 genus-degree rows
+        working-directory: stages/stage32/32-01
+        run: python verify_preflight.py
+      - name: Upload exact preflight transcript
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-01-magma-preflight
+          path: |
+            stages/stage32/32-01/magma-preflight-response.json
+            stages/stage32/32-01/magma-preflight-stdout.txt
+          if-no-files-found: warn
