@@ -6,6 +6,9 @@ on:
       - 'stages/stage32/32-01/preflight_after_upstream.m'
       - 'stages/stage32/32-01/run_magma_preflight.py'
       - 'stages/stage32/32-01/verify_preflight.py'
+      - 'stages/stage32/32-01/run_sparse_picard_export.py'
+      - 'stages/stage32/32-01/run_polyhedral_pilot.py'
+      - 'stages/stage32/32-01/polyhedral_pilot_after_upstream.m'
       - '.github/workflows/stage32-01-magma-preflight.yml'
   workflow_dispatch:
 
@@ -27,7 +30,13 @@ jobs:
       - name: Verify all 183 genus-degree rows
         working-directory: stages/stage32/32-01
         run: python verify_preflight.py
-      - name: Upload exact preflight transcript and Picard core
+      - name: Export exact Picard core in bounded chunks
+        working-directory: stages/stage32/32-01
+        run: python run_sparse_picard_export.py
+      - name: Test known-curve polyhedral compactness
+        working-directory: stages/stage32/32-01
+        run: python run_polyhedral_pilot.py
+      - name: Upload Stage32-01 exact transcripts
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -35,5 +44,11 @@ jobs:
           path: |
             stages/stage32/32-01/magma-preflight-response.json
             stages/stage32/32-01/magma-preflight-stdout.txt
+            stages/stage32/32-01/magma-core-export-part*.xml
+            stages/stage32/32-01/magma-core-export-part*.txt
+            stages/stage32/32-01/magma-core-export-part*-http-error.txt
             stages/stage32/32-01/picard-core.json
+            stages/stage32/32-01/polyhedral-pilot-response.json
+            stages/stage32/32-01/polyhedral-pilot-response.xml
+            stages/stage32/32-01/polyhedral-pilot-stdout.txt
           if-no-files-found: warn
