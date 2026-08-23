@@ -13,15 +13,19 @@ import sympy
 from sympy import Matrix
 
 EXPECTED_CORE_SCHEMA = "STAGE32_PICARD_CORE_INDLIST_V1"
-EXPECTED_ACTION_SCHEMA = "STAGE32_AUT_ACTION_SOURCELOCK_V1"
+EXPECTED_ACTION_SCHEMA = "STAGE32_AUT_PERM_SOURCELOCK_V1"
 EXPECTED_PARENT_SCHEMA = "STAGE32_D8_E2_A54_EXACT_NUMERICAL_PARENT_V1"
 EXPECTED_BLOB = "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
 EXPECTED_GROUP_ORDER = 1536
-SCHEMA = "STAGE32_D8_E2_A54_AUT_ORBIT_DEDUP_V1"
+EXPECTED_SELECTED_DET = 274877906944
+SELECTED_ROWS = list(range(92, 140)) + [0, 1, 2, 3, 4, 8, 9, 12, 16, 17, 24, 32, 44, 48, 52, 68]
+SCHEMA = "STAGE32_D8_E2_A54_AUT_ORBIT_DEDUP_V2"
 
 
 def canonical_sha256(value: object) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def verify_core(core: dict[str, Any]) -> None:
@@ -34,49 +38,12 @@ def verify_core(core: dict[str, Any]) -> None:
     assert canonical_sha256(copy) == claimed
 
 
-def verify_action(core: dict[str, Any], action: dict[str, Any]) -> tuple[list[np.ndarray], list[tuple[int, ...]]]:
-    assert action["schema"] == EXPECTED_ACTION_SCHEMA
-    assert action["source"]["git_blob_sha1"] == EXPECTED_BLOB
-    assert action["magma_group_order"] == EXPECTED_GROUP_ORDER
-    assert action["generator_count"] == 9
-    copy = dict(action)
-    claimed = copy.pop("canonical_sha256_without_this_field")
-    assert canonical_sha256(copy) == claimed
-
-    G = Matrix(core["basis_gram"])
-    H = Matrix([core["hyperplane"]])
-    known = [tuple(int(x) for x in row) for row in core["known_classes"]]
-    known_index = {row: i for i, row in enumerate(known)}
-    assert len(known_index) == 140
-
-    generators_np: list[np.ndarray] = []
-    induced: list[tuple[int, ...]] = []
-    for gi, raw in enumerate(action["generators"]):
-        M = Matrix(raw)
-        assert M.shape == (64, 64)
-        assert M * G * M.T == G
-        assert H * M == H
-        assert abs(int(M.det())) == 1
-        arr = np.array(raw, dtype=np.int64)
-        perm = []
-        for row in known:
-            vec = np.array(row, dtype=np.int64)
-            image = tuple(int(x) for x in (vec @ arr).tolist())
-            if image not in known_index:
-                raise AssertionError(f"generator {gi+1} does not permute the 140 known classes")
-            perm.append(known_index[image])
-        assert sorted(perm) == list(range(140))
-        generators_np.append(arr)
-        induced.append(tuple(perm))
-    return generators_np, induced
-
-
 def compose(p: tuple[int, ...], q: tuple[int, ...]) -> tuple[int, ...]:
-    # Apply p first, then q.
+    # Image convention: i -> p[i], then -> q[p[i]].
     return tuple(q[p[i]] for i in range(len(p)))
 
 
-def permutation_group_order(generators: list[tuple[int, ...]]) -> int:
+def close_permutation_group(generators: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
     identity = tuple(range(140))
     seen = {identity}
     queue = collections.deque([identity])
@@ -88,27 +55,87 @@ def permutation_group_order(generators: list[tuple[int, ...]]) -> int:
                 seen.add(nxt)
                 queue.append(nxt)
                 if len(seen) > EXPECTED_GROUP_ORDER:
-                    raise AssertionError("induced permutation group exceeded expected order")
-    return len(seen)
+                    raise AssertionError("geometric permutation group exceeded expected order")
+    return sorted(seen)
 
 
-def full_orbit(seed: tuple[int, ...], generators: list[np.ndarray]) -> set[tuple[int, ...]]:
-    seen = {seed}
-    queue = collections.deque([seed])
-    while queue:
-        current = queue.popleft()
-        vec = np.array(current, dtype=np.int64)
-        for gen in generators:
-            image_arr = vec @ gen
-            if int(np.max(np.abs(image_arr))) > 10**12:
-                raise AssertionError("unexpected coordinate growth in finite Aut orbit")
-            image = tuple(int(x) for x in image_arr.tolist())
-            if image not in seen:
-                seen.add(image)
-                queue.append(image)
-                if len(seen) > EXPECTED_GROUP_ORDER:
-                    raise AssertionError("vector orbit exceeded Aut(S) order")
-    return seen
+def verify_permutations(core: dict[str, Any], action: dict[str, Any]) -> tuple[list[tuple[int, ...]], dict[str, Any]]:
+    assert action["schema"] == EXPECTED_ACTION_SCHEMA
+    assert action["source"]["git_blob_sha1"] == EXPECTED_BLOB
+    assert action["permutation_count"] == 9
+    copy = dict(action)
+    claimed = copy.pop("canonical_sha256_without_this_field")
+    assert canonical_sha256(copy) == claimed
+
+    generators = [tuple(int(x) - 1 for x in p) for p in action["permutations_1based"]]
+    assert len(generators) == 9
+    assert all(sorted(p) == list(range(140)) for p in generators)
+    # Automorphisms preserve curve type: 92 nonexceptional known curves and 48 exceptional divisors.
+    assert all(all(p[i] < 92 for i in range(92)) for p in generators)
+    assert all(all(p[i] >= 92 for i in range(92, 140)) for p in generators)
+
+    K = np.array(core["known_classes"], dtype=np.int64)
+    G = np.array(core["basis_gram"], dtype=np.int64)
+    I = np.array(core["raw_cross_pairings_with_basis"], dtype=np.int64)
+    H = np.array(core["hyperplane"], dtype=np.int64)
+    # Bound every integer matrix product far below signed-int64 overflow.
+    safety_bound = 64 * int(np.max(np.abs(K))) * int(np.max(np.abs(G))) * int(np.max(np.abs(K)))
+    assert safety_bound < 2**62
+    assert np.array_equal(K @ G, I)
+    known_pairing = I @ K.T
+    h_known = I @ H
+
+    for gi, p in enumerate(generators):
+        idx = np.array(p, dtype=np.int64)
+        # Exact geometric sanity: each source permutation preserves the complete
+        # 140x140 intersection matrix and H-degrees.
+        if not np.array_equal(known_pairing[np.ix_(idx, idx)], known_pairing):
+            raise AssertionError(f"generator {gi+1} does not preserve known-class pairings")
+        if not np.array_equal(h_known[idx], h_known):
+            raise AssertionError(f"generator {gi+1} does not preserve H-degrees")
+
+    group = close_permutation_group(generators)
+    assert len(group) == EXPECTED_GROUP_ORDER
+    return group, {
+        "generator_count": 9,
+        "independently_recomputed_permutation_group_order": len(group),
+        "all_generators_preserve_140x140_pairing": True,
+        "all_generators_preserve_H_degrees": True,
+        "all_generators_preserve_92_48_type_partition": True,
+        "source_permutation_canonical_sha256": action["canonical_sha256_without_this_field"],
+    }
+
+
+def invert_perm(p: tuple[int, ...]) -> tuple[int, ...]:
+    inv = [0] * len(p)
+    for i, j in enumerate(p):
+        inv[j] = i
+    return tuple(inv)
+
+
+def canonical_intersection_vector(v: tuple[int, ...], group: list[tuple[int, ...]]) -> tuple[int, ...]:
+    # If g sends known class i to p[i], then intersections of g(C) with class j
+    # are v[p^{-1}[j]].  Since group is closed under inverse, either orientation
+    # gives the identical orbit set; use the explicit inverse convention here.
+    best = v
+    for p in group:
+        inv = invert_perm(p)
+        image = tuple(v[inv[j]] for j in range(140))
+        if image < best:
+            best = image
+    return best
+
+
+def recover_basis_from_intersections(core: dict[str, Any], intersections: tuple[int, ...]) -> list[int]:
+    I = Matrix(core["raw_cross_pairings_with_basis"])
+    selected = Matrix([core["raw_cross_pairings_with_basis"][i] for i in SELECTED_ROWS])
+    assert abs(int(selected.det())) == EXPECTED_SELECTED_DET
+    target = Matrix([intersections[i] for i in SELECTED_ROWS])
+    x = selected.inv() * target
+    assert all(sympy.denom(a) == 1 for a in x)
+    coords = [int(a) for a in x]
+    assert [int(a) for a in I * Matrix(coords)] == list(intersections)
+    return coords
 
 
 def main() -> None:
@@ -123,9 +150,7 @@ def main() -> None:
     action = json.loads(args.action.read_text())
     parent = json.loads(args.parent_summary.read_text())
     verify_core(core)
-    generators, induced = verify_action(core, action)
-    independent_order = permutation_group_order(induced)
-    assert independent_order == EXPECTED_GROUP_ORDER
+    group, action_certificate = verify_permutations(core, action)
 
     assert parent["schema"] == EXPECTED_PARENT_SCHEMA
     assert parent["degree"] == 8 and parent["genus"] == 0
@@ -136,39 +161,47 @@ def main() -> None:
     assert len(survivors) == 160
     assert all(s["known_class_matches_1based"] == [] for s in survivors)
 
-    orbit_cache: dict[tuple[int, ...], tuple[int, ...]] = {}
-    orbit_sizes: dict[tuple[int, ...], int] = {}
-    grouped: dict[tuple[int, ...], list[dict[str, Any]]] = {}
+    I = np.array(core["raw_cross_pairings_with_basis"], dtype=np.int64)
+    G = np.array(core["basis_gram"], dtype=np.int64)
+    H = np.array(core["hyperplane"], dtype=np.int64)
+    selected_index = np.array(SELECTED_ROWS, dtype=np.int64)
 
+    grouped: dict[tuple[int, ...], list[dict[str, Any]]] = {}
     for survivor in survivors:
-        basis = tuple(int(x) for x in survivor["basis_coordinates"])
-        canonical = orbit_cache.get(basis)
-        if canonical is None:
-            orbit = full_orbit(basis, generators)
-            canonical = min(orbit)
-            size = len(orbit)
-            assert EXPECTED_GROUP_ORDER % size == 0
-            orbit_sizes[canonical] = size
-            for image in orbit:
-                prior = orbit_cache.get(image)
-                if prior is not None:
-                    assert prior == canonical
-                orbit_cache[image] = canonical
+        basis = np.array(survivor["basis_coordinates"], dtype=np.int64)
+        intersections_arr = I @ basis
+        intersections = tuple(int(x) for x in intersections_arr.tolist())
+        assert tuple(int(x) for x in intersections_arr[selected_index].tolist()) == tuple(
+            int(x) for x in survivor["selected_coordinates"]
+        )
+        assert int(basis @ G @ basis) == int(survivor["self_intersection"])
+        assert int(H @ G @ basis) == 8
+        assert all(0 <= x <= 4 for x in intersections[:92])
+        assert all(0 <= x <= 2 for x in intersections[92:])
+        canonical = canonical_intersection_vector(intersections, group)
         grouped.setdefault(canonical, []).append(survivor)
 
     rows = []
     for canonical in sorted(grouped):
         members = sorted(grouped[canonical], key=lambda s: s["survivor_id"])
-        size = orbit_sizes[canonical]
+        canonical_basis = recover_basis_from_intersections(core, canonical)
+        basis_np = np.array(canonical_basis, dtype=np.int64)
+        assert int(H @ G @ basis_np) == 8
+        assert int(basis_np @ G @ basis_np) == -2
+        orbit_size = len({
+            tuple(canonical[invert_perm(p)[j]] for j in range(140))
+            for p in group
+        })
+        assert EXPECTED_GROUP_ORDER % orbit_size == 0
         rows.append({
             "orbit_id": canonical_sha256(list(canonical))[:24],
-            "canonical_basis_coordinates": list(canonical),
-            "canonical_basis_coordinates_sha256": canonical_sha256(list(canonical)),
-            "full_aut_orbit_size": size,
-            "stabilizer_order": EXPECTED_GROUP_ORDER // size,
+            "canonical_intersection_vector_sha256": canonical_sha256(list(canonical)),
+            "canonical_basis_coordinates": canonical_basis,
+            "canonical_basis_coordinates_sha256": canonical_sha256(canonical_basis),
+            "full_aut_orbit_size": orbit_size,
+            "stabilizer_order": EXPECTED_GROUP_ORDER // orbit_size,
             "parent_member_count": len(members),
             "parent_member_survivor_ids": [s["survivor_id"] for s in members],
-            "parent_member_basis_sha256": canonical_sha256([s["basis_coordinates"] for s in members]),
         })
 
     all_member_ids = [sid for row in rows for sid in row["parent_member_survivor_ids"]]
@@ -188,13 +221,9 @@ def main() -> None:
         },
         "aut_action": {
             "source_blob_sha1": EXPECTED_BLOB,
-            "generator_count": 9,
-            "magma_reported_group_order": action["magma_group_order"],
-            "independently_recomputed_permutation_group_order": independent_order,
-            "action_canonical_sha256": action["canonical_sha256_without_this_field"],
-            "all_generators_preserve_gram": True,
-            "all_generators_fix_hyperplane": True,
-            "all_generators_permute_140_known_classes": True,
+            **action_certificate,
+            "intersection_representation_injective_rank": 64,
+            "selected_64_determinant_abs": EXPECTED_SELECTED_DET,
         },
         "input_numerical_survivor_count": 160,
         "aut_orbit_count_intersecting_parent": len(rows),
@@ -214,13 +243,20 @@ def main() -> None:
     report["canonical_sha256_without_this_field"] = canonical_sha256(report)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({
-        "input_survivors": 160,
-        "orbit_count": len(rows),
-        "orbit_sizes": sorted(collections.Counter(r["full_aut_orbit_size"] for r in rows).items()),
-        "group_order": independent_order,
-        "canonical_sha256": report["canonical_sha256_without_this_field"],
-    }, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "input_survivors": 160,
+                "orbit_count": len(rows),
+                "orbit_sizes": sorted(
+                    collections.Counter(r["full_aut_orbit_size"] for r in rows).items()
+                ),
+                "group_order": len(group),
+                "canonical_sha256": report["canonical_sha256_without_this_field"],
+            },
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":
