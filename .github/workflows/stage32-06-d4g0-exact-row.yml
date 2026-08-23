@@ -1,0 +1,253 @@
+name: Stage32-06 d4-g0 exact row batch
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-06/**'
+      - '.github/workflows/stage32-06-d4g0-exact-row.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  inventory:
+    name: exact-cap parent inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Download source-locked Stage32 Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Re-derive exact dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-06"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output "$RUNNER_TEMP/stage32-06/intersection-cap-certificates.json"
+      - name: Build exact d4-g0 parent inventory
+        run: |
+          python - <<'PY'
+          import importlib.util, json, pathlib, sys
+          root = pathlib.Path.cwd()
+          base_dir = root / 'stages/stage32/32-05'
+          sys.path.insert(0, str(base_dir))
+          spec = importlib.util.spec_from_file_location('stage32_05_exact', base_dir / 'run_exact_mitm_closure.py')
+          mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+          from cap_certificate import load_and_verify
+          temp = pathlib.Path(__import__('os').environ['RUNNER_TEMP'])
+          core_path = temp / 'stage32-prefix/picard-core.json'
+          cap_path = temp / 'stage32-06/intersection-cap-certificates.json'
+          core, _, cap = load_and_verify(core_path, cap_path)
+          assert cap['certificate_canonical_sha256'] == mod.EXPECTED_CAP_SHA
+          transform = mod.build_transform(core)
+          aggregate = mod.aggregate_structure(transform['pair'], transform['h'])
+          assert aggregate['certificate']['exceptional_aggregate_type_counts'] == {'A': 32, 'B': 8, 'C': 8}
+          assert aggregate['certificate']['qhead_aggregate_triple'] == [16, 120, 304]
+          assert aggregate['certificate']['qtail_aggregate_triple'] == [0, 0, 0]
+          d = 4; ecap = 1; ncap = 2
+          pairs = set(); solutions = []
+          for x in range(33):
+            for y in range(9):
+              for z in range(9):
+                e = x + y + z
+                if e > 19*d//5: continue
+                for t in range(4*ncap + 1):
+                  if 8*y + 16*z + 16*t != 8*d: continue
+                  anum = -24*x + 32*y + 96*z + 120*t
+                  if anum % 8: continue
+                  a = anum // 8
+                  if not 0 <= a <= 19*d - 5*e: continue
+                  if -40*x + 112*y + 264*z + 304*t != 8*(19*d - 5*e): continue
+                  pairs.add((e,a)); solutions.append([e,a,x,y,z,t])
+          expected = [(0,30),(1,27),(2,23),(2,24),(3,20),(3,21),(4,16),(4,17),(4,18),
+                      (5,13),(5,14),(5,15),(6,10),(6,11),(6,12),(7,7),(7,8),(7,9),
+                      (8,4),(8,5),(8,6),(9,1),(9,2),(9,3),(10,0)]
+          assert sorted(pairs) == expected
+          all_parent_count = sum((19*d - 5*e) + 1 for e in range(19*d//5 + 1))
+          assert all_parent_count == 632
+          payload = {
+            'schema': 'STAGE32_D4G0_EXACT_CAP_PARENT_INVENTORY_V2',
+            'degree': d, 'genus': 0,
+            'normal_cap': ncap, 'exceptional_cap': ecap,
+            'all_budget_parent_count': all_parent_count,
+            'aggregate_feasible_parent_count': len(expected),
+            'aggregate_infeasible_parent_count': all_parent_count - len(expected),
+            'aggregate_feasible_pairs': [list(v) for v in expected],
+            'aggregate_solution_count': len(solutions),
+            'aggregate_solutions': solutions,
+            'cap_certificate_sha256': cap['certificate_canonical_sha256'],
+            'selected_matrix_determinant': transform['certificate']['selected_matrix_determinant'],
+            'inverse_denominator': transform['certificate']['inverse_denominator'],
+            'theorem_credit': False, 'audit_status': 'PENDING', 'receiver_credit': False,
+          }
+          (temp / 'stage32-06/d4g0-parent-inventory.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
+          print(json.dumps({'parents': len(expected), 'aggregate_solutions': len(solutions), 'excluded': all_parent_count-len(expected)}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-06-d4g0-parent-inventory
+          path: ${{ runner.temp }}/stage32-06
+          if-no-files-found: error
+
+  exact-parent:
+    name: exact-mitm-parent-${{ matrix.parent }}
+    needs: inventory
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        parent:
+          - '0-30'
+          - '1-27'
+          - '2-23'
+          - '2-24'
+          - '3-20'
+          - '3-21'
+          - '4-16'
+          - '4-17'
+          - '4-18'
+          - '5-13'
+          - '5-14'
+          - '5-15'
+          - '6-10'
+          - '6-11'
+          - '6-12'
+          - '7-7'
+          - '7-8'
+          - '7-9'
+          - '8-4'
+          - '8-5'
+          - '8-6'
+          - '9-1'
+          - '9-2'
+          - '9-3'
+          - '10-0'
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Download source-locked Stage32 Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-06-d4g0-parent-inventory
+          path: ${{ runner.temp }}/stage32-06/inventory
+      - name: Full relaxed MITM then exact d4 QF_NIA solve
+        run: |
+          P='${{ matrix.parent }}'
+          E="${P%-*}"; A="${P#*-}"
+          mkdir -p "$RUNNER_TEMP/stage32-06/parents/${P}"
+          python stages/stage32/32-06/run_exact_d4_mitm_parent.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/stage32-06/inventory/intersection-cap-certificates.json" \
+            --output-dir "$RUNNER_TEMP/stage32-06/parents/${P}" \
+            --exceptional-mass "$E" --curve-group-mass "$A" \
+            --candidate-timeout 10 --proof
+      - name: Enforce exact parent closure and firewalls
+        run: |
+          P='${{ matrix.parent }}' P="$P" python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-06/parents' / os.environ['P'] / 'manifest.json'
+          d = json.loads(p.read_text())
+          assert d['schema'] == 'STAGE32_D4G0_EXACT_MITM_PARENT_V1'
+          assert d['parameters']['degree'] == 4 and d['parameters']['genus'] == 0
+          assert d['parameters']['normal_cap'] == 2 and d['parameters']['exceptional_cap'] == 1
+          assert d['qtail_full_subgroup_used_as_relaxation_only'] is True
+          assert d['complete'] is True and d['parent_exactly_closed'] is True
+          assert d['survivor_count'] == 0
+          assert all(r['solver_result'] == 'unsat' for r in d['solver_rows'])
+          assert d['theorem_credit'] is False and d['audit_status'] == 'PENDING'
+          assert d['receiver_credit'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_MB'] == 'NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD'] == 'AMBER'
+          print(json.dumps({'parent': os.environ['P'], 'candidates': d['candidate_count'], 'survivors': d['survivor_count']}))
+          PY
+      - name: Upload parent evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-06-d4g0-parent-${{ matrix.parent }}
+          path: ${{ runner.temp }}/stage32-06/parents/${{ matrix.parent }}
+          if-no-files-found: error
+
+  summary:
+    name: d4-g0 exact row summary
+    needs: [inventory, exact-parent]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-06-d4g0-*
+          path: evidence
+          merge-multiple: true
+      - name: Recompute row accounting and firewalls
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root = pathlib.Path('evidence')
+          inventory = json.loads((root / 'd4g0-parent-inventory.json').read_text())
+          manifests = sorted(root.glob('**/manifest.json'))
+          if len(manifests) != 25:
+            raise SystemExit(f'expected 25 exact parent manifests, got {len(manifests)}')
+          rows = [json.loads(p.read_text()) for p in manifests]
+          complete = all(r.get('parent_exactly_closed') is True and r.get('complete') is True for r in rows)
+          survivors = sum(int(r.get('survivor_count', 0)) for r in rows)
+          candidates = sum(int(r.get('candidate_count', 0)) for r in rows)
+          unknown = sum(sum(x.get('solver_result') == 'unknown' for x in r.get('solver_rows', [])) for r in rows)
+          payload = {
+            'schema': 'STAGE32_D4G0_EXACT_ROW_SUMMARY_V2',
+            'degree': 4, 'genus': 0,
+            'budget_parent_count': inventory['all_budget_parent_count'],
+            'aggregate_feasible_parent_count': inventory['aggregate_feasible_parent_count'],
+            'aggregate_infeasible_parent_count': inventory['aggregate_infeasible_parent_count'],
+            'exact_parent_count': len(rows),
+            'total_relaxed_mitm_candidate_count': candidates,
+            'unknown_candidate_count': unknown,
+            'exact_survivor_count': survivors,
+            'all_target_parents_exact_complete': complete,
+            'preorbit_exact_row_complete': complete,
+            'numerical_orbit_row_complete': bool(complete and survivors == 0),
+            'orbit_deduplication_required': survivors != 0,
+            'theorem_credit': False, 'audit_status': 'PENDING', 'receiver_credit': False,
+            'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS': False,
+            'R29_LG2_NUMERICAL_COMPONENT_COMPLETE': False,
+            'R29_LG2': 'NOT_DISCHARGED',
+            'R29_LG2_EFF': 'NOT_DISCHARGED',
+            'R29_LG2_MB': 'NOT_DISCHARGED',
+            'G10_LOWGENUS_PICARD': 'AMBER',
+          }
+          pathlib.Path('d4g0-row-summary.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(payload, sort_keys=True))
+          if not complete or survivors or unknown:
+            raise SystemExit('d4/g0 exact row not cleanly closed')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-06-d4g0-row-summary
+          path: d4g0-row-summary.json
