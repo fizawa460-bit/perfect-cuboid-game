@@ -24,7 +24,7 @@ jobs:
         run: pip install -r stages/stage32/32-05/requirements.txt
       - name: Compile exact orbit tools
         run: python -m py_compile stages/stage32/32-07/export_aut_action_locked.py stages/stage32/32-07/orbit_dedup_e2a54.py
-      - name: Export Aut(S) Picard generators from locked upstream source
+      - name: Export source-locked Aut(S) permutations only
         run: |
           mkdir -p "$RUNNER_TEMP/stage32-07-orbit"
           python stages/stage32/32-07/export_aut_action_locked.py \
@@ -56,17 +56,22 @@ jobs:
         run: |
           python - <<'PY'
           import json, os, pathlib
-          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-07-orbit/orbit-dedup.json'
-          d = json.loads(p.read_text())
-          assert d['schema'] == 'STAGE32_D8_E2_A54_AUT_ORBIT_DEDUP_V1'
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-07-orbit'
+          a = json.loads((root / 'aut-action.json').read_text())
+          assert a['schema'] == 'STAGE32_AUT_PERM_SOURCELOCK_V1'
+          assert a['source']['git_blob_sha1'] == '0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert a['permutation_count'] == 9
+          d = json.loads((root / 'orbit-dedup.json').read_text())
+          assert d['schema'] == 'STAGE32_D8_E2_A54_AUT_ORBIT_DEDUP_V2'
           assert d['input_numerical_survivor_count'] == 160
           assert 0 < d['aut_orbit_count_intersecting_parent'] <= 160
           assert d['parent_orbit_dedup_complete'] is True
-          assert d['aut_action']['magma_reported_group_order'] == 1536
           assert d['aut_action']['independently_recomputed_permutation_group_order'] == 1536
-          assert d['aut_action']['all_generators_preserve_gram'] is True
-          assert d['aut_action']['all_generators_fix_hyperplane'] is True
-          assert d['aut_action']['all_generators_permute_140_known_classes'] is True
+          assert d['aut_action']['all_generators_preserve_140x140_pairing'] is True
+          assert d['aut_action']['all_generators_preserve_H_degrees'] is True
+          assert d['aut_action']['all_generators_preserve_92_48_type_partition'] is True
+          assert d['aut_action']['intersection_representation_injective_rank'] == 64
+          assert d['aut_action']['selected_64_determinant_abs'] == 274877906944
           assert d['full_d8g0_row_complete'] is False
           assert d['theorem_credit'] is False and d['receiver_credit'] is False
           assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
