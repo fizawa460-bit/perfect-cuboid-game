@@ -18,6 +18,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Run independent exact verifier
+        run: python3 stages/stage31/31-01/verify_stage31.py
       - name: Call public Magma calculator
         run: python3 stages/stage31/31-01/run_magma_online.py
       - name: Upload certificate output
