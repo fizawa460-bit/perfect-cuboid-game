@@ -56,8 +56,7 @@ jobs:
           assert aggregate['certificate']['exceptional_aggregate_type_counts'] == {'A': 32, 'B': 8, 'C': 8}
           assert aggregate['certificate']['qhead_aggregate_triple'] == [16, 120, 304]
           assert aggregate['certificate']['qtail_aggregate_triple'] == [0, 0, 0]
-          d = 4; ecap = d // 4; ncap = d // 2
-          assert ecap == 1 and ncap == 2
+          d = 4; ecap = 1; ncap = 2
           pairs = set(); solutions = []
           for x in range(33):
             for y in range(9):
@@ -79,7 +78,7 @@ jobs:
           all_parent_count = sum((19*d - 5*e) + 1 for e in range(19*d//5 + 1))
           assert all_parent_count == 632
           payload = {
-            'schema': 'STAGE32_D4G0_EXACT_CAP_PARENT_INVENTORY_V1',
+            'schema': 'STAGE32_D4G0_EXACT_CAP_PARENT_INVENTORY_V2',
             'degree': d, 'genus': 0,
             'normal_cap': ncap, 'exceptional_cap': ecap,
             'all_budget_parent_count': all_parent_count,
@@ -91,12 +90,9 @@ jobs:
             'cap_certificate_sha256': cap['certificate_canonical_sha256'],
             'selected_matrix_determinant': transform['certificate']['selected_matrix_determinant'],
             'inverse_denominator': transform['certificate']['inverse_denominator'],
-            'theorem_credit': False,
-            'audit_status': 'PENDING',
-            'receiver_credit': False,
+            'theorem_credit': False, 'audit_status': 'PENDING', 'receiver_credit': False,
           }
-          out = temp / 'stage32-06/d4g0-parent-inventory.json'
-          out.write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
+          (temp / 'stage32-06/d4g0-parent-inventory.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
           print(json.dumps({'parents': len(expected), 'aggregate_solutions': len(solutions), 'excluded': all_parent_count-len(expected)}))
           PY
       - uses: actions/upload-artifact@v4
@@ -106,7 +102,7 @@ jobs:
           if-no-files-found: error
 
   exact-parent:
-    name: exact-parent-${{ matrix.parent }}
+    name: exact-mitm-parent-${{ matrix.parent }}
     needs: inventory
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -146,78 +142,57 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.10.6'
-      - name: Install exact solver
-        run: pip install z3-solver==4.15.3.0
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
       - name: Download source-locked Stage32 Picard core
         run: >-
           gh run download 32624596141
           --repo fizawa460-bit/perfect-cuboid-game
           --name stage32-01-low-degree-verified-prefix
           --dir "$RUNNER_TEMP/stage32-prefix"
-      - name: Exhaust exact superset shard
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-06-d4g0-parent-inventory
+          path: ${{ runner.temp }}/stage32-06/inventory
+      - name: Full relaxed MITM then exact d4 QF_NIA solve
         run: |
           P='${{ matrix.parent }}'
           E="${P%-*}"; A="${P#*-}"
-          mkdir -p "$RUNNER_TEMP/stage32-06/${P}"
-          python stages/stage32/32-02/run_exact_z3_budget.py \
+          mkdir -p "$RUNNER_TEMP/stage32-06/parents/${P}"
+          python stages/stage32/32-06/run_exact_d4_mitm_parent.py \
             --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
-            --output-dir "$RUNNER_TEMP/stage32-06/${P}" \
-            --degree 4 --genus 0 \
+            --cap-certificate "$RUNNER_TEMP/stage32-06/inventory/intersection-cap-certificates.json" \
+            --output-dir "$RUNNER_TEMP/stage32-06/parents/${P}" \
             --exceptional-mass "$E" --curve-group-mass "$A" \
-            --timeout 60 --threads 1 --proof
-      - name: Apply exact dual-cap filter to complete shard output
-        if: always()
+            --candidate-timeout 10 --proof
+      - name: Enforce exact parent closure and firewalls
         run: |
-          P='${{ matrix.parent }}'
-          E="${P%-*}"; A="${P#*-}"
-          P="$P" E="$E" A="$A" python - <<'PY'
-          import hashlib, json, os, pathlib
-          temp = pathlib.Path(os.environ['RUNNER_TEMP'])
-          label = f"d4-g0-e{os.environ['E']}-a{os.environ['A']}"
-          checkpoint = temp / 'stage32-06' / os.environ['P'] / label / 'checkpoint.json'
-          out = temp / 'stage32-06' / os.environ['P'] / 'filtered.json'
-          if not checkpoint.exists():
-            out.write_text(json.dumps({'complete': False, 'missing_checkpoint': True}, indent=2) + '\n')
-            raise SystemExit('missing exact checkpoint')
-          data = json.loads(checkpoint.read_text())
-          if not data.get('complete'):
-            out.write_text(json.dumps({'complete': False, 'solver_result': data.get('solver_result'), 'unknown_reason': data.get('unknown_reason')}, indent=2) + '\n')
-            raise SystemExit('exact shard did not complete')
-          core = json.loads((temp / 'stage32-prefix/picard-core.json').read_text())
-          rows = core['raw_cross_pairings_with_basis']
-          valid = []
-          rejected = 0
-          for survivor in data['survivors']:
-            v = survivor['picard_coordinates']
-            pair = [sum(row[j]*v[j] for j in range(64)) for row in rows]
-            assert min(pair) >= 0
-            assert sum(pair[92:]) == int(os.environ['E'])
-            assert sum(pair[:46]) == int(os.environ['A'])
-            if all(x <= 2 for x in pair[:92]) and all(x <= 1 for x in pair[92:]):
-              valid.append({'picard_coordinates': v, 'intersection_vector_sha256': hashlib.sha256(json.dumps(pair,separators=(',',':')).encode()).hexdigest()})
-            else:
-              rejected += 1
-          payload = {
-            'schema': 'STAGE32_D4G0_CAP_FILTERED_PARENT_V1',
-            'degree': 4, 'genus': 0,
-            'exceptional_mass': int(os.environ['E']), 'curve_group_mass': int(os.environ['A']),
-            'superset_exact_complete': True,
-            'superset_survivor_count': len(data['survivors']),
-            'dual_cap_rejected_count': rejected,
-            'cap_valid_survivor_count': len(valid),
-            'cap_valid_survivors': valid,
-            'target_parent_exact_complete': True,
-            'theorem_credit': False, 'audit_status': 'PENDING', 'receiver_credit': False,
-          }
-          out.write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
-          print(json.dumps({'superset': len(data['survivors']), 'cap_valid': len(valid), 'rejected': rejected}))
+          P='${{ matrix.parent }}' P="$P" python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-06/parents' / os.environ['P'] / 'manifest.json'
+          d = json.loads(p.read_text())
+          assert d['schema'] == 'STAGE32_D4G0_EXACT_MITM_PARENT_V1'
+          assert d['parameters']['degree'] == 4 and d['parameters']['genus'] == 0
+          assert d['parameters']['normal_cap'] == 2 and d['parameters']['exceptional_cap'] == 1
+          assert d['qtail_full_subgroup_used_as_relaxation_only'] is True
+          assert d['complete'] is True and d['parent_exactly_closed'] is True
+          assert d['survivor_count'] == 0
+          assert all(r['solver_result'] == 'unsat' for r in d['solver_rows'])
+          assert d['theorem_credit'] is False and d['audit_status'] == 'PENDING'
+          assert d['receiver_credit'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_MB'] == 'NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD'] == 'AMBER'
+          print(json.dumps({'parent': os.environ['P'], 'candidates': d['candidate_count'], 'survivors': d['survivor_count']}))
           PY
       - name: Upload parent evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: stage32-06-d4g0-parent-${{ matrix.parent }}
-          path: ${{ runner.temp }}/stage32-06/${{ matrix.parent }}
+          path: ${{ runner.temp }}/stage32-06/parents/${{ matrix.parent }}
           if-no-files-found: error
 
   summary:
@@ -237,31 +212,29 @@ jobs:
           import json, pathlib
           root = pathlib.Path('evidence')
           inventory = json.loads((root / 'd4g0-parent-inventory.json').read_text())
-          filtered = sorted(root.glob('**/filtered.json'))
-          if len(filtered) != 25:
-            raise SystemExit(f'expected 25 filtered parents, got {len(filtered)}')
-          rows = [json.loads(p.read_text()) for p in filtered]
-          complete = all(r.get('target_parent_exact_complete') is True for r in rows)
-          cap_valid = sum(int(r.get('cap_valid_survivor_count', 0)) for r in rows)
-          superset = sum(int(r.get('superset_survivor_count', 0)) for r in rows)
-          rejected = sum(int(r.get('dual_cap_rejected_count', 0)) for r in rows)
+          manifests = sorted(root.glob('**/manifest.json'))
+          if len(manifests) != 25:
+            raise SystemExit(f'expected 25 exact parent manifests, got {len(manifests)}')
+          rows = [json.loads(p.read_text()) for p in manifests]
+          complete = all(r.get('parent_exactly_closed') is True and r.get('complete') is True for r in rows)
+          survivors = sum(int(r.get('survivor_count', 0)) for r in rows)
+          candidates = sum(int(r.get('candidate_count', 0)) for r in rows)
+          unknown = sum(sum(x.get('solver_result') == 'unknown' for x in r.get('solver_rows', [])) for r in rows)
           payload = {
-            'schema': 'STAGE32_D4G0_EXACT_ROW_SUMMARY_V1',
+            'schema': 'STAGE32_D4G0_EXACT_ROW_SUMMARY_V2',
             'degree': 4, 'genus': 0,
             'budget_parent_count': inventory['all_budget_parent_count'],
             'aggregate_feasible_parent_count': inventory['aggregate_feasible_parent_count'],
             'aggregate_infeasible_parent_count': inventory['aggregate_infeasible_parent_count'],
             'exact_parent_count': len(rows),
+            'total_relaxed_mitm_candidate_count': candidates,
+            'unknown_candidate_count': unknown,
+            'exact_survivor_count': survivors,
             'all_target_parents_exact_complete': complete,
-            'superset_survivor_count': superset,
-            'dual_cap_rejected_count': rejected,
-            'cap_valid_survivor_count': cap_valid,
             'preorbit_exact_row_complete': complete,
-            'numerical_orbit_row_complete': bool(complete and cap_valid == 0),
-            'orbit_deduplication_required': cap_valid != 0,
-            'theorem_credit': False,
-            'audit_status': 'PENDING',
-            'receiver_credit': False,
+            'numerical_orbit_row_complete': bool(complete and survivors == 0),
+            'orbit_deduplication_required': survivors != 0,
+            'theorem_credit': False, 'audit_status': 'PENDING', 'receiver_credit': False,
             'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS': False,
             'R29_LG2_NUMERICAL_COMPONENT_COMPLETE': False,
             'R29_LG2': 'NOT_DISCHARGED',
@@ -271,8 +244,8 @@ jobs:
           }
           pathlib.Path('d4g0-row-summary.json').write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n')
           print(json.dumps(payload, sort_keys=True))
-          if not complete:
-            raise SystemExit('d4/g0 row has incomplete exact parents')
+          if not complete or survivors or unknown:
+            raise SystemExit('d4/g0 exact row not cleanly closed')
           PY
       - uses: actions/upload-artifact@v4
         with:
