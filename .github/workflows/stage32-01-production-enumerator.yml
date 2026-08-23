@@ -5,13 +5,13 @@ on:
     paths:
       - 'stages/stage32/32-01/run_numeric_magma_slice.py'
       - 'stages/stage32/32-01/run_numeric_magma_strata.py'
-      - 'stages/stage32/32-01/run_sparse_picard_export.py'
       - 'stages/stage32/32-01/verify_graded_slice_plan.py'
       - '.github/workflows/stage32-01-production-enumerator.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   sharded-low-degree-batch:
@@ -22,9 +22,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Rebuild exact source-locked Picard core once
-        working-directory: stages/stage32/32-01
-        run: python run_sparse_picard_export.py
+      - name: Download audited source-locked Picard core artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-01-polytail-reduction
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          run-id: 32614857845
+          path: /tmp/stage32-polytail
+      - name: Install audited Picard core
+        run: cp /tmp/stage32-polytail/picard-core.json stages/stage32/32-01/picard-core.json
       - name: Degree-2 genus-0 bounded-coset regression
         working-directory: stages/stage32/32-01
         run: python run_numeric_magma_slice.py
