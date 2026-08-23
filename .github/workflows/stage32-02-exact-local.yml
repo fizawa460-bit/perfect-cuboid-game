@@ -1,0 +1,33 @@
+name: Stage32-02 exact local evidence
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-02/**'
+      - '.github/workflows/stage32-02-exact-local.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-recorded-evidence:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install locked exact backend
+        run: pip install -r stages/stage32/32-02/requirements.txt
+      - name: Compile the replacement backend
+        run: >-
+          python -m py_compile
+          stages/stage32/32-02/run_exact_normaliz_budget.py
+          stages/stage32/32-02/run_exact_z3_budget.py
+          stages/stage32/32-02/run_exact_z3_partition.py
+          stages/stage32/32-02/run_pr1343_regression.py
+          stages/stage32/32-02/summarize_local_evidence.py
+          stages/stage32/32-02/verify_recorded_evidence.py
+      - name: Verify immutable stopped-run evidence
+        run: python stages/stage32/32-02/verify_recorded_evidence.py
