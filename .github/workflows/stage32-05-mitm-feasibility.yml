@@ -1,0 +1,124 @@
+name: Stage32-05 exact fixed-weight MITM remaining-six closure
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-05/**'
+      - '.github/workflows/stage32-05-mitm-feasibility.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exact-mitm-closure:
+    name: exact-mitm-${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: d6-g1-e4-a33
+            e: 4
+            a: 33
+            expected_candidates: 0
+          - label: d6-g1-e6-a26
+            e: 6
+            a: 26
+            expected_candidates: 12
+          - label: d6-g1-e6-a27
+            e: 6
+            a: 27
+            expected_candidates: 16
+          - label: d6-g1-e8-a20
+            e: 8
+            a: 20
+            expected_candidates: 48
+          - label: d6-g1-e8-a21
+            e: 8
+            a: 21
+            expected_candidates: 96
+          - label: d6-g1-e10-a14
+            e: 10
+            a: 14
+            expected_candidates: 632
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile Stage32-05 exact backend
+        run: >-
+          python -m py_compile
+          stages/stage32/32-05/cap_certificate.py
+          stages/stage32/32-05/derive_intersection_caps.py
+          stages/stage32/32-05/benchmark_fixed_weight_mitm.py
+          stages/stage32/32-05/run_exact_mitm_closure.py
+      - name: Download source-locked Stage32 Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Derive and exactly verify all 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-05/${{ matrix.label }}"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output "$RUNNER_TEMP/stage32-05/${{ matrix.label }}/intersection-cap-certificates.json"
+      - name: Full exact quotient MITM then QF_NIA residual solve
+        run: |
+          python stages/stage32/32-05/run_exact_mitm_closure.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/stage32-05/${{ matrix.label }}/intersection-cap-certificates.json" \
+            --output-dir "$RUNNER_TEMP/stage32-05/${{ matrix.label }}/exact" \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --genus 1 \
+            --candidate-timeout 5 \
+            --proof
+      - name: Enforce exact bounded-parent closure, locked count, and firewalls
+        env:
+          LABEL: ${{ matrix.label }}
+          EXPECTED_CANDIDATES: ${{ matrix.expected_candidates }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-05' / os.environ['LABEL'] / 'exact' / 'manifest.json'
+          data = json.loads(p.read_text())
+          expected = int(os.environ['EXPECTED_CANDIDATES'])
+          assert data['schema'] == 'STAGE32_EXACT_MITM_QUOTIENT_CLOSURE_V1'
+          assert data['cap_verification']['certificate_canonical_sha256'] == '75224aee543dcd4a56e814503765d1e1e69514b237fb900688243546ea6b4d03'
+          assert data['quotient_certificate']['qtail_reachable_residue_count'] == 16384
+          assert data['quotient_certificate']['qtail_subgroup_size_from_hnf_index'] == 16384
+          assert data['candidate_count'] == expected
+          assert data['survivor_count'] == 0
+          assert data['parent_exactly_closed'] is True
+          assert data['bounded_parent_exact_closure_claim'] is True
+          assert data['theorem_credit'] is False
+          assert data['audit_status'] == 'PENDING'
+          assert data['receiver_credit'] is False
+          assert data['low_degree_prefix_complete'] is False
+          assert data['full_d176_d192_numerical_orbit_census'] is False
+          assert data['R29_LG2'] == 'NOT_DISCHARGED'
+          assert data['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+          assert data['R29_LG2_MB'] == 'NOT_DISCHARGED'
+          assert data['G10_LOWGENUS_PICARD'] == 'AMBER'
+          assert len(data['solver_rows']) == data['candidate_count']
+          assert all(row['solver_result'] == 'unsat' for row in data['solver_rows'])
+          assert all('proof_sha256' in row for row in data['solver_rows'])
+          print('PASS_STAGE32_05_REMAINING_PARENT_COUNT_LOCK_REPRODUCTION')
+          print(json.dumps({'label': os.environ['LABEL'], 'candidate_count': data['candidate_count'], 'survivor_count': data['survivor_count']}))
+          PY
+      - name: Upload exact MITM evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-05-exact-${{ matrix.label }}
+          path: ${{ runner.temp }}/stage32-05/${{ matrix.label }}
+          if-no-files-found: error
