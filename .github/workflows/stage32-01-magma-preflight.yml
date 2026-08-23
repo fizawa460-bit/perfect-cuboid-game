@@ -1,4 +1,4 @@
-name: Stage32-01 Magma preflight
+name: Stage32-01 production preflight
 
 on:
   pull_request:
@@ -7,6 +7,7 @@ on:
       - 'stages/stage32/32-01/run_magma_preflight.py'
       - 'stages/stage32/32-01/verify_preflight.py'
       - 'stages/stage32/32-01/run_sparse_picard_export.py'
+      - 'stages/stage32/32-01/run_normaliz_polyhedral_pilot.py'
       - 'stages/stage32/32-01/run_polyhedral_pilot.py'
       - 'stages/stage32/32-01/polyhedral_pilot_after_upstream.m'
       - '.github/workflows/stage32-01-magma-preflight.yml'
@@ -16,9 +17,9 @@ permissions:
   contents: read
 
 jobs:
-  magma-preflight:
+  stage32-01-preflight:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -33,14 +34,16 @@ jobs:
       - name: Export exact Picard core in bounded chunks
         working-directory: stages/stage32/32-01
         run: python run_sparse_picard_export.py
-      - name: Test known-curve polyhedral compactness
+      - name: Install pinned PyNormaliz
+        run: python -m pip install --disable-pip-version-check PyNormaliz==2.24
+      - name: Test exact known-curve tail cone
         working-directory: stages/stage32/32-01
-        run: python run_polyhedral_pilot.py
+        run: python run_normaliz_polyhedral_pilot.py
       - name: Upload Stage32-01 exact transcripts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage32-01-magma-preflight
+          name: stage32-01-production-preflight
           path: |
             stages/stage32/32-01/magma-preflight-response.json
             stages/stage32/32-01/magma-preflight-stdout.txt
@@ -48,7 +51,5 @@ jobs:
             stages/stage32/32-01/magma-core-export-part*.txt
             stages/stage32/32-01/magma-core-export-part*-http-error.txt
             stages/stage32/32-01/picard-core.json
-            stages/stage32/32-01/polyhedral-pilot-response.json
-            stages/stage32/32-01/polyhedral-pilot-response.xml
-            stages/stage32/32-01/polyhedral-pilot-stdout.txt
+            stages/stage32/32-01/normaliz-polyhedral-pilot.json
           if-no-files-found: warn
