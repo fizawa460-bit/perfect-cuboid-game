@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import ast
 import hashlib
 import json
 import pathlib
@@ -26,11 +27,18 @@ def git_blob_sha(data: bytes) -> str:
 
 
 def fetch_bytes(url: str, timeout: int = 60) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage32/1.3"})
+    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage32/1.4"})
     with urllib.request.urlopen(req, timeout=timeout) as resp:
         if resp.status != 200:
             raise RuntimeError(f"HTTP {resp.status} from {url}")
         return resp.read()
+
+
+def parse_vector(text: str, n: int) -> list[int]:
+    value = ast.literal_eval(text)
+    if not isinstance(value, list) or len(value) != n or not all(isinstance(x, int) for x in value):
+        raise SystemExit(f"bad integer vector of expected length {n}")
+    return value
 
 
 upstream = fetch_bytes(UPSTREAM_URL)
@@ -45,8 +53,6 @@ try:
 except ValueError as exc:
     raise SystemExit(f"pinned upstream marker missing or out of order: {exc}")
 
-# Execute only code load-bearing for the Stage32 numerical lattice.  We skip
-# the unrelated genus-3 constructions and stop before Aut/Galois/Brauer/K3.
 head = text[:i_skip_start]
 pairing_and_pic = text[i_skip_end + len(SKIP_END):i_end]
 core = head + "\n// Stage32 resumes at the frozen intersection-pairing block.\n" + pairing_and_pic
@@ -70,7 +76,7 @@ req = urllib.request.Request(
         "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "text/html, application/xml, application/xhtml+xml",
         "Referer": MAGMA_REFERER,
-        "User-Agent": "perfect-cuboid-stage32/1.3",
+        "User-Agent": "perfect-cuboid-stage32/1.4",
     },
     method="POST",
 )
@@ -127,6 +133,43 @@ payload = {
 )
 (ROOT / "magma-preflight-stdout.txt").write_text(stdout, encoding="utf-8")
 
+if success:
+    h = None
+    pm = {}
+    known = {}
+    for line in lines:
+        if line.startswith("STAGE32_CORE_H|"):
+            h = parse_vector(line.split("|", 1)[1], 64)
+        elif line.startswith("STAGE32_CORE_PMPIC|"):
+            _, idx, vec = line.split("|", 2)
+            pm[int(idx)] = parse_vector(vec, 64)
+        elif line.startswith("STAGE32_CORE_KNOWN|"):
+            _, idx, vec = line.split("|", 2)
+            known[int(idx)] = parse_vector(vec, 64)
+    if h is None or set(pm) != set(range(1, 65)) or set(known) != set(range(1, 141)):
+        raise SystemExit("incomplete Stage32 Picard core export")
+    core_payload = {
+        "schema": "STAGE32_PICARD_CORE_V1",
+        "source": {
+            "repo": "MichaelStollBayreuth/Verification",
+            "commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+            "file": "Cuboids/cuboids.magma",
+            "git_blob_sha1": actual_blob,
+        },
+        "rank": 64,
+        "h2": 16,
+        "node_count": 48,
+        "known_class_count": 140,
+        "hyperplane": h,
+        "pairing_matrix": [pm[i] for i in range(1, 65)],
+        "known_classes": [known[i] for i in range(1, 141)],
+    }
+    canonical = json.dumps(core_payload, separators=(",", ":"), sort_keys=True).encode("utf-8")
+    core_payload["canonical_sha256_without_this_field"] = hashlib.sha256(canonical).hexdigest()
+    (ROOT / "picard-core.json").write_text(
+        json.dumps(core_payload, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+
 print(json.dumps({
     "success": success,
     "protocol": payload["protocol"],
@@ -134,6 +177,7 @@ print(json.dumps({
     "runtime_error_seen": runtime_error,
     "upstream_git_blob_sha1": actual_blob,
     "stopped_before": END_MARKER,
+    "picard_core_materialized": success,
 }, sort_keys=True))
 print(stdout)
 if not success:
