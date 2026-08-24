@@ -1,0 +1,186 @@
+name: Stage32-07 d8 bounded-multiplicity signature pilot
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-07/**'
+      - '.github/workflows/stage32-07-d8-bounded-signature-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  d8-pilot:
+    name: d8g0-${{ matrix.label }}-${{ matrix.mode }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: e2-a54
+            e: 2
+            a: 54
+            mode: solve
+          - label: e8-a36
+            e: 8
+            a: 36
+            mode: solve
+          - label: e10-a30
+            e: 10
+            a: 30
+            mode: solve
+          - label: e20-a0
+            e: 20
+            a: 0
+            mode: count
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile bounded-multiplicity backend
+        run: python -m py_compile stages/stage32/32-07/run_d8_bounded_signature_cells.py
+      - name: Download source-locked Stage32 Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Re-derive and exactly verify all 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-07/${{ matrix.label }}"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output "$RUNNER_TEMP/stage32-07/${{ matrix.label }}/intersection-cap-certificates.json"
+      - name: Exact bounded-multiplicity signature-cell discovery
+        run: |
+          EXTRA=""
+          if [ "${{ matrix.mode }}" = "count" ]; then
+            EXTRA="--count-only"
+          else
+            EXTRA="--proof"
+          fi
+          python stages/stage32/32-07/run_d8_bounded_signature_cells.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/stage32-07/${{ matrix.label }}/intersection-cap-certificates.json" \
+            --output-dir "$RUNNER_TEMP/stage32-07/${{ matrix.label }}/exact" \
+            --genus 0 \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --cell-timeout 5 \
+            $EXTRA
+      - name: Enforce evidence schema and firewalls
+        env:
+          LABEL: ${{ matrix.label }}
+          MODE: ${{ matrix.mode }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-07' / os.environ['LABEL'] / 'exact' / 'manifest.json'
+          d = json.loads(p.read_text())
+          assert d['schema'] == 'STAGE32_D8_BOUNDED_MULTIPLICITY_SIGNATURE_CELL_V1'
+          assert d['parameters']['degree'] == 8 and d['parameters']['genus'] == 0
+          assert d['parameters']['normal_cap'] == 4
+          assert d['parameters']['exceptional_cap'] == 2
+          assert d['d8_qtail_domain_certificate']['quotient_role'] == 'EXACT_FOR_LATTICE_RESIDUE_COMPLETION_ONLY'
+          assert d['d8_qtail_domain_certificate']['extra_value_4_is_zero_residue_for_every_generator'] is True
+          assert d['signature_inventory']['signature_cell_count'] >= 0
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert d['R29_LG2'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_MB'] == 'NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD'] == 'AMBER'
+          if os.environ['MODE'] == 'count':
+              assert d['count_only_benchmark'] is True
+              assert d['parent_exactly_closed'] is False
+              assert d['solver_row_count'] == 0
+          else:
+              assert d['count_only_benchmark'] is False
+              if d['parent_exactly_closed']:
+                  assert d['solver_row_count'] == d['signature_inventory']['signature_cell_count']
+                  assert d['survivor_count'] == 0
+                  assert all(r['solver_result'] == 'unsat' for r in d['solver_rows'])
+                  assert all('proof_sha256' in r for r in d['solver_rows'])
+          print(json.dumps({
+              'label': os.environ['LABEL'],
+              'mode': os.environ['MODE'],
+              'cells': d['signature_inventory']['signature_cell_count'],
+              'exceptional_assignments': d['signature_inventory']['exceptional_assignment_count_after_qtail_quotient'],
+              'solver_rows': d['solver_row_count'],
+              'survivors': d['survivor_count'],
+              'closed': d['parent_exactly_closed'],
+          }, sort_keys=True))
+          PY
+      - name: Upload pilot evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-07-d8g0-${{ matrix.label }}-${{ matrix.mode }}
+          path: ${{ runner.temp }}/stage32-07/${{ matrix.label }}
+          if-no-files-found: error
+
+  d8-summary:
+    name: d8 bounded-multiplicity pilot summary
+    needs: d8-pilot
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-07-d8g0-*
+          path: ${{ runner.temp }}/all
+      - name: Build exact pilot summary
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root = pathlib.Path('${{ runner.temp }}') / 'all'
+          rows = []
+          for art in sorted(root.glob('stage32-07-d8g0-*')):
+              manifests = list(art.glob('**/manifest.json'))
+              if len(manifests) != 1:
+                  continue
+              d = json.loads(manifests[0].read_text())
+              rows.append({
+                  'artifact': art.name,
+                  'e': d['parameters']['exceptional_mass'],
+                  'a': d['parameters']['curve_group_mass'],
+                  'count_only': d['count_only_benchmark'],
+                  'signature_cells': d['signature_inventory']['signature_cell_count'],
+                  'exceptional_assignments_after_quotient': d['signature_inventory']['exceptional_assignment_count_after_qtail_quotient'],
+                  'solver_rows': d['solver_row_count'],
+                  'survivors': d['survivor_count'],
+                  'closed': d['parent_exactly_closed'],
+              })
+          summary = {
+              'schema': 'STAGE32_D8_BOUNDED_MULTIPLICITY_PILOT_SUMMARY_V1',
+              'rows': rows,
+              'row_count': len(rows),
+              'closed_solve_parent_count': sum((not r['count_only']) and r['closed'] for r in rows),
+              'theorem_credit': False,
+              'receiver_credit': False,
+              'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS': False,
+              'R29_LG2': 'NOT_DISCHARGED',
+              'R29_LG2_EFF': 'NOT_DISCHARGED',
+              'R29_LG2_MB': 'NOT_DISCHARGED',
+              'G10_LOWGENUS_PICARD': 'AMBER',
+          }
+          out = pathlib.Path('${{ runner.temp }}') / 'stage32-07-d8-pilot-summary.json'
+          out.write_text(json.dumps(summary, indent=2, sort_keys=True) + '\n')
+          print(json.dumps(summary, sort_keys=True))
+          assert summary['row_count'] == 4
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage32-07-d8-pilot-summary
+          path: ${{ runner.temp }}/stage32-07-d8-pilot-summary.json
+          if-no-files-found: error

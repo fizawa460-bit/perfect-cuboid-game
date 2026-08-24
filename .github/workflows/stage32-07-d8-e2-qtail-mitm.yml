@@ -1,0 +1,179 @@
+name: Stage32-07 d8 e2/a54 exact qtail MITM
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-07/run_d8_exact_qtail_mitm.py'
+      - '.github/workflows/stage32-07-d8-e2-qtail-mitm.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  qtail-shard:
+    name: e2-a54-qtail-shard-${{ matrix.shard }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3]
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile exact qtail backend
+        run: >-
+          python -m py_compile
+          stages/stage32/32-07/run_d8_bounded_signature_cells.py
+          stages/stage32/32-07/run_d8_materialized_lowmass.py
+          stages/stage32/32-07/run_d8_exact_qtail_mitm.py
+      - name: Download source-locked Stage32 Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/stage32-prefix"
+      - name: Re-derive and exactly verify all 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/stage32-07/shard-${{ matrix.shard }}"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --output "$RUNNER_TEMP/stage32-07/shard-${{ matrix.shard }}/intersection-cap-certificates.json"
+      - name: Exhaustive qhead4 + qtail6+6 finite enumeration
+        run: |
+          python stages/stage32/32-07/run_d8_exact_qtail_mitm.py \
+            --core "$RUNNER_TEMP/stage32-prefix/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/stage32-07/shard-${{ matrix.shard }}/intersection-cap-certificates.json" \
+            --output-dir "$RUNNER_TEMP/stage32-07/shard-${{ matrix.shard }}/exact" \
+            --genus 0 \
+            --exceptional-mass 2 \
+            --curve-group-mass 54 \
+            --max-materialized 40 \
+            --shard-index ${{ matrix.shard }} \
+            --shard-count 4
+      - name: Enforce exact finite shard completeness and firewalls
+        env:
+          SHARD: ${{ matrix.shard }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'stage32-07' / f"shard-{os.environ['SHARD']}" / 'exact/manifest.json'
+          d = json.loads(p.read_text())
+          assert d['schema'] == 'STAGE32_D8_EXACT_QTAIL_MITM_SHARD_V1'
+          assert d['complete_for_shard'] is True
+          assert d['materialized_assignment_count_global'] == 40
+          assert d['qtail_enumeration_certificate']['qtail_left_state_count'] == 15625
+          assert d['qtail_enumeration_certificate']['qtail_right_state_count'] == 15625
+          assert d['shard_assignment_count'] == 10
+          assert len(d['assignment_rows']) == 10
+          assert all(r['complete'] for r in d['assignment_rows'])
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['effectivity_credit'] is False and d['orbit_census_credit'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_EFF'] == 'NOT_DISCHARGED'
+          assert d['R29_LG2_MB'] == 'NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD'] == 'AMBER'
+          print(json.dumps({'shard': os.environ['SHARD'], 'survivors': d['survivor_count'], 'assignments': 10}, sort_keys=True))
+          PY
+      - name: Upload exact shard evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-07-d8g0-e2-a54-qtail-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/stage32-07/shard-${{ matrix.shard }}
+          if-no-files-found: error
+
+  aggregate:
+    name: e2-a54 exact numerical parent aggregate
+    needs: qtail-shard
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-07-d8g0-e2-a54-qtail-shard-*
+          path: ${{ runner.temp }}/all
+      - name: Aggregate exact shards and prove assignment coverage
+        run: |
+          python - <<'PY'
+          import hashlib, json, pathlib
+          root = pathlib.Path('${{ runner.temp }}') / 'all'
+          manifests = sorted(root.glob('stage32-07-d8g0-e2-a54-qtail-shard-*/exact/manifest.json'))
+          assert len(manifests) == 4, len(manifests)
+          assignment_rows = []
+          survivors = []
+          shard_rows = []
+          assignment_ids = []
+          for p in manifests:
+              d = json.loads(p.read_text())
+              assert d['schema'] == 'STAGE32_D8_EXACT_QTAIL_MITM_SHARD_V1'
+              assert d['complete_for_shard'] is True
+              assignment_rows.extend(d['assignment_rows'])
+              survivors.extend(d['survivors'])
+              assignment_ids.extend(d['shard_assignment_ids'])
+              shard_rows.append({
+                  'shard_index': d['parameters']['shard_index'],
+                  'assignment_count': d['shard_assignment_count'],
+                  'survivor_count': d['survivor_count'],
+                  'assignment_rows_sha256': d['assignment_rows_sha256'],
+                  'survivor_list_sha256': d['survivor_list_sha256'],
+              })
+          assert len(assignment_ids) == 40
+          assert len(set(assignment_ids)) == 40
+          assert len(assignment_rows) == 40
+          assert set(r['assignment_id'] for r in assignment_rows) == set(assignment_ids)
+          assert all(r['complete'] for r in assignment_rows)
+          selected_keys = [json.dumps(r['selected_coordinates'], separators=(',',':')) for r in survivors]
+          assert len(set(selected_keys)) == len(selected_keys)
+          survivors.sort(key=lambda r: r['survivor_id'])
+          assignment_rows.sort(key=lambda r: r['assignment_id'])
+          def sha(v):
+              return hashlib.sha256(json.dumps(v,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          summary = {
+              'schema': 'STAGE32_D8_E2_A54_EXACT_NUMERICAL_PARENT_V1',
+              'degree': 8,
+              'genus': 0,
+              'exceptional_mass': 2,
+              'curve_group_mass': 54,
+              'materialized_exceptional_assignment_count': 40,
+              'complete_assignment_count': 40,
+              'shards': sorted(shard_rows, key=lambda r: r['shard_index']),
+              'assignment_rows_sha256': sha(assignment_rows),
+              'numerical_survivor_count': len(survivors),
+              'numerical_survivors': survivors,
+              'numerical_survivor_list_sha256': sha(survivors),
+              'parent_numerical_class_enumeration_complete': True,
+              'parent_orbit_census_complete': False,
+              'effectivity_classification_complete': False,
+              'theorem_credit': False,
+              'receiver_credit': False,
+              'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS': False,
+              'R29_LG2_NUMERICAL_COMPONENT_COMPLETE': False,
+              'R29_LG2': 'NOT_DISCHARGED',
+              'R29_LG2_EFF': 'NOT_DISCHARGED',
+              'R29_LG2_MB': 'NOT_DISCHARGED',
+              'G10_LOWGENUS_PICARD': 'AMBER',
+          }
+          summary['canonical_sha256'] = sha({k:v for k,v in summary.items() if k!='canonical_sha256'})
+          out = pathlib.Path('${{ runner.temp }}') / 'stage32-07-d8-e2-a54-summary.json'
+          out.write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({
+              'assignments': 40,
+              'survivors': len(survivors),
+              'survivor_sha256': summary['numerical_survivor_list_sha256'],
+              'canonical_sha256': summary['canonical_sha256'],
+          }, sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-07-d8g0-e2-a54-exact-summary
+          path: ${{ runner.temp }}/stage32-07-d8-e2-a54-summary.json
+          if-no-files-found: error
