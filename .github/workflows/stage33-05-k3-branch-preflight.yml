@@ -36,6 +36,9 @@ jobs:
       - name: Materialize low-degree graph quotient function channel
         working-directory: stages/stage33/33-05
         run: python graph_function_lowdegree_search.py
+      - name: Synthesize the one residual graph direction in bidegree (2,1)
+        working-directory: stages/stage33/33-05
+        run: python residual_graph_function_bidegree21.py
       - name: Upload exact preflight certificates
         uses: actions/upload-artifact@v4
         with:
@@ -46,3 +49,4 @@ jobs:
             stages/stage33/33-05/normalization-galois-graded.json
             stages/stage33/33-05/lce-filtered-quotient-skeleton.json
             stages/stage33/33-05/lowdegree-graph-functions.json
+            stages/stage33/33-05/residual-graph-function-bidegree21.json
