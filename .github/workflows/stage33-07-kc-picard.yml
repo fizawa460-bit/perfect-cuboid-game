@@ -1,0 +1,48 @@
+name: Stage33-07 Kc Picard lattice glue shard
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/extract_kc_picard_lattice.py'
+      - '.github/workflows/stage33-07-kc-picard.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kc-picard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract exact Kc Picard lattice from pinned Testa-Stoll code
+        working-directory: stages/stage33/33-07
+        run: python extract_kc_picard_lattice.py
+      - name: Validate Kc lattice certificate
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json, math
+          x=json.load(open('kc-picard-lattice.json'))
+          assert x['singular_node_count']==12
+          assert x['picard_rank']==20
+          assert x['pullback_to_picS_mod2_rank']==20
+          assert x['generated_lattice_2_saturated']
+          assert x['full_picard_lattice_certified']
+          assert abs(x['picard_determinant'])==32
+          assert math.prod(x['picard_smith_diagonal'])==32
+          print('KC_PICARD_RANK=20')
+          print('KC_PICARD_DETERMINANT=',x['picard_determinant'])
+          print('KC_PICARD_SMITH=',x['picard_smith_diagonal'])
+          print('KC_PULLBACK_MOD2_RANK=20')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-kc-picard-lattice
+          path: |
+            stages/stage33/33-07/kc-picard-lattice.json
+            stages/stage33/33-07/kc-picard-magma-stdout.txt
