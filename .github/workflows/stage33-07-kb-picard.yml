@@ -1,10 +1,6 @@
 name: Stage33-07 Kb Picard lattice repair shard
 
 on:
-  pull_request:
-    paths:
-      - 'stages/stage33/33-07/extract_kb_picard_lattice.py'
-      - '.github/workflows/stage33-07-kb-picard.yml'
   workflow_dispatch:
 
 permissions:
@@ -28,20 +24,20 @@ jobs:
           python - <<'PY'
           import json, math
           x=json.load(open('kb-picard-lattice.json'))
+          assert x['canonical_sha256']=='3ec9b28393199eca93ca4b4de37af8eca8133afdff52f1873f411fc1dc220635'
           assert x['picard_rank']==20
           assert x['pullback_to_picS_mod2_rank']==20
           assert x['generated_lattice_2_saturated']
           assert x['full_picard_lattice_certified']
-          d=abs(x['picard_determinant'])
-          assert math.prod(x['picard_smith_diagonal'])==d
-          print('KB_PICARD_RANK=20')
-          print('KB_PICARD_DETERMINANT=',x['picard_determinant'])
-          print('KB_PICARD_SMITH=',x['picard_smith_diagonal'])
-          print('KB_PULLBACK_MOD2_RANK=20')
+          assert x['picard_smith_diagonal'][-2:]==[4,4]
+          assert abs(x['picard_determinant'])==16
+          assert math.prod(x['picard_smith_diagonal'])==16
+          print('KB_PICARD_CERTIFICATE=PASS')
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: stage33-07-kb-picard-lattice
+          retention-days: 7
           path: |
             stages/stage33/33-07/kb-picard-lattice.json
             stages/stage33/33-07/kb-picard-magma-stdout.txt
