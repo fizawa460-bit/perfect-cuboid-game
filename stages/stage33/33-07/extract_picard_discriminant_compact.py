@@ -41,7 +41,7 @@ assert Gct*pmPic*Transpose(Gct) eq pmPic;
 assert Gcc^2 eq I64 and Gct^2 eq I64 and Gcc*Gct eq Gct*Gcc;
 
 // Request only the right Smith transformation V: D = ? * pmPic * V.
-D, _, V := SmithForm(pmPic : Optimize := false);
+D, _, V := SmithForm(pmPic);
 diag := [Abs(Integers()!D[j,j]) : j in [1..64]];
 pos := [j : j in [1..64] | diag[j] gt 1];
 mods := [diag[j] : j in pos];
