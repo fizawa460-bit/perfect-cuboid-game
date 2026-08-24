@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage32/32-08/run_signature_cell_affine_coset.py'
+      - 'stages/stage32/32-08/run_signature_cell_affine_coset_sequential.py'
       - '.github/workflows/stage32-08-affine-coset-pilot.yml'
   workflow_dispatch:
 
@@ -42,7 +43,10 @@ jobs:
           pip install -r stages/stage32/32-05/requirements.txt
           pip install -r stages/stage32/32-03/requirements.txt
       - name: Compile exact coset pilot
-        run: python -m py_compile stages/stage32/32-08/run_signature_cell_affine_coset.py
+        run: >-
+          python -m py_compile
+          stages/stage32/32-08/run_signature_cell_affine_coset.py
+          stages/stage32/32-08/run_signature_cell_affine_coset_sequential.py
       - name: Download source-locked Picard core
         run: >-
           gh run download 32624596141
@@ -55,9 +59,9 @@ jobs:
           python stages/stage32/32-05/derive_intersection_caps.py \
             --core "$RUNNER_TEMP/core/picard-core.json" \
             --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
-      - name: Exact HNF coset plus bounded complete-search pilot
+      - name: Exact sequential-HNF coset plus bounded complete-search pilot
         run: |
-          python stages/stage32/32-08/run_signature_cell_affine_coset.py \
+          python stages/stage32/32-08/run_signature_cell_affine_coset_sequential.py \
             --core "$RUNNER_TEMP/core/picard-core.json" \
             --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
             --output "$RUNNER_TEMP/out/coset-pilot.json" \
@@ -74,8 +78,10 @@ jobs:
           p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/coset-pilot.json'
           d=json.loads(p.read_text())
           assert d['schema']=='STAGE32_D8_SIGNATURE_CELL_AFFINE_COSET_PILOT_V2'
+          assert d['algorithm_id']=='D8_SIGNATURE_CELL_PICARD_BASIS_SEQUENTIAL_MOD8_HNF_COSET_GRAM_LLL_FP140_V1'
           assert d['coset_certificate']['coordinate_system']=='primitive_picard_basis_x'
           assert d['coset_certificate']['selected_membership_congruences_eliminated_by_basis_choice'] is True
+          assert d['coset_certificate']['congruence_augmented_hnf']['sequential_mod8'] is True
           assert d['coset_certificate']['projected_congruence_kernel_rank']==64
           assert d['coset_certificate']['final_kernel_dimension'] < 64
           assert d['search']['solver_result'] in {'UNSAT','SAT_WITNESS','UNSAT_RADIUS','UNKNOWN_NODE_BUDGET'}
@@ -95,6 +101,7 @@ jobs:
           print(json.dumps({
               'cell':d['parameters']['cell_id'],
               'congruence_rows':d['coset_certificate']['deduplicated_congruence_row_count'],
+              'active_mod8_rows':d['coset_certificate']['congruence_augmented_hnf']['active_row_count'],
               'equality_rank':d['coset_certificate']['independent_equality_row_count'],
               'kernel_dimension':d['coset_certificate']['final_kernel_dimension'],
               'result':d['search']['solver_result'],
@@ -132,6 +139,7 @@ jobs:
                   'a':d['parameters']['curve_group_mass'],
                   'cell':d['parameters']['cell_id'],
                   'congruence_rows':d['coset_certificate']['deduplicated_congruence_row_count'],
+                  'active_mod8_rows':d['coset_certificate']['congruence_augmented_hnf']['active_row_count'],
                   'equality_rank':d['coset_certificate']['independent_equality_row_count'],
                   'kernel_dimension':d['coset_certificate']['final_kernel_dimension'],
                   'coset_index':d['coset_certificate']['projected_congruence_kernel_determinant_abs'],
@@ -141,7 +149,7 @@ jobs:
                   'seconds':d['search']['elapsed_seconds'],
               })
           assert len(rows)==2, rows
-          out={'schema':'STAGE32_D8_AFFINE_COSET_PILOT_SUMMARY_V2','rows':rows,'theorem_credit':False,'receiver_credit':False,'G10_LOWGENUS_PICARD':'AMBER'}
+          out={'schema':'STAGE32_D8_AFFINE_COSET_PILOT_SUMMARY_V3','rows':rows,'theorem_credit':False,'receiver_credit':False,'G10_LOWGENUS_PICARD':'AMBER'}
           q=pathlib.Path('${{ runner.temp }}')/'stage32-08-affine-coset-summary.json'
           q.write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
           print(json.dumps(rows,sort_keys=True))
