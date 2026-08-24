@@ -1,4 +1,4 @@
-name: Stage33-07 BR2A full inventory
+name: Stage33-07 BR2A integration regression
 
 on:
   pull_request:
@@ -23,103 +23,56 @@ jobs:
           python-version: '3.12'
       - name: Install exact integer algebra dependency
         run: python -m pip install 'sympy==1.14.0'
-      - name: Certify nonzero endpoint pullback of Kc J2
+      - name: Recheck retained J2 endpoint pullback
         working-directory: stages/stage33/33-07
         run: python probe_j2_endpoint_q2.py
-      - name: Scan J2 evaluation on several genuine Q2 endpoint lifts
+      - name: Recheck retained J2 Q2 nonconstancy
         working-directory: stages/stage33/33-07
         run: python scan_j2_endpoint_q2_variation.py
-      - name: Assemble audited Stage33-07 integration prefix
+      - name: Recheck BR0B integration prefix
         working-directory: stages/stage33/33-07
         run: python assemble_integration_prefix_v2.py
-      - name: Materialize exact BR0B left-filtration boundary residue map
+      - name: Recheck BR0B boundary residue map
         working-directory: stages/stage33/33-07
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_br0b_boundary_residue_map.py
-      - name: Materialize exact BR0G finite ramified residue presentation
+      - name: Recheck BR0G boundary finite presentation
         working-directory: stages/stage33/33-07
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_br0g_finite_ramified_presentation.py
-      - name: Certify full BR0B injection into boundary character block
+      - name: Recheck full BR0B boundary injection
         working-directory: stages/stage33/33-07
         run: python certify_full_br0b_boundary_injection.py
-      - name: Materialize global two-primary presentation and complete frozen-scope inventory
+      - name: Replay historical global presentation for regression only
         working-directory: stages/stage33/33-07
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_global_two_primary_presentation_v2.py
-      - name: Validate exact mathematical integration gates
+      - name: Validate retained exact mathematics
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
           import json
-          c=json.load(open('integration-prefix.json'))
           r=json.load(open('br0b-boundary-raw-residue-map.json'))
           f=json.load(open('br0g-finite-ramified-residue-presentation.json'))
           g=json.load(open('full-br0b-boundary-injection.json'))
           s=json.load(open('j2-endpoint-q2-variation.json'))
-          z=json.load(open('global-two-primary-presentation.json'))
-          p=c['closure_prefix']
-          assert p['br0b_all_primary_classes_imported']
-          assert p['br0g_relevant_classes_imported']
-          assert p['theorem_hypotheses_source_locked']
-          assert p['variable_dictionary_complete']
-          assert p['nf_phys2_camp4_invocations_hypothesis_gated']
-          assert p['br0b_all_primary_classes_accounted']
-          assert r['basis_correction']['stage33_03_smith_unit_basis_reconstructed']
-          assert r['full_coefficient_matrix_rank']==14
-          assert r['full_coefficient_matrix_smith_nonzero_diagonal']==[1]*14
-          assert r['q_component_coefficient_matrix_smith_nonzero_diagonal']==[1]*12+[2,2]
-          assert r['q_component_mod2_kernel_dimension']==2
-          assert r['kappa_span_equals_q_component_mod2_kernel']
-          assert r['qi_pattern_rank_f2']==2
-          assert r['kappa_residue_zero']['both_q_component_patterns_zero']
-          assert r['kappa_residue_zero']['both_qi_component_patterns_zero']
           assert r['induced_left_filtration_boundary_map_injective']
-          assert r['left_filtration_br0b_br0g_duplicate_overlap_exact']
           assert f['unit_symbol_rank_f2']==44
           assert f['graph_residual_rank_f2']==17
           assert f['combined_exponent_two_rank_f2']==61
-          assert f['order4_double_rank_f2']==12
-          assert f['order4_double_projection_to_R17_rank_f2']==3
-          assert f['order4_double_intersection_U44_rank_f2']==9
-          assert f['finite_ramified_boundary_residue_module_exact']
           assert f['finite_ramified_boundary_residue_module']=='(Z/2)^49 direct_sum (Z/4)^12'
-          assert f['diagnostic_quotient_by_U44']=='(Z/2)^23 direct_sum (Z/4)^3'
-          assert g['proper_cuboid_surface_H1_Q_Pic']==0
           assert g['full_br0b_boundary_map_injective']
-          assert g['right_filtration_quadratic_family_boundary_map_injective']
-          assert g['right_filtration_five_finite_classes_boundary_map_injective']
-          assert g['br0b_duplicate_with_br0g_constant_block_exactly_its_injective_image']
-          assert g['trivial_algebraic_duplicate_quotient_exact']
           assert g['br0b_all_primary_classes_accounted']
-          assert len(s['evaluations'])==7
-          assert s['evaluation_nonconstant_on_endpoint_Q2_locus_certified'] is True
-          assert s['both_invariants_0_and_half_observed'] is True
-          assert z['coefficient_gersten_exponent_preserving_lifts']
-          assert z['finite_ramified_extension_by_j2_split_noncanonically']
-          assert z['constant_character_block_algebraic']
-          assert z['j2_transcendental_independent_from_constant_block']
-          assert z['finite_relation_symbol_compatibility_exact']
-          assert len(z['finite_relation_matrix_74x74'])==74
-          assert len(z['finite_symbol_matrix_74x120_mixed_mod4_encoding'])==74
-          assert z['relation_matrix_exact_for_two_primary_branch']
-          assert z['symbol_matrix_exact_for_two_primary_branch']
-          assert z['theorem_hypotheses_source_locked']
-          assert z['variable_dictionary_complete']
-          assert z['trivial_algebraic_duplicate_quotient_exact']
-          assert z['nf_phys2_camp4_invocations_hypothesis_gated']
-          assert z['complete_relevant_q_defined_class_list_for_stage33_brauer_scope']
-          assert z['every_class_has_primary_order_and_provenance']
-          assert z['br0b_all_primary_classes_accounted']
-          assert z['unresolved_unknown_in_scope']==0
-          assert z['closure_criteria_non_audit_satisfied']==13
-          print('STAGE33_07_MATH=PASS_NONAUDIT_13_OF_13')
+          assert s['evaluation_nonconstant_on_endpoint_Q2_locus_certified']
+          assert s['both_invariants_0_and_half_observed']
+          print('STAGE33_07_RETAINED_MATH=PASS')
           print('J2_Q2_EVALUATION_NONCONSTANT=True')
+          print('BR0G_FINITE_OBJECT_STATUS=BOUNDARY_RESIDUE_PRESENTATION')
           PY
-      - name: Validate hostile-audited closure and Stage33-08 release
+      - name: Validate re-audited blocked arithmetic descent state
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
@@ -127,45 +80,37 @@ jobs:
           a=json.load(open('audit-state.json'))
           h=json.load(open('handoff.json'))
           ctl=json.load(open('../controller.json'))
-          assert a['hostile_audit']=='PASS'
-          assert a['audit_verdict']=='PASS_AFTER_J2_PROPER_TRANSCENDENTAL_ENDPOINT_SURVIVAL_AND_EXACT_BR0B_BR0G_GLOBAL_INTEGRATION'
-          assert a['closure_criteria_total']==14 and a['closure_criteria_satisfied']==14
-          assert a['unit_status']=='CLOSED' and a['unit_closed']
-          assert a['br2a']=='DISCHARGED' and a['unresolved_unknown_in_scope']==0
-          assert a['j2']['endpoint_pullback_nonzero']
-          assert a['j2']['proper_transcendental']
+          assert a['unit_status']=='BLOCKED_NEW_KERNEL'
+          assert not a['unit_closed'] and not a['downstream_released']
+          assert a['br2a']=='BLOCKED_NEW_KERNEL'
+          assert a['new_kernel_id']=='R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT'
+          assert a['j2']['q_defined'] and a['j2']['endpoint_pullback_nonzero']
           assert a['j2']['q2_evaluation_nonconstant']
-          assert a['global_inventory']['finite_nonconstant_two_primary_group']=='(Z/2)^50 direct_sum (Z/4)^12'
-          assert not a['brauer_manin_set_empty_proved']
-          assert h['unit_status']=='CLOSED' and h['stage33_08_released']
-          assert h['stage33_progress']=='7/11'
-          assert ctl['schema']=='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V17_STAGE33_07_AUDITED_CLOSED_33_08_RELEASED'
-          assert ctl['stage33_progress']=='7/11'
-          assert ctl['stage33_07']['unit_status']=='CLOSED'
-          assert ctl['stage33_07']['hostile_audit']=='PASS'
-          assert ctl['stage33_08_released'] and ctl['stage33_08_release_allowed']
-          assert ctl['next_item']=='Stage33-08_MAIN'
-          assert ctl['next_expected_command']=='Stage33-main-batch'
-          assert not ctl['stage33_closed']
-          assert not ctl['perfect_cuboid_nonexistence_claim']
-          print('STAGE33_07_HOSTILE_AUDIT=PASS')
-          print('STAGE33_PROGRESS=7/11')
-          print('STAGE33_08_RELEASED=True')
+          assert a['br0g_boundary_data']['boundary_residue_presentation_exact']
+          assert not a['br0g_boundary_data']['q_defined_global_lifts_complete']
+          assert a['revoked_or_pending_credit']['complete_relevant_q_defined_class_list_for_stage33_brauer_scope'] is False
+          assert h['unit_status']=='BLOCKED_NEW_KERNEL'
+          assert h['stage33_progress']=='6/11'
+          assert not h['stage33_08_released']
+          assert ctl['stage33_progress']=='6/11'
+          assert ctl['stage33_04']['unit_status']=='CLOSED'
+          assert ctl['stage33_07']['unit_status']=='BLOCKED_NEW_KERNEL'
+          assert ctl['stage33_08']['unit_status']=='BLOCKED_NEW_KERNEL'
+          assert not ctl['stage33_08_released'] and not ctl['stage33_09_released']
+          assert ctl['next_item']=='Stage33-07_REPAIR_GLOBAL_RESIDUE_LIFT_ARITHMETIC_HS_DESCENT'
+          print('STAGE33_07_REAUDIT=BLOCKED_NEW_KERNEL')
+          print('STAGE33_PROGRESS=6/11')
+          print('STAGE33_08_RELEASED=False')
           PY
-      - name: Upload Stage33-07 audited certificates
+      - name: Upload Stage33-07 retained/re-audit certificates
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-br2a-audited
+          name: stage33-07-br2a-reaudit-blocked
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
-            stages/stage33/33-07/j2-q2-magma-stdout.txt
             stages/stage33/33-07/j2-endpoint-q2-variation.json
-            stages/stage33/33-07/j2-q2-variation-magma-stdout.txt
-            stages/stage33/33-07/integration-prefix.json
             stages/stage33/33-07/br0b-boundary-raw-residue-map.json
             stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json
             stages/stage33/33-07/full-br0b-boundary-injection.json
-            stages/stage33/33-07/global-two-primary-presentation.json
-            stages/stage33/33-07/audit.md
             stages/stage33/33-07/audit-state.json
             stages/stage33/33-07/handoff.json
