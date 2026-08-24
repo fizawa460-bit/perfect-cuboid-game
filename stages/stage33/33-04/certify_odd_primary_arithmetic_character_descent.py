@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Discharge the hostile-audit residual odd-primary boundary-character descent.
+"""Revalidate the hostile-audited odd-primary boundary-character descent prefix.
 
-This leaf does not enumerate characters. It gives the exact parametric
-arithmetic module. The hostile audit has already accepted every other BR0G
-prefix and isolated exactly one unknown:
+The first hostile audit isolated
 R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT.
+That leaf was executed, and the second hostile audit accepted it as CLOSED while
+exposing the distinct higher-two-power residual. This checker recomputes the
+odd-primary module against the current audited state; it does not promote BR0G.
 
 For an odd prime ell, every codimension-two crossing has residue field Q or
 Q(i). Neither field contains nontrivial odd-order roots of unity, hence
@@ -27,17 +28,24 @@ audit = json.loads((ROOT / "audit-state.json").read_text())
 proper_odd_path = REPO / "stages/stage29/29-02f/odd-primary-proper-brauer.md"
 proper_odd = proper_odd_path.read_text()
 
-if audit["audit_verdict"] != "PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE":
-    raise SystemExit("hostile-audit verdict regression")
+ODD_KERNEL = "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT"
+CURRENT_VERDICT = "PASS_ODD_PRIMARY_RESIDUAL_REJECT_ALL_PRIMARY_CLOSURE_ON_HIGHER_TWO_POWER_GERSTEN_DESCENT"
+CURRENT_KERNEL = "R33-BR0G-TWO-PRIMARY-PRIME-POWER-GERSTEN-CHARACTER-DESCENT"
+if audit["audit_verdict"] != CURRENT_VERDICT:
+    raise SystemExit("hostile re-audit verdict regression")
 if audit["unit_status"] != "BLOCKED_NEW_KERNEL" or audit["unit_closed"]:
-    raise SystemExit("expected blocked audited checkpoint")
-if audit["unresolved_unknown_in_scope"] != 1:
-    raise SystemExit("audit no longer isolates exactly one unknown")
-if audit["new_kernel_id"] != "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT":
-    raise SystemExit("unexpected audited residual kernel")
+    raise SystemExit("expected blocked current audited checkpoint")
+if audit["unresolved_unknown_in_scope"] != 1 or audit["new_kernel_id"] != CURRENT_KERNEL:
+    raise SystemExit("current higher-two-power residual regression")
+if not audit["arithmetic_odd_character_descent_complete"]:
+    raise SystemExit("hostile re-audit no longer accepts odd-primary closure")
+if audit.get("accepted_exact_prefix", {}).get("odd_primary_boundary_character_module") != (
+    "Hom_cont(G_Q,Q/Z)_odd^48 direct_sum Hom_cont(G_Q(i),Q/Z)_odd^12"
+):
+    raise SystemExit("audited odd-primary module regression")
 
 if not two["two_primary_residual_leaf_complete"]:
-    raise SystemExit("two-primary predecessor no longer complete")
+    raise SystemExit("exponent-two predecessor no longer complete")
 if two["scope"] != "EXPONENT_TWO_RESIDUAL_ONLY":
     raise SystemExit("two-primary scope firewall regression")
 
@@ -126,10 +134,14 @@ odd_module = (
     "Hom_cont(G_Q,Q/Z)_odd^48 direct_sum "
     "Hom_cont(G_Q(i),Q/Z)_odd^12"
 )
+if odd_module != audit["accepted_exact_prefix"]["odd_primary_boundary_character_module"]:
+    raise SystemExit("recomputed odd-primary module disagrees with hostile re-audit")
 
 cert = {
-    "schema": "STAGE33_04_ODD_PRIMARY_ARITHMETIC_CHARACTER_DESCENT_V1",
-    "audited_residual_kernel": audit["new_kernel_id"],
+    "schema": "STAGE33_04_ODD_PRIMARY_ARITHMETIC_CHARACTER_DESCENT_V2",
+    "original_residual_kernel": ODD_KERNEL,
+    "hostile_reaudit_verdict": CURRENT_VERDICT,
+    "hostile_reaudit_accepts_odd_primary_residual_closed": True,
     "audited_exact_prefix_preserved": True,
     "source_locks": {
         "audit_state_sha256": hashlib.sha256((ROOT / "audit-state.json").read_bytes()).hexdigest(),
@@ -163,17 +175,18 @@ cert = {
     "proper_nonconstant_odd_primary_brauer_source_absent": True,
     "proper_constant_brauer_residues_zero": True,
     "arithmetic_odd_character_descent_complete": True,
-    "all_primary_physical_open_unramified_kernel_complete_candidate": True,
-    "br0g_discharged_candidate_pending_hostile_audit": True,
-    "unresolved_unknown_in_scope_candidate": 0,
-    "unit_status_candidate": "AUDIT_REQUIRED",
+    "remaining_kernel": CURRENT_KERNEL,
+    "all_primary_physical_open_unramified_kernel_complete": False,
+    "br0g_discharged": False,
+    "unresolved_unknown_in_scope": 1,
+    "unit_status": "BLOCKED_NEW_KERNEL",
     "unit_closed": False,
     "downstream_released": False,
     "theorem_credit": False,
     "endpoint_credit": False,
     "perfect_cuboid_nonexistence_claim": False,
-    "next_expected_command_if_ci_green": "Stage33-audit",
-    "firewall": "parametric character factors are exact BR0G residue data, not a finite list of Q-defined Brauer generators and not a Brauer-Manin obstruction"
+    "next_expected_command": "Stage33-main-batch",
+    "firewall": "odd-primary residual is audited closed; this certificate does not close the distinct higher-two-power BR0G residual"
 }
 canonical = json.dumps(cert, sort_keys=True, separators=(",", ":")).encode()
 cert["canonical_sha256"] = hashlib.sha256(canonical).hexdigest()
@@ -189,6 +202,7 @@ print(json.dumps({
     "qi_crossing_pairs": len(edge_pairs),
     "odd_primary_boundary_character_module": odd_module,
     "arithmetic_odd_character_descent_complete": True,
-    "next": "Stage33-audit",
+    "remaining_kernel": CURRENT_KERNEL,
+    "next": "Stage33-main-batch",
     "certificate_sha256": cert["canonical_sha256"]
 }, indent=2, sort_keys=True))
