@@ -1,0 +1,242 @@
+name: Stage32-15 e20/a0 exact tier <=16384
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-15/**'
+      - '.github/workflows/stage32-15-e20-tier16384.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  plan:
+    name: lock Stage32-14 predecessor and build delta fanout
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      bulk_matrix: ${{ steps.plan.outputs.bulk_matrix }}
+      pilot_cell_index: ${{ steps.plan.outputs.pilot_cell_index }}
+      pilot_cell_id: ${{ steps.plan.outputs.pilot_cell_id }}
+      pilot_total_branches: ${{ steps.plan.outputs.pilot_total_branches }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Compile Stage32-15 scripts
+        run: |
+          python -m py_compile stages/stage32/32-15/build_e20_tier16384_delta.py
+          python -m py_compile stages/stage32/32-15/aggregate_e20_tier16384.py
+          python -m py_compile stages/stage32/32-14/compact_e20_shard_certificate.py
+      - name: Download exact Stage32-14 profile and predecessor tier
+        run: |
+          mkdir -p "$RUNNER_TEMP/profile" "$RUNNER_TEMP/prev" "$RUNNER_TEMP/out"
+          gh run download 32725113188 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-14-e20-profile-plan --dir "$RUNNER_TEMP/profile"
+          gh run download 32725113188 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-14-e20-a0-storage-safe-exact-tier --dir "$RUNNER_TEMP/prev"
+      - id: plan
+        name: Build exact 4096-to-16384 delta plan
+        run: |
+          python stages/stage32/32-15/build_e20_tier16384_delta.py \
+            --profile "$RUNNER_TEMP/profile/e20-profile.json" \
+            --predecessor "$RUNNER_TEMP/prev/e20-safe-tier.json" \
+            --output "$RUNNER_TEMP/out/e20-tier16384-delta-plan.json" \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Enforce storage and compute envelope before fanout
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/e20-tier16384-delta-plan.json').read_text())
+          assert p['delta_cell_count']==53
+          assert p['delta_branch_count']==606768
+          assert p['cumulative_cell_count']==69
+          assert p['cumulative_branch_count']==655558
+          s=p['storage_safety']
+          assert s['compact_artifact_count']==106
+          assert s['max_compact_bytes_per_artifact']==100000
+          assert s['hard_shard_storage_upper_bound_bytes']==10600000
+          assert s['observed_stage32_14_representative_artifact_bytes']==1281
+          assert s['observed_projection_bytes_at_same_size']==135786
+          assert s['raw_branch_rows_persisted'] is False
+          print(json.dumps({'delta_jobs':106,'hard_storage_bound':10600000,'observed_projection':135786},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-15-e20-tier16384-plan
+          path: ${{ runner.temp }}/out/e20-tier16384-delta-plan.json
+          retention-days: 7
+          if-no-files-found: error
+
+  pilot:
+    name: representative delta compact shard gate
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      storage_safe: ${{ steps.gate.outputs.storage_safe }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core
+        run: |
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/out"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact caps
+        run: |
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/caps.json"
+      - name: Exhaust representative exact shard
+        run: |
+          python stages/stage32/32-11r/run_materialized_cell_shard.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/caps.json" \
+            --output "$RUNNER_TEMP/out/raw.json" \
+            --exceptional-mass 20 --curve-group-mass 0 \
+            --cell-index ${{ needs.plan.outputs.pilot_cell_index }} \
+            --expected-cell-id ${{ needs.plan.outputs.pilot_cell_id }} \
+            --expected-total-branches ${{ needs.plan.outputs.pilot_total_branches }} \
+            --shard-index 0 --shard-count 2 --node-limit-per-branch 1000000
+      - name: Verify, compact, delete raw
+        run: |
+          python stages/stage32/32-14/compact_e20_shard_certificate.py \
+            --input "$RUNNER_TEMP/out/raw.json" --output "$RUNNER_TEMP/out/compact.json"
+          rm -f "$RUNNER_TEMP/out/raw.json"
+          test ! -e "$RUNNER_TEMP/out/raw.json"
+      - id: gate
+        name: Enforce observed compact size gate
+        run: |
+          bytes=$(stat -c%s "$RUNNER_TEMP/out/compact.json")
+          echo "compact_bytes=$bytes"
+          test "$bytes" -le 100000
+          echo "storage_safe=true" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-15c-e20-cell${{ needs.plan.outputs.pilot_cell_index }}-s0of2
+          path: ${{ runner.temp }}/out/compact.json
+          retention-days: 1
+          if-no-files-found: error
+
+  bulk:
+    name: e20-delta-cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}of2
+    needs: [plan, pilot]
+    if: needs.pilot.outputs.storage_safe == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.bulk_matrix) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core
+        run: |
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/out"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact caps
+        run: |
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/caps.json"
+      - name: Exhaust exact delta branch shard
+        run: |
+          python stages/stage32/32-11r/run_materialized_cell_shard.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/caps.json" \
+            --output "$RUNNER_TEMP/out/raw.json" \
+            --exceptional-mass 20 --curve-group-mass 0 \
+            --cell-index ${{ matrix.cell_index }} \
+            --expected-cell-id ${{ matrix.cell_id }} \
+            --expected-total-branches ${{ matrix.total_branches }} \
+            --shard-index ${{ matrix.shard_index }} --shard-count 2 \
+            --node-limit-per-branch 1000000
+      - name: Verify, compact, delete raw, enforce size gate
+        run: |
+          python stages/stage32/32-14/compact_e20_shard_certificate.py \
+            --input "$RUNNER_TEMP/out/raw.json" --output "$RUNNER_TEMP/out/compact.json"
+          rm -f "$RUNNER_TEMP/out/raw.json"
+          test ! -e "$RUNNER_TEMP/out/raw.json"
+          bytes=$(stat -c%s "$RUNNER_TEMP/out/compact.json")
+          echo "compact_bytes=$bytes"
+          test "$bytes" -le 100000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-15c-e20-cell${{ matrix.cell_index }}-s${{ matrix.shard_index }}of2
+          path: ${{ runner.temp }}/out/compact.json
+          retention-days: 1
+          if-no-files-found: error
+
+  aggregate:
+    name: cumulative exact e20/a0 tier <=16384
+    needs: [plan, pilot, bulk]
+    if: needs.pilot.result == 'success' && needs.bulk.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download source-locked Stage32-14 predecessor data
+        run: |
+          mkdir -p "$RUNNER_TEMP/profile" "$RUNNER_TEMP/prev" "$RUNNER_TEMP/plan" "$RUNNER_TEMP/final"
+          gh run download 32725113188 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-14-e20-profile-plan --dir "$RUNNER_TEMP/profile"
+          gh run download 32725113188 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-14-e20-a0-storage-safe-exact-tier --dir "$RUNNER_TEMP/prev"
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-15-e20-tier16384-plan
+          path: ${{ runner.temp }}/plan
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-15c-e20-*
+          path: ${{ runner.temp }}/certs
+          merge-multiple: false
+      - name: Aggregate predecessor plus all 53 exact delta cells
+        run: |
+          python stages/stage32/32-15/aggregate_e20_tier16384.py \
+            --profile "$RUNNER_TEMP/profile/e20-profile.json" \
+            --predecessor "$RUNNER_TEMP/prev/e20-safe-tier.json" \
+            --plan "$RUNNER_TEMP/plan/e20-tier16384-delta-plan.json" \
+            --input-dir "$RUNNER_TEMP/certs" \
+            --output "$RUNNER_TEMP/final/e20-tier16384.json"
+      - name: Enforce final artifact size
+        run: |
+          bytes=$(stat -c%s "$RUNNER_TEMP/final/e20-tier16384.json")
+          echo "final_bytes=$bytes"
+          test "$bytes" -le 5000000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-15-e20-a0-le16384-exact-tier
+          path: ${{ runner.temp }}/final/e20-tier16384.json
+          retention-days: 30
+          if-no-files-found: error
