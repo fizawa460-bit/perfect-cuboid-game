@@ -24,7 +24,9 @@ EXPECTED_SELECTED_DET = 274877906944
 
 
 def canonical_sha256(value: object) -> str:
-    return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    return hashlib.sha256(
+        json.dumps(value, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
 
 
 def verify_core(core: dict[str, Any]) -> None:
@@ -64,7 +66,9 @@ def close_group(generators: list[tuple[int, ...]]) -> list[tuple[int, ...]]:
     return sorted(seen)
 
 
-def verify_action(core: dict[str, Any], action: dict[str, Any]) -> list[tuple[int, ...]]:
+def verify_action(
+    core: dict[str, Any], action: dict[str, Any]
+) -> list[tuple[int, ...]]:
     assert action["schema"] == ACTION_SCHEMA
     assert action["source"]["git_blob_sha1"] == EXPECTED_BLOB
     assert action["permutation_count"] == 9
@@ -72,7 +76,9 @@ def verify_action(core: dict[str, Any], action: dict[str, Any]) -> list[tuple[in
     claimed = unsigned.pop("canonical_sha256_without_this_field")
     assert canonical_sha256(unsigned) == claimed
 
-    generators = [tuple(int(v) - 1 for v in row) for row in action["permutations_1based"]]
+    generators = [
+        tuple(int(v) - 1 for v in row) for row in action["permutations_1based"]
+    ]
     assert len(generators) == 9
     assert all(sorted(p) == list(range(140)) for p in generators)
     assert all(all(p[i] < 92 for i in range(92)) for p in generators)
@@ -86,23 +92,35 @@ def verify_action(core: dict[str, Any], action: dict[str, Any]) -> list[tuple[in
     known_pairing = I * K.T
     h_known = H * G * K.T
     for gi, p in enumerate(generators):
-        for i in range(140):
-            assert h_known[0, p[i]] == h_known[0, i], (gi, i)
-        for i in range(140):
-            for j in range(140):
-                assert known_pairing[p[i], p[j]] == known_pairing[i, j], (gi, i, j)
+        assert all(h_known[0, p[i]] == h_known[0, i] for i in range(140)), gi
+        assert all(
+            known_pairing[p[i], p[j]] == known_pairing[i, j]
+            for i in range(140)
+            for j in range(140)
+        ), gi
     return close_group(generators)
 
 
-def recover_basis(core: dict[str, Any], intersections: tuple[int, ...]) -> tuple[int, ...]:
-    selected = Matrix([core["raw_cross_pairings_with_basis"][i] for i in SELECTED_ROWS])
+def prepare_recovery(core: dict[str, Any]) -> tuple[Matrix, Matrix, Matrix]:
+    selected = Matrix(
+        [core["raw_cross_pairings_with_basis"][i] for i in SELECTED_ROWS]
+    )
     assert abs(int(selected.det())) == EXPECTED_SELECTED_DET
+    selected_inverse = selected.inv()
+    intersections = Matrix(core["raw_cross_pairings_with_basis"])
+    return selected, selected_inverse, intersections
+
+
+def recover_basis(
+    selected_inverse: Matrix,
+    all_intersections: Matrix,
+    intersections: tuple[int, ...],
+) -> tuple[int, ...]:
     target = Matrix([intersections[i] for i in SELECTED_ROWS])
-    basis = selected.inv() * target
+    basis = selected_inverse * target
     assert all(v.q == 1 for v in basis)
     out = tuple(int(v) for v in basis)
-    I = Matrix(core["raw_cross_pairings_with_basis"])
-    assert tuple(int(v) for v in I * Matrix(out)) == intersections
+    assert tuple(int(v) for v in all_intersections * Matrix(out)) == intersections
     return out
 
 
@@ -149,14 +167,22 @@ def main() -> None:
     assert sum(intersections[:46]) == 36
     assert basis not in set(K)
 
-    orbit_by_intersections: dict[tuple[int, ...], tuple[int, ...]] = {}
+    # First deduplicate the finite orbit in the injective 140-intersection
+    # representation.  Only after the orbit is known do we invert the selected
+    # 64x64 matrix, once, and recover the six Picard vectors.  This preserves
+    # the exact verification while avoiding 1536 repeated symbolic inversions.
+    orbit_intersections: set[tuple[int, ...]] = set()
     for p in group:
         inv = invert_perm(p)
-        image_intersections = tuple(intersections[inv[j]] for j in range(140))
-        image_basis = recover_basis(core, image_intersections)
-        orbit_by_intersections[image_intersections] = image_basis
-    assert len(orbit_by_intersections) == EXPECTED_ORBIT_SIZE
-    assert EXPECTED_GROUP_ORDER // len(orbit_by_intersections) == EXPECTED_STABILIZER_ORDER
+        orbit_intersections.add(tuple(intersections[inv[j]] for j in range(140)))
+    assert len(orbit_intersections) == EXPECTED_ORBIT_SIZE
+    assert EXPECTED_GROUP_ORDER // len(orbit_intersections) == EXPECTED_STABILIZER_ORDER
+
+    _, selected_inverse, all_intersections = prepare_recovery(core)
+    orbit_by_intersections = {
+        image: recover_basis(selected_inverse, all_intersections, image)
+        for image in sorted(orbit_intersections)
+    }
 
     known_set = set(K)
     rows = []
@@ -176,16 +202,20 @@ def main() -> None:
         assert all(0 <= v <= 2 for v in image_intersections[92:])
         assert image_basis not in known_set
         a_distribution[a_mass] += 1
-        rows.append({
-            "basis_coordinates_sha256": canonical_sha256(list(image_basis)),
-            "intersection_vector_sha256": canonical_sha256(list(image_intersections)),
-            "degree": image_degree,
-            "self_intersection": image_square,
-            "exceptional_mass": e_mass,
-            "curve_group_mass_a": a_mass,
-            "normal_mass": normal_mass,
-            "known_140_match": False,
-        })
+        rows.append(
+            {
+                "basis_coordinates_sha256": canonical_sha256(list(image_basis)),
+                "intersection_vector_sha256": canonical_sha256(
+                    list(image_intersections)
+                ),
+                "degree": image_degree,
+                "self_intersection": image_square,
+                "exceptional_mass": e_mass,
+                "curve_group_mass_a": a_mass,
+                "normal_mass": normal_mass,
+                "known_140_match": False,
+            }
+        )
     assert dict(sorted(a_distribution.items())) == {32: 1, 36: 5}
 
     report = {
@@ -199,21 +229,29 @@ def main() -> None:
             "git_blob_sha1": EXPECTED_BLOB,
             "aut_generator_count": 9,
             "independently_recomputed_aut_order": len(group),
+            "selected_inverse_computed_once": True,
+            "orbit_deduplicated_before_basis_recovery": True,
         },
         "witness_verification": {
             "degree": degree,
             "self_intersection": square,
             "exceptional_mass": 8,
             "curve_group_mass_a": 36,
-            "normal_intersection_histogram": dict(sorted(collections.Counter(intersections[:92]).items())),
-            "exceptional_intersection_histogram": dict(sorted(collections.Counter(intersections[92:]).items())),
+            "normal_intersection_histogram": dict(
+                sorted(collections.Counter(intersections[:92]).items())
+            ),
+            "exceptional_intersection_histogram": dict(
+                sorted(collections.Counter(intersections[92:]).items())
+            ),
             "all_140_cap_bounds_verified": True,
             "known_140_exact_match": False,
         },
         "full_aut_orbit": {
             "orbit_size": len(rows),
             "stabilizer_order": EXPECTED_GROUP_ORDER // len(rows),
-            "a_distribution": {str(k): v for k, v in sorted(a_distribution.items())},
+            "a_distribution": {
+                str(k): v for k, v in sorted(a_distribution.items())
+            },
             "all_orbit_members_integral_picard_classes": True,
             "all_orbit_members_new_against_known_140": True,
             "members": rows,
@@ -235,15 +273,22 @@ def main() -> None:
     report["canonical_sha256_without_this_field"] = canonical_sha256(report)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({
-        "degree": degree,
-        "self_intersection": square,
-        "orbit_size": len(rows),
-        "stabilizer_order": EXPECTED_GROUP_ORDER // len(rows),
-        "a_distribution": dict(sorted(a_distribution.items())),
-        "known_match": False,
-        "canonical_sha256": report["canonical_sha256_without_this_field"],
-    }, sort_keys=True))
+    print(
+        json.dumps(
+            {
+                "degree": degree,
+                "self_intersection": square,
+                "orbit_size": len(rows),
+                "stabilizer_order": EXPECTED_GROUP_ORDER // len(rows),
+                "a_distribution": dict(sorted(a_distribution.items())),
+                "known_match": False,
+                "canonical_sha256": report[
+                    "canonical_sha256_without_this_field"
+                ],
+            },
+            sort_keys=True,
+        )
+    )
 
 
 if __name__ == "__main__":
