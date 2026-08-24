@@ -47,6 +47,9 @@ jobs:
       - name: Materialize exact Q-fixed 17D graph-residue quotient
         working-directory: stages/stage33/33-04
         run: python materialize_qfixed17_residual.py
+      - name: Certify geometric first-residue realizability of Q-fixed17
+        working-directory: stages/stage33/33-04
+        run: python certify_qfixed17_first_residue_realizability.py
       - name: Diagnose exact linear-factor pullback discrepancy before solving exceptional valuations
         working-directory: stages/stage33/33-04
         env:
@@ -71,6 +74,7 @@ jobs:
             stages/stage33/33-04/ford-kummer-pullback-zero.json
             stages/stage33/33-04/unit-symbol-residue-span.json
             stages/stage33/33-04/qfixed17-graph-residual.json
+            stages/stage33/33-04/qfixed17-first-residue-realizability.json
             stages/stage33/33-04/q-unit-magma-stdout.txt
             stages/stage33/33-04/q-unit-pullback-diagnostic.json
             stages/stage33/33-04/linear-factor-unit-lifts.json
