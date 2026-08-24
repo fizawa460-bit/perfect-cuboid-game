@@ -21,7 +21,7 @@ jobs:
           python-version: '3.12'
       - name: Install exact verifier dependency
         run: python -m pip install 'sympy==1.14.0'
-      - name: Run pinned exact Magma boundary materialization
+      - name: Run pinned exact BR0A Magma materialization
         working-directory: stages/stage33/33-02
         run: python run_magma_materialization.py
       - name: Independently verify rank, kernel, pairing, and Smith saturation data
@@ -38,5 +38,6 @@ jobs:
             stages/stage33/33-02/magma-response.xml
             stages/stage33/33-02/magma-stdout.txt
             stages/stage33/33-02/magma-http-error.txt
+            stages/stage33/33-02/magma-network-error.txt
             stages/stage33/33-02/br0a-matrix-certificate.json
           if-no-files-found: warn
