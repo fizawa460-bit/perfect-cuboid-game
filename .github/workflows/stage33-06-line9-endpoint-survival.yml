@@ -1,0 +1,53 @@
+name: Stage33-06 seven-line endpoint survival
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-06/**'
+      - '.github/workflows/stage33-06-line9-endpoint-survival.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  line9-endpoint-survival:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute exact seven-line source and endpoint zero pullback
+        working-directory: stages/stage33/33-06
+        run: python certify_line9_endpoint_zero.py
+      - name: Validate Stage33-06 closure gate
+        working-directory: stages/stage33/33-06
+        run: |
+          python - <<'PY'
+          import json
+          c=json.load(open('line9-endpoint-zero-survival.json'))
+          required=[
+            'line9_source_basis_relations_exact',
+            'endpoint_multiquadratic_pullback_exact',
+            'physical_boundary_survival_exact',
+            'q_galois_survival_exact',
+            'trivial_duplicate_symbol_quotient_exact',
+            'exact_zero_survival_certificate',
+          ]
+          assert all(c[k] for k in required)
+          assert c['endpoint_relevant_surviving_dimension_f2']==0
+          assert c['unresolved_unknown_in_scope']==0
+          assert c['unit_status']=='AUDIT_REQUIRED'
+          assert c['unit_closed'] is False
+          assert c['downstream_released'] is False
+          assert c['stage33_07_released'] is False
+          print('STAGE33_06_NONAUDIT_GATES=PASS')
+          print('UNIT_STATUS=AUDIT_REQUIRED')
+          PY
+      - name: Upload exact Stage33-06 certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-06-line9-endpoint-survival
+          path: stages/stage33/33-06/line9-endpoint-zero-survival.json
