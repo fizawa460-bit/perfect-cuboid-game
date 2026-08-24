@@ -1,12 +1,19 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V2_CONTRACT_ALIGNED",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V3_SCOPE_ALIGNED",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
   "execution_class": 2,
   "source_stage": 29,
   "status": "ROADMAP_REAUDIT_IN_PROGRESS",
   "program": "BRAUER-EXPLICIT-DAG",
-  "brauer_scope": "STAGE33_RELEVANT_TWO_PRIMARY_SUBGROUP",
+  "brauer_scope": "FROZEN_STAGE29_PHYSICAL_OPEN_BRAUER_KERNEL",
+  "brauer_scope_components": [
+    "BR0B_OPEN_ALGEBRAIC_ALL_PRIMARY",
+    "BR0G_PHYSICAL_BOUNDARY_RESIDUE_CLASSES",
+    "BR2_TWO_PRIMARY_GEOMETRIC_TRANSCENDENTAL_CLASSES"
+  ],
+  "proper_odd_primary_transcendental_absent_frozen_input": true,
+  "open_algebraic_odd_primary_closed_at_stage29": false,
   "roadmap": "stages/stage33/ROADMAP.md",
   "unit_closure_contract": "stages/stage33/33-00/unit-closure-contract.md",
   "roadmap_audit": {
@@ -39,12 +46,12 @@
   "units": [
     {"id":"33-01","name":"BRAUER_PROSPECT_SCAN_AND_SOURCE_RECONSTRUCTION","unit_status":"OPEN","prerequisite_units":[]},
     {"id":"33-02","name":"BR0A_INTEGRAL_PICARD_SATURATION","unit_status":"OPEN","prerequisite_units":["33-01"]},
-    {"id":"33-03","name":"BR0B_ABSOLUTE_GALOIS_UPIC_GERSTEN","unit_status":"OPEN","prerequisite_units":["33-02"]},
+    {"id":"33-03","name":"BR0B_ABSOLUTE_GALOIS_UPIC_GERSTEN_ALL_PRIMARY","unit_status":"OPEN","prerequisite_units":["33-02"]},
     {"id":"33-04","name":"BR0G_PHYSICAL_BOUNDARY_RESIDUE_ADAPTER","unit_status":"OPEN","prerequisite_units":["33-02"]},
     {"id":"33-05","name":"K3_BR2_QI_OVER_Q_ACTION_DESCENT","unit_status":"OPEN","prerequisite_units":["33-01"]},
     {"id":"33-06","name":"SEVEN_LINE_ENDPOINT_SURVIVAL_MULTIQ_PULLBACK","unit_status":"OPEN","prerequisite_units":["33-03","33-04"]},
-    {"id":"33-07","name":"BR2A_CREUTZ_VIRAY_RELATION_SYMBOL_INTEGRATION","unit_status":"OPEN","prerequisite_units":["33-03","33-04","33-05","33-06"]},
-    {"id":"33-08","name":"BR2B_EXPLICIT_ENDPOINT_REPRESENTATIVES","unit_status":"OPEN","prerequisite_units":["33-07"]},
+    {"id":"33-07","name":"BR2A_CREUTZ_VIRAY_AND_FULL_RELEVANT_CLASS_INVENTORY_INTEGRATION","unit_status":"OPEN","prerequisite_units":["33-03","33-04","33-05","33-06"]},
+    {"id":"33-08","name":"BR2B_EXPLICIT_ENDPOINT_REPRESENTATIVES_FOR_COMPLETE_STAGE33_CLASS_LIST","unit_status":"OPEN","prerequisite_units":["33-07"]},
     {"id":"33-09","name":"RELEVANT_PLACE_AND_PHYSICAL_LOCAL_LOCUS_CERTIFICATION","unit_status":"OPEN","prerequisite_units":["33-08"]},
     {"id":"33-10","name":"EXACT_LOCAL_EVALUATION_PRODUCTION","unit_status":"OPEN","prerequisite_units":["33-09"]},
     {"id":"33-11","name":"PHYSICAL_ADELIC_COMPATIBILITY_FINAL_BM_VERDICT_HOSTILE_AUDIT","unit_status":"OPEN","prerequisite_units":["33-07","33-08","33-09","33-10"]}
@@ -57,14 +64,15 @@
     "EXECUTION_RESOURCE_WALL"
   ],
   "negative_close_requires": [
-    "RELEVANT_Q_DEFINED_CLASS_LIST_COMPLETE_FOR_STAGE33_SCOPE",
+    "COMPLETE_RELEVANT_Q_DEFINED_CLASS_LIST_FOR_STAGE33_BRAUER_SCOPE",
+    "BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED",
     "RELEVANT_PLACE_SET_COMPLETE",
     "PHYSICAL_LOCAL_LOCUS_COVERAGE_COMPLETE",
     "LOCAL_EVALUATION_IMAGES_EXACT",
     "RECIPROCITY_ASSEMBLY_EXACT"
   ],
-  "computed_subgroup_nonempty_implies_full_bm_nonempty": false,
-  "computed_subgroup_empty_implies_no_rational_endpoint": true,
+  "stage33_scope_nonempty_implies_full_bm_nonempty_without_full_brauer_coverage_certificate": false,
+  "stage33_scope_empty_implies_no_rational_endpoint": true,
   "dag_completion_implies_bm_empty": false,
   "route_color_change_authorized": false,
   "theorem_credit": false,
