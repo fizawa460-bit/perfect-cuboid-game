@@ -224,7 +224,7 @@ def main() -> None:
     if args.github_output:
         with args.github_output.open("a") as fh:
             for i, matrix in enumerate(matrices):
-                fh.write(f"wave{i}_matrix={json.dumps({'include': matrix}, separators=(',', ':'))}\n")
+                fh.write(f"wave{i}_matrix={json.dumps(matrix, separators=(',', ':'))}\n")
             fh.write(f"pilot_bundle_id={pilot['bundle_id']}\n")
             fh.write(f"plan_sha={report['canonical_sha256_without_this_field']}\n")
 
