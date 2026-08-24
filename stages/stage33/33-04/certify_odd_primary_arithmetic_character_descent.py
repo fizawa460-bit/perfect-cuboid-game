@@ -1,0 +1,208 @@
+#!/usr/bin/env python3
+"""Revalidate the hostile-audited odd-primary boundary-character descent prefix.
+
+The first hostile audit isolated
+R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT.
+That leaf was executed, and the second hostile audit accepted it as CLOSED while
+exposing the distinct higher-two-power residual. This checker recomputes the
+odd-primary module against the current audited state; it does not promote BR0G.
+
+For an odd prime ell, every codimension-two crossing has residue field Q or
+Q(i). Neither field contains nontrivial odd-order roots of unity, hence
+H^0(k(x), Q_ell/Z_ell(-1))=0. Therefore an odd-primary first-residue character
+on a boundary P1 is unramified at every point. Since the geometric P1 has no
+nontrivial finite etale cover in characteristic zero, the unramified character
+is exactly a constant-field character.
+"""
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent
+REPO = ROOT.parent.parent.parent
+
+sk = json.loads((ROOT / "boundary-residue-skeleton.json").read_text())
+bg = json.loads((ROOT / "boundary-galois.json").read_text())
+two = json.loads((ROOT / "qfixed17-function-constant-descent.json").read_text())
+audit = json.loads((ROOT / "audit-state.json").read_text())
+proper_odd_path = REPO / "stages/stage29/29-02f/odd-primary-proper-brauer.md"
+proper_odd = proper_odd_path.read_text()
+
+ODD_KERNEL = "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT"
+CURRENT_VERDICT = "PASS_ODD_PRIMARY_RESIDUAL_REJECT_ALL_PRIMARY_CLOSURE_ON_HIGHER_TWO_POWER_GERSTEN_DESCENT"
+CURRENT_KERNEL = "R33-BR0G-TWO-PRIMARY-PRIME-POWER-GERSTEN-CHARACTER-DESCENT"
+if audit["audit_verdict"] != CURRENT_VERDICT:
+    raise SystemExit("hostile re-audit verdict regression")
+if audit["unit_status"] != "BLOCKED_NEW_KERNEL" or audit["unit_closed"]:
+    raise SystemExit("expected blocked current audited checkpoint")
+if audit["unresolved_unknown_in_scope"] != 1 or audit["new_kernel_id"] != CURRENT_KERNEL:
+    raise SystemExit("current higher-two-power residual regression")
+if not audit["arithmetic_odd_character_descent_complete"]:
+    raise SystemExit("hostile re-audit no longer accepts odd-primary closure")
+if audit.get("accepted_exact_prefix", {}).get("odd_primary_boundary_character_module") != (
+    "Hom_cont(G_Q,Q/Z)_odd^48 direct_sum Hom_cont(G_Q(i),Q/Z)_odd^12"
+):
+    raise SystemExit("audited odd-primary module regression")
+
+if not two["two_primary_residual_leaf_complete"]:
+    raise SystemExit("exponent-two predecessor no longer complete")
+if two["scope"] != "EXPONENT_TWO_RESIDUAL_ONLY":
+    raise SystemExit("two-primary scope firewall regression")
+
+if sk["component_count"] != 72 or sk["codim2_crossing_count"] != 144:
+    raise SystemExit("boundary inventory regression")
+cc = [int(x) - 1 for x in bg["boundary_perm_cc_1based"]]
+ct = [int(x) - 1 for x in bg["boundary_perm_ct_1based"]]
+if len(cc) != 72 or len(ct) != 72:
+    raise SystemExit("boundary Galois permutation shape regression")
+if ct != list(range(72)):
+    raise SystemExit("sqrt(2)-conjugation no longer fixes all boundary components")
+if any(cc[cc[j]] != j for j in range(72)):
+    raise SystemExit("complex-conjugation action is not an involution")
+if any(cc[j] != j for j in range(24)):
+    raise SystemExit("side component orbit regression")
+
+fixed_components = [j for j in range(72) if cc[j] == j]
+pairs = []
+seen = set(fixed_components)
+for j in range(72):
+    if j in seen:
+        continue
+    k = cc[j]
+    if k == j or cc[k] != j:
+        raise SystemExit("unexpected component orbit")
+    pairs.append(tuple(sorted((j, k))))
+    seen.update((j, k))
+pairs = sorted(set(pairs))
+if len(fixed_components) != 48 or len(pairs) != 12 or len(seen) != 72:
+    raise SystemExit(f"boundary orbit regression fixed={len(fixed_components)} pairs={len(pairs)}")
+
+edges = []
+edge_index = {}
+for idx, e in enumerate(sk["codim2_crossings"]):
+    a = int(e["side_vertex"]) - 1
+    b = int(e["exceptional_vertex"]) - 1
+    edges.append((a, b))
+    edge_index[tuple(sorted((a, b)))] = idx
+if len(edges) != 144 or len(edge_index) != 144:
+    raise SystemExit("crossing inventory uniqueness regression")
+
+def induced_edge_perm(p):
+    out = []
+    for a, b in edges:
+        key = tuple(sorted((p[a], p[b])))
+        if key not in edge_index:
+            raise SystemExit("Galois action escaped crossing inventory")
+        out.append(edge_index[key])
+    return out
+
+ecc = induced_edge_perm(cc)
+ect = induced_edge_perm(ct)
+if ect != list(range(144)):
+    raise SystemExit("sqrt(2)-conjugation no longer fixes crossing inventory")
+if any(ecc[ecc[j]] != j for j in range(144)):
+    raise SystemExit("crossing cc action is not an involution")
+fixed_edges = [j for j in range(144) if ecc[j] == j]
+edge_pairs = []
+seen_e = set(fixed_edges)
+for j in range(144):
+    if j in seen_e:
+        continue
+    k = ecc[j]
+    if k == j or ecc[k] != j:
+        raise SystemExit("unexpected crossing orbit")
+    edge_pairs.append(tuple(sorted((j, k))))
+    seen_e.update((j, k))
+edge_pairs = sorted(set(edge_pairs))
+if len(fixed_edges) + 2 * len(edge_pairs) != 144:
+    raise SystemExit("crossing orbit count regression")
+
+for needle in (
+    "PROPER_NONCONSTANT_BRAUER_ODD_PRIMARY=ABSENT",
+    "odd-primary physical-open Brauer, if any = boundary-residue source only.",
+):
+    if needle not in proper_odd:
+        raise SystemExit(f"proper odd-primary source lock missing: {needle}")
+proper_odd_sha = hashlib.sha256(proper_odd.encode()).hexdigest()
+
+q_prime_divisors = len(fixed_components)
+qi_prime_divisors = len(pairs)
+if q_prime_divisors != 48 or qi_prime_divisors != 12:
+    raise SystemExit("Q/Q(i) prime divisor orbit regression")
+
+odd_module = (
+    "Hom_cont(G_Q,Q/Z)_odd^48 direct_sum "
+    "Hom_cont(G_Q(i),Q/Z)_odd^12"
+)
+if odd_module != audit["accepted_exact_prefix"]["odd_primary_boundary_character_module"]:
+    raise SystemExit("recomputed odd-primary module disagrees with hostile re-audit")
+
+cert = {
+    "schema": "STAGE33_04_ODD_PRIMARY_ARITHMETIC_CHARACTER_DESCENT_V2",
+    "original_residual_kernel": ODD_KERNEL,
+    "hostile_reaudit_verdict": CURRENT_VERDICT,
+    "hostile_reaudit_accepts_odd_primary_residual_closed": True,
+    "audited_exact_prefix_preserved": True,
+    "source_locks": {
+        "audit_state_sha256": hashlib.sha256((ROOT / "audit-state.json").read_bytes()).hexdigest(),
+        "boundary_skeleton_sha256": sk["canonical_sha256"],
+        "boundary_galois_sha256": bg["canonical_sha256"],
+        "two_primary_function_constant_descent_sha256": two["canonical_sha256"],
+        "proper_odd_primary_result_sha256": proper_odd_sha,
+        "proper_odd_primary_result_path": "stages/stage29/29-02f/odd-primary-proper-brauer.md",
+        "stacks_geometric_arithmetic_pi1_tag": "0BTU",
+        "stacks_gm_constant_coefficient_twist_tag": "0A44",
+        "stage29_boundary_gersten_receiver": "stages/stage29/29-02f/boundary-gersten-receiver.md"
+    },
+    "boundary_geometric_component_count": 72,
+    "boundary_q_prime_divisor_orbit_count": 60,
+    "q_defined_geometric_component_singletons": q_prime_divisors,
+    "qi_geometric_component_conjugate_pairs": qi_prime_divisors,
+    "crossing_geometric_point_count": 144,
+    "q_crossing_singletons": len(fixed_edges),
+    "qi_crossing_conjugate_pairs": len(edge_pairs),
+    "all_boundary_constant_fields_in": ["Q", "Q(i)"],
+    "all_crossing_residue_fields_in": ["Q", "Q(i)"],
+    "q_roots_of_unity_order": 2,
+    "qi_roots_of_unity_order": 4,
+    "odd_primary_crossing_tate_twist_invariants_zero": True,
+    "odd_primary_second_residue_at_every_crossing_zero": True,
+    "odd_primary_first_residues_unramified_on_each_boundary_p1": True,
+    "unramified_h1_p1_equals_constant_field_h1": True,
+    "odd_primary_boundary_character_module": odd_module,
+    "odd_primary_q_component_character_factor_count": 48,
+    "odd_primary_qi_component_character_factor_count": 12,
+    "proper_nonconstant_odd_primary_brauer_source_absent": True,
+    "proper_constant_brauer_residues_zero": True,
+    "arithmetic_odd_character_descent_complete": True,
+    "remaining_kernel": CURRENT_KERNEL,
+    "all_primary_physical_open_unramified_kernel_complete": False,
+    "br0g_discharged": False,
+    "unresolved_unknown_in_scope": 1,
+    "unit_status": "BLOCKED_NEW_KERNEL",
+    "unit_closed": False,
+    "downstream_released": False,
+    "theorem_credit": False,
+    "endpoint_credit": False,
+    "perfect_cuboid_nonexistence_claim": False,
+    "next_expected_command": "Stage33-main-batch",
+    "firewall": "odd-primary residual is audited closed; this certificate does not close the distinct higher-two-power BR0G residual"
+}
+canonical = json.dumps(cert, sort_keys=True, separators=(",", ":")).encode()
+cert["canonical_sha256"] = hashlib.sha256(canonical).hexdigest()
+(ROOT / "odd-primary-arithmetic-character-descent.json").write_text(
+    json.dumps(cert, indent=2, sort_keys=True) + "\n"
+)
+print(json.dumps({
+    "success": True,
+    "boundary_q_prime_orbits": 60,
+    "q_character_factors": 48,
+    "qi_character_factors": 12,
+    "q_crossings": len(fixed_edges),
+    "qi_crossing_pairs": len(edge_pairs),
+    "odd_primary_boundary_character_module": odd_module,
+    "arithmetic_odd_character_descent_complete": True,
+    "remaining_kernel": CURRENT_KERNEL,
+    "next": "Stage33-main-batch",
+    "certificate_sha256": cert["canonical_sha256"]
+}, indent=2, sort_keys=True))

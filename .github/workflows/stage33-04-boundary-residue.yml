@@ -1,0 +1,100 @@
+name: Stage33-04 physical-boundary residue skeleton
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-04/**'
+      - '.github/workflows/stage33-04-boundary-residue.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  boundary-residue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reconstruct exact 72-boundary SNC and residue cycle skeleton
+        working-directory: stages/stage33/33-04
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python analyze_boundary_residue.py
+      - name: Independently materialize pinned boundary Galois permutations
+        working-directory: stages/stage33/33-04
+        run: python extract_boundary_galois.py
+      - name: Induce exact V4 action on the saturated rank-73 cycle lattice
+        working-directory: stages/stage33/33-04
+        run: python analyze_cycle_galois.py
+      - name: Certify all-primary geometric Galois-fixed cycle module
+        working-directory: stages/stage33/33-04
+        run: python certify_all_primary_geometric_cycle_invariants.py
+      - name: Classify endpoint boundary over the seven-line arrangement
+        working-directory: stages/stage33/33-04
+        run: python classify_sign_cover_boundary_map.py
+      - name: Certify Ford line-symbol pullback vanishes on the full Kummer cover
+        working-directory: stages/stage33/33-04
+        run: python certify_ford_kummer_pullback_zero.py
+      - name: Compute intrinsic unit-symbol secondary-residue span
+        working-directory: stages/stage33/33-04
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python compute_unit_symbol_residue_span.py
+      - name: Materialize exact Q-fixed 17D graph-residue quotient
+        working-directory: stages/stage33/33-04
+        run: python materialize_qfixed17_residual.py
+      - name: Certify geometric first-residue realizability of Q-fixed17
+        working-directory: stages/stage33/33-04
+        run: python certify_qfixed17_first_residue_realizability.py
+      - name: Isolate finite V4 divisor-parity descent obstruction
+        working-directory: stages/stage33/33-04
+        run: python certify_qfixed17_v4_divisor_descent.py
+      - name: Certify exponent-two function and constant-squareclass descent
+        working-directory: stages/stage33/33-04
+        run: python certify_qfixed17_function_constant_descent.py
+      - name: Discharge hostile-audit odd-primary arithmetic character residual
+        working-directory: stages/stage33/33-04
+        run: python certify_odd_primary_arithmetic_character_descent.py
+      - name: Certify full two-primary prime-power Gersten character descent
+        working-directory: stages/stage33/33-04
+        run: python certify_two_primary_prime_power_gersten_descent.py
+      - name: Diagnose exact linear-factor pullback discrepancy before solving exceptional valuations
+        working-directory: stages/stage33/33-04
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python diagnose_q_unit_pullbacks.py
+      - name: Lift all 17 linear-factor ratios through the injective side projection
+        working-directory: stages/stage33/33-04
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python lift_linear_factor_unit_divisors.py
+      - name: Upload exact Stage33-04 certificates
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-04-boundary-residue-skeleton
+          path: |
+            stages/stage33/33-04/boundary-residue-skeleton.json
+            stages/stage33/33-04/boundary-galois.json
+            stages/stage33/33-04/boundary-galois-magma-stdout.txt
+            stages/stage33/33-04/boundary-cycle-galois.json
+            stages/stage33/33-04/all-primary-geometric-cycle-invariants.json
+            stages/stage33/33-04/sign-cover-boundary-map-magma-stdout.txt
+            stages/stage33/33-04/sign-cover-boundary-map.json
+            stages/stage33/33-04/ford-kummer-pullback-zero.json
+            stages/stage33/33-04/unit-symbol-residue-span.json
+            stages/stage33/33-04/qfixed17-graph-residual.json
+            stages/stage33/33-04/qfixed17-first-residue-realizability.json
+            stages/stage33/33-04/qfixed17-v4-divisor-descent.json
+            stages/stage33/33-04/qfixed17-function-constant-descent.json
+            stages/stage33/33-04/odd-primary-arithmetic-character-descent.json
+            stages/stage33/33-04/two-primary-prime-power-gersten-descent.json
+            stages/stage33/33-04/q-unit-magma-stdout.txt
+            stages/stage33/33-04/q-unit-pullback-diagnostic.json
+            stages/stage33/33-04/linear-factor-unit-lifts.json
