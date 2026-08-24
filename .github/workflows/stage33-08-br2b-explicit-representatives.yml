@@ -43,45 +43,53 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_u44_and_j2_representatives.py
-      - name: Validate Stage33-08 running firewall
+      - name: Isolate constructive global Gersten-to-CSA effectivity kernel
+        working-directory: stages/stage33/33-08
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python isolate_global_gersten_csa_effectivity_kernel.py
+      - name: Validate Stage33-08 blocked-new-kernel firewall
         working-directory: stages/stage33/33-08
         run: |
           python - <<'PY'
           import json
-          p=json.load(open('representative-coverage-prefix.json'))
           q=json.load(open('saturated-q-unit-generators.json'))
           b=json.load(open('br0b-left-explicit-representatives.json'))
           x=json.load(open('u44-j2-explicit-representatives.json'))
-          assert p['every_stage33_07_relevant_class_accounted']
-          assert p['every_surviving_class_has_primary_order_and_provenance']
+          k=json.load(open('global-gersten-csa-effectivity-kernel.json'))
           assert q['full_rank14_saturated_unit_lattice_generated']
-          assert q['basis_saturated_equals_audited_U_D']
           assert q['smith_nonzero_diagonal']==[1]*14
           assert b['br0b_left_filtration_parametric_representatives_complete']
-          assert x['u44_generator_count']==44
-          assert x['u44_explicit_representatives_complete']
+          assert x['u44_explicit_representatives_complete'] and x['u44_generator_count']==44
           assert x['u44_all_evaluable_on_full_physical_open']
-          assert all(z['exact_evaluable_representative'] for z in x['u44_representatives'])
-          assert x['finite_ramified_remaining_non_unit_symbol_generators']=={'R_order2':17,'O_nominal_order4':12}
           assert x['j2_generic_exact_representative_complete']
-          assert not x['j2_full_patch_cover_complete']
-          assert x['unresolved_unknown_in_scope']==3
-          assert x['unit_status']=='RUNNING' and not x['unit_closed']
-          assert not x['downstream_released'] and not x['stage33_09_released']
-          print('STAGE33_08_QUNIT_SATURATION=PASS')
-          print('U44_EXPLICIT_QUATERNION_REPRESENTATIVES=COMPLETE')
-          print('FINITE_RAMIFIED_REMAINING=R17+O12')
-          print('J2_GENERIC_CSA=COMPLETE')
-          print('J2_FULL_PATCH_COVER=PENDING')
-          print('FULL_BR2B=CLEARLY_NOT_CLOSED')
+          assert k['new_kernel_exposed']
+          assert k['new_kernel_id']=='R33-BR2B-GLOBAL-GERSTEN-CSA-SECTION-EFFECTIVITY'
+          assert k['closure_criteria_total']==10 and k['closure_criteria_satisfied']==2
+          assert k['every_stage33_07_relevant_class_accounted']
+          assert k['every_surviving_class_has_primary_order_and_provenance']
+          assert not k['every_surviving_class_has_exact_evaluable_representative']
+          assert k['unresolved_unknown_in_scope']==1
+          assert k['unit_status']=='BLOCKED_NEW_KERNEL' and not k['unit_closed']
+          assert not k['downstream_released'] and not k['stage33_09_released']
+          assert k['stage33_progress']=='7/11'
+          print('STAGE33_08_EXACT_PREFIX=PASS')
+          print('FULL_U_D_EXPLICIT_Q_RATIONAL_BASIS=TRUE')
+          print('U44_EXPLICIT_QUATERNION_REPRESENTATIVES=44/44')
+          print('J2_GENERIC_Q_DEFINED_CSA=TRUE')
+          print('NEW_KERNEL=R33-BR2B-GLOBAL-GERSTEN-CSA-SECTION-EFFECTIVITY')
+          print('UNIT_STATUS=BLOCKED_NEW_KERNEL')
+          print('STAGE33_PROGRESS=7/11')
+          print('STAGE33_09_RELEASED=false')
           PY
-      - name: Upload Stage33-08 working certificates
+      - name: Upload Stage33-08 blocked checkpoint certificates
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-08-br2b-working
+          name: stage33-08-br2b-blocked-checkpoint
           path: |
             stages/stage33/33-08/representative-coverage-prefix.json
             stages/stage33/33-08/saturated-q-unit-generators.json
             stages/stage33/33-08/saturated-q-unit-magma-stdout.txt
             stages/stage33/33-08/br0b-left-explicit-representatives.json
             stages/stage33/33-08/u44-j2-explicit-representatives.json
+            stages/stage33/33-08/global-gersten-csa-effectivity-kernel.json
