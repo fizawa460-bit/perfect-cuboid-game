@@ -112,8 +112,11 @@ diag = [int(D[j, j]) for j in range(58)]
 if [abs(x) for x in diag] != [1] * 56 + [2, 2]:
     raise SystemExit("unexpected Smith diagonal")
 
-def lift_difference(action_row, torsion_index):
+def lift_difference(action_row, torsion_number):
     r = action_row[:]
+    # In the full 64-coordinate Smith Picard basis the two quotient-torsion
+    # generators are coordinates 57 and 58, i.e. Python indices 56 and 57.
+    torsion_index = 56 + torsion_number
     r[torsion_index] -= 1
     if any(r[j] != 0 for j in range(58, 64)):
         raise SystemExit("fixed PicU torsion representative acquired free quotient part")
