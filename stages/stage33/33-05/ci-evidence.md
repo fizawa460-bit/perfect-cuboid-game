@@ -1,39 +1,56 @@
 # Stage33-05 CI evidence
 
-The earlier dimension pilot that reported `L_{c,E}=9` is superseded because it omitted the four nodal ruling fibers from the Creutz--Viray even-`e(b/w)` set.
+The old `L_{c,E}=9` pilot remains superseded.  The authoritative chain now includes the exact five-function lift, extension mixing, and two direct `x-alpha` rows.
 
-Corrected authoritative CI:
+Latest authoritative CI:
 
 ```text
-HEAD_SHA=0683e5e1300025550620df1eb42664fe06b8ad68
-WORKFLOW_RUN=32686188288
+HEAD_SHA=660e3ba1246d49c807f99e11fb136ab696293a9f
+WORKFLOW_RUN=32704125630
 CONCLUSION=success
-ARTIFACT_ID=9505728365
-ARTIFACT_ZIP_SHA256=16a3c9d9537d0a0cae76fd6bb81db20e60cc45d65b0229ea8187000ae6fdb9e0
-BRANCH_CERTIFICATE_SHA256=b8ecf7fcc710f736f23748f0f414e10a748d8006435e4b080294c820429a24e2
-CV_DIMENSION_CANONICAL_SHA256=2f56fb20b25af27f68639e0154713ba1b4995113715f516a014c0a605b2fc976
-CV_DIMENSION_SCHEMA=STAGE33_05_CV_DIMENSION_SKELETON_V2_NODE_FIBERS_INCLUDED
+ARTIFACT_ID=9511597079
+ARTIFACT_ZIP_SHA256=1ad3869ba3e2a851815bee3761a453a928cf4988d9d204ce30c78eba5b23b898
+ARTIFACT_NAME=stage33-05-k3-branch-preflight
 ```
 
-The corrected checker certifies
+The successful workflow reruns the complete Stage33-05 exact chain and certifies
 
 ```text
-branch components = 2 smooth (2,2) genus-one curves over Q(i)
-intersection nodes = 8, all transverse
-dual graph b1      = 7
-Jac(B)[2] dim      = 4
-smooth ramification fibers with even e = 4
-nodal fibers with e(b/w)=1+1=2        = 4
-special even-e fiber count             = 8
-K-squareclass kernel dim                = 1
-raw generator subspace dim              = 12
-kernel to K*L*2 dim                     = 7
-L_E dim                                 = 5
-L_{c,E} dim                             = 5
-im(x-alpha) dim                         = 3
-Br quotient dim                         = 2
+branch components                    = 2 smooth (2,2) genus-one curves over Q(i)
+intersection nodes                   = 8, all transverse
+Jac(B)[2] dim                        = 4
+dual graph b1                        = 7
+special even-e fiber count           = 8
+L_E=L_{c,E} dim                      = 5
+im(x-alpha) dim                      = 3
+Br(K_cbar)[2] dim                    = 2
+full explicit L_{c,E} basis          = materialized
+CV divisor conditions for basis      = complete
+extension mixing for basis           = complete
+explicit x-alpha rows                = 2
+explicit x-alpha row rank            = 2
+remaining x-alpha relation dimension = 1
+remaining graph-line candidates      = 7
+geometric Br[2] quotient action       = identity
+geometric G_Q-invariant dimension     = 2
 ```
 
-Do not cite the superseded `9/7` dimension pilot for receiver credit.
+The two certified rows in basis order `[J1,J2,q1,q2,q3]` are
 
-This checkpoint still does not materialize the explicit five-element `L_{c,E}` function basis, rank-three relation matrix, quotient symbol representatives, or the Q(i)/Q action on the quotient. Stage33-05 remains RUNNING and no downstream release occurs.
+```text
+s=1 -> [1,0,0,0,0]
+s=t -> [1,1,0,0,0].
+```
+
+The last relation can therefore be row-normalized to `[0,0,a,b,c]` with nonzero `(a,b,c)`.  Because the exact field action modifies `q_i` only by the already-killed Jacobian plane, the induced action on the final two-dimensional geometric Brauer quotient is identity regardless of which one of the seven graph lines is selected.
+
+Still open:
+
+```text
+FULL_XALPHA_MATRIX_MATERIALIZED=false
+FINAL_GRAPH_LINE_SELECTED=false
+EXPLICIT_TWO_SYMBOL_BRAUER_BASIS=false
+DESCENT_OBSTRUCTION_ACCOUNTED=false
+Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
+UNIT_STATUS=RUNNING
+```
