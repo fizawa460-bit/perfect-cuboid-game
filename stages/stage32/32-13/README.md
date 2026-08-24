@@ -11,7 +11,22 @@ The audited e10/a30 profile has 134 immutable signature cells and 11,205,888 mat
 
 No solver or mathematical constraint is changed. Stage32-13 reuses `32-11r/run_materialized_cell_shard.py` and partitions the first two cells into 8 exact residue shards each and the last two into 16 shards each. This gives 48 jobs with `max-parallel: 12` and roughly 140k–162k branches per job, matching the successful Stage32-11r execution scale.
 
-After all shards complete, the workflow verifies exact disjoint/full branch coverage, combines the prior <=4096 tier, the 26 direct Stage32-11 e10 cells, the two Stage32-11r repaired e10 cells, and the four Stage32-13 giant cells into a 134/134 parent manifest. It then independently recloses the source-locked Aut(S) action of order 1536 and partitions every e10/a30 numerical survivor into full numerical orbits.
+## Storage-safe evidence mode
+
+The first Stage32-13 run (`32702148657`) was manually cancelled after 15 raw shard artifacts had accumulated about 265.5 MiB. The completed raw jobs were mathematically fine, but persisting one full branch-by-branch JSON per shard would have made the 48-shard run need roughly 0.8 GiB of artifact storage. That is an execution/storage design problem, not a mathematical or solver failure. The cancelled run is not accepted as Stage32-13 closure evidence.
+
+The replacement workflow keeps the exact computation unchanged but changes only evidence persistence:
+
+1. the existing exact shard solver writes the full raw JSON on the runner;
+2. `compact_shard_certificate.py` rereads that raw JSON before upload and independently requires the exact modulo branch-index sequence, complete enumeration on every branch, no node-budget exhaustion, equality of branch-derived and top-level survivor ledgers, and all credit firewalls;
+3. it hashes the raw deterministic report and a canonical per-branch evidence stream containing branch index, fixed-coordinate/base-certificate commitments, exact solver result, node/leaf counts, transcript SHA, and survivor basis SHAs;
+4. only the compact certificate plus any actual numerical survivors is uploaded; the raw branch rows are deleted locally before artifact upload;
+5. compact shard artifacts have `retention-days: 1`;
+6. the final parent/orbit artifact has `retention-days: 30`.
+
+Thus compaction happens only after exact branch-by-branch verification. It does not prune search, drop UNKNOWN branches, change constraints, or replace computation with a summary shortcut.
+
+After all 48 compact certificates complete, the workflow verifies exact disjoint/full branch coverage, combines the prior <=4096 tier, the 26 direct Stage32-11 e10 cells, the two Stage32-11r repaired e10 cells, and the four Stage32-13 giant cells into a 134/134 parent manifest. It then independently recloses the source-locked Aut(S) action of order 1536 and partitions every e10/a30 numerical survivor into full numerical orbits.
 
 This is the next hostile-audit boundary. It does not imply effectivity, an actual curve, completion of the full d=8 row, receiver discharge, or any perfect-cuboid existence/nonexistence claim.
 
