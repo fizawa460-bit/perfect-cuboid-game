@@ -39,6 +39,9 @@ jobs:
       - name: Synthesize the one residual graph direction in bidegree (2,1)
         working-directory: stages/stage33/33-05
         run: python residual_graph_function_bidegree21.py
+      - name: Replace parity-only graph pilots by exact elliptic lifts and materialize extension mixing
+        working-directory: stages/stage33/33-05
+        run: python cv_exact_graph_lifts_and_galois.py
       - name: Upload exact preflight certificates
         uses: actions/upload-artifact@v4
         with:
@@ -50,3 +53,4 @@ jobs:
             stages/stage33/33-05/lce-filtered-quotient-skeleton.json
             stages/stage33/33-05/lowdegree-graph-functions.json
             stages/stage33/33-05/residual-graph-function-bidegree21.json
+            stages/stage33/33-05/cv-exact-graph-lifts-galois.json
