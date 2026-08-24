@@ -54,6 +54,9 @@ jobs:
       - name: Extract proper Picard Gram and cc-ct Galois action from pinned Stoll source
         working-directory: stages/stage33/33-07
         run: python extract_picard_gram_galois.py
+      - name: Derive proper Br4 Galois module from Picard discriminant
+        working-directory: stages/stage33/33-07
+        run: python derive_proper_brauer4_from_picard_discriminant.py
       - name: Replay historical global presentation for regression only
         working-directory: stages/stage33/33-07
         env:
@@ -71,6 +74,7 @@ jobs:
           h=json.load(open('arithmetic-hs-descent-problem.json'))
           o=json.load(open('proper-brauer-odd-invariants-zero.json'))
           p=json.load(open('picard-gram-galois.json'))
+          b4=json.load(open('proper-brauer4-picard-discriminant.json'))
           assert r['induced_left_filtration_boundary_map_injective']
           assert f['unit_symbol_rank_f2']==44
           assert f['graph_residual_rank_f2']==17
@@ -103,6 +107,11 @@ jobs:
           print('ODD_CONSTANT_COKERNEL_GLOBAL_IMAGE=0')
           print('REPAIR_REDUCED_TO_TWO_PRIMARY=True')
           print('PICARD_GRAM_GALOIS_EXTRACTED=True')
+          print('PICARD_DISCRIMINANT=',b4['picard_discriminant_abs'])
+          print('BRAUER4_RECONSTRUCTION_COMPLETE=',b4['brauer4_reconstruction_complete'])
+          if b4['brauer4_reconstruction_complete']:
+              print('PROPER_BR2_GQ_INVARIANT_DIM=',b4['proper_Br2_GQ_invariant_dimension_f2'])
+              print('PROPER_BR4_GQ_INVARIANT_GROUP=',b4['proper_Br4_GQ_invariant_group'])
           PY
       - name: Validate re-audited blocked arithmetic descent state
         working-directory: stages/stage33/33-07
@@ -148,5 +157,6 @@ jobs:
             stages/stage33/33-07/proper-brauer-odd-invariants-zero.json
             stages/stage33/33-07/picard-gram-galois.json
             stages/stage33/33-07/picard-gram-galois-magma-stdout.txt
+            stages/stage33/33-07/proper-brauer4-picard-discriminant.json
             stages/stage33/33-07/audit-state.json
             stages/stage33/33-07/handoff.json
