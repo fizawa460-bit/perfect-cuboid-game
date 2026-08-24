@@ -43,6 +43,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python compute_v4_hypercohomology.py
+      - name: Reduce the absolute two-primary filtration and expose the residual transgression
+        working-directory: stages/stage33/33-03
+        run: python derive_absolute_two_primary_shape.py
       - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -58,3 +61,4 @@ jobs:
             stages/stage33/33-03/v4-hyper-request-summary.json
             stages/stage33/33-03/v4-hyper-magma-stdout.txt
             stages/stage33/33-03/finite-v4-hypercohomology.json
+            stages/stage33/33-03/absolute-two-primary-shape.json
