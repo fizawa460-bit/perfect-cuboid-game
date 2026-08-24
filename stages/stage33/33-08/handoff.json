@@ -1,17 +1,21 @@
 {
-  "schema": "STAGE33_UNIT_HANDOFF_V1_BR2B_ARITHMETIC_DESCENT_BLOCKED",
+  "schema": "STAGE33_08_HOSTILE_AUDITED_BLOCKED_HANDOFF_V2",
   "stage33_unit": "33-08",
   "pr": 1375,
   "unit_status": "BLOCKED_NEW_KERNEL",
   "unit_closed": false,
   "downstream_released": false,
   "prerequisite_units": ["33-07"],
-  "prerequisites_all_closed_formally": true,
-  "predecessor_reaudit_required": true,
+  "prerequisites_all_closed": false,
+  "blocked_by_predecessor": "33-07",
+  "hostile_audit": "PASS_BLOCKED_NEW_KERNEL",
+  "audit_verdict": "PASS_BLOCKED_NEW_KERNEL_AFTER_NARROWING_REAUDIT_TO_STAGE33_07_GLOBAL_Q_LIFT_AND_ROLLING_PROGRESS_BACK_TO_6_OF_11",
+  "audit_record": "stages/stage33/33-08/audit.md",
+  "audit_state": "stages/stage33/33-08/audit-state.json",
   "closure_criteria_total": 10,
-  "closure_criteria_satisfied": 2,
+  "closure_criteria_satisfied": 0,
   "unresolved_unknown_in_scope": 1,
-  "receivers_discharged": [
+  "receivers_discharged_prefix": [
     "R33-BR2B-QUNIT-MISSING-3D-PRINCIPAL-FUNCTION-RECONSTRUCTION",
     "R33-BR2B-U44-EXPLICIT-QUATERNION-REPRESENTATIVES",
     "R33-BR2B-J2-GENERIC-Q-DEFINED-CSA"
@@ -23,37 +27,45 @@
   "accepted_exact_prefix": {
     "full_u_d_explicit_q_rational_basis_rank": 14,
     "full_u_d_smith": "1^14",
+    "full_u_d_basis_unimodular": true,
     "br0b_left_filtration_explicit_parametric_representatives": true,
     "u44_explicit_q_defined_quaternion_representatives": 44,
     "u44_physical_open_domain": "ALL_PHYSICAL_OPEN",
     "j2_q_defined_generic_corestriction_csa": true,
+    "j2_full_physical_open_patch_cover": false,
     "seven_line_endpoint_block_zero": true,
-    "geometric_global_compatible_residue_lift_over_qbar_repaired": true
+    "geometric_global_compatible_residue_lift_over_qbar": true
   },
-  "affected_predecessor_credit_pending_reaudit": [
-    "Stage33-04 arithmetic Q-defined BR0G constant-character completeness",
-    "Stage33-04 arithmetic Q-defined R17/O12 lift completeness",
-    "Stage33-07 complete relevant Q-defined class inventory for those BR0G families",
-    "Stage33-07 noncanonical finite Gersten splitting over Q"
-  ],
-  "stage33_progress_formal_pending_reaudit": "7/11",
+  "predecessor_reaudit": {
+    "stage33_04_reaudit_required": false,
+    "stage33_04_remains_closed": true,
+    "stage33_07_reaudit_required": true,
+    "stage33_07_effective_status": "BLOCKED_NEW_KERNEL",
+    "reason": "Stage33-07 complete Q-defined global inventory depended on an unjustified global-Q lift step; Stage33-04 only certified boundary residue data and explicitly did not claim a complete Q-defined class list."
+  },
+  "stage33_progress": "6/11",
   "stage33_09_released": false,
-  "audit_verdict": "PENDING_PREDECESSOR_REAUDIT",
-  "next_exact_leaf": "L33-REPAIR-COMPUTE-ARITHMETIC-HS-DESCENT-OF-BR0G-RESIDUE-LIFTS",
-  "next_expected_command": "Stage33-audit #1375",
+  "repair_required": true,
   "theorem_credit": false,
   "endpoint_credit": false,
+  "brauer_manin_set_empty_proved": false,
+  "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
   "source_locks": [
-    "stages/stage33/33-07/materialize_global_two_primary_presentation.py",
+    "stages/stage33/33-00/unit-closure-contract.md",
+    "stages/stage33/33-04/audit-state.json",
+    "stages/stage33/33-07/audit-state.json",
+    "stages/stage33/33-08/audit.md",
     "arXiv:math/0203128v1 Theorem 1.1",
-    "arXiv:2310.12710v3 Theorem A / Corollary A",
-    "arXiv:2512.22520 Theorem 1.1"
+    "arXiv:2310.12710v3",
+    "arXiv:2512.22520v3"
   ],
-  "artifact_hashes": [
-    "workflow_run=32754562493",
-    "artifact_id=9530334110",
-    "artifact_zip_sha256=ac1f221d920e297e6b34f48457b03846dd0fd4dc763d42ee72b19a1cd01f98fb",
-    "functional_controller_head=03c189e154c852f95a07a3ad674ade28afcfec84"
-  ]
+  "preaudit_evidence": {
+    "head": "bb9bfabb7f3352d1891a13c9ad122d599fc6fd96",
+    "workflow_run": 32754776316,
+    "artifact_id": 9530417283,
+    "artifact_zip_sha256": "15d201718e1d4562ca3645144fdea5f144c62284090433c86864b8dad77539bf"
+  },
+  "next_exact_leaf": "L33-07-REPAIR-COMPUTE-ARITHMETIC-HS-DESCENT-OF-BR0G-RESIDUE-LIFTS",
+  "next_expected_command": "Stage33-main-batch"
 }
