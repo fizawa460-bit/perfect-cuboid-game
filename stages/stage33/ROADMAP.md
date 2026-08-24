@@ -1,11 +1,11 @@
 # Stage33 — BRAUER-EXPLICIT-DAG execution roadmap
 
 ```text
-STAGE33_ROADMAP_VERSION=2
+STAGE33_ROADMAP_VERSION=3
 STAGE33_STATUS=ROADMAP_CREATED_NOT_EXECUTED
 PRIMARY_KERNEL=K16-C2-BRAUER-EXPLICIT-CHAIN
 PRIMARY_PROGRAM=BRAUER-EXPLICIT-DAG
-BRAUER_SCOPE=STAGE33_RELEVANT_TWO_PRIMARY_SUBGROUP
+BRAUER_SCOPE=FROZEN_STAGE29_PHYSICAL_OPEN_BRAUER_KERNEL
 SOURCE_FRONTIER=STAGE29
 STAGE32_COMPLETION_REQUIRED=false
 STAGE33_CAN_RUN_CONCURRENTLY_WITH_STAGE32=true
@@ -24,6 +24,16 @@ K16-C2-BRAUER-EXPLICIT-CHAIN
 ```
 
 whose audited internal shape is a dependency DAG rather than a literal chain.
+
+Stage29's Brauer frontier is not purely two-primary. The proper odd-primary transcendental contribution was closed, but `BR0B` explicitly retained possible odd-primary open-algebraic unit/character terms. Therefore the Stage33 scope is the full frozen Stage29 physical-open Brauer kernel:
+
+```text
+BR0B = open algebraic / absolute-Galois contribution, all primary torsion retained until computed
+BR0G = physical-boundary residue contribution
+BR2A/BR2B = two-primary geometric/transcendental relation, representative, and evaluation contribution
+```
+
+No later unit may silently drop an odd-primary class surviving `BR0B` merely because the BR2 branch is two-primary.
 
 This roadmap supersedes the `GO / STOP` language in `INTRODUCTION.md` as an execution policy. `BRAUER-PROSPECT-SCAN` remains useful, but only as reconnaissance and ordering information. A pessimistic scan is **not** by itself a reason to abandon Stage33.
 
@@ -58,7 +68,7 @@ BRAUER_MANIN_SET_APPEARS_NONEMPTY_NUMERICALLY
 EXTERNAL_AI_PESSIMISM
 ```
 
-If the Brauer mechanism is eventually proved non-obstructive, record that exact negative result for the Stage33-computed subgroup and close the mechanism honestly. If a new unknown theorem is required, freeze the exact new kernel instead of pretending the route failed.
+If the Brauer mechanism is eventually proved non-obstructive, record that exact negative result for the declared Stage33 scope and close the mechanism honestly. If a new unknown theorem is required, freeze the exact new kernel instead of pretending the route failed.
 
 ## 1. Frozen dependency shape
 
@@ -78,6 +88,8 @@ Already-audited inputs include:
 ```text
 physical boundary components = 72
 Div_D -> Pic extraction preflight exists
+proper odd-primary transcendental Brauer = absent
+open algebraic odd-primary contribution = NOT CLOSED at Stage29
 seven-line base-complement geometric Br[2] dimension = 9
 K_c has explicit ruled (4,4) double-cover model over P1 x P1
 ruled-double-cover branch hypotheses discharged
@@ -97,6 +109,7 @@ Objective: reconstruct the strongest current Stage29 Brauer state and cheaply me
 Required probes:
 
 ```text
+P0: reconstruct BR0B all-primary open-algebraic scope and confirm that no odd-primary survivor is dropped
 P1: K3 geometric Br[2] dimension 2 -> provisional Q(i)/Q survival picture
 P2: seven-line geometric dimension 9 -> provisional endpoint/boundary/Galois survival picture
 P3: for any explicit surviving candidate class, bounded high-information local-evaluation tests
@@ -107,6 +120,7 @@ Outputs:
 ```text
 SOURCE_LOCK_MANIFEST
 DEPENDENCY_DAG_RECONSTRUCTED=true|false
+BR0B_ALL_PRIMARY_SCOPE_RECONCILED=true|false
 K3_SURVIVAL_PREVIEW
 LINE9_ENDPOINT_SURVIVAL_PREVIEW
 LOCAL_EVALUATION_PREVIEW
@@ -141,21 +155,25 @@ only after an independently checkable integral certificate.
 
 ### Stage33-03 — BR0B absolute-Galois UPic / Gersten layer
 
-Objective: compute the arithmetic/Galois module data that converts the geometric Picard/divisor information into the exact cohomological objects needed for arithmetic Brauer classes.
+Objective: compute the arithmetic/Galois module data that converts the geometric Picard/divisor information into the exact open-algebraic Brauer classes needed downstream, retaining all primary torsion allowed by the Stage29 receiver.
 
 Required work:
 
 ```text
 - explicit Galois action on the relevant integral modules;
 - UPic/Gersten boundary maps at the required level;
-- kernels/cokernels and torsion tracked exactly;
-- Qbar -> Q inference made only through explicit descent/cohomology adapters.
+- kernels/cokernels and torsion tracked exactly, without assuming 2-primary;
+- unit-kernel / absolute-Galois inflation and character terms accounted for exactly;
+- Qbar -> Q inference made only through explicit descent/cohomology adapters;
+- complete Q-defined open-algebraic class inventory, including any odd-primary survivors,
+  or an exact certificate that the relevant open-algebraic quotient is empty/trivial.
 ```
 
 Gate:
 
 ```text
 BR0B=DISCHARGED
+BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=true
 ```
 
 or a named smaller exact residual kernel.
@@ -234,37 +252,43 @@ Required work:
 
 No credit from dimension 9 alone.
 
-### Stage33-07 — BR2A Creutz--Viray relation/symbol integration
+### Stage33-07 — BR2A Creutz--Viray relation/symbol integration and full class inventory
 
-Objective: integrate the line-arrangement, K3, physical-boundary and descent data into the exact two-primary relation/symbol machinery required by the endpoint.
+Objective: integrate the BR0B open-algebraic all-primary inventory with the line-arrangement, K3, physical-boundary and two-primary descent data into one complete relevant Q-defined class list for the frozen Stage33 Brauer scope.
 
 Required work:
 
 ```text
-- explicit relation matrix;
-- explicit symbol matrix;
+- import every surviving BR0B Q-defined class, including odd-primary survivors;
+- explicit two-primary relation matrix;
+- explicit two-primary symbol matrix;
 - source-lock exact theorem hypotheses and variable dictionary;
-- quotient by trivial/algebraic/duplicate classes exactly;
+- quotient by trivial/algebraic/duplicate classes exactly without deleting BR0B classes by type;
 - invoke NF-PHYS2 and/or CAMP4 only when their exact hypotheses are met;
-- produce the complete relevant Q-defined two-primary class list, or an exact empty list.
+- produce the complete relevant Q-defined class list for the declared Stage33 Brauer scope,
+  with primary order and provenance recorded for every class, or an exact empty list.
 ```
 
 Gate:
 
 ```text
 BR2A=DISCHARGED
+COMPLETE_RELEVANT_Q_DEFINED_CLASS_LIST_FOR_STAGE33_BRAUER_SCOPE=true
+BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=true
 ```
 
 or named residual.
 
 ### Stage33-08 — BR2B explicit endpoint Brauer representatives
 
-Objective: construct representatives that can actually be evaluated locally on the physical open.
+Objective: construct representatives that can actually be evaluated locally on the physical open for every class in the complete Stage33-07 inventory, regardless of primary order.
 
 For every surviving class record:
 
 ```text
 CLASS_ID
+PRIMARY_ORDER
+PROVENANCE=BR0B|BR0G|BR2|MERGED
 FIELD_OF_DEFINITION=Q
 SYMBOL_OR_ALGEBRA_REPRESENTATIVE
 RAMIFICATION_SUPPORT
@@ -292,6 +316,7 @@ Required work:
   denominators and residue support;
 - include the real place when relevant;
 - never hard-code Q_2 or any prime without representative-based justification;
+- include odd-primary places forced by any BR0B survivor;
 - certify physical local loci/components with exact witnesses or exact local descriptions;
 - prove constancy outside the finite relevant-place set when that reduction is used.
 ```
@@ -306,6 +331,7 @@ Per class/place output:
 
 ```text
 CLASS_ID
+PRIMARY_ORDER
 PLACE
 PHYSICAL_LOCAL_LOCUS_CERTIFIED=true
 EVALUATION_IMAGE
@@ -319,31 +345,32 @@ Numerical sampling is reconnaissance only. Promotion requires exact evaluation i
 
 ### Stage33-11 — physical adelic compatibility, final Brauer verdict, and hostile audit
 
-Objective: combine all exact local images under global reciprocity and determine the physical-open orthogonality status for the complete Stage33-computed relevant two-primary Brauer subgroup.
+Objective: combine all exact local images under global reciprocity and determine the physical-open orthogonality status for the complete frozen Stage29 Brauer kernel executed by Stage33.
 
 Required final alternatives:
 
 ```text
-A. PHYSICAL_COMPUTED_BRAUER_SUBGROUP_SET_EMPTY_CERTIFIED
-   -> the physical adelic set orthogonal to the complete Stage33-computed subgroup is empty
+A. PHYSICAL_STAGE33_BRAUER_SCOPE_SET_EMPTY_CERTIFIED
+   -> the physical adelic set orthogonal to the complete Stage33 class inventory is empty
    -> no physical endpoint Q-point
    -> perfect-cuboid nonexistence, subject to hostile audit of every endpoint adapter.
 
-B. PHYSICAL_COMPUTED_BRAUER_SUBGROUP_SET_NONEMPTY_CERTIFIED
-   -> this completed Stage33 Brauer subgroup does not prove endpoint emptiness;
+B. PHYSICAL_STAGE33_BRAUER_SCOPE_SET_NONEMPTY_CERTIFIED
+   -> this completed Stage33 Brauer mechanism does not prove endpoint emptiness;
    -> record the exact surviving adelic restrictions and close this mechanism negatively;
-   -> this does NOT certify nonemptiness of the full Brauer--Manin set for all Brauer classes.
+   -> this does NOT by itself certify nonemptiness of the full Brauer--Manin set unless
+      FULL_RELEVANT_BRAUER_GROUP_COVERAGE_CERTIFIED=true is separately audited.
 
-C. RELEVANT_STAGE33_BRAUER_SUBGROUP_TRIVIAL_OR_EVALUATIONS_VACUOUS_CERTIFIED
+C. RELEVANT_STAGE33_BRAUER_SCOPE_TRIVIAL_OR_EVALUATIONS_VACUOUS_CERTIFIED
    -> close this Stage33 Brauer mechanism negatively with an exact certificate;
-   -> no claim is made about unrelated Brauer classes or other obstruction mechanisms.
+   -> no claim is made about any Brauer class outside the declared frozen Stage33 scope.
 
 D. NEW_KERNEL_EXPOSED
    -> freeze the smallest exact unresolved theorem/computation dependency;
    -> no nonexistence or negative-route claim beyond the proved prefix.
 ```
 
-A final hostile audit must independently verify source locks, descent, boundary coverage, representative completeness within the declared Stage33 scope, local-place completeness, evaluation images, reciprocity assembly and the endpoint implication.
+A final hostile audit must independently verify source locks, BR0B all-primary completeness, descent, boundary coverage, complete class inventory within the declared Stage33 scope, representative completeness, local-place completeness, evaluation images, reciprocity assembly and the endpoint implication.
 
 ## 3. Stage32 separation firewall
 
@@ -365,13 +392,15 @@ Q_BRAUER_NONZERO_IMPLIES_NONCONSTANT_EVALUATION=false
 NONCONSTANT_EVALUATION_IMPLIES_BM_EMPTY=false
 BASE_COMPLEMENT_BR2_DIM9_IMPLIES_ENDPOINT_BR2_DIM9=false
 K3_QBAR_BR2_DIM2_IMPLIES_TWO_Q_OBSTRUCTIONS=false
+VISIBLE_V4_GALOIS_ACTION_IMPLIES_OPEN_ALGEBRAIC_2_PRIMARY_ONLY=false
+BR2_TWO_PRIMARY_SCOPE_IMPLIES_WHOLE_STAGE33_BRAUER_SCOPE_2_PRIMARY=false
 DAG_COMPLETION_IMPLIES_BM_EMPTY=false
 DAG_COMPLETION_IMPLIES_PERFECT_CUBOID_NONEXISTENCE=false
 PROSPECT_SCAN_NEGATIVE_IMPLIES_ROUTE_IMPOSSIBLE=false
 NUMERICAL_LOCAL_SAMPLING_IMPLIES_EXACT_EVALUATION_IMAGE=false
 EXTERNAL_AI_REVIEW_COUNTS_AS_THEOREM_EVIDENCE=false
-COMPUTED_SUBGROUP_NONEMPTY_IMPLIES_FULL_BM_NONEMPTY=false
-COMPUTED_SUBGROUP_EMPTY_IMPLIES_NO_RATIONAL_ENDPOINT=true
+STAGE33_SCOPE_NONEMPTY_IMPLIES_FULL_BM_NONEMPTY_WITHOUT_FULL_COVERAGE_CERT=false
+STAGE33_SCOPE_EMPTY_IMPLIES_NO_RATIONAL_ENDPOINT=true
 ```
 
 ## 5. Controller / handoff contract
