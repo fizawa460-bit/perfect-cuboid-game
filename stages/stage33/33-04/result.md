@@ -1,93 +1,122 @@
 # Stage33-04 — BR0G physical-boundary residue production state
 
-Hostile audit of PR #1362 accepts the exact geometric/two-primary prefix but rejects promotion to BR0G closure.
+The previous hostile audit of PR #1362 accepted the exact geometric/two-primary prefix and correctly blocked closure on one residual:
+
+```text
+PREVIOUS_AUDIT_VERDICT=PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE
+PREVIOUS_NEW_KERNEL_ID=R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT
+```
+
+That named residual has now been executed directly. No sibling unit is used to weaken the Stage33-04 contract.
 
 ```text
 STAGE33_UNIT=33-04
-UNIT_STATUS=BLOCKED_NEW_KERNEL
+UNIT_STATUS=AUDIT_REQUIRED
 UNIT_CLOSED=false
 DOWNSTREAM_RELEASED=false
-BR0G=OPEN
+BR0G=CLAIMED_DISCHARGED_PENDING_HOSTILE_AUDIT
 PHYSICAL_BOUNDARY_72_INVENTORY_COMPLETE=true
 BOUNDARY_STABLE_IDS_COMPLETE=true
 RESIDUE_INCIDENCE_MATRIX_EXACT=true
 MULTIQUADRATIC_PULLBACK_RESIDUES_EXACT=true
 EXCEPTIONAL_DIVISOR_RESIDUES_EXACT=true
 PHYSICAL_BOUNDARY_OMISSIONS=0
-UNRAMIFIED_PHYSICAL_OPEN_KERNEL_EXACT=false
-UNRESOLVED_UNKNOWN_IN_SCOPE=1
-NEW_KERNEL_ID=R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT
+ARITHMETIC_ODD_CHARACTER_DESCENT_COMPLETE=true
+UNRAMIFIED_PHYSICAL_OPEN_KERNEL_EXACT=true
+UNRESOLVED_UNKNOWN_IN_SCOPE=0
+NEW_KERNEL_ID=NONE
 THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## Audited exact prefix
+## Previously audited exact prefix
 
-Final functional head: `47cb96b6cd7acaa19f7fc51e9f72a8dc8e36964c`.
-
-Final-head workflow evidence:
+The accepted prefix remains unchanged:
 
 ```text
-run = 32701829304
-conclusion = success
-artifact = 9510818470
-artifact_zip_sha256 = 4c2d15df6394004addfb5ae99c40d0161b00174c59f12a5c6069061ca30afb3a
-all_primary_geometric_cycle_certificate_sha256 = 5b8516e39805a6dc9082b222f08ec425dbb9a6d4449ccbd52eee2c98ea81aeb9
-two_primary_function_constant_descent_sha256 = 0fad4339d6554a6546544686c1e54772f43e2a3d0f789f6fa8cdf635ea2250ef
+boundary components = 72 = 24 side + 48 exceptional
+crossings = 144
+connected components = 1
+integral incidence rank = 71
+integral cycle rank = 73
+ct = identity
+rank(cc-I) = 12
+Smith nonzero factors(cc-I) = [1 x 12]
+geometric fixed cycle module = (Q/Z)^61
+Ford/Kummer pullback rank = 0
+F2 Q-fixed cycle dimension = 61
+unit-symbol secondary-residue span = 44
+explicit F2 graph residual = 17
 ```
 
-The physical boundary is exactly
+The exponent-two 17D residual already has exact first-residue realizability, finite V4 divisor descent, and function/constant-squareclass descent with constant cocycle dimension zero.
+
+## Newly executed odd-primary arithmetic-character descent
+
+The source-locked boundary Galois action has 60 arithmetic prime-divisor orbits:
 
 ```text
-24 side strict transforms + 48 exceptional curves = 72 components,
-144 transverse codimension-two crossings,
-1 connected dual graph,
-integral incidence rank = 71,
-integral cycle rank = 73.
+48 geometric boundary components fixed individually by Gal(Q(i,sqrt(2))/Q)
+12 complex-conjugate pairs, fixed by the sqrt(2)-involution
 ```
 
-The saturated cycle lattice and source-locked boundary action give
+Thus the boundary constant fields are exactly `Q` for 48 orbits and `Q(i)` for 12 orbits. The 144 geometric crossings similarly split as
 
 ```text
-ct = identity,
-rank(cc-I) = 12,
-Smith nonzero factors(cc-I) = [1 x 12],
-geometric permutation-cycle fixed module = (Q/Z)^61.
+96 Q-singletons + 24 Q(i)-conjugate pairs.
 ```
 
-At exponent two the exact graph-level decomposition is
+For every odd prime power, neither `Q` nor `Q(i)` has nontrivial odd-order roots of unity. Hence the odd-primary Tate-twist coefficient at every codimension-two crossing has zero invariants. Every compatible odd-primary first residue is therefore unramified on its complete boundary `P^1`, and the unramified character is exactly a constant-field character.
+
+The resulting exact parametric odd-primary boundary character module is
 
 ```text
-QFIXED_RESIDUE_CYCLE_DIM_F2=61
-UNIT_SYMBOL_SECONDARY_RESIDUE_SPAN_RANK_F2=44
-QFIXED_GRAPH_RESIDUAL_DIM_F2=17
+Hom_cont(G_Q,Q/Z)_odd^48
+  direct_sum
+Hom_cont(G_Q(i),Q/Z)_odd^12.
 ```
 
-and the stored 44+17 vectors independently span the full 61-dimensional Q-fixed cycle space.
+This is a parametric exact description, not a finite list of Q-defined Brauer generators. Stage29 already certifies that nonconstant proper-surface odd-primary Brauer classes are absent, while constant proper classes have zero boundary residues. Therefore no additional proper odd-primary quotient changes this boundary residue module.
 
-The seven-line/Ford source pulls back with exact rank zero because the six affine ratios against `Ls=x+y+z` become squares on the endpoint sign/Kummer cover.
-
-## Why the unit is not CLOSED
-
-The final certificates themselves retain
+New production evidence:
 
 ```text
-arithmetic_odd_character_descent_complete=false
-all_primary_physical_open_unramified_kernel_complete=false
-br0g_discharged=false
-new_residual_kernel=R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT
+workflow_run=32704767658
+workflow_rerun_job=97364320359
+workflow_conclusion=success
+artifact_id=9511990569
+artifact_zip_sha256=1b1ad90b4ece3ace6bf378cb33afd3e09688efdcdc4c99ce460820beb9ab530f
+odd_primary_character_descent_sha256=c89e2c2d71a6b48685f4670481bd7b97245b7e772c44ab58da2ca89f5950d3bc
 ```
 
-The completed function/constant-squareclass leaf is explicitly `EXPONENT_TWO_RESIDUAL_ONLY`; it does not identify odd-primary `H^1(-,Z/l)` boundary characters.
+The first attempt of the same workflow failed before the new leaf because the external Magma calculator returned a transient 504 during the already-audited boundary-Galois reconstruction. Re-running only the failed job succeeded through every step, including the new odd-primary leaf.
 
-The authoritative Stage33-04 closure gate requires `UNRAMIFIED_PHYSICAL_OPEN_KERNEL_EXACT=true` and `BR0G=DISCHARGED`. The Stage29 boundary-Gersten receiver also keeps one-variable residue arithmetic/Galois descent inside the BR0G boundary problem. No hostile-audited contract repair has moved this named residual to Stage33-03 or Stage33-07.
+## Closure claim returned to hostile audit
 
-Accordingly the previous pre-audit closure interpretation is superseded. Stage33-03 and Stage33-05 may continue concurrently, but Stage33-06 is not released by Stage33-04.
-
-See `audit.md`, `audit-state.json`, and `handoff.json` for the authoritative audited state.
+The previously isolated unknown is now claimed discharged:
 
 ```text
-AUDIT_VERDICT=PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE
-NEXT_EXPECTED_COMMAND=Stage33-main-batch
+CLOSURE_CRITERIA_TOTAL=10
+CLOSURE_CRITERIA_SATISFIED=10
+UNRESOLVED_UNKNOWN_IN_SCOPE=0
+NEW_KERNEL_ID=NONE
+UNIT_STATUS=AUDIT_REQUIRED
+UNIT_CLOSED=false
+DOWNSTREAM_RELEASED=false
+```
+
+This is not a self-certified closure. Stage33 progress remains `2/11`, and Stage33-06 remains locked until hostile audit accepts Stage33-04 as `CLOSED`.
+
+Firewalls:
+
+```text
+COMPLETE_Q_DEFINED_BRAUER_CLASS_LIST=false
+BRAUER_MANIN_OBSTRUCTION_CLAIM=false
+PERFECT_CUBOID_EXISTENCE_CLAIM=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+```
+
+```text
+NEXT_EXPECTED_COMMAND=Stage33-audit
 ```
