@@ -1,0 +1,140 @@
+name: Stage32-08 materialization schedule profile
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-08/profile_materialization_schedule.py'
+      - '.github/workflows/stage32-08-materialization-profile.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  profile:
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: e8-a36
+            e: 8
+            a: 36
+            expected_cells: 53
+            expected_exceptional_assignments: 95973
+          - label: e10-a30
+            e: 10
+            a: 30
+            expected_cells: 134
+            expected_exceptional_assignments: 703688
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile schedule profiler
+        run: python -m py_compile stages/stage32/32-08/profile_materialization_schedule.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+      - name: Profile exact materialization branch counts
+        run: |
+          python stages/stage32/32-08/profile_materialization_schedule.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/materialization-profile.json" \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }}
+      - name: Enforce locked inventory and firewalls
+        env:
+          EXPECTED_CELLS: ${{ matrix.expected_cells }}
+          EXPECTED_ASSIGNMENTS: ${{ matrix.expected_exceptional_assignments }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/materialization-profile.json'
+          d=json.loads(p.read_text())
+          assert d['schema']=='STAGE32_D8_MATERIALIZATION_SCHEDULE_PROFILE_V1'
+          assert d['signature_cell_count']==int(os.environ['EXPECTED_CELLS'])
+          assert d['exceptional_assignment_count_after_qtail_quotient']==int(os.environ['EXPECTED_ASSIGNMENTS'])
+          assert d['profile_only'] is True
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED'
+          assert d['R29_LG2_EFF']=='NOT_DISCHARGED'
+          assert d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({
+              'e':d['exceptional_mass'],
+              'a':d['curve_group_mass'],
+              'cells':d['signature_cell_count'],
+              'assignments':d['exceptional_assignment_count_after_qtail_quotient'],
+              'total_branches':d['total_materialized_branch_count'],
+              'min':d['min_materialized_branch_count'],
+              'max':d['max_materialized_branch_count'],
+              'profile':d['branch_count_cumulative_profile'],
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-${{ matrix.label }}-materialization-profile
+          path: ${{ runner.temp }}/out/materialization-profile.json
+          if-no-files-found: error
+
+  summary:
+    name: materialization schedule summary
+    needs: profile
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-08-*-materialization-profile
+          path: ${{ runner.temp }}/all
+      - name: Summarize profiles
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('${{ runner.temp }}')/'all'
+          rows=[]
+          for p in sorted(root.glob('stage32-08-*-materialization-profile/materialization-profile.json')):
+              d=json.loads(p.read_text())
+              rows.append({
+                  'e':d['exceptional_mass'],
+                  'a':d['curve_group_mass'],
+                  'cells':d['signature_cell_count'],
+                  'assignments':d['exceptional_assignment_count_after_qtail_quotient'],
+                  'total_branches':d['total_materialized_branch_count'],
+                  'min':d['min_materialized_branch_count'],
+                  'max':d['max_materialized_branch_count'],
+                  'profile':d['branch_count_cumulative_profile'],
+              })
+          assert len(rows)==2, rows
+          out={'schema':'STAGE32_D8_MATERIALIZATION_SCHEDULE_SUMMARY_V1','rows':rows,'theorem_credit':False,'receiver_credit':False,'G10_LOWGENUS_PICARD':'AMBER'}
+          q=pathlib.Path('${{ runner.temp }}')/'stage32-08-materialization-profile-summary.json'
+          q.write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(rows,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-materialization-profile-summary
+          path: ${{ runner.temp }}/stage32-08-materialization-profile-summary.json
+          if-no-files-found: error

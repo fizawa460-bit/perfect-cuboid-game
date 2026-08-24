@@ -1,0 +1,165 @@
+name: Stage32-08 exact <=64-branch parent tiers
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-08/run_materialized_parent_tier.py'
+      - '.github/workflows/stage32-08-tier64.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  tier64:
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: e8-a36-le64
+            e: 8
+            a: 36
+            threshold: 64
+            expected_cells: 21
+            expected_branches: 701
+          - label: e10-a30-le64
+            e: 10
+            a: 30
+            threshold: 64
+            expected_cells: 58
+            expected_branches: 2140
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Compile exhaustive tier runner
+        run: python -m py_compile stages/stage32/32-08/run_materialized_parent_tier.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+      - name: Exhaust exact <=64-branch tier
+        run: |
+          python stages/stage32/32-08/run_materialized_parent_tier.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/tier64.json" \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --branch-threshold ${{ matrix.threshold }} \
+            --node-limit-per-branch 1000000
+      - name: Enforce exact tier inventory and firewalls
+        env:
+          EXPECTED_CELLS: ${{ matrix.expected_cells }}
+          EXPECTED_BRANCHES: ${{ matrix.expected_branches }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/tier64.json').read_text())
+          assert d['schema']=='STAGE32_D8_MATERIALIZED_PARENT_TIER_EXHAUSTIVE_V1'
+          assert d['algorithm_id']=='D8_PARENT_LOW_BRANCH_TIER_SHARED_QTAIL12_EXHAUSTIVE_V1'
+          assert d['parameters']['branch_threshold']==64
+          assert d['tier_inventory']['selected_cell_count']==int(os.environ['EXPECTED_CELLS'])
+          assert d['tier_inventory']['scheduled_materialized_branch_count']==int(os.environ['EXPECTED_BRANCHES'])
+          assert d['shared_context']['kernel_dimension']==12
+          assert d['complete_cell_count'] + d['unknown_cell_count'] == d['tier_inventory']['selected_cell_count']
+          assert d['exact_unsat_cell_count'] + d['exact_sat_cell_count'] == d['complete_cell_count']
+          if d['tier_complete_numerical_enumeration']:
+              assert d['unknown_cell_count']==0
+              assert d['exact_numerical_survivor_count_in_complete_tier']==len(d['confirmed_numerical_survivors'])
+              assert all(c['complete_numerical_enumeration'] is True for c in d['cells'])
+          else:
+              assert d['unknown_cell_count']>0
+              assert d['exact_numerical_survivor_count_in_complete_tier'] is None
+          assert d['numerical_census_scope']=='SELECTED_LOW_BRANCH_SIGNATURE_CELL_TIER_ONLY'
+          assert d['full_parent_complete'] is False
+          assert d['effectivity_classification_complete'] is False
+          assert d['actual_curve_existence_claim'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED'
+          assert d['R29_LG2_EFF']=='NOT_DISCHARGED'
+          assert d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({
+              'e':d['parameters']['exceptional_mass'],
+              'a':d['parameters']['curve_group_mass'],
+              'cells':d['tier_inventory']['selected_cell_count'],
+              'branches':d['tier_inventory']['scheduled_materialized_branch_count'],
+              'complete_cells':d['complete_cell_count'],
+              'unsat_cells':d['exact_unsat_cell_count'],
+              'sat_cells':d['exact_sat_cell_count'],
+              'unknown_cells':d['unknown_cell_count'],
+              'survivors':len(d['confirmed_numerical_survivors']),
+              'tier_complete':d['tier_complete_numerical_enumeration'],
+              'sha':d['deterministic_sha256_without_runtime'],
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-${{ matrix.label }}-exact-tier
+          path: ${{ runner.temp }}/out/tier64.json
+          if-no-files-found: error
+
+  summary:
+    name: <=64 tier summary
+    needs: tier64
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-08-*-le64-exact-tier
+          path: ${{ runner.temp }}/all
+      - name: Summarize
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('${{ runner.temp }}')/'all'
+          rows=[]
+          for p in sorted(root.glob('stage32-08-*-le64-exact-tier/tier64.json')):
+              d=json.loads(p.read_text())
+              rows.append({
+                  'e':d['parameters']['exceptional_mass'],
+                  'a':d['parameters']['curve_group_mass'],
+                  'cells':d['tier_inventory']['selected_cell_count'],
+                  'branches':d['tier_inventory']['scheduled_materialized_branch_count'],
+                  'complete_cells':d['complete_cell_count'],
+                  'unsat_cells':d['exact_unsat_cell_count'],
+                  'sat_cells':d['exact_sat_cell_count'],
+                  'unknown_cells':d['unknown_cell_count'],
+                  'survivors':len(d['confirmed_numerical_survivors']),
+                  'complete':d['tier_complete_numerical_enumeration'],
+                  'sha':d['deterministic_sha256_without_runtime'],
+              })
+          out={'schema':'STAGE32_D8_TIER64_SUMMARY_V1','rows':rows,'theorem_credit':False,'receiver_credit':False,'G10_LOWGENUS_PICARD':'AMBER'}
+          q=pathlib.Path('${{ runner.temp }}')/'stage32-08-tier64-summary.json'
+          q.write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(rows,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-tier64-summary
+          path: ${{ runner.temp }}/stage32-08-tier64-summary.json
+          if-no-files-found: error

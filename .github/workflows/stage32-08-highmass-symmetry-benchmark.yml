@@ -1,0 +1,157 @@
+name: Stage32-08 high-mass symmetry-cell benchmark
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-08/**'
+      - '.github/workflows/stage32-08-highmass-symmetry-benchmark.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  paired-benchmark:
+    name: ${{ matrix.parent }}-${{ matrix.symmetry }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - parent: e8-a36
+            e: 8
+            a: 36
+            symmetry: none
+          - parent: e8-a36
+            e: 8
+            a: 36
+            symmetry: a-stabilizer
+          - parent: e10-a30
+            e: 10
+            a: 30
+            symmetry: none
+          - parent: e10-a30
+            e: 10
+            a: 30
+            symmetry: a-stabilizer
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile exact benchmark
+        run: python -m py_compile stages/stage32/32-08/run_symmetry_cell_benchmark.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Download audited source-locked Aut permutations
+        run: >-
+          gh run download 32674649970
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-07-d8g0-e2-a54-aut-orbits
+          --dir "$RUNNER_TEMP/aut"
+      - name: Re-derive exact 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+      - name: Run paired exact cell benchmark
+        run: |
+          python stages/stage32/32-08/run_symmetry_cell_benchmark.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --action "$RUNNER_TEMP/aut/aut-action.json" \
+            --output "$RUNNER_TEMP/out/benchmark.json" \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --genus 0 \
+            --cell-timeout 3 \
+            --cell-limit 16 \
+            --symmetry ${{ matrix.symmetry }}
+      - name: Enforce benchmark firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/benchmark.json'
+          d=json.loads(p.read_text())
+          assert d['schema']=='STAGE32_D8_A_STABILIZER_SYMMETRY_BENCHMARK_V1'
+          assert d['full_aut_order']==1536
+          assert d['a_stabilizer_order']==64
+          assert d['benchmarked_cell_count']==16
+          if d['parameters']['symmetry']=='a-stabilizer':
+              assert d['a_stabilizer_nonidentity_lex_constraints']==63
+          else:
+              assert d['a_stabilizer_nonidentity_lex_constraints']==0
+          assert d['performance_only'] is True
+          assert d['parent_exactly_closed'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED'
+          assert d['R29_LG2_EFF']=='NOT_DISCHARGED'
+          assert d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({'results':d['solver_result_counts'],'solver_seconds':d['total_solver_seconds'],'subgroup':d['a_stabilizer_order']},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-${{ matrix.parent }}-${{ matrix.symmetry }}
+          path: ${{ runner.temp }}/out
+          if-no-files-found: error
+
+  summary:
+    name: paired symmetry benchmark summary
+    needs: paired-benchmark
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-08-*
+          path: ${{ runner.temp }}/all
+      - name: Compare identical immutable cells
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('${{ runner.temp }}')/'all'
+          data={}
+          for p in root.glob('stage32-08-*/benchmark.json'):
+              d=json.loads(p.read_text())
+              key=(d['parameters']['exceptional_mass'],d['parameters']['curve_group_mass'],d['parameters']['symmetry'])
+              data[key]=d
+          assert len(data)==4, data.keys()
+          rows=[]
+          for e,a in ((8,36),(10,30)):
+              b=data[(e,a,'none')]
+              s=data[(e,a,'a-stabilizer')]
+              assert b['signature_cell_inventory']['cell_inventory_sha256']==s['signature_cell_inventory']['cell_inventory_sha256']
+              assert [r['cell_id'] for r in b['solver_rows']]==[r['cell_id'] for r in s['solver_rows']]
+              row={
+                  'e':e,'a':a,'cells':16,
+                  'baseline':b['solver_result_counts'],
+                  'symmetry':s['solver_result_counts'],
+                  'baseline_seconds':b['total_solver_seconds'],
+                  'symmetry_seconds':s['total_solver_seconds'],
+                  'a_stabilizer_order':s['a_stabilizer_order'],
+              }
+              rows.append(row)
+          out={'schema':'STAGE32_D8_A_STABILIZER_AB_SUMMARY_V1','rows':rows,'performance_only':True,'theorem_credit':False,'receiver_credit':False,'G10_LOWGENUS_PICARD':'AMBER'}
+          q=pathlib.Path('${{ runner.temp }}')/'stage32-08-summary.json'
+          q.write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(rows,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-symmetry-ab-summary
+          path: ${{ runner.temp }}/stage32-08-summary.json
+          if-no-files-found: error

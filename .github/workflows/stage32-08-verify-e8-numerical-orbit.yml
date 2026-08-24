@@ -1,0 +1,94 @@
+name: Stage32-08 verify e8 numerical Aut orbit
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-08/verify_e8_numerical_orbit.py'
+      - '.github/workflows/stage32-08-verify-e8-numerical-orbit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact dependency
+        run: pip install sympy==1.14.0
+      - name: Compile independent verifier
+        run: python -m py_compile stages/stage32/32-08/verify_e8_numerical_orbit.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Download audited source-locked Aut action
+        run: >-
+          gh run download 32674649970
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-07-d8g0-e2-a54-aut-orbits
+          --dir "$RUNNER_TEMP/aut"
+      - name: Download materialized SAT witness
+        run: >-
+          gh run download 32678030657
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-08-e8-a36-cell0-materialized
+          --dir "$RUNNER_TEMP/materialized"
+      - name: Independently verify witness and full Aut orbit
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-08/verify_e8_numerical_orbit.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --action "$RUNNER_TEMP/aut/aut-action.json" \
+            --materialized "$RUNNER_TEMP/materialized/materialized-cell.json" \
+            --output "$RUNNER_TEMP/out/e8-numerical-orbit-verification.json"
+      - name: Enforce exact numerical scope and firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/e8-numerical-orbit-verification.json').read_text())
+          assert d['schema']=='STAGE32_D8_E8_NEW_NUMERICAL_AUT_ORBIT_VERIFICATION_V1'
+          assert d['source_lock']['independently_recomputed_aut_order']==1536
+          assert d['witness_verification']['degree']==8
+          assert d['witness_verification']['self_intersection']==0
+          assert d['witness_verification']['exceptional_mass']==8
+          assert d['witness_verification']['curve_group_mass_a']==36
+          assert d['witness_verification']['all_140_cap_bounds_verified'] is True
+          assert d['witness_verification']['known_140_exact_match'] is False
+          assert d['full_aut_orbit']['orbit_size']==6
+          assert d['full_aut_orbit']['stabilizer_order']==256
+          assert d['full_aut_orbit']['a_distribution']=={'32':1,'36':5}
+          assert d['scope']=='NUMERICAL_PICARD_CANDIDATE_ORBIT_ONLY'
+          assert d['effectivity_classification_complete'] is False
+          assert d['actual_curve_existence_claim'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED'
+          assert d['R29_LG2_EFF']=='NOT_DISCHARGED'
+          assert d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({
+              'aut_order':1536,
+              'orbit_size':6,
+              'stabilizer':256,
+              'a_distribution':{'32':1,'36':5},
+              'scope':d['scope'],
+              'canonical_sha256':d['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-e8-new-numerical-aut-orbit-verification
+          path: ${{ runner.temp }}/out/e8-numerical-orbit-verification.json
+          if-no-files-found: error

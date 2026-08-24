@@ -1,0 +1,161 @@
+name: Stage32-08 affine-coset hard-cell pilot
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-08/run_signature_cell_affine_coset.py'
+      - 'stages/stage32/32-08/run_signature_cell_affine_coset_sequential.py'
+      - '.github/workflows/stage32-08-affine-coset-pilot.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  cell-pilot:
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: e10-a30-cell1
+            e: 10
+            a: 30
+            cell_index: 1
+            cell_id: 02066d9eeb06efcf04b0d750
+          - label: e8-a36-cell0
+            e: 8
+            a: 36
+            cell_index: 0
+            cell_id: 0451bcae6084559bbb842530
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Compile exact coset pilot
+        run: >-
+          python -m py_compile
+          stages/stage32/32-08/run_signature_cell_affine_coset.py
+          stages/stage32/32-08/run_signature_cell_affine_coset_sequential.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+      - name: Exact sequential-HNF coset plus bounded complete-search pilot
+        run: |
+          python stages/stage32/32-08/run_signature_cell_affine_coset_sequential.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/coset-pilot.json" \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --genus 0 \
+            --cell-index ${{ matrix.cell_index }} \
+            --expected-cell-id ${{ matrix.cell_id }} \
+            --node-limit 250000
+      - name: Enforce pilot firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/coset-pilot.json'
+          d=json.loads(p.read_text())
+          assert d['schema']=='STAGE32_D8_SIGNATURE_CELL_AFFINE_COSET_PILOT_V2'
+          assert d['algorithm_id']=='D8_SIGNATURE_CELL_PICARD_BASIS_SEQUENTIAL_MOD8_HNF_COSET_GRAM_LLL_FP140_V1'
+          assert d['coset_certificate']['coordinate_system']=='primitive_picard_basis_x'
+          assert d['coset_certificate']['selected_membership_congruences_eliminated_by_basis_choice'] is True
+          assert d['coset_certificate']['congruence_augmented_hnf']['sequential_mod8'] is True
+          assert d['coset_certificate']['projected_congruence_kernel_rank']==64
+          assert d['coset_certificate']['final_kernel_dimension'] < 64
+          assert d['search']['solver_result'] in {'UNSAT','SAT_WITNESS','UNSAT_RADIUS','UNKNOWN_NODE_BUDGET'}
+          if d['search']['solver_result'] in {'UNSAT','UNSAT_RADIUS','SAT_WITNESS'}:
+              assert d['search']['complete_for_existence'] is True
+          else:
+              assert d['search']['complete_for_existence'] is False
+          assert d['performance_pilot'] is True
+          assert d['parent_exactly_closed'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED'
+          assert d['R29_LG2_EFF']=='NOT_DISCHARGED'
+          assert d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({
+              'cell':d['parameters']['cell_id'],
+              'congruence_rows':d['coset_certificate']['deduplicated_congruence_row_count'],
+              'active_mod8_rows':d['coset_certificate']['congruence_augmented_hnf']['active_row_count'],
+              'equality_rank':d['coset_certificate']['independent_equality_row_count'],
+              'kernel_dimension':d['coset_certificate']['final_kernel_dimension'],
+              'result':d['search']['solver_result'],
+              'nodes':d['search']['enumeration_node_count'],
+              'leaves':d['search']['checked_leaf_count'],
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage32-08-${{ matrix.label }}-affine-coset
+          path: ${{ runner.temp }}/out
+          if-no-files-found: warn
+
+  summary:
+    name: affine-coset pilot summary
+    needs: cell-pilot
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-08-*-affine-coset
+          path: ${{ runner.temp }}/all
+      - name: Summarize bounded adapter
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('${{ runner.temp }}')/'all'
+          rows=[]
+          for p in sorted(root.glob('stage32-08-*-affine-coset/coset-pilot.json')):
+              d=json.loads(p.read_text())
+              rows.append({
+                  'e':d['parameters']['exceptional_mass'],
+                  'a':d['parameters']['curve_group_mass'],
+                  'cell':d['parameters']['cell_id'],
+                  'congruence_rows':d['coset_certificate']['deduplicated_congruence_row_count'],
+                  'active_mod8_rows':d['coset_certificate']['congruence_augmented_hnf']['active_row_count'],
+                  'equality_rank':d['coset_certificate']['independent_equality_row_count'],
+                  'kernel_dimension':d['coset_certificate']['final_kernel_dimension'],
+                  'coset_index':d['coset_certificate']['projected_congruence_kernel_determinant_abs'],
+                  'result':d['search']['solver_result'],
+                  'nodes':d['search']['enumeration_node_count'],
+                  'leaves':d['search']['checked_leaf_count'],
+                  'seconds':d['search']['elapsed_seconds'],
+              })
+          assert len(rows)==2, rows
+          out={'schema':'STAGE32_D8_AFFINE_COSET_PILOT_SUMMARY_V3','rows':rows,'theorem_credit':False,'receiver_credit':False,'G10_LOWGENUS_PICARD':'AMBER'}
+          q=pathlib.Path('${{ runner.temp }}')/'stage32-08-affine-coset-summary.json'
+          q.write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(rows,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-affine-coset-summary
+          path: ${{ runner.temp }}/stage32-08-affine-coset-summary.json
+          if-no-files-found: error

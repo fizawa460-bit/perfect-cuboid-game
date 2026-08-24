@@ -24,13 +24,45 @@ The pilot builds an exact bounded-multiplicity replacement for the binary MITM l
 
 The discovery workflow deliberately uses three solve parents of increasing size plus one count-only stress parent.  The stress parent measures compression of the bounded exceptional space but receives no mathematical closure credit.
 
-Mandatory firewalls:
+## Audited bounded result from PR #1352
+
+Hostile audit verdict:
+
+```text
+AUDIT_VERDICT=PASS_D8_G0_E2_COMPLETE_NUMERICAL_AUT_ORBIT_SLICE
+MERGE_ALLOWED=true
+ADVANCE_ALLOWED=true
+```
+
+The complete bounded numerical slice `(d,g,e)=(8,0,2)` is now accepted at numerical-orbit scope:
+
+```text
+aggregate-feasible a values = {53,54}
+a=53 numerical classes      = 32
+a=54 numerical classes      = 160
+total numerical classes     = 192
+Aut(S) order                 = 1536
+Aut orbit count              = 1
+full orbit size              = 192
+```
+
+The final enumeration is deterministic finite `qhead 4 + qtail 6+6`, not an SMT-timeout closure.  The `a=54` parent was reproduced on the audited head with the same parent/survivor hashes.  The Aut(S) action is re-exported from the locked Stoll upstream source, and the induced permutation group is independently reconstructed with order 1536.
+
+Accepted complete-slice certificate:
+
+```text
+D8_G0_E2_NUMERICAL_ORBIT_SLICE_COMPLETE=true
+canonical_sha256=694fc24a13b51464c510b5812a60e9ea7a6746113db91a6d85c55f9234b4250f
+```
+
+This is **not** effectivity credit and does not close the full degree-8 row.
+
+Mandatory firewalls remain:
 
 ```text
 THEOREM_CREDIT=false
-AUDIT_STATUS=PENDING
 RECEIVER_CREDIT=false
-LOW_DEGREE_PREFIX_COMPLETE=false
+FULL_D8_G0_ROW_COMPLETE=false
 FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=false
 R29_LG2_NUMERICAL_COMPONENT_COMPLETE=false
 R29_LG2=NOT_DISCHARGED
@@ -39,6 +71,18 @@ R29_LG2_MB=NOT_DISCHARGED
 G10_LOWGENUS_PICARD=AMBER
 ```
 
+## Next Class-2 wall
+
+The higher-mass parents are the unresolved successor.  The exact signature inventory already gives:
+
+```text
+e8/a36  :     95,973 exceptional assignments ->   53 signature cells
+e10/a30 :    703,688 exceptional assignments ->  134 signature cells
+e20/a0  : 1,032,477,716 exceptional assignments -> 1,182 signature cells
+```
+
+The generic QF_NIA cell solver times out on representative nontrivial cells.  Do not promote UNKNOWN, do not substitute longer timeouts, and do not materialize the billion-state stress parent.  The successor must introduce an independently exact symmetry-aware or lattice-aware cell solver/reducer.
+
 ## Scope stop
 
-This PR is a bounded algorithm/closure pilot, not the degree-8 row sweep.  Do not launch all degree-8 parents or any degree above 8 until the pilot demonstrates that the signature-cell partition is both complete and computationally useful.  If any solve parent reaches `UNKNOWN(timeout)`, preserve the exact cell inventory and expose that signature cell as the next Class-2 wall rather than extending timeouts blindly.
+Stage32-07 itself is complete at the audited `e=2` numerical-orbit slice.  Work beyond that point belongs to the next Stage32 unit.  Effectivity, the full `d=8` row, the full low-degree census, and all Stage29 receiver credit remain open.
