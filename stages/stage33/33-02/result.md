@@ -72,6 +72,7 @@ workflow_conclusion      = success
 certificate_sha256       = 2e365c273f2aae44adb7a871c864fa55d19a95336686b13a5eef245175f8bcd1
 artifact_id              = 9505606017
 artifact_zip_sha256      = ad4c4a2b041540aeb5ffaf5d511c9e866291d500acc8dfca0c1a9d2d8dccb40e
+regression_rerun         = 32685907716 success
 ```
 
 ## Gate state
