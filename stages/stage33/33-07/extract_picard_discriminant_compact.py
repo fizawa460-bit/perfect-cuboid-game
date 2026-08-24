@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Extract the endpoint Picard discriminant form and V4 action compactly.
 
-The expensive Smith transformation is done inside Magma.  Only the 14
-nontrivial Smith coordinates, their cc/ct action, and the discriminant bilinear
-form are emitted.  This avoids the slow 64x64 SymPy transformation path.
+The expensive Smith transformation is done inside Magma. Only the 14
+nontrivial Smith coordinates are emitted, already reduced modulo their finite
+orders. The discriminant quadratic form is transported by its numerator over 8
+(off-diagonal mod 8, diagonal mod 16), so no huge Smith-transform entries cross
+the public calculator output boundary.
 """
 import ast
 import hashlib
@@ -40,7 +42,6 @@ assert Gcc*pmPic*Transpose(Gcc) eq pmPic;
 assert Gct*pmPic*Transpose(Gct) eq pmPic;
 assert Gcc^2 eq I64 and Gct^2 eq I64 and Gcc*Gct eq Gct*Gcc;
 
-// Request only the right Smith transformation V: D = ? * pmPic * V.
 D, _, V := SmithForm(pmPic);
 diag := [Abs(Integers()!D[j,j]) : j in [1..64]];
 pos := [j : j in [1..64] | diag[j] gt 1];
@@ -49,9 +50,7 @@ assert mods eq [2 : j in [1..4]] cat [4 : j in [1..6]] cat [8 : j in [1..4]];
 Vin := V^-1;
 Bcc := Vin * Transpose(Gcc^-1) * V;
 Bct := Vin * Transpose(Gct^-1) * V;
-assert IsIntegral(Bcc) and IsIntegral(Bct);
 
-// Discriminant bilinear form in Smith quotient coordinates y=z*V.
 Pinv := ChangeRing(pmPic,Rationals())^-1;
 Vinq := ChangeRing(Vin,Rationals());
 Bd := Vinq * Pinv * Transpose(Vinq);
@@ -66,9 +65,9 @@ printf "STAGE33_07_DISC_COMPACT_BEGIN\n";
 printf "MODS=%o\n", mods;
 printf "PIC_DET=%o\n", Determinant(pmPic);
 for a in [1..#pos] do
- printf "CC_ROW_%o=%o\n",a,[Integers()!Bcc[pos[a],pos[b]] : b in [1..#pos]];
- printf "CT_ROW_%o=%o\n",a,[Integers()!Bct[pos[a],pos[b]] : b in [1..#pos]];
- printf "B8_ROW_%o=%o\n",a,[Integers()!B8[pos[a],pos[b]] : b in [1..#pos]];
+ printf "CC_ROW_%o=%o\n",a,[Integers()!Bcc[pos[a],pos[b]] mod mods[b] : b in [1..#pos]];
+ printf "CT_ROW_%o=%o\n",a,[Integers()!Bct[pos[a],pos[b]] mod mods[b] : b in [1..#pos]];
+ printf "B8_ROW_%o=%o\n",a,[Integers()!B8[pos[a],pos[b]] mod (a eq b select 16 else 8) : b in [1..#pos]];
 end for;
 printf "STAGE33_07_DISC_COMPACT_END\n";
 '''
@@ -86,7 +85,10 @@ def grab(name):
     return ast.literal_eval(m.group(1))
 
 mods = [int(x) for x in grab('MODS')]
-det = int(re.search(r'^PIC_DET=(-?\d+)$', stdout, re.M).group(1))
+det_match = re.search(r'^PIC_DET=(-?\d+)$', stdout, re.M)
+if not det_match:
+    raise SystemExit('missing PIC_DET')
+det = int(det_match.group(1))
 if mods != [2]*4 + [4]*6 + [8]*4 or abs(det) != 2**28:
     raise SystemExit('endpoint discriminant regression')
 
@@ -98,7 +100,6 @@ for r in range(1,15):
 if any(len(row)!=14 for M in (cc,ct,b8) for row in M):
     raise SystemExit('compact row length regression')
 
-# Reduce row-action matrices by target-coordinate moduli.
 def red(M):
     return [[M[i][j] % mods[j] for j in range(14)] for i in range(14)]
 cc=red(cc); ct=red(ct)
@@ -107,13 +108,12 @@ def well(M):
     return all((mods[i]*M[i][j]) % mods[j] == 0 for i in range(14) for j in range(14))
 def mul(A,B):
     return [[sum(A[i][k]*B[k][j] for k in range(14)) % mods[j] for j in range(14)] for i in range(14)]
-I=[[1 if i==j else 0 for j in range(14)] for i in range(14)]
-I=red(I)
+I=red([[1 if i==j else 0 for j in range(14)] for i in range(14)])
 if not well(cc) or not well(ct):
     raise SystemExit('mixed-modulus action not well-defined')
 if mul(cc,cc)!=I or mul(ct,ct)!=I or mul(cc,ct)!=mul(ct,cc):
     raise SystemExit('mixed-modulus V4 relation failed')
-if any(b8[i][j] != b8[j][i] for i in range(14) for j in range(14)):
+if any((b8[i][j]-b8[j][i]) % (16 if i==j else 8) for i in range(14) for j in range(14)):
     raise SystemExit('discriminant form lost symmetry')
 
 # Preserve q modulo 2: off-diagonal numerator differences are mod 8,
@@ -129,7 +129,7 @@ for name,M in [('cc',cc),('ct',ct)]:
                 raise SystemExit(f'{name} does not preserve discriminant quadratic form at {i},{j}')
 
 cert={
-    'schema':'STAGE33_07_PICARD_DISCRIMINANT_COMPACT_V1',
+    'schema':'STAGE33_07_PICARD_DISCRIMINANT_COMPACT_V2',
     'source_locks':{
         'upstream_git_blob_sha1':blob,
         'submitted_code_sha256':hashlib.sha256(code.encode()).hexdigest(),
@@ -142,8 +142,8 @@ cert={
     'picard_discriminant_group':'(Z/2)^4 direct_sum (Z/4)^6 direct_sum (Z/8)^4',
     'cc_action_mixed_moduli':cc,
     'ct_action_mixed_moduli':ct,
-    'discriminant_bilinear_numerator_over_8':b8,
-    'quadratic_value_convention':'q(x)=x*B8*x^T/8 mod 2Z',
+    'discriminant_bilinear_numerator_over_8_reduced':b8,
+    'quadratic_value_convention':'q(x)=x*B8*x^T/8 mod 2Z; offdiag B8 mod8, diagonal mod16',
     'mixed_action_well_defined':True,
     'cc_ct_involutions_and_commute':True,
     'cc_ct_preserve_discriminant_quadratic_form':True,
