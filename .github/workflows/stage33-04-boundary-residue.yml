@@ -49,6 +49,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python diagnose_q_unit_pullbacks.py
+      - name: Lift all 17 linear-factor ratios through the injective side projection
+        working-directory: stages/stage33/33-04
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python lift_linear_factor_unit_divisors.py
       - name: Upload exact Stage33-04 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -64,3 +69,4 @@ jobs:
             stages/stage33/33-04/unit-symbol-residue-span.json
             stages/stage33/33-04/q-unit-magma-stdout.txt
             stages/stage33/33-04/q-unit-pullback-diagnostic.json
+            stages/stage33/33-04/linear-factor-unit-lifts.json
