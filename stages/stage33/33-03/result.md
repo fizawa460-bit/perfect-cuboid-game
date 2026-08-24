@@ -11,146 +11,137 @@ UPIC_V4_INTEGRAL_ACTION_EXACT=true
 UNIT_LATTICE_V4_ACTION_EXACT=true
 PICU_INTEGRAL_V4_ACTION_EXACT=true
 ODD_PRIMARY_BR0B_PARAMETRICALLY_COMPLETE=true
-TWO_PRIMARY_TRANSGRESSION_COMPLETE=false
+FINITE_V4_HYPERCOHOMOLOGY_EXACT=true
+FINITE_V4_H2=(Z/2)^33
+ABSOLUTE_TWO_PRIMARY_INFLATION_RESTRICTION_COMPLETE=false
 THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## 1. Exact V4 action on the unit lattice
+## 1. Exact V4 action and odd-primary closure
 
-The pinned Testa--Stoll source gives the two generators of
+The pinned Testa--Stoll source gives
 
 ```text
 Gal(Q(i,sqrt(2))/Q) ~= V4.
 ```
 
-Using the hostile-audited Stage33-02 kernel
+The hostile-audited Stage33-02 kernel is
 
 ```text
-U_D = ker(Div_D -> Pic(Sbar)) ~= Z^14,
+U_D = ker(Div_D -> Pic(Sbar)) ~= Z^14.
 ```
 
-CI run `32687868403` induces the exact integral action.  Both Galois generators act trivially:
+Both V4 generators act trivially on this rank-14 integral lattice.  The free rank-six part of
 
 ```text
-unit character traces:
-  id  = 14
-  cc  = 14
-  ct  = 14
-  cct = 14
-
-V4 character multiplicities:
-  (+,+) = 14
-  (+,-) = 0
-  (-,+) = 0
-  (-,-) = 0
+Pic(Ubar) ~= Z^6 + (Z/2)^2
 ```
 
-Since the action on the compactification complex factors through this pinned V4, the full absolute-Galois action on `U_D` is trivial.
-
-## 2. Exact rational action on Pic(Ubar)
-
-Stage33-02 gives
+has rational V4 character multiplicities
 
 ```text
-Pic(U_Qbar) ~= Z^6 + Z/2 + Z/2.
+(+,+)=0, (+,-)=3, (-,+)=2, (-,-)=1,
 ```
 
-The basis-invariant rational character is obtained from the exact sequence
+and the full `(Z/2)^2` torsion subgroup is jointly fixed.
 
-```text
-0 -> U_D -> Div_D -> Pic(Sbar) -> Pic(Ubar) -> 0.
-```
+The Stage32 primitive Picard basis and the internal Testa--Stoll Picard basis are related by an exact unimodular change of basis with determinant `-1`, so no cross-basis identification is assumed.
 
-The free rank-six quotient has
-
-```text
-character traces:
-  id  =  6
-  cc  =  0
-  ct  = -2
-  cct = -4
-
-V4 character multiplicities:
-  (+,+) = 0
-  (+,-) = 3
-  (-,+) = 2
-  (-,-) = 1.
-```
-
-In particular the free part has no trivial rational character.
-
-## 3. Complete odd-primary BR0B contribution
-
-The UPic truncation long exact sequence is used only prime-by-prime.  At every odd prime:
-
-- `Pic(Ubar)^G` has no odd-primary contribution because the free part has no trivial character and the only torsion is `(Z/2)^2`;
-- `H^1(Q,Pic(Ubar))_odd=0`: the free action factors through the order-four group V4, while the torsion is 2-primary;
-- `U_D ~= Z^14` is a trivial absolute-Galois lattice.
-
-Therefore the odd-primary open-algebraic Brauer contribution is exactly
+For every odd prime the finite-quotient correction is 2-primary, while `U_D` is a trivial absolute-Galois lattice.  Hence
 
 ```text
 H^2(Q,UPic(Ubar))_odd
- ~= H^2(Q,Z^14)_odd
  ~= Hom_cont(G_Q,Q/Z)_odd^14.
 ```
-
-This is a complete parametric description, not a finite enumeration.  It is also the reason Stage33 must not silently drop open-algebraic odd-primary classes.
 
 ```text
 ODD_PRIMARY_BR0B_PARAMETRICALLY_COMPLETE=true
 ODD_PRIMARY_BR0B=Hom_cont(G_Q,Q/Z)_odd^14
 ```
 
-## 4. Integral Pic(Ubar) action and basis firewall closure
+## 2. Exact finite V4 hypercohomology, including the extension/transgression
 
-A first pilot correctly detected that the internal Magma `Pic` basis and the audited Stage32 primitive Picard basis are not the same basis.  No cross-basis equality was used.
-
-Run `32688060998` closes this adapter exactly.  The same 64 source-locked known curves are used to build the change-of-basis matrix, and Magma certifies
+Run `32688821421` computes the finite-quotient hypercohomology of the actual two-term complex
 
 ```text
-primitive-to-source Picard basis determinant = -1.
+UPic(Ubar) = [ Div_D -> Pic(Sbar) ]
 ```
 
-Thus the bridge is genuinely in `GL_64(Z)`.  Transport through the exact Stage33-02 Smith coordinates gives the full mixed integral V4 action on
+instead of separately guessing the transgression.  The checker uses the tensor product of the standard two-periodic `C2` resolutions for
 
 ```text
-Pic(Ubar) = (Z/2)^2 + Z^6.
+V4 = C2 x C2,
 ```
 
-Both elements of the `(Z/2)^2` torsion subgroup are fixed by both V4 generators:
+totalizes the divisor module in degree `0` and the Picard module in degree `1`, verifies two consecutive total differentials compose to zero, and computes
 
 ```text
-TORSION_JOINT_FIXED_DIM_F2 = 2
-TORSION_JOINT_FIXED_SUBGROUP_ORDER = 4.
+H^2(V4,UPic(Ubar)) = ker(d2)/im(d1)
 ```
 
-The mixed actions square to the identity and commute exactly.
+by exact Smith normal form.
+
+The result is
+
+```text
+FINITE_V4_H2_FREE_RANK = 0
+FINITE_V4_H2_TORSION_INVARIANTS = [2 x 33]
+H^2(V4,UPic(Ubar)) ~= (Z/2)^33.
+```
+
+This finite result includes the integral extension data of `[Div_D -> Pic]`; it is not a calculation performed only on `U_D` and `Pic(Ubar)` separately.
 
 Evidence:
 
 ```text
-workflow_run = 32688060998
+workflow_run = 32688821421
 workflow_conclusion = success
+finite_v4_hypercohomology_sha256 = 82eabfe80fce8407198a8b2dd5277de352280866e73a38d272f160bc0a41ac2d
+artifact_id = 9506608027
+artifact_zip_sha256 = c49ec9282088962d09e059ba2878f26e71d32453afcf266daf1ee4132fa6e85b
 picu_integral_action_sha256 = 6f5e90aca65a0a9600937d56d265dcf17c0f3877ee2dc7b5a60b28283b682231
-artifact_id = 9506357506
-artifact_zip_sha256 = 673dafc9f69175a24be387c75d8128f306a9dc8ef9c90ba9cce902848d107859
 odd_primary_closure_sha256 = 37621477597da5502673ca618054d255459f5d8ee777c0c20b8de758af0561be
 ```
 
-## 5. Remaining exact leaf
+## 3. Firewall: finite V4 is not yet the full absolute two-primary answer
 
-All representation/module ambiguity has now been removed.  The remaining all-primary wall is the two-primary extension/transgression in the UPic complex:
+The exact finite quotient
 
 ```text
-LEAF_ID=L33-03-TWO-PRIMARY-UPIC-TRANSGRESSION
-CLASS=2
-NEW_THEOREM_REQUIRED=false
+H^2(V4,UPic(Ubar)) ~= (Z/2)^33
 ```
 
-The next computation must use the actual two-term equivariant complex, not merely the cohomology groups, because the connecting/transgression map may change the 2-primary answer.
+does **not** by itself identify
+
+```text
+H^2(G_Q,UPic(Ubar))[2^infinity].
+```
+
+Absolute-Galois inflation/restriction terms from the kernel of `G_Q -> V4`, especially the rank-14 trivial unit lattice and 2-primary coefficient terms, still have to be combined with the finite quotient exactly.
+
+Therefore none of the following is claimed:
+
+```text
+BR0B_CLOSED=false
+BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=false
+Q_DEFINED_BRAUER_CLASS_COUNT_FROM_33_03=NOT_YET_CERTIFIED
+BRAUER_MANIN_OBSTRUCTION_PROVED=false
+```
+
+## 4. Next exact leaf
+
+```text
+LEAF_ID=L33-03-ABSOLUTE-TWO-PRIMARY-INFLATION-RESTRICTION
+CLASS=2
+NEW_THEOREM_REQUIRED=false
+INPUT_FINITE_V4_H2=(Z/2)^33
+INPUT_UNIT_LATTICE=Z^14_TRIVIAL_GQ
+INPUT_PICU=Z^6+(Z/2)^2
+```
+
+The next step is to compute the absolute two-primary inflation/restriction correction and combine it with the already-complete odd-primary description.  Only then can BR0B be closed or a smaller residual kernel be exposed.
 
 ```text
 UNRESOLVED_UNKNOWN_IN_SCOPE>0
