@@ -13,7 +13,7 @@ No solver or mathematical constraint is changed. Stage32-13 reuses `32-11r/run_m
 
 ## Storage-safe evidence mode
 
-The first Stage32-13 run (`32702148657`) was manually cancelled after 15 raw shard artifacts had accumulated about 265.5 MiB. The completed raw jobs were mathematically fine, but persisting one full branch-by-branch JSON per shard would have made the 48-shard run need roughly 0.8 GiB of artifact storage. That is an execution/storage design problem, not a mathematical or solver failure. The cancelled run is not accepted as Stage32-13 closure evidence.
+The first Stage32-13 run (`32702148657`) was manually cancelled after 15 raw shard artifacts had accumulated 265.5 MiB. The completed raw jobs were mathematically fine, but persisting one full branch-by-branch JSON per shard would have made the 48-shard run need roughly 0.8 GiB of artifact storage. That is an execution/storage design problem, not a mathematical or solver failure. The cancelled run is not accepted as Stage32-13 closure evidence.
 
 The replacement workflow keeps the exact computation unchanged but changes only evidence persistence:
 
@@ -23,6 +23,8 @@ The replacement workflow keeps the exact computation unchanged but changes only 
 4. only the compact certificate plus any actual numerical survivors is uploaded; the raw branch rows are deleted locally before artifact upload;
 5. compact shard artifacts have `retention-days: 1`;
 6. the final parent/orbit artifact has `retention-days: 30`.
+
+A real cancelled-run artifact regression was performed before re-launch: raw cell-43 shard 3 contained 136,990 exact branches and was about 159 MB uncompressed; the post-verification compact certificate was about 2.3 KB, preserved zero survivors, and obtained compact SHA `ba4010d7d2fdf75fde6c0c44cd447a7ab75eaf5337347bc5a8719f6daabe2247`. This regression is a format/verification check only; the cancelled run remains non-credit evidence.
 
 Thus compaction happens only after exact branch-by-branch verification. It does not prune search, drop UNKNOWN branches, change constraints, or replace computation with a summary shortcut.
 
