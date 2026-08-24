@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V11_E8_E10_PARENTS_AUT_AUDITED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V12_E20_A0_LE4096_AUDITED",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "children": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
   "parent_route": "G10-LOWGENUS-PICARD",
   "execution_class": 2,
-  "status": "32_01_E8_A36_AND_E10_A30_PARENT_AUT_AUDITED_CONTINUATION_ACTIVE",
+  "status": "32_01_E8_E10_PARENTS_AUT_AUDITED_E20_A0_LE4096_AUDITED_CONTINUATION_ACTIVE",
   "source_lock": {
     "upstream_repository": "MichaelStollBayreuth/Verification",
     "upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
@@ -140,12 +140,49 @@
     "compact_evidence_post_verification_only": true,
     "cancelled_run_credit": false
   },
-  "current_item": "32-01-REMAINING-D176-D192-UNIBRANCH-NUMERICAL-CENSUS",
+  "stage32_14_audit": {
+    "pr": 1371,
+    "audit_record": "stages/stage32/32-14/audit.md",
+    "audit_state": "stages/stage32/32-14/audit-state.json",
+    "audit_verdict": "PASS_EXACT_E20_A0_PROFILE_AND_CUMULATIVE_LE4096_ZERO_TIER",
+    "audited_functional_head": "1595112d16a8cefdff0469e19c2b3ba7afaef30c",
+    "workflow_run": 32725113188,
+    "artifact_id": 9519460554,
+    "artifact_zip_sha256": "347eb49158a3c8914dcfe1f2cf30afb47426e6583cd5b7d02d79759964256e3c",
+    "profile": {
+      "signature_cells": 1182,
+      "exceptional_assignments_after_qtail_quotient": 1032477716,
+      "total_materialized_branches": 7806762328,
+      "minimum_cell_branch_count": 1094,
+      "maximum_cell_branch_count": 920344320,
+      "canonical_sha256": "e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384534d53fa1fee67c5"
+    },
+    "e20_a0_le4096": {
+      "exact_completed_cells": 16,
+      "parent_cells": 1182,
+      "total_materialized_branches": 48790,
+      "unknown_count": 0,
+      "numerical_survivors": 0,
+      "all_selected_cells_unsat": true,
+      "total_search_nodes": 21286,
+      "tier_manifest_sha256": "88d3d7d12217626e8af80e3d6c3886b47a6416b498500de94bc1032c25407cb5",
+      "parent_complete": false
+    },
+    "next_declared_threshold": 16384,
+    "next_declared_threshold_cells": 69,
+    "next_declared_threshold_branches": 655558,
+    "next_boundary": "AUDITED_EXECUTION_ENVELOPE_WIDEN_OR_REPARTITION_REQUIRED",
+    "compact_evidence_post_verification_only": true
+  },
+  "current_item": "32-01-E20-A0-WIDEN-OR-REPARTITION-FROM-LE4096-AUDITED-TIER",
   "current_smaller_class2_leaf": {
-    "id": "L32-01-CONTINUE-REMAINING-D176-D192-UNIBRANCH-NUMERICAL-CENSUS",
+    "id": "L32-01-E20-A0-WIDEN-OR-REPARTITION-FROM-LE4096-AUDITED-TIER",
     "classification": 2,
-    "statement": "continue the complete unibranch numerical Picard census across the remaining audited G0/G1 degree and signature strata, consuming the audited d8 e2/e8/e10 checkpoints without promoting those internal subparents to full-row or full-window completion",
-    "accepted_predecessor": "D8_E8_A36_AND_E10_A30_FULL_PARENT_AUT_NUMERICAL_CENSUS",
+    "statement": "continue the exact e20/a0 cumulative numerical census from the audited <=4096 zero-survivor tier by widening or repartitioning the execution envelope without changing the source-locked Stage32-08/11r exhaustive solver, while preserving UNKNOWN and credit firewalls",
+    "accepted_predecessor": "D8_E20_A0_PROFILE_EXACT_AND_CUMULATIVE_LE4096_ZERO_TIER_AUDITED",
+    "e20_a0_profile_cells": 1182,
+    "e20_a0_audited_completed_cells": 16,
+    "e20_a0_remaining_cells": 1166,
     "full_d8_g0_row_complete": false,
     "full_d176_d192_numerical_orbit_census": false,
     "effectivity_separate": true
@@ -154,7 +191,7 @@
     {
       "id": "32-01",
       "name": "PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
-      "status": "IN_PROGRESS_E8_E10_PARENTS_AUT_AUDITED",
+      "status": "IN_PROGRESS_E8_E10_PARENTS_AUT_AND_E20_LE4096_AUDITED",
       "preflight_complete": true,
       "polytail_reduction_audited_complete": true,
       "graded_slice_checkpoint_layer_complete": true,
@@ -163,8 +200,9 @@
       "d8_e8_a36_full_aut_orbit_census_complete": true,
       "d8_e10_a30_parent_numerical_census_complete": true,
       "d8_e10_a30_full_aut_orbit_census_complete": true,
-      "d8_e10_a30_exact_completed_cells": 134,
-      "d8_e10_a30_parent_cells": 134,
+      "d8_e20_a0_profile_complete": true,
+      "d8_e20_a0_le4096_tier_complete": true,
+      "d8_e20_a0_parent_numerical_census_complete": false,
       "numerical_census_complete": false
     },
     {
@@ -202,11 +240,11 @@
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
   "audit_required": false,
-  "audit_verdict": "PASS_COMPLETE_E10_A30_PARENT_AND_FULL_AUT_NUMERICAL_ORBIT_CENSUS",
+  "audit_verdict": "PASS_EXACT_E20_A0_PROFILE_AND_CUMULATIVE_LE4096_ZERO_TIER",
   "repair_required": false,
   "merge_allowed": true,
-  "merge_order": [1367],
+  "merge_order": [1371],
   "advance_allowed": true,
-  "next_item": "32-01-REMAINING-D176-D192-UNIBRANCH-NUMERICAL-CENSUS",
+  "next_item": "32-01-E20-A0-WIDEN-OR-REPARTITION-FROM-LE4096-AUDITED-TIER",
   "next_expected_command": "Stage32-main-batch"
 }
