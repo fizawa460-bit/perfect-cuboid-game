@@ -1,6 +1,6 @@
 # Stage33-03 absolute hypercohomology extension class
 
-This note resolves the hostile-audit residual
+This note resolves
 
 ```text
 R33-BR0B-ABSOLUTE-HYPERCOHOMOLOGY-EXTENSION-CLASS
@@ -18,146 +18,126 @@ U = U_D = Z^14
 T = Pic(Ubar)_tors = (Z/2)^2
 F = Pic(Ubar)_free = Z^6
 X_Q = Hom_cont(G_Q,Q/Z)
-A = X_Q^14 / <KAPPA_1,KAPPA_2>.
+A = X_Q^14/<KAPPA_1,KAPPA_2>.
 ```
 
-The absolute actions on `U` and `T` are trivial.  The hostile audit accepted
+The audited inputs are
 
 ```text
 H^3(G_Q,U)=0,
-H^1(G_Q,Pic(Ubar)) = Hom_cont(G_Q,T) direct-sum (Z/2)^5,
-0 -> A -> H^2(G_Q,UPic(Ubar)) -> H^1(G_Q,Pic(Ubar)) -> 0.
+H^1(G_Q,Pic(Ubar))=Hom_cont(G_Q,T) direct-sum (Z/2)^5,
+0 -> A -> H^2(G_Q,UPic(Ubar)) -> H^1(G_Q,Pic(Ubar)) -> 0,
 ```
 
-It also accepted the exact rank-two `d2_01` image `KAPPA_1,KAPPA_2`.
+with exact independent `d2_01` images `KAPPA_1,KAPPA_2`.
 
-## 2. Recover the torsion Postnikov classes
+## 2. Torsion Postnikov classes
 
-For one trivial `Z/2` summand of `T` and the Z-free trivial lattice `U`, the
-change-of-rings spectral sequence has only the `Ext_Z^1(Z/2,U)=U/2U` row in
-total degree two.  Hence
+For a trivial `Z/2` summand of `T` and Z-free trivial `U`, change of rings gives
 
 ```text
-Ext^2_{Z[G_Q]}(Z/2,U) = H^1(G_Q,U/2U).
+Ext^2_{Z[G_Q]}(Z/2,U)=H^1(G_Q,U/2U).
 ```
 
-Moreover `H^1(G_Q,U)=Hom_cont(G_Q,Z^14)=0`, so the integral Bockstein
+Since `H^1(G_Q,U)=0`, the integral Bockstein
 
 ```text
 H^1(G_Q,U/2U) -> H^2(G_Q,U)[2]
 ```
 
-is injective.  Therefore the two exact `KAPPA` images determine the torsion
-Postnikov classes uniquely.
-
-The materialized `d2-01-image.json` shows that both are supported only on the
-complex-conjugation character `chi_-1`:
+is injective. Hence the exact `KAPPA` images determine the two torsion Postnikov classes uniquely:
 
 ```text
-lambda_1 = v_1 * chi_-1,
-lambda_2 = v_2 * chi_-1,
+lambda_1=v_1*chi_-1,
+lambda_2=v_2*chi_-1,
 ```
 
-where `v_1,v_2 in (F2)^14` are the two exact independent unit-coordinate
-vectors written in `absolute-h2-extension-class.json`.
+with independent `v_1,v_2 in (F2)^14`.
 
 ## 3. Hidden extension / doubling map
 
-For `alpha=(alpha_1,alpha_2) in H^1(G_Q,T)`, the hidden extension class is the
-Yoneda product with the Postnikov class.  Its doubling obstruction is
+For `alpha=(alpha_1,alpha_2) in H^1(G_Q,T)`, Yoneda composition gives
 
 ```text
 delta(alpha)
  = [alpha_1 cup lambda_1 + alpha_2 cup lambda_2]
- in H^2(G_Q,U/2U) / <red(KAPPA_1),red(KAPPA_2)>.
+ in H^2(G_Q,U/2U)/<red(KAPPA_1),red(KAPPA_2)>.
 ```
 
-Because `H^3(G_Q,U)=0`, multiplication by two gives
+Milne, *Arithmetic Duality Theorems*, I.4 Cor.4.17 gives `H^3(G_Q,U)=0`, so the target is exactly `A/2A`.
 
-```text
-H^2(G_Q,U/2U) = H^2(G_Q,U)/2H^2(G_Q,U),
-```
-
-so the target is exactly `A/2A`.
-
-For a quadratic character `alpha`, the connecting map for
+For a quadratic character `alpha`, the Bockstein for
 
 ```text
 0 -> Z/2 -> Z/4 -> Z/2 -> 0
 ```
 
-is the Bockstein `alpha -> alpha cup alpha`.  Serre, *Topics in Galois
-Theory*, Chapter 1, sec. 1.2, Theorem 1.2.4 and the following cohomological
-proof (printed pp. 4-5) identifies this cup square with the quaternion class
-`(alpha,alpha)=(-1,alpha)`.  Thus
+is `alpha -> alpha cup alpha`, and the standard identity gives
 
 ```text
-alpha cup chi_-1 = alpha cup alpha,
+alpha cup alpha = alpha cup chi_-1.
 ```
 
-and, using the accepted Milne vanishing, this is precisely the class of
-`alpha` in `X_Q/2X_Q`.
-
-Therefore the absolute extension is represented exactly by
+Therefore
 
 ```text
 delta(alpha_1,alpha_2)
- = [v_1*alpha_1 + v_2*alpha_2] in A/2A.
+ = [v_1*alpha_1+v_2*alpha_2] in A/2A.
 ```
 
-This determines the extension class even though the filtration is not split.
+This determines the extension class itself; no splitting is claimed.
 
-## 4. Primary orders
+## 4. Quadratic-family primary orders
 
-The representative `v_1*alpha_1+v_2*alpha_2` is 2-torsion in `A`.
-Consequently a right-filtration class has minimal lift order
+For every nonzero right-filtration quadratic class,
 
 ```text
-2  if delta(alpha_1,alpha_2)=0,
-4  if delta(alpha_1,alpha_2) is nonzero.
+minimal lift order = 2 if delta=0,
+minimal lift order = 4 if delta!=0.
 ```
 
-No right-filtration class requires minimal order above four.  Because
-`v_1,v_2` are independent, `delta=0` is equivalent to the two independent
-conditions
+No such lift has order above four. Independence of `v_1,v_2` gives
 
 ```text
-[alpha_j] in span_F2([chi_-1]) inside X_Q/2X_Q,  j=1,2.
+[alpha_j] in span_F2([chi_-1]) inside X_Q/2X_Q, j=1,2
 ```
 
-For `alpha_j=chi_d`, Serre's cyclic-quartic criterion gives the equivalent
-adapter
+as the exact `delta=0` criterion. For `alpha_j=chi_d`, Serre, *Topics in Galois Theory*, Ch.1 sec.1.2 Thm.1.2.4 supplies the cyclic-quartic/sum-of-two-squares arithmetic adapter; equivalently `(d,-1)` is `0` or `(-1,-1)` in `Br(Q)[2]`.
+
+## 5. Five finite free classes — hostile direct verification
+
+The production draft initially reasoned that the torsion contribution already has rank two and the total finite `rank(d2_11)=2`, so the five `H^1(V4,F)` classes must map to zero. That rank inference is not valid by itself because a nonzero free-side image could lie in the same two-dimensional target subspace.
+
+The hostile audit therefore computes these five transgressions individually from the exact Smith complex and source-locked Picard action. The tensor-product periodic resolution stores its H1 blocks in the order `ct` then `cc`; the corrected audit adapter explicitly respects that convention.
+
+Focused verifier:
 
 ```text
-(d,-1) is 0 or (-1,-1) in Br(Q)[2],
+workflow_run=32711989526
+artifact_id=9514467883
+artifact_zip_sha256=130698786259ad140ff86d0bff506a40a68227ee31ef3762a4b20ad7b1e12ace
+audit-free-d2-11-direct.json canonical_sha256=
+90113c462f5cf028fd8d0ef29a21ab57ca4e01840082f94a47284cba109c12d6
 ```
 
-or equivalently one of `d` and `-d` is a norm from `Q(i)`.
-
-## 5. The five finite free classes
-
-The exact normalized V4 bar calculation in
-`compute_absolute_h2_extension_class.py` gives
+It gives
 
 ```text
-beta_Z(chi_-1 cup chi_-1) = 0,
-beta_Z(chi_2  cup chi_-1) != 0.
+PICU-FREE-H1-1 -> 0 in H^3(V4,U)
+PICU-FREE-H1-2 -> 0 in H^3(V4,U)
+PICU-FREE-H1-3 -> 0 in H^3(V4,U)
+PICU-FREE-H1-4 -> 0 in H^3(V4,U)
+PICU-FREE-H1-5 -> 0 in H^3(V4,U)
+free image rank = 0
+torsion image rank = 2
+combined direct image rank = 2
 ```
 
-Thus each torsion generator contributes rank one to finite `d2_11`.
-Independence of `v_1,v_2` gives rank two already, equal to the audited total
-finite `rank(d2_11)=2`.  Hence the restriction of finite `d2_11` to the five
-`H^1(V4,F)` classes is zero.  Their lifts occur in the exact finite group
+The combined rank agrees with the independently audited total finite rank. Since `H^2(V4,UPic)=(Z/2)^33`, all five free classes have finite order-two lifts, and their inflated absolute lifts have order two.
 
-```text
-H^2(V4,UPic) = (Z/2)^33,
-```
+## 6. Audited closure state
 
-so all five inflate to absolute lifts of order two.
-
-## 6. Closure state
-
-The exact extension class, not a split assertion, is now the closure datum:
+The extension class and the primary orders are now exact parametrically:
 
 ```text
 FILTRATION_EXTENSION_SPLIT_CLAIMED=false
@@ -167,10 +147,9 @@ OPEN_ALGEBRAIC_Q_DEFINED_CLASS_INVENTORY_COMPLETE=true
 BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=true
 BR0B=DISCHARGED
 UNRESOLVED_UNKNOWN_IN_SCOPE=0
-UNIT_STATUS=AUDIT_REQUIRED
-UNIT_CLOSED=false
-DOWNSTREAM_RELEASED=false
+HOSTILE_AUDIT=PASS_AFTER_DIRECT_FREE_D2_11_MATERIALIZATION_AND_ABSOLUTE_EXTENSION_CLASS_VERIFICATION
+UNIT_STATUS=CLOSED
+UNIT_CLOSED=true
 ```
 
-A new hostile audit is still required before Stage33-03 can close or release
-33-06.
+Stage33-06 is not released by this unit alone because Stage33-04 is also a required prerequisite.
