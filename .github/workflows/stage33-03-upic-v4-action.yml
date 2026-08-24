@@ -25,12 +25,15 @@ jobs:
       - name: Materialize pinned cc/ct action from Testa-Stoll
         working-directory: stages/stage33/33-03
         run: python extract_galois_action.py
-      - name: Induce exact action on unit lattice and Pic(Ubar)
+      - name: Induce exact action on the rank-14 unit lattice and rational Pic(Ubar)
         working-directory: stages/stage33/33-03
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python analyze_upic_action.py
-      - name: Upload exact Stage33-03 action certificate
+      - name: Certify the complete odd-primary UPic contribution
+        working-directory: stages/stage33/33-03
+        run: python derive_odd_primary.py
+      - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
           name: stage33-03-upic-v4-action
@@ -39,3 +42,4 @@ jobs:
             stages/stage33/33-03/galois-action-raw.json
             stages/stage33/33-03/galois-magma-stdout.txt
             stages/stage33/33-03/upic-v4-action-certificate.json
+            stages/stage33/33-03/odd-primary-closure.json
