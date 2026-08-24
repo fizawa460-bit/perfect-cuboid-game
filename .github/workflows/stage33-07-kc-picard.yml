@@ -1,10 +1,6 @@
 name: Stage33-07 Kc Picard lattice glue shard
 
 on:
-  pull_request:
-    paths:
-      - 'stages/stage33/33-07/extract_kc_picard_lattice.py'
-      - '.github/workflows/stage33-07-kc-picard.yml'
   workflow_dispatch:
 
 permissions:
@@ -28,21 +24,21 @@ jobs:
           python - <<'PY'
           import json, math
           x=json.load(open('kc-picard-lattice.json'))
+          assert x['canonical_sha256']=='eab9420431ed60960d39b4a76269aacd0fe4b5f600615dd1e7106a7af74dde56'
           assert x['singular_node_count']==12
           assert x['picard_rank']==20
           assert x['pullback_to_picS_mod2_rank']==20
           assert x['generated_lattice_2_saturated']
           assert x['full_picard_lattice_certified']
+          assert x['picard_smith_diagonal'][-2:]==[4,8]
           assert abs(x['picard_determinant'])==32
           assert math.prod(x['picard_smith_diagonal'])==32
-          print('KC_PICARD_RANK=20')
-          print('KC_PICARD_DETERMINANT=',x['picard_determinant'])
-          print('KC_PICARD_SMITH=',x['picard_smith_diagonal'])
-          print('KC_PULLBACK_MOD2_RANK=20')
+          print('KC_PICARD_CERTIFICATE=PASS')
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: stage33-07-kc-picard-lattice
+          retention-days: 7
           path: |
             stages/stage33/33-07/kc-picard-lattice.json
             stages/stage33/33-07/kc-picard-magma-stdout.txt
