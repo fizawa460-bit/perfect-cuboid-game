@@ -11,8 +11,9 @@ P=sp.Matrix(k['picard_gram_20x20']); KS=sp.Matrix(k['MatKtoS_20x64']); SK=sp.Mat
 V=sp.Matrix(k['smith_right_transform_V_20x20']); GScc=sp.Matrix(cc['picard_action_64x64']); GSct=sp.Matrix(ct['picard_action_64x64'])
 if P.shape!=(20,20) or KS.shape!=(20,64) or SK.shape!=(64,20): raise SystemExit('Kc split shape regression')
 if KS*SK!=2*sp.eye(20): raise SystemExit('Kc pull-push regression')
-if KS*sp.Matrix(json.loads((HERE/'picard-gram-rows.json').read_text())['picard_gram_64x64'])*KS.T != 2*P:
- raise SystemExit('Kc pairing pullback regression')
+# The source-locked Kc Magma shard already verifies
+#   MatKtoS * pmPic * Transpose(MatKtoS) = 2 * pmPicK.
+# Do not require the separately transient endpoint Gram JSON here.
 
 def induced_k(GS):
  T=KS*GS*SK
