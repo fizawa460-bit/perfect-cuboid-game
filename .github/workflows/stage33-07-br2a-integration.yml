@@ -29,7 +29,7 @@ jobs:
       - name: Assemble audited Stage33-07 integration prefix
         working-directory: stages/stage33/33-07
         run: python assemble_integration_prefix_v2.py
-      - name: Materialize raw BR0B character-unit boundary residue map
+      - name: Materialize exact BR0B left-filtration boundary residue map
         working-directory: stages/stage33/33-07
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -48,21 +48,24 @@ jobs:
           assert p['variable_dictionary_complete']
           assert p['nf_phys2_camp4_invocations_hypothesis_gated']
           assert p['br0b_all_primary_classes_accounted']
-          assert r['coefficient_matrix_rank']==14
-          assert r['coefficient_matrix_smith_nonzero_diagonal']==[1]*14
-          assert r['coefficient_lattice_primitive']
-          assert r['kappa_raw_residue']['raw_patterns_equal']
-          assert r['kappa_raw_residue']['common_pattern_nonzero']
-          assert r['kappa_raw_residue']['common_pattern_weight_on_60_orbits']==20
-          assert r['kappa_raw_residue']['support_on_q_orbits_only']
-          assert r['kappa_raw_residue']['raw_map_descends_through_XQ14_mod_kappa_without_lift_correction'] is False
+          assert r['basis_correction']['stage33_03_smith_unit_basis_reconstructed']
+          assert r['full_coefficient_matrix_rank']==14
+          assert r['full_coefficient_matrix_smith_nonzero_diagonal']==[1]*14
+          assert r['q_component_coefficient_matrix_smith_nonzero_diagonal']==[1]*12+[2,2]
+          assert r['q_component_mod2_kernel_dimension']==2
+          assert r['kappa_span_equals_q_component_mod2_kernel']
+          assert r['qi_pattern_rank_f2']==2
+          assert r['kappa_residue_zero']['both_q_component_patterns_zero']
+          assert r['kappa_residue_zero']['both_qi_component_patterns_zero']
+          assert r['induced_left_filtration_boundary_map_injective']
+          assert r['left_filtration_br0b_br0g_duplicate_overlap_exact']
           assert r['unresolved_unknown_in_scope']==1
           assert r['unit_status']=='RUNNING'
           assert r['unit_closed'] is False
           assert r['downstream_released'] is False
           assert r['stage33_progress']=='6/11'
           assert r['stage33_08_released'] is False
-          print('STAGE33_07_PREFIX_AND_RAW_RESIDUE_MAP=PASS')
+          print('STAGE33_07_PREFIX_AND_LEFT_OVERLAP=PASS')
           print('RESIDUAL='+r['new_residual_kernel'])
           print('NEXT_LEAF='+r['next_exact_leaf'])
           PY
