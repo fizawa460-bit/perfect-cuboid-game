@@ -24,6 +24,10 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends pari-gp
+          cat > "$HOME/.gprc" <<'EOF'
+          parisize = 256M
+          parisizemax = 1024M
+          EOF
           gp --version
       - name: Download source-locked Stage32 Picard core
         env:
