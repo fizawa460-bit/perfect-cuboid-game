@@ -31,17 +31,14 @@ B+ : X+iY=0
 B- : X-iY=0.
 ```
 
-The frozen audited facts are:
+Frozen audited facts:
 
 ```text
 B+ and B- are smooth (2,2) curves;
 B+ intersect B- in 8 transverse nodes;
-the double-cover hypotheses required by Creutz--Viray are discharged;
 rank NS(K_c)=20;
 dim_F2 Br(K_c_Qbar)[2]=2.
 ```
-
-No arithmetic survival over `Q` follows from dimension two alone.
 
 ## Exact finite execution sub-DAG
 
@@ -50,8 +47,8 @@ No arithmetic survival over `Q` follows from dimension two alone.
  |
  v
 05B  materialize finite L_{c,E} structure
-     - exact dimension and generator skeleton                         DONE
-     - explicit compatible 9-element function basis                  OPEN
+     - corrected exact dimension / quotient skeleton                 DONE
+     - explicit compatible 5-element function basis                  OPEN
  |
  +-------> 05C transport a certified NS(K_c) basis to the ruled model OPEN
               |
@@ -70,7 +67,7 @@ No arithmetic survival over `Q` follows from dimension two alone.
      or certify exact zero survival                                   OPEN
 ```
 
-## New exact dimension reduction
+## Corrected exact dimension reduction
 
 For the first ruling `W=P1_t`, both branch components have common discriminant squareclass
 
@@ -78,38 +75,46 @@ For the first ruling `W=P1_t`, both branch components have common discriminant s
 q(t)=t^4-6t^2+1.
 ```
 
-They therefore have the same quadratic function field over `K=kbar(t)`.  The normalization consists of two genus-one components; the dual graph is two vertices joined by eight edges.  The exact Stage33 checker certifies
+The normalization consists of two genus-one components; the dual graph is two vertices joined by eight edges.  The exact checker certifies
 
 ```text
 Jac(B)[2] dimension = 4
 b1(Gamma)           = 7
-common even-ramification fibers = 4
-K-squareclass kernel dimension  = 1
-c square on generic fiber       = true
+K-squareclass kernel dimension = 1
+c square on generic fiber      = true
 ```
 
-Using the source dimension formulas gives
+The source's `e(b/w)` at a singular branch point is the sum of ramification indices over normalization points.  Therefore the special ruling values are not only the four smooth ramification fibers `q=0`, but also the four nodal fibers
 
 ```text
-raw generator subspace mod L*2 = 12
-kernel to K*L*2                = 3
-L_E dimension                  = 9
-L_{c,E}=L_E                    = true
-L_{c,E} dimension              = 9
-im(x-alpha) dimension          = 7
-Br quotient dimension          = 2
+0, 1, -1, infinity,
 ```
 
-Thus the remaining finite presentation is not an unknown-size problem: it is an explicit rank-7 relation problem inside a 9-dimensional `L_{c,E}` space.
+where every node has `e(b/w)=1+1=2`.
+
+Hence
+
+```text
+special even-e fibers            = 8
+raw generator subspace mod L*2   = 12
+kernel to K*L*2                  = 7
+L_E dimension                    = 5
+L_{c,E}=L_E                      = true
+L_{c,E} dimension                = 5
+im(x-alpha) dimension            = 3
+Br quotient dimension            = 2
+```
+
+The previous 9-dimensional pilot omitted the nodal fibers and is superseded.
 
 ## Exact current smaller leaf
 
 ```text
-LEAF_ID=L33-05-CV-EXPLICIT-9D-PRESENTATION
+LEAF_ID=L33-05-CV-EXPLICIT-5D-PRESENTATION
 CLASS=2
-STATEMENT=materialize an explicit 9-element L_{c,E} function basis, transport a certified ruled-model NS basis, construct a rank-7 x-alpha relation matrix, and output two explicit quotient symbols
-INPUT_DIMENSION=9
-RELATION_RANK=7
+STATEMENT=materialize an explicit 5-element L_{c,E} function basis, transport a certified ruled-model NS basis, construct a rank-3 x-alpha relation matrix, and output two explicit quotient symbols
+INPUT_DIMENSION=5
+RELATION_RANK=3
 QUOTIENT_DIMENSION=2
 NEW_THEOREM_REQUIRED=false
 ```
@@ -124,8 +129,8 @@ GEOMETRIC_BR2_DIM2_IMPLIES_Q_SURVIVING_DIM2=false
 GEOMETRIC_BR2_DIM2_IMPLIES_Q_SURVIVING_DIM_NONZERO=false
 MODULAR_LABEL_KC_TO_H32_IMPLIES_CV_SYMBOL_ACTION=false
 BRANCH_COMPONENT_ACTION_IMPLIES_DESCENT_OBSTRUCTION_ZERO=false
-LCE_DIMENSION_9_IMPLIES_EXPLICIT_BASIS_MATERIALIZED=false
-XALPHA_IMAGE_DIMENSION_7_IMPLIES_RELATION_MATRIX_MATERIALIZED=false
+LCE_DIMENSION_5_IMPLIES_EXPLICIT_BASIS_MATERIALIZED=false
+XALPHA_IMAGE_DIMENSION_3_IMPLIES_RELATION_MATRIX_MATERIALIZED=false
 ```
 
 ## Closure target
