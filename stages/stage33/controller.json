@@ -1,10 +1,10 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V7_STAGE33_04_AUDIT_BLOCKED_NEW_KERNEL",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V8_STAGE33_04_ODD_RESIDUAL_REAUDIT",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
   "execution_class": 2,
   "source_stage": 29,
-  "status": "STAGE33_04_HOSTILE_AUDIT_BLOCKED_NEW_KERNEL_33_03_33_05_RUNNING",
+  "status": "STAGE33_04_AUDIT_REQUIRED_AFTER_ODD_PRIMARY_RESIDUAL_EXECUTION",
   "program": "BRAUER-EXPLICIT-DAG",
   "brauer_scope": "FROZEN_STAGE29_PHYSICAL_OPEN_BRAUER_KERNEL",
   "brauer_scope_components": [
@@ -30,7 +30,6 @@
     "unit_status": "CLOSED",
     "audit_verdict": "PASS_AFTER_SOURCE_LOCK_HARDENING",
     "br0b_all_primary_scope_reconciled": true,
-    "br0b_odd_primary_survival_status": "UNKNOWN_PENDING_33_03",
     "theorem_credit": false,
     "endpoint_credit": false
   },
@@ -43,8 +42,7 @@
     "unit_kernel_rank": 14,
     "picard_open_free_rank": 6,
     "saturation_index": 4,
-    "cokernel_torsion": [2, 2],
-    "certificate_sha256": "2e365c273f2aae44adb7a871c864fa55d19a95336686b13a5eef245175f8bcd1",
+    "cokernel_torsion": [2,2],
     "theorem_credit": false,
     "endpoint_credit": false
   },
@@ -52,25 +50,21 @@
     "pr": 1361,
     "observed_status": "RUNNING",
     "unit_closed": false,
-    "counts_in_progress": false,
-    "note": "33-03 remains an independent sibling. It cannot be used to weaken 33-04 closure before an audited contract repair or an exact cross-unit adapter."
+    "counts_in_progress": false
   },
-  "stage33_04_audit": {
+  "stage33_04_reaudit": {
     "pr": 1362,
-    "audit_record": "stages/stage33/33-04/audit.md",
-    "audit_state": "stages/stage33/33-04/audit-state.json",
-    "handoff": "stages/stage33/33-04/handoff.json",
-    "audited_functional_head": "47cb96b6cd7acaa19f7fc51e9f72a8dc8e36964c",
-    "workflow_run": 32701829304,
-    "artifact_id": 9510818470,
-    "artifact_zip_sha256": "4c2d15df6394004addfb5ae99c40d0161b00174c59f12a5c6069061ca30afb3a",
-    "audit_verdict": "PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE",
-    "unit_status": "BLOCKED_NEW_KERNEL",
+    "previous_audit_verdict": "PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE",
+    "previous_audited_functional_head": "47cb96b6cd7acaa19f7fc51e9f72a8dc8e36964c",
+    "previous_new_kernel_id": "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT",
+    "unit_status": "AUDIT_REQUIRED",
     "unit_closed": false,
     "downstream_released": false,
-    "br0g": "OPEN",
-    "new_kernel_id": "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT",
-    "unresolved_unknown_in_scope": 1,
+    "br0g": "CLAIMED_DISCHARGED_PENDING_HOSTILE_AUDIT",
+    "closure_criteria_total": 10,
+    "closure_criteria_satisfied": 10,
+    "unresolved_unknown_in_scope": 0,
+    "new_kernel_id": "NONE",
     "accepted_exact_prefix": {
       "physical_boundary_component_count": 72,
       "codim2_crossing_count": 144,
@@ -81,7 +75,21 @@
       "two_primary_unit_symbol_span_rank_f2": 44,
       "two_primary_graph_residual_dimension_f2": 17
     },
-    "unramified_physical_open_kernel_exact": false,
+    "new_odd_primary_execution": {
+      "arithmetic_odd_character_descent_complete": true,
+      "boundary_q_prime_divisor_orbits": 60,
+      "q_character_factors": 48,
+      "qi_character_factors": 12,
+      "q_crossing_singletons": 96,
+      "qi_crossing_pairs": 24,
+      "odd_primary_boundary_character_module": "Hom_cont(G_Q,Q/Z)_odd^48 direct_sum Hom_cont(G_Q(i),Q/Z)_odd^12",
+      "production_workflow_run": 32704767658,
+      "successful_rerun_job": 97364320359,
+      "artifact_id": 9511990569,
+      "artifact_zip_sha256": "1b1ad90b4ece3ace6bf378cb33afd3e09688efdcdc4c99ce460820beb9ab530f",
+      "certificate_sha256": "c89e2c2d71a6b48685f4670481bd7b97245b7e772c44ab58da2ca89f5950d3bc"
+    },
+    "unramified_physical_open_kernel_exact_claim_pending_audit": true,
     "theorem_credit": false,
     "endpoint_credit": false
   },
@@ -89,8 +97,7 @@
     "pr": 1358,
     "observed_status": "RUNNING",
     "unit_closed": false,
-    "counts_in_progress": false,
-    "note": "Concurrent 33-05 execution remains authorized from audited 33-01 but is not counted CLOSED."
+    "counts_in_progress": false
   },
   "unit_status_enum": [
     "OPEN",
@@ -101,21 +108,21 @@
     "BLOCKED_RESOURCE"
   ],
   "units": [
-    {"id": "33-01", "name": "BRAUER_PROSPECT_SCAN_AND_SOURCE_RECONSTRUCTION", "unit_status": "CLOSED", "prerequisite_units": []},
-    {"id": "33-02", "name": "BR0A_INTEGRAL_PICARD_SATURATION", "unit_status": "CLOSED", "prerequisite_units": ["33-01"]},
-    {"id": "33-03", "name": "BR0B_ABSOLUTE_GALOIS_UPIC_GERSTEN_ALL_PRIMARY", "unit_status": "RUNNING", "prerequisite_units": ["33-02"]},
-    {"id": "33-04", "name": "BR0G_PHYSICAL_BOUNDARY_RESIDUE_ADAPTER", "unit_status": "BLOCKED_NEW_KERNEL", "prerequisite_units": ["33-02"]},
-    {"id": "33-05", "name": "K3_BR2_QI_OVER_Q_ACTION_DESCENT", "unit_status": "RUNNING", "prerequisite_units": ["33-01"]},
-    {"id": "33-06", "name": "SEVEN_LINE_ENDPOINT_SURVIVAL_MULTIQ_PULLBACK", "unit_status": "OPEN", "prerequisite_units": ["33-03", "33-04"]},
-    {"id": "33-07", "name": "BR2A_CREUTZ_VIRAY_AND_FULL_RELEVANT_CLASS_INVENTORY_INTEGRATION", "unit_status": "OPEN", "prerequisite_units": ["33-03", "33-04", "33-05", "33-06"]},
-    {"id": "33-08", "name": "BR2B_EXPLICIT_ENDPOINT_REPRESENTATIVES_FOR_COMPLETE_STAGE33_CLASS_LIST", "unit_status": "OPEN", "prerequisite_units": ["33-07"]},
-    {"id": "33-09", "name": "RELEVANT_PLACE_AND_PHYSICAL_LOCAL_LOCUS_CERTIFICATION", "unit_status": "OPEN", "prerequisite_units": ["33-08"]},
-    {"id": "33-10", "name": "EXACT_LOCAL_EVALUATION_PRODUCTION", "unit_status": "OPEN", "prerequisite_units": ["33-09"]},
-    {"id": "33-11", "name": "PHYSICAL_ADELIC_COMPATIBILITY_FINAL_BM_VERDICT_HOSTILE_AUDIT", "unit_status": "OPEN", "prerequisite_units": ["33-07", "33-08", "33-09", "33-10"]}
+    {"id":"33-01","name":"BRAUER_PROSPECT_SCAN_AND_SOURCE_RECONSTRUCTION","unit_status":"CLOSED","prerequisite_units":[]},
+    {"id":"33-02","name":"BR0A_INTEGRAL_PICARD_SATURATION","unit_status":"CLOSED","prerequisite_units":["33-01"]},
+    {"id":"33-03","name":"BR0B_ABSOLUTE_GALOIS_UPIC_GERSTEN_ALL_PRIMARY","unit_status":"RUNNING","prerequisite_units":["33-02"]},
+    {"id":"33-04","name":"BR0G_PHYSICAL_BOUNDARY_RESIDUE_ADAPTER","unit_status":"AUDIT_REQUIRED","prerequisite_units":["33-02"]},
+    {"id":"33-05","name":"K3_BR2_QI_OVER_Q_ACTION_DESCENT","unit_status":"RUNNING","prerequisite_units":["33-01"]},
+    {"id":"33-06","name":"SEVEN_LINE_ENDPOINT_SURVIVAL_MULTIQ_PULLBACK","unit_status":"OPEN","prerequisite_units":["33-03","33-04"]},
+    {"id":"33-07","name":"BR2A_CREUTZ_VIRAY_AND_FULL_RELEVANT_CLASS_INVENTORY_INTEGRATION","unit_status":"OPEN","prerequisite_units":["33-03","33-04","33-05","33-06"]},
+    {"id":"33-08","name":"BR2B_EXPLICIT_ENDPOINT_REPRESENTATIVES_FOR_COMPLETE_STAGE33_CLASS_LIST","unit_status":"OPEN","prerequisite_units":["33-07"]},
+    {"id":"33-09","name":"RELEVANT_PLACE_AND_PHYSICAL_LOCAL_LOCUS_CERTIFICATION","unit_status":"OPEN","prerequisite_units":["33-08"]},
+    {"id":"33-10","name":"EXACT_LOCAL_EVALUATION_PRODUCTION","unit_status":"OPEN","prerequisite_units":["33-09"]},
+    {"id":"33-11","name":"PHYSICAL_ADELIC_COMPATIBILITY_FINAL_BM_VERDICT_HOSTILE_AUDIT","unit_status":"OPEN","prerequisite_units":["33-07","33-08","33-09","33-10"]}
   ],
   "downstream_release_rule": "UNIT_STATUS_CLOSED_ONLY",
-  "released_units": ["33-03", "33-04", "33-05"],
-  "current_item": "Stage33-03_AND_Stage33-05_CONTINUE_WHILE_Stage33-04_ODD_PRIMARY_RESIDUAL_ISOLATED",
+  "released_units": ["33-03","33-04","33-05"],
+  "current_item": "Stage33-04_HOSTILE_REAUDIT_ONLY",
   "allowed_bounded_stop_reasons": [
     "EXACT_BRANCH_CLOSURE",
     "NEW_KERNEL_EXPOSED",
@@ -127,13 +134,13 @@
   "endpoint_credit": false,
   "stage33_started": true,
   "stage33_closed": false,
-  "audit_required": false,
+  "audit_required": true,
   "repair_required": false,
-  "merge_allowed": true,
-  "advance_allowed": true,
+  "merge_allowed": false,
+  "advance_allowed": false,
   "stage33_06_release_allowed": false,
-  "next_item": "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT_WITH_33-03_33-05_CONCURRENT",
-  "next_expected_command": "Stage33-main-batch",
+  "next_item": "Stage33-04_HOSTILE_REAUDIT",
+  "next_expected_command": "Stage33-audit",
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false
 }
