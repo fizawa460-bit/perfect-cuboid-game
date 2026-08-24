@@ -1,0 +1,32 @@
+name: Stage33-07 BR2A full inventory
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - 'stages/stage33/controller.json'
+      - '.github/workflows/stage33-07-br2a-integration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  j2-endpoint-pullback:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Certify nonzero endpoint pullback of Kc J2
+        working-directory: stages/stage33/33-07
+        run: python probe_j2_endpoint_q2.py
+      - name: Upload J2 endpoint pullback certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-j2-endpoint-pullback
+          path: |
+            stages/stage33/33-07/j2-endpoint-q2-pullback.json
+            stages/stage33/33-07/j2-q2-magma-stdout.txt
