@@ -3,6 +3,7 @@ name: Stage33-08 BR2B explicit representatives
 on:
   pull_request:
     paths:
+      - 'stages/stage33/33-07/**'
       - 'stages/stage33/33-08/**'
       - 'stages/stage33/controller.json'
       - '.github/workflows/stage33-08-br2b-explicit-representatives.yml'
@@ -23,7 +24,7 @@ jobs:
           python-version: '3.12'
       - name: Install exact algebra dependency
         run: python -m pip install 'sympy==1.14.0'
-      - name: Materialize Stage33-08 representative coverage prefix
+      - name: Materialize re-audit-aware Stage33-08 representative prefix
         working-directory: stages/stage33/33-08
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -43,7 +44,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_u44_and_j2_representatives.py
-      - name: Isolate constructive global Gersten-to-CSA effectivity kernel
+      - name: Replay historical constructive effectivity kernel
         working-directory: stages/stage33/33-08
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -51,49 +52,80 @@ jobs:
       - name: Reclassify global Gersten gap as arithmetic HS descent kernel
         working-directory: stages/stage33/33-08
         run: python reclassify_global_gersten_descent_kernel.py
-      - name: Validate Stage33-08 blocked-new-kernel firewall
+      - name: Validate exact retained direct prefix and arithmetic kernel
         working-directory: stages/stage33/33-08
         run: |
           python - <<'PY'
           import json
+          p=json.load(open('representative-coverage-prefix.json'))
           q=json.load(open('saturated-q-unit-generators.json'))
           b=json.load(open('br0b-left-explicit-representatives.json'))
           x=json.load(open('u44-j2-explicit-representatives.json'))
-          old=json.load(open('global-gersten-csa-effectivity-kernel.json'))
           k=json.load(open('global-gersten-arithmetic-descent-kernel.json'))
+          assert p['stage33_07_complete_q_defined_class_list_currently_authoritative'] is False
+          assert p['stage33_07_effective_status']=='BLOCKED_NEW_KERNEL'
+          assert p['stage33_progress']=='6/11'
           assert q['full_rank14_saturated_unit_lattice_generated']
           assert q['smith_nonzero_diagonal']==[1]*14
           assert b['br0b_left_filtration_parametric_representatives_complete']
           assert x['u44_explicit_representatives_complete'] and x['u44_generator_count']==44
           assert x['u44_all_evaluable_on_full_physical_open']
           assert x['j2_generic_exact_representative_complete']
-          assert old['new_kernel_id']=='R33-BR2B-GLOBAL-GERSTEN-CSA-SECTION-EFFECTIVITY'
           assert k['panin_zainoulline_theorem_scope_semilocal']
           assert not k['cited_panin_zainoulline_theorem_alone_justifies_that_global_surjectivity']
-          assert k['cuboid_minimal_resolution_simply_connected']
-          assert k['geometric_H3_et_mu_n2_zero_by_poincare_duality']
+          assert k['stage33_04_boundary_adapter_remains_audited_closed']
+          assert k['predecessor_reaudit_targets']==['33-07']
           assert k['geometric_global_compatible_residue_lift_over_Qbar_repaired']
           assert k['proper_transcendental_l_adic_rank']==14
           assert not k['arithmetic_Q_descent_of_geometric_residue_lifts_certified']
-          assert k['predecessor_reaudit_required']
           assert k['new_kernel_id']=='R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT'
+          assert k['stage33_07_effective_status_after_hostile_audit']=='BLOCKED_NEW_KERNEL'
+          assert k['stage33_progress_effective_after_hostile_audit']=='6/11'
           assert k['stage33_08_status']=='BLOCKED_NEW_KERNEL'
           assert not k['stage33_08_unit_closed'] and not k['stage33_09_released']
-          assert not k['advance_allowed']
-          print('STAGE33_08_EXACT_PREFIX=PASS')
-          print('FULL_U_D_EXPLICIT_Q_RATIONAL_BASIS=TRUE')
-          print('U44_EXPLICIT_QUATERNION_REPRESENTATIVES=44/44')
-          print('J2_GENERIC_Q_DEFINED_CSA=TRUE')
-          print('GEOMETRIC_GLOBAL_RESIDUE_LIFT_OVER_QBAR=REPAIRED')
+          print('STAGE33_08_DIRECT_PREFIX=PASS')
+          print('STAGE33_04_REMAINS_CLOSED=true')
+          print('STAGE33_07_REOPENED=BLOCKED_NEW_KERNEL')
           print('ARITHMETIC_Q_DESCENT=UNRESOLVED')
-          print('NEW_KERNEL=R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT')
-          print('PREDECESSOR_REAUDIT_REQUIRED=true')
-          print('STAGE33_09_RELEASED=false')
+          print('STAGE33_PROGRESS=6/11')
           PY
-      - name: Upload Stage33-08 blocked checkpoint certificates
+      - name: Validate hostile-audited rollback controller
+        working-directory: stages/stage33/33-08
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('audit-state.json'))
+          h=json.load(open('handoff.json'))
+          s7=json.load(open('../33-07/audit-state.json'))
+          ctl=json.load(open('../controller.json'))
+          assert a['hostile_audit']=='PASS_BLOCKED_NEW_KERNEL'
+          assert a['stage33_progress']=='6/11'
+          assert a['predecessor_scope_correction']['stage33_04_reaudit_required'] is False
+          assert a['predecessor_scope_correction']['stage33_07_reaudit_required'] is True
+          assert a['stage33_08_effective']['closure_criteria_satisfied']==0
+          assert h['unit_status']=='BLOCKED_NEW_KERNEL'
+          assert not h['prerequisites_all_closed']
+          assert h['stage33_progress']=='6/11'
+          assert s7['unit_status']=='BLOCKED_NEW_KERNEL' and not s7['unit_closed']
+          assert s7['new_kernel_id']==a['stage33_07_effective']['new_kernel_id']
+          assert ctl['schema']=='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V19_STAGE33_07_REOPENED_33_08_BLOCKED_HS_DESCENT'
+          assert ctl['stage33_progress']=='6/11'
+          assert ctl['stage33_04']['unit_status']=='CLOSED'
+          assert ctl['stage33_04']['predecessor_reaudit_required'] is False
+          assert ctl['stage33_07']['unit_status']=='BLOCKED_NEW_KERNEL'
+          assert ctl['stage33_08']['unit_status']=='BLOCKED_NEW_KERNEL'
+          assert not ctl['stage33_08_released']
+          assert not ctl['stage33_09_released']
+          assert ctl['next_item']=='Stage33-07_REPAIR_GLOBAL_RESIDUE_LIFT_ARITHMETIC_HS_DESCENT'
+          assert ctl['next_expected_command']=='Stage33-main-batch'
+          assert not ctl['perfect_cuboid_nonexistence_claim']
+          print('STAGE33_08_HOSTILE_AUDIT=PASS_BLOCKED_NEW_KERNEL')
+          print('NEXT=Stage33-main-batch')
+          PY
+      - name: Upload Stage33-08 hostile-audited blocked checkpoint
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-08-br2b-blocked-checkpoint
+          name: stage33-08-br2b-audited-blocked
           path: |
             stages/stage33/33-08/representative-coverage-prefix.json
             stages/stage33/33-08/saturated-q-unit-generators.json
@@ -102,3 +134,7 @@ jobs:
             stages/stage33/33-08/u44-j2-explicit-representatives.json
             stages/stage33/33-08/global-gersten-csa-effectivity-kernel.json
             stages/stage33/33-08/global-gersten-arithmetic-descent-kernel.json
+            stages/stage33/33-08/audit.md
+            stages/stage33/33-08/audit-state.json
+            stages/stage33/33-08/handoff.json
+            stages/stage33/33-07/audit-state.json
