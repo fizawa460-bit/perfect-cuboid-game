@@ -50,6 +50,9 @@ jobs:
       - name: Certify geometric first-residue realizability of Q-fixed17
         working-directory: stages/stage33/33-04
         run: python certify_qfixed17_first_residue_realizability.py
+      - name: Isolate finite V4 divisor-parity descent obstruction
+        working-directory: stages/stage33/33-04
+        run: python certify_qfixed17_v4_divisor_descent.py
       - name: Diagnose exact linear-factor pullback discrepancy before solving exceptional valuations
         working-directory: stages/stage33/33-04
         env:
@@ -75,6 +78,7 @@ jobs:
             stages/stage33/33-04/unit-symbol-residue-span.json
             stages/stage33/33-04/qfixed17-graph-residual.json
             stages/stage33/33-04/qfixed17-first-residue-realizability.json
+            stages/stage33/33-04/qfixed17-v4-divisor-descent.json
             stages/stage33/33-04/q-unit-magma-stdout.txt
             stages/stage33/33-04/q-unit-pullback-diagnostic.json
             stages/stage33/33-04/linear-factor-unit-lifts.json
