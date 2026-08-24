@@ -37,7 +37,13 @@ jobs:
         working-directory: stages/stage33/33-03
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python extract_picu_quotient_action.py
+        run: |
+          for attempt in 1 2 3; do
+            if python extract_picu_quotient_action.py; then exit 0; fi
+            echo "PicU exact calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
       - name: Compute finite V4 hypercohomology with extension data
         working-directory: stages/stage33/33-03
         env:
@@ -53,12 +59,24 @@ jobs:
         working-directory: stages/stage33/33-03
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python compute_finite_transgression_ranks.py
+        run: |
+          for attempt in 1 2 3; do
+            if python compute_finite_transgression_ranks.py; then exit 0; fi
+            echo "finite H1 calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
       - name: Materialize the exact finite d2_01 image in the unit-character basis
         working-directory: stages/stage33/33-03
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python materialize_d2_01_image.py
+        run: |
+          for attempt in 1 2 3; do
+            if python materialize_d2_01_image.py; then exit 0; fi
+            echo "d2_01 exact calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
       - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
