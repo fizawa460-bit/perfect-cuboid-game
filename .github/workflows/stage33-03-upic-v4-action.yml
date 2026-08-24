@@ -98,7 +98,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           for attempt in 1 2 3; do
-            if python audit_materialize_free_d2_11.py; then exit 0; fi
+            if python audit_materialize_free_d2_11_v2.py; then exit 0; fi
             echo "audit free d2_11 exact calculator attempt ${attempt} incomplete"
             if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
           done
