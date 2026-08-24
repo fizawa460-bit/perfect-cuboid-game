@@ -28,7 +28,12 @@ printf "BOUNDARY_COMPONENT_COUNT=%o\n", #boundary_inds;
 printf "PIC_RANK=%o\n", #Basis(Pic);
 printf "BOUNDARY_IMAGE_RANK=%o\n", #Basis(BoundaryImage);
 printf "UNIT_KERNEL_RANK=%o\n", #Basis(UnitDivRelations);
-printf "PICU_INVARIANTS=%o\n", Invariants(PicU);
+// Magma's Invariants() does not accept this quotient's ModTupRng type on the
+// online backend. The exact quotient invariants/saturation are therefore
+// recomputed independently from the emitted 72x64 integer matrix by the
+// SymPy Smith-normal-form verifier. Keep an explicit marker instead of a
+// backend-specific conversion that could change the represented lattice.
+printf "PICU_INVARIANTS=INDEPENDENT_SNF_FROM_PHI_MATRIX\n";
 printf "BOUNDARY_INDICES=%o\n", boundary_inds;
 
 for j in [1..72] do
