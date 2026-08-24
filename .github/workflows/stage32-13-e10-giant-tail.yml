@@ -1,0 +1,215 @@
+name: Stage32-13 e10 giant-tail exact closure
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/stage32-13-e10-giant-tail.yml"
+      - "stages/stage32/32-13/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.6"
+      - id: plan
+        name: Build exact shard matrix
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=json.loads(pathlib.Path("stages/stage32/32-13/giant-e10-cells.json").read_text())
+          assert p["schema"]=="STAGE32_E10_A30_GIANT_TAIL_SHARD_PLAN_V1"
+          assert p["profile_sha"]=="993d0005f60499b50b03b899153b60f93de757a74f53d942e5a2168830cc5123"
+          expected={
+            43:("42ee1ca9ffc49798d5c927a6",1095920,8),
+            64:("65bd86aef2d39bf5e13aa268",1179360,8),
+            100:("cb01d3f2aed50c00b72d69e9",2534560,16),
+            108:("d6c2af90f25f4a5940eb3dd1",2596160,16),
+          }
+          include=[]
+          for c in p["cells"]:
+              idx=int(c["cell_index"])
+              assert (c["cell_id"],int(c["total_branches"]),int(c["shard_count"]))==expected[idx]
+              for s in range(int(c["shard_count"])):
+                  include.append({
+                    "cell_index":idx,
+                    "cell_id":c["cell_id"],
+                    "total_branches":int(c["total_branches"]),
+                    "shard_count":int(c["shard_count"]),
+                    "shard_index":s,
+                  })
+          assert len(include)==48
+          with open(os.environ["GITHUB_OUTPUT"],"a") as f:
+              f.write("matrix="+json.dumps({"include":include},separators=(",",":"))+"\n")
+          print(json.dumps({"jobs":len(include),"max_parallel":12},sort_keys=True))
+          PY
+      - name: Compile Stage32-13 scripts
+        run: |
+          python -m py_compile \
+            stages/stage32/32-13/aggregate_giant_e10_shards.py \
+            stages/stage32/32-13/assemble_e10_parent.py \
+            stages/stage32/32-13/verify_e10_parent_aut_orbits.py
+
+  shard:
+    needs: preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.preflight.outputs.matrix) }}
+    name: e10-cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}of${{ matrix.shard_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.6"
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core and profile
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/profile" "$RUNNER_TEMP/out"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+          gh run download 32679056269 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-08-e10-a30-materialization-profile --dir "$RUNNER_TEMP/profile"
+      - name: Re-derive caps and lock target cell
+        run: |
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+          python - <<'PY'
+          import json, os, pathlib
+          p=json.loads((pathlib.Path(os.environ["RUNNER_TEMP"])/"profile/materialization-profile.json").read_text())
+          assert p["canonical_sha256_without_this_field"]=="993d0005f60499b50b03b899153b60f93de757a74f53d942e5a2168830cc5123"
+          idx=int("${{ matrix.cell_index }}")
+          row=next(c for c in p["cells_sorted_by_branch_count"] if int(c["cell_index"])==idx)
+          assert row["cell_id"]=="${{ matrix.cell_id }}"
+          assert int(row["materialized_branch_count"])==int("${{ matrix.total_branches }}")
+          PY
+      - name: Exhaust exact branch shard
+        run: |
+          python stages/stage32/32-11r/run_materialized_cell_shard.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}.json" \
+            --exceptional-mass 10 --curve-group-mass 30 \
+            --cell-index ${{ matrix.cell_index }} \
+            --expected-cell-id ${{ matrix.cell_id }} \
+            --expected-total-branches ${{ matrix.total_branches }} \
+            --shard-index ${{ matrix.shard_index }} \
+            --shard-count ${{ matrix.shard_count }} \
+            --node-limit-per-branch 1000000
+      - name: Enforce shard completion and firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ["RUNNER_TEMP"])/"out/cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}.json"
+          d=json.loads(p.read_text())
+          assert d["complete_shard_numerical_enumeration"] is True
+          assert all(b["search"]["complete_numerical_enumeration"] and not b["search"]["node_budget_exhausted"] for b in d["branches"])
+          assert d["theorem_credit"] is False and d["receiver_credit"] is False
+          assert d["FULL_D8_G0_ROW_COMPLETE"] is False
+          assert d["R29_LG2"]=="NOT_DISCHARGED"
+          assert d["G10_LOWGENUS_PICARD"]=="AMBER"
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-13-e10-cell${{ matrix.cell_index }}-s${{ matrix.shard_index }}of${{ matrix.shard_count }}
+          path: ${{ runner.temp }}/out/cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.10.6"
+      - run: pip install sympy==1.14.0
+      - name: Download all 48 current-run shard artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-13-e10-*
+          path: ${{ runner.temp }}/shards
+          merge-multiple: true
+      - name: Aggregate four giant cells
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-13/aggregate_giant_e10_shards.py \
+            --plan stages/stage32/32-13/giant-e10-cells.json \
+            --input-dir "$RUNNER_TEMP/shards" \
+            --output "$RUNNER_TEMP/out/e10-a30-giant-tail.json"
+      - name: Download historical exact evidence and Aut action
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP"/{tier,profile,repair,direct,core,action}
+          gh run download 32686185075 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-10-e10-a30-le4096-exact-tier --dir "$RUNNER_TEMP/tier"
+          gh run download 32679056269 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-08-e10-a30-materialization-profile --dir "$RUNNER_TEMP/profile"
+          gh run download 32694939071 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-11r-timeout-shard-aggregate --dir "$RUNNER_TEMP/repair"
+          gh run download 32689063120 --repo fizawa460-bit/perfect-cuboid-game \
+            --pattern 'stage32-11-e10-a30-cell-*' --dir "$RUNNER_TEMP/direct"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+          gh run download 32674649970 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-07-d8g0-e2-a54-aut-orbits --dir "$RUNNER_TEMP/action"
+      - name: Assemble exact 134-cell e10/a30 parent
+        run: |
+          python stages/stage32/32-13/assemble_e10_parent.py \
+            --tier "$RUNNER_TEMP/tier/tier4096.json" \
+            --profile "$RUNNER_TEMP/profile/materialization-profile.json" \
+            --repair "$RUNNER_TEMP/repair/timeout-shard-aggregate.json" \
+            --direct-dir "$RUNNER_TEMP/direct" \
+            --giant "$RUNNER_TEMP/out/e10-a30-giant-tail.json" \
+            --output "$RUNNER_TEMP/out/e10-a30-full-parent.json"
+      - name: Partition full parent under source-locked Aut(S)
+        run: |
+          python stages/stage32/32-13/verify_e10_parent_aut_orbits.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --action "$RUNNER_TEMP/action/aut-action.json" \
+            --parent "$RUNNER_TEMP/out/e10-a30-full-parent.json" \
+            --output "$RUNNER_TEMP/out/e10-a30-full-parent-aut-orbits.json"
+      - name: Enforce parent/orbit firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ["RUNNER_TEMP"])/"out"
+          for name in ("e10-a30-giant-tail.json","e10-a30-full-parent.json","e10-a30-full-parent-aut-orbits.json"):
+              d=json.loads((root/name).read_text())
+              assert d["theorem_credit"] is False
+              assert d["receiver_credit"] is False
+              assert d["FULL_D8_G0_ROW_COMPLETE"] is False
+              assert d["FULL_D176_D192_NUMERICAL_ORBIT_CENSUS"] is False
+              assert d["R29_LG2_NUMERICAL_COMPONENT_COMPLETE"] is False
+              assert d["R29_LG2"]=="NOT_DISCHARGED"
+              assert d["R29_LG2_EFF"]=="NOT_DISCHARGED"
+              assert d["R29_LG2_MB"]=="NOT_DISCHARGED"
+              assert d["G10_LOWGENUS_PICARD"]=="AMBER"
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-13-e10-a30-full-parent-aut-orbit-census
+          path: ${{ runner.temp }}/out/*.json
+          if-no-files-found: error
