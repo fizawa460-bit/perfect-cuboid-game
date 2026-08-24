@@ -1,0 +1,80 @@
+name: Stage33-05 K3 branch/Galois preflight
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-05/**'
+      - '.github/workflows/stage33-05-k3-branch-preflight.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  branch-galois-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact symbolic dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Verify branch factorization, Galois swap, and 8 transverse nodes
+        working-directory: stages/stage33/33-05
+        run: python branch_galois_check.py
+      - name: Verify Creutz-Viray finite dimension skeleton
+        working-directory: stages/stage33/33-05
+        run: python cv_dimension_check.py
+      - name: Materialize common normalization and associated-graded conjugation action
+        working-directory: stages/stage33/33-05
+        run: python normalization_galois_skeleton.py
+      - name: Materialize filtered 5D LcE quotient and two Jac functions
+        working-directory: stages/stage33/33-05
+        run: python lce_filtered_quotient_skeleton.py
+      - name: Materialize low-degree graph quotient function channel
+        working-directory: stages/stage33/33-05
+        run: python graph_function_lowdegree_search.py
+      - name: Synthesize the one residual graph direction in bidegree (2,1)
+        working-directory: stages/stage33/33-05
+        run: python residual_graph_function_bidegree21.py
+      - name: Replace parity-only graph pilots by exact elliptic lifts and materialize extension mixing
+        working-directory: stages/stage33/33-05
+        run: python cv_exact_graph_lifts_and_galois.py
+      - name: Run superseded norm-level two-row pilot for regression only
+        working-directory: stages/stage33/33-05
+        run: python xalpha_split_section_rows.py
+      - name: Repair true x-alpha pair classes and full-pair Galois action
+        working-directory: stages/stage33/33-05
+        run: python xalpha_pair_galois_repair.py
+      - name: Compute CV-presentation connecting cocycles for geometric quotient basis
+        working-directory: stages/stage33/33-05
+        run: python descent_presentation_cocycle.py
+      - name: Certify Q-defined arithmetic descent of J2
+        working-directory: stages/stage33/33-05
+        run: python j2_arithmetic_descent.py
+      - name: Materialize q1 NS lift and cyclic non-norm parity
+        working-directory: stages/stage33/33-05
+        run: python q1_ns_lift_parity.py
+      - name: Identify q1 Hochschild-Serre d2 by Kummer Bockstein
+        working-directory: stages/stage33/33-05
+        run: python q1_hs_d2_bockstein.py
+      - name: Upload exact preflight certificates
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-05-k3-branch-preflight
+          path: |
+            stages/stage33/33-05/branch-galois-certificate.json
+            stages/stage33/33-05/cv-dimension-certificate.json
+            stages/stage33/33-05/normalization-galois-graded.json
+            stages/stage33/33-05/lce-filtered-quotient-skeleton.json
+            stages/stage33/33-05/lowdegree-graph-functions.json
+            stages/stage33/33-05/residual-graph-function-bidegree21.json
+            stages/stage33/33-05/cv-exact-graph-lifts-galois.json
+            stages/stage33/33-05/xalpha-two-rows-quotient-action.json
+            stages/stage33/33-05/xalpha-pair-galois-repair.json
+            stages/stage33/33-05/descent-presentation-cocycle.json
+            stages/stage33/33-05/j2-arithmetic-descent.json
+            stages/stage33/33-05/q1-ns-lift-cyclic-parity.json
+            stages/stage33/33-05/q1-hs-d2-bockstein.json
