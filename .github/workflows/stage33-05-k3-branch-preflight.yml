@@ -24,8 +24,13 @@ jobs:
       - name: Verify branch factorization, Galois swap, and 8 transverse nodes
         working-directory: stages/stage33/33-05
         run: python branch_galois_check.py
-      - name: Upload exact preflight certificate
+      - name: Verify Creutz-Viray finite dimension skeleton
+        working-directory: stages/stage33/33-05
+        run: python cv_dimension_check.py
+      - name: Upload exact preflight certificates
         uses: actions/upload-artifact@v4
         with:
           name: stage33-05-k3-branch-preflight
-          path: stages/stage33/33-05/branch-galois-certificate.json
+          path: |
+            stages/stage33/33-05/branch-galois-certificate.json
+            stages/stage33/33-05/cv-dimension-certificate.json
