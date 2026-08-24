@@ -10,7 +10,6 @@ LCE_DIMENSION=5
 XALPHA_IMAGE_DIMENSION=3
 COMMON_NORMALIZATION_EXACT=true
 FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=true
-CREUTZ_VIRAY_DIVISOR_CONDITIONS_COMPLETE=true
 TRUE_XALPHA_PAIR_REPAIR_EXACT=true
 J1_IN_XALPHA_IMAGE_EXACT=true
 XALPHA_GRAPH_PROJECTION_RANK=2
@@ -21,6 +20,10 @@ EXPLICIT_GEOMETRIC_BRAUER_QUOTIENT_BASIS=J2,q1
 FULL_PAIR_GALOIS_ACTION_EXACT=true
 GEOMETRIC_BR2_GALOIS_ACTION=IDENTITY
 GEOMETRIC_BR2_GQ_INVARIANT_DIMENSION=2
+CV_PRESENTATION_CONNECTING_COCYCLE_EXACT=true
+J2_FIXED_LCE_LIFT_EXISTS=true
+Q1_FIXED_LCE_LIFT_EXISTS=false
+J2_QI_GENERIC_FUNCTION_MATERIALIZED=true
 DESCENT_OBSTRUCTION_ACCOUNTED=false
 Q_DEFINED_ARITHMETIC_REPRESENTATIVES_MATERIALIZED=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
@@ -29,9 +32,9 @@ ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## Exact five-dimensional presentation
+## Exact geometric presentation
 
-The corrected Creutz--Viray computation remains frozen at
+The corrected Creutz--Viray computation is frozen at
 
 ```text
 Jac(B)[2] dimension       = 4
@@ -48,43 +51,26 @@ The common normalization is
 ```text
 z^2=t^4-6t^2+1,
 s_plus =  i*(1-t^2+z)/(2*t),
-s_minus = -i*(1-t^2+z)/(2*t).
+s_minus = -i*(1-t^2+z)/(2*t),
 ```
 
-The lifted `L_{c,E}` basis is ordered
-
-```text
-[J1,J2,q1,q2,q3],
-```
-
-where `J1,J2` are the two Jacobian squareclasses and
+and the exact `L_{c,E}` basis is `[J1,J2,q1,q2,q3]` with graph classes
 
 ```text
 q1=e1+e3,
 q2=e1+e5,
-q3=e1+e7
+q3=e1+e7.
 ```
 
-are the graph-quotient classes.
+## True x-alpha repair
 
-## Supersession of the old two-row pilot
-
-`xalpha_split_section_rows.py` remains only as a norm-level regression.  Its former interpretation
-
-```text
-s=1 -> J1,
-s=t -> J1+J2
-```
-
-as full `x-alpha` rows is superseded.
-
-Creutz--Viray `x-alpha` on a horizontal section `s=f(t)` is represented on the two normalized branch components by the pair
+The old `xalpha_split_section_rows.py` pure-Jac row interpretation is superseded; it remains only a norm-level regression.  The actual section class is the pair
 
 ```text
 (f-s_plus, f-s_minus)
 ```
 
-modulo the diagonal `K(t)^*` class and componentwise squares.  Computing the actual node incidences gives
+modulo diagonal `K(t)^*` and component squares.  Exact node incidences give
 
 ```text
 s=1                    -> graph q1+q2,
@@ -92,45 +78,29 @@ s=t                    -> graph q1+q2+q3,
 s=-i*(t-i)/(t+i)       -> graph q1+q2.
 ```
 
-Thus the first two graph projections are independent.
-
-The two sections `s=1` and `s=-i*(t-i)/(t+i)` have the same graph projection.  Their quotient is therefore Jacobian-only.  `xalpha_pair_galois_repair.py` gives an explicit square witness on `z^2=t^4-6t^2+1` and proves exactly
+An explicit square witness proves
 
 ```text
-xalpha(-i*(t-i)/(t+i)) + xalpha(1) = J1.
+xalpha(-i*(t-i)/(t+i)) + xalpha(1) = J1,
 ```
 
-Hence `J1` is in `im(x-alpha)`.
-
-Together with the two independent graph projections and the independently locked total image dimension three, this determines the image exactly up to two immaterial `J2` coefficients:
+so `J1` lies in `im(x-alpha)`.  Since the first two graph projections are independent and the total image dimension is independently three,
 
 ```text
 im(x-alpha)
  = span_F2 {
      J1,
-     b*J2 + q1+q2,
-     d*J2 + q1+q2+q3
+     b*J2+q1+q2,
+     d*J2+q1+q2+q3
    },
    b,d in F2.
 ```
 
-The values of `b,d` do not affect the quotient.  For all four possibilities the classes
+The two undetermined `J2` coefficients do not affect the quotient: for every `b,d`, `[J2,q1]` maps to a basis of the two-dimensional geometric Brauer quotient.  The former seven-graph-line/Picard-generator search is therefore retired.
 
-```text
-[J2,q1]
-```
+## Full-pair Galois action
 
-map to a basis of the two-dimensional geometric Brauer quotient.  Therefore the former residual-seven-graph-line search is retired; restricting twenty Picard generators merely to select one of seven graph lines is no longer a required leaf.
-
-## Full-pair Galois action repair
-
-`cv_exact_graph_lifts_and_galois.py` correctly computes the half-point correction on one branch component, but its old 5D matrices must not be read as the action on the full pair in
-
-```text
-L = k(B+) x k(B-).
-```
-
-After combining the two components, the exact action on `[J1,J2,q1,q2,q3]` is
+The old half-point corrections remain valid as single-component data but are not the full action on `L=k(B+) x k(B-)`.  The corrected full-pair action is
 
 ```text
 tau = identity,
@@ -142,45 +112,97 @@ ct(J1)=J1,
 ct(J2)=J2.
 ```
 
-Since `J1` is an exact `x-alpha` relation, all three generators induce the identity on the quotient basis `[J2,q1]`.  Hence
+Because `J1` is an `x-alpha` relation, the action induced on `[J2,q1]` is identity.  Thus
 
 ```text
 Br(K_cbar)[2] ~= (F2)^2,
-G_Q action on Br(K_cbar)[2] = identity,
 Br(K_cbar)[2]^G_Q dimension = 2.
 ```
 
-This is still a geometric invariant statement.  It does **not** by itself certify that either invariant class lies in the image of `Br(K_c)` over `Q`.
+This remains geometric invariance only.
 
-## Authoritative repair certificate
+## First exact descent filter: presentation connecting cocycle
 
-```text
-checker = xalpha_pair_galois_repair.py
-output  = xalpha-pair-galois-repair.json
-workflow_run = 32710572932
-workflow_number = 39
-workflow_conclusion = success
-artifact_id = 9513914592
-artifact_sha256 = f909a226bffb4a469ae9cc85458742caac38598a2f70c7358ff5652de6e26fa4
-```
-
-## Next exact leaf
-
-The next wall is no longer geometric quotient construction.  It is arithmetic descent of the two explicit geometric quotient classes:
+Apply Galois invariants to the finite presentation
 
 ```text
-LEAF_ID=L33-05-HOCHSCHILD-SERRE-DESCENT-OF-J2-Q1
-CLASS=2
-NEW_THEOREM_REQUIRED=false
-GEOMETRIC_QUOTIENT_BASIS=J2,q1
-GEOMETRIC_INVARIANT_DIMENSION=2
-REQUIRED_OUTPUT=DESCENT_OBSTRUCTION_PLUS_Q_DEFINED_ARITHMETIC_REPRESENTATIVES
+0 -> R=im(x-alpha) -> L_{c,E} -> Br(K_cbar)[2] -> 0.
 ```
 
-Theorem I of Creutz--Viray gives the finite presentation as a Galois module; its introduction explicitly warns that invariant group structure alone does not replace explicit arithmetic representatives.  Stage33-05 therefore keeps the firewall
+For every value of the immaterial coefficients `b,d`, the full-pair `ct` action fixes `R` pointwise.  Hence for the effective `C2` action
+
+```text
+H^1(C2,R)=Hom(C2,R)=R
+```
+
+and there are no nonzero coboundaries.
+
+The exact connecting classes of the geometric quotient basis are
+
+```text
+J2 : delta(ct)=0,
+q1 : delta(ct)=J1 != 0.
+```
+
+Therefore
+
+```text
+J2 has a Galois-fixed L_{c,E} lift,
+q1 has no Galois-fixed L_{c,E} lift,
+```
+
+and adding any `x-alpha` relation does not remove the `q1` cocycle.  This is a genuine split in the arithmetic workload.
+
+Important firewall: this connecting class belongs to the Creutz--Viray presentation exact sequence.  It is **not yet identified with the Hochschild--Serre d2 obstruction**.  In particular `q1` is not declared non-descending; its `J1` cocycle must first be lifted through the Neron--Severi/divisor relation.
+
+## J2: explicit Q(i)-level generic function
+
+The `J2` component squareclass initially uses `sqrt(2)`.  The new checker removes it exactly by a Hilbert-90 computation.  With
+
+```text
+f2=(t+1+sqrt(2))/(t-1+sqrt(2)),
+h=((t-(sqrt(2)-1))*(t-(1-sqrt(2))))/z,
+h*ct(h)=1,
+g=1+h,
+```
+
+one has `ct(g)/g=1/h`, and
+
+```text
+f2*g^2
+ = 2*(t^2+z-3)/(t^2-2*t-1)
+```
+
+on `z^2=t^4-6t^2+1`.  The right-hand side contains no `sqrt(2)`, so a `Q(i)`-defined generic branch-component function representing the geometric `J2` squareclass is materialized.
+
+This does **not** yet certify an unramified arithmetic CSA over `Q(i)`: as Creutz--Viray's arithmetic example illustrates, geometric unramifiedness does not by itself rule out ground-field nonsquare residues on exceptional divisors.  Those residue checks and subsequent `Q(i)/Q` descent remain open.
+
+## Authoritative exact execution
+
+```text
+xalpha repair checker        = xalpha_pair_galois_repair.py
+presentation descent checker = descent_presentation_cocycle.py
+latest workflow_run          = 32710954883
+latest workflow_number       = 43
+latest workflow_conclusion   = success
+artifact_id                  = 9514049977
+artifact_sha256              = a249ff59ed92bec4e75acea7b8f0c6050b4787e7b0184f2587be8684cafb48b2
+```
+
+## Next exact leaves
+
+The single descent leaf has now split into two bounded receivers:
+
+```text
+L33-05-J2-QI-ARITHMETIC-RESIDUES-AND-QI-OVER-Q-DESCENT
+L33-05-Q1-LIFT-CONNECTING-J1-THROUGH-NS-THEN-HS-D2
+```
+
+Required before closure:
 
 ```text
 DESCENT_OBSTRUCTION_ACCOUNTED=false
+Q_DEFINED_ARITHMETIC_REPRESENTATIVES_MATERIALIZED=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
 UNRESOLVED_UNKNOWN_IN_SCOPE>0
 UNIT_STATUS=RUNNING
