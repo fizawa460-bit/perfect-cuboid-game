@@ -1,0 +1,126 @@
+name: Stage32-08 cached materialized regression
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-08/run_materialized_signature_cell_cached.py'
+      - '.github/workflows/stage32-08-materialized-cached-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  regression:
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - label: e8-a36-cell0
+            e: 8
+            a: 36
+            cell_index: 0
+            cell_id: 0451bcae6084559bbb842530
+            expected_branches: 1
+            expected_nodes: 38
+            expected_result: SAT_WITNESS
+            expected_witness: 8798773deb003c06dc91ef14cd3a952c90d4ba23dcd4ee1cbd66810fbb9942e0
+          - label: e10-a30-cell1
+            e: 10
+            a: 30
+            cell_index: 1
+            cell_id: 02066d9eeb06efcf04b0d750
+            expected_branches: 16
+            expected_nodes: 40
+            expected_result: UNSAT
+            expected_witness: NONE
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Compile cached backend
+        run: python -m py_compile stages/stage32/32-08/run_materialized_signature_cell_cached.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+      - name: Run cached exact materialized regression
+        run: |
+          python stages/stage32/32-08/run_materialized_signature_cell_cached.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/cached.json" \
+            --exceptional-mass ${{ matrix.e }} \
+            --curve-group-mass ${{ matrix.a }} \
+            --genus 0 \
+            --cell-index ${{ matrix.cell_index }} \
+            --expected-cell-id ${{ matrix.cell_id }} \
+            --node-limit-per-branch 100000
+      - name: Lock V1 mathematical results and firewalls
+        env:
+          EXPECTED_BRANCHES: ${{ matrix.expected_branches }}
+          EXPECTED_NODES: ${{ matrix.expected_nodes }}
+          EXPECTED_RESULT: ${{ matrix.expected_result }}
+          EXPECTED_WITNESS: ${{ matrix.expected_witness }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/cached.json').read_text())
+          assert d['schema']=='STAGE32_D8_MATERIALIZED_SIGNATURE_CELL_QTAIL_CACHED_V2'
+          assert d['algorithm_id']=='D8_FIX52_SHARED_HNF_LLL_QTAIL12_FP140_CACHED_V2'
+          assert d['shared_context']['independent_row_count']==52
+          assert d['shared_context']['kernel_dimension']==12
+          assert d['shared_context']['all_140_lower_and_upper_caps_preprojected'] is True
+          assert d['shared_context']['shared_across_all_materialized_branches'] is True
+          assert d['materialization']['total_branch_count']==int(os.environ['EXPECTED_BRANCHES'])
+          assert d['solver_result']==os.environ['EXPECTED_RESULT']
+          assert sum(r['search']['enumeration_node_count'] for r in d['branches'])==int(os.environ['EXPECTED_NODES'])
+          if os.environ['EXPECTED_WITNESS']=='NONE':
+              assert d['witness'] is None
+              assert d['executed_branch_count']==d['materialization']['total_branch_count']
+          else:
+              assert d['witness']['basis_coordinates_sha256']==os.environ['EXPECTED_WITNESS']
+          assert d['complete_for_existence'] is True
+          assert d['performance_regression'] is True
+          assert d['parent_exactly_closed'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED'
+          assert d['R29_LG2_EFF']=='NOT_DISCHARGED'
+          assert d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({
+              'cell':d['parameters']['cell_id'],
+              'branches':d['materialization']['total_branch_count'],
+              'nodes':sum(r['search']['enumeration_node_count'] for r in d['branches']),
+              'result':d['solver_result'],
+              'witness':d['witness']['basis_coordinates_sha256'] if d['witness'] else None,
+              'common_prep_seconds':d['shared_context_preparation_seconds'],
+              'elapsed_seconds':d['elapsed_seconds'],
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-${{ matrix.label }}-cached-regression
+          path: ${{ runner.temp }}/out/cached.json
+          if-no-files-found: error
