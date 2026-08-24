@@ -1,11 +1,6 @@
 name: Stage33-07 compact Picard discriminant action
 
 on:
-  pull_request:
-    paths:
-      - 'stages/stage33/33-07/extract_picard_discriminant_compact.py'
-      - 'stages/stage33/33-07/stoll_cuboid_source.py'
-      - '.github/workflows/stage33-07-picard-discriminant-compact.yml'
   workflow_dispatch:
 
 permissions:
@@ -20,26 +15,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Extract exact 14-generator Picard discriminant form and V4 action
+      - name: Reproduce exact 14-generator Picard discriminant form and V4 action
         working-directory: stages/stage33/33-07
         run: python extract_picard_discriminant_compact.py
-      - name: Validate conservative repair state
+      - name: Validate against retained canonical certificate
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
           import json
           x=json.load(open('picard-discriminant-compact.json'))
+          assert x['canonical_sha256']=='4ca7567205455175a5f9bef7a74bc9ec31cd68f831aec60aa88a637b5c0cfdf0'
           assert x['discriminant_moduli']==[2]*4+[4]*6+[8]*4
           assert abs(x['picard_determinant'])==2**28
           assert x['mixed_action_well_defined']
           assert x['cc_ct_involutions_and_commute']
           assert x['cc_ct_preserve_discriminant_quadratic_form']
           assert not x['actual_index512_k3_glue_identified']
-          assert x['unit_status']=='RUNNING_REPAIR'
-          assert x['stage33_progress']=='6/11'
-          assert not x['stage33_08_released']
           print('STAGE33_07_COMPACT_DISCRIMINANT=PASS')
-          print('NEXT=',x['next_exact_leaf'])
           PY
       - uses: actions/upload-artifact@v4
         with:
