@@ -21,16 +21,41 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install exact integer algebra dependency
-        run: python -m pip install 'sympy==1.14.0'
       - name: Certify nonzero endpoint pullback of Kc J2
         working-directory: stages/stage33/33-07
         run: python probe_j2_endpoint_q2.py
-      - name: Materialize full rank-14 explicit Q-unit lattice
-        working-directory: stages/stage33/33-04
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python materialize_q_units_v2.py
+      - name: Assemble audited Stage33-07 integration prefix
+        working-directory: stages/stage33/33-07
+        run: python assemble_integration_prefix.py
+      - name: Validate main-batch firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          c=json.load(open('integration-prefix.json'))
+          p=c['closure_prefix']
+          assert p['br0b_all_primary_classes_imported']
+          assert p['br0g_relevant_classes_imported']
+          assert p['theorem_hypotheses_source_locked']
+          assert p['variable_dictionary_complete']
+          assert p['nf_phys2_camp4_invocations_hypothesis_gated']
+          assert p['br0b_all_primary_classes_accounted']
+          assert p['relation_matrix_exact_for_two_primary_branch'] is False
+          assert p['symbol_matrix_exact_for_two_primary_branch'] is False
+          assert p['trivial_algebraic_duplicate_quotient_exact'] is False
+          assert p['complete_relevant_q_defined_class_list_for_stage33_brauer_scope'] is False
+          assert p['unresolved_unknown_in_scope']==1
+          assert c['unit_status']=='RUNNING'
+          assert c['unit_closed'] is False
+          assert c['downstream_released'] is False
+          assert c['stage33_progress']=='6/11'
+          assert c['stage33_08_released'] is False
+          assert c['firewalls']['unit_unit_symbol_span_identified_with_br0b_character_unit_family'] is False
+          assert c['firewalls']['stage33_04_diagnostic_z2_23_plus_z4_3_promoted_to_final_class_group'] is False
+          print('STAGE33_07_PREFIX=PASS')
+          print('RESIDUAL='+c['new_residual_kernel'])
+          print('NEXT_LEAF='+c['next_exact_leaf'])
+          PY
       - name: Upload Stage33-07 working certificates
         uses: actions/upload-artifact@v4
         with:
@@ -38,5 +63,4 @@ jobs:
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
             stages/stage33/33-07/j2-q2-magma-stdout.txt
-            stages/stage33/33-04/explicit-q-units.json
-            stages/stage33/33-04/q-unit-magma-stdout.txt
+            stages/stage33/33-07/integration-prefix.json
