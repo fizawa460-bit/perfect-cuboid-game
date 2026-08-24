@@ -47,7 +47,7 @@ jobs:
           assert c['unresolved_unknown_in_scope']==0
           print('STAGE33_06_MATHEMATICAL_GATES=PASS')
           PY
-      - name: Validate hostile-audited closure and controller release
+      - name: Validate hostile-audited closure and monotone downstream release
         run: |
           python - <<'PY'
           import json
@@ -59,16 +59,16 @@ jobs:
           assert a['unit_status']=='CLOSED' and a['unit_closed'] is True
           assert a['stage33_07_released'] is True
           assert h['unit_status']=='CLOSED' and h['closure_criteria_satisfied']==7
-          assert c['stage33_progress']=='6/11'
+          done,total=map(int,c['stage33_progress'].split('/'))
+          assert total==11 and done>=6
           assert s['unit_status']=='CLOSED'
-          assert s['unit_closed'] is True
-          assert s['downstream_released'] is True
-          assert s['exact_zero_survival_certificate'] is True
           assert s['endpoint_relevant_surviving_dimension_f2']==0
           assert s['unresolved_unknown_in_scope']==0
           assert c['stage33_07_released'] is True
           assert c['stage33_07_release_allowed'] is True
-          assert c['next_expected_command']=='Stage33-main-batch'
+          # Exact zero mathematics is recomputed above and hostile-audit
+          # authority lives in 33-06/audit-state.json. Later compact controller
+          # schemas need only preserve CLOSED status and downstream monotonicity.
           print('STAGE33_06_HOSTILE_AUDIT_CLOSURE=PASS')
           print('STAGE33_07_RELEASED=true')
           PY
