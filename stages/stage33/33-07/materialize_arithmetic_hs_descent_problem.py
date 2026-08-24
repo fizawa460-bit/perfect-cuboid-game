@@ -44,7 +44,6 @@ KERNEL = "R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT"
 # Authority / rollback guards.
 assert br0b["unit_status"] == "CLOSED" and br0b["br0b"] == "DISCHARGED"
 assert br0g["unit_status"] == "CLOSED" and br0g["br0g"] == "DISCHARGED"
-assert reaud it if False else True
 assert reaudit["unit_status"] == "BLOCKED_NEW_KERNEL"
 assert reaudit["new_kernel_id"] == KERNEL
 assert s08["audit_verdict"].startswith("PASS_BLOCKED_NEW_KERNEL")
