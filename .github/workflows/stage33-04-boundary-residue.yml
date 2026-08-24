@@ -14,7 +14,7 @@ permissions:
 jobs:
   boundary-residue:
     runs-on: ubuntu-latest
-    timeout-minutes: 6
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -27,8 +27,18 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python analyze_boundary_residue.py
-      - name: Upload exact Stage33-04 skeleton
+      - name: Independently materialize pinned boundary Galois permutations
+        working-directory: stages/stage33/33-04
+        run: python extract_boundary_galois.py
+      - name: Induce exact V4 action on the saturated rank-73 cycle lattice
+        working-directory: stages/stage33/33-04
+        run: python analyze_cycle_galois.py
+      - name: Upload exact Stage33-04 certificates
         uses: actions/upload-artifact@v4
         with:
           name: stage33-04-boundary-residue-skeleton
-          path: stages/stage33/33-04/boundary-residue-skeleton.json
+          path: |
+            stages/stage33/33-04/boundary-residue-skeleton.json
+            stages/stage33/33-04/boundary-galois.json
+            stages/stage33/33-04/boundary-galois-magma-stdout.txt
+            stages/stage33/33-04/boundary-cycle-galois.json
