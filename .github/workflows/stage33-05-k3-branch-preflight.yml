@@ -51,6 +51,9 @@ jobs:
       - name: Compute CV-presentation connecting cocycles for geometric quotient basis
         working-directory: stages/stage33/33-05
         run: python descent_presentation_cocycle.py
+      - name: Certify Q-defined arithmetic descent of J2
+        working-directory: stages/stage33/33-05
+        run: python j2_arithmetic_descent.py
       - name: Upload exact preflight certificates
         uses: actions/upload-artifact@v4
         with:
@@ -66,3 +69,4 @@ jobs:
             stages/stage33/33-05/xalpha-two-rows-quotient-action.json
             stages/stage33/33-05/xalpha-pair-galois-repair.json
             stages/stage33/33-05/descent-presentation-cocycle.json
+            stages/stage33/33-05/j2-arithmetic-descent.json
