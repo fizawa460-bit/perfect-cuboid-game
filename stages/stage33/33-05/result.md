@@ -2,7 +2,8 @@
 
 ```text
 STAGE33_UNIT=33-05
-UNIT_STATUS=RUNNING
+UNIT_STATUS=READY_FOR_AUDIT
+MAIN_PRODUCTION_COMPLETE=true
 UNIT_CLOSED=false
 DOWNSTREAM_RELEASED=false
 K3_GEOMETRIC_BR2_DIM=2
@@ -21,12 +22,16 @@ FULL_PAIR_GALOIS_ACTION_EXACT=true
 GEOMETRIC_BR2_GALOIS_ACTION=IDENTITY
 GEOMETRIC_BR2_GQ_INVARIANT_DIMENSION=2
 CV_PRESENTATION_CONNECTING_COCYCLE_EXACT=true
-J2_FIXED_LCE_LIFT_EXISTS=true
-Q1_FIXED_LCE_LIFT_EXISTS=false
-J2_QI_GENERIC_FUNCTION_MATERIALIZED=true
-DESCENT_OBSTRUCTION_ACCOUNTED=false
-Q_DEFINED_ARITHMETIC_REPRESENTATIVES_MATERIALIZED=false
-Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
+J2_Q_DESCENT_CERTIFIED=true
+Q1_NS_LIFT_MATERIALIZED=true
+Q1_HOCHSCHILD_SERRE_D2_CERTIFIED=true
+Q1_Q_DESCENT=false
+DESCENT_OBSTRUCTION_ACCOUNTED=true
+Q_DEFINED_ARITHMETIC_REPRESENTATIVES_MATERIALIZED=true
+Q_RELEVANT_SURVIVING_DIM_CERTIFIED=true
+Q_RELEVANT_SURVIVING_DIM=1
+Q_SURVIVING_GEOMETRIC_BR2_BASIS=J2
+HOSTILE_AUDIT=PENDING
 THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
@@ -54,7 +59,7 @@ s_plus =  i*(1-t^2+z)/(2*t),
 s_minus = -i*(1-t^2+z)/(2*t),
 ```
 
-and the exact `L_{c,E}` basis is `[J1,J2,q1,q2,q3]` with graph classes
+and the exact `L_{c,E}` basis is `[J1,J2,q1,q2,q3]`, with graph classes
 
 ```text
 q1=e1+e3,
@@ -62,29 +67,21 @@ q2=e1+e5,
 q3=e1+e7.
 ```
 
-## True x-alpha repair
-
-The old `xalpha_split_section_rows.py` pure-Jac row interpretation is superseded; it remains only a norm-level regression.  The actual section class is the pair
-
-```text
-(f-s_plus, f-s_minus)
-```
-
-modulo diagonal `K(t)^*` and component squares.  Exact node incidences give
+The old `xalpha_split_section_rows.py` pure-Jac interpretation is superseded and retained only as a norm-level regression.  For the true pair class `(f-s_plus,f-s_minus)`, exact node incidences give
 
 ```text
 s=1                    -> graph q1+q2,
 s=t                    -> graph q1+q2+q3,
-s=-i*(t-i)/(t+i)       -> graph q1+q2.
+s=-i*(t-i)/(t+i)       -> graph q1+q2,
 ```
 
-An explicit square witness proves
+and an explicit square witness proves
 
 ```text
-xalpha(-i*(t-i)/(t+i)) + xalpha(1) = J1,
+xalpha(-i*(t-i)/(t+i)) + xalpha(1) = J1.
 ```
 
-so `J1` lies in `im(x-alpha)`.  Since the first two graph projections are independent and the total image dimension is independently three,
+Thus
 
 ```text
 im(x-alpha)
@@ -92,15 +89,14 @@ im(x-alpha)
      J1,
      b*J2+q1+q2,
      d*J2+q1+q2+q3
-   },
-   b,d in F2.
+   }, b,d in F2,
 ```
 
-The two undetermined `J2` coefficients do not affect the quotient: for every `b,d`, `[J2,q1]` maps to a basis of the two-dimensional geometric Brauer quotient.  The former seven-graph-line/Picard-generator search is therefore retired.
+and `[J2,q1]` is a quotient basis for every `b,d`.
 
-## Full-pair Galois action
+## Correct full-pair Galois action
 
-The old half-point corrections remain valid as single-component data but are not the full action on `L=k(B+) x k(B-)`.  The corrected full-pair action is
+The single-component half-point mixing is not the full action on `L=k(B+) x k(B-)`.  The corrected pair action is
 
 ```text
 tau = identity,
@@ -112,100 +108,171 @@ ct(J1)=J1,
 ct(J2)=J2.
 ```
 
-Because `J1` is an `x-alpha` relation, the action induced on `[J2,q1]` is identity.  Thus
+Since `J1` is an `x-alpha` relation, the induced action on `Br(K_cbar)[2]` is identity. Therefore
 
 ```text
 Br(K_cbar)[2] ~= (F2)^2,
-Br(K_cbar)[2]^G_Q dimension = 2.
+Br(K_cbar)[2]^G_Q ~= (F2)^2,
 ```
 
-This remains geometric invariance only.
+with geometric invariant basis `[J2,q1]`.
 
-## First exact descent filter: presentation connecting cocycle
+## J2 descends to Q
 
-Apply Galois invariants to the finite presentation
+The first descent filter gives `delta(J2)=0`.  Hilbert--90 removes the auxiliary `sqrt(2)` from the normalization representative:
 
 ```text
-0 -> R=im(x-alpha) -> L_{c,E} -> Br(K_cbar)[2] -> 0.
+ell_z = 2*(t^2+z-3)/(t^2-2*t-1).
 ```
 
-For every value of the immaterial coefficients `b,d`, the full-pair `ct` action fixes `R` pointwise.  Hence for the effective `C2` action
+Eliminating `z` in the Q-defined quartic branch algebra
 
 ```text
-H^1(C2,R)=Hom(C2,R)=R
+L=Q(t)[alpha]/(
+  t^2*(1-alpha^2)^2 + alpha^2*(1-t^2)^2
+)
 ```
 
-and there are no nonzero coboundaries.
-
-The exact connecting classes of the geometric quotient basis are
+gives the Q-rational function
 
 ```text
-J2 : delta(ct)=0,
-q1 : delta(ct)=J1 != 0.
+ell_J2 =
+4*(alpha^2*t^2+t^4-4*t^2+2)
+ / ((t^2-1)*(t^2-2*t-1)).
 ```
 
-Therefore
+The exact resultant computation gives
 
 ```text
-J2 has a Galois-fixed L_{c,E} lift,
-q1 has no Galois-fixed L_{c,E} lift,
+Norm_{L/Q(t)}(ell_J2)
+ = 1024/(t^2-2*t-1)^4
+ = (32/(t^2-2*t-1)^2)^2.
 ```
 
-and adding any `x-alpha` relation does not remove the `q1` cocycle.  This is a genuine split in the arithmetic workload.
-
-Important firewall: this connecting class belongs to the Creutz--Viray presentation exact sequence.  It is **not yet identified with the Hochschild--Serre d2 obstruction**.  In particular `q1` is not declared non-descending; its `J1` cocycle must first be lifted through the Neron--Severi/divisor relation.
-
-## J2: explicit Q(i)-level generic function
-
-The `J2` component squareclass initially uses `sqrt(2)`.  The new checker removes it exactly by a Hilbert-90 computation.  With
+On `z^2=t^4-6t^2+1`, the divisor is
 
 ```text
-f2=(t+1+sqrt(2))/(t-1+sqrt(2)),
-h=((t-(sqrt(2)-1))*(t-(1-sqrt(2))))/z,
-h*ct(h)=1,
-g=1+h,
+4*infinity_minus - 2*P1 - 2*P2,
 ```
 
-one has `ct(g)/g=1/h`, and
+so every branch valuation is even.  The horizontal norm condition and the Creutz--Viray simple-node exceptional-curve condition therefore hold.  A Q-defined unramified representative is materialized as the corresponding corestriction quaternion algebra
 
 ```text
-f2*g^2
- = 2*(t^2+z-3)/(t^2-2*t-1)
+Cor_{L(C)/Q(t)(C)}((ell_J2,s-alpha)_2).
 ```
 
-on `z^2=t^4-6t^2+1`.  The right-hand side contains no `sqrt(2)`, so a `Q(i)`-defined generic branch-component function representing the geometric `J2` squareclass is materialized.
+Hence `J2` is a nontrivial geometric class that genuinely descends to `Br(K_c)`.
 
-This does **not** yet certify an unramified arithmetic CSA over `Q(i)`: as Creutz--Viray's arithmetic example illustrates, geometric unramifiedness does not by itself rule out ground-field nonsquare residues on exceptional divisors.  Those residue checks and subsequent `Q(i)/Q` descent remain open.
+## q1 has nonzero Hochschild--Serre d2
 
-## Authoritative exact execution
+The CV-presentation connecting calculation gives
 
 ```text
-xalpha repair checker        = xalpha_pair_galois_repair.py
-presentation descent checker = descent_presentation_cocycle.py
-latest workflow_run          = 32710954883
-latest workflow_number       = 43
-latest workflow_conclusion   = success
-artifact_id                  = 9514049977
-artifact_sha256              = a249ff59ed92bec4e75acea7b8f0c6050b4787e7b0184f2587be8684cafb48b2
+ct(q1)-q1 = J1.
 ```
 
-## Next exact leaves
-
-The single descent leaf has now split into two bounded receivers:
+The relation has now been lifted integrally to the Neron--Severi group.  Under the Stage29 ruled map,
 
 ```text
-L33-05-J2-QI-ARITHMETIC-RESIDUES-AND-QI-OVER-Q-DESCENT
-L33-05-Q1-LIFT-CONNECTING-J1-THROUGH-NS-THEN-HS-D2
+s=-i*(t-i)/(t+i)
 ```
 
-Required before closure:
+closes to the branch conic
 
 ```text
-DESCENT_OBSTRUCTION_ACCOUNTED=false
-Q_DEFINED_ARITHMETIC_REPRESENTATIVES_MATERIALIZED=false
-Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
-UNRESOLVED_UNKNOWN_IN_SCOPE>0
-UNIT_STATUS=RUNNING
+Cb : i*A1+B1 = i*A2+B2 = i*A3+B3 = 0,
+```
+
+while the chosen `s=1` section contracts to the singular point
+
+```text
+P0=[0:1:0:-1:0:1].
+```
+
+On the minimal resolution an integral lift of `J1` is therefore
+
+```text
+D = Cb + E_P0.
+```
+
+Both components are fixed by `ct`.  With the `ct`-invariant nonbranch conic
+
+```text
+T : A1=0, A2+B3=0, A3-B2=0,
+```
+
+exact tangent-space computation gives
+
+```text
+Cb.T=1,
+E_P0.T=0,
+D.T=1.
+```
+
+If `D=(1+ct)E` were a cyclic norm, invariance of `T` would force `D.T=2(E.T)`, contradiction.  Hence
+
+```text
+[D] != 0 in H^2(<ct>,Pic(K_cbar))
+          = Pic(K_cbar)^ct / (1+ct)Pic(K_cbar).
+```
+
+The remaining compatibility is now closed by the Kummer/Leray cochain chase.  Since a K3 Picard group is torsion-free, Kummer gives
+
+```text
+0 -> Pic/2 -> H^2_et(K_cbar,mu_2) -> Br(K_cbar)[2] -> 0.
+```
+
+Creutz--Viray's `gamma` is the explicit corestriction/cup-product lift, and their divisor/Brauer cocycle calculation identifies its Galois defect with the corresponding Picard defect.  Thus the presentation defect `J1` is exactly the Kummer `Pic/2` defect of `q1`.
+
+For `C2=<ct>`, lift the normalized defect by `J(ct)=D`. Then
+
+```text
+(dJ)(ct,ct)=ct(D)+D=2D,
+Bockstein(J1)(ct,ct)=D.
+```
+
+Naturality of the Kummer and Leray/Hochschild--Serre sequences identifies this Bockstein with `d2(q1)|_<ct>`. Since `[D]` is nonzero,
+
+```text
+d2(q1)|_<ct> != 0,
+d2(q1) != 0,
+q1 does not descend to Br(K_c).
+```
+
+## Exact Q-survival dimension
+
+The invariant geometric space is two-dimensional with basis `[J2,q1]`.  `J2` has an explicit Q-defined unramified representative, while `q1` has nonzero `d2`.  By linearity, `q1+J2` has the same nonzero obstruction. Therefore
+
+```text
+ker(d2 on Br(K_cbar)[2]^G_Q) = span_F2{J2},
+Q_RELEVANT_SURVIVING_DIM = 1.
+```
+
+This is a Stage33-05 K3 two-primary arithmetic-descent result only.  It grants no endpoint, route-color, Brauer--Manin obstruction, or perfect-cuboid existence/nonexistence credit by itself.
+
+## Authoritative execution
+
+```text
+xalpha repair checker       = xalpha_pair_galois_repair.py
+descent frontend checker    = descent_presentation_cocycle.py
+J2 arithmetic checker       = j2_arithmetic_descent.py
+q1 NS parity checker        = q1_ns_lift_parity.py
+q1 HS d2 checker            = q1_hs_d2_bockstein.py
+workflow_run                = 32712441163
+workflow_number             = 55
+workflow_conclusion         = success
+artifact_id                 = 9514610852
+artifact_sha256             = 075f4ec28170e62f86a895f9c65028a8daaa1516c5b2a2dba8298d710ebb5d3e
+```
+
+## Production disposition
+
+```text
+ALL_STAGE33_05_DESCENT_UNKNOWNS_RESOLVED=true
+MAIN_PRODUCTION_COMPLETE=true
+HOSTILE_AUDIT=PENDING
+UNIT_STATUS=READY_FOR_AUDIT
 UNIT_CLOSED=false
-NEXT_EXPECTED_COMMAND=Stage33-main-batch
+DOWNSTREAM_RELEASED=false
+NEXT_EXPECTED_COMMAND=Stage33-audit
 ```
