@@ -9,6 +9,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
   br0a-materialize:
@@ -19,25 +20,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install exact verifier dependency
+      - name: Install exact integer-linear-algebra dependency
         run: python -m pip install 'sympy==1.14.0'
-      - name: Run pinned exact BR0A Magma materialization
+      - name: Reconstruct exact BR0A from audited Stage32 Picard core
         working-directory: stages/stage33/33-02
-        run: python run_magma_materialization.py
-      - name: Independently verify rank, kernel, pairing, and Smith saturation data
-        working-directory: stages/stage33/33-02
-        run: python verify_materialization.py
-      - name: Upload exact Stage33-02 artifacts
-        if: always()
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python derive_from_stage32_artifact.py
+      - name: Upload exact Stage33-02 certificate
         uses: actions/upload-artifact@v4
         with:
           name: stage33-02-br0a-exact
           path: |
-            stages/stage33/33-02/magma-request-summary.json
-            stages/stage33/33-02/magma-response.json
-            stages/stage33/33-02/magma-response.xml
-            stages/stage33/33-02/magma-stdout.txt
-            stages/stage33/33-02/magma-http-error.txt
-            stages/stage33/33-02/magma-network-error.txt
-            stages/stage33/33-02/br0a-matrix-certificate.json
-          if-no-files-found: warn
+            stages/stage33/33-02/br0a-artifact-certificate.json
+            stages/stage33/33-02/br0a-summary.json
