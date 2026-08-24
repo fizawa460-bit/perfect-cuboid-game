@@ -13,6 +13,15 @@ The functional head is `0893fb99699ae8b0f16b2041c484e5c2b31111c6`.
 Authoritative workflow run `32733420941` succeeded after all dependency-ordered
 waves and the final aggregate completed. No larger tier was launched.
 
+Documentation commit `7a11a78e3c5bfb662911143ce3321b6c730900fa` exposed that
+GitHub evaluates a pull-request `paths` filter against the PR's complete base
+diff, so redundant run `32751922545` was queued. It was explicitly cancelled
+during its pilot and supplies no bundle or aggregate credit. The workflow now
+has a separate commit-range gate: synchronization events launch heavy jobs only
+when one of the six exact Python execution sources changed. Workflow-only
+maintenance requires explicit dispatch. This trigger correction does not alter
+the functional head, solver, certificates, or authoritative run.
+
 The exact source-locked e20/a0 profile canonical SHA-256 is
 `e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384534d53fa1fee67c5`.
 The inherited hostile-audited `<=16384` checkpoint is 69 cells / 655,558

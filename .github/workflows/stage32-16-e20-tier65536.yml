@@ -21,8 +21,74 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  change_gate:
+    name: decide whether this revision changes exact execution sources
+    runs-on: ubuntu-latest
+    outputs:
+      run_heavy: ${{ steps.delta.outputs.run_heavy }}
+      reason: ${{ steps.delta.outputs.reason }}
+    steps:
+      - id: delta
+        name: Inspect only the newly pushed commit range
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const exactSources = new Set([
+              'stages/stage32/32-16/build_e20_tier65536_plan.py',
+              'stages/stage32/32-16/compact_e20_dynamic_shard.py',
+              'stages/stage32/32-16/run_e20_work_bundle.py',
+              'stages/stage32/32-16/aggregate_e20_tier65536.py',
+              'stages/stage32/32-16/check_actions_storage_gate.py',
+              'stages/stage32/32-16/verify_predecessor_neighbor_regression.py'
+            ]);
+
+            if (context.eventName !== 'pull_request' || context.payload.action !== 'synchronize') {
+              core.setOutput('run_heavy', 'true');
+              core.setOutput('reason', 'initial PR event or explicit workflow dispatch');
+              return;
+            }
+
+            const before = context.payload.before;
+            const after = context.payload.after;
+            if (!before || !after) {
+              core.setOutput('run_heavy', 'true');
+              core.setOutput('reason', 'missing synchronize range; fail closed to exact execution');
+              return;
+            }
+
+            const comparison = await github.rest.repos.compareCommitsWithBasehead({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              basehead: `${before}...${after}`,
+              per_page: 100
+            });
+            const files = comparison.data.files || [];
+            if (files.length >= 300) {
+              core.setOutput('run_heavy', 'true');
+              core.setOutput('reason', 'comparison file list reached API limit; fail closed');
+              return;
+            }
+
+            const changed = files.map(file => file.filename).sort();
+            const exactChanged = changed.filter(path => exactSources.has(path));
+            const runHeavy = exactChanged.length > 0;
+            core.setOutput('run_heavy', runHeavy ? 'true' : 'false');
+            core.setOutput(
+              'reason',
+              runHeavy
+                ? `exact execution sources changed: ${exactChanged.join(',')}`
+                : `no exact execution source changed in ${before}...${after}`
+            );
+            await core.summary
+              .addHeading('Stage32-16 heavy-compute change gate')
+              .addRaw(`run_heavy=${runHeavy}\n`)
+              .addRaw(`changed_files=${JSON.stringify(changed)}\n`)
+              .write();
+
   plan:
     name: lock audited <=16384 predecessor and workload-balance exact delta
+    needs: change_gate
+    if: needs.change_gate.outputs.run_heavy == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:

@@ -44,8 +44,11 @@ planned modulo residue exactly once and re-verifies every compact and bundle
 hash before combining the delta with the audited predecessor.
 
 The workflow trigger names only executable Stage32-16 sources and the workflow
-itself. Changes confined to this README or later audit documents do not
-relaunch heavy computation.
+itself. Because GitHub evaluates pull-request path filters against the PR's
+entire base diff, a lightweight change gate also compares only the newly pushed
+commit range. Heavy jobs run only when an exact Python execution source changed
+(or on an initial/explicit dispatch); README, audit, execution-state, and
+workflow-maintenance-only revisions cannot relaunch the heavy tier.
 
 The storage preflight inventories all retained repository artifacts for audit
 context but gates only the incremental footprint of this batch. Without
