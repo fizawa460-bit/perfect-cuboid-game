@@ -1,0 +1,165 @@
+name: Stage32-11 timeout-cell exact shard repair
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-11-timeout-shards.yml'
+      - 'stages/stage32/32-11r/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Compile repair scripts
+        run: |
+          python -m py_compile stages/stage32/32-11r/run_materialized_cell_shard.py
+          python -m py_compile stages/stage32/32-11r/aggregate_timeout_shards.py
+
+  shard:
+    needs: preflight
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include:
+          - {e: 8,  a: 36, cell: 39, cell_id: ceb88a2b425fb743669aa33e, branches: 529480, shard: 0}
+          - {e: 8,  a: 36, cell: 39, cell_id: ceb88a2b425fb743669aa33e, branches: 529480, shard: 1}
+          - {e: 8,  a: 36, cell: 39, cell_id: ceb88a2b425fb743669aa33e, branches: 529480, shard: 2}
+          - {e: 8,  a: 36, cell: 39, cell_id: ceb88a2b425fb743669aa33e, branches: 529480, shard: 3}
+          - {e: 10, a: 30, cell: 27, cell_id: 2719e0ba39bfa79944906bf5, branches: 639840, shard: 0}
+          - {e: 10, a: 30, cell: 27, cell_id: 2719e0ba39bfa79944906bf5, branches: 639840, shard: 1}
+          - {e: 10, a: 30, cell: 27, cell_id: 2719e0ba39bfa79944906bf5, branches: 639840, shard: 2}
+          - {e: 10, a: 30, cell: 27, cell_id: 2719e0ba39bfa79944906bf5, branches: 639840, shard: 3}
+          - {e: 10, a: 30, cell: 37, cell_id: 3af4cf3d535a93607ef8b5bb, branches: 605120, shard: 0}
+          - {e: 10, a: 30, cell: 37, cell_id: 3af4cf3d535a93607ef8b5bb, branches: 605120, shard: 1}
+          - {e: 10, a: 30, cell: 37, cell_id: 3af4cf3d535a93607ef8b5bb, branches: 605120, shard: 2}
+          - {e: 10, a: 30, cell: 37, cell_id: 3af4cf3d535a93607ef8b5bb, branches: 605120, shard: 3}
+    name: e${{ matrix.e }}-a${{ matrix.a }}-cell-${{ matrix.cell }}-shard-${{ matrix.shard }}of4
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core and audited profile
+        run: |
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+          if [ "${{ matrix.e }}" = "8" ]; then
+            PROFILE=stage32-08-e8-a36-materialization-profile
+          else
+            PROFILE=stage32-08-e10-a30-materialization-profile
+          fi
+          gh run download 32679056269 --repo fizawa460-bit/perfect-cuboid-game \
+            --name "$PROFILE" --dir "$RUNNER_TEMP/profile"
+      - name: Re-derive caps and lock exact timeout cell
+        env:
+          E: ${{ matrix.e }}
+          CELL: ${{ matrix.cell }}
+          CELL_ID: ${{ matrix.cell_id }}
+          BRANCHES: ${{ matrix.branches }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          p=json.loads((root/'profile/materialization-profile.json').read_text())
+          e=int(os.environ['E'])
+          expected_sha={
+            8:'97608b176d7a91677f63cd293502f7042a9a9f6ad30904631260c9d560b7be17',
+            10:'993d0005f60499b50b03b899153b60f93de757a74f53d942e5a2168830cc5123',
+          }[e]
+          assert p['canonical_sha256_without_this_field']==expected_sha
+          idx=int(os.environ['CELL']); cid=os.environ['CELL_ID']; branches=int(os.environ['BRANCHES'])
+          row=next(c for c in p['cells_sorted_by_branch_count'] if int(c['cell_index'])==idx)
+          assert row['cell_id']==cid
+          assert int(row['materialized_branch_count'])==branches
+          PY
+      - name: Exhaust exact branch shard
+        run: |
+          OUT="$RUNNER_TEMP/out/shard-e${{ matrix.e }}-a${{ matrix.a }}-cell${{ matrix.cell }}-s${{ matrix.shard }}.json"
+          python stages/stage32/32-11r/run_materialized_cell_shard.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$OUT" \
+            --exceptional-mass ${{ matrix.e }} --curve-group-mass ${{ matrix.a }} \
+            --cell-index ${{ matrix.cell }} --expected-cell-id ${{ matrix.cell_id }} \
+            --expected-total-branches ${{ matrix.branches }} \
+            --shard-index ${{ matrix.shard }} --shard-count 4 \
+            --node-limit-per-branch 1000000
+      - name: Enforce shard completion and credit firewalls
+        env:
+          E: ${{ matrix.e }}
+          A: ${{ matrix.a }}
+          CELL: ${{ matrix.cell }}
+          SHARD: ${{ matrix.shard }}
+          BRANCHES: ${{ matrix.branches }}
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          path=root/f"out/shard-e{os.environ['E']}-a{os.environ['A']}-cell{os.environ['CELL']}-s{os.environ['SHARD']}.json"
+          r=json.loads(path.read_text())
+          assert r['complete_shard_numerical_enumeration'] is True
+          assert r['parameters']['shard_count']==4
+          assert r['parameters']['shard_index']==int(os.environ['SHARD'])
+          assert r['materialization']['total_parent_cell_branch_count']==int(os.environ['BRANCHES'])
+          assert all(b['search']['complete_numerical_enumeration'] for b in r['branches'])
+          assert not any(b['search']['node_budget_exhausted'] for b in r['branches'])
+          assert r['theorem_credit'] is False and r['receiver_credit'] is False
+          assert r['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert r['R29_LG2']=='NOT_DISCHARGED'
+          assert r['G10_LOWGENUS_PICARD']=='AMBER'
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-11r-timeout-shard-e${{ matrix.e }}-cell${{ matrix.cell }}-s${{ matrix.shard }}
+          path: ${{ runner.temp }}/out/shard-e${{ matrix.e }}-a${{ matrix.a }}-cell${{ matrix.cell }}-s${{ matrix.shard }}.json
+          if-no-files-found: error
+
+  aggregate:
+    needs: shard
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download all 12 exact shard artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-11r-timeout-shard-*
+          path: ${{ runner.temp }}/shards
+          merge-multiple: true
+      - name: Verify exact partition and aggregate all three timeout cells
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-11r/aggregate_timeout_shards.py \
+            --input-dir "$RUNNER_TEMP/shards" \
+            --output "$RUNNER_TEMP/out/timeout-shard-aggregate.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-11r-timeout-shard-aggregate
+          path: ${{ runner.temp }}/out/timeout-shard-aggregate.json
+          if-no-files-found: error
