@@ -36,7 +36,7 @@ rr1h := Rank(Brel1);
 diag1 := [Abs(Z!SB1[j,j]) : j in [1..rr1h]];
 tors1 := [d : d in diag1 | d ne 1];
 free1 := kdim1-rr1h;
-assert forall{d : d in tors1 | d in [2,4]};
+assert forall{{d : d in tors1 | d in [2,4]}};
 printf "H1_FREE_RANK=%o\n", free1;
 printf "H1_TORSION=%o\n", tors1;
 '''
