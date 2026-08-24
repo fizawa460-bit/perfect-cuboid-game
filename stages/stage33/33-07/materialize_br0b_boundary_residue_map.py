@@ -3,14 +3,14 @@ import hashlib
 import io
 import json
 import os
-import urllib.request
 import urllib.parse
+import urllib.request
 import zipfile
 from pathlib import Path
 
 import sympy as sp
-from sympy.matrices.normalforms import smith_normal_form
-from sympy.polys.domains import ZZ
+from sympy import ZZ
+from sympy.matrices.normalforms import smith_normal_decomp, smith_normal_form
 
 HERE = Path(__file__).resolve().parent
 REPO = "fizawa460-bit/perfect-cuboid-game"
@@ -38,7 +38,7 @@ def download_artifact(key):
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
-            "User-Agent": "perfect-cuboid-stage33/2.1",
+            "User-Agent": "perfect-cuboid-stage33/2.2",
         },
     )
     opener = urllib.request.build_opener(StripCrossHostAuthRedirect())
@@ -52,6 +52,46 @@ def download_artifact(key):
 def jload(zf, name):
     return json.loads(zf.read(name))
 
+def gf2_rank(rows):
+    a=[[int(x)&1 for x in row] for row in rows]
+    if not a:
+        return 0
+    rank=0
+    for c in range(len(a[0])):
+        p=next((i for i in range(rank,len(a)) if a[i][c]),None)
+        if p is None:
+            continue
+        a[rank],a[p]=a[p],a[rank]
+        for i in range(len(a)):
+            if i!=rank and a[i][c]:
+                a[i]=[x^y for x,y in zip(a[i],a[rank])]
+        rank+=1
+        if rank==len(a):
+            break
+    return rank
+
+def left_nullspace_f2(A):
+    # rows x such that x*A=0; compute nullspace of A^T.
+    B=[[int(A[r,c])&1 for r in range(A.rows)] for c in range(A.cols)]
+    m=len(B); n=A.rows; rank=0; piv=[]
+    for c in range(n):
+        p=next((i for i in range(rank,m) if B[i][c]),None)
+        if p is None:
+            continue
+        B[rank],B[p]=B[p],B[rank]
+        for i in range(m):
+            if i!=rank and B[i][c]:
+                B[i]=[x^y for x,y in zip(B[i],B[rank])]
+        piv.append(c); rank+=1
+    free=[c for c in range(n) if c not in piv]
+    out=[]
+    for f in free:
+        x=[0]*n; x[f]=1
+        for rr,c in reversed(list(enumerate(piv))):
+            x[c]=sum(B[rr][j]*x[j] for j in range(n))&1
+        out.append(x)
+    return out
+
 with download_artifact("br0a") as z:
     br0a = jload(z, "br0a-artifact-certificate.json")
 with download_artifact("br0b") as z:
@@ -60,76 +100,92 @@ with download_artifact("br0b") as z:
 with download_artifact("br0g") as z:
     bg = jload(z, "boundary-galois.json")
 
-K = sp.Matrix(br0a["unit_divisor_relation_kernel_basis"])
-if K.shape != (14,72) or K.rank() != 14:
-    raise SystemExit("audited U_D regression")
-cc = [int(x)-1 for x in bg["boundary_perm_cc_1based"]]
-ct = [int(x)-1 for x in bg["boundary_perm_ct_1based"]]
+# Reconstruct the exact SAME Smith unit basis used by Stage33-03.
+M=sp.Matrix(br0a["boundary_to_pic_matrix"])
+if M.shape!=(72,64):
+    raise SystemExit("boundary-to-Pic shape regression")
+D,S,T=smith_normal_decomp(M,domain=ZZ)
+if D != S*M*T:
+    raise SystemExit("Smith decomposition regression")
+diag_pic=[abs(int(D[i,i])) for i in range(58)]
+if diag_pic != [1]*56+[2,2]:
+    raise SystemExit("Pic(Ubar) Smith tail regression")
+U=S[58:72,:]
+if U.shape!=(14,72) or U.rank()!=14 or U*M != sp.zeros(14,64):
+    raise SystemExit("Smith unit-kernel basis regression")
+
+cc=[int(x)-1 for x in bg["boundary_perm_cc_1based"]]
+ct=[int(x)-1 for x in bg["boundary_perm_ct_1based"]]
 if ct != list(range(72)):
     raise SystemExit("unexpected sqrt2 action on boundary")
-
 seen=set(); orbits=[]
 for i in range(72):
     if i in seen:
         continue
     orb=sorted({i,cc[i]})
     if any(cc[j] not in orb for j in orb):
-        raise SystemExit("cc is not involutive on boundary")
+        raise SystemExit("cc boundary action not involutive")
     seen.update(orb); orbits.append(orb)
 if len(orbits)!=60 or sum(len(o)==1 for o in orbits)!=48 or sum(len(o)==2 for o in orbits)!=12:
     raise SystemExit("arithmetic boundary orbit regression")
-
-# U_D is pointwise Galois fixed, so conjugate geometric components have equal
-# valuations for every unit basis vector.
 for o in orbits:
-    if len(o)==2 and any(K[r,o[0]] != K[r,o[1]] for r in range(14)):
-        raise SystemExit("unit valuation is not constant on a Q(i) orbit")
+    if len(o)==2 and any(U[r,o[0]]!=U[r,o[1]] for r in range(14)):
+        raise SystemExit("Smith unit basis lost absolute Galois invariance")
 
-V = sp.Matrix([[int(K[r,o[0]]) for o in orbits] for r in range(14)])
-if V.rank()!=14:
-    raise SystemExit("arithmetic-orbit coefficient map lost rank")
-D = smith_normal_form(V, domain=ZZ)
-diag=[abs(int(D[i,i])) for i in range(min(D.rows,D.cols)) if D[i,i] != 0]
-if diag != [1]*14:
-    raise SystemExit(f"unit valuation coefficient lattice is not primitive: {diag}")
+q_orbits=[o for o in orbits if len(o)==1]
+qi_orbits=[o for o in orbits if len(o)==2]
+V=sp.Matrix([[int(U[r,o[0]]) for o in orbits] for r in range(14)])
+Vq=sp.Matrix([[int(U[r,o[0]]) for o in q_orbits] for r in range(14)])
+Vqi=sp.Matrix([[int(U[r,o[0]]) for o in qi_orbits] for r in range(14)])
+Dall=smith_normal_form(V,domain=ZZ)
+Dq=smith_normal_form(Vq,domain=ZZ)
+all_diag=[abs(int(Dall[i,i])) for i in range(14) if Dall[i,i]!=0]
+q_diag=[abs(int(Dq[i,i])) for i in range(14) if Dq[i,i]!=0]
+if all_diag != [1]*14:
+    raise SystemExit(f"full coefficient lattice not primitive: {all_diag}")
+if q_diag != [1]*12+[2,2]:
+    raise SystemExit(f"Q-component coefficient Smith regression: {q_diag}")
 
-q_orbit_indices=[i for i,o in enumerate(orbits) if len(o)==1]
-qi_orbit_indices=[i for i,o in enumerate(orbits) if len(o)==2]
-
-# d2_01 relations are both supported on the cc quadratic character chi_-1.
-# At Q-defined boundary components the raw cyclic-algebra residue is valuation
-# parity times chi_-1.  At Q(i)-components it vanishes because
-# chi_-1 restricted to G_Q(i) is zero.
-def kappa_raw_boundary_pattern(entry):
-    cc_coeff=[int(x)&1 for x in entry["cc_quadratic_character_coefficients_f2"]]
-    ct_coeff=[int(x)&1 for x in entry["ct_quadratic_character_coefficients_f2"]]
-    if any(ct_coeff):
-        raise SystemExit("unexpected ct character in audited KAPPA relation")
-    out=[]
-    for oi,o in enumerate(orbits):
-        if len(o)==2:
-            out.append(0)
-        else:
-            out.append(sum(cc_coeff[r]*int(V[r,oi]) for r in range(14)) & 1)
-    return out
-
+null_q=left_nullspace_f2(Vq)
+if len(null_q)!=2 or gf2_rank(null_q)!=2:
+    raise SystemExit("Q-component mod2 kernel is not two-dimensional")
 entries=d2["torsion_generator_images"]
 if len(entries)!=2 or d2["image_f2_rank"]!=2:
-    raise SystemExit("d2_01 audit regression")
-patterns=[kappa_raw_boundary_pattern(e) for e in entries]
-weights=[sum(v) for v in patterns]
-if weights != [20,20]:
-    raise SystemExit(f"unexpected KAPPA raw-residue weights {weights}")
-if patterns[0] != patterns[1]:
-    raise SystemExit("KAPPA raw boundary patterns no longer coincide")
-if not any(patterns[0]):
-    raise SystemExit("expected nonzero raw KAPPA boundary pattern")
-if any(patterns[0][i] for i in qi_orbit_indices):
-    raise SystemExit("chi_-1 did not vanish on Q(i) boundary orbits")
+    raise SystemExit("d2_01 rank regression")
+kappas=[]
+for e in entries:
+    if any(int(x)&1 for x in e["ct_quadratic_character_coefficients_f2"]):
+        raise SystemExit("audited KAPPA acquired ct-character component")
+    kappas.append([int(x)&1 for x in e["cc_quadratic_character_coefficients_f2"]])
+if gf2_rank(kappas)!=2 or gf2_rank(null_q+kappas)!=2:
+    raise SystemExit("KAPPA span is not the Q-component mod2 kernel")
 
-support=[i+1 for i,b in enumerate(patterns[0]) if b]
+# Q(i)-orbit patterns of the two mod2 kernel directions are independent.
+qi_patterns=[]
+for n in null_q:
+    qi_patterns.append([sum(n[r]*int(Vqi[r,c]) for r in range(14))&1 for c in range(12)])
+if gf2_rank(qi_patterns)!=2:
+    raise SystemExit("Q(i) restriction patterns do not separate the two Q-kernel directions")
+
+# Group-theoretic kernel proof:
+# Vq Smith [1^12,2,2] forces any zero Q-residue element to two arbitrary
+# quadratic characters along null_q.  The independent Q(i) patterns then force
+# both quadratic characters to restrict trivially to G_Q(i).  The kernel of
+# restriction on quadratic Q-characters is exactly <chi_-1>.  Since the two
+# audited KAPPA vectors span null_q and both carry chi_-1, the full residue-map
+# kernel is exactly <KAPPA_1,KAPPA_2>.
+
+# Directly verify each audited KAPPA has zero physical-boundary residue: Q-side
+# parity is zero by null_q; Q(i)-side vanishes because chi_-1|G_Q(i)=0.
+kappa_q_patterns=[]
+for k in kappas:
+    pat=[sum(k[r]*int(Vq[r,c]) for r in range(14))&1 for c in range(48)]
+    if any(pat):
+        raise SystemExit("KAPPA has nonzero Q-component residue")
+    kappa_q_patterns.append(pat)
+
 cert={
-    "schema":"STAGE33_07_BR0B_TO_BOUNDARY_RAW_RESIDUE_MAP_V1",
+    "schema":"STAGE33_07_BR0B_TO_BOUNDARY_RESIDUE_MAP_V2",
     "source_locks":{
         "br0a_artifact_id":ARTIFACTS["br0a"][0],
         "br0a_artifact_sha256":ARTIFACTS["br0a"][1],
@@ -137,36 +193,50 @@ cert={
         "br0b_artifact_sha256":ARTIFACTS["br0b"][1],
         "br0g_artifact_id":ARTIFACTS["br0g"][0],
         "br0g_artifact_sha256":ARTIFACTS["br0g"][1],
-        "unit_kernel_sha256":br0a["unit_divisor_relation_kernel_basis_sha256"],
+        "boundary_to_pic_matrix_sha256":br0a["boundary_to_pic_matrix_sha256"],
         "boundary_galois_sha256":bg["canonical_sha256"],
         "d2_01_sha256":d2["canonical_sha256"],
         "br0b_inventory_sha256":br0b["canonical_sha256"],
+    },
+    "basis_correction":{
+        "stage33_03_smith_unit_basis_reconstructed":True,
+        "br0a_reported_kernel_basis_used_as_stage33_03_smith_basis":False,
+        "reason":"Stage33-03 H2 coordinates are rows 59..72 of the Smith left transform S; the BR0A artifact kernel basis is an independently valid but different Z-basis.",
     },
     "arithmetic_boundary_orbits":60,
     "q_boundary_orbits":48,
     "qi_boundary_orbits":12,
     "unit_rank":14,
-    "unit_to_arithmetic_boundary_valuation_matrix_14x60":[[int(x) for x in V.row(r)] for r in range(14)],
-    "coefficient_matrix_rank":14,
-    "coefficient_matrix_smith_nonzero_diagonal":diag,
-    "coefficient_lattice_primitive":True,
+    "unit_to_arithmetic_boundary_valuation_matrix_14x60":[[int(V[r,c]) for c in range(60)] for r in range(14)],
+    "full_coefficient_matrix_rank":14,
+    "full_coefficient_matrix_smith_nonzero_diagonal":all_diag,
+    "full_coefficient_lattice_primitive":True,
+    "q_component_coefficient_matrix_smith_nonzero_diagonal":q_diag,
+    "q_component_mod2_kernel_dimension":2,
+    "q_component_mod2_kernel_basis":null_q,
+    "kappa_f2_basis":kappas,
+    "kappa_span_equals_q_component_mod2_kernel":True,
+    "qi_patterns_of_q_kernel_basis":qi_patterns,
+    "qi_pattern_rank_f2":2,
     "character_residue_rule":{
         "Q_component":"rho_D(chi,u)=v_D(u)*chi",
         "Q_i_component":"rho_D(chi,u)=v_D(u)*Res_{G_Q(i)}(chi)",
+        "kernel_of_quadratic_restriction_Q_to_Qi":"<chi_-1>",
     },
-    "kappa_raw_residue":{
-        "relation_count":2,
-        "raw_patterns_equal":True,
-        "common_pattern_nonzero":True,
-        "common_pattern_weight_on_60_orbits":20,
-        "common_pattern_support_arithmetic_orbit_ids_1based":support,
-        "support_on_q_orbits_only":True,
-        "qi_zero_reason":"chi_-1 restricts trivially to G_Q(i)",
-        "raw_map_descends_through_XQ14_mod_kappa_without_lift_correction":False,
+    "kappa_residue_zero":{
+        "both_q_component_patterns_zero":True,
+        "both_qi_component_patterns_zero":True,
+        "qi_zero_reason":"both KAPPA relations use chi_-1, whose restriction to G_Q(i) is zero",
     },
-    "exact_conclusion":"The raw character-unit valuation map is exact and primitive at coefficient level, but it does not descend through the two d2_01 KAPPA relations by itself. Both KAPPA relations have the same nonzero Q-boundary quadratic residue pattern; the finite PicU/hypercohomology lift correction must be materialized and combined before the BR0B/BR0G duplicate quotient can be certified.",
-    "new_residual_kernel":"R33-BR2A-KAPPA-BOUNDARY-RESIDUE-LIFT-CORRECTION",
-    "next_exact_leaf":"L33-07-MATERIALIZE-PICU-TORSION-LIFT-BOUNDARY-CORRECTION-AND-CANCEL-KAPPA-PATTERN",
+    "exact_kernel_statement":"ker(X_Q^14 -> X_Q^48 direct_sum X_Q(i)^12 via unit valuations/restriction) = <KAPPA_1,KAPPA_2>",
+    "induced_left_filtration_boundary_map_injective":True,
+    "induced_domain":"X_Q^14/<KAPPA_1,KAPPA_2>",
+    "odd_primary_submap_injective":"X_Q,odd^14 injects into the odd-primary BR0G constant-character module",
+    "two_primary_left_submap_injective":"X_Q[2^infinity]^14/<KAPPA_1,KAPPA_2> injects into the two-primary BR0G constant-character module",
+    "left_filtration_br0b_br0g_duplicate_overlap_exact":True,
+    "exact_conclusion":"The complete Stage33-03 left filtration is exactly identified with its image inside the Stage33-04 constant-character boundary module; its only raw character-unit residue kernel is the already-quotiented KAPPA_1,KAPPA_2 image. No extra left-filtration class is deleted.",
+    "new_residual_kernel":"R33-BR2A-BR0B-RIGHT-FILTRATION-BOUNDARY-LIFT-AND-FINITE-RAMIFIED-INTEGRATION",
+    "next_exact_leaf":"L33-07-MATERIALIZE-H1-PICU-FIVE-PLUS-QUADRATIC-LIFT-BOUNDARY-RESIDUES-AND-MATCH-RAMIFIED-MODULE",
     "relation_matrix_exact_for_two_primary_branch":False,
     "symbol_matrix_exact_for_two_primary_branch":False,
     "trivial_algebraic_duplicate_quotient_exact":False,
@@ -186,11 +256,12 @@ cert["canonical_sha256"]=hashlib.sha256(canonical).hexdigest()
 (HERE/"br0b-boundary-raw-residue-map.json").write_text(json.dumps(cert,indent=2,sort_keys=True)+"\n",encoding="utf-8")
 print(json.dumps({
     "success":True,
-    "coefficient_rank":14,
-    "smith_diagonal":diag,
-    "kappa_raw_pattern_weight":20,
-    "kappa_raw_patterns_equal":True,
-    "raw_map_descends_mod_kappa":False,
+    "full_smith":all_diag,
+    "q_smith":q_diag,
+    "q_mod2_kernel_dim":2,
+    "kappa_span_is_kernel":True,
+    "qi_pattern_rank":2,
+    "induced_left_filtration_map_injective":True,
     "remaining_kernel":cert["new_residual_kernel"],
     "next_leaf":cert["next_exact_leaf"],
     "certificate_sha256":cert["canonical_sha256"],
