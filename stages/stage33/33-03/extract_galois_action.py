@@ -42,7 +42,7 @@ def urlopen_retry(req, timeout, label):
 
 
 def fetch_bytes(url: str, timeout: int = 60):
-    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage33/1.3"})
+    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage33/1.4"})
     resp, attempt = urlopen_retry(req, timeout, "upstream fetch")
     with resp:
         if resp.status != 200:
@@ -63,7 +63,12 @@ except ValueError as exc:
     raise SystemExit(f"pinned upstream marker missing/out of order: {exc}")
 
 # Reuse exactly the same Picard construction as audited Stage33-02, omitting
-# only unused degree-8 curves, then append only the two Galois generators.
+# only unused degree-8 curves.  The first pilot printed two full 64x64 integer
+# matrices and hit the online XML output wall.  This revision keeps those
+# matrices inside Magma, proves the needed identities there, and exports only:
+#   * the two 72-component boundary permutations;
+#   * exact Picard traces for cc, ct, and cc*ct;
+#   * compact mod-2 row supports for later 2-primary quotient work.
 core = (
     text[:i_skip_start]
     + "\n// Stage33-03 skips unused degree-8 curve construction.\n"
@@ -95,6 +100,11 @@ permct := [Position(C1s, actct(C)) : C in C1s]
             cat [#Cs+Position(pts, Pr6![ctL(a) : a in Eltseq(pt)]) : pt in pts];
 ctPic := Matrix(Integers(), [Eltseq(actperm(Pic.j, permct)) : j in [1..64]]);
 
+I64 := IdentityMatrix(Integers(),64);
+assert ccPic*ccPic eq I64;
+assert ctPic*ctPic eq I64;
+assert ccPic*ctPic eq ctPic*ccPic;
+
 side_inds := [1..24];
 exc_inds := [#Cs + j : j in [1..48]];
 boundary_inds := side_inds cat exc_inds;
@@ -104,14 +114,27 @@ bpermct := [Position(boundary_inds, permct[j]) : j in boundary_inds];
 assert 0 notin bpermcc;
 assert 0 notin bpermct;
 
+boundary_gens := [qPic(Big.j) : j in boundary_inds];
+for j in [1..72] do
+  assert actperm(boundary_gens[j], permcc) eq boundary_gens[bpermcc[j]];
+  assert actperm(boundary_gens[j], permct) eq boundary_gens[bpermct[j]];
+end for;
+
 printf "STAGE33_03_GALOIS_BEGIN\n";
 printf "BOUNDARY_PERM_CC=%o\n", bpermcc;
 printf "BOUNDARY_PERM_CT=%o\n", bpermct;
+printf "PIC_TRACE_ID=64\n";
+printf "PIC_TRACE_CC=%o\n", Trace(ccPic);
+printf "PIC_TRACE_CT=%o\n", Trace(ctPic);
+printf "PIC_TRACE_CCT=%o\n", Trace(ccPic*ctPic);
+printf "BOUNDARY_EQUIVARIANCE_INTERNAL=true\n";
 for j in [1..64] do
-  printf "CCPIC_ROW_%o=%o\n", j, Eltseq(ccPic[j]);
+  printf "CCPIC_MOD2_SUPPORT_%o=%o\n", j,
+    [k : k in [1..64] | IsOdd(ccPic[j,k])];
 end for;
 for j in [1..64] do
-  printf "CTPIC_ROW_%o=%o\n", j, Eltseq(ctPic[j]);
+  printf "CTPIC_MOD2_SUPPORT_%o=%o\n", j,
+    [k : k in [1..64] | IsOdd(ctPic[j,k])];
 end for;
 printf "STAGE33_03_GALOIS_END\n";
 '''
@@ -124,6 +147,8 @@ summary = {
     "submitted_code_sha256": hashlib.sha256(code.encode()).hexdigest(),
     "skip_unused_degree8": [i_skip_start, i_skip_end],
     "stop_before": STOP_MARKER,
+    "export_mode": "boundary_permutations_picard_traces_and_mod2_supports",
+    "supersedes_full_integer_matrix_xml_export": True,
 }
 (ROOT / "galois-request-summary.json").write_text(
     json.dumps(summary, indent=2, sort_keys=True) + "\n", encoding="utf-8"
@@ -137,7 +162,7 @@ req = urllib.request.Request(
         "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "text/html, application/xml, application/xhtml+xml",
         "Referer": MAGMA_REFERER,
-        "User-Agent": "perfect-cuboid-stage33/1.3",
+        "User-Agent": "perfect-cuboid-stage33/1.4",
     },
     method="POST",
 )
@@ -176,25 +201,40 @@ def seq(name):
     return ast.literal_eval(scalar(name).replace(" ", ""))
 
 
-def numbered(prefix):
+def numbered_support(prefix):
     found = {}
     for m in re.finditer(rf"^{re.escape(prefix)}_(\d+)=(.+)$", stdout, re.M):
         found[int(m.group(1))] = ast.literal_eval(m.group(2).strip().replace(" ", ""))
     if set(found) != set(range(1, 65)):
         raise SystemExit(f"incomplete {prefix} rows: {len(found)}")
-    return [found[i] for i in range(1, 65)]
+    rows = []
+    for irow in range(1, 65):
+        support = found[irow]
+        if any(k < 1 or k > 64 for k in support) or len(set(support)) != len(support):
+            raise SystemExit(f"bad mod2 support row {prefix}_{irow}")
+        row = [0] * 64
+        for k in support:
+            row[k - 1] = 1
+        rows.append(row)
+    return rows
 
 bperm_cc = seq("BOUNDARY_PERM_CC")
 bperm_ct = seq("BOUNDARY_PERM_CT")
-cc_pic = numbered("CCPIC_ROW")
-ct_pic = numbered("CTPIC_ROW")
 if sorted(bperm_cc) != list(range(1, 73)) or sorted(bperm_ct) != list(range(1, 73)):
     raise SystemExit("boundary Galois action is not a permutation")
-if any(len(r) != 64 for r in cc_pic + ct_pic):
-    raise SystemExit("Picard action matrix has wrong width")
+cc_pic_mod2 = numbered_support("CCPIC_MOD2_SUPPORT")
+ct_pic_mod2 = numbered_support("CTPIC_MOD2_SUPPORT")
+pic_traces = {
+    "id": int(scalar("PIC_TRACE_ID")),
+    "cc": int(scalar("PIC_TRACE_CC")),
+    "ct": int(scalar("PIC_TRACE_CT")),
+    "cct": int(scalar("PIC_TRACE_CCT")),
+}
+if scalar("BOUNDARY_EQUIVARIANCE_INTERNAL").lower() != "true":
+    raise SystemExit("Magma internal boundary equivariance assertion absent")
 
 out = {
-    "schema": "STAGE33_03_RAW_V4_ACTION_V1",
+    "schema": "STAGE33_03_RAW_V4_ACTION_COMPRESSED_V2",
     "source_lock": {
         "upstream_git_blob_sha1": actual_blob,
         "submitted_code_sha256": summary["submitted_code_sha256"],
@@ -204,8 +244,11 @@ out = {
     },
     "boundary_perm_cc_1based": bperm_cc,
     "boundary_perm_ct_1based": bperm_ct,
-    "picard_cc_matrix": cc_pic,
-    "picard_ct_matrix": ct_pic,
+    "picard_character_traces": pic_traces,
+    "picard_cc_matrix_mod2": cc_pic_mod2,
+    "picard_ct_matrix_mod2": ct_pic_mod2,
+    "boundary_equivariance_checked_inside_magma": True,
+    "full_integer_picard_matrices_materialized_inside_magma_not_exported": True,
 }
 canonical = json.dumps(out, sort_keys=True, separators=(",", ":")).encode()
 out["canonical_sha256"] = hashlib.sha256(canonical).hexdigest()
@@ -215,6 +258,6 @@ out["canonical_sha256"] = hashlib.sha256(canonical).hexdigest()
 print(json.dumps({
     "success": True,
     "boundary_count": len(bperm_cc),
-    "picard_rank": len(cc_pic),
+    "picard_traces": pic_traces,
     "canonical_sha256": out["canonical_sha256"],
 }, indent=2, sort_keys=True))
