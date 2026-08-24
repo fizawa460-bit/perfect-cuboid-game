@@ -1,0 +1,144 @@
+name: Stage33-03 UPic V4 integral action
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-03/**'
+      - '.github/workflows/stage33-03-upic-v4-action.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  upic-v4-action:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Materialize pinned cc/ct action from Testa-Stoll
+        working-directory: stages/stage33/33-03
+        run: |
+          for attempt in 1 2 3; do
+            if python extract_galois_action.py; then exit 0; fi
+            echo "Galois exact calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
+      - name: Induce exact action on the rank-14 unit lattice and rational Pic(Ubar)
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python analyze_upic_action.py
+      - name: Certify the complete odd-primary UPic contribution
+        working-directory: stages/stage33/33-03
+        run: python derive_odd_primary.py
+      - name: Bridge Stage32 primitive Picard basis and materialize integral Pic(Ubar) action
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in 1 2 3; do
+            if python extract_picu_quotient_action.py; then exit 0; fi
+            echo "PicU exact calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
+      - name: Compute finite V4 hypercohomology with extension data
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python compute_v4_hypercohomology.py
+      - name: Reduce the absolute two-primary filtration and expose the residual transgression
+        working-directory: stages/stage33/33-03
+        run: python derive_absolute_two_primary_shape.py
+      - name: Compute exact finite V4 Pic(Ubar) H1 and transgression rank envelope
+        working-directory: stages/stage33/33-03
+        run: python compute_finite_transgression_envelope.py
+      - name: Compute exact finite d2 transgression ranks from H1 of the total complex
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in 1 2 3; do
+            if python compute_finite_transgression_ranks.py; then exit 0; fi
+            echo "finite H1 calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
+      - name: Materialize the exact finite d2_01 image in the unit-character basis
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in 1 2 3; do
+            if python materialize_d2_01_image.py; then exit 0; fi
+            echo "d2_01 exact calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
+      - name: Reduce absolute d2_11 to the N-restriction kernel
+        working-directory: stages/stage33/33-03
+        run: python derive_n_restriction_split.py
+      - name: Kill absolute d2_11 target by Tate-Milne vanishing
+        working-directory: stages/stage33/33-03
+        run: python derive_absolute_h3_tate.py
+      - name: Compute exact absolute H1 Pic(Ubar) inventory
+        working-directory: stages/stage33/33-03
+        run: python derive_absolute_h1_picu_exact.py
+      - name: Hostile-audit direct free d2_11 materialization
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          for attempt in 1 2 3; do
+            if python audit_materialize_free_d2_11_v2.py; then exit 0; fi
+            echo "audit free d2_11 exact calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
+      - name: Compute absolute H2 hidden extension class and primary lift orders
+        working-directory: stages/stage33/33-03
+        run: python compute_absolute_h2_extension_class.py
+      - name: Assemble complete all-primary BR0B inventory
+        working-directory: stages/stage33/33-03
+        run: python assemble_br0b_all_primary.py
+      - name: Prepare hostile-audit handoff
+        working-directory: stages/stage33/33-03
+        run: python prepare_audit_handoff.py
+      - name: Upload exact Stage33-03 certificates
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-03-upic-v4-action
+          path: |
+            stages/stage33/33-03/galois-request-summary.json
+            stages/stage33/33-03/galois-action-raw.json
+            stages/stage33/33-03/galois-magma-stdout.txt
+            stages/stage33/33-03/upic-v4-action-certificate.json
+            stages/stage33/33-03/odd-primary-closure.json
+            stages/stage33/33-03/picu-action-magma-stdout.txt
+            stages/stage33/33-03/picu-integral-action.json
+            stages/stage33/33-03/v4-hyper-request-summary.json
+            stages/stage33/33-03/v4-hyper-magma-stdout.txt
+            stages/stage33/33-03/finite-v4-hypercohomology.json
+            stages/stage33/33-03/absolute-two-primary-shape.json
+            stages/stage33/33-03/finite-transgression-envelope.json
+            stages/stage33/33-03/finite-transgression-ranks-request-summary.json
+            stages/stage33/33-03/v4-h1-magma-stdout.txt
+            stages/stage33/33-03/finite-transgression-ranks.json
+            stages/stage33/33-03/d2-01-image-magma-stdout.txt
+            stages/stage33/33-03/d2-01-image.json
+            stages/stage33/33-03/absolute-n-restriction-split.json
+            stages/stage33/33-03/absolute-h3-tate-vanishing.json
+            stages/stage33/33-03/absolute-h1-picu-exact.json
+            stages/stage33/33-03/audit-free-d2-11-magma-stdout.txt
+            stages/stage33/33-03/audit-free-d2-11-direct.json
+            stages/stage33/33-03/absolute-h2-extension-class.json
+            stages/stage33/33-03/br0b-all-primary-inventory.json
+            stages/stage33/33-03/handoff-preaudit.json

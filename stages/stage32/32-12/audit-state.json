@@ -1,0 +1,98 @@
+{
+  "schema": "STAGE32_12_CHAIN_AUDIT_STATE_V1",
+  "stage": "32",
+  "unit": "32-01",
+  "chain": [1364, 1365, 1366],
+  "audit_verdict": "PASS_CHAIN_AFTER_EXACT_RESOURCE_WALL_REPAIR_AND_E8_PARENT_RECONSTRUCTION",
+  "audited_functional_heads": {
+    "1364": "2c4aa1ccb16d809c48bdb081b8f17a787eb8b0f9",
+    "1365": "8f9724b341faec3ac3d8acac63d185a89e859afe",
+    "1366": "7b491b5ffc259a3947264e142aa4c748f8e7a798"
+  },
+  "workflow_runs": {
+    "1364": 32689063120,
+    "1365": 32694939071,
+    "1366": 32699046660
+  },
+  "per_pr_verdict": {
+    "1364": "ACCEPTED_PARTIAL_EVIDENCE_RESOURCE_WALL_THREE_CELLS",
+    "1365": "PASS_EXACT_MOD4_TIMEOUT_SHARD_REPAIR",
+    "1366": "PASS_COMPLETE_E8_A36_PARENT_AND_FULL_AUT_NUMERICAL_ORBIT_CENSUS"
+  },
+  "resource_wall": {
+    "scheduled_cells": 37,
+    "direct_success_cells": 34,
+    "timeout_cells": 3,
+    "timeout_cell_keys": [
+      "e8/a36:39:ceb88a2b425fb743669aa33e",
+      "e10/a30:27:2719e0ba39bfa79944906bf5",
+      "e10/a30:37:3af4cf3d535a93607ef8b5bb"
+    ],
+    "external_cancellation_verified": true,
+    "failed_jobs_produced_finalized_cell_artifacts": false,
+    "solver_unknown_reported_by_failed_jobs": false
+  },
+  "timeout_repair": {
+    "shards": 12,
+    "branch_partition": "GLOBAL_BRANCH_INDEX_MOD_4",
+    "disjoint_full_coverage_independently_verified": true,
+    "repaired_branch_count": 1774440,
+    "repaired_survivor_count": 272,
+    "incomplete_branch_count": 0,
+    "node_budget_exhaustion_count": 0,
+    "aggregate_sha256": "7550900e558a47d07c41164dcb1547901b2849ba53e72f4882b7d15d4ce62384"
+  },
+  "e8_a36_parent": {
+    "signature_cells": 53,
+    "signature_cells_complete": 53,
+    "total_materialized_branches": 1783951,
+    "unknown_count": 0,
+    "numerical_survivors": 1029,
+    "self_intersection_distribution": {
+      "0": 5,
+      "-4": 128,
+      "-8": 896
+    },
+    "parent_manifest_sha256": "5c9cf74481108f1d8360e9bcbebe3c875a043be230c6a7e5814ab9728b64fc76",
+    "numerical_parent_complete": true,
+    "effectivity_complete": false
+  },
+  "e8_a36_aut_orbits": {
+    "aut_group_order": 1536,
+    "full_orbit_count": 8,
+    "full_orbit_sizes_sorted": [6, 96, 96, 192, 192, 384, 384, 384],
+    "full_orbit_union_size": 1734,
+    "selected_recovery_determinant": 274877906944,
+    "selected_recovery_determinant_power_of_two": 38,
+    "all_orbit_images_integral_picard_classes": true,
+    "all_returning_a36_members_present": true,
+    "orbit_manifest_sha256": "e05b4b3a18cfc14e84c92318aeb2534f10c82d31a965a82f478a0fd641ca5c7a"
+  },
+  "e10_a30": {
+    "parent_cells": 134,
+    "exact_completed_cells": 130,
+    "remaining_cells": 4,
+    "remaining_cell_indices": [43, 64, 100, 108],
+    "remaining_branch_counts": [1095920, 1179360, 2534560, 2596160],
+    "parent_complete": false
+  },
+  "FULL_D8_G0_ROW_COMPLETE": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2_NUMERICAL_COMPONENT_COMPLETE": false,
+  "R29_LG2": "NOT_DISCHARGED",
+  "R29_LG2_EFF": "NOT_DISCHARGED",
+  "R29_LG2_MB": "NOT_DISCHARGED",
+  "G10_LOWGENUS_PICARD": "AMBER",
+  "theorem_credit": false,
+  "receiver_credit": false,
+  "effectivity_classification_complete": false,
+  "stage32_closed": false,
+  "stage32_01_complete": false,
+  "audit_required": false,
+  "repair_required": false,
+  "merge_allowed": true,
+  "merge_order": [1364, 1365, 1366],
+  "advance_allowed": true,
+  "next_item": "32-01-D8-E10-A30-FOUR-GIANT-CELL-EXACT-SHARD-CLOSURE",
+  "next_expected_command": "Stage32-main-batch"
+}
