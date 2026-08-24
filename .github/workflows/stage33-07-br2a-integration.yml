@@ -65,6 +65,9 @@ jobs:
       - name: Certify exact V4-fixed target discriminant module
         working-directory: stages/stage33/33-07
         run: python certify_target_discriminant_v4_fixed_module.py
+      - name: Derive exact proper geometric Br2 V4 module
+        working-directory: stages/stage33/33-07
+        run: python certify_proper_brauer2_from_discriminant.py
       - name: Replay historical global presentation for regression only
         working-directory: stages/stage33/33-07
         env:
@@ -83,6 +86,7 @@ jobs:
           o=json.load(open('proper-brauer-odd-invariants-zero.json'))
           k=json.load(open('coordinate-k3-transcendental-glue-index.json'))
           v=json.load(open('target-discriminant-v4-fixed-module.json'))
+          b2=json.load(open('proper-brauer2-from-discriminant.json'))
           a=json.load(open('audit-state.json'))
           hand=json.load(open('handoff.json'))
           ctl=json.load(open('../controller.json'))
@@ -100,6 +104,11 @@ jobs:
           assert not k['integral_glue']['actual_glue_subgroup_identified']
           assert v['joint_v4_fixed_subgroup_exact']=='(Z/2)^5 direct_sum (Z/4)^3 direct_sum Z/8'
           assert v['proper_Br4_identification_claimed'] is False
+          assert b2['equivariant_identification']=='T/2T ~= A_T[2] via x mod 2T -> x/2 mod T'
+          assert b2['proper_Br2_joint_v4_fixed_dimension_f2']==10
+          assert b2['finite_v4_H1_proper_Br2']['H1_dimension_f2']==16
+          assert b2['finite_v4_H1_proper_Br2']['absolute_H1_identified_with_finite_H1'] is False
+          assert not b2['order2_boundary_residual_promoted_to_global_q_classes']
           assert a['unit_status']=='BLOCKED_NEW_KERNEL' and not a['unit_closed'] and not a['downstream_released']
           assert hand['stage33_progress']=='6/11' and not hand['stage33_08_released']
           assert ctl['stage33_progress']=='6/11'
@@ -111,6 +120,9 @@ jobs:
           print('K3_PULLBACK_LATTICE=<8>^10+<16>^4')
           print('K3_GLUE_INDEX=512')
           print('TARGET_DISC_V4_FIXED=(Z/2)^5+(Z/4)^3+Z/8')
+          print('PROPER_BR2_V4_FIXED_DIM=10')
+          print('FINITE_V4_H1_PROPER_BR2_DIM=16')
+          print('ORDER2_GLUE_DEPENDENCY_REMOVED=True')
           print('ACTUAL_GLUE_IDENTIFIED=False')
           print('STAGE33_PROGRESS=6/11')
           PY
@@ -132,5 +144,6 @@ jobs:
             stages/stage33/33-07/coordinate-k3-transcendental-glue-index.json
             stages/stage33/33-07/picard-discriminant-compact.json
             stages/stage33/33-07/target-discriminant-v4-fixed-module.json
+            stages/stage33/33-07/proper-brauer2-from-discriminant.json
             stages/stage33/33-07/audit-state.json
             stages/stage33/33-07/handoff.json
