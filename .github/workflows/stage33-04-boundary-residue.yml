@@ -44,6 +44,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python compute_unit_symbol_residue_span.py
+      - name: Materialize exact Q-fixed 17D graph-residue quotient
+        working-directory: stages/stage33/33-04
+        run: python materialize_qfixed17_residual.py
       - name: Diagnose exact linear-factor pullback discrepancy before solving exceptional valuations
         working-directory: stages/stage33/33-04
         env:
@@ -67,6 +70,7 @@ jobs:
             stages/stage33/33-04/sign-cover-boundary-map.json
             stages/stage33/33-04/ford-kummer-pullback-zero.json
             stages/stage33/33-04/unit-symbol-residue-span.json
+            stages/stage33/33-04/qfixed17-graph-residual.json
             stages/stage33/33-04/q-unit-magma-stdout.txt
             stages/stage33/33-04/q-unit-pullback-diagnostic.json
             stages/stage33/33-04/linear-factor-unit-lifts.json
