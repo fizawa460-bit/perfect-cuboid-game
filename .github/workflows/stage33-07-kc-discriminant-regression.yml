@@ -20,6 +20,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
       - name: Extract endpoint cc action in bounded request
         working-directory: stages/stage33/33-07
         run: python extract_picard_action_rows.py cc
