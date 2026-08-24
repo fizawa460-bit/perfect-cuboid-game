@@ -5,6 +5,7 @@ import json
 import math
 import os
 import pathlib
+import urllib.parse
 import urllib.request
 import zipfile
 
@@ -22,6 +23,18 @@ UPSTREAM_COMMIT = "51233ed5ef2bf228fac9416c66db9adc0ebcaadd"
 UPSTREAM_BLOB = "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
 
 
+class StripCrossHostAuthRedirect(urllib.request.HTTPRedirectHandler):
+    """Do not leak GitHub Authorization to the signed artifact-storage host."""
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        newreq = super().redirect_request(req, fp, code, msg, headers, newurl)
+        if newreq is not None:
+            oldhost = urllib.parse.urlsplit(req.full_url).netloc
+            newhost = urllib.parse.urlsplit(newurl).netloc
+            if oldhost != newhost:
+                newreq.remove_header("Authorization")
+        return newreq
+
+
 def download_artifact() -> bytes:
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
@@ -32,10 +45,11 @@ def download_artifact() -> bytes:
             "Authorization": f"Bearer {token}",
             "Accept": "application/vnd.github+json",
             "X-GitHub-Api-Version": "2022-11-28",
-            "User-Agent": "perfect-cuboid-stage33/1.0",
+            "User-Agent": "perfect-cuboid-stage33/1.1",
         },
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
+    opener = urllib.request.build_opener(StripCrossHostAuthRedirect())
+    with opener.open(req, timeout=60) as resp:
         raw = resp.read()
     got = hashlib.sha256(raw).hexdigest()
     if got != ARTIFACT_SHA256:
