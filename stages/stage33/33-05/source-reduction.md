@@ -23,9 +23,9 @@ Y=u2*v2*A1,
 w^2=X^2+Y^2.
 ```
 
-Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`.  Both components are smooth `(2,2)` genus-one curves meeting transversely in eight nodes.  The certified K3 Picard rank is 20, hence `dim_F2 Br(K_cbar)[2]=2`.
+Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`. Both are smooth `(2,2)` genus-one components meeting transversely in eight nodes. The certified K3 Picard rank is 20, so `dim_F2 Br(K_cbar)[2]=2`.
 
-## Exact finite execution sub-DAG — corrected current state
+## Exact finite execution sub-DAG
 
 ```text
 05A branch normalization / branch Galois regression                         DONE
@@ -39,8 +39,8 @@ Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`.  Both components are smooth 
 05C true x-alpha pair audit
      old norm-level pure-Jac row interpretation                              SUPERSEDED
      J1 in im(x-alpha) by explicit square witness                            DONE
-     graph projection of s=1 = q1+q2                                         DONE
-     graph projection of s=t = q1+q2+q3                                      DONE
+     graph projection s=1 = q1+q2                                            DONE
+     graph projection s=t = q1+q2+q3                                         DONE
      graph projection rank                                                    2 DONE
      total x-alpha rank                                                       3 LOCKED
      seven-graph-line selection                                               RETIRED
@@ -61,43 +61,38 @@ Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`.  Both components are smooth 
 05F geometric invariant subspace dimension                                   2 EXACT
  |
  v
-05G Hochschild--Serre/descent obstruction + Q-defined representatives        OPEN ACTIVE
+05G CV-presentation connecting filter
+     R=im(x-alpha) action                                                     TRIVIAL EXACT
+     delta(J2)                                                                0
+     delta(q1)                                                                ct -> J1 NONZERO
+     J2 fixed LcE lift                                                        YES
+     q1 fixed LcE lift                                                        NO
+     |
+     +--> 05G-J2 sqrt(2) elimination / Q(i)-generic function                 DONE
+     |          arithmetic residues over Q(i)                                OPEN
+     |          Q(i)/Q CSA descent                                            OPEN
+     |
+     +--> 05G-q1 lift ct->J1 through NS/divisor relation                     OPEN
+                identify resulting Hochschild--Serre d2                       OPEN
 ```
 
-## Corrected finite dimensions
+## Corrected finite presentation
 
-For `W=P1_t`, the common branch normalization is
+On
 
 ```text
-z^2=q(t), q=t^4-6t^2+1.
+z^2=q(t)=t^4-6t^2+1
 ```
 
-Including both the four smooth ramification fibers and the four nodal even-`e(b/w)` fibers gives
+we have
 
 ```text
-Jac(B)[2] dimension              = 4
-dual graph b1                    = 7
-special even-e fibers            = 8
-raw generator subspace mod L*2   = 12
-kernel to K*L*2                  = 7
-L_E=L_{c,E} dimension            = 5
-im(x-alpha) dimension            = 3
-Br quotient dimension            = 2.
+L_E=L_{c,E} dimension = 5,
+im(x-alpha) dimension = 3,
+Br quotient dimension = 2.
 ```
 
-The former 9-dimensional pilot omitted the nodal fibers and remains superseded.
-
-## True x-alpha repair
-
-The lifted basis is ordered `[J1,J2,q1,q2,q3]`.  For a horizontal section `s=f(t)`, the actual generic-fiber `x-alpha` element is the pair
-
-```text
-(f-s_plus, f-s_minus)
-```
-
-in the two branch normalization fields, modulo diagonal `K(t)^*` and squares.  Consequently the old `Gp(f)/Gm(f)` norm computation is not by itself a full `x-alpha` row.
-
-The exact repaired graph projections are
+In basis `[J1,J2,q1,q2,q3]`, true horizontal-section graph projections are
 
 ```text
 s=1                  -> q1+q2,
@@ -105,13 +100,13 @@ s=t                  -> q1+q2+q3,
 s=-i*(t-i)/(t+i)     -> q1+q2.
 ```
 
-The first and third have the same graph class.  Their ratio is computed exactly on `z^2=q`; an explicit square witness proves
+An explicit square witness proves
 
 ```text
 xalpha(-i*(t-i)/(t+i)) + xalpha(1) = J1.
 ```
 
-Thus `J1` is an exact relation.  The two graph projections from `s=1` and `s=t` are independent, so together with `J1` they already have rank three.  Since the independently locked image rank is three, the entire image is
+Therefore
 
 ```text
 im(x-alpha)
@@ -119,32 +114,15 @@ im(x-alpha)
      J1,
      b*J2+q1+q2,
      d*J2+q1+q2+q3
-   },
-   b,d in F2.
+   }, b,d in F2,
 ```
 
-The unresolved `J2` coefficients `b,d` are immaterial for the quotient: for every choice, `[J2,q1]` is a basis of `L_{c,E}/im(x-alpha)`.  Therefore neither a blind rank-20 restriction matrix nor the former seven-line search is required to enter arithmetic descent.
+and `[J2,q1]` is a quotient basis for every `b,d`.
 
-## Full-pair Galois correction
-
-The exact half-point calculations in `cv_exact_graph_lifts_and_galois.py` are retained as single-component data.  They must be combined with the conjugate branch component before reading the action on
+The corrected full-pair action is
 
 ```text
-L=k(B+) x k(B-).
-```
-
-Using
-
-```text
-cc*tau*cc = tau,
-cc*ct*cc  = tau*ct
-```
-
-in the degree-eight normal splitting field gives the full-pair action
-
-```text
-tau = identity,
-cc  = identity,
+tau = cc = identity,
 ct(q1)=q1+J1,
 ct(q2)=q2+J1,
 ct(q3)=q3,
@@ -152,14 +130,51 @@ ct(J1)=J1,
 ct(J2)=J2.
 ```
 
-Because `J1` is in `im(x-alpha)`, the induced action on the quotient basis `[J2,q1]` is identity.  Hence
+Thus the geometric quotient action is identity and the geometric invariant dimension is two.
+
+## New finite descent filter
+
+Take
 
 ```text
-Br(K_cbar)[2]^G_Q = Br(K_cbar)[2]
-dimension = 2.
+0 -> R=im(x-alpha) -> L_{c,E} -> Br(K_cbar)[2] -> 0.
 ```
 
-This is geometric invariance, not arithmetic descent.
+For all four possible `b,d`, `ct` fixes every generator of `R`; `tau` and `cc` already act trivially. Hence the effective action on `R` is trivial. For the effective `C2` generated by `ct`,
+
+```text
+H^1(C2,R)=Hom(C2,R)=R
+```
+
+and coboundaries are zero. Direct calculation gives
+
+```text
+delta(J2)(ct)=0,
+delta(q1)(ct)=J1.
+```
+
+So `J2` has a fixed presentation lift while `q1` does not. The `q1` class cannot be repaired by adding any element of `R`.
+
+This is a connecting class for the Creutz--Viray presentation, **not yet the Hochschild--Serre d2**. The remaining `q1` task is to choose an integral Neron--Severi/divisor lift of the `J1` relation and compute the next obstruction. No arithmetic survival/non-survival credit is granted yet.
+
+## J2 sqrt(2)-elimination
+
+For
+
+```text
+f2=(t+1+sqrt(2))/(t-1+sqrt(2)),
+h=((t-(sqrt(2)-1))*(t-(1-sqrt(2))))/z,
+```
+
+we have `h*ct(h)=1`. Taking `g=1+h` gives `ct(g)/g=1/h`, and exact reduction modulo `z^2=q` yields
+
+```text
+f2*g^2 = 2*(t^2+z-3)/(t^2-2*t-1).
+```
+
+The right side contains no `sqrt(2)`. It is therefore an explicit `Q(i)`-defined branch-normalization function in the geometric `J2` squareclass.
+
+Firewall: this materializes a generic function only. Ground-field nonsquare residues may remain on arithmetic exceptional divisors, so an unramified `Br(K_c,Q(i))` class is not yet certified.
 
 ## Upstream Picard source lock
 
@@ -169,42 +184,45 @@ The immutable Testa--Stoll verification source remains load-bearing for rank 20 
 [2,4,5,7,9,10,20,21,26,35,39,42,44,47,49,52,54,64,67,72].
 ```
 
-However, the former task of restricting these generators merely to choose one of seven residual graph lines is retired by the exact pair repair above.
+It is now needed specifically for the `q1` Neron--Severi lift and possible norm/cohomology calculation, not for the retired seven-graph-line search.
 
-## Authoritative repair execution
+## Authoritative execution
 
 ```text
-CHECKER=xalpha_pair_galois_repair.py
-CERTIFICATE=xalpha-pair-galois-repair.json
-WORKFLOW_RUN=32710572932
-WORKFLOW_NUMBER=39
+PAIR_REPAIR_CHECKER=xalpha_pair_galois_repair.py
+DESCENT_FRONTEND_CHECKER=descent_presentation_cocycle.py
+LATEST_WORKFLOW_RUN=32710954883
+LATEST_WORKFLOW_NUMBER=43
 CONCLUSION=success
-ARTIFACT_ID=9513914592
-ARTIFACT_SHA256=f909a226bffb4a469ae9cc85458742caac38598a2f70c7358ff5652de6e26fa4
+ARTIFACT_ID=9514049977
+ARTIFACT_SHA256=a249ff59ed92bec4e75acea7b8f0c6050b4787e7b0184f2587be8684cafb48b2
 ```
 
-## Current exact leaf
-
-Creutz--Viray Theorem I is explicitly an exact sequence of Galois modules over the separable closure.  It supplies the geometric presentation and supports Galois analysis, but it does not identify `Br(K_c)` with all Galois-fixed elements of `Br(K_cbar)`.  The paper itself emphasizes that arithmetic use needs representatives defined over the ground field.
-
-The remaining receiver is therefore
+## Current exact leaves
 
 ```text
-LEAF_ID=L33-05-HOCHSCHILD-SERRE-DESCENT-OF-J2-Q1
+LEAF_ID=L33-05-J2-QI-ARITHMETIC-RESIDUES-AND-QI-OVER-Q-DESCENT
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-GEOMETRIC_BRAUER_BASIS=J2,q1
-GEOMETRIC_GQ_INVARIANT_DIMENSION=2
-REQUIRED_OUTPUT=DESCENT_OBSTRUCTION_FOR_EACH_BASIS_CLASS
-                PLUS_Q_DEFINED_CSA_REPRESENTATIVES_FOR_SURVIVORS
+INPUT=2*(t^2+z-3)/(t^2-2*t-1)
+OUTPUT=ARITHMETIC_RESIDUES_PLUS_QI_OVER_Q_DESCENT
 ```
 
-## Firewalls / closure target
+```text
+LEAF_ID=L33-05-Q1-LIFT-CONNECTING-J1-THROUGH-NS-THEN-HS-D2
+CLASS=2
+NEW_THEOREM_REQUIRED=false
+INPUT_CONNECTING_COCYCLE=ct->J1
+OUTPUT=NS_LIFT_PLUS_HOCHSCHILD_SERRE_D2
+```
+
+## Firewalls
 
 ```text
 FULL_PAIR_GALOIS_ACTION_EXACT=true
 GEOMETRIC_BR2_GQ_INVARIANT_DIMENSION=2
 EXPLICIT_GEOMETRIC_BRAUER_QUOTIENT_BASIS=true
+CV_PRESENTATION_CONNECTING_COCYCLE_EXACT=true
 GEOMETRIC_INVARIANT_IMPLIES_ARITHMETIC_DESCENT=false
 DESCENT_OBSTRUCTION_ACCOUNTED=false
 Q_RELEVANT_SURVIVING_DIM_EXACT=false
