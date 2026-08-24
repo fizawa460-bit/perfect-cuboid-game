@@ -41,6 +41,9 @@ def main() -> None:
     for path in sorted(args.input_dir.rglob("compact.json")):
         row = json.loads(path.read_text())
         assert row["schema"] == CERT_SCHEMA
+        unsigned = dict(row)
+        claimed = unsigned.pop("canonical_sha256_without_this_field")
+        assert csha(unsigned) == claimed
         p = row["parameters"]
         key = (int(p["cell_index"]), int(p["shard_index"]))
         assert key in expected and key not in certs
@@ -97,6 +100,9 @@ def main() -> None:
         keys = [tuple(r["basis_coordinates"]) for r in survivors]
         assert len(keys) == len(set(keys))
         result = "SAT_EXHAUSTED" if survivors else "UNSAT"
+        compact_set_sha = csha(compact_shas)
+        raw_set_sha = csha(raw_shas)
+        stream_set_sha = csha(stream_shas)
         cell_summaries.append({
             "exceptional_mass": 10,
             "curve_group_mass": 30,
@@ -112,9 +118,10 @@ def main() -> None:
             "compact_certificate_shas": compact_shas,
             "source_raw_deterministic_shas": raw_shas,
             "branch_evidence_stream_shas": stream_shas,
-            "compact_certificate_set_sha256": csha(compact_shas),
-            "source_raw_set_sha256": csha(raw_shas),
-            "branch_evidence_stream_set_sha256": csha(stream_shas),
+            "compact_certificate_set_sha256": compact_set_sha,
+            "source_raw_set_sha256": raw_set_sha,
+            "branch_evidence_stream_set_sha256": stream_set_sha,
+            "shard_set_sha256": compact_set_sha,
             "numerical_survivors": survivors,
         })
         total_nodes += cell_nodes
