@@ -45,7 +45,12 @@ jobs:
       - name: Certify full BR0B injection into boundary character block
         working-directory: stages/stage33/33-07
         run: python certify_full_br0b_boundary_injection.py
-      - name: Validate main-batch firewall and sharpened residual
+      - name: Materialize global two-primary presentation and complete frozen-scope inventory
+        working-directory: stages/stage33/33-07
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python materialize_global_two_primary_presentation.py
+      - name: Validate main-batch audit handoff
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
@@ -55,6 +60,7 @@ jobs:
           f=json.load(open('br0g-finite-ramified-residue-presentation.json'))
           g=json.load(open('full-br0b-boundary-injection.json'))
           s=json.load(open('j2-endpoint-q2-variation.json'))
+          z=json.load(open('global-two-primary-presentation.json'))
           p=c['closure_prefix']
           assert p['br0b_all_primary_classes_imported']
           assert p['br0g_relevant_classes_imported']
@@ -91,14 +97,33 @@ jobs:
           assert g['trivial_algebraic_duplicate_quotient_exact']
           assert g['br0b_all_primary_classes_accounted']
           assert len(s['evaluations'])==7
-          assert s['evaluation_nonconstant_on_endpoint_Q2_locus_certified'] in (True,False)
-          assert g['unresolved_unknown_in_scope']==1
-          assert g['unit_status']=='RUNNING' and not g['unit_closed']
-          assert not g['downstream_released'] and not g['stage33_08_released']
-          print('STAGE33_07_BR0B_FULL_INJECTION_AND_BOUNDARY_PRESENTATION=PASS')
-          print('J2_Q2_EVALUATION_NONCONSTANT='+str(s['evaluation_nonconstant_on_endpoint_Q2_locus_certified']))
-          print('RESIDUAL='+g['new_residual_kernel'])
-          print('NEXT_LEAF='+g['next_exact_leaf'])
+          assert s['evaluation_nonconstant_on_endpoint_Q2_locus_certified'] is True
+          assert s['both_invariants_0_and_half_observed'] is True
+          assert z['coefficient_gersten_exponent_preserving_lifts']
+          assert z['finite_ramified_extension_by_j2_split_noncanonically']
+          assert z['constant_character_block_algebraic']
+          assert z['j2_transcendental_independent_from_constant_block']
+          assert z['finite_relation_symbol_compatibility_exact']
+          assert len(z['finite_relation_matrix_74x74'])==74
+          assert len(z['finite_symbol_matrix_74x120_mixed_mod4_encoding'])==74
+          assert z['relation_matrix_exact_for_two_primary_branch']
+          assert z['symbol_matrix_exact_for_two_primary_branch']
+          assert z['theorem_hypotheses_source_locked']
+          assert z['variable_dictionary_complete']
+          assert z['trivial_algebraic_duplicate_quotient_exact']
+          assert z['nf_phys2_camp4_invocations_hypothesis_gated']
+          assert z['complete_relevant_q_defined_class_list_for_stage33_brauer_scope']
+          assert z['every_class_has_primary_order_and_provenance']
+          assert z['br0b_all_primary_classes_accounted']
+          assert z['br2a']=='CLAIMED_DISCHARGED_PENDING_HOSTILE_AUDIT'
+          assert z['unresolved_unknown_in_scope']==0
+          assert z['closure_criteria_non_audit_satisfied']==13
+          assert z['unit_status']=='AUDIT_REQUIRED' and not z['unit_closed']
+          assert not z['downstream_released'] and not z['stage33_08_released']
+          print('STAGE33_07_MAIN_PRODUCTION=PASS_NONAUDIT_13_OF_13')
+          print('J2_Q2_EVALUATION_NONCONSTANT=True')
+          print('BR2A=CLAIMED_DISCHARGED_PENDING_HOSTILE_AUDIT')
+          print('NEXT=Stage33-audit')
           PY
       - name: Upload Stage33-07 working certificates
         uses: actions/upload-artifact@v4
@@ -113,3 +138,4 @@ jobs:
             stages/stage33/33-07/br0b-boundary-raw-residue-map.json
             stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json
             stages/stage33/33-07/full-br0b-boundary-injection.json
+            stages/stage33/33-07/global-two-primary-presentation.json
