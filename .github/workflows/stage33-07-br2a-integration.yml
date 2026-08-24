@@ -10,23 +10,33 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 jobs:
-  j2-endpoint-pullback:
+  br2a-integration:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
       - name: Certify nonzero endpoint pullback of Kc J2
         working-directory: stages/stage33/33-07
         run: python probe_j2_endpoint_q2.py
-      - name: Upload J2 endpoint pullback certificate
+      - name: Materialize full rank-14 explicit Q-unit lattice
+        working-directory: stages/stage33/33-04
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python materialize_q_units_v2.py
+      - name: Upload Stage33-07 working certificates
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-j2-endpoint-pullback
+          name: stage33-07-br2a-working
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
             stages/stage33/33-07/j2-q2-magma-stdout.txt
+            stages/stage33/33-04/explicit-q-units.json
+            stages/stage33/33-04/q-unit-magma-stdout.txt
