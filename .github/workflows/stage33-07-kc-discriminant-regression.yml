@@ -1,0 +1,46 @@
+name: Stage33-07 Kc discriminant HS regression
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/extract_kc_discriminant_compact.py'
+      - '.github/workflows/stage33-07-kc-discriminant-regression.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kc-discriminant:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract source-locked Kc discriminant V4 action
+        working-directory: stages/stage33/33-07
+        run: python extract_kc_discriminant_compact.py
+      - name: Validate Kc hostile-audit regression input
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('kc-discriminant-compact.json'))
+          assert x['discriminant_moduli']==[4,8]
+          assert abs(x['picard_determinant'])==32
+          assert x['audited_Kc_Br2_invariant_dimension_f2']==2
+          assert x['audited_Kc_HS_d2_kernel_dimension_f2']==1
+          assert x['audited_Kc_HS_d2_kernel_basis']==['J2']
+          assert x['audited_Kc_HS_d2_nonzero_class']=='q1'
+          assert not x['proposed_endpoint_secondary_bockstein_validated']
+          print('STAGE33_07_KC_HS_REGRESSION_INPUT=PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-kc-discriminant-hs-regression
+          retention-days: 7
+          path: |
+            stages/stage33/33-07/kc-discriminant-compact.json
+            stages/stage33/33-07/kc-discriminant-compact-magma-stdout.txt
