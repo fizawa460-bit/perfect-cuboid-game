@@ -13,6 +13,9 @@ LCE_FILTERED_QUOTIENT_EXACT=true
 LCE_ASSOCIATED_GRADED_JAC_DIM=2
 LCE_ASSOCIATED_GRADED_GRAPH_DIM=3
 EXPLICIT_JACOBIAN_QUOTIENT_FUNCTION_COUNT=2
+LOWDEGREE_GRAPH_FUNCTION_CHANNEL_EXACT=true
+LOWDEGREE_GRAPH_FUNCTION_SPAN_DIM=2
+REMAINING_GRAPH_DIRECTION_DIM=1
 FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=false
 FULL_LCE_CC_ACTION_EXACT=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
@@ -24,16 +27,13 @@ PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 
 ## Corrected exact Creutz--Viray target
 
-The ruled model over `Q(i)` has
+Over `Q(i)` the branch is two smooth `(2,2)` genus-one components meeting transversely at eight nodes, with common normalization
 
 ```text
-F=(X+iY)(X-iY),
-B+,B- smooth (2,2),
-8 transverse intersections,
-z^2 = q(t) = t^4 - 6*t^2 + 1
+z^2=t^4-6*t^2+1.
 ```
 
-as the common normalization.  After inclusion of the four nodal even-e fibers `0,1,-1,infinity`, the exact dimensions are
+After the nodal-fiber correction the exact finite dimensions remain
 
 ```text
 Jac(B)[2] dimension       = 4
@@ -45,92 +45,104 @@ im(x-alpha) dimension     = 3
 Br(K_cbar)[2] dimension   = 2.
 ```
 
-## Filtered five-dimensional quotient
-
-CI run `32690996286` materializes the associated-graded quotient of the 12-dimensional candidate space by the seven `K*L^2` relations.  At filtration level these relations consist of
+The exact associated-graded five-dimensional quotient is
 
 ```text
-2 diagonal Jac(B+)[2] / Jac(B-)[2] identifications,
-4 nodal pair-cycle relations,
-1 leading ell_1 relation.
+Jacobian quotient = 2D
+graph quotient    = 3D
+ell_1 quotient    = 0D.
 ```
 
-Hence
+## Two explicit Jacobian directions
+
+With
 
 ```text
-L_{c,E} associated graded:
-  Jacobian quotient = 2 dimensions
-  graph quotient    = 3 dimensions
-  ell_1 quotient    = 0 dimensions
-  total             = 5 dimensions.
+r1=1+sqrt(2),
+r2=-(1+sqrt(2)),
+r4=1-sqrt(2),
 ```
 
-Convenient graph quotient cycle representatives are
+two Jacobian quotient directions are represented on the common normalization by
 
 ```text
-e1+e3,
-e1+e5,
-e1+e7.
+f1=(t-r1)/(t-r4),
+f2=(t-r2)/(t-r4).
 ```
 
-These are quotient classes; their explicit `ell_C` rational functions are not yet materialized.
+The third branch-ratio is dependent because its product with `f1*f2` is `q(t)/(t-r4)^4`, a square on `z^2=q(t)`.
 
-## Two explicit Jacobian quotient functions
+## Two explicit low-degree graph directions
 
-Let the roots of `q` be
+CI run `32692459136` exhaustively checks twelve stable bidegree `(1,1)` forms whose zero sets pass through exactly four of the eight nodes.  Ratios to the base form
 
 ```text
-r1 = 1+sqrt(2)
-r2 = -(1+sqrt(2))
-r3 = sqrt(2)-1
-r4 = 1-sqrt(2).
+F01=u1*(v2-u2)
 ```
 
-On `z^2=q(t)` the two quotient directions can be represented by
+span exactly a two-dimensional subspace of the corrected three-dimensional graph quotient.
+
+An explicit independent pair is
 
 ```text
-f1 = (t-r1)/(t-r4)
-f2 = (t-r2)/(t-r4),
+g1 = (u1*u2-u2*v1)/(u1*u2-u1*v2),
+g2 = (u1*v2-u2*v1)/(u1*u2-u1*v2).
 ```
 
-using pairs `(f1,1)` and `(f2,1)` in the two normalization components.  The third branch-ratio is dependent because
+Relative to the quotient basis
 
 ```text
-f1*f2*f3 = q(t)/(t-r4)^4,
+q1=e1+e3,
+q2=e1+e5,
+q3=e1+e7,
 ```
 
-which is a square on `z^2=q(t)`.
+their node-parity classes are
+
+```text
+g1 -> q1+q2+q3,
+g2 -> q3.
+```
+
+Therefore the low-degree channel spans
+
+```text
+<q3, q1+q2>
+```
+
+and leaves only one associated-graded graph direction unresolved; it may be taken as `q1` (equivalently `q2` modulo the selected span).
 
 Evidence:
 
 ```text
-workflow_run = 32690996286
+workflow_run = 32692459136
 workflow_conclusion = success
-lce_filtered_quotient_sha256 = 129215ed58f85271cbbdcca4fdd085a74877769900f35f9da8c77bf120b22943
-artifact_id = 9507230128
-artifact_zip_sha256 = 46ba5cd90ca87e65099d854c958f3fbbda78293df109c1fbac0f4a551966a84b
+lowdegree_graph_functions_sha256 = 5f72e6ae2b2a815b711ed8b0996be12ba181aba1da9206bbff6dba78e42afdc1
+artifact_id = 9507702781
+artifact_zip_sha256 = 094757bb9ec86ee24d6679bf7000aaf6e3fcec7eee9efa241b93e483b5668825
 ```
 
 ## Firewall and next exact leaf
 
-The associated-graded quotient does not determine extension mixing in the actual `L_{c,E}` module.  In particular it does not determine the full complex-conjugation action, the rank-three `x-alpha` matrix, or Q-survival of the final two geometric Brauer directions.
+The node-parity calculation is an associated-graded graph certificate.  It does not yet prove that the two displayed low-degree ratios satisfy every Creutz--Viray divisor condition needed for a compatible `L_{c,E}` lift, and it does not resolve extension mixing, the rank-three `x-alpha` matrix, the final quotient action, or Q-survival.
 
 ```text
 FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=false
-EXPLICIT_GRAPH_CYCLE_FUNCTIONS_MATERIALIZED=false
+CREUTZ_VIRAY_DIVISOR_CONDITIONS_FOR_LOWDEGREE_FUNCTIONS_COMPLETE=false
 EXPLICIT_XALPHA_MATRIX_MATERIALIZED=false
 BRAUER_QUOTIENT_CC_ACTION_EXACT=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
 ```
 
-The remaining explicit-function wall has been reduced from five unknown basis functions to three graph-cycle functions:
+Next exact leaf:
 
 ```text
-LEAF_ID=L33-05-SYNTHESIZE-3-GRAPH-FUNCTIONS-THEN-XALPHA
+LEAF_ID=L33-05-SYNTHESIZE-ONE-RESIDUAL-GRAPH-FUNCTION-AND-CHECK-CV-DIVISORS-THEN-XALPHA
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-GRAPH_CYCLE_TARGETS=[e1+e3,e1+e5,e1+e7]
-EXPLICIT_JACOBIAN_FUNCTIONS_ALREADY_MATERIALIZED=2
+EXPLICIT_JACOBIAN_FUNCTIONS=2
+LOWDEGREE_GRAPH_DIRECTIONS=2
+REMAINING_ASSOCIATED_GRADED_GRAPH_DIM=1
 REQUIRED_XALPHA_IMAGE_RANK=3
 REQUIRED_BRAUER_QUOTIENT_DIM=2
 ```
