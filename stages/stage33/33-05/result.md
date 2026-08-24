@@ -13,9 +13,9 @@ LCE_FILTERED_QUOTIENT_EXACT=true
 LCE_ASSOCIATED_GRADED_JAC_DIM=2
 LCE_ASSOCIATED_GRADED_GRAPH_DIM=3
 EXPLICIT_JACOBIAN_QUOTIENT_FUNCTION_COUNT=2
-LOWDEGREE_GRAPH_FUNCTION_CHANNEL_EXACT=true
-LOWDEGREE_GRAPH_FUNCTION_SPAN_DIM=2
-REMAINING_GRAPH_DIRECTION_DIM=1
+EXPLICIT_GRAPH_ASSOCIATED_GRADED_FUNCTION_COUNT=3
+ASSOCIATED_GRADED_EXPLICIT_FUNCTION_COUNT=5
+ASSOCIATED_GRADED_GRAPH_CHANNEL_COMPLETE=true
 FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=false
 FULL_LCE_CC_ACTION_EXACT=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
@@ -70,26 +70,16 @@ f1=(t-r1)/(t-r4),
 f2=(t-r2)/(t-r4).
 ```
 
-The third branch-ratio is dependent because its product with `f1*f2` is `q(t)/(t-r4)^4`, a square on `z^2=q(t)`.
+## Three explicit associated-graded graph directions
 
-## Two explicit low-degree graph directions
-
-CI run `32692459136` exhaustively checks twelve stable bidegree `(1,1)` forms whose zero sets pass through exactly four of the eight nodes.  Ratios to the base form
-
-```text
-F01=u1*(v2-u2)
-```
-
-span exactly a two-dimensional subspace of the corrected three-dimensional graph quotient.
-
-An explicit independent pair is
+The bounded bidegree `(1,1)` channel gives two independent graph directions:
 
 ```text
 g1 = (u1*u2-u2*v1)/(u1*u2-u1*v2),
 g2 = (u1*v2-u2*v1)/(u1*u2-u1*v2).
 ```
 
-Relative to the quotient basis
+Relative to
 
 ```text
 q1=e1+e3,
@@ -97,38 +87,55 @@ q2=e1+e5,
 q3=e1+e7,
 ```
 
-their node-parity classes are
+they satisfy
 
 ```text
 g1 -> q1+q2+q3,
 g2 -> q3.
 ```
 
-Therefore the low-degree channel spans
+A bounded next-degree `(2,1)` synthesis now supplies the one residual direction `q1`.  Take
 
 ```text
-<q3, q1+q2>
+F_e1 = u1^2*u2 + u1^2*v2 + u2*v1^2,
+F_e3 = u1^2*u2 - u1^2*v2 + u1*u2*v1 + u1*v1*v2 - u2*v1^2 - v1^2*v2,
+g3 = F_e1/F_e3.
 ```
 
-and leaves only one associated-graded graph direction unresolved; it may be taken as `q1` (equivalently `q2` modulo the selected span).
+Among the eight branch-intersection nodes, `F_e1` vanishes exactly at `e1` and `F_e3` exactly at `e3`, hence
+
+```text
+g3 -> e1+e3 = q1.
+```
+
+Therefore
+
+```text
+span(g1,g2,g3)=<q1,q2,q3>,
+ASSOCIATED_GRADED_GRAPH_CHANNEL_COMPLETE=true.
+```
+
+Together with `f1,f2`, every one of the five associated-graded `L_{c,E}` directions now has an explicit rational-function candidate.
 
 Evidence:
 
 ```text
-workflow_run = 32692459136
+workflow_run = 32694382836
 workflow_conclusion = success
-lowdegree_graph_functions_sha256 = 5f72e6ae2b2a815b711ed8b0996be12ba181aba1da9206bbff6dba78e42afdc1
-artifact_id = 9507702781
-artifact_zip_sha256 = 094757bb9ec86ee24d6679bf7000aaf6e3fcec7eee9efa241b93e483b5668825
+residual_graph_function_sha256 = 7ca15cb62d529d264a161aea00f963260a1a28f48da09677d696c6aecaa6e08d
+artifact_id = 9508324033
+artifact_zip_sha256 = 3f5fd63a46197d99db2dc343a854bb37af9933951be1556381f205a6755e971a
 ```
 
 ## Firewall and next exact leaf
 
-The node-parity calculation is an associated-graded graph certificate.  It does not yet prove that the two displayed low-degree ratios satisfy every Creutz--Viray divisor condition needed for a compatible `L_{c,E}` lift, and it does not resolve extension mixing, the rank-three `x-alpha` matrix, the final quotient action, or Q-survival.
+This closes only the associated-graded function-synthesis wall.  The five displayed functions are not yet promoted to an actual basis of `L_{c,E}`: the Creutz--Viray divisor conditions and extension mixing must be checked simultaneously.  Only after that lift is exact may the rank-three `x-alpha` matrix and quotient Galois action be materialized.
 
 ```text
+ASSOCIATED_GRADED_FUNCTION_SYNTHESIS_CLOSED=true
 FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=false
-CREUTZ_VIRAY_DIVISOR_CONDITIONS_FOR_LOWDEGREE_FUNCTIONS_COMPLETE=false
+CREUTZ_VIRAY_DIVISOR_CONDITIONS_COMPLETE=false
+EXTENSION_MIXING_COMPLETE=false
 EXPLICIT_XALPHA_MATRIX_MATERIALIZED=false
 BRAUER_QUOTIENT_CC_ACTION_EXACT=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
@@ -137,12 +144,10 @@ Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
 Next exact leaf:
 
 ```text
-LEAF_ID=L33-05-SYNTHESIZE-ONE-RESIDUAL-GRAPH-FUNCTION-AND-CHECK-CV-DIVISORS-THEN-XALPHA
+LEAF_ID=L33-05-CHECK-5-FUNCTION-CV-DIVISORS-AND-EXTENSION-MIXING-THEN-XALPHA
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-EXPLICIT_JACOBIAN_FUNCTIONS=2
-LOWDEGREE_GRAPH_DIRECTIONS=2
-REMAINING_ASSOCIATED_GRADED_GRAPH_DIM=1
+ASSOCIATED_GRADED_FUNCTION_COUNT=5
 REQUIRED_XALPHA_IMAGE_RANK=3
 REQUIRED_BRAUER_QUOTIENT_DIM=2
 ```
