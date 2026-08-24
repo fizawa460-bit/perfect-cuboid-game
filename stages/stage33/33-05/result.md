@@ -102,6 +102,15 @@ dim im(x-alpha) = 3
 
 inside a five-dimensional `L_{c,E}` space.
 
+The corrected computation is independently CI-locked by run `32686188288`:
+
+```text
+CV_DIMENSION_SCHEMA=STAGE33_05_CV_DIMENSION_SKELETON_V2_NODE_FIBERS_INCLUDED
+CV_DIMENSION_CANONICAL_SHA256=2f56fb20b25af27f68639e0154713ba1b4995113715f516a014c0a605b2fc976
+ARTIFACT_ID=9505728365
+ARTIFACT_ZIP_SHA256=16a3c9d9537d0a0cae76fd6bb81db20e60cc45d65b0229ea8187000ae6fdb9e0
+```
+
 This correction makes the remaining finite problem **smaller**, not larger: the next explicit relation matrix has target shape rank `3` in dimension `5`, rather than the superseded `7` in `9` pilot.
 
 ## 3. Current exact Class-2 leaf
