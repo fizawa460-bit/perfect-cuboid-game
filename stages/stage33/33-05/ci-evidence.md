@@ -107,3 +107,5 @@ Q_DEFINED_ARITHMETIC_REPRESENTATIVES_MATERIALIZED=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
 UNIT_STATUS=RUNNING
 ```
+
+This file update is evidence-only.  Its own follow-up workflow run should be checked separately; the mathematical certificate content above is tied to successful run `32711169972` on `43f4f7907830f63045839d1c2d15ba12cad3e96e`.
