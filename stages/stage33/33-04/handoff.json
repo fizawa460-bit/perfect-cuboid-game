@@ -1,20 +1,26 @@
 {
-  "schema": "STAGE33_UNIT_HANDOFF_V1",
+  "schema": "STAGE33_UNIT_HANDOFF_V2_ODD_RESIDUAL_EXECUTED",
   "stage33_unit": "33-04",
-  "unit_status": "BLOCKED_NEW_KERNEL",
+  "unit_status": "AUDIT_REQUIRED",
   "unit_closed": false,
   "downstream_released": false,
   "prerequisite_units": ["33-02"],
   "prerequisites_all_closed": true,
   "closure_criteria_total": 10,
-  "closure_criteria_satisfied": 6,
-  "unresolved_unknown_in_scope": 1,
+  "closure_criteria_satisfied": 10,
+  "unresolved_unknown_in_scope": 0,
   "receivers_discharged": [],
-  "receivers_open": ["BR0G"],
-  "new_kernel_id": "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT",
+  "receivers_claimed_discharged_pending_audit": ["BR0G"],
+  "receivers_open": [],
+  "new_kernel_id": "NONE",
   "theorem_credit": false,
   "endpoint_credit": false,
   "perfect_cuboid_nonexistence_claim": false,
+  "previous_audit": {
+    "verdict": "PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE",
+    "audited_functional_head": "47cb96b6cd7acaa19f7fc51e9f72a8dc8e36964c",
+    "blocked_kernel": "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT"
+  },
   "exact_outputs": {
     "physical_boundary_component_count": 72,
     "codim2_crossing_count": 144,
@@ -25,40 +31,41 @@
     "two_primary_qfixed_cycle_dimension_f2": 61,
     "two_primary_known_unit_symbol_span_rank_f2": 44,
     "two_primary_explicit_graph_residual_dimension_f2": 17,
-    "two_primary_function_constant_descent_scope": "EXPONENT_TWO_RESIDUAL_ONLY"
+    "two_primary_function_constant_descent_complete": true,
+    "odd_primary_arithmetic_character_descent_complete": true,
+    "boundary_q_prime_divisor_orbit_count": 60,
+    "odd_primary_q_character_factor_count": 48,
+    "odd_primary_qi_character_factor_count": 12,
+    "odd_primary_boundary_character_module": "Hom_cont(G_Q,Q/Z)_odd^48 direct_sum Hom_cont(G_Q(i),Q/Z)_odd^12",
+    "unramified_physical_open_kernel_exact_claim_pending_audit": true
   },
-  "open_residual": {
-    "id": "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT",
-    "arithmetic_odd_character_descent_complete": false,
-    "all_primary_physical_open_unramified_kernel_complete": false,
-    "br0g_discharged": false,
-    "reason": "Final functional-head certificates retain odd-primary H^1 boundary-character descent as an in-scope BR0G residual; hostile audit rejects reassigning it to sibling/downstream units without an audited contract repair."
+  "production_workflow": {
+    "run_id": 32704767658,
+    "rerun_job_id": 97364320359,
+    "conclusion": "success",
+    "artifact_id": 9511990569,
+    "artifact_zip_sha256": "1b1ad90b4ece3ace6bf378cb33afd3e09688efdcdc4c99ce460820beb9ab530f",
+    "odd_primary_character_descent_sha256": "c89e2c2d71a6b48685f4670481bd7b97245b7e772c44ab58da2ca89f5950d3bc"
   },
   "scope_firewall": {
     "complete_q_defined_brauer_class_list": false,
     "brauer_manin_obstruction_claim": false,
-    "boundary_fixed_module_not_promoted_to_61_q_defined_generators": true,
-    "two_primary_graph_residual_not_promoted_to_complete_all_primary_br0g": true
+    "parametric_odd_character_module_not_promoted_to_finite_generator_list": true,
+    "stage33_06_released": false
   },
   "source_locks": [
     "MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
     "Cuboids/cuboids.magma blob 0422b69847f2afb97cb7b3ed02ebef91279f61b1",
     "stages/stage33/33-02/audit-state.json",
     "stages/stage29/29-02f/boundary-gersten-receiver.md",
+    "stages/stage29/29-02f/odd-primary-proper-brauer.md",
     "stages/stage33/33-00/unit-closure-contract.md",
     "stages/stage33/33-04/audit.md",
-    "stages/stage33/33-04/audit-state.json"
+    "stages/stage33/33-04/audit-state.json",
+    "Stacks tag 0BTU",
+    "Stacks tag 0A44"
   ],
-  "workflow": {
-    "run_id": 32701829304,
-    "conclusion": "success",
-    "artifact_id": 9510818470,
-    "artifact_zip_sha256": "4c2d15df6394004addfb5ae99c40d0161b00174c59f12a5c6069061ca30afb3a",
-    "all_primary_geometric_cycle_certificate_sha256": "5b8516e39805a6dc9082b222f08ec425dbb9a6d4449ccbd52eee2c98ea81aeb9",
-    "two_primary_function_constant_descent_sha256": "0fad4339d6554a6546544686c1e54772f43e2a3d0f789f6fa8cdf635ea2250ef"
-  },
-  "audit_verdict": "PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE",
-  "merge_allowed_as_blocked_checkpoint": true,
+  "audit_verdict": "PENDING_REAUDIT_AFTER_ODD_RESIDUAL_EXECUTION",
   "next_released_units": [],
-  "next_expected_command": "Stage33-main-batch"
+  "next_expected_command": "Stage33-audit"
 }
