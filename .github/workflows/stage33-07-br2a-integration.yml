@@ -51,6 +51,9 @@ jobs:
       - name: Kill odd-primary proper Brauer invariants by exact Frobenius unit certificates
         working-directory: stages/stage33/33-07
         run: python certify_proper_brauer_odd_invariants_zero.py
+      - name: Extract proper Picard Gram and cc-ct Galois action from pinned Stoll source
+        working-directory: stages/stage33/33-07
+        run: python extract_picard_gram_galois.py
       - name: Replay historical global presentation for regression only
         working-directory: stages/stage33/33-07
         env:
@@ -67,6 +70,7 @@ jobs:
           s=json.load(open('j2-endpoint-q2-variation.json'))
           h=json.load(open('arithmetic-hs-descent-problem.json'))
           o=json.load(open('proper-brauer-odd-invariants-zero.json'))
+          p=json.load(open('picard-gram-galois.json'))
           assert r['induced_left_filtration_boundary_map_injective']
           assert f['unit_symbol_rank_f2']==44
           assert f['graph_residual_rank_f2']==17
@@ -88,6 +92,9 @@ jobs:
           assert o['repair_reduced_to_two_primary']
           assert o['frobenius_certificates'][0]['full_rank14_det_Frob_minus_1_v2']==38
           assert o['frobenius_certificates'][1]['full_rank14_det_Frob_minus_1_v2']==46
+          assert len(p['picard_gram_64x64'])==64
+          assert len(p['cc_picard_action_64x64'])==64
+          assert len(p['ct_picard_action_64x64'])==64
           print('STAGE33_07_RETAINED_MATH=PASS')
           print('HS_FINITE_UNKNOWN=(Z/2)^23+(Z/4)^3')
           print('HS_FINITE_UNKNOWN_GENERATORS=26')
@@ -95,6 +102,7 @@ jobs:
           print('PROPER_BRAUER_ODD_GQ_INVARIANTS=0')
           print('ODD_CONSTANT_COKERNEL_GLOBAL_IMAGE=0')
           print('REPAIR_REDUCED_TO_TWO_PRIMARY=True')
+          print('PICARD_GRAM_GALOIS_EXTRACTED=True')
           PY
       - name: Validate re-audited blocked arithmetic descent state
         working-directory: stages/stage33/33-07
@@ -138,5 +146,7 @@ jobs:
             stages/stage33/33-07/full-br0b-boundary-injection.json
             stages/stage33/33-07/arithmetic-hs-descent-problem.json
             stages/stage33/33-07/proper-brauer-odd-invariants-zero.json
+            stages/stage33/33-07/picard-gram-galois.json
+            stages/stage33/33-07/picard-gram-galois-magma-stdout.txt
             stages/stage33/33-07/audit-state.json
             stages/stage33/33-07/handoff.json
