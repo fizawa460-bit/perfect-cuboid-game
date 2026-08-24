@@ -77,6 +77,9 @@ jobs:
             if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
           done
           exit 1
+      - name: Reduce absolute d2_11 to the N-restriction kernel
+        working-directory: stages/stage33/33-03
+        run: python derive_n_restriction_split.py
       - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -99,3 +102,4 @@ jobs:
             stages/stage33/33-03/finite-transgression-ranks.json
             stages/stage33/33-03/d2-01-image-magma-stdout.txt
             stages/stage33/33-03/d2-01-image.json
+            stages/stage33/33-03/absolute-n-restriction-split.json
