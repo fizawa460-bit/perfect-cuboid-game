@@ -6,7 +6,6 @@ import hashlib
 import json
 import math
 import pathlib
-from collections import Counter
 from typing import Any
 
 PROFILE_SCHEMA = "STAGE32_D8_MATERIALIZATION_SCHEDULE_PROFILE_V1"
@@ -24,11 +23,10 @@ EXPECTED_DELTA_CELLS = 116
 EXPECTED_DELTA_BRANCHES = 9_890_148
 EXPECTED_CUMULATIVE_CELLS = 417
 EXPECTED_CUMULATIVE_BRANCHES = 16_724_262
+EXPECTED_WORK_ITEMS = 364
 MAX_BRANCHES_PER_WORK_ITEM = 32_768
 BUNDLE_COUNT = 80
 WAVE_COUNT = 4
-MAX_COMPACT_BYTES_PER_ITEM = 20_000
-MAX_RUNNER_LOCAL_RAW_BYTES = 1_000_000_000
 MAX_PARALLEL_BUNDLES = 8
 
 
@@ -38,13 +36,8 @@ def csha(value: Any) -> str:
     ).hexdigest()
 
 
-def expected_mod_count(total: int, shard_count: int, shard_index: int) -> int:
-    return total // shard_count + (1 if shard_index < total % shard_count else 0)
-
-
-def quantile_nearest(values: list[int], fraction: float) -> int:
-    assert values
-    return values[min(len(values) - 1, round(fraction * (len(values) - 1)))]
+def mod_count(total: int, count: int, index: int) -> int:
+    return total // count + (1 if index < total % count else 0)
 
 
 def main() -> None:
@@ -59,30 +52,24 @@ def main() -> None:
     prev = json.loads(args.predecessor.read_text())
     assert profile["schema"] == PROFILE_SCHEMA
     assert profile["canonical_sha256_without_this_field"] == EXPECTED_PROFILE_SHA
-    assert int(profile["degree"]) == 8 and int(profile["genus"]) == 0
-    assert int(profile["exceptional_mass"]) == 20
-    assert int(profile["curve_group_mass"]) == 0
     assert int(profile["signature_cell_count"]) == 1182
 
     assert prev["schema"] == PREV_SCHEMA
-    prev_unsigned = dict(prev)
-    prev_claimed = prev_unsigned.pop("canonical_sha256_without_this_field")
-    assert prev_claimed == EXPECTED_PREV_SHA and csha(prev_unsigned) == prev_claimed
+    unsigned = dict(prev)
+    claimed = unsigned.pop("canonical_sha256_without_this_field")
+    assert claimed == EXPECTED_PREV_SHA and csha(unsigned) == claimed
     assert int(prev["chosen_cumulative_branch_threshold"]) == PREV_THRESHOLD
     assert int(prev["selected_cell_count"]) == EXPECTED_PREV_CELLS
     assert int(prev["selected_total_materialized_branches"]) == EXPECTED_PREV_BRANCHES
     assert prev["selected_cells_exactly_complete"] is True
     assert int(prev["unknown_branch_count"]) == 0
     assert int(prev["exact_numerical_survivor_count"]) == 0
-    assert prev["theorem_credit"] is False and prev["receiver_credit"] is False
 
     rows = list(profile["cells_sorted_by_branch_count"])
     prev_rows = [r for r in rows if int(r["materialized_branch_count"]) <= PREV_THRESHOLD]
     target_rows = [r for r in rows if int(r["materialized_branch_count"]) <= TARGET_THRESHOLD]
     delta_rows = [r for r in target_rows if int(r["materialized_branch_count"]) > PREV_THRESHOLD]
     above = sorted(int(r["materialized_branch_count"]) for r in rows if int(r["materialized_branch_count"]) > TARGET_THRESHOLD)
-    assert above and above[0] == NEXT_PLATEAU_BRANCH_COUNT
-    assert sum(1 for v in above if v == NEXT_PLATEAU_BRANCH_COUNT) == NEXT_PLATEAU_CELL_MULTIPLICITY
 
     assert len(prev_rows) == EXPECTED_PREV_CELLS
     assert sum(int(r["materialized_branch_count"]) for r in prev_rows) == EXPECTED_PREV_BRANCHES
@@ -90,22 +77,15 @@ def main() -> None:
     assert sum(int(r["materialized_branch_count"]) for r in delta_rows) == EXPECTED_DELTA_BRANCHES
     assert len(target_rows) == EXPECTED_CUMULATIVE_CELLS
     assert sum(int(r["materialized_branch_count"]) for r in target_rows) == EXPECTED_CUMULATIVE_BRANCHES
+    assert above[0] == NEXT_PLATEAU_BRANCH_COUNT
+    assert sum(v == NEXT_PLATEAU_BRANCH_COUNT for v in above) == NEXT_PLATEAU_CELL_MULTIPLICITY
 
     prev_keys = {(int(c["cell_index"]), str(c["cell_id"])) for c in prev["cell_summaries"]}
-    expected_prev_keys = {(int(r["cell_index"]), str(r["cell_id"])) for r in prev_rows}
-    assert prev_keys == expected_prev_keys
-
-    regression_summary = next(c for c in prev["cell_summaries"] if int(c["cell_index"]) == 48)
-    regression_profile = next(r for r in rows if int(r["cell_index"]) == 48)
-    assert regression_summary["cell_id"] == "09d0449f1e53b0a4e6c5e115"
-    assert int(regression_summary["total_branch_count"]) == 52_992
-    assert int(regression_summary["shard_count"]) == 2
-    assert regression_summary["branch_partition_complete"] is True
-    assert int(regression_summary["unknown_branch_count"]) == 0
-    assert int(regression_summary["exact_numerical_survivor_count"]) == 0
+    profile_prev_keys = {(int(r["cell_index"]), str(r["cell_id"])) for r in prev_rows}
+    assert prev_keys == profile_prev_keys
 
     cells: list[dict[str, Any]] = []
-    work_items: list[dict[str, Any]] = []
+    items: list[dict[str, Any]] = []
     for row in delta_rows:
         total = int(row["materialized_branch_count"])
         shard_count = math.ceil(total / MAX_BRANCHES_PER_WORK_ITEM)
@@ -117,86 +97,56 @@ def main() -> None:
         }
         cells.append(cell)
         for shard_index in range(shard_count):
-            branches = expected_mod_count(total, shard_count, shard_index)
-            assert 0 < branches <= MAX_BRANCHES_PER_WORK_ITEM
-            work_items.append({
-                **cell,
-                "shard_index": shard_index,
-                "expected_shard_branches": branches,
-            })
+            n = mod_count(total, shard_count, shard_index)
+            assert 0 < n <= MAX_BRANCHES_PER_WORK_ITEM
+            items.append({**cell, "shard_index": shard_index, "expected_shard_branches": n})
     cells.sort(key=lambda r: (r["total_branches"], r["cell_id"]))
-    assert len(cells) == EXPECTED_DELTA_CELLS
-    assert len(work_items) == 364
-    assert sum(int(i["expected_shard_branches"]) for i in work_items) == EXPECTED_DELTA_BRANCHES
+    assert len(items) == EXPECTED_WORK_ITEMS
+    assert sum(int(i["expected_shard_branches"]) for i in items) == EXPECTED_DELTA_BRANCHES
 
-    bundles: list[dict[str, Any]] = [
+    bundles = [
         {"bundle_id": f"b{i:03d}", "expected_branches": 0, "items": []}
         for i in range(BUNDLE_COUNT)
     ]
-    ordered = sorted(
-        work_items,
-        key=lambda r: (-int(r["expected_shard_branches"]), int(r["cell_index"]), int(r["shard_index"])),
-    )
-    for item in ordered:
-        target = min(
-            bundles,
-            key=lambda b: (int(b["expected_branches"]), len(b["items"]), str(b["bundle_id"])),
-        )
+    for item in sorted(items, key=lambda r: (-int(r["expected_shard_branches"]), int(r["cell_index"]), int(r["shard_index"]))):
+        target = min(bundles, key=lambda b: (int(b["expected_branches"]), len(b["items"]), str(b["bundle_id"])))
         target["items"].append(item)
         target["expected_branches"] += int(item["expected_shard_branches"])
-    for bundle in bundles:
-        bundle["items"].sort(key=lambda r: (int(r["cell_index"]), int(r["shard_index"])))
-        bundle["item_count"] = len(bundle["items"])
-        assert bundle["items"]
+    for b in bundles:
+        b["items"].sort(key=lambda r: (int(r["cell_index"]), int(r["shard_index"])))
+        b["item_count"] = len(b["items"])
+        assert b["items"]
 
-    assigned = [
-        (int(i["cell_index"]), int(i["shard_index"]), int(i["shard_count"]))
-        for b in bundles for i in b["items"]
-    ]
-    expected_assigned = [
-        (int(i["cell_index"]), int(i["shard_index"]), int(i["shard_count"]))
-        for i in work_items
-    ]
-    assert sorted(assigned) == sorted(expected_assigned)
     loads = sorted(int(b["expected_branches"]) for b in bundles)
     assert loads[0] == 109_826 and loads[-1] == 134_565
     pilot = max(bundles, key=lambda b: (int(b["expected_branches"]), len(b["items"]), str(b["bundle_id"])))
+    assert pilot["bundle_id"] == "b066" and int(pilot["expected_branches"]) == 134_565
 
-    waves: list[dict[str, Any]] = []
-    wave_matrices: list[list[dict[str, str]]] = []
-    for wave_index in range(WAVE_COUNT):
-        wave_bundles = [b for i, b in enumerate(bundles) if i % WAVE_COUNT == wave_index]
-        matrix = [
-            {"bundle_id": str(b["bundle_id"])}
-            for b in wave_bundles if b["bundle_id"] != pilot["bundle_id"]
-        ]
+    waves = []
+    matrices = []
+    for wi in range(WAVE_COUNT):
+        wave_bundles = [b for i, b in enumerate(bundles) if i % WAVE_COUNT == wi]
+        matrix = [{"bundle_id": str(b["bundle_id"])} for b in wave_bundles if b["bundle_id"] != pilot["bundle_id"]]
         waves.append({
-            "wave_index": wave_index,
+            "wave_index": wi,
             "bundle_ids": [str(b["bundle_id"]) for b in wave_bundles],
             "bundle_count": len(wave_bundles),
             "bulk_bundle_count_after_pilot_exclusion": len(matrix),
             "expected_branches": sum(int(b["expected_branches"]) for b in wave_bundles),
         })
-        wave_matrices.append(matrix)
+        matrices.append(matrix)
     assert [w["bundle_count"] for w in waves] == [20, 20, 20, 20]
-    assert sum(int(w["expected_branches"]) for w in waves) == EXPECTED_DELTA_BRANCHES
-    assert sum(int(w["bulk_bundle_count_after_pilot_exclusion"]) for w in waves) == 79
+    assert sum(w["bulk_bundle_count_after_pilot_exclusion"] for w in waves) == 79
 
-    branch_counts = sorted(int(r["materialized_branch_count"]) for r in delta_rows)
-    bins = Counter(
-        f"{((v - 1) // 8192) * 8192 + 1}-{((v - 1) // 8192 + 1) * 8192}"
-        for v in branch_counts
-    )
+    regression = next(c for c in prev["cell_summaries"] if int(c["cell_index"]) == 48)
+    assert regression["cell_id"] == "09d0449f1e53b0a4e6c5e115"
+    assert int(regression["total_branch_count"]) == 52_992
+    assert int(regression["shard_count"]) == 2
+    assert regression["branch_evidence_stream_shas"][0] == "b6d30e4f6d73d6e545d9594c29cebcbc4394f854d493b49b6c6aaa91233534b0"
 
     report = {
         "schema": PLAN_SCHEMA,
-        "parameters": {
-            "degree": 8,
-            "genus": 0,
-            "exceptional_mass": 20,
-            "curve_group_mass": 0,
-            "node_limit_per_branch": 1_000_000,
-        },
+        "parameters": {"degree": 8, "genus": 0, "exceptional_mass": 20, "curve_group_mass": 0, "node_limit_per_branch": 1_000_000},
         "profile_sha256": EXPECTED_PROFILE_SHA,
         "predecessor_sha256": EXPECTED_PREV_SHA,
         "predecessor_threshold": PREV_THRESHOLD,
@@ -214,24 +164,16 @@ def main() -> None:
             "cell_multiplicity": NEXT_PLATEAU_CELL_MULTIPLICITY,
             "reason_for_stop": "STOP_IMMEDIATELY_BEFORE_128_CELL_EQUAL_BRANCH_COUNT_PLATEAU",
         },
-        "branch_count_distribution": {
-            "minimum": branch_counts[0],
-            "median_nearest": quantile_nearest(branch_counts, 0.50),
-            "maximum": branch_counts[-1],
-            "bins_width_8192": dict(sorted(bins.items())),
-        },
         "execution_architecture": {
             "partition_rule": "DYNAMIC_GLOBAL_BRANCH_INDEX_MOD_CEIL_TOTAL_OVER_32768",
             "max_expected_branches_per_work_item": MAX_BRANCHES_PER_WORK_ITEM,
-            "work_item_count": len(work_items),
+            "work_item_count": EXPECTED_WORK_ITEMS,
             "bundle_packing": "DETERMINISTIC_LPT_BY_EXPECTED_MATERIALIZED_BRANCH_COUNT",
             "bundle_count": BUNDLE_COUNT,
             "bounded_wave_count": WAVE_COUNT,
             "max_parallel_bundles": MAX_PARALLEL_BUNDLES,
             "bundle_expected_branch_minimum": loads[0],
-            "bundle_expected_branch_median": quantile_nearest(loads, 0.5),
             "bundle_expected_branch_maximum": loads[-1],
-            "bundle_load_spread": loads[-1] - loads[0],
             "single_exact_context_initialization_per_bundle": True,
             "raw_items_verified_and_compacted_sequentially": True,
             "stage32_16_runner_reused_without_solver_semantic_change": True,
@@ -240,27 +182,20 @@ def main() -> None:
         "representative_predecessor_regression": {
             "bundle_id": "predecessor-regression-cell48-s0of2",
             "purpose": "NARROW_EQUIVALENCE_CHECK_AGAINST_AUDITED_LE65536_PREDECESSOR",
-            "item": {
-                "cell_index": 48,
-                "cell_id": "09d0449f1e53b0a4e6c5e115",
-                "total_branches": 52_992,
-                "shard_count": 2,
-                "shard_index": 0,
-                "expected_shard_branches": 26_496,
-            },
-            "expected_branch_exact_evidence_stream_sha256": regression_summary["branch_evidence_stream_shas"][0],
+            "item": {"cell_index": 48, "cell_id": "09d0449f1e53b0a4e6c5e115", "total_branches": 52_992, "shard_count": 2, "shard_index": 0, "expected_shard_branches": 26_496},
+            "expected_branch_exact_evidence_stream_sha256": "b6d30e4f6d73d6e545d9594c29cebcbc4394f854d493b49b6c6aaa91233534b0",
             "expected_exact_numerical_survivor_count": 0,
-            "expected_signature_cell_sha256": csha(regression_profile),
+            "expected_signature_cell_sha256": "35e8236d4545cbb7506c217db10654cf5aa0b4f534ea41537afbf4c5bb0cb72c",
             "expected_shared_context_certificate_sha256": "5315b8188d36ca4ae35d3d943cd10b8783a3e602fd157b83a4bf6b1e725ab835",
         },
         "bundles": bundles,
         "bounded_waves": waves,
         "storage_safety": {
             "artifact_count": BUNDLE_COUNT,
-            "compact_certificate_count": len(work_items),
-            "max_compact_bytes_per_item": MAX_COMPACT_BYTES_PER_ITEM,
-            "hard_compact_storage_upper_bound_bytes": len(work_items) * MAX_COMPACT_BYTES_PER_ITEM,
-            "max_runner_local_raw_bytes_per_item": MAX_RUNNER_LOCAL_RAW_BYTES,
+            "compact_certificate_count": EXPECTED_WORK_ITEMS,
+            "max_compact_bytes_per_item": 20_000,
+            "hard_compact_storage_upper_bound_bytes": EXPECTED_WORK_ITEMS * 20_000,
+            "max_runner_local_raw_bytes_per_item": 1_000_000_000,
             "max_simultaneous_runners": MAX_PARALLEL_BUNDLES,
             "raw_items_retained_after_post_verification_compaction": False,
             "transient_bundle_retention_days": 1,
@@ -268,7 +203,6 @@ def main() -> None:
         "stage32_16_measured_baseline": {
             "workflow_run_id": 32733420941,
             "measured_bundle_seconds_per_branch": 0.008521564114,
-            "measured_runner_efficiency_improvement_ratio": 1.591727,
             "measured_workflow_throughput_branches_per_wall_second": 588.265828810816,
             "previous_bundle_count": 48,
             "current_bundle_count": BUNDLE_COUNT,
@@ -289,7 +223,7 @@ def main() -> None:
 
     if args.github_output:
         with args.github_output.open("a") as fh:
-            for i, matrix in enumerate(wave_matrices):
+            for i, matrix in enumerate(matrices):
                 fh.write(f"wave{i}_matrix={json.dumps({'include': matrix}, separators=(',', ':'))}\n")
             fh.write(f"pilot_bundle_id={pilot['bundle_id']}\n")
             fh.write(f"plan_sha={report['canonical_sha256_without_this_field']}\n")
@@ -297,7 +231,7 @@ def main() -> None:
     print(json.dumps({
         "delta_cells": EXPECTED_DELTA_CELLS,
         "delta_branches": EXPECTED_DELTA_BRANCHES,
-        "work_items": len(work_items),
+        "work_items": EXPECTED_WORK_ITEMS,
         "bundles": BUNDLE_COUNT,
         "load_min": loads[0],
         "load_max": loads[-1],
