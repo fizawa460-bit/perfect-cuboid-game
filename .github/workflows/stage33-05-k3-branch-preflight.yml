@@ -57,6 +57,9 @@ jobs:
       - name: Materialize q1 NS lift and cyclic non-norm parity
         working-directory: stages/stage33/33-05
         run: python q1_ns_lift_parity.py
+      - name: Identify q1 Hochschild-Serre d2 by Kummer Bockstein
+        working-directory: stages/stage33/33-05
+        run: python q1_hs_d2_bockstein.py
       - name: Upload exact preflight certificates
         uses: actions/upload-artifact@v4
         with:
@@ -74,3 +77,4 @@ jobs:
             stages/stage33/33-05/descent-presentation-cocycle.json
             stages/stage33/33-05/j2-arithmetic-descent.json
             stages/stage33/33-05/q1-ns-lift-cyclic-parity.json
+            stages/stage33/33-05/q1-hs-d2-bockstein.json
