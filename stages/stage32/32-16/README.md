@@ -74,12 +74,48 @@ compute jobs; Stage32-16 uses 48 gated bundles and reuses the exact context
 within each bundle. Final observed runtime/resource comparisons are recorded
 after exact aggregation.
 
-## Current status and firewalls
+## Completed execution and audit boundary
 
-Before the Actions aggregate succeeds, this batch remains `WAIT`; no cell is
-credited from a missing, timed-out, UNKNOWN, node-exhausted, or ambiguous job.
-The declared stopping boundary is exact completion of the cumulative
-`<=65536` tier. No larger tier is launched by this batch.
+Authoritative workflow run `32733420941` completed successfully at functional
+head `0893fb99699ae8b0f16b2041c484e5c2b31111c6`. All 287 planned work items in
+all 48 bundles were present and verified. The exact delta disposition is 232
+cells / 6,178,556 branches / 1,602,160 search nodes, with zero UNKNOWN and zero
+numerical survivors. Combined with the inherited predecessor, the cumulative
+result is 301 cells / 6,834,114 branches / 1,881,870 search nodes, again with
+zero UNKNOWN and zero numerical survivors.
+
+The final aggregate canonical SHA-256 is
+`5e6a447f7df3a712d6b8c873bc7e912f58b74b44cf4f461dc4cecd800c9e516c`.
+The final artifact is `stage32-16-e20-a0-le65536-exact-tier`, id `9529005890`,
+with ZIP SHA-256
+`efd8b4403eb4557e0fa61d1ac2f894dac517d7f6e06aae2c1e2f506b8b7876a7`.
+An independent local re-aggregation from all 48 downloaded bundle artifacts
+reproduced the same parsed aggregate and canonical hash.
+
+The Actions predecessor regression reproduced the inherited 2,448-branch
+neighbor exactly. Its result canonical SHA-256 is
+`a6d319062c8d0e7045654b6f167f8425839edbee0bc73b98c476c15956a3c544`;
+the regression artifact is id `9523004366`, ZIP SHA-256
+`52802de9951110b6334987b51599ed579f81a51edb3270ddc79996566023dd0f`.
+
+Measured bundle runner time was 52,650.961084 seconds total, with 773.488444
+seconds minimum, 1,120.981007 seconds median, and 1,290.026382 seconds maximum.
+The new runner used 0.008521564114 bundle-seconds per branch versus
+0.013564005825 exact-step seconds per branch in the measured Stage32-15
+baseline, a 1.591727x runner-efficiency improvement. End-to-end Actions
+throughput rose from 343.194570 to 588.265829 branches per wall-second, a
+1.714088x improvement, while processing 10.1827x the delta branch volume.
+
+Actual uploaded storage for all 51 run artifacts was 553,651 compressed bytes,
+far below the conservative 22,540,000-byte incremental bound. The largest
+uploaded artifact was 64,184 bytes; the largest runner-local raw work-item file
+was 38,041,679 bytes and was not persisted. No authoritative historical
+evidence was deleted.
+
+This is an execution result, not a self-awarded hostile-audit verdict.
+`AUDIT_FINAL_VERDICT=WAIT` and `HOSTILE_AUDIT_REQUIRED=true` until an independent
+audit accepts the evidence. The declared `<=65536` stopping boundary has been
+reached, and this batch launches no larger tier.
 
 The following remain unchanged:
 
