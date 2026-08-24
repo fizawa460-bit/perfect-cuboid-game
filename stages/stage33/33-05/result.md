@@ -9,7 +9,11 @@ K3_GEOMETRIC_BR2_DIM=2
 LCE_DIMENSION=5
 XALPHA_IMAGE_DIMENSION=3
 COMMON_NORMALIZATION_EXACT=true
-ASSOCIATED_GRADED_CC_ACTION_EXACT=true
+LCE_FILTERED_QUOTIENT_EXACT=true
+LCE_ASSOCIATED_GRADED_JAC_DIM=2
+LCE_ASSOCIATED_GRADED_GRAPH_DIM=3
+EXPLICIT_JACOBIAN_QUOTIENT_FUNCTION_COUNT=2
+FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=false
 FULL_LCE_CC_ACTION_EXACT=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
 QI_OVER_Q_ACTION_MATRIX_EXACT=false
@@ -18,131 +22,117 @@ ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## 1. Exact ruled-branch and Creutz--Viray dimension skeleton
+## Corrected exact Creutz--Viray target
 
-The source-locked model satisfies
-
-```text
-F=(X+iY)(X-iY) over Q(i),
-B+,B- smooth of bidegree (2,2),
-complex conjugation swaps B+ and B-,
-B+ intersect B- in 8 transverse nodes.
-```
-
-Relative to the first ruling, both normalized components have common quadratic function field
+The ruled model over `Q(i)` has
 
 ```text
-z^2 = q(t) = t^4 - 6*t^2 + 1.
+F=(X+iY)(X-iY),
+B+,B- smooth (2,2),
+8 transverse intersections,
+z^2 = q(t) = t^4 - 6*t^2 + 1
 ```
 
-After the mandatory nodal-fiber correction, the exact Creutz--Viray dimensions are
+as the common normalization.  After inclusion of the four nodal even-e fibers `0,1,-1,infinity`, the exact dimensions are
 
 ```text
-Jac(B)[2] dimension          = 4
-dual graph b1                = 7
-special even-e fibers        = 8
-K-squareclass kernel dim     = 1
-raw generator dimension      = 12
-kernel to K*L^2 dimension    = 7
-L_E = L_{c,E} dimension      = 5
-im(x-alpha) dimension        = 3
-Br(K_c_Qbar)[2] dimension    = 2.
+Jac(B)[2] dimension       = 4
+dual graph b1             = 7
+raw generator dimension   = 12
+K*L^2 relation dimension  = 7
+L_E=L_{c,E} dimension     = 5
+im(x-alpha) dimension     = 3
+Br(K_cbar)[2] dimension   = 2.
 ```
 
-The superseded `L_{c,E}=9` pilot remains invalid.
+## Filtered five-dimensional quotient
 
-## 2. Explicit common normalization and node-level conjugation
-
-Run `32689168245` materializes the common normalization maps
+CI run `32690996286` materializes the associated-graded quotient of the 12-dimensional candidate space by the seven `K*L^2` relations.  At filtration level these relations consist of
 
 ```text
-B+ : s =  i*(1-t^2+z)/(2*t)
-B- : s = -i*(1-t^2+z)/(2*t)
-z^2 = t^4 - 6*t^2 + 1.
+2 diagonal Jac(B+)[2] / Jac(B-)[2] identifications,
+4 nodal pair-cycle relations,
+1 leading ell_1 relation.
 ```
 
-Complex conjugation swaps `B+` and `B-`, fixes the abstract functions `t,z`, and conjugates constants.  All eight intersection edges are individually stable as geometric dual-graph edges.
-
-Therefore the associated-graded Creutz--Viray pieces have exact conjugation action:
+Hence
 
 ```text
-Jac(B)[2] = Jac(B+)[2] + Jac(B-)[2]
-  dimension 4
-  cc swaps the two 2-dimensional summands
-  fixed dimension = 2
-
-H1(Gamma,F2)
-  dimension 7
-  cc action = identity
-  fixed dimension = 7
-
-G1/G2
-  dimension 1
-  cc action = identity
-  fixed dimension = 1.
+L_{c,E} associated graded:
+  Jacobian quotient = 2 dimensions
+  graph quotient    = 3 dimensions
+  ell_1 quotient    = 0 dimensions
+  total             = 5 dimensions.
 ```
 
-Hence the raw 12-dimensional associated-graded candidate space has
+Convenient graph quotient cycle representatives are
 
 ```text
-ASSOCIATED_GRADED_CC_FIXED_DIMENSION = 10.
+e1+e3,
+e1+e5,
+e1+e7.
 ```
 
-A compatible two-function skeleton for the 2-torsion on each common normalization is also explicit via ratios `(t-r_i)/(t-r_j)` at the four roots of `q(t)`.
+These are quotient classes; their explicit `ell_C` rational functions are not yet materialized.
+
+## Two explicit Jacobian quotient functions
+
+Let the roots of `q` be
+
+```text
+r1 = 1+sqrt(2)
+r2 = -(1+sqrt(2))
+r3 = sqrt(2)-1
+r4 = 1-sqrt(2).
+```
+
+On `z^2=q(t)` the two quotient directions can be represented by
+
+```text
+f1 = (t-r1)/(t-r4)
+f2 = (t-r2)/(t-r4),
+```
+
+using pairs `(f1,1)` and `(f2,1)` in the two normalization components.  The third branch-ratio is dependent because
+
+```text
+f1*f2*f3 = q(t)/(t-r4)^4,
+```
+
+which is a square on `z^2=q(t)`.
 
 Evidence:
 
 ```text
-workflow_run = 32689168245
+workflow_run = 32690996286
 workflow_conclusion = success
-normalization_galois_certificate_sha256 = 7eb25f097b0d84d92aa8b6fe9dbf049992261cd7545c7103a3b193553845ccd8
-artifact_id = 9506667861
-artifact_zip_sha256 = b363f15a31602b9b2a1d67be12c7d4f960f8da73869de747859d59d390ca918c
-cv_dimension_sha256 = 2f56fb20b25af27f68639e0154713ba1b4995113715f516a014c0a605b2fc976
+lce_filtered_quotient_sha256 = 129215ed58f85271cbbdcca4fdd085a74877769900f35f9da8c77bf120b22943
+artifact_id = 9507230128
+artifact_zip_sha256 = 46ba5cd90ca87e65099d854c958f3fbbda78293df109c1fbac0f4a551966a84b
 ```
 
-## 3. Firewall: associated graded does not determine Q survival
+## Firewall and next exact leaf
 
-The value
-
-```text
-raw associated-graded fixed dimension = 10
-```
-
-does not determine the action on the actual five-dimensional `L_{c,E}` quotient.  The seven-dimensional `K*L^2` relation space can mix the graded pieces, and the rank-three `x-alpha` image must then be quotiented before the two-dimensional geometric Brauer group is obtained.
-
-Thus none of the following is claimed:
+The associated-graded quotient does not determine extension mixing in the actual `L_{c,E}` module.  In particular it does not determine the full complex-conjugation action, the rank-three `x-alpha` matrix, or Q-survival of the final two geometric Brauer directions.
 
 ```text
-EXPLICIT_LCE_BASIS_MATERIALIZED=false
+FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=false
+EXPLICIT_GRAPH_CYCLE_FUNCTIONS_MATERIALIZED=false
 EXPLICIT_XALPHA_MATRIX_MATERIALIZED=false
-FULL_LCE_CC_ACTION_EXACT=false
 BRAUER_QUOTIENT_CC_ACTION_EXACT=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
-GEOMETRIC_BR2_DIM2_IMPLIES_Q_SURVIVAL=false
 ```
 
-## 4. Next exact leaf
+The remaining explicit-function wall has been reduced from five unknown basis functions to three graph-cycle functions:
 
 ```text
-LEAF_ID=L33-05-CV-FUNCTION-SYNTHESIS-ON-z2=q-AND-XALPHA
+LEAF_ID=L33-05-SYNTHESIZE-3-GRAPH-FUNCTIONS-THEN-XALPHA
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-INPUT_COMMON_NORMALIZATION=z^2-(t^4-6*t^2+1)
-INPUT_LCE_DIMENSION=5
+GRAPH_CYCLE_TARGETS=[e1+e3,e1+e5,e1+e7]
+EXPLICIT_JACOBIAN_FUNCTIONS_ALREADY_MATERIALIZED=2
 REQUIRED_XALPHA_IMAGE_RANK=3
 REQUIRED_BRAUER_QUOTIENT_DIM=2
-```
-
-Remaining bounded work is now concrete:
-
-```text
-1. synthesize five compatible explicit functions representing a basis of L_{c,E};
-2. transport a certified NS(K_c) generating set to the ruled model/generic fiber;
-3. compute the exact rank-three x-alpha relation matrix;
-4. choose two explicit quotient symbol representatives;
-5. compute complex-conjugation on that quotient;
-6. certify Q(i)/Q descended survivors or exact zero survival.
 ```
 
 ```text
