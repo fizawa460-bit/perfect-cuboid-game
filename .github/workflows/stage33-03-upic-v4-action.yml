@@ -24,7 +24,13 @@ jobs:
         run: python -m pip install 'sympy==1.14.0'
       - name: Materialize pinned cc/ct action from Testa-Stoll
         working-directory: stages/stage33/33-03
-        run: python extract_galois_action.py
+        run: |
+          for attempt in 1 2 3; do
+            if python extract_galois_action.py; then exit 0; fi
+            echo "Galois exact calculator attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
       - name: Induce exact action on the rank-14 unit lattice and rational Pic(Ubar)
         working-directory: stages/stage33/33-03
         env:
