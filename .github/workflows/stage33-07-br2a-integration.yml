@@ -45,12 +45,15 @@ jobs:
       - name: Recheck full BR0B boundary injection
         working-directory: stages/stage33/33-07
         run: python certify_full_br0b_boundary_injection.py
+      - name: Materialize exact arithmetic Hochschild-Serre repair quotient
+        working-directory: stages/stage33/33-07
+        run: python materialize_arithmetic_hs_descent_problem.py
       - name: Replay historical global presentation for regression only
         working-directory: stages/stage33/33-07
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_global_two_primary_presentation_v2.py
-      - name: Validate retained exact mathematics
+      - name: Validate retained exact mathematics and HS reduction
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
@@ -59,6 +62,7 @@ jobs:
           f=json.load(open('br0g-finite-ramified-residue-presentation.json'))
           g=json.load(open('full-br0b-boundary-injection.json'))
           s=json.load(open('j2-endpoint-q2-variation.json'))
+          h=json.load(open('arithmetic-hs-descent-problem.json'))
           assert r['induced_left_filtration_boundary_map_injective']
           assert f['unit_symbol_rank_f2']==44
           assert f['graph_residual_rank_f2']==17
@@ -68,9 +72,16 @@ jobs:
           assert g['br0b_all_primary_classes_accounted']
           assert s['evaluation_nonconstant_on_endpoint_Q2_locus_certified']
           assert s['both_invariants_0_and_half_observed']
+          assert h['known_q_defined_global_residue_image']['u44']['generator_count']==44
+          q=h['boundary_candidates_not_yet_promoted_to_global_q_classes']['finite_ramified_after_u44']
+          assert q['exact_unknown_quotient']=='(Z/2)^23 direct_sum (Z/4)^3'
+          assert q['minimal_invariant_factor_generators']==26
+          assert h['geometric_lift_fiber']['proper_transcendental_rank']==14
+          assert h['arithmetic_hs_obstruction_package']['blanket_global_gersten_surjectivity_used'] is False
           print('STAGE33_07_RETAINED_MATH=PASS')
-          print('J2_Q2_EVALUATION_NONCONSTANT=True')
-          print('BR0G_FINITE_OBJECT_STATUS=BOUNDARY_RESIDUE_PRESENTATION')
+          print('HS_FINITE_UNKNOWN=(Z/2)^23+(Z/4)^3')
+          print('HS_FINITE_UNKNOWN_GENERATORS=26')
+          print('PROPER_TRANSCENDENTAL_RANK=14')
           PY
       - name: Validate re-audited blocked arithmetic descent state
         working-directory: stages/stage33/33-07
@@ -102,15 +113,16 @@ jobs:
           print('STAGE33_PROGRESS=6/11')
           print('STAGE33_08_RELEASED=False')
           PY
-      - name: Upload Stage33-07 retained/re-audit certificates
+      - name: Upload Stage33-07 retained/re-audit/HS-repair certificates
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-br2a-reaudit-blocked
+          name: stage33-07-br2a-hs-repair
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
             stages/stage33/33-07/j2-endpoint-q2-variation.json
             stages/stage33/33-07/br0b-boundary-raw-residue-map.json
             stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json
             stages/stage33/33-07/full-br0b-boundary-injection.json
+            stages/stage33/33-07/arithmetic-hs-descent-problem.json
             stages/stage33/33-07/audit-state.json
             stages/stage33/33-07/handoff.json
