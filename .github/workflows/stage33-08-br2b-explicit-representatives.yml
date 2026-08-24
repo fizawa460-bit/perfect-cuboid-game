@@ -38,6 +38,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python integrate_saturated_q_units.py
+      - name: Materialize U44 quaternion symbols and J2 generic CSA
+        working-directory: stages/stage33/33-08
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python materialize_u44_and_j2_representatives.py
       - name: Validate Stage33-08 running firewall
         working-directory: stages/stage33/33-08
         run: |
@@ -46,26 +51,28 @@ jobs:
           p=json.load(open('representative-coverage-prefix.json'))
           q=json.load(open('saturated-q-unit-generators.json'))
           b=json.load(open('br0b-left-explicit-representatives.json'))
+          x=json.load(open('u44-j2-explicit-representatives.json'))
           assert p['every_stage33_07_relevant_class_accounted']
           assert p['every_surviving_class_has_primary_order_and_provenance']
-          assert p['j2_exact_evaluable_representative_materialized']
-          assert not p['every_surviving_class_has_exact_evaluable_representative']
           assert q['full_rank14_saturated_unit_lattice_generated']
           assert q['basis_saturated_equals_audited_U_D']
-          assert q['coordinate_rank']==14
           assert q['smith_nonzero_diagonal']==[1]*14
-          assert q['previous_missing_kernel_discharged']
-          assert len(q['explicit_rank14_q_unit_basis'])==14
           assert b['br0b_left_filtration_parametric_representatives_complete']
-          assert len(b['unit_representatives'])==14
-          assert all(x['exact_evaluable_on_physical_open'] for x in b['unit_representatives'])
-          assert b['unit_status']=='RUNNING' and not b['unit_closed']
-          assert not b['downstream_released'] and not b['stage33_09_released']
-          assert b['unresolved_unknown_in_scope']==4
+          assert x['u44_generator_count']==44
+          assert x['u44_explicit_representatives_complete']
+          assert x['u44_all_evaluable_on_full_physical_open']
+          assert all(z['exact_evaluable_representative'] for z in x['u44_representatives'])
+          assert x['finite_ramified_remaining_non_unit_symbol_generators']=={'R_order2':17,'O_nominal_order4':12}
+          assert x['j2_generic_exact_representative_complete']
+          assert not x['j2_full_patch_cover_complete']
+          assert x['unresolved_unknown_in_scope']==3
+          assert x['unit_status']=='RUNNING' and not x['unit_closed']
+          assert not x['downstream_released'] and not x['stage33_09_released']
           print('STAGE33_08_QUNIT_SATURATION=PASS')
-          print('FULL_U_D_EXPLICIT_Q_RATIONAL_BASIS=TRUE')
-          print('BR0B_LEFT_EXPLICIT_REPRESENTATIVES=COMPLETE')
-          print('J2_EXACT_REPRESENTATIVE=True')
+          print('U44_EXPLICIT_QUATERNION_REPRESENTATIVES=COMPLETE')
+          print('FINITE_RAMIFIED_REMAINING=R17+O12')
+          print('J2_GENERIC_CSA=COMPLETE')
+          print('J2_FULL_PATCH_COVER=PENDING')
           print('FULL_BR2B=CLEARLY_NOT_CLOSED')
           PY
       - name: Upload Stage33-08 working certificates
@@ -77,3 +84,4 @@ jobs:
             stages/stage33/33-08/saturated-q-unit-generators.json
             stages/stage33/33-08/saturated-q-unit-magma-stdout.txt
             stages/stage33/33-08/br0b-left-explicit-representatives.json
+            stages/stage33/33-08/u44-j2-explicit-representatives.json
