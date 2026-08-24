@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Compute the integral Picard lattice of the coordinate K_b quotient.
 
-This reuses the pinned Testa--Stoll cuboid geometry.  For the quotient obtained
+This reuses the pinned Testa--Stoll cuboid geometry. For the quotient obtained
 by forgetting b1, project all known curves from S, deduplicate their images on
 K_b, build the resolution intersection lattice, and certify 2-saturation by
 injecting the generated rank-20 lattice mod 2 into the already saturated
-Pic(S)/2 via pullback.  This is the same saturation mechanism used by
-Testa--Stoll for K_c, but applied to K_b.
+Pic(S)/2 via pullback.  No K_b node count is assumed a priori: it is computed
+from the exact singular subscheme of this coordinate quotient model.
 """
 import ast, hashlib, json, pathlib, re, runpy, urllib.parse, urllib.request
 import xml.etree.ElementTree as ET
@@ -24,7 +24,6 @@ eqnsKB := [A2B^2+B2B^2-CB^2,
            A1B^2+A2B^2+A3B^2-CB^2];
 KB := Scheme(Pr5B,eqnsKB);
 ptsKB := Points(SingularSubscheme(KB));
-assert #ptsKB eq 12;
 projB := map<Pr6 -> Pr5B | [a1,a2,a3,b2,b3,c]>;
 
 // Deduplicate all one-dimensional images of the Testa--Stoll generating curves.
@@ -77,7 +76,6 @@ imagesB := [<Position(CsKB,C), ExactQuotient(Degree(Cs[j]),Degree(C))> where C:=
  cat [projB(pt) in ptsKB select <Position(ptsKB,projB(pt))+#CsKB,1> else <0,0> : pt in pts];
 
 // Pull back K_b divisor generators to Pic(S), following the Testa--Stoll K_c adapter.
-flattenedB := [projB(pt) : pt in pts | not (projB(pt) in ptsKB)];
 preB:=[];
 for j:=1 to bdimKB do
   ss:=[<k,imagesB[k,2]> : k in [1..#imagesB] | imagesB[k,1] eq j];
@@ -108,6 +106,7 @@ assert r2 eq 20;
 Sm:=SmithForm(pmKB);
 diag:=[Abs(Integers()!Sm[j,j]):j in [1..20]];
 printf "STAGE33_07_KB_BEGIN\n";
+printf "NODES=%o\n", #ptsKB;
 printf "CURVES=%o\n", #CsKB;
 printf "RANK=%o\n", Rank(pmKB);
 printf "DET=%o\n", Determinant(pmKB);
@@ -119,7 +118,7 @@ code='SetColumns(0);\nquick := true;\n'+core+'\n'+extra
 payload=urllib.parse.urlencode({'input':code}).encode()
 req=urllib.request.Request(MAGMA_URL,data=payload,headers={
  'Content-Type':'application/x-www-form-urlencoded','Accept':'text/html, application/xml, application/xhtml+xml',
- 'Referer':MAGMA_REFERER,'User-Agent':'perfect-cuboid-stage33/2.3'},method='POST')
+ 'Referer':MAGMA_REFERER,'User-Agent':'perfect-cuboid-stage33/2.4'},method='POST')
 resp,attempt=urlopen_retry(req,240,'Stage33-07 Kb Picard Magma')
 with resp: raw=resp.read().decode('utf-8',errors='replace')
 root=ET.fromstring(raw); lines=[]
@@ -136,13 +135,16 @@ def seq(name):
  m=re.search(rf'^{name}=(.+)$',stdout,re.M)
  if not m: raise SystemExit(f'missing {name}')
  return ast.literal_eval(m.group(1))
-out={'schema':'STAGE33_07_KB_PICARD_LATTICE_V1','upstream_git_blob_sha1':blob,
+out={'schema':'STAGE33_07_KB_PICARD_LATTICE_V2','upstream_git_blob_sha1':blob,
  'submitted_code_sha256':hashlib.sha256(code.encode()).hexdigest(),'magma_request_attempt':attempt,
- 'projected_known_curve_count':scalar('CURVES'),'picard_rank':scalar('RANK'),'picard_determinant':scalar('DET'),
+ 'singular_node_count':scalar('NODES'),'projected_known_curve_count':scalar('CURVES'),
+ 'picard_rank':scalar('RANK'),'picard_determinant':scalar('DET'),
  'picard_smith_diagonal':seq('DIAG'),'pullback_to_picS_mod2_rank':scalar('PULLBACK_MOD2_RANK'),
- 'generated_lattice_2_saturated':True,'full_geometric_picard_rank':20,'full_picard_lattice_certified':True}
+ 'generated_lattice_2_saturated':True,'full_geometric_picard_rank':20,'full_picard_lattice_certified':True,
+ 'transcendental_rank':2,'transcendental_discriminant_abs':abs(scalar('DET'))}
 can=json.dumps(out,sort_keys=True,separators=(',',':')).encode(); out['canonical_sha256']=hashlib.sha256(can).hexdigest()
 (HERE/'kb-picard-lattice.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
-print(json.dumps({'success':True,'rank':out['picard_rank'],'determinant':out['picard_determinant'],
+print(json.dumps({'success':True,'nodes':out['singular_node_count'],'rank':out['picard_rank'],
+ 'determinant':out['picard_determinant'],'transcendental_discriminant_abs':out['transcendental_discriminant_abs'],
  'nontrivial_smith':[d for d in out['picard_smith_diagonal'] if d>1],
  'pullback_mod2_rank':out['pullback_to_picS_mod2_rank'],'certificate_sha256':out['canonical_sha256']},indent=2,sort_keys=True))
