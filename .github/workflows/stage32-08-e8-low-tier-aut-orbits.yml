@@ -1,0 +1,97 @@
+name: Stage32-08 verify e8 low-tier Aut orbit partition
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-08/verify_e8_low_tier_aut_orbits.py'
+      - '.github/workflows/stage32-08-e8-low-tier-aut-orbits.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact dependency
+        run: pip install sympy==1.14.0
+      - name: Compile independent verifier
+        run: python -m py_compile stages/stage32/32-08/verify_e8_low_tier_aut_orbits.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Download audited source-locked Aut action
+        run: >-
+          gh run download 32674649970
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-07-d8g0-e2-a54-aut-orbits
+          --dir "$RUNNER_TEMP/aut"
+      - name: Download exact low-branch tier
+        run: >-
+          gh run download 32679056299
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-08-e8-a36-le4-exhaustive-tier
+          --dir "$RUNNER_TEMP/tier"
+      - name: Independently partition all 17 survivors by full Aut(S)
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-08/verify_e8_low_tier_aut_orbits.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --action "$RUNNER_TEMP/aut/aut-action.json" \
+            --tier "$RUNNER_TEMP/tier/tier.json" \
+            --output "$RUNNER_TEMP/out/e8-low-tier-aut-orbits.json"
+      - name: Enforce exact numerical scope and firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/e8-low-tier-aut-orbits.json').read_text())
+          assert d['schema']=='STAGE32_D8_E8_LOW_TIER_AUT_ORBIT_PARTITION_V1'
+          assert d['source_lock']['independently_recomputed_aut_order']==1536
+          p=d['partition']
+          assert p['input_survivor_count']==17
+          assert p['full_aut_orbit_count']==2
+          assert p['full_aut_orbit_sizes']==[6,192]
+          assert p['full_aut_orbit_union_size']==198
+          assert p['orbits_pairwise_disjoint'] is True
+          assert [r['input_survivor_count'] for r in p['orbits']]==[1,16]
+          assert [r['self_intersection'] for r in p['orbits']]==[0,-4]
+          assert p['orbits'][0]['a_distribution']=={'32':1,'36':5}
+          assert p['orbits'][1]['a_distribution']=={'34':64,'36':128}
+          assert d['scope']=='E8_A36_LOW_BRANCH_TIER_NUMERICAL_AUT_ORBIT_PARTITION_ONLY'
+          assert d['effectivity_classification_complete'] is False
+          assert d['actual_curve_existence_claim'] is False
+          assert d['full_parent_complete'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED'
+          assert d['R29_LG2_EFF']=='NOT_DISCHARGED'
+          assert d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({
+              'aut_order':1536,
+              'input_survivors':17,
+              'orbit_count':2,
+              'orbit_sizes':[6,192],
+              'input_counts':[1,16],
+              'sha':d['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-e8-low-tier-aut-orbit-partition
+          path: ${{ runner.temp }}/out/e8-low-tier-aut-orbits.json
+          if-no-files-found: error
