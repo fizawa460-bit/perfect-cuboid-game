@@ -16,126 +16,118 @@ FORD_KUMMER_PULLBACK_EXACT=true
 FORD_KUMMER_PULLBACK_RANK=0
 UNIT_SYMBOL_SECONDARY_RESIDUE_SPAN_EXACT=true
 UNIT_SYMBOL_SECONDARY_RESIDUE_SPAN_RANK_F2=44
-QFIXED_RESIDUE_COMPLEMENT_DIM_F2=17
+QFIXED_RESIDUE_CYCLE_DIM_F2=61
+QFIXED_RESIDUAL_QUOTIENT_DIM_F2=17
+QFIXED17_EXPLICIT_BASIS_EXACT=true
+LINEAR_FACTOR_Q_UNIT_SPAN_RANK=11
+UNIT_SIDE_PROJECTION_RANK=14
 PHYSICAL_OPEN_UNRAMIFIED_KERNEL_COMPLETE=false
 THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## Boundary and Galois skeleton
+## Exact boundary/Galois reduction
 
 The resolved physical boundary has
 
 ```text
 components = 72
 crossings  = 144
-components of dual graph = 1
+dual-graph components = 1
 cycle rank = 73.
 ```
 
-The exact V4 action on the rank-73 cycle lattice has character multiplicities
+The exact `V4=Gal(Q(i,sqrt(2))/Q)` action on the rank-73 cycle lattice has rational character multiplicities
 
 ```text
-(cc=+1, ct=+1): 61
-(cc=-1, ct=+1): 12
-(cc=+1, ct=-1):  0
-(cc=-1, ct=-1):  0,
+(+,+)=61,
+(-,+)=12,
+(+,-)=0,
+(-,-)=0,
 ```
 
-so the mod-2 joint fixed residue-cycle candidate dimension is `61`.  This is not itself a Q-defined Brauer-class count.
+and the mod-2 joint fixed cycle dimension is exactly `61`.  This is a residue-cycle candidate dimension, not a Brauer-class count.
 
-## Seven-line/Ford source branch is killed by the endpoint Kummer cover
+## Ford/seven-line source branch closes to zero
 
-The endpoint map is
+Under
 
 ```text
-[a1:a2:a3:b1:b2:b3:c] -> [a1^2:a2^2:a3^2].
+[a1:a2:a3:b1:b2:b3:c] -> [a1^2:a2^2:a3^2]
 ```
 
-On its function field all seven line forms have explicit square roots:
+all seven arrangement forms acquire explicit square roots (`a1,a2,a3,b1,b2,b3,c`).  Hence every Ford 2-symbol generator pulls back to zero and
 
 ```text
-x         = a1^2
- y        = a2^2
- z        = a3^2
- x+y      = b3^2
- x+z      = b2^2
- y+z      = b1^2
- x+y+z    = c^2.
+FORD_KUMMER_PULLBACK_RANK=0.
 ```
 
-Therefore the source-certified Ford group
+This kills the inherited seven-line/Ford source branch inside 33-04, but not the endpoint-intrinsic boundary branch.
+
+## Intrinsic unit-symbol image and exact 17D residual
+
+The audited Stage33-02 unit divisor lattice has rank `14`.  The `91=C(14,2)` divisor-level 2-symbol secondary-residue footprints span exactly
 
 ```text
-Br(P2bar-D)[2] ~= (Z/2)^9
+44D
 ```
 
-has exact pullback rank
+inside the `61D` Q-fixed graph-cycle space.
+
+CI run `32694342783` now constructs an explicit quotient basis:
 
 ```text
-FORD_KUMMER_PULLBACK_RANK = 0.
+Q-fixed graph-compatible cycle space = 61D
+known unit-symbol footprint image     = 44D
+exact residual quotient               = 17D.
 ```
 
-Thus the earlier graph-combinatorial rank-one channel dies after the actual Kummer symbol pullback is imposed.  This closes the Ford/seven-line source branch inside 33-04, but not the endpoint-intrinsic residue branch.
-
-Evidence:
+All seventeen residual basis vectors are materialized both in the stable 73-coordinate cycle basis and as 144 crossing-edge vectors, and every vector is independently checked to be a graph cycle and fixed by both V4 generators.
 
 ```text
-workflow_run = 32691135447
-ford_kummer_pullback_zero_sha256 = 0fd1746fcea0e30257b84460bb025d561738fbbdc1e604700a15f4b9807d7f61
-```
-
-## Endpoint-intrinsic unit-symbol residue span
-
-The audited Stage33-02 unit divisor lattice has rank `14`.  For every pair of basis units, the divisor-level secondary tame residue at a transverse crossing `D_a cap D_b` is computed mod 2 as
-
-```text
-v_a*w_b - w_a*v_b.
-```
-
-All `C(14,2)=91` resulting edge patterns are exact graph cycles and are fixed by both V4 generators.  Their span has
-
-```text
-UNIT_SYMBOL_SECONDARY_RESIDUE_SPAN_RANK_F2 = 44.
-```
-
-Since the total Q-fixed boundary cycle dimension is `61`, the current unexplained Q-fixed complement has dimension
-
-```text
-61 - 44 = 17.
+QFIXED17_EXPLICIT_BASIS_EXACT=true
+QFIXED17_IS_CERTIFIED_BRAUER_GROUP=false
 ```
 
 Evidence:
 
 ```text
-workflow_run = 32691135447
+workflow_run = 32694342783
 workflow_conclusion = success
-unit_symbol_residue_span_sha256 = 53abf58c647a6cf504839b74b19113c5fb2929010c335f86e1c57c537169b8e8
-artifact_id = 9507293510
-artifact_zip_sha256 = b8df5948de1ba3f7074dbc6b8c1e64f3b80fcd46e29e21e7afd02d8d39d41aed
+qfixed17_graph_residual_sha256 = e3eec759c40779becda1786d4f1e9ab150d6d4d27114fdcf942aa7387603524a
+artifact_id = 9508334788
+artifact_zip_sha256 = 2be766a8c1ddb895cc3bb901afe0aed8409fcc1ab79bd1fb07100f64ef3152d3
 ```
 
-## Firewall and next leaf
+## Q-unit side channel: exact but no longer the main closure path
 
-The value `44` is a divisor-level secondary-residue span, not 44 certified Q-defined Brauer classes.  Actual Q-rational unit functions, symbol representatives, first residues, duplicate/trivial relations, and the final physical-open unramified kernel remain to be materialized.
+The projection of the full rank-14 unit divisor lattice to the first 24 side components is injective and has rank 14.  All 17 ratios from the natural eighteen Q-linear factors admit unique exact lifts through this projection, but their span is only
 
 ```text
-Q_DEFINED_BRAUER_CLASS_COUNT_FROM_33_04=NOT_YET_CERTIFIED
+11D,
+```
+
+leaving three unit directions outside the linear-factor channel.
+
+This is useful explicit-function infrastructure, but materializing those three functions is not itself a Stage33-04 closure gate.  The main path therefore returns to the residue adapter rather than opening an unbounded function-search quest.
+
+## Exact remaining wall
+
+The 17D quotient is **not** promoted to seventeen Brauer classes.  What remains is to decide which of these graph-compatible Q-fixed secondary-residue patterns are realizable by first-residue classes on the normalized rational boundary components, incorporate the coefficient/Galois descent correctly, and quotient any proper-Brauer contribution before declaring the physical-open unramified kernel.
+
+```text
+RESIDUAL_KERNEL=R33-BR0G-QFIXED17-FIRST-RESIDUE-REALIZABILITY-AND-DESCENT
+LEAF_ID=L33-04-REALIZE-OR-KILL-QFIXED17-IN-BOUNDARY-H1-THEN-QUOTIENT-PROPER-BRAUER
+CLASS=2
+NEW_THEOREM_REQUIRED=false
+QFIXED17_BRAUER_REALIZABILITY_COMPLETE=false
+CYLCOTOMIC_COEFFICIENT_DESCENT_COMPLETE=false
+PROPER_BRAUER_QUOTIENT_COMPLETE=false
 PHYSICAL_OPEN_UNRAMIFIED_KERNEL_COMPLETE=false
 ```
 
-Next exact leaf:
-
-```text
-LEAF_ID=L33-04-MATERIALIZE-14-Q-UNITS-AND-LIFT-44-SYMBOL-RESIDUES
-CLASS=2
-NEW_THEOREM_REQUIRED=false
-INPUT_UNIT_RANK=14
-INPUT_SYMBOL_PAIR_COUNT=91
-INPUT_SECONDARY_RESIDUE_SPAN_RANK_F2=44
-INPUT_QFIXED_COMPLEMENT_DIM_F2=17
-```
+The rationality of all 72 boundary components suggests a bounded residue-sequence adapter rather than a new global theorem, but no such adapter is credited until the normalizations/intersection divisors and descent maps are materialized exactly.
 
 ```text
 UNRESOLVED_UNKNOWN_IN_SCOPE>0
