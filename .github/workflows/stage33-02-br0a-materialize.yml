@@ -1,0 +1,36 @@
+name: Stage33-02 BR0A exact materialization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-02/**'
+      - '.github/workflows/stage33-02-br0a-materialize.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  br0a-materialize:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer-linear-algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reconstruct exact BR0A from audited Stage32 Picard core
+        working-directory: stages/stage33/33-02
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python derive_from_stage32_artifact.py
+      - name: Upload exact Stage33-02 certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-02-br0a-exact
+          path: |
+            stages/stage33/33-02/br0a-artifact-certificate.json
+            stages/stage33/33-02/br0a-summary.json
