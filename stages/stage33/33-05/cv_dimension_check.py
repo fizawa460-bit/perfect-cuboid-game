@@ -106,9 +106,25 @@ assert jac2_dim == 4
 # K*/K*2 -> Fq*/Fq*2 is exactly <q>, dimension 1.
 k_square_kernel_dim = 1
 
-# The only ruling values where every point of both normalized branch
-# components has even ramification index are the four simple zeros of q.
-special_even_ramification_fibers = 4
+# Creutz--Viray define e(b/w) as the SUM of ramification indices over all
+# normalization points above a singular point b.  Therefore the special set
+# in their dimension formula contains TWO disjoint kinds of ruling values:
+#
+# (a) four smooth ramification fibers q(t)=0, where each branch component has
+#     one point of ramification index 2;
+# (b) four nodal fibers t=0,1,-1,infinity.  At each node the two normalization
+#     branches are individually unramified (index 1), but e(b/w)=1+1=2.
+#
+# These eight fibers are pairwise distinct because q(0)=1 and q(+-1)=-4,
+# and q has degree four so infinity is not a root.
+ramification_fiber_count = 4
+nodal_fiber_values = ["0", "1", "-1", "infinity"]
+nodal_fiber_count = len(nodal_fiber_values)
+assert sp.expand(q.subs(t, 0) - 1) == 0
+assert sp.expand(q.subs(t, 1) + 4) == 0
+assert sp.expand(q.subs(t, -1) + 4) == 0
+special_even_ramification_fibers = ramification_fiber_count + nodal_fiber_count
+assert special_even_ramification_fibers == 8
 
 # Source dimension count (preprint proof of Theorem 10.1 / final §6):
 # because c is square, ell_c adds no extra raw L*/L*2 dimension.
@@ -119,20 +135,20 @@ kernel_to_K_times_squares_dim = (
     + special_even_ramification_fibers
     - k_square_kernel_dim
 )
-assert kernel_to_K_times_squares_dim == 3
+assert kernel_to_K_times_squares_dim == 7
 LE_dim = raw_generator_subspace_dim - kernel_to_K_times_squares_dim
-assert LE_dim == 9
+assert LE_dim == 5
 
 # S=P1xP1 is rational, so Creutz--Viray gives L_{c,E}=L_E.
 LcE_dim = LE_dim
 
 # For a (4,4) double cover of P1xP1 with rank NS=20, the same source gives
-# dim Br[2]=22-rank(NS)=2.  Therefore im(x-alpha) has exact dimension 7.
+# dim Br[2]=22-rank(NS)=2.  Therefore im(x-alpha) has exact dimension 3.
 NS_rank = 20
 Br2_dim = 22 - NS_rank
 assert Br2_dim == 2
 xalpha_image_dim = LcE_dim - Br2_dim
-assert xalpha_image_dim == 7
+assert xalpha_image_dim == 3
 
 # Explicit geometric Jac(B)[2] function skeleton: on z^2=q(t), ratios of
 # t-r_i have divisor 2(P_i-P_j).  These are not yet the complete LcE basis.
@@ -142,7 +158,7 @@ jac_function_skeleton = [
 ]
 
 certificate = {
-    "schema": "STAGE33_05_CV_DIMENSION_SKELETON_V1",
+    "schema": "STAGE33_05_CV_DIMENSION_SKELETON_V2_NODE_FIBERS_INCLUDED",
     "ruling_base": "P1_t",
     "branch_component_count": 2,
     "branch_component_genera": component_genera,
@@ -156,7 +172,10 @@ certificate = {
     "common_quadratic_roots": [sp.sstr(r) for r in roots],
     "K_squareclass_kernel_dimension": k_square_kernel_dim,
     "generic_hyperelliptic_c_square": c_square,
-    "special_all_even_ramification_fiber_count": special_even_ramification_fibers,
+    "smooth_ramification_fiber_count": ramification_fiber_count,
+    "nodal_even_e_fibers": nodal_fiber_values,
+    "nodal_even_e_fiber_count": nodal_fiber_count,
+    "special_all_even_e_fiber_count": special_even_ramification_fibers,
     "raw_generator_subspace_dimension_mod_L_squares": raw_generator_subspace_dim,
     "kernel_to_KtimesL2_dimension": kernel_to_K_times_squares_dim,
     "LE_dimension": LE_dim,
