@@ -4,6 +4,12 @@ Stage16-29 の研究プログラムは **CLOSED** です。完全直方体問題
 
 `docs/` の現役入口は意図的に少数に絞っています。
 
+## 最優先の実行規約
+
+GitHub Actions・大量並列・長時間計算・大量artifactを伴う作業を始める前に、root [`../AGENTS.md`](../AGENTS.md) の **CRITICAL repo-wide rule: bounded Actions storage before compute** と [`research-os/policies/actions-storage-and-evidence-safety.md`](research-os/policies/actions-storage-and-evidence-safety.md) を先に読んでください。
+
+計算時間や並列数だけでなく、**peak artifact storage を事前見積りし、安全容量を超える可能性があるbatchは投げない**ことがrepo全体の最優先運用ルールです。raw exhaustive evidenceは原則runner内で検証し、永続化はcompact deterministic certificateを優先します。
+
 ## まず読む
 
 - [`stage16-29-overview.md`](stage16-29-overview.md) — Stage16-29で何を行い、何が閉じ、何が残ったかの最終俯瞰。人間・初見AIの第一入口。
