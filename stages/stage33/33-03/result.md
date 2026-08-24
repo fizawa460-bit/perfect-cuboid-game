@@ -1,4 +1,4 @@
-# Stage33-03 — BR0B UPic absolute-Galois production state
+# Stage33-03 — hostile-audited BR0B exact prefix
 
 ```text
 STAGE33_UNIT=33-03
@@ -7,155 +7,97 @@ UNIT_CLOSED=false
 DOWNSTREAM_RELEASED=false
 BR0B=OPEN
 BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=false
-UPIC_V4_INTEGRAL_ACTION_EXACT=true
-UNIT_LATTICE_V4_ACTION_EXACT=true
-PICU_INTEGRAL_V4_ACTION_EXACT=true
-ODD_PRIMARY_BR0B_PARAMETRICALLY_COMPLETE=true
-FINITE_V4_HYPERCOHOMOLOGY_EXACT=true
-FINITE_V4_H2=(Z/2)^33
-FINITE_V4_H1_UPIC=0
-FINITE_D2_01_RANK=2
-FINITE_D2_11_RANK=2
-FINITE_TRANSGRESSION_AMBIGUITY=0
-ABSOLUTE_TWO_PRIMARY_LEFT_FILTRATION_SHAPE_EXACT=true
-ABSOLUTE_TWO_PRIMARY_LEFT_FILTRATION_INFINITE=true
-ABSOLUTE_TWO_PRIMARY_RIGHT_TRANSGRESSION_COMPLETE=false
-THEOREM_CREDIT=false
-ENDPOINT_CREDIT=false
-PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+OPEN_ALGEBRAIC_Q_DEFINED_CLASS_INVENTORY_COMPLETE=false
+KERNELS_COKERNELS_TORSION_EXACT=false
+UNRESOLVED_UNKNOWN_IN_SCOPE=1
+AUDIT_VERDICT=PASS_EXACT_PREFIX_REJECT_PREMATURE_BR0B_CLOSURE_ON_ABSOLUTE_EXTENSION_CLASS
 ```
 
-## Exact finite and odd-primary inputs
+## Audited exact data
 
-The hostile-audited compactification complex has unit lattice
-
-```text
-U_D = ker(Div_D -> Pic(Sbar)) ~= Z^14,
-```
-
-and both generators of `Gal(Q(i,sqrt(2))/Q) ~= V4` act trivially on it.  The free rank-six part of
+The following production outputs from workflow `32703426900` / artifact `9511501245`
+(zip SHA256 `09e311369d0c02f0d8322b3543163b11454a81183d6a6aa46d688f26f68136ff`)
+are accepted.
 
 ```text
-Pic(Ubar) ~= Z^6 + (Z/2)^2
-```
+U_D = Z^14 with trivial absolute G_Q action
+Pic(Ubar) = Z^6 + (Z/2)^2
 
-has V4 character multiplicities
+Pic(Ubar)_free V4 multiplicities:
+  (+,+)=0
+  (+,-)=3
+  (-,+)=2
+  (-,-)=1
 
-```text
-(+,+)=0, (+,-)=3, (-,+)=2, (-,-)=1,
-```
-
-while the full `(Z/2)^2` torsion subgroup is jointly fixed.  The Stage32 primitive Picard basis and Testa--Stoll Picard basis are connected by a unimodular matrix of determinant `-1`.
-
-For odd primary torsion,
-
-```text
 H^2(Q,UPic(Ubar))_odd
- ~= Hom_cont(G_Q,Q/Z)_odd^14.
-```
+  = Hom_cont(G_Q,Q/Z)_odd^14
 
-The actual two-term complex `[Div_D -> Pic(Sbar)]` has exact finite-quotient hypercohomology
-
-```text
-H^2(V4,UPic(Ubar)) ~= (Z/2)^33.
-```
-
-## Exact finite V4 transgression ranks
-
-The same integral total complex now also computes
-
-```text
-H^1(V4,UPic(Ubar)) = 0.
-```
-
-Since `H^1(V4,U_D)=0` and the V4-fixed torsion in `Pic(Ubar)` has F2-dimension two, the edge differential
-
-```text
-d2_01 : Pic(Ubar)^V4 -> H^2(V4,U_D)
-```
-
-is injective and therefore
-
-```text
-rank_F2(d2_01)=2.
-```
-
-The independently certified values
-
-```text
-H^1(V4,Pic(Ubar)) = (Z/2)^9,
 H^2(V4,UPic(Ubar)) = (Z/2)^33
+H^1(V4,UPic(Ubar)) = 0
+rank_F2(d2_01) = 2
+rank_F2(d2_11) = 2
+
+H^3(G_Q,U_D) = 0
+H^1(G_Q,Pic(Ubar))
+  = Hom_cont(G_Q,(Z/2)^2) direct-sum (Z/2)^5
 ```
 
-then force the finite-quotient right transgression rank to be
+Milne, *Arithmetic Duality Theorems*, I.4 Cor.4.17 is accepted for
+`H^3(G_Q,Z)=0`, hence the absolute right transgression has zero target.
+
+The audit accepts the resulting exact filtration
 
 ```text
-rank_F2(d2_11)=2.
+0
+ -> X_Q^14 / <KAPPA_1,KAPPA_2>
+ -> H^2(G_Q,UPic(Ubar))
+ -> Hom_cont(G_Q,(Z/2)^2) direct-sum (Z/2)^5
+ -> 0
 ```
 
-Thus the former finite ambiguity
+with `X_Q=Hom_cont(G_Q,Q/Z)` and the two exact visible-V4 quadratic
+relations from `d2-01-image.json`.
+
+## Hostile-audit correction
+
+The generated `br0b-all-primary-inventory.json` also states
 
 ```text
-(rank d2_01, rank d2_11) in {(0,4),(1,3),(2,2)}
+filtration_extension_split_claimed=false
 ```
 
-is completely removed:
+so the middle absolute hypercohomology group has not yet been determined
+as an abelian group. The unresolved extension can change primary orders
+of lifts from the right filtration. Therefore it is not yet valid to set
 
 ```text
-FINITE_TRANSGRESSION_RANK_PAIR=(2,2)
+KERNELS_COKERNELS_TORSION_EXACT=true
+OPEN_ALGEBRAIC_Q_DEFINED_CLASS_INVENTORY_COMPLETE=true
+BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=true
+BR0B=DISCHARGED
+UNRESOLVED_UNKNOWN_IN_SCOPE=0
 ```
 
-Evidence:
+under the frozen Stage33-03 closure contract.
+
+## Exact residual
 
 ```text
-workflow_run = 32693463647
-workflow_conclusion = success
-finite_transgression_ranks_sha256 = 5ab8f03d9c9612f0733ed63676231a5813f8bb4eb75f477244a81023c4d0d29f
-artifact_id = 9508117881
-artifact_zip_sha256 = 4e012978f1b385d7f4c60b681f4b96578a6ece81cff314c43fd650a0abf77d34
-```
-
-## Absolute two-primary filtration
-
-Because `U_D ~= Z^14` is a trivial absolute-Galois lattice,
-
-```text
-H^2(Q,U_D)[2^infinity]
- ~= Hom_cont(G_Q,Q/Z)[2^infinity]^14.
-```
-
-The now-exact finite `d2_01` has two-dimensional exponent-two image.  Hence the left two-primary filtration remains an infinite character family, but its finite V4 correction is no longer ambiguous:
-
-```text
-Hom_cont(G_Q,Q/Z)[2^infinity]^14 / im(d2_01),
-rank_F2 im(d2_01)=2.
-```
-
-The finite `(Z/2)^33` V4 computation is still not the full absolute two-primary answer.
-
-## Remaining exact wall
-
-All finite V4 extension data required by this leaf are now exact.  The remaining all-primary ambiguity is isolated strictly beyond the finite quotient, in the absolute inflation/restriction contribution from
-
-```text
-N = Gal(Qbar / Q(i,sqrt(2)))
-```
-
-and the resulting right-hand transgression into `H^3(Q,U_D)`.
-
-```text
-RESIDUAL_KERNEL=R33-BR0B-ABSOLUTE-2PRIMARY-N-CHARACTER-TRANSGRESSION
-LEAF_ID=L33-03-ABSOLUTE-N-CHARACTER-INFLATION-RESTRICTION-AND-d2_11
+RESIDUAL_KERNEL=R33-BR0B-ABSOLUTE-HYPERCOHOMOLOGY-EXTENSION-CLASS
+LEAF_ID=L33-03-COMPUTE-ABSOLUTE-H2-UPIC-EXTENSION-CLASS-AND-PRIMARY-ORDERS
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-FINITE_V4_SUBPROBLEM_CLOSED=true
 ```
 
-No finite V4 result is promoted to a complete Q-defined Brauer inventory before the absolute character/transgression term is accounted exactly.
+The next production leaf must compute the absolute extension class (or
+prove a splitting strong enough to determine the full group) and certify
+the primary order of the right-filtration lifts.
 
 ```text
-UNRESOLVED_UNKNOWN_IN_SCOPE>0
-UNIT_STATUS=RUNNING
-UNIT_CLOSED=false
+THEOREM_CREDIT=Milne_H3_VANISHING_ONLY
+ENDPOINT_CREDIT=false
+PERFECT_CUBOID_EXISTENCE_CLAIM=false
+PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
+33-06_RELEASED=false
 NEXT_EXPECTED_COMMAND=Stage33-main-batch
 ```
