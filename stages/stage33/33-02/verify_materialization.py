@@ -14,8 +14,6 @@ ROOT = pathlib.Path(__file__).resolve().parent
 stdout = (ROOT / "magma-stdout.txt").read_text(encoding="utf-8")
 if "STAGE33_02_BEGIN" not in stdout or "STAGE33_02_END" not in stdout:
     raise SystemExit("missing Stage33-02 completion markers")
-if "GALOIS_BOUNDARY_STABLE=true" not in stdout:
-    raise SystemExit("missing Galois stability certificate")
 
 
 def scalar(name):
@@ -42,8 +40,6 @@ pic_rank_claim = int(scalar("PIC_RANK"))
 image_rank_claim = int(scalar("BOUNDARY_IMAGE_RANK"))
 kernel_rank_claim = int(scalar("UNIT_KERNEL_RANK"))
 boundary_indices = seq("BOUNDARY_INDICES")
-perm_cc = seq("BOUNDARY_PERM_CC")
-perm_ct = seq("BOUNDARY_PERM_CT")
 phi_rows = numbered("PHI_ROW")
 ker_rows = numbered("KER_ROW") if kernel_rank_claim else []
 pair_rows = numbered("PAIR_ROW")
@@ -56,8 +52,6 @@ assert len(phi_rows) == 72
 assert all(len(r) == pic_rank_claim for r in phi_rows)
 assert len(pair_rows) == 72 and all(len(r) == 72 for r in pair_rows)
 assert len(picu_rows) == pic_rank_claim
-assert sorted(perm_cc) == list(range(1, 73))
-assert sorted(perm_ct) == list(range(1, 73))
 
 M = sp.Matrix(phi_rows)
 rank = M.rank()
@@ -93,7 +87,7 @@ torsion_invariants = [d for d in diag if d != 1]
 free_rank = pic_rank_claim - rank
 
 certificate = {
-    "schema": "STAGE33_02_BR0A_EXACT_MATRIX_CERTIFICATE_V1",
+    "schema": "STAGE33_02_BR0A_EXACT_MATRIX_CERTIFICATE_V2",
     "boundary_component_count": boundary_count,
     "pic_rank": pic_rank_claim,
     "boundary_image_rank": rank,
@@ -104,10 +98,9 @@ certificate = {
     "boundary_image_saturated": saturation_index == 1,
     "cokernel_torsion_invariants": torsion_invariants,
     "magma_picu_invariants_raw": picu_invariants_text,
-    "galois_boundary_permutations_are_bijections": True,
-    "galois_boundary_stability_asserted_by_magma": True,
     "kernel_matrix_exactly_verified": True,
     "boundary_pairing_symmetric": True,
+    "galois_layer_deferred_to_stage33_03": True,
     "phi_matrix_sha256": hashlib.sha256(json.dumps(phi_rows, separators=(",", ":")).encode()).hexdigest(),
     "kernel_matrix_sha256": hashlib.sha256(json.dumps(ker_rows, separators=(",", ":")).encode()).hexdigest(),
     "boundary_pairing_sha256": hashlib.sha256(json.dumps(pair_rows, separators=(",", ":")).encode()).hexdigest(),
