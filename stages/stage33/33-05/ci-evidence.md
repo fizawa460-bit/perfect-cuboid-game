@@ -1,20 +1,35 @@
-# Stage33-05 branch/Galois preflight evidence
+# Stage33-05 CI evidence
+
+Latest exact production checkpoint:
 
 ```text
-WORKFLOW_RUN=32685175233
-WORKFLOW_NAME=Stage33-05 K3 branch/Galois preflight
-CONCLUSION=success
-ARTIFACT_ID=9505419971
-ARTIFACT_NAME=stage33-05-k3-branch-preflight
-ARTIFACT_DIGEST_SHA256=2bc8f4d50fbbfd1491666f3dd1aa9b773e21f25501333c4044f4c00f9c3c582f
-HEAD_SHA=33468591f05a3c464a3ee94ca1813281ad33bf72
+workflow_run = 32685844234
+conclusion   = success
+artifact_id  = 9505615578
+artifact_zip_sha256 = 2a912e061bda1d6b0d86fd4050a668e99f963d8b3fb1501d695c1344a02fc754
 ```
 
-The successful preflight certifies only the exact regression implemented in `branch_galois_check.py`: branch factorization over `Q(i)`, bidegrees, complex-conjugation exchange, eight branch intersections, and transversality. It grants no arithmetic Brauer-survival credit.
+Certificates:
 
 ```text
-QI_OVER_Q_ACTION_MATRIX_EXACT=false
-Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
-UNIT_STATUS=RUNNING
-UNIT_CLOSED=false
+branch-galois-certificate.json
+  sha256 = b8ecf7fcc710f736f23748f0f414e10a748d8006435e4b080294c820429a24e2
+
+cv-dimension-certificate.json
+  canonical sha256 = 0683014445edb29a9b5790ed77e3e7fe19055557b30dbb97cc96856910ab0484
 ```
+
+Exact checked structural output:
+
+```text
+branch components = 2 smooth (2,2) genus-one curves over Q(i)
+intersection nodes = 8, all transverse
+dual graph b1      = 7
+Jac(B)[2] dim      = 4
+L_E dim            = 9
+L_{c,E} dim        = 9
+im(x-alpha) dim    = 7
+Br quotient dim    = 2
+```
+
+This checkpoint does not materialize the explicit 9-element `L_{c,E}` function basis, the rank-7 relation matrix, quotient symbol representatives, or the Q(i)/Q action on the quotient. Therefore Stage33-05 remains RUNNING and no downstream release occurs.
