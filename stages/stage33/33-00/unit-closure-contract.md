@@ -1,22 +1,24 @@
 # Stage33-00 — unit closure and downstream-release contract
 
 ```text
-CONTRACT_SCHEMA=STAGE33_UNIT_CLOSURE_V2
+CONTRACT_SCHEMA=STAGE33_UNIT_CLOSURE_V3
 APPLIES_TO=Stage33-01..Stage33-11
-BRAUER_SCOPE=STAGE33_RELEVANT_TWO_PRIMARY_SUBGROUP
+BRAUER_SCOPE=FROZEN_STAGE29_PHYSICAL_OPEN_BRAUER_KERNEL
 BIG_TASK_COUNT=11
 PROGRESS_DENOMINATOR=11
 PARTIAL_COUNTS_AS_COMPLETE=false
 BLOCKED_COUNTS_AS_COMPLETE=false
 AUDIT_REQUIRED_COUNTS_AS_COMPLETE=false
 DOWNSTREAM_MAY_CONSUME_PARTIAL=false
-COMPUTED_SUBGROUP_NONEMPTY_IMPLIES_FULL_BM_NONEMPTY=false
-COMPUTED_SUBGROUP_EMPTY_IMPLIES_NO_RATIONAL_ENDPOINT=true
+STAGE33_SCOPE_NONEMPTY_IMPLIES_FULL_BM_NONEMPTY_WITHOUT_FULL_COVERAGE_CERT=false
+STAGE33_SCOPE_EMPTY_IMPLIES_NO_RATIONAL_ENDPOINT=true
 ```
 
 ## Purpose
 
 Stage33 is a dependency DAG, not a strict linear chain. Independent units may run concurrently, but a downstream unit must never consume a merely partial predecessor as if that predecessor were complete.
+
+The frozen Stage29 Brauer scope carried by this contract includes the `BR0B` open-algebraic absolute-Galois contribution at all primary orders still permitted by Stage29, `BR0G` physical-boundary residue classes, and the `BR2` two-primary geometric/transcendental branch. Stage29 closed proper odd-primary transcendental Brauer, but it explicitly did **not** close possible odd-primary open-algebraic unit/character terms in `BR0B`. Any such survivor must therefore flow through Stage33-07, 08, 09, 10, and 11.
 
 The progress counter is intentionally strict:
 
@@ -107,6 +109,7 @@ A later unit may tighten these prerequisites only by an audited roadmap/controll
 SOURCE_LOCK_MANIFEST_COMPLETE=true
 DEPENDENCY_DAG_RECONSTRUCTED=true
 STAGE29_BRAUER_INPUTS_RECONCILED=true
+BR0B_ALL_PRIMARY_SCOPE_RECONCILED=true
 K3_SURVIVAL_PREVIEW_RECORDED=true
 LINE9_ENDPOINT_SURVIVAL_PREVIEW_RECORDED=true
 LOCAL_EVALUATION_PREVIEW_RECORDED_OR_EXACTLY_INAPPLICABLE=true
@@ -140,13 +143,17 @@ HOSTILE_AUDIT=PASS
 EXPLICIT_GALOIS_ACTION_CERTIFIED=true
 UPIC_GERSTEN_MAPS_CERTIFIED=true
 KERNELS_COKERNELS_TORSION_EXACT=true
+UNIT_KERNEL_ABSOLUTE_GALOIS_INFLATION_CHARACTER_TERMS_EXACT=true
+NO_UNJUSTIFIED_TWO_PRIMARY_RESTRICTION=true
 QBAR_TO_Q_DESCENT_ADAPTER_CERTIFIED=true
+OPEN_ALGEBRAIC_Q_DEFINED_CLASS_INVENTORY_COMPLETE=true
+BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=true
 BR0B=DISCHARGED
 UNRESOLVED_UNKNOWN_IN_SCOPE=0
 HOSTILE_AUDIT=PASS
 ```
 
-If a smaller new theorem dependency appears, status is `BLOCKED_NEW_KERNEL`, not CLOSED.
+If a smaller new theorem dependency appears, status is `BLOCKED_NEW_KERNEL`, not CLOSED. A proof that no odd-primary open-algebraic class survives is acceptable; silently assuming that conclusion is not.
 
 ### Stage33-04 — BR0G physical 72-boundary residue adapter
 
@@ -199,24 +206,28 @@ UNRESOLVED_UNKNOWN_IN_SCOPE=0
 HOSTILE_AUDIT=PASS
 ```
 
-### Stage33-07 — BR2A Creutz--Viray relation/symbol integration
+### Stage33-07 — BR2A relation/symbol integration and complete Stage33 class inventory
 
 `CLOSED` requires all of:
 
 ```text
-RELATION_MATRIX_EXACT=true
-SYMBOL_MATRIX_EXACT=true
+BR0B_ALL_PRIMARY_CLASSES_IMPORTED=true
+BR0G_RELEVANT_CLASSES_IMPORTED=true
+RELATION_MATRIX_EXACT_FOR_TWO_PRIMARY_BRANCH=true
+SYMBOL_MATRIX_EXACT_FOR_TWO_PRIMARY_BRANCH=true
 THEOREM_HYPOTHESES_SOURCE_LOCKED=true
 VARIABLE_DICTIONARY_COMPLETE=true
 TRIVIAL_ALGEBRAIC_DUPLICATE_QUOTIENT_EXACT=true
 NF_PHYS2_CAMP4_INVOCATIONS_HYPOTHESIS_GATED=true
-Q_DEFINED_RELEVANT_TWO_PRIMARY_CLASS_LIST_COMPLETE=true
+COMPLETE_RELEVANT_Q_DEFINED_CLASS_LIST_FOR_STAGE33_BRAUER_SCOPE=true
+EVERY_CLASS_HAS_PRIMARY_ORDER_AND_PROVENANCE=true
+BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=true
 BR2A=DISCHARGED
 UNRESOLVED_UNKNOWN_IN_SCOPE=0
 HOSTILE_AUDIT=PASS
 ```
 
-The complete class list may be empty.
+The complete class list may be empty. It must include every surviving open-algebraic `BR0B` class even when its primary order is odd; Creutz--Viray/two-primary machinery is not a license to discard those classes.
 
 ### Stage33-08 — BR2B explicit endpoint representatives
 
@@ -224,6 +235,7 @@ The complete class list may be empty.
 
 ```text
 EVERY_STAGE33_07_RELEVANT_CLASS_ACCOUNTED=true
+EVERY_SURVIVING_CLASS_HAS_PRIMARY_ORDER_AND_PROVENANCE=true
 EVERY_SURVIVING_CLASS_HAS_EXACT_EVALUABLE_REPRESENTATIVE=true
 RAMIFICATION_SUPPORT_COMPLETE=true
 DENOMINATOR_SUPPORT_COMPLETE=true
@@ -243,6 +255,7 @@ If the Stage33-07 complete class list is empty, an exact empty-representative in
 ```text
 RELEVANT_PLACE_SET_COMPLETE=true
 PLACE_SET_DERIVED_FROM_REPRESENTATIVES_AND_BAD_DATA=true
+ODD_PRIMARY_PLACES_FROM_BR0B_SURVIVORS_ACCOUNTED=true
 CONSTANCY_OUTSIDE_RELEVANT_PLACE_SET_PROVED_WHEN_USED=true
 PHYSICAL_LOCAL_LOCUS_COVERAGE_COMPLETE=true
 EVERY_RELEVANT_PLACE_HAS_EXACT_LOCAL_DESCRIPTION_OR_CERTIFICATE=true
@@ -256,6 +269,7 @@ HOSTILE_AUDIT=PASS
 
 ```text
 EVERY_RELEVANT_CLASS_PLACE_PAIR_ACCOUNTED=true
+ALL_PRIMARY_ORDERS_IN_STAGE33_CLASS_LIST_EVALUATED=true
 LOCAL_EVALUATION_IMAGES_EXACT=true
 PHYSICAL_LOCAL_COMPONENT_OR_CELL_COVERAGE_COMPLETE=true
 CONSTANCY_NONCONSTANCY_CERTIFICATES_COMPLETE=true
@@ -269,20 +283,21 @@ HOSTILE_AUDIT=PASS
 `CLOSED` requires all prerequisite units CLOSED and all of:
 
 ```text
-RELEVANT_Q_DEFINED_CLASS_LIST_COMPLETE_FOR_STAGE33_SCOPE=true
+COMPLETE_RELEVANT_Q_DEFINED_CLASS_LIST_FOR_STAGE33_BRAUER_SCOPE=true
+BR0B_ALL_PRIMARY_CLASSES_ACCOUNTED=true
 RELEVANT_PLACE_SET_COMPLETE=true
 PHYSICAL_LOCAL_LOCUS_COVERAGE_COMPLETE=true
 LOCAL_EVALUATION_IMAGES_EXACT=true
 RECIPROCITY_ASSEMBLY_EXACT=true
 FINAL_BRAUER_DISPOSITION_EXACTLY_ONE_OF=
-  PHYSICAL_COMPUTED_BRAUER_SUBGROUP_SET_EMPTY_CERTIFIED |
-  PHYSICAL_COMPUTED_BRAUER_SUBGROUP_SET_NONEMPTY_CERTIFIED |
-  RELEVANT_STAGE33_BRAUER_SUBGROUP_TRIVIAL_OR_EVALUATIONS_VACUOUS_CERTIFIED
+  PHYSICAL_STAGE33_BRAUER_SCOPE_SET_EMPTY_CERTIFIED |
+  PHYSICAL_STAGE33_BRAUER_SCOPE_SET_NONEMPTY_CERTIFIED |
+  RELEVANT_STAGE33_BRAUER_SCOPE_TRIVIAL_OR_EVALUATIONS_VACUOUS_CERTIFIED
 UNRESOLVED_UNKNOWN_IN_SCOPE=0
 FINAL_HOSTILE_AUDIT=PASS
 ```
 
-The scope asymmetry is mandatory: emptiness of the adelic set orthogonal to the complete Stage33-computed subgroup is enough to exclude rational endpoint points, but nonemptiness for that subgroup does **not** certify nonemptiness of the full Brauer--Manin set for all Brauer classes. A negative Stage33 closure therefore closes only this computed mechanism unless a separate audited completeness theorem identifies it with the full relevant Brauer group.
+Scope semantics are asymmetric and mandatory. Emptiness of the physical adelic set orthogonal to the complete Stage33 class inventory is enough to exclude rational endpoint points. Nonemptiness for the Stage33 scope closes this frozen mechanism negatively but does **not** certify nonemptiness of the full Brauer--Manin set unless `FULL_RELEVANT_BRAUER_GROUP_COVERAGE_CERTIFIED=true` has itself been independently proved and audited.
 
 `NEW_KERNEL_EXPOSED` is not a CLOSED final disposition; it leaves Stage33 progress below 11/11 and freezes the exact residual instead.
 
