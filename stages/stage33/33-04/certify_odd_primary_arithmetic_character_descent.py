@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 """Discharge the hostile-audit residual odd-primary boundary-character descent.
 
-This leaf does not enumerate characters.  It gives the exact parametric
-arithmetic module.  The hostile audit has already accepted every other BR0G
+This leaf does not enumerate characters. It gives the exact parametric
+arithmetic module. The hostile audit has already accepted every other BR0G
 prefix and isolated exactly one unknown:
 R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT.
 
 For an odd prime ell, every codimension-two crossing has residue field Q or
-Q(i).  Neither field contains nontrivial odd-order roots of unity, hence
-H^0(k(x), Q_ell/Z_ell(-1))=0.  Therefore an odd-primary first-residue character
-on a boundary P1 is unramified at every point.  Since the geometric P1 has no
+Q(i). Neither field contains nontrivial odd-order roots of unity, hence
+H^0(k(x), Q_ell/Z_ell(-1))=0. Therefore an odd-primary first-residue character
+on a boundary P1 is unramified at every point. Since the geometric P1 has no
 nontrivial finite etale cover in characteristic zero, the unramified character
 is exactly a constant-field character.
 """
@@ -27,7 +27,6 @@ audit = json.loads((ROOT / "audit-state.json").read_text())
 proper_odd_path = REPO / "stages/stage29/29-02f/odd-primary-proper-brauer.md"
 proper_odd = proper_odd_path.read_text()
 
-# Hostile-audit lock: this leaf is allowed to solve exactly one named residual.
 if audit["audit_verdict"] != "PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE":
     raise SystemExit("hostile-audit verdict regression")
 if audit["unit_status"] != "BLOCKED_NEW_KERNEL" or audit["unit_closed"]:
@@ -37,7 +36,6 @@ if audit["unresolved_unknown_in_scope"] != 1:
 if audit["new_kernel_id"] != "R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT":
     raise SystemExit("unexpected audited residual kernel")
 
-# Accepted two-primary predecessor remains a separate scope firewall.
 if not two["two_primary_residual_leaf_complete"]:
     raise SystemExit("two-primary predecessor no longer complete")
 if two["scope"] != "EXPONENT_TWO_RESIDUAL_ONLY":
@@ -53,9 +51,9 @@ if ct != list(range(72)):
     raise SystemExit("sqrt(2)-conjugation no longer fixes all boundary components")
 if any(cc[cc[j]] != j for j in range(72)):
     raise SystemExit("complex-conjugation action is not an involution")
+if any(cc[j] != j for j in range(24)):
+    raise SystemExit("side component orbit regression")
 
-# Geometric component orbits inside L=Q(i,sqrt(2)).  Fixed by cc and ct means
-# constant field Q.  A two-cycle under cc, fixed by ct, has constant field Q(i).
 fixed_components = [j for j in range(72) if cc[j] == j]
 pairs = []
 seen = set(fixed_components)
@@ -70,11 +68,7 @@ for j in range(72):
 pairs = sorted(set(pairs))
 if len(fixed_components) != 48 or len(pairs) != 12 or len(seen) != 72:
     raise SystemExit(f"boundary orbit regression fixed={len(fixed_components)} pairs={len(pairs)}")
-if any(j >= 24 and cc[j] != j for j in fixed_components if j < 24):
-    raise SystemExit("side component orbit regression")
 
-# Every crossing is the unique intersection of its listed side/exceptional pair,
-# so the component permutation induces the crossing permutation exactly.
 edges = []
 edge_index = {}
 for idx, e in enumerate(sk["codim2_crossings"]):
@@ -115,9 +109,6 @@ edge_pairs = sorted(set(edge_pairs))
 if len(fixed_edges) + 2 * len(edge_pairs) != 144:
     raise SystemExit("crossing orbit count regression")
 
-# Source-locked proper odd-primary result must still say that every nonconstant
-# proper-surface Brauer class is 2-primary.  Constant Br(Q) classes have zero
-# divisor residues, so they do not quotient the boundary character module.
 for needle in (
     "PROPER_NONCONSTANT_BRAUER_ODD_PRIMARY=ABSENT",
     "odd-primary physical-open Brauer, if any = boundary-residue source only.",
@@ -126,18 +117,6 @@ for needle in (
         raise SystemExit(f"proper odd-primary source lock missing: {needle}")
 proper_odd_sha = hashlib.sha256(proper_odd.encode()).hexdigest()
 
-# Arithmetic theorem adapter, prime-uniform:
-# 1) Q and Q(i) have roots of unity of orders 2 and 4 respectively, hence no
-#    nontrivial odd-order roots of unity.  Therefore for every odd ell^n,
-#    H^0(k, Z/ell^n(-1))=0 for k=Q,Q(i).
-# 2) Thus every odd-primary second residue at every certified crossing is zero.
-# 3) Away from crossings only one removed divisor passes through a point, so
-#    Gersten compatibility also forces zero second residue there.
-# 4) Hence each first-residue character is unramified on the full boundary P1.
-# 5) P1 over an algebraic closure has trivial finite etale fundamental group
-#    (Riemann-Hurwitz in characteristic zero), so unramified characters on
-#    P1_k are exactly H^1(k,Q/Z).
-# The 60 Q-prime divisor orbits therefore give the exact parametric module below.
 q_prime_divisors = len(fixed_components)
 qi_prime_divisors = len(pairs)
 if q_prime_divisors != 48 or qi_prime_divisors != 12:
@@ -161,7 +140,7 @@ cert = {
         "proper_odd_primary_result_path": "stages/stage29/29-02f/odd-primary-proper-brauer.md",
         "stacks_geometric_arithmetic_pi1_tag": "0BTU",
         "stacks_gm_constant_coefficient_twist_tag": "0A44",
-        "stage29_boundary_gersten_receiver": "stages/stage29/29-02f/boundary-gersten-receiver.md",
+        "stage29_boundary_gersten_receiver": "stages/stage29/29-02f/boundary-gersten-receiver.md"
     },
     "boundary_geometric_component_count": 72,
     "boundary_q_prime_divisor_orbit_count": 60,
@@ -194,7 +173,7 @@ cert = {
     "endpoint_credit": False,
     "perfect_cuboid_nonexistence_claim": False,
     "next_expected_command_if_ci_green": "Stage33-audit",
-    "firewall": "parametric character factors are exact BR0G residue data, not a finite list of Q-defined Brauer generators and not a Brauer-Manin obstruction",
+    "firewall": "parametric character factors are exact BR0G residue data, not a finite list of Q-defined Brauer generators and not a Brauer-Manin obstruction"
 }
 canonical = json.dumps(cert, sort_keys=True, separators=(",", ":")).encode()
 cert["canonical_sha256"] = hashlib.sha256(canonical).hexdigest()
@@ -211,5 +190,5 @@ print(json.dumps({
     "odd_primary_boundary_character_module": odd_module,
     "arithmetic_odd_character_descent_complete": True,
     "next": "Stage33-audit",
-    "certificate_sha256": cert["canonical_sha256"],
+    "certificate_sha256": cert["canonical_sha256"]
 }, indent=2, sort_keys=True))
