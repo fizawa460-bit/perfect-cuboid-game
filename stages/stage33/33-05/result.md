@@ -11,14 +11,14 @@ XALPHA_IMAGE_DIMENSION=3
 COMMON_NORMALIZATION_EXACT=true
 FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=true
 CREUTZ_VIRAY_DIVISOR_CONDITIONS_COMPLETE=true
-EXTENSION_MIXING_COMPLETE=true
-EXPLICIT_XALPHA_ROW_COUNT=2
-EXPLICIT_XALPHA_ROW_RANK=2
-FULL_XALPHA_MATRIX_MATERIALIZED=false
-XALPHA_RESIDUAL_RELATION_DIMENSION=1
-XALPHA_RESIDUAL_GRAPH_LINE_CANDIDATE_COUNT=7
+TRUE_XALPHA_PAIR_REPAIR_EXACT=true
+J1_IN_XALPHA_IMAGE_EXACT=true
+XALPHA_GRAPH_PROJECTION_RANK=2
+XALPHA_IMAGE_SPANNED_EXACTLY=true
+SEVEN_GRAPH_LINE_SEARCH_RETIRED=true
 BRAUER_QUOTIENT_DIMENSION=2
-GEOMETRIC_BR2_GALOIS_ACTION_EXACT=true
+EXPLICIT_GEOMETRIC_BRAUER_QUOTIENT_BASIS=J2,q1
+FULL_PAIR_GALOIS_ACTION_EXACT=true
 GEOMETRIC_BR2_GALOIS_ACTION=IDENTITY
 GEOMETRIC_BR2_GQ_INVARIANT_DIMENSION=2
 DESCENT_OBSTRUCTION_ACCOUNTED=false
@@ -29,9 +29,9 @@ ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## Exact five-dimensional presentation input
+## Exact five-dimensional presentation
 
-The corrected Creutz--Viray computation is frozen at
+The corrected Creutz--Viray computation remains frozen at
 
 ```text
 Jac(B)[2] dimension       = 4
@@ -43,74 +43,145 @@ im(x-alpha) dimension     = 3
 Br(K_cbar)[2] dimension   = 2.
 ```
 
-The common normalization is `z^2=t^4-6*t^2+1`.  The exact lifted basis from `cv_exact_graph_lifts_and_galois.py` is ordered
+The common normalization is
 
 ```text
-[J1,J2,q1,q2,q3].
+z^2=t^4-6t^2+1,
+s_plus =  i*(1-t^2+z)/(2*t),
+s_minus = -i*(1-t^2+z)/(2*t).
 ```
 
-All three graph functions now satisfy the actual Creutz--Viray divisor conditions; the old parity-only `g3` pilot is retired.  The full extension mixing is materialized over the degree-eight normal splitting field.
-
-## Two exact x-alpha rows
-
-Two horizontal split divisors on the generic ruled fiber give actual `x-alpha` relations, not dimension-only predictions.
-
-For `s=1`, after removing the diagonal `K(t)^*` factor `t^2-1`, the half-divisor class on `E:y^2=x^3-x` is `(0,0)=J1`.  For `s=t`, the corresponding half-divisor class is `(-1,0)=J1+J2`.  Hence
+The lifted `L_{c,E}` basis is ordered
 
 ```text
-s=1  -> [1,0,0,0,0]
-s=t  -> [1,1,0,0,0]
+[J1,J2,q1,q2,q3],
 ```
 
-and these rows have rank two.  Since the independently locked total image rank is three, only one relation remains.  Row operations using the two certified Jacobian rows put it in the exact normal form
+where `J1,J2` are the two Jacobian squareclasses and
 
 ```text
-[0,0,a,b,c],  (a,b,c) != (0,0,0).
+q1=e1+e3,
+q2=e1+e5,
+q3=e1+e7
 ```
 
-Thus the remaining NS restriction problem is reduced to selecting one of exactly seven graph lines.
+are the graph-quotient classes.
 
-## Quotient Galois action closes before the last graph line
+## Supersession of the old two-row pilot
 
-The exact extension action on `[J1,J2,q1,q2,q3]` has the property that `tau` and `ct` change each `q_i` only by Jacobian directions, while `cc` is already the identity.  Because `J1,J2` are now certified `x-alpha` relations, all three generators act identically on the three-dimensional graph quotient.  Quotienting by any of the seven possible final graph lines therefore gives
+`xalpha_split_section_rows.py` remains only as a norm-level regression.  Its former interpretation
 
 ```text
-Br(K_cbar)[2] ~= (F2)^2
-Galois action on Br(K_cbar)[2] = identity
+s=1 -> J1,
+s=t -> J1+J2
+```
+
+as full `x-alpha` rows is superseded.
+
+Creutz--Viray `x-alpha` on a horizontal section `s=f(t)` is represented on the two normalized branch components by the pair
+
+```text
+(f-s_plus, f-s_minus)
+```
+
+modulo the diagonal `K(t)^*` class and componentwise squares.  Computing the actual node incidences gives
+
+```text
+s=1                    -> graph q1+q2,
+s=t                    -> graph q1+q2+q3,
+s=-i*(t-i)/(t+i)       -> graph q1+q2.
+```
+
+Thus the first two graph projections are independent.
+
+The two sections `s=1` and `s=-i*(t-i)/(t+i)` have the same graph projection.  Their quotient is therefore Jacobian-only.  `xalpha_pair_galois_repair.py` gives an explicit square witness on `z^2=t^4-6t^2+1` and proves exactly
+
+```text
+xalpha(-i*(t-i)/(t+i)) + xalpha(1) = J1.
+```
+
+Hence `J1` is in `im(x-alpha)`.
+
+Together with the two independent graph projections and the independently locked total image dimension three, this determines the image exactly up to two immaterial `J2` coefficients:
+
+```text
+im(x-alpha)
+ = span_F2 {
+     J1,
+     b*J2 + q1+q2,
+     d*J2 + q1+q2+q3
+   },
+   b,d in F2.
+```
+
+The values of `b,d` do not affect the quotient.  For all four possibilities the classes
+
+```text
+[J2,q1]
+```
+
+map to a basis of the two-dimensional geometric Brauer quotient.  Therefore the former residual-seven-graph-line search is retired; restricting twenty Picard generators merely to select one of seven graph lines is no longer a required leaf.
+
+## Full-pair Galois action repair
+
+`cv_exact_graph_lifts_and_galois.py` correctly computes the half-point correction on one branch component, but its old 5D matrices must not be read as the action on the full pair in
+
+```text
+L = k(B+) x k(B-).
+```
+
+After combining the two components, the exact action on `[J1,J2,q1,q2,q3]` is
+
+```text
+tau = identity,
+cc  = identity,
+ct(q1)=q1+J1,
+ct(q2)=q2+J1,
+ct(q3)=q3,
+ct(J1)=J1,
+ct(J2)=J2.
+```
+
+Since `J1` is an exact `x-alpha` relation, all three generators induce the identity on the quotient basis `[J2,q1]`.  Hence
+
+```text
+Br(K_cbar)[2] ~= (F2)^2,
+G_Q action on Br(K_cbar)[2] = identity,
 Br(K_cbar)[2]^G_Q dimension = 2.
 ```
 
-This is a geometric invariant-subspace statement only.  It does **not** yet prove that the two invariant geometric classes descend to arithmetic classes in `Br(K_c)/Br(Q)`; the Hochschild--Serre/descent obstruction and explicit representatives remain open.
+This is still a geometric invariant statement.  It does **not** by itself certify that either invariant class lies in the image of `Br(K_c)` over `Q`.
 
-Evidence before the present row certificate:
+## Authoritative repair certificate
 
 ```text
-workflow_run = 32699237446
+checker = xalpha_pair_galois_repair.py
+output  = xalpha-pair-galois-repair.json
+workflow_run = 32710572932
+workflow_number = 39
 workflow_conclusion = success
-```
-
-New exact checker:
-
-```text
-xalpha_split_section_rows.py
-output = xalpha-two-rows-quotient-action.json
+artifact_id = 9513914592
+artifact_sha256 = f909a226bffb4a469ae9cc85458742caac38598a2f70c7358ff5652de6e26fa4
 ```
 
 ## Next exact leaf
 
-The upstream Testa--Stoll verification source gives an explicit rank-20 saturated Picard generating set for `K_c`.  The next bounded computation is to restrict those generators to the ruled generic fiber until one non-Jacobian `x-alpha` row is found.  That one row selects the final graph line and immediately materializes an explicit two-symbol Brauer quotient.
+The next wall is no longer geometric quotient construction.  It is arithmetic descent of the two explicit geometric quotient classes:
 
 ```text
-LEAF_ID=L33-05-RESTRICT-PICARD-GENERATORS-SELECT-1-OF-7-GRAPH-LINES
+LEAF_ID=L33-05-HOCHSCHILD-SERRE-DESCENT-OF-J2-Q1
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-UPSTREAM_PICARD_RANK=20
-REMAINING_GRAPH_LINE_CANDIDATES=7
-REQUIRED_NEW_INDEPENDENT_XALPHA_ROW_COUNT=1
-DESCENT_OBSTRUCTION_AFTER_THIS=true
+GEOMETRIC_QUOTIENT_BASIS=J2,q1
+GEOMETRIC_INVARIANT_DIMENSION=2
+REQUIRED_OUTPUT=DESCENT_OBSTRUCTION_PLUS_Q_DEFINED_ARITHMETIC_REPRESENTATIVES
 ```
 
+Theorem I of Creutz--Viray gives the finite presentation as a Galois module; its introduction explicitly warns that invariant group structure alone does not replace explicit arithmetic representatives.  Stage33-05 therefore keeps the firewall
+
 ```text
+DESCENT_OBSTRUCTION_ACCOUNTED=false
+Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
 UNRESOLVED_UNKNOWN_IN_SCOPE>0
 UNIT_STATUS=RUNNING
 UNIT_CLOSED=false
