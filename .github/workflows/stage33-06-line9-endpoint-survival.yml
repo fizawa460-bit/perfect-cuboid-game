@@ -1,0 +1,81 @@
+name: Stage33-06 seven-line endpoint survival
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-06/**'
+      - 'stages/stage33/controller.json'
+      - '.github/workflows/stage33-06-line9-endpoint-survival.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  line9-endpoint-survival:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recompute exact seven-line source and endpoint zero pullback
+        working-directory: stages/stage33/33-06
+        run: python certify_line9_endpoint_zero.py
+      - name: Validate Stage33-06 mathematical closure gates
+        working-directory: stages/stage33/33-06
+        run: |
+          python - <<'PY'
+          import json
+          c=json.load(open('line9-endpoint-zero-survival.json'))
+          required=[
+            'line9_source_basis_relations_exact',
+            'endpoint_multiquadratic_pullback_exact',
+            'physical_boundary_survival_exact',
+            'q_galois_survival_exact',
+            'trivial_duplicate_symbol_quotient_exact',
+            'endpoint_relevant_surviving_subspace_exact',
+            'exact_zero_survival_certificate',
+          ]
+          assert all(c[k] for k in required)
+          assert c['line9_source_h1_dimension_f2']==9
+          assert c['incidence_boundary_rank_f2']==15
+          assert c['ambient_pair_symbol_count']==15
+          assert c['ford_geometric_br2_pullback_rank']==0
+          assert c['endpoint_relevant_surviving_dimension_f2']==0
+          assert c['unresolved_unknown_in_scope']==0
+          print('STAGE33_06_MATHEMATICAL_GATES=PASS')
+          PY
+      - name: Validate hostile-audited closure and controller release
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('stages/stage33/33-06/audit-state.json'))
+          h=json.load(open('stages/stage33/33-06/handoff.json'))
+          c=json.load(open('stages/stage33/controller.json'))
+          s=c['stage33_06']
+          assert a['audit_verdict']=='PASS_AFTER_AMBIENT_FORD_SYMBOL_SPAN_ZERO_AND_SOURCE_LOCK_REVERIFICATION'
+          assert a['unit_status']=='CLOSED' and a['unit_closed'] is True
+          assert a['stage33_07_released'] is True
+          assert h['unit_status']=='CLOSED' and h['closure_criteria_satisfied']==7
+          assert c['stage33_progress']=='6/11'
+          assert s['unit_status']=='CLOSED'
+          assert s['unit_closed'] is True
+          assert s['downstream_released'] is True
+          assert s['exact_zero_survival_certificate'] is True
+          assert s['endpoint_relevant_surviving_dimension_f2']==0
+          assert s['unresolved_unknown_in_scope']==0
+          assert c['stage33_07_released'] is True
+          assert c['stage33_07_release_allowed'] is True
+          assert c['next_expected_command']=='Stage33-main-batch'
+          print('STAGE33_06_HOSTILE_AUDIT_CLOSURE=PASS')
+          print('STAGE33_07_RELEASED=true')
+          PY
+      - name: Upload exact Stage33-06 certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-06-line9-endpoint-survival
+          path: |
+            stages/stage33/33-06/line9-endpoint-zero-survival.json
+            stages/stage33/33-06/audit-state.json
