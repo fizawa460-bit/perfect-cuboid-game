@@ -48,6 +48,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python isolate_global_gersten_csa_effectivity_kernel.py
+      - name: Reclassify global Gersten gap as arithmetic HS descent kernel
+        working-directory: stages/stage33/33-08
+        run: python reclassify_global_gersten_descent_kernel.py
       - name: Validate Stage33-08 blocked-new-kernel firewall
         working-directory: stages/stage33/33-08
         run: |
@@ -56,30 +59,35 @@ jobs:
           q=json.load(open('saturated-q-unit-generators.json'))
           b=json.load(open('br0b-left-explicit-representatives.json'))
           x=json.load(open('u44-j2-explicit-representatives.json'))
-          k=json.load(open('global-gersten-csa-effectivity-kernel.json'))
+          old=json.load(open('global-gersten-csa-effectivity-kernel.json'))
+          k=json.load(open('global-gersten-arithmetic-descent-kernel.json'))
           assert q['full_rank14_saturated_unit_lattice_generated']
           assert q['smith_nonzero_diagonal']==[1]*14
           assert b['br0b_left_filtration_parametric_representatives_complete']
           assert x['u44_explicit_representatives_complete'] and x['u44_generator_count']==44
           assert x['u44_all_evaluable_on_full_physical_open']
           assert x['j2_generic_exact_representative_complete']
-          assert k['new_kernel_exposed']
-          assert k['new_kernel_id']=='R33-BR2B-GLOBAL-GERSTEN-CSA-SECTION-EFFECTIVITY'
-          assert k['closure_criteria_total']==10 and k['closure_criteria_satisfied']==2
-          assert k['every_stage33_07_relevant_class_accounted']
-          assert k['every_surviving_class_has_primary_order_and_provenance']
-          assert not k['every_surviving_class_has_exact_evaluable_representative']
-          assert k['unresolved_unknown_in_scope']==1
-          assert k['unit_status']=='BLOCKED_NEW_KERNEL' and not k['unit_closed']
-          assert not k['downstream_released'] and not k['stage33_09_released']
-          assert k['stage33_progress']=='7/11'
+          assert old['new_kernel_id']=='R33-BR2B-GLOBAL-GERSTEN-CSA-SECTION-EFFECTIVITY'
+          assert k['panin_zainoulline_theorem_scope_semilocal']
+          assert not k['cited_panin_zainoulline_theorem_alone_justifies_that_global_surjectivity']
+          assert k['cuboid_minimal_resolution_simply_connected']
+          assert k['geometric_H3_et_mu_n2_zero_by_poincare_duality']
+          assert k['geometric_global_compatible_residue_lift_over_Qbar_repaired']
+          assert k['proper_transcendental_l_adic_rank']==14
+          assert not k['arithmetic_Q_descent_of_geometric_residue_lifts_certified']
+          assert k['predecessor_reaudit_required']
+          assert k['new_kernel_id']=='R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT'
+          assert k['stage33_08_status']=='BLOCKED_NEW_KERNEL'
+          assert not k['stage33_08_unit_closed'] and not k['stage33_09_released']
+          assert not k['advance_allowed']
           print('STAGE33_08_EXACT_PREFIX=PASS')
           print('FULL_U_D_EXPLICIT_Q_RATIONAL_BASIS=TRUE')
           print('U44_EXPLICIT_QUATERNION_REPRESENTATIVES=44/44')
           print('J2_GENERIC_Q_DEFINED_CSA=TRUE')
-          print('NEW_KERNEL=R33-BR2B-GLOBAL-GERSTEN-CSA-SECTION-EFFECTIVITY')
-          print('UNIT_STATUS=BLOCKED_NEW_KERNEL')
-          print('STAGE33_PROGRESS=7/11')
+          print('GEOMETRIC_GLOBAL_RESIDUE_LIFT_OVER_QBAR=REPAIRED')
+          print('ARITHMETIC_Q_DESCENT=UNRESOLVED')
+          print('NEW_KERNEL=R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT')
+          print('PREDECESSOR_REAUDIT_REQUIRED=true')
           print('STAGE33_09_RELEASED=false')
           PY
       - name: Upload Stage33-08 blocked checkpoint certificates
@@ -93,3 +101,4 @@ jobs:
             stages/stage33/33-08/br0b-left-explicit-representatives.json
             stages/stage33/33-08/u44-j2-explicit-representatives.json
             stages/stage33/33-08/global-gersten-csa-effectivity-kernel.json
+            stages/stage33/33-08/global-gersten-arithmetic-descent-kernel.json
