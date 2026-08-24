@@ -1,0 +1,293 @@
+name: Stage32-11 parallel exact high-mass tail closure
+
+on:
+  pull_request:
+    types: [opened]
+    paths:
+      - '.github/workflows/stage32-11-parallel-tail.yml'
+      - 'stages/stage32/32-11/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  tail-cell:
+    name: e${{ matrix.e }}-a${{ matrix.a }}-cell-${{ matrix.cell_index }}-${{ matrix.branches }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - e: 8
+            a: 36
+            cell_index: 34
+            cell_id: b985be195269a6a2254d7680
+            branches: 68495
+          - e: 8
+            a: 36
+            cell_index: 45
+            cell_id: e4bd3088438e7c60b1b4e7a6
+            branches: 73710
+          - e: 8
+            a: 36
+            cell_index: 42
+            cell_id: d9fc54429a74c7ac51ce526d
+            branches: 78080
+          - e: 8
+            a: 36
+            cell_index: 32
+            cell_id: ae613a0b4080925693f6bc0b
+            branches: 79360
+          - e: 8
+            a: 36
+            cell_index: 44
+            cell_id: e20ebc392d1a1f553d83fd94
+            branches: 81840
+          - e: 8
+            a: 36
+            cell_index: 51
+            cell_id: fa50992d9fab8d914eb6774e
+            branches: 82560
+          - e: 8
+            a: 36
+            cell_index: 12
+            cell_id: 6255f13f554f292a69766726
+            branches: 327040
+          - e: 8
+            a: 36
+            cell_index: 3
+            cell_id: 1f72b6cd2e1f0fa1ed2242ac
+            branches: 340480
+          - e: 8
+            a: 36
+            cell_index: 39
+            cell_id: ceb88a2b425fb743669aa33e
+            branches: 529480
+          - e: 10
+            a: 30
+            cell_index: 59
+            cell_id: 6126ba625788dd97591c4577
+            branches: 6560
+          - e: 10
+            a: 30
+            cell_index: 89
+            cell_id: ae6a76b87b48e5718b199e87
+            branches: 6560
+          - e: 10
+            a: 30
+            cell_index: 32
+            cell_id: 353f4dae68686a562e501894
+            branches: 9728
+          - e: 10
+            a: 30
+            cell_index: 119
+            cell_id: e8ad28ea8e6294b517e09f31
+            branches: 10120
+          - e: 10
+            a: 30
+            cell_index: 29
+            cell_id: 2d981576be38545277badccd
+            branches: 11712
+          - e: 10
+            a: 30
+            cell_index: 34
+            cell_id: 370450950c47d20a9271e057
+            branches: 11968
+          - e: 10
+            a: 30
+            cell_index: 25
+            cell_id: 20bca0c693a003521019232f
+            branches: 12400
+          - e: 10
+            a: 30
+            cell_index: 28
+            cell_id: 2ca2661ce14ca064f5d712b7
+            branches: 12688
+          - e: 10
+            a: 30
+            cell_index: 91
+            cell_id: b0b43b91f553dfe6548fd923
+            branches: 13440
+          - e: 10
+            a: 30
+            cell_index: 102
+            cell_id: ce0dfbcb0d6225b7890e86cb
+            branches: 13440
+          - e: 10
+            a: 30
+            cell_index: 71
+            cell_id: 769a0f9d34e47bc8797a12a1
+            branches: 14880
+          - e: 10
+            a: 30
+            cell_index: 127
+            cell_id: ef2023e6487ca5b64d4485ea
+            branches: 14880
+          - e: 10
+            a: 30
+            cell_index: 75
+            cell_id: 862f0431eb9399068653ae81
+            branches: 17920
+          - e: 10
+            a: 30
+            cell_index: 120
+            cell_id: e8e585ed6c9d8fcfb8ab14e1
+            branches: 17920
+          - e: 10
+            a: 30
+            cell_index: 88
+            cell_id: a6b7fc63795e67913f1fd146
+            branches: 32736
+          - e: 10
+            a: 30
+            cell_index: 83
+            cell_id: 964935c77aefea82f7133af3
+            branches: 33024
+          - e: 10
+            a: 30
+            cell_index: 5
+            cell_id: 067bb3e1c85002d3a88182f7
+            branches: 78280
+          - e: 10
+            a: 30
+            cell_index: 112
+            cell_id: dd21c5ae95be0a83a47fd4dd
+            branches: 84240
+          - e: 10
+            a: 30
+            cell_index: 114
+            cell_id: df2760cdfb2295db59aff373
+            branches: 84240
+          - e: 10
+            a: 30
+            cell_index: 98
+            cell_id: c9477f4dc7145acaf70f5be3
+            branches: 86760
+          - e: 10
+            a: 30
+            cell_index: 47
+            cell_id: 4a3f40a74c9f2b867f6fca88
+            branches: 169680
+          - e: 10
+            a: 30
+            cell_index: 68
+            cell_id: 70f8304bf3aa890ccd9cfaef
+            branches: 189840
+          - e: 10
+            a: 30
+            cell_index: 72
+            cell_id: 783e6c535bb16feaf4b3384f
+            branches: 373760
+          - e: 10
+            a: 30
+            cell_index: 58
+            cell_id: 5dde8d0ae99344769b9a7c90
+            branches: 389120
+          - e: 10
+            a: 30
+            cell_index: 45
+            cell_id: 47a85c8be7572f6091569836
+            branches: 401280
+          - e: 10
+            a: 30
+            cell_index: 125
+            cell_id: ee2e78a09f3c753460d8a192
+            branches: 404800
+          - e: 10
+            a: 30
+            cell_index: 37
+            cell_id: 3af4cf3d535a93607ef8b5bb
+            branches: 605120
+          - e: 10
+            a: 30
+            cell_index: 27
+            cell_id: 2719e0ba39bfa79944906bf5
+            branches: 639840
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core and audited profile
+        run: |
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+          if [ "${{ matrix.e }}" = "8" ]; then
+            PROFILE=stage32-08-e8-a36-materialization-profile
+          else
+            PROFILE=stage32-08-e10-a30-materialization-profile
+          fi
+          gh run download 32679056269 --repo fizawa460-bit/perfect-cuboid-game --name "$PROFILE" --dir "$RUNNER_TEMP/profile"
+      - name: Re-derive exact caps and lock profile row
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          p=json.loads((root/'profile/materialization-profile.json').read_text())
+          expected_sha = {
+            8: '97608b176d7a91677f63cd293502f7042a9a9f6ad30904631260c9d560b7be17',
+            10: '993d0005f60499b50b03b899153b60f93de757a74f53d942e5a2168830cc5123',
+          }[int('${{ matrix.e }}')]
+          assert p['canonical_sha256_without_this_field']==expected_sha
+          idx=int('${{ matrix.cell_index }}'); cid='${{ matrix.cell_id }}'; branches=int('${{ matrix.branches }}')
+          row=next(c for c in p['cells_sorted_by_branch_count'] if int(c['cell_index'])==idx)
+          assert row['cell_id']==cid
+          assert int(row['materialized_branch_count'])==branches
+          PY
+      - name: Exhaust exact signature cell
+        run: |
+          python stages/stage32/32-08/run_materialized_cell_exhaustive.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/cell.json" \
+            --exceptional-mass ${{ matrix.e }} --curve-group-mass ${{ matrix.a }} \
+            --cell-index ${{ matrix.cell_index }} --expected-cell-id ${{ matrix.cell_id }} \
+            --node-limit-per-branch 1000000
+      - name: Enforce exact completion and credit firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/cell.json').read_text())
+          assert d['parameters']['exceptional_mass']==int('${{ matrix.e }}')
+          assert d['parameters']['curve_group_mass']==int('${{ matrix.a }}')
+          assert d['parameters']['cell_index']==int('${{ matrix.cell_index }}')
+          assert d['parameters']['cell_id']=='${{ matrix.cell_id }}'
+          assert d['materialization']['total_branch_count']==int('${{ matrix.branches }}')
+          assert d['executed_branch_count']==int('${{ matrix.branches }}')
+          assert d['complete_numerical_enumeration'] is True
+          assert all(not b['search']['node_budget_exhausted'] for b in d['branches'])
+          assert d['shared_context']['kernel_dimension']==12
+          assert d['parent_exactly_closed'] is False
+          assert d['effectivity_classification_complete'] is False
+          assert d['actual_curve_existence_claim'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED' and d['R29_LG2_EFF']=='NOT_DISCHARGED' and d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps(dict(
+            e=d['parameters']['exceptional_mass'], a=d['parameters']['curve_group_mass'],
+            cell_index=d['parameters']['cell_index'], cell_id=d['parameters']['cell_id'],
+            branches=d['executed_branch_count'], result=d['solver_result'],
+            survivors=d['exact_numerical_survivor_count'], sha=d['deterministic_sha256_without_runtime'],
+          ), sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage32-11-e${{ matrix.e }}-a${{ matrix.a }}-cell-${{ matrix.cell_index }}-${{ matrix.cell_id }}
+          path: ${{ runner.temp }}/out/cell.json
+          if-no-files-found: warn
