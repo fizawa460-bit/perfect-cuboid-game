@@ -39,6 +39,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_br0g_finite_ramified_presentation.py
+      - name: Certify full BR0B injection into boundary character block
+        working-directory: stages/stage33/33-07
+        run: python certify_full_br0b_boundary_injection.py
       - name: Validate main-batch firewall and sharpened residual
         working-directory: stages/stage33/33-07
         run: |
@@ -47,6 +50,7 @@ jobs:
           c=json.load(open('integration-prefix.json'))
           r=json.load(open('br0b-boundary-raw-residue-map.json'))
           f=json.load(open('br0g-finite-ramified-residue-presentation.json'))
+          g=json.load(open('full-br0b-boundary-injection.json'))
           p=c['closure_prefix']
           assert p['br0b_all_primary_classes_imported']
           assert p['br0g_relevant_classes_imported']
@@ -75,15 +79,19 @@ jobs:
           assert f['finite_ramified_boundary_residue_module']=='(Z/2)^49 direct_sum (Z/4)^12'
           assert f['diagnostic_quotient_by_U44']=='(Z/2)^23 direct_sum (Z/4)^3'
           assert f['firewall']['this_is_boundary_residue_level_not_yet_full_global_BrU_relation_matrix']
-          assert r['unresolved_unknown_in_scope']==1 and f['unresolved_unknown_in_scope']==1
-          assert r['unit_status']=='RUNNING' and f['unit_status']=='RUNNING'
-          assert not r['unit_closed'] and not f['unit_closed']
-          assert not r['downstream_released'] and not f['downstream_released']
-          assert r['stage33_progress']=='6/11' and f['stage33_progress']=='6/11'
-          assert not r['stage33_08_released'] and not f['stage33_08_released']
-          print('STAGE33_07_PREFIX_LEFT_OVERLAP_AND_FINITE_RAMIFIED_PRESENTATION=PASS')
-          print('RESIDUAL='+f['current_main_residual_preserved'])
-          print('NEXT_LEAF='+f['next_exact_leaf'])
+          assert g['proper_cuboid_surface_H1_Q_Pic']==0
+          assert g['full_br0b_boundary_map_injective']
+          assert g['right_filtration_quadratic_family_boundary_map_injective']
+          assert g['right_filtration_five_finite_classes_boundary_map_injective']
+          assert g['br0b_duplicate_with_br0g_constant_block_exactly_its_injective_image']
+          assert g['trivial_algebraic_duplicate_quotient_exact']
+          assert g['br0b_all_primary_classes_accounted']
+          assert g['unresolved_unknown_in_scope']==1
+          assert g['unit_status']=='RUNNING' and not g['unit_closed']
+          assert not g['downstream_released'] and not g['stage33_08_released']
+          print('STAGE33_07_BR0B_FULL_INJECTION_AND_BOUNDARY_PRESENTATION=PASS')
+          print('RESIDUAL='+g['new_residual_kernel'])
+          print('NEXT_LEAF='+g['next_exact_leaf'])
           PY
       - name: Upload Stage33-07 working certificates
         uses: actions/upload-artifact@v4
@@ -95,3 +103,4 @@ jobs:
             stages/stage33/33-07/integration-prefix.json
             stages/stage33/33-07/br0b-boundary-raw-residue-map.json
             stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json
+            stages/stage33/33-07/full-br0b-boundary-injection.json
