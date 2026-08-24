@@ -51,7 +51,7 @@ jobs:
       - name: Kill odd-primary proper Brauer invariants by exact Frobenius unit certificates
         working-directory: stages/stage33/33-07
         run: python certify_proper_brauer_odd_invariants_zero.py
-      - name: Extract proper Picard Gram and cc-ct Galois action from pinned Stoll source
+      - name: Extract compact Picard discriminant and cc-ct Galois action from pinned Stoll source
         working-directory: stages/stage33/33-07
         run: python extract_picard_gram_galois.py
       - name: Derive proper Br4 Galois module from Picard discriminant
@@ -96,9 +96,9 @@ jobs:
           assert o['repair_reduced_to_two_primary']
           assert o['frobenius_certificates'][0]['full_rank14_det_Frob_minus_1_v2']==38
           assert o['frobenius_certificates'][1]['full_rank14_det_Frob_minus_1_v2']==46
-          assert len(p['picard_gram_64x64'])==64
-          assert len(p['cc_picard_action_64x64'])==64
-          assert len(p['ct_picard_action_64x64'])==64
+          assert p['picard_rank']==64
+          assert len(p['picard_smith_diagonal'])==64
+          assert p['full_64x64_matrices_printed'] is False
           print('STAGE33_07_RETAINED_MATH=PASS')
           print('HS_FINITE_UNKNOWN=(Z/2)^23+(Z/4)^3')
           print('HS_FINITE_UNKNOWN_GENERATORS=26')
@@ -106,7 +106,7 @@ jobs:
           print('PROPER_BRAUER_ODD_GQ_INVARIANTS=0')
           print('ODD_CONSTANT_COKERNEL_GLOBAL_IMAGE=0')
           print('REPAIR_REDUCED_TO_TWO_PRIMARY=True')
-          print('PICARD_GRAM_GALOIS_EXTRACTED=True')
+          print('PICARD_DISCRIMINANT_EXTRACTED=True')
           print('PICARD_DISCRIMINANT=',b4['picard_discriminant_abs'])
           print('BRAUER4_RECONSTRUCTION_COMPLETE=',b4['brauer4_reconstruction_complete'])
           if b4['brauer4_reconstruction_complete']:
