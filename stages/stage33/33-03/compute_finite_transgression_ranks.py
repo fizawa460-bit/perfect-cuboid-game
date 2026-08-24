@@ -1,11 +1,5 @@
 #!/usr/bin/env python3
-"""Compute H^1(V4,UPic) and the two finite transgression ranks exactly.
-
-This deliberately reuses the source-locked Stage33-03 total-complex builder but
-submits an H1-only Magma job. The previous implementation appended H1 Smith
-forms after the already-certified H2 Smith forms; that exceeded the public
-Magma calculator CPU window even though the H2 job itself passed.
-"""
+"""Compute H^1(V4,UPic) and the two finite transgression ranks exactly."""
 import hashlib
 import json
 import re
@@ -17,6 +11,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 BASE = ROOT / "compute_v4_hypercohomology.py"
 
+# Reuse the source-locked geometric/action setup from the certified H2 calculator,
+# but submit only D0/D1 and the H1 Smith computation.  This avoids recomputing H2
+# in the same public-Magma request.
 base_src = BASE.read_text(encoding="utf-8")
 cut = '\ncode = "SetColumns(0);\\nquick := true;\\n" + source_core + "\\n" + extra\n'
 if base_src.count(cut) != 1:
@@ -24,7 +21,6 @@ if base_src.count(cut) != 1:
 prefix = base_src.split(cut, 1)[0]
 ns = {"__name__": "stage33_03_h1_setup", "__file__": str(BASE)}
 exec(compile(prefix, str(BASE) + "[setup-only]", "exec"), ns)
-
 extra = ns["extra"]
 
 old_chain = """D0 := TotalDiff(0);
@@ -42,12 +38,13 @@ assert D0*D1 eq ZeroMatrix(Z,Nrows(D0),Ncols(D1));
 if extra.count(old_chain) != 1:
     raise SystemExit("could not isolate D0/D1 chain block")
 extra = extra.replace(old_chain, new_chain, 1)
-
 h2_start = extra.index("// H^2 = ker(D2)/im(D1).")
 out_end_tag = 'printf "STAGE33_03_V4_HYPER_END'
 out_end = extra.index(out_end_tag, h2_start)
 out_end = extra.index("\n", out_end)
 
+# This is a raw Python string: one backslash before n is exactly the Magma
+# newline escape.  A previous revision accidentally emitted literal "\\n".
 h1_block = r"""// H^1 = ker(D1)/im(D0) from the exact same integral total complex.
 S1, _, V1 := SmithForm(Transpose(D1));
 r1h := Rank(D1);
@@ -67,19 +64,18 @@ diag1 := [Abs(Z!SB1[j,j]) : j in [1..rr1h]];
 tors1 := [d : d in diag1 | d ne 1];
 free1 := kdim1-rr1h;
 assert forall{d : d in tors1 | d in [2,4]};
-printf "STAGE33_03_V4_H1_BEGIN\\n";
-printf "D0_RANK=%o\\n", Rank(D0);
-printf "D1_RANK=%o\\n", r1h;
-printf "KERNEL_D1_RANK=%o\\n", kdim1;
-printf "H1_FREE_RANK=%o\\n", free1;
-printf "H1_TORSION=%o\\n", tors1;
-printf "STAGE33_03_V4_H1_END\\n";
+printf "STAGE33_03_V4_H1_BEGIN\n";
+printf "D0_RANK=%o\n", Rank(D0);
+printf "D1_RANK=%o\n", r1h;
+printf "KERNEL_D1_RANK=%o\n", kdim1;
+printf "H1_FREE_RANK=%o\n", free1;
+printf "H1_TORSION=%o\n", tors1;
+printf "STAGE33_03_V4_H1_END\n";
 """
 h1_extra = extra[:h2_start] + h1_block + extra[out_end + 1:]
-
 code = "SetColumns(0);\nquick := true;\n" + ns["source_core"] + "\n" + h1_extra
 summary = {
-    "schema": "STAGE33_03_FINITE_V4_UPIC_H1_REQUEST_V2",
+    "schema": "STAGE33_03_FINITE_V4_UPIC_H1_REQUEST_V3",
     "upstream_git_blob_sha1": ns["actual_blob"],
     "stage32_artifact_id": ns["STAGE32_ARTIFACT_ID"],
     "stage32_artifact_sha256": ns["STAGE32_ARTIFACT_SHA256"],
@@ -95,15 +91,13 @@ summary = {
 
 payload = urllib.parse.urlencode({"input": code}).encode()
 req = urllib.request.Request(
-    ns["MAGMA_URL"],
-    data=payload,
+    ns["MAGMA_URL"], data=payload,
     headers={
         "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "text/html, application/xml, application/xhtml+xml",
         "Referer": ns["MAGMA_REFERER"],
-        "User-Agent": "perfect-cuboid-stage33/1.8",
-    },
-    method="POST",
+        "User-Agent": "perfect-cuboid-stage33/1.9",
+    }, method="POST",
 )
 resp, magma_attempt = ns["urlopen_retry"](req, 300, "Magma calculator H1")
 with resp:
@@ -114,6 +108,9 @@ for result in root.findall(".//results"):
     for line in result.findall(".//line"):
         lines.append("".join(line.itertext()))
 stdout = "\n".join(lines) + "\n"
+# Defensive compatibility with the malformed V2 request: if a calculator ever
+# returns textual backslash-n separators, normalize them before parsing.
+stdout = stdout.replace("\\n", "\n")
 (ROOT / "v4-h1-magma-stdout.txt").write_text(stdout, encoding="utf-8")
 if "STAGE33_03_V4_H1_END" not in stdout or any(
     x in stdout for x in ("Runtime error", "Internal error", "Assertion failed", "User error")
@@ -137,7 +134,6 @@ free = int(scalar("H1_FREE_RANK"))
 tors = intlist(scalar("H1_TORSION"))
 if free != 0 or any(x != 2 for x in tors) or len(tors) > 2:
     raise SystemExit(f"unexpected H1(V4,UPic): free={free}, tors={tors}")
-
 h1dim = len(tors)
 r01 = 2 - h1dim
 r11 = 4 - r01
@@ -150,11 +146,12 @@ if [r01, r11] not in env["possible_rank_pairs"]:
     raise SystemExit("exact rank pair disagrees with certified envelope")
 
 cert = {
-    "schema": "STAGE33_03_FINITE_V4_TRANSGRESSION_RANKS_V2",
+    "schema": "STAGE33_03_FINITE_V4_TRANSGRESSION_RANKS_V3",
     "source_locks": {
         "finite_transgression_envelope_sha256": env["canonical_sha256"],
         "finite_v4_hypercohomology_sha256": finite["canonical_sha256"],
         "h1_request_summary": summary,
+        "h1_magma_stdout_sha256": hashlib.sha256(stdout.encode()).hexdigest(),
     },
     "magma_request_attempt": magma_attempt,
     "H1_V4_UPic": {"free_rank": 0, "torsion_invariants": tors, "f2_dimension": h1dim},
