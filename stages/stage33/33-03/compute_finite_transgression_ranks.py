@@ -142,7 +142,11 @@ if (r01, r11) not in ((0, 4), (1, 3), (2, 2)):
 
 env = json.loads((ROOT / "finite-transgression-envelope.json").read_text())
 finite = json.loads((ROOT / "finite-v4-hypercohomology.json").read_text())
-if [r01, r11] not in env["possible_rank_pairs"]:
+possible_pairs = [
+    [x["rank_d2_01"], x["rank_d2_11"]]
+    for x in env["possible_finite_transgression_rank_pairs"]
+]
+if [r01, r11] not in possible_pairs:
     raise SystemExit("exact rank pair disagrees with certified envelope")
 
 cert = {
