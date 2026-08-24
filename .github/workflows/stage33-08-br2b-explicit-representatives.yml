@@ -28,31 +28,33 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_representative_coverage_prefix.py
-      - name: Search wider exact Q-rational unit generator channel
+      - name: Certify three missing triple-sign parity Q-units
         working-directory: stages/stage33/33-08
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python find_full_q_unit_generators.py
-      - name: Integrate saturated wide Q-unit basis
+        run: python find_parity_q_units.py
+      - name: Integrate saturated rank-14 Q-unit basis
         working-directory: stages/stage33/33-08
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python integrate_wide_q_units.py
+        run: python integrate_parity_q_units.py
       - name: Validate Stage33-08 running firewall
         working-directory: stages/stage33/33-08
         run: |
           python - <<'PY'
           import json
           p=json.load(open('representative-coverage-prefix.json'))
-          q=json.load(open('wide-q-unit-generators.json'))
-          b=json.load(open('br0b-left-wide-explicit-representatives.json'))
+          q=json.load(open('parity-q-units.json'))
+          b=json.load(open('br0b-left-explicit-representatives.json'))
           assert p['every_stage33_07_relevant_class_accounted']
           assert p['every_surviving_class_has_primary_order_and_provenance']
           assert p['j2_exact_evaluable_representative_materialized']
           assert not p['every_surviving_class_has_exact_evaluable_representative']
           assert q['full_rank14_saturated_unit_lattice_generated']
-          assert q['usable_ratio_coordinate_rank']==14
-          assert q['usable_ratio_coordinate_smith_nonzero_diagonal']==[1]*14
+          assert q['combined_rank']==14
+          assert q['combined_smith_nonzero_diagonal']==[1]*14
+          assert all(x['both_sections_boundary_only'] for x in q['parity_unit_ratios'])
+          assert all(x['integral_U_D_lift'] for x in q['parity_unit_ratios'])
           assert len(q['explicit_rank14_q_unit_basis'])==14
           assert b['br0b_left_filtration_parametric_representatives_complete']
           assert len(b['unit_representatives'])==14
@@ -61,8 +63,9 @@ jobs:
           assert not b['downstream_released'] and not b['stage33_09_released']
           assert b['unresolved_unknown_in_scope']==4
           print('STAGE33_08_PREFIX=PASS')
-          print('J2_EXACT_REPRESENTATIVE=True')
+          print('TRIPLE_PARITY_MISSING_DIRECTIONS=3')
           print('BR0B_LEFT_EXPLICIT_REPRESENTATIVES=COMPLETE')
+          print('J2_EXACT_REPRESENTATIVE=True')
           print('FULL_BR2B=CLEARLY_NOT_CLOSED')
           PY
       - name: Upload Stage33-08 working certificates
@@ -71,6 +74,6 @@ jobs:
           name: stage33-08-br2b-working
           path: |
             stages/stage33/33-08/representative-coverage-prefix.json
-            stages/stage33/33-08/wide-q-unit-generators.json
-            stages/stage33/33-08/wide-q-unit-magma-stdout.txt
-            stages/stage33/33-08/br0b-left-wide-explicit-representatives.json
+            stages/stage33/33-08/parity-q-units.json
+            stages/stage33/33-08/parity-q-unit-magma-stdout.txt
+            stages/stage33/33-08/br0b-left-explicit-representatives.json
