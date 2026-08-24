@@ -1,0 +1,34 @@
+name: Stage33-04 physical-boundary residue skeleton
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-04/**'
+      - '.github/workflows/stage33-04-boundary-residue.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  boundary-residue:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reconstruct exact 72-boundary SNC and residue cycle skeleton
+        working-directory: stages/stage33/33-04
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python analyze_boundary_residue.py
+      - name: Upload exact Stage33-04 skeleton
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-04-boundary-residue-skeleton
+          path: stages/stage33/33-04/boundary-residue-skeleton.json
