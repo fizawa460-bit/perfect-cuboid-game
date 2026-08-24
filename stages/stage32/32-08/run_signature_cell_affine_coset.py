@@ -35,8 +35,8 @@ def load_module(name: str, path: pathlib.Path):
 pilot = load_module("stage32_07_pilot_coset", S32_07 / "run_d8_bounded_signature_cells.py")
 from cap_certificate import load_and_verify
 
-SCHEMA = "STAGE32_D8_SIGNATURE_CELL_AFFINE_COSET_PILOT_V1"
-ALGORITHM_ID = "D8_SIGNATURE_CELL_MOD8_HNF_COSET_EXACT_GRAM_LLL_FP140_CAP_V1"
+SCHEMA = "STAGE32_D8_SIGNATURE_CELL_AFFINE_COSET_PILOT_V2"
+ALGORITHM_ID = "D8_SIGNATURE_CELL_PICARD_BASIS_MOD8_HNF_COSET_GRAM_LLL_FP140_V1"
 EXPECTED_CAP_SHA = "75224aee543dcd4a56e814503765d1e1e69514b237fb900688243546ea6b4d03"
 DEN = 8
 
@@ -59,23 +59,17 @@ def to_fmpq(value: Any) -> fmpq:
 
 
 def rational_text(value: Any) -> str:
-    if isinstance(value, fmpq):
-        return str(value)
-    return str(sympy.Rational(value))
+    return str(value if isinstance(value, fmpq) else sympy.Rational(value))
 
 
 def hnf_affine_full_row(A: Matrix, b: Matrix) -> tuple[Matrix, Matrix, dict[str, Any]]:
-    """Solve A*u=b over Z for full-row-rank A; return one point and a kernel basis."""
+    """Exact Z-preimage for a full-row-rank integer map A."""
     m, n = A.shape
-    assert b.shape == (m, 1)
-    assert m <= n
-    assert A.rank() == m
+    assert b.shape == (m, 1) and 0 < m <= n and A.rank() == m
     raw = fmpz_mat(matrix_list(A.T))
     hnf_f, transform_f = raw.hnf(transform=True)
     hnf = Matrix([[int(hnf_f[i, j]) for j in range(hnf_f.ncols())] for i in range(hnf_f.nrows())])
-    transform = Matrix(
-        [[int(transform_f[i, j]) for j in range(transform_f.ncols())] for i in range(transform_f.nrows())]
-    )
+    transform = Matrix([[int(transform_f[i, j]) for j in range(transform_f.ncols())] for i in range(transform_f.nrows())])
     assert hnf == transform * A.T
     assert abs(int(transform_f.det())) == 1
     assert all(hnf[i, j] == 0 for i in range(m, n) for j in range(m))
@@ -86,26 +80,25 @@ def hnf_affine_full_row(A: Matrix, b: Matrix) -> tuple[Matrix, Matrix, dict[str,
     assert image_basis == hnf[:m, :].T
     coordinates = image_basis.inv() * b
     feasible = all(sympy.denom(v) == 1 for v in coordinates)
-    certificate = {
+    cert = {
         "rows": m,
         "columns": n,
         "rank": m,
         "image_basis_sha256": matrix_sha256(image_basis),
         "hnf_sha256": matrix_sha256(hnf),
         "hnf_transform_sha256": matrix_sha256(transform),
-        "image_diagonal": [int(image_basis[i, i]) for i in range(m)],
         "image_feasible": feasible,
     }
     if not feasible:
-        return Matrix.zeros(n, 1), Matrix.zeros(n, n - m), certificate
+        return Matrix.zeros(n, 1), Matrix.zeros(n, n - m), cert
     point = affine * coordinates
     assert all(sympy.denom(v) == 1 for v in point)
     point = Matrix([int(v) for v in point])
     assert A * point == b
     assert A * kernel == Matrix.zeros(m, n - m)
-    certificate["point_sha256"] = canonical_sha256([int(v) for v in point])
-    certificate["kernel_sha256"] = matrix_sha256(kernel)
-    return point, kernel, certificate
+    cert["point_sha256"] = canonical_sha256([int(v) for v in point])
+    cert["kernel_sha256"] = matrix_sha256(kernel)
+    return point, kernel, cert
 
 
 def dedup_congruences(rows: list[list[int]], rhs: list[int]) -> tuple[Matrix, Matrix, dict[str, Any]]:
@@ -113,20 +106,19 @@ def dedup_congruences(rows: list[list[int]], rhs: list[int]) -> tuple[Matrix, Ma
     seen: dict[tuple[int, ...], int] = {}
     kept_rows: list[list[int]] = []
     kept_rhs: list[int] = []
-    zero_rows = 0
-    duplicate_rows = 0
+    zero_rows = duplicate_rows = 0
     for raw_row, raw_rhs in zip(rows, rhs):
         row = tuple(int(v) % DEN for v in raw_row)
         value = int(raw_rhs) % DEN
         if not any(row):
             zero_rows += 1
             if value:
-                raise ValueError("infeasible zero congruence row")
+                raise ValueError("infeasible zero congruence")
             continue
         if row in seen:
             duplicate_rows += 1
             if seen[row] != value:
-                raise ValueError("inconsistent duplicate congruence row")
+                raise ValueError("inconsistent duplicate congruence")
             continue
         seen[row] = value
         kept_rows.append(list(row))
@@ -140,67 +132,71 @@ def dedup_congruences(rows: list[list[int]], rhs: list[int]) -> tuple[Matrix, Ma
 
 
 def independent_equalities(F: Matrix, target: Matrix) -> tuple[Matrix, Matrix, dict[str, Any]]:
-    assert F.rows == target.rows and target.cols == 1
     rows: list[list[int]] = []
     rhs: list[int] = []
-    current = Matrix.zeros(0, F.cols)
-    current_aug = Matrix.zeros(0, F.cols + 1)
+    rank = aug_rank = 0
     for i in range(F.rows):
         row = [int(F[i, j]) for j in range(F.cols)]
         value = int(target[i])
         candidate = Matrix(rows + [row])
         candidate_aug = Matrix([r + [v] for r, v in zip(rows + [row], rhs + [value])])
-        if candidate.rank() > current.rank():
+        new_rank = candidate.rank()
+        new_aug_rank = candidate_aug.rank()
+        if new_rank > rank:
             rows.append(row)
             rhs.append(value)
-            current = candidate
-            current_aug = candidate_aug
-        else:
-            if candidate_aug.rank() > current_aug.rank():
-                raise ValueError("inconsistent dependent equality")
+            rank = new_rank
+            aug_rank = new_aug_rank
+        elif new_aug_rank > aug_rank:
+            raise ValueError("inconsistent dependent equality")
     return Matrix(rows), Matrix(rhs), {
         "raw_equality_row_count": F.rows,
         "independent_equality_row_count": len(rows),
     }
 
 
+def selected_matrix(core: dict[str, Any]) -> Matrix:
+    rows = core["raw_cross_pairings_with_basis"]
+    S = Matrix([rows[i] for i in pilot.base.SELECTED_ROWS])
+    assert abs(int(S.det())) == pilot.base.EXPECTED_DET
+    return S
+
+
 def build_cell_coset(
-    transform: dict[str, Any],
+    core: dict[str, Any],
     signature_matrix: np.ndarray,
     types: list[str],
     cell: dict[str, Any],
     e: int,
     a: int,
 ) -> tuple[Matrix, Matrix, dict[str, Any]]:
-    inv = np.asarray(transform["inv"], dtype=np.int64)
-    pair = np.asarray(transform["pair"], dtype=np.int64)
-    hform = np.asarray(transform["h"], dtype=np.int64)
+    """Return exact affine Picard-basis coset x = base + kernel*z."""
+    S = selected_matrix(core)
+    raw = Matrix(core["raw_cross_pairings_with_basis"])
+    gram = Matrix(core["basis_gram"])
+    H = Matrix([core["hyperplane"]])
+    hrow = H * gram
     left_groups, right_groups = pilot.base.split_groups(types)
     side_indices = {
         "L": sorted(left_groups["A"] + left_groups["B"] + left_groups["C"]),
         "R": sorted(right_groups["A"] + right_groups["B"] + right_groups["C"]),
     }
 
-    # Congruence system on selected intersection coordinates y.
+    # Work directly in the primitive Picard basis x.  The selected-coordinate
+    # lattice membership y in S*Z^64 is therefore automatic and the old 64
+    # membership congruences disappear.  Only signature congruences remain.
     congruence_rows: list[list[int]] = []
     congruence_rhs: list[int] = []
-    for row in inv.tolist():
-        congruence_rows.append([int(x) for x in row])
-        congruence_rhs.append(0)
     lsig = pilot.decode_signature(int(cell["left_signature_hex"], 16))
     rsig = pilot.decode_signature(int(cell["right_signature_hex"], 16))
-    for r in range(64):
-        row = [0] * 64
-        for j in side_indices["L"]:
-            row[j] = int(signature_matrix[r, j])
-        congruence_rows.append(row)
-        congruence_rhs.append(int(lsig[r]))
-    for r in range(64):
-        row = [0] * 64
-        for j in side_indices["R"]:
-            row[j] = int(signature_matrix[r, j])
-        congruence_rows.append(row)
-        congruence_rhs.append(int(rsig[r]))
+    for side, sig in (("L", lsig), ("R", rsig)):
+        for r in range(64):
+            yrow = [0] * 64
+            for j in side_indices[side]:
+                yrow[j] = int(signature_matrix[r, j])
+            xrow = Matrix([yrow]) * S
+            congruence_rows.append([int(xrow[0, j]) for j in range(64)])
+            congruence_rhs.append(int(sig[r]))
 
     C, rvec, congruence_cert = dedup_congruences(congruence_rows, congruence_rhs)
     m = C.rows
@@ -208,62 +204,59 @@ def build_cell_coset(
     aug_point, aug_kernel, aug_cert = hnf_affine_full_row(Aaug, rvec)
     if not aug_cert["image_feasible"]:
         raise ValueError("signature congruence coset is empty")
-    y0 = aug_point[:64, :]
+    x0 = aug_point[:64, :]
     L = aug_kernel[:64, :]
-    assert L.shape == (64, 64)
-    assert L.rank() == 64
-    assert all(int(v) % DEN == 0 for v in C * y0 - rvec)
+    assert L.shape == (64, 64) and L.rank() == 64
+    assert all(int(v) % DEN == 0 for v in C * x0 - rvec)
     assert all(int(v) % DEN == 0 for v in C * L)
 
-    # Exact equality rows.  Several are intentionally redundant; after the
-    # congruence lattice is built we select an exact independent subsystem.
     eq_rows: list[list[int]] = []
     eq_rhs: list[int] = []
 
-    def add(row: list[int] | np.ndarray, value: int) -> None:
-        eq_rows.append([int(x) for x in row])
+    def add(row: Matrix | list[int], value: int) -> None:
+        if isinstance(row, Matrix):
+            assert row.rows == 1 and row.cols == 64
+            eq_rows.append([int(row[0, j]) for j in range(64)])
+        else:
+            eq_rows.append([int(v) for v in row])
         eq_rhs.append(int(value))
 
-    add(hform, DEN * pilot.DEGREE)
-    row = [0] * 64
-    for j in range(48):
-        row[j] = 1
-    add(row, e)
-    add(pair[:46].sum(axis=0), DEN * a)
-    add(pair[:92].sum(axis=0), DEN * (19 * pilot.DEGREE - 5 * e))
+    add(hrow, pilot.DEGREE)
+    add(Matrix([[sum(int(raw[k, j]) for k in range(92, 140)) for j in range(64)]]), e)
+    add(Matrix([[sum(int(raw[k, j]) for k in range(46)) for j in range(64)]]), a)
+    add(Matrix([[sum(int(raw[k, j]) for k in range(92)) for j in range(64)]]), 19 * pilot.DEGREE - 5 * e)
 
-    x, y, z, t = map(int, cell["aggregate"])
+    xmass, ymass, zmass, t = map(int, cell["aggregate"])
     xl, yl, zl = map(int, cell["left_counts"])
     xr, yr, zr = map(int, cell["right_counts"])
-    assert (xl + xr, yl + yr, zl + zr) == (x, y, z)
+    assert (xl + xr, yl + yr, zl + zr) == (xmass, ymass, zmass)
     for groups, counts in ((left_groups, (xl, yl, zl)), (right_groups, (xr, yr, zr))):
         for kind, target in zip("ABC", counts):
-            row = [0] * 64
-            for j in groups[kind]:
-                row[j] = 1
-            add(row, int(target))
-    row = [0] * 64
-    for j in range(48, 52):
-        row[j] = 1
-    add(row, t)
+            yrow = Matrix([[1 if j in groups[kind] else 0 for j in range(64)]])
+            add(yrow * S, int(target))
+    qhead_row = Matrix([[1 if 48 <= j < 52 else 0 for j in range(64)]])
+    add(qhead_row * S, t)
 
     E = Matrix(eq_rows)
     b = Matrix(eq_rhs)
     F = E * L
-    target = b - E * y0
+    target = b - E * x0
     Fred, bred, equality_cert = independent_equalities(F, target)
     point_t, kernel_t, eq_hnf_cert = hnf_affine_full_row(Fred, bred)
     if not eq_hnf_cert["image_feasible"]:
         raise ValueError("signature equality coset is empty")
-    base = y0 + L * point_t
+    base = x0 + L * point_t
     kernel = L * kernel_t
     assert E * base == b
     assert E * kernel == Matrix.zeros(E.rows, kernel.cols)
     assert all(int(v) % DEN == 0 for v in C * base - rvec)
     assert all(int(v) % DEN == 0 for v in C * kernel)
+    assert kernel.rank() == kernel.cols
 
     cert = {
         **congruence_cert,
+        "coordinate_system": "primitive_picard_basis_x",
+        "selected_membership_congruences_eliminated_by_basis_choice": True,
         "congruence_augmented_hnf": aug_cert,
         "projected_congruence_kernel_rank": int(L.rank()),
         "projected_congruence_kernel_determinant_abs": abs(int(L.det())),
@@ -274,8 +267,8 @@ def build_cell_coset(
         "final_kernel_rank": int(kernel.rank()),
         "final_base_sha256": canonical_sha256([int(v) for v in base]),
         "final_kernel_sha256": matrix_sha256(kernel),
+        "selected_matrix_sha256": matrix_sha256(S),
     }
-    assert kernel.rank() == kernel.cols
     return base, kernel, cert
 
 
@@ -285,7 +278,8 @@ class NodeBudgetExhausted(Exception):
 
 def exact_search(
     core: dict[str, Any],
-    transform: dict[str, Any],
+    signature_matrix: np.ndarray,
+    types: list[str],
     base: Matrix,
     kernel: Matrix,
     cell: dict[str, Any],
@@ -295,13 +289,11 @@ def exact_search(
     node_limit: int,
 ) -> dict[str, Any]:
     started = time.perf_counter()
-    gram = Matrix(np.asarray(transform["gram"], dtype=np.int64).tolist())
-    pair = Matrix(np.asarray(transform["pair"], dtype=np.int64).tolist())
-    inv = Matrix(np.asarray(transform["inv"], dtype=np.int64).tolist())
-    hform = Matrix([np.asarray(transform["h"], dtype=np.int64).tolist()])
+    gram = Matrix(core["basis_gram"])
+    forms = Matrix(core["raw_cross_pairings_with_basis"])
+    S = selected_matrix(core)
     dim = kernel.cols
     kernel_gram = -(kernel.T * gram * kernel)
-    assert kernel_gram.shape == (dim, dim)
     kernel_gram_f = fmpz_mat(matrix_list(kernel_gram))
     reduced_gram_f, lll_f = kernel_gram_f.lll(transform=True, rep="gram", gram="exact")
     lll = Matrix([[int(lll_f[i, j]) for j in range(dim)] for i in range(dim)])
@@ -309,14 +301,13 @@ def exact_search(
     assert abs(int(lll_f.det())) == 1
     reduced_kernel = kernel * lll.T
     assert reduced_gram == -(reduced_kernel.T * gram * reduced_kernel)
-    _, D = reduced_gram.LDLdecomposition(hermitian=False)
-    assert all(D[i, i] > 0 for i in range(dim))
     Lsym, Dsym = reduced_gram.LDLdecomposition(hermitian=False)
     assert reduced_gram == Lsym * Dsym * Lsym.T
+    assert all(Dsym[i, i] > 0 for i in range(dim))
     ldl_lower = [[to_fmpq(Lsym[i, j]) for j in range(dim)] for i in range(dim)]
     ldl_diag = [to_fmpq(Dsym[i, i]) for i in range(dim)]
 
-    form_reduced = pair * reduced_kernel
+    form_reduced = forms * reduced_kernel
     pruning_coefficients: list[list[fmpq]] = []
     for k in range(140):
         source = [fmpq(int(form_reduced[k, j])) for j in range(dim)]
@@ -330,42 +321,51 @@ def exact_search(
     prefix_norms: list[list[fmpq]] = []
     for row in pruning_coefficients:
         accum = fmpq(0)
-        vals: list[fmpq] = []
+        values: list[fmpq] = []
         for i in range(dim):
             accum += row[i] * row[i] / ldl_diag[i]
-            vals.append(accum)
-        prefix_norms.append(vals)
+            values.append(accum)
+        prefix_norms.append(values)
 
     q0 = (base.T * gram * base)[0]
     cross = reduced_kernel.T * gram * base
     center_sym = reduced_gram.inv() * cross
     lower = -pilot.DEGREE - 2 + 2 * genus
-    radius_sym = q0 - 64 * lower + (cross.T * reduced_gram.inv() * cross)[0]
+    radius_sym = q0 - lower + (cross.T * reduced_gram.inv() * cross)[0]
     if radius_sym < 0:
         return {
             "solver_result": "UNSAT_RADIUS",
-            "complete": True,
+            "complete_for_existence": True,
+            "enumeration_exhausted": True,
+            "stopped_on_first_witness": False,
+            "node_budget_exhausted": False,
             "node_limit": node_limit,
             "enumeration_node_count": 0,
+            "checked_leaf_count": 0,
             "exact_survivor_count": 0,
             "survivors": [],
             "completed_square_radius": str(radius_sym),
             "final_kernel_dimension": dim,
+            "elapsed_seconds": round(time.perf_counter() - started, 6),
         }
     center = [to_fmpq(v) for v in center_sym]
     radius = to_fmpq(radius_sym)
-    form_center_sym = pair * (base + reduced_kernel * center_sym)
-    form_fixed = [to_fmpq(v) for v in form_center_sym]
-    caps = [8 * pilot.NORMAL_CAP] * 92 + [8 * pilot.EXCEPTIONAL_CAP] * 48
+    form_center = forms * (base + reduced_kernel * center_sym)
+    form_fixed = [to_fmpq(v) for v in form_center]
+    caps = [pilot.NORMAL_CAP] * 92 + [pilot.EXCEPTIONAL_CAP] * 48
 
     coords = [0] * dim
-    node_count = 0
-    interval_reject = 0
-    form_prune = 0
-    leaf_count = 0
+    node_count = interval_reject = form_prune = leaf_count = 0
     transcript = hashlib.sha256()
     survivors: list[dict[str, Any]] = []
     stopped_on_witness = False
+    left_groups, right_groups = pilot.base.split_groups(types)
+    side_indices = {
+        "L": sorted(left_groups["A"] + left_groups["B"] + left_groups["C"]),
+        "R": sorted(right_groups["A"] + right_groups["B"] + right_groups["C"]),
+    }
+    lsig = np.array(pilot.decode_signature(int(cell["left_signature_hex"], 16)), dtype=np.int64)
+    rsig = np.array(pilot.decode_signature(int(cell["right_signature_hex"], 16)), dtype=np.int64)
 
     def event(*parts: object) -> None:
         transcript.update("|".join(str(x) for x in parts).encode())
@@ -375,50 +375,62 @@ def exact_search(
         nonlocal form_prune
         for k in range(140):
             value = form_fixed[k]
-            lo = fmpq(0)
-            hi = fmpq(caps[k])
+            lo, hi = fmpq(0), fmpq(caps[k])
             if lo <= value <= hi:
                 continue
             impossible = next_index < 0
             if not impossible:
-                norm = prefix_norms[k][next_index]
                 gap = lo - value if value < lo else value - hi
-                impossible = gap * gap > remaining * norm
+                impossible = gap * gap > remaining * prefix_norms[k][next_index]
             if impossible:
                 form_prune += 1
                 event("P", next_index, k, value, remaining)
                 return False
         return True
 
-    def verify_leaf(yvec: Matrix) -> dict[str, Any] | None:
+    def verify_leaf(xvec: Matrix) -> dict[str, Any] | None:
         nonlocal leaf_count
         leaf_count += 1
-        nums = pair * yvec
-        if any(int(nums[i]) < 0 or int(nums[i]) > caps[i] for i in range(140)):
+        raw = forms * xvec
+        if any(int(raw[i]) < 0 or int(raw[i]) > caps[i] for i in range(140)):
             return None
-        xnum = inv * yvec
-        if any(int(v) % 8 for v in xnum):
-            raise AssertionError("coset admitted non-Picard selected vector")
-        xvec = Matrix([int(v) // 8 for v in xnum])
-        raw = Matrix(core["raw_cross_pairings_with_basis"]) * xvec
-        if [8 * int(v) for v in raw] != [int(v) for v in nums]:
-            raise AssertionError("transformed/direct pairing mismatch")
-        direct_degree = int((Matrix([core["hyperplane"]]) * Matrix(core["basis_gram"]) * xvec)[0])
-        if direct_degree != pilot.DEGREE:
+        H = Matrix([core["hyperplane"]])
+        degree = int((H * gram * xvec)[0])
+        if degree != pilot.DEGREE:
             raise AssertionError("degree mismatch")
-        square = int((xvec.T * Matrix(core["basis_gram"]) * xvec)[0])
+        exc_mass = sum(int(raw[i]) for i in range(92, 140))
+        a_mass = sum(int(raw[i]) for i in range(46))
+        if exc_mass != e or a_mass != a:
+            raise AssertionError("parent mass mismatch")
+        square = int((xvec.T * gram * xvec)[0])
         if square < lower:
             return None
-        selected = [int(v) for v in yvec]
+        selected = S * xvec
+        selected_np = np.array([int(v) for v in selected], dtype=np.int64)
+        for side, wanted in (("L", lsig), ("R", rsig)):
+            got = np.zeros(64, dtype=np.int64)
+            for j in side_indices[side]:
+                got = (got + int(selected_np[j]) * signature_matrix[:, j].astype(np.int64)) % DEN
+            if not np.array_equal(got, wanted):
+                raise AssertionError("signature mismatch")
+        xmass, ymass, zmass, t = map(int, cell["aggregate"])
+        xl, yl, zl = map(int, cell["left_counts"])
+        xr, yr, zr = map(int, cell["right_counts"])
+        for groups, counts in ((left_groups, (xl, yl, zl)), (right_groups, (xr, yr, zr))):
+            for kind, target in zip("ABC", counts):
+                if sum(int(selected_np[j]) for j in groups[kind]) != int(target):
+                    raise AssertionError("side count mismatch")
+        if sum(int(selected_np[j]) for j in range(48, 52)) != t:
+            raise AssertionError("qhead total mismatch")
         return {
-            "selected_coordinates": selected,
-            "selected_coordinates_sha256": canonical_sha256(selected),
             "basis_coordinates": [int(v) for v in xvec],
             "basis_coordinates_sha256": canonical_sha256([int(v) for v in xvec]),
+            "selected_coordinates": [int(v) for v in selected],
+            "selected_coordinates_sha256": canonical_sha256([int(v) for v in selected]),
             "self_intersection": square,
-            "degree": direct_degree,
-            "exceptional_mass": sum(int(raw[i]) for i in range(92, 140)),
-            "curve_group_mass": sum(int(raw[i]) for i in range(46)),
+            "degree": degree,
+            "exceptional_mass": exc_mass,
+            "curve_group_mass": a_mass,
         }
 
     def local_limit(remaining: fmpq, diagonal: fmpq) -> int:
@@ -454,43 +466,38 @@ def exact_search(
                 if index:
                     recurse(index - 1, rem)
                 else:
-                    yvec = base + reduced_kernel * Matrix(coords)
-                    witness = verify_leaf(yvec)
+                    witness = verify_leaf(base + reduced_kernel * Matrix(coords))
                     if witness is not None:
                         survivors.append(witness)
-                        event("S", witness["selected_coordinates_sha256"])
+                        event("S", witness["basis_coordinates_sha256"])
                         stopped_on_witness = True
-                        for k in range(140):
-                            form_fixed[k] -= pruning_coefficients[k][index] * transformed
-                        return
             for k in range(140):
                 form_fixed[k] -= pruning_coefficients[k][index] * transformed
             if stopped_on_witness:
                 return
 
-    complete = True
+    exhausted = True
     budget_exhausted = False
     try:
         recurse(dim - 1, radius)
     except NodeBudgetExhausted:
-        complete = False
+        exhausted = False
         budget_exhausted = True
 
     if survivors:
         result = "SAT_WITNESS"
-        # Positive existence is exact even though enumeration stops at first witness.
-        existence_complete = True
-    elif complete:
+        complete_for_existence = True
+    elif exhausted:
         result = "UNSAT"
-        existence_complete = True
+        complete_for_existence = True
     else:
         result = "UNKNOWN_NODE_BUDGET"
-        existence_complete = False
+        complete_for_existence = False
 
     return {
         "solver_result": result,
-        "complete_for_existence": existence_complete,
-        "enumeration_exhausted": complete and not stopped_on_witness,
+        "complete_for_existence": complete_for_existence,
+        "enumeration_exhausted": exhausted and not stopped_on_witness,
         "stopped_on_first_witness": stopped_on_witness,
         "node_budget_exhausted": budget_exhausted,
         "node_limit": node_limit,
@@ -529,34 +536,15 @@ def main() -> None:
     transform = pilot.base.build_transform(core)
     quotient = pilot.base.quotient_data(transform["inv"])
     aggregate = pilot.base.aggregate_structure(transform["pair"], transform["h"])
-    cells, inventory = pilot.build_signature_cells(
-        quotient["K"], aggregate["types"], args.exceptional_mass, args.curve_group_mass
-    )
+    cells, inventory = pilot.build_signature_cells(quotient["K"], aggregate["types"], args.exceptional_mass, args.curve_group_mass)
     if not 0 <= args.cell_index < len(cells):
         raise SystemExit("cell index out of range")
     cell = cells[args.cell_index]
     if cell["cell_id"] != args.expected_cell_id:
         raise AssertionError(f"immutable cell mismatch {cell['cell_id']} != {args.expected_cell_id}")
 
-    base, kernel, coset_cert = build_cell_coset(
-        transform,
-        quotient["K"],
-        aggregate["types"],
-        cell,
-        args.exceptional_mass,
-        args.curve_group_mass,
-    )
-    search = exact_search(
-        core,
-        transform,
-        base,
-        kernel,
-        cell,
-        args.exceptional_mass,
-        args.curve_group_mass,
-        args.genus,
-        args.node_limit,
-    )
+    base, kernel, coset_cert = build_cell_coset(core, quotient["K"], aggregate["types"], cell, args.exceptional_mass, args.curve_group_mass)
+    search = exact_search(core, quotient["K"], aggregate["types"], base, kernel, cell, args.exceptional_mass, args.curve_group_mass, args.genus, args.node_limit)
     report = {
         "schema": SCHEMA,
         "algorithm_id": ALGORITHM_ID,
@@ -596,8 +584,7 @@ def main() -> None:
         "elapsed_seconds": round(time.perf_counter() - started, 6),
     }
     deterministic = {k: v for k, v in report.items() if k not in {"elapsed_seconds", "tool_versions"}}
-    if isinstance(deterministic.get("search"), dict):
-        deterministic["search"] = {k: v for k, v in deterministic["search"].items() if k != "elapsed_seconds"}
+    deterministic["search"] = {k: v for k, v in report["search"].items() if k != "elapsed_seconds"}
     report["deterministic_sha256_without_runtime"] = canonical_sha256(deterministic)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n")
