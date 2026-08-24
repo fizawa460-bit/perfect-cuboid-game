@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V7_D8_HIGHMASS_TIER_AUDITED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V8_D8_HIGHMASS_LE256_AUDITED",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "children": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
   "parent_route": "G10-LOWGENUS-PICARD",
   "execution_class": 2,
-  "status": "32_01_D8_HIGHMASS_MATERIALIZED_TIER_AUDITED_CONTINUATION_ACTIVE",
+  "status": "32_01_D8_HIGHMASS_LE256_AUDITED_CONTINUATION_ACTIVE",
   "source_lock": {
     "upstream_repository": "MichaelStollBayreuth/Verification",
     "upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
@@ -117,12 +117,63 @@
     "theorem_credit": false,
     "receiver_credit": false
   },
-  "current_item": "32-01-D8-HIGHMASS-MATERIALIZED-TIER-EXPANSION",
+  "stage32_09_audit": {
+    "pr": 1359,
+    "audit_record": "stages/stage32/32-09/audit.md",
+    "audit_state": "stages/stage32/32-09/audit-state.json",
+    "audited_functional_head": "74aa140dd4f4a34887ae6d8d70596a43b20a26cb",
+    "workflow_run": 32685512985,
+    "audit_verdict": "PASS_EXACT_TIER256_CUMULATIVE_EXPANSION",
+    "computational_scripts_changed_in_pr": false,
+    "accepted_checkpoint": "D8_HIGHMASS_MATERIALIZED_EXACT_TIERS_LE256",
+    "audited_predecessor_run": 32682503895,
+    "profile_hashes": {
+      "e8_a36": "97608b176d7a91677f63cd293502f7042a9a9f6ad30904631260c9d560b7be17",
+      "e10_a30": "993d0005f60499b50b03b899153b60f93de757a74f53d942e5a2168830cc5123"
+    },
+    "predecessor_tier_hashes": {
+      "e8_a36_le64": "a58a6589633ef76a08bba420efabbd52d1b56c28eaaaa131c4ebb336666f13b0",
+      "e10_a30_le64": "383f2a2aa202aad1384ada1ef41041d0c731445e1ea7baff0ea895e91117a0e9"
+    },
+    "tier_hashes": {
+      "e8_a36_le256": "e0e714271d192722ba43097818d0d4cabd1fadf08c25d7df4a610c5da95a3def",
+      "e10_a30_le256": "12dae92b3b7dab3834d81c3f1af552438a89c157bb2644a2e26b2e325c2da9b6"
+    },
+    "e8_a36_le256": {
+      "selected_cells": 24,
+      "parent_cells": 53,
+      "executed_branches": 1161,
+      "unknown_cells": 0,
+      "unsat_cells": 17,
+      "sat_cells": 7,
+      "numerical_survivors": 57,
+      "new_since_le64": 24
+    },
+    "e10_a30_le256": {
+      "selected_cells": 64,
+      "parent_cells": 134,
+      "executed_branches": 3344,
+      "unknown_cells": 0,
+      "unsat_cells": 64,
+      "sat_cells": 0,
+      "numerical_survivors": 0,
+      "new_since_le64": 0
+    },
+    "total_executed_branches": 4505,
+    "predecessor_cell_records_exact_regression": true,
+    "selected_cells_reconstructed_from_profile": true,
+    "full_parent_complete": false,
+    "effectivity_classification_complete": false,
+    "theorem_credit": false,
+    "receiver_credit": false
+  },
+  "current_item": "32-01-D8-HIGHMASS-MATERIALIZED-TIER-EXPANSION-LE1024",
   "current_smaller_class2_leaf": {
     "id": "L32-01-D8-HIGHMASS-MATERIALIZED-TIER-EXPANSION",
     "classification": 2,
-    "statement": "continue the exact immutable-signature-cell materialized qtail12 enumeration in cost order, preserving complete branch accounting and UNKNOWN firewalls; <=256 is the next natural bounded tier but receives no credit until fully executed and audited",
-    "accepted_predecessor": "D8_HIGHMASS_MATERIALIZED_EXACT_TIERS_LE64",
+    "statement": "continue the exact immutable-signature-cell materialized qtail12 enumeration in cost order, preserving complete branch accounting and UNKNOWN firewalls; <=1024 is the next natural bounded cumulative tier after the audited <=256 checkpoint",
+    "accepted_predecessor": "D8_HIGHMASS_MATERIALIZED_EXACT_TIERS_LE256",
+    "next_natural_tier_branch_threshold": 1024,
     "full_parent_closure_required_before_parent_credit": true,
     "effectivity_separate": true
   },
@@ -130,12 +181,13 @@
     {
       "id": "32-01",
       "name": "PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
-      "status": "IN_PROGRESS_D8_HIGHMASS_TIER_AUDITED",
+      "status": "IN_PROGRESS_D8_HIGHMASS_LE256_AUDITED",
       "preflight_complete": true,
       "polytail_reduction_audited_complete": true,
       "graded_slice_checkpoint_layer_complete": true,
       "d8_g0_e2_numerical_orbit_slice_complete": true,
       "d8_highmass_materialized_le64_checkpoint_audited": true,
+      "d8_highmass_materialized_le256_checkpoint_audited": true,
       "numerical_census_complete": false
     },
     {
@@ -173,10 +225,10 @@
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
   "audit_required": false,
-  "audit_verdict": "PASS_AFTER_CONTROLLER_AND_REPO_LOCAL_EVIDENCE_REPAIR",
+  "audit_verdict": "PASS_EXACT_TIER256_CUMULATIVE_EXPANSION",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item": "32-01-D8-HIGHMASS-MATERIALIZED-TIER-EXPANSION",
+  "next_item": "32-01-D8-HIGHMASS-MATERIALIZED-TIER-EXPANSION-LE1024",
   "next_expected_command": "Stage32-main-batch"
 }
