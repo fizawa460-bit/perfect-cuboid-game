@@ -1,117 +1,112 @@
-# Stage33-04 hostile audit — PR #1362
+# Stage33-04 hostile re-audit — PR #1362
 
-Verdict: `PASS_EXACT_PREFIX_BLOCKED_NEW_KERNEL_AFTER_REJECTING_PREMATURE_BR0G_CLOSURE`
+Verdict: `PASS_ODD_PRIMARY_RESIDUAL_REJECT_ALL_PRIMARY_CLOSURE_ON_HIGHER_TWO_POWER_GERSTEN_DESCENT`
 
-Audited functional head: `47cb96b6cd7acaa19f7fc51e9f72a8dc8e36964c`.
+Re-audited functional head: `078198be1466d5d2c9eb3e0c204b1bee79f5c68e`.
 
-Final-head workflow evidence audited:
+Current-head workflow evidence:
 
-- run `32701829304` — `Stage33-04 physical-boundary residue skeleton` — `success`;
-- artifact `9510818470` — `stage33-04-boundary-residue-skeleton`;
-- artifact ZIP digest `sha256:4c2d15df6394004addfb5ae99c40d0161b00174c59f12a5c6069061ca30afb3a`.
+- run `32705824742` — `Stage33-04 physical-boundary residue skeleton` — `success`;
+- artifact `9512234314` — `stage33-04-boundary-residue-skeleton`;
+- artifact ZIP digest `sha256:19aa8fa2ca3fe137a96865a2cc4dad4fe9e47eae6896904d2bcbf74db37b2792`.
 
-The older run/artifact hashes recorded in the pre-audit handoff (`32701473247` / `9510714843`) are superseded by the final functional head and are not the audit authority.
+The previous audit remains accepted as an exact prefix. This re-audit specifically tests the new leaf `certify_odd_primary_arithmetic_character_descent.py` and whether it is sufficient to promote Stage33-04 to `CLOSED`.
 
-## Independently reproduced exact prefix
+## Previously accepted exact prefix
 
-The audit downloaded the final artifact and recomputed the following independently of the production summary.
+The following remain independently accepted:
 
-### Boundary/SNC complex
+- physical boundary `72 = 24 side + 48 exceptional`;
+- `144` codimension-two crossings;
+- connected incidence rank `71`, saturated integral cycle rank `73`;
+- `ct=I`, `rank(cc-I)=12`, all twelve nonzero Smith factors equal `1`;
+- geometric Galois-fixed permutation-cycle module `(Q/Z)^61`;
+- Ford/Kummer source pullback rank `0`;
+- exponent-two Q-fixed graph cycle dimension `61`;
+- unit-symbol secondary-residue span rank `44` over `F2`;
+- explicit exponent-two residual dimension `17`;
+- the 17 exponent-two residual directions have exact mod-2 first-residue/function/constant-squareclass descent.
 
-From the 72 stable components and 144 listed codimension-two crossings, the oriented incidence matrix was rebuilt directly.
+All JSON canonical SHA fields in the current-head artifact were independently recomputed and matched.
 
-- vertices: `72 = 24 side + 48 exceptional`;
-- crossings/edges: `144`;
-- connected components: `1`;
-- incidence rank over `Q`: `71`;
-- incidence Smith nonzero factors: exactly `71` copies of `1`;
-- integral cycle rank: `144 - 71 = 73`;
-- stored 73-row cycle basis has rank `73`, annihilates the incidence matrix exactly, and has Smith nonzero factors exactly `73` copies of `1`.
+## New odd-primary leaf — accepted
 
-Thus the stored integral cycle lattice is a saturated exact kernel, not a rational-rank surrogate.
+The current artifact gives the boundary complex-conjugation orbit counts
 
-### Galois action on the cycle lattice
+```text
+geometric boundary components: 48 fixed + 12 conjugate pairs = 72
+geometric crossings:           96 fixed + 24 conjugate pairs = 144
+```
 
-The source-locked boundary action was independently checked from the artifact matrices.
+The source-locked splitting model places the relevant arithmetic boundary prime divisors over `Q` or `Q(i)`. For odd-primary torsion, the crossing Tate-twist invariants vanish because these constant fields contain no nontrivial odd-order roots of unity. Away from crossings a single boundary branch cannot carry a nonzero second residue for a class unramified on the physical open; hence the compatible odd-primary first-residue characters are unramified on the complete boundary `P1`s and reduce to constant-field characters.
 
-- `ct = I_73`;
-- `cc^2 = I_73`;
-- `trace(cc)=49`;
-- `rank(cc-I)=12`;
-- Smith nonzero invariant factors of `cc-I`: twelve copies of `1`.
+The exact odd-primary boundary-character module is therefore accepted parametrically as
 
-Therefore, for the geometric permutation-cycle module with trivial coefficient action used by this adapter,
+```text
+Hom_cont(G_Q,Q/Z)_odd^48
+  direct_sum
+Hom_cont(G_Q(i),Q/Z)_odd^12.
+```
 
-`ker(cc-I : (Q/Z)^73 -> (Q/Z)^73) ~= (Q/Z)^61`
+This closes the previously named residual
 
-with no additional finite Smith-kernel factor. The rational V4 character multiplicities `61,12,0,0` are reproduced.
+`R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT`.
 
-### Two-primary graph residual
+It is a parametric residue module, not a finite list of Brauer generators and not a Brauer-Manin conclusion.
 
-The exponent-two linear algebra was independently recomputed.
+## Why BR0G still cannot close
 
-- Q-fixed cycle dimension: `61`;
-- unit-symbol secondary-residue span rank: `44`;
-- explicit residual basis rank: `17`;
-- combined rank: `61`;
-- every one of the 44 unit-image vectors and 17 residual vectors satisfies the graph-cycle parity equations.
+The new odd-primary certificate attempts to promote
 
-Thus the exact graph-level decomposition `61 = 44 + 17` is accepted.
+`all_primary_physical_open_unramified_kernel_complete_candidate=true`.
 
-### Seven-line / Kummer pullback
+That promotion is rejected.
 
-The six affine ratios against `Ls=x+y+z` pull back as
+The accepted geometric fixed module contains a full two-primary divisible part
 
-`x/Ls=(a1/c)^2`, `y/Ls=(a2/c)^2`, `z/Ls=(a3/c)^2`,
-`(x+y)/Ls=(b3/c)^2`, `(x+z)/Ls=(b2/c)^2`, `(y+z)/Ls=(b1/c)^2`.
+```text
+(Q_2/Z_2)^61.
+```
 
-Hence every ambient pair 2-symbol in the Ford source pulls back trivially. The recorded endpoint pullback rank `0` is accepted. This gives no endpoint theorem credit.
+But the only arithmetic descent certificate for the intrinsic two-primary residual is explicitly scoped
 
-All canonical SHA fields in the final artifact JSON certificates were independently recomputed and matched.
+```text
+scope = EXPONENT_TWO_RESIDUAL_ONLY
+actual_first_residue_function_descent_complete_mod2 = true
+constant_squareclass_descent_complete_mod2 = true.
+```
 
-## Closure rejection
+Likewise the unit-symbol calculation is only a mod-2 secondary-residue span (`rank_F2=44`). Therefore the evidence computes the exponent-two layer, not the full `2^n`-primary Gersten character module.
 
-The exact prefix above does **not** justify `UNIT_STATUS=CLOSED` or `BR0G=DISCHARGED` under the authoritative Stage33 contract.
+This distinction is material at the actual crossing fields:
 
-The final functional-head certificates themselves explicitly retain:
+- over `Q`, the two-primary Tate-twist invariant contains the order-2 roots of unity;
+- over `Q(i)`, it contains roots of unity through order `4`.
 
-- `arithmetic_odd_character_descent_complete=false`;
-- `all_primary_physical_open_unramified_kernel_complete=false`;
-- `br0g_discharged=false`;
-- `new_residual_kernel=R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT`.
+Thus the two-primary second-residue targets are not zero. In particular, order-4 compatibility at `Q(i)` crossings and the full continuous two-primary constant-character families are not determined by an `F2` graph computation. No certificate proves that all higher `2^n` classes reduce to, or lift uniquely from, the exponent-two 61=44+17 calculation.
 
-The exponent-two function/constant-squareclass certificate is explicitly scoped `EXPONENT_TWO_RESIDUAL_ONLY` and carries the firewall that odd-primary `H^1(-, Z/l)` character descent remains.
+Consequently the Stage29 requirement to compute the boundary Gersten kernel prime-by-prime and the Stage33-04 gate `UNRAMIFIED_PHYSICAL_OPEN_KERNEL_EXACT=true` remain unmet.
 
-This matters because the authoritative Stage33-04 closure gate requires both
-
-- `UNRAMIFIED_PHYSICAL_OPEN_KERNEL_EXACT=true`, and
-- `BR0G=DISCHARGED`,
-
-and the Stage29 BR0G receiver explicitly includes one-variable residue arithmetic/Galois descent in the boundary receiver. No previously audited contract/controller repair reassigns the named BR0G odd-primary residual to a sibling unit. Stage33-03 and Stage33-07 may eventually supply data useful for integration, but a sibling/downstream responsibility cannot be used retroactively to weaken the Stage33-04 closure gate.
-
-Therefore the pre-audit prose claims
-
-`UNRAMIFIED_PHYSICAL_OPEN_KERNEL_EXACT=true`,
-`UNRESOLVED_UNKNOWN_IN_SCOPE=0`, and
-`BR0G=CLAIMED_DISCHARGED_PENDING_HOSTILE_AUDIT`
-
-are rejected.
-
-## Accepted audited state
-
-`Stage33-04` is retained as an exact, valuable checkpoint but is **not CLOSED**:
+## Accepted re-audit state
 
 ```text
 UNIT_STATUS=BLOCKED_NEW_KERNEL
 UNIT_CLOSED=false
 DOWNSTREAM_RELEASED=false
 BR0G=OPEN
+ARITHMETIC_ODD_CHARACTER_DESCENT_COMPLETE=true
 UNRAMIFIED_PHYSICAL_OPEN_KERNEL_EXACT=false
 UNRESOLVED_UNKNOWN_IN_SCOPE=1
-NEW_KERNEL_ID=R33-BR0G-ODD-PRIMARY-ARITHMETIC-CHARACTER-DESCENT
+NEW_KERNEL_ID=R33-BR0G-TWO-PRIMARY-PRIME-POWER-GERSTEN-CHARACTER-DESCENT
 THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-The accepted closed-unit progress therefore remains `2/11` (`33-01`, `33-02`). Stage33-06 is not released by this audit. The exact next work is to discharge the named odd-primary arithmetic-character descent or to make an independently hostile-audited contract repair that proves the dependency belongs elsewhere without dropping any BR0G class.
+The exact next leaf is
+
+`L33-04-COMPUTE-FULL-Q2Z2-BOUNDARY-H1-AND-MU2-MU4-CROSSING-COMPATIBILITY`.
+
+It must compute the full two-primary first-residue character modules on all 60 arithmetic boundary prime divisors, the prime-power second-residue compatibility at the 96 `Q` crossings and 24 `Q(i)` crossing pairs, quotient by proper residues, and certify whether any order-4 or higher-power classes survive. The existing exponent-two result is a locked prefix and must not be recomputed as a substitute.
+
+Stage33 progress remains `2/11`; Stage33-06 is not released. Merge is permitted only as this audited blocked checkpoint, with no downstream or theorem credit.
