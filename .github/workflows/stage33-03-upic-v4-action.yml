@@ -14,7 +14,7 @@ permissions:
 jobs:
   upic-v4-action:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -33,6 +33,11 @@ jobs:
       - name: Certify the complete odd-primary UPic contribution
         working-directory: stages/stage33/33-03
         run: python derive_odd_primary.py
+      - name: Bridge Stage32 primitive Picard basis and materialize integral Pic(Ubar) action
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python extract_picu_quotient_action.py
       - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -43,3 +48,5 @@ jobs:
             stages/stage33/33-03/galois-magma-stdout.txt
             stages/stage33/33-03/upic-v4-action-certificate.json
             stages/stage33/33-03/odd-primary-closure.json
+            stages/stage33/33-03/picu-action-magma-stdout.txt
+            stages/stage33/33-03/picu-integral-action.json
