@@ -79,7 +79,7 @@ Hom_cont(G_Q(i),Q/Z)_odd^12.
 
 This is a parametric exact description, not a finite list of Q-defined Brauer generators. Stage29 already certifies that nonconstant proper-surface odd-primary Brauer classes are absent, while constant proper classes have zero boundary residues. Therefore no additional proper odd-primary quotient changes this boundary residue module.
 
-New production evidence:
+Production evidence establishing the new leaf:
 
 ```text
 workflow_run=32704767658
@@ -91,6 +91,8 @@ odd_primary_character_descent_sha256=c89e2c2d71a6b48685f4670481bd7b97245b7e772c4
 ```
 
 The first attempt of the same workflow failed before the new leaf because the external Magma calculator returned a transient 504 during the already-audited boundary-Galois reconstruction. Re-running only the failed job succeeded through every step, including the new odd-primary leaf.
+
+The assertion-only cleanup and audit-entry state are on the latest functional head; the final post-state CI may regenerate the same certificates but does not change the mathematical claim above.
 
 ## Closure claim returned to hostile audit
 
