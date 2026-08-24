@@ -92,7 +92,10 @@ jobs:
       - name: Compute exact absolute H1 Pic(Ubar) inventory
         working-directory: stages/stage33/33-03
         run: python derive_absolute_h1_picu_exact.py
-      - name: Assemble complete all-primary BR0B filtration
+      - name: Compute absolute H2 hidden extension class and primary lift orders
+        working-directory: stages/stage33/33-03
+        run: python compute_absolute_h2_extension_class.py
+      - name: Assemble complete all-primary BR0B inventory
         working-directory: stages/stage33/33-03
         run: python assemble_br0b_all_primary.py
       - name: Prepare hostile-audit handoff
@@ -123,5 +126,6 @@ jobs:
             stages/stage33/33-03/absolute-n-restriction-split.json
             stages/stage33/33-03/absolute-h3-tate-vanishing.json
             stages/stage33/33-03/absolute-h1-picu-exact.json
+            stages/stage33/33-03/absolute-h2-extension-class.json
             stages/stage33/33-03/br0b-all-primary-inventory.json
             stages/stage33/33-03/handoff-preaudit.json
