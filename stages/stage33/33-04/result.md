@@ -1,20 +1,17 @@
-# Stage33-04 — BR0G physical-boundary residue production state
+# Stage33-04 — BR0G physical-boundary residue audited state
 
-The second hostile audit accepted the odd-primary arithmetic branch and isolated exactly one remaining production residual:
+Final hostile-audit verdict:
 
-```text
-PREVIOUS_AUDIT_VERDICT=PASS_ODD_PRIMARY_RESIDUAL_REJECT_ALL_PRIMARY_CLOSURE_ON_HIGHER_TWO_POWER_GERSTEN_DESCENT
-PREVIOUS_NEW_KERNEL_ID=R33-BR0G-TWO-PRIMARY-PRIME-POWER-GERSTEN-CHARACTER-DESCENT
-```
+`PASS_AFTER_QI_FADDEEV_SIDE_CLARIFICATION`
 
-That residual has now been executed directly. No sibling unit is used to weaken the Stage33-04 closure contract. The unit returns to the hostile-audit boundary; it is not CLOSED and releases nothing before audit PASS.
+The previously isolated higher-two-power residual has been executed and independently re-audited. The numerical/module outputs are unchanged by the audit repair; the repair makes explicit the two distinct Faddeev relations at a `Q(i)` crossing: on a `P^1_{Q(i)}` component the two `Q(i)`-rational crossing residues satisfy the ordinary sum relation `a+b=0`, while on the adjacent `P^1_Q` component the degree-two closed point contributes through `Cor_{Q(i)/Q}=1+c`, which is zero on the order-four Tate-twist invariants because complex conjugation acts by `-1`.
 
 ```text
 STAGE33_UNIT=33-04
-UNIT_STATUS=AUDIT_REQUIRED
-UNIT_CLOSED=false
-DOWNSTREAM_RELEASED=false
-BR0G=CLAIMED_DISCHARGED_PENDING_HOSTILE_AUDIT
+UNIT_STATUS=CLOSED
+UNIT_CLOSED=true
+DOWNSTREAM_RELEASED=true
+BR0G=DISCHARGED
 PHYSICAL_BOUNDARY_72_INVENTORY_COMPLETE=true
 BOUNDARY_STABLE_IDS_COMPLETE=true
 RESIDUE_INCIDENCE_MATRIX_EXACT=true
@@ -31,7 +28,7 @@ ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## Locked exact prefix
+## Locked exact boundary prefix
 
 ```text
 boundary components = 72 = 24 side + 48 exceptional
@@ -48,49 +45,58 @@ unit-symbol secondary-residue span rank_F2 = 44
 explicit exponent-two graph residual dimension = 17
 ```
 
-The accepted exponent-two 17D residual retains exact mod-2 first-residue realizability, V4 divisor descent, and function/constant-squareclass descent.
+The exponent-two 17D residual has exact mod-2 first-residue realizability, V4 divisor descent, and function/constant-squareclass descent.
 
-## Odd-primary arithmetic descent — hostile-audited prefix
+## Odd-primary arithmetic descent
 
-The previous residual remains closed exactly as audited:
+The arithmetic boundary prime-divisor and crossing orbits are
 
 ```text
-boundary arithmetic prime-divisor orbits = 60
-  Q singletons      = 48
-  Q(i) pairs        = 12
-crossing orbits:
-  Q singletons      = 96
-  Q(i) pairs        = 24
+boundary prime-divisor orbits = 60
+  Q singletons = 48
+  Q(i) pairs   = 12
+crossing orbits = 120
+  Q singletons = 96
+  Q(i) pairs   = 24
+```
 
-odd-primary boundary character module =
+For odd-primary torsion the crossing Tate-twist invariants vanish over both `Q` and `Q(i)`, so the compatible first residues reduce to constant-field characters:
+
+```text
 Hom_cont(G_Q,Q/Z)_odd^48
   direct_sum
 Hom_cont(G_Q(i),Q/Z)_odd^12.
 ```
 
-No odd-primary reopening occurs in this leaf.
-
 ## Full two-primary prime-power Gersten descent
 
-The arithmetic boundary quotient has exactly 60 component orbits and 120 crossing orbits. At a Q crossing the two-primary Tate-twist target is `Z/2`; at a Q(i) crossing it is `Z/4`. The curve localization/Faddeev residue sequence reduces the ramified part to these crossing groups with the sum-of-corestrictions relation on each arithmetic boundary P1.
-
-For the Q crossing subgraph:
+For the 48 `Q` component orbits and 96 `Q` crossing orbits, the `F2` incidence matrix has rank `47`; the connected `Q` crossing subgraph therefore contributes
 
 ```text
-vertices = 48
-edges = 96
-connected components = 1
-incidence rank_F2 = 47
-kernel rank_F2 = 49.
+96 - 47 = 49
 ```
 
-For the twelve Q(i) component orbits, each has exactly two Q(i)-crossing incidences. Corestriction from Q(i) to Q on the two-primary Tate-twist target is zero (`1+cc`, with `cc=-1` on order four). Hence each such orbit contributes one independent order-four ramified direction. Therefore the complete finite ramified two-primary crossing module is
+independent order-two ramified directions.
+
+For each of the twelve `Q(i)` component orbits, the normalization is `P^1_{Q(i)}` and has exactly two `Q(i)`-rational marked crossing points. The Faddeev residue relation on that component is
+
+```text
+a + b = 0 in H^0(Q(i), Q_2/Z_2(-1)),
+```
+
+so the implementation uses coefficients `[1,3]` modulo four and obtains one independent `Z/4` direction per `Q(i)` component orbit. On the adjacent `P^1_Q` side, the same crossing is a degree-two closed point and its residue enters through
+
+```text
+Cor_{Q(i)/Q} = 1 + c.
+```
+
+Complex conjugation acts by `-1` on the order-four Tate-twist invariants, hence this transfer is zero and imposes no additional relation. Thus the complete finite ramified two-primary crossing module is
 
 ```text
 (Z/2)^49 direct_sum (Z/4)^12.
 ```
 
-In particular:
+Consequently
 
 ```text
 ramified exponent <= 4
@@ -98,9 +104,7 @@ order-8-or-higher ramified crossing classes = 0
 ramified 2-torsion dimension over F2 = 49 + 12 = 61.
 ```
 
-The last identity independently recovers the hostile-audited exponent-two dimension `61`; the new prime-power calculation is therefore a genuine lift of the accepted F2 prefix, not a replacement of it.
-
-Arbitrary higher 2-power order occurs only in the unramified constant-field character factors:
+This independently recovers the audited exponent-two dimension `61`. Arbitrary higher 2-power order occurs only in the unramified constant-field character factors:
 
 ```text
 Hom_cont(G_Q,Q_2/Z_2)^48
@@ -108,7 +112,7 @@ Hom_cont(G_Q,Q_2/Z_2)^48
 Hom_cont(G_Q(i),Q_2/Z_2)^12.
 ```
 
-Thus the exact two-primary boundary-character kernel is recorded by
+The exact two-primary boundary-character kernel is therefore recorded by
 
 ```text
 0 -> Hom_cont(G_Q,Q_2/Z_2)^48
@@ -118,13 +122,13 @@ Thus the exact two-primary boundary-character kernel is recorded by
   -> 0.
 ```
 
-Proper Brauer classes have zero boundary residue, so the proper-residue quotient does not alter this boundary kernel.
+Proper Brauer classes have zero boundary residue, so quotienting by proper residues does not alter this boundary kernel.
 
-Source locator for the curve residue law: Gille--Szamuely, *Central Simple Algebras and Galois Cohomology*, Theorem 6.9.1 and Remark 6.9.5 (Faddeev sequence and its finite-Galois-module form).
+Source adapter: Gille--Szamuely, *Central Simple Algebras and Galois Cohomology*, Theorem 6.9.1 and Remark 6.9.5 (Faddeev/localization sequence with residue corestrictions).
 
-## Order-four compatibility with the accepted F2 decomposition
+## Compatibility with the audited F2 decomposition
 
-The twelve order-four generators have twelve independent doubles inside the accepted 61D F2 cycle module. Against the known 44D unit-symbol secondary-residue image:
+The twelve order-four generators have independent doubles of rank `12` in the accepted 61D exponent-two cycle module. Against the known 44D unit-symbol secondary-residue image:
 
 ```text
 rank_F2(order4 doubles) = 12
@@ -132,17 +136,19 @@ rank_F2(order4 doubles intersect unit-symbol span) = 9
 rank_F2(order4 doubles mod unit-symbol span) = 3.
 ```
 
-The latter three directions land inside the old 17D F2 residual quotient. As a diagnostic only, quotienting the finite ramified module by the known exponent-two unit-symbol image has invariant-factor shape
+The three quotient directions lie in the previously materialized 17D residual. As a diagnostic only, quotienting the finite ramified module by the known exponent-two unit-symbol image has shape
 
 ```text
-(Z/2)^23 direct_sum (Z/4)^3.
+(Z/2)^23 direct sum (Z/4)^3.
 ```
 
-This is **not** promoted to the final Stage33 class list: duplicate/class integration is downstream Stage33-07 work.
+This diagnostic is not promoted to the final Stage33 Q-defined class list; duplicate/class integration remains Stage33-07 work.
 
-## Production evidence
+## Production and independent audit evidence
 
 ```text
+production_functional_head=a6c892bd0a9a865271070ac3c63fe2c55a4d178a
+preaudit_head=fb02a61b970368e394fd42c68686170a12cfccb1
 workflow_run=32709905847
 workflow_conclusion=success
 artifact_id=9513712470
@@ -150,21 +156,25 @@ artifact_zip_sha256=4ef12f7686e0b251bbfbcc3f0c3f0c44c61db0e0fca7dbb94afcdc5f0fbf
 two_primary_prime_power_certificate_sha256=f8c7af7e365bf579ce7e4288662130a90976cd8b22aa8f019eae266cd63714ea
 ```
 
-Every workflow step passed, including odd-primary prefix revalidation, the full prime-power two-primary calculation, and all inherited regressions.
+The hostile audit independently recomputed the artifact ZIP digest and canonical certificate digest; reconstructed the `60=48+12` arithmetic component orbits and `120=96+24` crossing orbits; recomputed the connected `Q`-subgraph rank `49`; verified every `Q(i)` component orbit has exactly two `Q(i)` crossing incidences; and independently reproduced the ranks `12`, `9`, and `3` for the order-four doubles and unit-symbol subspace.
 
-## Re-audit boundary
+The three commits after the successful production head modify only result/handoff/controller state and do not alter the mathematical scripts or certificates.
+
+## Closure and release firewall
 
 ```text
 CLOSURE_CRITERIA_TOTAL=10
 CLOSURE_CRITERIA_SATISFIED=10
 UNRESOLVED_UNKNOWN_IN_SCOPE=0
 NEW_KERNEL_ID=NONE
-UNIT_STATUS=AUDIT_REQUIRED
-UNIT_CLOSED=false
-DOWNSTREAM_RELEASED=false
-STAGE33_PROGRESS=2/11
-STAGE33_06_RELEASED=false
-NEXT_EXPECTED_COMMAND=Stage33-audit
+HOSTILE_AUDIT=PASS_AFTER_QI_FADDEEV_SIDE_CLARIFICATION
+UNIT_STATUS=CLOSED
+UNIT_CLOSED=true
+DOWNSTREAM_RELEASED=true
+BR0G=DISCHARGED
+STAGE33_PROGRESS=3/11
 ```
 
-Only hostile audit may promote Stage33-04 to CLOSED and release Stage33-06. No complete Q-defined Brauer-class list, Brauer--Manin obstruction, endpoint theorem, or perfect-cuboid conclusion follows from this production checkpoint.
+`DOWNSTREAM_RELEASED=true` means Stage33-04 is now a valid prerequisite. It does **not** release Stage33-06 by itself: Stage33-06 still requires Stage33-03 to be `CLOSED` as well.
+
+No complete Q-defined Brauer-class list, Brauer--Manin obstruction, endpoint theorem, or Perfect Cuboid existence/nonexistence conclusion is claimed by Stage33-04 closure alone.
