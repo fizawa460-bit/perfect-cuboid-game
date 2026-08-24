@@ -54,6 +54,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python compute_finite_transgression_ranks.py
+      - name: Materialize the exact finite d2_01 image in the unit-character basis
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python materialize_d2_01_image.py
       - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -71,4 +76,8 @@ jobs:
             stages/stage33/33-03/finite-v4-hypercohomology.json
             stages/stage33/33-03/absolute-two-primary-shape.json
             stages/stage33/33-03/finite-transgression-envelope.json
+            stages/stage33/33-03/finite-transgression-ranks-request-summary.json
+            stages/stage33/33-03/v4-h1-magma-stdout.txt
             stages/stage33/33-03/finite-transgression-ranks.json
+            stages/stage33/33-03/d2-01-image-magma-stdout.txt
+            stages/stage33/33-03/d2-01-image.json
