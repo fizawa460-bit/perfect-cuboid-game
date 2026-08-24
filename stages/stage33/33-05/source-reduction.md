@@ -2,10 +2,14 @@
 
 ```text
 STAGE33_UNIT=33-05
-UNIT_STATUS=RUNNING
+UNIT_STATUS=READY_FOR_AUDIT
+MAIN_PRODUCTION_COMPLETE=true
 UNIT_CLOSED=false
 DOWNSTREAM_RELEASED=false
 K3_GEOMETRIC_BR2_DIM=2
+Q_RELEVANT_SURVIVING_DIM=1
+Q_RELEVANT_SURVIVING_DIM_EXACT=true
+HOSTILE_AUDIT=PENDING
 THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
@@ -23,7 +27,7 @@ Y=u2*v2*A1,
 w^2=X^2+Y^2.
 ```
 
-Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`. Both are smooth `(2,2)` genus-one components meeting transversely in eight nodes. The certified K3 Picard rank is 20, so `dim_F2 Br(K_cbar)[2]=2`.
+Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`. Both are smooth `(2,2)` genus-one components meeting transversely in eight nodes. The certified K3 Picard rank is 20, hence `dim_F2 Br(K_cbar)[2]=2`.
 
 ## Exact finite execution sub-DAG
 
@@ -33,14 +37,12 @@ Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`. Both are smooth `(2,2)` genu
  v
 05B corrected L_{c,E} dimension + actual five-function basis                DONE
      Creutz--Viray divisor checks                                            DONE
-     single-component graph-lift corrections                                 DONE
+     exact graph lifts                                                       DONE
  |
  v
 05C true x-alpha pair audit
-     old norm-level pure-Jac row interpretation                              SUPERSEDED
-     J1 in im(x-alpha) by explicit square witness                            DONE
-     graph projection s=1 = q1+q2                                            DONE
-     graph projection s=t = q1+q2+q3                                         DONE
+     old norm-level pure-Jac interpretation                                  SUPERSEDED
+     J1 in im(x-alpha)                                                       DONE
      graph projection rank                                                    2 DONE
      total x-alpha rank                                                       3 LOCKED
      seven-graph-line selection                                               RETIRED
@@ -62,29 +64,36 @@ Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`. Both are smooth `(2,2)` genu
  |
  v
 05G CV-presentation connecting filter
-     R=im(x-alpha) action                                                     TRIVIAL EXACT
      delta(J2)                                                                0
-     delta(q1)                                                                ct -> J1 NONZERO
-     J2 fixed LcE lift                                                        YES
-     q1 fixed LcE lift                                                        NO
+     delta(q1)                                                                ct -> J1
      |
-     +--> 05G-J2 sqrt(2) elimination / Q(i)-generic function                 DONE
-     |          arithmetic residues over Q(i)                                OPEN
-     |          Q(i)/Q CSA descent                                            OPEN
+     +--> 05G-J2 Hilbert-90 sqrt(2) elimination                              DONE
+     |          Q-defined branch-algebra function                             DONE
+     |          exact norm square                                             DONE
+     |          vertical/horizontal residues                                  DONE
+     |          simple-node exceptional residues                              DONE
+     |          Q-defined unramified CSA                                      DONE
+     |          J2 Q-descent                                                   DONE
      |
-     +--> 05G-q1 lift ct->J1 through NS/divisor relation                     OPEN
-                identify resulting Hochschild--Serre d2                       OPEN
+     +--> 05G-q1 integral NS lift D                                           DONE
+                invariant odd-pairing non-norm certificate                    DONE
+                Kummer/Leray Bockstein = HS d2 bridge                         DONE
+                d2(q1)|_<ct>=[D] != 0                                         DONE
+                q1 Q-descent                                                   REJECTED
+ |
+ v
+05H exact arithmetic survival
+     geometric invariant dimension                                            2
+     surviving basis                                                          J2
+     Q-relevant surviving dimension                                           1 EXACT
+ |
+ v
+05I main-production disposition                                               READY_FOR_AUDIT
 ```
 
 ## Corrected finite presentation
 
-On
-
-```text
-z^2=q(t)=t^4-6t^2+1
-```
-
-we have
+On `z^2=t^4-6t^2+1`,
 
 ```text
 L_E=L_{c,E} dimension = 5,
@@ -92,15 +101,15 @@ im(x-alpha) dimension = 3,
 Br quotient dimension = 2.
 ```
 
-In basis `[J1,J2,q1,q2,q3]`, true horizontal-section graph projections are
+In basis `[J1,J2,q1,q2,q3]`, true section graph projections are
 
 ```text
 s=1                  -> q1+q2,
 s=t                  -> q1+q2+q3,
-s=-i*(t-i)/(t+i)     -> q1+q2.
+s=-i*(t-i)/(t+i)     -> q1+q2,
 ```
 
-An explicit square witness proves
+with explicit square witness
 
 ```text
 xalpha(-i*(t-i)/(t+i)) + xalpha(1) = J1.
@@ -130,103 +139,156 @@ ct(J1)=J1,
 ct(J2)=J2.
 ```
 
-Thus the geometric quotient action is identity and the geometric invariant dimension is two.
+Thus `Br(K_cbar)[2]^G_Q` has dimension two and basis `[J2,q1]`.
 
-## New finite descent filter
+## J2 arithmetic branch
 
-Take
-
-```text
-0 -> R=im(x-alpha) -> L_{c,E} -> Br(K_cbar)[2] -> 0.
-```
-
-For all four possible `b,d`, `ct` fixes every generator of `R`; `tau` and `cc` already act trivially. Hence the effective action on `R` is trivial. For the effective `C2` generated by `ct`,
+Hilbert--90 gives the normalization representative
 
 ```text
-H^1(C2,R)=Hom(C2,R)=R
+ell_z=2*(t^2+z-3)/(t^2-2*t-1).
 ```
 
-and coboundaries are zero. Direct calculation gives
+In
 
 ```text
-delta(J2)(ct)=0,
-delta(q1)(ct)=J1.
+L=Q(t)[alpha]/(t^2*(1-alpha^2)^2+alpha^2*(1-t^2)^2)
 ```
 
-So `J2` has a fixed presentation lift while `q1` does not. The `q1` class cannot be repaired by adding any element of `R`.
-
-This is a connecting class for the Creutz--Viray presentation, **not yet the Hochschild--Serre d2**. The remaining `q1` task is to choose an integral Neron--Severi/divisor lift of the `J1` relation and compute the next obstruction. No arithmetic survival/non-survival credit is granted yet.
-
-## J2 sqrt(2)-elimination
-
-For
+this becomes
 
 ```text
-f2=(t+1+sqrt(2))/(t-1+sqrt(2)),
-h=((t-(sqrt(2)-1))*(t-(1-sqrt(2))))/z,
+ell_J2=
+4*(alpha^2*t^2+t^4-4*t^2+2)
+ / ((t^2-1)*(t^2-2*t-1)).
 ```
 
-we have `h*ct(h)=1`. Taking `g=1+h` gives `ct(g)/g=1/h`, and exact reduction modulo `z^2=q` yields
+The exact resultant is
 
 ```text
-f2*g^2 = 2*(t^2+z-3)/(t^2-2*t-1).
+Norm_{L/Q(t)}(ell_J2)
+ = 1024/(t^2-2*t-1)^4
+ = (32/(t^2-2*t-1)^2)^2.
 ```
 
-The right side contains no `sqrt(2)`. It is therefore an explicit `Q(i)`-defined branch-normalization function in the geometric `J2` squareclass.
-
-Firewall: this materializes a generic function only. Ground-field nonsquare residues may remain on arithmetic exceptional divisors, so an unramified `Br(K_c,Q(i))` class is not yet certified.
-
-## Upstream Picard source lock
-
-The immutable Testa--Stoll verification source remains load-bearing for rank 20 and 2-saturation, with primitive generating indices
+The geometric divisor is `4*infinity_minus-2*P1-2*P2`, hence all vertical branch valuations are even. Combined with the square norm and the Creutz--Viray simple-node exceptional-divisor criterion, this gives a Q-defined unramified corestriction class whose geometric image is `J2`.
 
 ```text
-[2,4,5,7,9,10,20,21,26,35,39,42,44,47,49,52,54,64,67,72].
+J2_Q_DESCENT_CERTIFIED=true
+J2_GEOMETRIC_NONTRIVIAL=true
 ```
 
-It is now needed specifically for the `q1` Neron--Severi lift and possible norm/cohomology calculation, not for the retired seven-graph-line search.
+## q1 arithmetic branch
+
+The presentation defect is
+
+```text
+ct(q1)-q1=J1.
+```
+
+The Stage29 ruled map closes the two sections producing `J1` to
+
+```text
+Cb : i*A1+B1=i*A2+B2=i*A3+B3=0,
+E_P0, P0=[0:1:0:-1:0:1],
+```
+
+so an integral NS lift is
+
+```text
+D=Cb+E_P0.
+```
+
+Both are `ct`-invariant.  The invariant test conic
+
+```text
+T : A1=0, A2+B3=0, A3-B2=0
+```
+
+satisfies, by exact tangent-space calculation,
+
+```text
+Cb.T=1,
+E_P0.T=0,
+D.T=1.
+```
+
+Hence `D` cannot be `(1+ct)E`, since any norm has even pairing against an invariant test class. Therefore
+
+```text
+[D] != 0 in H^2(<ct>,Pic(K_cbar)).
+```
+
+For a K3, `Pic(K_cbar)` is torsion-free. Kummer supplies
+
+```text
+0 -> Pic/2 -> H^2_et(K_cbar,mu_2) -> Br(K_cbar)[2] -> 0.
+```
+
+Creutz--Viray's Galois-equivariant finite presentation is compatible with this Kummer lift: their `gamma` is the corestriction/cup-product construction, and their explicit Picard/divisor/Brauer cocycle calculation identifies the same defect.  Thus the `J1=D mod 2` presentation cocycle is the Kummer defect of `q1`.
+
+For `C2=<ct>`, lifting the nontrivial 1-cocycle value by `D` gives
+
+```text
+(dJ)(ct,ct)=2D,
+Bockstein(J1)(ct,ct)=D.
+```
+
+The Kummer/Leray naturality chase identifies this Bockstein with the restricted Hochschild--Serre differential. Therefore
+
+```text
+d2(q1)|_<ct>=[D] != 0,
+d2(q1) != 0,
+Q1_Q_DESCENT=false.
+```
+
+## Exact survival
+
+Since `J2` descends and `q1` does not,
+
+```text
+ker(d2 | Br(K_cbar)[2]^G_Q)=span_F2{J2},
+Q_RELEVANT_SURVIVING_DIM=1.
+```
+
+No unresolved arithmetic-descent unknown remains inside Stage33-05 main production.
+
+## Source locks for the final bridge
+
+- Stacks Project, tag `03PK`, Kummer theory, Lemma 59.28.1 and its long exact sequence.
+- Stacks Project, tag `03QA` / Proposition 59.54.2, Leray spectral sequence.
+- Brendan Creutz, Bianca Viray, *Two torsion in the Brauer group of a hyperelliptic curve*, Manuscripta Math. 147 (2015), Remark 3.1, Proposition 3.2, Lemmas 3.4--3.5.
+- Brendan Creutz, Bianca Viray, *On Brauer groups of double covers of ruled surfaces*, Math. Ann. 362 (2015), Theorem 2.5 and Theorem I.
+- Testa--Stoll verification source `MichaelStollBayreuth/Verification@51233ed5ef2bf228fac9416c66db9adc0ebcaadd`, `Cuboids/cuboids.magma`, for the rank-20 torsion-free Picard lattice and known-curve geometry.
 
 ## Authoritative execution
 
 ```text
 PAIR_REPAIR_CHECKER=xalpha_pair_galois_repair.py
 DESCENT_FRONTEND_CHECKER=descent_presentation_cocycle.py
-LATEST_WORKFLOW_RUN=32710954883
-LATEST_WORKFLOW_NUMBER=43
+J2_ARITHMETIC_CHECKER=j2_arithmetic_descent.py
+Q1_NS_CHECKER=q1_ns_lift_parity.py
+Q1_HS_D2_CHECKER=q1_hs_d2_bockstein.py
+LATEST_MATHEMATICAL_WORKFLOW_RUN=32712441163
+LATEST_MATHEMATICAL_WORKFLOW_NUMBER=55
 CONCLUSION=success
-ARTIFACT_ID=9514049977
-ARTIFACT_SHA256=a249ff59ed92bec4e75acea7b8f0c6050b4787e7b0184f2587be8684cafb48b2
+ARTIFACT_ID=9514610852
+ARTIFACT_SHA256=075f4ec28170e62f86a895f9c65028a8daaa1516c5b2a2dba8298d710ebb5d3e
 ```
 
-## Current exact leaves
-
-```text
-LEAF_ID=L33-05-J2-QI-ARITHMETIC-RESIDUES-AND-QI-OVER-Q-DESCENT
-CLASS=2
-NEW_THEOREM_REQUIRED=false
-INPUT=2*(t^2+z-3)/(t^2-2*t-1)
-OUTPUT=ARITHMETIC_RESIDUES_PLUS_QI_OVER_Q_DESCENT
-```
-
-```text
-LEAF_ID=L33-05-Q1-LIFT-CONNECTING-J1-THROUGH-NS-THEN-HS-D2
-CLASS=2
-NEW_THEOREM_REQUIRED=false
-INPUT_CONNECTING_COCYCLE=ct->J1
-OUTPUT=NS_LIFT_PLUS_HOCHSCHILD_SERRE_D2
-```
-
-## Firewalls
+## Firewalls / disposition
 
 ```text
 FULL_PAIR_GALOIS_ACTION_EXACT=true
 GEOMETRIC_BR2_GQ_INVARIANT_DIMENSION=2
-EXPLICIT_GEOMETRIC_BRAUER_QUOTIENT_BASIS=true
-CV_PRESENTATION_CONNECTING_COCYCLE_EXACT=true
-GEOMETRIC_INVARIANT_IMPLIES_ARITHMETIC_DESCENT=false
-DESCENT_OBSTRUCTION_ACCOUNTED=false
-Q_RELEVANT_SURVIVING_DIM_EXACT=false
-ALL_SURVIVING_K3_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=false
-UNRESOLVED_UNKNOWN_IN_SCOPE>0
+DESCENT_OBSTRUCTION_ACCOUNTED=true
+Q_RELEVANT_SURVIVING_DIM_EXACT=true
+Q_RELEVANT_SURVIVING_DIM=1
+ALL_Q_SURVIVING_K3_BR2_CLASSES_HAVE_EXPLICIT_ARITHMETIC_REPRESENTATIVES=true
+UNRESOLVED_UNKNOWN_IN_SCOPE=0
+MAIN_PRODUCTION_COMPLETE=true
 HOSTILE_AUDIT=PENDING
+UNIT_STATUS=READY_FOR_AUDIT
+UNIT_CLOSED=false
+DOWNSTREAM_RELEASED=false
 ```
