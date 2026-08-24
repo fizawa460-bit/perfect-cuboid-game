@@ -30,6 +30,9 @@ jobs:
       - name: Materialize common normalization and associated-graded conjugation action
         working-directory: stages/stage33/33-05
         run: python normalization_galois_skeleton.py
+      - name: Materialize filtered 5D LcE quotient and two Jac functions
+        working-directory: stages/stage33/33-05
+        run: python lce_filtered_quotient_skeleton.py
       - name: Upload exact preflight certificates
         uses: actions/upload-artifact@v4
         with:
@@ -38,3 +41,4 @@ jobs:
             stages/stage33/33-05/branch-galois-certificate.json
             stages/stage33/33-05/cv-dimension-certificate.json
             stages/stage33/33-05/normalization-galois-graded.json
+            stages/stage33/33-05/lce-filtered-quotient-skeleton.json
