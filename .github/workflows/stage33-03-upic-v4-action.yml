@@ -14,7 +14,7 @@ permissions:
 jobs:
   upic-v4-action:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -38,6 +38,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python extract_picu_quotient_action.py
+      - name: Compute finite V4 hypercohomology with extension data
+        working-directory: stages/stage33/33-03
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python compute_v4_hypercohomology.py
       - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -50,3 +55,6 @@ jobs:
             stages/stage33/33-03/odd-primary-closure.json
             stages/stage33/33-03/picu-action-magma-stdout.txt
             stages/stage33/33-03/picu-integral-action.json
+            stages/stage33/33-03/v4-hyper-request-summary.json
+            stages/stage33/33-03/v4-hyper-magma-stdout.txt
+            stages/stage33/33-03/finite-v4-hypercohomology.json
