@@ -1,11 +1,23 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V6_POLYTAIL_AUDITED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V7_D8_HIGHMASS_TIER_AUDITED",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "children": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
   "parent_route": "G10-LOWGENUS-PICARD",
   "execution_class": 2,
-  "status": "32_01_GRADED_SLICE_ENUMERATOR_ACTIVE_AFTER_POLYTAIL_AUDIT_PASS",
+  "status": "32_01_D8_HIGHMASS_MATERIALIZED_TIER_AUDITED_CONTINUATION_ACTIVE",
+  "source_lock": {
+    "upstream_repository": "MichaelStollBayreuth/Verification",
+    "upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
+    "upstream_file": "Cuboids/cuboids.magma",
+    "upstream_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
+  },
+  "roadmap_audit": {
+    "pr": 1339,
+    "audit_record": "stages/stage32/32-00/audit.md",
+    "audit_state": "stages/stage32/32-00/audit-state.json",
+    "audit_verdict": "PASS_AFTER_BOUNDED_RECEIVER_SEMANTICS_REPAIR"
+  },
   "preflight_audit": {
     "audit_record": "stages/stage32/32-01/audit.md",
     "audit_verdict": "PASS_PREFLIGHT_ONLY_EXACT_CLASS2_POLYHEDRAL_WALL_EXPOSED",
@@ -19,7 +31,6 @@
   "polytail_audit": {
     "pr": 1341,
     "merged": true,
-    "review_comment_id": 5001772059,
     "audit_verdict": "PASS_POLYTAIL_EXACT_POSITIVE_DUAL_CERTIFICATE",
     "identity": "19*(H.x)=sum_92_curve(D.x)+5*sum_48_exceptional(E.x)",
     "basis_gram_determinant": -268435456,
@@ -27,19 +38,7 @@
     "fixed_positive_degree_slices_bounded": true,
     "ci_workflow_run": 32614857845,
     "ci_success": true,
-    "L32_01_POLYTAIL": "CLOSED_AUDITED",
-    "merge_allowed": true,
-    "advance_allowed_after_merge": true
-  },
-  "current_item": "32-01-GRADED-SLICE-INTEGER-ORBIT-ENUMERATOR",
-  "current_smaller_class2_leaf": {
-    "id": "L32-01-GRADED-SLICE-ENUMERATOR",
-    "classification": 2,
-    "statement": "construct the exact resumable graded integer/orbit enumerator in the certified bounded fixed-degree slices, applying Picard congruence, adjunction/norm, incidence, known-class subtraction and automorphism deduplication before expensive enumeration",
-    "intersection_bounds": {
-      "known_nonexceptional": "0<=D.x<=19*d",
-      "exceptional": "0<=E.x<=floor(19*d/5)"
-    }
+    "L32_01_POLYTAIL": "CLOSED_AUDITED"
   },
   "graded_slice_checkpoint": {
     "pr": 1342,
@@ -51,27 +50,116 @@
     "artifact_id": 9488622008,
     "status": "CHECKPOINT_LAYER_IMPLEMENTED_NOT_FULL_CLASS_ENUMERATION"
   },
+  "stage32_07_audit": {
+    "pr": 1352,
+    "merged": true,
+    "merged_commit": "13eb3af4246993af765c49bd02fa2899bb37173d",
+    "audit_verdict": "PASS_D8_G0_E2_COMPLETE_NUMERICAL_AUT_ORBIT_SLICE",
+    "accepted_scope": "D8_G0_E2_NUMERICAL_ORBIT_SLICE_ONLY",
+    "aggregate_feasible_a_values": [53, 54],
+    "a53_numerical_classes": 32,
+    "a54_numerical_classes": 160,
+    "total_numerical_classes": 192,
+    "aut_group_order": 1536,
+    "aut_orbit_count": 1,
+    "full_orbit_size": 192,
+    "canonical_sha256": "694fc24a13b51464c510b5812a60e9ea7a6746113db91a6d85c55f9234b4250f",
+    "effectivity_credit": false,
+    "full_d8_credit": false
+  },
+  "stage32_08_audit": {
+    "pr": 1354,
+    "audit_record": "stages/stage32/32-08/audit.md",
+    "audit_state": "stages/stage32/32-08/audit-state.json",
+    "audited_functional_head": "aa10009fa43aeaeaf6f89e234831f89e74db5e9a",
+    "audit_verdict": "PASS_AFTER_CONTROLLER_AND_REPO_LOCAL_EVIDENCE_REPAIR",
+    "computational_scripts_changed_by_audit": false,
+    "repo_local_evidence_repaired": true,
+    "controller_state_repaired": true,
+    "accepted_checkpoint": "D8_HIGHMASS_MATERIALIZED_EXACT_TIERS_LE64",
+    "profile_hashes": {
+      "e8_a36": "97608b176d7a91677f63cd293502f7042a9a9f6ad30904631260c9d560b7be17",
+      "e10_a30": "993d0005f60499b50b03b899153b60f93de757a74f53d942e5a2168830cc5123"
+    },
+    "tier_hashes": {
+      "e8_a36_le4": "b14f7e70ea962fe00bb8bbe6e459090a1c166414070fa5a875673dc31e22268d",
+      "e8_a36_le64": "a58a6589633ef76a08bba420efabbd52d1b56c28eaaaa131c4ebb336666f13b0",
+      "e10_a30_le64": "383f2a2aa202aad1384ada1ef41041d0c731445e1ea7baff0ea895e91117a0e9"
+    },
+    "aut_partition_hash": "eedee71a6becd97d3dced086379ac57d98dabcbb8e669f01deebb0688836c7af",
+    "e8_a36_le64": {
+      "selected_cells": 21,
+      "parent_cells": 53,
+      "executed_branches": 701,
+      "unknown_cells": 0,
+      "unsat_cells": 16,
+      "sat_cells": 5,
+      "numerical_survivors": 33
+    },
+    "e10_a30_le64": {
+      "selected_cells": 58,
+      "parent_cells": 134,
+      "executed_branches": 2140,
+      "unknown_cells": 0,
+      "unsat_cells": 58,
+      "sat_cells": 0,
+      "numerical_survivors": 0
+    },
+    "locked_e8_le4_aut_partition": {
+      "input_survivors": 17,
+      "full_aut_orbit_count": 2,
+      "full_aut_orbit_sizes": [6, 192],
+      "stabilizer_orders": [256, 8],
+      "self_intersections": [0, -4]
+    },
+    "full_parent_complete": false,
+    "effectivity_classification_complete": false,
+    "theorem_credit": false,
+    "receiver_credit": false
+  },
+  "current_item": "32-01-D8-HIGHMASS-MATERIALIZED-TIER-EXPANSION",
+  "current_smaller_class2_leaf": {
+    "id": "L32-01-D8-HIGHMASS-MATERIALIZED-TIER-EXPANSION",
+    "classification": 2,
+    "statement": "continue the exact immutable-signature-cell materialized qtail12 enumeration in cost order, preserving complete branch accounting and UNKNOWN firewalls; <=256 is the next natural bounded tier but receives no credit until fully executed and audited",
+    "accepted_predecessor": "D8_HIGHMASS_MATERIALIZED_EXACT_TIERS_LE64",
+    "full_parent_closure_required_before_parent_credit": true,
+    "effectivity_separate": true
+  },
   "units": [
     {
       "id": "32-01",
       "name": "PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
-      "status": "IN_PROGRESS_GRADED_SLICE_ENUMERATOR_ACTIVE",
+      "status": "IN_PROGRESS_D8_HIGHMASS_TIER_AUDITED",
       "preflight_complete": true,
       "polytail_reduction_audited_complete": true,
       "graded_slice_checkpoint_layer_complete": true,
+      "d8_g0_e2_numerical_orbit_slice_complete": true,
+      "d8_highmass_materialized_le64_checkpoint_audited": true,
       "numerical_census_complete": false
     },
-    {"id": "32-02", "name": "RIGOROUS_EFFECTIVITY_CERTIFICATION", "status": "BLOCKED_BY_32_01"},
-    {"id": "32-03", "name": "MULTIBRANCH_AT_NODE_LOWGENUS_LEDGER", "status": "READY_AFTER_OR_IN_PARALLEL_WITH_32_01_WHEN_SAFE"},
-    {"id": "32-04", "name": "LOWGENUS_CARRIER_SYNTHESIS_AND_FINAL_CERTIFICATE", "status": "BLOCKED_BY_32_01_32_02_32_03"},
-    {"id": "32-05", "name": "FINAL_HOSTILE_AUDIT_AND_CLOSE", "status": "BLOCKED_BY_32_04"}
+    {
+      "id": "32-02",
+      "name": "RIGOROUS_EFFECTIVITY_CERTIFICATION",
+      "status": "BLOCKED_BY_32_01"
+    },
+    {
+      "id": "32-03",
+      "name": "MULTIBRANCH_AT_NODE_LOWGENUS_LEDGER",
+      "status": "READY_AFTER_OR_IN_PARALLEL_WITH_32_01_WHEN_SAFE"
+    },
+    {
+      "id": "32-04",
+      "name": "LOWGENUS_CARRIER_SYNTHESIS_AND_FINAL_CERTIFICATE",
+      "status": "BLOCKED_BY_32_01_32_02_32_03"
+    },
+    {
+      "id": "32-05",
+      "name": "FINAL_HOSTILE_AUDIT_AND_CLOSE",
+      "status": "BLOCKED_BY_32_04"
+    }
   ],
-  "source_lock": {
-    "upstream_repository": "MichaelStollBayreuth/Verification",
-    "upstream_commit": "51233ed5ef2bf228fac9416c66db9adc0ebcaadd",
-    "upstream_file": "Cuboids/cuboids.magma",
-    "upstream_blob": "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
-  },
+  "FULL_D8_G0_ROW_COMPLETE": false,
   "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
   "R29_LG2_NUMERICAL_COMPONENT_COMPLETE": false,
   "R29_LG2": "NOT_DISCHARGED",
@@ -79,14 +167,16 @@
   "R29_LG2_MB": "NOT_DISCHARGED",
   "G10_LOWGENUS_PICARD": "AMBER",
   "route_color_change_authorized": false,
+  "theorem_credit": false,
+  "receiver_credit": false,
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
   "audit_required": false,
-  "audit_verdict": "PASS_POLYTAIL_EXACT_POSITIVE_DUAL_CERTIFICATE",
+  "audit_verdict": "PASS_AFTER_CONTROLLER_AND_REPO_LOCAL_EVIDENCE_REPAIR",
   "repair_required": false,
   "merge_allowed": true,
   "advance_allowed": true,
-  "next_item": "32-01-GRADED-SLICE-INTEGER-ORBIT-ENUMERATOR",
+  "next_item": "32-01-D8-HIGHMASS-MATERIALIZED-TIER-EXPANSION",
   "next_expected_command": "Stage32-main-batch"
 }
