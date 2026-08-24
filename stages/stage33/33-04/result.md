@@ -12,120 +12,130 @@ GEOMETRIC_BOUNDARY_RESIDUE_CYCLE_MODULE_EXACT=true
 GALOIS_ACTION_ON_RESIDUE_CYCLE_MODULE_EXACT=true
 Q_GALOIS_INVARIANT_CYCLE_MODULE_EXACT=true
 SIGN_COVER_BOUNDARY_BASEMAP_EXACT=true
-COMBINATORIAL_FORD_PULLBACK_H1_RANK=1
-RAMIFIED_SYMBOL_RESIDUE_PULLBACK_COMPLETE=false
-MULTIQUADRATIC_PULLBACK_ACCOUNTED=false
+FORD_KUMMER_PULLBACK_EXACT=true
+FORD_KUMMER_PULLBACK_RANK=0
+UNIT_SYMBOL_SECONDARY_RESIDUE_SPAN_EXACT=true
+UNIT_SYMBOL_SECONDARY_RESIDUE_SPAN_RANK_F2=44
+QFIXED_RESIDUE_COMPLEMENT_DIM_F2=17
 PHYSICAL_OPEN_UNRAMIFIED_KERNEL_COMPLETE=false
 THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## 1. Exact 72-component physical-boundary skeleton
+## Boundary and Galois skeleton
 
 The resolved physical boundary has
 
 ```text
-vertices / components = 72
-codim-2 crossings      = 144
-connected components   = 1
-integral cycle rank    = 73
+components = 72
+crossings  = 144
+components of dual graph = 1
+cycle rank = 73.
 ```
 
-and is bipartite between 24 side conics and 48 exceptional curves.  The exact V4 action on the saturated rank-73 cycle lattice has character multiplicities
+The exact V4 action on the rank-73 cycle lattice has character multiplicities
 
 ```text
 (cc=+1, ct=+1): 61
 (cc=-1, ct=+1): 12
 (cc=+1, ct=-1):  0
-(cc=-1, ct=-1):  0.
+(cc=-1, ct=-1):  0,
 ```
 
-Thus the odd-primary Q-invariant residue-cycle rank and the mod-2 joint fixed dimension are both `61`.  These are residue-cycle candidates, not 61 Q-defined Brauer classes.
+so the mod-2 joint fixed residue-cycle candidate dimension is `61`.  This is not itself a Q-defined Brauer-class count.
 
-## 2. Exact map from the physical boundary to the seven-line arrangement
+## Seven-line/Ford source branch is killed by the endpoint Kummer cover
 
-Run `32688897415` classifies every exceptional component under the endpoint sign/Kummer map
+The endpoint map is
 
 ```text
 [a1:a2:a3:b1:b2:b3:c] -> [a1^2:a2^2:a3^2].
 ```
 
-All 48 exceptional curves lie over the six triple points of the seven-line arrangement, exactly eight over each triple point.  None lies over the three ordinary double points:
+On its function field all seven line forms have explicit square roots:
 
 ```text
-six triple points:          8 exceptional curves each
-three ordinary double pts:  0 exceptional curves each.
+x         = a1^2
+ y        = a2^2
+ z        = a3^2
+ x+y      = b3^2
+ x+z      = b2^2
+ y+z      = b1^2
+ x+y+z    = c^2.
 ```
 
-The 24 physical side conics map only to the three coordinate branch lines
+Therefore the source-certified Ford group
 
 ```text
-x=0, y=0, z=0.
+Br(P2bar-D)[2] ~= (Z/2)^9
 ```
 
-Consequently the portion of the base incidence graph actually touched by the physical 72-boundary has
+has exact pullback rank
 
 ```text
-vertices   = 9
-edges      = 9
-components = 1
-cycle rank = 1.
+FORD_KUMMER_PULLBACK_RANK = 0.
 ```
 
-The exact F2 cochain pullback from this touched base graph into the endpoint 72-boundary graph has
-
-```text
-COMBINATORIAL_INCIDENCE_PULLBACK_H1_F2_RANK = 1.
-```
-
-So although the endpoint residue-cycle room contains 61 Galois-fixed directions, the presently materialized Ford/seven-line incidence channel into the **physical boundary** is only rank one at the pure graph-combinatorial level.
+Thus the earlier graph-combinatorial rank-one channel dies after the actual Kummer symbol pullback is imposed.  This closes the Ford/seven-line source branch inside 33-04, but not the endpoint-intrinsic residue branch.
 
 Evidence:
 
 ```text
-workflow_run = 32688897415
+workflow_run = 32691135447
+ford_kummer_pullback_zero_sha256 = 0fd1746fcea0e30257b84460bb025d561738fbbdc1e604700a15f4b9807d7f61
+```
+
+## Endpoint-intrinsic unit-symbol residue span
+
+The audited Stage33-02 unit divisor lattice has rank `14`.  For every pair of basis units, the divisor-level secondary tame residue at a transverse crossing `D_a cap D_b` is computed mod 2 as
+
+```text
+v_a*w_b - w_a*v_b.
+```
+
+All `C(14,2)=91` resulting edge patterns are exact graph cycles and are fixed by both V4 generators.  Their span has
+
+```text
+UNIT_SYMBOL_SECONDARY_RESIDUE_SPAN_RANK_F2 = 44.
+```
+
+Since the total Q-fixed boundary cycle dimension is `61`, the current unexplained Q-fixed complement has dimension
+
+```text
+61 - 44 = 17.
+```
+
+Evidence:
+
+```text
+workflow_run = 32691135447
 workflow_conclusion = success
-sign_cover_boundary_map_sha256 = e98c4ba65b9320ddd5c71c7e2a03bb224ed9ef6603dcbbbb0940c2f6c06f04fb
-artifact_id = 9506598888
-artifact_zip_sha256 = 11fa91d005685b30a52e291f680bf05f6b34fc6427d38830db8f24924ed0d156
-boundary_skeleton_sha256 = f63b65bebcbd5880e64647034fb174ebe610f90ee4d7d3cf5ac40154bfe10c26
-cycle_galois_sha256 = 1104078a4c2f88a0f286a8233e80ff936c564e7f3aa7046c51629056d08d2be5
+unit_symbol_residue_span_sha256 = 53abf58c647a6cf504839b74b19113c5fb2929010c335f86e1c57c537169b8e8
+artifact_id = 9507293510
+artifact_zip_sha256 = b8df5948de1ba3f7074dbc6b8c1e64f3b80fcd46e29e21e7afd02d8d39d41aed
 ```
 
-## 3. Firewall: rank one is not yet a Brauer class
+## Firewall and next leaf
 
-The graph pullback rank
-
-```text
-1
-```
-
-is only the combinatorial incidence adapter.  It does not yet impose the actual Ford symbol relations after the ramified 64-fold multiquadratic pullback, nor does it certify that this one direction is unramified on the endpoint physical open.
-
-In particular:
+The value `44` is a divisor-level secondary-residue span, not 44 certified Q-defined Brauer classes.  Actual Q-rational unit functions, symbol representatives, first residues, duplicate/trivial relations, and the final physical-open unramified kernel remain to be materialized.
 
 ```text
-FORD_FULL_PULLBACK_COMPLETE=false
-RAMIFICATION_SYMBOL_RESIDUE_CONDITIONS_APPLIED=false
-MULTIQUADRATIC_PULLBACK_ACCOUNTED=false
-PHYSICAL_OPEN_UNRAMIFIED_KERNEL_COMPLETE=false
 Q_DEFINED_BRAUER_CLASS_COUNT_FROM_33_04=NOT_YET_CERTIFIED
+PHYSICAL_OPEN_UNRAMIFIED_KERNEL_COMPLETE=false
 ```
 
-## 4. Next exact leaf
+Next exact leaf:
 
 ```text
-LEAF_ID=L33-04-FORD9-TO-ENDPOINT72-RAMIFIED-RESIDUE-PULLBACK
+LEAF_ID=L33-04-MATERIALIZE-14-Q-UNITS-AND-LIFT-44-SYMBOL-RESIDUES
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-INPUT_BASE_FORD_H1_DIM=9
-INPUT_PHYSICAL_TOUCHED_BASE_H1_DIM=1
-INPUT_COMBINATORIAL_PULLBACK_RANK=1
-INPUT_ENDPOINT_Q_FIXED_RESIDUE_CYCLE_DIM=61
+INPUT_UNIT_RANK=14
+INPUT_SYMBOL_PAIR_COUNT=91
+INPUT_SECONDARY_RESIDUE_SPAN_RANK_F2=44
+INPUT_QFIXED_COMPLEMENT_DIM_F2=17
 ```
-
-The next step is to attach actual Ford symbol residues to this rank-one combinatorial channel, include all ramification multiplicities and exceptional-divisor residues under the `(Z/2)^6` sign cover, and compute whether the direction survives in the physical-open unramified kernel.
 
 ```text
 UNRESOLVED_UNKNOWN_IN_SCOPE>0
