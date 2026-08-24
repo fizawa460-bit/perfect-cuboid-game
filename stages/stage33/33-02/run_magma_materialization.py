@@ -16,9 +16,7 @@ UPSTREAM_URL = (
 UPSTREAM_BLOB = "0422b69847f2afb97cb7b3ed02ebef91279f61b1"
 SKIP_START = "// Genus 3 hyperelliptic curves of degree 8"
 SKIP_END = "// Set up the intersection pairing"
-AUT_GROUP_START = "// Set up the automorphism group in its representation on the Picard group."
-CC_START = "// Set up complex conjugation."
-STOP_MARKER = "// Automorphisms + Galois on Pic/2*Pic"
+STOP_MARKER = "// The automorphism group (see Proposition 4)"
 MAGMA_URL = "https://magma.maths.usyd.edu.au/xml/calculator.xml"
 MAGMA_REFERER = "https://magma.maths.usyd.edu.au/calc/"
 RETRY_DELAYS = (0, 5, 15, 30)
@@ -42,7 +40,7 @@ def urlopen_retry(req, timeout, label):
 
 
 def fetch_bytes(url: str, timeout: int = 60) -> tuple[bytes, int]:
-    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage33/1.1"})
+    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage33/1.2"})
     resp, attempt = urlopen_retry(req, timeout, "upstream fetch")
     with resp:
         if resp.status != 200:
@@ -58,21 +56,17 @@ text = upstream.decode("utf-8")
 try:
     i_skip_start = text.index(SKIP_START)
     i_skip_end = text.index(SKIP_END, i_skip_start)
-    i_aut = text.index(AUT_GROUP_START, i_skip_end)
-    i_cc = text.index(CC_START, i_aut)
-    i_stop = text.index(STOP_MARKER, i_cc)
+    i_stop = text.index(STOP_MARKER, i_skip_end)
 except ValueError as exc:
     raise SystemExit(f"pinned upstream marker missing or out of order: {exc}")
 
-# Retain all exact curve/intersection/Picard construction, skip the unused degree-8
-# curve construction, skip the expensive Aut(S) group-order block, but retain the
-# explicit curve permutations and both Q(i,sqrt2)/Q Galois matrices.
+# BR0A needs the exact intersection/Picard lattice but not the later Aut/Galois
+# layer. Keep the Stage33-02 request below the online calculator's bounded wall;
+# Galois matrices are a Stage33-03 responsibility.
 core = (
     text[:i_skip_start]
     + "\n// Stage33 skips unused degree-8 curve construction.\n"
-    + text[i_skip_end:i_aut]
-    + "\n// Stage33 skips unused Aut(S) group construction.\n"
-    + text[i_cc:i_stop]
+    + text[i_skip_end:i_stop]
 )
 extra = (ROOT / "materialize_after_upstream.m").read_text(encoding="utf-8")
 code = "SetColumns(0);\nquick := true;\n" + core + "\n" + extra
@@ -83,8 +77,8 @@ payload_path.write_text(json.dumps({
     "upstream_git_blob_sha1": actual_blob,
     "upstream_fetch_attempt": upstream_attempt,
     "skip_unused_degree8": [i_skip_start, i_skip_end],
-    "skip_unused_aut_group": [i_aut, i_cc],
     "stop_before": STOP_MARKER,
+    "stage33_03_galois_layer_intentionally_excluded": True,
     "submitted_code_sha256": hashlib.sha256(code.encode()).hexdigest(),
     "network_retry_delays_seconds": RETRY_DELAYS,
 }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -97,7 +91,7 @@ req = urllib.request.Request(
         "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "text/html, application/xml, application/xhtml+xml",
         "Referer": MAGMA_REFERER,
-        "User-Agent": "perfect-cuboid-stage33/1.1",
+        "User-Agent": "perfect-cuboid-stage33/1.2",
     },
     method="POST",
 )
