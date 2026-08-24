@@ -145,8 +145,8 @@ if len(edges) != 144:
     raise SystemExit("unexpected boundary edge count")
 
 # For unit divisor vectors v,w, the parity of the secondary tame residue at a
-# transverse crossing D_a cap D_b is det[[v_a,v_b],[w_a,w_b]] mod 2.  This is
-# the graph-level Gersten footprint of the 2-symbol {u_v,u_w}.  We use only the
+# transverse crossing D_a cap D_b is det[[v_a,v_b],[w_a,w_b]] mod 2. This is
+# the graph-level Gersten footprint of the 2-symbol {u_v,u_w}. We use only the
 # divisor-level footprint here: no explicit rational-function representative or
 # Brauer-class independence credit is inferred from this certificate alone.
 pairs = []
@@ -156,7 +156,6 @@ for i in range(14):
     for j in range(i + 1, 14):
         vj = [int(K[j, k]) for k in range(72)]
         p = [(vi[a] * vj[b] - vj[a] * vi[b]) & 1 for a, b in edges]
-        # Exact graph-cycle compatibility at every boundary component.
         vertex_boundary = [0] * 72
         for bit, (a, b) in zip(p, edges):
             if bit:
@@ -181,7 +180,7 @@ if any(act_edge_vector(p, cc_perm) != p for p in patterns):
 if any(act_edge_vector(p, ct_perm) != p for p in patterns):
     raise SystemExit("unit-symbol residue span not fixed by sqrt(2) conjugation")
 
-qfixed = int(cg["f2_joint_fixed_dimension"])
+qfixed = int(cg["cycle_lattice"]["f2_joint_fixed_dimension"])
 if qfixed != 61 or span_rank > qfixed:
     raise SystemExit("Q-fixed residue dimension regression")
 
