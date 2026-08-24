@@ -2,6 +2,7 @@ name: Stage32-13 e10 giant-tail exact closure
 
 on:
   pull_request:
+    types: [reopened]
     paths:
       - ".github/workflows/stage32-13-e10-giant-tail.yml"
       - "stages/stage32/32-13/**"
@@ -51,12 +52,13 @@ jobs:
           assert len(include)==48
           with open(os.environ["GITHUB_OUTPUT"],"a") as f:
               f.write("matrix="+json.dumps({"include":include},separators=(",",":"))+"\n")
-          print(json.dumps({"jobs":len(include),"max_parallel":12},sort_keys=True))
+          print(json.dumps({"jobs":len(include),"max_parallel":12,"artifact_mode":"COMPACT_CERTIFICATE_ONLY"},sort_keys=True))
           PY
       - name: Compile Stage32-13 scripts
         run: |
           python -m py_compile \
-            stages/stage32/32-13/aggregate_giant_e10_shards.py \
+            stages/stage32/32-13/compact_shard_certificate.py \
+            stages/stage32/32-13/aggregate_giant_e10_compact.py \
             stages/stage32/32-13/assemble_e10_parent.py \
             stages/stage32/32-13/verify_e10_parent_aut_orbits.py
 
@@ -106,7 +108,7 @@ jobs:
           python stages/stage32/32-11r/run_materialized_cell_shard.py \
             --core "$RUNNER_TEMP/core/picard-core.json" \
             --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
-            --output "$RUNNER_TEMP/out/cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}.json" \
+            --output "$RUNNER_TEMP/out/raw.json" \
             --exceptional-mass 10 --curve-group-mass 30 \
             --cell-index ${{ matrix.cell_index }} \
             --expected-cell-id ${{ matrix.cell_id }} \
@@ -114,24 +116,18 @@ jobs:
             --shard-index ${{ matrix.shard_index }} \
             --shard-count ${{ matrix.shard_count }} \
             --node-limit-per-branch 1000000
-      - name: Enforce shard completion and firewalls
+      - name: Verify and compact exact evidence
         run: |
-          python - <<'PY'
-          import json, os, pathlib
-          p=pathlib.Path(os.environ["RUNNER_TEMP"])/"out/cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}.json"
-          d=json.loads(p.read_text())
-          assert d["complete_shard_numerical_enumeration"] is True
-          assert all(b["search"]["complete_numerical_enumeration"] and not b["search"]["node_budget_exhausted"] for b in d["branches"])
-          assert d["theorem_credit"] is False and d["receiver_credit"] is False
-          assert d["FULL_D8_G0_ROW_COMPLETE"] is False
-          assert d["R29_LG2"]=="NOT_DISCHARGED"
-          assert d["G10_LOWGENUS_PICARD"]=="AMBER"
-          PY
+          python stages/stage32/32-13/compact_shard_certificate.py \
+            --input "$RUNNER_TEMP/out/raw.json" \
+            --output "$RUNNER_TEMP/out/compact.json"
+          rm -f "$RUNNER_TEMP/out/raw.json"
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-13-e10-cell${{ matrix.cell_index }}-s${{ matrix.shard_index }}of${{ matrix.shard_count }}
-          path: ${{ runner.temp }}/out/cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}.json
+          name: stage32-13c-e10-cell${{ matrix.cell_index }}-s${{ matrix.shard_index }}of${{ matrix.shard_count }}
+          path: ${{ runner.temp }}/out/compact.json
           if-no-files-found: error
+          retention-days: 1
 
   aggregate:
     needs: shard
@@ -143,18 +139,18 @@ jobs:
         with:
           python-version: "3.10.6"
       - run: pip install sympy==1.14.0
-      - name: Download all 48 current-run shard artifacts
+      - name: Download all 48 compact certificates
         uses: actions/download-artifact@v4
         with:
-          pattern: stage32-13-e10-*
-          path: ${{ runner.temp }}/shards
-          merge-multiple: true
-      - name: Aggregate four giant cells
+          pattern: stage32-13c-e10-*
+          path: ${{ runner.temp }}/compact
+          merge-multiple: false
+      - name: Aggregate four giant cells from compact certificates
         run: |
           mkdir -p "$RUNNER_TEMP/out"
-          python stages/stage32/32-13/aggregate_giant_e10_shards.py \
+          python stages/stage32/32-13/aggregate_giant_e10_compact.py \
             --plan stages/stage32/32-13/giant-e10-cells.json \
-            --input-dir "$RUNNER_TEMP/shards" \
+            --input-dir "$RUNNER_TEMP/compact" \
             --output "$RUNNER_TEMP/out/e10-a30-giant-tail.json"
       - name: Download historical exact evidence and Aut action
         env:
@@ -213,3 +209,4 @@ jobs:
           name: stage32-13-e10-a30-full-parent-aut-orbit-census
           path: ${{ runner.temp }}/out/*.json
           if-no-files-found: error
+          retention-days: 30
