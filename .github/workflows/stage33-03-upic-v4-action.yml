@@ -80,6 +80,12 @@ jobs:
       - name: Reduce absolute d2_11 to the N-restriction kernel
         working-directory: stages/stage33/33-03
         run: python derive_n_restriction_split.py
+      - name: Kill absolute d2_11 target by Tate-Milne vanishing
+        working-directory: stages/stage33/33-03
+        run: python derive_absolute_h3_tate.py
+      - name: Reduce absolute H1 Pic(Ubar) to one inflation bit
+        working-directory: stages/stage33/33-03
+        run: python derive_absolute_h1_picu_envelope.py
       - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -103,3 +109,5 @@ jobs:
             stages/stage33/33-03/d2-01-image-magma-stdout.txt
             stages/stage33/33-03/d2-01-image.json
             stages/stage33/33-03/absolute-n-restriction-split.json
+            stages/stage33/33-03/absolute-h3-tate-vanishing.json
+            stages/stage33/33-03/absolute-h1-picu-envelope.json
