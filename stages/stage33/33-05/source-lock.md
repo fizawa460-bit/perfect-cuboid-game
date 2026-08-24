@@ -25,25 +25,31 @@ ell_C for cycles C in the dual graph Gamma,
 ell_D for [D] in Jac(B)[2].
 ```
 
-The dimension proof further records the quotient by `K*L*2`, including the correction from fibers where all branch ramification indices are even and from the kernel of `K*/K*2 -> L*/L*2`.
+The dimension proof quotients by `K*L*2`.  Crucially, at a singular branch point the source defines `e(b/w)` as the **sum** of the ramification indices over the normalization points above `b`; this is load-bearing for the Stage33 correction below.
 
-Applied to the frozen K_c branch configuration, the exact Stage33 checker certifies:
+Applied to the frozen `K_c` branch configuration, the corrected exact Stage33 checker certifies:
 
 ```text
 B=B+ disjoint_union B-, with genera 1 and 1
 h0(B)=2
 b1(Gamma)=7
 Jac(B)[2] dimension=4
-q(t)=t^4-6t^2+1 gives four common even-ramification fibers
+q(t)=t^4-6t^2+1 gives four smooth common ramification fibers
+nodal ruling fibers t=0,1,-1,infinity also have even e(b/w)=1+1
+special even-e fiber count=8
 K*/K*2 -> L*/L*2 kernel dimension=1
 c square on the generic fiber
-L_E dimension=9
+raw generator subspace mod L*2 dimension=12
+kernel to K*L*2 dimension=7
+L_E dimension=5
 L_{c,E}=L_E
-x-alpha image dimension=7
+x-alpha image dimension=3
 Br(K_c_Qbar)[2] dimension=2
 ```
 
-The source itself emphasizes that group structure alone does not suffice for Brauer--Manin arithmetic; explicit representatives are needed. Accordingly Stage33-05 grants no Q-defined-class credit until the 9-dimensional `L_{c,E}` basis, exact rank-7 `x-alpha` relation matrix, quotient symbols and Galois action are actually materialized.
+The earlier Stage33 pilot value `L_{c,E}=9` omitted the four nodal fibers and is superseded.
+
+The source itself emphasizes that group structure alone does not suffice for Brauer--Manin arithmetic; explicit representatives are needed. Accordingly Stage33-05 grants no Q-defined-class credit until the five-dimensional `L_{c,E}` basis, exact rank-3 `x-alpha` relation matrix, quotient symbols and Galois action are actually materialized.
 
 Internal source locks:
 
@@ -54,8 +60,8 @@ Internal source locks:
 ```text
 SOURCE_THEOREM_APPLICABILITY=FROZEN_AUDITED
 LCE_DIMENSION_SKELETON_MATERIALIZED=true
-LCE_DIMENSION=9
-XALPHA_IMAGE_DIMENSION=7
+LCE_DIMENSION=5
+XALPHA_IMAGE_DIMENSION=3
 FINITE_EXPLICIT_PRESENTATION_MATERIALIZED=false
 QI_OVER_Q_BRAUER_ACTION_MATERIALIZED=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
