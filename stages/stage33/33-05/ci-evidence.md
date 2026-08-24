@@ -1,8 +1,8 @@
 # Stage33-05 CI evidence
 
-The old `L_{c,E}=9` pilot and the old norm-level pure-Jac `x-alpha` row interpretation are superseded.  The authoritative chain now includes the exact five-function lift, the true section-pair `x-alpha` repair, the corrected full-pair Galois action, an explicit geometric quotient basis, and the first finite-presentation descent connecting computation.
+The old `L_{c,E}=9` pilot and the old norm-level pure-Jac `x-alpha` row interpretation are superseded. The authoritative chain now includes the exact five-function lift, the true section-pair `x-alpha` repair, the corrected full-pair Galois action, an explicit geometric quotient basis, and the first finite-presentation descent connecting computation.
 
-Latest authoritative CI before this evidence-only commit:
+Latest authoritative mathematical CI before the evidence-only ledger commits:
 
 ```text
 HEAD_SHA=43f4f7907830f63045839d1c2d15ba12cad3e96e
@@ -57,7 +57,7 @@ im(x-alpha)
    }, b,d in F2.
 ```
 
-For every `b,d`, `[J2,q1]` is a basis of the two-dimensional quotient.  The old seven-line residual search and the old pure-Jac section rows are not load-bearing.
+For every `b,d`, `[J2,q1]` is a basis of the two-dimensional quotient. The old seven-line residual search and old pure-Jac section rows are not load-bearing.
 
 The corrected full-pair action is
 
@@ -75,25 +75,25 @@ and therefore induces identity on the geometric quotient because `J1` is a relat
 The first descent front-end is the connecting map of
 
 ```text
-0 -> R=im(x-alpha) -> L_{c,E} -> Br(K_cbar)[2] -> 0.
+0 -> R=im(x-alpha) -> L_{c,E} -> Br(K_cbar)[2] -> 0,
 ```
 
-It gives
+with
 
 ```text
 delta(J2)=0
 delta(q1)=ct -> J1 != 0.
 ```
 
-This connecting class is **not** promoted to the Hochschild--Serre `d2`.  In particular the repository does not yet claim that `q1` fails arithmetic descent.
+This connecting class is **not** promoted to the Hochschild--Serre `d2`; in particular `q1` is not yet declared non-descending.
 
-For `J2`, the checker also certifies the squareclass identity
+For `J2`, the checker also certifies
 
 ```text
 2*(t^2+z-3)/(t^2-2*t-1)
 ```
 
-as a `sqrt(2)`-free `Q(i)`-defined generic normalization function representing the geometric `J2` class.  Arithmetic unramifiedness over `Q(i)` and `Q(i)/Q` descent are still open.
+as a `sqrt(2)`-free `Q(i)`-defined generic normalization function in the geometric `J2` squareclass. Arithmetic unramifiedness over `Q(i)` and `Q(i)/Q` descent remain open.
 
 Still open:
 
@@ -108,4 +108,4 @@ Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
 UNIT_STATUS=RUNNING
 ```
 
-This file update is evidence-only.  Its own follow-up workflow run should be checked separately; the mathematical certificate content above is tied to successful run `32711169972` on `43f4f7907830f63045839d1c2d15ba12cad3e96e`.
+The later `ci-evidence.md` commits are ledger-only and trigger their own regression runs; they do not supersede the mathematical certificate identity above.
