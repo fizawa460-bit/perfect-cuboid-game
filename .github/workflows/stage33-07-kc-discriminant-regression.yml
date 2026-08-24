@@ -3,7 +3,8 @@ name: Stage33-07 Kc discriminant HS regression
 on:
   pull_request:
     paths:
-      - 'stages/stage33/33-07/extract_kc_discriminant_compact.py'
+      - 'stages/stage33/33-07/extract_kc_picard_maps.py'
+      - 'stages/stage33/33-07/derive_kc_discriminant_from_split.py'
       - '.github/workflows/stage33-07-kc-discriminant-regression.yml'
   workflow_dispatch:
 
@@ -19,9 +20,18 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Extract source-locked Kc discriminant V4 action
+      - name: Extract endpoint cc action in bounded request
         working-directory: stages/stage33/33-07
-        run: python extract_kc_discriminant_compact.py
+        run: python extract_picard_action_rows.py cc
+      - name: Extract endpoint ct action in bounded request
+        working-directory: stages/stage33/33-07
+        run: python extract_picard_action_rows.py ct
+      - name: Extract Kc Picard maps in bounded request
+        working-directory: stages/stage33/33-07
+        run: python extract_kc_picard_maps.py
+      - name: Derive exact Kc discriminant V4 action
+        working-directory: stages/stage33/33-07
+        run: python derive_kc_discriminant_from_split.py
       - name: Validate Kc hostile-audit regression input
         working-directory: stages/stage33/33-07
         run: |
@@ -42,5 +52,7 @@ jobs:
           name: stage33-07-kc-discriminant-hs-regression
           retention-days: 7
           path: |
+            stages/stage33/33-07/kc-picard-maps.json
+            stages/stage33/33-07/picard-action-cc.json
+            stages/stage33/33-07/picard-action-ct.json
             stages/stage33/33-07/kc-discriminant-compact.json
-            stages/stage33/33-07/kc-discriminant-compact-magma-stdout.txt
