@@ -1,14 +1,17 @@
 # Stage33-00 — unit closure and downstream-release contract
 
 ```text
-CONTRACT_SCHEMA=STAGE33_UNIT_CLOSURE_V1
+CONTRACT_SCHEMA=STAGE33_UNIT_CLOSURE_V2
 APPLIES_TO=Stage33-01..Stage33-11
+BRAUER_SCOPE=STAGE33_RELEVANT_TWO_PRIMARY_SUBGROUP
 BIG_TASK_COUNT=11
 PROGRESS_DENOMINATOR=11
 PARTIAL_COUNTS_AS_COMPLETE=false
 BLOCKED_COUNTS_AS_COMPLETE=false
 AUDIT_REQUIRED_COUNTS_AS_COMPLETE=false
 DOWNSTREAM_MAY_CONSUME_PARTIAL=false
+COMPUTED_SUBGROUP_NONEMPTY_IMPLIES_FULL_BM_NONEMPTY=false
+COMPUTED_SUBGROUP_EMPTY_IMPLIES_NO_RATIONAL_ENDPOINT=true
 ```
 
 ## Purpose
@@ -266,18 +269,20 @@ HOSTILE_AUDIT=PASS
 `CLOSED` requires all prerequisite units CLOSED and all of:
 
 ```text
-RELEVANT_Q_DEFINED_CLASS_LIST_COMPLETE=true
+RELEVANT_Q_DEFINED_CLASS_LIST_COMPLETE_FOR_STAGE33_SCOPE=true
 RELEVANT_PLACE_SET_COMPLETE=true
 PHYSICAL_LOCAL_LOCUS_COVERAGE_COMPLETE=true
 LOCAL_EVALUATION_IMAGES_EXACT=true
 RECIPROCITY_ASSEMBLY_EXACT=true
 FINAL_BRAUER_DISPOSITION_EXACTLY_ONE_OF=
-  PHYSICAL_BM_SET_EMPTY_CERTIFIED |
-  PHYSICAL_BM_SET_NONEMPTY_CERTIFIED |
-  RELEVANT_BRAUER_GROUP_TRIVIAL_OR_EVALUATIONS_VACUOUS_CERTIFIED
+  PHYSICAL_COMPUTED_BRAUER_SUBGROUP_SET_EMPTY_CERTIFIED |
+  PHYSICAL_COMPUTED_BRAUER_SUBGROUP_SET_NONEMPTY_CERTIFIED |
+  RELEVANT_STAGE33_BRAUER_SUBGROUP_TRIVIAL_OR_EVALUATIONS_VACUOUS_CERTIFIED
 UNRESOLVED_UNKNOWN_IN_SCOPE=0
 FINAL_HOSTILE_AUDIT=PASS
 ```
+
+The scope asymmetry is mandatory: emptiness of the adelic set orthogonal to the complete Stage33-computed subgroup is enough to exclude rational endpoint points, but nonemptiness for that subgroup does **not** certify nonemptiness of the full Brauer--Manin set for all Brauer classes. A negative Stage33 closure therefore closes only this computed mechanism unless a separate audited completeness theorem identifies it with the full relevant Brauer group.
 
 `NEW_KERNEL_EXPOSED` is not a CLOSED final disposition; it leaves Stage33 progress below 11/11 and freezes the exact residual instead.
 
