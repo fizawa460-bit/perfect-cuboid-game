@@ -1,0 +1,273 @@
+name: Stage32-14 e20/a0 storage-safe exact tier
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-14/**'
+      - '.github/workflows/stage32-14-e20-safe-tier.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  profile:
+    name: profile e20/a0 and build bounded fanout
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      safe_to_fanout: ${{ steps.plan.outputs.safe_to_fanout }}
+      chosen_threshold: ${{ steps.plan.outputs.chosen_threshold }}
+      selected_cell_count: ${{ steps.plan.outputs.selected_cell_count }}
+      selected_total_branches: ${{ steps.plan.outputs.selected_total_branches }}
+      bulk_matrix: ${{ steps.plan.outputs.bulk_matrix }}
+      pilot_cell_index: ${{ steps.plan.outputs.pilot_cell_index }}
+      pilot_cell_id: ${{ steps.plan.outputs.pilot_cell_id }}
+      pilot_total_branches: ${{ steps.plan.outputs.pilot_total_branches }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Compile Stage32-14 planning scripts
+        run: |
+          python -m py_compile stages/stage32/32-08/profile_materialization_schedule.py
+          python -m py_compile stages/stage32/32-14/build_e20_safe_matrix.py
+          python -m py_compile stages/stage32/32-14/compact_e20_shard_certificate.py
+          python -m py_compile stages/stage32/32-14/aggregate_e20_safe_tier.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+      - name: Profile compressed e20/a0 materialization schedule
+        run: |
+          python stages/stage32/32-08/profile_materialization_schedule.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/e20-profile.json" \
+            --exceptional-mass 20 \
+            --curve-group-mass 0
+      - name: Build hard-bounded cumulative exact tier
+        id: plan
+        run: |
+          python stages/stage32/32-14/build_e20_safe_matrix.py \
+            --profile "$RUNNER_TEMP/out/e20-profile.json" \
+            --output "$RUNNER_TEMP/out/e20-safe-plan.json" \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Verify pre-fanout storage envelope
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          profile=json.loads((root/'e20-profile.json').read_text())
+          plan=json.loads((root/'e20-safe-plan.json').read_text())
+          assert profile['signature_cell_count']==1182
+          assert profile['exceptional_assignment_count_after_qtail_quotient']==1032477716
+          env=plan['safety_envelope']
+          assert env['max_compact_artifact_count']==48
+          assert env['max_compact_bytes_per_shard_artifact']==100000
+          assert env['shard_artifact_storage_upper_bound_bytes']==4800000
+          assert plan['shard_artifact_storage_upper_bound_bytes']<=4800000
+          assert plan['selected_cell_count']<=24
+          assert plan['selected_total_materialized_branches']<=1000000
+          print(json.dumps({
+              'safe_to_fanout':plan['safe_to_fanout'],
+              'threshold':plan['chosen_cumulative_branch_threshold'],
+              'cells':plan['selected_cell_count'],
+              'branches':plan['selected_total_materialized_branches'],
+              'compact_artifacts':plan['compact_artifact_count'],
+              'shard_storage_upper_bound_bytes':plan['shard_artifact_storage_upper_bound_bytes'],
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-14-e20-profile-plan
+          path: |
+            ${{ runner.temp }}/out/e20-profile.json
+            ${{ runner.temp }}/out/e20-safe-plan.json
+          retention-days: 7
+          if-no-files-found: error
+
+  pilot:
+    name: representative compact shard gate
+    needs: profile
+    if: needs.profile.outputs.safe_to_fanout == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      storage_safe: ${{ steps.gate.outputs.storage_safe }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/caps.json"
+      - name: Exhaust representative exact shard
+        run: |
+          python stages/stage32/32-11r/run_materialized_cell_shard.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/caps.json" \
+            --output "$RUNNER_TEMP/out/raw.json" \
+            --exceptional-mass 20 \
+            --curve-group-mass 0 \
+            --cell-index ${{ needs.profile.outputs.pilot_cell_index }} \
+            --expected-cell-id ${{ needs.profile.outputs.pilot_cell_id }} \
+            --expected-total-branches ${{ needs.profile.outputs.pilot_total_branches }} \
+            --shard-index 0 \
+            --shard-count 2 \
+            --node-limit-per-branch 1000000
+      - name: Verify, compact, and remove raw evidence
+        run: |
+          python stages/stage32/32-14/compact_e20_shard_certificate.py \
+            --input "$RUNNER_TEMP/out/raw.json" \
+            --output "$RUNNER_TEMP/out/compact.json"
+          rm -f "$RUNNER_TEMP/out/raw.json"
+          test ! -e "$RUNNER_TEMP/out/raw.json"
+      - name: Enforce compact artifact gate before upload
+        id: gate
+        run: |
+          bytes=$(stat -c%s "$RUNNER_TEMP/out/compact.json")
+          echo "compact_bytes=$bytes"
+          test "$bytes" -le 100000
+          echo "storage_safe=true" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-14c-e20-cell${{ needs.profile.outputs.pilot_cell_index }}-s0of2
+          path: ${{ runner.temp }}/out/compact.json
+          retention-days: 1
+          if-no-files-found: error
+
+  bulk:
+    name: e20-cell-${{ matrix.cell_index }}-s${{ matrix.shard_index }}of2
+    needs: [profile, pilot]
+    if: needs.profile.outputs.safe_to_fanout == 'true' && needs.pilot.outputs.storage_safe == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include: ${{ fromJSON(needs.profile.outputs.bulk_matrix) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/caps.json"
+      - name: Exhaust exact branch shard
+        run: |
+          python stages/stage32/32-11r/run_materialized_cell_shard.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/caps.json" \
+            --output "$RUNNER_TEMP/out/raw.json" \
+            --exceptional-mass 20 \
+            --curve-group-mass 0 \
+            --cell-index ${{ matrix.cell_index }} \
+            --expected-cell-id ${{ matrix.cell_id }} \
+            --expected-total-branches ${{ matrix.total_branches }} \
+            --shard-index ${{ matrix.shard_index }} \
+            --shard-count 2 \
+            --node-limit-per-branch 1000000
+      - name: Verify, compact, delete raw, and enforce size bound
+        run: |
+          python stages/stage32/32-14/compact_e20_shard_certificate.py \
+            --input "$RUNNER_TEMP/out/raw.json" \
+            --output "$RUNNER_TEMP/out/compact.json"
+          rm -f "$RUNNER_TEMP/out/raw.json"
+          test ! -e "$RUNNER_TEMP/out/raw.json"
+          bytes=$(stat -c%s "$RUNNER_TEMP/out/compact.json")
+          echo "compact_bytes=$bytes"
+          test "$bytes" -le 100000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-14c-e20-cell${{ matrix.cell_index }}-s${{ matrix.shard_index }}of2
+          path: ${{ runner.temp }}/out/compact.json
+          retention-days: 1
+          if-no-files-found: error
+
+  aggregate:
+    name: exact cumulative e20/a0 tier aggregate
+    needs: [profile, pilot, bulk]
+    if: needs.profile.outputs.safe_to_fanout == 'true' && needs.pilot.result == 'success' && needs.bulk.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-14-e20-profile-plan
+          path: ${{ runner.temp }}/profile
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-14c-e20-*
+          path: ${{ runner.temp }}/certs
+          merge-multiple: false
+      - name: Aggregate exact tier and verify all planned shards
+        run: |
+          mkdir -p "$RUNNER_TEMP/final"
+          python stages/stage32/32-14/aggregate_e20_safe_tier.py \
+            --profile "$RUNNER_TEMP/profile/e20-profile.json" \
+            --plan "$RUNNER_TEMP/profile/e20-safe-plan.json" \
+            --input-dir "$RUNNER_TEMP/certs" \
+            --output "$RUNNER_TEMP/final/e20-safe-tier.json"
+      - name: Enforce final artifact size before upload
+        run: |
+          bytes=$(stat -c%s "$RUNNER_TEMP/final/e20-safe-tier.json")
+          echo "final_bytes=$bytes"
+          test "$bytes" -le 5000000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-14-e20-a0-storage-safe-exact-tier
+          path: ${{ runner.temp }}/final/e20-safe-tier.json
+          retention-days: 30
+          if-no-files-found: error
