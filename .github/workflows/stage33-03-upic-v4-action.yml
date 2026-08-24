@@ -83,12 +83,12 @@ jobs:
       - name: Kill absolute d2_11 target by Tate-Milne vanishing
         working-directory: stages/stage33/33-03
         run: python derive_absolute_h3_tate.py
-      - name: Reduce absolute H1 Pic(Ubar) to one inflation bit
+      - name: Compute exact absolute H1 Pic(Ubar) inventory
         working-directory: stages/stage33/33-03
-        run: python derive_absolute_h1_picu_envelope.py
-      - name: Materialize and inflate the unique Pic(Ubar) extension obstruction
+        run: python derive_absolute_h1_picu_exact.py
+      - name: Assemble complete all-primary BR0B filtration
         working-directory: stages/stage33/33-03
-        run: python materialize_picu_extension_obstruction.py
+        run: python assemble_br0b_all_primary.py
       - name: Upload exact Stage33-03 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -113,5 +113,5 @@ jobs:
             stages/stage33/33-03/d2-01-image.json
             stages/stage33/33-03/absolute-n-restriction-split.json
             stages/stage33/33-03/absolute-h3-tate-vanishing.json
-            stages/stage33/33-03/absolute-h1-picu-envelope.json
-            stages/stage33/33-03/picu-extension-obstruction-inflation.json
+            stages/stage33/33-03/absolute-h1-picu-exact.json
+            stages/stage33/33-03/br0b-all-primary-inventory.json
