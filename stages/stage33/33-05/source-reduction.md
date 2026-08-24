@@ -25,34 +25,43 @@ w^2=X^2+Y^2.
 
 Over `Q(i)` the branch is `B+:X+iY=0`, `B-:X-iY=0`.  Both components are smooth `(2,2)` genus-one curves meeting transversely in eight nodes.  The certified K3 Picard rank is 20, hence `dim_F2 Br(K_cbar)[2]=2`.
 
-## Exact finite execution sub-DAG — current state
+## Exact finite execution sub-DAG — corrected current state
 
 ```text
-05A branch normalization / branch Galois regression                    DONE
+05A branch normalization / branch Galois regression                         DONE
  |
  v
-05B corrected L_{c,E} dimension + actual five-function basis           DONE
-     Creutz--Viray divisor checks + extension mixing                    DONE
- |
- +-------> 05C source-lock saturated rank-20 Pic(K_c) generators        DONE_SOURCE_LOCK
-              ruled generic-fiber restriction                           ACTIVE
-              |
-              v
-05D x-alpha relation matrix
-     total rank locked                                                   3
-     explicit rows from s=1 and s=t                                     2/3 DONE
-     residual row reduced to one nonzero graph line                     1/7 SELECTION OPEN
+05B corrected L_{c,E} dimension + actual five-function basis                DONE
+     Creutz--Viray divisor checks                                            DONE
+     single-component graph-lift corrections                                 DONE
  |
  v
-05E Br quotient dimension                                                2 LOCKED
-     abstract quotient Galois action                                     IDENTITY EXACT
-     explicit two-symbol quotient basis                                  WAITS ON FINAL GRAPH LINE
+05C true x-alpha pair audit
+     old norm-level pure-Jac row interpretation                              SUPERSEDED
+     J1 in im(x-alpha) by explicit square witness                            DONE
+     graph projection of s=1 = q1+q2                                         DONE
+     graph projection of s=t = q1+q2+q3                                      DONE
+     graph projection rank                                                    2 DONE
+     total x-alpha rank                                                       3 LOCKED
+     seven-graph-line selection                                               RETIRED
  |
  v
-05F geometric invariant subspace dimension                               2 EXACT
+05D geometric Brauer quotient
+     dimension                                                               2 LOCKED
+     explicit quotient basis                                                  J2,q1 DONE
  |
  v
-05G Hochschild--Serre/descent obstruction + arithmetic representatives   OPEN
+05E full-pair Galois repair
+     tau                                                                      IDENTITY
+     cc                                                                       IDENTITY
+     ct                                                                       q1,q2 ADD J1
+     quotient action on [J2,q1]                                               IDENTITY EXACT
+ |
+ v
+05F geometric invariant subspace dimension                                   2 EXACT
+ |
+ v
+05G Hochschild--Serre/descent obstruction + Q-defined representatives        OPEN ACTIVE
 ```
 
 ## Corrected finite dimensions
@@ -78,55 +87,124 @@ Br quotient dimension            = 2.
 
 The former 9-dimensional pilot omitted the nodal fibers and remains superseded.
 
-## New exact x-alpha reduction
+## True x-alpha repair
 
-The lifted basis is ordered `[J1,J2,q1,q2,q3]`.  Two split horizontal divisors give
-
-```text
-s=1 -> J1       -> [1,0,0,0,0]
-s=t -> J1+J2    -> [1,1,0,0,0].
-```
-
-These are exact Creutz--Viray `x-alpha` rows and have rank two.  Since the total image rank is independently three, row operations reduce the only missing relation to
+The lifted basis is ordered `[J1,J2,q1,q2,q3]`.  For a horizontal section `s=f(t)`, the actual generic-fiber `x-alpha` element is the pair
 
 ```text
-[0,0,a,b,c], (a,b,c) nonzero.
+(f-s_plus, f-s_minus)
 ```
 
-There are exactly seven remaining graph lines.  No rank-20 blind matrix construction is needed anymore: it suffices to restrict certified Picard generators until one non-Jacobian row appears.
+in the two branch normalization fields, modulo diagonal `K(t)^*` and squares.  Consequently the old `Gp(f)/Gm(f)` norm computation is not by itself a full `x-alpha` row.
 
-The already materialized field action changes each `q_i` only by `J1,J2`, and complex conjugation is identity on the lifted basis.  Since `J1,J2` are now relations, the induced action on the graph quotient is identity.  Therefore the final 2D geometric Brauer quotient has identity Galois action for **every** one of the seven possible residual graph lines.
+The exact repaired graph projections are
 
-This closes geometric invariance only; it does not kill the arithmetic descent obstruction.
+```text
+s=1                  -> q1+q2,
+s=t                  -> q1+q2+q3,
+s=-i*(t-i)/(t+i)     -> q1+q2.
+```
+
+The first and third have the same graph class.  Their ratio is computed exactly on `z^2=q`; an explicit square witness proves
+
+```text
+xalpha(-i*(t-i)/(t+i)) + xalpha(1) = J1.
+```
+
+Thus `J1` is an exact relation.  The two graph projections from `s=1` and `s=t` are independent, so together with `J1` they already have rank three.  Since the independently locked image rank is three, the entire image is
+
+```text
+im(x-alpha)
+ = span_F2 {
+     J1,
+     b*J2+q1+q2,
+     d*J2+q1+q2+q3
+   },
+   b,d in F2.
+```
+
+The unresolved `J2` coefficients `b,d` are immaterial for the quotient: for every choice, `[J2,q1]` is a basis of `L_{c,E}/im(x-alpha)`.  Therefore neither a blind rank-20 restriction matrix nor the former seven-line search is required to enter arithmetic descent.
+
+## Full-pair Galois correction
+
+The exact half-point calculations in `cv_exact_graph_lifts_and_galois.py` are retained as single-component data.  They must be combined with the conjugate branch component before reading the action on
+
+```text
+L=k(B+) x k(B-).
+```
+
+Using
+
+```text
+cc*tau*cc = tau,
+cc*ct*cc  = tau*ct
+```
+
+in the degree-eight normal splitting field gives the full-pair action
+
+```text
+tau = identity,
+cc  = identity,
+ct(q1)=q1+J1,
+ct(q2)=q2+J1,
+ct(q3)=q3,
+ct(J1)=J1,
+ct(J2)=J2.
+```
+
+Because `J1` is in `im(x-alpha)`, the induced action on the quotient basis `[J2,q1]` is identity.  Hence
+
+```text
+Br(K_cbar)[2]^G_Q = Br(K_cbar)[2]
+dimension = 2.
+```
+
+This is geometric invariance, not arithmetic descent.
 
 ## Upstream Picard source lock
 
-The immutable Testa--Stoll verification source constructs the K3 Picard group from known curves, checks rank 20 and 2-saturation, and uses the primitive generating indices
+The immutable Testa--Stoll verification source remains load-bearing for rank 20 and 2-saturation, with primitive generating indices
 
 ```text
 [2,4,5,7,9,10,20,21,26,35,39,42,44,47,49,52,54,64,67,72].
 ```
 
-The current leaf transports/restricts this finite generator set through the explicit ruled-model map; the first certified non-Jacobian row selects the final graph line.
+However, the former task of restricting these generators merely to choose one of seven residual graph lines is retired by the exact pair repair above.
+
+## Authoritative repair execution
+
+```text
+CHECKER=xalpha_pair_galois_repair.py
+CERTIFICATE=xalpha-pair-galois-repair.json
+WORKFLOW_RUN=32710572932
+WORKFLOW_NUMBER=39
+CONCLUSION=success
+ARTIFACT_ID=9513914592
+ARTIFACT_SHA256=f909a226bffb4a469ae9cc85458742caac38598a2f70c7358ff5652de6e26fa4
+```
 
 ## Current exact leaf
 
+Creutz--Viray Theorem I is explicitly an exact sequence of Galois modules over the separable closure.  It supplies the geometric presentation and supports Galois analysis, but it does not identify `Br(K_c)` with all Galois-fixed elements of `Br(K_cbar)`.  The paper itself emphasizes that arithmetic use needs representatives defined over the ground field.
+
+The remaining receiver is therefore
+
 ```text
-LEAF_ID=L33-05-RESTRICT-PICARD-GENERATORS-SELECT-1-OF-7-GRAPH-LINES
+LEAF_ID=L33-05-HOCHSCHILD-SERRE-DESCENT-OF-J2-Q1
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-UPSTREAM_GENERATOR_COUNT=20
-KNOWN_XALPHA_ROW_RANK=2
-REQUIRED_TOTAL_XALPHA_ROW_RANK=3
-REMAINING_GRAPH_LINE_CANDIDATES=7
-OUTPUT=FINAL_3x5_XALPHA_MATRIX_PLUS_EXPLICIT_2_SYMBOL_BRAUER_QUOTIENT
+GEOMETRIC_BRAUER_BASIS=J2,q1
+GEOMETRIC_GQ_INVARIANT_DIMENSION=2
+REQUIRED_OUTPUT=DESCENT_OBSTRUCTION_FOR_EACH_BASIS_CLASS
+                PLUS_Q_DEFINED_CSA_REPRESENTATIVES_FOR_SURVIVORS
 ```
 
 ## Firewalls / closure target
 
 ```text
-GEOMETRIC_BR2_GALOIS_ACTION_EXACT=true
+FULL_PAIR_GALOIS_ACTION_EXACT=true
 GEOMETRIC_BR2_GQ_INVARIANT_DIMENSION=2
+EXPLICIT_GEOMETRIC_BRAUER_QUOTIENT_BASIS=true
 GEOMETRIC_INVARIANT_IMPLIES_ARITHMETIC_DESCENT=false
 DESCENT_OBSTRUCTION_ACCOUNTED=false
 Q_RELEVANT_SURVIVING_DIM_EXACT=false
