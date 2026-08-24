@@ -161,7 +161,7 @@ Am, Bm = ab(Rminus)
 c = (1-i)/s2
 nr = sp.cancel(c*(t+1)/(t+i))
 assert sp.simplify(c**2+i) == 0
-assert sp.simpl(norm(Rminus)-nr**2) == 0
+assert sp.simplify(norm(Rminus)-nr**2) == 0
 p20 = sp.cancel((Am+nr)/2)
 C0 = sp.cancel((1+s2)*(1-i)/4)
 assert sp.simplify(p20/k0-C0) == 0
