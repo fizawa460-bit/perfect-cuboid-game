@@ -9,31 +9,29 @@ K3_GEOMETRIC_BR2_DIM=2
 LCE_DIMENSION=5
 XALPHA_IMAGE_DIMENSION=3
 COMMON_NORMALIZATION_EXACT=true
-LCE_FILTERED_QUOTIENT_EXACT=true
-LCE_ASSOCIATED_GRADED_JAC_DIM=2
-LCE_ASSOCIATED_GRADED_GRAPH_DIM=3
-EXPLICIT_JACOBIAN_QUOTIENT_FUNCTION_COUNT=2
-EXPLICIT_GRAPH_ASSOCIATED_GRADED_FUNCTION_COUNT=3
-ASSOCIATED_GRADED_EXPLICIT_FUNCTION_COUNT=5
-ASSOCIATED_GRADED_GRAPH_CHANNEL_COMPLETE=true
-FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=false
-FULL_LCE_CC_ACTION_EXACT=false
+FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=true
+CREUTZ_VIRAY_DIVISOR_CONDITIONS_COMPLETE=true
+EXTENSION_MIXING_COMPLETE=true
+EXPLICIT_XALPHA_ROW_COUNT=2
+EXPLICIT_XALPHA_ROW_RANK=2
+FULL_XALPHA_MATRIX_MATERIALIZED=false
+XALPHA_RESIDUAL_RELATION_DIMENSION=1
+XALPHA_RESIDUAL_GRAPH_LINE_CANDIDATE_COUNT=7
+BRAUER_QUOTIENT_DIMENSION=2
+GEOMETRIC_BR2_GALOIS_ACTION_EXACT=true
+GEOMETRIC_BR2_GALOIS_ACTION=IDENTITY
+GEOMETRIC_BR2_GQ_INVARIANT_DIMENSION=2
+DESCENT_OBSTRUCTION_ACCOUNTED=false
+Q_DEFINED_ARITHMETIC_REPRESENTATIVES_MATERIALIZED=false
 Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
-QI_OVER_Q_ACTION_MATRIX_EXACT=false
 THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=false
 ```
 
-## Corrected exact Creutz--Viray target
+## Exact five-dimensional presentation input
 
-Over `Q(i)` the branch is two smooth `(2,2)` genus-one components meeting transversely at eight nodes, with common normalization
-
-```text
-z^2=t^4-6*t^2+1.
-```
-
-After the nodal-fiber correction the exact finite dimensions remain
+The corrected Creutz--Viray computation is frozen at
 
 ```text
 Jac(B)[2] dimension       = 4
@@ -45,111 +43,71 @@ im(x-alpha) dimension     = 3
 Br(K_cbar)[2] dimension   = 2.
 ```
 
-The exact associated-graded five-dimensional quotient is
+The common normalization is `z^2=t^4-6*t^2+1`.  The exact lifted basis from `cv_exact_graph_lifts_and_galois.py` is ordered
 
 ```text
-Jacobian quotient = 2D
-graph quotient    = 3D
-ell_1 quotient    = 0D.
+[J1,J2,q1,q2,q3].
 ```
 
-## Two explicit Jacobian directions
+All three graph functions now satisfy the actual Creutz--Viray divisor conditions; the old parity-only `g3` pilot is retired.  The full extension mixing is materialized over the degree-eight normal splitting field.
 
-With
+## Two exact x-alpha rows
+
+Two horizontal split divisors on the generic ruled fiber give actual `x-alpha` relations, not dimension-only predictions.
+
+For `s=1`, after removing the diagonal `K(t)^*` factor `t^2-1`, the half-divisor class on `E:y^2=x^3-x` is `(0,0)=J1`.  For `s=t`, the corresponding half-divisor class is `(-1,0)=J1+J2`.  Hence
 
 ```text
-r1=1+sqrt(2),
-r2=-(1+sqrt(2)),
-r4=1-sqrt(2),
+s=1  -> [1,0,0,0,0]
+s=t  -> [1,1,0,0,0]
 ```
 
-two Jacobian quotient directions are represented on the common normalization by
+and these rows have rank two.  Since the independently locked total image rank is three, only one relation remains.  Row operations using the two certified Jacobian rows put it in the exact normal form
 
 ```text
-f1=(t-r1)/(t-r4),
-f2=(t-r2)/(t-r4).
+[0,0,a,b,c],  (a,b,c) != (0,0,0).
 ```
 
-## Three explicit associated-graded graph directions
+Thus the remaining NS restriction problem is reduced to selecting one of exactly seven graph lines.
 
-The bounded bidegree `(1,1)` channel gives two independent graph directions:
+## Quotient Galois action closes before the last graph line
+
+The exact extension action on `[J1,J2,q1,q2,q3]` has the property that `tau` and `ct` change each `q_i` only by Jacobian directions, while `cc` is already the identity.  Because `J1,J2` are now certified `x-alpha` relations, all three generators act identically on the three-dimensional graph quotient.  Quotienting by any of the seven possible final graph lines therefore gives
 
 ```text
-g1 = (u1*u2-u2*v1)/(u1*u2-u1*v2),
-g2 = (u1*v2-u2*v1)/(u1*u2-u1*v2).
+Br(K_cbar)[2] ~= (F2)^2
+Galois action on Br(K_cbar)[2] = identity
+Br(K_cbar)[2]^G_Q dimension = 2.
 ```
 
-Relative to
+This is a geometric invariant-subspace statement only.  It does **not** yet prove that the two invariant geometric classes descend to arithmetic classes in `Br(K_c)/Br(Q)`; the Hochschild--Serre/descent obstruction and explicit representatives remain open.
+
+Evidence before the present row certificate:
 
 ```text
-q1=e1+e3,
-q2=e1+e5,
-q3=e1+e7,
-```
-
-they satisfy
-
-```text
-g1 -> q1+q2+q3,
-g2 -> q3.
-```
-
-A bounded next-degree `(2,1)` synthesis now supplies the one residual direction `q1`.  Take
-
-```text
-F_e1 = u1^2*u2 + u1^2*v2 + u2*v1^2,
-F_e3 = u1^2*u2 - u1^2*v2 + u1*u2*v1 + u1*v1*v2 - u2*v1^2 - v1^2*v2,
-g3 = F_e1/F_e3.
-```
-
-Among the eight branch-intersection nodes, `F_e1` vanishes exactly at `e1` and `F_e3` exactly at `e3`, hence
-
-```text
-g3 -> e1+e3 = q1.
-```
-
-Therefore
-
-```text
-span(g1,g2,g3)=<q1,q2,q3>,
-ASSOCIATED_GRADED_GRAPH_CHANNEL_COMPLETE=true.
-```
-
-Together with `f1,f2`, every one of the five associated-graded `L_{c,E}` directions now has an explicit rational-function candidate.
-
-Evidence:
-
-```text
-workflow_run = 32694382836
+workflow_run = 32699237446
 workflow_conclusion = success
-residual_graph_function_sha256 = 7ca15cb62d529d264a161aea00f963260a1a28f48da09677d696c6aecaa6e08d
-artifact_id = 9508324033
-artifact_zip_sha256 = 3f5fd63a46197d99db2dc343a854bb37af9933951be1556381f205a6755e971a
 ```
 
-## Firewall and next exact leaf
-
-This closes only the associated-graded function-synthesis wall.  The five displayed functions are not yet promoted to an actual basis of `L_{c,E}`: the Creutz--Viray divisor conditions and extension mixing must be checked simultaneously.  Only after that lift is exact may the rank-three `x-alpha` matrix and quotient Galois action be materialized.
+New exact checker:
 
 ```text
-ASSOCIATED_GRADED_FUNCTION_SYNTHESIS_CLOSED=true
-FULL_EXPLICIT_LCE_BASIS_MATERIALIZED=false
-CREUTZ_VIRAY_DIVISOR_CONDITIONS_COMPLETE=false
-EXTENSION_MIXING_COMPLETE=false
-EXPLICIT_XALPHA_MATRIX_MATERIALIZED=false
-BRAUER_QUOTIENT_CC_ACTION_EXACT=false
-Q_RELEVANT_SURVIVING_DIM=NOT_YET_CERTIFIED
+xalpha_split_section_rows.py
+output = xalpha-two-rows-quotient-action.json
 ```
 
-Next exact leaf:
+## Next exact leaf
+
+The upstream Testa--Stoll verification source gives an explicit rank-20 saturated Picard generating set for `K_c`.  The next bounded computation is to restrict those generators to the ruled generic fiber until one non-Jacobian `x-alpha` row is found.  That one row selects the final graph line and immediately materializes an explicit two-symbol Brauer quotient.
 
 ```text
-LEAF_ID=L33-05-CHECK-5-FUNCTION-CV-DIVISORS-AND-EXTENSION-MIXING-THEN-XALPHA
+LEAF_ID=L33-05-RESTRICT-PICARD-GENERATORS-SELECT-1-OF-7-GRAPH-LINES
 CLASS=2
 NEW_THEOREM_REQUIRED=false
-ASSOCIATED_GRADED_FUNCTION_COUNT=5
-REQUIRED_XALPHA_IMAGE_RANK=3
-REQUIRED_BRAUER_QUOTIENT_DIM=2
+UPSTREAM_PICARD_RANK=20
+REMAINING_GRAPH_LINE_CANDIDATES=7
+REQUIRED_NEW_INDEPENDENT_XALPHA_ROW_COUNT=1
+DESCENT_OBSTRUCTION_AFTER_THIS=true
 ```
 
 ```text
