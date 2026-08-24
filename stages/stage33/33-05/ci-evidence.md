@@ -2,9 +2,13 @@
 
 The earlier dimension pilot that reported `L_{c,E}=9` is superseded because it omitted the four nodal ruling fibers from the Creutz--Viray even-`e(b/w)` set.
 
-Corrected checker head: `340713c58abcae20c923efd08fb6b76ed11a4f28`.
+Corrected checker branch head is tracked by the latest PR #1358 commit. The authoritative run must include `cv_dimension_check.py` schema
 
-Expected exact structural output of the corrected checker:
+```text
+STAGE33_05_CV_DIMENSION_SKELETON_V2_NODE_FIBERS_INCLUDED
+```
+
+and must certify
 
 ```text
 branch components = 2 smooth (2,2) genus-one curves over Q(i)
@@ -23,6 +27,6 @@ im(x-alpha) dim                         = 3
 Br quotient dim                         = 2
 ```
 
-The new CI run is the authoritative evidence source for these corrected values.  Do not cite the superseded `9/7` dimension pilot for receiver credit.
+Do not cite the superseded `9/7` dimension pilot for receiver credit.
 
 This checkpoint still does not materialize the explicit five-element `L_{c,E}` function basis, rank-three relation matrix, quotient symbol representatives, or the Q(i)/Q action on the quotient. Stage33-05 remains RUNNING.
