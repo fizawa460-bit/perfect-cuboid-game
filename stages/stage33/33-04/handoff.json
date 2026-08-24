@@ -1,25 +1,27 @@
 {
-  "schema": "STAGE33_UNIT_HANDOFF_V4_HOSTILE_REAUDIT_BLOCKED_HIGHER_2PRIMARY",
+  "schema": "STAGE33_UNIT_HANDOFF_V5_FULL_PRIME_POWER_AUDIT_REQUIRED",
   "stage33_unit": "33-04",
-  "unit_status": "BLOCKED_NEW_KERNEL",
+  "unit_status": "AUDIT_REQUIRED",
   "unit_closed": false,
   "downstream_released": false,
   "prerequisite_units": ["33-02"],
   "prerequisites_all_closed": true,
   "closure_criteria_total": 10,
-  "closure_criteria_satisfied": 7,
-  "unresolved_unknown_in_scope": 1,
+  "closure_criteria_satisfied": 10,
+  "unresolved_unknown_in_scope": 0,
   "receivers_discharged": [],
-  "receivers_open": ["BR0G"],
-  "new_kernel_id": "R33-BR0G-TWO-PRIMARY-PRIME-POWER-GERSTEN-CHARACTER-DESCENT",
+  "receivers_open": ["BR0G_PENDING_HOSTILE_AUDIT"],
+  "new_kernel_id": "NONE",
   "theorem_credit": false,
   "endpoint_credit": false,
   "perfect_cuboid_nonexistence_claim": false,
-  "audit_verdict": "PASS_ODD_PRIMARY_RESIDUAL_REJECT_ALL_PRIMARY_CLOSURE_ON_HIGHER_TWO_POWER_GERSTEN_DESCENT",
-  "audited_functional_head": "078198be1466d5d2c9eb3e0c204b1bee79f5c68e",
+  "previous_audit_verdict": "PASS_ODD_PRIMARY_RESIDUAL_REJECT_ALL_PRIMARY_CLOSURE_ON_HIGHER_TWO_POWER_GERSTEN_DESCENT",
+  "production_claim": "BR0G_DISCHARGE_PENDING_HOSTILE_AUDIT",
   "exact_outputs": {
     "physical_boundary_component_count": 72,
-    "codim2_crossing_count": 144,
+    "codim2_geometric_crossing_count": 144,
+    "arithmetic_boundary_component_orbit_count": 60,
+    "arithmetic_crossing_orbit_count": 120,
     "integral_boundary_cycle_rank": 73,
     "galois_fixed_geometric_boundary_residue_module": "(Q/Z)^61",
     "two_primary_geometric_fixed_module": "(Q_2/Z_2)^61",
@@ -27,33 +29,42 @@
     "two_primary_qfixed_cycle_dimension_f2": 61,
     "two_primary_known_unit_symbol_span_rank_f2": 44,
     "two_primary_explicit_graph_residual_dimension_f2": 17,
-    "two_primary_arithmetic_descent_scope": "EXPONENT_TWO_RESIDUAL_ONLY",
     "odd_primary_arithmetic_character_descent_complete": true,
-    "boundary_q_prime_divisor_orbit_count": 60,
-    "odd_primary_q_character_factor_count": 48,
-    "odd_primary_qi_character_factor_count": 12,
     "odd_primary_boundary_character_module": "Hom_cont(G_Q,Q/Z)_odd^48 direct_sum Hom_cont(G_Q(i),Q/Z)_odd^12",
-    "unramified_physical_open_kernel_exact": false
+    "full_two_primary_prime_power_gersten_character_descent_complete": true,
+    "two_primary_constant_character_module": "Hom_cont(G_Q,Q_2/Z_2)^48 direct_sum Hom_cont(G_Q(i),Q_2/Z_2)^12",
+    "two_primary_ramified_crossing_module": "(Z/2)^49 direct_sum (Z/4)^12",
+    "two_primary_ramified_exponent_at_most": 4,
+    "order8_or_higher_ramified_crossing_classes": 0,
+    "two_primary_ramified_2torsion_dimension_f2": 61,
+    "order4_generator_count": 12,
+    "order4_double_intersection_unit_symbol_span_rank_f2": 9,
+    "order4_double_image_mod_unit_symbol_span_rank_f2": 3,
+    "diagnostic_finite_ramified_quotient_by_known_unit_image": "(Z/2)^23 direct_sum (Z/4)^3",
+    "unramified_physical_open_kernel_exact_candidate": true
   },
-  "audit_evidence": {
-    "workflow_run": 32705824742,
+  "production_evidence": {
+    "workflow_run": 32709905847,
     "conclusion": "success",
-    "artifact_id": 9512234314,
-    "artifact_zip_sha256": "19aa8fa2ca3fe137a96865a2cc4dad4fe9e47eae6896904d2bcbf74db37b2792",
-    "odd_primary_character_descent_sha256": "26af6864fd85f4a0be2a139ca353ec558ffc00520cc1e4bc5e8af64d5613a24a"
+    "artifact_id": 9513712470,
+    "artifact_zip_sha256": "4ef12f7686e0b251bbfbcc3f0c3f0c44c61db0e0fca7dbb94afcdc5f0fbfb637",
+    "two_primary_prime_power_certificate_sha256": "f8c7af7e365bf579ce7e4288662130a90976cd8b22aa8f019eae266cd63714ea"
   },
-  "rejected_promotion": {
-    "all_primary_physical_open_unramified_kernel_complete": true,
-    "br0g_discharged": true,
-    "reason": "full two-primary 2^n Gersten character descent is not certified; existing arithmetic descent is exponent-two only, while Q(i) crossings admit order-4 Tate-twist residues"
-  },
-  "next_exact_leaf": "L33-04-COMPUTE-FULL-Q2Z2-BOUNDARY-H1-AND-MU2-MU4-CROSSING-COMPATIBILITY",
+  "source_locks": [
+    "stages/stage33/33-04/audit-state.json",
+    "stages/stage33/33-04/boundary-residue-skeleton.json",
+    "stages/stage33/33-04/boundary-galois.json",
+    "stages/stage33/33-04/all-primary-geometric-cycle-invariants.json",
+    "stages/stage33/33-04/odd-primary-arithmetic-character-descent.json",
+    "stages/stage33/33-04/two-primary-prime-power-gersten-descent.json",
+    "Gille--Szamuely Theorem 6.9.1 + Remark 6.9.5"
+  ],
   "scope_firewall": {
     "complete_q_defined_brauer_class_list": false,
     "brauer_manin_obstruction_claim": false,
-    "parametric_odd_character_module_not_promoted_to_finite_generator_list": true,
+    "diagnostic_unit_quotient_not_promoted_to_final_class_list": true,
     "stage33_06_released": false
   },
   "next_released_units": [],
-  "next_expected_command": "Stage33-main-batch"
+  "next_expected_command": "Stage33-audit"
 }
