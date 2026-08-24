@@ -1,0 +1,67 @@
+name: Stage32 scout d16 Hperp PARI
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/scouts/d16_hperp_pari_scout.py'
+      - '.github/workflows/stage32-scout-d16-hperp-pari.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  d16-hperp-pari-scout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install PARI GP exact lattice enumerator
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp
+          gp --version
+      - name: Download source-locked Stage32 Picard core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/core"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+          test -s "$RUNNER_TEMP/core/picard-core.json"
+      - name: Enumerate Hperp short vectors in bounded tiers and apply all 140 caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/scouts/d16_hperp_pari_scout.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/d16-hperp-pari-scout.json" \
+            --bounds 2,4,6,8,10,12,16,20,26,34 \
+            --stored-pairs 5000 \
+            --per-bound-seconds 120 \
+            --stop-count 2000000
+      - name: Enforce scout storage and firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'/'d16-hperp-pari-scout.json'
+          assert p.stat().st_size < 2_000_000
+          r=json.loads(p.read_text())
+          assert r['THEOREM_CREDIT'] is False
+          assert r['RECEIVER_CREDIT'] is False
+          assert r['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert r['architecture']['materialized_branch_count_constructed'] == 0
+          assert r['architecture']['direction'] == 'H_PERP_SHORT_VECTORS_FIRST_THEN_140_INTERSECTION_FILTER'
+          print('stopped_reason=', r['stopped_reason'])
+          for t in r['tiers']:
+              print({k:t.get(k) for k in ('bound','status','total_nonzero_vectors_including_sign','stored_representative_pairs','postfilter_survivors_in_stored_pairs_both_signs','postfilter_count_is_complete_for_nonzero_ball','elapsed_seconds')})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout-d16-hperp-pari
+          path: ${{ runner.temp }}/out/d16-hperp-pari-scout.json
+          retention-days: 7
+          if-no-files-found: error
