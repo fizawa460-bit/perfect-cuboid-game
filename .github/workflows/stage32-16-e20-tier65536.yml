@@ -1,0 +1,523 @@
+name: Stage32-16 e20/a0 exact tier <=65536
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-16/build_e20_tier65536_plan.py'
+      - 'stages/stage32/32-16/compact_e20_dynamic_shard.py'
+      - 'stages/stage32/32-16/run_e20_work_bundle.py'
+      - 'stages/stage32/32-16/aggregate_e20_tier65536.py'
+      - 'stages/stage32/32-16/check_actions_storage_gate.py'
+      - 'stages/stage32/32-16/verify_predecessor_neighbor_regression.py'
+      - '.github/workflows/stage32-16-e20-tier65536.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-16-e20-tier65536-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    name: lock audited <=16384 predecessor and workload-balance exact delta
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      wave0_matrix: ${{ steps.plan.outputs.wave0_matrix }}
+      wave1_matrix: ${{ steps.plan.outputs.wave1_matrix }}
+      wave2_matrix: ${{ steps.plan.outputs.wave2_matrix }}
+      wave3_matrix: ${{ steps.plan.outputs.wave3_matrix }}
+      pilot_bundle_id: ${{ steps.plan.outputs.pilot_bundle_id }}
+      plan_sha: ${{ steps.plan.outputs.plan_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Compile exact Stage32-16 implementation
+        run: |
+          python -m py_compile \
+            stages/stage32/32-16/build_e20_tier65536_plan.py \
+            stages/stage32/32-16/compact_e20_dynamic_shard.py \
+            stages/stage32/32-16/run_e20_work_bundle.py \
+            stages/stage32/32-16/aggregate_e20_tier65536.py \
+            stages/stage32/32-16/check_actions_storage_gate.py \
+            stages/stage32/32-16/verify_predecessor_neighbor_regression.py
+      - name: Download source-locked profile and hostile-audited predecessor
+        run: |
+          mkdir -p "$RUNNER_TEMP/profile" "$RUNNER_TEMP/prev" "$RUNNER_TEMP/out"
+          gh run download 32725113188 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-14-e20-profile-plan --dir "$RUNNER_TEMP/profile"
+          gh run download 32726279718 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-15-e20-a0-le16384-exact-tier --dir "$RUNNER_TEMP/prev"
+      - id: plan
+        name: Build deterministic dynamic shards and LPT bundles
+        run: |
+          python stages/stage32/32-16/build_e20_tier65536_plan.py \
+            --profile "$RUNNER_TEMP/profile/e20-profile.json" \
+            --predecessor "$RUNNER_TEMP/prev/e20-tier16384.json" \
+            --output "$RUNNER_TEMP/out/e20-tier65536-plan.json" \
+            --github-output "$GITHUB_OUTPUT"
+      - name: Enforce exact compute and storage envelope before pilot
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/e20-tier65536-plan.json').read_text())
+          assert p['delta_cell_count']==232 and p['delta_branch_count']==6178556
+          assert p['cumulative_cell_count']==301 and p['cumulative_branch_count']==6834114
+          x=p['execution_architecture']
+          assert x['work_item_count']==287 and x['bundle_count']==48
+          assert x['bounded_wave_count']==4
+          assert x['max_expected_branches_per_work_item']==32768
+          assert x['max_parallel_bundles']==8
+          assert x['single_exact_context_initialization_per_bundle'] is True
+          assert x['bundle_expected_branch_minimum']==111648
+          assert x['bundle_expected_branch_maximum']==129376
+          s=p['storage_safety']
+          assert s['hard_compact_storage_upper_bound_bytes']==5740000
+          assert s['raw_items_retained_after_post_verification_compaction'] is False
+          assert s['transient_bundle_retention_days']==1
+          assert [w['bundle_count'] for w in p['bounded_waves']]==[12,12,12,12]
+          print(json.dumps({'work_items':287,'bundle_jobs':48,'bounded_waves':4,'load_min':111648,'load_max':129376,'hard_compact_bytes':5740000},sort_keys=True))
+          PY
+      - name: Inventory retained artifacts and gate incremental Stage32 storage
+        run: |
+          gh api --paginate --slurp \
+            "repos/fizawa460-bit/perfect-cuboid-game/actions/artifacts?per_page=100" \
+            > "$RUNNER_TEMP/out/retained-artifact-inventory.json"
+          python stages/stage32/32-16/check_actions_storage_gate.py \
+            --inventory "$RUNNER_TEMP/out/retained-artifact-inventory.json" \
+            --output "$RUNNER_TEMP/out/incremental-storage-gate.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-16-e20-tier65536-plan
+          path: |
+            ${{ runner.temp }}/out/e20-tier65536-plan.json
+            ${{ runner.temp }}/out/incremental-storage-gate.json
+          retention-days: 7
+          if-no-files-found: error
+      - name: Enforce incremental storage below 100 MB
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/incremental-storage-gate.json').read_text())
+          assert p['historical_retained_inventory_is_background_only'] is True
+          assert p['new_run_worst_case']['total_bytes']==22540000
+          assert p['new_run_worst_case']['below_100mb_fallback_requirement'] is True
+          assert p['new_run_worst_case']['does_not_depend_on_deletion'] is True
+          assert p['safe_to_launch_pilot_or_fanout'] is True
+          PY
+
+  pilot:
+    name: representative work-balanced bundle storage/runtime gate
+    needs: plan
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      safe_to_fanout: ${{ steps.gate.outputs.safe_to_fanout }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core and deterministic plan
+        run: |
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/plan" "$RUNNER_TEMP/out"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-16-e20-tier65536-plan
+          path: ${{ runner.temp }}/plan
+      - name: Re-derive exact 140-form caps
+        run: |
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/caps.json"
+      - name: Execute representative maximum-load exact bundle
+        run: |
+          python stages/stage32/32-16/run_e20_work_bundle.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/caps.json" \
+            --plan "$RUNNER_TEMP/plan/e20-tier65536-plan.json" \
+            --bundle-id "${{ needs.plan.outputs.pilot_bundle_id }}" \
+            --output-dir "$RUNNER_TEMP/out" \
+            --node-limit-per-branch 1000000 \
+            --max-raw-bytes 1000000000 --max-compact-bytes 20000
+      - name: Recompute one audited neighboring shard with the replacement runner
+        run: |
+          mkdir -p "$RUNNER_TEMP/regression"
+          python stages/stage32/32-16/run_e20_work_bundle.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/caps.json" \
+            --plan "$RUNNER_TEMP/plan/e20-tier65536-plan.json" \
+            --bundle-id predecessor-regression-cell588-s0of2 \
+            --output-dir "$RUNNER_TEMP/regression" \
+            --node-limit-per-branch 1000000 \
+            --max-raw-bytes 1000000000 --max-compact-bytes 20000
+          python stages/stage32/32-16/verify_predecessor_neighbor_regression.py \
+            --plan "$RUNNER_TEMP/plan/e20-tier65536-plan.json" \
+            --compact "$RUNNER_TEMP/regression/cell0588-s0of2-compact.json" \
+            --output "$RUNNER_TEMP/regression/regression-result.json"
+      - id: gate
+        name: Verify pilot completeness and observed storage envelope
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          assert not list(root.glob('*-raw.json'))
+          receipt=json.loads((root/'bundle-receipt.json').read_text())
+          assert receipt['all_items_complete'] is True
+          assert receipt['unknown_branch_count']==0
+          assert receipt['executed_branches']==receipt['planned_expected_branches']==129376
+          assert receipt['runtime']['maximum_runner_local_raw_bytes']<=1000000000
+          compacts=list(root.glob('*-compact.json'))
+          assert len(compacts)==receipt['item_count']==6
+          assert max(p.stat().st_size for p in compacts)<=20000
+          print(json.dumps({'pilot_seconds':receipt['runtime']['bundle_elapsed_seconds'],'max_raw_bytes':receipt['runtime']['maximum_runner_local_raw_bytes'],'compact_bytes':receipt['runtime']['total_compact_bytes']},sort_keys=True))
+          PY
+          echo "safe_to_fanout=true" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-16b-e20-${{ needs.plan.outputs.pilot_bundle_id }}
+          path: ${{ runner.temp }}/out
+          retention-days: 1
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-16-predecessor-neighbor-regression
+          path: ${{ runner.temp }}/regression
+          retention-days: 30
+          if-no-files-found: error
+
+  wave0:
+    name: e20-wave0-work-bundle-${{ matrix.bundle_id }}
+    needs: [plan, pilot]
+    if: needs.pilot.outputs.safe_to_fanout == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.wave0_matrix) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core and deterministic plan
+        run: |
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/plan" "$RUNNER_TEMP/out"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-16-e20-tier65536-plan
+          path: ${{ runner.temp }}/plan
+      - name: Re-derive exact 140-form caps
+        run: |
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/caps.json"
+      - name: Execute exact workload-balanced bundle
+        run: |
+          python stages/stage32/32-16/run_e20_work_bundle.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/caps.json" \
+            --plan "$RUNNER_TEMP/plan/e20-tier65536-plan.json" \
+            --bundle-id "${{ matrix.bundle_id }}" \
+            --output-dir "$RUNNER_TEMP/out" \
+            --node-limit-per-branch 1000000 \
+            --max-raw-bytes 1000000000 --max-compact-bytes 20000
+      - name: Enforce exact completion and runner-local raw deletion
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          assert not list(root.glob('*-raw.json'))
+          receipt=json.loads((root/'bundle-receipt.json').read_text())
+          assert receipt['all_items_complete'] is True
+          assert receipt['unknown_branch_count']==0
+          assert receipt['executed_branches']==receipt['planned_expected_branches']
+          assert receipt['runtime']['maximum_runner_local_raw_bytes']<=1000000000
+          compacts=list(root.glob('*-compact.json'))
+          assert len(compacts)==receipt['item_count']
+          assert max(p.stat().st_size for p in compacts)<=20000
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-16b-e20-${{ matrix.bundle_id }}
+          path: ${{ runner.temp }}/out
+          retention-days: 1
+          if-no-files-found: error
+
+  wave1:
+    name: e20-wave1-work-bundle-${{ matrix.bundle_id }}
+    needs: [plan, wave0]
+    if: needs.wave0.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.wave1_matrix) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core and deterministic plan
+        run: |
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/plan" "$RUNNER_TEMP/out"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-16-e20-tier65536-plan
+          path: ${{ runner.temp }}/plan
+      - name: Re-derive exact 140-form caps
+        run: |
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/caps.json"
+      - name: Execute exact workload-balanced bundle
+        run: |
+          python stages/stage32/32-16/run_e20_work_bundle.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/caps.json" \
+            --plan "$RUNNER_TEMP/plan/e20-tier65536-plan.json" \
+            --bundle-id "${{ matrix.bundle_id }}" \
+            --output-dir "$RUNNER_TEMP/out" \
+            --node-limit-per-branch 1000000 \
+            --max-raw-bytes 1000000000 --max-compact-bytes 20000
+      - name: Enforce exact completion and runner-local raw deletion
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          assert not list(root.glob('*-raw.json'))
+          receipt=json.loads((root/'bundle-receipt.json').read_text())
+          assert receipt['all_items_complete'] is True
+          assert receipt['unknown_branch_count']==0
+          assert receipt['executed_branches']==receipt['planned_expected_branches']
+          assert receipt['runtime']['maximum_runner_local_raw_bytes']<=1000000000
+          compacts=list(root.glob('*-compact.json'))
+          assert len(compacts)==receipt['item_count']
+          assert max(p.stat().st_size for p in compacts)<=20000
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-16b-e20-${{ matrix.bundle_id }}
+          path: ${{ runner.temp }}/out
+          retention-days: 1
+          if-no-files-found: error
+
+  wave2:
+    name: e20-wave2-work-bundle-${{ matrix.bundle_id }}
+    needs: [plan, wave1]
+    if: needs.wave1.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.wave2_matrix) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core and deterministic plan
+        run: |
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/plan" "$RUNNER_TEMP/out"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-16-e20-tier65536-plan
+          path: ${{ runner.temp }}/plan
+      - name: Re-derive exact 140-form caps
+        run: |
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/caps.json"
+      - name: Execute exact workload-balanced bundle
+        run: |
+          python stages/stage32/32-16/run_e20_work_bundle.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/caps.json" \
+            --plan "$RUNNER_TEMP/plan/e20-tier65536-plan.json" \
+            --bundle-id "${{ matrix.bundle_id }}" \
+            --output-dir "$RUNNER_TEMP/out" \
+            --node-limit-per-branch 1000000 \
+            --max-raw-bytes 1000000000 --max-compact-bytes 20000
+      - name: Enforce exact completion and runner-local raw deletion
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          assert not list(root.glob('*-raw.json'))
+          receipt=json.loads((root/'bundle-receipt.json').read_text())
+          assert receipt['all_items_complete'] is True
+          assert receipt['unknown_branch_count']==0
+          assert receipt['executed_branches']==receipt['planned_expected_branches']
+          assert receipt['runtime']['maximum_runner_local_raw_bytes']<=1000000000
+          compacts=list(root.glob('*-compact.json'))
+          assert len(compacts)==receipt['item_count']
+          assert max(p.stat().st_size for p in compacts)<=20000
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-16b-e20-${{ matrix.bundle_id }}
+          path: ${{ runner.temp }}/out
+          retention-days: 1
+          if-no-files-found: error
+
+  wave3:
+    name: e20-wave3-work-bundle-${{ matrix.bundle_id }}
+    needs: [plan, wave2]
+    if: needs.wave2.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.wave3_matrix) }}
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked core and deterministic plan
+        run: |
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/plan" "$RUNNER_TEMP/out"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-16-e20-tier65536-plan
+          path: ${{ runner.temp }}/plan
+      - name: Re-derive exact 140-form caps
+        run: |
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/caps.json"
+      - name: Execute exact workload-balanced bundle
+        run: |
+          python stages/stage32/32-16/run_e20_work_bundle.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/caps.json" \
+            --plan "$RUNNER_TEMP/plan/e20-tier65536-plan.json" \
+            --bundle-id "${{ matrix.bundle_id }}" \
+            --output-dir "$RUNNER_TEMP/out" \
+            --node-limit-per-branch 1000000 \
+            --max-raw-bytes 1000000000 --max-compact-bytes 20000
+      - name: Enforce exact completion and runner-local raw deletion
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          assert not list(root.glob('*-raw.json'))
+          receipt=json.loads((root/'bundle-receipt.json').read_text())
+          assert receipt['all_items_complete'] is True
+          assert receipt['unknown_branch_count']==0
+          assert receipt['executed_branches']==receipt['planned_expected_branches']
+          assert receipt['runtime']['maximum_runner_local_raw_bytes']<=1000000000
+          compacts=list(root.glob('*-compact.json'))
+          assert len(compacts)==receipt['item_count']
+          assert max(p.stat().st_size for p in compacts)<=20000
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-16b-e20-${{ matrix.bundle_id }}
+          path: ${{ runner.temp }}/out
+          retention-days: 1
+          if-no-files-found: error
+
+  aggregate:
+    name: cumulative exact e20/a0 tier <=65536
+    needs: [plan, pilot, wave0, wave1, wave2, wave3]
+    if: needs.pilot.result == 'success' && needs.wave0.result == 'success' && needs.wave1.result == 'success' && needs.wave2.result == 'success' && needs.wave3.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download source-locked profile and hostile-audited predecessor
+        run: |
+          mkdir -p "$RUNNER_TEMP/profile" "$RUNNER_TEMP/prev" "$RUNNER_TEMP/plan" "$RUNNER_TEMP/final"
+          gh run download 32725113188 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-14-e20-profile-plan --dir "$RUNNER_TEMP/profile"
+          gh run download 32726279718 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-15-e20-a0-le16384-exact-tier --dir "$RUNNER_TEMP/prev"
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-16-e20-tier65536-plan
+          path: ${{ runner.temp }}/plan
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-16b-e20-*
+          path: ${{ runner.temp }}/certs
+          merge-multiple: false
+      - name: Verify all 287 exact work items and aggregate audited predecessor
+        run: |
+          python stages/stage32/32-16/aggregate_e20_tier65536.py \
+            --profile "$RUNNER_TEMP/profile/e20-profile.json" \
+            --predecessor "$RUNNER_TEMP/prev/e20-tier16384.json" \
+            --plan "$RUNNER_TEMP/plan/e20-tier65536-plan.json" \
+            --input-dir "$RUNNER_TEMP/certs" \
+            --output "$RUNNER_TEMP/final/e20-tier65536.json"
+      - name: Enforce final audit artifact size
+        run: |
+          bytes=$(stat -c%s "$RUNNER_TEMP/final/e20-tier65536.json")
+          echo "final_bytes=$bytes"
+          test "$bytes" -le 10000000
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-16-e20-a0-le65536-exact-tier
+          path: ${{ runner.temp }}/final/e20-tier65536.json
+          retention-days: 30
+          if-no-files-found: error
