@@ -1,0 +1,100 @@
+name: Stage32-08 e8 cell0 exhaustive numerical census
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage32/32-08/run_materialized_cell_exhaustive.py'
+      - '.github/workflows/stage32-08-e8-cell0-exhaustive.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  exhaust-cell:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Compile exhaustive enumerator
+        run: python -m py_compile stages/stage32/32-08/run_materialized_cell_exhaustive.py
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141
+          --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix
+          --dir "$RUNNER_TEMP/core"
+      - name: Re-derive exact 140 dual caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+      - name: Exhaust e8-a36 signature cell0
+        run: |
+          python stages/stage32/32-08/run_materialized_cell_exhaustive.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/exhaustive-cell.json" \
+            --exceptional-mass 8 \
+            --curve-group-mass 36 \
+            --genus 0 \
+            --cell-index 0 \
+            --expected-cell-id 0451bcae6084559bbb842530 \
+            --node-limit-per-branch 1000000
+      - name: Enforce exhaustive numerical scope and firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/exhaustive-cell.json').read_text())
+          assert d['schema']=='STAGE32_D8_MATERIALIZED_CELL_EXHAUSTIVE_NUMERICAL_V1'
+          assert d['algorithm_id']=='D8_FIX52_SHARED_QTAIL12_FP140_EXHAUSTIVE_SURVIVORS_V1'
+          assert d['parameters']['cell_id']=='0451bcae6084559bbb842530'
+          assert d['materialization']['total_branch_count']==1
+          assert d['shared_context']['kernel_dimension']==12
+          assert d['solver_result'] in {'SAT_EXHAUSTED','UNSAT','UNKNOWN_NODE_BUDGET'}
+          if d['solver_result']=='UNKNOWN_NODE_BUDGET':
+              assert d['complete_numerical_enumeration'] is False
+          else:
+              assert d['complete_numerical_enumeration'] is True
+              assert all(r['search']['complete_numerical_enumeration'] is True for r in d['branches'])
+          if d['solver_result']=='SAT_EXHAUSTED':
+              assert d['exact_numerical_survivor_count'] > 0
+              assert any(s['basis_coordinates_sha256']=='8798773deb003c06dc91ef14cd3a952c90d4ba23dcd4ee1cbd66810fbb9942e0' for s in d['numerical_survivors'])
+          assert d['numerical_census_scope']=='ONE_SIGNATURE_CELL_ONLY'
+          assert d['effectivity_classification_complete'] is False
+          assert d['actual_curve_existence_claim'] is False
+          assert d['parent_exactly_closed'] is False
+          assert d['theorem_credit'] is False and d['receiver_credit'] is False
+          assert d['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert d['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert d['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert d['R29_LG2']=='NOT_DISCHARGED'
+          assert d['R29_LG2_EFF']=='NOT_DISCHARGED'
+          assert d['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert d['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({
+              'cell':d['parameters']['cell_id'],
+              'result':d['solver_result'],
+              'complete':d['complete_numerical_enumeration'],
+              'survivors':d['exact_numerical_survivor_count'],
+              'nodes':sum(r['search']['enumeration_node_count'] for r in d['branches']),
+              'leaves':sum(r['search']['checked_leaf_count'] for r in d['branches']),
+              'sha':d['deterministic_sha256_without_runtime'],
+          },sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-08-e8-a36-cell0-exhaustive
+          path: ${{ runner.temp }}/out/exhaustive-cell.json
+          if-no-files-found: error
