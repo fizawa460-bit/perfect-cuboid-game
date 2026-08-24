@@ -14,7 +14,7 @@ permissions:
 jobs:
   boundary-residue:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 12
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -33,6 +33,9 @@ jobs:
       - name: Induce exact V4 action on the saturated rank-73 cycle lattice
         working-directory: stages/stage33/33-04
         run: python analyze_cycle_galois.py
+      - name: Classify endpoint boundary over the seven-line arrangement
+        working-directory: stages/stage33/33-04
+        run: python classify_sign_cover_boundary_map.py
       - name: Upload exact Stage33-04 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -42,3 +45,5 @@ jobs:
             stages/stage33/33-04/boundary-galois.json
             stages/stage33/33-04/boundary-galois-magma-stdout.txt
             stages/stage33/33-04/boundary-cycle-galois.json
+            stages/stage33/33-04/sign-cover-boundary-map-magma-stdout.txt
+            stages/stage33/33-04/sign-cover-boundary-map.json
