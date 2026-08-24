@@ -19,8 +19,8 @@ assert picu["pic_u_group"]["free_rank"] == 6
 assert picu["pic_u_group"]["torsion"] == [2, 2]
 assert picu["torsion_joint_fixed_dimension_f2"] == 2
 assert upic["pic_u_free_v4_rational_character_multiplicities"]["cc+1_ct+1"] == 0
-assert finite["h2_free_rank"] == 0
-assert finite["h2_torsion_invariants"] == [2] * 33
+assert finite["finite_v4_h2_free_rank"] == 0
+assert finite["finite_v4_h2_torsion_invariants"] == [2] * 33
 assert odd["odd_primary_br0b_parametrically_complete"] is True
 
 # For C=UPic(Ubar) with H^0(C)=U_D and H^1(C)=Pic(Ubar), the hypercohomology
@@ -36,9 +36,9 @@ assert odd["odd_primary_br0b_parametrically_complete"] is True
 # H^2(Q,Z^14)=Hom_cont(G_Q,Q/Z)^14.
 #
 # Pic(Ubar)^G has no free part (the rational trivial-character multiplicity is
-# zero) and its full (Z/2)^2 torsion is fixed.  Therefore the source of the
-# left transgression is exactly (Z/2)^2.  Its image is exponent two and has F2
-# rank at most two.  Since the k-invariant/action data already descend to V4,
+# zero) and its full (Z/2)^2 torsion is fixed. Therefore the source of the
+# left transgression is exactly (Z/2)^2. Its image is exponent two and has F2
+# rank at most two. Since the k-invariant/action data already descend to V4,
 # this transgression factors through the V4 quadratic-character subspace.
 # Thus the absolute 2-primary left filtration is necessarily an infinite
 # character family; the finite (Z/2)^33 computation cannot be the full answer.
