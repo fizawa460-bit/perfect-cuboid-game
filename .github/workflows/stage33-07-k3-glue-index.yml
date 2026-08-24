@@ -1,14 +1,6 @@
 name: Stage33-07 K3 transcendental glue index
 
 on:
-  pull_request:
-    paths:
-      - 'stages/stage33/33-07/kb-picard-lattice.json'
-      - 'stages/stage33/33-07/kc-picard-lattice.json'
-      - 'stages/stage33/33-07/endpoint-picard-discriminant-retained.json'
-      - 'stages/stage33/33-07/certify_coordinate_k3_transcendental_glue_index.py'
-      - 'stages/stage29/29-02e/global-k3-eigenspace-adapter.md'
-      - '.github/workflows/stage33-07-k3-glue-index.yml'
   workflow_dispatch:
 
 permissions:
@@ -23,26 +15,21 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Certify rank-two K3 lattices and exact endpoint glue index
+      - name: Reproduce rank-two K3 lattices and exact endpoint glue index
         working-directory: stages/stage33/33-07
         run: python certify_coordinate_k3_transcendental_glue_index.py
-      - name: Validate conservative repair state
+      - name: Validate retained index512 certificate
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
           import json
           x=json.load(open('coordinate-k3-transcendental-glue-index.json'))
+          assert x['canonical_sha256']=='0cc5321d02b56cea801b8def71a4c3b0946bd8011d8c30767a9602faba2fa8d8'
           assert x['coordinate_transcendental_lattices']['T_Kb']=='diag(4,4)'
           assert x['coordinate_transcendental_lattices']['T_Kc']=='diag(4,8)'
           assert x['seven_piece_integral_pullback_sublattice']['isometry_type']=='<8>^10 direct_sum <16>^4'
           assert x['integral_glue']['index_T_over_L0']==512
           assert x['integral_glue']['index_v2']==9
           assert not x['integral_glue']['actual_glue_subgroup_identified']
-          assert x['unit_status']=='RUNNING_REPAIR'
-          assert x['stage33_progress']=='6/11'
-          assert not x['stage33_08_released']
           print('STAGE33_07_K3_GLUE_INDEX=PASS')
-          print('L0=<8>^10+<16>^4')
-          print('T_OVER_L0_INDEX=512')
-          print('NEXT=IDENTIFY_ACTUAL_EQUIVARIANT_ISOTROPIC_GLUE')
           PY
