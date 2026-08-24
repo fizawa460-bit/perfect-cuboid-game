@@ -2,6 +2,7 @@
 import hashlib
 import json
 import pathlib
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -20,21 +21,36 @@ CC_START = "// Set up complex conjugation."
 STOP_MARKER = "// Automorphisms + Galois on Pic/2*Pic"
 MAGMA_URL = "https://magma.maths.usyd.edu.au/xml/calculator.xml"
 MAGMA_REFERER = "https://magma.maths.usyd.edu.au/calc/"
+RETRY_DELAYS = (0, 5, 15, 30)
 
 
 def git_blob_sha(data: bytes) -> str:
     return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
 
 
-def fetch_bytes(url: str, timeout: int = 60) -> bytes:
-    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage33/1.0"})
-    with urllib.request.urlopen(req, timeout=timeout) as resp:
+def urlopen_retry(req, timeout, label):
+    last = None
+    for attempt, delay in enumerate(RETRY_DELAYS, start=1):
+        if delay:
+            time.sleep(delay)
+        try:
+            return urllib.request.urlopen(req, timeout=timeout), attempt
+        except (urllib.error.URLError, TimeoutError) as exc:
+            last = exc
+            print(f"{label} transient network failure attempt {attempt}/{len(RETRY_DELAYS)}: {exc}")
+    raise last
+
+
+def fetch_bytes(url: str, timeout: int = 60) -> tuple[bytes, int]:
+    req = urllib.request.Request(url, headers={"User-Agent": "perfect-cuboid-stage33/1.1"})
+    resp, attempt = urlopen_retry(req, timeout, "upstream fetch")
+    with resp:
         if resp.status != 200:
             raise RuntimeError(f"HTTP {resp.status} from {url}")
-        return resp.read()
+        return resp.read(), attempt
 
 
-upstream = fetch_bytes(UPSTREAM_URL)
+upstream, upstream_attempt = fetch_bytes(UPSTREAM_URL)
 actual_blob = git_blob_sha(upstream)
 if actual_blob != UPSTREAM_BLOB:
     raise SystemExit(f"upstream blob mismatch: expected {UPSTREAM_BLOB}, got {actual_blob}")
@@ -65,10 +81,12 @@ payload_path = ROOT / "magma-request-summary.json"
 payload_path.write_text(json.dumps({
     "upstream_url": UPSTREAM_URL,
     "upstream_git_blob_sha1": actual_blob,
+    "upstream_fetch_attempt": upstream_attempt,
     "skip_unused_degree8": [i_skip_start, i_skip_end],
     "skip_unused_aut_group": [i_aut, i_cc],
     "stop_before": STOP_MARKER,
     "submitted_code_sha256": hashlib.sha256(code.encode()).hexdigest(),
+    "network_retry_delays_seconds": RETRY_DELAYS,
 }, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 data = urllib.parse.urlencode({"input": code}).encode("utf-8")
@@ -79,18 +97,24 @@ req = urllib.request.Request(
         "Content-Type": "application/x-www-form-urlencoded",
         "Accept": "text/html, application/xml, application/xhtml+xml",
         "Referer": MAGMA_REFERER,
-        "User-Agent": "perfect-cuboid-stage33/1.0",
+        "User-Agent": "perfect-cuboid-stage33/1.1",
     },
     method="POST",
 )
 try:
-    with urllib.request.urlopen(req, timeout=120) as resp:
+    resp, magma_attempt = urlopen_retry(req, 120, "Magma calculator")
+    with resp:
         raw_bytes = resp.read()
         http_status = resp.status
 except urllib.error.HTTPError as exc:
     diagnostic = exc.read().decode("utf-8", errors="replace")
     (ROOT / "magma-http-error.txt").write_text(
         f"HTTP {exc.code} {exc.reason}\n{diagnostic}\n", encoding="utf-8"
+    )
+    raise
+except (urllib.error.URLError, TimeoutError) as exc:
+    (ROOT / "magma-network-error.txt").write_text(
+        f"all {len(RETRY_DELAYS)} attempts failed\n{exc!r}\n", encoding="utf-8"
     )
     raise
 
@@ -115,6 +139,7 @@ success = http_status == 200 and completion and not runtime_error
     "protocol": "official-magma-xml-calculator",
     "endpoint": MAGMA_URL,
     "http_status": http_status,
+    "magma_request_attempt": magma_attempt,
     "upstream_git_blob_sha1": actual_blob,
     "completion_marker_seen": completion,
     "runtime_error_seen": runtime_error,
