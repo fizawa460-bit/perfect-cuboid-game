@@ -2,33 +2,16 @@
 """Exact arithmetic descent certificate for the Stage33-05 J2 class.
 
 The prior descent front-end produced a sqrt(2)-free representative on the
-normalization.  Here we push that representative all the way back to the
-Q-defined quartic branch algebra and check the arithmetic unramifiedness
-conditions used by Creutz--Viray.
-
-Generic ruled fiber:
-    C/K : w^2 = F(t,s), K=Q(t),
-    F=t^2(1-s^2)^2+s^2(1-t^2)^2.
-The branch algebra is L=K[alpha]/F(alpha).  Over Qbar it splits through
-Q(i,t,z), z^2=t^4-6t^2+1.
-
-The J2 function is shown to equal, modulo an L-square,
-    ell = 2*(t^2+z-3)/(t^2-2*t-1),
-and then rewritten as an element of Q(t,alpha) with rational coefficients.
-Its norm L/K is an exact square and its divisor on the normalization is even.
-Therefore the horizontal and vertical residue criteria are satisfied; simple
-branch singularities dispose of the exceptional curves.  The resulting
-Creutz--Viray corestriction algebra is a Q-defined unramified CSA whose
-geometric class is J2.
+normalization. Here we push that representative back to the Q-defined quartic
+branch algebra and check the arithmetic unramifiedness conditions used by
+Creutz--Viray.
 """
 import hashlib
 import json
 from pathlib import Path
-
 import sympy as sp
 
 ROOT = Path(__file__).resolve().parent
-
 t, a, z, u, v = sp.symbols("t a z u v")
 s2 = sp.sqrt(2)
 q = sp.expand(t**4 - 6*t**2 + 1)
@@ -36,8 +19,7 @@ Dplus = sp.expand(t**2 - 2*t - 1)
 Dminus = sp.expand(t**2 + 2*t - 1)
 assert sp.expand(Dplus*Dminus - q) == 0
 
-# Q-defined branch quartic.  The leading coefficient t^2 is itself a square
-# in K=Q(t), so the usual y^2=c*f model has square c.
+# Q-defined branch quartic. The leading coefficient t^2 is a square in Q(t).
 F = sp.expand(t**2*(1-a**2)**2 + a**2*(1-t**2)**2)
 fmon = sp.expand(F/t**2)
 assert sp.Poly(fmon, a).LC() == 1
@@ -55,8 +37,7 @@ def reduce_z2(expr):
     den = sp.rem(sp.Poly(sp.expand(den*dencc), z, domain="EX"), mod).as_expr()
     return sp.factor(sp.cancel(num/den))
 
-# Regression against the exact Hilbert-90 representative from the preceding
-# checker.
+# Regression against the Hilbert-90 representative from the preceding leaf.
 r2 = -(1+s2)
 r3 = s2-1
 r4 = 1-s2
@@ -67,10 +48,7 @@ ell_z = sp.cancel(2*(t**2+z-3)/Dplus)
 assert reduce_z2(f2*g90**2-ell_z) == 0
 assert reduce_z2(ell_z/f2-g90**2) == 0
 
-# Eliminate z and the component constant i.  If alpha is a root on either
-# geometric component, the quartic relation gives
-#   z=(2*t^2*(1-alpha^2)-(1-t^2)^2)/(1-t^2).
-# Substitution yields a rational Q(t,alpha) expression.
+# Eliminate z. On the branch quartic one has the following normalization map.
 z_from_a = sp.cancel((2*t**2*(1-a**2)-(1-t**2)**2)/(1-t**2))
 ell_Q = sp.factor(2*(t**2+z_from_a-3)/Dplus)
 ell_Q_target = sp.factor(
@@ -82,8 +60,7 @@ assert not ell_Q_target.has(sp.I)
 assert not ell_Q_target.has(s2)
 assert not ell_Q_target.has(z)
 
-# Direct Q(t)-norm in the quartic branch algebra by a resultant.  Because
-# fmon is monic, resultant(fmon, numerator) / denominator^4 is Norm_{L/K}.
+# Direct Q(t)-norm in L=Q(t)[alpha]/F(alpha) by a resultant.
 num_Q, den_Q = sp.fraction(ell_Q_target)
 res = sp.factor(sp.resultant(fmon, num_Q, a))
 norm_LK = sp.factor(sp.cancel(res/den_Q**4))
@@ -93,39 +70,31 @@ norm_sqrt = sp.cancel(32/Dplus**2)
 assert sp.simplify(norm_LK-norm_sqrt**2) == 0
 
 # Exact divisor parity after geometric splitting z^2=q.
-# The numerator t^2+z-3 has constant norm 8, hence no finite zero.
-num_norm_z = sp.factor((t**2+z-3)*(t**2-z-3)).subs(z**2, q)
+# Expand before quotient substitution: factor() may keep the product opaque to
+# SymPy's structural subs(z**2,q), which caused the previous CI-only failure.
+num_norm_z = sp.expand((t**2+z-3)*(t**2-z-3)).subs(z**2, q)
 assert sp.expand(num_norm_z-8) == 0
-# Dplus has two simple roots and divides q exactly once.  At either root the
-# double-cover coordinate t-r has valuation 2, hence ell has pole order 2.
+# Dplus has two simple roots and divides q exactly once. At either root the
+# normalization map is ramified, so a simple zero of Dplus has valuation 2.
 assert sp.gcd(sp.Poly(Dplus,t), sp.Poly(sp.diff(Dplus,t),t)).degree() == 0
 assert sp.gcd(sp.Poly(Dplus,t), sp.Poly(Dminus,t)).degree() == 0
 
-# At infinity use u=1/t and v=z/t^2.  The normalization is
-# v^2=1-6u^2+u^4.  ell is
-#   2*(1+v-3u^2)/(1-2u-u^2).
-# At v=+1 the numerator is a unit.  At v=-1 the complementary factor is a
-# unit and the product identity below gives zero order exactly 4.
+# At infinity use u=1/t, v=z/t^2. The normalization is
+# v^2=1-6u^2+u^4. The product identity gives zero order 4 at v=-1.
 curve_inf = 1-6*u**2+u**4
 prod_inf = sp.expand((1+v-3*u**2)*(1-v-3*u**2)).subs(v**2, curve_inf)
 assert sp.expand(prod_inf-8*u**4) == 0
-assert (1+1-0) != 0       # v=+1: first factor unit
-assert (1-(-1)-0) != 0    # v=-1: complementary factor unit
+assert (1+1-0) != 0
+assert (1-(-1)-0) != 0
 
-# Hence the complete divisor is even:
-#   div(ell)=4*infinity_minus -2*P_r1 -2*P_r4,
-# where r1,r4 are the two roots of Dplus.  In particular every vertical
-# branch valuation is even, so the parity conditions of CV Proposition 3.1
-# are automatic.  The horizontal condition follows from the square norm;
-# exceptional (-2)-curves over the simple branch nodes are then covered by
-# CV Proposition 3.4.
+# Hence div(ell)=4*infinity_minus-2*P1-2*P2 is even. Combined with the
+# square norm, the Creutz--Viray vertical/horizontal residue conditions hold;
+# simple branch singularities cover the exceptional (-2)-curves.
 divisor_even = True
 all_vertical_branch_valuations_even = True
 horizontal_norm_condition = True
 exceptional_simple_node_reduction = True
 
-# The arithmetic representative is the Q-defined corestriction algebra.
-# alpha denotes the class of a in L=Q(t)[a]/F(a).
 CSA = (
     "Cor_{L(C)/Q(t)(C)}((ell_J2, s-alpha)_2), "
     "L=Q(t)[alpha]/(t^2*(1-alpha^2)^2+alpha^2*(1-t^2)^2), "
