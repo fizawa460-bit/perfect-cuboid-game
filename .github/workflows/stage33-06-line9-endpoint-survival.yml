@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage33/33-06/**'
+      - 'stages/stage33/controller.json'
       - '.github/workflows/stage33-06-line9-endpoint-survival.yml'
   workflow_dispatch:
 
@@ -45,6 +46,24 @@ jobs:
           assert c['stage33_07_released'] is False
           print('STAGE33_06_NONAUDIT_GATES=PASS')
           print('UNIT_STATUS=AUDIT_REQUIRED')
+          PY
+      - name: Validate controller preaudit firewall
+        run: |
+          python - <<'PY'
+          import json
+          c=json.load(open('stages/stage33/controller.json'))
+          s=c['stage33_06']
+          assert c['stage33_progress']=='5/11'
+          assert s['unit_status']=='AUDIT_REQUIRED'
+          assert s['unit_closed'] is False
+          assert s['downstream_released'] is False
+          assert s['exact_zero_survival_certificate'] is True
+          assert s['endpoint_relevant_surviving_dimension_f2']==0
+          assert s['unresolved_unknown_in_scope']==0
+          assert c['stage33_07_released'] is False
+          assert c['stage33_07_release_allowed'] is False
+          assert c['next_expected_command']=='Stage33-audit'
+          print('STAGE33_06_CONTROLLER_FIREWALL=PASS')
           PY
       - name: Upload exact Stage33-06 certificate
         uses: actions/upload-artifact@v4
