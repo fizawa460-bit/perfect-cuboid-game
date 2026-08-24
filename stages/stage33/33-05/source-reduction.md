@@ -45,39 +45,72 @@ No arithmetic survival over `Q` follows from dimension two alone.
 
 ## Exact finite execution sub-DAG
 
-Stage29 identified the remaining wall as the explicit Creutz--Viray presentation plus Galois descent. Stage33-05 therefore freezes the following bounded sub-DAG:
-
 ```text
-05A  branch normalization / Q(i)/Q component-action regression
+05A  branch normalization / Q(i)/Q component-action regression       DONE
  |
  v
-05B  materialize an explicit finite basis of L_{c,E}
+05B  materialize finite L_{c,E} structure
+     - exact dimension and generator skeleton                         DONE
+     - explicit compatible 9-element function basis                  OPEN
  |
- +-------> 05C transport a certified NS(K_c) basis to the ruled model
+ +-------> 05C transport a certified NS(K_c) basis to the ruled model OPEN
               |
               v
-05D  construct the exact x-alpha relation matrix
+05D  construct the exact x-alpha relation matrix                      OPEN
  |
  v
-05E  quotient L_{c,E}/im(x-alpha); certify geometric F2 dimension exactly 2
+05E  quotient L_{c,E}/im(x-alpha); certify geometric F2 dimension 2   DIMENSION_LOCKED, SYMBOL BASIS OPEN
  |
  v
-05F  compute complex-conjugation action on the quotient basis
+05F  compute complex-conjugation action on the quotient basis         OPEN
  |
  v
 05G  compute invariant/descended subspace and descent obstruction;
      materialize every surviving Q-defined arithmetic representative,
-     or certify exact zero survival
+     or certify exact zero survival                                   OPEN
 ```
 
-`05A` is a source/regression preflight. `05B--05G` are the actual Class-2 wall. Failure to materialize them is not permission to infer `Q_RELEVANT_SURVIVING_DIM=0`.
+## New exact dimension reduction
+
+For the first ruling `W=P1_t`, both branch components have common discriminant squareclass
+
+```text
+q(t)=t^4-6t^2+1.
+```
+
+They therefore have the same quadratic function field over `K=kbar(t)`.  The normalization consists of two genus-one components; the dual graph is two vertices joined by eight edges.  The exact Stage33 checker certifies
+
+```text
+Jac(B)[2] dimension = 4
+b1(Gamma)           = 7
+common even-ramification fibers = 4
+K-squareclass kernel dimension  = 1
+c square on generic fiber       = true
+```
+
+Using the source dimension formulas gives
+
+```text
+raw generator subspace mod L*2 = 12
+kernel to K*L*2                = 3
+L_E dimension                  = 9
+L_{c,E}=L_E                    = true
+L_{c,E} dimension              = 9
+im(x-alpha) dimension          = 7
+Br quotient dimension          = 2
+```
+
+Thus the remaining finite presentation is not an unknown-size problem: it is an explicit rank-7 relation problem inside a 9-dimensional `L_{c,E}` space.
 
 ## Exact current smaller leaf
 
 ```text
-LEAF_ID=L33-05-CV-PRESENTATION
+LEAF_ID=L33-05-CV-EXPLICIT-9D-PRESENTATION
 CLASS=2
-STATEMENT=materialize L_{c,E}, a certified ruled-model NS basis, the x-alpha matrix, and the resulting two-dimensional geometric Brauer quotient with explicit symbols
+STATEMENT=materialize an explicit 9-element L_{c,E} function basis, transport a certified ruled-model NS basis, construct a rank-7 x-alpha relation matrix, and output two explicit quotient symbols
+INPUT_DIMENSION=9
+RELATION_RANK=7
+QUOTIENT_DIMENSION=2
 NEW_THEOREM_REQUIRED=false
 ```
 
@@ -91,6 +124,8 @@ GEOMETRIC_BR2_DIM2_IMPLIES_Q_SURVIVING_DIM2=false
 GEOMETRIC_BR2_DIM2_IMPLIES_Q_SURVIVING_DIM_NONZERO=false
 MODULAR_LABEL_KC_TO_H32_IMPLIES_CV_SYMBOL_ACTION=false
 BRANCH_COMPONENT_ACTION_IMPLIES_DESCENT_OBSTRUCTION_ZERO=false
+LCE_DIMENSION_9_IMPLIES_EXPLICIT_BASIS_MATERIALIZED=false
+XALPHA_IMAGE_DIMENSION_7_IMPLIES_RELATION_MATRIX_MATERIALIZED=false
 ```
 
 ## Closure target
