@@ -26,7 +26,7 @@ class R(urllib.request.HTTPRedirectHandler):
 def dl():
  t=os.environ.get('GITHUB_TOKEN')
  if not t: raise SystemExit('GITHUB_TOKEN required')
- req=urllib.request.Request(f'https://api.github.com/repos/{REPO}/actions/artifacts/{BR0G_ARTIFACT_ID}/zip',headers={'Authorization':f'Bearer {t}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'perfect-cuboid-stage33/5.0'})
+ req=urllib.request.Request(f'https://api.github.com/repos/{REPO}/actions/artifacts/{BR0G_ARTIFACT_ID}/zip',headers={'Authorization':f'Bearer {t}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'perfect-cuboid-stage33/5.1'})
  with urllib.request.build_opener(R()).open(req,timeout=90) as r:b=r.read()
  if hashlib.sha256(b).hexdigest()!=BR0G_ARTIFACT_SHA256: raise SystemExit('BR0G artifact digest mismatch')
  return zipfile.ZipFile(io.BytesIO(b))
@@ -35,6 +35,8 @@ ctl=load(S33/'controller.json')
 s07=load(S33/'33-07'/'audit-state.json')
 j2_source=(S33/'33-05'/'j2_arithmetic_descent.py').read_text(encoding='utf-8')
 assert ctl['stage33_progress']=='6/11'
+assert ctl['stage33_04']['unit_status']=='CLOSED'
+assert ctl['stage33_04']['arithmetic_crossing_orbits']==120
 assert ctl['stage33_07']['unit_status']=='BLOCKED_NEW_KERNEL'
 assert not ctl['stage33_08_released']
 assert s07['unit_status']=='BLOCKED_NEW_KERNEL'
@@ -51,7 +53,6 @@ with dl() as z:
  linear=json.loads(z.read('linear-factor-unit-lifts.json'))
  us=json.loads(z.read('unit-symbol-residue-span.json'))
  tp=json.loads(z.read('two-primary-prime-power-gersten-descent.json'))
- bg=json.loads(z.read('boundary-galois.json'))
 
 M=sp.Matrix([r['coordinates_in_audited_U_D_basis'] for r in linear['ratio_lifts']])
 assert M.shape==(17,14) and int(M.rank())==11
@@ -59,7 +60,6 @@ assert us['unit_divisor_lattice_rank']==14
 assert us['unit_symbol_secondary_residue_span_rank_f2']==44
 assert tp['order4_generator_count']==12
 assert tp['two_primary_ramified_crossing_module']=='(Z/2)^49 direct_sum (Z/4)^12'
-assert len(bg['arithmetic_component_orbits'])==60
 
 j2={
  'class_id':'J2','primary_order':2,'provenance':'BR2_K3','field_of_definition':'Q',
