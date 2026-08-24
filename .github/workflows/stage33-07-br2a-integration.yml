@@ -26,6 +26,9 @@ jobs:
       - name: Certify nonzero endpoint pullback of Kc J2
         working-directory: stages/stage33/33-07
         run: python probe_j2_endpoint_q2.py
+      - name: Scan J2 evaluation on several genuine Q2 endpoint lifts
+        working-directory: stages/stage33/33-07
+        run: python scan_j2_endpoint_q2_variation.py
       - name: Assemble audited Stage33-07 integration prefix
         working-directory: stages/stage33/33-07
         run: python assemble_integration_prefix_v2.py
@@ -51,6 +54,7 @@ jobs:
           r=json.load(open('br0b-boundary-raw-residue-map.json'))
           f=json.load(open('br0g-finite-ramified-residue-presentation.json'))
           g=json.load(open('full-br0b-boundary-injection.json'))
+          s=json.load(open('j2-endpoint-q2-variation.json'))
           p=c['closure_prefix']
           assert p['br0b_all_primary_classes_imported']
           assert p['br0g_relevant_classes_imported']
@@ -86,10 +90,13 @@ jobs:
           assert g['br0b_duplicate_with_br0g_constant_block_exactly_its_injective_image']
           assert g['trivial_algebraic_duplicate_quotient_exact']
           assert g['br0b_all_primary_classes_accounted']
+          assert len(s['evaluations'])==7
+          assert s['evaluation_nonconstant_on_endpoint_Q2_locus_certified'] in (True,False)
           assert g['unresolved_unknown_in_scope']==1
           assert g['unit_status']=='RUNNING' and not g['unit_closed']
           assert not g['downstream_released'] and not g['stage33_08_released']
           print('STAGE33_07_BR0B_FULL_INJECTION_AND_BOUNDARY_PRESENTATION=PASS')
+          print('J2_Q2_EVALUATION_NONCONSTANT='+str(s['evaluation_nonconstant_on_endpoint_Q2_locus_certified']))
           print('RESIDUAL='+g['new_residual_kernel'])
           print('NEXT_LEAF='+g['next_exact_leaf'])
           PY
@@ -100,6 +107,8 @@ jobs:
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
             stages/stage33/33-07/j2-q2-magma-stdout.txt
+            stages/stage33/33-07/j2-endpoint-q2-variation.json
+            stages/stage33/33-07/j2-q2-variation-magma-stdout.txt
             stages/stage33/33-07/integration-prefix.json
             stages/stage33/33-07/br0b-boundary-raw-residue-map.json
             stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json
