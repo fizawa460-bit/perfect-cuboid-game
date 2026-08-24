@@ -34,20 +34,27 @@ bdim = 140
 
 and exports upstream classes `j=1..140` without reordering. It then converts those 140 classes to a primitive integral rank-64 Picard basis and stores them in `known_classes` in that same order.
 
-The frozen Stage29 BR0A probe defines the 72 physical boundary generators by
+The frozen Stage29 BR0A boundary selector is directly source-locked at:
+
+```text
+path = stages/stage29/29-02f/boundary_module_probe.m
+blob = 315822987e98f9226c877d0ab8e76e1993160cd5
+```
+
+That exact file defines the 72 physical boundary generators by
 
 ```text
 side_inds = [1..24]
 exc_inds  = [#Cs+j : j=1..48]
 ```
 
-Hence the exact Stage32-core rows are
+and asserts `#boundary_inds eq 72`. Hence the exact Stage32-core rows are
 
 ```text
 1..24, 93..140.
 ```
 
-No matching, heuristic identification, or geometric relabeling is involved.
+No matching, heuristic identification, or geometric relabeling is involved. The direct Stage29 selector lock is load-bearing: changing it requires a new audited adapter rather than silently reusing this certificate.
 
 ## Exact maps reconstructed
 
