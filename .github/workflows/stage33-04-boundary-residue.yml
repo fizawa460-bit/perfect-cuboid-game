@@ -36,6 +36,9 @@ jobs:
       - name: Classify endpoint boundary over the seven-line arrangement
         working-directory: stages/stage33/33-04
         run: python classify_sign_cover_boundary_map.py
+      - name: Certify Ford line-symbol pullback vanishes on the full Kummer cover
+        working-directory: stages/stage33/33-04
+        run: python certify_ford_kummer_pullback_zero.py
       - name: Upload exact Stage33-04 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -47,3 +50,4 @@ jobs:
             stages/stage33/33-04/boundary-cycle-galois.json
             stages/stage33/33-04/sign-cover-boundary-map-magma-stdout.txt
             stages/stage33/33-04/sign-cover-boundary-map.json
+            stages/stage33/33-04/ford-kummer-pullback-zero.json
