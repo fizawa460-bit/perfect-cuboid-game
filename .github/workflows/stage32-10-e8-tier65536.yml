@@ -1,0 +1,106 @@
+name: Stage32-10 e8 exact <=65536 deep tier
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage32-10-e8-tier65536.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  e8deep:
+    name: e8-a36-le65536
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - name: Download source-locked Picard core
+        run: >-
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+      - name: Download completed <=4096 predecessor from this main batch
+        run: >-
+          gh run download 32686185075 --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-10-e8-a36-le4096-exact-tier --dir "$RUNNER_TEMP/pred"
+      - name: Download audited immutable profile
+        run: >-
+          gh run download 32679056269 --repo fizawa460-bit/perfect-cuboid-game
+          --name stage32-08-e8-a36-materialization-profile --dir "$RUNNER_TEMP/profile"
+      - name: Re-derive exact caps
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/intersection-cap-certificates.json"
+      - name: Exhaust cumulative <=65536 tier
+        run: |
+          python stages/stage32/32-08/run_materialized_parent_tier.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/out/intersection-cap-certificates.json" \
+            --output "$RUNNER_TEMP/out/tier65536.json" \
+            --exceptional-mass 8 --curve-group-mass 36 \
+            --branch-threshold 65536 --node-limit-per-branch 1000000
+      - name: Enforce <=4096 exact prefix, profile inventory, UNKNOWN and credit firewalls
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          root=pathlib.Path('${{ runner.temp }}')
+          new=json.loads((root/'out/tier65536.json').read_text())
+          pred=json.loads((root/'pred/tier4096.json').read_text())
+          prof=json.loads((root/'profile/materialization-profile.json').read_text())
+          assert pred['deterministic_sha256_without_runtime']=='8e2ffd5cf7170ad51f647516f881be023a8b11050ab2bb2e5d8c580a6a513991'
+          assert pred['parameters']['branch_threshold']==4096 and pred['unknown_cell_count']==0
+          assert prof['canonical_sha256_without_this_field']=='97608b176d7a91677f63cd293502f7042a9a9f6ad30904631260c9d560b7be17'
+          row=next(r for r in prof['branch_count_cumulative_profile'] if r['branch_threshold']==65536)
+          assert row['covered_cell_count']==44
+          assert row['scheduled_materialized_branch_count']==122906
+          assert new['parameters']['branch_threshold']==65536
+          assert new['parameters']['node_limit_per_branch']==1000000
+          assert new['tier_inventory']['selected_cell_count']==44
+          assert new['tier_inventory']['scheduled_materialized_branch_count']==122906
+          assert new['shared_context']['kernel_dimension']==12
+          pids=pred['tier_inventory']['selected_cell_ids']; pidx=pred['tier_inventory']['selected_cell_indices']
+          assert new['tier_inventory']['selected_cell_ids'][:len(pids)]==pids
+          assert new['tier_inventory']['selected_cell_indices'][:len(pidx)]==pidx
+          def strip_runtime(x):
+              if isinstance(x,dict): return {k:strip_runtime(v) for k,v in x.items() if k not in {'elapsed_seconds','shared_context_preparation_seconds'}}
+              if isinstance(x,list): return [strip_runtime(v) for v in x]
+              return x
+          old={c['cell_id']:strip_runtime(c) for c in pred['cells']}; cur={c['cell_id']:strip_runtime(c) for c in new['cells']}
+          for cid,v in old.items(): assert cur[cid]==v, cid
+          assert new['complete_cell_count']+new['unknown_cell_count']==44
+          assert new['exact_unsat_cell_count']+new['exact_sat_cell_count']==new['complete_cell_count']
+          if new['tier_complete_numerical_enumeration']:
+              assert new['unknown_cell_count']==0
+              assert new['exact_numerical_survivor_count_in_complete_tier']==len(new['confirmed_numerical_survivors'])
+          else:
+              assert new['unknown_cell_count']>0
+              assert new['exact_numerical_survivor_count_in_complete_tier'] is None
+          assert new['full_parent_complete'] is False
+          assert new['effectivity_classification_complete'] is False
+          assert new['actual_curve_existence_claim'] is False
+          assert new['theorem_credit'] is False and new['receiver_credit'] is False
+          assert new['FULL_D8_G0_ROW_COMPLETE'] is False
+          assert new['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert new['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          assert new['R29_LG2']=='NOT_DISCHARGED' and new['R29_LG2_EFF']=='NOT_DISCHARGED' and new['R29_LG2_MB']=='NOT_DISCHARGED'
+          assert new['G10_LOWGENUS_PICARD']=='AMBER'
+          print(json.dumps({'cells':44,'branches':122906,'complete_cells':new['complete_cell_count'],'unsat_cells':new['exact_unsat_cell_count'],'sat_cells':new['exact_sat_cell_count'],'unknown_cells':new['unknown_cell_count'],'survivors':len(new['confirmed_numerical_survivors']),'nodes':sum(int(b['search']['enumeration_node_count']) for c in new['cells'] for b in c['branch_rows']),'complete':new['tier_complete_numerical_enumeration'],'sha':new['deterministic_sha256_without_runtime'],'le4096_prefix':'PASS'},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-10-e8-a36-le65536-exact-tier
+          path: ${{ runner.temp }}/out/tier65536.json
+          if-no-files-found: error
