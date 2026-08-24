@@ -44,11 +44,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python compute_unit_symbol_residue_span.py
-      - name: Materialize an explicit Q-rational basis of the rank-14 unit lattice
+      - name: Diagnose exact linear-factor pullback discrepancy before solving exceptional valuations
         working-directory: stages/stage33/33-04
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python materialize_q_units_v2.py
+        run: python diagnose_q_unit_pullbacks.py
       - name: Upload exact Stage33-04 certificates
         uses: actions/upload-artifact@v4
         with:
@@ -63,4 +63,4 @@ jobs:
             stages/stage33/33-04/ford-kummer-pullback-zero.json
             stages/stage33/33-04/unit-symbol-residue-span.json
             stages/stage33/33-04/q-unit-magma-stdout.txt
-            stages/stage33/33-04/explicit-q-units.json
+            stages/stage33/33-04/q-unit-pullback-diagnostic.json
