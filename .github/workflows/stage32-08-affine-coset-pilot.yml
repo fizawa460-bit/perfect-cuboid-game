@@ -73,7 +73,9 @@ jobs:
           import json, os, pathlib
           p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/coset-pilot.json'
           d=json.loads(p.read_text())
-          assert d['schema']=='STAGE32_D8_SIGNATURE_CELL_AFFINE_COSET_PILOT_V1'
+          assert d['schema']=='STAGE32_D8_SIGNATURE_CELL_AFFINE_COSET_PILOT_V2'
+          assert d['coset_certificate']['coordinate_system']=='primitive_picard_basis_x'
+          assert d['coset_certificate']['selected_membership_congruences_eliminated_by_basis_choice'] is True
           assert d['coset_certificate']['projected_congruence_kernel_rank']==64
           assert d['coset_certificate']['final_kernel_dimension'] < 64
           assert d['search']['solver_result'] in {'UNSAT','SAT_WITNESS','UNSAT_RADIUS','UNKNOWN_NODE_BUDGET'}
@@ -139,7 +141,7 @@ jobs:
                   'seconds':d['search']['elapsed_seconds'],
               })
           assert len(rows)==2, rows
-          out={'schema':'STAGE32_D8_AFFINE_COSET_PILOT_SUMMARY_V1','rows':rows,'theorem_credit':False,'receiver_credit':False,'G10_LOWGENUS_PICARD':'AMBER'}
+          out={'schema':'STAGE32_D8_AFFINE_COSET_PILOT_SUMMARY_V2','rows':rows,'theorem_credit':False,'receiver_credit':False,'G10_LOWGENUS_PICARD':'AMBER'}
           q=pathlib.Path('${{ runner.temp }}')/'stage32-08-affine-coset-summary.json'
           q.write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
           print(json.dumps(rows,sort_keys=True))
