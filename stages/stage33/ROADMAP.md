@@ -1,10 +1,11 @@
 # Stage33 — BRAUER-EXPLICIT-DAG execution roadmap
 
 ```text
-STAGE33_ROADMAP_VERSION=1
+STAGE33_ROADMAP_VERSION=2
 STAGE33_STATUS=ROADMAP_CREATED_NOT_EXECUTED
 PRIMARY_KERNEL=K16-C2-BRAUER-EXPLICIT-CHAIN
 PRIMARY_PROGRAM=BRAUER-EXPLICIT-DAG
+BRAUER_SCOPE=STAGE33_RELEVANT_TWO_PRIMARY_SUBGROUP
 SOURCE_FRONTIER=STAGE29
 STAGE32_COMPLETION_REQUIRED=false
 STAGE33_CAN_RUN_CONCURRENTLY_WITH_STAGE32=true
@@ -14,7 +15,7 @@ PERFECT_CUBOID_PROBLEM_STATUS=OPEN
 
 ## 0. Purpose and execution policy
 
-Stage33 is the execution program for the frozen Stage29 Brauer frontier.  It is a separate research line from Stage32 low-genus Picard production.  Stage32 infrastructure may be reused when technically convenient, but Stage33 does not wait for the Stage32 183-row census and receives no mathematical credit from Stage32 unless an exact adapter is explicitly proved.
+Stage33 is the execution program for the frozen Stage29 Brauer frontier. It is a separate research line from Stage32 low-genus Picard production. Stage32 infrastructure may be reused when technically convenient, but Stage33 does not wait for the Stage32 183-row census and receives no mathematical credit from Stage32 unless an exact adapter is explicitly proved.
 
 The frozen starting kernel is
 
@@ -24,7 +25,7 @@ K16-C2-BRAUER-EXPLICIT-CHAIN
 
 whose audited internal shape is a dependency DAG rather than a literal chain.
 
-This roadmap supersedes the `GO / STOP` language in `INTRODUCTION.md` as an execution policy.  `BRAUER-PROSPECT-SCAN` remains useful, but only as reconnaissance and ordering information.  A pessimistic scan is **not** by itself a reason to abandon Stage33.
+This roadmap supersedes the `GO / STOP` language in `INTRODUCTION.md` as an execution policy. `BRAUER-PROSPECT-SCAN` remains useful, but only as reconnaissance and ordering information. A pessimistic scan is **not** by itself a reason to abandon Stage33.
 
 Stage33 continues until the current Brauer mechanism is mathematically exhausted as far as the available theorem/CAS stack permits.
 
@@ -57,7 +58,7 @@ BRAUER_MANIN_SET_APPEARS_NONEMPTY_NUMERICALLY
 EXTERNAL_AI_PESSIMISM
 ```
 
-If the Brauer mechanism is eventually proved non-obstructive, record that exact negative result and close the kernel honestly.  If a new unknown theorem is required, freeze the exact new kernel instead of pretending the route failed.
+If the Brauer mechanism is eventually proved non-obstructive, record that exact negative result for the Stage33-computed subgroup and close the mechanism honestly. If a new unknown theorem is required, freeze the exact new kernel instead of pretending the route failed.
 
 ## 1. Frozen dependency shape
 
@@ -83,11 +84,11 @@ ruled-double-cover branch hypotheses discharged
 dim_F2 Br(K_c_Qbar)[2] = 2
 ```
 
-These are inputs only.  They do not imply Q-defined endpoint classes, nonconstant local evaluation, or a Brauer--Manin obstruction.
+These are inputs only. They do not imply Q-defined endpoint classes, nonconstant local evaluation, or a Brauer--Manin obstruction.
 
 ## 2. Big-task plan
 
-The intended Stage33 scale is **11 big tasks**.  Individual tasks may require bounded child PRs, but child PR count must not be confused with roadmap size.
+The intended Stage33 scale is **11 big tasks**. Individual tasks may require bounded child PRs, but child PR count must not be confused with roadmap size.
 
 ### Stage33-01 — BRAUER-PROSPECT-SCAN and source reconstruction
 
@@ -112,7 +113,7 @@ LOCAL_EVALUATION_PREVIEW
 NEXT_PRIORITY_ORDER
 ```
 
-Credit rule: previews are reconnaissance only.  They do not close BR0A/BR0B/BR0G/BR2A/BR2B unless the exact full hypotheses for that receiver are independently met.
+Credit rule: previews are reconnaissance only. They do not close BR0A/BR0B/BR0G/BR2A/BR2B unless the exact full hypotheses for that receiver are independently met.
 
 Continuation rule: regardless of optimistic or pessimistic preview, proceed to exact DAG work unless the scan itself already gives an exact branch-closure certificate or exposes a new kernel.
 
@@ -314,32 +315,35 @@ CONSTANCY/NONCONSTANCY_CERTIFICATE
 SOURCE_LOCK
 ```
 
-Numerical sampling is reconnaissance only.  Promotion requires exact evaluation images or an exact residual kernel.
+Numerical sampling is reconnaissance only. Promotion requires exact evaluation images or an exact residual kernel.
 
 ### Stage33-11 — physical adelic compatibility, final Brauer verdict, and hostile audit
 
-Objective: combine all exact local images under global reciprocity and determine the actual physical-open Brauer--Manin set status for the computed relevant Brauer group.
+Objective: combine all exact local images under global reciprocity and determine the physical-open orthogonality status for the complete Stage33-computed relevant two-primary Brauer subgroup.
 
 Required final alternatives:
 
 ```text
-A. PHYSICAL_BM_SET_EMPTY_CERTIFIED
+A. PHYSICAL_COMPUTED_BRAUER_SUBGROUP_SET_EMPTY_CERTIFIED
+   -> the physical adelic set orthogonal to the complete Stage33-computed subgroup is empty
    -> no physical endpoint Q-point
    -> perfect-cuboid nonexistence, subject to hostile audit of every endpoint adapter.
 
-B. PHYSICAL_BM_SET_NONEMPTY_CERTIFIED
-   -> this completed Brauer mechanism does not prove endpoint emptiness;
-   -> record the exact surviving adelic restrictions and close the mechanism negatively.
+B. PHYSICAL_COMPUTED_BRAUER_SUBGROUP_SET_NONEMPTY_CERTIFIED
+   -> this completed Stage33 Brauer subgroup does not prove endpoint emptiness;
+   -> record the exact surviving adelic restrictions and close this mechanism negatively;
+   -> this does NOT certify nonemptiness of the full Brauer--Manin set for all Brauer classes.
 
-C. RELEVANT_BRAUER_GROUP_TRIVIAL_OR_EVALUATIONS_VACUOUS_CERTIFIED
-   -> close this Brauer mechanism negatively with an exact certificate.
+C. RELEVANT_STAGE33_BRAUER_SUBGROUP_TRIVIAL_OR_EVALUATIONS_VACUOUS_CERTIFIED
+   -> close this Stage33 Brauer mechanism negatively with an exact certificate;
+   -> no claim is made about unrelated Brauer classes or other obstruction mechanisms.
 
 D. NEW_KERNEL_EXPOSED
    -> freeze the smallest exact unresolved theorem/computation dependency;
    -> no nonexistence or negative-route claim beyond the proved prefix.
 ```
 
-A final hostile audit must independently verify source locks, descent, boundary coverage, representative completeness, local-place completeness, evaluation images, reciprocity assembly and the endpoint implication.
+A final hostile audit must independently verify source locks, descent, boundary coverage, representative completeness within the declared Stage33 scope, local-place completeness, evaluation images, reciprocity assembly and the endpoint implication.
 
 ## 3. Stage32 separation firewall
 
@@ -351,7 +355,7 @@ STAGE33_BRAUER_PROGRESS_IMPLIES_STAGE32_LG2_PROGRESS=false
 STAGE32_COMPLETION_REQUIRED_FOR_STAGE33=false
 ```
 
-Reuse is allowed only for generic infrastructure such as exact integer/lattice code, CI patterns, manifests, checkpointing, source-lock helpers and hostile-audit machinery.  Any mathematical cross-stage adapter must be stated and proved explicitly.
+Reuse is allowed only for generic infrastructure such as exact integer/lattice code, CI patterns, manifests, checkpointing, source-lock helpers and hostile-audit machinery. Any mathematical cross-stage adapter must be stated and proved explicitly.
 
 ## 4. Anti-overclaim firewalls
 
@@ -366,31 +370,58 @@ DAG_COMPLETION_IMPLIES_PERFECT_CUBOID_NONEXISTENCE=false
 PROSPECT_SCAN_NEGATIVE_IMPLIES_ROUTE_IMPOSSIBLE=false
 NUMERICAL_LOCAL_SAMPLING_IMPLIES_EXACT_EVALUATION_IMAGE=false
 EXTERNAL_AI_REVIEW_COUNTS_AS_THEOREM_EVIDENCE=false
+COMPUTED_SUBGROUP_NONEMPTY_IMPLIES_FULL_BM_NONEMPTY=false
+COMPUTED_SUBGROUP_EMPTY_IMPLIES_NO_RATIONAL_ENDPOINT=true
 ```
 
 ## 5. Controller / handoff contract
 
-Each big task should finish with a machine-readable handoff containing at least:
+The exact unit state machine and release law are defined by `stages/stage33/33-00/unit-closure-contract.md`. Every big task must use exactly one of:
+
+```text
+OPEN
+RUNNING
+AUDIT_REQUIRED
+CLOSED
+BLOCKED_NEW_KERNEL
+BLOCKED_RESOURCE
+```
+
+Every big-task handoff must contain at least:
 
 ```text
 STAGE33_UNIT=
-UNIT_STATUS=PASS|PARTIAL|BLOCKED_NEW_KERNEL|BLOCKED_RESOURCE|AUDIT_REQUIRED
+UNIT_STATUS=OPEN|RUNNING|AUDIT_REQUIRED|CLOSED|BLOCKED_NEW_KERNEL|BLOCKED_RESOURCE
+UNIT_CLOSED=true|false
+DOWNSTREAM_RELEASED=true|false
+PREREQUISITE_UNITS=[]
+PREREQUISITES_ALL_CLOSED=true|false
+CLOSURE_CRITERIA_TOTAL=
+CLOSURE_CRITERIA_SATISFIED=
+UNRESOLVED_UNKNOWN_IN_SCOPE=
 RECEIVERS_DISCHARGED=[]
 RECEIVERS_OPEN=[]
 NEW_KERNEL_ID=NONE|<stable-id>
 THEOREM_CREDIT=true|false
 ENDPOINT_CREDIT=true|false
 PERFECT_CUBOID_NONEXISTENCE_CLAIM=true|false
-NEXT_UNIT=
 SOURCE_LOCKS=[]
 ARTIFACT_HASHES=[]
+AUDIT_VERDICT=
+NEXT_RELEASED_UNITS=[]
 ```
 
-`PARTIAL`, `BLOCKED_RESOURCE`, and `INCONCLUSIVE` never become negative mathematical evidence.
+Release law:
+
+```text
+DOWNSTREAM_RELEASED=true iff UNIT_STATUS=CLOSED
+```
+
+Partial or inconclusive work remains `RUNNING` or takes the appropriate `BLOCKED_*`/`AUDIT_REQUIRED` state; it never receives a synthetic `PASS`/`PARTIAL` unit status and never releases downstream work. Progress is the number of hostile-audited `CLOSED` units out of 11.
 
 ## 6. First execution command
 
-After this roadmap itself passes hostile audit and is merged, the first execution unit is:
+After this roadmap and its unit-closure contract pass hostile re-audit and PR #1355 is merged, the first execution unit is:
 
 ```text
 Stage33-01
