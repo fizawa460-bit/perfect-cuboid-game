@@ -50,7 +50,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python materialize_global_two_primary_presentation_v2.py
-      - name: Validate main-batch audit handoff
+      - name: Validate exact mathematical integration gates
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
@@ -88,7 +88,6 @@ jobs:
           assert f['finite_ramified_boundary_residue_module_exact']
           assert f['finite_ramified_boundary_residue_module']=='(Z/2)^49 direct_sum (Z/4)^12'
           assert f['diagnostic_quotient_by_U44']=='(Z/2)^23 direct_sum (Z/4)^3'
-          assert f['firewall']['this_is_boundary_residue_level_not_yet_full_global_BrU_relation_matrix']
           assert g['proper_cuboid_surface_H1_Q_Pic']==0
           assert g['full_br0b_boundary_map_injective']
           assert g['right_filtration_quadratic_family_boundary_map_injective']
@@ -115,20 +114,48 @@ jobs:
           assert z['complete_relevant_q_defined_class_list_for_stage33_brauer_scope']
           assert z['every_class_has_primary_order_and_provenance']
           assert z['br0b_all_primary_classes_accounted']
-          assert z['br2a']=='CLAIMED_DISCHARGED_PENDING_HOSTILE_AUDIT'
           assert z['unresolved_unknown_in_scope']==0
           assert z['closure_criteria_non_audit_satisfied']==13
-          assert z['unit_status']=='AUDIT_REQUIRED' and not z['unit_closed']
-          assert not z['downstream_released'] and not z['stage33_08_released']
-          print('STAGE33_07_MAIN_PRODUCTION=PASS_NONAUDIT_13_OF_13')
+          print('STAGE33_07_MATH=PASS_NONAUDIT_13_OF_13')
           print('J2_Q2_EVALUATION_NONCONSTANT=True')
-          print('BR2A=CLAIMED_DISCHARGED_PENDING_HOSTILE_AUDIT')
-          print('NEXT=Stage33-audit')
           PY
-      - name: Upload Stage33-07 working certificates
+      - name: Validate hostile-audited closure and Stage33-08 release
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          a=json.load(open('audit-state.json'))
+          h=json.load(open('handoff.json'))
+          ctl=json.load(open('../controller.json'))
+          assert a['hostile_audit']=='PASS'
+          assert a['audit_verdict']=='PASS_AFTER_J2_PROPER_TRANSCENDENTAL_ENDPOINT_SURVIVAL_AND_EXACT_BR0B_BR0G_GLOBAL_INTEGRATION'
+          assert a['closure_criteria_total']==14 and a['closure_criteria_satisfied']==14
+          assert a['unit_status']=='CLOSED' and a['unit_closed']
+          assert a['br2a']=='DISCHARGED' and a['unresolved_unknown_in_scope']==0
+          assert a['j2']['endpoint_pullback_nonzero']
+          assert a['j2']['proper_transcendental']
+          assert a['j2']['q2_evaluation_nonconstant']
+          assert a['global_inventory']['finite_nonconstant_two_primary_group']=='(Z/2)^50 direct_sum (Z/4)^12'
+          assert not a['brauer_manin_set_empty_proved']
+          assert h['unit_status']=='CLOSED' and h['stage33_08_released']
+          assert h['stage33_progress']=='7/11'
+          assert ctl['schema']=='STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V17_STAGE33_07_AUDITED_CLOSED_33_08_RELEASED'
+          assert ctl['stage33_progress']=='7/11'
+          assert ctl['stage33_07']['unit_status']=='CLOSED'
+          assert ctl['stage33_07']['hostile_audit']=='PASS'
+          assert ctl['stage33_08_released'] and ctl['stage33_08_release_allowed']
+          assert ctl['next_item']=='Stage33-08_MAIN'
+          assert ctl['next_expected_command']=='Stage33-main-batch'
+          assert not ctl['stage33_closed']
+          assert not ctl['perfect_cuboid_nonexistence_claim']
+          print('STAGE33_07_HOSTILE_AUDIT=PASS')
+          print('STAGE33_PROGRESS=7/11')
+          print('STAGE33_08_RELEASED=True')
+          PY
+      - name: Upload Stage33-07 audited certificates
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-br2a-working
+          name: stage33-07-br2a-audited
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
             stages/stage33/33-07/j2-q2-magma-stdout.txt
@@ -139,3 +166,6 @@ jobs:
             stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json
             stages/stage33/33-07/full-br0b-boundary-injection.json
             stages/stage33/33-07/global-two-primary-presentation.json
+            stages/stage33/33-07/audit.md
+            stages/stage33/33-07/audit-state.json
+            stages/stage33/33-07/handoff.json
