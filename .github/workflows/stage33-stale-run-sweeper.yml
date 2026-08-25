@@ -3,30 +3,34 @@ name: Stage33 stale-run sweeper
 on:
   pull_request:
     paths:
-      - 'stages/stage33/**'
-      - '.github/workflows/stage33-*.yml'
-
-permissions:
-  contents: read
-  actions: write
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-stale-run-sweeper.yml'
+      - '.github/workflows/stage33-07-br2a-integration.yml'
+      - '.github/workflows/stage33-07-nonelementary-k12-integral-cc-ct.yml'
+      - '.github/workflows/stage33-07-nonelementary-k12-full-q4-scout.yml'
+  workflow_dispatch:
 
 concurrency:
   group: stage33-stale-run-sweeper-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  actions: write
+  contents: read
+
 jobs:
   cancel-old-heads:
-    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
-    env:
-      GH_TOKEN: ${{ github.token }}
-      REPO: ${{ github.repository }}
-      HEAD_REF: ${{ github.head_ref }}
-      CURRENT_SHA: ${{ github.event.pull_request.head.sha }}
-      CURRENT_RUN_ID: ${{ github.run_id }}
     steps:
       - name: Cancel queued or running Stage33 runs from older PR heads
-        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD_REF: ${{ github.head_ref }}
+          CURRENT_SHA: ${{ github.event.pull_request.head.sha }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
         run: |
           python - <<'PY'
           import json, os, urllib.parse, urllib.request, urllib.error
