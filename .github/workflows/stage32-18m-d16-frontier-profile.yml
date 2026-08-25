@@ -1,0 +1,231 @@
+name: Stage32-18M d16 post-b12 exact frontier profile
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18m-frontier-profile.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18m-frontier-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.key.outputs.authorized }}
+      generation: ${{ steps.key.outputs.generation }}
+      matrix: ${{ steps.key.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: key
+        name: Validate key and require current-head key change
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/18m-frontier-profile.json'
+          authorized=true
+          if [ "$ACTION" = synchronize ]; then
+            if [ -z "${BEFORE:-}" ]; then
+              authorized=false
+            else
+              git fetch --no-tags --depth=1 origin "$BEFORE"
+              if ! git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
+                authorized=false
+              fi
+            fi
+          fi
+          python - <<'PY' "$authorized"
+          import json, os, pathlib, sys
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18m-frontier-profile.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18m-d16-frontier-profile'
+          assert d['armed'] is True and d['generation']==1
+          assert d['accepted_b12_dump_sha256']=='03616e7c03cdca9b4c8408cec671b0ef6bd26713fe5ca60e2021a7d6e897abd5'
+          assert d['prepared_artifact_id']==9574308138
+          assert d['prepared_artifact_zip_sha256']=='0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4'
+          assert d['breaker_count']==256 and d['frontier_modulus']==1024
+          expected=[
+            {'tag':'b12-c54','bound':12,'coordinate':54,'node_cap':50000000},
+            {'tag':'b14-c54','bound':14,'coordinate':54,'node_cap':80000000},
+            {'tag':'b14-c50','bound':14,'coordinate':50,'node_cap':120000000},
+            {'tag':'b14-c46','bound':14,'coordinate':46,'node_cap':180000000},
+            {'tag':'b16-c54','bound':16,'coordinate':54,'node_cap':80000000},
+          ]
+          assert d['profiles']==expected
+          matrix={'include':expected}
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"authorized={sys.argv[1]}\n")
+              f.write(f"generation={d['generation']}\n")
+              f.write('matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+          print(json.dumps({'authorized':sys.argv[1],'matrix':matrix},sort_keys=True))
+          PY
+
+  prepare:
+    needs: validate-run-key
+    if: needs.validate-run-key.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Fetch immutable audited-predecessor preparation bundle
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/prepared"
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/prepared.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/prepared.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/prepared.zip" -d "$RUNNER_TEMP/prepared"
+          test -f "$RUNNER_TEMP/prepared/d16-hperp.txt"
+          test -f "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt"
+          test -f "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp"
+          python - <<'PY'
+          import hashlib,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'prepared'
+          checked=0
+          mf=root/'files.sha256'
+          if mf.exists():
+              for line in mf.read_text().splitlines():
+                  want,old=line.split(None,1)
+                  p=root/pathlib.Path(old).name
+                  if p.exists():
+                      assert hashlib.sha256(p.read_bytes()).hexdigest()==want, p.name
+                      checked+=1
+          print({'normalized_internal_hash_checks':checked,
+                 'exact_source_sha256':hashlib.sha256((root/'d16-exact-symmetry-sharded.cpp').read_bytes()).hexdigest()})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18m-frontier-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared/
+          retention-days: 14
+          if-no-files-found: error
+
+  frontier-profile:
+    needs: [validate-run-key, prepare]
+    if: needs.validate-run-key.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix: ${{ fromJSON(needs.validate-run-key.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18m-frontier-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Build frontier-only exact certifier
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev time
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18M/build_frontier_profiler.py \
+            --source "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp" \
+            --output "$RUNNER_TEMP/frontier.cpp"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/frontier.cpp" -o "$RUNNER_TEMP/frontier"
+      - name: Exact frontier profile ${{ matrix.tag }}
+        run: |
+          set +e
+          /usr/bin/time -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" \
+            "$RUNNER_TEMP/frontier" \
+              --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+              --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+              --output "$RUNNER_TEMP/out/frontier.json" \
+              --dump-canonical "$RUNNER_TEMP/out/frontier.bin" \
+              --bound ${{ matrix.bound }} --shard-id 0 --shard-count 1024 \
+              --split-coordinate ${{ matrix.coordinate }} --node-cap ${{ matrix.node_cap }} \
+              >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ]; then
+            if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then
+              python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          out={'schema':'STAGE32_18M_FRONTIER_RESOURCE_WALL_V1','tag':'${{ matrix.tag }}','bound':${{ matrix.bound }},'frontier_coordinate':${{ matrix.coordinate }},'frontier_modulus':1024,'node_cap':${{ matrix.node_cap }},'status':'RESOURCE_WALL_NODE_CAP','exit_code':$rc,'NUMERICAL_CREDIT':False}
+          (root/'compact-profile.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+            else
+              cat "$RUNNER_TEMP/out/stderr.txt"
+              exit "$rc"
+            fi
+          else
+            python stages/stage32/32-18M/summarize_frontier.py \
+              --input "$RUNNER_TEMP/out/frontier.json" \
+              --runtime "$RUNNER_TEMP/out/runtime.txt" \
+              --tag '${{ matrix.tag }}' \
+              --output "$RUNNER_TEMP/out/compact-profile.json"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18m-frontier-${{ matrix.tag }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
+
+  summarize:
+    needs: [validate-run-key, frontier-profile]
+    if: always() && needs.validate-run-key.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18m-frontier-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/profiles
+      - name: Build conservative design verdict
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'profiles'
+          docs={}
+          for p in root.rglob('compact-profile.json'):
+              d=json.loads(p.read_text()); docs[d['tag']]=d
+          expected={'b12-c54','b14-c54','b14-c50','b14-c46','b16-c54'}
+          assert set(docs)==expected,(set(docs),expected)
+          b12=docs['b12-c54']
+          hot_rank=b12.get('historical_hot_residue_26_rank')
+          proxy_informative=isinstance(hot_rank,int) and hot_rank<=32
+          b14_done=[d for k,d in docs.items() if k.startswith('b14-') and d.get('schema')=='STAGE32_18M_FRONTIER_COMPACT_PROFILE_V1']
+          deepest=min((d['frontier_coordinate'] for d in b14_done),default=None)
+          if not proxy_informative:
+              verdict='PASS_FRONTIER_PROFILE__PREFIX_COUNT_PROXY_INSUFFICIENT__DEPTH_AWARE_PROFILE_REQUIRED_BEFORE_B14_PRODUCTION'
+              next_item='32-18N-D16-B14-DEPTH-AWARE-DESCENDANT-WORK-PROFILE'
+          elif not b14_done:
+              verdict='PASS_FRONTIER_PROFILE__B14_FRONTIER_RESOURCE_WALL__REDESIGN_REQUIRED'
+              next_item='32-18N-D16-B14-FRONTIER-REDESIGN'
+          else:
+              verdict='PASS_FRONTIER_PROFILE__B14_CONFIRMED_AS_NEXT_WALL__RESOURCE_SAFE_PRODUCTION_GEOMETRY_STILL_REQUIRES_MAIN_DESIGN'
+              next_item='32-18N-D16-B14-RESOURCE-SAFE-EXACT-PRODUCTION-DESIGN'
+          out={'schema':'STAGE32_18M_POST_B12_DESIGN_SUMMARY_V1','verdict':verdict,'historical_b12_hot_residue_26_rank':hot_rank,'frontier_population_proxy_informative':proxy_informative,'deepest_completed_b14_frontier_coordinate':deepest,'next_norm_wall_candidate':14,'next_item':next_item,'profiles':docs,'D16_B14_NUMERICAL_CREDIT':False,'D16_B16_NUMERICAL_CREDIT':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          outdir=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; outdir.mkdir()
+          (outdir/'stage32-18m-profile-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'verdict':verdict,'hot26_rank':hot_rank,'deepest_b14':deepest,'next_item':next_item},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18m-frontier-summary-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/summary/
+          retention-days: 14
+          if-no-files-found: error
