@@ -1,12 +1,7 @@
 name: Stage32 scout d16 constrained Hperp
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
-    paths:
-      - 'stages/stage32/scouts/d16_constrained_hperp_prepare.py'
-      - 'stages/stage32/scouts/d16_constrained_hperp_enum.cpp'
-      - '.github/workflows/stage32-scout-d16-constrained-hperp.yml'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -77,5 +72,5 @@ jobs:
         with:
           name: stage32-scout-d16-constrained-hperp
           path: ${{ runner.temp }}/out/d16-constrained-hperp-scout.json
-          retention-days: 7
+          retention-days: 5
           if-no-files-found: error
