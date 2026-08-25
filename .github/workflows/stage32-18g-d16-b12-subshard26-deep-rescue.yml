@@ -1,0 +1,31 @@
+name: Stage32-18G d16 b12 exact deep rescue of 26-of256
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18g-b12-subshard26-deep-rescue.json'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage32-18g-b12-deep-rescue-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  retired:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Confirm obsolete deep rescue is retired
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18g-b12-subshard26-deep-rescue.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18g-d16-b12-subshard26-deep-rescue'
+          assert d['armed'] is False and d['generation']==2 and d['retired'] is True
+          assert d['rescue_subshard_ids']==[26,282,538,794]
+          print('RETIRED_SUPERSEDED_BY_STAGE32_18I_18J_18K')
+          PY
