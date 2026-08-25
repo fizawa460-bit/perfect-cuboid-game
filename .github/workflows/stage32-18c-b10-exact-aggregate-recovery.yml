@@ -1,0 +1,102 @@
+name: Stage32-18C b10 exact aggregate recovery
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-18C-recovery/**'
+      - '.github/workflows/stage32-18c-b10-exact-aggregate-recovery.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  aggregate-exact-b10:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+
+      - name: Download exact b10 shard artifacts from Stage32-18C run
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18c-b10-exact-shard-*
+          path: ${{ runner.temp }}/shards
+          merge-multiple: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 32820893492
+
+      - name: Download immutable prepared inputs from Stage32-18C run
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-18c-b10-prepared
+          path: ${{ runner.temp }}/prepared
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 32820893492
+
+      - name: Download scout2 snapshot-fixed b10 output
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-scout2-variant-both
+          path: ${{ runner.temp }}/scout
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 32830210774
+
+      - name: Aggregate exact shards without broken-fast equality gate
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18C-recovery/aggregate_exact_b10.py \
+            --shards "$RUNNER_TEMP/shards" \
+            --fixed-fast-json "$RUNNER_TEMP/scout/variant-both.json" \
+            --fixed-fast-dump "$RUNNER_TEMP/scout/variant-both.bin" \
+            --output-json "$RUNNER_TEMP/out/d16-b10-exact-aggregate.json" \
+            --output-dump "$RUNNER_TEMP/out/d16-b10-exact-aggregate.bin" \
+            --certificate "$RUNNER_TEMP/out/stage32-18c-b10-exact-only-certificate.json" \
+            --shard-count 16 --bound 10
+
+      - name: Independently verify exact aggregate under full Aut order 1536
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b10-exact-aggregate.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b10-exact-aggregate.json" \
+            --output "$RUNNER_TEMP/out/d16-b10-exact-aggregate-verify.json" \
+            --bound 10
+
+      - name: Enforce exact-only b10 firewall
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          c=json.loads((out/'stage32-18c-b10-exact-only-certificate.json').read_text())
+          a=json.loads((out/'d16-b10-exact-aggregate.json').read_text())
+          assert c['AUDIT_STATUS']=='PENDING'
+          assert c['D16_B10_NUMERICAL_CREDIT_READY_FOR_AUDIT'] is True
+          assert c['audited_b8_predecessor_regression_pass'] is True
+          assert c['snapshot_fixed_fast_set_identical'] is True
+          assert c['FAST_TRAVERSAL_GLOBAL_COMPLETENESS_CERTIFIED'] is False
+          assert c['SNAPSHOT_FAST_GLOBAL_COMPLETENESS_CERTIFIED'] is False
+          assert c['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False
+          assert a['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          print(json.dumps(c, sort_keys=True))
+          PY
+
+      - name: Hash recovery evidence
+        run: |
+          (cd "$RUNNER_TEMP/out" && sha256sum * | sort > files.sha256)
+          cat "$RUNNER_TEMP/out/files.sha256"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18c-b10-exact-only-recovery
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
