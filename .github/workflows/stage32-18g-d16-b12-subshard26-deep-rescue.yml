@@ -1,0 +1,152 @@
+name: Stage32-18G d16 b12 exact deep rescue of 26-of256
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18g-b12-subshard26-deep-rescue.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18g-b12-deep-rescue-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: key
+        name: Validate explicit deep-rescue run key
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18g-b12-subshard26-deep-rescue.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18g-d16-b12-subshard26-deep-rescue'
+          assert d['armed'] is True and d['generation']==1
+          assert d['bound']==12 and d['split_coordinate']==54 and d['breaker_count']==256
+          assert d['parent_run_id']==32896909852 and d['prepared_artifact_id']==9574308138
+          assert d['parent_shard_count']==256 and d['parent_shard_id']==26
+          assert d['rescue_shard_count']==1024 and d['rescue_subshard_ids']==[26,282,538,794]
+          assert sorted(r for r in range(1024) if r%256==26)==d['rescue_subshard_ids']
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('generation=1\n')
+          print(json.dumps(d,sort_keys=True))
+          PY
+
+  exact-deep-rescue-subshards:
+    needs: validate-run-key
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [26,282,538,794]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install exact build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev unzip
+          mkdir -p "$RUNNER_TEMP/zips" "$RUNNER_TEMP/prepared" "$RUNNER_TEMP/out"
+      - name: Download immutable Stage32-18E prepared artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/zips/prepared.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/zips/prepared.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/zips/prepared.zip" -d "$RUNNER_TEMP/prepared"
+          python - <<'PY'
+          import hashlib,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'prepared'
+          checked=0
+          for line in (root/'files.sha256').read_text().splitlines():
+              want,old_path=line.split(None,1)
+              p=root/pathlib.Path(old_path).name
+              got=hashlib.sha256(p.read_bytes()).hexdigest()
+              assert got==want,(p.name,want,got)
+              checked+=1
+          assert checked>=6
+          print({'normalized_manifest_sha256_checks':checked})
+          PY
+      - name: Compile immutable exact symmetry-pruned certifier
+        run: |
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp" \
+            -o "$RUNNER_TEMP/d16-exact"
+      - name: Exact deep-rescue subshard ${{ matrix.shard }} of 1024
+        run: |
+          "$RUNNER_TEMP/d16-exact" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b12-exact-subshard-${{ matrix.shard }}-of1024.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b12-exact-subshard-${{ matrix.shard }}-of1024.bin" \
+            --bound 12 --shard-id ${{ matrix.shard }} --shard-count 1024 --split-coordinate 54 --node-cap 220000000
+          python - <<'PY'
+          import json,os,pathlib
+          sid=int('${{ matrix.shard }}')
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out'/f'd16-b12-exact-subshard-{sid}-of1024.json').read_text())
+          assert p['schema']=='STAGE32_18E_D16_EXACT_SYMMETRY_SHARDED_TRAVERSAL_CERT_V1'
+          assert p['status']=='COMPLETE' and p['bound']==12
+          assert p['shard_id']==sid and p['shard_count']==1024 and sid%256==26
+          assert p['split_coordinate']==54 and p['dfs_symmetry_breaker_count']==256
+          assert p['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert p['all_symmetry_branch_rejections_exact_rational_cauchy_schwarz'] is True
+          print(json.dumps({'subshard':sid,'nodes':p['nodes'],'canonical':p['canonical_survivors_including_zero']},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18g-b12-deep-rescue26-subshard-${{ matrix.shard }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  certify-logical-26-of256:
+    needs: [validate-run-key, exact-deep-rescue-subshards]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18g-b12-deep-rescue26-subshard-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/subshards
+          merge-multiple: true
+      - name: Build audit-safe logical 26-of256 certificate
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18G/synthesize_subshard26_of256.py \
+            --input "$RUNNER_TEMP/subshards" \
+            --output-dump "$RUNNER_TEMP/out/d16-b12-exact-subshard-26-of256.bin" \
+            --certificate "$RUNNER_TEMP/out/stage32-18g-subshard26-of256-rescue-certificate.json"
+      - name: Enforce audit stop and telemetry semantics
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          c=json.loads((root/'stage32-18g-subshard26-of256-rescue-certificate.json').read_text())
+          assert c['verdict']=='PASS_EXACT_DEEP_RESCUE_26_OF256_PENDING_PARENT_SYNTHESIS_AND_HOSTILE_AUDIT'
+          assert c['residue_partition_exact'] is True
+          assert c['logical_parent_shard_count']==256 and c['logical_parent_shard_id']==26
+          assert c['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert 'not reconstructed 256-way parent counters' in c['telemetry_semantics']
+          assert c['GLOBAL_B12_AGGREGATION_COMPLETE'] is False
+          assert c['D16_B12_NUMERICAL_CREDIT'] is False
+          assert c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False
+          print(json.dumps(c,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18g-b12-rescued-subshard26-of256-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          if-no-files-found: error
