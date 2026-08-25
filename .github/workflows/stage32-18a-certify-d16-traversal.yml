@@ -1,0 +1,141 @@
+name: Stage32-18A certify d16 Hperp traversal
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-18A/**'
+      - '.github/workflows/stage32-18a-certify-d16-traversal.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  certify-d16-b6:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact preprocessing and rational-enumerator dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp g++ libboost-dev
+          gp --version
+          g++ --version
+      - name: Rebuild source-locked Stage32 Picard core
+        run: |
+          ok=0
+          for attempt in 1 2 3; do
+            rm -f stages/stage32/32-01/picard-core.json
+            if python stages/stage32/32-01/run_sparse_picard_export.py && test -s stages/stage32/32-01/picard-core.json; then
+              ok=1
+              break
+            fi
+            echo "Picard core export attempt $attempt failed; retrying" >&2
+            sleep 5
+          done
+          test "$ok" -eq 1
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/core/picard-core.json"
+      - name: Rebuild exact rank-63 Hperp coordinates
+        run: |
+          python stages/stage32/32-18/d16_hperp_prepare.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/work/d16-hperp.txt" \
+            | tee "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+          grep -q '"pairing_map_injective": true' "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+          grep -q '"pairing_map_rank": 63' "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+      - name: Regenerate the nine source-locked geometric Aut permutations
+        run: |
+          ok=0
+          for attempt in 1 2 3; do
+            if python stages/stage32/32-07/export_aut_action_locked.py --output "$RUNNER_TEMP/out/d16-aut-action.json"; then
+              ok=1
+              break
+            fi
+            echo "Aut export attempt $attempt failed; retrying" >&2
+            sleep 5
+          done
+          test "$ok" -eq 1
+      - name: Stabilize Aut provenance and build the exact 64-breaker/full-group bundle
+        run: |
+          python stages/stage32/32-18A/stable_aut_canonical_prepare.py \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --output "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" \
+            --summary "$RUNNER_TEMP/out/stable-aut-provenance.json"
+          python - <<'PY'
+          import json, os, pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/stable-aut-provenance.json').read_text())
+          assert p['stable_aut_content_sha256']=='7aa6c9be4a91a25549950e1e45c2349146c6ea4cd035ff9133b41e9de3032bc3'
+          assert p['stable_hash_matches_hostile_audit_lock'] is True
+          assert p['full_group_order']==1536 and p['selected_breakers']==64
+          PY
+      - name: Compile independent exact traversal certifier and fast production implementation
+        run: |
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            stages/stage32/32-18A/d16_exact_b6_certifier.cpp \
+            -o "$RUNNER_TEMP/work/d16-exact-b6-certifier"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            stages/stage32/32-18/d16_aut_canonical_enum.cpp \
+            -o "$RUNNER_TEMP/work/d16-fast-aut-enum"
+      - name: Independently enumerate the complete b6 norm ball with exact rational traversal
+        run: |
+          "$RUNNER_TEMP/work/d16-exact-b6-certifier" \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-exact-certificate.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b6-exact-canonical.bin" \
+            --bound 6 --node-cap 100000000
+      - name: Re-run the fast Aut-canonical implementation against the same stable bundle
+        run: |
+          "$RUNNER_TEMP/work/d16-fast-aut-enum" \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-fast.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b6-fast-canonical.bin" \
+            --bound 6 --max-seconds 60 --node-cap 10000000 --survivor-cap 100000
+      - name: Independently verify the fast output under the full order-1536 group
+        run: |
+          python stages/stage32/32-18/verify_d16_b6_canonical.py \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b6-fast-canonical.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b6-fast.json" \
+            --output "$RUNNER_TEMP/out/d16-b6-fast-verify.json"
+      - name: Cross-certify exact traversal, stable provenance, and identical canonical sets
+        run: |
+          python stages/stage32/32-18A/compare_certified_fast_b6.py \
+            --exact-json "$RUNNER_TEMP/out/d16-b6-exact-certificate.json" \
+            --exact-dump "$RUNNER_TEMP/out/d16-b6-exact-canonical.bin" \
+            --fast-json "$RUNNER_TEMP/out/d16-b6-fast.json" \
+            --fast-dump "$RUNNER_TEMP/out/d16-b6-fast-canonical.bin" \
+            --fast-verify "$RUNNER_TEMP/out/d16-b6-fast-verify.json" \
+            --provenance "$RUNNER_TEMP/out/stable-aut-provenance.json" \
+            --output "$RUNNER_TEMP/out/stage32-18a-certificate.json"
+      - name: Enforce certification-only scope and audit stop
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          c=json.loads((root/'stage32-18a-certificate.json').read_text())
+          e=json.loads((root/'d16-b6-exact-certificate.json').read_text())
+          assert c['verdict']=='PASS_EXACT_B6_TRAVERSAL_CERTIFICATE_AND_STABLE_AUT_PROVENANCE'
+          assert e['cap_survivors_before_symmetry']==17833
+          assert e['precanonical_survivors']==232
+          assert e['canonical_survivors_including_zero']==37
+          assert c['exact_and_fast_canonical_sets_identical'] is True
+          assert c['AUDIT_STATUS']=='PENDING'
+          assert c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False
+          assert c['FULL_D16_G0_ROW_COMPLETE'] is False
+          print(json.dumps(c,sort_keys=True))
+          PY
+          du -ah "$RUNNER_TEMP/out"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18a-d16-b6-exact-traversal-certificate
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
