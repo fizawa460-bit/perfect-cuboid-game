@@ -4,19 +4,54 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
     paths:
-      - 'stages/stage32/scouts/32-scout3/**'
-      - '.github/workflows/stage32-scout3-b12-breaker-optimization.yml'
+      - 'stages/stage32/runkeys/scout3-b12-breakers.json'
 
 permissions:
   contents: read
   actions: read
 
+concurrency:
+  group: stage32-scout3-b12-breakers-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  run_key:
+    name: validate explicit Stage32 heavy run key
+    runs-on: ubuntu-latest
+    outputs:
+      breakers: ${{ steps.key.outputs.breakers }}
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: key
+        name: Parse run key
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          path=pathlib.Path('stages/stage32/runkeys/scout3-b12-breakers.json')
+          p=json.loads(path.read_text())
+          assert p.get('schema')=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert p.get('workflow')=='stage32-scout3-b12-breaker-optimization'
+          assert p.get('heavy_execution_explicitly_armed') is True
+          generation=p.get('generation')
+          assert isinstance(generation,int) and generation>=1
+          breakers=p.get('breakers')
+          assert isinstance(breakers,list) and breakers
+          assert len(breakers)==len(set(breakers))
+          assert all(x in (64,128,256) for x in breakers)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('breakers='+json.dumps(breakers,separators=(',',':'))+'\n')
+              f.write(f'generation={generation}\n')
+          print(json.dumps({'RUN_KEY_ACCEPTED':True,'generation':generation,'breakers':breakers},sort_keys=True))
+          PY
+
   b12-breaker-matrix:
+    needs: run_key
     strategy:
       fail-fast: false
       matrix:
-        breakers: [64, 128, 256]
+        breakers: ${{ fromJSON(needs.run_key.outputs.breakers) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
@@ -72,7 +107,7 @@ jobs:
       - name: If complete, enforce exact b10 predecessor
         run: |
           python - <<'PY'
-          import json,os,pathlib,hashlib
+          import json,os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP']); k='${{ matrix.breakers }}'
           p=json.loads((root/f'out/profile-{k}.json').read_text())
           out={'schema':'STAGE32_SCOUT3_B12_BREAKER_RESULT_V1','breakers':int(k),'status':p['status'],'nodes':p['nodes'],'coordinate_trials':p['coordinate_trials'],'elapsed_seconds':p['elapsed_seconds'],'symmetry_prunes':p['symmetry_prunes'],'precanonical_survivors':p['precanonical_survivors'],'canonical_survivors':p['canonical_survivors_including_zero'],'histogram':p['canonical_norm_histogram'],'SCOUT_ONLY':True,'D16_B12_NUMERICAL_CREDIT':False}
@@ -87,7 +122,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-scout3-b12-breakers-${{ matrix.breakers }}
+          name: stage32-scout3-b12-breakers-${{ matrix.breakers }}-key${{ needs.run_key.outputs.generation }}
           path: ${{ runner.temp }}/out/
           retention-days: 5
           if-no-files-found: error
