@@ -1,0 +1,52 @@
+name: Stage33-07 elementary index512 structural reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_elementary_index512_structural_reduction.py'
+      - 'stages/stage33/33-07/coordinate-k3-scaled-action-choices-retained.json'
+      - 'stages/stage33/33-07/target-discriminant-v4-fixed-module.json'
+      - '.github/workflows/stage33-07-elementary-structural-reduction.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  elementary-structural-reduction:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Certify exact elementary-glue structural census
+        working-directory: stages/stage33/33-07
+        run: python certify_elementary_index512_structural_reduction.py
+      - name: Enforce conservative Stage33-07 firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-structural-reduction.json'))
+          assert x['coisotropic_S_counts']=={'2':3,'3':7,'4':1}
+          assert x['elementary_candidates_before_ct_filter_total']==8597760
+          assert x['elementary_candidates_after_ct_fixed_two_torsion_total']==3782165
+          assert x['elementary_candidates_after_ct_fixed_two_torsion_by_s']=={'2':365157,'3':3417008,'4':0}
+          assert x['s4_branch_rejected_by_ct_two_torsion']
+          assert x['target_ct_fixed_two_torsion_requires_rank_delta']==1
+          assert not x['all_elementary_order512_glue_rejected']
+          assert not x['actual_index512_glue_identified']
+          assert x['unit_status']=='RUNNING_REPAIR'
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released']
+          print('ELEMENTARY_INDEX512_STRUCTURAL_REDUCTION=PASS_EXACT')
+          print('SURVIVOR_CENSUS=3782165')
+          print('STAGE33_08_RELEASED=False')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-elementary-structural-reduction
+          retention-days: 5
+          path: stages/stage33/33-07/elementary-index512-structural-reduction.json
