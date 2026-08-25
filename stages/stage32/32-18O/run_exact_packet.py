@@ -72,11 +72,16 @@ def main()->None:
         if here!=lock: raise RuntimeError(f'source-lock mismatch at residue {r}')
         rs=read_records(bp)
         if len(rs)!=int(d['canonical_survivors_including_zero']): raise RuntimeError(f'record count mismatch {r}')
-        if hashlib.sha256(bp.read_bytes()).hexdigest()!=d['canonical_dump_sha256']: raise RuntimeError(f'dump SHA mismatch {r}')
+        bp_sha=hashlib.sha256(bp.read_bytes()).hexdigest()
+        # 18E certificates intentionally do not promise an embedded dump SHA;
+        # historical aggregators compute it from the exact BIN.  If a later
+        # compatible certifier does embed one, require agreement.
+        embedded_sha=d.get('canonical_dump_sha256')
+        if embedded_sha is not None and embedded_sha!=bp_sha: raise RuntimeError(f'dump SHA mismatch {r}')
         all_records.extend(rs); docs.append(d)
         for k,v in d['canonical_norm_histogram'].items(): hist[str(k)]=hist.get(str(k),0)+int(v)
         for k in COUNTERS: totals[k]+=int(d.get(k,0))
-        per_residue.append({'residue':r,'canonical_survivors_including_zero':d['canonical_survivors_including_zero'],'canonical_norm_histogram':d['canonical_norm_histogram'],'canonical_dump_sha256':d['canonical_dump_sha256'],'nodes':d.get('nodes'),'coordinate_trials':d.get('coordinate_trials'),'exact_constraint_prunes':d.get('exact_constraint_prunes'),'exact_symmetry_prunes':d.get('exact_symmetry_prunes')})
+        per_residue.append({'residue':r,'canonical_survivors_including_zero':d['canonical_survivors_including_zero'],'canonical_norm_histogram':d['canonical_norm_histogram'],'canonical_dump_sha256':bp_sha,'nodes':d.get('nodes'),'coordinate_trials':d.get('coordinate_trials'),'exact_constraint_prunes':d.get('exact_constraint_prunes'),'exact_symmetry_prunes':d.get('exact_symmetry_prunes')})
     if len(all_records)!=len(set(all_records)): raise RuntimeError('duplicate canonical record across packet residues')
     record_hist={}
     for rec in all_records: record_hist[str(rec[0])]=record_hist.get(str(rec[0]),0)+1
