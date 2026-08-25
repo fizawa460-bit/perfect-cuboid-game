@@ -1,0 +1,112 @@
+name: Stage32-18K d16 b12 secondary repair and logical parent synthesis
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18k-b12-secondary-repair-parent-synthesis.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18k-b12-parent-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: key
+        name: Validate explicit integration run key
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18k-b12-secondary-repair-parent-synthesis.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18k-d16-b12-secondary-repair-parent-synthesis'
+          assert d['armed'] is True and d['generation']==2
+          assert d['bound']==12 and d['breaker_count']==256
+          assert d['ordinary_run_id']==32903188011 and d['rescue_run_id']==32904153727
+          assert d['repair_source_run_id']==32906177710
+          assert d['prepared_artifact_id']==9583859427 and d['repair_secondary_ids']==[8,15]
+          assert d['primary_split_coordinate']==54 and d['primary_shard_count']==1024 and d['primary_shard_id']==26
+          assert d['secondary_split_coordinate']==45 and d['secondary_shard_count']==32
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('generation=2\n')
+          print(json.dumps(d,sort_keys=True))
+          PY
+
+  synthesize-logical-26-of1024:
+    needs: validate-run-key
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch SHA-verified inherited, repair, and nested-rescue inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/inputs"
+          python stages/stage32/32-18K/fetch_cross_run_secondary_inputs.py --repo "$GITHUB_REPOSITORY" --output "$RUNNER_TEMP/inputs"
+      - name: Enforce exact secondary5 cross-path set identity and 32-way coverage
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'inputs'
+          inv=json.loads((root/'cross-run-inventory.json').read_text())
+          assert inv['schema']=='STAGE32_18K_CROSS_RUN_INPUT_INVENTORY_V2'
+          assert inv['secondary5_original_vs_nested_rescue_set_identical'] is True
+          assert inv['secondary5_record_order_identical'] is False
+          assert inv['secondary5_original_raw_dump_sha256']=='018306107338237c85587d80172b78a2f39a65cc4cfc412ef467203f01cbe701'
+          assert inv['secondary5_rescue_raw_dump_sha256']=='0b85a8ce7963673376ac0e6d3d5efda8256b8bbde9bf17e730b7ce1adbf10f98'
+          assert inv['secondary5_normalized_record_set_sha256']=='0b85a8ce7963673376ac0e6d3d5efda8256b8bbde9bf17e730b7ce1adbf10f98'
+          secondaries=root/'secondaries'
+          js=list(secondaries.glob('d16-b12-exact-secondary-*-of32.json'))
+          bs=list(secondaries.glob('d16-b12-exact-secondary-*-of32.bin'))
+          ids=sorted(json.loads(p.read_text())['secondary_shard_id'] for p in js)
+          assert len(js)==32 and len(bs)==32 and ids==list(range(32))
+          print(json.dumps({'logical_secondary_count':32,'secondary5_set_identity':True},sort_keys=True))
+          PY
+      - name: Synthesize exact logical 26-of1024
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18I/synthesize_logical_26_of1024.py \
+            --input "$RUNNER_TEMP/inputs/secondaries" \
+            --output-json "$RUNNER_TEMP/out/d16-b12-exact-subshard-26-of1024.json" \
+            --output-dump "$RUNNER_TEMP/out/d16-b12-exact-subshard-26-of1024.bin" \
+            --certificate "$RUNNER_TEMP/out/stage32-18k-logical-26-of1024-certificate.json"
+      - name: Independently full-Aut verify logical parent
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/inputs/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b12-exact-subshard-26-of1024.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b12-exact-subshard-26-of1024.json" \
+            --output "$RUNNER_TEMP/out/d16-b12-exact-subshard-26-of1024-verify.json" \
+            --bound 12
+      - name: Enforce audit stop
+        run: |
+          cp "$RUNNER_TEMP/inputs/cross-run-inventory.json" "$RUNNER_TEMP/out/"
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          p=json.loads((root/'d16-b12-exact-subshard-26-of1024.json').read_text())
+          c=json.loads((root/'stage32-18k-logical-26-of1024-certificate.json').read_text())
+          v=json.loads((root/'d16-b12-exact-subshard-26-of1024-verify.json').read_text())
+          assert p['status']=='COMPLETE' and p['shard_id']==26 and p['shard_count']==1024
+          assert p['two_stage_partition_certificate'] is True and p['execution_work_counters_not_parent_equivalent'] is True
+          assert c['secondary_partition_complete'] is True
+          assert c['D16_B12_NUMERICAL_CREDIT'] is False and c['GLOBAL_B12_AGGREGATION_COMPLETE'] is False
+          assert c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False
+          assert v['aut_group_order']==1536 and v['canonical_survivors_including_zero']==p['canonical_survivors_including_zero']
+          print(json.dumps({'certificate':c,'aut_verify':v},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18k-b12-logical-26-of1024-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
