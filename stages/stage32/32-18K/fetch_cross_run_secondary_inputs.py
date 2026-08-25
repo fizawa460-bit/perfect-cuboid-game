@@ -5,8 +5,11 @@ import argparse, hashlib, json, os, pathlib, re, urllib.error, urllib.request, z
 API='https://api.github.com'
 ORDINARY_RUN=32903188011
 RESCUE_RUN=32904153727
+REPAIR_RUN=32906177710
 PREPARED_ARTIFACT_ID=9583859427
 REPAIR_IDS={8,15}
+MAGIC=b'S32D16C1'
+RECORD_SIZE=141
 
 
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
@@ -20,10 +23,6 @@ def request_json(url:str, token:str):
 
 
 def request_bytes(url:str, token:str)->bytes:
-    # Artifact downloads are GitHub API 3xx redirects to a signed blob URL.
-    # Never forward the GitHub Authorization header to that external blob host:
-    # fetch the redirect location explicitly, then download the signed URL with
-    # no bearer credential.  The ZIP is still checked against GitHub's digest.
     req=urllib.request.Request(url,headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'stage32-18k-fetcher'})
     opener=urllib.request.build_opener(_NoRedirect())
     try:
@@ -68,6 +67,13 @@ def extract_artifact(a:dict,dst:pathlib.Path,token:str,inventory:list):
     inventory.append({'id':a['id'],'name':a['name'],'zip_sha256':got,'declared_digest':declared,'size_in_bytes':a.get('size_in_bytes')})
 
 
+def read_records(raw:bytes):
+    if raw[:8]!=MAGIC: raise RuntimeError('bad canonical BIN magic')
+    body=raw[8:]
+    if len(body)%RECORD_SIZE: raise RuntimeError('truncated canonical BIN')
+    return [body[i:i+RECORD_SIZE] for i in range(0,len(body),RECORD_SIZE)]
+
+
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--repo',required=True); ap.add_argument('--output',type=pathlib.Path,required=True); args=ap.parse_args()
     token=os.environ.get('GH_TOKEN')
@@ -93,10 +99,10 @@ def main():
         raise RuntimeError(f'ordinary secondary artifact set incomplete: missing={sorted(expected-set(selected))}, extra={sorted(set(selected)-expected)}')
     for sid in sorted(selected): extract_artifact(selected[sid],args.output/'secondaries',token,inv)
 
-    # Stage32-18J was launched before the original slow secondary5 finished.  The
-    # original subsequently completed, so use it as the logical parent input and
-    # require the nested-rescue construction to reproduce its canonical BIN
-    # byte-for-byte as a strong independent cross-check.
+    # Independently deep-rescued secondary5 must reproduce exactly the same
+    # canonical RECORD SET. Raw BIN ordering is not semantically significant:
+    # the original single traversal emits DFS order, while the 16-way rescue
+    # synthesizer emits sorted record order.
     rescue=artifacts(args.repo,RESCUE_RUN,token)
     ra=next((x for x in rescue if x.get('name')=='stage32-18j-b12-logical-secondary5-g1'),None)
     if ra is None: raise RuntimeError('Stage32-18J logical secondary5 artifact not available')
@@ -109,35 +115,61 @@ def main():
     if not all(p.exists() for p in [orig_json,orig_bin,rescue_json,rescue_bin]):
         raise RuntimeError('secondary5 cross-check files missing')
     ob=orig_bin.read_bytes(); rb=rescue_bin.read_bytes()
-    if ob!=rb: raise RuntimeError('original secondary5 and nested-rescue secondary5 canonical BIN differ')
+    ors=read_records(ob); rrs=read_records(rb)
+    if len(ors)!=len(set(ors)) or len(rrs)!=len(set(rrs)):
+        raise RuntimeError('secondary5 duplicate canonical record in one path')
+    if sorted(ors)!=sorted(rrs):
+        raise RuntimeError('original secondary5 and nested-rescue secondary5 canonical record SETS differ')
     o=json.loads(orig_json.read_text()); r=json.loads(rescue_json.read_text())
-    keys=['bound','aut_group_order','stable_aut_content_sha256','prepared_input_sha256','canonical_bundle_sha256','dfs_symmetry_breaker_count','primary_split_coordinate','primary_shard_count','primary_shard_id','secondary_split_coordinate','secondary_shard_count','secondary_shard_id','canonical_survivors_including_zero','canonical_nonzero_survivors','canonical_norm_histogram','canonical_dump_sha256']
+    keys=['bound','aut_group_order','stable_aut_content_sha256','prepared_input_sha256','canonical_bundle_sha256','dfs_symmetry_breaker_count','primary_split_coordinate','primary_shard_count','primary_shard_id','secondary_split_coordinate','secondary_shard_count','secondary_shard_id','canonical_survivors_including_zero','canonical_nonzero_survivors','canonical_norm_histogram','TRAVERSAL_COMPLETENESS_CERTIFICATE','all_symmetry_branch_rejections_exact_rational_cauchy_schwarz']
     for k in keys:
         if o.get(k)!=r.get(k): raise RuntimeError(f'secondary5 cross-check metadata mismatch {k}: {o.get(k)} != {r.get(k)}')
     if o.get('status')!='COMPLETE' or r.get('status')!='COMPLETE': raise RuntimeError('secondary5 cross-check non-COMPLETE input')
     if r.get('tertiary_rescue_partition_certificate') is not True: raise RuntimeError('secondary5 rescue partition certificate missing')
-    bin_sha=hashlib.sha256(ob).hexdigest()
-    if bin_sha!=o.get('canonical_dump_sha256'): raise RuntimeError('secondary5 BIN SHA does not match logical metadata')
+    orig_raw_sha=hashlib.sha256(ob).hexdigest(); rescue_raw_sha=hashlib.sha256(rb).hexdigest()
+    normalized= MAGIC + b''.join(sorted(ors))
+    normalized_sha=hashlib.sha256(normalized).hexdigest()
+    if rescue_raw_sha!=r.get('canonical_dump_sha256'):
+        raise RuntimeError('secondary5 rescue BIN SHA does not match rescue metadata')
+
+    # Reuse the already-completed exact repair artifacts from the prior 18K run;
+    # do not spend Actions time re-enumerating 8 and 15.
+    repairs=artifacts(args.repo,REPAIR_RUN,token)
+    repair_selected={}
+    rpat=re.compile(r'^stage32-18k-b12-repair-secondary-(8|15)-g1$')
+    for a in repairs:
+        m=rpat.match(str(a.get('name','')))
+        if m: repair_selected[int(m.group(1))]=a
+    if set(repair_selected)!=REPAIR_IDS:
+        raise RuntimeError(f'repair artifact set incomplete: {sorted(repair_selected)}')
+    for sid in sorted(repair_selected):
+        extract_artifact(repair_selected[sid],args.output/'secondaries',token,inv)
 
     js=sorted((args.output/'secondaries').glob('d16-b12-exact-secondary-*-of32.json'))
+    bs=sorted((args.output/'secondaries').glob('d16-b12-exact-secondary-*-of32.bin'))
     ids=[]
     for p in js:
         d=json.loads(p.read_text()); ids.append(int(d['secondary_shard_id']))
-    if set(ids)!=(set(range(32))-REPAIR_IDS): raise RuntimeError(f'logical ids before repair mismatch: {sorted(ids)}')
+    if len(js)!=32 or len(bs)!=32 or sorted(ids)!=list(range(32)):
+        raise RuntimeError(f'logical ids after repair mismatch: json={len(js)} bin={len(bs)} ids={sorted(ids)}')
     original5_artifact=selected[5]
     out={
-      'schema':'STAGE32_18K_CROSS_RUN_INPUT_INVENTORY_V1',
-      'ordinary_run_id':ORDINARY_RUN,'rescue_run_id':RESCUE_RUN,'prepared_artifact_id':PREPARED_ARTIFACT_ID,
+      'schema':'STAGE32_18K_CROSS_RUN_INPUT_INVENTORY_V2',
+      'ordinary_run_id':ORDINARY_RUN,'rescue_run_id':RESCUE_RUN,'repair_source_run_id':REPAIR_RUN,
+      'prepared_artifact_id':PREPARED_ARTIFACT_ID,
       'inherited_secondary_ids':sorted(expected),'repair_secondary_ids':sorted(REPAIR_IDS),
       'secondary5_original_artifact_id':original5_artifact['id'],'secondary5_rescue_artifact_id':ra['id'],
-      'secondary5_original_vs_nested_rescue_byte_identical':True,
-      'secondary5_canonical_dump_sha256':bin_sha,
+      'secondary5_original_vs_nested_rescue_set_identical':True,
+      'secondary5_record_order_identical':ob==rb,
+      'secondary5_original_raw_dump_sha256':orig_raw_sha,
+      'secondary5_rescue_raw_dump_sha256':rescue_raw_sha,
+      'secondary5_normalized_record_set_sha256':normalized_sha,
       'secondary5_canonical_survivors_including_zero':o['canonical_survivors_including_zero'],
       'secondary5_canonical_norm_histogram':o['canonical_norm_histogram'],
       'artifact_count':len(inv),'artifacts':inv,
       'D16_B12_NUMERICAL_CREDIT':False,'AUDIT_STATUS':'PENDING'
     }
     (args.output/'cross-run-inventory.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
-    print(json.dumps({'inherited_count':len(expected),'logical_ids_before_repair':sorted(ids),'secondary5_byte_identical':True,'secondary5_dump_sha256':bin_sha,'artifact_count':len(inv)},sort_keys=True))
+    print(json.dumps({'logical_secondary_count':32,'secondary5_set_identical':True,'secondary5_record_order_identical':ob==rb,'secondary5_original_raw_sha256':orig_raw_sha,'secondary5_rescue_raw_sha256':rescue_raw_sha,'secondary5_normalized_record_set_sha256':normalized_sha,'artifact_count':len(inv)},sort_keys=True))
 
 if __name__=='__main__': main()
