@@ -11,7 +11,6 @@ on:
 
 permissions:
   contents: read
-  actions: read
 
 jobs:
   d16-parent-polytope-scout:
@@ -26,14 +25,12 @@ jobs:
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends pari-gp g++
-      - name: Download source-locked Stage32 Picard core
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Rebuild source-locked Stage32 Picard core
         run: |
+          python stages/stage32/32-01/run_sparse_picard_export.py
+          test -s stages/stage32/32-01/picard-core.json
           mkdir -p "$RUNNER_TEMP/core"
-          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
-            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
-          test -s "$RUNNER_TEMP/core/picard-core.json"
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/core/picard-core.json"
       - name: Build Hperp coordinates and exact 282-parent polytope cuts
         run: |
           mkdir -p "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
