@@ -1,0 +1,219 @@
+name: Stage32-18J d16 b12 exact tertiary rescue of secondary5
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18j-b12-tertiary-shard5-rescue.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18j-b12-tertiary-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: key
+        name: Validate explicit tertiary rescue run key
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18j-b12-tertiary-shard5-rescue.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18j-d16-b12-tertiary-shard5-rescue'
+          assert d['armed'] is True and d['generation']==1
+          assert d['bound']==12 and d['breaker_count']==256
+          assert d['parent_run_id']==32903188011 and d['prepared_artifact_id']==9583859427
+          assert (d['primary_split_coordinate'],d['primary_shard_id'],d['primary_shard_count'])==(54,26,1024)
+          assert (d['secondary_split_coordinate'],d['secondary_shard_id'],d['secondary_shard_count'])==(45,5,32)
+          assert (d['tertiary_split_coordinate'],d['tertiary_shard_count'])==(36,16)
+          assert d['node_cap']==80000000 and d['timeout_minutes']==30
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('generation=1\n')
+          print(json.dumps(d,sort_keys=True))
+          PY
+
+  prepare-tertiary:
+    needs: validate-run-key
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev unzip
+          mkdir -p "$RUNNER_TEMP/zips" "$RUNNER_TEMP/base" "$RUNNER_TEMP/prepared"
+      - name: Download and verify immutable Stage32-18I prepared artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/zips/prepared.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9583859427/zip"
+          echo '7644f66b977419549a75aeee8c230a9a97330b712bbb35dd801ad4412e21a6ef  '"$RUNNER_TEMP/zips/prepared.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/zips/prepared.zip" -d "$RUNNER_TEMP/base"
+          echo 'a5bb42574da0a830b7577fa790cc0d039919ed4327f1a0ff5d67f1ea82b5e1bd  '"$RUNNER_TEMP/base/d16-exact-two-stage.cpp" | sha256sum -c -
+          cp "$RUNNER_TEMP/base/d16-hperp.txt" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/base/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/base/d16-aut-action.json" "$RUNNER_TEMP/prepared/"
+      - name: Build exact tertiary certifier and compile
+        run: |
+          python stages/stage32/32-18J/build_tertiary_shard5_certifier.py \
+            --source "$RUNNER_TEMP/base/d16-exact-two-stage.cpp" \
+            --output "$RUNNER_TEMP/prepared/d16-exact-tertiary.cpp"
+          sha256sum "$RUNNER_TEMP/prepared/d16-exact-tertiary.cpp" | tee "$RUNNER_TEMP/prepared/tertiary-source.sha256"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/prepared/d16-exact-tertiary.cpp" \
+            -o "$RUNNER_TEMP/prepared/d16-exact-tertiary"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18j-tertiary-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared/
+          retention-days: 5
+          if-no-files-found: error
+
+  exact-tertiary-shards:
+    needs: [validate-run-key, prepare-tertiary]
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18j-tertiary-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Exact tertiary shard ${{ matrix.shard }} of 16 inside secondary5
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          chmod +x "$RUNNER_TEMP/prepared/d16-exact-tertiary"
+          set +e
+          "$RUNNER_TEMP/prepared/d16-exact-tertiary" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b12-exact-tertiary-${{ matrix.shard }}-of16.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b12-exact-tertiary-${{ matrix.shard }}-of16.bin" \
+            --bound 12 --shard-id ${{ matrix.shard }} --shard-count 16 --split-coordinate 36 --node-cap 80000000
+          rc=$?
+          echo "$rc" > "$RUNNER_TEMP/out/exit-${{ matrix.shard }}.txt"
+          if [ "$rc" -eq 0 ]; then
+            python - <<'PY'
+          import json,os,pathlib
+          sid=int('${{ matrix.shard }}')
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out'/f'd16-b12-exact-tertiary-{sid}-of16.json').read_text())
+          assert p['schema']=='STAGE32_18J_D16_EXACT_THREE_STAGE_SHARDED_TRAVERSAL_CERT_V1'
+          assert p['status']=='COMPLETE' and p['bound']==12 and p['three_stage_partition'] is True
+          assert (p['primary_split_coordinate'],p['primary_shard_id'],p['primary_shard_count'])==(54,26,1024)
+          assert (p['secondary_split_coordinate'],p['secondary_shard_id'],p['secondary_shard_count'])==(45,5,32)
+          assert (p['tertiary_split_coordinate'],p['tertiary_shard_id'],p['tertiary_shard_count'])==(36,sid,16)
+          assert p['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert p['all_symmetry_branch_rejections_exact_rational_cauchy_schwarz'] is True
+          print(json.dumps({'tertiary_shard':sid,'nodes':p['nodes'],'owned_prefixes':p['owned_prefixes'],'canonical':p['canonical_survivors_including_zero']},sort_keys=True))
+          PY
+          fi
+          exit "$rc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage32-18j-b12-tertiary-${{ matrix.shard }}-of16-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  synthesize-logical-secondary5:
+    needs: [validate-run-key, prepare-tertiary, exact-tertiary-shards]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18j-b12-tertiary-*-of16-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/tertiary
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18j-tertiary-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Synthesize logical Stage32-18I-compatible secondary5
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18J/synthesize_logical_secondary5.py \
+            --input "$RUNNER_TEMP/tertiary" \
+            --output-json "$RUNNER_TEMP/out/d16-b12-exact-secondary-5-of32.json" \
+            --output-dump "$RUNNER_TEMP/out/d16-b12-exact-secondary-5-of32.bin" \
+            --certificate "$RUNNER_TEMP/out/stage32-18j-tertiary-rescue-certificate.json"
+      - name: Independently full-Aut verify logical secondary5 records
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b12-exact-secondary-5-of32.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b12-exact-secondary-5-of32.json" \
+            --output "$RUNNER_TEMP/out/d16-b12-exact-secondary-5-of32-verify.json" \
+            --bound 12
+      - name: Enforce rescue and audit stop
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          p=json.loads((root/'d16-b12-exact-secondary-5-of32.json').read_text())
+          c=json.loads((root/'stage32-18j-tertiary-rescue-certificate.json').read_text())
+          assert p['status']=='COMPLETE' and p['tertiary_rescue_partition_certificate'] is True
+          assert p['tertiary_execution_work_counters_not_logical_parent_equivalent'] is True
+          assert c['tertiary_partition_complete'] is True
+          assert c['D16_B12_NUMERICAL_CREDIT'] is False and c['GLOBAL_B12_AGGREGATION_COMPLETE'] is False
+          assert c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False
+          print(json.dumps(c,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18j-b12-logical-secondary5-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          if-no-files-found: error
+
+  inventory:
+    if: always()
+    needs: [validate-run-key, exact-tertiary-shards]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: stage32-18j-b12-tertiary-*-of16-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/tertiary
+          merge-multiple: true
+      - name: Inventory tertiary shards
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'tertiary'
+          complete=[]; failed=[]
+          if root.exists():
+              for p in root.glob('d16-b12-exact-tertiary-*-of16.json'):
+                  d=json.loads(p.read_text())
+                  if d.get('status')=='COMPLETE': complete.append(int(d['tertiary_shard_id']))
+              for p in root.glob('exit-*.txt'):
+                  sid=int(p.stem.split('-')[1]); rc=int(p.read_text().strip())
+                  if rc!=0: failed.append(sid)
+          out={'schema':'STAGE32_18J_TERTIARY_INVENTORY_V1','completed_tertiary_shards':sorted(complete),'failed_tertiary_shards':sorted(set(failed)),'completed_count':len(complete),'expected_count':16,'D16_B12_NUMERICAL_CREDIT':False,'AUDIT_STATUS':'PENDING'}
+          pathlib.Path('inventory.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18j-b12-tertiary-inventory-g${{ needs.validate-run-key.outputs.generation }}
+          path: inventory.json
+          retention-days: 5
