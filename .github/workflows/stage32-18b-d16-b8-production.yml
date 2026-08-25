@@ -1,0 +1,146 @@
+name: Stage32-18B d16 b8 exact cross-certified production
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-18B/**'
+      - '.github/workflows/stage32-18b-d16-b8-production.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  d16-b8-production:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 240
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+      - name: Rebuild source-locked Stage32 Picard core
+        run: |
+          ok=0
+          for attempt in 1 2 3; do
+            rm -f stages/stage32/32-01/picard-core.json
+            if python stages/stage32/32-01/run_sparse_picard_export.py && test -s stages/stage32/32-01/picard-core.json; then ok=1; break; fi
+            sleep 5
+          done
+          test "$ok" -eq 1
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/core/picard-core.json"
+      - name: Rebuild rank-63 Hperp and source-locked Aut
+        run: |
+          python stages/stage32/32-18/d16_hperp_prepare.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/work/d16-hperp.txt" \
+            | tee "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+          grep -q '"pairing_map_injective": true' "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+          grep -q '"pairing_map_rank": 63' "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+          ok=0
+          for attempt in 1 2 3; do
+            if python stages/stage32/32-07/export_aut_action_locked.py --output "$RUNNER_TEMP/out/d16-aut-action.json"; then ok=1; break; fi
+            sleep 5
+          done
+          test "$ok" -eq 1
+          python stages/stage32/32-18A/stable_aut_canonical_prepare.py \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --output "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" \
+            --summary "$RUNNER_TEMP/out/stable-aut-provenance.json"
+          python - <<'PY'
+          import json,os,pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/stable-aut-provenance.json').read_text())
+          assert p['stable_aut_content_sha256']=='7aa6c9be4a91a25549950e1e45c2349146c6ea4cd035ff9133b41e9de3032bc3'
+          assert p['full_group_order']==1536 and p['selected_breakers']==64
+          PY
+      - name: Build production exact certifier from audited 18A source and compile
+        run: |
+          test "$(git rev-parse HEAD:stages/stage32/32-18A/d16_exact_b6_certifier.cpp)" = "cb1b7b47c7a03c8bab243e867cb5fecac38643b3"
+          python stages/stage32/32-18B/build_exact_bound_certifier.py \
+            --source stages/stage32/32-18A/d16_exact_b6_certifier.cpp \
+            --output "$RUNNER_TEMP/work/d16-exact-bound-certifier.cpp"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/work/d16-exact-bound-certifier.cpp" \
+            -o "$RUNNER_TEMP/work/d16-exact-bound-certifier"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            stages/stage32/32-18/d16_aut_canonical_enum.cpp \
+            -o "$RUNNER_TEMP/work/d16-fast-aut-enum"
+      - name: Fast b8 production preview
+        run: |
+          "$RUNNER_TEMP/work/d16-fast-aut-enum" \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b8-fast.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b8-fast-canonical.bin" \
+            --bound 8 --max-seconds 600 --node-cap 50000000 --survivor-cap 2000000
+          python - <<'PY'
+          import json,os,pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/d16-b8-fast.json').read_text())
+          print(json.dumps(p,sort_keys=True))
+          assert p['status']=='COMPLETE', p
+          assert p['bound']==8
+          PY
+      - name: Independently verify fast b8 canonical set
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b8-fast-canonical.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b8-fast.json" \
+            --output "$RUNNER_TEMP/out/d16-b8-fast-verify.json" \
+            --bound 8
+      - name: Exact-certified b8 traversal
+        run: |
+          "$RUNNER_TEMP/work/d16-exact-bound-certifier" \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b8-exact.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b8-exact-canonical.bin" \
+            --bound 8 --node-cap 300000000
+      - name: Independently verify exact b8 canonical set
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b8-exact-canonical.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b8-exact.json" \
+            --output "$RUNNER_TEMP/out/d16-b8-exact-verify.json" \
+            --bound 8
+      - name: Cross-certify exact and fast b8 production
+        run: |
+          python stages/stage32/32-18B/compare_exact_fast_bound.py \
+            --exact-json "$RUNNER_TEMP/out/d16-b8-exact.json" \
+            --exact-dump "$RUNNER_TEMP/out/d16-b8-exact-canonical.bin" \
+            --exact-verify "$RUNNER_TEMP/out/d16-b8-exact-verify.json" \
+            --fast-json "$RUNNER_TEMP/out/d16-b8-fast.json" \
+            --fast-dump "$RUNNER_TEMP/out/d16-b8-fast-canonical.bin" \
+            --fast-verify "$RUNNER_TEMP/out/d16-b8-fast-verify.json" \
+            --provenance "$RUNNER_TEMP/out/stable-aut-provenance.json" \
+            --output "$RUNNER_TEMP/out/stage32-18b-b8-certificate.json" \
+            --bound 8
+      - name: Enforce bounded-production firewall
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          c=json.loads((root/'stage32-18b-b8-certificate.json').read_text())
+          assert c['verdict']=='PASS_EXACT_CROSS_CERTIFIED_D16_BOUNDED_PRODUCTION'
+          assert c['bound']==8
+          assert c['exact_and_fast_canonical_sets_identical'] is True
+          assert c['AUDIT_STATUS']=='PENDING'
+          assert c['FAST_TRAVERSAL_GLOBAL_COMPLETENESS_CERTIFIED'] is False
+          assert c['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False
+          print(json.dumps(c,sort_keys=True))
+          PY
+          du -ah "$RUNNER_TEMP/out"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18b-d16-b8-exact-cross-certified-production
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
