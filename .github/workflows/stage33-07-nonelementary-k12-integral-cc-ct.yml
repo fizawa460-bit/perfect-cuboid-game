@@ -5,6 +5,9 @@ on:
       - 'stages/stage33/33-07/**'
       - '.github/workflows/stage33-07-nonelementary-k12-integral-cc-ct.yml'
   workflow_dispatch:
+concurrency:
+  group: stage33-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 jobs:
   certify:
     runs-on: ubuntu-24.04
