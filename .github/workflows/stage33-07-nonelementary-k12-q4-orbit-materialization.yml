@@ -1,0 +1,70 @@
+name: Stage33-07 non-elementary k1 k2 Q4 orbit materialization
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/materialize_nonelementary_k12_q4_symmetry_orbits.py'
+      - '.github/workflows/stage33-07-nonelementary-k12-q4-orbit-materialization.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: stage33-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact non-elementary predecessor chain
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+      - name: Materialize all exact k1 k2 full-Q4 symmetry orbit representatives
+        working-directory: stages/stage33/33-07
+        run: python materialize_nonelementary_k12_q4_symmetry_orbits.py
+      - name: Enforce exact orbit coverage and conservative firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k12-q4-symmetry-orbit-materialization.json'))
+          assert x['schema']=='STAGE33_07_NONELEMENTARY_K12_Q4_SYMMETRY_ORBIT_MATERIALIZATION_V1'
+          assert x['source_full_Q4_certificate_sha256']=='cc7350ecd3a5f7d1c3eca0b96649df0fb1219283190f806ec1e537d28cbd4b19'
+          assert x['source_Q4_burnside_script_git_blob_sha1']=='9f3c2a0dd2da436643bc5a5b647f5384b2c68f02'
+          assert x['source_endpoint_picard_discriminant_sha256']=='4ca7567205455175a5f9bef7a74bc9ec31cd68f831aec60aa88a637b5c0cfdf0'
+          assert x['source_integral_symmetry_order']==288
+          assert x['k1']['Q4_surviving_skeleton_orbits']==3187
+          assert x['k1']['exact_full_symmetry_orbits_materialized']==77076
+          assert x['k2']['Q4_surviving_skeleton_orbits']==294
+          assert x['k2']['exact_full_symmetry_orbits_materialized']==303496
+          assert x['combined_exact_full_symmetry_orbits_materialized']==380572
+          assert x['locked_Burnside_combined_orbit_count']==380572
+          assert x['explicit_orbit_materialization_matches_locked_Burnside_count']
+          assert x['binary_record_struct']=='<BHI' and x['binary_record_size_bytes']==7
+          assert x['binary_record_count']==380572 and x['binary_size_bytes']==2664004
+          assert x['all_surviving_affine_sections_enumerated_over_skeleton_representatives']
+          assert x['all_stabilizer_elements_applied'] and not x['fast_or_heuristic_traversal_used']
+          assert not x['endpoint_finite_q_certified'] and not x['endpoint_full_action_certified']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('K12_Q4_SYMMETRY_ORBIT_MATERIALIZATION=PASS_EXACT')
+          print('ORBIT_RECORDS='+str(x['binary_record_count']))
+          print('BINARY_SHA256='+x['binary_sha256'])
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-q4-symmetry-orbit-materialization
+          path: |
+            stages/stage33/33-07/nonelementary-k12-q4-symmetry-orbit-representatives.bin
+            stages/stage33/33-07/nonelementary-k12-q4-symmetry-orbit-materialization.json
+          retention-days: 5
