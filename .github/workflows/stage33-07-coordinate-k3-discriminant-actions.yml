@@ -43,10 +43,10 @@ jobs:
       - name: Derive exact coordinate K3 discriminant V4 actions
         working-directory: stages/stage33/33-07
         run: python derive_coordinate_k3_discriminant_actions.py
-      - name: Exhaust integral rank-two T-action lifts
+      - name: Exhaust finite scaled discriminant V4 extensions
         working-directory: stages/stage33/33-07
         run: python lift_coordinate_k3_actions_to_transcendental.py
-      - name: Validate no twist shortcut was used
+      - name: Validate no twist or integral Betti shortcut was used
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
@@ -58,11 +58,13 @@ jobs:
           for k in ('kb','kc','ka'):
               assert x['pieces'][k]['integral_picard_action_recovered_from_endpoint_pullback']
               assert not x['pieces'][k]['semisimple_twist_used_for_integral_action']
-              assert t['pieces'][k]['integral_v4_lift_count']>=1
+              assert t['pieces'][k]['scaled_v4_action_pair_count']>=1
           assert not t['semisimple_twist_used']
+          assert not t['arithmetic_galois_action_promoted_to_integral_betti_T_isometry']
+          assert t['finite_quadratic_extension_exhaustive']
           assert not x['actual_index512_glue_identified'] and not t['actual_index512_glue_identified']
           print('COORDINATE_K3_DISCRIMINANT_ACTIONS=PASS')
-          print('INTEGRAL_T_LIFT_COUNTS=',{k:t['pieces'][k]['integral_v4_lift_count'] for k in ('kb','kc','ka')})
+          print('SCALED_V4_ACTION_PAIR_COUNTS=',{k:t['pieces'][k]['scaled_v4_action_pair_count'] for k in ('kb','kc','ka')})
           PY
       - uses: actions/upload-artifact@v4
         with:
