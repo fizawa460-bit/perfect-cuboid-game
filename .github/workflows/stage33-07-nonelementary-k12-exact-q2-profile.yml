@@ -95,6 +95,14 @@ jobs:
           print({"bytes":len(b),"sha256":hashlib.sha256(b).hexdigest()})
           PY
 
+      - name: Rebuild cheap skeleton predecessors
+        run: |
+          cd stages/stage33/33-07
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+
       - name: Exact Q2 profile on 2Q survivors
         run: python stages/stage33/33-07/certify_nonelementary_k12_exact_q2_2q_profile_filter.py
 
