@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage33/33-07/certify_nonelementary_sign_q2_structural_reduction.py'
+      - 'stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py'
       - 'stages/stage33/33-07/index512-abstract-glue-types-lr-retained.json'
       - '.github/workflows/stage33-07-nonelementary-sign-q2-structural.yml'
   workflow_dispatch:
@@ -25,11 +26,14 @@ jobs:
           python-version: '3.12'
       - name: Exact E7 structural census
         run: python certify_nonelementary_sign_q2_structural_reduction.py
+      - name: Exact target-Q4 rank obstruction
+        run: python certify_nonelementary_target_q4_rank_obstruction.py
       - name: Enforce conservative firewall
         run: |
           python - <<'PY'
           import json
           x=json.load(open('nonelementary-sign-target-q2-structural-reduction.json'))
+          y=json.load(open('nonelementary-target-q4-rank-obstruction.json'))
           assert x['target_quotient_Q2_log2']==14
           assert x['forced_reduced_code']=='E7 even-weight code in F2^7'
           assert x['summary_by_number_of_Z4_factors']['1']['P_after_support_filter']==63
@@ -38,15 +42,21 @@ jobs:
           assert x['summary_by_number_of_Z4_factors']['4']['P_after_support_filter']==21
           assert x['summary_by_number_of_Z4_factors']['4']['P_with_consistent_lift_pairing']==6
           assert x['total_structural_H_after_sign_and_target_Q2']==101478817840448
-          assert not x['endpoint_full_invariant_factors_certified']
-          assert not x['endpoint_finite_q_certified']
-          assert not x['actual_index512_glue_identified']
-          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          assert y['target_Q4_log2']==24 and y['Kb_X_rank_t_upper_bound']==2
+          assert y['non_elementary_abstract_types_before']==4 and y['non_elementary_abstract_types_after']==3
+          assert y['summary_by_number_of_Z4_factors']['4']['structural_H_after_t_le_2']==0
+          assert not x['endpoint_finite_q_certified'] and not y['endpoint_finite_q_certified']
+          assert not x['actual_index512_glue_identified'] and not y['actual_index512_glue_identified']
+          assert x['stage33_progress']=='6/11' and y['stage33_progress']=='6/11'
           print('NONELEMENTARY_SIGN_TARGET_Q2_STRUCTURAL_REDUCTION=PASS_EXACT')
+          print('NONELEMENTARY_TARGET_Q4_RANK_OBSTRUCTION=PASS_EXACT')
           print('E7_STRUCTURAL_H_TOTAL='+str(x['total_structural_H_after_sign_and_target_Q2']))
+          print('NON_ELEMENTARY_TYPES_AFTER_Q4_RANK=3')
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-nonelementary-sign-q2-structural
-          path: stages/stage33/33-07/nonelementary-sign-target-q2-structural-reduction.json
+          name: stage33-07-nonelementary-sign-q2-q4-structural
+          path: |
+            stages/stage33/33-07/nonelementary-sign-target-q2-structural-reduction.json
+            stages/stage33/33-07/nonelementary-target-q4-rank-obstruction.json
           retention-days: 5
