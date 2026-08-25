@@ -1,0 +1,67 @@
+name: Stage33-07 non-elementary k1 k2 compression scout
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/profile_nonelementary_k12_compression.py'
+      - 'stages/stage33/33-07/nonelementary-k3-full-q4-retained.json'
+      - 'stages/stage33/33-07/certify_nonelementary_target_q8_exponent_reduction.py'
+      - '.github/workflows/stage33-07-nonelementary-k12-compression-scout.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact predecessor chain
+        run: |
+          python certify_index512_abstract_glue_types_lr.py
+          python certify_nonelementary_sign_q2_structural_reduction.py
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+      - name: Exact lossless k1 k2 compression scout
+        run: python profile_nonelementary_k12_compression.py
+      - name: Enforce planning firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k12-compression-scout.json'))
+          assert x['source_Q8_sha256']=='4a5c84ad765f93442f08991ffdcea0bab6f1ae5a3ab6561157201bba262f75ee'
+          assert x['summary']['1']['Q8_admissible_P_count']==63
+          assert x['summary']['1']['exact_profile_cell_count']==9
+          assert x['summary']['1']['structural_H_total']==1375727569216
+          assert x['summary']['2']['Q8_admissible_P_count']==647
+          assert x['summary']['2']['exact_profile_cell_count']==19
+          assert x['summary']['2']['structural_H_total']==437454110720
+          assert x['all_Q8_admissible_P_states_accounted_for']
+          assert x['predecessor_totals_reconstructed_exactly']
+          assert x['profile_partition_lossless_for_recorded_invariants']
+          assert not x['raw_H_enumerated']
+          assert x['planning_only']
+          assert not x['full_Q4_condition_certified']
+          assert not x['endpoint_finite_q_certified']
+          assert not x['endpoint_full_action_certified']
+          assert not x['actual_index512_glue_identified']
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released'] and not x['stage33_09_released']
+          print('NONELEMENTARY_K12_COMPRESSION_SCOUT=PASS_EXACT')
+          print('K1_PROFILE_CELLS=9')
+          print('K2_PROFILE_CELLS=19')
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-compression-scout
+          path: stages/stage33/33-07/nonelementary-k12-compression-scout.json
+          retention-days: 5
