@@ -52,7 +52,7 @@ jobs:
             sleep 5
           done
           test "$ok" -eq 1
-      - name: Prepare depth-1 and depth-2 score breakers
+      - name: Prepare depth-1, depth-2 and depth-3 score breakers
         run: |
           python stages/stage32/scouts/d16_symmetry_breaker_prepare.py \
             --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
@@ -66,6 +66,12 @@ jobs:
             --word-depth 2 --max-breakers 64 \
             --output "$RUNNER_TEMP/work/d16-symmetry-d2.txt" \
             | tee "$RUNNER_TEMP/out/d16-symmetry-d2-prepare.log"
+          python stages/stage32/scouts/d16_symmetry_breaker_prepare.py \
+            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --word-depth 3 --max-breakers 64 \
+            --output "$RUNNER_TEMP/work/d16-symmetry-d3.txt" \
+            | tee "$RUNNER_TEMP/out/d16-symmetry-d3-prepare.log"
       - name: Compile optional-symmetry exact-leaf enumerator
         run: |
           g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
@@ -91,6 +97,13 @@ jobs:
             --symmetry-breakers "$RUNNER_TEMP/work/d16-symmetry-d2.txt" \
             --output "$RUNNER_TEMP/out/d16-b6-symmetry-d2.json" \
             --bounds 6 --per-bound-seconds 30 --node-cap 10000000 --survivor-cap 100000
+      - name: Run depth-3 symmetry-pruned b6
+        run: |
+          "$RUNNER_TEMP/work/d16-constrained-hperp-enum" \
+            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
+            --symmetry-breakers "$RUNNER_TEMP/work/d16-symmetry-d3.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-symmetry-d3.json" \
+            --bounds 6 --per-bound-seconds 30 --node-cap 10000000 --survivor-cap 100000
       - name: Compare pruning effect and enforce scout firewalls
         run: |
           python - <<'PY'
@@ -99,29 +112,34 @@ jobs:
           b=json.loads((root/'d16-b6-baseline.json').read_text())
           d1=json.loads((root/'d16-b6-symmetry-d1.json').read_text())
           d2=json.loads((root/'d16-b6-symmetry-d2.json').read_text())
-          bt=b['tiers'][0]; t1=d1['tiers'][0]; t2=d2['tiers'][0]
+          d3=json.loads((root/'d16-b6-symmetry-d3.json').read_text())
+          bt=b['tiers'][0]; t1=d1['tiers'][0]; t2=d2['tiers'][0]; t3=d3['tiers'][0]
           assert bt['bound']==6 and bt['status']=='COMPLETE'
           assert bt['exact_survivors_including_zero']==17833 and bt['nonzero_survivors']==17832
           assert b['symmetry_breaker_count']==0
           assert t1['status']=='COMPLETE' and d1['symmetry_breaker_count']==9
           assert t1['exact_survivors_including_zero']==1050
-          assert t2['status']=='COMPLETE'
-          assert 9 < d2['symmetry_breaker_count'] <= 64
-          assert 37 <= t2['exact_survivors_including_zero'] <= t1['exact_survivors_including_zero']
-          assert t2['nodes'] <= t1['nodes'] <= bt['nodes']
-          for r in (b,d1,d2):
+          assert t2['status']=='COMPLETE' and d2['symmetry_breaker_count']==49
+          assert t2['exact_survivors_including_zero']==315
+          assert t3['status']=='COMPLETE' and d3['symmetry_breaker_count']==64
+          assert 37 <= t3['exact_survivors_including_zero'] <= t2['exact_survivors_including_zero']
+          assert t3['nodes'] <= t2['nodes'] <= t1['nodes'] <= bt['nodes']
+          for r in (b,d1,d2,d3):
               assert r['THEOREM_CREDIT'] is False
               assert r['RECEIVER_CREDIT'] is False
               assert r['FULL_D16_G0_ROW_COMPLETE'] is False
               assert r['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
           summary={
               'baseline':{'nodes':bt['nodes'],'survivors':bt['exact_survivors_including_zero'],'seconds':bt['elapsed_seconds']},
-              'depth1':{'breakers':d1['symmetry_breaker_count'],'nodes':t1['nodes'],'survivors':t1['exact_survivors_including_zero'],'seconds':t1['elapsed_seconds'],'symmetry_prunes':t1['symmetry_prunes']},
-              'depth2':{'breakers':d2['symmetry_breaker_count'],'nodes':t2['nodes'],'survivors':t2['exact_survivors_including_zero'],'seconds':t2['elapsed_seconds'],'symmetry_prunes':t2['symmetry_prunes']},
-              'depth2_node_reduction_vs_baseline':bt['nodes']/t2['nodes'],
-              'depth2_survivor_reduction_vs_baseline':bt['exact_survivors_including_zero']/t2['exact_survivors_including_zero'],
+              'depth1':{'breakers':d1['symmetry_breaker_count'],'nodes':t1['nodes'],'survivors':t1['exact_survivors_including_zero'],'seconds':t1['elapsed_seconds']},
+              'depth2':{'breakers':d2['symmetry_breaker_count'],'nodes':t2['nodes'],'survivors':t2['exact_survivors_including_zero'],'seconds':t2['elapsed_seconds']},
+              'depth3':{'breakers':d3['symmetry_breaker_count'],'nodes':t3['nodes'],'survivors':t3['exact_survivors_including_zero'],'seconds':t3['elapsed_seconds']},
+              'depth3_node_reduction_vs_baseline':bt['nodes']/t3['nodes'],
+              'depth3_survivor_reduction_vs_baseline':bt['exact_survivors_including_zero']/t3['exact_survivors_including_zero'],
+              'depth3_node_gain_vs_depth2':t2['nodes']/t3['nodes'],
+              'depth3_survivor_gain_vs_depth2':t2['exact_survivors_including_zero']/t3['exact_survivors_including_zero'],
               'ideal_orbit_count_b6':37,
-              'route_gate':'IF_DEPTH2_MATERIALLY_IMPROVES_DEPTH1_KEEP_EXPANDING_AUT_BREAKERS_BEFORE_JOINT_QUADRATIC',
+              'route_gate':'KEEP_AUT_IF_DEPTH3_HAS_NONTRIVIAL_GAIN_OTHERWISE_GREEDY_FULL_GROUP_SELECTION_BEFORE_JOINT_QUADRATIC',
               'THEOREM_CREDIT':False,
               'RECEIVER_CREDIT':False,
               'FULL_D16_G0_ROW_COMPLETE':False,
