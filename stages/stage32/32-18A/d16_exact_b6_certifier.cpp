@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
@@ -45,7 +46,8 @@ struct Bundle {
 
 static Bundle load_bundle(const std::string& path,const Problem& p){
     std::ifstream f(path); if(!f) throw std::runtime_error("cannot open bundle");
-    std::string magic; std::getline(f,magic); if(magic!="S32_D16_AUT_CANONICAL_BUNDLE_V1") throw std::runtime_error("bad bundle magic");
+    std::string magic; std::getline(f,magic);
+    if(magic!="S32_D16_AUT_CANONICAL_BUNDLE_V1") throw std::runtime_error("bad bundle magic");
     Bundle s; std::getline(f,s.input_sha); std::getline(f,s.aut_sha); std::getline(f,s.bundle_sha); std::getline(f,s.seed);
     f>>s.n>>s.m>>s.k>>s.group_order;
     if(s.input_sha!=p.input_sha||s.n!=63||s.m!=140||s.k!=64||s.group_order!=1536) throw std::runtime_error("bundle mismatch");
@@ -62,8 +64,10 @@ static Bundle load_bundle(const std::string& path,const Problem& p){
 }
 
 static long long floor_rat(const cpp_rational& x){
-    cpp_int n=numerator(x), d=denominator(x); if(d<=0) throw std::runtime_error("bad rational denominator");
-    cpp_int q=n/d, r=n%d; if(n<0 && r!=0) --q; return q.convert_to<long long>();
+    cpp_int n=numerator(x), d=denominator(x);
+    if(d<=0) throw std::runtime_error("bad rational denominator");
+    cpp_int q=n/d, r=n%d; if(n<0 && r!=0) --q;
+    return q.convert_to<long long>();
 }
 static long long ceil_rat(const cpp_rational& x){ return -floor_rat(-x); }
 
@@ -88,14 +92,33 @@ public:
             for(int k=0;k<=lim;k++) v+=L_[i][k]*D_[k]*L_[j][k];
             if(v!=cpp_rational(p_.q[i][j])) throw std::runtime_error("exact LDL reconstruction mismatch");
         }
-        z_.assign(n_,0);
+
+        cap_a_.assign(m_,std::vector<cpp_rational>(n_,0));
+        cap_dual_.assign(m_,std::vector<cpp_rational>(n_,0));
+        cap_af_.assign(m_,std::vector<long double>(n_,0));
+        cap_dualf_.assign(m_,std::vector<long double>(n_,0));
+        for(int r=0;r<m_;r++) build_dual_row(p_.lin[r],cap_a_[r],cap_dual_[r],cap_af_[r],cap_dualf_[r]);
+
+        sym_a_.assign(s_.k,std::vector<cpp_rational>(n_,0));
+        sym_dual_.assign(s_.k,std::vector<cpp_rational>(n_,0));
+        sym_af_.assign(s_.k,std::vector<long double>(n_,0));
+        sym_dualf_.assign(s_.k,std::vector<long double>(n_,0));
+        for(int r=0;r<s_.k;r++) build_dual_row(s_.lin[r],sym_a_[r],sym_dual_[r],sym_af_[r],sym_dualf_[r]);
+
+        order_.reserve(m_);
+        for(int r=92;r<m_;r++) order_.push_back(r);
+        for(int r=0;r<92;r++) order_.push_back(r);
+
+        z_.assign(n_,0); t_.assign(n_,0); tf_.assign(n_,0);
+        cap_assignedf_.assign(m_,0); sym_assignedf_.assign(s_.k,0);
     }
 
     void run(int bound,uint64_t node_cap,const std::string& dump_path){
         bound_=bound; node_cap_=node_cap;
         std::ofstream dump(dump_path,std::ios::binary); if(!dump) throw std::runtime_error("cannot open dump");
         dump.write("S32D16C1",8); dump_=&dump;
-        dfs(n_-1,cpp_rational(0));
+        if(caps_possible(n_-1,cpp_rational(bound_)) && symmetry_possible(n_-1,cpp_rational(bound_)))
+            dfs(n_-1,cpp_rational(0));
         dump.close(); if(!dump) throw std::runtime_error("dump close failed"); dump_=nullptr;
     }
 
@@ -112,10 +135,15 @@ public:
         f<<"  \"dfs_symmetry_breaker_count\": "<<s_.k<<",\n";
         f<<"  \"exact_ldl_reconstructs_integer_gram\": true,\n";
         f<<"  \"floating_arithmetic_used_for_traversal_pruning\": false,\n";
+        f<<"  \"floating_arithmetic_used_only_to_schedule_exact_prune_checks\": true,\n";
+        f<<"  \"all_cap_and_symmetry_branch_rejections_exact_rational_cauchy_schwarz\": true,\n";
         f<<"  \"norm_ball_coordinate_ranges_are_exact_rational_supersets\": true,\n";
         f<<"  \"every_candidate_coordinate_is_exactly_norm_checked_before_descent\": true,\n";
         f<<"  \"nodes\": "<<nodes_<<",\n";
         f<<"  \"coordinate_trials\": "<<trials_<<",\n";
+        f<<"  \"exact_prune_checks\": "<<exact_prune_checks_<<",\n";
+        f<<"  \"exact_constraint_prunes\": "<<constraint_prunes_<<",\n";
+        f<<"  \"exact_symmetry_prunes\": "<<symmetry_prunes_<<",\n";
         f<<"  \"exact_norm_leaves\": "<<leaves_<<",\n";
         f<<"  \"cap_survivors_before_symmetry\": "<<cap_survivors_<<",\n";
         f<<"  \"precanonical_survivors\": "<<precanonical_<<",\n";
@@ -130,9 +158,90 @@ public:
 
 private:
     const Problem&p_; const Bundle&s_; int n_,m_,bound_=0; uint64_t node_cap_=0;
-    std::vector<std::vector<cpp_rational>> L_; std::vector<cpp_rational>D_; std::vector<long long>z_;
+    std::vector<std::vector<cpp_rational>> L_; std::vector<cpp_rational>D_;
+    std::vector<std::vector<cpp_rational>> cap_a_,cap_dual_,sym_a_,sym_dual_;
+    std::vector<std::vector<long double>> cap_af_,cap_dualf_,sym_af_,sym_dualf_;
+    std::vector<long long>z_; std::vector<cpp_rational>t_; std::vector<long double>tf_;
+    std::vector<long double>cap_assignedf_,sym_assignedf_; std::vector<int>order_;
     uint64_t nodes_=0,trials_=0,leaves_=0,cap_survivors_=0,precanonical_=0,canonical_rejects_=0,canonical_=0,canonical_nonzero_=0;
+    uint64_t exact_prune_checks_=0,constraint_prunes_=0,symmetry_prunes_=0;
     std::map<int,uint64_t>hist_; std::ofstream*dump_=nullptr;
+
+    void build_dual_row(const std::vector<long long>& row,
+                        std::vector<cpp_rational>& a,std::vector<cpp_rational>& dual,
+                        std::vector<long double>& af,std::vector<long double>& dualf){
+        cpp_rational sum=0;
+        for(int i=0;i<n_;i++){
+            cpp_rational v=row[i];
+            for(int k=0;k<i;k++) v-=L_[i][k]*a[k];
+            a[i]=v; sum += a[i]*a[i]/D_[i]; dual[i]=sum;
+            af[i]=a[i].convert_to<long double>(); dualf[i]=sum.convert_to<long double>();
+        }
+    }
+
+    cpp_rational exact_center(long long base,const std::vector<cpp_rational>& a,int last_remaining) const {
+        cpp_rational c=base;
+        for(int j=last_remaining+1;j<n_;j++) c+=a[j]*t_[j];
+        return c;
+    }
+
+    bool exact_outside_interval_impossible(long long base,long long cap,
+                                           const std::vector<cpp_rational>& a,
+                                           const std::vector<cpp_rational>& dual,
+                                           int last_remaining,const cpp_rational& budget) {
+        ++exact_prune_checks_;
+        cpp_rational center=exact_center(base,a,last_remaining), dist=0;
+        if(center<0) dist=-center;
+        else if(center>cpp_rational(cap)) dist=center-cpp_rational(cap);
+        else return false;
+        cpp_rational reach2 = last_remaining>=0 ? budget*dual[last_remaining] : cpp_rational(0);
+        return dist*dist > reach2;
+    }
+
+    bool exact_negative_impossible(long long base,const std::vector<cpp_rational>& a,
+                                   const std::vector<cpp_rational>& dual,
+                                   int last_remaining,const cpp_rational& budget) {
+        ++exact_prune_checks_;
+        cpp_rational center=exact_center(base,a,last_remaining);
+        if(center>=0) return false;
+        cpp_rational dist=-center;
+        cpp_rational reach2 = last_remaining>=0 ? budget*dual[last_remaining] : cpp_rational(0);
+        return dist*dist > reach2;
+    }
+
+    bool caps_possible(int last_remaining,const cpp_rational& budget) {
+        const long double bf=std::max<long double>(0,budget.convert_to<long double>());
+        for(int rr:order_){
+            long double center=static_cast<long double>(p_.p0[rr])+cap_assignedf_[rr], dist=0;
+            if(center<0) dist=-center;
+            else if(center>static_cast<long double>(p_.cap[rr])) dist=center-static_cast<long double>(p_.cap[rr]);
+            else continue;
+            long double dual=last_remaining>=0?cap_dualf_[rr][last_remaining]:0;
+            long double reach=std::sqrt(std::max<long double>(0,bf*dual));
+            if(reach==0 || dist>0.5L*reach){
+                if(exact_outside_interval_impossible(p_.p0[rr],p_.cap[rr],cap_a_[rr],cap_dual_[rr],last_remaining,budget)){
+                    ++constraint_prunes_; return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    bool symmetry_possible(int last_remaining,const cpp_rational& budget) {
+        const long double bf=std::max<long double>(0,budget.convert_to<long double>());
+        for(int r=0;r<s_.k;r++){
+            long double center=static_cast<long double>(s_.c0[r])+sym_assignedf_[r];
+            if(center>=0) continue;
+            long double dual=last_remaining>=0?sym_dualf_[r][last_remaining]:0;
+            long double reach=std::sqrt(std::max<long double>(0,bf*dual));
+            if(reach==0 || -center>0.5L*reach){
+                if(exact_negative_impossible(s_.c0[r],sym_a_[r],sym_dual_[r],last_remaining,budget)){
+                    ++symmetry_prunes_; return false;
+                }
+            }
+        }
+        return true;
+    }
 
     bool is_canonical(const std::array<unsigned char,140>& pairing)const{
         i128 base=0; for(int i=0;i<m_;i++) base+=static_cast<i128>(s_.weights[i])*static_cast<int>(pairing[i]);
@@ -154,13 +263,18 @@ private:
         cpp_rational shift=0; for(int j=i+1;j<n_;j++) shift+=L_[j][i]*z_[j];
         cpp_rational ratio=rem/D_[i]; if(ratio<0) return;
         long long R=0; while(cpp_rational(R)*R<=ratio) ++R;
-        long long lo=ceil_rat(-shift-cpp_rational(R));
-        long long hi=floor_rat(-shift+cpp_rational(R));
+        long long lo=ceil_rat(-shift-cpp_rational(R)), hi=floor_rat(-shift+cpp_rational(R));
         for(long long zi=lo;zi<=hi;zi++){
-            ++trials_; cpp_rational t=cpp_rational(zi)+shift; cpp_rational term=D_[i]*t*t;
+            ++trials_; cpp_rational ti=cpp_rational(zi)+shift; cpp_rational term=D_[i]*ti*ti;
             if(term>rem) continue;
-            z_[i]=zi;
-            dfs(i-1,used+term);
+            z_[i]=zi; t_[i]=ti; tf_[i]=ti.convert_to<long double>();
+            for(int r=0;r<m_;r++) cap_assignedf_[r]+=cap_af_[r][i]*tf_[i];
+            for(int r=0;r<s_.k;r++) sym_assignedf_[r]+=sym_af_[r][i]*tf_[i];
+            cpp_rational newrem=rem-term;
+            if(caps_possible(i-1,newrem) && symmetry_possible(i-1,newrem)) dfs(i-1,used+term);
+            for(int r=0;r<s_.k;r++) sym_assignedf_[r]-=sym_af_[r][i]*tf_[i];
+            for(int r=0;r<m_;r++) cap_assignedf_[r]-=cap_af_[r][i]*tf_[i];
+            t_[i]=0; tf_[i]=0;
         }
         z_[i]=0;
     }
