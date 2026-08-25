@@ -32,18 +32,19 @@ jobs:
         run: python certify_elementary_index512_full_ct_fixed_type_reduction.py
       - name: Recompute forced V4 commutator prerequisite
         run: python certify_elementary_index512_forced_commutator_reduction.py
-      - name: Certify full joint V4 fixed-subgroup reduction
-        run: python certify_elementary_index512_full_joint_v4_fixed_type_reduction.py
+      - name: Certify canonical full joint V4 fixed-subgroup reduction
+        run: python certify_elementary_index512_full_joint_v4_fixed_type_reduction_v2.py
       - name: Enforce conservative Stage33-07 firewall
         run: |
           python - <<'PY'
           import json
           x=json.load(open('elementary-index512-full-joint-v4-fixed-type-reduction.json'))
+          assert x['schema']=='STAGE33_07_ELEMENTARY_INDEX512_FULL_JOINT_V4_FIXED_TYPE_REDUCTION_V2'
           assert x['before_full_joint_v4']==17024
           assert x['raw_global_scaled_cc_ct_pair_count']==131072
-          assert x['global_joint_relation_pair_type_count']==64
-          assert x['raw_multiplicity_per_relation_pair_type']==2048
-          assert x['matching_relation_type_count_per_H_census']=={'0':8832,'64':8192}
+          assert x['global_joint_relation_pair_type_count']==8
+          assert x['raw_multiplicity_per_relation_pair_type']==16384
+          assert x['matching_relation_type_count_per_H_census']=={'0':8832,'8':8192}
           assert x['elementary_candidates_after_full_joint_v4_fixed_type_total']==8192
           assert x['survivors_match_target_joint_type_for_all_131072_raw_action_pairs']
           assert not x['all_elementary_order512_glue_rejected']
