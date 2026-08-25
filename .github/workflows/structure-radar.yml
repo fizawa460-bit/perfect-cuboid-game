@@ -1,0 +1,22 @@
+name: StructureRadar controller
+
+on:
+  pull_request:
+    paths:
+      - 'docs/structure-radar/**'
+      - 'scripts/structure_radar.py'
+      - '.github/workflows/structure-radar.yml'
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify repository-wide StructureRadar corpus and queue
+        run: python scripts/structure_radar.py verify
