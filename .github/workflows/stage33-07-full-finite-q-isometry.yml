@@ -1,0 +1,59 @@
+name: Stage33-07 full finite quadratic-module isometry
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_elementary_index512_glue_candidate.py'
+      - 'stages/stage33/33-07/certify_elementary_index512_full_q_isometry_z3.py'
+      - 'stages/stage33/33-07/picard-discriminant-compact.json'
+      - 'stages/stage33/33-07/coordinate-k3-scaled-action-retained.json'
+      - '.github/workflows/stage33-07-full-finite-q-isometry.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-finite-q-isometry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra and SMT dependencies
+        run: python -m pip install 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Materialize retained elementary index512 candidate
+        working-directory: stages/stage33/33-07
+        run: python certify_elementary_index512_glue_candidate.py
+      - name: Solve and independently verify full finite quadratic-form isometry
+        working-directory: stages/stage33/33-07
+        run: python certify_elementary_index512_full_q_isometry_z3.py
+      - name: Enforce conservative Stage33-07 firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-full-finite-q-isometry.json'))
+          assert x['full_finite_quadratic_form_isometry_certified']
+          assert x['isometry_homomorphism_well_defined_exact']
+          assert x['a_mod_2_automorphism_exact']
+          assert x['a_mod_2_diagonal_block_ranks']==[4,6,4]
+          assert x['generator_q_equalities_mod16_exact']
+          assert x['generator_pair_bilinear_equalities_mod8_exact']
+          assert not x['actual_index512_glue_identified']
+          assert not x['simultaneous_endpoint_cc_ct_action_conjugacy_certified']
+          assert not x['candidate_promoted_to_endpoint_T_lattice']
+          assert x['unit_status']=='RUNNING_REPAIR'
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released']
+          print('FULL_FINITE_Q_ISOMETRY=CERTIFIED')
+          print('ACTUAL_INDEX512_GLUE_IDENTIFIED=False')
+          print('STAGE33_08_RELEASED=False')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-full-finite-q-isometry
+          retention-days: 5
+          path: stages/stage33/33-07/elementary-index512-full-finite-q-isometry.json
