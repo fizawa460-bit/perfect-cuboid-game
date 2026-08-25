@@ -1,0 +1,60 @@
+name: Stage33-07 elementary index512 candidate V4 rejection
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_elementary_index512_candidate_v4_rejection.py'
+      - 'stages/stage33/33-07/certify_elementary_index512_glue_candidate.py'
+      - 'stages/stage33/33-07/coordinate-k3-scaled-action-choices-retained.json'
+      - 'stages/stage33/33-07/target-discriminant-v4-fixed-module.json'
+      - 'stages/stage33/33-07/elementary-index512-full-finite-q-isometry.json'
+      - '.github/workflows/stage33-07-elementary-candidate-v4-rejection.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  elementary-h0-v4-rejection:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Materialize retained elementary H0 candidate
+        working-directory: stages/stage33/33-07
+        run: python certify_elementary_index512_glue_candidate.py
+      - name: Exhaust exact ct fixed-subgroup types on H0 quotient
+        working-directory: stages/stage33/33-07
+        run: python certify_elementary_index512_candidate_v4_rejection.py
+      - name: Enforce conservative Stage33-07 firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-candidate-v4-rejection.json'))
+          assert x['scaled_ct_raw_choice_count']==128
+          assert x['scaled_ct_induced_distinct_class_count']==4
+          assert x['target_ct_fixed_signature_log2_K2_K4_K']==[13,19,22]
+          assert x['candidate_ct_two_torsion_log2_always']==14
+          assert x['ct_fixed_subgroup_type_mismatch_exact']
+          assert not x['simultaneous_endpoint_cc_ct_action_conjugacy_possible']
+          assert x['retained_elementary_H0_rejected']
+          assert not x['all_elementary_order512_glue_rejected']
+          assert not x['actual_index512_glue_identified']
+          assert x['unit_status']=='RUNNING_REPAIR'
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released']
+          print('ELEMENTARY_H0_V4_REJECTION=PASS_EXACT')
+          print('ALL_ELEMENTARY_GLUE_REJECTED=False')
+          print('STAGE33_08_RELEASED=False')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-elementary-h0-v4-rejection
+          retention-days: 5
+          path: stages/stage33/33-07/elementary-index512-candidate-v4-rejection.json
