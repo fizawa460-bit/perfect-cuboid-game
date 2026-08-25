@@ -8,6 +8,7 @@ on:
       - 'stages/stage33/33-07/certify_nonelementary_target_q8_exponent_reduction.py'
       - 'stages/stage33/33-07/certify_nonelementary_k3_q8_skeleton_orbits.py'
       - 'stages/stage33/33-07/certify_nonelementary_k3_lift_section_orbits.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k3_integral_cc_ct_orbits.py'
       - 'stages/stage33/33-07/certify_nonelementary_exact_quotient_action_witnesses.py'
       - 'stages/stage33/33-07/certify_nonelementary_k1_full_q_isometry_z3.py'
       - 'stages/stage33/33-07/coordinate-k3-scaled-action-choices-retained.json'
@@ -44,6 +45,8 @@ jobs:
         run: python certify_nonelementary_k3_q8_skeleton_orbits.py
       - name: Exact k3 affine lift-section orbit reduction
         run: python certify_nonelementary_k3_lift_section_orbits.py
+      - name: Exact k3 integral cc ct affine filter and Burnside reduction
+        run: python certify_nonelementary_k3_integral_cc_ct_orbits.py
       - name: Exact quotient and action-stability witnesses
         run: python certify_nonelementary_exact_quotient_action_witnesses.py
       - name: Exact full finite-q decision for the surviving k1 witness
@@ -57,6 +60,7 @@ jobs:
           z=json.load(open('nonelementary-target-q8-exponent-reduction.json'))
           s=json.load(open('nonelementary-k3-q8-skeleton-orbits.json'))
           l=json.load(open('nonelementary-k3-lift-section-orbits.json'))
+          a=json.load(open('nonelementary-k3-integral-cc-ct-orbits.json'))
           w=json.load(open('nonelementary-exact-quotient-action-witnesses.json'))
           q=json.load(open('nonelementary-k1-full-q-isometry.json'))
           assert x['target_quotient_Q2_log2']==14
@@ -103,6 +107,33 @@ jobs:
           assert l['exact_full_symmetry_orbit_count']==98680896
           assert len(l['skeleton_orbit_records'])==189
           assert l['canonical_sha256']=='19c37c310ab6a5494817be64ef860e135c8314273ff3f0e1f61dad0db7165fdb'
+          assert a['source_affine_lift_orbits_sha256']==l['canonical_sha256']
+          assert a['predecessor_exact_skeleton_count']==2628
+          assert a['predecessor_exact_skeleton_orbit_count']==189
+          assert a['predecessor_structural_H_count']==7927234560
+          assert a['predecessor_structural_H_count_reconstructed']==7927234560
+          assert a['integral_symmetry_order']==288
+          assert a['retained_action_sets_closed_under_full_symmetry']
+          assert a['raw_global_cc_action_choice_count']==1024
+          assert a['raw_global_ct_action_choice_count']==128
+          assert a['distinct_normalized_global_cc_action_count']==8
+          assert a['distinct_normalized_global_ct_action_count']==1
+          assert a['raw_multiplicity_per_normalized_cc_action']==128
+          assert a['raw_multiplicity_per_normalized_ct_action']==128
+          assert a['all_cc_choices_checked_on_every_skeleton_orbit']
+          assert a['all_ct_choices_checked_on_every_skeleton_orbit']
+          assert a['cc_stability_locus_count_per_skeleton_orbit']==1
+          assert a['ct_stability_locus_equals_predecessor_fibre_for_every_orbit']
+          assert a['integral_cc_ct_lift_dimension_histogram_over_skeleton_orbits']=={'16':66,'18':111,'19':6,'21':6}
+          assert a['integral_cc_ct_lift_dimension_histogram_over_all_skeletons']=={'16':1080,'18':1434,'19':72,'21':42}
+          assert a['structural_H_count_after_integral_cc_ct']==572522496
+          assert a['structural_H_rejected_by_integral_cc']==7354712064
+          assert a['exact_full_symmetry_orbit_count_after_integral_cc_ct']==17146944
+          assert a['identity_full_fibre_firewall_checked_for_every_orbit'] and a['burnside_exact']
+          assert not a['fast_or_heuristic_traversal_used']
+          assert not a['canonical_augmentation_completeness_claimed']
+          assert len(a['skeleton_orbit_records'])==189
+          assert a['canonical_sha256']=='a98422c4f243b4243d6ce931de2076d966ab693600a22393a1b191457792626f'
           assert w['exact_witness_type_count']==2
           assert w['exact_witness_types']==['k1_Z4_plus_Z2_7','k2_Z4_2_plus_Z2_5']
           assert all(r['quotient_invariant_factors']==[2]*4+[4]*6+[8]*4 for r in w['records'].values())
@@ -122,16 +153,19 @@ jobs:
           assert not x['endpoint_finite_q_certified'] and not y['endpoint_finite_q_certified'] and not z['endpoint_finite_q_certified']
           assert not s['endpoint_finite_q_certified'] and not s['endpoint_full_action_conjugacy_certified']
           assert not l['full_Q4_condition_certified'] and not l['endpoint_finite_q_certified'] and not l['endpoint_full_action_conjugacy_certified']
+          assert not a['full_Q4_condition_certified'] and not a['endpoint_finite_q_certified'] and not a['endpoint_full_action_conjugacy_certified']
           assert not w['endpoint_finite_q_certified'] and not w['endpoint_full_action_conjugacy_certified']
           assert not q['full_finite_quadratic_form_isometry_certified_for_this_witness'] and not q['endpoint_full_action_conjugacy_certified']
           assert not x['actual_index512_glue_identified'] and not y['actual_index512_glue_identified'] and not z['actual_index512_glue_identified']
           assert not s['actual_index512_glue_identified'] and not s['arithmetic_HS_closed']
           assert not l['actual_index512_glue_identified'] and not l['arithmetic_HS_closed']
+          assert not a['actual_index512_glue_identified'] and not a['arithmetic_HS_closed']
           assert not w['actual_index512_glue_identified'] and not w['arithmetic_HS_closed']
           assert not q['actual_index512_glue_identified'] and not q['arithmetic_HS_closed']
           assert x['stage33_progress']=='6/11' and y['stage33_progress']=='6/11' and z['stage33_progress']=='6/11' and w['stage33_progress']=='6/11' and q['stage33_progress']=='6/11'
           assert s['stage33_progress']=='6/11' and not s['stage33_08_released'] and not s['stage33_09_released']
           assert l['stage33_progress']=='6/11' and not l['stage33_08_released'] and not l['stage33_09_released']
+          assert a['stage33_progress']=='6/11' and not a['stage33_08_released'] and not a['stage33_09_released']
           print('NONELEMENTARY_SIGN_TARGET_Q2_STRUCTURAL_REDUCTION=PASS_EXACT')
           print('NONELEMENTARY_TARGET_Q4_RANK_OBSTRUCTION=PASS_EXACT')
           print('NONELEMENTARY_TARGET_Q8_EXPONENT_REDUCTION=PASS_EXACT')
@@ -143,6 +177,8 @@ jobs:
           print('NON_ELEMENTARY_K3_CC_MOD2_STRUCTURAL_H=7927234560')
           print('NON_ELEMENTARY_K3_CC_MOD2_SKELETON_ORBITS=189')
           print('NON_ELEMENTARY_K3_AFFINE_FULL_SYMMETRY_ORBITS=98680896')
+          print('NON_ELEMENTARY_K3_INTEGRAL_CC_CT_STRUCTURAL_H=572522496')
+          print('NON_ELEMENTARY_K3_INTEGRAL_CC_CT_FULL_SYMMETRY_ORBITS=17146944')
           print('NON_ELEMENTARY_EXACT_QUOTIENT_ACTION_WITNESS_TYPES=2')
           print('NON_ELEMENTARY_EXPLICIT_WITNESSES_REJECTED_BY_Q_FILTRATION=2')
           print('NON_ELEMENTARY_K1_EXPLICIT_WITNESS_FULL_Q=UNSAT_EXACT')
@@ -156,6 +192,7 @@ jobs:
             stages/stage33/33-07/nonelementary-target-q8-exponent-reduction.json
             stages/stage33/33-07/nonelementary-k3-q8-skeleton-orbits.json
             stages/stage33/33-07/nonelementary-k3-lift-section-orbits.json
+            stages/stage33/33-07/nonelementary-k3-integral-cc-ct-orbits.json
             stages/stage33/33-07/nonelementary-exact-quotient-action-witnesses.json
             stages/stage33/33-07/nonelementary-k1-full-q-isometry.json
           retention-days: 5
