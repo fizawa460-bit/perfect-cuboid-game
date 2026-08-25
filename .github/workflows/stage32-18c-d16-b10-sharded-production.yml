@@ -1,0 +1,223 @@
+name: Stage32-18C d16 b10 resource-safe sharded production
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-18C/**'
+      - '.github/workflows/stage32-18c-d16-b10-sharded-production.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  prepare-fast-b10:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install preprocessing dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out" "$RUNNER_TEMP/prepared"
+      - name: Rebuild source-locked Picard/Hperp/Aut bundle
+        run: |
+          ok=0
+          for attempt in 1 2 3; do
+            rm -f stages/stage32/32-01/picard-core.json
+            if python stages/stage32/32-01/run_sparse_picard_export.py && test -s stages/stage32/32-01/picard-core.json; then ok=1; break; fi
+            sleep 5
+          done
+          test "$ok" -eq 1
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/core/picard-core.json"
+
+          python stages/stage32/32-18/d16_hperp_prepare.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/work/d16-hperp.txt" \
+            | tee "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+          grep -q '"pairing_map_injective": true' "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+          grep -q '"pairing_map_rank": 63' "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+
+          ok=0
+          for attempt in 1 2 3; do
+            if python stages/stage32/32-07/export_aut_action_locked.py --output "$RUNNER_TEMP/out/d16-aut-action.json"; then ok=1; break; fi
+            sleep 5
+          done
+          test "$ok" -eq 1
+
+          python stages/stage32/32-18A/stable_aut_canonical_prepare.py \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --output "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" \
+            --summary "$RUNNER_TEMP/out/stable-aut-provenance.json"
+
+          python - <<'PY'
+          import json,os,pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/stable-aut-provenance.json').read_text())
+          assert p['stable_aut_content_sha256']=='7aa6c9be4a91a25549950e1e45c2349146c6ea4cd035ff9133b41e9de3032bc3'
+          assert p['full_group_order']==1536 and p['selected_breakers']==64
+          PY
+      - name: Build exact prefix-sharded certifier from audited 18A source
+        run: |
+          test "$(git rev-parse HEAD:stages/stage32/32-18A/d16_exact_b6_certifier.cpp)" = "cb1b7b47c7a03c8bab243e867cb5fecac38643b3"
+          python stages/stage32/32-18C/build_exact_sharded_certifier.py \
+            --source stages/stage32/32-18A/d16_exact_b6_certifier.cpp \
+            --output "$RUNNER_TEMP/work/d16-exact-sharded.cpp"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            stages/stage32/32-18/d16_aut_canonical_enum.cpp \
+            -o "$RUNNER_TEMP/work/d16-fast-aut-enum"
+      - name: Fast b10 resource preview
+        run: |
+          "$RUNNER_TEMP/work/d16-fast-aut-enum" \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b10-fast.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b10-fast-canonical.bin" \
+            --bound 10 --max-seconds 1800 --node-cap 250000000 --survivor-cap 10000000
+          python - <<'PY'
+          import json,os,pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/d16-b10-fast.json').read_text())
+          print(json.dumps(p,sort_keys=True))
+          assert p['status']=='COMPLETE', p
+          assert p['bound']==10
+          PY
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b10-fast-canonical.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b10-fast.json" \
+            --output "$RUNNER_TEMP/out/d16-b10-fast-verify.json" \
+            --bound 10
+      - name: Stage prepared immutable inputs
+        run: |
+          cp "$RUNNER_TEMP/work/d16-hperp.txt" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/work/d16-aut-stable-bundle.txt" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/work/d16-exact-sharded.cpp" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/out/d16-aut-action.json" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/out/stable-aut-provenance.json" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/out/d16-b10-fast.json" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/out/d16-b10-fast-canonical.bin" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/out/d16-b10-fast-verify.json" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/out/d16-hperp-prepare.log" "$RUNNER_TEMP/prepared/"
+          sha256sum "$RUNNER_TEMP/prepared/"* | sort > "$RUNNER_TEMP/prepared/prepared-files.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18c-b10-prepared
+          path: ${{ runner.temp }}/prepared/
+          retention-days: 5
+          if-no-files-found: error
+
+  exact-b10-shards:
+    needs: prepare-fast-b10
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18c-b10-prepared
+          path: ${{ runner.temp }}/prepared
+      - name: Compile exact sharded certifier
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/prepared/d16-exact-sharded.cpp" \
+            -o "$RUNNER_TEMP/d16-exact-sharded"
+          mkdir -p "$RUNNER_TEMP/out"
+      - name: Exact b10 shard ${{ matrix.shard }} of 16
+        run: |
+          "$RUNNER_TEMP/d16-exact-sharded" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-stable-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b10-exact-shard-${{ matrix.shard }}.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b10-exact-shard-${{ matrix.shard }}.bin" \
+            --bound 10 \
+            --shard-id ${{ matrix.shard }} --shard-count 16 --split-coordinate 54 \
+            --node-cap 180000000
+          python - <<'PY'
+          import json,os,pathlib
+          sid=int("${{ matrix.shard }}")
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out'/f'd16-b10-exact-shard-{sid}.json').read_text())
+          assert p['status']=='COMPLETE' and p['bound']==10
+          assert p['shard_id']==sid and p['shard_count']==16 and p['split_coordinate']==54
+          assert p['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          print(json.dumps(p,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18c-b10-exact-shard-${{ matrix.shard }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  aggregate-cross-certify:
+    needs: [prepare-fast-b10, exact-b10-shards]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18c-b10-prepared
+          path: ${{ runner.temp }}/prepared
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18c-b10-exact-shard-*
+          path: ${{ runner.temp }}/shards
+          merge-multiple: true
+      - name: Aggregate exact shards and cross-certify fast b10
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18C/aggregate_b10_shards.py \
+            --shards "$RUNNER_TEMP/shards" \
+            --fast-json "$RUNNER_TEMP/prepared/d16-b10-fast.json" \
+            --fast-dump "$RUNNER_TEMP/prepared/d16-b10-fast-canonical.bin" \
+            --output-json "$RUNNER_TEMP/out/d16-b10-exact-aggregate.json" \
+            --output-dump "$RUNNER_TEMP/out/d16-b10-exact-aggregate.bin" \
+            --certificate "$RUNNER_TEMP/out/stage32-18c-b10-certificate.json" \
+            --shard-count 16 --bound 10
+      - name: Independently verify aggregated exact canonical set under full Aut
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b10-exact-aggregate.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b10-exact-aggregate.json" \
+            --output "$RUNNER_TEMP/out/d16-b10-exact-aggregate-verify.json" \
+            --bound 10
+      - name: Enforce resource-safe b10 firewall
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          c=json.loads((root/'stage32-18c-b10-certificate.json').read_text())
+          assert c['verdict']=='PASS_EXACT_SHARDED_CROSS_CERTIFIED_D16_B10_PRODUCTION'
+          assert c['bound']==10 and c['shard_count']==16
+          assert c['exact_and_fast_canonical_sets_identical'] is True
+          assert c['AUDIT_STATUS']=='PENDING'
+          assert c['FAST_TRAVERSAL_GLOBAL_COMPLETENESS_CERTIFIED'] is False
+          assert c['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False
+          print(json.dumps(c,sort_keys=True))
+          PY
+          cp "$RUNNER_TEMP/prepared/d16-b10-fast.json" "$RUNNER_TEMP/out/"
+          cp "$RUNNER_TEMP/prepared/d16-b10-fast-verify.json" "$RUNNER_TEMP/out/"
+          cp "$RUNNER_TEMP/prepared/stable-aut-provenance.json" "$RUNNER_TEMP/out/"
+          du -ah "$RUNNER_TEMP/out"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18c-d16-b10-exact-sharded-cross-certificate
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
