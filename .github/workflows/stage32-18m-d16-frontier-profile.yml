@@ -160,10 +160,10 @@ jobs:
           set -e
           if [ "$rc" -ne 0 ]; then
             if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then
-              python - <<'PY'
+              RC="$rc" python - <<'PY'
           import json,os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
-          out={'schema':'STAGE32_18M_FRONTIER_RESOURCE_WALL_V1','tag':'${{ matrix.tag }}','bound':${{ matrix.bound }},'frontier_coordinate':${{ matrix.coordinate }},'frontier_modulus':1024,'node_cap':${{ matrix.node_cap }},'status':'RESOURCE_WALL_NODE_CAP','exit_code':$rc,'NUMERICAL_CREDIT':False}
+          out={'schema':'STAGE32_18M_FRONTIER_RESOURCE_WALL_V1','tag':'${{ matrix.tag }}','bound':${{ matrix.bound }},'frontier_coordinate':${{ matrix.coordinate }},'frontier_modulus':1024,'node_cap':${{ matrix.node_cap }},'status':'RESOURCE_WALL_NODE_CAP','exit_code':int(os.environ['RC']),'NUMERICAL_CREDIT':False}
           (root/'compact-profile.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
           print(json.dumps(out,sort_keys=True))
           PY
