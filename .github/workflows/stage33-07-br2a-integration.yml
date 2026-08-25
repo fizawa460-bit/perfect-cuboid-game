@@ -68,11 +68,20 @@ jobs:
       - name: Derive exact proper geometric Br2 V4 module
         working-directory: stages/stage33/33-07
         run: python certify_proper_brauer2_from_discriminant.py
-      - name: Replay historical global presentation for regression only
+      - name: Validate rejected historical global-presentation route stays firewalled
         working-directory: stages/stage33/33-07
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python materialize_global_two_primary_presentation_v2.py
+        run: |
+          python - <<'PY'
+          import json
+          h=json.load(open('arithmetic-hs-descent-problem.json'))
+          a=json.load(open('audit-state.json'))
+          assert h['arithmetic_hs_obstruction_package']['blanket_global_gersten_surjectivity_used'] is False
+          assert h['arithmetic_hs_obstruction_package']['semilocal_panin_zainoulline_promoted_to_global_sections'] is False
+          assert h['exact_reduction']['stage33_07_complete_global_inventory_still_unproved'] is True
+          assert h['unit_status']=='RUNNING_REPAIR'
+          assert a['unit_status']=='BLOCKED_NEW_KERNEL' and not a['unit_closed']
+          print('HISTORICAL_GLOBAL_PRESENTATION_FIREWALL=PASS')
+          PY
       - name: Validate retained mathematics and conservative repair state
         working-directory: stages/stage33/33-07
         run: |
