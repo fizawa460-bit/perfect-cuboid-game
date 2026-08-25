@@ -3,9 +3,10 @@ name: Stage33-07 elementary q64 coordinate-sign action
 on:
   pull_request:
     paths:
-      - 'stages/stage33/33-07/extract_picard_coordinate_sign_action_rows.py'
       - 'stages/stage33/33-07/extract_picard_gram_rows.py'
       - 'stages/stage33/33-07/extract_picard_action_rows.py'
+      - 'stages/stage33/33-07/picard_coordinate_sign_rows_retained.py'
+      - 'stages/stage33/33-07/materialize_picard_coordinate_sign_rows_retained.py'
       - 'stages/stage33/33-07/derive_endpoint_coordinate_sign_discriminant_from_split.py'
       - 'stages/stage33/33-07/certify_elementary_index512_q64_coordinate_sign_shard.py'
       - 'stages/stage33/33-07/certify_elementary_index512_q64_coordinate_sign_split_shard.py'
@@ -19,37 +20,12 @@ permissions:
   contents: read
 
 jobs:
-  base-rows:
-    runs-on: ubuntu-24.04
-    timeout-minutes: 15
-    defaults:
-      run:
-        working-directory: stages/stage33/33-07
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Extract Gram and Galois rows in bounded requests
-        run: |
-          python extract_picard_gram_rows.py
-          python extract_picard_action_rows.py cc
-          python extract_picard_action_rows.py ct
-      - uses: actions/upload-artifact@v4
-        with:
-          name: stage33-07-coordinate-sign-split-base
-          retention-days: 5
-          path: |
-            stages/stage33/33-07/picard-gram-rows.json
-            stages/stage33/33-07/picard-action-cc.json
-            stages/stage33/33-07/picard-action-ct.json
-
-  sign-row:
+  base-row:
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: 1
       matrix:
-        sign: [a1,a2,a3,b1,b2,b3,c]
+        mode: [gram,cc,ct]
     runs-on: ubuntu-24.04
     timeout-minutes: 8
     defaults:
@@ -60,16 +36,26 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Extract one exact Picard coordinate-sign action
-        run: python extract_picard_coordinate_sign_action_rows.py ${{ matrix.sign }}
+      - name: Extract one bounded endpoint Picard object
+        env:
+          MODE: ${{ matrix.mode }}
+        run: |
+          if [ "$MODE" = gram ]; then
+            python extract_picard_gram_rows.py
+          else
+            python extract_picard_action_rows.py "$MODE"
+          fi
       - uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-coordinate-sign-row-${{ matrix.sign }}
-          path: stages/stage33/33-07/picard-action-sign-${{ matrix.sign }}.json
+          name: stage33-07-coordinate-sign-base-${{ matrix.mode }}
           retention-days: 5
+          path: |
+            stages/stage33/33-07/picard-gram-rows.json
+            stages/stage33/33-07/picard-action-${{ matrix.mode }}.json
+          if-no-files-found: ignore
 
   endpoint-signs:
-    needs: [base-rows,sign-row]
+    needs: base-row
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     defaults:
@@ -82,9 +68,13 @@ jobs:
           python-version: '3.12'
       - uses: actions/download-artifact@v4
         with:
-          pattern: stage33-07-coordinate-sign-*
+          pattern: stage33-07-coordinate-sign-base-*
           merge-multiple: true
           path: stages/stage33/33-07
+      - name: Materialize seven retained exact sign actions
+        run: |
+          python picard_coordinate_sign_rows_retained.py
+          python materialize_picard_coordinate_sign_rows_retained.py
       - name: Install exact integer algebra dependency
         run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0
       - name: Derive common-Smith endpoint q cc ct and seven signs
