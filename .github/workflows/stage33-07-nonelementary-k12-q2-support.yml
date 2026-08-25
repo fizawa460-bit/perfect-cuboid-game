@@ -1,9 +1,10 @@
-name: Stage33-07 non-elementary k1 k2 Q2 support
+name: Stage33-07 non-elementary k1 k2 Q2 2Q support
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/33-07/certify_nonelementary_k12_q2_support_reduction.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k12_2q_support_reduction.py'
       - '.github/workflows/stage33-07-nonelementary-k12-q2-support.yml'
   workflow_dispatch:
 
@@ -30,31 +31,52 @@ jobs:
           python certify_nonelementary_target_q8_exponent_reduction.py
       - name: Exact k1 k2 Q2-support reduction
         run: python certify_nonelementary_k12_q2_support_reduction.py
+      - name: Exact k1 k2 2Q-support reduction
+        run: python certify_nonelementary_k12_2q_support_reduction.py
       - name: Enforce conservative firewall
         run: |
           python - <<'PY'
           import json
           x=json.load(open('nonelementary-k12-q2-support-reduction.json'))
+          y=json.load(open('nonelementary-k12-2q-support-reduction.json'))
           assert x['source_Q8_sha256']=='4a5c84ad765f93442f08991ffdcea0bab6f1ae5a3ab6561157201bba262f75ee'
           assert x['endpoint_Q2_quadratic_value_support_mod16']==[0,8]
           assert x['combined_structural_H_before']==1813181679936
           assert x['summary_by_number_of_Z4_factors']['1']['structural_H_after_endpoint_Q2_support_necessary_condition']==42731821376
           assert x['summary_by_number_of_Z4_factors']['2']['structural_H_after_endpoint_Q2_support_necessary_condition']==55386308608
           assert x['combined_structural_H_after']==98118129984
-          assert not x['raw_H_enumerated']
-          assert not x['full_Q4_condition_certified_for_k1_k2']
-          assert not x['endpoint_finite_q_certified'] and not x['endpoint_full_action_certified']
-          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed']
-          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
-          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          assert y['source_Q8_sha256']==x['source_Q8_sha256']
+          assert y['source_Q2_support_sha256']==x['canonical_sha256']
+          assert y['endpoint_2Q_quadratic_value_support_mod16']==[0,8]
+          assert y['combined_structural_H_before']==98118129984
+          assert y['summary_by_number_of_Z4_factors']['1']['structural_H_after_endpoint_2Q_support_necessary_condition']==1311205952
+          assert y['summary_by_number_of_Z4_factors']['2']['structural_H_after_endpoint_2Q_support_necessary_condition']==988553216
+          assert y['combined_structural_H_after']==2299759168
+          assert not x['raw_H_enumerated'] and not y['raw_H_enumerated']
+          assert not x['full_Q4_condition_certified_for_k1_k2'] and not y['full_Q4_condition_certified_for_k1_k2']
+          assert not x['endpoint_finite_q_certified'] and not y['endpoint_finite_q_certified']
+          assert not x['endpoint_full_action_certified'] and not y['endpoint_full_action_certified']
+          assert not x['actual_index512_glue_identified'] and not y['actual_index512_glue_identified']
+          assert not x['arithmetic_HS_closed'] and not y['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and y['stage33_progress']=='6/11'
+          assert not x['stage33_08_released'] and not y['stage33_08_released']
+          assert not x['stage33_09_released'] and not y['stage33_09_released']
+          assert not x['theorem_credit'] and not y['theorem_credit'] and not x['endpoint_credit'] and not y['endpoint_credit']
+          assert not x['perfect_cuboid_nonexistence_claim'] and not y['perfect_cuboid_nonexistence_claim']
           print('NONELEMENTARY_K12_Q2_SUPPORT_REDUCTION=PASS_EXACT')
-          print('K1_AFTER=42731821376')
-          print('K2_AFTER=55386308608')
-          print('COMBINED_AFTER=98118129984')
-          print('CERT_SHA256='+x['canonical_sha256'])
+          print('K1_Q2_AFTER=42731821376')
+          print('K2_Q2_AFTER=55386308608')
+          print('NONELEMENTARY_K12_2Q_SUPPORT_REDUCTION=PASS_EXACT')
+          print('K1_2Q_AFTER=1311205952')
+          print('K2_2Q_AFTER=988553216')
+          print('COMBINED_2Q_AFTER=2299759168')
+          print('Q2_CERT_SHA256='+x['canonical_sha256'])
+          print('TWOQ_CERT_SHA256='+y['canonical_sha256'])
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-k12-q2-support-reduction
-          path: stages/stage33/33-07/nonelementary-k12-q2-support-reduction.json
+          name: stage33-07-k12-q2-2q-support-reduction
+          path: |
+            stages/stage33/33-07/nonelementary-k12-q2-support-reduction.json
+            stages/stage33/33-07/nonelementary-k12-2q-support-reduction.json
           retention-days: 5
