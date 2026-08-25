@@ -3,7 +3,7 @@ name: Stage33-07 non-elementary isotropic glue types
 on:
   pull_request:
     paths:
-      - 'stages/stage33/33-07/certify_index512_nonelementary_isotropic_embedding_types_z3.py'
+      - 'stages/stage33/33-07/certify_index512_nonelementary_isotropic_embedding_witnesses.py'
       - 'stages/stage33/33-07/index512-abstract-glue-types-lr-retained.json'
       - '.github/workflows/stage33-07-nonelementary-isotropic-types.yml'
   workflow_dispatch:
@@ -14,7 +14,7 @@ permissions:
 jobs:
   nonelementary-isotropic-types:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 5
     defaults:
       run:
         working-directory: stages/stage33/33-07
@@ -23,28 +23,27 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install exact SMT dependency
-        run: python -m pip install --disable-pip-version-check --no-input z3-solver==4.15.3.0
-      - name: Decide all 8 non-elementary isotropic embedding types
-        run: python certify_index512_nonelementary_isotropic_embedding_types_z3.py
+      - name: Verify explicit isotropic witnesses for all 8 non-elementary types
+        run: python certify_index512_nonelementary_isotropic_embedding_witnesses.py
       - name: Enforce conservative firewall
         run: |
           python - <<'PY'
           import json
-          x=json.load(open('index512-nonelementary-isotropic-embedding-types-z3.json'))
+          x=json.load(open('index512-nonelementary-isotropic-embedding-witnesses.json'))
           assert x['abstract_non_elementary_types_before']==8
-          assert x['decision_summary']['SAT']+x['decision_summary']['UNSAT']==8
-          assert all(v['witness_verified'] for v in x['results'].values())
+          assert x['SAT_types']==8 and x['UNSAT_types']==0
+          assert len(x['isotropic_embedding_type_survivors'])==8
+          assert all(v['all_512_elements_distinct_and_isotropic_verified'] for v in x['results'].values())
           assert not x['quadratic_endpoint_match_certified']
           assert not x['V4_action_match_certified']
           assert not x['actual_index512_glue_identified']
-          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
-          print('NONELEMENTARY_ISOTROPIC_EMBEDDING_TYPES=PASS_EXACT')
-          print('SAT_TYPES='+str(x['decision_summary']['SAT']))
-          print('UNSAT_TYPES='+str(x['decision_summary']['UNSAT']))
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          print('NONELEMENTARY_ISOTROPIC_EMBEDDING_WITNESSES=PASS_EXACT')
+          print('SAT_TYPES=8')
+          print('UNSAT_TYPES=0')
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: stage33-07-nonelementary-isotropic-types
-          path: stages/stage33/33-07/index512-nonelementary-isotropic-embedding-types-z3.json
+          path: stages/stage33/33-07/index512-nonelementary-isotropic-embedding-witnesses.json
           retention-days: 5
