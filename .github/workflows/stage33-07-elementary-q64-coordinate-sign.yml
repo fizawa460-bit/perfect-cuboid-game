@@ -18,6 +18,10 @@ on:
       - '.github/workflows/stage33-07-elementary-q64-coordinate-sign.yml'
   workflow_dispatch:
 
+concurrency:
+  group: stage33-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
