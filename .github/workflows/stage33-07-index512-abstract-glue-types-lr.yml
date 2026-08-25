@@ -1,0 +1,47 @@
+name: Stage33-07 index512 abstract glue types LR
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-index512-abstract-glue-types-lr.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  abstract-glue-types-lr:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Certify exact LR abstract type reduction
+        run: python certify_index512_abstract_glue_types_lr.py
+      - name: Enforce conservative firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('index512-abstract-glue-types-lr.json'))
+          assert x['order512_abstract_H_type_count_before']==18
+          assert x['abstract_H_type_count_after']==9
+          assert x['non_elementary_type_count_after']==8
+          assert x['all_H_types_with_exponent_16_rejected']
+          assert x['filter_status']=='NECESSARY_ABSTRACT_GROUP_TYPE_FILTER_ONLY'
+          assert not x['isotropic_embedding_constructed']
+          assert not x['actual_index512_glue_identified']
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released']
+          print('INDEX512_ABSTRACT_GLUE_TYPES_LR=PASS_EXACT')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-index512-abstract-glue-types-lr
+          path: stages/stage33/33-07/index512-abstract-glue-types-lr.json
+          retention-days: 5
