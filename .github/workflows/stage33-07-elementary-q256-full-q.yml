@@ -11,7 +11,40 @@ permissions:
   contents: read
 
 jobs:
+  materialize:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0
+      - name: Materialize exact q256 survivor set
+        run: python materialize_elementary_index512_q256_survivors.py
+      - name: Lock exact q256 source
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-q256-survivors.json'))
+          assert x['schema']=='STAGE33_07_ELEMENTARY_INDEX512_Q256_SURVIVORS_V1'
+          assert x['candidate_count']==256
+          assert x['canonical_sha256']=='3c68ac5ff99e8e4dd9f57733f1fd64b0637e8a7d7f69454e3bf391b9b8127506'
+          assert x['source_q_filtration_sha256']=='1e9999ab0b150803d77da0271ef5c6b87eccb353701220c7565a5fddff8c6edc'
+          print('Q256_SOURCE_LOCK=PASS_EXACT')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-q256-source-for-full-q
+          path: stages/stage33/33-07/elementary-index512-q256-survivors.json
+          retention-days: 5
+
   full-q-shard:
+    needs: materialize
     strategy:
       fail-fast: false
       matrix:
@@ -26,6 +59,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage33-07-q256-source-for-full-q
+          path: stages/stage33/33-07
       - name: Install exact algebra and SMT dependencies
         run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0 z3-solver==4.15.3.0
       - name: Solve full finite-q isometry shard
@@ -41,6 +78,7 @@ jobs:
           import json,os
           i=int(os.environ['SHARD_INDEX'])
           x=json.load(open(f'elementary-index512-q256-full-q-shard-{i}.json'))
+          assert x['q256_survivor_sha256']=='3c68ac5ff99e8e4dd9f57733f1fd64b0637e8a7d7f69454e3bf391b9b8127506'
           assert x['shard_index']==i and x['shard_count']==8
           assert x['candidate_count']==32 and len(x['results'])==32
           assert not x['actual_index512_glue_identified']
@@ -65,6 +103,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/download-artifact@v4
         with:
+          name: stage33-07-q256-source-for-full-q
+          path: stages/stage33/33-07
+      - uses: actions/download-artifact@v4
+        with:
           pattern: stage33-07-q256-full-q-shard-*
           merge-multiple: true
           path: stages/stage33/33-07/full-q-shards
@@ -75,6 +117,7 @@ jobs:
           python - <<'PY'
           import json
           x=json.load(open('elementary-index512-q256-full-q-census.json'))
+          assert x['q256_survivor_sha256']=='3c68ac5ff99e8e4dd9f57733f1fd64b0637e8a7d7f69454e3bf391b9b8127506'
           assert x['candidate_count_before']==256
           assert x['full_finite_q_isometric_count']+x['full_finite_q_rejected_count']==256
           assert len(x['results'])==256
