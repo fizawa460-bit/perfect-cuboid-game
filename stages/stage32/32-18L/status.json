@@ -1,16 +1,22 @@
 {
-  "schema": "STAGE32_18L_FINAL_PRODUCTION_STATUS_V1",
-  "status": "COMPLETE_PENDING_HOSTILE_AUDIT",
-  "verdict": "PASS_EXACT_FINAL_RESCUE_AWARE_D16_B12_PRODUCTION_PENDING_HOSTILE_AUDIT",
+  "schema": "STAGE32_18L_FINAL_PRODUCTION_STATUS_V2_HOSTILE_AUDITED",
+  "status": "HOSTILE_AUDITED_PASS",
+  "verdict": "PASS_EXACT_RESCUE_AWARE_D16_B12_CENSUS_WITH_NESTED_PARTITION_AND_B10_PREDECESSOR_LOCK",
+  "audited_functional_head": "6f7f0966ce4e20d902ccf6957c0369d60720c6d5",
   "bound": 12,
-  "workflow_run_id": 32907035919,
-  "workflow_job_id": 97993312022,
-  "artifact": {
-    "id": 9585249625,
-    "name": "stage32-18l-d16-b12-final-production-g1",
-    "zip_sha256": "a68fbae867789862fff057cd9a3f8c46823dbd3c6b54fb74fb675bcab001e4ea",
+  "current_head_reproducibility": {
+    "workflow_run_id": 32907342919,
+    "workflow_job_id": 97994222394,
+    "artifact_id": 9585370018,
+    "artifact_name": "stage32-18l-d16-b12-final-production-g1",
+    "artifact_zip_sha256": "6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658",
     "size_in_bytes": 173017,
-    "expires_at": "2026-08-30T22:40:40Z"
+    "conclusion": "SUCCESS"
+  },
+  "historical_production_run": {
+    "workflow_run_id": 32907035919,
+    "artifact_id": 9585249625,
+    "artifact_zip_sha256": "a68fbae867789862fff057cd9a3f8c46823dbd3c6b54fb74fb675bcab001e4ea"
   },
   "canonical_survivors_including_zero": 8697,
   "canonical_nonzero_survivors": 8696,
@@ -25,39 +31,51 @@
   },
   "new_norm12_canonical_survivors": 7267,
   "canonical_dump_sha256": "03616e7c03cdca9b4c8408cec671b0ef6bd26713fe5ca60e2021a7d6e897abd5",
+  "stable_aut_content_sha256": "7aa6c9be4a91a25549950e1e45c2349146c6ea4cd035ff9133b41e9de3032bc3",
   "aut_group_order": 1536,
   "full_aut_verification_passed": true,
   "canonical_pairings_unique": true,
   "every_emitted_pairing_is_full_group_score_then_lex_minimum": true,
   "nested_residue_partition_exact": true,
   "audited_b10_predecessor_set_identical": true,
+  "audited_b10_predecessor_dump_sha256": "186085d4824e8752f11fa81c5f538e54fe724268defe288e5c2e004613bb474a",
   "TRAVERSAL_COMPLETENESS_CERTIFICATE": true,
   "input_runs": {
     "ordinary_18E": 32877018247,
     "rescue_18F": 32896909852,
-    "deep_18G_cancelled_after_completed_children": 32901761192,
+    "deep_18G_completed_children_only": 32901761192,
     "logical26_18K": 32906774961
   },
+  "cancelled_18G_26_of1024_used": false,
+  "cancelled_18G_parent_synthesis_used": false,
   "logical26_18K": {
     "artifact_id": 9585131672,
     "artifact_zip_sha256": "066e6aa2468671bd3733f17e0ef47b6cb2e22d9ad900f17d6b7fed1b011570f4",
     "canonical_survivors_including_zero": 5747,
-    "canonical_dump_sha256": "a448f9b4af9c7f34c1e600865fab35a3be2c38e9f456cf49f47b0afae615c4dd"
+    "canonical_dump_sha256": "a448f9b4af9c7f34c1e600865fab35a3be2c38e9f456cf49f47b0afae615c4dd",
+    "secondary_partition_complete": true
   },
   "secondary5_independent_crosscheck": {
     "canonical_record_set_identical": true,
     "record_order_identical": false,
     "record_count": 3680,
-    "original_raw_dump_sha256": "018306107338237c85587d80172b78a2f39a65cc4cfc412ef467203f01cbe701",
-    "nested_rescue_raw_dump_sha256": "0b85a8ce7963673376ac0e6d3d5efda8256b8bbde9bf17e730b7ce1adbf10f98",
     "normalized_record_set_sha256": "0b85a8ce7963673376ac0e6d3d5efda8256b8bbde9bf17e730b7ce1adbf10f98"
   },
   "telemetry_semantics": "Nested rescue execution counters include repeated work above deeper split coordinates; no hypothetical single-run global nodes/trials total is claimed.",
-  "D16_B12_NUMERICAL_CREDIT": false,
-  "D16_B12_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT": true,
-  "AUDIT_STATUS": "PENDING",
+  "D16_B12_NUMERICAL_CREDIT": true,
+  "D16_B12_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT": false,
+  "D16_B12_TRAVERSAL_CERTIFIED": true,
+  "D16_B12_CANONICAL_ORBIT_SET_CERTIFIED": true,
+  "AUDIT_STATUS": "PASS",
   "FULL_D16_G0_ROW_COMPLETE": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2_NUMERICAL_COMPONENT_COMPLETE": false,
+  "R29_LG2": "NOT_DISCHARGED",
   "THEOREM_CREDIT": false,
   "RECEIVER_CREDIT": false,
-  "CONTROLLER_MODIFIED": false
+  "CONTROLLER_MODIFIED": true,
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "32-18M-D16-POST-B12-NEXT-BOUNDED-PRODUCTION-DESIGN",
+  "next_expected_command": "Stage32-main-batch"
 }
