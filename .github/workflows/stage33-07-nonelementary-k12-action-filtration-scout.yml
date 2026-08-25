@@ -72,9 +72,9 @@ jobs:
           python certify_nonelementary_k1_q2_2q_cc_orbits.py
           python certify_nonelementary_k2_q2_2q_skeleton_orbits.py
 
-      - name: Run exact action filtration scout
+      - name: Run expanded exact action filtration scout
         env:
-          SAMPLE_PER_KIND: '8'
+          SAMPLE_PER_KIND: '512'
         run: python stages/stage33/33-07/scout_nonelementary_k12_action_filtration.py
 
       - name: Enforce scout-only firewall
@@ -83,7 +83,7 @@ jobs:
           import json
           from pathlib import Path
           d=json.loads(Path('stages/stage33/33-07/nonelementary-k12-action-filtration-scout.json').read_text())
-          assert d['sample_count']==16
+          assert d['sample_count']==1024
           assert d['exact_sampled_action_filtration_certified'] is True
           assert d['full_action_exhaustive_certified'] is False
           for k in ('endpoint_finite_q_certified','endpoint_full_action_certified',
