@@ -1,0 +1,102 @@
+name: Stage32-18D d16 b12 snapshot bounded profile
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-18D/**'
+      - '.github/workflows/stage32-18d-d16-b12-profile.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  profile-b12:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download immutable b10 prepared inputs
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-18c-b10-prepared
+          path: ${{ runner.temp }}/prepared
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 32820893492
+      - name: Download hostile-audited exact b10 recovery
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-18c-b10-exact-only-recovery
+          path: ${{ runner.temp }}/exact-b10
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 32832798990
+      - name: Build source-locked snapshot-restored profiler
+        run: |
+          test "$(git rev-parse HEAD:stages/stage32/32-18/d16_aut_canonical_enum.cpp)" = "f9479ee73c9a5960cb8a3a8bc11a0c1c0fe8f4ba"
+          python stages/stage32/32-18D/build_snapshot_production.py \
+            --source stages/stage32/32-18/d16_aut_canonical_enum.cpp \
+            --output "$RUNNER_TEMP/d16-snapshot-profiler.cpp"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/d16-snapshot-profiler.cpp" -o "$RUNNER_TEMP/d16-snapshot-profiler"
+          mkdir -p "$RUNNER_TEMP/out"
+      - name: Run bounded b12 snapshot profile
+        run: |
+          set +e
+          "$RUNNER_TEMP/d16-snapshot-profiler" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-stable-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b12-profile.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b12-profile.bin" \
+            --bound 12 --max-seconds 1800 --node-cap 500000000 --survivor-cap 20000000
+          rc=$?
+          set -e
+          echo "$rc" > "$RUNNER_TEMP/out/profiler-exit-code.txt"
+          test -s "$RUNNER_TEMP/out/d16-b12-profile.json"
+          cat "$RUNNER_TEMP/out/d16-b12-profile.json"
+      - name: Enforce predecessor firewall and classify profile
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          p=json.loads((root/'out/d16-b12-profile.json').read_text())
+          out={'schema':'STAGE32_18D_D16_B12_PROFILE_CLASSIFICATION_V1','bound':12,'status':p.get('status')}
+          out['nodes']=p.get('nodes'); out['coordinate_trials']=p.get('coordinate_trials')
+          out['canonical_survivors_including_zero']=p.get('canonical_survivors_including_zero')
+          out['canonical_norm_histogram']=p.get('canonical_norm_histogram',{})
+          out['D16_B12_NUMERICAL_CREDIT']=False
+          out['SNAPSHOT_FAST_GLOBAL_COMPLETENESS_CERTIFIED']=False
+          out['THEOREM_CREDIT']=False; out['RECEIVER_CREDIT']=False; out['FULL_D16_G0_ROW_COMPLETE']=False
+          if p.get('status')=='COMPLETE':
+              raw=(root/'out/d16-b12-profile.bin').read_bytes(); magic=raw[:8]; body=raw[8:]; size=141
+              assert magic==b'S32D16C1' and len(body)%size==0
+              rec=[body[i:i+size] for i in range(0,len(body),size)]
+              lower=sorted(r for r in rec if r[0] <= 10)
+              exact=(root/'exact-b10/d16-b10-exact-aggregate.bin').read_bytes()
+              eraw=exact[8:]; erec=sorted(eraw[i:i+size] for i in range(0,len(eraw),size))
+              out['b10_predecessor_set_identical']=(lower==erec)
+              out['b10_predecessor_count']=len(lower)
+              out['b10_exact_count']=len(erec)
+              out['b10_predecessor_sha256']=hashlib.sha256(magic+b''.join(lower)).hexdigest()
+              out['b10_exact_sha256']=hashlib.sha256(exact).hexdigest()
+              if lower!=erec:
+                  out['verdict']='PROFILE_COMPLETE_BUT_PREDECESSOR_REGRESSION_FAIL'
+              else:
+                  out['verdict']='PROFILE_COMPLETE_PREDECESSOR_PASS__NO_B12_CREDIT'
+          else:
+              out['b10_predecessor_set_identical']=None
+              out['verdict']='PROFILE_RESOURCE_CAPPED__NO_B12_CREDIT'
+          (root/'out/stage32-18d-b12-profile-classification.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18d-b12-snapshot-profile
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
