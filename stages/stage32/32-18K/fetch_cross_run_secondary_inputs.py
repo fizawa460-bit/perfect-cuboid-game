@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, hashlib, json, os, pathlib, re, urllib.request, zipfile
+import argparse, hashlib, json, os, pathlib, re, urllib.error, urllib.request, zipfile
 
 API='https://api.github.com'
 ORDINARY_RUN=32903188011
@@ -9,14 +9,35 @@ PREPARED_ARTIFACT_ID=9583859427
 REPAIR_IDS={8,15}
 
 
+class _NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        return None
+
+
 def request_json(url:str, token:str):
     req=urllib.request.Request(url,headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'stage32-18k-fetcher'})
     with urllib.request.urlopen(req,timeout=60) as r: return json.load(r)
 
 
 def request_bytes(url:str, token:str)->bytes:
+    # Artifact downloads are GitHub API 3xx redirects to a signed blob URL.
+    # Never forward the GitHub Authorization header to that external blob host:
+    # fetch the redirect location explicitly, then download the signed URL with
+    # no bearer credential.  The ZIP is still checked against GitHub's digest.
     req=urllib.request.Request(url,headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'stage32-18k-fetcher'})
-    with urllib.request.urlopen(req,timeout=120) as r: return r.read()
+    opener=urllib.request.build_opener(_NoRedirect())
+    try:
+        with opener.open(req,timeout=60) as r:
+            return r.read()
+    except urllib.error.HTTPError as e:
+        if e.code not in (301,302,303,307,308):
+            raise
+        location=e.headers.get('Location')
+        if not location:
+            raise RuntimeError(f'artifact redirect {e.code} missing Location')
+    blob_req=urllib.request.Request(location,headers={'User-Agent':'stage32-18k-fetcher'})
+    with urllib.request.urlopen(blob_req,timeout=120) as r:
+        return r.read()
 
 
 def artifacts(repo:str,run:int,token:str):
