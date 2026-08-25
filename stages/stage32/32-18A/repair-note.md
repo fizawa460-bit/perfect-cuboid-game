@@ -1,0 +1,1 @@
+Run 32805415632 reached the 100,000,000-node guard in the deliberately unpruned exact norm-ball traversal. The repair keeps exact rational coordinate traversal and permits floating-point values only as a scheduler for exact Cauchy–Schwarz prune checks; every actual cap/symmetry branch rejection must be justified by an exact rational inequality.
