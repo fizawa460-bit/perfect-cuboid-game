@@ -1,0 +1,16 @@
+{
+  "schema": "STAGE32_18E_STATUS_V1",
+  "unit": "32-18E",
+  "status": "RUNNING_EXACT_B12_PRODUCTION",
+  "accepted_predecessor": "STAGE32_18C_D16_B10_EXACT_SHARDED_AUDITED",
+  "profile_inputs": ["Stage32-18D", "Stage32-scout3"],
+  "bound": 12,
+  "breaker_count": 256,
+  "shard_count": 64,
+  "split_coordinate": 54,
+  "b6_regression_required": true,
+  "b12_complete": false,
+  "audit_required_on_complete": true,
+  "next_expected_command_if_complete": "Stage32-audit",
+  "next_expected_command_if_resource_wall": "Stage32-main-batch"
+}

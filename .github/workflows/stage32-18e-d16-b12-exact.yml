@@ -1,0 +1,321 @@
+name: Stage32-18E d16 b12 exact symmetry-sharded production
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18e-b12-exact.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18e-b12-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: key
+        name: Validate explicit heavy run key
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path('stages/stage32/runkeys/18e-b12-exact.json')
+          d=json.loads(p.read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18e-d16-b12-exact'
+          assert d['armed'] is True
+          assert isinstance(d['generation'],int) and d['generation']>=1
+          assert d['bound']==12 and d['breaker_count']==256
+          assert d['shard_count']==64 and d['split_coordinate']==54
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"generation={d['generation']}\n")
+          print(d)
+          PY
+
+  prepare:
+    needs: validate-run-key
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev unzip
+          mkdir -p "$RUNNER_TEMP/zips" "$RUNNER_TEMP/prepared" "$RUNNER_TEMP/audited" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out" "$RUNNER_TEMP/stage"
+      - name: Download immutable b10 prepared inputs and hostile-audited exact b10
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/zips/prepared.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9553484252/zip"
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/zips/audited-b10.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9557549774/zip"
+          echo '76b9d7738f2a8125ee5f56f485877663f02f6cca76ccad7237d1515272e8fc01  '"$RUNNER_TEMP/zips/prepared.zip" | sha256sum -c -
+          echo 'abfec209cd2de2a3e4fdf05f714508855324d08712912887ef2bba16fe62e427  '"$RUNNER_TEMP/zips/audited-b10.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/zips/prepared.zip" -d "$RUNNER_TEMP/prepared"
+          unzip -q "$RUNNER_TEMP/zips/audited-b10.zip" -d "$RUNNER_TEMP/audited"
+          echo 'af373f16d6ab2bb8aed6ca09e0a15c8b28d565cbec6f242a8b76c590df81bb4f  '"$RUNNER_TEMP/prepared/d16-hperp.txt" | sha256sum -c -
+          echo '7c2b9e08315c2f14ba2667769f1dc4e559f769af4cd9ad52234778f09dcc2bde  '"$RUNNER_TEMP/prepared/d16-aut-stable-bundle.txt" | sha256sum -c -
+          echo 'b787b7a740c63dda7e9beed1aa599c30c12a0aa7c52045deff976ec8f6e06a55  '"$RUNNER_TEMP/prepared/d16-exact-sharded.cpp" | sha256sum -c -
+          echo '186085d4824e8752f11fa81c5f538e54fe724268defe288e5c2e004613bb474a  '"$RUNNER_TEMP/audited/d16-b10-exact-aggregate.bin" | sha256sum -c -
+      - name: Rebuild locked exact-sharded source and 256-breaker bundle
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:stages/stage32/32-18A/d16_exact_b6_certifier.cpp)" = 'cb1b7b47c7a03c8bab243e867cb5fecac38643b3'
+          test "$(git rev-parse HEAD:stages/stage32/32-18C/build_exact_sharded_certifier.py)" = '308522d64564788e3efc09092b3516fda57acffc'
+          test "$(git rev-parse HEAD:stages/stage32/scouts/32-scout3/build_prefix_breaker_bundle.py)" = '58364f4fda44f0246102b613acb280e2412b392f'
+          python stages/stage32/32-18C/build_exact_sharded_certifier.py \
+            --source stages/stage32/32-18A/d16_exact_b6_certifier.cpp \
+            --output "$RUNNER_TEMP/work/d16-exact-sharded.cpp"
+          cmp "$RUNNER_TEMP/work/d16-exact-sharded.cpp" "$RUNNER_TEMP/prepared/d16-exact-sharded.cpp"
+          python stages/stage32/scouts/32-scout3/build_prefix_breaker_bundle.py \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-stable-bundle.txt" \
+            --count 256 \
+            --output "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" \
+            --summary "$RUNNER_TEMP/out/breakers-256.json"
+          python - <<'PY'
+          import json, os, pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/breakers-256.json').read_text())
+          assert p['count']==256
+          assert p['bundle_sha256']=='26a6cc35d44029341818b77c0599b6112dc7551da794f6e5d73218f84115995e'
+          PY
+      - name: Build exact rational symmetry-pruned certifier
+        run: |
+          python stages/stage32/32-18E/build_exact_symmetry_sharded_certifier.py \
+            --source "$RUNNER_TEMP/work/d16-exact-sharded.cpp" \
+            --output "$RUNNER_TEMP/work/d16-exact-symmetry-sharded.cpp" \
+            --breaker-count 256
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/work/d16-exact-symmetry-sharded.cpp" \
+            -o "$RUNNER_TEMP/work/d16-exact-symmetry-sharded"
+      - name: Stage immutable production inputs
+        run: |
+          cp "$RUNNER_TEMP/prepared/d16-hperp.txt" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/prepared/d16-aut-action.json" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/work/d16-exact-symmetry-sharded.cpp" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/audited/d16-b10-exact-aggregate.bin" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/out/breakers-256.json" "$RUNNER_TEMP/stage/"
+          sha256sum "$RUNNER_TEMP/stage/"* | sort > "$RUNNER_TEMP/stage/files.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18e-b12-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/stage/
+          retention-days: 5
+          if-no-files-found: error
+
+  b6-regression:
+    needs: [validate-run-key, prepare]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18e-b12-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Compile exact symmetry-pruned certifier
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp" \
+            -o "$RUNNER_TEMP/d16-exact"
+          mkdir -p "$RUNNER_TEMP/out"
+      - name: Exact b6 implementation regression with 256 breakers
+        run: |
+          "$RUNNER_TEMP/d16-exact" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-exact-symmetry.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b6-exact-symmetry.bin" \
+            --bound 6 --shard-id 0 --shard-count 1 --split-coordinate 54 --node-cap 100000000
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          p=json.loads((root/'d16-b6-exact-symmetry.json').read_text())
+          assert p['schema']=='STAGE32_18E_D16_EXACT_SYMMETRY_SHARDED_TRAVERSAL_CERT_V1'
+          assert p['status']=='COMPLETE' and p['bound']==6
+          assert p['dfs_symmetry_breaker_count']==256
+          assert p['canonical_survivors_including_zero']==37
+          assert p['canonical_norm_histogram']=={'0':1,'2':1,'4':7,'6':28}
+          assert p['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert p['all_symmetry_branch_rejections_exact_rational_cauchy_schwarz'] is True
+          sha=hashlib.sha256((root/'d16-b6-exact-symmetry.bin').read_bytes()).hexdigest()
+          assert sha=='b3f7d3230626750da93725509fddc2628a6a5f6af61c8b677b909ba844697ecf', sha
+          print(json.dumps({'b6_regression':'PASS','nodes':p['nodes'],'symmetry_prunes':p['exact_symmetry_prunes'],'dump_sha256':sha},sort_keys=True))
+          PY
+      - name: Independently full-Aut verify b6 output
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b6-exact-symmetry.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b6-exact-symmetry.json" \
+            --output "$RUNNER_TEMP/out/d16-b6-exact-symmetry-verify.json" \
+            --bound 6
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18e-b6-regression-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  exact-b12-shards:
+    needs: [validate-run-key, prepare, b6-regression]
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18e-b12-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Compile exact symmetry-pruned certifier
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp" \
+            -o "$RUNNER_TEMP/d16-exact"
+          mkdir -p "$RUNNER_TEMP/out"
+      - name: Exact b12 shard ${{ matrix.shard }} of 64
+        run: |
+          set +e
+          "$RUNNER_TEMP/d16-exact" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b12-exact-shard-${{ matrix.shard }}.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b12-exact-shard-${{ matrix.shard }}.bin" \
+            --bound 12 --shard-id ${{ matrix.shard }} --shard-count 64 --split-coordinate 54 --node-cap 220000000
+          rc=$?
+          echo "$rc" > "$RUNNER_TEMP/out/exit-${{ matrix.shard }}.txt"
+          if [ "$rc" -eq 0 ]; then
+            python - <<'PY'
+          import json,os,pathlib
+          sid=int("${{ matrix.shard }}")
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out'/f'd16-b12-exact-shard-{sid}.json').read_text())
+          assert p['status']=='COMPLETE' and p['bound']==12
+          assert p['shard_id']==sid and p['shard_count']==64 and p['split_coordinate']==54
+          assert p['dfs_symmetry_breaker_count']==256
+          assert p['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert p['all_symmetry_branch_rejections_exact_rational_cauchy_schwarz'] is True
+          print(json.dumps(p,sort_keys=True))
+          PY
+          fi
+          exit "$rc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage32-18e-b12-exact-shard-${{ matrix.shard }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  aggregate:
+    needs: [validate-run-key, prepare, exact-b12-shards]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18e-b12-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18e-b12-exact-shard-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/shards
+          merge-multiple: true
+      - name: Aggregate complete exact b12 shards and enforce b10 predecessor identity
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18E/aggregate_b12_shards.py \
+            --shards "$RUNNER_TEMP/shards" \
+            --audited-b10-dump "$RUNNER_TEMP/prepared/d16-b10-exact-aggregate.bin" \
+            --output-json "$RUNNER_TEMP/out/d16-b12-exact-aggregate.json" \
+            --output-dump "$RUNNER_TEMP/out/d16-b12-exact-aggregate.bin" \
+            --certificate "$RUNNER_TEMP/out/stage32-18e-b12-certificate.json" \
+            --shard-count 64 --bound 12 --breaker-count 256
+      - name: Independently full-Aut verify b12 aggregate
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b12-exact-aggregate.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b12-exact-aggregate.json" \
+            --output "$RUNNER_TEMP/out/d16-b12-exact-aggregate-verify.json" \
+            --bound 12
+      - name: Enforce audit stop
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out/stage32-18e-b12-certificate.json').read_text())
+          assert p['verdict']=='PASS_EXACT_SYMMETRY_SHARDED_D16_B12_PRODUCTION_PENDING_HOSTILE_AUDIT'
+          assert p['audited_b10_predecessor_set_identical'] is True
+          assert p['D16_B12_NUMERICAL_CREDIT'] is False
+          assert p['D16_B12_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT'] is True
+          assert p['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert p['THEOREM_CREDIT'] is False and p['RECEIVER_CREDIT'] is False
+          print(json.dumps(p,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18e-d16-b12-exact-production-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  inventory:
+    if: always()
+    needs: [validate-run-key, exact-b12-shards]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        continue-on-error: true
+        with:
+          pattern: stage32-18e-b12-exact-shard-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/shards
+          merge-multiple: true
+      - name: Inventory completed and failed shard artifacts
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'shards'
+          js=list(root.glob('d16-b12-exact-shard-*.json')) if root.exists() else []
+          exits=list(root.glob('exit-*.txt')) if root.exists() else []
+          completed=[]; failed=[]; nodes=0
+          for p in js:
+              d=json.loads(p.read_text()); completed.append(d['shard_id']); nodes+=int(d.get('nodes',0))
+          for p in exits:
+              sid=int(p.stem.split('-')[1]); rc=int(p.read_text().strip())
+              if rc!=0: failed.append(sid)
+          out={'schema':'STAGE32_18E_B12_SHARD_INVENTORY_V1','completed_shards':sorted(completed),'failed_shards':sorted(set(failed)),'completed_count':len(completed),'expected_count':64,'completed_nodes':nodes,'AUDIT_STATUS':'PENDING','D16_B12_NUMERICAL_CREDIT':False}
+          pathlib.Path('inventory.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18e-b12-inventory-g${{ needs.validate-run-key.outputs.generation }}
+          path: inventory.json
+          retention-days: 5
