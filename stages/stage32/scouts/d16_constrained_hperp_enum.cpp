@@ -111,8 +111,10 @@ public:
         assigned_.assign(m_,0);
     }
 
-    TierResult run(int bound, double max_seconds, uint64_t node_cap, uint64_t survivor_cap) {
+    TierResult run(int bound, double max_seconds, uint64_t node_cap, uint64_t survivor_cap,
+                   std::ofstream* survivor_dump=nullptr) {
         bound_ = bound; max_seconds_=max_seconds; node_cap_=node_cap; survivor_cap_=survivor_cap;
+        dump_=survivor_dump;
         result_ = TierResult{}; result_.bound=bound;
         std::fill(z_.begin(),z_.end(),0);
         std::fill(t_.begin(),t_.end(),0);
@@ -134,6 +136,7 @@ private:
     bool stop_=false;
     double max_seconds_=0; uint64_t node_cap_=0,survivor_cap_=0;
     Clock::time_point started_;
+    std::ofstream* dump_=nullptr;
 
     bool limits() {
         if (stop_) return true;
@@ -198,15 +201,23 @@ private:
         for (int i=0;i<n_;i++) for (int j=0;j<n_;j++)
             norm += (i128)z_[i]*(i128)p_.q[i][j]*(i128)z_[j];
         if (norm < 0 || norm > bound_) return;
+        std::array<unsigned char,140> pairing{};
         for (int r=0;r<m_;r++) {
             i128 v=p_.p0[r];
             for (int j=0;j<n_;j++) v += (i128)p_.lin[r][j]*(i128)z_[j];
             if (v < 0 || v > p_.cap[r]) return;
+            pairing[r]=(unsigned char)((int)v);
         }
         result_.exact_survivors++;
         if (norm != 0) result_.nonzero_survivors++;
         int ni=(int)norm;
         if (0<=ni && ni<35) result_.norm_hist[ni]++;
+        if (dump_) {
+            unsigned char nb=(unsigned char)ni;
+            dump_->write(reinterpret_cast<const char*>(&nb),1);
+            dump_->write(reinterpret_cast<const char*>(pairing.data()),pairing.size());
+            if (!*dump_) throw std::runtime_error("survivor dump write failed");
+        }
         // Deterministic compact scout checksum, explicitly non-cryptographic.
         for (long long v:z_) {
             uint64_t x=(uint64_t)v;
@@ -224,7 +235,7 @@ static std::vector<int> parse_bounds(const std::string& s) {
 
 int main(int argc,char**argv) {
     try {
-        std::string input,output,bounds_s="2,4,6,8,12,16,20,26,34";
+        std::string input,output,bounds_s="2,4,6,8,12,16,20,26,34",dump_path;
         double per_bound=90.0; uint64_t node_cap=100000000ULL,survivor_cap=5000000ULL;
         for (int i=1;i<argc;i++) {
             std::string a=argv[i];
@@ -232,16 +243,24 @@ int main(int argc,char**argv) {
             if (a=="--input") input=need(); else if (a=="--output") output=need();
             else if (a=="--bounds") bounds_s=need(); else if (a=="--per-bound-seconds") per_bound=std::stod(need());
             else if (a=="--node-cap") node_cap=std::stoull(need()); else if (a=="--survivor-cap") survivor_cap=std::stoull(need());
+            else if (a=="--dump-survivors") dump_path=need();
             else throw std::runtime_error("unknown arg "+a);
         }
         if (input.empty()||output.empty()) throw std::runtime_error("--input/--output required");
         Problem p=load_problem(input);
         Enumerator en(p);
         auto bounds=parse_bounds(bounds_s);
+        if (!dump_path.empty() && bounds.size()!=1) throw std::runtime_error("survivor dump requires exactly one bound");
+        std::ofstream dump;
+        if (!dump_path.empty()) {
+            dump.open(dump_path,std::ios::binary);
+            if (!dump) throw std::runtime_error("cannot open survivor dump");
+            dump.write("S32D16V1",8);
+        }
         std::vector<TierResult> tiers;
         bool regression_pass=true;
         for (int b:bounds) {
-            TierResult r=en.run(b,per_bound,node_cap,survivor_cap);
+            TierResult r=en.run(b,per_bound,node_cap,survivor_cap,dump_path.empty()?nullptr:&dump);
             tiers.push_back(r);
             std::cerr << "bound="<<b<<" status="<<r.status<<" nodes="<<r.nodes<<" survivors="<<r.exact_survivors<<" nonzero="<<r.nonzero_survivors<<" sec="<<r.seconds<<"\n";
             if (b==2 && !(r.status=="COMPLETE" && r.exact_survivors==49 && r.nonzero_survivors==48)) regression_pass=false;
@@ -249,6 +268,7 @@ int main(int argc,char**argv) {
             if ((b==2||b==4) && !regression_pass) break;
             if (r.status!="COMPLETE") break;
         }
+        if (dump.is_open()) { dump.close(); if (!dump) throw std::runtime_error("survivor dump close failed"); }
         std::ofstream f(output);
         if (!f) throw std::runtime_error("cannot open output");
         f << "{\n";
@@ -257,7 +277,7 @@ int main(int argc,char**argv) {
         f << "  \"source_core_canonical_sha256\": \""<<p.core_sha<<"\",\n";
         f << "  \"source_blob_sha1\": \""<<p.source_blob<<"\",\n";
         f << "  \"prepared_input_sha256\": \""<<p.input_sha<<"\",\n";
-        f << "  \"architecture\": {\"direction\": \"H_PERP_COORDINATES_PLUS_140_CAPS_PLUS_NORM_IN_ONE_BRANCH_AND_BOUND\", \"enumerator\": \"CUSTOM_LLL_LDL_FINCKE_POHST_WITH_ELLIPSOID_LINEAR_REACH_PRUNING\", \"floating_pruning_is_scout_only\": true, \"exact_integer_leaf_recheck\": true, \"materialized_branch_count_constructed\": 0},\n";
+        f << "  \"architecture\": {\"direction\": \"H_PERP_COORDINATES_PLUS_140_CAPS_PLUS_NORM_IN_ONE_BRANCH_AND_BOUND\", \"enumerator\": \"CUSTOM_LLL_LDL_FINCKE_POHST_WITH_ELLIPSOID_LINEAR_REACH_PRUNING\", \"floating_pruning_is_scout_only\": true, \"exact_integer_leaf_recheck\": true, \"materialized_branch_count_constructed\": 0, \"exact_pairing_dump_supported\": true},\n";
         f << "  \"regression\": {\"expected_bound2_total_including_zero\": 49, \"expected_bound4_total_including_zero\": 1177, \"pass\": "<<(regression_pass?"true":"false")<<"},\n";
         f << "  \"tiers\": [\n";
         for (size_t k=0;k<tiers.size();k++) {
