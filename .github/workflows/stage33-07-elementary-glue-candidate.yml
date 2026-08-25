@@ -1,0 +1,52 @@
+name: Stage33-07 elementary index512 glue candidate
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_elementary_index512_glue_candidate.py'
+      - 'stages/stage33/33-07/picard-discriminant-compact.json'
+      - 'stages/stage33/33-07/coordinate-k3-scaled-action-retained.json'
+      - '.github/workflows/stage33-07-elementary-glue-candidate.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  elementary-glue-candidate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Certify explicit elementary order512 candidate
+        working-directory: stages/stage33/33-07
+        run: python certify_elementary_index512_glue_candidate.py
+      - name: Enforce conservative glue firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-glue-candidate.json'))
+          assert x['candidate_H_type']=='(Z/2)^9' and x['candidate_H_order']==512
+          assert x['candidate_isotropic']
+          assert x['candidate_arithmetic_A2_stable_for_all_scaled_extensions']
+          assert x['candidate_forced_commutator_trivial_on_Hperp_mod_H']
+          assert x['candidate_overlattice_smith']==[2]*4+[4]*6+[8]*4
+          assert all(v['match'] for v in x['quadratic_filtration_value_distributions'].values())
+          assert not x['actual_index512_glue_identified']
+          assert not x['full_finite_quadratic_form_isometry_certified']
+          assert not x['simultaneous_endpoint_cc_ct_action_conjugacy_certified']
+          assert not x['candidate_promoted_to_endpoint_T_lattice']
+          print('ELEMENTARY_INDEX512_CANDIDATE_FILTERS=PASS')
+          print('ACTUAL_GLUE_IDENTIFIED=False')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-elementary-index512-glue-candidate
+          retention-days: 5
+          path: stages/stage33/33-07/elementary-index512-glue-candidate.json
