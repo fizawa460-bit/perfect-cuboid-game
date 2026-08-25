@@ -1,10 +1,6 @@
 name: Stage32 scout d16 140-first LIA
 
 on:
-  pull_request:
-    paths:
-      - 'stages/stage32/scouts/d16_140first_lia_scout.py'
-      - '.github/workflows/stage32-scout-d16-140first-lia.yml'
   workflow_dispatch:
 
 permissions:
@@ -58,5 +54,5 @@ jobs:
         with:
           name: stage32-scout-d16-140first-lia
           path: ${{ runner.temp }}/out/d16-140first-lia-scout.json
-          retention-days: 7
+          retention-days: 5
           if-no-files-found: error
