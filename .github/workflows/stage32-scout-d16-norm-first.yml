@@ -1,0 +1,56 @@
+name: Stage32 scout d16 norm-first
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  d16-norm-first-scout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install only exact solver dependency
+        run: pip install z3-solver==4.15.3.0
+      - name: Download source-locked Stage32 Picard core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/core"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+          test -s "$RUNNER_TEMP/core/picard-core.json"
+      - name: Run bounded global norm-first scout
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/scouts/d16_norm_first_pilot.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/out/d16-norm-first-scout.json" \
+            --max-models 20000 \
+            --max-seconds 600 \
+            --check-timeout-ms 60000
+      - name: Enforce scout storage and firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'/'d16-norm-first-scout.json'
+          assert p.stat().st_size < 2_000_000
+          r=json.loads(p.read_text())
+          assert r['THEOREM_CREDIT'] is False
+          assert r['RECEIVER_CREDIT'] is False
+          assert r['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert r['architecture']['materialized_branch_count_constructed'] == 0
+          print({k:r[k] for k in ('terminal_status','exact_models_rechecked','elapsed_seconds')})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout-d16-norm-first
+          path: ${{ runner.temp }}/out/d16-norm-first-scout.json
+          retention-days: 7
+          if-no-files-found: error

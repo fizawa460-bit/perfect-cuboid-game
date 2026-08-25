@@ -1,0 +1,117 @@
+name: Stage32 scout d16 Aut orbit profile
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/scouts/d16_constrained_hperp_enum.cpp'
+      - 'stages/stage32/scouts/d16_symmetry_profile.py'
+      - '.github/workflows/stage32-scout-d16-aut-profile.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  d16-aut-orbit-profile:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact lattice preprocessing tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp g++
+          gp --version
+          g++ --version
+      - name: Rebuild source-locked Stage32 Picard core
+        run: |
+          python stages/stage32/32-01/run_sparse_picard_export.py
+          test -s stages/stage32/32-01/picard-core.json
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/core/picard-core.json"
+      - name: Build reduced Hperp coordinates
+        run: |
+          python stages/stage32/scouts/d16_constrained_hperp_prepare.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/work/d16-constrained-hperp.txt"
+      - name: Compile exact-leaf pairing dumper
+        run: |
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            stages/stage32/scouts/d16_constrained_hperp_enum.cpp \
+            -o "$RUNNER_TEMP/work/d16-constrained-hperp-enum"
+      - name: Enumerate complete b6 survivor set runner-local
+        run: |
+          "$RUNNER_TEMP/work/d16-constrained-hperp-enum" \
+            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-enumerator.json" \
+            --bounds 6 \
+            --per-bound-seconds 30 \
+            --node-cap 10000000 \
+            --survivor-cap 100000 \
+            --dump-survivors "$RUNNER_TEMP/work/d16-b6-survivors.bin"
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          r=json.loads((root/'out'/'d16-b6-enumerator.json').read_text())
+          assert len(r['tiers']) == 1
+          t=r['tiers'][0]
+          assert t['bound'] == 6 and t['status'] == 'COMPLETE'
+          assert t['exact_survivors_including_zero'] == 17833
+          assert t['nonzero_survivors'] == 17832
+          raw=root/'work'/'d16-b6-survivors.bin'
+          assert raw.stat().st_size == 8 + 141*17833
+          assert raw.stat().st_size < 5_000_000
+          print({'nodes':t['nodes'],'survivors':t['exact_survivors_including_zero'],'raw_bytes':raw.stat().st_size})
+          PY
+      - name: Regenerate source-locked geometric Aut action
+        run: |
+          ok=0
+          for attempt in 1 2 3; do
+            if python stages/stage32/32-07/export_aut_action_locked.py \
+              --output "$RUNNER_TEMP/out/d16-aut-action.json"; then
+              ok=1
+              break
+            fi
+            echo "Aut export attempt $attempt failed; retrying" >&2
+            sleep 5
+          done
+          test "$ok" -eq 1
+          test -s "$RUNNER_TEMP/out/d16-aut-action.json"
+      - name: Profile exact b6 survivors under Aut order 1536
+        run: |
+          python stages/stage32/scouts/d16_symmetry_profile.py \
+            --survivors "$RUNNER_TEMP/work/d16-b6-survivors.bin" \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --output "$RUNNER_TEMP/out/d16-aut-orbit-profile.json"
+      - name: Enforce orbit, storage and scout firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          p=root/'out'/'d16-aut-orbit-profile.json'
+          r=json.loads(p.read_text())
+          assert r['input']['bound'] == 6
+          assert r['input']['survivor_count'] == 17833
+          assert r['input']['group_order'] == 1536
+          assert r['profile']['all_generator_images_present'] is True
+          assert r['profile']['all_generator_images_preserve_norm'] is True
+          assert r['profile']['covered_survivors'] == 17833
+          assert r['THEOREM_CREDIT'] is False
+          assert r['RECEIVER_CREDIT'] is False
+          assert r['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert r['materialized_branch_count_constructed'] == 0
+          assert p.stat().st_size < 2_000_000
+          print({'orbits':r['profile']['orbit_count'],'compression':r['profile']['compression_ratio_survivors_per_orbit'],'orbit_sizes':r['profile']['orbit_size_histogram']})
+          PY
+          rm -f "$RUNNER_TEMP/work/d16-b6-survivors.bin"
+          test ! -e "$RUNNER_TEMP/work/d16-b6-survivors.bin"
+          du -ah "$RUNNER_TEMP/out"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout-d16-aut-orbit-profile
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
