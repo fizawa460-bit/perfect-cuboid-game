@@ -5,6 +5,7 @@ on:
     paths:
       - 'stages/stage33/33-07/extract_kb_ka_picard_maps.py'
       - 'stages/stage33/33-07/derive_coordinate_k3_discriminant_actions.py'
+      - 'stages/stage33/33-07/lift_coordinate_k3_actions_to_transcendental.py'
       - 'stages/stage33/33-07/extract_kc_picard_maps.py'
       - 'stages/stage33/33-07/extract_picard_action_rows.py'
       - '.github/workflows/stage33-07-coordinate-k3-discriminant-actions.yml'
@@ -42,19 +43,26 @@ jobs:
       - name: Derive exact coordinate K3 discriminant V4 actions
         working-directory: stages/stage33/33-07
         run: python derive_coordinate_k3_discriminant_actions.py
+      - name: Exhaust integral rank-two T-action lifts
+        working-directory: stages/stage33/33-07
+        run: python lift_coordinate_k3_actions_to_transcendental.py
       - name: Validate no twist shortcut was used
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
           import json
           x=json.load(open('coordinate-k3-discriminant-v4-actions.json'))
+          t=json.load(open('coordinate-k3-integral-t-actions.json'))
           assert x['coordinate_piece_multiplicities']=={'kb':3,'kc':1,'ka':3}
           assert x['scaled_pullback_lattice']=='<8>^10 direct_sum <16>^4'
           for k in ('kb','kc','ka'):
               assert x['pieces'][k]['integral_picard_action_recovered_from_endpoint_pullback']
               assert not x['pieces'][k]['semisimple_twist_used_for_integral_action']
-          assert not x['actual_index512_glue_identified']
+              assert t['pieces'][k]['integral_v4_lift_count']>=1
+          assert not t['semisimple_twist_used']
+          assert not x['actual_index512_glue_identified'] and not t['actual_index512_glue_identified']
           print('COORDINATE_K3_DISCRIMINANT_ACTIONS=PASS')
+          print('INTEGRAL_T_LIFT_COUNTS=',{k:t['pieces'][k]['integral_v4_lift_count'] for k in ('kb','kc','ka')})
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -67,3 +75,4 @@ jobs:
             stages/stage33/33-07/kb-picard-maps.json
             stages/stage33/33-07/ka-picard-maps.json
             stages/stage33/33-07/coordinate-k3-discriminant-v4-actions.json
+            stages/stage33/33-07/coordinate-k3-integral-t-actions.json
