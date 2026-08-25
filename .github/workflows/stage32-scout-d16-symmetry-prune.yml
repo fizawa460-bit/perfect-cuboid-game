@@ -28,10 +28,20 @@ jobs:
           sudo apt-get install -y --no-install-recommends pari-gp g++
           gp --version
           g++ --version
-      - name: Rebuild source-locked Stage32 Picard core
+      - name: Rebuild source-locked Stage32 Picard core with bounded retry
         run: |
-          python stages/stage32/32-01/run_sparse_picard_export.py
-          test -s stages/stage32/32-01/picard-core.json
+          ok=0
+          for attempt in 1 2 3; do
+            rm -f stages/stage32/32-01/picard-core.json
+            if python stages/stage32/32-01/run_sparse_picard_export.py && \
+               test -s stages/stage32/32-01/picard-core.json; then
+              ok=1
+              break
+            fi
+            echo "Picard core export attempt $attempt failed; retrying" >&2
+            sleep 5
+          done
+          test "$ok" -eq 1
           mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
           cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/core/picard-core.json"
       - name: Build reduced Hperp coordinates
@@ -52,26 +62,20 @@ jobs:
             sleep 5
           done
           test "$ok" -eq 1
-      - name: Prepare depth-1, depth-2 and depth-3 score breakers
+      - name: Prepare short-word and full-group-spread 64 breakers
         run: |
           python stages/stage32/scouts/d16_symmetry_breaker_prepare.py \
             --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
             --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
-            --word-depth 1 --max-breakers 9 \
-            --output "$RUNNER_TEMP/work/d16-symmetry-d1.txt" \
-            | tee "$RUNNER_TEMP/out/d16-symmetry-d1-prepare.log"
-          python stages/stage32/scouts/d16_symmetry_breaker_prepare.py \
-            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
-            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
-            --word-depth 2 --max-breakers 64 \
-            --output "$RUNNER_TEMP/work/d16-symmetry-d2.txt" \
-            | tee "$RUNNER_TEMP/out/d16-symmetry-d2-prepare.log"
-          python stages/stage32/scouts/d16_symmetry_breaker_prepare.py \
-            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
-            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
-            --word-depth 3 --max-breakers 64 \
+            --selector short --word-depth 3 --max-breakers 64 \
             --output "$RUNNER_TEMP/work/d16-symmetry-d3.txt" \
             | tee "$RUNNER_TEMP/out/d16-symmetry-d3-prepare.log"
+          python stages/stage32/scouts/d16_symmetry_breaker_prepare.py \
+            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --selector hash --max-breakers 64 \
+            --output "$RUNNER_TEMP/work/d16-symmetry-hash64.txt" \
+            | tee "$RUNNER_TEMP/out/d16-symmetry-hash64-prepare.log"
       - name: Compile optional-symmetry exact-leaf enumerator
         run: |
           g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
@@ -83,74 +87,63 @@ jobs:
             --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
             --output "$RUNNER_TEMP/out/d16-b6-baseline.json" \
             --bounds 6 --per-bound-seconds 30 --node-cap 10000000 --survivor-cap 100000
-      - name: Run depth-1 symmetry-pruned b6
-        run: |
-          "$RUNNER_TEMP/work/d16-constrained-hperp-enum" \
-            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
-            --symmetry-breakers "$RUNNER_TEMP/work/d16-symmetry-d1.txt" \
-            --output "$RUNNER_TEMP/out/d16-b6-symmetry-d1.json" \
-            --bounds 6 --per-bound-seconds 30 --node-cap 10000000 --survivor-cap 100000
-      - name: Run depth-2 symmetry-pruned b6
-        run: |
-          "$RUNNER_TEMP/work/d16-constrained-hperp-enum" \
-            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
-            --symmetry-breakers "$RUNNER_TEMP/work/d16-symmetry-d2.txt" \
-            --output "$RUNNER_TEMP/out/d16-b6-symmetry-d2.json" \
-            --bounds 6 --per-bound-seconds 30 --node-cap 10000000 --survivor-cap 100000
-      - name: Run depth-3 symmetry-pruned b6
+      - name: Run short-word depth-3 symmetry-pruned b6
         run: |
           "$RUNNER_TEMP/work/d16-constrained-hperp-enum" \
             --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
             --symmetry-breakers "$RUNNER_TEMP/work/d16-symmetry-d3.txt" \
             --output "$RUNNER_TEMP/out/d16-b6-symmetry-d3.json" \
             --bounds 6 --per-bound-seconds 30 --node-cap 10000000 --survivor-cap 100000
-      - name: Compare pruning effect and enforce scout firewalls
+      - name: Run full-group hash-spread symmetry-pruned b6
+        run: |
+          "$RUNNER_TEMP/work/d16-constrained-hperp-enum" \
+            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
+            --symmetry-breakers "$RUNNER_TEMP/work/d16-symmetry-hash64.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-symmetry-hash64.json" \
+            --bounds 6 --per-bound-seconds 30 --node-cap 10000000 --survivor-cap 100000
+      - name: Compare final scout and enforce firewalls
         run: |
           python - <<'PY'
           import json, os, pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
           b=json.loads((root/'d16-b6-baseline.json').read_text())
-          d1=json.loads((root/'d16-b6-symmetry-d1.json').read_text())
-          d2=json.loads((root/'d16-b6-symmetry-d2.json').read_text())
           d3=json.loads((root/'d16-b6-symmetry-d3.json').read_text())
-          bt=b['tiers'][0]; t1=d1['tiers'][0]; t2=d2['tiers'][0]; t3=d3['tiers'][0]
+          h=json.loads((root/'d16-b6-symmetry-hash64.json').read_text())
+          bt=b['tiers'][0]; t3=d3['tiers'][0]; th=h['tiers'][0]
           assert bt['bound']==6 and bt['status']=='COMPLETE'
           assert bt['exact_survivors_including_zero']==17833 and bt['nonzero_survivors']==17832
           assert b['symmetry_breaker_count']==0
-          assert t1['status']=='COMPLETE' and d1['symmetry_breaker_count']==9
-          assert t1['exact_survivors_including_zero']==1050
-          assert t2['status']=='COMPLETE' and d2['symmetry_breaker_count']==49
-          assert t2['exact_survivors_including_zero']==315
           assert t3['status']=='COMPLETE' and d3['symmetry_breaker_count']==64
-          assert 37 <= t3['exact_survivors_including_zero'] <= t2['exact_survivors_including_zero']
-          assert t3['nodes'] <= t2['nodes'] <= t1['nodes'] <= bt['nodes']
-          for r in (b,d1,d2,d3):
+          assert t3['nodes']==619249 and t3['exact_survivors_including_zero']==221
+          assert th['status']=='COMPLETE'
+          assert 1 <= h['symmetry_breaker_count'] <= 64
+          assert 37 <= th['exact_survivors_including_zero'] <= 17833
+          for r in (b,d3,h):
               assert r['THEOREM_CREDIT'] is False
               assert r['RECEIVER_CREDIT'] is False
               assert r['FULL_D16_G0_ROW_COMPLETE'] is False
               assert r['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
           summary={
               'baseline':{'nodes':bt['nodes'],'survivors':bt['exact_survivors_including_zero'],'seconds':bt['elapsed_seconds']},
-              'depth1':{'breakers':d1['symmetry_breaker_count'],'nodes':t1['nodes'],'survivors':t1['exact_survivors_including_zero'],'seconds':t1['elapsed_seconds']},
-              'depth2':{'breakers':d2['symmetry_breaker_count'],'nodes':t2['nodes'],'survivors':t2['exact_survivors_including_zero'],'seconds':t2['elapsed_seconds']},
-              'depth3':{'breakers':d3['symmetry_breaker_count'],'nodes':t3['nodes'],'survivors':t3['exact_survivors_including_zero'],'seconds':t3['elapsed_seconds']},
-              'depth3_node_reduction_vs_baseline':bt['nodes']/t3['nodes'],
-              'depth3_survivor_reduction_vs_baseline':bt['exact_survivors_including_zero']/t3['exact_survivors_including_zero'],
-              'depth3_node_gain_vs_depth2':t2['nodes']/t3['nodes'],
-              'depth3_survivor_gain_vs_depth2':t2['exact_survivors_including_zero']/t3['exact_survivors_including_zero'],
+              'short_depth3_64':{'breakers':d3['symmetry_breaker_count'],'nodes':t3['nodes'],'survivors':t3['exact_survivors_including_zero'],'seconds':t3['elapsed_seconds']},
+              'full_group_hash64':{'breakers':h['symmetry_breaker_count'],'nodes':th['nodes'],'survivors':th['exact_survivors_including_zero'],'seconds':th['elapsed_seconds']},
+              'hash64_node_reduction_vs_baseline':bt['nodes']/th['nodes'],
+              'hash64_survivor_reduction_vs_baseline':bt['exact_survivors_including_zero']/th['exact_survivors_including_zero'],
+              'hash64_node_gain_vs_short64':t3['nodes']/th['nodes'],
+              'hash64_survivor_gain_vs_short64':t3['exact_survivors_including_zero']/th['exact_survivors_including_zero'],
               'ideal_orbit_count_b6':37,
-              'route_gate':'KEEP_AUT_IF_DEPTH3_HAS_NONTRIVIAL_GAIN_OTHERWISE_GREEDY_FULL_GROUP_SELECTION_BEFORE_JOINT_QUADRATIC',
+              'route_gate':'FINAL_AUT_SCOUT_COMPARE_HASH_SPREAD64_AGAINST_SHORT64_THEN_COMMIT_MAIN_ROUTE_OR_ONE_LAST_GREEDY_FULL_GROUP_SELECTION',
               'THEOREM_CREDIT':False,
               'RECEIVER_CREDIT':False,
               'FULL_D16_G0_ROW_COMPLETE':False,
           }
-          (root/'d16-symmetry-prune-summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          (root/'d16-symmetry-final-scout-summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
           print(summary)
           PY
           du -ah "$RUNNER_TEMP/out"
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-scout-d16-symmetry-prune
+          name: stage32-scout-d16-symmetry-final
           path: ${{ runner.temp }}/out/
           retention-days: 5
           if-no-files-found: error
