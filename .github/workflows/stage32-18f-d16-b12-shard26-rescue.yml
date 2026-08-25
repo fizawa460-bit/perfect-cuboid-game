@@ -66,7 +66,19 @@ jobs:
             "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
           echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/zips/prepared.zip" | sha256sum -c -
           unzip -q "$RUNNER_TEMP/zips/prepared.zip" -d "$RUNNER_TEMP/prepared"
-          (cd "$RUNNER_TEMP/prepared" && sha256sum -c files.sha256)
+          python - <<'PY'
+          import hashlib,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'prepared'
+          checked=0
+          for line in (root/'files.sha256').read_text().splitlines():
+              want,old_path=line.split(None,1)
+              p=root/pathlib.Path(old_path).name
+              got=hashlib.sha256(p.read_bytes()).hexdigest()
+              assert got==want,(p.name,want,got)
+              checked+=1
+          assert checked>=6
+          print({'normalized_manifest_sha256_checks':checked})
+          PY
       - name: Compile immutable exact symmetry-pruned certifier
         run: |
           g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
