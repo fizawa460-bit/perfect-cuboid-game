@@ -1,0 +1,93 @@
+name: Stage32 scout3 b12 breaker optimization
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/scouts/32-scout3/**'
+      - '.github/workflows/stage32-scout3-b12-breaker-optimization.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  b12-breaker-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        breakers: [64, 128, 256]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Download immutable b10 prepared inputs
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-18c-b10-prepared
+          path: ${{ runner.temp }}/prepared
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 32820893492
+      - name: Download hostile-audited exact b10
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-18c-b10-exact-only-recovery
+          path: ${{ runner.temp }}/exact-b10
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: 32832798990
+      - name: Build source-locked variable-breaker snapshot profiler
+        run: |
+          test "$(git rev-parse HEAD:stages/stage32/32-18/d16_aut_canonical_enum.cpp)" = "f9479ee73c9a5960cb8a3a8bc11a0c1c0fe8f4ba"
+          python stages/stage32/scouts/32-scout3/build_snapshot_profiler.py \
+            --source stages/stage32/32-18/d16_aut_canonical_enum.cpp \
+            --output "$RUNNER_TEMP/profiler.cpp"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/profiler.cpp" -o "$RUNNER_TEMP/profiler"
+      - name: Build prefix-optimized breaker bundle
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/scouts/32-scout3/build_prefix_breaker_bundle.py \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-stable-bundle.txt" \
+            --count ${{ matrix.breakers }} \
+            --output "$RUNNER_TEMP/out/bundle-${{ matrix.breakers }}.txt" \
+            --summary "$RUNNER_TEMP/out/breakers-${{ matrix.breakers }}.json"
+      - name: Run b12 optimized profile
+        run: |
+          set +e
+          "$RUNNER_TEMP/profiler" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/out/bundle-${{ matrix.breakers }}.txt" \
+            --output "$RUNNER_TEMP/out/profile-${{ matrix.breakers }}.json" \
+            --dump-canonical "$RUNNER_TEMP/out/profile-${{ matrix.breakers }}.bin" \
+            --bound 12 --max-seconds 1800 --node-cap 500000000 --survivor-cap 20000000
+          echo $? > "$RUNNER_TEMP/out/exit-${{ matrix.breakers }}.txt"
+          set -e
+          test -s "$RUNNER_TEMP/out/profile-${{ matrix.breakers }}.json"
+          cat "$RUNNER_TEMP/out/profile-${{ matrix.breakers }}.json"
+      - name: If complete, enforce exact b10 predecessor
+        run: |
+          python - <<'PY'
+          import json,os,pathlib,hashlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP']); k='${{ matrix.breakers }}'
+          p=json.loads((root/f'out/profile-{k}.json').read_text())
+          out={'schema':'STAGE32_SCOUT3_B12_BREAKER_RESULT_V1','breakers':int(k),'status':p['status'],'nodes':p['nodes'],'coordinate_trials':p['coordinate_trials'],'elapsed_seconds':p['elapsed_seconds'],'symmetry_prunes':p['symmetry_prunes'],'precanonical_survivors':p['precanonical_survivors'],'canonical_survivors':p['canonical_survivors_including_zero'],'histogram':p['canonical_norm_histogram'],'SCOUT_ONLY':True,'D16_B12_NUMERICAL_CREDIT':False}
+          if p['status']=='COMPLETE':
+              raw=(root/f'out/profile-{k}.bin').read_bytes(); body=raw[8:]; size=141
+              rec=[body[i:i+size] for i in range(0,len(body),size)]; lower=sorted(r for r in rec if r[0]<=10)
+              exact=(root/'exact-b10/d16-b10-exact-aggregate.bin').read_bytes(); eb=exact[8:]; er=sorted(eb[i:i+size] for i in range(0,len(eb),size))
+              out['b10_predecessor_identical']=lower==er; out['b10_predecessor_count']=len(lower)
+              if lower!=er: raise SystemExit('complete profile regressed audited b10 predecessor')
+          else: out['b10_predecessor_identical']=None
+          (root/f'out/result-{k}.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout3-b12-breakers-${{ matrix.breakers }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
