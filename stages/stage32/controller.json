@@ -1,11 +1,15 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V16_D16_AUT_COMPRESSION_ROUTE_ACTIVE",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V17_D16_B6_CERTIFIED_18B_READY",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
-  "children": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
+  "children": [
+    "R29-LG2",
+    "R29-LG2-EFF",
+    "R29-LG2-MB"
+  ],
   "parent_route": "G10-LOWGENUS-PICARD",
   "execution_class": 2,
-  "status": "32_01_D16_AUT_COMPRESSION_ACTIVE_D8_E20_A0_LE114186_AUDITED_PAUSED",
+  "status": "32_01_D16_B6_EXACT_GATE_AUDITED_18B_BOUNDED_PRODUCTION_READY_D8_E20_A0_LE114186_PAUSED",
   "history_compacted_to_audit_state_refs": true,
   "source_lock": {
     "upstream_repository": "MichaelStollBayreuth/Verification",
@@ -33,126 +37,58 @@
     "fixed_positive_degree_slices_bounded": true,
     "L32_01_POLYTAIL": "CLOSED_AUDITED"
   },
-  "stage32_07_audit": {
-    "pr": 1352,
-    "audit_verdict": "PASS_D8_G0_E2_COMPLETE_NUMERICAL_AUT_ORBIT_SLICE",
-    "total_numerical_classes": 192,
-    "aut_group_order": 1536,
-    "aut_orbit_count": 1,
-    "effectivity_credit": false,
-    "full_d8_credit": false
-  },
-  "stage32_08_audit": {
-    "pr": 1354,
-    "audit_state": "stages/stage32/32-08/audit-state.json",
-    "audit_verdict": "PASS_AFTER_CONTROLLER_AND_REPO_LOCAL_EVIDENCE_REPAIR"
-  },
-  "stage32_09_audit": {
-    "pr": 1359,
-    "audit_state": "stages/stage32/32-09/audit-state.json",
-    "audit_verdict": "PASS_EXACT_TIER256_CUMULATIVE_EXPANSION"
-  },
-  "stage32_10_audit": {
-    "pr": 1360,
-    "audit_state": "stages/stage32/32-10/audit-state.json",
-    "audit_verdict": "PASS_DEEP_CUMULATIVE_E8_LE65536_E10_LE4096"
-  },
-  "stage32_11_12_audit": {
-    "prs": [1364, 1365, 1366],
-    "audit_state": "stages/stage32/32-12/audit-state.json",
-    "audit_verdict": "PASS_CHAIN_AFTER_EXACT_RESOURCE_WALL_REPAIR_AND_E8_PARENT_RECONSTRUCTION",
-    "e8_a36_parent_complete": true,
-    "e8_a36_full_aut_orbit_census_complete": true
-  },
-  "stage32_13_audit": {
-    "pr": 1367,
-    "audit_state": "stages/stage32/32-13/audit-state.json",
-    "audit_verdict": "PASS_COMPLETE_E10_A30_PARENT_AND_FULL_AUT_NUMERICAL_ORBIT_CENSUS",
-    "e10_a30_parent_complete": true,
-    "e10_a30_full_aut_orbit_census_complete": true
-  },
-  "stage32_14_audit": {
-    "pr": 1371,
-    "audit_state": "stages/stage32/32-14/audit-state.json",
-    "audit_verdict": "PASS_EXACT_E20_A0_PROFILE_AND_CUMULATIVE_LE4096_ZERO_TIER",
-    "profile_sha256": "e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384534d53fa1fee67c5",
-    "profile_cells": 1182,
-    "profile_total_materialized_branches": 7806762328
-  },
-  "stage32_15_audit": {
-    "pr": 1372,
-    "audit_state": "stages/stage32/32-15/audit-state.json",
-    "audit_verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE16384_ZERO_TIER",
-    "cumulative_cells": 69,
-    "cumulative_materialized_branches": 655558,
-    "unknown": 0,
-    "numerical_survivors": 0
-  },
-  "stage32_16_audit": {
-    "pr": 1374,
-    "audit_state": "stages/stage32/32-16/audit-state.json",
-    "execution_state": "stages/stage32/32-16/execution-state.json",
-    "audit_verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE65536_ZERO_TIER",
-    "audited_functional_head": "0893fb99699ae8b0f16b2041c484e5c2b31111c6",
-    "threshold": 65536,
-    "cumulative_cells": 301,
-    "parent_cells": 1182,
-    "cumulative_materialized_branches": 6834114,
-    "search_nodes": 1881870,
-    "unknown": 0,
-    "numerical_survivors": 0,
-    "cumulative_canonical_sha256": "5e6a447f7df3a712d6b8c873bc7e912f58b74b44cf4f461dc4cecd800c9e516c"
-  },
-  "stage32_17_audit": {
-    "pr": 1376,
-    "audit_record": "stages/stage32/32-17/audit.md",
-    "audit_state": "stages/stage32/32-17/audit-state.json",
-    "execution_state": "stages/stage32/32-17/execution-state.json",
-    "audit_verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE114186_ZERO_TIER",
-    "audited_functional_head": "526c149451449bd8542e33f3da3b1a416d87c3b9",
-    "profile_sha256": "e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384534d53fa1fee67c5",
-    "predecessor_sha256": "5e6a447f7df3a712d6b8c873bc7e912f58b74b44cf4f461dc4cecd800c9e516c",
-    "plan_sha256": "53eb260d70649fd6d938e3c7f4efa6b4c0fc1cfdfcb9c5e949ff5a706526e3f4",
-    "authoritative_aggregate_run": 32802240965,
-    "authoritative_aggregate_job": 97665249993,
-    "artifact_id": 9546895729,
-    "artifact_zip_sha256": "37e4b66f2f6f62d05d9017b7f378edec9c7ea7b60d539c161a578fc59656e08a",
-    "delta": {
-      "cells": 116,
-      "materialized_branches": 9890148,
-      "work_items": 364,
-      "bundles": 80,
-      "search_nodes": 1583294,
-      "unknown": 0,
-      "numerical_survivors": 0,
-      "all_delta_cells_unsat": true
+  "historical_stage32_audits": [
+    {
+      "pr": 1352,
+      "audit": "stages/stage32/32-07/audit.md",
+      "verdict": "PASS_D8_G0_E2_COMPLETE_NUMERICAL_AUT_ORBIT_SLICE"
     },
-    "e20_a0_le114186": {
-      "exact_completed_cells": 417,
-      "parent_cells": 1182,
-      "total_materialized_branches": 16724262,
-      "search_nodes": 3465164,
-      "unknown": 0,
-      "numerical_survivors": 0,
-      "all_selected_cells_unsat": true,
-      "remaining_cells": 765,
-      "tier_manifest_sha256": "c3680e432b12a61314c1852336a55e50f53ea23b151a05729d7f86db6b2e1d5c",
-      "parent_complete": false
+    {
+      "pr": 1354,
+      "audit_state": "stages/stage32/32-08/audit-state.json",
+      "verdict": "PASS_AFTER_CONTROLLER_AND_REPO_LOCAL_EVIDENCE_REPAIR"
     },
-    "predecessor_regression_branch_evidence_stream_sha256": "b6d30e4f6d73d6e545d9594c29cebcbc4394f854d493b49b6c6aaa91233534b0",
-    "source_run": 32779320736,
-    "source_run_solver_failure": false,
-    "recovery_run": 32796303960,
-    "source_bundle_receipts": 60,
-    "recovered_bundle_receipts": 20,
-    "compact_certificates_verified": 364,
-    "next_plateau_branch_count": 115712,
-    "next_plateau_cell_multiplicity": 128,
-    "next_plateau_materialized_branches": 14811136,
-    "next_plateau_executed": false,
-    "compact_evidence_post_verification_only": true,
-    "legacy_stage32_16_profile_sha_typo_is_metadata_only": true
-  },
+    {
+      "pr": 1359,
+      "audit_state": "stages/stage32/32-09/audit-state.json",
+      "verdict": "PASS_EXACT_TIER256_CUMULATIVE_EXPANSION"
+    },
+    {
+      "pr": 1360,
+      "audit_state": "stages/stage32/32-10/audit-state.json",
+      "verdict": "PASS_DEEP_CUMULATIVE_E8_LE65536_E10_LE4096"
+    },
+    {
+      "prs": [1364, 1365, 1366],
+      "audit_state": "stages/stage32/32-12/audit-state.json",
+      "verdict": "PASS_CHAIN_AFTER_EXACT_RESOURCE_WALL_REPAIR_AND_E8_PARENT_RECONSTRUCTION"
+    },
+    {
+      "pr": 1367,
+      "audit_state": "stages/stage32/32-13/audit-state.json",
+      "verdict": "PASS_COMPLETE_E10_A30_PARENT_AND_FULL_AUT_NUMERICAL_ORBIT_CENSUS"
+    },
+    {
+      "pr": 1371,
+      "audit_state": "stages/stage32/32-14/audit-state.json",
+      "verdict": "PASS_EXACT_E20_A0_PROFILE_AND_CUMULATIVE_LE4096_ZERO_TIER"
+    },
+    {
+      "pr": 1372,
+      "audit_state": "stages/stage32/32-15/audit-state.json",
+      "verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE16384_ZERO_TIER"
+    },
+    {
+      "pr": 1374,
+      "audit_state": "stages/stage32/32-16/audit-state.json",
+      "verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE65536_ZERO_TIER"
+    },
+    {
+      "pr": 1376,
+      "audit_state": "stages/stage32/32-17/audit-state.json",
+      "verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE114186_ZERO_TIER"
+    }
+  ],
   "stage32_18_audit": {
     "functional_pr": 1379,
     "audit_pr": 1380,
@@ -166,14 +102,39 @@
     "dfs_breaker_count": 64,
     "b6_precanonical_survivors": 232,
     "b6_canonical_survivors_including_zero": 37,
-    "b6_canonical_nonzero_survivors": 36,
     "floating_reach_traversal_completeness_certified": false,
     "provenance_repair_required": true,
     "d16_numerical_row_credit_allowed": false
   },
+  "stage32_18a_audit": {
+    "pr": 1382,
+    "audit_record": "stages/stage32/32-18A/audit.md",
+    "audit_state": "stages/stage32/32-18A/audit-state.json",
+    "audit_verdict": "PASS_EXACT_B6_TRAVERSAL_CERTIFICATE_AND_STABLE_AUT_PROVENANCE",
+    "audited_functional_head": "17a34b41e6c98db77c76d433fa69591353b4ed08",
+    "workflow_run": 32808355343,
+    "workflow_job": 97682781166,
+    "artifact_id": 9549064522,
+    "artifact_zip_sha256": "ac5f78b4123f7e5cf8396b8c0c784e973c6dee325f90e32aece407237b7e08da",
+    "prepared_hperp_sha256": "7cd24466752b21a30b4f523c04892215d5ad0f33d1cc61bc09fa8f6dc815edd3",
+    "stable_aut_content_sha256": "7aa6c9be4a91a25549950e1e45c2349146c6ea4cd035ff9133b41e9de3032bc3",
+    "aut_group_order": 1536,
+    "b6_exact_nodes": 2595339,
+    "b6_exact_coordinate_trials": 7076172,
+    "b6_exact_cap_prunes": 524319,
+    "b6_cap_survivors": 17833,
+    "b6_precanonical_survivors": 232,
+    "b6_canonical_survivors_including_zero": 37,
+    "b6_canonical_nonzero_survivors": 36,
+    "b6_canonical_dump_sha256": "b3f7d3230626750da93725509fddc2628a6a5f6af61c8b677b909ba844697ecf",
+    "exact_and_fast_canonical_sets_identical": true,
+    "b6_traversal_completeness_certified": true,
+    "stable_aut_provenance_certified": true,
+    "fast_traversal_global_completeness_certified": false,
+    "future_production_exact_or_cross_certificate_required": true
+  },
   "route_switch": {
     "decision": "PAUSE_D8_MATERIALIZED_BRANCH_ROUTE_AND_PROMOTE_D16_AUT_CANONICAL_HPERP_ROUTE",
-    "reason": "The audited d8 e20/a0 materialized-branch profile has 7806762328 total branches while only 16724262 branches (417/1182 cells) are audited complete; continuing the next 115712 plateau preserves exactness but does not address the dominant combinatorial wall. The merged d16 scout and implementation checkpoint demonstrate a source-locked rank-63 Hperp direct-enumeration route with Aut order 1536 and exact full-group canonical augmentation.",
     "d8_route": {
       "state": "PAUSED_RESTARTABLE",
       "accepted_checkpoint": "D8_E20_A0_CUMULATIVE_LE114186_ZERO_TIER_AUDITED",
@@ -188,43 +149,44 @@
     "d16_route": {
       "state": "ACTIVE",
       "implementation_checkpoint": "32-18",
-      "current_item": "32-18A-CERTIFY-D16-HPERP-TRAVERSAL-AND-STABILIZE-AUT-PROVENANCE",
-      "post_certification_item": "32-18B-D16-AUT-CANONICAL-BOUNDED-PRODUCTION",
+      "certification_gate": "32-18A-AUDITED-PASS",
+      "current_item": "32-18B-D16-AUT-CANONICAL-BOUNDED-PRODUCTION",
       "b6_baseline_survivors": 17833,
-      "b6_profiled_aut_orbits": 37,
-      "b6_orbit_compression_ratio": 481.972972972973,
+      "b6_exact_aut_orbits": 37,
       "aut_group_order": 1536,
       "production_breaker_count": 64,
       "leaf_canonicalization_exact": true,
-      "traversal_completeness_certification_pending": true
+      "b6_traversal_completeness_certified": true,
+      "fast_traversal_global_completeness_certified": false,
+      "production_exact_or_cross_certificate_required": true
     },
     "firewall": {
       "d8_credit_preserved": true,
       "d8_parent_complete": false,
-      "d16_numerical_credit_before_traversal_certificate": false,
+      "d16_b6_numerical_credit_basis_certified": true,
+      "future_bound_inference_from_b6_forbidden": true,
       "effectivity_separate": true,
       "theorem_credit": false,
       "receiver_credit": false
     }
   },
-  "current_item": "32-18A-CERTIFY-D16-HPERP-TRAVERSAL-AND-STABILIZE-AUT-PROVENANCE",
+  "current_item": "32-18B-D16-AUT-CANONICAL-BOUNDED-PRODUCTION",
   "current_smaller_class2_leaf": {
-    "id": "L32-18A-CERTIFY-D16-HPERP-TRAVERSAL-AND-STABILIZE-AUT-PROVENANCE",
+    "id": "L32-18B-D16-AUT-CANONICAL-BOUNDED-PRODUCTION",
     "classification": 2,
-    "statement": "make the promoted d16 Aut-canonical Hperp route mathematically complete before any production census credit: independently certify the b6 traversal or replace every long-double radius/dual-reach prune with a rigorous exact or outward-enclosed superset test; stabilize Aut canonical provenance by excluding runtime metadata from the canonical content hash; retain exact leaf norm/cap/full-group canonical checks and reproduce the locked 37-orbit b6 regression under the certified traversal",
-    "accepted_predecessor": "STAGE32_18_AUT_CANONICAL_IMPLEMENTATION_CHECKPOINT_AUDITED",
-    "required_b6_regression_canonical_survivors": 37,
+    "statement": "extend the promoted d16 Aut-canonical Hperp numerical census beyond the hostile-audited b6 gate using bounded reproducible production; numerical credit at every newly credited bound or range requires exact rational traversal, rigorously outward-enclosed pruning, or an exact cross-certificate against a complete certified traversal; do not infer global fast-traversal completeness from the b6 regression",
+    "accepted_predecessor": "STAGE32_18A_D16_B6_EXACT_TRAVERSAL_AND_STABLE_AUT_PROVENANCE_AUDITED",
     "required_aut_group_order": 1536,
     "required_pairing_map_rank": 63,
-    "floating_reach_traversal_completeness_certified": false,
-    "d16_numerical_credit_allowed": false,
-    "post_pass_item": "32-18B-D16-AUT-CANONICAL-BOUNDED-PRODUCTION"
+    "required_b6_canonical_survivors": 37,
+    "fast_traversal_global_completeness_certified": false,
+    "production_exact_or_cross_certificate_required": true
   },
   "units": [
     {
       "id": "32-01",
       "name": "PRODUCTION_ENUMERATOR_AND_COMPLETE_UNIBRANCH_NUMERICAL_CENSUS",
-      "status": "IN_PROGRESS_D16_AUT_COMPRESSION_ROUTE_TRAVERSAL_CERTIFICATION_D8_E20_A0_PAUSED_AT_LE114186_AUDITED",
+      "status": "IN_PROGRESS_D16_18B_BOUNDED_PRODUCTION_B6_GATE_AUDITED_D8_E20_A0_PAUSED_AT_LE114186_AUDITED",
       "preflight_complete": true,
       "polytail_reduction_audited_complete": true,
       "graded_slice_checkpoint_layer_complete": true,
@@ -233,17 +195,15 @@
       "d8_e8_a36_full_aut_orbit_census_complete": true,
       "d8_e10_a30_parent_numerical_census_complete": true,
       "d8_e10_a30_full_aut_orbit_census_complete": true,
-      "d8_e20_a0_profile_complete": true,
-      "d8_e20_a0_le4096_tier_complete": true,
-      "d8_e20_a0_le16384_tier_complete": true,
-      "d8_e20_a0_le65536_tier_complete": true,
       "d8_e20_a0_le114186_tier_complete": true,
       "d8_e20_a0_audited_completed_cells": 417,
       "d8_e20_a0_parent_cells": 1182,
       "d8_e20_a0_parent_numerical_census_complete": false,
       "d8_e20_a0_continuation_paused": true,
       "d16_aut_compression_route_active": true,
-      "d16_traversal_certification_pending": true,
+      "d16_b6_traversal_certification_complete": true,
+      "d16_b6_canonical_orbit_set_certified": true,
+      "d16_bounded_production_ready": true,
       "d16_numerical_census_complete": false,
       "numerical_census_complete": false
     },
@@ -271,8 +231,11 @@
   "E20_A0_PARENT_COMPLETE": false,
   "D8_E20_A0_CONTINUATION_PAUSED": true,
   "D16_AUT_COMPRESSION_ROUTE_ACTIVE": true,
-  "D16_TRAVERSAL_CERTIFICATION_PENDING": true,
-  "D16_NUMERICAL_CREDIT_ADVANCE_ALLOWED": false,
+  "D16_B6_TRAVERSAL_CERTIFIED": true,
+  "D16_B6_CANONICAL_ORBIT_SET_CERTIFIED": true,
+  "FAST_TRAVERSAL_GLOBAL_COMPLETENESS_CERTIFIED": false,
+  "D16_PRODUCTION_EXACT_OR_CROSS_CERTIFICATE_REQUIRED": true,
+  "D16_BOUNDED_PRODUCTION_ADVANCE_ALLOWED": true,
   "FULL_D8_G0_ROW_COMPLETE": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
   "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
@@ -288,11 +251,13 @@
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
   "audit_required": false,
-  "audit_verdict": "PASS_IMPLEMENTATION_CHECKPOINT__BLOCK_D16_NUMERICAL_CREDIT_ON_UNCERTIFIED_FLOATING_TRAVERSAL",
-  "repair_required": true,
+  "audit_verdict": "PASS_EXACT_B6_TRAVERSAL_CERTIFICATE_AND_STABLE_AUT_PROVENANCE",
+  "repair_required": false,
   "merge_allowed": true,
-  "merge_order": [],
+  "merge_order": [
+    1382
+  ],
   "advance_allowed": true,
-  "next_item": "32-18A-CERTIFY-D16-HPERP-TRAVERSAL-AND-STABILIZE-AUT-PROVENANCE",
+  "next_item": "32-18B-D16-AUT-CANONICAL-BOUNDED-PRODUCTION",
   "next_expected_command": "Stage32-main-batch"
 }
