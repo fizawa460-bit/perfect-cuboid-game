@@ -1,0 +1,131 @@
+name: Stage32 scout d16 symmetry pruning
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/scouts/d16_constrained_hperp_prepare.py'
+      - 'stages/stage32/scouts/d16_constrained_hperp_enum.cpp'
+      - 'stages/stage32/scouts/d16_symmetry_breaker_prepare.py'
+      - 'stages/stage32/32-07/export_aut_action_locked.py'
+      - '.github/workflows/stage32-scout-d16-symmetry-prune.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  d16-symmetry-prune:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact lattice preprocessing tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp g++
+          gp --version
+          g++ --version
+      - name: Rebuild source-locked Stage32 Picard core
+        run: |
+          python stages/stage32/32-01/run_sparse_picard_export.py
+          test -s stages/stage32/32-01/picard-core.json
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/core/picard-core.json"
+      - name: Build reduced Hperp coordinates
+        run: |
+          python stages/stage32/scouts/d16_constrained_hperp_prepare.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/work/d16-constrained-hperp.txt"
+      - name: Regenerate source-locked geometric Aut action
+        run: |
+          ok=0
+          for attempt in 1 2 3; do
+            if python stages/stage32/32-07/export_aut_action_locked.py \
+              --output "$RUNNER_TEMP/out/d16-aut-action.json"; then
+              ok=1
+              break
+            fi
+            echo "Aut export attempt $attempt failed; retrying" >&2
+            sleep 5
+          done
+          test "$ok" -eq 1
+      - name: Prepare nine generator-local score breakers
+        run: |
+          python stages/stage32/scouts/d16_symmetry_breaker_prepare.py \
+            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --output "$RUNNER_TEMP/work/d16-symmetry-breakers.txt" \
+            | tee "$RUNNER_TEMP/out/d16-symmetry-breaker-prepare.log"
+      - name: Compile optional-symmetry exact-leaf enumerator
+        run: |
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            stages/stage32/scouts/d16_constrained_hperp_enum.cpp \
+            -o "$RUNNER_TEMP/work/d16-constrained-hperp-enum"
+      - name: Run baseline b6
+        run: |
+          "$RUNNER_TEMP/work/d16-constrained-hperp-enum" \
+            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-baseline.json" \
+            --bounds 6 \
+            --per-bound-seconds 30 \
+            --node-cap 10000000 \
+            --survivor-cap 100000
+      - name: Run generator-local symmetry-pruned b6
+        run: |
+          "$RUNNER_TEMP/work/d16-constrained-hperp-enum" \
+            --input "$RUNNER_TEMP/work/d16-constrained-hperp.txt" \
+            --symmetry-breakers "$RUNNER_TEMP/work/d16-symmetry-breakers.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-symmetry.json" \
+            --bounds 6 \
+            --per-bound-seconds 30 \
+            --node-cap 10000000 \
+            --survivor-cap 100000
+      - name: Compare pruning effect and enforce scout firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          b=json.loads((root/'d16-b6-baseline.json').read_text())
+          s=json.loads((root/'d16-b6-symmetry.json').read_text())
+          bt=b['tiers'][0]; st=s['tiers'][0]
+          assert bt['bound']==6 and bt['status']=='COMPLETE'
+          assert bt['exact_survivors_including_zero']==17833
+          assert bt['nonzero_survivors']==17832
+          assert b['symmetry_breaker_count']==0
+          assert st['bound']==6 and st['status']=='COMPLETE'
+          assert s['symmetry_breaker_count']>=1 and s['symmetry_breaker_count']<=9
+          assert st['exact_survivors_including_zero']>=37
+          assert st['exact_survivors_including_zero']<=17833
+          assert st['nodes']<=bt['nodes']
+          for r in (b,s):
+              assert r['THEOREM_CREDIT'] is False
+              assert r['RECEIVER_CREDIT'] is False
+              assert r['FULL_D16_G0_ROW_COMPLETE'] is False
+              assert r['R29_LG2_NUMERICAL_COMPONENT_COMPLETE'] is False
+          summary={
+              'baseline_nodes':bt['nodes'],
+              'symmetry_nodes':st['nodes'],
+              'node_reduction_ratio':bt['nodes']/st['nodes'],
+              'baseline_survivors':bt['exact_survivors_including_zero'],
+              'symmetry_survivors':st['exact_survivors_including_zero'],
+              'survivor_reduction_ratio':bt['exact_survivors_including_zero']/st['exact_survivors_including_zero'],
+              'symmetry_prunes':st['symmetry_prunes'],
+              'breaker_count':s['symmetry_breaker_count'],
+              'route_gate':'KEEP_AUT_TREE_PRUNING_IF_NODE_REDUCTION_IS_MATERIAL_ELSE_TEST_DEEPER_GROUP_ELEMENTS_OR_JOINT_QUADRATIC_LOWER_BOUND',
+              'THEOREM_CREDIT':False,
+              'RECEIVER_CREDIT':False,
+              'FULL_D16_G0_ROW_COMPLETE':False,
+          }
+          (root/'d16-symmetry-prune-summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          print(summary)
+          PY
+          du -ah "$RUNNER_TEMP/out"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout-d16-symmetry-prune
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
