@@ -1,0 +1,150 @@
+name: Stage32 scout2 fast-state drift diagnosis
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/scouts/32-scout2/**'
+      - '.github/workflows/stage32-scout2-fast-drift.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Lock fast source and download prior evidence
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD:stages/stage32/32-18/d16_aut_canonical_enum.cpp)" = "f9479ee73c9a5960cb8a3a8bc11a0c1c0fe8f4ba"
+          mkdir -p "$RUNNER_TEMP/b8" "$RUNNER_TEMP/b10" "$RUNNER_TEMP/prepared"
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/b8.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9551029604/zip"
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/b10.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9553484252/zip"
+          echo 'e5cb3fca37cf8d4df9cabfcd8830e8d3e0cb702c13fd9e4ba20ed6b5829461d7  '"$RUNNER_TEMP/b8.zip" | sha256sum -c -
+          echo '76b9d7738f2a8125ee5f56f485877663f02f6cca76ccad7237d1515272e8fc01  '"$RUNNER_TEMP/b10.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/b8.zip" -d "$RUNNER_TEMP/b8"
+          unzip -q "$RUNNER_TEMP/b10.zip" -d "$RUNNER_TEMP/b10"
+      - name: Reproduce the 22 audited-predecessor losses
+        run: |
+          python - <<'PY'
+          import pathlib
+          def recs(path):
+              raw=pathlib.Path(path).read_bytes(); assert raw[:8]==b'S32D16C1'
+              body=raw[8:]; assert len(body)%141==0
+              return [body[i:i+141] for i in range(0,len(body),141)]
+          b8=recs('${{ runner.temp }}/b8/d16-b8-exact-canonical.bin')
+          b10=recs('${{ runner.temp }}/b10/d16-b10-fast-canonical.bin')
+          missing=sorted(set(b8)-set(b10)); h={}
+          for r in missing: h[str(r[0])]=h.get(str(r[0]),0)+1
+          assert len(b8)==260 and len(missing)==22 and h=={'0':1,'4':2,'8':19}, (len(b8),len(missing),h)
+          print({'audited_b8':len(b8),'baseline_b10':len(b10),'missing':len(missing),'missing_histogram':h})
+          PY
+      - name: Generate snapshot-restored variants
+        run: |
+          for mode in cap sym both; do
+            python stages/stage32/scouts/32-scout2/build_snapshot_variant.py \
+              --source stages/stage32/32-18/d16_aut_canonical_enum.cpp \
+              --output "$RUNNER_TEMP/prepared/fast-${mode}.cpp" \
+              --mode "$mode"
+          done
+          cp "$RUNNER_TEMP/b8/d16-b8-exact-canonical.bin" "$RUNNER_TEMP/prepared/audited-b8.bin"
+          cp "$RUNNER_TEMP/b10/d16-b10-fast-canonical.bin" "$RUNNER_TEMP/prepared/baseline-b10.bin"
+          cp "$RUNNER_TEMP/b10/d16-b10-fast.json" "$RUNNER_TEMP/prepared/baseline-b10.json"
+          cp "$RUNNER_TEMP/b10/d16-hperp.txt" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/b10/d16-aut-stable-bundle.txt" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/b10/d16-aut-action.json" "$RUNNER_TEMP/prepared/"
+          sha256sum "$RUNNER_TEMP/prepared/"* | sort > "$RUNNER_TEMP/prepared/prepared.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout2-prepared
+          path: ${{ runner.temp }}/prepared/
+          retention-days: 5
+          if-no-files-found: error
+
+  variants:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 55
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [cap, sym, both]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-scout2-prepared
+          path: ${{ runner.temp }}/prepared
+      - name: Compile ${{ matrix.mode }} snapshot variant
+        run: |
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/prepared/fast-${{ matrix.mode }}.cpp" \
+            -o "$RUNNER_TEMP/fast-${{ matrix.mode }}"
+      - name: Run b10 ${{ matrix.mode }} snapshot variant
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          "$RUNNER_TEMP/fast-${{ matrix.mode }}" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-stable-bundle.txt" \
+            --output "$RUNNER_TEMP/out/variant-${{ matrix.mode }}.json" \
+            --dump-canonical "$RUNNER_TEMP/out/variant-${{ matrix.mode }}.bin" \
+            --bound 10 --max-seconds 2400 --node-cap 400000000 --survivor-cap 10000000
+      - name: Independently verify full Aut canonical output
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/variant-${{ matrix.mode }}.bin" \
+            --enum-json "$RUNNER_TEMP/out/variant-${{ matrix.mode }}.json" \
+            --output "$RUNNER_TEMP/out/verify-${{ matrix.mode }}.json" \
+            --bound 10
+      - name: Compare against audited b8 and broken baseline b10
+        run: |
+          python stages/stage32/scouts/32-scout2/compare_snapshot_variant.py \
+            --mode "${{ matrix.mode }}" \
+            --audited-b8 "$RUNNER_TEMP/prepared/audited-b8.bin" \
+            --baseline-b10 "$RUNNER_TEMP/prepared/baseline-b10.bin" \
+            --variant-b10 "$RUNNER_TEMP/out/variant-${{ matrix.mode }}.bin" \
+            --variant-json "$RUNNER_TEMP/out/variant-${{ matrix.mode }}.json" \
+            --output "$RUNNER_TEMP/out/report-${{ matrix.mode }}.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout2-variant-${{ matrix.mode }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  aggregate:
+    needs: variants
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-scout2-variant-*
+          path: ${{ runner.temp }}/reports
+          merge-multiple: true
+      - name: Aggregate causal diagnosis
+        run: |
+          python stages/stage32/scouts/32-scout2/aggregate_scout2.py \
+            --reports "$RUNNER_TEMP/reports" \
+            --output "$RUNNER_TEMP/scout2-summary.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout2-fast-drift-diagnosis
+          path: ${{ runner.temp }}/scout2-summary.json
+          retention-days: 5
+          if-no-files-found: error
