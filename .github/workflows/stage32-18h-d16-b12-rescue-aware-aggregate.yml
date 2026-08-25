@@ -1,0 +1,102 @@
+name: Stage32-18H d16 b12 rescue-aware exact aggregate
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18h-b12-rescue-aware-aggregate.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18h-b12-aggregate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: key
+        name: Validate explicit rescue-aware aggregate run key
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18h-b12-rescue-aware-aggregate.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18h-d16-b12-rescue-aware-aggregate'
+          assert d['armed'] is True and isinstance(d['generation'],int) and d['generation']>=1
+          assert d['bound']==12 and d['breaker_count']==256 and d['split_coordinate']==54
+          assert d['ordinary_run_id']==32877018247
+          assert d['rescue_run_id']==32896909852
+          assert d['deep_run_id']==32901761192
+          assert d['prepared_artifact_id']==9574308138
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write(f"generation={d['generation']}\n")
+          print(json.dumps(d,sort_keys=True))
+          PY
+
+  aggregate:
+    needs: validate-run-key
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch immutable completed shard/rescue artifacts with ZIP digest verification
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python stages/stage32/32-18H/fetch_rescue_aggregate_inputs.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --ordinary-run-id 32877018247 \
+            --rescue-run-id 32896909852 \
+            --deep-run-id 32901761192 \
+            --prepared-artifact-id 9574308138 \
+            --output "$RUNNER_TEMP/inputs"
+      - name: Build exact rescue-aware global b12 aggregate
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18H/aggregate_b12_rescue_aware.py \
+            --ordinary "$RUNNER_TEMP/inputs/ordinary" \
+            --rescue256 "$RUNNER_TEMP/inputs/rescue256" \
+            --deep1024 "$RUNNER_TEMP/inputs/deep1024" \
+            --audited-b10-dump "$RUNNER_TEMP/inputs/prepared/d16-b10-exact-aggregate.bin" \
+            --output-json "$RUNNER_TEMP/out/d16-b12-exact-rescue-aware-aggregate.json" \
+            --output-dump "$RUNNER_TEMP/out/d16-b12-exact-rescue-aware-aggregate.bin" \
+            --certificate "$RUNNER_TEMP/out/stage32-18h-b12-certificate.json"
+          cp "$RUNNER_TEMP/inputs/artifact-inventory.json" "$RUNNER_TEMP/out/artifact-inventory.json"
+      - name: Independently full-Aut verify global b12 aggregate
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/inputs/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b12-exact-rescue-aware-aggregate.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b12-exact-rescue-aware-aggregate.json" \
+            --output "$RUNNER_TEMP/out/d16-b12-exact-rescue-aware-aggregate-verify.json" \
+            --bound 12
+      - name: Enforce hostile-audit stop
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          c=json.loads((root/'stage32-18h-b12-certificate.json').read_text())
+          v=json.loads((root/'d16-b12-exact-rescue-aware-aggregate-verify.json').read_text())
+          assert c['verdict']=='PASS_EXACT_RESCUE_AWARE_D16_B12_PRODUCTION_PENDING_HOSTILE_AUDIT'
+          assert c['nested_residue_partition_exact'] is True
+          assert c['audited_b10_predecessor_set_identical'] is True
+          assert c['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert c['D16_B12_NUMERICAL_CREDIT'] is False
+          assert c['D16_B12_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT'] is True
+          assert c['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False
+          assert v['aut_group_order']==1536
+          assert v['canonical_survivors_including_zero']==c['canonical_survivors_including_zero']
+          print(json.dumps({'certificate':c,'aut_verify':v},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18h-d16-b12-exact-production-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          if-no-files-found: error
