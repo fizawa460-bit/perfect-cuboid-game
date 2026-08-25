@@ -99,26 +99,19 @@ public:
         cap_dualf_.assign(m_,std::vector<long double>(n_,0));
         for(int r=0;r<m_;r++) build_dual_row(p_.lin[r],cap_a_[r],cap_dual_[r],cap_af_[r],cap_dualf_[r]);
 
-        sym_a_.assign(s_.k,std::vector<cpp_rational>(n_,0));
-        sym_dual_.assign(s_.k,std::vector<cpp_rational>(n_,0));
-        sym_af_.assign(s_.k,std::vector<long double>(n_,0));
-        sym_dualf_.assign(s_.k,std::vector<long double>(n_,0));
-        for(int r=0;r<s_.k;r++) build_dual_row(s_.lin[r],sym_a_[r],sym_dual_[r],sym_af_[r],sym_dualf_[r]);
-
         order_.reserve(m_);
         for(int r=92;r<m_;r++) order_.push_back(r);
         for(int r=0;r<92;r++) order_.push_back(r);
 
         z_.assign(n_,0); t_.assign(n_,0); tf_.assign(n_,0);
-        cap_assignedf_.assign(m_,0); sym_assignedf_.assign(s_.k,0);
+        cap_assignedf_.assign(m_,0);
     }
 
     void run(int bound,uint64_t node_cap,const std::string& dump_path){
         bound_=bound; node_cap_=node_cap;
         std::ofstream dump(dump_path,std::ios::binary); if(!dump) throw std::runtime_error("cannot open dump");
         dump.write("S32D16C1",8); dump_=&dump;
-        if(caps_possible(n_-1,cpp_rational(bound_)) && symmetry_possible(n_-1,cpp_rational(bound_)))
-            dfs(n_-1,cpp_rational(0));
+        if(caps_possible(n_-1,cpp_rational(bound_))) dfs(n_-1,cpp_rational(0));
         dump.close(); if(!dump) throw std::runtime_error("dump close failed"); dump_=nullptr;
     }
 
@@ -136,14 +129,15 @@ public:
         f<<"  \"exact_ldl_reconstructs_integer_gram\": true,\n";
         f<<"  \"floating_arithmetic_used_for_traversal_pruning\": false,\n";
         f<<"  \"floating_arithmetic_used_only_to_schedule_exact_prune_checks\": true,\n";
-        f<<"  \"all_cap_and_symmetry_branch_rejections_exact_rational_cauchy_schwarz\": true,\n";
+        f<<"  \"all_cap_branch_rejections_exact_rational_cauchy_schwarz\": true,\n";
+        f<<"  \"symmetry_breakers_evaluated_only_by_exact_integer_leaf_tests\": true,\n";
         f<<"  \"norm_ball_coordinate_ranges_are_exact_rational_supersets\": true,\n";
         f<<"  \"every_candidate_coordinate_is_exactly_norm_checked_before_descent\": true,\n";
         f<<"  \"nodes\": "<<nodes_<<",\n";
         f<<"  \"coordinate_trials\": "<<trials_<<",\n";
         f<<"  \"exact_prune_checks\": "<<exact_prune_checks_<<",\n";
         f<<"  \"exact_constraint_prunes\": "<<constraint_prunes_<<",\n";
-        f<<"  \"exact_symmetry_prunes\": "<<symmetry_prunes_<<",\n";
+        f<<"  \"exact_symmetry_prunes\": 0,\n";
         f<<"  \"exact_norm_leaves\": "<<leaves_<<",\n";
         f<<"  \"cap_survivors_before_symmetry\": "<<cap_survivors_<<",\n";
         f<<"  \"precanonical_survivors\": "<<precanonical_<<",\n";
@@ -159,12 +153,12 @@ public:
 private:
     const Problem&p_; const Bundle&s_; int n_,m_,bound_=0; uint64_t node_cap_=0;
     std::vector<std::vector<cpp_rational>> L_; std::vector<cpp_rational>D_;
-    std::vector<std::vector<cpp_rational>> cap_a_,cap_dual_,sym_a_,sym_dual_;
-    std::vector<std::vector<long double>> cap_af_,cap_dualf_,sym_af_,sym_dualf_;
+    std::vector<std::vector<cpp_rational>> cap_a_,cap_dual_;
+    std::vector<std::vector<long double>> cap_af_,cap_dualf_;
     std::vector<long long>z_; std::vector<cpp_rational>t_; std::vector<long double>tf_;
-    std::vector<long double>cap_assignedf_,sym_assignedf_; std::vector<int>order_;
+    std::vector<long double>cap_assignedf_; std::vector<int>order_;
     uint64_t nodes_=0,trials_=0,leaves_=0,cap_survivors_=0,precanonical_=0,canonical_rejects_=0,canonical_=0,canonical_nonzero_=0;
-    uint64_t exact_prune_checks_=0,constraint_prunes_=0,symmetry_prunes_=0;
+    uint64_t exact_prune_checks_=0,constraint_prunes_=0;
     std::map<int,uint64_t>hist_; std::ofstream*dump_=nullptr;
 
     void build_dual_row(const std::vector<long long>& row,
@@ -198,17 +192,6 @@ private:
         return dist*dist > reach2;
     }
 
-    bool exact_negative_impossible(long long base,const std::vector<cpp_rational>& a,
-                                   const std::vector<cpp_rational>& dual,
-                                   int last_remaining,const cpp_rational& budget) {
-        ++exact_prune_checks_;
-        cpp_rational center=exact_center(base,a,last_remaining);
-        if(center>=0) return false;
-        cpp_rational dist=-center;
-        cpp_rational reach2 = last_remaining>=0 ? budget*dual[last_remaining] : cpp_rational(0);
-        return dist*dist > reach2;
-    }
-
     bool caps_possible(int last_remaining,const cpp_rational& budget) {
         const long double bf=std::max<long double>(0,budget.convert_to<long double>());
         for(int rr:order_){
@@ -221,22 +204,6 @@ private:
             if(reach==0 || dist>0.5L*reach){
                 if(exact_outside_interval_impossible(p_.p0[rr],p_.cap[rr],cap_a_[rr],cap_dual_[rr],last_remaining,budget)){
                     ++constraint_prunes_; return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    bool symmetry_possible(int last_remaining,const cpp_rational& budget) {
-        const long double bf=std::max<long double>(0,budget.convert_to<long double>());
-        for(int r=0;r<s_.k;r++){
-            long double center=static_cast<long double>(s_.c0[r])+sym_assignedf_[r];
-            if(center>=0) continue;
-            long double dual=last_remaining>=0?sym_dualf_[r][last_remaining]:0;
-            long double reach=std::sqrt(std::max<long double>(0,bf*dual));
-            if(reach==0 || -center>0.5L*reach){
-                if(exact_negative_impossible(s_.c0[r],sym_a_[r],sym_dual_[r],last_remaining,budget)){
-                    ++symmetry_prunes_; return false;
                 }
             }
         }
@@ -269,10 +236,8 @@ private:
             if(term>rem) continue;
             z_[i]=zi; t_[i]=ti; tf_[i]=ti.convert_to<long double>();
             for(int r=0;r<m_;r++) cap_assignedf_[r]+=cap_af_[r][i]*tf_[i];
-            for(int r=0;r<s_.k;r++) sym_assignedf_[r]+=sym_af_[r][i]*tf_[i];
             cpp_rational newrem=rem-term;
-            if(caps_possible(i-1,newrem) && symmetry_possible(i-1,newrem)) dfs(i-1,used+term);
-            for(int r=0;r<s_.k;r++) sym_assignedf_[r]-=sym_af_[r][i]*tf_[i];
+            if(caps_possible(i-1,newrem)) dfs(i-1,used+term);
             for(int r=0;r<m_;r++) cap_assignedf_[r]-=cap_af_[r][i]*tf_[i];
             t_[i]=0; tf_[i]=0;
         }
