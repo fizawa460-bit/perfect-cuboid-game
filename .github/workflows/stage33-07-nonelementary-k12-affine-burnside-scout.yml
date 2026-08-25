@@ -1,0 +1,40 @@
+name: Stage33-07 non-elementary k1 k2 affine Burnside scout
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-nonelementary-k12-affine-burnside-scout.yml'
+  workflow_dispatch:
+jobs:
+  scout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Exact affine Burnside compression on k1 k2 integral loci
+        working-directory: stages/stage33/33-07
+        run: python profile_nonelementary_k12_integral_affine_burnside.py
+      - name: Planning firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k12-integral-affine-burnside-scout.json'))
+          assert x['combined_integral_H']==14794944
+          assert x['fixed_sets_counted_by_exact_F2_elimination'] and x['burnside_exact']
+          assert not x['lift_sections_enumerated'] and x['planning_only']
+          assert not x['full_Q4_condition_certified'] and not x['endpoint_finite_q_certified']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          print('K12_AFFINE_BURNSIDE_SCOUT=PASS_EXACT_PLANNING')
+          print('ORBITS='+str(x['combined_exact_full_symmetry_orbits']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-affine-burnside-scout
+          path: stages/stage33/33-07/nonelementary-k12-integral-affine-burnside-scout.json
+          retention-days: 5
