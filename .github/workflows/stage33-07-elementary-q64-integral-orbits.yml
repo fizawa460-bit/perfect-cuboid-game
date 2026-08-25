@@ -1,0 +1,49 @@
+name: Stage33-07 elementary q64 integral orbits
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_elementary_index512_q64_integral_orbits.py'
+      - 'stages/stage33/33-07/elementary-index512-q256-simultaneous-v4-census-retained.json'
+      - 'stages/stage33/33-07/elementary_index512_q256_retained.py'
+      - '.github/workflows/stage33-07-elementary-q64-integral-orbits.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  q64-integral-orbits:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Classify exact integral Aut(L0) orbits
+        run: python certify_elementary_index512_q64_integral_orbits.py
+      - name: Enforce conservative firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-q64-integral-orbits.json'))
+          assert x['survivor_count_before']==64
+          assert x['integral_Aut_L0_orbit_count']==3
+          assert x['orbit_sizes']==[4,36,24]
+          assert x['orbit_representatives']==[64,68,88]
+          assert x['full_Aut_L0_separation_proved_by_split_weight_enumerator']
+          assert x['within_orbit_equivalence_proved_by_explicit_geometric_permutations']
+          assert not x['actual_index512_glue_identified']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          print('ELEMENTARY_INDEX512_Q64_INTEGRAL_ORBITS=PASS_EXACT')
+          print('INTEGRAL_AUT_L0_ORBITS=3')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-elementary-q64-integral-orbits
+          path: stages/stage33/33-07/elementary-index512-q64-integral-orbits.json
+          retention-days: 5
