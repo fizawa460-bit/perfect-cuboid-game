@@ -98,6 +98,20 @@ def load_aut(path: pathlib.Path) -> tuple[list[tuple[int, ...]], dict[str, objec
     return gens, payload
 
 
+def sha_weights(seed: str) -> tuple[int, ...]:
+    # Small enough for later int64 linear-cap experiments, but wide enough that
+    # accidental equal scores on a finite orbit should be rare. Scout only.
+    out = []
+    for i in range(140):
+        d = hashlib.sha256(f"{seed}:{i}".encode()).digest()
+        out.append(int.from_bytes(d[:4], "big") % 2000003 - 1000001)
+    return tuple(out)
+
+
+def score(v: tuple[int, ...], weights: tuple[int, ...]) -> int:
+    return sum(a * b for a, b in zip(v, weights))
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--survivors", type=pathlib.Path, required=True)
@@ -110,6 +124,27 @@ def main() -> None:
     group = close_group(gens)
     if len(group) != EXPECTED_GROUP_ORDER:
         raise RuntimeError(f"unexpected Aut order {len(group)}")
+
+    weight_schemes = {
+        "index_linear": tuple(range(1, 141)),
+        "sha_stage32_a": sha_weights("stage32-d16-aut-a"),
+        "sha_stage32_b": sha_weights("stage32-d16-aut-b"),
+        "sha_stage32_c": sha_weights("stage32-d16-aut-c"),
+    }
+    score_profiles = {
+        name: {
+            "selected_survivors": 0,
+            "unique_minimum_orbits": 0,
+            "tied_minimum_orbits": 0,
+            "maximum_minimum_tie": 0,
+            "minimum_positive_score_gap": None,
+            "max_abs_weight": max(abs(x) for x in weights),
+            "weights_sha256": hashlib.sha256(
+                ",".join(map(str, weights)).encode()
+            ).hexdigest(),
+        }
+        for name, weights in weight_schemes.items()
+    }
 
     unseen = set(survivors)
     orbit_sizes: collections.Counter[int] = collections.Counter()
@@ -145,13 +180,34 @@ def main() -> None:
         stabilizer_sizes[EXPECTED_GROUP_ORDER // size] += 1
         per_norm_orbits[norm][size] += 1
 
+        for name, weights in weight_schemes.items():
+            values = sorted(score(v, weights) for v in orbit)
+            minimum = values[0]
+            tie = sum(x == minimum for x in values)
+            prof = score_profiles[name]
+            prof["selected_survivors"] += tie
+            prof["maximum_minimum_tie"] = max(prof["maximum_minimum_tie"], tie)
+            if tie == 1:
+                prof["unique_minimum_orbits"] += 1
+            else:
+                prof["tied_minimum_orbits"] += 1
+            if len(values) > tie:
+                gap = values[tie] - minimum
+                old = prof["minimum_positive_score_gap"]
+                prof["minimum_positive_score_gap"] = gap if old is None else min(old, gap)
+
     covered = sum(size * count for size, count in orbit_sizes.items())
     if covered != EXPECTED_B6_SURVIVORS:
         raise RuntimeError("orbit accounting mismatch")
+    for prof in score_profiles.values():
+        prof["compression_ratio_survivors_per_selected"] = (
+            len(survivors) / prof["selected_survivors"]
+        )
+        prof["exactly_one_selected_per_orbit"] = prof["selected_survivors"] == orbit_count
 
     norm_hist = collections.Counter(survivors.values())
     result = {
-        "schema": "STAGE32_SCOUT_D16_AUT_ORBIT_PROFILE_V1",
+        "schema": "STAGE32_SCOUT_D16_AUT_ORBIT_PROFILE_V2",
         "scope": "SCOUT_ONLY_NO_CREDIT",
         "input": {
             "bound": 6,
@@ -178,7 +234,8 @@ def main() -> None:
             "covered_survivors": covered,
             "max_bfs_queue": max_queue,
         },
-        "architecture_verdict": "MEASURE_AUT_COMPRESSION_BEFORE_CANONICAL_AUGMENTATION",
+        "linear_score_symmetry_breaking": score_profiles,
+        "architecture_verdict": "MEASURE_AUT_COMPRESSION_AND_LINEAR_SCORE_BREAKER_BEFORE_TREE_INTEGRATION",
         "materialized_branch_count_constructed": 0,
         "floating_enumerator_remains_scout_only": True,
         "THEOREM_CREDIT": False,
@@ -199,6 +256,14 @@ def main() -> None:
                 "orbits": orbit_count,
                 "compression": round(len(survivors) / orbit_count, 6),
                 "orbit_sizes": dict(sorted(orbit_sizes.items())),
+                "linear_score_breakers": {
+                    name: {
+                        "selected": prof["selected_survivors"],
+                        "unique_orbits": prof["unique_minimum_orbits"],
+                        "max_tie": prof["maximum_minimum_tie"],
+                    }
+                    for name, prof in score_profiles.items()
+                },
                 "sha": result["canonical_sha256_without_this_field"],
             },
             sort_keys=True,
