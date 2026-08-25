@@ -1,0 +1,61 @@
+name: Stage33-07 non-elementary k1 k2 full Q4 certified
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-nonelementary-k12-full-q4-certified.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: stage33-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact non-elementary predecessor chain
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+      - name: Exhaust and formally certify k1 k2 full Q4 image order
+        working-directory: stages/stage33/33-07
+        run: python certify_nonelementary_k12_full_q4.py
+      - name: Enforce exact coverage and conservative firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k12-full-q4-certified.json'))
+          assert x['full_Q4_condition_certified']
+          assert x['all_affine_sections_exhausted'] and x['exact_weighted_coverage']
+          assert not x['fast_or_canonical_traversal_used']
+          assert x['input_weighted_H']==14794944
+          assert x['representative_sections_checked']==1020880
+          assert x['k1']['input_H']==2928832 and x['k1']['representative_sections_checked']==142032
+          assert x['k2']['input_H']==11866112 and x['k2']['representative_sections_checked']==878848
+          assert x['combined_full_Q4_surviving_H']==x['k1']['full_Q4_surviving_H']+x['k2']['full_Q4_surviving_H']
+          assert not x['endpoint_finite_q_certified'] and not x['endpoint_full_action_certified']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('NONELEMENTARY_K12_FULL_Q4=PASS_EXACT')
+          print('K1_SURVIVORS='+str(x['k1']['full_Q4_surviving_H']))
+          print('K2_SURVIVORS='+str(x['k2']['full_Q4_surviving_H']))
+          print('COMBINED_SURVIVORS='+str(x['combined_full_Q4_surviving_H']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-full-q4-certified
+          path: stages/stage33/33-07/nonelementary-k12-full-q4-certified.json
+          retention-days: 5
