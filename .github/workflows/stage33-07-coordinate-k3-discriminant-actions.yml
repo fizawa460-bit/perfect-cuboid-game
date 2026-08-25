@@ -1,0 +1,69 @@
+name: Stage33-07 coordinate K3 discriminant actions
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/extract_kb_ka_picard_maps.py'
+      - 'stages/stage33/33-07/derive_coordinate_k3_discriminant_actions.py'
+      - 'stages/stage33/33-07/extract_kc_picard_maps.py'
+      - 'stages/stage33/33-07/extract_picard_action_rows.py'
+      - '.github/workflows/stage33-07-coordinate-k3-discriminant-actions.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  coordinate-k3-actions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Extract endpoint cc action
+        working-directory: stages/stage33/33-07
+        run: python extract_picard_action_rows.py cc
+      - name: Extract endpoint ct action
+        working-directory: stages/stage33/33-07
+        run: python extract_picard_action_rows.py ct
+      - name: Extract Kc Picard pullback maps
+        working-directory: stages/stage33/33-07
+        run: python extract_kc_picard_maps.py
+      - name: Extract Kb Picard pullback maps directly
+        working-directory: stages/stage33/33-07
+        run: python extract_kb_ka_picard_maps.py kb
+      - name: Extract Ka Picard pullback maps directly
+        working-directory: stages/stage33/33-07
+        run: python extract_kb_ka_picard_maps.py ka
+      - name: Derive exact coordinate K3 discriminant V4 actions
+        working-directory: stages/stage33/33-07
+        run: python derive_coordinate_k3_discriminant_actions.py
+      - name: Validate no twist shortcut was used
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('coordinate-k3-discriminant-v4-actions.json'))
+          assert x['coordinate_piece_multiplicities']=={'kb':3,'kc':1,'ka':3}
+          assert x['scaled_pullback_lattice']=='<8>^10 direct_sum <16>^4'
+          for k in ('kb','kc','ka'):
+              assert x['pieces'][k]['integral_picard_action_recovered_from_endpoint_pullback']
+              assert not x['pieces'][k]['semisimple_twist_used_for_integral_action']
+          assert not x['actual_index512_glue_identified']
+          print('COORDINATE_K3_DISCRIMINANT_ACTIONS=PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-coordinate-k3-discriminant-actions
+          retention-days: 5
+          path: |
+            stages/stage33/33-07/picard-action-cc.json
+            stages/stage33/33-07/picard-action-ct.json
+            stages/stage33/33-07/kc-picard-maps.json
+            stages/stage33/33-07/kb-picard-maps.json
+            stages/stage33/33-07/ka-picard-maps.json
+            stages/stage33/33-07/coordinate-k3-discriminant-v4-actions.json
