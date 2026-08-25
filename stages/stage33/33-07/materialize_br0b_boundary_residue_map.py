@@ -19,6 +19,35 @@ ARTIFACTS = {
     "br0b": (9513603089, "cf95be77ae227227f8f2f2b478a54a4c38d82cc242d6c4a293d63490eb533c07"),
     "br0g": (9513712470, "4ef12f7686e0b251bbfbcc3f0c3f0c44c61db0e0fca7dbb94afcdc5f0fbfb637"),
 }
+RETAINED = HERE / "br0b-boundary-raw-residue-map.json"
+RETAINED_SHA256 = "44f03877c524a817e41036d89cf20ea971cc95c3d52adf53c2af6317a83d2324"
+
+# Stage33 artifacts have short retention.  Once the exact result has been
+# independently produced and source-locked, keep the compact certificate in
+# git and validate it here.  Artifact download remains only the rebuild path.
+if RETAINED.exists():
+    retained = json.loads(RETAINED.read_text(encoding="utf-8"))
+    claimed = retained.get("canonical_sha256")
+    chk = dict(retained)
+    chk.pop("canonical_sha256", None)
+    actual = hashlib.sha256(json.dumps(chk, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+    if claimed != RETAINED_SHA256 or actual != RETAINED_SHA256:
+        raise SystemExit(f"retained BR0B residue certificate hash regression: claimed={claimed} actual={actual}")
+    if retained.get("schema") != "STAGE33_07_BR0B_TO_BOUNDARY_RESIDUE_MAP_V2":
+        raise SystemExit("retained BR0B residue schema regression")
+    if retained.get("induced_left_filtration_boundary_map_injective") is not True:
+        raise SystemExit("retained BR0B residue injectivity regression")
+    if retained.get("exact_kernel_statement") != "ker(X_Q^14 -> X_Q^48 direct_sum X_Q(i)^12 via unit valuations/restriction) = <KAPPA_1,KAPPA_2>":
+        raise SystemExit("retained BR0B residue kernel regression")
+    print(json.dumps({
+        "success": True,
+        "source": "RETAINED_EXACT_CERTIFICATE",
+        "artifact_rebuild_required": False,
+        "canonical_sha256": actual,
+        "induced_left_filtration_boundary_map_injective": True,
+        "stage33_progress": "6/11",
+    }, indent=2, sort_keys=True))
+    raise SystemExit(0)
 
 class StripCrossHostAuthRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
@@ -31,7 +60,7 @@ def download_artifact(key):
     aid, expected = ARTIFACTS[key]
     token = os.environ.get("GITHUB_TOKEN")
     if not token:
-        raise SystemExit("GITHUB_TOKEN required")
+        raise SystemExit("GITHUB_TOKEN required for artifact rebuild")
     req = urllib.request.Request(
         f"https://api.github.com/repos/{REPO}/actions/artifacts/{aid}/zip",
         headers={
@@ -71,7 +100,6 @@ def gf2_rank(rows):
     return rank
 
 def left_nullspace_f2(A):
-    # rows x such that x*A=0; compute nullspace of A^T.
     B=[[int(A[r,c])&1 for r in range(A.rows)] for c in range(A.cols)]
     m=len(B); n=A.rows; rank=0; piv=[]
     for c in range(n):
@@ -100,7 +128,6 @@ with download_artifact("br0b") as z:
 with download_artifact("br0g") as z:
     bg = jload(z, "boundary-galois.json")
 
-# Reconstruct the exact SAME Smith unit basis used by Stage33-03.
 M=sp.Matrix(br0a["boundary_to_pic_matrix"])
 if M.shape!=(72,64):
     raise SystemExit("boundary-to-Pic shape regression")
@@ -160,109 +187,49 @@ for e in entries:
 if gf2_rank(kappas)!=2 or gf2_rank(null_q+kappas)!=2:
     raise SystemExit("KAPPA span is not the Q-component mod2 kernel")
 
-# Q(i)-orbit patterns of the two mod2 kernel directions are independent.
 qi_patterns=[]
 for n in null_q:
     qi_patterns.append([sum(n[r]*int(Vqi[r,c]) for r in range(14))&1 for c in range(12)])
 if gf2_rank(qi_patterns)!=2:
     raise SystemExit("Q(i) restriction patterns do not separate the two Q-kernel directions")
 
-# Group-theoretic kernel proof:
-# Vq Smith [1^12,2,2] forces any zero Q-residue element to two arbitrary
-# quadratic characters along null_q.  The independent Q(i) patterns then force
-# both quadratic characters to restrict trivially to G_Q(i).  The kernel of
-# restriction on quadratic Q-characters is exactly <chi_-1>.  Since the two
-# audited KAPPA vectors span null_q and both carry chi_-1, the full residue-map
-# kernel is exactly <KAPPA_1,KAPPA_2>.
-
-# Directly verify each audited KAPPA has zero physical-boundary residue: Q-side
-# parity is zero by null_q; Q(i)-side vanishes because chi_-1|G_Q(i)=0.
 kappa_q_patterns=[]
 for k in kappas:
-    pat=[sum(k[r]*int(Vq[r,c]) for r in range(14))&1 for c in range(48)]
-    if any(pat):
-        raise SystemExit("KAPPA has nonzero Q-component residue")
-    kappa_q_patterns.append(pat)
+    kappa_q_patterns.append([sum(k[r]*int(Vq[r,c]) for r in range(14))&1 for c in range(48)])
+if any(any(row) for row in kappa_q_patterns):
+    raise SystemExit("audited KAPPA has nonzero Q-boundary residue")
 
-cert={
+out={
     "schema":"STAGE33_07_BR0B_TO_BOUNDARY_RESIDUE_MAP_V2",
     "source_locks":{
-        "br0a_artifact_id":ARTIFACTS["br0a"][0],
-        "br0a_artifact_sha256":ARTIFACTS["br0a"][1],
-        "br0b_artifact_id":ARTIFACTS["br0b"][0],
-        "br0b_artifact_sha256":ARTIFACTS["br0b"][1],
-        "br0g_artifact_id":ARTIFACTS["br0g"][0],
-        "br0g_artifact_sha256":ARTIFACTS["br0g"][1],
-        "boundary_to_pic_matrix_sha256":br0a["boundary_to_pic_matrix_sha256"],
+        "br0a_artifact_id":ARTIFACTS["br0a"][0],"br0a_artifact_sha256":ARTIFACTS["br0a"][1],
+        "br0b_artifact_id":ARTIFACTS["br0b"][0],"br0b_artifact_sha256":ARTIFACTS["br0b"][1],
+        "br0g_artifact_id":ARTIFACTS["br0g"][0],"br0g_artifact_sha256":ARTIFACTS["br0g"][1],
+        "boundary_to_pic_matrix_sha256":hashlib.sha256(json.dumps(br0a["boundary_to_pic_matrix"],separators=(",",":")).encode()).hexdigest(),
+        "d2_01_sha256":d2["canonical_sha256"],"br0b_inventory_sha256":br0b["canonical_sha256"],
         "boundary_galois_sha256":bg["canonical_sha256"],
-        "d2_01_sha256":d2["canonical_sha256"],
-        "br0b_inventory_sha256":br0b["canonical_sha256"],
     },
-    "basis_correction":{
-        "stage33_03_smith_unit_basis_reconstructed":True,
-        "br0a_reported_kernel_basis_used_as_stage33_03_smith_basis":False,
-        "reason":"Stage33-03 H2 coordinates are rows 59..72 of the Smith left transform S; the BR0A artifact kernel basis is an independently valid but different Z-basis.",
-    },
-    "arithmetic_boundary_orbits":60,
-    "q_boundary_orbits":48,
-    "qi_boundary_orbits":12,
-    "unit_rank":14,
-    "unit_to_arithmetic_boundary_valuation_matrix_14x60":[[int(V[r,c]) for c in range(60)] for r in range(14)],
-    "full_coefficient_matrix_rank":14,
-    "full_coefficient_matrix_smith_nonzero_diagonal":all_diag,
-    "full_coefficient_lattice_primitive":True,
-    "q_component_coefficient_matrix_smith_nonzero_diagonal":q_diag,
-    "q_component_mod2_kernel_dimension":2,
-    "q_component_mod2_kernel_basis":null_q,
-    "kappa_f2_basis":kappas,
-    "kappa_span_equals_q_component_mod2_kernel":True,
-    "qi_patterns_of_q_kernel_basis":qi_patterns,
-    "qi_pattern_rank_f2":2,
-    "character_residue_rule":{
-        "Q_component":"rho_D(chi,u)=v_D(u)*chi",
-        "Q_i_component":"rho_D(chi,u)=v_D(u)*Res_{G_Q(i)}(chi)",
-        "kernel_of_quadratic_restriction_Q_to_Qi":"<chi_-1>",
-    },
-    "kappa_residue_zero":{
-        "both_q_component_patterns_zero":True,
-        "both_qi_component_patterns_zero":True,
-        "qi_zero_reason":"both KAPPA relations use chi_-1, whose restriction to G_Q(i) is zero",
-    },
+    "basis_correction":{"br0a_reported_kernel_basis_used_as_stage33_03_smith_basis":False,"stage33_03_smith_unit_basis_reconstructed":True,"reason":"Stage33-03 H2 coordinates are rows 59..72 of the Smith left transform S; the BR0A artifact kernel basis is an independently valid but different Z-basis."},
+    "unit_rank":14,"arithmetic_boundary_orbits":60,"q_boundary_orbits":48,"qi_boundary_orbits":12,
+    "unit_to_arithmetic_boundary_valuation_matrix_14x60":[[int(x) for x in V.row(r)] for r in range(14)],
+    "full_coefficient_matrix_rank":V.rank(),"full_coefficient_matrix_smith_nonzero_diagonal":all_diag,"full_coefficient_lattice_primitive":True,
+    "q_component_coefficient_matrix_smith_nonzero_diagonal":q_diag,"q_component_mod2_kernel_dimension":2,"q_component_mod2_kernel_basis":null_q,
+    "kappa_f2_basis":kappas,"kappa_span_equals_q_component_mod2_kernel":True,"qi_patterns_of_q_kernel_basis":qi_patterns,"qi_pattern_rank_f2":2,
+    "character_residue_rule":{"Q_component":"rho_D(chi,u)=v_D(u)*chi","Q_i_component":"rho_D(chi,u)=v_D(u)*Res_{G_Q(i)}(chi)","kernel_of_quadratic_restriction_Q_to_Qi":"<chi_-1>"},
+    "kappa_residue_zero":{"both_q_component_patterns_zero":True,"both_qi_component_patterns_zero":True,"qi_zero_reason":"both KAPPA relations use chi_-1, whose restriction to G_Q(i) is zero"},
     "exact_kernel_statement":"ker(X_Q^14 -> X_Q^48 direct_sum X_Q(i)^12 via unit valuations/restriction) = <KAPPA_1,KAPPA_2>",
-    "induced_left_filtration_boundary_map_injective":True,
-    "induced_domain":"X_Q^14/<KAPPA_1,KAPPA_2>",
+    "induced_domain":"X_Q^14/<KAPPA_1,KAPPA_2>","induced_left_filtration_boundary_map_injective":True,
     "odd_primary_submap_injective":"X_Q,odd^14 injects into the odd-primary BR0G constant-character module",
     "two_primary_left_submap_injective":"X_Q[2^infinity]^14/<KAPPA_1,KAPPA_2> injects into the two-primary BR0G constant-character module",
     "left_filtration_br0b_br0g_duplicate_overlap_exact":True,
     "exact_conclusion":"The complete Stage33-03 left filtration is exactly identified with its image inside the Stage33-04 constant-character boundary module; its only raw character-unit residue kernel is the already-quotiented KAPPA_1,KAPPA_2 image. No extra left-filtration class is deleted.",
+    "symbol_matrix_exact_for_two_primary_branch":False,"relation_matrix_exact_for_two_primary_branch":False,"trivial_algebraic_duplicate_quotient_exact":False,
+    "complete_relevant_q_defined_class_list_for_stage33_brauer_scope":False,
     "new_residual_kernel":"R33-BR2A-BR0B-RIGHT-FILTRATION-BOUNDARY-LIFT-AND-FINITE-RAMIFIED-INTEGRATION",
     "next_exact_leaf":"L33-07-MATERIALIZE-H1-PICU-FIVE-PLUS-QUADRATIC-LIFT-BOUNDARY-RESIDUES-AND-MATCH-RAMIFIED-MODULE",
-    "relation_matrix_exact_for_two_primary_branch":False,
-    "symbol_matrix_exact_for_two_primary_branch":False,
-    "trivial_algebraic_duplicate_quotient_exact":False,
-    "complete_relevant_q_defined_class_list_for_stage33_brauer_scope":False,
-    "unresolved_unknown_in_scope":1,
-    "unit_status":"RUNNING",
-    "unit_closed":False,
-    "downstream_released":False,
-    "stage33_progress":"6/11",
-    "stage33_08_released":False,
-    "theorem_credit":False,
-    "endpoint_credit":False,
-    "perfect_cuboid_nonexistence_claim":False,
+    "unit_status":"RUNNING","unit_closed":False,"downstream_released":False,"stage33_progress":"6/11","stage33_08_released":False,"unresolved_unknown_in_scope":1,
+    "theorem_credit":False,"endpoint_credit":False,"perfect_cuboid_nonexistence_claim":False,
 }
-canonical=json.dumps(cert,sort_keys=True,separators=(",",":")).encode()
-cert["canonical_sha256"]=hashlib.sha256(canonical).hexdigest()
-(HERE/"br0b-boundary-raw-residue-map.json").write_text(json.dumps(cert,indent=2,sort_keys=True)+"\n",encoding="utf-8")
-print(json.dumps({
-    "success":True,
-    "full_smith":all_diag,
-    "q_smith":q_diag,
-    "q_mod2_kernel_dim":2,
-    "kappa_span_is_kernel":True,
-    "qi_pattern_rank":2,
-    "induced_left_filtration_map_injective":True,
-    "remaining_kernel":cert["new_residual_kernel"],
-    "next_leaf":cert["next_exact_leaf"],
-    "certificate_sha256":cert["canonical_sha256"],
-},indent=2,sort_keys=True))
+raw=json.dumps(out,sort_keys=True,separators=(",",":")).encode(); out["canonical_sha256"]=hashlib.sha256(raw).hexdigest()
+RETAINED.write_text(json.dumps(out,indent=2,sort_keys=True)+"\n",encoding="utf-8")
+print(json.dumps({"success":True,"source":"ARTIFACT_REBUILD","canonical_sha256":out["canonical_sha256"],"induced_left_filtration_boundary_map_injective":True,"stage33_progress":"6/11"},indent=2,sort_keys=True))
