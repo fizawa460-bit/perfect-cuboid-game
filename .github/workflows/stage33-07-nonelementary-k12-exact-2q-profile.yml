@@ -21,6 +21,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Rebuild exact non-elementary predecessor chain
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
       - name: Exact full-Q4 to 2Q-profile reduction
         working-directory: stages/stage33/33-07
         run: python certify_nonelementary_k12_exact_2q_profile_filter.py
