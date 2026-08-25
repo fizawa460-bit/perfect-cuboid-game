@@ -3,8 +3,12 @@ name: Stage33-07 elementary q64 coordinate-sign action
 on:
   pull_request:
     paths:
-      - 'stages/stage33/33-07/extract_endpoint_coordinate_sign_discriminant_actions.py'
+      - 'stages/stage33/33-07/extract_picard_coordinate_sign_action_rows.py'
+      - 'stages/stage33/33-07/extract_picard_gram_rows.py'
+      - 'stages/stage33/33-07/extract_picard_action_rows.py'
+      - 'stages/stage33/33-07/derive_endpoint_coordinate_sign_discriminant_from_split.py'
       - 'stages/stage33/33-07/certify_elementary_index512_q64_coordinate_sign_shard.py'
+      - 'stages/stage33/33-07/certify_elementary_index512_q64_coordinate_sign_split_shard.py'
       - 'stages/stage33/33-07/aggregate_elementary_index512_q64_coordinate_sign.py'
       - 'stages/stage33/33-07/elementary-index512-q256-simultaneous-v4-census-retained.json'
       - 'stages/stage33/33-07/elementary_index512_q256_retained.py'
@@ -15,9 +19,9 @@ permissions:
   contents: read
 
 jobs:
-  endpoint-signs:
+  base-rows:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: stages/stage33/33-07
@@ -26,24 +30,84 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Extract exact endpoint coordinate-sign discriminant actions
-        run: python extract_endpoint_coordinate_sign_discriminant_actions.py
-      - name: Enforce endpoint sign source lock
+      - name: Extract Gram and Galois rows in bounded requests
+        run: |
+          python extract_picard_gram_rows.py
+          python extract_picard_action_rows.py cc
+          python extract_picard_action_rows.py ct
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-coordinate-sign-split-base
+          retention-days: 5
+          path: |
+            stages/stage33/33-07/picard-gram-rows.json
+            stages/stage33/33-07/picard-action-cc.json
+            stages/stage33/33-07/picard-action-ct.json
+
+  sign-row:
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        sign: [a1,a2,a3,b1,b2,b3,c]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract one exact Picard coordinate-sign action
+        run: python extract_picard_coordinate_sign_action_rows.py ${{ matrix.sign }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-coordinate-sign-row-${{ matrix.sign }}
+          path: stages/stage33/33-07/picard-action-sign-${{ matrix.sign }}.json
+          retention-days: 5
+
+  endpoint-signs:
+    needs: [base-rows,sign-row]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage33-07-coordinate-sign-*
+          merge-multiple: true
+          path: stages/stage33/33-07
+      - name: Install exact integer algebra dependency
+        run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0
+      - name: Derive common-Smith endpoint q cc ct and seven signs
+        run: python derive_endpoint_coordinate_sign_discriminant_from_split.py
+      - name: Enforce endpoint split source lock
         run: |
           python - <<'PY'
           import json
-          x=json.load(open('endpoint-coordinate-sign-discriminant-actions.json'))
+          x=json.load(open('endpoint-coordinate-sign-discriminant-actions-split.json'))
+          assert x['schema']=='STAGE33_07_ENDPOINT_COORDINATE_SIGN_DISCRIMINANT_ACTIONS_SPLIT_V2'
           assert len(x['sign_actions_mixed_moduli'])==7
-          assert x['cc_ct_literal_coordinate_lock_match']
+          assert x['discriminant_moduli']==[2]*4+[4]*6+[8]*4
+          assert x['all_actions_well_defined_involutions_and_q_isometries']
           assert x['seven_sign_involutions_commute'] and x['seven_sign_product_identity'] and x['signs_commute_with_cc_ct']
+          assert x['split_cc_fixed_Q2_log2']==10 and x['split_ct_fixed_Q2_log2']==13
           assert not x['actual_index512_glue_identified'] and x['stage33_progress']=='6/11'
-          print('ENDPOINT_COORDINATE_SIGN_DISCRIMINANT_ACTIONS=PASS_EXACT')
+          print('ENDPOINT_COORDINATE_SIGN_DISCRIMINANT_ACTIONS_SPLIT=PASS_EXACT')
           print('CERT_SHA256='+x['canonical_sha256'])
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-endpoint-coordinate-sign-actions
-          path: stages/stage33/33-07/endpoint-coordinate-sign-discriminant-actions.json
+          name: stage33-07-endpoint-coordinate-sign-actions-split
+          path: stages/stage33/33-07/endpoint-coordinate-sign-discriminant-actions-split.json
           retention-days: 5
 
   sign-shard:
@@ -64,15 +128,15 @@ jobs:
           python-version: '3.12'
       - uses: actions/download-artifact@v4
         with:
-          name: stage33-07-endpoint-coordinate-sign-actions
+          name: stage33-07-endpoint-coordinate-sign-actions-split
           path: stages/stage33/33-07
       - name: Install exact algebra and SMT dependencies
         run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0 z3-solver==4.15.3.0
-      - name: Solve q64 coordinate-sign shard
+      - name: Solve q64 coordinate-sign shard against split endpoint
         env:
           SHARD_INDEX: ${{ matrix.shard }}
           SHARD_COUNT: '16'
-        run: python certify_elementary_index512_q64_coordinate_sign_shard.py
+        run: python certify_elementary_index512_q64_coordinate_sign_split_shard.py
       - name: Enforce shard firewall
         env:
           SHARD_INDEX: ${{ matrix.shard }}
@@ -82,7 +146,7 @@ jobs:
           i=int(os.environ['SHARD_INDEX']);x=json.load(open(f'elementary-index512-q64-coordinate-sign-shard-{i}.json'))
           assert x['shard_index']==i and x['candidate_count']==4 and len(x['results'])==4
           assert not x['actual_index512_glue_identified'] and x['stage33_progress']=='6/11'
-          print(f'Q64_COORDINATE_SIGN_SHARD_{i}=PASS_EXACT')
+          print(f'Q64_COORDINATE_SIGN_SPLIT_SHARD_{i}=PASS_EXACT')
           PY
       - uses: actions/upload-artifact@v4
         with:
