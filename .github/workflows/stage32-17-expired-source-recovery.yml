@@ -1,0 +1,265 @@
+name: Stage32-17 recover expired source locks and finish wave3
+
+on:
+  push:
+    branches:
+      - stage32-17-e20-tier114186
+    paths:
+      - '.github/workflows/stage32-17-expired-source-recovery.yml'
+      - 'stages/stage32/32-17-recovery/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-17-expired-source-recovery
+  cancel-in-progress: false
+
+env:
+  SOURCE_RUN_ID: '32779320736'
+  EXPECTED_SOURCE_HEAD: '2183ec288f89ff3301609bd626391545cdc19b3c'
+  EXPECTED_PROFILE_SHA: 'e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384534d53fa1fee67c5'
+  EXPECTED_PREDECESSOR_SHA: '5e6a447f7df3a712d6b8c873bc7e912f58b74b44cf4f461dc4cecd800c9e516c'
+  EXPECTED_CAP_SHA: '75224aee543dcd4a56e814503765d1e1e69514b237fb900688243546ea6b4d03'
+
+jobs:
+  recover-locks:
+    name: rederive exact core/profile and lock surviving wave0-2 evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    outputs:
+      wave3_matrix: ${{ steps.lock.outputs.wave3_matrix }}
+      plan_sha: ${{ steps.lock.outputs.plan_sha }}
+      core_sha: ${{ steps.lock.outputs.core_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: pip install -r stages/stage32/32-05/requirements.txt
+      - name: Re-derive source-locked Picard core from pinned upstream blob
+        run: |
+          rm -f stages/stage32/32-01/picard-core.json
+          ok=false
+          for attempt in 1 2 3; do
+            if python stages/stage32/32-01/run_sparse_picard_export.py; then
+              ok=true
+              break
+            fi
+            rm -f stages/stage32/32-01/picard-core.json
+            sleep 10
+          done
+          test "$ok" = true
+          test -s stages/stage32/32-01/picard-core.json
+      - name: Re-derive exact dual caps and full e20/a0 profile
+        run: |
+          mkdir -p "$RUNNER_TEMP/lock" "$RUNNER_TEMP/source-plan"
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/lock/picard-core.json"
+          python stages/stage32/32-05/derive_intersection_caps.py \
+            --core "$RUNNER_TEMP/lock/picard-core.json" \
+            --output "$RUNNER_TEMP/lock/caps.json"
+          python stages/stage32/32-08/profile_materialization_schedule.py \
+            --core "$RUNNER_TEMP/lock/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/lock/caps.json" \
+            --output "$RUNNER_TEMP/lock/e20-profile.json" \
+            --exceptional-mass 20 --curve-group-mass 0
+      - name: Recover the exact Stage32-17 plan from the failed source run
+        run: |
+          gh run download "$SOURCE_RUN_ID" \
+            --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-17-e20-tier114186-plan \
+            --dir "$RUNNER_TEMP/source-plan"
+          cp "$RUNNER_TEMP/source-plan/e20-tier114186-plan.json" "$RUNNER_TEMP/lock/e20-tier114186-plan.json"
+      - id: lock
+        name: Verify exact hashes and surviving bundle inventory
+        run: |
+          gh api "repos/fizawa460-bit/perfect-cuboid-game/actions/runs/$SOURCE_RUN_ID/artifacts?per_page=100" \
+            > "$RUNNER_TEMP/source-artifacts.json"
+          python - <<'PY'
+          import hashlib, json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          lock=root/'lock'
+          core=json.loads((lock/'picard-core.json').read_text())
+          caps=json.loads((lock/'caps.json').read_text())
+          profile=json.loads((lock/'e20-profile.json').read_text())
+          plan=json.loads((lock/'e20-tier114186-plan.json').read_text())
+          inv=json.loads((root/'source-artifacts.json').read_text())
+          def csha(x):
+              return hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':'),ensure_ascii=True).encode()).hexdigest()
+          assert core['schema']=='STAGE32_PICARD_CORE_INDLIST_V1'
+          assert core['source']['git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          u=dict(core); core_claimed=u.pop('canonical_sha256_without_this_field'); assert csha(u)==core_claimed
+          assert caps['canonical_sha256_without_this_field']==os.environ['EXPECTED_CAP_SHA']
+          u=dict(caps); claimed=u.pop('canonical_sha256_without_this_field'); assert csha(u)==claimed
+          assert profile['canonical_sha256_without_this_field']==os.environ['EXPECTED_PROFILE_SHA']
+          u=dict(profile); claimed=u.pop('canonical_sha256_without_this_field'); assert csha(u)==claimed
+          assert profile['signature_cell_count']==1182
+          assert plan['schema']=='STAGE32_D8_E20_A0_TIER114186_WORK_BALANCED_PLAN_V1'
+          u=dict(plan); plan_sha=u.pop('canonical_sha256_without_this_field'); assert csha(u)==plan_sha
+          assert plan['profile_sha256']==os.environ['EXPECTED_PROFILE_SHA']
+          assert plan['predecessor_sha256']==os.environ['EXPECTED_PREDECESSOR_SHA']
+          assert plan['cumulative_cell_count']==417 and plan['cumulative_branch_count']==16724262
+          wave3=next(w for w in plan['bounded_waves'] if int(w['wave_index'])==3)
+          wave3_ids=list(map(str,wave3['bundle_ids']))
+          assert len(wave3_ids)==20 and plan['pilot_bundle_id'] not in wave3_ids
+          all_ids={str(b['bundle_id']) for b in plan['bundles']}
+          assert len(all_ids)==80
+          expected_surviving=all_ids-set(wave3_ids)
+          arts=inv['artifacts']
+          assert all(a['workflow_run']['head_sha']==os.environ['EXPECTED_SOURCE_HEAD'] for a in arts)
+          available={a['name'].removeprefix('stage32-17b-e20-') for a in arts if a['name'].startswith('stage32-17b-e20-') and not a['expired']}
+          assert available==expected_surviving, (len(available),len(expected_surviving),sorted(expected_surviving-available),sorted(available-expected_surviving))
+          matrix=[{'bundle_id':bid} for bid in wave3_ids]
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('wave3_matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+              fh.write('plan_sha='+plan_sha+'\n')
+              fh.write('core_sha='+core_claimed+'\n')
+          print(json.dumps({'core_sha':core_claimed,'plan_sha':plan_sha,'surviving_bundles':len(available),'missing_wave3_bundles':len(matrix)},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-17-recovered-source-locks
+          path: |
+            ${{ runner.temp }}/lock/picard-core.json
+            ${{ runner.temp }}/lock/caps.json
+            ${{ runner.temp }}/lock/e20-profile.json
+            ${{ runner.temp }}/lock/e20-tier114186-plan.json
+          retention-days: 30
+          if-no-files-found: error
+
+  wave3-recovery:
+    name: recovered-e20-wave3-work-bundle-${{ matrix.bundle_id }}
+    needs: recover-locks
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        include: ${{ fromJSON(needs.recover-locks.outputs.wave3_matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install pinned exact dependencies
+        run: |
+          pip install -r stages/stage32/32-05/requirements.txt
+          pip install -r stages/stage32/32-03/requirements.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-17-recovered-source-locks
+          path: ${{ runner.temp }}/lock
+      - name: Execute only the missing wave3 bundle
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-17/run_e20_work_bundle.py \
+            --core "$RUNNER_TEMP/lock/picard-core.json" \
+            --cap-certificate "$RUNNER_TEMP/lock/caps.json" \
+            --plan "$RUNNER_TEMP/lock/e20-tier114186-plan.json" \
+            --bundle-id "${{ matrix.bundle_id }}" \
+            --output-dir "$RUNNER_TEMP/out" \
+            --node-limit-per-branch 1000000 \
+            --max-raw-bytes 1000000000 --max-compact-bytes 20000
+      - name: Enforce exact bundle completion and recovered-context identity
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          r=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          assert not list(r.glob('*-raw.json'))
+          receipt=json.loads((r/'bundle-receipt.json').read_text())
+          assert receipt['all_items_complete'] is True
+          assert receipt['unknown_branch_count']==0
+          assert receipt['executed_branches']==receipt['planned_expected_branches']
+          certs=list(r.glob('*-compact.json'))
+          assert len(certs)==receipt['item_count']
+          for p in certs:
+              x=json.loads(p.read_text())
+              assert x['shared_context_certificate_sha256']=='5315b8188d36ca4ae35d3d943cd10b8783a3e602fd157b83a4bf6b1e725ab835'
+              assert x['unknown_branch_count']==0 and x['all_branches_complete'] is True
+              assert p.stat().st_size<=20000
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-17r-e20-${{ matrix.bundle_id }}
+          path: ${{ runner.temp }}/out
+          retention-days: 30
+          if-no-files-found: error
+
+  aggregate-recovery:
+    name: recovered cumulative exact e20/a0 tier <=114186
+    needs: [recover-locks, wave3-recovery]
+    if: needs.recover-locks.result == 'success' && needs.wave3-recovery.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-17-recovered-source-locks
+          path: ${{ runner.temp }}/lock
+      - name: Download all successful wave0-2 plus pilot evidence from source run
+        run: |
+          mkdir -p "$RUNNER_TEMP/certs/source" "$RUNNER_TEMP/final"
+          gh run download "$SOURCE_RUN_ID" \
+            --repo fizawa460-bit/perfect-cuboid-game \
+            --pattern 'stage32-17b-e20-*' \
+            --dir "$RUNNER_TEMP/certs/source"
+      - name: Download all recovered wave3 evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-17r-e20-*
+          path: ${{ runner.temp }}/certs/recovered
+          merge-multiple: false
+      - name: Reaggregate all 364 work items using hostile-audited predecessor import
+        run: |
+          python stages/stage32/32-17-recovery/aggregate_recovered_e20_tier114186.py \
+            --profile "$RUNNER_TEMP/lock/e20-profile.json" \
+            --predecessor-audit-state stages/stage32/32-16/execution-state.json \
+            --plan "$RUNNER_TEMP/lock/e20-tier114186-plan.json" \
+            --input-dir "$RUNNER_TEMP/certs" \
+            --output "$RUNNER_TEMP/final/e20-tier114186-recovered.json"
+      - name: Enforce exact recovery boundary
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'final/e20-tier114186-recovered.json'
+          x=json.loads(p.read_text())
+          assert x['schema']=='STAGE32_D8_E20_A0_EXACT_TIER_LE114186_AUDIT_IMPORT_V2'
+          assert x['selected_cell_count']==417
+          assert x['selected_total_materialized_branches']==16724262
+          assert x['delta_cell_count']==116 and len(x['delta_cell_summaries'])==116
+          assert x['unknown_branch_count']==0 and x['exact_numerical_survivor_count']==0
+          assert len(x['bundle_receipt_shas'])==80
+          assert x['recovery_integrity']['all_364_delta_work_items_verified'] is True
+          assert x['next_profile_wall']['branch_count']==115712
+          assert x['next_profile_wall']['cell_multiplicity']==128
+          assert p.stat().st_size<=10000000
+          print(json.dumps({'recovered_sha':x['canonical_sha256_without_this_field'],'delta_nodes':x['delta_search_nodes'],'total_nodes':x['total_search_nodes']},sort_keys=True))
+          PY
+      - name: Preserve self-contained exact evidence beyond transient bundle retention
+        run: |
+          cp stages/stage32/32-16/execution-state.json "$RUNNER_TEMP/final/stage32-16-predecessor-audit-state.json"
+          cp "$RUNNER_TEMP/lock/picard-core.json" "$RUNNER_TEMP/final/picard-core.json"
+          cp "$RUNNER_TEMP/lock/caps.json" "$RUNNER_TEMP/final/intersection-cap-certificates.json"
+          cp "$RUNNER_TEMP/lock/e20-profile.json" "$RUNNER_TEMP/final/e20-profile.json"
+          cp "$RUNNER_TEMP/lock/e20-tier114186-plan.json" "$RUNNER_TEMP/final/e20-tier114186-plan.json"
+          mkdir -p "$RUNNER_TEMP/final/compact-evidence"
+          cp -R "$RUNNER_TEMP/certs/source" "$RUNNER_TEMP/final/compact-evidence/source-run-wave0-2"
+          cp -R "$RUNNER_TEMP/certs/recovered" "$RUNNER_TEMP/final/compact-evidence/recovered-wave3"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-17-e20-a0-le114186-recovered-exact-tier
+          path: ${{ runner.temp }}/final
+          retention-days: 30
+          if-no-files-found: error
