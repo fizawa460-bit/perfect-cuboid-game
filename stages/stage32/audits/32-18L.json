@@ -1,0 +1,116 @@
+{
+  "schema": "STAGE32_18L_D16_B12_HOSTILE_AUDIT_STATE_V1",
+  "stage": "32",
+  "unit": "32-18L",
+  "pr": 1397,
+  "audited_functional_head": "6f7f0966ce4e20d902ccf6957c0369d60720c6d5",
+  "audit_verdict": "PASS_EXACT_RESCUE_AWARE_D16_B12_CENSUS_WITH_NESTED_PARTITION_AND_B10_PREDECESSOR_LOCK",
+  "bound": 12,
+  "exact_result": {
+    "canonical_survivors_including_zero": 8697,
+    "canonical_nonzero_survivors": 8696,
+    "canonical_norm_histogram": {"0":1,"2":1,"4":7,"6":28,"8":223,"10":1170,"12":7267},
+    "new_norm12_canonical_survivors": 7267,
+    "canonical_dump_sha256": "03616e7c03cdca9b4c8408cec671b0ef6bd26713fe5ca60e2021a7d6e897abd5"
+  },
+  "source_locks": {
+    "stable_aut_content_sha256": "7aa6c9be4a91a25549950e1e45c2349146c6ea4cd035ff9133b41e9de3032bc3",
+    "prepared_hperp_sha256": "7cd24466752b21a30b4f523c04892215d5ad0f33d1cc61bc09fa8f6dc815edd3",
+    "aut_group_order": 1536,
+    "breaker_count": 256,
+    "split_coordinate": 54
+  },
+  "current_head_reproducibility": {
+    "workflow_run": 32907342919,
+    "workflow_job": 97994222394,
+    "conclusion": "SUCCESS",
+    "artifact_id": 9585370018,
+    "artifact_name": "stage32-18l-d16-b12-final-production-g1",
+    "artifact_zip_sha256": "6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658",
+    "artifact_size_in_bytes": 173017,
+    "independent_zip_rehash_match": true,
+    "independent_dump_rehash_match": true,
+    "independent_record_count": 8697,
+    "independent_unique_record_count": 8697,
+    "independent_histogram_match": true
+  },
+  "historical_production_witness": {
+    "workflow_run": 32907035919,
+    "artifact_id": 9585249625,
+    "artifact_zip_sha256": "a68fbae867789862fff057cd9a3f8c46823dbd3c6b54fb74fb675bcab001e4ea"
+  },
+  "coverage": {
+    "ordinary_18e_run": 32877018247,
+    "ordinary_64way_ids": "ALL_0_TO_63_EXCEPT_26",
+    "rescue_18f_run": 32896909852,
+    "rescue_256way_ids": [90,154,218],
+    "deep_18g_run": 32901761192,
+    "accepted_completed_deep_1024way_ids": [282,538,794],
+    "cancelled_18g_26_of1024_used": false,
+    "cancelled_18g_parent_synthesis_used": false,
+    "logical26_18k_run": 32906774961,
+    "logical26_artifact_id": 9585131672,
+    "logical26_artifact_zip_sha256": "066e6aa2468671bd3733f17e0ef47b6cb2e22d9ad900f17d6b7fed1b011570f4",
+    "logical26_canonical_survivors_including_zero": 5747,
+    "logical26_canonical_dump_sha256": "a448f9b4af9c7f34c1e600865fab35a3be2c38e9f456cf49f47b0afae615c4dd",
+    "nested_residue_partition_exact": true,
+    "global_union_duplicate_free": true,
+    "artifact_inventory_count": 71
+  },
+  "logical26_secondary_partition": {
+    "secondary_split_coordinate": 45,
+    "secondary_shard_count": 32,
+    "secondary_partition_complete": true,
+    "common_split_prefix_scan_required": true,
+    "owned_prefix_union_equals_common_scan": true,
+    "duplicate_free": true,
+    "secondary5_independent_18j_crosscheck": {
+      "canonical_record_set_identical": true,
+      "record_order_identical": false,
+      "record_count": 3680,
+      "normalized_record_set_sha256": "0b85a8ce7963673376ac0e6d3d5efda8256b8bbde9bf17e730b7ce1adbf10f98"
+    }
+  },
+  "predecessor_regression": {
+    "audited_b10_count": 1430,
+    "audited_b10_dump_sha256": "186085d4824e8752f11fa81c5f538e54fe724268defe288e5c2e004613bb474a",
+    "b12_norm_le10_count": 1430,
+    "byte_identical": true,
+    "histogram": {"0":1,"2":1,"4":7,"6":28,"8":223,"10":1170}
+  },
+  "full_aut_verification": {
+    "group_order": 1536,
+    "canonical_pairings_unique": true,
+    "every_emitted_pairing_is_full_group_score_then_lex_minimum": true,
+    "verified_records": 8697
+  },
+  "exactness": {
+    "traversal_completeness_certificate": true,
+    "all_symmetry_branch_rejections_exact_rational_cauchy_schwarz": true,
+    "floating_arithmetic_can_reject_branch_without_exact_proof": false,
+    "b6_256_breaker_regression_matches_hostile_audited_37_record_set": true
+  },
+  "telemetry": {
+    "single_run_global_nodes_claimed": false,
+    "single_run_global_coordinate_trials_claimed": false,
+    "reason": "nested rescue executions repeat work above deeper split coordinates"
+  },
+  "credit": {
+    "D16_B12_NUMERICAL_CREDIT": true,
+    "D16_B12_TRAVERSAL_CERTIFIED": true,
+    "D16_B12_CANONICAL_ORBIT_SET_CERTIFIED": true,
+    "FAST_TRAVERSAL_GLOBAL_COMPLETENESS_CERTIFIED": false,
+    "SNAPSHOT_FAST_GLOBAL_COMPLETENESS_CERTIFIED": false,
+    "FULL_D16_G0_ROW_COMPLETE": false,
+    "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+    "R29_LG2_NUMERICAL_COMPONENT_COMPLETE": false,
+    "R29_LG2": "NOT_DISCHARGED",
+    "R29_LG2_EFF": "NOT_DISCHARGED",
+    "R29_LG2_MB": "NOT_DISCHARGED",
+    "THEOREM_CREDIT": false,
+    "RECEIVER_CREDIT": false,
+    "STAGE32_CLOSED": false
+  },
+  "next_item": "32-18M-D16-POST-B12-NEXT-BOUNDED-PRODUCTION-DESIGN",
+  "next_expected_command": "Stage32-main-batch"
+}
