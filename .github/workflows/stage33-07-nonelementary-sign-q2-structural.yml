@@ -74,13 +74,19 @@ jobs:
           assert s['exact_P_W_skeleton_count']==7236
           assert s['lift_section_affine_fibre_size_by_t']=={'1':4194304,'2':2097152}
           assert s['structural_H_count_reconstructed']==24838668288
+          assert s['forced_cc_mod2_compatible_skeleton_count']==2628
+          assert s['forced_cc_mod2_compatible_profile_by_t']=={'1':1152,'2':1476}
+          assert s['forced_cc_mod2_rejected_skeleton_count']==4608
+          assert s['forced_cc_mod2_rejected_profile_by_t']=={'1':3456,'2':1152}
+          assert s['structural_H_count_after_forced_cc_mod2']==7927234560
+          assert s['structural_H_rejected_by_forced_cc_mod2']==16911433728
           assert s['symmetry_order']==288 and s['symmetry_preserves_ambient_q_and_source_species']
-          assert s['exact_orbit_count']==309
-          assert s['orbit_size_histogram']=={'3':3,'9':101,'18':107,'36':74,'72':24}
-          assert s['orbit_size_sum']==7236
-          assert len(s['orbit_representatives'])==309
-          assert s['canonical_sha256']=='0fe42fd498c91ac466f6ed21960adb6a2485cfd1a011bcaaa597ff606901cd15'
-          assert not s['lift_sections_quotiented_or_rejected']
+          assert s['exact_orbit_count']==189
+          assert s['orbit_size_histogram']=={'3':3,'9':101,'18':75,'36':10}
+          assert s['orbit_size_sum']==2628
+          assert len(s['orbit_representatives'])==189
+          assert s['canonical_sha256']=='d01faf0f252da478f2ec36d02027b7db4bd74b6bcf6e93a3b5f12169460b3505'
+          assert not s['surviving_lift_sections_quotiented_or_rejected']
           assert w['exact_witness_type_count']==2
           assert w['exact_witness_types']==['k1_Z4_plus_Z2_7','k2_Z4_2_plus_Z2_5']
           assert all(r['quotient_invariant_factors']==[2]*4+[4]*6+[8]*4 for r in w['records'].values())
@@ -114,7 +120,9 @@ jobs:
           print('NON_ELEMENTARY_TYPES_AFTER_Q4_RANK=3')
           print('NON_ELEMENTARY_STRUCTURAL_H_AFTER_Q4_Q8=1838020348224')
           print('NON_ELEMENTARY_K3_Q8_SKELETONS=7236')
-          print('NON_ELEMENTARY_K3_Q8_SKELETON_ORBITS=309')
+          print('NON_ELEMENTARY_K3_CC_MOD2_SKELETONS=2628')
+          print('NON_ELEMENTARY_K3_CC_MOD2_STRUCTURAL_H=7927234560')
+          print('NON_ELEMENTARY_K3_CC_MOD2_SKELETON_ORBITS=189')
           print('NON_ELEMENTARY_EXACT_QUOTIENT_ACTION_WITNESS_TYPES=2')
           print('NON_ELEMENTARY_EXPLICIT_WITNESSES_REJECTED_BY_Q_FILTRATION=2')
           print('NON_ELEMENTARY_K1_EXPLICIT_WITNESS_FULL_Q=UNSAT_EXACT')

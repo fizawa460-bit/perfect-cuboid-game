@@ -14,10 +14,13 @@ by the integral coordinate symmetry which preserves all source species:
   * arbitrary permutation of the three Ka pieces;
   * Kc fixed.
 
+Before orbiting, the common mod-two reduction of every retained cc lift rejects
+all skeletons whose W is not stable under the three simultaneous Kb swaps.
 The group has order 6*8*6=288.  It preserves the ambient diagonal quadratic
 module, the seven coordinate-sign actions as a set, and the retained Kb/Kc/Ka
-cc/ct action-choice species.  No lift section f is quotiented or rejected here.
-The output is a compact orbit certificate, not an actual-glue identification.
+cc/ct action-choice species.  No lift section f over a surviving skeleton is
+quotiented or rejected here.  The output is a compact orbit certificate, not
+an actual-glue identification.
 """
 import hashlib
 import itertools
@@ -29,13 +32,17 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 STRUCTURAL_LOCK = '235298bd303c0f21d946f6ca537ca30d42e049a6739c1ef106ecef760499c9e9'
 Q8_LOCK = '4a5c84ad765f93442f08991ffdcea0bab6f1ae5a3ab6561157201bba262f75ee'
+ACTION_LOCK = 'a988ea03c86feced95ff41cc5eacb245a5c4e87506bd47848da3125ab16e1f20'
 
 base = json.loads((HERE / 'nonelementary-sign-target-q2-structural-reduction.json').read_text())
 q8 = json.loads((HERE / 'nonelementary-target-q8-exponent-reduction.json').read_text())
+actions = json.loads((HERE / 'coordinate-k3-scaled-action-choices-retained.json').read_text())
 if base.get('canonical_sha256') != STRUCTURAL_LOCK:
     raise SystemExit('E7 structural source lock moved')
 if q8.get('canonical_sha256') != Q8_LOCK:
     raise SystemExit('target-Q8 source lock moved')
+if actions.get('canonical_sha256') != ACTION_LOCK:
+    raise SystemExit('retained action-choice source lock moved')
 
 ns = runpy.run_path(str(HERE / 'certify_nonelementary_sign_q2_structural_reduction.py'))
 subspaces = ns['subspaces']
@@ -173,6 +180,56 @@ structural_h_reconstructed = sum(
 if structural_h_reconstructed != 24838668288:
     raise SystemExit('k3 lift-fibre product regression')
 
+# Every retained cc lift reduces to the same binary action: swap the two
+# coordinates of every Kb piece and fix all Kc/Ka coordinates.  H stability
+# forces W=H[2]/2 to be stable under this action, independently of the lift
+# section f and independently of which retained integral cc lift is chosen.
+for local in actions['pieces']['kb']['cc_actions']:
+    if [[int(x) & 1 for x in row] for row in local] != [[0, 1], [1, 0]]:
+        raise SystemExit('Kb cc mod-two action regression')
+for species in ('kc', 'ka'):
+    for local in actions['pieces'][species]['cc_actions']:
+        if [[int(x) & 1 for x in row] for row in local] != [[1, 0], [0, 1]]:
+            raise SystemExit(f'{species} cc mod-two action regression')
+
+cc_mod2_permutation = list(range(14))
+for a, b in ((0, 1), (2, 3), (4, 5)):
+    cc_mod2_permutation[a], cc_mod2_permutation[b] = b, a
+
+
+def transport_vector(vector, permutation):
+    result = 0
+    for old, new in enumerate(permutation):
+        if (vector >> old) & 1:
+            result |= 1 << new
+    return result
+
+
+cc_compatible_skeletons = set()
+cc_compatible_profile = Counter()
+cc_rejected_profile = Counter()
+for p, w in skeletons:
+    if canon(transport_vector(vector, cc_mod2_permutation) for vector in p) != p:
+        raise SystemExit('E7 P is not stable under the forced cc mod-two action')
+    if canon(transport_vector(vector, cc_mod2_permutation) for vector in w) == w:
+        cc_compatible_skeletons.add((p, w))
+        t = rank([vector & ((1 << 10) - 1) for vector in p])
+        cc_compatible_profile[t] += 1
+    else:
+        t = rank([vector & ((1 << 10) - 1) for vector in p])
+        cc_rejected_profile[t] += 1
+
+if (len(cc_compatible_skeletons) != 2628
+        or cc_compatible_profile != Counter({2: 1476, 1: 1152})
+        or cc_rejected_profile != Counter({1: 3456, 2: 1152})):
+    raise SystemExit(f'forced cc mod-two skeleton filter regression: {len(cc_compatible_skeletons)}, {cc_rejected_profile}')
+structural_h_after_cc_mod2 = sum(
+    count * (1 << (22 if t == 1 else 21))
+    for t, count in cc_compatible_profile.items()
+)
+if structural_h_after_cc_mod2 != 7927234560:
+    raise SystemExit('forced cc mod-two structural-H count regression')
+
 
 def coordinate_permutations():
     for kb_perm in itertools.permutations(range(3)):
@@ -198,14 +255,6 @@ if len(symmetry) != 288 or len(set(symmetry)) != 288:
     raise SystemExit('integral coordinate symmetry order regression')
 
 
-def transport_vector(vector, permutation):
-    result = 0
-    for old, new in enumerate(permutation):
-        if (vector >> old) & 1:
-            result |= 1 << new
-    return result
-
-
 def transport_skeleton(skeleton, permutation):
     p, w = skeleton
     return (
@@ -214,14 +263,14 @@ def transport_skeleton(skeleton, permutation):
     )
 
 
-unseen = set(skeletons)
+unseen = set(cc_compatible_skeletons)
 orbit_sizes = []
 orbit_representatives = []
 representative_digest = hashlib.sha256()
 while unseen:
     seed = min(unseen)
     orbit = {transport_skeleton(seed, permutation) for permutation in symmetry}
-    if not orbit <= skeletons:
+    if not orbit <= cc_compatible_skeletons:
         raise SystemExit('skeleton set is not stable under source-species symmetry')
     unseen.difference_update(orbit)
     representative = min(orbit)
@@ -239,10 +288,18 @@ certificate = {
     'schema': 'STAGE33_07_NONELEMENTARY_K3_Q8_SKELETON_ORBITS_V1',
     'source_structural_sha256': STRUCTURAL_LOCK,
     'source_target_Q8_sha256': Q8_LOCK,
+    'source_retained_action_choices_sha256': ACTION_LOCK,
     'abstract_H_type': '(Z/4)^3 direct_sum (Z/2)^3',
     'exact_P_W_skeleton_count': len(skeletons),
     'lift_section_affine_fibre_size_by_t': {'1': 1 << 22, '2': 1 << 21},
     'structural_H_count_reconstructed': structural_h_reconstructed,
+    'forced_cc_mod2_action': 'swap each Kb pair; fix Kc and Ka coordinates',
+    'forced_cc_mod2_compatible_skeleton_count': len(cc_compatible_skeletons),
+    'forced_cc_mod2_compatible_profile_by_t': {str(t): count for t, count in sorted(cc_compatible_profile.items())},
+    'forced_cc_mod2_rejected_skeleton_count': len(skeletons) - len(cc_compatible_skeletons),
+    'forced_cc_mod2_rejected_profile_by_t': {str(t): count for t, count in sorted(cc_rejected_profile.items())},
+    'structural_H_count_after_forced_cc_mod2': structural_h_after_cc_mod2,
+    'structural_H_rejected_by_forced_cc_mod2': structural_h_reconstructed - structural_h_after_cc_mod2,
     'symmetry_description': 'S3(Kb pieces) semidirect (S2)^3(Kb swaps) times S3(Ka pieces), Kc fixed',
     'symmetry_order': len(symmetry),
     'symmetry_preserves_ambient_q_and_source_species': True,
@@ -255,12 +312,12 @@ certificate = {
         f't={t},u={u},support={support},eqrank={equation_rank}': count
         for (t, u, support, equation_rank), count in sorted(profile.items())
     },
-    'lift_sections_quotiented_or_rejected': False,
+    'surviving_lift_sections_quotiented_or_rejected': False,
     'endpoint_finite_q_certified': False,
     'endpoint_full_action_conjugacy_certified': False,
     'actual_index512_glue_identified': False,
     'arithmetic_HS_closed': False,
-    'next_exact_leaf': 'L33-07-SOLVE-K3-Q4-AND-FINITE-Q-LIFT-SECTION-FIBRES-OVER-EXACT-SKELETON-ORBITS',
+    'next_exact_leaf': 'L33-07-SOLVE-K3-Q4-AND-INTEGRAL-CC-CT-FINITE-Q-LIFT-SECTION-FIBRES-OVER-189-ORBITS',
     'unit_status': 'RUNNING_REPAIR',
     'stage33_progress': '6/11',
     'stage33_08_released': False,
@@ -277,6 +334,8 @@ certificate['canonical_sha256'] = hashlib.sha256(raw).hexdigest()
 print(json.dumps({
     'success': True,
     'skeletons': certificate['exact_P_W_skeleton_count'],
+    'cc_mod2_skeletons': certificate['forced_cc_mod2_compatible_skeleton_count'],
+    'structural_H_after_cc_mod2': certificate['structural_H_count_after_forced_cc_mod2'],
     'orbits': certificate['exact_orbit_count'],
     'orbit_histogram': certificate['orbit_size_histogram'],
     'structural_H_reconstructed': certificate['structural_H_count_reconstructed'],
