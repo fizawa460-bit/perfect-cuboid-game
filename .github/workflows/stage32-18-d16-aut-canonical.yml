@@ -1,0 +1,140 @@
+name: Stage32-18 d16 Aut canonical implementation
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/32-18/**'
+      - 'stages/stage32/32-01/run_sparse_picard_export.py'
+      - 'stages/stage32/32-07/export_aut_action_locked.py'
+      - '.github/workflows/stage32-18-d16-aut-canonical.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  d16-aut-canonical-b6:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact lattice preprocessing tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp g++
+          gp --version
+          g++ --version
+      - name: Rebuild source-locked Stage32 Picard core with bounded retry
+        run: |
+          ok=0
+          for attempt in 1 2 3; do
+            rm -f stages/stage32/32-01/picard-core.json
+            if python stages/stage32/32-01/run_sparse_picard_export.py && \
+               test -s stages/stage32/32-01/picard-core.json; then
+              ok=1
+              break
+            fi
+            echo "Picard core export attempt $attempt failed; retrying" >&2
+            sleep 5
+          done
+          test "$ok" -eq 1
+          mkdir -p "$RUNNER_TEMP/core" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/core/picard-core.json"
+      - name: Build injective reduced Hperp coordinates
+        run: |
+          python stages/stage32/32-18/d16_hperp_prepare.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/work/d16-hperp.txt" \
+            | tee "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+          grep -q '"pairing_map_injective": true' "$RUNNER_TEMP/out/d16-hperp-prepare.log"
+      - name: Regenerate source-locked geometric Aut action
+        run: |
+          ok=0
+          for attempt in 1 2 3; do
+            if python stages/stage32/32-07/export_aut_action_locked.py \
+              --output "$RUNNER_TEMP/out/d16-aut-action.json"; then
+              ok=1
+              break
+            fi
+            echo "Aut export attempt $attempt failed; retrying" >&2
+            sleep 5
+          done
+          test "$ok" -eq 1
+      - name: Prepare 64-breaker plus full-1536 canonical bundle
+        run: |
+          python stages/stage32/32-18/d16_aut_canonical_prepare.py \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --output "$RUNNER_TEMP/work/d16-aut-canonical-bundle.txt" \
+            | tee "$RUNNER_TEMP/out/d16-aut-canonical-prepare.log"
+          grep -q '"full_group_order": 1536' "$RUNNER_TEMP/out/d16-aut-canonical-prepare.log"
+          grep -q '"selected_hash_spread_breakers": 64' "$RUNNER_TEMP/out/d16-aut-canonical-prepare.log"
+      - name: Compile Stage32-18 main implementation enumerator
+        run: |
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            stages/stage32/32-18/d16_aut_canonical_enum.cpp \
+            -o "$RUNNER_TEMP/work/d16-aut-canonical-enum"
+      - name: Run b6 canonical implementation regression
+        run: |
+          "$RUNNER_TEMP/work/d16-aut-canonical-enum" \
+            --input "$RUNNER_TEMP/work/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/work/d16-aut-canonical-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b6-aut-canonical.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b6-canonical.bin" \
+            --bound 6 --max-seconds 30 --node-cap 10000000 --survivor-cap 100000
+      - name: Independently verify full-group canonical representatives
+        run: |
+          python stages/stage32/32-18/verify_d16_b6_canonical.py \
+            --aut "$RUNNER_TEMP/out/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b6-canonical.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b6-aut-canonical.json" \
+            --output "$RUNNER_TEMP/out/d16-b6-canonical-verify.json"
+      - name: Enforce implementation checkpoint and credit firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          r=json.loads((root/'d16-b6-aut-canonical.json').read_text())
+          v=json.loads((root/'d16-b6-canonical-verify.json').read_text())
+          assert r['schema']=='STAGE32_18_D16_AUT_CANONICAL_ENUM_V1'
+          assert r['status']=='COMPLETE' and r['bound']==6
+          assert r['aut_group_order']==1536 and r['dfs_symmetry_breaker_count']==64
+          assert r['precanonical_survivors']==232
+          assert r['canonical_rejects']==195
+          assert r['canonical_survivors_including_zero']==37
+          assert r['canonical_nonzero_survivors']==36
+          assert v['canonical_record_count']==37
+          assert v['canonical_pairings_unique'] is True
+          assert v['every_emitted_pairing_is_full_group_score_then_lex_minimum'] is True
+          assert v['b6_matches_independently_profiled_orbit_count_37'] is True
+          assert r['floating_reach_pruning_completeness_audit_pending'] is True
+          for x in (r,v):
+              assert x['THEOREM_CREDIT'] is False
+              assert x['RECEIVER_CREDIT'] is False
+              assert x['FULL_D16_G0_ROW_COMPLETE'] is False
+          summary={
+              'status':'PASS_MAIN_IMPLEMENTATION_AUT_CANONICAL_B6_REGRESSION',
+              'aut_group_order':1536,
+              'dfs_breakers':64,
+              'precanonical_survivors':232,
+              'canonical_survivors':37,
+              'canonical_nonzero_survivors':36,
+              'main_route':'AUT_SYMMETRY_BREAKING_PLUS_FULL_GROUP_CANONICAL_AUGMENTATION',
+              'next_gate':'HOSTILE_AUDIT_FLOATING_REACH_TRAVERSAL_COMPLETENESS_BEFORE_ANY_D16_ROW_CREDIT',
+              'THEOREM_CREDIT':False,
+              'RECEIVER_CREDIT':False,
+              'FULL_D16_G0_ROW_COMPLETE':False,
+          }
+          (root/'stage32-18-summary.json').write_text(json.dumps(summary,indent=2,sort_keys=True)+'\n')
+          print(summary)
+          PY
+          du -ah "$RUNNER_TEMP/out"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18-d16-aut-canonical-b6
+          path: ${{ runner.temp }}/out/
+          retention-days: 7
+          if-no-files-found: error
