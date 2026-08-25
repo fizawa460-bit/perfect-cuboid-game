@@ -1,0 +1,97 @@
+name: Stage32 scout d16 aggregate identity
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/scouts/d16_aggregate_identity_prepare.py'
+      - 'stages/stage32/scouts/d16_aggregate_identity_baseline.py'
+      - 'stages/stage32/scouts/d16_aggregate_identity_enum.cpp'
+      - '.github/workflows/stage32-scout-d16-aggregate-identity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  d16-aggregate-identity-scout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact lattice tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends pari-gp g++
+          gp --version
+          g++ --version
+      - name: Download source-locked Stage32 Picard core
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/core"
+          gh run download 32624596141 --repo fizawa460-bit/perfect-cuboid-game \
+            --name stage32-01-low-degree-verified-prefix --dir "$RUNNER_TEMP/core"
+          test -s "$RUNNER_TEMP/core/picard-core.json"
+      - name: Build reduced Hperp input and append exact positive-dual identity
+        run: |
+          mkdir -p "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          python stages/stage32/scouts/d16_constrained_hperp_prepare.py \
+            --core "$RUNNER_TEMP/core/picard-core.json" \
+            --output "$RUNNER_TEMP/work/d16-base.txt"
+          python stages/stage32/scouts/d16_aggregate_identity_prepare.py \
+            --input "$RUNNER_TEMP/work/d16-base.txt" \
+            --output "$RUNNER_TEMP/work/d16-aggregate.txt"
+      - name: Independent exact low-bound baseline
+        run: |
+          python stages/stage32/scouts/d16_aggregate_identity_baseline.py \
+            --input "$RUNNER_TEMP/work/d16-aggregate.txt" \
+            --output "$RUNNER_TEMP/out/d16-aggregate-baseline.json"
+      - name: Compile integrated aggregate constrained enumerator
+        run: |
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            stages/stage32/scouts/d16_aggregate_identity_enum.cpp \
+            -o "$RUNNER_TEMP/work/d16-aggregate-enum"
+      - name: Enumerate norm ball with 140 caps and positive-dual identity inside one tree
+        run: |
+          "$RUNNER_TEMP/work/d16-aggregate-enum" \
+            --input "$RUNNER_TEMP/work/d16-aggregate.txt" \
+            --output "$RUNNER_TEMP/out/d16-aggregate-identity-scout.json" \
+            --bounds 2,4,6,8,10,12,16,20,26,34 \
+            --per-bound-seconds 90 \
+            --node-cap 200000000 \
+            --survivor-cap 5000000
+      - name: Cross-check baseline and enforce scout firewalls
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          b=json.loads((out/'d16-aggregate-baseline.json').read_text())
+          r=json.loads((out/'d16-aggregate-identity-scout.json').read_text())
+          assert (out/'d16-aggregate-identity-scout.json').stat().st_size < 2_000_000
+          by_bound={int(t['bound']):t for t in r['tiers']}
+          for bt in b['tiers']:
+              q=by_bound[int(bt['bound'])]
+              assert q['status']=='COMPLETE'
+              assert q['exact_survivors_including_zero']==bt['aggregate_filtered_including_zero']
+              assert q['nonzero_survivors']==bt['aggregate_filtered_nonzero']
+          assert r['THEOREM_CREDIT'] is False
+          assert r['RECEIVER_CREDIT'] is False
+          assert r['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert r['architecture']['materialized_branch_count_constructed']==0
+          print('baseline=', b['tiers'])
+          for t in r['tiers']:
+              print({k:t.get(k) for k in ('bound','status','nodes','constraint_prunes','aggregate_identity_prunes','exact_survivors_including_zero','nonzero_survivors','elapsed_seconds')})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-scout-d16-aggregate-identity
+          path: |
+            ${{ runner.temp }}/out/d16-aggregate-baseline.json
+            ${{ runner.temp }}/out/d16-aggregate-identity-scout.json
+          retention-days: 5
+          if-no-files-found: error
