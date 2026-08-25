@@ -1,11 +1,14 @@
 {
-  "schema": "STAGE32_17_E20_A0_LE114186_EXECUTION_STATE_V1",
+  "schema": "STAGE32_17_E20_A0_LE114186_EXECUTION_STATE_V2_HOSTILE_AUDITED",
   "stage": "32",
   "unit": "32-01",
   "pr": 1376,
-  "execution_verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE114186_ZERO_TIER_PENDING_HOSTILE_AUDIT",
-  "audit_final_verdict": "WAIT",
-  "hostile_audit_required": true,
+  "execution_verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE114186_ZERO_TIER",
+  "audit_final_verdict": "PASS_EXACT_E20_A0_DELTA_AND_CUMULATIVE_LE114186_ZERO_TIER",
+  "hostile_audit_required": false,
+  "hostile_audit": "PASS",
+  "audit_record": "stages/stage32/32-17/audit.md",
+  "audit_state": "stages/stage32/32-17/audit-state.json",
   "functional_head": "526c149451449bd8542e33f3da3b1a416d87c3b9",
   "profile_sha256": "e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384534d53fa1fee67c5",
   "legacy_predecessor_profile_sha_metadata_adapter": {
@@ -14,7 +17,8 @@
     "correct_rederived_profile_sha256": "e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384534d53fa1fee67c5",
     "historical_file_modified": false,
     "adapter_path": "stages/stage32/32-17/aggregate_recovery_adapter.py",
-    "scope": "METADATA_TRANSCRIPTION_ONLY"
+    "scope": "METADATA_TRANSCRIPTION_ONLY",
+    "hostile_audit_accepted": true
   },
   "predecessor": {
     "threshold": 65536,
@@ -43,6 +47,16 @@
     "maximum_parallel_runners": 8,
     "node_limit_per_branch": 1000000,
     "canonical_sha256": "53eb260d70649fd6d938e3c7f4efa6b4c0fc1cfdfcb9c5e949ff5a706526e3f4"
+  },
+  "predecessor_regression": {
+    "cell_index": 48,
+    "cell_id": "09d0449f1e53b0a4e6c5e115",
+    "shard_index": 0,
+    "shard_count": 2,
+    "executed_branches": 26496,
+    "numerical_survivors": 0,
+    "branch_exact_evidence_stream_sha256": "b6d30e4f6d73d6e545d9594c29cebcbc4394f854d493b49b6c6aaa91233534b0",
+    "exact_match": true
   },
   "source_execution": {
     "run": 32779320736,
@@ -88,12 +102,15 @@
   "cumulative_tier": {
     "threshold": 114186,
     "cells": 417,
+    "parent_cells": 1182,
     "materialized_branches": 16724262,
     "search_nodes": 3465164,
     "unknown_branches": 0,
     "numerical_survivors": 0,
     "all_selected_cells_unsat": true,
-    "canonical_sha256": "c3680e432b12a61314c1852336a55e50f53ea23b151a05729d7f86db6b2e1d5c"
+    "remaining_cells": 765,
+    "canonical_sha256": "c3680e432b12a61314c1852336a55e50f53ea23b151a05729d7f86db6b2e1d5c",
+    "parent_complete": false
   },
   "final_artifact": {
     "name": "stage32-17-e20-a0-le114186-recovered-exact-tier",
@@ -101,6 +118,7 @@
     "id": 9546895729,
     "retained_bytes": 788363,
     "zip_sha256": "37e4b66f2f6f62d05d9017b7f378edec9c7ea7b60d539c161a578fc59656e08a",
+    "independent_zip_rehash_match": true,
     "expires_at": "2026-08-30T02:39:37Z",
     "repository_retention_days": 5,
     "file_count": 451,
@@ -123,6 +141,10 @@
     "predecessor_independent_reaggregation_was_recorded_before_artifact_expiry": true,
     "all_364_delta_work_items_verified": true,
     "all_80_bundle_receipts_verified": true,
+    "all_compact_canonical_hashes_recomputed_equal": true,
+    "all_receipt_deterministic_hashes_recomputed_equal": true,
+    "all_modulo_partitions_recomputed_equal": true,
+    "all_receipt_certificate_commitments_recomputed_equal": true,
     "shared_context_certificate_sha256": "5315b8188d36ca4ae35d3d943cd10b8783a3e602fd157b83a4bf6b1e725ab835",
     "source_expiry_changes_no_mathematical_credit": true,
     "aggregate_canonical_sha256_recomputed_equal": true
@@ -149,9 +171,10 @@
   "effectivity_classification_complete": false,
   "stage32_closed": false,
   "stage32_01_complete": false,
-  "audit_required": true,
+  "audit_required": false,
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "next_item": "HOSTILE_AUDIT_STAGE32_17_E20_A0_LE114186"
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "32-01-E20-A0-115712-PLATEAU-BOUNDED-EXECUTION",
+  "next_expected_command": "Stage32-main-batch"
 }
