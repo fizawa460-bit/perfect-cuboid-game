@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse, hashlib, json, os, pathlib, re, urllib.error, urllib.request, zipfile
 
 API = "https://api.github.com"
+LOGICAL26_ARTIFACT_NAME = "stage32-18k-b12-logical-26-of1024-g2"
+LOGICAL26_ARTIFACT_ZIP_SHA256 = "066e6aa2468671bd3733f17e0ef47b6cb2e22d9ad900f17d6b7fed1b011570f4"
 
 class _NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self, req, fp, code, msg, headers, newurl):
@@ -76,6 +78,7 @@ def extract_flat(artifact: dict, dest: pathlib.Path, token: str, inventory: list
         "declared_digest": declared, "size_in_bytes": artifact.get("size_in_bytes"),
         "created_at": artifact.get("created_at"),
     })
+    return got
 
 def main():
     ap = argparse.ArgumentParser()
@@ -103,8 +106,8 @@ def main():
     pa = next((a for a in arts if int(a["id"]) == args.prepared_artifact_id), None)
     if pa is None or pa.get("name") != "stage32-18e-b12-prepared-g1":
         raise RuntimeError("immutable Stage32-18E prepared artifact missing")
-    extract_flat(pa, prepared, token, inventory)
-    if inventory[-1]["zip_sha256"] != "0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4":
+    psha = extract_flat(pa, prepared, token, inventory)
+    if psha != "0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4":
         raise RuntimeError("Stage32-18E prepared ZIP lock mismatch")
 
     pat = re.compile(r"^stage32-18e-b12-exact-shard-(\d+)-g1$")
@@ -146,10 +149,12 @@ def main():
         extract_flat(selected[sid], deep, token, inventory)
 
     arts = list_artifacts(args.repo, args.logical26_run_id, token)
-    la = next((a for a in arts if a.get("name") == "stage32-18k-b12-logical-26-of1024-g1"), None)
+    la = next((a for a in arts if a.get("name") == LOGICAL26_ARTIFACT_NAME), None)
     if la is None:
-        raise RuntimeError("Stage32-18K logical 26-of1024 artifact missing")
-    extract_flat(la, logical, token, inventory)
+        raise RuntimeError("Stage32-18K logical 26-of1024 generation-2 artifact missing")
+    lsha = extract_flat(la, logical, token, inventory)
+    if lsha != LOGICAL26_ARTIFACT_ZIP_SHA256:
+        raise RuntimeError(f"Stage32-18K logical artifact ZIP lock mismatch {lsha}")
 
     inv = {
         "schema": "STAGE32_18L_CROSS_RUN_ARTIFACT_INVENTORY_V1",
@@ -157,6 +162,8 @@ def main():
         "rescue_run_id": args.rescue_run_id,
         "deep_run_id": args.deep_run_id,
         "logical26_run_id": args.logical26_run_id,
+        "logical26_artifact_name": LOGICAL26_ARTIFACT_NAME,
+        "logical26_artifact_zip_sha256": LOGICAL26_ARTIFACT_ZIP_SHA256,
         "prepared_artifact_id": args.prepared_artifact_id,
         "ordinary_64way_ids": sorted(expected),
         "rescue_256way_ids": [90,154,218],
@@ -166,7 +173,7 @@ def main():
         "artifacts": inventory,
     }
     (root / "artifact-inventory.json").write_text(json.dumps(inv, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"artifact_count": len(inventory), "logical26_run_id": args.logical26_run_id}, sort_keys=True))
+    print(json.dumps({"artifact_count": len(inventory), "logical26_run_id": args.logical26_run_id, "logical26_artifact_zip_sha256": lsha}, sort_keys=True))
 
 if __name__ == "__main__":
     main()
