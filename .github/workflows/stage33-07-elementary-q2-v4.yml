@@ -1,0 +1,63 @@
+name: Stage33-07 elementary Q2 V4 reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-elementary-q2-v4.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  elementary-q2-v4:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0
+      - name: Materialize H0 regression prerequisite
+        run: python certify_elementary_index512_glue_candidate.py
+      - name: Recompute structural reduction prerequisite
+        run: python certify_elementary_index512_structural_reduction.py
+      - name: Recompute complete ct fixed-type reduction
+        run: python certify_elementary_index512_full_ct_fixed_type_reduction.py
+      - name: Recompute forced commutator reduction
+        run: python certify_elementary_index512_forced_commutator_reduction.py
+      - name: Certify Q2 cc/joint V4 reduction
+        run: python certify_elementary_index512_q2_v4_reduction.py
+      - name: Enforce conservative Stage33-07 firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-q2-v4-reduction.json'))
+          assert x['before_q2_v4_filter']==423168
+          assert x['target_cc_Q2_survivors']==201984
+          assert x['target_cc_and_joint_Q2_survivors']==161792
+          assert x['target_survivors_by_b']=={'0':0,'1':139008,'2':22784}
+          assert x['q2_cc_and_joint_fixed_dimensions_independent_of_scaled_extension_choice']
+          assert not x['all_elementary_order512_glue_rejected']
+          assert not x['actual_index512_glue_identified']
+          assert not x['simultaneous_endpoint_cc_ct_action_conjugacy_certified']
+          assert x['unit_status']=='RUNNING_REPAIR'
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released']
+          assert not x['theorem_credit']
+          assert not x['endpoint_credit']
+          print('ELEMENTARY_INDEX512_Q2_V4_REDUCTION=PASS_EXACT')
+          print('SURVIVOR_CENSUS=161792')
+          print('STAGE33_08_RELEASED=False')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-elementary-q2-v4-reduction
+          path: stages/stage33/33-07/elementary-index512-q2-v4-reduction.json
+          retention-days: 5
