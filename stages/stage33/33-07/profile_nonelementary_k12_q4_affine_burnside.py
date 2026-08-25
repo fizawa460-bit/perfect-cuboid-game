@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Exact planning scout: Burnside quotient after certified k1/k2 full-Q[4].
+"""Exact certificate: Burnside quotient after certified k1/k2 full-Q[4].
 
-The certified Q[4] leaf exhausts every integral-cc affine section and has the
-special exact outcome that each surviving skeleton orbit keeps its *entire*
-affine fibre.  Therefore the order-288 integral source symmetry can be applied
-without materializing 10,880,256 surviving H.  For one representative of each
+The formal Q[4] leaf is rebuilt in this run and source-locked by its canonical
+SHA.  It exhausts every integral-cc affine section and has the special exact
+outcome that each surviving skeleton orbit keeps its *entire* affine fibre.
+Therefore the order-288 integral source symmetry can be applied without
+materializing 10,880,256 surviving H.  For one representative of each
 surviving skeleton orbit, fixed affine sections under its stabilizer are
 counted by exact F2 elimination and Burnside.
 
@@ -20,11 +21,17 @@ INTEGRAL_SCOUT_LOCK='04348ed4a491efd9481c303c0eb3e3b73d6d00de5f3c1122385477d03b7
 Q4_CERT_LOCK='cc7350ecd3a5f7d1c3eca0b96649df0fb1219283190f806ec1e537d28cbd4b19'
 Q4_PROFILE_LOCK='5549e7aba92d6ba3838ab02ba53799fa3c6854305f201caeb6db575e3015c2b1'
 
-q4=json.loads((HERE/'nonelementary-k12-full-q4-certified-retained.json').read_text())
-if q4.get('canonical_sha256')!=Q4_CERT_LOCK: raise SystemExit('retained Q4 certificate moved')
+# Rebuild the formal Q4 certificate rather than retaining a 645KB transient
+# artifact in the repository.  The canonical hash fixes the exact data,
+# including all surviving skeleton-orbit records used below.
+runpy.run_path(str(HERE/'certify_nonelementary_k12_full_q4.py'))
+q4=json.loads((HERE/'nonelementary-k12-full-q4-certified.json').read_text())
+if q4.get('canonical_sha256')!=Q4_CERT_LOCK: raise SystemExit('formal Q4 certificate moved')
 if q4.get('source_exhaustive_q4_profile_sha256')!=Q4_PROFILE_LOCK: raise SystemExit('Q4 profile source moved')
 if not q4.get('full_Q4_condition_certified') or not q4.get('all_affine_sections_exhausted'):
-    raise SystemExit('retained Q4 source is not certified exhaustive')
+    raise SystemExit('formal Q4 source is not certified exhaustive')
+if not q4.get('exact_weighted_coverage') or q4.get('fast_or_canonical_traversal_used'):
+    raise SystemExit('formal Q4 exact-coverage firewall moved')
 if q4.get('combined_full_Q4_surviving_H')!=10880256: raise SystemExit('Q4 survivor total moved')
 
 ns=runpy.run_path(str(HERE/'profile_nonelementary_k12_integral_cc_ct.py'))
@@ -88,7 +95,7 @@ def survivor_map(part):
         out[idx]=r
     return out
 
-def process(label,source,source_ns,prepart,q4part):
+def process(source,source_ns,prepart,q4part):
     keep=survivor_map(q4part)
     sym=tuple(source_ns['sym']); transport=source_ns['transport']; move=source_ns['move']
     if len(sym)!=288 or len(set(sym))!=288: raise SystemExit('symmetry order regression')
@@ -131,25 +138,27 @@ def process(label,source,source_ns,prepart,q4part):
       'fixed_count_log2_histogram_minus1_is_zero':{str(k):v for k,v in sorted(fixed_hist.items())},
       'records':records}
 
-out1=process('k1',ns['k1'],ns['k1ns'],pre['k1'],q4['k1'])
-out2=process('k2',ns['k2'],ns['k2ns'],pre['k2'],q4['k2'])
+out1=process(ns['k1'],ns['k1ns'],pre['k1'],q4['k1'])
+out2=process(ns['k2'],ns['k2ns'],pre['k2'],q4['k2'])
 if out1['Q4_surviving_skeleton_orbits']!=3187 or out2['Q4_surviving_skeleton_orbits']!=294:
     raise SystemExit('Q4 surviving skeleton-orbit count regression')
 if out1['exact_full_symmetry_orbits_after_Q4']!=77076 or out2['exact_full_symmetry_orbits_after_Q4']!=303496:
     raise SystemExit('Q4-filtered Burnside census regression')
-cert={'schema':'STAGE33_07_NONELEMENTARY_K12_Q4_AFFINE_BURNSIDE_SCOUT_V1',
- 'source_Q4_certificate_sha256':Q4_CERT_LOCK,'source_integral_action_scout_sha256':INTEGRAL_SCOUT_LOCK,
+cert={'schema':'STAGE33_07_NONELEMENTARY_K12_Q4_AFFINE_BURNSIDE_CERT_V1',
+ 'source_Q4_certificate_sha256':Q4_CERT_LOCK,'source_Q4_profile_sha256':Q4_PROFILE_LOCK,
+ 'source_integral_action_scout_sha256':INTEGRAL_SCOUT_LOCK,
  'k1':out1,'k2':out2,'combined_Q4_surviving_H':10880256,
  'combined_exact_full_symmetry_orbits_after_Q4':out1['exact_full_symmetry_orbits_after_Q4']+out2['exact_full_symmetry_orbits_after_Q4'],
- 'Q4_survivors_are_whole_affine_fibres':True,'fixed_sets_counted_by_exact_F2_elimination':True,
- 'burnside_exact':True,'lift_sections_enumerated_for_burnside':False,'fast_or_canonical_traversal_used':False,
- 'planning_only':True,'endpoint_finite_q_certified':False,'endpoint_full_action_certified':False,
+ 'Q4_certificate_rebuilt_and_hash_locked':True,'Q4_survivors_are_whole_affine_fibres':True,
+ 'fixed_sets_counted_by_exact_F2_elimination':True,'burnside_exact':True,'burnside_certified':True,
+ 'lift_sections_enumerated_for_burnside':False,'fast_or_canonical_traversal_used':False,
+ 'planning_only':False,'endpoint_finite_q_certified':False,'endpoint_full_action_certified':False,
  'actual_index512_glue_identified':False,'arithmetic_HS_closed':False,'stage33_progress':'6/11',
  'stage33_08_released':False,'stage33_09_released':False,'theorem_credit':False,'endpoint_credit':False,
  'perfect_cuboid_nonexistence_claim':False,
- 'next':'L33-07-IMPOSE-ENDPOINT-FINITE-Q-ON-380572-Q4-SURVIVING-FULL-SYMMETRY-ORBITS'}
+ 'next':'L33-07-IMPOSE-ENDPOINT-FINITE-Q-INVARIANTS-ON-380572-Q4-SURVIVING-FULL-SYMMETRY-ORBITS'}
 raw=json.dumps(cert,sort_keys=True,separators=(',',':')).encode(); cert['canonical_sha256']=hashlib.sha256(raw).hexdigest()
-(HERE/'nonelementary-k12-q4-affine-burnside-scout.json').write_text(json.dumps(cert,indent=2,sort_keys=True)+'\n')
+(HERE/'nonelementary-k12-q4-affine-burnside-certified.json').write_text(json.dumps(cert,indent=2,sort_keys=True)+'\n')
 print(json.dumps({'success':True,'k1_orbits':out1['exact_full_symmetry_orbits_after_Q4'],
  'k2_orbits':out2['exact_full_symmetry_orbits_after_Q4'],
  'combined_orbits':cert['combined_exact_full_symmetry_orbits_after_Q4'],
