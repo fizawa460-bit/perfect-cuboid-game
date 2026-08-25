@@ -147,6 +147,8 @@ jobs:
         with:
           name: stage32-18n-descendant-prepared-g${{ needs.validate-run-key.outputs.generation }}
           path: ${{ runner.temp }}/prepared
+      - name: Restore profiler executable mode
+        run: chmod +x "$RUNNER_TEMP/prepared/d16-descendant"
       - name: Exact descendant profile ${{ matrix.tag }}
         run: |
           mkdir -p "$RUNNER_TEMP/out"
