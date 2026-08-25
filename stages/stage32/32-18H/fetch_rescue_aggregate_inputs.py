@@ -99,19 +99,19 @@ def main():
             p.replace(target)
 
     pat = re.compile(r"^stage32-18e-b12-exact-shard-(\d+)-g1$")
-    selected = {}
+    ordinary_selected = {}
     for a in arts:
         m = pat.match(a.get("name", ""))
         if m:
             sid = int(m.group(1))
             if sid != 26:
-                selected[sid] = a
+                ordinary_selected[sid] = a
     expected = set(range(64)) - {26}
-    if set(selected) != expected:
-        raise RuntimeError(f"ordinary artifact ids mismatch missing={sorted(expected-set(selected))} extra={sorted(set(selected)-expected)}")
+    if set(ordinary_selected) != expected:
+        raise RuntimeError(f"ordinary artifact ids mismatch missing={sorted(expected-set(ordinary_selected))} extra={sorted(set(ordinary_selected)-expected)}")
     ordinary.mkdir(parents=True, exist_ok=True)
-    for sid in sorted(selected):
-        ex = download_extract(selected[sid], ordinary / f"artifact-{sid}", token, inventory)
+    for sid in sorted(ordinary_selected):
+        ex = download_extract(ordinary_selected[sid], ordinary / f"artifact-{sid}", token, inventory)
         for p in ex.iterdir():
             if p.is_file():
                 target = ordinary / p.name
@@ -121,17 +121,17 @@ def main():
 
     arts = list_artifacts(args.repo, args.rescue_run_id, token)
     pat = re.compile(r"^stage32-18f-b12-rescue26-subshard-(26|90|154|218)-g1$")
-    selected = {}
+    rescue_selected = {}
     for a in arts:
         m = pat.match(a.get("name", ""))
         if m:
-            selected[int(m.group(1))] = a
+            rescue_selected[int(m.group(1))] = a
     required = {90,154,218}
-    if not required.issubset(selected):
-        raise RuntimeError(f"missing required 256-way rescue artifacts: {sorted(required-set(selected))}")
+    if not required.issubset(rescue_selected):
+        raise RuntimeError(f"missing required 256-way rescue artifacts: {sorted(required-set(rescue_selected))}")
     rescue.mkdir(parents=True, exist_ok=True)
-    for sid in sorted(selected):
-        ex = download_extract(selected[sid], rescue / f"artifact-{sid}", token, inventory)
+    for sid in sorted(rescue_selected):
+        ex = download_extract(rescue_selected[sid], rescue / f"artifact-{sid}", token, inventory)
         for p in ex.iterdir():
             if p.is_file():
                 target = rescue / p.name
@@ -141,17 +141,17 @@ def main():
 
     arts = list_artifacts(args.repo, args.deep_run_id, token)
     pat = re.compile(r"^stage32-18g-b12-deep-rescue26-subshard-(26|282|538|794)-g1$")
-    selected = {}
+    deep_selected = {}
     for a in arts:
         m = pat.match(a.get("name", ""))
         if m:
-            selected[int(m.group(1))] = a
+            deep_selected[int(m.group(1))] = a
     required = {26,282,538,794}
-    if set(selected) != required:
-        raise RuntimeError(f"deep rescue artifacts mismatch missing={sorted(required-set(selected))} extra={sorted(set(selected)-required)}")
+    if set(deep_selected) != required:
+        raise RuntimeError(f"deep rescue artifacts mismatch missing={sorted(required-set(deep_selected))} extra={sorted(set(deep_selected)-required)}")
     deep.mkdir(parents=True, exist_ok=True)
-    for sid in sorted(selected):
-        ex = download_extract(selected[sid], deep / f"artifact-{sid}", token, inventory)
+    for sid in sorted(deep_selected):
+        ex = download_extract(deep_selected[sid], deep / f"artifact-{sid}", token, inventory)
         for p in ex.iterdir():
             if p.is_file():
                 target = deep / p.name
@@ -167,18 +167,13 @@ def main():
         "deep_run_id": args.deep_run_id,
         "prepared_artifact_id": args.prepared_artifact_id,
         "ordinary_shards": sorted(expected),
-        "rescue256_available": sorted(selected for selected in []),
+        "rescue256_available": sorted(rescue_selected),
+        "deep1024_available": sorted(deep_selected),
         "artifact_count": len(inventory),
         "artifacts": inventory,
     }
-    # Record actual rescue availability separately without shadowing the deep selection above.
-    rescue_ids=[]
-    for p in rescue.glob('d16-b12-exact-subshard-*-of256.json'):
-        rescue_ids.append(int(p.stem.split('-')[5]))
-    inv["rescue256_available"] = sorted(rescue_ids)
-    inv["deep1024_available"] = [26,282,538,794]
     (root / "artifact-inventory.json").write_text(json.dumps(inv, indent=2, sort_keys=True) + "\n")
-    print(json.dumps({"artifact_count": len(inventory), "rescue256_available": sorted(rescue_ids), "deep1024_available": [26,282,538,794]}, sort_keys=True))
+    print(json.dumps({"artifact_count": len(inventory), "rescue256_available": sorted(rescue_selected), "deep1024_available": sorted(deep_selected)}, sort_keys=True))
 
 
 if __name__ == "__main__":
