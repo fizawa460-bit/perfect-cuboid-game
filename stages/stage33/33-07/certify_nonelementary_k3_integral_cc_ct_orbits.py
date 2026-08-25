@@ -86,6 +86,21 @@ def decode_rref(reduced):
     return [(value & MASK, (value >> NVAR) & 1) for value in reduced]
 
 
+def canonical_solution(reduced):
+    """Solve canonical RREF with every free variable set to zero."""
+    solution = 0
+    for value in reversed(reduced):
+        coefficient = value & MASK
+        pivot = coefficient.bit_length() - 1
+        rhs = ((value >> NVAR) & 1) ^ ((coefficient & solution).bit_count() & 1)
+        if rhs:
+            solution |= 1 << pivot
+    for mask, rhs in decode_rref(reduced):
+        if ((mask & solution).bit_count() & 1) != rhs:
+            raise SystemExit('canonical affine solution regression')
+    return solution
+
+
 def normalized_global_action(choice, kind):
     """Transport a retained A0 action to row action on normalized (Z/4)^14."""
     matrix = [[int(i == j) for j in range(14)] for i in range(14)]
@@ -119,6 +134,17 @@ def action_mod4(vector, matrix):
         sum(((int(vector) >> i) & 1) * matrix[i][j] for i in range(14)) % 4
         for j in range(14)
     )
+
+
+def action_mod4_coordinates(vector, matrix):
+    return tuple(
+        sum(int(vector[i]) * matrix[i][j] for i in range(14)) % 4
+        for j in range(14)
+    )
+
+
+def add_mod4(left, right):
+    return tuple((int(a) + int(b)) % 4 for a, b in zip(left, right))
 
 
 def bits_mod2(coordinates):
@@ -227,6 +253,44 @@ for index, representative in enumerate(source['orbit_representatives']):
             raise SystemExit('ct mod-two action does not stabilize P')
         if affine_rref(base_equations + extra) != base_rref:
             raise SystemExit('retained ct choice unexpectedly changes the affine fibre')
+
+    # Independent direct witness firewall: reconstruct one actual order-512
+    # subgroup in (Z/4)^14, enumerate it without affine equations, and verify
+    # total isotropy plus stability under every raw retained cc/ct choice.
+    solution = canonical_solution(cc_rref)
+    order_four_rows = []
+    for generator, p in enumerate(p_basis):
+        correction = 0
+        for bit, vector in enumerate(quotient_basis):
+            if (solution >> (8 * generator + bit)) & 1:
+                correction ^= vector
+        order_four_rows.append(tuple(
+            (((p >> coordinate) & 1) + 2 * ((correction >> coordinate) & 1)) % 4
+            for coordinate in range(14)
+        ))
+    w_complement = complement(p_basis, w_basis)
+    if len(w_complement) != 3:
+        raise SystemExit('W/P complement rank regression')
+    order_two_rows = [tuple(2 * ((w >> coordinate) & 1) for coordinate in range(14))
+                      for w in w_complement]
+    subgroup = set()
+    for coefficients in itertools.product(range(4), range(4), range(4),
+                                           range(2), range(2), range(2)):
+        value = (0,) * 14
+        for coefficient, row in zip(coefficients, order_four_rows + order_two_rows):
+            for _ in range(coefficient):
+                value = add_mod4(value, row)
+        subgroup.add(value)
+    if len(subgroup) != 512:
+        raise SystemExit('direct witness subgroup order regression')
+    if any((8 * sum(x * x for x in value[:10])
+            + 16 * sum(x * x for x in value[10:])) % 32 for value in subgroup):
+        raise SystemExit('direct witness subgroup isotropy regression')
+    generators = order_four_rows + order_two_rows
+    for kind, matrices in (('cc', cc_matrices), ('ct', ct_matrices)):
+        for matrix in matrices:
+            if any(action_mod4_coordinates(row, matrix) not in subgroup for row in generators):
+                raise SystemExit(f'direct witness {kind} stability regression')
 
     stabilizer = [
         permutation for permutation in symmetry
@@ -337,6 +401,7 @@ certificate = {
         str(log): count for log, count in sorted(fixed_log_histogram.items())
     },
     'identity_full_fibre_firewall_checked_for_every_orbit': True,
+    'direct_order512_isotropic_action_stable_witness_checked_for_every_skeleton_orbit': True,
     'burnside_exact': True,
     'fast_or_heuristic_traversal_used': False,
     'canonical_augmentation_completeness_claimed': False,

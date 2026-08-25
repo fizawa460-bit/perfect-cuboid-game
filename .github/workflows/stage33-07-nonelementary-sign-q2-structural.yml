@@ -130,10 +130,11 @@ jobs:
           assert a['structural_H_rejected_by_integral_cc']==7354712064
           assert a['exact_full_symmetry_orbit_count_after_integral_cc_ct']==17146944
           assert a['identity_full_fibre_firewall_checked_for_every_orbit'] and a['burnside_exact']
+          assert a['direct_order512_isotropic_action_stable_witness_checked_for_every_skeleton_orbit']
           assert not a['fast_or_heuristic_traversal_used']
           assert not a['canonical_augmentation_completeness_claimed']
           assert len(a['skeleton_orbit_records'])==189
-          assert a['canonical_sha256']=='a98422c4f243b4243d6ce931de2076d966ab693600a22393a1b191457792626f'
+          assert a['canonical_sha256']=='c18334f94a9b71fc611b7bfdc3c0291125aee09a67ce7267882ae62713847b1b'
           assert w['exact_witness_type_count']==2
           assert w['exact_witness_types']==['k1_Z4_plus_Z2_7','k2_Z4_2_plus_Z2_5']
           assert all(r['quotient_invariant_factors']==[2]*4+[4]*6+[8]*4 for r in w['records'].values())
