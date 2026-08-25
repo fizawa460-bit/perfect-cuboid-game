@@ -1,0 +1,1 @@
+Stage32-18E heavy execution is authorized only by `18e-b12-exact.json`. Its generation must be incremented deliberately to authorize a rerun. Changes elsewhere in Stage32-18E are not execution authorization.
