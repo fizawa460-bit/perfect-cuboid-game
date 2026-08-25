@@ -54,7 +54,8 @@ def kernel_basis_primitive_row(row: list[int]) -> tuple[list[list[int]], int]:
     for value in row:
         g_all = math.gcd(g_all, abs(value))
     assert g_all > 0
-    r = [value // g_all for value in row]
+    primitive = [value // g_all for value in row]
+    r = primitive[:]
     v = [[1 if i == j else 0 for j in range(n)] for i in range(n)]
     pivot = next(i for i, value in enumerate(r) if value)
     if pivot:
@@ -75,7 +76,7 @@ def kernel_basis_primitive_row(row: list[int]) -> tuple[list[list[int]], int]:
         r[j] = 0
     assert abs(r[0]) == 1 and all(value == 0 for value in r[1:])
     basis = [[v[i][j] for j in range(1, n)] for i in range(n)]
-    assert all(value == 0 for value in row_times_matrix(r, basis))
+    assert all(value == 0 for value in row_times_matrix(primitive, basis))
     return basis, g_all
 
 
@@ -181,7 +182,6 @@ def main() -> None:
     lin = [row_times_matrix(row, rbasis) for row in known]
     caps = [8] * 92 + [4] * 48
 
-    # H itself is the norm-zero candidate and is expected to satisfy all frozen caps.
     zero_ok = all(0 <= p0[i] <= caps[i] for i in range(M))
     assert zero_ok
 
