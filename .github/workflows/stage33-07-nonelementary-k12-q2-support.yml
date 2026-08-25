@@ -1,10 +1,11 @@
-name: Stage33-07 non-elementary k1 k2 Q2 2Q support
+name: Stage33-07 non-elementary k1 k2 support and k2 skeletons
 
 on:
   pull_request:
     paths:
       - 'stages/stage33/33-07/certify_nonelementary_k12_q2_support_reduction.py'
       - 'stages/stage33/33-07/certify_nonelementary_k12_2q_support_reduction.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k2_q2_2q_skeleton_orbits.py'
       - '.github/workflows/stage33-07-nonelementary-k12-q2-support.yml'
   workflow_dispatch:
 
@@ -14,7 +15,7 @@ permissions:
 jobs:
   certify:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: stages/stage33/33-07
@@ -33,12 +34,15 @@ jobs:
         run: python certify_nonelementary_k12_q2_support_reduction.py
       - name: Exact k1 k2 2Q-support reduction
         run: python certify_nonelementary_k12_2q_support_reduction.py
+      - name: Exact k2 skeleton and symmetry reduction
+        run: python certify_nonelementary_k2_q2_2q_skeleton_orbits.py
       - name: Enforce conservative firewall
         run: |
           python - <<'PY'
           import json
           x=json.load(open('nonelementary-k12-q2-support-reduction.json'))
           y=json.load(open('nonelementary-k12-2q-support-reduction.json'))
+          z=json.load(open('nonelementary-k2-q2-2q-skeleton-orbits.json'))
           assert x['source_Q8_sha256']=='4a5c84ad765f93442f08991ffdcea0bab6f1ae5a3ab6561157201bba262f75ee'
           assert x['endpoint_Q2_quadratic_value_support_mod16']==[0,8]
           assert x['combined_structural_H_before']==1813181679936
@@ -52,17 +56,28 @@ jobs:
           assert y['summary_by_number_of_Z4_factors']['1']['structural_H_after_endpoint_2Q_support_necessary_condition']==1311205952
           assert y['summary_by_number_of_Z4_factors']['2']['structural_H_after_endpoint_2Q_support_necessary_condition']==988553216
           assert y['combined_structural_H_after']==2299759168
+          assert z['source_2Q_support_sha256']==y['canonical_sha256']
+          assert z['exact_P_W_skeleton_count']==88288
+          assert z['structural_H_count_reconstructed']==988553216
+          assert z['forced_cc_mod2_compatible_skeleton_count']==7456
+          assert z['structural_H_count_after_forced_cc_mod2']==67641344
+          assert z['symmetry_order']==288 and z['exact_skeleton_orbit_count']==427
+          assert z['orbit_size_sum']==7456
+          assert z['orbit_size_histogram']=={'1':1,'3':24,'6':12,'9':117,'12':2,'18':195,'24':1,'36':75}
+          assert not z['surviving_lift_sections_quotiented_or_rejected']
           assert not x['raw_H_enumerated'] and not y['raw_H_enumerated']
-          assert not x['full_Q4_condition_certified_for_k1_k2'] and not y['full_Q4_condition_certified_for_k1_k2']
-          assert not x['endpoint_finite_q_certified'] and not y['endpoint_finite_q_certified']
-          assert not x['endpoint_full_action_certified'] and not y['endpoint_full_action_certified']
-          assert not x['actual_index512_glue_identified'] and not y['actual_index512_glue_identified']
-          assert not x['arithmetic_HS_closed'] and not y['arithmetic_HS_closed']
-          assert x['stage33_progress']=='6/11' and y['stage33_progress']=='6/11'
-          assert not x['stage33_08_released'] and not y['stage33_08_released']
-          assert not x['stage33_09_released'] and not y['stage33_09_released']
-          assert not x['theorem_credit'] and not y['theorem_credit'] and not x['endpoint_credit'] and not y['endpoint_credit']
-          assert not x['perfect_cuboid_nonexistence_claim'] and not y['perfect_cuboid_nonexistence_claim']
+          assert not x['full_Q4_condition_certified_for_k1_k2'] and not y['full_Q4_condition_certified_for_k1_k2'] and not z['full_Q4_condition_certified']
+          assert not z['integral_cc_ct_certified']
+          assert not x['endpoint_finite_q_certified'] and not y['endpoint_finite_q_certified'] and not z['endpoint_finite_q_certified']
+          assert not x['endpoint_full_action_certified'] and not y['endpoint_full_action_certified'] and not z['endpoint_full_action_certified']
+          assert not x['actual_index512_glue_identified'] and not y['actual_index512_glue_identified'] and not z['actual_index512_glue_identified']
+          assert not x['arithmetic_HS_closed'] and not y['arithmetic_HS_closed'] and not z['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and y['stage33_progress']=='6/11' and z['stage33_progress']=='6/11'
+          assert not x['stage33_08_released'] and not y['stage33_08_released'] and not z['stage33_08_released']
+          assert not x['stage33_09_released'] and not y['stage33_09_released'] and not z['stage33_09_released']
+          assert not x['theorem_credit'] and not y['theorem_credit'] and not z['theorem_credit']
+          assert not x['endpoint_credit'] and not y['endpoint_credit'] and not z['endpoint_credit']
+          assert not x['perfect_cuboid_nonexistence_claim'] and not y['perfect_cuboid_nonexistence_claim'] and not z['perfect_cuboid_nonexistence_claim']
           print('NONELEMENTARY_K12_Q2_SUPPORT_REDUCTION=PASS_EXACT')
           print('K1_Q2_AFTER=42731821376')
           print('K2_Q2_AFTER=55386308608')
@@ -70,13 +85,20 @@ jobs:
           print('K1_2Q_AFTER=1311205952')
           print('K2_2Q_AFTER=988553216')
           print('COMBINED_2Q_AFTER=2299759168')
+          print('NONELEMENTARY_K2_Q2_2Q_SKELETON_ORBITS=PASS_EXACT')
+          print('K2_SKELETONS=88288')
+          print('K2_CC_MOD2_SKELETONS=7456')
+          print('K2_CC_MOD2_STRUCTURAL_H=67641344')
+          print('K2_SKELETON_ORBITS=427')
           print('Q2_CERT_SHA256='+x['canonical_sha256'])
           print('TWOQ_CERT_SHA256='+y['canonical_sha256'])
+          print('K2_ORBIT_CERT_SHA256='+z['canonical_sha256'])
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-k12-q2-2q-support-reduction
+          name: stage33-07-k12-support-k2-skeletons
           path: |
             stages/stage33/33-07/nonelementary-k12-q2-support-reduction.json
             stages/stage33/33-07/nonelementary-k12-2q-support-reduction.json
+            stages/stage33/33-07/nonelementary-k2-q2-2q-skeleton-orbits.json
           retention-days: 5
