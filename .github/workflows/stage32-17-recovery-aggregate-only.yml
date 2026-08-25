@@ -1,0 +1,175 @@
+name: Stage32-17 aggregate recovered exact tier only
+
+on:
+  push:
+    branches:
+      - stage32-17-e20-tier114186
+    paths:
+      - '.github/workflows/stage32-17-recovery-aggregate-only.yml'
+      - 'stages/stage32/32-17/aggregate_recovery_adapter.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-17-recovery-aggregate-only
+  cancel-in-progress: false
+
+env:
+  SOURCE_RUN_ID: '32779320736'
+  RECOVERY_RUN_ID: '32796303960'
+  EXPECTED_PROFILE_SHA: 'e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384534d53fa1fee67c5'
+  EXPECTED_PREDECESSOR_SHA: '5e6a447f7df3a712d6b8c873bc7e912f58b74b44cf4f461dc4cecd800c9e516c'
+
+jobs:
+  aggregate-only:
+    name: aggregate existing 80-bundle evidence only
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+
+      - name: Compile aggregate adapter
+        run: |
+          python -m py_compile stages/stage32/32-17/aggregate_recovery_adapter.py
+          python -m py_compile stages/stage32/32-17-recovery/aggregate_recovered_e20_tier114186.py
+
+      - name: Download regenerated source locks from completed recovery run
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-17-recovered-source-locks
+          path: ${{ runner.temp }}/lock
+          github-token: ${{ github.token }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: ${{ env.RECOVERY_RUN_ID }}
+
+      - name: Download existing successful wave0-2 plus pilot evidence
+        run: |
+          mkdir -p "$RUNNER_TEMP/certs/source" "$RUNNER_TEMP/final"
+          gh run download "$SOURCE_RUN_ID" \
+            --repo fizawa460-bit/perfect-cuboid-game \
+            --pattern 'stage32-17b-e20-*' \
+            --dir "$RUNNER_TEMP/certs/source"
+
+      - name: Download existing successful recovered wave3 evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-17r-e20-*
+          path: ${{ runner.temp }}/certs/recovered
+          merge-multiple: false
+          github-token: ${{ github.token }}
+          repository: fizawa460-bit/perfect-cuboid-game
+          run-id: ${{ env.RECOVERY_RUN_ID }}
+
+      - name: Prove evidence inventory before aggregation
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          root = pathlib.Path(os.environ["RUNNER_TEMP"])
+          plan = json.loads((root/"lock/e20-tier114186-plan.json").read_text())
+          source_receipts = list((root/"certs/source").rglob("bundle-receipt.json"))
+          recovered_receipts = list((root/"certs/recovered").rglob("bundle-receipt.json"))
+          source_ids = {str(json.loads(p.read_text())["bundle_id"]) for p in source_receipts}
+          recovered_ids = {str(json.loads(p.read_text())["bundle_id"]) for p in recovered_receipts}
+          expected = {str(b["bundle_id"]) for b in plan["bundles"]}
+          assert len(source_ids) == 60, len(source_ids)
+          assert len(recovered_ids) == 20, len(recovered_ids)
+          assert source_ids.isdisjoint(recovered_ids)
+          assert source_ids | recovered_ids == expected
+          assert len(expected) == 80
+          assert plan["profile_sha256"] == os.environ["EXPECTED_PROFILE_SHA"]
+          assert plan["predecessor_sha256"] == os.environ["EXPECTED_PREDECESSOR_SHA"]
+          print(json.dumps({
+              "source_bundle_receipts": len(source_ids),
+              "recovered_bundle_receipts": len(recovered_ids),
+              "total_bundle_receipts": len(expected),
+          }, sort_keys=True))
+          PY
+
+      - name: Aggregate all 364 work items through explicit legacy-metadata adapter
+        run: |
+          python stages/stage32/32-17/aggregate_recovery_adapter.py \
+            --profile "$RUNNER_TEMP/lock/e20-profile.json" \
+            --predecessor-audit-state stages/stage32/32-16/execution-state.json \
+            --plan "$RUNNER_TEMP/lock/e20-tier114186-plan.json" \
+            --input-dir "$RUNNER_TEMP/certs" \
+            --output "$RUNNER_TEMP/final/e20-tier114186-recovered.json"
+
+      - name: Enforce exact recovery boundary
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, pathlib
+          p = pathlib.Path(os.environ["RUNNER_TEMP"])/"final/e20-tier114186-recovered.json"
+          x = json.loads(p.read_text())
+          assert x["schema"] == "STAGE32_D8_E20_A0_EXACT_TIER_LE114186_AUDIT_IMPORT_V2"
+          assert x["profile_sha256"] == os.environ["EXPECTED_PROFILE_SHA"]
+          assert x["predecessor_sha256"] == os.environ["EXPECTED_PREDECESSOR_SHA"]
+          assert x["selected_cell_count"] == 417
+          assert x["selected_total_materialized_branches"] == 16_724_262
+          assert x["delta_cell_count"] == 116 and len(x["delta_cell_summaries"]) == 116
+          assert x["delta_materialized_branches"] == 9_890_148
+          assert x["unknown_branch_count"] == 0
+          assert x["exact_numerical_survivor_count"] == 0
+          assert len(x["bundle_receipt_shas"]) == 80
+          assert x["recovery_integrity"]["all_364_delta_work_items_verified"] is True
+          assert x["recovery_integrity"]["all_80_bundle_receipts_verified"] is True
+          assert x["next_profile_wall"]["branch_count"] == 115_712
+          assert x["next_profile_wall"]["cell_multiplicity"] == 128
+          assert x["parent_e20_a0_complete"] is False
+          assert x["remaining_e20_a0_cells"] == 765
+          assert x["audit_status"] == "PENDING"
+          assert x["theorem_credit"] is False and x["receiver_credit"] is False
+          assert x["G10_LOWGENUS_PICARD"] == "AMBER"
+          unsigned = dict(x)
+          claimed = unsigned.pop("canonical_sha256_without_this_field")
+          got = hashlib.sha256(json.dumps(unsigned, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode()).hexdigest()
+          assert got == claimed
+          assert p.stat().st_size <= 10_000_000
+          print(json.dumps({
+              "recovered_sha": claimed,
+              "delta_nodes": x["delta_search_nodes"],
+              "total_nodes": x["total_search_nodes"],
+              "remaining_cells": x["remaining_e20_a0_cells"],
+          }, sort_keys=True))
+          PY
+
+      - name: Preserve self-contained exact evidence and historical typo note
+        run: |
+          cp stages/stage32/32-16/execution-state.json "$RUNNER_TEMP/final/stage32-16-predecessor-audit-state.json"
+          cp "$RUNNER_TEMP/lock/picard-core.json" "$RUNNER_TEMP/final/picard-core.json"
+          cp "$RUNNER_TEMP/lock/caps.json" "$RUNNER_TEMP/final/intersection-cap-certificates.json"
+          cp "$RUNNER_TEMP/lock/e20-profile.json" "$RUNNER_TEMP/final/e20-profile.json"
+          cp "$RUNNER_TEMP/lock/e20-tier114186-plan.json" "$RUNNER_TEMP/final/e20-tier114186-plan.json"
+          mkdir -p "$RUNNER_TEMP/final/compact-evidence"
+          cp -R "$RUNNER_TEMP/certs/source" "$RUNNER_TEMP/final/compact-evidence/source-run-wave0-2"
+          cp -R "$RUNNER_TEMP/certs/recovered" "$RUNNER_TEMP/final/compact-evidence/recovered-wave3"
+          python - <<'PY'
+          import json, os, pathlib
+          out = pathlib.Path(os.environ["RUNNER_TEMP"])/"final/legacy-profile-sha-adapter.json"
+          out.write_text(json.dumps({
+              "schema": "STAGE32_17_LEGACY_PROFILE_SHA_ADAPTER_NOTE_V1",
+              "historical_file": "stages/stage32/32-16/execution-state.json",
+              "historical_file_modified": False,
+              "legacy_recorded_profile_sha256": "e2b1b47fea0076cde9d93399b04f0bf087175fafcc5cb384d53fa1fee67c5",
+              "correct_rederived_profile_sha256": os.environ["EXPECTED_PROFILE_SHA"],
+              "predecessor_canonical_sha256": os.environ["EXPECTED_PREDECESSOR_SHA"],
+              "credit_basis": "HOSTILE_AUDITED_PREDECESSOR_CANONICAL_SHA_PLUS_RECORDED_INDEPENDENT_REAGGREGATION",
+              "adapter_scope": "METADATA_TRANSCRIPTION_ONLY",
+          }, indent=2, sort_keys=True) + "\n")
+          PY
+
+      - name: Upload audit-ready recovered exact tier
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage32-17-e20-a0-le114186-recovered-exact-tier
+          path: ${{ runner.temp }}/final
+          retention-days: 30
+          if-no-files-found: error
