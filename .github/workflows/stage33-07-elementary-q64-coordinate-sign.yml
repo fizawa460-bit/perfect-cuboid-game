@@ -11,6 +11,8 @@ on:
       - 'stages/stage33/33-07/certify_elementary_index512_q64_coordinate_sign_shard.py'
       - 'stages/stage33/33-07/certify_elementary_index512_q64_coordinate_sign_split_shard.py'
       - 'stages/stage33/33-07/aggregate_elementary_index512_q64_coordinate_sign.py'
+      - 'stages/stage33/33-07/certify_elementary_q64_coordinate_sign_orbit_reduction.py'
+      - 'stages/stage33/33-07/certify_elementary_index512_q64_integral_orbits.py'
       - 'stages/stage33/33-07/elementary-index512-q256-simultaneous-v4-census-retained.json'
       - 'stages/stage33/33-07/elementary_index512_q256_retained.py'
       - '.github/workflows/stage33-07-elementary-q64-coordinate-sign.yml'
@@ -75,8 +77,6 @@ jobs:
         run: |
           python picard_coordinate_sign_rows_retained.py
           python materialize_picard_coordinate_sign_rows_retained.py
-      - name: Install exact integer algebra dependency
-        run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0
       - name: Derive common-Smith endpoint q cc ct and seven signs
         run: python derive_endpoint_coordinate_sign_discriminant_from_split.py
       - name: Enforce endpoint split source lock
@@ -87,10 +87,12 @@ jobs:
           assert x['schema']=='STAGE33_07_ENDPOINT_COORDINATE_SIGN_DISCRIMINANT_ACTIONS_SPLIT_V2'
           assert len(x['sign_actions_mixed_moduli'])==7
           assert x['discriminant_moduli']==[2]*4+[4]*6+[8]*4
+          assert x['smith_transform_reduced_modulo']==8
+          assert x['common_smith_backend'].startswith('Magma exact SmithForm on retained sparse Gram only')
           assert x['all_actions_well_defined_involutions_and_q_isometries']
           assert x['seven_sign_involutions_commute'] and x['seven_sign_product_identity'] and x['signs_commute_with_cc_ct']
           assert x['split_cc_fixed_Q2_log2']==10 and x['split_ct_fixed_Q2_log2']==13
-          assert not x['actual_index512_glue_identified'] and x['stage33_progress']=='6/11'
+          assert not x['actual_index512_glue_identified'] and not x['perfect_cuboid_nonexistence_claim'] and x['stage33_progress']=='6/11'
           print('ENDPOINT_COORDINATE_SIGN_DISCRIMINANT_ACTIONS_SPLIT=PASS_EXACT')
           print('CERT_SHA256='+x['canonical_sha256'])
           PY
@@ -135,7 +137,7 @@ jobs:
           import json,os
           i=int(os.environ['SHARD_INDEX']);x=json.load(open(f'elementary-index512-q64-coordinate-sign-shard-{i}.json'))
           assert x['shard_index']==i and x['candidate_count']==4 and len(x['results'])==4
-          assert not x['actual_index512_glue_identified'] and x['stage33_progress']=='6/11'
+          assert not x['actual_index512_glue_identified'] and not x['perfect_cuboid_nonexistence_claim'] and x['stage33_progress']=='6/11'
           print(f'Q64_COORDINATE_SIGN_SPLIT_SHARD_{i}=PASS_EXACT')
           PY
       - uses: actions/upload-artifact@v4
@@ -160,19 +162,32 @@ jobs:
           path: stages/stage33/33-07/coordinate-sign-shards
       - name: Aggregate exact coordinate-sign census
         run: python aggregate_elementary_index512_q64_coordinate_sign.py
+      - name: Reduce surviving labeled embeddings to integral orbits
+        run: |
+          python certify_elementary_index512_q64_integral_orbits.py
+          python certify_elementary_q64_coordinate_sign_orbit_reduction.py
       - name: Enforce aggregate firewall
         run: |
           python - <<'PY'
           import json
           x=json.load(open('elementary-index512-q64-coordinate-sign-census.json'))
           assert x['candidate_count_before']==64
+          assert x['survivor_indices']==[120,121,122,123]
           assert x['simultaneous_q_cc_ct_7sign_survivor_count']+x['rejected_count']==64
-          assert not x['actual_index512_glue_identified'] and x['stage33_progress']=='6/11'
+          assert not x['actual_index512_glue_identified'] and not x['perfect_cuboid_nonexistence_claim'] and x['stage33_progress']=='6/11'
+          y=json.load(open('elementary-q64-coordinate-sign-orbit-reduction.json'))
+          assert y['surviving_integral_orbit_count']==1
+          assert y['surviving_integral_orbits'][0]['representative']==88
+          assert y['rejected_integral_orbit_representatives']==[64,68]
+          assert not y['actual_index512_glue_identified'] and not y['perfect_cuboid_nonexistence_claim'] and y['stage33_progress']=='6/11'
           print('ELEMENTARY_INDEX512_Q64_COORDINATE_SIGN_CENSUS=PASS_EXACT')
           print('SURVIVORS='+str(x['simultaneous_q_cc_ct_7sign_survivor_count']))
           PY
       - uses: actions/upload-artifact@v4
         with:
           name: stage33-07-q64-coordinate-sign-census
-          path: stages/stage33/33-07/elementary-index512-q64-coordinate-sign-census.json
+          path: |
+            stages/stage33/33-07/elementary-index512-q64-coordinate-sign-census.json
+            stages/stage33/33-07/elementary-index512-q64-integral-orbits.json
+            stages/stage33/33-07/elementary-q64-coordinate-sign-orbit-reduction.json
           retention-days: 5

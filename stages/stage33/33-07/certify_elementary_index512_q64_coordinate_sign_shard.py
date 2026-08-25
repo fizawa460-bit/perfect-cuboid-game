@@ -129,7 +129,7 @@ def decide(Bs,ccclasses,ctclasses,ss,prefix):
                 R=zsum([P[i][k]*BitVecVal(int(At[k][j])%16,4) for k in range(14)])
                 cs.append(((L-R)&BitVecVal(mj-1,4))==BitVecVal(0,4))
         return And(*cs)
-    s.add(Or(*[inter(A,CCt) for A,_ in ccclasses]));s.add(Or(*[inter(A,CTt) for A,_ in ctclasses])
+    s.add(Or(*[inter(A,CCt) for A,_ in ccclasses]));s.add(Or(*[inter(A,CTt) for A,_ in ctclasses]))
     for A,T in zip(ss,SIGNt):s.add(inter(A,T))
     res=s.check()
     if res==unsat:return False,None,[],[]
@@ -159,7 +159,7 @@ for r in records:
     Bs,cc,ct=build_source(r['H_basis_bits']);ss=source_signs(r['H_basis_bits'])
     ok,W,cm,tm=decide(Bs,cc,ct,ss,f'sign{r["index"]}');surv+=int(ok)
     out.append({'index':int(r['index']),'simultaneous_q_cc_ct_7sign_conjugacy':bool(ok),'witness_sha256':None if W is None else hashlib.sha256(json.dumps(W,separators=(',',':')).encode()).hexdigest(),'matching_cc_class_indices':cm,'matching_ct_class_indices':tm})
-cert={'schema':'STAGE33_07_ELEMENTARY_INDEX512_Q64_COORDINATE_SIGN_SHARD_V1','source_q256_sha256':SURV['canonical_sha256'],'source_q64_v4_sha256':V4['canonical_sha256'],'endpoint_coordinate_sign_sha256':SIG['canonical_sha256'],'shard_index':shard,'shard_count':nshard,'candidate_count':4,'survivor_count':surv,'results':out,'actual_index512_glue_identified':False,'stage33_progress':'6/11','stage33_08_released':False,'stage33_09_released':False,'theorem_credit':False,'endpoint_credit':False}
+cert={'schema':'STAGE33_07_ELEMENTARY_INDEX512_Q64_COORDINATE_SIGN_SHARD_V1','source_q256_sha256':SURV['canonical_sha256'],'source_q64_v4_sha256':V4['canonical_sha256'],'endpoint_coordinate_sign_sha256':SIG['canonical_sha256'],'shard_index':shard,'shard_count':nshard,'candidate_count':4,'survivor_count':surv,'results':out,'actual_index512_glue_identified':False,'stage33_progress':'6/11','stage33_08_released':False,'stage33_09_released':False,'theorem_credit':False,'endpoint_credit':False,'perfect_cuboid_nonexistence_claim':False}
 raw=json.dumps(cert,sort_keys=True,separators=(',',':')).encode();cert['canonical_sha256']=hashlib.sha256(raw).hexdigest()
 (HERE/f'elementary-index512-q64-coordinate-sign-shard-{shard}.json').write_text(json.dumps(cert,indent=2,sort_keys=True)+'\n')
 print(json.dumps({'success':True,'shard':shard,'candidates':4,'survivors':surv,'certificate_sha256':cert['canonical_sha256']},indent=2,sort_keys=True))
