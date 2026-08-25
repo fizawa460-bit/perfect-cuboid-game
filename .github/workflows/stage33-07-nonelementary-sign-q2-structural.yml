@@ -7,6 +7,7 @@ on:
       - 'stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py'
       - 'stages/stage33/33-07/certify_nonelementary_target_q8_exponent_reduction.py'
       - 'stages/stage33/33-07/certify_nonelementary_exact_quotient_action_witnesses.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k1_full_q_isometry_z3.py'
       - 'stages/stage33/33-07/coordinate-k3-scaled-action-choices-retained.json'
       - 'stages/stage33/33-07/picard_coordinate_sign_rows_retained.py'
       - 'stages/stage33/33-07/picard-discriminant-compact.json'
@@ -29,8 +30,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install exact Smith dependency
-        run: python -m pip install --disable-pip-version-check sympy==1.14.0
+      - name: Install exact finite dependencies
+        run: python -m pip install --disable-pip-version-check sympy==1.14.0 z3-solver==4.15.3.0
       - name: Exact E7 structural census
         run: python certify_nonelementary_sign_q2_structural_reduction.py
       - name: Exact target-Q4 rank obstruction
@@ -39,6 +40,8 @@ jobs:
         run: python certify_nonelementary_target_q8_exponent_reduction.py
       - name: Exact quotient and action-stability witnesses
         run: python certify_nonelementary_exact_quotient_action_witnesses.py
+      - name: Exact full finite-q decision for the surviving k1 witness
+        run: python certify_nonelementary_k1_full_q_isometry_z3.py
       - name: Enforce conservative firewall
         run: |
           python - <<'PY'
@@ -47,6 +50,7 @@ jobs:
           y=json.load(open('nonelementary-target-q4-rank-obstruction.json'))
           z=json.load(open('nonelementary-target-q8-exponent-reduction.json'))
           w=json.load(open('nonelementary-exact-quotient-action-witnesses.json'))
+          q=json.load(open('nonelementary-k1-full-q-isometry.json'))
           assert x['target_quotient_Q2_log2']==14
           assert x['forced_reduced_code']=='E7 even-weight code in F2^7'
           assert x['summary_by_number_of_Z4_factors']['1']['P_after_support_filter']==63
@@ -69,12 +73,23 @@ jobs:
           assert all(all(r['action_stability'].values()) for r in w['records'].values())
           assert w['records']['k1_Z4_plus_Z2_7']['Q2_profile_matches_endpoint']
           assert not w['records']['k2_Z4_2_plus_Z2_5']['Q2_profile_matches_endpoint']
+          assert not w['records']['k1_Z4_plus_Z2_7']['twoQ_profile_matches_endpoint']
+          assert not w['records']['k2_Z4_2_plus_Z2_5']['twoQ_profile_matches_endpoint']
+          assert all(r['fourQ_profile_matches_endpoint'] for r in w['records'].values())
           assert w['specific_k2_witness_rejected_by_Q2_value_profile']
+          assert w['specific_k1_witness_rejected_by_2Q_value_profile']
+          assert w['both_explicit_witnesses_rejected_by_q_filtration']
+          assert q['solver_result']=='UNSAT'
+          assert q['specific_witness_rejected']
+          assert q['independent_2Q_profile_rejection_source_locked']
+          assert not q['abstract_k1_type_rejected']
           assert not x['endpoint_finite_q_certified'] and not y['endpoint_finite_q_certified'] and not z['endpoint_finite_q_certified']
           assert not w['endpoint_finite_q_certified'] and not w['endpoint_full_action_conjugacy_certified']
+          assert not q['full_finite_quadratic_form_isometry_certified_for_this_witness'] and not q['endpoint_full_action_conjugacy_certified']
           assert not x['actual_index512_glue_identified'] and not y['actual_index512_glue_identified'] and not z['actual_index512_glue_identified']
           assert not w['actual_index512_glue_identified'] and not w['arithmetic_HS_closed']
-          assert x['stage33_progress']=='6/11' and y['stage33_progress']=='6/11' and z['stage33_progress']=='6/11' and w['stage33_progress']=='6/11'
+          assert not q['actual_index512_glue_identified'] and not q['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and y['stage33_progress']=='6/11' and z['stage33_progress']=='6/11' and w['stage33_progress']=='6/11' and q['stage33_progress']=='6/11'
           print('NONELEMENTARY_SIGN_TARGET_Q2_STRUCTURAL_REDUCTION=PASS_EXACT')
           print('NONELEMENTARY_TARGET_Q4_RANK_OBSTRUCTION=PASS_EXACT')
           print('NONELEMENTARY_TARGET_Q8_EXPONENT_REDUCTION=PASS_EXACT')
@@ -82,6 +97,8 @@ jobs:
           print('NON_ELEMENTARY_TYPES_AFTER_Q4_RANK=3')
           print('NON_ELEMENTARY_STRUCTURAL_H_AFTER_Q4_Q8=1838020348224')
           print('NON_ELEMENTARY_EXACT_QUOTIENT_ACTION_WITNESS_TYPES=2')
+          print('NON_ELEMENTARY_EXPLICIT_WITNESSES_REJECTED_BY_Q_FILTRATION=2')
+          print('NON_ELEMENTARY_K1_EXPLICIT_WITNESS_FULL_Q=UNSAT_EXACT')
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -91,4 +108,5 @@ jobs:
             stages/stage33/33-07/nonelementary-target-q4-rank-obstruction.json
             stages/stage33/33-07/nonelementary-target-q8-exponent-reduction.json
             stages/stage33/33-07/nonelementary-exact-quotient-action-witnesses.json
+            stages/stage33/33-07/nonelementary-k1-full-q-isometry.json
           retention-days: 5

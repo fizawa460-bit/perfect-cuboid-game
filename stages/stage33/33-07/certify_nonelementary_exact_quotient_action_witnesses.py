@@ -244,10 +244,17 @@ def quotient_data(rows):
     return invariant_factors, pairing8
 
 
-def q2_profile(pairing8):
+def q_value_profile(pairing8, layer):
     profile = {0: 0, 4: 0, 8: 0, 12: 0}
-    for mask in range(1 << 14):
-        vector = [(TARGET[i] // 2) * ((mask >> i) & 1) for i in range(14)]
+    if layer == 'Q2':
+        values = [[0, modulus // 2] for modulus in TARGET]
+    elif layer == '2Q':
+        values = [list(range(0, modulus, 2)) for modulus in TARGET]
+    elif layer == '4Q':
+        values = [list(range(0, modulus, 4)) for modulus in TARGET]
+    else:
+        raise ValueError(layer)
+    for vector in itertools.product(*values):
         value = sum(
             vector[i] * pairing8[i][j] * vector[j]
             for i in range(14) for j in range(14)
@@ -267,9 +274,13 @@ for label, matrix in [('cc_choice_0', cc), ('ct_choice_0', ct)] + [
     verify_ambient_isometry(matrix, label)
 
 records = {}
-target_q2_profile = q2_profile(TARGET_B8)
+target_q2_profile = q_value_profile(TARGET_B8, 'Q2')
+target_2q_profile = q_value_profile(TARGET_B8, '2Q')
+target_4q_profile = q_value_profile(TARGET_B8, '4Q')
 if target_q2_profile != {'0': 8192, '8': 8192}:
     raise SystemExit('endpoint Q[2] profile regression')
+if target_2q_profile != {'0': 8192, '8': 8192} or target_4q_profile != {'0': 16}:
+    raise SystemExit('endpoint 2Q/4Q profile regression')
 for name, witness in WITNESSES.items():
     rows = [tuple(row) for row in witness['rows']]
     orders = witness['orders']
@@ -285,7 +296,9 @@ for name, witness in WITNESSES.items():
     factors, pairing8 = quotient_data(rows)
     if factors != TARGET:
         raise SystemExit(f'{name}: exact quotient invariant-factor regression {factors}')
-    source_q2_profile = q2_profile(pairing8)
+    source_q2_profile = q_value_profile(pairing8, 'Q2')
+    source_2q_profile = q_value_profile(pairing8, '2Q')
+    source_4q_profile = q_value_profile(pairing8, '4Q')
     records[name] = {
         'abstract_H_orders': orders,
         'generator_rows_in_A0': witness['rows'],
@@ -295,15 +308,28 @@ for name, witness in WITNESSES.items():
         'target_Q2_log2': 14,
         'target_Q4_log2': 24,
         'target_exponent': 8,
+        'source_quotient_B8_smith_coordinates': pairing8,
         'source_Q2_quadratic_value_profile_numerator_over_8': source_q2_profile,
         'endpoint_Q2_quadratic_value_profile_numerator_over_8': target_q2_profile,
         'Q2_profile_matches_endpoint': source_q2_profile == target_q2_profile,
+        'source_2Q_quadratic_value_profile_numerator_over_8': source_2q_profile,
+        'endpoint_2Q_quadratic_value_profile_numerator_over_8': target_2q_profile,
+        'twoQ_profile_matches_endpoint': source_2q_profile == target_2q_profile,
+        'source_4Q_quadratic_value_profile_numerator_over_8': source_4q_profile,
+        'endpoint_4Q_quadratic_value_profile_numerator_over_8': target_4q_profile,
+        'fourQ_profile_matches_endpoint': source_4q_profile == target_4q_profile,
     }
 
 if records['k1_Z4_plus_Z2_7']['Q2_profile_matches_endpoint'] is not True:
     raise SystemExit('k1 Q2-profile regression')
 if records['k2_Z4_2_plus_Z2_5']['Q2_profile_matches_endpoint'] is not False:
     raise SystemExit('k2 Q2-profile rejection regression')
+if records['k1_Z4_plus_Z2_7']['twoQ_profile_matches_endpoint'] is not False:
+    raise SystemExit('k1 2Q-profile rejection regression')
+if records['k2_Z4_2_plus_Z2_5']['twoQ_profile_matches_endpoint'] is not False:
+    raise SystemExit('k2 2Q-profile rejection regression')
+if not all(r['fourQ_profile_matches_endpoint'] for r in records.values()):
+    raise SystemExit('explicit witness 4Q-profile regression')
 
 certificate = {
     'schema': 'STAGE33_07_NONELEMENTARY_EXACT_QUOTIENT_ACTION_WITNESSES_V1',
@@ -323,12 +349,14 @@ certificate = {
     'consequence': 'exact quotient invariant factors plus seven-sign and one retained cc/ct-pair stability do not eliminate the k=1 or k=2 E7 branches',
     'specific_k2_witness_rejected_by_Q2_value_profile': True,
     'specific_k1_witness_Q2_profile_inconclusive': True,
+    'specific_k1_witness_rejected_by_2Q_value_profile': True,
+    'both_explicit_witnesses_rejected_by_q_filtration': True,
     'k3_exact_quotient_action_witness_certified': False,
     'endpoint_finite_q_certified': False,
     'endpoint_full_action_conjugacy_certified': False,
     'actual_index512_glue_identified': False,
     'arithmetic_HS_closed': False,
-    'next_exact_leaf': 'L33-07-IMPOSE-ENDPOINT-FINITE-Q-AND-SIMULTANEOUS-CC-CT-SIGN-CONJUGACY-BEYOND-THE-Q2-PROFILE-AND-CONSTRUCT-OR-REJECT-K3-EXACT-QUOTIENT-WITNESS',
+    'next_exact_leaf': 'L33-07-SEARCH-K1-K2-STRUCTURAL-BRANCHES-BEYOND-THE-TWO-REJECTED-EXPLICIT-WITNESSES-AND-CONSTRUCT-OR-REJECT-K3-EXACT-QUOTIENT-WITNESS',
     'unit_status': 'RUNNING_REPAIR',
     'stage33_progress': '6/11',
     'stage33_08_released': False,
