@@ -35,7 +35,7 @@ jobs:
         run: |
           python assemble_integration_prefix_v2.py
           python materialize_br0b_boundary_residue_map.py
-          python materialize_br0g_finite_ramified_presentation.py
+          python validate_retained_br0g_finite.py
           python certify_full_br0b_boundary_injection.py
       - name: Materialize exact arithmetic HS repair quotient and odd-primary closure
         working-directory: stages/stage33/33-07
@@ -130,7 +130,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: stage33-07-br2a-hs-repair
-          retention-days: 7
+          retention-days: 5
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
             stages/stage33/33-07/j2-endpoint-q2-variation.json
