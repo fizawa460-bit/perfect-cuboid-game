@@ -1,0 +1,248 @@
+name: Stage32-18N d16 exact descendant-work profile
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18n-descendant-work-profile.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18n-descendant-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.key.outputs.authorized }}
+      generation: ${{ steps.key.outputs.generation }}
+      matrix: ${{ steps.key.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: key
+        name: Validate explicit descendant-profile key
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/18n-descendant-work-profile.json'
+          authorized=true
+          if [ "$ACTION" = synchronize ]; then
+            if [ -z "${BEFORE:-}" ]; then
+              authorized=false
+            else
+              git fetch --no-tags --depth=1 origin "$BEFORE"
+              if ! git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
+                authorized=false
+              fi
+            fi
+          fi
+          python - <<'PY' "$authorized"
+          import json,os,pathlib,sys
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18n-descendant-work-profile.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18n-d16-descendant-work-profile'
+          assert d['armed'] is True and d['generation']==1
+          assert d['accepted_b12_dump_sha256']=='03616e7c03cdca9b4c8408cec671b0ef6bd26713fe5ca60e2021a7d6e897abd5'
+          assert d['prepared_artifact_id']==9574308138
+          assert d['prepared_artifact_zip_sha256']=='0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4'
+          assert d['breaker_count']==256 and d['parent_coordinate']==54 and d['parent_modulus']==1024
+          expected=[
+            {'tag':'b12-p50','bound':12,'probe_coordinate':50,'node_cap':50000000},
+            {'tag':'b12-p48','bound':12,'probe_coordinate':48,'node_cap':80000000},
+            {'tag':'b12-p46','bound':12,'probe_coordinate':46,'node_cap':140000000},
+            {'tag':'b14-p50','bound':14,'probe_coordinate':50,'node_cap':80000000},
+            {'tag':'b14-p48','bound':14,'probe_coordinate':48,'node_cap':140000000},
+            {'tag':'b14-p46','bound':14,'probe_coordinate':46,'node_cap':220000000},
+          ]
+          assert d['profiles']==expected
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"authorized={sys.argv[1]}\n")
+              f.write(f"generation={d['generation']}\n")
+              f.write('matrix='+json.dumps({'include':expected},separators=(',',':'))+'\n')
+          print(json.dumps({'authorized':sys.argv[1],'profiles':expected},sort_keys=True))
+          PY
+
+  prepare:
+    needs: validate-run-key
+    if: needs.validate-run-key.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Fetch immutable 256-breaker exact source bundle
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/prepared" "$RUNNER_TEMP/stage"
+          curl -L --fail --silent --show-error \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/prepared.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/prepared.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/prepared.zip" -d "$RUNNER_TEMP/prepared"
+          test -f "$RUNNER_TEMP/prepared/d16-hperp.txt"
+          test -f "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt"
+          test -f "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp"
+      - name: Build and smoke-check descendant profiler
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          python stages/stage32/32-18N/build_descendant_work_profiler.py \
+            --source "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp" \
+            --output "$RUNNER_TEMP/stage/d16-descendant.cpp"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/stage/d16-descendant.cpp" -o "$RUNNER_TEMP/stage/d16-descendant"
+          cp "$RUNNER_TEMP/prepared/d16-hperp.txt" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/stage/"
+          "$RUNNER_TEMP/stage/d16-descendant" \
+            --input "$RUNNER_TEMP/stage/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/stage/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/smoke.json" --dump-canonical "$RUNNER_TEMP/smoke.bin" \
+            --bound 6 --shard-id 0 --shard-count 1024 --split-coordinate 54 --probe-coordinate 50 --node-cap 5000000
+          python - <<'PY'
+          import json,os,pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'smoke.json').read_text())
+          assert p['schema']=='STAGE32_18N_D16_EXACT_DESCENDANT_WORK_PROFILE_V1'
+          assert p['DESCENDANT_WORK_PROFILE_COMPLETE'] is True
+          assert p['FULL_BOUND_TRAVERSAL_COMPLETE'] is False
+          assert p['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is False
+          assert p['descendant_work_profile_only'] is True and p['parent_coordinate']==54 and p['probe_coordinate']==50
+          assert len(p['descendant_nodes_by_residue'])==1024
+          print({'smoke':'PASS','nodes':p['nodes'],'parent_prefixes':p['split_prefixes_seen']})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18n-descendant-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/stage/
+          retention-days: 14
+          if-no-files-found: error
+
+  profile:
+    needs: [validate-run-key, prepare]
+    if: needs.validate-run-key.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.validate-run-key.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18n-descendant-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Restore profiler executable mode
+        run: chmod +x "$RUNNER_TEMP/prepared/d16-descendant"
+      - name: Exact descendant profile ${{ matrix.tag }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          SECONDS=0
+          set +e
+          "$RUNNER_TEMP/prepared/d16-descendant" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out/profile.json" --dump-canonical "$RUNNER_TEMP/out/profile.bin" \
+            --bound ${{ matrix.bound }} --shard-id 0 --shard-count 1024 --split-coordinate 54 \
+            --probe-coordinate ${{ matrix.probe_coordinate }} --node-cap ${{ matrix.node_cap }} \
+            >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?
+          elapsed=$SECONDS
+          set -e
+          echo "$elapsed" > "$RUNNER_TEMP/out/runtime.txt"
+          if [ "$rc" -ne 0 ]; then
+            if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then
+              RC="$rc" ELAPSED="$elapsed" python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          out={'schema':'STAGE32_18N_DESCENDANT_RESOURCE_WALL_V1','tag':'${{ matrix.tag }}','bound':${{ matrix.bound }},'parent_coordinate':54,'probe_coordinate':${{ matrix.probe_coordinate }},'parent_modulus':1024,'node_cap':${{ matrix.node_cap }},'status':'RESOURCE_WALL_NODE_CAP','exit_code':int(os.environ['RC']),'runtime_seconds':int(os.environ['ELAPSED']),'NUMERICAL_CREDIT':False}
+          (root/'compact-profile.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+            else
+              cat "$RUNNER_TEMP/out/stderr.txt"
+              exit "$rc"
+            fi
+          else
+            python stages/stage32/32-18N/summarize_descendant_work.py \
+              --input "$RUNNER_TEMP/out/profile.json" --runtime "$RUNNER_TEMP/out/runtime.txt" \
+              --tag '${{ matrix.tag }}' --output "$RUNNER_TEMP/out/compact-profile.json"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18n-descendant-${{ matrix.tag }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
+
+  summarize:
+    needs: [validate-run-key, profile]
+    if: always() && needs.validate-run-key.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18n-descendant-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/profiles
+      - name: Calibrate on b12 and select b14 design profile
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'profiles'
+          docs={}
+          for p in root.rglob('compact-profile.json'):
+              d=json.loads(p.read_text()); docs[d['tag']]=d
+          expected={f'b{b}-p{p}' for b in (12,14) for p in (50,48,46)}
+          assert set(docs)==expected,(set(docs),expected)
+          complete={k:v for k,v in docs.items() if v.get('schema')=='STAGE32_18N_DESCENDANT_WORK_COMPACT_V1'}
+          calibrated=[]
+          for tag,d in complete.items():
+              if d['bound']!=12: continue
+              m=d['metrics']
+              ranks={
+                'nodes':m['descendant_nodes_by_residue']['rank26'],
+                'trials':m['descendant_trials_by_residue']['rank26'],
+                'probe_prefixes':m['descendant_probe_prefixes_by_residue']['rank26'],
+              }
+              if min(ranks.values())<=64:
+                  calibrated.append((d['probe_coordinate'],tag,ranks))
+          if not calibrated:
+              verdict='PASS_DESCENDANT_PROFILE__TESTED_DEPTHS_DO_NOT_CALIBRATE_B12_HOT_RESIDUE__DEEPER_PROFILE_REQUIRED'
+              next_item='32-18O-D16-B14-DEEPER-DESCENDANT-WORK-PROFILE'
+              selected_probe=None; selected_b14=None
+          else:
+              calibrated.sort(reverse=True)
+              selected_probe=calibrated[0][0]
+              selected_b14=complete.get(f'b14-p{selected_probe}')
+              if selected_b14 is None:
+                  verdict='PASS_DESCENDANT_PROFILE__B12_CALIBRATED_BUT_MATCHING_B14_PROFILE_RESOURCE_WALL'
+                  next_item='32-18O-D16-B14-DESCENDANT-PROFILE-RESOURCE-REDESIGN'
+              else:
+                  verdict='PASS_DESCENDANT_PROFILE__B12_CALIBRATED__B14_LOAD_GEOMETRY_READY_FOR_RESOURCE_SAFE_DESIGN'
+                  next_item='32-18O-D16-B14-RESOURCE-SAFE-EXACT-PRODUCTION-DESIGN'
+          out={'schema':'STAGE32_18N_DESCENDANT_WORK_SUMMARY_V1','verdict':verdict,'calibrated_b12_profiles':[{'probe_coordinate':p,'tag':t,'ranks':r} for p,t,r in calibrated],'selected_calibrated_probe_coordinate':selected_probe,'selected_b14_profile':selected_b14,'all_profiles':docs,'next_item':next_item,'D16_B14_NUMERICAL_CREDIT':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          outdir=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; outdir.mkdir()
+          (outdir/'stage32-18n-descendant-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'verdict':verdict,'selected_probe':selected_probe,'calibrated':out['calibrated_b12_profiles'],'next_item':next_item},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18n-descendant-summary-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/summary/
+          retention-days: 14
+          if-no-files-found: error
