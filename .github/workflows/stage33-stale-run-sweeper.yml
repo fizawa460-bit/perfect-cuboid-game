@@ -15,6 +15,9 @@ permissions:
   actions: write
   contents: read
 
+env:
+  K1_GAP_RUN_KEY: .github/runkeys/stage33-07-k1-seven-sign-gap-recovery.json
+
 jobs:
   cancel-obsolete-runs:
     if: github.event_name == 'pull_request'
@@ -25,7 +28,6 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 2
-
       - name: Cancel old-head and PR-diff replay Stage33 runs
         env:
           GH_TOKEN: ${{ github.token }}
@@ -36,166 +38,297 @@ jobs:
           PR_ACTION: ${{ github.event.action }}
         run: |
           python - <<'PY'
-          import fnmatch
-          import json
-          import os
-          import subprocess
-          import urllib.error
-          import urllib.parse
-          import urllib.request
+          import fnmatch,json,os,subprocess,urllib.error,urllib.parse,urllib.request
           from pathlib import Path
-
-          repo = os.environ['REPO']
-          branch = os.environ['HEAD_REF']
-          current_sha = os.environ['CURRENT_SHA']
-          current_run = int(os.environ['CURRENT_RUN_ID'])
-          action = os.environ.get('PR_ACTION', '')
-          token = os.environ['GH_TOKEN']
-          active = {'queued', 'in_progress', 'waiting', 'requested', 'pending'}
-          headers = {
-              'Authorization': f'Bearer {token}',
-              'Accept': 'application/vnd.github+json',
-              'X-GitHub-Api-Version': '2022-11-28',
-              'User-Agent': 'stage33-stale-run-sweeper',
-          }
-
-          # GitHub pull_request.paths is evaluated against the whole PR diff.
-          # For synchronize events we additionally compute the files changed by
-          # the newest head commit. A Stage33 workflow whose own path filter does
-          # not match this newest-commit diff is a PR-diff replay and is cancelled.
-          changed = []
-          if action == 'synchronize':
-              try:
-                  changed = subprocess.check_output(
-                      ['git', 'diff', '--name-only', 'HEAD^', 'HEAD'], text=True
-                  ).splitlines()
-              except subprocess.CalledProcessError:
-                  changed = []
-          print('LATEST_COMMIT_CHANGED_FILES=' + json.dumps(changed, separators=(',', ':')))
-
+          repo=os.environ['REPO']; branch=os.environ['HEAD_REF']; current_sha=os.environ['CURRENT_SHA']; current_run=int(os.environ['CURRENT_RUN_ID']); action=os.environ.get('PR_ACTION',''); token=os.environ['GH_TOKEN']
+          active={'queued','in_progress','waiting','requested','pending'}
+          headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'stage33-stale-run-sweeper'}
+          changed=[]
+          if action=='synchronize':
+              try: changed=subprocess.check_output(['git','diff','--name-only','HEAD^','HEAD'],text=True).splitlines()
+              except subprocess.CalledProcessError: changed=[]
+          print('LATEST_COMMIT_CHANGED_FILES='+json.dumps(changed,separators=(',',':')))
           def pull_request_paths(workflow_path):
-              path = Path(workflow_path)
-              if not path.is_file():
-                  return []
-              lines = path.read_text().splitlines()
-              pull_indent = None
-              paths_indent = None
-              patterns = []
-              for line in lines:
-                  stripped = line.strip()
-                  if not stripped or stripped.startswith('#'):
-                      continue
-                  indent = len(line) - len(line.lstrip())
+              path=Path(workflow_path)
+              if not path.is_file(): return []
+              pull_indent=None; paths_indent=None; patterns=[]
+              for line in path.read_text().splitlines():
+                  stripped=line.strip()
+                  if not stripped or stripped.startswith('#'): continue
+                  indent=len(line)-len(line.lstrip())
                   if pull_indent is None:
-                      if stripped == 'pull_request:':
-                          pull_indent = indent
+                      if stripped=='pull_request:': pull_indent=indent
                       continue
-                  if indent <= pull_indent:
-                      break
+                  if indent<=pull_indent: break
                   if paths_indent is None:
-                      if stripped == 'paths:':
-                          paths_indent = indent
+                      if stripped=='paths:': paths_indent=indent
                       continue
-                  if indent <= paths_indent:
-                      break
+                  if indent<=paths_indent: break
                   if stripped.startswith('- '):
-                      pattern = stripped[2:].strip()
-                      if len(pattern) >= 2 and pattern[0] == pattern[-1] and pattern[0] in "'\"":
-                          pattern = pattern[1:-1]
+                      pattern=stripped[2:].strip()
+                      if len(pattern)>=2 and pattern[0]==pattern[-1] and pattern[0] in "'\"": pattern=pattern[1:-1]
                       patterns.append(pattern)
               return patterns
-
-          def matches_ordered(path, patterns):
-              matched = False
+          def matches_ordered(path,patterns):
+              matched=False
               for raw in patterns:
-                  negative = raw.startswith('!')
-                  pattern = raw[1:] if negative else raw
-                  if fnmatch.fnmatchcase(path, pattern):
-                      matched = not negative
+                  negative=raw.startswith('!'); pattern=raw[1:] if negative else raw
+                  if fnmatch.fnmatchcase(path,pattern): matched=not negative
               return matched
-
-          obsolete = []
-          preserved = []
-          page = 1
+          obsolete=[]; preserved=[]; page=1
           while True:
-              query = urllib.parse.urlencode({
-                  'branch': branch,
-                  'event': 'pull_request',
-                  'per_page': 100,
-                  'page': page,
-              })
-              url = f'https://api.github.com/repos/{repo}/actions/runs?{query}'
-              req = urllib.request.Request(url, headers=headers)
-              with urllib.request.urlopen(req, timeout=30) as response:
-                  payload = json.load(response)
-              runs = payload.get('workflow_runs', [])
-              if not runs:
-                  break
+              query=urllib.parse.urlencode({'branch':branch,'event':'pull_request','per_page':100,'page':page})
+              req=urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/runs?{query}',headers=headers)
+              with urllib.request.urlopen(req,timeout=30) as response: payload=json.load(response)
+              runs=payload.get('workflow_runs',[])
+              if not runs: break
               for run in runs:
-                  run_id = int(run['id'])
-                  if run_id == current_run or run.get('status') not in active:
-                      continue
-                  name = str(run.get('name') or '')
-                  if not name.startswith('Stage33'):
-                      continue
-                  sha = run.get('head_sha')
-                  status = run.get('status')
-                  workflow_path = str(run.get('path') or '')
-
-                  if sha != current_sha:
-                      obsolete.append((run_id, name, sha, status, 'OLD_HEAD'))
-                      continue
-
-                  # Only synchronize events have a well-defined newest-commit
-                  # replay test. Preserve current-head runs for opened/reopened
-                  # events or when a workflow cannot be inspected safely.
-                  if action != 'synchronize' or not changed:
-                      preserved.append((run_id, name, 'CURRENT_HEAD_NON_SYNCHRONIZE'))
-                      continue
+                  run_id=int(run['id'])
+                  if run_id==current_run or run.get('status') not in active: continue
+                  name=str(run.get('name') or '')
+                  if not name.startswith('Stage33'): continue
+                  sha=run.get('head_sha'); status=run.get('status'); workflow_path=str(run.get('path') or '')
+                  if sha!=current_sha:
+                      obsolete.append((run_id,name,sha,status,'OLD_HEAD')); continue
+                  if action!='synchronize' or not changed:
+                      preserved.append((run_id,name,'CURRENT_HEAD_NON_SYNCHRONIZE')); continue
                   if not workflow_path.startswith('.github/workflows/stage33'):
-                      preserved.append((run_id, name, 'CURRENT_HEAD_NON_STAGE33_WORKFLOW_PATH'))
-                      continue
-                  patterns = pull_request_paths(workflow_path)
+                      preserved.append((run_id,name,'CURRENT_HEAD_NON_STAGE33_WORKFLOW_PATH')); continue
+                  patterns=pull_request_paths(workflow_path)
                   if not patterns:
-                      preserved.append((run_id, name, 'CURRENT_HEAD_NO_PARSEABLE_PATH_FILTER'))
-                      continue
-                  if any(matches_ordered(path, patterns) for path in changed):
-                      preserved.append((run_id, name, 'LATEST_COMMIT_MATCHES_WORKFLOW_PATHS'))
-                      continue
-
-                  obsolete.append((run_id, name, sha, status, 'CURRENT_HEAD_PR_DIFF_REPLAY'))
-
-              if len(runs) < 100:
-                  break
-              page += 1
-
-          cancelled = 0
-          races = 0
-          reasons = {}
-          for run_id, name, sha, status, reason in obsolete:
-              url = f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/cancel'
-              req = urllib.request.Request(url, data=b'', method='POST', headers=headers)
+                      preserved.append((run_id,name,'CURRENT_HEAD_NO_PARSEABLE_PATH_FILTER')); continue
+                  if any(matches_ordered(path,patterns) for path in changed):
+                      preserved.append((run_id,name,'LATEST_COMMIT_MATCHES_WORKFLOW_PATHS')); continue
+                  obsolete.append((run_id,name,sha,status,'CURRENT_HEAD_PR_DIFF_REPLAY'))
+              if len(runs)<100: break
+              page+=1
+          cancelled=0; races=0; reasons={}
+          for run_id,name,sha,status,reason in obsolete:
+              req=urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/cancel',data=b'',method='POST',headers=headers)
               try:
-                  with urllib.request.urlopen(req, timeout=30) as response:
-                      if response.status != 202:
-                          raise SystemExit(f'unexpected cancel status {response.status} for {run_id}')
-                  cancelled += 1
-                  reasons[reason] = reasons.get(reason, 0) + 1
-                  print(f'CANCELLED reason={reason} run={run_id} status={status} head={sha} name={name}')
+                  with urllib.request.urlopen(req,timeout=30) as response:
+                      if response.status!=202: raise SystemExit(f'unexpected cancel status {response.status} for {run_id}')
+                  cancelled+=1; reasons[reason]=reasons.get(reason,0)+1; print(f'CANCELLED reason={reason} run={run_id} status={status} head={sha} name={name}')
               except urllib.error.HTTPError as exc:
-                  if exc.code == 409:
-                      races += 1
-                      print(f'ALREADY_FINISHING reason={reason} run={run_id} name={name}')
-                  else:
-                      raise
-
-          for run_id, name, reason in preserved:
-              print(f'PRESERVED reason={reason} run={run_id} name={name}')
-
-          print(f'STAGE33_OBSOLETE_RUNS_FOUND={len(obsolete)}')
-          print(f'STAGE33_OBSOLETE_RUNS_CANCELLED={cancelled}')
-          print(f'STAGE33_CANCEL_RACES={races}')
-          print('STAGE33_CANCEL_REASONS=' + json.dumps(reasons, sort_keys=True, separators=(',', ':')))
-          print(f'CURRENT_HEAD={current_sha}')
-          print('PERMANENT_REPLAY_GUARD=LATEST_COMMIT_PATH_INTERSECTION')
+                  if exc.code==409: races+=1; print(f'ALREADY_FINISHING reason={reason} run={run_id} name={name}')
+                  else: raise
+          for run_id,name,reason in preserved: print(f'PRESERVED reason={reason} run={run_id} name={name}')
+          print(f'STAGE33_OBSOLETE_RUNS_FOUND={len(obsolete)}'); print(f'STAGE33_OBSOLETE_RUNS_CANCELLED={cancelled}'); print(f'STAGE33_CANCEL_RACES={races}'); print('STAGE33_CANCEL_REASONS='+json.dumps(reasons,sort_keys=True,separators=(',',':'))); print(f'CURRENT_HEAD={current_sha}'); print('PERMANENT_REPLAY_GUARD=LATEST_COMMIT_PATH_INTERSECTION')
           PY
+
+  k1-gap-snapshot:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    outputs:
+      authorized: ${{ steps.plan.outputs.authorized }}
+      missing_count: ${{ steps.plan.outputs.missing_count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - id: authorize
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          k=json.loads(pathlib.Path(os.environ['K1_GAP_RUN_KEY']).read_text())
+          assert k['schema']=='STAGE33_07_K1_SEVEN_SIGN_GAP_RECOVERY_RUNKEY_V1'
+          assert int(k['generation'])==1 and k['armed'] is True
+          assert int(k['source_old32_run_id'])==33004278066
+          assert int(k['source_p7_run_id'])==33013524879
+          assert int(k['source_support_run_id'])==32971195642
+          assert int(k['source_endpoint_run_id'])==32934384807
+          assert int(k['max_missing_old32'])==48 and int(k['max_parallel'])==8
+          assert int(k['timeout_minutes'])==20 and int(k['artifact_retention_days'])==3
+          assert k['stage33_progress']=='6/11' and not k['actual_index512_glue_identified'] and not k['arithmetic_HS_closed']
+          print('K1_GAP_RECOVERY_ARM=PASS')
+          PY
+      - name: Download surviving old32 artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33004278066
+          pattern: k1-geometric-sign-fixed-r32-p*-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/recovery-snapshot/old32
+      - name: Download complete P7 rescue128 artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33013524879
+          pattern: k1-geometric-sign-fixed-p7-r128-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/recovery-snapshot/p7
+      - name: Download exact K1 support shards
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32971195642
+          pattern: k1-geometric-support-orbit-shard-*
+          merge-multiple: true
+          path: stages/stage33/33-07/recovery-snapshot/support
+      - name: Download endpoint seven-sign source
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32934384807
+          name: stage33-07-q256-geometric-sign-endpoint
+          path: stages/stage33/33-07/recovery-snapshot/endpoint
+      - id: plan
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path('stages/stage33/33-07/recovery-snapshot'); k=json.loads(pathlib.Path(os.environ['K1_GAP_RUN_KEY']).read_text())
+          expected={(p,s) for p in range(15) if p!=7 for s in range(32)}; seen=set()
+          for f in sorted((root/'old32').rglob('nonelementary-k1-geometric-sign-fixed-p*-s*.json')):
+              d=json.loads(f.read_text()); p=int(d.get('p_orbit_index',-1)); s=int(d.get('record_shard_index',-1)); n=int(d.get('record_shard_count',-1))
+              if p==7: continue
+              if n!=32 or (p,s) not in expected: raise SystemExit(f'old32 identity regression {f}')
+              if (p,s) in seen: raise SystemExit(f'duplicate old32 {(p,s)}')
+              seen.add((p,s))
+          missing=sorted(expected-seen)
+          if not missing: raise SystemExit('no missing old32 cells; recovery arm stale')
+          if len(missing)>int(k['max_missing_old32']): raise SystemExit(f'missing cap exceeded {len(missing)}')
+          p7=set()
+          for f in sorted((root/'p7').rglob('nonelementary-k1-geometric-sign-fixed-p7-s*.json')):
+              d=json.loads(f.read_text()); p=int(d.get('p_orbit_index',-1)); s=int(d.get('record_shard_index',-1)); n=int(d.get('record_shard_count',-1))
+              if p!=7 or n!=128 or not 0<=s<128: raise SystemExit(f'P7 identity regression {f}')
+              if s in p7: raise SystemExit(f'duplicate P7 {s}')
+              p7.add(s)
+          if p7!=set(range(128)): raise SystemExit(f'P7 rescue128 incomplete {len(p7)}/128')
+          supports=set()
+          for f in (root/'support').rglob('nonelementary-k1-geometric-support-orbit-shard-*.json'):
+              d=json.loads(f.read_text()); supports.add(int(d.get('p_orbit_index',-1)))
+          if supports!=set(range(15)): raise SystemExit(f'support incomplete {sorted(supports)}')
+          endpoint=list((root/'endpoint').rglob('endpoint-coordinate-sign-discriminant-actions-split.json'))
+          if len(endpoint)!=1: raise SystemExit(f'endpoint cardinality {len(endpoint)}')
+          m={'schema':'STAGE33_07_K1_GAP_RECOVERY_MANIFEST_V1','source_old32_run_id':int(k['source_old32_run_id']),'source_p7_run_id':int(k['source_p7_run_id']),'source_support_run_id':int(k['source_support_run_id']),'source_endpoint_run_id':int(k['source_endpoint_run_id']),'base_old32_live_count':len(seen),'missing_old32_coordinates':[list(x) for x in missing],'p7_live_count':128,'snapshot_support_count':15,'artifact_expiry_recovery_only':True,'stage33_progress':'6/11','actual_index512_glue_identified':False,'arithmetic_HS_closed':False}
+          (root/'k1-gap-recovery-manifest.json').write_text(json.dumps(m,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(m,sort_keys=True))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as g: g.write('authorized=true\n'); g.write(f'missing_count={len(missing)}\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-gap-recovery-snapshot
+          retention-days: 3
+          if-no-files-found: error
+          path: stages/stage33/33-07/recovery-snapshot
+
+  k1-gap-repair:
+    needs: k1-gap-snapshot
+    if: needs.k1-gap-snapshot.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        worker: [0,1,2,3,4,5,6,7]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage33-07-k1-gap-recovery-snapshot
+          path: stages/stage33/33-07/recovery-snapshot
+      - name: Recompute assigned missing old32 cells exactly
+        env:
+          WORKER: ${{ matrix.worker }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p gap-worker-output
+          python - <<'PY' > /tmp/coords.txt
+          import json,os
+          m=json.load(open('recovery-snapshot/k1-gap-recovery-manifest.json')); w=int(os.environ['WORKER'])
+          for i,(p,s) in enumerate(m['missing_old32_coordinates']):
+              if i%8==w: print(p,s)
+          PY
+          while read -r p s; do
+            [[ -n "${p:-}" ]] || continue
+            a="$(find recovery-snapshot/support -name "nonelementary-k1-geometric-support-orbit-shard-${p}.json" -print -quit)"
+            b="$(find recovery-snapshot/endpoint -name 'endpoint-coordinate-sign-discriminant-actions-split.json' -print -quit)"
+            [[ -n "$a" && -n "$b" ]]
+            cp "$a" "nonelementary-k1-geometric-support-orbit-shard-${p}.json"
+            cp "$b" endpoint-coordinate-sign-discriminant-actions-split.json
+            P_ORBIT_INDEX="$p" RECORD_SHARD_INDEX="$s" RECORD_SHARD_COUNT=32 python certify_nonelementary_k1_geometric_sign_fixed_shard.py
+            P="$p" S="$s" python - <<'PY'
+          import json,os,pathlib
+          p=int(os.environ['P']); s=int(os.environ['S']); f=pathlib.Path(f'nonelementary-k1-geometric-sign-fixed-p{p}-s{s}.json'); x=json.loads(f.read_text())
+          assert x['p_orbit_index']==p and x['record_shard_index']==s and x['record_shard_count']==32 and p!=7
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert x['endpoint_finite_group_type_filter_enforced'] and x['all_owned_lift_sections_decided_exactly_once'] and not x['fast_or_heuristic_traversal_used']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert f.stat().st_size<=65536
+          PY
+            mv "nonelementary-k1-geometric-sign-fixed-p${p}-s${s}.json" gap-worker-output/
+          done < /tmp/coords.txt
+          printf '%s\n' "worker=${WORKER}" > gap-worker-output/worker-${WORKER}.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k1-gap-repair-worker-${{ matrix.worker }}
+          retention-days: 3
+          if-no-files-found: error
+          path: stages/stage33/33-07/gap-worker-output
+
+  k1-gap-aggregate:
+    needs: [k1-gap-snapshot, k1-gap-repair]
+    if: needs.k1-gap-repair.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage33-07-k1-gap-recovery-snapshot
+          path: stages/stage33/33-07/recovery-snapshot
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: k1-gap-repair-worker-*
+          merge-multiple: true
+          path: stages/stage33/33-07/k1-gap-repaired-subshards
+      - name: Assemble exact mixed partition with no overlap or gap
+        run: |
+          set -euo pipefail
+          rm -rf k1-geometric-sign-fixed-old32-subshards k1-geometric-sign-fixed-p7-rescue128-subshards
+          mkdir -p k1-geometric-sign-fixed-old32-subshards k1-geometric-sign-fixed-p7-rescue128-subshards
+          find recovery-snapshot/old32 -name 'nonelementary-k1-geometric-sign-fixed-p*-s*.json' -exec cp {} k1-geometric-sign-fixed-old32-subshards/ \;
+          find k1-gap-repaired-subshards -name 'nonelementary-k1-geometric-sign-fixed-p*-s*.json' -exec cp {} k1-geometric-sign-fixed-old32-subshards/ \;
+          find recovery-snapshot/p7 -name 'nonelementary-k1-geometric-sign-fixed-p7-s*.json' -exec cp {} k1-geometric-sign-fixed-p7-rescue128-subshards/ \;
+          cp recovery-snapshot/k1-gap-recovery-manifest.json k1-gap-recovery-manifest.json
+          python aggregate_nonelementary_k1_geometric_sign_fixed_p7_gap_recovery.py
+      - name: Enforce exact global coverage and promotion firewalls
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k1-geometric-sign-fixed-p7-gap-recovery-census.json'))
+          assert x['old32_base_live_artifact_count_at_snapshot']+x['old32_gap_repaired_artifact_count']==448
+          assert x['all_old32_artifact_expiry_gaps_repaired_exactly_once'] and x['P7_rescue128_reused_without_recomputation'] and x['artifact_expiry_recovery_only_no_mathematical_shortcut']
+          assert x['all_14x32_old_and_P7x128_rescue_subshards_present_exactly_once'] and x['all_support_orbit_representative_lifts_checked_exactly_once']
+          assert x['weighted_H_checked']==1311205952 and x['all_1311205952_weighted_structural_H_covered_exactly']
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('K1_GAP_RECOVERY_AGGREGATE=PASS_EXACT'); print('SURVIVORS='+str(x['representative_section_survivors'])); print('WEIGHTED_SURVIVORS='+str(x['weighted_H_survivors'])); print('K1_REJECTED='+str(x['k1_nonelementary_type_rejected'])); print('CERT_SHA256='+x['canonical_sha256']); print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-geometric-sign-fixed-gap-recovery-census
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p7-gap-recovery-census.json
