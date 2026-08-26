@@ -6,13 +6,11 @@ on:
     paths:
       - 'stages/stage33/33-07/certify_index512_actual_geometry_glue_adapter.py'
       - 'stages/stage33/33-07/coordinate-k3-transcendental-glue-index.json'
-      - 'stages/stage33/33-07/coordinate-k3-scaled-action-choices-retained.json'
       - '.github/workflows/stage33-07-index512-actual-geometry-glue-adapter.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
-  actions: read
 
 concurrency:
   group: stage33-07-index512-actual-geometry-glue-${{ github.event.pull_request.number || github.ref }}
@@ -24,18 +22,9 @@ jobs:
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-      - name: Recover locked unique-orbit bridge certificate
-        shell: bash
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set -euo pipefail
-          d="$(mktemp -d)"
-          gh run download 32927499125 --repo "${GITHUB_REPOSITORY}" --name stage33-07-index512-unique-surviving-glue-orbit-bridge --dir "$d"
-          cp "$d/index512-unique-surviving-glue-orbit-bridge.json" stages/stage33/33-07/
-      - name: Certify actual geometric glue orbit
+      - name: Certify exact geometric glue existence with arithmetic firewall
         run: python stages/stage33/33-07/certify_index512_actual_geometry_glue_adapter.py
-      - name: Enforce orbit-only firewall
+      - name: Enforce no arithmetic-V4 promotion
         run: |
           python - <<'PY'
           import json
@@ -44,22 +33,27 @@ jobs:
           assert x['overlattice_correspondence_applied'] is True
           assert x['actual_glue_H_exists_as_T_over_L0'] is True
           assert x['actual_glue_H_order']==512
-          assert x['actual_geometry_glue_in_locked_endpoint_compatibility_candidate_universe'] is True
-          assert x['actual_geometry_glue_nonnelementary_rejected_by_exhaustive_classification'] is True
-          assert x['actual_geometry_glue_is_elementary'] is True
-          assert x['actual_geometry_glue_existence_in_rep88_orbit_proved'] is True
-          assert x['actual_geometry_glue_integral_Aut_L0_orbit_representative']==88
-          assert x['actual_geometry_glue_possible_locked_labeled_embeddings']==[120,121,122,123]
-          assert x['actual_index512_glue_identified_up_to_integral_Aut_L0_orbit'] is True
-          assert x['INDEX512_GLUE_ACTUAL_GEOMETRY_PROVED'] is True
-          assert x['actual_labeled_glue_subgroup_identified'] is False
-          assert x['actual_labeled_glue_generator_set_identified'] is False
-          for k in ('arithmetic_HS_closed','stage33_08_released','stage33_09_released','theorem_credit','endpoint_credit','perfect_cuboid_nonexistence_claim'):
-              assert x[k] is False
+          assert x['actual_glue_H_isotropic_in_A_L0'] is True
+          assert x['actual_endpoint_discriminant_is_Hperp_over_H'] is True
+          assert x['finite_discriminant_cc_ct_extension_census_is_not_integral_betti_promotion'] is True
+          for k in (
+              'arithmetic_cc_ct_action_on_integral_T_proved',
+              'actual_geometry_glue_in_q_plus_V4_candidate_universe_proved',
+              'actual_geometry_glue_nonnelementary_rejected_by_V4_classification',
+              'actual_geometry_glue_is_elementary',
+              'actual_geometry_glue_existence_in_rep88_orbit_proved',
+              'actual_index512_glue_identified_up_to_integral_Aut_L0_orbit',
+              'actual_labeled_glue_subgroup_identified',
+              'actual_labeled_glue_generator_set_identified',
+              'INDEX512_GLUE_ACTUAL_GEOMETRY_PROVED',
+              'arithmetic_HS_closed','stage33_08_released','stage33_09_released',
+              'theorem_credit','endpoint_credit','perfect_cuboid_nonexistence_claim'):
+              assert x[k] is False, k
           assert x['stage33_progress']=='6/11'
-          print('INDEX512_ACTUAL_GEOMETRY_GLUE_ADAPTER=PASS_EXACT_ORBIT')
-          print('ACTUAL_GLUE_ORBIT_REPRESENTATIVE=88')
-          print('LOCKED_LABELED_EMBEDDINGS=120,121,122,123')
+          assert x['next_exact_leaf']=='L33-07-FULL-Q-PLUS-SEVEN-GEOMETRIC-SIGNS-WITHOUT-ARITHMETIC-V4'
+          print('INDEX512_ACTUAL_GEOMETRY_GLUE_ADAPTER=PASS_EXACT_EXISTENCE_FIREWALLED')
+          print('ARITHMETIC_INTEGRAL_T_ACTION_PROMOTED=FALSE')
+          print('REP88_ACTUAL_GEOMETRY_PROVED=FALSE')
           print('CERT_SHA256='+x['canonical_sha256'])
           PY
       - uses: actions/upload-artifact@v4
