@@ -117,7 +117,7 @@ jobs:
           PY
 
   k1-gap-snapshot:
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     outputs:
@@ -126,7 +126,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - id: authorize
         shell: bash
         run: |
@@ -144,13 +144,26 @@ jobs:
           assert k['stage33_progress']=='6/11' and not k['actual_index512_glue_identified'] and not k['arithmetic_HS_closed']
           print('K1_GAP_RECOVERY_ARM=PASS')
           PY
-      - name: Download surviving old32 artifacts
+      # actions/download-artifact currently enumerates at most 400 matches in one
+      # invocation.  The old32 source run has 451 matching artifacts (448 required
+      # non-P7 cells plus three obsolete P7 cells), so partition the download into
+      # two disjoint name families that are each below that bound.
+      - name: Download old32 single-digit P-orbit artifacts
         uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: 33004278066
-          pattern: k1-geometric-sign-fixed-r32-p*-s*
+          pattern: k1-geometric-sign-fixed-r32-p?-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/recovery-snapshot/old32
+      - name: Download old32 two-digit P-orbit artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33004278066
+          pattern: k1-geometric-sign-fixed-r32-p1?-s*
           merge-multiple: true
           path: stages/stage33/33-07/recovery-snapshot/old32
       - name: Download complete P7 rescue128 artifacts
@@ -193,8 +206,7 @@ jobs:
               if (p,s) in seen: raise SystemExit(f'duplicate old32 {(p,s)}')
               seen.add((p,s))
           missing=sorted(expected-seen)
-          if not missing: raise SystemExit('no missing old32 cells; recovery arm stale')
-          if len(missing)>int(k['max_missing_old32']): raise SystemExit(f'missing cap exceeded {len(missing)}')
+          if missing: raise SystemExit(f'split enumeration still incomplete missing={missing[:20]} count={len(missing)}')
           p7=set()
           for f in sorted((root/'p7').rglob('nonelementary-k1-geometric-sign-fixed-p7-s*.json')):
               d=json.loads(f.read_text()); p=int(d.get('p_orbit_index',-1)); s=int(d.get('record_shard_index',-1)); n=int(d.get('record_shard_count',-1))
@@ -208,17 +220,52 @@ jobs:
           if supports!=set(range(15)): raise SystemExit(f'support incomplete {sorted(supports)}')
           endpoint=list((root/'endpoint').rglob('endpoint-coordinate-sign-discriminant-actions-split.json'))
           if len(endpoint)!=1: raise SystemExit(f'endpoint cardinality {len(endpoint)}')
-          m={'schema':'STAGE33_07_K1_GAP_RECOVERY_MANIFEST_V1','source_old32_run_id':int(k['source_old32_run_id']),'source_p7_run_id':int(k['source_p7_run_id']),'source_support_run_id':int(k['source_support_run_id']),'source_endpoint_run_id':int(k['source_endpoint_run_id']),'base_old32_live_count':len(seen),'missing_old32_coordinates':[list(x) for x in missing],'p7_live_count':128,'snapshot_support_count':15,'artifact_expiry_recovery_only':True,'stage33_progress':'6/11','actual_index512_glue_identified':False,'arithmetic_HS_closed':False}
-          (root/'k1-gap-recovery-manifest.json').write_text(json.dumps(m,indent=2,sort_keys=True)+'\n')
+          m={'schema':'STAGE33_07_K1_ENUMERATION_CAP_RECOVERY_MANIFEST_V1','source_old32_run_id':int(k['source_old32_run_id']),'source_p7_run_id':int(k['source_p7_run_id']),'source_support_run_id':int(k['source_support_run_id']),'source_endpoint_run_id':int(k['source_endpoint_run_id']),'old32_required_count':448,'old32_downloaded_count':len(seen),'old32_missing_count':0,'p7_required_count':128,'p7_downloaded_count':len(p7),'support_required_count':15,'support_downloaded_count':len(supports),'source_artifact_zipped_bytes':3354230,'new_intermediate_artifacts_uploaded':0,'maximum_new_final_artifact_bytes':131072,'raw_sources_runner_local':True,'download_partition_patterns':['k1-geometric-sign-fixed-r32-p?-s*','k1-geometric-sign-fixed-r32-p1?-s*'],'enumeration_cap_recovery_only_no_mathematical_recomputation':True,'stage33_progress':'6/11','actual_index512_glue_identified':False,'arithmetic_HS_closed':False}
+          (root/'k1-enumeration-cap-recovery-manifest.json').write_text(json.dumps(m,indent=2,sort_keys=True)+'\n')
           print(json.dumps(m,sort_keys=True))
-          with open(os.environ['GITHUB_OUTPUT'],'a') as g: g.write('authorized=true\n'); g.write(f'missing_count={len(missing)}\n')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as g: g.write('authorized=false\n'); g.write('missing_count=0\n')
+          PY
+      - name: Assemble and verify the exact mixed partition on-runner
+        working-directory: stages/stage33/33-07
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf k1-geometric-sign-fixed-old32-subshards k1-geometric-sign-fixed-p7-rescue128-subshards
+          mkdir -p k1-geometric-sign-fixed-old32-subshards k1-geometric-sign-fixed-p7-rescue128-subshards
+          find recovery-snapshot/old32 -name 'nonelementary-k1-geometric-sign-fixed-p*-s*.json' -exec cp {} k1-geometric-sign-fixed-old32-subshards/ \;
+          find recovery-snapshot/p7 -name 'nonelementary-k1-geometric-sign-fixed-p7-s*.json' -exec cp {} k1-geometric-sign-fixed-p7-rescue128-subshards/ \;
+          python aggregate_nonelementary_k1_geometric_sign_fixed_p7_rescue128.py
+      - name: Enforce exact global coverage, bounded storage, and promotion firewalls
+        working-directory: stages/stage33/33-07
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json,pathlib
+          x=json.load(open('nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json'))
+          m=json.load(open('recovery-snapshot/k1-enumeration-cap-recovery-manifest.json'))
+          assert m['old32_downloaded_count']==m['old32_required_count']==448 and m['old32_missing_count']==0
+          assert m['p7_downloaded_count']==m['p7_required_count']==128
+          assert m['support_downloaded_count']==m['support_required_count']==15
+          assert m['source_artifact_zipped_bytes']==3354230 and m['new_intermediate_artifacts_uploaded']==0
+          assert m['maximum_new_final_artifact_bytes']==131072 and m['raw_sources_runner_local']
+          assert m['enumeration_cap_recovery_only_no_mathematical_recomputation']
+          assert x['all_14x32_old_and_P7x128_rescue_subshards_present_exactly_once'] and x['all_support_orbit_representative_lifts_checked_exactly_once']
+          assert x['weighted_H_checked']==1311205952 and x['all_1311205952_weighted_structural_H_covered_exactly']
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          files=[pathlib.Path('nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json'),pathlib.Path('recovery-snapshot/k1-enumeration-cap-recovery-manifest.json')]
+          assert sum(f.stat().st_size for f in files)<=m['maximum_new_final_artifact_bytes']
+          print('K1_ENUMERATION_CAP_RECOVERY=PASS_EXACT'); print('SURVIVORS='+str(x['representative_section_survivors'])); print('WEIGHTED_SURVIVORS='+str(x['weighted_H_survivors'])); print('K1_REJECTED='+str(x['k1_nonelementary_type_rejected'])); print('CERT_SHA256='+x['canonical_sha256']); print('NEXT='+x['next_exact_leaf'])
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-k1-gap-recovery-snapshot
-          retention-days: 3
+          name: stage33-07-k1-geometric-sign-fixed-enumeration-recovery
+          retention-days: 5
           if-no-files-found: error
-          path: stages/stage33/33-07/recovery-snapshot
+          path: |
+            stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json
+            stages/stage33/33-07/recovery-snapshot/k1-enumeration-cap-recovery-manifest.json
 
   k1-gap-repair:
     needs: k1-gap-snapshot
