@@ -38,6 +38,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Rebuild exact Q4 prerequisite
+        run: python certify_nonelementary_target_q4_rank_obstruction.py
       - name: Enumerate one exact source-symmetry P orbit
         env:
           P_ORBIT_INDEX: ${{ matrix.p_orbit }}
