@@ -1,0 +1,66 @@
+name: Stage33-07 index512 unique surviving glue orbit bridge
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-07/certify_index512_unique_glue_orbit_bridge.py'
+      - '.github/workflows/stage33-07-index512-unique-glue-orbit-bridge.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage33-07-index512-unique-glue-orbit-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  bridge:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recover locked elementary and non-elementary certificates
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          e="$(mktemp -d)"
+          n="$(mktemp -d)"
+          gh run download 32813130544 --repo "${GITHUB_REPOSITORY}" --name stage33-07-q64-coordinate-sign-census --dir "$e"
+          gh run download 32923805047 --repo "${GITHUB_REPOSITORY}" --name stage33-07-k1-action33-simultaneous-q-v4 --dir "$n"
+          cp "$e/elementary-index512-q64-coordinate-sign-census.json" stages/stage33/33-07/
+          cp "$e/elementary-index512-q64-integral-orbits.json" stages/stage33/33-07/
+          cp "$e/elementary-q64-coordinate-sign-orbit-reduction.json" stages/stage33/33-07/
+          cp "$n/nonelementary-k1-action33-simultaneous-q-v4-certified.json" stages/stage33/33-07/
+      - name: Certify unique surviving integral glue orbit
+        run: python stages/stage33/33-07/certify_index512_unique_glue_orbit_bridge.py
+      - name: Enforce conservative actual-glue firewall
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage33/33-07/index512-unique-surviving-glue-orbit-bridge.json'
+          x=json.load(open(p))
+          assert x['all_non_elementary_index512_types_eliminated'] is True
+          assert x['non_elementary_survivor_count']==0
+          assert x['elementary_surviving_integral_Aut_L0_orbit_count']==1
+          assert x['unique_surviving_integral_glue_orbit_representative']==88
+          assert x['elementary_surviving_labeled_embeddings']==[120,121,122,123]
+          assert x['unique_surviving_integral_glue_orbit_among_locked_endpoint_compatibility_candidates'] is True
+          assert x['actual_geometry_glue_existence_in_rep88_orbit_proved'] is False
+          for k in ('actual_index512_glue_identified','arithmetic_HS_closed','stage33_08_released','stage33_09_released','theorem_credit','endpoint_credit','perfect_cuboid_nonexistence_claim'):
+              assert x[k] is False
+          assert x['stage33_progress']=='6/11'
+          print('INDEX512_UNIQUE_SURVIVING_GLUE_ORBIT_BRIDGE=PASS_EXACT')
+          print('REPRESENTATIVE=88')
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-index512-unique-surviving-glue-orbit-bridge
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/index512-unique-surviving-glue-orbit-bridge.json
