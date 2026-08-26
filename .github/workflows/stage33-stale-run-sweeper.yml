@@ -159,14 +159,14 @@ jobs:
             --pattern 'k1-geometric-sign-fixed-r32-p1?-s*' \
             --dir stages/stage33/33-07/recovery-snapshot/old32
       - name: Download complete P7 rescue128 artifacts
-        uses: actions/download-artifact@v4
-        with:
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: 33013524879
-          pattern: k1-geometric-sign-fixed-p7-r128-s*
-          merge-multiple: true
-          path: stages/stage33/33-07/recovery-snapshot/p7
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh run download 33013524879 \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern 'k1-geometric-sign-fixed-p7-r128-s*' \
+            --dir stages/stage33/33-07/recovery-snapshot/p7
       - name: Download exact K1 support shards
         uses: actions/download-artifact@v4
         with:
