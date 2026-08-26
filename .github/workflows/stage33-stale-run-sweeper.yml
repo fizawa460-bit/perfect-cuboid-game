@@ -233,6 +233,7 @@ jobs:
           find recovery-snapshot/old32 -name 'nonelementary-k1-geometric-sign-fixed-p*-s*.json' -exec cp {} k1-geometric-sign-fixed-old32-subshards/ \;
           find recovery-snapshot/p7 -name 'nonelementary-k1-geometric-sign-fixed-p7-s*.json' -exec cp {} k1-geometric-sign-fixed-p7-rescue128-subshards/ \;
           python aggregate_nonelementary_k1_geometric_sign_fixed_p7_rescue128.py
+          python assemble_nonelementary_k123_geometric_integration.py
       - name: Enforce exact global coverage, bounded storage, and promotion firewalls
         working-directory: stages/stage33/33-07
         shell: bash
@@ -240,6 +241,7 @@ jobs:
           python - <<'PY'
           import json,pathlib
           x=json.load(open('nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json'))
+          y=json.load(open('nonelementary-k123-geometric-integration.json'))
           m=json.load(open('recovery-snapshot/k1-enumeration-cap-recovery-manifest.json'))
           assert m['old32_downloaded_count']==m['old32_required_count']==448 and m['old32_missing_count']==0
           assert m['p7_downloaded_count']==m['p7_required_count']==128
@@ -252,9 +254,14 @@ jobs:
           assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
           assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
           assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
-          files=[pathlib.Path('nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json'),pathlib.Path('recovery-snapshot/k1-enumeration-cap-recovery-manifest.json')]
+          assert y['rejected_non_elementary_types']==['K1','K3'] and y['remaining_non_elementary_types']==['K2']
+          assert y['exact_geometric_prefix']['K2']['surviving_orbits']==867 and y['exact_geometric_prefix']['K2']['surviving_weighted_H']==517873664
+          assert y['unit_status']=='BLOCKED_NEW_KERNEL' and not y['unit_closed'] and not y['downstream_released']
+          assert not y['actual_index512_glue_identified'] and not y['arithmetic_HS_closed'] and y['stage33_progress']=='6/11'
+          assert not y['theorem_credit'] and not y['endpoint_credit'] and not y['perfect_cuboid_nonexistence_claim']
+          files=[pathlib.Path('nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json'),pathlib.Path('nonelementary-k123-geometric-integration.json'),pathlib.Path('recovery-snapshot/k1-enumeration-cap-recovery-manifest.json')]
           assert sum(f.stat().st_size for f in files)<=m['maximum_new_final_artifact_bytes']
-          print('K1_ENUMERATION_CAP_RECOVERY=PASS_EXACT'); print('SURVIVORS='+str(x['representative_section_survivors'])); print('WEIGHTED_SURVIVORS='+str(x['weighted_H_survivors'])); print('K1_REJECTED='+str(x['k1_nonelementary_type_rejected'])); print('CERT_SHA256='+x['canonical_sha256']); print('NEXT='+x['next_exact_leaf'])
+          print('K1_ENUMERATION_CAP_RECOVERY=PASS_EXACT'); print('SURVIVORS='+str(x['representative_section_survivors'])); print('WEIGHTED_SURVIVORS='+str(x['weighted_H_survivors'])); print('K1_REJECTED='+str(x['k1_nonelementary_type_rejected'])); print('K1_CERT_SHA256='+x['canonical_sha256']); print('K123_INTEGRATION_SHA256='+y['canonical_sha256']); print('NEXT='+y['next_exact_leaf'])
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -263,6 +270,7 @@ jobs:
           if-no-files-found: error
           path: |
             stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json
+            stages/stage33/33-07/nonelementary-k123-geometric-integration.json
             stages/stage33/33-07/recovery-snapshot/k1-enumeration-cap-recovery-manifest.json
 
   k1-gap-repair:

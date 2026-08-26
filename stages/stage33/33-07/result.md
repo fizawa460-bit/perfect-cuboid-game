@@ -74,3 +74,41 @@ L33-07-REPAIR-COMPUTE-ARITHMETIC-HS-DESCENT-OF-BR0G-RESIDUE-LIFTS
 ```
 
 No Brauer--Manin emptiness, endpoint emptiness, or Perfect Cuboid existence/nonexistence conclusion follows from this reopened state.
+
+## Retained exact non-elementary geometric prefix (PR #1409)
+
+The firewalled K1 pure-geometric seven-sign fixed filtration completed exactly
+without rerunning any timed-out mathematical shard. Existing `14 x 32` non-P7
+and `P7 x 128` evidence was recovered through paginated artifact enumeration and
+verified as one disjoint mixed partition.
+
+```text
+K1_TYPE=Z/4 direct_sum (Z/2)^7
+K1_SUPPORT_SKELETON_COUNT=20487593
+K1_WEIGHTED_H_CHECKED=1311205952
+K1_REPRESENTATIVE_SURVIVORS=0
+K1_WEIGHTED_SURVIVORS=0
+K1_EXACTLY_REJECTED=true
+K1_CERTIFICATE_SHA256=7ac64a76b8132e044b145d009e331476f55e04a78001a127bce6fe3034c206fa
+```
+
+Together with the retained K2 and K3 exact prefixes, this leaves only K2 among
+the three non-elementary abstract order-512 types:
+
+```text
+K1=REJECTED
+K2=SURVIVES_PREFIX_WITH_867_ORBITS_AND_517873664_WEIGHTED_H
+K3=REJECTED
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+```
+
+This abstract-type reduction does not identify the actual endpoint glue and
+does not repair the arithmetic Hochschild--Serre descent kernel. The formal
+Stage33-07 state therefore remains `BLOCKED_NEW_KERNEL`, with Stage33-08
+unreleased. The next exact geometric leaf is
+
+```text
+L33-07-EXACT-Q2-PROFILE-AND-AFFINE-COMPRESSION-ON-K2-GEOMETRIC-FULL-Q4-SURVIVORS
+```
