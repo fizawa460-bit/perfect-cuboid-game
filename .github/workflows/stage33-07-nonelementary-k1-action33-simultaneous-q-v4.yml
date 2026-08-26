@@ -1,16 +1,9 @@
 name: Stage33-07 non-elementary k1 action33 simultaneous full q V4
 
+# Manual-only legacy leaf. The arithmetic cc/ct integral-T promotion is not
+# accepted by the current firewall, and this 90-minute workflow must not replay
+# automatically from the whole PR diff.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'stages/stage33/33-07/certify_nonelementary_k1_action33_simultaneous_q_v4.py'
-      - 'stages/stage33/33-07/scout_nonelementary_k12_action_filtration.py'
-      - 'stages/stage33/33-07/scout_nonelementary_k12_full_q_isometry.py'
-      - 'stages/stage33/33-07/coordinate-k3-scaled-action-choices-retained.json'
-      - 'stages/stage33/33-07/picard-discriminant-compact.json'
-      - 'stages/stage33/33-07/nonelementary-k3-full-q4-retained.json'
-      - '.github/workflows/stage33-07-nonelementary-k1-action33-simultaneous-q-v4.yml'
   workflow_dispatch:
 
 permissions:
@@ -18,7 +11,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: stage33-07-k1-action33-simultaneous-q-v4-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-07-k1-action33-simultaneous-q-v4-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
