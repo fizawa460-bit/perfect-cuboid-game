@@ -1,26 +1,15 @@
 name: Stage33-07 elementary q256 geometric-sign census
 
+# Manual-only: this completed multi-shard census must not replay from the
+# whole-PR paths diff on every Stage33-07 synchronize event.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'stages/stage33/33-07/certify_elementary_index512_q256_geometric_sign_split_shard.py'
-      - 'stages/stage33/33-07/aggregate_elementary_index512_q256_geometric_sign_split.py'
-      - 'stages/stage33/33-07/extract_picard_gram_rows.py'
-      - 'stages/stage33/33-07/extract_picard_action_rows.py'
-      - 'stages/stage33/33-07/picard_coordinate_sign_rows_retained.py'
-      - 'stages/stage33/33-07/materialize_picard_coordinate_sign_rows_retained.py'
-      - 'stages/stage33/33-07/derive_endpoint_coordinate_sign_discriminant_from_split.py'
-      - 'stages/stage33/33-07/elementary_index512_q256_retained.py'
-      - 'stages/stage33/33-07/elementary-index512-q256-full-q-census-retained.json'
-      - '.github/workflows/stage33-07-elementary-q256-geometric-sign.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: stage33-07-q256-geometric-sign-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-07-q256-geometric-sign-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
