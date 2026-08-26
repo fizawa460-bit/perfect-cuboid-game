@@ -48,9 +48,9 @@ def main():
     for pid in PILOT_IDS:
         download(a.repo,require_name(pilot,f'stage32-18o-b14-pilot-packet-{pid}-g1'),token,root/'pilot'/str(pid),zips,inventory)
     for primary in HOT_IDS:
-        download(a.repo,require_name(hot,f'stage32-18q-b14-logical-primary-{primary}-of1024-g1'),token,root/'hot'/str(primary),zips,inventory)
+        download(a.repo,require_name(hot,f'stage32-18s-b14-logical-primary-{primary}-of1024-g1'),token,root/'hot'/str(primary),zips,inventory)
     b12=api_json(f'https://api.github.com/repos/{a.repo}/actions/artifacts/{a.b12_artifact_id}',token)
     download(a.repo,b12,token,root/'b12',zips,inventory)
-    (root/'artifact-inventory.json').write_text(json.dumps({'schema':'STAGE32_18R_B14_INPUT_ARTIFACT_INVENTORY_V1','repo':a.repo,'bulk_run_id':a.bulk_run_id,'pilot_run_id':a.pilot_run_id,'hot_run_id':a.hot_run_id,'b12_artifact_id':a.b12_artifact_id,'artifacts':inventory},indent=2,sort_keys=True)+'\n')
-    print(json.dumps({'bulk_packets':len(BULK_IDS),'pilot_packets':PILOT_IDS,'hot_primaries':HOT_IDS,'artifact_count':len(inventory)},sort_keys=True))
+    (root/'artifact-inventory.json').write_text(json.dumps({'schema':'STAGE32_18R_B14_INPUT_ARTIFACT_INVENTORY_V2','repo':a.repo,'bulk_run_id':a.bulk_run_id,'pilot_run_id':a.pilot_run_id,'hot_run_id':a.hot_run_id,'hot_source':'Stage32-18S repaired logical parents','b12_artifact_id':a.b12_artifact_id,'artifacts':inventory},indent=2,sort_keys=True)+'\n')
+    print(json.dumps({'bulk_packets':len(BULK_IDS),'pilot_packets':PILOT_IDS,'hot_primaries':HOT_IDS,'hot_source':'18S','artifact_count':len(inventory)},sort_keys=True))
 if __name__=='__main__': main()
