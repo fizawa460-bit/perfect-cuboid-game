@@ -7,6 +7,7 @@ HOT_SCHEMA='STAGE32_18Q_D16_B14_EXACT_LOGICAL_HOT_PARENT_V1'
 LOCK_KEYS=['aut_group_order','stable_aut_content_sha256','prepared_input_sha256','canonical_bundle_sha256','dfs_symmetry_breaker_count']
 BULK_EXCLUDED={0,15,63,64,173}; BULK_IDS=[i for i in range(256) if i not in BULK_EXCLUDED]; PILOT_IDS=[63,64,173]
 HOT_PACKET_TO_PRIMARY={0:748,15:26}
+ALLOWED_BULK_SOURCES={'18P_frozen_snapshot','18T_prior_success_carryover','18T_union_resume_current'}
 
 def read_records(p:pathlib.Path):
     raw=p.read_bytes()
@@ -62,11 +63,17 @@ def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--bulk',type=pathlib.Path,required=True); ap.add_argument('--pilot',type=pathlib.Path,required=True); ap.add_argument('--hot',type=pathlib.Path,required=True); ap.add_argument('--manifest',type=pathlib.Path,required=True); ap.add_argument('--audited-b12-dump',type=pathlib.Path,required=True); ap.add_argument('--inventory',type=pathlib.Path,required=True); ap.add_argument('--output-json',type=pathlib.Path,required=True); ap.add_argument('--output-dump',type=pathlib.Path,required=True); ap.add_argument('--certificate',type=pathlib.Path,required=True)
     a=ap.parse_args(); manifest=json.loads(a.manifest.read_text()); inv=json.loads(a.inventory.read_text())
     if manifest.get('schema')!='STAGE32_18O_D16_B14_PACKET_MANIFEST_V1' or manifest.get('packet_count')!=256 or manifest.get('coverage_exact') is not True or manifest.get('residues_exactly_once') is not True: raise RuntimeError('bad packet manifest')
-    if inv.get('schema')!='STAGE32_18R_B14_INPUT_ARTIFACT_INVENTORY_V3' or inv.get('handoff_exact') is not True: raise RuntimeError('bad 18R input inventory')
-    if (int(inv.get('legacy_packet_count',-1)),int(inv.get('resume_packet_count',-1)))!=(41,210): raise RuntimeError('bad frozen handoff counts')
+    if inv.get('schema')!='STAGE32_18R_B14_INPUT_ARTIFACT_INVENTORY_V4' or inv.get('handoff_exact') is not True: raise RuntimeError('bad 18R union input inventory')
+
+    legacy_n=int(inv.get('legacy_packet_count',-1)); resume_n=int(inv.get('resume_complement_packet_count',-1))
+    carry_n=int(inv.get('carryover_packet_count',-1)); current_n=int(inv.get('current_resume_packet_count',-1))
+    if legacy_n+resume_n!=len(BULK_IDS) or carry_n+current_n!=resume_n: raise RuntimeError('bad union handoff counts')
     bulk_sources={int(k):v for k,v in inv.get('bulk_packet_sources',{}).items()}
     if set(bulk_sources)!=set(BULK_IDS): raise RuntimeError('bulk source provenance incomplete')
-    if sum(v=='18P_frozen_snapshot' for v in bulk_sources.values())!=41 or sum(v=='18T_resume_complement' for v in bulk_sources.values())!=210: raise RuntimeError('bulk source provenance counts mismatch')
+    if any(v not in ALLOWED_BULK_SOURCES for v in bulk_sources.values()): raise RuntimeError('unknown bulk source provenance')
+    if sum(v=='18P_frozen_snapshot' for v in bulk_sources.values())!=legacy_n: raise RuntimeError('legacy provenance count mismatch')
+    if sum(v=='18T_prior_success_carryover' for v in bulk_sources.values())!=carry_n: raise RuntimeError('carry provenance count mismatch')
+    if sum(v=='18T_union_resume_current' for v in bulk_sources.values())!=current_n: raise RuntimeError('current resume provenance count mismatch')
 
     lock=[None]; records=[]; hist={}; residues=[]; packet_sources={}; packet_counts={}
     for pid in BULK_IDS:
@@ -89,8 +96,34 @@ def main():
     records=sorted(records); a.output_dump.parent.mkdir(parents=True,exist_ok=True); a.output_dump.write_bytes(MAGIC+b''.join(records)); dump_sha=sha(a.output_dump)
     aut,stable,inputsha,bundle,breakers=lock[0]
     if aut!=1536 or breakers!=256: raise RuntimeError('bad final group/breaker lock')
-    out={'schema':'STAGE32_18R_D16_B14_RESCUE_AWARE_GLOBAL_AGGREGATE_V2','status':'COMPLETE','bound':14,'aut_group_order':1536,'stable_aut_content_sha256':stable,'prepared_input_sha256':inputsha,'canonical_bundle_sha256':bundle,'dfs_symmetry_breaker_count':256,'logical_packet_count':256,'logical_packet_partition_exact':True,'logical_residue_count':1024,'logical_residue_partition_exact':True,'hot_rescue_primary_residues':[26,748],'reused_pilot_packet_ids':PILOT_IDS,'bulk_packet_count':len(BULK_IDS),'legacy_frozen_packet_count':41,'resume_complement_packet_count':210,'canonical_survivors_including_zero':len(records),'canonical_nonzero_survivors':len(records)-hist.get('0',0),'canonical_norm_histogram':hist,'new_norm14_canonical_survivors':hist.get('14',0),'canonical_dump_sha256':dump_sha,'audited_b12_predecessor_set_identical':True,'audited_b12_predecessor_count':len(b12),'audited_b12_dump_sha256':'03616e7c03cdca9b4c8408cec671b0ef6bd26713fe5ca60e2021a7d6e897abd5','TRAVERSAL_COMPLETENESS_CERTIFICATE':True,'all_symmetry_branch_rejections_exact_rational_cauchy_schwarz':True,'telemetry_semantics':'No hypothetical single-run global nodes/trials total is claimed; packet and nested-rescue executions repeat pre-split work.','packet_sources':packet_sources,'packet_record_counts':packet_counts,'artifact_inventory':inv,'GLOBAL_B14_AGGREGATION_COMPLETE':True,'D16_B14_NUMERICAL_CREDIT':False,'D16_B14_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT':True,'AUDIT_STATUS':'PENDING','FULL_D16_G0_ROW_COMPLETE':False,'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,'R29_LG2_NUMERICAL_COMPONENT_COMPLETE':False,'R29_LG2':'NOT_DISCHARGED','THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+    out={'schema':'STAGE32_18R_D16_B14_RESCUE_AWARE_GLOBAL_AGGREGATE_V3','status':'COMPLETE','bound':14,
+        'aut_group_order':1536,'stable_aut_content_sha256':stable,'prepared_input_sha256':inputsha,'canonical_bundle_sha256':bundle,
+        'dfs_symmetry_breaker_count':256,'logical_packet_count':256,'logical_packet_partition_exact':True,
+        'logical_residue_count':1024,'logical_residue_partition_exact':True,'hot_rescue_primary_residues':[26,748],
+        'reused_pilot_packet_ids':PILOT_IDS,'bulk_packet_count':len(BULK_IDS),
+        'legacy_frozen_packet_count':legacy_n,'resume_complement_packet_count':resume_n,
+        'carryover_packet_count':carry_n,'current_resume_packet_count':current_n,
+        'canonical_survivors_including_zero':len(records),'canonical_nonzero_survivors':len(records)-hist.get('0',0),
+        'canonical_norm_histogram':hist,'new_norm14_canonical_survivors':hist.get('14',0),'canonical_dump_sha256':dump_sha,
+        'audited_b12_predecessor_set_identical':True,'audited_b12_predecessor_count':len(b12),
+        'audited_b12_dump_sha256':'03616e7c03cdca9b4c8408cec671b0ef6bd26713fe5ca60e2021a7d6e897abd5',
+        'TRAVERSAL_COMPLETENESS_CERTIFICATE':True,'all_symmetry_branch_rejections_exact_rational_cauchy_schwarz':True,
+        'telemetry_semantics':'No hypothetical single-run global nodes/trials total is claimed; packet and nested-rescue executions repeat pre-split work.',
+        'packet_sources':packet_sources,'packet_record_counts':packet_counts,'artifact_inventory':inv,
+        'GLOBAL_B14_AGGREGATION_COMPLETE':True,'D16_B14_NUMERICAL_CREDIT':False,'D16_B14_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT':True,
+        'AUDIT_STATUS':'PENDING','FULL_D16_G0_ROW_COMPLETE':False,'FULL_D176_D192_NUMERICAL_ORBIT_CENSUS':False,
+        'R29_LG2_NUMERICAL_COMPONENT_COMPLETE':False,'R29_LG2':'NOT_DISCHARGED','THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
     a.output_json.write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
-    cert={'schema':'STAGE32_18R_D16_B14_RESCUE_AWARE_CERTIFICATE_V2','verdict':'PASS_EXACT_RESCUE_AWARE_D16_B14_PRODUCTION_PENDING_HOSTILE_AUDIT','canonical_survivors_including_zero':len(records),'canonical_nonzero_survivors':out['canonical_nonzero_survivors'],'canonical_norm_histogram':hist,'new_norm14_canonical_survivors':hist.get('14',0),'canonical_dump_sha256':dump_sha,'logical_packet_partition_exact':True,'logical_residue_partition_exact':True,'legacy_frozen_packet_count':41,'resume_complement_packet_count':210,'hot_rescue_primary_residues':[26,748],'audited_b12_predecessor_set_identical':True,'TRAVERSAL_COMPLETENESS_CERTIFICATE':True,'GLOBAL_B14_AGGREGATION_COMPLETE':True,'D16_B14_NUMERICAL_CREDIT':False,'D16_B14_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT':True,'AUDIT_STATUS':'PENDING','FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+    cert={'schema':'STAGE32_18R_D16_B14_RESCUE_AWARE_CERTIFICATE_V3',
+        'verdict':'PASS_EXACT_RESCUE_AWARE_D16_B14_PRODUCTION_PENDING_HOSTILE_AUDIT',
+        'canonical_survivors_including_zero':len(records),'canonical_nonzero_survivors':out['canonical_nonzero_survivors'],
+        'canonical_norm_histogram':hist,'new_norm14_canonical_survivors':hist.get('14',0),'canonical_dump_sha256':dump_sha,
+        'logical_packet_partition_exact':True,'logical_residue_partition_exact':True,
+        'legacy_frozen_packet_count':legacy_n,'resume_complement_packet_count':resume_n,
+        'carryover_packet_count':carry_n,'current_resume_packet_count':current_n,
+        'hot_rescue_primary_residues':[26,748],'audited_b12_predecessor_set_identical':True,
+        'TRAVERSAL_COMPLETENESS_CERTIFICATE':True,'GLOBAL_B14_AGGREGATION_COMPLETE':True,
+        'D16_B14_NUMERICAL_CREDIT':False,'D16_B14_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT':True,
+        'AUDIT_STATUS':'PENDING','FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
     a.certificate.write_text(json.dumps(cert,indent=2,sort_keys=True)+'\n'); print(json.dumps(cert,sort_keys=True))
 if __name__=='__main__': main()
