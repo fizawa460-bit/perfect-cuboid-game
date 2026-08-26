@@ -131,7 +131,7 @@ jobs:
     needs: [validate-and-snapshot, prepare]
     strategy:
       fail-fast: false
-      max-parallel: 10
+      max-parallel: 5
       matrix: ${{ fromJSON(needs.validate-and-snapshot.outputs.hot_matrix) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 60
@@ -170,7 +170,7 @@ jobs:
     needs: [validate-and-snapshot, prepare, hot-subshard]
     strategy:
       fail-fast: false
-      max-parallel: 10
+      max-parallel: 5
       matrix: ${{ fromJSON(needs.validate-and-snapshot.outputs.hot_packet_matrix) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 30
