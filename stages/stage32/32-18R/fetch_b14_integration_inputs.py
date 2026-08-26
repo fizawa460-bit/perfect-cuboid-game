@@ -22,8 +22,7 @@ def list_run_artifacts(repo:str,run:int,token:str):
         if len(xs)<100: break
         page+=1
     table={}
-    for a in out:
-        table.setdefault(a['name'],[]).append(a)
+    for a in out: table.setdefault(a['name'],[]).append(a)
     return table
 
 def require_unique(table,name):
@@ -40,8 +39,7 @@ def artifact_by_id(repo:str,aid:int,token:str):
 
 def download(repo:str,a:dict,token:str,dest:pathlib.Path,zips:pathlib.Path,inventory:list,expected_zip_sha:str|None=None,expected_run:int|None=None):
     aid=int(a['id'])
-    if expected_run is not None and int(a.get('workflow_run',{}).get('id',-1))!=expected_run:
-        raise RuntimeError(f'artifact {aid} run mismatch')
+    if expected_run is not None and int(a.get('workflow_run',{}).get('id',-1))!=expected_run: raise RuntimeError(f'artifact {aid} run mismatch')
     z=zips/f'{aid}.zip'; zips.mkdir(parents=True,exist_ok=True); dest.mkdir(parents=True,exist_ok=True)
     subprocess.run(['curl','-L','--fail','--silent','--show-error','-H',f'Authorization: Bearer {token}','-H','X-GitHub-Api-Version: 2022-11-28','-o',str(z),f'https://api.github.com/repos/{repo}/actions/artifacts/{aid}/zip'],check=True)
     got=hashlib.sha256(z.read_bytes()).hexdigest(); digest=a.get('digest')
@@ -53,34 +51,26 @@ def download(repo:str,a:dict,token:str,dest:pathlib.Path,zips:pathlib.Path,inven
 
 def main():
     ap=argparse.ArgumentParser()
-    ap.add_argument('--repo',required=True)
-    ap.add_argument('--legacy-run-id',type=int,required=True)
-    ap.add_argument('--resume-run-id',type=int,required=True)
-    ap.add_argument('--snapshot-artifact-id',type=int,required=True)
-    ap.add_argument('--snapshot-artifact-zip-sha256',required=True)
-    ap.add_argument('--prepared-artifact-id',type=int,required=True)
-    ap.add_argument('--prepared-artifact-zip-sha256',required=True)
-    ap.add_argument('--pilot-run-id',type=int,required=True)
-    ap.add_argument('--hot-run-id',type=int,required=True)
-    ap.add_argument('--b12-artifact-id',type=int,required=True)
-    ap.add_argument('--b12-artifact-zip-sha256',required=True)
+    ap.add_argument('--repo',required=True); ap.add_argument('--legacy-run-id',type=int,required=True); ap.add_argument('--resume-run-id',type=int,required=True)
+    ap.add_argument('--snapshot-artifact-id',type=int,required=True); ap.add_argument('--snapshot-artifact-zip-sha256',required=True)
+    ap.add_argument('--prepared-artifact-id',type=int,required=True); ap.add_argument('--prepared-artifact-zip-sha256',required=True)
+    ap.add_argument('--pilot-run-id',type=int,required=True); ap.add_argument('--hot-run-id',type=int,required=True)
+    ap.add_argument('--hot26-artifact-id',type=int,required=True); ap.add_argument('--hot26-artifact-zip-sha256',required=True)
+    ap.add_argument('--hot748-artifact-id',type=int,required=True); ap.add_argument('--hot748-artifact-zip-sha256',required=True)
+    ap.add_argument('--b12-artifact-id',type=int,required=True); ap.add_argument('--b12-artifact-zip-sha256',required=True)
     ap.add_argument('--output',type=pathlib.Path,required=True)
     a=ap.parse_args(); token=os.environ.get('GH_TOKEN') or os.environ.get('GITHUB_TOKEN')
     if not token: raise RuntimeError('GH_TOKEN required')
     root=a.output; root.mkdir(parents=True,exist_ok=True); zips=root/'zips'; inventory=[]
 
-    resume_table=list_run_artifacts(a.repo,a.resume_run_id,token)
-    pilot_table=list_run_artifacts(a.repo,a.pilot_run_id,token)
-    hot_table=list_run_artifacts(a.repo,a.hot_run_id,token)
-
+    resume_table=list_run_artifacts(a.repo,a.resume_run_id,token); pilot_table=list_run_artifacts(a.repo,a.pilot_run_id,token)
     snap_art=artifact_by_id(a.repo,a.snapshot_artifact_id,token)
     if snap_art['name']!=SNAPSHOT_NAME: raise RuntimeError('snapshot artifact name mismatch')
     download(a.repo,snap_art,token,root/'control'/'snapshot',zips,inventory,a.snapshot_artifact_zip_sha256,a.resume_run_id)
     summary_art=require_unique(resume_table,RESUME_SUMMARY_NAME)
     download(a.repo,summary_art,token,root/'control'/'resume',zips,inventory,expected_run=a.resume_run_id)
 
-    snap=json.loads((root/'control'/'snapshot'/'source-completion.json').read_text())
-    summary=json.loads((root/'control'/'resume'/'resume-summary.json').read_text())
+    snap=json.loads((root/'control'/'snapshot'/'source-completion.json').read_text()); summary=json.loads((root/'control'/'resume'/'resume-summary.json').read_text())
     if snap.get('schema')!='STAGE32_18T_B14_SOURCE_COMPLETION_SNAPSHOT_V1': raise RuntimeError('bad source snapshot schema')
     if summary.get('schema')!='STAGE32_18T_B14_OPTIMIZED_RESUME_SUMMARY_V1': raise RuntimeError('bad resume summary schema')
     if int(snap.get('source_run_id',-1))!=a.legacy_run_id or int(summary.get('source_run_id',-1))!=a.legacy_run_id: raise RuntimeError('legacy source run mismatch')
@@ -103,30 +93,21 @@ def main():
         meta=complete_meta[pid]; art=artifact_by_id(a.repo,int(meta['artifact_id']),token)
         if art['name']!=meta['artifact_name']: raise RuntimeError(f'legacy artifact name mismatch packet {pid}')
         if art.get('digest')!=meta.get('artifact_digest'): raise RuntimeError(f'legacy artifact digest metadata changed packet {pid}')
-        download(a.repo,art,token,root/'bulk'/str(pid),zips,inventory,expected_run=a.legacy_run_id)
-        bulk_sources[str(pid)]='18P_frozen_snapshot'
+        download(a.repo,art,token,root/'bulk'/str(pid),zips,inventory,expected_run=a.legacy_run_id); bulk_sources[str(pid)]='18P_frozen_snapshot'
     for pid in missing_ids:
         art=require_unique(resume_table,f'stage32-18t-b14-packet-{pid}-g1')
-        download(a.repo,art,token,root/'bulk'/str(pid),zips,inventory,expected_run=a.resume_run_id)
-        bulk_sources[str(pid)]='18T_resume_complement'
+        download(a.repo,art,token,root/'bulk'/str(pid),zips,inventory,expected_run=a.resume_run_id); bulk_sources[str(pid)]='18T_resume_complement'
 
     for pid in PILOT_IDS:
         download(a.repo,require_unique(pilot_table,f'stage32-18o-b14-pilot-packet-{pid}-g1'),token,root/'pilot'/str(pid),zips,inventory,expected_run=a.pilot_run_id)
+    hot_locks={26:(a.hot26_artifact_id,a.hot26_artifact_zip_sha256),748:(a.hot748_artifact_id,a.hot748_artifact_zip_sha256)}
     for primary in HOT_IDS:
-        download(a.repo,require_unique(hot_table,f'stage32-18s-b14-logical-primary-{primary}-of1024-g1'),token,root/'hot'/str(primary),zips,inventory,expected_run=a.hot_run_id)
-    b12=artifact_by_id(a.repo,a.b12_artifact_id,token)
-    download(a.repo,b12,token,root/'b12',zips,inventory,a.b12_artifact_zip_sha256)
+        aid,want=hot_locks[primary]; art=artifact_by_id(a.repo,aid,token)
+        if art['name']!=f'stage32-18s-b14-logical-primary-{primary}-of1024-g1': raise RuntimeError(f'hot artifact name mismatch {primary}')
+        download(a.repo,art,token,root/'hot'/str(primary),zips,inventory,want,a.hot_run_id)
+    b12=artifact_by_id(a.repo,a.b12_artifact_id,token); download(a.repo,b12,token,root/'b12',zips,inventory,a.b12_artifact_zip_sha256)
 
-    out={
-      'schema':'STAGE32_18R_B14_INPUT_ARTIFACT_INVENTORY_V3','repo':a.repo,
-      'legacy_run_id':a.legacy_run_id,'resume_run_id':a.resume_run_id,'snapshot_artifact_id':a.snapshot_artifact_id,
-      'resume_summary_artifact_id':int(summary_art['id']),'prepared_artifact_id':a.prepared_artifact_id,
-      'pilot_run_id':a.pilot_run_id,'hot_run_id':a.hot_run_id,'hot_source':'Stage32-18S hostile-audited repaired logical parents',
-      'b12_artifact_id':a.b12_artifact_id,'legacy_source_complete_ids':source_ids,'resume_packet_ids':missing_ids,
-      'bulk_packet_sources':bulk_sources,'artifacts':inventory,
-      'handoff_exact':True,'legacy_packet_count':41,'resume_packet_count':210,
-      'D16_B14_NUMERICAL_CREDIT':False,'GLOBAL_B14_AGGREGATION_COMPLETE':False,'AUDIT_STATUS':'PENDING'
-    }
+    out={'schema':'STAGE32_18R_B14_INPUT_ARTIFACT_INVENTORY_V3','repo':a.repo,'legacy_run_id':a.legacy_run_id,'resume_run_id':a.resume_run_id,'snapshot_artifact_id':a.snapshot_artifact_id,'resume_summary_artifact_id':int(summary_art['id']),'prepared_artifact_id':a.prepared_artifact_id,'pilot_run_id':a.pilot_run_id,'hot_run_id':a.hot_run_id,'hot_artifact_ids':{'26':a.hot26_artifact_id,'748':a.hot748_artifact_id},'hot_source':'Stage32-18S hostile-audited repaired logical parents','b12_artifact_id':a.b12_artifact_id,'legacy_source_complete_ids':source_ids,'resume_packet_ids':missing_ids,'bulk_packet_sources':bulk_sources,'artifacts':inventory,'handoff_exact':True,'legacy_packet_count':41,'resume_packet_count':210,'D16_B14_NUMERICAL_CREDIT':False,'GLOBAL_B14_AGGREGATION_COMPLETE':False,'AUDIT_STATUS':'PENDING'}
     (root/'artifact-inventory.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
     print(json.dumps({'legacy_packets':41,'resume_packets':210,'pilot_packets':PILOT_IDS,'hot_primaries':HOT_IDS,'artifact_count':len(inventory),'handoff_exact':True},sort_keys=True))
 if __name__=='__main__': main()
