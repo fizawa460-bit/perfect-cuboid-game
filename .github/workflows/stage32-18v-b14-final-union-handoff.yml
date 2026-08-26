@@ -1,0 +1,167 @@
+name: Stage32-18V b14 final union handoff
+
+on:
+  pull_request:
+    types: [synchronize]
+    paths:
+      - 'stages/stage32/runkeys/18v-b14-final-union-handoff.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18v-final-union-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  assemble-final-union:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 0
+      - name: Validate explicit final-union arm
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.event.after }}
+        run: |
+          set -euo pipefail
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$AFTER")
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = 'stages/stage32/runkeys/18v-b14-final-union-handoff.json'
+          test "$(git log -1 --pretty=%s "$AFTER")" = 'Stage32-18V: ARM FINAL UNION HANDOFF'
+          python - <<'PY'
+          import json,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18v-b14-final-union-handoff.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18v-b14-final-union-handoff'
+          assert d['armed'] is True and d['generation']==1 and d['bound']==14
+          assert d['source_18t_run_id']==32972417382
+          assert d['tail_18u_run_id']==33003656883
+          assert d['tail_packet_ids']==[127,158,162]
+          assert d['expected_counts']=={'source':42,'carry':135,'run14':71,'tail':3,'bulk':251}
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18t-b14-source-snapshot-g2
+          path: ${{ runner.temp }}/final/snapshot
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32972417382
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18t-b14-resume-summary-g2
+          path: ${{ runner.temp }}/final/resume
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32972417382
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18t-b14-packet-*-g2
+          path: ${{ runner.temp }}/final/run14
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32972417382
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18u-b14-tail-summary-g1
+          path: ${{ runner.temp }}/final/tail-summary
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33003656883
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18t-b14-packet-*-g2
+          path: ${{ runner.temp }}/final/tail
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33003656883
+      - name: Freeze exact 42+135+71+3 union snapshot
+        run: |
+          python - <<'PY'
+          import json,os,pathlib,shutil
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'final'
+          sp=root/'snapshot/source-completion.json'; snap=json.loads(sp.read_text())
+          resume=json.loads((root/'resume/resume-summary.json').read_text())
+          tail=json.loads((root/'tail-summary/tail-summary.json').read_text())
+          assert snap['schema']=='STAGE32_18T_B14_RESUME_UNION_SNAPSHOT_V3'
+          assert resume['schema']=='STAGE32_18T_B14_OPTIMIZED_RESUME_SUMMARY_V2'
+          assert tail['schema']=='STAGE32_18U_B14_THREE_RESIDUE_TAIL_SUMMARY_V1'
+          assert tail['status']=='COMPLETE' and tail['ready_for_final_18t_union'] is True
+          source=set(map(int,snap['source_complete_ids'])); complement=set(map(int,snap['source_missing_bulk_ids']))
+          carry=set(map(int,snap['carry_complete_packet_ids'])); remaining=set(map(int,snap['missing_bulk_ids']))
+          complete=set(map(int,resume['resume_complete_ids'])); missing=set(map(int,resume['resume_missing_ids']))
+          tail_ids={127,158,162}
+          assert (len(source),len(complement),len(carry),len(remaining))==(42,209,135,74)
+          assert missing==tail_ids and set(map(int,tail['packets']))==tail_ids
+          assert complete|missing==complement and not (complete&missing)
+          run14_expected=complete-carry
+          assert len(run14_expected)==71 and run14_expected|tail_ids==remaining
+          def scan(base):
+              out={}
+              for p in base.rglob('packet-certificate.json'):
+                  d=json.loads(p.read_text()); pid=int(d.get('packet_id',-1))
+                  if d.get('status')!='COMPLETE' or d.get('TRAVERSAL_COMPLETENESS_CERTIFICATE') is not True: continue
+                  if pid in out: raise RuntimeError(f'duplicate COMPLETE packet {pid}')
+                  out[pid]=(p.parent,d)
+              return out
+          r14=scan(root/'run14'); tr=scan(root/'tail')
+          assert set(r14)==run14_expected, (sorted(run14_expected-set(r14)),sorted(set(r14)-run14_expected))
+          assert set(tr)==tail_ids
+          dstroot=root/'snapshot/carryover/packets'; dstroot.mkdir(parents=True,exist_ok=True)
+          ledger={int(x['packet_id']):x for x in snap.get('carry_packet_artifacts',[])}
+          audit=list(snap.get('carry_audit',[]))
+          for pid,(src,d) in sorted(r14.items()):
+              dst=dstroot/str(pid)
+              if dst.exists(): shutil.rmtree(dst)
+              shutil.copytree(src,dst)
+              meta={'packet_id':pid,'run_id':32972417382,'job_id':None,'job_name':f'final-union-import packet {pid}',
+                    'artifact_id':None,'artifact_name':f'stage32-18t-b14-packet-{pid}-g2','artifact_digest':None}
+              ledger[pid]=meta; audit.append({'kind':'packet-final-union-run14',**meta})
+          for pid,(src,d) in sorted(tr.items()):
+              want=tail['packets'][str(pid)]
+              assert d['canonical_dump_sha256']==want['dump_sha256']
+              assert int(d['canonical_survivors_including_zero'])==int(want['canonical'])
+              dst=dstroot/str(pid)
+              if dst.exists(): shutil.rmtree(dst)
+              shutil.copytree(src,dst)
+              meta={'packet_id':pid,'run_id':33003656883,'job_id':None,'job_name':f'18U tail rescue packet {pid}',
+                    'artifact_id':None,'artifact_name':f'stage32-18t-b14-packet-{pid}-g2','artifact_digest':None}
+              ledger[pid]=meta; audit.append({'kind':'packet-final-union-18u-tail',**meta})
+          assert set(ledger)==complement
+          snap['carry_complete_packet_ids']=sorted(complement)
+          snap['carry_packet_artifacts']=[ledger[i] for i in sorted(ledger)]
+          snap['carry_audit']=audit
+          snap['missing_bulk_ids']=[]; snap['missing_hot_ids']=[]; snap['missing_regular_ids']=[]
+          snap['hot_matrix']=[]; snap['hot_compute_ids']=[]; snap['hot_packet_matrix']={'packet_id':[]}; snap['regular_matrix']={'packet_id':[]}
+          snap['final_union_handoff']=True
+          snap['final_union_counts']={'source':42,'carry':135,'run14':71,'tail':3,'bulk':251}
+          snap['final_union_source_runs']={'18T':32972417382,'18U':33003656883}
+          sp.write_text(json.dumps(snap,indent=2,sort_keys=True)+'\n')
+          out={'schema':'STAGE32_18T_B14_OPTIMIZED_RESUME_SUMMARY_V2','source_run_id':snap['source_run_id'],
+               'carry_run_ids':snap['carry_run_ids']+[32972417382,33003656883],
+               'source_complete_ids':snap['source_complete_ids'],'carry_complete_packet_ids':sorted(complement),
+               'resume_expected_ids':sorted(complement),'resume_complete_ids':sorted(complement),
+               'resume_missing_ids':[],'resume_extra_ids':[],'ready_for_18r':True,
+               'final_union_handoff':True,'final_union_counts':snap['final_union_counts'],
+               'D16_B14_NUMERICAL_CREDIT':False,'GLOBAL_B14_AGGREGATION_COMPLETE':False,'AUDIT_STATUS':'PENDING'}
+          (root/'resume-summary-final.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'source':42,'carry':135,'run14':71,'tail':3,'bulk':251,'ready_for_18r':True},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18t-b14-source-snapshot-g2
+          path: ${{ runner.temp }}/final/snapshot/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Normalize final summary filename
+        run: cp "$RUNNER_TEMP/final/resume-summary-final.json" resume-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18t-b14-resume-summary-g2
+          path: resume-summary.json
+          retention-days: 14
+          if-no-files-found: error
