@@ -1,0 +1,212 @@
+name: Stage32-18X d16 b16 c48x8 tail pilot
+
+on:
+  push:
+    branches:
+      - stage32-18x-b16-tail-geometry-pilot-clean
+    paths:
+      - 'stages/stage32/runkeys/18x-b16-tail-geometry-x8.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18x-b16-tail-geometry-x8
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.key.outputs.matrix }}
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/18x-b16-tail-geometry-x8.json'
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18X: ARM B16 C48X8 TAIL PILOT'
+      - id: key
+        name: Validate x8 contract
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18x-b16-tail-geometry-x8.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18x-d16-b16-tail-geometry-x8'
+          assert d['armed'] is True and d['generation']==2 and d['bound']==16
+          assert d['accepted_b14_canonical_survivors']==44450
+          assert d['accepted_b14_dump_sha256']=='4d4680a87fab0c01ac8b54bcf404eecaa707cf5db782b31d5fa7357a52249d8a'
+          assert d['prepared_artifact_id']==9626136705
+          assert d['prepared_zip_sha256']=='f706cd79cf1fc64da0a59bc5cc528ea677e3892f602d3f58d78cb1543bf8380c'
+          assert d['primary_residues']==[436,503,922]
+          assert d['primary_coordinate']==54 and d['primary_modulus']==1024
+          assert d['secondary_coordinate']==48 and d['secondary_shard_count']==8
+          assert d['node_cap']==18000000 and d['max_parallel']==15
+          inc=[]
+          for p in d['primary_residues']:
+              for s in range(8):
+                  inc.append({'tag':f'c48x8-p{p}-s{s}','primary':p,'secondary':s})
+          assert len(inc)==24
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('generation=2\n')
+              f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          print(json.dumps({'jobs':len(inc),'matrix':inc},sort_keys=True))
+          PY
+
+  pilot:
+    needs: validate-run-key
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix: ${{ fromJSON(needs.validate-run-key.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Restore SHA-locked prepared certifiers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/prepared"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 2 \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/prepared.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9626136705/zip"
+          echo 'f706cd79cf1fc64da0a59bc5cc528ea677e3892f602d3f58d78cb1543bf8380c  '"$RUNNER_TEMP/prepared.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/prepared.zip" -d "$RUNNER_TEMP/prepared"
+          chmod +x "$RUNNER_TEMP/prepared/d16-two-stage-436" "$RUNNER_TEMP/prepared/d16-two-stage-503" "$RUNNER_TEMP/prepared/d16-two-stage-922"
+      - name: Exact real-leaf pilot ${{ matrix.tag }}
+        env:
+          PRIMARY: ${{ matrix.primary }}
+          SECONDARY: ${{ matrix.secondary }}
+          TAG: ${{ matrix.tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/out"
+          exe="$RUNNER_TEMP/prepared/d16-two-stage-$PRIMARY"
+          set +e
+          /usr/bin/time -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" \
+            "$exe" \
+              --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+              --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+              --output "$RUNNER_TEMP/out/cert.json" \
+              --dump-canonical "$RUNNER_TEMP/out/dump.bin" \
+              --bound 16 --shard-id "$SECONDARY" --shard-count 8 --split-coordinate 48 --node-cap 18000000 \
+              >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ]; then
+            if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then
+              RC="$rc" python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          runtime=float((root/'runtime.txt').read_text().strip())
+          out={'schema':'STAGE32_18X_B16_TAIL_GEOMETRY_X8_RESULT_V1','tag':os.environ['TAG'],'primary_residue':int(os.environ['PRIMARY']),'secondary_shard':int(os.environ['SECONDARY']),'secondary_shard_count':8,'status':'RESOURCE_WALL_NODE_CAP','node_cap':18000000,'runtime_seconds':runtime,'exit_code':int(os.environ['RC']),'D16_B16_NUMERICAL_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+            else
+              cat "$RUNNER_TEMP/out/stderr.txt"
+              exit "$rc"
+            fi
+          else
+            python - <<'PY'
+          import hashlib,json,os,pathlib
+          MAGIC=b'S32D16C1'; RS=141
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          d=json.loads((root/'cert.json').read_text()); p=int(os.environ['PRIMARY']); s=int(os.environ['SECONDARY'])
+          assert d['schema']=='STAGE32_18X_D16_B16_TWO_STAGE_SHARD_V1' and d['status']=='COMPLETE' and d['bound']==16
+          assert d['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert d['all_symmetry_branch_rejections_exact_rational_cauchy_schwarz'] is True
+          assert d['aut_group_order']==1536 and d['dfs_symmetry_breaker_count']==256
+          assert d['two_stage_partition'] is True
+          assert (d['primary_shard_id'],d['primary_shard_count'],d['primary_split_coordinate'])==(p,1024,54)
+          assert (d['secondary_shard_id'],d['secondary_shard_count'],d['secondary_split_coordinate'])==(s,8,48)
+          raw=(root/'dump.bin').read_bytes(); assert raw[:8]==MAGIC and (len(raw)-8)%RS==0
+          n=(len(raw)-8)//RS; assert n==int(d['canonical_survivors_including_zero'])
+          runtime=float((root/'runtime.txt').read_text().strip())
+          out={'schema':'STAGE32_18X_B16_TAIL_GEOMETRY_X8_RESULT_V1','tag':os.environ['TAG'],'primary_residue':p,'secondary_shard':s,'secondary_shard_count':8,'status':'COMPLETE','node_cap':18000000,'runtime_seconds':runtime,'canonical_survivors_including_zero':n,'canonical_norm_histogram':d['canonical_norm_histogram'],'canonical_dump_sha256':hashlib.sha256(raw).hexdigest(),'nodes':d.get('nodes'),'coordinate_trials':d.get('coordinate_trials'),'prepared_input_sha256':d.get('prepared_input_sha256'),'stable_aut_content_sha256':d.get('stable_aut_content_sha256'),'canonical_bundle_sha256':d.get('canonical_bundle_sha256'),'aut_group_order':1536,'dfs_symmetry_breaker_count':256,'D16_B16_NUMERICAL_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18x-b16-${{ matrix.tag }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
+
+  summarize:
+    needs: [validate-run-key, pilot]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18x-b16-c48x8-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/runs
+      - name: Verify x8 geometry evidence and freeze verdict
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          MAGIC=b'S32D16C1'; RS=141
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'runs'
+          docs={}; dirs={}
+          for p in root.rglob('compact.json'):
+              d=json.loads(p.read_text()); docs[d['tag']]=d; dirs[d['tag']]=p.parent
+          expected={f'c48x8-p{q}-s{s}' for q in (436,503,922) for s in range(8)}
+          assert set(docs)==expected,(set(docs),expected)
+          per={}; all_complete=True; source_lock=None
+          for q in (436,503,922):
+              ss=[docs[f'c48x8-p{q}-s{s}'] for s in range(8)]
+              statuses=[d['status'] for d in ss]
+              complete=all(x=='COMPLETE' for x in statuses)
+              info={'statuses':statuses,'all_complete':complete,'runtime_seconds':[d['runtime_seconds'] for d in ss]}
+              if complete:
+                  recs=[]; hist={}
+                  for s,d in enumerate(ss):
+                      lock=(d['prepared_input_sha256'],d['stable_aut_content_sha256'],d['canonical_bundle_sha256'],d['aut_group_order'],d['dfs_symmetry_breaker_count'])
+                      if source_lock is None: source_lock=lock
+                      assert lock==source_lock
+                      raw=(dirs[f'c48x8-p{q}-s{s}']/'dump.bin').read_bytes(); assert raw[:8]==MAGIC and (len(raw)-8)%RS==0
+                      recs.extend(raw[i:i+RS] for i in range(8,len(raw),RS))
+                      for k,v in d['canonical_norm_histogram'].items(): hist[str(k)]=hist.get(str(k),0)+int(v)
+                  assert len(recs)==len(set(recs))
+                  record_hist={}
+                  for r in recs: record_hist[str(r[0])]=record_hist.get(str(r[0]),0)+1
+                  assert record_hist==hist,(record_hist,hist)
+                  union=MAGIC+b''.join(sorted(recs))
+                  info['canonical_survivors_including_zero']=len(recs)
+                  info['canonical_norm_histogram']=hist
+                  info['union_dump_sha256']=hashlib.sha256(union).hexdigest()
+                  info['max_runtime_seconds']=max(d['runtime_seconds'] for d in ss)
+                  info['max_nodes']=max(int(d['nodes']) for d in ss)
+              else:
+                  all_complete=False
+              per[str(q)]=info
+          if all_complete:
+              verdict='PASS_B16_TAIL_GEOMETRY__C48_EIGHT_WAY_CLOSES_HISTORICAL_TAILS__PRODUCTION_DESIGN_READY'
+              next_item='32-18Y-D16-B16-RESOURCE-SAFE-EXACT-PRODUCTION'
+          else:
+              verdict='B16_TAIL_GEOMETRY__C48_EIGHT_WAY_INSUFFICIENT__FINER_SECONDARY_SPLIT_REQUIRED'
+              next_item='32-18Y-D16-B16-C48X16-TAIL-PILOT'
+          out={'schema':'STAGE32_18X_B16_TAIL_GEOMETRY_X8_SUMMARY_V1','verdict':verdict,'primary_residues':[436,503,922],'primary_coordinate':54,'primary_modulus':1024,'secondary_coordinate':48,'secondary_shard_count':8,'node_cap':18000000,'per_primary':per,'next_item':next_item,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          outdir=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; outdir.mkdir()
+          (outdir/'stage32-18x-b16-tail-geometry-x8-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'verdict':verdict,'per_primary':per,'next_item':next_item},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18x-b16-tail-geometry-x8-summary-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/summary/
+          retention-days: 14
+          if-no-files-found: error
