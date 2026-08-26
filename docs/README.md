@@ -8,6 +8,8 @@ Stage16-29 の研究プログラムは **CLOSED** です。完全直方体問題
 
 GitHub Actions・大量並列・長時間計算・大量artifactを伴う作業を始める前に、root [`../AGENTS.md`](../AGENTS.md) の **CRITICAL repo-wide rule: bounded Actions storage before compute** と [`research-os/policies/actions-storage-and-evidence-safety.md`](research-os/policies/actions-storage-and-evidence-safety.md) を先に読んでください。
 
+数学・計算結果を上位claimへ昇格するときは、[`research-os/policies/research-credit-and-promotion-firewalls.md`](research-os/policies/research-credit-and-promotion-firewalls.md) を必ず適用してください。Stage16-33で繰り返し発生した過剰昇格・transfer・double-charge・有限計算の一般化・監査後の差し戻しを、repo-wide mandatory ruleとして統合したものです。
+
 計算時間や並列数だけでなく、**peak artifact storage を事前見積りし、安全容量を超える可能性があるbatchは投げない**ことがrepo全体の最優先運用ルールです。raw exhaustive evidenceは原則runner内で検証し、永続化はcompact deterministic certificateを優先します。
 
 ### GitHub Actions の絶対運用上限
@@ -22,6 +24,23 @@ GitHub Actions・大量並列・長時間計算・大量artifactを伴う作業�
 - 既存heavy workflowは、**次回armする前に**このcommit-range authorization gateへ移行する。現時点でrepo全体がmechanically enforced済みとは扱わない。
 
 この並列上限・storage上限・heavy再発火防止は同じrepo-wide mandatory ruleであり、Stage固有の都合では上書きできません。
+
+### 研究信用・claim昇格の絶対規約
+
+次はStage固有ではなくrepo-wide mandatoryです。
+
+- **有限計算・有限census・有限zero hit・finite fitは、漸近・一般定理・全域非存在へ自動昇格しない。**
+- **計算証拠、numerical credit、receiver discharge、theorem credit、effectivity/existence credit、endpoint creditを分離する。** 下位creditから上位creditへの昇格には明示的な監査済みadapter/proofが必要。
+- **population、ratio、measure、cutoff、multiplicity、primitivity、height、field、quotient、mask等の意味を勝手に移さない。** transferにはadapterが必要。
+- **有限群・quotient・`Qbar`・`Q(i)`・別モデルでの結果を、absolute/global/`Q`上の元問題へ自動昇格しない。** descent/lift/inflationを別に閉じる。
+- **saving・local condition・interaction factorを二重にchargeしない。** 名前の違うrouteを掛け合わせてfake product savingを作らない。independenceは証明する。
+- **class/orbit/lattice/cohomologyの列挙と、実際のcurve/point/divisor/familyの存在・effectivityを分離する。**
+- **downstreamへ信用をreleaseできるのは、active controllerが要求する audited CLOSED dependencyだけ。**
+- **hostile auditは過去のPASS/CLOSEDをreopen・downgrade・supersedeできる。** 間違いを後続都合で温存しない。
+- **routeの失敗や有限zero hitは、問題そのものの不可能性を意味しない。**
+- **完全直方体の存在/不存在claimには、full physical endpointを対象とする明示的な最終certificateが必要。**
+
+詳細と将来controllerの継承形式は [`research-credit-and-promotion-firewalls.md`](research-os/policies/research-credit-and-promotion-firewalls.md) を正本とします。
 
 ## まず読む
 
