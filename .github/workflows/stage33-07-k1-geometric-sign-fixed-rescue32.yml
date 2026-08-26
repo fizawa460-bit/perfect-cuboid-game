@@ -1,0 +1,103 @@
+name: Stage33-07 k1 seven-sign rescue32
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/stage33-07-k1-geometric-sign-fixed-rescue32.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: stage33-07-k1-seven-sign-rescue32-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    outputs:
+      support_run: ${{ steps.support.outputs.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: support
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          for attempt in $(seq 1 240); do
+            found=''
+            while IFS=$'\t' read -r id status conclusion head; do
+              [[ -n "$id" ]] || continue
+              [[ "$status" == completed && "$conclusion" == success ]] || continue
+              n="$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs/${id}/artifacts" --jq '[.artifacts[] | select(.name=="stage33-07-k1-geometric-support-orbits" and .expired==false)] | length')"
+              if [[ "$n" -ge 1 ]]; then found="$id"; break; fi
+            done < <(gh run list --repo "${GITHUB_REPOSITORY}" --workflow stage33-07-k1-geometric-support-orbits.yml --branch "${GITHUB_HEAD_REF}" --event pull_request --limit 20 --json databaseId,status,conclusion,headSha --jq '.[] | [.databaseId,.status,(.conclusion//""),.headSha] | @tsv')
+            if [[ -n "$found" ]]; then echo "run_id=$found" >> "$GITHUB_OUTPUT"; exit 0; fi
+            sleep 20
+          done
+          exit 1
+      - name: Verify endpoint artifact
+        shell: bash
+        env: {GH_TOKEN: '${{ github.token }}'}
+        run: |
+          d="$(mktemp -d)"; gh run download 32934384807 --repo "${GITHUB_REPOSITORY}" --name stage33-07-q256-geometric-sign-endpoint --dir "$d"; test -s "$d/endpoint-coordinate-sign-discriminant-actions-split.json"
+  census32:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 32
+      matrix:
+        p_orbit: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        record_shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recover exact support shard and endpoint signs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          P_ORBIT_INDEX: ${{ matrix.p_orbit }}
+          SUPPORT_RUN: ${{ needs.prepare.outputs.support_run }}
+        run: |
+          set -euo pipefail
+          p="$P_ORBIT_INDEX"; run=32965326642
+          if [[ "$p" == 5 || "$p" == 7 ]]; then run="$SUPPORT_RUN"; fi
+          a="$(mktemp -d)"; b="$(mktemp -d)"
+          gh run download "$run" --repo "${GITHUB_REPOSITORY}" --name "k1-geometric-support-orbit-shard-${p}" --dir "$a"
+          gh run download 32934384807 --repo "${GITHUB_REPOSITORY}" --name stage33-07-q256-geometric-sign-endpoint --dir "$b"
+          cp "$a/nonelementary-k1-geometric-support-orbit-shard-${p}.json" .
+          cp "$b/endpoint-coordinate-sign-discriminant-actions-split.json" .
+      - name: Exhaust exact owned representative lifts in half-sized shard
+        env:
+          P_ORBIT_INDEX: ${{ matrix.p_orbit }}
+          RECORD_SHARD_INDEX: ${{ matrix.record_shard }}
+          RECORD_SHARD_COUNT: '32'
+        run: python certify_nonelementary_k1_geometric_sign_fixed_shard.py
+      - name: Enforce rescue firewall
+        env:
+          P_ORBIT_INDEX: ${{ matrix.p_orbit }}
+          RECORD_SHARD_INDEX: ${{ matrix.record_shard }}
+        run: |
+          python - <<'PY'
+          import json,os
+          p=int(os.environ['P_ORBIT_INDEX']); s=int(os.environ['RECORD_SHARD_INDEX'])
+          x=json.load(open(f'nonelementary-k1-geometric-sign-fixed-p{p}-s{s}.json'))
+          assert x['p_orbit_index']==p and x['record_shard_index']==s and x['record_shard_count']==32
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert x['endpoint_finite_group_type_filter_enforced'] and x['all_owned_lift_sections_decided_exactly_once']
+          assert not x['fast_or_heuristic_traversal_used'] and x['stage33_progress']=='6/11'
+          print(f'K1_RESCUE32_P{p}_S{s}=PASS_EXACT')
+          print('SURVIVORS='+str(x['representative_section_survivors']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k1-geometric-sign-fixed-r32-p${{ matrix.p_orbit }}-s${{ matrix.record_shard }}
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p${{ matrix.p_orbit }}-s${{ matrix.record_shard }}.json
