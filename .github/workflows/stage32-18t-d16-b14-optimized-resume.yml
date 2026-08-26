@@ -21,6 +21,7 @@ jobs:
       hot_matrix: ${{ steps.snap.outputs.hot_matrix }}
       hot_packet_matrix: ${{ steps.snap.outputs.hot_packet_matrix }}
       regular_matrix: ${{ steps.snap.outputs.regular_matrix }}
+      regular_parallel: ${{ steps.snap.outputs.regular_parallel }}
       hot_ids: ${{ steps.snap.outputs.hot_ids }}
       missing_ids: ${{ steps.snap.outputs.missing_ids }}
       source_complete_count: ${{ steps.snap.outputs.source_complete_count }}
@@ -57,19 +58,24 @@ jobs:
             --carry-run-id 32925549204 \
             --carry-run-id 32960594528 \
             --carry-run-id 32960613337 \
+            --carry-run-id 32967268226 \
             --carry-dir "$RUNNER_TEMP/snapshot/carryover" \
             --output "$RUNNER_TEMP/snapshot/source-completion.json"
           python - <<'PY'
           import json,os,pathlib
           d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'snapshot/source-completion.json').read_text())
+          regular_parallel=15 if len(d['hot_matrix'])==0 else 10
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('hot_matrix='+json.dumps({'include':d['hot_matrix']},separators=(',',':'))+'\n')
               f.write('hot_packet_matrix='+json.dumps(d['hot_packet_matrix'],separators=(',',':'))+'\n')
               f.write('regular_matrix='+json.dumps(d['regular_matrix'],separators=(',',':'))+'\n')
+              f.write('regular_parallel='+str(regular_parallel)+'\n')
               f.write('hot_ids='+json.dumps(d['hot_compute_ids'],separators=(',',':'))+'\n')
               f.write('missing_ids='+json.dumps(d['missing_bulk_ids'],separators=(',',':'))+'\n')
               f.write('source_complete_count='+str(len(d['source_complete_ids']))+'\n')
-          print(json.dumps({'source_complete':len(d['source_complete_ids']),'carry_complete_packets':len(d['carry_complete_packet_ids']),'carry_hot_subshards':len(d['carry_complete_hot_subshards']),'remaining_packets':len(d['missing_bulk_ids']),'remaining_hot_jobs':len(d['hot_matrix'])},sort_keys=True))
+          print(json.dumps({'source_complete':len(d['source_complete_ids']),'carry_complete_packets':len(d['carry_complete_packet_ids']),
+              'carry_hot_subshards':len(d['carry_complete_hot_subshards']),'carry_regular_residues':len(d.get('carry_complete_regular_residues',[])),
+              'remaining_packets':len(d['missing_bulk_ids']),'remaining_hot_jobs':len(d['hot_matrix']),'regular_parallel':regular_parallel},sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
@@ -229,7 +235,7 @@ jobs:
     needs: [validate-and-snapshot, prepare]
     strategy:
       fail-fast: false
-      max-parallel: 10
+      max-parallel: ${{ fromJSON(needs.validate-and-snapshot.outputs.regular_parallel) }}
       matrix: ${{ fromJSON(needs.validate-and-snapshot.outputs.regular_matrix) }}
     runs-on: ubuntu-24.04
     timeout-minutes: 120
@@ -241,14 +247,23 @@ jobs:
         with:
           name: stage32-18t-b14-prepared-g2
           path: ${{ runner.temp }}/prepared
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18t-b14-source-snapshot-g2
+          path: ${{ runner.temp }}/snapshot
       - name: Exact packet with parallel residue workers
         run: |
           mkdir -p "$RUNNER_TEMP/out"; chmod +x "$RUNNER_TEMP/prepared/d16-exact"; SECONDS=0
-          python stages/stage32/32-18T/run_exact_packet_parallel.py --manifest "$RUNNER_TEMP/prepared/packet-manifest.json" --packet-id ${{ matrix.packet_id }} --exe "$RUNNER_TEMP/prepared/d16-exact" --input "$RUNNER_TEMP/prepared/d16-hperp.txt" --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out" --node-cap 220000000 --workers 4
+          python stages/stage32/32-18T/run_exact_packet_parallel.py \
+            --manifest "$RUNNER_TEMP/prepared/packet-manifest.json" --packet-id ${{ matrix.packet_id }} \
+            --exe "$RUNNER_TEMP/prepared/d16-exact" --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out" \
+            --carry-residue-dir "$RUNNER_TEMP/snapshot/carryover/regular/${{ matrix.packet_id }}" \
+            --node-cap 220000000 --workers 4
           elapsed=$SECONDS
           ELAPSED="$elapsed" python - <<'PY'
           import json,os,pathlib
-          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/packet-certificate.json'; d=json.loads(p.read_text()); d['packet_runtime_seconds']=int(os.environ['ELAPSED']); p.write_text(json.dumps(d,indent=2,sort_keys=True)+'\n'); assert d['status']=='COMPLETE'; print(json.dumps({'packet_id':d['packet_id'],'runtime_seconds':d['packet_runtime_seconds'],'residues':d['residues']},sort_keys=True))
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/packet-certificate.json'; d=json.loads(p.read_text()); d['packet_runtime_seconds']=int(os.environ['ELAPSED']); p.write_text(json.dumps(d,indent=2,sort_keys=True)+'\n'); assert d['status']=='COMPLETE'; print(json.dumps({'packet_id':d['packet_id'],'runtime_seconds':d['packet_runtime_seconds'],'carried_residues':d.get('carried_residues',[]),'computed_residues':d.get('computed_residues',[]),'residues':d['residues']},sort_keys=True))
           PY
           python stages/stage32/32-18B/verify_d16_bound_canonical.py --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" --dump "$RUNNER_TEMP/out/packet-canonical.bin" --enum-json "$RUNNER_TEMP/out/packet-certificate.json" --output "$RUNNER_TEMP/out/full-aut-verify.json" --bound 14
       - uses: actions/upload-artifact@v4
