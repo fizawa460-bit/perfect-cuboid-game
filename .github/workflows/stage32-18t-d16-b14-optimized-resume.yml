@@ -1,0 +1,18 @@
+name: Stage32-18T d16 b14 optimized resume (parked)
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18t-b14-final-union-arm.json'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  parked:
+    if: ${{ false }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo 'Stage32-18T regular resume is parked after run 32972417382; final three residues moved to Stage32-18U.'
