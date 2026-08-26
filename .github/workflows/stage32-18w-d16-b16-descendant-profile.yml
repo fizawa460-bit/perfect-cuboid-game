@@ -1,0 +1,202 @@
+name: Stage32-18W d16 b16 descendant-work profile
+
+on:
+  push:
+    branches:
+      - stage32-18w-b16-descendant-profile
+    paths:
+      - 'stages/stage32/runkeys/18w-b16-descendant-profile.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18w-b16-descendant-profile
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.key.outputs.matrix }}
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Verify this push changes only the dedicated run key
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/18w-b16-descendant-profile.json'
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          printf 'authorized change: %s\n' "${changed[@]}"
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18W: ARM B16 DESCENDANT PROFILE'
+      - id: key
+        name: Validate explicit profile key
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18w-b16-descendant-profile.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18w-d16-b16-descendant-profile'
+          assert d['armed'] is True and d['generation']==1
+          assert d['accepted_b14_canonical_survivors']==44450
+          assert d['accepted_b14_dump_sha256']=='4d4680a87fab0c01ac8b54bcf404eecaa707cf5db782b31d5fa7357a52249d8a'
+          assert d['profiler_artifact_id']==9586376746
+          assert d['profiler_artifact_zip_sha256']=='a107852204b22a2c55af8c5c724e2d139cea31cc72553b99c4bdf940a53e6426'
+          assert d['breaker_count']==256 and d['parent_coordinate']==54 and d['parent_modulus']==1024
+          expected=[
+            {'tag':'b16-p50','bound':16,'probe_coordinate':50,'node_cap':160000000},
+            {'tag':'b16-p48','bound':16,'probe_coordinate':48,'node_cap':320000000},
+          ]
+          assert d['profiles']==expected
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('generation=1\n')
+              f.write('matrix='+json.dumps({'include':expected},separators=(',',':'))+'\n')
+          print(json.dumps(d,sort_keys=True))
+          PY
+
+  prepare:
+    needs: validate-run-key
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Fetch immutable proven Stage32-18N profiler
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/stage"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 2 \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/profiler.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9586376746/zip"
+          echo 'a107852204b22a2c55af8c5c724e2d139cea31cc72553b99c4bdf940a53e6426  '"$RUNNER_TEMP/profiler.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/profiler.zip" -d "$RUNNER_TEMP/stage"
+          test -f "$RUNNER_TEMP/stage/d16-descendant"
+          test -f "$RUNNER_TEMP/stage/d16-hperp.txt"
+          test -f "$RUNNER_TEMP/stage/d16-aut-prefix256-bundle.txt"
+          chmod +x "$RUNNER_TEMP/stage/d16-descendant"
+      - name: Smoke check profile-only firewall
+        run: |
+          "$RUNNER_TEMP/stage/d16-descendant" \
+            --input "$RUNNER_TEMP/stage/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/stage/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/smoke.json" --dump-canonical "$RUNNER_TEMP/smoke.bin" \
+            --bound 6 --shard-id 0 --shard-count 1024 --split-coordinate 54 --probe-coordinate 50 --node-cap 5000000
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'smoke.json').read_text())
+          assert d['schema']=='STAGE32_18N_D16_EXACT_DESCENDANT_WORK_PROFILE_V1'
+          assert d['DESCENDANT_WORK_PROFILE_COMPLETE'] is True
+          assert d['FULL_BOUND_TRAVERSAL_COMPLETE'] is False
+          assert d['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is False
+          assert d['descendant_work_profile_only'] is True
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18w-b16-descendant-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/stage/
+          retention-days: 14
+          if-no-files-found: error
+
+  profile:
+    needs: [validate-run-key, prepare]
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix: ${{ fromJSON(needs.validate-run-key.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18w-b16-descendant-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Restore profiler executable mode
+        run: chmod +x "$RUNNER_TEMP/prepared/d16-descendant"
+      - name: Exact descendant profile ${{ matrix.tag }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          SECONDS=0
+          set +e
+          "$RUNNER_TEMP/prepared/d16-descendant" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out/profile.json" --dump-canonical "$RUNNER_TEMP/out/profile.bin" \
+            --bound ${{ matrix.bound }} --shard-id 0 --shard-count 1024 --split-coordinate 54 \
+            --probe-coordinate ${{ matrix.probe_coordinate }} --node-cap ${{ matrix.node_cap }} \
+            >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?
+          elapsed=$SECONDS
+          set -e
+          echo "$elapsed" > "$RUNNER_TEMP/out/runtime.txt"
+          if [ "$rc" -ne 0 ]; then
+            if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then
+              RC="$rc" ELAPSED="$elapsed" python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          out={'schema':'STAGE32_18W_B16_DESCENDANT_RESOURCE_WALL_V1','tag':'${{ matrix.tag }}','bound':16,'parent_coordinate':54,'probe_coordinate':${{ matrix.probe_coordinate }},'parent_modulus':1024,'node_cap':${{ matrix.node_cap }},'status':'RESOURCE_WALL_NODE_CAP','exit_code':int(os.environ['RC']),'runtime_seconds':int(os.environ['ELAPSED']),'D16_B16_NUMERICAL_CREDIT':False}
+          (root/'compact-profile.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+            else
+              cat "$RUNNER_TEMP/out/stderr.txt"
+              exit "$rc"
+            fi
+          else
+            python stages/stage32/32-18N/summarize_descendant_work.py \
+              --input "$RUNNER_TEMP/out/profile.json" --runtime "$RUNNER_TEMP/out/runtime.txt" \
+              --tag '${{ matrix.tag }}' --output "$RUNNER_TEMP/out/compact-profile.json"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18w-${{ matrix.tag }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
+
+  summarize:
+    needs: [validate-run-key, profile]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18w-b16-p*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/profiles
+      - name: Freeze b16 design profile
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'profiles'
+          docs={}
+          for p in root.rglob('compact-profile.json'):
+              d=json.loads(p.read_text()); docs[d['tag']]=d
+          assert set(docs)=={'b16-p50','b16-p48'},set(docs)
+          complete={k:v for k,v in docs.items() if v.get('schema')=='STAGE32_18N_DESCENDANT_WORK_COMPACT_V1'}
+          if 'b16-p50' in complete and 'b16-p48' in complete:
+              verdict='PASS_B16_DESCENDANT_PROFILE__P50_P48_COMPLETE__PACKET_DESIGN_READY'
+              next_item='32-18X-D16-B16-RESOURCE-SAFE-EXACT-PRODUCTION-DESIGN'
+          elif 'b16-p50' in complete:
+              verdict='PASS_B16_DESCENDANT_PROFILE__P50_COMPLETE__P48_RESOURCE_WALL__PACKET_DESIGN_READY_WITH_P50'
+              next_item='32-18X-D16-B16-RESOURCE-SAFE-EXACT-PRODUCTION-DESIGN'
+          else:
+              verdict='B16_DESCENDANT_PROFILE_RESOURCE_WALL__DEEPER_OR_ALTERNATE_DESIGN_REQUIRED'
+              next_item='32-18X-D16-B16-DESCENDANT-PROFILE-REDESIGN'
+          out={'schema':'STAGE32_18W_B16_DESCENDANT_WORK_SUMMARY_V1','verdict':verdict,'accepted_b14_canonical_survivors':44450,'accepted_b14_dump_sha256':'4d4680a87fab0c01ac8b54bcf404eecaa707cf5db782b31d5fa7357a52249d8a','profiles':docs,'next_item':next_item,'D16_B16_NUMERICAL_CREDIT':False,'FULL_BOUND_TRAVERSAL_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          outdir=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; outdir.mkdir()
+          (outdir/'stage32-18w-b16-descendant-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'verdict':verdict,'next_item':next_item,'complete_profiles':sorted(complete)},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18w-b16-descendant-summary-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/summary/
+          retention-days: 14
+          if-no-files-found: error
