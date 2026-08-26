@@ -1,17 +1,24 @@
 name: Stage33-07 k1 pure-geometric support orbits
 
-# Manual-only after the initial launch. This preserves reproducibility while
-# preventing the large Stage33-07 PR diff from replaying the 15-way census on
-# every subsequent synchronize event.
+# The historical #1377 mega-PR is merged. On the small continuation PR this
+# exact census may run automatically again; the narrow paths below prevent
+# unrelated Stage33 work from replaying it.
 on:
   workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-07/nonelementary_k1_geometric_support_orbit_common.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k1_geometric_support_orbit_shard.py'
+      - 'stages/stage33/33-07/aggregate_nonelementary_k1_geometric_support_orbits.py'
+      - '.github/workflows/stage33-07-k1-geometric-support-orbits.yml'
 
 permissions:
   contents: read
   actions: read
 
 concurrency:
-  group: stage33-07-k1-geometric-support-orbits-${{ github.ref }}
+  group: stage33-07-k1-geometric-support-orbits-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
