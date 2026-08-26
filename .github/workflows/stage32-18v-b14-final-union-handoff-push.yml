@@ -1,0 +1,54 @@
+name: Stage32-18V b14 final union handoff push
+
+on:
+  push:
+    branches:
+      - stage32-18u-b14-three-residue-tail-rescue
+    paths:
+      - 'stages/stage32/runkeys/18v-b14-final-union-handoff.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18v-final-union-push
+  cancel-in-progress: true
+
+jobs:
+  assemble-final-union:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate arm
+        run: |
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18V: ARM FINAL UNION HANDOFF'
+          python - <<'PY'
+          import json,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18v-b14-final-union-handoff.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18v-b14-final-union-handoff'
+          assert d['armed'] is True and d['generation']==1 and d['bound']==14
+          assert d['source_18t_run_id']==32972417382 and d['tail_18u_run_id']==33003656883
+          assert d['tail_packet_ids']==[127,158,162]
+          assert d['expected_counts']=={'source':42,'carry':135,'run14':71,'tail':3,'bulk':251}
+          PY
+      - name: Assemble exact final union handoff
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash stages/stage32/32-18V/run_final_union_handoff.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18t-b14-source-snapshot-g2
+          path: ${{ runner.temp }}/final/snapshot/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Normalize final summary filename
+        run: cp "$RUNNER_TEMP/final/resume-summary-final.json" resume-summary.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18t-b14-resume-summary-g2
+          path: resume-summary.json
+          retention-days: 14
+          if-no-files-found: error
