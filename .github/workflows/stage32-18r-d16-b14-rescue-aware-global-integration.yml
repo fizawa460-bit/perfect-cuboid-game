@@ -1,0 +1,118 @@
+name: Stage32-18R d16 b14 rescue-aware global integration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18r-b14-rescue-aware-global-integration.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18r-b14-global-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - id: key
+        name: Validate explicit rescue-aware global integration key
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18r-b14-rescue-aware-global-integration.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18r-d16-b14-rescue-aware-global-integration'
+          assert d['armed'] is True and d['generation']==1
+          assert d['bound']==14 and d['breaker_count']==256
+          assert d['pilot_run_id']==32912029522
+          assert d['bulk_run_id']==32915934318
+          assert d['hot_rescue_run_id']==32915830665
+          assert d['audited_b12_artifact_id']==9585370018
+          assert d['audited_b12_artifact_zip_sha256']=='6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658'
+          assert d['bulk_packet_ids_excluded']==[0,15,63,64,173]
+          assert d['pilot_packet_ids_reused']==[63,64,173]
+          assert d['hot_primary_residues']==[26,748]
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('generation=1\n')
+          print(json.dumps(d,sort_keys=True))
+          PY
+
+  integrate-and-verify:
+    needs: validate-run-key
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Fetch and ZIP-digest verify bulk, pilot, hot-rescue, and audited b12 artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python stages/stage32/32-18R/fetch_b14_integration_inputs.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --bulk-run-id 32915934318 \
+            --pilot-run-id 32912029522 \
+            --hot-run-id 32915830665 \
+            --b12-artifact-id 9585370018 \
+            --output "$RUNNER_TEMP/inputs"
+          echo '6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658' > "$RUNNER_TEMP/expected-b12-artifact-zip-sha.txt"
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'inputs'
+          d=json.loads((root/'artifact-inventory.json').read_text())
+          xs=[a for a in d['artifacts'] if a['id']==9585370018]
+          assert len(xs)==1 and xs[0]['zip_sha256']=='6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658'
+          print({'b12_artifact_zip_lock':'PASS','artifact_count':len(d['artifacts'])})
+          PY
+      - name: Build exact rescue-aware global b14 aggregate
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18R/aggregate_b14_rescue_aware.py \
+            --bulk "$RUNNER_TEMP/inputs/bulk" \
+            --pilot "$RUNNER_TEMP/inputs/pilot" \
+            --hot "$RUNNER_TEMP/inputs/hot" \
+            --manifest "$RUNNER_TEMP/inputs/prepared/packet-manifest.json" \
+            --audited-b12-dump "$RUNNER_TEMP/inputs/b12/d16-b12-exact-final-aggregate.bin" \
+            --inventory "$RUNNER_TEMP/inputs/artifact-inventory.json" \
+            --output-json "$RUNNER_TEMP/out/d16-b14-exact-rescue-aware-aggregate.json" \
+            --output-dump "$RUNNER_TEMP/out/d16-b14-exact-rescue-aware-aggregate.bin" \
+            --certificate "$RUNNER_TEMP/out/stage32-18r-b14-certificate.json"
+          cp "$RUNNER_TEMP/inputs/artifact-inventory.json" "$RUNNER_TEMP/out/"
+      - name: Independently full-Aut verify final b14 aggregate
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/inputs/prepared/d16-aut-action.json" \
+            --dump "$RUNNER_TEMP/out/d16-b14-exact-rescue-aware-aggregate.bin" \
+            --enum-json "$RUNNER_TEMP/out/d16-b14-exact-rescue-aware-aggregate.json" \
+            --output "$RUNNER_TEMP/out/d16-b14-exact-rescue-aware-aggregate-verify.json" \
+            --bound 14
+      - name: Enforce hostile-audit stop
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          r=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          c=json.loads((r/'stage32-18r-b14-certificate.json').read_text()); v=json.loads((r/'d16-b14-exact-rescue-aware-aggregate-verify.json').read_text())
+          assert c['verdict']=='PASS_EXACT_RESCUE_AWARE_D16_B14_PRODUCTION_PENDING_HOSTILE_AUDIT'
+          assert c['logical_packet_partition_exact'] is True and c['logical_residue_partition_exact'] is True
+          assert c['audited_b12_predecessor_set_identical'] is True and c['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert c['GLOBAL_B14_AGGREGATION_COMPLETE'] is True
+          assert c['D16_B14_NUMERICAL_CREDIT'] is False and c['D16_B14_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT'] is True
+          assert c['FULL_D16_G0_ROW_COMPLETE'] is False and c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False and c['CONTROLLER_MODIFIED'] is False
+          assert v['aut_group_order']==1536 and v['canonical_survivors_including_zero']==c['canonical_survivors_including_zero']
+          print(json.dumps({'certificate':c,'aut_verify':v},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18r-d16-b14-final-production-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
