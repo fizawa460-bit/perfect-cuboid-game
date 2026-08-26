@@ -1,19 +1,14 @@
 name: Stage33-07 index512 actual geometry glue adapter
 
+# Manual-only to prevent PR-wide paths replay.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'stages/stage33/33-07/certify_index512_actual_geometry_glue_adapter.py'
-      - 'stages/stage33/33-07/coordinate-k3-transcendental-glue-index.json'
-      - '.github/workflows/stage33-07-index512-actual-geometry-glue-adapter.yml'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: stage33-07-index512-actual-geometry-glue-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-07-index512-actual-geometry-glue-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
