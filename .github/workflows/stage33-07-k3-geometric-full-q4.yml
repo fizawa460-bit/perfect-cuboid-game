@@ -8,6 +8,7 @@ on:
       - 'stages/stage33/33-07/prepare_nonelementary_k3_geometric_q4_manifest.py'
       - 'stages/stage33/33-07/certify_nonelementary_k3_geometric_q4_shard.py'
       - 'stages/stage33/33-07/aggregate_nonelementary_k3_geometric_q4.py'
+      - 'stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py'
       - 'stages/stage33/33-07/certify_nonelementary_target_q8_exponent_reduction.py'
       - 'stages/stage33/33-07/certify_nonelementary_sign_q2_structural_reduction.py'
       - 'stages/stage33/33-07/picard-discriminant-compact.json'
@@ -22,6 +23,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Rebuild exact Q4-rank prerequisite
+        run: python stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py
       - name: Prepare exact pure-geometric four-orbit manifest
         run: python stages/stage33/33-07/prepare_nonelementary_k3_geometric_q4_manifest.py
       - name: Upload manifest
