@@ -9,19 +9,37 @@ HERE = Path(__file__).resolve().parent
 MANIFEST = HERE / 'k1-gap-recovery-manifest.json'
 BASE_OUT = HERE / 'nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json'
 OUT = HERE / 'nonelementary-k1-geometric-sign-fixed-p7-gap-recovery-census.json'
+EXPECTED_SOURCE_RUNS = {
+    'source_old32_run_id': 33004278066,
+    'source_p7_run_id': 33013524879,
+    'source_support_run_id': 32971195642,
+    'source_endpoint_run_id': 32934384807,
+}
+MAX_RECOVERY_GAPS = 48
 
 manifest = json.loads(MANIFEST.read_text())
 if manifest.get('schema') != 'STAGE33_07_K1_GAP_RECOVERY_MANIFEST_V1':
     raise SystemExit('gap-recovery manifest schema regression')
+for key, expected in EXPECTED_SOURCE_RUNS.items():
+    if int(manifest.get(key, -1)) != expected:
+        raise SystemExit(f'gap-recovery provenance regression for {key}')
 missing = [tuple(map(int, x)) for x in manifest['missing_old32_coordinates']]
 if len(missing) != len(set(missing)) or not missing:
     raise SystemExit('gap-recovery coordinate uniqueness/emptiness regression')
+if len(missing) > MAX_RECOVERY_GAPS:
+    raise SystemExit('gap-recovery coordinate cap regression')
 if any(p == 7 or not (0 <= p < 15 and 0 <= s < 32) for p, s in missing):
     raise SystemExit('gap-recovery coordinate range regression')
 if int(manifest['base_old32_live_count']) + len(missing) != 448:
     raise SystemExit('gap-recovery old32 accounting regression')
 if int(manifest['p7_live_count']) != 128:
     raise SystemExit('gap-recovery P7 accounting regression')
+if int(manifest.get('snapshot_support_count', -1)) != 15:
+    raise SystemExit('gap-recovery support snapshot regression')
+if manifest.get('stage33_progress') != '6/11':
+    raise SystemExit('gap-recovery Stage33 progress regression')
+if manifest.get('actual_index512_glue_identified') or manifest.get('arithmetic_HS_closed'):
+    raise SystemExit('gap-recovery manifest promotion firewall regression')
 
 subprocess.run(
     ['python', str(HERE / 'aggregate_nonelementary_k1_geometric_sign_fixed_p7_rescue128.py')],
