@@ -1,0 +1,228 @@
+name: Stage32-18O d16 b14 exact packet pilot
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18o-b14-packet-pilot.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18o-b14-packet-pilot-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.key.outputs.authorized }}
+      generation: ${{ steps.key.outputs.generation }}
+      matrix: ${{ steps.key.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: key
+        name: Validate explicit packet-pilot key
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/18o-b14-packet-pilot.json'
+          authorized=true
+          if [ "$ACTION" = synchronize ]; then
+            if [ -z "${BEFORE:-}" ]; then
+              authorized=false
+            else
+              git fetch --no-tags --depth=1 origin "$BEFORE"
+              if ! git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then
+                authorized=false
+              fi
+            fi
+          fi
+          python - <<'PY' "$authorized"
+          import json,os,pathlib,sys
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18o-b14-packet-pilot.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18o-d16-b14-packet-pilot'
+          assert d['armed'] is True and d['generation']==1
+          assert d['bound']==14 and d['parent_coordinate']==54 and d['parent_modulus']==1024 and d['breaker_count']==256
+          assert d['prepared_artifact_id']==9574308138
+          assert d['prepared_artifact_zip_sha256']=='0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4'
+          assert d['profile_run_id']==32910528560
+          assert d['p50_artifact_id']==9586409836 and d['p50_artifact_zip_sha256']=='a13489154d28b88963bf9f8fd450fbc567436cd288ff2a09e26a58c27a530e03'
+          assert d['p48_artifact_id']==9586443837 and d['p48_artifact_zip_sha256']=='e8ac27fd6fa74828b34674790cfc6033493d65f87d4879923a72794ea524fa1d'
+          assert d['expected_manifest_sha256']=='9ee5c6781cbe1a3a39e9656419745b60abaec07de52f99a9cdf2261650f189ab'
+          assert d['pilot_packet_ids']==[0,15,63,64,173,210] and d['per_residue_node_cap']==220000000
+          matrix={'packet_id':d['pilot_packet_ids']}
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"authorized={sys.argv[1]}\n")
+              f.write(f"generation={d['generation']}\n")
+              f.write('matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+          print(json.dumps({'authorized':sys.argv[1],'matrix':matrix},sort_keys=True))
+          PY
+
+  prepare:
+    needs: validate-run-key
+    if: needs.validate-run-key.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Fetch and SHA-lock immutable exact source and b14 profiles
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/prepared" "$RUNNER_TEMP/p50" "$RUNNER_TEMP/p48" "$RUNNER_TEMP/zips" "$RUNNER_TEMP/stage"
+          fetch_one () {
+            id="$1"; sha="$2"; dest="$3"; zip="$RUNNER_TEMP/zips/$id.zip"
+            curl -L --fail --silent --show-error \
+              -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+              -o "$zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}/zip"
+            echo "$sha  $zip" | sha256sum -c -
+            unzip -q "$zip" -d "$dest"
+          }
+          fetch_one 9574308138 0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4 "$RUNNER_TEMP/prepared"
+          fetch_one 9586409836 a13489154d28b88963bf9f8fd450fbc567436cd288ff2a09e26a58c27a530e03 "$RUNNER_TEMP/p50"
+          fetch_one 9586443837 e8ac27fd6fa74828b34674790cfc6033493d65f87d4879923a72794ea524fa1d "$RUNNER_TEMP/p48"
+          test -f "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp"
+          test -f "$RUNNER_TEMP/prepared/d16-hperp.txt"
+          test -f "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt"
+          test -f "$RUNNER_TEMP/p50/profile.json"
+          test -f "$RUNNER_TEMP/p48/profile.json"
+      - name: Regenerate deterministic 256-packet manifest
+        run: |
+          python stages/stage32/32-18O/generate_packet_manifest.py \
+            --p50 "$RUNNER_TEMP/p50/profile.json" --p48 "$RUNNER_TEMP/p48/profile.json" \
+            --output "$RUNNER_TEMP/stage/packet-manifest.json"
+          echo '9ee5c6781cbe1a3a39e9656419745b60abaec07de52f99a9cdf2261650f189ab  '"$RUNNER_TEMP/stage/packet-manifest.json" | sha256sum -c -
+          python - <<'PY'
+          import json,os,pathlib
+          p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'stage/packet-manifest.json').read_text())
+          assert p['packet_count']==256 and p['coverage_exact'] is True and p['residues_exactly_once'] is True
+          assert p['historical_residue26_hybrid_rank']==16 and p['historical_residue26_packet_id']==15
+          assert p['pilot_packet_ids']==[0,15,63,64,173,210]
+          assert p['packets'][0]['residues']==[748]
+          assert p['packets'][15]['residues']==[26]
+          assert p['packets'][63]['residues']==[1005]
+          assert p['packets'][64]['residues']==[965,643]
+          assert p['packets'][173]['residues']==[656,942,158,930,932,225,145,558]
+          assert p['packets'][210]['residues']==[380,852,297,611,788,856,484,785]
+          print({'manifest':'PASS','packet_count':256,'historical26_hybrid_rank':16})
+          PY
+      - name: Compile immutable exact residue certifier
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp" -o "$RUNNER_TEMP/stage/d16-exact"
+          cp "$RUNNER_TEMP/prepared/d16-hperp.txt" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/stage/"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18o-b14-packet-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/stage/
+          retention-days: 14
+          if-no-files-found: error
+
+  pilot:
+    needs: [validate-run-key, prepare]
+    if: needs.validate-run-key.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.validate-run-key.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18o-b14-packet-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Restore exact certifier executable mode
+        run: chmod +x "$RUNNER_TEMP/prepared/d16-exact"
+      - name: Run exact b14 packet ${{ matrix.packet_id }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          SECONDS=0
+          python stages/stage32/32-18O/run_exact_packet.py \
+            --manifest "$RUNNER_TEMP/prepared/packet-manifest.json" \
+            --packet-id ${{ matrix.packet_id }} \
+            --exe "$RUNNER_TEMP/prepared/d16-exact" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out" --node-cap 220000000
+          elapsed=$SECONDS
+          ELAPSED="$elapsed" python - <<'PY'
+          import json,os,pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/packet-certificate.json'
+          d=json.loads(p.read_text()); d['packet_runtime_seconds']=int(os.environ['ELAPSED'])
+          p.write_text(json.dumps(d,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'packet_id':d['packet_id'],'status':d['status'],'runtime_seconds':d['packet_runtime_seconds'],'residues':d['residues']},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18o-b14-pilot-packet-${{ matrix.packet_id }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
+
+  summarize:
+    needs: [validate-run-key, pilot]
+    if: always() && needs.validate-run-key.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18o-b14-pilot-packet-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/pilots
+      - name: Build packet-layout verdict
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'pilots'
+          docs={}
+          for p in root.rglob('packet-certificate.json'):
+              d=json.loads(p.read_text()); docs[int(d['packet_id'])]=d
+          expected={0,15,63,64,173,210}
+          if set(docs)!=expected:
+              raise RuntimeError(f'pilot artifact set incomplete: {sorted(docs)} != {sorted(expected)}')
+          walls={i:d for i,d in docs.items() if d['status']!='COMPLETE'}
+          if any(i in walls for i in (0,15,63)):
+              verdict='PASS_PACKET_PILOT__HOT_SINGLE_RESOURCE_WALL__DEEP_RESCUE_DESIGN_REQUIRED'
+              next_item='32-18P-D16-B14-HOT-RESIDUE-DEEP-RESCUE-DESIGN'
+          elif 64 in walls:
+              verdict='PASS_PACKET_PILOT__MID_PAIR_RESOURCE_WALL__MID_TIER_MUST_SPLIT_TO_SINGLETONS'
+              next_item='32-18P-D16-B14-PACKET-LAYOUT-REFINE-MID'
+          elif any(i in walls for i in (173,210)):
+              verdict='PASS_PACKET_PILOT__LOW_OCTET_RESOURCE_WALL__LOW_TIER_MUST_SPLIT'
+              next_item='32-18P-D16-B14-PACKET-LAYOUT-REFINE-LOW'
+          else:
+              verdict='PASS_PACKET_PILOT__REPRESENTATIVE_256_PACKET_LAYOUT_READY_FOR_EXACT_PRODUCTION_WITH_ADAPTIVE_RESIDUE_RESCUE'
+              next_item='32-18P-D16-B14-256-PACKET-EXACT-PRODUCTION'
+          complete=[d for d in docs.values() if d['status']=='COMPLETE']
+          max_runtime=max((d.get('packet_runtime_seconds',0) for d in complete),default=0)
+          max_residue_nodes=max((r.get('nodes',0) for d in complete for r in d.get('per_residue',[])),default=0)
+          out={'schema':'STAGE32_18O_B14_PACKET_PILOT_SUMMARY_V1','verdict':verdict,'pilot_packet_ids':sorted(docs),'resource_wall_packets':sorted(walls),'max_complete_packet_runtime_seconds':max_runtime,'max_complete_residue_nodes':max_residue_nodes,'per_residue_node_cap':220000000,'packets':docs,'next_item':next_item,'D16_B14_NUMERICAL_CREDIT':False,'GLOBAL_B14_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          outdir=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; outdir.mkdir()
+          (outdir/'stage32-18o-pilot-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'verdict':verdict,'walls':sorted(walls),'max_runtime':max_runtime,'max_residue_nodes':max_residue_nodes,'next_item':next_item},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18o-b14-packet-pilot-summary-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/summary/
+          retention-days: 14
+          if-no-files-found: error
