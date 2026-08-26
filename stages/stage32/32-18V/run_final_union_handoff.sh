@@ -8,7 +8,7 @@ gh run download 32972417382 -p 'stage32-18t-b14-packet-*-g2' -D "$ROOT/run14"
 gh run download 33003656883 -n stage32-18u-b14-tail-summary-g1 -D "$ROOT/tail-summary"
 gh run download 33003656883 -p 'stage32-18t-b14-packet-*-g2' -D "$ROOT/tail"
 python - <<'PY'
-import json,os,pathlib,shutil
+import json,os,pathlib,re,shutil
 root=pathlib.Path(os.environ['RUNNER_TEMP'])/'final'
 sp=root/'snapshot/source-completion.json'; snap=json.loads(sp.read_text())
 resume=json.loads((root/'resume/resume-summary.json').read_text())
@@ -35,11 +35,19 @@ def scan(base):
         if pid in out: raise RuntimeError(f'duplicate COMPLETE packet {pid}')
         out[pid]=(p.parent,d)
     return out
+
+def carry_pid(meta):
+    name=str(meta.get('artifact_name',''))
+    m=re.search(r'stage32-18t-b14-packet-(\d+)-g\d+$',name)
+    if not m: raise RuntimeError(f'cannot derive carry packet id from artifact name: {name!r}')
+    return int(m.group(1))
+
 r14=scan(root/'run14'); tr=scan(root/'tail')
 assert set(r14)==run14_expected, (sorted(run14_expected-set(r14)),sorted(set(r14)-run14_expected))
 assert set(tr)==tail_ids
 dstroot=root/'snapshot/carryover/packets'; dstroot.mkdir(parents=True,exist_ok=True)
-ledger={int(x['packet_id']):x for x in snap.get('carry_packet_artifacts',[])}
+ledger={carry_pid(x):x for x in snap.get('carry_packet_artifacts',[])}
+assert set(ledger)==carry, (sorted(carry-set(ledger)),sorted(set(ledger)-carry))
 audit=list(snap.get('carry_audit',[]))
 for pid,(src,d) in sorted(r14.items()):
     dst=dstroot/str(pid)
