@@ -167,14 +167,13 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --pattern 'k1-geometric-sign-fixed-p7-r128-s*' \
             --dir stages/stage33/33-07/recovery-snapshot/p7
-      - name: Download exact K1 support shards
+      - name: Download exact K1 support-orbit aggregate
         uses: actions/download-artifact@v4
         with:
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: 32971195642
-          pattern: k1-geometric-support-orbit-shard-*
-          merge-multiple: true
+          name: stage33-07-k1-geometric-support-orbits
           path: stages/stage33/33-07/recovery-snapshot/support
       - name: Download endpoint seven-sign source
         uses: actions/download-artifact@v4
@@ -206,13 +205,20 @@ jobs:
               if s in p7: raise SystemExit(f'duplicate P7 {s}')
               p7.add(s)
           if p7!=set(range(128)): raise SystemExit(f'P7 rescue128 incomplete {len(p7)}/128')
-          supports=set()
-          for f in (root/'support').rglob('nonelementary-k1-geometric-support-orbit-shard-*.json'):
-              d=json.loads(f.read_text()); supports.add(int(d.get('p_orbit_index',-1)))
-          if supports!=set(range(15)): raise SystemExit(f'support incomplete {sorted(supports)}')
+          support_files=list((root/'support').rglob('nonelementary-k1-geometric-support-orbits.json'))
+          if len(support_files)!=1: raise SystemExit(f'support aggregate cardinality {len(support_files)}')
+          support=json.loads(support_files[0].read_text())
+          support_raw=dict(support); support_stored=support_raw.pop('canonical_sha256',None)
+          import hashlib
+          support_got=hashlib.sha256(json.dumps(support_raw,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          if support_stored!=support_got: raise SystemExit('support aggregate hash regression')
+          if support.get('schema')!='STAGE33_07_NONELEMENTARY_K1_GEOMETRIC_SUPPORT_ORBITS_V1': raise SystemExit('support aggregate schema regression')
+          if set(support.get('source_shard_sha256',{}))!={str(p) for p in range(15)}: raise SystemExit('support source-lock coverage regression')
+          if int(support.get('exact_P_orbit_count',-1))!=15 or int(support.get('support_skeleton_count',-1))!=20487593 or int(support.get('weighted_structural_H_count',-1))!=1311205952: raise SystemExit('support aggregate exact-count regression')
+          if support.get('actual_index512_glue_identified') or support.get('arithmetic_HS_closed') or support.get('stage33_progress')!='6/11': raise SystemExit('support aggregate promotion firewall regression')
           endpoint=list((root/'endpoint').rglob('endpoint-coordinate-sign-discriminant-actions-split.json'))
           if len(endpoint)!=1: raise SystemExit(f'endpoint cardinality {len(endpoint)}')
-          m={'schema':'STAGE33_07_K1_ENUMERATION_CAP_RECOVERY_MANIFEST_V1','source_old32_run_id':int(k['source_old32_run_id']),'source_p7_run_id':int(k['source_p7_run_id']),'source_support_run_id':int(k['source_support_run_id']),'source_endpoint_run_id':int(k['source_endpoint_run_id']),'old32_required_count':448,'old32_downloaded_count':len(seen),'old32_missing_count':0,'p7_required_count':128,'p7_downloaded_count':len(p7),'support_required_count':15,'support_downloaded_count':len(supports),'source_artifact_zipped_bytes':3354230,'new_intermediate_artifacts_uploaded':0,'maximum_new_final_artifact_bytes':131072,'raw_sources_runner_local':True,'download_partition_patterns':['k1-geometric-sign-fixed-r32-p?-s*','k1-geometric-sign-fixed-r32-p1?-s*'],'enumeration_cap_recovery_only_no_mathematical_recomputation':True,'stage33_progress':'6/11','actual_index512_glue_identified':False,'arithmetic_HS_closed':False}
+          m={'schema':'STAGE33_07_K1_ENUMERATION_CAP_RECOVERY_MANIFEST_V1','source_old32_run_id':int(k['source_old32_run_id']),'source_p7_run_id':int(k['source_p7_run_id']),'source_support_run_id':int(k['source_support_run_id']),'source_endpoint_run_id':int(k['source_endpoint_run_id']),'old32_required_count':448,'old32_downloaded_count':len(seen),'old32_missing_count':0,'p7_required_count':128,'p7_downloaded_count':len(p7),'support_required_count':15,'support_downloaded_count':len(support['source_shard_sha256']),'support_aggregate_sha256':support_stored,'source_artifact_zipped_bytes':3354230,'new_intermediate_artifacts_uploaded':0,'maximum_new_final_artifact_bytes':131072,'raw_sources_runner_local':True,'download_partition_patterns':['k1-geometric-sign-fixed-r32-p?-s*','k1-geometric-sign-fixed-r32-p1?-s*'],'enumeration_cap_recovery_only_no_mathematical_recomputation':True,'stage33_progress':'6/11','actual_index512_glue_identified':False,'arithmetic_HS_closed':False}
           (root/'k1-enumeration-cap-recovery-manifest.json').write_text(json.dumps(m,indent=2,sort_keys=True)+'\n')
           print(json.dumps(m,sort_keys=True))
           with open(os.environ['GITHUB_OUTPUT'],'a') as g: g.write('authorized=false\n'); g.write('missing_count=0\n')
