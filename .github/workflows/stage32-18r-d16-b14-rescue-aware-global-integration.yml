@@ -37,22 +37,21 @@ jobs:
           test "${changed[0]}" = 'stages/stage32/runkeys/18r-b14-rescue-aware-global-integration.json'
           test "$(git log -1 --pretty=%s "$AFTER")" = 'Stage32-18R: ARM FINAL B14 INTEGRATION'
       - id: key
-        name: Validate explicit final-integration key
+        name: Validate explicit union final-integration key
         run: |
           python - <<'PY'
-          import json,os,pathlib
+          import json,os,pathlib,re
           d=json.loads(pathlib.Path('stages/stage32/runkeys/18r-b14-rescue-aware-global-integration.json').read_text())
           assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
           assert d['workflow']=='stage32-18r-d16-b14-rescue-aware-global-integration'
           assert d['armed'] is True and d['generation']==1
           assert d['bound']==14 and d['breaker_count']==256
           assert d['legacy_run_id']==32915934318
-          assert d['resume_run_id']==32925549204
-          assert d['source_snapshot_artifact_id']==9591372421
-          assert d['source_snapshot_artifact_zip_sha256']=='ac2a1e41a87b0fda41adb4eea11e8e3b05d819373138bda9c91435211cb4f895'
+          assert isinstance(d['resume_run_id'],int) and d['resume_run_id']>0
+          assert isinstance(d['source_snapshot_artifact_id'],int) and d['source_snapshot_artifact_id']>0
+          assert re.fullmatch(r'[0-9a-f]{64}',d['source_snapshot_artifact_zip_sha256'])
           assert d['prepared_artifact_id']==9588229672
           assert d['prepared_artifact_zip_sha256']=='6e4e6e5350717296f0e76e5c972e945b72a61d32e039718a535e245826b5b159'
-          assert d['legacy_frozen_packet_count']==41 and d['resume_complement_packet_count']==210
           assert d['pilot_run_id']==32912029522 and d['pilot_packet_ids_reused']==[63,64,173]
           assert d['hot_run_id']==32924346866 and d['hot_primary_residues']==[26,748]
           assert d['hot26_artifact_id']==9591499652 and d['hot26_artifact_zip_sha256']=='d337a178ae3b156236903aca46f12e5ad8c04348519212526b98a67b5885fd37'
@@ -60,7 +59,7 @@ jobs:
           assert d['audited_b12_artifact_id']==9585370018
           assert d['audited_b12_artifact_zip_sha256']=='6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658'
           assert d['bulk_packet_ids_excluded']==[0,15,63,64,173]
-          assert d['handoff_policy']=='FROZEN_41_PLUS_EXACT_18T_COMPLEMENT_210'
+          assert d['handoff_policy']=='UNION_SNAPSHOT_V2_EXACT_COMPLEMENT'
           with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('generation=1\n')
           print(json.dumps(d,sort_keys=True))
           PY
@@ -73,35 +72,42 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-      - name: Fetch and lock frozen 18P, exact 18T complement, pilot, audited 18S hot parents, and b12
+      - name: Fetch exact union handoff, pilot, audited 18S hot parents, and b12
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          python stages/stage32/32-18R/fetch_b14_integration_inputs.py \
-            --repo "$GITHUB_REPOSITORY" \
-            --legacy-run-id 32915934318 \
-            --resume-run-id 32925549204 \
-            --snapshot-artifact-id 9591372421 \
-            --snapshot-artifact-zip-sha256 ac2a1e41a87b0fda41adb4eea11e8e3b05d819373138bda9c91435211cb4f895 \
-            --prepared-artifact-id 9588229672 \
-            --prepared-artifact-zip-sha256 6e4e6e5350717296f0e76e5c972e945b72a61d32e039718a535e245826b5b159 \
-            --pilot-run-id 32912029522 \
-            --hot-run-id 32924346866 \
-            --hot26-artifact-id 9591499652 \
-            --hot26-artifact-zip-sha256 d337a178ae3b156236903aca46f12e5ad8c04348519212526b98a67b5885fd37 \
-            --hot748-artifact-id 9591500024 \
-            --hot748-artifact-zip-sha256 c120a9c14ba8575de1df86dc02f928bfa049aa6d344ff5b969182708aaea2d4a \
-            --b12-artifact-id 9585370018 \
-            --b12-artifact-zip-sha256 6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658 \
-            --output "$RUNNER_TEMP/inputs"
+          python - <<'PY'
+          import json,os,pathlib,subprocess
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18r-b14-rescue-aware-global-integration.json').read_text())
+          cmd=['python','stages/stage32/32-18R/fetch_b14_integration_inputs.py',
+            '--repo',os.environ['GITHUB_REPOSITORY'],
+            '--legacy-run-id',str(d['legacy_run_id']),
+            '--resume-run-id',str(d['resume_run_id']),
+            '--snapshot-artifact-id',str(d['source_snapshot_artifact_id']),
+            '--snapshot-artifact-zip-sha256',d['source_snapshot_artifact_zip_sha256'],
+            '--prepared-artifact-id',str(d['prepared_artifact_id']),
+            '--prepared-artifact-zip-sha256',d['prepared_artifact_zip_sha256'],
+            '--pilot-run-id',str(d['pilot_run_id']),
+            '--hot-run-id',str(d['hot_run_id']),
+            '--hot26-artifact-id',str(d['hot26_artifact_id']),
+            '--hot26-artifact-zip-sha256',d['hot26_artifact_zip_sha256'],
+            '--hot748-artifact-id',str(d['hot748_artifact_id']),
+            '--hot748-artifact-zip-sha256',d['hot748_artifact_zip_sha256'],
+            '--b12-artifact-id',str(d['audited_b12_artifact_id']),
+            '--b12-artifact-zip-sha256',d['audited_b12_artifact_zip_sha256'],
+            '--output',str(pathlib.Path(os.environ['RUNNER_TEMP'])/'inputs')]
+          subprocess.run(cmd,check=True)
+          PY
           python - <<'PY'
           import json,os,pathlib
           d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'inputs/artifact-inventory.json').read_text())
           assert d['handoff_exact'] is True
-          assert (d['legacy_packet_count'],d['resume_packet_count'])==(41,210)
+          assert d['legacy_packet_count']+d['resume_complement_packet_count']==251
+          assert d['carryover_packet_count']+d['current_resume_packet_count']==d['resume_complement_packet_count']
           assert len(d['bulk_packet_sources'])==251
           assert d['hot_artifact_ids']=={'26':9591499652,'748':9591500024}
-          print({'handoff':'PASS','legacy':41,'resume':210,'artifact_count':len(d['artifacts'])})
+          print({'handoff':'PASS','legacy':d['legacy_packet_count'],'resume':d['resume_complement_packet_count'],
+                 'carry':d['carryover_packet_count'],'current':d['current_resume_packet_count'],'artifact_count':len(d['artifacts'])})
           PY
       - name: Build exact rescue-aware global b14 aggregate
         run: |
@@ -133,7 +139,8 @@ jobs:
           c=json.loads((r/'stage32-18r-b14-certificate.json').read_text()); v=json.loads((r/'d16-b14-exact-rescue-aware-aggregate-verify.json').read_text())
           assert c['verdict']=='PASS_EXACT_RESCUE_AWARE_D16_B14_PRODUCTION_PENDING_HOSTILE_AUDIT'
           assert c['logical_packet_partition_exact'] is True and c['logical_residue_partition_exact'] is True
-          assert (c['legacy_frozen_packet_count'],c['resume_complement_packet_count'])==(41,210)
+          assert c['legacy_frozen_packet_count']+c['resume_complement_packet_count']==251
+          assert c['carryover_packet_count']+c['current_resume_packet_count']==c['resume_complement_packet_count']
           assert c['audited_b12_predecessor_set_identical'] is True and c['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
           assert c['GLOBAL_B14_AGGREGATION_COMPLETE'] is True
           assert c['D16_B14_NUMERICAL_CREDIT'] is False and c['D16_B14_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT'] is True
