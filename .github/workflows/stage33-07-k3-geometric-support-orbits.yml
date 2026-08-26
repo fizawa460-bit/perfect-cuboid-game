@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage33/33-07/certify_nonelementary_k3_geometric_q2_2q_support_orbits.py'
+      - 'stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py'
       - 'stages/stage33/33-07/certify_nonelementary_target_q8_exponent_reduction.py'
       - 'stages/stage33/33-07/certify_nonelementary_sign_q2_structural_reduction.py'
       - 'stages/stage33/33-07/picard-discriminant-compact.json'
@@ -19,6 +20,8 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      - name: Rebuild exact Q4-rank prerequisite
+        run: python stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py
       - name: Exact k3 Q2/2Q geometric support orbit census
         run: python stages/stage33/33-07/certify_nonelementary_k3_geometric_q2_2q_support_orbits.py
       - name: Upload exact certificate
