@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, io, json, os, pathlib, re, urllib.request, zipfile
+import argparse, json, os, pathlib, re, subprocess, tempfile, urllib.request, zipfile
 
 EXCLUDED={0,15,63,64,173}
 BULK_IDS=[i for i in range(256) if i not in EXCLUDED]
@@ -30,13 +30,14 @@ def artifact_packet_id(name:str):
         if m: return int(m.group(1))
     return None
 
-def read_certificate(repo:str,a:dict,token:str):
-    req=urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/artifacts/{int(a["id"])}/zip',headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'stage32-18t'})
-    raw=urllib.request.urlopen(req).read()
-    with zipfile.ZipFile(io.BytesIO(raw)) as z:
+def read_certificate(repo:str,a:dict,token:str,tmp:pathlib.Path):
+    zpath=tmp/f'{int(a["id"])}.zip'
+    subprocess.run(['curl','-L','--fail','--silent','--show-error','-H',f'Authorization: Bearer {token}','-H','X-GitHub-Api-Version: 2022-11-28','-o',str(zpath),f'https://api.github.com/repos/{repo}/actions/artifacts/{int(a["id"])}/zip'],check=True)
+    with zipfile.ZipFile(zpath) as z:
         names=[n for n in z.namelist() if n.endswith('packet-certificate.json')]
         if len(names)!=1: raise RuntimeError(f'artifact {a["name"]}: expected one packet certificate, got {names}')
         d=json.loads(z.read(names[0]))
+    zpath.unlink(missing_ok=True)
     return d
 
 def main():
@@ -45,16 +46,18 @@ def main():
     if not token: raise RuntimeError('GH_TOKEN required')
     artifacts=list_artifacts(a.repo,a.run_id,token)
     complete={}; walls={}; inspected=[]
-    for art in artifacts:
-        pid=artifact_packet_id(art.get('name',''))
-        if pid is None or pid not in BULK_IDS or art.get('expired'): continue
-        d=read_certificate(a.repo,art,token)
-        if int(d.get('packet_id',-1))!=pid: raise RuntimeError(f'packet id mismatch for artifact {art["name"]}')
-        inspected.append({'packet_id':pid,'artifact_id':int(art['id']),'artifact_name':art['name'],'artifact_digest':art.get('digest'),'status':d.get('status')})
-        if d.get('status')=='COMPLETE' and d.get('TRAVERSAL_COMPLETENESS_CERTIFICATE') is True:
-            complete[pid]=inspected[-1]
-        else:
-            walls[pid]=inspected[-1]
+    with tempfile.TemporaryDirectory() as td:
+        tmp=pathlib.Path(td)
+        for art in artifacts:
+            pid=artifact_packet_id(art.get('name',''))
+            if pid is None or pid not in BULK_IDS or art.get('expired'): continue
+            d=read_certificate(a.repo,art,token,tmp)
+            if int(d.get('packet_id',-1))!=pid: raise RuntimeError(f'packet id mismatch for artifact {art["name"]}')
+            inspected.append({'packet_id':pid,'artifact_id':int(art['id']),'artifact_name':art['name'],'artifact_digest':art.get('digest'),'status':d.get('status')})
+            if d.get('status')=='COMPLETE' and d.get('TRAVERSAL_COMPLETENESS_CERTIFICATE') is True:
+                complete[pid]=inspected[-1]
+            else:
+                walls[pid]=inspected[-1]
     complete_ids=sorted(complete)
     missing=sorted(set(BULK_IDS)-set(complete_ids))
     missing_hot=[i for i in missing if i<64]
