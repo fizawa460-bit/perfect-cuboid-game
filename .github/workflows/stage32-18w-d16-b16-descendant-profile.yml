@@ -45,8 +45,8 @@ jobs:
           assert d['armed'] is True and d['generation']==1
           assert d['accepted_b14_canonical_survivors']==44450
           assert d['accepted_b14_dump_sha256']=='4d4680a87fab0c01ac8b54bcf404eecaa707cf5db782b31d5fa7357a52249d8a'
-          assert d['prepared_artifact_id']==9574308138
-          assert d['prepared_artifact_zip_sha256']=='0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4'
+          assert d['profiler_artifact_id']==9586376746
+          assert d['profiler_artifact_zip_sha256']=='a107852204b22a2c55af8c5c724e2d139cea31cc72553b99c4bdf940a53e6426'
           assert d['breaker_count']==256 and d['parent_coordinate']==54 and d['parent_modulus']==1024
           expected=[
             {'tag':'b16-p50','bound':16,'probe_coordinate':50,'node_cap':160000000},
@@ -62,31 +62,25 @@ jobs:
   prepare:
     needs: validate-run-key
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
-      - name: Fetch immutable exact source bundle and build profiler
+      - name: Fetch immutable proven Stage32-18N profiler
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/prepared" "$RUNNER_TEMP/stage"
+          mkdir -p "$RUNNER_TEMP/stage"
           curl -L --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 2 \
             -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
-            -o "$RUNNER_TEMP/prepared.zip" \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
-          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/prepared.zip" | sha256sum -c -
-          unzip -q "$RUNNER_TEMP/prepared.zip" -d "$RUNNER_TEMP/prepared"
-          test -f "$RUNNER_TEMP/prepared/d16-hperp.txt"
-          test -f "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt"
-          test -f "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp"
-          python stages/stage32/32-18N/build_descendant_work_profiler.py \
-            --source "$RUNNER_TEMP/prepared/d16-exact-symmetry-sharded.cpp" \
-            --output "$RUNNER_TEMP/stage/d16-descendant.cpp"
-          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
-            "$RUNNER_TEMP/stage/d16-descendant.cpp" -o "$RUNNER_TEMP/stage/d16-descendant"
-          cp "$RUNNER_TEMP/prepared/d16-hperp.txt" "$RUNNER_TEMP/stage/"
-          cp "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/stage/"
+            -o "$RUNNER_TEMP/profiler.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9586376746/zip"
+          echo 'a107852204b22a2c55af8c5c724e2d139cea31cc72553b99c4bdf940a53e6426  '"$RUNNER_TEMP/profiler.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/profiler.zip" -d "$RUNNER_TEMP/stage"
+          test -f "$RUNNER_TEMP/stage/d16-descendant"
+          test -f "$RUNNER_TEMP/stage/d16-hperp.txt"
+          test -f "$RUNNER_TEMP/stage/d16-aut-prefix256-bundle.txt"
+          chmod +x "$RUNNER_TEMP/stage/d16-descendant"
       - name: Smoke check profile-only firewall
         run: |
           "$RUNNER_TEMP/stage/d16-descendant" \
