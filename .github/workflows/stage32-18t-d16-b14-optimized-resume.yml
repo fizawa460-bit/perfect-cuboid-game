@@ -46,27 +46,34 @@ jobs:
           assert d['regular_parallel_residue_workers']==4
           PY
       - id: snap
-        name: Snapshot COMPLETE source packets before handoff
+        name: Snapshot source plus successful prior resume work
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          mkdir -p "$RUNNER_TEMP/snapshot"
-          python stages/stage32/32-18T/snapshot_source_completion.py --repo "$GITHUB_REPOSITORY" --run-id 32915934318 --output "$RUNNER_TEMP/snapshot/source-completion.json"
+          mkdir -p "$RUNNER_TEMP/snapshot/carryover"
+          python stages/stage32/32-18T/snapshot_source_completion.py \
+            --repo "$GITHUB_REPOSITORY" \
+            --run-id 32915934318 \
+            --carry-run-id 32925549204 \
+            --carry-run-id 32960594528 \
+            --carry-run-id 32960613337 \
+            --carry-dir "$RUNNER_TEMP/snapshot/carryover" \
+            --output "$RUNNER_TEMP/snapshot/source-completion.json"
           python - <<'PY'
           import json,os,pathlib
           d=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'snapshot/source-completion.json').read_text())
-          hot=d['missing_hot_ids']; regular=d['missing_regular_ids']; missing=d['missing_bulk_ids']
           with open(os.environ['GITHUB_OUTPUT'],'a') as f:
               f.write('hot_matrix='+json.dumps({'include':d['hot_matrix']},separators=(',',':'))+'\n')
-              f.write('hot_packet_matrix='+json.dumps({'packet_id':hot},separators=(',',':'))+'\n')
-              f.write('regular_matrix='+json.dumps({'packet_id':regular},separators=(',',':'))+'\n')
-              f.write('hot_ids='+json.dumps(hot,separators=(',',':'))+'\n')
-              f.write('missing_ids='+json.dumps(missing,separators=(',',':'))+'\n')
+              f.write('hot_packet_matrix='+json.dumps(d['hot_packet_matrix'],separators=(',',':'))+'\n')
+              f.write('regular_matrix='+json.dumps(d['regular_matrix'],separators=(',',':'))+'\n')
+              f.write('hot_ids='+json.dumps(d['hot_compute_ids'],separators=(',',':'))+'\n')
+              f.write('missing_ids='+json.dumps(d['missing_bulk_ids'],separators=(',',':'))+'\n')
               f.write('source_complete_count='+str(len(d['source_complete_ids']))+'\n')
+          print(json.dumps({'source_complete':len(d['source_complete_ids']),'carry_complete_packets':len(d['carry_complete_packet_ids']),'carry_hot_subshards':len(d['carry_complete_hot_subshards']),'remaining_packets':len(d['missing_bulk_ids']),'remaining_hot_jobs':len(d['hot_matrix'])},sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-18t-b14-source-snapshot-g1
+          name: stage32-18t-b14-source-snapshot-g2
           path: ${{ runner.temp }}/snapshot/
           retention-days: 14
           if-no-files-found: error
@@ -96,7 +103,7 @@ jobs:
           github-token: ${{ github.token }}
           repository: ${{ github.repository }}
           run-id: 32915934318
-      - name: Fetch immutable exact source and build missing hot binaries
+      - name: Fetch immutable exact source and build only still-needed hot binaries
         env:
           GH_TOKEN: ${{ github.token }}
           HOT_IDS: ${{ needs.validate-and-snapshot.outputs.hot_ids }}
@@ -122,7 +129,7 @@ jobs:
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-18t-b14-prepared-g1
+          name: stage32-18t-b14-prepared-g2
           path: ${{ runner.temp }}/prepared/
           retention-days: 14
           if-no-files-found: error
@@ -138,7 +145,7 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: stage32-18t-b14-prepared-g1
+          name: stage32-18t-b14-prepared-g2
           path: ${{ runner.temp }}/prepared
       - name: Exact hot packet ${{ matrix.packet_id }} subshard ${{ matrix.subshard }}/4
         run: |
@@ -160,7 +167,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: stage32-18t-b14-hot-packet-${{ matrix.packet_id }}-sub-${{ matrix.subshard }}-of4-g1
+          name: stage32-18t-b14-hot-packet-${{ matrix.packet_id }}-sub-${{ matrix.subshard }}-of4-g2
           path: ${{ runner.temp }}/out/
           retention-days: 5
           if-no-files-found: warn
@@ -179,13 +186,32 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
-          pattern: stage32-18t-b14-hot-packet-${{ matrix.packet_id }}-sub-*-of4-g1
+          pattern: stage32-18t-b14-hot-packet-${{ matrix.packet_id }}-sub-*-of4-g2
           path: ${{ runner.temp }}/children
           merge-multiple: true
       - uses: actions/download-artifact@v4
         with:
-          name: stage32-18t-b14-prepared-g1
+          name: stage32-18t-b14-source-snapshot-g2
+          path: ${{ runner.temp }}/snapshot
+      - name: Add carried successful hot subshards
+        run: |
+          python - <<'PY'
+          import os,pathlib,shutil
+          root=pathlib.Path(os.environ['RUNNER_TEMP']); pid=int('${{ matrix.packet_id }}')
+          src=root/'snapshot/carryover/hot'/str(pid); dst=root/'children'; dst.mkdir(parents=True,exist_ok=True)
+          if src.exists():
+              for p in src.rglob('*'):
+                  if p.is_file() and p.name.startswith(f'hot-packet-{pid}-sub-'):
+                      q=dst/p.name
+                      if q.exists() and q.read_bytes()!=p.read_bytes(): raise RuntimeError(f'carry/current mismatch: {p.name}')
+                      if not q.exists(): shutil.copy2(p,q)
+          print({'packet_id':pid,'child_files':sorted(p.name for p in dst.iterdir())})
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18t-b14-prepared-g2
           path: ${{ runner.temp }}/prepared
       - name: Synthesize exact rescued hot packet
         run: |
@@ -194,7 +220,7 @@ jobs:
           python stages/stage32/32-18B/verify_d16_bound_canonical.py --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" --dump "$RUNNER_TEMP/out/packet-canonical.bin" --enum-json "$RUNNER_TEMP/out/packet-certificate.json" --output "$RUNNER_TEMP/out/full-aut-verify.json" --bound 14
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-18t-b14-packet-${{ matrix.packet_id }}-g1
+          name: stage32-18t-b14-packet-${{ matrix.packet_id }}-g2
           path: ${{ runner.temp }}/out/
           retention-days: 14
           if-no-files-found: error
@@ -213,7 +239,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/download-artifact@v4
         with:
-          name: stage32-18t-b14-prepared-g1
+          name: stage32-18t-b14-prepared-g2
           path: ${{ runner.temp }}/prepared
       - name: Exact packet with parallel residue workers
         run: |
@@ -228,7 +254,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: stage32-18t-b14-packet-${{ matrix.packet_id }}-g1
+          name: stage32-18t-b14-packet-${{ matrix.packet_id }}-g2
           path: ${{ runner.temp }}/out/
           retention-days: 14
           if-no-files-found: warn
@@ -240,27 +266,35 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          name: stage32-18t-b14-source-snapshot-g1
+          name: stage32-18t-b14-source-snapshot-g2
           path: ${{ runner.temp }}/snapshot
       - uses: actions/download-artifact@v4
         continue-on-error: true
         with:
-          pattern: stage32-18t-b14-packet-*-g1
+          pattern: stage32-18t-b14-packet-*-g2
           path: ${{ runner.temp }}/packets
-      - name: Verify resume coverage against frozen source snapshot
+      - name: Verify union coverage against frozen source snapshot
         run: |
           python - <<'PY'
           import json,os,pathlib
           root=pathlib.Path(os.environ['RUNNER_TEMP']); snap=json.loads((root/'snapshot/source-completion.json').read_text()); docs={}
-          for p in (root/'packets').rglob('packet-certificate.json') if (root/'packets').exists() else []:
-              d=json.loads(p.read_text()); docs[int(d['packet_id'])]=d
-          expected=set(snap['missing_bulk_ids']); complete={i for i,d in docs.items() if d.get('status')=='COMPLETE' and d.get('TRAVERSAL_COMPLETENESS_CERTIFICATE') is True}; missing=sorted(expected-complete); extra=sorted(complete-expected)
-          out={'schema':'STAGE32_18T_B14_OPTIMIZED_RESUME_SUMMARY_V1','source_run_id':snap['source_run_id'],'source_complete_ids':snap['source_complete_ids'],'resume_expected_ids':sorted(expected),'resume_complete_ids':sorted(complete),'resume_missing_ids':missing,'resume_extra_ids':extra,'ready_for_18r':not missing and not extra,'D16_B14_NUMERICAL_CREDIT':False,'GLOBAL_B14_AGGREGATION_COMPLETE':False,'AUDIT_STATUS':'PENDING'}
-          pathlib.Path('resume-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps({'source_complete':len(snap['source_complete_ids']),'resume_complete':len(complete),'resume_missing':missing,'ready_for_18r':out['ready_for_18r']},sort_keys=True))
+          roots=[root/'snapshot/carryover/packets',root/'packets']
+          for r in roots:
+              if not r.exists(): continue
+              for p in r.rglob('packet-certificate.json'):
+                  d=json.loads(p.read_text()); pid=int(d.get('packet_id',-1))
+                  if d.get('status')!='COMPLETE' or d.get('TRAVERSAL_COMPLETENESS_CERTIFICATE') is not True: continue
+                  if pid in docs:
+                      keys=('bound','residues','canonical_dump_sha256','canonical_survivors_including_zero','canonical_norm_histogram')
+                      if any(d.get(k)!=docs[pid].get(k) for k in keys): raise RuntimeError(f'duplicate COMPLETE mismatch for packet {pid}')
+                  docs[pid]=d
+          expected=set(snap['source_missing_bulk_ids']); complete=set(docs) & expected; missing=sorted(expected-complete); extra=sorted(set(docs)-expected)
+          out={'schema':'STAGE32_18T_B14_OPTIMIZED_RESUME_SUMMARY_V2','source_run_id':snap['source_run_id'],'carry_run_ids':snap['carry_run_ids'],'source_complete_ids':snap['source_complete_ids'],'carry_complete_packet_ids':snap['carry_complete_packet_ids'],'resume_expected_ids':sorted(expected),'resume_complete_ids':sorted(complete),'resume_missing_ids':missing,'resume_extra_ids':extra,'ready_for_18r':not missing,'D16_B14_NUMERICAL_CREDIT':False,'GLOBAL_B14_AGGREGATION_COMPLETE':False,'AUDIT_STATUS':'PENDING'}
+          pathlib.Path('resume-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps({'source_complete':len(snap['source_complete_ids']),'carry_complete':len(snap['carry_complete_packet_ids']),'resume_complete':len(complete),'resume_missing':missing,'ready_for_18r':out['ready_for_18r']},sort_keys=True))
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage32-18t-b14-resume-summary-g1
+          name: stage32-18t-b14-resume-summary-g2
           path: resume-summary.json
           retention-days: 14
           if-no-files-found: error
