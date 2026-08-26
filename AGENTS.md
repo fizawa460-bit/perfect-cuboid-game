@@ -40,6 +40,25 @@ This rule is mandatory and has the same priority as the storage rule above.
 Detailed reusable policy: `docs/research-os/policies/actions-storage-and-evidence-safety.md`.
 Human-facing entrypoint: `docs/README.md`.
 
+## CRITICAL repo-wide rule: research credit and claim promotion
+
+Every agent must apply `docs/research-os/policies/research-credit-and-promotion-firewalls.md` before promoting a computation, bounded result, intermediate receiver, model result, quotient/field result, or audited subclaim into a stronger mathematical claim.
+
+The mandatory invariants are:
+
+1. **Finite/bounded/sample evidence is not a global or asymptotic theorem.** Do not infer full nonexistence, limiting behavior, true exponent, or unbounded classification from finite evidence alone.
+2. **Keep credit layers distinct.** Computational evidence, numerical credit, receiver discharge, theorem credit, effectivity/existence credit, and endpoint/final-problem credit require separate authorization.
+3. **Semantic transfer requires an adapter.** Do not silently change population, ratio meaning, measure, cutoff, multiplicity, primitivity, height, mask, field, quotient, or model.
+4. **Do not promote quotient/geometric/extension-field results automatically.** Finite-group, `Qbar`, `Q(i)`, quotient, cover, or simplified-model statements stay at that level until descent/lift/inflation back to the original global object is proved.
+5. **No double charge or fake product saving.** A restriction or saving is charged once unless genuine independence under the same measure/weights/masks/quantifiers is proved.
+6. **Effectivity/existence is separate.** Enumerating classes, lattice vectors, orbits, cohomology, or formal carriers does not by itself prove an actual curve/point/divisor/family exists.
+7. **Only the closure state required by the active controller releases downstream mathematical credit.** Successful Actions, READY, or pending-audit states do not suffice.
+8. **Hostile audit may revoke, downgrade, supersede, or reopen prior credit.** Never preserve an invalidated claim merely to keep downstream progress intact.
+9. **A blocked route or finite zero hit is not a proof of impossibility.** Apply the Cycle Exploration Safety Protocol before parking or declaring exhaustion.
+10. **No perfect-cuboid existence/nonexistence conclusion without an explicit audited full-endpoint certificate.**
+
+Stage-local controllers may strengthen these firewalls but must not weaken them.
+
 ## Stage14 automation PR contract
 
 Every pull request created for one of the recurring Stage14 batches must include exactly one safety marker and exactly one route marker in its body:
