@@ -1,0 +1,35 @@
+name: Stage33-07 k2 geometric exact Q2 affine compression
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/nonelementary-k2-geometric-full-q4-retained.json'
+      - 'stages/stage33/33-07/certify_nonelementary_k2_geometric_q2_affine.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k2_geometric_support_orbits.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k12_q2_support_reduction.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k12_2q_support_reduction.py'
+      - 'stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py'
+      - 'stages/stage33/33-07/certify_nonelementary_target_q8_exponent_reduction.py'
+      - 'stages/stage33/33-07/picard-discriminant-compact.json'
+      - '.github/workflows/stage33-07-k2-geometric-q2-affine.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  exact-q2-affine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild exact Q4-rank prerequisite
+        run: python stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py
+      - name: Exact pure-geometric Q2 profile and affine compression
+        run: python stages/stage33/33-07/certify_nonelementary_k2_geometric_q2_affine.py
+      - name: Upload exact certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k2-geometric-q2-affine
+          path: stages/stage33/33-07/nonelementary-k2-geometric-q2-affine.json
+          if-no-files-found: error
