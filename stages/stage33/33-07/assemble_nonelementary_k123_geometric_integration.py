@@ -29,7 +29,7 @@ handoff = load("handoff.json")
 k1_sha = verify_canonical(k1, "K1")
 k2_sha = verify_canonical(k2, "K2")
 k3_wrapper_sha = hashlib.sha256(
-    (HERE / "nonelementary-k3-full-q4-retained.json").read_bytes()
+    json.dumps(k3, sort_keys=True, separators=(",", ":")).encode()
 ).hexdigest()
 
 if lock["certificate_canonical_sha256"] != k1_sha or lock["workflow_conclusion"] != "success":
