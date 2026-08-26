@@ -1,0 +1,102 @@
+name: Stage33-07 k1 pure-geometric support orbits
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-07/nonelementary_k1_geometric_support_orbit_common.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k1_geometric_support_orbit_shard.py'
+      - 'stages/stage33/33-07/aggregate_nonelementary_k1_geometric_support_orbits.py'
+      - '.github/workflows/stage33-07-k1-geometric-support-orbits.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage33-07-k1-geometric-support-orbits-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  shard:
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix:
+        p_orbit: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Enumerate one exact source-symmetry P orbit
+        env:
+          P_ORBIT_INDEX: ${{ matrix.p_orbit }}
+        run: python certify_nonelementary_k1_geometric_support_orbit_shard.py
+      - name: Enforce pure-geometric firewall
+        env:
+          P_ORBIT_INDEX: ${{ matrix.p_orbit }}
+        run: |
+          python - <<'PY'
+          import json,os
+          i=int(os.environ['P_ORBIT_INDEX']);x=json.load(open(f'nonelementary-k1-geometric-support-orbit-shard-{i}.json'))
+          assert x['p_orbit_index']==i and x['arithmetic_generators_used']==[]
+          assert x['all_fixed_P_support_skeletons_partitioned_exactly']
+          assert not x['full_Q4_condition_certified'] and not x['actual_index512_glue_identified']
+          assert x['stage33_progress']=='6/11' and not x['theorem_credit'] and not x['endpoint_credit']
+          print(f'K1_GEOMETRIC_SUPPORT_P_ORBIT_{i}=PASS_EXACT')
+          print('W_ORBITS='+str(x['fixed_P_W_orbit_count']))
+          print('REP_SECTIONS_NEXT='+str(x['representative_lift_sections_for_next_exact_leaf']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k1-geometric-support-orbit-shard-${{ matrix.p_orbit }}
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-support-orbit-shard-${{ matrix.p_orbit }}.json
+
+  aggregate:
+    needs: shard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: k1-geometric-support-orbit-shard-*
+          merge-multiple: true
+          path: stages/stage33/33-07/k1-geometric-support-orbit-shards
+      - name: Aggregate exact pure-geometric orbit census
+        run: python aggregate_nonelementary_k1_geometric_support_orbits.py
+      - name: Enforce aggregate firewall and exact predecessor coverage
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k1-geometric-support-orbits.json'))
+          assert x['arithmetic_generators_used']==[] and x['source_integral_coordinate_symmetry_order']==288
+          assert x['eligible_rank_one_E7_P_count']==63 and x['exact_P_orbit_count']==15
+          assert x['support_skeleton_count']==20487593 and x['weighted_structural_H_count']==1311205952
+          assert x['representative_lift_sections_for_next_exact_leaf']==64*x['exact_support_skeleton_orbit_count']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('K1_GEOMETRIC_SUPPORT_ORBITS=PASS_EXACT')
+          print('SUPPORT_ORBITS='+str(x['exact_support_skeleton_orbit_count']))
+          print('REP_SECTIONS_NEXT='+str(x['representative_lift_sections_for_next_exact_leaf']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-geometric-support-orbits
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-support-orbits.json
