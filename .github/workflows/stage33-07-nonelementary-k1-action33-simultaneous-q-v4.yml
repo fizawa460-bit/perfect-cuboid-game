@@ -1,0 +1,105 @@
+name: Stage33-07 non-elementary k1 action33 simultaneous full q V4
+
+# Manual-only legacy leaf. The arithmetic cc/ct integral-T promotion is not
+# accepted by the current firewall, and this 90-minute workflow must not replay
+# automatically from the whole PR diff.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage33-07-k1-action33-simultaneous-q-v4-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra and finite solver
+        run: pip install 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Recover locked predecessor artifacts
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          a="$(mktemp -d)"
+          q="$(mktemp -d)"
+          gh run download 32915874321 --repo "${GITHUB_REPOSITORY}" --name stage33-07-k12-action-filtration-exact --dir "$a"
+          gh run download 32903229764 --repo "${GITHUB_REPOSITORY}" --name stage33-07-k12-exact-q2-2q-profile --dir "$q"
+          cp "$a/nonelementary-k12-action-filtration-certified.json" stages/stage33/33-07/
+          cp "$a/nonelementary-k12-action-filtration-survivors.bin" stages/stage33/33-07/
+          cp "$q/nonelementary-k12-exact-q2-2q-profile-filter.json" stages/stage33/33-07/
+          cp "$q/nonelementary-k12-exact-q2-2q-profile-surviving-orbits.bin" stages/stage33/33-07/
+      - name: Rebuild cheap locked skeleton sources
+        run: |
+          cd stages/stage33/33-07
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+          python certify_nonelementary_k1_q2_2q_cc_orbits.py
+          python certify_nonelementary_k2_q2_2q_skeleton_orbits.py
+      - name: Lock all exact inputs
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          h=Path('stages/stage33/33-07')
+          locks={
+            'nonelementary-k12-action-filtration-certified.json':'24d7ba71fbde251960543376735adc0bbae89042ec696e5b5f37d251fe658424',
+            'nonelementary-k12-exact-q2-2q-profile-filter.json':'18d33892d04de286bfa8aa006fb8e4d133d7b51472e950c51bc74cc67a366300',
+            'nonelementary-k1-q2-2q-cc-orbits.json':'702758b2c085db70b48577531377b5c8dace827f3080f43486fbcf0fd0605cf2',
+            'nonelementary-k2-q2-2q-skeleton-orbits.json':'cfa87933b595744811b8ea2e04bf71ea39b75b0c3a9255437c4bc507b3846a95',
+          }
+          for name,want in locks.items():
+            d=json.loads((h/name).read_text()); got=d.get('canonical_sha256')
+            assert got==want,(name,got)
+            u=dict(d); u.pop('canonical_sha256',None)
+            assert hashlib.sha256(json.dumps(u,sort_keys=True,separators=(',',':')).encode()).hexdigest()==want
+          b=(h/'nonelementary-k12-action-filtration-survivors.bin').read_bytes()
+          assert len(b)==33*7
+          assert hashlib.sha256(b).hexdigest()=='aca9bf325b2ade00fd8c1abda4b5129847661ce328af89bda1a403493e07df82'
+          qb=(h/'nonelementary-k12-exact-q2-2q-profile-surviving-orbits.bin').read_bytes()
+          assert len(qb)==104028*7
+          assert hashlib.sha256(qb).hexdigest()=='4eebb36004d88917a233a7f449056e9d20082de94018d9ce4b48bbbbfe144c36'
+          print({'action_survivors':len(b)//7,'q2_records':len(qb)//7})
+          PY
+      - name: Run exact simultaneous full finite-q plus V4 census
+        env:
+          Z3_TIMEOUT_MS: '120000'
+        run: python stages/stage33/33-07/certify_nonelementary_k1_action33_simultaneous_q_v4.py
+      - name: Enforce exact finite firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path('stages/stage33/33-07/nonelementary-k1-action33-simultaneous-q-v4-certified.json')
+          d=json.loads(p.read_text())
+          assert d['records_checked']==33
+          assert d['records_checked_by_kind']=={'k1':33,'k2':0}
+          assert d['all_33_action_filtration_survivors_checked_exactly_once'] is True
+          assert d['single_isometry_simultaneously_constrains_full_q_cc_ct'] is True
+          assert d['sat_witnesses_independently_verified'] is True
+          assert d['full_finite_q_plus_simultaneous_v4_exact_on_all_action_filtration_survivors'] is True
+          assert sum(d['status_counts'].values())==33
+          assert 'UNKNOWN' not in d['status_counts']
+          for k in ('actual_index512_glue_identified','arithmetic_HS_closed','stage33_08_released','stage33_09_released','theorem_credit','endpoint_credit','perfect_cuboid_nonexistence_claim'):
+            assert d[k] is False
+          assert d['stage33_progress']=='6/11'
+          print({'status':d['status_counts'],'survivors':d['survivor_count'],'all_non_elementary_eliminated':d['all_non_elementary_index512_types_eliminated'],'sha256':d['canonical_sha256']})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-action33-simultaneous-q-v4
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-action33-simultaneous-q-v4-certified.json

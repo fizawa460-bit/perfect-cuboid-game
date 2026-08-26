@@ -1,0 +1,59 @@
+name: Stage33-07 elementary full ct fixed type
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-elementary-full-ct-fixed-type.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  elementary-full-ct-fixed-type:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0
+      - name: Materialize retained H0 candidate prerequisite
+        run: python certify_elementary_index512_glue_candidate.py
+      - name: Recompute structural reduction prerequisite
+        run: python certify_elementary_index512_structural_reduction.py
+      - name: Certify full ct fixed-subgroup reduction
+        run: python certify_elementary_index512_full_ct_fixed_type_reduction.py
+      - name: Enforce conservative Stage33-07 firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-full-ct-fixed-type-reduction.json'))
+          assert x['elementary_candidates_after_ct2_before_full_ct']==3782165
+          assert x['s2_rejected_by_total_ct_fixed_order']
+          assert x['s2_after_full_ct']==0
+          assert x['s3_after_full_ct']==2112768
+          assert x['elementary_candidates_after_full_ct_fixed_type_total']==2112768
+          assert x['formula_independently_regressed_against_exact_H0_smith_census']
+          assert not x['all_elementary_order512_glue_rejected']
+          assert not x['actual_index512_glue_identified']
+          assert x['unit_status']=='RUNNING_REPAIR'
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released']
+          assert not x['theorem_credit']
+          assert not x['endpoint_credit']
+          print('ELEMENTARY_INDEX512_FULL_CT_FIXED_TYPE_REDUCTION=PASS_EXACT')
+          print('SURVIVOR_CENSUS=2112768')
+          print('STAGE33_08_RELEASED=False')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-elementary-full-ct-fixed-type
+          path: stages/stage33/33-07/elementary-index512-full-ct-fixed-type-reduction.json
+          retention-days: 5

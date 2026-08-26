@@ -1,0 +1,45 @@
+name: Stage33-07 non-elementary coordinate-sign exponent reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_index512_nonelementary_coordinate_sign_exponent_reduction.py'
+      - 'stages/stage33/33-07/index512-abstract-glue-types-lr-retained.json'
+      - 'stages/stage33/33-07/coordinate-k3-transcendental-glue-index.json'
+      - '.github/workflows/stage33-07-nonelementary-coordinate-sign-exponent.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  nonelementary-coordinate-sign-exponent:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Certify exact coordinate-sign exponent reduction
+        run: python certify_index512_nonelementary_coordinate_sign_exponent_reduction.py
+      - name: Enforce conservative firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('index512-nonelementary-coordinate-sign-exponent-reduction.json'))
+          assert x['non_elementary_types_before']==8 and x['non_elementary_types_after']==4
+          assert len(x['rejected_Z8_types'])==4 and len(x['surviving_exponent_le4_types'])==4
+          assert not x['actual_index512_glue_identified']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          print('NONELEMENTARY_COORDINATE_SIGN_EXPONENT_REDUCTION=PASS_EXACT')
+          print('SURVIVING_TYPES=4')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-nonelementary-coordinate-sign-exponent
+          path: stages/stage33/33-07/index512-nonelementary-coordinate-sign-exponent-reduction.json
+          retention-days: 5

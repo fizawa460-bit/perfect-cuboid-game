@@ -1,0 +1,52 @@
+name: Stage33-07 non-elementary k1 k2 full Q4 scout
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-nonelementary-k12-full-q4-scout.yml'
+  workflow_dispatch:
+concurrency:
+  group: stage33-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+jobs:
+  scout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact non-elementary predecessor chain
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+      - name: Exhaust every k1 k2 integral-action affine section by full Q4 rank
+        working-directory: stages/stage33/33-07
+        run: python profile_nonelementary_k12_full_q4.py
+      - name: Enforce exact coverage and planning firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k12-full-q4-scout.json'))
+          assert x['all_affine_sections_exhausted'] and not x['fast_or_canonical_traversal_used']
+          assert x['combined_representative_sections_checked']==1020880
+          assert x['combined_weighted_H_checked']==14794944
+          assert x['k1']['weighted_H_checked']==2928832 and x['k2']['weighted_H_checked']==11866112
+          assert x['planning_only'] and not x['full_Q4_condition_certified']
+          assert not x['endpoint_finite_q_certified'] and not x['endpoint_full_action_certified']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          print('K12_FULL_Q4_SCOUT=PASS_EXACT_PLANNING')
+          print('SURVIVORS='+str(x['combined_weighted_H_survivors']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-full-q4-scout
+          path: stages/stage33/33-07/nonelementary-k12-full-q4-scout.json
+          retention-days: 5

@@ -1,0 +1,74 @@
+name: Stage33-07 non-elementary k1 k2 exact 2Q profile
+
+# Q4 orbit materialization is already exact-certified; this is the active successor leaf.
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_nonelementary_k12_exact_2q_profile_filter.py'
+      - '.github/workflows/stage33-07-nonelementary-k12-exact-2q-profile.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: stage33-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact non-elementary predecessor chain
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+      - name: Exact full-Q4 to 2Q-profile reduction
+        working-directory: stages/stage33/33-07
+        run: python certify_nonelementary_k12_exact_2q_profile_filter.py
+      - name: Enforce exact coverage and conservative firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k12-exact-2q-profile-filter.json'))
+          assert x['schema']=='STAGE33_07_NONELEMENTARY_K12_EXACT_2Q_PROFILE_FILTER_V1'
+          assert x['source_Q4_burnside_script_git_blob_sha1']=='9f3c2a0dd2da436643bc5a5b647f5384b2c68f02'
+          assert x['source_exact_Smith_witness_script_git_blob_sha1']=='906daecc168a576c368431623c0b92f745462f53'
+          assert x['source_endpoint_picard_discriminant_sha256']=='4ca7567205455175a5f9bef7a74bc9ec31cd68f831aec60aa88a637b5c0cfdf0'
+          assert x['endpoint_exact_2Q_quadratic_value_profile_numerator_over_8']=={'0':8192,'8':8192}
+          assert x['formula_regressed_against_two_exact_Smith_witnesses']
+          assert x['profile_depends_only_on_W'] and x['complete_affine_fibres_filtered']
+          assert x['combined_Q4_surviving_H_before_exact_2Q_profile']==10880256
+          assert x['combined_full_symmetry_orbits_before_exact_2Q_profile']==380572
+          assert x['k1']['Q4_surviving_skeleton_orbits_before_exact_2Q_profile']==3187
+          assert x['k1']['full_symmetry_orbits_before_exact_2Q_profile']==77076
+          assert x['k2']['Q4_surviving_skeleton_orbits_before_exact_2Q_profile']==294
+          assert x['k2']['full_symmetry_orbits_before_exact_2Q_profile']==303496
+          assert 0 <= x['combined_H_after_exact_2Q_profile'] <= 10880256
+          assert 0 <= x['combined_full_symmetry_orbits_after_exact_2Q_profile'] <= 380572
+          assert x['exact_2Q_quadratic_profile_certified']
+          assert not x['full_finite_q_isometry_certified'] and not x['endpoint_finite_q_certified']
+          assert not x['endpoint_full_action_certified'] and not x['actual_index512_glue_identified']
+          assert not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released'] and not x['stage33_09_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('K12_EXACT_2Q_PROFILE=PASS_EXACT')
+          print('K1_SKELETONS_AFTER='+str(x['k1']['skeleton_orbits_after_exact_2Q_profile']))
+          print('K1_ORBITS_AFTER='+str(x['k1']['full_symmetry_orbits_after_exact_2Q_profile']))
+          print('K2_SKELETONS_AFTER='+str(x['k2']['skeleton_orbits_after_exact_2Q_profile']))
+          print('K2_ORBITS_AFTER='+str(x['k2']['full_symmetry_orbits_after_exact_2Q_profile']))
+          print('COMBINED_H_AFTER='+str(x['combined_H_after_exact_2Q_profile']))
+          print('COMBINED_ORBITS_AFTER='+str(x['combined_full_symmetry_orbits_after_exact_2Q_profile']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-exact-2q-profile
+          path: stages/stage33/33-07/nonelementary-k12-exact-2q-profile-filter.json
+          retention-days: 5

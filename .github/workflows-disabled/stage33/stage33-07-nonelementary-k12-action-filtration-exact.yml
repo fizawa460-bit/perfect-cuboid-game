@@ -1,0 +1,183 @@
+name: Stage33-07 non-elementary k1 k2 exact action filtration
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-07/certify_nonelementary_k12_action_filtration_shard.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k12_action_filtration_aggregate.py'
+      - 'stages/stage33/33-07/scout_nonelementary_k12_action_filtration.py'
+      - 'stages/stage33/33-07/scout_nonelementary_k12_full_q_isometry.py'
+      - 'stages/stage33/33-07/coordinate-k3-scaled-action-choices-retained.json'
+      - 'stages/stage33/33-07/picard-discriminant-compact.json'
+      - '.github/workflows/stage33-07-nonelementary-k12-action-filtration-exact.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage33-07-k12-action-filtration-exact-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra
+        run: pip install 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Recover locked Q2+2Q survivors
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          gh run download 32903229764 \
+            --repo "${GITHUB_REPOSITORY}" \
+            --name stage33-07-k12-exact-q2-2q-profile \
+            --dir "$work"
+          cp "$work/nonelementary-k12-exact-q2-2q-profile-filter.json" stages/stage33/33-07/
+          cp "$work/nonelementary-k12-exact-q2-2q-profile-surviving-orbits.bin" stages/stage33/33-07/
+      - name: Rebuild cheap locked skeleton sources
+        run: |
+          cd stages/stage33/33-07
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+          python certify_nonelementary_k1_q2_2q_cc_orbits.py
+          python certify_nonelementary_k2_q2_2q_skeleton_orbits.py
+      - name: Lock prepared inputs
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          h=Path('stages/stage33/33-07')
+          locks={
+            'nonelementary-k12-exact-q2-2q-profile-filter.json':'18d33892d04de286bfa8aa006fb8e4d133d7b51472e950c51bc74cc67a366300',
+            'nonelementary-k1-q2-2q-cc-orbits.json':'702758b2c085db70b48577531377b5c8dace827f3080f43486fbcf0fd0605cf2',
+            'nonelementary-k2-q2-2q-skeleton-orbits.json':'cfa87933b595744811b8ea2e04bf71ea39b75b0c3a9255437c4bc507b3846a95',
+          }
+          for name,want in locks.items():
+            d=json.loads((h/name).read_text()); got=d.get('canonical_sha256')
+            assert got==want,(name,got)
+          b=(h/'nonelementary-k12-exact-q2-2q-profile-surviving-orbits.bin').read_bytes()
+          assert len(b)==104028*7
+          assert hashlib.sha256(b).hexdigest()=='4eebb36004d88917a233a7f449056e9d20082de94018d9ce4b48bbbbfe144c36'
+          print({'prepared_records':len(b)//7})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-action-filtration-inputs
+          retention-days: 5
+          if-no-files-found: error
+          path: |
+            stages/stage33/33-07/nonelementary-k12-exact-q2-2q-profile-filter.json
+            stages/stage33/33-07/nonelementary-k12-exact-q2-2q-profile-surviving-orbits.bin
+            stages/stage33/33-07/nonelementary-k1-q2-2q-cc-orbits.json
+            stages/stage33/33-07/nonelementary-k2-q2-2q-skeleton-orbits.json
+
+  shard:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra and finite solver dependency
+        run: pip install 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage33-07-k12-action-filtration-inputs
+          path: stages/stage33/33-07
+      - name: Run exact shard
+        env:
+          SHARD_INDEX: ${{ matrix.shard }}
+          SHARD_COUNT: '16'
+        run: python stages/stage33/33-07/certify_nonelementary_k12_action_filtration_shard.py
+      - name: Enforce shard firewall
+        env:
+          SHARD_INDEX: ${{ matrix.shard }}
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          i=int(os.environ['SHARD_INDEX'])
+          d=json.loads(Path(f'stages/stage33/33-07/nonelementary-k12-action-filtration-shard-{i:02d}.json').read_text())
+          assert d['shard_index']==i and d['shard_count']==16
+          assert d['exact_shard_action_filtration_certified'] is True
+          assert sum(d['status_counts'].values())==d['input_count']
+          for k in ('endpoint_finite_q_certified','endpoint_full_action_certified',
+                    'actual_index512_glue_identified','arithmetic_HS_closed',
+                    'stage33_08_released','stage33_09_released','theorem_credit',
+                    'endpoint_credit','perfect_cuboid_nonexistence_claim'):
+            assert d[k] is False
+          assert d['stage33_progress']=='6/11'
+          print({'shard':i,'input':d['input_count'],'status':d['status_counts'],'survivors':d['survivor_count']})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-action-filtration-shard-${{ matrix.shard }}
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k12-action-filtration-shard-*.json
+
+  aggregate:
+    needs: shard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage33-07-k12-action-filtration-shard-*
+          path: stage33-action-shards
+          merge-multiple: true
+      - name: Aggregate exhaustive certificate
+        env:
+          SHARD_DIR: stage33-action-shards
+          SHARD_COUNT: '16'
+        run: python stages/stage33/33-07/certify_nonelementary_k12_action_filtration_aggregate.py
+      - name: Enforce exact full-coverage firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage33/33-07/nonelementary-k12-action-filtration-certified.json').read_text())
+          assert d['input_count']==104028
+          assert d['input_count_by_kind']=={'k1':28076,'k2':75952}
+          assert d['full_action_filtration_exhaustive_certified'] is True
+          assert d['all_104028_q2_2q_surviving_full_source_symmetry_orbits_classified'] is True
+          assert sum(d['status_counts'].values())==104028
+          assert d['survivor_count']==sum(d['survivor_count_by_kind'].values())
+          for k in ('endpoint_finite_q_certified','endpoint_full_action_certified',
+                    'actual_index512_glue_identified','arithmetic_HS_closed',
+                    'stage33_08_released','stage33_09_released','theorem_credit',
+                    'endpoint_credit','perfect_cuboid_nonexistence_claim'):
+            assert d[k] is False
+          assert d['stage33_progress']=='6/11'
+          print({'input':d['input_count'],'status':d['status_counts'],
+                 'survivors':d['survivor_count'],'by_kind':d['survivor_count_by_kind'],
+                 'sha256':d['canonical_sha256']})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-action-filtration-exact
+          retention-days: 5
+          if-no-files-found: error
+          path: |
+            stages/stage33/33-07/nonelementary-k12-action-filtration-certified.json
+            stages/stage33/33-07/nonelementary-k12-action-filtration-survivors.bin

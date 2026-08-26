@@ -1,0 +1,141 @@
+name: Stage33-07 non-elementary k1 k2 exact Q2 profile
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-07/certify_nonelementary_k12_exact_q2_2q_profile_filter.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k12_exact_2q_profile_filter.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k1_q2_2q_cc_orbits.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k2_q2_2q_skeleton_orbits.py'
+      - 'stages/stage33/33-07/picard-discriminant-compact.json'
+      - '.github/workflows/stage33-07-nonelementary-k12-exact-q2-profile.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage33-07-k12-exact-q2-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Recover locked exact 2Q certificate
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          work="$(mktemp -d)"
+          if gh run download 32900204783 \
+              --repo "${GITHUB_REPOSITORY}" \
+              --name stage33-07-k12-exact-2q-profile \
+              --dir "$work"; then
+            cp "$work/nonelementary-k12-exact-2q-profile-filter.json" \
+              stages/stage33/33-07/
+          else
+            echo "retained 2Q artifact unavailable; rebuilding exact 2Q certificate"
+            cd stages/stage33/33-07
+            python certify_nonelementary_target_q4_rank_obstruction.py
+            python certify_nonelementary_target_q8_exponent_reduction.py
+            python certify_nonelementary_k12_q2_support_reduction.py
+            python certify_nonelementary_k12_2q_support_reduction.py
+            python certify_nonelementary_k12_exact_2q_profile_filter.py
+            cd ../../..
+          fi
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+          p=Path("stages/stage33/33-07/nonelementary-k12-exact-2q-profile-filter.json")
+          d=json.loads(p.read_text())
+          s=d.pop("canonical_sha256")
+          raw=json.dumps(d,sort_keys=True,separators=(",",":")).encode()
+          assert s==hashlib.sha256(raw).hexdigest()
+          assert s=="00385fb56ae07a8ce8ce20f374297a88fa98257bb13dd9e6d80ccc6aca4f8f5f"
+          assert d["combined_full_symmetry_orbits_after_exact_2Q_profile"]==359648
+          print({"2Q_certificate_sha256":s})
+          PY
+
+      - name: Recover locked full-Q4 materialization
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          work="$(mktemp -d)"
+          if gh run download 32896987096 \
+              --repo "${GITHUB_REPOSITORY}" \
+              --name stage33-07-k12-q4-symmetry-orbit-materialization \
+              --dir "$work"; then
+            cp "$work/nonelementary-k12-q4-symmetry-orbit-representatives.bin" \
+              stages/stage33/33-07/
+          else
+            echo "retained materialization artifact unavailable; rebuilding exact materialization"
+            python stages/stage33/33-07/certify_nonelementary_k12_q4_formal.py
+            python stages/stage33/33-07/profile_nonelementary_k12_q4_affine_burnside.py
+            python stages/stage33/33-07/materialize_nonelementary_k12_q4_symmetry_orbits.py
+          fi
+          python - <<'PY'
+          import hashlib
+          from pathlib import Path
+          p=Path("stages/stage33/33-07/nonelementary-k12-q4-symmetry-orbit-representatives.bin")
+          b=p.read_bytes()
+          assert len(b)==2664004
+          assert hashlib.sha256(b).hexdigest()=="15b21b405da16908ec1cc2daa275cb1016b35c1618975a1bf450e6f78469eccd"
+          print({"bytes":len(b),"sha256":hashlib.sha256(b).hexdigest()})
+          PY
+
+      - name: Rebuild cheap skeleton predecessors
+        run: |
+          cd stages/stage33/33-07
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+
+      - name: Exact Q2 profile on 2Q survivors
+        run: python stages/stage33/33-07/certify_nonelementary_k12_exact_q2_2q_profile_filter.py
+
+      - name: Enforce exact coverage and firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path("stages/stage33/33-07/nonelementary-k12-exact-q2-2q-profile-filter.json").read_text())
+          assert d["exact_Q2_quadratic_profile_certified"] is True
+          assert d["exact_2Q_quadratic_profile_inherited_certified"] is True
+          assert d["k1"]["exact_full_symmetry_orbits_before_Q2_profile"]==56152
+          assert d["k2"]["exact_full_symmetry_orbits_before_Q2_profile"]==303496
+          assert d["weighted_H_after_Q2_profile_certified"] is False
+          for key in ("endpoint_finite_q_certified","endpoint_full_action_certified",
+                      "actual_index512_glue_identified","arithmetic_HS_closed",
+                      "stage33_08_released","stage33_09_released",
+                      "theorem_credit","endpoint_credit","perfect_cuboid_nonexistence_claim"):
+            assert d[key] is False
+          assert d["stage33_progress"]=="6/11"
+          print({
+            "k1":d["k1"]["exact_full_symmetry_orbits_matching_endpoint_Q2_and_2Q_profiles"],
+            "k2":d["k2"]["exact_full_symmetry_orbits_matching_endpoint_Q2_and_2Q_profiles"],
+            "combined":d["combined_exact_full_symmetry_orbits_matching_endpoint_Q2_and_2Q_profiles"],
+            "sha256":d["canonical_sha256"],
+          })
+          PY
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-exact-q2-2q-profile
+          retention-days: 5
+          if-no-files-found: error
+          path: |
+            stages/stage33/33-07/nonelementary-k12-exact-q2-2q-profile-filter.json
+            stages/stage33/33-07/nonelementary-k12-exact-q2-2q-profile-surviving-orbits.bin

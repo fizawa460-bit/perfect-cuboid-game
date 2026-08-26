@@ -1,0 +1,201 @@
+name: Stage33 stale-run sweeper
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/**'
+      - '.github/workflows/stage33*.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: stage33-stale-run-sweeper-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  actions: write
+  contents: read
+
+jobs:
+  cancel-obsolete-runs:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 2
+
+      - name: Cancel old-head and PR-diff replay Stage33 runs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          HEAD_REF: ${{ github.head_ref }}
+          CURRENT_SHA: ${{ github.event.pull_request.head.sha }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+          PR_ACTION: ${{ github.event.action }}
+        run: |
+          python - <<'PY'
+          import fnmatch
+          import json
+          import os
+          import subprocess
+          import urllib.error
+          import urllib.parse
+          import urllib.request
+          from pathlib import Path
+
+          repo = os.environ['REPO']
+          branch = os.environ['HEAD_REF']
+          current_sha = os.environ['CURRENT_SHA']
+          current_run = int(os.environ['CURRENT_RUN_ID'])
+          action = os.environ.get('PR_ACTION', '')
+          token = os.environ['GH_TOKEN']
+          active = {'queued', 'in_progress', 'waiting', 'requested', 'pending'}
+          headers = {
+              'Authorization': f'Bearer {token}',
+              'Accept': 'application/vnd.github+json',
+              'X-GitHub-Api-Version': '2022-11-28',
+              'User-Agent': 'stage33-stale-run-sweeper',
+          }
+
+          # GitHub pull_request.paths is evaluated against the whole PR diff.
+          # For synchronize events we additionally compute the files changed by
+          # the newest head commit. A Stage33 workflow whose own path filter does
+          # not match this newest-commit diff is a PR-diff replay and is cancelled.
+          changed = []
+          if action == 'synchronize':
+              try:
+                  changed = subprocess.check_output(
+                      ['git', 'diff', '--name-only', 'HEAD^', 'HEAD'], text=True
+                  ).splitlines()
+              except subprocess.CalledProcessError:
+                  changed = []
+          print('LATEST_COMMIT_CHANGED_FILES=' + json.dumps(changed, separators=(',', ':')))
+
+          def pull_request_paths(workflow_path):
+              path = Path(workflow_path)
+              if not path.is_file():
+                  return []
+              lines = path.read_text().splitlines()
+              pull_indent = None
+              paths_indent = None
+              patterns = []
+              for line in lines:
+                  stripped = line.strip()
+                  if not stripped or stripped.startswith('#'):
+                      continue
+                  indent = len(line) - len(line.lstrip())
+                  if pull_indent is None:
+                      if stripped == 'pull_request:':
+                          pull_indent = indent
+                      continue
+                  if indent <= pull_indent:
+                      break
+                  if paths_indent is None:
+                      if stripped == 'paths:':
+                          paths_indent = indent
+                      continue
+                  if indent <= paths_indent:
+                      break
+                  if stripped.startswith('- '):
+                      pattern = stripped[2:].strip()
+                      if len(pattern) >= 2 and pattern[0] == pattern[-1] and pattern[0] in "'\"":
+                          pattern = pattern[1:-1]
+                      patterns.append(pattern)
+              return patterns
+
+          def matches_ordered(path, patterns):
+              matched = False
+              for raw in patterns:
+                  negative = raw.startswith('!')
+                  pattern = raw[1:] if negative else raw
+                  if fnmatch.fnmatchcase(path, pattern):
+                      matched = not negative
+              return matched
+
+          obsolete = []
+          preserved = []
+          page = 1
+          while True:
+              query = urllib.parse.urlencode({
+                  'branch': branch,
+                  'event': 'pull_request',
+                  'per_page': 100,
+                  'page': page,
+              })
+              url = f'https://api.github.com/repos/{repo}/actions/runs?{query}'
+              req = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(req, timeout=30) as response:
+                  payload = json.load(response)
+              runs = payload.get('workflow_runs', [])
+              if not runs:
+                  break
+              for run in runs:
+                  run_id = int(run['id'])
+                  if run_id == current_run or run.get('status') not in active:
+                      continue
+                  name = str(run.get('name') or '')
+                  if not name.startswith('Stage33'):
+                      continue
+                  sha = run.get('head_sha')
+                  status = run.get('status')
+                  workflow_path = str(run.get('path') or '')
+
+                  if sha != current_sha:
+                      obsolete.append((run_id, name, sha, status, 'OLD_HEAD'))
+                      continue
+
+                  # Only synchronize events have a well-defined newest-commit
+                  # replay test. Preserve current-head runs for opened/reopened
+                  # events or when a workflow cannot be inspected safely.
+                  if action != 'synchronize' or not changed:
+                      preserved.append((run_id, name, 'CURRENT_HEAD_NON_SYNCHRONIZE'))
+                      continue
+                  if not workflow_path.startswith('.github/workflows/stage33'):
+                      preserved.append((run_id, name, 'CURRENT_HEAD_NON_STAGE33_WORKFLOW_PATH'))
+                      continue
+                  patterns = pull_request_paths(workflow_path)
+                  if not patterns:
+                      preserved.append((run_id, name, 'CURRENT_HEAD_NO_PARSEABLE_PATH_FILTER'))
+                      continue
+                  if any(matches_ordered(path, patterns) for path in changed):
+                      preserved.append((run_id, name, 'LATEST_COMMIT_MATCHES_WORKFLOW_PATHS'))
+                      continue
+
+                  obsolete.append((run_id, name, sha, status, 'CURRENT_HEAD_PR_DIFF_REPLAY'))
+
+              if len(runs) < 100:
+                  break
+              page += 1
+
+          cancelled = 0
+          races = 0
+          reasons = {}
+          for run_id, name, sha, status, reason in obsolete:
+              url = f'https://api.github.com/repos/{repo}/actions/runs/{run_id}/cancel'
+              req = urllib.request.Request(url, data=b'', method='POST', headers=headers)
+              try:
+                  with urllib.request.urlopen(req, timeout=30) as response:
+                      if response.status != 202:
+                          raise SystemExit(f'unexpected cancel status {response.status} for {run_id}')
+                  cancelled += 1
+                  reasons[reason] = reasons.get(reason, 0) + 1
+                  print(f'CANCELLED reason={reason} run={run_id} status={status} head={sha} name={name}')
+              except urllib.error.HTTPError as exc:
+                  if exc.code == 409:
+                      races += 1
+                      print(f'ALREADY_FINISHING reason={reason} run={run_id} name={name}')
+                  else:
+                      raise
+
+          for run_id, name, reason in preserved:
+              print(f'PRESERVED reason={reason} run={run_id} name={name}')
+
+          print(f'STAGE33_OBSOLETE_RUNS_FOUND={len(obsolete)}')
+          print(f'STAGE33_OBSOLETE_RUNS_CANCELLED={cancelled}')
+          print(f'STAGE33_CANCEL_RACES={races}')
+          print('STAGE33_CANCEL_REASONS=' + json.dumps(reasons, sort_keys=True, separators=(',', ':')))
+          print(f'CURRENT_HEAD={current_sha}')
+          print('PERMANENT_REPLAY_GUARD=LATEST_COMMIT_PATH_INTERSECTION')
+          PY

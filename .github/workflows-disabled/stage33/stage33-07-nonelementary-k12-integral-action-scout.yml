@@ -1,0 +1,62 @@
+name: Stage33-07 non-elementary k1 k2 integral action scout
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/profile_nonelementary_k12_integral_cc_ct.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k1_q2_2q_cc_orbits.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k2_q2_2q_skeleton_orbits.py'
+      - '.github/workflows/stage33-07-nonelementary-k12-integral-action-scout.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  scout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact k1/k2 compressed predecessors
+        run: |
+          python certify_index512_abstract_glue_types_lr.py
+          python certify_nonelementary_sign_q2_structural_reduction.py
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+          python certify_nonelementary_k2_q2_2q_skeleton_orbits.py
+          python certify_nonelementary_k1_q2_2q_cc_orbits.py
+      - name: Exact integral cc/ct affine-locus scout
+        run: python profile_nonelementary_k12_integral_cc_ct.py
+      - name: Enforce planning firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k12-integral-cc-ct-scout.json'))
+          assert x['raw_cc_choices']==1024 and x['distinct_normalized_cc_actions']==8
+          assert x['raw_ct_choices']==128 and x['distinct_normalized_ct_actions']==1
+          assert x['k1']['skeleton_orbits']==4595 and x['k2']['skeleton_orbits']==427
+          assert x['k1']['raw_structural_H_reconstructed']==6723136
+          assert x['k2']['raw_structural_H_reconstructed']==67641344
+          assert x['planning_only'] and not x['integral_cc_ct_certified']
+          assert not x['full_Q4_condition_certified'] and not x['endpoint_finite_q_certified']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          print('K12_INTEGRAL_ACTION_SCOUT=PASS_EXACT_PLANNING')
+          print('K1='+json.dumps({k:v for k,v in x['k1'].items() if k!='records'},sort_keys=True))
+          print('K2='+json.dumps({k:v for k,v in x['k2'].items() if k!='records'},sort_keys=True))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-integral-action-scout
+          path: stages/stage33/33-07/nonelementary-k12-integral-cc-ct-scout.json
+          retention-days: 5

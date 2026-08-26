@@ -23,34 +23,66 @@ jobs:
           python-version: '3.12'
       - name: Install exact integer algebra dependency
         run: python -m pip install 'sympy==1.14.0'
-      - name: Recheck retained J2 endpoint pullback
+      - name: Recheck retained J2 endpoint pullback and nonconstancy
         working-directory: stages/stage33/33-07
-        run: python probe_j2_endpoint_q2.py
-      - name: Recheck retained J2 Q2 nonconstancy
-        working-directory: stages/stage33/33-07
-        run: python scan_j2_endpoint_q2_variation.py
-      - name: Recheck BR0B integration prefix
-        working-directory: stages/stage33/33-07
-        run: python assemble_integration_prefix_v2.py
-      - name: Recheck BR0B boundary residue map
+        run: |
+          python probe_j2_endpoint_q2.py
+          python scan_j2_endpoint_q2_variation.py
+      - name: Recheck retained BR0B BR0G integration prefix
         working-directory: stages/stage33/33-07
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python materialize_br0b_boundary_residue_map.py
-      - name: Recheck BR0G boundary finite presentation
+        run: |
+          python assemble_integration_prefix_v2.py
+          python materialize_br0b_boundary_residue_map.py
+          python validate_retained_br0g_finite.py
+          python certify_full_br0b_boundary_injection.py
+      - name: Materialize exact arithmetic HS repair quotient and odd-primary closure
         working-directory: stages/stage33/33-07
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python materialize_br0g_finite_ramified_presentation.py
-      - name: Recheck full BR0B boundary injection
+        run: |
+          python materialize_arithmetic_hs_descent_problem.py
+          python certify_proper_brauer_odd_invariants_zero.py
+      - name: Recheck exact coordinate-K3 index512 glue reduction
         working-directory: stages/stage33/33-07
-        run: python certify_full_br0b_boundary_injection.py
-      - name: Replay historical global presentation for regression only
+        run: python certify_coordinate_k3_transcendental_glue_index.py
+      - name: Validate retained compact endpoint discriminant form and V4 action
         working-directory: stages/stage33/33-07
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python materialize_global_two_primary_presentation_v2.py
-      - name: Validate retained exact mathematics
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          x=json.load(open('picard-discriminant-compact.json'))
+          h=x.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()==h
+          assert h=='4ca7567205455175a5f9bef7a74bc9ec31cd68f831aec60aa88a637b5c0cfdf0'
+          assert x['discriminant_moduli']==[2]*4+[4]*6+[8]*4
+          assert abs(x['picard_determinant'])==2**28
+          assert x['mixed_action_well_defined']
+          assert x['cc_ct_involutions_and_commute']
+          assert x['cc_ct_preserve_discriminant_quadratic_form']
+          assert not x['actual_index512_k3_glue_identified']
+          print('PICARD_DISCRIMINANT_COMPACT_RETAINED=PASS')
+          PY
+      - name: Certify exact V4-fixed target discriminant module
+        working-directory: stages/stage33/33-07
+        run: python certify_target_discriminant_v4_fixed_module.py
+      - name: Derive exact proper geometric Br2 V4 module
+        working-directory: stages/stage33/33-07
+        run: python certify_proper_brauer2_from_discriminant.py
+      - name: Validate rejected historical global-presentation route stays firewalled
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          h=json.load(open('arithmetic-hs-descent-problem.json'))
+          a=json.load(open('audit-state.json'))
+          assert h['arithmetic_hs_obstruction_package']['blanket_global_gersten_surjectivity_used'] is False
+          assert h['arithmetic_hs_obstruction_package']['semilocal_panin_zainoulline_promoted_to_global_sections'] is False
+          assert h['exact_reduction']['stage33_07_complete_global_inventory_still_unproved'] is True
+          assert h['unit_status']=='RUNNING_REPAIR'
+          assert a['unit_status']=='BLOCKED_NEW_KERNEL' and not a['unit_closed']
+          print('HISTORICAL_GLOBAL_PRESENTATION_FIREWALL=PASS')
+          PY
+      - name: Validate retained mathematics and conservative repair state
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
@@ -59,58 +91,68 @@ jobs:
           f=json.load(open('br0g-finite-ramified-residue-presentation.json'))
           g=json.load(open('full-br0b-boundary-injection.json'))
           s=json.load(open('j2-endpoint-q2-variation.json'))
-          assert r['induced_left_filtration_boundary_map_injective']
-          assert f['unit_symbol_rank_f2']==44
-          assert f['graph_residual_rank_f2']==17
-          assert f['combined_exponent_two_rank_f2']==61
-          assert f['finite_ramified_boundary_residue_module']=='(Z/2)^49 direct_sum (Z/4)^12'
-          assert g['full_br0b_boundary_map_injective']
-          assert g['br0b_all_primary_classes_accounted']
-          assert s['evaluation_nonconstant_on_endpoint_Q2_locus_certified']
-          assert s['both_invariants_0_and_half_observed']
-          print('STAGE33_07_RETAINED_MATH=PASS')
-          print('J2_Q2_EVALUATION_NONCONSTANT=True')
-          print('BR0G_FINITE_OBJECT_STATUS=BOUNDARY_RESIDUE_PRESENTATION')
-          PY
-      - name: Validate re-audited blocked arithmetic descent state
-        working-directory: stages/stage33/33-07
-        run: |
-          python - <<'PY'
-          import json
+          h=json.load(open('arithmetic-hs-descent-problem.json'))
+          o=json.load(open('proper-brauer-odd-invariants-zero.json'))
+          k=json.load(open('coordinate-k3-transcendental-glue-index.json'))
+          v=json.load(open('target-discriminant-v4-fixed-module.json'))
+          b2=json.load(open('proper-brauer2-from-discriminant.json'))
           a=json.load(open('audit-state.json'))
-          h=json.load(open('handoff.json'))
+          hand=json.load(open('handoff.json'))
           ctl=json.load(open('../controller.json'))
-          assert a['unit_status']=='BLOCKED_NEW_KERNEL'
-          assert not a['unit_closed'] and not a['downstream_released']
-          assert a['br2a']=='BLOCKED_NEW_KERNEL'
-          assert a['new_kernel_id']=='R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT'
-          assert a['j2']['q_defined'] and a['j2']['endpoint_pullback_nonzero']
-          assert a['j2']['q2_evaluation_nonconstant']
-          assert a['br0g_boundary_data']['boundary_residue_presentation_exact']
-          assert not a['br0g_boundary_data']['q_defined_global_lifts_complete']
-          assert a['revoked_or_pending_credit']['complete_relevant_q_defined_class_list_for_stage33_brauer_scope'] is False
-          assert h['unit_status']=='BLOCKED_NEW_KERNEL'
-          assert h['stage33_progress']=='6/11'
-          assert not h['stage33_08_released']
+          assert r['induced_left_filtration_boundary_map_injective']
+          assert f['finite_ramified_boundary_residue_module']=='(Z/2)^49 direct_sum (Z/4)^12'
+          assert g['full_br0b_boundary_map_injective'] and g['br0b_all_primary_classes_accounted']
+          assert s['evaluation_nonconstant_on_endpoint_Q2_locus_certified']
+          q=h['boundary_candidates_not_yet_promoted_to_global_q_classes']['finite_ramified_after_u44']
+          assert q['exact_unknown_quotient']=='(Z/2)^23 direct_sum (Z/4)^3'
+          assert q['minimal_invariant_factor_generators']==26
+          assert h['geometric_lift_fiber']['proper_transcendental_rank']==14
+          assert h['arithmetic_hs_obstruction_package']['blanket_global_gersten_surjectivity_used'] is False
+          assert o['proper_geometric_brauer_odd_galois_invariants_zero'] and o['repair_reduced_to_two_primary']
+          assert k['integral_glue']['index_T_over_L0']==512 and k['integral_glue']['index_v2']==9
+          assert not k['integral_glue']['actual_glue_subgroup_identified']
+          assert v['joint_v4_fixed_subgroup_exact']=='(Z/2)^5 direct_sum (Z/4)^3 direct_sum Z/8'
+          assert v['proper_Br4_identification_claimed'] is False
+          assert b2['equivariant_identification']=='T/2T ~= A_T[2] via x mod 2T -> x/2 mod T'
+          assert b2['proper_Br2_joint_v4_fixed_dimension_f2']==10
+          assert b2['finite_v4_H1_proper_Br2']['H1_dimension_f2']==16
+          assert b2['finite_v4_H1_proper_Br2']['absolute_H1_identified_with_finite_H1'] is False
+          assert not b2['order2_boundary_residual_promoted_to_global_q_classes']
+          assert a['unit_status']=='BLOCKED_NEW_KERNEL' and not a['unit_closed'] and not a['downstream_released']
+          assert hand['stage33_progress']=='6/11' and not hand['stage33_08_released']
           assert ctl['stage33_progress']=='6/11'
-          assert ctl['stage33_04']['unit_status']=='CLOSED'
           assert ctl['stage33_07']['unit_status']=='BLOCKED_NEW_KERNEL'
-          assert ctl['stage33_08']['unit_status']=='BLOCKED_NEW_KERNEL'
           assert not ctl['stage33_08_released'] and not ctl['stage33_09_released']
-          assert ctl['next_item']=='Stage33-07_REPAIR_GLOBAL_RESIDUE_LIFT_ARITHMETIC_HS_DESCENT'
-          print('STAGE33_07_REAUDIT=BLOCKED_NEW_KERNEL')
+          print('STAGE33_07_RETAINED_MATH=PASS')
+          print('HS_FINITE_UNKNOWN=(Z/2)^23+(Z/4)^3')
+          print('HS_FINITE_UNKNOWN_GENERATORS=26')
+          print('K3_PULLBACK_LATTICE=<8>^10+<16>^4')
+          print('K3_GLUE_INDEX=512')
+          print('TARGET_DISC_V4_FIXED=(Z/2)^5+(Z/4)^3+Z/8')
+          print('PROPER_BR2_V4_FIXED_DIM=10')
+          print('FINITE_V4_H1_PROPER_BR2_DIM=16')
+          print('ORDER2_GLUE_DEPENDENCY_REMOVED=True')
+          print('ACTUAL_GLUE_IDENTIFIED=False')
           print('STAGE33_PROGRESS=6/11')
-          print('STAGE33_08_RELEASED=False')
           PY
-      - name: Upload Stage33-07 retained/re-audit certificates
+      - name: Upload compact repair certificates
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-br2a-reaudit-blocked
+          name: stage33-07-br2a-hs-repair
+          retention-days: 5
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
             stages/stage33/33-07/j2-endpoint-q2-variation.json
             stages/stage33/33-07/br0b-boundary-raw-residue-map.json
             stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json
             stages/stage33/33-07/full-br0b-boundary-injection.json
+            stages/stage33/33-07/arithmetic-hs-descent-problem.json
+            stages/stage33/33-07/proper-brauer-odd-invariants-zero.json
+            stages/stage33/33-07/kb-picard-lattice.json
+            stages/stage33/33-07/kc-picard-lattice.json
+            stages/stage33/33-07/coordinate-k3-transcendental-glue-index.json
+            stages/stage33/33-07/picard-discriminant-compact.json
+            stages/stage33/33-07/target-discriminant-v4-fixed-module.json
+            stages/stage33/33-07/proper-brauer2-from-discriminant.json
             stages/stage33/33-07/audit-state.json
             stages/stage33/33-07/handoff.json

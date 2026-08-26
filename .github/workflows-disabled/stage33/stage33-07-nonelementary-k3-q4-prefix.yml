@@ -1,0 +1,119 @@
+name: Stage33-07 non-elementary k3 full Q4 prefix census
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-nonelementary-k3-q4-prefix.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults: {run: {working-directory: stages/stage33/33-07}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Rebuild exact generated predecessor chain
+        run: |
+          python certify_index512_abstract_glue_types_lr.py
+          python certify_nonelementary_sign_q2_structural_reduction.py
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k3_q8_skeleton_orbits.py
+          python certify_nonelementary_k3_lift_section_orbits.py
+          python certify_nonelementary_k3_integral_cc_ct_orbits.py
+      - name: Prepare exact Q4 prefix manifest
+        run: python prepare_nonelementary_k3_q4_prefix_manifest.py
+      - name: Enforce manifest completeness firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k3-q4-prefix-manifest.json'))
+          assert x['source_integral_cc_ct_sha256']=='c18334f94a9b71fc611b7bfdc3c0291125aee09a67ce7267882ae62713847b1b'
+          assert len(x['records'])==189
+          assert x['t1_skeleton_orbits_exact_prefix_checked']==72
+          assert x['t2_skeleton_orbits_rejected_without_section_enumeration']==117
+          assert x['t1_prefix_task_count']==4608
+          assert x['t1_representative_section_count']==7471104
+          assert x['weighted_structural_H_count_total']==572522496
+          assert x['fixed_theta_subgroup_rank_every_skeleton']==3
+          assert x['prefix_sharding_disjointness_and_coverage_required']
+          assert x['predecessor_reconstructed_exactly']
+          assert not x['fast_or_heuristic_traversal_used']
+          assert not x['full_Q4_condition_certified']
+          assert not x['k3_abstract_type_rejected']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          print('K3_Q4_PREFIX_MANIFEST=PASS_EXACT')
+          print('MANIFEST_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with: {name: stage33-07-k3-q4-prefix-manifest, path: stages/stage33/33-07/nonelementary-k3-q4-prefix-manifest.json, retention-days: 5}
+  prefix-shard:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix: {shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults: {run: {working-directory: stages/stage33/33-07}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - uses: actions/download-artifact@v4
+        with: {name: stage33-07-k3-q4-prefix-manifest, path: stages/stage33/33-07}
+      - name: Exhaust exact disjoint Q4 prefixes
+        env: {SHARD_INDEX: '${{ matrix.shard }}', SHARD_COUNT: '16'}
+        run: python certify_nonelementary_k3_q4_prefix_shard.py
+      - name: Enforce shard firewall
+        env: {SHARD_INDEX: '${{ matrix.shard }}'}
+        run: |
+          python - <<'PY'
+          import json,os
+          i=int(os.environ['SHARD_INDEX']); x=json.load(open(f'nonelementary-k3-q4-prefix-shard-{i}.json'))
+          assert x['shard_index']==i and x['shard_count']==16 and x['task_count']==288
+          assert x['assignments_checked']==sum(x['task_assignment_counts'].values())
+          assert x['obstruction_one_count']+x['obstruction_zero_count']==x['assignments_checked']
+          assert x['all_sections_in_owned_prefixes_checked'] and x['prefixes_disjoint_by_modulo_owner']
+          assert not x['fast_or_heuristic_traversal_used'] and not x['full_Q4_condition_certified_globally']
+          print(f'K3_Q4_PREFIX_SHARD_{i}=PASS_EXACT; SURVIVORS={x["q4_survivor_count"]}')
+          PY
+      - uses: actions/upload-artifact@v4
+        with: {name: 'stage33-07-k3-q4-prefix-shard-${{ matrix.shard }}', path: 'stages/stage33/33-07/nonelementary-k3-q4-prefix-shard-${{ matrix.shard }}.json', retention-days: 5}
+  aggregate:
+    needs: prefix-shard
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults: {run: {working-directory: stages/stage33/33-07}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with: {name: stage33-07-k3-q4-prefix-manifest, path: stages/stage33/33-07}
+      - uses: actions/download-artifact@v4
+        with: {pattern: 'stage33-07-k3-q4-prefix-shard-*', merge-multiple: true, path: stages/stage33/33-07/q4-prefix-shards}
+      - run: python aggregate_nonelementary_k3_q4_prefix.py
+      - name: Enforce complete k3 Q4 verdict
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k3-full-q4-prefix-census.json'))
+          assert x['expected_prefix_task_count']==x['executed_prefix_task_count']==4608
+          assert x['prefix_task_sets_exactly_equal'] and x['prefixes_pairwise_disjoint']
+          assert x['t1_representative_sections_expected']==x['t1_representative_sections_checked']==7471104
+          assert x['t1_all_representative_sections_checked_exactly_once'] and x['t1_q4_survivor_count']==0
+          assert x['t2_skeleton_orbits_rejected_by_fixed_rank3_vs_target_rank2']==117
+          assert x['k3_predecessor_structural_H']==572522496
+          assert x['full_target_Q4_condition_certified_for_k3'] and x['k3_abstract_type_rejected']
+          assert x['non_elementary_abstract_types_after_k3_Q4']==2
+          assert not x['fast_or_heuristic_traversal_used'] and not x['actual_index512_glue_identified']
+          assert not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released'] and not x['stage33_09_released'] and not x['endpoint_credit']
+          print('NONELEMENTARY_K3_FULL_Q4_PREFIX_CENSUS=PASS_EXACT')
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with: {name: stage33-07-k3-full-q4-prefix-census, path: stages/stage33/33-07/nonelementary-k3-full-q4-prefix-census.json, retention-days: 5}

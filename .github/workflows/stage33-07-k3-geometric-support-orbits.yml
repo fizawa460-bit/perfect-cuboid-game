@@ -1,0 +1,25 @@
+name: Stage33-07 k3 geometric Q2/2Q support orbits
+
+# Manual-only to prevent PR-wide paths replays on the large Stage33-07 PR.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-k3-geometric-support-orbits:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild exact Q4-rank prerequisite
+        run: python stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py
+      - name: Exact k3 Q2/2Q geometric support orbit census
+        run: python stages/stage33/33-07/certify_nonelementary_k3_geometric_q2_2q_support_orbits.py
+      - name: Upload exact certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k3-geometric-support-orbits
+          path: stages/stage33/33-07/nonelementary-k3-geometric-q2-2q-support-orbits.json
+          if-no-files-found: error

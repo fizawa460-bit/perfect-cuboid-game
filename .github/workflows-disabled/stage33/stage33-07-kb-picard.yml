@@ -1,0 +1,43 @@
+name: Stage33-07 Kb Picard lattice repair shard
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kb-picard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Extract exact Kb Picard lattice and certify 2-saturation
+        working-directory: stages/stage33/33-07
+        run: python extract_kb_picard_lattice.py
+      - name: Validate Kb lattice certificate
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json, math
+          x=json.load(open('kb-picard-lattice.json'))
+          assert x['canonical_sha256']=='3ec9b28393199eca93ca4b4de37af8eca8133afdff52f1873f411fc1dc220635'
+          assert x['picard_rank']==20
+          assert x['pullback_to_picS_mod2_rank']==20
+          assert x['generated_lattice_2_saturated']
+          assert x['full_picard_lattice_certified']
+          assert x['picard_smith_diagonal'][-2:]==[4,4]
+          assert abs(x['picard_determinant'])==16
+          assert math.prod(x['picard_smith_diagonal'])==16
+          print('KB_PICARD_CERTIFICATE=PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-kb-picard-lattice
+          retention-days: 7
+          path: |
+            stages/stage33/33-07/kb-picard-lattice.json
+            stages/stage33/33-07/kb-picard-magma-stdout.txt

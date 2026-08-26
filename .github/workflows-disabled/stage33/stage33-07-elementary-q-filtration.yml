@@ -1,0 +1,58 @@
+name: Stage33-07 elementary q filtration
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-elementary-q-filtration.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  elementary-q-filtration:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install --disable-pip-version-check --no-input sympy==1.14.0
+      - name: Materialize H0 regression prerequisite
+        run: python certify_elementary_index512_glue_candidate.py
+      - name: Recompute full V4 and certify q filtration
+        run: python certify_elementary_index512_q_filtration_reduction.py
+      - name: Enforce conservative Stage33-07 firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('elementary-index512-q-filtration-reduction.json'))
+          assert x['before_q_filtration']==8192
+          assert x['after_twoQ_target_distribution']==640
+          assert x['after_Q2_target_distribution']==256
+          assert x['fourQ_target_distribution_automatic_for_all_8192']
+          assert x['elementary_candidates_after_q_filtration_total']==256
+          assert not x['full_finite_quadratic_form_isometry_certified_for_survivors']
+          assert not x['all_elementary_order512_glue_rejected']
+          assert not x['actual_index512_glue_identified']
+          assert not x['simultaneous_endpoint_cc_ct_action_conjugacy_certified']
+          assert x['unit_status']=='RUNNING_REPAIR'
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released']
+          assert not x['theorem_credit']
+          assert not x['endpoint_credit']
+          print('ELEMENTARY_INDEX512_Q_FILTRATION_REDUCTION=PASS_EXACT')
+          print('SURVIVOR_CENSUS=256')
+          print('STAGE33_08_RELEASED=False')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-elementary-q-filtration
+          path: stages/stage33/33-07/elementary-index512-q-filtration-reduction.json
+          retention-days: 5

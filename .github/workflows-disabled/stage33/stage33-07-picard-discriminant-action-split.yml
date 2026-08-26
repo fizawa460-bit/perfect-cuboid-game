@@ -1,0 +1,48 @@
+name: Stage33-07 split Picard discriminant action
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  split-discriminant-action:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reproduce split endpoint Picard data
+        working-directory: stages/stage33/33-07
+        run: |
+          python extract_picard_gram_rows.py
+          python extract_picard_action_rows.py cc
+          python extract_picard_action_rows.py ct
+      - name: Historical slow Smith reduction
+        working-directory: stages/stage33/33-07
+        run: python derive_picard_discriminant_action_from_split.py
+      - name: Validate historical split output
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('picard-discriminant-v4-action.json'))
+          assert x['discriminant_moduli']==[2]*4+[4]*6+[8]*4
+          assert x['mixed_action_well_defined']
+          assert x['cc_ct_involutions_and_commute']
+          print('STAGE33_07_SPLIT_DISCRIMINANT_ACTION=PASS')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-split-picard-discriminant-action
+          retention-days: 7
+          path: |
+            stages/stage33/33-07/picard-gram-rows.json
+            stages/stage33/33-07/picard-action-cc.json
+            stages/stage33/33-07/picard-action-ct.json
+            stages/stage33/33-07/picard-discriminant-v4-action.json

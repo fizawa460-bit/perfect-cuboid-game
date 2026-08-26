@@ -1,0 +1,66 @@
+name: Stage33-07 non-elementary k1 k2 Q4 affine Burnside
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-nonelementary-k12-q4-affine-burnside.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: stage33-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild exact non-elementary predecessor chain
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_nonelementary_target_q4_rank_obstruction.py
+          python certify_nonelementary_target_q8_exponent_reduction.py
+          python certify_nonelementary_k12_q2_support_reduction.py
+          python certify_nonelementary_k12_2q_support_reduction.py
+      - name: Rebuild formal Q4 predecessor and certify Q4-filtered Burnside
+        working-directory: stages/stage33/33-07
+        run: python profile_nonelementary_k12_q4_affine_burnside.py
+      - name: Enforce exact Q4/Burnside coverage and conservative firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k12-q4-affine-burnside-certified.json'))
+          assert x['schema']=='STAGE33_07_NONELEMENTARY_K12_Q4_AFFINE_BURNSIDE_CERT_V1'
+          assert x['source_Q4_certificate_sha256']=='cc7350ecd3a5f7d1c3eca0b96649df0fb1219283190f806ec1e537d28cbd4b19'
+          assert x['source_Q4_profile_sha256']=='5549e7aba92d6ba3838ab02ba53799fa3c6854305f201caeb6db575e3015c2b1'
+          assert x['Q4_certificate_rebuilt_and_hash_locked'] and x['Q4_survivors_are_whole_affine_fibres']
+          assert x['fixed_sets_counted_by_exact_F2_elimination'] and x['burnside_exact'] and x['burnside_certified']
+          assert not x['lift_sections_enumerated_for_burnside'] and not x['fast_or_canonical_traversal_used']
+          assert x['combined_Q4_surviving_H']==10880256
+          assert x['k1']['Q4_surviving_skeleton_orbits']==3187
+          assert x['k1']['Q4_surviving_H_reconstructed']==2012416
+          assert x['k1']['exact_full_symmetry_orbits_after_Q4']==77076
+          assert x['k2']['Q4_surviving_skeleton_orbits']==294
+          assert x['k2']['Q4_surviving_H_reconstructed']==8867840
+          assert x['k2']['exact_full_symmetry_orbits_after_Q4']==303496
+          assert x['combined_exact_full_symmetry_orbits_after_Q4']==380572
+          assert not x['planning_only'] and not x['endpoint_finite_q_certified']
+          assert not x['endpoint_full_action_certified'] and not x['actual_index512_glue_identified']
+          assert not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released'] and not x['stage33_09_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('K12_Q4_AFFINE_BURNSIDE=PASS_EXACT')
+          print('FULL_SYMMETRY_ORBITS='+str(x['combined_exact_full_symmetry_orbits_after_Q4']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k12-q4-affine-burnside-certified
+          path: stages/stage33/33-07/nonelementary-k12-q4-affine-burnside-certified.json
+          retention-days: 5
