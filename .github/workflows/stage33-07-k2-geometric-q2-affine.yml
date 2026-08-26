@@ -1,18 +1,9 @@
 name: Stage33-07 k2 geometric exact Q2 affine compression
 
+# Manual-only: pull_request.paths is evaluated against the whole PR diff and
+# caused this completed heavy leaf to replay on every Stage33-07 commit.
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'stages/stage33/33-07/nonelementary-k2-geometric-full-q4-retained.json'
-      - 'stages/stage33/33-07/certify_nonelementary_k2_geometric_q2_affine.py'
-      - 'stages/stage33/33-07/certify_nonelementary_k2_geometric_support_orbits.py'
-      - 'stages/stage33/33-07/certify_nonelementary_k12_q2_support_reduction.py'
-      - 'stages/stage33/33-07/certify_nonelementary_k12_2q_support_reduction.py'
-      - 'stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py'
-      - 'stages/stage33/33-07/certify_nonelementary_target_q8_exponent_reduction.py'
-      - 'stages/stage33/33-07/picard-discriminant-compact.json'
-      - '.github/workflows/stage33-07-k2-geometric-q2-affine.yml'
 
 permissions:
   contents: read
