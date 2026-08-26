@@ -1,18 +1,8 @@
 name: Stage33-07 k3 geometric full Q4 census
 
+# Manual-only: avoid replaying this 32-shard completed census on every PR sync.
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'stages/stage33/33-07/certify_nonelementary_k3_geometric_q2_2q_support_orbits.py'
-      - 'stages/stage33/33-07/prepare_nonelementary_k3_geometric_q4_manifest.py'
-      - 'stages/stage33/33-07/certify_nonelementary_k3_geometric_q4_shard.py'
-      - 'stages/stage33/33-07/aggregate_nonelementary_k3_geometric_q4.py'
-      - 'stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py'
-      - 'stages/stage33/33-07/certify_nonelementary_target_q8_exponent_reduction.py'
-      - 'stages/stage33/33-07/certify_nonelementary_sign_q2_structural_reduction.py'
-      - 'stages/stage33/33-07/picard-discriminant-compact.json'
-      - '.github/workflows/stage33-07-k3-geometric-full-q4.yml'
 
 permissions:
   contents: read
