@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, hashlib, json, os, pathlib, shutil, subprocess, time, urllib.error, urllib.request, zipfile
+import argparse, hashlib, json, os, pathlib, re, shutil, subprocess, time, urllib.error, urllib.request, zipfile
 
 EXCLUDED={0,15,63,64,173}; BULK_IDS=[i for i in range(256) if i not in EXCLUDED]
 PILOT_IDS=[63,64,173]; HOT_IDS=[26,748]
@@ -60,6 +60,13 @@ def copy_embedded_packet(snapshot_root,pid,dest):
     shutil.copytree(src,dest)
     if not (dest/'packet-certificate.json').exists() or not (dest/'packet-canonical.bin').exists(): raise RuntimeError(f'embedded carry packet files incomplete {pid}')
 
+def metadata_packet_id(meta):
+    if meta.get('packet_id') is not None: return int(meta['packet_id'])
+    name=str(meta.get('artifact_name',''))
+    m=re.search(r'stage32-18t-b14-packet-(\d+)-g\d+$',name)
+    if not m: raise RuntimeError(f'cannot derive packet id from artifact metadata: {name!r}')
+    return int(m.group(1))
+
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--repo',required=True); ap.add_argument('--legacy-run-id',type=int,required=True); ap.add_argument('--resume-run-id',type=int,required=True)
     ap.add_argument('--snapshot-artifact-id',type=int,required=True); ap.add_argument('--snapshot-artifact-zip-sha256',required=True)
@@ -95,7 +102,7 @@ def main():
     prepared=artifact_by_id(a.repo,a.prepared_artifact_id,token)
     if prepared['name']!=PREPARED_NAME: raise RuntimeError('prepared artifact name mismatch')
     download(a.repo,prepared,token,root/'prepared',zips,inventory,a.prepared_artifact_zip_sha256,a.legacy_run_id,'prepared')
-    complete_meta={int(x['packet_id']):x for x in snap.get('complete_artifacts',[])}; carry_meta={int(x['packet_id']):x for x in snap.get('carry_packet_artifacts',[])}
+    complete_meta={metadata_packet_id(x):x for x in snap.get('complete_artifacts',[])}; carry_meta={metadata_packet_id(x):x for x in snap.get('carry_packet_artifacts',[])}
     if set(complete_meta)!=set(source_ids): raise RuntimeError('snapshot source artifact ledger mismatch')
     if set(carry_meta)!=set(carry_ids): raise RuntimeError('snapshot carry artifact ledger mismatch')
 
