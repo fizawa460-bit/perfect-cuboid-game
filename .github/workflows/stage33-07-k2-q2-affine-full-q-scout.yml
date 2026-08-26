@@ -1,0 +1,70 @@
+name: Stage33-07 k2 Q2-affine full finite-q scout
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/scout_nonelementary_k2_geometric_q2_affine_full_q.py'
+      - '.github/workflows/stage33-07-k2-q2-affine-full-q-scout.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  scout:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra and finite solver
+        run: pip install 'sympy==1.14.0' 'z3-solver==4.15.3.0'
+      - name: Recover exact pure-geometric Q2 affine certificate
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          work="$(mktemp -d)"
+          gh run download 32939065793 --repo "${GITHUB_REPOSITORY}" --name stage33-07-k2-geometric-q2-affine --dir "$work"
+          cp "$work/nonelementary-k2-geometric-q2-affine.json" stages/stage33/33-07/
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path('stages/stage33/33-07/nonelementary-k2-geometric-q2-affine.json')
+          d=json.loads(p.read_text()); s=d.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(d,sort_keys=True,separators=(',',':')).encode()).hexdigest()==s
+          assert s=='f9dd684e2813acdbec07fc59575d9d487828c97f6fa8f111983fec5a6fe6b9b0'
+          print({'q2_affine_sha256':s,'families':len(d['records']),'weighted_H':d['Q2_profile_surviving_weighted_H']})
+          PY
+      - name: Rebuild exact Q4-rank prerequisite
+        run: python stages/stage33/33-07/certify_nonelementary_target_q4_rank_obstruction.py
+      - name: Run exact full finite-q scout
+        env:
+          SAMPLE_FAMILIES_PER_T: '3'
+          Z3_TIMEOUT_MS: '60000'
+        run: python stages/stage33/33-07/scout_nonelementary_k2_geometric_q2_affine_full_q.py
+      - name: Enforce scout-only firewall
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          d=json.loads(Path('stages/stage33/33-07/nonelementary-k2-geometric-q2-affine-full-q-scout.json').read_text())
+          assert d['sampled_family_count']==9 and d['sampled_section_count']==18
+          assert d['arithmetic_generators_used']==[]
+          assert d['sampled_full_q_isometry_exact_where_status_is_SAT_or_UNSAT'] is True
+          assert d['full_q_exhaustive_certified'] is False
+          for k in ('full_finite_q_isometry_certified','endpoint_finite_q_certified','endpoint_full_action_certified','actual_index512_glue_identified','arithmetic_HS_closed','stage33_08_released','stage33_09_released','theorem_credit','endpoint_credit','perfect_cuboid_nonexistence_claim'):
+            assert d[k] is False
+          assert d['stage33_progress']=='6/11'
+          print({'statuses':d['status_counts'],'family_agreement':d['within_sampled_family_status_agreement'],'sha256':d['canonical_sha256']})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k2-q2-affine-full-q-scout
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k2-geometric-q2-affine-full-q-scout.json
