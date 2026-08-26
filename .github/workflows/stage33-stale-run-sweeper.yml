@@ -144,28 +144,20 @@ jobs:
           assert k['stage33_progress']=='6/11' and not k['actual_index512_glue_identified'] and not k['arithmetic_HS_closed']
           print('K1_GAP_RECOVERY_ARM=PASS')
           PY
-      # actions/download-artifact currently enumerates at most 400 matches in one
-      # invocation.  The old32 source run has 451 matching artifacts (448 required
-      # non-P7 cells plus three obsolete P7 cells), so partition the download into
-      # two disjoint name families that are each below that bound.
-      - name: Download old32 single-digit P-orbit artifacts
-        uses: actions/download-artifact@v4
-        with:
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: 33004278066
-          pattern: k1-geometric-sign-fixed-r32-p?-s*
-          merge-multiple: true
-          path: stages/stage33/33-07/recovery-snapshot/old32
-      - name: Download old32 two-digit P-orbit artifacts
-        uses: actions/download-artifact@v4
-        with:
-          github-token: ${{ github.token }}
-          repository: ${{ github.repository }}
-          run-id: 33004278066
-          pattern: k1-geometric-sign-fixed-r32-p1?-s*
-          merge-multiple: true
-          path: stages/stage33/33-07/recovery-snapshot/old32
+      # actions/download-artifact applies its pattern after a 400-artifact listing
+      # cap, so even disjoint patterns cannot reach the 51-item listing tail of this
+      # 451-artifact run.  The GitHub CLI paginates the source run and was locally
+      # preflighted to recover all 451 files (448 required non-P7 plus three old P7).
+      - name: Download complete old32 source through paginated artifact enumeration
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh run download 33004278066 \
+            --repo "$GITHUB_REPOSITORY" \
+            --pattern 'k1-geometric-sign-fixed-r32-p?-s*' \
+            --pattern 'k1-geometric-sign-fixed-r32-p1?-s*' \
+            --dir stages/stage33/33-07/recovery-snapshot/old32
       - name: Download complete P7 rescue128 artifacts
         uses: actions/download-artifact@v4
         with:
