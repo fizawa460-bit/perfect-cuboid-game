@@ -1,0 +1,237 @@
+name: Stage32-18P d16 b14 exact packet production
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18p-b14-exact-production.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18p-b14-production-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.key.outputs.authorized }}
+      generation: ${{ steps.key.outputs.generation }}
+      matrix: ${{ steps.key.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          fetch-depth: 1
+      - id: key
+        name: Validate explicit b14 production key
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/18p-b14-exact-production.json'
+          authorized=true
+          if [ "$ACTION" = synchronize ]; then
+            if [ -z "${BEFORE:-}" ]; then
+              authorized=false
+            else
+              git fetch --no-tags --depth=1 origin "$BEFORE"
+              if ! git diff --name-only "$BEFORE" "$HEAD_SHA" | grep -Fxq "$KEY"; then authorized=false; fi
+            fi
+          fi
+          python - <<'PY' "$authorized"
+          import json,os,pathlib,sys
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18p-b14-exact-production.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18p-d16-b14-exact-production'
+          assert d['armed'] is True and d['generation']==1
+          assert d['bound']==14 and d['parent_coordinate']==54 and d['parent_modulus']==1024 and d['breaker_count']==256
+          assert d['packet_count']==256 and d['per_residue_node_cap']==220000000
+          assert d['prepared_artifact_id']==9574308138
+          assert d['prepared_artifact_zip_sha256']=='0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4'
+          assert d['p50_artifact_id']==9586409836 and d['p50_artifact_zip_sha256']=='a13489154d28b88963bf9f8fd450fbc567436cd288ff2a09e26a58c27a530e03'
+          assert d['p48_artifact_id']==9586443837 and d['p48_artifact_zip_sha256']=='e8ac27fd6fa74828b34674790cfc6033493d65f87d4879923a72794ea524fa1d'
+          assert d['expected_manifest_sha256']=='9ee5c6781cbe1a3a39e9656419745b60abaec07de52f99a9cdf2261650f189ab'
+          assert d['audited_b12_artifact_id']==9585370018
+          assert d['audited_b12_artifact_zip_sha256']=='6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658'
+          matrix={'packet_id':list(range(256))}
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write(f"authorized={sys.argv[1]}\n")
+              f.write('generation=1\n')
+              f.write('matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+          print(json.dumps({'authorized':sys.argv[1],'packet_count':256},sort_keys=True))
+          PY
+
+  prepare:
+    needs: validate-run-key
+    if: needs.validate-run-key.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Fetch and SHA-lock immutable source, profiles, and audited b12 predecessor
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/source" "$RUNNER_TEMP/p50" "$RUNNER_TEMP/p48" "$RUNNER_TEMP/b12" "$RUNNER_TEMP/zips" "$RUNNER_TEMP/stage"
+          fetch_one () {
+            id="$1"; sha="$2"; dest="$3"; zip="$RUNNER_TEMP/zips/$id.zip"
+            curl -L --fail --silent --show-error -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${id}/zip"
+            echo "$sha  $zip" | sha256sum -c -
+            unzip -q "$zip" -d "$dest"
+          }
+          fetch_one 9574308138 0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4 "$RUNNER_TEMP/source"
+          fetch_one 9586409836 a13489154d28b88963bf9f8fd450fbc567436cd288ff2a09e26a58c27a530e03 "$RUNNER_TEMP/p50"
+          fetch_one 9586443837 e8ac27fd6fa74828b34674790cfc6033493d65f87d4879923a72794ea524fa1d "$RUNNER_TEMP/p48"
+          fetch_one 9585370018 6e702a36e427a0c2360ca14bfd6e7f003b6960566ad2a1c9b48ab721c396c658 "$RUNNER_TEMP/b12"
+          test -f "$RUNNER_TEMP/source/d16-exact-symmetry-sharded.cpp"
+          test -f "$RUNNER_TEMP/source/d16-hperp.txt"
+          test -f "$RUNNER_TEMP/source/d16-aut-prefix256-bundle.txt"
+          test -f "$RUNNER_TEMP/source/d16-aut-action.json"
+          test -f "$RUNNER_TEMP/b12/d16-b12-exact-final-aggregate.bin"
+          echo '03616e7c03cdca9b4c8408cec671b0ef6bd26713fe5ca60e2021a7d6e897abd5  '"$RUNNER_TEMP/b12/d16-b12-exact-final-aggregate.bin" | sha256sum -c -
+      - name: Regenerate deterministic packet manifest and compile exact certifier
+        run: |
+          python stages/stage32/32-18O/generate_packet_manifest.py --p50 "$RUNNER_TEMP/p50/profile.json" --p48 "$RUNNER_TEMP/p48/profile.json" --output "$RUNNER_TEMP/stage/packet-manifest.json"
+          echo '9ee5c6781cbe1a3a39e9656419745b60abaec07de52f99a9cdf2261650f189ab  '"$RUNNER_TEMP/stage/packet-manifest.json" | sha256sum -c -
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/source/d16-exact-symmetry-sharded.cpp" -o "$RUNNER_TEMP/stage/d16-exact"
+          cp "$RUNNER_TEMP/source/d16-hperp.txt" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/source/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/source/d16-aut-action.json" "$RUNNER_TEMP/stage/"
+          cp "$RUNNER_TEMP/b12/d16-b12-exact-final-aggregate.bin" "$RUNNER_TEMP/stage/audited-b12.bin"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18p-b14-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/stage/
+          retention-days: 14
+          if-no-files-found: error
+
+  packet:
+    needs: [validate-run-key, prepare]
+    if: needs.validate-run-key.outputs.authorized == 'true'
+    strategy:
+      fail-fast: false
+      max-parallel: 16
+      matrix: ${{ fromJSON(needs.validate-run-key.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18p-b14-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Restore exact certifier executable mode
+        run: chmod +x "$RUNNER_TEMP/prepared/d16-exact"
+      - name: Run exact b14 packet ${{ matrix.packet_id }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          SECONDS=0
+          python stages/stage32/32-18O/run_exact_packet.py --manifest "$RUNNER_TEMP/prepared/packet-manifest.json" --packet-id ${{ matrix.packet_id }} --exe "$RUNNER_TEMP/prepared/d16-exact" --input "$RUNNER_TEMP/prepared/d16-hperp.txt" --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out" --node-cap 220000000
+          elapsed=$SECONDS
+          ELAPSED="$elapsed" python - <<'PY'
+          import json,os,pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/packet-certificate.json'
+          d=json.loads(p.read_text()); d['packet_runtime_seconds']=int(os.environ['ELAPSED'])
+          p.write_text(json.dumps(d,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'packet_id':d['packet_id'],'status':d['status'],'runtime_seconds':d['packet_runtime_seconds'],'residues':d['residues']},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18p-b14-packet-${{ matrix.packet_id }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  summarize:
+    needs: [validate-run-key, packet]
+    if: always() && needs.validate-run-key.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    outputs:
+      ready: ${{ steps.summary.outputs.ready }}
+      wall_count: ${{ steps.summary.outputs.wall_count }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18p-b14-packet-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/packets
+      - id: summary
+        name: Inventory exact packet completion and resource walls
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'packets'; docs={}
+          for p in root.rglob('packet-certificate.json'):
+              d=json.loads(p.read_text()); docs[int(d['packet_id'])]=d
+          expected=set(range(256)); missing=sorted(expected-set(docs)); extra=sorted(set(docs)-expected)
+          walls={i:d for i,d in docs.items() if d.get('status')!='COMPLETE'}
+          ready=(not missing and not extra and not walls)
+          out={'schema':'STAGE32_18P_B14_PACKET_COMPLETION_SUMMARY_V1','packet_certificates_seen':len(docs),'missing_packets':missing,'extra_packets':extra,'resource_wall_packets':sorted(walls),'ready_for_global_aggregate':ready,'D16_B14_NUMERICAL_CREDIT':False,'GLOBAL_B14_AGGREGATION_COMPLETE':False}
+          od=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; od.mkdir(); (od/'packet-completion-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('ready='+('true' if ready else 'false')+'\n'); f.write(f'wall_count={len(walls)}\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18p-b14-packet-completion-summary-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/summary/
+          retention-days: 14
+          if-no-files-found: error
+
+  aggregate-and-verify:
+    needs: [validate-run-key, prepare, packet, summarize]
+    if: needs.summarize.outputs.ready == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18p-b14-packet-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/packets
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18p-b14-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Build exact global b14 aggregate with hostile-audited b12 predecessor lock
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18P/aggregate_b14_packets.py --packets "$RUNNER_TEMP/packets" --manifest "$RUNNER_TEMP/prepared/packet-manifest.json" --audited-b12-dump "$RUNNER_TEMP/prepared/audited-b12.bin" --output-json "$RUNNER_TEMP/out/d16-b14-exact-packet-aggregate.json" --output-dump "$RUNNER_TEMP/out/d16-b14-exact-packet-aggregate.bin" --certificate "$RUNNER_TEMP/out/stage32-18p-b14-certificate.json"
+      - name: Independently full-Aut verify complete b14 aggregate
+        run: |
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" --dump "$RUNNER_TEMP/out/d16-b14-exact-packet-aggregate.bin" --enum-json "$RUNNER_TEMP/out/d16-b14-exact-packet-aggregate.json" --output "$RUNNER_TEMP/out/d16-b14-exact-packet-aggregate-verify.json" --bound 14
+      - name: Enforce hostile-audit stop
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          r=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          c=json.loads((r/'stage32-18p-b14-certificate.json').read_text()); v=json.loads((r/'d16-b14-exact-packet-aggregate-verify.json').read_text())
+          assert c['verdict']=='PASS_EXACT_D16_B14_PACKET_PRODUCTION_PENDING_HOSTILE_AUDIT'
+          assert c['logical_residue_partition_exact'] is True and c['audited_b12_predecessor_set_identical'] is True
+          assert c['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert c['D16_B14_NUMERICAL_CREDIT'] is False and c['D16_B14_NUMERICAL_CREDIT_PENDING_HOSTILE_AUDIT'] is True
+          assert c['FULL_D16_G0_ROW_COMPLETE'] is False and c['THEOREM_CREDIT'] is False and c['RECEIVER_CREDIT'] is False and c['CONTROLLER_MODIFIED'] is False
+          assert v['aut_group_order']==1536 and v['canonical_survivors_including_zero']==c['canonical_survivors_including_zero']
+          print(json.dumps({'certificate':c,'aut_verify':v},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18p-d16-b14-final-production-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
