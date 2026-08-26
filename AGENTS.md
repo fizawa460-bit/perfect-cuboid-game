@@ -26,6 +26,17 @@ This rule is mandatory and has the same priority as the storage rule above.
 5. **Preflight before launch.** Every new or materially revised heavy workflow MUST record/verify `planned effective heavy concurrency <= 18` before it is armed. If the overlap cannot be bounded confidently, reduce `max-parallel` until the bound is guaranteed.
 6. **Absolute compliance.** Never knowingly launch a heavy configuration that can exceed 18 effective concurrent jobs for one Stage. Redesign or split in time instead.
 
+## CRITICAL repo-wide rule: explicit authorization for heavy reruns
+
+`pull_request.paths` is only a coarse event filter. It MUST NOT be treated as proof that the dedicated heavy run key changed in the synchronization that triggered the workflow.
+
+1. **Every new or materially revised PR-triggered heavy workflow MUST have a cheap authorization gate before any heavy job.** Every heavy matrix/job must depend on that gate and remain skipped unless it returns `authorized=true`.
+2. **On `synchronize`, authorize only from the actual commit range.** Fetch `github.event.before`, compare it with the current PR head, and require the dedicated run-key path itself to appear in that `BEFORE..HEAD` diff. If `before` is missing or cannot be verified, fail closed with `authorized=false`.
+3. **Require semantic arming, not a cosmetic touch.** A newly added key must have a positive generation/revision and its explicit armed flag set. An existing key must advance its generation/revision relative to the previous revision and validate all workflow-specific locked parameters. Merely rewriting unrelated files or touching the key without a valid new generation does not authorize heavy execution.
+4. **Audit/controller/docs/status/README/source edits never authorize a rerun by themselves.** A run key remaining somewhere in the cumulative PR diff is insufficient.
+5. **`reopened` is cold by default.** Reopening a PR must not restart heavy computation. A fresh run-key generation/revision on a later `synchronize` event is required. An initial `opened` event may authorize only when the dedicated key is newly introduced or changed relative to base and passes the same semantic validation; the safer pattern is to open the PR cold and arm it in a distinct follow-up commit.
+6. **Existing heavy workflows are migration obligations.** Before an existing heavy workflow is armed for another generation, bring it under this commit-range authorization rule. Do not claim repo-wide mechanical enforcement until those workflows have actually been migrated or linted.
+
 Detailed reusable policy: `docs/research-os/policies/actions-storage-and-evidence-safety.md`.
 Human-facing entrypoint: `docs/README.md`.
 
