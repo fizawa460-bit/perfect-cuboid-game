@@ -1,0 +1,300 @@
+name: Stage33-07 k1 seven-sign expired-artifact gap recovery
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/runkeys/stage33-07-k1-seven-sign-gap-recovery.json'
+      - '.github/workflows/stage33-07-k1-gap-recovery.yml'
+      - 'stages/stage33/33-07/aggregate_nonelementary_k1_geometric_sign_fixed_p7_gap_recovery.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage33-07-k1-gap-recovery-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  RUN_KEY: .github/runkeys/stage33-07-k1-seven-sign-gap-recovery.json
+
+jobs:
+  authorize:
+    name: Cheap commit-range authorization gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$RUN_KEY" || exit 0
+          python - "$BEFORE" "$RUN_KEY" <<'PY'
+          import json,pathlib,subprocess,sys
+          before,key=sys.argv[1],sys.argv[2]
+          new=json.loads(pathlib.Path(key).read_text())
+          try:
+              old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+          except subprocess.CalledProcessError:
+              raise SystemExit(0)
+          assert new['schema']==old['schema']=='STAGE33_07_K1_SEVEN_SIGN_GAP_RECOVERY_RUNKEY_V1'
+          assert int(new['generation'])>int(old['generation'])>=0
+          assert new['armed'] is True
+          assert int(new['source_old32_run_id'])==33004278066
+          assert int(new['source_p7_run_id'])==33013524879
+          assert int(new['source_support_run_id'])==32971195642
+          assert int(new['source_endpoint_run_id'])==32934384807
+          assert int(new['max_missing_old32'])==48
+          assert int(new['max_parallel'])==8
+          assert int(new['timeout_minutes'])==20
+          assert int(new['artifact_retention_days'])==3
+          print('RUN_KEY_SEMANTIC_ARM=PASS')
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  snapshot:
+    name: Snapshot live evidence and derive only missing old32 cells
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      missing_count: ${{ steps.plan.outputs.missing_count }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Snapshot surviving old32 artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33004278066
+          pattern: k1-geometric-sign-fixed-r32-p*-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/recovery-snapshot/old32
+      - name: Snapshot successful P7 rescue128 artifacts
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33013524879
+          pattern: k1-geometric-sign-fixed-p7-r128-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/recovery-snapshot/p7
+      - name: Snapshot exact K1 support shards
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32971195642
+          pattern: k1-geometric-support-orbit-shard-*
+          merge-multiple: true
+          path: stages/stage33/33-07/recovery-snapshot/support
+      - name: Snapshot endpoint seven-sign source
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32934384807
+          name: stage33-07-q256-geometric-sign-endpoint
+          path: stages/stage33/33-07/recovery-snapshot/endpoint
+      - id: plan
+        name: Derive exact expiry-gap matrix
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path('stages/stage33/33-07/recovery-snapshot')
+          key=json.loads(pathlib.Path(os.environ['RUN_KEY']).read_text())
+          def docs(where):
+              out=[]
+              for f in sorted((root/where).rglob('nonelementary-k1-geometric-sign-fixed-p*-s*.json')):
+                  d=json.loads(f.read_text()); out.append((f,d))
+              return out
+          expected={(p,s) for p in range(15) if p!=7 for s in range(32)}
+          seen=set()
+          for f,d in docs('old32'):
+              p=int(d.get('p_orbit_index',-1)); s=int(d.get('record_shard_index',-1)); n=int(d.get('record_shard_count',-1))
+              if p==7: continue
+              if n!=32 or (p,s) not in expected: raise SystemExit(f'old32 identity regression {f.name}')
+              if (p,s) in seen: raise SystemExit(f'duplicate old32 snapshot {(p,s)}')
+              seen.add((p,s))
+          missing=sorted(expected-seen)
+          if not missing: raise SystemExit('no old32 gaps: recovery arm is stale')
+          if len(missing)>int(key['max_missing_old32']): raise SystemExit(f'old32 expiry gap cap exceeded: {len(missing)}')
+          p7=set()
+          for f,d in docs('p7'):
+              p=int(d.get('p_orbit_index',-1)); s=int(d.get('record_shard_index',-1)); n=int(d.get('record_shard_count',-1))
+              if p!=7 or n!=128 or not 0<=s<128: raise SystemExit(f'P7 identity regression {f.name}')
+              if s in p7: raise SystemExit(f'duplicate P7 snapshot {s}')
+              p7.add(s)
+          if p7!=set(range(128)): raise SystemExit(f'P7 rescue128 snapshot incomplete: {len(p7)}/128')
+          supports={}
+          for f in (root/'support').rglob('nonelementary-k1-geometric-support-orbit-shard-*.json'):
+              d=json.loads(f.read_text()); p=int(d.get('p_orbit_index',-1)); supports[p]=f.name
+          if set(supports)!=set(range(15)): raise SystemExit(f'support snapshot incomplete: {sorted(supports)}')
+          endpoint=list((root/'endpoint').rglob('endpoint-coordinate-sign-discriminant-actions-split.json'))
+          if len(endpoint)!=1: raise SystemExit(f'endpoint snapshot cardinality regression: {len(endpoint)}')
+          manifest={
+              'schema':'STAGE33_07_K1_GAP_RECOVERY_MANIFEST_V1',
+              'source_old32_run_id':int(key['source_old32_run_id']),
+              'source_p7_run_id':int(key['source_p7_run_id']),
+              'source_support_run_id':int(key['source_support_run_id']),
+              'source_endpoint_run_id':int(key['source_endpoint_run_id']),
+              'base_old32_live_count':len(seen),
+              'missing_old32_coordinates':[list(x) for x in missing],
+              'p7_live_count':len(p7),
+              'snapshot_support_count':len(supports),
+              'artifact_expiry_recovery_only':True,
+              'stage33_progress':'6/11',
+              'actual_index512_glue_identified':False,
+              'arithmetic_HS_closed':False,
+          }
+          (root/'k1-gap-recovery-manifest.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n')
+          matrix={'include':[{'p':p,'s':s} for p,s in missing]}
+          with open(os.environ['GITHUB_OUTPUT'],'a') as g:
+              g.write('matrix='+json.dumps(matrix,separators=(',',':'))+'\n')
+              g.write('missing_count='+str(len(missing))+'\n')
+          print(json.dumps(manifest,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-gap-recovery-snapshot
+          retention-days: 3
+          if-no-files-found: error
+          path: stages/stage33/33-07/recovery-snapshot
+
+  repair_old32_gaps:
+    name: Repair old32 gap P${{ matrix.p }} S${{ matrix.s }}
+    needs: [authorize, snapshot]
+    if: needs.authorize.outputs.authorized == 'true' && needs.snapshot.result == 'success'
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix: ${{ fromJSON(needs.snapshot.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage33-07-k1-gap-recovery-snapshot
+          path: stages/stage33/33-07/recovery-snapshot
+      - name: Restore exact support and endpoint inputs from frozen snapshot
+        shell: bash
+        env:
+          P: ${{ matrix.p }}
+        run: |
+          set -euo pipefail
+          a="$(find recovery-snapshot/support -name "nonelementary-k1-geometric-support-orbit-shard-${P}.json" -print -quit)"
+          b="$(find recovery-snapshot/endpoint -name 'endpoint-coordinate-sign-discriminant-actions-split.json' -print -quit)"
+          [[ -n "$a" && -n "$b" ]]
+          cp "$a" .
+          cp "$b" .
+      - name: Recompute only the missing exact old32 cell
+        env:
+          P_ORBIT_INDEX: ${{ matrix.p }}
+          RECORD_SHARD_INDEX: ${{ matrix.s }}
+          RECORD_SHARD_COUNT: '32'
+        run: python certify_nonelementary_k1_geometric_sign_fixed_shard.py
+      - name: Enforce repaired-cell exactness and promotion firewalls
+        env:
+          P: ${{ matrix.p }}
+          S: ${{ matrix.s }}
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          p=int(os.environ['P']); s=int(os.environ['S'])
+          f=pathlib.Path(f'nonelementary-k1-geometric-sign-fixed-p{p}-s{s}.json'); x=json.loads(f.read_text())
+          assert x['p_orbit_index']==p and x['record_shard_index']==s and x['record_shard_count']==32
+          assert p!=7 and x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert x['endpoint_finite_group_type_filter_enforced'] and x['all_owned_lift_sections_decided_exactly_once'] and not x['fast_or_heuristic_traversal_used']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert f.stat().st_size<=65536
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k1-geometric-sign-fixed-gap-p${{ matrix.p }}-s${{ matrix.s }}
+          retention-days: 3
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p${{ matrix.p }}-s${{ matrix.s }}.json
+
+  aggregate_recovered:
+    name: Exact recovered 14x32 plus P7x128 aggregate
+    needs: [authorize, snapshot, repair_old32_gaps]
+    if: needs.authorize.outputs.authorized == 'true' && needs.repair_old32_gaps.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage33-07-k1-gap-recovery-snapshot
+          path: stages/stage33/33-07/recovery-snapshot
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: k1-geometric-sign-fixed-gap-p*-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/k1-gap-repaired-subshards
+      - name: Assemble frozen survivors plus exact repairs without overlap
+        run: |
+          set -euo pipefail
+          rm -rf k1-geometric-sign-fixed-old32-subshards k1-geometric-sign-fixed-p7-rescue128-subshards
+          mkdir -p k1-geometric-sign-fixed-old32-subshards k1-geometric-sign-fixed-p7-rescue128-subshards
+          cp recovery-snapshot/old32/nonelementary-k1-geometric-sign-fixed-p*-s*.json k1-geometric-sign-fixed-old32-subshards/
+          cp k1-gap-repaired-subshards/nonelementary-k1-geometric-sign-fixed-p*-s*.json k1-geometric-sign-fixed-old32-subshards/
+          cp recovery-snapshot/p7/nonelementary-k1-geometric-sign-fixed-p7-s*.json k1-geometric-sign-fixed-p7-rescue128-subshards/
+          cp recovery-snapshot/k1-gap-recovery-manifest.json k1-gap-recovery-manifest.json
+      - name: Aggregate and relock exact recovery provenance
+        run: python aggregate_nonelementary_k1_geometric_sign_fixed_p7_gap_recovery.py
+      - name: Enforce global exactness and Stage33 promotion firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k1-geometric-sign-fixed-p7-gap-recovery-census.json'))
+          assert x['old32_base_live_artifact_count_at_snapshot']+x['old32_gap_repaired_artifact_count']==448
+          assert x['all_old32_artifact_expiry_gaps_repaired_exactly_once']
+          assert x['P7_rescue128_reused_without_recomputation']
+          assert x['artifact_expiry_recovery_only_no_mathematical_shortcut']
+          assert x['all_14x32_old_and_P7x128_rescue_subshards_present_exactly_once']
+          assert x['all_support_orbit_representative_lifts_checked_exactly_once']
+          assert x['weighted_H_checked']==1311205952 and x['all_1311205952_weighted_structural_H_covered_exactly']
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('K1_GAP_RECOVERY_AGGREGATE=PASS_EXACT')
+          print('SURVIVORS='+str(x['representative_section_survivors']))
+          print('WEIGHTED_SURVIVORS='+str(x['weighted_H_survivors']))
+          print('K1_REJECTED='+str(x['k1_nonelementary_type_rejected']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-geometric-sign-fixed-gap-recovery-census
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p7-gap-recovery-census.json
