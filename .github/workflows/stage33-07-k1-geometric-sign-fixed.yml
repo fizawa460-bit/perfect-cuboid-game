@@ -1,0 +1,192 @@
+name: Stage33-07 k1 geometric sign fixed filtration
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/nonelementary_k1_geometric_sign_fixed_common.py'
+      - 'stages/stage33/33-07/certify_nonelementary_k1_geometric_sign_fixed_shard.py'
+      - 'stages/stage33/33-07/aggregate_nonelementary_k1_geometric_sign_fixed.py'
+      - '.github/workflows/stage33-07-k1-geometric-sign-fixed.yml'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage33-07-k1-geometric-sign-fixed-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      total_jobs: ${{ steps.matrix.outputs.total_jobs }}
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recover the 15 exact support-orbit sources
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          rm -rf k1-geometric-sign-fixed-inputs
+          mkdir -p k1-geometric-sign-fixed-inputs
+          for p in $(seq 0 14); do
+            run=32965326642
+            if [[ "$p" == 5 || "$p" == 7 ]]; then run=32968214956; fi
+            mkdir -p "k1-geometric-sign-fixed-inputs/p${p}"
+            gh run download "$run" --repo "${GITHUB_REPOSITORY}" \
+              --name "k1-geometric-support-orbit-shard-${p}" \
+              --dir "k1-geometric-sign-fixed-inputs/p${p}"
+          done
+      - name: Build a bounded dynamic exact matrix
+        id: matrix
+        run: |
+          python - <<'PY'
+          import json,math,os
+          from pathlib import Path
+          root=Path('k1-geometric-sign-fixed-inputs')
+          counts=[]
+          for p in range(15):
+              f=root/f'p{p}'/f'nonelementary-k1-geometric-support-orbit-shard-{p}.json'
+              x=json.loads(f.read_text())
+              assert x['p_orbit_index']==p and x['arithmetic_generators_used']==[]
+              counts.append(int(x['fixed_P_W_orbit_count']))
+          total=sum(counts)
+          target=max(1,math.ceil(total/180))
+          include=[];shards={}
+          for p,n in enumerate(counts):
+              sc=max(1,math.ceil(n/target));shards[str(p)]=sc
+              run=32968214956 if p in (5,7) else 32965326642
+              for s in range(sc):include.append({'p':p,'s':s,'count':sc,'run':run})
+          assert len(include)<=220,(len(include),total,target,shards)
+          matrix=json.dumps({'include':include},separators=(',',':'))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as fh:
+              fh.write('matrix='+matrix+'\n')
+              fh.write('total_jobs='+str(len(include))+'\n')
+          print(json.dumps({'support_orbits':total,'target_records_per_job':target,'matrix_jobs':len(include),'subshards_by_p':shards},indent=2,sort_keys=True))
+          PY
+
+  census:
+    needs: prepare
+    strategy:
+      fail-fast: false
+      max-parallel: 32
+      matrix: ${{ fromJson(needs.prepare.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recover this exact support-orbit shard
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SUPPORT_RUN: ${{ matrix.run }}
+          P_ORBIT_INDEX: ${{ matrix.p }}
+        run: |
+          gh run download "$SUPPORT_RUN" --repo "${GITHUB_REPOSITORY}" \
+            --name "k1-geometric-support-orbit-shard-${P_ORBIT_INDEX}" --dir .
+      - name: Recover the locked seven-sign endpoint source
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run download 32934384807 --repo "${GITHUB_REPOSITORY}" \
+            --name stage33-07-q256-geometric-sign-endpoint --dir .
+      - name: Classify exact k1 lift sections by seven geometric signs
+        env:
+          P_ORBIT_INDEX: ${{ matrix.p }}
+          RECORD_SHARD_INDEX: ${{ matrix.s }}
+          RECORD_SHARD_COUNT: ${{ matrix.count }}
+        run: python certify_nonelementary_k1_geometric_sign_fixed_shard.py
+      - name: Enforce k1 pure-geometric firewall
+        env:
+          P_ORBIT_INDEX: ${{ matrix.p }}
+          RECORD_SHARD_INDEX: ${{ matrix.s }}
+        run: |
+          python - <<'PY'
+          import json,os
+          p=int(os.environ['P_ORBIT_INDEX']);s=int(os.environ['RECORD_SHARD_INDEX'])
+          x=json.load(open(f'nonelementary-k1-geometric-sign-fixed-p{p}-s{s}.json'))
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert x['all_owned_lift_sections_decided_exactly_once'] and not x['fast_or_heuristic_traversal_used']
+          assert not x['full_finite_q_isometry_certified'] and not x['actual_index512_glue_identified']
+          assert x['stage33_progress']=='6/11' and not x['theorem_credit'] and not x['endpoint_credit']
+          print(f'K1_GEOMETRIC_SIGN_FIXED_P{p}_S{s}=PASS_EXACT')
+          print('CHECKED='+str(x['representative_lift_sections_checked']))
+          print('SURVIVORS='+str(x['representative_section_survivors']))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k1-geometric-sign-fixed-p${{ matrix.p }}-s${{ matrix.s }}
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p${{ matrix.p }}-s${{ matrix.s }}.json
+
+  aggregate:
+    needs: [prepare,census]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: k1-geometric-sign-fixed-p*-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/k1-geometric-sign-fixed-shards
+      - name: Require every dynamic exact subshard artifact
+        env:
+          EXPECTED_JOBS: ${{ needs.prepare.outputs.total_jobs }}
+        run: |
+          python - <<'PY'
+          import os
+          from pathlib import Path
+          n=len(list(Path('k1-geometric-sign-fixed-shards').glob('nonelementary-k1-geometric-sign-fixed-p*-s*.json')))
+          assert n==int(os.environ['EXPECTED_JOBS']),(n,os.environ['EXPECTED_JOBS'])
+          print('K1_GEOMETRIC_SIGN_FIXED_SUBSHARDS='+str(n))
+          PY
+      - name: Aggregate the exact seven-sign fixed-filtration census
+        run: python aggregate_nonelementary_k1_geometric_sign_fixed.py
+      - name: Enforce aggregate firewall and exact predecessor coverage
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k1-geometric-sign-fixed-census.json'))
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert x['support_skeleton_count']==20487593 and x['weighted_H_checked']==1311205952
+          assert x['representative_lift_sections_checked']==64*x['exact_support_skeleton_orbit_count']
+          assert x['all_support_orbits_and_all_64_lifts_checked_exactly_once']
+          assert x['k1_nonelementary_type_rejected']==(x['representative_section_survivors']==0)
+          assert not x['full_finite_q_isometry_certified'] and not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['stage33_09_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('K1_GEOMETRIC_SIGN_FIXED_CENSUS=PASS_EXACT')
+          print('SUPPORT_ORBITS='+str(x['exact_support_skeleton_orbit_count']))
+          print('SURVIVORS='+str(x['representative_section_survivors']))
+          print('WEIGHTED_SURVIVORS='+str(x['weighted_H_survivors']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-geometric-sign-fixed-census
+          retention-days: 5
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-census.json
