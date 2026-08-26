@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, json, os, pathlib, re, shutil, subprocess, tempfile, urllib.error, urllib.request, zipfile
+import argparse, json, os, pathlib, re, shutil, subprocess, tempfile, time, urllib.error, urllib.request, zipfile
 
 EXCLUDED={0,15,63,64,173}
 BULK_IDS=[i for i in range(256) if i not in EXCLUDED]
@@ -13,16 +13,31 @@ SOURCE_PATTERNS=[
 REGULAR_JOB=re.compile(r'^(?:regular-packet|synthesize-hot) \((\d+)\)$')
 HOT_JOB=re.compile(r'^hot-subshard \((\d+), (\d+)\)$')
 HOT_SCHEMA='STAGE32_18T_D16_B14_HOT_SUBSHARD_V1'
+RETRYABLE_HTTP={429,500,502,503,504}
 
-def api_json(url:str, token:str):
-    req=urllib.request.Request(url,headers={
-        'Authorization':f'Bearer {token}',
-        'Accept':'application/vnd.github+json',
-        'X-GitHub-Api-Version':'2022-11-28',
-        'User-Agent':'stage32-18t',
-    })
-    with urllib.request.urlopen(req) as r:
-        return json.load(r)
+def api_json(url:str, token:str, attempts:int=7):
+    last=None
+    for n in range(attempts):
+        req=urllib.request.Request(url,headers={
+            'Authorization':f'Bearer {token}',
+            'Accept':'application/vnd.github+json',
+            'X-GitHub-Api-Version':'2022-11-28',
+            'User-Agent':'stage32-18t',
+        })
+        try:
+            with urllib.request.urlopen(req,timeout=60) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            if e.code not in RETRYABLE_HTTP:
+                raise
+            last=e
+        except urllib.error.URLError as e:
+            last=e
+        if n+1<attempts:
+            delay=min(30,2**n)
+            print(f'api retry {n+1}/{attempts-1} after {delay}s: {url}',flush=True)
+            time.sleep(delay)
+    raise last
 
 def list_artifacts(repo:str, run:int, token:str):
     out=[]; page=1
@@ -63,6 +78,7 @@ def source_packet_id(name:str):
 def download_zip(repo:str, artifact_id:int, token:str, zpath:pathlib.Path):
     subprocess.run([
         'curl','-L','--fail','--silent','--show-error',
+        '--retry','6','--retry-all-errors','--retry-delay','2',
         '-H',f'Authorization: Bearer {token}',
         '-H','X-GitHub-Api-Version: 2022-11-28',
         '-o',str(zpath),
