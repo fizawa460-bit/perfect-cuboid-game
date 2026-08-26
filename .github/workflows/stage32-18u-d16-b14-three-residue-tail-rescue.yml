@@ -1,0 +1,277 @@
+name: Stage32-18U d16 b14 three-residue tail rescue
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18u-b14-three-residue-tail-rescue.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18u-b14-tail-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-and-prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Validate explicit tail-rescue key
+        run: |
+          python - <<'PY'
+          import json,pathlib,subprocess
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18u-b14-three-residue-tail-rescue.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18u-d16-b14-three-residue-tail-rescue'
+          assert d['armed'] is True and d['generation']==1 and d['bound']==14
+          assert d['source_18t_run_id']==32972417382
+          assert d['source_snapshot_artifact_id']==9608314030
+          assert d['source_snapshot_zip_sha256']=='72e2a829180b64f7724f8c5400e4099f0484edb07a310853644a2034f5ed6be5'
+          assert d['source_prepared_artifact_id']==9608377062
+          assert d['source_prepared_zip_sha256']=='5b0771558ed8e8f272f57aa5f9e84bc13544518bdf02397778b6496274cc60bd'
+          assert d['exact_source_artifact_id']==9574308138
+          assert d['exact_source_zip_sha256']=='0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4'
+          assert d['tail_packets']=={'127':436,'158':922,'162':503}
+          assert d['secondary_split_coordinate']==45 and d['secondary_shard_count']==4
+          assert d['max_parallel']==12
+          assert subprocess.check_output(['git','log','-1','--pretty=%s'],text=True).strip()=='Stage32-18U: ARM THREE-RESIDUE TAIL RESCUE'
+          PY
+      - name: Verify locked artifact metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,urllib.request
+          locks={
+            9608314030:(32972417382,'sha256:72e2a829180b64f7724f8c5400e4099f0484edb07a310853644a2034f5ed6be5'),
+            9608377062:(32972417382,'sha256:5b0771558ed8e8f272f57aa5f9e84bc13544518bdf02397778b6496274cc60bd'),
+            9574308138:(32887327953,'sha256:0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4'),
+          }
+          for aid,(run,digest) in locks.items():
+            q=urllib.request.Request(f'https://api.github.com/repos/${{ github.repository }}/actions/artifacts/{aid}',headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'})
+            x=json.load(urllib.request.urlopen(q))
+            assert x['expired'] is False and x['digest']==digest
+            if aid!=9574308138: assert x['workflow_run']['id']==run
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18t-b14-prepared-g2
+          path: ${{ runner.temp }}/prepared
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32972417382
+      - name: Fetch immutable exact source and build three two-stage certifiers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/source" "$RUNNER_TEMP/zips"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/zips/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/zips/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/zips/source.zip" -d "$RUNNER_TEMP/source"
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          for r in 436 922 503; do
+            python stages/stage32/32-18T/build_hot_two_stage_certifier.py --source "$RUNNER_TEMP/source/d16-exact-symmetry-sharded.cpp" --output "$RUNNER_TEMP/prepared/d16-tail-residue-${r}.cpp" --primary-id "$r"
+            g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/prepared/d16-tail-residue-${r}.cpp" -o "$RUNNER_TEMP/prepared/d16-tail-residue-${r}"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18u-b14-prepared-g1
+          path: ${{ runner.temp }}/prepared/
+          retention-days: 14
+          if-no-files-found: error
+
+  tail-subshard:
+    needs: validate-and-prepare
+    name: tail-subshard (${{ matrix.packet_id }}, ${{ matrix.residue }}, ${{ matrix.subshard }})
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix:
+        include:
+          - {packet_id: 127, residue: 436, subshard: 0}
+          - {packet_id: 127, residue: 436, subshard: 1}
+          - {packet_id: 127, residue: 436, subshard: 2}
+          - {packet_id: 127, residue: 436, subshard: 3}
+          - {packet_id: 158, residue: 922, subshard: 0}
+          - {packet_id: 158, residue: 922, subshard: 1}
+          - {packet_id: 158, residue: 922, subshard: 2}
+          - {packet_id: 158, residue: 922, subshard: 3}
+          - {packet_id: 162, residue: 503, subshard: 0}
+          - {packet_id: 162, residue: 503, subshard: 1}
+          - {packet_id: 162, residue: 503, subshard: 2}
+          - {packet_id: 162, residue: 503, subshard: 3}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18u-b14-prepared-g1
+          path: ${{ runner.temp }}/prepared
+      - name: Exact secondary shard
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/out"
+          chmod +x "$RUNNER_TEMP/prepared/d16-tail-residue-${{ matrix.residue }}"
+          "$RUNNER_TEMP/prepared/d16-tail-residue-${{ matrix.residue }}" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out/tail-residue-${{ matrix.residue }}-sub-${{ matrix.subshard }}.json" \
+            --dump-canonical "$RUNNER_TEMP/out/tail-residue-${{ matrix.residue }}-sub-${{ matrix.subshard }}.bin" \
+            --bound 14 --shard-id ${{ matrix.subshard }} --shard-count 4 --split-coordinate 45 --node-cap 500000000
+          python - <<'PY'
+          import json,os,pathlib
+          r=int('${{ matrix.residue }}'); sid=int('${{ matrix.subshard }}')
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'/f'tail-residue-{r}-sub-{sid}.json'; d=json.loads(p.read_text())
+          assert d['schema']=='STAGE32_18T_D16_B14_HOT_SUBSHARD_V1' and d['status']=='COMPLETE' and d['bound']==14
+          assert (d['primary_split_coordinate'],d['primary_shard_id'],d['primary_shard_count'])==(54,r,1024)
+          assert (d['secondary_split_coordinate'],d['secondary_shard_id'],d['secondary_shard_count'])==(45,sid,4)
+          assert d['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True and d['all_symmetry_branch_rejections_exact_rational_cauchy_schwarz'] is True
+          print({'residue':r,'subshard':sid,'nodes':d['nodes'],'canonical':d['canonical_survivors_including_zero']})
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage32-18u-b14-residue-${{ matrix.residue }}-sub-${{ matrix.subshard }}-of4-g1
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: warn
+
+  synthesize-residue:
+    if: always() && needs.validate-and-prepare.result == 'success'
+    needs: [validate-and-prepare, tail-subshard]
+    name: synthesize-residue (${{ matrix.packet_id }}, ${{ matrix.residue }})
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - {packet_id: 127, residue: 436}
+          - {packet_id: 158, residue: 922}
+          - {packet_id: 162, residue: 503}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18u-b14-residue-${{ matrix.residue }}-sub-*-of4-g1
+          path: ${{ runner.temp }}/children
+          merge-multiple: true
+      - name: Synthesize exact original residue
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          python stages/stage32/32-18U/synthesize_rescued_residue.py \
+            --residue ${{ matrix.residue }} --input "$RUNNER_TEMP/children" \
+            --output-json "$RUNNER_TEMP/out/residue-${{ matrix.residue }}.json" \
+            --output-bin "$RUNNER_TEMP/out/residue-${{ matrix.residue }}.bin" \
+            --secondary-split-coordinate 45 --secondary-shard-count 4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18u-b14-residue-${{ matrix.residue }}-g1
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
+
+  regular-packet:
+    if: always() && needs.validate-and-prepare.result == 'success' && needs.synthesize-residue.result == 'success'
+    needs: [validate-and-prepare, synthesize-residue]
+    name: regular-packet (${{ matrix.packet_id }})
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        include:
+          - {packet_id: 127, residue: 436}
+          - {packet_id: 158, residue: 922}
+          - {packet_id: 162, residue: 503}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18u-b14-prepared-g1
+          path: ${{ runner.temp }}/prepared
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18t-b14-source-snapshot-g2
+          path: ${{ runner.temp }}/snapshot
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32972417382
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18u-b14-residue-${{ matrix.residue }}-g1
+          path: ${{ runner.temp }}/rescued
+      - name: Assemble exact packet from carried plus rescued residues
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/carry/residue-runs" "$RUNNER_TEMP/out"
+          cp "$RUNNER_TEMP/snapshot/carryover/regular/${{ matrix.packet_id }}/residue-runs/"residue-* "$RUNNER_TEMP/carry/residue-runs/"
+          cp "$RUNNER_TEMP/rescued/residue-${{ matrix.residue }}.json" "$RUNNER_TEMP/carry/residue-runs/"
+          cp "$RUNNER_TEMP/rescued/residue-${{ matrix.residue }}.bin" "$RUNNER_TEMP/carry/residue-runs/"
+          chmod +x "$RUNNER_TEMP/prepared/d16-exact"
+          python stages/stage32/32-18T/run_exact_packet_parallel.py \
+            --manifest "$RUNNER_TEMP/prepared/packet-manifest.json" --packet-id ${{ matrix.packet_id }} \
+            --exe "$RUNNER_TEMP/prepared/d16-exact" --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out" \
+            --carry-residue-dir "$RUNNER_TEMP/carry" --node-cap 1 --workers 4
+          python - <<'PY'
+          import json,os,pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'out/packet-certificate.json'; d=json.loads(p.read_text())
+          assert d['status']=='COMPLETE' and d['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert d.get('computed_residues')==[]
+          assert sorted(d.get('carried_residues',[]))==sorted(d['residues'])
+          print({'packet_id':d['packet_id'],'residues':d['residues'],'canonical':d['canonical_survivors_including_zero']})
+          PY
+          python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+            --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" --dump "$RUNNER_TEMP/out/packet-canonical.bin" \
+            --enum-json "$RUNNER_TEMP/out/packet-certificate.json" --output "$RUNNER_TEMP/out/full-aut-verify.json" --bound 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18t-b14-packet-${{ matrix.packet_id }}-g2
+          path: ${{ runner.temp }}/out/
+          retention-days: 14
+          if-no-files-found: error
+
+  summarize:
+    if: always()
+    needs: [regular-packet]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18t-b14-packet-*-g2
+          path: ${{ runner.temp }}/packets
+      - name: Verify three exact tail packets
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'packets'; got={}
+          for p in root.rglob('packet-certificate.json'):
+            d=json.loads(p.read_text()); pid=int(d['packet_id'])
+            if pid in {127,158,162} and d.get('status')=='COMPLETE' and d.get('TRAVERSAL_COMPLETENESS_CERTIFICATE') is True:
+              got[pid]={'canonical':d['canonical_survivors_including_zero'],'dump_sha256':d['canonical_dump_sha256']}
+          assert set(got)=={127,158,162},got
+          out={'schema':'STAGE32_18U_B14_THREE_RESIDUE_TAIL_SUMMARY_V1','status':'COMPLETE','packets':got,'ready_for_final_18t_union':True,'D16_B14_NUMERICAL_CREDIT':False,'GLOBAL_B14_AGGREGATION_COMPLETE':False,'AUDIT_STATUS':'PENDING'}
+          pathlib.Path('tail-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18u-b14-tail-summary-g1
+          path: tail-summary.json
+          retention-days: 14
+          if-no-files-found: error
