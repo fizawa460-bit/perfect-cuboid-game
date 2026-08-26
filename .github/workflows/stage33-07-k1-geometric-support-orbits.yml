@@ -1,8 +1,8 @@
 name: Stage33-07 k1 pure-geometric support orbits
 
-# The historical #1377 mega-PR is merged. On the small continuation PR this
-# exact census may run automatically again; the narrow paths below prevent
-# unrelated Stage33 work from replaying it.
+# The first exact 15-way pass completed 13 P orbits. P orbits 5 and 7 hit the
+# 30-minute runner ceiling with no mathematical failure. Reuse those 13 locked
+# artifacts and recompute only the two heavy orbits before exact aggregation.
 on:
   workflow_dispatch:
   pull_request:
@@ -22,14 +22,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  shard:
+  rescue:
     strategy:
       fail-fast: false
-      max-parallel: 15
+      max-parallel: 2
       matrix:
-        p_orbit: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+        p_orbit: [5,7]
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
+    timeout-minutes: 90
     defaults:
       run:
         working-directory: stages/stage33/33-07
@@ -40,7 +40,7 @@ jobs:
           python-version: '3.12'
       - name: Rebuild exact Q4 prerequisite
         run: python certify_nonelementary_target_q4_rank_obstruction.py
-      - name: Enumerate one exact source-symmetry P orbit
+      - name: Enumerate one heavy exact source-symmetry P orbit
         env:
           P_ORBIT_INDEX: ${{ matrix.p_orbit }}
         run: python certify_nonelementary_k1_geometric_support_orbit_shard.py
@@ -67,19 +67,43 @@ jobs:
           path: stages/stage33/33-07/nonelementary-k1-geometric-support-orbit-shard-${{ matrix.p_orbit }}.json
 
   aggregate:
-    needs: shard
+    needs: rescue
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 12
     defaults:
       run:
         working-directory: stages/stage33/33-07
     steps:
       - uses: actions/checkout@v4
+      - name: Recover the 13 completed shards from run 32965326642
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          out="k1-geometric-support-orbit-shards"
+          mkdir -p "$out"
+          work="$(mktemp -d)"
+          for i in 0 1 2 3 4 6 8 9 10 11 12 13 14; do
+            gh run download 32965326642 --repo "${GITHUB_REPOSITORY}" \
+              --name "k1-geometric-support-orbit-shard-${i}" --dir "$work/$i"
+            cp "$work/$i/nonelementary-k1-geometric-support-orbit-shard-${i}.json" "$out/"
+          done
+          test "$(find "$out" -maxdepth 1 -name 'nonelementary-k1-geometric-support-orbit-shard-*.json' | wc -l)" -eq 13
       - uses: actions/download-artifact@v4
         with:
           pattern: k1-geometric-support-orbit-shard-*
           merge-multiple: true
           path: stages/stage33/33-07/k1-geometric-support-orbit-shards
+      - name: Require all 15 exact shard certificates
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          d=Path('k1-geometric-support-orbit-shards')
+          got={int(p.stem.rsplit('-',1)[1]) for p in d.glob('nonelementary-k1-geometric-support-orbit-shard-*.json')}
+          assert got==set(range(15)),got
+          print('K1_GEOMETRIC_SUPPORT_SHARDS=15/15')
+          PY
       - name: Aggregate exact pure-geometric orbit census
         run: python aggregate_nonelementary_k1_geometric_support_orbits.py
       - name: Enforce aggregate firewall and exact predecessor coverage
