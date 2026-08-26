@@ -1,11 +1,7 @@
 name: Stage33-07 index512 unique surviving glue orbit bridge
 
+# Manual-only to prevent PR-wide paths replay.
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - 'stages/stage33/33-07/certify_index512_unique_glue_orbit_bridge.py'
-      - '.github/workflows/stage33-07-index512-unique-glue-orbit-bridge.yml'
   workflow_dispatch:
 
 permissions:
@@ -13,7 +9,7 @@ permissions:
   actions: read
 
 concurrency:
-  group: stage33-07-index512-unique-glue-orbit-${{ github.event.pull_request.number || github.ref }}
+  group: stage33-07-index512-unique-glue-orbit-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
