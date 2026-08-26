@@ -10,9 +10,6 @@ pidx=int(os.environ.get('P_ORBIT_INDEX','0'))
 sidx=int(os.environ.get('RECORD_SHARD_INDEX','0'))
 scount=int(os.environ.get('RECORD_SHARD_COUNT','16'))
 if not 0<=pidx<15 or not 0<=sidx<scount:raise SystemExit('invalid shard coordinates')
-SUPPORT_RUN_OLD=32965326642
-SUPPORT_RUN_RESCUE=32968214956
-support_run=SUPPORT_RUN_RESCUE if pidx in (5,7) else SUPPORT_RUN_OLD
 ENDPOINT_RUN=32934384807
 ENDPOINT_LOCK='9f9dec186d3401d75f4aad4e7e4b819529362880091f0070548cb2bf3b13fbf3'
 
@@ -79,7 +76,7 @@ surv=len(survivors);weighted_surv=sum(int(x['pair_orbit_size']) for x in survivo
 if sum(reject.values())+surv!=checked:raise SystemExit('owned section accounting regression')
 cert={
  'schema':'STAGE33_07_NONELEMENTARY_K1_GEOMETRIC_SIGN_FIXED_SUBSHARD_V1',
- 'source_support_workflow_run_id':support_run,'source_support_sha256':stored,'source_endpoint_workflow_run_id':ENDPOINT_RUN,'source_endpoint_sha256':ENDPOINT_LOCK,
+ 'source_support_sha256':stored,'source_endpoint_workflow_run_id':ENDPOINT_RUN,'source_endpoint_sha256':ENDPOINT_LOCK,
  'p_orbit_index':pidx,'record_shard_index':sidx,'record_shard_count':scount,
  'source_fixed_P_W_orbit_count':len(reps),'source_full_pair_skeletons_covered':int(support['full_pair_skeletons_covered']),
  'source_weighted_structural_H_covered':int(support['weighted_structural_H_covered']),
