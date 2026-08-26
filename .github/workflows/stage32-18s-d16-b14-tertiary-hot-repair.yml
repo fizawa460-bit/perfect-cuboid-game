@@ -1,0 +1,214 @@
+name: Stage32-18S d16 b14 tertiary hot repair
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/runkeys/18s-b14-tertiary-hot-repair.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18s-b14-tertiary-hot-repair-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - id: key
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18s-b14-tertiary-hot-repair.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18s-d16-b14-tertiary-hot-repair'
+          assert d['armed'] is True and d['generation']==1
+          assert d['bound']==14 and d['breaker_count']==256
+          assert d['source_run_id']==32915830665 and d['source_prepared_artifact_id']==9588134326
+          assert d['source_prepared_zip_sha256']=='ef455630e05de6edb7ae0a05eaa56e4ba5237a27cdf2e6995c2405be7e1ca08b'
+          assert (d['primary_split_coordinate'],d['primary_shard_id'],d['primary_shard_count'])==(54,26,1024)
+          assert (d['secondary_split_coordinate'],d['secondary_shard_id'],d['secondary_shard_count'])==(45,5,32)
+          assert (d['tertiary_split_coordinate'],d['tertiary_shard_count'])==(36,16)
+          assert d['node_cap']==80000000 and d['timeout_minutes']==30
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f: f.write('generation=1\n')
+          print(json.dumps(d,sort_keys=True))
+          PY
+
+  prepare:
+    needs: validate-run-key
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Assert source prepared artifact identity
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,urllib.request
+          u='https://api.github.com/repos/${{ github.repository }}/actions/artifacts/9588134326'
+          r=urllib.request.Request(u,headers={'Authorization':'Bearer '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'})
+          d=json.load(urllib.request.urlopen(r)); assert d['workflow_run']['id']==32915830665; assert d['digest']=='sha256:ef455630e05de6edb7ae0a05eaa56e4ba5237a27cdf2e6995c2405be7e1ca08b'; assert d['expired'] is False
+          print({'artifact_id':d['id'],'digest':d['digest']})
+          PY
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18q-b14-hot-rescue-prepared-g1
+          path: ${{ runner.temp }}/prepared
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32915830665
+      - name: Build exact three-stage certifier
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          python stages/stage32/32-18S/build_tertiary_26_5_certifier.py \
+            --source "$RUNNER_TEMP/prepared/d16-exact-two-stage-26.cpp" \
+            --output "$RUNNER_TEMP/prepared/d16-exact-three-stage-26-5.cpp"
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+            "$RUNNER_TEMP/prepared/d16-exact-three-stage-26-5.cpp" \
+            -o "$RUNNER_TEMP/prepared/d16-exact-three-stage-26-5"
+          sha256sum "$RUNNER_TEMP/prepared/d16-exact-three-stage-26-5.cpp" | tee "$RUNNER_TEMP/prepared/three-stage-source.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18s-b14-tertiary-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared/
+          retention-days: 14
+          if-no-files-found: error
+
+  tertiary:
+    needs: [validate-run-key, prepare]
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18s-b14-tertiary-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Exact tertiary ${{ matrix.shard }}/16 inside primary26 secondary5
+        run: |
+          mkdir -p "$RUNNER_TEMP/out"
+          chmod +x "$RUNNER_TEMP/prepared/d16-exact-three-stage-26-5"
+          set +e
+          "$RUNNER_TEMP/prepared/d16-exact-three-stage-26-5" \
+            --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+            --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+            --output "$RUNNER_TEMP/out/d16-b14-tertiary-${{ matrix.shard }}-of16.json" \
+            --dump-canonical "$RUNNER_TEMP/out/d16-b14-tertiary-${{ matrix.shard }}-of16.bin" \
+            --bound 14 --shard-id ${{ matrix.shard }} --shard-count 16 --split-coordinate 36 --node-cap 80000000
+          rc=$?
+          echo "$rc" > "$RUNNER_TEMP/out/exit-${{ matrix.shard }}.txt"
+          if [ "$rc" -eq 0 ]; then
+            python - <<'PY'
+          import json,os,pathlib
+          sid=int('${{ matrix.shard }}'); p=json.loads((pathlib.Path(os.environ['RUNNER_TEMP'])/'out'/f'd16-b14-tertiary-{sid}-of16.json').read_text())
+          assert p['schema']=='STAGE32_18S_D16_B14_EXACT_THREE_STAGE_SHARDED_TRAVERSAL_CERT_V1' and p['status']=='COMPLETE' and p['bound']==14
+          assert (p['primary_shard_id'],p['secondary_shard_id'])==(26,5)
+          assert (p['tertiary_split_coordinate'],p['tertiary_shard_id'],p['tertiary_shard_count'])==(36,sid,16)
+          assert p['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          print(json.dumps({'tertiary':sid,'nodes':p['nodes'],'canonical':p['canonical_survivors_including_zero']},sort_keys=True))
+          PY
+          fi
+          exit "$rc"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: stage32-18s-b14-tertiary-${{ matrix.shard }}-of16-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 5
+          if-no-files-found: error
+
+  integrate-hot-parents:
+    needs: [validate-run-key, prepare, tertiary]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18q-b14-primary-26-secondary-*-of32-g1
+          path: ${{ runner.temp }}/sec26
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32915830665
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18q-b14-primary-748-secondary-*-of32-g1
+          path: ${{ runner.temp }}/sec748
+          merge-multiple: true
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 32915830665
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18s-b14-tertiary-*-of16-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/tertiary
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18s-b14-tertiary-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Replace timed-out logical secondary5 with exact tertiary union
+        run: |
+          mkdir -p "$RUNNER_TEMP/out/26" "$RUNNER_TEMP/out/748" "$RUNNER_TEMP/cert"
+          rm -f "$RUNNER_TEMP/sec26/d16-b14-primary-26-secondary-5-of32.json" "$RUNNER_TEMP/sec26/d16-b14-primary-26-secondary-5-of32.bin"
+          python stages/stage32/32-18S/synthesize_logical_secondary5.py \
+            --input "$RUNNER_TEMP/tertiary" \
+            --output-json "$RUNNER_TEMP/sec26/d16-b14-primary-26-secondary-5-of32.json" \
+            --output-dump "$RUNNER_TEMP/sec26/d16-b14-primary-26-secondary-5-of32.bin" \
+            --certificate "$RUNNER_TEMP/cert/tertiary-secondary5-certificate.json"
+      - name: Synthesize both exact hot logical parents
+        run: |
+          python stages/stage32/32-18Q/synthesize_logical_parent.py --input "$RUNNER_TEMP/sec26" --primary-id 26 --output-json "$RUNNER_TEMP/out/26/d16-b14-logical-primary-26-of1024.json" --output-dump "$RUNNER_TEMP/out/26/d16-b14-logical-primary-26-of1024.bin" --certificate "$RUNNER_TEMP/out/26/stage32-18s-primary-26-certificate.json"
+          python stages/stage32/32-18Q/synthesize_logical_parent.py --input "$RUNNER_TEMP/sec748" --primary-id 748 --output-json "$RUNNER_TEMP/out/748/d16-b14-logical-primary-748-of1024.json" --output-dump "$RUNNER_TEMP/out/748/d16-b14-logical-primary-748-of1024.bin" --certificate "$RUNNER_TEMP/out/748/stage32-18s-primary-748-certificate.json"
+      - name: Full-Aut verify both logical hot parents
+        run: |
+          for pid in 26 748; do
+            python stages/stage32/32-18B/verify_d16_bound_canonical.py \
+              --aut "$RUNNER_TEMP/prepared/d16-aut-action.json" \
+              --dump "$RUNNER_TEMP/out/$pid/d16-b14-logical-primary-$pid-of1024.bin" \
+              --enum-json "$RUNNER_TEMP/out/$pid/d16-b14-logical-primary-$pid-of1024.json" \
+              --output "$RUNNER_TEMP/out/$pid/d16-b14-logical-primary-$pid-verify.json" --bound 14
+          done
+          cp "$RUNNER_TEMP/cert/tertiary-secondary5-certificate.json" "$RUNNER_TEMP/out/26/"
+      - name: Enforce audit stop
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          for pid in (26,748):
+              d=json.loads((root/str(pid)/f'd16-b14-logical-primary-{pid}-of1024.json').read_text()); v=json.loads((root/str(pid)/f'd16-b14-logical-primary-{pid}-verify.json').read_text())
+              assert d['status']=='COMPLETE' and d['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True and d['D16_B14_NUMERICAL_CREDIT'] is False
+              assert v['aut_group_order']==1536 and v['canonical_survivors_including_zero']==d['canonical_survivors_including_zero']
+          print({'hot_parents_complete':[26,748],'D16_B14_NUMERICAL_CREDIT':False})
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18s-b14-logical-primary-26-of1024-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/26/
+          retention-days: 14
+          if-no-files-found: error
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18s-b14-logical-primary-748-of1024-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/748/
+          retention-days: 14
+          if-no-files-found: error
