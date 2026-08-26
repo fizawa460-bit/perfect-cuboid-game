@@ -17,8 +17,11 @@ GitHub Actions・大量並列・長時間計算・大量artifactを伴う作業�
 - 複数のmatrix/jobが同時実行可能なら、それぞれの `max-parallel` を別々に見るのではなく、**同時に走り得るheavy jobの合計が18以下**になるよう設計する。例: `10 + 10 = 20` は禁止。
 - **18は目標値ではなく上限値。** 他Stageの調査・監査・軽量Actionsが使えるrunner余力を常に残すこと。Stage-localな速度向上、早期完走、空き枠の有効利用を理由にこの上限を破ってはならない。
 - 新しいheavy workflowをlaunchする前に、artifact peakと同時に **planned effective concurrency <= 18** をpreflightで確認する。
+- **`pull_request.paths` だけでheavy再実行を許可してはならない。** `synchronize` では `github.event.before` からcurrent headまでの実際のcommit差分に専用run-keyの変更があることをcheap gateで確認し、generation/revisionが進んでarmedである場合だけheavy jobを許可する。
+- audit/controller/docs/status/README/sourceだけの更新ではheavyを再実行しない。`reopened` もcold startとし、再開後に明示的なrun-key更新を別commitで入れるまでheavy jobはskipする。
+- 既存heavy workflowは、**次回armする前に**このcommit-range authorization gateへ移行する。現時点でrepo全体がmechanically enforced済みとは扱わない。
 
-この並列上限はstorage policyと同じrepo-wide mandatory ruleであり、Stage固有の都合では上書きできません。
+この並列上限・storage上限・heavy再発火防止は同じrepo-wide mandatory ruleであり、Stage固有の都合では上書きできません。
 
 ## まず読む
 
