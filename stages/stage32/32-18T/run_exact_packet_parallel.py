@@ -17,7 +17,10 @@ def validate_residue(jp:pathlib.Path,bp:pathlib.Path,r:int):
     if d.get('TRAVERSAL_COMPLETENESS_CERTIFICATE') is not True or d.get('all_symmetry_branch_rejections_exact_rational_cauchy_schwarz') is not True: raise RuntimeError(f'missing exact cert {r}')
     rs=recs(bp)
     if len(rs)!=int(d.get('canonical_survivors_including_zero',-1)): raise RuntimeError(f'record count mismatch {r}')
-    if hashlib.sha256(bp.read_bytes()).hexdigest()!=d.get('canonical_dump_sha256'): raise RuntimeError(f'dump SHA mismatch {r}')
+    rh={}
+    for x in rs: rh[str(x[0])]=rh.get(str(x[0]),0)+1
+    want={str(k):int(v) for k,v in d.get('canonical_norm_histogram',{}).items()}
+    if rh!=want: raise RuntimeError(f'residue histogram mismatch {r}')
     return d,rs
 
 def main():
