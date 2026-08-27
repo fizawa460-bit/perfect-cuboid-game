@@ -38,11 +38,12 @@ jobs:
           e=x['exact_checks']
           assert e['both_geometric_permutations_involutions']
           assert e['both_actions_involutions'] and e['both_actions_unimodular']
-          assert e['both_actions_preserve_retained_picard_gram']
+          assert e['both_actions_preserve_reconstructed_picard_gram']
           assert e['both_actions_fix_hyperplane'] and e['both_actions_transport_all_140_known_classes']
           assert not e['smith_form_used'] and not e['remote_cas_used']
           assert x['basis_recovery']['all_140_known_classes_integral']
           assert x['basis_recovery']['all_140_hyperplane_pairings_rechecked']
+          assert x['basis_recovery']['intersection_form_reconstructed_from_stage32_hperp_marking']
           assert x['execution']['remote_cas_used'] is False
           assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
           assert not x['theorem_credit'] and not x['endpoint_credit']
@@ -51,6 +52,7 @@ jobs:
               assert hy==hashlib.sha256(json.dumps(y,sort_keys=True,separators=(',',':')).encode()).hexdigest()
               assert y['schema']=='STAGE33_07_PICARD_COORDINATE_SWAP_ROWS_V2'
               assert y['exact_recovery']['all_140_known_classes_transport_exactly']
+              assert y['exact_recovery']['picard_gram_reconstructed_from_hperp_marking']
               assert y['exact_recovery']['picard_gram_preserved'] and y['exact_recovery']['hyperplane_fixed']
               assert not y['exact_recovery']['remote_cas_used'] and not y['exact_recovery']['smith_form_used']
           print('STAGE33_07_TWO_COORDINATE_SWAP_PICARD_ROWS=PASS_EXACT_LOCAL')
