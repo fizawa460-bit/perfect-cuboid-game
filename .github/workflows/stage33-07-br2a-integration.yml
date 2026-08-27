@@ -13,7 +13,43 @@ permissions:
   actions: read
 
 jobs:
+  gate:
+    name: Cheap latest-commit gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.changed.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: changed
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'run=false' >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" == workflow_dispatch ]]; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          files="$(git diff --name-only "$BEFORE" "$HEAD")"
+          printf '%s\n' "$files"
+          if grep -Eq '^(stages/stage33/33-07/|stages/stage33/controller\.json$|\.github/workflows/stage33-07-br2a-integration\.yml$)' <<<"$files"; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
+
   br2a-integration:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:

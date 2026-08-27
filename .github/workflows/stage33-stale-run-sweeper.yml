@@ -19,6 +19,66 @@ env:
   K1_GAP_RUN_KEY: .github/runkeys/stage33-07-k1-seven-sign-gap-recovery.json
 
 jobs:
+  authorize-k1-gap-recovery:
+    name: Cheap commit-range authorization gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$K1_GAP_RUN_KEY" || exit 0
+          python - "$BEFORE" "$K1_GAP_RUN_KEY" <<'PY'
+          import json,pathlib,subprocess,sys
+          before,key=sys.argv[1],sys.argv[2]
+          new=json.loads(pathlib.Path(key).read_text())
+          old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+          assert new['schema']==old['schema']=='STAGE33_07_K1_SEVEN_SIGN_GAP_RECOVERY_RUNKEY_V1'
+          assert int(new['generation'])>int(old['generation'])>=0
+          assert new['armed'] is True
+          assert int(new['source_old32_run_id'])==33004278066
+          assert int(new['source_p7_run_id'])==33013524879
+          assert int(new['source_support_run_id'])==32971195642
+          assert int(new['source_endpoint_run_id'])==32934384807
+          assert int(new['max_missing_old32'])==48
+          assert int(new['max_parallel'])==8
+          assert int(new['max_parallel'])<=18
+          assert int(new['timeout_minutes'])==20
+          assert int(new['artifact_retention_days'])==3
+          assert new['stage33_progress']=='6/11'
+          assert new['actual_index512_glue_identified'] is False
+          assert new['arithmetic_HS_closed'] is False
+          print('K1_GAP_RECOVERY_COMMIT_RANGE_ARM=PASS')
+          PY
+          live_bytes="$(gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" --jq '.artifacts[] | select(.expired==false) | .size_in_bytes' | awk '{s+=$1} END {print s+0}')"
+          # Existing compact shards are only a few KiB each; retain a 5 MiB
+          # upper bound for all possible repair workers plus final certificates.
+          worst_new_bytes=5242880
+          hard_ceiling_bytes=524288000
+          (( live_bytes + worst_new_bytes <= hard_ceiling_bytes )) || {
+            echo "unsafe Actions storage peak: live=$live_bytes new=$worst_new_bytes ceiling=$hard_ceiling_bytes" >&2
+            exit 1
+          }
+          echo "ACTIONS_STORAGE_PREFLIGHT=PASS live=$live_bytes projected_new=$worst_new_bytes ceiling=$hard_ceiling_bytes"
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
   cancel-obsolete-runs:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
@@ -117,7 +177,8 @@ jobs:
           PY
 
   k1-gap-snapshot:
-    if: github.event_name == 'pull_request' || github.event_name == 'workflow_dispatch'
+    needs: authorize-k1-gap-recovery
+    if: needs.authorize-k1-gap-recovery.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     outputs:
