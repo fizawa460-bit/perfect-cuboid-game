@@ -73,7 +73,8 @@ if len(raw2_records)!=17: raise SystemExit('17 raw-order2 source count moved')
 # on exceptional.  Their sum is 0 mod 4 at every crossing; denominator degree
 # is divisible by 4, so infinity also contributes zero.
 raw4_records=[]
-for sr in order4['order4_source_records']:
+order4_rows=order4['quotient_to_raw_bockstein']['nine_source_records']
+for sr in order4_rows:
     name=sr['source_basis_name']; z=int(sr['raw_z4_crossing_vector_2bit_hex_le'],16)
     raw=[(z>>(2*e))&3 for e in range(144)]
     pkgs={p['component_id']:p for p in sr['component_order4_first_residue_functions']}
