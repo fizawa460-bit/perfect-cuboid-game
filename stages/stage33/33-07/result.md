@@ -364,3 +364,25 @@ ABSOLUTE_DELTA_LOC_COMPUTED=false
 ARITHMETIC_HS_CLOSED=false
 STAGE33_PROGRESS_EFFECTIVE=6/11
 ```
+<!-- STAGE33_07_GERSTEN_EXISTENCE_26_V11 -->
+## Gersten lift existence 26/26; explicit representative choice still open
+
+The mixed-order boundary tuples now pass the **full codimension-two localization/Gersten kernel check** over `L=Q(i,sqrt(2))`: all 17 order-two sources cancel at every crossing mod 2 with even infinity poles, and all 9 order-four sources cancel as `-r + r = 0 mod 4` with denominator exponent divisible by 4.  Extending each boundary tuple by zero on every other codimension-one divisor and applying the retained localization exact sequence certifies abstract global geometric open-Brauer/Gersten lift existence for all 26 sources (`c97cf3df4c69bc859765b6844dc12e1ad24bdf0da0457446f1e5e11846c6660a`).
+
+This promotion is deliberately separated from a choice of explicit rational-symbol representatives.  No `cc`/`ct` difference cocycle in the proper 14-dimensional `Br(Sbar)[2]` basis has been materialized, so the finite localization connecting map remains the exact kernel.
+
+```text
+GLOBAL_GEOMETRIC_GERSTEN_LIFT_EXISTENCE_CERTIFIED=26/26
+GLOBAL_GEOMETRIC_GERSTEN_EXPLICIT_REPRESENTATIVES_MATERIALIZED=0/26
+FINITE_V4_H1_PROPER_BR2_DIMENSION_F2=16
+LOCALIZATION_EXTENSION_CLASS_MATRIX_TARGET_SHAPE=16x26
+LOCALIZATION_EXTENSION_CLASS_COLUMNS_MATERIALIZED=0/26
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Next exact kernel: `R33-BR2A-26-GERSTEN-LIFT-CHOICE-GALOIS-EXTENSION-CLASS-IN-PROPER-BR2`.
+Next leaf: `L33-07-COMPUTE-GALOIS-EXTENSION-CLASS-OF-26-GERSTEN-LIFT-TORSOR-WITHOUT-REQUIRING-RATIONAL-SYMBOL-REPRESENTATIVES`.
