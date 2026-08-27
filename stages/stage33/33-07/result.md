@@ -303,3 +303,50 @@ STAGE33_08_RELEASED=false
 The next exact leaf is no longer a blind 26-column squareclass construction.
 It is the nine-dimensional `U44` double-obstruction extension problem.  The 17
 raw-order-two directions remain retained and reusable.
+
+## PR #1419 raw-order4 Bockstein normal form
+
+The nine quotient-order-two directions that failed the raw order-two test in
+PR #1414 have now been retained at their correct raw order four rather than
+being forced into Kummer squareclasses.  Exact mod-4 divisor checks on all 72
+boundary P1 components produce deterministic order-four first-residue function
+models for all nine directions.  Together with the 17 retained raw-order-two
+models, all 26 boundary first-residue directions are therefore materialized in
+mixed order `17 x order2 + 9 x order4` form.
+
+The nine nonzero doubles are independent in the 44-dimensional U44 kernel.
+Taking those doubles as the first nine vectors of a new U44 basis gives the
+exact raw extension normal form
+
+```text
+RAW_EXTENSION_GROUP=(Z/4)^9 direct_sum (Z/2)^52
+RAW_EXTENSION_ORDER=2^70
+RAW_ORDER2_FIRST_RESIDUE_DIRECTIONS=17
+RAW_ORDER4_FIRST_RESIDUE_DIRECTIONS=9
+BOCKSTEIN_IMAGE_RANK_F2=9
+COMPLEX_CONJUGATION_ON_EACH_ORDER4_FACTOR=inversion
+FULL_ORDER4_BOCKSTEIN_CERTIFICATE_SHA256=085ad52c1eb1cf8069fcac9a0814250428288cc5d517a036670ae529c36eb88a
+COMPACT_ORDER4_BOCKSTEIN_CERTIFICATE_SHA256=30f2a4653619419a42d5513be26c8acf7505e042e4cbef279abd3476c34d1cfa
+RAW_EXTENSION_NORMAL_FORM_CERTIFICATE_SHA256=fcf62f5977f3380ec7c44797e485f50c47743d78582301b5d7f1df93a1ee91c6
+ORDER4_BOCKSTEIN_WORKFLOW_RUN=33053103175
+ORDER4_BOCKSTEIN_ARTIFACT_ID=9638435613
+ORDER4_BOCKSTEIN_ARTIFACT_ZIP_SHA256=41fedee71af49168b05112113c6193e55922967cdfceb950b0c9c66facf3ddd3
+QUOTIENT_TO_RAW_BOCKSTEIN_NORMAL_FORM_CLOSED=true
+GLOBAL_GEOMETRIC_GERSTEN_LIFTS_MATERIALIZED=false
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+This closes the finite quotient-to-raw Bockstein structure itself.  The next
+smallest exact kernel is no longer the 9-dimensional raw extension problem:
+
+```text
+R33-BR2A-9-ORDER4-GERSTEN-LIFT-GALOIS-DIFFERENCE-COCYCLE
+```
+
+The next leaf must construct genuine global geometric Gersten lifts for the
+nine order-four boundary functions and compute their Galois differences.  No
+finite boundary calculation is promoted to a global Q-defined lift here.
