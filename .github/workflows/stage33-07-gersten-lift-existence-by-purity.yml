@@ -17,6 +17,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
       - name: Reproduce mixed-order first-residue prefix and certify Gersten existence
         working-directory: stages/stage33/33-07
         run: python certify_26_global_gersten_lift_existence_by_purity.py
