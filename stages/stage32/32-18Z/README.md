@@ -1,29 +1,41 @@
 # Stage32-18Z — adaptive b16 c48x32 tail rescue
 
-Stage32-18Y c48x16 completed 10 of 48 exact real-leaf children and isolated the remaining resource wall to 38 coordinate48 residue classes. This leaf preserves those 10 completed children and refines only the 38 node-cap parents.
+Stage32-18Y c48x16 completed 10 of 48 exact real-leaf children and isolated 38 node-cap parents. 18Z preserved those 10 frozen COMPLETE parents and refined only the 38 walls into their two exact `h48 mod 32` children, for 76 new heavy jobs.
 
-For a fixed primary `h54 mod 1024` gate, an x16 secondary class `h48 mod 16 == s` is exactly the disjoint union of x32 classes `s` and `s+16`. Therefore each failed x16 parent is replaced by exactly two x32 children without changing the mathematical population.
+## Frozen execution result
 
-Frozen 18Y source:
+- workflow run: `33035492820` — success;
+- summary artifact: `9633913882`;
+- summary ZIP digest: `sha256:d7821ecd335752334b04547ea4b255a0c407914022762574b8a1b88b1027a95c`;
+- source 18Y run: `33030066426`;
+- source 18Y summary artifact: `9631617459`;
+- prepared exact certifier artifact: `9626136705`;
+- prepared ZIP SHA256: `f706cd79cf1fc64da0a59bc5cc528ea677e3892f602d3f58d78cb1543bf8380c`.
 
-- workflow run `33030066426`;
-- summary artifact `9631617459`;
-- summary digest `sha256:3607380f62285a7c89919f0b184bceb296713b8a18fc7ae81f135e289f79c0f2`;
-- COMPLETE x16 children: 10;
-- node-cap x16 parents to rescue: 38;
-- new x32 children: 76.
+The 76 x32 rescue children produced:
 
-The immutable exact certifier remains prepared artifact `9626136705`, ZIP SHA256 `f706cd79cf1fc64da0a59bc5cc528ea677e3892f602d3f58d78cb1543bf8380c`. Bound remains 16, primary coordinate/modulus remains 54/1024, secondary coordinate remains 48, and the per-child node cap remains 18,000,000.
+- `42` COMPLETE;
+- `34` `RESOURCE_WALL_NODE_CAP`;
+- `0` wallclock walls;
+- `0` artifact-size walls.
 
-Execution safety:
+Seven previously blocked x16 logical parents were fully reconstructed from two COMPLETE x32 children. Together with the 10 frozen x16 COMPLETE parents, the adaptive evidence now closes 17/48 logical x16 classes. The remaining incompleteness is carried only by 34 explicit x32 residue classes:
 
-- dedicated ARM-only run-key commit;
-- `max-parallel: 15`, below the repository Stage ceiling 18;
-- current nonexpired artifact usage plus worst-case new evidence must remain below 500MB;
-- each new child artifact is capped at 1,000,000 uncompressed bytes with 7-day retention;
-- node-cap, wallclock and artifact-size walls are explicit non-credit statuses.
+- primary 436: `[0,16,19,5,6,8,25,10,27,28,30,15]` (12 walls);
+- primary 503: `[16,3,19,21,22,24,25,10,11,12,13,31]` (12 walls);
+- primary 922: `[0,17,19,6,23,28,13,14,15,31]` (10 walls).
 
-The summary must independently reload the frozen 18Y artifacts, verify the exact 10-COMPLETE/38-wall pattern, and then reconstruct each failed x16 parent from its two x32 children. Only if all 16 logical secondaries of all three primaries are complete may the pilot declare the historical tail geometry production-ready.
+Verdict:
+
+`B16_TAIL_GEOMETRY__ADAPTIVE_C48X32_INSUFFICIENT__FINER_SPLIT_REQUIRED`
+
+Next item:
+
+`32-18AA-D16-B16-C48X64-TAIL-RESCUE`
+
+18AA must preserve every COMPLETE x16/x32 piece and refine only those 34 x32 resource walls. Since one `h48 mod 32` class is the disjoint union of its two `h48 mod 64` children, only 68 new heavy jobs are required; a full x64 rerun is forbidden as unnecessary recomputation.
+
+Execution/source locks remain unchanged: bound16, primary `h54 mod 1024` residues `[436,503,922]`, secondary coordinate48, exact rational branch rejection, Aut order 1536, 256 DFS symmetry breakers, and 18,000,000-node per-child cap.
 
 Firewalls remain:
 
