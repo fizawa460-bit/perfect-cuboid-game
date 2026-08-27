@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - 'stages/stage33/33-07/certify_finite_swap_candidate_naturality_envelope.py'
+      - 'stages/stage33/33-07/run_finite_swap_candidate_naturality_envelope_z3_compat.py'
       - 'stages/stage33/33-07/certify_retained_geometric_sign_intertwiner_space.py'
       - 'stages/stage33/33-07/retained-q256-geometric-sign-endpoint.json'
       - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
@@ -33,7 +34,7 @@ jobs:
       - name: Reproduce finite localization receiver
         run: python materialize_order2_localization_receiver.py
       - name: Enumerate every admissible finite coordinate-swap pair and naturality envelope
-        run: python certify_finite_swap_candidate_naturality_envelope.py
+        run: python run_finite_swap_candidate_naturality_envelope_z3_compat.py
       - name: Enforce complete conservative envelope and firewalls
         run: |
           python - <<'PY'
