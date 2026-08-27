@@ -36,9 +36,10 @@ def xor_bool(xs):
     xs = list(xs)
     if not xs:
         return z3.BoolVal(False)
-    if len(xs) == 1:
-        return xs[0]
-    return z3.Xor(*xs)
+    out = xs[0]
+    for x in xs[1:]:
+        out = z3.Xor(out, x)
+    return out
 
 
 def const_times_symbolic(A, X, i, j):
@@ -177,7 +178,7 @@ X130 = bool_matrix(model, X13)
 I = [[int(i == j) for j in range(N)] for i in range(N)]
 if mm2(S0, T0) != I or mm2(T0, S0) != I:
     raise SystemExit("model transport is not invertible")
-if mm2(mm2(X120, X120), I) != I or mm2(X130, X130) != I:
+if mm2(X120, X120) != I or mm2(X130, X130) != I:
     raise SystemExit("transported swap involution regression")
 if mm2(mm2(X120, X130), X120) != mm2(mm2(X130, X120), X130):
     raise SystemExit("transported swap S3 braid regression")
