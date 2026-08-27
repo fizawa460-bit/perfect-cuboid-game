@@ -79,15 +79,22 @@ jobs:
           assert n['dimensions']['bockstein_image_dimension_f2']==9
           assert len(n['nine_order4_normal_form_pairs'])==9
           assert all(n['exact_checks'].values())
-          assert n['constructive_progress']['quotient_to_raw_Bockstein_extension_normal_form_closed']
-          assert not n['constructive_progress']['global_geometric_Gersten_lifts_materialized']
-          assert not n['constructive_progress']['project_14x26_L_squareclass_tensor_materialized']
-          assert not n['constructive_progress']['absolute_delta_loc_computed']
-          assert not n['constructive_progress']['arithmetic_HS_closed']
+          prog=n['constructive_progress']
+          assert prog['quotient_to_raw_Bockstein_extension_normal_form_closed']
+          assert prog['all_26_boundary_first_residue_function_packages_materialized_mixed_order']
+          assert prog['global_geometric_Gersten_lifts_materialized_count']==0
+          assert prog['global_geometric_Gersten_lifts_required_count']==26
+          assert prog['raw_order2_global_geometric_Gersten_lifts_materialized_count']==0
+          assert prog['raw_order4_global_geometric_Gersten_lifts_materialized_count']==0
+          assert not prog['project_14x26_L_squareclass_tensor_materialized']
+          assert not prog['absolute_delta_loc_computed']
+          assert not prog['arithmetic_HS_closed']
           hand=json.load(open('handoff.json'))
           assert hand['smallest_current_exact_kernel']==n['new_smallest_exact_kernel']
           assert hand['repair_exact_reduction']['quotient_to_raw_extension_exact_group']=='(Z/4)^9 direct_sum (Z/2)^52'
           assert hand['repair_exact_reduction']['quotient_to_raw_bockstein_normal_form_closed']
+          assert hand['repair_exact_reduction']['global_geometric_Gersten_lifts_materialized']==0
+          assert hand['repair_exact_reduction']['global_geometric_Gersten_lifts_required']==26
           assert hand['next_item']==n['next_exact_leaf']
           assert hand['stage33_progress']=='6/11' and not hand['stage33_08_released']
           print('STAGE33_07_RAW_ORDER4_BOCKSTEIN=PASS')
@@ -95,6 +102,7 @@ jobs:
           print('COMPACT_CERTIFICATE_SHA256='+c_h)
           print('NORMAL_FORM_CERTIFICATE_SHA256='+n_h)
           print('RAW_EXTENSION_GROUP='+n['raw_extension_invariant_factors']['exact_group'])
+          print('GLOBAL_GERSTEN_LIFTS=0/26')
           print('NEXT_KERNEL='+n['new_smallest_exact_kernel'])
           PY
       - name: Retain compact certificates and handoff on PR branch
