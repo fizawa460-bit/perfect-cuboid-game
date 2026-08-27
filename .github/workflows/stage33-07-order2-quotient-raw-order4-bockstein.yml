@@ -4,6 +4,8 @@ on:
   pull_request:
     paths:
       - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
+      - 'stages/stage33/33-07/compact_order2_quotient_raw_order4_bockstein.py'
+      - 'stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json'
       - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
       - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
       - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
@@ -14,7 +16,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   certify:
@@ -22,6 +24,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -33,6 +38,9 @@ jobs:
       - name: Materialize nine raw-order4 Bockstein lifts
         working-directory: stages/stage33/33-07
         run: python certify_order2_quotient_raw_order4_bockstein.py
+      - name: Compact source-control certificate
+        working-directory: stages/stage33/33-07
+        run: python compact_order2_quotient_raw_order4_bockstein.py
       - name: Validate conservative mixed-order handoff
         working-directory: stages/stage33/33-07
         run: |
@@ -42,7 +50,7 @@ jobs:
           x=json.load(open(p))
           h=x.pop('canonical_sha256')
           actual=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          assert h==actual
+          assert h==actual=='085ad52c1eb1cf8069fcac9a0814250428288cc5d517a036670ae529c36eb88a'
           q=x['quotient_to_raw_bockstein']
           assert q['quotient_A2_dimension_f2']==26
           assert q['raw_order2_kernel_dimension_f2']==17
@@ -58,16 +66,38 @@ jobs:
           assert not prog['project_14x26_L_squareclass_tensor_materialized']
           assert not prog['absolute_delta_loc_computed']
           assert not prog['arithmetic_HS_closed']
+          c=json.load(open('order2-quotient-raw-order4-bockstein-compact.json'))
+          ch=c.pop('canonical_sha256')
+          ca=hashlib.sha256(json.dumps(c,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert ch==ca=='30f2a4653619419a42d5513be26c8acf7505e042e4cbef279abd3476c34d1cfa'
           assert x['stage33_progress']=='6/11'
           assert not x['stage33_08_released']
           assert not x['theorem_credit'] and not x['endpoint_credit']
           print('STAGE33_07_RAW_ORDER4_BOCKSTEIN=PASS')
-          print('CERTIFICATE_SHA256='+h)
+          print('FULL_CERTIFICATE_SHA256='+h)
+          print('COMPACT_CERTIFICATE_SHA256='+ch)
           print('NEXT_KERNEL='+x['new_smallest_exact_kernel'])
           PY
-      - name: Upload compact Bockstein certificate
+      - name: Retain compact certificate on PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          path='stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json'
+          git add "$path"
+          if git diff --cached --quiet; then
+            echo 'compact certificate already retained'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Stage33-07 retain raw-order4 Bockstein certificate'
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
+      - name: Upload detailed and compact Bockstein certificates
         uses: actions/upload-artifact@v4
         with:
           name: stage33-07-raw-order4-bockstein
           retention-days: 3
-          path: stages/stage33/33-07/order2-quotient-raw-order4-bockstein.json
+          path: |
+            stages/stage33/33-07/order2-quotient-raw-order4-bockstein.json
+            stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json
