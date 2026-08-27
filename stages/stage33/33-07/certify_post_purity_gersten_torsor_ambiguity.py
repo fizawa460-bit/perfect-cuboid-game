@@ -26,7 +26,7 @@ AMBIGUITY = HERE / "order2-ambient-extension-ambiguity.json"
 OUTPUT = HERE / "post-purity-gersten-torsor-ambiguity.json"
 
 EXPECTED_PURITY = "c97cf3df4c69bc859765b6844dc12e1ad24bdf0da0457446f1e5e11846c6660a"
-EXPECTED_AMBIGUITY = "5a12aae3f8adea8032ce631e1ceeef89b118f563d5e55f89f6f5dfa53c5d093c"
+EXPECTED_AMBIGUITY = "428b980afb01ca1a84c4657cb6d1e278d0c1ddf777a157a4e58b426a269cbdbb"
 
 
 def canonical_sha256(obj):
