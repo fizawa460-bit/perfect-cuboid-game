@@ -6,8 +6,11 @@ on:
       - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
       - 'stages/stage33/33-07/compact_order2_quotient_raw_order4_bockstein.py'
       - 'stages/stage33/33-07/certify_order2_raw_extension_normal_form.py'
+      - 'stages/stage33/33-07/record_order4_bockstein_progress.py'
       - 'stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json'
       - 'stages/stage33/33-07/order2-raw-extension-normal-form.json'
+      - 'stages/stage33/33-07/handoff.json'
+      - 'stages/stage33/33-07/result.md'
       - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
       - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
       - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
@@ -46,6 +49,9 @@ jobs:
       - name: Certify exact raw extension normal form
         working-directory: stages/stage33/33-07
         run: python certify_order2_raw_extension_normal_form.py
+      - name: Record exact handoff and result progress
+        working-directory: stages/stage33/33-07
+        run: python record_order4_bockstein_progress.py
       - name: Validate conservative mixed-order handoff
         working-directory: stages/stage33/33-07
         run: |
@@ -78,7 +84,12 @@ jobs:
           assert not n['constructive_progress']['project_14x26_L_squareclass_tensor_materialized']
           assert not n['constructive_progress']['absolute_delta_loc_computed']
           assert not n['constructive_progress']['arithmetic_HS_closed']
-          assert n['stage33_progress']=='6/11' and not n['stage33_08_released']
+          hand=json.load(open('handoff.json'))
+          assert hand['smallest_current_exact_kernel']==n['new_smallest_exact_kernel']
+          assert hand['repair_exact_reduction']['quotient_to_raw_extension_exact_group']=='(Z/4)^9 direct_sum (Z/2)^52'
+          assert hand['repair_exact_reduction']['quotient_to_raw_bockstein_normal_form_closed']
+          assert hand['next_item']==n['next_exact_leaf']
+          assert hand['stage33_progress']=='6/11' and not hand['stage33_08_released']
           print('STAGE33_07_RAW_ORDER4_BOCKSTEIN=PASS')
           print('FULL_CERTIFICATE_SHA256='+h)
           print('COMPACT_CERTIFICATE_SHA256='+c_h)
@@ -86,21 +97,23 @@ jobs:
           print('RAW_EXTENSION_GROUP='+n['raw_extension_invariant_factors']['exact_group'])
           print('NEXT_KERNEL='+n['new_smallest_exact_kernel'])
           PY
-      - name: Retain compact certificates on PR branch
+      - name: Retain compact certificates and handoff on PR branch
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         shell: bash
         run: |
           set -euo pipefail
           git add \
             stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json \
-            stages/stage33/33-07/order2-raw-extension-normal-form.json
+            stages/stage33/33-07/order2-raw-extension-normal-form.json \
+            stages/stage33/33-07/handoff.json \
+            stages/stage33/33-07/result.md
           if git diff --cached --quiet; then
-            echo 'compact certificates already retained'
+            echo 'retained evidence and handoff already current'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'Stage33-07 retain Bockstein normal-form certificates'
+          git commit -m 'Stage33-07 retain Bockstein normal-form handoff'
           git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
       - name: Upload detailed and compact Bockstein certificates
         uses: actions/upload-artifact@v4
