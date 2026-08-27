@@ -1,4 +1,4 @@
-name: Stage33-07 finite swap naturality envelope
+name: Stage33-07 finite swap naturality nonzero witness
 
 on:
   pull_request:
@@ -7,6 +7,7 @@ on:
       - 'stages/stage33/33-07/run_finite_swap_candidate_naturality_envelope_z3_compat.py'
       - 'stages/stage33/33-07/certify_retained_geometric_sign_intertwiner_space.py'
       - 'stages/stage33/33-07/retained-q256-geometric-sign-endpoint.json'
+      - 'stages/stage33/33-07/retained-q256-geometric-sign-quadratic.json'
       - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
       - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
       - 'stages/stage33/33-07/materialize_order2_localization_receiver.py'
@@ -33,33 +34,32 @@ jobs:
         run: python -m pip install --disable-pip-version-check --no-input 'sympy==1.14.0' 'z3-solver==4.15.3.0'
       - name: Reproduce finite localization receiver
         run: python materialize_order2_localization_receiver.py
-      - name: Enumerate every admissible finite coordinate-swap pair and naturality envelope
+      - name: Produce one exact admissible finite-swap nonzero witness
+        env:
+          STAGE33_FINITE_SWAP_MODE: counterexample
         run: python run_finite_swap_candidate_naturality_envelope_z3_compat.py
-      - name: Enforce complete conservative envelope and firewalls
+      - name: Enforce exact conservative counterexample and firewalls
         run: |
           python - <<'PY'
           import hashlib,json
-          p='finite-swap-candidate-naturality-envelope.json';x=json.load(open(p));h=x.pop('canonical_sha256')
+          p='finite-swap-naturality-nonzero-witness.json';x=json.load(open(p));h=x.pop('canonical_sha256')
           assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          assert x['schema']=='STAGE33_07_FINITE_SWAP_CANDIDATE_NATURALITY_ENVELOPE_V1'
-          ex=x['execution'];assert ex['remote_cas_used'] is False and ex['z3_exact_boolean_solver_used'] and ex['candidate_enumeration_complete']
-          f=x['finite_receiver_problem'];assert f['A_T2_dimension_f2']==14 and f['swap12_linear_intertwiner_dimension_f2']==33 and f['swap13_linear_intertwiner_dimension_f2']==33 and f['candidate_pair_count']>=1
-          s=x['source_geometry'];assert s['boundary_permutations_reconstructed_from_exact_qi_nodes'] and s['source_swap_actions_satisfy_S3']
-          n=x['naturality_envelope'];assert n['ambient_matrix_space_dimension_f2']==416 and n['seven_sign_only_constraint_rank_f2']==270 and n['seven_sign_only_remaining_dimension_f2']==146
-          assert n['minimum_remaining_dimension_f2']<=n['maximum_remaining_dimension_f2']<=146
-          e=x['exact_consequence'];assert e['actual_geometric_finite_swap_pair_is_contained_in_candidate_set'] and e['all_26_source_columns_treated_uniformly']
+          assert x['schema']=='STAGE33_07_FINITE_SWAP_NATURALITY_NONZERO_WITNESS_V1'
+          ex=x['execution'];assert ex['remote_cas_used'] is False and ex['z3_exact_boolean_solver_used'] and not ex['full_candidate_enumeration_attempted'] and ex['one_counterexample_suffices_to_refute_robust_zero']
+          c=x['admissible_finite_swap_candidate'];assert not c['identified_with_actual_integral_picard_swap'] and len(c['swap12_A_T2_action_rows_as_bitints'])==14 and len(c['swap13_A_T2_action_rows_as_bitints'])==14
+          n=x['nonzero_naturality_witness'];assert n['ambient_matrix_shape']==[26,16] and n['ambient_matrix_space_dimension_f2']==416 and n['remaining_dimension_f2']>0 and n['nonzero'] and n['annihilated_by_all_seven_sign_and_two_swap_naturality_rows']
+          e=x['exact_consequence'];assert not e['robust_zero_over_every_admissible_finite_swap_candidate'] and e['finite_candidate_envelope_alone_cannot_force_actual_delta_loc_zero'] and not e['actual_geometric_swap_pair_identified'] and e['all_26_source_columns_treated_uniformly']
           assert e['connecting_matrix_columns_explicitly_materialized']==0 and not e['middle_gersten_module_action_materialized'] and not e['absolute_delta_loc_computed'] and not e['project_14x26_L_squareclass_tensor_materialized'] and not e['arithmetic_HS_closed']
           assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['theorem_credit'] and not x['endpoint_credit']
-          print('STAGE33_07_FINITE_SWAP_NATURALITY_ENVELOPE=PASS_EXACT')
-          print('CANDIDATE_PAIRS='+str(f['candidate_pair_count']))
-          print('REMAINING_HIST='+json.dumps(n['remaining_dimension_histogram'],sort_keys=True))
-          print('UNIQUE_ROWSPACES='+str(n['unique_constraint_rowspace_count']))
-          print('ROBUST_ZERO='+str(n['finite_v4_delta_loc_forced_zero_for_every_admissible_candidate']).lower())
+          print('STAGE33_07_FINITE_SWAP_NATURALITY_NONZERO_WITNESS=PASS_EXACT')
+          print('EXPLICIT_ADMISSIBLE_COUNTEREXAMPLES=1')
+          print('REMAINING_DIMENSION='+str(n['remaining_dimension_f2']))
+          print('ROBUST_ZERO=false')
           print('CERT_SHA256='+h);print('NEXT='+x['next_exact_leaf'])
           PY
       - uses: actions/upload-artifact@v4
         with:
-          name: stage33-07-finite-swap-naturality-envelope
-          retention-days: 5
+          name: stage33-07-finite-swap-naturality-nonzero-witness
+          retention-days: 3
           if-no-files-found: error
-          path: stages/stage33/33-07/finite-swap-candidate-naturality-envelope.json
+          path: stages/stage33/33-07/finite-swap-naturality-nonzero-witness.json

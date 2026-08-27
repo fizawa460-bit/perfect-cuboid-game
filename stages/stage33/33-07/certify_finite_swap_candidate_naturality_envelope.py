@@ -23,6 +23,7 @@ that identification unique.
 """
 import hashlib
 import json
+import os
 import runpy
 from collections import Counter
 from pathlib import Path
@@ -31,11 +32,17 @@ import z3
 
 HERE = Path(__file__).resolve().parent
 SIGN_SCRIPT = HERE / "certify_retained_geometric_sign_intertwiner_space.py"
+QUADRATIC_PATH = HERE / "retained-q256-geometric-sign-quadratic.json"
 OUT = HERE / "finite-swap-candidate-naturality-envelope.json"
+COUNTEREXAMPLE_OUT = HERE / "finite-swap-naturality-nonzero-witness.json"
 QDIM = 26
 H1DIM = 16
 N = 14
 MAX_MODELS = 4096
+MODE = os.environ.get("STAGE33_FINITE_SWAP_MODE", "envelope")
+if MODE not in ("envelope", "counterexample"):
+    raise SystemExit(f"unknown finite swap mode: {MODE}")
+EXPECTED_QUADRATIC = "5fa065e1781da27f92983749cd782635839251e93b191e7ee4e6063f1fb3843c"
 
 
 def canonical_sha256(obj):
@@ -178,9 +185,19 @@ for X in (X12, X13):
         for j in range(N):
             solver.add(mul_entry(X, X, i, j) == z3.BoolVal(i == j))
 
-# Restriction of the retained finite quadratic form to A_T[2].  It takes only
-# values 0 or 1 after dividing its numerator by 8.  Build its polar form.
-b8 = [[int(x) for x in row] for row in signs["discriminant_bilinear_numerator_over_8_reduced"]]
+# Restriction of the retained finite quadratic form to A_T[2].  The retained
+# sign endpoint intentionally carries only actions, so source-lock the actual
+# bilinear numerator from the canonical Picard-discriminant certificate.
+quadratic = json.loads(QUADRATIC_PATH.read_text(encoding="utf-8"))
+quadratic_body = dict(quadratic)
+quadratic_claimed = quadratic_body.pop("canonical_sha256", None)
+if quadratic_claimed != EXPECTED_QUADRATIC or canonical_sha256(quadratic_body) != EXPECTED_QUADRATIC:
+    raise SystemExit("retained finite quadratic-form lock moved")
+if [int(x) for x in quadratic["discriminant_moduli"]] != [int(x) for x in mods]:
+    raise SystemExit("sign-action and quadratic-form mixed-modulus bases diverged")
+b8 = [[int(x) for x in row] for row in quadratic["discriminant_bilinear_numerator_over_8_reduced"]]
+if len(b8) != N or any(len(row) != N for row in b8):
+    raise SystemExit("retained quadratic-form shape regression")
 scales = [int(m) // 2 for m in mods]
 
 
@@ -410,6 +427,103 @@ for model_index in range(MAX_MODELS + 1):
     rk = rank_bitmasks(rows)
     rem = QDIM * H1DIM - rk
     rsha = rowspace_sha256(rows)
+    if MODE == "counterexample":
+        null_basis = null_basis_masks(rows, QDIM * H1DIM)
+        if len(null_basis) != rem or not null_basis:
+            raise SystemExit("nonzero naturality-kernel witness dimension regression")
+        witness = int(null_basis[0])
+        if witness == 0 or any((int(row) & witness).bit_count() & 1 for row in rows):
+            raise SystemExit("nonzero naturality witness verification failed")
+
+        def rowints(M):
+            return [sum((int(bit) & 1) << j for j, bit in enumerate(row)) for row in M]
+
+        def check_candidate(M, perm, name):
+            if matmul2(M, M) != eye(N):
+                raise SystemExit(f"{name}: concrete involution check failed")
+            if matmul2(M, A_cc) != matmul2(A_cc, M) or matmul2(M, A_ct) != matmul2(A_ct, M):
+                raise SystemExit(f"{name}: concrete V4 centralizer check failed")
+            for sign_index in range(7):
+                if matmul2(M, A_signs[sign_index]) != matmul2(A_signs[perm[sign_index]], M):
+                    raise SystemExit(f"{name}: concrete sign-conjugacy check failed")
+            masks = rowints(M)
+            for i in range(N):
+                if q2_bits(masks[i]) != qdiag[i]:
+                    raise SystemExit(f"{name}: concrete quadratic diagonal check failed")
+                for j in range(N):
+                    image_polar = q2_bits(masks[i] ^ masks[j]) ^ q2_bits(masks[i]) ^ q2_bits(masks[j])
+                    if image_polar != polar[i][j]:
+                        raise SystemExit(f"{name}: concrete quadratic polar check failed")
+
+        check_candidate(M12, perm12, "swap12")
+        check_candidate(M13, perm13, "swap13")
+        if matmul2(matmul2(M12, M13), M12) != matmul2(matmul2(M13, M12), M13):
+            raise SystemExit("concrete A_T[2] S3 braid check failed")
+        counterexample = {
+            "schema": "STAGE33_07_FINITE_SWAP_NATURALITY_NONZERO_WITNESS_V1",
+            "source_locks": {
+                "retained_finite_quadratic_form_sha256": EXPECTED_QUADRATIC,
+                "retained_geometric_sign_endpoint_sha256": ns["EXPECTED_SIGN"],
+            },
+            "execution": {
+                "remote_cas_used": False,
+                "z3_exact_boolean_solver_used": True,
+                "full_candidate_enumeration_attempted": False,
+                "one_counterexample_suffices_to_refute_robust_zero": True,
+            },
+            "admissible_finite_swap_candidate": {
+                "swap12_A_T2_action_rows_as_bitints": rowints(M12),
+                "swap13_A_T2_action_rows_as_bitints": rowints(M13),
+                "swap12_H1_action_rows_as_bitints": rowints(h12),
+                "swap13_H1_action_rows_as_bitints": rowints(h13),
+                "necessary_conditions_verified": [
+                    "commute_with_cc_ct",
+                    "conjugate_seven_coordinate_signs_by_coordinate_permutation",
+                    "preserve_restricted_finite_quadratic_form",
+                    "each_swap_involution",
+                    "S3_braid_relation",
+                ],
+                "identified_with_actual_integral_picard_swap": False,
+            },
+            "nonzero_naturality_witness": {
+                "ambient_matrix_shape": [QDIM, H1DIM],
+                "ambient_matrix_space_dimension_f2": QDIM * H1DIM,
+                "constraint_rank_f2": rk,
+                "remaining_dimension_f2": rem,
+                "matrix_rows_as_bitints": [(witness >> (i * H1DIM)) & ((1 << H1DIM) - 1) for i in range(QDIM)],
+                "nonzero": True,
+                "annihilated_by_all_seven_sign_and_two_swap_naturality_rows": True,
+                "constraint_rowspace_sha256": rsha,
+            },
+            "exact_consequence": {
+                "robust_zero_over_every_admissible_finite_swap_candidate": False,
+                "finite_candidate_envelope_alone_cannot_force_actual_delta_loc_zero": True,
+                "actual_geometric_swap_pair_identified": False,
+                "all_26_source_columns_treated_uniformly": True,
+                "connecting_matrix_columns_explicitly_materialized": 0,
+                "middle_gersten_module_action_materialized": False,
+                "absolute_delta_loc_computed": False,
+                "project_14x26_L_squareclass_tensor_materialized": False,
+                "arithmetic_HS_closed": False,
+            },
+            "next_exact_leaf": "L33-07-MATERIALIZE-MIDDLE-GERSTEN-EXTENSION-DATA-OR-AN-INTEGRAL-SWAP-DISTINGUISHER",
+            "stage33_progress": "6/11",
+            "stage33_08_released": False,
+            "theorem_credit": False,
+            "endpoint_credit": False,
+            "perfect_cuboid_nonexistence_claim": False,
+        }
+        counterexample["canonical_sha256"] = canonical_sha256(counterexample)
+        COUNTEREXAMPLE_OUT.write_text(json.dumps(counterexample, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        print(json.dumps({
+            "success": True,
+            "explicit_admissible_counterexamples": 1,
+            "remaining_dimension_f2": rem,
+            "robust_zero": False,
+            "certificate_sha256": counterexample["canonical_sha256"],
+            "next": counterexample["next_exact_leaf"],
+        }, indent=2, sort_keys=True))
+        raise SystemExit(0)
     dimension_counter[rem] += 1
     rowspace_counter[rsha] += 1
     candidate_records.append({
@@ -441,6 +555,10 @@ rowspace_independent = unique_rowspaces == 1
 
 cert = {
     "schema": "STAGE33_07_FINITE_SWAP_CANDIDATE_NATURALITY_ENVELOPE_V1",
+    "source_locks": {
+        "retained_finite_quadratic_form_sha256": EXPECTED_QUADRATIC,
+        "retained_geometric_sign_endpoint_sha256": ns["EXPECTED_SIGN"],
+    },
     "execution": {
         "remote_cas_used": False,
         "z3_exact_boolean_solver_used": True,
