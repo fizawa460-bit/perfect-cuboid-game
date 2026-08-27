@@ -41,7 +41,11 @@ jobs:
           s=p.read_text()
           old='SmithForm(pmPic : Optimize := false)'
           assert s.count(old)==1
-          p.write_text(s.replace(old,'SmithForm(pmPic)'))
+          s=s.replace(old,'SmithForm(pmPic)')
+          old2='  assert IsIntegral(B);\n'
+          assert s.count(old2)==1
+          s=s.replace(old2,'')
+          p.write_text(s)
           PY
       - name: Compute Q-automorphism intertwiner space
         working-directory: stages/stage33/33-07
