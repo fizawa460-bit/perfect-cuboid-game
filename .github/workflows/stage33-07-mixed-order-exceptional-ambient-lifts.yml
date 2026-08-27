@@ -3,7 +3,9 @@ name: Stage33-07 mixed-order exceptional ambient lifts
 on:
   pull_request:
     paths:
+      - 'stages/stage33/33-07/materialize_mixed_order_side_ambient_function_lifts.py'
       - 'stages/stage33/33-07/materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py'
+      - 'stages/stage33/33-07/record_mixed_order_ambient_boundary_progress.py'
       - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
       - 'stages/stage33/33-07/certify_exceptional_p1_tangent_coordinates.py'
       - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
@@ -11,11 +13,13 @@ on:
       - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
       - 'stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json'
       - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - 'stages/stage33/33-07/handoff.json'
+      - 'stages/stage33/33-07/result.md'
       - '.github/workflows/stage33-07-mixed-order-exceptional-ambient-lifts.yml'
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   certify:
@@ -23,6 +27,9 @@ jobs:
     timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -31,9 +38,15 @@ jobs:
       - name: Reproduce full mixed-order Bockstein certificate
         working-directory: stages/stage33/33-07
         run: python certify_order2_quotient_raw_order4_bockstein.py
+      - name: Reproduce side ambient rational-function lifts
+        working-directory: stages/stage33/33-07
+        run: python materialize_mixed_order_side_ambient_function_lifts.py
       - name: Materialize exceptional ambient tangent rational-function lifts
         working-directory: stages/stage33/33-07
         run: python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
+      - name: Record all-72 ambient boundary progress
+        working-directory: stages/stage33/33-07
+        run: python record_mixed_order_ambient_boundary_progress.py
       - name: Validate conservative exceptional progress
         working-directory: stages/stage33/33-07
         run: |
@@ -47,26 +60,47 @@ jobs:
           assert x['counts']['source_count']==26
           assert x['counts']['exceptional_component_count']==48
           assert len(x['exceptional_ambient_projection_models'])==48
-          assert x['counts']['nontrivial_source_exceptional_function_count']>0
+          assert x['counts']['nontrivial_source_exceptional_function_count']==120
           assert all(x['exact_checks'].values())
           prog=x['constructive_progress']
-          assert prog['physical_side_component_functions_have_ambient_surface_rational_lifts']
-          assert prog['exceptional_component_functions_have_ambient_blowup_rational_lifts']
           assert prog['all_72_boundary_component_function_packages_have_explicit_ambient_or_blowup_rational_lifts']
           assert prog['global_geometric_Gersten_lifts_materialized_count']==0
           assert prog['global_geometric_Gersten_lifts_required_count']==26
           assert prog['off_boundary_codimension1_residue_certificates_materialized_count']==0
           assert not prog['project_14x26_L_squareclass_tensor_materialized']
           assert not prog['absolute_delta_loc_computed'] and not prog['arithmetic_HS_closed']
-          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          hand=json.load(open('handoff.json'))
+          assert hand['schema']=='STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V10_ALL72_AMBIENT_BOUNDARY_GLOBAL_GERSTEN_GAP'
+          assert hand['repair_exact_reduction']['all_72_boundary_component_function_packages_ambientized']
+          assert hand['repair_exact_reduction']['global_geometric_Gersten_lifts_materialized']==0
+          assert hand['repair_exact_reduction']['off_boundary_codimension1_residue_certificates_materialized']==0
+          assert hand['next_item']==x['next_exact_leaf']
+          assert hand['stage33_progress']=='6/11' and not hand['stage33_08_released']
           print('STAGE33_07_EXCEPTIONAL_AMBIENT_TANGENT_LIFTS=PASS')
           print('CERTIFICATE_SHA256='+h)
-          print('EXCEPTIONAL_FUNCTION_LIFTS='+str(x['counts']['nontrivial_source_exceptional_function_count']))
+          print('ALL_72_BOUNDARY_PACKAGES_AMBIENTIZED=true')
+          print('GLOBAL_GERSTEN_LIFTS=0/26')
           print('NEXT='+x['next_exact_leaf'])
           PY
+      - name: Retain V10 handoff and result on PR branch
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add stages/stage33/33-07/handoff.json stages/stage33/33-07/result.md
+          if git diff --cached --quiet; then
+            echo 'V10 handoff/result already current'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Stage33-07 retain all-72 ambient boundary handoff'
+          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
       - name: Upload exceptional ambient tangent lift atlas
         uses: actions/upload-artifact@v4
         with:
           name: stage33-07-mixed-order-exceptional-ambient-lifts
           retention-days: 3
-          path: stages/stage33/33-07/mixed-order-exceptional-ambient-tangent-function-lifts.json
+          path: |
+            stages/stage33/33-07/mixed-order-side-ambient-function-lifts.json
+            stages/stage33/33-07/mixed-order-exceptional-ambient-tangent-function-lifts.json
