@@ -13,7 +13,7 @@ n = json.loads(NORMAL.read_text(encoding="utf-8"))
 c = json.loads(COMPACT.read_text(encoding="utf-8"))
 h = json.loads(HANDOFF.read_text(encoding="utf-8"))
 
-h["schema"] = "STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V8_ORDER4_GERSTEN_GALOIS_GAP"
+h["schema"] = "STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V9_MIXED_ORDER_GLOBAL_GERSTEN_GAP"
 h["smallest_current_exact_kernel"] = n["new_smallest_exact_kernel"]
 h["retained_exact_prefix"]["mixed_order2_order4_boundary_first_residue_models_exact"] = True
 h["retained_exact_prefix"]["quotient_to_raw_bockstein_extension_normal_form_exact"] = True
@@ -26,6 +26,8 @@ h["repair_exact_reduction"].update({
     "quotient_to_raw_extension_exact_group": "(Z/4)^9 direct_sum (Z/2)^52",
     "quotient_to_raw_extension_group_order_log2": 70,
     "quotient_to_raw_bockstein_normal_form_closed": True,
+    "global_geometric_Gersten_lifts_materialized": 0,
+    "global_geometric_Gersten_lifts_required": 26,
 })
 h["order4_bockstein_evidence"] = {
     "producer": "certify_order2_quotient_raw_order4_bockstein.py",
@@ -40,15 +42,14 @@ h["order4_bockstein_evidence"] = {
     "bockstein_image_rank_f2": 9,
     "complex_conjugation_on_nine_z4_factors": "inversion",
     "actions_validation": "PASS",
-    "workflow_run": 33053103175,
-    "artifact_id": 9638435613,
-    "artifact_zip_sha256": "41fedee71af49168b05112113c6193e55922967cdfceb950b0c9c66facf3ddd3",
 }
 h["order2_localization_missing_exact_inputs"].update({
     "nine_quotient_order2_sources_lifted_to_raw_order2_residues": False,
     "nine_quotient_order2_sources_materialized_as_raw_order4_first_residue_functions": True,
     "quotient_to_raw_bockstein_extension_normal_form_closed": True,
-    "global_geometric_Gersten_lifts_for_nine_order4_sources": False,
+    "global_geometric_Gersten_lifts_for_17_order2_sources": False,
+    "global_geometric_Gersten_lifts_for_9_order4_sources": False,
+    "global_geometric_Gersten_lifts_for_all_26_sources": False,
     "cc_action_on_chosen_global_geometric_lifts": False,
     "ct_action_on_chosen_global_geometric_lifts": False,
     "global_lift_differences_in_proper_br2_coordinates": False,
@@ -66,9 +67,9 @@ section = f"""
 
 The nine quotient-order-two directions that failed the raw order-two test in
 PR #1414 have now been retained at their correct raw order four rather than
-being forced into Kummer squareclasses.  Exact mod-4 divisor checks on all 72
+being forced into Kummer squareclasses. Exact mod-4 divisor checks on all 72
 boundary P1 components produce deterministic order-four first-residue function
-models for all nine directions.  Together with the 17 retained raw-order-two
+models for all nine directions. Together with the 17 retained raw-order-two
 models, all 26 boundary first-residue directions are therefore materialized in
 mixed order `17 x order2 + 9 x order4` form.
 
@@ -86,11 +87,8 @@ COMPLEX_CONJUGATION_ON_EACH_ORDER4_FACTOR=inversion
 FULL_ORDER4_BOCKSTEIN_CERTIFICATE_SHA256={c['full_certificate_sha256']}
 COMPACT_ORDER4_BOCKSTEIN_CERTIFICATE_SHA256={c['canonical_sha256']}
 RAW_EXTENSION_NORMAL_FORM_CERTIFICATE_SHA256={n['canonical_sha256']}
-ORDER4_BOCKSTEIN_WORKFLOW_RUN=33053103175
-ORDER4_BOCKSTEIN_ARTIFACT_ID=9638435613
-ORDER4_BOCKSTEIN_ARTIFACT_ZIP_SHA256=41fedee71af49168b05112113c6193e55922967cdfceb950b0c9c66facf3ddd3
 QUOTIENT_TO_RAW_BOCKSTEIN_NORMAL_FORM_CLOSED=true
-GLOBAL_GEOMETRIC_GERSTEN_LIFTS_MATERIALIZED=false
+GLOBAL_GEOMETRIC_GERSTEN_LIFTS_MATERIALIZED=0/26
 PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
 ABSOLUTE_DELTA_LOC_COMPUTED=false
 ARITHMETIC_HS_CLOSED=false
@@ -98,16 +96,17 @@ STAGE33_PROGRESS_EFFECTIVE=6/11
 STAGE33_08_RELEASED=false
 ```
 
-This closes the finite quotient-to-raw Bockstein structure itself.  The next
-smallest exact kernel is no longer the 9-dimensional raw extension problem:
+This closes the finite quotient-to-raw Bockstein structure itself. It does not
+close the global residue-lift problem: the 17 order-two boundary packages and
+the 9 order-four boundary packages all still need genuine global geometric
+Gersten lifts before their Galois differences can be computed. The corrected
+smallest exact kernel is therefore
 
 ```text
 {n['new_smallest_exact_kernel']}
 ```
 
-The next leaf must construct genuine global geometric Gersten lifts for the
-nine order-four boundary functions and compute their Galois differences.  No
-finite boundary calculation is promoted to a global Q-defined lift here.
+No finite boundary calculation is promoted to a global Q-defined lift here.
 """
 
 text = RESULT.read_text(encoding="utf-8")
@@ -122,5 +121,6 @@ print(json.dumps({
     "success": True,
     "smallest_current_exact_kernel": h["smallest_current_exact_kernel"],
     "next_item": h["next_item"],
+    "global_geometric_Gersten_lifts": "0/26",
     "stage33_progress": h["stage33_progress"],
 }, indent=2, sort_keys=True))
