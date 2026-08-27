@@ -5,10 +5,13 @@ on:
     paths:
       - 'stages/stage33/33-07/certify_mixed_order_global_gersten_lift_contract.py'
       - 'stages/stage33/33-07/certify_order2_gl_restriction_squareclass_contract.py'
+      - 'stages/stage33/33-07/materialize_order2_localization_receiver.py'
+      - 'stages/stage33/33-07/certify_order2_absolute_h1_inflation_restriction.py'
+      - 'stages/stage33/33-07/materialize_order2_absolute_localization_receiver.py'
       - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
       - 'stages/stage33/33-07/order2-raw-extension-normal-form.json'
-      - 'stages/stage33/33-07/order2-absolute-localization-receiver.json'
-      - 'stages/stage33/33-07/order2-localization-receiver.json'
+      - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - 'stages/stage33/33-07/picard-discriminant-compact.json'
       - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
       - '.github/workflows/stage33-07-mixed-order-global-gersten-contract.yml'
   workflow_dispatch:
@@ -25,6 +28,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Reproduce finite localization receiver from retained sources
+        working-directory: stages/stage33/33-07
+        run: python materialize_order2_localization_receiver.py
+      - name: Reproduce absolute H1 inflation-restriction receiver
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_absolute_h1_inflation_restriction.py
+      - name: Reproduce absolute localization receiver
+        working-directory: stages/stage33/33-07
+        run: python materialize_order2_absolute_localization_receiver.py
       - name: Reproduce GL squareclass shape contract
         working-directory: stages/stage33/33-07
         run: python certify_order2_gl_restriction_squareclass_contract.py
