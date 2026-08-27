@@ -1,0 +1,54 @@
+name: Stage33-07 actual coordinate-swap A2 actions
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage33/33-07/certify_two_coordinate_swap_picard_rows.py'
+      - 'stages/stage33/33-07/certify_actual_coordinate_swap_at2_actions.py'
+      - 'stages/stage33/33-07/stage32_picard_marking_retained.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - '.github/workflows/stage33-07-actual-coordinate-swap-at2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Descend actual integral Picard swaps to intrinsic discriminant two-torsion
+        run: python certify_actual_coordinate_swap_at2_actions.py
+      - name: Enforce exact intrinsic A2 identification and firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='actual-coordinate-swap-at2-actions.json';x=json.load(open(p));h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_07_ACTUAL_COORDINATE_SWAP_AT2_ACTIONS_V1'
+          a=x['intrinsic_discriminant_two_torsion'];assert a['dimension_f2']==14 and len(a['kernel_basis_rows_as_bitints_in_indlist_picard_basis'])==14
+          s=x['actual_coordinate_swaps'];assert s['identified_with_actual_integral_picard_swaps'] and s['s3_relations_exact'] and s['seven_coordinate_sign_conjugations_exact'] and s['quadratic_form_preserved']
+          assert len(x['all_nine_source_locked_geometric_at2_actions_14x14'])==9
+          assert len(x['seven_coordinate_sign_at2_actions_14x14'])==7
+          ex=x['execution'];assert not ex['smith_form_used'] and not ex['remote_cas_used']
+          e=x['exact_consequence'];assert e['actual_geometric_swap_pair_identified_intrinsically_on_at2'] and e['previous_finite_candidate_envelope_no_longer_needed_to_identify_swap_pair']
+          assert e['retained_smith_basis_transport_not_yet_materialized'] and e['connecting_matrix_columns_explicitly_materialized']==0 and not e['middle_gersten_module_action_materialized'] and not e['absolute_delta_loc_computed'] and not e['arithmetic_hs_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released'] and not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_07_ACTUAL_COORDINATE_SWAP_AT2_ACTIONS=PASS_EXACT_LOCAL')
+          print('CERTIFICATE_SHA256='+h)
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-actual-coordinate-swap-at2-actions
+          retention-days: 7
+          if-no-files-found: error
+          path: stages/stage33/33-07/actual-coordinate-swap-at2-actions.json
