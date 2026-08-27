@@ -1,0 +1,62 @@
+name: Stage33-07 order2 localization receiver
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/materialize_order2_localization_receiver.py'
+      - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
+      - '.github/workflows/stage33-07-order2-localization-receiver.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-receiver:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Materialize exact order2 source and finite V4 H1 receiver
+        working-directory: stages/stage33/33-07
+        run: python materialize_order2_localization_receiver.py
+      - name: Validate dimensions and promotion firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          p='order2-localization-receiver.json'
+          x=json.load(open(p))
+          h=x.pop('canonical_sha256')
+          actual=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert h==actual
+          assert x['finite_source_order2_dimension_f2']==26
+          assert x['finite_receiver_Z1_dimension_f2']==20
+          assert x['finite_receiver_B1_dimension_f2']==4
+          assert x['finite_receiver_H1_dimension_f2']==16
+          assert len(x['finite_source_basis'])==26
+          assert len(x['finite_receiver_H1_quotient_representatives_f2_28'])==16
+          assert not x['localization_extension_class_computed']
+          assert not x['localization_connecting_map_delta_loc_evaluated']
+          assert not x['absolute_H1_identified_with_finite_V4_H1']
+          assert not x['boundary_residual_promoted_to_global_q_classes']
+          assert not x['constant_cokernel_HS_d2_computed']
+          assert not x['actual_index512_k3_glue_identified']
+          assert not x['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11'
+          assert not x['stage33_08_released']
+          print('ORDER2_LOCALIZATION_RECEIVER=PASS')
+          print('SOURCE_A2_DIM=26')
+          print('FINITE_V4_H1_DIM=16')
+          print('DELTA_LOC_COMPUTED=False')
+          PY
+      - name: Upload compact exact receiver certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-order2-localization-receiver
+          retention-days: 3
+          path: stages/stage33/33-07/order2-localization-receiver.json
