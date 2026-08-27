@@ -21,10 +21,22 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
   certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -82,20 +94,6 @@ jobs:
           print('ALL_72_BOUNDARY_PACKAGES_AMBIENTIZED=true')
           print('AUTHORITATIVE_HANDOFF_SCHEMA='+hand['schema'])
           PY
-      - name: Retain historical V10 handoff/result only when recorder changed them
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        shell: bash
-        run: |
-          set -euo pipefail
-          git add stages/stage33/33-07/handoff.json stages/stage33/33-07/result.md
-          if git diff --cached --quiet; then
-            echo 'Historical recorder made no authoritative handoff change'
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'Stage33-07 retain all-72 ambient boundary handoff'
-          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
       - name: Upload exceptional ambient tangent lift atlas
         uses: actions/upload-artifact@v4
         with:

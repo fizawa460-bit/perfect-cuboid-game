@@ -17,7 +17,19 @@ permissions:
   contents: read
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
   certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:

@@ -16,10 +16,22 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
   certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
@@ -68,20 +80,6 @@ jobs:
           print('HANDOFF_SCHEMA='+hand['schema'])
           print('NEXT='+x['next_exact_leaf'])
           PY
-      - name: Retain V11 handoff and result on PR branch
-        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-        shell: bash
-        run: |
-          set -euo pipefail
-          git add stages/stage33/33-07/handoff.json stages/stage33/33-07/result.md
-          if git diff --cached --quiet; then
-            echo 'V11 handoff/result already current'
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'Stage33-07 retain Gersten existence V11 handoff'
-          git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
       - uses: actions/upload-artifact@v4
         with:
           name: stage33-07-gersten-lift-existence-by-purity
