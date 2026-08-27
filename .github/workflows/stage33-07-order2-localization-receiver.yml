@@ -4,8 +4,11 @@ on:
   pull_request:
     paths:
       - 'stages/stage33/33-07/materialize_order2_localization_receiver.py'
+      - 'stages/stage33/33-07/certify_order2_localization_extension_input_gap.py'
       - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
       - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
+      - 'stages/stage33/33-07/arithmetic-hs-descent-problem.json'
+      - 'stages/stage33/33-08/audit-state.json'
       - '.github/workflows/stage33-07-order2-localization-receiver.yml'
   workflow_dispatch:
 
@@ -54,9 +57,44 @@ jobs:
           print('FINITE_V4_H1_DIM=16')
           print('DELTA_LOC_COMPUTED=False')
           PY
-      - name: Upload compact exact receiver certificate
+      - name: Isolate exact localization extension-cocycle input gap
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_localization_extension_input_gap.py
+      - name: Validate extension gap contract and firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          x=json.load(open('order2-localization-extension-input-gap.json'))
+          h=x.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()==h
+          assert x['exact_known_endpoints']['source_order2_dimension_f2']==26
+          assert x['exact_known_endpoints']['finite_V4_H1_dimension_f2']==16
+          assert x['connecting_map_contract']['matrix_shape_when_computable']==[16,26]
+          miss=x['missing_exact_inputs']
+          assert not miss['chosen_geometric_lift_for_each_A2_source']
+          assert not miss['cc_action_on_each_chosen_geometric_lift']
+          assert not miss['ct_action_on_each_chosen_geometric_lift']
+          assert not miss['lift_differences_identified_in_proper_Br2_f2_14_coordinates']
+          assert not miss['full_arithmetic_extension_action_proved_to_factor_through_this_V4']
+          assert not x['finite_V4_delta_loc_matrix_computed']
+          assert not x['absolute_delta_loc_computed']
+          assert not x['absolute_H1_identified_with_finite_V4_H1']
+          assert not x['boundary_residual_promoted_to_global_q_classes']
+          assert not x['constant_cokernel_HS_d2_computed']
+          assert not x['actual_index512_k3_glue_identified']
+          assert not x['arithmetic_HS_closed']
+          assert x['new_smallest_exact_kernel']=='R33-BR2A-ORDER2-GEOMETRIC-LIFT-EXTENSION-COCYCLE'
+          assert x['stage33_progress']=='6/11'
+          print('ORDER2_LOCALIZATION_EXTENSION_GAP=PASS')
+          print('MATRIX_SHAPE_IF_COMPUTABLE=16x26')
+          print('NEW_KERNEL=R33-BR2A-ORDER2-GEOMETRIC-LIFT-EXTENSION-COCYCLE')
+          PY
+      - name: Upload compact exact receiver and gap certificates
         uses: actions/upload-artifact@v4
         with:
           name: stage33-07-order2-localization-receiver
           retention-days: 3
-          path: stages/stage33/33-07/order2-localization-receiver.json
+          path: |
+            stages/stage33/33-07/order2-localization-receiver.json
+            stages/stage33/33-07/order2-localization-extension-input-gap.json
