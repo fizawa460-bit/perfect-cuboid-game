@@ -37,12 +37,13 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import textwrap
           p=Path('certify_q_automorphism_intertwiner_space_for_delta_loc.py')
           s=p.read_text()
           start='_, core, upstream_blob, source_attempt = load_pinned_source()\nextra = r\'\'\''
           a=s.index(start)
           b=s.index('stdout, magma_attempt = run_magma(\n',a)
-          replacement=r'''full_source, core, upstream_blob, source_attempt = load_pinned_source()
+          replacement=r"""full_source, core, upstream_blob, source_attempt = load_pinned_source()
           auto_start = full_source.index("// The automorphism group (see Proposition 4)")
           auto_end = full_source.index("// Automorphisms + Galois on Pic/2*Pic", auto_start)
           auto_block = full_source[auto_start:auto_end]
@@ -102,9 +103,7 @@ jobs:
           printf "STAGE33_Q_AUTOMORPHISM_DONE\n";
           '''
           code = "SetColumns(0);\nquick := true;\n" + core + "\n" + auto_block + "\n" + tail
-          '''
-          # Dedent the injected Python because this replacement literal is indented in this helper.
-          import textwrap
+          """
           replacement=textwrap.dedent(replacement)
           p.write_text(s[:a]+replacement+s[b:])
           PY
