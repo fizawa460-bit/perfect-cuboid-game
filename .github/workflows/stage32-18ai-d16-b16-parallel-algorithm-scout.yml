@@ -69,6 +69,7 @@ jobs:
           rc=$?; set -e
           STATUS=COMPLETE
           if [ "$rc" -ne 0 ]; then if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then STATUS=RESOURCE_WALL_NODE_CAP; elif [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ] || [ "$rc" -eq 143 ]; then STATUS=RESOURCE_WALL_WALLCLOCK; else STATUS=UNEXPECTED_FAILURE; fi; fi
+          export STATUS
           python - <<'PY'
           import json,os,pathlib
           r=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'; cert={}
