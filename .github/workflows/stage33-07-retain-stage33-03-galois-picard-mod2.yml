@@ -1,0 +1,52 @@
+name: Stage33-07 retain Stage33-03 Galois Picard mod2
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/stage33-07-retain-stage33-03-galois-picard-mod2.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  retain:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce only the pinned Stage33-03 cc/ct Picard mod2 action
+        working-directory: stages/stage33/33-03
+        run: |
+          for attempt in 1 2 3; do
+            if python extract_galois_action.py; then exit 0; fi
+            echo "Stage33-03 Galois extractor attempt ${attempt} incomplete"
+            if [ "$attempt" -lt 3 ]; then sleep $((attempt * 5)); fi
+          done
+          exit 1
+      - name: Validate source lock and compressed action shape
+        working-directory: stages/stage33/33-03
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='galois-action-raw.json'; x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['schema']=='STAGE33_03_RAW_V4_ACTION_COMPRESSED_V2'
+          assert x['source_lock']['upstream_git_blob_sha1']=='0422b69847f2afb97cb7b3ed02ebef91279f61b1'
+          assert len(x['picard_cc_matrix_mod2'])==64 and all(len(r)==64 for r in x['picard_cc_matrix_mod2'])
+          assert len(x['picard_ct_matrix_mod2'])==64 and all(len(r)==64 for r in x['picard_ct_matrix_mod2'])
+          assert len(x['boundary_perm_cc_1based'])==72 and len(x['boundary_perm_ct_1based'])==72
+          print('STAGE33_07_RETAIN_STAGE33_03_GALOIS_PICARD_MOD2=PASS_EXACT')
+          print('CERT_SHA256='+h)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-retained-stage33-03-galois-picard-mod2
+          retention-days: 5
+          if-no-files-found: error
+          path: |
+            stages/stage33/33-03/galois-action-raw.json
+            stages/stage33/33-03/galois-request-summary.json
