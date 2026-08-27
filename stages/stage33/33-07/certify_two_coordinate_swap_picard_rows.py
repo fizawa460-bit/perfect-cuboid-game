@@ -1,21 +1,18 @@
 #!/usr/bin/env python3
 """Recover the two Q-defined coordinate-swap Picard actions over Z, locally.
 
-This certifier uses only two non-expiring retained packets already locked in
-Stage33-07:
+The Stage32 retained packet contains, for each of 140 known divisor classes,
+its pairing with the hyperplane H and its 63 pairings with an exact basis of
+H^perp. It also contains q = -Gram(H^perp), made positive definite there.
 
-* the Stage32 H-perp pairing marking plus the nine source-locked geometric
-  permutations; and
-* the independently retained Picard Gram matrix.
-
-The upstream primitive ``indlist`` classes are a Z-basis of Pic. Their
-64 pairing vectors (H-pairing plus 63 H-perp pairings) therefore give an
-invertible change-of-marking matrix. Inverting that matrix over Q recovers
-all 140 known classes in the actual primitive Picard basis. The first two
-geometric permutations are involutions, so their pullback/action direction
-coincides with the same permutation on these classes. The resulting 64x64
-matrices are checked on all 140 classes, against the retained Gram matrix,
-and against the hyperplane class. No remote CAS and no Smith form are used.
+The upstream INDLIST classes form a primitive Z-basis of Pic. Hence the
+64 pairing rows on INDLIST invert the marking exactly. We recover all 140
+classes in that primitive basis and reconstruct the Picard intersection form
+from the orthogonal decomposition Q*H + H^perp:
+    <u,v> = <u,H><v,H>/16 - lin(u) q^{-1} lin(v)^T.
+This avoids identifying the retained H-perp marking with any unrelated
+64-coordinate Gram basis. The first two geometric permutations are
+involutions, so action/pullback direction agrees on those generators.
 """
 from __future__ import annotations
 
@@ -109,7 +106,7 @@ def invert_matrix(a: list[list[int]]) -> list[list[Fraction]]:
     for col in range(n):
         pivot = next((r for r in range(col, n) if m[r][col]), None)
         if pivot is None:
-            raise SystemExit("primitive indlist pairing marking is singular")
+            raise SystemExit("exact marking matrix is singular")
         if pivot != col:
             m[col], m[pivot] = m[pivot], m[col]
         p = m[col][col]
@@ -117,9 +114,9 @@ def invert_matrix(a: list[list[int]]) -> list[list[Fraction]]:
         for r in range(n):
             if r == col:
                 continue
-            q = m[r][col]
-            if q:
-                m[r] = [m[r][j] - q * m[col][j] for j in range(2 * n)]
+            f = m[r][col]
+            if f:
+                m[r] = [m[r][j] - f * m[col][j] for j in range(2 * n)]
     return [row[n:] for row in m]
 
 
@@ -177,9 +174,26 @@ def det_bareiss(a: list[list[int]]) -> int:
     return sign * a[-1][-1]
 
 
+def intersection_from_marking(
+    a: list[int], b: list[int], qinv: list[list[Fraction]]
+) -> Fraction:
+    # Stage32 stored q = -Gram(Hperp); H^2=16 and H is orthogonal to Hperp.
+    hpart = Fraction(a[0] * b[0], 16)
+    lin_a, lin_b = a[1:], b[1:]
+    perp = sum(
+        Fraction(lin_a[i]) * qinv[i][j] * Fraction(lin_b[j])
+        for i in range(HPERP_RANK)
+        for j in range(HPERP_RANK)
+    )
+    return hpart - perp
+
+
 def pairing(u: list[int], v: list[int], gram: list[list[int]]) -> int:
-    gv = [sum(gram[i][j] * v[j] for j in range(RANK)) for i in range(RANK)]
-    return sum(u[i] * gv[i] for i in range(RANK))
+    return sum(
+        u[i] * gram[i][j] * v[j]
+        for i in range(RANK)
+        for j in range(RANK)
+    )
 
 
 marking = load_marking()
@@ -196,7 +210,10 @@ if aut.get("schema") != "STAGE32_AUT_PERM_SOURCELOCK_V1":
 perms = aut.get("permutations_1based")
 if not isinstance(perms, list) or len(perms) != 9:
     raise SystemExit("retained Aut permutation count regression")
-if any(len(p) != KNOWN_COUNT or sorted(p) != list(range(1, KNOWN_COUNT + 1)) for p in perms):
+if any(
+    len(p) != KNOWN_COUNT or sorted(p) != list(range(1, KNOWN_COUNT + 1))
+    for p in perms
+):
     raise SystemExit("retained Aut permutation shape regression")
 
 pairing_rows = parsed["pairing_rows"]
@@ -209,25 +226,42 @@ known = [
     )
     for i, row in enumerate(pairing_rows)
 ]
-
 for k, j in enumerate(INDLIST):
     expected = [0] * RANK
     expected[k] = 1
     if known[j - 1] != expected:
         raise SystemExit(f"indlist class {j} failed primitive-basis reconstruction")
 
+# Reconstruct the intersection form in the same INDLIST basis, rather than
+# assuming an unrelated retained 64-coordinate Gram uses this marking.
+qinv = invert_matrix(parsed["q"])
+gram_f = [
+    [
+        intersection_from_marking(pairing_rows[i - 1], pairing_rows[j - 1], qinv)
+        for j in INDLIST
+    ]
+    for i in INDLIST
+]
+if any(x.denominator != 1 for row in gram_f for x in row):
+    bad = next(x for row in gram_f for x in row if x.denominator != 1)
+    raise SystemExit(f"reconstructed INDLIST Gram is not integral: {bad}")
+gram = [[int(x) for x in row] for row in gram_f]
+if gram != transpose(gram):
+    raise SystemExit("reconstructed INDLIST Gram is not symmetric")
+
 hyperplane = integral_row(
     row_times_fraction_matrix([16] + [0] * HPERP_RANK, basis_pairing_inv),
     "hyperplane",
 )
-gram = [[int(v) for v in row] for row in base["picard_gram_64x64"]]
-if len(gram) != RANK or any(len(row) != RANK for row in gram):
-    raise SystemExit("retained Picard Gram shape regression")
 if pairing(hyperplane, hyperplane, gram) != 16:
     raise SystemExit("recovered hyperplane square regression")
 for i in range(KNOWN_COUNT):
     if pairing(known[i], hyperplane, gram) != parsed["p0"][i]:
         raise SystemExit(f"recovered degree/H-pairing mismatch at class {i+1}")
+
+gram_det = det_bareiss(gram)
+if gram_det == 0:
+    raise SystemExit("reconstructed Picard Gram is singular")
 
 I = [[1 if i == j else 0 for j in range(RANK)] for i in range(RANK)]
 actions = []
@@ -240,9 +274,6 @@ for mode, label, idx in MODES:
         raise SystemExit(f"{mode} geometric permutation is not involutive")
 
     action = [known[perm[j - 1] - 1] for j in INDLIST]
-    if len(action) != RANK or any(len(row) != RANK for row in action):
-        raise SystemExit(f"{mode} action shape regression")
-
     for j in range(KNOWN_COUNT):
         got = row_times_matrix(known[j], action)
         want = known[perm[j] - 1]
@@ -252,7 +283,7 @@ for mode, label, idx in MODES:
     if mm(action, action) != I:
         raise SystemExit(f"{mode} Picard action is not involutive")
     if mm(mm(action, gram), transpose(action)) != gram:
-        raise SystemExit(f"{mode} Picard action does not preserve the retained Gram")
+        raise SystemExit(f"{mode} Picard action does not preserve reconstructed Gram")
     if row_times_matrix(hyperplane, action) != hyperplane:
         raise SystemExit(f"{mode} does not fix the hyperplane")
     determinant = det_bareiss(action)
@@ -279,6 +310,7 @@ for mode, label, idx in MODES:
             "primitive_indlist_basis_recovered_from_retained_hperp_pairings": True,
             "all_140_known_classes_integral": True,
             "all_140_known_classes_transport_exactly": True,
+            "picard_gram_reconstructed_from_hperp_marking": True,
             "picard_gram_preserved": True,
             "hyperplane_fixed": True,
             "determinant": determinant,
@@ -302,16 +334,16 @@ for mode, label, idx in MODES:
         json.dumps(one, indent=2, sort_keys=True) + "\n", encoding="utf-8"
     )
     actions.append(action)
-    boundaries.append(
-        {
-            "action": mode,
-            "side_permutation_1based": sidep,
-            "exceptional_permutation_1based": pointp,
-        }
-    )
-    individual.append(
-        {"action": mode, "canonical_sha256": one["canonical_sha256"], "determinant": determinant}
-    )
+    boundaries.append({
+        "action": mode,
+        "side_permutation_1based": sidep,
+        "exceptional_permutation_1based": pointp,
+    })
+    individual.append({
+        "action": mode,
+        "canonical_sha256": one["canonical_sha256"],
+        "determinant": determinant,
+    })
 
 cert = {
     "schema": "STAGE33_07_TWO_COORDINATE_SWAP_PICARD_ROWS_V2",
@@ -330,6 +362,8 @@ cert = {
         "all_140_known_classes_integral": True,
         "hyperplane_integral_and_square_16": True,
         "all_140_hyperplane_pairings_rechecked": True,
+        "intersection_form_reconstructed_from_stage32_hperp_marking": True,
+        "intersection_form_determinant": gram_det,
     },
     "coordinate_swaps": [x[1] for x in MODES],
     "picard_actions_64x64": actions,
@@ -339,14 +373,14 @@ cert = {
         "both_geometric_permutations_involutions": True,
         "both_actions_involutions": True,
         "both_actions_unimodular": True,
-        "both_actions_preserve_retained_picard_gram": True,
+        "both_actions_preserve_reconstructed_picard_gram": True,
         "both_actions_fix_hyperplane": True,
         "both_actions_transport_all_140_known_classes": True,
         "smith_form_used": False,
         "remote_cas_used": False,
     },
     "execution": {
-        "method": "stdlib exact rational marking inversion plus integer verification",
+        "method": "stdlib exact marking inversion plus H-perp intersection reconstruction",
         "remote_cas_used": False,
     },
     "stage33_progress": "6/11",
@@ -356,19 +390,14 @@ cert = {
 }
 cert["canonical_sha256"] = csha(cert)
 OUT.write_text(json.dumps(cert, indent=2, sort_keys=True) + "\n", encoding="utf-8")
-print(
-    json.dumps(
-        {
-            "success": True,
-            "swap_count": 2,
-            "all_140_classes_recovered_integrally": True,
-            "all_140_classes_transport_exactly": True,
-            "remote_cas_used": False,
-            "smith_form_used": False,
-            "individual": individual,
-            "certificate_sha256": cert["canonical_sha256"],
-        },
-        indent=2,
-        sort_keys=True,
-    )
-)
+print(json.dumps({
+    "success": True,
+    "swap_count": 2,
+    "all_140_classes_recovered_integrally": True,
+    "all_140_classes_transport_exactly": True,
+    "intersection_form_determinant": gram_det,
+    "remote_cas_used": False,
+    "smith_form_used": False,
+    "individual": individual,
+    "certificate_sha256": cert["canonical_sha256"],
+}, indent=2, sort_keys=True))
