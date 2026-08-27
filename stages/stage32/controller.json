@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V20_D16_B12_EXACT_AUDITED",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V21_D16_B12_AUDITED_B16_STOP_GUARDRAIL_ACTIVE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "children": ["R29-LG2", "R29-LG2-EFF", "R29-LG2-MB"],
   "parent_route": "G10-LOWGENUS-PICARD",
   "execution_class": 2,
-  "status": "32_01_D16_B12_EXACT_RESCUE_AWARE_AUDITED_NEXT_BOUNDED_PRODUCTION_DESIGN_D8_E20_A0_LE114186_PAUSED",
+  "status": "32_01_D16_B12_EXACT_AUDITED_B16_DEFAULT_FINAL_CALIBRATION_STOP_GUARDRAIL_ACTIVE_D8_E20_A0_LE114186_PAUSED",
   "history_compacted_to_audit_state_refs": true,
   "source_lock": {
     "upstream_repository": "MichaelStollBayreuth/Verification",
@@ -16,7 +16,25 @@
   "roadmap_audit": {
     "pr": 1339,
     "audit_state": "stages/stage32/32-00/audit-state.json",
-    "audit_verdict": "PASS_AFTER_BOUNDED_RECEIVER_SEMANTICS_REPAIR"
+    "audit_verdict": "PASS_AFTER_BOUNDED_RECEIVER_SEMANTICS_REPAIR",
+    "authority_scope": "FINITE_D_LE_176_D_LE_192_TARGET_AND_RECEIVER_SEMANTICS_ONLY"
+  },
+  "active_execution_guardrail": {
+    "contract_json": "stages/stage32/goal-and-stop-contract.json",
+    "contract_markdown": "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
+    "introduced_by_pr": 1418,
+    "authority_scope": "NEW_OPERATIONAL_B16_STOP_AND_POST_B16_FEASIBILITY_GUARDRAIL",
+    "not_claimed_audited_by_pr1339": true,
+    "controller_precedence": "STAGE32_MAIN_MUST_OBEY_THIS_GUARDRAIL_FOR_D16_CALIBRATION_SELECTION",
+    "default_final_d16_calibration_bound": 16,
+    "automatic_b18_or_higher_forbidden": true,
+    "post_b16_feasibility_gate_mandatory": true,
+    "higher_bound_exception": "ONLY_IF_POST_B16_FEASIBILITY_GATE_IDENTIFIES_ONE_NARROW_NECESSARY_MISSING_MEASUREMENT_AND_LARGER_BOUND_IS_CHEAPEST_WAY_TO_OBTAIN_IT",
+    "older_open_next_norm_wall_fields_are_constrained_by_this_guardrail": true,
+    "heavy_compute_armed_by_controller_sync": false,
+    "mathematical_credit_changed": false,
+    "receiver_credit_changed": false,
+    "audit_status": "PENDING_REAUDIT_AFTER_BOUNDED_REPAIR"
   },
   "historical_stage32_audits": [
     {"pr": 1352, "verdict": "PASS_D8_G0_E2_COMPLETE_NUMERICAL_AUT_ORBIT_SLICE"},
@@ -144,7 +162,10 @@
       "fast_traversal_global_completeness_certified": false,
       "snapshot_fast_global_completeness_certified": false,
       "production_exact_or_cross_certificate_required": true,
-      "next_norm_wall": "TO_BE_SELECTED_BY_RESOURCE_PROFILE"
+      "next_norm_wall": "B16_DEFAULT_FINAL_CALIBRATION_BOUND_PER_ACTIVE_GOAL_STOP_GUARDRAIL",
+      "default_final_calibration_bound": 16,
+      "automatic_b18_or_higher_forbidden": true,
+      "post_b16_feasibility_gate_mandatory": true
     },
     "firewall": {
       "d8_credit_preserved": true,
@@ -157,10 +178,11 @@
     }
   },
   "current_item": "32-18M-D16-POST-B12-NEXT-BOUNDED-PRODUCTION-DESIGN",
+  "current_item_execution_constraint": "CONTINUE_CURRENT_B14_B16_CALIBRATION_LINE_BUT_B16_IS_DEFAULT_FINAL_BOUND_THEN_RUN_MANDATORY_FEASIBILITY_GATE",
   "current_smaller_class2_leaf": {
     "id": "L32-18M-D16-POST-B12-NEXT-BOUNDED-PRODUCTION-DESIGN",
     "classification": 2,
-    "statement": "select the next meaningful d16 norm wall after the hostile-audited exact b12 census using resource/profile evidence; grant new numerical credit only from exact rational traversal, rigorously outward-certified pruning, or an exact cross-certificate against a complete certified traversal; do not synthesize single-run telemetry from nested rescue execution counters and do not extrapolate global fast completeness",
+    "statement": "select the next meaningful d16 norm wall after the hostile-audited exact b12 census using resource/profile evidence, subject to the active goal-and-stop guardrail that fixes b16 as the default final calibration bound and forbids automatic b18; grant new numerical credit only from exact rational traversal, rigorously outward-certified pruning, or an exact cross-certificate against a complete certified traversal; do not synthesize single-run telemetry from nested rescue execution counters and do not extrapolate global fast completeness",
     "accepted_predecessor": "STAGE32_18L_D16_B12_EXACT_RESCUE_AWARE_HOSTILE_AUDITED",
     "required_aut_group_order": 1536,
     "required_b12_canonical_survivors": 8697,
@@ -168,7 +190,9 @@
     "fast_traversal_global_completeness_certified": false,
     "snapshot_fast_global_completeness_certified": false,
     "production_exact_or_cross_certificate_required": true,
-    "resource_safe_strategy_required_before_expensive_exact_run": true
+    "resource_safe_strategy_required_before_expensive_exact_run": true,
+    "default_final_d16_calibration_bound": 16,
+    "post_b16_feasibility_gate_mandatory": true
   },
   "units": [
     {
@@ -198,6 +222,13 @@
     {"id":"32-04","name":"LOWGENUS_CARRIER_SYNTHESIS_AND_FINAL_CERTIFICATE","status":"BLOCKED_BY_32_01_32_02_32_03"},
     {"id":"32-05","name":"FINAL_HOSTILE_AUDIT_AND_CLOSE","status":"BLOCKED_BY_32_04"}
   ],
+  "unit_dependency_dag": {
+    "32-01": {"depends_on": []},
+    "32-03": {"depends_on": [], "may_run_in_parallel_with": ["32-01"], "when_safe": true},
+    "32-02": {"depends_on": ["32-01"]},
+    "32-04": {"depends_on": ["32-01", "32-02", "32-03"]},
+    "32-05": {"depends_on": ["32-04"]}
+  },
   "E20_A0_PARENT_COMPLETE": false,
   "D8_E20_A0_CONTINUATION_PAUSED": true,
   "D16_AUT_COMPRESSION_ROUTE_ACTIVE": true,
@@ -214,6 +245,8 @@
   "SNAPSHOT_FAST_GLOBAL_COMPLETENESS_CERTIFIED": false,
   "D16_PRODUCTION_EXACT_OR_CROSS_CERTIFICATE_REQUIRED": true,
   "D16_BOUNDED_PRODUCTION_ADVANCE_ALLOWED": true,
+  "D16_ADVANCE_BEYOND_B16_WITHOUT_FEASIBILITY_EXCEPTION_ALLOWED": false,
+  "POST_B16_FEASIBILITY_GATE_REQUIRED": true,
   "FULL_D8_G0_ROW_COMPLETE": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
   "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
@@ -234,6 +267,6 @@
   "merge_allowed": true,
   "merge_order": [1390,1391,1392,1393,1394,1395,1396,1397],
   "advance_allowed": true,
-  "next_item": "32-18M-D16-POST-B12-NEXT-BOUNDED-PRODUCTION-DESIGN",
+  "next_item": "B16_DEFAULT_FINAL_D16_CALIBRATION_THEN_POST_B16_FEASIBILITY_GATE",
   "next_expected_command": "Stage32-main-batch"
 }
