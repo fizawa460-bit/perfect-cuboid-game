@@ -308,9 +308,9 @@ raw-order-two directions remain retained and reusable.
 
 The nine quotient-order-two directions that failed the raw order-two test in
 PR #1414 have now been retained at their correct raw order four rather than
-being forced into Kummer squareclasses.  Exact mod-4 divisor checks on all 72
+being forced into Kummer squareclasses. Exact mod-4 divisor checks on all 72
 boundary P1 components produce deterministic order-four first-residue function
-models for all nine directions.  Together with the 17 retained raw-order-two
+models for all nine directions. Together with the 17 retained raw-order-two
 models, all 26 boundary first-residue directions are therefore materialized in
 mixed order `17 x order2 + 9 x order4` form.
 
@@ -327,12 +327,9 @@ BOCKSTEIN_IMAGE_RANK_F2=9
 COMPLEX_CONJUGATION_ON_EACH_ORDER4_FACTOR=inversion
 FULL_ORDER4_BOCKSTEIN_CERTIFICATE_SHA256=085ad52c1eb1cf8069fcac9a0814250428288cc5d517a036670ae529c36eb88a
 COMPACT_ORDER4_BOCKSTEIN_CERTIFICATE_SHA256=30f2a4653619419a42d5513be26c8acf7505e042e4cbef279abd3476c34d1cfa
-RAW_EXTENSION_NORMAL_FORM_CERTIFICATE_SHA256=fcf62f5977f3380ec7c44797e485f50c47743d78582301b5d7f1df93a1ee91c6
-ORDER4_BOCKSTEIN_WORKFLOW_RUN=33053103175
-ORDER4_BOCKSTEIN_ARTIFACT_ID=9638435613
-ORDER4_BOCKSTEIN_ARTIFACT_ZIP_SHA256=41fedee71af49168b05112113c6193e55922967cdfceb950b0c9c66facf3ddd3
+RAW_EXTENSION_NORMAL_FORM_CERTIFICATE_SHA256=3d5467d5af707780747134af734f53263eebb8aae1ac3f3ae33f55239a6241cd
 QUOTIENT_TO_RAW_BOCKSTEIN_NORMAL_FORM_CLOSED=true
-GLOBAL_GEOMETRIC_GERSTEN_LIFTS_MATERIALIZED=false
+GLOBAL_GEOMETRIC_GERSTEN_LIFTS_MATERIALIZED=0/26
 PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
 ABSOLUTE_DELTA_LOC_COMPUTED=false
 ARITHMETIC_HS_CLOSED=false
@@ -340,13 +337,14 @@ STAGE33_PROGRESS_EFFECTIVE=6/11
 STAGE33_08_RELEASED=false
 ```
 
-This closes the finite quotient-to-raw Bockstein structure itself.  The next
-smallest exact kernel is no longer the 9-dimensional raw extension problem:
+This closes the finite quotient-to-raw Bockstein structure itself. It does not
+close the global residue-lift problem: the 17 order-two boundary packages and
+the 9 order-four boundary packages all still need genuine global geometric
+Gersten lifts before their Galois differences can be computed. The corrected
+smallest exact kernel is therefore
 
 ```text
-R33-BR2A-9-ORDER4-GERSTEN-LIFT-GALOIS-DIFFERENCE-COCYCLE
+R33-BR2A-26-MIXED-ORDER-FIRST-RESIDUE-GLOBAL-GERSTEN-LIFT-GALOIS-DIFFERENCE-COCYCLE
 ```
 
-The next leaf must construct genuine global geometric Gersten lifts for the
-nine order-four boundary functions and compute their Galois differences.  No
-finite boundary calculation is promoted to a global Q-defined lift here.
+No finite boundary calculation is promoted to a global Q-defined lift here.
