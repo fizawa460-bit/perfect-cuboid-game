@@ -543,3 +543,43 @@ artifact `9666647588` (`1663` bytes), digest
 
 Next leaf:
 `L33-07-MATERIALIZE-INTEGRAL-CURVE-CLASS-OR-AMPLE-CONE-SWAP-DISTINGUISHER-OR-GENUINE-MIDDLE-GERSTEN-LIFT-DATA`.
+
+<!-- STAGE33_07_RETAINED_STAGE32_PICARD_MARKING_V16 -->
+## Stage32 Picard marking recovered before storage expiry
+
+The still-live immutable Stage32 prepared artifact `9588229672` was downloaded
+with its locked zip digest and reduced to the two exact inputs needed by this
+Stage33 route: the saturated rank-63 `H^perp` packet and the nine geometric
+140-class permutations.  The compact nonexpiring retained bundle has canonical
+SHA256 `e06291dddfc529fca2c0b0fe58dd43151faccd3d7997d9aa5797e1978227bb7c`.
+
+An independent local rational reconstruction from this packet reproduced the
+historical `picard-core.json` canonical SHA256
+`de84f4511ea2ea747fd712e2f5f09c7f8d94ae3633e55678b81cfe63f6ed2870`
+literally.  It also checked all 140 known classes and the hyperplane were
+integral in the selected 64-class basis, the Gram determinant was `-2^28`, and
+`H^2=16`.  This recovers the missing integral marking input without using the
+currently failing public Magma service.
+
+The subsequent actual-swap/H1 naturality certificate was not completed in this
+run and is not claimed here.
+
+```text
+RETAINED_STAGE32_PICARD_MARKING=true
+HISTORICAL_PICARD_CORE_CANONICAL_SHA_REPRODUCED=true
+KNOWN_CLASSES_RECOVERED=140
+PICARD_RANK=64
+PICARD_GRAM_DETERMINANT=-268435456
+HYPERPLANE_SQUARE=16
+ACTUAL_INTEGRAL_PICARD_SWAP_IDENTIFIED=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Next leaf:
+`L33-07-DERIVE-ACTUAL-SWAP-AND-V4-H1-ACTIONS-FROM-RETAINED-STAGE32-PICARD-MARKING`.
