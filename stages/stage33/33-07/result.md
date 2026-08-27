@@ -127,3 +127,46 @@ next active exact target returns to the formal repair kernel:
 ```text
 Stage33-07_REPAIR_GLOBAL_RESIDUE_LIFT_ARITHMETIC_HS_DESCENT
 ```
+
+## Arithmetic HS repair reduction retained from BR2A regression
+
+The existing successful workflow `Stage33-07 BR2A integration regression`
+(run `33026712371`) was recovered without rerunning a heavy mathematical workload.
+Its 22,238-byte compact artifact was source-locked and the relevant
+certificates were reproduced locally with identical canonical hashes.
+
+The repair problem now has the following exact, firewalled reduction:
+
+```text
+FINITE_RAMIFIED_BOUNDARY_MODULE=(Z/2)^49 direct_sum (Z/4)^12
+KNOWN_GLOBAL_U44=(Z/2)^44
+BOUNDARY_QUOTIENT_AFTER_U44=(Z/2)^23 direct_sum (Z/4)^3
+BOUNDARY_QUOTIENT_PRESENTATION_INPUT_GENERATORS=29
+BOUNDARY_QUOTIENT_MINIMAL_INVARIANT_FACTOR_GENERATORS=26
+PROPER_GEOMETRIC_BRAUER_ODD_GQ_INVARIANTS=0
+REPAIR_REDUCED_TO_TWO_PRIMARY=true
+PROPER_GEOMETRIC_BR2_DIMENSION_F2=14
+PROPER_GEOMETRIC_BR2_V4_FIXED_DIMENSION_F2=10
+FINITE_V4_H1_PROPER_BR2_DIMENSION_F2=16
+ABSOLUTE_H1_IDENTIFIED_WITH_FINITE_V4_H1=false
+```
+
+An explicit unimodular Smith decomposition of the retained 29-by-29 row
+relation matrix has also been certified.  It supplies mutually inverse integer
+coordinate maps between `R01..R17,O01..O12` and the 23 order-two plus 3
+order-four invariant-factor generators.  This removes a coordinate ambiguity
+from the next localization calculation, but it does not compute
+`delta_loc`, the Hochschild--Serre `d2`, or a Q-defined lift.
+
+```text
+TWO_PRIMARY_RESIDUE_INVARIANT_BASIS_SHA256=f18a54717b2327f7abc8ee87859b5c0537bffc062a1d5c1e36a5763c46faa939
+ARITHMETIC_LOCALIZATION_CONNECTING_MAP_COMPUTED=false
+BOUNDARY_RESIDUAL_PROMOTED_TO_GLOBAL_Q_CLASSES=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+```
+
+The next exact leaf is therefore the order-two localization extension class in
+this explicit invariant basis.  The two-primary constant-character cokernel
+and the order-four continuation remain in scope after that leaf.
