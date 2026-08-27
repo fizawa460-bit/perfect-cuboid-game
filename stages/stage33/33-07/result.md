@@ -92,12 +92,26 @@ K1_EXACTLY_REJECTED=true
 K1_CERTIFICATE_SHA256=7ac64a76b8132e044b145d009e331476f55e04a78001a127bce6fe3034c206fa
 ```
 
-Together with the retained K2 and K3 exact prefixes, this leaves only K2 among
-the three non-elementary abstract order-512 types:
+Together with the retained K2 and K3 exact prefixes, the next K2 pure-geometric
+leaf was recovered from six byte-identical successful artifacts and reproduced
+exactly from the locked inputs without launching a new Actions run. The existing
+64-shard geometric-sign census was then independently reaggregated from its
+manifest and all shard certificates. It rejects the remaining K2 prefix exactly:
 
 ```text
 K1=REJECTED
-K2=SURVIVES_PREFIX_WITH_867_ORBITS_AND_517873664_WEIGHTED_H
+K2_FULL_Q4_SURVIVORS=867_ORBITS_AND_517873664_WEIGHTED_H
+K2_Q2_AFFINE_SURVIVORS=867_ORBIT_FAMILIES
+K2_Q2_AFFINE_REPRESENTATIVE_SECTIONS=2183168
+K2_Q2_AFFINE_WEIGHTED_H=129468416
+K2_Q2_AFFINE_SURVIVAL_RATIO=1/4_IN_EVERY_ORBIT_FAMILY
+K2_Q2_AFFINE_CERTIFICATE_SHA256=f9dd684e2813acdbec07fc59575d9d487828c97f6fa8f111983fec5a6fe6b9b0
+K2_SIGN_CENSUS_REPRESENTATIVE_SECTIONS_CHECKED=2183168
+K2_SIGN_CENSUS_WEIGHTED_H_CHECKED=129468416
+K2_SIGN_CENSUS_REPRESENTATIVE_SURVIVORS=0
+K2_SIGN_CENSUS_WEIGHTED_SURVIVORS=0
+K2_SIGN_CENSUS_CERTIFICATE_SHA256=44390c7bd74b8be73f74ccc305e1b4229a73433b20f1ce9f1d02a63e0526558b
+K2=REJECTED
 K3=REJECTED
 ACTUAL_INDEX512_GLUE_IDENTIFIED=false
 ARITHMETIC_HS_CLOSED=false
@@ -107,8 +121,9 @@ STAGE33_PROGRESS_EFFECTIVE=6/11
 This abstract-type reduction does not identify the actual endpoint glue and
 does not repair the arithmetic Hochschild--Serre descent kernel. The formal
 Stage33-07 state therefore remains `BLOCKED_NEW_KERNEL`, with Stage33-08
-unreleased. The next exact geometric leaf is
+unreleased. With the retained K1, K2, and K3 geometric branches rejected, the
+next active exact target returns to the formal repair kernel:
 
 ```text
-L33-07-EXACT-Q2-PROFILE-AND-AFFINE-COMPRESSION-ON-K2-GEOMETRIC-FULL-Q4-SURVIVORS
+Stage33-07_REPAIR_GLOBAL_RESIDUE_LIFT_ARITHMETIC_HS_DESCENT
 ```
