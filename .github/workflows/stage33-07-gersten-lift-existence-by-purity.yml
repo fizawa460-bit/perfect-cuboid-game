@@ -1,0 +1,51 @@
+name: Stage33-07 Gersten lift existence by purity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/**'
+      - '.github/workflows/stage33-07-gersten-lift-existence-by-purity.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce mixed-order first-residue prefix and certify Gersten existence
+        working-directory: stages/stage33/33-07
+        run: python certify_26_global_gersten_lift_existence_by_purity.py
+      - name: Validate existence/explicit-representative firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='mixed-order-global-gersten-lift-existence-by-purity.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['exact_counts']=={'source_count':26,'raw_order2_sources':17,'raw_order4_sources':9,'boundary_components':72,'crossings':144}
+          assert all(x['exact_checks'].values())
+          q=x['constructive_progress']
+          assert q['global_geometric_Gersten_lift_existence_certified_count']==26
+          assert q['global_geometric_Gersten_explicit_representatives_materialized_count']==0
+          assert not q['cc_ct_actions_on_chosen_global_representatives_computed']
+          assert not q['proper_Br2_difference_coordinates_computed']
+          assert not q['project_14x26_L_squareclass_tensor_materialized']
+          assert not q['absolute_delta_loc_computed'] and not q['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          print('STAGE33_07_GERSTEN_LIFT_EXISTENCE_BY_PURITY=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('GLOBAL_GERSTEN_LIFT_EXISTENCE=26/26')
+          print('EXPLICIT_REPRESENTATIVES=0/26')
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-gersten-lift-existence-by-purity
+          retention-days: 3
+          path: stages/stage33/33-07/mixed-order-global-gersten-lift-existence-by-purity.json
