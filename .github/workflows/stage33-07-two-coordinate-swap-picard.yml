@@ -1,0 +1,44 @@
+name: Stage33-07 two coordinate-swap Picard rows
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_two_coordinate_swap_picard_rows.py'
+      - 'stages/stage33/33-07/picard_base_rows_retained.py'
+      - 'stages/stage33/33-07/stoll_cuboid_source.py'
+      - '.github/workflows/stage33-07-two-coordinate-swap-picard.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Recover only the two swap Picard matrices
+        run: python certify_two_coordinate_swap_picard_rows.py
+      - name: Enforce exact row and firewall checks
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          x=json.load(open('picard-two-coordinate-swap-actions.json'));h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert len(x['picard_actions_64x64'])==2
+          assert all(len(M)==64 and all(len(r)==64 for r in M) for M in x['picard_actions_64x64'])
+          assert x['exact_checks']['both_actions_involutions'] and x['exact_checks']['both_actions_preserve_retained_picard_gram']
+          assert not x['exact_checks']['smith_form_used']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          print('STAGE33_07_TWO_COORDINATE_SWAP_PICARD_ROWS=PASS_EXACT')
+          print('CERTIFICATE_SHA256='+h)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-two-coordinate-swap-picard-rows
+          retention-days: 5
+          path: stages/stage33/33-07/picard-two-coordinate-swap-actions.json
