@@ -71,7 +71,7 @@ def in_span(v,rows):
     return M.rank()==sp.Matrix.vstack(M,sp.Matrix(v).T).rank()
 def jacobian(p):
     x1,x2,x3,y1,y2,y3,z=list(p)
-    return sp.Matrix([[2*x1,2*x2,0,0,0,-2*y3,0],[0,2*x2,2*x3,-2*y1,0,0,0],[2*x1,0,2*x3,0,-2*y2,0],[2*x1,2*x2,2*x3,0,0,0,-2*z]])
+    return sp.Matrix([[2*x1,2*x2,0,0,0,-2*y3,0],[0,2*x2,2*x3,-2*y1,0,0,0],[2*x1,0,2*x3,0,-2*y2,0,0],[2*x1,2*x2,2*x3,0,0,0,-2*z]])
 def side_metadata(side):
     j=side-1; family=j//8; r=j%8
     return family,[1,-1][r//4],[1,-1][(r//2)%2],[1,-1][r%2]
@@ -101,12 +101,10 @@ def contains_offboundary_prime(v):
     if any(same_projective(v,w) for w in QUARTIC_VECS): return True
     return any(in_span(v,rows) for rows in BJ_ROWS)
 def exceptional_candidate_stream(p):
-    # Sparse determinants first.
     for i in range(7):
         for j in range(i+1,7):
             v=sp.zeros(7,1); v[i]=p[j]; v[j]=-p[i]
             if v!=sp.zeros(7,1): yield ('PAIR',i,j),v
-    # Then several deterministic rational-normal curves in the full 6D kernel.
     B=sp.Matrix.hstack(*sp.Matrix([list(p)]).nullspace())
     if B.shape!=(7,6): raise SystemExit(f'node hyperplane kernel shape moved: {B.shape}')
     patterns=[lambda k,j:k**j,lambda k,j:(-k)**j,lambda k,j:(k+j+1)**j,lambda k,j:(k+1)**(5-j)]
@@ -115,7 +113,6 @@ def exceptional_candidate_stream(p):
             coeff=sp.Matrix([sp.Integer(pat(k,j)) for j in range(6)])
             v=B*coeff
             if v!=sp.zeros(7,1): yield ('CURVE',pat_i,k),v
-
 def side_candidate_stream(zero,rels):
     for k in list(range(1,65))+list(range(-1,-65,-1)):
         lam=(k,k*k,k*k*k)
