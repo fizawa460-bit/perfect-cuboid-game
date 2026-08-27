@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Record the all-72 ambient/blowup boundary-function milestone in handoff/result."""
+"""Record the all-72 ambient/blowup boundary-function milestone in handoff/result.
+
+This is a historical V10 recorder.  Once an authoritative V11-or-later handoff
+exists it must never roll the branch back to the older global-Gersten gap.
+"""
 import json
 from pathlib import Path
 
@@ -23,6 +27,11 @@ assert exc['counts']['nontrivial_source_exceptional_function_count']==120
 assert exc['constructive_progress']['all_72_boundary_component_function_packages_have_explicit_ambient_or_blowup_rational_lifts']
 
 h=json.load(open(HAND))
+schema=h.get('schema','')
+if schema.startswith('STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V11_') or schema.startswith('STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V12_'):
+    print(json.dumps({'success':True,'historical_v10_recorder':'NOOP','preserved_schema':schema},indent=2))
+    raise SystemExit(0)
+
 h['schema']='STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V10_ALL72_AMBIENT_BOUNDARY_GLOBAL_GERSTEN_GAP'
 h['smallest_current_exact_kernel']=NEXT_KERNEL
 h['next_item']=NEXT_LEAF
