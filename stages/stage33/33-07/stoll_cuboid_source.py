@@ -27,6 +27,15 @@ def urlopen_retry(req,timeout,label):
  for attempt,delay in enumerate(RETRY_DELAYS,1):
   if delay: time.sleep(delay)
   try: return urllib.request.urlopen(req,timeout=timeout),attempt
+  except urllib.error.HTTPError as exc:
+   last=exc
+   body=exc.read().decode("utf-8",errors="replace")
+   preview=body[:8000].replace("\r","")
+   print(f"{label} HTTP failure {attempt}/{len(RETRY_DELAYS)}: HTTP {exc.code} {exc.reason}")
+   if preview:
+    print(f"{label} HTTP response body begin")
+    print(preview)
+    print(f"{label} HTTP response body end")
   except (urllib.error.URLError,TimeoutError) as exc:
    last=exc; print(f"{label} transient failure {attempt}/{len(RETRY_DELAYS)}: {exc}")
  raise last
