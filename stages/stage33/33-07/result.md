@@ -497,3 +497,43 @@ The repeated public-Magma swap workflows remain available only as manual
 diagnostics; their PR-synchronization triggers are disabled after repeated
 HTTP 500 failures.  The next exact leaf is
 `L33-07-MATERIALIZE-MIDDLE-GERSTEN-EXTENSION-DATA-OR-AN-INTEGRAL-SWAP-DISTINGUISHER`.
+
+<!-- STAGE33_07_INTEGRAL_PICARD_SWAP_LINEAR_ENVELOPE_V15 -->
+## Exact retained-Picard swap linear envelope
+
+`certify_integral_picard_swap_linear_envelope.py` uses the nonexpiring exact
+64-dimensional Picard Gram, cc/ct actions, and all seven integral coordinate-sign
+actions.  It makes no remote CAS request.  The nine commuting involutions split
+`Pic(S)_Q` into 40 exact joint-character blocks with multiplicity histogram
+`1:21, 2:18, 7:1`; distinct blocks are pairwise Gram-orthogonal and
+nondegenerate.
+
+For each desired coordinate swap, the required cc/ct commutation and sign-label
+conjugacy leave a 142-dimensional rational linear intertwiner space.  This is a
+necessary-condition envelope only: the unknown swaps have not been required to
+be integral Gram isometries, involutions, or an S3 pair.  Therefore this leaf
+does not identify either actual geometric Picard swap.  It instead isolates the
+missing input as an exact integral curve-class/ample-cone marking (or equivalent
+Picard quotient transport), unless genuine middle-Gersten lift data is supplied
+directly.
+
+```text
+JOINT_CHARACTER_COUNT=40
+JOINT_CHARACTER_MULTIPLICITIES=1:21,2:18,7:1
+SWAP12_RATIONAL_LINEAR_INTERTWINER_DIMENSION=142
+SWAP13_RATIONAL_LINEAR_INTERTWINER_DIMENSION=142
+ACTUAL_INTEGRAL_PICARD_SWAP_IDENTIFIED=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+PROJECT_14x26_L_SQUARECLASS_TENSOR_MATERIALIZED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+THEOREM_CREDIT=false
+ENDPOINT_CREDIT=false
+```
+
+Next leaf:
+`L33-07-MATERIALIZE-INTEGRAL-CURVE-CLASS-OR-AMPLE-CONE-SWAP-DISTINGUISHER-OR-GENUINE-MIDDLE-GERSTEN-LIFT-DATA`.
