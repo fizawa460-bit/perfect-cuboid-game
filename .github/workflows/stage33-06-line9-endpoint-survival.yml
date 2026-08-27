@@ -12,7 +12,40 @@ permissions:
   contents: read
 
 jobs:
+  gate:
+    name: Cheap commit-range gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.changed.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: changed
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'run=false' >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" == workflow_dispatch ]]; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Eq '^stages/stage33/33-06/' || exit 0
+          echo 'run=true' >> "$GITHUB_OUTPUT"
+
   line9-endpoint-survival:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -76,6 +109,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: stage33-06-line9-endpoint-survival
+          retention-days: 3
           path: |
             stages/stage33/33-06/line9-endpoint-zero-survival.json
             stages/stage33/33-06/audit-state.json

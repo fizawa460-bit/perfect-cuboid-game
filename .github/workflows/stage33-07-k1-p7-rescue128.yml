@@ -1,0 +1,241 @@
+name: Stage33-07 k1 P7 seven-sign rescue128
+
+on:
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/runkeys/stage33-07-k1-seven-sign-p7-rescue.json'
+      - '.github/workflows/stage33-07-k1-p7-rescue128.yml'
+      - 'stages/stage33/33-07/aggregate_nonelementary_k1_geometric_sign_fixed_p7_rescue128.py'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage33-07-k1-p7-rescue128-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  RUN_KEY: .github/runkeys/stage33-07-k1-seven-sign-p7-rescue.json
+
+jobs:
+  authorize:
+    name: Cheap commit-range authorization gate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          git diff --name-only "$BEFORE" "$HEAD" | grep -Fxq "$RUN_KEY" || exit 0
+          python - "$BEFORE" "$RUN_KEY" <<'PY'
+          import json,pathlib,subprocess,sys
+          before,key=sys.argv[1],sys.argv[2]
+          new=json.loads(pathlib.Path(key).read_text())
+          old=json.loads(subprocess.check_output(['git','show',f'{before}:{key}'],text=True))
+          assert new['schema']==old['schema']=='STAGE33_07_K1_SEVEN_SIGN_P7_RESCUE_RUNKEY_V1'
+          assert int(new['generation'])>int(old['generation'])>=0
+          assert new['armed'] is True
+          assert int(new['p_orbit_index'])==7
+          assert int(new['record_shard_count'])==128
+          assert int(new['max_parallel'])==12
+          assert int(new['planned_effective_heavy_concurrency'])==12
+          assert int(new['planned_effective_heavy_concurrency'])<=15
+          assert int(new['planned_effective_heavy_concurrency'])<=18
+          assert int(new['timeout_minutes'])==45
+          assert int(new['source_rescue32_run_id'])==33004278066
+          assert int(new['source_support_run_id'])==32971195642
+          assert int(new['source_endpoint_run_id'])==32934384807
+          assert int(new['planned_new_shards'])==128
+          assert int(new['artifact_retention_days'])==1
+          assert int(new['repo_artifact_storage_hard_ceiling_bytes'])==524288000
+          assert 0<int(new['measured_compact_shard_bytes'])<=int(new['conservative_compact_shard_bytes'])
+          print('RUN_KEY_SEMANTIC_ARM=PASS')
+          PY
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  preflight:
+    name: Storage/concurrency/source preflight
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    outputs:
+      matrix: ${{ steps.check.outputs.matrix }}
+      rescue32_run: ${{ steps.check.outputs.rescue32_run }}
+      support_run: ${{ steps.check.outputs.support_run }}
+      endpoint_run: ${{ steps.check.outputs.endpoint_run }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          RESCUE32_RUN="$(python -c "import json;print(json.load(open('$RUN_KEY'))['source_rescue32_run_id'])")"
+          SUPPORT_RUN="$(python -c "import json;print(json.load(open('$RUN_KEY'))['source_support_run_id'])")"
+          ENDPOINT_RUN="$(python -c "import json;print(json.load(open('$RUN_KEY'))['source_endpoint_run_id'])")"
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/artifacts?per_page=100" --jq '.artifacts[] | [.id,.name,.size_in_bytes,.expired] | @tsv' > "$RUNNER_TEMP/repo.tsv"
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs/${RESCUE32_RUN}/artifacts?per_page=100" --jq '.artifacts[] | [.id,.name,.size_in_bytes,.expired] | @tsv' > "$RUNNER_TEMP/old.tsv"
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs/${SUPPORT_RUN}/artifacts?per_page=100" --jq '.artifacts[] | [.id,.name,.size_in_bytes,.expired] | @tsv' > "$RUNNER_TEMP/support.tsv"
+          gh api --paginate "repos/${GITHUB_REPOSITORY}/actions/runs/${ENDPOINT_RUN}/artifacts?per_page=100" --jq '.artifacts[] | [.id,.name,.size_in_bytes,.expired] | @tsv' > "$RUNNER_TEMP/endpoint.tsv"
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP']); key=json.loads(pathlib.Path(os.environ['RUN_KEY']).read_text())
+          def rows(n):
+              out=[]
+              for line in (root/n).read_text().splitlines():
+                  if line.strip():
+                      aid,name,size,expired=line.split('\t'); out.append((int(aid),name,int(size),expired=='true'))
+              return out
+          repo,old,support,endpoint=rows('repo.tsv'),rows('old.tsv'),rows('support.tsv'),rows('endpoint.tsv')
+          old_live={n:s for _,n,s,e in old if not e}
+          expected={f'k1-geometric-sign-fixed-r32-p{p}-s{s}' for p in range(15) if p!=7 for s in range(32)}
+          missing=sorted(expected-set(old_live)); assert not missing, f'missing old compact certs: {missing[:20]}'
+          assert len(expected)==448
+          support_live={n:s for _,n,s,e in support if not e}; endpoint_live={n:s for _,n,s,e in endpoint if not e}
+          assert 'k1-geometric-support-orbit-shard-7' in support_live
+          assert 'stage33-07-q256-geometric-sign-endpoint' in endpoint_live
+          current=sum(s for _,_,s,e in repo if not e)
+          projected_new=int(key['planned_new_shards'])*int(key['conservative_compact_shard_bytes'])+524288
+          hard=int(key['repo_artifact_storage_hard_ceiling_bytes']); peak=current+projected_new
+          assert int(key['planned_effective_heavy_concurrency'])==12<=15
+          assert peak<=hard,(current,projected_new,peak,hard)
+          cert={'schema':'STAGE33_07_K1_P7_RESCUE128_PREFLIGHT_V2','run_key_generation':int(key['generation']),'required_old32_artifact_count':448,'source_support_bytes':support_live['k1-geometric-support-orbit-shard-7'],'source_endpoint_bytes':endpoint_live['stage33-07-q256-geometric-sign-endpoint'],'current_repo_nonexpired_artifact_bytes':current,'projected_new_bytes':projected_new,'projected_peak_bytes':peak,'hard_ceiling_bytes':hard,'planned_effective_heavy_concurrency':12,'user_stage33_heavy_cap':15,'storage_preflight_passed':True,'concurrency_preflight_passed':True,'source_artifact_preflight_passed':True}
+          pathlib.Path('stages/stage33/33-07/k1-p7-rescue128-preflight.json').write_text(json.dumps(cert,indent=2,sort_keys=True)+'\n')
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('matrix='+json.dumps({'record_shard':list(range(128))},separators=(',',':'))+'\n')
+              f.write('rescue32_run='+str(key['source_rescue32_run_id'])+'\n')
+              f.write('support_run='+str(key['source_support_run_id'])+'\n')
+              f.write('endpoint_run='+str(key['source_endpoint_run_id'])+'\n')
+          print(json.dumps(cert,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-p7-rescue128-preflight
+          retention-days: 1
+          if-no-files-found: error
+          path: stages/stage33/33-07/k1-p7-rescue128-preflight.json
+
+  census_p7_128:
+    name: P7 rescue128 shard ${{ matrix.record_shard }}
+    needs: [authorize, preflight]
+    if: needs.authorize.outputs.authorized == 'true' && needs.preflight.result == 'success'
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.preflight.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recover exact P7 support shard and endpoint signs
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SUPPORT_RUN: ${{ needs.preflight.outputs.support_run }}
+          ENDPOINT_RUN: ${{ needs.preflight.outputs.endpoint_run }}
+        run: |
+          set -euo pipefail
+          a="$(mktemp -d)"; b="$(mktemp -d)"
+          gh run download "$SUPPORT_RUN" --repo "$GITHUB_REPOSITORY" --name k1-geometric-support-orbit-shard-7 --dir "$a"
+          gh run download "$ENDPOINT_RUN" --repo "$GITHUB_REPOSITORY" --name stage33-07-q256-geometric-sign-endpoint --dir "$b"
+          cp "$a/nonelementary-k1-geometric-support-orbit-shard-7.json" .
+          cp "$b/endpoint-coordinate-sign-discriminant-actions-split.json" .
+      - name: Exhaust exact P7 rescue128 shard
+        env:
+          P_ORBIT_INDEX: '7'
+          RECORD_SHARD_INDEX: ${{ matrix.record_shard }}
+          RECORD_SHARD_COUNT: '128'
+        run: python certify_nonelementary_k1_geometric_sign_fixed_shard.py
+      - name: Enforce exactness and promotion firewalls
+        env:
+          RECORD_SHARD_INDEX: ${{ matrix.record_shard }}
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          s=int(os.environ['RECORD_SHARD_INDEX']); p=pathlib.Path(f'nonelementary-k1-geometric-sign-fixed-p7-s{s}.json'); x=json.loads(p.read_text())
+          assert x['p_orbit_index']==7 and x['record_shard_index']==s and x['record_shard_count']==128
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert x['endpoint_finite_group_type_filter_enforced'] and x['all_owned_lift_sections_decided_exactly_once'] and not x['fast_or_heuristic_traversal_used']
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert p.stat().st_size<=65536,p.stat().st_size
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: k1-geometric-sign-fixed-p7-r128-s${{ matrix.record_shard }}
+          retention-days: 1
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p7-s${{ matrix.record_shard }}.json
+
+  aggregate_mixed:
+    name: Exact mixed 14x32 plus P7x128 aggregate
+    needs: [authorize, preflight, census_p7_128]
+    if: needs.authorize.outputs.authorized == 'true' && needs.census_p7_128.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: stages/stage33/33-07
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ needs.preflight.outputs.rescue32_run }}
+          pattern: k1-geometric-sign-fixed-r32-p*-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/k1-geometric-sign-fixed-old32-subshards
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: k1-geometric-sign-fixed-p7-r128-s*
+          merge-multiple: true
+          path: stages/stage33/33-07/k1-geometric-sign-fixed-p7-rescue128-subshards
+      - name: Aggregate exact mixed partition
+        run: python aggregate_nonelementary_k1_geometric_sign_fixed_p7_rescue128.py
+      - name: Enforce global exactness and promotion firewall
+        run: |
+          python - <<'PY'
+          import json
+          x=json.load(open('nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json'))
+          assert x['rescued_P_orbit_index']==7 and x['partition_count_by_P_orbit']['7']==128
+          assert all(x['partition_count_by_P_orbit'][str(p)]==32 for p in range(15) if p!=7)
+          assert x['all_14x32_old_and_P7x128_rescue_subshards_present_exactly_once'] and x['all_support_orbit_representative_lifts_checked_exactly_once']
+          assert x['weighted_H_checked']==1311205952 and x['all_1311205952_weighted_structural_H_covered_exactly']
+          assert x['arithmetic_generators_used']==[] and x['geometric_coordinate_sign_family_enforced']==7
+          assert not x['actual_index512_glue_identified'] and not x['arithmetic_HS_closed'] and x['stage33_progress']=='6/11'
+          assert not x['theorem_credit'] and not x['endpoint_credit'] and not x['perfect_cuboid_nonexistence_claim']
+          print('K1_P7_RESCUE128_MIXED_AGGREGATE=PASS_EXACT')
+          print('SURVIVORS='+str(x['representative_section_survivors']))
+          print('WEIGHTED_SURVIVORS='+str(x['weighted_H_survivors']))
+          print('CERT_SHA256='+x['canonical_sha256'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-k1-geometric-sign-fixed-p7-rescue128-census
+          retention-days: 3
+          if-no-files-found: error
+          path: stages/stage33/33-07/nonelementary-k1-geometric-sign-fixed-p7-rescue128-census.json

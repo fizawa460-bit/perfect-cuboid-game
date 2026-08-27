@@ -74,3 +74,99 @@ L33-07-REPAIR-COMPUTE-ARITHMETIC-HS-DESCENT-OF-BR0G-RESIDUE-LIFTS
 ```
 
 No Brauer--Manin emptiness, endpoint emptiness, or Perfect Cuboid existence/nonexistence conclusion follows from this reopened state.
+
+## Retained exact non-elementary geometric prefix (PR #1409)
+
+The firewalled K1 pure-geometric seven-sign fixed filtration completed exactly
+without rerunning any timed-out mathematical shard. Existing `14 x 32` non-P7
+and `P7 x 128` evidence was recovered through paginated artifact enumeration and
+verified as one disjoint mixed partition.
+
+```text
+K1_TYPE=Z/4 direct_sum (Z/2)^7
+K1_SUPPORT_SKELETON_COUNT=20487593
+K1_WEIGHTED_H_CHECKED=1311205952
+K1_REPRESENTATIVE_SURVIVORS=0
+K1_WEIGHTED_SURVIVORS=0
+K1_EXACTLY_REJECTED=true
+K1_CERTIFICATE_SHA256=7ac64a76b8132e044b145d009e331476f55e04a78001a127bce6fe3034c206fa
+```
+
+Together with the retained K2 and K3 exact prefixes, the next K2 pure-geometric
+leaf was recovered from six byte-identical successful artifacts and reproduced
+exactly from the locked inputs without launching a new Actions run. The existing
+64-shard geometric-sign census was then independently reaggregated from its
+manifest and all shard certificates. It rejects the remaining K2 prefix exactly:
+
+```text
+K1=REJECTED
+K2_FULL_Q4_SURVIVORS=867_ORBITS_AND_517873664_WEIGHTED_H
+K2_Q2_AFFINE_SURVIVORS=867_ORBIT_FAMILIES
+K2_Q2_AFFINE_REPRESENTATIVE_SECTIONS=2183168
+K2_Q2_AFFINE_WEIGHTED_H=129468416
+K2_Q2_AFFINE_SURVIVAL_RATIO=1/4_IN_EVERY_ORBIT_FAMILY
+K2_Q2_AFFINE_CERTIFICATE_SHA256=f9dd684e2813acdbec07fc59575d9d487828c97f6fa8f111983fec5a6fe6b9b0
+K2_SIGN_CENSUS_REPRESENTATIVE_SECTIONS_CHECKED=2183168
+K2_SIGN_CENSUS_WEIGHTED_H_CHECKED=129468416
+K2_SIGN_CENSUS_REPRESENTATIVE_SURVIVORS=0
+K2_SIGN_CENSUS_WEIGHTED_SURVIVORS=0
+K2_SIGN_CENSUS_CERTIFICATE_SHA256=44390c7bd74b8be73f74ccc305e1b4229a73433b20f1ce9f1d02a63e0526558b
+K2=REJECTED
+K3=REJECTED
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+```
+
+This abstract-type reduction does not identify the actual endpoint glue and
+does not repair the arithmetic Hochschild--Serre descent kernel. The formal
+Stage33-07 state therefore remains `BLOCKED_NEW_KERNEL`, with Stage33-08
+unreleased. With the retained K1, K2, and K3 geometric branches rejected, the
+next active exact target returns to the formal repair kernel:
+
+```text
+Stage33-07_REPAIR_GLOBAL_RESIDUE_LIFT_ARITHMETIC_HS_DESCENT
+```
+
+## Arithmetic HS repair reduction retained from BR2A regression
+
+The existing successful workflow `Stage33-07 BR2A integration regression`
+(run `33026712371`) was recovered without rerunning a heavy mathematical workload.
+Its 22,238-byte compact artifact was source-locked and the relevant
+certificates were reproduced locally with identical canonical hashes.
+
+The repair problem now has the following exact, firewalled reduction:
+
+```text
+FINITE_RAMIFIED_BOUNDARY_MODULE=(Z/2)^49 direct_sum (Z/4)^12
+KNOWN_GLOBAL_U44=(Z/2)^44
+BOUNDARY_QUOTIENT_AFTER_U44=(Z/2)^23 direct_sum (Z/4)^3
+BOUNDARY_QUOTIENT_PRESENTATION_INPUT_GENERATORS=29
+BOUNDARY_QUOTIENT_MINIMAL_INVARIANT_FACTOR_GENERATORS=26
+PROPER_GEOMETRIC_BRAUER_ODD_GQ_INVARIANTS=0
+REPAIR_REDUCED_TO_TWO_PRIMARY=true
+PROPER_GEOMETRIC_BR2_DIMENSION_F2=14
+PROPER_GEOMETRIC_BR2_V4_FIXED_DIMENSION_F2=10
+FINITE_V4_H1_PROPER_BR2_DIMENSION_F2=16
+ABSOLUTE_H1_IDENTIFIED_WITH_FINITE_V4_H1=false
+```
+
+An explicit unimodular Smith decomposition of the retained 29-by-29 row
+relation matrix has also been certified.  It supplies mutually inverse integer
+coordinate maps between `R01..R17,O01..O12` and the 23 order-two plus 3
+order-four invariant-factor generators.  This removes a coordinate ambiguity
+from the next localization calculation, but it does not compute
+`delta_loc`, the Hochschild--Serre `d2`, or a Q-defined lift.
+
+```text
+TWO_PRIMARY_RESIDUE_INVARIANT_BASIS_SHA256=f18a54717b2327f7abc8ee87859b5c0537bffc062a1d5c1e36a5763c46faa939
+ARITHMETIC_LOCALIZATION_CONNECTING_MAP_COMPUTED=false
+BOUNDARY_RESIDUAL_PROMOTED_TO_GLOBAL_Q_CLASSES=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+```
+
+The next exact leaf is therefore the order-two localization extension class in
+this explicit invariant basis.  The two-primary constant-character cokernel
+and the order-four continuation remain in scope after that leaf.

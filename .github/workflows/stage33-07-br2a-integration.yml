@@ -13,7 +13,43 @@ permissions:
   actions: read
 
 jobs:
+  gate:
+    name: Cheap latest-commit gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.changed.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: changed
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'run=false' >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" == workflow_dispatch ]]; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          files="$(git diff --name-only "$BEFORE" "$HEAD")"
+          printf '%s\n' "$files"
+          if grep -Eq '^(stages/stage33/33-07/|stages/stage33/controller\.json$|\.github/workflows/stage33-07-br2a-integration\.yml$)' <<<"$files"; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
+
   br2a-integration:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
     runs-on: ubuntu-latest
     timeout-minutes: 12
     steps:
@@ -23,11 +59,27 @@ jobs:
           python-version: '3.12'
       - name: Install exact integer algebra dependency
         run: python -m pip install 'sympy==1.14.0'
-      - name: Recheck retained J2 endpoint pullback and nonconstancy
+      - name: Validate retained J2 endpoint pullback and nonconstancy certificates
         working-directory: stages/stage33/33-07
         run: |
-          python probe_j2_endpoint_q2.py
-          python scan_j2_endpoint_q2_variation.py
+          python - <<'PY'
+          import hashlib,json
+          expected={
+            'j2-endpoint-q2-pullback.json':'90a697b703b7928e47572f33eac228c539239a78b83898631c2064deb8e3a495',
+            'j2-endpoint-q2-variation.json':'580837c7b986ba9a26821eee8a8379fff1122a5ce1add5d65cb28207b9885e69',
+          }
+          for name,want in expected.items():
+            x=json.load(open(name)); got=x.pop('canonical_sha256')
+            actual=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+            assert got==want==actual
+          p=json.load(open('j2-endpoint-q2-pullback.json'))
+          v=json.load(open('j2-endpoint-q2-variation.json'))
+          assert p['j2_endpoint_pullback_nonzero_certified']
+          assert p['corestriction_invariant']=='1/2'
+          assert v['evaluation_nonconstant_on_endpoint_Q2_locus_certified']
+          assert v['both_invariants_0_and_half_observed']
+          print('RETAINED_J2_Q2_CERTIFICATES=PASS')
+          PY
       - name: Recheck retained BR0B BR0G integration prefix
         working-directory: stages/stage33/33-07
         env:
@@ -68,6 +120,9 @@ jobs:
       - name: Derive exact proper geometric Br2 V4 module
         working-directory: stages/stage33/33-07
         run: python certify_proper_brauer2_from_discriminant.py
+      - name: Certify explicit two-primary boundary-residue invariant basis
+        working-directory: stages/stage33/33-07
+        run: python certify_two_primary_residue_invariant_basis.py
       - name: Validate rejected historical global-presentation route stays firewalled
         working-directory: stages/stage33/33-07
         run: |
@@ -96,6 +151,7 @@ jobs:
           k=json.load(open('coordinate-k3-transcendental-glue-index.json'))
           v=json.load(open('target-discriminant-v4-fixed-module.json'))
           b2=json.load(open('proper-brauer2-from-discriminant.json'))
+          ib=json.load(open('two-primary-residue-invariant-basis.json'))
           a=json.load(open('audit-state.json'))
           hand=json.load(open('handoff.json'))
           ctl=json.load(open('../controller.json'))
@@ -118,10 +174,26 @@ jobs:
           assert b2['finite_v4_H1_proper_Br2']['H1_dimension_f2']==16
           assert b2['finite_v4_H1_proper_Br2']['absolute_H1_identified_with_finite_H1'] is False
           assert not b2['order2_boundary_residual_promoted_to_global_q_classes']
+          assert ib['diagnostic_quotient_exact']=='(Z/2)^23 direct_sum (Z/4)^3'
+          assert ib['minimal_invariant_factor_generator_count']==26
+          assert ib['invariant_factor_counts']=={'order2':23,'order4':3}
+          assert ib['exact_checks']['D_equals_S_M_T']
+          assert ib['exact_checks']['T_T_inverse_equals_identity']
+          assert not ib['arithmetic_localization_connecting_map_computed']
+          assert not ib['absolute_H1_identified_with_finite_V4_H1']
+          assert not ib['boundary_residual_promoted_to_global_q_classes']
+          assert not ib['actual_index512_k3_glue_identified']
+          assert not ib['arithmetic_HS_closed']
           assert a['unit_status']=='BLOCKED_NEW_KERNEL' and not a['unit_closed'] and not a['downstream_released']
           assert hand['stage33_progress']=='6/11' and not hand['stage33_08_released']
+          assert hand['repair_exact_reduction']['finite_boundary_quotient_after_u44']=='(Z/2)^23 direct_sum (Z/4)^3'
+          assert hand['repair_exact_reduction']['minimal_invariant_factor_generators']==26
+          assert not hand['repair_exact_reduction']['arithmetic_localization_connecting_map_computed']
           assert ctl['stage33_progress']=='6/11'
           assert ctl['stage33_07']['unit_status']=='BLOCKED_NEW_KERNEL'
+          assert ctl['stage33_07']['repair_reduced_to_two_primary']
+          assert ctl['stage33_07']['two_primary_residue_invariant_factor_generator_count']==26
+          assert not ctl['stage33_07']['arithmetic_hs_d2_computed']
           assert not ctl['stage33_08_released'] and not ctl['stage33_09_released']
           print('STAGE33_07_RETAINED_MATH=PASS')
           print('HS_FINITE_UNKNOWN=(Z/2)^23+(Z/4)^3')
@@ -132,6 +204,8 @@ jobs:
           print('PROPER_BR2_V4_FIXED_DIM=10')
           print('FINITE_V4_H1_PROPER_BR2_DIM=16')
           print('ORDER2_GLUE_DEPENDENCY_REMOVED=True')
+          print('TWO_PRIMARY_RESIDUE_INVARIANT_BASIS=Z2^23+Z4^3')
+          print('TWO_PRIMARY_RESIDUE_INVARIANT_GENERATORS=26')
           print('ACTUAL_GLUE_IDENTIFIED=False')
           print('STAGE33_PROGRESS=6/11')
           PY
@@ -139,7 +213,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: stage33-07-br2a-hs-repair
-          retention-days: 5
+          retention-days: 3
           path: |
             stages/stage33/33-07/j2-endpoint-q2-pullback.json
             stages/stage33/33-07/j2-endpoint-q2-variation.json
@@ -154,5 +228,6 @@ jobs:
             stages/stage33/33-07/picard-discriminant-compact.json
             stages/stage33/33-07/target-discriminant-v4-fixed-module.json
             stages/stage33/33-07/proper-brauer2-from-discriminant.json
+            stages/stage33/33-07/two-primary-residue-invariant-basis.json
             stages/stage33/33-07/audit-state.json
             stages/stage33/33-07/handoff.json
