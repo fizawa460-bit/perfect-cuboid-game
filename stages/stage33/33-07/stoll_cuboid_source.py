@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Side-effect-free pinned Testa--Stoll source/Magma transport helper."""
+import ast
 import hashlib
+import re
 import time
 import urllib.error
 import urllib.parse
@@ -51,7 +53,7 @@ def load_pinned_source():
  core=text[:a]+"\n// Stage33-07 skips unused degree-8 curves.\n"+text[b:c]
  return text,core,got,attempt
 
-def run_magma(code,timeout,label,user_agent="perfect-cuboid-stage33/2.6"):
+def _run_magma_once(code,timeout,label,user_agent):
  payload=urllib.parse.urlencode({"input":code}).encode()
  req=urllib.request.Request(MAGMA_URL,data=payload,headers={
   "Content-Type":"application/x-www-form-urlencoded",
@@ -63,3 +65,66 @@ def run_magma(code,timeout,label,user_agent="perfect-cuboid-stage33/2.6"):
  for result in root.findall(".//results"):
   for line in result.findall(".//line"): lines.append("".join(line.itertext()))
  return "\n".join(lines)+"\n",attempt
+
+def _grab_magma_literal(stdout,name):
+ m=re.search(rf"^{re.escape(name)}=(.+)$",stdout,re.M)
+ if not m: raise SystemExit(f"missing split-Magma output {name}")
+ return ast.literal_eval(m.group(1))
+
+def _run_q_automorphism_split(code,timeout,label,user_agent):
+ """Run the Stage33 Q-automorphism certificate in two exact Magma phases.
+
+ The public calculator accepts the pinned Picard+Smith and Picard+automorphism
+ computations separately, but returns HTTP 500 when both large computations are
+ retained in one request.  Freeze the Smith right transform from phase 1 and
+ inject that exact integer matrix into phase 2; no mathematical approximation is
+ introduced.
+ """
+ smith_start=code.index("D, _, V := SmithForm(pmPic")
+ split_candidates=[x for x in (code.find(STOP_MARKER),code.find("\nactperm := func<g, perm")) if x>=0]
+ if not split_candidates: raise SystemExit("cannot isolate pinned Picard core for split Magma run")
+ core_end=min(split_candidates)
+ core_code=code[:core_end]
+ smith_code=core_code+r'''
+Dsplit, _, Vsplit := SmithForm(pmPic);
+diagsplit := [Abs(Integers()!Dsplit[j,j]) : j in [1..64]];
+printf "SPLIT_SMITH_DIAG=%o\n", diagsplit;
+for r in [1..64] do
+  printf "SPLIT_SMITH_V_ROW_%o=%o\n", r, Eltseq(Vsplit[r]);
+end for;
+printf "STAGE33_SPLIT_SMITH_DONE\n";
+'''
+ smith_stdout,smith_attempt=_run_magma_once(
+  smith_code,timeout,label+" [Smith phase]",user_agent)
+ if "STAGE33_SPLIT_SMITH_DONE" not in smith_stdout:
+  print(smith_stdout); raise SystemExit("split Smith phase failed")
+ diag=[int(x) for x in _grab_magma_literal(smith_stdout,"SPLIT_SMITH_DIAG")]
+ V=[]
+ for r in range(1,65):
+  row=[int(x) for x in _grab_magma_literal(smith_stdout,f"SPLIT_SMITH_V_ROW_{r}")]
+  if len(row)!=64: raise SystemExit("split Smith V row width regression")
+  V.append(row)
+ if len(diag)!=64: raise SystemExit("split Smith diagonal width regression")
+ pos=[j+1 for j,d in enumerate(diag) if abs(d)>1]
+ mods=[abs(diag[j-1]) for j in pos]
+ if mods != [2]*4+[4]*6+[8]*4:
+  raise SystemExit(f"split Smith invariant regression: {mods}")
+ scales=[m//2 for m in mods]
+ flat=[x for row in V for x in row]
+ smith_end=code.index("Vin := V^-1;",smith_start)+len("Vin := V^-1;")
+ replacement=(
+  "pos := "+repr(pos)+";\n"
+  "mods := "+repr(mods)+";\n"
+  "scales := "+repr(scales)+";\n"
+  "V := Matrix(Integers(),64,64,"+repr(flat)+");\n"
+  "Vin := V^-1;"
+ )
+ phase2=code[:smith_start]+replacement+code[smith_end:]
+ stdout,auto_attempt=_run_magma_once(
+  phase2,timeout,label+" [automorphism phase]",user_agent)
+ return stdout,max(smith_attempt,auto_attempt)
+
+def run_magma(code,timeout,label,user_agent="perfect-cuboid-stage33/2.6"):
+ if "STAGE33_Q_AUTOMORPHISM_DONE" in code and "SmithForm(pmPic" in code:
+  return _run_q_automorphism_split(code,timeout,label,user_agent)
+ return _run_magma_once(code,timeout,label,user_agent)
