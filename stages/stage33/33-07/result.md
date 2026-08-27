@@ -419,3 +419,35 @@ run `33073824503`, artifact `9647000457`, digest
 
 Next exact kernel: `R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-LIFT-DIFFERENCE-COCYCLES`.
 Next leaf: `L33-07-MATERIALIZE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-CC-CT-LIFT-DIFFERENCES`.
+
+<!-- STAGE33_07_BOUNDARY_SOURCE_V4_ACTION_V13 -->
+## Boundary-source V4 action closed; middle extension still open
+
+Actions run `33075304812` reconstructed complex conjugation on every chosen
+raw boundary representative.  All 17 raw-order-two sources are fixed; the
+nine raw-order-four sources are inverted with defect equal to their locked
+U44 double/Bockstein class.  After passage to `A[2] ~= F2^26`, both `cc` and
+`ct` act trivially.  Thus the source action is no longer missing.  This does
+not choose or act on any genuine middle Gersten lift, and the `16 x 26`
+connecting matrix remains wholly unmaterialized.
+
+```text
+RAW_SOURCE_ACTION=17_CC_FIXED_ORDER2_PLUS_9_CC_INVERTED_ORDER4
+QUOTIENT_A2_DIMENSION_F2=26
+QUOTIENT_A2_CC_ACTION=TRIVIAL
+QUOTIENT_A2_CT_ACTION=TRIVIAL
+SOURCE_SIDE_V4_ACTION_FULLY_MATERIALIZED=true
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Actions evidence: workflow `Stage33-07 boundary source V4 action adapter`,
+run `33075304812`, artifact `9647609431`, digest
+`sha256:3f252012ea0c71487e4d2750936289d3953794b4fbf9be1fc11544b0658bd44f`.
+
+Next exact kernel: `R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-MIDDLE-GERSTEN-EXTENSION-CLASS-WITH-SOURCE-AND-KERNEL-ACTIONS-FIXED`.
+Next leaf: `L33-07-MATERIALIZE-MIDDLE-GERSTEN-CC-CT-ACTIONS-OR-26-CHOSEN-LIFT-DIFFERENCE-COCYCLES`.
