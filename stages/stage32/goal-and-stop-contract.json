@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE32_GOAL_AND_STOP_CONTRACT_V2",
+  "schema": "STAGE32_GOAL_AND_STOP_CONTRACT_V3",
   "status": "ACTIVE_PROSPECTIVE_EXECUTION_GUARDRAIL",
   "authority_split": {
     "inherited_audited_target": {
@@ -11,7 +11,7 @@
     },
     "new_operational_guardrail": {
       "introduced_by_pr": 1418,
-      "scope": "B16_DEFAULT_STOP_NO_AUTOMATIC_B18_AND_POST_B16_FEASIBILITY_GATE",
+      "scope": "B16_DEFAULT_STOP_NO_AUTOMATIC_B18_POST_B16_LITERATURE_REDUCTION_THEN_FEASIBILITY_GATE",
       "not_claimed_audited_by_pr1339": true,
       "mathematical_credit_changed": false,
       "receiver_credit_changed": false
@@ -20,7 +20,7 @@
   "active_controller_integration": {
     "controller_path": "stages/stage32/controller.json",
     "must_be_obeyed_by_stage32_main": true,
-    "precedence_rule": "D16_CALIBRATION_SELECTION_MUST_OBEY_THIS_GUARDRAIL_EVEN_IF_OLDER_CONTROLLER_FIELDS_LEAVE_NEXT_NORM_WALL_OPEN",
+    "precedence_rule": "D16_CALIBRATION_AND_POST_B16_ORDERING_MUST_OBEY_THIS_GUARDRAIL_EVEN_IF_OLDER_CONTROLLER_FIELDS_SKIP_THE_LITERATURE_RECEIVER_GATE",
     "heavy_compute_armed_by_this_contract": false
   },
   "d16_calibration": {
@@ -30,14 +30,34 @@
     "automatic_b18_or_higher_forbidden": true,
     "higher_bound_exception": "ONLY_IF_POST_B16_FEASIBILITY_GATE_IDENTIFIES_ONE_NARROW_NECESSARY_MISSING_MEASUREMENT_AND_LARGER_BOUND_IS_CHEAPEST_WAY_TO_OBTAIN_IT"
   },
+  "post_b16_literature_receiver_gate": {
+    "mandatory": true,
+    "highest_priority_after_audited_b16": true,
+    "roadmap": "stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
+    "contract": "stages/stage32/post-b16-literature-receiver-contract.json",
+    "initial_window_count": 183,
+    "receiver_ids": ["LIT32-FSM", "LIT32-GF", "LIT32-BTVA", "LIT32-TS"],
+    "required_output_schema": "STAGE32_POST_B16_LITERATURE_RECEIVER_AUDIT_V1",
+    "all_183_rows_must_be_explicit": true,
+    "large_183_window_production_before_gate_forbidden": true,
+    "feasibility_gate_before_literature_audit_forbidden": true,
+    "partial_subpopulation_theorem_must_not_delete_full_row": true,
+    "smooth_at_node_must_not_be_equated_with_unibranch": true,
+    "bounded_classification_must_not_be_extrapolated": true,
+    "double_counting_reductions_forbidden": true,
+    "theorem_credit_requires_source_lock_adapter_and_hostile_audit": true,
+    "post_gate_transition": "RUN_FEASIBILITY_GATE_ON_AUDITED_RESIDUAL_POPULATION"
+  },
   "post_b16_feasibility_gate": {
     "mandatory": true,
-    "question": "CAN_CURRENT_EXACT_PRODUCTION_ARCHITECTURE_REACH_FROZEN_D_LE_176_D_LE_192_NUMERICAL_CENSUS_UNDER_CURRENT_EXECUTION_POLICY",
+    "depends_on": "POST_B16_LITERATURE_RECEIVER_AUDIT_COMPLETE",
+    "question": "CAN_CURRENT_EXACT_PRODUCTION_ARCHITECTURE_REACH_AUDITED_RESIDUAL_FROZEN_D_LE_176_D_LE_192_NUMERICAL_CENSUS_UNDER_CURRENT_EXECUTION_POLICY",
     "required_inputs": [
       "AUDITED_B10_EVIDENCE",
       "AUDITED_B12_EVIDENCE",
       "AUDITED_B14_EVIDENCE",
       "AUDITED_B16_EVIDENCE",
+      "AUDITED_POST_B16_LITERATURE_RECEIVER_MASK",
       "DESCENDANT_WORK_SKEW",
       "ADAPTIVE_SPLIT_DEPTH",
       "RESOURCE_WALL_PATTERN",
@@ -46,7 +66,7 @@
       "CONCURRENCY_METRICS"
     ],
     "required_outputs": [
-      "TARGET_WINDOW_DEFINITION",
+      "RESIDUAL_TARGET_WINDOW_AND_SUBPOPULATION_DEFINITION",
       "CONSERVATIVE_PROJECTED_JOB_OR_PACKET_COUNT",
       "JUSTIFIED_MAX_SPLIT_DEPTH_OR_EXPLICIT_UNKNOWN",
       "PROJECTED_PEAK_STORAGE_BYTES",
@@ -69,6 +89,7 @@
   "stage32_close_dag": {
     "32-01": {
       "depends_on": [],
+      "preproduction_gate": "POST_B16_LITERATURE_RECEIVER_AUDIT_THEN_FEASIBILITY_GATE",
       "close_when": "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS_TRUE",
       "credit": "R29_LG2_NUMERICAL_COMPONENT_COMPLETE_ONLY"
     },
@@ -95,6 +116,8 @@
     }
   },
   "firewalls": {
+    "POST_B16_LITERATURE_RECEIVER_AUDIT_COMPLETE": false,
+    "LITERATURE_REDUCED_WINDOW_MASK_AUDITED": false,
     "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
     "R29_LG2_NUMERICAL_COMPONENT_COMPLETE": false,
     "R29_LG2": "NOT_DISCHARGED",
