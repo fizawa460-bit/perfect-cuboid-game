@@ -1,0 +1,230 @@
+name: Stage32-18AF d16 b16 tail algorithm redesign
+
+on:
+  push:
+    branches:
+      - stage32-18af-b16-tail-algorithm-redesign
+    paths:
+      - 'stages/stage32/runkeys/18af-b16-tail-algorithm-redesign.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18af-b16-tail-algorithm-redesign
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.key.outputs.matrix }}
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/18af-b16-tail-algorithm-redesign.json'
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18AF: ARM B16 TAIL ALGORITHM REDESIGN'
+      - id: key
+        name: Validate redesign contract and Actions budget
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,pathlib,urllib.request
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18af-b16-tail-algorithm-redesign.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18af-d16-b16-tail-algorithm-redesign'
+          assert d['armed'] is True and d['generation']==1 and d['bound']==16
+          assert d['source_x1024_run_id']==33068629260
+          assert d['source_x1024_summary_artifact_id']==9645843013
+          assert d['source_x1024_summary_digest']=='sha256:609e0c36e1b65d8e542e8463346cdbad680eb303a6264f0dbf9eec2a170a9328'
+          assert d['source_logical_x16_complete_count']==36
+          assert d['secondary_shard_count']==1024
+          assert d['symmetry_exact_attempt_gate_factor']==0.5
+          assert d['node_cap']==18000000 and d['max_parallel']==12 and d['max_parallel']<=18
+          assert d['final_simple_split_trial_complete'] is True and d['allow_finer_secondary_split'] is False
+          walls=[
+            (436,176,0),(436,5,5),(436,362,10),
+            (503,147,3),(503,118,6),(503,665,9),
+            (922,800,0),(922,17,1),(922,883,3),(922,38,6),(922,13,13),(922,334,14),
+          ]
+          assert len(walls)==12 and len({(p,l) for p,s,l in walls})==12
+          inc=[{'tag':f'p{p}-s{s}','primary':p,'secondary':s,'logical_x16':l} for p,s,l in walls]
+          token=os.environ['GH_TOKEN']; repo=os.environ['GITHUB_REPOSITORY']
+          headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'stage32-18af-preflight'}
+          req=urllib.request.Request(f"https://api.github.com/repos/{repo}/actions/artifacts/{d['source_x1024_summary_artifact_id']}",headers=headers)
+          with urllib.request.urlopen(req) as r: a=json.load(r)
+          assert a['workflow_run']['id']==d['source_x1024_run_id'] and not a['expired'] and a['digest']==d['source_x1024_summary_digest']
+          current=0; page=1
+          while True:
+              req=urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/artifacts?per_page=100&page={page}',headers=headers)
+              with urllib.request.urlopen(req) as r: payload=json.load(r)
+              arts=payload.get('artifacts',[])
+              current += sum(int(x['size_in_bytes']) for x in arts if not x.get('expired',False))
+              if len(arts)<100: break
+              page += 1
+          worst_new=40_000_000
+          assert current+worst_new <= 524_288_000,(current,worst_new)
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('generation='+str(d['generation'])+'\n')
+              f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          print(json.dumps({'walls':12,'current_artifact_bytes':current,'worst_new_bytes':worst_new,'max_parallel':12},sort_keys=True))
+          PY
+
+  prepare:
+    needs: validate-run-key
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build earlier-exact-symmetry certifiers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/source" "$RUNNER_TEMP/prepared"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 2 \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/source.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/source"
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          p=Path(os.environ['RUNNER_TEMP'])/'source'/'d16-exact-symmetry-sharded.cpp'
+          s=p.read_text()
+          old='if(reach==0 || -center>1.25L*reach)'
+          new='if(reach==0 || -center>0.5L*reach)'
+          assert s.count(old)==1
+          p.write_text(s.replace(old,new))
+          PY
+          for p in 436 503 922; do
+            python stages/stage32/32-18X/build_two_stage_certifier.py \
+              --source "$RUNNER_TEMP/source/d16-exact-symmetry-sharded.cpp" \
+              --output "$RUNNER_TEMP/prepared/d16-two-stage-$p.cpp" --primary-id "$p"
+            g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic \
+              "$RUNNER_TEMP/prepared/d16-two-stage-$p.cpp" -o "$RUNNER_TEMP/prepared/d16-two-stage-$p"
+          done
+          cp "$RUNNER_TEMP/source/d16-hperp.txt" "$RUNNER_TEMP/prepared/"
+          cp "$RUNNER_TEMP/source/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/prepared/"
+          sha256sum "$RUNNER_TEMP/prepared"/* > "$RUNNER_TEMP/prepared/files.sha256"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18af-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared/
+          retention-days: 7
+          if-no-files-found: error
+
+  rescue:
+    needs: [validate-run-key, prepare]
+    strategy:
+      fail-fast: false
+      max-parallel: 12
+      matrix: ${{ fromJSON(needs.validate-run-key.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: stage32-18af-prepared-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/prepared
+      - name: Exact redesigned rescue ${{ matrix.tag }}
+        env:
+          PRIMARY: ${{ matrix.primary }}
+          SECONDARY: ${{ matrix.secondary }}
+          LOGICAL_X16: ${{ matrix.logical_x16 }}
+          TAG: ${{ matrix.tag }}
+        run: |
+          set -euo pipefail
+          chmod +x "$RUNNER_TEMP/prepared/d16-two-stage-$PRIMARY"
+          mkdir -p "$RUNNER_TEMP/out"
+          set +e
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" \
+            timeout --signal=TERM --kill-after=30s 50m \
+            "$RUNNER_TEMP/prepared/d16-two-stage-$PRIMARY" \
+              --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+              --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+              --output "$RUNNER_TEMP/out/cert.json" \
+              --dump-canonical "$RUNNER_TEMP/out/dump.bin" \
+              --bound 16 --shard-id "$SECONDARY" --shard-count 1024 --split-coordinate 48 --node-cap 18000000 \
+              >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?
+          set -e
+          if [ "$rc" -eq 0 ]; then
+            python - <<'PY'
+          import hashlib,json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'; d=json.loads((root/'cert.json').read_text())
+          assert d['status']=='COMPLETE' and d['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert d['all_symmetry_branch_rejections_exact_rational_cauchy_schwarz'] is True
+          assert d['secondary_shard_count']==1024 and d['secondary_shard_id']==int(os.environ['SECONDARY'])
+          raw=(root/'dump.bin').read_bytes()
+          out={'schema':'STAGE32_18AF_B16_ALGORITHM_REDESIGN_RESULT_V1','tag':os.environ['TAG'],'primary':int(os.environ['PRIMARY']),'secondary1024':int(os.environ['SECONDARY']),'logical_x16':int(os.environ['LOGICAL_X16']),'status':'COMPLETE','runtime_seconds':float((root/'runtime.txt').read_text().strip()),'nodes':d.get('nodes'),'coordinate_trials':d.get('coordinate_trials'),'exact_symmetry_prune_checks':d.get('exact_symmetry_prune_checks'),'exact_symmetry_prunes':d.get('exact_symmetry_prunes'),'canonical_survivors_including_zero':d.get('canonical_survivors_including_zero'),'canonical_dump_sha256':hashlib.sha256(raw).hexdigest(),'symmetry_exact_attempt_gate_factor':0.5,'D16_B16_NUMERICAL_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
+          PY
+          elif grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then
+            python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          out={'schema':'STAGE32_18AF_B16_ALGORITHM_REDESIGN_RESULT_V1','tag':os.environ['TAG'],'primary':int(os.environ['PRIMARY']),'secondary1024':int(os.environ['SECONDARY']),'logical_x16':int(os.environ['LOGICAL_X16']),'status':'RESOURCE_WALL_NODE_CAP','runtime_seconds':float((root/'runtime.txt').read_text().strip()),'node_cap':18000000,'symmetry_exact_attempt_gate_factor':0.5,'D16_B16_NUMERICAL_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps(out,sort_keys=True))
+          PY
+          else
+            cat "$RUNNER_TEMP/out/stderr.txt"
+            exit "$rc"
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18af-b16-${{ matrix.tag }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 7
+          if-no-files-found: error
+
+  summarize:
+    needs: [validate-run-key, rescue]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18af-b16-p*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/runs
+      - name: Freeze redesign verdict
+        run: |
+          python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'runs'
+          docs=[json.loads(p.read_text()) for p in root.rglob('compact.json')]
+          assert len(docs)==12,len(docs)
+          complete=[d for d in docs if d['status']=='COMPLETE']
+          walls=[d for d in docs if d['status']=='RESOURCE_WALL_NODE_CAP']
+          assert len(complete)+len(walls)==12
+          logical=36+len(complete)
+          if logical==48:
+              verdict='PASS_B16_TAIL_ALGORITHM_REDESIGN__EARLIER_EXACT_SYMMETRY_PRUNING_CLOSES_ALL_TAILS'
+              next_item='32-18AG-D16-B16-RESOURCE-SAFE-EXACT-PRODUCTION-DESIGN'
+          else:
+              verdict='B16_TAIL_ALGORITHM_REDESIGN__EARLIER_EXACT_SYMMETRY_PRUNING_PARTIAL__SEARCH_ORDER_OR_BOUNDING_REDESIGN_REQUIRED'
+              next_item='32-18AG-D16-B16-TAIL-SEARCH-ORDER-REDESIGN'
+          out={'schema':'STAGE32_18AF_B16_ALGORITHM_REDESIGN_SUMMARY_V1','verdict':verdict,'source_logical_x16_complete_count':36,'newly_closed_logical_x16_count':len(complete),'logical_x16_complete_count':logical,'remaining_resource_wall_count':len(walls),'completed':[{'primary':d['primary'],'logical_x16':d['logical_x16'],'secondary1024':d['secondary1024'],'nodes':d.get('nodes'),'runtime_seconds':d['runtime_seconds']} for d in complete],'remaining':[{'primary':d['primary'],'logical_x16':d['logical_x16'],'secondary1024':d['secondary1024'],'runtime_seconds':d['runtime_seconds']} for d in walls],'symmetry_exact_attempt_gate_factor':0.5,'finer_split_forbidden':True,'next_item':next_item,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          outdir=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; outdir.mkdir()
+          (outdir/'stage32-18af-b16-algorithm-redesign-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18af-b16-algorithm-redesign-summary-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/summary/
+          retention-days: 14
+          if-no-files-found: error
