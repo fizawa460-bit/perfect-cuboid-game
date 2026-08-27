@@ -1,0 +1,70 @@
+name: Stage33-07 mixed-order global Gersten contract
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_mixed_order_global_gersten_lift_contract.py'
+      - 'stages/stage33/33-07/certify_order2_gl_restriction_squareclass_contract.py'
+      - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
+      - 'stages/stage33/33-07/order2-raw-extension-normal-form.json'
+      - 'stages/stage33/33-07/order2-absolute-localization-receiver.json'
+      - 'stages/stage33/33-07/order2-localization-receiver.json'
+      - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
+      - '.github/workflows/stage33-07-mixed-order-global-gersten-contract.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Reproduce GL squareclass shape contract
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_gl_restriction_squareclass_contract.py
+      - name: Freeze all 26 global Gersten lift obligations
+        working-directory: stages/stage33/33-07
+        run: python certify_mixed_order_global_gersten_lift_contract.py
+      - name: Validate conservative firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          p='mixed-order-global-gersten-lift-contract.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          actual=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert h==actual
+          g=x['global_Gersten_lift_contract']
+          assert g['required_count']==26 and g['materialized_count']==0
+          assert len(g['source_obligations'])==26
+          assert sum(o['mixed_order_boundary_package']['order']==2 for o in g['source_obligations'])==17
+          assert sum(o['mixed_order_boundary_package']['order']==4 for o in g['source_obligations'])==9
+          assert all(o['boundary_first_residue_package_materialized'] for o in g['source_obligations'])
+          assert not any(o['global_geometric_Gersten_lift_materialized'] for o in g['source_obligations'])
+          assert all(x['exact_checks'].values())
+          prog=x['constructive_progress']
+          assert prog['global_Gersten_lift_input_contract_closed']
+          assert prog['global_geometric_Gersten_lifts_materialized_count']==0
+          assert prog['global_geometric_Gersten_lifts_required_count']==26
+          assert not prog['project_14x26_L_squareclass_tensor_materialized']
+          assert not prog['absolute_delta_loc_computed']
+          assert not prog['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_07_GLOBAL_GERSTEN_LIFT_CONTRACT=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('GLOBAL_GERSTEN_LIFTS=0/26')
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - name: Upload compact construction contract
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-global-gersten-lift-contract
+          retention-days: 3
+          path: stages/stage33/33-07/mixed-order-global-gersten-lift-contract.json
