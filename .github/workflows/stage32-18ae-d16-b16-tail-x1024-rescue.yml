@@ -1,0 +1,306 @@
+name: Stage32-18AE d16 b16 final adaptive c48x1024 tail rescue
+
+on:
+  push:
+    branches:
+      - stage32-18ae-b16-tail-x1024-rescue
+    paths:
+      - 'stages/stage32/runkeys/18ae-b16-tail-x1024-rescue.json'
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: stage32-18ae-b16-tail-x1024-rescue
+  cancel-in-progress: true
+
+jobs:
+  validate-run-key:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.key.outputs.matrix }}
+      generation: ${{ steps.key.outputs.generation }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/18ae-b16-tail-x1024-rescue.json'
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1
+          test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18AE: ARM FINAL B16 C48X1024 TAIL RESCUE'
+      - id: key
+        name: Validate final adaptive x1024 contract and Actions budget
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import json,os,pathlib,urllib.request
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18ae-b16-tail-x1024-rescue.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1'
+          assert d['workflow']=='stage32-18ae-d16-b16-tail-x1024-rescue'
+          assert d['armed'] is True and d['generation']==1 and d['bound']==16
+          assert d['final_simple_split_trial'] is True
+          assert d['accepted_b14_canonical_survivors']==44450
+          assert d['accepted_b14_dump_sha256']=='4d4680a87fab0c01ac8b54bcf404eecaa707cf5db782b31d5fa7357a52249d8a'
+          assert d['prepared_artifact_id']==9626136705
+          assert d['prepared_zip_sha256']=='f706cd79cf1fc64da0a59bc5cc528ea677e3892f602d3f58d78cb1543bf8380c'
+          assert d['source_x512_run_id']==33062185707 and d['source_x512_summary_artifact_id']==9643777354
+          assert d['source_x512_summary_digest']=='sha256:05ea3e0778f3da0f9118de6057ad20492742963a9e3cc4268ad4cf20af18af0c'
+          assert d['source_logical_x16_complete_count']==36
+          assert d['primary_residues']==[436,503,922]
+          assert d['primary_coordinate']==54 and d['primary_modulus']==1024
+          assert d['secondary_coordinate']==48 and d['source_secondary_shard_count']==512 and d['rescue_secondary_shard_count']==1024
+          assert d['node_cap']==18000000 and d['max_parallel']==15 and d['max_parallel']<=18
+          assert d['artifact_uncompressed_cap_bytes']==1000000 and d['artifact_retention_days']==7
+          assert d['storage_budget_bytes']==524288000
+          walls={436:[176,5,362],503:[147,118,153],922:[288,17,371,38,13,334]}
+          got={int(k):v for k,v in d['source_node_cap_x512'].items()}
+          assert got==walls and sum(map(len,walls.values()))==12
+          inc=[]
+          for p in d['primary_residues']:
+              for parent in walls[p]:
+                  for child in (parent,parent+512):
+                      inc.append({'tag':f'c48x1024-p{p}-s{child}','primary':p,'parent512':parent,'secondary':child})
+          assert len(inc)==24 and len({x['tag'] for x in inc})==24
+          token=os.environ['GH_TOKEN']; repo=os.environ['GITHUB_REPOSITORY']
+          headers={'Authorization':f'Bearer {token}','Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','User-Agent':'stage32-18ae-preflight'}
+          req=urllib.request.Request(f"https://api.github.com/repos/{repo}/actions/artifacts/{d['source_x512_summary_artifact_id']}",headers=headers)
+          with urllib.request.urlopen(req) as r: a=json.load(r)
+          assert a['workflow_run']['id']==d['source_x512_run_id'] and not a['expired'] and a['digest']==d['source_x512_summary_digest']
+          current=0; page=1
+          while True:
+              req=urllib.request.Request(f'https://api.github.com/repos/{repo}/actions/artifacts?per_page=100&page={page}',headers=headers)
+              with urllib.request.urlopen(req) as r: payload=json.load(r)
+              arts=payload.get('artifacts',[])
+              current += sum(int(x['size_in_bytes']) for x in arts if not x.get('expired',False))
+              if len(arts)<100: break
+              page += 1
+          worst_new=len(inc)*d['artifact_uncompressed_cap_bytes'] + 8000000
+          projected=current+worst_new
+          assert projected <= d['storage_budget_bytes'], (current,worst_new,projected,d['storage_budget_bytes'])
+          print(json.dumps({'source_x512_node_cap':12,'new_x1024_jobs':len(inc),'current_nonexpired_artifact_bytes':current,'worst_case_new_bytes':worst_new,'projected_peak_bytes':projected,'storage_budget_bytes':d['storage_budget_bytes'],'max_parallel':d['max_parallel'],'final_simple_split_trial':True},sort_keys=True))
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:
+              f.write('generation='+str(d['generation'])+'\n')
+              f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+
+  rescue:
+    needs: validate-run-key
+    strategy:
+      fail-fast: false
+      max-parallel: 15
+      matrix: ${{ fromJSON(needs.validate-run-key.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Restore SHA-locked prepared certifiers
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/prepared"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors --retry-delay 2 \
+            -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" \
+            -o "$RUNNER_TEMP/prepared.zip" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9626136705/zip"
+          echo 'f706cd79cf1fc64da0a59bc5cc528ea677e3892f602d3f58d78cb1543bf8380c  '"$RUNNER_TEMP/prepared.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/prepared.zip" -d "$RUNNER_TEMP/prepared"
+          chmod +x "$RUNNER_TEMP/prepared/d16-two-stage-436" "$RUNNER_TEMP/prepared/d16-two-stage-503" "$RUNNER_TEMP/prepared/d16-two-stage-922"
+      - name: Exact x1024 rescue ${{ matrix.tag }}
+        env:
+          PRIMARY: ${{ matrix.primary }}
+          PARENT512: ${{ matrix.parent512 }}
+          SECONDARY: ${{ matrix.secondary }}
+          TAG: ${{ matrix.tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/out"
+          exe="$RUNNER_TEMP/prepared/d16-two-stage-$PRIMARY"
+          set +e
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" \
+            timeout --signal=TERM --kill-after=30s 50m \
+            "$exe" \
+              --input "$RUNNER_TEMP/prepared/d16-hperp.txt" \
+              --bundle "$RUNNER_TEMP/prepared/d16-aut-prefix256-bundle.txt" \
+              --output "$RUNNER_TEMP/out/cert.json" \
+              --dump-canonical "$RUNNER_TEMP/out/dump.bin" \
+              --bound 16 --shard-id "$SECONDARY" --shard-count 1024 --split-coordinate 48 --node-cap 18000000 \
+              >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?
+          set -e
+          if [ "$rc" -ne 0 ]; then
+            if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then
+              STATUS='RESOURCE_WALL_NODE_CAP' RC="$rc" python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          runtime=float((root/'runtime.txt').read_text().strip().splitlines()[-1])
+          out={'schema':'STAGE32_18AE_B16_TAIL_X1024_RESCUE_RESULT_V1','tag':os.environ['TAG'],'primary_residue':int(os.environ['PRIMARY']),'parent_x512_shard':int(os.environ['PARENT512']),'secondary_shard':int(os.environ['SECONDARY']),'secondary_shard_count':1024,'status':os.environ['STATUS'],'node_cap':18000000,'runtime_seconds':runtime,'exit_code':int(os.environ['RC']),'D16_B16_NUMERICAL_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+            elif [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
+              STATUS='RESOURCE_WALL_WALLCLOCK' RC="$rc" python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          runtime=float((root/'runtime.txt').read_text().strip().splitlines()[-1])
+          out={'schema':'STAGE32_18AE_B16_TAIL_X1024_RESCUE_RESULT_V1','tag':os.environ['TAG'],'primary_residue':int(os.environ['PRIMARY']),'parent_x512_shard':int(os.environ['PARENT512']),'secondary_shard':int(os.environ['SECONDARY']),'secondary_shard_count':1024,'status':os.environ['STATUS'],'node_cap':18000000,'wallclock_cap_seconds':3000,'runtime_seconds':runtime,'exit_code':int(os.environ['RC']),'D16_B16_NUMERICAL_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+            else
+              cat "$RUNNER_TEMP/out/stderr.txt"
+              exit "$rc"
+            fi
+          else
+            python - <<'PY'
+          import hashlib,json,os,pathlib
+          MAGIC=b'S32D16C1'; RS=141
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'
+          d=json.loads((root/'cert.json').read_text()); p=int(os.environ['PRIMARY']); s=int(os.environ['SECONDARY']); parent=int(os.environ['PARENT512'])
+          assert d['schema']=='STAGE32_18X_D16_B16_TWO_STAGE_SHARD_V1' and d['status']=='COMPLETE' and d['bound']==16
+          assert d['TRAVERSAL_COMPLETENESS_CERTIFICATE'] is True
+          assert d['all_symmetry_branch_rejections_exact_rational_cauchy_schwarz'] is True
+          assert d['aut_group_order']==1536 and d['dfs_symmetry_breaker_count']==256
+          assert d['two_stage_partition'] is True
+          assert (d['primary_shard_id'],d['primary_shard_count'],d['primary_split_coordinate'])==(p,1024,54)
+          assert (d['secondary_shard_id'],d['secondary_shard_count'],d['secondary_split_coordinate'])==(s,1024,48)
+          assert s%512==parent
+          raw=(root/'dump.bin').read_bytes(); assert raw[:8]==MAGIC and (len(raw)-8)%RS==0
+          rec=[raw[i:i+RS] for i in range(8,len(raw),RS)]
+          assert len(rec)==len(set(rec))
+          n=len(rec); assert n==int(d['canonical_survivors_including_zero'])
+          runtime=float((root/'runtime.txt').read_text().strip().splitlines()[-1])
+          out={'schema':'STAGE32_18AE_B16_TAIL_X1024_RESCUE_RESULT_V1','tag':os.environ['TAG'],'primary_residue':p,'parent_x512_shard':parent,'secondary_shard':s,'secondary_shard_count':1024,'status':'COMPLETE','node_cap':18000000,'runtime_seconds':runtime,'canonical_survivors_including_zero':n,'canonical_norm_histogram':d['canonical_norm_histogram'],'canonical_dump_sha256':hashlib.sha256(raw).hexdigest(),'nodes':d.get('nodes'),'coordinate_trials':d.get('coordinate_trials'),'prepared_input_sha256':d.get('prepared_input_sha256'),'stable_aut_content_sha256':d.get('stable_aut_content_sha256'),'canonical_bundle_sha256':d.get('canonical_bundle_sha256'),'aut_group_order':1536,'dfs_symmetry_breaker_count':256,'D16_B16_NUMERICAL_CREDIT':False}
+          (root/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps(out,sort_keys=True))
+          PY
+          fi
+          bytes=$(du -sb "$RUNNER_TEMP/out" | cut -f1)
+          if [ "$bytes" -gt 1000000 ]; then
+            ARTIFACT_BYTES="$bytes" python - <<'PY'
+          import json,os,pathlib
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'; p=root/'compact.json'; d=json.loads(p.read_text())
+          if d.get('status')=='COMPLETE':
+              d['status']='RESOURCE_WALL_ARTIFACT_SIZE'; d['artifact_bytes_before_compaction']=int(os.environ['ARTIFACT_BYTES']); d['artifact_uncompressed_cap_bytes']=1000000; d['D16_B16_NUMERICAL_CREDIT']=False
+              for name in ('cert.json','dump.bin','stdout.txt','stderr.txt'):
+                  q=root/name
+                  if q.exists(): q.unlink()
+              p.write_text(json.dumps(d,indent=2,sort_keys=True)+'\n')
+          PY
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18ae-b16-${{ matrix.tag }}-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/out/
+          retention-days: 7
+          if-no-files-found: error
+
+  summarize:
+    needs: [validate-run-key, rescue]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download frozen x512 reconstruction summary
+        uses: actions/download-artifact@v4
+        with:
+          name: stage32-18ad-b16-adaptive-x512-rescue-summary-g1
+          path: ${{ runner.temp }}/source-summary
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: 33062185707
+      - name: Download current x1024 rescue evidence
+        uses: actions/download-artifact@v4
+        with:
+          pattern: stage32-18ae-b16-c48x1024-*-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/x1024
+      - name: Verify final adaptive x1024 reconstruction and freeze verdict
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,pathlib
+          MAGIC=b'S32D16C1'; RS=141
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])
+          source_files=list((root/'source-summary').rglob('stage32-18ad-b16-adaptive-x512-rescue-summary.json'))
+          assert len(source_files)==1,source_files
+          src=json.loads(source_files[0].read_text())
+          assert src['schema']=='STAGE32_18AD_B16_ADAPTIVE_X512_RESCUE_SUMMARY_V1'
+          assert src['verdict']=='B16_TAIL_GEOMETRY__ADAPTIVE_C48X512_INSUFFICIENT__FINER_SPLIT_REQUIRED'
+          assert src['source_logical_x16_complete_count']==32 and src['source_node_cap_x256_count']==16
+          assert src['new_x512_child_count']==32 and src['new_x512_complete_count']==20
+          assert src['logical_x16_complete_count']==36
+          assert src['next_item']=='32-18AE-D16-B16-C48X1024-TAIL-RESCUE'
+          for k in ('D16_B16_NUMERICAL_CREDIT','GLOBAL_B16_AGGREGATION_COMPLETE','FULL_D16_G0_ROW_COMPLETE','THEOREM_CREDIT','RECEIVER_CREDIT','CONTROLLER_MODIFIED'):
+              assert src[k] is False
+          walls={436:[176,5,362],503:[147,118,153],922:[288,17,371,38,13,334]}
+          mapping={(436,176):(48,176),(436,5):(5,5),(436,362):(106,106),(503,147):(19,147),(503,118):(118,118),(503,153):(25,153),(922,288):(32,32),(922,17):(17,17),(922,371):(115,115),(922,38):(38,38),(922,13):(13,13),(922,334):(78,78)}
+          expected_remaining={(q,mapping[(q,s)][1],s,'RESOURCE_WALL_NODE_CAP') for q,ws in walls.items() for s in ws}
+          got_remaining={(int(x['primary']),int(x['parent256']),int(x['secondary512']),x['status']) for x in src['remaining_resource_walls']}
+          assert got_remaining==expected_remaining,(got_remaining,expected_remaining)
+          docs={}; dirs={}
+          for p in (root/'x1024').rglob('compact.json'):
+              d=json.loads(p.read_text()); docs[d['tag']]=d; dirs[d['tag']]=p.parent
+          expected={f'c48x1024-p{q}-s{c}' for q,ws in walls.items() for parent in ws for c in (parent,parent+512)}
+          assert set(docs)==expected,(len(docs),len(expected),set(docs)^expected)
+          source_lock=None; remaining=[]; closed=[]; per={}
+          def lock(d): return (d['prepared_input_sha256'],d['stable_aut_content_sha256'],d['canonical_bundle_sha256'],d['aut_group_order'],d['dfs_symmetry_breaker_count'])
+          def records(tag,d):
+              raw=(dirs[tag]/'dump.bin').read_bytes(); assert raw[:8]==MAGIC and (len(raw)-8)%RS==0
+              assert hashlib.sha256(raw).hexdigest()==d['canonical_dump_sha256']
+              rec=[raw[i:i+RS] for i in range(8,len(raw),RS)]
+              assert len(rec)==int(d['canonical_survivors_including_zero']) and len(rec)==len(set(rec))
+              rh={}
+              for r in rec: rh[str(r[0])]=rh.get(str(r[0]),0)+1
+              assert rh=={str(k):int(v) for k,v in d['canonical_norm_histogram'].items()}
+              return rec,rh
+          for q,ws in walls.items():
+              pin=[]
+              for parent in ws:
+                  pair=[]; rec=[]; hist={}
+                  for s in (parent,parent+512):
+                      tag=f'c48x1024-p{q}-s{s}'; d=docs[tag]
+                      assert d['schema']=='STAGE32_18AE_B16_TAIL_X1024_RESCUE_RESULT_V1'
+                      assert d['primary_residue']==q and d['parent_x512_shard']==parent and d['secondary_shard']==s and d['secondary_shard_count']==1024
+                      assert s%512==parent and d['D16_B16_NUMERICAL_CREDIT'] is False
+                      pair.append(d['status'])
+                      if d['status']=='COMPLETE':
+                          lk=lock(d)
+                          if source_lock is None: source_lock=lk
+                          assert lk==source_lock
+                          r,h=records(tag,d); rec.extend(r)
+                          for k,v in h.items(): hist[k]=hist.get(k,0)+v
+                      else:
+                          assert d['status'] in ('RESOURCE_WALL_NODE_CAP','RESOURCE_WALL_WALLCLOCK','RESOURCE_WALL_ARTIFACT_SIZE')
+                          remaining.append({'primary':q,'parent512':parent,'secondary1024':s,'status':d['status']})
+                  p128,p256=mapping[(q,parent)]
+                  if pair==['COMPLETE','COMPLETE']:
+                      assert len(rec)==len(set(rec))
+                      closed.append({'primary':q,'parent512':parent,'parent256':p256,'parent128':p128,'logical_x16':p128%16,'canonical_survivors_including_zero':len(rec),'canonical_norm_histogram':hist,'union_dump_sha256':hashlib.sha256(MAGIC+b''.join(sorted(rec))).hexdigest()})
+                      pin.append({'parent512':parent,'parent256':p256,'parent128':p128,'logical_x16':p128%16,'status':'COMPLETE'})
+                  else:
+                      pin.append({'parent512':parent,'parent256':p256,'parent128':p128,'logical_x16':p128%16,'status':'INCOMPLETE','child_statuses':pair})
+              per[str(q)]={'all_source_x512_walls_closed':all(x['status']=='COMPLETE' for x in pin),'source_x512_parents':pin}
+          logical_count=36+len(closed)
+          assert 36 <= logical_count <= 48
+          unresolved=[{'primary':q,'logical_x16':mapping[(q,parent)][0]%16,'parent128':mapping[(q,parent)][0],'parent256':mapping[(q,parent)][1],'parent512':parent} for q,ws in walls.items() for parent in ws if not any(x['primary']==q and x['parent512']==parent for x in closed)]
+          assert len(unresolved)==48-logical_count
+          if logical_count==48:
+              verdict='PASS_B16_TAIL_GEOMETRY__FINAL_ADAPTIVE_C48X1024_CLOSES_HISTORICAL_TAILS__PRODUCTION_DESIGN_READY'
+              next_item='32-18AF-D16-B16-RESOURCE-SAFE-EXACT-PRODUCTION-DESIGN'
+          else:
+              verdict='B16_TAIL_GEOMETRY__FINAL_SIMPLE_SPLIT_X1024_EXHAUSTED__ALGORITHM_REDESIGN_REQUIRED'
+              next_item='32-18AF-D16-B16-TAIL-ALGORITHM-REDESIGN'
+          out={'schema':'STAGE32_18AE_B16_FINAL_ADAPTIVE_X1024_RESCUE_SUMMARY_V1','verdict':verdict,'source_x512_run_id':33062185707,'source_x512_summary_artifact_id':9643777354,'source_logical_x16_complete_count':36,'source_node_cap_x512_count':12,'new_x1024_child_count':24,'new_x1024_complete_count':sum(1 for d in docs.values() if d['status']=='COMPLETE'),'logical_x16_complete_count':logical_count,'closed_x512_parents':closed,'unresolved_logical_x16':unresolved,'remaining_resource_walls':remaining,'per_primary':per,'final_simple_split_trial':True,'next_item':next_item,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          outdir=root/'summary'; outdir.mkdir()
+          (outdir/'stage32-18ae-b16-final-adaptive-x1024-rescue-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          print(json.dumps({'verdict':verdict,'new_x1024_complete_count':out['new_x1024_complete_count'],'logical_x16_complete_count':logical_count,'remaining_resource_wall_count':len(remaining),'unresolved_logical_x16':unresolved,'remaining_resource_walls':remaining,'next_item':next_item},sort_keys=True))
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-18ae-b16-final-adaptive-x1024-rescue-summary-g${{ needs.validate-run-key.outputs.generation }}
+          path: ${{ runner.temp }}/summary/
+          retention-days: 14
+          if-no-files-found: error
