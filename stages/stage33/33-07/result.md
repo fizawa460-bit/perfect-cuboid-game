@@ -348,3 +348,19 @@ R33-BR2A-26-MIXED-ORDER-FIRST-RESIDUE-GLOBAL-GERSTEN-LIFT-GALOIS-DIFFERENCE-COCY
 ```
 
 No finite boundary calculation is promoted to a global Q-defined lift here.
+<!-- STAGE33_07_ALL72_AMBIENT_BOUNDARY_PROGRESS -->
+## All-72 ambient boundary-function milestone
+
+The mixed-order first-residue packages now have explicit ambient rational-function lifts on **all 72 boundary components**.  The 24 physical side conics contribute 120 nontrivial source/component functions with 240 selected crossing factors (`2f137842fffbabe7fa9f91879f379e0662803204d6753c342fc31f6dfe12fa6d`); the 48 exceptional tangent conics contribute another 120 nontrivial functions with 240 factors (`a9d5ceb66625dfa561db61a3afc95388bf5a8371fb81905988991514a765d397`).  The exceptional constructor reproduces all 48 frozen tangent-conic commitments before forming deterministic ambient projection pairs.
+
+This does **not** promote any source to a global geometric Gersten/Brauer lift.  The remaining exact kernel is `R33-BR2A-26-AMBIENT-BOUNDARY-FUNCTION-PACKAGES-GLOBAL-GERSTEN-OFF-BOUNDARY-RESIDUES`: assemble the 26 ambient boundary packages and certify every off-boundary codimension-one residue (or an exact cancellation) before global-lift credit.
+
+```text
+ALL_72_BOUNDARY_COMPONENT_PACKAGES_AMBIENTIZED=true
+GLOBAL_GEOMETRIC_GERSTEN_LIFTS_MATERIALIZED=0/26
+OFF_BOUNDARY_CODIM1_RESIDUE_CERTIFICATES=0/26
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+```
