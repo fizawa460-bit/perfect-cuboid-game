@@ -1,0 +1,107 @@
+name: Stage32-18AJ d16 b16 promote baseline
+
+on:
+  push:
+    branches: [stage32-18aj-b16-promote-baseline]
+    paths: ['stages/stage32/runkeys/18aj-b16-promote-baseline.json']
+
+permissions: {contents: read, actions: read}
+concurrency: {group: stage32-18aj-b16-promote-baseline, cancel-in-progress: true}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    outputs: {matrix: '${{ steps.k.outputs.matrix }}'}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 2}
+      - name: Require dedicated ARM commit
+        run: |
+          set -euo pipefail
+          KEY=stages/stage32/runkeys/18aj-b16-promote-baseline.json
+          mapfile -t changed < <(git diff --name-only HEAD^ HEAD)
+          test "${#changed[@]}" -eq 1 && test "${changed[0]}" = "$KEY"
+          test "$(git log -1 --pretty=%s)" = 'Stage32-18AJ: ARM B16 BASELINE PRODUCTION'
+      - id: k
+        run: |
+          python - <<'PY'
+          import json,pathlib,os
+          d=json.loads(pathlib.Path('stages/stage32/runkeys/18aj-b16-promote-baseline.json').read_text())
+          assert d['schema']=='STAGE32_HEAVY_RUN_KEY_V1' and d['armed'] and d['bound']==16
+          assert d['source_18ai_run_id']==33124686161 and d['source_18ai_summary_artifact_id']==9668228265
+          assert d['promoted_algorithm']=='baseline' and d['source_exact_artifact_id']==9574308138
+          assert d['shard_count']==1024 and d['secondary_split_coordinate']==48
+          assert d['node_cap']==18000000 and d['wallclock_minutes']==45 and d['max_parallel']==6
+          assert d['allow_finer_split'] is False
+          walls=[tuple(x) for x in d['walls']]; assert walls==[(436,5),(436,362),(503,118),(503,665),(922,13),(922,38)]
+          inc=[{'primary':p,'secondary':s,'tag':f'p{p}-s{s}'} for p,s in walls]
+          with open(os.environ['GITHUB_OUTPUT'],'a') as f:f.write('matrix='+json.dumps({'include':inc},separators=(',',':'))+'\n')
+          PY
+
+  produce:
+    needs: validate
+    strategy:
+      fail-fast: false
+      max-parallel: 6
+      matrix: ${{ fromJSON(needs.validate.outputs.matrix) }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build exact baseline certifier
+        env: {GH_TOKEN: '${{ github.token }}', PRIMARY: '${{ matrix.primary }}'}
+        run: |
+          set -euo pipefail
+          sudo apt-get update -qq && sudo apt-get install -y --no-install-recommends g++ libboost-dev
+          mkdir -p "$RUNNER_TEMP/src" "$RUNNER_TEMP/work" "$RUNNER_TEMP/out"
+          curl -L --fail --silent --show-error --retry 6 --retry-all-errors -H "Authorization: Bearer $GH_TOKEN" -H "X-GitHub-Api-Version: 2022-11-28" -o "$RUNNER_TEMP/source.zip" "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/9574308138/zip"
+          echo '0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4  '"$RUNNER_TEMP/source.zip" | sha256sum -c -
+          unzip -q "$RUNNER_TEMP/source.zip" -d "$RUNNER_TEMP/src"
+          python stages/stage32/32-18X/build_two_stage_certifier.py --source "$RUNNER_TEMP/src/d16-exact-symmetry-sharded.cpp" --output "$RUNNER_TEMP/work/cert.cpp" --primary-id "$PRIMARY"
+          SRC="$RUNNER_TEMP/work/cert.cpp" python stages/stage32/32-18AF/patch_symmetry_schedule.py
+          g++ -O3 -DNDEBUG -std=c++17 -Wall -Wextra -pedantic "$RUNNER_TEMP/work/cert.cpp" -o "$RUNNER_TEMP/work/cert"
+          cp "$RUNNER_TEMP/src/d16-hperp.txt" "$RUNNER_TEMP/work/"
+          cp "$RUNNER_TEMP/src/d16-aut-prefix256-bundle.txt" "$RUNNER_TEMP/work/"
+      - name: Run exact production ${{ matrix.tag }}
+        env: {PRIMARY: '${{ matrix.primary }}', SECONDARY: '${{ matrix.secondary }}', TAG: '${{ matrix.tag }}'}
+        run: |
+          set -euo pipefail; set +e
+          /usr/bin/time -q -f '%e' -o "$RUNNER_TEMP/out/runtime.txt" timeout --signal=TERM --kill-after=20s 45m "$RUNNER_TEMP/work/cert" --input "$RUNNER_TEMP/work/d16-hperp.txt" --bundle "$RUNNER_TEMP/work/d16-aut-prefix256-bundle.txt" --output "$RUNNER_TEMP/out/cert.json" --dump-canonical "$RUNNER_TEMP/out/dump.bin" --bound 16 --shard-id "$SECONDARY" --shard-count 1024 --split-coordinate 48 --node-cap 18000000 >"$RUNNER_TEMP/out/stdout.txt" 2>"$RUNNER_TEMP/out/stderr.txt"
+          rc=$?; set -e
+          STATUS=COMPLETE
+          if [ "$rc" -ne 0 ]; then if grep -q 'exact traversal node cap exceeded' "$RUNNER_TEMP/out/stderr.txt"; then STATUS=RESOURCE_WALL_NODE_CAP; elif [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ] || [ "$rc" -eq 143 ]; then STATUS=RESOURCE_WALL_WALLCLOCK; else STATUS=UNEXPECTED_FAILURE; fi; fi
+          export STATUS
+          python - <<'PY'
+          import json,os,pathlib
+          r=pathlib.Path(os.environ['RUNNER_TEMP'])/'out'; cert={}
+          if (r/'cert.json').exists():
+              try: cert=json.loads((r/'cert.json').read_text())
+              except: cert={}
+          rt=float((r/'runtime.txt').read_text().strip().splitlines()[-1]) if (r/'runtime.txt').exists() and (r/'runtime.txt').read_text().strip() else None
+          out={'schema':'STAGE32_18AJ_B16_BASELINE_PRODUCTION_RESULT_V1','algorithm':'baseline','tag':os.environ['TAG'],'primary_residue':int(os.environ['PRIMARY']),'secondary_shard':int(os.environ['SECONDARY']),'status':os.environ['STATUS'],'runtime_seconds':rt,'nodes':cert.get('nodes'),'exact_symmetry_prune_checks':cert.get('exact_symmetry_prune_checks'),'exact_symmetry_prunes':cert.get('exact_symmetry_prunes'),'canonical_survivors_including_zero':cert.get('canonical_survivors_including_zero'),'D16_B16_NUMERICAL_CREDIT':False}
+          (r/'compact.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n')
+          PY
+          test "$STATUS" != UNEXPECTED_FAILURE
+      - uses: actions/upload-artifact@v4
+        with: {name: 'stage32-18aj-${{ matrix.tag }}-g1', path: '${{ runner.temp }}/out/', retention-days: 7, if-no-files-found: error}
+
+  summarize:
+    needs: produce
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with: {pattern: 'stage32-18aj-*-g1', path: '${{ runner.temp }}/runs'}
+      - run: |
+          python - <<'PY'
+          import json,os,pathlib
+          docs=[json.loads(p.read_text()) for p in (pathlib.Path(os.environ['RUNNER_TEMP'])/'runs').rglob('compact.json')]; assert len(docs)==6
+          complete=[d for d in docs if d['status']=='COMPLETE']; remaining=[d for d in docs if d['status']!='COMPLETE']
+          if len(complete)==6: verdict='PASS_B16_BASELINE_PRODUCTION__SIX_WALLS_COMPLETE'; nxt='32-18AK-D16-B16-GLOBAL-AGGREGATION'
+          elif complete: verdict='PARTIAL_B16_BASELINE_PRODUCTION'; nxt='32-18AK-D16-B16-REMAINING-WALL-REDIRECTION'
+          else: verdict='FAIL_B16_BASELINE_PRODUCTION__NO_NEW_WALL_CLOSURE'; nxt='32-18AK-D16-B16-ALGORITHM-REDIRECTION'
+          out={'schema':'STAGE32_18AJ_B16_BASELINE_PRODUCTION_SUMMARY_V1','verdict':verdict,'new_complete_count':len(complete),'remaining_wall_count':len(remaining),'results':sorted(docs,key=lambda d:(d['primary_residue'],d['secondary_shard'])),'next_item':nxt,'D16_B16_NUMERICAL_CREDIT':False,'GLOBAL_B16_AGGREGATION_COMPLETE':False,'FULL_D16_G0_ROW_COMPLETE':False,'THEOREM_CREDIT':False,'RECEIVER_CREDIT':False,'CONTROLLER_MODIFIED':False}
+          o=pathlib.Path(os.environ['RUNNER_TEMP'])/'summary'; o.mkdir(); (o/'stage32-18aj-summary.json').write_text(json.dumps(out,indent=2,sort_keys=True)+'\n'); print(json.dumps({'verdict':verdict,'complete':len(complete),'remaining':len(remaining)}))
+          PY
+      - uses: actions/upload-artifact@v4
+        with: {name: stage32-18aj-b16-baseline-production-summary-g1, path: '${{ runner.temp }}/summary/', retention-days: 14, if-no-files-found: error}
