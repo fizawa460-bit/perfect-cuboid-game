@@ -1,0 +1,84 @@
+{
+  "schema": "STAGE32_POST_B16_LITERATURE_RECEIVER_CONTRACT_V1",
+  "status": "PLANNED_HIGHEST_PRIORITY_AFTER_D16_B16_CALIBRATION_CLOSE",
+  "initial_window_count": 183,
+  "priority": {
+    "after": "AUDITED_D16_B16_CALIBRATION_CLOSE",
+    "before": [
+      "POST_B16_FROZEN_CENSUS_FEASIBILITY_GATE",
+      "LARGE_183_WINDOW_PRODUCTION_CAMPAIGN"
+    ],
+    "multibranch_32_03_parallelism_preserved": true
+  },
+  "receiver_families": [
+    {
+      "id": "LIT32-FSM",
+      "source_family": "FREITAG_SALVATI_MANNI_BOX_VARIETY_LOW_GENUS_BOUND",
+      "required_role": "SOURCE_LOCK_BASELINE_D176_D192_BOUND_AND_TEST_REFINEMENTS"
+    },
+    {
+      "id": "LIT32-GF",
+      "source_family": "GARCIA_FRITZ_GARCIA_FRITZ_URZUA_NODAL_SURFACE_BOUNDS",
+      "required_role": "EXACT_LOCAL_NODE_HYPOTHESIS_ADAPTER_AND_SHARPER_SUBPOPULATION_BOUNDS"
+    },
+    {
+      "id": "LIT32-BTVA",
+      "source_family": "BRUIN_THOMAS_VARILLY_ALVARADO_SYMMETRIC_DIFFERENTIALS",
+      "required_role": "NODE_INCIDENCE_AND_EXPLICIT_SPECIAL_LOCUS_REDUCTION"
+    },
+    {
+      "id": "LIT32-TS",
+      "source_family": "TESTA_STOLL_CURVES_ON_CUBOID_SURFACE",
+      "required_role": "LOW_DEGREE_CLASSIFICATION_AND_K3_AUT_COMPRESSION_ADAPTER"
+    }
+  ],
+  "required_source_lock_per_receiver": [
+    "STABLE_SOURCE_LOCATOR",
+    "EXACT_THEOREM_PROPOSITION_OR_LEMMA_LOCATOR",
+    "EXACT_STATEMENT",
+    "ALL_HYPOTHESES",
+    "STAGE32_VARIABLE_DICTIONARY",
+    "POPULATION_APPLICABILITY_PROOF",
+    "EXCEPTION_HANDLING",
+    "OVERLAP_ACCOUNTING"
+  ],
+  "row_status_enum": [
+    "FULLY_DISCHARGED_BY_SOURCE_LOCKED_THEOREM",
+    "FULLY_CLASSIFIED_BY_SOURCE_LOCKED_RESULT",
+    "REDUCED_TO_EXPLICIT_SPECIAL_LOCUS",
+    "REDUCED_ONLY_FOR_CERTIFIED_SUBPOPULATION",
+    "NO_APPLICABLE_LITERATURE_REDUCTION",
+    "UNKNOWN_APPLICABILITY"
+  ],
+  "required_audit_output": {
+    "schema": "STAGE32_POST_B16_LITERATURE_RECEIVER_AUDIT_V1",
+    "all_183_rows_explicit": true,
+    "required_aggregates": [
+      "FULLY_DISCHARGED_OR_CLASSIFIED_ROW_COUNT",
+      "PARTIALLY_REDUCED_ROW_COUNT",
+      "UNCHANGED_ROW_COUNT",
+      "UNKNOWN_APPLICABILITY_ROW_COUNT",
+      "EXACT_RESIDUAL_ROW_LIST",
+      "RESIDUAL_SUBPOPULATION_MASKS",
+      "REVISED_RESIDUAL_PRODUCTION_TARGET"
+    ]
+  },
+  "safety_rules": {
+    "smooth_at_node_must_not_be_equated_with_unibranch": true,
+    "bounded_classification_must_not_be_extrapolated_beyond_proved_degree": true,
+    "partial_subpopulation_theorem_must_not_delete_full_row": true,
+    "double_counting_reductions_forbidden": true,
+    "plausible_literature_match_grants_credit": false,
+    "large_production_before_literature_audit_forbidden": true
+  },
+  "post_audit_transition": "RUN_POST_B16_FEASIBILITY_GATE_ON_AUDITED_RESIDUAL_POPULATION",
+  "firewalls": {
+    "POST_B16_LITERATURE_RECEIVER_AUDIT_COMPLETE": false,
+    "LITERATURE_REDUCED_WINDOW_MASK_AUDITED": false,
+    "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+    "R29_LG2_NUMERICAL_COMPONENT_COMPLETE": false,
+    "THEOREM_CREDIT": false,
+    "RECEIVER_CREDIT": false,
+    "STAGE32_CLOSED": false
+  }
+}
