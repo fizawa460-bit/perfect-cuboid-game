@@ -32,6 +32,41 @@ jobs:
       - name: Reproduce exact finite localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
+      - name: Probe pinned core plus SmithForm only
+        continue-on-error: true
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          from stoll_cuboid_source import load_pinned_source,run_magma
+          _,core,_,_=load_pinned_source()
+          code="SetColumns(0);\nquick := true;\n"+core+r'''
+          D, _, V := SmithForm(pmPic);
+          diag := [Abs(Integers()!D[j,j]) : j in [1..64]];
+          printf "STAGE33_PROBE_SMITH=%o\n", [d : d in diag | d gt 1];
+          '''
+          out,_=run_magma(code,420,"Stage33 Smith-only probe")
+          print(out)
+          assert "STAGE33_PROBE_SMITH=" in out
+          PY
+      - name: Probe pinned core plus upstream automorphisms only
+        continue-on-error: true
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          from stoll_cuboid_source import load_pinned_source,run_magma
+          full,core,_,_=load_pinned_source()
+          a=full.index("// The automorphism group (see Proposition 4)")
+          b=full.index("// Automorphisms + Galois on Pic/2*Pic",a)
+          block=full[a:b]
+          block="\n".join(line for line in block.splitlines()
+              if not line.startswith("AutS :=") and not line.startswith('printf "#Aut(S) ='))+"\n"
+          code="SetColumns(0);\nquick := true;\n"+core+"\n"+block+r'''
+          printf "STAGE33_PROBE_AUTOS=%o,%o\n", #perms, #action;
+          '''
+          out,_=run_magma(code,420,"Stage33 automorphism-only probe")
+          print(out)
+          assert "STAGE33_PROBE_AUTOS=" in out
+          PY
       - name: Reuse pinned upstream automorphism and Galois actions
         working-directory: stages/stage33/33-07
         run: |
