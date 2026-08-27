@@ -1,0 +1,151 @@
+name: Stage33-07 exceptional P1 tangent coordinates
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_exceptional_p1_tangent_coordinates.py'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - '.github/workflows/stage33-07-exceptional-p1-tangent-coordinates.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: stage33-07-exceptional-p1-tangent-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: Cheap latest-commit gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.changed.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: changed
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'run=false' >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" == workflow_dispatch ]]; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          files="$(git diff --name-only "$BEFORE" "$HEAD")"
+          printf '%s\n' "$files"
+          if grep -Eq '^stages/stage33/33-07/(certify_exceptional_p1_tangent_coordinates\.py|exceptional-p1-tangent-coordinates\.json)$|^\.github/workflows/stage33-07-exceptional-p1-tangent-coordinates\.yml$' <<<"$files"; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
+
+  exact-exceptional-tangent-coordinate-model:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact Gaussian-rational algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Preflight bounded Actions storage
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          current_bytes="$({ gh api --paginate \
+            'repos/${{ github.repository }}/actions/artifacts?per_page=100' \
+            --jq '.artifacts[] | select(.expired == false) | .size_in_bytes'; } \
+            | awk '{s += $1} END {print s + 0}')"
+          projected_new_bytes=262144
+          budget_bytes=500000000
+          projected_peak_bytes=$((current_bytes + projected_new_bytes))
+          echo "CURRENT_STORED_ARTIFACT_BYTES=$current_bytes"
+          echo "REPRESENTATIVE_RAW_CERTIFICATE_BYTES=124335"
+          echo "PROJECTED_NEW_ARTIFACT_BYTES_MAX=$projected_new_bytes"
+          echo "PROJECTED_PEAK_BYTES=$projected_peak_bytes"
+          echo "STORAGE_BUDGET_BYTES=$budget_bytes"
+          test "$projected_peak_bytes" -le "$budget_bytes"
+          echo 'PLANNED_EFFECTIVE_HEAVY_CONCURRENCY=0'
+      - name: Reuse and source-lock retained side-coordinate artifact
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p '${{ runner.temp }}/stage33-side-coordinates'
+          gh api \
+            'repos/fizawa460-bit/perfect-cuboid-game/actions/artifacts/9635988498/zip' \
+            > '${{ runner.temp }}/stage33-side-coordinates.zip'
+          echo '1b5efeb443d5de38dd3b80608aeebbee552b4bc7ba1a3cfb9dded6ee33968f28  ${{ runner.temp }}/stage33-side-coordinates.zip' \
+            | sha256sum --check --strict
+          unzip -q '${{ runner.temp }}/stage33-side-coordinates.zip' \
+            -d '${{ runner.temp }}/stage33-side-coordinates'
+      - name: Materialize all 48 exceptional P1 tangent coordinates exactly
+        working-directory: stages/stage33/33-07
+        env:
+          STAGE33_SIDE_COORDINATE_CERTIFICATE: ${{ runner.temp }}/stage33-side-coordinates/boundary-side-p1-crossing-coordinates.json
+        run: python certify_exceptional_p1_tangent_coordinates.py
+      - name: Validate exact certificate and promotion firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          path = Path('exceptional-p1-tangent-coordinates.json')
+          # The checked-out pretty JSON may differ by LF/CRLF bytes, while
+          # its canonical mathematical content must remain identical.
+          assert path.stat().st_size <= 131072
+          x = json.loads(path.read_text())
+          h = x.pop('canonical_sha256')
+          actual = hashlib.sha256(
+              json.dumps(x, sort_keys=True, separators=(',', ':')).encode()
+          ).hexdigest()
+          assert h == actual == 'beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636'
+          assert x['schema'] == 'STAGE33_07_EXCEPTIONAL_P1_TANGENT_COORDINATES_V1'
+          assert x['exceptional_count'] == 48
+          assert x['physical_crossing_tangent_count'] == 144
+          assert x['exceptional_physical_incidence_degree_histogram'] == {'2': 24, '4': 24}
+          assert len(x['exceptional_models']) == 48
+          assert sum(len(e['physical_crossing_tangent_coordinates']) for e in x['exceptional_models']) == 144
+          assert all(x['exact_checks'].values())
+          p = x['constructive_progress']
+          assert p['physical_side_P1_coordinates_materialized']
+          assert p['exceptional_P1_tangent_coordinates_materialized']
+          assert not p['order2_source_first_residue_functions_materialized']
+          assert not p['chosen_global_geometric_lifts_materialized']
+          assert not p['project_14x26_L_squareclass_tensor_materialized']
+          assert not p['absolute_delta_loc_computed']
+          assert not x['arithmetic_hs_closed']
+          assert x['stage33_progress'] == '6/11'
+          assert not x['stage33_08_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          assert not x['perfect_cuboid_nonexistence_claim']
+          print('EXCEPTIONAL_P1_TANGENT_COORDINATES=PASS')
+          print('EXCEPTIONALS=48')
+          print('TANGENT_CROSSINGS=144')
+          print('PROJECT_14x26_SQUARECLASSES_COMPUTED=False')
+          print('CERTIFICATE_SHA256=' + h)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-exceptional-p1-tangent-coordinates
+          retention-days: 3
+          path: stages/stage33/33-07/exceptional-p1-tangent-coordinates.json

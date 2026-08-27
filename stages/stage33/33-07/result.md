@@ -170,3 +170,136 @@ STAGE33_PROGRESS_EFFECTIVE=6/11
 The next exact leaf is therefore the order-two localization extension class in
 this explicit invariant basis.  The two-primary constant-character cokernel
 and the order-four continuation remain in scope after that leaf.
+
+## PR #1414 absolute-localization correction and constructive restart
+
+The finite `V4` receiver is not the whole absolute obstruction.  The exact
+coefficient action factors through
+
+```text
+L=Q(i,sqrt(2)), Gal(L/Q)=V4,
+```
+
+but inflation--restriction leaves a genuine `G_L` restriction term.  The
+correct decision order is now certified as
+
+```text
+Stage A: F2^26 -> ((L*/L*2) tensor_F2 Br(Sbar)[2])^V4
+Stage B: ker(Stage A) -> H^1(V4,Br(Sbar)[2]) = F2^16.
+```
+
+Stage A is exactly a `14 x 26` tensor of `L`-squareclasses, hence 364
+project-specific entries.  Neither the endpoint modules nor their dimensions
+determine it: all `2^416` finite `16 x 26` extension matrices occur for some
+abstract endpoint-compatible extension.  Real geometric lift data are
+necessary.
+
+A focused literature recheck found no theorem that supplies this cuboid-
+specific tensor.  Creutz--Viray supplies the proper `Br[2]` coefficient module,
+Ford supplies the algebraically closed graph/localization layer, and the
+root-stack residue theorem maps a given Brauer class to its residue rather than
+constructing the inverse global arithmetic lift.  The exact verdict ledger is
+`order2-localization-literature-recheck.md`.
+
+The constructive route has therefore started from the pinned Testa--Stoll
+equations.  All 24 physical side conics now have exact Pythagorean `P1`
+parametrizations, and all 144 side--exceptional crossings are matched to
+
+```text
+t = 0, infinity, 1, -1, i, -i.
+```
+
+Magma independently checks every point against the fixed 48 singular points,
+exhausts the six crossings on every side, and recomputes the `cc/ct` action.
+The exceptional incidence histogram is exactly `24 x degree 2 + 24 x degree
+4`.  This closes only the side-coordinate prerequisite; exceptional tangent
+coordinates, the 26 first-residue functions, the global Gersten lifts, and the
+`14 x 26` squareclass tensor remain open.
+
+```text
+SIDE_P1_MODELS=24/24
+SIDE_EXCEPTIONAL_CROSSINGS=144/144
+EXCEPTIONAL_INCIDENCE_HISTOGRAM={2:24,4:24}
+SIDE_P1_CERTIFICATE_SHA256=ae58f55d54fd00ba3b79b7bb51a6e668450643a11e60fd67f4f89475e4b6ad04
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+## Exact exceptional tangent-conic coordinates
+
+The next constructive coordinate leaf has now been materialized over exact
+Gaussian rationals.  Starting from the retained 24-side coordinate artifact,
+the certifier reconstructs every one of the 48 ordinary double points, checks
+Jacobian rank three, forms its three-dimensional projective tangent quotient,
+and extracts the unique nonsingular quadratic tangent-cone relation.  Exact
+differentiation places all 144 physical side branches on the claimed conics.
+A deterministic projection from a certified tangent point then gives a `P1`
+coordinate on each exceptional curve.
+
+The calculation is pure local `Q(i)` linear algebra.  It does not use a
+numerical solver, does not rerun the retained side-coordinate Magma job, and
+does not construct any global Gersten lift or `L`-squareclass entry.  Omitted
+large internal coordinate matrices remain bound by per-exceptional canonical
+SHA256 commitments in the compact certificate.
+
+```text
+EXCEPTIONAL_P1_MODELS=48/48
+EXCEPTIONAL_PHYSICAL_TANGENT_CROSSINGS=144/144
+EXCEPTIONAL_INCIDENCE_HISTOGRAM={2:24,4:24}
+EXCEPTIONAL_P1_TANGENT_CERTIFICATE_SHA256=beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636
+EXCEPTIONAL_P1_TANGENT_WORKFLOW_RUN=33048533111
+EXCEPTIONAL_P1_TANGENT_ARTIFACT_ID=9636618898
+EXCEPTIONAL_P1_TANGENT_ARTIFACT_ZIP_SHA256=ca204a1d4d5e70c50608a8942f37a57048389e5a006519779eb0f07e1e99e8f8
+ORDER2_SOURCE_FIRST_RESIDUE_FUNCTIONS_MATERIALIZED=false
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+The next exact leaf is to construct the 26 first-residue functions on the 72
+boundary `P1` models with a deterministic normalization compatible with the
+crossing involutions.  Only after those functions and their genuine global
+lifts exist can the `14 x 26` `L`-squareclass restriction tensor be evaluated.
+
+## Quotient-to-raw order-two liftability correction
+
+Reconstructing the historical `U44/R17/O12` residue presentation from the
+retained compact inputs exposes a further exact extension wall.  The group
+`A[2] = (Z/2)^26` is the order-two subgroup of the quotient by the known
+`U44` unit-symbol image; it is not the same as the image of the raw
+order-two crossing-residue subgroup.
+
+Exactly 17 Smith basis vectors have raw residues of order at most two.  Their
+componentwise even divisors give deterministic Kummer functions on all 72
+boundary `P1` models.  The other 9 basis vectors necessarily retain odd
+order-four crossing entries.  Doubling each produces a nonzero `U44`
+unit-symbol residue, and the resulting obstruction map has rank 9.  Therefore
+those nine quotient-order-two directions cannot be encoded as squareclass
+functions without first resolving the quotient-to-raw extension/Bockstein.
+
+```text
+QUOTIENT_A2_DIMENSION_F2=26
+RAW_ORDER2_FIRST_RESIDUE_FUNCTION_LIFTABLE=17
+QUOTIENT_ONLY_ORDER2_WITH_RAW_ORDER4_RESIDUE=9
+QUOTIENT_TO_RAW_DOUBLE_OBSTRUCTION_RANK_F2=9
+ORDER2_FIRST_RESIDUE_LIFTABILITY_CERTIFICATE_SHA256=85e219932a47322f6283c650e7c39386c0f6a03ab7a47ff93ac9afd0115d0312
+ORDER2_FIRST_RESIDUE_LIFTABILITY_WORKFLOW_RUN=33049545470
+ORDER2_FIRST_RESIDUE_LIFTABILITY_ARTIFACT_ID=9637010913
+ORDER2_FIRST_RESIDUE_LIFTABILITY_ARTIFACT_ZIP_SHA256=e44d2f554e299abdb163f34b65258e95ed0a9b74c7f06d933123f702b483e865
+ALL_26_FIRST_RESIDUE_FUNCTIONS_MATERIALIZED=false
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+The next exact leaf is no longer a blind 26-column squareclass construction.
+It is the nine-dimensional `U44` double-obstruction extension problem.  The 17
+raw-order-two directions remain retained and reusable.
