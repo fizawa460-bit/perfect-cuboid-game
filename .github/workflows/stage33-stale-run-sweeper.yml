@@ -150,16 +150,10 @@ jobs:
                   sha=run.get('head_sha'); status=run.get('status'); workflow_path=str(run.get('path') or '')
                   if sha!=current_sha:
                       obsolete.append((run_id,name,sha,status,'OLD_HEAD')); continue
-                  if action!='synchronize' or not changed:
-                      preserved.append((run_id,name,'CURRENT_HEAD_NON_SYNCHRONIZE')); continue
-                  if not workflow_path.startswith('.github/workflows/stage33'):
-                      preserved.append((run_id,name,'CURRENT_HEAD_NON_STAGE33_WORKFLOW_PATH')); continue
-                  patterns=pull_request_paths(workflow_path)
-                  if not patterns:
-                      preserved.append((run_id,name,'CURRENT_HEAD_NO_PARSEABLE_PATH_FILTER')); continue
-                  if any(matches_ordered(path,patterns) for path in changed):
-                      preserved.append((run_id,name,'LATEST_COMMIT_MATCHES_WORKFLOW_PATHS')); continue
-                  obsolete.append((run_id,name,sha,status,'CURRENT_HEAD_PR_DIFF_REPLAY'))
+                  # Current-head workflows own their authorization decision.
+                  # Cancelling them here races their cheap gates and leaves a
+                  # misleading CANCELLED required check on an otherwise safe PR.
+                  preserved.append((run_id,name,'CURRENT_HEAD_DEFER_TO_WORKFLOW_GATE'))
               if len(runs)<100: break
               page+=1
           cancelled=0; races=0; reasons={}
