@@ -1,0 +1,135 @@
+name: Stage33-07 order2 first-residue liftability
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
+      - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
+      - '.github/workflows/stage33-07-order2-first-residue-liftability.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+
+concurrency:
+  group: stage33-07-order2-first-residue-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: Cheap latest-commit gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.changed.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: changed
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'run=false' >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" == workflow_dispatch ]]; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          files="$(git diff --name-only "$BEFORE" "$HEAD")"
+          printf '%s\n' "$files"
+          if grep -Eq '^stages/stage33/33-07/(materialize_order2_first_residue_functions\.py|order2-first-residue-function-liftability\.json)$|^\.github/workflows/stage33-07-order2-first-residue-liftability\.yml$' <<<"$files"; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
+
+  exact-quotient-to-raw-liftability:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Preflight bounded Actions storage
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          current_bytes="$({ gh api --paginate \
+            'repos/${{ github.repository }}/actions/artifacts?per_page=100' \
+            --jq '.artifacts[] | select(.expired == false) | .size_in_bytes'; } \
+            | awk '{s += $1} END {print s + 0}')"
+          projected_new_bytes=131072
+          budget_bytes=500000000
+          projected_peak_bytes=$((current_bytes + projected_new_bytes))
+          echo "CURRENT_STORED_ARTIFACT_BYTES=$current_bytes"
+          echo "REPRESENTATIVE_RAW_CERTIFICATE_BYTES=66925"
+          echo "PROJECTED_NEW_ARTIFACT_BYTES_MAX=$projected_new_bytes"
+          echo "PROJECTED_PEAK_BYTES=$projected_peak_bytes"
+          echo "STORAGE_BUDGET_BYTES=$budget_bytes"
+          test "$projected_peak_bytes" -le "$budget_bytes"
+          echo 'PLANNED_EFFECTIVE_HEAVY_CONCURRENCY=0'
+      - name: Reconstruct quotient source and certify raw liftability
+        working-directory: stages/stage33/33-07
+        run: python materialize_order2_first_residue_functions.py
+      - name: Validate 17 liftable and 9 obstructed sources with firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          from pathlib import Path
+
+          path = Path('order2-first-residue-function-liftability.json')
+          assert path.stat().st_size <= 70000
+          x = json.loads(path.read_text())
+          h = x.pop('canonical_sha256')
+          actual = hashlib.sha256(
+              json.dumps(x, sort_keys=True, separators=(',', ':')).encode()
+          ).hexdigest()
+          assert h == actual == '85e219932a47322f6283c650e7c39386c0f6a03ab7a47ff93ac9afd0115d0312'
+          assert x['schema'] == 'STAGE33_07_ORDER2_FIRST_RESIDUE_FUNCTION_LIFTABILITY_V1'
+          assert x['source_order2_dimension_f2'] == 26
+          assert x['raw_order2_first_residue_function_liftable_basis_count'] == 17
+          assert x['quotient_only_order2_basis_count'] == 9
+          assert x['quotient_to_raw_double_obstruction_rank_f2'] == 9
+          assert len(x['source_basis']) == 26
+          assert sum(r['raw_order2_first_residue_function_liftable'] for r in x['source_basis']) == 17
+          assert all(x['exact_checks'].values())
+          p = x['constructive_progress']
+          assert p['raw_order2_first_residue_functions_materialized'] == 17
+          assert not p['all_26_order2_quotient_source_first_residue_functions_materialized']
+          assert p['nine_quotient_only_order2_double_obstructions_materialized']
+          assert not p['chosen_global_geometric_lifts_materialized']
+          assert not p['project_14x26_L_squareclass_tensor_materialized']
+          assert not p['absolute_delta_loc_computed']
+          assert not x['actual_index512_glue_identified']
+          assert not x['arithmetic_hs_closed']
+          assert x['stage33_progress'] == '6/11'
+          assert not x['stage33_08_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          print('ORDER2_FIRST_RESIDUE_LIFTABILITY=PASS')
+          print('RAW_ORDER2_FUNCTIONS=17')
+          print('QUOTIENT_ONLY_ORDER2=9')
+          print('DOUBLE_OBSTRUCTION_RANK_F2=9')
+          print('PROJECT_14x26_SQUARECLASSES_COMPUTED=False')
+          print('CERTIFICATE_SHA256=' + h)
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-order2-first-residue-liftability
+          retention-days: 3
+          path: stages/stage33/33-07/order2-first-residue-function-liftability.json

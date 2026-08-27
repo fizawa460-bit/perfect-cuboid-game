@@ -1,5 +1,5 @@
 {
-  "schema": "STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V4_ORDER2_EXTENSION_GAP",
+  "schema": "STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V7_QUOTIENT_TO_RAW_ORDER2_GAP",
   "stage33_unit": "33-07",
   "unit_name": "BR2A_CREUTZ_VIRAY_AND_FULL_RELEVANT_CLASS_INVENTORY_INTEGRATION",
   "pr": 1370,
@@ -10,7 +10,7 @@
   "hostile_audit": "REAUDIT_BLOCKED_NEW_KERNEL",
   "reaudit_source": "Stage33-audit #1375",
   "new_kernel_id": "R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT",
-  "smallest_current_exact_kernel": "R33-BR2A-ORDER2-GEOMETRIC-LIFT-EXTENSION-COCYCLE",
+  "smallest_current_exact_kernel": "R33-BR2A-9-QUOTIENT-ORDER2-RAW-ORDER4-EXTENSION-BOCKSTEIN",
   "unresolved_unknown_in_scope": 1,
   "closure_criteria_total": 14,
   "closure_criteria_satisfied_conservative": 4,
@@ -30,7 +30,14 @@
     "two_primary_residue_invariant_basis_exact": true,
     "order2_residue_source_basis_exact": true,
     "finite_v4_h1_receiver_basis_exact": true,
-    "order2_localization_extension_input_gap_exactly_isolated": true
+    "order2_localization_extension_input_gap_exactly_isolated": true,
+    "proper_br2_action_factors_through_q_i_sqrt2_v4": true,
+    "finite_v4_h1_separated_from_absolute_h1": true,
+    "absolute_order2_two_stage_receiver_exact": true,
+    "gl_squareclass_tensor_contract_exact": true,
+    "physical_side_p1_coordinate_models_exact": true,
+    "exceptional_p1_tangent_coordinate_models_exact": true,
+    "order2_quotient_to_raw_first_residue_liftability_exact": true
   },
   "repair_exact_reduction": {
     "finite_boundary_quotient_after_u44": "(Z/2)^23 direct_sum (Z/4)^3",
@@ -45,7 +52,18 @@
     "finite_v4_delta_loc_matrix_shape_if_computable": [16, 26],
     "absolute_h1_identified_with_finite_v4_h1": false,
     "arithmetic_localization_connecting_map_computed": false,
-    "arithmetic_hs_d2_computed": false
+    "arithmetic_hs_d2_computed": false,
+    "project_gl_squareclass_tensor_shape": [14, 26],
+    "project_gl_squareclass_entry_count": 364,
+    "project_gl_squareclass_tensor_materialized": false,
+    "physical_side_p1_models_materialized": 24,
+    "side_exceptional_crossing_coordinates_materialized": 144,
+    "exceptional_p1_tangent_coordinates_materialized": true,
+    "exceptional_p1_models_materialized": 48,
+    "exceptional_physical_tangent_crossings_materialized": 144,
+    "raw_order2_first_residue_functions_materialized": 17,
+    "quotient_only_order2_sources_obstructed_by_nonzero_u44_double": 9,
+    "quotient_to_raw_double_obstruction_rank_f2": 9
   },
   "order2_localization_receiver_evidence": {
     "workflow_run": 33029087839,
@@ -54,7 +72,44 @@
     "receiver_certificate_sha256": "9280846c6e7ae8a043e36c7b5498f11476901567b229b94e953b79afab891bda",
     "extension_gap_certificate_sha256": "21f6e2fc1478b854abba38607591ad81e465f727a8a2412902b606f3c3931a5a"
   },
+  "boundary_side_p1_coordinate_evidence": {
+    "producer": "certify_boundary_side_p1_crossing_coordinates.py",
+    "testa_stoll_cuboids_magma_blob_sha1": "0422b69847f2afb97cb7b3ed02ebef91279f61b1",
+    "physical_side_models": 24,
+    "side_exceptional_crossings": 144,
+    "exceptional_incidence_degree_histogram": {"2": 24, "4": 24},
+    "certificate_sha256": "ae58f55d54fd00ba3b79b7bb51a6e668450643a11e60fd67f4f89475e4b6ad04"
+  },
+  "exceptional_p1_tangent_coordinate_evidence": {
+    "producer": "certify_exceptional_p1_tangent_coordinates.py",
+    "source_side_coordinate_certificate_sha256": "ae58f55d54fd00ba3b79b7bb51a6e668450643a11e60fd67f4f89475e4b6ad04",
+    "exceptional_models": 48,
+    "physical_tangent_crossings": 144,
+    "exceptional_incidence_degree_histogram": {"2": 24, "4": 24},
+    "certificate_sha256": "beffca388f2795296fd914a6345186dc6e594419f0fffb93896bda2c3896a636",
+    "workflow_name": "Stage33-07 exceptional P1 tangent coordinates",
+    "workflow_run": 33048533111,
+    "artifact_id": 9636618898,
+    "artifact_size_bytes": 10214,
+    "artifact_zip_sha256": "ca204a1d4d5e70c50608a8942f37a57048389e5a006519779eb0f07e1e99e8f8",
+    "actions_validation": "PASS"
+  },
+  "order2_first_residue_liftability_evidence": {
+    "producer": "materialize_order2_first_residue_functions.py",
+    "quotient_source_dimension_f2": 26,
+    "raw_order2_function_liftable_count": 17,
+    "quotient_only_order2_count": 9,
+    "double_obstruction_rank_f2": 9,
+    "certificate_sha256": "85e219932a47322f6283c650e7c39386c0f6a03ab7a47ff93ac9afd0115d0312",
+    "workflow_name": "Stage33-07 order2 first-residue liftability",
+    "workflow_run": 33049545470,
+    "artifact_id": 9637010913,
+    "artifact_size_bytes": 8003,
+    "artifact_zip_sha256": "e44d2f554e299abdb163f34b65258e95ed0a9b74c7f06d933123f702b483e865",
+    "actions_validation": "PASS"
+  },
   "order2_localization_missing_exact_inputs": {
+    "nine_quotient_order2_sources_lifted_to_raw_order2_residues": false,
     "chosen_geometric_lift_for_each_of_26_source_basis_vectors": false,
     "cc_action_on_chosen_geometric_lifts": false,
     "ct_action_on_chosen_geometric_lifts": false,
@@ -76,6 +131,6 @@
   "brauer_manin_set_empty_proved": false,
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
-  "next_item": "L33-07-MATERIALIZE-26-CHOSEN-QBAR-ORDER2-RESIDUE-LIFTS-AND-CC-CT-DIFFERENCE-COCYCLES-IN-PROPER-BR2-COORDINATES",
+  "next_item": "L33-07-RESOLVE-9-U44-DOUBLE-OBSTRUCTIONS-BEFORE-ANY-14x26-SQUARECLASS-TENSOR",
   "next_expected_command": "Stage33-main-batch"
 }

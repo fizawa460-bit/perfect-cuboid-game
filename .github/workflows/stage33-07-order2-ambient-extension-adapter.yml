@@ -1,0 +1,286 @@
+name: Stage33-07 order2 ambient extension adapter
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/materialize_order2_localization_extension_from_ambient.py'
+      - 'stages/stage33/33-07/certify_order2_ambient_extension_ambiguity.py'
+      - 'stages/stage33/33-07/certify_order2_absolute_h1_inflation_restriction.py'
+      - 'stages/stage33/33-07/materialize_order2_absolute_localization_receiver.py'
+      - 'stages/stage33/33-07/certify_order2_gl_restriction_squareclass_contract.py'
+      - 'stages/stage33/33-07/materialize_order2_gl_restriction_kernel_from_span.py'
+      - 'stages/stage33/33-07/materialize_order2_localization_receiver.py'
+      - 'stages/stage33/33-07/order2-localization-receiver.json'
+      - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
+      - 'stages/stage33/33-07/picard-discriminant-compact.json'
+      - 'stages/stage33/33-07/certify_proper_brauer2_from_discriminant.py'
+      - 'stages/stage33/33-07/extract_picard_discriminant_compact.py'
+      - 'stages/stage33/33-07/stoll_cuboid_source.py'
+      - '.github/workflows/stage33-07-order2-ambient-extension-adapter.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    name: Cheap latest-commit gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    outputs:
+      run: ${{ steps.changed.outputs.run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: changed
+        shell: bash
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          echo 'run=false' >> "$GITHUB_OUTPUT"
+          if [[ "${{ github.event_name }}" == workflow_dispatch ]]; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          [[ "${{ github.event_name }}" == pull_request ]] || exit 0
+          [[ "$ACTION" == synchronize ]] || exit 0
+          [[ -n "$BEFORE" && -n "$HEAD" ]] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || true
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          files="$(git diff --name-only "$BEFORE" "$HEAD")"
+          printf '%s\n' "$files"
+          if grep -Eq '^stages/stage33/33-07/(materialize_order2_localization_extension_from_ambient|certify_order2_ambient_extension_ambiguity|certify_order2_absolute_h1_inflation_restriction|materialize_order2_absolute_localization_receiver|certify_order2_gl_restriction_squareclass_contract|materialize_order2_gl_restriction_kernel_from_span|materialize_order2_localization_receiver|certify_proper_brauer2_from_discriminant|extract_picard_discriminant_compact|stoll_cuboid_source)\.py$|^stages/stage33/33-07/(order2-localization-receiver|proper-brauer2-from-discriminant|picard-discriminant-compact)\.json$' <<<"$files"; then
+            echo 'run=true' >> "$GITHUB_OUTPUT"
+          fi
+
+  exact-adapter-selftest:
+    needs: gate
+    if: needs.gate.outputs.run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild locked source and receiver coordinates
+        working-directory: stages/stage33/33-07
+        run: python materialize_order2_localization_receiver.py
+      - name: Certify ambient-extension adapter on split exact sequence
+        working-directory: stages/stage33/33-07
+        run: |
+          python materialize_order2_localization_extension_from_ambient.py \
+            --self-test \
+            --output order2-ambient-extension-adapter-selftest.json
+      - name: Validate self-test firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          x=json.load(open('order2-ambient-extension-adapter-selftest.json'))
+          h=x.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()==h
+          assert x['kernel_dimension_f2']==14
+          assert x['quotient_dimension_f2']==26
+          assert x['ambient_dimension_f2']==40
+          assert x['finite_receiver_H1_dimension_f2']==16
+          assert x['connecting_map_rank_f2']==0
+          assert x['connecting_map_is_zero']
+          assert x['adapter_mechanics_certified']
+          assert not x['project_ambient_extension_materialized']
+          assert not x['project_localization_extension_class_computed']
+          assert not x['absolute_delta_loc_computed']
+          assert not x['theorem_credit']
+          assert not x['endpoint_credit']
+          print('ORDER2_AMBIENT_EXTENSION_ADAPTER_SELFTEST=PASS')
+          print('PROJECT_EXTENSION_COMPUTED=False')
+          PY
+      - name: Certify full abstract extension ambiguity
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_ambient_extension_ambiguity.py
+      - name: Validate 416-dimensional ambiguity and firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          x=json.load(open('order2-ambient-extension-ambiguity.json'))
+          h=x.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()==h
+          e=x['extension_classification']
+          assert e['extension_equivalence_space_dimension_f2']==416
+          assert e['connecting_matrix_space_dimension_f2']==416
+          assert e['connecting_matrix_shape']==[16,26]
+          c=x['exhaustive_basis_adapter_check']
+          assert c['elementary_extensions_checked']==416
+          assert c['expected_elementary_extensions']==416
+          assert c['all_416_elementary_16x26_matrices_recovered_exactly']
+          q=x['exact_consequence']
+          assert q['all_2pow416_connecting_matrices_occur_for_some_abstract_endpoint_compatible_extension']
+          assert not q['endpoint_dimensions_and_v4_actions_determine_any_delta_loc_entry']
+          assert not q['endpoint_dimensions_and_v4_actions_bound_project_delta_loc_rank_below_16']
+          assert q['real_geometric_extension_data_is_logically_necessary']
+          p=x['project_status']
+          assert not p['project_ambient_gersten_v4_extension_materialized']
+          assert not p['project_finite_v4_delta_loc_matrix_computed']
+          assert not p['project_absolute_delta_loc_computed']
+          assert not p['absolute_h1_identified_with_finite_v4_h1']
+          assert not p['arithmetic_hs_closed']
+          assert p['stage33_progress']=='6/11'
+          assert x['new_smallest_exact_kernel']=='R33-BR2A-REAL-GEOMETRIC-GERSTEN-V4-EXTENSION-DATA'
+          print('ORDER2_AMBIENT_EXTENSION_AMBIGUITY=PASS')
+          print('EXTENSION_CLASS_DIM_F2=416')
+          print('ABSTRACT_DELTA_MATRIX_SPACE=ALL_16x26')
+          print('PROJECT_DELTA_COMPUTED=False')
+          PY
+      - name: Recompute finite V4 bar cohomology and absolute-H1 firewall
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_absolute_h1_inflation_restriction.py
+      - name: Validate exact coefficient factorization and finite/absolute separation
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          x=json.load(open('order2-absolute-h1-inflation-restriction.json'))
+          h=x.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()==h
+          assert x['schema']=='STAGE33_07_ORDER2_ABSOLUTE_H1_INFLATION_RESTRICTION_V2'
+          a=x['coefficient_action_factorization']
+          assert a['splitting_field']=='L=Q(i,sqrt(2))'
+          assert a['absolute_GQ_action_on_K_factors_through_V4']
+          assert a['N_action_on_K']=='TRIVIAL'
+          b=x['bar_complex']
+          assert b['d1_after_d0_zero'] and b['d2_after_d1_zero']
+          assert (b['rank_d0_f2'],b['rank_d1_f2'],b['rank_d2_f2'])==(4,36,166)
+          assert b['H1_V4_K_dimension_f2']==16
+          assert b['H2_V4_K_dimension_f2']==22
+          assert x['independent_finite_receiver_consistency']['all_equal']
+          ir=x['inflation_restriction']
+          assert ir['hypothesis_status']=='CERTIFIED_FOR_THE_COEFFICIENT_ACTION'
+          assert ir['restriction_term']=='Hom_cont(G_L,K)^V4'
+          assert not ir['restriction_term_certified_zero']
+          p=x['project_status']
+          assert p['absolute_GQ_action_factorization_through_this_V4_certified']
+          assert not p['absolute_H1_identified_with_finite_V4_H1']
+          assert not p['finite_16x26_delta_loc_is_absolute_delta_loc']
+          assert p['finite_delta_loc_adapter_scope']=='INFLATED_FINITE_V4_COMPONENT_ONLY'
+          assert not p['restriction_of_project_localization_cocycle_to_G_L_computed']
+          assert not p['absolute_delta_loc_computed']
+          assert not p['arithmetic_hs_closed']
+          assert x['new_smallest_exact_kernel']=='R33-BR2A-REAL-GEOMETRIC-LIFT-GQ-EXTENSION-AND-GL-CHARACTER-DATA'
+          print('ORDER2_COEFFICIENT_ACTION_FACTORIZATION=PASS')
+          print('SPLITTING_FIELD=Q(i,sqrt(2))')
+          print('FINITE_V4_H1_DIM=', b['H1_V4_K_dimension_f2'])
+          print('FINITE_V4_H2_DIM=', b['H2_V4_K_dimension_f2'])
+          print('G_L_RESTRICTION_COMPONENT_COMPUTED=False')
+          print('ABSOLUTE_H1_IDENTIFIED=False')
+          PY
+      - name: Materialize two-stage absolute localization receiver
+        working-directory: stages/stage33/33-07
+        run: python materialize_order2_absolute_localization_receiver.py
+      - name: Validate Stage-A restriction then Stage-B finite decision order
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          x=json.load(open('order2-absolute-localization-receiver.json'))
+          h=x.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()==h
+          assert x['source']['dimension_f2']==26
+          assert x['coefficient']['dimension_f2']==14
+          a=x['stage_A_restriction_receiver']
+          assert a['target']=='((L*/L*2) tensor_F2 K)^V4'
+          assert not a['target_finite_dimensional_claimed']
+          assert not a['project_map_computed']
+          b=x['stage_B_finite_inflation_receiver']
+          assert b['target_dimension_f2']==16
+          assert b['transgression_target_dimension_f2']==22
+          z=x['absolute_zero_criterion']
+          assert z['stage_A_must_precede_stage_B']
+          assert z['finite_V4_H1_is_not_a_canonical_projection_of_absolute_H1']
+          assert z['finite_16x26_matrix_for_all_26_sources_before_GL_restriction_is_not_authorized']
+          amb=x['ambiguity_accounting']
+          assert amb['abstract_descended_V4_extension_space_dimension_f2']==416
+          assert not amb['416_is_full_absolute_ambiguity_dimension']
+          p=x['project_status']
+          assert p['coefficient_action_factorization_closed']
+          assert not p['G_L_restriction_map_materialized']
+          assert not p['Stage_A_kernel_dimension_f2_known']
+          assert not p['real_descended_V4_extension_materialized']
+          assert not p['absolute_delta_loc_computed']
+          assert x['new_smallest_exact_kernel']=='R33-BR2A-GL-RESTRICTION-OF-REAL-GEOMETRIC-LIFT-TORSOR'
+          print('ORDER2_ABSOLUTE_LOCALIZATION_RECEIVER=PASS')
+          print('DECISION_ORDER=GL_RESTRICTION_THEN_V4')
+          print('PROJECT_ABSOLUTE_DELTA_COMPUTED=False')
+          PY
+      - name: Certify exact G_L squareclass restriction contract
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_gl_restriction_squareclass_contract.py
+      - name: Validate 14x26 squareclass tensor reduction
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          x=json.load(open('order2-gl-restriction-squareclass-contract.json'))
+          h=x.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()==h
+          e=x['extension_classification_over_GL']
+          assert e['Hom_Q_K_dimension_f2']==364
+          assert e['project_data_shape']==[14,26]
+          assert e['project_squareclass_entries']==364
+          assert not e['L_squareclass_group_finite_dimensional_claimed']
+          assert not e['364_is_dimension_of_full_GL_extension_space']
+          g=x['absolute_GQ_compatibility']
+          assert not g['V4_fixedness_of_project_tensor_computed']
+          assert not g['project_transgression_computed']
+          p=x['project_status']
+          assert p['unknown_absolute_action_on_K_removed']
+          assert p['unknown_GL_restriction_data_reduced_to_explicit_squareclass_tensor_shape']
+          assert not p['project_14x26_squareclass_matrix_materialized']
+          assert not p['project_364_squareclass_entries_computed']
+          assert x['new_smallest_exact_kernel']=='R33-BR2A-EXPLICIT-14x26-L-SQUARECLASS-RESTRICTION-TENSOR'
+          print('ORDER2_GL_SQUARECLASS_CONTRACT=PASS')
+          print('PROJECT_DATA_SHAPE=14x26_L_SQUARECLASSES')
+          print('PROJECT_SQUARECLASSES_COMPUTED=False')
+          PY
+      - name: Self-test finite squareclass-span Stage-A consumer
+        working-directory: stages/stage33/33-07
+        run: |
+          python materialize_order2_gl_restriction_kernel_from_span.py \
+            --self-test \
+            --output order2-gl-restriction-span-consumer-selftest.json
+      - name: Validate Stage-A span consumer
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          x=json.load(open('order2-gl-restriction-span-consumer-selftest.json'))
+          h=x.pop('canonical_sha256')
+          assert hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()==h
+          assert x['zero_case']=={'rank_f2':0,'kernel_dimension_f2':26}
+          assert x['rank_one_case']['coefficient_joint_fixed_dimension_f2']==10
+          assert x['rank_one_case']['rank_f2']==1
+          assert x['rank_one_case']['kernel_dimension_f2']==25
+          assert x['diagonal_V4_tensor_action_checked']
+          assert not x['project_squareclasses_used']
+          assert not x['project_Stage_A_restriction_computed']
+          assert not x['absolute_delta_loc_computed']
+          print('ORDER2_GL_SPAN_CONSUMER_SELFTEST=PASS')
+          print('ZERO_KERNEL_DIM=26')
+          print('RANK1_KERNEL_DIM=25')
+          PY
+      - name: Upload compact adapter certificates
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-order2-ambient-extension-adapter
+          retention-days: 3
+          path: |
+            stages/stage33/33-07/order2-ambient-extension-adapter-selftest.json
+            stages/stage33/33-07/order2-ambient-extension-ambiguity.json
+            stages/stage33/33-07/order2-absolute-h1-inflation-restriction.json
+            stages/stage33/33-07/order2-absolute-localization-receiver.json
+            stages/stage33/33-07/order2-gl-restriction-squareclass-contract.json
+            stages/stage33/33-07/order2-gl-restriction-span-consumer-selftest.json

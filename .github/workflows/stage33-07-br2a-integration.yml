@@ -43,7 +43,9 @@ jobs:
           git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
           files="$(git diff --name-only "$BEFORE" "$HEAD")"
           printf '%s\n' "$files"
-          if grep -Eq '^(stages/stage33/33-07/|stages/stage33/controller\.json$|\.github/workflows/stage33-07-br2a-integration\.yml$)' <<<"$files"; then
+          relevant="$(printf '%s\n' "$files" | grep -Ev \
+            '^stages/stage33/33-07/(handoff\.json|result\.md)$|^\.github/workflows/stage33-07-br2a-integration\.yml$' || true)"
+          if grep -Eq '^(stages/stage33/33-07/|stages/stage33/controller\.json$)' <<<"$relevant"; then
             echo 'run=true' >> "$GITHUB_OUTPUT"
           fi
 
