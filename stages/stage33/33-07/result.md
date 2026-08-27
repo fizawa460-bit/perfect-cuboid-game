@@ -535,5 +535,11 @@ THEOREM_CREDIT=false
 ENDPOINT_CREDIT=false
 ```
 
+Actions evidence: workflow `Stage33-07 integral Picard swap linear envelope`,
+run `33121552448`, certificate
+`571559b47c3cb54a950b0551d615672bb5373d0fd1a34eb4ace5b90e95d708b2`,
+artifact `9666647588` (`1663` bytes), digest
+`sha256:23554096cbd266a2cf8ed145abab1ac238b32b1b2243bc3b0f3439795ef33d77`.
+
 Next leaf:
 `L33-07-MATERIALIZE-INTEGRAL-CURVE-CLASS-OR-AMPLE-CONE-SWAP-DISTINGUISHER-OR-GENUINE-MIDDLE-GERSTEN-LIFT-DATA`.
