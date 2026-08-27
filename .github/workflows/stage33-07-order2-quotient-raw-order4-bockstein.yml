@@ -5,7 +5,9 @@ on:
     paths:
       - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
       - 'stages/stage33/33-07/compact_order2_quotient_raw_order4_bockstein.py'
+      - 'stages/stage33/33-07/certify_order2_raw_extension_normal_form.py'
       - 'stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json'
+      - 'stages/stage33/33-07/order2-raw-extension-normal-form.json'
       - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
       - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
       - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
@@ -41,57 +43,64 @@ jobs:
       - name: Compact source-control certificate
         working-directory: stages/stage33/33-07
         run: python compact_order2_quotient_raw_order4_bockstein.py
+      - name: Certify exact raw extension normal form
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_raw_extension_normal_form.py
       - name: Validate conservative mixed-order handoff
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
           import hashlib, json
-          p='order2-quotient-raw-order4-bockstein.json'
-          x=json.load(open(p))
-          h=x.pop('canonical_sha256')
-          actual=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          assert h==actual=='085ad52c1eb1cf8069fcac9a0814250428288cc5d517a036670ae529c36eb88a'
+          def check(path):
+              x=json.load(open(path)); h=x.pop('canonical_sha256')
+              actual=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+              assert h==actual
+              return h,x
+          h,x=check('order2-quotient-raw-order4-bockstein.json')
+          assert h=='085ad52c1eb1cf8069fcac9a0814250428288cc5d517a036670ae529c36eb88a'
           q=x['quotient_to_raw_bockstein']
           assert q['quotient_A2_dimension_f2']==26
           assert q['raw_order2_kernel_dimension_f2']==17
           assert q['raw_order4_quotient_dimension_f2']==9
           assert q['double_obstruction_rank_f2']==9
           assert len(q['nine_source_records'])==9
-          checks=x['exact_checks']
-          assert all(checks.values())
-          prog=x['constructive_progress']
-          assert prog['all_26_boundary_first_residue_models_materialized_in_mixed_order2_order4_form']
-          assert not prog['all_26_are_order2_squareclass_models']
-          assert not prog['nine_bockstein_defects_killed']
-          assert not prog['project_14x26_L_squareclass_tensor_materialized']
-          assert not prog['absolute_delta_loc_computed']
-          assert not prog['arithmetic_HS_closed']
-          c=json.load(open('order2-quotient-raw-order4-bockstein-compact.json'))
-          ch=c.pop('canonical_sha256')
-          ca=hashlib.sha256(json.dumps(c,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          assert ch==ca=='30f2a4653619419a42d5513be26c8acf7505e042e4cbef279abd3476c34d1cfa'
-          assert x['stage33_progress']=='6/11'
-          assert not x['stage33_08_released']
-          assert not x['theorem_credit'] and not x['endpoint_credit']
+          assert all(x['exact_checks'].values())
+          c_h,c=check('order2-quotient-raw-order4-bockstein-compact.json')
+          assert c_h=='30f2a4653619419a42d5513be26c8acf7505e042e4cbef279abd3476c34d1cfa'
+          n_h,n=check('order2-raw-extension-normal-form.json')
+          assert n['raw_extension_invariant_factors']['exact_group']=='(Z/4)^9 direct_sum (Z/2)^52'
+          assert n['raw_extension_invariant_factors']['group_order_log2']==70
+          assert n['dimensions']['bockstein_image_dimension_f2']==9
+          assert len(n['nine_order4_normal_form_pairs'])==9
+          assert all(n['exact_checks'].values())
+          assert n['constructive_progress']['quotient_to_raw_Bockstein_extension_normal_form_closed']
+          assert not n['constructive_progress']['global_geometric_Gersten_lifts_materialized']
+          assert not n['constructive_progress']['project_14x26_L_squareclass_tensor_materialized']
+          assert not n['constructive_progress']['absolute_delta_loc_computed']
+          assert not n['constructive_progress']['arithmetic_HS_closed']
+          assert n['stage33_progress']=='6/11' and not n['stage33_08_released']
           print('STAGE33_07_RAW_ORDER4_BOCKSTEIN=PASS')
           print('FULL_CERTIFICATE_SHA256='+h)
-          print('COMPACT_CERTIFICATE_SHA256='+ch)
-          print('NEXT_KERNEL='+x['new_smallest_exact_kernel'])
+          print('COMPACT_CERTIFICATE_SHA256='+c_h)
+          print('NORMAL_FORM_CERTIFICATE_SHA256='+n_h)
+          print('RAW_EXTENSION_GROUP='+n['raw_extension_invariant_factors']['exact_group'])
+          print('NEXT_KERNEL='+n['new_smallest_exact_kernel'])
           PY
-      - name: Retain compact certificate on PR branch
+      - name: Retain compact certificates on PR branch
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         shell: bash
         run: |
           set -euo pipefail
-          path='stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json'
-          git add "$path"
+          git add \
+            stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json \
+            stages/stage33/33-07/order2-raw-extension-normal-form.json
           if git diff --cached --quiet; then
-            echo 'compact certificate already retained'
+            echo 'compact certificates already retained'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'Stage33-07 retain raw-order4 Bockstein certificate'
+          git commit -m 'Stage33-07 retain Bockstein normal-form certificates'
           git push origin "HEAD:${{ github.event.pull_request.head.ref }}"
       - name: Upload detailed and compact Bockstein certificates
         uses: actions/upload-artifact@v4
@@ -101,3 +110,4 @@ jobs:
           path: |
             stages/stage33/33-07/order2-quotient-raw-order4-bockstein.json
             stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json
+            stages/stage33/33-07/order2-raw-extension-normal-form.json
