@@ -1,0 +1,60 @@
+name: Stage33-07 V4 H1 generator restriction profile
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_v4_h1_generator_restriction_profile.py'
+      - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
+      - 'stages/stage33/33-07/order2-localization-receiver.json'
+      - '.github/workflows/stage33-07-v4-h1-generator-restriction-profile.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Profile generator restrictions
+        working-directory: stages/stage33/33-07
+        run: python certify_v4_h1_generator_restriction_profile.py
+      - name: Validate firewall and canonical hash
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='v4-h1-generator-restriction-profile.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['receiver']['H1_V4_dimension_f2']==16
+          assert x['receiver']['H1_cc_C2_dimension_f2']==6
+          assert x['receiver']['H1_ct_C2_dimension_f2']==12
+          r=x['restriction_profile']
+          assert 0 <= r['cc_rank_f2'] <= 6
+          assert 0 <= r['ct_rank_f2'] <= 12
+          assert max(r['cc_rank_f2'],r['ct_rank_f2']) <= r['joint_rank_f2'] <= 16
+          assert x['exact_consequence']['all_26_connecting_columns_share_this_same_receiver_restriction_profile']
+          assert x['exact_consequence']['connecting_matrix_columns_materialized']==0
+          assert not x['exact_consequence']['finite_v4_delta_loc_computed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          print('STAGE33_07_V4_H1_GENERATOR_RESTRICTION_PROFILE=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('CC_RANK='+str(r['cc_rank_f2']))
+          print('CC_KERNEL='+str(r['cc_kernel_dimension_f2']))
+          print('CT_RANK='+str(r['ct_rank_f2']))
+          print('CT_KERNEL='+str(r['ct_kernel_dimension_f2']))
+          print('JOINT_RANK='+str(r['joint_rank_f2']))
+          print('JOINT_KERNEL='+str(r['joint_kernel_dimension_f2']))
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-v4-h1-generator-restriction-profile
+          retention-days: 3
+          path: stages/stage33/33-07/v4-h1-generator-restriction-profile.json
