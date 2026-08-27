@@ -1,18 +1,26 @@
 # Stage32 goal and stop contract
 
-Status: ACTIVE prospective execution contract for Stage32 mainline.
+Status: ACTIVE prospective execution guardrail for Stage32 mainline, integrated by the active `stages/stage32/controller.json`.
 
-Authority basis: hostile-audited Stage32-00 roadmap / PR #1339. This document does not change any mathematical theorem or receiver credit. It makes the already-audited finite Stage32 goal operationally explicit so bounded d16 calibration cannot drift into an indefinite `b18 -> b20 -> ...` sequence.
+## Authority split
 
-## Final Stage32 goal
+The hostile-audited Stage32-00 roadmap / PR #1339 is authoritative for the **finite mathematical target and receiver semantics**: the frozen unibranch `d<=176 / d<=192` windows, separation of numerical census from effectivity, and the separate multibranch ledger.
 
-Stage32 is not complete when one d16 norm bound closes. The audited finite target is the Stage29/Stage32 low-genus Picard production contract:
+The choice of **b16 as the default final d16 calibration bound**, the no-automatic-b18 rule, and the mandatory post-b16 feasibility gate are new operational guardrails introduced by PR #1418. They are not claimed as already audited by #1339 and grant no mathematical, theorem, receiver, or endpoint credit.
 
-1. `32-01`: complete the required unibranch numerical orbit census over the frozen `d<=176 / d<=192` windows, then set `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true` and only the numerical component of `R29-LG2` complete.
-2. `32-02`: rigorously dispose every numerical survivor by effectivity / boundary / explicit-carrier evidence until `UNKNOWN_EFFECTIVITY_SURVIVOR_COUNT=0`; only then may `R29-LG2` and `R29-LG2-EFF` be discharged.
-3. `32-03`: complete the separately firewalled multibranch-at-node ledger `R29-LG2-MB`.
-4. `32-04`: synthesize the low-genus carrier result and final certificate required by the active controller.
-5. `32-05`: hostile audit the integrated result. Only after all required closure criteria pass may `STAGE32_CLOSED=true`.
+The active controller must obey this guardrail for Stage32-main execution. If an older controller field such as `next_norm_wall=TO_BE_SELECTED_BY_RESOURCE_PROFILE` conflicts with this contract, the stop-contract restriction controls d16 calibration: selection is bounded by b16 unless the explicit post-b16 exception below is satisfied.
+
+## Final Stage32 goal and dependency DAG
+
+Stage32 is not complete when one d16 norm bound closes. The inherited audited finite target is the Stage29/Stage32 low-genus Picard production contract.
+
+The dependency structure is **not** a strict 32-01 -> 32-02 -> 32-03 chain:
+
+- `32-01`: complete the required unibranch numerical orbit census over the frozen `d<=176 / d<=192` windows, then set `FULL_D176_D192_NUMERICAL_ORBIT_CENSUS=true` and only the numerical component of `R29-LG2` complete.
+- `32-03`: complete the separately firewalled multibranch-at-node ledger `R29-LG2-MB`. This unit may run after or in parallel with `32-01` when resource and evidence safety permit, exactly as the active controller allows.
+- `32-02`: after `32-01`, rigorously dispose every numerical survivor by effectivity / boundary / explicit-carrier evidence until `UNKNOWN_EFFECTIVITY_SURVIVOR_COUNT=0`; only then may `R29-LG2` and `R29-LG2-EFF` be discharged.
+- `32-04`: blocked until **32-01, 32-02, and 32-03 are all complete**; then synthesize the low-genus carrier result and final certificate required by the active controller.
+- `32-05`: after 32-04, hostile audit the integrated result. Only after all required closure criteria pass may `STAGE32_CLOSED=true`.
 
 None of these steps by itself proves Perfect Cuboid existence or nonexistence.
 
