@@ -1,0 +1,9 @@
+# Stage32-18AG — b16 lower48 coordinate-order redirection
+
+18AF (`run 33071642441`, summary artifact `9647187630`) reduced the frozen b16 x1024 wall set from 12 to 6 under the exact symmetry schedule `1.0 * reach`: the remaining walls are `p436/s5`, `p436/s362`, `p503/s118`, `p503/s665`, `p922/s13`, and `p922/s38`. Simple splitting remains exhausted and x2048 is not authorized.
+
+18AG changes the DFS coordinate order rather than the partition or mathematics. The primary shard hash is defined on coordinates 54–62 and the secondary shard hash on coordinates 48–62, so coordinates 48–62 are held fixed. Only coordinates 0–47 are relabelled. The permutation is deterministic: lower coordinates are ordered by increasing cap-row activity `(nonzero coefficient count, L1 coefficient mass, original index)`, so the reverse DFS visits the most cap-active lower coordinates earlier. The exact Gram matrix, cap rows, and symmetry rows are permuted together; this is a coordinate relabelling of the same lattice problem, not a relaxation.
+
+The pilot reruns only the six frozen 18AF resource walls with the same x1024 partition, symmetry scheduler, and 18,000,000-node cap. `RESOURCE_WALL_NODE_CAP` and `RESOURCE_WALL_WALLCLOCK` are both expected diagnostic outcomes and must still upload compact artifacts. This explicitly fixes the evidence-wrapper failure exposed by the separate 0.5-scheduler pilot.
+
+Any COMPLETE shard is exact traversal evidence, but all Stage32 numerical/global/theorem/receiver/controller firewalls remain false. If all six close, proceed to resource-safe exact b16 production design. If only some close, freeze the reduced wall set and continue algorithmic redesign. If none close, reject this coordinate-order heuristic and move to stronger exact propagation / basis reduction rather than finer splitting.
