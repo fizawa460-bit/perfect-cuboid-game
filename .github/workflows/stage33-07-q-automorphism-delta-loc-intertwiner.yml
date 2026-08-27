@@ -32,20 +32,81 @@ jobs:
       - name: Reproduce exact finite localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
-      - name: Adapt pinned extractor syntax to current Magma calculator
+      - name: Reuse pinned upstream automorphism and Galois actions
         working-directory: stages/stage33/33-07
         run: |
           python - <<'PY'
           from pathlib import Path
           p=Path('certify_q_automorphism_intertwiner_space_for_delta_loc.py')
           s=p.read_text()
-          old='SmithForm(pmPic : Optimize := false)'
-          assert s.count(old)==1
-          s=s.replace(old,'SmithForm(pmPic)')
-          old2='  assert IsIntegral(B);\n'
-          assert s.count(old2)==1
-          s=s.replace(old2,'')
-          p.write_text(s)
+          start='_, core, upstream_blob, source_attempt = load_pinned_source()\nextra = r\'\'\''
+          a=s.index(start)
+          b=s.index('stdout, magma_attempt = run_magma(\n',a)
+          replacement=r'''full_source, core, upstream_blob, source_attempt = load_pinned_source()
+          auto_start = full_source.index("// The automorphism group (see Proposition 4)")
+          auto_end = full_source.index("// Automorphisms + Galois on Pic/2*Pic", auto_start)
+          auto_block = full_source[auto_start:auto_end]
+          auto_block = "\n".join(
+              line for line in auto_block.splitlines()
+              if not line.startswith("AutS :=") and not line.startswith('printf "#Aut(S) =')
+          ) + "\n"
+          tail = r'''
+          D, _, V := SmithForm(pmPic);
+          diag := [Abs(Integers()!D[j,j]) : j in [1..64]];
+          pos := [j : j in [1..64] | diag[j] gt 1];
+          mods := [diag[j] : j in pos];
+          assert mods eq [2 : j in [1..4]] cat [4 : j in [1..6]] cat [8 : j in [1..4]];
+          scales := [m div 2 : m in mods];
+          Vin := V^-1;
+
+          function AT2Rows(G)
+            B := Vin * Transpose(G^-1) * V;
+            rows := [];
+            for a in [1..14] do
+              row := [];
+              for b in [1..14] do
+                num := scales[a] * Integers()!B[pos[a],pos[b]];
+                assert num mod scales[b] eq 0;
+                Append(~row, (num div scales[b]) mod 2);
+              end for;
+              Append(~rows,row);
+            end for;
+            return rows;
+          end function;
+
+          cc2 := AT2Rows(ccPic); ct2 := AT2Rows(ctPic);
+          for a in [1..14] do
+            printf "GALCC_ROW_%o=%o\n",a,cc2[a];
+            printf "GALCT_ROW_%o=%o\n",a,ct2[a];
+          end for;
+
+          selected := [1,2,4,5,6,7,8,9];
+          I64 := IdentityMatrix(Integers(),64);
+          for z in [1..#selected] do
+            idx := selected[z];
+            sidep := perms[idx][1..24];
+            pointp := [perms[idx][#Cs+j]-#Cs : j in [1..#pts]];
+            assert forall{x : x in sidep | 1 le x and x le 24};
+            assert Seqset(pointp) eq {1..48};
+            G := action[idx];
+            assert G*pmPic*Transpose(G) eq pmPic;
+            assert G^2 eq I64;
+            assert G*ccPic eq ccPic*G and G*ctPic eq ctPic*G;
+            rows := AT2Rows(G);
+            printf "AUTO_%o_SIDE=%o\n",z,sidep;
+            printf "AUTO_%o_POINT=%o\n",z,pointp;
+            for a in [1..14] do
+              printf "AUTO_%o_AT2_ROW_%o=%o\n",z,a,rows[a];
+            end for;
+          end for;
+          printf "STAGE33_Q_AUTOMORPHISM_DONE\n";
+          '''
+          code = "SetColumns(0);\nquick := true;\n" + core + "\n" + auto_block + "\n" + tail
+          '''
+          # Dedent the injected Python because this replacement literal is indented in this helper.
+          import textwrap
+          replacement=textwrap.dedent(replacement)
+          p.write_text(s[:a]+replacement+s[b:])
           PY
       - name: Compute Q-automorphism intertwiner space
         working-directory: stages/stage33/33-07
