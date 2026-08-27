@@ -386,3 +386,36 @@ STAGE33_08_RELEASED=false
 
 Next exact kernel: `R33-BR2A-26-GERSTEN-LIFT-CHOICE-GALOIS-EXTENSION-CLASS-IN-PROPER-BR2`.
 Next leaf: `L33-07-COMPUTE-GALOIS-EXTENSION-CLASS-OF-26-GERSTEN-LIFT-TORSOR-WITHOUT-REQUIRING-RATIONAL-SYMBOL-REPRESENTATIVES`.
+
+<!-- STAGE33_07_POST_PURITY_GERSTEN_TORSOR_V12 -->
+## Post-purity Gersten torsor ambiguity remains 416 bits
+
+Actions run `33073824503` independently reproduced the 26/26 abstract
+Gersten-existence prefix and all 416 elementary endpoint-compatible V4
+extensions, then locked their exact information boundary in `3e9f189a2d94a7a3640e7e44504e60a8c2199b30d9e395651abf243d02af3a32`.
+Purity proves every lift fibre is nonempty, but supplies neither a chosen
+representative nor a Galois-equivariant section or `cc`/`ct` lift-difference
+cocycle.  Therefore the retained inputs determine none of the `16 x 26`
+connecting-matrix entries.  This is an information-boundary result; it does
+**not** claim that all `2^416` abstract endpoint-compatible extensions are
+geometrically realised.
+
+```text
+GLOBAL_GEOMETRIC_GERSTEN_LIFT_EXISTENCE_CERTIFIED=26/26
+GLOBAL_GEOMETRIC_GERSTEN_EXPLICIT_REPRESENTATIVES_MATERIALIZED=0/26
+ENDPOINT_COMPATIBLE_EXTENSION_AMBIGUITY_DIMENSION_F2=416
+CONNECTING_MATRIX_TARGET_SHAPE=16x26
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+GEOMETRIC_REALIZABILITY_OF_ALL_ABSTRACT_EXTENSIONS_CLAIMED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Actions evidence: workflow `Stage33-07 post-purity Gersten torsor ambiguity`,
+run `33073824503`, artifact `9647000457`, digest
+`sha256:21841cffd1ee3d36a1086c5a5e956cc2f6ffa5fa8d2e778de6b7266410b303f6`.
+
+Next exact kernel: `R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-LIFT-DIFFERENCE-COCYCLES`.
+Next leaf: `L33-07-MATERIALIZE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-CC-CT-LIFT-DIFFERENCES`.
