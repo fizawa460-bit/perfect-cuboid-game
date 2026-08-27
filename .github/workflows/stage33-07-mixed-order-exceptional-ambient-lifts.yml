@@ -13,8 +13,6 @@ on:
       - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
       - 'stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json'
       - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
-      - 'stages/stage33/33-07/handoff.json'
-      - 'stages/stage33/33-07/result.md'
       - '.github/workflows/stage33-07-mixed-order-exceptional-ambient-lifts.yml'
   workflow_dispatch:
 
@@ -48,7 +46,7 @@ jobs:
       - name: Materialize exceptional ambient tangent rational-function lifts
         working-directory: stages/stage33/33-07
         run: python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
-      - name: Record all-72 ambient boundary progress
+      - name: Record historical all-72 ambient boundary progress if handoff is still V10
         working-directory: stages/stage33/33-07
         run: python record_mixed_order_ambient_boundary_progress.py
       - name: Validate conservative exceptional progress
@@ -68,32 +66,30 @@ jobs:
           assert all(x['exact_checks'].values())
           prog=x['constructive_progress']
           assert prog['all_72_boundary_component_function_packages_have_explicit_ambient_or_blowup_rational_lifts']
+          # This producer is historical support evidence only.  Its local progress
+          # object predates the later Gersten-existence-by-purity promotion and
+          # must not be used to overwrite the authoritative handoff.
           assert prog['global_geometric_Gersten_lifts_materialized_count']==0
           assert prog['global_geometric_Gersten_lifts_required_count']==26
           assert prog['off_boundary_codimension1_residue_certificates_materialized_count']==0
           assert not prog['project_14x26_L_squareclass_tensor_materialized']
           assert not prog['absolute_delta_loc_computed'] and not prog['arithmetic_HS_closed']
           hand=json.load(open('handoff.json'))
-          assert hand['schema']=='STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V10_ALL72_AMBIENT_BOUNDARY_GLOBAL_GERSTEN_GAP'
-          assert hand['repair_exact_reduction']['all_72_boundary_component_function_packages_ambientized']
-          assert hand['repair_exact_reduction']['global_geometric_Gersten_lifts_materialized']==0
-          assert hand['repair_exact_reduction']['off_boundary_codimension1_residue_certificates_materialized']==0
-          assert hand['next_item']==x['next_exact_leaf']
           assert hand['stage33_progress']=='6/11' and not hand['stage33_08_released']
+          assert hand['schema'].startswith('STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V10_') or hand['schema'].startswith('STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V11_') or hand['schema'].startswith('STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V12_')
           print('STAGE33_07_EXCEPTIONAL_AMBIENT_TANGENT_LIFTS=PASS')
           print('CERTIFICATE_SHA256='+h)
           print('ALL_72_BOUNDARY_PACKAGES_AMBIENTIZED=true')
-          print('GLOBAL_GERSTEN_LIFTS=0/26')
-          print('NEXT='+x['next_exact_leaf'])
+          print('AUTHORITATIVE_HANDOFF_SCHEMA='+hand['schema'])
           PY
-      - name: Retain V10 handoff and result on PR branch
+      - name: Retain historical V10 handoff/result only when recorder changed them
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         shell: bash
         run: |
           set -euo pipefail
           git add stages/stage33/33-07/handoff.json stages/stage33/33-07/result.md
           if git diff --cached --quiet; then
-            echo 'V10 handoff/result already current'
+            echo 'Historical recorder made no authoritative handoff change'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
