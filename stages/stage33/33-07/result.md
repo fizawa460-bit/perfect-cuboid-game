@@ -451,3 +451,49 @@ run `33075304812`, artifact `9647609431`, digest
 
 Next exact kernel: `R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-MIDDLE-GERSTEN-EXTENSION-CLASS-WITH-SOURCE-AND-KERNEL-ACTIONS-FIXED`.
 Next leaf: `L33-07-MATERIALIZE-MIDDLE-GERSTEN-CC-CT-ACTIONS-OR-26-CHOSEN-LIFT-DIFFERENCE-COCYCLES`.
+
+<!-- STAGE33_07_FINITE_SWAP_NONZERO_WITNESS_V14 -->
+## Finite swap envelope cannot force the localization class to zero
+
+The retained finite conditions on the two coordinate swaps do not determine
+the actual integral Picard actions, and they are not strong enough to force
+the unknown finite localization map to vanish.  An exact Boolean certificate
+materialized one admissible finite swap pair satisfying the `cc`/`ct`
+centralizer conditions, all seven sign-conjugacy equations, the retained
+two-torsion quadratic form, both involution equations, and the `S3` braid
+relation.  For this candidate, the seven-sign plus two-swap naturality system
+has rank `386` in the ambient `26 x 16 = 416` matrix space, leaving dimension
+`30`, together with an explicit nonzero kernel vector.
+
+This candidate is deliberately **not** identified with the actual integral
+Picard swap pair.  Its role is only to refute the proposed universal statement
+that every admissible finite candidate forces zero.  Therefore no value of the
+actual connecting map is inferred and no column is materialized.
+
+```text
+EXPLICIT_ADMISSIBLE_FINITE_COUNTEREXAMPLES=1
+AMBIENT_CONNECTING_MAP_DIMENSION_F2=416
+COUNTEREXAMPLE_CONSTRAINT_RANK_F2=386
+COUNTEREXAMPLE_REMAINING_DIMENSION_F2=30
+ROBUST_ZERO_OVER_ALL_ADMISSIBLE_FINITE_CANDIDATES=false
+ACTUAL_INTEGRAL_PICARD_SWAP_IDENTIFIED=false
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Actions evidence: workflow `Stage33-07 finite swap naturality nonzero witness`,
+run `33120565761`, certificate
+`2db42b3f5cc7a166d891efe4850e1008c92622dfd4b5ef83f9ab9b2ce386943b`,
+artifact `9666283654`, digest
+`sha256:5474ade2beb8cbd64b457534b2361e9bd8aed1c2a6dfa90c2c9f916c9f5f8832`.
+
+The repeated public-Magma swap workflows remain available only as manual
+diagnostics; their PR-synchronization triggers are disabled after repeated
+HTTP 500 failures.  The next exact leaf is
+`L33-07-MATERIALIZE-MIDDLE-GERSTEN-EXTENSION-DATA-OR-AN-INTEGRAL-SWAP-DISTINGUISHER`.
