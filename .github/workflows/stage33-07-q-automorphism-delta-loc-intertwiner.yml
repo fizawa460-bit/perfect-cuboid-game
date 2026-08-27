@@ -32,6 +32,17 @@ jobs:
       - name: Reproduce exact finite localization receiver
         working-directory: stages/stage33/33-07
         run: python materialize_order2_localization_receiver.py
+      - name: Adapt pinned extractor syntax to current Magma calculator
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('certify_q_automorphism_intertwiner_space_for_delta_loc.py')
+          s=p.read_text()
+          old='SmithForm(pmPic : Optimize := false)'
+          assert s.count(old)==1
+          p.write_text(s.replace(old,'SmithForm(pmPic)'))
+          PY
       - name: Compute Q-automorphism intertwiner space
         working-directory: stages/stage33/33-07
         run: python certify_q_automorphism_intertwiner_space_for_delta_loc.py
