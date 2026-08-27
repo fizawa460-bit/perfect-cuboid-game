@@ -11,8 +11,16 @@
     },
     "new_operational_guardrail": {
       "introduced_by_pr": 1418,
-      "scope": "B16_DEFAULT_STOP_NO_AUTOMATIC_B18_POST_B16_LITERATURE_REDUCTION_THEN_FEASIBILITY_GATE",
+      "scope": "B16_DEFAULT_STOP_NO_AUTOMATIC_B18_AND_POST_B16_FEASIBILITY_GUARDRAIL",
       "not_claimed_audited_by_pr1339": true,
+      "mathematical_credit_changed": false,
+      "receiver_credit_changed": false
+    },
+    "post_b16_literature_priority_extension": {
+      "extended_by_pr": 1421,
+      "scope": "POST_B16_LITERATURE_RECEIVER_PRIORITY_AND_RESIDUAL_FEASIBILITY_ORDERING",
+      "extends_pr1418_operational_guardrail": true,
+      "does_not_reattribute_pr1418_authority": true,
       "mathematical_credit_changed": false,
       "receiver_credit_changed": false
     }
@@ -33,6 +41,7 @@
   "post_b16_literature_receiver_gate": {
     "mandatory": true,
     "highest_priority_after_audited_b16": true,
+    "introduced_by_pr": 1421,
     "roadmap": "stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
     "contract": "stages/stage32/post-b16-literature-receiver-contract.json",
     "initial_window_count": 183,
@@ -50,6 +59,8 @@
   },
   "post_b16_feasibility_gate": {
     "mandatory": true,
+    "introduced_by_pr": 1418,
+    "residual_ordering_extended_by_pr": 1421,
     "depends_on": "POST_B16_LITERATURE_RECEIVER_AUDIT_COMPLETE",
     "question": "CAN_CURRENT_EXACT_PRODUCTION_ARCHITECTURE_REACH_AUDITED_RESIDUAL_FROZEN_D_LE_176_D_LE_192_NUMERICAL_CENSUS_UNDER_CURRENT_EXECUTION_POLICY",
     "required_inputs": [
