@@ -1,0 +1,80 @@
+name: Stage33-07 mixed-order side ambient lifts
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/materialize_mixed_order_side_ambient_function_lifts.py'
+      - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
+      - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
+      - 'stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json'
+      - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - '.github/workflows/stage33-07-mixed-order-side-ambient-lifts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
+  certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reproduce full mixed-order Bockstein certificate
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_quotient_raw_order4_bockstein.py
+      - name: Materialize side ambient rational-function lifts
+        working-directory: stages/stage33/33-07
+        run: python materialize_mixed_order_side_ambient_function_lifts.py
+      - name: Validate conservative side-only progress
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='mixed-order-side-ambient-function-lifts.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          actual=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert h==actual
+          assert x['mixed_order_partition']=={'raw_order2':17,'raw_order4':9}
+          assert x['counts']['source_count']==26
+          assert x['counts']['physical_side_component_count']==24
+          assert x['counts']['nontrivial_source_side_function_count']>0
+          assert all(x['exact_checks'].values())
+          prog=x['constructive_progress']
+          assert prog['physical_side_component_functions_have_ambient_surface_rational_lifts']
+          assert not prog['exceptional_component_functions_have_ambient_blowup_rational_lifts']
+          assert prog['global_geometric_Gersten_lifts_materialized_count']==0
+          assert prog['global_geometric_Gersten_lifts_required_count']==26
+          assert not prog['project_14x26_L_squareclass_tensor_materialized']
+          assert not prog['absolute_delta_loc_computed'] and not prog['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          print('STAGE33_07_SIDE_AMBIENT_FUNCTION_LIFTS=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('SIDE_FUNCTION_LIFTS='+str(x['counts']['nontrivial_source_side_function_count']))
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - name: Upload side ambient lift atlas
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-mixed-order-side-ambient-lifts
+          retention-days: 3
+          path: stages/stage33/33-07/mixed-order-side-ambient-function-lifts.json

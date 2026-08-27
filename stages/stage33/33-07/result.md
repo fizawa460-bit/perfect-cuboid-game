@@ -303,3 +303,151 @@ STAGE33_08_RELEASED=false
 The next exact leaf is no longer a blind 26-column squareclass construction.
 It is the nine-dimensional `U44` double-obstruction extension problem.  The 17
 raw-order-two directions remain retained and reusable.
+
+## PR #1419 raw-order4 Bockstein normal form
+
+The nine quotient-order-two directions that failed the raw order-two test in
+PR #1414 have now been retained at their correct raw order four rather than
+being forced into Kummer squareclasses. Exact mod-4 divisor checks on all 72
+boundary P1 components produce deterministic order-four first-residue function
+models for all nine directions. Together with the 17 retained raw-order-two
+models, all 26 boundary first-residue directions are therefore materialized in
+mixed order `17 x order2 + 9 x order4` form.
+
+The nine nonzero doubles are independent in the 44-dimensional U44 kernel.
+Taking those doubles as the first nine vectors of a new U44 basis gives the
+exact raw extension normal form
+
+```text
+RAW_EXTENSION_GROUP=(Z/4)^9 direct_sum (Z/2)^52
+RAW_EXTENSION_ORDER=2^70
+RAW_ORDER2_FIRST_RESIDUE_DIRECTIONS=17
+RAW_ORDER4_FIRST_RESIDUE_DIRECTIONS=9
+BOCKSTEIN_IMAGE_RANK_F2=9
+COMPLEX_CONJUGATION_ON_EACH_ORDER4_FACTOR=inversion
+FULL_ORDER4_BOCKSTEIN_CERTIFICATE_SHA256=085ad52c1eb1cf8069fcac9a0814250428288cc5d517a036670ae529c36eb88a
+COMPACT_ORDER4_BOCKSTEIN_CERTIFICATE_SHA256=30f2a4653619419a42d5513be26c8acf7505e042e4cbef279abd3476c34d1cfa
+RAW_EXTENSION_NORMAL_FORM_CERTIFICATE_SHA256=3d5467d5af707780747134af734f53263eebb8aae1ac3f3ae33f55239a6241cd
+QUOTIENT_TO_RAW_BOCKSTEIN_NORMAL_FORM_CLOSED=true
+GLOBAL_GEOMETRIC_GERSTEN_LIFTS_MATERIALIZED=0/26
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+This closes the finite quotient-to-raw Bockstein structure itself. It does not
+close the global residue-lift problem: the 17 order-two boundary packages and
+the 9 order-four boundary packages all still need genuine global geometric
+Gersten lifts before their Galois differences can be computed. The corrected
+smallest exact kernel is therefore
+
+```text
+R33-BR2A-26-MIXED-ORDER-FIRST-RESIDUE-GLOBAL-GERSTEN-LIFT-GALOIS-DIFFERENCE-COCYCLE
+```
+
+No finite boundary calculation is promoted to a global Q-defined lift here.
+<!-- STAGE33_07_ALL72_AMBIENT_BOUNDARY_PROGRESS -->
+## All-72 ambient boundary-function milestone
+
+The mixed-order first-residue packages now have explicit ambient rational-function lifts on **all 72 boundary components**.  The 24 physical side conics contribute 120 nontrivial source/component functions with 240 selected crossing factors (`2f137842fffbabe7fa9f91879f379e0662803204d6753c342fc31f6dfe12fa6d`); the 48 exceptional tangent conics contribute another 120 nontrivial functions with 240 factors (`a9d5ceb66625dfa561db61a3afc95388bf5a8371fb81905988991514a765d397`).  The exceptional constructor reproduces all 48 frozen tangent-conic commitments before forming deterministic ambient projection pairs.
+
+This does **not** promote any source to a global geometric Gersten/Brauer lift.  The remaining exact kernel is `R33-BR2A-26-AMBIENT-BOUNDARY-FUNCTION-PACKAGES-GLOBAL-GERSTEN-OFF-BOUNDARY-RESIDUES`: assemble the 26 ambient boundary packages and certify every off-boundary codimension-one residue (or an exact cancellation) before global-lift credit.
+
+```text
+ALL_72_BOUNDARY_COMPONENT_PACKAGES_AMBIENTIZED=true
+GLOBAL_GEOMETRIC_GERSTEN_LIFTS_MATERIALIZED=0/26
+OFF_BOUNDARY_CODIM1_RESIDUE_CERTIFICATES=0/26
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+```
+<!-- STAGE33_07_GERSTEN_EXISTENCE_26_V11 -->
+## Gersten lift existence 26/26; explicit representative choice still open
+
+The mixed-order boundary tuples now pass the **full codimension-two localization/Gersten kernel check** over `L=Q(i,sqrt(2))`: all 17 order-two sources cancel at every crossing mod 2 with even infinity poles, and all 9 order-four sources cancel as `-r + r = 0 mod 4` with denominator exponent divisible by 4.  Extending each boundary tuple by zero on every other codimension-one divisor and applying the retained localization exact sequence certifies abstract global geometric open-Brauer/Gersten lift existence for all 26 sources (`c97cf3df4c69bc859765b6844dc12e1ad24bdf0da0457446f1e5e11846c6660a`).
+
+This promotion is deliberately separated from a choice of explicit rational-symbol representatives.  No `cc`/`ct` difference cocycle in the proper 14-dimensional `Br(Sbar)[2]` basis has been materialized, so the finite localization connecting map remains the exact kernel.
+
+```text
+GLOBAL_GEOMETRIC_GERSTEN_LIFT_EXISTENCE_CERTIFIED=26/26
+GLOBAL_GEOMETRIC_GERSTEN_EXPLICIT_REPRESENTATIVES_MATERIALIZED=0/26
+FINITE_V4_H1_PROPER_BR2_DIMENSION_F2=16
+LOCALIZATION_EXTENSION_CLASS_MATRIX_TARGET_SHAPE=16x26
+LOCALIZATION_EXTENSION_CLASS_COLUMNS_MATERIALIZED=0/26
+PROJECT_14x26_L_SQUARECLASS_TENSOR_COMPUTED=false
+ABSOLUTE_DELTA_LOC_COMPUTED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Next exact kernel: `R33-BR2A-26-GERSTEN-LIFT-CHOICE-GALOIS-EXTENSION-CLASS-IN-PROPER-BR2`.
+Next leaf: `L33-07-COMPUTE-GALOIS-EXTENSION-CLASS-OF-26-GERSTEN-LIFT-TORSOR-WITHOUT-REQUIRING-RATIONAL-SYMBOL-REPRESENTATIVES`.
+
+<!-- STAGE33_07_POST_PURITY_GERSTEN_TORSOR_V12 -->
+## Post-purity Gersten torsor ambiguity remains 416 bits
+
+Actions run `33073824503` independently reproduced the 26/26 abstract
+Gersten-existence prefix and all 416 elementary endpoint-compatible V4
+extensions, then locked their exact information boundary in `3e9f189a2d94a7a3640e7e44504e60a8c2199b30d9e395651abf243d02af3a32`.
+Purity proves every lift fibre is nonempty, but supplies neither a chosen
+representative nor a Galois-equivariant section or `cc`/`ct` lift-difference
+cocycle.  Therefore the retained inputs determine none of the `16 x 26`
+connecting-matrix entries.  This is an information-boundary result; it does
+**not** claim that all `2^416` abstract endpoint-compatible extensions are
+geometrically realised.
+
+```text
+GLOBAL_GEOMETRIC_GERSTEN_LIFT_EXISTENCE_CERTIFIED=26/26
+GLOBAL_GEOMETRIC_GERSTEN_EXPLICIT_REPRESENTATIVES_MATERIALIZED=0/26
+ENDPOINT_COMPATIBLE_EXTENSION_AMBIGUITY_DIMENSION_F2=416
+CONNECTING_MATRIX_TARGET_SHAPE=16x26
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+GEOMETRIC_REALIZABILITY_OF_ALL_ABSTRACT_EXTENSIONS_CLAIMED=false
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Actions evidence: workflow `Stage33-07 post-purity Gersten torsor ambiguity`,
+run `33073824503`, artifact `9647000457`, digest
+`sha256:21841cffd1ee3d36a1086c5a5e956cc2f6ffa5fa8d2e778de6b7266410b303f6`.
+
+Next exact kernel: `R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-LIFT-DIFFERENCE-COCYCLES`.
+Next leaf: `L33-07-MATERIALIZE-GALOIS-EQUIVARIANT-GERSTEN-MIDDLE-MODULE-OR-26-CC-CT-LIFT-DIFFERENCES`.
+
+<!-- STAGE33_07_BOUNDARY_SOURCE_V4_ACTION_V13 -->
+## Boundary-source V4 action closed; middle extension still open
+
+Actions run `33075304812` reconstructed complex conjugation on every chosen
+raw boundary representative.  All 17 raw-order-two sources are fixed; the
+nine raw-order-four sources are inverted with defect equal to their locked
+U44 double/Bockstein class.  After passage to `A[2] ~= F2^26`, both `cc` and
+`ct` act trivially.  Thus the source action is no longer missing.  This does
+not choose or act on any genuine middle Gersten lift, and the `16 x 26`
+connecting matrix remains wholly unmaterialized.
+
+```text
+RAW_SOURCE_ACTION=17_CC_FIXED_ORDER2_PLUS_9_CC_INVERTED_ORDER4
+QUOTIENT_A2_DIMENSION_F2=26
+QUOTIENT_A2_CC_ACTION=TRIVIAL
+QUOTIENT_A2_CT_ACTION=TRIVIAL
+SOURCE_SIDE_V4_ACTION_FULLY_MATERIALIZED=true
+MIDDLE_GERSTEN_MODULE_ACTION_MATERIALIZED=false
+CONNECTING_MATRIX_COLUMNS_MATERIALIZED=0/26
+ACTUAL_INDEX512_GLUE_IDENTIFIED=false
+ARITHMETIC_HS_CLOSED=false
+STAGE33_PROGRESS_EFFECTIVE=6/11
+STAGE33_08_RELEASED=false
+```
+
+Actions evidence: workflow `Stage33-07 boundary source V4 action adapter`,
+run `33075304812`, artifact `9647609431`, digest
+`sha256:3f252012ea0c71487e4d2750936289d3953794b4fbf9be1fc11544b0658bd44f`.
+
+Next exact kernel: `R33-BR2A-GENUINE-GALOIS-EQUIVARIANT-MIDDLE-GERSTEN-EXTENSION-CLASS-WITH-SOURCE-AND-KERNEL-ACTIONS-FIXED`.
+Next leaf: `L33-07-MATERIALIZE-MIDDLE-GERSTEN-CC-CT-ACTIONS-OR-26-CHOSEN-LIFT-DIFFERENCE-COCYCLES`.

@@ -20,6 +20,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: read
   contents: read
 
 jobs:
@@ -64,6 +65,31 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Preflight bounded Actions storage
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # Latest representative compact artifact: 8,139 bytes.  Charge a
+          # conservative full MiB including zip/metadata overhead.
+          gh api "repos/${GH_REPO}/actions/artifacts?per_page=100" --paginate --slurp > artifacts.json
+          python - <<'PY'
+          import json
+          pages=json.load(open('artifacts.json'))
+          current=sum(int(a['size_in_bytes']) for p in pages for a in p['artifacts'] if not a['expired'])
+          representative_artifact_bytes=8139
+          charged_new_artifact_bytes=1024*1024
+          budget=500*1024*1024
+          projected=current+charged_new_artifact_bytes
+          print(f'ACTIONS_STORAGE_CURRENT_BYTES={current}')
+          print(f'REPRESENTATIVE_ARTIFACT_BYTES={representative_artifact_bytes}')
+          print(f'CHARGED_NEW_ARTIFACT_BYTES={charged_new_artifact_bytes}')
+          print(f'ACTIONS_STORAGE_PROJECTED_PEAK_BYTES={projected}')
+          print(f'ACTIONS_STORAGE_BUDGET_BYTES={budget}')
+          if projected > budget:
+              raise SystemExit('projected Actions storage exceeds the 500 MiB operating budget')
+          PY
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'

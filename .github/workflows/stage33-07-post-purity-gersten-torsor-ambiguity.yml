@@ -1,0 +1,120 @@
+name: Stage33-07 post-purity Gersten torsor ambiguity
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_post_purity_gersten_torsor_ambiguity.py'
+      - 'stages/stage33/33-07/certify_26_global_gersten_lift_existence_by_purity.py'
+      - 'stages/stage33/33-07/certify_order2_ambient_extension_ambiguity.py'
+      - 'stages/stage33/33-07/materialize_order2_localization_receiver.py'
+      - 'stages/stage33/33-07/materialize_order2_localization_extension_from_ambient.py'
+      - 'stages/stage33/33-07/proper-brauer2-from-discriminant.json'
+      - '.github/workflows/stage33-07-post-purity-gersten-torsor-ambiguity.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: stage33-07-post-purity-gersten-torsor-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  actions: read
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
+
+  certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+          fetch-depth: 0
+      - name: Preflight bounded Actions storage
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          # The locally measured retained certificate is 2,782 bytes.  Charge
+          # a conservative full MiB for zip/metadata overhead and require the
+          # repository-wide projected peak to remain below the 500 MiB budget.
+          gh api "repos/${GH_REPO}/actions/artifacts?per_page=100" --paginate --slurp > artifacts.json
+          python - <<'PY'
+          import json
+          pages=json.load(open('artifacts.json'))
+          current=sum(int(a['size_in_bytes']) for p in pages for a in p['artifacts'] if not a['expired'])
+          representative_certificate_bytes=2782
+          charged_new_artifact_bytes=1024*1024
+          budget=500*1024*1024
+          projected=current+charged_new_artifact_bytes
+          print(f'ACTIONS_STORAGE_CURRENT_BYTES={current}')
+          print(f'REPRESENTATIVE_CERTIFICATE_BYTES={representative_certificate_bytes}')
+          print(f'CHARGED_NEW_ARTIFACT_BYTES={charged_new_artifact_bytes}')
+          print(f'ACTIONS_STORAGE_PROJECTED_PEAK_BYTES={projected}')
+          print(f'ACTIONS_STORAGE_BUDGET_BYTES={budget}')
+          if projected > budget:
+              raise SystemExit('projected Actions storage exceeds the 500 MiB operating budget')
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reproduce the two locked exact prefixes
+        working-directory: stages/stage33/33-07
+        run: |
+          python materialize_order2_localization_receiver.py
+          python certify_order2_ambient_extension_ambiguity.py
+          python certify_26_global_gersten_lift_existence_by_purity.py
+      - name: Certify the post-purity information boundary
+        working-directory: stages/stage33/33-07
+        run: python certify_post_purity_gersten_torsor_ambiguity.py
+      - name: Validate exactness and promotion firewalls
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='post-purity-gersten-torsor-ambiguity.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          q=x['exact_information_boundary']
+          assert q['endpoint_compatible_extension_space_dimension_f2']==416
+          assert q['connecting_matrix_shape']==[16,26]
+          assert q['connecting_matrix_columns_materialized']==0
+          assert q['purity_proves_each_lift_fibre_nonempty']
+          assert not q['purity_chooses_a_representative_in_each_fibre']
+          assert not q['purity_supplies_a_galois_equivariant_section']
+          assert not q['geometric_realizability_of_all_abstract_extension_classes_claimed']
+          s=x['project_status']
+          assert not s['finite_v4_delta_loc_matrix_computed']
+          assert not s['project_14x26_L_squareclass_tensor_materialized']
+          assert not s['actual_index512_glue_identified']
+          assert not s['absolute_delta_loc_computed']
+          assert not s['arithmetic_HS_closed']
+          assert s['stage33_progress']=='6/11' and not s['stage33_08_released']
+          assert not s['theorem_credit'] and not s['endpoint_credit']
+          print('STAGE33_07_POST_PURITY_GERSTEN_TORSOR_AMBIGUITY=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('GERSTEN_EXISTENCE=26/26')
+          print('CONNECTING_MATRIX_COLUMNS=0/26')
+          print('EXTENSION_AMBIGUITY_DIMENSION_F2=416')
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-post-purity-gersten-torsor-ambiguity
+          retention-days: 3
+          path: stages/stage33/33-07/post-purity-gersten-torsor-ambiguity.json

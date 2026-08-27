@@ -1,0 +1,104 @@
+name: Stage33-07 explicit boundary uniformizers
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_72_boundary_weak_approximation_uniformizers.py'
+      - 'stages/stage33/33-07/certify_26x24_offboundary_prime_valuation_tensor_over_L.py'
+      - 'stages/stage33/33-07/certify_six_unramified_kummer_classes_nonsquare_over_L.py'
+      - 'stages/stage33/33-07/certify_six_unramified_kummer_classes_nonsquare.py'
+      - 'stages/stage33/33-07/certify_quartic_norm_biquadratic_cover_reduction.py'
+      - 'stages/stage33/33-07/certify_bj_offboundary_genus1_components.py'
+      - 'stages/stage33/33-07/certify_ambient_linear_carrier_boundary_offboundary_split.py'
+      - 'stages/stage33/33-07/inventory_mixed_order_ambient_linear_divisor_support.py'
+      - 'stages/stage33/33-07/materialize_mixed_order_side_ambient_function_lifts.py'
+      - 'stages/stage33/33-07/materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py'
+      - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
+      - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
+      - 'stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json'
+      - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - '.github/workflows/stage33-07-boundary-uniformizers.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
+  certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reproduce offboundary geometry prefix
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_order2_quotient_raw_order4_bockstein.py
+          python materialize_mixed_order_side_ambient_function_lifts.py
+          python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
+          python inventory_mixed_order_ambient_linear_divisor_support.py
+          python certify_ambient_linear_carrier_boundary_offboundary_split.py
+          python certify_bj_offboundary_genus1_components.py
+          python certify_quartic_norm_biquadratic_cover_reduction.py
+          python certify_six_unramified_kummer_classes_nonsquare.py
+          python certify_six_unramified_kummer_classes_nonsquare_over_L.py
+          python certify_26x24_offboundary_prime_valuation_tensor_over_L.py
+      - name: Construct 72 exact weak-approximation uniformizers
+        working-directory: stages/stage33/33-07
+        run: python certify_72_boundary_weak_approximation_uniformizers.py
+      - name: Validate I72 boundary valuation certificate
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='boundary-weak-approximation-uniformizers-72.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['boundary_counts']=={'side':24,'exceptional':48,'total':72,'side_exceptional_incidence_edges':144,'incident_exceptionals_per_side':6}
+          assert len(x['exceptional_uniformizers'])==48
+          assert len(x['side_uniformizers'])==24
+          assert len(x['boundary_valuation_identity_certificate'])==72
+          assert all(r['nonzero_boundary_valuations']=={r['uniformizer_for']:1} for r in x['boundary_valuation_identity_certificate'])
+          assert x['offboundary_unit_condition']['prime_count']==24
+          assert x['offboundary_unit_condition']['therefore_all_72_uniformizers_have_valuation_zero_on_all_24_offboundary_primes']
+          assert all(x['exact_checks'].values())
+          prog=x['constructive_progress']
+          assert prog['boundary_uniformizers_explicitly_materialized_count']==72
+          assert prog['boundary_valuation_identity_matrix_closed']
+          assert prog['boundary_uniformizer_restrictions_are_units_on_all_24_offboundary_primes']
+          assert not prog['boundary_uniformizer_squareclass_matrix_on_24_primes_materialized']
+          assert prog['offboundary_source_prime_cells_requiring_uniformizer_contraction']==140
+          assert prog['off_boundary_codimension1_residue_certificates_materialized_count']==0
+          assert prog['global_geometric_Gersten_lifts_materialized_count']==0
+          assert not prog['project_14x26_L_squareclass_tensor_materialized']
+          assert not prog['absolute_delta_loc_computed'] and not prog['arithmetic_HS_closed']
+          print('STAGE33_07_BOUNDARY_UNIFORMIZERS=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('BOUNDARY_VALUATION_MATRIX=I_72')
+          print('OFFBOUNDARY_UNIT_TESTS=72x24_PASS')
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - name: Upload boundary uniformizer atlas
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-boundary-uniformizers
+          retention-days: 3
+          path: stages/stage33/33-07/boundary-weak-approximation-uniformizers-72.json

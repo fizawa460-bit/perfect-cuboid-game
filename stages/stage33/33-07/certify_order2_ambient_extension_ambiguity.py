@@ -43,6 +43,12 @@ def canonical_sha256(obj):
     ).hexdigest()
 
 
+def normalized_text_sha256(path):
+    """Hash source semantics, independent of Windows CRLF checkout policy."""
+    text = path.read_text(encoding="utf-8").replace("\r\n", "\n")
+    return hashlib.sha256(text.encode("utf-8")).hexdigest()
+
+
 def load_locked(path):
     x = json.loads(path.read_text(encoding="utf-8"))
     claimed = x.get("canonical_sha256")
@@ -179,7 +185,7 @@ def main():
         "source_locks": {
             "receiver_canonical_sha256": receiver["canonical_sha256"],
             "proper_br2_canonical_sha256": br2["canonical_sha256"],
-            "ambient_adapter_file_sha256": hashlib.sha256(ADAPTER_PATH.read_bytes()).hexdigest(),
+            "ambient_adapter_file_sha256": normalized_text_sha256(ADAPTER_PATH),
         },
         "endpoint_module_statement": {
             "kernel": "proper Br(Sbar)[2]",

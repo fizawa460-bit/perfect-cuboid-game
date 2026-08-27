@@ -1,0 +1,96 @@
+name: Stage33-07 quartic Kummer reduction
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_quartic_norm_biquadratic_cover_reduction.py'
+      - 'stages/stage33/33-07/certify_bj_offboundary_genus1_components.py'
+      - 'stages/stage33/33-07/certify_ambient_linear_carrier_boundary_offboundary_split.py'
+      - 'stages/stage33/33-07/inventory_mixed_order_ambient_linear_divisor_support.py'
+      - 'stages/stage33/33-07/materialize_mixed_order_side_ambient_function_lifts.py'
+      - 'stages/stage33/33-07/materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py'
+      - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
+      - '.github/workflows/stage33-07-quartic-kummer-reduction.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
+  certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reproduce exact off-boundary prefix
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_order2_quotient_raw_order4_bockstein.py
+          python materialize_mixed_order_side_ambient_function_lifts.py
+          python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
+          python inventory_mixed_order_ambient_linear_divisor_support.py
+          python certify_ambient_linear_carrier_boundary_offboundary_split.py
+          python certify_bj_offboundary_genus1_components.py
+      - name: Reduce 12 quartic carriers to six Kummer tests
+        working-directory: stages/stage33/33-07
+        run: python certify_quartic_norm_biquadratic_cover_reduction.py
+      - name: Validate conservative Kummer reduction
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='quartic-norm-biquadratic-cover-reduction.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          r=x['reduction_summary']
+          assert r['quartic_norm_hyperplanes']==12
+          assert r['paired_base_quartics']==6
+          assert r['base_quartic_normalization_genus_histogram']=={'1':3,'2':3}
+          assert r['each_hyperplane_generic_cover_rank']==4
+          assert r['ramified_nontrivial_squareclasses_certified']==6
+          assert r['unramified_Kummer_squareclasses_remaining']==6
+          assert r['possible_prime_component_count_per_quartic_hyperplane']==[1,2]
+          assert r['four_component_case_excluded']
+          assert len(x['quartic_group_records'])==6
+          assert all(x['exact_checks'].values())
+          prog=x['constructive_progress']
+          assert prog['quartic_norm_hyperplanes_reduced_to_Kummer_tests']==12
+          assert prog['quartic_base_normalizations_materialized']==6
+          assert prog['unramified_Kummer_square_triviality_tests_remaining']==6
+          assert not prog['off_boundary_prime_divisor_decomposition_fully_closed']
+          assert prog['global_geometric_Gersten_lifts_materialized_count']==0
+          assert prog['off_boundary_codimension1_residue_certificates_materialized_count']==0
+          assert not prog['project_14x26_L_squareclass_tensor_materialized']
+          assert not prog['absolute_delta_loc_computed'] and not prog['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          print('STAGE33_07_QUARTIC_KUMMER_REDUCTION=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('BASE_QUARTICS=6')
+          print('GENUS_HISTOGRAM=3xG1+3xG2')
+          print('UNRAMIFIED_KUMMER_TESTS_REMAINING=6')
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - name: Upload quartic Kummer reduction certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-quartic-kummer-reduction
+          retention-days: 3
+          path: stages/stage33/33-07/quartic-norm-biquadratic-cover-reduction.json

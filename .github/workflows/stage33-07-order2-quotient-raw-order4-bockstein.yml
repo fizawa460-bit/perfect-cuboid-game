@@ -1,0 +1,110 @@
+name: Stage33-07 quotient raw-order4 Bockstein
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
+      - 'stages/stage33/33-07/compact_order2_quotient_raw_order4_bockstein.py'
+      - 'stages/stage33/33-07/certify_order2_raw_extension_normal_form.py'
+      - 'stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json'
+      - 'stages/stage33/33-07/order2-raw-extension-normal-form.json'
+      - 'stages/stage33/33-07/materialize_order2_first_residue_functions.py'
+      - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
+      - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
+      - 'stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json'
+      - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - '.github/workflows/stage33-07-order2-quotient-raw-order4-bockstein.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
+  certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact integer algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reproduce #1414 first-residue certificate
+        working-directory: stages/stage33/33-07
+        run: python materialize_order2_first_residue_functions.py
+      - name: Materialize nine raw-order4 Bockstein lifts
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_quotient_raw_order4_bockstein.py
+      - name: Compact source-control certificate
+        working-directory: stages/stage33/33-07
+        run: python compact_order2_quotient_raw_order4_bockstein.py
+      - name: Certify exact raw extension normal form
+        working-directory: stages/stage33/33-07
+        run: python certify_order2_raw_extension_normal_form.py
+      - name: Validate finite Bockstein layer only
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib, json
+          def check(path):
+              x=json.load(open(path)); h=x.pop('canonical_sha256')
+              actual=hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+              assert h==actual
+              return h,x
+          h,x=check('order2-quotient-raw-order4-bockstein.json')
+          assert h=='085ad52c1eb1cf8069fcac9a0814250428288cc5d517a036670ae529c36eb88a'
+          q=x['quotient_to_raw_bockstein']
+          assert q['quotient_A2_dimension_f2']==26
+          assert q['raw_order2_kernel_dimension_f2']==17
+          assert q['raw_order4_quotient_dimension_f2']==9
+          assert q['double_obstruction_rank_f2']==9
+          assert len(q['nine_source_records'])==9
+          assert all(x['exact_checks'].values())
+          c_h,c=check('order2-quotient-raw-order4-bockstein-compact.json')
+          assert c_h=='30f2a4653619419a42d5513be26c8acf7505e042e4cbef279abd3476c34d1cfa'
+          n_h,n=check('order2-raw-extension-normal-form.json')
+          assert n['raw_extension_invariant_factors']['exact_group']=='(Z/4)^9 direct_sum (Z/2)^52'
+          assert n['raw_extension_invariant_factors']['group_order_log2']==70
+          assert n['dimensions']['bockstein_image_dimension_f2']==9
+          assert len(n['nine_order4_normal_form_pairs'])==9
+          assert all(n['exact_checks'].values())
+          prog=n['constructive_progress']
+          assert prog['quotient_to_raw_Bockstein_extension_normal_form_closed']
+          assert prog['all_26_boundary_first_residue_function_packages_materialized_mixed_order']
+          assert prog['global_geometric_Gersten_lifts_materialized_count']==0
+          assert prog['global_geometric_Gersten_lifts_required_count']==26
+          assert prog['raw_order2_global_geometric_Gersten_lifts_materialized_count']==0
+          assert prog['raw_order4_global_geometric_Gersten_lifts_materialized_count']==0
+          assert not prog['project_14x26_L_squareclass_tensor_materialized']
+          assert not prog['absolute_delta_loc_computed']
+          assert not prog['arithmetic_HS_closed']
+          print('STAGE33_07_RAW_ORDER4_BOCKSTEIN=PASS')
+          print('FULL_CERTIFICATE_SHA256='+h)
+          print('COMPACT_CERTIFICATE_SHA256='+c_h)
+          print('NORMAL_FORM_CERTIFICATE_SHA256='+n_h)
+          print('RAW_EXTENSION_GROUP='+n['raw_extension_invariant_factors']['exact_group'])
+          print('HANDOFF_WRITE_DISABLED_TO_PREVENT_STALE_ROLLBACK=true')
+          PY
+      - name: Upload detailed and compact Bockstein certificates
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-raw-order4-bockstein
+          retention-days: 3
+          path: |
+            stages/stage33/33-07/order2-quotient-raw-order4-bockstein.json
+            stages/stage33/33-07/order2-quotient-raw-order4-bockstein-compact.json
+            stages/stage33/33-07/order2-raw-extension-normal-form.json

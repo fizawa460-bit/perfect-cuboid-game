@@ -1,0 +1,115 @@
+name: Stage33-07 offboundary prime valuation tensor
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-07/certify_26x24_offboundary_prime_valuation_tensor_over_L.py'
+      - 'stages/stage33/33-07/certify_six_unramified_kummer_classes_nonsquare_over_L.py'
+      - 'stages/stage33/33-07/certify_six_unramified_kummer_classes_nonsquare.py'
+      - 'stages/stage33/33-07/certify_quartic_norm_biquadratic_cover_reduction.py'
+      - 'stages/stage33/33-07/certify_bj_offboundary_genus1_components.py'
+      - 'stages/stage33/33-07/certify_ambient_linear_carrier_boundary_offboundary_split.py'
+      - 'stages/stage33/33-07/inventory_mixed_order_ambient_linear_divisor_support.py'
+      - 'stages/stage33/33-07/materialize_mixed_order_side_ambient_function_lifts.py'
+      - 'stages/stage33/33-07/materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py'
+      - 'stages/stage33/33-07/certify_order2_quotient_raw_order4_bockstein.py'
+      - 'stages/stage33/33-07/order2-first-residue-function-liftability.json'
+      - 'stages/stage33/33-07/exceptional-p1-tangent-coordinates.json'
+      - 'stages/stage33/33-07/br0b-boundary-raw-residue-map.json'
+      - 'stages/stage33/33-07/br0g-finite-ramified-residue-presentation.json'
+      - 'stages/stage33/33-07/two-primary-residue-invariant-basis.json'
+      - '.github/workflows/stage33-07-offboundary-prime-valuation-tensor.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with: {fetch-depth: 0}
+      - id: gate
+        env: {EVENT: '${{ github.event_name }}', ACTION: '${{ github.event.action }}', BEFORE: '${{ github.event.before }}', HEAD: '${{ github.event.pull_request.head.sha }}', WORKFLOW_REF: '${{ github.workflow_ref }}'}
+        run: python .github/scripts/stage33_commit_range_gate.py
+  certify:
+    needs: gate
+    if: needs.gate.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install exact algebra dependency
+        run: python -m pip install 'sympy==1.14.0'
+      - name: Reproduce full offboundary prime prefix over L
+        working-directory: stages/stage33/33-07
+        run: |
+          python certify_order2_quotient_raw_order4_bockstein.py
+          python materialize_mixed_order_side_ambient_function_lifts.py
+          python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
+          python inventory_mixed_order_ambient_linear_divisor_support.py
+          python certify_ambient_linear_carrier_boundary_offboundary_split.py
+          python certify_bj_offboundary_genus1_components.py
+          python certify_quartic_norm_biquadratic_cover_reduction.py
+          python certify_six_unramified_kummer_classes_nonsquare.py
+          python certify_six_unramified_kummer_classes_nonsquare_over_L.py
+      - name: Assemble 26x24x72 sparse valuation tensor
+        working-directory: stages/stage33/33-07
+        run: python certify_26x24_offboundary_prime_valuation_tensor_over_L.py
+      - name: Validate exact residue-candidate reduction firewall
+        working-directory: stages/stage33/33-07
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          p='offboundary-prime-valuation-tensor-26x24-over-L.json'
+          x=json.load(open(p)); h=x.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(x,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          assert x['dimensions']=={'source_count':26,'offboundary_prime_count':24,'source_prime_cell_count':624,'boundary_component_count':72}
+          assert len(x['prime_inventory'])==24
+          assert sum(r['kind']=='BJ_GENUS1' for r in x['prime_inventory'])==12
+          assert sum(r['kind']=='QUARTIC_NORM_PRIME' for r in x['prime_inventory'])==12
+          c=x['exact_counts']
+          assert c['nontrivial_boundary_function_packages']==240
+          assert c['ambient_linear_carrier_occurrences_all']==720
+          assert c['offboundary_carrier_occurrences_before_prime_expansion']==190
+          assert c['offboundary_prime_expanded_component_entries_nonzero_mod_source_order']==262
+          assert c['source_prime_cells_nonzero_at_valuation_level']==140
+          assert c['source_prime_cells_automatic_zero_by_valuation']==484
+          assert c['order2_candidate_cells']==122 and c['order4_candidate_cells']==18
+          assert c['order2_BJ_candidate_cells']==72
+          assert c['order2_quartic_candidate_cells']==50
+          assert c['order4_quartic_candidate_cells']==18
+          assert c['valuation_mod_order_histogram']=={'order2_mod1':190,'order4_mod1':36,'order4_mod3':36}
+          assert c['collapsed_integer_sum_nonzero_cells_diagnostic_only']==70
+          assert c['collapsed_integer_sum_zero_but_component_vector_nonzero_cells_diagnostic_only']==70
+          assert len(x['sparse_valuation_tensor_entries'])==262
+          assert all(x['exact_checks'].values())
+          prog=x['constructive_progress']
+          assert prog['off_boundary_prime_divisor_decomposition_over_L_fully_closed']
+          assert prog['offboundary_26x24_valuation_tensor_materialized']
+          assert prog['offboundary_source_prime_cells_automatic_zero_by_valuation']==484
+          assert prog['offboundary_source_prime_cells_requiring_uniformizer_contraction']==140
+          assert not prog['boundary_uniformizer_squareclass_matrix_on_24_primes_materialized']
+          assert prog['off_boundary_codimension1_residue_certificates_materialized_count']==0
+          assert prog['global_geometric_Gersten_lifts_materialized_count']==0
+          assert not prog['project_14x26_L_squareclass_tensor_materialized']
+          assert not prog['absolute_delta_loc_computed'] and not prog['arithmetic_HS_closed']
+          assert x['stage33_progress']=='6/11' and not x['stage33_08_released']
+          print('STAGE33_07_OFFBOUNDARY_VALUATION_TENSOR=PASS')
+          print('CERTIFICATE_SHA256='+h)
+          print('SOURCE_PRIME_CELLS=140_CANDIDATE+484_AUTOMATIC_ZERO')
+          print('SPARSE_COMPONENT_ENTRIES=262')
+          print('NEXT='+x['next_exact_leaf'])
+          PY
+      - name: Upload valuation tensor certificate
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage33-07-offboundary-prime-valuation-tensor
+          retention-days: 3
+          path: stages/stage33/33-07/offboundary-prime-valuation-tensor-26x24-over-L.json
