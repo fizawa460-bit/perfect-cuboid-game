@@ -11,10 +11,7 @@ HERE=Path(__file__).resolve().parent
 CERT=HERE/'mixed-order-global-gersten-lift-existence-by-purity.json'
 HAND=HERE/'handoff.json'
 RESULT=HERE/'result.md'
-CERT_SHA='0a9a6e0a89d94c6da8ef7e5a2ddc6de552ac02270d7062a00cc848e8499c7982'
-RUN=33062353665
-ARTIFACT_ID=9642279956
-ARTIFACT_ZIP_SHA='912bbbdbe23a0cd21375b652075dc70c486f36ee307bedd903adb55015bf3b7f'
+CERT_SHA='c97cf3df4c69bc859765b6844dc12e1ad24bdf0da0457446f1e5e11846c6660a'
 SCHEMA='STAGE33_07_REAUDIT_BLOCKED_HANDOFF_V11_GERSTEN_EXISTENCE_26_GALOIS_EXTENSION_CLASS_GAP'
 KERNEL='R33-BR2A-26-GERSTEN-LIFT-CHOICE-GALOIS-EXTENSION-CLASS-IN-PROPER-BR2'
 NEXT='L33-07-COMPUTE-GALOIS-EXTENSION-CLASS-OF-26-GERSTEN-LIFT-TORSOR-WITHOUT-REQUIRING-RATIONAL-SYMBOL-REPRESENTATIVES'
@@ -42,9 +39,6 @@ h['gersten_lift_existence_evidence']={
   'producer':'certify_26_global_gersten_lift_existence_by_purity.py',
   'certificate_sha256':CERT_SHA,
   'workflow_name':'Stage33-07 Gersten lift existence by purity',
-  'workflow_run':RUN,
-  'artifact_id':ARTIFACT_ID,
-  'artifact_zip_sha256':ARTIFACT_ZIP_SHA,
   'field':'L=Q(i,sqrt(2))',
   'source_count':26,
   'raw_order2_sources':17,
@@ -52,7 +46,7 @@ h['gersten_lift_existence_evidence']={
   'global_geometric_Gersten_lift_existence_certified':26,
   'global_geometric_Gersten_explicit_representatives_materialized':0,
   'proof_mode':'extend the 72-boundary residue tuple by zero on every other codimension-one divisor; exact codimension-two compatibility plus localization/Gersten exactness gives an abstract Br(U_L) lift',
-  'actions_validation':'PASS',
+  'actions_validation':'producer step passes immediately before this recorder; run/artifact identifiers are intentionally not hard-coded into the canonical handoff',
 }
 r=h['repair_exact_reduction']
 r['global_geometric_Gersten_lift_existence_certified']=26
