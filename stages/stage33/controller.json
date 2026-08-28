@@ -334,7 +334,7 @@
           "goal": "INDIVIDUAL_OR_SMALLEST_BLOCK_FALLBACK",
           "parallel_start_allowed_for_independently_defined_columns": true,
           "completion_target": "26/26",
-          "main_status": "RUNNING_NEXT_SMALLEST_BLOCK_FALLBACK",
+          "main_status": "RUNNING_A2_26_FIVE_BIT_RESTRICTION_DECODER_READY",
           "smallest_cyclic_blocks_1based": [
             [
               2
@@ -347,7 +347,8 @@
               25,
               26
             ]
-          ]
+          ],
+          "preferred_next_pointer": "component-A2_26"
         }
       ],
       "method_not_prescribed": true,
@@ -374,8 +375,82 @@
         "common_universal_kernel_dimension_f2": 10,
         "named_basis_directions_forced_zero": [],
         "distinct_named_cyclic_source_submodules": 12,
-        "certificate_sha256": "54d407a4f373665d5142890518e21135e9fc4a8411a6fd591df67c3e90213a4e",
+        "certificate_sha256": "6856ec7defea97732ea443d351d9283ef19e386e13c4c8b90a0d1545bd135390",
         "workflow_run": 33155495938
+      },
+      "stage33_11c_a2_26_reduction": {
+        "status": "RUNNING_EXACT_FIVE_BIT_RESTRICTION_DECODER_READY",
+        "smallest_cyclic_blocks_1based": [
+          [
+            2
+          ],
+          [
+            3
+          ],
+          [
+            24,
+            25,
+            26
+          ]
+        ],
+        "raw_order2_liftable_smallest_directions_1based": [
+          2,
+          3,
+          24,
+          25,
+          26
+        ],
+        "target_image_profile_sha256": "45e42d6f3577654df7a4126cad5e2eee651c38fdce3c5cf8289b5f96707f2edc",
+        "a2_26_shape": "K2,2_FOUR_CYCLE",
+        "a2_26_edges": [
+          "X_0125",
+          "X_0126",
+          "X_0131",
+          "X_0132"
+        ],
+        "a2_26_K_allowed_value_dimension_f2": 3,
+        "a2_26_finite_H1_allowed_value_dimension_f2": 5,
+        "a2_26_cc_restriction_rank_f2": 3,
+        "a2_26_ct_restriction_rank_f2": 2,
+        "a2_26_joint_cc_ct_restriction_rank_f2": 5,
+        "a2_26_joint_cc_ct_restriction_kernel_dimension_f2": 0,
+        "a2_26_five_quotient_bits_determine_finite_H1_value": true,
+        "decoder_certificate_sha256": "949387f9469bed0cc307cade718cc8c27d0a45344116e43f13e347c67b17a3f0",
+        "decoder_observation_coordinates": [
+          {
+            "K_coordinate_0based": 5,
+            "K_coordinate_1based": 6,
+            "generator": "cc",
+            "joint_quotient_column_0based": 1
+          },
+          {
+            "K_coordinate_0based": 7,
+            "K_coordinate_1based": 8,
+            "generator": "cc",
+            "joint_quotient_column_0based": 3
+          },
+          {
+            "K_coordinate_0based": 8,
+            "K_coordinate_1based": 9,
+            "generator": "cc",
+            "joint_quotient_column_0based": 4
+          },
+          {
+            "K_coordinate_0based": 0,
+            "K_coordinate_1based": 1,
+            "generator": "ct",
+            "joint_quotient_column_0based": 10
+          },
+          {
+            "K_coordinate_0based": 7,
+            "K_coordinate_1based": 8,
+            "generator": "ct",
+            "joint_quotient_column_0based": 16
+          }
+        ],
+        "all_32_decoder_roundtrips_verified": true,
+        "connecting_column_materialized": false,
+        "next_exact_task": "A2_26_EXPLICIT_CC_CT_GERSTEN_GALOIS_DIFFERENCE_BITS"
       }
     },
     {
@@ -498,9 +573,9 @@
   "audit_required": false,
   "merge_allowed": false,
   "advance_allowed": true,
-  "advance_scope": "STAGE33_11_ONLY_ADVANCE_11C_SMALLEST_BLOCK_OR_EQUIVALENT_EXACT_ROUTE_KEEP_33_12_33_08_33_40_BLOCKED",
+  "advance_scope": "STAGE33_11_ONLY_ADVANCE_A2_26_EXPLICIT_CC_CT_BITS_KEEP_33_12_33_08_33_40_BLOCKED",
   "main_batch_semantics": "READ_AGENTS_AND_CONTROLLER_THEN_CURRENT_ROADMAP_SECTION_PREDECESSOR_HANDOFF_AND_NAMED_CURRENT_CERTIFICATES_ONLY_ADVANCE_AUTHORIZED_BRANCHES_AND_WRITE_BACK_CONTROLLER_IN_SAME_PR_FOR_EVERY_REPOSITORY_WRITE",
-  "next_item": "Stage33-11c_INDIVIDUAL_OR_SMALLEST_BLOCK_FALLBACK",
+  "next_item": "Stage33-11c_A2_26_EXPLICIT_CC_CT_GERSTEN_DIFFERENCE_BITS",
   "next_expected_command": "Stage33-main-batch",
   "theorem_credit": false,
   "endpoint_credit": false,
@@ -511,15 +586,20 @@
   "perfect_cuboid_nonexistence_claim": false,
   "controller_writeback_checkpoint": {
     "pr": 1449,
-    "head_before_controller_sync": "eb6dcf635b340b86d70e1e6caf8c9872af46b456",
     "stage33_10_hostile_audit_pass": true,
     "stage33_11_status": "RUNNING",
     "stage33_11a_Hom_A_K_dimension_f2": 24,
     "stage33_11a_Hom_A_finite_H1_dimension_f2": 33,
     "stage33_11b_common_universal_kernel_dimension_f2": 10,
     "stage33_11b_named_directions_forced_zero": [],
+    "stage33_11c_target_profile_sha256": "45e42d6f3577654df7a4126cad5e2eee651c38fdce3c5cf8289b5f96707f2edc",
+    "stage33_11c_a2_26_K_allowed_dimension_f2": 3,
+    "stage33_11c_a2_26_finite_H1_allowed_dimension_f2": 5,
+    "stage33_11c_a2_26_joint_cc_ct_restriction_kernel_dimension_f2": 0,
+    "stage33_11c_a2_26_decoder_sha256": "949387f9469bed0cc307cade718cc8c27d0a45344116e43f13e347c67b17a3f0",
+    "stage33_11c_a2_26_five_bit_decoder_ready": true,
     "stage33_11_certified_named_connecting_progress": "0/26",
-    "stage33_11_next_branch": "33-11c",
+    "stage33_11_next_branch": "33-11c_A2_26_EXPLICIT_CC_CT_GERSTEN_DIFFERENCE_BITS",
     "stage33_11_current_hot_path_remote_cas": false,
     "stage33_progress": "6/11",
     "stage33_08_released": false,
