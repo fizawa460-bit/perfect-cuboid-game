@@ -1,11 +1,11 @@
 {
-  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V21_ADAPTIVE_REPAIR_MINIMAPS",
+  "schema": "STAGE33_BRAUER_EXPLICIT_DAG_CONTROLLER_V22_PARALLEL_ADAPTIVE_REPAIR_MINIMAPS",
   "stage": "33",
   "kernel": "K16-C2-BRAUER-EXPLICIT-CHAIN",
   "execution_class": 2,
   "source_stage": 29,
   "program": "BRAUER-EXPLICIT-DAG",
-  "status": "STAGE33_01_TO_06_AUDITED_CLOSED_33_07_ADAPTIVE_REPAIR_33_09_TO_12_33_08_BLOCKED",
+  "status": "STAGE33_01_TO_06_AUDITED_CLOSED_33_07_PARALLEL_ADAPTIVE_REPAIR_33_09_TO_12_33_08_BLOCKED",
   "brauer_scope": "FROZEN_STAGE29_PHYSICAL_OPEN_BRAUER_KERNEL",
   "brauer_scope_components": [
     "BR0B_OPEN_ALGEBRAIC_ALL_PRIMARY",
@@ -23,10 +23,14 @@
   "new_kernel_id": "R33-BR0G-BR2A-GLOBAL-RESIDUE-LIFT-ARITHMETIC-HS-DESCENT",
   "predecessor_reaudit_required": true,
   "predecessor_reaudit_targets": ["33-07"],
-  "predecessor_reaudit_reason": "Stage33-08 found that Stage33-07 used geometric/semi-local Gersten lifting beyond its justified global-Q arithmetic scope; repair is split into adaptive coarse child stages instead of continuing indefinite 33-07 growth.",
+  "predecessor_reaudit_reason": "Stage33-08 found that Stage33-07 used geometric/semi-local Gersten lifting beyond its justified global-Q arithmetic scope; repair is split into parallel-capable adaptive coarse child stages instead of continuing indefinite 33-07 growth.",
   "adaptive_repair_policy": {
     "all_minimap_branches_must_run": false,
+    "safe_independent_branches_may_run_in_parallel": true,
+    "main_batch_advances_multiple_live_branches_until_blocked_or_closed": true,
     "first_exact_closure_wins": true,
+    "sibling_branches_may_stop_after_exact_closure": true,
+    "partial_exact_progress_is_retained": true,
     "failed_route_authorizes_next_coarse_stage": false,
     "minimap_exhausted_without_exit_condition_authorizes_advance": false,
     "if_exit_condition_open": "EXTEND_OR_SPLIT_CURRENT_COARSE_STAGE",
@@ -111,13 +115,15 @@
       "counts_toward_progress":false,
       "prerequisites":["33-09"],
       "minimap_is_checklist":false,
+      "parallel_execution_allowed":true,
       "branches":[
-        {"id":"33-10a","goal":"FINITE_TO_ABSOLUTE_SHORTCUT_TEST","on_success":"33-10e","on_failure":"33-10b"},
-        {"id":"33-10b","goal":"INFLATION_RESTRICTION_KERNEL_GALOIS_DECOMPOSITION","on_kernel_zero":"33-10e","otherwise":"33-10c"},
-        {"id":"33-10c","goal":"RELEVANT_KERNEL_GALOIS_CONTRIBUTION","on_complete":"33-10e","otherwise":"33-10d"},
-        {"id":"33-10d","goal":"DIRECT_ABSOLUTE_H1_CONSTRUCTION_FALLBACK","on_complete":"33-10e"},
-        {"id":"33-10e","goal":"ABSOLUTE_RECEIVER_CERTIFICATION","common_exit":true}
+        {"id":"33-10a","goal":"FINITE_TO_ABSOLUTE_SHORTCUT_TEST","parallel_start_allowed":true,"can_close_via":"33-10e"},
+        {"id":"33-10b","goal":"INFLATION_RESTRICTION_KERNEL_GALOIS_DECOMPOSITION","parallel_start_allowed":true,"can_close_via":"33-10e","may_unlock":["33-10c"]},
+        {"id":"33-10c","goal":"RELEVANT_KERNEL_GALOIS_CONTRIBUTION","depends_on":"ENOUGH_33_10B_INFORMATION_TO_DEFINE_RELEVANT_KERNEL_CONTRIBUTION","can_close_via":"33-10e"},
+        {"id":"33-10d","goal":"DIRECT_ABSOLUTE_H1_CONSTRUCTION_FALLBACK","parallel_start_allowed_when_cost_justified":true,"can_close_via":"33-10e"},
+        {"id":"33-10e","goal":"ABSOLUTE_RECEIVER_CERTIFICATION","common_exit":true,"accepts_single_or_combined_branch_evidence":true}
       ],
+      "stop_rule":"ON_33_10E_EXACT_CLOSURE_UNNEEDED_SIBLINGS_MAY_STOP",
       "exit_condition":"ABSOLUTE_H1_RECEIVER_EXACT_AND_STAGE33_11_DOMAIN_CODOMAIN_WELL_DEFINED",
       "if_planned_branches_exhausted_without_exit":"EXTEND_33_10_MINIMAP_DO_NOT_ADVANCE"
     },
@@ -131,13 +137,16 @@
       "source_direction_total":26,
       "source_direction_exact_now":0,
       "minimap_is_checklist":false,
+      "parallel_execution_allowed":true,
       "branches":[
-        {"id":"33-11a","goal":"GLOBAL_ALL_AT_ONCE_26_COLUMN_CLOSURE","if_incomplete":"33-11b"},
-        {"id":"33-11b","goal":"SYMMETRY_ORBIT_BLOCK_CLOSURE","if_incomplete":"33-11c"},
-        {"id":"33-11c","goal":"INDIVIDUAL_OR_SMALLEST_BLOCK_FALLBACK","completion_target":"26/26"}
+        {"id":"33-11a","goal":"GLOBAL_ALL_AT_ONCE_26_COLUMN_CLOSURE","parallel_start_allowed":true},
+        {"id":"33-11b","goal":"SYMMETRY_ORBIT_BLOCK_CLOSURE","parallel_start_allowed":true},
+        {"id":"33-11c","goal":"INDIVIDUAL_OR_SMALLEST_BLOCK_FALLBACK","parallel_start_allowed_for_independently_defined_columns":true,"completion_target":"26/26"}
       ],
       "method_not_prescribed":true,
       "individual_column_fallback_allowed":true,
+      "partial_exact_columns_retained_across_branches":true,
+      "global_formula_may_close_remaining_columns_after_partial_individual_progress":true,
       "exit_condition":"ARITHMETIC_LOCALIZATION_CONNECTING_MAP_COMPUTED_AND_26_OF_26_SOURCE_DIRECTIONS_EXACT",
       "if_planned_branches_exhausted_without_exit":"EXTEND_33_11_MINIMAP_DO_NOT_ADVANCE"
     },
@@ -180,7 +189,8 @@
   "repair_required":true,
   "merge_allowed":true,
   "advance_allowed":true,
-  "advance_scope":"STAGE33_07_REPAIR_CHILD_BAND_ONLY_WITH_STRICT_PER_CHILD_EXIT_GATES_NOT_33_08_OR_33_40_PLUS",
+  "advance_scope":"CURRENT_REPAIR_CHILD_MAY_ADVANCE_MULTIPLE_SAFE_LIVE_MINIMAP_BRANCHES_IN_PARALLEL_WITH_STRICT_CHILD_EXIT_GATE_NOT_33_08_OR_33_40_PLUS",
+  "main_batch_semantics":"ADVANCE_MULTIPLE_AUTHORIZED_LIVE_BRANCHES_UNTIL_BLOCKED_OR_CLOSED_PRESERVE_PARTIAL_EXACT_PROGRESS_STOP_UNNEEDED_SIBLINGS_AFTER_EXACT_CHILD_CLOSURE",
   "next_item":"Stage33-09_PICARD_EQUIVARIANT_TRANSPORT_NEAR_EXIT",
   "next_expected_command":"Stage33-main-batch",
   "theorem_credit":false,
