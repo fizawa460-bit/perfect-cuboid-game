@@ -1,7 +1,9 @@
 {
-  "schema": "STAGE32_POST_B16_LITERATURE_RECEIVER_EXACT_RECONCILIATION_V1",
-  "status": "MAIN_EVIDENCE_COMPLETE_PENDING_FRESH_HOSTILE_AUDIT",
+  "schema": "STAGE32_POST_B16_LITERATURE_RECEIVER_EXACT_RECONCILIATION_V2_HOSTILE_AUDIT_PASS",
+  "status": "HOSTILE_AUDIT_PASS",
   "pr": 1450,
+  "audited_submission_head": "54269d6a795f9256f5465521923b70a4d96b63e2",
+  "audit_record": "stages/stage32/post-b16-literature-receiver-exact-audit/AUDIT.md",
   "audited_b16_head": "d1f888978481eb93e240c1369d1436df251ee9b2",
   "audited_b16_review": 5055088574,
   "inputs": {
@@ -12,32 +14,10 @@
     "stage29_lg2_audit": "stages/stage29/29-02c-LG2/audit.md"
   },
   "literature": {
-    "FSM16": {
-      "title": "Parametrization of the box variety by theta functions",
-      "locator": "Michigan Math. J. 65 (2016), Theorem 3.1",
-      "usable_statement": "BIJECTIVE_NORMALIZATION_IMPLIES_DEGREE_LE_176_PLUS_16G",
-      "scope": "UNIBRANCH_ONLY"
-    },
-    "GFU20": {
-      "title": "Families of explicit quasi-hyperbolic and hyperbolic surfaces",
-      "doi": "10.1007/s00209-019-02439-x",
-      "locator": "Theorem 1.2",
-      "usable_statement": "LOW_GENUS_NODE_CONSTRAINTS_AND_SMOOTH_AT_NODES_DEGREE_BOUND",
-      "scope": "HYPOTHESIS_SENSITIVE_FILTER_ONLY"
-    },
-    "BTVA22": {
-      "title": "Explicit computation of symmetric differentials and its application to quasi-hyperbolicity",
-      "doi": "10.2140/ant.2022.16.1377",
-      "arxiv": "1912.08908",
-      "usable_statement": "RATIONAL_AND_GENUS1_NODE_CONSTRAINTS",
-      "scope": "NECESSARY_FILTER_ONLY"
-    },
-    "TESTA_STOLL_2026": {
-      "title": "Curves on the surface of cuboids",
-      "doi": "10.1090/mcom/4238",
-      "usable_statement": "FULL_PICARD_DATA_DEGREE_LE_6_CLASSIFICATION_AND_EXCEPTIONAL_DIVISOR_INCIDENCE",
-      "scope": "NO_FULL_176_192_CLASSIFICATION"
-    }
+    "FSM16": {"usable_statement": "BIJECTIVE_NORMALIZATION_IMPLIES_DEGREE_LE_176_PLUS_16G", "scope": "UNIBRANCH_ONLY", "audit": "PASS"},
+    "GFU20": {"usable_statement": "LOW_GENUS_NODE_CONSTRAINTS_AND_SMOOTH_AT_NODES_DEGREE_BOUND", "scope": "HYPOTHESIS_SENSITIVE_FILTER_ONLY", "audit": "PASS"},
+    "BTVA22": {"usable_statement": "RATIONAL_AND_GENUS1_NODE_CONSTRAINTS", "scope": "NECESSARY_FILTER_ONLY", "audit": "PASS"},
+    "TESTA_STOLL_2026": {"usable_statement": "FULL_PICARD_DATA_DEGREE_LE_6_CLASSIFICATION_AND_EXCEPTIONAL_DIVISOR_INCIDENCE", "scope": "NO_FULL_176_192_CLASSIFICATION", "audit": "PASS"}
   },
   "reconciliation": {
     "fsm16_g0_degree_max": 176,
@@ -53,6 +33,7 @@
     "literature_directly_discharges_r29_lg2_mb": false,
     "admissible_filter_strengthening_available": true
   },
+  "audit_verdict": "PASS_SCOPE_LOCKED_NO_RECEIVER_DISCHARGE_FILTER_STRENGTHENING_ONLY",
   "main_verdict": "PASS_LITERATURE_RECONCILIATION_NO_RECEIVER_DISCHARGE_FILTER_STRENGTHENING_ONLY",
   "credit": {
     "D16_B16_NUMERICAL_CREDIT": true,
@@ -68,10 +49,10 @@
     "PERFECT_CUBOID_EXISTENCE_CLAIM": false,
     "PERFECT_CUBOID_NONEXISTENCE_CLAIM": false
   },
-  "audit_required": true,
+  "audit_required": false,
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "next_item_after_audit_pass": "RESIDUAL_FEASIBILITY_GATE",
-  "next_expected_command": "Stage32-audit"
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "RESIDUAL_FEASIBILITY_GATE",
+  "next_expected_command": "Stage32-main-batch"
 }
