@@ -11,51 +11,42 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: stage33-09-picard-equivariant-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  close-and-record:
+  verify:
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref || github.ref_name }}
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Reverify retained source-locked Stage33-09 closure
         run: python stages/stage33/33-09/certify_stage33_09_exit.py
-      - name: Apply deterministic Stage33 controller transition
-        run: python stages/stage33/33-09/update_controller_after_closure.py
-      - name: Enforce closure and parent firewalls
+      - name: Enforce controller transition and parent firewalls
         run: |
           python - <<'PY'
-          import json
-          x=json.load(open('stages/stage33/33-09/stage33-09-closure.json'))
-          c=json.load(open('stages/stage33/controller.json'))
-          ch={z['id']:z for z in c['repair_children']}
+          import hashlib,json
+          p='stages/stage33/33-09/stage33-09-closure.json'; x=json.load(open(p)); body=dict(x); h=body.pop('canonical_sha256')
+          assert h==hashlib.sha256(json.dumps(body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+          c=json.load(open('stages/stage33/controller.json')); ch={z['id']:z for z in c['repair_children']}
           assert all(x['exit_condition'].values()) and x['stage33_10_released']
-          assert ch['33-09']['status']=='CLOSED_EXACT'
+          assert ch['33-09']['status']=='CLOSED_EXACT' and ch['33-09']['closure_certificate_sha256']==h
           assert ch['33-10']['status']=='OPEN_RELEASED_BY_33_09'
           assert c['current_item']=='Stage33-10_ABSOLUTE_H1_AND_GALOIS_DESCENT_ADAPTER'
           assert c['stage33_progress']=='6/11' and not c['stage33_07']['unit_closed'] and not c['stage33_08_released']
           assert c['stage33_07']['connecting_matrix_columns_explicitly_materialized']==0
           assert not c['stage33_07']['absolute_h1_identified_with_finite_v4_h1']
           assert not c['stage33_07']['arithmetic_localization_connecting_map_computed'] and not c['stage33_07']['arithmetic_hs_d2_computed']
-          print('STAGE33_09_CONTROLLER_AND_FIREWALL=PASS_EXACT')
+          assert not c['theorem_credit'] and not c['endpoint_credit']
+          print('STAGE33_09_LOCAL_REVERIFY=PASS_EXACT')
+          print('CERTIFICATE_SHA256='+h)
+          print('NEXT='+c['next_item'])
           PY
-      - name: Commit controller transition once
-        if: github.event_name == 'pull_request'
-        run: |
-          if git status --porcelain -- stages/stage33/controller.json | grep -q .; then
-            git config user.name github-actions[bot]
-            git config user.email 41898282+github-actions[bot]@users.noreply.github.com
-            git add stages/stage33/controller.json
-            git commit -m 'Stage33-09: close child and release Stage33-10'
-            git push origin HEAD:${{ github.event.pull_request.head.ref }}
-          fi
+      - name: Determinism check
+        run: git diff --exit-code -- stages/stage33/33-09/stage33-09-closure.json
