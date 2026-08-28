@@ -1,0 +1,41 @@
+{
+  "schema": "STAGE32_RESIDUAL32_01_PRODUCTION_STATE_V1",
+  "stage": "32",
+  "item": "RESIDUAL_32_01_PRODUCTION",
+  "status": "PAIRING_PREFIX_ENGINE_IMPLEMENTED_CALIBRATION_COLD",
+  "implementation": {
+    "engine": "stages/stage32/residual-32-01-production/pairing_prefix_engine.py",
+    "calibration": "stages/stage32/residual-32-01-production/calibrate_representatives.py",
+    "selected_pairing_rank": 64,
+    "selected_pairing_determinant_abs": 274877906944,
+    "inverse_denominator": 8,
+    "snf_invariants": {"1": 40, "2": 14, "4": 6, "8": 4},
+    "partial_membership": "EXACT_HNF_EXTENSION_TEST",
+    "leaf_aut_canonicalization": "IMPLEMENTED_REQUIRES_CI_REGRESSION",
+    "prefix_aut_canonical_augmentation": "NOT_IMPLEMENTED_EXPLICIT_NEXT_GATE"
+  },
+  "calibration": {
+    "runkey": "stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json",
+    "workflow": ".github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml",
+    "generation": 1,
+    "armed": false,
+    "node_limit": 250000,
+    "representative_m_classes": [1, 2, 4, 8],
+    "effective_heavy_concurrency": 1,
+    "projected_peak_artifact_mb": 0.5,
+    "status": "COLD_NOT_RUN"
+  },
+  "FULL_178_ROW_SWEEP_AUTHORIZED": false,
+  "B18_RELEASE_AUTHORIZED": false,
+  "FULL_D16_G0_ROW_COMPLETE": false,
+  "FULL_D176_D192_NUMERICAL_ORBIT_CENSUS": false,
+  "R29_LG2": "NOT_DISCHARGED",
+  "R29_LG2_EFF": "NOT_DISCHARGED",
+  "R29_LG2_MB": "NOT_DISCHARGED",
+  "THEOREM_CREDIT": false,
+  "RECEIVER_CREDIT": false,
+  "audit_required": false,
+  "merge_allowed": false,
+  "advance_allowed": true,
+  "next_item": "ARM_REPRESENTATIVE_PAIRING_PREFIX_CALIBRATION"
+}
