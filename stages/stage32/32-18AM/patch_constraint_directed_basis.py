@@ -10,7 +10,9 @@ assert s.count(anchor)==1
 helper=r'''static long long nearest_div18am(long long a,long long b){
     if(b<=0) throw std::runtime_error("nonpositive diagonal");
     long long k=llround(-static_cast<long double>(a)/static_cast<long double>(b));
-    if(k>3) k=3; if(k<-3) k=-3; return k;
+    if(k>3) k=3;
+    if(k<-3) k=-3;
+    return k;
 }
 static void shear18am(Problem& p,Bundle& s,int i,int j,long long k){
     if(i<0||i>=48||j<0||j>=48||i==j||k==0) return;
@@ -30,12 +32,13 @@ static bool reduce18am(Problem& p,Bundle& s,int i,int dir,int window,int kind){
     int bj=-1; long long bk=0; long double best=-1;
     for(int j=0;j<48;j++){
         if(j==i) continue;
-        if(dir>0 && j>=i) continue; if(dir<0 && j<=i) continue;
+        if(dir>0 && j>=i) continue;
+        if(dir<0 && j<=i) continue;
         if(window>0 && std::abs(i-j)>window) continue;
         long long k=nearest_div18am(p.q[i][j],p.q[j][j]); if(!k) continue;
         auto cand=p.q[i][i]+2*k*p.q[i][j]+k*k*p.q[j][j];
         if(cand>=p.q[i][i]) continue;
-        long double gain=(p.q[i][i]-cand).convert_to<long double>();
+        long double gain=static_cast<long double>(p.q[i][i]-cand);
         long double score=gain*(1.0L+1e-9L*activity18am(p,s,j,kind));
         if(score>best){best=score;bj=j;bk=k;}
     }
