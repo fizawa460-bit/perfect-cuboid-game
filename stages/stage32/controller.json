@@ -1,17 +1,14 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V55_LITERATURE_RECEIVER_RECONCILIATION_PENDING_AUDIT",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V56_LITERATURE_RECEIVER_HOSTILE_AUDIT_PASS",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class": 2,
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "D16_B12_AUDITED_B16_REPAIRED_CLOSE_HOSTILE_AUDIT_PASS_D16_B16_NUMERICAL_CREDIT_CERTIFIED_STALE_POST_B16_REFERENCES_RESOLVED_LITERATURE_RECEIVER_EXACT_RECONCILIATION_MAIN_COMPLETE_PENDING_HOSTILE_AUDIT_D8_ROUTE_PAUSED",
+  "status": "D16_B12_AUDITED_B16_REPAIRED_BOUNDED_CLOSE_AUDITED_POST_B16_LITERATURE_RECEIVER_RECONCILIATION_HOSTILE_AUDIT_PASS_RESIDUAL_FEASIBILITY_GATE_RELEASED_D8_ROUTE_PAUSED",
   "post_b16_release_contract": "stages/stage32/POST_B16_RELEASE_CONTRACT.md",
   "stale_reference_resolution": {
     "resolved": true,
-    "superseded_missing_paths": [
-      "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
-      "stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md"
-    ],
+    "superseded_missing_paths": ["stages/stage32/GOAL_AND_STOP_CONTRACT.md", "stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md"],
     "replacement": "stages/stage32/POST_B16_RELEASE_CONTRACT.md",
     "resolution_scope": "METADATA_AND_RELEASE_ORDER_ONLY_NO_NEW_MATHEMATICAL_CREDIT",
     "audit_history_mutated": false
@@ -35,7 +32,7 @@
     "automatic_b18_or_higher_forbidden": true,
     "post_b16_literature_receiver_gate_mandatory": true,
     "post_b16_downstream_release_blocked_until_goal_stop_metadata_resolved": false,
-    "post_b16_release_scope": "LITERATURE_RECEIVER_EXACT_AUDIT_ONLY",
+    "post_b16_release_scope": "RESIDUAL_FEASIBILITY_GATE_ONLY",
     "heavy_compute_armed_by_controller_sync": false,
     "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false
@@ -52,131 +49,44 @@
     "block_frontier_cut": 39,
     "source_exact_artifact_id": 9574308138,
     "source_exact_artifact_sha256": "0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4",
-    "hostile_audit": {
-      "pr": 1450,
-      "review": 5049175475,
-      "verdict": "FAIL_PARENT_PARTITION_DRIFT",
-      "baseline_frontier_states": 4103,
-      "invalid_pairwise_frontier_states": 3893,
-      "lost_parents": 210,
-      "pairwise_exact_gram_kkt_prune_mathematically_safe": true
-    },
-    "repair": {
-      "unit": "32-18BG",
-      "status": "HOSTILE_AUDIT_PASS_D16_B16_BOUNDED_NUMERICAL_CREDIT_CERTIFIED",
-      "audit_state": "stages/stage32/audits/32-18BG.json",
-      "audited_functional_head": "9f0cab5aa290648094cfff5da55c1e32f29381f1",
-      "audit_verdict": "PASS_REPAIRED_BYTE_IDENTICAL_CUT39_NAMESPACE_EXACT_RESIDUAL_PARTITIONS_ZERO_UNRESOLVED",
-      "pairwise_activation_rule": "ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT",
-      "require_parent_stream_byte_identity": true,
-      "parent_stream_gate": {
-        "run_id": 33155002856,
-        "result": "PASSED_6_OF_6"
-      },
-      "original_172_replay": {
-        "unit": "32-18BC",
-        "final_recovery_run_id": 33161746999,
-        "status": "SUCCESS",
-        "summary_artifact_id": 9682227148,
-        "summary_artifact_sha256": "2a5e24b16d6a4be83de7081f9f4bf009e9d2ff3bbf753fc2b0d1ec27ebfa0493",
-        "summary_result": {
-          "monster_total": 172,
-          "completed_total": 22,
-          "unresolved_total": 150,
-          "parent_stream_identity_gate": "PASSED_6_OF_6"
-        }
-      },
-      "deep_replay": {
-        "unit": "32-18BD",
-        "run_id": 33163638379,
-        "status": "SUCCESS",
-        "summary_artifact_id": 9685982339,
-        "summary_artifact_sha256": "096446e8d7b5d945d5f01194363b9c476c213d01976b7d3ce3c63965eeb35670",
-        "summary_result": {
-          "residual_input_total": 150,
-          "completed_total": 144,
-          "unresolved_total": 6,
-          "verdict": "TRUE_SELECTIVE_CHILD_SPLIT_REQUIRED"
-        }
-      },
-      "child_split": {
-        "unit": "32-18BE",
-        "run_id": 33174535334,
-        "status": "SUCCESS",
-        "summary_artifact_id": 9687893070,
-        "summary_artifact_sha256": "eb1a85f4a2e7e751c6b7de9aa30235f5083d94dba20849fc1bb11295bb393233",
-        "summary_result": {
-          "parent_input_total": 6,
-          "completed_parent_total": 4,
-          "unresolved_parent_total": 2,
-          "unresolved_child_total": 2,
-          "verdict": "DEEPER_CHILD_SPLIT_REQUIRED"
-        },
-        "residual_children": [
-          {"wall": "p436-s362", "parent_id": 886, "z39": 0},
-          {"wall": "p922-s13", "parent_id": 1200, "z39": 0}
-        ]
-      },
-      "deeper_child_split": {
-        "unit": "32-18BF",
-        "run_id": 33179349822,
-        "status": "SUCCESS_ALL_REPAIRED_RESIDUAL_CHILDREN_RESOLVED",
-        "summary_artifact_id": 9689626245,
-        "summary_artifact_sha256": "d8620591648f04b9c11e39bbcc772f483309b831ba243c1defcad2b71bae5ae1",
-        "summary_result": {
-          "input_child_total": 2,
-          "resolved_child_total": 2,
-          "unresolved_grandchild_total": 0,
-          "parent_886_grandchildren_completed": 5,
-          "parent_1200_grandchildren_completed": 6,
-          "verdict": "ALL_REPAIRED_RESIDUAL_CHILDREN_RESOLVED"
-        }
-      },
-      "close_evidence": {
-        "unit": "32-18BG",
-        "path": "stages/stage32/32-18BG/D16_B16_REPAIRED_CLOSE_EVIDENCE.md",
-        "status": "HOSTILE_AUDIT_PASS"
-      },
-      "exact_completion_semantics": {
-        "planner_complete_requires_uncapped_dfs_return": true,
-        "probe_cap_is_unresolved": true,
-        "global_timeout_can_promote_complete": false,
-        "unknown_or_missing_row_can_promote_complete": false
-      }
-    },
-    "invalidated_prior_runs": {
-      "32-18AY": "NO_CLOSURE_CREDIT",
-      "32-18AZ": "NO_CLOSURE_CREDIT",
-      "32-18BA": "NO_CLOSURE_CREDIT",
-      "32-18BB": "HOSTILE_AUDIT_FAIL"
-    },
-    "resume_rule": "D16_B16 BOUNDED NUMERICAL CREDIT REMAINS HOSTILE-AUDITED. THE POST-B16 LITERATURE/RECEIVER RECONCILIATION NOW REQUIRES A FRESH HOSTILE AUDIT BEFORE RESIDUAL_FEASIBILITY_GATE CAN RELEASE. DO NOT PROMOTE FULL_D16_G0_ROW_COMPLETE, RECEIVER, THEOREM, ROUTE COLOR, ENDPOINT, OR ARM B18.",
-    "mathematical_credit_changed": true
+    "repair_unit": "32-18BG",
+    "repair_audit_state": "stages/stage32/audits/32-18BG.json",
+    "repair_close_evidence": "stages/stage32/32-18BG/D16_B16_REPAIRED_CLOSE_EVIDENCE.md",
+    "repair_audit_verdict": "PASS_REPAIRED_BYTE_IDENTICAL_CUT39_NAMESPACE_EXACT_RESIDUAL_PARTITIONS_ZERO_UNRESOLVED",
+    "audited_functional_head": "9f0cab5aa290648094cfff5da55c1e32f29381f1",
+    "parent_stream_gate_run_id": 33155002856,
+    "parent_stream_gate_result": "PASSED_6_OF_6",
+    "original_172_replay_final_run_id": 33161746999,
+    "deep_replay_run_id": 33163638379,
+    "child_split_run_id": 33174535334,
+    "deeper_child_split_run_id": 33179349822,
+    "final_unresolved_grandchild_total": 0,
+    "invalidated_prior_runs": {"32-18AY": "NO_CLOSURE_CREDIT", "32-18AZ": "NO_CLOSURE_CREDIT", "32-18BA": "NO_CLOSURE_CREDIT", "32-18BB": "HOSTILE_AUDIT_FAIL"},
+    "resume_rule": "D16_B16 BOUNDED NUMERICAL CREDIT REMAINS HOSTILE-AUDITED. POST-B16 LITERATURE/RECEIVER RECONCILIATION IS NOW HOSTILE-AUDITED PASS. ONLY RESIDUAL_FEASIBILITY_GATE IS RELEASED. DO NOT PROMOTE FULL_D16_G0_ROW_COMPLETE, RECEIVER, THEOREM, ROUTE COLOR, ENDPOINT, OR ARM B18."
   },
   "post_b16_progression": {
-    "order": [
-      "LITERATURE_RECEIVER_EXACT_AUDIT",
-      "RESIDUAL_FEASIBILITY_GATE",
-      "RESIDUAL_32_01_PRODUCTION"
-    ],
-    "current_release": "LITERATURE_RECEIVER_EXACT_AUDIT",
+    "order": ["LITERATURE_RECEIVER_EXACT_AUDIT", "RESIDUAL_FEASIBILITY_GATE", "RESIDUAL_32_01_PRODUCTION"],
+    "literature_receiver_exact_audit": "AUDITED_PASS",
+    "current_release": "RESIDUAL_FEASIBILITY_GATE",
     "later_items_released": false,
     "b18_release_authorized": false
   },
   "literature_receiver_checkpoint": {
     "evidence": "stages/stage32/post-b16-literature-receiver-exact-audit/EVIDENCE.md",
     "state": "stages/stage32/post-b16-literature-receiver-exact-audit/state.json",
-    "status": "MAIN_EVIDENCE_COMPLETE_PENDING_FRESH_HOSTILE_AUDIT",
+    "audit": "stages/stage32/post-b16-literature-receiver-exact-audit/AUDIT.md",
+    "status": "HOSTILE_AUDIT_PASS",
+    "audit_verdict": "PASS_SCOPE_LOCKED_NO_RECEIVER_DISCHARGE_FILTER_STRENGTHENING_ONLY",
     "main_verdict": "PASS_LITERATURE_RECONCILIATION_NO_RECEIVER_DISCHARGE_FILTER_STRENGTHENING_ONLY",
     "fsm16_unibranch_degree_windows": {"g0_max": 176, "g1_max": 192},
     "full_176_192_numerical_orbit_census_complete": false,
     "all_survivor_effectivity_resolved": false,
     "multibranch_ledger_complete": false,
     "receiver_discharge_promoted": false,
-    "next_item_if_audit_passes": "RESIDUAL_FEASIBILITY_GATE"
+    "next_item": "RESIDUAL_FEASIBILITY_GATE"
   },
-  "current_item": "LITERATURE_RECEIVER_EXACT_RECONCILIATION_HOSTILE_AUDIT",
-  "current_item_execution_constraint": "FRESH HOSTILE AUDIT OF LITERATURE SCOPE/ASSUMPTIONS/RECEIVER TRANSFER ONLY; NO HEAVY RERUN; NO B18; NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION",
+  "current_item": "RESIDUAL_FEASIBILITY_GATE",
+  "current_item_execution_constraint": "MEASURE_AND_DESIGN REMAINING FULL-WINDOW PRODUCTION UNDER AUDITED POPULATION AND FILTERS; NO AUTOMATIC HEAVY RERUN; NO B18; NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION",
   "FULL_D8_G0_ROW_COMPLETE": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
   "D16_B16_NUMERICAL_CREDIT": true,
@@ -190,10 +100,10 @@
   "perfect_cuboid_existence_claim": false,
   "perfect_cuboid_nonexistence_claim": false,
   "stage32_closed": false,
-  "audit_required": true,
+  "audit_required": false,
   "repair_required": false,
-  "merge_allowed": false,
-  "advance_allowed": false,
-  "next_item": "HOSTILE_AUDIT_LITERATURE_RECEIVER_EXACT_RECONCILIATION",
-  "next_expected_command": "Stage32-audit"
+  "merge_allowed": true,
+  "advance_allowed": true,
+  "next_item": "RESIDUAL_FEASIBILITY_GATE",
+  "next_expected_command": "Stage32-main-batch"
 }
