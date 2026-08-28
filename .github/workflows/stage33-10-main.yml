@@ -1,0 +1,73 @@
+name: Stage33-10 absolute H1 Galois descent adapter
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - 'stages/stage33/33-10/**'
+      - '.github/workflows/stage33-10-main.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stage33-10-absolute-h1-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Construct and certify exact absolute H1 receiver
+        run: python stages/stage33/33-10/certify_stage33_10_absolute_receiver.py
+      - name: Enforce Stage33-10 exit, handoff and parent firewalls
+        run: |
+          python - <<'PY'
+          import hashlib,json
+          def locked(path):
+              x=json.load(open(path))
+              b=dict(x); claimed=b.pop('canonical_sha256')
+              got=hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+              assert claimed==got, (path,claimed,got)
+              return x,claimed
+          x,cert_hash=locked('stages/stage33/33-10/absolute-h1-receiver-certified.json')
+          hd,hand_hash=locked('stages/stage33/33-10/handoff.json')
+          assert x['schema']=='STAGE33_10_ABSOLUTE_H1_RECEIVER_V3_NONSPLIT_QL'
+          assert all(x['exit_condition'].values())
+          assert x['finite_shortcut']['status']=='EXPLICITLY_REPLACED'
+          assert x['branches']['33-10e']=='CLOSED_EXACT'
+          assert x['coefficient_module']['false_four_index_two_block_split_rejected']
+          assert x['absolute_h1_receiver']['E_L_splitting_claimed'] is False
+          assert x['absolute_h1_receiver']['kernel_galois_contribution_accounted'] is True
+          assert x['stage33_11_interface']['source_invariant_factor_directions']==26
+          assert x['stage33_11_interface']['connecting_source_directions_computed']=='0/26'
+          f=x['firewalls']
+          assert f['connecting_matrix_columns_materialized']=='0/26'
+          assert not f['arithmetic_localization_connecting_map_computed']
+          assert not f['arithmetic_hs_closed'] and not f['stage33_07_closed'] and not f['stage33_08_released']
+          assert f['stage33_progress']=='6/11'
+          assert not f['theorem_credit'] and not f['endpoint_credit']
+          assert not f['perfect_cuboid_existence_claim'] and not f['perfect_cuboid_nonexistence_claim']
+          assert hd['schema']=='STAGE33_10_HANDOFF_V2_NONSPLIT_QL'
+          assert hd['status']=='CLOSED_EXACT' and all(hd['exit_condition'].values())
+          assert hd['next_item']=='Stage33-11_ARITHMETIC_LOCALIZATION_CONNECTING_MAP'
+          assert hd['exact_receiver']['E_L_splitting_claimed'] is False
+          assert hd['firewalls']['connecting_matrix_columns_materialized']=='0/26'
+          assert hd['firewalls']['stage33_progress']=='6/11'
+          assert not hd['firewalls']['stage33_07_closed'] and not hd['firewalls']['stage33_08_released']
+          print('STAGE33_10_EXIT=PASS_EXACT')
+          print('ABSOLUTE_RECEIVER_SHA256='+cert_hash)
+          print('HANDOFF_SHA256='+hand_hash)
+          print('NEXT='+x['next_item'])
+          PY
+      - name: Remove generated certificate and verify tracked tree unchanged
+        run: |
+          rm stages/stage33/33-10/absolute-h1-receiver-certified.json
+          git diff --exit-code -- stages/stage33/33-10
