@@ -12,11 +12,11 @@ PERFECT_CUBOID_PROBLEM_STATUS=OPEN
 
 ## 1. Why this amendment exists
 
-Stage33-08 exposed a deep Stage33-07 arithmetic Hochschild--Serre / global Gersten descent repair. PR #1430 already pushed the geometric side far forward: the intrinsic 14-dimensional A[2] module, actual coordinate-swap pair, exact S3/seven-sign relations, named cc/ct compatibility, intrinsic-to-retained A[2] transport, and mixed-order divisibility filtration were all materially established. The remaining repair is therefore not a restart of Stage33-07.
+Stage33-08 exposed a deep Stage33-07 arithmetic Hochschild--Serre / global Gersten descent repair. PR #1430 already pushed the geometric side far forward: the intrinsic 14-dimensional A[2] module, actual coordinate-swap pair, exact S3/seven-sign relations, named cc/ct compatibility, intrinsic-to-retained A[2] transport, and mixed-order divisibility filtration were materially established. The remaining repair is not a restart of Stage33-07.
 
-The unresolved chain is now concentrated in four coarse child stages: finish the historical retained Picard marking bridge; identify the correct absolute G_Q cohomology receiver; compute the arithmetic localization connecting map for all 26 source directions; then assemble arithmetic HS and hostile-recertify Stage33-07.
+The unresolved chain is concentrated in four coarse child stages: finish the historical retained Picard marking bridge; identify the correct absolute G_Q cohomology receiver; compute the arithmetic localization connecting map for all 26 source directions; then assemble arithmetic HS and hostile-recertify Stage33-07.
 
-Keeping all of this inside `33-07` makes the unit too large to audit and causes the historical `stage33-07-*` workflow family to re-fire unrelated leaves. Stage33-07 remains the blocked parent big task, while repair execution moves to coarse child stages beginning at 33-09.
+Stage33-07 remains the blocked parent big task. New repair execution moves to coarse child stages beginning at 33-09 so the historical `stage33-07-*` workflow family stops growing.
 
 ## 2. Numbering policy
 
@@ -26,23 +26,29 @@ OLD 33-10 -> NEW 33-41  exact local evaluation production
 OLD 33-11 -> NEW 33-42  physical adelic compatibility, final Brauer verdict, hostile audit
 ```
 
-The repair may use numbers `33-09..33-39`, but this is only an address space. There is no requirement or intention to fill it. The default plan uses 33-09..33-12 only. New stage numbers are added only if a genuinely new exact subkernel cannot be contained inside the current coarse stage.
+The repair may use `33-09..33-39`, but this is only address space. There is no requirement or intention to fill it. The default plan uses 33-09..33-12 only. New stage numbers are added only if a genuinely new exact subkernel cannot be contained inside the current coarse stage.
 
-Stage33 remains an 11-big-task roadmap. Repair children do not change the denominator or progress count; only hostile-audited closure of parent Stage33-07 changes progress from 6/11 to 7/11.
+Stage33 remains an 11-big-task roadmap. Repair children do not change the denominator; only hostile-audited closure of parent Stage33-07 changes progress from 6/11 to 7/11.
 
-## 3. Adaptive repair rule
+## 3. Adaptive + parallel MAIN-batch rule
 
-The child roadmap is a decision tree, not a checklist.
+The mini-maps are search DAGs, not checklists and not necessarily serial pipelines.
 
 ```text
 ALL_BRANCHES_MUST_RUN=false
+SAFE_INDEPENDENT_BRANCHES_MAY_RUN_IN_PARALLEL=true
+MAIN_BATCH_ADVANCES_MULTIPLE_LIVE_BRANCHES_UNTIL_BLOCKED_OR_CLOSED=true
 FIRST_EXACT_CLOSURE_WINS=true
-FAILED_ROUTE_DOES_NOT_AUTHORIZE_NEXT_COARSE_STAGE=true
+SIBLING_BRANCHES_MAY_STOP_AFTER_EXACT_CLOSURE=true
+FAILED_OR_BLOCKED_BRANCH_DOES_NOT_AUTHORIZE_NEXT_COARSE_STAGE=true
+MINIMAP_EXHAUSTED_WITHOUT_EXIT_CONDITION_DOES_NOT_ADVANCE=true
 IF_CURRENT_COARSE_STAGE_DOES_NOT_CLOSE=EXTEND_OR_SPLIT_CURRENT_STAGE
 NEXT_COARSE_STAGE_ALLOWED_ONLY_AFTER_CURRENT_EXIT_CONDITION=true
 ```
 
-A cheap route may close a stage immediately; unused fallback routes then remain unused. If a route fails, continue to the next planned route. If all planned routes fail but the exit condition is still open, add the next justified subroute/subkernel inside that stage rather than advancing merely because the written mini-map was exhausted.
+`Stage33-main-batch` may advance several independent live branches of the current coarse stage in parallel until each branch either closes, reaches a justified block, or produces an exact stage-level closure. Branch ordering below is preference/dependency guidance, not a requirement to wait for one branch to fail before starting every other branch. A branch that logically depends on output from another branch remains gated by that dependency.
+
+Once any branch or combination of branches proves the coarse-stage exit condition exactly, unused sibling/fallback branches need not run. Conversely, if all currently planned branches block or fail while the exit condition remains open, extend the mini-map inside the same coarse stage; do not advance merely because the written map was exhausted.
 
 ## 4. Stage33-09 — PICARD-EQUIVARIANT-TRANSPORT
 
@@ -60,11 +66,11 @@ intrinsic -> retained A[2] swap transport materially established
 mixed-order filtration 4A[8] subset 2A[4] subset A[2] checked
 ```
 
-The direct replay into the literal historical q256 common-Smith basis produced a negative route result: the locally reconstructed Picard Gram did not certify identity with the historical q256 Gram. That route is diagnostic evidence, not a reason to repeat the whole geometric search.
+The direct replay into the literal historical q256 common-Smith basis produced a negative route result: the locally reconstructed Picard Gram did not certify identity with the historical q256 Gram. That route remains diagnostic evidence, not a reason to repeat the whole geometric search.
 
 ### Remaining target
 
-Finish the source-locked marked Picard basis bridge from the pinned upstream qPic/INDLIST marking to the historical retained q256 Picard basis, and revalidate the already-known named actions through that bridge.
+Finish the source-locked marked Picard basis bridge from the pinned upstream qPic/INDLIST marking to the historical retained q256 Picard basis, then revalidate the already-known named actions through that bridge.
 
 ```text
 primary missing adapter = pinned qPic/INDLIST -> historical retained q256 marking
@@ -81,11 +87,11 @@ NAMED_INTEGRAL_AND_TWO_TORSION_ACTIONS_SOURCE_LOCKED=true
 PICARD_EQUIVARIANT_TRANSPORT_CLOSED=true
 ```
 
-If the marked bridge exposes a genuinely new incompatibility, 33-09 remains open and its mini-map may expand. Otherwise proceed immediately to 33-10.
+33-09 is therefore near-exit by current evidence, but if the marked bridge exposes a genuinely new incompatibility its mini-map may expand. Only its exact exit releases 33-10.
 
 ## 5. Stage33-10 — ABSOLUTE-H1-AND-GALOIS-DESCENT-ADAPTER
 
-Purpose: identify the mathematically correct absolute receiver that Stage33-11 must map into. This is not merely planning for Stage33-11; it is the finite-to-absolute Galois cohomology repair itself.
+Purpose: identify the mathematically correct absolute receiver that Stage33-11 must map into. This is the finite-to-absolute Galois cohomology repair itself, not merely planning for Stage33-11.
 
 Known starting point:
 
@@ -94,41 +100,32 @@ finite H^1(V4, proper geometric Br[2]) dimension = 16
 absolute H^1(G_Q, proper geometric Br[2]) NOT YET identified with finite V4 H1
 ```
 
-### Mini-map / route order
+### Mini-map
 
 #### 33-10a — finite-to-absolute shortcut test
-Test whether the already-computed finite V4 receiver is exactly sufficient for the absolute G_Q receiver in this case.
-
-```text
-PASS -> jump to 33-10e
-FAIL -> 33-10b
-```
+Test whether the existing finite V4 receiver already equals the required absolute receiver. This is cheap and should start immediately.
 
 #### 33-10b — inflation-restriction decomposition
-Compute the exact inflation-restriction / kernel-Galois contribution for the map from G_Q to the named finite V4 quotient.
-
-```text
-kernel contribution proved zero -> 33-10e
-kernel contribution nonzero/undetermined -> 33-10c
-```
+Compute the exact inflation-restriction / kernel-Galois decomposition. This may run in parallel with 10a to the extent its inputs are already available. If it proves the kernel contribution zero, it may itself supply the closure route.
 
 #### 33-10c — relevant kernel-Galois contribution
-Materialize only the kernel contribution that can reach the Stage33 arithmetic receiver; avoid computing irrelevant absolute cohomology.
-
-```text
-relevant contribution completely determined -> 33-10e
-still insufficient -> 33-10d
-```
+If nonzero kernel contribution is established or strongly exposed, materialize only the part that can reach the Stage33 arithmetic receiver. This branch depends on enough 10b information to define the contribution correctly.
 
 #### 33-10d — direct absolute H1 construction fallback
-Abandon the finite shortcut if necessary and construct the required absolute H1 receiver directly, to the exact extent required for arithmetic localization.
-
-```text
-complete -> 33-10e
-```
+Independent/direct construction route for the required absolute H1 receiver. It may be started in parallel when cost is justified rather than waiting for every shortcut route to fail, but it must obey the same source-lock and exactness requirements.
 
 #### 33-10e — absolute receiver certification
-Produce the common exit certificate independent of which route succeeded.
+Common convergence/exit node. It consumes whichever successful branch or combination of branches suffices.
+
+Possible closures include:
+
+```text
+10a alone proves finite shortcut exact -> 10e -> close
+10b proves kernel contribution zero -> 10e -> close
+10b + 10c account for nonzero contribution -> 10e -> close
+10d directly constructs receiver -> 10e -> close
+multiple partial branches combine -> 10e -> close
+```
 
 Exit condition:
 
@@ -139,11 +136,11 @@ KERNEL_GALOIS_RELEVANT_CONTRIBUTION_ACCOUNTED=true
 STAGE33_11_DOMAIN_AND_CODOMAIN_WELL_DEFINED=true
 ```
 
-Not all 10a..10d must run. If a route closes the receiver exactly, unused deeper fallbacks are skipped. Conversely, exhausting 10a..10d without satisfying the exit condition does NOT permit Stage33-11; extend the 33-10 mini-map (10f, 10g, or a new child only if genuinely necessary) until the receiver is exact.
+Not all 10a..10d must finish. MAIN-batch may push multiple viable branches concurrently. Once 10e certifies the exit, unfinished siblings stop. If none closes the receiver, add 10f/10g or split a genuinely independent new subkernel; Stage33-11 remains blocked.
 
 ## 6. Stage33-11 — ARITHMETIC-LOCALIZATION-CONNECTING-MAP
 
-Purpose: compute the genuine arithmetic localization connecting map / middle Gersten extension data for all 26 mixed-order source directions, now using the exact receiver certified by Stage33-10.
+Purpose: compute the genuine arithmetic localization connecting map / middle Gersten extension data for all 26 mixed-order source directions using the exact receiver certified by Stage33-10.
 
 Starting state inherited from Stage33-07/#1430:
 
@@ -153,37 +150,30 @@ connecting-map columns explicitly materialized = 0/26
 middle Gersten module action not yet materialized
 ```
 
-The exit condition is coverage, not a prescribed method: all 26 directions must be exact, but they need not be solved one-by-one.
+The exit condition is complete exact coverage, not a prescribed method. All 26 directions must be determined, but they need not be solved one-by-one.
 
-### Mini-map / preferred escalation
+### Parallel mini-map
 
 #### 33-11a — global/all-at-once closure
-Try exact module structure, naturality, symmetry, tensor structure, or an equivalent formula that determines all 26 columns simultaneously.
+Search for exact module structure, naturality, symmetry, tensor structure, or an equivalent formula determining all 26 columns simultaneously.
+
+#### 33-11b — symmetry/orbit/block closure
+In parallel where possible, search for exact decompositions in which representative columns determine entire blocks/orbits.
+
+#### 33-11c — individual/smallest-block fallback
+Once Stage33-10 fixes the receiver and a source direction is independently computable, individual or small-block production may proceed without waiting for the global route to fail. Exact columns produced here are retained even if a later global formula is found.
+
+MAIN-batch may therefore make monotone progress such as:
 
 ```text
-26/26 exact -> Stage33-11 closes
-otherwise -> 33-11b
+0/26 -> 2/26 -> 7/26 -> 19/26 -> 26/26
 ```
 
-#### 33-11b — orbit/block closure
-Exploit cc/ct, sign, symmetry, invariant-factor, or other exact decomposition so representative columns determine whole blocks/orbits.
+while global and block-level routes continue in parallel. A later global theorem/formula may close all remaining columns at once. Conversely, if no global closure exists, the individual route is a valid final fallback.
 
-```text
-26/26 exact after block propagation -> Stage33-11 closes
-remaining directions -> 33-11c
-```
+Further routes may be added if new exact structure appears. Unsuccessful global/block branches do not block already-certified individual columns, but Stage33-12 remains blocked until complete coverage.
 
-#### 33-11c — individual fallback
-Compute remaining unresolved source directions individually or in the smallest exact blocks required.
-
-```text
-progress may be 1/26, 3/26, ...
-Stage33-11 closes only at exact 26/26 coverage
-```
-
-Further routes may be added if a new exact structure appears. The mini-map is adaptive; it does not force all routes to execute and it never authorizes Stage33-12 before complete coverage.
-
-Scope may include, when genuinely required:
+Scope may include when genuinely required:
 
 ```text
 middle Gersten module action
@@ -203,7 +193,7 @@ NO_UNRESOLVED_CONNECTING_DIRECTION=true
 
 ## 7. Stage33-12 — ARITHMETIC-HS-CLOSURE-AND-33-07-RECERTIFICATION
 
-Purpose: assemble the repaired arithmetic Hochschild--Serre descent using the exact outputs of 33-09/10/11 and decide the parent Stage33-07 unit.
+Purpose: assemble the repaired arithmetic Hochschild--Serre descent using exact outputs of 33-09/10/11 and decide the parent Stage33-07 unit.
 
 Scope:
 
@@ -232,13 +222,13 @@ Only then may Stage33-07 become `CLOSED`, progress become `7/11`, and Stage33-08
 33-13..33-39=UNUSED_BY_DEFAULT
 ```
 
-Do not manufacture stages to consume the reserved range. Keep work inside 33-09..33-12 unless a coarse phase becomes independently too large or exposes a genuinely new exact subkernel with a clean audit boundary. If that happens, use only the next number actually needed.
+Do not manufacture stages to consume the reserved range. Keep work inside 33-09..33-12 unless a coarse phase becomes independently too large or exposes a genuinely new exact subkernel with a clean audit boundary. Use only the next number actually needed.
 
-Subtask labels such as `33-10a` or `33-11b` are roadmap branches inside the coarse stage; they do not consume new Stage33 unit numbers and do not count toward the 11-task progress denominator.
+Labels such as `33-10a` or `33-11b` are branches inside the coarse stage; they do not consume new Stage33 unit numbers and do not count toward the 11-task denominator.
 
-## 9. Workflow policy
+## 9. Workflow / MAIN-batch policy
 
-New repair work should stop growing the historical `stage33-07-*` workflow family. Prefer one stage-local workflow per coarse phase, with jobs/matrices or explicitly named subjobs inside it:
+New repair work should stop growing the historical `stage33-07-*` workflow family. Prefer one stage-local workflow per coarse phase with multiple jobs/matrices for parallel branches:
 
 ```text
 .github/workflows/stage33-09-main.yml
@@ -247,7 +237,9 @@ New repair work should stop growing the historical `stage33-07-*` workflow famil
 .github/workflows/stage33-12-main.yml
 ```
 
-Heavy/unreliable remote Magma probes should be manual diagnostics instead of PR-synchronized triggers. Historical Stage33-07 workflows remain evidence and need not be renamed or rerun merely because the roadmap changes.
+`Stage33-main-batch` means: inspect all currently authorized live branches of the current coarse stage, advance multiple independent branches when useful, preserve exact partial progress, stop branches that hit justified blockers, and terminate sibling work once a stage-level exact closure makes it unnecessary.
+
+Heavy/unreliable remote Magma probes should remain manual diagnostics instead of PR-synchronized triggers. Historical Stage33-07 workflows remain evidence and need not be renamed or rerun merely because the roadmap changes.
 
 ## 10. Downstream big tasks after repair
 
@@ -263,8 +255,11 @@ Their mathematical acceptance contracts remain exactly those in the original `RO
 
 ```text
 REPAIR_MINIMAP_IS_CHECKLIST=false
+SAFE_PARALLEL_BRANCH_EXECUTION_ALLOWED=true
+MAIN_BATCH_IS_SINGLE_BRANCH_ONLY=false
 UNUSED_FALLBACK_BRANCHES_MUST_RUN=false
 MINIMAP_EXHAUSTED_WITHOUT_EXIT_CONDITION_DOES_NOT_ADVANCE=true
+PARTIAL_PROGRESS_IS_RETAINED=true
 REPAIR_CHILD_CLOSED_IMPLIES_PARENT_33_07_CLOSED=false
 REPAIR_CHILD_COUNT_CHANGES_BIG_TASK_COUNT=false
 OLD_33_09_10_11_SEMANTICS_DROPPED=false
