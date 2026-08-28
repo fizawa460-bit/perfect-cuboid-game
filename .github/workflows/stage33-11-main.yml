@@ -32,43 +32,28 @@ jobs:
           python certify_order2_quotient_raw_order4_bockstein.py
           python materialize_mixed_order_side_ambient_function_lifts.py
           python materialize_mixed_order_exceptional_ambient_tangent_function_lifts.py
-      - name: Profile intrinsic naturality and materialize complete MAIN working map
+      - name: Materialize exact A2_26 hostile-audit repair frontier
         run: |
           python -u stages/stage33/33-11/materialize_stage33_11_a2_26_restriction_decoder.py
           python -u stages/stage33/33-11/certify_stage33_11_a2_26_ambient_boundary_galois.py
-          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_main_working_column.py
-          python -u stages/stage33/33-11/materialize_stage33_11_smallest_main_working_columns.py
-          python -u stages/stage33/33-11/profile_stage33_11_remaining_block_representatives.py
-          python -u stages/stage33/33-11/materialize_stage33_11_all_blocks_main_working.py
-          cat stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
-          cat stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
-          cat stages/stage33/33-11/stage33-11-smallest-block-target-images.json
+          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_explicit_gersten_difference_preimage.py
+          python -u stages/stage33/33-11/verify_stage33_11_a2_26_explicit_gersten_difference_preimage.py
           cat stages/stage33/33-11/stage33-11-a2-26-restriction-decoder.json
           cat stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
-          cat stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
-          cat stages/stage33/33-11/stage33-11-smallest-main-working-columns.json
-          cat stages/stage33/33-11/stage33-11-remaining-block-representatives.json
-          cat stages/stage33/33-11/stage33-11-all-blocks-main-working.json
-      - name: Upload compact exact and MAIN working certificates
+          cat stages/stage33/33-11/stage33-11-a2-26-explicit-gersten-difference-preimage.json
+      - name: Upload compact A2_26 repair certificates
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: stage33-11-intrinsic-at2-naturality
+          name: stage33-11-a2-26-hostile-audit-repair
           path: |
-            stages/stage33/33-07/actual-coordinate-swap-at2-actions.json
-            stages/stage33/33-07/actual-galois-at2-actions.json
-            stages/stage33/33-11/stage33-11-intrinsic-at2-naturality.json
-            stages/stage33/33-11/stage33-11-equivariant-forced-zero-blocks.json
             stages/stage33/33-11/stage33-11-smallest-block-target-images.json
             stages/stage33/33-11/stage33-11-a2-26-restriction-decoder.json
             stages/stage33/33-11/stage33-11-a2-26-ambient-boundary-galois.json
-            stages/stage33/33-11/stage33-11-a2-26-main-working-column.json
-            stages/stage33/33-11/stage33-11-smallest-main-working-columns.json
-            stages/stage33/33-11/stage33-11-remaining-block-representatives.json
-            stages/stage33/33-11/stage33-11-all-blocks-main-working.json
+            stages/stage33/33-11/stage33-11-a2-26-explicit-gersten-difference-preimage.json
           if-no-files-found: ignore
           retention-days: 1
-      - name: Synchronize Stage33 controller checkpoint
+      - name: Synchronize Stage33 hostile-audit checkpoint
         if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
         env:
           HEAD_REF: ${{ github.head_ref }}
@@ -78,7 +63,6 @@ jobs:
           git fetch origin "$HEAD_REF"
           git checkout -B "$HEAD_REF" "origin/$HEAD_REF"
           python -u stages/stage33/33-11/sync_stage33_controller_checkpoint.py
-          python -u stages/stage33/33-11/sync_stage33_11_main_progress.py
           python -u stages/stage33/33-11/apply_stage33_11_hostile_audit.py
           git add stages/stage33/controller.json
           if git diff --cached --quiet; then
