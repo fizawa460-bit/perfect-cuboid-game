@@ -1,10 +1,10 @@
 {
-  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V40_B16_PARENT_NAMESPACE_REPAIR_REPLAY_REARM_G4",
+  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V41_B16_PARENT_NAMESPACE_REPAIR_TIMEOUT_RECOVERY_G5",
   "stage":"32",
   "kernel":"K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class":2,
   "parent_route":"G10-LOWGENUS-PICARD",
-  "status":"D16_B12_AUDITED_B16_REPAIR_PAIRWISE_STRICT_BELOW_CUT39_PARENT_STREAM_GATE_REARM_G4_READY_D8_ROUTE_PAUSED",
+  "status":"D16_B12_AUDITED_B16_REPAIR_PARENT_STREAM_PASSED_6_OF_6_G4_TIMEOUT_RECOVERY_G5_READY_D8_ROUTE_PAUSED",
   "roadmap":"stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
   "goal_stop_contract":"stages/stage32/GOAL_AND_STOP_CONTRACT.md",
   "repo_absolute_rule_read_policy":{"mandatory_every_main_batch_reads":["AGENTS.md","stages/stage32/controller.json"],"conditional_mandatory_policy_reads":{"before_actions_artifacts_or_heavy_compute":"docs/research-os/policies/actions-storage-and-evidence-safety.md","before_claim_promotion_closure_or_downstream_release":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","before_parking_route_or_claiming_exhaustion":"docs/research-os/policies/cycle-exploration-safety-protocol.md"}},
@@ -16,13 +16,13 @@
     "source_exact_artifact_id":9574308138,
     "source_exact_artifact_sha256":"0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4",
     "hostile_audit":{"pr":1450,"review":5049175475,"verdict":"FAIL_PARENT_PARTITION_DRIFT","baseline_frontier_states":4103,"invalid_pairwise_frontier_states":3893,"lost_parents":210,"pairwise_exact_gram_kkt_prune_mathematically_safe":true},
-    "repair":{"unit":"32-18BC","status":"WORKFLOW_VALID_REARM_G4_READY","pairwise_activation_rule":"ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT","require_parent_stream_byte_identity":true,"validation_walls":6,"original_monster_total_to_replay":172,"planner_probe_budget":262144,"max_parallel":6,"projected_new_peak_storage_mb_lt":1,"prior_invalid_workflow_runs_created_no_heavy_jobs":true},
+    "repair":{"unit":"32-18BC","status":"G4_PARENT_STREAM_PASSED_6_OF_6_THREE_WALL_TIMEOUT_RECOVERY_G5_READY","pairwise_activation_rule":"ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT","require_parent_stream_byte_identity":true,"parent_stream_gate_run_id":33155002856,"parent_stream_gate_result":"PASSED_6_OF_6","g4_replay":{"status":"THREE_WALLS_PERSISTED_THREE_WALLS_TIMEOUT_124","successful_replay_artifacts":{"p503-s665":9680367318,"p922-s13":9680561371,"p922-s38":9680338221},"timeout_walls":["p436-s5","p436-s362","p503-s118"]},"recovery_chunk_size":8,"recovery_chunk_jobs":14,"planner_probe_budget":262144,"max_parallel":6,"projected_new_peak_storage_mb_lt":2,"persist_compact_only":true},
     "invalidated_prior_runs":{"32-18AY":"NO_CLOSURE_CREDIT","32-18AZ":"NO_CLOSURE_CREDIT","32-18BA":"NO_CLOSURE_CREDIT","32-18BB":"HOSTILE_AUDIT_FAIL"},
-    "resume_rule":"REARM 18BC GENERATION 4. REQUIRE BASELINE/REPAIRED CUT39 PARENT STREAM BYTE IDENTITY ON ALL SIX WALLS BEFORE REPLAYING THE ORIGINAL 172 BASELINE MONSTER IDS. DO NOT ARM B18 OR RELEASE POST-B16 WORK.",
+    "resume_rule":"ARM 18BC GENERATION 5. REUSE G4 SIX-WALL PARENT STREAM IDENTITY AND THREE SUCCESSFUL WALL CERTIFICATES; RECOVER ONLY THE THREE TIMEOUT WALLS IN DISJOINT ORIGINAL-ID CHUNKS OF AT MOST 8; SUMMARIZE ALL ORIGINAL 172; DO NOT ARM B18 OR RELEASE POST-B16 WORK.",
     "mathematical_credit_changed":false
   },
   "current_item":"32-18BC_D16_B16_PARENT_NAMESPACE_REPAIR_REPLAY",
-  "current_item_execution_constraint":"PAIRWISE STRICTLY BELOW CUT39; SIX-WALL PARENT STREAM BYTE IDENTITY GATE; THEN ORIGINAL 172 IDS ONLY; MAX_PARALLEL 6; COMPACT ARTIFACTS; NO B18",
+  "current_item_execution_constraint":"PAIRWISE STRICTLY BELOW CUT39; G4 PARENT STREAM GATE PINNED PASSED_6_OF_6; DO NOT RERUN SUCCESSFUL THREE WALLS; RECOVER THREE TIMEOUT WALLS IN <=8-ID CHUNKS; MAX_PARALLEL 6; COMPACT ARTIFACTS; NO B18",
   "FULL_D8_G0_ROW_COMPLETE":false,
   "FULL_D16_G0_ROW_COMPLETE":false,
   "D16_B16_NUMERICAL_CREDIT":false,
@@ -40,6 +40,6 @@
   "repair_required":true,
   "merge_allowed":false,
   "advance_allowed":true,
-  "next_item":"REARM_32-18BC_GENERATION4_PARENT_NAMESPACE_REPAIR_REPLAY",
+  "next_item":"ARM_32-18BC_GENERATION5_TIMEOUT_RECOVERY_CHUNKS",
   "next_expected_command":"Stage32-main-batch"
 }
