@@ -10,17 +10,15 @@
     "workflow_kind": "single lightweight exact verifier"
   },
   "audit_debt": {
-    "finite_explicit_unresolved_set": true,
+    "finite_explicit_unresolved_set": false,
     "hostile_audit_required_before_33_11_exit": true,
-    "next_exact_target_representatives": [
-      "08ff6ec13783579af6e27191bacb0629b63b5b6a9e8427f82fc89d9a513e5371",
-      "3391419a957d94cd764c183c742c7c87bbdcfb5cd19705c9c5cfc6054a3a610b",
-      "0b6cf3cef3a98a1d0aaefd163f620a137fc5079e9899a8aabdf2cd40e4821c49"
-    ],
+    "next_exact_target_representatives": [],
+    "prime_refinement_unresolved_count": 0,
+    "stage33_11d_fresh_audit_required": true,
     "working_carrier_purity_convention_used_for_exact_promotion": false
   },
   "branch": "CARRIER-PRIME-REFINEMENT",
-  "canonical_sha256": "b62e0dc333985b71c2dd211763c5aee429a10ed69ddd39cf460b2b32b6307767",
+  "canonical_sha256": "b45da57ac9b04b744dbdc44a69b80cc3acca42c30e62db6351903d6be3aafc4d",
   "exact_algebra": {
     "backend": "SymPy exact QQ_I Groebner bases",
     "base_field": "Q(i)",
@@ -33,49 +31,7 @@
       "a1^2+a2^2+a3^2-c^2"
     ]
   },
-  "explicit_unresolved_representatives": [
-    {
-      "attempted_exact_method": "local substitution plus exact Groebner elimination over Q(i)",
-      "carrier_equation": "b1-b3+c=0",
-      "geometric_orbit_id": "2d4489edcde545b4879de4e720612096d58bdba69488e580ea1a5bd4773958f2",
-      "original_carrier_ids": [
-        "1c495a66900ff4bb76b2d7d06c3ea7ae1c08058ee774ad31d6d6d6a18e5bf917",
-        "4d30699bc1d422b457ff29f90e9e9da9ae3890b462d1765bf483e1add7871410",
-        "69034276836045eb1c5d44f71c8c3be33b1de6fa225580780c02579819b1540a"
-      ],
-      "reason_for_stop": "no certified irreducibility or complete primary decomposition yet",
-      "representative_signature_sha256": "08ff6ec13783579af6e27191bacb0629b63b5b6a9e8427f82fc89d9a513e5371",
-      "status": "UNRESOLVED_PRIMARY_DECOMPOSITION_NOT_PROMOTED"
-    },
-    {
-      "attempted_exact_method": "local substitution plus exact Groebner elimination over Q(i)",
-      "carrier_equation": "b2-i*b3-c=0",
-      "geometric_orbit_id": "3ee2364137543e3fe47decabf418bf39eda6e69eb544a48e5aaf9499e82bcfaa",
-      "original_carrier_ids": [
-        "3b5b2685574daa2fbcc6c19a97c1345f91caee772b15709b1cc936de9d3e753e",
-        "4a574750ff025d01ebb9594170fc449dbfa5f2ba1c05739be87d3c102135da9c",
-        "9a30b6b326d7e66df7a0a975545bd1315fca66f39429565d0a5bae4ef253a2ec",
-        "a3d31642ecd5ad966f7e77657893f015a5d52136ccd79734961eb4b903421b95",
-        "a7c5fcd2f128d5a9f7b6ee60ccfe58a2967a2c12ed7df6b5366e4119ddc9044c",
-        "de7e6a58d7ab51e102076275c068854b5e831a46264166ae008ab9bb398653d4"
-      ],
-      "reason_for_stop": "no certified irreducibility or complete primary decomposition yet",
-      "representative_signature_sha256": "3391419a957d94cd764c183c742c7c87bbdcfb5cd19705c9c5cfc6054a3a610b",
-      "status": "UNRESOLVED_PRIMARY_DECOMPOSITION_NOT_PROMOTED"
-    },
-    {
-      "attempted_exact_method": "local substitution plus exact Groebner elimination over Q(i)",
-      "carrier_equation": "b1+b3-c=0",
-      "geometric_orbit_id": "444be647d5c665a48a019f530c1bb4eaa1fa3237de34a6c9f58abf2255c0349b",
-      "original_carrier_ids": [
-        "6b1af0ed0ee350dbcb4192bb7f7d15dfeb9acdb96dd2b46145a3ce9f420a72f5",
-        "e433434ad5e947d38379dbd9359c6853ec20fb494985d4354e89e4f4337be069"
-      ],
-      "reason_for_stop": "no certified irreducibility or complete primary decomposition yet",
-      "representative_signature_sha256": "0b6cf3cef3a98a1d0aaefd163f620a137fc5079e9899a8aabdf2cd40e4821c49",
-      "status": "UNRESOLVED_PRIMARY_DECOMPOSITION_NOT_PROMOTED"
-    }
-  ],
+  "explicit_unresolved_representatives": [],
   "firewalls": {
     "endpoint_credit": false,
     "exact_and_main_working_progress_separated": true,
@@ -458,6 +414,367 @@
           "swap13"
         ],
         "e05460aed3c97617affcca33215217eaacafc9c3a230a2c5267400d275f3c20d": [
+          "swap12"
+        ]
+      }
+    },
+    {
+      "carrier_equation": "b1-b3+c=0",
+      "component_count": 1,
+      "component_multiplicities": [
+        1
+      ],
+      "components": [
+        {
+          "primary_ideal_generators": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "b1-b3+c=0"
+          ],
+          "prime_proof": {
+            "affine_chart": "b3=1",
+            "affine_chart_is_domain": true,
+            "base_parameter": "b1",
+            "base_rational_function_field": "Q(i)(t)",
+            "finite_prime_valuation_matrix_mod2": [
+              [
+                0,
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1,
+                0
+              ]
+            ],
+            "height_in_surface": 1,
+            "multiquadratic_fraction_field_degree": 16,
+            "projective_component_dimension": 1,
+            "radicands": [
+              "2*b1",
+              "1 - 2*b1",
+              "b1^2 - 2*b1",
+              "b1^2 - 4*b1 + 1"
+            ],
+            "root_variables": [
+              "a2",
+              "a1",
+              "a3",
+              "b2"
+            ],
+            "saturation_element": "b3",
+            "saturation_lifts_domain_to_homogeneous_section": true,
+            "section_ideal_saturated_with_respect_to_b3": true,
+            "squareclass_rank_f2": 4,
+            "squarefree_finite_prime_factors": [
+              "b1^2 - 4*b1 + 1",
+              "b1 - 2",
+              "b1 - 1/2",
+              "b1"
+            ]
+          },
+          "reduced_height_one_prime_generators": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "b1-b3+c=0"
+          ],
+          "scheme_theoretic_multiplicity": 1
+        }
+      ],
+      "exact_primary_decomposition_verified_by_ideal_intersection": false,
+      "exact_prime_section_verified_by_saturation_and_function_field": true,
+      "geometric_orbit_id": "2d4489edcde545b4879de4e720612096d58bdba69488e580ea1a5bd4773958f2",
+      "original_carrier_ids": [
+        "1c495a66900ff4bb76b2d7d06c3ea7ae1c08058ee774ad31d6d6d6a18e5bf917",
+        "4d30699bc1d422b457ff29f90e9e9da9ae3890b462d1765bf483e1add7871410",
+        "69034276836045eb1c5d44f71c8c3be33b1de6fa225580780c02579819b1540a"
+      ],
+      "reduced_support_and_scheme_multiplicity_recorded_separately": true,
+      "representative_signature_sha256": "08ff6ec13783579af6e27191bacb0629b63b5b6a9e8427f82fc89d9a513e5371",
+      "section_ideal": [
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "b1-b3+c=0"
+      ],
+      "transport_uses_only_certified_surface_automorphisms": true,
+      "transport_words_from_representative": {
+        "1c495a66900ff4bb76b2d7d06c3ea7ae1c08058ee774ad31d6d6d6a18e5bf917": [
+          "swap12",
+          "swap13",
+          "swap12"
+        ],
+        "4d30699bc1d422b457ff29f90e9e9da9ae3890b462d1765bf483e1add7871410": [
+          "swap12"
+        ],
+        "69034276836045eb1c5d44f71c8c3be33b1de6fa225580780c02579819b1540a": [
+          "swap13"
+        ]
+      }
+    },
+    {
+      "carrier_equation": "b2-i*b3-c=0",
+      "component_count": 1,
+      "component_multiplicities": [
+        1
+      ],
+      "components": [
+        {
+          "primary_ideal_generators": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "b2-i*b3-c=0"
+          ],
+          "prime_proof": {
+            "affine_chart": "b3=1",
+            "affine_chart_is_domain": true,
+            "base_parameter": "b2",
+            "base_rational_function_field": "Q(i)(t)",
+            "finite_prime_valuation_matrix_mod2": [
+              [
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                0,
+                1
+              ],
+              [
+                1,
+                0,
+                0,
+                0
+              ]
+            ],
+            "height_in_surface": 1,
+            "multiquadratic_fraction_field_degree": 16,
+            "projective_component_dimension": 1,
+            "radicands": [
+              "-2*i*b2 - 1",
+              "2*i*b2 + 2",
+              "b2^2 - 2*i*b2 - 2",
+              "b2^2 - 4*i*b2 - 3"
+            ],
+            "root_variables": [
+              "a2",
+              "a1",
+              "a3",
+              "b1"
+            ],
+            "saturation_element": "b3",
+            "saturation_lifts_domain_to_homogeneous_section": true,
+            "section_ideal_saturated_with_respect_to_b3": true,
+            "squareclass_rank_f2": 4,
+            "squarefree_finite_prime_factors": [
+              "b2 - 1 - i",
+              "b2 + 1 - i",
+              "b2 - i",
+              "b2 - 3*i",
+              "b2 - i/2"
+            ]
+          },
+          "reduced_height_one_prime_generators": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "b2-i*b3-c=0"
+          ],
+          "scheme_theoretic_multiplicity": 1
+        }
+      ],
+      "exact_primary_decomposition_verified_by_ideal_intersection": false,
+      "exact_prime_section_verified_by_saturation_and_function_field": true,
+      "geometric_orbit_id": "3ee2364137543e3fe47decabf418bf39eda6e69eb544a48e5aaf9499e82bcfaa",
+      "original_carrier_ids": [
+        "3b5b2685574daa2fbcc6c19a97c1345f91caee772b15709b1cc936de9d3e753e",
+        "4a574750ff025d01ebb9594170fc449dbfa5f2ba1c05739be87d3c102135da9c",
+        "9a30b6b326d7e66df7a0a975545bd1315fca66f39429565d0a5bae4ef253a2ec",
+        "a3d31642ecd5ad966f7e77657893f015a5d52136ccd79734961eb4b903421b95",
+        "a7c5fcd2f128d5a9f7b6ee60ccfe58a2967a2c12ed7df6b5366e4119ddc9044c",
+        "de7e6a58d7ab51e102076275c068854b5e831a46264166ae008ab9bb398653d4"
+      ],
+      "reduced_support_and_scheme_multiplicity_recorded_separately": true,
+      "representative_signature_sha256": "3391419a957d94cd764c183c742c7c87bbdcfb5cd19705c9c5cfc6054a3a610b",
+      "section_ideal": [
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "b2-i*b3-c=0"
+      ],
+      "transport_uses_only_certified_surface_automorphisms": true,
+      "transport_words_from_representative": {
+        "3b5b2685574daa2fbcc6c19a97c1345f91caee772b15709b1cc936de9d3e753e": [
+          "swap12"
+        ],
+        "4a574750ff025d01ebb9594170fc449dbfa5f2ba1c05739be87d3c102135da9c": [
+          "swap13"
+        ],
+        "9a30b6b326d7e66df7a0a975545bd1315fca66f39429565d0a5bae4ef253a2ec": [
+          "swap12",
+          "swap13",
+          "swap12"
+        ],
+        "a3d31642ecd5ad966f7e77657893f015a5d52136ccd79734961eb4b903421b95": [
+          "cc",
+          "swap12"
+        ],
+        "a7c5fcd2f128d5a9f7b6ee60ccfe58a2967a2c12ed7df6b5366e4119ddc9044c": [
+          "cc",
+          "swap13"
+        ],
+        "de7e6a58d7ab51e102076275c068854b5e831a46264166ae008ab9bb398653d4": [
+          "cc",
+          "swap12",
+          "swap13",
+          "swap12"
+        ]
+      }
+    },
+    {
+      "carrier_equation": "b1+b3-c=0",
+      "component_count": 1,
+      "component_multiplicities": [
+        1
+      ],
+      "components": [
+        {
+          "primary_ideal_generators": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "b1+b3-c=0"
+          ],
+          "prime_proof": {
+            "affine_chart": "b3=1",
+            "affine_chart_is_domain": true,
+            "base_parameter": "b1",
+            "base_rational_function_field": "Q(i)(t)",
+            "finite_prime_valuation_matrix_mod2": [
+              [
+                0,
+                0,
+                0,
+                1
+              ],
+              [
+                0,
+                0,
+                1,
+                0
+              ],
+              [
+                0,
+                1,
+                0,
+                0
+              ],
+              [
+                1,
+                0,
+                1,
+                0
+              ]
+            ],
+            "height_in_surface": 1,
+            "multiquadratic_fraction_field_degree": 16,
+            "projective_component_dimension": 1,
+            "radicands": [
+              "-2*b1",
+              "2*b1 + 1",
+              "b1^2 + 2*b1",
+              "b1^2 + 4*b1 + 1"
+            ],
+            "root_variables": [
+              "a2",
+              "a1",
+              "a3",
+              "b2"
+            ],
+            "saturation_element": "b3",
+            "saturation_lifts_domain_to_homogeneous_section": true,
+            "section_ideal_saturated_with_respect_to_b3": true,
+            "squareclass_rank_f2": 4,
+            "squarefree_finite_prime_factors": [
+              "b1^2 + 4*b1 + 1",
+              "b1 + 2",
+              "b1 + 1/2",
+              "b1"
+            ]
+          },
+          "reduced_height_one_prime_generators": [
+            "Q1",
+            "Q2",
+            "Q3",
+            "Q4",
+            "b1+b3-c=0"
+          ],
+          "scheme_theoretic_multiplicity": 1
+        }
+      ],
+      "exact_primary_decomposition_verified_by_ideal_intersection": false,
+      "exact_prime_section_verified_by_saturation_and_function_field": true,
+      "geometric_orbit_id": "444be647d5c665a48a019f530c1bb4eaa1fa3237de34a6c9f58abf2255c0349b",
+      "original_carrier_ids": [
+        "6b1af0ed0ee350dbcb4192bb7f7d15dfeb9acdb96dd2b46145a3ce9f420a72f5",
+        "e433434ad5e947d38379dbd9359c6853ec20fb494985d4354e89e4f4337be069"
+      ],
+      "reduced_support_and_scheme_multiplicity_recorded_separately": true,
+      "representative_signature_sha256": "0b6cf3cef3a98a1d0aaefd163f620a137fc5079e9899a8aabdf2cd40e4821c49",
+      "section_ideal": [
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4",
+        "b1+b3-c=0"
+      ],
+      "transport_uses_only_certified_surface_automorphisms": true,
+      "transport_words_from_representative": {
+        "6b1af0ed0ee350dbcb4192bb7f7d15dfeb9acdb96dd2b46145a3ce9f420a72f5": [
+          "swap12",
+          "swap13"
+        ],
+        "e433434ad5e947d38379dbd9359c6853ec20fb494985d4354e89e4f4337be069": [
           "swap12"
         ]
       }
@@ -1266,7 +1583,7 @@
       }
     }
   ],
-  "schema": "STAGE33_11D_CARRIER_PRIME_REFINEMENT_V1",
+  "schema": "STAGE33_11D_CARRIER_PRIME_REFINEMENT_V2",
   "source_locks": {
     "authoritative_run_head_sha": "532d6047780e89f97813980a43458b1dd3f9b251",
     "authoritative_run_id": 33213248650,
@@ -1277,45 +1594,47 @@
   },
   "stage": "33-11d",
   "summary": {
+    "actual_height_one_prime_refinement_coverage": "30/30",
     "all_30_carriers_disjointly_accounted": true,
     "exact_connecting_columns_promoted": 0,
     "frozen_unresolved_geometric_representatives": 8,
     "inherited_direct_carriers": 6,
-    "new_exact_representative_refinements": 5,
+    "new_exact_representative_refinements": 8,
     "newly_refined_original_carrier_ids": [
       "19fc33ac9234223dcfcb6c5b896f6a4b8ce4f6acd5ae403ef4b967371a1709b4",
+      "1c495a66900ff4bb76b2d7d06c3ea7ae1c08058ee774ad31d6d6d6a18e5bf917",
       "231089ddfcbb0ffdf649192eaea857a1cb8ed3714d8ebef2fdf7b21e05370a0f",
       "2e722a596b0b1bbbae15627fa242d2d40e8c2644af0dc304794b9e56aa0758a7",
       "398ba7a7f208b64649b959ee9933ac30fd9c8fc5ac93de0aa360267731c368cc",
-      "3fccacee6062d9d2a6cd9456589ffeb534cb8e6df2ef8e1c79f3b38cf3f2e145",
-      "564f65992da014fe3b6f451f4d2bd0038436f865130262a1454b9cbc68400f29",
-      "5f2063acdc32e8eff6f3664cea4c9225f46e3cbbb8a08babe83874abc7336bc5",
-      "9024c1b6d23598c2d1fffb4a036e370eecf7d82fa0a7c0bd0af8eea968e61eed",
-      "91e31b0d94ee04633fb455786a899b8cfb108131cf0e665d14638e7ec4f31908",
-      "ac4500c14ce307d6f3825a8ad5872532990b06376292d454ce6e4ea515e7456a",
-      "c78f53ae3cc59893989fd41695c9f2230cbb571b862ee05cea06819b2a1edb0d",
-      "cdd090f4216fbe5f3738b97fbb65895e95f95c667a89134a2e21bf4a8133862c",
-      "e05460aed3c97617affcca33215217eaacafc9c3a230a2c5267400d275f3c20d"
-    ],
-    "newly_refined_original_carriers_by_certified_orbit_transport": 13,
-    "remaining_unresolved_geometric_representatives": 3,
-    "remaining_unresolved_original_carrier_ids": [
-      "1c495a66900ff4bb76b2d7d06c3ea7ae1c08058ee774ad31d6d6d6a18e5bf917",
       "3b5b2685574daa2fbcc6c19a97c1345f91caee772b15709b1cc936de9d3e753e",
+      "3fccacee6062d9d2a6cd9456589ffeb534cb8e6df2ef8e1c79f3b38cf3f2e145",
       "4a574750ff025d01ebb9594170fc449dbfa5f2ba1c05739be87d3c102135da9c",
       "4d30699bc1d422b457ff29f90e9e9da9ae3890b462d1765bf483e1add7871410",
+      "564f65992da014fe3b6f451f4d2bd0038436f865130262a1454b9cbc68400f29",
+      "5f2063acdc32e8eff6f3664cea4c9225f46e3cbbb8a08babe83874abc7336bc5",
       "69034276836045eb1c5d44f71c8c3be33b1de6fa225580780c02579819b1540a",
       "6b1af0ed0ee350dbcb4192bb7f7d15dfeb9acdb96dd2b46145a3ce9f420a72f5",
+      "9024c1b6d23598c2d1fffb4a036e370eecf7d82fa0a7c0bd0af8eea968e61eed",
+      "91e31b0d94ee04633fb455786a899b8cfb108131cf0e665d14638e7ec4f31908",
       "9a30b6b326d7e66df7a0a975545bd1315fca66f39429565d0a5bae4ef253a2ec",
       "a3d31642ecd5ad966f7e77657893f015a5d52136ccd79734961eb4b903421b95",
       "a7c5fcd2f128d5a9f7b6ee60ccfe58a2967a2c12ed7df6b5366e4119ddc9044c",
+      "ac4500c14ce307d6f3825a8ad5872532990b06376292d454ce6e4ea515e7456a",
+      "c78f53ae3cc59893989fd41695c9f2230cbb571b862ee05cea06819b2a1edb0d",
+      "cdd090f4216fbe5f3738b97fbb65895e95f95c667a89134a2e21bf4a8133862c",
       "de7e6a58d7ab51e102076275c068854b5e831a46264166ae008ab9bb398653d4",
+      "e05460aed3c97617affcca33215217eaacafc9c3a230a2c5267400d275f3c20d",
       "e433434ad5e947d38379dbd9359c6853ec20fb494985d4354e89e4f4337be069"
     ],
-    "remaining_unresolved_original_carriers": 11,
+    "newly_refined_original_carriers_by_certified_orbit_transport": 24,
+    "remaining_unresolved_geometric_representatives": 0,
+    "remaining_unresolved_original_carrier_ids": [],
+    "remaining_unresolved_original_carriers": 0,
     "stage33_11_exact_connecting_progress": "0/26",
-    "stage33_11d_closed": false,
-    "stage33_11d_status": "OPEN_UNRESOLVED",
+    "stage33_11d_audited": false,
+    "stage33_11d_closed_exact_audited": false,
+    "stage33_11d_main_exit_condition_satisfied": true,
+    "stage33_11d_status": "MAIN_COMPLETE_PENDING_AUDIT",
     "working_generator_carrier_inventory": "30/30_ACCOUNTED"
   }
 }

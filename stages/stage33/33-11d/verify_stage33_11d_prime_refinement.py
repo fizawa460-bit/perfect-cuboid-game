@@ -209,6 +209,132 @@ def build_case(case, V, Q, selector):
     }
 
 
+def saturation(ideal, element, variables, selector):
+    gb = sp.groebner(
+        ideal + [1 - selector * element],
+        selector,
+        *variables,
+        order="lex",
+        extension=sp.I,
+    )
+    return [p.as_expr() for p in gb.polys if not p.as_expr().has(selector)]
+
+
+def gf2_rank(rows):
+    work = [[int(x) & 1 for x in row] for row in rows]
+    rank = 0
+    width = len(work[0]) if work else 0
+    for col in range(width):
+        pivot = next((j for j in range(rank, len(work)) if work[j][col]), None)
+        if pivot is None:
+            continue
+        work[rank], work[pivot] = work[pivot], work[rank]
+        for j in range(len(work)):
+            if j != rank and work[j][col]:
+                work[j] = [x ^ y for x, y in zip(work[j], work[rank])]
+        rank += 1
+    return rank
+
+
+def build_irreducible_case(case, V, Q, selector):
+    a1, a2, a3, b1, b2, b3, c = V
+    if case == "b1-b3+c=0":
+        l, c_expr, t = b1 - b3 + c, b3 - b1, b1
+        root_variables = [a2, a1, a3, b2]
+        radicands = [
+            2*t,
+            1 - 2*t,
+            t*(t - 2),
+            t**2 - 4*t + 1,
+        ]
+    elif case == "b1+b3-c=0":
+        l, c_expr, t = b1 + b3 - c, b1 + b3, b1
+        root_variables = [a2, a1, a3, b2]
+        radicands = [
+            -2*t,
+            1 + 2*t,
+            t*(t + 2),
+            t**2 + 4*t + 1,
+        ]
+    elif case == "b2-i*b3-c=0":
+        l, c_expr, t = b2 - sp.I*b3 - c, b2 - sp.I*b3, b2
+        root_variables = [a2, a1, a3, b1]
+        radicands = [
+            -1 - 2*sp.I*t,
+            2 + 2*sp.I*t,
+            t**2 - 2*sp.I*t - 2,
+            t**2 - 4*sp.I*t - 3,
+        ]
+    else:
+        raise SystemExit(f"unknown irreducible case: {case}")
+
+    section = Q + [l]
+    saturated = saturation(section, b3, V, selector)
+    if not same_ideal(section, saturated, V):
+        raise SystemExit(f"b3 saturation changed section ideal: {case}")
+
+    affine_variables = [a1, a2, a3, b1, b2]
+    affine_section = [sp.expand(q.subs(c, c_expr).subs(b3, 1)) for q in Q]
+    tower_relations = [x**2 - r for x, r in zip(root_variables, radicands)]
+    if not same_ideal(affine_section, tower_relations, affine_variables):
+        raise SystemExit(f"affine multiquadratic presentation mismatch: {case}")
+
+    factor_lists = []
+    factor_by_key = {}
+    for radicand in radicands:
+        _unit, factors = sp.factor_list(radicand, t, extension=sp.I)
+        if not factors or any(exp != 1 for _factor, exp in factors):
+            raise SystemExit(f"radicand is not squarefree: {case}")
+        normalized = []
+        for factor, exp in factors:
+            monic = sp.Poly(factor, t, extension=sp.I).monic().as_expr()
+            key = expr_key(monic)
+            factor_by_key[key] = monic
+            normalized.append((key, exp))
+        factor_lists.append(normalized)
+    factor_keys = sorted(factor_by_key)
+    valuation_matrix = [
+        [next((exp & 1 for key, exp in factors if key == factor_key), 0)
+         for factors in factor_lists]
+        for factor_key in factor_keys
+    ]
+    rank = gf2_rank(valuation_matrix)
+    if rank != 4:
+        raise SystemExit(f"radicand squareclasses lost independence: {case}")
+
+    return {
+        "carrier_equation": case,
+        "section_ideal": ["Q1", "Q2", "Q3", "Q4", case],
+        "exact_primary_decomposition_verified_by_ideal_intersection": False,
+        "exact_prime_section_verified_by_saturation_and_function_field": True,
+        "reduced_support_and_scheme_multiplicity_recorded_separately": True,
+        "component_count": 1,
+        "component_multiplicities": [1],
+        "components": [{
+            "primary_ideal_generators": ["Q1", "Q2", "Q3", "Q4", case],
+            "reduced_height_one_prime_generators": ["Q1", "Q2", "Q3", "Q4", case],
+            "scheme_theoretic_multiplicity": 1,
+            "prime_proof": {
+                "saturation_element": "b3",
+                "section_ideal_saturated_with_respect_to_b3": True,
+                "affine_chart": "b3=1",
+                "base_rational_function_field": "Q(i)(t)",
+                "base_parameter": str(t),
+                "root_variables": [str(x) for x in root_variables],
+                "radicands": [pstr(x) for x in radicands],
+                "squarefree_finite_prime_factors": [pstr(factor_by_key[key]) for key in factor_keys],
+                "finite_prime_valuation_matrix_mod2": valuation_matrix,
+                "squareclass_rank_f2": rank,
+                "multiquadratic_fraction_field_degree": 2**rank,
+                "affine_chart_is_domain": True,
+                "saturation_lifts_domain_to_homogeneous_section": True,
+                "projective_component_dimension": 1,
+                "height_in_surface": 1,
+            },
+        }],
+    }
+
+
 def orbit_words(rep, inventory_by_sig, perms):
     queue = deque([(rep, [])])
     words = {rep: []}
@@ -266,14 +392,14 @@ def build_certificate():
         if normalize(recorded_sig) != normalize(expected_sig) or sid(expected_sig) != rep_hash:
             raise SystemExit("representative carrier equation/signature mismatch")
 
-    exact_cases = {
+    split_exact_cases = {
         EXPECTED_REPS[0]: "a2+a3+b1=0",
         EXPECTED_REPS[4]: "b3+c=0",
         EXPECTED_REPS[5]: "a1+b3=0",
         EXPECTED_REPS[6]: "a2-a3-b1=0",
         EXPECTED_REPS[7]: "a1=0",
     }
-    unresolved_equations = {
+    irreducible_exact_cases = {
         EXPECTED_REPS[1]: "b1-b3+c=0",
         EXPECTED_REPS[2]: "b2-i*b3-c=0",
         EXPECTED_REPS[3]: "b1+b3-c=0",
@@ -290,8 +416,6 @@ def build_certificate():
     exact_rows = []
     newly_refined_original = []
     for rep_hash in EXPECTED_REPS:
-        if rep_hash not in exact_cases:
-            continue
         orbit = orbit_by_rep[rep_hash]
         rep = tuple(tuple(z) for z in orbit["representative_signature"])
         if sid(rep) != rep_hash:
@@ -300,7 +424,14 @@ def build_certificate():
         expected_ids = sorted(orbit["original_carrier_ids"])
         if sorted(words) != expected_ids:
             raise SystemExit("certified action transport does not cover original carriers")
-        row = build_case(exact_cases[rep_hash], V, Q, selector)
+        if rep_hash in split_exact_cases:
+            row = build_case(split_exact_cases[rep_hash], V, Q, selector)
+        elif rep_hash in irreducible_exact_cases:
+            row = build_irreducible_case(
+                irreducible_exact_cases[rep_hash], V, Q, selector
+            )
+        else:
+            raise SystemExit("representative has no exact refinement route")
         row.update({
             "representative_signature_sha256": rep_hash,
             "geometric_orbit_id": orbit["orbit_id"],
@@ -313,21 +444,6 @@ def build_certificate():
 
     unresolved_rows = []
     unresolved_original = []
-    for rep_hash in EXPECTED_REPS:
-        if rep_hash not in unresolved_equations:
-            continue
-        orbit = orbit_by_rep[rep_hash]
-        ids = sorted(orbit["original_carrier_ids"])
-        unresolved_original.extend(ids)
-        unresolved_rows.append({
-            "representative_signature_sha256": rep_hash,
-            "carrier_equation": unresolved_equations[rep_hash],
-            "geometric_orbit_id": orbit["orbit_id"],
-            "original_carrier_ids": ids,
-            "status": "UNRESOLVED_PRIMARY_DECOMPOSITION_NOT_PROMOTED",
-            "attempted_exact_method": "local substitution plus exact Groebner elimination over Q(i)",
-            "reason_for_stop": "no certified irreducibility or complete primary decomposition yet",
-        })
 
     direct_ids = sorted(row["carrier_id"] for row in source["direct_refinement_records"])
     all_ids = set(inventory)
@@ -336,7 +452,7 @@ def build_certificate():
         raise SystemExit("30-carrier accounting is not a disjoint exact partition")
 
     cert = {
-        "schema": "STAGE33_11D_CARRIER_PRIME_REFINEMENT_V1",
+        "schema": "STAGE33_11D_CARRIER_PRIME_REFINEMENT_V2",
         "stage": "33-11d",
         "branch": "CARRIER-PRIME-REFINEMENT",
         "source_locks": {
@@ -373,15 +489,20 @@ def build_certificate():
             "newly_refined_original_carrier_ids": sorted(newly_refined_original),
             "remaining_unresolved_original_carrier_ids": sorted(unresolved_original),
             "all_30_carriers_disjointly_accounted": True,
-            "stage33_11d_status": "OPEN_UNRESOLVED",
-            "stage33_11d_closed": False,
+            "actual_height_one_prime_refinement_coverage": "30/30",
+            "stage33_11d_status": "MAIN_COMPLETE_PENDING_AUDIT",
+            "stage33_11d_main_exit_condition_satisfied": True,
+            "stage33_11d_audited": False,
+            "stage33_11d_closed_exact_audited": False,
             "stage33_11_exact_connecting_progress": "0/26",
             "exact_connecting_columns_promoted": 0,
         },
         "audit_debt": {
-            "finite_explicit_unresolved_set": True,
+            "finite_explicit_unresolved_set": False,
             "next_exact_target_representatives": [row["representative_signature_sha256"] for row in unresolved_rows],
+            "prime_refinement_unresolved_count": 0,
             "working_carrier_purity_convention_used_for_exact_promotion": False,
+            "stage33_11d_fresh_audit_required": True,
             "hostile_audit_required_before_33_11_exit": True,
         },
         "actions_preflight": {
@@ -424,11 +545,11 @@ def main():
         recorded = load_checked(OUT)
         if recorded != cert:
             raise SystemExit("recorded certificate differs from exact regeneration")
-    print("STAGE33_11D_FIRST_PRIME_REFINEMENT=PASS")
-    print("NEW_EXACT_REPRESENTATIVES=5/8")
-    print("REMAINING_UNRESOLVED_REPRESENTATIVES=3/8")
-    print("REMAINING_UNRESOLVED_ORIGINAL_CARRIERS=11/30")
-    print("STAGE33_11D_CLOSED=false")
+    print("STAGE33_11D_CARRIER_PRIME_REFINEMENT=PASS")
+    print("EXACT_REPRESENTATIVES=8/8")
+    print("REMAINING_UNRESOLVED_REPRESENTATIVES=0/8")
+    print("ACTUAL_HEIGHT_ONE_PRIME_REFINEMENT=30/30")
+    print("STAGE33_11D_STATUS=MAIN_COMPLETE_PENDING_AUDIT")
     print("EXACT_CONNECTING_PROGRESS=0/26")
     print("CERTIFICATE_SHA256=" + cert["canonical_sha256"])
 

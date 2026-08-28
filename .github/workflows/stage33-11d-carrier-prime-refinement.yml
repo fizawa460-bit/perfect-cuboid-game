@@ -48,9 +48,13 @@ jobs:
           import json
           p='stages/stage33/33-11d/stage33-11d-prime-refinement-certificate.json'
           x=json.load(open(p, encoding='utf-8'))
-          assert x['summary']['stage33_11d_status']=='OPEN_UNRESOLVED'
-          assert x['summary']['remaining_unresolved_geometric_representatives']==3
-          assert x['summary']['remaining_unresolved_original_carriers']==11
+          assert x['summary']['stage33_11d_status']=='MAIN_COMPLETE_PENDING_AUDIT'
+          assert x['summary']['stage33_11d_main_exit_condition_satisfied']
+          assert not x['summary']['stage33_11d_audited']
+          assert not x['summary']['stage33_11d_closed_exact_audited']
+          assert x['summary']['actual_height_one_prime_refinement_coverage']=='30/30'
+          assert x['summary']['remaining_unresolved_geometric_representatives']==0
+          assert x['summary']['remaining_unresolved_original_carriers']==0
           assert x['summary']['stage33_11_exact_connecting_progress']=='0/26'
           assert x['summary']['exact_connecting_columns_promoted']==0
           assert not any([

@@ -1,12 +1,14 @@
-# Stage33-11d carrier-prime refinement: first exact leaf
+# Stage33-11d carrier-prime refinement: MAIN-complete handoff
 
-Status: **OPEN_UNRESOLVED**. This is MAIN implementation evidence, not hostile-audit closure.
+Status: **MAIN_COMPLETE_PENDING_AUDIT**. The 33-11d MAIN exit condition is satisfied, but this is not a fresh audit and does not close Stage33-11 or promote connecting columns.
 
-The only input is the frozen PR #1449 run-92 handoff (`33213248650`, head `532d6047...`). Its 30 normalized carriers and certified `cc`, `swap12`, and `swap13` orbit partition are compactly retained in `stage33-11d-source-lock.json`. PR #1449 is not modified or replayed.
+The only mathematical input is the frozen PR #1449 run-92 handoff (`33213248650`, head `532d6047...`). Its 30 normalized carriers and certified `cc`, `swap12`, and `swap13` orbit partition are compactly retained in `stage33-11d-source-lock.json`. PR #1449 is not modified or replayed.
 
-## First exact result
+## Exact result
 
-Five of the eight unresolved geometric representatives now have exact scheme-theoretic primary decompositions over `Q(i)`:
+All eight formerly unresolved geometric representatives now have actual height-one-prime refinements over `Q(i)`.
+
+Five split or nonreduced sections are certified by exact primary-ideal intersection:
 
 - `a2+a3+b1=0`: eight reduced height-one primes, multiplicity 1;
 - `a2-a3-b1=0`: eight reduced height-one primes, multiplicity 1;
@@ -14,24 +16,29 @@ Five of the eight unresolved geometric representatives now have exact scheme-the
 - `a1+b3=0`: four reduced height-one primes, each scheme multiplicity 2;
 - `b3+c=0`: four reduced height-one primes, each scheme multiplicity 2.
 
-For every case, the verifier checks the full section ideal `(Q1,Q2,Q3,Q4,l)` against the intersection of the recorded primary ideals using exact Groebner bases. Each reduced component is prime because triangular linear elimination leaves a rank-three homogeneous conic; its affine cone has dimension 2, hence its projectivization is a curve and the prime has height one in the surface. Reduced support and scheme multiplicity are separate certificate fields.
+For these five cases, the verifier checks the full section ideal `(Q1,Q2,Q3,Q4,l)` against the intersection of the recorded primary ideals using exact Groebner bases. Each reduced component is prime because triangular linear elimination leaves a rank-three homogeneous conic. Reduced support and scheme multiplicity are separate certificate fields.
 
-Certified orbit transport covers 13 of the 24 formerly unresolved original carriers. Together with the six direct refinements inherited from the frozen handoff, all 30 carriers are disjointly accounted for, but 11 original carriers remain unresolved.
+The remaining three sections are each a single reduced height-one prime:
 
-## Explicit remaining set
+- `b1-b3+c=0`;
+- `b2-i*b3-c=0`;
+- `b1+b3-c=0`.
 
-The remaining primary-decomposition debt is exactly three geometric representatives:
+For each of these three cases, the verifier proves `(I:b3^infinity)=I`, computes the exact `b3=1` chart as a four-step multiquadratic presentation over `Q(i)(t)`, factors every radicand over `Q(i)`, and obtains finite-prime valuation-matrix rank 4 over `F2`. Thus the four squareclasses are independent, the multiquadratic fraction-field degree is 16, the chart is a domain, and saturation lifts primeness to the whole homogeneous section.
 
-- `08ff6ec1...`: `b1-b3+c=0` (3 original carriers);
-- `3391419a...`: `b2-i*b3-c=0` (6 original carriers);
-- `0b6cf3ce...`: `b1+b3-c=0` (2 original carriers).
+Certified orbit transport now covers all 24 carriers that were unresolved in #1449. Together with the six direct refinements inherited from the frozen handoff, actual height-one-prime refinement coverage is `30/30`, with unresolved representatives and original carriers both zero.
 
-No irreducibility or primary decomposition is inferred from a working convention for these representatives. Therefore 33-11d does not close.
+## Audit and promotion boundary
 
-## Firewalls and Actions preflight
-
-- Stage33-11 exact connecting progress remains `0/26`; prime refinement alone promotes no connecting column.
+- 33-11d MAIN exit condition: satisfied.
+- 33-11d fresh audit: not yet performed.
+- Stage33-11 exact connecting progress: still `0/26`.
+- Exact connecting columns promoted here: 0.
+- Next logical continuation remains 33-11e prime-level Galois transport, after a stable 33-11d handoff/audit decision.
 - Stage33-11 exact closure, Stage33-12 release, Stage33-08 release, Stage33-07 closure, theorem credit, and endpoint credit all remain false.
+
+## Actions preflight
+
 - Verification is one lightweight exact local-algebra job; planned effective heavy concurrency is 0.
 - The workflow uploads no artifact, so projected new Actions artifact storage is 0 bytes against the 500 MB operating budget.
 - PR-opened events are cold. A synchronize event runs verification only when the dedicated run key advances semantically with its fixed source locks intact.
