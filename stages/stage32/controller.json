@@ -1,10 +1,10 @@
 {
-  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V38_B16_PARENT_NAMESPACE_REPAIR_REPLAY",
+  "schema":"STAGE32_LOWGENUS_PICARD_CONTROLLER_V39_B16_PARENT_NAMESPACE_REPAIR_REPLAY_REARM",
   "stage":"32",
   "kernel":"K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class":2,
   "parent_route":"G10-LOWGENUS-PICARD",
-  "status":"D16_B12_AUDITED_B16_REPAIR_PAIRWISE_STRICT_BELOW_CUT39_PARENT_STREAM_GATE_READY_D8_ROUTE_PAUSED",
+  "status":"D16_B12_AUDITED_B16_REPAIR_PAIRWISE_STRICT_BELOW_CUT39_PARENT_STREAM_GATE_REARM_READY_D8_ROUTE_PAUSED",
   "roadmap":"stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
   "goal_stop_contract":"stages/stage32/GOAL_AND_STOP_CONTRACT.md",
   "repo_absolute_rule_read_policy":{"mandatory_every_main_batch_reads":["AGENTS.md","stages/stage32/controller.json"],"conditional_mandatory_policy_reads":{"before_actions_artifacts_or_heavy_compute":"docs/research-os/policies/actions-storage-and-evidence-safety.md","before_claim_promotion_closure_or_downstream_release":"docs/research-os/policies/research-credit-and-promotion-firewalls.md","before_parking_route_or_claiming_exhaustion":"docs/research-os/policies/cycle-exploration-safety-protocol.md"}},
@@ -16,9 +16,9 @@
     "source_exact_artifact_id":9574308138,
     "source_exact_artifact_sha256":"0671a8a8637641f5cc4da36b99700b1511c923d03e5ea446317d17b35bd88fc4",
     "hostile_audit":{"pr":1450,"review":5049175475,"verdict":"FAIL_PARENT_PARTITION_DRIFT","baseline_frontier_states":4103,"invalid_pairwise_frontier_states":3893,"lost_parents":210,"pairwise_exact_gram_kkt_prune_mathematically_safe":true},
-    "repair":{"unit":"32-18BC","status":"READY_TO_ARM","pairwise_activation_rule":"ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT","require_parent_stream_byte_identity":true,"validation_walls":6,"original_monster_total_to_replay":172,"planner_probe_budget":262144,"max_parallel":6,"projected_new_peak_storage_mb_lt":1},
+    "repair":{"unit":"32-18BC","status":"REARM_READY_AFTER_WORKFLOW_SYNTAX_FIX","pairwise_activation_rule":"ONLY_WHEN_LAST_REMAINING_LT_BLOCK_CUT","require_parent_stream_byte_identity":true,"validation_walls":6,"original_monster_total_to_replay":172,"planner_probe_budget":262144,"max_parallel":6,"projected_new_peak_storage_mb_lt":1,"invalid_workflow_runs_created_no_heavy_jobs":true},
     "invalidated_prior_runs":{"32-18AY":"NO_CLOSURE_CREDIT","32-18AZ":"NO_CLOSURE_CREDIT","32-18BA":"NO_CLOSURE_CREDIT","32-18BB":"HOSTILE_AUDIT_FAIL"},
-    "resume_rule":"ARM 18BC. REQUIRE BASELINE/REPAIRED CUT39 PARENT STREAM BYTE IDENTITY ON ALL SIX WALLS BEFORE REPLAYING THE ORIGINAL 172 BASELINE MONSTER IDS. DO NOT ARM B18 OR RELEASE POST-B16 WORK.",
+    "resume_rule":"REARM 18BC GENERATION 3. REQUIRE BASELINE/REPAIRED CUT39 PARENT STREAM BYTE IDENTITY ON ALL SIX WALLS BEFORE REPLAYING THE ORIGINAL 172 BASELINE MONSTER IDS. DO NOT ARM B18 OR RELEASE POST-B16 WORK.",
     "mathematical_credit_changed":false
   },
   "current_item":"32-18BC_D16_B16_PARENT_NAMESPACE_REPAIR_REPLAY",
@@ -40,6 +40,6 @@
   "repair_required":true,
   "merge_allowed":false,
   "advance_allowed":true,
-  "next_item":"ARM_32-18BC_PARENT_NAMESPACE_REPAIR_REPLAY",
+  "next_item":"REARM_32-18BC_GENERATION3_PARENT_NAMESPACE_REPAIR_REPLAY",
   "next_expected_command":"Stage32-main-batch"
 }
