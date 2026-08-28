@@ -43,8 +43,7 @@ jobs:
           python -u stages/stage33/33-11/materialize_stage33_11_a2_26_direct_exceptional_valuations.py
 
       - name: Materialize A2_26 MAIN-working five-bit certificate
-        run: |
-          python -u stages/stage33/33-11/materialize_stage33_11_a2_26_main_working_column.py
+        run: python -u stages/stage33/33-11/materialize_stage33_11_a2_26_main_working_column.py
 
       - name: Materialize exact exceptional valuations for all smallest directions
         run: |
@@ -56,7 +55,11 @@ jobs:
         run: |
           python -u stages/stage33/33-11/profile_stage33_11_remaining_block_representatives.py
           python -u stages/stage33/33-11/materialize_stage33_11_remaining_representative_direct_exceptional_valuations.py
-          cat stages/stage33/33-11/stage33-11-remaining-representative-direct-exceptional-valuations.json
+
+      - name: Materialize finite strict-transform carriers for all working generators
+        run: |
+          python -u stages/stage33/33-11/materialize_stage33_11_all_generator_strict_transform_carriers.py
+          cat stages/stage33/33-11/stage33-11-all-generator-strict-transform-carriers.json
 
       - name: Upload compact localization evidence
         if: always()
@@ -74,6 +77,7 @@ jobs:
             stages/stage33/33-11/stage33-11-smallest-main-working-columns.json
             stages/stage33/33-11/stage33-11-remaining-block-representatives.json
             stages/stage33/33-11/stage33-11-remaining-representative-direct-exceptional-valuations.json
+            stages/stage33/33-11/stage33-11-all-generator-strict-transform-carriers.json
           if-no-files-found: ignore
           retention-days: 1
 
@@ -91,10 +95,11 @@ jobs:
           python -u stages/stage33/33-11/sync_stage33_11_a2_26_main_working_evidence.py
           python -u stages/stage33/33-11/sync_stage33_11_smallest_local_valuation_evidence.py
           python -u stages/stage33/33-11/sync_stage33_11_remaining_representative_local_valuation_evidence.py
+          python -u stages/stage33/33-11/sync_stage33_11_strict_transform_carrier_evidence.py
           git add stages/stage33/controller.json
           if git diff --cached --quiet; then
             echo "Controller already synchronized."
           else
-            git commit -m "Stage33-11: synchronize all representative local valuation evidence"
+            git commit -m "Stage33-11: synchronize strict-transform carrier evidence"
             git push origin "HEAD:$HEAD_REF"
           fi
