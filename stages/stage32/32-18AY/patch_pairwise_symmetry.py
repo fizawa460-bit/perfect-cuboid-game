@@ -52,14 +52,15 @@ fn=f'''    bool pairwise_symmetry_possible(int last_remaining,const cpp_rational
 '''
 assert s.count(anchor)==1
 s=s.replace(anchor,fn+anchor,1)
-# Crucial tournament invariant: do not alter traversal above the frozen cut39 parent.
-# Pairwise pruning is activated only after descending inside a selected parent.
+# Parent namespace invariant: at the cut39 recording boundary the branch must be
+# accepted/rejected by exactly the baseline predicates. Pairwise KKT pruning is
+# allowed only after recursion has entered strictly below the recorded parent.
 old_branch='''if(caps_possible(i-1,newrem) && symmetry_possible(i-1,newrem)){'''
-new_branch='''if(caps_possible(i-1,newrem) && symmetry_possible(i-1,newrem) && ((i-1)>block_cut_ || pairwise_symmetry_possible(i-1,newrem))){'''
+new_branch='''if(caps_possible(i-1,newrem) && symmetry_possible(i-1,newrem) && ((i-1)>=block_cut_ || pairwise_symmetry_possible(i-1,newrem))){'''
 assert s.count(old_branch)==1
 s=s.replace(old_branch,new_branch,1)
 meta='''        f<<"  \\\"exact_symmetry_prunes\\\": "<<symmetry_prunes_<<",\\n";\n'''
-add=meta+f'''        f<<"  \\\"pairwise_symmetry_exact_gram_kkt\\\": true,\\n";\n        f<<"  \\\"pairwise_parent_partition_stable\\\": true,\\n";\n        f<<"  \\\"pairwise_candidate_limit\\\": {limit},\\n";\n        f<<"  \\\"pairwise_schedule_ratio\\\": {ratio},\\n";\n        f<<"  \\\"pairwise_symmetry_checks\\\": "<<pairwise_symmetry_checks_<<",\\n";\n        f<<"  \\\"pairwise_symmetry_prunes\\\": "<<pairwise_symmetry_prunes_<<",\\n";\n'''
+add=meta+f'''        f<<"  \\\"pairwise_symmetry_exact_gram_kkt\\\": true,\\n";\n        f<<"  \\\"pairwise_parent_partition_stable\\\": true,\\n";\n        f<<"  \\\"pairwise_strictly_below_block_cut\\\": true,\\n";\n        f<<"  \\\"pairwise_candidate_limit\\\": {limit},\\n";\n        f<<"  \\\"pairwise_schedule_ratio\\\": {ratio},\\n";\n        f<<"  \\\"pairwise_symmetry_checks\\\": "<<pairwise_symmetry_checks_<<",\\n";\n        f<<"  \\\"pairwise_symmetry_prunes\\\": "<<pairwise_symmetry_prunes_<<",\\n";\n'''
 assert s.count(meta)==1
 s=s.replace(meta,add,1)
 p.write_text(s)
