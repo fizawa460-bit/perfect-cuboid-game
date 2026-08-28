@@ -1,13 +1,21 @@
 {
-  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V53_B16_REPAIRED_CLOSE_HOSTILE_AUDIT_PASS",
+  "schema": "STAGE32_LOWGENUS_PICARD_CONTROLLER_V54_POST_B16_RELEASE_CONTRACT_ACTIVE",
   "stage": "32",
   "kernel": "K16-C2-LOWGENUS-PICARD-PRODUCTION",
   "execution_class": 2,
   "parent_route": "G10-LOWGENUS-PICARD",
-  "status": "D16_B12_AUDITED_B16_REPAIR_PARENT_STREAM_PASSED_6_OF_6_REPAIRED_ORIGINAL172_22_COMPLETE_DEEP150_144_COMPLETE_CHILD6_4_COMPLETE_DEEPER_CHILD2_COMPLETE_ZERO_RESIDUAL_18BG_HOSTILE_AUDIT_PASS_D16_B16_NUMERICAL_CREDIT_CERTIFIED_POST_B16_RELEASE_BLOCKED_ON_STALE_GOAL_STOP_CONTRACT_METADATA_D8_ROUTE_PAUSED",
-  "roadmap": "stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md",
-  "goal_stop_contract": "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
-  "goal_stop_contract_path_status": "PREEXISTING_STALE_REFERENCE_CONFIRMED_NONBLOCKING_FOR_D16_B16_BOUNDED_NUMERICAL_AUDIT_BLOCKS_DOWNSTREAM_RELEASE_UNTIL_RESOLVED",
+  "status": "D16_B12_AUDITED_B16_REPAIRED_CLOSE_HOSTILE_AUDIT_PASS_D16_B16_NUMERICAL_CREDIT_CERTIFIED_STALE_POST_B16_REFERENCES_RESOLVED_LITERATURE_RECEIVER_EXACT_AUDIT_RELEASED_D8_ROUTE_PAUSED",
+  "post_b16_release_contract": "stages/stage32/POST_B16_RELEASE_CONTRACT.md",
+  "stale_reference_resolution": {
+    "resolved": true,
+    "superseded_missing_paths": [
+      "stages/stage32/GOAL_AND_STOP_CONTRACT.md",
+      "stages/stage32/POST_B16_LITERATURE_RECEIVER_ROADMAP.md"
+    ],
+    "replacement": "stages/stage32/POST_B16_RELEASE_CONTRACT.md",
+    "resolution_scope": "METADATA_AND_RELEASE_ORDER_ONLY_NO_NEW_MATHEMATICAL_CREDIT",
+    "audit_history_mutated": false
+  },
   "repo_absolute_rule_read_policy": {
     "mandatory_every_main_batch_reads": ["AGENTS.md", "stages/stage32/controller.json"],
     "conditional_mandatory_policy_reads": {
@@ -26,9 +34,10 @@
     "default_final_d16_calibration_bound": 16,
     "automatic_b18_or_higher_forbidden": true,
     "post_b16_literature_receiver_gate_mandatory": true,
-    "post_b16_downstream_release_blocked_until_goal_stop_metadata_resolved": true,
+    "post_b16_downstream_release_blocked_until_goal_stop_metadata_resolved": false,
+    "post_b16_release_scope": "LITERATURE_RECEIVER_EXACT_AUDIT_ONLY",
     "heavy_compute_armed_by_controller_sync": false,
-    "mathematical_credit_changed": true,
+    "mathematical_credit_changed_this_batch": false,
     "receiver_credit_changed": false
   },
   "accepted_current_facts": {
@@ -141,11 +150,21 @@
       "32-18BA": "NO_CLOSURE_CREDIT",
       "32-18BB": "HOSTILE_AUDIT_FAIL"
     },
-    "resume_rule": "D16_B16 BOUNDED NUMERICAL CREDIT IS HOSTILE-AUDITED. BEFORE ANY POST-B16 LITERATURE/RECEIVER DOWNSTREAM RELEASE, RESOLVE THE PREEXISTING STALE GOAL_AND_STOP_CONTRACT REFERENCE. DO NOT PROMOTE FULL_D16_G0_ROW_COMPLETE, RECEIVER, THEOREM, ROUTE COLOR, ENDPOINT, OR ARM B18 FROM THIS BOUNDED AUDIT.",
+    "resume_rule": "D16_B16 BOUNDED NUMERICAL CREDIT IS HOSTILE-AUDITED. POST-B16 RELEASE CONTRACT IS NOW CANONICAL. PROCEED ONLY TO LITERATURE_RECEIVER_EXACT_AUDIT. DO NOT PROMOTE FULL_D16_G0_ROW_COMPLETE, RECEIVER, THEOREM, ROUTE COLOR, ENDPOINT, OR ARM B18.",
     "mathematical_credit_changed": true
   },
-  "current_item": "STAGE32_GOAL_STOP_CONTRACT_METADATA_GATE_BEFORE_POST_B16_RELEASE",
-  "current_item_execution_constraint": "METADATA/POLICY RESOLUTION ONLY BEFORE DOWNSTREAM RELEASE; NO B18; NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION",
+  "post_b16_progression": {
+    "order": [
+      "LITERATURE_RECEIVER_EXACT_AUDIT",
+      "RESIDUAL_FEASIBILITY_GATE",
+      "RESIDUAL_32_01_PRODUCTION"
+    ],
+    "current_release": "LITERATURE_RECEIVER_EXACT_AUDIT",
+    "later_items_released": false,
+    "b18_release_authorized": false
+  },
+  "current_item": "LITERATURE_RECEIVER_EXACT_AUDIT",
+  "current_item_execution_constraint": "EXACT LITERATURE/RECEIVER RECONCILIATION ONLY; NO HEAVY RERUN; NO B18; NO FULL_D16_ROW, RECEIVER, THEOREM, ROUTE, OR ENDPOINT PROMOTION WITHOUT ITS OWN AUDITED CLOSURE",
   "FULL_D8_G0_ROW_COMPLETE": false,
   "FULL_D16_G0_ROW_COMPLETE": false,
   "D16_B16_NUMERICAL_CREDIT": true,
@@ -162,7 +181,7 @@
   "audit_required": false,
   "repair_required": false,
   "merge_allowed": true,
-  "advance_allowed": false,
-  "next_item": "RESOLVE_STAGE32_GOAL_STOP_CONTRACT_REFERENCE_BEFORE_POST_B16_RELEASE",
+  "advance_allowed": true,
+  "next_item": "LITERATURE_RECEIVER_EXACT_AUDIT",
   "next_expected_command": "Stage32-main-batch"
 }
