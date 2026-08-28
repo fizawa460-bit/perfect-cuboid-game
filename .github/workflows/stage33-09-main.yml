@@ -6,7 +6,6 @@ on:
     branches: [main]
     paths:
       - 'stages/stage33/33-09/**'
-      - 'stages/stage33/controller.json'
       - '.github/workflows/stage33-09-main.yml'
   workflow_dispatch:
 
@@ -28,25 +27,27 @@ jobs:
           python-version: '3.12'
       - name: Reverify retained source-locked Stage33-09 closure
         run: python stages/stage33/33-09/certify_stage33_09_exit.py
-      - name: Enforce controller transition and parent firewalls
+      - name: Enforce closure, handoff and parent firewalls
         run: |
           python - <<'PY'
           import hashlib,json
-          p='stages/stage33/33-09/stage33-09-closure.json'; x=json.load(open(p)); body=dict(x); h=body.pop('canonical_sha256')
-          assert h==hashlib.sha256(json.dumps(body,sort_keys=True,separators=(',',':')).encode()).hexdigest()
-          c=json.load(open('stages/stage33/controller.json')); ch={z['id']:z for z in c['repair_children']}
+          def locked(path):
+              x=json.load(open(path)); b=dict(x); h=b.pop('canonical_sha256')
+              assert h==hashlib.sha256(json.dumps(b,sort_keys=True,separators=(',',':')).encode()).hexdigest()
+              return x,h
+          x,h=locked('stages/stage33/33-09/stage33-09-closure.json')
+          hd,hh=locked('stages/stage33/33-09/handoff.json')
           assert all(x['exit_condition'].values()) and x['stage33_10_released']
-          assert ch['33-09']['status']=='CLOSED_EXACT' and ch['33-09']['closure_certificate_sha256']==h
-          assert ch['33-10']['status']=='OPEN_RELEASED_BY_33_09'
-          assert c['current_item']=='Stage33-10_ABSOLUTE_H1_AND_GALOIS_DESCENT_ADAPTER'
-          assert c['stage33_progress']=='6/11' and not c['stage33_07']['unit_closed'] and not c['stage33_08_released']
-          assert c['stage33_07']['connecting_matrix_columns_explicitly_materialized']==0
-          assert not c['stage33_07']['absolute_h1_identified_with_finite_v4_h1']
-          assert not c['stage33_07']['arithmetic_localization_connecting_map_computed'] and not c['stage33_07']['arithmetic_hs_d2_computed']
-          assert not c['theorem_credit'] and not c['endpoint_credit']
+          assert x['stage33_progress']=='6/11' and not x['stage33_07_closed'] and not x['stage33_08_released']
+          assert x['connecting_matrix_columns_explicitly_materialized']==0
+          assert not x['absolute_h1_receiver_exact'] and not x['arithmetic_localization_connecting_map_computed'] and not x['arithmetic_hs_closed']
+          assert not x['theorem_credit'] and not x['endpoint_credit']
+          assert hd['status']=='CLOSED_EXACT' and hd['source_locks']['stage33_09_closure_sha256']==h
+          assert hd['next_item']=='Stage33-10_ABSOLUTE_H1_AND_GALOIS_DESCENT_ADAPTER'
           print('STAGE33_09_LOCAL_REVERIFY=PASS_EXACT')
-          print('CERTIFICATE_SHA256='+h)
-          print('NEXT='+c['next_item'])
+          print('CLOSURE_SHA256='+h)
+          print('HANDOFF_SHA256='+hh)
+          print('NEXT='+hd['next_item'])
           PY
       - name: Determinism check
         run: git diff --exit-code -- stages/stage33/33-09/stage33-09-closure.json
