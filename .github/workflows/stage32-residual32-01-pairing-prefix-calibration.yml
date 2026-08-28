@@ -1,0 +1,145 @@
+name: Stage32 residual32-01 pairing-prefix calibration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'stages/stage32/residual-32-01-production/**'
+      - 'stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json'
+      - '.github/workflows/stage32-residual32-01-pairing-prefix-calibration.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-24.04
+    outputs:
+      authorized: ${{ steps.gate.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: gate
+        name: Verify fresh dedicated run-key generation
+        env:
+          ACTION: ${{ github.event.action }}
+          BEFORE: ${{ github.event.before }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          KEY='stages/stage32/runkeys/residual32-01-pairing-prefix-calibration.json'
+          echo 'authorized=false' >> "$GITHUB_OUTPUT"
+          [ "$ACTION" = synchronize ] || exit 0
+          [ -n "${BEFORE:-}" ] || exit 0
+          git fetch --no-tags --depth=1 origin "$BEFORE" || exit 0
+          git cat-file -e "$BEFORE^{commit}" 2>/dev/null || exit 0
+          mapfile -t changed < <(git diff --name-only "$BEFORE" "$HEAD")
+          [ "${#changed[@]}" -eq 1 ] || exit 0
+          [ "${changed[0]}" = "$KEY" ] || exit 0
+          python - "$BEFORE" "$KEY" <<'PY'
+          import json, subprocess, sys
+          before, key = sys.argv[1:]
+          old = json.loads(subprocess.check_output(['git','show',f'{before}:{key}'], text=True))
+          new = json.load(open(key))
+          assert old['schema'] == new['schema'] == 'STAGE32_RESIDUAL32_01_PAIRING_PREFIX_RUNKEY_V1'
+          assert new['workload'] == old['workload'] == 'PAIRING_PREFIX_REPRESENTATIVE_CALIBRATION'
+          assert int(new['generation']) == int(old['generation']) + 1
+          assert new['armed'] is True
+          assert int(new['node_limit']) == 250000
+          assert new['assignment_order'] == list(range(10)) + [48]
+          assert new['representatives'] == [
+              {'m':1,'genus':0,'degree':16,'exceptional_mass':8},
+              {'m':2,'genus':0,'degree':8,'exceptional_mass':8},
+              {'m':4,'genus':0,'degree':12,'exceptional_mass':8},
+              {'m':8,'genus':0,'degree':10,'exceptional_mass':8},
+          ]
+          assert int(new['effective_heavy_concurrency']) == 1
+          assert float(new['projected_peak_artifact_mb']) < 1.0
+          assert new['B18_RELEASE_AUTHORIZED'] is False
+          assert new['FULL_178_ROW_SWEEP_AUTHORIZED'] is False
+          PY
+          sed -i '$d' "$GITHUB_OUTPUT"
+          echo 'authorized=true' >> "$GITHUB_OUTPUT"
+
+  calibrate:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.6'
+      - name: Install exact local algebra dependency
+        run: |
+          python -m pip install --disable-pip-version-check 'sympy==1.14.0'
+      - name: Rebuild source-locked Picard core runner-local
+        run: |
+          set -euo pipefail
+          ok=0
+          for attempt in 1 2 3; do
+            rm -f stages/stage32/32-01/picard-core.json
+            if python stages/stage32/32-01/run_sparse_picard_export.py && test -s stages/stage32/32-01/picard-core.json; then
+              ok=1
+              break
+            fi
+            sleep 5
+          done
+          test "$ok" -eq 1
+          mkdir -p "$RUNNER_TEMP/stage32-residual32-01"
+          cp stages/stage32/32-01/picard-core.json "$RUNNER_TEMP/stage32-residual32-01/picard-core.json"
+      - name: Rebuild source-locked geometric Aut generators runner-local
+        run: |
+          set -euo pipefail
+          ok=0
+          for attempt in 1 2 3; do
+            if python stages/stage32/32-07/export_aut_action_locked.py --output "$RUNNER_TEMP/stage32-residual32-01/aut.json"; then
+              ok=1
+              break
+            fi
+            sleep 5
+          done
+          test "$ok" -eq 1
+      - name: Run exact representative pairing-prefix calibration
+        run: |
+          set -euo pipefail
+          python stages/stage32/residual-32-01-production/calibrate_representatives.py \
+            --core "$RUNNER_TEMP/stage32-residual32-01/picard-core.json" \
+            --aut "$RUNNER_TEMP/stage32-residual32-01/aut.json" \
+            --output "$RUNNER_TEMP/stage32-residual32-01/calibration.json" \
+            --node-limit 250000
+      - name: Enforce scoped calibration contract
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'stage32-residual32-01'/'calibration.json'
+          x=json.loads(p.read_text())
+          assert x['schema']=='STAGE32_RESIDUAL32_01_PAIRING_PREFIX_CALIBRATION_V1'
+          assert x['aut_group_order']==1536
+          assert x['leaf_aut_canonicalization_exact'] is True
+          assert x['prefix_aut_canonical_augmentation_implemented'] is False
+          assert x['representative_m_classes']==[1,2,4,8]
+          assert len(x['representatives'])==4
+          assert all(r['credit_scope']=='PAIRING_LATTICE_PREFIX_COST_PROFILE_ONLY' for r in x['representatives'])
+          assert x['full_178_row_sweep_authorized'] is False
+          assert x['B18_RELEASE_AUTHORIZED'] is False
+          assert x['FULL_D16_G0_ROW_COMPLETE'] is False
+          assert x['FULL_D176_D192_NUMERICAL_ORBIT_CENSUS'] is False
+          assert x['R29_LG2']=='NOT_DISCHARGED'
+          assert x['THEOREM_CREDIT'] is False and x['RECEIVER_CREDIT'] is False
+          print(json.dumps({
+              'nodes': {str(r['m']):r['nodes_visited'] for r in x['representatives']},
+              'prunes': {str(r['m']):r['membership_prunes'] for r in x['representatives']},
+              'oracle_build_seconds':x['oracle_build_seconds'],
+              'certificate_sha256':x['canonical_sha256_without_this_field'],
+          },sort_keys=True))
+          PY
+          du -h "$RUNNER_TEMP/stage32-residual32-01/calibration.json"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: stage32-residual32-01-pairing-prefix-calibration
+          path: ${{ runner.temp }}/stage32-residual32-01/calibration.json
+          retention-days: 7
+          if-no-files-found: error
