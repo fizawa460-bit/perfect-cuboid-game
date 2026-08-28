@@ -22,7 +22,7 @@ jobs:
           set -euo pipefail
           KEY=stages/stage32/runkeys/18ax-b16-remaining-walls-tier3-cost-planner.json
           authorized=false
-          if git cat-file -e HEAD^\^{commit} 2>/dev/null && [ "$(git diff --name-only HEAD^ HEAD | wc -l)" -eq 1 ] && git diff --name-only HEAD^ HEAD | grep -Fxq "$KEY" && [ "$(git log -1 --pretty=%s)" = 'Stage32-18AX: ARM B16 REMAINING WALLS TIER3 COST PLANNER' ]; then
+          if git cat-file -e HEAD^ 2>/dev/null && [ "$(git diff --name-only HEAD^ HEAD | wc -l)" -eq 1 ] && git diff --name-only HEAD^ HEAD | grep -Fxq "$KEY" && [ "$(git log -1 --pretty=%s)" = 'Stage32-18AX: ARM B16 REMAINING WALLS TIER3 COST PLANNER' ]; then
             python - <<'PY'
           import json,pathlib
           d=json.loads(pathlib.Path('stages/stage32/runkeys/18ax-b16-remaining-walls-tier3-cost-planner.json').read_text())
