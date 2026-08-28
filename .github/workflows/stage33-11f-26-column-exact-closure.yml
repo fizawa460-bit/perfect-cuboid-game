@@ -1,0 +1,74 @@
+name: Stage33-11f 26 column exact closure
+
+on:
+  pull_request:
+    paths:
+      - 'stages/stage33/33-11f/run-key.json'
+      - '.github/workflows/stage33-11f-26-column-exact-closure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  authorize:
+    runs-on: ubuntu-latest
+    outputs:
+      authorized: ${{ steps.authorize.outputs.authorized }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - id: authorize
+        env:
+          EVENT: '${{ github.event_name }}'
+          ACTION: '${{ github.event.action }}'
+          BEFORE: '${{ github.event.before }}'
+          HEAD: '${{ github.event.pull_request.head.sha }}'
+        run: python stages/stage33/33-11f/authorize_stage33_11f_run.py
+
+  verify-26-column-exact-closure:
+    needs: authorize
+    if: needs.authorize.outputs.authorized == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify frozen 33-11f source lock
+        run: python stages/stage33/33-11f/freeze_stage33_11f_handoff.py
+      - name: Verify all 26 exact MAIN connecting columns
+        run: python stages/stage33/33-11f/verify_stage33_11f_26_column_exact_closure.py
+      - name: Enforce MAIN/audited separation and firewalls
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          p='stages/stage33/33-11f/stage33-11f-26-column-exact-closure-certificate.json'
+          x=json.load(open(p, encoding='utf-8'))
+          s=x['summary']
+          assert len(x['columns']) == 26
+          assert s['exact_main_connecting_columns'] == '26/26'
+          assert s['exact_audited_connecting_columns'] == '0/26'
+          assert s['unresolved_connecting_columns'] == 0
+          assert s['connecting_map_main_value'] == 'ZERO_EXACT_ALL_26_COLUMNS'
+          assert s['stage33_11f_status'] == 'MAIN_COMPLETE_PENDING_AUDIT'
+          assert not s['stage33_11_closed_exact']
+          assert all(c['status'] == 'ZERO_EXACT_MAIN' and not c['unresolved'] for c in x['columns'])
+          assert not any([
+              x['firewalls']['exact_connecting_columns_promoted_beyond_main'],
+              x['firewalls']['stage33_11_closed_exact'],
+              x['firewalls']['stage33_12_released'],
+              x['firewalls']['stage33_08_released'],
+              x['firewalls']['stage33_07_closed'],
+              x['firewalls']['theorem_credit'],
+              x['firewalls']['endpoint_credit'],
+              x['firewalls']['perfect_cuboid_credit'],
+          ])
+          assert x['actions_safety']['artifact_uploads'] == 0
+          assert x['actions_safety']['projected_peak_artifact_storage_mb'] == 0
+          assert x['actions_safety']['heavy_compute_runners'] == 0
+          print('STAGE33_11F_FIREWALLS=PASS')
+          PY
