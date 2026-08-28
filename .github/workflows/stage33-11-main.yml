@@ -24,7 +24,10 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install exact local dependencies
-        run: python -m pip install --disable-pip-version-check sympy z3-solver
+        run: python -m pip install --disable-pip-version-check 'sympy==1.14.0' z3-solver
+      - name: Rebuild retained order2 localization receiver
+        working-directory: stages/stage33/33-07
+        run: python materialize_order2_localization_receiver.py
       - name: Run Stage33-11 absolute naturality scout
         run: |
           python stages/stage33/33-11/certify_stage33_11_global_naturality.py
